@@ -638,7 +638,8 @@ void npc::move_to(game *g, int x, int y)
   int smashskill = int(str_cur / 2 + weapon.type->melee_dam);
   g->m.bash(x, y, smashskill, bashsound);
   g->sound(x, y, 18, bashsound);
- }
+ } else
+  moves -= 100;
 }
 
 void npc::move_away_from(game *g, int x, int y)

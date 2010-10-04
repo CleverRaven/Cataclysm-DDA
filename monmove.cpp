@@ -159,11 +159,13 @@ void monster::move(game *g)
   friendly_move(g);
   return;
  }
+/*
  if (!is_fleeing(g->u) && has_flag(MF_ANIMAL)) {
   stumble(g, false);
   moves = 0;
   return;
  }
+*/
 
  moves -= 100;
  int rn=0, hmove=0;

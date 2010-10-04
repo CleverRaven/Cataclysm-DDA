@@ -111,9 +111,9 @@ bool map::bash(int x, int y, int str, std::string &sound)
  for (int i = 0; i < i_at(x, y).size(); i++) {	// Destroy glass items (maybe)
   if (i_at(x, y)[i].made_of(GLASS) && one_in(2)) {
    if (sound == "")
-    sound = "A " + i_at(x, y)[i].tname() + " shatters!";
+    sound = "A " + i_at(x, y)[i].tname() + " shatters!  ";
    else
-    sound = "Some items shatter!";
+    sound = "Some items shatter!  ";
    for (int j = 0; j < i_at(x, y)[i].contents.size(); j++)
     i_at(x, y).push_back(i_at(x, y)[i].contents[j]);
    i_rem(x, y, i);

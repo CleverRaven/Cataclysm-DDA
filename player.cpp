@@ -2684,7 +2684,7 @@ void player::suffer(game *g)
  }
  if (has_trait(PF_UNSTABLE) && one_in(14400))	// Average once a day
   mutate(g);
- radiation += rng(0, g->m.radiation(posx, posy)) / 10;
+ radiation += rng(0, g->m.radiation(posx, posy) / 10);
  if (rng(1, 1000) < radiation && rng(1, 1000) < radiation) {
   mutate(g);
   if (radiation > 2000)
@@ -3222,16 +3222,16 @@ bool player::has_number(itype_id it, int quantity)
 {
  int i_have = 0;
  if (weapon.type->id == it)
-  i_have++;
+  i_have += (weapon.is_ammo() ? weapon.charges : 1);
  else if (weapon.contents.size() > 0 && weapon.contents[0].type->id == it)
-  i_have++;
+  i_have += (weapon.is_ammo() ? weapon.charges : 1);
  if (i_have >= quantity)
   return true;
  for (int i = 0; i < inv.size(); i++) {
   if (inv[i].type->id == it)
-   i_have++;
+   i_have += (inv[i].is_ammo() ? inv[i].charges : 1);
   else if (inv[i].contents.size() > 0 && inv[i].contents[0].type->id == it)
-   i_have++;
+   i_have += (inv[i].is_ammo() ? inv[i].charges : 1);
   if (i_have >= quantity)
    return true;
  }

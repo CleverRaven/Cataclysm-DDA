@@ -1,6 +1,6 @@
 CC = g++
 DEBUG = -g
-CFLAGS = -Wall -c -lncurses $(DEBUG)
+CFLAGS = -Wall -c $(DEBUG)
 LFLAGS = -Wall -lncurses $(DEBUG)
 CXX = g++
 CXXFLAGS = -lncurses

@@ -9,6 +9,7 @@
 #include <math.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <sys/stat.h>
 
 #define LONG_RANGE 10
 #define BLINK_SPEED 300
@@ -101,6 +102,16 @@ bool game::opening_screen()
  std::string tmp;
  dirent *dp;
  DIR *dir = opendir("save");
+ if (!dir) {
+   mkdir("save", 0777);
+   dir = opendir("save");
+ }
+ if (!dir) {
+   //fprintf(stderr, "Could not make 'save' directory\n");
+   mvwprintz(w_open, 0, 0, c_red, "Could not make './save' directory");
+   endwin();
+   exit(1);
+ }
  while (dp = readdir(dir)) {
   tmp = dp->d_name;
   if (tmp.find(".sav") != std::string::npos && savegames.size() < 18)
@@ -731,7 +742,7 @@ void game::get_input()
   active_npc.push_back(temp);
  } else if (ch == 'g')
   groupdebug();
- else if (ch == 'q')
+ else if (ch == '~')
   debugmon = !debugmon;
  else if (ch == '\'') {
   display_scent();
