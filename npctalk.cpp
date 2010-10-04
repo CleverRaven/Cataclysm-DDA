@@ -8,12 +8,14 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <fstream>
 
 void say_hello		(game *g, dialogue &d);
 void say_ask_for	(game *g, dialogue &d, npc_need need);
 void say_put_em_up	(game *g, dialogue &d);
 void say_listen		(game *g, dialogue &d);
 void say_listen_need	(game *g, dialogue &d);
+void say_give_advice	(game *g, dialogue &d);
 void say_listen_about	(game *g, dialogue &d);
 void say_why_join	(game *g, dialogue &d);
 
@@ -229,6 +231,7 @@ void say_listen_need(game *g, dialogue &d)
  int opt = d.opt("What do you need, <name_g>?",
                  "\"Healing.\"",
                  "\"Directions to...\"",
+                 "\"Advice!\"",
                  "\"Never mind.\"",
                  "\"Bye.\"", NULL);
  switch (opt) {
@@ -314,11 +317,49 @@ void say_listen_need(game *g, dialogue &d)
    d.done = true;
   break;
  case 3:
+  say_give_advice(g, d);
+  break;
+ case 4:
   say_listen(g, d);
   break;
  case 0:
   d.done = true;
   break;
+ }
+}
+
+void say_give_advice(game *g, dialogue &d)
+{
+ ifstream fin;
+ fin.open("NPC_HINTS");
+ if (!fin.is_open()) {
+  debugmsg("Couldn't open NPC_HINTS.");
+  d.done = true;
+  return;
+ }
+// Count the number of lines in NPC_HINTS
+ int num_hints = 0;
+ std::string hint;
+ while (getline(fin, hint, '\n')) {
+  if (hint.length > 2)	// Ignore empty or near-empty lines
+   num_hints++;
+ }
+ int nhint = rng(1, num_hints);
+ int cur = 0;
+ fin.seekg(0, std::ios::beg);
+ while (cur < nhint && getline(fin, hint, '\n')) {
+  if (hint.length > 2)
+   cur++;
+ }
+ 
+ int opt = d.opt(hint,
+                 "\"Thanks.  Anything else?\"",
+                 "\"Thanks.  That's all I need.\"",
+                 "\"Thanks.  Bye.\"");
+ switch (opt) {
+  case 1: say_give_hint(g, d);	break;
+  case 2: say_listen(g, d);	break;
+  case 0: d.done = true;	break;
  }
 }
 

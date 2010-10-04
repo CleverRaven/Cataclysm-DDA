@@ -893,10 +893,10 @@ void npc::form_opinion(player *u)
   if (weapon.is_gun())
    op_of_u.fear += 2;
   else
-   op_of_u.fear += 3;
+   op_of_u.fear += 4;
  } else if (u->weapon.type->melee_dam >= 12 || u->weapon.type->melee_cut >= 12)
   op_of_u.fear += 1;
- else if (u->weapon.type->id == 0)
+ else if (u->weapon.type->id == 0)	// Unarmed
   op_of_u.fear -= 3;
 
  if (u->str_max >= 16)
