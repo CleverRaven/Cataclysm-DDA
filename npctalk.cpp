@@ -330,7 +330,7 @@ void say_listen_need(game *g, dialogue &d)
 
 void say_give_advice(game *g, dialogue &d)
 {
- ifstream fin;
+ std::ifstream fin;
  fin.open("NPC_HINTS");
  if (!fin.is_open()) {
   debugmsg("Couldn't open NPC_HINTS.");
@@ -341,14 +341,14 @@ void say_give_advice(game *g, dialogue &d)
  int num_hints = 0;
  std::string hint;
  while (getline(fin, hint, '\n')) {
-  if (hint.length > 2)	// Ignore empty or near-empty lines
+  if (hint.length() > 2)	// Ignore empty or near-empty lines
    num_hints++;
  }
  int nhint = rng(1, num_hints);
  int cur = 0;
  fin.seekg(0, std::ios::beg);
  while (cur < nhint && getline(fin, hint, '\n')) {
-  if (hint.length > 2)
+  if (hint.length() > 2)
    cur++;
  }
  
@@ -357,7 +357,7 @@ void say_give_advice(game *g, dialogue &d)
                  "\"Thanks.  That's all I need.\"",
                  "\"Thanks.  Bye.\"");
  switch (opt) {
-  case 1: say_give_hint(g, d);	break;
+  case 1: say_give_advice(g, d);break;
   case 2: say_listen(g, d);	break;
   case 0: d.done = true;	break;
  }

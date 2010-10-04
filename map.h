@@ -46,7 +46,7 @@ class map
  // tc indicates the Bresenham line used to connect the two points, and may
  //  subsequently be used to form a path between them
  bool sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc);
- //std::vector<point> route(int Fx, int Fy, int Tx, int Ty); // Best route
+ std::vector<point> route(int Fx, int Fy, int Tx, int Ty); // Best route
 
 // Terrain
  ter_id& ter(int x, int y); // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]

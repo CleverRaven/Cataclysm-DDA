@@ -13,6 +13,12 @@ bool inbounds(int x, int y);
 void cast_to_nonant(int &x, int &y, int &n);
 #define SGN(a) (((a)<0) ? -1 : 1)
 
+enum astar_list {
+ ASL_NONE,
+ ASL_OPEN,
+ ASL_CLOSED
+};
+
 map::map()
 {
  nulter = t_null;
@@ -802,12 +808,87 @@ bool map::sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc)
  }
 }
 
-/*
 std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
 {
- point origin(Fx, Fy);
+ std::vector<point> open;
+ std::vector<point> closed;
+ astar_list list[SEEX * 3][SEEY * 3];
+ int score[SEEX * 3][SEEY * 3];
+ int gscore[SEEX * 3][SEEY * 3];
+ point parent[SEEX * 3][SEEY * 3];
+ for (int x = 0; x < SEEX * 3; x++) {
+  for (int y = 0; y < SEEY * 3; y++) {
+   list [x][y] = ASL_NONE;	// Init to not being on any list
+   score[x][y] = 0;	// No score!
+   gscore[x][y] = 0;	// No score!
+   parent[x][y] = point(-1, -1);
+  }
+ }
+ list[Fx][Fy] = ASL_OPEN;
+ open.push_back(point(Fx, Fy));
+
+ bool done = false;
+
+ do {
+  int best = 999;
+  int index = -1;
+  for (int i = 0; i < open.size(); i++) {
+   if (score[open[i].x][open[i].y] < best) {
+    best = score[open[i].x][open[i].y];
+    index = i;
+   }
+  }
+  for (int x = open[index].x - 1; x <= open[index].x + 1; x++) {
+   for (int y = open[index].y - 1; y <= open[index].y + 1; y++) {
+    if ((x > 0 && x < SEEX * 3 && y > 0 && y < SEEY * 3) &&
+         (move_cost(x, y) > 0 || ter(x, y) == t_door_c || 
+          has_flag(bashable, x, y))) {
+     if (list[x][y] == ASL_NONE) {
+      list[x][y] = ASL_OPEN;
+      parent[x][y] = open[index];
+      gscore[x][y] = gscore[open[index].x][open[index].y] + move_cost(x, y);
+      if (ter(x, y) == t_door_c)
+       gscore[x][y] += 4;	// A turn to open it and a turn to move there
+      else if (move_cost(x, y) == 0 && has_flag(bashable, x, y))
+       gscore[x][y] += 18;	// Worst case scenario with damage penalty
+      if (abs(Tx - x) > abs(Ty - y))
+       score[x][y] = gscore[x][y] + 2 * abs(Tx - x);
+      else
+       score[x][y] = gscore[x][y] + 2 * abs(Ty - y);
+     } else if (list[x][y] == ASL_OPEN) {
+      int newg = gscore[open[index].x][open[index].y] + move_cost(x, y);
+      if (newg < gscore[x][y]) {
+       gscore[x][y] = newg;
+       parent[x][y] = open[index];
+       if (abs(Tx - x) > abs(Ty - y))
+        score[x][y] = gscore[x][y] + 2 * abs(Tx - x);
+       else
+        score[x][y] = gscore[x][y] + 2 * abs(Ty - y);
+      }
+     }
+    }
+    if (x == Tx && y == Ty)
+     done = true;
+   }
+  }
+  closed.push_back(open[index]);
+  list[open[index].x][open[index].y] = ASL_CLOSED;
+  open.erase(open.begin() + index);
+ } while (!done && open.size() > 0);
+ std::vector<point> tmp;
+ if (done) {
+  point cur(Tx, Ty);
+  while (cur.x != Fx || cur.y != Fy) {
+   tmp.push_back(cur);
+   cur = parent[cur.x][cur.y];
+  }
+  std::vector<point> ret;
+  for (int i = 0; i < tmp.size(); i++)
+   ret.push_back(tmp[i]);
+  return ret;
+ }
+ return tmp;
 }
-*/
 
 void map::save(overmap *om, unsigned int turn, int x, int y)
 {

@@ -32,6 +32,7 @@ enum t_flag {
  transparent, // Player & monsters can see through/past it
  bashable, // Player & monsters can bash this & make it the next in the list
  container,// Items on this square are hidden until looted by the player
+ door,     // Can be opened--used for NPC pathfinding.
  flammable,// May be lit on fire
  explodes, // Explodes when on fire
  diggable, // Digging monsters, seeding monsters, digging w/ shovel, etc.
@@ -143,7 +144,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"metal bars",       '"', c_ltgray,  0,
 	mfb(transparent)},
 {"closed wood door", '+', c_brown,   0,
-	mfb(bashable)|mfb(flammable)},
+	mfb(bashable)|mfb(flammable)|mfb(door)},
 {"damaged wood door",'&', c_brown,   0,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)},
 {"open wood door",  '\'', c_brown,   2,
