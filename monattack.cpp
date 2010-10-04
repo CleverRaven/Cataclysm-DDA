@@ -51,7 +51,7 @@ void mattack::shriek(game *g, monster *z)
   return;	// Out of range
  z->moves = -240;			// It takes a while
  z->sp_timeout = z->type->sp_freq;	// Reset timer
- g->sound(z->posx, z->posy, 100, "a terrible shriek!");
+ g->sound(z->posx, z->posy, 50, "a terrible shriek!");
 }
 
 void mattack::acid(game *g, monster *z)
