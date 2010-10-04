@@ -13,8 +13,10 @@ void mattack::antqueen(game *g, monster *z)
  for (int x = z->posx - 1; x <= z->posx + 1; x++) {
   for (int y = z->posy - 1; y <= z->posy + 1; y++) {
    for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
-    if (g->m.i_at(x, y)[i].type->id == itm_ant_egg)
+    if (g->m.i_at(x, y)[i].type->id == itm_ant_egg) {
      egg_points.push_back(point(x, y));
+     i = g->m.i_at(x, y).size();
+    }
    }
   }
  }
