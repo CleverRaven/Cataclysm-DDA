@@ -16,7 +16,7 @@ void game::wish()
  tmp.corpse = mtypes[0];
  do {
   erase();
-  mvprintw(0, 0, "Wish for: ");
+  mvprintw(0, 0, "Wish for a: ");
   if (grep) {
    found = false;
    if (ch == '\n') {
