@@ -204,6 +204,8 @@ public:
  int itx, ity;	// The square containing an item we want
  int goalx, goaly;// Which mapx:mapy square we want to get to
 
+ std::vector<point> path;	// Our movement plans
+
 
 // Personality & other defining characteristics
  faction *my_fac;

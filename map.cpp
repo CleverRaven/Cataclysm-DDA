@@ -7,8 +7,6 @@
 #include <stdlib.h>
 #include <fstream>
 
-// " ...|-+%|-"
-// Null Dirt Grass floor Wall-V Wall-H O-door B-door C-door-V C-door-H
 bool inbounds(int x, int y);
 void cast_to_nonant(int &x, int &y, int &n);
 #define SGN(a) (((a)<0) ? -1 : 1)
@@ -812,15 +810,14 @@ bool map::sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc)
 std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
 {
  std::vector<point> open;
- std::vector<point> closed;
  astar_list list[SEEX * 3][SEEY * 3];
- int score[SEEX * 3][SEEY * 3];
- int gscore[SEEX * 3][SEEY * 3];
- point parent[SEEX * 3][SEEY * 3];
+ int score	[SEEX * 3][SEEY * 3];
+ int gscore	[SEEX * 3][SEEY * 3];
+ point parent	[SEEX * 3][SEEY * 3];
  for (int x = 0; x < SEEX * 3; x++) {
   for (int y = 0; y < SEEY * 3; y++) {
-   list [x][y] = ASL_NONE;	// Init to not being on any list
-   score[x][y] = 0;	// No score!
+   list  [x][y] = ASL_NONE;	// Init to not being on any list
+   score [x][y] = 0;	// No score!
    gscore[x][y] = 0;	// No score!
    parent[x][y] = point(-1, -1);
   }
@@ -831,6 +828,7 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
  bool done = false;
 
  do {
+  //debugmsg("Open.size() = %d", open.size());
   int best = 999;
   int index = -1;
   for (int i = 0; i < open.size(); i++) {
@@ -846,6 +844,7 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
           has_flag(bashable, x, y))) {
      if (list[x][y] == ASL_NONE) {
       list[x][y] = ASL_OPEN;
+      open.push_back(point(x, y));
       parent[x][y] = open[index];
       gscore[x][y] = gscore[open[index].x][open[index].y] + move_cost(x, y);
       if (ter(x, y) == t_door_c)
@@ -872,7 +871,6 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
      done = true;
    }
   }
-  closed.push_back(open[index]);
   list[open[index].x][open[index].y] = ASL_CLOSED;
   open.erase(open.begin() + index);
  } while (!done && open.size() > 0);
@@ -880,11 +878,12 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
  if (done) {
   point cur(Tx, Ty);
   while (cur.x != Fx || cur.y != Fy) {
+   //debugmsg("Retracing... (%d:%d) => [%d:%d] => (%d:%d)", Tx, Ty, cur.x, cur.y, Fx, Fy);
    tmp.push_back(cur);
    cur = parent[cur.x][cur.y];
   }
   std::vector<point> ret;
-  for (int i = 0; i < tmp.size(); i++)
+  for (int i = tmp.size() - 1; i >= 0; i--)
    ret.push_back(tmp[i]);
   return ret;
  }

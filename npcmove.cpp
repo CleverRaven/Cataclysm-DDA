@@ -26,11 +26,11 @@ void npc::move(game *g)
   action = npc_reload;
  else if (attitude == NPCATT_HEAL &&
           g->m.sees(posx, posy, g->u.posx, g->u.posy, light, linet)) {
-  path = line_to(posx, posy, g->u.posx, g->u.posy, linet);
+  path = g->m.route(posx, posy, g->u.posx, g->u.posy);
   action = npc_heal_player;
  } else if (attitude == NPCATT_MUG &&
             g->m.sees(posx, posy, g->u.posx, g->u.posy, light, linet)) {
-  path = line_to(posx, posy, g->u.posx, g->u.posy, linet);
+  path = g->m.route(posx, posy, g->u.posx, g->u.posy);
   action = npc_mug_player;
  } else if (fetching_item())
   action = npc_pickup;
@@ -277,11 +277,12 @@ void npc::pickup_items(game *g)
   if (debug)
    debugmsg("We see our item(s).  NPC @ (%d:%d); items @ (%d:%d) (dist %d",
             posx, posy, itx, ity, dist);
-  std::vector<point> traj = line_to(posx, posy, itx, ity, linet);
+  if (path.size() == 0)
+   path = g->m.route(posx, posy, itx, ity);
   if (debug)
-   debugmsg("Moving to (%d:%d), %s.", traj[0].x, traj[0].y,
-            g->m.tername(traj[0].x, traj[0].y).c_str());
-  move_to(g, traj[0].x, traj[0].y);
+   debugmsg("Moving to (%d:%d), %s.", path[0].x, path[0].y,
+            g->m.tername(path[0].x, path[0].y).c_str());
+  move_to(g, path[0].x, path[0].y);
  } else {	// Can't see that item anymore, so look for a new one
   if (debug)
    debugmsg("Can't see our desired item!  Gonna pause.");
