@@ -69,7 +69,7 @@ std::string map::features(int x, int y)
 // to take up one line.  So, make sure it does that.
  std::string ret;
  if (has_flag(bashable, x, y))
-  ret += "Smashable. ";	// 11 chars
+  ret += "Smashable. ";	// 11 chars (running total)
  if (has_flag(diggable, x, y))
   ret += "Diggable. ";	// 21 chars
  if (has_flag(rough, x, y))
@@ -82,7 +82,7 @@ std::string map::features(int x, int y)
 int map::move_cost(int x, int y)
 {
  if (x < 0 || x >= SEEX * 3 || y < 0 || y >= SEEY * 3)
-  return 2;
+  return 2;	// Out of bounds terrain is assumed to be floor, mostly
  return terlist[ter(x, y)].movecost;
 }
 
@@ -91,9 +91,10 @@ bool map::trans(int x, int y)
  // Control statement is a problem. Normally returning false on an out-of-bounds
  // is how we stop rays from going on forever.  Instead we'll have to include
  // this check in the ray loop.
- if ((x >= SEEX * 3) || (x < 0) || (y >= SEEY * 3) || (y < 0)) return true;
+ if (x < 0 || x >= SEEX * 3 || y < 0 || y >= SEEY * 3)
+  return true;
  return terlist[ter(x, y)].flags & mfb(transparent) &&
-        (field_at(x, y).type == 0 ||
+        (field_at(x, y).type == 0 ||	// Fields may obscure the view, too
         fieldlist[field_at(x, y).type].transparent[field_at(x, y).density - 1]);
 }
 
