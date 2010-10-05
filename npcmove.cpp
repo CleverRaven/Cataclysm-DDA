@@ -851,23 +851,23 @@ void npc::mug_player(game *g, player &mark)
  if (mark.cash > 0) {
   moves -= 100;
   if (mark.is_npc() && g->u_see(posx, posy, linet))
-   g->add_msg("%d takes %d's money.", name.c_str(), mark.name.c_str());
+   g->add_msg("%s takes %d's money.", name.c_str(), mark.name.c_str());
   else if (!mark.is_npc())
-   g->add_msg("%d takes all of your money.", name.c_str());
+   g->add_msg("%s takes all of your money.", name.c_str());
   cash += mark.cash;
   mark.cash = 0;
  } else if (mark.weapon.type->id != 0 && mark.weapon.type->id < num_items) {
   if (mark.is_npc() && g->u_see(posx, posy, linet))
-   g->add_msg("%d takes %d's %d.", name.c_str(), mark.name.c_str(),
+   g->add_msg("%s takes %d's %d.", name.c_str(), mark.name.c_str(),
               mark.weapon.tname().c_str());
   else if (!mark.is_npc())
-   g->add_msg("%d takes your %d.", name.c_str(), mark.weapon.tname().c_str());
+   g->add_msg("%s takes your %d.", name.c_str(), mark.weapon.tname().c_str());
   if (volume_carried() + mark.weapon.volume() <= volume_capacity() &&
       weight_carried() + mark.weapon.weight() <= weight_capacity()   )
    i_add(mark.weapon);
   else {
    if (g->u_see(posx, posy, linet))
-    g->add_msg("%d drops it.", (male ? "He" : "She"));
+    g->add_msg("%s drops it.", (male ? "He" : "She"));
    g->m.add_item(posx, posy, mark.weapon);
   }
   mark.remove_weapon();

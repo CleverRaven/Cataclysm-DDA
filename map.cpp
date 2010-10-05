@@ -614,6 +614,7 @@ void map::disarm_trap(game *g, int x, int y)
    if (comp[i] != itm_null)
     add_item(x, y, g->itypes[comp[i]], 0);
   }
+  tr_at(x, y) = tr_null;
  } else if (roll >= diff * .8)
   g->add_msg("You fail to disarm the trap.");
  else {

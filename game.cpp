@@ -2536,7 +2536,9 @@ void game::use_computer(int x, int y)
     }
      
     while (lines < 23 && lines < success * 5) {
+     fin.clear();
      fin.seekg(0, std::ios::beg);
+     fin.clear();
      int choice = rng(1, notes);
      while (choice > 0) {
       getline(fin, tmp);

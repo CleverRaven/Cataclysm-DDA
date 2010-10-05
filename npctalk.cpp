@@ -284,7 +284,7 @@ void say_listen_need(game *g, dialogue &d)
      else {
       std::stringstream msg;
       std::string unit = "feet";
-      dist *= 36;
+      dist *= SEEX * 3;
       msg << "There's one to the " <<
              direction_from(g->levx, g->levy, lookp.x, lookp.y);
       if (dist >= 50000)
@@ -298,8 +298,11 @@ void say_listen_need(game *g, dialogue &d)
       else if (dist >= 2500)
        msg << ", about half a mile away.";
       else {
-       dist = int(dist / 100) * 100;
-       msg << ", about " << dist << "feet away.";
+       dist = int(dist / 50) * 50;
+       if (dist == 0)
+        msg << ", like... right there.";
+       else
+        msg << ", about " << dist << " feet away.";
       }
       response = msg.str();
      }
@@ -340,22 +343,24 @@ void say_give_advice(game *g, dialogue &d)
 // Count the number of lines in NPC_HINTS
  int num_hints = 0;
  std::string hint;
- while (getline(fin, hint, '\n')) {
+ while (getline(fin, hint)) {
   if (hint.length() > 2)	// Ignore empty or near-empty lines
    num_hints++;
  }
  int nhint = rng(1, num_hints);
  int cur = 0;
+ fin.clear();
  fin.seekg(0, std::ios::beg);
- while (cur < nhint && getline(fin, hint, '\n')) {
+ fin.clear();
+ while (cur < nhint && getline(fin, hint)) {
   if (hint.length() > 2)
    cur++;
  }
- 
+
  int opt = d.opt(hint,
                  "\"Thanks.  Anything else?\"",
                  "\"Thanks.  That's all I need.\"",
-                 "\"Thanks.  Bye.\"");
+                 "\"Thanks.  Bye.\"", NULL);
  switch (opt) {
   case 1: say_give_advice(g, d);break;
   case 2: say_listen(g, d);	break;
