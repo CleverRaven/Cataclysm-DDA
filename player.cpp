@@ -204,7 +204,6 @@ nc_color player::color()
 void player::load_info(std::string data)
 {
  std::stringstream dump;
- char flagtmp;
  dump << data;
  dump >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
          int_cur >> int_max >> per_cur >> per_max >> hunger >> thirst >>
@@ -3117,7 +3116,6 @@ void player::use_amount(itype_id it, int quantity)
 
 void player::use_charges(itype_id it, int quantity)
 {
- int cur_item = 0;
  int used = 0;
  if (weapon.type->id == it) {
   used += weapon.charges;
@@ -3367,8 +3365,8 @@ bool player::eat(game *g, char let)
    if (has_bionic(bio_digestion))
     hunger -= rng(0, tmp->nutr);
    else if (!has_trait(PF_GOURMAND)) {
-    if (hunger_danger && rng(-200, 0) > hunger ||
-        thirst_danger && rng(-300, 0) > thirst   )
+    if ((hunger_danger && rng(-200, 0) > hunger) ||
+        (thirst_danger && rng(-300, 0) > thirst)   )
      vomit(g);
    }
    health += tmp->healthy;

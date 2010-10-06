@@ -588,7 +588,7 @@ void overmap::place_forest()
     bool swampy = false;
     if (swamps > 0 && swamp_chance > 0 && !one_in(swamp_chance) &&
         (ter(x, y) == ot_forest || ter(x, y) == ot_forest_thick ||
-         ter(x, y) == ot_field) || one_in(SWAMPCHANCE)) {
+         ter(x, y) == ot_field  || one_in(SWAMPCHANCE))) {
 // ...and make a swamp.
      ter(x, y) = ot_forest_water;
      swampy = true;

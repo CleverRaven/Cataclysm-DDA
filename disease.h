@@ -308,7 +308,7 @@ void dis_effect(game *g, player &p, disease &dis)
    p.str_cur -= 1;
    p.dex_cur -= 1;
    if (dis.duration >= 500 && (one_in(50) ||
-                               one_in(20) && p.has_trait(PF_WEAKSTOMACH)))
+                               (one_in(20) && p.has_trait(PF_WEAKSTOMACH))))
     p.vomit(g);
   } else {
    p.dex_cur++;
@@ -466,15 +466,19 @@ void dis_effect(game *g, player &p, disease &dis)
     do {
      x = p.posx + rng(-4, 4);
      y = p.posy + rng(-4, 4);
-    } while ((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1);
-    if (g->m.move_cost(x, y) == 0)
-     g->m.ter(x, y) = t_rubble;
-    beast.spawn(x, y);
-    g->z.push_back(beast);
-    if (g->u_see(x, y, junk))
-     g->add_msg("A portal opens nearby, and a monster crawls through!");
-    if (one_in(2))
-     p.rem_disease(DI_TELEGLOW);
+     tries++;
+    } while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1) &&
+             tries < 10);
+    if (tries < 10) {
+     if (g->m.move_cost(x, y) == 0)
+      g->m.ter(x, y) = t_rubble;
+     beast.spawn(x, y);
+     g->z.push_back(beast);
+     if (g->u_see(x, y, junk))
+      g->add_msg("A portal opens nearby, and a monster crawls through!");
+     if (one_in(2))
+      p.rem_disease(DI_TELEGLOW);
+    }
    }
    if (one_in(3500 - int(.25 * (dis.duration - 3600)))) {
     if (!p.is_npc())

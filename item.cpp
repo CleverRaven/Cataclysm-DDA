@@ -190,7 +190,6 @@ std::string item::info(bool showtext)
          " Bash: " << int(type->melee_dam) << "  Cut: " <<
          int(type->melee_cut) << "  To-hit bonus: " <<
          (type->m_to_hit > 0 ? "+" : "" ) << int(type->m_to_hit) << "\n";
- char buff[256];
  if (is_food()) {
   it_comest* food = dynamic_cast<it_comest*>(type);
   dump << " Nutrituion: " << int(food->nutr) << "\n Quench: " <<

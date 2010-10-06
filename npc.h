@@ -178,6 +178,7 @@ public:
 
  bool can_move_to	(game *g, int x, int y);
  void move_to		(game *g, int x, int y);
+ void move_to_next_in_path(game *g);
  void move_away_from	(game *g, int x, int y);
  void move_pause	();
  void melee_monster(game *g, monster *m);

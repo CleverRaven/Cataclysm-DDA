@@ -1010,7 +1010,7 @@ void game::add_event(event_type type, int on_turn, faction* rel)
 
 void game::debug()
 {
- WINDOW *w = newwin(80, 25, 0, 0);
+// WINDOW *w = newwin(80, 25, 0, 0);
 // mvwprintw(w, 
 }
 
@@ -2983,7 +2983,6 @@ void game::examine()
  } else if (m.ter(examx, examy) == t_gas_pump && query_yn("Pump gas?")) {
   char ch = inv("Select container or tool to hold gas:");
   item *cont = &(u.i_at(ch));
-  bool ok = true;
   if (cont->is_tool() && (dynamic_cast<it_tool*>(cont->type))->ammo == AT_GAS) {
    add_msg("You fill your %s with gasoline.", cont->tname().c_str());
    cont->curammo = dynamic_cast<it_ammo*>(itypes[itm_gasoline]);
@@ -3398,7 +3397,6 @@ void game::pickup(int posx, int posy, int min)
  }
 // At this point we've selected our items, now we add them to our inventory
  int curmit = 0;
- bool did_tut = false;	// Tutorial message displayed
  bool got_water = false;	// Did we try to pick up water?
  for (int i = 0; i < here.size(); i++) {
   iter = 0;
@@ -4227,7 +4225,7 @@ missed_by, deviation, trange, p.weapon.charges, p.posx, p.posy, tarx, tary);
      }
     }
    } else if ((!missed || one_in(5)) && (npc_at(tx, ty) != -1 ||
-                                         u.posx == tx && u.posy == ty))  {
+                                         (u.posx == tx && u.posy == ty)))  {
     double goodhit = missed_by;
     body_part hit;
     player *h;
@@ -4588,7 +4586,6 @@ void game::unload()
      text << "Container for " << newam.tname();
      char ch = inv(text.str().c_str());
      item *cont = &(u.i_at(ch));
-     bool ok = true;
      if (cont->is_tool() && (dynamic_cast<it_tool*>(cont->type))->ammo==type &&
          (cont->charges == 0 || cont->curammo->id == newam.type->id)){
       add_msg("You pour %s into your %s.", ammo_name(type).c_str(),
@@ -5199,7 +5196,7 @@ void game::spawn_mon(int shiftx, int shifty)
  int nlevx = levx + shiftx;
  int nlevy = levy + shifty;
  int group;
- int monx, mony, rntype, curmon;
+ int monx, mony, rntype;
  int dist;
  int pop, rad;
  int iter;

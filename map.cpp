@@ -584,7 +584,6 @@ trap_id& map::tr_at(int x, int y)
 
 void map::add_trap(int x, int y, trap_id t)
 {
- int oldx = x, oldy = y;
  int nonant;
  cast_to_nonant(x, y, nonant);
  grid[nonant].trp[x][y] = t;
@@ -810,6 +809,16 @@ bool map::sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc)
 
 std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
 {
+ if (Fx < 0 || Fy < 0 || Tx < 0 || Ty < 0 ||
+     Fx >= SEEX * 3 || Fy >= SEEY * 3 || Tx >= SEEX * 3 || Ty >= SEEY * 3) {
+  int linet;
+  if (sees(Fx, Fy, Tx, Ty, 0, linet))
+   return line_to(Fx, Fy, Tx, Ty, linet);
+  else {
+   std::vector<point> empty;
+   return empty;
+  }
+ }
  std::vector<point> open;
  astar_list list[SEEX * 3][SEEY * 3];
  int score	[SEEX * 3][SEEY * 3];
@@ -830,20 +839,20 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
 
  do {
   //debugmsg("Open.size() = %d", open.size());
-  int best = 999;
+  int best;
   int index = -1;
   for (int i = 0; i < open.size(); i++) {
-   if (score[open[i].x][open[i].y] < best) {
+   if (i == 0 || score[open[i].x][open[i].y] < best) {
     best = score[open[i].x][open[i].y];
     index = i;
    }
   }
   for (int x = open[index].x - 1; x <= open[index].x + 1; x++) {
    for (int y = open[index].y - 1; y <= open[index].y + 1; y++) {
-    if ((x > 0 && x < SEEX * 3 && y > 0 && y < SEEY * 3) &&
+    if ((x >= 0 && x < SEEX * 3 && y >= 0 && y < SEEY * 3) &&
          (move_cost(x, y) > 0 || ter(x, y) == t_door_c || 
           has_flag(bashable, x, y))) {
-     if (list[x][y] == ASL_NONE) {
+     if (list[x][y] == ASL_NONE) {	// Not listed, so make it open
       list[x][y] = ASL_OPEN;
       open.push_back(point(x, y));
       parent[x][y] = open[index];
@@ -852,19 +861,13 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
        gscore[x][y] += 4;	// A turn to open it and a turn to move there
       else if (move_cost(x, y) == 0 && has_flag(bashable, x, y))
        gscore[x][y] += 18;	// Worst case scenario with damage penalty
-      if (abs(Tx - x) > abs(Ty - y))
-       score[x][y] = gscore[x][y] + 2 * abs(Tx - x);
-      else
-       score[x][y] = gscore[x][y] + 2 * abs(Ty - y);
-     } else if (list[x][y] == ASL_OPEN) {
+      score[x][y] = gscore[x][y] + 2 * rl_dist(x, y, Tx, Ty);
+     } else if (list[x][y] == ASL_OPEN) { // It's open, but make it our child
       int newg = gscore[open[index].x][open[index].y] + move_cost(x, y);
       if (newg < gscore[x][y]) {
        gscore[x][y] = newg;
        parent[x][y] = open[index];
-       if (abs(Tx - x) > abs(Ty - y))
-        score[x][y] = gscore[x][y] + 2 * abs(Tx - x);
-       else
-        score[x][y] = gscore[x][y] + 2 * abs(Ty - y);
+       score [x][y] = gscore[x][y] + 2 * rl_dist(x, y, Tx, Ty);
       }
      }
     }
@@ -879,8 +882,10 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
  if (done) {
   point cur(Tx, Ty);
   while (cur.x != Fx || cur.y != Fy) {
-   //debugmsg("Retracing... (%d:%d) => [%d:%d] => (%d:%d)", Tx, Ty, cur.x, cur.y, Fx, Fy);
+   debugmsg("Retracing... (%d:%d) => [%d:%d] => (%d:%d)", Tx, Ty, cur.x, cur.y, Fx, Fy);
    tmp.push_back(cur);
+   if (rl_dist(cur.x, cur.y, parent[cur.x][cur.y].x, parent[cur.x][cur.y].y) >1)
+    debugmsg("Jump in our route!");
    cur = parent[cur.x][cur.y];
   }
   std::vector<point> ret;

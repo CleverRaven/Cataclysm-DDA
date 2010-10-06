@@ -68,7 +68,7 @@ void mattack::acid(game *g, monster *z)
   for (int j = -3; j <= 3; j++) {
    if (g->m.move_cost(hitx + i, hity +j) > 0 &&
        g->m.sees(hitx + i, hity + j, hitx, hity, 6, junk) &&
-       (one_in(abs(j)) && one_in(abs(i)) || (i == 0 && j == 0))) {
+       ((one_in(abs(j)) && one_in(abs(i))) || (i == 0 && j == 0))) {
     if (g->m.field_at(hitx + i, hity + j).type == fd_acid &&
         g->m.field_at(hitx + i, hity + j).density < 3)
      g->m.field_at(hitx + i, hity + j).density++;

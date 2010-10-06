@@ -9,9 +9,10 @@ void npc::move(game *g)
 {
  int light = g->light_level();
  int linet;
- std::vector<point> path;
  npc_action action = npc_pause;
  target = choose_monster_target(g);	// Set a target
+ if (g->turn % 6 == 0)
+  path.clear();	// Clear our path every 6 turns
 // If we aren't moving towards an item or a monster, find an item
  if (!fetching_item() && target == NULL)
   find_items(g);
@@ -26,11 +27,13 @@ void npc::move(game *g)
   action = npc_reload;
  else if (attitude == NPCATT_HEAL &&
           g->m.sees(posx, posy, g->u.posx, g->u.posy, light, linet)) {
-  path = g->m.route(posx, posy, g->u.posx, g->u.posy);
+  if (path.empty())
+   path = g->m.route(posx, posy, g->u.posx, g->u.posy);
   action = npc_heal_player;
  } else if (attitude == NPCATT_MUG &&
             g->m.sees(posx, posy, g->u.posx, g->u.posy, light, linet)) {
-  path = g->m.route(posx, posy, g->u.posx, g->u.posy);
+  if (path.empty())
+   path = g->m.route(posx, posy, g->u.posx, g->u.posy);
   action = npc_mug_player;
  } else if (fetching_item())
   action = npc_pickup;
@@ -69,9 +72,11 @@ void npc::move(game *g)
 
  case npc_melee_monster:
   if (path.size() > 1)
-   move_to(g, path[0].x, path[0].y);
-  else
+   move_to_next_in_path(g);
+  else if (path.size() == 0)
    melee_monster(g, target);
+  else
+   move_pause();
   break;
   
  case npc_shoot_monster:
@@ -89,8 +94,9 @@ void npc::move(game *g)
  case npc_look_for_player:
   if (saw_player_recently() && g->m.sees(posx, posy, plx, ply, light, linet)) {
 // (plx, ply) is the point where we last saw the player
-   path = line_to(posx, posy, plx, ply, linet);
-   move_to(g, path[0].x, path[0].y);
+   if (path.empty())
+    path = line_to(posx, posy, plx, ply, linet);
+   move_to_next_in_path(g);
   } else
    look_for_player(g);
   break;
@@ -102,8 +108,10 @@ void npc::move(game *g)
  case npc_melee_player:
   if (path.size() == 1)	// We're adjacent to u, and thus can sock u one
    melee_player(g, g->u);
+  else if (path.size() > 0)
+   move_to_next_in_path(g);
   else
-   move_to(g, path[0].x, path[0].y);
+   move_pause();
   break;
 
  case npc_shoot_player:
@@ -121,15 +129,19 @@ void npc::move(game *g)
  case npc_heal_player:
   if (path.size() == 1)	// We're adjacent to u, and thus can heal u
    heal_player(g, g->u);
+  else if (path.size() > 0)
+   move_to_next_in_path(g);
   else
-   move_to(g, path[0].x, path[0].y);
+   move_pause();
   break;
 
  case npc_follow_player:
   if (path.size() <= follow_distance())	// We're close enough to u.
    move_pause();
+  else if (path.size() > 0)
+   move_to_next_in_path(g);
   else
-   move_to(g, path[0].x, path[0].y);
+   move_pause();
   break;
 
  case npc_talk_to_player:
@@ -140,7 +152,7 @@ void npc::move(game *g)
   if (path.size() == 1)	// We're adjacent to u, and thus can mug u
    mug_player(g, g->u);
   else
-   move_to(g, path[0].x, path[0].y);
+   move_to_next_in_path(g);
   break;
 
  case npc_goto_destination:
@@ -246,6 +258,9 @@ void npc::pickup_items(game *g)
 {
  int light = g->light_level(), dist = rl_dist(posx, posy, itx, ity), linet;
  bool debug = g->debugmon;
+ bool u_see_me = g->u_see(posx, posy, linet);
+ bool u_see_item = g->u_see(itx, ity, linet);
+ 
 /*
  if (abs(posx - itx) > light || abs(posy - ity) > light) {// Old item is too far
   itx = 999;
@@ -266,6 +281,11 @@ void npc::pickup_items(game *g)
        volume_carried() + tmp->volume() <= volume_capacity() &&
        weight_carried() + tmp->weight() <= weight_capacity()) {
     i_add(*tmp);
+    if (u_see_me || u_see_item)
+     g->add_msg("%s picks up %s%s.", (u_see_me ? name.c_str() : "Someone"),
+                                     (u_see_item ? "a " : "something"),
+                                     (u_see_item ? tmp->tname().c_str() : ""));
+      
     g->m.i_rem(itx, ity, i);
     i--;
    }
@@ -282,7 +302,7 @@ void npc::pickup_items(game *g)
   if (debug)
    debugmsg("Moving to (%d:%d), %s.", path[0].x, path[0].y,
             g->m.tername(path[0].x, path[0].y).c_str());
-  move_to(g, path[0].x, path[0].y);
+  move_to_next_in_path(g);
  } else {	// Can't see that item anymore, so look for a new one
   if (debug)
    debugmsg("Can't see our desired item!  Gonna pause.");
@@ -477,7 +497,7 @@ npc_action npc::long_term_goal_action(game *g, std::vector<point> &path)
   if (g->sees_u(posx, posy, linet)) {
    path = line_to(posx, posy, g->u.posx, g->u.posy, linet);
    return npc_follow_player;
-  } else if (saw_player_recently() &&
+  } else if (path.empty() && saw_player_recently() &&
              g->m.sees(posx, posy, plx, ply, light, linet)) {
    path = line_to(posx, posy, plx, ply, linet);
    return npc_follow_player;
@@ -578,9 +598,9 @@ void npc::go_to_destination(game *g)
    for (int dx = 0 - i; dx <= i; dx++) {
     for (int dy = 0 - i; dy <= i; dy++) {
      if (g->m.sees(posx, posy, x + dx, y + dy, light, linet)) {
-      std::vector<point> path = line_to(posx, posy, x + dx, y + dy, linet);
-      if (can_move_to(g, path[0].x, path[0].y)) {
-       move_to(g, path[0].x, path[0].y);
+      std::vector<point> path = g->m.route(posx, posy, x + dx, y + dy);
+      if (path.size() > 0 && can_move_to(g, path[0].x, path[0].y)) {
+       move_to_next_in_path(g);
        return;
       } else {
        move_pause();
@@ -595,7 +615,7 @@ void npc::go_to_destination(game *g)
 
 bool npc::can_move_to(game *g, int x, int y)
 {
- if (g->m.move_cost(x, y) > 0 || g->m.has_flag(bashable, x, y) &&
+ if ((g->m.move_cost(x, y) > 0 || g->m.has_flag(bashable, x, y)) &&
      rl_dist(posx, posy, x, y) <= 1)
   return true;
  return false;
@@ -614,11 +634,15 @@ void npc::move_to(game *g, int x, int y)
  if (abs(x - posx) > 1 || abs(y - posy) > 1) {
   debugmsg("Tried to move_to more than one space! (%d, %d) to (%d, %d)",
            posx, posy, x, y);
+  debugmsg("Route is size %d.", path.size());
+  path.clear();
+  moves -= 100;
   return;
  }
  if (x == posx && y == posy)	// We're just pausing!
   moves -= 100;
  else if (g->mon_at(x, y) != -1) {	// Shouldn't happen, but it might.
+  debugmsg("Bumped into a monster, %d", g->mon_at(x, y));
   monster *m = &(g->z[g->mon_at(x, y)]);
   melee_monster(g, m);
  } else if (g->u.posx == x && g->u.posy == y) {
@@ -641,6 +665,17 @@ void npc::move_to(game *g, int x, int y)
   g->sound(x, y, 18, bashsound);
  } else
   moves -= 100;
+}
+
+void npc::move_to_next_in_path(game *g)
+{
+ if (path.empty()) {
+  debugmsg("Tried to move to the next space in an empty path!");
+  move_pause();
+  return;
+ }
+ move_to(g, path[0].x, path[0].y);
+ path.erase(path.begin());
 }
 
 void npc::move_away_from(game *g, int x, int y)
@@ -666,7 +701,7 @@ void npc::move_away_from(game *g, int x, int y)
     move_to(g, posx, posy + sy);
    else if (dy >= dx * 2 && can_move_to(g, posx - sx, posy + sy))
     move_to(g, posx - sx, posy + sy);
-   else if (g, can_move_to(g, posx + sx, posy))
+   else if (can_move_to(g, posx + sx, posy))
     move_to(g, posx + sx,  posy);
    else if (dy > 3 && can_move_to(g, posx + sx, posy - sy))
     move_to(g, posx + sx, posy - sy);

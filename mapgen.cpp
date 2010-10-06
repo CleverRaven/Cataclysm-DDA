@@ -229,11 +229,11 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     if (num > 0)
      forest_chance /= num;
     rn = rng(0, forest_chance);
-         if (forest_chance > 0 && rn > 13 || one_in(100 - forest_chance))
+         if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance))
      ter(i, j) = t_tree;
-    else if (forest_chance > 0 && rn > 10 || one_in(100 - forest_chance))
+    else if ((forest_chance > 0 && rn > 10) || one_in(100 - forest_chance))
      ter(i, j) = t_tree_young;
-    else if (forest_chance > 0 && rn >  9 || one_in(100 - forest_chance))
+    else if ((forest_chance > 0 && rn >  9) || one_in(100 - forest_chance))
      ter(i, j) = t_underbrush;
     else
      ter(i, j) = t_dirt;
@@ -2444,7 +2444,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   tw = rng(5, 6);
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
-    if (j == SEEY - 3 && (i > 3 && i < 8) || (i > 15 && i < 20))
+    if (j == SEEY - 3 && ((i > 3 && i < 8) || (i > 15 && i < 20)))
      ter(i, j) = t_window;
     else if (j == SEEY - 3 && i > 9 && i < 14)
      ter(i, j) = t_door_c;
@@ -2760,8 +2760,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 //  way.
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
-    if (n_fac < 0 && j < n_fac * -1 || s_fac < 0 && j >= SEEY * 2 - s_fac ||
-        w_fac < 0 && i < w_fac * -1 || e_fac < 0 && i >= SEEX * 2 - e_fac   )
+    if ((n_fac < 0 && j < n_fac * -1) || (s_fac < 0 && j >= SEEY * 2 - s_fac) ||
+        (w_fac < 0 && i < w_fac * -1) || (e_fac < 0 && i >= SEEX * 2 - e_fac)  )
      ter(i, j) = t_rock_floor;
     else if (j < n_fac || j >= SEEY * 2 - s_fac ||
              i < w_fac || i >= SEEX * 2 - e_fac   )
@@ -2883,8 +2883,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
  
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
-    if ((j < n_fac * SEEX || i < w_fac * SEEX && !one_in(10) || 
-         j > SEEY * 2 - s_fac * SEEY || i > SEEX * 2 - e_fac * SEEX))
+    if (!one_in(10) && (j < n_fac * SEEX        || i < w_fac * SEEX || 
+                        j > SEEY*2 - s_fac*SEEY || i > SEEX*2 - e_fac*SEEX))
      ter(i, j) = (!one_in(10) ? t_slime : t_rock_floor);
     else if (rng(0, SEEX) > abs(i - SEEX) && rng(0, SEEY) > abs(j - SEEY))
      ter(i, j) = t_slime;
@@ -4202,7 +4202,7 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
    for (int j = y1; j <= y2; j++) {
     if (i == x1)
      m->ter(i, j) = t_counter;
-    else if (i > x1 + 1 && i < x2 && j == y1 + 1 || j == y2 - 1)
+    else if (i > x1 + 1 && i < x2 && (j == y1 + 1 || j == y2 - 1))
      m->ter(i, j) = t_water_sh;
    }
   }

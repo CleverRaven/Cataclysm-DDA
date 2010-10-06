@@ -192,7 +192,7 @@ void trapfuncm::shotgun(game *g, monster *z, int x, int y)
   g->m.add_item(x, y, g->itypes[itm_shotgun_sawn], 0);
   g->m.add_item(x, y, g->itypes[itm_string_6], 0);
  } else
-  g->m.tr_at(x, y) == tr_shotgun_1;
+  g->m.tr_at(x, y) = tr_shotgun_1;
 }
 
 

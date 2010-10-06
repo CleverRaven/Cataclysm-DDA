@@ -102,8 +102,8 @@ single-use items.",
 "\
 The item you just picked up is a firearm!  Guns are very powerful weapons but\n\
 they require ammunition.  Firearms have many special attributes.  Most\n\
-modify the damage done by their ammunition.  They also have an accuracy. Note\n\
-that a LOW accuracy is good.  Some guns are semi-automatic, while others can\n\
+modify the damage done by their ammunition.  They also have an accuracy,\n\
+affects their chance to hit.  Some guns are semi-automatic, while others can\n\
 fire a burst.",
 "\
 The item you just picked up is ammunition, used with a gun.  It has many\n\
@@ -111,8 +111,7 @@ special attributes.  The damage value is the maximum done on a standard hit;\n\
 a critical hit or headshot will do much more damage.  Some monsters or NPCs\n\
 will wear armor which reduces the damage from gunfire; a high Armor-pierce\n\
 value will reduce this effect.  The Range is the maximum range the ammo can\n\
-achieve, and the accuracy affects its chance to hit; note that a LOW accuracy\n\
-value is good.",
+achieve, and the accuracy affects its chance to hit.",
 "\
 You just put on an article of clothing that provides physical protection.\n\
 There are two types of damage that clothing defends against, bashing, and\n\

@@ -560,6 +560,7 @@ void iuse::scissors(game *g, item *it, bool t)
  if (count <= 0) {
   g->add_msg("You clumsily cut the %s into useless ribbons.",
              cut->tname().c_str());
+  g->u.i_rem(ch);
   return;
  }
  g->add_msg("You slice the %s into %d rag%s.", cut->tname().c_str(), count,
