@@ -1,6 +1,8 @@
 # comment these to toggle them as one sees fit.
 #WARNINGS = -Wall
 DEBUG = -g
+ODIR = obj
+
 
 TARGET = cataclysm
 
@@ -9,7 +11,8 @@ CFLAGS = $(WARNINGS) $(DEBUG)
 LDFLAGS = $(CFLAGS) -lncurses
 
 SOURCES = $(wildcard *.cpp)
-OBJS = $(SOURCES:.cpp=.o)
+_OBJS = $(SOURCES:.cpp=.o)
+OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
 all: $(TARGET)
 	@
@@ -17,11 +20,11 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CXX) $(LDFLAGS) $(OBJS) -o $(TARGET)
 
-%.o: %.cpp
+$(ODIR)/%.o: %.cpp
 	$(CXX) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(TARGET) $(OBJS)
+	rm -f $(TARGET) $(ODIR)/*.o
 
 Make.deps:
 	gccmakedep -fMake.deps -- $(CFLAGS) -- $(SOURCES)
