@@ -3687,8 +3687,8 @@ void map::rotate(int turns)
  case 1:
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
-    rotated[i][j] = ter(j, SEEX * 2 - 1 - i);
-    itrot[i][j] = i_at(j, SEEX * 2 - 1 - i);
+    rotated[i][j] = ter  (j, SEEX * 2 - 1 - i);
+    itrot  [i][j] = i_at (j, SEEX * 2 - 1 - i);
     traprot[i][j] = tr_at(j, SEEX * 2 - 1 - i);
     i_clear(j, SEEX * 2 - 1 - i);
    }
@@ -3714,8 +3714,8 @@ void map::rotate(int turns)
  case 2:
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
-    rotated[i][j] = ter(SEEX * 2 - 1 - i, SEEY * 2 - 1 - j);
-    itrot[i][j] = i_at(SEEX * 2 - 1 - i, SEEY * 2 - 1 - j);
+    rotated[i][j] = ter  (SEEX * 2 - 1 - i, SEEY * 2 - 1 - j);
+    itrot  [i][j] = i_at (SEEX * 2 - 1 - i, SEEY * 2 - 1 - j);
     traprot[i][j] = tr_at(SEEX * 2 - 1 - i, SEEY * 2 - 1 - j);
     i_clear(SEEX * 2 - 1 - i, SEEY * 2 - 1 - j);
    }
@@ -3741,8 +3741,8 @@ void map::rotate(int turns)
  case 3:
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
-    rotated[i][j] = ter(SEEY * 2 - 1 - j, i);
-    itrot[i][j] = i_at(SEEY * 2 - 1 - j, i);
+    rotated[i][j] = ter  (SEEY * 2 - 1 - j, i);
+    itrot  [i][j] = i_at (SEEY * 2 - 1 - j, i);
     traprot[i][j] = tr_at(SEEY * 2 - 1 - j, i);
     i_clear(SEEY * 2 - 1 - j, i);
    }
@@ -3775,8 +3775,8 @@ void map::rotate(int turns)
  }
  for (int i = 0; i < SEEX * 2; i++) {
   for (int j = 0; j < SEEY * 2; j++) {
-   ter(i, j) = rotated[i][j];
-   i_at(i, j) = itrot[i][j];
+   ter  (i, j) = rotated[i][j];
+   i_at (i, j) = itrot  [i][j];
    tr_at(i, j) = traprot[i][j];
    if (turns % 2 == 1) { 	// Rotate things like walls 90 degrees
     if (ter(i, j) == t_wall_v)
@@ -3809,47 +3809,47 @@ bool connects_to(oter_id there, int dir)
 {
  switch (dir) {
  case 2:
-  if (there == ot_subway_ns || there == ot_subway_es || there == ot_subway_sw ||
+  if (there == ot_subway_ns  || there == ot_subway_es || there == ot_subway_sw||
       there == ot_subway_nes || there == ot_subway_nsw ||
       there == ot_subway_esw || there == ot_subway_nesw ||
-      there == ot_sewer_ns || there == ot_sewer_es || there == ot_sewer_sw || 
-      there == ot_sewer_nes ||  there == ot_sewer_nsw || there == ot_sewer_esw||
+      there == ot_sewer_ns   || there == ot_sewer_es || there == ot_sewer_sw || 
+      there == ot_sewer_nes  || there == ot_sewer_nsw || there == ot_sewer_esw||
       there == ot_sewer_nesw || there == ot_ants_ns || there == ot_ants_es ||
-      there == ot_ants_sw || there == ot_ants_nes ||  there == ot_ants_nsw ||
-      there == ot_ants_esw || there == ot_ants_nesw)
+      there == ot_ants_sw    || there == ot_ants_nes ||  there == ot_ants_nsw ||
+      there == ot_ants_esw   || there == ot_ants_nesw)
    return true;
   return false;
  case 3:
-  if (there == ot_subway_ew || there == ot_subway_sw || there == ot_subway_wn ||
+  if (there == ot_subway_ew  || there == ot_subway_sw || there == ot_subway_wn||
       there == ot_subway_new || there == ot_subway_nsw ||
       there == ot_subway_esw || there == ot_subway_nesw ||
-      there == ot_sewer_ew || there == ot_sewer_sw || there == ot_sewer_wn ||
-      there == ot_sewer_new || there == ot_sewer_nsw || there == ot_sewer_esw ||
+      there == ot_sewer_ew   || there == ot_sewer_sw || there == ot_sewer_wn ||
+      there == ot_sewer_new  || there == ot_sewer_nsw || there == ot_sewer_esw||
       there == ot_sewer_nesw || there == ot_ants_ew || there == ot_ants_sw ||
-      there == ot_ants_wn || there == ot_ants_new || there == ot_ants_nsw ||
-      there == ot_ants_esw || there == ot_ants_nesw)
+      there == ot_ants_wn    || there == ot_ants_new || there == ot_ants_nsw ||
+      there == ot_ants_esw   || there == ot_ants_nesw)
    return true;
   return false;
  case 0:
-  if (there == ot_subway_ns || there == ot_subway_ne ||  there == ot_subway_wn||
+  if (there == ot_subway_ns  || there == ot_subway_ne || there == ot_subway_wn||
       there == ot_subway_nes || there == ot_subway_new ||
-      there == ot_subway_nsw ||  there == ot_subway_nesw ||
-      there == ot_sewer_ns || there == ot_sewer_ne ||  there == ot_sewer_wn ||
-      there == ot_sewer_nes || there == ot_sewer_new || there == ot_sewer_nsw ||
+      there == ot_subway_nsw || there == ot_subway_nesw ||
+      there == ot_sewer_ns   || there == ot_sewer_ne ||  there == ot_sewer_wn ||
+      there == ot_sewer_nes  || there == ot_sewer_new || there == ot_sewer_nsw||
       there == ot_sewer_nesw || there == ot_ants_ns || there == ot_ants_ne ||
-      there == ot_ants_wn || there == ot_ants_nes || there == ot_ants_new ||
-      there == ot_ants_nsw ||  there == ot_ants_nesw)
+      there == ot_ants_wn    || there == ot_ants_nes || there == ot_ants_new ||
+      there == ot_ants_nsw   || there == ot_ants_nesw)
    return true;
   return false;
  case 1:
-  if (there == ot_subway_ew || there == ot_subway_ne || there == ot_subway_es ||
+  if (there == ot_subway_ew  || there == ot_subway_ne || there == ot_subway_es||
       there == ot_subway_nes || there == ot_subway_new ||
       there == ot_subway_esw || there == ot_subway_nesw ||
-      there == ot_sewer_ew || there == ot_sewer_ne || there == ot_sewer_es ||
-      there == ot_sewer_nes || there == ot_sewer_new || there == ot_sewer_esw ||
+      there == ot_sewer_ew   || there == ot_sewer_ne || there == ot_sewer_es ||
+      there == ot_sewer_nes  || there == ot_sewer_new || there == ot_sewer_esw||
       there == ot_sewer_nesw || there == ot_ants_ew || there == ot_ants_ne ||
-      there == ot_ants_es || there == ot_ants_nes || there == ot_ants_new ||
-      there == ot_ants_esw || there == ot_ants_nesw)
+      there == ot_ants_es    || there == ot_ants_nes || there == ot_ants_new ||
+      there == ot_ants_esw   || there == ot_ants_nesw)
    return true;
   return false;
  default:
@@ -3893,19 +3893,19 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
   m->place_items(mi_cleaning,  58, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
   switch (rng(1, 4)) {
   case 1:
-   m->ter(x1 + 1, y1 + 1) = t_fridge;
+   m->ter(x1 + 2, y1 + 1) = t_fridge;
    m->place_items(mi_fridge, 82, x1 + 1, y1 + 1, x1 + 1, y1 + 1, false, 0);
    break;
   case 2:
-   m->ter(x2 - 1, y1 + 1) = t_fridge;
+   m->ter(x2 - 2, y1 + 1) = t_fridge;
    m->place_items(mi_fridge, 82, x2 - 1, y1 + 1, x2 - 1, y1 + 1, false, 0);
    break;
   case 3:
-   m->ter(x1 + 1, y2 - 1) = t_fridge;
+   m->ter(x1 + 2, y2 - 1) = t_fridge;
    m->place_items(mi_fridge, 82, x1 + 1, y2 - 1, x1 + 1, y2 - 1, false, 0);
    break;
   case 4:
-   m->ter(x2 - 1, y2 - 1) = t_fridge;
+   m->ter(x2 - 2, y2 - 1) = t_fridge;
    m->place_items(mi_fridge, 82, x2 - 1, y2 - 1, x2 - 1, y2 - 1, false, 0);
    break;
   }
@@ -3914,23 +3914,23 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
   placed = mi_bedroom;
   chance = 78;
   if (one_in(10))
-   m->place_items(mi_homeguns, 78, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
+   m->place_items(mi_homeguns, 58, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
   switch (rng(1, 5)) {
   case 1:
-   m->ter(x1 + 1, y1 + 1) = t_bed;
    m->ter(x1 + 1, y1 + 2) = t_bed;
+   m->ter(x1 + 1, y1 + 3) = t_bed;
    break;
   case 2:
-   m->ter(x1 + 1, y2 - 1) = t_bed;
    m->ter(x1 + 2, y2 - 1) = t_bed;
+   m->ter(x1 + 3, y2 - 1) = t_bed;
    break;
   case 3:
+   m->ter(x2 - 1, y2 - 3) = t_bed;
    m->ter(x2 - 1, y2 - 2) = t_bed;
-   m->ter(x2 - 1, y2 - 1) = t_bed;
    break;
   case 4:
+   m->ter(x2 - 3, y1 + 1) = t_bed;
    m->ter(x2 - 2, y1 + 1) = t_bed;
-   m->ter(x2 - 1, y1 + 1) = t_bed;
    break;
   case 5:
    m->ter(int((x1 + x2) / 2)    , y2 - 1) = t_bed;
@@ -3945,7 +3945,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
    m->place_items(mi_dresser, 80, x1 + 2, y1 + 1, x1 + 2, y1 + 1, false, 0);
    break;
   case 2:
-   m->ter(x2 - 1, y2 - 1) = t_dresser;
+   m->ter(x2 - 2, y2 - 1) = t_dresser;
    m->place_items(mi_dresser, 80, x2 - 1, y2 - 1, x2 - 1, y2 - 1, false, 0);
    break;
   case 3:
@@ -3974,11 +3974,11 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
 void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
 {
  int height = y2 - y1;
- int width = x2 - x1;
- if (rotate % 2 == 1) {
+ int width  = x2 - x1;
+ if (rotate % 2 == 1) {	// Swamp width & height if we're a lateral room
   int tmp = height;
-  height = width;
-  width = tmp;
+  height  = width;
+  width   = tmp;
  }
  for (int i = x1; i <= x2; i++) {
   for (int j = y1; j <= y2; j++)

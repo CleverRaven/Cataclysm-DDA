@@ -1139,7 +1139,11 @@ void map::spawn_monsters(game *g)
      int tries = 0;
      int mx = grid[n].spawns[i].posx, my = grid[n].spawns[i].posy;
      monster tmp(g->mtypes[grid[n].spawns[i].type]);
-     while (tries < 10 && (g->mon_at(mx + gx * SEEX, my + gy * SEEY) != -1 ||
+     tmp.spawnposx = mx;
+     tmp.spawnposy = my;
+     tmp.spawnmapx = g->levx;
+     tmp.spawnmapy = g->levy;
+     while (tries < 10 && (!g->is_empty(mx + gx * SEEX, my + gy * SEEY) ||
             !tmp.can_move_to(g->m, mx + gx * SEEX, my + gy * SEEY))) {
       mx = grid[n].spawns[i].posx + rng(-3, 3);
       my = grid[n].spawns[i].posy + rng(-3, 3);
@@ -1149,10 +1153,6 @@ void map::spawn_monsters(game *g)
       mx += gx * SEEX;
       my += gy * SEEY;
       tmp.spawn(mx + gx * SEEX, my + gy * SEEY);
-      tmp.spawnmapx = g->levx;
-      tmp.spawnmapy = g->levy;
-      tmp.spawnposx = mx;
-      tmp.spawnposy = my;
       g->z.push_back(tmp);
      }
     }

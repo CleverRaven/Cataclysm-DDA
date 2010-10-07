@@ -42,8 +42,8 @@ class overmap
   overmap();
   overmap(game *g, int x, int y, int z);
   ~overmap();
-  void save();
-  void save(int x, int y, int z);
+  void save(std::string name);
+  void save(std::string name, int x, int y, int z);
   void open(game *g, int x, int y, int z);
   void generate(game *g, overmap* north, overmap* east, overmap* south,
                 overmap* west);

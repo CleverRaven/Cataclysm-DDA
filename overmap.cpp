@@ -4,6 +4,7 @@
 #include <math.h>
 #include <fstream>
 #include <vector>
+#include <sstream>
 #include "overmap.h"
 #include "rng.h"
 #include "line.h"
@@ -1620,21 +1621,18 @@ void overmap::place_radios()
  }
 }
 
-void overmap::save()
+void overmap::save(std::string name)
 {
- save(posx, posy, posz);
+ save(name, posx, posy, posz);
 }
 
-void overmap::save(int x, int y, int z)
+void overmap::save(std::string name, int x, int y, int z)
 {
- char buff[32];
- sprintf(buff, "save/o.%d.%d.%d", x, y, z);
+ std::stringstream plrfilename, terfilename;
  std::ofstream fout;
- fout.open(buff, std::ios_base::trunc);
- for (int j = 0; j < OMAPY; j++) {
-  for (int i = 0; i < OMAPX; i++)
-   fout << char(int(ter(i, j)) + 32);
- }
+ plrfilename << "save/" << name << ".seen." << x << "." << y << "." << z;
+ terfilename << "save/o." << x << "." << y << "." << z;
+ fout.open(plrfilename.str().c_str());
  for (int j = 0; j < OMAPY; j++) {
   for (int i = 0; i < OMAPX; i++) {
    if (seen(i, j))
@@ -1644,6 +1642,16 @@ void overmap::save(int x, int y, int z)
   }
   fout << std::endl;
  }
+ for (int i = 0; i < notes.size(); i++)
+  fout << "N " << notes[i].x << " " << notes[i].y << " " << notes[i].num <<
+          std::endl << notes[i].text << std::endl;
+ fout.close();
+ fout.open(terfilename.str().c_str(), std::ios_base::trunc);
+ for (int j = 0; j < OMAPY; j++) {
+  for (int i = 0; i < OMAPX; i++)
+   fout << char(int(ter(i, j)) + 32);
+ }
+ fout << std::endl;
  for (int i = 0; i < zg.size(); i++)
   fout << "Z " << zg[i].type << " " << zg[i].posx << " " << zg[i].posy << " " <<
           int(zg[i].radius) << " " << zg[i].population << std::endl;
@@ -1656,41 +1664,34 @@ void overmap::save(int x, int y, int z)
   fout << "T " << radios[i].x << " " << radios[i].y << " " <<
           radios[i].strength << " " << std::endl << radios[i].message <<
           std::endl;
- for (int i = 0; i < notes.size(); i++)
-  fout << "N " << notes[i].x << " " << notes[i].y << " " << notes[i].num <<
-          std::endl << notes[i].text << std::endl;
  fout.close();
 }
 
 void overmap::open(game *g, int x, int y, int z)
 {
- char buff[32];
+ std::stringstream plrfilename, terfilename;
+ std::ifstream fin;
  char line[OMAPX];
  char datatype;
  int ct, cx, cy, cs, cp;
  city tmp;
+
+ plrfilename << "save/" << g->u.name << ".seen." << x << "." << y << "." << z;
+ terfilename << "save/o." << x << "." << y << "." << z;
 // Set position IDs
  posx = x;
  posy = y;
  posz = z;
- sprintf(buff, "save/o.%d.%d.%d", x, y, z);
- std::ifstream fin;
- fin.open(buff);
+ fin.open(terfilename.str().c_str());
 // DEBUG VARS
  int nummg = 0;
  if (fin.is_open()) {
   for (int j = 0; j < OMAPY; j++) {
-   //fin.getline(line, OMAPX + 1);
-   for (int i = 0; i < OMAPX; i++)
-    ter(i, j) = oter_id(fin.get() - 32);
-  }
-  for (int j = 0; j < OMAPY; j++) {
-   fin.getline(line, OMAPX + 1);
    for (int i = 0; i < OMAPX; i++) {
-    if (line[i] == '1')
-     seen(i, j) = true;
-    else
-     seen(i, j) = false;
+    ter(i, j) = oter_id(fin.get() - 32);
+    if (ter(i, j) < 0 || ter(i, j) > num_ter_types)
+     debugmsg("Loaded bad ter!  %s; ter %d",
+              terfilename.str().c_str(), ter(i, j));
    }
   }
   while (fin >> datatype) {
@@ -1712,27 +1713,49 @@ void overmap::open(game *g, int x, int y, int z)
     getline(fin, tmp.message);	// Chomp endl
     getline(fin, tmp.message);
     radios.push_back(tmp);
-   } else if (datatype == 'N') {
-    om_note tmp;
-    fin >> tmp.x >> tmp.y >> tmp.num;
-    getline(fin, tmp.text);	// Chomp endl
-    getline(fin, tmp.text);
-    notes.push_back(tmp);
    }
   }
   fin.close();
+  fin.open(plrfilename.str().c_str());
+  if (fin.is_open()) {	// Load private seen data
+   for (int j = 0; j < OMAPY; j++) {
+    fin.getline(line, OMAPX + 1);
+    for (int i = 0; i < OMAPX; i++) {
+     if (line[i] == '1')
+      seen(i, j) = true;
+     else
+      seen(i, j) = false;
+    }
+   }
+   while (fin >> datatype) {	// Load private notes
+    if (datatype == 'N') {
+     om_note tmp;
+     fin >> tmp.x >> tmp.y >> tmp.num;
+     getline(fin, tmp.text);	// Chomp endl
+     getline(fin, tmp.text);
+     notes.push_back(tmp);
+    }
+   }
+   fin.close();
+  } else {
+   for (int j = 0; j < OMAPY; j++) {
+    for (int i = 0; i < OMAPX; i++)
+    seen(i, j) = false;
+   }
+  }
  } else if (z <= -1) {	// No map exists, and we are underground!
 // Fetch the terrain above
   overmap* above = new overmap(g, x, y, z + 1);
   generate_sub(above);
-  save(x, y, z);
+  save(g->u.name, x, y, z);
   delete above;
  } else {	// No map exists!  Prepare neighbors, and generate one.
   std::vector<overmap*> pointers;
 // Fetch north and south
   for (int i = -1; i <= 1; i+=2) {
-   sprintf(buff, "save/o.%d.%d.%d", x, y+i, z);
-   fin.open(buff);
+   std::stringstream tmpfilename;
+   tmpfilename << "save/o." << x << "." << y + i << "." << z;
+   fin.open(tmpfilename.str().c_str());
    if (fin.is_open()) {
     fin.close();
     pointers.push_back(new overmap(g, x, y+i, z));
@@ -1741,8 +1764,9 @@ void overmap::open(game *g, int x, int y, int z)
   }
 // Fetch east and west
   for (int i = -1; i <= 1; i+=2) {
-   sprintf(buff, "save/o.%d.%d.%d", x+i, y, z);
-   fin.open(buff);
+   std::stringstream tmpfilename;
+   tmpfilename << "save/o." << x + i << "." << y << "." << z;
+   fin.open(tmpfilename.str().c_str());
    if (fin.is_open()) {
     fin.close();
     pointers.push_back(new overmap(g, x+i, y, z));
@@ -1753,7 +1777,7 @@ void overmap::open(game *g, int x, int y, int z)
   generate(g, pointers[0], pointers[3], pointers[1], pointers[2]);
   for (int i = 0; i < 4; i++)
    delete pointers[i];
-  save(x, y, z);
+  save(g->u.name, x, y, z);
  }
 }
 

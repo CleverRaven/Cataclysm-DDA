@@ -344,7 +344,7 @@ void game::start_tutorial(tut_type type)
   levy =  99;
   cur_om = overmap(this, 0, 0, TUTORIAL_Z - 1);
   cur_om.make_tutorial();
-  cur_om.save(0, 0, 9);
+  cur_om.save(u.name, 0, 0, 9);
   cur_om = overmap(this, 0, 0, TUTORIAL_Z);
   cur_om.make_tutorial();
   m.init(this, levx, levy);
@@ -965,7 +965,7 @@ void game::save()
  fout << std::endl;
  fout.close();
 // aaaand the overmap, and the local map.
- cur_om.save();
+ cur_om.save(u.name);
  m.save(&cur_om, turn, levx, levy);
 }
 
@@ -1096,6 +1096,9 @@ void game::draw_overmap()
        npc_here = true;
        npc_name = cur_om.npcs[n].name;
        n = cur_om.npcs.size();
+      } else {
+       npc_here = false;
+       npc_name = "";
       }
      }
     } else if (omx < 0) {
@@ -2578,7 +2581,7 @@ void game::use_computer(int x, int y)
      for (int j = miny; j <= maxy; j++)
       tmp.seen(i, j) = true;
     }
-    tmp.save(cur_om.posx, cur_om.posy, 0);
+    tmp.save(u.name, cur_om.posx, cur_om.posy, 0);
     add_msg("Surface map data downloaded.");
    } else {
     add_msg("Surface map data corrupted.");
@@ -2736,7 +2739,8 @@ int game::mon_at(int x, int y)
 
 bool game::is_empty(int x, int y)
 {
- return (m.move_cost(x, y) > 0 && npc_at(x, y) == -1 && mon_at(x, y) == -1 &&
+ return ((m.move_cost(x, y) > 0 && !m.has_flag(swimmable, x, y)) &&
+         npc_at(x, y) == -1 && mon_at(x, y) == -1 &&
          (u.posx != x || u.posy != y));
 }
 
@@ -5045,7 +5049,7 @@ void game::vertical_move(int movez, bool force)
    add_msg("The %s follows you %s.", z[i].name().c_str(),
            (movez == -1 ? "down" : "up"));
  }
- cur_om.save();
+ cur_om.save(u.name);
  m.save(&cur_om, turn, levx, levy);
  cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz + movez);
  m.init(this, levx, levy);
@@ -5113,7 +5117,7 @@ void game::update_map(int &x, int &y)
   olevy = 1;
  }
  if (olevx != 0 || olevy != 0) {
-  cur_om.save();
+  cur_om.save(u.name);
   cur_om = overmap(this, cur_om.posx + olevx, cur_om.posy + olevy, cur_om.posz);
  }
   
@@ -5547,7 +5551,7 @@ oter_id game::ter_at(int omx, int omy, bool& mark_as_seen)
   overmap tmp(this, cur_om.posx + sx, cur_om.posy + sy, 0);
   if (mark_as_seen) {
    tmp.seen(omx, omy) = true;
-   tmp.save(tmp.posx, tmp.posy, cur_om.posz);
+   tmp.save(u.name, tmp.posx, tmp.posy, cur_om.posz);
   } else {
    mark_as_seen = tmp.seen(omx, omy);
   }
