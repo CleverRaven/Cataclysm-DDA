@@ -2545,14 +2545,16 @@ void game::use_computer(int x, int y)
       if (tmp.find_first_of('%') == 0)
        choice--;
      }
+     bool get_okay;
+     getline(fin, tmp);
      do {
-      getline(fin, tmp);
+      lines++;
       if (lines < 23 && lines < success * 5 &&
           tmp.find_first_of('%') != 0) {
        log.append(tmp);
        log.append("\n");
       }
-     } while (tmp.find_first_of('%') != 0);
+     } while(tmp.find_first_of('%') != 0 && getline(fin, tmp));
     }
     full_screen_popup(log.c_str());
    } else if (one_in(4)) {

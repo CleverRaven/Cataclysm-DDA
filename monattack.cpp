@@ -206,7 +206,7 @@ void mattack::science(game *g, monster *z)	// I said SCIENCE again!
  valid.push_back(5);	// Flavor text
  switch (valid[rng(0, valid.size() - 1)]) {	// What kind of attack?
  case 1:	// Shock the player
-  g->add_msg("The %d shocks you!", z->name().c_str());
+  g->add_msg("The %s shocks you!", z->name().c_str());
   z->moves -= 150;
   g->u.hurtall(rng(1, 2));
   if (one_in(6) && !one_in(30 - g->u.str_cur)) {
@@ -215,7 +215,7 @@ void mattack::science(game *g, monster *z)	// I said SCIENCE again!
   }
   break;
  case 2:	// Mutagenic beam
-  g->add_msg("The %d opens it's mouth and a beam shoots towards you!",
+  g->add_msg("The %s opens it's mouth and a beam shoots towards you!",
              z->name().c_str());
   z->moves -= 400;
   if (g->u.dodge() > rng(1, 16))
@@ -226,7 +226,7 @@ void mattack::science(game *g, monster *z)	// I said SCIENCE again!
   }
   break;
  case 3:	// Spawn a manhack
-  g->add_msg("The %d opens its coat, and a manhack flies out!",
+  g->add_msg("The %s opens its coat, and a manhack flies out!",
              z->name().c_str());
   z->moves -= 200;
   index = rng(0, valid.size() - 1);
@@ -234,7 +234,7 @@ void mattack::science(game *g, monster *z)	// I said SCIENCE again!
   g->z.push_back(tmp);
   break;
  case 4:	// Acid pool
-  g->add_msg("The %d drops a flask of acid!", z->name().c_str());
+  g->add_msg("The %s drops a flask of acid!", z->name().c_str());
   z->moves -= 100;
   for (int i = 0; i < free.size(); i++)
    g->m.add_field(g, free[i].x, free[i].y, fd_acid, 3);
@@ -242,16 +242,16 @@ void mattack::science(game *g, monster *z)	// I said SCIENCE again!
  case 5:	// Flavor text
   switch (rng(1, 4)) {
   case 1:
-   g->add_msg("The %d gesticulates wildly!", z->name().c_str());
+   g->add_msg("The %s gesticulates wildly!", z->name().c_str());
    break;
   case 2:
-   g->add_msg("The %d coughs up a strange dust.", z->name().c_str());
+   g->add_msg("The %s coughs up a strange dust.", z->name().c_str());
    break;
   case 3:
-   g->add_msg("The %d moans softly.", z->name().c_str());
+   g->add_msg("The %s moans softly.", z->name().c_str());
    break;
   case 4:
-   g->add_msg("The %d's skin crackles with electricity.", z->name().c_str());
+   g->add_msg("The %s's skin crackles with electricity.", z->name().c_str());
    break;
   }
   break;
