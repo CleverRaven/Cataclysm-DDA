@@ -23,6 +23,12 @@ void game::init_monitems()
  monitems[mon_boomer]		= monitems[mon_zombie];
  monitems[mon_boomer_fungus]	= monitems[mon_zombie];
  monitems[mon_zombie_necro]	= monitems[mon_zombie];
+
+ setvector(monitems[mon_zombie_scientist],
+	mi_dresser,	10,mi_harddrugs,	 6,mi_chemistry,	10,
+	mi_teleport,	 6,mi_goo,		 8,mi_cloning_vat,	 1,
+	mi_dissection,	10,mi_electronics,	 9,mi_bionics,		 1,
+	mi_radio,	 2,mi_textbooks,	 3,NULL);
  
  setvector(monitems[mon_chud],
 	mi_subway,	40,mi_sewer,	20,mi_trash,	 5,mi_bedroom,	 1,

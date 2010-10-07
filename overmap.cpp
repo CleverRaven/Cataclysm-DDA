@@ -1056,6 +1056,7 @@ void overmap::build_lab(int x, int y, int s)
            ter(finalex, finaley) != ot_lab_core);
   ter(finalex, finaley) = ot_lab_finale;
  }
+ zg.push_back(mongroup(mcat_lab, (x * 2), (y * 2), s, 60));
 }
 
 void overmap::build_anthill(int x, int y, int s)

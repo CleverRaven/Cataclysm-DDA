@@ -31,6 +31,7 @@ class game
  public:
   game();
   ~game();
+  void save();
   bool do_turn();
   void tutorial_message(tut_lesson lesson);
   void draw();
@@ -49,6 +50,7 @@ class game
   void emp_blast(int x, int y);
   int  npc_at(int x, int y);	// Index of the npc at (x, y); -1 for none
   int  mon_at(int x, int y);	// Index of the monster at (x, y); -1 for none
+  bool is_empty(int x, int y);	// True if no PC, no monster, move cost > 0
   void kill_mon(int index);	// Kill that monster; fixes any pointers etc
   void plfire(bool burst);	// Player fires a gun (setup of target)...
 // ... a gun is fired, maybe by an NPC (actual damage, etc.).
@@ -101,7 +103,6 @@ class game
 // Game-start procedures
   bool opening_screen();
   void load(std::string name);
-  void save();
   void start_game();
   void start_tutorial(tut_type type);
 

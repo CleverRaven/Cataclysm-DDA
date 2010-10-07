@@ -15,6 +15,7 @@ class mattack
   void shockstorm	(game *g, monster *z);
   void boomer		(game *g, monster *z);
   void resurrect        (game *g, monster *z);
+  void science		(game *g, monster *z);
   void growplants	(game *g, monster *z);
   void fungus		(game *g, monster *z);
   void plant		(game *g, monster *z);
@@ -27,7 +28,6 @@ class mattack
   void smg		(game *g, monster *z);
   void flamethrower	(game *g, monster *z);
   void multi_robot	(game *g, monster *z); // Pick from tazer, smg, flame
-  
 };
 
 #endif

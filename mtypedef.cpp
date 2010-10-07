@@ -311,6 +311,17 @@ red eyes.  As you look at it, you're gripped\n\
 by a feeling of dread and terror."
 );
 
+mon("zombie scientist", 'Z',	c_ltgray,	MS_MEDIUM,	FLESH,
+	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_WARM)|mfb(MF_BASHES)|
+	 mfb(MF_POISON)|mfb(MF_ACIDPROOF)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	 20,  3,  5, 75,  7,  1,  3,  0,  1,  0, 50, 40, 20,
+	&mdeath::normal,	&mattack::science, "\
+A zombie wearing a tattered lab coat and\n\
+some sort of utility belt.  It looks weaker\n\
+than most zombies, but more resourceful too."
+);
+
 // PLANTS & FUNGI
 mon("triffid",		'F',	c_ltgreen,	MS_MEDIUM,	VEGGY,
 	(mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_BASHES)|mfb(MF_NOHEAD)),

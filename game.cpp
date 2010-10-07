@@ -2732,6 +2732,12 @@ int game::mon_at(int x, int y)
  return -1;
 }
 
+bool game::is_empty(int x, int y)
+{
+ return (m.move_cost(x, y) > 0 && npc_at(x, y) == -1 && mon_at(x, y) == -1 &&
+         (u.posx != x || u.posy != y));
+}
+
 void game::kill_mon(int index)
 {
  if (index < 0 || index >= z.size()) {
@@ -5583,9 +5589,10 @@ void intro()
 {
  int maxx, maxy;
  getmaxyx(stdscr, maxy, maxx);
+ WINDOW* tmp = newwin(25, 80, 0, 0);
  while (maxy < 25 || maxx < 80) {
   erase();
-  printw("\
+  wprintw(tmp, "\
 Whoa. Whoa. Hey. This game requires a minimum terminal size of 80x25. I don't\n\
 know why certain graphical terminal emulators decided to take the old standard\n\
 size of 80x25 and toss it out the window, making their terminal 80x24 by\n\
@@ -5594,5 +5601,8 @@ downward so you get an extra line.\n");
   getch();
   getmaxyx(stdscr, maxy, maxx);
  }
+ werase(tmp);
+ wrefresh(tmp);
+ delwin(tmp);
  erase();
 }

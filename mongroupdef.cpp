@@ -37,6 +37,10 @@ void game::init_moncats()
    moncats[mcat_sewer],
 	mon_sewer_fish, mon_sewer_snake, mon_sewer_rat, NULL);
  setvector(
+   moncats[mcat_lab],
+	mon_zombie_scientist, mon_blob_small, mon_manhack, mon_skitterbot,
+	NULL);
+ setvector(
    moncats[mcat_nether],
 	mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
 	mon_flaming_eye, mon_kreck, mon_blank, NULL);

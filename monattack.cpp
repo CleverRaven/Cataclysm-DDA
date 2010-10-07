@@ -106,7 +106,7 @@ void mattack::shockstorm(game *g, monster *z)
 void mattack::boomer(game *g, monster *z)
 {
  int j;
- if (abs(g->u.posx - z->posx) > 3 || abs(g->u.posy - z->posy) > 3 ||
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 3 ||
      !g->sees_u(z->posx, z->posy, j))
   return;	// Out of range
  std::vector<point> line = line_to(z->posx, z->posy, g->u.posx, g->u.posy, j);
@@ -176,6 +176,86 @@ void mattack::resurrect(game *g, monster *z)
    g->add_msg("Several corpses rise from the dead!");
  } else if (sees_necromancer)
   g->add_msg("...but nothing seems to happen.");
+}
+
+void mattack::science(game *g, monster *z)	// I said SCIENCE again!
+{
+ int t, dist = rl_dist(z->posx, z->posy, g->u.posx, g->u.posy);
+ if (dist > 5 || !g->sees_u(z->posx, z->posy, t))
+  return;	// Out of range
+ z->sp_timeout = z->type->sp_freq;	// Reset timer
+ std::vector<point> line = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
+ std::vector<point> free;
+ for (int x = z->posx - 1; x <= z->posx + 1; x++) {
+  for (int y = z->posy - 1; y <= z->posy + 1; y++) {
+   if (g->is_empty(x, y))
+    free.push_back(point(x, y));
+  }
+ }
+ std::vector<int> valid;
+ int index;
+ monster tmp(g->mtypes[mon_manhack]);
+ if (dist == 1)
+  valid.push_back(1);	// Shock
+ if (dist <  2)
+  valid.push_back(2);	// Mutagenic attack
+ if (!free.empty()) {
+  valid.push_back(3);	// Manhack
+  valid.push_back(4);	// Acid pool
+ }
+ valid.push_back(5);	// Flavor text
+ switch (valid[rng(0, valid.size() - 1)]) {	// What kind of attack?
+ case 1:	// Shock the player
+  g->add_msg("The %d shocks you!", z->name().c_str());
+  z->moves -= 150;
+  g->u.hurtall(rng(1, 2));
+  if (one_in(6) && !one_in(30 - g->u.str_cur)) {
+   g->add_msg("You're paralyzed!");
+   g->u.moves -= 300;
+  }
+  break;
+ case 2:	// Mutagenic beam
+  g->add_msg("The %d opens it's mouth and a beam shoots towards you!",
+             z->name().c_str());
+  z->moves -= 400;
+  if (g->u.dodge() > rng(1, 16))
+   g->add_msg("You dodge the beam!");
+  else {
+   g->add_msg("You get pins and needles all over.");
+   g->u.radiation += rng(20, 50);
+  }
+  break;
+ case 3:	// Spawn a manhack
+  g->add_msg("The %d opens its coat, and a manhack flies out!",
+             z->name().c_str());
+  z->moves -= 200;
+  index = rng(0, valid.size() - 1);
+  tmp.spawn(free[index].x, free[index].y);
+  g->z.push_back(tmp);
+  break;
+ case 4:	// Acid pool
+  g->add_msg("The %d drops a flask of acid!", z->name().c_str());
+  z->moves -= 100;
+  for (int i = 0; i < free.size(); i++)
+   g->m.add_field(g, free[i].x, free[i].y, fd_acid, 3);
+  break;
+ case 5:	// Flavor text
+  switch (rng(1, 4)) {
+  case 1:
+   g->add_msg("The %d gesticulates wildly!", z->name().c_str());
+   break;
+  case 2:
+   g->add_msg("The %d coughs up a strange dust.", z->name().c_str());
+   break;
+  case 3:
+   g->add_msg("The %d moans softly.", z->name().c_str());
+   break;
+  case 4:
+   g->add_msg("The %d's skin crackles with electricity.", z->name().c_str());
+   break;
+  }
+  break;
+ }
 }
 
 void mattack::growplants(game *g, monster *z)

@@ -6,11 +6,11 @@
 
 #include <ncurses.h>
 #include <ctime>
+#include <csignal>
 #include "game.h"
 
 // FUNCTIONS
 void do_colors();
-//void load_items();
 
 int main(int argc, char *argv[])
 {
@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
  keypad(stdscr, true);
  do_colors();
  curs_set(0);
+
 
  rand();
  game g;
