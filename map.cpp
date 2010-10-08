@@ -812,7 +812,7 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
  if (Fx < 0 || Fy < 0 || Tx < 0 || Ty < 0 ||
      Fx >= SEEX * 3 || Fy >= SEEY * 3 || Tx >= SEEX * 3 || Ty >= SEEY * 3) {
   int linet;
-  if (sees(Fx, Fy, Tx, Ty, 0, linet))
+  if (sees(Fx, Fy, Tx, Ty, -1, linet))
    return line_to(Fx, Fy, Tx, Ty, linet);
   else {
    std::vector<point> empty;
@@ -879,21 +879,23 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
   open.erase(open.begin() + index);
  } while (!done && open.size() > 0);
  std::vector<point> tmp;
+ std::vector<point> ret;
  if (done) {
   point cur(Tx, Ty);
   while (cur.x != Fx || cur.y != Fy) {
-   debugmsg("Retracing... (%d:%d) => [%d:%d] => (%d:%d)", Tx, Ty, cur.x, cur.y, Fx, Fy);
+   //debugmsg("Retracing... (%d:%d) => [%d:%d] => (%d:%d)", Tx, Ty, cur.x, cur.y, Fx, Fy);
    tmp.push_back(cur);
-   if (rl_dist(cur.x, cur.y, parent[cur.x][cur.y].x, parent[cur.x][cur.y].y) >1)
-    debugmsg("Jump in our route!");
+   if (rl_dist(cur.x, cur.y, parent[cur.x][cur.y].x, parent[cur.x][cur.y].y)>1){
+    debugmsg("Jump in our route! %d:%d->%d:%d", cur.x, cur.y,
+             parent[cur.x][cur.y].x, parent[cur.x][cur.y].y);
+    return ret;
+   }
    cur = parent[cur.x][cur.y];
   }
-  std::vector<point> ret;
   for (int i = tmp.size() - 1; i >= 0; i--)
    ret.push_back(tmp[i]);
-  return ret;
  }
- return tmp;
+ return ret;
 }
 
 void map::save(overmap *om, unsigned int turn, int x, int y)

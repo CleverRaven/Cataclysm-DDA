@@ -474,11 +474,11 @@ bool npc::has_destination()
 
 bool npc::alt_attack_available()
 {
- if (has_amount(itm_grenade,  1) || has_amount(itm_grenade_act, 1)  ||
-     has_amount(itm_molotov,  1) || has_amount(itm_molotov_lit, 1)  ||
-     has_amount(itm_gasbomb,  1) || has_amount(itm_gasbomb_act, 1)  ||
-     has_amount(itm_dynamite, 1) || has_amount(itm_dynamite_act, 1) ||
-     has_amount(itm_mininuke, 1) || has_amount(itm_mininuke_act, 1)     )
+ if (has_number(itm_grenade,  1) || has_number(itm_grenade_act,  1)  ||
+     has_number(itm_molotov,  1) || has_number(itm_molotov_lit,  1)  ||
+     has_number(itm_gasbomb,  1) || has_number(itm_gasbomb_act,  1)  ||
+     has_number(itm_dynamite, 1) || has_number(itm_dynamite_act, 1)  ||
+     has_number(itm_mininuke, 1) || has_number(itm_mininuke_act, 1)    )
   return true;
  return false;
 }
@@ -634,8 +634,10 @@ void npc::move_to(game *g, int x, int y)
  if (abs(x - posx) > 1 || abs(y - posy) > 1) {
   debugmsg("Tried to move_to more than one space! (%d, %d) to (%d, %d)",
            posx, posy, x, y);
-  debugmsg("Route is size %d.", path.size());
-  path.clear();
+  //debugmsg("Route is size %d.", path.size());
+  int linet;
+  if (g->m.sees(posx, posy, x, y, -1, linet))
+   path = line_to(posx, posy, x, y, linet);
   moves -= 100;
   return;
  }
@@ -729,9 +731,9 @@ void npc::melee_monster(game *g, monster *m)
 void npc::alt_attack(game *g, monster *m, player *p)
 {
 // In order of importance
- itype_id options[8] = {itm_mininuke_act, itm_dynamite_act, itm_grenade_act,
-                       itm_gasbomb_act, itm_mininuke, itm_dynamite, itm_grenade,
-                       itm_gasbomb};
+ itype_id options[10] = {itm_mininuke_act, itm_dynamite_act, itm_grenade_act,
+                         itm_gasbomb_act, itm_molotov_lit, itm_mininuke,
+                         itm_dynamite, itm_grenade, itm_gasbomb, itm_molotov};
  item used;
  bool throwing = false;
  int i, tx, ty, linet;
@@ -745,8 +747,8 @@ void npc::alt_attack(game *g, monster *m, player *p)
   tx = p->posx;
   ty = p->posy;
  }
- for (i = 0; i < 8; i++) {
-  if (has_amount(options[i], 1)) {
+ for (i = 0; i < 10; i++) {
+  if (has_number(options[i], 1)) {
    if (i <= 4)
     throwing = true;
    if (throwing)
@@ -757,7 +759,7 @@ void npc::alt_attack(game *g, monster *m, player *p)
   }
  }
  if (i == 8) {	// We didn't encounter anything we can use!
-  debugmsg("alt_attack_monster() didn't find anything usable");
+  debugmsg("alt_attack() didn't find anything usable");
   return;
  }
  if (throwing) {
@@ -804,6 +806,13 @@ void npc::alt_attack(game *g, monster *m, player *p)
    if (seen)
     g->add_msg("%s pulls the pin on %s grenade.", name.c_str(),
                (male ? "his":"her"));
+   break;
+  case itm_molotov:
+   activated->make(g->itypes[itm_molotov_lit]);
+   activated->charges = 1;
+   activated->active = true;
+   if (seen)
+    g->add_msg("%s lights %s molotov.", name.c_str(), (male ? "his":"her"));
    break;
   }
  }
