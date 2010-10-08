@@ -188,6 +188,7 @@ bool game::opening_screen()
     if (ch == 'l' || ch == '\n' || ch == '>') {
      if (sel2 == 1) {
       if (!u.create(this, PLTYPE_CUSTOM)) {
+       u = player();
        delwin(w_open);
        return (opening_screen());
       }
@@ -204,6 +205,7 @@ bool game::opening_screen()
      }
      if (sel2 == 3) {
       if (!u.create(this, PLTYPE_RANDOM)) {
+       u = player();
        delwin(w_open);
        return (opening_screen());
       }
@@ -266,6 +268,7 @@ bool game::opening_screen()
    }
    if (ch == 'l' || ch == '\n' || ch == '>') {
     if (!u.create(this, character_type(sel1))) {
+     u = player();
      delwin(w_open);
      return (opening_screen());
     }
