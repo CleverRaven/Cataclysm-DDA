@@ -10,22 +10,24 @@ void mattack::antqueen(game *g, monster *z)
  std::vector<point> egg_points;
  z->moves = -200;			// It takes a while
  z->sp_timeout = z->type->sp_freq;	// Reset timer
+// Count up all adjacent tiles the contain at least one egg.
  for (int x = z->posx - 1; x <= z->posx + 1; x++) {
   for (int y = z->posy - 1; y <= z->posy + 1; y++) {
    for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
-    if (g->m.i_at(x, y)[i].type->id == itm_ant_egg) {
+// is_empty() because we can't hatch an ant under the player, a monster, etc.
+    if (g->m.i_at(x, y)[i].type->id == itm_ant_egg && g->is_empty(x, y)) {
      egg_points.push_back(point(x, y));
-     i = g->m.i_at(x, y).size();
+     i = g->m.i_at(x, y).size();	// Done looking at this tile
     }
    }
   }
  }
- if (egg_points.size() == 0) {
+ if (egg_points.size() == 0) {	// There's no eggs nearby.  Let's lay one.
   int junk;
   if (g->u_see(z->posx, z->posy, junk))
    g->add_msg("The %s lays an egg!", z->name().c_str());
   g->m.add_item(z->posx, z->posy, g->itypes[itm_ant_egg], g->turn);
- } else {
+ } else {			// There are eggs nearby.  Let's hatch some.
   int junk;
   if (g->u_see(z->posx, z->posy, junk))
    g->add_msg("The %s tends nearby eggs, and they hatch!", z->name().c_str());
@@ -34,7 +36,7 @@ void mattack::antqueen(game *g, monster *z)
    for (int j = 0; j < g->m.i_at(x, y).size(); j++) {
     if (g->m.i_at(x, y)[j].type->id == itm_ant_egg) {
      g->m.i_rem(x, y, j);
-     j = g->m.i_at(x, y).size();
+     j = g->m.i_at(x, y).size();	// Max one hatch per tile.
      monster tmp(g->mtypes[mon_ant_larva], x, y);
      g->z.push_back(tmp);
     }
@@ -87,14 +89,21 @@ void mattack::shockstorm(game *g, monster *z)
  z->moves = -50;			// It takes a while
  z->sp_timeout = z->type->sp_freq;	// Reset timer
  g->add_msg("A bolt of electricity arcs towards you!");
- int tarx = g->u.posx + rng(-3, 3), tary = g->u.posy + rng(-3, 3);
+/*    -1  0  1
+ * -1 -2 -1  0
+ *  0 -1  0  1
+ *  1  0  1  2
+ */
+ int tarx = g->u.posx + rng(-1, 1) + rng(-1, 1),// 3 in 9 chance of direct hit,
+     tary = g->u.posy + rng(-1, 1) + rng(-1, 1);// 4 in 9 chance of near hit
  if (!g->m.sees(z->posx, z->posy, tarx, tary, -1, t))
   t = 0;
  std::vector<point> bolt = line_to(z->posx, z->posy, tarx, tary, t);
- for (int i = 0; i < bolt.size(); i++) {
+ for (int i = 0; i < bolt.size(); i++) { // Fill the LOS with electricity
   if (!one_in(4))
    g->m.add_field(g, bolt[i].x, bolt[i].y, fd_electricity, rng(1, 3));
  }
+// 3x3 cloud of electricity at the square hit
  for (int i = tarx - 1; i <= tarx + 1; i++) {
   for (int j = tary - 1; j <= tary + 1; j++) {
    if (!one_in(6))
@@ -113,6 +122,8 @@ void mattack::boomer(game *g, monster *z)
  z->sp_timeout = z->type->sp_freq;	// Reset timer
  z->moves = -250;			// It takes a while
  bool u_see = g->u_see(z->posx, z->posy, j);
+ if (u_see)
+  g->add_msg("The %s spews bile!", z->name().c_str());
  for (int i = 0; i < line.size(); i++) {
   if (g->m.field_at(line[i].x, line[i].y).type == fd_blood) {
    g->m.field_at(line[i].x, line[i].y).type = fd_bile;
@@ -122,9 +133,15 @@ void mattack::boomer(game *g, monster *z)
    g->m.field_at(line[i].x, line[i].y).density++;
   else
    g->m.add_field(g, line[i].x, line[i].y, fd_bile, 1);
+// If bile hit a solid tile, return.
+  if (g->m.move_cost(line[i].x, line[i].y) == 0) {
+   g->m.add_field(g, line[i].x, line[i].y, fd_bile, 3);
+   if (g->u_see(line[i].x, line[i].y, j))
+    g->add_msg("Bile splatters on the %s!",
+               g->m.tername(line[i].x, line[i].y).c_str());
+   return;
+  }
  }
- if (u_see)
-  g->add_msg("The %s spews bile!", z->name().c_str());
  if (rng(0, 10) > g->u.dodge() || one_in(g->u.dodge()))
   g->u.infect(DI_BOOMERED, bp_eyes, 3, 12, g);
  else if (u_see)
@@ -134,9 +151,11 @@ void mattack::boomer(game *g, monster *z)
 void mattack::resurrect(game *g, monster *z)
 {
  std::vector<point> corpses;
+ int junk;
+// Find all corposes that we can see within 6 tiles.
  for (int x = z->posx - 6; x <= z->posx + 6; x++) {
   for (int y = z->posy - 6; y <= z->posy + 6; y++) {
-   if (g->mon_at(x, y) == -1) {
+   if (g->is_empty(x, y) && g->m.sees(z->posx, z->posy, x, y, -1, junk)) {
     for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
      if (g->m.i_at(x, y)[i].type->id == itm_corpse)
       corpses.push_back(point(x, y));
@@ -146,7 +165,6 @@ void mattack::resurrect(game *g, monster *z)
  }
  if (corpses.size() == 0)	// No nearby corpses
   return;
- int junk;
  bool sees_necromancer = (g->u_see(z, junk));
  if (sees_necromancer)
   g->add_msg("The %s throws its arms wide...", z->name().c_str());
@@ -161,6 +179,7 @@ void mattack::resurrect(game *g, monster *z)
      raised++;
     monster mon(g->m.i_at(x, y)[n].corpse, x, y);
     mon.speed = int(mon.speed * .8);	// Raised corpses are slower
+    mon.hp    = int(mon.hp    * .7);	// Raised corpses are weaker
     g->m.i_rem(x, y, n);
     n = g->m.i_at(x, y).size();
     g->z.push_back(mon);
@@ -192,13 +211,13 @@ void mattack::science(game *g, monster *z)	// I said SCIENCE again!
     free.push_back(point(x, y));
   }
  }
- std::vector<int> valid;
+ std::vector<int> valid;// List of available attacks
  int index;
  monster tmp(g->mtypes[mon_manhack]);
  if (dist == 1)
   valid.push_back(1);	// Shock
- if (dist <  2)
-  valid.push_back(2);	// Mutagenic attack
+ if (dist <= 2)
+  valid.push_back(2);	// Radiation
  if (!free.empty()) {
   valid.push_back(3);	// Manhack
   valid.push_back(4);	// Acid pool
@@ -214,12 +233,14 @@ void mattack::science(game *g, monster *z)	// I said SCIENCE again!
    g->u.moves -= 300;
   }
   break;
- case 2:	// Mutagenic beam
+ case 2:	// Radioactive beam
   g->add_msg("The %s opens it's mouth and a beam shoots towards you!",
              z->name().c_str());
   z->moves -= 400;
   if (g->u.dodge() > rng(1, 16))
    g->add_msg("You dodge the beam!");
+  else if (one_in(6))
+   g->u.mutate(g);
   else {
    g->add_msg("You get pins and needles all over.");
    g->u.radiation += rng(20, 50);
@@ -252,6 +273,7 @@ void mattack::science(game *g, monster *z)	// I said SCIENCE again!
    break;
   case 4:
    g->add_msg("The %s's skin crackles with electricity.", z->name().c_str());
+   z->moves -= 80;
    break;
   }
   break;
@@ -264,7 +286,7 @@ void mattack::growplants(game *g, monster *z)
  for (int i = -3; i <= 3; i++) {
   for (int j = -3; j <= 3; j++) {
    if ((i != 0 || j != 0) && g->m.has_flag(diggable, z->posx + i, z->posy + j)){
-    if (one_in(4)) {
+    if (one_in(4)) {	// 1 in 4 chance to grow a tree
      int mondex = g->mon_at(z->posx + i, z->posy + j);
      if (mondex != -1) {
       if (g->u_see(z->posx + i, z->posy + j, junk))
@@ -277,6 +299,7 @@ void mattack::growplants(game *g, monster *z)
       if (g->z[mondex].hurt(rn))
        g->kill_mon(mondex);
      } else if (g->u.posx == z->posx + i && g->u.posy == z->posy + j) {
+// Player is hit by a growing tree
       body_part hit = bp_legs;
       int side = rng(1, 2);
       if (one_in(4))
@@ -288,7 +311,7 @@ void mattack::growplants(game *g, monster *z)
       g->u.hit(g, hit, side, 0, rng(10, 30));
      } else {
       int npcdex = g->npc_at(z->posx + i, z->posy + j);
-      if (npcdex != -1) {
+      if (npcdex != -1) {	// An NPC got hit
        body_part hit = bp_legs;
        int side = rng(1, 2);
        if (one_in(4))
@@ -300,23 +323,24 @@ void mattack::growplants(game *g, monster *z)
                    g->active_npc[npcdex].name.c_str(),
                    body_part_name(hit, side).c_str());
        g->active_npc[npcdex].hit(g, hit, side, 0, rng(10, 30));
-      } else
-       g->m.ter(z->posx + i, z->posy + j) = t_tree_young;
+      }
      }
-    } else if (one_in(3))
+     g->m.ter(z->posx + i, z->posy + j) = t_tree_young;
+    } else if (one_in(3)) // If no tree, perhaps underbrush
      g->m.ter(z->posx + i, z->posy + j) = t_underbrush;
    } else if (one_in(3) && g->m.is_destructable(z->posx + i, z->posy + j))
-    g->m.ter(z->posx + i, z->posy + j) = t_dirtmound;
+    g->m.ter(z->posx + i, z->posy + j) = t_dirtmound; // Destroy walls, &c
   }
  }
 
- if (one_in(5)) {
+ if (one_in(5)) { // 1 in 5 chance of making exisiting vegetation grow larger
   for (int i = -5; i <= 5; i++) {
    for (int j = -5; j <= 5; j++) {
     if (i != 0 || j != 0) {
      if (g->m.ter(z->posx + i, z->posy + j) == t_tree_young)
-      g->m.ter(z->posx + i, z->posy + j) = t_tree;
+      g->m.ter(z->posx + i, z->posy + j) = t_tree; // Young tree => tree
      else if (g->m.ter(z->posx + i, z->posy + j) == t_underbrush) {
+// Underbrush => young tree
       int mondex = g->mon_at(z->posx + i, z->posy + j);
       if (mondex != -1) {
        if (g->u_see(z->posx + i, z->posy + j, junk))
@@ -363,6 +387,7 @@ void mattack::growplants(game *g, monster *z)
 
 void mattack::fungus(game *g, monster *z)
 {
+// TODO: Infect NPCs?
  z->moves = -200;			// It takes a while
  z->sp_timeout = z->type->sp_freq;	// Reset timer
  monster spore(g->mtypes[mon_spore]);
@@ -386,20 +411,21 @@ void mattack::fungus(game *g, monster *z)
      if (!g->z[mondex].make_fungus(g))
       g->kill_mon(mondex);
     } else if (g->u.posx == sporex && g->u.posy == sporey)
-     g->u.infect(DI_SPORES, bp_mouth, 4, 30, g);
-    else {
+     g->u.infect(DI_SPORES, bp_mouth, 4, 30, g); // Spores hit the player
+    else { // Spawn a spore
      spore.spawn(sporex, sporey);
      g->z.push_back(spore);
     }
    }
   }
  }
- if (moncount >= 7)
+ if (moncount >= 7)	// If we're surrounded by monsters, go dormant
   z->poly(g->mtypes[mon_fungaloid_dormant]);
 }
 
 void mattack::plant(game *g, monster *z)
 {
+// Spores taking seed and growing into a fungaloid
  int j;
  if (g->m.has_flag(diggable, z->posx, z->posy)) {
   if (g->u_see(z->posx, z->posy, j))
@@ -417,30 +443,37 @@ void mattack::disappear(game *g, monster *z)
 
 void mattack::formblob(game *g, monster *z)
 {
- bool didit = false;;
+ bool didit = false;
  int thatmon = -1;
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
    thatmon = g->mon_at(z->posx + i, z->posy + j);
    if (g->u.posx == z->posx + i && g->u.posy == z->posy + i) {
+// If we hit the player, cover them with slime
     didit = true;
     g->u.add_disease(DI_SLIMED, rng(0, z->hp), g);
    } else if (thatmon != -1) {
-    didit = true;
-    if (g->z[thatmon].type->id == mon_blob) {
-     if (g->z[thatmon].speed < 85)
-      g->z[thatmon].speed += 5;
-    } else if (g->z[thatmon].type->id == mon_blob_small) {
+// Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
+    if (z->speed > 20 && g->z[thatmon].type->id == mon_blob &&
+        g->z[thatmon].speed < 85) {
+     didit = true;
+     g->z[thatmon].speed += 5;
+     z->speed -= 5;
+    } else if (z->speed > 20 && g->z[thatmon].type->id == mon_blob_small) {
+     didit = true;
+     z->speed -= 5;
      g->z[thatmon].speed += 5;
      if (g->z[thatmon].speed >= 60)
       g->z[thatmon].poly(g->mtypes[mon_blob]);
     } else if ((g->z[thatmon].made_of(FLESH) || g->z[thatmon].made_of(VEGGY)) &&
-               rng(0, z->hp) > rng(0, g->z[thatmon].hp)) {
+               rng(0, z->hp) > rng(0, g->z[thatmon].hp)) {	// Blobify!
+     didit = true;
      g->z[thatmon].poly(g->mtypes[mon_blob]);
      g->z[thatmon].speed = z->speed - rng(5, 25);
      g->z[thatmon].hp = g->z[thatmon].speed;
     }
    } else if (z->speed >= 85 && rng(0, 250) < z->speed) {
+// If we're big enough, spawn a baby blob.
     didit = true;
     z->speed -= 15;
     monster blob(g->mtypes[mon_blob_small]);
@@ -450,7 +483,9 @@ void mattack::formblob(game *g, monster *z)
     g->z.push_back(blob);
    }
   }
-  if (didit) {
+  if (didit) {	// We did SOMEthing.
+   if (z->type->id == mon_blob && z->speed <= 50)	// We shrank!
+    z->poly(g->mtypes[mon_blob]);
    z->moves = -500;
    z->sp_timeout = z->type->sp_freq;	// Reset timer
    return;
@@ -461,7 +496,7 @@ void mattack::formblob(game *g, monster *z)
 void mattack::gene_sting(game *g, monster *z)
 {
  int j;
- if (abs(g->u.posx - z->posx) > 7 || abs(g->u.posy - z->posy) > 7 ||
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 7 ||
      !g->sees_u(z->posx, z->posy, j))
   return;	// Not within range and/or sight
 
@@ -503,7 +538,7 @@ void mattack::tazer(game *g, monster *z)
  g->add_msg("The %s shocks you!", z->name().c_str());
  int shock = rng(1, 5);
  g->u.hurt(g, bp_torso, 0, shock * rng(1, 3));
- g->u.moves -= shock * 50;
+ g->u.moves -= shock * 20;
 }
 
 void mattack::smg(game *g, monster *z)
@@ -553,11 +588,11 @@ void mattack::multi_robot(game *g, monster *z)
  int t, mode = 0;
  if (!g->sees_u(z->posx, z->posy, t))
   return;	// Can't see you!
- if (abs(g->u.posx - z->posx) <= 2 && abs(g->u.posy - z->posy) <= 2 &&one_in(2))
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) == 1 && one_in(2))
   mode = 1;
- else if (abs(g->u.posx - z->posx) <= 5 && abs(g->u.posy - z->posy) <= 5)
+ else if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) <= 5)
   mode = 2;
- else if (abs(g->u.posx - z->posx) <= 12 && abs(g->u.posy - z->posy) <= 12)
+ else if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) <= 12)
   mode = 3;
 
  if (mode == 0)
@@ -565,8 +600,8 @@ void mattack::multi_robot(game *g, monster *z)
 
  mattack tmp;
  switch (mode) {
-  case 1: tmp.tazer(g, z); break;
+  case 1: tmp.tazer(g, z);        break;
   case 2: tmp.flamethrower(g, z); break;
-  case 3: tmp.smg(g, z); break;
+  case 3: tmp.smg(g, z);          break;
  }
 }
