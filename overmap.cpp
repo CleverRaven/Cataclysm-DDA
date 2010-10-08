@@ -10,6 +10,7 @@
 #include "line.h"
 #include "settlement.h"
 #include "game.h"
+#include "npc.h"
 
 #define STREETCHANCE 2
 #define NUM_FOREST 250
@@ -1656,7 +1657,7 @@ void overmap::save(std::string name, int x, int y, int z)
   fout << "Z " << zg[i].type << " " << zg[i].posx << " " << zg[i].posy << " " <<
           int(zg[i].radius) << " " << zg[i].population << std::endl;
  for (int i = 0; i < cities.size(); i++)
-  fout << "C " << cities[i].x << " " << cities[i].y << " " << cities[i].s <<
+  fout << "t " << cities[i].x << " " << cities[i].y << " " << cities[i].s <<
           std::endl;
  for (int i = 0; i < roads_out.size(); i++)
   fout << "R " << roads_out[i].x << " " << roads_out[i].y << std::endl;
@@ -1664,6 +1665,8 @@ void overmap::save(std::string name, int x, int y, int z)
   fout << "T " << radios[i].x << " " << radios[i].y << " " <<
           radios[i].strength << " " << std::endl << radios[i].message <<
           std::endl;
+ for (int i = 0; i < npcs.size(); i++)
+  fout << "N " << npcs[i].save_info() << std::endl;
  fout.close();
 }
 
@@ -1695,24 +1698,49 @@ void overmap::open(game *g, int x, int y, int z)
    }
   }
   while (fin >> datatype) {
-          if (datatype == 'Z') {
+          if (datatype == 'Z') {	// Monster group
     fin >> ct >> cx >> cy >> cs >> cp;
     zg.push_back(mongroup(moncat_id(ct), cx, cy, cs, cp));
     nummg++;
-   } else if (datatype == 'C') {
+   } else if (datatype == 't') {	// City
     fin >> cx >> cy >> cs;
     tmp.x = cx; tmp.y = cy; tmp.s = cs;
     cities.push_back(tmp);
-   } else if (datatype == 'R') {
+   } else if (datatype == 'R') {	// Road leading out
     fin >> cx >> cy;
     tmp.x = cx; tmp.y = cy; tmp.s = 0;
     roads_out.push_back(tmp);
-   } else if (datatype == 'T') {
+   } else if (datatype == 'T') {	// Radio tower
     radio_tower tmp;
     fin >> tmp.x >> tmp.y >> tmp.strength;
     getline(fin, tmp.message);	// Chomp endl
     getline(fin, tmp.message);
     radios.push_back(tmp);
+   } else if (datatype == 'N') {	// NPC
+    std::string npcdata;
+    getline(fin, npcdata);
+    npc tmp;
+    tmp.load_info(npcdata);
+    npcs.push_back(tmp);
+   } else if (datatype == 'I' || datatype == 'C' || datatype == 'W' ||
+              datatype == 'w' || datatype == 'c') {
+    std::string itemdata;
+    getline(fin, itemdata);
+    if (npcs.empty()) {
+     debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!",
+              posx, posy, posz);
+     debugmsg(itemdata.c_str());
+    } else {
+     item tmp(itemdata, g);
+     npc* last = &(npcs.back());
+     switch (datatype) {
+      case 'I': last->inv.push_back(tmp);			break;
+      case 'C': last->inv.back().contents.push_back(tmp);	break;
+      case 'W': last->worn.push_back(tmp);			break;
+      case 'w': last->weapon = tmp;				break;
+      case 'c': last->weapon.contents.push_back(tmp);		break;
+     }
+    }
    }
   }
   fin.close();

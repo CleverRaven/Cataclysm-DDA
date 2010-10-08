@@ -20,6 +20,9 @@ npc::npc()
  mapy = 0;
  posx = -1;
  posy = -1;
+ wandx = 0;
+ wandy = 0;
+ wandf = 0;
  plx = 999;
  ply = 999;
  itx = 999;
@@ -39,6 +42,125 @@ npc::npc()
 npc::~npc()
 {
 
+}
+
+std::string npc::save_info()
+{
+ std::stringstream dump;
+ dump << posx    << " " << posy << " " << str_cur << " " << str_max << " " <<
+         dex_cur << " " << dex_max << " " << int_cur << " " << int_max << " " <<
+         per_cur << " " << per_max << " " << hunger << " " << thirst << " " <<
+         fatigue << " " << morale << " " << stim << " " << pain << " " <<
+         pkill   << " " << radiation << " " << cash << " " << recoil << " " <<
+         scent   << " " << moves << " " << underwater << " " << can_dodge <<
+         " " << oxygen << " ";
+
+ for (int i = 0; i < PF_MAX2; i++)
+  dump << my_traits[i] << " ";
+ for (int i = 0; i < num_hp_parts; i++)
+  dump << hp_cur[i] << " " << hp_max[i] << " ";
+ for (int i = 0; i < num_skill_types; i++)
+  dump << int(sklevel[i]) << " " << skexercise[i] << " ";
+
+ dump << illness.size() << " ";
+ for (int i = 0; i < illness.size();  i++)
+  dump << int(illness[i].type) << " " << illness[i].duration << " ";
+
+ dump << addictions.size() << " ";
+ for (int i = 0; i < addictions.size(); i++)
+  dump << int(addictions[i].type) << " " << addictions[i].intensity << " " <<
+          addictions[i].sated << " ";
+
+ dump << my_bionics.size() << " ";
+ for (int i = 0; i < my_bionics.size(); i++)
+  dump << int(my_bionics[i].id) << " " << my_bionics[i].invlet << " " <<
+          int(my_bionics[i].powered) << " " << my_bionics[i].charge << " ";
+
+// NPC-specific stuff
+ dump << int(personality.aggression) << " " << int(personality.bravery) <<
+         " " << int(personality.collector) << " " <<
+         int(personality.altruism) << " " << wandx << " " << wandy << " " <<
+         wandf << " " << omx << " " << omy << " " << omz << " " << mapx <<
+         " " << mapy << " " << plx << " " << ply << " " << itx << " " << ity <<
+         " " << goalx << " " << goaly << " " << int(mission) << " " <<
+         int(op_of_u.trust) << " " << int(op_of_u.value) << " " <<
+         int(op_of_u.fear) << " " << int(flags) << " ";
+ if (my_fac == NULL)
+  dump << -1;
+ else
+  dump << my_fac->id;
+ dump << " " << std::endl;
+ for (int i = 0; i < inv.size(); i++) {
+  dump << "I " << inv[i].save_info() << std::endl;
+  for (int j = 0; j < inv[i].contents.size(); j++)
+   dump << "C " << inv[i].contents[j].save_info() << std::endl;
+ }
+ for (int i = 0; i < worn.size(); i++)
+  dump << "W " << worn[i].save_info() << std::endl;
+ dump << "w " << weapon.save_info() << std::endl;
+ for (int j = 0; j < weapon.contents.size(); j++)
+  dump << "c " << weapon.contents[j].save_info() << std::endl;
+
+ return dump.str();
+}
+
+void npc::load_info(std::string data)
+{
+ std::stringstream dump;
+ dump << data;
+// Standard player stuff
+ dump >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
+         int_cur >> int_max >> per_cur >> per_max >> hunger >> thirst >>
+         fatigue >> morale >> stim >> pain >> pkill >> radiation >> cash >>
+         recoil >> scent >> moves >> underwater >> can_dodge >> oxygen;
+
+ for (int i = 0; i < PF_MAX2; i++)
+  dump >> my_traits[i];
+
+ for (int i = 0; i < num_hp_parts; i++)
+  dump >> hp_cur[i] >> hp_max[i];
+ for (int i = 0; i < num_skill_types; i++)
+  dump >> sklevel[i] >> skexercise[i];
+
+ int numill;
+ int typetmp;
+ disease illtmp;
+ dump >> numill;
+ for (int i = 0; i < numill; i++) {
+  dump >> typetmp >> illtmp.duration;
+  illtmp.type = dis_type(typetmp);
+  illness.push_back(illtmp);
+ }
+ int numadd;
+ addiction addtmp;
+ dump >> numadd;
+ for (int i = 0; i < numadd; i++) {
+  dump >> typetmp >> addtmp.intensity >> addtmp.sated;
+  addtmp.type = add_type(typetmp);
+  addictions.push_back(addtmp);
+ }
+ int numbio;
+ bionic biotmp;
+ dump >> numbio;
+ for (int i = 0; i < numbio; i++) {
+  dump >> typetmp >> biotmp.invlet >> biotmp.powered >> biotmp.charge;
+  biotmp.id = bionic_id(typetmp);
+  my_bionics.push_back(biotmp);
+ }
+// Special NPC stuff
+ int misstmp, flagstmp, agg, bra, col, alt, tru, val, fea;
+ dump >> agg >> bra >> col >> alt >> wandx >> wandy >> wandf >> omx >> omy >>
+         omz >> mapx >> mapy >> plx >> ply >> goalx >> goaly >> misstmp >>
+         tru >> val >> fea >> flagstmp >> fac_id;
+ personality.aggression = agg;
+ personality.bravery = bra;
+ personality.collector = col;
+ personality.altruism = alt;
+ op_of_u.trust = tru;
+ op_of_u.value = val;
+ op_of_u.fear = fea;
+ mission = npc_mission(misstmp);
+ flags = flagstmp;
 }
 
 void npc::randomize(game *g, npc_class type)

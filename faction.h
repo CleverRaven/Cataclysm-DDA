@@ -71,6 +71,9 @@ struct faction {
  faction();
  ~faction();
 
+ std::string save_info();
+ void load_info(std::string data);
+
  void randomize();
  void make_army();
  bool has_job(faction_job j);

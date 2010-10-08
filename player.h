@@ -26,8 +26,8 @@ public:
  virtual bool is_npc() { return false; }
  nc_color color();	// What color to draw us as
 
- void load_info(std::string data);	// Load from file matching name
- std::string save_info();		// Save to file matching name
+ virtual void load_info(std::string data);	// Load from file matching name
+ virtual std::string save_info();		// Save to file matching name
  void disp_info(game *g);	// '@' key; extending character info
  void disp_status(WINDOW* w);	// The constant data in the lower right
 

@@ -865,10 +865,10 @@ Press spacebar to be healed and relieved of pain...", i);
 void game::load(std::string name)
 {
  std::ifstream fin;
- std::stringstream fn;
- fn << "save/" << name << ".sav";
- std::string filename = fn.str();
- fin.open(filename.c_str());
+ std::stringstream playerfile;
+ std::stringstream masterfile;
+ playerfile << "save/" << name << ".sav";
+ fin.open(playerfile.str().c_str());
 // First, read in basic game state information.
  if (!fin.is_open()) {
   debugmsg("No save game exists!");
@@ -935,15 +935,24 @@ void game::load(std::string name)
  for (int i = 0; i < num_monsters; i++)
   fin >> kills[i];
  fin.close();
+// Now load up the master game data; factions and NPCs
+ fin.open(masterfile.str().c_str());
+ while (!fin.eof()) {
+  getline(fin, data);
+  faction tmp;
+  tmp.load_info(data);
+  factions.push_back(tmp);
+ }
  draw();
 }
 
 void game::save()
 {
- char buff[128];
+ std::stringstream playerfile, masterfile;
  std::ofstream fout;
- sprintf(buff, "save/%s.sav", u.name.c_str());
- fout.open(buff);
+ playerfile << "save/" << u.name << ".sav";
+ masterfile << "save/master.gsav";
+ fout.open(playerfile.str().c_str());
 // First, write out basic game state information.
  fout << turn << " " << int(last_target) << " " << int(run_mode) << " " <<
          mostseen << " " << nextinv << " " << nextspawn << " " << int(temp) <<
@@ -964,6 +973,10 @@ void game::save()
   fout << kills[i] << " ";
  fout << std::endl;
  fout.close();
+// Now write things that aren't player-specific: factions and NPCs
+ fout.open(masterfile.str().c_str());
+ for (int i = 0; i < factions.size(); i++)
+  fout << "F " << factions[i].save_info() << std::endl;
 // aaaand the overmap, and the local map.
  cur_om.save(u.name);
  m.save(&cur_om, turn, levx, levy);

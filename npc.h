@@ -120,6 +120,9 @@ public:
  npc();
  ~npc();
  virtual bool is_npc() { return true; }
+ virtual void load_info(std::string data);
+ virtual std::string save_info();
+
  void randomize(game *g, npc_class type = NC_NONE);
  void randomize_from_fact(game *g, faction *fac);
  void make_shopkeep(game *g, oter_id type);
@@ -209,6 +212,7 @@ public:
 
 
 // Personality & other defining characteristics
+ int fac_id;	// A temp variable used to inform the game which faction to link
  faction *my_fac;
  npc_mission mission;
  npc_personality personality;

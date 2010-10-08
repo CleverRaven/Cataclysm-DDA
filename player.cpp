@@ -32,12 +32,14 @@ player::player()
  pkill = 0;
  radiation = 0;
  cash = 8000;
+ recoil = 0;
  morale = 0;
  scent = 500;
  name = "";
  male = true;
  inv_sorted = true;
  moves = 100;
+ oxygen = 0;
  for (int i = 0; i < num_skill_types; i++) {
   sklevel[i] = 0;
   skexercise[i] = 0;
@@ -248,12 +250,12 @@ void player::load_info(std::string data)
 std::string player::save_info()
 {
  std::stringstream dump;
- dump << posx << " " << posy << " " << str_cur << " " << str_max << " " <<
+ dump << posx    << " " << posy << " " << str_cur << " " << str_max << " " <<
          dex_cur << " " << dex_max << " " << int_cur << " " << int_max << " " <<
          per_cur << " " << per_max << " " << hunger << " " << thirst << " " <<
          fatigue << " " << morale << " " << stim << " " << pain << " " <<
-         pkill << " " << radiation << " " << cash << " " << recoil << " " <<
-         scent << " " << moves << " " << underwater << " " << can_dodge <<
+         pkill   << " " << radiation << " " << cash << " " << recoil << " " <<
+         scent   << " " << moves << " " << underwater << " " << can_dodge <<
          " " << oxygen << " ";
 
  for (int i = 0; i < PF_MAX2; i++)
