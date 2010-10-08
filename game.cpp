@@ -502,8 +502,10 @@ bool game::do_turn()
  process_activity();
  if (is_game_over())
   return true;
+ int oldmoves = u.moves;
  while (u.moves > 0) {
   draw();
+  oldmoves = u.moves;
   get_input();
   if (is_game_over())
    return true;
@@ -1570,9 +1572,9 @@ void game::draw_ter()
       u_see(active_npc[i].posx, active_npc[i].posy, t))
    active_npc[i].draw(w_terrain, u.posx, u.posy, false);
  }
+ wrefresh(w_terrain);
  if (u.has_disease(DI_VISUALS))
   hallucinate();
- wrefresh(w_terrain);
  if (in_tutorial && light_level() == 1) {
   if (u.has_amount(itm_flashlight, 1))
    tutorial_message(LESSON_DARK);
@@ -3348,6 +3350,7 @@ void game::pickup(int posx, int posy, int min)
   if (ch >= 'a' && ch <= 'a' + here.size() - 1) {
    ch -= 'a';
    getitem[ch] = !getitem[ch];
+   wclear(w_item_info);
    if (getitem[ch]) {
     mvwprintw(w_item_info, 1, 0, here[ch].info().c_str());
     wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -3357,7 +3360,6 @@ void game::pickup(int posx, int posy, int min)
     new_volume += here[ch].volume();
     update = true;
    } else {
-    wclear(w_item_info);
     wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                          LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wrefresh(w_item_info);

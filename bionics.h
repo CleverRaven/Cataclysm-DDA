@@ -66,7 +66,7 @@ struct bionic {
 const bionic_data bionics[] = {
 {"Battery System", true, false, 0, 0, "\
 You have a battery draining attachment, and thus can make use of the energy\n\
-contained in normal, everyday batteries."},
+contained in normal, everyday batteries.  Use 'E' to consume batteries."},
 {"Metabolic Interchange", true, false, 0, 0, "\
 Your digestive system and power supply are interconnected.  Any drain on\n\
 energy instead increases your hunger."},

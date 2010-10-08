@@ -286,7 +286,7 @@ std::string item::info(bool showtext)
   dump << " This book takes " << int(book->time) << " minutes to read.";
  } else if (is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(type);
-  dump << " Maximum " << tool->max_charges << "charges";
+  dump << " Maximum " << tool->max_charges << " charges";
   if (tool->ammo == AT_NULL)
    dump << ".";
   else
