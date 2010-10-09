@@ -3885,14 +3885,24 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
   } else // No monster hit, but the terrain might be.
    m.shoot(this, tx, ty, dam, false);
   if (m.move_cost(tx, ty) == 0) {
-   tx = trajectory[i - 1].x;
-   ty = trajectory[i - 1].y;
+   if (i > 0) {
+    tx = trajectory[i - 1].x;
+    ty = trajectory[i - 1].y;
+   } else {
+    tx = u.posx;
+    ty = u.posy;
+   }
    i = trajectory.size();
   }
  }
  if (m.move_cost(tx, ty) == 0) {
-  tx = trajectory[i - 2].x;
-  ty = trajectory[i - 2].y;
+  if (i > 1) {
+   tx = trajectory[i - 2].x;
+   ty = trajectory[i - 2].y;
+  } else {
+   tx = u.posx;
+   ty = u.posy;
+  }
  }
  if (thrown.made_of(GLASS) && !thrown.active && // active means molotov, etc
      rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
