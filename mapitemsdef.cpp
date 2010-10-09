@@ -200,8 +200,8 @@ void game::init_mapitems()
 	itm_ar15, itm_scar_l, itm_scar_h, itm_m249, NULL);
  setvector(
    mapitems[mi_gunxtras],
-	itm_glasses_safety, itm_holster, itm_bootstrap, itm_mag_guns,
-	itm_flashlight, itm_silencer, itm_grip, itm_barrel_big,
+	itm_glasses_safety, itm_goggles_nv, itm_holster, itm_bootstrap,
+	itm_mag_guns, itm_flashlight, itm_silencer, itm_grip, itm_barrel_big,
 	itm_barrel_small, itm_barrel_rifled, itm_clip, itm_clip2, itm_stablizer,
 	itm_blowback, itm_autofire, itm_retool_45, itm_retool_9mm,
 	itm_retool_22, itm_retool_57, itm_retool_46, itm_retool_308,

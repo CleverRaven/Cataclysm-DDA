@@ -979,9 +979,10 @@ ARMOR("welding goggles", 8, 240,c_dkgray,	GLASS,  	STEEL,
 A dark pair of goggles.  They make seeing very difficult, but protects you\n\
 from bright flashes.");
 
-ARMOR("light amp goggles",5,920,c_green,	STEEL,		GLASS,
+ARMOR("light amp goggles",1,920,c_green,	STEEL,		GLASS,
     3,  6,  1, -2,  2,  2,  3,  6,  2,  0,	mfb(bp_eyes), "\
-A pair of goggles that amplify ambient light, allowing you to see in the dark."
+A pair of goggles that amplify ambient light, allowing you to see in the\n\
+dark."
 );
 
 // Headwear encumberment should ONLY be 0 if it's ok to wear with another

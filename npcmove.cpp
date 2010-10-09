@@ -151,8 +151,10 @@ void npc::move(game *g)
  case npc_mug_player:
   if (path.size() == 1)	// We're adjacent to u, and thus can mug u
    mug_player(g, g->u);
-  else
+  else if (path.size() > 0)
    move_to_next_in_path(g);
+  else
+   move_pause();
   break;
 
  case npc_goto_destination:
@@ -302,7 +304,10 @@ void npc::pickup_items(game *g)
   if (debug)
    debugmsg("Moving to (%d:%d), %s.", path[0].x, path[0].y,
             g->m.tername(path[0].x, path[0].y).c_str());
-  move_to_next_in_path(g);
+  if (path.size() > 0)
+   move_to_next_in_path(g);
+  else
+   move_pause();
  } else {	// Can't see that item anymore, so look for a new one
   if (debug)
    debugmsg("Can't see our desired item!  Gonna pause.");
