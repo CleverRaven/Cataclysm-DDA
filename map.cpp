@@ -696,7 +696,7 @@ void map::drawsq(WINDOW* w, player &u, int x, int y, bool invert,
  bool hi = false;
  if (u.has_disease(DI_BOOMERED))
   tercol = c_magenta;
- else if (u.has_active_bionic(bio_night_vision))
+ else if (u.has_active_bionic(bio_night_vision) || u.is_wearing(itm_goggles_nv))
   tercol = c_ltgreen;
  else
   tercol = terlist[ter(x, y)].color;
