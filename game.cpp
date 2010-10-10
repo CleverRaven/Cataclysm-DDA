@@ -5250,6 +5250,7 @@ void game::spawn_mon(int shiftx, int shifty)
  int dist;
  int pop, rad;
  int iter;
+ int t;
  // Create a new NPC?
   if (one_in(50 + 5 * cur_om.npcs.size())) {
    npc temp;
@@ -5293,10 +5294,12 @@ void game::spawn_mon(int shiftx, int shifty)
       monx += rng(-5, 10);
       mony += rng(-5, 10);
       iter++;
-     } while ((!zom.can_move_to(m, monx, mony) || mon_at(monx, mony) != -1) &&
-              iter < 50); // Just in case it's totally invalid
-     zom.spawn(monx, mony);
-     z.push_back(zom);
+     } while ((!zom.can_move_to(m, monx, mony) || !is_empty(monx, mony) ||
+                m.sees(u.posx, u.posy, monx, mony, SEEX, t)) && iter < 50);
+     if (iter < 50) {
+      zom.spawn(monx, mony);
+      z.push_back(zom);
+     }
     }
    }	// Placing monsters of this group is done!
    if (cur_om.zg[i].population <= 0) { // Last monster in the group spawned...

@@ -48,7 +48,7 @@ ter_id& map::ter(int x, int y)
  // 0 1 2
  // 3 4 5
  // 6 7 8
- if (x < 0 || x >= SEEX * 3 || y < 0 || y >= SEEY * 3) {
+ if (!inbounds(x, y)) {
   nulter = t_null;
   return nulter;	// Out-of-bounds - null terrain 
  }
@@ -81,7 +81,7 @@ std::string map::features(int x, int y)
 
 int map::move_cost(int x, int y)
 {
- if (x < 0 || x >= SEEX * 3 || y < 0 || y >= SEEY * 3)
+ if (!inbounds(x, y))
   return 2;	// Out of bounds terrain is assumed to be floor, mostly
  return terlist[ter(x, y)].movecost;
 }
@@ -91,7 +91,7 @@ bool map::trans(int x, int y)
  // Control statement is a problem. Normally returning false on an out-of-bounds
  // is how we stop rays from going on forever.  Instead we'll have to include
  // this check in the ray loop.
- if (x < 0 || x >= SEEX * 3 || y < 0 || y >= SEEY * 3)
+ if (!inbounds(x, y))
   return true;
  return terlist[ter(x, y)].flags & mfb(transparent) &&
         (field_at(x, y).type == 0 ||	// Fields may obscure the view, too
@@ -100,7 +100,7 @@ bool map::trans(int x, int y)
 
 bool map::has_flag(t_flag flag, int x, int y)
 {
- if (x < 0 || x >= SEEX * 3 || y < 0 || y >= SEEY * 3)
+ if (!inbounds(x, y))
   return (flag == diggable ? true : false); // For the sake of worms, etc.
  return terlist[ter(x, y)].flags & mfb(flag);
 }
@@ -357,8 +357,7 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items)
   else
    dam -= (rng(0, 1) * rng(0, 1) * rng(0, 1));
  }
- if ((move_cost(x, y) == 2 && !hit_items) ||
-     x < 0 || x >= SEEX * 3 || y < 0 || y >= SEEY * 3)
+ if ((move_cost(x, y) == 2 && !hit_items) || !inbounds(x, y))
   return;	// Items on floor-type spaces won't be shot up.
  bool destroyed;
  for (int i = 0; i < i_at(x, y).size(); i++) {
@@ -424,7 +423,7 @@ bool map::close_door(int x, int y)
 
 int& map::radiation(int x, int y)
 {
- if (x < 0 || y < 0 || x >= SEEX * 3 || y >= SEEY * 3) {
+ if (!inbounds(x, y)) {
   nulrad = 0;
   return nulrad;
  }
@@ -435,7 +434,7 @@ int& map::radiation(int x, int y)
 
 std::vector<item>& map::i_at(int x, int y)
 {
- if (x < 0 || y < 0 || x >= SEEX * 3 || y >= SEEY * 3) {
+ if (!inbounds(x, y)) {
   nulitems.clear();
   return nulitems;
  }
@@ -509,20 +508,22 @@ void map::add_item(int x, int y, itype* type, int birthday)
 
 void map::add_item(int x, int y, item new_item)
 {
+ if (!inbounds(x, y))
+  return;
  if (has_flag(noitem, x, y) || i_at(x, y).size() >= 24) {// Too many items there
   std::vector<point> okay;
   for (int i = x - 1; i <= x + 1; i++) {
    for (int j = y - 1; j <= y + 1; j++) {
-    if (i >= 0 && i < SEEX * 3 && j >= 0 && j < SEEY * 3 &&
-        move_cost(i, j) > 0 && !has_flag(noitem, i, j) && i_at(i, j).size() <24)
+    if (inbounds(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
+        i_at(i, j).size() < 24)
      okay.push_back(point(i, j));
    }
   }
   if (okay.size() == 0) {
    for (int i = x - 2; i <= x + 2; i++) {
     for (int j = y - 2; j <= y + 2; j++) {
-     if (i >= 0 && i < SEEX * 3 && j >= 0 && j < SEEY * 3 &&
-         move_cost(i, j) > 0 && !has_flag(noitem, i, j) && i_at(i, j).size()<24)
+     if (inbounds(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
+         i_at(i, j).size()<24)
       okay.push_back(point(i, j));
     }
    }
@@ -533,8 +534,6 @@ void map::add_item(int x, int y, item new_item)
   add_item(choice.x, choice.y, new_item);
   return;
  }
- if (x < 0 || y < 0 || x >= SEEX * 3 || y >= SEEX * 3)
-  return;
  int nonant;
  cast_to_nonant(x, y, nonant);
  grid[nonant].itm[x][y].push_back(new_item);
@@ -567,7 +566,7 @@ void map::process_active_items(game *g)
  
 trap_id& map::tr_at(int x, int y)
 {
- if (x < 0 || x >= SEEX * 3 || y < 0 || y >= SEEY * 3) {
+ if (!inbounds(x, y)) {
   nultrap = tr_null;
   return nultrap;	// Out-of-bounds, return our null trap
  }
@@ -625,7 +624,7 @@ void map::disarm_trap(game *g, int x, int y)
  
 field& map::field_at(int x, int y)
 {
- if (x < 0 || x >= SEEX * 3 || y < 0 || y >= SEEY * 3) {
+ if (!inbounds(x, y)) {
   nulfield = field();
   return nulfield;
  }
@@ -687,7 +686,7 @@ void map::draw(game *g, WINDOW* w)
 void map::drawsq(WINDOW* w, player &u, int x, int y, bool invert,
                  bool show_items)
 {
- if (x < 0 || x >= SEEX * 3 || y < 0 || y >= SEEY * 3)
+ if (!inbounds(x, y))
   return;	// Out of bounds
  int k = x + SEEX - u.posx;
  int j = y + SEEY - u.posy;
@@ -809,8 +808,7 @@ bool map::sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc)
 
 std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
 {
- if (Fx < 0 || Fy < 0 || Tx < 0 || Ty < 0 ||
-     Fx >= SEEX * 3 || Fy >= SEEY * 3 || Tx >= SEEX * 3 || Ty >= SEEY * 3) {
+ if (!inbounds(Fx, Fy) || !inbounds(Tx, Ty)) {
   int linet;
   if (sees(Fx, Fy, Tx, Ty, -1, linet))
    return line_to(Fx, Fy, Tx, Ty, linet);
@@ -849,9 +847,8 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
   }
   for (int x = open[index].x - 1; x <= open[index].x + 1; x++) {
    for (int y = open[index].y - 1; y <= open[index].y + 1; y++) {
-    if ((x >= 0 && x < SEEX * 3 && y >= 0 && y < SEEY * 3) &&
-         (move_cost(x, y) > 0 || ter(x, y) == t_door_c || 
-          has_flag(bashable, x, y))) {
+    if (inbounds(x, y) && (move_cost(x, y) > 0 || ter(x, y) == t_door_c || 
+                           has_flag(bashable, x, y))) {
      if (list[x][y] == ASL_NONE) {	// Not listed, so make it open
       list[x][y] = ASL_OPEN;
       open.push_back(point(x, y));
@@ -1133,6 +1130,7 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
 
 void map::spawn_monsters(game *g)
 {
+ int t;
  for (int gx = 0; gx < 3; gx++) {
   for (int gy = 0; gy < 3; gy++) {
    int n = gx + gy * 3;
@@ -1145,16 +1143,18 @@ void map::spawn_monsters(game *g)
      tmp.spawnposy = my;
      tmp.spawnmapx = g->levx;
      tmp.spawnmapy = g->levy;
-     while (tries < 10 && (!g->is_empty(mx + gx * SEEX, my + gy * SEEY) ||
-            !tmp.can_move_to(g->m, mx + gx * SEEX, my + gy * SEEY))) {
+     int fx = mx + gx * SEEX, fy = my + gy * SEEY;
+
+     while ((!g->is_empty(fx, fy) || !tmp.can_move_to(g->m, fx, fy) ||
+             sees(g->u.posx, g->u.posy, fx, fy, SEEX, t)) && tries < 10) {
       mx = grid[n].spawns[i].posx + rng(-3, 3);
       my = grid[n].spawns[i].posy + rng(-3, 3);
+      fx = mx + gx * SEEX;
+      fy = my + gy * SEEY;
       tries++;
      }
      if (tries != 10) {
-      mx += gx * SEEX;
-      my += gy * SEEY;
-      tmp.spawn(mx + gx * SEEX, my + gy * SEEY);
+      tmp.spawn(fx, fy);
       g->z.push_back(tmp);
      }
     }
@@ -1166,7 +1166,7 @@ void map::spawn_monsters(game *g)
 
 bool inbounds(int x, int y)
 {
- if ((x < 0) || (x >= SEEX * 3) || (y < 0) || (y >= SEEY * 3))
+ if (x < 0 || x >= SEEX * 3 || y < 0 || y >= SEEY * 3)
   return false;
  return true;
 }
@@ -1174,21 +1174,22 @@ bool inbounds(int x, int y)
 void cast_to_nonant(int &x, int &y, int &n)
 {
  n = int(x / SEEX) + int(y / SEEY) * 3;
- if (n < 0) {
+
+ if (n < 0)
   n = 0;
- } else if (n > 8) {
+ else if (n > 8)
   n = 8;
- }
- x -= SEEX * int(x / SEEX);
- y -= SEEY * int(y / SEEY);
- if (x < 0) {
+
+ x %= SEEX;
+ y %= SEEY;
+
+ if (x < 0) 
   x = 0;
- } else if (x >= SEEX) {
+ else if (x >= SEEX)
   x = SEEX - 1;
- }
- if (y < 0) {
+
+ if (y < 0) 
   y = 0;
- } else if (y >= SEEY) {
+ else if (y >= SEEY) 
   y = SEEY - 1;
- }
 }

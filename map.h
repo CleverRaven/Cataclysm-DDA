@@ -82,9 +82,10 @@ class map
 // Fields
  field& field_at(int x, int y);
  bool add_field(game *g, int x, int y, field_id t, unsigned char density);
- bool process_fields(game *g);
- void step_in_field(int x, int y, game *g);
- void mon_in_field(int x, int y, game *g, monster *z);
+ bool process_fields(game *g);				// See fields.cpp
+ void step_in_field(int x, int y, game *g);		// See fields.cpp
+ void mon_in_field(int x, int y, game *g, monster *z);	// See fields.cpp
+
 // mapgen.h functions
  void place_items(items_location loc, int chance, int x1, int y1,
                   int x2, int y2, bool ongrass, int turn);

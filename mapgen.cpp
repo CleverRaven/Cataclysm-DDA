@@ -3655,17 +3655,16 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
 
 void map::add_spawn(mon_id type, int count, int x, int y)
 {
- if (x < 0 || x >= SEEX * 2 || y < 0 || y >= SEEY * 2) {
+ if (x < 0 || x >= SEEX * 3 || y < 0 || y >= SEEY * 3) {
   debugmsg("Bad add_spawn(%d, %d, %d, %d)", type, count, x, y);
   return;
  }
  int nonant = int(x / SEEX) + int(y / SEEY) * 3;
- x -= SEEX * int(x / SEEX);
- y -= SEEY * int(y / SEEY);
+ x %= SEEX;
+ y %= SEEY;
  spawn_point tmp(type, count, x, y);
  grid[nonant].spawns.push_back(tmp);
 }
- 
 
 void map::make_all_items_owned()
 {
