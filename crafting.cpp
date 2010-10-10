@@ -23,6 +23,9 @@ void game::init_recipes()
  * is at least equal to the difficulty.  At that point, your chance of success
  * is still not great; a good 25% improvement over the difficulty is important
  */
+
+// WEAPONS
+
  RECIPE(itm_spear_wood, CC_WEAPON, sk_null, sk_null, 0, 800);
   TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
 	itm_knife_combat, -1, itm_machete, -1, NULL);
@@ -129,6 +132,8 @@ void game::init_recipes()
   COMP(itm_battery, 2, NULL);
   COMP(itm_power_supply, 1, NULL);
 
+// FOOD
+
  RECIPE(itm_meat_cooked, CC_FOOD, sk_cooking, sk_null, 0, 5000);
   TOOL(itm_hotplate, 7, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, NULL);
@@ -191,6 +196,8 @@ void game::init_recipes()
   COMP(itm_royal_jelly, 3, itm_mutagen, 1, NULL);
   COMP(itm_bleach, 3, NULL);
   COMP(itm_ammonia, 2, NULL);
+
+// ELECTRONICS
 
  RECIPE(itm_antenna, CC_ELECTRONIC, sk_null, sk_null, 0, 3000);
   TOOL(itm_hacksaw, -1, NULL);
@@ -280,58 +287,98 @@ void game::init_recipes()
   COMP(itm_amplifier, 3, NULL);
   COMP(itm_transponder, 3, NULL);
 
+// ARMOR
+
  RECIPE(itm_mocassins, CC_ARMOR, sk_tailor, sk_null, 1, 30000);
-  TOOL(itm_sewing_kit, 5, NULL);
+  TOOL(itm_sewing_kit,  5, NULL);
   COMP(itm_fur, 2, NULL);
 
- RECIPE(itm_hat_fur, CC_ARMOR, sk_tailor, sk_null, 1, 40000);
-  TOOL(itm_sewing_kit, 8, NULL);
-  COMP(itm_fur, 3, NULL);
+ RECIPE(itm_boots, CC_ARMOR, sk_tailor, sk_null, 2, 35000);
+  TOOL(itm_sewing_kit, 10, NULL);
+  COMP(itm_leather, 2, NULL);
 
- RECIPE(itm_tshirt, CC_ARMOR, sk_tailor, sk_null, 2, 40000);
+ RECIPE(itm_jeans, CC_ARMOR, sk_tailor, sk_null, 2, 45000);
   TOOL(itm_sewing_kit, 10, NULL);
   COMP(itm_rag, 6, NULL);
- 
+
+ RECIPE(itm_pants_cargo, CC_ARMOR, sk_tailor, sk_null, 3, 48000);
+  TOOL(itm_sewing_kit, 16, NULL);
+  COMP(itm_rag, 8, NULL);
+
+ RECIPE(itm_pants_leather, CC_ARMOR, sk_tailor, sk_null, 4, 50000);
+  TOOL(itm_sewing_kit, 10, NULL);
+  COMP(itm_leather, 6, NULL);
+
  RECIPE(itm_tank_top, CC_ARMOR, sk_tailor, sk_null, 2, 38000);
-  TOOL(itm_sewing_kit, 8, NULL);
+  TOOL(itm_sewing_kit, 4, NULL);
   COMP(itm_rag, 4, NULL);
 
- RECIPE(itm_coat_fur, CC_ARMOR, sk_tailor, sk_null, 3, 100000);
+ RECIPE(itm_hoodie, CC_ARMOR, sk_tailor, sk_null, 3, 40000);
+  TOOL(itm_sewing_kit, 14, NULL);
+  COMP(itm_rag, 8, NULL);
+
+ RECIPE(itm_trenchcoat, CC_ARMOR, sk_tailor, sk_null, 3, 42000);
+  TOOL(itm_sewing_kit, 24, NULL);
+  COMP(itm_rag, 10, NULL);
+
+ RECIPE(itm_coat_fur, CC_ARMOR, sk_tailor, sk_null, 4, 100000);
   TOOL(itm_sewing_kit, 20, NULL);
   COMP(itm_fur, 10, NULL);
 
- RECIPE(itm_mask_filter, CC_ARMOR, sk_mechanics, sk_tailor, 2, 5000);
+ RECIPE(itm_jacket_leather, CC_ARMOR, sk_tailor, sk_null, 5, 150000);
+  TOOL(itm_sewing_kit, 30, NULL);
+  COMP(itm_leather, 8, NULL);
+
+ RECIPE(itm_gloves_light, CC_ARMOR, sk_tailor, sk_null, 1, 10000);
+  TOOL(itm_sewing_kit, 2, NULL);
+  COMP(itm_rag, 2, NULL);
+
+ RECIPE(itm_gloves_fingerless, CC_ARMOR, sk_tailor, sk_null, 3, 16000);
+  TOOL(itm_sewing_kit, 6, NULL);
+  COMP(itm_leather, 2, NULL);
+
+ RECIPE(itm_mask_filter, CC_ARMOR, sk_mechanics, sk_tailor, 1, 5000);
   COMP(itm_bottle_plastic, 1, itm_bag_plastic, 2, NULL);
   COMP(itm_muffler, 1, itm_bandana, 2, itm_rag, 2, itm_wrapper, 4, NULL);
 
- RECIPE(itm_mask_gas, CC_ARMOR, sk_tailor, sk_null, 5, 20000);
+ RECIPE(itm_mask_gas, CC_ARMOR, sk_tailor, sk_null, 3, 20000);
   TOOL(itm_wrench, -1, NULL);
   COMP(itm_goggles_swim, 2, itm_goggles_ski, 1, NULL);
   COMP(itm_mask_filter, 3, itm_muffler, 1, NULL);
   COMP(itm_hose, 1, NULL);
 
- RECIPE(itm_goggles_nv, CC_ARMOR, sk_electronics, sk_tailor, 6, 40000);
+ RECIPE(itm_glasses_safety, CC_ARMOR, sk_tailor, sk_null, 1, 8000);
+  COMP(itm_string_36, 1, itm_string_6, 2, NULL);
+  COMP(itm_bottle_plastic, 1, NULL);
+
+ RECIPE(itm_goggles_nv, CC_ARMOR, sk_electronics, sk_tailor, 5, 40000);
   TOOL(itm_screwdriver, -1, NULL);
   COMP(itm_goggles_ski, 1, itm_goggles_welding, 1, itm_mask_gas, 1, NULL);
   COMP(itm_power_supply, 1, NULL);
   COMP(itm_amplifier, 3, NULL);
 
- RECIPE(itm_jacket_leather, CC_ARMOR, sk_tailor, sk_null, 7, 150000);
-  TOOL(itm_sewing_kit, 30, NULL);
-  COMP(itm_leather, 8, NULL);
+ RECIPE(itm_hat_fur, CC_ARMOR, sk_tailor, sk_null, 1, 40000);
+  TOOL(itm_sewing_kit, 8, NULL);
+  COMP(itm_fur, 3, NULL);
 
- RECIPE(itm_helmet_chitin, CC_ARMOR, sk_tailor, sk_null, 9, 200000);
+ RECIPE(itm_helmet_chitin, CC_ARMOR, sk_tailor, sk_null, 6, 200000);
   COMP(itm_string_36, 1, itm_string_6, 5, NULL);
   COMP(itm_chitin_piece, 5, NULL);
 
- RECIPE(itm_armor_chitin, CC_ARMOR, sk_tailor, sk_null, 10, 500000);
+ RECIPE(itm_armor_chitin, CC_ARMOR, sk_tailor, sk_null,  7, 500000);
   COMP(itm_string_36, 2, itm_string_6, 12, NULL);
   COMP(itm_chitin_piece, 15, NULL);
+
+ RECIPE(itm_backpack, CC_ARMOR, sk_tailor, sk_null, 3, 50000);
+  TOOL(itm_sewing_kit, 20, NULL);
+  COMP(itm_rag, 20, itm_fur, 16, itm_leather, 12, NULL);
+
+// MISC
 
  RECIPE(itm_superglue, CC_MISC, sk_cooking, sk_null, 2, 12000);
   TOOL(itm_hotplate, 5, NULL);
   COMP(itm_water, 1, itm_water_dirty, 1, NULL);
-  COMP(itm_milk, 3, itm_bleach, 2, itm_ant_egg, 1, NULL);
+  COMP(itm_milk, 2, itm_bleach, 1, itm_ant_egg, 1, NULL);
 
  RECIPE(itm_2x4, CC_MISC, sk_null, sk_null, 0, 8000);
   TOOL(itm_saw, -1, NULL);

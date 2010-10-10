@@ -292,7 +292,8 @@ void game::start_game()
  mostseen = 0;	// ...and mostseen is 0, we haven't seen any monsters yet.
 
 // Init some factions.
- init_factions();
+ if (!load_master())	// Master data record contains factions.
+  create_factions();
  cur_om = overmap(this, 0, 0, 0);	// We start in the (0,0,0) overmap.
 // Find a random house on the map, and set us there.
  cur_om.first_house(levx, levy);
@@ -316,7 +317,7 @@ void game::start_game()
  u.posx = SEEX + 4;
  u.posy = SEEY + 5;
  nextspawn = 300;	// No monsters until 8:30 AM!
- temp = 65;		// Kind of cool for June, but okay.
+ temperature = 65;	// Kind of cool for June, but okay.
 
 // Testing pet dog!
  monster doggy(mtypes[mon_dog], u.posx - 1, u.posy - 1);
@@ -333,7 +334,7 @@ void game::start_tutorial(tut_type type)
   for (int j = 0; j < SEEX * 3; j++)
    grscent[i][j] = 0;
  }
- temp = 65;		// Kind of cool for June, but okay.
+ temperature = 65;		// Kind of cool for June, but okay.
  in_tutorial = true;
  switch (type) {
  case TUT_NULL:
@@ -392,7 +393,7 @@ void game::start_tutorial(tut_type type)
 }
   
 
-void game::init_factions()
+void game::create_factions()
 {
  int num = dice(2, 6);
  faction tmp;
@@ -867,11 +868,26 @@ Press spacebar to be healed and relieved of pain...", i);
  return false;
 }
 
+bool game::load_master()
+{
+ std::ifstream fin;
+ std::string data;
+ fin.open("save/master.gsav");
+ if (!fin.is_open())
+  return false;
+ while (!fin.eof()) {
+  getline(fin, data);
+  faction tmp;
+  tmp.load_info(data);
+  factions.push_back(tmp);
+ }
+ return true;
+}
+
 void game::load(std::string name)
 {
  std::ifstream fin;
  std::stringstream playerfile;
- std::stringstream masterfile;
  playerfile << "save/" << name << ".sav";
  fin.open(playerfile.str().c_str());
 // First, read in basic game state information.
@@ -891,7 +907,7 @@ void game::load(std::string name)
  m.init(this, levx, levy);
  run_mode = tmprun;
  last_target = tmptar;
- temp = tmptemp;
+ temperature = tmptemp;
 // Next, the scent map.
  for (int i = 0; i < SEEX * 3; i++) {
   for (int j = 0; j < SEEY * 3; j++)
@@ -940,14 +956,8 @@ void game::load(std::string name)
  for (int i = 0; i < num_monsters; i++)
   fin >> kills[i];
  fin.close();
-// Now load up the master game data; factions and NPCs
- fin.open(masterfile.str().c_str());
- while (!fin.eof()) {
-  getline(fin, data);
-  faction tmp;
-  tmp.load_info(data);
-  factions.push_back(tmp);
- }
+// Now load up the master game data; factions (and more?)
+ load_master();
  draw();
 }
 
@@ -960,9 +970,9 @@ void game::save()
  fout.open(playerfile.str().c_str());
 // First, write out basic game state information.
  fout << turn << " " << int(last_target) << " " << int(run_mode) << " " <<
-         mostseen << " " << nextinv << " " << nextspawn << " " << int(temp) <<
-         " " << levx << " " << levy << " " << levz << " " << cur_om.posx <<
-         " " << cur_om.posy << " " << std::endl;
+         mostseen << " " << nextinv << " " << nextspawn << " " <<
+         int(temperature) << " " << levx << " " << levy << " " << levz << " " <<
+         cur_om.posx << " " << cur_om.posy << " " << std::endl;
 // Next, the scent map.
  for (int i = 0; i < SEEX * 3; i++) {
   for (int j = 0; j < SEEY * 3; j++)
@@ -2142,7 +2152,7 @@ void game::om_npcs_move()
 void game::check_warmth()
 {
  // HEAD
- int warmth = u.warmth(bp_head) + int((temp - 65) / 10);
+ int warmth = u.warmth(bp_head) + int((temperature - 65) / 10);
  if (warmth <= -6) {
   add_msg("Your head is freezing!");
   u.hurt(this, bp_head, 0, (0-(warmth/2)));
@@ -2160,7 +2170,7 @@ void game::check_warmth()
    u.add_disease(DI_HEATSTROKE, warmth * rng(1, 16), this);
  }
  // FACE -- Mouth and eyes
- warmth = u.warmth(bp_eyes) + u.warmth(bp_mouth) + int((temp - 65) / 10);
+ warmth = u.warmth(bp_eyes) + u.warmth(bp_mouth) + int((temperature - 65) / 10);
  if (warmth <= -6) {
   add_msg("Your face is freezing!");
   u.hurt(this, bp_head, 0, (0-warmth));
@@ -2180,7 +2190,7 @@ void game::check_warmth()
    u.add_disease(DI_HEATSTROKE, warmth * rng(4, 16), this);
  }
  // TORSO
- warmth = u.warmth(bp_torso) + int((temp-65) / 10);
+ warmth = u.warmth(bp_torso) + int((temperature-65) / 10);
  if (warmth <= -5) {
   add_msg("Your body is freezing!");
   u.hurt(this, bp_torso, 0, 0-warmth);
@@ -2198,7 +2208,7 @@ void game::check_warmth()
    u.add_disease(DI_HEATSTROKE, warmth * rng(6, 18), this);
  }
  // HANDS
- warmth = u.warmth(bp_hands) + int((temp-65) / 10);
+ warmth = u.warmth(bp_hands) + int((temperature-65) / 10);
  if (warmth <= -4) {
   add_msg("Your hands are freezing!");
   if (rng(0, -10) > warmth)
@@ -2209,7 +2219,7 @@ void game::check_warmth()
    u.add_disease(DI_HEATSTROKE, warmth * rng(1, 5), this);
  }
  // LEGS
- warmth = u.warmth(bp_legs) + int((temp-65) / 10);
+ warmth = u.warmth(bp_legs) + int((temperature-65) / 10);
  if (warmth <= -6) {
   add_msg("Your legs are freezing!");
   u.moves -= 50;
@@ -2224,7 +2234,7 @@ void game::check_warmth()
    u.add_disease(DI_HEATSTROKE, warmth * rng(2, 8), this);
  }
  // FEET
- warmth = u.warmth(bp_feet) + int((temp-65) / 10);
+ warmth = u.warmth(bp_feet) + int((temperature-65) / 10);
  if (warmth <= -3) {
   add_msg("Your feet are freezing!");
   if (rng(0, -10) > warmth)

@@ -60,8 +60,7 @@ void trapfunc::tripwire(game *g, int x, int y)
  std::vector<point> valid;
  for (int j = x - 1; j <= x + 1; j++) {
   for (int k = y - 1; k <= y + 1; k++) {
-   if (g->m.move_cost(j, k) != 0 && g->mon_at(j, k) == -1 &&
-       g->npc_at(j, k) == -1)
+   if (g->is_empty(j, k)) // No monster, NPC, or player, plus valid for movement
     valid.push_back(point(j, k));
   }
  }

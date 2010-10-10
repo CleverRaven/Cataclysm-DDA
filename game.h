@@ -101,110 +101,124 @@ class game
   WINDOW *w_status;
  private:
 // Game-start procedures
-  bool opening_screen();
-  void load(std::string name);
-  void start_game();
-  void start_tutorial(tut_type type);
+  bool opening_screen();// Warn about screen size, then present the main menu
+  bool load_master();	// Load the master data file, with factions &c
+  void load(std::string name);	// Load a player-specific save file
+  void start_game();	// Starts a new game
+  void start_tutorial(tut_type type);	// Starts a new tutorial
 
 // Data Initialization
-  void init_itypes();
-  void init_mapitems();
-  void init_mtypes();
-  void init_moncats();
-  void init_monitems();
-  void init_traps();
-  void init_recipes();
-  void init_factions();
+  void init_itypes();	// Initializes item types
+  void init_mapitems();	// Initializes item placement
+  void init_mtypes();	// Initializes monster types
+  void init_moncats();	// Initializes monster categories
+  void init_monitems();	// Initializes monster inventory selection
+  void init_traps();	// Initializes trap types
+  void init_recipes();	// Initializes crafting recipes
+
+  void create_factions();	// Creates new factions (for a new game world)
 
 // Player actions
-  void wish();
-  void plmove(int x, int y);
-  void plswim(int x, int y);
-  void update_map(int &x, int &y);  // Called by plmove, sometimes
-  void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
-  mon_id valid_monster_from(std::vector<mon_id> group);
-  int valid_group(mon_id type, int x, int y);
-  moncat_id mt_to_mc(mon_id type);
-  void wait();
-  void open();
-  void close();
-  void smash();
+  void wish();	// Cheat by wishing for an item 'Z'
+  void plmove(int x, int y);	// Standard movement; handles attacks, traps, &c
+  void plswim(int x, int y);	// Called by plmove.  Handles swimming
+
+  void wait();	// Long wait (player action)	'^'
+  void open();	// Open a door			'o'
+  void close();	// Close a door			'c'
+  void smash();	// Smash terrain		
   void craft();				// See crafting.cpp
   void make_craft(recipe *making);	// See crafting.cpp
   void complete_craft();		// See crafting.cpp
   void pick_recipes(std::vector<recipe*> &current,
                     std::vector<bool> &available, craft_cat tab);// crafting.cpp
-  void examine();
-  void look_around();
-  void pickup(int posx, int posy, int min);
-  void drop();
-  void butcher();
-  void eat();
-  void use_item();
-  void wear();
-  void takeoff();
-  void reload();
-  void unload();
-  void wield();
-  void read();
-  void chat();			// Chat to an NPC
-  void plthrow();
+  void examine();// Examine nearby terrain	'e'
+  void look_around();// Look at nearby terrain	';'
+  void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
+  void drop();	  // Drop an item		'd'	TODO: Multidrop
+  void butcher(); // Butcher a corpse		'B'
+  void eat();	  // Eat food or fuel		'E' (or 'a')
+  void use_item();// Use item; also tries E,R,W	'a'
+  void wear();	  // Wear armor			'W' (or 'a')
+  void takeoff(); // Remove armor		'T'
+  void reload();  // Reload a wielded gun/tool	'r'
+  void unload();  // Unload a wielded gun/tool	'U'
+  void wield();   // Wield a weapon		'w'
+  void read();    // Read a book		'R' (or 'a')
+  void chat();    // Talk to a nearby NPC	'C'
+  void plthrow(); // Throw an item		't'
+  void help();    // Help screen		'?'
+
+// Target is an interactive function which allows the player to choose a nearby
+// square.  It display information on any monster/NPC on that square, and also
+// returns a Bresenham line to that square.  It is called by plfire() and
+// throw().
   std::vector<point> target(int &x, int &y, int lowx, int lowy, int hix,
                             int hiy, std::vector <monster> t, int &target,
                             item *relevent);
-  void help();
+
+// Map updating and monster spawning
+  void update_map(int &x, int &y);  // Called by plmove when the map updates
+  void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
+  mon_id valid_monster_from(std::vector<mon_id> group);
+  int valid_group(mon_id type, int x, int y);// Picks a group from cur_om
+  moncat_id mt_to_mc(mon_id type);// Monster type to monster category
 
 // Routine loop functions, approximately in order of execution
-  void monmove();
-  void om_npcs_move();
-  void check_warmth();
-  void update_skills();
-  void process_events();
-  void process_activity();
-  void hallucinate();
-  void mon_info();
-  void get_input();
-  void update_scent();
-  bool is_game_over();
-  void gameover();
-  void write_msg();
-  void draw_minimap();
-  void draw_HP();
+  void monmove();          // Monster movement
+  void om_npcs_move();     // Movement of NPCs on the overmap (non-local)
+  void check_warmth();     // Checks the player's warmth (applying clothing)
+  void update_skills();    // Degrades practice levels, checks & upgrades skills
+  void process_events();   // Processes and enacts long-term events
+  void process_activity(); // Processes and enacts the player's activity
+  void hallucinate();      // Prints hallucination junk to the screen
+  void mon_info();         // Prints a list of nearby monsters (top right)
+  void get_input();        // Gets player input and calls the proper function
+  void update_scent();     // Updates the scent map
+  bool is_game_over();     // Returns true if the player quit or died
+  void gameover();         // Ends the game
+  void write_msg();        // Prints the messages in the messages list
+  void draw_minimap();     // Draw the 5x5 minimap
+  void draw_HP();          // Draws the player's HP and Power level
 
 // On-request draw functions
-  void draw_overmap();
-  void disp_kills();
-  void disp_NPCs();
+  void draw_overmap();     // Draws the overmap, allows note-taking etc.
+  void disp_kills();       // Display the player's kill counts
+  void disp_NPCs();        // Currently UNUSED.  Lists global NPCs.
 
-// If x & y are OOB, gens a new overmap returns the proper terrain; also, may
-//  mark the square as seen by the player
+// If x & y are OOB, creates a new overmap and returns the proper terrain; also,
+// may mark the square as seen by the player
   oter_id ter_at(int x, int y, bool& mark_as_seen);
 
 // Debug functions
-  void debug();
-  void display_scent();
-  void mondebug();
-  void groupdebug();
-// Data
+  void debug();           // All-encompassing debug screen.  TODO: This.
+  void display_scent();   // Displays the scent map
+  void mondebug();        // Debug monster behavior directly
+  void groupdebug();      // Get into on monster groups
+
+
+// ########################## DATA ################################
+
   signed char last_target;// The last monster targeted
   char run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new
 		 //  monsters spawns, go to 2 - No movement allowed
-  int mostseen;	// # of mons seen last turn; if this increases, run_mode++
+  int mostseen;	 // # of mons seen last turn; if this increases, run_mode++
 
-  bool uquit;
+  bool uquit;    // Set to true if the player quits ('Q')
 
-  int nextspawn;
-  signed char temp;
-  std::vector <std::string> messages;
-  char curmes;	// The last-seen message.  Older than 256 is deleted.
+  int nextspawn;          // The turn on which monsters will spawn next.
+  signed char temperature;              // The air temperature
+  std::vector <std::string> messages;   // Messages to be printed
+  unsigned char curmes;	  // The last-seen message.  Older than 256 is deleted.
   int grscent[SEEX * 3][SEEY * 3];	// The scent map
   int nulscent;				// Returned for OOB scent checks
-  std::vector<recipe> recipes;
-  std::vector<event> events;
-  int kills[num_monsters];
+  std::vector<event> events;	        // Game events to be processed
+  int kills[num_monsters];	        // Player's kill count
+
+  std::vector<recipe> recipes;	// The list of valid recipes
 
   bool tutorials_seen[NUM_LESSONS]; // Which tutorial lessons have we learned
-  bool in_tutorial;
+  bool in_tutorial;                 // True if we're in a tutorial right now
 };
 
 #endif

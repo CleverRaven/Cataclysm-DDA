@@ -803,7 +803,7 @@ ARMOR("dress shirt",	60, 115,c_white,	COTTON,		MNULL,
 A white button-down shirt with long sleeves.  Looks professional!");
 
 ARMOR("tank top",	50,  75,c_ltgray,	COTTON,		MNULL,
-    1,  1, -5,  0, -1,  0,  0,  0,  0,  0,	mfb(bp_torso), "\
+    1,  1, -5,  0,  0,  0,  0,  0,  0,  0,	mfb(bp_torso), "\
 A sleeveless cotton shirt.  Very easy to move in.");
 
 ARMOR("sweatshirt",	75, 110,c_ltcyan,	COTTON,		MNULL,
