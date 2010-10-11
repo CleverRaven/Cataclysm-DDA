@@ -18,9 +18,9 @@ void npc::move(game *g)
   find_items(g);
 
  if (want_to_attack_player(g))
-  action = method_of_attacking_player(g, path);
+  action = method_of_attacking_player(g);
  else if (target != NULL)
-  action = method_of_attacking_monster(g, path);
+  action = method_of_attacking_monster(g);
  else if (mission == MISSION_SHOPKEEP)
   action = npc_pause;
  else if (can_reload())
@@ -38,7 +38,7 @@ void npc::move(game *g)
  } else if (fetching_item())
   action = npc_pickup;
  else
-  action = long_term_goal_action(g, path);
+  action = long_term_goal_action(g);
 
  if (g->debugmon)
   debugmsg("%s chose action %s.  Mission is %d.", name.c_str(),
@@ -335,7 +335,7 @@ int npc::follow_distance()
  return (ret < 2 ? 2 : ret);
 }
 
-npc_action npc::method_of_attacking_player(game *g, std::vector<point> &path)
+npc_action npc::method_of_attacking_player(game *g)
 {
  if (g->debugmon)
   debugmsg("method_of_attacking_player()");
@@ -351,7 +351,7 @@ npc_action npc::method_of_attacking_player(game *g, std::vector<point> &path)
  else {	// We can't see u, and we haven't seen u recently
   path.clear();
   if (attitude == NPCATT_FLEE)
-   return long_term_goal_action(g, path);// We're probably safe from u...
+   return long_term_goal_action(g);// We're probably safe from u...
   return npc_look_for_player;
  }
 
@@ -394,7 +394,7 @@ npc_action npc::method_of_attacking_player(game *g, std::vector<point> &path)
  }
 }
 
-npc_action npc::method_of_attacking_monster(game *g, std::vector<point> &path)
+npc_action npc::method_of_attacking_monster(game *g)
 {
  if (target == NULL) {
   debugmsg("Tried to figure out how to attack a null monster!");
@@ -433,7 +433,7 @@ npc_action npc::method_of_attacking_monster(game *g, std::vector<point> &path)
     else if (target->speed >= 100)
      return npc_melee_monster;	// They're fast, don't ignore them
     else
-     return long_term_goal_action(g, path); // Ignore the monster
+     return long_term_goal_action(g); // Ignore the monster
    }
   } else {	// Gun isn't loaded
    if (can_reload() && rldist * 1.5 <= weapon.reload_time(*this))
@@ -441,7 +441,7 @@ npc_action npc::method_of_attacking_monster(game *g, std::vector<point> &path)
    else if (target->speed >= 90 && hp_percentage() >= 75)
     return npc_melee_monster;
    else
-    return long_term_goal_action(g, path);	// Ignore the monster
+    return long_term_goal_action(g);	// Ignore the monster
   }
  } else {	// Our weapon isn't a gun
   if ((rldist * 100) / target->speed <= 6) { // Close enough to care
@@ -450,7 +450,7 @@ npc_action npc::method_of_attacking_monster(game *g, std::vector<point> &path)
    else
     return npc_flee_monster;
   } else	// Too far away or slow, ignore them for now
-   return long_term_goal_action(g, path);
+   return long_term_goal_action(g);
  }
 }
 
@@ -488,7 +488,7 @@ bool npc::alt_attack_available()
  return false;
 }
 
-npc_action npc::long_term_goal_action(game *g, std::vector<point> &path)
+npc_action npc::long_term_goal_action(game *g)
 {
  if (g->debugmon)
   debugmsg("long_term_goal_action()");
@@ -603,8 +603,8 @@ void npc::go_to_destination(game *g)
    for (int dx = 0 - i; dx <= i; dx++) {
     for (int dy = 0 - i; dy <= i; dy++) {
      if (g->m.sees(posx, posy, x + dx, y + dy, light, linet)) {
-      std::vector<point> path = g->m.route(posx, posy, x + dx, y + dy);
-      if (path.size() > 0 && can_move_to(g, path[0].x, path[0].y)) {
+      path = g->m.route(posx, posy, x + dx, y + dy);
+      if (!path.empty() && can_move_to(g, path[0].x, path[0].y)) {
        move_to_next_in_path(g);
        return;
       } else {

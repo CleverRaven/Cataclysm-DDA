@@ -133,12 +133,12 @@ void item::put_in(item payload)
 
 std::string item::save_info()
 {
- unsigned int ammotmp = 0;
- std::stringstream dump;// (std::stringstream::in | std::stringstream::out);
+ int ammotmp = 0;
  if (is_gun() && curammo != NULL)
   ammotmp = curammo->id;
+ std::stringstream dump;// (std::stringstream::in | std::stringstream::out);
  dump << " " << int(invlet) << " " << int(type->id) << " " << int(charges) <<
-         " " << int(damage) << " " << int(ammotmp) << " " << int(bday);
+         " " << int(damage) << " " << ammotmp << " " << int(bday);
  if (active)
   dump << " 1";
  else

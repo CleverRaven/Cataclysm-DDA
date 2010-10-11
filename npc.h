@@ -173,9 +173,9 @@ public:
  bool saw_player_recently();	// Do we have an idea of where u are?
  bool has_destination();	// Do we have a long-term destination?
  bool alt_attack_available();	// Do we have grenades, molotov, etc?
- npc_action method_of_attacking_player(game *g, std::vector<point> &path);
- npc_action method_of_attacking_monster(game *g, std::vector<point> &path);
- npc_action long_term_goal_action(game *g, std::vector<point> &path);
+ npc_action method_of_attacking_player(game *g);
+ npc_action method_of_attacking_monster(game *g);
+ npc_action long_term_goal_action(game *g);
  void set_destination(game *g);	// Pick a place to go
  void go_to_destination(game *g);
 

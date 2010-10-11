@@ -847,6 +847,8 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
   }
   for (int x = open[index].x - 1; x <= open[index].x + 1; x++) {
    for (int y = open[index].y - 1; y <= open[index].y + 1; y++) {
+    if (x == open[index].x && y == open[index].y)
+     y++;	// Skip the current square
     if (inbounds(x, y) && (move_cost(x, y) > 0 || ter(x, y) == t_door_c || 
                            has_flag(bashable, x, y))) {
      if (list[x][y] == ASL_NONE) {	// Not listed, so make it open
