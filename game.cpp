@@ -2363,24 +2363,24 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
  ts.tv_sec = 0;
  ts.tv_nsec = BULLET_SPEED;	// Reset for animation of bullets
  for (int i = 0; i < shrapnel; i++) {
-  sx = rng(x - radius, x + radius);
-  sy = rng(y - radius, y + radius);
+  sx = rng(x - 2 * radius, x + 2 * radius);
+  sy = rng(y - 2 * radius, y + 2 * radius);
   if (m.sees(x, y, sx, sy, 50, t))
    traj = line_to(x, y, sx, sy, t);
   else
    traj = line_to(x, y, sx, sy, 0);
   dam = rng(40, 100);
   for (int j = 0; j < traj.size(); j++) {
-   if (i > 0)
-    m.drawsq(w_terrain, u, traj[i-1].x, traj[i-1].y, false, true);
-   if (u_see(traj[i].x, traj[i].y, ijunk)) {
-    mvwputch(w_terrain, traj[i].y + SEEY - u.posy,
-                        traj[i].x + SEEX - u.posx, c_red, '`');
+   if (j > 0)
+    m.drawsq(w_terrain, u, traj[j - 1].x, traj[j - 1].y, false, true);
+   if (u_see(traj[j].x, traj[j].y, ijunk)) {
+    mvwputch(w_terrain, traj[j].y + SEEY - u.posy,
+                        traj[j].x + SEEX - u.posx, c_red, '`');
     wrefresh(w_terrain);
     nanosleep(&ts, NULL);
    }
-   tx = traj[i].x;
-   ty = traj[i].y;
+   tx = traj[j].x;
+   ty = traj[j].y;
    if (mon_at(tx, ty) != -1) {
     dam -= z[mon_at(tx, ty)].armor();
     if (z[mon_at(tx, ty)].hurt(dam))

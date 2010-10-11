@@ -817,6 +817,14 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
    return empty;
   }
  }
+/*
+ if (move_cost(Tx, Ty) == 0)
+  debugmsg("%d:%d wanted to move to %d:%d, a %s!", Fx, Fy, Tx, Ty,
+           tername(Tx, Ty).c_str());
+ if (move_cost(Fx, Fy) == 0)
+  debugmsg("%d:%d, a %s, wanted to move to %d:%d!", Fx, Fy,
+           tername(Fx, Fy).c_str(), Tx, Ty);
+*/
  std::vector<point> open;
  astar_list list[SEEX * 3][SEEY * 3];
  int score	[SEEX * 3][SEEY * 3];
@@ -849,8 +857,11 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
    for (int y = open[index].y - 1; y <= open[index].y + 1; y++) {
     if (x == open[index].x && y == open[index].y)
      y++;	// Skip the current square
-    if (inbounds(x, y) && (move_cost(x, y) > 0 || ter(x, y) == t_door_c || 
-                           has_flag(bashable, x, y))) {
+    if (x == Tx && y == Ty) {
+     done = true;
+     parent[x][y] = open[index];
+    } else if (inbounds(x, y) &&
+               (move_cost(x, y) > 0 || has_flag(bashable, x, y))) {
      if (list[x][y] == ASL_NONE) {	// Not listed, so make it open
       list[x][y] = ASL_OPEN;
       open.push_back(point(x, y));
@@ -863,6 +874,10 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
       score[x][y] = gscore[x][y] + 2 * rl_dist(x, y, Tx, Ty);
      } else if (list[x][y] == ASL_OPEN) { // It's open, but make it our child
       int newg = gscore[open[index].x][open[index].y] + move_cost(x, y);
+      if (ter(x, y) == t_door_c)
+       newg += 4;	// A turn to open it and a turn to move there
+      else if (move_cost(x, y) == 0 && has_flag(bashable, x, y))
+       newg += 18;	// Worst case scenario with damage penalty
       if (newg < gscore[x][y]) {
        gscore[x][y] = newg;
        parent[x][y] = open[index];
@@ -870,8 +885,6 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
       }
      }
     }
-    if (x == Tx && y == Ty)
-     done = true;
    }
   }
   list[open[index].x][open[index].y] = ASL_CLOSED;

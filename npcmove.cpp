@@ -11,8 +11,10 @@ void npc::move(game *g)
  int linet;
  npc_action action = npc_pause;
  target = choose_monster_target(g);	// Set a target
+/*
  if (g->turn % 6 == 0)
   path.clear();	// Clear our path every 6 turns
+*/
 // If we aren't moving towards an item or a monster, find an item
  if (!fetching_item() && target == NULL)
   find_items(g);
@@ -73,7 +75,7 @@ void npc::move(game *g)
  case npc_melee_monster:
   if (path.size() > 1)
    move_to_next_in_path(g);
-  else if (path.size() == 0)
+  else if (path.size() <= 1)
    melee_monster(g, target);
   else
    move_pause();
@@ -299,11 +301,42 @@ void npc::pickup_items(game *g)
   if (debug)
    debugmsg("We see our item(s).  NPC @ (%d:%d); items @ (%d:%d) (dist %d",
             posx, posy, itx, ity, dist);
-  if (path.size() == 0)
-   path = g->m.route(posx, posy, itx, ity);
-  if (debug)
-   debugmsg("Moving to (%d:%d), %s.", path[0].x, path[0].y,
-            g->m.tername(path[0].x, path[0].y).c_str());
+  if (path.size() == 0) {
+   if (g->m.move_cost(itx, ity) > 0)
+    path = g->m.route(posx, posy, itx, ity);
+   else {	// Move to a valid adjacent point
+    std::vector<point> valid;
+    std::vector<int> dist;
+// Populate valid with the valid points, dist with their distances from us
+    for (int x = itx - 1; x <= itx + 1; x++) {
+     for (int y = ity - 1; y <= ity + 1; y++) {
+      if (g->m.move_cost(x, y) > 0) {
+       valid.push_back(point(x, y));
+       dist.push_back(rl_dist(posx, posy, x, y));
+      }
+     }
+    }
+    if (valid.empty()) {
+     debugmsg("Oh no!  Couldn't find an open space next to %d:%d", itx, ity);
+     return;
+    }
+// Popular indices with the indices of the closest points
+    int best_dist = dist[0];
+    std::vector<int> indices;
+    indices.push_back(0);
+    for (int i = 1; i < dist.size(); i++) {
+     if (dist[i] < best_dist) {
+      best_dist = dist[i];
+      indices.clear();
+      indices.push_back(i);
+     } else if (dist[i] == best_dist)
+      indices.push_back(i);
+    }
+// Pick one of those closest points, and move to it
+    int index = indices[rng(0, indices.size() - 1)];
+    path = g->m.route(posx, posy, valid[index].x, valid[index].y);
+   }
+  }
   if (path.size() > 0)
    move_to_next_in_path(g);
   else
@@ -345,14 +378,16 @@ npc_action npc::method_of_attacking_player(game *g)
 // Set our path to the player
  if (can_see_u)
   path = line_to(posx, posy, g->u.posx, g->u.posy, linet);
+/*
  else if (saw_player_recently() &&
           g->m.sees(posx, posy, plx, ply, g->light_level(), linet))
   path = line_to(posx, posy, plx, ply, linet);
+*/
  else {	// We can't see u, and we haven't seen u recently
-  path.clear();
+ // path.clear();
   if (attitude == NPCATT_FLEE)
    return long_term_goal_action(g);// We're probably safe from u...
-  return npc_look_for_player;
+  //return npc_look_for_player;
  }
 
  if (can_see_u) {
@@ -506,8 +541,9 @@ npc_action npc::long_term_goal_action(game *g)
              g->m.sees(posx, posy, plx, ply, light, linet)) {
    path = line_to(posx, posy, plx, ply, linet);
    return npc_follow_player;
-  } else
+  } else if (path.empty())
    return npc_look_for_player;
+  return npc_follow_player;
  } else if (attitude == NPCATT_TALK || attitude == NPCATT_TRADE) {
   if (g->sees_u(posx, posy, linet))
    path = line_to(posx, posy, g->u.posx, g->u.posy, linet);
@@ -516,10 +552,10 @@ npc_action npc::long_term_goal_action(game *g)
    path = line_to(posx, posy, plx, ply, linet);
   if (path.size() <= 6 && path.size() > 0)	// Close enough to talk
    return npc_talk_to_player;
-  else if (path.size() > 0) {
-   return npc_follow_player;
+  else if (!path.empty()) {
    if (one_in(20))
     say(g, "Come here, let's talk!");
+   return npc_follow_player;
   } else
    return npc_look_for_player;
  } else {	// Nothing in particular we care to do with the player
@@ -591,18 +627,23 @@ void npc::set_destination(game *g)
 void npc::go_to_destination(game *g)
 {
  int sx = (goalx > mapx ? 1 : -1), sy = (goaly > mapy ? 1 : -1);
- if (goalx == mapx && goaly == mapy)
+ if (goalx == mapx && goaly == mapy)	// We're at our desired map square!
   move_pause();
  else {
   if (goalx == mapx)
    sx = 0;
   if (goaly == mapy)
    sy = 0;
+// sx and sy are now equal to the direction we need to move in
   int x = posx + 8 * sx, y = posy + 8 * sy, linet, light = g->light_level();
+// x and y are now equal to a local square that's close by
   for (int i = 0; i < 8; i++) {
    for (int dx = 0 - i; dx <= i; dx++) {
     for (int dy = 0 - i; dy <= i; dy++) {
-     if (g->m.sees(posx, posy, x + dx, y + dy, light, linet)) {
+     if ((g->m.move_cost(x + dx, y + dy) > 0 ||
+          g->m.has_flag(bashable, x + dx, y + dy) ||
+          g->m.ter(x + dx, y + dy) == t_door_c) &&
+         g->m.sees(posx, posy, x + dx, y + dy, light, linet)) {
       path = g->m.route(posx, posy, x + dx, y + dy);
       if (!path.empty() && can_move_to(g, path[0].x, path[0].y)) {
        move_to_next_in_path(g);
@@ -636,7 +677,7 @@ void npc::move_to(game *g, int x, int y)
    recoil = int(recoil / 2);
   }
  }
- if (abs(x - posx) > 1 || abs(y - posy) > 1) {
+ if (rl_dist(posx, posy, x, y) > 1) {
   debugmsg("Tried to move_to more than one space! (%d, %d) to (%d, %d)",
            posx, posy, x, y);
   //debugmsg("Route is size %d.", path.size());
@@ -649,8 +690,8 @@ void npc::move_to(game *g, int x, int y)
  if (x == posx && y == posy)	// We're just pausing!
   moves -= 100;
  else if (g->mon_at(x, y) != -1) {	// Shouldn't happen, but it might.
-  debugmsg("Bumped into a monster, %d", g->mon_at(x, y));
   monster *m = &(g->z[g->mon_at(x, y)]);
+  debugmsg("Bumped into a monster, %d, a %s",g->mon_at(x, y),m->name().c_str());
   melee_monster(g, m);
  } else if (g->u.posx == x && g->u.posy == y) {
   say(g, "Excuse me, let me pass.");
@@ -682,7 +723,8 @@ void npc::move_to_next_in_path(game *g)
   return;
  }
  move_to(g, path[0].x, path[0].y);
- path.erase(path.begin());
+ if (posx == path[0].x && posy == path[0].y)
+  path.erase(path.begin());
 }
 
 void npc::move_away_from(game *g, int x, int y)
@@ -726,11 +768,9 @@ void npc::move_pause()
 
 void npc::melee_monster(game *g, monster *m)
 {
- int dam = hit_mon(g, target);
- if (target->hurt(dam)) {
-  g->kill_mon(g->mon_at(target->posx, target->posy));
-  target = NULL;
- }
+ int dam = hit_mon(g, m);
+ if (m->hurt(dam))
+  g->kill_mon(g->mon_at(m->posx, m->posy));
 }
 
 void npc::alt_attack(game *g, monster *m, player *p)

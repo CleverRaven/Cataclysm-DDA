@@ -1189,7 +1189,7 @@ void iuse::grenade_act(game *g, item *it, bool t)
  if (t) 	// Simple timer effects
   g->sound(pos.x, pos.y, 0, "Tick.");	// Vol 0 = only heard if you hold it
  else	// When that timer runs down...
-  g->explosion(pos.x, pos.y, 12, 16, false);
+  g->explosion(pos.x, pos.y, 18, 32, false);
 }
 
 void iuse::gasbomb(game *g, item *it, bool t)
