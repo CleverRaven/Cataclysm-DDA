@@ -5,6 +5,12 @@ At present time, Cataclysm is still in early alpha, and is being developed very
 rapidly.  As such, there are no formal version numbers, as a new version is
 released every day, often several a day.
 
+Source is available at the github repository, http://github.com/Whales/Cataclysm
+There is also a tarball available at http://squidnet.ath.cx/cataclysm.tar.gz
+Squidnet maintains a public SSH server.  If you cannot play Cataclysm locally,
+or if you prefer to play it in a world shared with others, connect to
+cataclysm@squidnet.ath.cx (there is no password).
+
 Compiling Cataclysm under linux is straightforward, and only requires the
 ncurses development libraries.  Under Ubuntu, these libraries can be found in
 the libncurses5-dev package ("sudo apt-get install libncurses5-dev" will install
