@@ -139,8 +139,7 @@ bool game::opening_screen()
     if (sel1 == 5) {
      uquit = true;
      return false;
-    }
-    if (sel1 == 4) {
+    } else if (sel1 == 4) {
      help();
      clear();
      mvwprintz(w_open, 0, 1, c_blue, "Welcome to Cataclysm!");
@@ -353,6 +352,7 @@ void game::start_tutorial(tut_type type)
   cur_om.make_tutorial();
   m.init(this, levx, levy);
   u.toggle_trait(PF_QUICK);
+  u.inv.push_back(item(itypes[itm_lighter], 0, 'e'));
   u.sklevel[sk_gun] = 5;
   u.sklevel[sk_melee] = 5;
 // Start the overmap out with all of it seen by the player
@@ -4495,7 +4495,12 @@ void game::eat()
 
 void game::wear()
 {
- if (u.wear(this, inv("Wear item:"))) {
+ char ch = inv("Wear item:");
+ if (ch == KEY_ESCAPE) {
+  add_msg("Never mind.");
+  return;
+ }
+ if (u.wear(this, ch)) {
   u.moves -= 350;	// TODO: Make this variable
   if (in_tutorial) {
    it_armor* armor = dynamic_cast<it_armor*>(u.worn[u.worn.size() - 1].type);
