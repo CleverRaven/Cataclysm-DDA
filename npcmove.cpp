@@ -11,10 +11,6 @@ void npc::move(game *g)
  int linet;
  npc_action action = npc_pause;
  target = choose_monster_target(g);	// Set a target
-/*
- if (g->turn % 6 == 0)
-  path.clear();	// Clear our path every 6 turns
-*/
 // If we aren't moving towards an item or a monster, find an item
  if (!fetching_item() && target == NULL)
   find_items(g);
