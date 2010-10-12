@@ -836,7 +836,10 @@ void game::complete_craft()
   int num_lost = rng(1, will_use.size());
   for (int i = 0; i < num_lost; i++) {
    int n = rng(0, will_use.size() - 1);
-   u.use_amount(will_use[n].type, will_use[n].count);
+   if (itypes[will_use[n].type]->is_tool())
+    u.use_charges(will_use[n].type, will_use[n].count);
+   else
+    u.use_amount(will_use[n].type, will_use[n].count);
    will_use.erase(will_use.begin() + n);
   }
   u.activity.type = ACT_NULL;
@@ -847,8 +850,12 @@ void game::complete_craft()
   u.activity.type = ACT_NULL;
   return;
  }
- for (int i = 0; i < will_use.size(); i++)
-  u.use_amount(will_use[i].type, will_use[i].count);
+ for (int i = 0; i < will_use.size(); i++) {
+  if (itypes[will_use[i].type]->is_tool())
+   u.use_charges(will_use[i].type, will_use[i].count);
+   else
+   u.use_amount(will_use[i].type, will_use[i].count);
+ }
  int iter = 0;
  item newit(itypes[making.result], turn, nextinv);
  do {
