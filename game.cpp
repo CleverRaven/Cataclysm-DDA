@@ -2371,7 +2371,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
    traj = line_to(x, y, sx, sy, 0);
   dam = rng(40, 100);
   for (int j = 0; j < traj.size(); j++) {
-   if (j > 0)
+   if (j > 0 && u_see(traj[j - 1].x, traj[j - 1].y, ijunk))
     m.drawsq(w_terrain, u, traj[j - 1].x, traj[j - 1].y, false, true);
    if (u_see(traj[j].x, traj[j].y, ijunk)) {
     mvwputch(w_terrain, traj[j].y + SEEY - u.posy,
@@ -2398,6 +2398,11 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
      active_npc[npcdex].die(this);
      active_npc.erase(active_npc.begin() + npcdex);
     }
+   } else if (tx == u.posx && ty == u.posy) {
+    body_part hit = random_body_part();
+    int side = rng(0, 1);
+    add_msg("Shrapnel hits your %s!", body_part_name(hit, side).c_str());
+    u.hit(this, hit, rng(0, 1), 0, dam);
    } else
     m.shoot(this, tx, ty, dam, j == traj.size() - 1);
   }
@@ -2532,7 +2537,7 @@ void game::use_computer(int x, int y)
    break;
   }
   break;
-  case t_computer_lab:
+ case t_computer_lab:
   if (success < -2) {
    sound(u.posx, u.posy, 40, "An alarm sounds!");
    add_msg("Manhacks drop from compartments in the ceiling.");
@@ -2706,11 +2711,11 @@ void game::emp_blast(int x, int y)
  switch (m.ter(x, y)) {
  case t_card_reader:
   rn = rng(1, 100);
-  if (rn > 92 || rn < 50) {
+  if (rn > 92 || rn < 40) {
    add_msg("The card reader is rendered non-functional.");
    m.ter(x, y) = t_card_reader_broken;
   }
-  if (rn > 90) {
+  if (rn > 80) {
    add_msg("The nearby doors slide open!");
    for (int i = -5; i <= 5; i++) {
     for (int j = -5; j <= 5; j++) {
@@ -2719,6 +2724,8 @@ void game::emp_blast(int x, int y)
     }
    }
   }
+  if (rn >= 40 && rn <= 80)
+   add_msg("Nothing happens.");
   break;
  }
  int mondex = mon_at(x, y);
@@ -2822,7 +2829,7 @@ void game::open()
   switch(m.ter(u.posx + openx, u.posy + openy)) {
   case t_door_locked:
    add_msg("The door is locked!");
-   break;
+   break;	// Trying to open a locked door uses the full turn's movement
   case t_door_o:
    add_msg("That door is already open.");
    u.moves += 100;
@@ -2876,7 +2883,7 @@ void game::smash()
  int smashx, smashy;
  get_direction(smashx, smashy, ch);
  if (smashx != -2 && smashy != -2)
-  didit = m.bash(u.posx+smashx, u.posy+smashy, smashskill, bashsound);
+  didit = m.bash(u.posx + smashx, u.posy + smashy, smashskill, bashsound);
  else
   add_msg("Invalid direction.");
  if (didit) {
@@ -3467,7 +3474,6 @@ void game::pickup(int posx, int posy, int min)
       m.add_item(posx, posy, u.remove_weapon());
       u.i_add(here[i]);
       u.wield(this, here[i].invlet);
-      m.i_rem(posx, posy, curmit);
       u.moves -= 100;
       curmit--;
       if (in_tutorial) {
@@ -3485,6 +3491,7 @@ void game::pickup(int posx, int posy, int min)
        else if (here[i].is_food() || here[i].is_food_container())
         tutorial_message(LESSON_GOT_FOOD);
       }
+      m.i_rem(posx, posy, curmit);
      } else
       nextinv--;
     } else {
@@ -3969,13 +3976,13 @@ void game::plfire(bool burst)
   }
  }
 
- // target() sets x and y, or returns false if we canceled (by pressing Esc)
+ // target() sets x and y, and returns an empty vector if we canceled (Esc)
  std::vector <point> trajectory = target(x, y, x0, y0, x1, y1, mon_targets,
                                          passtarget, &u.weapon);
  if (trajectory.size() == 0)
   return;
- if (passtarget != -1)
-  last_target = targetindices[passtarget];
+ if (passtarget != -1)	// We picked a real live target
+  last_target = targetindices[passtarget]; // Make it our default for next time
 
 // Train up our skill
  it_gun* firing = dynamic_cast<it_gun*>(u.weapon.type);
@@ -3984,10 +3991,12 @@ void game::plfire(bool burst)
   num_shots = u.weapon.burst_size();
  if (num_shots > u.weapon.charges)
   num_shots = u.weapon.charges;
- if (u.sklevel[firing->skill_used] == 0 || firing->ammo != AT_BB)
-  u.practice(firing->skill_used, 4 + num_shots);
- if (u.sklevel[sk_gun] == 0 || firing->ammo != AT_BB)
-  u.practice(sk_gun, 8);
+ if (u.sklevel[firing->skill_used] == 0 ||
+     (firing->ammo != AT_BB && firing->ammo != AT_NAIL))
+  u.practice(firing->skill_used, 4 + (num_shots / 2));
+ if (u.sklevel[sk_gun] == 0 ||
+     (firing->ammo != AT_BB && firing->ammo != AT_NAIL))
+  u.practice(sk_gun, 5);
 
  fire(u, x, y, trajectory, burst);
  if (in_tutorial && u.recoil >= 5)
@@ -5276,14 +5285,14 @@ void game::spawn_mon(int shiftx, int shifty)
   pop = cur_om.zg[i].population;
   rad = cur_om.zg[i].radius;
   if (dist <= rad) {	// We're in an existing group's territory!
-   while (rng(0, long((3.8 - double(dist / rad)) * pop)) > pow(rad, 2) &&
-          group < pop && group < 16)
 // (The area of the group's territory) in (population/square at this range)
 // chance of adding one monster; cap at the population OR 16
+   while (rng(0, long((3.8 - double(dist / rad)) * pop)) > pow(rad, 2) &&
+          group < pop && group < 16)
     group++;
    cur_om.zg[i].population -= group;
    if (group > 0) // If we spawned some zombies, advance the timer
-    nextspawn += rng(group * 3, group * 8 + z.size() * 2);
+    nextspawn += rng(group * 3 + z.size(), group * 5 + z.size() * 4);
    for (int j = 0; j < group; j++) {	// For each monster in the group...
     mon_id type = valid_monster_from(moncats[cur_om.zg[i].type]);
     if (type == mon_null)
@@ -5363,9 +5372,9 @@ int game::valid_group(mon_id type, int x, int y)
   }
  }
  if (valid_groups.size() == 0) {
-  if (semi_valid.size() == 0) {
+  if (semi_valid.size() == 0)
    return -1;
-  } else {
+  else {
 // If there's a group that's ALMOST big enough, expand that group's radius
 // by one and absorb into that group.
    int semi = rng(0, semi_valid.size() - 1);

@@ -116,7 +116,8 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_tools],
 	itm_screwdriver, itm_hammer, itm_wrench, itm_saw, itm_hacksaw,
-	itm_hammer_sledge, itm_xacto, itm_flashlight, itm_crowbar, NULL);
+	itm_hammer_sledge, itm_xacto, itm_flashlight, itm_crowbar, itm_nailgun,
+	NULL);
  setvector(
    mapitems[mi_bigtools],
 	itm_broom, itm_mop, itm_hoe, itm_shovel, itm_chainsaw_off,
@@ -125,7 +126,7 @@ void game::init_mapitems()
    mapitems[mi_mischw],
 	itm_2x4, itm_machete, itm_boots_steel, itm_hat_hard, itm_mask_filter,
 	itm_glasses_safety, itm_bb, itm_bbgun, itm_beartrap, itm_two_way_radio,
-	itm_radio, itm_hotplate, itm_extinguisher, NULL);
+	itm_radio, itm_hotplate, itm_extinguisher, itm_nailgun, NULL);
  setvector(
    mapitems[mi_sports],
 	itm_bandages, itm_aspirin, itm_bat, itm_sneakers, itm_tshirt,

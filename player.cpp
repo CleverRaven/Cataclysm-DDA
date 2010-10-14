@@ -2393,6 +2393,7 @@ void player::add_disease(dis_type type, int duration, game *g)
   disease tmp(type, duration);
   illness.push_back(tmp);
  }
+ activity.type = ACT_NULL;
 }
 
 void player::rem_disease(dis_type type)
@@ -2489,7 +2490,7 @@ void player::suffer(game *g)
   if (!has_trait(PF_GILLS))
    oxygen--;
   if (oxygen <= 5)
-   popup("You're almost out of air!  Press '<' to surface.");
+   g->add_msg("You're almost out of air!  Press '<' to surface.");
   else if (oxygen < 0) {
    if (has_bionic(bio_gills) && power_level > 0) {
     oxygen += 5;
@@ -2812,10 +2813,10 @@ void player::sort_inv()
    types[1].push_back(tmp);
   else if (tmp.is_armor())
    types[3].push_back(tmp);
-  else if (tmp.is_food() || tmp.is_food_container())
-   types[4].push_back(tmp);
   else if (tmp.is_tool() || tmp.is_gunmod())
    types[5].push_back(tmp);
+  else if (tmp.is_food() || tmp.is_food_container())
+   types[4].push_back(tmp);
   else if (tmp.is_book())
    types[6].push_back(tmp);
   else if (tmp.is_weap())

@@ -1110,7 +1110,7 @@ AMMO("plutonium cell",	10,3000,AT_PLUT,	c_ltgreen,	STEEL,
 A nuclear-powered battery.  Used to charge advanced and rare electronics.");
 
 AMMO("nails",		20,  60,AT_NAIL,	c_cyan,		IRON,
-         1,  8,  6,  2,  4, 40,  0, 100, "\
+         1,  8,  4,  3,  3, 40,  4, 100, "\
 A box of nails, mainly useful with a hammer.");
 
 AMMO("BB",		 8,  50,AT_BB,		c_pink,		STEEL,
@@ -1329,9 +1329,14 @@ to_hit,dmg,accuracy,recoil,durability,burst,clip,des) \
 color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,skill,ammo,dmg,accuracy,recoil,\
 durability,burst,clip))
 
-//  NAME		RAR PRC COLOR	MAT1	MAT2
-GUN("BB gun",		10, 100,c_ltblue,	IRON,	WOOD,
+//  NAME		RAR PRC COLOR		MAT1	MAT2
+GUN("nail gun",		12, 100,c_ltblue,	IRON,	MNULL,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
+	sk_pistol,	AT_NAIL, 4, 22, 12,  1,  0, 20,  0,  8,  5, 100, "\
+A tool used to drive nails into wood or other material.  It could also be\n\
+used as a ad-hoc weapon, or to practice your handgun skill up to level 1.");
+
+GUN("BB gun",		10, 100,c_ltblue,	IRON,	WOOD,
 	sk_rifle,	AT_BB,	 8, 16,  9,  2,  0,  6, -5,  7,  0, 20, "\
 Popular among children.  It's fairly accurate, but BBs deal nearly no damage.\n\
 It could be used to practice your rifle skill up to level 1.");
@@ -2254,7 +2259,7 @@ The fuse on this dynamite is lit and hissing.  It'll explode any moment now.");
 TOOL("mininuke",	1, 1800,'*', c_ltgreen,	STEEL,	PLASTIC,
     3,  4,  8,  0, -2,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::mininuke, "\
 An extremely powerful weapon--essentially a hand-held nuclear bomb.  Use it\n\
-to activate the timer.  Ten seconds later it will explode, leaving behind a\n\
+to activate the timer.  Ten turns later it will explode, leaving behind a\n\
 radioactive crater.  The explosion is large enough to take out a house.");
 
 //	NAME		RAR PRC SYM  COLOR	MAT1	MAT

@@ -39,8 +39,8 @@ void npc::move(game *g)
   action = long_term_goal_action(g);
 
  if (g->debugmon)
-  debugmsg("%s chose action %s.  Mission is %d.", name.c_str(),
-           npc_action_name(action).c_str(), mission);
+  debugmsg("%s (%d:%d) chose action %s.  Mission is %d.", name.c_str(),
+           posx, posy, npc_action_name(action).c_str(), mission);
 
  int oldmoves = moves;
 

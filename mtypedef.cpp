@@ -29,7 +29,7 @@ item_chance, HP, sp_freq, death, sp_att, desc))
 // PLEASE NOTE: The description is AT MAX 4 lines of 46 characters each.
 
 // FOREST ANIMALS
-mon("squirrel",		'r',	c_ltgray,	MS_TINY,	FLESH,
+mon("squirrel",		'w',	c_ltgray,	MS_TINY,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_ANIMAL)|
 	 mfb(MF_WARM)|mfb(MF_FUR)),
 //	frq dif  agr spd msk mdi m## cut dge arm itm  HP special freq
@@ -38,7 +38,7 @@ mon("squirrel",		'r',	c_ltgray,	MS_TINY,	FLESH,
 A small woodland animal."
 );
 
-mon("rabbit",		'r',	c_white,	MS_TINY,	FLESH,
+mon("rabbit",		'w',	c_white,	MS_TINY,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_ANIMAL)|
 	 mfb(MF_WARM)|mfb(MF_FUR)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
@@ -198,7 +198,7 @@ mon("shrieker zombie",	'Z',	c_magenta,	MS_MEDIUM,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_STUMBLES)|
 	 mfb(MF_WARM)|mfb(MF_BASHES)|mfb(MF_POISON)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  4,  5,  4, 95,  9,  1,  2,  0,  4,  0, 45, 50, 10,
+	  4,  8,  4, 95,  9,  1,  2,  0,  4,  0, 45, 50, 10,
 	&mdeath::normal,	&mattack::shriek, "\
 This zombie's jaw has been torn off, leaving\n\
 a gaping hole from mid-neck up."
@@ -315,7 +315,7 @@ mon("zombie scientist", 'Z',	c_ltgray,	MS_MEDIUM,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_WARM)|mfb(MF_BASHES)|
 	 mfb(MF_POISON)|mfb(MF_ACIDPROOF)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	 20,  3,  5, 75,  7,  1,  3,  0,  1,  0, 50, 40, 20,
+	 20,  3,  5, 75,  7,  1,  3,  0,  1,  0, 50, 35, 20,
 	&mdeath::normal,	&mattack::science, "\
 A zombie wearing a tattered lab coat and\n\
 some sort of utility belt.  It looks weaker\n\
@@ -556,7 +556,7 @@ mouth."
 );
 
 // ROBOTS
-mon("eyebot",		'R',	c_ltblue,	MS_SMALL,	STEEL,
+mon("eyebot",		'r',	c_ltblue,	MS_SMALL,	STEEL,
 	(mfb(MF_SEES)|mfb(MF_FLIES)|mfb(MF_ELECTRONIC)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	 20,  2,  2,120, 0,  0,  0,  0,  3, 10, 70,  20, 10,
@@ -567,7 +567,7 @@ dominated by a huge eye and a flash bulb.\n\
 Frequently used for reconaissance."
 );
 
-mon("manhack",		'R',	c_green,	MS_TINY,	STEEL,
+mon("manhack",		'r',	c_green,	MS_TINY,	STEEL,
 	(mfb(MF_SEES)|mfb(MF_FLIES)|mfb(MF_NOHEAD)|mfb(MF_ELECTRONIC)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	 18,  7,  5,130, 12,  1,  1,  8,  2,  0, 10,  5, 0,
@@ -577,7 +577,7 @@ the air.  It's covered with whirring blades\n\
 and has one small, glowing red eye."
 );
 
-mon("skitterbot",	'R',	c_ltred,	MS_SMALL,	STEEL,
+mon("skitterbot",	'r',	c_ltred,	MS_SMALL,	STEEL,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_GOODHEARING)|mfb(MF_ELECTRONIC)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	 10, 13,  4,105,  7,  1,  3,  6,  0, 12, 60, 40, 5,

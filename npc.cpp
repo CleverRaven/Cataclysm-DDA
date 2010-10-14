@@ -1448,6 +1448,8 @@ void npc::shift(int sx, int sy)
 {
  posx -= sx * SEEX;
  posy -= sy * SEEY;
+ mapx += sx;
+ mapy += sy;
 /*
  for (int i = 0; i < plans.size(); i++) {
   plans[i].x -= sx * SEEX;
