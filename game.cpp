@@ -581,7 +581,8 @@ void game::process_activity()
     u.weapon.reload(u, u.activity.index);
     if (u.weapon.is_gun())
      reloading = dynamic_cast<it_gun*>(u.weapon.type);
-    if (u.weapon.is_gun() && one_in(u.sklevel[reloading->skill_used]))
+    if (u.weapon.is_gun() && reloading->ammo != AT_BB &&
+        reloading->ammo != AT_NAIL && one_in(u.sklevel[reloading->skill_used]))
      u.practice(reloading->skill_used, rng(2, 6));
     if (u.weapon.is_gun() && reloading->skill_used == sk_shotgun) {
      add_msg("You insert a cartridge into your %s.", u.weapon.tname().c_str());
