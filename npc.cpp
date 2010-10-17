@@ -231,10 +231,13 @@ void npc::randomize(game *g, npc_class type)
   personality.collector -= rng(1, 6);
   break;
  case NC_COWBOY:
-  for (int i = 1; i < num_skill_types; i++)
-   sklevel[i] = dice(3, 2) - 3;
+  for (int i = 1; i < num_skill_types; i++) {
+   sklevel[i] = dice(3, 2) - 4;
+   if (sklevel[i] < 0)
+    sklevel[i] = 0;
+  }
   sklevel[sk_gun] += rng(0, 2);
-  sklevel[sk_pistol] += rng(1, 4);
+  sklevel[sk_pistol] += rng(1, 3);
   sklevel[sk_rifle] += rng(0, 2);
   int_max -= rng(0, 2);
   str_max += rng(0, 1);
@@ -242,8 +245,11 @@ void npc::randomize(game *g, npc_class type)
   personality.bravery += rng(1,5);
   break;
  case NC_SCIENTIST:
-  for (int i = 1; i < num_skill_types; i++)
-   sklevel[i] = dice(3, 2) - 3;
+  for (int i = 1; i < num_skill_types; i++) {
+   sklevel[i] = dice(3, 2) - 4;
+   if (sklevel[i] < 0)
+    sklevel[i] = 0;
+  }
   sklevel[sk_computer] += rng(1, 4);
   sklevel[sk_electronics] += rng(1, 3);
   sklevel[sk_firstaid] += rng(0, 1);

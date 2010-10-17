@@ -346,10 +346,11 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items)
   }
   return;
  case t_vat:
-  if (dam >= 20) {
+  if (dam >= 10) {
    g->sound(x, y, 15, "ke-rash!");
    ter(x, y) = t_floor;
-  }
+  } else
+   dam = 0;
   break;
  default:
   if (move_cost(x, y) == 0 && !trans(x, y))
@@ -404,14 +405,13 @@ bool map::open_door(int x, int y, bool inside)
  } else if (inside && ter(x, y) == t_door_locked) {
   ter(x, y) = t_door_o;
   return true;
- }/* else if (inside && ter(x, y) == t_door_metal_locked)
-  ter(x, y) = t_door_metal_o; */	// Locked metal doors are REALLY locked!
+ }
  return false;
 }
 
 bool map::close_door(int x, int y)
 {
- if (ter(x, y) == t_door_o){
+ if (ter(x, y) == t_door_o) {
   ter(x, y) = t_door_c;
   return true;
  } else if (ter(x, y) == t_door_metal_o) {

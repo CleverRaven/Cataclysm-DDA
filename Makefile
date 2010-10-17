@@ -1,9 +1,9 @@
 # comment these to toggle them as one sees fit.
 #WARNINGS = -Wall
 DEBUG = -g
+
+
 ODIR = obj
-
-
 TARGET = cataclysm
 
 CXX = g++

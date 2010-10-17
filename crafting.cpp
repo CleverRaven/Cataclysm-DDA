@@ -436,6 +436,15 @@ void game::init_recipes()
   COMP(itm_superglue, 1, NULL);
   COMP(itm_plut_cell, 1, NULL);
 
+ RECIPE(itm_bot_manhack, CC_MISC, sk_electronics, sk_computer, 6, 8000);
+  TOOL(itm_screwdriver, -1, NULL);
+  TOOL(itm_soldering_iron, 10, NULL);
+  COMP(itm_knife_steak, 4, itm_knife_combat, 2, NULL);
+  COMP(itm_processor, 1, NULL);
+  COMP(itm_RAM, 1, NULL);
+  COMP(itm_power_supply, 1, NULL);
+  COMP(itm_battery, 200, itm_plut_cell, 1, NULL);
+
 }
 
 void game::craft()

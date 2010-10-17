@@ -2774,8 +2774,7 @@ int game::mon_at(int x, int y)
 
 bool game::is_empty(int x, int y)
 {
- return ((m.move_cost(x, y) > 0 && !m.has_flag(swimmable, x, y)) &&
-         npc_at(x, y) == -1 && mon_at(x, y) == -1 &&
+ return (m.move_cost(x, y) > 0 && npc_at(x, y) == -1 && mon_at(x, y) == -1 &&
          (u.posx != x || u.posy != y));
 }
 
@@ -3475,6 +3474,7 @@ void game::pickup(int posx, int posy, int min)
       u.i_add(here[i]);
       u.wield(this, here[i].invlet);
       u.moves -= 100;
+      m.i_rem(posx, posy, curmit);
       curmit--;
       if (in_tutorial) {
        tutorial_message(LESSON_WIELD_NO_SPACE);
@@ -3491,7 +3491,6 @@ void game::pickup(int posx, int posy, int min)
        else if (here[i].is_food() || here[i].is_food_container())
         tutorial_message(LESSON_GOT_FOOD);
       }
-      m.i_rem(posx, posy, curmit);
      } else
       nextinv--;
     } else {

@@ -13,15 +13,13 @@ class game;
 class monster;
 
 #ifndef SEEX 	// SEEX is how far the player can see in the X direction (at
-	// least, without scrolling).  All map segments will need to be at least
-	// this wide.  The map therefore needs to be 3 times as wide.
-#define SEEX 12
-#endif
+#define SEEX 12	// least, without scrolling).  All map segments will need to be
+#endif		// at least this wide. The map therefore needs to be 3x as wide.
+
 #ifndef SEEY	// Same as SEEX
 #define SEEY 12 // Requires 2*SEEY+1= 25 vertical squares
-	        // Nuts to 80x24 terms. Mostly exists in graphical clients, and
+#endif	        // Nuts to 80x24 terms. Mostly exists in graphical clients, and
 	        // those fatcats can resize.
-#endif
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
@@ -57,10 +55,12 @@ struct ter_t {
 
 enum ter_id {
 t_null = 0,
+t_hole,
 // Ground
 t_dirt, t_dirtmound, t_pit,
 t_rock_floor, t_rubble,
 t_grass,
+t_metal_floor,
 t_pavement, t_pavement_y, t_sidewalk,
 t_floor,
 t_grate,
@@ -87,6 +87,7 @@ t_lava,
 // Embellishments
 t_bed, t_toilet,
 t_gas_pump, t_gas_pump_smashed,
+t_missile, t_missile_exploded,
 t_counter,
 t_radio_tower, t_radio_controls,
 t_computer_broken, t_computer_nether, t_computer_lab,
@@ -105,6 +106,8 @@ num_terrain_types
 const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"nothing",	     ' ', c_white,   2,
 	mfb(transparent)},
+{"empty space",      '#', c_black,   2,
+	mfb(transparent)},
 {"dirt",	     '.', c_brown,   2,
 	mfb(transparent)|mfb(diggable)},
 {"mound of dirt",    '#', c_brown,   3,
@@ -117,6 +120,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(rough)|mfb(diggable)},
 {"grass",	     '.', c_green,   2,
 	mfb(transparent)|mfb(diggable)},
+{"metal floor",      '.', c_ltcyan,  2,
+	mfb(transparent)},
 {"pavement",	     '.', c_dkgray,  2,
 	mfb(transparent)},
 {"yellow pavement",  '.', c_yellow,  2,
@@ -208,6 +213,10 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(explodes)},
 {"smashed gas pump", '&', c_ltred,   0,
 	mfb(transparent)},
+{"missile",          '#', c_ltblue,  0,
+	mfb(explodes)},
+{"blown-out missile",'#', c_ltgray,  0,
+	0},
 {"counter",	     '#', c_blue,    4,
 	mfb(transparent)},
 {"radio tower",      '&', c_ltgray,  0,

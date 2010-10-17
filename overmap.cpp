@@ -432,6 +432,12 @@ void overmap::generate_sub(overmap* above)
     lab_points.push_back(city(i, j, rng(1, 5 + posz)));
    else if (above->ter(i, j) == ot_lab_stairs)
     ter(i, j) = ot_lab;
+   else if (above->ter(i, j) == ot_silo) {
+    if (rng(2, 7) < abs(posz) || rng(2, 7) < abs(posz))
+     ter(i, j) = ot_silo_finale;
+    else
+     ter(i, j) = ot_silo;
+   }
   }
  }
  place_hiways(sewer_points,  ot_sewer_nesw);
@@ -1571,11 +1577,26 @@ void overmap::place_mongroups()
   }
  }
 
- for (int n = 0; n < 15; n++) {
+ for (int i = 0; i < 15; i++) {
   int x = rng(MAX_GOO_SIZE * 2, OMAPX - MAX_GOO_SIZE * 2);
   int y = rng(MAX_GOO_SIZE * 2, OMAPY - MAX_GOO_SIZE * 2);
   if (ter(x, y) == ot_field)
    ter(x, y) = ot_slimepit_down;
+ }
+
+ for (int n = 0; n < 6; n++) {
+  int x = rng(3, OMAPX - 4);
+  int y = rng(3, OMAPY - 4);
+  bool okay = true;
+  for (int i = x - 3; i <= x + 3 && okay; i++) {
+   for (int j = y - 3; j <= y + 3 && okay; j++) {
+    if (ter(i, j) != ot_field && ter(i, j) != ot_forest &&
+        ter(i, j) != ot_forest_thick && ter(i, j) != ot_forest_water)
+     okay = false;
+   }
+  }
+  if (okay)
+   ter(x, y) = ot_silo;
  }
  
  int numgroups = rng(0, 3);
@@ -1665,8 +1686,10 @@ void overmap::save(std::string name, int x, int y, int z)
   fout << "T " << radios[i].x << " " << radios[i].y << " " <<
           radios[i].strength << " " << std::endl << radios[i].message <<
           std::endl;
+/*	BUGGY - omit for now
  for (int i = 0; i < npcs.size(); i++)
-  fout << "N " << npcs[i].save_info() << std::endl;
+  fout << "n " << npcs[i].save_info() << std::endl;
+*/
  fout.close();
 }
 
@@ -1716,7 +1739,7 @@ void overmap::open(game *g, int x, int y, int z)
     getline(fin, tmp.message);	// Chomp endl
     getline(fin, tmp.message);
     radios.push_back(tmp);
-   } else if (datatype == 'N') {	// NPC
+   } else if (datatype == 'n') {	// NPC
     std::string npcdata;
     getline(fin, npcdata);
     npc tmp;

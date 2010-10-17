@@ -13,10 +13,6 @@
 
 monster::monster()
 {
-/*
- mvprintz(10, 30, c_red, "INVALID MONSTER!");
- getch();
-*/
  posx = 20;
  posy = 10;
  wandx = -1;
@@ -234,7 +230,7 @@ void monster::shift(int sx, int sy)
 bool monster::is_fleeing(player &u)
 {
 // fleefactor is by default the agressiveness of the animal, minus the
-//  percentage of remaining HP times five.  So, aggresiveness of 5 has a
+//  percentage of remaining HP times four.  So, aggresiveness of 5 has a
 //  fleefactor of 2 AT MINIMUM.
  if (type->hp == 0)
   debugmsg("%s has type->hp of 0!", type->name.c_str());
@@ -291,7 +287,7 @@ int monster::hit(player &p, body_part &bp_hit)
   highest_hit = 20;
 
  int bp_rand = rng(0, highest_hit - 1);
-      if (bp_rand <= 2)
+      if (bp_rand <=  2)
   bp_hit = bp_legs;
  else if (bp_rand <= 10)
   bp_hit = bp_torso;
@@ -313,12 +309,12 @@ void monster::hit_monster(game *g, int i)
  monster* target = &(g->z[i]);
  
  int numdice = type->melee_skill;
- int dodgedice = target->type->sk_dodge;
+ int dodgedice = target->type->sk_dodge * 4;
  switch (target->type->size) {
-  case MS_TINY:		dodgedice += 2;	break;
-  case MS_SMALL: 	dodgedice += 1;	break;
-  case MS_LARGE:	numdice   += 1;	break;
-  case MS_HUGE:		numdice   += 3; break;
+  case MS_TINY:		dodgedice += 4;	break;
+  case MS_SMALL: 	dodgedice += 2;	break;
+  case MS_LARGE:	numdice   += 2;	break;
+  case MS_HUGE:		numdice   += 4; break;
  }
 
  if (dice(numdice, 10) <= dice(dodgedice, 10)) {
@@ -356,7 +352,7 @@ void monster::die(game *g)
  bool animal_done = false;
  std::vector<items_location_and_chance> it = g->monitems[type->id];
  std::vector<itype_id> mapit;
- if (type->item_chance != 0 && g->monitems[type->id].size() == 0)
+ if (type->item_chance != 0 && it.size() == 0)
   debugmsg("Type %s has item_chance %d but no items assigned!",
            type->name.c_str(), type->item_chance);
  for (int i = 0; i < it.size(); i++)
@@ -394,6 +390,7 @@ bool monster::make_fungus(game *g)
  switch (mon_id(type->id)) {
  case mon_ant:
  case mon_ant_soldier:
+ case mon_ant_queen:
  case mon_bee:
   poly(g->mtypes[mon_ant_fungus]);
   return true;
@@ -419,7 +416,17 @@ bool monster::make_fungus(game *g)
  case mon_ant_fungus:
  case mon_zombie_fungus:
  case mon_boomer_fungus:
-  return true;
+  return true;	// Fungusy creatures are immune
+ case mon_eyebot:
+ case mon_manhack:
+ case mon_skitterbot:
+ case mon_secubot:
+ case mon_molebot:
+ case mon_tripod:
+ case mon_chickenbot:
+ case mon_tankbot:
+ case mon_turret:
+  return true;	// Robots are immune
  default:
   return false;	// All others die
  }

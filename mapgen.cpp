@@ -42,6 +42,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate);
 
 void set_science_room(map *m, int x1, int y1, bool faces_right, int turn);
 
+void silo_rooms(map *m);
+
 void map::generate(game *g, overmap *om, int x, int y, int turn)
 {
  oter_id terrain_type, t_north, t_east, t_south, t_west, t_above;
@@ -2070,6 +2072,77 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    ter(SEEX + 1, 7) = t_radio_tower;
    break;
   }
+  break;
+
+ case ot_silo:
+  if (t_above == ot_null) {	// We're on ground level
+   for (int i = 0; i < SEEX * 2; i++) {
+    for (int j = 0; j < SEEY * 2; j++) {
+     if (trig_dist(i, j, SEEX, SEEY) <= 6)
+      ter(i, j) = t_metal_floor;
+     else
+      ter(i, j) = grass_or_dirt();
+    }
+   }
+/* x--
+ * |>+		x is at (lw, tw);  + is at (mw, tw+1);  6 is at (mw, tw+2)
+ * --6 */
+   switch (rng(1, 4)) {	// Placement of stairs
+   case 1:
+    lw = 3;
+    mw = 5;
+    tw = 3;
+    break;
+   case 2:
+    lw = 3;
+    mw = 5;
+    tw = SEEY * 2 - 4;
+    break;
+   case 3:
+    lw = SEEX * 2 - 7;
+    mw = lw;
+    tw = 3;
+    break;
+   case 4:
+    lw = SEEX * 2 - 7;
+    mw = lw;
+    tw = SEEY * 2 - 4;
+    break;
+   }
+   for (int i = lw; i <= lw + 2; i++) {
+    ter(i, 3) = t_wall_h;
+    ter(i, 5) = t_wall_h;
+   }
+   ter(lw    , tw + 1) = t_wall_v;
+   ter(lw + 1, tw + 1) = t_stairs_down;
+   ter(lw + 2, tw + 1) = t_wall_v;
+   ter(mw    , tw + 1) = t_door_metal_locked;
+   ter(mw    , tw + 2) = t_card_reader;
+
+  } else {	// We are NOT above ground.
+   for (int i = 0; i < SEEX * 2; i++) {
+    for (int j = 0; j < SEEY * 2; j++) {
+     if (trig_dist(i, j, SEEX, SEEY) > 7)
+      ter(i, j) = t_rock;
+     else if (trig_dist(i, j, SEEX, SEEY) > 5)
+      ter(i, j) = t_metal_floor;
+     else if (trig_dist(i, j, SEEX, SEEY) == 5)
+      ter(i, j) = t_hole;
+     else
+      ter(i, j) = t_missile;
+    }
+   }
+   silo_rooms(this);
+  }
+  break;
+
+ case ot_silo_finale:
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++) {
+    ter(i, j) = t_rock_floor;
+   }
+  }
+  ter(0, 0) = t_stairs_up;
   break;
 
  case ot_sub_station_north:
@@ -4264,5 +4337,92 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
     m->i_at(i, j) = itrot[x2 - (i - x1)][j];
    }
   }
+ }
+}
+
+void silo_rooms(map *m)
+{
+ std::vector<point> rooms;
+ std::vector<point> room_sizes;
+ bool okay = true;
+ do {
+  int x, y, height, width;
+  if (one_in(2)) {	// True = top/bottom, False = left/right
+   x = rng(0, SEEX * 2 - 6);
+   y = rng(0, 4);
+   if (one_in(2))
+    y = SEEY * 2 - 2 - y;	// Bottom of the screen, not the top
+   width  = rng(2, 5);
+   height = 2;
+   if (x + width >= SEEX * 2 - 1)
+    width = SEEX * 2 - 2 - x;	// Make sure our room isn't too wide
+  } else {
+   x = rng(0, 4);
+   y = rng(0, SEEY * 2 - 6);
+   if (one_in(2))
+    x = SEEX * 2 - 2 - x;	// Right side of the screen, not the left
+   width  = 2;
+   height = rng(2, 5);
+   if (y + height >= SEEY * 2 - 1)
+    height = SEEY * 2 - 2 - y;	// Make sure our room isn't too tall
+  }
+  if (!rooms.empty() &&	// We need at least one room!
+      (m->ter(x, y) != t_rock || m->ter(x + width, y + height) != t_rock))
+   okay = false;
+  else {
+   rooms.push_back(point(x, y));
+   room_sizes.push_back(point(width, height));
+   for (int i = x; i <= x + width; i++) {
+    for (int j = y; j <= y + height; j++) {
+     if (m->ter(i, j) == t_rock)
+      m->ter(i, j) = t_floor;
+    }
+   }
+  }
+ } while (okay);
+ debugmsg("%d rooms", rooms.size());
+
+ m->ter(rooms[0].x, rooms[0].y) = t_stairs_up;
+ int down_room = rng(0, rooms.size() - 1);
+ point dp = rooms[down_room], ds = room_sizes[down_room];
+ m->ter(dp.x + ds.x, dp.y + ds.y) = t_stairs_down;
+ rooms.push_back(point(SEEX, SEEY)); // So the center circle gets connected
+ room_sizes.push_back(point(5, 5));
+
+ while (rooms.size() > 1) {
+  int best_dist = 999, closest = 0;
+  for (int i = 1; i < rooms.size(); i++) {
+   int dist = trig_dist(rooms[0].x, rooms[0].y, rooms[i].x, rooms[i].y);
+   if (dist < best_dist) {
+    best_dist = dist;
+    closest = i;
+   }
+  }
+// We chose the closest room; now draw a corridor there
+  point origin = rooms[0], origsize = room_sizes[0], dest = rooms[closest];
+  int x = origin.x + origsize.x, y = origin.y + origsize.y;
+  bool x_first = (abs(origin.x - dest.x) > abs(origin.y - dest.y));
+/*
+  while ((x > origin.x && x <= origin.x + origsize.x &&
+          y > origin.y && y <= origin.y + origsize.y   ) ||
+         m->ter(x, y) == t_rock) {
+*/
+  while (x != dest.x || y != dest.y) {
+   if (m->ter(x, y) == t_rock)
+    m->ter(x, y) = t_floor;
+   if ((x_first && x != dest.x) || (!x_first && y == dest.y)) {
+    if (dest.x < x)
+     x--;
+    else
+     x++;
+   } else {
+    if (dest.y < y)
+     y--;
+    else
+     y++;
+   }
+  }
+  rooms.erase(rooms.begin());
+  room_sizes.erase(room_sizes.begin());
  }
 }

@@ -221,6 +221,7 @@ void iuse::firstaid(game *g, item *it, bool t)
 // Aspirin
 void iuse::pkill_1(game *g, item *it, bool t)
 {
+ g->add_msg("You take some %s.", it->tname().c_str());
  if (!g->u.has_disease(DI_PKILL1))
   g->u.add_disease(DI_PKILL1, 120, g);
  else {
@@ -235,27 +236,32 @@ void iuse::pkill_1(game *g, item *it, bool t)
 
 void iuse::pkill_2(game *g, item *it, bool t)
 {
+ g->add_msg("You take some %s.", it->tname().c_str());
  g->u.add_disease(DI_PKILL2, 100, g);
 }
 
 void iuse::pkill_3(game *g, item *it, bool t)
 {
+ g->add_msg("You take some %s.", it->tname().c_str());
  g->u.add_disease(DI_PKILL2, 200, g);
 }
 
 void iuse::pkill_4(game *g, item *it, bool t)
 {
+ g->add_msg("You shoot up.");
  g->u.add_disease(DI_PKILL3, 80, g);
  g->u.add_disease(DI_PKILL2, 400, g);
 }
 
 void iuse::pkill_l(game *g, item *it, bool t)
 {
+ g->add_msg("You take some %s.", it->tname().c_str());
  g->u.add_disease(DI_PKILL_L, rng(12, 18) * 300, g);
 }
 
 void iuse::xanax(game *g, item *it, bool t)
 {
+ g->add_msg("You take some %s.", it->tname().c_str());
  if (!g->u.has_disease(DI_TOOK_XANAX))
   g->u.add_disease(DI_TOOK_XANAX, 900, g);
  else
@@ -417,6 +423,8 @@ void iuse::purifier(game *g, item *it, bool t)
  }
 }
 
+// TOOLS below this point!
+
 void iuse::lighter(game *g, item *it, bool t)
 {
  int dirx, diry;
@@ -427,6 +435,7 @@ void iuse::lighter(game *g, item *it, bool t)
   g->add_msg("Invalid direction.");
   return;
  }
+ g->u.moves -= 15;
  dirx += g->u.posx;
  diry += g->u.posy;
  if (g->m.add_field(g, dirx, diry, fd_fire, 1))
@@ -527,6 +536,7 @@ void iuse::scissors(game *g, item *it, bool t)
   return;
  }
  if (cut->type->id == itm_string_36) {
+  g->u.moves -= 150;
   g->add_msg("You cut the string into 6 smaller pieces.");
   item string(g->itypes[itm_string_6], g->turn, g->nextinv);
   g->u.i_rem(ch);
@@ -550,10 +560,11 @@ void iuse::scissors(game *g, item *it, bool t)
   g->add_msg("You can only slice items made of cotton.");
   return;
  }
+ g->u.moves -= 25 * cut->volume();
  int count = cut->volume();
  if (g->u.sklevel[sk_tailor] == 0)
   count = rng(0, count);
- else if (g->u.sklevel[sk_tailor] == 1)
+ else if (g->u.sklevel[sk_tailor] == 1 && count >= 2)
   count -= rng(0, 2);
  if (dice(3, 3) > g->u.dex_cur)
   count -= rng(1, 3);
@@ -696,11 +707,11 @@ void iuse::hammer(game *g, item *it, bool t)
   mvwprintz(w, 5, 1, c_yellow, "Perform action? (y/n)");
   wrefresh(w);
   char ch;
-  do {
+  do
    ch = getch();
-  } while (ch != 'y' && ch != 'Y' && ch != 'n' && ch != 'N');
+  while (ch != 'y' && ch != 'Y' && ch != 'n' && ch != 'N');
   if (ch == 'y' || ch == 'Y') {
-   g->u.moves -= 100;
+   g->u.moves -= boards * 50;
    g->u.use_up(itm_nail, nails);
    g->u.use_up(itm_2x4, boards);
    g->m.ter(dirx, diry) = newter;
@@ -753,6 +764,7 @@ void iuse::water_purifier(game *g, item *it, bool t)
   g->add_msg("You can only purify water.");
   return;
  }
+ g->u.moves -= 150;
  pure->make(g->itypes[itm_water]);
 }
 
@@ -917,9 +929,8 @@ void iuse::makemound(game *g, item *it, bool t)
   g->add_msg("You churn up the earth here.");
   g->u.moves = -300;
   g->m.ter(g->u.posx, g->u.posy) = t_dirtmound;
- } else {
+ } else
   g->add_msg("You can't churn up this ground.");
- }
 }
 
 void iuse::dig(game *g, item *it, bool t)
@@ -933,6 +944,7 @@ void iuse::dig(game *g, item *it, bool t)
   return;
  }
  if (g->m.has_flag(diggable, g->u.posx + dirx, g->u.posy + diry)) {
+  g->u.moves -= 300;
   g->add_msg("You dig a pit.");
   g->m.ter(g->u.posx + dirx, g->u.posy + diry) = t_pit;
  } else
@@ -942,7 +954,7 @@ void iuse::dig(game *g, item *it, bool t)
 
 void iuse::chainsaw_off(game *g, item *it, bool t)
 {
- g->u.moves -= 120;
+ g->u.moves -= 80;
  if (rng(0, 10) - it->damage > 5 && it->charges > 0) {
   g->sound(g->u.posx, g->u.posy, 20,
            "With a roar, the chainsaw leaps to life!");
@@ -978,7 +990,7 @@ void iuse::jackhammer(game *g, item *it, bool t)
  diry += g->u.posy;
  if (g->m.is_destructable(dirx, diry)) {
   g->m.destroy(g, dirx, diry, false);
-  g->u.moves -= 200;
+  g->u.moves -= 500;
   g->sound(dirx, diry, 45, "TATATATATATATAT!");
  } else {
   g->add_msg("You can't drill there.");
@@ -1094,6 +1106,7 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
  g->add_msg(message.str().c_str());
  g->u.practice(sk_traps, practice);
  g->m.add_trap(posx, posy, type);
+ g->u.moves -= practice * 25;
  if (type == tr_engine) {
   for (int i = -1; i <= 1; i++) {
    for (int j = -1; j <= 1; j++) {
@@ -1141,6 +1154,8 @@ void iuse::can_goo(game *g, item *it, bool t)
   gooy = g->u.posy + rng(-2, 2);
   tries++;
  } while (g->m.move_cost(goox, gooy) == 0 && tries < 10);
+ if (tries == 10)
+  return;
  int mondex = g->mon_at(goox, gooy);
  if (mondex != -1) {
   if (g->u_see(goox, gooy, junk))
@@ -1340,6 +1355,7 @@ void iuse::pheromone(game *g, item *it, bool t)
   return;
 
  g->add_msg("You squeeze the pheromone ball...");
+ g->u.moves -= 15;
 
  int converts = 0;
  for (int x = pos.x - 4; x <= pos.x + 4; x++) {
@@ -1365,4 +1381,29 @@ void iuse::pheromone(game *g, item *it, bool t)
 void iuse::portal(game *g, item *it, bool t)
 {
  g->m.add_trap(g->u.posx + rng(-2, 2), g->u.posy + rng(-2, 2), tr_portal);
+}
+
+void iuse::manhack(game *g, item *it, bool t)
+{
+ std::vector<point> valid;	// Valid spawn locations
+ for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
+  for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
+   if (g->is_empty(x, y))
+    valid.push_back(point(x, y));
+  }
+ }
+ if (valid.size() == 0) {	// No valid points!
+  g->add_msg("There is no adjacent square to release the manhack in!");
+  return;
+ }
+ int index = rng(0, valid.size() - 1);
+ g->u.moves -= 60;
+ g->u.i_rem(it->invlet);	// Remove the manhack from the player's inv
+ monster manhack(g->mtypes[mon_manhack], valid[index].x, valid[index].y);
+ if (rng(0, g->u.int_cur / 2) + g->u.sklevel[sk_electronics] / 2 +
+     g->u.sklevel[sk_computer] < rng(0, 4))
+  g->add_msg("You misprogram the manhack; it's hostile!");
+ else
+  manhack.friendly = -1;
+ g->z.push_back(manhack);
 }

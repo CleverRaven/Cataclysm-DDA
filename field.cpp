@@ -101,7 +101,7 @@ bool map::process_fields(game *g)
      if (cur->density == 3)
       ter(x, y) = t_rubble;
     } else if (terlist[ter(x, y)].flags & mfb(explodes)) {
-     ter(x, y) = t_gas_pump_smashed;
+     ter(x, y) = ter_id(int(ter(x, y)) + 1);
      cur->age = 0;
      cur->density = 3;
      g->explosion(x, y, 40, 0, true);
@@ -133,7 +133,7 @@ bool map::process_fields(game *g)
      for (int j = -1; j <= 1; j++) {
       if (x+i >= 0 && y+j >= 0 && x+i < SEEX * 3 && y+j <= SEEY * 3) {
        if (has_flag(explodes, x + i, y + j) && one_in(8 - cur->density)) {
-        ter(x+i, y+j) = t_gas_pump_smashed;
+        ter(x + i, y + i) = ter_id(int(ter(x + i, y + i)) + 1);
         g->explosion(x+i, y+j, 40, 0, true);
        } else if ((i != 0 || j != 0) && (i_at(x+i, y+j).size() > 0 ||
                   rng(15, 120) < cur->density * 10)) {

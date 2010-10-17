@@ -554,8 +554,8 @@ void mattack::smg(game *g, monster *z)
   g->add_msg("The %s fires its smg!", z->name().c_str());
  player tmp;
  tmp.name = "The " + z->name();
- tmp.sklevel[sk_smg] = 2;
- tmp.sklevel[sk_gun] = 2;
+ tmp.sklevel[sk_smg] = 1;
+ tmp.sklevel[sk_gun] = 0;
  tmp.recoil = 0;
  tmp.posx = z->posx;
  tmp.posy = z->posy;

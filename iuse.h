@@ -71,6 +71,7 @@ class iuse
   void mininuke_act	(game *g, item *it, bool t);
   void pheromone	(game *g, item *it, bool t);
   void portal		(game *g, item *it, bool t);
+  void manhack		(game *g, item *it, bool t);
 };
 
 #endif

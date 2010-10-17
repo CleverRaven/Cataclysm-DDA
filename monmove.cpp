@@ -247,7 +247,7 @@ void monster::friendly_move(game *g)
  if (moved) {
   int mondex = g->mon_at(next.x, next.y);
   int npcdex = g->npc_at(next.x, next.y);
-  if (mondex != -1 && type->melee_dice > 0)
+  if (mondex != -1 && g->z[mondex].friendly == 0 && type->melee_dice > 0)
    hit_monster(g, mondex);
   else if (npcdex != -1 && type->melee_dice > 0)
    hit_player(g, g->active_npc[g->npc_at(next.x, next.y)]);

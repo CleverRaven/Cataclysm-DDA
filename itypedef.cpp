@@ -29,7 +29,7 @@ fun,container,itm_null,use_func,addict_func));
 
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("water",		90, 50,	c_ltcyan, itm_bottle_plastic,
-//	QUE NUT SPO STM HTH ADD CHG FUNuse_func	addict_func
+//	QUE NUT SPO STM HTH ADD CHG FUN use_func		addiction type
 	50,  0,  0,  0,  0,  0,  1,  0,&iuse::none, ADD_NULL, "\
 Water, the stuff of life, the best thirst-quencher available.");
 
@@ -67,16 +67,16 @@ Contains up to 8 vegetables!  Nutritious and tasty.");
 //     NAME		RARITY	COLOR     CONTAINER
 
 DRINK("whiskey",	16, 85,	c_brown,  itm_bottle_glass,
-//	QUE NUT SPO STM HTH ADD CHG FUNuse_func	addict_func
-	-12, 2,  0,-12, -2,  5, 20,  4,&iuse::alcohol, ADD_ALCOHOL, "\
+//	QUE NUT SPO STM HTH ADD CHG FUN use_func		addiction type
+	-12, 4,  0,-12, -2,  5, 20,  4,&iuse::alcohol, ADD_ALCOHOL, "\
 Made from, by, and for real Southern colonels!");
 
 DRINK("vodka",		20, 78,	c_ltcyan, itm_bottle_glass,
-	-12, 2,  0,-12, -2,  5, 20,  4,&iuse::alcohol, ADD_ALCOHOL, "\
+	-10, 2,  0,-12, -2,  5, 20,  4,&iuse::alcohol, ADD_ALCOHOL, "\
 In Soviet Russia, vodka drinks you!");
 
 DRINK("rum",		14, 85,	c_ltcyan, itm_bottle_glass,
-	-13, 3,  0,-12, -2,  5, 20,  4,&iuse::alcohol, ADD_ALCOHOL, "\
+	-12, 2,  0,-10, -2,  5, 20,  4,&iuse::alcohol, ADD_ALCOHOL, "\
 Drinking this might make you feel like a pirate.  Or not.");
 
 DRINK("tequila",	12, 88,	c_brown,  itm_bottle_glass,
@@ -107,10 +107,10 @@ nutr,spoils,stim,healthy,addict,charges,fun,use_func,addict_func,des) \
 color,mat1,volume,weight,0,0,0,quench,nutr,spoils,stim,healthy,addict,charges,\
 fun,container,itm_null,use_func,addict_func));
 // FOOD
-//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 
+//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("chunk of meat",	 0, 50,	c_red,		FLESH,  itm_null,
-// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	use_func	addict_func
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func		addiction type
     1,  2,  0, 20, 24,  0, -1,  0,  1, -2,	&iuse::none, ADD_NULL, "\
 Freshly butchered meat.  You could eat it raw, but cooking it is better.");
 
@@ -133,10 +133,10 @@ Freshly cooked meat.  Very nutritious.");
 FOOD("cooked veggy",	 0, 70, c_green,	VEGGY,	itm_null,
     1,  2,  0, 40, 50,  0,  1,  0,  1,  0,	&iuse::none,	ADD_NULL, "\
 Freshly cooked vegetables.  Very nutritious.");
-//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 
+//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("apple",		70, 16,	c_red,		VEGGY,  itm_null,
-// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	use_func	addict_func
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func		addiction type
     1,  1,  3, 16,160,  0,  4,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 An apple a day keeps the doctor away.");
 
@@ -163,10 +163,10 @@ Chocolate isn't very healthy, but it does make a delicious treat.");
 FOOD("beef jerky",	55, 24,	c_red,		FLESH,  itm_bag_plastic,
     1,  1, -3, 12,  0,  0, -1,  0,  3,  2,	&iuse::none, ADD_NULL, "\
 Salty dried meat that never goes bad, but will make you thirsty.");
-//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 
+//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("meat sandwich", 30, 60,	c_ltgray,	FLESH,	itm_wrapper,
-// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	use_func	addict_func
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func		addiction type
     1,  2,  0, 50, 36,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 Bread and meat, that's it.");
 
@@ -196,10 +196,10 @@ They're blue, but that doesn't mean they're sad.");
 FOOD("strawberries",	 2, 10,	c_red,		VEGGY,	itm_null,
     1,  1,  3, 18, 60,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 Tasty juicy berry, often found growing wild in fields.");
-//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 
+//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("tomato",		 9, 25,	c_red,		VEGGY,  itm_null,
-// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	use_func	addict_func
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func		addiction type
     1,  1,  3, 18, 90,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 Juicy red tomato.  It gained popularity in Italy after being brought back\n\
 from the New World.");
@@ -223,10 +223,10 @@ It could be eaten raw if you're desperate, but is much better cooked.");
 FOOD("cooked spaghetti", 0, 28,	c_yellow,	VEGGY,	itm_box_small,
    10,  3,  0, 60, 20,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 Fresh wet noodles.  Very tasty.");
-//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 
+//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("raw macaroni",	40, 15,	c_yellow,	VEGGY,	itm_box_small,
-// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	use_func	addict_func
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func		addiction type
     3,  1,  0,  3,  0,  0,  0,  0,  1, -2,	&iuse::none, ADD_NULL, "\
 It could be eaten raw if you're desperate, but is much better cooked.");
 
@@ -245,10 +245,10 @@ Tomato sauce, yum yum.");
 FOOD("pesto",		15, 20,	c_ltgreen,	VEGGY,	itm_can_food,
     2,  3,  0, 18,  0,  0,  1,  0,  1,  1,	&iuse::none, ADD_NULL, "\
 Olive oil, basil, garlic, pine nuts.  Simple and deliicous.");
-//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 
+//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("beans",		40, 55,	c_cyan,		VEGGY,	itm_can_food,
-// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	use_func	addict_func
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func		addiction type
     1,  2,  0, 40,  0,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 Canned beans.  A staple for hobos.");
 
@@ -271,10 +271,10 @@ A dense, sweet creamy sauce, often used in curries.");
 FOOD("sardines",	14, 25,	c_cyan,		FLESH,	itm_can_food,
     1,  1, -8, 14,  0,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 Salty little fish.  They'll make you thirsty.");
-//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 
+//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("tuna fish",	35, 35,	c_cyan,		FLESH,	itm_can_food,
-// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	use_func	addict_func
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func		addiction type
     1,  2,  0, 24,  0,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 Now with 95 percent less dolphins!");
 
@@ -296,17 +296,17 @@ FOOD("misshapen fetus",	 1,150,	c_magenta,	FLESH,	itm_null,
 Eating this is about the most disgusting thing you can imagine, and it will\n\
 cause your DNA to mutate as well.");
 
+//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("arm",		 4,250,	c_brown,	FLESH,	itm_null,
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func		addiction type
     8, 14,  0, 12,  0,  0, -8,  0,  1, -8,	&iuse::mutagen, ADD_NULL, "\
 Eating this would be pretty gross.  It causes you to mutate.");
 
 FOOD("leg",		 4,250,	c_brown,	FLESH,	itm_null,
    12, 24,  0, 16,  0,  0, -8,  0,  1, -8,	&iuse::mutagen, ADD_NULL, "\
 Eating this would be pretty gross.  It causes you to mutate.");
-//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 
 FOOD("ant egg",		 5, 80,	c_white,	FLESH,	itm_null,
-// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	use_func	addict_func
     4,  2, 10, 100, 0,  0, -1,  0,  1, -4,	&iuse::none,	ADD_NULL, "\
 A large ant egg, the size of a softball.  Extremely nutrtious, but gross.");
 
@@ -322,7 +322,7 @@ fun,itm_null,tool,use_func,addict_func));
 
 //  NAME		RAR PRC	COLOR		TOOL
 MED("bandages",		50, 60,	c_white,	itm_null,
-//	MATERIAL STM HTH ADD CHG FUNuse_func	addict_func
+//	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	COTTON,   0,  0,  0,  3,  0,&iuse::bandage, ADD_NULL, "\
 Simple cloth bandages.  Used for healing small amounts of damage.");
 
@@ -353,7 +353,7 @@ Daytime flu medication.  Will halt all flu symptoms for a while.");
 
 //  NAME		RAR PRC	COLOR		TOOL
 MED("Nyquil",		70, 85,	c_blue,		itm_null,
-//	MATERIAL STM HTH ADD CHG FUNuse_func	addict_func
+//	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	PLASTIC, -7,  1,  0, 10,  0,&iuse::flusleep,ADD_NULL, "\
 Nighttime flu medication.  Will halt all flu symptoms for a while, plus make\n\
 you sleepy.");
@@ -378,7 +378,7 @@ last for several hours, but are not as strong as oxycodone.");
 
 //  NAME		RAR PRC	COLOR		TOOL
 MED("Xanax",		10,600,	c_cyan,		itm_null,
-//	MATERIAL STM HTH ADD CHG FUNuse_func	addict_func
+//	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	PLASTIC, -4,  0,  0, 20,  4,&iuse::xanax,	ADD_NULL, "\
 Anti-anxiety medication.  It will reduce your stimulant level steadily, and\n\
 will temporarily cancel the effects of anxiety, like the Hoarder trait.");
@@ -395,7 +395,7 @@ similar ailments.  Also popular as a way to come down for a bad trip.");
 
 //  NAME		RAR PRC	COLOR
 MED("Prozac",		10,650,	c_cyan,		itm_null,
-//	MATERIAL STM HTH ADD CHG FUNuse_func	addict_func
+//	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	PLASTIC, -4,  0,  0, 40,  0,&iuse::prozac,	ADD_NULL, "\
 A strong anti-depressant.  Useful if your morale level is very low.");
 
@@ -414,7 +414,7 @@ A strong, illegal stimulant.  Highly addictive.");
 
 //  NAME		RAR PRC	COLOR
 MED("methamphetamine",	 2,400, c_ltcyan,	itm_null,
-//	MATERIAL STM HTH ADD CHG FUNuse_func	addict_func
+//	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	POWDER,  10, -4, 40,  6,  8,&iuse::meth,	ADD_SPEED, "\
 A very strong illegal stimulant.  Extremely addictive and bad for you, but\n\
 also extremely effective in boosting your alertness.");
@@ -2278,6 +2278,12 @@ become friendly for a short period of time.");
 TOOL("portal generator",2, 6600, ';', c_magenta, STEEL,	PLASTIC,
     2, 10,  6,  0, -1,  5,  5,  1,  0, AT_NULL,	itm_null, &iuse::portal, "\
 A rare and arcane device, covered in alien markings.");
+
+TOOL("inactive manhack",1, 1200, ',', c_ltgreen, STEEL, PLASTIC,
+    1,  3,  6,  6, -3,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::manhack, "\
+An inactive manhack.  Manhacks are fist-sized robots which fly through the\n\
+air.  They are covered with whirring blades and attack by throwing themselves\n\
+against their target.  Use this item to activate the manhack.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
