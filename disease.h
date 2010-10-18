@@ -72,16 +72,20 @@ void dis_effect(game *g, player &p, disease &dis)
   p.per_cur -=  1;
   p.int_cur -=  2;
   break;
+
  case DI_FBFACE:
   p.per_cur -= 2;
   break;
+
  case DI_FBHANDS:
   p.dex_cur -= 4;
   break;
+
  case DI_FBFEET:
   p.moves   -= 40;
   p.str_cur -=  1;
   break;
+
  case DI_SMOKE:
   p.str_cur--;
   p.dex_cur--;
@@ -95,6 +99,7 @@ void dis_effect(game *g, player &p, disease &dis)
    p.hurt(g, bp_torso, 0, 1 - (rng(0, 1) * rng(0, 1)));
   }
   break;
+
  case DI_TEARGAS:
   p.str_cur -= 2;
   p.dex_cur -= 2;
@@ -110,6 +115,7 @@ void dis_effect(game *g, player &p, disease &dis)
    p.hurt(g, bp_torso, 0, rng(0, 3) * rng(0, 1));
   }
   break;
+
  case DI_ONFIRE:
   p.hurtall(3);
   for (int i = 0; i < p.worn.size(); i++) {
@@ -127,14 +133,17 @@ void dis_effect(game *g, player &p, disease &dis)
    }
   }
   break;
+
  case DI_BOOMERED:
   p.per_cur -= 5;
   break;
+
  case DI_SPORES:
   p.moves -= 40;
   if (one_in(30))
    p.add_disease(DI_FUNGUS, -1, g);
   break;
+
  case DI_FUNGUS:
   bonus = 0;
   if (p.has_trait(PF_POISRESIST))
@@ -213,12 +222,14 @@ void dis_effect(game *g, player &p, disease &dis)
    }
   }
   break;
+
  case DI_SLIMED:
   p.moves -= 30;
   if (p.moves < 1)
    p.moves = 1;
   p.dex_cur -= 2;
   break;
+
  case DI_LYING_DOWN:
   p.moves = 0;
   if (p.can_sleep(g)) {
@@ -231,6 +242,7 @@ void dis_effect(game *g, player &p, disease &dis)
    if (!p.is_npc())
     g->add_msg("You try to sleep, but can't...");
   break;
+
  case DI_SLEEP:
   p.moves = 0;
   if (g->turn % 25 == 0) {
@@ -257,32 +269,38 @@ void dis_effect(game *g, player &p, disease &dis)
    dis.duration = 1;
   }
   break;
+
  case DI_PKILL1:
   if (dis.duration <= 70 && dis.duration % 7 == 0 && p.pkill < 35)
    p.pkill++;
   break;
+
  case DI_PKILL2:
   if (dis.duration % 7 == 0 &&
       (one_in(p.addiction_level(ADD_PKILLER)) ||
        one_in(p.addiction_level(ADD_PKILLER))   ))
    p.pkill += 2;
   break;
+
  case DI_PKILL3:
   if (dis.duration % 2 == 0 &&
       (one_in(p.addiction_level(ADD_PKILLER)) ||
        one_in(p.addiction_level(ADD_PKILLER))   ))
    p.pkill++;
   break;
+
  case DI_PKILL_L:
   if (dis.duration % 20 == 0 && p.pkill < 49 &&
       (one_in(p.addiction_level(ADD_PKILLER)) ||
        one_in(p.addiction_level(ADD_PKILLER))   ))
    p.pkill++;
   break;
+
  case DI_TOOK_XANAX:
   if (dis.duration % 25 == 0 && (p.stim > 0 || one_in(2)))
    p.stim--;
   break;
+
  case DI_DRUNK:
 // We get 600 turns, or one hour, of DI_DRUNK for each drink we have (on avg)
 // So, the duration of DI_DRUNK is a good indicator of how much alcohol is in
@@ -303,6 +321,7 @@ void dis_effect(game *g, player &p, disease &dis)
    p.add_disease(DI_SLEEP, dis.duration / 2, g);
   }
   break;
+
  case DI_CIG:
   if (dis.duration >= 200) {	// Smoked too much
    p.str_cur -= 1;
@@ -316,11 +335,13 @@ void dis_effect(game *g, player &p, disease &dis)
    p.per_cur++;
   }
   break;
+
  case DI_HIGH:
   p.dex_cur--;
   p.int_cur--;
   p.per_cur--;
   break;
+
  case DI_POISON:
   if ((!p.has_trait(PF_POISRESIST) && one_in(150)) ||
       ( p.has_trait(PF_POISRESIST) && one_in(900))   ) {
@@ -334,6 +355,7 @@ void dis_effect(game *g, player &p, disease &dis)
   if (!p.has_trait(PF_POISRESIST))
    p.str_cur -= 2;
   break;
+
  case DI_FOODPOISON:
   bonus = 0;
   if (p.has_trait(PF_POISRESIST))
@@ -356,10 +378,12 @@ void dis_effect(game *g, player &p, disease &dis)
    p.str_cur += 2;
   }
   break;
+
  case DI_SHAKES:
   p.dex_cur -= 4;
   p.str_cur--;
   break;
+
  case DI_HALLU:
 // This assumes that we were given DI_HALLU with a 3600 (6-hour) lifespan
   if (dis.duration > 3000) {	// First hour symptoms
@@ -395,6 +419,7 @@ void dis_effect(game *g, player &p, disease &dis)
    }
   }
   break;
+
  case DI_ADRENALINE:
   if (dis.duration > 400) {	// 20 minutes positive effects
    p.moves += rng(40, 100);
@@ -413,6 +438,7 @@ void dis_effect(game *g, player &p, disease &dis)
    p.per_cur -= 1;
   }
   break;
+
  case DI_ASTHMA:
   if (dis.duration > 1200) {
    if (!p.is_npc())
@@ -423,6 +449,7 @@ void dis_effect(game *g, player &p, disease &dis)
   p.str_cur -= 2;
   p.dex_cur -= 3;
   break;
+
  case DI_METH:
   if (dis.duration > 600) {
    p.str_cur += 2;
@@ -437,6 +464,7 @@ void dis_effect(game *g, player &p, disease &dis)
    p.moves -= 40;
   }
   break;
+
  case DI_TELEGLOW:
 // Default we get around 300 duration points per teleport (possibly more
 // depending on the source).

@@ -4,6 +4,7 @@
 #include "output.h"
 #include "skill.h"
 #include "line.h"
+#include "computer.h"
 #include <fstream>
 #include <sstream>
 #include <math.h>
@@ -2412,222 +2413,43 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
 
 void game::use_computer(int x, int y)
 {
- int difficulty;
- std::vector<std::string> options;
+ computerk used;
  u.practice(sk_computer, 5);
  switch (m.ter(x, y)) {
  case t_computer_nether:
-  difficulty = 4;
-  options.push_back("Release Specimens");
-  options.push_back("Terminate Specimens");
-  options.push_back("Flash Portal");
-  options.push_back("Activate Resonance Cascade");
+  used.difficulty = 4;
+  used.failure = &computerk::spawn_manhacks;
+  used.add_opt("Release Specimens",		&computerk::release);
+  used.add_opt("Terminate Specimens",		&computerk::terminate);
+  used.add_opt("Flash Portal",			&computerk::portal);
+  used.add_opt("Activate Resonance Cascade",	&computerk::cascade);
   break;
  case t_computer_lab:
-  difficulty = 2;
-  options.push_back("Read Research Logs");
-  options.push_back("Download Map Data");
+  used.difficulty = 2;
+  used.failure = &computerk::spawn_manhacks;
+  used.add_opt("Read Research Logs",		&computerk::research);
+  used.add_opt("Download Map Data",		&computerk::maps);
   break;
+ case t_computer_silo:
+  used.difficulty = 5;
+  used.failure = &computerk::spawn_secubots;
+  used.add_opt("Download Map Data",		&computerk::maps);
+  used.add_opt("Launch Missile",		&computerk::launch);
+  used.add_opt("Disarm Missile",		&computerk::disarm);
  default:
   debugmsg("%s is not a computer!", m.tername(x, y).c_str());
   return;
  }
- int success = u.sklevel[sk_computer] - difficulty + int((u.int_cur - 8) / 2) +
-               rng(0 - int(difficulty / 2), int(difficulty / 2));
- int choice = menu_vec(m.tername(x, y).c_str(), options);
- switch (m.ter(x, y)) {
- case t_computer_nether:
-  if (success < -2) {
-   sound(u.posx, u.posy, 40, "An alarm sounds!");
-   add_msg("Manhacks drop from compartments in the ceiling.");
-   monster robot(mtypes[mon_manhack]);
-   int mx, my, num_robots = rng(4, 8);
-   for (int i = 0; i < num_robots; i++) {
-    int tries = 0;
-    do {
-     mx = rng(u.posx - 3, u.posx + 3);
-     my = rng(u.posy - 3, u.posy + 3);
-     tries++;
-    } while((m.move_cost(mx, my) == 0 || mon_at(mx, my) != -1) && tries < 10);
-    if (tries != 10) {
-     robot.spawn(mx, my);
-     z.push_back(robot);
-    }
-   }
+ int success = u.sklevel[sk_computer] + int((u.int_cur - 8) / 3) +
+               rng(int(used.difficulty * .5), int(used.difficulty * 1.5));
+ int choice = menu_vec(m.tername(x, y).c_str(), used.list_opts());
+ choice--;
+ if (success < -2) {
+  (used.*used.failure)(this);
    return;
-  }
-  switch (choice) {
-  case 1:
-   sound(x - 3, y - 3, 40, "an alarm sounding!");
-   if (success <= 0) {
-    add_msg("ERROR: Improper variable entered.  Please try again.");
-    return;
-   }
-   for (int i = 0; i < SEEX * 3; i++) {
-    for (int j = 0; j < SEEY * 3; j++) {
-     if (m.ter(i, j) == t_reinforced_glass_h ||
-         m.ter(i, j) == t_reinforced_glass_v)
-      m.ter(i, j) = t_floor;
-    }
-   }
-   break;
-  case 2:
-   if (success <= 1) {
-    add_msg("ERROR: Improper variable entered.  Please try again.");
-    return;
-   }
-   for (int i = 0; i < SEEX * 3; i++) {
-    for (int j = 0; j < SEEY * 3; j++) {
-     if (((m.ter(i, j-1) == t_reinforced_glass_h && m.ter(i, j+1) == t_wall_h)||
-         (m.ter(i, j+1) == t_reinforced_glass_h && m.ter(i, j-1) == t_wall_h))&&
-         mon_at(i, j) != -1)
-      kill_mon(mon_at(i, j));
-    }
-   }
-   break;
-  case 3:
-   if (success < 0) {
-    add_msg("Sequence incomplete.  Please try again.");
-    return;
-   } else if (success < 2) {
-    popup("ERROR!  Phase interference override!");
-    resonance_cascade(u.posx, u.posy);
-    return;
-   }
-   for (int i = 0; i < SEEX * 3; i++) {
-    for (int j = 0; j < SEEY * 3; j++) {
-     int numtowers = 0;
-     for (int xt = i - 2; xt <= i + 2; xt++) {
-      for (int yt = j - 2; yt <= j + 2; yt++) {
-       if (m.ter(xt, yt) == t_radio_tower)
-        numtowers++;
-      }
-     }
-     if (numtowers == 4) {
-      if (m.tr_at(i, j) == tr_portal)
-       m.tr_at(i, j) = tr_null;
-      else
-       m.add_trap(i, j, tr_portal);
-     }
-    }
-   }
-   break;
-  case 4:
-   if (success < 2) {
-    add_msg("Sequence incomplete; please try again.");
-    return;
-   }
-   if (!query_yn("WARNING: Resonance Cascade carries severe risk!  Continue?"))
-    return;
-   if (success > 5) {
-    std::vector<point> cascade_points;
-    for (int i = x - 10; i <= x + 10; i++) {
-     for (int j = y - 10; j <= y + 10; j++) {
-      if (m.ter(i, j) == t_radio_tower)
-       cascade_points.push_back(point(i, j));
-     }
-    }
-    if (cascade_points.size() == 0)
-     resonance_cascade(u.posx, u.posy);
-    else {
-     point p = cascade_points[rng(0, cascade_points.size() - 1)];
-     resonance_cascade(p.x, p.y);
-    }
-   } else
-    resonance_cascade(u.posx, u.posy);
-   break;
-  }
-  break;
- case t_computer_lab:
-  if (success < -2) {
-   sound(u.posx, u.posy, 40, "An alarm sounds!");
-   add_msg("Manhacks drop from compartments in the ceiling.");
-   monster robot(mtypes[mon_manhack]);
-   int mx, my, num_robots = rng(4, 8);
-   for (int i = 0; i < num_robots; i++) {
-    int tries = 0;
-    do {
-     mx = rng(u.posx - 3, u.posx + 3);
-     my = rng(u.posy - 3, u.posy + 3);
-     tries++;
-    } while((m.move_cost(mx, my) == 0 || mon_at(mx, my) != -1) && tries < 10);
-    if (tries != 10) {
-     robot.spawn(mx, my);
-     z.push_back(robot);
-    }
-   }
-   return;
-  }
-  switch (choice) {
-  case 1:
-   if (success >= 1) {
-    int lines = 0, notes = 0;
-    std::string log, tmp;
-    int ch;
-    std::ifstream fin;
-    fin.open("LAB_NOTES");
-    while (fin.good()) {
-     ch = fin.get();
-     if (ch == '%')
-      notes++;
-    }
-     
-    while (lines < 23 && lines < success * 5) {
-     fin.clear();
-     fin.seekg(0, std::ios::beg);
-     fin.clear();
-     int choice = rng(1, notes);
-     while (choice > 0) {
-      getline(fin, tmp);
-      if (tmp.find_first_of('%') == 0)
-       choice--;
-     }
-     bool get_okay;
-     getline(fin, tmp);
-     do {
-      lines++;
-      if (lines < 23 && lines < success * 5 &&
-          tmp.find_first_of('%') != 0) {
-       log.append(tmp);
-       log.append("\n");
-      }
-     } while(tmp.find_first_of('%') != 0 && getline(fin, tmp));
-    }
-    full_screen_popup(log.c_str());
-   } else if (one_in(4)) {
-    add_msg("ERROR - OS CORRUPTED!");
-    m.ter(x, y) = t_computer_broken;
-   } else
-    add_msg("Access denied.");
-   break;
-  case 2:
-   if (success >= 0) {
-    int minx = int(levx / 2) - 20 - success * 15;
-    int maxx = int(levx / 2) + 20 + success * 15;
-    int miny = int(levy / 2) - 20 - success * 15;
-    int maxy = int(levy / 2) + 20 + success * 15;
-    if (minx < 0)	minx = 0;
-    if (maxx >= OMAPX) maxx = OMAPX - 1;
-    if (miny < 0)	miny = 0;
-    if (maxy >= OMAPY)	maxy = OMAPY - 1;
-    overmap tmp(this, cur_om.posx, cur_om.posy, 0);
-    for (int i = minx; i <= maxx; i++) {
-     for (int j = miny; j <= maxy; j++)
-      tmp.seen(i, j) = true;
-    }
-    tmp.save(u.name, cur_om.posx, cur_om.posy, 0);
-    add_msg("Surface map data downloaded.");
-   } else {
-    add_msg("Surface map data corrupted.");
-    if (one_in(4)) {
-     m.ter(x, y) = t_computer_broken;
-     add_msg("The computer breaks down!");
-    }
-   }
-   break;
-  }
-  break;
  }
+ if (!(used.*used.options[choice].action)(this, success))
+  m.ter(x, y) = t_computer_broken;
 }
 
 void game::resonance_cascade(int x, int y)

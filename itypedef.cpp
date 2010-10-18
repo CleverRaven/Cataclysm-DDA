@@ -292,18 +292,18 @@ A large chunk of wax, filled with dense, dark honey.  Useful for curing all\n\
 sorts of afflictions.");
 
 FOOD("misshapen fetus",	 1,150,	c_magenta,	FLESH,	itm_null,
-    4,  4,  0,  8,  0,  0, -8,  0,  1,-16,	&iuse::mutagen, ADD_NULL, "\
+    4,  4,  0,  8,  0,  0, -8,  0,  1,-36,	&iuse::mutagen, ADD_NULL, "\
 Eating this is about the most disgusting thing you can imagine, and it will\n\
 cause your DNA to mutate as well.");
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("arm",		 4,250,	c_brown,	FLESH,	itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func		addiction type
-    8, 14,  0, 12,  0,  0, -8,  0,  1, -8,	&iuse::mutagen, ADD_NULL, "\
+    8, 14,  0, 12,  0,  0, -8,  0,  1, -12,	&iuse::mutagen, ADD_NULL, "\
 Eating this would be pretty gross.  It causes you to mutate.");
 
 FOOD("leg",		 4,250,	c_brown,	FLESH,	itm_null,
-   12, 24,  0, 16,  0,  0, -8,  0,  1, -8,	&iuse::mutagen, ADD_NULL, "\
+   12, 24,  0, 16,  0,  0, -8,  0,  1, -12,	&iuse::mutagen, ADD_NULL, "\
 Eating this would be pretty gross.  It causes you to mutate.");
 
 FOOD("ant egg",		 5, 80,	c_white,	FLESH,	itm_null,

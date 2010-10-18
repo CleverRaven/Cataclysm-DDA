@@ -6,6 +6,8 @@
 #ifndef _COLOR_LIST_
 #define _COLOR_LIST_
 
+void init_colors();
+
 enum col_attribute {
 WA_NULL = 0,
 HI = 1,

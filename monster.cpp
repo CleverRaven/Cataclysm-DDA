@@ -309,7 +309,7 @@ void monster::hit_monster(game *g, int i)
  monster* target = &(g->z[i]);
  
  int numdice = type->melee_skill;
- int dodgedice = target->type->sk_dodge * 4;
+ int dodgedice = target->type->sk_dodge * 2;
  switch (target->type->size) {
   case MS_TINY:		dodgedice += 4;	break;
   case MS_SMALL: 	dodgedice += 2;	break;

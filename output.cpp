@@ -24,46 +24,6 @@
 #define LINE_OXXX 4194423
 #define LINE_XXXX 4194414
 
-/*
-window::window(int x0, int y0, int Width, int Height)
-{
- w = newwin(Width, Height, x0, y0);
- width = Width;
- height = Height;
-}
-
-window::~window()
-{
- werase(w);
- wrefresh(w);
- delwin(w);
-}
-
-window::outline(nc_color FG = c_white)
-{
- wattron(FG);
- wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- wattroff(FG);
-}
-
-window::mvputch(win_attribute attr = WA_NULL,
-                int x, int y, nc_color FG, char ch)
-{
- set(FG, attr);
- wattron(w, FG);
- mvwaddch(w, y, x, ch);
- wattroff(w, FG);
-}
-
-window::mvprint(win_attribute attr = WA_NULL,
-         int x, int y, nc_color FG = c_ltgray, std::string text)
-{
- set(FG, attr);
- wattron(w, FG);
-}
-*/
- 
 void mvputch(int y, int x, nc_color FG, long ch)
 {
  attron(FG);

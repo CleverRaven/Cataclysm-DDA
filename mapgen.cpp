@@ -2110,8 +2110,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     break;
    }
    for (int i = lw; i <= lw + 2; i++) {
-    ter(i, 3) = t_wall_h;
-    ter(i, 5) = t_wall_h;
+    ter(i, tw    ) = t_wall_h;
+    ter(i, tw + 2) = t_wall_h;
    }
    ter(lw    , tw + 1) = t_wall_v;
    ter(lw + 1, tw + 1) = t_stairs_down;
@@ -2139,10 +2139,19 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
  case ot_silo_finale:
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
-    ter(i, j) = t_rock_floor;
+    if (i == 5) {
+     if (j > 4 && j < SEEY)
+      ter(i, j) = t_reinforced_glass_v;
+     else if (j == SEEY * 2 - 4)
+      ter(i, j) = t_door_metal_c;
+     else
+      ter(i, j) = t_rock;
+    } else
+     ter(i, j) = t_rock_floor;
    }
   }
   ter(0, 0) = t_stairs_up;
+  ter(4, 5) = t_computer_silo;
   break;
 
  case ot_sub_station_north:
@@ -4378,6 +4387,29 @@ void silo_rooms(map *m)
       m->ter(i, j) = t_floor;
     }
    }
+   items_location used1 = mi_none, used2 = mi_none;
+   switch (rng(1, 14)) {	// What type of items go here?
+    case  1:
+    case  2: used1 = mi_cannedfood;
+             used2 = mi_fridge;		break;
+    case  3:
+    case  4: used1 = mi_tools;		break;
+    case  5:
+    case  6: used1 = mi_allguns;
+             used2 = mi_ammo;		break;
+    case  7: used1 = mi_allclothes;	break;
+    case  8: used1 = mi_manuals;	break;
+    case  9:
+    case 10:
+    case 11: used1 = mi_electronics;	break;
+    case 12: used1 = mi_survival_tools;	break;
+    case 13:
+    case 14: used1 = mi_radio;		break;
+   }
+   if (used1 != mi_none)
+    m->place_items(used1, 78, x, y, x + width, y + height, false, 0);
+   if (used2 != mi_none)
+    m->place_items(used2, 64, x, y, x + width, y + height, false, 0);
   }
  } while (okay);
  debugmsg("%d rooms", rooms.size());
@@ -4402,11 +4434,6 @@ void silo_rooms(map *m)
   point origin = rooms[0], origsize = room_sizes[0], dest = rooms[closest];
   int x = origin.x + origsize.x, y = origin.y + origsize.y;
   bool x_first = (abs(origin.x - dest.x) > abs(origin.y - dest.y));
-/*
-  while ((x > origin.x && x <= origin.x + origsize.x &&
-          y > origin.y && y <= origin.y + origsize.y   ) ||
-         m->ter(x, y) == t_rock) {
-*/
   while (x != dest.x || y != dest.y) {
    if (m->ter(x, y) == t_rock)
     m->ter(x, y) = t_floor;

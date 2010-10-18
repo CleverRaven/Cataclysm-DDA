@@ -89,7 +89,7 @@ A medium-sized domesticated dog, gone feral."
 mon("ant larva",	'a',	c_white,	MS_SMALL,	FLESH,
 	(mfb(MF_SMELLS)|mfb(MF_POISON)|mfb(MF_ANIMAL)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  1,  0,  1, 15,  4,  1,  3,  0,  0,  0,  0, 10,  0,
+	  1,  0,  1, 65,  4,  1,  3,  0,  0,  0,  0, 10,  0,
 	&mdeath::normal,	&mattack::none, "\
 The size of a large cat, this pulsating\n\
 mass of glistening white flesh turns your\n\
@@ -580,7 +580,7 @@ and has one small, glowing red eye."
 mon("skitterbot",	'r',	c_ltred,	MS_SMALL,	STEEL,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_GOODHEARING)|mfb(MF_ELECTRONIC)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	 10, 13,  4,105,  7,  1,  3,  6,  0, 12, 60, 40, 5,
+	 10, 13,  4,105,  0,  0,  0,  0,  0, 12, 60, 40, 5,
 	&mdeath::normal,	&mattack::tazer, "\
 A robot with an insectoid design, about\n\
 the size of a small dog.  It skitters\n\

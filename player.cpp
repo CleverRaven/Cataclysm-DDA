@@ -3336,13 +3336,14 @@ bool player::eat(game *g, char let)
               g->itypes[tmp->tool]->name.c_str());
    return false;
   }
-  if ((hunger < 0 && tmp->nutr > 0) &&
+  if (hunger < 0 && tmp->nutr > 0 && !has_trait(PF_GOURMAND) &&
       !query_yn("You're full.  Force yourself to eat?"))
    return false;
-  else if ((thirst < 0 && tmp->quench > 0) &&
+  else if (thirst < 0 && tmp->quench > 0 && !has_trait(PF_GOURMAND) &&
            !query_yn("You're full.  Force yourself to drink?"))
    return false;
-  bool hunger_danger = (hunger < 0), thirst_danger = (thirst < 0);
+  bool hunger_danger = (!has_trait(PF_GOURMAND) && hunger < 0),
+       thirst_danger = (!has_trait(PF_GOURMAND) && thirst < 0);
   if (has_trait(PF_CARNIVORE) && eaten->made_of(VEGGY)) {
    g->add_msg("You can only eat meat!");
    return false;

@@ -19,23 +19,6 @@
 #define LINE_OXXX 4194423
 #define LINE_XXXX 4194414
 
-/*
-struct window
-{
- WINDOW* w;
- window(int x0 = 0, int y0 = 0, int Width, int Height);
- outline(nc_color FG = c_white);
- mvputch(win_attribute attr = WA_NULL,
-         int x, int y, nc_color FG, char ch);
- mvprint(win_attribute attr = WA_NULL,
-         int x, int y, nc_color FG = c_ltgray, std::string text);
- print(win_attribute attr = WA_NULL,
-       int x, int y, nc_color FG = c_ltgray, std::string text);
-
- int width, height;
-};
-*/
-
 void mvputch(int y, int x, nc_color FG, long ch);
 void wputch(WINDOW* w, nc_color FG, long ch);
 void mvwputch(WINDOW* w, int y, int x, nc_color FG, long ch);

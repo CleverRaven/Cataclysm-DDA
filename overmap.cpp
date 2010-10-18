@@ -18,7 +18,7 @@
 #define MIN_ANT_SIZE 8
 #define MAX_ANT_SIZE 20
 #define MIN_GOO_SIZE 1
-#define MAX_GOO_SIZE 6
+#define MAX_GOO_SIZE 2
 #define MIN_RIFT_SIZE 6
 #define MAX_RIFT_SIZE 16
 #define SETTLE_DICE 2
@@ -440,6 +440,8 @@ void overmap::generate_sub(overmap* above)
    }
   }
  }
+ for (int i = 0; i < goo_points.size(); i++)
+  build_slimepit(goo_points[i].x, goo_points[i].y, goo_points[i].s);
  place_hiways(sewer_points,  ot_sewer_nesw);
  polish(ot_sewer_ns, ot_sewer_nesw);
  place_hiways(subway_points, ot_subway_nesw);
@@ -449,8 +451,6 @@ void overmap::generate_sub(overmap* above)
   build_lab(lab_points[i].x, lab_points[i].y, lab_points[i].s);
  for (int i = 0; i < ant_points.size(); i++)
   build_anthill(ant_points[i].x, ant_points[i].y, ant_points[i].s);
- for (int i = 0; i < goo_points.size(); i++)
-  build_slimepit(goo_points[i].x, goo_points[i].y, goo_points[i].s);
  for (int i = 0; i < above->cities.size(); i++) {
   if (one_in(3))
    zg.push_back(
