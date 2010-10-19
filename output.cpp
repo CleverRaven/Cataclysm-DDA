@@ -1,7 +1,7 @@
 #ifndef _OUTPUT_H_
 #define _OUTPUT_H_
 
-#include <ncurses.h>
+#include <curses.h>
 #include <string>
 #include <vector>
 #include <cstdarg>

@@ -5,7 +5,7 @@
 #include "addiction.h"
 #include "keypress.h"
 #include <sstream>
-#include <ncurses.h>
+#include <curses.h>
 #include <stdlib.h>
 
 nc_color encumb_color(int level);

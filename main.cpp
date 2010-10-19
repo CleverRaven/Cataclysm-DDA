@@ -4,7 +4,7 @@
  * Who knows
  */
 
-#include <ncurses.h>
+#include <curses.h>
 #include <ctime>
 #include "game.h"
 #include "color.h"
