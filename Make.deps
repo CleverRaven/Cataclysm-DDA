@@ -1,0 +1,3005 @@
+# DO NOT DELETE
+bionics.o: bionics.cpp player.h item.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h enums.h iuse.h pldata.h bodypart.h skill.h \
+  bionics.h mtype.h /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h mondeath.h \
+  monattack.h monster.h trap.h game.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h crafting.h rng.h tutorial.h event.h \
+  keypress.h line.h
+bodypart.o: bodypart.cpp bodypart.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc rng.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h
+crafting.o: crafting.cpp /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/sstream \
+  /usr/include/c++/4.3/istream /usr/include/c++/4.3/ios \
+  /usr/include/c++/4.3/bits/ios_base.h \
+  /usr/include/c++/4.3/bits/locale_classes.h \
+  /usr/include/c++/4.3/bits/locale_classes.tcc \
+  /usr/include/c++/4.3/streambuf /usr/include/c++/4.3/bits/streambuf.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.h \
+  /usr/include/c++/4.3/bits/locale_facets.h /usr/include/c++/4.3/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_base.h \
+  /usr/include/c++/4.3/bits/streambuf_iterator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_inline.h \
+  /usr/include/c++/4.3/bits/locale_facets.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.tcc /usr/include/c++/4.3/ostream \
+  /usr/include/c++/4.3/bits/ostream.tcc \
+  /usr/include/c++/4.3/bits/istream.tcc \
+  /usr/include/c++/4.3/bits/sstream.tcc keypress.h /usr/include/ncurses.h \
+  /usr/include/ncurses_dll.h /usr/include/unctrl.h /usr/include/curses.h \
+  game.h mtype.h /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h mondeath.h \
+  monattack.h enums.h color.h monster.h player.h item.h \
+  /usr/include/c++/4.3/vector /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h iuse.h pldata.h bodypart.h \
+  skill.h bionics.h trap.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h crafting.h rng.h tutorial.h event.h \
+  setvector.h
+event.o: event.cpp event.h faction.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc npc.h player.h item.h itype.h \
+  color.h /usr/include/ncurses.h /usr/include/ncurses_dll.h \
+  /usr/include/unctrl.h /usr/include/curses.h enums.h iuse.h pldata.h \
+  bodypart.h skill.h bionics.h mtype.h /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h \
+  /usr/include/bits/huge_vall.h /usr/include/bits/inf.h \
+  /usr/include/bits/nan.h /usr/include/bits/mathdef.h \
+  /usr/include/bits/mathcalls.h mondeath.h monattack.h monster.h trap.h \
+  overmap.h /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset \
+  output.h /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h game.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h crafting.h rng.h tutorial.h
+faction.o: faction.cpp faction.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc facdata.h rng.h \
+  /usr/include/stdlib.h /usr/include/bits/waitflags.h \
+  /usr/include/bits/waitstatus.h /usr/include/sys/types.h \
+  /usr/include/sys/select.h /usr/include/bits/select.h \
+  /usr/include/sys/sysmacros.h /usr/include/alloca.h /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h \
+  /usr/include/bits/huge_vall.h /usr/include/bits/inf.h \
+  /usr/include/bits/nan.h /usr/include/bits/mathdef.h \
+  /usr/include/bits/mathcalls.h output.h color.h /usr/include/ncurses.h \
+  /usr/include/ncurses_dll.h /usr/include/unctrl.h /usr/include/curses.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h omdata.h \
+  /usr/include/c++/4.3/bitset mtype.h mondeath.h monattack.h enums.h \
+  itype.h iuse.h pldata.h bodypart.h skill.h bionics.h game.h monster.h \
+  player.h item.h trap.h map.h mapdata.h mapitems.h overmap.h \
+  /usr/include/string.h mongroup.h settlement.h npc.h crafting.h \
+  tutorial.h event.h
+field.o: field.cpp rng.h /usr/include/stdlib.h /usr/include/features.h \
+  /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h \
+  /usr/include/gnu/stubs.h /usr/include/gnu/stubs-32.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/endian.h /usr/include/bits/endian.h /usr/include/xlocale.h \
+  /usr/include/sys/types.h /usr/include/bits/types.h \
+  /usr/include/bits/typesizes.h /usr/include/time.h \
+  /usr/include/sys/select.h /usr/include/bits/select.h \
+  /usr/include/bits/sigset.h /usr/include/bits/time.h \
+  /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h \
+  /usr/include/alloca.h map.h /usr/include/ncurses.h \
+  /usr/include/ncurses_dll.h /usr/include/stdio.h /usr/include/libio.h \
+  /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/unctrl.h /usr/include/curses.h /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_algobase.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/postypes.h /usr/include/c++/4.3/cwchar \
+  /usr/include/wchar.h /usr/include/bits/wchar.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h \
+  /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/bits/sched.h \
+  /usr/include/signal.h /usr/include/bits/setjmp.h /usr/include/unistd.h \
+  /usr/include/bits/posix_opt.h /usr/include/bits/environments.h \
+  /usr/include/bits/confname.h /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc mapdata.h color.h item.h \
+  itype.h enums.h iuse.h pldata.h bodypart.h skill.h bionics.h mtype.h \
+  /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h mondeath.h \
+  monattack.h trap.h monster.h player.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h game.h crafting.h tutorial.h event.h
+game.o: game.cpp game.h mtype.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h \
+  /usr/include/bits/huge_vall.h /usr/include/bits/inf.h \
+  /usr/include/bits/nan.h /usr/include/bits/mathdef.h \
+  /usr/include/bits/mathcalls.h mondeath.h monattack.h enums.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h monster.h player.h item.h \
+  /usr/include/c++/4.3/vector /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h iuse.h pldata.h bodypart.h \
+  skill.h bionics.h trap.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h crafting.h rng.h tutorial.h event.h \
+  keypress.h line.h /usr/include/c++/4.3/fstream \
+  /usr/include/c++/4.3/istream /usr/include/c++/4.3/ios \
+  /usr/include/c++/4.3/bits/ios_base.h \
+  /usr/include/c++/4.3/bits/locale_classes.h \
+  /usr/include/c++/4.3/bits/locale_classes.tcc \
+  /usr/include/c++/4.3/streambuf /usr/include/c++/4.3/bits/streambuf.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.h \
+  /usr/include/c++/4.3/bits/locale_facets.h /usr/include/c++/4.3/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_base.h \
+  /usr/include/c++/4.3/bits/streambuf_iterator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_inline.h \
+  /usr/include/c++/4.3/bits/locale_facets.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.tcc /usr/include/c++/4.3/ostream \
+  /usr/include/c++/4.3/bits/ostream.tcc \
+  /usr/include/c++/4.3/bits/istream.tcc \
+  /usr/include/c++/4.3/bits/codecvt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/basic_file.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++io.h \
+  /usr/include/c++/4.3/bits/fstream.tcc /usr/include/c++/4.3/sstream \
+  /usr/include/c++/4.3/bits/sstream.tcc /usr/include/dirent.h \
+  /usr/include/bits/dirent.h /usr/include/bits/posix1_lim.h \
+  /usr/include/bits/local_lim.h /usr/include/linux/limits.h \
+  /usr/include/sys/stat.h /usr/include/bits/stat.h
+help.o: help.cpp game.h mtype.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h \
+  /usr/include/bits/huge_vall.h /usr/include/bits/inf.h \
+  /usr/include/bits/nan.h /usr/include/bits/mathdef.h \
+  /usr/include/bits/mathcalls.h mondeath.h monattack.h enums.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h monster.h player.h item.h \
+  /usr/include/c++/4.3/vector /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h iuse.h pldata.h bodypart.h \
+  skill.h bionics.h trap.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h crafting.h rng.h tutorial.h event.h \
+  keypress.h
+item.o: item.cpp item.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h enums.h iuse.h pldata.h bodypart.h skill.h \
+  bionics.h mtype.h /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h mondeath.h \
+  monattack.h player.h monster.h trap.h output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h game.h map.h \
+  /usr/include/stdlib.h /usr/include/bits/waitflags.h \
+  /usr/include/bits/waitstatus.h /usr/include/sys/types.h \
+  /usr/include/sys/select.h /usr/include/bits/select.h \
+  /usr/include/sys/sysmacros.h /usr/include/alloca.h mapdata.h mapitems.h \
+  overmap.h /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset \
+  mongroup.h settlement.h npc.h faction.h crafting.h rng.h tutorial.h \
+  event.h /usr/include/c++/4.3/sstream /usr/include/c++/4.3/istream \
+  /usr/include/c++/4.3/ios /usr/include/c++/4.3/bits/ios_base.h \
+  /usr/include/c++/4.3/bits/locale_classes.h \
+  /usr/include/c++/4.3/bits/locale_classes.tcc \
+  /usr/include/c++/4.3/streambuf /usr/include/c++/4.3/bits/streambuf.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.h \
+  /usr/include/c++/4.3/bits/locale_facets.h /usr/include/c++/4.3/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_base.h \
+  /usr/include/c++/4.3/bits/streambuf_iterator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_inline.h \
+  /usr/include/c++/4.3/bits/locale_facets.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.tcc /usr/include/c++/4.3/ostream \
+  /usr/include/c++/4.3/bits/ostream.tcc \
+  /usr/include/c++/4.3/bits/istream.tcc \
+  /usr/include/c++/4.3/bits/sstream.tcc
+itypedef.o: itypedef.cpp itype.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc color.h /usr/include/ncurses.h \
+  /usr/include/ncurses_dll.h /usr/include/unctrl.h /usr/include/curses.h \
+  enums.h iuse.h pldata.h bodypart.h skill.h bionics.h game.h mtype.h \
+  /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h mondeath.h \
+  monattack.h monster.h player.h item.h trap.h map.h \
+  /usr/include/stdlib.h /usr/include/bits/waitflags.h \
+  /usr/include/bits/waitstatus.h /usr/include/sys/types.h \
+  /usr/include/sys/select.h /usr/include/bits/select.h \
+  /usr/include/sys/sysmacros.h /usr/include/alloca.h mapdata.h mapitems.h \
+  overmap.h /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset \
+  output.h /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h crafting.h rng.h tutorial.h event.h
+iuse.o: iuse.cpp iuse.h game.h mtype.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h \
+  /usr/include/bits/huge_vall.h /usr/include/bits/inf.h \
+  /usr/include/bits/nan.h /usr/include/bits/mathdef.h \
+  /usr/include/bits/mathcalls.h mondeath.h monattack.h enums.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h monster.h player.h item.h \
+  /usr/include/c++/4.3/vector /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h pldata.h bodypart.h \
+  skill.h bionics.h trap.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h crafting.h rng.h tutorial.h event.h \
+  keypress.h line.h /usr/include/c++/4.3/sstream \
+  /usr/include/c++/4.3/istream /usr/include/c++/4.3/ios \
+  /usr/include/c++/4.3/bits/ios_base.h \
+  /usr/include/c++/4.3/bits/locale_classes.h \
+  /usr/include/c++/4.3/bits/locale_classes.tcc \
+  /usr/include/c++/4.3/streambuf /usr/include/c++/4.3/bits/streambuf.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.h \
+  /usr/include/c++/4.3/bits/locale_facets.h /usr/include/c++/4.3/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_base.h \
+  /usr/include/c++/4.3/bits/streambuf_iterator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_inline.h \
+  /usr/include/c++/4.3/bits/locale_facets.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.tcc /usr/include/c++/4.3/ostream \
+  /usr/include/c++/4.3/bits/ostream.tcc \
+  /usr/include/c++/4.3/bits/istream.tcc \
+  /usr/include/c++/4.3/bits/sstream.tcc
+keypress.o: keypress.cpp keypress.h /usr/include/ncurses.h \
+  /usr/include/ncurses_dll.h /usr/include/stdio.h /usr/include/features.h \
+  /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h \
+  /usr/include/gnu/stubs.h /usr/include/gnu/stubs-32.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/unctrl.h /usr/include/curses.h
+line.o: line.cpp line.h /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_algobase.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/postypes.h /usr/include/c++/4.3/cwchar \
+  /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc enums.h map.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h color.h item.h itype.h iuse.h pldata.h \
+  bodypart.h skill.h bionics.h mtype.h /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h \
+  /usr/include/bits/huge_vall.h /usr/include/bits/inf.h \
+  /usr/include/bits/nan.h /usr/include/bits/mathdef.h \
+  /usr/include/bits/mathcalls.h mondeath.h monattack.h trap.h monster.h \
+  player.h mapitems.h overmap.h /usr/include/string.h omdata.h \
+  /usr/include/c++/4.3/bitset output.h /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h
+main.o: main.cpp /usr/include/ncurses.h /usr/include/ncurses_dll.h \
+  /usr/include/stdio.h /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/unctrl.h /usr/include/curses.h /usr/include/c++/4.3/ctime \
+  /usr/include/c++/4.3/cstddef \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h /usr/include/time.h \
+  /usr/include/bits/time.h /usr/include/xlocale.h game.h mtype.h \
+  /usr/include/c++/4.3/string /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h \
+  /usr/include/bits/wchar.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/signal.h \
+  /usr/include/bits/sigset.h /usr/include/bits/pthreadtypes.h \
+  /usr/include/bits/setjmp.h /usr/include/unistd.h \
+  /usr/include/bits/posix_opt.h /usr/include/bits/environments.h \
+  /usr/include/bits/confname.h /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h \
+  /usr/include/bits/huge_vall.h /usr/include/bits/inf.h \
+  /usr/include/bits/nan.h /usr/include/bits/mathdef.h \
+  /usr/include/bits/mathcalls.h mondeath.h monattack.h enums.h color.h \
+  monster.h player.h item.h /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h iuse.h pldata.h bodypart.h \
+  skill.h bionics.h trap.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h crafting.h rng.h tutorial.h event.h
+map.o: map.cpp map.h /usr/include/ncurses.h /usr/include/ncurses_dll.h \
+  /usr/include/stdio.h /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/unctrl.h /usr/include/curses.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/endian.h /usr/include/bits/endian.h /usr/include/xlocale.h \
+  /usr/include/sys/types.h /usr/include/time.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/bits/sigset.h \
+  /usr/include/bits/time.h /usr/include/sys/sysmacros.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/alloca.h \
+  /usr/include/c++/4.3/vector /usr/include/c++/4.3/bits/stl_algobase.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/postypes.h /usr/include/c++/4.3/cwchar \
+  /usr/include/wchar.h /usr/include/bits/wchar.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h \
+  /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/bits/sched.h \
+  /usr/include/signal.h /usr/include/bits/setjmp.h /usr/include/unistd.h \
+  /usr/include/bits/posix_opt.h /usr/include/bits/environments.h \
+  /usr/include/bits/confname.h /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc mapdata.h color.h item.h \
+  itype.h enums.h iuse.h pldata.h bodypart.h skill.h bionics.h mtype.h \
+  /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h mondeath.h \
+  monattack.h trap.h monster.h player.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h rng.h game.h crafting.h tutorial.h event.h \
+  line.h /usr/include/c++/4.3/cmath /usr/include/math.h \
+  /usr/include/c++/4.3/bits/cmath.tcc /usr/include/c++/4.3/fstream \
+  /usr/include/c++/4.3/istream /usr/include/c++/4.3/ios \
+  /usr/include/c++/4.3/bits/ios_base.h \
+  /usr/include/c++/4.3/bits/locale_classes.h \
+  /usr/include/c++/4.3/bits/locale_classes.tcc \
+  /usr/include/c++/4.3/streambuf /usr/include/c++/4.3/bits/streambuf.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.h \
+  /usr/include/c++/4.3/bits/locale_facets.h /usr/include/c++/4.3/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_base.h \
+  /usr/include/c++/4.3/bits/streambuf_iterator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_inline.h \
+  /usr/include/c++/4.3/bits/locale_facets.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.tcc /usr/include/c++/4.3/ostream \
+  /usr/include/c++/4.3/bits/ostream.tcc \
+  /usr/include/c++/4.3/bits/istream.tcc \
+  /usr/include/c++/4.3/bits/codecvt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/basic_file.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++io.h \
+  /usr/include/c++/4.3/bits/fstream.tcc
+mapgen.o: mapgen.cpp map.h mapdata.h /usr/include/ncurses.h \
+  /usr/include/ncurses_dll.h /usr/include/stdio.h /usr/include/features.h \
+  /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h \
+  /usr/include/gnu/stubs.h /usr/include/gnu/stubs-32.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/unctrl.h /usr/include/curses.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/endian.h /usr/include/bits/endian.h /usr/include/xlocale.h \
+  /usr/include/sys/types.h /usr/include/time.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/bits/sigset.h \
+  /usr/include/bits/time.h /usr/include/sys/sysmacros.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/alloca.h \
+  /usr/include/c++/4.3/vector /usr/include/c++/4.3/bits/stl_algobase.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/postypes.h /usr/include/c++/4.3/cwchar \
+  /usr/include/wchar.h /usr/include/bits/wchar.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h \
+  /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/bits/sched.h \
+  /usr/include/signal.h /usr/include/bits/setjmp.h /usr/include/unistd.h \
+  /usr/include/bits/posix_opt.h /usr/include/bits/environments.h \
+  /usr/include/bits/confname.h /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc mapdata.h color.h item.h \
+  itype.h enums.h iuse.h pldata.h bodypart.h skill.h bionics.h mtype.h \
+  /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h mondeath.h \
+  monattack.h trap.h monster.h player.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h game.h crafting.h rng.h tutorial.h event.h \
+  line.h
+mapitemsdef.o: mapitemsdef.cpp game.h mtype.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h \
+  /usr/include/bits/huge_vall.h /usr/include/bits/inf.h \
+  /usr/include/bits/nan.h /usr/include/bits/mathdef.h \
+  /usr/include/bits/mathcalls.h mondeath.h monattack.h enums.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h monster.h player.h item.h \
+  /usr/include/c++/4.3/vector /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h iuse.h pldata.h bodypart.h \
+  skill.h bionics.h trap.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h crafting.h rng.h tutorial.h event.h \
+  setvector.h
+monattack.o: monattack.cpp mondeath.h monster.h player.h item.h \
+  /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h enums.h iuse.h pldata.h bodypart.h skill.h \
+  bionics.h mtype.h /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h monattack.h \
+  trap.h game.h map.h /usr/include/stdlib.h /usr/include/bits/waitflags.h \
+  /usr/include/bits/waitstatus.h /usr/include/sys/types.h \
+  /usr/include/sys/select.h /usr/include/bits/select.h \
+  /usr/include/sys/sysmacros.h /usr/include/alloca.h mapdata.h mapitems.h \
+  overmap.h /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset \
+  output.h /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h crafting.h rng.h tutorial.h event.h line.h
+mondeath.o: mondeath.cpp mondeath.h monster.h player.h item.h \
+  /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h enums.h iuse.h pldata.h bodypart.h skill.h \
+  bionics.h mtype.h /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h monattack.h \
+  trap.h game.h map.h /usr/include/stdlib.h /usr/include/bits/waitflags.h \
+  /usr/include/bits/waitstatus.h /usr/include/sys/types.h \
+  /usr/include/sys/select.h /usr/include/bits/select.h \
+  /usr/include/sys/sysmacros.h /usr/include/alloca.h mapdata.h mapitems.h \
+  overmap.h /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset \
+  output.h /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h crafting.h rng.h tutorial.h event.h
+mongroupdef.o: mongroupdef.cpp game.h mtype.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h \
+  /usr/include/bits/huge_vall.h /usr/include/bits/inf.h \
+  /usr/include/bits/nan.h /usr/include/bits/mathdef.h \
+  /usr/include/bits/mathcalls.h mondeath.h monattack.h enums.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h monster.h player.h item.h \
+  /usr/include/c++/4.3/vector /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h iuse.h pldata.h bodypart.h \
+  skill.h bionics.h trap.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h crafting.h rng.h tutorial.h event.h \
+  setvector.h
+monitemsdef.o: monitemsdef.cpp game.h mtype.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h \
+  /usr/include/bits/huge_vall.h /usr/include/bits/inf.h \
+  /usr/include/bits/nan.h /usr/include/bits/mathdef.h \
+  /usr/include/bits/mathcalls.h mondeath.h monattack.h enums.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h monster.h player.h item.h \
+  /usr/include/c++/4.3/vector /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h iuse.h pldata.h bodypart.h \
+  skill.h bionics.h trap.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h crafting.h rng.h tutorial.h event.h \
+  setvector.h
+monmove.o: monmove.cpp monster.h player.h item.h \
+  /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h enums.h iuse.h pldata.h bodypart.h skill.h \
+  bionics.h mtype.h /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h mondeath.h \
+  monattack.h trap.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h game.h crafting.h rng.h tutorial.h event.h \
+  line.h
+monster.o: monster.cpp monster.h player.h item.h \
+  /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h enums.h iuse.h pldata.h bodypart.h skill.h \
+  bionics.h mtype.h /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h mondeath.h \
+  monattack.h trap.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h game.h crafting.h rng.h tutorial.h event.h \
+  /usr/include/c++/4.3/sstream /usr/include/c++/4.3/istream \
+  /usr/include/c++/4.3/ios /usr/include/c++/4.3/bits/ios_base.h \
+  /usr/include/c++/4.3/bits/locale_classes.h \
+  /usr/include/c++/4.3/bits/locale_classes.tcc \
+  /usr/include/c++/4.3/streambuf /usr/include/c++/4.3/bits/streambuf.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.h \
+  /usr/include/c++/4.3/bits/locale_facets.h /usr/include/c++/4.3/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_base.h \
+  /usr/include/c++/4.3/bits/streambuf_iterator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_inline.h \
+  /usr/include/c++/4.3/bits/locale_facets.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.tcc /usr/include/c++/4.3/ostream \
+  /usr/include/c++/4.3/bits/ostream.tcc \
+  /usr/include/c++/4.3/bits/istream.tcc \
+  /usr/include/c++/4.3/bits/sstream.tcc
+mtypedef.o: mtypedef.cpp game.h mtype.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h \
+  /usr/include/bits/huge_vall.h /usr/include/bits/inf.h \
+  /usr/include/bits/nan.h /usr/include/bits/mathdef.h \
+  /usr/include/bits/mathcalls.h mondeath.h monattack.h enums.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h monster.h player.h item.h \
+  /usr/include/c++/4.3/vector /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h iuse.h pldata.h bodypart.h \
+  skill.h bionics.h trap.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h crafting.h rng.h tutorial.h event.h
+newcharacter.o: newcharacter.cpp player.h item.h \
+  /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h enums.h iuse.h pldata.h bodypart.h skill.h \
+  bionics.h mtype.h /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h mondeath.h \
+  monattack.h monster.h trap.h output.h /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h rng.h \
+  /usr/include/stdlib.h /usr/include/bits/waitflags.h \
+  /usr/include/bits/waitstatus.h /usr/include/sys/types.h \
+  /usr/include/sys/select.h /usr/include/bits/select.h \
+  /usr/include/sys/sysmacros.h /usr/include/alloca.h keypress.h game.h \
+  map.h mapdata.h mapitems.h overmap.h /usr/include/string.h omdata.h \
+  /usr/include/c++/4.3/bitset mongroup.h settlement.h npc.h faction.h \
+  crafting.h tutorial.h event.h
+npc.o: npc.cpp npc.h player.h item.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h enums.h iuse.h pldata.h bodypart.h skill.h \
+  bionics.h mtype.h /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h mondeath.h \
+  monattack.h monster.h trap.h overmap.h /usr/include/string.h omdata.h \
+  /usr/include/c++/4.3/bitset output.h /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h faction.h rng.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h map.h mapdata.h mapitems.h game.h crafting.h \
+  tutorial.h event.h line.h /usr/include/c++/4.3/fstream \
+  /usr/include/c++/4.3/istream /usr/include/c++/4.3/ios \
+  /usr/include/c++/4.3/bits/ios_base.h \
+  /usr/include/c++/4.3/bits/locale_classes.h \
+  /usr/include/c++/4.3/bits/locale_classes.tcc \
+  /usr/include/c++/4.3/streambuf /usr/include/c++/4.3/bits/streambuf.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.h \
+  /usr/include/c++/4.3/bits/locale_facets.h /usr/include/c++/4.3/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_base.h \
+  /usr/include/c++/4.3/bits/streambuf_iterator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_inline.h \
+  /usr/include/c++/4.3/bits/locale_facets.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.tcc /usr/include/c++/4.3/ostream \
+  /usr/include/c++/4.3/bits/ostream.tcc \
+  /usr/include/c++/4.3/bits/istream.tcc \
+  /usr/include/c++/4.3/bits/codecvt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/basic_file.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++io.h \
+  /usr/include/c++/4.3/bits/fstream.tcc /usr/include/c++/4.3/sstream \
+  /usr/include/c++/4.3/bits/sstream.tcc
+npcmove.o: npcmove.cpp npc.h player.h item.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h enums.h iuse.h pldata.h bodypart.h skill.h \
+  bionics.h mtype.h /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h mondeath.h \
+  monattack.h monster.h trap.h overmap.h /usr/include/string.h omdata.h \
+  /usr/include/c++/4.3/bitset output.h /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h faction.h rng.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h game.h map.h mapdata.h mapitems.h crafting.h \
+  tutorial.h event.h line.h
+npctalk.o: npctalk.cpp npc.h player.h item.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h enums.h iuse.h pldata.h bodypart.h skill.h \
+  bionics.h mtype.h /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h mondeath.h \
+  monattack.h monster.h trap.h overmap.h /usr/include/string.h omdata.h \
+  /usr/include/c++/4.3/bitset output.h /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h faction.h game.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h crafting.h rng.h tutorial.h \
+  event.h dialogue.h line.h keypress.h /usr/include/c++/4.3/sstream \
+  /usr/include/c++/4.3/istream /usr/include/c++/4.3/ios \
+  /usr/include/c++/4.3/bits/ios_base.h \
+  /usr/include/c++/4.3/bits/locale_classes.h \
+  /usr/include/c++/4.3/bits/locale_classes.tcc \
+  /usr/include/c++/4.3/streambuf /usr/include/c++/4.3/bits/streambuf.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.h \
+  /usr/include/c++/4.3/bits/locale_facets.h /usr/include/c++/4.3/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_base.h \
+  /usr/include/c++/4.3/bits/streambuf_iterator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_inline.h \
+  /usr/include/c++/4.3/bits/locale_facets.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.tcc /usr/include/c++/4.3/ostream \
+  /usr/include/c++/4.3/bits/ostream.tcc \
+  /usr/include/c++/4.3/bits/istream.tcc \
+  /usr/include/c++/4.3/bits/sstream.tcc /usr/include/c++/4.3/fstream \
+  /usr/include/c++/4.3/bits/codecvt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/basic_file.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++io.h \
+  /usr/include/c++/4.3/bits/fstream.tcc
+output.o: output.cpp /usr/include/ncurses.h /usr/include/ncurses_dll.h \
+  /usr/include/stdio.h /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/unctrl.h /usr/include/curses.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h \
+  /usr/include/bits/wchar.h /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/c++/4.3/cstring /usr/include/string.h \
+  /usr/include/stdlib.h /usr/include/bits/waitflags.h \
+  /usr/include/bits/waitstatus.h /usr/include/sys/types.h \
+  /usr/include/sys/select.h /usr/include/bits/select.h \
+  /usr/include/sys/sysmacros.h /usr/include/alloca.h color.h output.h \
+  rng.h keypress.h
+overmap.o: overmap.cpp /usr/include/ncurses.h /usr/include/ncurses_dll.h \
+  /usr/include/stdio.h /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/unctrl.h /usr/include/curses.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/endian.h /usr/include/bits/endian.h /usr/include/xlocale.h \
+  /usr/include/sys/types.h /usr/include/time.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/bits/sigset.h \
+  /usr/include/bits/time.h /usr/include/sys/sysmacros.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/alloca.h \
+  /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h \
+  /usr/include/c++/4.3/fstream /usr/include/c++/4.3/istream \
+  /usr/include/c++/4.3/ios /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/postypes.h /usr/include/c++/4.3/cwchar \
+  /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h /usr/include/wchar.h \
+  /usr/include/bits/wchar.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/cstdio \
+  /usr/include/stdio.h /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/cctype \
+  /usr/include/ctype.h /usr/include/c++/4.3/bits/ios_base.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/bits/sched.h \
+  /usr/include/signal.h /usr/include/bits/setjmp.h /usr/include/unistd.h \
+  /usr/include/bits/posix_opt.h /usr/include/bits/environments.h \
+  /usr/include/bits/confname.h /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/locale_classes.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc \
+  /usr/include/c++/4.3/bits/locale_classes.tcc \
+  /usr/include/c++/4.3/streambuf /usr/include/c++/4.3/bits/streambuf.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.h \
+  /usr/include/c++/4.3/bits/locale_facets.h /usr/include/c++/4.3/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_base.h \
+  /usr/include/c++/4.3/bits/streambuf_iterator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_inline.h \
+  /usr/include/c++/4.3/bits/locale_facets.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.tcc /usr/include/c++/4.3/ostream \
+  /usr/include/c++/4.3/bits/ostream.tcc \
+  /usr/include/c++/4.3/bits/istream.tcc \
+  /usr/include/c++/4.3/bits/codecvt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/basic_file.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++io.h \
+  /usr/include/c++/4.3/bits/fstream.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc overmap.h enums.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset mtype.h \
+  mondeath.h monattack.h color.h itype.h iuse.h pldata.h bodypart.h \
+  skill.h bionics.h output.h /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h player.h item.h monster.h trap.h faction.h rng.h \
+  line.h game.h map.h mapdata.h mapitems.h crafting.h tutorial.h event.h
+player.o: player.cpp player.h item.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h enums.h iuse.h pldata.h bodypart.h skill.h \
+  bionics.h mtype.h /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h mondeath.h \
+  monattack.h monster.h trap.h game.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h crafting.h rng.h tutorial.h event.h \
+  disease.h /usr/include/c++/4.3/sstream /usr/include/c++/4.3/istream \
+  /usr/include/c++/4.3/ios /usr/include/c++/4.3/bits/ios_base.h \
+  /usr/include/c++/4.3/bits/locale_classes.h \
+  /usr/include/c++/4.3/bits/locale_classes.tcc \
+  /usr/include/c++/4.3/streambuf /usr/include/c++/4.3/bits/streambuf.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.h \
+  /usr/include/c++/4.3/bits/locale_facets.h /usr/include/c++/4.3/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_base.h \
+  /usr/include/c++/4.3/bits/streambuf_iterator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/ctype_inline.h \
+  /usr/include/c++/4.3/bits/locale_facets.tcc \
+  /usr/include/c++/4.3/bits/basic_ios.tcc /usr/include/c++/4.3/ostream \
+  /usr/include/c++/4.3/bits/ostream.tcc \
+  /usr/include/c++/4.3/bits/istream.tcc \
+  /usr/include/c++/4.3/bits/sstream.tcc addiction.h keypress.h
+rng.o: rng.cpp output.h color.h /usr/include/ncurses.h \
+  /usr/include/ncurses_dll.h /usr/include/stdio.h /usr/include/features.h \
+  /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h \
+  /usr/include/gnu/stubs.h /usr/include/gnu/stubs-32.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/unctrl.h /usr/include/curses.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/c++/4.3/string /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h \
+  /usr/include/bits/wchar.h /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc rng.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h
+settlement.o: settlement.cpp settlement.h npc.h player.h item.h \
+  /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h enums.h iuse.h pldata.h bodypart.h skill.h \
+  bionics.h mtype.h /usr/include/math.h /usr/include/bits/huge_val.h \
+  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
+  /usr/include/bits/inf.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h mondeath.h \
+  monattack.h monster.h trap.h overmap.h /usr/include/string.h omdata.h \
+  /usr/include/c++/4.3/bitset output.h /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h faction.h \
+  game.h map.h /usr/include/stdlib.h /usr/include/bits/waitflags.h \
+  /usr/include/bits/waitstatus.h /usr/include/sys/types.h \
+  /usr/include/sys/select.h /usr/include/bits/select.h \
+  /usr/include/sys/sysmacros.h /usr/include/alloca.h mapdata.h mapitems.h \
+  crafting.h rng.h tutorial.h event.h line.h
+setvector.o: setvector.cpp setvector.h /usr/include/c++/4.3/vector \
+  /usr/include/c++/4.3/bits/stl_algobase.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception \
+  /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h \
+  /usr/include/c++/4.3/string /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/postypes.h /usr/include/c++/4.3/cwchar \
+  /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h enums.h iuse.h pldata.h bodypart.h skill.h \
+  bionics.h mongroup.h mtype.h /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h \
+  /usr/include/bits/huge_vall.h /usr/include/bits/inf.h \
+  /usr/include/bits/nan.h /usr/include/bits/mathdef.h \
+  /usr/include/bits/mathcalls.h mondeath.h monattack.h mapitems.h \
+  crafting.h rng.h /usr/include/stdlib.h /usr/include/bits/waitflags.h \
+  /usr/include/bits/waitstatus.h /usr/include/sys/types.h \
+  /usr/include/sys/select.h /usr/include/bits/select.h \
+  /usr/include/sys/sysmacros.h /usr/include/alloca.h
+skill.o: skill.cpp skill.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc
+trapdef.o: trapdef.cpp game.h mtype.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h \
+  /usr/include/bits/huge_vall.h /usr/include/bits/inf.h \
+  /usr/include/bits/nan.h /usr/include/bits/mathdef.h \
+  /usr/include/bits/mathcalls.h mondeath.h monattack.h enums.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h monster.h player.h item.h \
+  /usr/include/c++/4.3/vector /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h iuse.h pldata.h bodypart.h \
+  skill.h bionics.h trap.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h crafting.h rng.h tutorial.h event.h
+trapfunc.o: trapfunc.cpp game.h mtype.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h \
+  /usr/include/bits/huge_vall.h /usr/include/bits/inf.h \
+  /usr/include/bits/nan.h /usr/include/bits/mathdef.h \
+  /usr/include/bits/mathcalls.h mondeath.h monattack.h enums.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h monster.h player.h item.h \
+  /usr/include/c++/4.3/vector /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h iuse.h pldata.h bodypart.h \
+  skill.h bionics.h trap.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h crafting.h rng.h tutorial.h event.h
+wish.o: wish.cpp game.h mtype.h /usr/include/c++/4.3/string \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++config.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/os_defines.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/4.3/bits/stringfwd.h \
+  /usr/include/c++/4.3/bits/char_traits.h \
+  /usr/include/c++/4.3/bits/stl_algobase.h /usr/include/c++/4.3/cstddef \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/c++/4.3/bits/functexcept.h \
+  /usr/include/c++/4.3/exception_defines.h \
+  /usr/include/c++/4.3/bits/cpp_type_traits.h \
+  /usr/include/c++/4.3/ext/type_traits.h \
+  /usr/include/c++/4.3/ext/numeric_traits.h \
+  /usr/include/c++/4.3/bits/stl_pair.h \
+  /usr/include/c++/4.3/bits/stl_move.h \
+  /usr/include/c++/4.3/bits/concept_check.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_types.h \
+  /usr/include/c++/4.3/bits/stl_iterator_base_funcs.h \
+  /usr/include/c++/4.3/bits/stl_iterator.h \
+  /usr/include/c++/4.3/debug/debug.h /usr/include/c++/4.3/bits/postypes.h \
+  /usr/include/c++/4.3/cwchar /usr/include/wchar.h /usr/include/stdio.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h \
+  /usr/include/bits/wchar.h \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stddef.h \
+  /usr/include/xlocale.h /usr/include/stdint.h \
+  /usr/include/c++/4.3/cstdio /usr/include/stdio.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/c++/4.3/bits/allocator.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++allocator.h \
+  /usr/include/c++/4.3/ext/new_allocator.h /usr/include/c++/4.3/new \
+  /usr/include/c++/4.3/exception /usr/include/c++/4.3/bits/localefwd.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/c++locale.h \
+  /usr/include/c++/4.3/clocale /usr/include/locale.h \
+  /usr/include/bits/locale.h /usr/include/c++/4.3/iosfwd \
+  /usr/include/c++/4.3/cctype /usr/include/ctype.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/c++/4.3/bits/ostream_insert.h \
+  /usr/include/c++/4.3/cxxabi-forced.h \
+  /usr/include/c++/4.3/bits/stl_function.h \
+  /usr/include/c++/4.3/backward/binders.h \
+  /usr/include/c++/4.3/bits/basic_string.h \
+  /usr/include/c++/4.3/ext/atomicity.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/bits/time.h \
+  /usr/include/signal.h /usr/include/bits/sigset.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/environments.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h \
+  /usr/include/c++/4.3/i486-linux-gnu/bits/atomic_word.h \
+  /usr/include/c++/4.3/bits/basic_string.tcc /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h \
+  /usr/include/bits/huge_vall.h /usr/include/bits/inf.h \
+  /usr/include/bits/nan.h /usr/include/bits/mathdef.h \
+  /usr/include/bits/mathcalls.h mondeath.h monattack.h enums.h color.h \
+  /usr/include/ncurses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
+  /usr/include/curses.h monster.h player.h item.h \
+  /usr/include/c++/4.3/vector /usr/include/c++/4.3/bits/stl_construct.h \
+  /usr/include/c++/4.3/bits/stl_uninitialized.h \
+  /usr/include/c++/4.3/bits/stl_vector.h \
+  /usr/include/c++/4.3/bits/stl_bvector.h \
+  /usr/include/c++/4.3/bits/vector.tcc itype.h iuse.h pldata.h bodypart.h \
+  skill.h bionics.h trap.h map.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h mapdata.h mapitems.h overmap.h \
+  /usr/include/string.h omdata.h /usr/include/c++/4.3/bitset output.h \
+  /usr/include/c++/4.3/cstdarg \
+  /usr/lib/gcc/i486-linux-gnu/4.3.2/include/stdarg.h mongroup.h \
+  settlement.h npc.h faction.h crafting.h rng.h tutorial.h event.h
