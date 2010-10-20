@@ -4,7 +4,7 @@
 #include "skill.h"
 #include "game.h"
 #include <sstream>
-#include <ncurses.h>
+#include <curses.h>
 
 bool is_flammable(material m);
 

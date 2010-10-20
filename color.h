@@ -1,7 +1,7 @@
 #ifndef _COLOR_H_
 #define _COLOR_H
 
-#include <ncurses.h>
+#include <curses.h>
 
 #ifndef _COLOR_LIST_
 #define _COLOR_LIST_

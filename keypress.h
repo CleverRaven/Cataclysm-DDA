@@ -1,6 +1,6 @@
 #ifndef _KEYPRESS_H_
 #define _KEYPRESS_H_
-#include <ncurses.h>
+#include <curses.h>
 // Simple text input--translates numpad to vikeys
 long input();
 // If ch is vikey, x & y are set to corresponding direction; ch=='y'->x=-1,y=-1

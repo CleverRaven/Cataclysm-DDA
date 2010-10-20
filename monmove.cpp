@@ -7,7 +7,7 @@
 #include "rng.h"
 #include "pldata.h"
 #include <stdlib.h>
-#include <ncurses.h>
+#include <curses.h>
 
 #ifndef SGN
 #define SGN(a) (((a)<0) ? -1 : 1)

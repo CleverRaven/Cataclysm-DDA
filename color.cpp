@@ -1,4 +1,4 @@
-#include <ncurses.h>
+#include <curses.h>
 #include "color.h"
 
 #define HILIGHT COLOR_BLUE
