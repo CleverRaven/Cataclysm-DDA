@@ -21,6 +21,10 @@ faction::faction()
  goal = FACGOAL_NULL;
  job1 = FACJOB_NULL;
  job2 = FACJOB_NULL;
+ strength = 0;
+ sneak = 0;
+ crime = 0;
+ good = 0;
 }
 
 faction::~faction()

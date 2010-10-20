@@ -57,6 +57,8 @@ but less so with fighting."
 enum dis_type {
  DI_NULL,
 // Temperature
+ DI_COLD, DI_COLD_FACE, DI_COLD_HANDS, DI_COLD_LEGS, DI_COLD_FEET,
+ DI_HOT,	// Can lead to heatstroke
  DI_HEATSTROKE, DI_FBFACE, DI_FBHANDS, DI_FBFEET,
  DI_SMOKE, DI_ONFIRE, DI_TEARGAS,
 // Monsters
