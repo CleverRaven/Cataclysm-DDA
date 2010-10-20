@@ -7,7 +7,7 @@
 #include "settlement.h"
 #include "npc.h"
 #include <vector>
-#include <ncurses.h>
+#include <curses.h>
 
 struct settlement;
 

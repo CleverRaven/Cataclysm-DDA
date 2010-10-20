@@ -2,13 +2,21 @@
 #WARNINGS = -Wall
 DEBUG = -g
 
-
 ODIR = obj
+DDIR = .deps
+
 TARGET = cataclysm
 
+OS  = $(shell uname -o)
 CXX = g++
-CFLAGS = $(WARNINGS) $(DEBUG)
-LDFLAGS = $(CFLAGS) -lncurses
+
+CFLAGS = $(WARNINGS) $(DEBUG) -MD
+
+ifeq ($(OS), Msys)
+LDFLAGS = -static -lpdcurses
+else 
+LDFLAGS = -lncurses
+endif
 
 SOURCES = $(wildcard *.cpp)
 _OBJS = $(SOURCES:.cpp=.o)
@@ -17,16 +25,23 @@ OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 all: $(TARGET)
 	@
 
-$(TARGET): $(OBJS)
-	$(CXX) $(LDFLAGS) $(OBJS) -o $(TARGET)
+$(TARGET): $(ODIR) $(DDIR) $(OBJS)
+	$(CXX) -o $(TARGET) $(CFLAGS) $(OBJS) $(LDFLAGS) 
+
+$(ODIR):
+	mkdir $(ODIR)
+
+$(DDIR):
+	@mkdir $(DDIR)
 
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(CFLAGS) -c $< -o $@
+	@cp $(ODIR)/$*.d $(DDIR)/$*.P; \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+	-e '/^$$/ d' -e 's/$$/ :/' < $(ODIR)/$*.d >> $(DDIR)/$*.P; \
+	rm -f $(ODIR)/$*.d
 
 clean:
 	rm -f $(TARGET) $(ODIR)/*.o
 
-Make.deps:
-	gccmakedep -fMake.deps -- $(CFLAGS) -- $(SOURCES)
-
-include Make.deps
+-include $(SOURCES:%.cpp=$(DEPDIR)/%.P)

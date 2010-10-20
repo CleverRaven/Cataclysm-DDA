@@ -15,13 +15,15 @@
 void player::activate_bionic(int b, game *g)
 {
  bionic bio = my_bionics[b];
- if (power_level < bionics[bio.id].power_cost) {
+ int power_cost = bionics[bio.id].power_cost;
+ if (weapon.type->id == itm_bio_claws && bio.id == bio_claws)
+  power_cost = 0;
+ if (power_level < power_cost) {
   if (my_bionics[b].powered) {
    g->add_msg("Your %s powers down.", bionics[bio.id].name.c_str());
    my_bionics[b].powered = false;
-  } else {
+  } else
    g->add_msg("You cannot power your %s", bionics[bio.id].name.c_str());
-  }
   return;
  }
 
@@ -34,7 +36,7 @@ void player::activate_bionic(int b, game *g)
    my_bionics[b].powered = true;
    my_bionics[b].charge = bionics[bio.id].charge_time;
   }
-  power_level -= bionics[bio.id].power_cost;
+  power_level -= power_cost;
  }
 
  std::string junk;
@@ -203,9 +205,11 @@ void player::activate_bionic(int b, game *g)
               weapon.tname().c_str());
    g->m.add_item(posx, posy, weapon);
    weapon = item(g->itypes[itm_bio_claws], 0);
+   weapon.invlet = '#';
   } else {
    g->add_msg("Your claws extend!");
    weapon = item(g->itypes[itm_bio_claws], 0);
+   weapon.invlet = '#';
   }
   break;
  case bio_blaster:

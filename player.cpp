@@ -5,7 +5,7 @@
 #include "addiction.h"
 #include "keypress.h"
 #include <sstream>
-#include <ncurses.h>
+#include <curses.h>
 #include <stdlib.h>
 
 nc_color encumb_color(int level);
@@ -938,13 +938,16 @@ slower.");
        status = c_pink;
       else
        status = c_ltblue;
-      mvwprintz(w_skills, i + 2, 1, status, skill_name(skillslist[i]).c_str());
+      mvwprintz(w_skills, i + 2,  1, status, "%s:",
+                skill_name(skillslist[i]).c_str());
+      mvwprintz(w_skills, i + 2, 19, status, "%d", sklevel[skillslist[i]]);
      }
      wrefresh(w_skills);
      line = 0;
      curtab = 1;
      break;
     case 'q':
+    case 'Q':
     case KEY_ESCAPE:
      done = true;
    }
@@ -1179,9 +1182,9 @@ void player::power_bionics(game *g)
    else
     mvwprintz(wBio, 0, 10, c_white,
               "Examining.  Press '!' to activate your implants.");
-  } else if (ch == ' ') {
+  } else if (ch == ' ')
    ch = KEY_ESCAPE;
-  } else if (ch != KEY_ESCAPE) {
+  else if (ch != KEY_ESCAPE) {
    for (int i = 0; i < my_bionics.size(); i++) {
     if (ch == my_bionics[i].invlet) {
      tmp = &my_bionics[i];
@@ -1225,8 +1228,8 @@ You can not activate %s!  To read a description of\
 void player::mutate(game *g)
 {
  while (true) {	// Infinite loop until a mutation forms.
-// GOOD mutations are a 2 in 5 chance, unless you have robust genetics (in which
-//  case it is a 7 in 10 chance).
+// GOOD mutations are a 2 in 7 chance, unless you have robust genetics (in which
+//  case it is a 7 in 17 chance).
   if (rng(1, 7) >= 6 || (has_trait(PF_ROBUST) && one_in(3))) {
    switch (rng(1, 24)) {
    case 1:

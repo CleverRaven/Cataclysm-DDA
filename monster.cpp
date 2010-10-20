@@ -6,7 +6,7 @@
 #include "rng.h"
 #include <sstream>
 #include <stdlib.h>
-#include <ncurses.h>
+#include <curses.h>
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) (a*a)
