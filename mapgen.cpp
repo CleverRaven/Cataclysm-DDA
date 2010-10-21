@@ -1028,55 +1028,60 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
  case ot_s_gas_east:
  case ot_s_gas_south:
  case ot_s_gas_west:
+  tw = rng(5, 14);
+  bw = SEEY * 2 - rng(1, 2);
+  mw = rng(tw + 5, bw - 3);
+  if (mw < bw - 5)
+   mw = bw - 5;
+  lw = rng(0, 3);
+  rw = SEEX * 2 - rng(1, 4);
+  cw = rng(lw + 4, rw - 5);
+  rn = rng(3, 6);	// Frequency of gas pumps
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEX * 2; j++) {
-    if ((j == 4 || j == 8) && (i == 6 || i == 10 || i == 14 || i == 18))
+    if (j < tw && (tw - j) % 4 == 0 && i > lw && i < rw &&
+        (i - (1 + lw)) % rn == 0)
      ter(i, j) = t_gas_pump;
-    else if ((j < 2 && i > 7 && i < 16) ||
-             (j < 12 && i > 1 && i < SEEX * 2 - 2))
+    else if ((j < 2 && i > 7 && i < 16) || (j < tw && i > lw && i < rw))
      ter(i, j) = t_pavement;
-    else if (j == 12 && (i == 7 || i == 8 || i == 15 || i == 16))
+    else if (j == tw && (i == lw+6 || i == lw+7 || i == rw-7 || i == rw-6))
      ter(i, j) = t_window;
-    else if (((j == 12 || j == SEEY * 2 - 3) && i > 3 && i < SEEX*2 - 4) ||
-             (j == 18 && (i > 8 && i < SEEX * 2 - 5)))
+    else if (((j == tw || j == bw) && i >= lw && i <= rw) ||
+             (j == mw && (i >= cw && i < rw)))
      ter(i, j) = t_wall_h;
-    else if (((i == 4 || i == SEEX * 2 - 5) && j > 12 && j < SEEY*2 - 3) ||
-             (i == 15 && (j == 19 || j == SEEY * 2 - 4)) || 
-             (i == 9 && j == SEEY * 2 - 4))
+    else if (((i == lw || i == rw) && j > tw && j < bw) ||
+             (j > mw && j < bw && (i == cw || i == rw - 2)))
      ter(i, j) = t_wall_v;
-    else if ((i == 17 && j == 18) || (i == 9 && j == 19))
-     ter(i, j) = t_door_c;
-    else if (i == 5 && j > 13 && j < SEEY * 2 - 3)
+    else if (i == lw + 1 && j > tw && j < bw)
      ter(i, j) = t_fridge;
-    else if ((i == 7 || i == 9 || i == 11) && j > 13 && j < 17)
+    else if (i > lw + 2 && i < lw + 12 && i < cw && i % 2 == 1 &&
+             j > tw + 1 && j < mw - 1)
      ter(i, j) = t_rack;
-    else if ((i == 14 && j > 12 && j < 16) ||
-             (j == 15 && i > 13 && i < 18))
+    else if ((i == rw - 5 && j > tw + 1 && j < tw + 4) ||
+             (j == tw + 3 && i > rw - 5 && i < rw))
      ter(i, j) = t_counter;
-    else if (i > 4 && i < SEEX * 2 - 5 && j > 12 && j < SEEY * 2 - 3)
+    else if (i > lw && i < rw && j > tw && j < bw)
      ter(i, j) = t_floor;
     else
      ter(i, j) = grass_or_dirt();
    }
   }
-  ter(rng(10, 13), 12) = t_door_c;
-  ter(rng(16, 17), 18) = t_door_c;
-  if (one_in(2))
-   place_items(mi_snacks,	74,  7, 14,  7, 16, false, 0);
-  else
-   place_items(mi_magazines,	74,  7, 14,  7, 16, false, 0);
-  if (one_in(2))
-   place_items(mi_snacks,	74,  9, 14,  9, 16, false, 0);
-  else
-   place_items(mi_magazines,	74,  9, 14,  9, 16, false, 0);
-  if (one_in(2))
-   place_items(mi_snacks,	74, 11, 14, 11, 16, false, 0);
-  else
-   place_items(mi_magazines,	74, 11, 14, 11, 16, false, 0);
-  place_items(mi_fridgesnacks,	82,  5, 14,  5, 20, false, 0);
-  place_items(mi_road,		12,  0,  0, SEEX * 2 - 3, 11, false, 0);
-  place_items(mi_behindcounter,	70, 15, 13, 18, 14, false, 0);
-  place_items(mi_softdrugs,	12, 16, 19, 18, 20, false, 0);
+  ter(cw, rng(mw + 1, bw - 1)) = t_door_c;
+  ter(rw - 1, mw) = t_door_c;
+  ter(rw - 1, bw - 1) = t_toilet;
+  ter(rng(10, 13), tw) = t_door_c;
+  if (one_in(5))
+   ter(rng(lw + 1, cw - 1), bw) = (one_in(4) ? t_door_c : t_door_locked);
+  for (int i = lw + (lw % 2 == 0 ? 3 : 4); i < cw && i < lw + 12; i += 2) {
+   if (one_in(2))
+    place_items(mi_snacks,	74, i, tw + 2, i, mw - 2, false, 0);
+   else
+    place_items(mi_magazines,	74, i, tw + 2, i, mw - 2, false, 0);
+  }
+  place_items(mi_fridgesnacks,	82, lw + 1, tw + 1, lw + 1, bw - 1, false, 0);
+  place_items(mi_road,		12, 0,      0,  SEEX*2 - 1, tw - 1, false, 0);
+  place_items(mi_behindcounter,	70, rw - 4, tw + 1, rw - 1, tw + 2, false, 0);
+  place_items(mi_softdrugs,	12, rw - 1, bw - 2, rw - 1, bw - 2, false, 0);
   if (terrain_type == ot_s_gas_east)
    rotate(1);
   if (terrain_type == ot_s_gas_south)
@@ -1145,7 +1150,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    place_items(mi_snacks,	70, rw - 3, tw + 4, rw - 3, mw - 3, false, 0);
   else
    place_items(mi_softdrugs,	70, rw - 3, tw + 4, rw - 3, mw - 3, false, 0);
-  place_items(mi_fridgesnacks,	74, lw + 1, tw + 7, lw + 1, mw - 2, false, 0);
+  place_items(mi_fridgesnacks,	74, lw + 1, tw + 9, lw + 1, mw - 2, false, 0);
   place_items(mi_fridgesnacks,	74, cw + 2, mw - 1, rw - 1, mw - 1, false, 0);
   place_items(mi_harddrugs,	65, lw + 2, bw - 1, cw - 2, bw - 1, false, 0);
   place_items(mi_behindcounter,	78, lw + 1, tw + 1, lw + 4, tw + 5, false, 0);
@@ -1156,6 +1161,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   if (terrain_type == ot_s_pharm_west)
    rotate(3);
   break;
+
  case ot_s_grocery_north:
  case ot_s_grocery_east:
  case ot_s_grocery_south:
