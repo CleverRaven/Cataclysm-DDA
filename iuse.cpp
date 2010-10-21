@@ -581,7 +581,7 @@ void iuse::scissors(game *g, item *it, bool t)
  bool drop = false;
  for (int i = 0; i < count; i++) {
   int iter = 0;
-  while (g->u.has_item(rag.invlet)) {
+  while (g->u.has_item(rag.invlet) && iter < 52) {
    rag.invlet = g->nextinv;
    g->advance_nextinv();
    iter++;
