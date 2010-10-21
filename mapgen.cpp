@@ -1089,57 +1089,66 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
  case ot_s_pharm_east:
  case ot_s_pharm_south:
  case ot_s_pharm_west:
+  tw = rng(0, 4);
+  bw = SEEY * 2 - rng(1, 5);
+  mw = bw - rng(3, 4);	// Top of the storage room
+  lw = rng(0, 4);
+  rw = SEEX * 2 - rng(1, 5);
+  cw = rng(13, rw - 5);	// Left side of the storage room
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
-    if (j == 3 && ((i > 5 && i < 9) || (i > 14 && i < 18)))
+    if (j == tw && ((i > lw + 2 && i < lw + 6) || (i > rw - 6 && i < rw - 2)))
      ter(i, j) = t_window;
-    else if ((j == 3 && (i == 11 || i == 12)) || (i == 13 && j == 18))
+    else if ((j == tw && (i == lw + 8 || i == lw + 9)) ||
+             (i == cw && j == mw + 1))
      ter(i, j) = t_door_c;
-    else if (((j == 3 || j == SEEY * 2 - 4) && i > 2 && i < SEEX * 2 - 3) ||
-             (j == 17 && i > 12 && i < SEEX * 2 - 4))
+    else if (((j == tw || j == bw) && i >= lw && i <= rw) ||
+             (j == mw && i >= cw && i < rw))
      ter(i, j) = t_wall_h;
-    else if (((i == 3 || i == SEEX * 2 - 4) && j > 3 && j < SEEY * 2 - 4) ||
-             (i == 13 && j == 19))
+    else if (((i == lw || i == rw) && j > tw && j < bw) ||
+             (i == cw && j > mw && j < bw))
      ter(i, j) = t_wall_v;
-    else if (((i == 11 || i == 12 || i == 16 || i == 17) && j > 6 && j < 14) ||
-             (j == 19 && i > 4 && i < 12))
+    else if (((i == lw + 8 || i == lw + 9 || i == rw - 4 || i == rw - 3) &&
+              j > tw + 3 && j < mw - 2) ||
+             (j == bw - 1 && i > lw + 1 && i < cw - 1))
      ter(i, j) = t_rack;
-    else if ((i == 4 && j > 11 && j < 15) ||
-             (j == 16 && i > 14 && i < SEEX * 2 - 4))
+    else if ((i == lw + 1 && j > tw + 8 && j < mw - 1) ||
+             (j == mw - 1 && i > cw + 1 && i < rw))
      ter(i, j) = t_fridge;
-    else if ((j == 17 && i > 4 && i < 13) || (j == 9 && i > 4 && i < 9) ||
-             (i ==  8 && j > 3 && j < 10))
+    else if ((j == mw     && i > lw + 1 && i < cw) ||
+             (j == tw + 6 && i > lw + 1 && i < lw + 6) ||
+             (i == lw + 5 && j > tw     && j < tw + 7))
      ter(i, j) = t_counter;
-    else if (i > 3 && i < SEEX * 2 - 4 && j > 3 && j < SEEY * 2 - 4)
+    else if (i > lw && i < rw && j > tw && j < bw)
      ter(i, j) = t_floor;
     else
      ter(i, j) = grass_or_dirt();
    }
   }
   if (one_in(3))
-   place_items(mi_snacks,	74, 11,  7, 11, 13, false, 0);
+   place_items(mi_snacks,	74, lw + 8, tw + 4, lw + 8, mw - 3, false, 0);
   else if (one_in(4))
-   place_items(mi_cleaning,	74, 11,  7, 11, 13, false, 0);
+   place_items(mi_cleaning,	74, lw + 8, tw + 4, lw + 8, mw - 3, false, 0);
   else
-   place_items(mi_magazines,	74, 11,  7, 11, 13, false, 0);
+   place_items(mi_magazines,	74, lw + 8, tw + 4, lw + 8, mw - 3, false, 0);
   if (one_in(5))
-   place_items(mi_softdrugs,	74, 12,  7, 12, 13, false, 0);
+   place_items(mi_softdrugs,	74, lw + 9, tw + 4, lw + 9, mw - 3, false, 0);
   else if (one_in(4))
-   place_items(mi_cleaning,	74, 12,  7, 12, 13, false, 0);
+   place_items(mi_cleaning,	74, lw + 9, tw + 4, lw + 9, mw - 3, false, 0);
   else
-   place_items(mi_snacks,	74, 12,  7, 12, 13, false, 0);
+   place_items(mi_snacks,	74, lw + 9, tw + 4, lw + 9, mw - 3, false, 0);
   if (one_in(5))
-   place_items(mi_softdrugs,	74, 16,  7, 16, 13, false, 0);
+   place_items(mi_softdrugs,	74, rw - 4, tw + 4, rw - 4, mw - 3, false, 0);
   else
-   place_items(mi_snacks,	74, 16,  7, 16, 13, false, 0);
+   place_items(mi_snacks,	74, rw - 4, tw + 4, rw - 4, mw - 3, false, 0);
   if (one_in(3))
-   place_items(mi_snacks,	70, 17,  7, 17, 13, false, 0);
+   place_items(mi_snacks,	70, rw - 3, tw + 4, rw - 3, mw - 3, false, 0);
   else
-   place_items(mi_softdrugs,	70, 17,  7, 17, 13, false, 0);
-  place_items(mi_fridgesnacks,	74,  4, 12,  4, 14, false, 0);
-  place_items(mi_fridgesnacks,	74, 15, 16, 19, 16, false, 0);
-  place_items(mi_harddrugs,	65,  5, 19, 11, 19, false, 0);
-  place_items(mi_behindcounter,	78,  4,  4,  7,  8, false, 0);
+   place_items(mi_softdrugs,	70, rw - 3, tw + 4, rw - 3, mw - 3, false, 0);
+  place_items(mi_fridgesnacks,	74, lw + 1, tw + 7, lw + 1, mw - 2, false, 0);
+  place_items(mi_fridgesnacks,	74, cw + 2, mw - 1, rw - 1, mw - 1, false, 0);
+  place_items(mi_harddrugs,	65, lw + 2, bw - 1, cw - 2, bw - 1, false, 0);
+  place_items(mi_behindcounter,	78, lw + 1, tw + 1, lw + 4, tw + 5, false, 0);
   if (terrain_type == ot_s_pharm_east)
    rotate(1);
   if (terrain_type == ot_s_pharm_south)
