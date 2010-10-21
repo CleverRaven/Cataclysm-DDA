@@ -357,7 +357,7 @@ void game::init_recipes()
   COMP(itm_power_supply, 1, NULL);
   COMP(itm_amplifier, 3, NULL);
 
- RECIPE(itm_hat_fur, CC_ARMOR, sk_tailor, sk_null, 1, 40000);
+ RECIPE(itm_hat_fur, CC_ARMOR, sk_tailor, sk_null, 2, 40000);
   TOOL(itm_sewing_kit, 8, NULL);
   COMP(itm_fur, 3, NULL);
 

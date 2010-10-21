@@ -264,8 +264,8 @@ bool game::opening_screen()
      clear();
      mvwprintz(w_open, 0, 1, c_blue, "Welcome to Cataclysm!");
      mvwprintz(w_open, 1, 0, c_red, "\
- This alpha release is highly unstable. Please report any crashes or bugs to\n\
- fivedozenwhales@gmail.com.");
+This alpha release is highly unstable. Please report any crashes or bugs to\n\
+fivedozenwhales@gmail.com.");
      wrefresh(w_open);
      refresh();
     } else if (sel1 == 3) {
@@ -565,8 +565,10 @@ bool game::do_turn()
    u.thirst++;	// If has a recycler, 1/2 of the time it's skipped
   u.fatigue++;
   if (u.fatigue == 192 && !u.has_disease(DI_LYING_DOWN) &&
-      !u.has_disease(DI_SLEEP))
+      !u.has_disease(DI_SLEEP)) {
    add_msg("You're feeling tired.  Press '$' to lie down for sleep.");
+   u.activity.type = ACT_NULL;
+  }
   if (u.stim < 0)
    u.stim++;
   if (u.stim > 0)
@@ -4344,7 +4346,10 @@ void game::butcher()
    if (factor > 0)
     skill_shift -= rng(0, factor / 5);
    
-   u.practice(sk_butcher, pieces);
+   int practice = 4 + pieces * 4;
+   if (practice > 25)
+    practice = 25;
+   u.practice(sk_butcher, practice);
 
    pieces += int(skill_shift);
    if (skill_shift < 3)
@@ -5131,7 +5136,7 @@ void game::update_map(int &x, int &y)
   }
  }
 // Spawn NPCs?
- if (!in_tutorial) {
+ if (!in_tutorial && false) {	// Removing NPCs for now. :(
   npc temp;
   for (int i = 0; i < cur_om.npcs.size(); i++) {
    if (rl_dist(levx, levy, cur_om.npcs[i].mapx, cur_om.npcs[i].mapy) <= 2) {
@@ -5185,7 +5190,7 @@ void game::spawn_mon(int shiftx, int shifty)
  int iter;
  int t;
  // Create a new NPC?
-  if (one_in(50 + 5 * cur_om.npcs.size())) {
+  if (false && one_in(50 + 5 * cur_om.npcs.size())) {	// Removing NPCs for now
    npc temp;
    temp.randomize(this);
    temp.spawn_at(&cur_om, levx + (1 * rng(-2, 2)), levy + (1 * rng(-2, 2)));

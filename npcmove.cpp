@@ -652,6 +652,7 @@ void npc::go_to_destination(game *g)
     }
    }
   }
+  move_pause();
  }
 }
 

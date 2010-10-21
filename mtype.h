@@ -144,7 +144,7 @@ struct mtype {
         material pmat, unsigned pflags, unsigned char pfreq, unsigned int pdiff,
         signed char pagro, unsigned int pspeed, unsigned char pml_skill,
         unsigned char pml_dice, unsigned char pml_sides, unsigned char pml_cut,
-        unsigned char pdodge, unsigned char parmor, unsigned char pitem_chance,
+        unsigned char pdodge, unsigned char parmor, signed char pitem_chance,
         int php, unsigned char psp_freq,
         void (mdeath::*pdies)      (game *, monster *),
         void (mattack::*psp_attack)(game *, monster *),

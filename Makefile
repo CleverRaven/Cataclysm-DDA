@@ -10,7 +10,7 @@ TARGET = cataclysm
 OS  = $(shell uname -o)
 CXX = g++
 
-CFLAGS = $(WARNINGS) $(DEBUG) -MD
+CFLAGS = $(WARNINGS) $(DEBUG)
 
 ifeq ($(OS), Msys)
 LDFLAGS = -static -lpdcurses
@@ -36,10 +36,6 @@ $(DDIR):
 
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(CFLAGS) -c $< -o $@
-	@cp $(ODIR)/$*.d $(DDIR)/$*.P; \
-	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
-	-e '/^$$/ d' -e 's/$$/ :/' < $(ODIR)/$*.d >> $(DDIR)/$*.P; \
-	rm -f $(ODIR)/$*.d
 
 clean:
 	rm -f $(TARGET) $(ODIR)/*.o
