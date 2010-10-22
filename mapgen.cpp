@@ -3045,8 +3045,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    place_items(mi_homeguns,	 72, SEEX - 1,  7, SEEX,  7, false, 0);
    place_items(mi_survival_tools,83, SEEX - 1,  8, SEEX, 10, false, 0);
    place_items(mi_manuals,	 60, SEEX - 1, 11, SEEX, 11, false, 0);
-   ter(SEEX - 1, SEEX * 2 - 2) = t_stairs_up;
-   ter(SEEX    , SEEX * 2 - 2) = t_stairs_up;
+   ter(SEEX - 1, SEEY * 2 - 2) = t_stairs_up;
+   ter(SEEX    , SEEY * 2 - 2) = t_stairs_up;
    break;
   case 3:	// Chem lab
    for (int i = 1; i < SEEY + 4; i++) {
@@ -3058,6 +3058,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     place_items(mi_chemistry,	90, SEEX*2-2, 1, SEEX*2-2, SEEY + 3, false, 0);
    else
     place_items(mi_electronics,	90, SEEX*2-2, 1, SEEX*2-2, SEEY + 3, false, 0);
+   ter(SEEX - 1, SEEY * 2 - 2) = t_stairs_up;
+   ter(SEEX    , SEEY * 2 - 2) = t_stairs_up;
    break;
   }
   break;

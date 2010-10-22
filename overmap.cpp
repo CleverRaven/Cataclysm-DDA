@@ -175,6 +175,20 @@ void overmap::add_note(int x, int y, std::string message)
   notes.push_back(om_note(x, y, notes.size(), message));
 }
 
+point overmap::find_note(point origin, std::string text)
+{
+ int closest = 9999;
+ point ret(-1, -1);
+ for (int i = 0; i < notes.size(); i++) {
+  if (notes[i].text.find(text) != std::string::npos &&
+      rl_dist(origin.x, origin.y, notes[i].x, notes[i].y) < closest) {
+   closest = rl_dist(origin.x, origin.y, notes[i].x, notes[i].y);
+   ret = point(notes[i].x, notes[i].y);
+  }
+ }
+ return ret;
+}
+
 void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
                        overmap* west)
 {

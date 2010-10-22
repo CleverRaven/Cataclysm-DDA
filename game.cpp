@@ -1365,7 +1365,7 @@ void game::draw_overmap()
   ch = input();
 
   if (ch != ERR)
-   blink = true;
+   blink = true;	// If any input is detected, make the blinkies on
   if (ch == 'y' || ch == 'u' || ch == 'h' || ch == 'j' || ch == 'k' ||
       ch == 'l' || ch == 'b' || ch == 'n') {
    int dirx, diry;
@@ -1389,28 +1389,32 @@ void game::draw_overmap()
    timeout(-1);
    std::string term = string_input_popup("Search term:");
    timeout(BLINK_SPEED);
-    int range = 1;
-   for (int i = 0; i < num_ter_types; i++) {
-    if (oterlist[i].name.find(term) != std::string::npos) {
-     if (i == ot_forest || i == ot_hive || i == ot_hiway_ns ||i == ot_bridge_ns)
-      range = 2;
-     else if (i >= ot_road_ns && i < ot_road_nesw_manhole)
-      range = ot_road_nesw_manhole - i + 1;
-     else if (i >= ot_river_center && i < ot_river_nw)
-      range = ot_river_nw - i + 1;
-     else if (i >= ot_house_north && i < ot_lab)
-      range = 4;
-     else if (i == ot_lab)
-      range = 2;
-     int maxdist = OMAPX;
-     point found = cur_om.find_closest(point(cursx, cursy), oter_id(i), range,
-                                       maxdist, true);
-     i = num_ter_types;
-     if (found.x != -1) {
-      cursx = found.x;
-      cursy = found.y;
+   int range = 1;
+   point found = cur_om.find_note(point(cursx, cursy), term);
+   if (found.x == -1) {	// Didn't find a note
+    for (int i = 0; i < num_ter_types; i++) {
+     if (oterlist[i].name.find(term) != std::string::npos) {
+      if (i == ot_forest || i == ot_hive || i == ot_hiway_ns ||
+          i == ot_bridge_ns)
+       range = 2;
+      else if (i >= ot_road_ns && i < ot_road_nesw_manhole)
+       range = ot_road_nesw_manhole - i + 1;
+      else if (i >= ot_river_center && i < ot_river_nw)
+       range = ot_river_nw - i + 1;
+      else if (i >= ot_house_north && i < ot_lab)
+       range = 4;
+      else if (i == ot_lab)
+       range = 2;
+      int maxdist = OMAPX;
+      found = cur_om.find_closest(point(cursx, cursy), oter_id(i), range,
+                                  maxdist, true);
+      i = num_ter_types;
      }
     }
+   }
+   if (found.x != -1) {
+    cursx = found.x;
+    cursy = found.y;
    }
   } else if (ch == 't')
    legend = !legend;

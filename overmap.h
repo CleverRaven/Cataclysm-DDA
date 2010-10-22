@@ -60,6 +60,7 @@ class overmap
   bool has_note(int x, int y);
   std::string note(int x, int y);
   void add_note(int x, int y, std::string message);
+  point find_note(point origin, std::string text);
   
   std::vector<city> cities;
   std::vector<city> roads_out;
