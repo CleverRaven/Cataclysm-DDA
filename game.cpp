@@ -1027,7 +1027,7 @@ void game::load(std::string name)
  int tmprun, tmptar, tmptemp, comx, comy;
  fin >> turn >> tmptar >> tmprun >> mostseen >> nextinv >> nextspawn >>
         tmptemp >> levx >> levy >> levz >> comx >> comy;
- cur_om = overmap(this, comx, comy, 0);
+ cur_om = overmap(this, comx, comy, levz);
 // m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
  m.init(this, levx, levy);
  run_mode = tmprun;

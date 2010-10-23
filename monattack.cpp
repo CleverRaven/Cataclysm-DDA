@@ -89,11 +89,6 @@ void mattack::shockstorm(game *g, monster *z)
  z->moves = -50;			// It takes a while
  z->sp_timeout = z->type->sp_freq;	// Reset timer
  g->add_msg("A bolt of electricity arcs towards you!");
-/*    -1  0  1
- * -1 -2 -1  0
- *  0 -1  0  1
- *  1  0  1  2
- */
  int tarx = g->u.posx + rng(-1, 1) + rng(-1, 1),// 3 in 9 chance of direct hit,
      tary = g->u.posy + rng(-1, 1) + rng(-1, 1);// 4 in 9 chance of near hit
  if (!g->m.sees(z->posx, z->posy, tarx, tary, -1, t))

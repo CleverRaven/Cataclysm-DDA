@@ -845,7 +845,7 @@ void game::complete_craft()
   int num_lost = rng(1, will_use.size());
   for (int i = 0; i < num_lost; i++) {
    int n = rng(0, will_use.size() - 1);
-   if (itypes[will_use[n].type]->is_tool())
+   if (itypes[will_use[n].type]->is_ammo())
     u.use_charges(will_use[n].type, will_use[n].count);
    else
     u.use_amount(will_use[n].type, will_use[n].count);
@@ -860,7 +860,7 @@ void game::complete_craft()
   return;
  }
  for (int i = 0; i < will_use.size(); i++) {
-  if (itypes[will_use[i].type]->is_tool())
+  if (itypes[will_use[i].type]->is_ammo())
    u.use_charges(will_use[i].type, will_use[i].count);
    else
    u.use_amount(will_use[i].type, will_use[i].count);

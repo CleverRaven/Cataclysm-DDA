@@ -109,20 +109,20 @@ fun,container,itm_null,use_func,addict_func));
 // FOOD
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
-FOOD("chunk of meat",	 0, 50,	c_red,		FLESH,  itm_null,
-// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func		addiction type
+FOOD("chunk of meat",	50, 50,	c_red,		FLESH,  itm_null,
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  2,  0, 20, 24,  0, -1,  0,  1, -2,	&iuse::none, ADD_NULL, "\
 Freshly butchered meat.  You could eat it raw, but cooking it is better.");
 
-FOOD("chunk of veggy",	 0, 60,	c_green,	VEGGY,	itm_null,
+FOOD("chunk of veggy",	30, 60,	c_green,	VEGGY,	itm_null,
     1,  2,  0, 20, 80,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 A raw chunk of vegetable.  Fine for eating raw, tastier when cooked.");
 
-FOOD("tainted meat",	 0,  4,	c_red,		FLESH,	itm_null,
+FOOD("tainted meat",	60,  4,	c_red,		FLESH,	itm_null,
     1,  2,  0, 20,  4,  0,  0,  0,  1,  0,	&iuse::poison, ADD_NULL, "\
 Meat that's obviously unhealthy.  You could eat it, but it will poison you.");
 
-FOOD("tainted veggy",	 0,  5,	c_green,	VEGGY,	itm_null,
+FOOD("tainted veggy",	35,  5,	c_green,	VEGGY,	itm_null,
     1,  2,  0, 20, 10,  0,  1,  0,  1,  0,	&iuse::poison, ADD_NULL, "\
 Vegetable that looks poisonous.  You could eat it, but it will poison you.");
 
@@ -136,7 +136,7 @@ Freshly cooked vegetables.  Very nutritious.");
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("apple",		70, 16,	c_red,		VEGGY,  itm_null,
-// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func		addiction type
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  1,  3, 16,160,  0,  4,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 An apple a day keeps the doctor away.");
 
@@ -166,7 +166,7 @@ Salty dried meat that never goes bad, but will make you thirsty.");
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("meat sandwich", 30, 60,	c_ltgray,	FLESH,	itm_wrapper,
-// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func		addiction type
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  2,  0, 50, 36,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 Bread and meat, that's it.");
 
@@ -199,7 +199,7 @@ Tasty juicy berry, often found growing wild in fields.");
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("tomato",		 9, 25,	c_red,		VEGGY,  itm_null,
-// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func		addiction type
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  1,  3, 18, 90,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 Juicy red tomato.  It gained popularity in Italy after being brought back\n\
 from the New World.");
@@ -226,7 +226,7 @@ Fresh wet noodles.  Very tasty.");
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("raw macaroni",	40, 15,	c_yellow,	VEGGY,	itm_box_small,
-// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func		addiction type
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     3,  1,  0,  3,  0,  0,  0,  0,  1, -2,	&iuse::none, ADD_NULL, "\
 It could be eaten raw if you're desperate, but is much better cooked.");
 
@@ -248,7 +248,7 @@ Olive oil, basil, garlic, pine nuts.  Simple and deliicous.");
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("beans",		40, 55,	c_cyan,		VEGGY,	itm_can_food,
-// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func		addiction type
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  2,  0, 40,  0,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 Canned beans.  A staple for hobos.");
 
@@ -260,7 +260,7 @@ FOOD("SPAM",		30, 50,	c_cyan,		FLESH,	itm_can_food,
     1,  2, -3, 48,  0,  0,  0,  0,  1, -2,	&iuse::none, ADD_NULL, "\
 Yuck, not very tasty.  But it is quite filling.");
 
-FOOD("pineapple",	30, 50,	c_cyan,		FLESH,	itm_can_food,
+FOOD("pineapple",	30, 50,	c_cyan,		VEGGY,	itm_can_food,
     1,  2,  5, 26,  0,  0,  1,  0,  1,  1,	&iuse::none, ADD_NULL, "\
 Canned pinapple rings in water.  Quite tasty.");
 
@@ -274,7 +274,7 @@ Salty little fish.  They'll make you thirsty.");
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("tuna fish",	35, 35,	c_cyan,		FLESH,	itm_can_food,
-// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func		addiction type
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  2,  0, 24,  0,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 Now with 95 percent less dolphins!");
 
@@ -298,7 +298,7 @@ cause your DNA to mutate as well.");
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("arm",		 4,250,	c_brown,	FLESH,	itm_null,
-// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func		addiction type
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func       addiction type
     8, 14,  0, 12,  0,  0, -8,  0,  1, -12,	&iuse::mutagen, ADD_NULL, "\
 Eating this would be pretty gross.  It causes you to mutate.");
 
@@ -311,9 +311,6 @@ FOOD("ant egg",		 5, 80,	c_white,	FLESH,	itm_null,
 A large ant egg, the size of a softball.  Extremely nutrtious, but gross.");
 
 // MEDS
-// Any special effects should be described in the line below the declaration.
-// Keep special effects as simple as possible, please.
-// If the med is almost always found in a container, that should be the material
 #define MED(name,rarity,price,color,tool,mat,stim,healthy,addict,\
 charges,fun,use_func,addict_func,des) \
 	index++;itypes.push_back(new it_comest(index,rarity,price,name,des,'!',\
@@ -323,11 +320,11 @@ fun,itm_null,tool,use_func,addict_func));
 //  NAME		RAR PRC	COLOR		TOOL
 MED("bandages",		50, 60,	c_white,	itm_null,
 //	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
-	COTTON,   0,  0,  0,  3,  0,&iuse::bandage, ADD_NULL, "\
+	COTTON,   0,  0,  0,  3,  0,&iuse::bandage,	ADD_NULL, "\
 Simple cloth bandages.  Used for healing small amounts of damage.");
 
 MED("first aid",	35,350,	c_red,		itm_null,
-	PLASTIC,  0,  0,  0,  2,  0,&iuse::firstaid,ADD_NULL, "\
+	PLASTIC,  0,  0,  0,  2,  0,&iuse::firstaid,	ADD_NULL, "\
 A full medical kit, with bandages, anti-biotics, and rapid healing agents.\n\
 Used for healing large amounts of damage.");
 
@@ -336,7 +333,7 @@ MED("vitamins",		75, 45,	c_cyan,		itm_null,
 Take frequently to improve your immune system.");
 
 MED("aspirin",		85, 30,	c_cyan,		itm_null,
-	PLASTIC,  0, -1,  0, 50,  0,&iuse::pkill_1, ADD_NULL, "\
+	PLASTIC,  0, -1,  0, 50,  0,&iuse::pkill_1,	ADD_NULL, "\
 Low-grade painkiller.  Best taken in pairs.");
 
 MED("caffeine pills",	25, 60,	c_cyan,		itm_null,
@@ -354,7 +351,7 @@ Daytime flu medication.  Will halt all flu symptoms for a while.");
 //  NAME		RAR PRC	COLOR		TOOL
 MED("Nyquil",		70, 85,	c_blue,		itm_null,
 //	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
-	PLASTIC, -7,  1,  0, 10,  0,&iuse::flusleep,ADD_NULL, "\
+	PLASTIC, -7,  1,  0, 10,  0,&iuse::flusleep,	ADD_NULL, "\
 Nighttime flu medication.  Will halt all flu symptoms for a while, plus make\n\
 you sleepy.");
 
@@ -368,11 +365,11 @@ MED("codeine",		10,400,	c_cyan,		itm_null,
 A weak opiate, prescribed for light to moderate pain.");
 
 MED("oxycodone",	 5,900,	c_cyan,		itm_null,
-	PLASTIC, -4, -1, 16, 20,  4,&iuse::pkill_3, ADD_PKILLER, "\
+	PLASTIC, -4, -1, 16, 20,  4,&iuse::pkill_3,	ADD_PKILLER, "\
 A strong opiate, prescribed for moderate to intense pain.");
 
 MED("tramadol",		 9,300,	c_cyan,		itm_null,
-	PLASTIC,  0,  0,  6, 25,  1,&iuse::pkill_l, ADD_PKILLER, "\
+	PLASTIC,  0,  0,  6, 25,  1,&iuse::pkill_l,	ADD_PKILLER, "\
 A long-lasting opiate, prescribed for moderate pain.  Its painkiller effects\n\
 last for several hours, but are not as strong as oxycodone.");
 
@@ -389,7 +386,7 @@ A strong stimulant prescribed for ADD.  It will greatly increase your\n\
 stimulant leve, but is quite addictive.");
 
 MED("Thorazine",	 8,500,	c_cyan,		itm_null,
-	PLASTIC,  0,  0,  0, 15,  0,&iuse::thorazine,ADD_NULL, "\
+	PLASTIC,  0,  0,  0, 15,  0,&iuse::thorazine,	ADD_NULL, "\
 Anti-psychotic medication.  Used to control the symptoms of schizophrenia and\n\
 similar ailments.  Also popular as a way to come down for a bad trip.");
 
@@ -400,7 +397,7 @@ MED("Prozac",		10,650,	c_cyan,		itm_null,
 A strong anti-depressant.  Useful if your morale level is very low.");
 
 MED("cigarettes",	90,120,	c_dkgray,	itm_lighter,
-	VEGGY,    1, -1, 40, 20,  1,&iuse::cig,	ADD_CIG, "\
+	VEGGY,    1, -1, 40, 20,  1,&iuse::cig,		ADD_CIG, "\
 These will boost your dexterity, intelligence, and perception for a short\n\
 time.  They are quite addictive.");
 
@@ -458,7 +455,9 @@ MELEE("leather pelt",	 0, 20, ',', c_red,	LEATHER,FLESH,
 	 1,  1, -2,  0, -1, "\
 A small piece of thick animal hide.  Can be made into tough clothing.");
 
+//    NAME		RAR PRC SYM  COLOR	MAT1	MAT2
 MELEE("superglue",	30, 18, ',', c_white,	PLASTIC,MNULL,
+//	VOL WGT DAM CUT HIT
 	 1,  0, -2,  0, -2, "\
 A tube of strong glue.  Used in many crafting recipes.");
 
@@ -482,7 +481,9 @@ MELEE("string - 3 ft",	40, 30, ',', c_ltgray,	COTTON,	MNULL,
 A long piece of cotton string.  Use scissors on it to cut it into smaller\n\
 pieces.");
 
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("rope - 6 ft",	 4, 45, ',', c_yellow,	WOOD,	MNULL,
+//	VOL WGT DAM CUT HIT
 	 2,  4,  1,  0,  1, "\
 A short piece of nylon rope.  Too small to be of much use.");
 
@@ -490,9 +491,7 @@ MELEE("rope - 30 ft",	35,100, ',', c_yellow,	WOOD,	MNULL,
 	10, 20,  1,  0, -10, "\
 A long nylon rope.  Useful for keeping yourself safe from falls.");
 
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("steel chain",	20, 80, '/', c_cyan,	STEEL,	MNULL,
-//	VOL WGT DAM CUT HIT
 	 4,  8, 12,  0,  3, "\
 A heavy steel chain.  Useful as a weapon, or for crafting.");
 
@@ -525,7 +524,7 @@ MELEE("signal receiver",10,135, ',', c_ltcyan,	IRON,	PLASTIC,
 A module designed to receive many forms of signals.  Useful for crafting\n\
 communications equipment.");
 
-MELEE("antenna",	18, 80, ',', c_ltcyan,	IRON,	MNULL,
+MELEE("antenna",	18, 80, ',', c_ltcyan,	STEEL,	MNULL,
 	 1,  0, -6,  0,  2, "\
 A simple thin aluminum shaft.  Useful in lots of electronics recipes.");
 

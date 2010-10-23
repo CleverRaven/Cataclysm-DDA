@@ -336,7 +336,8 @@ void game::init_mapitems()
 	itm_rock, itm_jackhammer, NULL);
  setvector(
    mapitems[mi_ant_food],
-	itm_apple, itm_orange, itm_mushroom, itm_blueberries, itm_strawberries,
+	itm_meat, itm_veggy, itm_meat_tainted, itm_veggy_tainted, itm_apple,
+	itm_orange, itm_mushroom, itm_blueberries, itm_strawberries,
 	itm_tomato, itm_broccoli, itm_zucchini, itm_honeycomb, itm_royal_jelly,
 	itm_arm, itm_leg, itm_rock, itm_stick, NULL);
  setvector(
