@@ -3353,7 +3353,7 @@ void game::pickup(int posx, int posy, int min)
    mvwprintz(w_pickup, 0,  9,
              (new_weight >= u.weight_capacity() * .25 ? c_red : c_white),
              "Wgt %d", new_weight);
-   wprintz(w_pickup, c_white, "/%d", u.weight_capacity());
+   wprintz(w_pickup, c_white, "/%d", int(u.weight_capacity() * .25));
    mvwprintz(w_pickup, 0, 22,
              (new_volume > u.volume_capacity() - 2 ? c_red : c_white),
              "Vol %d", new_volume);
@@ -3570,7 +3570,8 @@ char game::inv(std::string title)
   wprintz(w_inv, c_red, "%d", u.weight_carried());
  else
   wprintz(w_inv, c_ltgray, "%d", u.weight_carried());
- wprintz(w_inv, c_ltgray, "/%d", u.weight_capacity());
+ wprintz(w_inv, c_ltgray, "/%d/%d", int(u.weight_capacity() * .25),
+                                    u.weight_capacity());
  mvwprintw(w_inv, 0, 60, "Volume: ");
  if (u.volume_carried() > u.volume_capacity() - 2)
   wprintz(w_inv, c_red, "%d", u.volume_carried());
@@ -5043,7 +5044,7 @@ void game::vertical_move(int movez, bool force)
     u.posy = j;
     j = SEEY * 3;
     i = SEEX * 3;
-   } else if (m.ter(i, j) == t_manhole_cover) {
+   } else if (movez == 1 && m.ter(i, j) == t_manhole_cover) {
     m.add_item(i + rng(-1, 1), j + rng(-1, 1), itypes[itm_manhole_cover], 0);
     m.ter(i, j) = t_manhole;
     u.posx = i;

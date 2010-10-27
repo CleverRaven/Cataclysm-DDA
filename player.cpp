@@ -160,9 +160,9 @@ int player::current_speed()
  if (radiation > 0)
   newmoves -= int(radiation * .4);
  if (thirst > 40)
-  newmoves -= int((thirst - 40) / 4);
+  newmoves -= int((thirst - 40) / 10);
  if (hunger > 100)
-  newmoves -= int((hunger - 100) / 4);
+  newmoves -= int((hunger - 100) / 10);
  newmoves += stim;
  if (has_trait(PF_QUICK))
   newmoves = int(newmoves * 1.10);
@@ -603,13 +603,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   line++;
  }
  if (thirst > 40) {
-  pen = int((thirst - 40) / 4);
+  pen = int((thirst - 40) / 10);
   mvwprintz(w_speed, line, 1, c_red, "Thirst              -%s%d%%%%",
             (pen < 10 ? " " : ""), pen);
   line++;
  }
  if (hunger > 100) {
-  pen = int((hunger - 100) / 4);
+  pen = int((hunger - 100) / 10);
   mvwprintz(w_speed, line, 1, c_red, "Hunger              -%s%d%%%%",
             (pen < 10 ? " " : ""), pen);
   line++;
@@ -3299,21 +3299,25 @@ bool player::eat(game *g, char let)
  item *eaten = NULL;
  int which = -3; // Helps us know how to delete the item which got eaten
  if (weapon.invlet == let && weapon.is_food(this)) {
-  tmp = dynamic_cast<it_comest*>(weapon.type);
+  if (weapon.is_food())
+   tmp = dynamic_cast<it_comest*>(weapon.type);
   eaten = &weapon;
   which = -1;
  } else if (weapon.invlet == let && weapon.is_food_container(this)) {
-  tmp = dynamic_cast<it_comest*>(weapon.contents[0].type);
+  if (weapon.contents[0].is_food())
+   tmp = dynamic_cast<it_comest*>(weapon.contents[0].type);
   eaten = &weapon.contents[0];
   which = -2;
  } else {
   for (int i = 0; i < inv.size(); i++) {
    if (inv[i].invlet == let && inv[i].is_food(this)) {
-    tmp = dynamic_cast<it_comest*>(inv[i].type);
+    if (inv[i].is_food())
+     tmp = dynamic_cast<it_comest*>(inv[i].type);
     eaten = &inv[i];
     which = i;
    } else if (inv[i].invlet == let && inv[i].is_food_container(this)) {
-    tmp = dynamic_cast<it_comest*>(inv[i].contents[0].type);
+    if (inv[i].contents[0].is_food())
+     tmp = dynamic_cast<it_comest*>(inv[i].contents[0].type);
     eaten = &(inv[i].contents[0]);
     which = i + inv.size();
    }
@@ -3334,6 +3338,10 @@ bool player::eat(game *g, char let)
   charge_power(charge);
   return true;
  } else {
+  if (tmp == NULL) {
+   debugmsg("player::eat a %s; tmp is NULL!", eaten->tname().c_str());
+   return false;
+  }
   if (tmp != NULL && tmp->tool != itm_null && !has_amount(tmp->tool, 1)) {
    g->add_msg("You need a %s to consume that!",
               g->itypes[tmp->tool]->name.c_str());
