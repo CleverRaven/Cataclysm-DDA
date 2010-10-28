@@ -2954,28 +2954,13 @@ void game::examine()
    }
   }
  } else if (m.ter(examx, examy) == t_gas_pump && query_yn("Pump gas?")) {
-  char ch = inv("Select container or tool to hold gas:");
-  item *cont = &(u.i_at(ch));
-  if (cont->is_tool() && (dynamic_cast<it_tool*>(cont->type))->ammo == AT_GAS) {
-   add_msg("You fill your %s with gasoline.", cont->tname().c_str());
-   cont->curammo = dynamic_cast<it_ammo*>(itypes[itm_gasoline]);
-   cont->charges = (dynamic_cast<it_tool*>(cont->type))->max_charges;
-  } else if (cont->type->id == itm_null)
-   add_msg("Never mind.");
-  else if (!cont->is_container())
-   add_msg("That %s won't hold gas.", cont->tname().c_str());
-  else if (!cont->contents.empty())
-   add_msg("Your %s is not empty.", cont->tname().c_str());
-  else {
-   u.moves -= 400;
-   item gas(itypes[itm_gasoline], turn);
-   if (one_in(u.dex_cur)) {
-    add_msg("You accidentally spill the gasoline.");
-    m.add_item(u.posx, u.posy, gas);
-   } else {
-    add_msg("You fill your %s with gasoline.", cont->tname().c_str());
-    cont->put_in(gas);
-   }
+  item gas(itypes[itm_gasoline], turn);
+  if (one_in(u.dex_cur)) {
+   add_msg("You accidentally spill the gasoline.");
+   m.add_item(u.posx, u.posy, gas);
+  } else {
+   u.moves -= 300;
+   handle_liquid(gas);
   }
  } else if (m.ter(examx, examy) == t_slot_machine) {
   if (u.cash > 0 && query_yn("Insert $1?")) {
@@ -3504,6 +3489,61 @@ void game::pickup(int posx, int posy, int min)
  wrefresh(w_pickup);
  delwin(w_pickup);
 }
+
+void game::handle_liquid(item liquid)
+{
+ if (!liquid.made_of(LIQUID)) {
+  debugmsg("Tried to handle_liquid a non-liquid!");
+  return;
+ }
+ if (query_yn("Pour %s on the ground?", liquid.tname().c_str()))
+  m.add_item(u.posx, u.posy, liquid);
+ else {
+  std::stringstream text;
+  ammotype type = u.weapon.ammo();
+  text << "Container for " << liquid.tname();
+  char ch = inv(text.str().c_str());
+  item *cont = &(u.i_at(ch));
+  if (cont->is_tool() && (dynamic_cast<it_tool*>(cont->type))->ammo==type &&
+      (cont->charges == 0 || cont->curammo->id == liquid.type->id)){
+   add_msg("You pour %s into your %s.", ammo_name(type).c_str(),
+                                        cont->tname().c_str());
+   cont->curammo = dynamic_cast<it_ammo*>(liquid.type);
+   cont->charges += liquid.charges;
+   if (cont->charges > (dynamic_cast<it_tool*>(cont->type))->max_charges) {
+    int extra = 0 - cont->charges;
+    cont->charges = (dynamic_cast<it_tool*>(cont->type))->max_charges;
+    u.weapon.charges += extra;
+    add_msg("There's some left over!");
+    return;
+   }
+  } else if (cont->type->id == itm_null) {
+   add_msg("Never mind.");
+   u.weapon.charges += liquid.charges;
+   return;
+  } else if (!cont->is_container()) {
+   add_msg("That %s won't hold %s.", cont->tname().c_str(),
+                                     liquid.tname().c_str());
+   u.weapon.charges += liquid.charges;
+   return;
+  } else if (!cont->contents.empty()) {
+   add_msg("Your %s is not empty.", cont->tname().c_str());
+   u.weapon.charges += liquid.charges;
+   return;
+  } else {
+   it_container* container = dynamic_cast<it_container*>(cont->type);
+   if (liquid.charges > container->contains) {
+    add_msg("You fill the %s with some of the %s.", cont->tname().c_str(),
+                                                    liquid.tname().c_str());
+    u.weapon.charges += liquid.charges - container->contains;
+    liquid.charges = container->contains;
+   }
+   cont->put_in(liquid);
+   return;
+  }
+ }
+}
+   
 
 void game::drop()
 {
@@ -4498,10 +4538,11 @@ void game::reload()
  
 void game::unload()
 {
- if (!u.weapon.is_gun() && (!u.weapon.is_tool() || u.weapon.ammo() == AT_NULL)){
+ if (!u.weapon.is_gun() && u.weapon.contents.size() == 0 &&
+     (!u.weapon.is_tool() || u.weapon.ammo() == AT_NULL)){
   add_msg("You can't unload a %s!", u.weapon.tname().c_str());
   return;
- } else if (u.weapon.charges == 0) {
+ } else if (u.weapon.is_container() || u.weapon.charges == 0) {
   if (u.weapon.contents.size() == 0) {
    if (u.weapon.is_gun())
     add_msg("Your %s isn't loaded, and is not modified.",
@@ -4510,23 +4551,28 @@ void game::unload()
     add_msg("Your %s isn't charged." , u.weapon.tname().c_str());
    return;
   }
-  while (u.weapon.is_gun() && u.weapon.contents.size() > 0) {
-   item mod = u.weapon.contents[0];
+  u.moves -= 40 * u.weapon.contents.size();
+  while (u.weapon.contents.size() > 0) {
+   item content = u.weapon.contents[0];
    int iter = 0;
-   while ((mod.invlet == 0 || u.has_item(mod.invlet)) && iter < 52) {
-    mod.invlet = nextinv;
+   while ((content.invlet == 0 || u.has_item(content.invlet)) && iter < 52) {
+    content.invlet = nextinv;
     advance_nextinv();
     iter++;
    }
-   if (u.volume_carried() + mod.volume() <= u.volume_capacity() &&
-       u.weight_carried() + mod.weight() <= u.weight_capacity() && iter < 52) {
-    add_msg("You put the %s in your inventory.", mod.tname().c_str());
-    u.i_add(mod);
-   } else {
-    add_msg("You drop the %s on the ground.", mod.tname().c_str());
-    m.add_item(u.posx, u.posy, mod);
+   if (content.made_of(LIQUID))
+    handle_liquid(content);
+   else {
+    if (u.volume_carried() + content.volume() <= u.volume_capacity() &&
+        u.weight_carried() + content.weight() <= u.weight_capacity() &&
+        iter < 52) {
+     add_msg("You put the %s in your inventory.", content.tname().c_str());
+     u.i_add(content);
+    } else {
+     add_msg("You drop the %s on the ground.", content.tname().c_str());
+     m.add_item(u.posx, u.posy, content);
+    }
    }
-   u.moves -= 50;
    u.weapon.contents.erase(u.weapon.contents.begin());
   }
   return;
@@ -4571,54 +4617,9 @@ void game::unload()
   }
   if (u.weight_carried() + newam.weight() < u.weight_capacity() &&
       u.volume_carried() + newam.volume() < u.volume_capacity() && iter < 52) {
-   if (newam.made_of(LIQUID)) {	// Liquids need a container
-    if (query_yn("Pour %s on the ground?", newam.tname().c_str()))
-     m.add_item(u.posx, u.posy, newam);
-    else {
-     std::stringstream text;
-     ammotype type = u.weapon.ammo();
-     text << "Container for " << newam.tname();
-     char ch = inv(text.str().c_str());
-     item *cont = &(u.i_at(ch));
-     if (cont->is_tool() && (dynamic_cast<it_tool*>(cont->type))->ammo==type &&
-         (cont->charges == 0 || cont->curammo->id == newam.type->id)){
-      add_msg("You pour %s into your %s.", ammo_name(type).c_str(),
-                                           cont->tname().c_str());
-      cont->curammo = dynamic_cast<it_ammo*>(newam.type);
-      cont->charges += newam.charges;
-      if (cont->charges > (dynamic_cast<it_tool*>(cont->type))->max_charges) {
-       int extra = 0 - cont->charges;
-       cont->charges = (dynamic_cast<it_tool*>(cont->type))->max_charges;
-       u.weapon.charges += extra;
-       add_msg("There's some left over!");
-       return;
-      }
-     } else if (cont->type->id == itm_null) {
-      add_msg("Never mind.");
-      u.weapon.charges += newam.charges;
-      return;
-     } else if (!cont->is_container()) {
-      add_msg("That %s won't hold %s.", cont->tname().c_str(),
-                                        newam.tname().c_str());
-      u.weapon.charges += newam.charges;
-      return;
-     } else if (!cont->contents.empty()) {
-      add_msg("Your %s is not empty.", cont->tname().c_str());
-      u.weapon.charges += newam.charges;
-      return;
-     } else {
-      it_container* container = dynamic_cast<it_container*>(cont->type);
-      if (newam.charges > container->contains) {
-       add_msg("You fill the %s with some of the %s.", cont->tname().c_str(),
-                                                       newam.tname().c_str());
-       u.weapon.charges += newam.charges - container->contains;
-       newam.charges = container->contains;
-      }
-      cont->put_in(newam);
-      return;
-     }
-    }
-   } else
+   if (newam.made_of(LIQUID))
+    handle_liquid(newam);
+   else
     u.i_add(newam);
   } else
    m.add_item(u.posx, u.posy, newam);
