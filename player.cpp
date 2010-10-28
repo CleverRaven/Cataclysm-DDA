@@ -208,9 +208,10 @@ void player::load_info(std::string data)
  std::stringstream dump;
  dump << data;
  dump >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
-         int_cur >> int_max >> per_cur >> per_max >> hunger >> thirst >>
-         fatigue >> morale >> stim >> pain >> pkill >> radiation >> cash >>
-         recoil >> scent >> moves >> underwater >> can_dodge >> oxygen;
+         int_cur >> int_max >> per_cur >> per_max >> power_level >>
+         max_power_level >> hunger >> thirst >> fatigue >> morale >> stim >>
+         pain >> pkill >> radiation >> cash >> recoil >> scent >> moves >>
+         underwater >> can_dodge >> oxygen;
 
  for (int i = 0; i < PF_MAX2; i++)
   dump >> my_traits[i];
@@ -251,12 +252,12 @@ std::string player::save_info()
 {
  std::stringstream dump;
  dump << posx    << " " << posy << " " << str_cur << " " << str_max << " " <<
-         dex_cur << " " << dex_max << " " << int_cur << " " << int_max << " " <<
-         per_cur << " " << per_max << " " << hunger << " " << thirst << " " <<
-         fatigue << " " << morale << " " << stim << " " << pain << " " <<
-         pkill   << " " << radiation << " " << cash << " " << recoil << " " <<
-         scent   << " " << moves << " " << underwater << " " << can_dodge <<
-         " " << oxygen << " ";
+         dex_cur << " " << dex_max << " " << int_cur << power_level << " " <<
+         max_power_level << " " << int_max << " " << per_cur << " " <<
+         per_max << " " << hunger << " " << thirst << " " << fatigue << " " <<
+         morale << " " << stim << " " << pain << " " << pkill << " " <<
+         radiation << " " << cash << " " << recoil << " " << scent << " " <<
+         moves << " " << underwater << " " << can_dodge << " " << oxygen << " ";
 
  for (int i = 0; i < PF_MAX2; i++)
   dump << my_traits[i] << " ";
