@@ -2717,16 +2717,21 @@ void player::vomit(game *g)
  hunger += 50;
  thirst += 60;
  for (int i = 0; i < illness.size(); i++) {
-  if (illness[i].type == DI_FOODPOISON) {
+  if (illness[i].type == DI_FOODPOISON)
    illness[i].duration -= 600;
-   if (illness[i].duration < 0)
-    rem_disease(DI_FOODPOISON);
-  }
+  else if (illness[i].type == DI_DRUNK)
+   illness[i].duration -= rng(0, 5) * 100;
+  if (illness[i].duration < 0)
+   rem_disease(DI_FOODPOISON);
  }
+ rem_disease(DI_PKILL1);
+ rem_disease(DI_PKILL2);
+ rem_disease(DI_PKILL3);
  if (has_disease(DI_SLEEP) && one_in(4)) { // Pulled a Hendrix!
   g->add_msg("You choke on your vomit and die...");
   hurtall(500);
  }
+ rem_disease(DI_SLEEP);
 }
 
 int player::weight_carried()

@@ -41,6 +41,7 @@ l: Survival tips\n\
 1: List of all commands\n\
 2: List of item types and data\n\
 3: Description of map symbols\n\
+4: Description of gun types\n\
 \n\
 q: Return to game");
  
@@ -121,6 +122,10 @@ early imperative.  The most common is drugs; aspirin, codeine, tramadol,\n\
 oxycodone, and more are all great options.  Be aware that while under the\n\
 influence of a lot of painkillers, the physiological effects may slow you or\n\
 reduce your stats.\n\
+\n\
+Note that most painkillers take a little while to kick in.  If you take some\n\
+oxycodone, and don't notice the effects right away, don't start taking more;\n\
+you may overdose and die!\n\
 \n\
 Pain will also disappear with time, so if drugs aren't available and you're\n\
 in a lot of pain, it may be wise to find a safe spot and simply rest for an\n\
@@ -438,10 +443,20 @@ ITEM TYPES:\n\
 .           Field - Empty grassland, occasional wild fruit.");
    mvprintz( 2, 0, c_green,   "\
 F           Forest - May be dense or sparse.  Slow moving; foragable food.");
-   mvprintz( 3, 0, c_dkgray,  "\
-%c%c%c%c%c%c%c%c%c%c%c Road - Safe from burrowing animals.", LINE_XOXO,
-            LINE_OXOX, LINE_XXOO, LINE_OXXO, LINE_OOXX, LINE_XOOX, LINE_XXXO,
-            LINE_XXOX, LINE_XOXX, LINE_OXXX, LINE_XXXX);
+   mvputch(3,  0, c_dkgray, LINE_XOXO);
+   mvputch(3,  1, c_dkgray, LINE_OXOX);
+   mvputch(3,  2, c_dkgray, LINE_XXOO);
+   mvputch(3,  3, c_dkgray, LINE_OXXO);
+   mvputch(3,  4, c_dkgray, LINE_OOXX);
+   mvputch(3,  5, c_dkgray, LINE_XOOX);
+   mvputch(3,  6, c_dkgray, LINE_XXXO);
+   mvputch(3,  7, c_dkgray, LINE_XXOX);
+   mvputch(3,  8, c_dkgray, LINE_XOXX);
+   mvputch(3,  9, c_dkgray, LINE_OXXX);
+   mvputch(3, 10, c_dkgray, LINE_XXXX);
+ 
+   mvprintz( 3, 12, c_dkgray,  "\
+Road - Safe from burrowing animals.");
    mvprintz( 4, 0, c_dkgray,  "\
 H=          Highway - Like roads, but lined with guard rails.");
    mvprintz( 5, 0, c_dkgray,  "\
@@ -474,6 +489,103 @@ O           Parking lot - Empty lot, few items.  Mostly useless.");
 ^>v< are always man-made buildings.  The pointed side indicates the front door."
             );
    mvprintw(22, 0, "There are many others out there... search for them!");
+   getch();
+   erase();
+   break;
+  case '4':
+   erase();
+   mvprintz(0, 0, c_white, "Gun types:");
+   mvprintz(2, 0, c_ltgray, "( Handguns");
+   mvprintz(3, 0, c_white, "\
+Handguns are small weapons held in one or both hands.  They are much more\n\
+difficult to aim and control than larger firearms, and this is reflected in\n\
+their poor accuracy.  However, their small size makes them appropriate for\n\
+short-range combat, where largers guns fare poorly.\n\
+They are also relatively quick to reload, and use a very wide selection of\n\
+ammunition.  Their small size and low weight make it possible to carry\n\
+several loaded handguns, switching from one to the next once their ammo is\n\
+spent.");
+   mvprintz(12, 0, c_green, "( Crossbows");
+   mvprintz(13, 0, c_white, "\
+The best feature of crossbows is their silence.  The bolts they fire are only\n\
+rarely destroyed; if you pick up the bolts after firing them, your ammunition\n\
+will last much longer.  Crossbows suffer from a short range and a very long\n\
+reload time (modified by your strength); plus, most only hold a single round.\n\
+For this reason, it is advisable to carry a few loaded crossbows.\n\
+Crossbows can be very difficult to find; however, it is possible to craft one\n\
+given enough Mechanics skill.  Likewise, it is possible to make wooden bolts\n\
+from any number of wooden objects, though these are much less effective than\n\
+steel bolts.\n\
+Crossbows use the handgun skill.");
+   mvprintz(24, 0, c_white, "Press any key to continue...");
+   getch();
+   erase();
+   mvprintz(0, 0, c_white, "Gun types:");
+   mvprintz(2, 0, c_red, "( Shotguns");
+   mvprintz(3, 0, c_white, "\
+Shotguns are one of the most powerful weapons in the game, capable of taking\n\
+out almost any enemy with a single hit.  Birdshot and 00 shot spread, making\n\
+it very easy to hit nearby monsters.  However, they are very ineffective\n\
+against armor, and some armored monsters might shrug off 00 shot completely.\n\
+Shotgun slugs are the answer to this problem; they also offer much better\n\
+range than shot.\n\
+The biggest drawback to shotguns is their noisiness.  They are very loud,\n\
+and impossible to silence.  A shot that kills one zombie might attract three\n\
+more!  Because of this, shotguns are best reserved for emergencies.");
+   mvprintz(13, 0, c_cyan, "( Submachine Guns");
+   mvprintz(14, 0, c_white, "\
+Submachine guns are small weapons (some are barely larger than a handgun),\n\
+designed for relatively close combat and the ability to spray large amounts\n\
+of bullets.  However, they are more effective when firing single shots, so\n\
+use discretion.  They mainly use the 9mm and .45 ammunition; however, other\n\
+SMGs exist.  They reload moderately quickly, and are suitable for close or\n\
+medium-long range combat.");
+   mvprintz(22, 0, c_white, "Press any key to continue...");
+   getch();
+   erase();
+   mvprintz(0, 0, c_white, "Gun types:");
+   mvprintz(2, 0, c_brown, "( Hunting Rifles");
+   mvprintz(3, 0, c_white, "\
+Hunting rifles are popular for their superior range and accuracy.  What's\n\
+more, their scopes or sights make shots fired at targets more than 10 tiles\n\
+away as accurate as those with a shorter range.  However, they are very poor\n\
+at hitting targets 4 squares or less from the player.\n\
+Unlike assault rifles, hunting rifles have no automatic fire.  They are also\n\
+slow to reload and fire, so when facing a large group of nearby enemies, they\n\
+are not the best pick.");
+   mvprintz(11, 0, c_blue, "( Assault Rifles");
+   mvprintz(12, 0, c_white, "\
+Assault rifles are similar to hunting rifles in many ways; they are also\n\
+suited for long range combat, with similar bonuses and penalties.  Unlike\n\
+hunting rifles, assault rifles are capable of automatic fire.  Assault rifles\n\
+are less accurate than hunting rifles, and this is worsened under automatic\n\
+fire, so save it for when you're highly skilled.\n\
+Assault rifles are an excellent choice for medium or long range combat, or\n\
+even close-range bursts again a large number of enemies.  They are difficult\n\
+to use, and are best saved for skilled riflemen.");
+   mvprintz(24, 0, c_white, "Press any key to continue...");
+   getch();
+   erase();
+   mvprintz(0, 0, c_white, "Gun types:");
+   mvprintz(2, 0, c_ltred, "( Machine Guns");
+   mvprintz(3, 0, c_white, "\
+Machine guns are one of the most powerful firearms available.  They are even\n\
+larger than assault rifles, and make poor melee weapons; however, they are\n\
+capable of holding 100 or more rounds of highly-damaging ammunition.  They\n\
+are not built for accuracy, and firing single rounds is not very effective.\n\
+However, they also possess a very high rate of fire and somewhat low recoil,\n\
+making them very good at clearing out large numbers of enemies.");
+   mvprintz(10, 0, c_magenta, "( Energy Weapons");
+   mvprintz(11, 0, c_white, "\
+Energy weapons is an umbrella term used to describe a variety of rifles and\n\
+handguns which fire lasers, plasma, or energy atttacks.  They started to\n\
+appear in military use just prior to the start of the apocalypse, and as such\n\
+are very difficult to find.\n\
+Energy weapons have no recoil at all; they are nearly silent, have a long\n\
+range, and are fairly damaging.  The biggest drawback to energy weapons is\n\
+scarcity of ammunition; it is wise to reserve the precious ammo for when you\n\
+really need it.");
+   mvprintz(24, 0, c_white, "Press any key to continue...");
    getch();
    erase();
    break;

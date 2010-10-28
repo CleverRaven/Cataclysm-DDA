@@ -349,10 +349,10 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      ter(i    , j - 5) = t_wax;
      ter(i    , j + 5) = t_wax;
      for (int k = -2; k <= 2; k++) {
-      for (int l = -1; l <= 1; l++) {
+      for (int l = -1; l <= 1; l++)
        ter(i + k, j + l) = t_floor_wax;
-      }
      }
+     add_spawn(mon_bee, 2, i, j);
      ter(i    , j - 3) = t_floor_wax;
      ter(i    , j + 3) = t_floor_wax;
      ter(i - 1, j - 2) = t_floor_wax;
@@ -365,107 +365,79 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 // Up to two of these get skipped; an entrance to the cell
      int skip1 = rng(0, 23);
      int skip2 = rng(0, 23);
-     if (skip1 != 0 && skip2 != 0)
-      ter(i - 1, j - 4) = t_wax;
-     else
+
+     ter(i - 1, j - 4) = t_wax;
+     ter(i    , j - 4) = t_wax;
+     ter(i + 1, j - 4) = t_wax;
+     ter(i - 2, j - 3) = t_wax;
+     ter(i - 1, j - 3) = t_wax;
+     ter(i + 1, j - 3) = t_wax;
+     ter(i + 2, j - 3) = t_wax;
+     ter(i - 3, j - 2) = t_wax;
+     ter(i - 2, j - 2) = t_wax;
+     ter(i + 2, j - 2) = t_wax;
+     ter(i + 3, j - 2) = t_wax;
+     ter(i - 3, j - 1) = t_wax;
+     ter(i - 3, j    ) = t_wax;
+     ter(i - 3, j - 1) = t_wax;
+     ter(i - 3, j + 1) = t_wax;
+     ter(i - 3, j    ) = t_wax;
+     ter(i - 3, j + 1) = t_wax;
+     ter(i - 2, j + 3) = t_wax;
+     ter(i - 1, j + 3) = t_wax;
+     ter(i + 1, j + 3) = t_wax;
+     ter(i + 2, j + 3) = t_wax;
+     ter(i - 1, j + 4) = t_wax;
+     ter(i    , j + 4) = t_wax;
+     ter(i + 1, j + 4) = t_wax;
+
+     if (skip1 ==  0 || skip2 ==  0)
       ter(i - 1, j - 4) = t_floor_wax;
-     if (skip1 != 1 && skip2 != 1)
-      ter(i    , j - 4) = t_wax;
-     else
+     if (skip1 ==  1 || skip2 ==  1)
       ter(i    , j - 4) = t_floor_wax;
-     if (skip1 != 2 && skip2 != 2)
-      ter(i + 1, j - 4) = t_wax;
-     else
+     if (skip1 ==  2 || skip2 ==  2)
       ter(i + 1, j - 4) = t_floor_wax;
-
-     if (skip1 != 3 && skip2 != 3)
-      ter(i - 2, j - 3) = t_wax;
-     else
+     if (skip1 ==  3 || skip2 ==  3)
       ter(i - 2, j - 3) = t_floor_wax;
-     if (skip1 != 4 && skip2 != 4)
-      ter(i - 1, j - 3) = t_wax;
-     else
+     if (skip1 ==  4 || skip2 ==  4)
       ter(i - 1, j - 3) = t_floor_wax;
-     if (skip1 != 5 && skip2 != 5)
-      ter(i + 1, j - 3) = t_wax;
-     else
+     if (skip1 ==  5 || skip2 ==  5)
       ter(i + 1, j - 3) = t_floor_wax;
-     if (skip1 != 6 && skip2 != 6)
-      ter(i + 2, j - 3) = t_wax;
-     else
+     if (skip1 ==  6 || skip2 ==  6)
       ter(i + 2, j - 3) = t_floor_wax;
-
-     if (skip1 != 7 && skip2 != 7)
-      ter(i - 3, j - 2) = t_wax;
-     else
+     if (skip1 ==  7 || skip2 ==  7)
       ter(i - 3, j - 2) = t_floor_wax;
-     if (skip1 != 8 && skip2 != 8)
-      ter(i - 2, j - 2) = t_wax;
-     else
+     if (skip1 ==  8 || skip2 ==  8)
       ter(i - 2, j - 2) = t_floor_wax;
-     if (skip1 != 9 && skip2 != 9)
-      ter(i + 2, j - 2) = t_wax;
-     else
+     if (skip1 ==  9 || skip2 ==  9)
       ter(i + 2, j - 2) = t_floor_wax;
-     if (skip1 != 10 && skip2 != 10)
-      ter(i + 3, j - 2) = t_wax;
-     else
+     if (skip1 == 10 || skip2 == 10)
       ter(i + 3, j - 2) = t_floor_wax;
-
-     if (skip1 != 11 && skip2 != 11)
-      ter(i - 3, j - 1) = t_wax;
-     else
+     if (skip1 == 11 || skip2 == 11)
       ter(i - 3, j - 1) = t_floor_wax;
-     if (skip1 != 12 && skip2 != 12)
-      ter(i - 3, j    ) = t_wax;
-     else
+     if (skip1 == 12 || skip2 == 12)
       ter(i - 3, j    ) = t_floor_wax;
-     if (skip1 != 13 && skip2 != 13)
-      ter(i - 3, j - 1) = t_wax;
-     else
+     if (skip1 == 13 || skip2 == 13)
       ter(i - 3, j - 1) = t_floor_wax;
-
-     if (skip1 != 14 && skip2 != 14)
-      ter(i - 3, j + 1) = t_wax;
-     else
+     if (skip1 == 14 || skip2 == 14)
       ter(i - 3, j + 1) = t_floor_wax;
-     if (skip1 != 15 && skip2 != 15)
-      ter(i - 3, j    ) = t_wax;
-     else
+     if (skip1 == 15 || skip2 == 15)
       ter(i - 3, j    ) = t_floor_wax;
-     if (skip1 != 16 && skip2 != 16)
-      ter(i - 3, j + 1) = t_wax;
-     else
+     if (skip1 == 16 || skip2 == 16)
       ter(i - 3, j + 1) = t_floor_wax;
-
-     if (skip1 != 17 && skip2 != 17)
-      ter(i - 2, j + 3) = t_wax;
-     else
+     if (skip1 == 17 || skip2 == 17)
       ter(i - 2, j + 3) = t_floor_wax;
-     if (skip1 != 18 && skip2 != 18)
-      ter(i - 1, j + 3) = t_wax;
-     else
+     if (skip1 == 18 || skip2 == 18)
       ter(i - 1, j + 3) = t_floor_wax;
-     if (skip1 != 19 && skip2 != 19)
-      ter(i + 1, j + 3) = t_wax;
-     else
+     if (skip1 == 19 || skip2 == 19)
       ter(i + 1, j + 3) = t_floor_wax;
-     if (skip1 != 20 && skip2 != 20)
-      ter(i + 2, j + 3) = t_wax;
-     else
+     if (skip1 == 20 || skip2 == 20)
       ter(i + 2, j + 3) = t_floor_wax;
-
-     if (skip1 != 21 && skip2 != 21)
-      ter(i - 1, j + 4) = t_wax;
-     else
+     if (skip1 == 21 || skip2 == 21)
       ter(i - 1, j + 4) = t_floor_wax;
-     if (skip1 != 22 && skip2 != 22)
-      ter(i    , j + 4) = t_wax;
-     else
+     if (skip1 == 22 || skip2 == 22)
       ter(i    , j + 4) = t_floor_wax;
-     if (skip1 != 23 && skip2 != 23)
-      ter(i + 1, j + 4) = t_wax;
-     else
+     if (skip1 == 23 || skip2 == 23)
       ter(i + 1, j + 4) = t_floor_wax;
 
      if (terrain_type == ot_hive)
@@ -1696,9 +1668,9 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     for (int j = 0; j < SEEY * 2; j++) {
      if (i <= 1 || i >= SEEX * 2 - 2 ||
          (j > 1 && j < SEEY * 2 - 2 && (i == SEEX - 2 || i == SEEX + 1)))
-      ter(i, j) = t_wall_v;
+      ter(i, j) = t_wall_metal_v;
      else if (j <= 1 || j >= SEEY * 2 - 2)
-      ter(i, j) = t_wall_h;
+      ter(i, j) = t_wall_metal_h;
      else
       ter(i, j) = t_floor;
     }
@@ -3881,6 +3853,10 @@ void map::rotate(int turns)
      ter(i, j) = t_wall_h;
     else if (ter(i, j) == t_wall_h)
      ter(i, j) = t_wall_v;
+    else if (ter(i, j) == t_wall_metal_v)
+     ter(i, j) = t_wall_metal_h;
+    else if (ter(i, j) == t_wall_metal_h)
+     ter(i, j) = t_wall_metal_v;
     else if (ter(i, j) == t_railing_v)
      ter(i, j) = t_railing_h;
     else if (ter(i, j) == t_railing_h)

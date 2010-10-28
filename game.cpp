@@ -210,8 +210,8 @@ bool game::opening_screen()
   mvwputch(w_open, 21, i, c_white, LINE_OXOX);
  mvwprintz(w_open, 0, 1, c_blue, "Welcome to Cataclysm!");
  mvwprintz(w_open, 1, 0, c_red, "\
- This alpha release is highly unstable. Please report any crashes or bugs to\n\
- fivedozenwhales@gmail.com.");
+This alpha release is highly unstable. Please report any crashes or bugs to\n\
+fivedozenwhales@gmail.com.");
  refresh();
  wrefresh(w_open);
  refresh();
@@ -267,8 +267,8 @@ bool game::opening_screen()
      mvwprintz(w_open, 1, 0, c_red, "\
 This alpha release is highly unstable. Please report any crashes or bugs to\n\
 fivedozenwhales@gmail.com.");
-     wrefresh(w_open);
      refresh();
+     wrefresh(w_open);
     } else if (sel1 == 3) {
      u.normalize(this);
      start_tutorial(TUT_BASIC);

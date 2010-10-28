@@ -1614,7 +1614,7 @@ but its high fire rate and powerful .308 ammunition have made it one of the\n\
 most widely-used battle rifless in the world.");
 
 //  NAME		RAR PRC COLOR	MAT1	MAT2
-GUN("Bushmaster ACR",	 4,2150,c_brown,STEEL,	PLASTIC,
+GUN("Bushmaster ACR",	 4,2150,c_blue,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
 	sk_rifle,	AT_223,	15, 27,	18,  2,  2, 10, -2,  8, 10, 30, "\
 This carbine was developed for military use in the early 21st century.  It is\n\
