@@ -47,9 +47,10 @@ public:
 
  void put_in(item payload);
 
- unsigned int weight();
- unsigned int volume();
- unsigned char volume_contained();
+ int weight();
+ int volume();
+ int volume_contained();
+ int attack_time();
 
  int  weapon_value(int skills[num_skill_types]);
  bool is_two_handed(player *u);

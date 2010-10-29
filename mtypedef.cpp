@@ -141,7 +141,7 @@ mon("giant bee",	'a',	c_yellow,	MS_SMALL,	FLESH,
 	(mfb(MF_SMELLS)|mfb(MF_VENOM)|mfb(MF_FLIES)|mfb(MF_STUMBLES)|
 	 mfb(MF_ANIMAL)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  2, 15,  4,140,  7,  1,  6,  5,  7,  5,-50, 20,  0,
+	  2, 15,  4,140,  4,  1,  1,  5,  6,  5,-50, 20,  0,
 	&mdeath::normal,	&mattack::none, "\
 A honey bee the size of a small dog. It\n\
 buzzes angrily through the air, dagger-\n\

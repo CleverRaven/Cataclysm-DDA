@@ -16,6 +16,11 @@
 #include "event.h"
 #include <vector>
 
+#define LONG_RANGE 10
+#define BLINK_SPEED 300
+#define BULLET_SPEED 10000000
+#define EXPLOSION_SPEED 70000000
+
 enum tut_type {
  TUT_NULL,
  TUT_BASIC, TUT_COMBAT,
@@ -135,7 +140,7 @@ class game
   void examine();// Examine nearby terrain	'e'
   void look_around();// Look at nearby terrain	';'
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
-  void handle_liquid(item liquid);// Pick where to put liquid
+  bool handle_liquid(item &liquid);// Pick where to put liquid; false if kept
   void drop();	  // Drop an item		'd'	TODO: Multidrop
   void butcher(); // Butcher a corpse		'B'
   void eat();	  // Eat food or fuel		'E' (or 'a')

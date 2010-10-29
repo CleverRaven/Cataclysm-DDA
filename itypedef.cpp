@@ -64,8 +64,8 @@ Baby cow food, appropriated for adult humans.  Spoils rapidly.");
 DRINK("V8",		15, 35,	c_red,    itm_can_drink,
 	 6, 28,240,  0,  1,  0,  1,  0,&iuse::none, ADD_NULL, "\
 Contains up to 8 vegetables!  Nutritious and tasty.");
-//     NAME		RARITY	COLOR     CONTAINER
 
+//     NAME		RARITY	COLOR     CONTAINER
 DRINK("whiskey",	16, 85,	c_brown,  itm_bottle_glass,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func		addiction type
 	-12, 4,  0,-12, -2,  5, 20,  4,&iuse::alcohol, ADD_ALCOHOL, "\
@@ -87,15 +87,17 @@ DRINK("bleach",		20, 18,	c_white,  itm_bottle_plastic,
 	-96, 0,  0,  0, -8,  0,  1, -5,&iuse::blech, ADD_NULL, "\
 Don't drink it.  Mixing it with ammonia produces toxic gas.");
 
+//     NAME		RARITY	COLOR     CONTAINER
 DRINK("ammonia",	18, 20,	c_yellow, itm_bottle_plastic,
+//	QUE NUT SPO STM HTH ADD CHG FUN use_func		addiction type
 	-96, 0,  0,  0, -2,  0,  1, -5,&iuse::blech, ADD_NULL, "\
 Don't drink it.  Mixing it with bleach produces toxic gas.");
 
-DRINK("mutagen",	1,8000,	c_magenta,itm_bottle_glass,
+DRINK("mutagen",	4,8000,	c_magenta,itm_bottle_glass,
 	  0, 0,  0,  0, -2,  0,  1,  0,&iuse::mutagen, ADD_NULL, "\
 A rare substance of uncertain origins.  Causes you to mutate.");
 
-DRINK("purifier",	2,12000,c_pink,	  itm_bottle_glass,
+DRINK("purifier",	6,12000,c_pink,	  itm_bottle_glass,
 	  0, 0,  0,  0,  1,  0,  1,  0,&iuse::purifier, ADD_NULL, "\
 A rare stem-cell treatment, which causes mutations and other genetic defects\n\
 to fade away.");
@@ -340,17 +342,22 @@ MED("caffeine pills",	25, 60,	c_cyan,		itm_null,
 	PLASTIC, 15,  0,  3, 20,  0,&iuse::caff,	ADD_CAFFEINE, "\
 No-doz pills.  Useful for staying up all night.");
 
+//  NAME		RAR PRC	COLOR		TOOL
 MED("sleeping pills",	15, 50,	c_cyan,		itm_null,
+//	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	PLASTIC, -8,  0, 40, 20,  0,&iuse::sleep,	ADD_SLEEP, "\
 Prescription sleep aids.  Will make you very tired.");
+
+MED("iodine tablets",	 5,140, c_yellow,	itm_null,
+	PLASTIC,  0, -1,  0, 10,  0,&iuse::iodine,	ADD_NULL, "\
+Iodine tablets are used for recovering from irradiation.  They are not\n\
+spectacularly effective, but are better than nothing.");
 
 MED("Dayquil",		70, 75,	c_yellow,	itm_null,
 	PLASTIC,  0,  1,  0, 10,  0,&iuse::flumed,	ADD_NULL, "\
 Daytime flu medication.  Will halt all flu symptoms for a while.");
 
-//  NAME		RAR PRC	COLOR		TOOL
 MED("Nyquil",		70, 85,	c_blue,		itm_null,
-//	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	PLASTIC, -7,  1,  0, 10,  0,&iuse::flusleep,	ADD_NULL, "\
 Nighttime flu medication.  Will halt all flu symptoms for a while, plus make\n\
 you sleepy.");
@@ -360,7 +367,9 @@ MED("inhaler",		14,200,	c_ltblue,	itm_null,
 Vital medicine for those with asthma.  Those without asthma can use it for a\n\
 minor stimulant boost.");
 
+//  NAME		RAR PRC	COLOR		TOOL
 MED("codeine",		10,400,	c_cyan,		itm_null,
+//	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	PLASTIC, -2,  0, 10, 20,  2,&iuse::pkill_2,	ADD_PKILLER, "\
 A weak opiate, prescribed for light to moderate pain.");
 
@@ -373,14 +382,14 @@ MED("tramadol",		 9,300,	c_cyan,		itm_null,
 A long-lasting opiate, prescribed for moderate pain.  Its painkiller effects\n\
 last for several hours, but are not as strong as oxycodone.");
 
-//  NAME		RAR PRC	COLOR		TOOL
 MED("Xanax",		10,600,	c_cyan,		itm_null,
-//	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	PLASTIC, -4,  0,  0, 20,  4,&iuse::xanax,	ADD_NULL, "\
 Anti-anxiety medication.  It will reduce your stimulant level steadily, and\n\
 will temporarily cancel the effects of anxiety, like the Hoarder trait.");
 
+//  NAME		RAR PRC	COLOR		TOOL
 MED("Adderall",		10,750,	c_cyan,		itm_null,
+//	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	PLASTIC, 24,  0, 10, 40,  2,&iuse::none,	ADD_SPEED, "\
 A strong stimulant prescribed for ADD.  It will greatly increase your\n\
 stimulant leve, but is quite addictive.");
@@ -390,9 +399,7 @@ MED("Thorazine",	 8,500,	c_cyan,		itm_null,
 Anti-psychotic medication.  Used to control the symptoms of schizophrenia and\n\
 similar ailments.  Also popular as a way to come down for a bad trip.");
 
-//  NAME		RAR PRC	COLOR
 MED("Prozac",		10,650,	c_cyan,		itm_null,
-//	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	PLASTIC, -4,  0,  0, 40,  0,&iuse::prozac,	ADD_NULL, "\
 A strong anti-depressant.  Useful if your morale level is very low.");
 
@@ -401,7 +408,9 @@ MED("cigarettes",	90,120,	c_dkgray,	itm_lighter,
 These will boost your dexterity, intelligence, and perception for a short\n\
 time.  They are quite addictive.");
 
+//  NAME		RAR PRC	COLOR
 MED("marijuana",	20,180,	c_green,	itm_lighter,
+//	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	VEGGY,   -8,  0,  0, 15,  5,&iuse::weed,	ADD_NULL, "\
 Really useful only for relaxing.  Will reduce your attributes and relexes.");
 
@@ -409,14 +418,14 @@ MED("cocaine",		 8,420,	c_white,	itm_null,
 	POWDER,  20, -2, 30,  8,  7,&iuse::coke,	ADD_COKE, "\
 A strong, illegal stimulant.  Highly addictive.");
 
-//  NAME		RAR PRC	COLOR
 MED("methamphetamine",	 2,400, c_ltcyan,	itm_null,
-//	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	POWDER,  10, -4, 40,  6,  8,&iuse::meth,	ADD_SPEED, "\
 A very strong illegal stimulant.  Extremely addictive and bad for you, but\n\
 also extremely effective in boosting your alertness.");
 
+//  NAME		RAR PRC	COLOR
 MED("heroin",		 1,600,	c_brown,	itm_syringe,
+//	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	POWDER, -10, -3, 50,  4, 12,&iuse::pkill_4,	ADD_PKILLER, "\
 A very strong illegal opiate.  Unless you have an opiate tolerance, avoid\n\
 heroin, as it will be too strong for you.");
@@ -2417,8 +2426,9 @@ AMMO("Fusion blast",	 0,0, AT_FUSION,c_dkgray,	MNULL,
 GUN("fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
 	sk_rifle,	AT_FUSION, 12,  0,  0,  0,  0,  4,  0, 10,  0,  1, "");
- if (itypes.size() > num_all_items)
+ if (itypes.size() != num_all_items)
   debugmsg("%d items, %d itypes (+bio)", itypes.size(), num_all_items - 1);
+
 }
 
 std::string ammo_name(ammotype t)

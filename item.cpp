@@ -189,7 +189,8 @@ std::string item::info(bool showtext)
  dump << " Volume: " << volume() << "    Weight: " << weight() << "\n" <<
          " Bash: " << int(type->melee_dam) << "  Cut: " <<
          int(type->melee_cut) << "  To-hit bonus: " <<
-         (type->m_to_hit > 0 ? "+" : "" ) << int(type->m_to_hit) << "\n";
+         (type->m_to_hit > 0 ? "+" : "" ) << int(type->m_to_hit) << "\n" <<
+         " Moves per attack: " << attack_time() << "\n";
  if (is_food()) {
   it_comest* food = dynamic_cast<it_comest*>(type);
   dump << " Nutrituion: " << int(food->nutr) << "\n Quench: " <<
@@ -407,7 +408,7 @@ int item::price()
  return ret;
 }
 
-unsigned int item::weight()
+int item::weight()
 {
  if (type->id == itm_corpse) {
   int ret;
@@ -434,7 +435,7 @@ unsigned int item::weight()
  return ret;
 }
 
-unsigned int item::volume()
+int item::volume()
 {
  if (type->id == itm_corpse) {
   switch (corpse->size) {
@@ -453,14 +454,18 @@ unsigned int item::volume()
  return type->volume;
 }
 
-unsigned char item::volume_contained()
+int item::volume_contained()
 {
  int ret = 0;
  for (int i = 0; i < contents.size(); i++)
   ret += contents[i].volume();
  return ret;
 }
- 
+
+int item::attack_time()
+{
+ return 80 + 4 * volume() + 2 * weight();
+}
 
 int item::weapon_value(int skills[num_skill_types])
 {

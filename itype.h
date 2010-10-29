@@ -38,7 +38,7 @@ itm_apple, itm_orange, itm_lemon, itm_chips, itm_pretzels, itm_chocolate,
  itm_ant_egg,
 // Medication
 itm_bandages, itm_1st_aid, itm_vitamins, itm_aspirin, itm_caffeine,
- itm_pills_sleep, itm_dayquil, itm_nyquil, itm_inhaler, itm_codeine,
+ itm_pills_sleep, itm_iodine, itm_dayquil, itm_nyquil, itm_inhaler, itm_codeine,
  itm_oxycodone, itm_tramadol, itm_xanax, itm_adderall, itm_thorazine,
  itm_prozac, itm_cig, itm_weed, itm_coke, itm_meth, itm_heroin,
 // Do-nothing / Melee weapons
@@ -289,13 +289,13 @@ struct it_comest : public itype
 
 struct it_ammo : public itype
 {
- ammotype type;
- unsigned char damage;
- unsigned char pierce;
- unsigned char range;
- signed char accuracy;
- unsigned char recoil;
- unsigned char count;
+ ammotype type;		// Enum of varieties (e.g. 9mm, shot, etc)
+ unsigned char damage;	// Average damage done
+ unsigned char pierce;	// Armor piercing; static reduction in armor
+ unsigned char range;	// Maximum range
+ signed char accuracy;	// Accuracy (low is good)
+ unsigned char recoil;	// Recoil; modified by strength
+ unsigned char count;	// Default charges
 
  virtual bool is_ammo() { return true; }
  it_ammo(unsigned short pid, unsigned char prarity, unsigned int pprice,

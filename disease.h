@@ -332,6 +332,11 @@ void dis_effect(game *g, player &p, disease &dis)
    p.pkill++;
   break;
 
+ case DI_IODINE:
+  if (p.radiation > 0 && one_in(16))
+   p.radiation--;
+  break;
+
  case DI_TOOK_XANAX:
   if (dis.duration % 25 == 0 && (p.stim > 0 || one_in(2)))
    p.stim--;
@@ -746,8 +751,13 @@ Strength - 1;     Dexterity - 4;";
  case DI_DRUNK:
   strpen = int(dis.duration / 1000);
   allpen = int(dis.duration / 800);
-  stream << "Strength - " << strpen << ";    Dexterity - " << allpen <<
-            ";    Intelligence - " << allpen << ";    Perception - " << allpen;
+  if (strpen > 0)
+   stream << "Strength - " << strpen << ";    ";
+  if (allpen > 0)
+   stream << "Dexterity - " << allpen << ";    Intelligence - " << allpen <<
+             ";    Perception - " << allpen;
+  if (dis.duration <= 600)
+   stream << "Strength + 1";
   
   return stream.str();
 

@@ -101,7 +101,10 @@ than hunger.  Finding food in a city is usually easy; outside of a city, you\n\
 may have to hunt an animal, then stand over its corpse and 'B'utcher it into\n\
 small chunks of meat. Likewise, outside of a city you may have to drink water\n\
 from a river or other natural source; stand in shallow water and press 'g' or\n\
-',' to pick it up.  You'll need a watertight container.\n\
+',' to pick it up.  You'll need a watertight container.  Be forewarned that\n\
+some sources of water aren't trustworthy and may produce diseased water.  To\n\
+be sure it's healthy, run all water you collect through a water filter before\n\
+drinking.\n\
 \n\
 Every 14 to 20 hours, you'll find yourself growing sleepy.  If you do not\n\
 sleep by pressing '$', you'll start suffering stat and movement penalties.\n\

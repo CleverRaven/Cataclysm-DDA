@@ -367,6 +367,12 @@ void iuse::sleep(game *g, item *it, bool t)
  g->u.fatigue += 40;
 }
 
+void iuse::iodine(game *g, item *it, bool t)
+{
+ g->add_msg("You take an iodine tablet.");
+ g->u.add_disease(DI_IODINE, 1200, g);
+}
+
 void iuse::flumed(game *g, item *it, bool t)
 {
  g->u.add_disease(DI_TOOK_FLUMED, 6000, g);
@@ -382,6 +388,7 @@ void iuse::flusleep(game *g, item *it, bool t)
 void iuse::inhaler(game *g, item *it, bool t)
 {
  g->u.rem_disease(DI_ASTHMA);
+ g->add_msg("You take a puff from your inhaler.");
 }
 
 void iuse::blech(game *g, item *it, bool t)

@@ -87,7 +87,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_softdrugs],
 	itm_bandages, itm_1st_aid, itm_vitamins, itm_aspirin, itm_caffeine,
-	itm_pills_sleep, itm_dayquil, itm_nyquil, NULL);
+	itm_pills_sleep, itm_iodine, itm_dayquil, itm_nyquil, NULL);
  setvector(
    mapitems[mi_harddrugs],
 	itm_inhaler, itm_codeine, itm_oxycodone, itm_tramadol, itm_xanax,
@@ -156,7 +156,7 @@ void game::init_mapitems()
 	itm_whiskey, itm_vodka, itm_rum, itm_tequila, NULL);
  setvector(
    mapitems[mi_trash],
-	itm_meth, itm_heroin, itm_wrapper, itm_string_6, itm_chain,
+	itm_iodine, itm_meth, itm_heroin, itm_wrapper, itm_string_6, itm_chain,
 	itm_glass_sheet, itm_stick, itm_muffler, itm_pipe, itm_bag_plastic,
 	itm_bottle_plastic, itm_bottle_glass, itm_can_drink, itm_can_food,
 	itm_box_small, itm_bubblewrap, itm_lighter, itm_syringe, itm_rag, NULL);
@@ -256,9 +256,10 @@ void game::init_mapitems()
 	itm_textbook_chemistry, itm_SICP, itm_textbook_robots, NULL);
  setvector(
    mapitems[mi_chemistry],
-	itm_water, itm_salt_water, itm_bleach, itm_ammonia, itm_mutagen,
-	itm_purifier, itm_royal_jelly, itm_superglue, itm_bottle_glass,
-	itm_syringe, itm_rag, itm_extinguisher, itm_hotplate, NULL);
+	itm_iodine, itm_water, itm_salt_water, itm_bleach, itm_ammonia,
+	itm_mutagen, itm_purifier, itm_royal_jelly, itm_superglue,
+	itm_bottle_glass, itm_syringe, itm_rag, itm_extinguisher, itm_hotplate,
+	NULL);
  setvector(
    mapitems[mi_teleport],
 	itm_screwdriver, itm_wrench, itm_jumpsuit, itm_mask_dust,
@@ -272,9 +273,9 @@ void game::init_mapitems()
 	itm_fetus, itm_arm, itm_leg, NULL);
  setvector(
    mapitems[mi_dissection],
-	itm_bleach, itm_bandages, itm_string_6, itm_hacksaw, itm_xacto,
-	itm_knife_butcher, itm_machete, itm_gloves_rubber, itm_bag_plastic,
-	itm_syringe, itm_rag, itm_scissors, NULL);
+	itm_iodine, itm_bleach, itm_bandages, itm_string_6, itm_hacksaw,
+	itm_xacto, itm_knife_butcher, itm_machete, itm_gloves_rubber,
+	itm_bag_plastic, itm_syringe, itm_rag, itm_scissors, NULL);
  setvector(
    mapitems[mi_hydro],
 	itm_blueberries, itm_strawberries, itm_tomato, itm_broccoli,
@@ -313,10 +314,10 @@ void game::init_mapitems()
 	itm_bootstrap, NULL);
  setvector(
    mapitems[mi_survival_tools],
-	itm_bandages, itm_1st_aid, itm_caffeine, itm_electrohack, itm_string_36,
-	itm_rope_30, itm_chain, itm_bottle_plastic, itm_lighter, itm_sewing_kit,
-	itm_extinguisher, itm_flashlight, itm_crowbar, itm_chainsaw_off,
-	itm_beartrap, itm_grenade, itm_hotplate, NULL);
+	itm_bandages, itm_1st_aid, itm_caffeine, itm_iodine, itm_electrohack,
+	itm_string_36, itm_rope_30, itm_chain, itm_bottle_plastic, itm_lighter,
+	itm_sewing_kit, itm_extinguisher, itm_flashlight, itm_crowbar,
+	itm_chainsaw_off, itm_beartrap, itm_grenade, itm_hotplate, NULL);
  setvector(
    mapitems[mi_radio],
 	itm_cola, itm_caffeine, itm_cig, itm_weed, itm_amplifier,

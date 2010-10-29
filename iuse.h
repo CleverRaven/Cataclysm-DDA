@@ -29,6 +29,7 @@ class iuse
   void thorazine	(game *g, item *it, bool t);
   void prozac		(game *g, item *it, bool t);
   void sleep		(game *g, item *it, bool t);
+  void iodine		(game *g, item *it, bool t);
   void flumed		(game *g, item *it, bool t);
   void flusleep		(game *g, item *it, bool t);
   void inhaler		(game *g, item *it, bool t);
