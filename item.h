@@ -71,6 +71,7 @@ public:
  bool is_book();
  bool is_container();
  bool is_tool();
+ virtual bool is_artifact()  { return false; }
 
  itype* type;
  mtype* corpse;

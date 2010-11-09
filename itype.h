@@ -199,7 +199,6 @@ struct itype
  virtual bool is_book()      { return false; }
  virtual bool is_tool()      { return false; }
  virtual bool is_container() { return false; }
- virtual bool is_artifact()  { return false; }
 
  itype() {
   id = 0;

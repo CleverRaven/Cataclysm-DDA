@@ -418,3 +418,14 @@ void trapfunc::sinkhole(game *g, int x, int y)
  }
 }
 
+void trapfunc::ledge(game *g, int x, int y)
+{
+ g->add_msg("You fall down a level!");
+ g->vertical_move(-1, true);
+}
+
+void trapfuncm::ledge(game *g, monster *z, int x, int y)
+{
+ g->add_msg("The %s falls down a level!", z->name().c_str());
+ g->kill_mon(g->mon_at(x, y));
+}

@@ -73,6 +73,15 @@ class iuse
   void pheromone	(game *g, item *it, bool t);
   void portal		(game *g, item *it, bool t);
   void manhack		(game *g, item *it, bool t);
+// ARTIFACTS
+  void heal		(game *g, item *it, bool t);
+  void twist_space	(game *g, item *it, bool t);
+  void mass_vampire	(game *g, item *it, bool t);
+  void growth		(game *g, item *it, bool t);
+  void water		(game *g, item *it, bool t);
+  void lava		(game *g, item *it, bool t);
+  void 
+  
 };
 
 #endif

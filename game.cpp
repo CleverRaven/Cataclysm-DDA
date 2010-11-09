@@ -2535,6 +2535,7 @@ void game::use_computer(int x, int y)
   used.add_opt("Download Map Data",		&computerk::maps);
   used.add_opt("Launch Missile",		&computerk::launch);
   used.add_opt("Disarm Missile",		&computerk::disarm);
+  break;
  default:
   debugmsg("%s is not a computer!", m.tername(x, y).c_str());
   return;

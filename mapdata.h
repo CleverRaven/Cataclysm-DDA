@@ -55,7 +55,7 @@ struct ter_t {
 
 enum ter_id {
 t_null = 0,
-t_hole,
+t_hole,	// Real nothingness; makes you fall a z-level
 // Ground
 t_dirt, t_dirtmound, t_pit,
 t_rock_floor, t_rubble,

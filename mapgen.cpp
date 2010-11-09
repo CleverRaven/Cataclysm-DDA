@@ -2071,9 +2071,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
       ter(i, j) = grass_or_dirt();
     }
    }
-/* x--
- * |>+		x is at (lw, tw);  + is at (mw, tw+1);  6 is at (mw, tw+2)
- * --6 */
    switch (rng(1, 4)) {	// Placement of stairs
    case 1:
     lw = 3;
@@ -2111,11 +2108,14 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     for (int j = 0; j < SEEY * 2; j++) {
      if (trig_dist(i, j, SEEX, SEEY) > 7)
       ter(i, j) = t_rock;
-     else if (trig_dist(i, j, SEEX, SEEY) > 5)
+     else if (trig_dist(i, j, SEEX, SEEY) > 5) {
       ter(i, j) = t_metal_floor;
-     else if (trig_dist(i, j, SEEX, SEEY) == 5)
+      if (one_in(30))
+       add_field(NULL, i, j, fd_nuke_gas, 2);	// NULL game; no messages
+     } else if (trig_dist(i, j, SEEX, SEEY) == 5) {
       ter(i, j) = t_hole;
-     else
+      add_trap(i, j, tr_ledge);
+     } else
       ter(i, j) = t_missile;
     }
    }
@@ -2139,6 +2139,38 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   }
   ter(0, 0) = t_stairs_up;
   ter(4, 5) = t_computer_silo;
+  break;
+
+ case ot_temple:
+ case ot_temple_stairs:
+ case ot_temple_core:
+  if (t_above == ot_null) {	// We're on ground level
+   switch (rng(1, 4)) {	// Temple type
+   case 1:	// Swamp with stairs down
+    for (int i = 0; i < SEEX * 2; i++) {
+     for (int j = 0; j < SEEY * 2; j++) {
+      if (one_in(6))
+       ter(i, j) = t_tree;
+      else if (one_in(6))
+       ter(i, j) = t_tree_young;
+      else if (one_in(5))
+       ter(i, j) = t_underbrush;
+      else if (one_in(4))
+       ter(i, j) = t_water_sh;
+      else if (one_in(10))
+       ter(i, j) = t_water_dp;
+      else
+       ter(i, j) = t_dirt;
+     }
+    }
+    ter(SEEX - 4, SEEY - 4) = t_lava;
+    ter(SEEX + 3, SEEY - 4) = t_lava;
+    ter(SEEX - 4, SEEY + 3) = t_lava;
+    ter(SEEX + 3, SEEY + 3) = t_lava;
+    ter( rng(SEEX - 3, SEEX + 2), rng(SEEY - 3, SEEY + 2)) = t_stairs_down;
+    break;
+   }
+  }
   break;
 
  case ot_sub_station_north:

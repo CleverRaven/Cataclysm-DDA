@@ -32,7 +32,9 @@ struct oter_t {
 
 enum oter_id {
  ot_null = 0,
+// Wild terrain
  ot_field, ot_forest, ot_forest_thick, ot_forest_water, ot_hive, ot_hive_center,
+// Roads
  ot_hiway_ns, ot_hiway_ew,
  ot_road_null,
  ot_road_ns, ot_road_ew,
@@ -44,6 +46,7 @@ enum oter_id {
  ot_river_c_not_ne, ot_river_c_not_nw, ot_river_c_not_se, ot_river_c_not_sw,
  ot_river_north, ot_river_east, ot_river_south, ot_river_west,
  ot_river_ne, ot_river_se, ot_river_sw, ot_river_nw,
+// City buildings
  ot_house_north, ot_house_east, ot_house_south, ot_house_west,
  ot_house_base_north, ot_house_base_east, ot_house_base_south,
   ot_house_base_west,
@@ -60,19 +63,20 @@ enum oter_id {
  ot_s_library_north, ot_s_library_east, ot_s_library_south, ot_s_library_west,
  ot_sub_station_north, ot_sub_station_east, ot_sub_station_south,
   ot_sub_station_west,
+// Goodies/dungeons
  ot_lab, ot_lab_stairs, ot_lab_core, ot_lab_finale,
  ot_nuke_plant_entrance, ot_nuke_plant,
  ot_silo, ot_silo_finale,
-// <Settlement>
+ ot_temple, ot_temple_stairs, ot_temple_core, ot_temple_finale,
+// Settlement
  ot_set_center,
  ot_set_house, ot_set_food, ot_set_weapons, ot_set_guns, ot_set_clinic,
   ot_set_clothing, ot_set_general, ot_set_casino, ot_set_library, ot_set_lab,
   ot_set_bionics, 
  ot_radio_tower,
  ot_gate, ot_wall,
-// </Settlement>
- ot_anthill,
 // Underground terrain
+ ot_anthill,
  ot_rock, ot_rift, ot_hellmouth,
  ot_slimepit, ot_slimepit_down,
  ot_basement,
@@ -195,6 +199,10 @@ const oter_t oterlist[num_ter_types] = {
 {"nuclear plant",	'P',	c_ltgreen,	5},
 {"missile silo",	'0',	c_ltgray,	2},
 {"missile silo",	'0',	c_ltgray,	2},
+{"strange temple",	'T',	c_magenta,	5},
+{"strange temple",	'T',	c_pink,		5},
+{"strange temple",	'T',	c_pink,		5},
+{"strange temple",	'T',	c_yellow,	5},
 {"town center",		'O',	c_white,	2},
 {"living quarters",	'*',	c_ltgreen,	2},
 {"food market",		'*',	c_green,	2},

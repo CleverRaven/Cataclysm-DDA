@@ -96,4 +96,8 @@ traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
  TRAP("shimmering portal",	'%',	c_magenta,	 0, 30, 80,
 	&trapfunc::portal,	&trapfuncm::portal,
 	itm_null, NULL);
+
+ TRAP("ledge",			' ',	c_black,	 0, 99, 99,
+	&trapfunc::ledge,	&trapfuncm::ledge,
+	itm_null, NULL);
 }

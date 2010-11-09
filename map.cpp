@@ -642,7 +642,8 @@ bool map::add_field(game *g, int x, int y, field_id t, unsigned char density)
  if (density <= 0)
   return false;
  field_at(x, y) = field(t, density, 0);
- if (x == g->u.posx && y == g->u.posy && field_at(x, y).is_dangerous()) {
+ if (g != NULL && x == g->u.posx && y == g->u.posy &&
+     field_at(x, y).is_dangerous()) {
   g->cancel_activity();
   g->add_msg("You're in a %s!", fieldlist[t].name[density - 1].c_str());
  }
