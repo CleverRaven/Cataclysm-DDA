@@ -356,7 +356,7 @@ missed_by, deviation, trange, p.weapon.charges, p.posx, p.posy, tarx, tary);
       int npcdex = npc_at(tx, ty);
       if (active_npc[npcdex].hp_cur[hp_head] <= 0 ||
           active_npc[npcdex].hp_cur[hp_torso] <= 0) {
-       active_npc[npcdex].die(this);
+       active_npc[npcdex].die(this, !p.is_npc());
        active_npc.erase(active_npc.begin() + npcdex);
       }
      }

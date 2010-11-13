@@ -148,6 +148,8 @@ public:
 
  bool is_friend();
  bool is_following();
+ bool is_enemy();
+
  int  danger_assessment(game *g);
  bool bravery_check(int diff);
  void told_to_help(game *g);
@@ -195,7 +197,7 @@ public:
  void look_for_player(game *g);
 // The preceding are in npcmove.cpp
 
- void die(game *g);
+ void die(game *g, bool your_fault = false);
 
  monster *target;	// Current monster we want to kill
  npc_attitude attitude;	// What we want to do to the player

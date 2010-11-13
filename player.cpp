@@ -33,7 +33,6 @@ player::player()
  radiation = 0;
  cash = 8000;
  recoil = 0;
- morale = 0;
  scent = 500;
  name = "";
  male = true;
@@ -132,6 +131,19 @@ void player::reset()
   hunger += 2;
   power_level++;
  }
+
+ update_morale();
+}
+
+void player::update_morale()
+{
+ for (int i = 0; i < morale.size(); i++) {
+  morale[i].duration--;
+  if (morale[i].duration <= 0) {
+   morale.erase(morale.begin() + i);
+   i--;
+  }
+ }
 }
 
 int player::current_speed()
@@ -209,7 +221,7 @@ void player::load_info(std::string data)
  dump << data;
  dump >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
          int_cur >> int_max >> per_cur >> per_max >> power_level >>
-         max_power_level >> hunger >> thirst >> fatigue >> morale >> stim >>
+         max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> scent >> moves >>
          underwater >> can_dodge >> oxygen;
 
@@ -255,9 +267,9 @@ std::string player::save_info()
          dex_cur << " " << dex_max << " " << int_cur << power_level << " " <<
          max_power_level << " " << int_max << " " << per_cur << " " <<
          per_max << " " << hunger << " " << thirst << " " << fatigue << " " <<
-         morale << " " << stim << " " << pain << " " << pkill << " " <<
-         radiation << " " << cash << " " << recoil << " " << scent << " " <<
-         moves << " " << underwater << " " << can_dodge << " " << oxygen << " ";
+         " " << stim << " " << pain << " " << pkill << " " << radiation <<
+         " " << cash << " " << recoil << " " << scent << " " << moves << " " <<
+         underwater << " " << can_dodge << " " << oxygen << " ";
 
  for (int i = 0; i < PF_MAX2; i++)
   dump << my_traits[i] << " ";
@@ -976,6 +988,47 @@ slower.");
  delwin(w_info);
  erase();
 }
+
+void player::disp_morale()
+{
+ WINDOW *w = newwin(25, 80, 0, 0);
+ wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ mvwprintz(w, 1,  1, c_white, "Morale Modifiers:");
+ mvwprintz(w, 2,  1, c_ltgray, "Name");
+ mvwprintz(w, 2, 20, c_ltgray, "Value       Duration");
+
+ for (int i = 0; i < morale.size(); i++) {
+  int b = morale[i].bonus;
+  int d = int(morale[i].duration / 10);
+
+  int bpos = 24;
+  if (abs(b) >= 10)
+   bpos--;
+  if (b < 0)
+   bpos--;
+
+  int dpos = 31;
+  if (abs(d) >= 10)
+   dpos--;
+  if (abs(d) >= 100)
+   dpos--;
+  if (abs(d) >= 1000)
+   dpos--;
+  if (abs(d) >= 10000)
+   dpos--;
+
+  mvwprintz(w, i + 3,  1, c_white, morale[i].name().c_str());
+  mvwprintz(w, i + 3, bpos, (b < 0 ? c_red : c_green), "%d", b);
+  mvwprintz(w, i + 3, dpos, (d < 0 ? c_red : c_green), "%d minutes", d);
+ }
+
+ wrefresh(w);
+ getch();
+ werase(w);
+ delwin(w);
+}
+ 
 
 void player::disp_status(WINDOW *w)
 {
@@ -2569,8 +2622,12 @@ void player::suffer(game *g)
     g->add_msg("You feel fatigued all of a sudden.");
     fatigue += 10 * rng(2, 4);
    }
-   if (one_in(4800))
-    morale += rng(2, 5) * rng(-1, 1);
+   if (one_in(4800)) {
+    if (one_in(3))
+     add_morale(MOR_FEEL_GOOD);
+    else
+     add_morale(MOR_FEEL_BAD);
+   }
   }
   if (has_trait(PF_SCHIZOPHRENIC) && one_in(2400)) { // Every 4 hours or so
    monster phantasm;
@@ -2587,7 +2644,7 @@ void player::suffer(game *g)
      break;
     case 3:
      g->add_msg("YOU SHOULD QUIT THE GAME IMMEDIATELY.");
-     morale -= 10;
+     add_morale(MOR_FEEL_BAD);
      break;
     case 4:
      for (i = 0; i < 10; i++) {
@@ -2632,12 +2689,10 @@ void player::suffer(game *g)
     add_disease(DI_SHAKES, 400, g);
   }
   if (has_trait(PF_MOODSWINGS) && one_in(3600)) {
-   int shift = rng(-30, 25);
-   if (shift < 0)
-    g->add_msg("You suddenly feel depressed.");
-   else if (shift > 0)
-    g->add_msg("You suddenly feel ecstatic!");
-   morale += shift;;
+   if (rng(1, 20) > 9)	// 55% chance
+    add_morale(MOR_MOODSWING_BAD);
+   else			// 45% chance
+    add_morale(MOR_MOODSWING_GOOD);
   }
   if (has_trait(PF_VOMITOUS) && (one_in(4200) ||
                                  (has_trait(PF_WEAKSTOMACH) && one_in(4200))))
@@ -2780,7 +2835,10 @@ int player::volume_capacity()
 
 int player::morale_level()
 {
- int ret = morale;
+ int ret = 0;
+ for (int i = 0; i < morale.size(); i++)
+  ret += morale[i].bonus;
+
  if (has_trait(PF_HOARDER)) {
   int pen = int((volume_capacity()-volume_carried()) / 2);
   if (pen > 30)
@@ -2791,6 +2849,7 @@ int player::morale_level()
    pen = int(pen / 2);
   ret -= pen;
  }
+
  if (has_trait(PF_MASOCHIST)) {
   int bonus = pain / 2.5;
   if (bonus > 25)
@@ -2799,15 +2858,41 @@ int player::morale_level()
    bonus = int(bonus / 3);
   ret += bonus;
  }
+
  if (has_trait(PF_OPTIMISTIC)) {
-  if (ret < 0) {
+  if (ret < 0) {	// Up to -15 is canceled out
    ret += 15;
    if (ret > 0)
     ret = 0;
-  } else
+  } else		// Otherwise, we're just extra-happy
    ret += 6;
  }
+
+ if (has_disease(DI_TOOK_PROZAC) && ret < 0)
+  ret = int(ret / 2);
+
  return ret;
+}
+
+void player::add_morale(morale_type type, int bonus, int duration)
+{
+ bool placed = false;
+ if (bonus == -1)
+  bonus = morale_data[type].top_bonus;
+ if (duration == -1)
+  duration = morale_data[type].top_duration;
+
+ for (int i = 0; i < morale.size() && !placed; i++) {
+  if (morale[i].type == type) {
+   morale[i].up_bonus(bonus);
+   morale[i].up_duration(duration);
+   placed = true;
+  }
+ }
+ if (!placed) { // Didn't increase an existing point, so add a new one
+  morale_point tmp(type, bonus, duration);
+  morale.push_back(tmp);
+ }
 }
  
 void player::sort_inv()
@@ -3414,7 +3499,7 @@ bool player::eat(game *g, char let)
 
   if (has_trait(PF_VEGETARIAN) && eaten->made_of(FLESH)) {
    g->add_msg("You feel bad about eating this meat...");
-   morale -= 18;
+   add_morale(MOR_FOOD_VEGETARIAN);
   }
   if (has_trait(PF_HERBIVORE) && eaten->made_of(FLESH)) {
    if (!one_in(3))
@@ -3426,9 +3511,9 @@ bool player::eat(game *g, char let)
   }
   if (has_trait(PF_GOURMAND)) {
    if (tmp->fun < -2)
-    morale += tmp->fun;
+    add_morale(MOR_FOOD_BAD, tmp->fun);
    else if (tmp->fun > 0)
-    morale += int(tmp->fun * 1.5);
+    add_morale(MOR_FOOD_GOOD, tmp->fun * 1.5);
    if (hunger < -60 || thirst < -60)
     g->add_msg("You can't finish it all!");
    if (hunger < -60)
@@ -3436,7 +3521,10 @@ bool player::eat(game *g, char let)
    if (thirst < -60)
     thirst = -60;
   } else {
-   morale += rng(0, tmp->fun);
+   if (tmp->fun < 0)
+    add_morale(MOR_FOOD_BAD, tmp->fun);
+   else if (tmp->fun > 0)
+    add_morale(MOR_FOOD_GOOD, tmp->fun);
    if (hunger < -20 || thirst < -20)
     g->add_msg("You can't finish it all!");
    if (hunger < -20)

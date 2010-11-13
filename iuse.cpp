@@ -350,15 +350,10 @@ void iuse::thorazine(game *g, item *it, bool t)
 
 void iuse::prozac(game *g, item *it, bool t)
 {
- if (!g->u.has_disease(DI_TOOK_PROZAC) && g->u.morale < 0) {
+ if (!g->u.has_disease(DI_TOOK_PROZAC) && g->u.morale_level() < 0)
   g->u.add_disease(DI_TOOK_PROZAC, 7200, g);
-  g->u.morale += 6;
-  if (g->u.morale > 1)
-   g->u.morale = 1;
- } else {
-  g->u.morale += 1;
+ else
   g->u.stim += 3;
- }
 }
 
 void iuse::sleep(game *g, item *it, bool t)
@@ -1211,7 +1206,7 @@ void iuse::grenade_act(game *g, item *it, bool t)
  if (t) 	// Simple timer effects
   g->sound(pos.x, pos.y, 0, "Tick.");	// Vol 0 = only heard if you hold it
  else	// When that timer runs down...
-  g->explosion(pos.x, pos.y, 18, 32, false);
+  g->explosion(pos.x, pos.y, 18, 12, false);
 }
 
 void iuse::gasbomb(game *g, item *it, bool t)

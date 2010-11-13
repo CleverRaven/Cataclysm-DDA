@@ -18,7 +18,8 @@ void setvector(std::vector<component> &vec, ... )
  int n_tmp;
  while (it_tmp = (itype_id)va_arg(ap, int)) {
   n_tmp = (int)va_arg(ap, int);
-  vec.push_back(component(it_tmp, n_tmp));
+  component tmp(it_tmp, n_tmp);
+  vec.push_back(tmp);
  }
  va_end(ap);
 }

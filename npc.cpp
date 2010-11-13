@@ -50,10 +50,9 @@ std::string npc::save_info()
  dump << posx    << " " << posy << " " << str_cur << " " << str_max << " " <<
          dex_cur << " " << dex_max << " " << int_cur << " " << int_max << " " <<
          per_cur << " " << per_max << " " << hunger << " " << thirst << " " <<
-         fatigue << " " << morale << " " << stim << " " << pain << " " <<
-         pkill   << " " << radiation << " " << cash << " " << recoil << " " <<
-         scent   << " " << moves << " " << underwater << " " << can_dodge <<
-         " " << oxygen << " ";
+         fatigue << " " << " " << stim << " " << pain << " " << pkill << " " <<
+         radiation << " " << cash << " " << recoil << " " << scent << " " <<
+         moves << " " << underwater << " " << can_dodge << " " << oxygen << " ";
 
  for (int i = 0; i < PF_MAX2; i++)
   dump << my_traits[i] << " ";
@@ -111,8 +110,8 @@ void npc::load_info(std::string data)
 // Standard player stuff
  dump >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
          int_cur >> int_max >> per_cur >> per_max >> hunger >> thirst >>
-         fatigue >> morale >> stim >> pain >> pkill >> radiation >> cash >>
-         recoil >> scent >> moves >> underwater >> can_dodge >> oxygen;
+         fatigue >> stim >> pain >> pkill >> radiation >> cash >> recoil >>
+         scent >> moves >> underwater >> can_dodge >> oxygen;
 
  for (int i = 0; i < PF_MAX2; i++)
   dump >> my_traits[i];
@@ -1312,6 +1311,13 @@ bool npc::is_following()
  }
 }
 
+bool npc::is_enemy()
+{
+ if (attitude == NPCATT_KILL || attitude == NPCATT_MUG)
+  return true;
+ return  false;
+}
+
 int npc::danger_assessment(game *g)
 {
  int ret = 0;
@@ -1514,9 +1520,18 @@ bool npc::wont_shoot_friend(game *g)
  return true;
 }
  
-void npc::die(game *g)
+void npc::die(game *g, bool your_fault)
 {
- g->add_msg("%s dies!", name.c_str());
+ int j;
+ if (g->u_see(posx, posy, j))
+  g->add_msg("%s dies!", name.c_str());
+ if (your_fault && !g->u.has_trait(PF_HEARTLESS)) {
+  if (is_friend())
+   g->u.add_morale(MOR_KILLED_FRIEND);
+  else if (!is_enemy())
+   g->u.add_morale(MOR_KILLED_NEUTRAL);
+ }
+  
  item my_body;
  my_body.make_corpse(g->itypes[itm_corpse], g->mtypes[mon_null], g->turn);
  my_body.name = name;

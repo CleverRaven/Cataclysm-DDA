@@ -123,7 +123,7 @@ void mdeath::guilt(game *g, monster *z)
  if (g->u.has_trait(PF_HEARTLESS))
   return;	// We don't give a shit!
  g->add_msg("You feel terrible for killing %s!", z->name().c_str());
- g->u.morale -= 5;
+ g->u.add_morale(MOR_MONSTER_GUILT);
 }
 
 void mdeath::blobsplit(game *g, monster *z)

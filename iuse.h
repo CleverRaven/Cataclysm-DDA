@@ -80,7 +80,6 @@ class iuse
   void growth		(game *g, item *it, bool t);
   void water		(game *g, item *it, bool t);
   void lava		(game *g, item *it, bool t);
-  void 
   
 };
 

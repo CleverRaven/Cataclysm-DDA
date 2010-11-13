@@ -7,6 +7,7 @@
 #include "skill.h"
 #include "bionics.h"
 #include "trap.h"
+#include "morale.h"
 #include <vector>
 #include <string>
 
@@ -23,15 +24,18 @@ public:
  int random_bad_trait (character_type type);
  void normalize(game *g);	// Starting set up of HP and inventory
 
- virtual bool is_npc() { return false; }
- nc_color color();	// What color to draw us as
+ virtual bool is_npc() { return false; }	// Overloaded for NPCs in npc.h
+ nc_color color();				// What color to draw us as
 
  virtual void load_info(std::string data);	// Load from file matching name
  virtual std::string save_info();		// Save to file matching name
- void disp_info(game *g);	// '@' key; extending character info
+
+ void disp_info(game *g);	// '@' key; extended character info
+ void disp_morale();		// '%' key; morale info
  void disp_status(WINDOW* w);	// The constant data in the lower right
 
  void reset();	// Resets movement points, stats, and applies pain, effects, etc
+ void update_morale();	// Ticks down morale counters and removes them
  int  current_speed(); // Returns the number of movement points we get each turn
  int  swim_speed();	// Our speed when swimming
 
@@ -116,6 +120,7 @@ public:
  int weight_capacity();
  int volume_capacity();
  int morale_level();	// Modified by traits, &c
+ void add_morale(morale_type type, int bonus = -1, int duration = -1);
 
  void sort_inv();	// Sort inventory by type
  std::string weapname(bool charges = true);
@@ -156,10 +161,10 @@ public:
  std::vector<bionic> my_bionics;
 // Current--i.e. modified by disease, pain, etc.
  int str_cur, dex_cur, int_cur, per_cur;
-// Normal--i.e. unmodified by disease
+// Maximum--i.e. unmodified by disease
  int str_max, dex_max, int_max, per_max;
  int power_level, max_power_level;
- int hunger, thirst, fatigue, health, morale;
+ int hunger, thirst, fatigue, health;
  bool underwater;
  bool can_dodge;
  int oxygen;
@@ -169,6 +174,8 @@ public:
  int cash;
  int moves;
  int hp_cur[num_hp_parts], hp_max[num_hp_parts];
+
+ std::vector<morale_point> morale;
 
  int sklevel[num_skill_types];
  int skexercise[num_skill_types];

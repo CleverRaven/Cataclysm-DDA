@@ -577,14 +577,6 @@ bool game::do_turn()
    u.charge_power(1);
  }
  if (turn % 300 == 0) {	// Pain and morale up/down every 30 minutes
-  if (one_in(10)) {	// Morale shifts are rare
-   if (u.morale < 0 && one_in(3))
-    u.morale++;
-   else if (u.morale > 0)
-    u.morale--;
-   if (one_in(2))
-    u.morale--;
-  }
   if (u.pain > 0)
    u.pain--;
   else if (u.pain < 0)
@@ -727,8 +719,12 @@ void game::process_activity()
      reading = dynamic_cast<it_book*>(u.weapon.type);
     else
      reading = dynamic_cast<it_book*>(u.inv[u.activity.index].type);
-    if (u.morale < reading->fun * 10 || reading->fun < 0)
-     u.morale += reading->fun;
+
+    if (reading->fun > 0)
+     u.add_morale(MOR_BOOK_GOOD, reading->fun);
+    else if (reading->fun < 0)
+     u.add_morale(MOR_BOOK_BAD, reading->fun);
+
     if (u.sklevel[reading->type] < reading->level) {
      add_msg("You learn a little about %s!", skill_name(reading->type).c_str());
      u.skexercise[reading->type] += rng(reading->time, reading->time * 2);
@@ -874,10 +870,12 @@ void game::get_input()
   getch();
  } else if (ch == '*')
   teleport();
- else if (ch == '%')
-  disp_kills();
+ else if (ch == '%') {
+  u.disp_morale();
+  refresh_all();
+  //disp_kills();
 // </DEBUG>
- else if (ch == ':' || ch == 'm')
+ } else if (ch == ':' || ch == 'm')
   draw_overmap();
  else if (ch == '@') {
   u.disp_info(this);
@@ -2470,7 +2468,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
    traj = line_to(x, y, sx, sy, t);
   else
    traj = line_to(x, y, sx, sy, 0);
-  dam = rng(40, 100);
+  dam = rng(10, 40);
   for (int j = 0; j < traj.size(); j++) {
    if (j > 0 && u_see(traj[j - 1].x, traj[j - 1].y, ijunk))
     m.drawsq(w_terrain, u, traj[j - 1].x, traj[j - 1].y, false, true);
@@ -4250,7 +4248,7 @@ void game::plmove(int x, int y)
    active_npc[npcdex].hit(this, bphit, side, hitdam, hitcut);
    if (active_npc[npcdex].hp_cur[hp_head]  <= 0 ||
        active_npc[npcdex].hp_cur[hp_torso] <= 0   ) {
-    active_npc[npcdex].die(this);
+    active_npc[npcdex].die(this, true);
     active_npc.erase(active_npc.begin() + npcdex);
    }
   }
