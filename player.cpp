@@ -1000,7 +1000,9 @@ void player::disp_morale()
 
  for (int i = 0; i < morale.size(); i++) {
   int b = morale[i].bonus;
-  int d = int(morale[i].duration / 10);
+  int mins = int(morale[i].duration / 10);
+  int hours = int(mins / 60);
+  mins %= 60;
 
   int bpos = 24;
   if (abs(b) >= 10)
@@ -1008,19 +1010,14 @@ void player::disp_morale()
   if (b < 0)
    bpos--;
 
-  int dpos = 31;
-  if (abs(d) >= 10)
-   dpos--;
-  if (abs(d) >= 100)
-   dpos--;
-  if (abs(d) >= 1000)
-   dpos--;
-  if (abs(d) >= 10000)
+  int dpos = 32;
+  if (hours >= 10)
    dpos--;
 
-  mvwprintz(w, i + 3,  1, c_white, morale[i].name().c_str());
+  mvwprintz(w, i + 3,  1, (b < 0 ? c_red : c_green), morale[i].name().c_str());
   mvwprintz(w, i + 3, bpos, (b < 0 ? c_red : c_green), "%d", b);
-  mvwprintz(w, i + 3, dpos, (d < 0 ? c_red : c_green), "%d minutes", d);
+  mvwprintz(w, i + 3, dpos, c_blue, "%dh%s%dm", hours, (mins < 10 ? "0" : ""),
+            mins);
  }
 
  wrefresh(w);

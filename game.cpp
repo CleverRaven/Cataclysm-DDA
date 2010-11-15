@@ -4922,13 +4922,15 @@ void intro()
  getmaxyx(stdscr, maxy, maxx);
  WINDOW* tmp = newwin(25, 80, 0, 0);
  while (maxy < 25 || maxx < 80) {
-  erase();
+  werase(tmp);
   wprintw(tmp, "\
 Whoa. Whoa. Hey. This game requires a minimum terminal size of 80x25. I don't\n\
 know why certain graphical terminal emulators decided to take the old standard\n\
 size of 80x25 and toss it out the window, making their terminal 80x24 by\n\
 default, but that just won't work here.  Now stretch the bottom of your window\n\
 downward so you get an extra line.\n");
+  wrefresh(tmp);
+  refresh();
   getch();
   getmaxyx(stdscr, maxy, maxx);
  }

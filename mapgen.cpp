@@ -943,7 +943,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    ter(mw + 2, rng(tw + 3, cw - 3)) = t_door_c;
    ter(mw, cw) = t_door_c;
    break;
-  }
+  }	// Done with the various house structures
+
   if (rng(2, 7) < tw) {	// Big front yard has a chance for a fence
    for (int i = lw; i <= rw; i++)
     ter(i, 0) = t_fence_h;
