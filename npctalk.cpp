@@ -334,7 +334,7 @@ void say_listen_need(game *g, dialogue &d)
 void say_give_advice(game *g, dialogue &d)
 {
  std::ifstream fin;
- fin.open("NPC_HINTS");
+ fin.open("data/NPC_HINTS");
  if (!fin.is_open()) {
   debugmsg("Couldn't open NPC_HINTS.");
   d.done = true;
