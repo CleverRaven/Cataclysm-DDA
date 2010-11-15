@@ -152,7 +152,11 @@ bool computerk::research(game *g, int success)
   std::string log, tmp;
   int ch;
   std::ifstream fin;
-  fin.open("LAB_NOTES");
+  fin.open("data/LAB_NOTES");
+  if (!fin.is_open()) {
+   debugmsg("Couldn't open LAB_NOTES for reading");
+   return false;
+  }
   while (fin.good()) {
    ch = fin.get();
    if (ch == '%')

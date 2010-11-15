@@ -830,9 +830,9 @@ void npc::set_name()
  std::ifstream fin;
  char buff[256];
  if (male)
-  fin.open("NAMES_MALE");
+  fin.open("data/NAMES_MALE");
  else
-  fin.open("NAMES_FEMALE");
+  fin.open("data/NAMES_FEMALE");
  if (!fin.is_open()) {
   debugmsg("Could not open npc first names list (%s)",
            (male ? "NAMES_MALE" : "NAMES_FEMALE"));
@@ -845,7 +845,7 @@ void npc::set_name()
  fin.close();
 
  std::string lastname;
- fin.open("NAMES_LAST");
+ fin.open("data/NAMES_LAST");
  if (!fin.is_open()) {
   debugmsg("Could not open npc last names list (NAMES_LAST)");
   return;
