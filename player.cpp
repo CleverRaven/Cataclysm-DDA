@@ -3441,8 +3441,7 @@ bool player::eat(game *g, char let)
   else if (thirst < 0 && tmp->quench > 0 && !has_trait(PF_GOURMAND) &&
            !query_yn("You're full.  Force yourself to drink?"))
    return false;
-  bool hunger_danger = (!has_trait(PF_GOURMAND) && hunger < 0),
-       thirst_danger = (!has_trait(PF_GOURMAND) && thirst < 0);
+  bool hunger_danger = (!has_trait(PF_GOURMAND) && hunger < 0);
   if (has_trait(PF_CARNIVORE) && eaten->made_of(VEGGY)) {
    g->add_msg("You can only eat meat!");
    return false;
@@ -3469,8 +3468,7 @@ bool player::eat(game *g, char let)
    if (has_bionic(bio_digestion))
     hunger -= rng(0, tmp->nutr);
    else if (!has_trait(PF_GOURMAND)) {
-    if ((hunger_danger && rng(-200, 0) > hunger) ||
-        (thirst_danger && rng(-300, 0) > thirst)   )
+    if ((hunger_danger && rng(-200, 0) > hunger))
      vomit(g);
    }
    health += tmp->healthy;
