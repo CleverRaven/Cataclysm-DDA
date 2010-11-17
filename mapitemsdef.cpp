@@ -126,7 +126,8 @@ void game::init_mapitems()
    mapitems[mi_mischw],
 	itm_2x4, itm_machete, itm_boots_steel, itm_hat_hard, itm_mask_filter,
 	itm_glasses_safety, itm_bb, itm_bbgun, itm_beartrap, itm_two_way_radio,
-	itm_radio, itm_hotplate, itm_extinguisher, itm_nailgun, NULL);
+	itm_radio, itm_hotplate, itm_extinguisher, itm_nailgun,
+	itm_manual_mechanics, NULL);
  setvector(
    mapitems[mi_sports],
 	itm_bandages, itm_aspirin, itm_bat, itm_sneakers, itm_tshirt,
@@ -139,7 +140,8 @@ void game::init_mapitems()
 	itm_knife_combat, itm_machete, itm_vest, itm_backpack, itm_bb,
 	itm_bolt_steel, itm_bbgun, itm_crossbow, itm_manual_knives,
 	itm_manual_first_aid, itm_lighter, itm_sewing_kit, itm_hammer,
-	itm_flashlight, itm_water_purifier, itm_radio, itm_beartrap, NULL);
+	itm_flashlight, itm_water_purifier, itm_radio, itm_beartrap,
+	itm_UPS_off, NULL);
  setvector(
    mapitems[mi_allsporting],
 	itm_aspirin, itm_bat, itm_sneakers, itm_tshirt, itm_tank_top,
@@ -202,11 +204,11 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_gunxtras],
 	itm_glasses_safety, itm_goggles_nv, itm_holster, itm_bootstrap,
-	itm_mag_guns, itm_flashlight, itm_silencer, itm_grip, itm_barrel_big,
-	itm_barrel_small, itm_barrel_rifled, itm_clip, itm_clip2, itm_stablizer,
-	itm_blowback, itm_autofire, itm_retool_45, itm_retool_9mm,
-	itm_retool_22, itm_retool_57, itm_retool_46, itm_retool_308,
-	itm_retool_223, NULL);
+	itm_mag_guns, itm_flashlight, itm_UPS_off, itm_silencer, itm_grip,
+	itm_barrel_big, itm_barrel_small, itm_barrel_rifled, itm_clip,
+	itm_clip2, itm_stablizer, itm_blowback, itm_autofire, itm_retool_45,
+	itm_retool_9mm, itm_retool_22, itm_retool_57, itm_retool_46,
+	itm_retool_308, itm_retool_223, NULL);
  setvector(
    mapitems[mi_shoes],
 	itm_sneakers, itm_boots, itm_flip_flops, itm_dress_shoes, itm_heels, 
@@ -239,7 +241,7 @@ void game::init_mapitems()
 	itm_jacket_jean, itm_blazer, itm_jacket_leather, itm_coat_winter,
 	itm_peacoat, itm_gloves_light, itm_mittens, itm_gloves_wool,
 	itm_gloves_winter, itm_gloves_leather, itm_scarf, itm_hat_cotton,
-	itm_hat_knit, itm_hat_fur, NULL);
+	itm_hat_knit, itm_hat_fur, itm_UPS_off, NULL);
  setvector(
    mapitems[mi_novels],
 	itm_novel_romance, itm_novel_spy, itm_novel_scifi, itm_novel_drama,
@@ -258,7 +260,7 @@ void game::init_mapitems()
    mapitems[mi_chemistry],
 	itm_iodine, itm_water, itm_salt_water, itm_bleach, itm_ammonia,
 	itm_mutagen, itm_purifier, itm_royal_jelly, itm_superglue,
-	itm_bottle_glass, itm_syringe, itm_rag, itm_extinguisher, itm_hotplate,
+	itm_bottle_glass, itm_syringe, itm_extinguisher, itm_hotplate,
 	NULL);
  setvector(
    mapitems[mi_teleport],
@@ -287,7 +289,7 @@ void game::init_mapitems()
 	itm_antenna, itm_motor, itm_screwdriver, itm_mask_dust,
 	itm_glasses_safety, itm_goggles_welding, itm_battery, itm_plut_cell,
 	itm_manual_electronics, itm_textbook_electronics, itm_soldering_iron,
-	itm_hotplate, NULL);
+	itm_hotplate, itm_UPS_off, NULL);
  setvector(
    mapitems[mi_monparts],
 	itm_meat, itm_veggy, itm_meat_tainted, itm_veggy_tainted,
@@ -311,13 +313,14 @@ void game::init_mapitems()
 	itm_jacket_leather, itm_kevlar, itm_vest, itm_gloves_fingerless,
 	itm_mask_filter, itm_mask_gas, itm_goggles_ski, itm_helmet_skid,
 	itm_helmet_ball, itm_helmet_riot, itm_helmet_motor, itm_holster,
-	itm_bootstrap, NULL);
+	itm_bootstrap, itm_UPS_off, NULL);
  setvector(
    mapitems[mi_survival_tools],
 	itm_bandages, itm_1st_aid, itm_caffeine, itm_iodine, itm_electrohack,
 	itm_string_36, itm_rope_30, itm_chain, itm_bottle_plastic, itm_lighter,
 	itm_sewing_kit, itm_extinguisher, itm_flashlight, itm_crowbar,
-	itm_chainsaw_off, itm_beartrap, itm_grenade, itm_hotplate, NULL);
+	itm_chainsaw_off, itm_beartrap, itm_grenade, itm_hotplate, itm_UPS_off,
+	NULL);
  setvector(
    mapitems[mi_radio],
 	itm_cola, itm_caffeine, itm_cig, itm_weed, itm_amplifier,
@@ -334,7 +337,7 @@ void game::init_mapitems()
 	itm_mutagen, itm_fetus, itm_weed, itm_mag_porn, itm_rag, NULL);
  setvector(
    mapitems[mi_cavern],
-	itm_rock, itm_jackhammer, NULL);
+	itm_rock, itm_jackhammer, itm_flashlight, itm_dynamite, NULL);
  setvector(
    mapitems[mi_ant_food],
 	itm_meat, itm_veggy, itm_meat_tainted, itm_veggy_tainted, itm_apple,

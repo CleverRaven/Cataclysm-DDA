@@ -171,7 +171,6 @@ public:
  bool want_to_attack_player(game *g);
  int  follow_distance();	// How closely do we follow the player?
  bool can_reload();
- bool fetching_item();	// Are we in the process of fetching a particular item?
  bool saw_player_recently();	// Do we have an idea of where u are?
  bool has_destination();	// Do we have a long-term destination?
  bool alt_attack_available();	// Do we have grenades, molotov, etc?
@@ -207,8 +206,10 @@ public:
  int omx, omy, omz;	// Which overmap (e.g., o.0.0.0)
  int mapx, mapy;// Which square in that overmap (e.g., m.0.0)
  int plx, ply, plt;// Where we last saw the player, timeout to forgetting
- int itx, ity;	// The square containing an item we want
+// int itx, ity;	// The square containing an item we want
  int goalx, goaly;// Which mapx:mapy square we want to get to
+
+ bool fetching_item;
 
  std::vector<point> path;	// Our movement plans
 

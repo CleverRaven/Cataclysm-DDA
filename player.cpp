@@ -1681,7 +1681,8 @@ void player::mutate(game *g)
 int player::sight_range(int light_level)
 {
  int ret = light_level;
- if ((is_wearing(itm_goggles_nv) ||has_active_bionic(bio_night_vision)) &&
+ if (((is_wearing(itm_goggles_nv) && has_active_item(itm_UPS_on)) ||
+     has_active_bionic(bio_night_vision)) &&
      ret < 12)
   ret = 12;
  if (has_trait(PF_NIGHTVISION) && ret == 1)

@@ -12,7 +12,7 @@ void npc::move(game *g)
  npc_action action = npc_pause;
  target = choose_monster_target(g);	// Set a target
 // If we aren't moving towards an item or a monster, find an item
- if (!fetching_item() && target == NULL)
+ if (fetching_item && target == NULL)
   find_items(g);
 
  if (want_to_attack_player(g))
@@ -23,17 +23,17 @@ void npc::move(game *g)
   action = npc_pause;
  else if (can_reload())
   action = npc_reload;
- else if (attitude == NPCATT_HEAL &&
-          g->m.sees(posx, posy, g->u.posx, g->u.posy, light, linet)) {
+ else if (attitude == NPCATT_HEAL && g->sees_u(posx, posy, linet)) {
   if (path.empty())
    path = g->m.route(posx, posy, g->u.posx, g->u.posy);
   action = npc_heal_player;
- } else if (attitude == NPCATT_MUG &&
-            g->m.sees(posx, posy, g->u.posx, g->u.posy, light, linet)) {
-  if (path.empty())
+ } else if (attitude == NPCATT_MUG && g->sees_u(posx, posy, linet)) {
+  if (path.empty() || g->u.posx != plx || g->u.posy != ply)
    path = g->m.route(posx, posy, g->u.posx, g->u.posy);
   action = npc_mug_player;
- } else if (fetching_item())
+  plx = g->u.posx;
+  ply = g->u.posy;
+ } else if (fetching_item)
   action = npc_pickup;
  else
   action = long_term_goal_action(g);
@@ -45,6 +45,7 @@ void npc::move(game *g)
  int oldmoves = moves;
 
  switch (action) {
+
  case npc_pause:
   move_pause();
   break;
@@ -222,8 +223,10 @@ void npc::find_items(game *g)
  int linet, top_value = 0;
  int minx = posx - dist, maxx = posx + dist;
  int miny = posy - dist, maxy = posy + dist;
- itx = 999;
- ity = 999;
+ int itx = 999, ity = 999;
+
+ fetching_item = false;
+
 // Make sure the bounds of our search aren't outside the map!
  if (minx < 0)
   minx = 0;
@@ -247,27 +250,29 @@ void npc::find_items(game *g)
       top_value = value(g->m.i_at(x, y)[i]);
       itx = x;
       ity = y;
+      fetching_item = true;
      }
     }
    }
   }
  }
+ if (fetching_item)	// We found something we want
+  path = g->m.route(posx, posy, itx, ity);
 }
 
 void npc::pickup_items(game *g)
 {
- int light = g->light_level(), dist = rl_dist(posx, posy, itx, ity), linet;
+ int light = g->light_level(), dist = path.size(), linet;
+ int itx = posx, ity = posy;
+ if (dist > 0) {
+  itx = path.back().x;
+  ity = path.back().y;
+ }
  bool debug = g->debugmon;
  bool u_see_me = g->u_see(posx, posy, linet);
  bool u_see_item = g->u_see(itx, ity, linet);
  
-/*
- if (abs(posx - itx) > light || abs(posy - ity) > light) {// Old item is too far
-  itx = 999;
-  ity = 999;
- }
-*/
- if (!fetching_item()) {
+ if (!fetching_item) {
   debugmsg("Ran pickup_items(), but there's no item in mind!");
   return;
  }
@@ -291,8 +296,6 @@ void npc::pickup_items(game *g)
    }
   }
   moves -= 100;
-  itx = 999;
-  ity = 999;
  } else if (g->m.sees(posx, posy, itx, ity, light, linet)) {
   if (debug)
    debugmsg("We see our item(s).  NPC @ (%d:%d); items @ (%d:%d) (dist %d",
@@ -314,9 +317,11 @@ void npc::pickup_items(game *g)
     }
     if (valid.empty()) {
      debugmsg("Oh no!  Couldn't find an open space next to %d:%d", itx, ity);
+     fetching_item = false;
+     path.clear();
      return;
     }
-// Popular indices with the indices of the closest points
+// Populate "indices" with the indices of the closest points
     int best_dist = dist[0];
     std::vector<int> indices;
     indices.push_back(0);
@@ -331,6 +336,7 @@ void npc::pickup_items(game *g)
 // Pick one of those closest points, and move to it
     int index = indices[rng(0, indices.size() - 1)];
     path = g->m.route(posx, posy, valid[index].x, valid[index].y);
+    fetching_item = true;
    }
   }
   if (path.size() > 0)
@@ -491,11 +497,6 @@ bool npc::can_reload()
   return false;
  it_gun* gun = dynamic_cast<it_gun*> (weapon.type);
  return (weapon.charges < gun->clip && has_ammo(gun->ammo).size() > 0);
-}
-
-bool npc::fetching_item()
-{
- return (itx != 999 && ity != 999);
 }
 
 bool npc::saw_player_recently()

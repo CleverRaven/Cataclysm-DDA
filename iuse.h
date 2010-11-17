@@ -73,6 +73,8 @@ class iuse
   void pheromone	(game *g, item *it, bool t);
   void portal		(game *g, item *it, bool t);
   void manhack		(game *g, item *it, bool t);
+  void UPS_off		(game *g, item *it, bool t);
+  void UPS_on		(game *g, item *it, bool t);
 // ARTIFACTS
   void heal		(game *g, item *it, bool t);
   void twist_space	(game *g, item *it, bool t);

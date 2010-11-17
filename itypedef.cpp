@@ -29,76 +29,78 @@ fun,container,itm_null,use_func,addict_func));
 
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("water",		90, 50,	c_ltcyan, itm_bottle_plastic,
-//	QUE NUT SPO STM HTH ADD CHG FUN use_func		addiction type
-	50,  0,  0,  0,  0,  0,  1,  0,&iuse::none, ADD_NULL, "\
+//	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
+	50,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
 Water, the stuff of life, the best thirst-quencher available.");
 
 DRINK("water",		 0, 50,	c_ltcyan, itm_null,// Dirty water, from rivers
-	30,  0,  0,  0, -4,  0,  1,  0,&iuse::poison, ADD_NULL, "\
+	30,  0,  0,  0, -4,  0,  1,  0,&iuse::poison,	ADD_NULL, "\
 Water, the stuff of life, the best thirst-quencher available.");
 
 DRINK("salt water",	20,  5,	c_ltcyan, itm_bottle_plastic,
-	-30, 0,  0,  0,  1,  0,  1, -1,&iuse::none, ADD_NULL, "\
+	-30, 0,  0,  0,  1,  0,  1, -1,&iuse::none,	ADD_NULL, "\
 Wayer with salt added.  Not good for drinking.");
 
 DRINK("orange juice",	50, 38,	c_yellow, itm_bottle_plastic,
-	35,  4,120,  0,  2,  0,  1,  0,&iuse::none, ADD_NULL, "\
+	35,  4,120,  0,  2,  0,  1,  0,&iuse::none,	ADD_NULL, "\
 Fresh squeezed from real oranges!  Tasty and nutritious.");
 
 DRINK("energy drink",	55, 45,	c_magenta,itm_can_drink,
 	15,  1,  0,  8, -2,  2,  1,  1,&iuse::caff,	ADD_CAFFEINE, "\
 Popular among those who need to stay up late working.");
 
+//     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("cola",		70, 35,	c_brown,  itm_can_drink,
+//	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
 	18,  3,  0,  6, -1,  2,  1,  1,&iuse::caff,	ADD_CAFFEINE, "\
 Things go better with cola.  Sugar water with caffeine added.");
 
 DRINK("root beer",	65, 30,	c_brown,  itm_can_drink,
-	18,  3,  0,  1, -1,  0,  1,  0,&iuse::none, ADD_NULL, "\
+	18,  3,  0,  1, -1,  0,  1,  0,&iuse::none,	ADD_NULL, "\
 Like cola, but without caffeine.  Still not that healthy.");
 
 DRINK("milk",		50, 35,	c_white,  itm_bottle_glass,
-	25,  8,  8,  0,  1,  0,  1,  0,&iuse::none, ADD_NULL, "\
+	25,  8,  8,  0,  1,  0,  1,  0,&iuse::none,	ADD_NULL, "\
 Baby cow food, appropriated for adult humans.  Spoils rapidly.");
 
 DRINK("V8",		15, 35,	c_red,    itm_can_drink,
-	 6, 28,240,  0,  1,  0,  1,  0,&iuse::none, ADD_NULL, "\
+	 6, 28,240,  0,  1,  0,  1,  0,&iuse::none,	ADD_NULL, "\
 Contains up to 8 vegetables!  Nutritious and tasty.");
 
-//     NAME		RARITY	COLOR     CONTAINER
 DRINK("whiskey",	16, 85,	c_brown,  itm_bottle_glass,
-//	QUE NUT SPO STM HTH ADD CHG FUN use_func		addiction type
-	-12, 4,  0,-12, -2,  5, 20,  4,&iuse::alcohol, ADD_ALCOHOL, "\
+	-12, 4,  0,-12, -2,  5, 20,  4,&iuse::alcohol,	ADD_ALCOHOL, "\
 Made from, by, and for real Southern colonels!");
 
+//     NAME		RARITY	COLOR     CONTAINER
 DRINK("vodka",		20, 78,	c_ltcyan, itm_bottle_glass,
-	-10, 2,  0,-12, -2,  5, 20,  4,&iuse::alcohol, ADD_ALCOHOL, "\
+//	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
+	-10, 2,  0,-12, -2,  5, 20,  4,&iuse::alcohol,	ADD_ALCOHOL, "\
 In Soviet Russia, vodka drinks you!");
 
 DRINK("rum",		14, 85,	c_ltcyan, itm_bottle_glass,
-	-12, 2,  0,-10, -2,  5, 20,  4,&iuse::alcohol, ADD_ALCOHOL, "\
+	-12, 2,  0,-10, -2,  5, 20,  4,&iuse::alcohol,	ADD_ALCOHOL, "\
 Drinking this might make you feel like a pirate.  Or not.");
 
 DRINK("tequila",	12, 88,	c_brown,  itm_bottle_glass,
-	-12, 2,  0,-12, -2,  6, 20,  5,&iuse::alcohol, ADD_ALCOHOL, "\
+	-12, 2,  0,-12, -2,  6, 20,  5,&iuse::alcohol,	ADD_ALCOHOL, "\
 Don't eat the worm!  Wait, there's no worm in this bottle.");
 
 DRINK("bleach",		20, 18,	c_white,  itm_bottle_plastic,
-	-96, 0,  0,  0, -8,  0,  1, -5,&iuse::blech, ADD_NULL, "\
+	-96, 0,  0,  0, -8,  0,  1, -5,&iuse::blech,	ADD_NULL, "\
 Don't drink it.  Mixing it with ammonia produces toxic gas.");
 
 //     NAME		RARITY	COLOR     CONTAINER
 DRINK("ammonia",	18, 20,	c_yellow, itm_bottle_plastic,
-//	QUE NUT SPO STM HTH ADD CHG FUN use_func		addiction type
-	-96, 0,  0,  0, -2,  0,  1, -5,&iuse::blech, ADD_NULL, "\
+//	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
+	-96, 0,  0,  0, -2,  0,  1, -5,&iuse::blech,	ADD_NULL, "\
 Don't drink it.  Mixing it with bleach produces toxic gas.");
 
-DRINK("mutagen",	4,8000,	c_magenta,itm_bottle_glass,
-	  0, 0,  0,  0, -2,  0,  1,  0,&iuse::mutagen, ADD_NULL, "\
+DRINK("mutagen",	 8,8000,c_magenta,itm_bottle_glass,
+	  0, 0,  0,  0, -2,  0,  1,  0,&iuse::mutagen,	ADD_NULL, "\
 A rare substance of uncertain origins.  Causes you to mutate.");
 
-DRINK("purifier",	6,12000,c_pink,	  itm_bottle_glass,
-	  0, 0,  0,  0,  1,  0,  1,  0,&iuse::purifier, ADD_NULL, "\
+DRINK("purifier",	12,12000,c_pink,  itm_bottle_glass,
+	  0, 0,  0,  0,  1,  0,  1,  0,&iuse::purifier,	ADD_NULL, "\
 A rare stem-cell treatment, which causes mutations and other genetic defects\n\
 to fade away.");
 
@@ -990,7 +992,8 @@ from bright flashes.");
 ARMOR("light amp goggles",1,920,c_green,	STEEL,		GLASS,
     3,  6,  1, -2,  2,  2,  3,  6,  2,  0,	mfb(bp_eyes), "\
 A pair of goggles that amplify ambient light, allowing you to see in the\n\
-dark."
+dark.  You must be carrying a powered-on unified power supply, or UPS, to use\n\
+them."
 );
 
 // Headwear encumberment should ONLY be 0 if it's ok to wear with another
@@ -999,7 +1002,7 @@ dark."
 ARMOR("baseball cap",	30,  35,c_red,		COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
     2,  1, -5,  0,  0,  0,  0,  0,  1,  0,	mfb(bp_head), "\
-A Red Sox cap.  Slightly warm.");
+A Red Sox cap.  It provides a little bit of warmth.");
 
 ARMOR("boonie hat",	10,  55,c_green,	PLASTIC,	MNULL,
     2,  1, -5,  0,  0,  0,  1,  0,  2,  0,	mfb(bp_head), "\
@@ -2292,6 +2295,22 @@ TOOL("inactive manhack",1, 1200, ',', c_ltgreen, STEEL, PLASTIC,
 An inactive manhack.  Manhacks are fist-sized robots which fly through the\n\
 air.  They are covered with whirring blades and attack by throwing themselves\n\
 against their target.  Use this item to activate the manhack.");
+
+//	NAME		RAR PRC SYM  COLOR	MAT1	MAT
+TOOL("UPS (off)",	 1,2800,';',c_ltgreen,	STEEL,	PLASTIC,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    4,  6, 10,  0, -1,1000, 0,  0,  0, AT_BATT, itm_null, &iuse::UPS_off, "\
+A unified power supply, or UPS, is a device developed jointly by military and\n\
+scientific interests for use in combat and the field.  The UPS is designed to\n\
+power armor, goggles, etc., but drains batteries quickly.");
+
+TOOL("UPS (on)",	 0,2800,';',c_ltgreen,	STEEL,	PLASTIC,
+    4,  6, 10,  0, -1,1000, 0,  0,  1, AT_BATT,	itm_UPS_off, &iuse::UPS_on, "\
+A unified power supply, or UPS, is a device developed jointly by military and\n\
+scientific interests for use in combat and the field.  The UPS is designed to\n\
+power armor, goggles, etc., but drains batteries quickly.");
+
+
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

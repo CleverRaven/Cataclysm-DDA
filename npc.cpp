@@ -25,8 +25,6 @@ npc::npc()
  wandf = 0;
  plx = 999;
  ply = 999;
- itx = 999;
- ity = 999;
  goalx = 999;
  goaly = 999;
  str_max = 0;
@@ -80,10 +78,10 @@ std::string npc::save_info()
          " " << int(personality.collector) << " " <<
          int(personality.altruism) << " " << wandx << " " << wandy << " " <<
          wandf << " " << omx << " " << omy << " " << omz << " " << mapx <<
-         " " << mapy << " " << plx << " " << ply << " " << itx << " " << ity <<
-         " " << goalx << " " << goaly << " " << int(mission) << " " <<
-         int(op_of_u.trust) << " " << int(op_of_u.value) << " " <<
-         int(op_of_u.fear) << " " << int(flags) << " ";
+         " " << mapy << " " << plx << " " << ply << " " <<  goalx << " " <<
+         goaly << " " << int(mission) << " " << int(op_of_u.trust) << " " <<
+         int(op_of_u.value) << " " << int(op_of_u.fear) << " " << int(flags) <<
+         " ";
  if (my_fac == NULL)
   dump << -1;
  else

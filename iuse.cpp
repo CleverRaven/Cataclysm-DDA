@@ -1409,3 +1409,27 @@ void iuse::manhack(game *g, item *it, bool t)
   manhack.friendly = -1;
  g->z.push_back(manhack);
 }
+
+void iuse::UPS_off(game *g, item *it, bool t)
+{
+ if (it->charges == 0)
+  g->add_msg("The power supply's batteries are dead.");
+ else {
+  g->add_msg("You turn the power supply on.");
+  if (g->u.is_wearing(itm_goggles_nv))
+   g->add_msg("Your light amp goggles power on.");
+  it->make(g->itypes[itm_UPS_on]);
+  it->active = true;
+ }
+}
+ 
+void iuse::UPS_on(game *g, item *it, bool t)
+{
+ if (t) {	// Normal use
+	// Does nothing
+ } else {	// Turning it off
+  g->add_msg("The UPS powers off with a soft hum.");
+  it->make(g->itypes[itm_UPS_off]);
+  it->active = false;
+ }
+}
