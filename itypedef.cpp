@@ -2239,7 +2239,7 @@ to expell a thick black smoke.  This smoke will slow those who enter it, as\n\
 well as obscuring vision and scent.");
 
 TOOL("active smoke bomb",0,  0, '*', c_dkgray,	STEEL,	MNULL,
-    1,  1,  5,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null,&iuse::smokebomb_act,"\
+    1,  1,  5,  0, -1,  0,  0,  0,  1, AT_NULL, itm_null,&iuse::smokebomb_act,"\
 This smoke bomb has had its pin removed, indicating that it is (or will\n\
 shortly be) expelling thick smoke.");
 

@@ -3517,6 +3517,7 @@ bool game::handle_liquid(item &liquid)
    if (liquid.charges * default_charges > container->contains) {
     add_msg("You fill the %s with some of the %s.", cont->tname().c_str(),
                                                    liquid.tname().c_str());
+    u.inv_sorted = false;
     int oldcharges = liquid.charges - container->contains * default_charges;
     liquid.charges = container->contains;
     cont->put_in(liquid);

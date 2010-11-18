@@ -3282,12 +3282,13 @@ bool player::has_amount(itype_id it, int quantity)
 {
  int i_have = 0;
  if (weapon.type->id == it) {
-  if (weapon.is_ammo() || weapon.is_tool())
+  if ((weapon.is_ammo() || weapon.is_food()) && weapon.charges > 0)
    i_have += weapon.charges;
   else
    i_have++;
  } else if (weapon.contents.size() > 0 && weapon.contents[0].type->id == it) {
-  if (weapon.contents[0].is_ammo() || weapon.contents[0].is_tool())
+  if ((weapon.contents[0].is_ammo() || weapon.contents[0].is_food()) &&
+      weapon.contents[0].charges > 0)
    i_have += weapon.contents[0].charges;
   else
    i_have++;
@@ -3296,12 +3297,13 @@ bool player::has_amount(itype_id it, int quantity)
   return true;
  for (int i = 0; i < inv.size(); i++) {
   if (inv[i].type->id == it) {
-   if (inv[i].is_ammo())
+   if ((inv[i].is_ammo() || inv[i].is_food()) && inv[i].charges > 0)
     i_have += inv[i].charges;
    else
     i_have++;
   } else if (inv[i].contents.size() > 0 && inv[i].contents[0].type->id == it) {
-   if (inv[i].contents[0].is_ammo() || inv[i].contents[0].is_tool())
+   if ((inv[i].contents[0].is_ammo() || inv[i].contents[0].is_food()) &&
+       inv[i].contents[0].charges > 0)
     i_have += inv[i].contents[0].charges;
    else
     i_have++;

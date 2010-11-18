@@ -563,7 +563,7 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
     for (int j = 0; j < current[line]->components[i].size(); j++) {
      int count = current[line]->components[i][j].count;
      itype_id type = current[line]->components[i][j].type;
-     nc_color compcol = (u.has_number(type, count) ? c_green : c_red);
+     nc_color compcol = (u.has_amount(type, count) ? c_green : c_red);
      std::stringstream dump;
      dump << count << "x " << itypes[type]->name << " ";
      std::string compname = dump.str();
@@ -772,7 +772,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
     for (int k = 0; k < current[i]->components[j].size(); k++) {
      itype_id type = current[i]->components[j][k].type;
      int count = current[i]->components[j][k].count;
-     if (u.has_number(type, count)) {
+     if (u.has_amount(type, count)) {
       have_comp[j] = true;
       k = current[i]->components[j].size();
      }
@@ -800,7 +800,7 @@ void game::complete_craft()
   if (making.components[i].size() > 0) {
    std::vector<component> you_have;
    for (int j = 0; j < making.components[i].size(); j++) {
-    if (u.has_number(making.components[i][j].type,
+    if (u.has_amount(making.components[i][j].type,
                      making.components[i][j].count))
      you_have.push_back(making.components[i][j]);
    }
