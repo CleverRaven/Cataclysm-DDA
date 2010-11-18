@@ -4116,6 +4116,10 @@ void game::wield()
 
 void game::read()
 {
+ if (u.morale_level() < MIN_MORALE_READ) {	// See morale.h
+  add_msg("What's the point of reading?  (Your morale is too low!)");
+  return;
+ }
  char ch = inv("Read:");
  u.read(this, ch);
 }

@@ -663,7 +663,7 @@ corpses.");
 MELEE("two by four", 	60,  80,'/', c_ltred,	WOOD,	MNULL,
 	 6,  6, 14,  0,  1, "\
 A plank of wood.  Makes a decent melee weapon, and can be used to board up\n\
-doors and windows.");
+doors and windows if you have a hammer and nails.");
 
 MELEE("muffler",	30,  30,'/', c_ltgray,	IRON,	MNULL,
 	20, 20, 19,  0, -3, "\

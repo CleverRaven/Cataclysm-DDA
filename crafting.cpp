@@ -443,12 +443,16 @@ void game::init_recipes()
   COMP(itm_processor, 1, NULL);
   COMP(itm_RAM, 1, NULL);
   COMP(itm_power_supply, 1, NULL);
-  COMP(itm_battery, 200, itm_plut_cell, 1, NULL);
+  COMP(itm_battery, 400, itm_plut_cell, 1, NULL);
 
 }
 
 void game::craft()
 {
+ if (u.morale_level() < MIN_MORALE_CRAFT) {	// See morale.h
+  add_msg("Your morale is too low to craft...");
+  return;
+ }
  WINDOW *w_head = newwin( 3, 80, 0, 0);
  WINDOW *w_data = newwin(22, 80, 3, 0);
  craft_cat tab = CC_WEAPON;

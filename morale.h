@@ -4,6 +4,9 @@
 #include <string>
 #include "moraledata.h"
 
+#define MIN_MORALE_READ		(-20)
+#define MIN_MORALE_CRAFT	(-15)
+
 enum morale_type {
  MOR_NULL,
  MOR_MOODSWING_BAD,

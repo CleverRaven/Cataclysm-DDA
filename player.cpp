@@ -95,11 +95,11 @@ void player::reset()
   per_cur  -= int((pain - pkill) / 20);
   int_cur  -= 1 + int((pain - pkill) / 25);
  }
- if (abs(morale_level()) >= 10) {
-  str_cur  += int(morale_level() / 18);
-  dex_cur  += int(morale_level() / 20);
-  per_cur  += int(morale_level() / 14);
-  int_cur  += int(morale_level() / 10);
+ if (abs(morale_level()) >= 40) {
+  str_cur  += int(morale_level() / 75);
+  dex_cur  += int(morale_level() / 80);
+  per_cur  += int(morale_level() / 56);
+  int_cur  += int(morale_level() / 40);
  }
  if (radiation > 0) {
   str_cur  -= int(radiation / 12);
@@ -161,8 +161,8 @@ int player::current_speed()
  if (pkill >= 3)
   newmoves -= int(pkill * .4);
 // Plus or minus some for considerable morale...
- if (abs(morale_level()) >= 10) {
-  int morale_bonus = int(morale_level() / 2);
+ if (abs(morale_level()) >= 40) {
+  int morale_bonus = int(morale_level() / 10);
   if (morale_bonus < -25)
    morale_bonus = -25;
   else if (morale_bonus > 15)
@@ -318,21 +318,21 @@ void player::disp_info(game *g)
    effect_text.push_back(dis_description(illness[i]));
   }
  }
- if (abs(morale_level()) >= 10) {
+ if (abs(morale_level()) >= 40) {
   bool pos = (morale_level() > 0);
   effect_name.push_back(pos ? "Elated" : "Depressed");
   std::stringstream morale_text;
-  if (abs(morale_level()) >= 20)
+  if (abs(morale_level()) >= 80)
    morale_text << "Dexterity" << (pos ? " +" : " ") <<
-                   int(morale_level() / 20) << "   ";
-  if (abs(morale_level()) >= 18)
+                   int(morale_level() / 80) << "   ";
+  if (abs(morale_level()) >= 75)
    morale_text << "Strength" << (pos ? " +" : " ") <<
-                  int(morale_level() / 18) << "   ";
-  if (abs(morale_level()) >= 14)
+                  int(morale_level() / 75) << "   ";
+  if (abs(morale_level()) >= 56)
    morale_text << "Perception" << (pos ? " +" : " ") <<
-                  int(morale_level() / 14) << "   ";
+                  int(morale_level() / 56) << "   ";
   morale_text << "Intelligence" << (pos ? " +" : " ") <<
-                 int(morale_level() / 10) << "   ";
+                 int(morale_level() / 40) << "   ";
   effect_text.push_back(morale_text.str());
  }
  if (pain - pkill > 0) {
@@ -583,8 +583,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
             (pen < 10 ? " " : ""), pen);
   line++;
  }
- pen = int(morale_level() / 2);
- if (abs(pen) >= 5) {
+ pen = int(morale_level() / 10);
+ if (abs(pen) >= 1) {
   if (pen > 0)
    mvwprintz(w_speed, line, 1, c_green, "Good mood           +%s%d%%%%",
              (pen < 10 ? " " : ""), pen);
