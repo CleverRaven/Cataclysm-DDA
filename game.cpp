@@ -3474,14 +3474,14 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
   return true;
  } else {
   std::stringstream text;
-  ammotype type = u.weapon.ammo();
   text << "Container for " << liquid.tname();
   char ch = inv(text.str().c_str());
   if (!u.has_item(ch))
    return false;
   item *cont = &(u.i_at(ch));
+  ammotype type = cont->ammo();
   if (cont->is_tool() && (dynamic_cast<it_tool*>(cont->type))->ammo == type &&
-      (cont->charges == 0 || cont->curammo->id == liquid.type->id)){
+      (cont->charges == 0 || cont->curammo->id == liquid.type->id)) {
    add_msg("You pour %s into your %s.", ammo_name(type).c_str(),
                                         cont->tname().c_str());
    cont->curammo = dynamic_cast<it_ammo*>(liquid.type);
