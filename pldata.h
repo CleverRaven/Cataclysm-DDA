@@ -60,6 +60,7 @@ enum dis_type {
  DI_COLD, DI_COLD_FACE, DI_COLD_HANDS, DI_COLD_LEGS, DI_COLD_FEET,
  DI_HOT,	// Can lead to heatstroke
  DI_HEATSTROKE, DI_FBFACE, DI_FBHANDS, DI_FBFEET,
+// Fields
  DI_SMOKE, DI_ONFIRE, DI_TEARGAS,
 // Monsters
  DI_BOOMERED, DI_SPORES, DI_FUNGUS, DI_SLIMED,
@@ -453,8 +454,8 @@ trail."},
 Your body's ability to digest meat is severely hampered.  Eating meat has a\n\
 good chance of making you vomit it back up; even if you manage to keep it\n\
 down, its nutritional value is greatly reduced."},
-{"Carnivore", -2, true, "\
-Your body's ability to digest fruits, vegetables and grainss is severely\n\
+{"Carnivore", -3, true, "\
+Your body's ability to digest fruits, vegetables and grains is severely\n\
 hampered.  You cannot eat anything besides meat."}
 };
 

@@ -309,7 +309,7 @@ void monster::hit_monster(game *g, int i)
  monster* target = &(g->z[i]);
  
  int numdice = type->melee_skill;
- int dodgedice = target->type->sk_dodge * 2;
+ int dodgedice = target->dodge() * 2;
  switch (target->type->size) {
   case MS_TINY:		dodgedice += 4;	break;
   case MS_SMALL: 	dodgedice += 2;	break;
@@ -342,6 +342,13 @@ int monster::armor()
 {
 // TODO: Add support for worn armor?
  return int(type->armor);
+}
+
+int monster::dodge()
+{
+ if (moves <= 0 - type->speed)
+  return 0;
+ return type->sk_dodge;
 }
 
 void monster::die(game *g)

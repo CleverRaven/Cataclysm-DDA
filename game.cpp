@@ -2954,7 +2954,7 @@ void game::examine()
    m.add_item(u.posx, u.posy, gas);
   } else {
    u.moves -= 300;
-   handle_liquid(gas);
+   handle_liquid(gas, false, true);
   }
  } else if (m.ter(examx, examy) == t_slot_machine) {
   if (u.cash > 0 && query_yn("Insert $1?")) {
@@ -3095,7 +3095,7 @@ void game::pickup(int posx, int posy, int min)
  if (m.i_at(posx, posy).size() == 0) {
   if (m.has_flag(swimmable, posx, posy) || m.ter(posx, posy) == t_toilet) {
    item water = m.water_from(posx, posy);
-   handle_liquid(water);
+   handle_liquid(water, true, false);
   }
   return;
 // Few item here, just get it
@@ -3462,13 +3462,14 @@ void game::pickup(int posx, int posy, int min)
 }
 
 // Handle_liquid returns false if we didn't handle all the liquid.
-bool game::handle_liquid(item &liquid)
+bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
 {
  if (!liquid.made_of(LIQUID)) {
   debugmsg("Tried to handle_liquid a non-liquid!");
   return false;
  }
- if (query_yn("Pour %s on the ground?", liquid.tname().c_str())) {
+ if (!from_ground &&
+     query_yn("Pour %s on the ground?", liquid.tname().c_str())) {
   m.add_item(u.posx, u.posy, liquid);
   return true;
  } else {
@@ -3479,18 +3480,23 @@ bool game::handle_liquid(item &liquid)
   if (!u.has_item(ch))
    return false;
   item *cont = &(u.i_at(ch));
-  if (cont->is_tool() && (dynamic_cast<it_tool*>(cont->type))->ammo==type &&
+  if (cont->is_tool() && (dynamic_cast<it_tool*>(cont->type))->ammo == type &&
       (cont->charges == 0 || cont->curammo->id == liquid.type->id)){
    add_msg("You pour %s into your %s.", ammo_name(type).c_str(),
                                         cont->tname().c_str());
    cont->curammo = dynamic_cast<it_ammo*>(liquid.type);
-   cont->charges += liquid.charges;
-   if (cont->charges > (dynamic_cast<it_tool*>(cont->type))->max_charges) {
-    int extra = 0 - cont->charges;
-    cont->charges = (dynamic_cast<it_tool*>(cont->type))->max_charges;
-    liquid.charges = extra;
-    add_msg("There's some left over!");
-    return false;
+   int max_charges = (dynamic_cast<it_tool*>(cont->type))->max_charges;
+   if (infinite)
+    cont->charges = max_charges;
+   else {
+    cont->charges += liquid.charges;
+    if (cont->charges > max_charges) {
+     int extra = 0 - cont->charges;
+     cont->charges = max_charges;
+     liquid.charges = extra;
+     add_msg("There's some left over!");
+     return false;
+    }
    }
   } else if (cont->type->id == itm_null) {
    add_msg("Never mind.");
@@ -3515,8 +3521,8 @@ bool game::handle_liquid(item &liquid)
     default_charges = ammo->count;
    }
    if (liquid.charges * default_charges > container->contains) {
-    add_msg("You fill the %s with some of the %s.", cont->tname().c_str(),
-                                                   liquid.tname().c_str());
+    add_msg("You fill your %s with some of the %s.", cont->tname().c_str(),
+                                                     liquid.tname().c_str());
     u.inv_sorted = false;
     int oldcharges = liquid.charges - container->contains * default_charges;
     liquid.charges = container->contains;
@@ -4031,7 +4037,7 @@ void game::unload()
     iter++;
    }
    if (content.made_of(LIQUID)) {
-    if (!handle_liquid(content))
+    if (!handle_liquid(content, false, false))
      new_contents.push_back(content);// Put it back in (we canceled)
    } else {
     if (u.volume_carried() + content.volume() <= u.volume_capacity() &&
@@ -4090,7 +4096,7 @@ void game::unload()
   if (u.weight_carried() + newam.weight() < u.weight_capacity() &&
       u.volume_carried() + newam.volume() < u.volume_capacity() && iter < 52) {
    if (newam.made_of(LIQUID)) {
-    if (!handle_liquid(newam))
+    if (!handle_liquid(newam, false, false))
      u.weapon.charges += newam.charges;	// Put it back in
    } else
     u.i_add(newam);

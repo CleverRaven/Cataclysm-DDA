@@ -1812,7 +1812,7 @@ int player::hit_mon(game *g, monster *z)
  }
  if (numdice < 1)
   numdice = 1;
- int mondice = z->type->sk_dodge;
+ int mondice = z->dodge();
  if (dice(numdice, 10) < dice(mondice, 10)) {	// A miss!
 // Movement penalty for missing & stumbling
   int stumble_pen = weapon.volume() + int(weapon.weight() / 2);
@@ -1835,7 +1835,8 @@ int player::hit_mon(game *g, monster *z)
  }
  if (z->has_flag(MF_SHOCK) && !wearing_something_on(bp_hands) &&
      (unarmed || weapon.conductive())) {
-  g->add_msg("The %s's electric body shocks you!", z->name().c_str());
+  if (is_u)
+   g->add_msg("The %s's electric body shocks you!", z->name().c_str());
   hurtall(rng(1, 3));
  }
 // For very high hit rolls, we crit!
@@ -1862,22 +1863,28 @@ int player::hit_mon(game *g, monster *z)
     z_armor = 0;
    dam += 10 - z_armor;
   }
- } else if (rng(1, 65 - 2 * dex_cur) < sklevel[sk_unarmed]) {
+ } else if (rng(1, 45 - dex_cur) < 2 * sklevel[sk_unarmed]) {
 // If we're not unarmed, there's still a possibility of getting in a bonus
 // unarmed attack.
-  switch (rng(1, 4)) {	// TODO: More unarmed bonus attacks
-  case 1:
-   g->add_msg("You kick the %s!", z->name().c_str());
-   break;
-  case 2:
-   g->add_msg("You headbutt the %s!", z->name().c_str());
-   break;
-  case 3:
-   g->add_msg("You elbow the %s!", z->name().c_str());
-   break;
-  case 4:
-   g->add_msg("You knee the %s!", z->name().c_str());
-   break;
+  if (is_u || can_see) {
+   switch (rng(1, 4)) {	// TODO: More unarmed bonus attacks
+   case 1:
+    g->add_msg("%s kick%s the %s!", You.c_str(), (is_u ? "" : "s"),
+                                    z->name().c_str());
+    break;
+   case 2:
+    g->add_msg("%s headbutt%s the %s!", You.c_str(), (is_u ? "" : "s"),
+                                        z->name().c_str());
+    break;
+   case 3:
+    g->add_msg("%s elbow%s the %s!", You.c_str(), (is_u ? "" : "s"),
+                                     z->name().c_str());
+    break;
+   case 4:
+    g->add_msg("%s knee%s the %s!", You.c_str(), (is_u ? "" : "s"),
+                                    z->name().c_str());
+    break;
+   }
   }
   dam += rng(1, sklevel[sk_unarmed]);
   practice(sk_unarmed, 3);

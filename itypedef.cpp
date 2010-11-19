@@ -172,7 +172,7 @@ Salty dried meat that never goes bad, but will make you thirsty.");
 FOOD("meat sandwich", 30, 60,	c_ltgray,	FLESH,	itm_wrapper,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  2,  0, 50, 36,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
-Bread and meat, that's it.");
+Bread and turkey, that's it.");
 
 FOOD("candy",		80, 14,	c_magenta,	VEGGY,	itm_bag_plastic,
     0, 0,  -1,  2,  0,  1, -2,  0,  3,  1,	&iuse::none, ADD_NULL, "\

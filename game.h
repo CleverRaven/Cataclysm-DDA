@@ -140,7 +140,8 @@ class game
   void examine();// Examine nearby terrain	'e'
   void look_around();// Look at nearby terrain	';'
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
-  bool handle_liquid(item &liquid);// Pick where to put liquid; false if kept
+// Pick where to put liquid; false if it's left where it was
+  bool handle_liquid(item &liquid, bool from_ground, bool infinite);
   void drop();	  // Drop an item		'd'	TODO: Multidrop
   void butcher(); // Butcher a corpse		'B'
   void eat();	  // Eat food or fuel		'E' (or 'a')
