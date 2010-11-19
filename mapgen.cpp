@@ -1125,7 +1125,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    place_items(mi_softdrugs,	70, rw - 3, tw + 4, rw - 3, mw - 3, false, 0);
   place_items(mi_fridgesnacks,	74, lw + 1, tw + 9, lw + 1, mw - 2, false, 0);
   place_items(mi_fridgesnacks,	74, cw + 2, mw - 1, rw - 1, mw - 1, false, 0);
-  place_items(mi_harddrugs,	65, lw + 2, bw - 1, cw - 2, bw - 1, false, 0);
+  place_items(mi_harddrugs,	85, lw + 2, bw - 1, cw - 2, bw - 1, false, 0);
   place_items(mi_behindcounter,	78, lw + 1, tw + 1, lw + 4, tw + 5, false, 0);
   if (terrain_type == ot_s_pharm_east)
    rotate(1);

@@ -370,16 +370,16 @@ Vital medicine for those with asthma.  Those without asthma can use it for a\n\
 minor stimulant boost.");
 
 //  NAME		RAR PRC	COLOR		TOOL
-MED("codeine",		10,400,	c_cyan,		itm_null,
+MED("codeine",		15,400,	c_cyan,		itm_null,
 //	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	PLASTIC, -2,  0, 10, 20,  2,&iuse::pkill_2,	ADD_PKILLER, "\
 A weak opiate, prescribed for light to moderate pain.");
 
-MED("oxycodone",	 5,900,	c_cyan,		itm_null,
+MED("oxycodone",	 7,900,	c_cyan,		itm_null,
 	PLASTIC, -4, -1, 16, 20,  4,&iuse::pkill_3,	ADD_PKILLER, "\
 A strong opiate, prescribed for moderate to intense pain.");
 
-MED("tramadol",		 9,300,	c_cyan,		itm_null,
+MED("tramadol",		11,300,	c_cyan,		itm_null,
 	PLASTIC,  0,  0,  6, 25,  1,&iuse::pkill_l,	ADD_PKILLER, "\
 A long-lasting opiate, prescribed for moderate pain.  Its painkiller effects\n\
 last for several hours, but are not as strong as oxycodone.");
@@ -396,7 +396,7 @@ MED("Adderall",		10,750,	c_cyan,		itm_null,
 A strong stimulant prescribed for ADD.  It will greatly increase your\n\
 stimulant leve, but is quite addictive.");
 
-MED("Thorazine",	 8,500,	c_cyan,		itm_null,
+MED("Thorazine",	 7,500,	c_cyan,		itm_null,
 	PLASTIC,  0,  0,  0, 15,  0,&iuse::thorazine,	ADD_NULL, "\
 Anti-psychotic medication.  Used to control the symptoms of schizophrenia and\n\
 similar ailments.  Also popular as a way to come down for a bad trip.");
