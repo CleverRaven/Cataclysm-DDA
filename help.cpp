@@ -365,7 +365,7 @@ p - Power up / List bionics                  R - Read book\n\
 @ - View character status                    # - List factions\n\
 : - Open world map                           ; - Look around\n\
 C - Chat with NPC                            ? - Help page\n\
-% - View kill counts");
+%%%% - View morale");
    mvprintz(21, 0, c_white, "META:");
    mvprintz(22, 0, c_ltgray, "\
 S - Save game                                Q - Quit w/o saving");

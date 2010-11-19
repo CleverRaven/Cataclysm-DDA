@@ -1209,23 +1209,23 @@ void game::draw_overmap()
   nc_color ter_color;
   long ter_sym;
   if (cursx < 40) {
-   hori = overmap(this, cur_om.posx - 1, cur_om.posy, 0);
+   hori = overmap(this, cur_om.posx - 1, cur_om.posy, cur_om.posz);
    if (cursy < 12)
-    diag = overmap(this, cur_om.posx - 1, cur_om.posy - 1, 0);
-   if (cursy > OMAPY - 13)
-    diag = overmap(this, cur_om.posx - 1, cur_om.posy + 1, 0);
+    diag = overmap(this, cur_om.posx - 1, cur_om.posy - 1, cur_om.posz);
+   if (cursy > OMAPY - 14)
+    diag = overmap(this, cur_om.posx - 1, cur_om.posy + 1, cur_om.posz);
   }
   if (cursx > OMAPX - 41) {
-   hori = overmap(this, cur_om.posx + 1, cur_om.posy, 0);
+   hori = overmap(this, cur_om.posx + 1, cur_om.posy, cur_om.posz);
    if (cursy < 12)
-    diag = overmap(this, cur_om.posx + 1, cur_om.posy - 1, 0);
-   if (cursy > OMAPY - 13)
-    diag = overmap(this, cur_om.posx + 1, cur_om.posy + 1, 0);
+    diag = overmap(this, cur_om.posx + 1, cur_om.posy - 1, cur_om.posz);
+   if (cursy > OMAPY - 14)
+    diag = overmap(this, cur_om.posx + 1, cur_om.posy + 1, cur_om.posz);
   }
   if (cursy < 12)
-   vert = overmap(this, cur_om.posx, cur_om.posy - 1, 0);
-  if (cursy > OMAPY - 13)
-   vert = overmap(this, cur_om.posx, cur_om.posy + 1, 0);
+   vert = overmap(this, cur_om.posx, cur_om.posy - 1, cur_om.posz);
+  if (cursy > OMAPY - 14)
+   vert = overmap(this, cur_om.posx, cur_om.posy + 1, cur_om.posz);
   for (int i = -40; i < 40; i++) {
    for (int j = -12; j <= (ch == 'j' ? 13 : 12); j++) {
     omx = cursx + i;
@@ -1302,7 +1302,7 @@ void game::draw_overmap()
       ter_color = c_pink;
       ter_sym = '@';
      } else {
-      if (cur_ter >= num_ter_types)
+      if (cur_ter >= num_ter_types || cur_ter < 0)
        debugmsg("Bad ter %d (%d, %d)", cur_ter, omx, omy);
       ter_color = oterlist[cur_ter].color;
       ter_sym = oterlist[cur_ter].sym;

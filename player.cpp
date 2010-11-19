@@ -258,15 +258,24 @@ void player::load_info(std::string data)
   biotmp.id = bionic_id(typetmp);
   my_bionics.push_back(biotmp);
  }
+
+ int nummor;
+ morale_point mortmp;
+ dump >> nummor;
+ for (int i = 0; i < nummor; i++) {
+  dump >> typetmp >> mortmp.bonus >> mortmp.duration;
+  mortmp.type = morale_type(typetmp);
+  morale.push_back(mortmp);
+ }
 }
 
 std::string player::save_info()
 {
  std::stringstream dump;
- dump << posx    << " " << posy << " " << str_cur << " " << str_max << " " <<
-         dex_cur << " " << dex_max << " " << int_cur << power_level << " " <<
-         max_power_level << " " << int_max << " " << per_cur << " " <<
-         per_max << " " << hunger << " " << thirst << " " << fatigue << " " <<
+ dump << posx    << " " << posy    << " " << str_cur << " " << str_max << " " <<
+         dex_cur << " " << dex_max << " " << int_cur << " " << int_max << " " <<
+         per_cur << " " << per_max << " " << power_level << " " <<
+         max_power_level << " " << hunger << " " << thirst << " " << fatigue <<
          " " << stim << " " << pain << " " << pkill << " " << radiation <<
          " " << cash << " " << recoil << " " << scent << " " << moves << " " <<
          underwater << " " << can_dodge << " " << oxygen << " ";
@@ -291,6 +300,11 @@ std::string player::save_info()
  for (int i = 0; i < my_bionics.size(); i++)
   dump << int(my_bionics[i].id) << " " << my_bionics[i].invlet << " " <<
           int(my_bionics[i].powered) << " " << my_bionics[i].charge << " ";
+
+ dump << morale.size() << " ";
+ for (int i = 0; i < morale.size(); i++)
+  dump << int(morale[i].type) << " " << morale[i].bonus << " " <<
+          morale[i].duration << " ";
 
  dump << std::endl;
  for (int i = 0; i < inv.size(); i++) {
