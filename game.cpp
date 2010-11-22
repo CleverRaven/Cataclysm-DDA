@@ -4706,7 +4706,7 @@ void game::spawn_mon(int shiftx, int shifty)
     group++;
    cur_om.zg[i].population -= group;
    if (group > 0) // If we spawned some zombies, advance the timer
-    nextspawn += rng(group * 3 + z.size(), group * 5 + z.size() * 4);
+    nextspawn += rng(group * 5 + z.size() * 2, group * 8 + z.size() * 4);
    for (int j = 0; j < group; j++) {	// For each monster in the group...
     mon_id type = valid_monster_from(moncats[cur_om.zg[i].type]);
     if (type == mon_null)
