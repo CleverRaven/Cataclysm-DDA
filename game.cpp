@@ -4329,12 +4329,12 @@ void game::plmove(int x, int y)
    add_msg("The water puts out the flames!");
    u.rem_disease(DI_ONFIRE);
   }
-  if (x < SEEX || y < SEEY || x >= SEEX * 2 || y >= SEEY * 2)
-   update_map(x, y);
   if (displace) {	// We displaced a friendly monster!
    z[mondex].move_to(this, u.posx, u.posy);
    add_msg("You displace the %s.", z[mondex].name().c_str());
   }
+  if (x < SEEX || y < SEEY || x >= SEEX * 2 || y >= SEEY * 2)
+   update_map(x, y);
   u.posx = x;
   u.posy = y;
   if (m.tr_at(x, y) != tr_null) { // We stepped on a trap!
@@ -4706,7 +4706,7 @@ void game::spawn_mon(int shiftx, int shifty)
     group++;
    cur_om.zg[i].population -= group;
    if (group > 0) // If we spawned some zombies, advance the timer
-    nextspawn += rng(group * 5 + z.size() * 2, group * 8 + z.size() * 4);
+    nextspawn += rng(group * 5 + z.size() * 5, group * 8 + z.size() * 10);
    for (int j = 0; j < group; j++) {	// For each monster in the group...
     mon_id type = valid_monster_from(moncats[cur_om.zg[i].type]);
     if (type == mon_null)

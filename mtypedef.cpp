@@ -29,7 +29,7 @@ item_chance, HP, sp_freq, death, sp_att, desc))
 // PLEASE NOTE: The description is AT MAX 4 lines of 46 characters each.
 
 // FOREST ANIMALS
-mon("squirrel",		'w',	c_ltgray,	MS_TINY,	FLESH,
+mon("squirrel",		'r',	c_ltgray,	MS_TINY,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_ANIMAL)|
 	 mfb(MF_WARM)|mfb(MF_FUR)),
 //	frq dif  agr spd msk mdi m## cut dge arm itm  HP special freq
@@ -38,7 +38,7 @@ mon("squirrel",		'w',	c_ltgray,	MS_TINY,	FLESH,
 A small woodland animal."
 );
 
-mon("rabbit",		'w',	c_white,	MS_TINY,	FLESH,
+mon("rabbit",		'r',	c_white,	MS_TINY,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_ANIMAL)|
 	 mfb(MF_WARM)|mfb(MF_FUR)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
@@ -187,7 +187,7 @@ mon("zombie",		'Z',	c_ltgreen,	MS_MEDIUM,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_STUMBLES)|
          mfb(MF_WARM)|mfb(MF_BASHES)|mfb(MF_POISON)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	 70,  3,  5, 70,  8,  1,  5,  0,  1,  0, 40, 50,  0,
+	 90,  3,  5, 70,  8,  1,  5,  0,  1,  0, 40, 50,  0,
 	&mdeath::normal,	&mattack::none, "\
 A human body, stumbling slowly forward on\n\
 uncertain legs, possessed with an\n\

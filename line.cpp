@@ -17,11 +17,13 @@ std::vector <point> line_to(int x1, int y1, int x2, int y2, int t) {
  cur.x = x1;
  cur.y = y1;
 
+/*
  if (x1 < 0 - SEEX * 3 || x1 > SEEX * 6 ||
      y1 < 0 - SEEY * 3 || y1 > SEEY * 6 ||
      x2 < 0 - SEEX * 3 || x2 > SEEX * 6 ||
      y2 < 0 - SEEY * 3 || y2 > SEEY * 6   )
   debugmsg("there's gonna be trouble!");
+*/
  if (ax > ay) {
   do {
    if (t > 0) {
@@ -31,9 +33,11 @@ std::vector <point> line_to(int x1, int y1, int x2, int y2, int t) {
    cur.x += sx;
    t += ay;
    ret.push_back(cur);
-  } while ((cur.x != x2 || cur.y != y2) &&
+  } while ((cur.x != x2 || cur.y != y2));
+/*
            (cur.x >= 0 - SEEX * 3 && cur.x <= SEEX * 6 &&
             cur.y >= 0 - SEEY * 3 && cur.y <= SEEY * 6   ));
+*/
  } else {
   do {
    if (t > 0) {
@@ -43,9 +47,11 @@ std::vector <point> line_to(int x1, int y1, int x2, int y2, int t) {
    cur.y += sy;
    t += ax;
    ret.push_back(cur);
-  } while ((cur.x != x2 || cur.y != y2) &&
+  } while ((cur.x != x2 || cur.y != y2));
+/*
            (cur.x >= 0 - SEEX * 3 && cur.x <= SEEX * 6 &&
             cur.y >= 0 - SEEY * 3 && cur.y <= SEEY * 6   ));
+*/
  }
  return ret;
 }
