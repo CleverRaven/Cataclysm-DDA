@@ -39,12 +39,17 @@ void mdeath::boomer(game *g, monster *z)
  g->sound(z->posx, z->posy, 24, "a boomer explode!");
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
-   g->m.bash(z->posx + i, z->posy + j, 14, tmp);
+   g->m.bash(z->posx + i, z->posy + j, 10, tmp);
    if (g->m.field_at(z->posx + i, z->posy + j).type == fd_bile &&
        g->m.field_at(z->posx + i, z->posy + j).density < 3)
     g->m.field_at(z->posx + i, z->posy + j).density++;
    else
     g->m.add_field(g, z->posx + i, z->posy + j, fd_bile, 1);
+   int mondex = g->mon_at(z->posx + i, z->posy +j);
+   if (mondex != -1) {
+    g->z[mondex].stumble(g, false);
+    g->z[mondex].moves -= 250;
+   }
   }
  }
  if (abs(z->posx - g->u.posx) <= 1 && abs(z->posy - g->u.posy) <= 1)

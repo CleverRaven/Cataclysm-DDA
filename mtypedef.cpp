@@ -198,7 +198,7 @@ mon("shrieker zombie",	'Z',	c_magenta,	MS_MEDIUM,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_STUMBLES)|
 	 mfb(MF_WARM)|mfb(MF_BASHES)|mfb(MF_POISON)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  4,  8,  4, 95,  9,  1,  2,  0,  4,  0, 45, 50, 10,
+	  4, 10,  4, 95,  9,  1,  2,  0,  4,  0, 45, 50, 10,
 	&mdeath::normal,	&mattack::shriek, "\
 This zombie's jaw has been torn off, leaving\n\
 a gaping hole from mid-neck up."
@@ -230,7 +230,7 @@ mon("fast zombie",	'Z',	c_ltred,	MS_MEDIUM,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_STUMBLES)|
 	 mfb(MF_WARM)|mfb(MF_BASHES)|mfb(MF_POISON)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  6,  9,  5,150, 10,  1,  4,  3,  4,  0, 45, 40,  0,
+	  6, 12,  5,150, 10,  1,  4,  3,  4,  0, 45, 40,  0,
 	&mdeath::normal,	&mattack::none, "\
 This deformed, sinewy zombie stays close\n\
 to the ground, loping forward faster than\n\
@@ -241,7 +241,7 @@ mon("zombie brute",	'Z',	c_red,		MS_MEDIUM,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_WARM)|mfb(MF_BASHES)|
 	 mfb(MF_POISON)|mfb(MF_LEATHER)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  4, 15,  5,115,  9,  4,  4,  2,  0,  8, 60, 80,  0,
+	  4, 25,  5,115,  9,  4,  4,  2,  0,  8, 60, 80,  0,
 	&mdeath::normal,	&mattack::none, "\
 A hideous beast of a zombie, bulging with\n\
 distended muscles on both arms and legs."
@@ -251,7 +251,7 @@ mon("zombie hulk",	'Z',	c_blue,		MS_HUGE,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_WARM)|mfb(MF_BASHES)|
 	 mfb(MF_DESTROYS)|mfb(MF_POISON)|mfb(MF_ATTACKMON)|mfb(MF_LEATHER)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  1, 30,  5,130, 9,  4,  8,  0,  0,  12, 80,260,  0,
+	  1, 50,  5,130, 9,  4,  8,  0,  0,  12, 80,260,  0,
 	&mdeath::normal,	&mattack::none, "\
 A zombie that has somehow grown to the size\n\
 of 6 men, with arms as wide as a trash can."
@@ -272,7 +272,7 @@ mon("boomer",		'Z',	c_pink,		MS_LARGE,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_STUMBLES)|mfb(MF_WARM)|
 	 mfb(MF_BASHES)|mfb(MF_POISON)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  6,  7,  5, 55,  7,  2,  4,  0,  1,  0, 35, 40,  20,
+	  6,  5,  5, 55,  7,  2,  4,  0,  1,  0, 35, 40,  20,
 	&mdeath::boomer,	&mattack::boomer, "\
 A bloated zombie sagging with fat. It emits a\n\
 horrible odor, and putrid, pink sludge drips\n\
