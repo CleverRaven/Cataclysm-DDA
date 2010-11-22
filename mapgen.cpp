@@ -1110,22 +1110,22 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   else
    place_items(mi_magazines,	74, lw + 8, tw + 4, lw + 8, mw - 3, false, 0);
   if (one_in(5))
-   place_items(mi_softdrugs,	74, lw + 9, tw + 4, lw + 9, mw - 3, false, 0);
+   place_items(mi_softdrugs,	84, lw + 9, tw + 4, lw + 9, mw - 3, false, 0);
   else if (one_in(4))
    place_items(mi_cleaning,	74, lw + 9, tw + 4, lw + 9, mw - 3, false, 0);
   else
    place_items(mi_snacks,	74, lw + 9, tw + 4, lw + 9, mw - 3, false, 0);
   if (one_in(5))
-   place_items(mi_softdrugs,	74, rw - 4, tw + 4, rw - 4, mw - 3, false, 0);
+   place_items(mi_softdrugs,	84, rw - 4, tw + 4, rw - 4, mw - 3, false, 0);
   else
    place_items(mi_snacks,	74, rw - 4, tw + 4, rw - 4, mw - 3, false, 0);
   if (one_in(3))
    place_items(mi_snacks,	70, rw - 3, tw + 4, rw - 3, mw - 3, false, 0);
   else
-   place_items(mi_softdrugs,	70, rw - 3, tw + 4, rw - 3, mw - 3, false, 0);
+   place_items(mi_softdrugs,	80, rw - 3, tw + 4, rw - 3, mw - 3, false, 0);
   place_items(mi_fridgesnacks,	74, lw + 1, tw + 9, lw + 1, mw - 2, false, 0);
   place_items(mi_fridgesnacks,	74, cw + 2, mw - 1, rw - 1, mw - 1, false, 0);
-  place_items(mi_harddrugs,	85, lw + 2, bw - 1, cw - 2, bw - 1, false, 0);
+  place_items(mi_harddrugs,	88, lw + 2, bw - 1, cw - 2, bw - 1, false, 0);
   place_items(mi_behindcounter,	78, lw + 1, tw + 1, lw + 4, tw + 5, false, 0);
   if (terrain_type == ot_s_pharm_east)
    rotate(1);
@@ -1177,20 +1177,20 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      ter(i, j) = grass_or_dirt();
    }
   }
-  place_items(mi_fridgesnacks,	60,  3, 10,  3, 15, false, 0);
+  place_items(mi_fridgesnacks,	65,  3, 10,  3, 15, false, 0);
   place_items(mi_fridge,	70,  8, 20, 14, 20, false, 0);
   place_items(mi_fridge,	50, 19, 20, 20, 20, false, 0);
-  place_items(mi_softdrugs,	45,  6, 10,  6, 15, false, 0);
-  place_items(mi_cleaning,	68,  7, 10,  7, 15, false, 0);
-  place_items(mi_kitchen,	55, 10, 10, 10, 15, false, 0);
-  place_items(mi_snacks,	75, 11, 10, 11, 15, false, 0);
-  place_items(mi_cannedfood,	70, 14, 10, 14, 15, false, 0);
+  place_items(mi_softdrugs,	55,  6, 10,  6, 15, false, 0);
+  place_items(mi_cleaning,	88,  7, 10,  7, 15, false, 0);
+  place_items(mi_kitchen,	75, 10, 10, 10, 15, false, 0);
+  place_items(mi_snacks,	78, 11, 10, 11, 15, false, 0);
+  place_items(mi_cannedfood,	80, 14, 10, 14, 15, false, 0);
   place_items(mi_pasta,		74, 15, 10, 15, 15, false, 0);
   place_items(mi_produce,	60, 20, 10, 20, 15, false, 0);
   place_items(mi_produce,	50, 18, 11, 19, 11, false, 0);
   place_items(mi_produce,	50, 18, 10, 20, 15, false, 0);
   for (int i = 8; i < 21; i +=4) {	// Checkout snacks & magazines
-   place_items(mi_snacks, 50, i, 5, i, 6, false, 0);
+   place_items(mi_snacks,    50, i, 5, i, 6, false, 0);
    place_items(mi_magazines, 70, i, 7, i, 7, false, 0);
   }
   if (terrain_type == ot_s_grocery_east)

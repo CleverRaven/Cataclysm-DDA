@@ -204,23 +204,23 @@ void game::init_recipes()
   COMP(itm_radio, 1, itm_two_way_radio, 1, itm_motor, 1, itm_knife_butter, 2,
        NULL);
 
- RECIPE(itm_amplifier, CC_ELECTRONIC, sk_electronics, sk_null, 2, 4000);
+ RECIPE(itm_amplifier, CC_ELECTRONIC, sk_electronics, sk_null, 1, 4000);
   TOOL(itm_screwdriver, -1, NULL);
   COMP(itm_flashlight, 1, itm_radio, 1, itm_two_way_radio, 1, itm_geiger, 1,
        itm_goggles_nv, 1, itm_transponder, 2, NULL);
 
- RECIPE(itm_power_supply, CC_ELECTRONIC, sk_electronics, sk_null, 2, 6500);
+ RECIPE(itm_power_supply, CC_ELECTRONIC, sk_electronics, sk_null, 1, 6500);
   TOOL(itm_screwdriver, -1, NULL);
   TOOL(itm_soldering_iron, 3, NULL);
   COMP(itm_amplifier, 2, itm_soldering_iron, 1, itm_electrohack, 1,
        itm_battery, 800, itm_geiger, 1, NULL);
 
- RECIPE(itm_receiver, CC_ELECTRONIC, sk_electronics, sk_null, 3, 12000);
+ RECIPE(itm_receiver, CC_ELECTRONIC, sk_electronics, sk_null, 2, 12000);
   TOOL(itm_screwdriver, -1, NULL);
   TOOL(itm_soldering_iron, 4, NULL);
   COMP(itm_amplifier, 2, itm_radio, 1, itm_two_way_radio, 1, NULL);
 
- RECIPE(itm_transponder, CC_ELECTRONIC, sk_electronics, sk_null, 3, 14000);
+ RECIPE(itm_transponder, CC_ELECTRONIC, sk_electronics, sk_null, 2, 14000);
   TOOL(itm_screwdriver, -1, NULL);
   TOOL(itm_soldering_iron, 7, NULL);
   COMP(itm_receiver, 3, itm_two_way_radio, 1, NULL);
