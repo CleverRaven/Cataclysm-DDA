@@ -1541,7 +1541,7 @@ void iuse::mp3(game *g, item *it, bool t)
 void iuse::mp3_on(game *g, item *it, bool t)
 {
  if (t) {	// Normal use
-  g->u.add_morale(MOR_MUSIC, 1, 5);
+  g->u.add_morale(MOR_MUSIC, rng(0, 1), rng(2, 3));
 
   if (g->turn % 10 == 0) {	// Every 10 turns, describe the music
    std::string sound = "";
