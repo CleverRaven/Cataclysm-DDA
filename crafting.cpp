@@ -286,6 +286,13 @@ void game::init_recipes()
   COMP(itm_can_food, 1, itm_can_drink, 1, itm_canister_empty, 1, NULL);
   COMP(itm_power_supply, 1, itm_amplifier, 1, NULL);
 
+ RECIPE(itm_mp3, CC_ELECTRONIC, sk_electronics, sk_computer, 5, 40000);
+  TOOL(itm_screwdriver, -1, NULL);
+  TOOL(itm_soldering_iron, 5, NULL);
+  COMP(itm_superglue, 1, NULL);
+  COMP(itm_antenna, 1, NULL);
+  COMP(itm_amplifier, 1, NULL);
+
  RECIPE(itm_geiger, CC_ELECTRONIC, sk_electronics, sk_null, 5, 35000);
   TOOL(itm_screwdriver, -1, NULL);
   TOOL(itm_soldering_iron, 14, NULL);

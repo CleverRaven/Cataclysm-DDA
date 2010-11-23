@@ -78,6 +78,8 @@ class iuse
   void UPS_off		(game *g, item *it, bool t);
   void UPS_on		(game *g, item *it, bool t);
   void tazer		(game *g, item *it, bool t);
+  void mp3		(game *g, item *it, bool t);
+  void mp3_on		(game *g, item *it, bool t);
 // ARTIFACTS
   void heal		(game *g, item *it, bool t);
   void twist_space	(game *g, item *it, bool t);

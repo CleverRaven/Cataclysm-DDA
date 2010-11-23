@@ -14,8 +14,8 @@ struct morale_datum
 #define _MORALE_DATA_
 const morale_datum morale_data[] = {
 {"ERROR - Null",	   0,	     0},
-{"Bad Mood Swing",	 500,	  1200},
-{"Good Mood Swing",	 500,	  1200},
+{"Bad Mood Swing",	 100,	  1200},
+{"Good Mood Swing",	 100,	  1200},
 {"Bad Feeling",		 -20,	   600},
 {"Good Feeling",	  20,	   600},
 {"Disgusting Food",	 -30,	   900},
@@ -23,9 +23,10 @@ const morale_datum morale_data[] = {
 {"Ate Meat",		 -50,	  1200},
 {"Dull Reading",	 -10,	   600},
 {"Fun Reading",		  14,	   900},
-{"Killed Innocent",	-100,	 14400},	// One day
-{"Killed Friend",	-800,	100800},	// One week!
-{"Killed Mom",		 -50,	   900},
+{"Listened to Music",	  20,	   450},
+{"Killed Innocent",	 -80,	 14400},	// One day
+{"Killed Friend",	-600,	100800},	// One week!
+{"Killed Mom",		 -10,	   900},
 
 {"Caffeine Craving",	 -10,	  1800},
 {"Nicotine Craving",	 -20,	  2200},

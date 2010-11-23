@@ -2338,6 +2338,20 @@ A high-powered stun gun.  Use this item to attempt to electrocute an adjacent\n\
 enemy, damaging and temporarily paralyzing them.  Because the shock can\n\
 actually jump through the air, it is difficult to miss.");
 
+//	NAME		RAR PRC SYM  COLOR	MAT1	MAT
+TOOL("mp3 player (off)",18, 800,';',c_ltblue,	IRON,	PLASTIC,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    1,  1,  0,  0,  0, 800,200, 0,  0, AT_BATT, itm_null, &iuse::mp3, "\
+This battery-devouring device is loaded up with someone's music collection.\n\
+Fortunately, there's lots of songs you like, and listening to it will raise\n\
+your morale slightly.  Use it to turn it on.");
+
+TOOL("mp3 player (on)",	 0, 800,';',c_ltblue,	IRON,	PLASTIC,
+    1,  1,  0,  0,  0, 800,200, 0,  1, AT_BATT, itm_mp3, &iuse::mp3_on, "\
+This mp3 player is turned on and playing some great tunes, raising your\n\
+morale steadily while on your person.  It runs through batteries quickly; you\n\
+can turn it off by using it.  It also obscures your hearing.");
+
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

@@ -1491,6 +1491,10 @@ void iuse::tazer(game *g, item *it, bool t)
    g->add_msg("You attempt to shock the %s, but miss.", z->name().c_str());
    return;
   }
+  if (z->has_flag(MF_SHOCK)) {
+   g->add_msg("You shock the %s, but it seems immune!", z->name().c_str());
+   return;
+  }
   g->add_msg("You shock the %s!", z->name().c_str());
   int shock = rng(5, 25);
   z->moves -= shock * 100;
@@ -1521,4 +1525,41 @@ void iuse::tazer(game *g, item *it, bool t)
   }
  }
 
+}
+
+void iuse::mp3(game *g, item *it, bool t)
+{
+ if (it->charges == 0)
+  g->add_msg("The mp3 player's batteries are dead.");
+ else {
+  g->add_msg("You put in the earbuds and start listening to music.");
+  it->make(g->itypes[itm_mp3_on]);
+  it->active = true;
+ }
+}
+
+void iuse::mp3_on(game *g, item *it, bool t)
+{
+ if (t) {	// Normal use
+  g->u.add_morale(MOR_MUSIC, 1, 5);
+
+  if (g->turn % 10 == 0) {	// Every 10 turns, describe the music
+   std::string sound = "";
+   switch (rng(1, 10)) {
+    case 1: sound = "a sweet guitar solo!";	g->u.stim++;	break;
+    case 2: sound = "a funky bassline.";			break;
+    case 3: sound = "some amazing vocals.";			break;
+    case 4: sound = "some pumping bass.";			break;
+    case 5: sound = "dramatic classical music.";
+            if (g->u.int_cur >= 10)
+             g->u.add_morale(MOR_MUSIC, 1, 1);			break;
+   }
+   if (sound.length() > 0)
+    g->add_msg("You listen to %s", sound.c_str());
+  }
+ } else {	// Turning it off
+  g->add_msg("The mp3 player turns off.");
+  it->make(g->itypes[itm_mp3]);
+  it->active = false;
+ }
 }

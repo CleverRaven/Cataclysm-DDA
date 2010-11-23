@@ -1192,13 +1192,13 @@ void cast_to_nonant(int &x, int &y, int &n)
 {
  n = int(x / SEEX) + int(y / SEEY) * 3;
 
+ x %= SEEX;
+ y %= SEEY;
+
  if (n < 0)
   n = 0;
  else if (n > 8)
   n = 8;
-
- x %= SEEX;
- y %= SEEY;
 
  if (x < 0) 
   x = 0;

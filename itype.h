@@ -126,7 +126,7 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_gasbomb, itm_gasbomb_act, itm_smokebomb, itm_smokebomb_act, itm_molotov,
  itm_molotov_lit, itm_dynamite, itm_dynamite_act, itm_mininuke,
  itm_mininuke_act, itm_pheromone, itm_portal, itm_bot_manhack, itm_UPS_off,
- itm_UPS_on, itm_tazer,
+ itm_UPS_on, itm_tazer, itm_mp3, itm_mp3_on,
 // Bionics containers
 itm_bionics_battery, itm_bionics_power, itm_bionics_tools, itm_bionics_neuro,
  itm_bionics_sensory, itm_bionics_aquatic, itm_bionics_combat_aug,
