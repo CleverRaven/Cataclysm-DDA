@@ -520,8 +520,8 @@ void overmap::first_house(int &x, int &y)
 {
  int startx = rng(1, OMAPX - 1);
  int starty = rng(1, OMAPY - 1);
- while (ter(startx, starty) < ot_house_north ||
-        ter(startx, starty) > ot_house_west) {
+ while (ter(startx, starty) < ot_house_base_north ||
+        ter(startx, starty) > ot_house_base_west) {
   startx = rng(1, OMAPX - 1);
   starty = rng(1, OMAPY - 1);
  }

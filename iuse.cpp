@@ -1460,6 +1460,7 @@ void iuse::UPS_on(game *g, item *it, bool t)
 void iuse::tazer(game *g, item *it, bool t)
 {
  int dirx, diry;
+ g->draw();
  mvprintw(0, 0, "Shock in which direction?");
  get_direction(dirx, diry, input());
  if (dirx == -2) {
