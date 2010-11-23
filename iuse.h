@@ -60,6 +60,8 @@ class iuse
   void can_goo		(game *g, item *it, bool t);
   void grenade		(game *g, item *it, bool t);
   void grenade_act	(game *g, item *it, bool t);
+  void EMPbomb		(game *g, item *it, bool t);
+  void EMPbomb_act	(game *g, item *it, bool t);
   void gasbomb		(game *g, item *it, bool t);
   void gasbomb_act	(game *g, item *it, bool t);
   void smokebomb	(game *g, item *it, bool t);
@@ -75,6 +77,7 @@ class iuse
   void manhack		(game *g, item *it, bool t);
   void UPS_off		(game *g, item *it, bool t);
   void UPS_on		(game *g, item *it, bool t);
+  void tazer		(game *g, item *it, bool t);
 // ARTIFACTS
   void heal		(game *g, item *it, bool t);
   void twist_space	(game *g, item *it, bool t);

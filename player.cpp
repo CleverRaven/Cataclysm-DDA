@@ -1906,8 +1906,8 @@ int player::hit_mon(game *g, monster *z)
   dam += weapon.type->melee_cut - z_armor;
  }
 
- bool shock_them = (has_bionic(bio_shock) && power_level >= 2 && unarmed && 
-                    one_in(3));
+ bool shock_them = (!z->has_flag(MF_SHOCK) && has_bionic(bio_shock) &&
+                    power_level >= 2 && unarmed && one_in(3));
  bool drain_them = (has_bionic(bio_heat_absorb) && power_level >= 1 &&
                     !is_armed() && z->has_flag(MF_WARM));
  bool  bite_them = (has_trait(PF_FANGS) && z->armor() < 18 &&
@@ -1921,8 +1921,8 @@ int player::hit_mon(game *g, monster *z)
  if (critical_hit) {
   bool headshot = (!z->has_flag(MF_NOHEAD) && !one_in(numdice));
 // Second chance for shock_them, drain_them, bite_them and peck_them
-  shock_them = (shock_them || (has_bionic(bio_shock) && power_level >= 2 &&
-                               unarmed && !one_in(3)));
+  shock_them = (shock_them || (!z->has_flag(MF_SHOCK) && has_bionic(bio_shock)&&
+                               power_level >= 2 && unarmed && !one_in(3)));
   drain_them = (drain_them || (has_bionic(bio_heat_absorb) && !is_armed() &&
                                z->has_flag(MF_WARM) && !one_in(3)));
    bite_them = ( bite_them || (has_trait(PF_FANGS) && z->armor() < 18 &&

@@ -2792,7 +2792,7 @@ void game::smash()
 {
  bool didit = false;
  std::string bashsound, extra;
- int smashskill = int(u.str_cur / 2 + u.weapon.type->melee_dam);
+ int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
  mvwprintw(w_terrain, 0, 0, "Smash what? (hjklyubn) ");
  wrefresh(w_terrain);
  char ch = input();
@@ -2814,7 +2814,7 @@ void game::smash()
   if (u.sklevel[sk_melee] == 0)
    u.practice(sk_melee, rng(0, 1) * rng(0, 1));
   if (u.weapon.made_of(GLASS) &&
-      rng(0, u.weapon.volume() + 8) < u.weapon.volume()) {
+      rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
    add_msg("Your %s shatters!", u.weapon.tname().c_str());
    for (int i = 0; i < u.weapon.contents.size(); i++)
     m.add_item(u.posx, u.posy, u.weapon.contents[i]);
@@ -2845,7 +2845,7 @@ void game::use_item()
 
 void game::examine()
 {
- mvwprintw(w_terrain, 0, 0, "Examine where? (hjklyubn) ");
+ mvwprintw(w_terrain, 0, 0, "Examine where? (Direction button) ");
  wrefresh(w_terrain);
  int examx, examy;
  char ch = input();
@@ -2883,7 +2883,7 @@ void game::examine()
  } else {
   if (in_tutorial && m.i_at(examx, examy).size() == 0)
    tutorial_message(LESSON_INTERACT);
-  if (m.i_at(examx, examy).size() == 0 &&
+  if (m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy) &&
       !(m.has_flag(swimmable, examx, examy) || m.ter(examx, examy) == t_toilet))
    add_msg("It is empty.");
   else

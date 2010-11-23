@@ -1203,10 +1203,33 @@ void iuse::grenade_act(game *g, item *it, bool t)
  point pos = g->find_item(it);
  if (pos.x == -999 || pos.y == -999)
   return;
- if (t) 	// Simple timer effects
+ if (t) // Simple timer effects
   g->sound(pos.x, pos.y, 0, "Tick.");	// Vol 0 = only heard if you hold it
  else	// When that timer runs down...
   g->explosion(pos.x, pos.y, 18, 12, false);
+}
+
+void iuse::EMPbomb(game *g, item *it, bool t)
+{
+ g->add_msg("You pull the pin on the EMP grenade.");
+ it->make(g->itypes[itm_EMPbomb_act]);
+ it->charges = 3;
+ it->active = true;
+}
+
+void iuse::EMPbomb_act(game *g, item *it, bool t)
+{
+ point pos = g->find_item(it);
+ if (pos.x == -999 || pos.y == -999)
+  return;
+ if (t)	// Simple timer effects
+  g->sound(pos.x, pos.y, 0, "Tick.");	// Vol 0 = only heard if you hold it
+ else {	// When that timer runs down...
+  for (int x = pos.x - 4; x <= pos.x + 4; x++) {
+   for (int y = pos.y - 4; y <= pos.y + 4; y++)
+    g->emp_blast(x, y);
+  }
+ }
 }
 
 void iuse::gasbomb(game *g, item *it, bool t)
@@ -1432,4 +1455,70 @@ void iuse::UPS_on(game *g, item *it, bool t)
   it->make(g->itypes[itm_UPS_off]);
   it->active = false;
  }
+}
+
+void iuse::tazer(game *g, item *it, bool t)
+{
+ int dirx, diry;
+ mvprintw(0, 0, "Shock in which direction?");
+ get_direction(dirx, diry, input());
+ if (dirx == -2) {
+  g->add_msg("Invalid direction.");
+  it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
+  return;
+ }
+ int sx = dirx + g->u.posx, sy = diry + g->u.posy;
+ int mondex = g->mon_at(sx, sy);
+ int npcdex = g->npc_at(sx, sy);
+ if (mondex == -1 && npcdex == -1) {
+  g->add_msg("Your tazer crackles in the air.");
+  return;
+ }
+
+ int numdice = 3 + (g->u.dex_cur / 2.5) + g->u.sklevel[sk_melee] * 2;
+ g->u.moves -= 100;
+
+ if (mondex != -1) {
+  monster *z = &(g->z[mondex]);
+  switch (z->type->size) {
+   case MS_TINY:  numdice -= 2; break;
+   case MS_SMALL: numdice -= 1; break;
+   case MS_LARGE: numdice += 2; break;
+   case MS_HUGE:  numdice += 4; break;
+  }
+  int mondice = z->dodge();
+  if (dice(numdice, 10) < dice(mondice, 10)) {	// A miss!
+   g->add_msg("You attempt to shock the %s, but miss.", z->name().c_str());
+   return;
+  }
+  g->add_msg("You shock the %s!", z->name().c_str());
+  int shock = rng(5, 25);
+  z->moves -= shock * 100;
+  if (z->hurt(shock))
+   g->kill_mon(mondex);
+  return;
+ }
+ 
+ if (npcdex != -1) {
+  npc *foe = dynamic_cast<npc*>(&g->active_npc[npcdex]);
+  if (foe->attitude != NPCATT_FLEE)
+   foe->attitude = NPCATT_KILL;
+  if (foe->str_max >= 17)
+    numdice++;	// Minor bonus against huge people
+  else if (foe->str_max <= 5)
+   numdice--;	// Minor penalty against tiny people
+  if (dice(numdice, 10) <= dice(foe->dodge(), 6)) {
+   g->add_msg("You attempt to shock %s, but miss.", foe->name.c_str());
+   return;
+  }
+  g->add_msg("You shock %s!", foe->name.c_str());
+  int shock = rng(5, 20);
+  foe->moves -= shock * 100;
+  foe->hurtall(shock);
+  if (foe->hp_cur[hp_head]  <= 0 || foe->hp_cur[hp_torso] <= 0) {
+   foe->die(g, true);
+   g->active_npc.erase(g->active_npc.begin() + npcdex);
+  }
+ }
+
 }

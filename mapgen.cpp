@@ -3023,7 +3023,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      ter(i, j) = t_rock_floor;
    }
   }
-  switch (rng(1, 4)) {	// TODO: More types!
+  switch (rng(1, 3)) {	// TODO: More types!
   case 1:	// Weapons cache
    for (int i = 2; i < SEEX * 2 - 2; i++) {
     ter(i, 1) = t_rack;

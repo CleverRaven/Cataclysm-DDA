@@ -259,6 +259,12 @@ void game::init_recipes()
   COMP(itm_pan, 1, itm_pot, 1, itm_knife_butcher, 2, itm_knife_steak, 6,
        itm_knife_butter, 6, itm_muffler, 1, NULL);
 
+ RECIPE(itm_tazer, CC_ELECTRONIC, sk_electronics, sk_null, 3, 25000);
+  TOOL(itm_screwdriver, -1, NULL);
+  TOOL(itm_soldering_iron, 10, NULL);
+  COMP(itm_amplifier, 1, NULL);
+  COMP(itm_power_supply, 1, NULL);
+
  RECIPE(itm_two_way_radio, CC_ELECTRONIC, sk_electronics, sk_null, 4, 30000);
   TOOL(itm_screwdriver, -1, NULL);
   TOOL(itm_soldering_iron, 14, NULL);
@@ -272,6 +278,13 @@ void game::init_recipes()
   TOOL(itm_soldering_iron, 10, NULL);
   COMP(itm_processor, 1, NULL);
   COMP(itm_RAM, 1, NULL);
+
+ RECIPE(itm_EMPbomb, CC_ELECTRONIC, sk_electronics, sk_null, 4, 32000);
+  TOOL(itm_screwdriver, -1, NULL);
+  TOOL(itm_soldering_iron, 6, NULL);
+  COMP(itm_superglue, 1, itm_string_36, 1, NULL);
+  COMP(itm_can_food, 1, itm_can_drink, 1, itm_canister_empty, 1, NULL);
+  COMP(itm_power_supply, 1, itm_amplifier, 1, NULL);
 
  RECIPE(itm_geiger, CC_ELECTRONIC, sk_electronics, sk_null, 5, 35000);
   TOOL(itm_screwdriver, -1, NULL);

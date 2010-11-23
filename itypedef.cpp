@@ -2221,7 +2221,7 @@ TOOL("goo canister",     8,3500,';', c_dkgray,  STEEL,	MNULL,
 \"Warning: contains highly toxic and corrosive materials.  Contents may be\n\
  sentient.  Open at your own risk.\"");
 
-TOOL("grenade",		 3, 500,'*', c_green,	IRON,	PLASTIC,
+TOOL("grenade",		 3, 400,'*', c_green,	IRON,	PLASTIC,
     1,  1, 10,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::grenade, "\
 Use this item to pull the pin, turning it into an active grenade.  You will\n\
 then have five turns before it explodes; throwing it would be a good idea.");
@@ -2229,6 +2229,17 @@ then have five turns before it explodes; throwing it would be a good idea.");
 TOOL("active grenade",	 0,   0,'*', c_green,	IRON,	PLASTIC,
     1,  1, 10,  0, -1,  5,  5,  0,  1, AT_NULL, itm_null, &iuse::grenade_act, "\
 This grenade is active, and will explode any second now.  Better throw it!");
+
+TOOL("EMP grenade",	 2, 600,'*', c_cyan,	STEEL,	PLASTIC,
+    1,  1,  8,  0, -1,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::EMPbomb, "\
+Use this item to pull the pin, turning it into an active EMP grenade.  You\n\
+will then have three turns before it detonates, creating an EMP field which\n\
+damages robots and drains bionic energy.");
+
+TOOL("active EMP grenade",0,  0,'*', c_cyan,	STEEL,	PLASTIC,
+    1,  1,  8,  0, -1,  3,  3,  0,  1, AT_NULL,	itm_null, &iuse::EMPbomb_act, "\
+This EMP grenade is active, and wiill shortly detonate, creating a large EMP\n\
+field which damages robots and drains bionic energy.");
 
 TOOL("teargas canister",3,  600,'*', c_yellow,	STEEL, MNULL,
     1,  1,  6,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::gasbomb, "\
@@ -2321,6 +2332,11 @@ A unified power supply, or UPS, is a device developed jointly by military and\n\
 scientific interests for use in combat and the field.  The UPS is designed to\n\
 power armor, goggles, etc., but drains batteries quickly.");
 
+TOOL("tazer",		 3,1400,';',c_ltred,	IRON,	PLASTIC,
+    1,  3,  6,  0, -1, 500, 0,100, 0, AT_BATT, itm_null, &iuse::tazer, "\
+A high-powered stun gun.  Use this item to attempt to electrocute an adjacent\n\
+enemy, damaging and temporarily paralyzing them.  Because the shock can\n\
+actually jump through the air, it is difficult to miss.");
 
 
 // BIONICS
