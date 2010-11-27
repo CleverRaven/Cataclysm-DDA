@@ -1971,6 +1971,10 @@ BOOK("Sew What?  Clothing!",	15, 190,c_green,	PAPER,	MNULL,
     3,  1, -3,  0,	sk_tailor,	 3,  0,  0,  4, 18, "\
 A colorful book about tailoring.");
 
+BOOK("How to Trap Anything",	12, 240,c_green,	PAPER,	MNULL,
+    2,  1, -3,  0,	sk_traps,	 4,  0,  0,  4, 20, "\
+A worn manual that describes how to set and disarm a wide variety of traps.");
+
 BOOK("Computer Science 301",	 8, 500,c_blue,		PAPER,	MNULL,
     7,  4,  5,  1,	sk_computer,	 5,  2, -2, 11, 35, "\
 A college textbook on computer science.");

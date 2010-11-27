@@ -567,14 +567,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   if (sklevel[i] > 0) {
    skillslist.push_back(skill(i));
    if (line < 9) {
-    if (skexercise[i] >= 100) {
-     mvwprintz(w_skills, line,  1, c_pink, "%s:", skill_name(skill(i)).c_str());
-     mvwprintz(w_skills, line, 19, c_pink, "%d", sklevel[i]);
-    } else {
-     mvwprintz(w_skills, line, 1, c_ltblue, "%s:",
-               skill_name(skill(i)).c_str());
-     mvwprintz(w_skills, line,19, c_ltblue, "%d", sklevel[i]);
-    }
+    mvwprintz(w_skills, line, 1, c_ltblue, "%s:",
+              skill_name(skill(i)).c_str());
+    mvwprintz(w_skills, line,19, c_ltblue, "%d (%s%d%%%%)", sklevel[i],
+              (skexercise[i] < 10 ? " " : ""), skexercise[i]);
     line++;
    }
   }
@@ -903,7 +899,7 @@ slower.");
    break;
 
   case 5:	// Skills tab
-   mvwprintz(w_skills, 0, 0, h_ltgray, "         SKILLS           ");
+   mvwprintz(w_skills, 0, 0, h_ltgray, "           SKILLS         ");
    if (line <= 2) {
     min = 0;
     max = 7;
@@ -936,11 +932,17 @@ slower.");
     if (skexercise[i] >= 100) {
      mvwprintz(w_skills, 2 + i - min, 1, status, "%s:",
                skill_name(skillslist[i]).c_str());
-     mvwprintz(w_skills, 2 + i - min,19, status, "%d", sklevel[skillslist[i]]);
+     mvwprintz(w_skills, 2 + i - min,19, status, "%d (%s%d%%%%)",
+               sklevel[skillslist[i]],
+               (skexercise[skillslist[i]] < 10 ? " " : ""),
+               skexercise[skillslist[i]]);
     } else {
      mvwprintz(w_skills, 2 + i - min, 1, status, "%s:",
                skill_name(skillslist[i]).c_str());
-     mvwprintz(w_skills, 2 + i - min,19, status, "%d", sklevel[skillslist[i]]);
+     mvwprintz(w_skills, 2 + i - min,19, status, "%d (%s%d%%%%)", 
+               sklevel[skillslist[i]],
+               (skexercise[skillslist[i]] < 10 ? " " : ""),
+               skexercise[skillslist[i]]);
     }
    }
    werase(w_info);
@@ -959,7 +961,7 @@ slower.");
       line--;
      break;
     case '\t':
-     mvwprintz(w_skills, 0, 0, c_ltgray, "         SKILLS           ");
+     mvwprintz(w_skills, 0, 0, c_ltgray, "           SKILLS         ");
      for (int i = 0; i < skillslist.size() && i < 7; i++) {
       if (skexercise[skillslist[i]] >= 100)
        status = c_pink;
@@ -967,7 +969,10 @@ slower.");
        status = c_ltblue;
       mvwprintz(w_skills, i + 2,  1, status, "%s:",
                 skill_name(skillslist[i]).c_str());
-      mvwprintz(w_skills, i + 2, 19, status, "%d", sklevel[skillslist[i]]);
+      mvwprintz(w_skills, i + 2, 19, status, "%d (%s%d%%%%)",
+                sklevel[skillslist[i]],
+                (skexercise[skillslist[i]] < 10 ? " " : ""),
+                skexercise[skillslist[i]]);
      }
      wrefresh(w_skills);
      line = 0;

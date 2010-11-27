@@ -167,8 +167,8 @@ void game::init_mapitems()
 	itm_rope_30, itm_hatchet, itm_pot, itm_pan, itm_hotplate,
 	itm_knife_combat, itm_machete, itm_vest, itm_backpack, itm_bb,
 	itm_bolt_steel, itm_bbgun, itm_crossbow, itm_manual_knives,
-	itm_manual_first_aid, itm_lighter, itm_sewing_kit, itm_hammer,
-	itm_flashlight, itm_water_purifier, itm_radio, itm_beartrap,
+	itm_manual_first_aid, itm_manual_traps, itm_lighter, itm_sewing_kit,
+	itm_hammer, itm_flashlight, itm_water_purifier, itm_radio, itm_beartrap,
 	itm_UPS_off, NULL);
 
  setvector(
@@ -179,8 +179,8 @@ void game::init_mapitems()
 	itm_manual_brawl, itm_rope_30, itm_hatchet, itm_pot, itm_pan,
 	itm_hotplate, itm_knife_combat, itm_machete, itm_vest, itm_backpack,
 	itm_bb, itm_bolt_steel, itm_bbgun, itm_crossbow, itm_manual_knives,
-	itm_manual_first_aid, itm_lighter, itm_sewing_kit, itm_hammer,
-	itm_flashlight, itm_water_purifier, itm_radio, itm_beartrap,
+	itm_manual_first_aid, itm_manual_traps, itm_lighter, itm_sewing_kit,
+	itm_hammer, itm_flashlight, itm_water_purifier, itm_radio, itm_beartrap,
 	itm_extinguisher, NULL);
 
  setvector(
@@ -299,7 +299,7 @@ void game::init_mapitems()
 	itm_manual_brawl, itm_manual_knives, itm_manual_mechanics,
 	itm_manual_speech, itm_manual_business, itm_manual_first_aid,
 	itm_manual_computers, itm_cookbook, itm_manual_electronics,
-	itm_manual_tailor, NULL);
+	itm_manual_tailor, itm_manual_traps, NULL);
 
  setvector(
    mapitems[mi_textbooks],

@@ -860,7 +860,7 @@ void game::complete_craft()
  int diff_roll = (making.difficulty == 0 ? 0 :
                   dice(making.difficulty * 4, 28));
  if (making.sk_primary != sk_null)
-  u.practice(making.sk_primary, making.difficulty * 4 + 12);
+  u.practice(making.sk_primary, making.difficulty * 5 + 20);
  if (making.sk_secondary != sk_null)
   u.practice(making.sk_secondary, 5);
  if (diff_roll >= skill_roll * (1 + 0.1 * rng(1, 5))) {
