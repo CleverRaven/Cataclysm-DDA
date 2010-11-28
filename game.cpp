@@ -3508,7 +3508,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    return false;
   item *cont = &(u.i_at(ch));
   ammotype type = cont->ammo();
-  if (cont->is_tool() && (dynamic_cast<it_tool*>(cont->type))->ammo == type &&
+  if (cont->is_tool() && (dynamic_cast<it_tool*>(cont->type))->max_charges>0 &&
+      (dynamic_cast<it_tool*>(cont->type))->ammo == type &&
       (cont->charges == 0 || cont->curammo->id == liquid.type->id)) {
    add_msg("You pour %s into your %s.", ammo_name(type).c_str(),
                                         cont->tname().c_str());
