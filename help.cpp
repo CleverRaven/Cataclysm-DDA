@@ -28,15 +28,16 @@ help on that topic:\n\
 a: Introduction\n\
 b: Movement\n\
 c: Hunger, Thirst, and Sleep\n\
-d: Pain and Stimulatants\n\
+d: Pain and Stimulants\n\
 e: Addiction\n\
 f: Morale\n\
 g: Radioactivity and Mutation\n\
 h: Bionics\n\
 i: Crafting\n\
-j: Items overview\n\
-k: Combat\n\
-l: Survival tips\n\
+j: Traps\n\
+k: Items overview\n\
+l: Combat\n\
+m: Survival tips\n\
 \n\
 1: List of all commands\n\
 2: List of item types and data\n\
@@ -132,7 +133,14 @@ you may overdose and die!\n\
 \n\
 Pain will also disappear with time, so if drugs aren't available and you're\n\
 in a lot of pain, it may be wise to find a safe spot and simply rest for an\n\
-extended period of time.");
+extended period of time.\n\
+\n\
+Another common class of drugs is stimulants.  Stimulants provide you with a\n\
+temporary rush of energy, increasing your movement speed and many stats, most\n\
+notably intelligence, making them useful study aids.  There are two drawbacks\n\
+to stimulants; they make it more difficult to sleep, and, more importantly,\n\
+most are highly addictive.  Stimulants range from the caffeine rush of cola to\n\
+the more intense high of Adderall and methamphetamine.");
   getch();
   break;
 
@@ -250,6 +258,34 @@ all required for certain items.");
   case 'J':
    erase();
    mvprintz(0, 0, c_white, "\
+While sleeping in dangerous territory, it may be wise to set traps to ward off\n\
+unwanted intrusions.  There are a few traps to be found in the world, most\n\
+notably bubblewrap (which will make a loud noise if stepped on, helping to\n\
+wake you up) and bear traps (which make noise AND damage and trap anything\n\
+that steps on them).  Others need to be crafted; this requires the Traps skill\n\
+and possibly Mechanics.\n\
+\n\
+To set a trap, simply use the item ('a') and choose a direction; the trap will\n\
+be placed on an adjacent tile.  Some traps may require additional tools, like\n\
+a shovel, to be set.  Once set, a trap will remain in place until stepped on\n\
+or disarmed.\n\
+\n\
+To disarm a trap, examine ('e') the space it is on.  Your success depends upon\n\
+your Traps skill and Dexterity.  If you succeed, the trap is removed and\n\
+replaced by some or all of its constituent parts; however, if you fail, there\n\
+is a chance that you will set off the trap, suffering the consequences.\n\
+\n\
+Many traps are fully or partially hidden.  Your ability to detect traps is\n\
+entirely dependant upon your Perception.  Should you stumble into a trap, you\n\
+may have a chance to avoid it, depending on your Dodge skill.");
+
+   getch();
+   break;
+
+  case 'k':
+  case 'K':
+   erase();
+   mvprintz(0, 0, c_white, "\
 There are a wide variety of items available for your use. You may find them\n\
 lying on the ground; if so, simply press ',' or 'g' to pick up items on the\n\
 same square. Some items are found inside a container, drawn as a { with a\n\
@@ -276,8 +312,9 @@ damage and helps you resist things like smoke.  To take off an item, press\n\
 'T' then the proper letter.");
    getch();
    break;
-  case 'k':
-  case 'K':
+
+  case 'l':
+  case 'L':
    erase();
    mvprintz(0, 0, c_white, "\
 After 30 minutes of warmup time, monsters will begin to appear. They are\n\
@@ -307,10 +344,8 @@ escape tactic.");
   getch();
   break;
 
-   getch();
-   break;
-  case 'l':
-  case 'L':
+  case 'm':
+  case 'M':
    erase();
    mvprintz(0, 0, c_white, "\
 The first thing to do is to check your home for useful items. Your initial\n\
@@ -335,8 +370,8 @@ Firearms are the easiest way to kill an enemy, but the sound will attract\n\
 unwanted attention. Save the guns for emergencies, and melee when you can.\n\
 \n\
 Try to keep your inventory as full as possible without being overloaded.  You\n\
-never know when you might need an item, and most are good to sell, and you\n\
-can easily drop unwanted items on the floor.");
+never know when you might need an item, most are good to sell, and you can\n\
+easily drop unwanted items on the floor.");
    getch();
    break;
 
@@ -414,7 +449,7 @@ ITEM TYPES:\n\
  fired with 'f'. Some have automatic fire, which may be used with 'F' at a\n\
  penalty to accuracy. The color refers to the type; handguns are gray, shotguns\n\
  are red, submachine guns are cyan, rifles are brown, assault rifles are blue,\n\
- and heavy machine guns are green. Each has an accuracy rating, a bonus to\n\
+ and heavy machine guns are light red. Each has an accuracy rating, a bonus to\n\
  damage, a rate of fire, and a maximum load. Note that most firearms load\n\
  fully in one action, while shotguns must be loaded one shell at a time.\n\
 \n\
@@ -432,7 +467,7 @@ ITEM TYPES:\n\
     These items are suited for throwing, and many are only useful when\n\
  thrown, such as grenades, molotov cocktails, or tear gas.\n\
 \n\
-+       Book or magazine\n\
+?       Book or magazine\n\
     This can be read for training or entertainment by pressing 'R'. Most\n\
  require a basic level of intelligence; some require some base knowledge in\n\
  the relevant subject.");

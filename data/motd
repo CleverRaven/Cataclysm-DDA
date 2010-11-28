@@ -1,0 +1,9 @@
+# Max length of a line is 64 characters; the following line is for reference
+# This message may be 16 lines long at maximum.
+################################################################
+Cataclysm now features a Message Of The Day.  Watch this space
+for news of the latest features, gameplay tips, and other items
+of note.  This feature is mainly useful for those who play on,
+or operate, an SSH cataclysm server; if you wish to display a
+message on your home copy, simply add a file called "motd" in
+the "data" directory.

@@ -216,42 +216,68 @@ fivedozenwhales@gmail.com.");
  DIR *dir = opendir("save");
  if (!dir) {
 #if (defined _WIN32 || defined __WIN32__)
-   mkdir("save");
+  mkdir("save");
 #else 
-   mkdir("save", 0777);
+  mkdir("save", 0777);
 #endif
-   dir = opendir("save");
+  dir = opendir("save");
  }
  if (!dir) {
-   //fprintf(stderr, "Could not make 'save' directory\n");
-   mvwprintz(w_open, 0, 0, c_red, "Could not make './save' directory");
-   endwin();
-   exit(1);
+  debugmsg("Could not make './save' directory");
+  endwin();
+  exit(1);
  }
  while (dp = readdir(dir)) {
   tmp = dp->d_name;
   if (tmp.find(".sav") != std::string::npos && savegames.size() < 18)
    savegames.push_back(tmp.substr(0, tmp.find(".sav")));
  }
- wrefresh(w_open);
- int sel1 = 1, sel2 = 1, layer = 1;
+ int sel1 = 0, sel2 = 1, layer = 1;
  char ch;
  bool start = false;
+
+// Load MOTD and store it in a string
+ std::vector<std::string> motd;
+ std::ifstream motd_file;
+ motd_file.open("data/motd");
+ if (!motd_file.is_open())
+  motd.push_back("No message today.");
+ else {
+  while (!motd_file.eof()) {
+   std::string tmp;
+   getline(motd_file, tmp);
+   if (tmp[0] != '#')
+    motd.push_back(tmp);
+  }
+ }
+
  do {
   if (layer == 1) {
-   mvwprintz(w_open, 4, 1, (sel1 == 1 ? h_white : c_white), "New Game");
-   mvwprintz(w_open, 5, 1, (sel1 == 2 ? h_white : c_white), "Load Game");
-   mvwprintz(w_open, 6, 1, (sel1 == 3 ? h_white : c_white), "Tutorial");
-   mvwprintz(w_open, 7, 1, (sel1 == 4 ? h_white : c_white), "Help");
-   mvwprintz(w_open, 8, 1, (sel1 == 5 ? h_white : c_white), "Quit");
+   mvwprintz(w_open, 4, 1, (sel1 == 0 ? h_white : c_white), "MOTD");
+   mvwprintz(w_open, 5, 1, (sel1 == 1 ? h_white : c_white), "New Game");
+   mvwprintz(w_open, 6, 1, (sel1 == 2 ? h_white : c_white), "Load Game");
+   mvwprintz(w_open, 7, 1, (sel1 == 3 ? h_white : c_white), "Tutorial");
+   mvwprintz(w_open, 8, 1, (sel1 == 4 ? h_white : c_white), "Help");
+   mvwprintz(w_open, 9, 1, (sel1 == 5 ? h_white : c_white), "Quit");
+
+   if (sel1 == 0) {	// Print the MOTD.
+    for (int i = 0; i < motd.size() && i < 16; i++)
+     mvwprintz(w_open, i + 4, 12, c_ltred, motd[i].c_str());
+   } else {	// Clear the lines if not viewing MOTD.
+    for (int i = 4; i < 20; i++) {
+     for (int j = 12; j < 79; j++)
+      mvwputch(w_open, i, j, c_black, 'x');
+    }
+   }
+
    wrefresh(w_open);
    refresh();
    ch = input();
-   if (ch == 'k' && sel1 > 1)
+   if (ch == 'k' && sel1 > 0)
     sel1--;
    if (ch == 'j' && sel1 < 5)
     sel1++;
-   if (ch == 'l' || ch == '\n' || ch == '>') {
+   if ((ch == 'l' || ch == '\n' || ch == '>') && sel1 > 0) {
     if (sel1 == 5) {
      uquit = true;
      return false;
@@ -264,6 +290,7 @@ This alpha release is highly unstable. Please report any crashes or bugs to\n\
 fivedozenwhales@gmail.com.");
      refresh();
      wrefresh(w_open);
+     refresh();
     } else if (sel1 == 3) {
      u.normalize(this);
      start_tutorial(TUT_BASIC);
@@ -272,19 +299,20 @@ fivedozenwhales@gmail.com.");
      sel2 = 1;
      layer = 2;
     }
-    mvwprintz(w_open, 4, 1, (sel1 == 1 ? c_white : c_dkgray), "New Game");
-    mvwprintz(w_open, 5, 1, (sel1 == 2 ? c_white : c_dkgray), "Load Game");
-    mvwprintz(w_open, 6, 1, (sel1 == 3 ? c_white : c_dkgray), "Tutorial");
-    mvwprintz(w_open, 7, 1, (sel1 == 3 ? c_white : c_dkgray), "Help");
-    mvwprintz(w_open, 8, 1, (sel1 == 4 ? c_white : c_dkgray), "Quit");
+    mvwprintz(w_open, 4, 1, (sel1 == 0 ? c_white : c_dkgray), "MOTD");
+    mvwprintz(w_open, 5, 1, (sel1 == 1 ? c_white : c_dkgray), "New Game");
+    mvwprintz(w_open, 6, 1, (sel1 == 2 ? c_white : c_dkgray), "Load Game");
+    mvwprintz(w_open, 7, 1, (sel1 == 3 ? c_white : c_dkgray), "Tutorial");
+    mvwprintz(w_open, 8, 1, (sel1 == 3 ? c_white : c_dkgray), "Help");
+    mvwprintz(w_open, 9, 1, (sel1 == 4 ? c_white : c_dkgray), "Quit");
    }
   } else if (layer == 2) {
    if (sel1 == 1) {	// New Character
-    mvwprintz(w_open, 4, 12, (sel2 == 1 ? h_white : c_white),
+    mvwprintz(w_open, 5, 12, (sel2 == 1 ? h_white : c_white),
               "Custom Character");
-    mvwprintz(w_open, 5, 12, (sel2 == 2 ? h_white : c_white),
+    mvwprintz(w_open, 6, 12, (sel2 == 2 ? h_white : c_white),
               "Preset Character");
-    mvwprintz(w_open, 6, 12, (sel2 == 3 ? h_white : c_white),
+    mvwprintz(w_open, 7, 12, (sel2 == 3 ? h_white : c_white),
               "Random Character");
     wrefresh(w_open);
     refresh();
@@ -294,9 +322,9 @@ fivedozenwhales@gmail.com.");
     if (ch == 'j' && sel2 < 3)
      sel2++;
     if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE) {
-     mvwprintz(w_open, 4, 12, c_black, "                ");
      mvwprintz(w_open, 5, 12, c_black, "                ");
      mvwprintz(w_open, 6, 12, c_black, "                ");
+     mvwprintz(w_open, 7, 12, c_black, "                ");
      layer = 1;
      sel1 = 1;
     }
@@ -314,9 +342,9 @@ fivedozenwhales@gmail.com.");
      if (sel2 == 2) {
       layer = 3;
       sel1 = 2;
-      mvwprintz(w_open, 4, 12, c_dkgray, "Custom Character");
-      mvwprintz(w_open, 5, 12, c_white,  "Preset Character");
-      mvwprintz(w_open, 6, 12, c_dkgray, "Random Character");
+      mvwprintz(w_open, 5, 12, c_dkgray, "Custom Character");
+      mvwprintz(w_open, 6, 12, c_white,  "Preset Character");
+      mvwprintz(w_open, 7, 12, c_dkgray, "Random Character");
      }
      if (sel2 == 3) {
       if (!u.create(this, PLTYPE_RANDOM)) {
@@ -331,10 +359,10 @@ fivedozenwhales@gmail.com.");
     }
    } else if (sel1 == 2) {	// Load Character
     if (savegames.size() == 0)
-     mvwprintz(w_open, 5, 12, c_red, "No save games found!");
+     mvwprintz(w_open, 6, 12, c_red, "No save games found!");
     else {
      for (int i = 0; i < savegames.size(); i++)
-      mvwprintz(w_open, 5 + i, 12, (sel2 - 1 == i ? h_white : c_white),
+      mvwprintz(w_open, 6 + i, 12, (sel2 - 1 == i ? h_white : c_white),
                 savegames[i].c_str());
     }
     wrefresh(w_open);
@@ -347,7 +375,7 @@ fivedozenwhales@gmail.com.");
     if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE) {
      layer = 1;
      for (int i = 0; i < savegames.size() + 1; i++)
-      mvwprintz(w_open, 5 + i, 12, c_black, "                                ");
+      mvwprintz(w_open, 6 + i, 12, c_black, "                                ");
     }
     if (ch == 'l' || ch == '\n' || ch == '>') {
      if (sel2 > 0 && savegames.size() > 0) {
@@ -359,7 +387,7 @@ fivedozenwhales@gmail.com.");
    }
   } else if (layer == 3) {	// Character presets
    for (int i = 2; i < PLTYPE_MAX; i++)
-    mvwprintz(w_open, 3 + i, 29, (sel1 == i ? h_white : c_white),
+    mvwprintz(w_open, 4 + i, 29, (sel1 == i ? h_white : c_white),
               pltype_name[i].c_str());
    for (int i = 22; i < 25; i++)
     mvwprintw(w_open, i, 0, "                                                  \
