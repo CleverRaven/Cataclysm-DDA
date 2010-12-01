@@ -66,6 +66,7 @@ class game
   void cancel_activity();
   void cancel_activity_query(std::string message);
   void teleport();
+  void nuke(int x, int y);
   int& scent(int x, int y);
   unsigned char light_level();
   bool sees_u(int x, int y, int &t);

@@ -223,8 +223,63 @@ bool computerk::maps(game *g, int success)
  
 bool computerk::launch(game *g, int success)
 {
+ overmap tmp_om(g, g->cur_om.posx, g->cur_om.posy, 0);
+// Target Acquisition.
+ point target;
+ if (success >= 6)
+  target = tmp_om.choose_point(g);
+ else {
+  g->add_msg("Target acquisition failed.");
+  target.x = rng(1, OMAPX - 2);
+  target.y = rng(1, OMAPY - 2);
+ }
+
+ if (target.x == -1) {
+  g->add_msg("Launch canceled.");
+  return false;
+ }
+
+// Figure out where the glass wall is...
+ int wall_spot = 0;
+ for (int i = 0; i < SEEX * 3 && wall_spot == 0; i++) {
+  if (g->m.ter(i, 10) == t_wall_glass_v)
+   wall_spot = i;
+ }
+// ...and put radioactive to the right of it
+ for (int i = wall_spot + 1; i < SEEX * 2 - 1; i++) {
+  for (int j = 1; j < SEEY * 2 - 1; j++) {
+   if (one_in(3))
+    g->m.add_field(NULL, i, j, fd_nuke_gas, 3);
+  }
+ }
+
+// For each level between here and the surface, remove the missile
+ for (int level = g->cur_om.posz; level < 0; level++) {
+  tmp_om = g->cur_om;
+  g->cur_om = overmap(g, tmp_om.posx, tmp_om.posy, level);
+  map tmpmap(&g->itypes, &g->mapitems, &g->traps);
+  tmpmap.load(g, g->levx, g->levy);
+  for (int i = 0; i < SEEX * 3; i++) {
+   for (int j = 0; j < SEEY * 3; j++) {
+    if (tmpmap.ter(i, j) == t_missile) {
+     tmpmap.ter(i, j) = t_hole;
+     if (one_in(4))
+      tmpmap.add_field(NULL, i, j, fd_nuke_gas, 3);
+    }
+   }
+  }
+  tmpmap.save(&tmp_om, g->turn, g->levx, g->levy);
+ }
+ g->cur_om = tmp_om;
+
+ for (int x = target.x - 2; x <= target.x + 2; x++) {
+  for (int y = target.y -  2; y <= target.y + 2; y++)
+   g->nuke(x, y);
+ }
+ 
  return true;
 }
+
 bool computerk::disarm(game *g, int success)
 {
  return true;

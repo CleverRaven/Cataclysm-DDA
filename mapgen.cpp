@@ -2095,12 +2095,12 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     break;
    }
    for (int i = lw; i <= lw + 2; i++) {
-    ter(i, tw    ) = t_wall_h;
-    ter(i, tw + 2) = t_wall_h;
+    ter(i, tw    ) = t_wall_metal_h;
+    ter(i, tw + 2) = t_wall_metal_h;
    }
-   ter(lw    , tw + 1) = t_wall_v;
+   ter(lw    , tw + 1) = t_wall_metal_v;
    ter(lw + 1, tw + 1) = t_stairs_down;
-   ter(lw + 2, tw + 1) = t_wall_v;
+   ter(lw + 2, tw + 1) = t_wall_metal_v;
    ter(mw    , tw + 1) = t_door_metal_locked;
    ter(mw    , tw + 2) = t_card_reader;
 
@@ -2571,7 +2571,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      ter(i, j) = grass_or_dirt();
    }
   }
-  ter(14, rng(3, 5)) = t_door_c;
+  ter(14, rng(3, 5))  = t_door_c;
   ter(rng(15, 20), 6) = t_door_locked;
 // TODO: What's in the back rooms?  Some goodies, presumably.  Maybe a MOB BOSS.
   
@@ -2649,9 +2649,9 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   }
   ter(14, 19) = t_counter;
   ter(15, 19) = t_counter;
-  set_science_room(this,  2,  1, true, turn);
-  set_science_room(this,  2,  7, true, turn);
-  set_science_room(this,  2, 13, true, turn);
+  set_science_room(this,  2,  1, true,  turn);
+  set_science_room(this,  2,  7, true,  turn);
+  set_science_room(this,  2, 13, true,  turn);
   set_science_room(this, 14,  1, false, turn);
   set_science_room(this, 14,  7, false, turn);
   set_science_room(this, 14, 13, false, turn);
@@ -4438,7 +4438,6 @@ void silo_rooms(map *m)
     m->place_items(used2, 64, x, y, x + width, y + height, false, 0);
   }
  } while (okay);
- debugmsg("%d rooms", rooms.size());
 
  m->ter(rooms[0].x, rooms[0].y) = t_stairs_up;
  int down_room = rng(0, rooms.size() - 1);

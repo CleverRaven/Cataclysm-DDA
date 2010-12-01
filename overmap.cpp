@@ -11,6 +11,7 @@
 #include "settlement.h"
 #include "game.h"
 #include "npc.h"
+#include "keypress.h"
 
 #define STREETCHANCE 2
 #define NUM_FOREST 250
@@ -515,6 +516,237 @@ point overmap::find_closest(point origin, oter_id type, int type_range,
  }
  return point(-1, -1);
 }
+
+point overmap::choose_point(game *g)
+{
+ timeout(BLINK_SPEED);	// Enable blinking!
+ WINDOW* w_map = newwin(25, 80, 0, 0);
+ bool legend = true, blink = true, note_here = false, npc_here = false;
+ std::string note_text, npc_name;
+ int cursx = (g->levx + 1) / 2, cursy = (g->levy + 1) / 2;
+ int origx = cursx, origy = cursy;
+ char ch;
+ overmap hori, vert, diag;
+ point ret(-1, -1);
+ do {
+  int omx, omy;
+  bool see;
+  oter_id cur_ter;
+  nc_color ter_color;
+  long ter_sym;
+  if (cursx < 40) {
+   hori = overmap(g, posx - 1, posy, posz);
+   if (cursy < 12)
+    diag = overmap(g, posx - 1, posy - 1, posz);
+   if (cursy > OMAPY - 14)
+    diag = overmap(g, posx - 1, posy + 1, posz);
+  }
+  if (cursx > OMAPX - 41) {
+   hori = overmap(g, posx + 1, posy, posz);
+   if (cursy < 12)
+    diag = overmap(g, posx + 1, posy - 1, posz);
+   if (cursy > OMAPY - 14)
+    diag = overmap(g, posx + 1, posy + 1, posz);
+  }
+  if (cursy < 12)
+   vert = overmap(g, posx, posy - 1, posz);
+  if (cursy > OMAPY - 14)
+   vert = overmap(g, posx, posy + 1, posz);
+
+  for (int i = -40; i < 40; i++) {
+   for (int j = -12; j <= (ch == 'j' ? 13 : 12); j++) {
+    omx = cursx + i;
+    omy = cursy + j;
+    see = false;
+    npc_here = false;
+    if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) { // It's in-bounds
+     cur_ter = ter(omx, omy);
+     see = seen(omx, omy);
+     if (note_here = has_note(omx, omy))
+      note_text = note(omx, omy);
+     for (int n = 0; n < npcs.size(); n++) {
+      if ((npcs[n].mapx + 1) / 2 == omx && (npcs[n].mapy + 1) / 2 == omy) {
+       npc_here = true;
+       npc_name = npcs[n].name;
+       n = npcs.size();
+      } else {
+       npc_here = false;
+       npc_name = "";
+      }
+     }
+    } else if (omx < 0) {
+     omx += OMAPX;
+     if (omy < 0 || omy >= OMAPY) {
+      omy += (omy < 0 ? OMAPY : 0 - OMAPY);
+      cur_ter = diag.ter(omx, omy);
+      see = diag.seen(omx, omy);
+      if (note_here = diag.has_note(omx, omy))
+       note_text = diag.note(omx, omy);
+     } else {
+      cur_ter = hori.ter(omx, omy);
+      see = hori.seen(omx, omy);
+      if (note_here = hori.has_note(omx, omy))
+       note_text = hori.note(omx, omy);
+     }
+    } else if (omx >= OMAPX) {
+     omx -= OMAPX;
+     if (omy < 0 || omy >= OMAPY) {
+      omy += (omy < 0 ? OMAPY : 0 - OMAPY);
+      cur_ter = diag.ter(omx, omy);
+      see = diag.seen(omx, omy);
+      if (note_here = diag.has_note(omx, omy))
+       note_text = diag.note(omx, omy);
+     } else {
+      cur_ter = hori.ter(omx, omy);
+      see = hori.seen(omx, omy);
+      if (note_here = hori.has_note(omx, omy))
+       note_text = hori.note(omx, omy);
+     }
+    } else if (omy < 0) {
+     omy += OMAPY;
+     cur_ter = vert.ter(omx, omy);
+     see = vert.seen(omx, omy);
+     if (note_here = vert.has_note(omx, omy))
+      note_text = vert.note(omx, omy);
+    } else if (omy >= OMAPY) {
+     omy -= OMAPY;
+     cur_ter = vert.ter(omx, omy);
+     see = vert.seen(omx, omy);
+     if (note_here = vert.has_note(omx, omy))
+      note_text = vert.note(omx, omy);
+// </Out of bounds replacement>
+    } else
+     debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
+    if (see) {
+     if (note_here && blink) {
+      ter_color = c_yellow;
+      ter_sym = 'N';
+     } else if (omx == origx && omy == origy && blink) {
+      ter_color = g->u.color();
+      ter_sym = '@';
+     } else if (npc_here && blink) {
+      ter_color = c_pink;
+      ter_sym = '@';
+     } else {
+      if (cur_ter >= num_ter_types || cur_ter < 0)
+       debugmsg("Bad ter %d (%d, %d)", cur_ter, omx, omy);
+      ter_color = oterlist[cur_ter].color;
+      ter_sym = oterlist[cur_ter].sym;
+     }
+    } else {
+     ter_color = c_dkgray;
+     ter_sym = '#';
+    }
+    if (j == 0 && i == 0)
+     mvwputch_hi (w_map, 12,     40,     ter_color, ter_sym);
+    else
+     mvwputch    (w_map, 12 + j, 40 + i, ter_color, ter_sym);
+   }
+  }
+  if (has_note(cursx, cursy)) {
+   note_text = note(cursx, cursy);
+   for (int i = 0; i < note_text.length(); i++)
+    mvwputch(w_map, 1, i, c_white, LINE_OXOX);
+   mvwputch(w_map, 1, note_text.length(), c_white, LINE_XOOX);
+   mvwputch(w_map, 0, note_text.length(), c_white, LINE_XOXO);
+   mvwprintz(w_map, 0, 0, c_yellow, note_text.c_str());
+  } else if (npc_here) {
+   for (int i = 0; i < npc_name.length(); i++)
+    mvwputch(w_map, 1, i, c_white, LINE_OXOX);
+   mvwputch(w_map, 1, npc_name.length(), c_white, LINE_XOOX);
+   mvwputch(w_map, 0, npc_name.length(), c_white, LINE_XOXO);
+   mvwprintz(w_map, 0, 0, c_yellow, npc_name.c_str());
+  }
+  if (legend) {
+   cur_ter = ter(cursx, cursy);
+   mvwputch(w_map, 16, 50, c_white, LINE_OXXO);
+// Clear the legend
+   for (int i = 51; i < 80; i++) {
+    mvwputch(w_map, 16, i, c_white, LINE_OXOX);
+    for (int j = 17; j < 25; j++)
+     mvwputch(w_map, j, i, c_black, 'x');
+   }
+   for (int i = 17; i < 25; i++)
+    mvwputch(w_map, i, 50, c_white, LINE_XOXO);
+   if (seen(cursx, cursy)) {
+    mvwputch(w_map, 17, 51, oterlist[cur_ter].color, oterlist[cur_ter].sym);
+    mvwprintz(w_map, 17, 53, oterlist[cur_ter].color, "%s",
+              oterlist[cur_ter].name.c_str());
+   } else
+    mvwprintz(w_map, 17, 51, c_dkgray, "# Unexplored");
+   mvwprintz(w_map, 19, 51, c_magenta,           "Use movement keys to pan.  ");
+   mvwprintz(w_map, 20, 51, c_magenta,           "0 - Center map on character");
+   mvwprintz(w_map, 21, 51, c_magenta,           "t - Toggle legend          ");
+   mvwprintz(w_map, 22, 51, c_magenta,           "/ - Search                 ");
+   mvwprintz(w_map, 23, 51, c_magenta,           "N - Add a note             ");
+   mvwprintz(w_map, 24, 51, c_magenta,           "Esc or q - Return to game  ");
+  }
+  wrefresh(w_map);
+  ch = input();
+
+  if (ch != ERR)
+   blink = true;	// If any input is detected, make the blinkies on
+  if (ch == 'y' || ch == 'u' || ch == 'h' || ch == 'j' || ch == 'k' ||
+      ch == 'l' || ch == 'b' || ch == 'n') {
+   int dirx, diry;
+   get_direction(dirx, diry, ch);
+   cursx += dirx;
+   cursy += diry;
+  } else if (ch == '0') {
+   cursx = origx;
+   cursy = origy;
+  } else if (ch == '\n')
+   ret = point(cursx, cursy);
+  else if (ch == KEY_ESCAPE)
+   ret = point(-1, -1);
+  else if (ch == 'N') {
+   timeout(-1);
+   add_note(cursx, cursy, string_input_popup("Enter note:"));
+   timeout(BLINK_SPEED);
+  } else if (ch == '/') {
+   timeout(-1);
+   std::string term = string_input_popup("Search term:");
+   timeout(BLINK_SPEED);
+   int range = 1;
+   point found = find_note(point(cursx, cursy), term);
+   if (found.x == -1) {	// Didn't find a note
+    for (int i = 0; i < num_ter_types; i++) {
+     if (oterlist[i].name.find(term) != std::string::npos) {
+      if (i == ot_forest || i == ot_hive || i == ot_hiway_ns ||
+          i == ot_bridge_ns)
+       range = 2;
+      else if (i >= ot_road_ns && i < ot_road_nesw_manhole)
+       range = ot_road_nesw_manhole - i + 1;
+      else if (i >= ot_river_center && i < ot_river_nw)
+       range = ot_river_nw - i + 1;
+      else if (i >= ot_house_north && i < ot_lab)
+       range = 4;
+      else if (i == ot_lab)
+       range = 2;
+      int maxdist = OMAPX;
+      found = find_closest(point(cursx,cursy), oter_id(i), range, maxdist,true);
+      i = num_ter_types;
+     }
+    }
+   }
+   if (found.x != -1) {
+    cursx = found.x;
+    cursy = found.y;
+   }
+  } else if (ch == 't')
+   legend = !legend;
+  else if (ch == ERR)
+   blink = !blink;
+ } while (ch != KEY_ESCAPE && ch != 'q' && ch != 'Q' && ch != ' ' && ch != '\n');
+ timeout(-1);
+ werase(w_map);
+ wrefresh(w_map);
+ delwin(w_map);
+ erase();
+ g->refresh_all();
+ return ret;
+}
+ 
 
 void overmap::first_house(int &x, int &y)
 {

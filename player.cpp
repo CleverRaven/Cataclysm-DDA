@@ -188,11 +188,13 @@ int player::swim_speed()
 {
  int ret = 440 + 2 * weight_carried() - 50 * sklevel[sk_swimming];
  if (has_trait(PF_WEBBED))
-  ret -= 100;
+  ret -= 100 + str_cur * 10;
  ret += (50 - sklevel[sk_swimming] * 2) * abs(encumb(bp_legs));
  ret += (80 - sklevel[sk_swimming] * 3) * abs(encumb(bp_torso));
- for (int i = 0; i < worn.size(); i++)
-  ret += worn[i].volume() * (20 - sklevel[sk_swimming]);
+ if (sklevel[sk_swimming] < 10) {
+  for (int i = 0; i < worn.size(); i++)
+   ret += (worn[i].volume() * (10 - sklevel[sk_swimming])) / 2;
+ }
  ret -= str_cur * 6 + dex_cur * 4;
 // If (ret > 500), we can not swim; so do not apply the underwater bonus.
  if (underwater && ret < 500)
@@ -570,7 +572,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
     mvwprintz(w_skills, line, 1, c_ltblue, "%s:",
               skill_name(skill(i)).c_str());
     mvwprintz(w_skills, line,19, c_ltblue, "%d (%s%d%%%%)", sklevel[i],
-              (skexercise[i] < 10 ? " " : ""), skexercise[i]);
+              (skexercise[i] < 10 && skexercise[i] >= 0 ? " " : ""),
+              (skexercise[i] <  0 ? 0 : skexercise[i]));
     line++;
    }
   }
@@ -923,8 +926,8 @@ slower.");
      else
       status = h_ltblue;
     } else {
-     if (skexercise[skillslist[i]] >= 100)
-      status = c_pink;
+     if (skexercise[skillslist[i]] < 0)
+      status = c_ltred;
      else
       status = c_ltblue;
     }
@@ -934,15 +937,19 @@ slower.");
                skill_name(skillslist[i]).c_str());
      mvwprintz(w_skills, 2 + i - min,19, status, "%d (%s%d%%%%)",
                sklevel[skillslist[i]],
-               (skexercise[skillslist[i]] < 10 ? " " : ""),
-               skexercise[skillslist[i]]);
+               (skexercise[skillslist[i]] < 10 &&
+                skexercise[skillslist[i]] >= 0 ? " " : ""),
+               (skexercise[skillslist[i]] <  0 ? 0 :
+                skexercise[skillslist[i]]));
     } else {
      mvwprintz(w_skills, 2 + i - min, 1, status, "%s:",
                skill_name(skillslist[i]).c_str());
      mvwprintz(w_skills, 2 + i - min,19, status, "%d (%s%d%%%%)", 
                sklevel[skillslist[i]],
-               (skexercise[skillslist[i]] < 10 ? " " : ""),
-               skexercise[skillslist[i]]);
+               (skexercise[skillslist[i]] < 10 &&
+                skexercise[skillslist[i]] >= 0 ? " " : ""),
+               (skexercise[skillslist[i]] <  0 ? 0 :
+                skexercise[skillslist[i]]));
     }
    }
    werase(w_info);
@@ -963,16 +970,18 @@ slower.");
     case '\t':
      mvwprintz(w_skills, 0, 0, c_ltgray, "           SKILLS         ");
      for (int i = 0; i < skillslist.size() && i < 7; i++) {
-      if (skexercise[skillslist[i]] >= 100)
-       status = c_pink;
+      if (skexercise[skillslist[i]] < 0)
+       status = c_ltred;
       else
        status = c_ltblue;
       mvwprintz(w_skills, i + 2,  1, status, "%s:",
                 skill_name(skillslist[i]).c_str());
       mvwprintz(w_skills, i + 2, 19, status, "%d (%s%d%%%%)",
                 sklevel[skillslist[i]],
-                (skexercise[skillslist[i]] < 10 ? " " : ""),
-                skexercise[skillslist[i]]);
+                (skexercise[skillslist[i]] < 10 &&
+                 skexercise[skillslist[i]] >= 0 ? " " : ""),
+                (skexercise[skillslist[i]] <  0 ? 0 :
+                 skexercise[skillslist[i]]));
      }
      wrefresh(w_skills);
      line = 0;

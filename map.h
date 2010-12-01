@@ -25,7 +25,6 @@ class map
  map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
      std::vector<trap*> *trptr);
  ~map();
- void init(game *g, int x, int y);
  void generate(game *g, overmap *om, int x, int y, int turn);
 
 // Visual Output

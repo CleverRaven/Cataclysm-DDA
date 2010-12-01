@@ -920,16 +920,6 @@ void map::save(overmap *om, unsigned int turn, int x, int y)
  }
 }
 
-void map::init(game *g, int x, int y)
-{
- for (int gridx = 0; gridx < 3; gridx++) {
-  for (int gridy = 0; gridy < 3; gridy++) {
-   if (!loadn(g, x, y, gridx, gridy))
-    loadn(g, x, y, gridx, gridy);
-  }
- }
-}
-
 void map::load(game *g, int wx, int wy)
 {
  for (int gridx = 0; gridx < 3; gridx++) {

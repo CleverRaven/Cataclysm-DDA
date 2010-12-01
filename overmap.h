@@ -49,10 +49,11 @@ class overmap
                 overmap* west);
   void generate_sub(overmap* above);
   void make_tutorial();
+  void first_house(int &x, int &y);
 
   point find_closest(point origin, oter_id type, int type_range,
                      int &dist, bool must_be_seen);
-  void first_house(int &x, int &y);
+  point choose_point(game *g);
 
   oter_id& ter(int x, int y);
   bool&   seen(int x, int y);

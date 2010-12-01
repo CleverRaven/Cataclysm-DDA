@@ -32,6 +32,7 @@ struct oter_t {
 
 enum oter_id {
  ot_null = 0,
+ ot_crater,
 // Wild terrain
  ot_field, ot_forest, ot_forest_thick, ot_forest_water, ot_hive, ot_hive_center,
 // Roads
@@ -106,6 +107,7 @@ enum oter_id {
 
 const oter_t oterlist[num_ter_types] = {
 {"nothing",		'%',	c_white,	0},
+{"crater",		'O',	c_red,		2},
 {"field",		'.',	c_brown,	2},
 {"forest",		'F',	c_green,	3},
 {"forest",		'F',	c_green,	4},

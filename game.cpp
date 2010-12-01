@@ -455,7 +455,7 @@ void game::start_game()
  levx = levx * 2 - 1;
  levy = levy * 2 - 1;
 // Init the starting map at this location.
- m.init(this, levx, levy);
+ m.load(this, levx, levy);
 // Start us off somewhere in the house.
  u.posx = SEEX + 4;
  u.posy = SEEY + 5;
@@ -494,7 +494,7 @@ void game::start_tutorial(tut_type type)
   cur_om.save(u.name, 0, 0, 9);
   cur_om = overmap(this, 0, 0, TUTORIAL_Z);
   cur_om.make_tutorial();
-  m.init(this, levx, levy);
+  m.load(this, levx, levy);
   u.toggle_trait(PF_QUICK);
   u.inv.push_back(item(itypes[itm_lighter], 0, 'e'));
   u.sklevel[sk_gun] = 5;
@@ -505,7 +505,7 @@ void game::start_tutorial(tut_type type)
     cur_om.seen(i, j) = true;
   }
 // Init the starting map at this location.
-  m.init(this, levx, levy);
+  m.load(this, levx, levy);
 // Make sure the map is totally reset
   for (int i = 0; i < SEEX * 3; i++) {
    for (int j = 0; j < SEEY * 3; j++)
@@ -1050,7 +1050,7 @@ void game::load(std::string name)
         tmptemp >> levx >> levy >> levz >> comx >> comy;
  cur_om = overmap(this, comx, comy, levz);
 // m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
- m.init(this, levx, levy);
+ m.load(this, levx, levy);
  run_mode = tmprun;
  last_target = tmptar;
  temperature = tmptemp;
@@ -1169,6 +1169,8 @@ void game::add_msg(const char* msg, ...)
  size_t split;
  while (s.length() > maxlength) {
   split = s.find_last_of(' ', maxlength);
+  if (split > maxlength)
+   split = maxlength;
   messages.push_back(s.substr(0, split));
   curmes++;
   s = s.substr(split);
@@ -1222,233 +1224,14 @@ void game::groupdebug()
 
 void game::draw_overmap()
 {
- timeout(BLINK_SPEED);	// Enable blinking!
- WINDOW* w_map = newwin(25, 80, 0, 0);
- bool legend = true, blink = true, note_here = false, npc_here = false;
- std::string note, npc_name;
- int cursx = (levx + 1) / 2, cursy = (levy + 1) / 2;
- int origx = cursx, origy = cursy;
- char ch;
- overmap hori, vert, diag;
- do {
-  int omx, omy;
-  bool seen;
-  oter_id cur_ter;
-  nc_color ter_color;
-  long ter_sym;
-  if (cursx < 40) {
-   hori = overmap(this, cur_om.posx - 1, cur_om.posy, cur_om.posz);
-   if (cursy < 12)
-    diag = overmap(this, cur_om.posx - 1, cur_om.posy - 1, cur_om.posz);
-   if (cursy > OMAPY - 14)
-    diag = overmap(this, cur_om.posx - 1, cur_om.posy + 1, cur_om.posz);
-  }
-  if (cursx > OMAPX - 41) {
-   hori = overmap(this, cur_om.posx + 1, cur_om.posy, cur_om.posz);
-   if (cursy < 12)
-    diag = overmap(this, cur_om.posx + 1, cur_om.posy - 1, cur_om.posz);
-   if (cursy > OMAPY - 14)
-    diag = overmap(this, cur_om.posx + 1, cur_om.posy + 1, cur_om.posz);
-  }
-  if (cursy < 12)
-   vert = overmap(this, cur_om.posx, cur_om.posy - 1, cur_om.posz);
-  if (cursy > OMAPY - 14)
-   vert = overmap(this, cur_om.posx, cur_om.posy + 1, cur_om.posz);
-  for (int i = -40; i < 40; i++) {
-   for (int j = -12; j <= (ch == 'j' ? 13 : 12); j++) {
-    omx = cursx + i;
-    omy = cursy + j;
-    seen = false;
-    npc_here = false;
-    if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) { // It's in-bounds
-     cur_ter = cur_om.ter(omx, omy);
-     seen = cur_om.seen(omx, omy);
-     if (note_here = cur_om.has_note(omx, omy))
-      note = cur_om.note(omx, omy);
-     for (int n = 0; n < cur_om.npcs.size(); n++) {
-      if ((cur_om.npcs[n].mapx + 1) / 2 == omx &&
-          (cur_om.npcs[n].mapy + 1) / 2 == omy) {
-       npc_here = true;
-       npc_name = cur_om.npcs[n].name;
-       n = cur_om.npcs.size();
-      } else {
-       npc_here = false;
-       npc_name = "";
-      }
-     }
-    } else if (omx < 0) {
-     omx += OMAPX;
-     if (omy < 0 || omy >= OMAPY) {
-      omy += (omy < 0 ? OMAPY : 0 - OMAPY);
-      cur_ter = diag.ter(omx, omy);
-      seen = diag.seen(omx, omy);
-      if (note_here = diag.has_note(omx, omy))
-       note = diag.note(omx, omy);
-     } else {
-      cur_ter = hori.ter(omx, omy);
-      seen = hori.seen(omx, omy);
-      if (note_here = hori.has_note(omx, omy))
-       note = hori.note(omx, omy);
-     }
-    } else if (omx >= OMAPX) {
-     omx -= OMAPX;
-     if (omy < 0 || omy >= OMAPY) {
-      omy += (omy < 0 ? OMAPY : 0 - OMAPY);
-      cur_ter = diag.ter(omx, omy);
-      seen = diag.seen(omx, omy);
-      if (note_here = diag.has_note(omx, omy))
-       note = diag.note(omx, omy);
-     } else {
-      cur_ter = hori.ter(omx, omy);
-      seen = hori.seen(omx, omy);
-      if (note_here = hori.has_note(omx, omy))
-       note = hori.note(omx, omy);
-     }
-    } else if (omy < 0) {
-     omy += OMAPY;
-     cur_ter = vert.ter(omx, omy);
-     seen = vert.seen(omx, omy);
-     if (note_here = vert.has_note(omx, omy))
-      note = vert.note(omx, omy);
-    } else if (omy >= OMAPY) {
-     omy -= OMAPY;
-     cur_ter = vert.ter(omx, omy);
-     seen = vert.seen(omx, omy);
-     if (note_here = vert.has_note(omx, omy))
-      note = vert.note(omx, omy);
-// </Out of bounds replacement>
-    } else
-     debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
-    if (seen) {
-     if (note_here && blink) {
-      ter_color = c_yellow;
-      ter_sym = 'N';
-     } else if (omx == origx && omy == origy && blink) {
-      ter_color = u.color();
-      ter_sym = '@';
-     } else if (npc_here && blink) {
-      ter_color = c_pink;
-      ter_sym = '@';
-     } else {
-      if (cur_ter >= num_ter_types || cur_ter < 0)
-       debugmsg("Bad ter %d (%d, %d)", cur_ter, omx, omy);
-      ter_color = oterlist[cur_ter].color;
-      ter_sym = oterlist[cur_ter].sym;
-     }
-    } else {
-     ter_color = c_dkgray;
-     ter_sym = '#';
-    }
-    if (j == 0 && i == 0)
-     mvwputch_hi (w_map, 12,     40,     ter_color, ter_sym);
-    else
-     mvwputch    (w_map, 12 + j, 40 + i, ter_color, ter_sym);
-   }
-  }
-  if (cur_om.has_note(cursx, cursy)) {
-   note = cur_om.note(cursx, cursy);
-   for (int i = 0; i < note.length(); i++)
-    mvwputch(w_map, 1, i, c_white, LINE_OXOX);
-   mvwputch(w_map, 1, note.length(), c_white, LINE_XOOX);
-   mvwputch(w_map, 0, note.length(), c_white, LINE_XOXO);
-   mvwprintz(w_map, 0, 0, c_yellow, note.c_str());
-  } else if (npc_here) {
-   for (int i = 0; i < npc_name.length(); i++)
-    mvwputch(w_map, 1, i, c_white, LINE_OXOX);
-   mvwputch(w_map, 1, npc_name.length(), c_white, LINE_XOOX);
-   mvwputch(w_map, 0, npc_name.length(), c_white, LINE_XOXO);
-   mvwprintz(w_map, 0, 0, c_yellow, npc_name.c_str());
-  }
-  if (legend) {
-   cur_ter = cur_om.ter(cursx, cursy);
-   mvwputch(w_map, 16, 50, c_white, LINE_OXXO);
-// Clear the legend
-   for (int i = 51; i < 80; i++) {
-    mvwputch(w_map, 16, i, c_white, LINE_OXOX);
-    for (int j = 17; j < 25; j++)
-     mvwputch(w_map, j, i, c_black, 'x');
-   }
-   for (int i = 17; i < 25; i++)
-    mvwputch(w_map, i, 50, c_white, LINE_XOXO);
-   if (cur_om.seen(cursx, cursy)) {
-    mvwputch(w_map, 17, 51, oterlist[cur_ter].color, oterlist[cur_ter].sym);
-    mvwprintz(w_map, 17, 53, oterlist[cur_ter].color, "%s",
-              oterlist[cur_ter].name.c_str());
-   } else
-    mvwprintz(w_map, 17, 51, c_dkgray, "# Unexplored");
-   mvwprintz(w_map, 19, 51, c_magenta,           "Use movement keys to pan.  ");
-   mvwprintz(w_map, 20, 51, c_magenta,           "0 - Center map on character");
-   mvwprintz(w_map, 21, 51, c_magenta,           "t - Toggle legend          ");
-   mvwprintz(w_map, 22, 51, c_magenta,           "/ - Search                 ");
-   mvwprintz(w_map, 23, 51, c_magenta,           "N - Add a note             ");
-   mvwprintz(w_map, 24, 51, c_magenta,           "Esc or q - Return to game  ");
-  }
-  wrefresh(w_map);
-  ch = input();
-
-  if (ch != ERR)
-   blink = true;	// If any input is detected, make the blinkies on
-  if (ch == 'y' || ch == 'u' || ch == 'h' || ch == 'j' || ch == 'k' ||
-      ch == 'l' || ch == 'b' || ch == 'n') {
-   int dirx, diry;
-   get_direction(dirx, diry, ch);
-   cursx += dirx;
-   cursy += diry;
-  } else if (ch == '0') {
-   cursx = origx;
-   cursy = origy;
-  } else if (ch == '\n') {
-   z.clear();
-   m.save(&cur_om, turn, levx, levy);
-   levx = cursx * 2;
-   levy = cursy * 2;
-   m.load(this, levx, levy);
-  } else if (ch == 'N') {
-   timeout(-1);
-   cur_om.add_note(cursx, cursy, string_input_popup("Enter note:"));
-   timeout(BLINK_SPEED);
-  } else if (ch == '/') {
-   timeout(-1);
-   std::string term = string_input_popup("Search term:");
-   timeout(BLINK_SPEED);
-   int range = 1;
-   point found = cur_om.find_note(point(cursx, cursy), term);
-   if (found.x == -1) {	// Didn't find a note
-    for (int i = 0; i < num_ter_types; i++) {
-     if (oterlist[i].name.find(term) != std::string::npos) {
-      if (i == ot_forest || i == ot_hive || i == ot_hiway_ns ||
-          i == ot_bridge_ns)
-       range = 2;
-      else if (i >= ot_road_ns && i < ot_road_nesw_manhole)
-       range = ot_road_nesw_manhole - i + 1;
-      else if (i >= ot_river_center && i < ot_river_nw)
-       range = ot_river_nw - i + 1;
-      else if (i >= ot_house_north && i < ot_lab)
-       range = 4;
-      else if (i == ot_lab)
-       range = 2;
-      int maxdist = OMAPX;
-      found = cur_om.find_closest(point(cursx, cursy), oter_id(i), range,
-                                  maxdist, true);
-      i = num_ter_types;
-     }
-    }
-   }
-   if (found.x != -1) {
-    cursx = found.x;
-    cursy = found.y;
-   }
-  } else if (ch == 't')
-   legend = !legend;
-  else if (ch == ERR)
-   blink = !blink;
- } while (ch != KEY_ESCAPE && ch != 'q' && ch != 'Q' && ch != ' ' && ch != '\n');
- timeout(-1);
- werase(w_map);
- wrefresh(w_map);
- delwin(w_map);
- erase();
- refresh_all();
+ point tmp = cur_om.choose_point(this);
+ if (tmp.x != -1) {
+  z.clear();
+  m.save(&cur_om, turn, levx, levy);
+  levx = tmp.x * 2;
+  levy = tmp.y * 2;
+  m.load(this, levx, levy);
+ }
 }
 
 void game::disp_kills()
@@ -4547,7 +4330,7 @@ void game::vertical_move(int movez, bool force)
  cur_om.save(u.name);
  m.save(&cur_om, turn, levx, levy);
  cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz + movez);
- m.init(this, levx, levy);
+ m.load(this, levx, levy);
 // Move the player to the corresponding up-route. (If one exists.)
  for (int i = 0; i < SEEX * 3; i++) {
   for (int j = 0; j < SEEY * 3; j++) {
@@ -4623,7 +4406,7 @@ void game::update_map(int &x, int &y)
       z[i].posx >     SEEX * 6 || z[i].posy >     SEEY * 6   ) {
    if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
     map tmp;
-    tmp.init(this, z[i].spawnmapx, z[i].spawnmapy);
+    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
     tmp.add_spawn(mon_id(z[i].type->id), 1, z[i].spawnposx, z[i].spawnposy);
     tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
    } else {	// Absorb them back into a group
@@ -4896,6 +4679,29 @@ void game::teleport()
   }
  }
  update_map(u.posx, u.posy);
+}
+
+void game::nuke(int x, int y)
+{
+ overmap tmp_om = cur_om;
+ cur_om = overmap(this, tmp_om.posx, tmp_om.posy, 0);
+ if (x < 0 || y < 0 || x >= OMAPX || y >= OMAPY)
+  return;
+ int mapx = x * 2, mapy = y * 2;
+ map tmpmap(&itypes, &mapitems, &traps);
+ tmpmap.load(this, mapx, mapy);
+ for (int i = 0; i < SEEX * 2; i++) {
+  for (int j = 0; j < SEEY * 2; j++) {
+   if (!one_in(10))
+    tmpmap.ter(i, j) = t_rubble;
+   if (one_in(3))
+    tmpmap.add_field(NULL, i, j, fd_nuke_gas, 3);
+   tmpmap.radiation(i, j) += rng(20, 80);
+  }
+ }
+ tmpmap.save(&cur_om, turn, mapx, mapy);
+ cur_om.ter(x, y) = ot_crater;
+ cur_om = tmp_om;
 }
  
 oter_id game::ter_at(int omx, int omy, bool& mark_as_seen)
