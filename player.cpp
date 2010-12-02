@@ -3424,28 +3424,28 @@ bool player::eat(game *g, char let)
  it_comest *tmp = NULL;
  item *eaten = NULL;
  int which = -3; // Helps us know how to delete the item which got eaten
- if (weapon.invlet == let && weapon.is_food(this)) {
-  if (weapon.is_food())
-   tmp = dynamic_cast<it_comest*>(weapon.type);
-  eaten = &weapon;
-  which = -1;
- } else if (weapon.invlet == let && weapon.is_food_container(this)) {
+ if (weapon.invlet == let && weapon.is_food_container(this)) {
   if (weapon.contents[0].is_food())
    tmp = dynamic_cast<it_comest*>(weapon.contents[0].type);
   eaten = &weapon.contents[0];
   which = -2;
+ } else if (weapon.invlet == let && weapon.is_food(this)) {
+  if (weapon.is_food())
+   tmp = dynamic_cast<it_comest*>(weapon.type);
+  eaten = &weapon;
+  which = -1;
  } else {
   for (int i = 0; i < inv.size(); i++) {
-   if (inv[i].invlet == let && inv[i].is_food(this)) {
-    if (inv[i].is_food())
-     tmp = dynamic_cast<it_comest*>(inv[i].type);
-    eaten = &inv[i];
-    which = i;
-   } else if (inv[i].invlet == let && inv[i].is_food_container(this)) {
+   if (inv[i].invlet == let && inv[i].is_food_container(this)) {
     if (inv[i].contents[0].is_food())
      tmp = dynamic_cast<it_comest*>(inv[i].contents[0].type);
     eaten = &(inv[i].contents[0]);
     which = i + inv.size();
+   } else if (inv[i].invlet == let && inv[i].is_food(this)) {
+    if (inv[i].is_food())
+     tmp = dynamic_cast<it_comest*>(inv[i].type);
+    eaten = &inv[i];
+    which = i;
    }
   }
  }
