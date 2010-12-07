@@ -12,6 +12,7 @@
 #define NPC_LOW_VALUE      5
 #define NPC_HI_VALUE       8
 #define NPC_VERY_HI_VALUE 15
+#define NPC_DANGER_LEVEL  10
 
 class item;
 class overmap;
@@ -182,18 +183,18 @@ public:
 
  bool can_move_to	(game *g, int x, int y);
  void move_to		(game *g, int x, int y);
- void move_to_next_in_path(game *g);
+ void move_to_next	(game *g);
  void move_away_from	(game *g, int x, int y);
  void move_pause	();
- void melee_monster(game *g, monster *m);
- void alt_attack(game *g, monster *m, player *p);
- void find_items(game *g);
- void pickup_items(game *g);
- void melee_player(game *g, player &foe);
- void alt_attack_player(game *g, player &foe);
- void heal_player(game *g, player &patient);
- void mug_player(game *g, player &mark);
- void look_for_player(game *g);
+ void melee_monster	(game *g, monster *m);
+ void alt_attack	(game *g, monster *m, player *p);
+ void find_items	(game *g);
+ void pickup_items	(game *g);
+ void melee_player	(game *g, player &foe);
+ void alt_attack_player	(game *g, player &foe);
+ void heal_player	(game *g, player &patient);
+ void mug_player	(game *g, player &mark);
+ void look_for_player	(game *g);
 // The preceding are in npcmove.cpp
 
  void die(game *g, bool your_fault = false);

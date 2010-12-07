@@ -65,13 +65,15 @@ public:
  bool is_bashing_weapon();
  bool is_cutting_weapon();
  bool is_gun();
- bool is_gunmod();;
+ bool is_gunmod();
  bool is_ammo();
  bool is_armor();
  bool is_book();
  bool is_container();
  bool is_tool();
  virtual bool is_artifact()  { return false; }
+
+ //bool stack_with(item &it);	// Attempts to stack; returns true on success
 
  itype* type;
  mtype* corpse;

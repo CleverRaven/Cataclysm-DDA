@@ -137,7 +137,7 @@ std::string item::save_info()
  if (is_gun() && curammo != NULL)
   ammotmp = curammo->id;
  std::stringstream dump;// (std::stringstream::in | std::stringstream::out);
- dump << " " << int(invlet) << " " << int(type->id) << " " << int(charges) <<
+ dump << " " << int(invlet) << " " << int(type->id) << " " <<  int(charges) <<
          " " << int(damage) << " " << ammotmp << " " << int(bday);
  if (active)
   dump << " 1";
@@ -314,23 +314,8 @@ char item::symbol()
 
 std::string item::tname()
 {
- std::string ret;
- if (type->id == itm_corpse) {
-  ret = corpse->name + " corpse";
-  if (name != "")
-   ret += " of " + name;
-  return ret;
- }
- if (is_gun() && contents.size() > 0) {
-  ret = type->name;
-  for (int i = 0; i < contents.size(); i++)
-   ret += "+";
- } else if (contents.size() == 1)
-  ret = type->name + " of " + contents[0].tname();
- else if (contents.size() > 0)
-  ret = type->name + ", full";
- else
-  ret = type->name;
+ std::stringstream ret;
+
  if (damage != 0) {
   std::string damtext;
   switch (type->m1) {
@@ -340,57 +325,76 @@ std::string item::tname()
     break;
    case COTTON:
    case WOOL:
-    if (damage ==-1) damtext = "reinforced ";
-    if (damage == 1) damtext = "ripped ";
-    if (damage == 2) damtext = "torn ";
-    if (damage == 3) damtext = "shredded ";
-    if (damage == 4) damtext = "tattered ";
+    if (damage == -1) damtext = "reinforced ";
+    if (damage ==  1) damtext = "ripped ";
+    if (damage ==  2) damtext = "torn ";
+    if (damage ==  3) damtext = "shredded ";
+    if (damage ==  4) damtext = "tattered ";
     break;
    case LEATHER:
-    if (damage ==-1) damtext = "reinforced ";
-    if (damage == 1) damtext = "scratched ";
-    if (damage == 2) damtext = "cut ";
-    if (damage == 3) damtext = "torn ";
-    if (damage == 4) damtext = "tattered ";
+    if (damage == -1) damtext = "reinforced ";
+    if (damage ==  1) damtext = "scratched ";
+    if (damage ==  2) damtext = "cut ";
+    if (damage ==  3) damtext = "torn ";
+    if (damage ==  4) damtext = "tattered ";
     break;
    case KEVLAR:
-    if (damage ==-1) damtext = "reinforced ";
-    if (damage == 1) damtext = "marked ";
-    if (damage == 2) damtext = "dented ";
-    if (damage == 3) damtext = "scarred ";
-    if (damage == 4) damtext = "broken ";
+    if (damage == -1) damtext = "reinforced ";
+    if (damage ==  1) damtext = "marked ";
+    if (damage ==  2) damtext = "dented ";
+    if (damage ==  3) damtext = "scarred ";
+    if (damage ==  4) damtext = "broken ";
     break;
    case PAPER:
-    if (damage == 1) damtext = "torn ";
-    if (damage >= 2) damtext = "shredded ";
+    if (damage ==  1) damtext = "torn ";
+    if (damage >=  2) damtext = "shredded ";
     break;
    case WOOD:
-    if (damage == 1) damtext = "scratched ";
-    if (damage == 2) damtext = "chipped ";
-    if (damage == 3) damtext = "cracked ";
-    if (damage == 4) damtext = "splintered ";
+    if (damage ==  1) damtext = "scratched ";
+    if (damage ==  2) damtext = "chipped ";
+    if (damage ==  3) damtext = "cracked ";
+    if (damage ==  4) damtext = "splintered ";
     break;
    case PLASTIC:
    case GLASS:
-    if (damage == 1) damtext = "scratched ";
-    if (damage == 2) damtext = "cut ";
-    if (damage == 3) damtext = "cracked ";
-    if (damage == 4) damtext = "shattered ";
+    if (damage ==  1) damtext = "scratched ";
+    if (damage ==  2) damtext = "cut ";
+    if (damage ==  3) damtext = "cracked ";
+    if (damage ==  4) damtext = "shattered ";
     break;
    case IRON:
-    if (damage == 1) damtext = "lightly rusted ";
-    if (damage == 2) damtext = "rusted ";
-    if (damage == 3) damtext = "very rusty ";
-    if (damage == 4) damtext = "thoroughly rusted ";
+    if (damage ==  1) damtext = "lightly rusted ";
+    if (damage ==  2) damtext = "rusted ";
+    if (damage ==  3) damtext = "very rusty ";
+    if (damage ==  4) damtext = "thoroughly rusted ";
     break;
    default:
     damtext = "damaged ";
   }
-  ret = damtext + ret;
+  ret << damtext;
  }
+
+ if (type->id == itm_corpse) {
+  ret << corpse->name << " corpse";
+  if (name != "")
+   ret << " of " << name;
+  return ret.str();
+ }
+
+ if (is_gun() && contents.size() > 0) {
+  ret << type->name;
+  for (int i = 0; i < contents.size(); i++)
+   ret << "+";
+ } else if (contents.size() == 1)
+  ret << type->name << " of " << contents[0].tname();
+ else if (contents.size() > 0)
+  ret << type->name << ", full";
+ else
+  ret << type->name;
+
  if (owned)
-  ret += " (owned)";
- return ret;
+  ret << " (owned)";
+ return ret.str();
 }
 
 nc_color item::color()
@@ -825,8 +829,8 @@ Choose ammo type:         Damage     Armor Pierce     Range     Accuracy");
   } else {
    int smallest = 500;
    for (int i = 0; i < am.size(); i++) {
-    if (u.inv[am[i]].type->id == curammo->id &&
-        u.inv[am[i]].charges < smallest) {
+    //if (u.inv[am[i]].type->id == curammo->id &&
+        if (u.inv[am[i]].charges < smallest) {
      smallest = u.inv[am[i]].charges;
      index = am[i];
     }
@@ -882,6 +886,37 @@ void item::use(player &u)
   charges--;
 }
 
+/*
+bool item::stack_with(item &it)
+{
+ if (type->id != it.type->id || damage != it.damage ||
+     charges != it.charges || owned != it.owned || active != it.active ||
+     ((is_food() || is_food_container()) && bday != it.bday))
+  return false;
+
+ if (contents.size() > 0) {
+  if (contents.size() != it.contents.size())
+   return false;
+  std::vector<int> tmp_contents; // Duplicate it to check if it matches
+  for (int i = 0; i < it.contents.size(); i++)
+   tmp_contents.push_back(it.contents[i].type->id);
+  for (int i = 0; i < contents.size(); i++) {
+   for (int j = 0; j < tmp_contents.size(); j++) {
+    if (tmp_contents[j] == contents[i].type->id) {
+    tmp_contents.erase(tmp_contents.begin() + j);
+     j = tmp_contents.size();
+    }
+   }
+  }
+// At this point, tmp_contents should be empty if it's a perfect match
+  if (!tmp_contents.empty())
+   return false;
+ }
+
+ count++;
+ return true;
+}
+*/
 
 bool is_flammable(material m)
 {

@@ -1326,12 +1326,30 @@ int npc::danger_assessment(game *g)
  }
  if (ret <= 2)
   ret = -10 + 5 * ret;	// Low danger if no monsters around
+
+// Mod for the player
+ if (is_enemy()) {
+  if (rl_dist(posx, posy, g->u.posx, g->u.posy) < 10) {
+   if (g->u.weapon.is_gun())
+    ret += 10;
+   else 
+    ret += 10 - rl_dist(posx, posy, g->u.posx, g->u.posy);
+  }
+ } else if (is_friend()) {
+  if (rl_dist(posx, posy, g->u.posx, g->u.posy) < 8) {
+   if (g->u.weapon.is_gun())
+    ret -= 8;
+   else 
+    ret += 8 - rl_dist(posx, posy, g->u.posx, g->u.posy);
+  }
+ }
+
  for (int i = 0; i < num_hp_parts; i++) {
   if (i == hp_head || i == hp_torso) {
         if (hp_cur[i] < hp_max[i] / 4)
-    ret += 4;
+    ret += 5;
    else if (hp_cur[i] < hp_max[i] / 2)
-    ret += 2;
+    ret += 3;
    else if (hp_cur[i] < hp_max[i] * .9)
     ret += 1;
   } else {

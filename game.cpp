@@ -535,7 +535,6 @@ void game::start_tutorial(tut_type type)
   return;
  }
 }
-  
 
 void game::create_factions()
 {
@@ -581,12 +580,11 @@ bool game::do_turn()
   u.hp_cur[hp_torso] = 0;
  }
  if (turn % 50 == 0) {	// Hunger, thirst, & fatigue up every 5 minutes
-  if (!u.has_trait(PF_LIGHTEATER) || !one_in(3))
-   u.hunger++;	// If light eater, around 1/3 of the time it's skipped
-  if (u.has_bionic(bio_recycler) && turn % 300 == 0 )
-   u.hunger--;
+  if ((!u.has_trait(PF_LIGHTEATER) || !one_in(3)) &&
+      (!u.has_bionic(bio_recycler) || turn % 300 == 0))
+   u.hunger++;
   if (!u.has_bionic(bio_recycler) || turn % 100 == 0)
-   u.thirst++;	// If has a recycler, 1/2 of the time it's skipped
+   u.thirst++;
   u.fatigue++;
   if (u.fatigue == 192 && !u.has_disease(DI_LYING_DOWN) &&
       !u.has_disease(DI_SLEEP)) {
@@ -604,7 +602,7 @@ bool game::do_turn()
   if (u.has_bionic(bio_solar) && u.is_in_sunlight(this))
    u.charge_power(1);
  }
- if (turn % 300 == 0) {	// Pain and morale up/down every 30 minutes
+ if (turn % 300 == 0) {	// Pain up/down every 30 minutes
   if (u.pain > 0)
    u.pain--;
   else if (u.pain < 0)
@@ -624,6 +622,13 @@ bool game::do_turn()
   spawn_mon(-1 + 2 * rng(0, 1), -1 + 2 * rng(0, 1));
   nextspawn = turn;
  }
+ while (u.moves > 0) {
+  draw();
+  get_input();
+  if (is_game_over())
+   return true;
+ }
+ update_scent();
  m.process_fields(this);
  m.process_active_items(this);
  m.step_in_field(u.posx, u.posy, this);
@@ -641,15 +646,6 @@ bool game::do_turn()
  process_activity();
  if (is_game_over())
   return true;
- int oldmoves = u.moves;
- while (u.moves > 0) {
-  draw();
-  oldmoves = u.moves;
-  get_input();
-  if (is_game_over())
-   return true;
- }
- update_scent();
  return false;
 }
 
@@ -764,6 +760,9 @@ void game::process_activity()
    case ACT_CRAFT:
     complete_craft();
     break;
+   case ACT_BUTCHER:
+    complete_butcher(u.activity.index);
+    break;
    }
    u.activity.type = ACT_NULL;
   }
@@ -798,6 +797,8 @@ void game::cancel_activity_query(std::string message)
 void game::get_input()
 {
  char ch = input(); // See keypress.h
+
+ last_action = ch;
 
 // These are the default characters for all actions.  It's the job of input(),
 // found in keypress.h, to translate the user's input into these characters.
@@ -2548,7 +2549,9 @@ void game::open()
  mvwprintw(w_terrain, 0, 0, "Open where? (hjklyubn) ");
  wrefresh(w_terrain);
  int openx, openy;
- get_direction(openx, openy, input());
+ char ch = input();
+ last_action += ch;
+ get_direction(openx, openy, ch);
  if (openx != -2 && openy != -2)
   if (m.ter(u.posx, u.posy) == t_floor)
    didit = m.open_door(u.posx + openx, u.posy + openy, true);
@@ -2580,7 +2583,9 @@ void game::close()
  mvwprintw(w_terrain, 0, 0, "Close where? (hjklyubn) ");
  wrefresh(w_terrain);
  int closex, closey;
- get_direction(closex, closey, input());
+ char ch = input();
+ last_action += ch;
+ get_direction(closex, closey, ch);
  if (closex != -2 && closey != -2) {
   closex += u.posx;
   closey += u.posy;
@@ -2607,6 +2612,7 @@ void game::smash()
  mvwprintw(w_terrain, 0, 0, "Smash what? (hjklyubn) ");
  wrefresh(w_terrain);
  char ch = input();
+ last_action += ch;
  if (ch == KEY_ESCAPE) {
   add_msg("Never mind.");
   return;
@@ -2642,6 +2648,7 @@ void game::smash()
 void game::use_item()
 {
  char ch = inv("Use item:");
+ last_action += ch;
  itype_id tut;
  if (in_tutorial)
   tut = itype_id(u.i_at(ch).type->id);
@@ -2660,6 +2667,7 @@ void game::examine()
  wrefresh(w_terrain);
  int examx, examy;
  char ch = input();
+ last_action += ch;
  if (ch == KEY_ESCAPE || ch == 'e' || ch == 'q')
   return;
  get_direction(examx, examy, ch);
@@ -3373,12 +3381,14 @@ void game::drop()
 // Display current inventory.
 char game::inv(std::string title)
 {
+ if (title == "")
+  title = "Inventory:";
  WINDOW* w_inv = newwin(25, 80, 0, 0);
- int maxitems = 20;	// Number of items to show at one time.
+ const int maxitems = 20;	// Number of items to show at one time.
  char ch = '.';
  int start = 0, cur_it;
- if (!u.inv_sorted)
-  u.sort_inv();
+ //if (!u.inv_sorted)
+ u.sort_inv();
  int first_gun   = -1,
      first_ammo  = -1,
      first_weap  = -1,
@@ -3403,9 +3413,9 @@ char game::inv(std::string title)
    first_book = i;
   else if (first_weap == -1 && u.inv[i].is_weap())
    first_weap = i;
-  else if (first_other == -1 && !u.inv[i].is_food() && !u.inv[i].is_ammo() &&
-           !u.inv[i].is_gun() && !u.inv[i].is_armor() && !u.inv[i].is_book() &&
-           !u.inv[i].is_tool() && !u.inv[i].is_weap() &&
+  else if (first_other == -1   && !u.inv[i].is_food()  && !u.inv[i].is_ammo() &&
+           !u.inv[i].is_gun()  && !u.inv[i].is_armor() && !u.inv[i].is_book() &&
+           !u.inv[i].is_tool() && !u.inv[i].is_weap()  &&
            !u.inv[i].is_food_container())
    first_other = i;
  }
@@ -3652,89 +3662,106 @@ void game::butcher()
  for (int i = corpses.size() - 1; i >= 0; i--) {
   mtype *corpse = m.i_at(u.posx, u.posy)[corpses[i]].corpse;
   if (query_yn("Butcher the %s corpse?", corpse->name.c_str())) {
-   int age = m.i_at(u.posx, u.posy)[corpses[i]].bday;
-   m.i_rem(u.posx, u.posy, corpses[i]);
-   int time_to_cut, pieces, pelts;
-   double skill_shift = 0.;
-   switch (corpse->size) {
-    case MS_TINY:   time_to_cut =  50; pieces =  1; pelts =  1; break;
-    case MS_SMALL:  time_to_cut = 100; pieces =  2; pelts =  3; break;
-    case MS_MEDIUM: time_to_cut = 200; pieces =  4; pelts =  6; break;
-    case MS_LARGE:  time_to_cut = 400; pieces =  8; pelts = 10; break;
-    case MS_HUGE:   time_to_cut = 800; pieces = 16; pelts = 18; break;
+   int time_to_cut;
+   switch (corpse->size) {	// Time in turns to cut up te corpse
+    case MS_TINY:   time_to_cut =  2; break;
+    case MS_SMALL:  time_to_cut =  5; break;
+    case MS_MEDIUM: time_to_cut = 10; break;
+    case MS_LARGE:  time_to_cut = 18; break;
+    case MS_HUGE:   time_to_cut = 40; break;
    }
-   time_to_cut += factor * 3;
-   if (time_to_cut > 0)
-    u.moves -= time_to_cut;
-   if (u.sklevel[sk_butcher] < 3)
-    skill_shift -= rng(0, 8 - u.sklevel[sk_butcher]);
-   else
-    skill_shift += rng(0, u.sklevel[sk_butcher]);
-   if (u.dex_cur < 8)
-    skill_shift -= rng(0, 8 - u.dex_cur) / 4;
-   else
-    skill_shift += rng(0, u.dex_cur - 8) / 4;
-   if (u.str_cur < 4)
-    skill_shift -= rng(0, 5 * (4 - u.str_cur)) / 4;
-   if (factor > 0)
-    skill_shift -= rng(0, factor / 5);
-   
-   int practice = 4 + pieces * 4;
-   if (practice > 25)
-    practice = 25;
-   u.practice(sk_butcher, practice);
-
-   pieces += int(skill_shift);
-   if (skill_shift < 3)
-    pelts += int(skill_shift - 3);
-   if ((corpse->flags & mfb(MF_FUR) || corpse->flags & mfb(MF_LEATHER)) &&
-       pelts > 0) {
-    add_msg("You manage to skin the %s!", corpse->name.c_str());
-    for (int i = 0; i < pelts; i++) {
-     itype* pelt;
-     if (corpse->flags & mfb(MF_FUR) && corpse->flags & mfb(MF_LEATHER)) {
-      if (one_in(2))
-       pelt = itypes[itm_fur];
-      else
-       pelt = itypes[itm_leather];
-     } else if (corpse->flags & mfb(MF_FUR))
-      pelt = itypes[itm_fur];
-     else
-      pelt = itypes[itm_leather];
-     m.add_item(u.posx, u.posy, pelt, age);
-    }
-   }
-   if (pieces <= 0)
-    add_msg("Your clumsy butchering destroys the meat!");
-   else {
-    itype* meat;
-    if (corpse->flags & mfb(MF_POISON)) {
-     if (rng(3, 10) < skill_shift) {
-      add_msg("Your skillful butchering eliminates the poison!");
-      if (corpse->mat == FLESH)
-       meat = itypes[itm_meat];
-      else
-       meat = itypes[itm_veggy];
-     } else {
-      if (corpse->mat == FLESH)
-       meat = itypes[itm_meat_tainted];
-      else
-       meat = itypes[itm_veggy_tainted];
-     }
-    } else {
-     if (corpse->mat == FLESH)
-      meat = itypes[itm_meat];
-     else
-      meat = itypes[itm_veggy];
-    }
-    for (int i = 0; i < pieces; i++)
-     m.add_item(u.posx, u.posy, meat, age);
-    add_msg("You butcher the corpse.");
-   }
+   time_to_cut *= 100;	// Convert to movement points
+   time_to_cut += factor * 5;	// Penalty for poor tool
+   if (time_to_cut < 250)
+    time_to_cut = 250;
+   u.activity = player_activity(ACT_BUTCHER, time_to_cut, corpses[i]);
+   return;
   }
  }
 }
+   
+void game::complete_butcher(int index)
+{
+ mtype* corpse = m.i_at(u.posx, u.posy)[index].corpse;
+ int age = m.i_at(u.posx, u.posy)[index].bday;
+ m.i_rem(u.posx, u.posy, index);
+ int factor = u.butcher_factor();
+ int pieces, pelts;
+ double skill_shift = 0.;
+ switch (corpse->size) {
+  case MS_TINY:   pieces =  1; pelts =  1; break;
+  case MS_SMALL:  pieces =  2; pelts =  3; break;
+  case MS_MEDIUM: pieces =  4; pelts =  6; break;
+  case MS_LARGE:  pieces =  8; pelts = 10; break;
+  case MS_HUGE:   pieces = 16; pelts = 18; break;
+ }
+ if (u.sklevel[sk_butcher] < 3)
+  skill_shift -= rng(0, 8 - u.sklevel[sk_butcher]);
+ else
+  skill_shift += rng(0, u.sklevel[sk_butcher]);
+ if (u.dex_cur < 8)
+  skill_shift -= rng(0, 8 - u.dex_cur) / 4;
+ else
+  skill_shift += rng(0, u.dex_cur - 8) / 4;
+ if (u.str_cur < 4)
+  skill_shift -= rng(0, 5 * (4 - u.str_cur)) / 4;
+ if (factor > 0)
+  skill_shift -= rng(0, factor / 5);
+   
+ int practice = 4 + pieces;
+ if (practice > 20)
+  practice = 20;
+ u.practice(sk_butcher, practice);
 
+ pieces += int(skill_shift);
+ if (skill_shift < 5)	// Lose some pelts
+  pelts += (skill_shift - 5);
+
+ if ((corpse->flags & mfb(MF_FUR) || corpse->flags & mfb(MF_LEATHER)) &&
+     pelts > 0) {
+  add_msg("You manage to skin the %s!", corpse->name.c_str());
+  for (int i = 0; i < pelts; i++) {
+   itype* pelt;
+   if (corpse->flags & mfb(MF_FUR) && corpse->flags & mfb(MF_LEATHER)) {
+    if (one_in(2))
+     pelt = itypes[itm_fur];
+    else
+     pelt = itypes[itm_leather];
+   } else if (corpse->flags & mfb(MF_FUR))
+    pelt = itypes[itm_fur];
+   else
+    pelt = itypes[itm_leather];
+   m.add_item(u.posx, u.posy, pelt, age);
+  }
+ }
+ if (pieces <= 0)
+  add_msg("Your clumsy butchering destroys the meat!");
+ else {
+  itype* meat;
+  if (corpse->flags & mfb(MF_POISON)) {
+   if (rng(3, 10) < skill_shift) {
+    add_msg("Your skillful butchering eliminates the poison!");
+    if (corpse->mat == FLESH)
+     meat = itypes[itm_meat];
+    else
+     meat = itypes[itm_veggy];
+   } else {
+    if (corpse->mat == FLESH)
+     meat = itypes[itm_meat_tainted];
+    else
+     meat = itypes[itm_veggy_tainted];
+   }
+  } else {
+   if (corpse->mat == FLESH)
+    meat = itypes[itm_meat];
+   else
+    meat = itypes[itm_veggy];
+  }
+  for (int i = 0; i < pieces; i++)
+   m.add_item(u.posx, u.posy, meat, age);
+  add_msg("You butcher the corpse.");
+ }
+}
 
 void game::eat()
 {

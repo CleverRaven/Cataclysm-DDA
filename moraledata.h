@@ -18,12 +18,12 @@ const morale_datum morale_data[] = {
 {"Good Mood Swing",	 100,	  1200},
 {"Bad Feeling",		 -20,	   600},
 {"Good Feeling",	  20,	   600},
-{"Disgusting Food",	 -30,	   900},
-{"Delicious Food",	  20,	   900},
+{"Disgusting Food",	-100,	   900},
+{"Delicious Food",	  80,	   900},
 {"Ate Meat",		 -50,	  1200},
-{"Dull Reading",	 -10,	   600},
-{"Fun Reading",		  14,	   900},
-{"Listened to Music",	  20,	   450},
+{"Dull Reading",	 -15,	   600},
+{"Fun Reading",		  20,	   900},
+{"Listened to Music",	  50,	   450},
 {"Killed Innocent",	 -80,	 14400},	// One day
 {"Killed Friend",	-600,	100800},	// One week!
 {"Killed Mom",		 -10,	   900},

@@ -103,7 +103,7 @@ struct addiction
 
 enum activity_type {
  ACT_NULL = 0,
- ACT_RELOAD, ACT_READ, ACT_WAIT, ACT_CRAFT,
+ ACT_RELOAD, ACT_READ, ACT_WAIT, ACT_CRAFT, ACT_BUTCHER,
  NUM_ACTIVITIES
 };
 

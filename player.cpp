@@ -2183,7 +2183,7 @@ int player::dodge()
 //  the dodge skill.
  if (has_disease(DI_SLEEP) || has_disease(DI_LYING_DOWN))
   return 0;
- practice(sk_dodge, 9);
+ practice(sk_dodge, 10);
  int ret = 4 + (dex_cur / 2);
  if (moves < 0)	// We did something else, and thus cannot dodge quite as well!
   ret = 0;
@@ -2980,7 +2980,14 @@ void player::i_add(item it)
   }
   if (it.charges > 0)
    inv.push_back(it);
- } else
+  return;
+ }
+/*
+ bool combined = false;
+ for (int i = 0; i < inv.size() && !combined; i++)
+  combined = inv[i].stack_with(it);
+ if (!combined)
+*/
   inv.push_back(it);
 }
 

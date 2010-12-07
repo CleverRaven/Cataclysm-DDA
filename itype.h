@@ -143,9 +143,9 @@ itm_bio_claws, itm_bio_fusion, itm_bio_blaster,
 num_all_items
 };
 
-enum iclass {
+enum item_cat {
 IC_NULL,
-IC_COMEST, IC_MED, IC_WEAP, IC_AMMO, IC_GUN, IC_TOOL, IC_BOOK,
+IC_GUN, IC_AMMO, IC_WEAPON, IC_TOOL, IC_FOOD, IC_DRUG, IC_BOOK, IC_ARMOR,
 IC_MISC
 };
 

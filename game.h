@@ -145,6 +145,7 @@ class game
   bool handle_liquid(item &liquid, bool from_ground, bool infinite);
   void drop();	  // Drop an item		'd'	TODO: Multidrop
   void butcher(); // Butcher a corpse		'B'
+  void complete_butcher(int index);	// Finish the butchering process
   void eat();	  // Eat food or fuel		'E' (or 'a')
   void use_item();// Use item; also tries E,R,W	'a'
   void wear();	  // Wear armor			'W' (or 'a')
@@ -222,6 +223,7 @@ class game
   int nulscent;				// Returned for OOB scent checks
   std::vector<event> events;	        // Game events to be processed
   int kills[num_monsters];	        // Player's kill count
+  std::string last_action;		// The keypresses of last turn
 
   std::vector<recipe> recipes;	// The list of valid recipes
 

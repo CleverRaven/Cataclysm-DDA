@@ -390,7 +390,7 @@ wafting on the breeze."
 // BLOBS & SLIMES &c
 mon("blob",		'O',	c_dkgray,	MS_MEDIUM,	LIQUID,
 	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_GOODHEARING)|mfb(MF_NOHEAD)|
-	 mfb(MF_POISON)),
+	 mfb(MF_POISON)|mfb(MF_ACIDPROOF)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	 10, 19,  5, 85,  9,  2,  4,  0,  0,  0,  0, 85, 30,
 	&mdeath::blobsplit,	&mattack::formblob, "\
@@ -401,7 +401,7 @@ oil."
 
 mon("small blob",	'o',	c_dkgray,	MS_SMALL,	LIQUID,
 	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_GOODHEARING)|mfb(MF_NOHEAD)|
-	 mfb(MF_POISON)),
+	 mfb(MF_POISON)|mfb(MF_ACIDPROOF)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	  1,  2,  5, 50,  6,  1,  4,  0,  0,  0,  0, 50, 0,
 	&mdeath::blobsplit,	&mattack::none, "\
@@ -482,6 +482,7 @@ mon("flying polyp",	'H',	c_dkgray,	MS_HUGE,	FLESH,
 An amorphous mass of twisting black flesh\n\
 that flies through the air swiftly."
 );
+
 mon("hunting horror",	'h',	c_dkgray,	MS_SMALL,	MNULL,
 	(mfb(MF_SEES)|mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_NOHEAD)|
 	 mfb(MF_HARDTOSHOOT)|mfb(MF_FLIES)|mfb(MF_PLASTIC)|mfb(MF_SUNDEATH)),
@@ -493,6 +494,7 @@ bat-like wings. Its form continually\n\
 shifts and changes, twitching and\n\
 writhing."
 );
+
 mon("Mi-go",		'H',	c_pink,		MS_MEDIUM,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_WARM)|
 	 mfb(MF_BASHES)|mfb(MF_POISON)),
@@ -504,6 +506,7 @@ creature with numerous pairs of clawed\n\
 appendages and a head covered with waving\n\
 antennae."
 );
+
 mon("yugg",		'H',	c_white,	MS_HUGE,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_BASHES)|
 	 mfb(MF_DESTROYS)|mfb(MF_POISON)|mfb(MF_VENOM)|mfb(MF_DIGS)),
@@ -515,6 +518,7 @@ beneath the earth. Poking from the\n\
 ground is a bulbous head dominated by a\n\
 pink mouth, lined with rows of fangs."
 );
+
 mon("gelatinous blob", 'O',	c_ltgray,	MS_LARGE,	LIQUID,
 	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_PLASTIC)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
@@ -524,6 +528,7 @@ A shapeless blob the size of a cow.  It\n\
 oozes slowly across the ground, small\n\
 chunks falling off of its sides."
 );
+
 mon("flaming eye",	'E',	c_red,		MS_MEDIUM,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_WARM)|mfb(MF_FLIES)|mfb(MF_FIREY)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
@@ -533,6 +538,7 @@ An eyeball the size of an easy chair and\n\
 covered in rolling blue flames. It floats\n\
 through the air."
 );
+
 mon("kreck",		'h',	c_ltred,	MS_SMALL,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_WARM)|mfb(MF_BASHES)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
@@ -543,6 +549,7 @@ twisted red flesh and a distended neck. It\n\
 scampers across the ground, panting and\n\
 grunting."
 );
+
 mon("blank body",	'h',	c_white,	MS_MEDIUM,	FLESH,
 	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_WARM)|mfb(MF_ANIMAL)|
 	 mfb(MF_SUNDEATH)),

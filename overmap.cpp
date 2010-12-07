@@ -762,29 +762,6 @@ void overmap::first_house(int &x, int &y)
  y = starty;
 }
   
-/*
- std::vector<point> valid;
- for (x = startx; x != startx - 1 && valid.size() < 10; x++) {
-  for (y = starty; y != starty - 1 && valid.size() < 10; y++) {
-   if (x == OMAPX)
-    x = 0;
-   if (y == OMAPY)
-    y = 0;
-   if (ter(x, y) >= ot_house_north && ter(x, y) <= ot_house_west)
-    valid.push_back(point(x, y));
-  }
- }
- if (valid.size() > 0) {
-  int index = rng(0, valid.size() - 1);
-  x = valid[index].x;
-  y = valid[index].y;
- } else {
-  x = -1;
-  y = -1;
- }
-}
-*/
-
 void overmap::place_forest()
 {
  int x, y;

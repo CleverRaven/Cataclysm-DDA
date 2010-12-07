@@ -130,12 +130,12 @@ void game::init_mapitems()
    mapitems[mi_cleaning],
 	itm_salt_water, itm_bleach, itm_ammonia, itm_broom, itm_mop,
 	itm_gloves_rubber, itm_mask_dust, itm_bottle_plastic, itm_sewing_kit,
-	itm_rag, itm_scissors, NULL);
+	itm_rag, itm_scissors, itm_string_36, NULL);
 
  setvector(
    mapitems[mi_hardware],
 	itm_superglue, itm_chain, itm_rope_6, itm_rope_30, itm_glass_sheet,
-	itm_pipe, itm_nail, itm_hose, NULL);
+	itm_pipe, itm_nail, itm_hose, itm_string_36, NULL);
 
  setvector(
    mapitems[mi_tools],
@@ -169,7 +169,7 @@ void game::init_mapitems()
 	itm_bolt_steel, itm_bbgun, itm_crossbow, itm_manual_knives,
 	itm_manual_first_aid, itm_manual_traps, itm_lighter, itm_sewing_kit,
 	itm_hammer, itm_flashlight, itm_water_purifier, itm_radio, itm_beartrap,
-	itm_UPS_off, NULL);
+	itm_UPS_off, itm_string_36, NULL);
 
  setvector(
    mapitems[mi_allsporting],
@@ -181,7 +181,7 @@ void game::init_mapitems()
 	itm_bb, itm_bolt_steel, itm_bbgun, itm_crossbow, itm_manual_knives,
 	itm_manual_first_aid, itm_manual_traps, itm_lighter, itm_sewing_kit,
 	itm_hammer, itm_flashlight, itm_water_purifier, itm_radio, itm_beartrap,
-	itm_extinguisher, NULL);
+	itm_extinguisher, itm_string_36, NULL);
 
  setvector(
    mapitems[mi_alcohol],
