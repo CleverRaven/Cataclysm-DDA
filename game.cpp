@@ -622,6 +622,7 @@ bool game::do_turn()
   spawn_mon(-1 + 2 * rng(0, 1), -1 + 2 * rng(0, 1));
   nextspawn = turn;
  }
+ process_activity();
  while (u.moves > 0) {
   draw();
   get_input();
@@ -643,7 +644,6 @@ bool game::do_turn()
   draw();
   refresh();
  }
- process_activity();
  if (is_game_over())
   return true;
  return false;
@@ -3675,6 +3675,7 @@ void game::butcher()
    if (time_to_cut < 250)
     time_to_cut = 250;
    u.activity = player_activity(ACT_BUTCHER, time_to_cut, corpses[i]);
+   u.moves = 0;
    return;
   }
  }
