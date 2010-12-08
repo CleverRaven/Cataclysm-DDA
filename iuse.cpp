@@ -948,7 +948,9 @@ void iuse::dig(game *g, item *it, bool t)
  if (g->m.has_flag(diggable, g->u.posx + dirx, g->u.posy + diry)) {
   g->u.moves -= 300;
   g->add_msg("You dig a pit.");
-  g->m.ter(g->u.posx + dirx, g->u.posy + diry) = t_pit;
+  g->m.ter     (g->u.posx + dirx, g->u.posy + diry) = t_pit;
+  g->m.add_trap(g->u.posx + dirx, g->u.posy + diry, tr_pit);
+  g->u.practice(sk_traps, 1);
  } else
   g->add_msg("You can't dig through %d!",
              g->m.tername(g->u.posx + dirx, g->u.posy + diry).c_str());
