@@ -1021,11 +1021,16 @@ bool game::load_master()
  fin.open("save/master.gsav");
  if (!fin.is_open())
   return false;
+
+ char datatype;
  while (!fin.eof()) {
-  getline(fin, data);
-  faction tmp;
-  tmp.load_info(data);
-  factions.push_back(tmp);
+  fin >> datatype;
+  if (datatype == 'F') {
+   getline(fin, data);
+   faction tmp;
+   tmp.load_info(data);
+   factions.push_back(tmp);
+  }
  }
  fin.close();
  return true;
@@ -3407,7 +3412,7 @@ char game::inv(std::string title)
   else if (first_food == -1 &&
            (u.inv[i].is_food() || u.inv[i].is_food_container()))
    first_food = i;
-  else if (first_tool == -1 && u.inv[i].is_tool())
+  else if (first_tool == -1 && (u.inv[i].is_tool() || u.inv[i].is_gunmod()))
    first_tool = i;
   else if (first_book == -1 && u.inv[i].is_book())
    first_book = i;
@@ -4104,7 +4109,8 @@ void game::plmove(int x, int y)
    }
   }
   return;
- }
+ } else
+  return;	// We declined to attack the NPC.
 
 // Otherwise, actual movement, zomg
  if (u.has_disease(DI_IN_PIT)) {

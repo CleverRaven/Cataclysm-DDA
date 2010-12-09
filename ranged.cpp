@@ -652,7 +652,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
      target = i;
    }
    return ret;
-  } else if (ch == KEY_ESCAPE) { // ESC hit - return false, e.g. CANCEL
+  } else if (ch == KEY_ESCAPE || ch == 'q') { // return empty vector (cancel)
    ret.clear();
    return ret;
   }

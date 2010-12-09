@@ -196,8 +196,8 @@ slowly decrease.  Taking iodine tablets will help speed the process.\n\
 If you become very irradiated, you may develop mutations.  Most of the time,\n\
 these mutations will be negative; however, many are beneficial, and others\n\
 have both positive and negative effects.  Your mutations may change your play\n\
-style considerably.  They are extremely rare, but it is possible to find\n\
-substances that will remove mutations.");
+style considerably.  It is possible to find substances that will remove\n\
+mutations, though these are extremely rare.");
    getch();
    break;
 
@@ -218,8 +218,8 @@ Bionics come in ready-to-install canisters, most of which contain supplies\n\
 for several different modules.  Installing a bionic will consume the entire\n\
 canister, so choose your upgrade carefully.  Installation of a bionic is best\n\
 left to a trained professional; however, you may attempt to perform a self-\n\
-installation.  Performing such a task requires high levels of surgery,\n\
-mechanics, and/or electrions, and failure may cripple you!  Bionics canisters\n\
+installation.  Performing such a task requires high levels of first aid,\n\
+mechanics, and/or electronics, and failure may cripple you!  Bionics canisters\n\
 are difficult to find, but they may be purchased from certain NPCs for a very\n\
 high price.");
    getch();
@@ -295,8 +295,7 @@ these containers and loot their contents.\n\
 All items may be used as a melee weapon, though some are better than others.\n\
 You can check the melee attributes of an item you're carrying by hitting 'i'\n\
 to enter your inventory, then pressing the letter of the item.  There are 3\n\
-values, displayed as (B#/C#/H#). B indicates the bashing damage dealt, C is\n\
-cutting damage, and H is a bonus (or penalty) to your chance to hit.\n\
+melee values, bashing, cutting, and to-hit bonus (or penalty).\n\
 Bashing damage is universally effective, but is capped by low strength.\n\
 Cutting damage is a guaranteed increase in damage, but it may be reduced by\n\
 a monster's natural armor.\n\
@@ -327,15 +326,14 @@ weapons are the fastest; unarmed attacks increase in speed with your Unarmed\n\
 Combat skill, and will eventually be VERY fast.  A successful hit will stun\n\
 the monster temporarily, and most one-on-one fights will be easily won by the\n\
 player.  On the other hand, a miss will make you stumble and cost YOU\n\
-movement points.\n\
+movement points.  If a monster hits you, your clothing may absorb some damage,\n\
+but you will absorb the excess.\n\
 \n\
 Swarms of monsters may call for firearms. If you find one, wield it first,\n\
 then reload by pressing 'r'. If you wish to change ammo, you must unload the\n\
 weapon by pressing 'U', then reload again. To fire, press 'f', move the\n\
 cursor to the relevant space, then hit '.' or 'f'. Some guns have automatic\n\
-fire; to shoot a burst, press 'F'. This will severely reduce accuracy.  If\n\
-you are hit, your clothing will absorb some damage, but you will suffer\n\
-the excess.\n\
+fire; to shoot a burst, press 'F'.  This will severely reduce accuracy.\n\
 \n\
 Unlike most roguelikes, fleeing will often be your best option, especially\n\
 when overwhelmed by a swarm of zombies.  Try to avoid getting cornered inside\n\
@@ -398,7 +396,7 @@ p - Power up / List bionics                  R - Read book\n\
    mvprintz(16, 0, c_white, "INFORMATION:");
    mvprintz(17, 0, c_ltgray, "\
 @ - View character status                    # - List factions\n\
-: - Open world map                           ; - Look around\n\
+: or m - Open world map                      ; - Look around\n\
 C - Chat with NPC                            ? - Help page\n\
 %%%% - View morale");
    mvprintz(21, 0, c_white, "META:");

@@ -294,7 +294,7 @@ enum field_id {
 };
 
 const field_t fieldlist[] = {
-{{"",	"",	"",},					'%',
+{{"",	"",	""},					'%',
  {c_white, c_white, c_white},	{true, true, true}, {false, false, false},  0},
 {{"blood splatter", "blood stain", "puddle of blood"},	'%',
  {c_red, c_red, c_red},		{true, true, true}, {false, false, false},2500},

@@ -36,16 +36,22 @@ bool map::process_fields(game *g)
     if (has_flag(swimmable, x, y))	// Dissipate faster in water
      cur->age += 20;
     for (int i = 0; i < i_at(x, y).size(); i++) {
-     if (i_at(x, y)[i].made_of(LIQUID) || i_at(x, y)[i].made_of(VEGGY)   ||
-         i_at(x, y)[i].made_of(FLESH)  || i_at(x, y)[i].made_of(POWDER)  ||
-         i_at(x, y)[i].made_of(COTTON) || i_at(x, y)[i].made_of(WOOL)    ||
-         i_at(x, y)[i].made_of(PAPER)  || i_at(x, y)[i].made_of(PLASTIC) ||
-         i_at(x, y)[i].made_of(GLASS)) { // Whew!  Acid-destructable.
-      cur->age += i_at(x, y)[i].volume();
-      for (int m = 0; m < i_at(x, y)[i].contents.size(); m++)
-       i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
-      i_at(x, y).erase(i_at(x, y).begin() + i);
-      i--;
+     item *melting = &(i_at(x, y)[i]);
+     if (melting->made_of(LIQUID) || melting->made_of(VEGGY)   ||
+         melting->made_of(FLESH)  || melting->made_of(POWDER)  ||
+         melting->made_of(COTTON) || melting->made_of(WOOL)    ||
+         melting->made_of(PAPER)  || melting->made_of(PLASTIC) ||
+         (melting->made_of(GLASS) && !one_in(3)) || one_in(4)) {
+// Acid destructable objects here
+      melting->damage++;
+      if (melting->damage >= 5 ||
+          (melting->made_of(PAPER) && melting->damage >= 3)) {
+       cur->age += melting->volume();
+       for (int m = 0; m < i_at(x, y)[i].contents.size(); m++)
+        i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
+       i_at(x, y).erase(i_at(x, y).begin() + i);
+       i--;
+      }
      }
     }
     break;
