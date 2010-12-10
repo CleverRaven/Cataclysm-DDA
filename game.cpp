@@ -4037,8 +4037,9 @@ void game::plmove(int x, int y)
 // If not a monster, maybe there's an NPC there
  int npcdex = npc_at(x, y);
  if (npcdex != -1 &&
-     ((!active_npc[npcdex].is_friend() && !active_npc[npcdex].is_following()) ||
-      query_yn("Really attack %s?", active_npc[npcdex].name.c_str()))) {
+     (!active_npc[npcdex].is_friend() && !active_npc[npcdex].is_following())) {
+  if (!query_yn("Really attack %s?", active_npc[npcdex].name.c_str()))
+   return;	// Cancel the attack
   body_part bphit;
   int hitdam = 0, hitcut = 0;
   bool success = u.hit_player(active_npc[npcdex], bphit, hitdam, hitcut);
@@ -4109,8 +4110,7 @@ void game::plmove(int x, int y)
    }
   }
   return;
- } else
-  return;	// We declined to attack the NPC.
+ }
 
 // Otherwise, actual movement, zomg
  if (u.has_disease(DI_IN_PIT)) {
