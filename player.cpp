@@ -897,8 +897,10 @@ slower.");
     case KEY_ESCAPE:
      done = true;
    }
+/*
    if (line >= 0 && line < illness.size())
     mvwprintz(w_effects, 2 + line, 1, c_ltgray, effect_name[line].c_str());
+*/
    break;
 
   case 5:	// Skills tab
