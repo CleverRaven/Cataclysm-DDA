@@ -3896,14 +3896,14 @@ bool player::can_sleep(game *g)
  if (has_addiction(ADD_SLEEP))
   sleepy -= 3;
  if (has_trait(PF_INSOMNIA))
-  sleepy -= 4;
+  sleepy -= 8;
  if (g->m.ter(posx, posy) == t_bed)
   sleepy += 5;
  else if (g->m.ter(posx, posy) == t_floor)
   sleepy += 1;
- else if (g->m.ter(posx, posy) != t_grass)
+ else
   sleepy -= g->m.move_cost(posx, posy);
- sleepy += (fatigue - 192) / 12;
+ sleepy += int((fatigue - 192) / 16);
  sleepy += rng(-8, 8);
  sleepy -= 2 * stim;
  if (sleepy > 0)

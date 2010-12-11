@@ -305,7 +305,7 @@ mutation will be beneficial are greatly increased."},
 Without your glasses, your seeing radius is severely reduced!  However, while\n\
 wearing glasses this trait has no effect, and you are guaranteed to start\n\
 with a pair."},
-{"Heavy Sleeper", -2, false, "\
+{"Heavy Sleeper", -1, false, "\
 You're quite the heavy sleeper.  Noises are unlikely to wake you up."},
 {"Asthmatic", -4, true, "\
 You will occasionally need to use an inhaler, or else suffer severe physical\n\
@@ -347,14 +347,14 @@ such as hunger, sleepiness, narcotic effects, etc."},
 {"Schizophrenic", -5, false, "\
 You will periodically suffer from delusions, ranging from minor effects to\n\
 full visual hallucinations.  Some of these effects may be controlled through\n\
-the use of medication."},
+the use of Thorazine."},
 {"Jittery", -3, false, "\
 During moments of great stress or under the effects of stimulants, you may\n\
 find your hands shaking uncontrollably, severely reducing your dexterity."},
-{"Hoarder", -3, false, "\
+{"Hoarder", -4, false, "\
 You don't feel right unless you're carrying as much as you can.  You suffer\n\
 morale penalties for carrying less than maximum volume (weight is ignored).\n\
-Benzodiazepines can help control this anxiety."},
+Xanax can help control this anxiety."},
 {"Savant", -4, false, "\
 You tend to specialize in one skill and be poor at all others.  You advance\n\
 at half speed in all skills except your best one. Note that combining this\n\

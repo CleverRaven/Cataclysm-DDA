@@ -832,11 +832,14 @@ void game::get_input()
  else if (ch == 'd')
   drop();
  else if (ch == 'i') {
-  char ch = inv();
-  if (u.has_item(ch)) {
-   full_screen_popup(u.i_at(ch).info(true).c_str());
-   refresh_all();
-  }
+  bool has = false;
+  do {
+   char ch = inv();
+   has = u.has_item(ch);
+   if (has)
+    full_screen_popup(u.i_at(ch).info(true).c_str());
+  } while (has);
+  refresh_all();
  } else if (ch == 'B')
   butcher();
  else if (ch == 'E')

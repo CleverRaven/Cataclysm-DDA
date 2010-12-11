@@ -43,6 +43,7 @@ m: Survival tips\n\
 2: List of item types and data\n\
 3: Description of map symbols\n\
 4: Description of gun types\n\
+5: Frequently Asked Questions (Some spoilers!)\n\
 \n\
 q: Return to game");
  
@@ -625,6 +626,73 @@ really need it.");
    getch();
    erase();
    break;
+  case '5':
+   mvprintz(0, 0, c_white, "\
+Q: What is Run Mode, and why does it prevent me from moving?\n\
+A: Run Mode is a way to guarantee that you won't die by holding a movement\n\
+   key down.  When a monster comes into view, your movement will be ignored\n\
+   until Run Mode is turned off with the ! key.  This ensures that the\n\
+   sudden appearence of a monster won't catch you off guard.\n\
+\n\
+Q: It seems like everything I eat makes me sick!  What's wrong?\n\
+A: Lots of the food found in towns is perishable, and will only last a few\n\
+   days after the start of a new game (July 12).  Fruit, milk, and others are\n\
+   the first to go.  After the first couple of days, you should switch to\n\
+   canned food, jerky, and hunting.\n\
+\n\
+Q: Why doesn't reading a book seem to give me any training?\n\
+A: Your skills will not be displayed in the @ screen until they reach level\n\
+   one.  Generally it will take several reads of the same book to gain a\n\
+   single level in a skill.\n\
+\n\
+Q: How can I board up windows and doors?\n\
+A: You'll need a hammer, nails, and two by fours.  Use the hammer and choose\n\
+   the direction in which the terrain you wish to barricade lies.\n\
+\n\
+Q: How can I prevent monsters from attacking while I sleep?\n\
+A: Find a safe place to sleep, in a building far from the front door.  Set\n\
+   traps if you have them, or build a fire.");
+   getch();
+   erase();
+   mvprintz(0, 0, c_white, "\
+Q: Why do I always sink when I try to swim?\n\
+A: Your swimming ability is reduced greatly by the weight you are carrying,\n\
+   and is also adversely affected by the clothing you wear.  Until you reach\n\
+   a high level in the swimming skill, you'll need to drop your equipment and\n\
+   remove your clothing to swim, making it a last-ditch escape plan.\n\
+\n\
+Q: How can I cure a fungal infection?\n\
+A: At present time, there is only one cure, royal jelly.  You can find royal\n\
+   jelly in the bee hives which dot forests.\n\
+\n\
+Q: How do I get into science labs?\n\
+A: You can enter the front door if you have an ID card by 'e'xamining the\n\
+   keypad.  If you are skilled in computers and have an electrohack, it is\n\
+   possible to hack the keypad.  An EMP blast has a chance to force the doors\n\
+   open, but it's more likely to break them.  You can also sneak in through\n\
+   the sewers sometimes, or try to smash through the walls with explosions.\n\
+\n\
+Q: Why does my crafting fail so often?\n\
+A: Check the difficulty of the recipe, and the primary skill used; your skill\n\
+   level should be around one and a half times the difficulty to be confident\n\
+   that it will succeed.");
+   getch();
+   erase();
+   mvprintz(0, 0, c_white, "\
+Q: Shotguns bring in more zombies than they kill!  What's the point?\n\
+A: Shotguns are intended for emergency use.  If you are cornered, use your\n\
+   shotgun to escape, then just run from the zombies it attracts.\n\
+\n\
+Q: The game just told me to quit, and other weird stuff is happening.\n\
+A: You have the Schizophrenic trait, which might make the game seem buggy.\n\
+\n\
+Q: I have a question that's not addressed here.  How can I get an answer?\n\
+A: Email your question to fivedozenwhales@gmail.com.  I'll answer it for you,\n\
+   and possibly include it on this list.");
+   getch();
+   erase();
+   break;
+
   }
  } while (ch != 'q' && ch != KEY_ESCAPE);
 }
