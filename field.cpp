@@ -120,13 +120,16 @@ bool map::process_fields(game *g)
     }
 // If the flames are REALLY big, they contribute to adjacent flames
     if (cur->density == 3 && cur->age < 0) {
+// If the flames are in a pit, it can't spread to non-pit
+     bool in_pit = (ter(x, y) == t_pit);
 // Randomly offset our x/y shifts by 0-2, to randomly pick a square to spread to
      int starti = rng(0, 2);
      int startj = rng(0, 2);
      for (int i = 0; i < 3 && cur->age < 0; i++) {
       for (int j = 0; j < 3 && cur->age < 0; j++) {
        if (field_at(x+((i+starti)%3), y+((j+startj)%3)).type == fd_fire &&
-           field_at(x+((i+starti)%3), y+((j+startj)%3)).density < 3) {
+           field_at(x+((i+starti)%3), y+((j+startj)%3)).density < 3 &&
+           (!in_pit || ter(x+((i+starti)%3), y+((j+startj)%3)) == t_pit)) {
         field_at(x+((i+starti)%3), y+((j+startj)%3)).density++; 
         field_at(x+((i+starti)%3), y+((j+startj)%3)).age = 0;
         cur->age = 0;
@@ -145,7 +148,8 @@ bool map::process_fields(game *g)
                   rng(15, 120) < cur->density * 10)) {
         if (field_at(x+i, y+j).type == fd_smoke)
          field_at(x+i, y+j) = field(fd_fire, 1, 0);
-        else 
+// Fire in pits can only spread to adjacent pits
+        else if (ter(x, y) != t_pit || ter(x + i, y + j) == t_pit)
          add_field(g, x+i, y+j, fd_fire, 1);
 // If we're not spreading, maybe we'll stick out some smoke, huh?
        } else if (move_cost(x+i, y+j) > 0 &&
@@ -269,6 +273,7 @@ bool map::process_fields(game *g)
      }
     }
     break;
+
    case fd_electricity:
     if (!one_in(5)) {	// 4 in 5 chance to spread
      std::vector<point> valid;

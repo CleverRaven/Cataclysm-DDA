@@ -832,6 +832,7 @@ slower.");
     case '\t':
      mvwprintz(w_traits, 0, 0, c_ltgray, "         TRAITS           ");
      for (int i = 0; i < traitslist.size() && i < 7; i++) {
+      mvwprintz(w_traits, i + 2, 1, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxx");
       if (traitslist[i] > PF_MAX2)
        status = c_ltblue;
       else if (traits[traitslist[i]].points > 0)
@@ -891,16 +892,12 @@ slower.");
       mvwprintz(w_effects, i + 2, 1, c_ltgray, effect_name[i].c_str());
      wrefresh(w_effects);
      line = 0;
-     curtab ++;
+     curtab++;
      break;
     case 'q':
     case KEY_ESCAPE:
      done = true;
    }
-/*
-   if (line >= 0 && line < illness.size())
-    mvwprintz(w_effects, 2 + line, 1, c_ltgray, effect_name[line].c_str());
-*/
    break;
 
   case 5:	// Skills tab
@@ -1402,8 +1399,8 @@ void player::mutate(game *g)
     break;
    case 13:
     if (has_trait(PF_DEFORMED2) || has_trait(PF_DEFORMED)) {
-     g->add_msg("Your deformations melt away%s.",
-                (has_trait(PF_DEFORMED2) ? " somewhat" : ""));
+     g->add_msg("Your deformations %smelt away.",
+                (has_trait(PF_DEFORMED2) ? "partially " : ""));
      if (has_trait(PF_DEFORMED2))
       toggle_trait(PF_DEFORMED2);
      toggle_trait(PF_DEFORMED);
@@ -1422,7 +1419,7 @@ void player::mutate(game *g)
      g->add_msg("Your body stops disintegrating.");
      toggle_trait(PF_ROT);
      return;
-    } else if (!has_trait(PF_REGEN) & one_in(5)) {
+    } else if (!has_trait(PF_REGEN) && one_in(5)) {
      g->add_msg("You feel your flesh rebuilding itself!");
      toggle_trait(PF_REGEN);
      return;
@@ -1473,18 +1470,21 @@ void player::mutate(game *g)
      toggle_trait(PF_CHITIN);
      return;
     }
+    break;
    case 22:
     if (!has_trait(PF_TALONS)) {
      g->add_msg("Your index fingers grow into huge talons!");
      toggle_trait(PF_TALONS);
      return;
     }
+    break;
    case 23:
     if (!has_trait(PF_RADIOGENIC) && one_in(2)) {
      g->add_msg("You crave irradiation!");
      toggle_trait(PF_RADIOGENIC);
      return;
     }
+    break;
    case 24:
     if (!has_trait(PF_SPINES) && !has_trait(PF_QUILLS)) {
      g->add_msg("Fine spines grow over your body.");
@@ -1496,6 +1496,18 @@ void player::mutate(game *g)
      toggle_trait(PF_QUILLS);
      return;
     }
+    break;
+   case 25:
+    if (has_trait(PF_HERBIVORE)) {
+     g->add_msg("You feel like you could stomach some meat.");
+     toggle_trait(PF_HERBIVORE);
+     return;
+    } else if (has_trait(PF_CARNIVORE)) {
+     g->add_msg("You feel like you could stomach some vegetables.");
+     toggle_trait(PF_CARNIVORE);
+     return;
+    }
+    break;
    }
   } else {	// Bad mutations!
    switch (rng(1, 24)) {
@@ -1554,7 +1566,7 @@ void player::mutate(game *g)
     }
     break;
    case 10:
-    if (!has_trait(PF_DEFORMED)) {
+    if (!has_trait(PF_DEFORMED) && !has_trait(PF_DEFORMED2)) {
      g->add_msg("Your flesh twists and deforms.");
      toggle_trait(PF_DEFORMED);
      return;
@@ -1581,6 +1593,7 @@ void player::mutate(game *g)
    case 12:
     if (!has_trait(PF_THIRST)) {
      g->add_msg("Your skin crackles and dries out.");
+     thirst += 50;
      toggle_trait(PF_THIRST);
      return;
     }
@@ -1647,10 +1660,10 @@ void player::mutate(game *g)
 // Force off and damage any mouthwear
      for (int i = 0; i < worn.size(); i++) {
       if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_mouth)) {
-       worn[i].damage += 2;
-       if (worn[i].damage >= 5)
+       if (worn[i].damage >= 3)
         g->add_msg("Your %s is destroyed!", worn[i].tname().c_str());
        else {
+        worn[i].damage += 2;
         g->add_msg("Your %s is damaged and pushed off!",
                    worn[i].tname().c_str());
         g->m.add_item(posx, posy, worn[i]);
@@ -1675,18 +1688,21 @@ void player::mutate(game *g)
      toggle_trait(PF_VOMITOUS);
      return;
     }
+    break;
    case 21:
     if (!has_trait(PF_RADIOACTIVE)) {
      g->add_msg("You feel radioactive.");
      toggle_trait(PF_RADIOACTIVE);
      return;
     }
+    break;
    case 22:
     if (!has_trait(PF_SLIMY)) {
      g->add_msg("You start to ooze a thick green slime.");
      toggle_trait(PF_SLIMY);
      return;
     }
+    break;
    case 23:
     if (!has_trait(PF_HERBIVORE) && !has_trait(PF_CARNIVORE)) {
      if (!has_trait(PF_VEGETARIAN))
@@ -1694,6 +1710,7 @@ void player::mutate(game *g)
      toggle_trait(PF_HERBIVORE);
      return;
     }
+    break;
    case 24:
     if (!has_trait(PF_CARNIVORE) && !has_trait(PF_HERBIVORE)) {
      if (has_trait(PF_VEGETARIAN))
@@ -1703,6 +1720,7 @@ void player::mutate(game *g)
      toggle_trait(PF_CARNIVORE);
      return;
     }
+    break;
    }
   }
  }
@@ -2781,7 +2799,7 @@ void player::suffer(game *g)
  }
  if (has_trait(PF_UNSTABLE) && one_in(14400))	// Average once a day
   mutate(g);
- radiation += rng(0, g->m.radiation(posx, posy) / 10);
+ radiation += rng(0, g->m.radiation(posx, posy) / 2);
  if (rng(1, 1000) < radiation && rng(1, 1000) < radiation) {
   mutate(g);
   if (radiation > 2000)
