@@ -537,8 +537,7 @@ void map::add_item(int x, int y, item new_item)
 {
  if (!inbounds(x, y))
   return;
- if (has_flag(noitem, x, y) || move_cost(x, y) == 0 ||
-     i_at(x, y).size() >= 24) {// Too many items there
+ if (has_flag(noitem, x, y) || i_at(x, y).size() >= 24) {// Too many items there
   std::vector<point> okay;
   for (int i = x - 1; i <= x + 1; i++) {
    for (int j = y - 1; j <= y + 1; j++) {
