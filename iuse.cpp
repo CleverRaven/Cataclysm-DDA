@@ -1192,6 +1192,35 @@ void iuse::can_goo(game *g, item *it, bool t)
  }
 }
 
+void iuse::pipebomb(game *g, item *it, bool t)
+{
+ if (!g->u.has_amount(itm_lighter, 1)) {
+  g->add_msg("You need a lighter!");
+  return;
+ }
+ g->u.use_up(itm_lighter, 1);
+ g->add_msg("You light the fuse on the pipe bomb.");
+ it->make(g->itypes[itm_pipebomb_act]);
+ it->charges = 3;
+ it->active = true;
+}
+
+void iuse::pipebomb_act(game *g, item *it, bool t)
+{
+ int linet;
+ point pos = g->find_item(it);
+ if (pos.x == -999 || pos.y == -999)
+  return;
+ if (t) // Simple timer effects
+  g->sound(pos.x, pos.y, 0, "Ssssss");	// Vol 0 = only heard if you hold it
+ else {	// The timer has run down
+  if (one_in(10) && g->u_see(pos.x, pos.y, linet))
+   g->add_msg("The pipe bomb fizzles out.");
+  else
+   g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
+ }
+}
+ 
 void iuse::grenade(game *g, item *it, bool t)
 {
  g->add_msg("You pull the pin on the grenade.");

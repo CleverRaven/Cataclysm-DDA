@@ -4039,9 +4039,9 @@ void game::plmove(int x, int y)
  }
 // If not a monster, maybe there's an NPC there
  int npcdex = npc_at(x, y);
- if (npcdex != -1 &&
-     (!active_npc[npcdex].is_friend() && !active_npc[npcdex].is_following())) {
-  if (!query_yn("Really attack %s?", active_npc[npcdex].name.c_str()))
+ if (npcdex != -1) {
+  if (!active_npc[npcdex].is_enemy() &&
+      !query_yn("Really attack %s?", active_npc[npcdex].name.c_str()))
    return;	// Cancel the attack
   body_part bphit;
   int hitdam = 0, hitcut = 0;

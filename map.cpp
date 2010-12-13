@@ -131,6 +131,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
   if (str >= rng(0, 40)) {
    sound += "smash!";
    ter(x, y) = t_door_b;
+   add_item(x, y, (*itypes)[itm_2x4], 0);
    return true;
   } else {
    sound += "whump!";
@@ -141,6 +142,9 @@ bool map::bash(int x, int y, int str, std::string &sound)
   if (str >= rng(0, 30)) {
    sound += "crash!";
    ter(x, y) = t_door_frame;
+   int num_boards = rng(5, 8);
+   for (int i = 0; i < num_boards; i++)
+    add_item(x, y, (*itypes)[itm_2x4], 0);
    return true;
   } else {
    sound += "wham!";
@@ -161,6 +165,9 @@ bool map::bash(int x, int y, int str, std::string &sound)
   if (str >= dice(3, 50)) {
    sound += "crash!";
    ter(x, y) = t_door_frame;
+   int num_boards = rng(0, 2);
+   for (int i = 0; i < num_boards; i++)
+    add_item(x, y, (*itypes)[itm_2x4], 0);
    return true;
   } else {
    sound += "wham!";
@@ -171,6 +178,9 @@ bool map::bash(int x, int y, int str, std::string &sound)
   if (str >= dice(3, 30)) {
    sound += "crash!";
    ter(x, y) = t_window_frame;
+   int num_boards = rng(0, 2) * rng(0, 1);
+   for (int i = 0; i < num_boards; i++)
+    add_item(x, y, (*itypes)[itm_2x4], 0);
    return true;
   } else {
    sound += "wham!";
@@ -181,8 +191,22 @@ bool map::bash(int x, int y, int str, std::string &sound)
   if (str >= dice(8, 10)) {
    sound += "porcelain breaking!";
    ter(x, y) = t_rubble;
+   return true;
   } else {
    sound += "whunk!";
+   return true;
+  }
+  break;
+ case t_dresser:
+  if (str >= dice(3, 45)) {
+   sound += "smash!";
+   ter(x, y) = t_floor;
+   int num_boards = rng(4, 12);
+   for (int i = 0; i < num_boards; i++)
+    add_item(x, y, (*itypes)[itm_2x4], 0);
+   return true;
+  } else {
+   sound += "whump.";
    return true;
   }
   break;
@@ -212,6 +236,9 @@ bool map::bash(int x, int y, int str, std::string &sound)
   if (str >= rng(0, 50)) {
    sound += "crunch!";
    ter(x, y) = t_underbrush;
+   int num_sticks = rng(0, 3);
+   for (int i = 0; i < num_sticks; i++)
+    add_item(x, y, (*itypes)[itm_stick], 0);
    return true;
   } else {
    sound += "whack!";
@@ -510,7 +537,8 @@ void map::add_item(int x, int y, item new_item)
 {
  if (!inbounds(x, y))
   return;
- if (has_flag(noitem, x, y) || i_at(x, y).size() >= 24) {// Too many items there
+ if (has_flag(noitem, x, y) || move_cost(x, y) == 0 ||
+     i_at(x, y).size() >= 24) {// Too many items there
   std::vector<point> okay;
   for (int i = x - 1; i <= x + 1; i++) {
    for (int j = y - 1; j <= y + 1; j++) {

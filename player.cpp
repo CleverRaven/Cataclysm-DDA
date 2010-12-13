@@ -3178,17 +3178,18 @@ void player::use_up(itype_id it, int quantity)
  }
 
  while (used < quantity && cur_item < inv.size()) {
+  int local_used = 0;
   if (inv[cur_item].type->id == it) { 
    if (inv[cur_item].is_ammo() || inv[cur_item].is_tool()) {
     if (quantity < inv[cur_item].charges) {
-     used = quantity;
+     local_used = quantity;
      inv[cur_item].charges -= quantity;
     } else {
-     used += inv[cur_item].charges;
+     local_used += inv[cur_item].charges;
      inv[cur_item].charges = 0;
     }
     if (inv[cur_item].charges <= 0) {
-     used += inv[cur_item].charges;
+     local_used += inv[cur_item].charges;
      if (!inv[cur_item].is_tool()) {
       i_remn(cur_item);
       cur_item--;
@@ -3204,14 +3205,14 @@ void player::use_up(itype_id it, int quantity)
    if (inv[cur_item].contents[0].is_ammo() ||
        inv[cur_item].contents[0].is_tool()) {
     if (quantity < inv[cur_item].contents[0].charges) {
-     used = quantity;
+     local_used = quantity;
      inv[cur_item].contents[0].charges -= quantity;
     } else {
-     used += inv[cur_item].contents[0].charges;
+     local_used += inv[cur_item].contents[0].charges;
      inv[cur_item].contents[0].charges = 0;
     }
     if (inv[cur_item].contents[0].charges <= 0) {
-     used += inv[cur_item].contents[0].charges;
+     local_used += inv[cur_item].contents[0].charges;
      if (!inv[cur_item].contents[0].is_tool()) {
       i_remn(cur_item);
       cur_item--;
@@ -3223,7 +3224,8 @@ void player::use_up(itype_id it, int quantity)
     cur_item--;
    }
   }
- cur_item++;
+  used += local_used;
+  cur_item++;
  }
 }
 
@@ -3272,20 +3274,22 @@ void player::use_charges(itype_id it, int quantity)
  }
 
  for (int i = 0; i < inv.size(); i++) {
+  int local_used = 0;
   if (inv[i].type->id == it) { 
-   used += inv[i].charges;
-   if (used > quantity)
-    inv[i].charges = used - quantity;
+   local_used = inv[i].charges;
+   if (local_used > quantity)
+    inv[i].charges = local_used - quantity;
    else
     inv[i].charges = 0;
   } else if (inv[i].contents.size() > 0 &&
              inv[i].contents[0].type->id == it) {
-   used += inv[i].contents[0].charges;
-   if (used > quantity)
-    inv[i].contents[0].charges = used - quantity;
+   local_used = inv[i].contents[0].charges;
+   if (local_used > quantity)
+    inv[i].contents[0].charges = local_used - quantity;
    else
     inv[i].contents[0].charges = 0;
   }
+  used += local_used;
  }
 }
 

@@ -41,6 +41,13 @@ void game::init_recipes()
   COMP(itm_whiskey, 1, itm_vodka, 1, itm_rum, 1, itm_tequila, 1,
        itm_gasoline, 1, NULL);
 
+ RECIPE(itm_pipebomb, CC_WEAPON, sk_mechanics, sk_null, 1, 750);
+  TOOL(itm_hacksaw, -1, NULL);
+  COMP(itm_pipe, 1, NULL);
+  COMP(itm_gasoline, 1, itm_shot_bird, 6, itm_shot_00, 2, itm_shot_slug, 2,
+       NULL);
+  COMP(itm_string_6, 1, NULL);
+
  RECIPE(itm_shotgun_sawn, CC_WEAPON, sk_gun, sk_null, 1, 500);
   TOOL(itm_hacksaw, -1,  NULL);
   COMP(itm_shotgun_d, 1, itm_remington_870, 1, itm_mossberg_500, 1,
@@ -115,14 +122,6 @@ void game::init_recipes()
   COMP(itm_ammonia, 2, NULL);
   COMP(itm_canister_empty, 1, itm_can_food, 1, NULL);
   COMP(itm_superglue, 1, NULL);
-
- RECIPE(itm_landmine, CC_WEAPON, sk_traps, sk_mechanics, 5, 10000);
-  TOOL(itm_screwdriver, -1, NULL);
-  COMP(itm_superglue, 1, NULL);
-  COMP(itm_can_food, 1, itm_steel_chunk, 1, itm_canister_empty, 1, NULL);
-  COMP(itm_nail, 100, itm_bb, 100, NULL);
-  COMP(itm_shot_bird, 30, itm_shot_00, 18, itm_shot_slug, 15, itm_gasoline, 3,
-       itm_grenade, 1, NULL);
 
  RECIPE(itm_mininuke, CC_WEAPON, sk_mechanics, sk_electronics, 10, 40000);
   TOOL(itm_screwdriver, -1, NULL);
@@ -299,6 +298,12 @@ void game::init_recipes()
   COMP(itm_power_supply, 1, NULL);
   COMP(itm_amplifier, 2, NULL);
 
+ RECIPE(itm_UPS_off, CC_ELECTRONIC, sk_electronics, sk_null, 5, 45000);
+  TOOL(itm_screwdriver, -1, NULL);
+  TOOL(itm_soldering_iron, 24, NULL);
+  COMP(itm_power_supply, 4, NULL);
+  COMP(itm_amplifier, 3, NULL);
+
  RECIPE(itm_teleporter, CC_ELECTRONIC, sk_electronics, sk_null, 8, 50000);
   TOOL(itm_screwdriver, -1, NULL);
   TOOL(itm_wrench, -1, NULL);
@@ -423,7 +428,7 @@ void game::init_recipes()
 
  RECIPE(itm_crossbow_trap, CC_MISC, sk_mechanics, sk_traps, 3, 4500);
   COMP(itm_crossbow, 1, NULL);
-  COMP(itm_bolt_steel, 1, NULL);
+  COMP(itm_bolt_steel, 1, itm_bolt_wood, 4, NULL);
   COMP(itm_string_36, 1, itm_string_6, 2, NULL);
 
  RECIPE(itm_shotgun_trap, CC_MISC, sk_mechanics, sk_traps, 3, 5000);
@@ -432,10 +437,18 @@ void game::init_recipes()
   COMP(itm_string_36, 1, itm_string_6, 2, NULL);
 
  RECIPE(itm_blade_trap, CC_MISC, sk_mechanics, sk_traps, 4, 8000);
-  TOOL(itm_screwdriver, -1, NULL);
+  TOOL(itm_wrench, -1, NULL);
   COMP(itm_motor, 1, NULL);
   COMP(itm_machete, 1, NULL);
   COMP(itm_string_36, 1, NULL);
+
+ RECIPE(itm_landmine, CC_WEAPON, sk_traps, sk_mechanics, 5, 10000);
+  TOOL(itm_screwdriver, -1, NULL);
+  COMP(itm_superglue, 1, NULL);
+  COMP(itm_can_food, 1, itm_steel_chunk, 1, itm_canister_empty, 1, NULL);
+  COMP(itm_nail, 100, itm_bb, 200, NULL);
+  COMP(itm_shot_bird, 30, itm_shot_00, 15, itm_shot_slug, 12, itm_gasoline, 3,
+       itm_grenade, 4, NULL);
 
  RECIPE(itm_bandages, CC_MISC, sk_firstaid, sk_null, 1, 500);
   COMP(itm_rag, 1, NULL);
@@ -493,7 +506,7 @@ void game::craft()
    available.clear();
    pick_recipes(current, available, tab);
    werase(w_data);
-   mvwprintz(w_data, 24, 0, c_white, "\
+   mvwprintz(w_data, 20, 0, c_white, "\
 Press ? to describe object.  Press <ENTER> to attempt to craft object.");
    wrefresh(w_data);
   }

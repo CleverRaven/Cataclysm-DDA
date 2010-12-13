@@ -58,6 +58,8 @@ class iuse
   void geiger		(game *g, item *it, bool t);
   void teleport		(game *g, item *it, bool t);
   void can_goo		(game *g, item *it, bool t);
+  void pipebomb		(game *g, item *it, bool t);
+  void pipebomb_act	(game *g, item *it, bool t);
   void grenade		(game *g, item *it, bool t);
   void grenade_act	(game *g, item *it, bool t);
   void EMPbomb		(game *g, item *it, bool t);

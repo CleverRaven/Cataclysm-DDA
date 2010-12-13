@@ -2225,7 +2225,20 @@ TOOL("goo canister",     8,3500,';', c_dkgray,  STEEL,	MNULL,
 \"Warning: contains highly toxic and corrosive materials.  Contents may be\n\
  sentient.  Open at your own risk.\"");
 
+TOOL("pipe bomb",	 4, 150,'*', c_white,	IRON,	MNULL,
+    2,  3, 11,  0,  1,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::pipebomb, "\
+A section of a pipe filled with explosive materials.  Use this item to light\n\
+the fuse, which gives you 3 turns before it detonates.  You will need a\n\
+lighter.  It is somewhat unreliable, and may fail to detonate.");
+
+TOOL("active pipe bomb", 0,   0,'*', c_white,	IRON,	MNULL,
+    2,  3, 11,  0,  1,  3,  3,  0,  1, AT_NULL,	itm_null, &iuse::pipebomb_act,"\
+This pipe bomb's fuse is lit, and it will explode any second now.  Throw it\n\
+immediately!");
+
+//	NAME		RAR VAL	SYM  COLOR	MAT1	MAT
 TOOL("grenade",		 3, 400,'*', c_green,	IRON,	PLASTIC,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
     1,  1, 10,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::grenade, "\
 Use this item to pull the pin, turning it into an active grenade.  You will\n\
 then have five turns before it explodes; throwing it would be a good idea.");
