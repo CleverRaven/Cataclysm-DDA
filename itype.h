@@ -122,7 +122,7 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_water_purifier, itm_two_way_radio, itm_radio, itm_radio_on, itm_crowbar,
  itm_hoe, itm_shovel, itm_chainsaw_off, itm_chainsaw_on, itm_jackhammer,
  itm_bubblewrap, itm_beartrap, itm_board_trap, itm_tripwire, itm_crossbow_trap,
- itm_shotgun_trap, itm_blade_trap, itm_landmine, itm_geiger, itm_teleporter,
+ itm_shotgun_trap, itm_blade_trap, itm_landmine, itm_geiger, itm_teleporter, 
  itm_canister_goo, itm_pipebomb, itm_pipebomb_act, itm_grenade, itm_grenade_act,
  itm_EMPbomb, itm_EMPbomb_act, itm_gasbomb, itm_gasbomb_act, itm_smokebomb,
  itm_smokebomb_act, itm_molotov, itm_molotov_lit, itm_dynamite,
@@ -135,9 +135,9 @@ itm_bionics_battery, itm_bionics_power, itm_bionics_tools, itm_bionics_neuro,
  itm_bionics_melee, itm_bionics_armor, itm_bionics_espionage,
  itm_bionics_defense, itm_bionics_medical, itm_bionics_construction,
  itm_bionics_super, itm_bionics_ranged,
-// Static (non-random) artifacts
+// Static (non-random) artifacts should go here.
 num_items,
-// These shouldn't be counted among "normal" items, thus, they are outside the
+// These shouldn't be counted among "normal" items; thus, they are outside the
 // bounds of num_items
 itm_bio_claws, itm_bio_fusion, itm_bio_blaster,
 num_all_items

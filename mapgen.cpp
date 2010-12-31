@@ -35,14 +35,11 @@ enum room_type {
 };
 
 bool connects_to(oter_id there, int dir_from_here);
-
 void house_room(map *m, room_type type, int x1, int y1, int x2, int y2);
-
 void science_room(map *m, int x1, int y1, int x2, int y2, int rotate);
-
 void set_science_room(map *m, int x1, int y1, bool faces_right, int turn);
-
 void silo_rooms(map *m);
+map_extra random_map_extra();
 
 void map::generate(game *g, overmap *om, int x, int y, int turn)
 {
@@ -127,6 +124,9 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
    t_west = tmp.ter(OMAPX - 1, overy);
   }
   draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn);
+
+  if (oterlist[terrain_type].embellished && one_in(MAP_EXTRA_CHANCE))
+   add_extra(random_map_extra(), g);
 
 // And finally save.
   for (int i = 0; i < 2; i++) {
@@ -4476,5 +4476,231 @@ void silo_rooms(map *m)
   }
   rooms.erase(rooms.begin());
   room_sizes.erase(room_sizes.begin());
+ }
+}
+
+map_extra random_map_extra()
+{
+ int pick = 0;
+// Set pick to the total of all the chances for map extras
+ for (int i = 0; i < num_map_extras; i++)
+  pick += map_extra_chance[i];
+// Set pick to a number between 0 and the total
+ pick = rng(0, pick - 1);
+ int choice = -1;
+ while (pick >= 0) {
+  choice++;
+  pick -= map_extra_chance[choice];
+ }
+ return map_extra(choice);
+}
+
+void map::add_extra(map_extra type, game *g)
+{
+ item body;
+ body.make_corpse(g->itypes[itm_corpse], g->mtypes[mon_null], g->turn);
+ 
+ switch (type) {
+
+ case mx_null:
+  debugmsg("Tried to generate null map extra.");
+  break;
+
+ case mx_helicopter:
+ {
+  int cx = rng(4, SEEX * 2 - 5), cy = rng(4, SEEY * 2 - 5);
+  for (int x = 0; x < SEEX * 2; x++) {
+   for (int y = 0; y <= SEEY * 2; y++) {
+    if (x >= cx - 4 && x <= cx + 4 && y >= cy - 4 && y <= cy + 4) {
+     if (!one_in(5))
+      ter(x, y) = t_wreckage;
+     else if (has_flag(bashable, x, y)) {
+      std::string junk;
+      bash(x, y, 500, junk);	// Smash the fuck out of it
+      bash(x, y, 500, junk);	// Smash the fuck out of it some more
+     }
+    } else if (one_in(10))	// 1 in 10 chance of being wreckage anyway
+     ter(x, y) = t_wreckage;
+   }
+  }
+
+  place_items(mi_helicopter, 90, cx - 4, cy - 4, cx + 4, cy + 4, true, 0);
+  place_items(mi_helicopter, 20, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+  items_location extra_items = mi_helicopter;
+  switch (rng(1, 4)) {
+   case 1: extra_items = mi_military;	break;
+   case 2: extra_items = mi_science;	break;
+   case 3: extra_items = mi_allguns;	break;
+   case 4: extra_items = mi_bionics;	break;
+  }
+  place_items(extra_items, 70, cx - 4, cy - 4, cx + 4, cy + 4, true, 0);
+ }
+ break;
+
+ case mx_military:
+ {
+  int num_bodies = dice(2, 6);
+  for (int i = 0; i < num_bodies; i++) {
+   int x, y, tries = 0;;
+   do {	// Loop until we find a valid spot to dump a body, or we give up
+    x = rng(0, SEEX * 2 - 1);
+    y = rng(0, SEEY * 2 - 1);
+    tries++;
+   } while (tries < 10 && move_cost(x, y) == 0);
+
+   if (tries < 10) {	// We found a valid spot!
+    add_item(x, y, body);
+    place_items(mi_military, 86, x, y, x, y, true, 0);
+   }
+  }
+  place_items(mi_rare, 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+ }
+ break;
+
+ case mx_science:
+ {
+  int num_bodies = dice(2, 5);
+  for (int i = 0; i < num_bodies; i++) {
+   int x, y, tries = 0;;
+   do {	// Loop until we find a valid spot to dump a body, or we give up
+    x = rng(0, SEEX * 2 - 1);
+    y = rng(0, SEEY * 2 - 1);
+    tries++;
+   } while (tries < 10 && move_cost(x, y) == 0);
+
+   if (tries < 10) {	// We found a valid spot!
+    add_item(x, y, body);
+    add_item(x, y, (*itypes)[itm_card_id], 0);
+    place_items(mi_science, 84, x, y, x, y, true, 0);
+   }
+  }
+  place_items(mi_rare, 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+ }
+ break;
+
+ case mx_stash:
+ {
+  int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
+  if (move_cost(x, y) != 0)
+   ter(x, y) = t_dirt;
+
+  int size;
+  items_location stash;
+  switch (rng(1, 6)) {	// What kind of stash?
+   case 1: stash = mi_stash_food;	size = 90;	break;
+   case 2: stash = mi_stash_ammo;	size = 80;	break;
+   case 3: stash = mi_rare;		size = 70;	break;
+   case 4: stash = mi_stash_wood;	size = 90;	break;
+   case 5: stash = mi_stash_drugs;	size = 85;	break;
+   case 6: stash = mi_trash;		size = 92;	break;
+  }
+
+  place_items(stash, size, x, y, x, y, true, 0);
+
+// Now add traps around that stash
+  for (int i = x - 4; i <= x + 4; i++) {
+   for (int j = y - 4; j <= y + 4; j++) {
+    if (i >= 0 && j >= 0 && i < SEEX * 2 && j < SEEY * 2 && one_in(4)) {
+     trap_id placed;
+     switch (rng(1, 7)) {
+      case 1:
+      case 2:
+      case 3: placed = tr_beartrap;	break;
+      case 4:
+      case 5: placed = tr_nailboard;	break;
+      case 6: placed = tr_crossbow;	break;
+      case 7: placed = tr_shotgun_2;	break;
+     }
+     if (placed == tr_beartrap && has_flag(diggable, i, j)) {
+      if (one_in(8))
+       placed = tr_landmine;
+      else
+       placed = tr_beartrap_buried;
+     }
+     add_trap(i, j,  placed);
+    }
+   }
+  }
+ }
+ break;
+
+ case mx_portal:
+ {
+  int x = rng(1, SEEX * 2 - 2), y = rng(1, SEEY * 2 - 2);
+  for (int i = x - 1; i <= x + 1; i++) {
+   for (int j = y - 1; j <= y + 1; j++)
+    ter(i, j) = t_rubble;
+  }
+  add_trap(x, y, tr_portal);
+  int num_monsters = rng(0, 4);
+  for (int i = 0; i < num_monsters; i++) {
+   mon_id type = mon_id(rng(mon_flying_polyp, mon_blank));
+   int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
+   ter(mx, my) = t_rubble;
+   add_spawn(type, 1, mx, my);
+  }
+ }
+ break;
+
+ case mx_minefield:
+ {
+  int num_mines = rng(6, 20);
+  for (int x = 0; x < SEEX * 2; x++) {
+   for (int y = 0; y < SEEY * 2; y++) {
+    if (one_in(3))
+     ter(x, y) = t_dirt;
+   }
+  }
+  for (int i = 0; i < num_mines; i++) {
+   int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
+   if (!has_flag(diggable, x, y) || one_in(4))
+    ter(x, y) = t_dirtmound;
+   add_trap(x, y, tr_landmine);
+  }
+ }
+ break;
+
+ case mx_wolfpack:
+  add_spawn(mon_wolf, rng(4, 10), SEEX, SEEY);
+  break;
+
+ case mx_puddle:
+ {
+  int x = rng(6, SEEX * 2 - 7), y = rng(6, SEEY * 2 - 7);
+  int dist = 0;
+  for (int dist = 0; dist < 6; dist++) {
+   for (int px = x - dist; px <= x + dist; px++) {
+    for (int py = y - dist; py <= y + dist; py++) {
+     if (rng(0, 8) > dist)
+      ter(px, py) = t_water_sh;
+    }
+   }
+  }
+ }
+ break;
+
+ case mx_crater:
+ {
+  int size = rng(2, 6);
+  int x = rng(size, SEEX * 2 - 1 - size), y = rng(size, SEEY * 2 - 1 - size);
+  for (int i = x - size; i <= x + size; i++) {
+   for (int j = y - size; j <= y + size; j++) {
+    ter(i, j) = t_rubble;
+    radiation(i, j) += rng(20, 40);
+   }
+  }
+ }
+ break;
+
+ case mx_fumarole:
+ {
+  int x1 = rng(0, SEEX - 1),        y1 = rng(0, SEEY - 1),
+      x2 = rng(SEEX, SEEX * 2 - 1), y2 = rng(SEEY, SEEY * 2 - 1);
+  std::vector<point> fumarole = line_to(x1, y1, x2, y2, 0);
+  for (int i = 0; i < fumarole.size(); i++)
+   ter(fumarole[i].x, fumarole[i].y) = t_lava;
+ }
+ break;
+
  }
 }

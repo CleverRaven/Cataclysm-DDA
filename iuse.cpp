@@ -286,9 +286,9 @@ void iuse::alcohol(game *g, item *it, bool t)
 void iuse::cig(game *g, item *it, bool t)
 {
  g->add_msg("You light a cigarette and smoke it.");
- g->u.add_disease(DI_CIG, 90, g);
+ g->u.add_disease(DI_CIG, 200, g);
  for (int i = 0; i < g->u.illness.size(); i++) {
-  if (g->u.illness[i].type == DI_CIG && g->u.illness[i].duration > 200)
+  if (g->u.illness[i].type == DI_CIG && g->u.illness[i].duration > 600)
    g->add_msg("Ugh, too much smoke... you feel gross.");
  }
 }
@@ -336,7 +336,7 @@ void iuse::poison(game *g, item *it, bool t)
 
 void iuse::hallu(game *g, item *it, bool t)
 {
- g->u.add_disease(DI_HALLU, 3600, g);
+ g->u.add_disease(DI_HALLU, 2400, g);
 }
 
 void iuse::thorazine(game *g, item *it, bool t)
@@ -370,6 +370,7 @@ void iuse::iodine(game *g, item *it, bool t)
 
 void iuse::flumed(game *g, item *it, bool t)
 {
+ g->add_msg("You take some %s", it->tname().c_str());
  g->u.add_disease(DI_TOOK_FLUMED, 6000, g);
 }
 
@@ -495,6 +496,7 @@ void iuse::sew(game *g, item *it, bool t)
    rn += rng(2, 6);
   if (g->u.dex_cur > 16)
    rn += rng(0, g->u.dex_cur - 16);
+
   if (rn <= 4) {
    g->add_msg("You damage your %s further!", fix->tname().c_str());
    fix->damage++;
@@ -522,7 +524,7 @@ void iuse::sew(game *g, item *it, bool t)
   } else if (rn <= 16) {
    g->add_msg("You repair your %s!", fix->tname().c_str());
    fix->damage--;
-  } else if (fix->damage > 1) {
+  } else {
    g->add_msg("You repair your %s completely!", fix->tname().c_str());
    fix->damage = 0;
   }
@@ -535,6 +537,10 @@ void iuse::scissors(game *g, item *it, bool t)
  item* cut = &(g->u.i_at(ch));
  if (cut->type->id == 0) {
   g->add_msg("You do not have that item!");
+  return;
+ }
+ if (cut->type->id == itm_rag) {
+  g->add_msg("There's no point in cutting a rag.");
   return;
  }
  if (cut->type->id == itm_string_36) {
@@ -629,6 +635,8 @@ void iuse::extinguisher(game *g, item *it, bool t)
     g->add_msg("The %s is frozen!", g->z[mondex].name().c_str());
    if (g->z[mondex].hurt(rng(20, 60)))
     g->kill_mon(mondex);
+   else
+    g->z[mondex].speed /= 2;
   }
  }
  if (g->m.move_cost(x, y) != 0) {
@@ -643,7 +651,6 @@ void iuse::extinguisher(game *g, item *it, bool t)
   }
  }
 }
-
 
 void iuse::hammer(game *g, item *it, bool t)
 {

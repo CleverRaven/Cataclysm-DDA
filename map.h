@@ -25,7 +25,6 @@ class map
  map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
      std::vector<trap*> *trptr);
  ~map();
- void generate(game *g, overmap *om, int x, int y, int turn);
 
 // Visual Output
  void draw(game *g, WINDOW* w);
@@ -86,6 +85,7 @@ class map
  void mon_in_field(int x, int y, game *g, monster *z);	// See fields.cpp
 
 // mapgen.h functions
+ void generate(game *g, overmap *om, int x, int y, int turn);
  void place_items(items_location loc, int chance, int x1, int y1,
                   int x2, int y2, bool ongrass, int turn);
  void make_all_items_owned();
@@ -96,6 +96,7 @@ private:
  bool loadn(game *g, int x, int y, int gridx, int gridy);
  void draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                oter_id t_south, oter_id t_west, oter_id t_above, int turn);
+ void add_extra(map_extra type, game *g);
  void rotate(int turns);// Rotates the current map 90*turns degress clockwise
 			// Useful for houses, shops, etc
 

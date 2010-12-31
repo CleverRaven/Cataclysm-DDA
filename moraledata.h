@@ -14,7 +14,7 @@ struct morale_datum
 #define _MORALE_DATA_
 const morale_datum morale_data[] = {
 {"ERROR - Null",	   0,	     0},
-{"Bad Mood Swing",	 100,	  1200},
+{"Bad Mood Swing",	-100,	  1200},
 {"Good Mood Swing",	 100,	  1200},
 {"Bad Feeling",		 -20,	   600},
 {"Good Feeling",	  20,	   600},

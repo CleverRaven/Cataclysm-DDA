@@ -430,10 +430,72 @@ void game::init_mapitems()
 	itm_transponder, itm_receiver, itm_antenna, itm_steel_chunk, itm_motor,
 	itm_battery, itm_plut_cell, NULL);
 
+ setvector(
+   mapitems[mi_helicopter],
+	itm_chain, itm_power_supply, itm_antenna, itm_steel_chunk, itm_motor,
+	itm_hose, itm_pants_army, itm_jumpsuit, itm_kevlar, itm_mask_gas,
+	itm_helmet_army, itm_battery, itm_plut_cell, itm_m249,
+	itm_extinguisher, itm_two_way_radio, itm_radio, itm_UPS_off, NULL);
+
+// TODO: Replace kevlar with the ceramic plate armor
+ setvector(
+   mapitems[mi_military],
+	itm_water, itm_can_beans, itm_bandages, itm_1st_aid, itm_iodine,
+	itm_codeine, itm_cig, itm_knife_combat, itm_boots_steel, itm_pants_army,
+	itm_kevlar, itm_vest, itm_gloves_fingerless, itm_mask_gas,
+	itm_glasses_safety, itm_goggles_nv, itm_hat_boonie, itm_helmet_army,
+	itm_backpack, itm_holster, itm_bootstrap, itm_9mm, itm_45_acp,
+	itm_556, itm_762_51, itm_laser_pack, itm_usp_9mm, itm_usp_45,
+	itm_m4a1, itm_scar_l, itm_scar_h, itm_m249, itm_ftk93, itm_silencer,
+	itm_clip, itm_lighter, itm_flashlight, itm_two_way_radio,
+	itm_landmine, itm_grenade, itm_EMPbomb, itm_gasbomb, itm_smokebomb,
+	itm_UPS_off, itm_tazer, NULL);
+
+ setvector(
+   mapitems[mi_science],
+	itm_water, itm_bleach, itm_ammonia, itm_mutagen, itm_purifier,
+	itm_iodine, itm_inhaler, itm_adderall, itm_card_id, itm_electrohack,
+	itm_RAM, itm_screwdriver, itm_canister_empty, itm_coat_lab,
+	itm_gloves_medical, itm_mask_dust, itm_mask_filter, itm_glasses_eye,
+	itm_glasses_safety, itm_textbook_computers, itm_textbook_electronics,
+	itm_textbook_chemistry, itm_SICP, itm_textbook_robots,
+	itm_soldering_iron, itm_geiger, itm_teleporter, itm_canister_goo,
+	itm_EMPbomb, itm_pheromone, itm_portal, itm_bot_manhack, itm_UPS_off,
+	itm_tazer, itm_bionics_battery, itm_bionics_power, itm_bionics_tools,
+	itm_bionics_neuro, itm_bionics_hazmat, itm_bionics_medical, NULL);
+
+ setvector(
+   mapitems[mi_rare],
+	itm_mutagen, itm_purifier, itm_royal_jelly, itm_fetus, itm_card_id,
+	itm_electrohack, itm_processor, itm_armor_chitin, itm_plut_cell,
+	itm_laser_pack, itm_m249, itm_v29, itm_ftk93, itm_conversion_battle,
+	itm_conversion_sniper, itm_canister_goo, itm_mininuke, itm_portal,
+	NULL);
+
+ setvector(
+   mapitems[mi_stash_food],
+	itm_water, itm_cola, itm_jerky, itm_ravioli, itm_can_beans,
+	itm_can_corn, itm_can_spam, NULL);
+
+ setvector(
+   mapitems[mi_stash_ammo],
+	itm_bolt_steel, itm_shot_00, itm_shot_slug, itm_22_lr, itm_9mm,
+	itm_38_super, itm_10mm, itm_44magnum, itm_45_acp, itm_57mm, itm_46mm,
+	itm_762_m87, itm_556, itm_3006, itm_762_51, NULL);
+
+ setvector(
+   mapitems[mi_stash_wood],
+	itm_stick, itm_ax, itm_saw, itm_2x4, NULL);
+
+ setvector(
+   mapitems[mi_stash_drugs],
+	itm_pills_sleep, itm_oxycodone, itm_xanax, itm_adderall, itm_weed,
+	itm_coke, itm_meth, itm_heroin, NULL);
+
 // This one kind of an inverted list; what a traveling salesman will NOT carry
  setvector(
    mapitems[mi_trader_avoid],
-	itm_water_dirty, itm_meat, itm_veggy, itm_meat_tainted,
+	itm_null, itm_water_dirty, itm_meat, itm_veggy, itm_meat_tainted,
 	itm_veggy_tainted, itm_meat_cooked, itm_veggy_cooked,
 	itm_mushroom_poison, itm_spaghetti_cooked, itm_macaroni_cooked,
 	itm_fetus, itm_arm, itm_leg, itm_wrapper, itm_manhole_cover, itm_rock,

@@ -122,12 +122,12 @@ void trapfuncm::crossbow(game *g, monster *z, int x, int y)
  bool seen = g->u_see(z, t);
  if (!one_in(4)) {
   if (seen)
-   g->add_msg("A bolt shoots out and hits the %d!", z->name().c_str());
+   g->add_msg("A bolt shoots out and hits the %s!", z->name().c_str());
   if (z->hurt(rng(20, 30)))
    g->kill_mon(g->mon_at(x, y));
   add_bolt = !one_in(10);
  } else if (seen)
-  g->add_msg("A bolt shoots out, but misses the %d.", z->name().c_str());
+  g->add_msg("A bolt shoots out, but misses the %s.", z->name().c_str());
  g->m.add_item(x, y, g->itypes[itm_crossbow], 0);
  g->m.add_item(x, y, g->itypes[itm_string_6], 0);
  if (add_bolt)
@@ -183,7 +183,7 @@ void trapfuncm::shotgun(game *g, monster *z, int x, int y)
  if (g->m.tr_at(x, y) == tr_shotgun_1)
   shots = 1;
  if (seen)
-  g->add_msg("A bolt shoots out and hits the %d!", z->name().c_str());
+  g->add_msg("A bolt shoots out and hits the %s!", z->name().c_str());
  if (z->hurt(rng(40 * shots, 60 * shots)))
   g->kill_mon(g->mon_at(x, y));
  if (shots == 2 || g->m.tr_at(x, y) == tr_shotgun_1) {

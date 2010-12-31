@@ -131,7 +131,6 @@ bool map::bash(int x, int y, int str, std::string &sound)
   if (str >= rng(0, 40)) {
    sound += "smash!";
    ter(x, y) = t_door_b;
-   add_item(x, y, (*itypes)[itm_2x4], 0);
    return true;
   } else {
    sound += "whump!";
@@ -142,7 +141,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
   if (str >= rng(0, 30)) {
    sound += "crash!";
    ter(x, y) = t_door_frame;
-   int num_boards = rng(5, 8);
+   int num_boards = rng(2, 6);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
    return true;

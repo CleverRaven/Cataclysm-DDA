@@ -26,6 +26,9 @@ enum items_location {
  mi_ant_food, mi_ant_egg,
 // Monster drops
  mi_ants, mi_bees, mi_robots,
+// Map Extras
+ mi_helicopter, mi_military, mi_science, mi_rare, mi_stash_food, mi_stash_ammo,
+ mi_stash_wood, mi_stash_drugs,
 // Shopkeeps &c
  mi_trader_avoid,
  num_itloc

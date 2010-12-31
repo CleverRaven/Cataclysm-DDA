@@ -382,7 +382,7 @@ mon("spore",		'o',	c_ltgray,	MS_TINY,	VEGGY,
 	(mfb(MF_STUMBLES)|mfb(MF_POISON)|mfb(MF_NOHEAD)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	  0,  1, -5,100,  0,  0,  0,  0,  6,  0,  0,  5, 50,
-	&mdeath::normal,	&mattack::plant, "\
+	&mdeath::disintegrate,	&mattack::plant, "\
 A wispy spore, about the size of a fist,\n\
 wafting on the breeze."
 );

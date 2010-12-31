@@ -75,7 +75,7 @@ MF_SUNDEATH,	// Dies in full sunlight
 MF_ACIDPROOF,	// Immune to acid
 MF_FIREY,	// Burns stuff and is immune to fire
 MF_SHOCK,	// Shocks the player if they attack w/out gloves
-MF_ELECTRONIC,	// E.g. a robot; affected by emp blasts, and other stuff
+MF_ELECTRONIC,	// e.g. a robot; affected by emp blasts, and other stuff
 MF_FUR,		// May produce fur when butchered.
 MF_LEATHER,	// May produce leather when butchered
 MF_IMMOBILE,	// Doesn't move (e.g. turrets)

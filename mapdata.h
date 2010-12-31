@@ -12,6 +12,8 @@
 class game;
 class monster;
 
+#define MAP_EXTRA_CHANCE 40
+
 #ifndef SEEX 	// SEEX is how far the player can see in the X direction (at
 #define SEEX 12	// least, without scrolling).  All map segments will need to be
 #endif		// at least this wide. The map therefore needs to be 3x as wide.
@@ -58,7 +60,7 @@ t_null = 0,
 t_hole,	// Real nothingness; makes you fall a z-level
 // Ground
 t_dirt, t_dirtmound, t_pit,
-t_rock_floor, t_rubble,
+t_rock_floor, t_rubble, t_wreckage,
 t_grass,
 t_metal_floor,
 t_pavement, t_pavement_y, t_sidewalk,
@@ -119,6 +121,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)},
 {"pile of rubble",   '#', c_ltgray,  4,
 	mfb(transparent)|mfb(rough)|mfb(diggable)},
+{"metal wreckage",   '#', c_cyan,    5,
+	mfb(transparent)|mfb(rough)|mfb(sharp)|mfb(container)},
 {"grass",	     '.', c_green,   2,
 	mfb(transparent)|mfb(diggable)},
 {"metal floor",      '.', c_ltcyan,  2,
@@ -270,6 +274,36 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(bashable)}
 };
 
+enum map_extra {
+ mx_null = 0,
+ mx_helicopter,
+ mx_military,
+ mx_science,
+ mx_stash,
+ mx_portal,
+ mx_minefield,
+ mx_wolfpack,
+ mx_puddle,
+ mx_crater,
+ mx_fumarole,
+ num_map_extras
+};
+
+// Chances are relative to eachother; e.g. a 200 chance is twice as likely
+// as a 100 chance to appear.
+const int map_extra_chance[num_map_extras + 1] = {
+  0,	// Null - 0 chance
+100,	// Helicopter
+ 80,	// Military
+130,	// Science
+200,	// Stash
+  5,	// Portal
+ 70,	// Minefield
+ 30,	// Wolf pack
+250,	// Puddle
+  0	// Just a cap value; leave this as the last one
+};
+
 struct field_t {
  std::string name[3];
  char sym;
@@ -326,18 +360,23 @@ struct field {
   density = d;
   age = a;
  }
- bool is_null() {
-  if (type == fd_null || type == fd_blood || type == fd_bile ||
-      type == fd_slime)
-   return true;
-  return false;
+
+ bool is_null()
+ {
+  return (type == fd_null || type == fd_blood || type == fd_bile ||
+          type == fd_slime);
  }
- bool is_dangerous() {
+
+ bool is_dangerous()
+ {
   return fieldlist[type].dangerous[density - 1];
  }
- std::string name() {
+
+ std::string name()
+ {
   return fieldlist[type].name[density - 1];
  }
+
 };
 
 struct spawn_point {

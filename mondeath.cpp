@@ -90,6 +90,13 @@ void mdeath::fungusawake(game *g, monster *z)
  g->z.push_back(newfung);
 }
 
+void mdeath::disintegrate(game *g, monster *z)
+{
+ int junk;
+ if (g->u_see(z, junk))
+  g->add_msg("It disintegrates!");
+}
+
 void mdeath::worm(game *g, monster *z)
 {
  int j;

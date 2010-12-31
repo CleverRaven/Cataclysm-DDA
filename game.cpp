@@ -3424,7 +3424,7 @@ char game::inv(std::string title)
   else if (first_other == -1   && !u.inv[i].is_food()  && !u.inv[i].is_ammo() &&
            !u.inv[i].is_gun()  && !u.inv[i].is_armor() && !u.inv[i].is_book() &&
            !u.inv[i].is_tool() && !u.inv[i].is_weap()  &&
-           !u.inv[i].is_food_container())
+           !u.inv[i].is_gunmod() && !u.inv[i].is_food_container())
    first_other = i;
  }
  mvwprintw(w_inv, 0, 0, title.c_str());

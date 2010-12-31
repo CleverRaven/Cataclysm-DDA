@@ -8,7 +8,6 @@
 void mattack::antqueen(game *g, monster *z)
 {
  std::vector<point> egg_points;
- z->moves = -200;			// It takes a while
  z->sp_timeout = z->type->sp_freq;	// Reset timer
 // Count up all adjacent tiles the contain at least one egg.
  for (int x = z->posx - 1; x <= z->posx + 1; x++) {
@@ -147,9 +146,9 @@ void mattack::resurrect(game *g, monster *z)
 {
  std::vector<point> corpses;
  int junk;
-// Find all corposes that we can see within 6 tiles.
- for (int x = z->posx - 6; x <= z->posx + 6; x++) {
-  for (int y = z->posy - 6; y <= z->posy + 6; y++) {
+// Find all corposes that we can see within 4 tiles.
+ for (int x = z->posx - 4; x <= z->posx + 4; x++) {
+  for (int y = z->posy - 4; y <= z->posy + 4; y++) {
    if (g->is_empty(x, y) && g->m.sees(z->posx, z->posy, x, y, -1, junk)) {
     for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
      if (g->m.i_at(x, y)[i].type->id == itm_corpse)
@@ -176,7 +175,7 @@ void mattack::resurrect(game *g, monster *z)
     mon.speed = int(mon.speed * .8);	// Raised corpses are slower
     mon.hp    = int(mon.hp    * .7);	// Raised corpses are weaker
     g->m.i_rem(x, y, n);
-    n = g->m.i_at(x, y).size();
+    n = g->m.i_at(x, y).size();	// Only one body raised per tile
     g->z.push_back(mon);
    }
   }
@@ -394,7 +393,8 @@ void mattack::fungus(game *g, monster *z)
   g->add_msg("Spores are released from the %s!", z->name().c_str());
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
-   if (i == 0 && j == 0) j++;	// No need to check 0, 0
+   if (i == 0 && j == 0)
+    j++;	// No need to check 0, 0
    sporex = z->posx + i;
    sporey = z->posy + j;
    mondex = g->mon_at(sporex, sporey);
