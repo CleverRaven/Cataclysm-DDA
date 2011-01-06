@@ -789,6 +789,10 @@ void game::cancel_activity_query(std::string message)
    if (query_yn("%s Stop crafting?", message.c_str()))
     u.activity.type = ACT_NULL;
    break;
+  case ACT_BUTCHER:
+   if  (query_yn("%s Stop butchering?", message.c_str()))
+    u.activity.type = ACT_NULL;
+   break;
   default:
    u.activity.type = ACT_NULL;
  }
