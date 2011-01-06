@@ -2656,11 +2656,16 @@ void game::smash()
 void game::use_item()
 {
  char ch = inv("Use item:");
+ if (ch == KEY_ESCAPE) {
+  add_msg("Never mind.");
+  return;
+ }
  last_action += ch;
  itype_id tut;
  if (in_tutorial)
   tut = itype_id(u.i_at(ch).type->id);
  u.use(this, ch);
+
  if (in_tutorial) {
   if (tut == itm_grenade)
    tutorial_message(LESSON_ACT_GRENADE);

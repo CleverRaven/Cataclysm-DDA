@@ -102,6 +102,7 @@ public:
  bool wear(game *g, char let);	// Wear item; returns false on fail
  bool takeoff(game *g, char let);// Take off item; returns false on fail
  void use(game *g, char let);	// Use a tool
+ bool install_bionics(game *g, it_bionic* type);	// Install bionics
  void read(game *g, char let);	// Read a book
  void try_to_sleep(game *g);	// '$' command; adds DIS_LYING_DOWN
  bool can_sleep(game *g);	// Checked each turn during DIS_LYING_DOWN

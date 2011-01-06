@@ -66,6 +66,7 @@ public:
  bool is_cutting_weapon();
  bool is_gun();
  bool is_gunmod();
+ bool is_bionic();
  bool is_ammo();
  bool is_armor();
  bool is_book();

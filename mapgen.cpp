@@ -245,7 +245,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 
   if (terrain_type == ot_forest_water) {
 // Reset *_fac to handle where to place water
-   if (t_north == ot_forest_water)
+        if (t_north == ot_forest_water)
     n_fac = 2;
    else if (t_north >= ot_river_center && t_north <= ot_river_nw)
     n_fac = 3;
@@ -253,7 +253,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     n_fac = 1;
    else
     n_fac = 0;
-   if (t_east == ot_forest_water)
+        if (t_east == ot_forest_water)
     e_fac = 2;
    else if (t_east >= ot_river_center && t_east <= ot_river_nw)
     e_fac = 3;
@@ -261,7 +261,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     e_fac = 1;
    else
     e_fac = 0;
-   if (t_south == ot_forest_water)
+        if (t_south == ot_forest_water)
     s_fac = 2;
    else if (t_south >= ot_river_center && t_south <= ot_river_nw)
     s_fac = 3;
@@ -269,7 +269,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     s_fac = 1;
    else
     s_fac = 0;
-   if (t_west == ot_forest_water)
+        if (t_west == ot_forest_water)
     w_fac = 2;
    else if (t_west >= ot_river_center && t_west <= ot_river_nw)
     w_fac = 3;
@@ -342,6 +342,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    }
   }
   
+// j and i loop through appropriate hive-cell center squares
   for (int j = 5; j < SEEY * 2; j += 6) {
    for (int i = (j == 5 || j == 17 ? 3 : 6); i < SEEX * 2; i += 6) {
     if (!one_in(8)) {
@@ -601,9 +602,9 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     int start = rng(0, 4);
     for (int i = 2; i < SEEX * 2 - start; i += gap) {
      ter(i               , start) = t_tree_young;
-     ter(SEEX * 2 - i - 1, start) = t_tree_young;
+     ter(SEEX * 2 - 1 - i, start) = t_tree_young;
      ter(start, i               ) = t_tree_young;
-     ter(start, SEEY * 2 - i - 1) = t_tree_young;
+     ter(start, SEEY * 2 - 1 - i) = t_tree_young;
     }
    }
    place_items(mi_trash, 5, 0, 0, SEEX * 2 -1, SEEX * 2 - 1, true, 0);

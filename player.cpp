@@ -2809,6 +2809,29 @@ void player::suffer(game *g)
   if (radiation < 0)
    radiation = 0;
  }
+
+// Negative bionics effects
+ if (has_bionic(bio_dis_shock) && one_in(1200)) {
+  g->add_msg("You suffer a painful electrical discharge!");
+  pain++;
+  moves -= 150;
+ }
+ if (has_bionic(bio_dis_acid) && one_in(1500)) {
+  g->add_msg("You suffer a buurning acided discharge!");
+  hurtall(1);
+ }
+ if (has_bionic(bio_drain) && power_level > 0 && one_in(600)) {
+  g->add_msg("Your batteries discharge slightly.");
+  power_level--;
+ }
+ if (has_bionic(bio_noise) && one_in(500)) {
+  g->add_msg("A bionic emits a crackle of noise!");
+  g->sound(posx, posy, 60, "");
+ }
+ if (has_bionic(bio_power_weakness) && max_power_level > 0 &&
+     power_level >= max_power_level * .75)
+  str_cur -= 3;
+
  if (dex_cur < 0)
   dex_cur = 0;
  if (str_cur < 0)
@@ -3769,7 +3792,9 @@ void player::use(game *g, char let)
   g->add_msg("You do not have that item.");
   return;
  }
+
  if (used->is_tool()) {
+
   it_tool *tool = dynamic_cast<it_tool*>(used->type);
   if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use) {
    iuse use;
@@ -3777,7 +3802,9 @@ void player::use(game *g, char let)
    used->charges -= tool->charges_per_use;
   } else
    g->add_msg("Your %s doesn't have enough charges.", used->tname().c_str());
+
  } else if (used->is_gunmod()) {
+
   if (sklevel[sk_gun] == 0) {
    g->add_msg("You need to be at least level 1 in the firearms skill before you\
  can modify guns.");
@@ -3830,12 +3857,12 @@ press 'U' while wielding the unloaded gun.", gun->tname().c_str());
    } else if ((mod->id == itm_barrel_big || mod->id == itm_barrel_small) &&
               (gun->contents[i].type->id == itm_barrel_big ||
                gun->contents[i].type->id == itm_barrel_small)) {
-    g->add_msg("Your %s already has a barrel replacement",
+    g->add_msg("Your %s already has a barrel replacement.",
                gun->tname().c_str());
     return;
    } else if ((mod->id == itm_clip || mod->id == itm_clip2) &&
               gun->clip_size() <= 2) {
-    g->add_msg("You can not extend the ammo capacity of your %s",
+    g->add_msg("You can not extend the ammo capacity of your %s.",
                gun->tname().c_str());
     return;
    }
@@ -3843,6 +3870,11 @@ press 'U' while wielding the unloaded gun.", gun->tname().c_str());
   g->add_msg("You attach the %s to your %s.", used->tname().c_str(),
              gun->tname().c_str());
   gun->contents.push_back(i_rem(let));
+
+ } else if (used->is_bionic()) {
+  it_bionic* tmp = dynamic_cast<it_bionic*>(used->type);
+  if (install_bionics(g, tmp))
+   i_rem(let);
  } else if (used->is_food() || used->is_food_container())
   eat(g, let);
  else if (used->is_book())
@@ -3852,7 +3884,6 @@ press 'U' while wielding the unloaded gun.", gun->tname().c_str());
  else
   g->add_msg("You can't do anything interesting with your %s.",
              used->tname().c_str());
-  return;
 }
 
 void player::read(game *g, char ch)
@@ -3968,6 +3999,8 @@ int player::encumb(body_part bp)
   ret += 2;
  if (volume_carried() > volume_capacity() - 2 && bp != bp_head)
   ret += 3;
+ if (has_bionic(bio_stiff) && bp != bp_head)
+  ret += 1;
  return ret;
 }
 

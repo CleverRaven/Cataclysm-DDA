@@ -532,6 +532,11 @@ bool item::is_gunmod()
  return type->is_gunmod();
 }
 
+bool item::is_bionic()
+{
+ return type->is_bionic();
+}
+
 bool item::is_ammo()
 {
  return type->is_ammo();

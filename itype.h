@@ -197,6 +197,7 @@ struct itype
  virtual bool is_ammo()      { return false; }
  virtual bool is_gun()       { return false; }
  virtual bool is_gunmod()    { return false; }
+ virtual bool is_bionic()    { return false; }
  virtual bool is_armor()     { return false; }
  virtual bool is_book()      { return false; }
  virtual bool is_tool()      { return false; }
@@ -521,23 +522,24 @@ struct it_bionic : public itype
 {
  std::vector<bionic_id> options;
  int difficulty;
+
+ virtual bool is_bionic()    { return true; }
+
  it_bionic(unsigned short pid, unsigned char prarity, unsigned int pprice,
            std::string pname, std::string pdes,
            char psym, nc_color pcolor, material pm1, material pm2,
            unsigned char pvolume, unsigned char pweight,
            signed char pmelee_dam, signed char pmelee_cut,signed char pm_to_hit,
-
            int pdifficulty, ...)
-
  :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
         pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
-  difficulty = pdifficulty;
-  va_list ap;
-  va_start(ap, pdifficulty);
-  bionic_id tmp;
-  while (tmp = (bionic_id)va_arg(ap, int))
-   options.push_back(tmp);
-  va_end(ap);
+   difficulty = pdifficulty;
+   va_list ap;
+   va_start(ap, pdifficulty);
+   bionic_id tmp;
+   while (tmp = (bionic_id)va_arg(ap, int))
+    options.push_back(tmp);
+   va_end(ap);
  }
 };
 

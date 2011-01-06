@@ -2380,9 +2380,9 @@ color, STEEL, PLASTIC, 10, 18, 8, 0, 0, difficulty, __VA_ARGS__))
 //  Name			RAR PRICE	COLOR		DIFFICULTY
 
 BIO("CBM: Internal Battery",	24, 3800,	c_green,	 1, "\
-Compact Bionics Module which upgrades your power capacity by 5 to 10 units,\n\
-depending on the skill of the installer.  Having at least one of these is\n\
-a prerequisite to using powered bionics.",
+Compact Bionics Module which upgrades your power capacity by 10 units. Having\n\
+at least one of these is a prerequisite to using powered bionics.  You will\n\
+also need a power supply, found in another CBM.",
     NULL);
 
 BIO("CBM: Power Sources",	18, 5000,	c_yellow,	 4, "\

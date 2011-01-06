@@ -188,7 +188,7 @@ bool player::create(game *g, character_type type)
  if (has_trait(PF_ANDROID)) {
   add_bionic(bionic_id(rng(bio_memory, max_bio_start - 1)));// Other
   if (bionics[my_bionics[0].id].power_cost > 0) {
-   add_bionic(bionic_id(rng(0, bio_ethanol)));	// Power Source
+   add_bionic(bionic_id(rng(1, bio_ethanol)));	// Power Source
    max_power_level = 10;
    power_level = 10;
   } else {
@@ -202,11 +202,13 @@ bool player::create(game *g, character_type type)
   }
 
 /* CHEATER'S STUFF
+
   add_bionic(bionic_id(rng(0, bio_ethanol)));	// Power Source
   for (int i = 0; i < 5; i++)
    add_bionic(bionic_id(rng(bio_memory, max_bio_start - 1)));// Other
   max_power_level = 80;
   power_level = 80;
+
 End of cheatery */
  }
  ret_null = item(g->itypes[0], 0);

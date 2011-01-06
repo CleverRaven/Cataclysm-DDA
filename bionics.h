@@ -6,6 +6,7 @@
  * Showing more information or something. */
 
 enum bionic_id {
+bio_null,
 // Power sources
 bio_batteries, bio_metabolics, bio_solar, bio_furnace, bio_ethanol,
 // Automatic / Always-On
@@ -30,6 +31,10 @@ max_bio_start,
 // TODO: all these suckers
 bio_banish, bio_gate_out, bio_gate_in, bio_nightfall, bio_drilldown,
 bio_heatwave, bio_lightning, bio_tremor, bio_flashflood,
+// Everything below THIS point is bad bionics, meant to be punishments
+max_bio_good,
+bio_dis_shock, bio_dis_acid, bio_drain, bio_noise, bio_power_weakness,
+ bio_stiff,
 max_bio
 };
 
@@ -64,6 +69,9 @@ struct bionic {
 };
  
 const bionic_data bionics[] = {
+{"NULL bionics", false, false, 0, 0, "\
+If you're seeing this, it's a bug."},
+
 {"Battery System", true, false, 0, 0, "\
 You have a battery draining attachment, and thus can make use of the energy\n\
 contained in normal, everyday batteries.  Use 'E' to consume batteries."},
@@ -291,7 +299,30 @@ down walls, and churn the earth."},
 {"Flashflood", false, true, 35, 0, "\
 By drawing the moisture from the air, and synthesizing water from in-air\n\
 elements, you can create a massive puddle around you.  The effects are more\n\
-powerful when used near a body of water."}
+powerful when used near a body of water."},
+
+{"max_bio_good - BUG", false, false, 0, 0, "\
+This is a placeholder bionic.  If you are reading this, you have found a bug!"},
+
+{"Electrical Discharge", false, false, 0, 0, "\
+A malfunctioning bionic which occasionally discharges electricity through\n\
+your body, causing pain and brief paralysis but no damage."},
+{"Acidic Discharge", false, false, 0, 0, "\
+A malfunctioning bionic which occasionally discharges acid into your muscles,\n\
+causing sharp pain and minor damage."},
+{"Electrical Drain", false, false, 0, 0, "\
+A malfunctioning bionic.  It doesn't perform any useful function, but will\n\
+occasionally draw power from your batteries."},
+{"Noisemaker", false, false, 0, 0, "\
+A malfunctioning bionic.  It will occasionally emit a loud burst of noise."},
+{"Power Overload", false, false, 0, 0, "\
+Damaged power circuits cause short-circuiting inside your muscles when your\n\
+batteries are above 75%%%% capacity, causing greatly reduced strength.  This\n\
+has no effect if you have no internal batteries."},
+{"Wire-induced Stiffness", false, false, 0, 0, "\
+Improperly installed wires cause a physical stiffness in most of your body,\n\
+causing increased encumberance."}
+
 };
 
 #endif
