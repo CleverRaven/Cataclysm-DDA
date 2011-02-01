@@ -3312,6 +3312,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    for (int j = 0; j < SEEY * 2; j++)
     ter(i, j) = t_rock;
   }
+
   for (int i = SEEX - 2; i <= SEEX + 3; i++) {
    ter(i, 0) = t_rock_floor;
    ter(i, 1) = t_rock_floor;
@@ -3718,12 +3719,15 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
 {
  std::vector<itype_id> eligible = (*mapitems)[loc];
 
- if (chance >= 100) {
-  debugmsg("Bad place_items called (chance = %d)", chance);
-  chance = 0;
- }
- if (chance == 0 || eligible.size() == 0) // No items here! (Why was it called?)
+ if (chance >= 100 || chance <= 0) {
+  debugmsg("map::place_items() called with an invalid chance (%d)", chance);
   return;
+ }
+ if (eligible.size() == 0) { // No items here! (Why was it called?)
+  debugmsg("map::place_items() called for an empty items list (list #%d)", loc);
+  return;
+ }
+
  int item_chance = 0;	// # of items
  for (int i = 0; i < eligible.size(); i++)
    item_chance += (*itypes)[eligible[i]]->rarity;
@@ -3783,10 +3787,11 @@ void map::make_all_items_owned()
    
 void map::rotate(int turns)
 {
- ter_id rotated[SEEX*2][SEEY*2];
- trap_id traprot[SEEX*2][SEEY*2];
+ ter_id rotated         [SEEX*2][SEEY*2];
+ trap_id traprot        [SEEX*2][SEEY*2];
  std::vector<item> itrot[SEEX*2][SEEY*2];
  std::vector<spawn_point> sprot[9];
+
  switch (turns) {
  case 1:
   for (int i = 0; i < SEEX * 2; i++) {
@@ -3813,8 +3818,8 @@ void map::rotate(int turns)
     sprot[n].push_back(tmp);
    }
   }
-    
   break;
+    
  case 2:
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -3840,8 +3845,8 @@ void map::rotate(int turns)
     sprot[n].push_back(tmp);
    }
   }
-    
   break;
+    
  case 3:
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -3867,11 +3872,12 @@ void map::rotate(int turns)
     sprot[n].push_back(tmp);
    }
   }
-    
   break;
+
  default:
   return;
  }
+
 // Set the spawn points
  for (int i = 0; i < 5; i++) {
   if (i != 2)

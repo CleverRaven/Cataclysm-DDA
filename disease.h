@@ -364,11 +364,11 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_CIG:
-  if (dis.duration >= 200) {	// Smoked too much
-   p.str_cur -= 1;
-   p.dex_cur -= 1;
-   if (dis.duration >= 500 && (one_in(50) ||
-                               (one_in(20) && p.has_trait(PF_WEAKSTOMACH))))
+  if (dis.duration >= 600) {	// Smoked too much
+   p.str_cur--;
+   p.dex_cur--;
+   if (dis.duration >= 1200 && (one_in(50) ||
+                                (one_in(20) && p.has_trait(PF_WEAKSTOMACH))))
     p.vomit(g);
   } else {
    p.dex_cur++;
@@ -378,7 +378,6 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_HIGH:
-  p.dex_cur--;
   p.int_cur--;
   p.per_cur--;
   break;
@@ -388,7 +387,7 @@ void dis_effect(game *g, player &p, disease &dis)
       ( p.has_trait(PF_POISRESIST) && one_in(900))   ) {
    if (!p.is_npc())
     g->add_msg("You're suddenly wracked with pain!");
-   p.pain += 2;
+   p.pain++;
    p.hurt(g, bp_torso, 0, rng(0, 2) * rng(0, 1));
   }
   p.per_cur--;
@@ -404,8 +403,7 @@ void dis_effect(game *g, player &p, disease &dis)
   if (one_in(300 + bonus)) {
    if (!p.is_npc())
     g->add_msg("You're suddenly wracked with pain and nausea!");
-   p.pain += 2;
-   p.hurt(g, bp_torso, 0, 2);
+   p.hurt(g, bp_torso, 0, 1);
   }
   if ((p.has_trait(PF_WEAKSTOMACH) && one_in(350 + bonus)) ||
       one_in(900 + bonus)) 
@@ -462,13 +460,13 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_ADRENALINE:
-  if (dis.duration > 400) {	// 20 minutes positive effects
+  if (dis.duration > 150) {	// 5 minutes positive effects
    p.moves += rng(40, 100);
    p.str_cur += 5;
    p.dex_cur += 3;
    p.int_cur -= 8;
    p.per_cur += 1;
-  } else if (dis.duration == 400) {	// 40 minutes come-down
+  } else if (dis.duration == 150) {	// 15 minutes come-down
    if (!p.is_npc())
     g->add_msg("Your adrenaline rush wears off.  You feel AWFUL!");
    p.moves -= 300;

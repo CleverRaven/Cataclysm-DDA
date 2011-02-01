@@ -432,14 +432,14 @@ MED("cocaine",		 8,420,	c_white,	itm_null,
 A strong, illegal stimulant.  Highly addictive.");
 
 MED("methamphetamine",	 2,400, c_ltcyan,	itm_null,
-	POWDER,  10, -4, 40,  6, 30,&iuse::meth,	ADD_SPEED, "\
+	POWDER,  10, -4, 50,  6, 30,&iuse::meth,	ADD_SPEED, "\
 A very strong illegal stimulant.  Extremely addictive and bad for you, but\n\
 also extremely effective in boosting your alertness.");
 
 //  NAME		RAR PRC	COLOR
 MED("heroin",		 1,600,	c_brown,	itm_syringe,
 //	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
-	POWDER, -10, -3, 50,  4, 45,&iuse::pkill_4,	ADD_PKILLER, "\
+	POWDER, -10, -3, 60,  4, 45,&iuse::pkill_4,	ADD_PKILLER, "\
 A very strong illegal opiate.  Unless you have an opiate tolerance, avoid\n\
 heroin, as it will be too strong for you.");
 
@@ -448,11 +448,11 @@ heroin, as it will be too strong for you.");
 // dam is a somewhat rigid bonus--anything above 30, tops, is ridiculous
 // cut is even MORE rigid, and should be kept lower still
 // to_hit (affects chances of hitting) should be kept small, -5 to +5
+// Note that do-nothing objects (e.g. superglue) belong here too!
 #define MELEE(name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
               des)\
 	index++;itypes.push_back(new itype(index,rarity,price,name,des,sym,\
 color,mat1,mat2,volume,wgt,dam,cut,to_hit))
-// Note that do-nothing objects (e.g. superglue) belong here too!
 
 //    NAME		RAR PRC SYM  COLOR	MAT1	MAT2
 MELEE("paper wrapper",	50,  1, ',', c_ltgray,	PAPER,	MNULL,
@@ -2191,7 +2191,7 @@ trap is disabled.");
 
 TOOL("shotgun trap",	 0,450, ';', c_red,	IRON,	WOOD,
     7, 11, 12,  0, -2,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap, "\
-A simple tripwire is attached to the trigger or a loaded sawn-off shotgun.\n\
+A simple tripwire is attached to the trigger of a loaded sawn-off shotgun.\n\
 When pulled, the shotgun fires.  Two rounds are used; the first time the\n\
 trigger is pulled, one or two may be used.");
 

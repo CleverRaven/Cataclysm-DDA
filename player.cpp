@@ -301,7 +301,7 @@ std::string player::save_info()
  dump << my_bionics.size() << " ";
  for (int i = 0; i < my_bionics.size(); i++)
   dump << int(my_bionics[i].id) << " " << my_bionics[i].invlet << " " <<
-          int(my_bionics[i].powered) << " " << my_bionics[i].charge << " ";
+          my_bionics[i].powered << " " << my_bionics[i].charge << " ";
 
  dump << morale.size() << " ";
  for (int i = 0; i < morale.size(); i++)
@@ -2325,8 +2325,8 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
   debugmsg("Wacky body part hit!");
  }
  if (has_trait(PF_ADRENALINE) && !has_disease(DI_ADRENALINE) &&
-     (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15 || pain > 50))
-  add_disease(DI_ADRENALINE, 600, g);
+     (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
+  add_disease(DI_ADRENALINE, 200, g);
 }
 
 void player::hurt(game *g, body_part bphurt, int side, int dam)
@@ -2391,8 +2391,8 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
   debugmsg("Wacky body part hurt!");
  }
  if (has_trait(PF_ADRENALINE) && !has_disease(DI_ADRENALINE) &&
-     (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15 || pain > 50))
-  add_disease(DI_ADRENALINE, 600, g);
+     (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
+  add_disease(DI_ADRENALINE, 200, g);
 }
 
 void player::heal(body_part bpheal, int side, int dam)
@@ -2536,10 +2536,9 @@ void player::add_addiction(add_type type, int strength)
 {
  if (type == ADD_NULL)
   return;
- int strength2 = strength;
  int timer = 1200;
  if (has_trait(PF_ADDICTIVE)) {
-  strength2 = int(strength * 1.5);
+  strength = int(strength * 1.5);
   timer = 800;
  }
  for (int i = 0; i < addictions.size(); i++) {
@@ -2550,13 +2549,13 @@ void player::add_addiction(add_type type, int strength)
     addictions[i].sated += timer;	// TODO: Make this variable?
    else
     addictions[i].sated += int((3000 - addictions[i].sated) / 2);
-   if ((rng(0, strength2) > rng(0, addictions[i].intensity * 5) ||
-       rng(0, 500) < strength2) && addictions[i].intensity < 20)
+   if ((rng(0, strength) > rng(0, addictions[i].intensity * 5) ||
+       rng(0, 500) < strength) && addictions[i].intensity < 20)
     addictions[i].intensity++;
    return;
   }
  }
- if (rng(0, 100) < strength2) {
+ if (rng(0, 100) < strength) {
   addiction tmp(type, 1);
   addictions.push_back(tmp);
  }
@@ -2800,7 +2799,7 @@ void player::suffer(game *g)
  if (has_trait(PF_UNSTABLE) && one_in(14400))	// Average once a day
   mutate(g);
  radiation += rng(0, g->m.radiation(posx, posy) / 2);
- if (rng(1, 1000) < radiation && rng(1, 1000) < radiation) {
+ if (rng(1, 1000) < radiation && g->turn % 600 == 0) {
   mutate(g);
   if (radiation > 2000)
    radiation = 2000;
@@ -3508,7 +3507,6 @@ bool player::eat(game *g, char let)
  if (eaten->is_ammo()) {
   charge_power(eaten->charges / 20);
   eaten->charges = 0;
-  return true;
  } else if (!eaten->type->is_food() && !eaten->is_food_container(this)) {
   int charge = (eaten->volume() + eaten->weight()) / 2;
   if (eaten->type->m1 == LEATHER || eaten->type->m2 == LEATHER)
@@ -3516,7 +3514,6 @@ bool player::eat(game *g, char let)
   if (eaten->type->m1 == WOOD    || eaten->type->m2 == WOOD)
    charge /= 2;
   charge_power(charge);
-  return true;
  } else {
   if (tmp == NULL) {
    debugmsg("player::eat a %s; tmp is NULL!", eaten->tname().c_str());
@@ -3737,7 +3734,11 @@ bool player::wear(game *g, char let)
   return false;
  }
  if (armor->covers & mfb(bp_hands) && has_trait(PF_WEBBED)) {
-  g->add_msg("You cannot put %s over your webbed hands.", armor->name.c_str());
+  g->add_msg("You cannot put a %s over your webbed hands.", armor->name.c_str());
+  return false;
+ }
+ if (armor->covers & mfb(bp_mount) && has_trait(PF_BEAK)) {
+  g->add_msg("You cannot put a %s over your beak.", armor->name.c_str());
   return false;
  }
  if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet)) {
@@ -3751,9 +3752,6 @@ bool player::wear(game *g, char let)
  else
   inv.erase(inv.begin() + index);
  for (body_part i = bp_head; i < num_bp; i = body_part(i + 1)) {
-  std::string verb = "are";
-  if (i == bp_head || i == bp_torso)
-   verb = "is";
   if (encumb(i) >= 4)
    g->add_msg("Your %s %s very encumbered!",
               body_part_name(body_part(i), 2).c_str(),

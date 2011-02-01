@@ -54,6 +54,12 @@ void get_direction(int &x, int &y, char ch)
   x = 1;
   y = 1;
   return;
+ case '.':
+ case ',':
+ case 'g':
+  x = 0;
+  y = 0;
+  return;
  default:
   x = -2;
   y = -2;

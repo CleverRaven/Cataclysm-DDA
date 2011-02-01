@@ -45,7 +45,7 @@ void player::activate_bionic(int b, game *g)
  std::vector<point> traj;
  std::vector<std::string> good;
  std::vector<std::string> bad;
- WINDOW *w;
+ WINDOW* w;
  int dirx, diry, t, l, index;
  item tmp_item;
 
@@ -140,6 +140,7 @@ void player::activate_bionic(int b, game *g)
   wrefresh(w);
   refresh();
   getch();
+  delwin(w);
   break;
 
  case bio_blood_filter:
@@ -352,7 +353,6 @@ void player::activate_bionic(int b, game *g)
   break;
 
  }
- delwin(w);
 }
 
 bool player::install_bionics(game *g, it_bionic* type)

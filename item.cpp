@@ -123,6 +123,7 @@ item item::in_its_container(std::vector<itype*> *itypes)
  it_comest *food = dynamic_cast<it_comest*>(type);
  item ret((*itypes)[food->container], bday);
  ret.contents.push_back(*this);
+ ret.invlet = invlet;
  return ret;
 }
 

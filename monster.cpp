@@ -232,8 +232,10 @@ bool monster::is_fleeing(player &u)
 // fleefactor is by default the agressiveness of the animal, minus the
 //  percentage of remaining HP times four.  So, aggresiveness of 5 has a
 //  fleefactor of 2 AT MINIMUM.
- if (type->hp == 0)
+ if (type->hp == 0) {
   debugmsg("%s has type->hp of 0!", type->name.c_str());
+  return false;
+ }
 
  if (friendly != 0)
   return false;
