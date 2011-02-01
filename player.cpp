@@ -3737,7 +3737,7 @@ bool player::wear(game *g, char let)
   g->add_msg("You cannot put a %s over your webbed hands.", armor->name.c_str());
   return false;
  }
- if (armor->covers & mfb(bp_mount) && has_trait(PF_BEAK)) {
+ if (armor->covers & mfb(bp_mouth) && has_trait(PF_BEAK)) {
   g->add_msg("You cannot put a %s over your beak.", armor->name.c_str());
   return false;
  }
