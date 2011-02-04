@@ -709,8 +709,11 @@ void game::process_activity()
    u.activity.moves_left -= u.moves;
    u.moves = 0;
   }
+
   if (u.activity.moves_left <= 0) {	// We finished our activity!
+
    switch (u.activity.type) {
+
    case ACT_RELOAD:
     u.weapon.reload(u, u.activity.index);
     if (u.weapon.is_gun())
@@ -738,6 +741,7 @@ void game::process_activity()
      }
     }
     break;
+
    case ACT_READ:
     if (u.activity.index == -2)
      reading = dynamic_cast<it_book*>(u.weapon.type);
@@ -751,15 +755,23 @@ void game::process_activity()
 
     if (u.sklevel[reading->type] < reading->level) {
      add_msg("You learn a little about %s!", skill_name(reading->type).c_str());
-     u.skexercise[reading->type] += rng(reading->time, reading->time * 2);
+     int min_ex = reading->time + u.int_cur,
+         max_ex = reading->time * 2 + u.int_cur * 4;
+     u.skexercise[reading->type] += rng(min_ex, max_ex);
+     if (u.sklevel[reading->type] +
+        (u.skexercise[reading->type] >= 100 ? 1 : 0) >= reading->level)
+      add_msg("You can no longer learn from this %d.", reading->name.c_str());
     }
     break;
+
    case ACT_WAIT:
     add_msg("You finish waiting.");
     break;
+
    case ACT_CRAFT:
     complete_craft();
     break;
+
    case ACT_BUTCHER:
     complete_butcher(u.activity.index);
     break;
@@ -3979,10 +3991,6 @@ void game::wield()
 
 void game::read()
 {
- if (u.morale_level() < MIN_MORALE_READ) {	// See morale.h
-  add_msg("What's the point of reading?  (Your morale is too low!)");
-  return;
- }
  char ch = inv("Read:");
  u.read(this, ch);
 }

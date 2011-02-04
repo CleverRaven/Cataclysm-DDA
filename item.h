@@ -30,10 +30,10 @@ public:
  int reload_time(player &u);
  int clip_size();
  int accuracy();
- int gun_damage();
+ int gun_damage(bool with_ammo = true);
  int noise();
  int burst_size();
- int recoil();
+ int recoil(bool with_ammo = true);
  ammotype ammo();
  int pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, int index);

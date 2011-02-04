@@ -64,28 +64,32 @@ void addict_effect(game *g, addiction &add)
   break;
 
  case ADD_PKILLER:
-  g->u.str_cur -= 1 + int(in / 7);
-  g->u.per_cur--;
-  g->u.dex_cur--;
-  if (g->u.pain < in * 3)
-   g->u.pain++;
   if ((in >= 25 || g->turn % (100 - in * 4) == 0) && g->u.pkill > 0)
    g->u.pkill--;	// Tolerance increases!
-  if (in >= 40 || one_in((1200 - 30 * in)))
-   g->u.health--;
-  if (one_in(20) && dice(2, 20) < in) {
-   g->add_msg("Your hands start shaking... you need some painkillers.");
-   g->cancel_activity_query("You have an opiate craving.");
-   g->u.add_morale(MOR_CRAVING_OPIATE, 20, 600);
-   g->u.add_disease(DI_SHAKES, 20 + in * 5, g);
-  } else if (one_in(20) && dice(2, 30) < in) {
-   g->add_msg("You feel anxious.  You need your painkillers!");
-   g->u.add_morale(MOR_CRAVING_OPIATE, 15, 600);
-   g->cancel_activity_query("You have a craving.");
-  } else if (one_in(50) && dice(3, 50) < in) {
-   g->add_msg("You throw up heavily!");
-   g->cancel_activity_query("Throwing up.");
-   g->u.vomit(g);
+  if (g->u.pkill >= 35) // No further effects if we're doped up.
+   add.sated = 0;
+  else {
+   g->u.str_cur -= 1 + int(in / 7);
+   g->u.per_cur--;
+   g->u.dex_cur--;
+   if (g->u.pain < in * 3)
+    g->u.pain++;
+   if (in >= 40 || one_in((1200 - 30 * in)))
+    g->u.health--;
+   if (one_in(20) && dice(2, 20) < in) {
+    g->add_msg("Your hands start shaking... you need some painkillers.");
+    g->cancel_activity_query("You have an opiate craving.");
+    g->u.add_morale(MOR_CRAVING_OPIATE, 20, 600);
+    g->u.add_disease(DI_SHAKES, 20 + in * 5, g);
+   } else if (one_in(20) && dice(2, 30) < in) {
+    g->add_msg("You feel anxious.  You need your painkillers!");
+    g->u.add_morale(MOR_CRAVING_OPIATE, 15, 600);
+    g->cancel_activity_query("You have a craving.");
+   } else if (one_in(50) && dice(3, 50) < in) {
+    g->add_msg("You throw up heavily!");
+    g->cancel_activity_query("Throwing up.");
+    g->u.vomit(g);
+   }
   }
   break;
 

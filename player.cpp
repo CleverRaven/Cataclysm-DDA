@@ -1836,7 +1836,7 @@ int player::hit_mon(game *g, monster *z)
  if (recoil <= 30)
   recoil += 6;
 // Movement cost
- moves -= (80 + 4 * weapon.volume() + 2 * weapon.weight() + encumb(bp_torso));
+ moves -= (80 + 4*weapon.volume() + 2*weapon.weight() + 20*encumb(bp_torso));
 // Different sizes affect your chance to hit
  switch (z->type->size) {
   case MS_TINY:  numdice -= 4; break;
@@ -1847,7 +1847,7 @@ int player::hit_mon(game *g, monster *z)
  if (numdice < 1)
   numdice = 1;
  int mondice = z->dodge();
- if (dice(numdice, 10) < dice(mondice, 10)) {	// A miss!
+ if (dice(numdice, 10) - 4 * encumb(bp_torso) < dice(mondice, 10)) {// A miss!
 // Movement penalty for missing & stumbling
   int stumble_pen = weapon.volume() + int(weapon.weight() / 2);
   if (has_trait(PF_DEFT))
@@ -2205,8 +2205,6 @@ int player::dodge()
   return 0;
  practice(sk_dodge, 10);
  int ret = 4 + (dex_cur / 2);
- if (moves < 0)	// We did something else, and thus cannot dodge quite as well!
-  ret = 0;
  ret += sklevel[sk_dodge];
  ret -= (encumb(bp_legs) / 2) + encumb(bp_torso);
  if (!can_dodge)	// We already dodged
@@ -2844,15 +2842,15 @@ void player::suffer(game *g)
 void player::vomit(game *g)
 {
  g->add_msg("You throw up heavily!");
- hunger += 50;
- thirst += 60;
+ hunger += 30;
+ thirst += 30;
  for (int i = 0; i < illness.size(); i++) {
   if (illness[i].type == DI_FOODPOISON)
    illness[i].duration -= 600;
   else if (illness[i].type == DI_DRUNK)
    illness[i].duration -= rng(0, 5) * 100;
   if (illness[i].duration < 0)
-   rem_disease(DI_FOODPOISON);
+   rem_disease(illness[i].type);
  }
  rem_disease(DI_PKILL1);
  rem_disease(DI_PKILL2);
@@ -3753,9 +3751,10 @@ bool player::wear(game *g, char let)
   inv.erase(inv.begin() + index);
  for (body_part i = bp_head; i < num_bp; i = body_part(i + 1)) {
   if (encumb(i) >= 4)
-   g->add_msg("Your %s %s very encumbered!",
+   g->add_msg("Your %s %s very encumbered! %s",
               body_part_name(body_part(i), 2).c_str(),
-              (i == bp_head || i == bp_torso ? "is" : "are"));
+              (i == bp_head || i == bp_torso || i == bp_mouth ? "is" : "are"),
+              encumb_text(body_part(i)).c_str());
  }
  return true;
 }
@@ -3886,6 +3885,12 @@ press 'U' while wielding the unloaded gun.", gun->tname().c_str());
 
 void player::read(game *g, char ch)
 {
+ if (morale_level() < MIN_MORALE_READ) {	// See morale.h
+  g->add_msg("What's the point of reading?  (Your morale is too low!)");
+  return;
+ }
+
+// Find the object
  int index = -1;
  if (weapon.invlet == ch)
   index = -2;
@@ -3897,6 +3902,8 @@ void player::read(game *g, char ch)
    }
   }
  }
+
+// Check if reading is okay
  if (g->light_level() <= 2) {
   g->add_msg("It's too dark to read!");
   return;
@@ -3924,12 +3931,16 @@ void player::read(game *g, char ch)
   g->add_msg("The %s-related jargon flies over your head!",
              skill_name(tmp->type).c_str());
   return;
- }
+ } else if (tmp->level <= sklevel[tmp->type] && tmp->fun <= 0 &&
+            !query_yn("Your %s skill won't be improved.  Read anyway?",
+                      skill_name(tmp->type).c_str()))
+  return;
+
  int time = tmp->time * 1000;	// tmp->time is in minutes; 1000 move points
 				// is one minute.
  time -= int_cur * 250;
  if (has_trait(PF_FASTREADER))
-  time /= 2;
+  time /= 3;
  if (time < 1000)
   time = 1000;
  activity = player_activity(ACT_READ, time, index);

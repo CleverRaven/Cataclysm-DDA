@@ -153,7 +153,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   else if (p.dex_cur > 8)
    deviation -= rng(0, p.dex_cur - 8);
 
-  deviation += rng(0, 2 * p.encumb(bp_torso)) + rng(0, 4 * p.encumb(bp_eyes));
+  deviation += rng(0, 2 * p.encumb(bp_arms)) + rng(0, 4 * p.encumb(bp_eyes));
 
   deviation += rng(0, p.weapon.curammo->accuracy);
   deviation += rng(0, p.weapon.accuracy());
@@ -399,7 +399,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
   deviation += rng(0, 11 - p.dex_cur);
  else
   deviation -= p.dex_cur - 11;
- deviation += rng(0, p.encumb(bp_torso) + p.encumb(bp_eyes) + 1);
+ deviation += rng(0, p.encumb(bp_hands) * 2 + p.encumb(bp_eyes) + 1);
  if (thrown.volume() > 5)
   deviation += rng(0, 1 + (thrown.volume() - 5) / 4);
  if (thrown.volume() == 0)

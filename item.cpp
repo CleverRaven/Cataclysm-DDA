@@ -192,36 +192,67 @@ std::string item::info(bool showtext)
          int(type->melee_cut) << "  To-hit bonus: " <<
          (type->m_to_hit > 0 ? "+" : "" ) << int(type->m_to_hit) << "\n" <<
          " Moves per attack: " << attack_time() << "\n";
+
  if (is_food()) {
+
   it_comest* food = dynamic_cast<it_comest*>(type);
   dump << " Nutrituion: " << int(food->nutr) << "\n Quench: " <<
           int(food->quench) << "\n Enjoyability: " << int(food->fun);
+
  } else if (is_food_container()) {
+
   it_comest* food = dynamic_cast<it_comest*>(contents[0].type);
   dump << " Nutrituion: " << int(food->nutr) << "\n Quench: " <<
           int(food->quench) << "\n Enjoyability: " << int(food->fun);
+
  } else if (is_ammo()) {
+
   it_ammo* ammo = dynamic_cast<it_ammo*>(type);
   dump << " Type: " << ammo_name(ammo->type) << "\n Damage: " <<
            int(ammo->damage) << "\n Armor-pierce: " << int(ammo->pierce) <<
            "\n Range: " << int(ammo->range) << "\n Accuracy: " <<
            int(100 - ammo->accuracy) << "\n Recoil: " << int(ammo->recoil);
+
  } else if (is_gun()) {
+
   it_gun* gun = dynamic_cast<it_gun*>(type);
+  int ammo_dam = 0, ammo_recoil = 0;
+  bool has_ammo = (curammo != NULL && charges > 0);
+  if (has_ammo) {
+   ammo_dam = curammo->damage;
+   ammo_recoil = curammo->recoil;
+  }
+   
   dump << " Skill used: " << skill_name(gun->skill_used) << "\n Ammunition: " <<
-          clip_size() << " rounds of " << ammo_name(ammo()) <<
-          "\n Damage bonus: " << (gun_damage() > 0 ? "+" : "" ) <<
-          gun_damage() << "\n Accuracy: " << int(100 - accuracy()) <<
-          "\n Recoil: " << recoil() << "\n";
+          clip_size() << " rounds of " << ammo_name(ammo());
+
+  dump << "\n Damage: ";
+  if (has_ammo)
+   dump << ammo_dam;
+  dump << (gun_damage(false) >= 0 ? "+" : "" ) << gun_damage(false);
+  if (has_ammo)
+   dump << " = " << gun_damage();
+
+  dump << "\n Accuracy: " << int(100 - accuracy());
+
+  dump << "\n Recoil: ";
+  if (has_ammo)
+   dump << ammo_recoil;
+  dump << (recoil(false) >= 0 ? "+" : "" ) << recoil(false);
+  if (has_ammo)
+   dump << " = " << recoil();
+
   if (burst_size() == 0)
-   dump << " Semi-automatic.";
+   dump << "\n Semi-automatic.";
   else
-   dump << " Burst size: " << burst_size();
+   dump << "\n Burst size: " << burst_size();
   if (contents.size() > 0)
    dump << "\n";
   for (int i = 0; i < contents.size(); i++)
    dump << "\n+" << contents[i].tname();
+
  } else if (is_gunmod()) {
+
   it_gunmod* mod = dynamic_cast<it_gunmod*>(type);
   if (mod->accuracy != 0)
    dump << " Accuracy: " << (mod->accuracy > 0 ? "+" : "") <<
@@ -245,7 +276,9 @@ std::string item::info(bool showtext)
    dump << "SMGs.  ";
   if (mod->used_on_rifle)
    dump << "Rifles.";
+
  } else if (is_armor()) {
+
   it_armor* armor = dynamic_cast<it_armor*>(type);
   dump << " Covers: ";
   if (armor->covers & mfb(bp_head))
@@ -268,7 +301,9 @@ std::string item::info(bool showtext)
           "\n Environmental protection: "	<< int(armor->env_resist) <<
           "\n Warmth: "				<< int(armor->warmth) <<
           "\n Storage: "			<< int(armor->storage);
+
  } else if (is_book()) {
+
   it_book* book = dynamic_cast<it_book*>(type);
   if (book->type == sk_null)
    dump << " Just for fun.\n";
@@ -286,7 +321,9 @@ std::string item::info(bool showtext)
    dump << " Reading this book affects your morale by " <<
            (book->fun > 0 ? "+" : "") << int(book->fun) << std::endl;
   dump << " This book takes " << int(book->time) << " minutes to read.";
+
  } else if (is_tool()) {
+
   it_tool* tool = dynamic_cast<it_tool*>(type);
   dump << " Maximum " << tool->max_charges << " charges";
   if (tool->ammo == AT_NULL)
@@ -294,6 +331,7 @@ std::string item::info(bool showtext)
   else
    dump << " of " << ammo_name(tool->ammo) << ".";
  }
+
  if (showtext) {
   dump << "\n\n " << type->description << "\n";
   if (contents.size() > 0) {
@@ -656,6 +694,7 @@ int item::reload_time(player &u)
   ret = 100 + volume() + weight();
  if (type->id == itm_crossbow)	// Crossbows are special, they take longer
   ret += 150 - u.str_cur * 10;
+ ret += u.encumb(bp_hands) * 30;
  return ret;
 }
 
@@ -688,13 +727,13 @@ int item::accuracy()
  return ret;
 }
 
-int item::gun_damage()
+int item::gun_damage(bool with_ammo)
 {
  if (!is_gun())
   return 0;
  it_gun* gun = dynamic_cast<it_gun*>(type);
  int ret = gun->dmg_bonus;
- if (curammo != NULL)
+ if (with_ammo && curammo != NULL)
   ret += curammo->damage;
  for (int i = 0; i < contents.size(); i++) {
   if (contents[i].is_gunmod())
@@ -735,13 +774,13 @@ int item::burst_size()
  return ret;
 }
 
-int item::recoil()
+int item::recoil(bool with_ammo)
 {
  if (!is_gun())
   return 0;
  it_gun* gun = dynamic_cast<it_gun*>(type);
  int ret = gun->recoil;
- if (curammo != NULL)
+ if (with_ammo && curammo != NULL)
   ret += curammo->recoil;
  for (int i = 0; i < contents.size(); i++) {
   if (contents[i].is_gunmod())

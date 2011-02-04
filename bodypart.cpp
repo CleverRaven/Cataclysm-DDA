@@ -9,7 +9,7 @@ std::string body_part_name (body_part bp, int side)
  case bp_eyes:
   return "eyes";
  case bp_mouth:
-  return "jaw";
+  return "mouth";
  case bp_torso:
   return "torso";
  case bp_arms:
@@ -38,6 +38,21 @@ std::string body_part_name (body_part bp, int side)
   return "feet";
  default:
   return "appendix";
+ }
+}
+
+std::string encumb_text(body_part bp)
+{
+ switch (bp) {
+  case bp_head:  return "";
+  case bp_eyes:  return "Ranged combat is hampered.";
+  case bp_mouth: return "Running is slowed.";
+  case bp_torso: return "Movement and melee is hampered.";
+  case bp_arms:  return "Melee and ranged combat is hampered.";
+  case bp_hands: return "Manual tasks are slowed.";
+  case bp_legs:  return "Running and swimming are slowed.";
+  case bp_feet:  return "Running is slowed.";
+  default: return "It's inflammed.";
  }
 }
 
