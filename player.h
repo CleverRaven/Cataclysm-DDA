@@ -63,7 +63,16 @@ public:
 // hit_player returns false on a miss, and modifies bp, hitdam, and hitcut
  bool hit_player(player &p, body_part &bp, int &hitdam, int &hitcut);
  int  dodge();		//Returns the players's dodge, modded by clothing etc
- int  throw_range(char ch);	// Range of throwing item; -1:DNE 0:Can't throw
+
+ int throw_range(char ch);	// Range of throwing item; -1:ERR 0:Can't throw
+ int base_damage	(bool real_life = true);
+ int base_to_hit	(bool real_life = true);
+ int ranged_dex_mod	(bool real_life = true);
+ int ranged_per_mod	(bool real_life = true);
+ int throw_dex_mod	(bool real_life = true);
+
+ int comprehension_percent(skill s, bool real_life = true);
+ int read_speed		(bool real_life = true);
 
 // Converts bphurt to a hp_part (if side == 0, the left), then does/heals dam
 // hit() processes damage through armor
@@ -118,7 +127,7 @@ public:
 
  int weight_carried();
  int volume_carried();
- int weight_capacity();
+ int weight_capacity(bool real_life = true);
  int volume_capacity();
  int morale_level();	// Modified by traits, &c
  void add_morale(morale_type type, int bonus = -1, int duration = -1);

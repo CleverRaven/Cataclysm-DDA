@@ -1073,7 +1073,7 @@ A helmet with covers your head and chin, leaving space in between for you to\n\
 wear goggles.");
 
 ARMOR("chitinous helmet", 1, 380,C_HAT,		FLESH,		MNULL,
-   22,  1,  2, -2,  4, 10, 14,  2,  3,  0,	mfb(bp_head)|mfb(bp_eyes)|
+   22,  1,  2, -2,  4, 10, 14,  4,  3,  0,	mfb(bp_head)|mfb(bp_eyes)|
 						mfb(bp_mouth), "\
 A helmet made from the exoskeletons of insects.  Covers the entire head; very\n\
 light and durable.");

@@ -127,37 +127,26 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  for (int curshot = 0; curshot < num_shots; curshot++) {
 // Calculate deviation from intended target (assuming we shoot for the head)
   deviation = 0;
-// Up to 2 degrees for each skill point < 4; up to 1 removed for each pt > 4
-  if (p.sklevel[firing->skill_used] < 5)
-   deviation += rng(0, 6 * (5 - p.sklevel[firing->skill_used]));
+// Up to 1.5 degrees for each skill point < 4; up to 1.25 for each point > 4
+  if (p.sklevel[firing->skill_used] < 4)
+   deviation += rng(0, 6 * (4 - p.sklevel[firing->skill_used]));
   else
-   deviation -= rng(0, 5 * (p.sklevel[firing->skill_used] - 5));
+   deviation -= rng(0, 5 * (4 - p.sklevel[firing->skill_used] - 4));
 
   if (p.sklevel[sk_gun] < 3)
    deviation += rng(0, 3 * (3 - p.sklevel[sk_gun]));
   else
    deviation -= rng(0, 2 * (p.sklevel[sk_gun] - 3));
 
-  if (p.per_cur < 8)
-   deviation += rng(0, 4 * (9 - p.per_cur));
-  else {
-   deviation -= (p.per_cur > 16 ? 8 : p.per_cur - 8);
-   if (one_in(p.per_cur))
-    deviation += rng(0, (p.per_cur > 16 ? 8 : p.per_cur - 8));
-  }
-
-  if (p.dex_cur < 6)
-   deviation += rng(0, 8 * (6 - p.dex_cur));
-  else if (p.dex_cur < 8)
-   deviation += rng(0, 2 * (8 - p.dex_cur));
-  else if (p.dex_cur > 8)
-   deviation -= rng(0, p.dex_cur - 8);
+  deviation += p.ranged_dex_mod();
+  deviation += p.ranged_per_mod();
 
   deviation += rng(0, 2 * p.encumb(bp_arms)) + rng(0, 4 * p.encumb(bp_eyes));
 
   deviation += rng(0, p.weapon.curammo->accuracy);
   deviation += rng(0, p.weapon.accuracy());
   deviation += rng(int(p.recoil / 4), p.recoil);
+
   int recoil_add = p.weapon.recoil();
   recoil_add -= rng(p.str_cur / 2, p.str_cur);
   recoil_add -= rng(0, p.sklevel[firing->skill_used] / 2);
@@ -387,23 +376,25 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
 {
  int deviation = 0;
  int trange = 1.5 * trig_dist(p.posx, p.posy, tarx, tary);
+
  if (p.sklevel[sk_throw] < 8)
   deviation += rng(0, 8 - p.sklevel[sk_throw]);
  else
   deviation -= p.sklevel[sk_throw] - 6;
+
+ deviation += p.throw_dex_mod();
+
  if (p.per_cur < 6)
   deviation += rng(0, 8 - p.per_cur);
  else if (p.per_cur > 8)
   deviation -= p.per_cur - 8;
- if (p.dex_cur < 11)
-  deviation += rng(0, 11 - p.dex_cur);
- else
-  deviation -= p.dex_cur - 11;
+
  deviation += rng(0, p.encumb(bp_hands) * 2 + p.encumb(bp_eyes) + 1);
  if (thrown.volume() > 5)
   deviation += rng(0, 1 + (thrown.volume() - 5) / 4);
  if (thrown.volume() == 0)
   deviation += rng(0, 3);
+
  deviation += rng(0, 1 + abs(p.str_cur - thrown.weight()));
 
  double missed_by = .01 * deviation * trange;

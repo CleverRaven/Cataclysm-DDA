@@ -760,7 +760,7 @@ void game::process_activity()
      u.skexercise[reading->type] += rng(min_ex, max_ex);
      if (u.sklevel[reading->type] +
         (u.skexercise[reading->type] >= 100 ? 1 : 0) >= reading->level)
-      add_msg("You can no longer learn from this %d.", reading->name.c_str());
+      add_msg("You can no longer learn from this %s.", reading->name.c_str());
     }
     break;
 
@@ -2566,6 +2566,89 @@ void game::kill_mon(int index)
    last_target--;
 } 
 
+void game::explode_mon(int index)
+{
+ if (index < 0 || index >= z.size()) {
+  debugmsg("Tried to explode monster %d! (%d in play)", index, z.size());
+  return;
+ }
+ if (z[index].dead)
+  return;
+ z[index].dead = true;
+ kills[z[index].type->id]++;	// Increment our kill counter
+ for (int i = 0; i < active_npc.size(); i++) {
+  if (active_npc[i].target == &z[index])
+   active_npc[i].target = NULL;
+ }
+// Send body parts and blood all over!
+ mtype* corpse = z[index].type;
+ if (corpse->mat == FLESH || corpse->mat == VEGGY) { // No chunks otherwise
+  int num_chunks;
+  switch (corpse->size) {
+   case MS_TINY:   num_chunks =  1; break;
+   case MS_SMALL:  num_chunks =  2; break;
+   case MS_MEDIUM: num_chunks =  4; break;
+   case MS_LARGE:  num_chunks =  8; break;
+   case MS_HUGE:   num_chunks = 16; break;
+  }
+  itype* meat;
+  if (corpse->flags & mfb(MF_POISON)) {
+   if (corpse->mat == FLESH)
+    meat = itypes[itm_meat_tainted];
+   else
+    meat = itypes[itm_veggy_tainted];
+  } else {
+   if (corpse->mat == FLESH)
+    meat = itypes[itm_meat];
+   else
+    meat = itypes[itm_veggy];
+  }
+
+  int posx = z[index].posx, posy = z[index].posy;
+  for (int i = 0; i < num_chunks; i++) {
+   int tarx = posx + rng(-3, 3), tary = posy + rng(-3, 3);
+   std::vector<point> traj = line_to(posx, posy, tarx, tary, 0);
+ 
+   bool done = false;
+   for (int j = 0; j < traj.size() && !done; j++) {
+    tarx = traj[j].x;
+    tary = traj[j].y;
+// Choose a blood type and place it
+    field_id blood_type = fd_blood;
+    if (corpse->dies == &mdeath::boomer)
+     blood_type = fd_bile;
+    else if (corpse->dies == &mdeath::acid)
+     blood_type = fd_acid;
+    if (m.field_at(tarx, tary).type == blood_type &&
+        m.field_at(tarx, tary).density < 3)
+     m.field_at(tarx, tary).density++;
+    else
+     m.add_field(this, tarx, tary, blood_type, 1);
+
+    if (m.move_cost(tarx, tary) == 0) {
+     std::string tmp = "";
+     if (m.bash(tarx, tary, 3, tmp))
+      sound(tarx, tary, 18, tmp);
+     else {
+      if (j > 0) {
+       tarx = traj[j - 1].x;
+       tary = traj[j - 1].y;
+      }
+      done = true;
+     }
+    }
+   }
+   m.add_item(tarx, tary, meat, turn);
+  }
+ }
+ 
+ z.erase(z.begin()+index);
+ if (last_target == index)
+  last_target = -1;
+ else if (last_target > index)
+   last_target--;
+}
+
 void game::open()
 {
  u.moves -= 100;
@@ -2825,6 +2908,7 @@ void game::examine()
    } while (u.cash > 0 && query_yn("Play again?"));
   }
  } else if (m.ter(examx, examy) == t_bulletin) {
+// TODO: Bulletin Boards
   switch (menu("Bulletin Board", "Check jobs", "Check events",
                "Check other notices", "Post notice", "Cancel", NULL)) {
    case 1:
@@ -4491,7 +4575,7 @@ void game::update_map(int &x, int &y)
    i--;
   }
  }
-// Spawn NPCs?
+// Spawn static NPCs?
  if (!in_tutorial && false) {	// Removing NPCs for now. :(
   npc temp;
   for (int i = 0; i < cur_om.npcs.size(); i++) {
@@ -4729,7 +4813,7 @@ void game::teleport()
   } else if (mon_at(newx, newy) != -1) {
    int i = mon_at(newx, newy);
    add_msg("You teleport into the middle of a %s!", z[i].name().c_str());
-   kill_mon(i);
+   explode_mon(i);
   }
  }
  update_map(u.posx, u.posy);

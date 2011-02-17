@@ -216,7 +216,7 @@ void trapfuncm::blade(game *g, monster *z, int x, int y)
 void trapfunc::landmine(game *g, int x, int y)
 {
  g->add_msg("You trigger a landmine!");
- g->explosion(x, y, 20, 24, false);
+ g->explosion(x, y, 10, 8, false);
  g->m.tr_at(x, y) = tr_null;
 }
 
@@ -225,7 +225,7 @@ void trapfuncm::landmine(game *g, monster *z, int x, int y)
  int t;
  if (g->u_see(x, y, t))
   g->add_msg("The %s steps on a landmine!", z->name().c_str());
- g->explosion(x, y, 20, 24, false);
+ g->explosion(x, y, 10, 8, false);
  g->m.tr_at(x, y) = tr_null;
 }
 
@@ -242,10 +242,29 @@ void trapfuncm::telepad(game *g, monster *z, int x, int y)
  int j;
  if (g->u_see(z, j))
   g->add_msg("The air shimmers around the %s...", z->name().c_str());
+
+ int tries = 0;
+ int newposx, newposy;
  do {
-  z->posx = rng(z->posx - SEEX, z->posx + SEEX);
-  z->posy = rng(z->posy - SEEY, z->posy + SEEY);
- } while (g->m.move_cost(z->posx, z->posy) == 0);
+  newposx = rng(z->posx - SEEX, z->posx + SEEX);
+  newposy = rng(z->posy - SEEY, z->posy + SEEY);
+  tries++;
+ } while (g->m.move_cost(newposx, newposy) == 0 && tries != 10);
+
+ if (tries == 10)
+  g->explode_mon(g->mon_at(z->posx, z->posy));
+ else {
+  int mon_hit = g->mon_at(newposx, newposy), t;
+  if (mon_hit != -1) {
+   if (g->u_see(z, t))
+    g->add_msg("The %s teleports into a %s, killing them both!",
+               z->name().c_str(), g->z[mon_hit].name().c_str());
+   g->explode_mon(mon_hit);
+  } else {
+   z->posx = newposx;
+   z->posy = newposy;
+  }
+ }
 }
 
 void trapfunc::goo(game *g, int x, int y)
@@ -277,23 +296,23 @@ void trapfunc::dissector(game *g, int x, int y)
 {
  g->add_msg("Electrical beams emit from the floor and slice your flesh!");
  g->sound(x, y, 10, "BRZZZAP!");
- g->u.hit(g, bp_head, 0, 0, 15);
+ g->u.hit(g, bp_head,  0, 0, 15);
  g->u.hit(g, bp_torso, 0, 0, 20);
- g->u.hit(g, bp_arms, 0, 0, 12);
- g->u.hit(g, bp_arms, 1, 0, 12);
+ g->u.hit(g, bp_arms,  0, 0, 12);
+ g->u.hit(g, bp_arms,  1, 0, 12);
  g->u.hit(g, bp_hands, 0, 0, 10);
  g->u.hit(g, bp_hands, 1, 0, 10);
- g->u.hit(g, bp_legs, 0, 0, 12);
- g->u.hit(g, bp_legs, 1, 0, 12);
- g->u.hit(g, bp_feet, 0, 0, 10);
- g->u.hit(g, bp_feet, 1, 0, 10);
+ g->u.hit(g, bp_legs,  0, 0, 12);
+ g->u.hit(g, bp_legs,  1, 0, 12);
+ g->u.hit(g, bp_feet,  0, 0, 10);
+ g->u.hit(g, bp_feet,  1, 0, 10);
 }
 
 void trapfuncm::dissector(game *g, monster *z, int x, int y)
 {
  g->sound(x, y, 10, "BRZZZAP!");
  if (z->hurt(60))
-  g->kill_mon(g->mon_at(x, y));
+  g->explode_mon(g->mon_at(x, y));
 }
 
 void trapfunc::pit(game *g, int x, int y)

@@ -57,6 +57,7 @@ class game
   int  mon_at(int x, int y);	// Index of the monster at (x, y); -1 for none
   bool is_empty(int x, int y);	// True if no PC, no monster, move cost > 0
   void kill_mon(int index);	// Kill that monster; fixes any pointers etc
+  void explode_mon(int index);	// Explode a monster; like kill_mon but messier
   void plfire(bool burst);	// Player fires a gun (setup of target)...
 // ... a gun is fired, maybe by an NPC (actual damage, etc.).
   void fire(player &p, int tarx, int tary, std::vector<point> &trajectory,

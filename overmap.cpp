@@ -1612,6 +1612,8 @@ void overmap::polish(oter_id min, oter_id max)
 
 bool overmap::is_road(int x, int y)
 {
+ if (ter(x, y) == ot_rift || ter(x, y) == ot_hellmouth)
+  return true;
  if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY) {
   for (int i = 0; i < roads_out.size(); i++) {
    if (abs(roads_out[i].x - x) + abs(roads_out[i].y - y) <= 1)

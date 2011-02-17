@@ -1810,7 +1810,7 @@ int player::hit_mon(game *g, monster *z)
 // Types of combat (may overlap!)
  bool unarmed = false, bashing = false, cutting = false;
 // Calculate our hit roll
- int numdice = 1 + weapon.type->m_to_hit + (dex_cur / 2.5) + sklevel[sk_melee];
+ int numdice = base_to_hit() + weapon.type->m_to_hit;
 // Are we unarmed?
  if (!is_armed() || weapon.type->id == itm_bio_claws) {
   unarmed = true;
@@ -1875,14 +1875,7 @@ int player::hit_mon(game *g, monster *z)
  }
 // For very high hit rolls, we crit!
  bool critical_hit = (dice(numdice, 10) > dice(mondice + 4, 30));
-// Basic damage = 0 to (strength / 2)
- int dam = rng(0, int(str_cur / 2));
-// Bonus for strong characters
- if (str_cur > 10)
-  dam += int((str_cur - 10) / 2);
-// Bonus for very strong characters
- if (str_cur > 20)
-  dam += str_cur - 20;
+ int dam = base_damage(true);
  if (has_trait(PF_DRUNKEN) && has_disease(DI_DRUNK)) {
   if (unarmed)
    dam += disease_level(DI_DRUNK) / 250;
@@ -1902,22 +1895,14 @@ int player::hit_mon(game *g, monster *z)
 // unarmed attack.
   if (is_u || can_see) {
    switch (rng(1, 4)) {	// TODO: More unarmed bonus attacks
-   case 1:
-    g->add_msg("%s kick%s the %s!", You.c_str(), (is_u ? "" : "s"),
-                                    z->name().c_str());
-    break;
-   case 2:
-    g->add_msg("%s headbutt%s the %s!", You.c_str(), (is_u ? "" : "s"),
-                                        z->name().c_str());
-    break;
-   case 3:
-    g->add_msg("%s elbow%s the %s!", You.c_str(), (is_u ? "" : "s"),
-                                     z->name().c_str());
-    break;
-   case 4:
-    g->add_msg("%s knee%s the %s!", You.c_str(), (is_u ? "" : "s"),
-                                    z->name().c_str());
-    break;
+    case 1: g->add_msg("%s kick%s the %s!", You.c_str(), (is_u ? "" : "s"),
+                       z->name().c_str()); break;
+    case 2: g->add_msg("%s headbutt%s the %s!", You.c_str(), (is_u ? "" : "s"),
+                       z->name().c_str()); break;
+    case 3: g->add_msg("%s elbow%s the %s!", You.c_str(), (is_u ? "" : "s"),
+                       z->name().c_str()); break;
+    case 4: g->add_msg("%s knee%s the %s!", You.c_str(), (is_u ? "" : "s"),
+                       z->name().c_str()); break;
    }
   }
   dam += rng(1, sklevel[sk_unarmed]);
@@ -2110,7 +2095,7 @@ bool player::hit_player(player &p, body_part &bp, int &hitdam, int &hitcut)
    foe->attitude = NPCATT_KILL;
  }
  bool unarmed = false, bashing = false, cutting = false;
- int numdice = weapon.type->m_to_hit + (dex_cur / 2.5) + sklevel[sk_melee];
+ int numdice = base_to_hit() + weapon.type->m_to_hit;
  if (!is_armed() || weapon.type->id == itm_bio_claws) {	// Unarmed
   unarmed = true;
   numdice += sklevel[sk_unarmed];
@@ -2156,7 +2141,7 @@ bool player::hit_player(player &p, body_part &bp, int &hitdam, int &hitcut)
   bp = bp_legs;
  
  // Unarmed: 0 to (strength / 2)
- hitdam = rng(0, int(str_cur / 2));
+ hitdam = base_damage();
  if (unarmed) {// Unarmed bonuses
   hitdam += rng(0, sklevel[sk_unarmed]);
   if (sklevel[sk_unarmed] >= 5)
@@ -2241,6 +2226,101 @@ int player::throw_range(char ch)
  return ret;
 }
  
+int player::base_damage(bool real_life)
+{
+ int str = (real_life ? str_cur : str_max);
+ int dam = (real_life ? rng(0, str / 2) : str / 2);
+// Bonus for strong characters
+ if (str > 10)
+  dam += int((str - 9) / 2);
+// Big bonus for super-human characters
+ if (str > 20)
+  dam += int((str - 20) * 1.5);
+
+ return dam;
+}
+
+int player::base_to_hit(bool real_life)
+{
+ int dex = (real_life ? dex_cur : dex_max);
+ return 1 + int(dex / 2) + sklevel[sk_melee];
+}
+
+int player::ranged_dex_mod(bool real_life)
+{
+ int dex = (real_life ? dex_cur : dex_max);
+ if (dex == 8)
+  return 0;
+ if (dex > 8)
+  return (real_life ? (0 - rng(0, dex - 8)) : (8 - dex));
+
+ int deviation = 0;
+ if (dex < 6)
+  deviation = 2 * (8 - dex);
+ else
+  deviation = 1.5 * (8 - dex);
+
+ return (real_life ? rng(0, deviation) : deviation);
+}
+
+int player::ranged_per_mod(bool real_life)
+{
+ int per = (real_life ? per_cur : per_max);
+ if (per == 8)
+  return 0;
+ int deviation = 0;
+
+ if (per < 8) {
+  deviation = 2 * (9 - per);
+  if (real_life)
+   deviation = rng(0, deviation);
+ } else {
+  deviation = 0 - (per > 16 ? 8 : per - 8);
+  if (real_life && one_in(per))
+   deviation = 0 - rng(0, abs(deviation));
+ }
+ return deviation;
+}
+
+int player::throw_dex_mod(bool real_life)
+{
+ int dex = (real_life ? dex_cur : dex_max);
+ if (dex == 8 || dex == 9)
+  return 0;
+ if (dex >= 10)
+  return (real_life ? 0 - rng(0, dex - 9) : 9 - dex);
+ 
+ int deviation = 0;
+ if (dex < 6)
+  deviation = 3 * (8 - dex);
+ else
+  deviation = 2 * (8 - dex);
+
+ return (real_life ? rng(0, deviation) : deviation);
+}
+
+int player::comprehension_percent(skill s, bool real_life)
+{
+ double intel = (double)(real_life ? int_cur : int_max);
+ double percent = 80.; // double temporarily, since we divide a lot
+ int learned = (real_life ? sklevel[s] : 4);
+ if (learned > intel / 2)
+  percent /= 1 + (learned - intel / 2) / (intel / 3);
+ else if (!real_life && intel > 8)
+  percent += 125 - 1000 / intel;
+ return (int)(percent);
+}
+
+int player::read_speed(bool real_life)
+{
+ int intel = (real_life ? int_cur : int_max);
+ int ret = 1000 - 50 * (intel - 8);
+ if (has_trait(PF_FASTREADER))
+  ret /= 3;
+ if (ret < 100)
+  ret = 100;
+ return (real_life ? ret : ret / 10);
+}
 
 void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 {
@@ -2883,9 +2963,10 @@ int player::volume_carried()
  return ret;
 }
 
-int player::weight_capacity()
+int player::weight_capacity(bool real_life)
 {
- int ret = 400 + str_cur * 35;
+ int str = (real_life ? str_cur : str_max);
+ int ret = 400 + str * 35;
  if (has_trait(PF_BADBACK))
   ret = int(ret * .65);
  return ret;
@@ -3522,10 +3603,10 @@ bool player::eat(game *g, char let)
               g->itypes[tmp->tool]->name.c_str());
    return false;
   }
-  if (hunger < 0 && tmp->nutr > 0 && !has_trait(PF_GOURMAND) &&
+  if (hunger < 0 && tmp->nutr >= 15 && !has_trait(PF_GOURMAND) &&
       !query_yn("You're full.  Force yourself to eat?"))
    return false;
-  bool hunger_danger = (!has_trait(PF_GOURMAND) && hunger < 0);
+  bool hunger_danger = (!has_trait(PF_GOURMAND) && hunger < 0 && tmp->nutr >= 15);
   if (has_trait(PF_CARNIVORE) && eaten->made_of(VEGGY)) {
    g->add_msg("You can only eat meat!");
    return false;
@@ -3936,13 +4017,8 @@ void player::read(game *g, char ch)
                       skill_name(tmp->type).c_str()))
   return;
 
- int time = tmp->time * 1000;	// tmp->time is in minutes; 1000 move points
-				// is one minute.
- time -= int_cur * 250;
- if (has_trait(PF_FASTREADER))
-  time /= 3;
- if (time < 1000)
-  time = 1000;
+// Base read_speed() is 1000 move points (1 minute per tmp->time)
+ int time = tmp->time * read_speed();
  activity = player_activity(ACT_READ, time, index);
  moves = 0;
 }
@@ -4207,8 +4283,7 @@ void player::practice(skill s, int amount)
  for (int i = 0; i < amount; i++) {
   if ((savant == sk_null || savant == s || !one_in(2)) &&
       (has_trait(PF_FASTLEARNER) || one_in((2 + sklevel[s]) / 2)) &&
-      (one_in((2 + sklevel[s]) / 2) || rng(0, 50) < int_cur) &&
-      rng(8, 16) > sklevel[s])
+      rng(0, 100) < comprehension_percent(s))
    skexercise[s]++;
  }
 }

@@ -5,6 +5,7 @@
 #include "game.h"
 #include <unistd.h>
 
+// ncurses has not yet been initialized, so we need to define our line chars
 #define LINE_XOXO 4194424
 #define LINE_OXOX 4194417
 #define LINE_XXOO 4194413
@@ -26,6 +27,8 @@ int set_description(WINDOW* w, player *u, int &points);
 int random_good_trait(character_type type);
 int random_bad_trait(character_type type);
 int random_skill(character_type type);
+
+int calc_HP(int strength, bool tough);
 
 bool player::create(game *g, character_type type)
 {
@@ -174,9 +177,7 @@ bool player::create(game *g, character_type type)
  
  // Character is finalized.  Now just set up HP, &c
  for (int i = 0; i < num_hp_parts; i++) {
-  hp_max[i] = 60 + str_max * 3;
-  if (has_trait(PF_TOUGH))
-   hp_max[i] = int(hp_max[i] * 1.2);
+  hp_max[i] = calc_HP(str_max, has_trait(PF_TOUGH));
   hp_cur[i] = hp_max[i];
  }
  if (has_trait(PF_GLASSJAW)) {
@@ -289,61 +290,83 @@ int set_stats(WINDOW* w, player *u, int &points)
  mvwprintz(w, 11, 0, c_ltgray, "\
    j/k, 8/2, or arrows select\n\
     a statistic.\n\
-\n\
    l, 6, or right arrow\n\
     increases the statistic.\n\
-\n\
    h, 4, or left arrow\n\
     decreases the statistic.\n\
 \n\
-   > Takes you to the next tab.");
+   > Takes you to the next tab.\n\
+   < Returns you to the main menu.");
 
  do {
   mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
   switch (sel) {
   case 1:
-   mvwprintz(w, 6, 2, c_ltred,  "Strength:     %d  ", u->str_max);
-   mvwprintz(w, 7, 2, c_ltgray, "Dexterity:    %d  ", u->dex_max);
-   mvwprintz(w, 8, 2, c_ltgray, "Intelligence: %d  ", u->int_max);
-   mvwprintz(w, 9, 2, c_ltgray, "Perception:   %d  ", u->per_max);
-   mvwprintz(w, 6, 33, c_ltred, " Strength affects your melee damage, the    ");
-   mvwprintz(w, 7, 33, c_ltred, "amount of weight you can carry, your total  ");
-   mvwprintz(w, 8, 33, c_ltred, "HP, your resistance to many diseases, and   ");
-   mvwprintz(w, 9, 33, c_ltred, "the effectiveness of actions which require  ");
-   mvwprintz(w,10, 33, c_ltred, "brute force.");
+   mvwprintz(w, 6,  2, c_ltred,  "Strength:     %d  ", u->str_max);
+   mvwprintz(w, 7,  2, c_ltgray, "Dexterity:    %d  ", u->dex_max);
+   mvwprintz(w, 8,  2, c_ltgray, "Intelligence: %d  ", u->int_max);
+   mvwprintz(w, 9,  2, c_ltgray, "Perception:   %d  ", u->per_max);
+   mvwprintz(w, 6, 33, c_ltred, "Base HP: %d                                 ",
+             calc_HP(u->str_max, u->has_trait(PF_TOUGH)));
+   mvwprintz(w, 7, 33, c_ltred, "Carry weight: %d lbs                        ",
+             u->weight_capacity(false) / 4);
+   mvwprintz(w, 8, 33, c_ltred, "Melee damage: %d                            ",
+             u->base_damage(false));
+   mvwprintz(w, 9, 33, c_ltred, "  Strength also makes you more resistant to ");
+   mvwprintz(w,10, 33, c_ltred, "many diseases and poisons, and makes actions");
+   mvwprintz(w,11, 33, c_ltred, "which require brute force more effective.   ");
    break;
   case 2:
-   mvwprintz(w, 6, 2, c_ltgray, "Strength:     %d  ", u->str_max);
-   mvwprintz(w, 7, 2, c_ltred,  "Dexterity:    %d  ", u->dex_max);
-   mvwprintz(w, 8, 2, c_ltgray, "Intelligence: %d  ", u->int_max);
-   mvwprintz(w, 9, 2, c_ltgray, "Perception:   %d  ", u->per_max);
-   mvwprintz(w, 6, 33, c_ltred, " Dexterity affects your chance to hit in    ");
-   mvwprintz(w, 7, 33, c_ltred, "melee combat, helps you steady your gun for ");
-   mvwprintz(w, 8, 33, c_ltred, "ranged combat, and enhances many actions    ");
-   mvwprintz(w, 9, 33, c_ltred, "that require finesse.                       ");
+   mvwprintz(w, 6,  2, c_ltgray, "Strength:     %d  ", u->str_max);
+   mvwprintz(w, 7,  2, c_ltred,  "Dexterity:    %d  ", u->dex_max);
+   mvwprintz(w, 8,  2, c_ltgray, "Intelligence: %d  ", u->int_max);
+   mvwprintz(w, 9,  2, c_ltgray, "Perception:   %d  ", u->per_max);
+   mvwprintz(w, 6, 33, c_ltred, "Melee to-hit bonus: +%d                      ",
+             u->base_to_hit(false));
+   mvwprintz(w, 7, 33, c_ltred, "                                            ");
+   mvwprintz(w, 7, 33, c_ltred, "Ranged %s: %s%d",
+             (u->ranged_dex_mod(false) <= 0 ? "bonus" : "penalty"),
+             (u->ranged_dex_mod(false) <= 0 ? "+" : "-"),
+             abs(u->ranged_dex_mod(false)));
+   mvwprintz(w, 8, 33, c_ltred, "                                            ");
+   mvwprintz(w, 8, 33, c_ltred, "Throwing %s: %s%d",
+             (u->throw_dex_mod(false) <= 0 ? "bonus" : "penalty"),
+             (u->throw_dex_mod(false) <= 0 ? "+" : "-"),
+             abs(u->throw_dex_mod(false)));
+   mvwprintz(w, 9, 33, c_ltred, "  Dexterity also enhances many actions which");
+   mvwprintz(w,10, 33, c_ltred, "require finesse.                            ");
    mvwprintz(w,10, 33, c_ltred, "                                            ");
+   mvwprintz(w,11, 33, c_ltred, "                                            ");
    break;
   case 3:
-   mvwprintz(w, 6, 2, c_ltgray, "Strength:     %d  ", u->str_max);
-   mvwprintz(w, 7, 2, c_ltgray, "Dexterity:    %d  ", u->dex_max);
-   mvwprintz(w, 8, 2, c_ltred,  "Intelligence: %d  ", u->int_max);
-   mvwprintz(w, 9, 2, c_ltgray, "Perception:   %d  ", u->per_max);
-   mvwprintz(w, 6, 33, c_ltred, " Intelligence is less important in most     ");
-   mvwprintz(w, 7, 33, c_ltred, "situations, but it is vital for more complex");
-   mvwprintz(w, 8, 33, c_ltred, "tasks like electronics crafting. It also    ");
-   mvwprintz(w, 9, 33, c_ltred, "affects how much skill you can pick up from ");
-   mvwprintz(w,10, 33, c_ltred, "reading a book.                             ");
+   mvwprintz(w, 6,  2, c_ltgray, "Strength:     %d  ", u->str_max);
+   mvwprintz(w, 7,  2, c_ltgray, "Dexterity:    %d  ", u->dex_max);
+   mvwprintz(w, 8,  2, c_ltred,  "Intelligence: %d  ", u->int_max);
+   mvwprintz(w, 9,  2, c_ltgray, "Perception:   %d  ", u->per_max);
+   mvwprintz(w, 6, 33, c_ltred, "Skill comprehension: %d%%%%                     ",
+             u->comprehension_percent(sk_null, false));
+   mvwprintz(w, 7, 33, c_ltred, "Read times: %d%%%%                              ",
+             u->read_speed(false));
+   mvwprintz(w, 8, 33, c_ltred, "  Intelligence is also used when crafting,  ");
+   mvwprintz(w, 9, 33, c_ltred, "installing bionics, and interacting with    ");
+   mvwprintz(w,10, 33, c_ltred, "NPCs.                                       ");
+   mvwprintz(w,11, 33, c_ltred, "                                            ");
    break;
   case 4:
-   mvwprintz(w, 6, 2, c_ltgray, "Strength:     %d  ", u->str_max);
-   mvwprintz(w, 7, 2, c_ltgray, "Dexterity:    %d  ", u->dex_max);
-   mvwprintz(w, 8, 2, c_ltgray, "Intelligence: %d  ", u->int_max);
-   mvwprintz(w, 9, 2, c_ltred,  "Perception:   %d  ", u->per_max);
-   mvwprintz(w, 6, 33, c_ltred, " Perception is the most important trait for ");
-   mvwprintz(w, 7, 33, c_ltred, "ranged combat. It's also used for detecting ");
-   mvwprintz(w, 8, 33, c_ltred, "traps and other things of interest.         ");
+   mvwprintz(w, 6,  2, c_ltgray, "Strength:     %d  ", u->str_max);
+   mvwprintz(w, 7,  2, c_ltgray, "Dexterity:    %d  ", u->dex_max);
+   mvwprintz(w, 8,  2, c_ltgray, "Intelligence: %d  ", u->int_max);
+   mvwprintz(w, 9,  2, c_ltred,  "Perception:   %d  ", u->per_max);
+   mvwprintz(w, 6, 33, c_ltred, "                                            ");
+   mvwprintz(w, 6, 33, c_ltred, "Ranged %s: %s%d",
+             (u->ranged_per_mod(false) <= 0 ? "bonus" : "penalty"),
+             (u->ranged_per_mod(false) <= 0 ? "+" : "-"),
+             abs(u->ranged_per_mod(false)));
+   mvwprintz(w, 7, 33, c_ltred, "Perception is also used for detecting traps ");
+   mvwprintz(w, 8, 33, c_ltred, "and other things of interest.               ");
    mvwprintz(w, 9, 33, c_ltred, "                                            ");
    mvwprintz(w,10, 33, c_ltred, "                                            ");
+   mvwprintz(w,11, 33, c_ltred, "                                            ");
    break;
   }
  
@@ -1273,4 +1296,9 @@ int random_skill(character_type type)
    case 14: return sk_speech;
   }
  }
+}
+
+int calc_HP(int strength, bool tough)
+{
+ return (60 + 3 * strength) * (tough ? 1.2 : 1);
 }

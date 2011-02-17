@@ -14,24 +14,38 @@ class mdeath;
 
 enum mon_id {
 mon_null = 0,
+// Wildlife
 mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear,
+// Friendly animals
 mon_dog,
+// Ants
 mon_ant_larva, mon_ant, mon_ant_soldier, mon_ant_queen, mon_ant_fungus,
+// Bees
 mon_bee,
+// Worms
 mon_graboid, mon_worm, mon_halfworm,
+// Zombies
 mon_zombie, mon_zombie_shrieker, mon_zombie_spitter, mon_zombie_electric,
  mon_zombie_fast, mon_zombie_brute, mon_zombie_hulk, mon_zombie_fungus,
  mon_boomer, mon_boomer_fungus, mon_skeleton, mon_zombie_necro,
  mon_zombie_scientist,
+// Triffids
 mon_triffid, mon_triffid_young, mon_triffid_queen,
+// Fungaloids
 mon_fungaloid, mon_fungaloid_dormant, mon_spore,
+// Blobs
 mon_blob, mon_blob_small,
+// Sewer mutants
 mon_chud, mon_one_eye, mon_crawler,
+// Sewer animals
 mon_sewer_fish, mon_sewer_snake, mon_sewer_rat,
+// Subspace monsters
 mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
  mon_flaming_eye, mon_kreck, mon_blank,
+// Robots
 mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_molebot, mon_tripod,
  mon_chickenbot, mon_tankbot, mon_turret,
+// Hallucinations
 mon_hallu_zom, mon_hallu_bee, mon_hallu_ant, mon_hallu_mom,
 num_monsters
 };

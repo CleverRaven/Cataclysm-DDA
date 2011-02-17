@@ -17,17 +17,18 @@ std::string fac_respect_text(int val);
 class game;
 
 enum faction_goal {
- FACGOAL_NULL = 0,	// Not meant to be used; denotes a bug
- FACGOAL_NONE,		// No particular goal outside of prosperity
- FACGOAL_WEALTH,	// Financial wealth
- FACGOAL_DOMINANCE,	// Complete military dominance
- FACGOAL_CLEANSE,	// Destroy zombies &c
- FACGOAL_SHADOW,	// Contact, control, etc. of the shadow world
- FACGOAL_APOCALYPSE,	// Destroy the world!
- FACGOAL_ANARCHY,	// Nihilistic; destroy anything
- FACGOAL_KNOWLEDGE,	// Golden age of knowledge; a new renaissance
- FACGOAL_NATURE,	// Golden age of ecological harmony
- FACGOAL_CIVILIZATION,	// Rebuilding society as it was before
+ FACGOAL_NULL = 0,
+ FACGOAL_NONE,
+ FACGOAL_WEALTH,
+ FACGOAL_DOMINANCE,
+ FACGOAL_CLEANSE,
+ FACGOAL_SHADOW,
+ FACGOAL_APOCALYPSE,
+ FACGOAL_ANARCHY,
+ FACGOAL_KNOWLEDGE,
+ FACGOAL_NATURE,
+ FACGOAL_CIVILIZATION,
+ FACGOAL_FUNGUS,
  NUM_FACGOALS
 };
 
@@ -66,6 +67,7 @@ enum faction_value {
  FACVAL_CRUELTY,	// Torture, murder, etc.
  NUM_FACVALS
 };
+
 
 struct faction {
  faction();
