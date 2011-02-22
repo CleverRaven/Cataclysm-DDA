@@ -4651,12 +4651,12 @@ void game::spawn_mon(int shiftx, int shifty)
   if (dist <= rad) {	// We're in an existing group's territory!
 // (The area of the group's territory) in (population/square at this range)
 // chance of adding one monster; cap at the population OR 16
-   while (rng(0, long((3.8 - double(dist / rad)) * pop)) > pow(rad, 2) &&
-          group < pop && group < 16)
+   while (long((1.1 - double(dist / rad)) * pop) > rng(0, pow(rad, 2)) &&
+          rng(1, 20) > group && group < pop && group < 16)
     group++;
    cur_om.zg[i].population -= group;
    if (group > 0) // If we spawned some zombies, advance the timer
-    nextspawn += rng(group * 5 + z.size() * 5, group * 8 + z.size() * 10);
+    nextspawn += rng(group + z.size() * 5, group * 3 + z.size() * 10);
    for (int j = 0; j < group; j++) {	// For each monster in the group...
     mon_id type = valid_monster_from(moncats[cur_om.zg[i].type]);
     if (type == mon_null)

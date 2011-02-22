@@ -655,7 +655,7 @@ MELEE("butter knife",	90,  15,';', c_ltcyan,	STEEL, 	MNULL,
 A dull knife, absolutely worthless in combat.");
 
 MELEE("steak knife",	85,  25,';', c_ltcyan,	STEEL,	MNULL,
-	 1,  2,  2, 10, -1, "\
+	 1,  2,  2, 10, -3, "\
 A sharp knife.  Makes a poor melee weapon, but is decent at butchering\n\
 corpses.");
 
@@ -667,7 +667,7 @@ butchering corpses.");
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("combat knife",	14, 100,';', c_blue,	STEEL,  PLASTIC,
 //	VOL WGT DAM CUT HIT
-	 2,  2,  2, 22, -1, "\
+	 2,  2,  2, 22, -3, "\
 Designed for combat, and deadly in the right hands.  Can be used to butcher\n\
 corpses.");
 
@@ -678,7 +678,7 @@ doors and windows if you have a hammer and nails.");
 
 MELEE("muffler",	30,  30,'/', c_ltgray,	IRON,	MNULL,
 	20, 20, 19,  0, -3, "\
-A muffler from a car.  Very unwielding as a weapon.  Useful in a few crafting\n\
+A muffler from a car.  Very unwieldy as a weapon.  Useful in a few crafting\n\
 recipes.");
 
 MELEE("pipe",		20,  75,'/', c_dkgray,	STEEL,	MNULL,
