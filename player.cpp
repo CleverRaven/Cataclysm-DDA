@@ -2322,6 +2322,11 @@ int player::read_speed(bool real_life)
  return (real_life ? ret : ret / 10);
 }
 
+int player::convince_score()
+{
+ return int_cur + sklevel[sk_speech] * 3;
+}
+
 void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 {
  int painadd = 0;

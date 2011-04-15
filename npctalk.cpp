@@ -59,7 +59,7 @@ void npc::talk_to_u(game *g)
 
 void say_hello(game *g, dialogue &d)
 {
- //int opt = d.opt(talk_greeting_gen[rng(0, 9)],
+ talk_topic topic = TALK_NONE;
  int opt = d.opt("Hello.", "\"Let's travel together.\"", "\"Leave me alone.\"",
                  "Ignore them", NULL);
  switch (opt) {
@@ -419,12 +419,7 @@ void say_why_join(game *g, dialogue &d)
  switch (opt) {
  case 1:
   d.alpha->practice(sk_speech, 4);
-  if (d.beta->op_of_u.value * 4 - d.beta->personality.bravery * 3 +
-      d.beta->personality.altruism * 2 + d.alpha->int_cur / 4 +
-      d.alpha->sklevel[sk_speech] > 8) {
-   debugmsg("value (%d) * 4, - bravery (%d) * 3, + altruism (%d) * 2, + int",
-            d.beta->op_of_u.value, d.beta->personality.bravery,
-            d.beta->personality.altruism);
+  if (d.beta->wants_to_travel_with(d.alpha)) {
    d.beta->op_of_u.value++;
    d.beta->op_of_u.trust++;
    d.beta->say(g, "Alright, let's do it!");
@@ -537,6 +532,11 @@ void parse_tags(std::string &phrase, player *u, npc *me)
  
 int dialogue::opt(std::string challenge, ...)
 {
+// Put quotes around challenge (unless it's an action)
+ if (challenge.find_first_of("*") != 0) {
+  std::stringstream tmp;
+  tmp << "\"" << challenge << "\"";
+ }
 // Parse any tags in challenge
  parse_tags(challenge, alpha, beta);
  if (challenge[0] >= 'a' && challenge[0] <= 'z')

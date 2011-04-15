@@ -1179,6 +1179,14 @@ void npc::make_angry()
   attitude = NPCATT_KILL; // Yeah, we think we could take you!
 }
 
+bool npc::wants_to_travel_with(player *p)
+{
+ int target = 8 + personality.bravery * 3 - personality.altruism * 2 -
+              personality.collector * .5;
+ int total = op_of_u.value * 3 + p->convince_score();
+ return (total >= target);
+}
+
 int npc::minutes_to_u(game *g)
 {
  int ret = abs(mapx - g->levx);

@@ -612,7 +612,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   refresh();
   ch = input();
   get_direction(tarx, tary, ch);
-  if (tarx != -2 && tary != -2) {	// Direction character pressed
+  if (tarx != -2 && tary != -2 && ch != '.') {	// Direction character pressed
    if (m.sees(u.posx, u.posy, x, y, -1, junk))
     m.drawsq(w_terrain, u, x, y, false, true);
    else
@@ -637,7 +637,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    if (target == t.size()) target = 0;
    x = t[target].posx;
    y = t[target].posy;
-  } else if (ch == '.' || ch == 'f') {
+  } else if (ch == '.' || ch == 'f' || ch == 'F') {
    for (int i = 0; i < t.size(); i++) {
     if (t[i].posx == x && t[i].posy == y)
      target = i;

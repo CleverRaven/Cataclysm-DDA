@@ -22,8 +22,8 @@ public:
 
 // newcharacter.cpp 
  bool create(game *g, character_type type);
- int random_good_trait(character_type type);
- int random_bad_trait (character_type type);
+ int  random_good_trait(character_type type);
+ int  random_bad_trait (character_type type);
  void normalize(game *g);	// Starting set up of HP and inventory
 // </newcharacter.cpp>
 
@@ -79,6 +79,7 @@ public:
 
  int comprehension_percent(skill s, bool real_life = true);
  int read_speed		(bool real_life = true);
+ int convince_score(); // Skill at convincing NPCs of stuff
 
 // Converts bphurt to a hp_part (if side == 0, the left), then does/heals dam
 // hit() processes damage through armor

@@ -167,6 +167,7 @@ public:
  void form_opinion(player *u);
  int  player_danger(player *u); // Comparable to monsters
  void make_angry(); // Called if the player attacks us
+ bool wants_to_travel_with(player *p);
 // State checks
  bool is_enemy(); // We want to kill/mug/etc the player
  bool is_following(); // Traveling w/ player (whether as a friend or a slave)
@@ -180,7 +181,7 @@ public:
  int  speed_estimate(int speed); // Estimate of a target's speed, usually player
 
 
-// Dialogue and bartering
+// Dialogue and bartering--see npctalk.cpp
  void talk_to_u(game *g);
 // Bartering - select items we're willing to buy/sell and set prices
 // Prices are later modified by g->u's barter skill; see dialogue.cpp

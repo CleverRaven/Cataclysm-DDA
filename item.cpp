@@ -358,13 +358,17 @@ nc_color item::color(player *u)
  if (is_gun()) {
   ammotype amtype = ammo();
   if (u->has_ammo(amtype).size() > 0)
-   ret = c_red;
+   ret = c_green;
  } else if (is_ammo()) {
   ammotype amtype = ammo();
-  for (int i = 0; i < u->inv.size(); i++) {
-   if (u->inv[i].is_gun() && u->inv[i].ammo() == amtype) {
-    i = u->inv.size();
-    ret = c_red;
+  if (u->weapon.is_gun() && u->weapon.ammo() == amtype)
+   ret = c_green;
+  else {
+   for (int i = 0; i < u->inv.size(); i++) {
+    if (u->inv[i].is_gun() && u->inv[i].ammo() == amtype) {
+     i = u->inv.size();
+     ret = c_green;
+    }
    }
   }
  } else if (is_book()) {

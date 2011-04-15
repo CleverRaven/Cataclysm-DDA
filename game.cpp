@@ -3241,14 +3241,15 @@ void game::pickup(int posx, int posy, int min)
   for (cur_it = start; cur_it < start + maxitems; cur_it++) {
    mvwprintw(w_pickup, 1 + (cur_it % maxitems), 0, "                                        ");
    if (cur_it < here.size()) {
-    mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, c_white, char(cur_it + 'a'));
+    mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, here[cur_it].color(&u),
+             char(cur_it + 'a'));
     if (getitem[cur_it])
      wprintw(w_pickup, " + ");
     else
      wprintw(w_pickup, " - ");
-    wprintw(w_pickup, here[cur_it].tname().c_str());
+    wprintz(w_pickup, here[cur_it].color(&u), here[cur_it].tname().c_str());
     if (here[cur_it].charges > 0)
-     wprintw(w_pickup, " (%d)", here[cur_it].charges);
+     wprintz(w_pickup, here[cur_it].color(&u), " (%d)", here[cur_it].charges);
    }
   }
   if (start > 0)

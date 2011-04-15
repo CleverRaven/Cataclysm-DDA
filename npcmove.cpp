@@ -1027,11 +1027,7 @@ void npc::pick_up_item(game *g)
  if (total_volume + volume_carried() > volume_capacity() ||
      total_weight + weight_carried() > weight_capacity() / 4) {
   int wgt_to_drop = weight_carried() + total_weight - weight_capacity() / 4;
-  debugmsg("Wgt: Carried %d + total %d - capacity %d / 4 = %d",
-           weight_carried(), total_weight, weight_capacity(), wgt_to_drop);
   int vol_to_drop = volume_carried() + total_volume - volume_capacity();
-  debugmsg("vol: Carried %d + total %d - capacity %d / 4 = %d",
-           volume_carried(), total_volume, volume_capacity(), vol_to_drop);
   drop_items(g, wgt_to_drop, vol_to_drop);
  }
 // Describe the pickup to the player
@@ -1077,6 +1073,7 @@ void npc::pick_up_item(game *g)
  }
 }
 
+// Used in npc::drop_items()
 struct ratio_index
 {
  double ratio;
@@ -1086,8 +1083,7 @@ struct ratio_index
  
 void npc::drop_items(game *g, int weight, int volume)
 {
- //if (g->debugmon) {
- if (true) {
+ if (g->debugmon) {
   debugmsg("%s is dropping items-%d,%d (%d items, wgt %d/%d, vol %d/%d)",
            name.c_str(), weight, volume, inv.size(), weight_carried(),
            weight_capacity() / 4, volume_carried(), volume_capacity());
@@ -1161,11 +1157,12 @@ void npc::drop_items(game *g, int weight, int volume)
  }
 // Finally, describe the action if u can see it
  int linet;
+ std::string item_name_str = item_name.str();
  if (g->u_see(posx, posy, linet)) {
   if (num_items_dropped >= 3)
    g->add_msg("%s drops %d items.", name.c_str(), num_items_dropped);
   else
-   g->add_msg("%s drops a %s.", name.c_str(), item_name.str().c_str());
+   g->add_msg("%s drops a %s.", name.c_str(), item_name_str.c_str());
  }
 }
 
