@@ -24,6 +24,8 @@ bool trade(game *g, dialogue &d, int cost, std::string deal);
 void npc::talk_to_u(game *g)
 {
  moves -= 100;
+ if (attitude == NPCATT_TALK)
+  attitude = NPCATT_NULL;
  dialogue d;
  d.alpha = &g->u;
  d.beta = this;
@@ -129,7 +131,7 @@ void say_put_em_up(game *g, dialogue &d)
     d.done = true;
   }
  } else {
-  opt = d.opt(talk_drop_weap[rng(0, 9)],
+  opt = d.opt("<drop_it>",
               "Drop weapon", "!Exit dialogue", NULL);
   switch (opt) {
   case 1:
@@ -483,51 +485,62 @@ void say_why_join(game *g, dialogue &d)
  }
 }
 
-int dialogue::opt(std::string challenge, ...)
+void parse_tags(std::string &phrase, player *u, npc *me)
 {
-// Parse any tags in challenge
+ if (u == NULL || me == NULL) {
+  debugmsg("Called parse_tags() with NULL pointers!");
+  return;
+ }
  size_t fa, fb;
  std::string tag;
  do {
-  fa = challenge.find("<");
-  fb = challenge.find(">");
+  fa = phrase.find("<");
+  fb = phrase.find(">");
+  int l = fb - fa + 1;
   if (fa != std::string::npos && fb != std::string::npos)
-   tag = challenge.substr(fa, fb - fa + 1);
+   tag = phrase.substr(fa, fb - fa + 1);
   else
    tag = "";
-  if (tag == "<name_b>")
-   challenge.replace(fa, 8, talk_bad_names[rng(0, 9)]);
-  else if (tag == "<okay>")
-   challenge.replace(fa, 6, talk_okay[rng(0, 9)]);
-  else if (tag == "<name_g>")
-   challenge.replace(fa, 8, talk_good_names[rng(0, 9)]);
-  else if (tag == "<ill_die>")
-   challenge.replace(fa, 9, ill_die[rng(0, 9)]);
-  else if (tag == "<yrwp>")
-   challenge.replace(fa, 6, alpha->weapon.tname());
-  else if (tag == "<mywp>") {
-   if (beta->weapon.type->id == 0)
-    challenge.replace(fa, 6, "fists");
-   else
-    challenge.replace(fa, 6, beta->weapon.tname());
-  } else if (tag == "<ammo>") {
-   if (!beta->weapon.is_gun())
-    challenge.replace(fa, 6, "BADAMMO");
-   else {
-    it_gun* gun = dynamic_cast<it_gun*>(beta->weapon.type);
-    challenge.replace(fa, 6, ammo_name(gun->ammo));
+  bool replaced = false;
+  for (int i = 0; i < NUM_STATIC_TAGS && !replaced; i++) {
+   if (tag == talk_tags[i].tag) {
+    phrase.replace(fa, l, (*talk_tags[i].replacement)[rng(0, 9)]);
+    replaced = true;
    }
-  } else if (tag == "<punc>") {
-   switch (rng(0, 2)) {
-    case 0: challenge.replace(fa, 6, ".");   break;
-    case 1: challenge.replace(fa, 6, "..."); break;
-    case 2: challenge.replace(fa, 6, "!");   break;
+  }
+  if (!replaced) { // Special, dynamic tags go here
+   if (tag == "<yrwp>")
+    phrase.replace(fa, l, u->weapon.tname());
+   if (tag == "<mywp>") {
+    if (me->weapon.type->id == 0)
+     phrase.replace(fa, l, "fists");
+    else
+     phrase.replace(fa, l, me->weapon.tname());
+   } else if (tag == "<ammo>") {
+    if (!me->weapon.is_gun())
+     phrase.replace(fa, l, "BADAMMO");
+    else {
+     it_gun* gun = dynamic_cast<it_gun*>(me->weapon.type);
+     phrase.replace(fa, l, ammo_name(gun->ammo));
+    }
+   } else if (tag == "<punc>") {
+    switch (rng(0, 2)) {
+     case 0: phrase.replace(fa, l, ".");   break;
+     case 1: phrase.replace(fa, l, "..."); break;
+     case 2: phrase.replace(fa, l, "!");   break;
+    }
+   } else if (tag != "") {
+    debugmsg("Bad tag. %s (%d - %d)", tag.c_str(), fa, fb);
+    phrase.replace(fa, fb - fa + 1, "????");
    }
-  } else if (tag != "") {
-   debugmsg("Bad tag. %s (%d - %d)", tag.c_str(), fa, fb);
-   challenge.replace(fa, fb - fa + 1, "????");
   }
  } while (fa != std::string::npos && fb != std::string::npos);
+}
+ 
+int dialogue::opt(std::string challenge, ...)
+{
+// Parse any tags in challenge
+ parse_tags(challenge, alpha, beta);
  if (challenge[0] >= 'a' && challenge[0] <= 'z')
   challenge[0] += 'A' - 'a';
 // Prepend "My Name: "

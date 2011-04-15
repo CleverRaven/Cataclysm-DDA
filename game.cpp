@@ -145,6 +145,7 @@ game::game()
  init_mapitems(); // Set up which items appear where     (SEE mapitemsdef.cpp)
  init_recipes();  // Set up crafting reciptes            (SEE crafting.cpp)
  init_moncats();  // Set up monster categories           (SEE mongroupdef.cpp)
+ init_missions(); // Set up mission templates            (SEE mission.cpp)
 
  m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
 
@@ -164,6 +165,7 @@ game::game()
  werase(w_status);
 // Even though we may already have 'd', nextinv will be incremented as needed
  nextinv = 'd';
+ next_npc_id = 1;
  last_target = -1;	// We haven't targeted any monsters yet
  curmes = 0;		// We haven't read any messages yet
  uquit = false;		// We haven't quit the game
@@ -1071,8 +1073,8 @@ void game::load(std::string name)
  u.ret_null = item(itypes[0], 0);
  u.weapon = item(itypes[0], 0);
  int tmprun, tmptar, tmptemp, comx, comy;
- fin >> turn >> tmptar >> tmprun >> mostseen >> nextinv >> nextspawn >>
-        tmptemp >> levx >> levy >> levz >> comx >> comy;
+ fin >> turn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
+        nextspawn >> tmptemp >> levx >> levy >> levz >> comx >> comy;
  cur_om = overmap(this, comx, comy, levz);
 // m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
  m.load(this, levx, levy);
@@ -1141,9 +1143,9 @@ void game::save()
  fout.open(playerfile.str().c_str());
 // First, write out basic game state information.
  fout << turn << " " << int(last_target) << " " << int(run_mode) << " " <<
-         mostseen << " " << nextinv << " " << nextspawn << " " <<
-         int(temperature) << " " << levx << " " << levy << " " << levz << " " <<
-         cur_om.posx << " " << cur_om.posy << " " << std::endl;
+         mostseen << " " << nextinv << " " << next_npc_id << " " << nextspawn <<
+         " " << int(temperature) << " " << levx << " " << levy << " " << levz <<
+         " " << cur_om.posx << " " << cur_om.posy << " " << std::endl;
 // Next, the scent map.
  for (int i = 0; i < SEEX * 3; i++) {
   for (int j = 0; j < SEEY * 3; j++)
@@ -1789,6 +1791,13 @@ unsigned char game::light_level()
  return ret;
 }
 
+int game::assign_npc_id()
+{
+ int ret = next_npc_id;
+ next_npc_id++;
+ return ret;
+}
+
 bool game::sees_u(int x, int y, int &t)
 {
  return (!u.has_active_bionic(bio_cloak) &&
@@ -2230,8 +2239,8 @@ void game::sound(int x, int y, int vol, std::string description)
   add_msg("%s", description.c_str());
   return;
  }
- std::string direction = direction_from(u.posx, u.posy, x, y);
- add_msg("From %s you hear %s", direction.c_str(), description.c_str());
+ std::string direction = direction_name(direction_from(u.posx, u.posy, x, y));
+ add_msg("From the %s you hear %s", direction.c_str(), description.c_str());
 }
 
 void game::explosion(int x, int y, int power, int shrapnel, bool fire)
@@ -2251,23 +2260,42 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
    if (i == x && j == y)
     dam = 3 * power;
    else
-    dam = 3 * power / (abs(i - x) + abs(j - y));
+    dam = 3 * power / (rl_dist(x, y, i, j));
    if (m.has_flag(bashable, i, j))
     m.bash(i, j, dam, junk);
    if (m.has_flag(bashable, i, j))	// Double up for tough doors, etc.
     m.bash(i, j, dam, junk);
    if (m.is_destructable(i, j) && rng(25, 100) < dam)
     m.destroy(this, i, j, false);
-   if (mon_at(i, j) != -1 && z[mon_at(i, j)].hurt(rng(dam / 2, dam * 1.5)))
-    kill_mon(mon_at(i, j));
+
+   int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
+   if (mon_hit != -1 && z[mon_hit].hurt(rng(dam / 2, dam * 1.5))) {
+    if (z[mon_hit].hp < 0 - 1.5 * z[mon_hit].type->hp)
+     explode_mon(mon_hit); // Explode them if it was big overkill
+    else
+     kill_mon(mon_hit);
+   }
+   if (npc_hit != -1) {
+    active_npc[npc_hit].hit(this, bp_torso, 0, rng(dam / 2, dam * 1.5), 0);
+    active_npc[npc_hit].hit(this, bp_head,  0, rng(dam / 3, dam),       0);
+    active_npc[npc_hit].hit(this, bp_legs,  0, rng(dam / 3, dam),       0);
+    active_npc[npc_hit].hit(this, bp_legs,  1, rng(dam / 3, dam),       0);
+    active_npc[npc_hit].hit(this, bp_arms,  0, rng(dam / 3, dam),       0);
+    active_npc[npc_hit].hit(this, bp_arms,  1, rng(dam / 3, dam),       0);
+    if (active_npc[npc_hit].hp_cur[hp_head]  <= 0 ||
+        active_npc[npc_hit].hp_cur[hp_torso] <= 0   ) {
+     active_npc[npc_hit].die(this, true);
+     active_npc.erase(active_npc.begin() + npc_hit);
+    }
+   }
    if (u.posx == i && u.posy == j) {
     add_msg("You're caught in the explosion!");
     u.hit(this, bp_torso, 0, rng(dam / 2, dam * 1.5), 0);
-    u.hit(this, bp_head,  0, rng(dam / 3, dam), 0);
-    u.hit(this, bp_legs,  0, rng(dam / 3, dam), 0);
-    u.hit(this, bp_legs,  1, rng(dam / 3, dam), 0);
-    u.hit(this, bp_arms,  0, rng(dam / 3, dam), 0);
-    u.hit(this, bp_arms,  1, rng(dam / 3, dam), 0);
+    u.hit(this, bp_head,  0, rng(dam / 3, dam),       0);
+    u.hit(this, bp_legs,  0, rng(dam / 3, dam),       0);
+    u.hit(this, bp_legs,  1, rng(dam / 3, dam),       0);
+    u.hit(this, bp_arms,  0, rng(dam / 3, dam),       0);
+    u.hit(this, bp_arms,  1, rng(dam / 3, dam),       0);
    }
    if (fire) {
     if (m.field_at(i, j).type == fd_smoke)
@@ -2545,10 +2573,6 @@ void game::kill_mon(int index)
   return;
  z[index].dead = true;
  kills[z[index].type->id]++;	// Increment our kill counter
- for (int i = 0; i < active_npc.size(); i++) {
-  if (active_npc[i].target == &z[index])
-   active_npc[i].target = NULL;
- }
  z[index].die(this);
 // If they left a corpse, give a tutorial message on butchering
  if (in_tutorial && !(tutorials_seen[LESSON_BUTCHER])) {
@@ -2576,10 +2600,6 @@ void game::explode_mon(int index)
   return;
  z[index].dead = true;
  kills[z[index].type->id]++;	// Increment our kill counter
- for (int i = 0; i < active_npc.size(); i++) {
-  if (active_npc[i].target == &z[index])
-   active_npc[i].target = NULL;
- }
 // Send body parts and blood all over!
  mtype* corpse = z[index].type;
  if (corpse->mat == FLESH || corpse->mat == VEGGY) { // No chunks otherwise
@@ -3057,7 +3077,7 @@ void game::pickup(int posx, int posy, int min)
      m.i_clear(posx, posy);
      m.add_item(posx, posy, u.remove_weapon());
      u.i_add(newit);
-     u.wield(this, newit.invlet);
+     u.wield(this, u.inv.size() - 1);
      u.moves -= 100;
      add_msg("Wielding %c - %s", newit.invlet, newit.tname().c_str());
      if (in_tutorial) {
@@ -3079,7 +3099,7 @@ void game::pickup(int posx, int posy, int min)
      nextinv--;
    } else {
     u.i_add(newit);
-    u.wield(this, newit.invlet);
+    u.wield(this, u.inv.size() - 1);
     m.i_clear(posx, posy);
     u.moves -= 100;
     add_msg("Wielding %c - %s", newit.invlet, newit.tname().c_str());
@@ -3287,7 +3307,7 @@ void game::pickup(int posx, int posy, int min)
                   u.weapon.tname().c_str(), here[i].tname().c_str())) {
       m.add_item(posx, posy, u.remove_weapon());
       u.i_add(here[i]);
-      u.wield(this, here[i].invlet);
+      u.wield(this, u.inv.size() - 1);
       u.moves -= 100;
       m.i_rem(posx, posy, curmit);
       curmit--;
@@ -3310,7 +3330,7 @@ void game::pickup(int posx, int posy, int min)
       nextinv--;
     } else {
      u.i_add(here[i]);
-     u.wield(this, here[i].invlet);
+     u.wield(this, u.inv.size() - 1);
      m.i_rem(posx, posy, curmit);
      curmit--;
      u.moves -= 100;
@@ -3628,7 +3648,7 @@ char game::inv(std::string title)
 void game::plthrow()
 {
  char ch = inv("Throw item:");
- int range = u.throw_range(ch);
+ int range = u.throw_range(u.lookup_item(ch));
  if (range < 0) { 
   add_msg("You don't have that item.");
   return;
@@ -3893,7 +3913,12 @@ void game::eat()
   else if (u.i_at(ch).type->id == itm_bottle_plastic)
    tutorial_message(LESSON_DRANK_WATER);
  }
- if (!u.eat(this, ch)) {
+ if (!u.has_item(ch)) {
+  add_msg("You don't have item '%c'!", ch);
+  u.moves += 250;
+  return;
+ }
+ if (!u.eat(this, u.lookup_item(ch))) {
   add_msg("You can't eat that!");
   u.moves += 250;
  } else if (u.has_trait(PF_GOURMAND))
@@ -4065,10 +4090,11 @@ void game::wield()
   add_msg("You cannot unwield your %s.", u.weapon.tname().c_str());
   return;
  }
- if (u.wield(this, inv("Wield item:"))) {
-  u.moves -= 30;
-  u.recoil = 0;
- }
+ char ch = inv("Wield item:");
+ if (ch == '-')
+  u.wield(this, -3);
+ else
+  u.wield(this, u.lookup_item(ch));
  if (in_tutorial && u.weapon.is_gun())
   tutorial_message(LESSON_GUN_LOAD);
 }
@@ -4455,10 +4481,6 @@ void game::vertical_move(int movez, bool force)
    } else if (mt_to_mc((mon_id)(z[i].type->id)) != mcat_null)
     cur_om.zg.push_back(mongroup(mt_to_mc(mon_id(z[i].type->id)),
                                  levx, levy, 1, 1));
-   for (int j = 0; j < active_npc.size(); j++) {
-    if (active_npc[j].target == &z[i])
-     active_npc[j].target = NULL;
-   }
    z.erase(z.begin()+i);
    i--;
   } else if (u_see(&(z[i]), junk))
@@ -4557,10 +4579,6 @@ void game::update_map(int &x, int &y)
      cur_om.zg.push_back(mongroup(mt_to_mc((mon_id)(z[i].type->id)),
                                   levx + shiftx, levy + shifty, 1, 1));
    }
-   for (int j = 0; j < active_npc.size(); j++) {
-    if (active_npc[j].target == &z[i])
-     active_npc[j].target = NULL;
-   }
    z.erase(z.begin()+i);
    i--;
   }
@@ -4576,7 +4594,7 @@ void game::update_map(int &x, int &y)
   }
  }
 // Spawn static NPCs?
- if (!in_tutorial && false) {	// Removing NPCs for now. :(
+ if (!in_tutorial) {
   npc temp;
   for (int i = 0; i < cur_om.npcs.size(); i++) {
    if (rl_dist(levx, levy, cur_om.npcs[i].mapx, cur_om.npcs[i].mapy) <= 2) {
@@ -4630,7 +4648,7 @@ void game::spawn_mon(int shiftx, int shifty)
  int iter;
  int t;
  // Create a new NPC?
-  if (false && one_in(50 + 5 * cur_om.npcs.size())) {	// Removing NPCs for now
+  if (one_in(50 + 5 * cur_om.npcs.size())) {
    npc temp;
    temp.randomize(this);
    temp.spawn_at(&cur_om, levx + (1 * rng(-2, 2)), levy + (1 * rng(-2, 2)));
@@ -4648,7 +4666,7 @@ void game::spawn_mon(int shiftx, int shifty)
   dist = trig_dist(nlevx, nlevy, cur_om.zg[i].posx, cur_om.zg[i].posy);
   pop = cur_om.zg[i].population;
   rad = cur_om.zg[i].radius;
-  if (dist <= rad) {	// We're in an existing group's territory!
+  if (dist <= rad) {
 // (The area of the group's territory) in (population/square at this range)
 // chance of adding one monster; cap at the population OR 16
    while (long((1.1 - double(dist / rad)) * pop) > rng(0, pow(rad, 2)) &&
@@ -4684,7 +4702,7 @@ void game::spawn_mon(int shiftx, int shifty)
     cur_om.zg.erase(cur_om.zg.begin() + i); // ...so remove that group
     i--;	// And don't increment i.
    }
-  }	// Check whether we're inside a group's radius is done!
+  }
  }
 } 
 
@@ -4840,6 +4858,17 @@ void game::nuke(int x, int y)
  tmpmap.save(&cur_om, turn, mapx, mapy);
  cur_om.ter(x, y) = ot_crater;
  cur_om = tmp_om;
+}
+
+std::vector<faction *> game::factions_at(int x, int y)
+{
+ std::vector<faction *> ret;
+ for (int i = 0; i < factions.size(); i++) {
+  if (factions[i].omx == cur_om.posx && factions[i].omy == cur_om.posy &&
+      trig_dist(x, y, factions[i].mapx, factions[i].mapy) <= factions[i].size)
+   ret.push_back(&(factions[i]));
+ }
+ return ret;
 }
  
 oter_id game::ter_at(int omx, int omy, bool& mark_as_seen)

@@ -8,6 +8,7 @@
 
 void draw_recipe_tabs(WINDOW *w, craft_cat tab);
 
+// This function just defines the recipes used throughout the game.
 void game::init_recipes()
 {
  int id = -1;
@@ -46,7 +47,7 @@ void game::init_recipes()
   COMP(itm_pipe, 1, NULL);
   COMP(itm_gasoline, 1, itm_shot_bird, 6, itm_shot_00, 2, itm_shot_slug, 2,
        NULL);
-  COMP(itm_string_6, 1, NULL);
+  COMP(itm_string_36, 1, itm_string_6, 1, NULL);
 
  RECIPE(itm_shotgun_sawn, CC_WEAPON, sk_gun, sk_null, 1, 500);
   TOOL(itm_hacksaw, -1,  NULL);
@@ -304,6 +305,12 @@ void game::init_recipes()
   COMP(itm_power_supply, 4, NULL);
   COMP(itm_amplifier, 3, NULL);
 
+ RECIPE(itm_bionics_battery, CC_ELECTRONIC, sk_electronics, sk_null, 6, 50000);
+  TOOL(itm_screwdriver, -1, NULL);
+  TOOL(itm_soldering_iron, 20, NULL);
+  COMP(itm_UPS_off, 1, itm_power_supply, 4, NULL);
+  COMP(itm_amplifier, 2, NULL);
+
  RECIPE(itm_teleporter, CC_ELECTRONIC, sk_electronics, sk_null, 8, 50000);
   TOOL(itm_screwdriver, -1, NULL);
   TOOL(itm_wrench, -1, NULL);
@@ -448,7 +455,7 @@ void game::init_recipes()
   COMP(itm_can_food, 1, itm_steel_chunk, 1, itm_canister_empty, 1, NULL);
   COMP(itm_nail, 100, itm_bb, 200, NULL);
   COMP(itm_shot_bird, 30, itm_shot_00, 15, itm_shot_slug, 12, itm_gasoline, 3,
-       itm_grenade, 4, NULL);
+       itm_grenade, 1, NULL);
 
  RECIPE(itm_bandages, CC_MISC, sk_firstaid, sk_null, 1, 500);
   COMP(itm_rag, 1, NULL);
@@ -504,15 +511,14 @@ void game::craft()
    draw_recipe_tabs(w_head, tab);
    current.clear();
    available.clear();
+// Set current to all recipes in the current tab; available are possible to make
    pick_recipes(current, available, tab);
-   werase(w_data);
-   mvwprintz(w_data, 20, 0, c_white, "\
-Press ? to describe object.  Press <ENTER> to attempt to craft object.");
-   wrefresh(w_data);
   }
 
 // Clear the screen of recipe data, and draw it anew
   werase(w_data);
+   mvwprintz(w_data, 20, 0, c_white, "\
+Press ? to describe object.  Press <ENTER> to attempt to craft object.");
   wrefresh(w_data);
   for (int i = 0; i < current.size() && i < 23; i++) {
    if (i == line)
@@ -831,17 +837,22 @@ void game::make_craft(recipe *making)
 
 void game::complete_craft()
 {
- std::vector<component> will_use;
- recipe making = recipes[u.activity.index];
+ recipe making = recipes[u.activity.index]; // Which recipe is it?
+ std::vector<component> will_use; // List of all items we're using, w/ count
+
+// Up to 5 components / tools
  for (int i = 0; i < 5; i++) {
   if (making.components[i].size() > 0) {
+// For each set of components in the recipe, fill you_have with the list of all
+// matching ingredients the player has.
    std::vector<component> you_have;
    for (int j = 0; j < making.components[i].size(); j++) {
     if (u.has_amount(making.components[i][j].type,
                      making.components[i][j].count))
      you_have.push_back(making.components[i][j]);
    }
-   if (you_have.size() == 1)
+
+   if (you_have.size() == 1) // Only one, so we'll definitely use it
     will_use.push_back(component(you_have[0].type, you_have[0].count));
    else {	// Let the player pick which component they want to use
     WINDOW* w = newwin(you_have.size() + 2, 30, 10, 25);
@@ -858,25 +869,41 @@ void game::complete_craft()
     while (ch < '1' || ch >= '1' + you_have.size());
     ch -= '1';
     will_use.push_back(component(you_have[ch].type, you_have[ch].count));
+    delwin(w);
    }
-  }
+  } // Done looking at components
+
+// Use charges of any tools that require charges used
   if (making.tools[i].size() > 0) {
    for (int j = 0; j < making.tools[i].size(); j++) {
     if (making.tools[i][j].count > 0)
      u.use_charges(making.tools[i][j].type, making.tools[i][j].count);
    }
   }
- }
- int skill_roll = (making.difficulty == 0 ? 1 :
-                   dice(u.sklevel[making.sk_primary] * 3 + 
-                        u.sklevel[making.sk_secondary], 20 + u.int_cur));
- int diff_roll = (making.difficulty == 0 ? 0 :
-                  dice(making.difficulty * 4, 28));
+ } // Done finding the components/tools needed
+
+// # of dice is 75% primary skill, 25% secondary (unless secondary is null)
+ int skill_dice = u.sklevel[making.sk_primary] * 3;
+ if (making.sk_secondary == sk_null)
+  skill_dice += u.sklevel[making.sk_primary];
+ else
+  skill_dice += u.sklevel[making.sk_secondary];
+// Sides on dict is 20 plus your current intelligence
+ int skill_sides = 16 + u.int_cur;
+
+ int diff_dice = making.difficulty * 4; // Since skill level is * 4 also
+ int diff_sides = 24;	// 16 + 8 (default intelligence)
+
+ int skill_roll = dice(skill_dice, skill_sides);
+ int diff_roll  = dice(diff_dice,  diff_sides);
+
  if (making.sk_primary != sk_null)
   u.practice(making.sk_primary, making.difficulty * 5 + 20);
  if (making.sk_secondary != sk_null)
   u.practice(making.sk_secondary, 5);
- if (diff_roll >= skill_roll * (1 + 0.1 * rng(1, 5))) {
+
+// Messed up badly; waste some components.
+ if (making.difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
   add_msg("You fail to make the %s, and waste some materials.",
           itypes[making.result]->name.c_str());
   int num_lost = rng(1, will_use.size());
@@ -890,18 +917,23 @@ void game::complete_craft()
   }
   u.activity.type = ACT_NULL;
   return;
+// Messed up slightly; no components wasted.
  } else if (diff_roll > skill_roll) {
   add_msg("You fail to make the %s, but don't waste any materials.",
           itypes[making.result]->name.c_str());
   u.activity.type = ACT_NULL;
   return;
  }
+// If we're here, the craft was a success!
+// Use up the items in will_use
  for (int i = 0; i < will_use.size(); i++) {
   if (itypes[will_use[i].type]->is_ammo())
    u.use_charges(will_use[i].type, will_use[i].count);
-   else
+  else
    u.use_amount(will_use[i].type, will_use[i].count);
  }
+
+// Set up the new item, and pick an inventory letter
  int iter = 0;
  item newit(itypes[making.result], turn, nextinv);
  do {
@@ -910,6 +942,8 @@ void game::complete_craft()
   iter++;
  } while (u.has_item(newit.invlet) && iter < 52);
  newit = newit.in_its_container(&itypes);
+
+// We might not have space for the item
  if (iter == 52 || u.volume_carried()+newit.volume() > u.volume_capacity()) {
   add_msg("There's no room in your inventory for the %s, so you drop it.",
           newit.tname().c_str());

@@ -11,11 +11,6 @@
 #define OMAPX 180
 #define OMAPY 180
 
-#define NORTH 1
-#define EAST  2
-#define SOUTH 4
-#define WEST  8
-
 #define TUTORIAL_Z	10
 #define NETHER_Z 	20
 

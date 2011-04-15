@@ -134,6 +134,18 @@ oter_id& overmap::ter(int x, int y)
  return t[x][y];
 }
 
+std::vector<mongroup> overmap::monsters_at(int x, int y)
+{
+ std::vector<mongroup> ret;
+ if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY)
+  return ret;
+ for (int i = 0; i < zg.size(); i++) {
+  if (trig_dist(x, y, zg[i].posx, zg[i].posy) <= zg[i].radius)
+   ret.push_back(zg[i]);
+ }
+ return ret;
+}
+
 bool& overmap::seen(int x, int y)
 {
  if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY) {
@@ -504,7 +516,7 @@ void overmap::make_tutorial()
 point overmap::find_closest(point origin, oter_id type, int type_range,
                             int &dist, bool must_be_seen)
 {
- int max = dist;
+ int max = (dist == 0 ? OMAPX / 2 : dist);
  for (dist = 0; dist <= max; dist++) {
   for (int x = origin.x - dist; x <= origin.x + dist; x++) {
    for (int y = origin.y - dist; y <= origin.y + dist; y++) {

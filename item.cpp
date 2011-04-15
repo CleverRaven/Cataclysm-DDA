@@ -351,6 +351,32 @@ char item::symbol()
  return type->sym;
 }
 
+nc_color item::color(player *u)
+{
+ nc_color ret = c_ltgray;
+
+ if (is_gun()) {
+  ammotype amtype = ammo();
+  if (u->has_ammo(amtype).size() > 0)
+   ret = c_red;
+ } else if (is_ammo()) {
+  ammotype amtype = ammo();
+  for (int i = 0; i < u->inv.size(); i++) {
+   if (u->inv[i].is_gun() && u->inv[i].ammo() == amtype) {
+    i = u->inv.size();
+    ret = c_red;
+   }
+  }
+ } else if (is_book()) {
+  it_book* tmp = dynamic_cast<it_book*>(type);
+  if (tmp->type !=sk_null && tmp->intel <= u->int_cur + u->sklevel[tmp->type] &&
+      (tmp->intel == 0 || !u->has_trait(PF_ILLITERATE)) &&
+      tmp->req <= u->sklevel[tmp->type] && tmp->level > u->sklevel[tmp->type])
+   ret = c_ltblue;
+ }
+ return ret;
+}
+
 std::string item::tname()
 {
  std::stringstream ret;
@@ -525,6 +551,23 @@ int item::weapon_value(int skills[num_skill_types])
   my_value += gun_value;
  }
 
+ my_value += int(type->melee_dam * (1   + .3 * skills[sk_bashing] +
+                                          .1 * skills[sk_melee]    ));
+ //debugmsg("My value: (+bash) %d", my_value);
+
+ my_value += int(type->melee_cut * (1   + .4 * skills[sk_cutting] +
+                                          .1 * skills[sk_melee]    ));
+ //debugmsg("My value: (+cut) %d", my_value);
+
+ my_value += int(type->m_to_hit  * (1.2 + .3 * skills[sk_melee]));
+ //debugmsg("My value: (+hit) %d", my_value);
+
+ return my_value;
+}
+
+int item::melee_value(int skills[num_skill_types])
+{
+ int my_value = 0;
  my_value += int(type->melee_dam * (1   + .3 * skills[sk_bashing] +
                                           .1 * skills[sk_melee]    ));
  //debugmsg("My value: (+bash) %d", my_value);
@@ -805,8 +848,11 @@ ammotype item::ammo()
  } else if (is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(type);
   return tool->ammo;
- } else
-  return AT_NULL;
+ } else if (is_ammo()) {
+  it_ammo* amm = dynamic_cast<it_ammo*>(type);
+  return amm->type;
+ }
+ return AT_NULL;
 }
  
 int item::pick_reload_ammo(player &u, bool interactive)

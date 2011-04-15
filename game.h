@@ -14,6 +14,7 @@
 #include "tutorial.h"
 #include "faction.h"
 #include "event.h"
+#include "mission.h"
 #include <vector>
 
 #define LONG_RANGE 10
@@ -28,6 +29,7 @@ enum tut_type {
 };
 
 struct mtype;
+struct mission_type;
 class map;
 class player;
 
@@ -68,8 +70,10 @@ class game
   void cancel_activity_query(std::string message);
   void teleport();
   void nuke(int x, int y);
+  std::vector<faction *> factions_at(int x, int y);
   int& scent(int x, int y);
   unsigned char light_level();
+  int assign_npc_id();
   bool sees_u(int x, int y, int &t);
   bool u_see (int x, int y, int &t);
   bool u_see (monster *mon, int &t);
@@ -95,6 +99,7 @@ class game
   std::vector<monster> z;
   std::vector<monster> monbuff;
   int monbuffx, monbuffy, monbuffz, monbuff_turn;
+  int next_npc_id;
   std::vector<npc> active_npc;
   std::vector<mon_id> moncats[num_moncats];
   std::vector<faction> factions;
@@ -122,6 +127,7 @@ class game
   void init_monitems();	// Initializes monster inventory selection
   void init_traps();	// Initializes trap types
   void init_recipes();	// Initializes crafting recipes
+  void init_missions();	// Initializes mission templates
 
   void create_factions();	// Creates new factions (for a new game world)
 
@@ -227,6 +233,7 @@ class game
   std::string last_action;		// The keypresses of last turn
 
   std::vector<recipe> recipes;	// The list of valid recipes
+  std::vector<mission_type> missions; // The list of mission templates
 
   bool tutorials_seen[NUM_LESSONS]; // Which tutorial lessons have we learned
   bool in_tutorial;                 // True if we're in a tutorial right now

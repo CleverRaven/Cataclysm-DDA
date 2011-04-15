@@ -51,11 +51,21 @@ class overmap
   void make_tutorial();
   void first_house(int &x, int &y);
 
+/* Returns the closest point of terrain type [type, type + type_range)
+ * Use type_range of 4, for instance, to match all gun stores (4 rotations).
+ * dist is set to the distance between the two points.
+ * You can give dist a value, which will be used as the maximum distance; a
+ *  value of 0 will search the entire overmap.
+ * Use must_be_seen=true if only terrain seen by the player should be searched.
+ * If no such tile can be found, (-1, -1) is returned.
+ */
   point find_closest(point origin, oter_id type, int type_range,
                      int &dist, bool must_be_seen);
+// Interactive point choosing; used as the map screen
   point choose_point(game *g);
 
   oter_id& ter(int x, int y);
+  std::vector<mongroup> monsters_at(int x, int y);
   bool&   seen(int x, int y);
 
   bool has_note(int x, int y);

@@ -353,6 +353,21 @@ int monster::dodge()
  return type->sk_dodge;
 }
 
+int monster::dodge_roll()
+{
+ int numdice = dodge();
+ 
+ switch (type->size) {
+  case MS_TINY:  numdice += 4; break;
+  case MS_SMALL: numdice += 2; break;
+  case MS_LARGE: numdice -= 2; break;
+  case MS_HUGE:  numdice -= 4; break;
+ }
+
+ numdice += int(speed / 80);
+ return dice(numdice, 10);
+}
+
 void monster::die(game *g)
 {
 // Drop goodies

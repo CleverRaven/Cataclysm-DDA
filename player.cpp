@@ -158,8 +158,8 @@ int player::current_speed()
 // Minus some amount for pain & painkiller wooziness...
  if (pain > pkill)
   newmoves -= int((pain - pkill) * .7);
- if (pkill >= 3)
-  newmoves -= int(pkill * .4);
+ if (pkill >= 10)
+  newmoves -= int(pkill * .1);
 // Plus or minus some for considerable morale...
  if (abs(morale_level()) >= 40) {
   int morale_bonus = int(morale_level() / 10);
@@ -612,8 +612,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
             (pen < 10 ? " " : ""), pen);
   line++;
  }
- if (pkill >= 3) {
-  pen = int(pkill * .4);
+ if (pkill >= 10) {
+  pen = int(pkill * .1);
   mvwprintz(w_speed, line, 1, c_red, "Painkillers         -%s%d%%%%",
             (pen < 10 ? " " : ""), pen);
   line++;
@@ -1163,12 +1163,8 @@ bool player::has_bionic(bionic_id b)
 bool player::has_active_bionic(bionic_id b)
 {
  for (int i = 0; i < my_bionics.size(); i++) {
-  if (my_bionics[i].id == b) {
-   if (my_bionics[i].powered)
-    return true;
-   else
-    return false;
-  }
+  if (my_bionics[i].id == b)
+   return (my_bionics[i].powered);
  }
  return false;
 }
@@ -1177,7 +1173,7 @@ void player::add_bionic(bionic_id b)
 {
  for (int i = 0; i < my_bionics.size(); i++) {
   if (my_bionics[i].id == b)
-   return;	// No dupes!
+   return;	// No duplicates!
  }
  char newinv;
  if (my_bionics.size() == 0)
@@ -1280,7 +1276,7 @@ void player::power_bionics(game *g)
        activate_bionic(b, g);
      } else
       mvwprintz(wBio, 22, 0, c_ltred, "\
-You can not activate %s!  To read a description of\
+You can not activate %s!  To read a description of \
 %s, press '!', then '%c'.", bionics[tmp->id].name.c_str(),
                             bionics[tmp->id].name.c_str(), tmp->invlet);
     } else {	// Describing bionics, not activating them!
@@ -1345,7 +1341,7 @@ void player::mutate(game *g)
      if (pain > 0)
       g->add_msg("Your pain feels dulled.");
      else {
-      per_max -= rng(0, 2);	// Tough break!
+      per_max -= rng(0, 1);	// Tough break!
       g->add_msg("Your senses feel dulled.");
      }
      toggle_trait(PF_PAINRESIST);
@@ -1651,12 +1647,13 @@ void player::mutate(game *g)
     break;
    case 18:
     if (!has_trait(PF_BEAK)) {
-     g->add_msg("Your mouth extends into a beak!");
-     toggle_trait(PF_BEAK);
      if (has_trait(PF_FANGS)) {
       g->add_msg("Your fangs fade away.");
       toggle_trait(PF_FANGS);
+      return;
      }
+     g->add_msg("Your mouth extends into a beak!");
+     toggle_trait(PF_BEAK);
 // Force off and damage any mouthwear
      for (int i = 0; i < worn.size(); i++) {
       if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_mouth)) {
@@ -1770,6 +1767,11 @@ bool player::is_armed()
  return (weapon.type->id != 0);
 }
 
+bool player::unarmed_attack()
+{
+ return (weapon.type->id == 0 || weapon.type->id == itm_bio_claws);
+}
+
 bool player::avoid_trap(trap* tr)
 {
  int myroll = dice(3, dex_cur + sklevel[sk_dodge] * 1.5);
@@ -1798,21 +1800,12 @@ void player::pause()
  }
 }
 
-int player::hit_mon(game *g, monster *z)
+int player::hit_roll()
 {
- bool is_u = (this == &(g->u));	// Affects how we'll display messages
- int j;
- bool can_see = (is_u || g->u_see(posx, posy, j));
- std::string You  = (is_u ? "You"  : name);
- std::string Your = (is_u ? "Your" : name + "'s");
- std::string your = (is_u ? "your" : (male ? "his" : "her"));
-
-// Types of combat (may overlap!)
- bool unarmed = false, bashing = false, cutting = false;
-// Calculate our hit roll
  int numdice = base_to_hit() + weapon.type->m_to_hit;
+ bool unarmed = false, bashing = false, cutting = false;
 // Are we unarmed?
- if (!is_armed() || weapon.type->id == itm_bio_claws) {
+ if (unarmed_attack()) {
   unarmed = true;
   numdice += sklevel[sk_unarmed];
   if (sklevel[sk_unarmed] > 4)
@@ -1832,22 +1825,38 @@ int player::hit_mon(game *g, monster *z)
   numdice += int(sklevel[sk_cutting] / 1.5);
  }
 
+ int sides = 10;
+ if (numdice < 1) {
+  numdice = 1;
+  sides = 8;
+ }
+ sides -= encumb(bp_torso);
+ if (sides < 2)
+  sides = 2;
+
+ return dice(numdice, sides);
+}
+
+int player::hit_mon(game *g, monster *z)
+{
+ bool is_u = (this == &(g->u));	// Affects how we'll display messages
+ int j;
+ bool can_see = (is_u || g->u_see(posx, posy, j));
+ std::string You  = (is_u ? "You"  : name);
+ std::string Your = (is_u ? "Your" : name + "'s");
+ std::string your = (is_u ? "your" : (male ? "his" : "her"));
+
+// Types of combat (may overlap!)
+ bool unarmed = unarmed_attack(), bashing = weapon.is_bashing_weapon(),
+      cutting = weapon.is_cutting_weapon();
+
 // Recoil penalty
  if (recoil <= 30)
   recoil += 6;
 // Movement cost
  moves -= (80 + 4*weapon.volume() + 2*weapon.weight() + 20*encumb(bp_torso));
 // Different sizes affect your chance to hit
- switch (z->type->size) {
-  case MS_TINY:  numdice -= 4; break;
-  case MS_SMALL: numdice -= 2; break;
-  case MS_LARGE: numdice += 2; break;
-  case MS_HUGE:  numdice += 4; break;
- }
- if (numdice < 1)
-  numdice = 1;
- int mondice = z->dodge();
- if (dice(numdice, 10) - 4 * encumb(bp_torso) < dice(mondice, 10)) {// A miss!
+ if (hit_roll() < z->dodge_roll()) {// A miss!
 // Movement penalty for missing & stumbling
   int stumble_pen = weapon.volume() + int(weapon.weight() / 2);
   if (has_trait(PF_DEFT))
@@ -1874,7 +1883,7 @@ int player::hit_mon(game *g, monster *z)
   hurtall(rng(1, 3));
  }
 // For very high hit rolls, we crit!
- bool critical_hit = (dice(numdice, 10) > dice(mondice + 4, 30));
+ bool critical_hit = (hit_roll() >= 10 + 3 * z->dodge_roll());
  int dam = base_damage(true);
  if (has_trait(PF_DRUNKEN) && has_disease(DI_DRUNK)) {
   if (unarmed)
@@ -1938,7 +1947,7 @@ int player::hit_mon(game *g, monster *z)
  drain_them &= one_in(2);	// Only works half the time
 
  if (critical_hit) {
-  bool headshot = (!z->has_flag(MF_NOHEAD) && !one_in(numdice));
+  bool headshot = (!z->has_flag(MF_NOHEAD) && !one_in(10));
 // Second chance for shock_them, drain_them, bite_them and peck_them
   shock_them = (shock_them || (!z->has_flag(MF_SHOCK) && has_bionic(bio_shock)&&
                                power_level >= 2 && unarmed && !one_in(3)));
@@ -2089,33 +2098,14 @@ int player::hit_mon(game *g, monster *z)
 
 bool player::hit_player(player &p, body_part &bp, int &hitdam, int &hitcut)
 {
- if (p.is_npc()) {
+// TODO: Add bionics and other bonus (e.g. heat drain, shock, etc)
+ if (!is_npc() && p.is_npc()) {
   npc *foe = dynamic_cast<npc*>(&p);
-  if (foe->attitude != NPCATT_FLEE)
-   foe->attitude = NPCATT_KILL;
+  foe->make_angry();
  }
- bool unarmed = false, bashing = false, cutting = false;
- int numdice = base_to_hit() + weapon.type->m_to_hit;
- if (!is_armed() || weapon.type->id == itm_bio_claws) {	// Unarmed
-  unarmed = true;
-  numdice += sklevel[sk_unarmed];
-  if (has_trait(PF_DRUNKEN) && has_disease(DI_DRUNK))
-   numdice += rng(0, 1) + int(disease_level(DI_DRUNK) / 300);
- } else if (has_trait(PF_DRUNKEN) && has_disease(DI_DRUNK))
-  numdice += int(disease_level(DI_DRUNK) / 500);
- if (weapon.is_bashing_weapon()) {
-  bashing = true;
-  numdice += int(sklevel[sk_bashing] / 3);
- }
- if (weapon.is_cutting_weapon()) {
-  cutting = true;
-  numdice += int(sklevel[sk_cutting] / 1.5);
- }
- if (p.str_max >= 17)
-  numdice++;	// Minor bonus against huge people
- else if (p.str_max <= 5)
-  numdice--;	// Minor penalty against tiny people
- int hitit = dice(numdice, 10) - dice(p.dodge(), 6);
+ bool unarmed = unarmed_attack(), bashing = weapon.is_bashing_weapon(),
+      cutting = weapon.is_cutting_weapon();
+ int hitit = hit_roll() - p.dodge_roll();
  if (hitit < 0) {	// They dodged
   practice(sk_melee, rng(2, 4));
   if (unarmed)
@@ -2140,19 +2130,20 @@ bool player::hit_player(player &p, body_part &bp, int &hitdam, int &hitcut)
  else
   bp = bp_legs;
  
- // Unarmed: 0 to (strength / 2)
+// Unarmed: 0 to (strength / 2)
  hitdam = base_damage();
+
  if (unarmed) {// Unarmed bonuses
   hitdam += rng(0, sklevel[sk_unarmed]);
   if (sklevel[sk_unarmed] >= 5)
    hitdam += rng(sklevel[sk_unarmed], 3 * sklevel[sk_unarmed]);
   if (has_trait(PF_TALONS))
    hitcut += 10;
-  if (sklevel[sk_unarmed] >= 8 && (one_in(3) ||
-                                   rng(5, 20) < sklevel[sk_unarmed]))
+  if (sklevel[sk_unarmed] >= 8 &&
+      (one_in(3) || rng(5, 20) < sklevel[sk_unarmed]))
    hitdam *= rng(2, 3);
  }
- // Weapon adds (melee_dam / 2) to (melee_dam)
+// Weapon adds (melee_dam / 2) to (melee_dam)
  hitdam += rng(weapon.type->melee_dam / 2, weapon.type->melee_dam);
  if (bashing)
   hitdam += rng(0, sklevel[sk_bashing]) * sqrt(str_cur);
@@ -2162,7 +2153,7 @@ bool player::hit_player(player &p, body_part &bp, int &hitdam, int &hitcut)
  if (hitcut > 0)
   hitcut += int(sklevel[sk_cutting] / 3);
  if (hitdam < 0) hitdam = 0;
- if (hitdam > 0 || hitcut > 0) {	// Practicing
+ if (hitdam > 0 || hitcut > 0) { // Practicing
   practice(sk_melee, rng(5, 10));
   if (unarmed)
    practice(sk_unarmed, rng(5, 10));
@@ -2170,13 +2161,13 @@ bool player::hit_player(player &p, body_part &bp, int &hitdam, int &hitcut)
    practice(sk_bashing, rng(5, 10));
   if (cutting)
    practice(sk_cutting, rng(5, 10));
- } else {
+ } else { // Less practice if we missed
   practice(sk_melee, rng(2, 5));
-  if (!is_armed())
+  if (unarmed)
    practice(sk_unarmed, 2);
-  if (weapon.is_bashing_weapon())
+  if (bashing)
    practice(sk_bashing, 2);
-  if (weapon.is_cutting_weapon())
+  if (cutting)
    practice(sk_cutting, 3);
  }
  return true;
@@ -2192,28 +2183,29 @@ int player::dodge()
  int ret = 4 + (dex_cur / 2);
  ret += sklevel[sk_dodge];
  ret -= (encumb(bp_legs) / 2) + encumb(bp_torso);
- if (!can_dodge)	// We already dodged
+ ret += int(current_speed() / 150);
+ if (str_max >= 16)
+  ret--; // Penalty if we're hyuuge
+ else if (str_max <= 5)
+  ret++; // Bonus if we're small
+ if (!can_dodge) // We already dodged this turn
   ret = rng(0, ret);
  can_dodge = false;
  return ret;
 }
 
-int player::throw_range(char ch)
+int player::dodge_roll()
+{
+ return dice(dodge(), 6);
+}
+
+int player::throw_range(int index)
 {
  item tmp;
- if (weapon.invlet == ch)
+ if (index == -1)
   tmp = weapon;
- else {
-  int i;
-  for (i = 0; i < inv.size(); i++) {
-   if (inv[i].invlet == ch) {
-    tmp = inv[i];
-    i = inv.size() + 1;
-   }
-  }
-  if (i == inv.size())
-   return -1;
- }
+ else
+  tmp = inv[index];
 
  if (tmp.weight() > int(str_cur * 15))
   return 0;
@@ -2221,6 +2213,7 @@ int player::throw_range(char ch)
  ret -= int(tmp.volume() / 10);
  if (ret < 1)
   return 1;
+// Cap at double our strength
  if (ret > str_cur * 2)
   return str_cur * 2;
  return ret;
@@ -2270,12 +2263,16 @@ int player::ranged_per_mod(bool real_life)
   return 0;
  int deviation = 0;
 
- if (per < 8) {
-  deviation = 2 * (9 - per);
+ if (per < 6) {
+  deviation = 3.5 * (8 - per);
+  if (real_life)
+   deviation = rng(0, deviation);
+ } else if (per < 8) {
+  deviation = 3 * (8 - per);
   if (real_life)
    deviation = rng(0, deviation);
  } else {
-  deviation = 2 * (0 - (per > 16 ? 8 : per - 8));
+  deviation = 3 * (0 - (per > 16 ? 8 : per - 8));
   if (real_life && one_in(per))
    deviation = 0 - rng(0, abs(deviation));
  }
@@ -2308,6 +2305,9 @@ int player::comprehension_percent(skill s, bool real_life)
   percent /= 1 + (learned - intel / 2) / (intel / 3);
  else if (!real_life && intel > 8)
   percent += 125 - 1000 / intel;
+
+ if (has_trait(PF_FASTLEARNER))
+  percent += 50;
  return (int)(percent);
 }
 
@@ -2330,6 +2330,7 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
   rem_disease(DI_SLEEP);
  } else if (has_disease(DI_LYING_DOWN))
   rem_disease(DI_LYING_DOWN);
+
  absorb(g, bphurt, dam, cut);
 
  dam += cut;
@@ -2473,10 +2474,10 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
   add_disease(DI_ADRENALINE, 200, g);
 }
 
-void player::heal(body_part bpheal, int side, int dam)
+void player::heal(body_part healed, int side, int dam)
 {
  hp_part healpart;
- switch (bpheal) {
+ switch (healed) {
  case bp_eyes:	// Fall through to head damage
  case bp_mouth:	// Fall through to head damage
  case bp_head:
@@ -2489,18 +2490,18 @@ void player::heal(body_part bpheal, int side, int dam)
 // Shouldn't happen, but fall through to arms
   debugmsg("Heal against hands!");
  case bp_arms:
-  if (side == 0 || side == 3)
+  if (side == 0)
    healpart = hp_arm_l;
-  if (side == 1 || side == 3)
+  else
    healpart = hp_arm_r;
  break;
  case bp_feet:
 // Shouldn't happen, but fall through to legs
   debugmsg("Heal against feet!");
  case bp_legs:
-  if (side == 0 || side == 3)
+  if (side == 0)
    healpart = hp_leg_l;
-  if (side == 1 || side == 3)
+  else
    healpart = hp_leg_r;
  break;
  default:
@@ -2510,6 +2511,13 @@ void player::heal(body_part bpheal, int side, int dam)
  hp_cur[healpart] += dam;
  if (hp_cur[healpart] > hp_max[healpart])
   hp_cur[healpart] = hp_max[healpart];
+}
+
+void player::heal(hp_part healed, int dam)
+{
+ hp_cur[healed] += dam;
+ if (hp_cur[healed] > hp_max[healed])
+  hp_cur[healed] = hp_max[healed];
 }
 
 void player::healall(int dam)
@@ -2946,12 +2954,10 @@ int player::weight_carried()
 {
  int ret = 0;
  ret += weapon.weight();
- for (int i = 0; i < worn.size(); i++) {
+ for (int i = 0; i < worn.size(); i++)
   ret += worn[i].weight();
- }
- for (int i = 0; i < inv.size(); i++) {
+ for (int i = 0; i < inv.size(); i++)
   ret += inv[i].weight();
- }
  return ret;
 }
 
@@ -3127,10 +3133,10 @@ void player::process_active_items(game *g)
  iuse use;
  if (weapon.active) {
   tmp = dynamic_cast<it_tool*>(weapon.type);
-  (use.*tmp->use)(g, &weapon, true);
+  (use.*tmp->use)(g, this, &weapon, true);
   weapon.charges -= tmp->charges_per_sec;
   if (weapon.charges <= 0) {
-   (use.*tmp->use)(g, &weapon, false);
+   (use.*tmp->use)(g, this, &weapon, false);
    if (tmp->revert_to == itm_null)
     weapon = ret_null;
    else
@@ -3140,10 +3146,10 @@ void player::process_active_items(game *g)
  for (int i = 0; i < inv.size(); i++) {
   if (inv[i].active) {
    tmp = dynamic_cast<it_tool*>(inv[i].type);
-   (use.*tmp->use)(g, &inv[i], true);
+   (use.*tmp->use)(g, this, &inv[i], true);
    inv[i].charges -= tmp->charges_per_sec;
    if (inv[i].charges <= 0) {
-    (use.*tmp->use)(g, &inv[i], false);
+    (use.*tmp->use)(g, this, &inv[i], false);
     if (tmp->revert_to == itm_null) {
      inv.erase(inv.begin() + i);
      i--;
@@ -3551,141 +3557,186 @@ bool player::has_item(item *it)
  return false;
 }
 
-bool player::eat(game *g, char let)
+int player::lookup_item(char let)
 {
- it_comest *tmp = NULL;
+ if (weapon.invlet == let)
+  return -1;
+
+ for (int i = 0; i < inv.size(); i++) {
+  if (inv[i].invlet == let)
+   return i;
+ }
+
+ return -2; // -2 is for "item not found"
+}
+
+bool player::eat(game *g, int index)
+{
+ it_comest *comest = NULL;
  item *eaten = NULL;
  int which = -3; // Helps us know how to delete the item which got eaten
- if (weapon.invlet == let && weapon.is_food_container(this)) {
-  if (weapon.contents[0].is_food())
-   tmp = dynamic_cast<it_comest*>(weapon.contents[0].type);
-  eaten = &weapon.contents[0];
-  which = -2;
- } else if (weapon.invlet == let && weapon.is_food(this)) {
-  if (weapon.is_food())
-   tmp = dynamic_cast<it_comest*>(weapon.type);
-  eaten = &weapon;
-  which = -1;
+ int linet;
+ if (index == -1) {
+  if (weapon.is_food_container(this)) {
+   eaten = &weapon.contents[0];
+   which = -2;
+   if (weapon.contents[0].is_food())
+    comest = dynamic_cast<it_comest*>(weapon.contents[0].type);
+  } else if (weapon.is_food(this)) {
+   eaten = &weapon;
+   which = -1;
+   if (weapon.is_food())
+    comest = dynamic_cast<it_comest*>(weapon.type);
+  } else {
+   if (!is_npc())
+    g->add_msg("You can't eat your %s.", weapon.tname().c_str());
+   else
+    debugmsg("%s tried to eat a %s", name.c_str(), weapon.tname().c_str());
+   return false;
+  }
  } else {
-  for (int i = 0; i < inv.size(); i++) {
-   if (inv[i].invlet == let && inv[i].is_food_container(this)) {
-    if (inv[i].contents[0].is_food())
-     tmp = dynamic_cast<it_comest*>(inv[i].contents[0].type);
-    eaten = &(inv[i].contents[0]);
-    which = i + inv.size();
-   } else if (inv[i].invlet == let && inv[i].is_food(this)) {
-    if (inv[i].is_food())
-     tmp = dynamic_cast<it_comest*>(inv[i].type);
-    eaten = &inv[i];
-    which = i;
-   }
+  if (inv[index].is_food_container(this)) {
+   eaten = &(inv[index].contents[0]);
+   which = index + inv.size();
+   if (inv[index].contents[0].is_food())
+    comest = dynamic_cast<it_comest*>(inv[index].contents[0].type);
+  } else if (inv[index].is_food(this)) {
+   eaten = &inv[index];
+   which = index;
+   if (inv[index].is_food())
+    comest = dynamic_cast<it_comest*>(inv[index].type);
+  } else {
+   if (!is_npc())
+    g->add_msg("You can't eat your %s.", inv[index].tname().c_str());
+   else
+    debugmsg("%s tried to eat a %s", name.c_str(), inv[index].tname().c_str());
+   return false;
   }
  }
  if (eaten == NULL)
   return false;
- if (eaten->is_ammo()) {
+
+ if (eaten->is_ammo()) { // For when bionics let you eat fuel
   charge_power(eaten->charges / 20);
   eaten->charges = 0;
  } else if (!eaten->type->is_food() && !eaten->is_food_container(this)) {
+// For when bionics let you burn organic materials
   int charge = (eaten->volume() + eaten->weight()) / 2;
   if (eaten->type->m1 == LEATHER || eaten->type->m2 == LEATHER)
    charge /= 4;
   if (eaten->type->m1 == WOOD    || eaten->type->m2 == WOOD)
    charge /= 2;
   charge_power(charge);
- } else {
-  if (tmp == NULL) {
-   debugmsg("player::eat a %s; tmp is NULL!", eaten->tname().c_str());
+ } else { // It's real food!  i.e. an it_comest
+// Remember, comest points to the it_comest data
+  if (comest == NULL) {
+   debugmsg("player::eat(%s); comest is NULL!", eaten->tname().c_str());
    return false;
   }
-  if (tmp != NULL && tmp->tool != itm_null && !has_amount(tmp->tool, 1)) {
-   g->add_msg("You need a %s to consume that!",
-              g->itypes[tmp->tool]->name.c_str());
+  if (comest != NULL && comest->tool != itm_null && !has_amount(comest->tool, 1)) {
+   if (!is_npc())
+    g->add_msg("You need a %s to consume that!",
+               g->itypes[comest->tool]->name.c_str());
    return false;
   }
-  if (hunger < 0 && tmp->nutr >= 15 && !has_trait(PF_GOURMAND) &&
+  bool overeating = (!has_trait(PF_GOURMAND) && hunger < 0 && comest->nutr >= 15);
+  bool spoiled = (comest->spoils != 0 &&
+                  (g->turn - eaten->bday) / 600 > comest->spoils);
+  bool very_spoiled = (spoiled &&
+                       (g->turn - eaten->bday / 600) > comest->spoils * 1.2);
+
+  if (overeating && !is_npc() &&
       !query_yn("You're full.  Force yourself to eat?"))
    return false;
-  bool hunger_danger = (!has_trait(PF_GOURMAND) && hunger < 0 && tmp->nutr >= 15);
+
   if (has_trait(PF_CARNIVORE) && eaten->made_of(VEGGY)) {
-   g->add_msg("You can only eat meat!");
+   if (!is_npc())
+    g->add_msg("You can only eat meat!");
+   else
+    g->add_msg("Carnivore %s tried to eat meat!", name.c_str());
    return false;
   }
-  if (has_trait(PF_VEGETARIAN) && eaten->made_of(FLESH) &&
+
+  if (has_trait(PF_VEGETARIAN) && eaten->made_of(FLESH) && !is_npc() &&
       !query_yn("Really eat that meat? (The poor animals!)"))
    return false;
-  if (tmp->spoils != 0 && (g->turn - eaten->bday) / 600 > tmp->spoils) {
+
+  if (spoiled) {
 // We're only warned if we're a supertaster, OR the food is very old
-   if ((!has_trait(PF_SUPERTASTER) &&
-        (g->turn - eaten->bday) / 600 < tmp->spoils * 1.5) ||
-       query_yn("This %s smells awful!  Eat it?", eaten->tname().c_str())) {
+   if ((!has_trait(PF_SUPERTASTER) && very_spoiled) || 
+       (!is_npc() && query_yn("This %s smells awful!  Eat it?",
+                              eaten->tname().c_str()))) {
+    if (is_npc())
+     return false;
     g->add_msg("Ick, this %s doesn't taste so good...",eaten->tname().c_str());
     if (!has_bionic(bio_digestion) || one_in(3))
-     add_disease(DI_FOODPOISON, rng(60, (tmp->quench + tmp->nutr + 1) * 60), g);
-    hunger -= rng(0, tmp->nutr);
+     add_disease(DI_FOODPOISON, rng(60, (comest->nutr + 1) * 60), g);
+    hunger -= rng(0, comest->nutr);
     if (!has_bionic(bio_digestion))
      health -= 3;
    } else
     return false;
   } else {
-   hunger -= tmp->nutr;
-   thirst -= tmp->quench;
+   hunger -= comest->nutr;
+   thirst -= comest->quench;
    if (has_bionic(bio_digestion))
-    hunger -= rng(0, tmp->nutr);
+    hunger -= rng(0, comest->nutr);
    else if (!has_trait(PF_GOURMAND)) {
-    if ((hunger_danger && rng(-200, 0) > hunger))
+    if ((overeating && rng(-200, 0) > hunger))
      vomit(g);
    }
-   health += tmp->healthy;
+   health += comest->healthy;
   }
-  if (eaten->made_of(LIQUID))
-   g->add_msg("You drink your %s.", eaten->tname().c_str());
-  else if (tmp->nutr >= 5)
-   g->add_msg("You eat your %s.", eaten->tname().c_str());
-/*
-  else
-   g->add_msg("You consume your %s.", eaten->tname().c_str());
-*/
-  if (g->itypes[tmp->tool]->is_tool())
-   use_charges(tmp->tool, 1); // Tools like lighters get used
-  if (tmp->stim > 0 && stim < tmp->stim * 3)
-   stim += tmp->stim;
+// Descriptive text
+  if (!is_npc()) {
+   if (eaten->made_of(LIQUID))
+    g->add_msg("You drink your %s.", eaten->tname().c_str());
+   else if (comest->nutr >= 5)
+    g->add_msg("You eat your %s.", eaten->tname().c_str());
+  } else if (g->u_see(posx, posy, linet))
+   g->add_msg("%s eats a %s.", name.c_str(), eaten->tname().c_str());
+
+  if (g->itypes[comest->tool]->is_tool())
+   use_charges(comest->tool, 1); // Tools like lighters get used
+  if (comest->stim > 0 && stim < comest->stim * 3)
+   stim += comest->stim;
  
   iuse use;
-  (use.*tmp->use)(g, eaten, false);
-  add_addiction(tmp->add, tmp->addict);
-  if (has_bionic(bio_ethanol) && tmp->use == &iuse::alcohol)
+  (use.*comest->use)(g, this, eaten, false);
+  add_addiction(comest->add, comest->addict);
+  if (has_bionic(bio_ethanol) && comest->use == &iuse::alcohol)
    charge_power(rng(20, 30));
 
   if (has_trait(PF_VEGETARIAN) && eaten->made_of(FLESH)) {
-   g->add_msg("You feel bad about eating this meat...");
+   if (!is_npc())
+    g->add_msg("You feel bad about eating this meat...");
    add_morale(MOR_FOOD_VEGETARIAN);
   }
   if (has_trait(PF_HERBIVORE) && eaten->made_of(FLESH)) {
    if (!one_in(3))
     vomit(g);
-   if (tmp->quench >= 2)
-    thirst += int(tmp->quench / 2);
-   if (tmp->nutr >= 2)
-    hunger += int(tmp->nutr * .75);
+   if (comest->quench >= 2)
+    thirst += int(comest->quench / 2);
+   if (comest->nutr >= 2)
+    hunger += int(comest->nutr * .75);
   }
   if (has_trait(PF_GOURMAND)) {
-   if (tmp->fun < -2)
-    add_morale(MOR_FOOD_BAD, tmp->fun);
-   else if (tmp->fun > 0)
-    add_morale(MOR_FOOD_GOOD, tmp->fun * 1.5);
-   if (hunger < -60 || thirst < -60)
+   if (comest->fun < -2)
+    add_morale(MOR_FOOD_BAD, comest->fun);
+   else if (comest->fun > 0)
+    add_morale(MOR_FOOD_GOOD, comest->fun * 1.5);
+   if (!is_npc() && (hunger < -60 || thirst < -60))
     g->add_msg("You can't finish it all!");
    if (hunger < -60)
     hunger = -60;
    if (thirst < -60)
     thirst = -60;
   } else {
-   if (tmp->fun < 0)
-    add_morale(MOR_FOOD_BAD, tmp->fun);
-   else if (tmp->fun > 0)
-    add_morale(MOR_FOOD_GOOD, tmp->fun);
-   if (hunger < -20 || thirst < -20)
+   if (comest->fun < 0)
+    add_morale(MOR_FOOD_BAD, comest->fun);
+   else if (comest->fun > 0)
+    add_morale(MOR_FOOD_GOOD, comest->fun);
+   if (!is_npc() && (hunger < -20 || thirst < -20))
     g->add_msg("You can't finish it all!");
    if (hunger < -20)
     hunger = -20;
@@ -3700,77 +3751,84 @@ bool player::eat(game *g, char let)
    weapon = ret_null;
   else if (which == -2) {
    weapon.contents.erase(weapon.contents.begin());
-   g->add_msg("You are now wielding an empty %s.", weapon.tname().c_str());
+   if (!is_npc())
+    g->add_msg("You are now wielding an empty %s.", weapon.tname().c_str());
   } else if (which >= 0 && which < inv.size())
    i_remn(which);
   else if (which >= inv.size()) {
    which -= inv.size();
    inv[which].contents.erase(inv[which].contents.begin());
-   g->add_msg("%c - an empty %s", inv[which].invlet,
-                                  inv[which].tname().c_str());
+   if (!is_npc())
+    g->add_msg("%c - an empty %s", inv[which].invlet,
+                                   inv[which].tname().c_str());
    inv_sorted = false;
   }
  }
  return true;
 }
 
-bool player::wield(game *g, char let)
+bool player::wield(game *g, int index)
 {
  if (weapon.type->id == itm_bio_claws) {
   g->add_msg("You cannot unwield your claws!  Withdraw them with 'p'.");
   return false;
  }
- if (let == '-') {
+ if (index == -3) {
   if (!is_armed()) {
    g->add_msg("You are already wielding nothing.");
    return false;
   } else if (volume_carried() + weapon.volume() < volume_capacity()) {
    inv.push_back(remove_weapon());
    inv_sorted = false;
+   moves -= 20;
+   recoil = 0;
    return true;
   } else if (query_yn("No space in inventory for your %s.  Drop it?",
                       weapon.tname().c_str())) {
-    g->m.add_item(posx, posy, remove_weapon());
-    return true;
-  } else {
-    return false;
-  }
+   g->m.add_item(posx, posy, remove_weapon());
+   recoil = 0;
+   return true;
+  } else
+   return false;
  }
- for (int i = 0; i < inv.size(); i++) {
-  if (inv[i].invlet == let) {
-   if (inv[i].is_two_handed(this) && !has_two_arms()) {
-    g->add_msg("You cannot wield a %s with only one arm.",
-               inv[i].tname().c_str());
-    return false;
-   }
-   if (!is_armed()) {
-    weapon = inv[i];
-    i_remn(i);
-    return true;
-   } else if (volume_carried() + weapon.volume() - inv[i].volume() <
-              volume_capacity()) {
-    inv.push_back(remove_weapon());
-    weapon = inv[i];
-    i_remn(i);
-    inv_sorted = false;
-    return true;
-   } else if (query_yn("No space in inventory for your %s.  Drop it?",
-                       weapon.tname().c_str())) {
-    g->m.add_item(posx, posy, remove_weapon());
-    weapon = inv[i];
-    i_remn(i);
-    inv_sorted = false;
-    return true;
-   } else {
-    return false;
-   }
-  }
+ if (index == -1) {
+  g->add_msg("You're already wielding that!");
+  return false;
+ } else if (index == -2) {
+  g->add_msg("You don't have that item.");
+  return false;
  }
- if (weapon.invlet == let)
-  g->add_msg("You are already wielding your %s.", weapon.tname().c_str());
- else
-  g->add_msg("You do not have that item.");
+
+ if (inv[index].is_two_handed(this) && !has_two_arms()) {
+  g->add_msg("You cannot wield a %s with only one arm.",
+             inv[index].tname().c_str());
+  return false;
+ }
+ if (!is_armed()) {
+  weapon = inv[index];
+  i_remn(index);
+  moves -= 30;
+  return true;
+ } else if (volume_carried() + weapon.volume() - inv[index].volume() <
+            volume_capacity()) {
+  inv.push_back(remove_weapon());
+  weapon = inv[index];
+  i_remn(index);
+  inv_sorted = false;
+  moves -= 45;
+  return true;
+ } else if (query_yn("No space in inventory for your %s.  Drop it?",
+                     weapon.tname().c_str())) {
+  g->m.add_item(posx, posy, remove_weapon());
+  weapon = inv[index];
+  i_remn(index);
+  inv_sorted = false;
+  moves -= 30;
+  return true;
+ }
+
  return false;
+
 }
 
 bool player::wear(game *g, char let)
@@ -3876,7 +3934,7 @@ void player::use(game *g, char let)
   it_tool *tool = dynamic_cast<it_tool*>(used->type);
   if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use) {
    iuse use;
-   (use.*tool->use)(g, used, false);
+   (use.*tool->use)(g, this, used, false);
    used->charges -= tool->charges_per_use;
   } else
    g->add_msg("Your %s doesn't have enough charges.", used->tname().c_str());
@@ -4188,14 +4246,14 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
    }
 // Wool, leather, and cotton clothing may be damaged by CUTTING damage
    if ((worn[i].made_of(WOOL)   || worn[i].made_of(LEATHER) ||
-        worn[i].made_of(COTTON) || worn[i].made_of(GLASS) ||
-        worn[i].made_of(WOOD)) &&
+        worn[i].made_of(COTTON) || worn[i].made_of(GLASS)   ||
+        worn[i].made_of(WOOD)   || worn[i].made_of(KEVLAR)) &&
        rng(0, tmp->cut_resist * 2) < cut && !one_in(cut))
     worn[i].damage++;
 // Kevlar, plastic, iron, steel, and silver may be damaged by BASHING damage
-   if ((worn[i].made_of(KEVLAR) || worn[i].made_of(PLASTIC) ||
-        worn[i].made_of(IRON)   || worn[i].made_of(STEEL) ||
-        worn[i].made_of(SILVER) || worn[i].made_of(STONE)) &&
+   if ((worn[i].made_of(PLASTIC) || worn[i].made_of(IRON)   ||
+        worn[i].made_of(STEEL)   || worn[i].made_of(SILVER) ||
+        worn[i].made_of(STONE))  &&
        rng(0, tmp->dmg_resist * 2) < dam && !one_in(dam))
     worn[i].damage++;
    if (worn[i].damage >= 5) {
@@ -4282,7 +4340,6 @@ void player::practice(skill s, int amount)
  }
  for (int i = 0; i < amount; i++) {
   if ((savant == sk_null || savant == s || !one_in(2)) &&
-      (has_trait(PF_FASTLEARNER) || one_in((2 + sklevel[s]) / 2)) &&
       rng(0, 100) < comprehension_percent(s))
    skexercise[s]++;
  }

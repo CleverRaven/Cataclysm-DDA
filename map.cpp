@@ -574,10 +574,10 @@ void map::process_active_items(game *g)
    for (int n = 0; n < i_at(i, j).size(); n++) {
     if (i_at(i, j)[n].active) {
      tmp = dynamic_cast<it_tool*>(i_at(i, j)[n].type);
-     (use.*tmp->use)(g, &i_at(i, j)[n], true);
+     (use.*tmp->use)(g, &(g->u), &i_at(i, j)[n], true);
      i_at(i, j)[n].charges -= tmp->charges_per_sec;
      if (i_at(i, j)[n].charges <= 0) {
-      (use.*tmp->use)(g, &i_at(i, j)[n], false);
+      (use.*tmp->use)(g, &(g->u), &i_at(i, j)[n], false);
       if (tmp->revert_to == itm_null) {
        i_at(i, j).erase(i_at(i, j).begin() + n);
        n--;
@@ -836,6 +836,10 @@ bool map::sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc)
 
 std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
 {
+/* TODO: If the origin or destination is out of bound, figure out the closest
+ * in-bounds point and go to that, then to the real origin/destination.
+ */
+
  if (!inbounds(Fx, Fy) || !inbounds(Tx, Ty)) {
   int linet;
   if (sees(Fx, Fy, Tx, Ty, -1, linet))
@@ -918,6 +922,7 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
   list[open[index].x][open[index].y] = ASL_CLOSED;
   open.erase(open.begin() + index);
  } while (!done && open.size() > 0);
+
  std::vector<point> tmp;
  std::vector<point> ret;
  if (done) {

@@ -17,7 +17,7 @@ void event::actualize(game *g)
   } else {
    int num = rng(1, 6);
    for (int i = 0; i < num; i++) {
-    tmp.randomize_from_fact(g, relevant_faction);
+    tmp.randomize_from_faction(g, relevant_faction);
     tmp.attitude = NPCATT_DEFEND;
     tmp.posx = g->u.posx - SEEX * 2 + rng(-5, 5);
     tmp.posy = g->u.posy - SEEY * 2 + rng(-5, 5);

@@ -19,10 +19,13 @@ class player {
 public:
  player();
  ~player();
+
+// newcharacter.cpp 
  bool create(game *g, character_type type);
  int random_good_trait(character_type type);
  int random_bad_trait (character_type type);
  void normalize(game *g);	// Starting set up of HP and inventory
+// </newcharacter.cpp>
 
  virtual bool is_npc() { return false; }	// Overloaded for NPCs in npc.h
  nc_color color();				// What color to draw us as
@@ -55,16 +58,19 @@ public:
  bool is_in_sunlight(game *g);
  bool has_two_arms();
  bool can_wear_boots();
- bool is_armed();	// Whether we're wielding something; true for bionics
- bool avoid_trap(trap * tr);
+ bool is_armed();	// True if we're wielding something; true for bionics
+ bool unarmed_attack(); // False if we're wielding something; true for bionics
+ bool avoid_trap(trap *tr);
 
  void pause();		// '.' command; pauses & reduces recoil
+ int  hit_roll(); // Our basic hit roll, compared to our target's dodge roll
  int  hit_mon(game *g, monster *z); // Handles hitting a monster up to its death
 // hit_player returns false on a miss, and modifies bp, hitdam, and hitcut
  bool hit_player(player &p, body_part &bp, int &hitdam, int &hitcut);
  int  dodge();		//Returns the players's dodge, modded by clothing etc
+ int  dodge_roll();	// For comparison to hit_roll()
 
- int throw_range(char ch);	// Range of throwing item; -1:ERR 0:Can't throw
+ int throw_range(int index);	// Range of throwing item; -1:ERR 0:Can't throw
  int base_damage	(bool real_life = true);
  int base_to_hit	(bool real_life = true);
  int ranged_dex_mod	(bool real_life = true);
@@ -82,7 +88,8 @@ public:
 // hurt() doesn't--effects of disease, what have you
  void hurt  (game *g, body_part bphurt, int side, int  dam);
 
- void heal(body_part bpheal, int side, int dam);
+ void heal(body_part healed, int side, int dam);
+ void heal(hp_part healed, int dam);
  void healall(int dam);
  void hurtall(int dam);
 
@@ -99,15 +106,16 @@ public:
  int  disease_level(dis_type type);
 
  void add_addiction(add_type type, int strength);
- bool has_addiction(add_type type);
  void rem_addiction(add_type type);
+ bool has_addiction(add_type type);
  int  addiction_level(add_type type);
 
  void suffer(game *g);
  void vomit(game *g);
  
- bool eat(game *g, char let);	// Eat item; returns false on fail
- bool wield(game *g, char let);	// Wield item; returns false on fail
+ int  lookup_item(char let);
+ bool eat(game *g, int index);	// Eat item; returns false on fail
+ virtual bool wield(game *g, int index);// Wield item; returns false on fail
  bool wear(game *g, char let);	// Wear item; returns false on fail
  bool takeoff(game *g, char let);// Take off item; returns false on fail
  void use(game *g, char let);	// Use a tool

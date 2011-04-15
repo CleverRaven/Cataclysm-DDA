@@ -23,6 +23,7 @@ public:
 // returns the default container of this item, with this item in it
  item in_its_container(std::vector<itype*> *itypes);
 
+ nc_color color(player *u);
  std::string tname();
  void use(player &u);
 
@@ -52,7 +53,10 @@ public:
  int volume_contained();
  int attack_time();
 
+// Our value as a weapon, giving particular skills
  int  weapon_value(int skills[num_skill_types]);
+// As above, but discounts its use as a ranged weapon
+ int  melee_value(int skills[num_skill_types]);
  bool is_two_handed(player *u);
  bool made_of(material mat);
  bool conductive();

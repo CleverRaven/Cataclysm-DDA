@@ -307,7 +307,7 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_PKILL1:
-  if (dis.duration <= 70 && dis.duration % 7 == 0 && p.pkill < 35)
+  if (dis.duration <= 70 && dis.duration % 7 == 0 && p.pkill < 15)
    p.pkill++;
   break;
 
@@ -326,7 +326,7 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_PKILL_L:
-  if (dis.duration % 20 == 0 && p.pkill < 49 &&
+  if (dis.duration % 20 == 0 && p.pkill < 40 &&
       (one_in(p.addiction_level(ADD_PKILLER)) ||
        one_in(p.addiction_level(ADD_PKILLER))   ))
    p.pkill++;

@@ -252,9 +252,10 @@ It takes a lot to bring you down!  You get a 20%% bonus to all hit points."},
 Your skin is tough.  Cutting damage is slightly reduced for you."},
 {"Packmule", 3, false, "\
 You can manage to find space for anything!  You can carry 40%% more volume."},
-{"Fast Learner", 4, false, "\
-You learn skills at twice the normal rate!  Note that this only applies to\n\
-real-world experience, not to skill gain from other sources like books."},
+{"Fast Learner", 3, false, "\
+Your skill comprehension is 50%% higher, allowing you to learn skills much\n\
+faster than others.  Note that this only applies to real-world experience,\n\
+not to skill gain from other sources like books."},
 {"Deft", 2, false, "\
 While you're not any better at melee combat, you are better at recovering\n\
 from a miss, and will be able to attempt another strike faster."},

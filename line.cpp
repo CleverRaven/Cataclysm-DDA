@@ -71,37 +71,52 @@ int rl_dist(int x1, int y1, int x2, int y2)
  return dy;
 }
 
-std::string direction_from(int x1, int y1, int x2, int y2)
+direction direction_from(int x1, int y1, int x2, int y2)
 {
  int dx = x2 - x1;
  int dy = y2 - y1;
  if (dx < 0) {
   if (abs(dx) >> 1 > abs(dy) || dy == 0) {
-   return "the west";
+   return WEST;
   } else if (abs(dy) >> 1 > abs(dx)) {
    if (dy < 0)
-    return "the north";
+    return NORTH;
    else
-    return "the south";
+    return SOUTH;
   } else {
    if (dy < 0)
-    return "the northwest";
+    return NORTHWEST;
    else
-    return "the southwest";
+    return SOUTHWEST;
   }
  } else {
   if (dx >> 1 > abs(dy) || dy == 0) {
-   return "the east";
+   return EAST;
   } else if (abs(dy) >> 1 > dx || dx == 0) {
    if (dy < 0)
-    return "the north";
+    return NORTH;
    else
-    return "the south";
+    return SOUTH;
   } else {
    if (dy < 0)
-    return "the northeast";
+    return NORTHEAST;
    else
-    return "the southeast";
+    return SOUTHEAST;
   }
  }
+}
+
+std::string direction_name(direction dir)
+{
+ switch (dir) {
+  case NORTH:     return "north";
+  case NORTHEAST: return "northeast";
+  case EAST:      return "east";
+  case SOUTHEAST: return "southeast";
+  case SOUTH:     return "south";
+  case SOUTHWEST: return "southwest";
+  case WEST:      return "west";
+  case NORTHWEST: return "northwest";
+ }
+ return "WEIRD DIRECTION_NAME() BUG";
 }

@@ -129,12 +129,12 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_dynamite_act, itm_mininuke, itm_mininuke_act, itm_pheromone, itm_portal,
  itm_bot_manhack, itm_UPS_off, itm_UPS_on, itm_tazer, itm_mp3, itm_mp3_on,
 // Bionics containers
-itm_bionics_battery, itm_bionics_power, itm_bionics_tools, itm_bionics_neuro,
- itm_bionics_sensory, itm_bionics_aquatic, itm_bionics_combat_aug,
- itm_bionics_hazmat, itm_bionics_nutritional, itm_bionics_desert,
- itm_bionics_melee, itm_bionics_armor, itm_bionics_espionage,
- itm_bionics_defense, itm_bionics_medical, itm_bionics_construction,
- itm_bionics_super, itm_bionics_ranged,
+itm_bionics_battery,       itm_bionics_power,   itm_bionics_tools,
+ itm_bionics_neuro,        itm_bionics_sensory, itm_bionics_aquatic,
+ itm_bionics_combat_aug,   itm_bionics_hazmat,  itm_bionics_nutritional,
+ itm_bionics_desert,       itm_bionics_melee,   itm_bionics_armor,
+ itm_bionics_espionage,    itm_bionics_defense, itm_bionics_medical,
+ itm_bionics_construction, itm_bionics_super,   itm_bionics_ranged,
 // Static (non-random) artifacts should go here.
 num_items,
 // These shouldn't be counted among "normal" items; thus, they are outside the
@@ -257,7 +257,7 @@ struct it_comest : public itype
 
  virtual bool is_food() { return true; }
 
- void (iuse::*use)(game *, item *, bool);	// Special effects of use
+ void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
  add_type add;				// Effects of addiction
 
  it_comest(unsigned short pid, unsigned char prarity, unsigned int pprice,
@@ -270,7 +270,7 @@ struct it_comest : public itype
            signed char pquench, unsigned char pnutr, signed char pspoils,
            signed char pstim, signed char phealthy, unsigned char paddict,
            unsigned char pcharges, signed char pfun, itype_id pcontainer,
-           itype_id ptool, void (iuse::*puse)(game *, item *, bool),
+           itype_id ptool, void (iuse::*puse)(game *, player *, item *, bool),
            add_type padd) 
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
@@ -494,7 +494,7 @@ struct it_tool : public itype
  unsigned char charges_per_use;
  unsigned char charges_per_sec;
  itype_id revert_to;
- void (iuse::*use)(game *, item *, bool);
+ void (iuse::*use)(game *, player *, item *, bool);
  virtual bool is_tool() { return true; }
  it_tool(unsigned short pid, unsigned char prarity, unsigned int pprice,
          std::string pname, std::string pdes,
@@ -505,7 +505,7 @@ struct it_tool : public itype
          unsigned int pmax_charges, unsigned int pdef_charges,
          unsigned char pcharges_per_use, unsigned char pcharges_per_sec,
          ammotype pammo, itype_id prevert_to,
-	 void (iuse::*puse)(game *, item *, bool))
+	 void (iuse::*puse)(game *, player *, item *, bool))
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   max_charges = pmax_charges;
