@@ -30,9 +30,12 @@ struct tag_data
 };
 
 enum talk_topic {
- TALK_NONE = 0,
+ TALK_NONE = 0,		// Nothing; let the player take the lead
  TALK_INQUIRE,		// Inquire about what the player's doing
- TALK_
+ TALK_JOIN,		// Ask to join forces
+ TALK_TRADE,		// Look to trade goods
+ NUM_TALK_TOPICS
+};
 
 std::string talk_needs[num_needs][5] = {
 {"", "", "", "", ""},
