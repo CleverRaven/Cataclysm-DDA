@@ -27,11 +27,12 @@ struct tag_data
 {
  std::string tag;
  std::string (*replacement)[10];
-/*
- tag_data(std::string T, std::string *R[]) :
-   tag (T), replacement (R);
-*/
 };
+
+enum talk_topic {
+ TALK_NONE = 0,
+ TALK_INQUIRE,		// Inquire about what the player's doing
+ TALK_
 
 std::string talk_needs[num_needs][5] = {
 {"", "", "", "", ""},

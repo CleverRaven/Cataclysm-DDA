@@ -48,10 +48,8 @@ void npc::talk_to_u(game *g)
    say_put_em_up(g, d);
   else if (attitude == NPCATT_TALK && needs.size() > 0 && needs[0] != need_none)
    say_ask_for(g, d, needs[0]);
-/*
   else if (attitude == NPCATT_TALK)
    say_hello(g, d);
-*/
   else
    say_listen(g, d);
  } while (!d.done);
