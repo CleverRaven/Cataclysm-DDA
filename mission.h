@@ -29,7 +29,7 @@ enum mission_goal {
  NUM_MGOAL
 };
 
-struct mis_place {	// Return true if [posx,posy] is valid in om
+struct mission_place {	// Return true if [posx,posy] is valid in overmap
  bool never		(game *g, int posx, int posy) { return false; }
  bool always		(game *g, int posx, int posy) { return true;  }
  bool danger		(game *g, int posx, int posy);
@@ -38,52 +38,65 @@ struct mis_place {	// Return true if [posx,posy] is valid in om
  bool kidnap_victim	(game *g, int posx, int posy);
 };
 
-struct mis_start {	// These functions are run when a mission starts
+/* mission_update functions are first run when a mission is accepted; this
+ * initializes the mission's key values, like the target and description.
+ * These functions are also run once a turn for each active mission, to check
+ * if the current goal has been reached.  At that point they either update the
+ * goal, or run the appropriate mission_end function.
+ */
+struct mission_update {
  void standard		(game *, mission *);
+ void danger		(game *, mission *);
  void get_jelly		(game *, mission *);
  void get_jelly_ignt	(game *, mission *);
  void lost_npc		(game *, mission *);
  void kidnap_victim	(game *, mission *);
 };
 
-struct mis_end {	// These functions are run when a mission ends
+struct mission_end {	// These functions are run when a mission ends
  void standard		(game *){}; // Nothing special happens
  void join_faction	(game *){}; // Offer to join GOODFAC
  void get_jelly		(game *){}; // Cure whoever was sick
  void get_jelly_ignt	(game *){}; // ^, plus teach about royal jelly
  void lost_npc		(game *){};
  void kidnap_victim	(game *){};
+ void demo		(game *){};
 };
 
 struct mission_type {
  std::string name;	// The name the mission is given in menus
  mission_goal goal;	// The basic goal type
  int difficulty;	// Difficulty; TODO: come up with a scale
+ int deadline_low, deadline_high; // Low and high deadlines (turn numbers)
 
  std::vector<mission_origin> origins;	// Points of origin
  std::vector<std::string> intros;
 
  std::vector<itype_id> items;
 
- bool (mis_place::*place)(game *g, int x, int y);
- void (mis_start::*start)(game *g, mission *miss);
- void (mis_end  ::*end  )(game *g);
+ bool  (mission_place ::*place )(game *g, int x, int y);
+ void  (mission_update::*update)(game *g);
+ void  (mission_end   ::*end   )(game *g);
 
  mission_type(std::string NAME, mission_goal GOAL, int DIF,
-              bool (mis_place::*PLACE)(game *, int x, int y),
-              void (mis_start::*START)(game *, mission *miss),
-              void (mis_end::*END)(game *)) :
-  name (NAME), goal (GOAL), difficulty (DIF), place (PLACE), start (START),
-  end (END) {};
+              bool (mission_place::*PLACE)(game *, int x, int y),
+              void (mission_update::*UPDATE)(game *, mission *),
+              void (mission_end::*END)(game *)) :
+  name (NAME), goal (GOAL), difficulty (DIF), place (PLACE), update (UPDATE),
+  end (END) { deadline_low = 0; deadline_high = 0; };
+
+ mission create(game *g); // Create a mission based on this template
 };
 
 struct mission {
  mission_goal goal;
- point target;// Marked on map.  (-1,-1) for none
+ void (mission_update::*update)(game *g, 
+ std::string description; // Basic descriptive text
+ point target;	// Marked on the player's map.  (-1,-1) for none
  int deadline;	// Turn number
- itype_id item_id;
- int count;
- int npc_id;	// ID of a related npc
+ itype_id item_id;	// Item that needs to be found (or whatever)
+ int count;		// How many of that item
+ int npc_id;		// ID of a related npc
  int good_fac_id, bad_fac_id;	// IDs of the protagonist/antagonist factions
 };
 

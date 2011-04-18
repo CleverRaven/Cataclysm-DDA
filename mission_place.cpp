@@ -3,12 +3,12 @@
 
 #define MAX_HIVE_DIST 30
 
-bool mis_place::danger(game *g, int posx, int posy)
+bool mission_place::danger(game *g, int posx, int posy)
 {
  return (g->cur_om.monsters_at(posx, posy).size() > 0);
 }
 
-bool mis_place::get_jelly(game *g, int posx, int posy)
+bool mission_place::get_jelly(game *g, int posx, int posy)
 {
 // First, make sure there's fungaloids here to cause the infection.
  std::vector<mongroup> monsters = g->cur_om.monsters_at(posx, posy);
@@ -30,7 +30,7 @@ bool mis_place::get_jelly(game *g, int posx, int posy)
  return true;
 }
 
-bool mis_place::lost_npc(game *g, int posx, int posy)
+bool mission_place::lost_npc(game *g, int posx, int posy)
 {
 // Basically, just don't do it in the middle of a field
  for (int x = posx - 5; x <= posx + 5; x++) {
@@ -42,7 +42,7 @@ bool mis_place::lost_npc(game *g, int posx, int posy)
  return true;
 }
 
-bool mis_place::kidnap_victim(game *g, int posx, int posy)
+bool mission_place::kidnap_victim(game *g, int posx, int posy)
 {
 // We need to have at least one faction, to do the kidnapping
 // The victim may or may not belong to a faction.

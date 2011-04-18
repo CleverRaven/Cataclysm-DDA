@@ -2153,8 +2153,8 @@ TOOL("chainsaw (on)",	 0, 350,'/', c_red,	IRON,	PLASTIC,
 This chainsaw is on, and is continuously draining gasoline.  Use it to turn\n\
 it off.");
 
-TOOL("jackhammer",	 3, 890,';', c_magenta,	IRON,	MNULL,
-   13, 54, 20,  6, -4, 120, 120,2,  0, AT_GAS,	itm_null, &iuse::jackhammer, "\
+TOOL("jackhammer",	 2, 890,';', c_magenta,	IRON,	MNULL,
+   13, 54, 20,  6, -4, 120,  0, 2,  0, AT_GAS,	itm_null, &iuse::jackhammer, "\
 This jackhammer runs on gasoline.  Use it (if loaded) to blast a hole in\n\
 adjacent solid terrain.");
 

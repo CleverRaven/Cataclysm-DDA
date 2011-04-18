@@ -82,6 +82,7 @@ class game
 
   char inv(std::string title = "INVENTORY:");
   faction* list_factions(std::string title = "FACTIONS:");
+  void list_missions();
   point find_item(item *it);
   void remove_item(item *it);
 

@@ -14,6 +14,7 @@
 class monster;
 class game;
 class trap;
+class mission;
 
 class player {
 public:
@@ -173,6 +174,10 @@ public:
 // ---------------VALUES-----------------
  int posx, posy;
  player_activity activity;
+ std::vector<mission> active_missions;
+ std::vector<mission> completed_missions;
+ std::vector<mission> failed_missions;
+ int active_mission;
  
  std::string name;
  bool male;

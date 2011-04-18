@@ -134,7 +134,13 @@ void item::put_in(item payload)
 
 std::string item::save_info()
 {
+ if (type == NULL)
+  debugmsg("Tried to save an item with NULL type!");
  int ammotmp = 0;
+/* TODO: This causes a segfault sometimes, even though we check to make sure
+ * curammo isn't NULL.  The crashes seem to occur most frequently when saving an
+ * NPC, or when saving map data containing an item an NPC has dropped.
+ */
  if (is_gun() && curammo != NULL)
   ammotmp = curammo->id;
  std::stringstream dump;// (std::stringstream::in | std::stringstream::out);
@@ -148,8 +154,10 @@ std::string item::save_info()
   dump << " 1";
  else
   dump << " 0";
- if (type->id == itm_corpse)
+ if (corpse != NULL)
   dump << " " << corpse->id;
+ else
+  dump << " -1";
  dump << " '" << name << "'";
  return dump.str();
 }
@@ -158,19 +166,16 @@ void item::load_info(std::string data, game *g)
 {
  std::stringstream dump;
  dump << data;
- int idtmp, ammotmp, lettmp, damtmp, acttmp, owntmp;
+ int idtmp, ammotmp, lettmp, damtmp, acttmp, owntmp, corp;
  dump >> lettmp >> idtmp >> charges >> damtmp >> ammotmp >> bday >> acttmp >>
-         owntmp;
- if (idtmp == itm_corpse) {
-  int corp;
-  dump >> corp;
+         owntmp >> corp;
+ if (corp != -1)
   corpse = g->mtypes[corp];
- }
  getline(dump, name);
  if (name == " ''")
   name = "";
  else
-  name = name.substr(2, name.size() - 3);
+  name = name.substr(2, name.size() - 3); // s/^ '(.*)'$/\1/
  make(g->itypes[idtmp]);
  invlet = char(lettmp);
  damage = damtmp;
@@ -355,11 +360,11 @@ nc_color item::color(player *u)
 {
  nc_color ret = c_ltgray;
 
- if (is_gun()) {
+ if (is_gun()) { // Guns are green if you are carrying ammo for them
   ammotype amtype = ammo();
   if (u->has_ammo(amtype).size() > 0)
    ret = c_green;
- } else if (is_ammo()) {
+ } else if (is_ammo()) { // Likewise, ammo is green if you have guns that use it
   ammotype amtype = ammo();
   if (u->weapon.is_gun() && u->weapon.ammo() == amtype)
    ret = c_green;
@@ -381,7 +386,7 @@ nc_color item::color(player *u)
  return ret;
 }
 
-std::string item::tname()
+std::string item::tname(game *g)
 {
  std::stringstream ret;
 
@@ -460,6 +465,16 @@ std::string item::tname()
   ret << type->name << ", full";
  else
   ret << type->name;
+
+ it_comest* food = NULL;
+ if (is_food())
+  food = dynamic_cast<it_comest*>(type);
+ else if (is_food_container())
+  food = dynamic_cast<it_comest*>(contents[0].type);
+ if (food != NULL && g != NULL && food->spoils != 0 &&
+     g->turn - bday > food->spoils)
+  ret << " (rotten)";
+
 
  if (owned)
   ret << " (owned)";

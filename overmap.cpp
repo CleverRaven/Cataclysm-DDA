@@ -546,14 +546,16 @@ point overmap::choose_point(game *g)
   oter_id cur_ter;
   nc_color ter_color;
   long ter_sym;
-  if (cursx < 40) {
+/* First, determine if we're close enough to the edge to need to load an
+ * adjacent overmap, and load it/them. */
+  if (cursx < 25) {
    hori = overmap(g, posx - 1, posy, posz);
    if (cursy < 12)
     diag = overmap(g, posx - 1, posy - 1, posz);
    if (cursy > OMAPY - 14)
     diag = overmap(g, posx - 1, posy + 1, posz);
   }
-  if (cursx > OMAPX - 41) {
+  if (cursx > OMAPX - 26) {
    hori = overmap(g, posx + 1, posy, posz);
    if (cursy < 12)
     diag = overmap(g, posx + 1, posy - 1, posz);
@@ -565,7 +567,7 @@ point overmap::choose_point(game *g)
   if (cursy > OMAPY - 14)
    vert = overmap(g, posx, posy + 1, posz);
 
-  for (int i = -40; i < 40; i++) {
+  for (int i = -25; i < 25; i++) {
    for (int j = -12; j <= (ch == 'j' ? 13 : 12); j++) {
     omx = cursx + i;
     omy = cursy + j;
@@ -586,6 +588,7 @@ point overmap::choose_point(game *g)
        npc_name = "";
       }
      }
+// <Out of bounds placement>
     } else if (omx < 0) {
      omx += OMAPX;
      if (omy < 0 || omy >= OMAPY) {
@@ -645,14 +648,14 @@ point overmap::choose_point(game *g)
       ter_color = oterlist[cur_ter].color;
       ter_sym = oterlist[cur_ter].sym;
      }
-    } else {
+    } else { // We haven't explored this tile yet
      ter_color = c_dkgray;
      ter_sym = '#';
     }
     if (j == 0 && i == 0)
-     mvwputch_hi (w_map, 12,     40,     ter_color, ter_sym);
+     mvwputch_hi (w_map, 12,     25,     ter_color, ter_sym);
     else
-     mvwputch    (w_map, 12 + j, 40 + i, ter_color, ter_sym);
+     mvwputch    (w_map, 12 + j, 25 + i, ter_color, ter_sym);
    }
   }
   if (has_note(cursx, cursy)) {
@@ -671,21 +674,22 @@ point overmap::choose_point(game *g)
   }
   if (legend) {
    cur_ter = ter(cursx, cursy);
-   mvwputch(w_map, 16, 50, c_white, LINE_OXXO);
+// Draw the vertical line
+   for (int j = 0; j < 25; j++)
+    mvwputch(w_map, j, 51, c_white, LINE_XOXO);
 // Clear the legend
    for (int i = 51; i < 80; i++) {
-    mvwputch(w_map, 16, i, c_white, LINE_OXOX);
-    for (int j = 17; j < 25; j++)
+    for (int j = 0; j < 25; j++)
      mvwputch(w_map, j, i, c_black, 'x');
    }
-   for (int i = 17; i < 25; i++)
-    mvwputch(w_map, i, 50, c_white, LINE_XOXO);
+
    if (seen(cursx, cursy)) {
-    mvwputch(w_map, 17, 51, oterlist[cur_ter].color, oterlist[cur_ter].sym);
-    mvwprintz(w_map, 17, 53, oterlist[cur_ter].color, "%s",
+    mvwputch(w_map, 1, 51, oterlist[cur_ter].color, oterlist[cur_ter].sym);
+    mvwprintz(w_map, 1, 53, oterlist[cur_ter].color, "%s",
               oterlist[cur_ter].name.c_str());
    } else
-    mvwprintz(w_map, 17, 51, c_dkgray, "# Unexplored");
+    mvwprintz(w_map, 1, 51, c_dkgray, "# Unexplored");
+
    mvwprintz(w_map, 19, 51, c_magenta,           "Use movement keys to pan.  ");
    mvwprintz(w_map, 20, 51, c_magenta,           "0 - Center map on character");
    mvwprintz(w_map, 21, 51, c_magenta,           "t - Toggle legend          ");
@@ -693,15 +697,15 @@ point overmap::choose_point(game *g)
    mvwprintz(w_map, 23, 51, c_magenta,           "N - Add a note             ");
    mvwprintz(w_map, 24, 51, c_magenta,           "Esc or q - Return to game  ");
   }
+// Done with all drawing!
   wrefresh(w_map);
   ch = input();
 
+  int dirx, diry;
   if (ch != ERR)
    blink = true;	// If any input is detected, make the blinkies on
-  if (ch == 'y' || ch == 'u' || ch == 'h' || ch == 'j' || ch == 'k' ||
-      ch == 'l' || ch == 'b' || ch == 'n') {
-   int dirx, diry;
-   get_direction(dirx, diry, ch);
+  get_direction(dirx, diry, ch);
+  if (dirx != -2 && diry != -2) {
    cursx += dirx;
    cursy += diry;
   } else if (ch == '0') {
@@ -709,7 +713,7 @@ point overmap::choose_point(game *g)
    cursy = origy;
   } else if (ch == '\n')
    ret = point(cursx, cursy);
-  else if (ch == KEY_ESCAPE)
+  else if (ch == KEY_ESCAPE || ch == 'q' || ch == 'Q')
    ret = point(-1, -1);
   else if (ch == 'N') {
    timeout(-1);
@@ -745,9 +749,10 @@ point overmap::choose_point(game *g)
     cursx = found.x;
     cursy = found.y;
    }
-  } else if (ch == 't')
+  }/* else if (ch == 't')  *** Legend always on for now! ***
    legend = !legend;
-  else if (ch == ERR)
+*/
+  else if (ch == ERR)	// Hit timeout on input, so make characters blink
    blink = !blink;
  } while (ch != KEY_ESCAPE && ch != 'q' && ch != 'Q' && ch != ' ' && ch != '\n');
  timeout(-1);

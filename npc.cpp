@@ -178,9 +178,9 @@ void npc::randomize(game *g, npc_class type)
  weapon.make(g->itypes[itm_null]);
  inv.clear();
  personality.aggression = rng(-10, 10);
- personality.bravery = rng(-10, 10);
- personality.collector = rng(-10, 10);
- personality.altruism = rng(-10, 10);
+ personality.bravery =    rng(-10, 10);
+ personality.collector =  rng(-10, 10);
+ personality.altruism =   rng(-10, 10);
  cash = 100 * rng(0, 20) + 10 * rng(0, 30) + rng(0, 50);
  moves = 100;
  mission = NPC_MISSION_NULL;
@@ -789,6 +789,7 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
   while (total_space > 0 && !one_in(50)) {
    tmp = itype_id(rng(2, num_items - 1));
 // Make sure the item *isn't* in the list of not-okay items
+// TODO: Make this more efficient
    for (int i = 0; i < g->mapitems[mi_trader_avoid].size(); i++) {
     if (tmp == g->mapitems[mi_trader_avoid][i]) {
      tmp = itype_id(rng(2, num_items - 1));
@@ -912,22 +913,22 @@ void npc::starting_weapon(game *g)
  switch (best) {
  case sk_bashing:
   switch (rng(0, 5)) {
-   case 0: weapon.make(g->itypes[itm_hammer]); break;
-   case 1: weapon.make(g->itypes[itm_wrench]); break;
+   case 0: weapon.make(g->itypes[itm_hammer]);        break;
+   case 1: weapon.make(g->itypes[itm_wrench]);        break;
    case 2: weapon.make(g->itypes[itm_hammer_sledge]); break;
-   case 3: weapon.make(g->itypes[itm_pipe]); break;
-   case 4: weapon.make(g->itypes[itm_bat]); break;
-   case 5: weapon.make(g->itypes[itm_crowbar]); break;
+   case 3: weapon.make(g->itypes[itm_pipe]);          break;
+   case 4: weapon.make(g->itypes[itm_bat]);           break;
+   case 5: weapon.make(g->itypes[itm_crowbar]);       break;
   }
   break;
  case sk_cutting:
   switch (rng(0, 5)) {
    case 0: weapon.make(g->itypes[itm_knife_butcher]); break;
-   case 1: weapon.make(g->itypes[itm_hatchet]); break;
-   case 2: weapon.make(g->itypes[itm_ax]); break;
-   case 3: weapon.make(g->itypes[itm_machete]); break;
-   case 4: weapon.make(g->itypes[itm_knife_combat]); break;
-   case 5: weapon.make(g->itypes[itm_katana]); break;
+   case 1: weapon.make(g->itypes[itm_hatchet]);       break;
+   case 2: weapon.make(g->itypes[itm_ax]);            break;
+   case 3: weapon.make(g->itypes[itm_machete]);       break;
+   case 4: weapon.make(g->itypes[itm_knife_combat]);  break;
+   case 5: weapon.make(g->itypes[itm_katana]);        break;
   }
   break;
  case sk_throw:
