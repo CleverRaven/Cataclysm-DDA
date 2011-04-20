@@ -38,13 +38,13 @@ struct mission_place {	// Return true if [posx,posy] is valid in overmap
  bool kidnap_victim	(game *g, int posx, int posy);
 };
 
-/* mission_update functions are first run when a mission is accepted; this
+/* mission_start functions are first run when a mission is accepted; this
  * initializes the mission's key values, like the target and description.
  * These functions are also run once a turn for each active mission, to check
- * if the current goal has been reached.  At that point they either update the
+ * if the current goal has been reached.  At that point they either start the
  * goal, or run the appropriate mission_end function.
  */
-struct mission_update {
+struct mission_start {
  void standard		(game *, mission *);
  void danger		(game *, mission *);
  void get_jelly		(game *, mission *);
@@ -74,23 +74,22 @@ struct mission_type {
 
  std::vector<itype_id> items;
 
- bool  (mission_place ::*place )(game *g, int x, int y);
- void  (mission_update::*update)(game *g);
- void  (mission_end   ::*end   )(game *g);
+ bool (mission_place::*place)(game *g, int x, int y);
+ void (mission_start::*start)(game *g, mission *);
+ void (mission_end  ::*end  )(game *g);
 
  mission_type(std::string NAME, mission_goal GOAL, int DIF,
               bool (mission_place::*PLACE)(game *, int x, int y),
-              void (mission_update::*UPDATE)(game *, mission *),
+              void (mission_start::*START)(game *, mission *),
               void (mission_end::*END)(game *)) :
-  name (NAME), goal (GOAL), difficulty (DIF), place (PLACE), update (UPDATE),
+  name (NAME), goal (GOAL), difficulty (DIF), place (PLACE), start (START),
   end (END) { deadline_low = 0; deadline_high = 0; };
 
  mission create(game *g); // Create a mission based on this template
 };
 
 struct mission {
- mission_goal goal;
- void (mission_update::*update)(game *g, 
+ mission_type *type;
  std::string description; // Basic descriptive text
  point target;	// Marked on the player's map.  (-1,-1) for none
  int deadline;	// Turn number
@@ -98,6 +97,8 @@ struct mission {
  int count;		// How many of that item
  int npc_id;		// ID of a related npc
  int good_fac_id, bad_fac_id;	// IDs of the protagonist/antagonist factions
+
+ std::string name();
 };
 
 #endif

@@ -4020,7 +4020,7 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
   if (install_bionics(g, tmp))
    i_rem(let);
  } else if (used->is_food() || used->is_food_container())
-  eat(g, let);
+  eat(g, lookup_item(let));
  else if (used->is_book())
   read(g, let);
  else if (used->is_armor())

@@ -1452,9 +1452,59 @@ faction* game::list_factions(std::string title)
 void game::list_missions()
 {
  WINDOW *w_missions = newwin(25, 80, 0, 0);
- int tab = 1;
+ int tab = 0, selection = 0;
  char ch;
+ bool redraw = true;
  do {
+  werase(w_missions);
+  draw_tabs(w_missions, tab, "ACTIVE MISSIONS", "COMPLETED MISSIONS",
+            "FAILED MISSIONS", NULL);
+  std::vector<mission> missions;
+  switch (tab) {
+   case 0: missions = u.active_missions;	break;
+   case 1: missions = u.completed_missions;	break;
+   case 2: missions = u.failed_missions;	break;
+  }
+  for (int y = 3; y < 25; y++)
+   mvwputch(w_missions, y, 50, c_white, LINE_XOXO);
+  for (int i = 0; i < missions.size(); i++) {
+   if (selection == i)
+    mvwprintz(w_missions, 3 + i, 0, h_white, missions[i].name().c_str());
+   else
+    mvwprintz(w_missions, 3 + i, 0, c_white, missions[i].name().c_str());
+  }
+  mvwprintz(w_missions, 4, 51, c_white,
+            missions[selection].description.c_str());
+  if (missions[selection].deadline != 0)
+   mvwprintz(w_missions, 5, 51, c_white, "Deadline: %d (%d)",
+             missions[selection].deadline, turn);
+
+
+  ch = input();
+  switch (ch) {
+  case '>':
+   tab++;
+   if (tab == 3)
+    tab = 0;
+   break;
+  case '<':
+   tab--;
+   if (tab < 0)
+    tab = 2;
+   break;
+  case 'j':
+   selection++;
+   if (selection >= missions.size())
+    selection = 0;
+   break;
+  case 'k':
+   selection--;
+   if (selection < 0)
+    selection = missions.size() - 1;
+   break;
+  }
+   
+ } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
   
 
  werase(w_missions);

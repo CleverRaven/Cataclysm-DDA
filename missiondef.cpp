@@ -12,18 +12,18 @@ void game::init_missions()
 
 // DEADLINE defines the low and high end time limits, in hours
 // Omitting DEADLINE means the mission never times out
- #define DEADLINE(low, high) missions[id].deadline_low = low * 600;\
+ #define DEADLINE(low, high) missions[id].deadline_low  = low  * 600;\
                              missions[id].deadline_high = high * 600
  //#define NPCS   (...) setvector(missions[id].npc
 
  int id = -1;
 
  MISSION("Reach safety", MGOAL_GO_TO, 0, 
-         &mission_place::danger, &mission_update::danger, &mission_end::demo);
+         &mission_place::danger, &mission_start::danger, &mission_end::demo);
    ORIGINS( ORIGIN_GAME_START, NULL);
 
  MISSION("Follow <GOODNPC> to safety", MGOAL_GO_TO, 0,
-         &mission_place::danger, &mission_update::standard,
+         &mission_place::danger, &mission_start::standard,
          &mission_end::standard);
    ORIGINS( ORIGIN_OPENER_NPC, NULL);
    INTROS( "You need to follow <GOODNPC> to a safe area.",
@@ -32,7 +32,7 @@ void game::init_missions()
 
 
  MISSION("Meet up with <GOODFAC>", MGOAL_GO_TO, 2,
-         &mission_place::never, &mission_update::standard,
+         &mission_place::never, &mission_start::standard,
          &mission_end::join_faction);
    ORIGINS( ORIGIN_SECONDARY, NULL);
    INTROS( "<GOODNPC> is a member of <GOODFAC>.  Meet up with them.",
@@ -42,7 +42,7 @@ void game::init_missions()
 
 
  MISSION("Collect a cure", MGOAL_FIND_ITEM, 10,
-         &mission_place::get_jelly, &mission_update::get_jelly,
+         &mission_place::get_jelly, &mission_start::get_jelly,
          &mission_end::get_jelly);
 
    ORIGINS( ORIGIN_RADIO_TOWER, ORIGIN_NPC_MISC, ORIGIN_TOWN_BOARD, NULL);
@@ -55,7 +55,7 @@ void game::init_missions()
  * cures fungitis, and the nearest hive will not be marked on your map.
  */
  MISSION("Collect a cure", MGOAL_FIND_ITEM, 12,
-         &mission_place::get_jelly, &mission_update::get_jelly_ignt,
+         &mission_place::get_jelly, &mission_start::get_jelly_ignt,
          &mission_end::get_jelly_ignt);
 
    ORIGINS( ORIGIN_RADIO_TOWER, ORIGIN_NPC_MISC, ORIGIN_TOWN_BOARD, NULL);
@@ -66,7 +66,7 @@ void game::init_missions()
 
 
  MISSION("Find missing person", MGOAL_FIND_NPC, 8,
-         &mission_place::lost_npc, &mission_update::lost_npc,
+         &mission_place::lost_npc, &mission_start::lost_npc,
          &mission_end::lost_npc);
 
    ORIGINS( ORIGIN_RADIO_TOWER, ORIGIN_NPC_MISC, ORIGIN_NPC_FACTION,
@@ -78,7 +78,7 @@ void game::init_missions()
  
 
  MISSION("Rescue kidnapping victim", MGOAL_FIND_NPC, 16,
-         &mission_place::kidnap_victim, &mission_update::kidnap_victim,
+         &mission_place::kidnap_victim, &mission_start::kidnap_victim,
          &mission_end::kidnap_victim);
 
    ORIGINS( ORIGIN_RADIO_TOWER, ORIGIN_NPC_FACTION, ORIGIN_TOWN_BOARD, NULL);
