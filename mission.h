@@ -3,9 +3,22 @@
 
 #include <vector>
 #include <string>
-#include "game.h"
+#include "itype.h"
 
 struct mission;
+class game;
+
+enum mission_id {
+ MISSION_REACH_SAFETY,
+ MISSION_FIND_FAMILY,
+ MISSION_FOLLOW_TO_SAFETY,
+ MISSION_MEET_FACTION,
+ MISSION_GET_JELLY,
+ MISSION_GET_JELLY_IGNT,
+ MISSION_FIND_NPC,
+ MISSION_RESCUE_KIDNAPPED,
+ NUM_MISSION_IDS
+};
 
 enum mission_origin {
  ORIGIN_NULL = 0,
@@ -47,6 +60,7 @@ struct mission_place {	// Return true if [posx,posy] is valid in overmap
 struct mission_start {
  void standard		(game *, mission *);
  void danger		(game *, mission *);
+ void find_family	(game *, mission *);
  void get_jelly		(game *, mission *);
  void get_jelly_ignt	(game *, mission *);
  void lost_npc		(game *, mission *);
@@ -55,6 +69,7 @@ struct mission_start {
 
 struct mission_end {	// These functions are run when a mission ends
  void standard		(game *){}; // Nothing special happens
+ void find_family	(game *){};
  void join_faction	(game *){}; // Offer to join GOODFAC
  void get_jelly		(game *){}; // Cure whoever was sick
  void get_jelly_ignt	(game *){}; // ^, plus teach about royal jelly

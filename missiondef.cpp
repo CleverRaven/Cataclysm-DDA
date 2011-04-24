@@ -1,5 +1,6 @@
 #include "mission.h"
 #include "setvector.h"
+#include "game.h"
 
 void game::init_missions()
 {
@@ -16,10 +17,17 @@ void game::init_missions()
                              missions[id].deadline_high = high * 600
  //#define NPCS   (...) setvector(missions[id].npc
 
+
+// The order of missions should match enum mission_id in mission.h
  int id = -1;
 
  MISSION("Reach safety", MGOAL_GO_TO, 0, 
          &mission_place::danger, &mission_start::danger, &mission_end::demo);
+   ORIGINS( ORIGIN_GAME_START, NULL);
+
+ MISSION("Find your brother", MGOAL_GO_TO, 0,
+	&mission_place::always, &mission_start::find_family,
+	&mission_end::find_family);
    ORIGINS( ORIGIN_GAME_START, NULL);
 
  MISSION("Follow <GOODNPC> to safety", MGOAL_GO_TO, 0,

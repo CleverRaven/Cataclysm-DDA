@@ -145,7 +145,7 @@ game::game()
  init_mapitems(); // Set up which items appear where     (SEE mapitemsdef.cpp)
  init_recipes();  // Set up crafting reciptes            (SEE crafting.cpp)
  init_moncats();  // Set up monster categories           (SEE mongroupdef.cpp)
- init_missions(); // Set up mission templates            (SEE mission.cpp)
+ init_missions(); // Set up mission templates            (SEE missiondef.cpp)
 
  m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
 
@@ -169,7 +169,7 @@ game::game()
  last_target = -1;	// We haven't targeted any monsters yet
  curmes = 0;		// We haven't read any messages yet
  uquit = false;		// We haven't quit the game
- debugmon = false;	// We're not debugging monster behavior
+ debugmon = false;	// We're not printing debug messages
  in_tutorial = false;	// We're not in a tutorial game
  for (int i = 0; i < num_monsters; i++)	// Reset kill counts to 0
   kills[i] = 0;
@@ -468,6 +468,9 @@ void game::start_game()
  monster doggy(mtypes[mon_dog], u.posx - 1, u.posy - 1);
  doggy.friendly = -1;
  z.push_back(doggy);
+
+// Testing missions!
+ give_mission(MISSION_REACH_SAFETY);
 }
 
 void game::start_tutorial(tut_type type)
@@ -813,6 +816,13 @@ void game::cancel_activity_query(std::string message)
  }
 }
 
+void game::give_mission(mission_id type)
+{
+ mission tmp = missions[type].create(this);
+ u.active_missions.push_back(tmp);
+ u.active_mission = u.active_missions.size() - 1;
+}
+
 void game::get_input()
 {
  char ch = input(); // See keypress.h
@@ -894,7 +904,7 @@ void game::get_input()
    for (int j = 0; j < OMAPY; j++)
     cur_om.seen(i, j) = true;
   }
- } else if (ch == 'M') {
+ } else if (ch == 'N') {
   erase();
   mvprintw(0, 0, "%d addictions", u.addictions.size());
   for (int i = 0; i < u.addictions.size(); i++) {
@@ -929,6 +939,8 @@ void game::get_input()
 // </DEBUG>
  } else if (ch == ':' || ch == 'm')
   draw_overmap();
+ else if (ch == 'M')
+  list_missions();
  else if (ch == '@') {
   u.disp_info(this);
   refresh_all();
@@ -1466,20 +1478,34 @@ void game::list_missions()
    case 2: missions = u.failed_missions;	break;
   }
   for (int y = 3; y < 25; y++)
-   mvwputch(w_missions, y, 50, c_white, LINE_XOXO);
+   mvwputch(w_missions, y, 30, c_white, LINE_XOXO);
   for (int i = 0; i < missions.size(); i++) {
    if (selection == i)
     mvwprintz(w_missions, 3 + i, 0, h_white, missions[i].name().c_str());
    else
     mvwprintz(w_missions, 3 + i, 0, c_white, missions[i].name().c_str());
   }
-  mvwprintz(w_missions, 4, 51, c_white,
-            missions[selection].description.c_str());
-  if (missions[selection].deadline != 0)
-   mvwprintz(w_missions, 5, 51, c_white, "Deadline: %d (%d)",
-             missions[selection].deadline, turn);
 
+  if (selection >= 0 && selection < missions.size()) {
+   mvwprintz(w_missions, 4, 31, c_white,
+             missions[selection].description.c_str());
+   if (missions[selection].deadline != 0)
+    mvwprintz(w_missions, 5, 31, c_white, "Deadline: %d (%d)",
+              missions[selection].deadline, turn);
+   mvwprintz(w_missions, 6, 31, c_white, "Target: (%d, %d)   You: (%d, %d)",
+             missions[selection].target.x, missions[selection].target.y,
+             (levx + 1) / 2, (levy + 1) / 2);
+  } else {
+   std::string nope;
+   switch (tab) {
+    case 0: nope = "You have no active missions!"; break;
+    case 1: nope = "You haven't completed any missions!"; break;
+    case 2: nope = "You haven't failed and missions!"; break;
+   }
+   mvwprintz(w_missions, 4, 31, c_ltred, nope.c_str());
+  }
 
+  wrefresh(w_missions);
   ch = input();
   switch (ch) {
   case '>':

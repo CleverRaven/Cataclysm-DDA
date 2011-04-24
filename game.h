@@ -68,6 +68,7 @@ class game
                   std::vector<point> &trajectory);
   void cancel_activity();
   void cancel_activity_query(std::string message);
+  void give_mission(mission_id type);
   void teleport();
   void nuke(int x, int y);
   std::vector<faction *> factions_at(int x, int y);
@@ -82,7 +83,6 @@ class game
 
   char inv(std::string title = "INVENTORY:");
   faction* list_factions(std::string title = "FACTIONS:");
-  void list_missions();
   point find_item(item *it);
   void remove_item(item *it);
 
@@ -202,6 +202,7 @@ class game
   void draw_overmap();     // Draws the overmap, allows note-taking etc.
   void disp_kills();       // Display the player's kill counts
   void disp_NPCs();        // Currently UNUSED.  Lists global NPCs.
+  void list_missions();    // Listed current, completed and failed missions.
 
 // If x & y are OOB, creates a new overmap and returns the proper terrain; also,
 // may mark the square as seen by the player

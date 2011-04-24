@@ -359,6 +359,8 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
   }
   mvwputch(w, 0, xpos, c_white, LINE_OXXO);
   mvwputch(w, 1, xpos, c_white, LINE_XOXO);
+  mvwputch(w, 0, xpos + length + 1, c_white, LINE_OOXX);
+  mvwputch(w, 1, xpos + length + 1, c_white, LINE_XOXO);
   if (i == active_tab) {
    mvwputch(w, 1, xpos - 2, h_white, '<');
    mvwputch(w, 1, xpos + length + 3, h_white, '>');

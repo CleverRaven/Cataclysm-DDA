@@ -1886,7 +1886,7 @@ int player::hit_mon(game *g, monster *z)
   hurtall(rng(1, 3));
  }
 // For very high hit rolls, we crit!
- bool critical_hit = (hit_roll() >= 10 + 3 * z->dodge_roll());
+ bool critical_hit = (hit_roll() >= 20 + 3 * z->dodge_roll());
  int dam = base_damage(true);
  if (has_trait(PF_DRUNKEN) && has_disease(DI_DRUNK)) {
   if (unarmed)

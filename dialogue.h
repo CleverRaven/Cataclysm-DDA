@@ -215,7 +215,7 @@ std::string talk_done_mugging[10] = {
 "Thanks, <name_g>!"
 };
 
-#define NUM_STATIC_TAGS 18
+#define NUM_STATIC_TAGS 19
 
 
 tag_data talk_tags[NUM_STATIC_TAGS] = {
@@ -224,6 +224,7 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 {"<name_g>",		&talk_good_names},
 {"<swear>",		&talk_swear},
 {"<very>",		&talk_very},
+{"<really>",		&talk_really},
 {"<happy>",		&talk_happy},
 {"<sad>",		&talk_sad},
 {"<greet>",		&talk_greeting_gen},

@@ -310,7 +310,7 @@ void iuse::pkill_2(game *g, player *p, item *it, bool t)
  if (!p->is_npc())
   g->add_msg("You take some %s.", it->tname().c_str());
 
- p->add_disease(DI_PKILL2, 100, g);
+ p->add_disease(DI_PKILL2, 140, g);
 }
 
 void iuse::pkill_3(game *g, player *p, item *it, bool t)
@@ -318,6 +318,7 @@ void iuse::pkill_3(game *g, player *p, item *it, bool t)
  if (!p->is_npc())
   g->add_msg("You take some %s.", it->tname().c_str());
 
+ p->add_disease(DI_PKILL3, 20, g);
  p->add_disease(DI_PKILL2, 200, g);
 }
 

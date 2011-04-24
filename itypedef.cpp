@@ -910,7 +910,7 @@ A pair of warm mittens.  They are extremely encumbersome.");
 
 ARMOR("wool gloves",	33,  50,C_GLOVES,	WOOL,		MNULL,
     1,  0, -5,  1,  3,  0,  1,  0,  3,  0,	mfb(bp_hands), "\
-A thik pair of wool gloves.  Encumbersome but warm.");
+A thick pair of wool gloves.  Encumbersome but warm.");
 
 ARMOR("winter gloves",	40,  65,C_GLOVES,	COTTON,		MNULL,
     1,  0, -5,  1,  5,  1,  1,  0,  4,  0,	mfb(bp_hands), "\

@@ -540,9 +540,13 @@ point overmap::choose_point(game *g)
  char ch;
  overmap hori, vert, diag;
  point ret(-1, -1);
+ point target(-1, -1);
+ if (g->u.active_mission >= 0 &&
+     g->u.active_mission < g->u.active_missions.size())
+  target = g->u.active_missions[g->u.active_mission].target;
  do {
   int omx, omy;
-  bool see;
+  bool see, target_drawn;
   oter_id cur_ter;
   nc_color ter_color;
   long ter_sym;
@@ -567,8 +571,10 @@ point overmap::choose_point(game *g)
   if (cursy > OMAPY - 14)
    vert = overmap(g, posx, posy + 1, posz);
 
+// Now actually draw the map
   for (int i = -25; i < 25; i++) {
    for (int j = -12; j <= (ch == 'j' ? 13 : 12); j++) {
+    target_drawn = false;
     omx = cursx + i;
     omy = cursy + j;
     see = false;
@@ -629,9 +635,9 @@ point overmap::choose_point(game *g)
      see = vert.seen(omx, omy);
      if (note_here = vert.has_note(omx, omy))
       note_text = vert.note(omx, omy);
-// </Out of bounds replacement>
     } else
      debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
+// </Out of bounds replacement>
     if (see) {
      if (note_here && blink) {
       ter_color = c_yellow;
@@ -642,6 +648,9 @@ point overmap::choose_point(game *g)
      } else if (npc_here && blink) {
       ter_color = c_pink;
       ter_sym = '@';
+     } else if (omx == target.x && omy == target.y && blink) {
+      ter_color = c_red;
+      ter_sym = '*';
      } else {
       if (cur_ter >= num_ter_types || cur_ter < 0)
        debugmsg("Bad ter %d (%d, %d)", cur_ter, omx, omy);
@@ -656,6 +665,20 @@ point overmap::choose_point(game *g)
      mvwputch_hi (w_map, 12,     25,     ter_color, ter_sym);
     else
      mvwputch    (w_map, 12 + j, 25 + i, ter_color, ter_sym);
+   }
+  }
+  if (target.x != -1 && target.y != -1 && blink &&
+      (target.x < cursx - 25 || target.x > cursx + 25  ||
+       target.y < cursy - 12 || target.y > cursy + 12    )) {
+   switch (direction_from(cursx, cursy, target.x, target.y)) {
+    case NORTH:      mvwputch(w_map,  0, 25, c_red, '^');       break;
+    case NORTHEAST:  mvwputch(w_map,  0, 49, c_red, LINE_OOXX); break;
+    case EAST:       mvwputch(w_map, 12, 49, c_red, '>');       break;
+    case SOUTHEAST:  mvwputch(w_map, 24, 49, c_red, LINE_XOOX); break;
+    case SOUTH:      mvwputch(w_map, 24, 25, c_red, 'v');       break;
+    case SOUTHWEST:  mvwputch(w_map, 24,  0, c_red, LINE_XXOO); break;
+    case WEST:       mvwputch(w_map, 12,  0, c_red, '<');       break;
+    case NORTHWEST:  mvwputch(w_map,  0,  0, c_red, LINE_OXXO); break;
    }
   }
   if (has_note(cursx, cursy)) {
@@ -690,6 +713,10 @@ point overmap::choose_point(game *g)
    } else
     mvwprintz(w_map, 1, 51, c_dkgray, "# Unexplored");
 
+   if (target.x != -1 && target.y != -1) {
+    int distance = rl_dist(origx, origy, target.x, target.y);
+    mvwprintz(w_map, 3, 51, c_white, "Distance to target: %d", distance);
+   }
    mvwprintz(w_map, 19, 51, c_magenta,           "Use movement keys to pan.  ");
    mvwprintz(w_map, 20, 51, c_magenta,           "0 - Center map on character");
    mvwprintz(w_map, 21, 51, c_magenta,           "t - Toggle legend          ");
