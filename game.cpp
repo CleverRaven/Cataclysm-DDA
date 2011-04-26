@@ -761,8 +761,12 @@ void game::process_activity()
 
     if (u.sklevel[reading->type] < reading->level) {
      add_msg("You learn a little about %s!", skill_name(reading->type).c_str());
-     int min_ex = reading->time + u.int_cur,
-         max_ex = reading->time * 2 + u.int_cur * 4;
+     int min_ex = reading->time / 4 + u.int_cur / 2,
+         max_ex = reading->time / 2 + u.int_cur;
+     if (min_ex < 5)
+      min_ex = 5;
+     if (max_ex > 35)
+      max_ex = 35;
      u.skexercise[reading->type] += rng(min_ex, max_ex);
      if (u.sklevel[reading->type] +
         (u.skexercise[reading->type] >= 100 ? 1 : 0) >= reading->level)
@@ -1187,11 +1191,12 @@ void game::save()
 
 void game::advance_nextinv()
 {
- nextinv++;
- if (nextinv == '{')
+ if (nextinv == 'z')
   nextinv = 'A';
- if (nextinv == '[')
+ else if (nextinv == 'Z')
   nextinv = 'a';
+ else
+  nextinv++;
 }
  
 void game::add_msg(const char* msg, ...)
@@ -2941,6 +2946,10 @@ void game::examine()
      if (m.ter(examx + i, examy + j) == t_door_metal_locked)
       m.ter(examx + i, examy + j) = t_floor;
     }
+   }
+   for (int i = 0; i < z.size(); i++) {
+    if (z[i].type->id == mon_turret)
+     kill_mon(i);
    }
    add_msg("You insert your ID card.");
    add_msg("The nearby doors slide into the floor.");

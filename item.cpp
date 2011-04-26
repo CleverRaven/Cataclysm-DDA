@@ -472,7 +472,7 @@ std::string item::tname(game *g)
  else if (is_food_container())
   food = dynamic_cast<it_comest*>(contents[0].type);
  if (food != NULL && g != NULL && food->spoils != 0 &&
-     g->turn - bday > food->spoils)
+     g->turn - bday > food->spoils * 600)
   ret << " (rotten)";
 
 

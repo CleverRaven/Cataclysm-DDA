@@ -283,7 +283,7 @@ std::string player::save_info()
          " " << stim << " " << pain << " " << pkill << " " << radiation <<
          " " << cash << " " << recoil << " " << scent << " " << moves << " " <<
          underwater << " " << can_dodge << " " << oxygen << " " <<
-         active_mission;
+         active_mission << " ";
 
  for (int i = 0; i < PF_MAX2; i++)
   dump << my_traits[i] << " ";
@@ -2845,13 +2845,20 @@ void player::suffer(game *g)
    vomit(g);
  }	// Done with while-awake-only effects
  if (has_trait(PF_ASTHMA) && one_in(3600 - stim * 50)) {
-  add_disease(DI_ASTHMA, 50 * rng(1, 4), g);
-  if (underwater)
+  bool auto_use = has_charges(itm_inhaler, 1);
+  if (underwater) {
    oxygen = int(oxygen / 2);
+   auto_use = false;
+  }
   if (has_disease(DI_SLEEP)) {
    rem_disease(DI_SLEEP);
    g->add_msg("Your asthma wakes you up!");
+   auto_use = false;
   }
+  if (auto_use)
+   use_up(itm_inhaler, 1);
+  else
+   add_disease(DI_ASTHMA, 50 * rng(1, 4), g);
  }
  if (has_trait(PF_ALBINO) && is_in_sunlight(g) && one_in(20)) {
   g->add_msg("The sunlight burns your skin!");

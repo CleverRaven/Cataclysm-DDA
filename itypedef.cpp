@@ -1433,7 +1433,7 @@ handguns, the Pro .40 is popular among European police forces.");
 GUN("S&W 610",		 2, 720,c_dkgray,	STEEL,	WOOD,
 	sk_pistol,	AT_40,	 2, 10, 10,  1,  2, 23,  6,  8,  0,  6, "\
 The Smith and Wesson 610 is a classic six-shooter revolver chambered for 10mm\n\
-rounds, for for S&W's own .40 round.");
+rounds, or for S&W's own .40 round.");
 
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("Ruger Redhawk",	 3, 760,c_dkgray,	STEEL,	WOOD,
@@ -1487,7 +1487,7 @@ light and accurate.");
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("double barrel shotgun",2,580,c_red,IRON,	WOOD,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_shotgun,	AT_SHOT,12, 26, 15,  3,  0,  7,  8,  7,  2,  2, "\
+	sk_shotgun,	AT_SHOT,12, 26, 15,  3,  0,  7,  4,  7,  2,  2, "\
 An old shotgun, possibly antique.  It is little more than a pair of barrels,\n\
 a wood stock, and a hammer to strike the cartridge.");
 
@@ -1503,7 +1503,7 @@ The Mossberg 500 is a popular series of pump-action shotguns, often acquired\n\
 for military use.  It is noted for its high durability and low recoil.");
 
 GUN("Saiga-12",		 3,1100,c_red,	STEEL,	PLASTIC,
-	sk_shotgun,	AT_SHOT,15, 36, 17,  3,  0, 17, -6,  7,  4, 10, "\
+	sk_shotgun,	AT_SHOT,15, 36, 17,  3,  0, 17,  2,  7,  4, 10, "\
 The Saiga-12 shotgun is designed on the same Kalishnikov pattern as the AK47\n\
 rifle.  It is designed for rapid unloading of many rounds, with less emphasis\n\
 on accuracy or durability.");
