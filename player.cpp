@@ -1937,13 +1937,16 @@ int player::hit_mon(game *g, monster *z)
   if (z_armor < 0)
    z_armor = 0;
   dam += weapon.type->melee_cut - z_armor;
-  int move_penalty = weapon.type->melee_cut * 3 + z_armor * 10;
-  if (!unarmed && move_penalty > dice(str_cur + sklevel[sk_cutting], 20)) {
+  int move_penalty = weapon.type->melee_cut * 3 + z_armor * 10 -
+                     dice(sklevel[sk_cutting], 10);
+  if (!unarmed && move_penalty > dice(str_cur, 20)) {
    if (is_u)
-    g->add_msg("Your %s gets stuck in the %s, pulling it out of your hands!");
+    g->add_msg("Your %s gets stuck in the %s, pulling it out of your hands!",
+               weapon.tname().c_str(), z->type->name.c_str());
    z->add_item(remove_weapon());
   } else if (move_penalty >= 10 && is_u) {
-   g->add_msg("Your %s gets stuck in the %s, but you yank it free.");
+   g->add_msg("Your %s gets stuck in the %s, but you yank it free.",
+               weapon.tname().c_str(), z->type->name.c_str());
    moves -= move_penalty;
   }
  }
