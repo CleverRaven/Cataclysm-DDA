@@ -1918,8 +1918,8 @@ Drama and mild smut.");
 BOOK("spy novel",		28,  55,c_ltblue,	PAPER,	MNULL,
     4,  1, -2,  0,	sk_null,	 0,  0,  3,  5, 18, "\
 A tale of intrigue and espionage amongst Nazis, no, Commies, no, Iraqis!");
-//	NAME			RAR PRC	COLOR		MAT1	MAT2
 
+//	NAME			RAR PRC	COLOR		MAT1	MAT2
 BOOK("scifi novel",		20,  55,c_ltblue,	PAPER,	MNULL,
 // VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
     3,  1, -3,  0,	sk_null,	 0,  0,  3,  6, 20, "\
@@ -1938,7 +1938,9 @@ BOOK("Spetsnaz Knife Techniques",12,200,c_green,	PAPER,	MNULL,
     1,  1, -5,  0,	sk_cutting,	 4,  1,  0,  4, 18, "\
 A classic Soviet text on the art of attacking with a blade.");
 
+//	NAME			RAR PRC	COLOR		MAT1	MAT2
 BOOK("Under the Hood",		35, 190,c_green,	PAPER,	MNULL,
+// VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
     3,  1, -3,  0,	sk_mechanics,	 3,  0,  0,  5, 18, "\
 An advanced mechanics manual, covering all sorts of topics.");
 

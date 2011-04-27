@@ -726,34 +726,37 @@ Head encumberance has no effect; it simply limits how much you can put on.");
    } else if (line == 1) {
     mvwprintz(w_encumb, 3, 2, h_ltgray, "Eyes");
     mvwprintz(w_info, 0, 0, c_magenta, "\
-Eye encumberance is in the form of something distorting your vision slightly,\n\
-such as goggles.  It creates a slight decrease in ranged accuracy.");
+Perception -%d when checking traps or firing ranged weapons;\n\
+Perception -%.1f when throwing items", encumb(bp_eyes),
+double(double(encumb(bp_eyes)) / 2));
    } else if (line == 2) {
     mvwprintz(w_encumb, 4, 2, h_ltgray, "Mouth");
     mvwprintz(w_info, 0, 0, c_magenta, "\
-Jaw encumberance means that something is covering your mouth and possibly\n\
-making it harder to breathe comfortably.  It makes running slightly harder.");
+Running costs +%d movement points", encumb(bp_mouth) * 5);
    } else if (line == 3) {
     mvwprintz(w_encumb, 5, 2, h_ltgray, "Torso");
     mvwprintz(w_info, 0, 0, c_magenta, "\
-Torso encumberance means that clothing is hindering the movement of your\n\
-arms or torso in general.  It interferes with melee and ranged combat as well\n\
-as some other actions.");
+Melee skill -%d;      Dodge skill -%d;\n\
+Swimming costs +%d movement points;\n\
+Melee attacks cost +%d movement points", encumb(bp_torso), encumb(bp_torso),
+encumb(bp_torso) * (80 - sklevel[sk_swimming] * 3), encumb(bp_torso) * 20);
    } else if (line == 4) {
     mvwprintz(w_encumb, 6, 2, h_ltgray, "Hands");
     mvwprintz(w_info, 0, 0, c_magenta, "\
-Hand encumberance limits your fine motor skills, resulting in a minor penalty\n\
-to melee and ranged combat alike.");
+Reloading costs +%d movement points;\n\
+Dexterity -%d when throwing items", encumb(bp_hands) * 30, encumb(bp_hands));
    } else if (line == 5) {
     mvwprintz(w_encumb, 7, 2, h_ltgray, "Legs");
     mvwprintz(w_info, 0, 0, c_magenta, "\
-Leg encumberance comes from baggy pants, or wearing too many layers of pants.\n\
-It makes running and dodging more difficult.");
+Running costs +%d movement points;  Swimming costs +%d movement points;\n\
+Dodge skill -%.1f", encumb(bp_legs) * 3,
+encumb(bp_legs) * (50 - sklevel[sk_swimming]),
+double(double(encumb(bp_legs)) / 2));
    } else if (line == 6) {
     mvwprintz(w_encumb, 8, 2, h_ltgray, "Feet");
     mvwprintz(w_info, 0, 0, c_magenta, "\
-Some footwear will cause minor encumberance.  This will make running a bit\n\
-slower.");
+Running costs %s%d movement points", (encumb(bp_feet) >= 0 ? "+" : ""),
+encumb(bp_feet) * 5);
    }
    wrefresh(w_encumb);
    wrefresh(w_info);
@@ -1888,6 +1891,7 @@ int player::hit_mon(game *g, monster *z)
 // For very high hit rolls, we crit!
  bool critical_hit = (hit_roll() >= 75 + 3 * z->dodge_roll());
  int dam = base_damage(true);
+ int cutting_penalty = 0;
  if (has_trait(PF_DRUNKEN) && has_disease(DI_DRUNK)) {
   if (unarmed)
    dam += disease_level(DI_DRUNK) / 250;
@@ -1937,18 +1941,8 @@ int player::hit_mon(game *g, monster *z)
   if (z_armor < 0)
    z_armor = 0;
   dam += weapon.type->melee_cut - z_armor;
-  int move_penalty = weapon.type->melee_cut * 3 + z_armor * 10 -
-                     dice(sklevel[sk_cutting], 10);
-  if (!unarmed && move_penalty > dice(str_cur, 20)) {
-   if (is_u)
-    g->add_msg("Your %s gets stuck in the %s, pulling it out of your hands!",
-               weapon.tname().c_str(), z->type->name.c_str());
-   z->add_item(remove_weapon());
-  } else if (move_penalty >= 10 && is_u) {
-   g->add_msg("Your %s gets stuck in the %s, but you yank it free.",
-               weapon.tname().c_str(), z->type->name.c_str());
-   moves -= move_penalty;
-  }
+  cutting_penalty = weapon.type->melee_cut * 3 + z_armor * 10 -
+                    dice(sklevel[sk_cutting], 10);
  }
 
  bool shock_them = (!z->has_flag(MF_SHOCK) && has_bionic(bio_shock) &&
@@ -2111,6 +2105,22 @@ int player::hit_mon(game *g, monster *z)
  if (cutting)
   practice(sk_cutting, rng(5, 10));
 
+ if (!unarmed && dam < z->hp && cutting_penalty > dice(str_cur, 20)) {
+  if (is_u)
+   g->add_msg("Your %s gets stuck in the %s, pulling it out of your hands!",
+              weapon.tname().c_str(), z->type->name.c_str());
+  z->add_item(remove_weapon());
+ } else {
+  if (dam >= z->hp) {
+   cutting_penalty /= 2;
+   cutting_penalty -= rng(sklevel[sk_cutting], sklevel[sk_cutting] * 2 + 2);
+  }
+  moves -= cutting_penalty;
+  if (cutting_penalty >= 10 && is_u)
+   g->add_msg("Your %s gets stuck in the %s, but you yank it free.",
+              weapon.tname().c_str(), z->type->name.c_str());
+ }
+
  return dam;
 }
 
@@ -2222,6 +2232,8 @@ int player::throw_range(int index)
  item tmp;
  if (index == -1)
   tmp = weapon;
+ else if (index == -2)
+  return -1;
  else
   tmp = inv[index];
 

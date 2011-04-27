@@ -171,6 +171,8 @@ void item::load_info(std::string data, game *g)
          owntmp >> corp;
  if (corp != -1)
   corpse = g->mtypes[corp];
+ else
+  corpse = NULL;
  getline(dump, name);
  if (name == " ''")
   name = "";

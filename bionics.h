@@ -240,7 +240,7 @@ Mounted in the palms of your hand are small parabolic EMP field generators.\n\
 You may use power to fire a short-ranged blast which will disable electronics\n\
 and robots."},
 {"Hydraulic Muscles", false, true, 1, 3, "\
-While activated, the muslces in your arms will be greatly enchanced,\n\
+While activated, the muscles in your arms will be greatly enchanced,\n\
 increasing your strength by 20."},
 {"Water Extraction Unit", false, true, 2, 0, "\
 Nanotubs embedded in the palm of your hand will pump any available fluid out\n\

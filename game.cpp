@@ -761,8 +761,8 @@ void game::process_activity()
 
     if (u.sklevel[reading->type] < reading->level) {
      add_msg("You learn a little about %s!", skill_name(reading->type).c_str());
-     int min_ex = reading->time / 4 + u.int_cur / 2,
-         max_ex = reading->time / 2 + u.int_cur;
+     int min_ex = reading->time / 3 + u.int_cur,
+         max_ex = reading->time     + u.int_cur;
      if (min_ex < 5)
       min_ex = 5;
      if (max_ex > 35)
