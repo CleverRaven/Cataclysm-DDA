@@ -2667,6 +2667,8 @@ void game::kill_mon(int index)
   return;
  z[index].dead = true;
  kills[z[index].type->id]++;	// Increment our kill counter
+ for (int i = 0; i < z[index].inv.size(); i++)
+  m.add_item(z[index].posx, z[index].posy, z[index].inv[i]);
  z[index].die(this);
 // If they left a corpse, give a tutorial message on butchering
  if (in_tutorial && !(tutorials_seen[LESSON_BUTCHER])) {

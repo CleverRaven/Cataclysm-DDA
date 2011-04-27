@@ -1508,7 +1508,7 @@ int npc::danger_assessment(game *g)
 
 bool npc::bravery_check(int diff)
 {
- return (dice(personality.bravery, 10) >= dice(diff, 10));
+ return (dice(personality.bravery, 10) >= dice(diff, 4));
 }
 
 bool npc::emergency(int danger)

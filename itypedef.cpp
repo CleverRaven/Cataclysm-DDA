@@ -1400,7 +1400,8 @@ shooting experience.\" --SIG Sauer official website");
 GUN("S&W 22A",		 5, 650,c_dkgray,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
 	sk_pistol,	AT_22,	 1, 10,  9,  1,  1, 25,  5,  7,  0, 10, "\
-A popular .22 pistol.  \"Ideal for competitive target shooting or recreational\nshooting.\" --Smith & Wesson official website");
+A popular .22 pistol.  \"Ideal for competitive target shooting or recreational\n\
+shooting.\" --Smith & Wesson official website");
 
 GUN("Glock 19",		 7, 700,c_dkgray,	STEEL,	PLASTIC,
 	sk_pistol,	AT_9MM,	 2,  5,  8,  1,  2, 24,  6,  6,  0, 15, "\

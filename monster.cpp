@@ -4,6 +4,7 @@
 #include "output.h"
 #include "game.h"
 #include "rng.h"
+#include "item.h"
 #include <sstream>
 #include <stdlib.h>
 #include <curses.h>
@@ -461,4 +462,9 @@ void monster::make_friendly()
 {
  plans.clear();
  friendly = rng(5, 30) + rng(0, 20);
+}
+
+void monster::add_item(item it)
+{
+ inv.push_back(it);
 }

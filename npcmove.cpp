@@ -309,14 +309,20 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger)
    if (mon->friendly != 0) {
     priority = -999;
     monster_danger = -999;
-   } else if (mon->speed < current_speed()) {
+   }/* else if (mon->speed < current_speed()) {
     priority -= 10;
     monster_danger -= 10;
    } else
-    monster_danger *= 1 + (.1 * distance);
+    priority *= 1 + (.1 * distance);
+*/
 
-   if (monster_danger > danger)
+   if (monster_danger > danger) {
     danger = monster_danger;
+    if (enemy == -1) {
+     highest_priority = priority;
+     enemy = i;
+    }
+   }
 
    if (priority > highest_priority) {
     highest_priority = priority;
@@ -655,17 +661,19 @@ bool npc::wont_hit_friend(game *g, int tarx, int tary, int index)
 
  for (int i = 0; i < traj.size(); i++) {
   int dist = rl_dist(posx, posy, tarx, tary);
-  int deviation = int(dist / (confident / 2));
+  int deviation = int(dist / confident);
   for (int x = traj[i].x - deviation; x <= traj[i].x + deviation; x++) {
    for (int y = traj[i].y - deviation; y <= traj[i].y + deviation; y++) {
 // Hit the player?
     if (is_friend() && g->u.posx == x && g->u.posy == y)
      return false;
 // Hit a friendly monster?
+/*
     for (int n = 0; n < g->z.size(); n++) {
      if (g->z[n].friendly != 0 && g->z[n].posx == x && g->z[n].posy == y)
       return false;
     }
+*/
 // Hit an NPC that's on our team?
     for (int n = 0; n < g->active_npc.size(); n++) {
      npc* guy = &(g->active_npc[n]);

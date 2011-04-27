@@ -1825,7 +1825,7 @@ int player::hit_roll()
 // Using a cutting weapon?
  if (weapon.is_cutting_weapon()) {
   cutting = true;
-  numdice += int(sklevel[sk_cutting] / 1.5);
+  numdice += int(sklevel[sk_cutting] / 2);
  }
 
  int sides = 10;
@@ -1861,7 +1861,7 @@ int player::hit_mon(game *g, monster *z)
 // Different sizes affect your chance to hit
  if (hit_roll() < z->dodge_roll()) {// A miss!
 // Movement penalty for missing & stumbling
-  int stumble_pen = weapon.volume() + int(weapon.weight() / 2);
+  int stumble_pen = 2 * weapon.volume() + weapon.weight();
   if (has_trait(PF_DEFT))
    stumble_pen = int(stumble_pen * .3) - 10;
   if (stumble_pen < 0)
@@ -1869,7 +1869,7 @@ int player::hit_mon(game *g, monster *z)
   if (stumble_pen > 0 && (one_in(16 - str_cur) || one_in(22 - dex_cur)))
    stumble_pen = rng(0, stumble_pen);
   if (is_u) {	// Only display messages if this is the player
-   if (stumble_pen >= 30)
+   if (stumble_pen >= 60)
     g->add_msg("You miss and stumble with the momentum.");
    else if (stumble_pen >= 10)
     g->add_msg("You swing wildly and miss.");
@@ -1886,7 +1886,7 @@ int player::hit_mon(game *g, monster *z)
   hurtall(rng(1, 3));
  }
 // For very high hit rolls, we crit!
- bool critical_hit = (hit_roll() >= 20 + 3 * z->dodge_roll());
+ bool critical_hit = (hit_roll() >= 75 + 3 * z->dodge_roll());
  int dam = base_damage(true);
  if (has_trait(PF_DRUNKEN) && has_disease(DI_DRUNK)) {
   if (unarmed)
@@ -1902,11 +1902,12 @@ int player::hit_mon(game *g, monster *z)
     z_armor = 0;
    dam += 10 - z_armor;
   }
- } else if (rng(1, 45 - dex_cur) < 2 * sklevel[sk_unarmed]) {
+ } else if (rng(1, 45 - dex_cur) < 2 * sklevel[sk_unarmed] &&
+            rng(1, 65 - dex_cur) < 2 * sklevel[sk_unarmed]   ) {
 // If we're not unarmed, there's still a possibility of getting in a bonus
 // unarmed attack.
   if (is_u || can_see) {
-   switch (rng(1, 4)) {	// TODO: More unarmed bonus attacks
+   switch (rng(1, 4)) {
     case 1: g->add_msg("%s kick%s the %s!", You.c_str(), (is_u ? "" : "s"),
                        z->name().c_str()); break;
     case 2: g->add_msg("%s headbutt%s the %s!", You.c_str(), (is_u ? "" : "s"),
@@ -1921,20 +1922,30 @@ int player::hit_mon(game *g, monster *z)
   practice(sk_unarmed, 3);
  }
 // Melee skill bonus
- dam += int(pow(1.3, sklevel[sk_melee]));
+ dam += rng(0, sklevel[sk_melee]);
 // Bashing damage bonus
- int melee_dam = weapon.type->melee_dam;
- if (melee_dam > 5 + str_cur + sklevel[sk_bashing])// Cap for weak characters
-  melee_dam = (5 + str_cur + melee_dam + sklevel[sk_bashing]) / 2;
- dam += rng(melee_dam / 2, melee_dam);
+ int bash_dam = weapon.type->melee_dam,
+     bash_cap = 5 + str_cur + sklevel[sk_bashing];
+ if (bash_dam > bash_cap)// Cap for weak characters
+  bash_dam = (bash_cap * 3 + bash_dam) / 4;
  if (bashing)
-  dam += rng(0, sklevel[sk_bashing]) * sqrt(str_cur);
+  bash_dam += rng(bash_dam / 4, sklevel[sk_bashing]) * sqrt(str_cur);
+ dam += rng(bash_dam / 2, bash_dam);
 // Cutting damage bonus
  if (weapon.type->melee_cut > z->type->armor - int(sklevel[sk_cutting] / 2)) {
   int z_armor = z->type->armor - int(sklevel[sk_cutting] / 2);
   if (z_armor < 0)
    z_armor = 0;
   dam += weapon.type->melee_cut - z_armor;
+  int move_penalty = weapon.type->melee_cut * 3 + z_armor * 10;
+  if (!unarmed && move_penalty > dice(str_cur + sklevel[sk_cutting], 20)) {
+   if (is_u)
+    g->add_msg("Your %s gets stuck in the %s, pulling it out of your hands!");
+   z->add_item(remove_weapon());
+  } else if (move_penalty >= 10 && is_u) {
+   g->add_msg("Your %s gets stuck in the %s, but you yank it free.");
+   moves -= move_penalty;
+  }
  }
 
  bool shock_them = (!z->has_flag(MF_SHOCK) && has_bionic(bio_shock) &&
@@ -1955,7 +1966,8 @@ int player::hit_mon(game *g, monster *z)
   shock_them = (shock_them || (!z->has_flag(MF_SHOCK) && has_bionic(bio_shock)&&
                                power_level >= 2 && unarmed && !one_in(3)));
   drain_them = (drain_them || (has_bionic(bio_heat_absorb) && !is_armed() &&
-                               z->has_flag(MF_WARM) && !one_in(3)));
+                               power_level >= 1 && z->has_flag(MF_WARM) &&
+                               !one_in(3)));
    bite_them = ( bite_them || (has_trait(PF_FANGS) && z->armor() < 18 &&
                                one_in(5)));
    peck_them = ( peck_them || (has_trait(PF_BEAK)  && z->armor() < 16 &&
@@ -1968,7 +1980,7 @@ int player::hit_mon(game *g, monster *z)
    if (weapon.type->id == itm_bio_claws) {
     if (sklevel[sk_cutting] >= 3)
      dam += 5;
-    headshot &= z->hp < dam;
+    headshot &= z->hp < dam && one_in(2);
     if (headshot && can_see)
      g->add_msg("%s claws pierce the %s's skull!", Your.c_str(),
                 z->name().c_str());
@@ -1977,7 +1989,7 @@ int player::hit_mon(game *g, monster *z)
                 z->name().c_str());
    } else if (has_trait(PF_TALONS)) {
     dam += 2;
-    headshot &= z->hp < dam;
+    headshot &= z->hp < dam && one_in(2);
     if (headshot && can_see)
      g->add_msg("%s talons tear the %s's head open!", Your.c_str(),
                 z->name().c_str());
@@ -1985,7 +1997,7 @@ int player::hit_mon(game *g, monster *z)
      g->add_msg("%s bur%s %s talons into the %s!", You.c_str(),(is_u?"y":"ies"),
                 your.c_str(), z->name().c_str());
    } else {
-    headshot &= z->hp < dam;
+    headshot &= z->hp < dam && one_in(2);
     if (headshot && can_see)
      g->add_msg("%s crush%s the %s's skull in a single blow!", 
                 You.c_str(), (is_u ? "" : "es"), z->name().c_str());
@@ -2063,7 +2075,7 @@ int player::hit_mon(game *g, monster *z)
   hit(g, bp_arms, 1, 0, rng(0, weapon.volume() * 2));// Take damage
   if (weapon.is_two_handed(this))// Hurt left arm too, if it was big
    hit(g, bp_arms, 0, 0, rng(0, weapon.volume()));
-  dam += rng(0, int(weapon.volume() * 1.5));	// Hurt the monster extra
+  dam += rng(0, 5 + int(weapon.volume() * 1.5));// Hurt the monster extra
   remove_weapon();
  }
 
@@ -2305,12 +2317,12 @@ int player::comprehension_percent(skill s, bool real_life)
  double percent = 80.; // double temporarily, since we divide a lot
  int learned = (real_life ? sklevel[s] : 4);
  if (learned > intel / 2)
-  percent /= 1 + (learned - intel / 2) / (intel / 3);
+  percent /= 1 + ((learned - intel / 2) / (intel / 3));
  else if (!real_life && intel > 8)
   percent += 125 - 1000 / intel;
 
  if (has_trait(PF_FASTLEARNER))
-  percent += 50;
+  percent = (100 + percent) / 2;
  return (int)(percent);
 }
 
@@ -2894,10 +2906,8 @@ void player::suffer(game *g)
  if (has_trait(PF_RADIOACTIVE)) {
   if (g->m.radiation(posx, posy) < 20)
    g->m.radiation(posx, posy)++;
-  if (radiation < 50)
-   radiation++;
  }
- if (has_trait(PF_UNSTABLE) && one_in(14400))	// Average once a day
+ if (has_trait(PF_UNSTABLE) && one_in(28800))	// Average once per 2 days
   mutate(g);
  radiation += rng(0, g->m.radiation(posx, posy) / 2);
  if (rng(1, 1000) < radiation && g->turn % 600 == 0) {

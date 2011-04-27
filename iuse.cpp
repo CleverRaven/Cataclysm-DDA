@@ -305,12 +305,13 @@ void iuse::pkill_1(game *g, player *p, item *it, bool t)
  }
 }
 
+// Codeine
 void iuse::pkill_2(game *g, player *p, item *it, bool t)
 {
  if (!p->is_npc())
   g->add_msg("You take some %s.", it->tname().c_str());
 
- p->add_disease(DI_PKILL2, 140, g);
+ p->add_disease(DI_PKILL2, 180, g);
 }
 
 void iuse::pkill_3(game *g, player *p, item *it, bool t)
@@ -496,9 +497,9 @@ void iuse::mutagen(game *g, player *p, item *it, bool t)
 
 void iuse::purifier(game *g, player *p, item *it, bool t)
 {
- std::vector<pl_flag> valid;	// Which flags the player has
- for (pl_flag i = pl_flag(0); i < PF_MAX2; i = pl_flag(i + 1)) {
-  if (p->has_trait(i) && traits[i].curable)
+ std::vector<int> valid;	// Which flags the player has
+ for (int i = 0; i < PF_MAX2; i++) {
+  if (p->has_trait(pl_flag(i)) && traits[i].curable)
    valid.push_back(i);
  }
  if (valid.size() == 0) {
@@ -521,7 +522,8 @@ void iuse::purifier(game *g, player *p, item *it, bool t)
   int index = rng(0, valid.size() - 1);
   if (!p->is_npc())
    g->add_msg("You lose your %s.", traits[valid[index]].name.c_str());
-  p->toggle_trait(valid[index]);
+  p->toggle_trait(pl_flag(valid[index]));
+  valid.erase(valid.begin() + index);
  }
 }
 
