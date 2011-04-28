@@ -2093,7 +2093,7 @@ A turned-on flashlight will provide light during the night or while\n\
 underground.");
 
 TOOL("flashlight (on)",  0, 380,';', c_blue,	PLASTIC, IRON,
-    3,  2,  1,  0,  2, 500,500, 0,  0, AT_BATT,itm_flashlight,&iuse::light_on,"\
+    3,  2,  1,  0,  2, 500,500, 0, 10, AT_BATT,itm_flashlight,&iuse::light_on,"\
 This flashlight is turned on, and continually draining its batteries.  It\n\
 provides light during the night or while underground.  Use it to turn it off.");
 
@@ -2125,7 +2125,7 @@ broadcast and play them audibly.");
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
 TOOL("radio (on)",	 0, 420,';', c_yellow,	PLASTIC, IRON,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    4,  2,  4,  0, -1, 500,500, 0,  0, AT_BATT, itm_radio,&iuse::radio_on, "\
+    4,  2,  4,  0, -1, 500,500, 0,  8, AT_BATT, itm_radio,&iuse::radio_on, "\
 This radio is turned on, and continually draining its batteries.  It is\n\
 playing the broadcast being sent from any nearby radio towers.");
 
@@ -2211,10 +2211,17 @@ TOOL("land mine",	 3,2400,';', c_red,	IRON,	MNULL,
 An explosive that is triggered when stepped upon.  It must be partially\n\
 buried to be effective, and so you will need a shovel to use it.");
 
-TOOL("geiger counter",	 8, 300,';', c_green,	PLASTIC,STEEL,
+TOOL("geiger ctr (off)", 8, 300,';', c_green,	PLASTIC,STEEL,
     2,  2,  2,  0,  0,100,100,  1,  0, AT_BATT,	itm_null, &iuse::geiger, "\
 A tool for measuring radiation.  Using it will prompt you to choose whether\n\
-to scan yourself or the terrain.");
+to scan yourself or the terrain, or to turn it on, which will provide\n\
+continuous feedback on ambient radiation.");
+
+TOOL("geiger ctr (on)",	0, 300, ';', c_green,	PLASTIC,STEEL,
+    2,  2,  2,  0,  0,100,100,  0, 10, AT_BATT, itm_geiger_off,&iuse::geiger,"\
+A tool for measuring radiation.  It is in continuous scan mode, and will\n\
+produce quiet clicking sounds in the presence of ambient radiation. Using it\n\
+allows you to turn it off, or scan yourself or the ground.");
 
 //	NAME		RAR VAL	SYM  COLOR	MAT1	MAT
 TOOL("teleporter",       5,6000,';', c_magenta,	PLASTIC,STEEL,

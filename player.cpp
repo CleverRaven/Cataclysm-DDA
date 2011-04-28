@@ -150,39 +150,48 @@ void player::update_morale()
 
 int player::current_speed()
 {
- int newmoves = 100; // Start with 12 movement points...
+ int newmoves = 100; // Start with 100 movement points...
 // Minus some for weight...
  if (weight_carried() > weight_capacity())
   newmoves = 1;
  else if (weight_carried() >= weight_capacity() * .25)
   newmoves = int((120 * (weight_capacity() - weight_carried())) /
                          weight_capacity());
-// Minus some amount for pain & painkiller wooziness...
+
  if (pain > pkill)
   newmoves -= int((pain - pkill) * .7);
  if (pkill >= 10)
   newmoves -= int(pkill * .1);
-// Plus or minus some for considerable morale...
+
  if (abs(morale_level()) >= 40) {
   int morale_bonus = int(morale_level() / 10);
-  if (morale_bonus < -25)
-   morale_bonus = -25;
-  else if (morale_bonus > 15)
-   morale_bonus = 15;
+  if (morale_bonus < -10)
+   morale_bonus = -10;
+  else if (morale_bonus > 10)
+   morale_bonus = 10;
   newmoves += morale_bonus;
  }
- if (radiation > 0)
-  newmoves -= int(radiation * .4);
+
+ if (radiation > 0) {
+  int rad_penalty = radiation * .4;
+  if (rad_penalty > 20)
+   rad_penalty = 20;
+  newmoves -= rad_penalty;
+ }
+
  if (thirst > 40)
   newmoves -= int((thirst - 40) / 10);
  if (hunger > 100)
   newmoves -= int((hunger - 100) / 10);
+
  newmoves += stim;
+
  if (has_trait(PF_QUICK))
   newmoves = int(newmoves * 1.10);
 
  if (newmoves < 1)
   newmoves = 1;
+
  return newmoves;
 }
 
@@ -3174,7 +3183,8 @@ void player::process_active_items(game *g)
  if (weapon.active) {
   tmp = dynamic_cast<it_tool*>(weapon.type);
   (use.*tmp->use)(g, this, &weapon, true);
-  weapon.charges -= tmp->charges_per_sec;
+  if (g->turn % tmp->turns_per_charge == 0)
+   weapon.charges--;
   if (weapon.charges <= 0) {
    (use.*tmp->use)(g, this, &weapon, false);
    if (tmp->revert_to == itm_null)
@@ -3187,7 +3197,8 @@ void player::process_active_items(game *g)
   if (inv[i].active) {
    tmp = dynamic_cast<it_tool*>(inv[i].type);
    (use.*tmp->use)(g, this, &inv[i], true);
-   inv[i].charges -= tmp->charges_per_sec;
+   if (g->turn % tmp->turns_per_charge == 0)
+    inv[i].charges--;
    if (inv[i].charges <= 0) {
     (use.*tmp->use)(g, this, &inv[i], false);
     if (tmp->revert_to == itm_null) {

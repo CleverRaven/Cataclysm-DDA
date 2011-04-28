@@ -848,8 +848,7 @@ void iuse::light_off(game *g, player *p, item *it, bool t)
 void iuse::light_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
-  if (g->turn % 20 == 0)
-   it->charges--;	// Flashlights last a long long time.
+// Do nothing... game::light_level() handles this
  } else {	// Turning it off
   g->add_msg("The flashlight flicks off.");
   it->make(g->itypes[itm_flashlight]);
@@ -965,8 +964,6 @@ void iuse::radio_off(game *g, player *p, item *it, bool t)
 void iuse::radio_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
-  if (g->turn % 12 == 0)
-   it->charges--;	// Radios last a long long time.
   int best_signal = 0;
   std::string message = "Radio: Kssssssssssssh.";
   for (int k = 0; k < g->cur_om.radios.size(); k++) {
@@ -1232,25 +1229,53 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
 
 void iuse::geiger(game *g, player *p, item *it, bool t)
 {
- WINDOW* w = newwin(6, 16, 8, 1);
- wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w, 1, 1, c_ltred,  "Scan what?");
- mvwprintz(w, 2, 1, c_ltgray, "1: Yourself");
- mvwprintz(w, 3, 1, c_ltgray, "2: The ground");
- mvwprintz(w, 4, 1, c_ltgray, "3: Cancel");
- wrefresh(w);
- char ch;
- do {
-  ch = getch();
-  if (ch == '1')
-   g->add_msg("Your radiation level: %d", p->radiation);
-  else if (ch == '2')
-   g->add_msg("The ground's radiation level: %d",
-              g->m.radiation(p->posx, p->posy));
-  else if (ch == '3')
+ if (t) { // Every-turn use when it's on
+  int rads = g->m.radiation(p->posx, p->posy);
+  if (rads == 0)
+   return;
+  g->sound(p->posx, p->posy, 6, "");
+  if (rads > 50)
+   g->add_msg("The geiger counter buzzes intensely.");
+  else if (rads > 35)
+   g->add_msg("The geiger counter clicks wildly.");
+  else if (rads > 25)
+   g->add_msg("The geiger counter clicks rapidly.");
+  else if (rads > 15)
+   g->add_msg("The geiger counter clicks steadily.");
+  else if (rads > 8)
+   g->add_msg("The geiger counter clicks slowly.");
+  else if (rads > 4)
+   g->add_msg("The geiger counter clicks intermittantly.");
+  else
+   g->add_msg("The geiger counter clicks once.");
+  return;
+ }
+// Otherwise, we're activating the geiger counter
+ it_tool *type = dynamic_cast<it_tool*>(it->type);
+ bool is_on = (type->id == itm_geiger_on);
+ if (is_on) {
+  g->add_msg("The geiger counter's SCANNING LED flicks off.");
+  it->make(g->itypes[itm_geiger_off]);
+  it->active = false;
+  return;
+ }
+ std::string toggle_text = "Turn continuous scan ";
+ toggle_text += (is_on ? "on" : "off");
+ int ch = menu("Geiger counter:", "Scan yourself", "Scan the ground",
+               toggle_text.c_str(), "Cancel");
+ switch (ch) {
+  case 1: g->add_msg("Your radiation level: %d", p->radiation); break;
+  case 2: g->add_msg("The ground's radiation level: %d",
+                     g->m.radiation(p->posx, p->posy));		break;
+  case 3:
+   g->add_msg("The geiger counter's scan LED flicks on.");
+   it->make(g->itypes[itm_geiger_on]);
+   it->active = true;
+   break;
+  case 4:
    it->charges++;
- } while (ch < '1' || ch > '3');
+   break;
+ }
 }
 
 void iuse::teleport(game *g, player *p, item *it, bool t)
@@ -1515,10 +1540,15 @@ void iuse::mininuke_act(game *g, player *p, item *it, bool t)
 void iuse::pheromone(game *g, player *p, item *it, bool t)
 {
  point pos = g->find_item(it);
+ int junk;
+ bool is_u = !p->is_npc(), can_see = (is_u || g->u_see(p->posx, p->posy, junk));
  if (pos.x == -999 || pos.y == -999)
   return;
 
- g->add_msg("You squeeze the pheromone ball...");
+ if (is_u)
+  g->add_msg("You squeeze the pheromone ball...");
+ else if (can_see)
+  g->add_msg("%s squeezes a pheromone ball...", p->name.c_str());
  p->moves -= 15;
 
  int converts = 0;
@@ -1533,12 +1563,14 @@ void iuse::pheromone(game *g, player *p, item *it, bool t)
   }
  }
 
- if (converts == 0)
-  g->add_msg("...but nothing happens.");
- else if (converts == 1)
-  g->add_msg("...and a nearby zombie turns friendly!");
- else
-  g->add_msg("...and several nearby zombies turn friendly!");
+ if (can_see) {
+  if (converts == 0)
+   g->add_msg("...but nothing happens.");
+  else if (converts == 1)
+   g->add_msg("...and a nearby zombie turns friendly!");
+  else
+   g->add_msg("...and several nearby zombies turn friendly!");
+ }
 }
  
 

@@ -299,8 +299,9 @@ void dis_effect(game *g, player &p, disease &dis)
    p.hunger--;
    p.thirst--;
   }
-  if (rng(2, 80) + rng(0, 120) + rng(0, p.fatigue) + rng(0, p.fatigue * 5) <
-      g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 10))) {
+  if (rng(5, 80) + rng(0, 120) + rng(0, abs(p.fatigue)) +
+      rng(0, abs(p.fatigue * 5)) < g->light_level() &&
+      (p.fatigue < 10 || one_in(p.fatigue / 10))) {
    g->add_msg("The light wakes you up.");
    dis.duration = 1;
   }

@@ -122,10 +122,10 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_water_purifier, itm_two_way_radio, itm_radio, itm_radio_on, itm_crowbar,
  itm_hoe, itm_shovel, itm_chainsaw_off, itm_chainsaw_on, itm_jackhammer,
  itm_bubblewrap, itm_beartrap, itm_board_trap, itm_tripwire, itm_crossbow_trap,
- itm_shotgun_trap, itm_blade_trap, itm_landmine, itm_geiger, itm_teleporter, 
- itm_canister_goo, itm_pipebomb, itm_pipebomb_act, itm_grenade, itm_grenade_act,
- itm_EMPbomb, itm_EMPbomb_act, itm_gasbomb, itm_gasbomb_act, itm_smokebomb,
- itm_smokebomb_act, itm_molotov, itm_molotov_lit, itm_dynamite,
+ itm_shotgun_trap, itm_blade_trap, itm_landmine, itm_geiger_off, itm_geiger_on,
+ itm_teleporter, itm_canister_goo, itm_pipebomb, itm_pipebomb_act, itm_grenade,
+ itm_grenade_act, itm_EMPbomb, itm_EMPbomb_act, itm_gasbomb, itm_gasbomb_act,
+ itm_smokebomb, itm_smokebomb_act, itm_molotov, itm_molotov_lit, itm_dynamite,
  itm_dynamite_act, itm_mininuke, itm_mininuke_act, itm_pheromone, itm_portal,
  itm_bot_manhack, itm_UPS_off, itm_UPS_on, itm_tazer, itm_mp3, itm_mp3_on,
 // Bionics containers
@@ -492,7 +492,7 @@ struct it_tool : public itype
  unsigned int max_charges;
  unsigned int def_charges;
  unsigned char charges_per_use;
- unsigned char charges_per_sec;
+ unsigned char turns_per_charge;
  itype_id revert_to;
  void (iuse::*use)(game *, player *, item *, bool);
  virtual bool is_tool() { return true; }
@@ -503,7 +503,7 @@ struct it_tool : public itype
          signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
 
          unsigned int pmax_charges, unsigned int pdef_charges,
-         unsigned char pcharges_per_use, unsigned char pcharges_per_sec,
+         unsigned char pcharges_per_use, unsigned char pturns_per_charge,
          ammotype pammo, itype_id prevert_to,
 	 void (iuse::*puse)(game *, player *, item *, bool))
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
@@ -512,7 +512,7 @@ struct it_tool : public itype
   def_charges = pdef_charges;
   ammo = pammo;
   charges_per_use = pcharges_per_use;
-  charges_per_sec = pcharges_per_sec;
+  turns_per_charge = pturns_per_charge;
   revert_to = prevert_to;
   use = puse;
  }
