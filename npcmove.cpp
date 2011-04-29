@@ -1137,7 +1137,7 @@ void npc::drop_items(game *g, int weight, int volume)
  }
 
  std::stringstream item_name; // For description below
- int num_items_dropped; // For description below
+ int num_items_dropped = 0; // For description below
 // Now, drop items, starting from the top of each list
  while (weight_dropped < weight || volume_dropped < volume) {
 // weight and volume may be passed as 0 or a negative value, to indicate that

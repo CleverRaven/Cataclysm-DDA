@@ -1262,7 +1262,7 @@ void iuse::geiger(game *g, player *p, item *it, bool t)
  std::string toggle_text = "Turn continuous scan ";
  toggle_text += (is_on ? "on" : "off");
  int ch = menu("Geiger counter:", "Scan yourself", "Scan the ground",
-               toggle_text.c_str(), "Cancel");
+               toggle_text.c_str(), "Cancel", NULL);
  switch (ch) {
   case 1: g->add_msg("Your radiation level: %d", p->radiation); break;
   case 2: g->add_msg("The ground's radiation level: %d",

@@ -459,7 +459,7 @@ void game::init_mapitems()
 	itm_gloves_medical, itm_mask_dust, itm_mask_filter, itm_glasses_eye,
 	itm_glasses_safety, itm_textbook_computers, itm_textbook_electronics,
 	itm_textbook_chemistry, itm_SICP, itm_textbook_robots,
-	itm_soldering_iron, itm_geiger, itm_teleporter, itm_canister_goo,
+	itm_soldering_iron, itm_geiger_off, itm_teleporter, itm_canister_goo,
 	itm_EMPbomb, itm_pheromone, itm_portal, itm_bot_manhack, itm_UPS_off,
 	itm_tazer, itm_bionics_battery, itm_bionics_power, itm_bionics_tools,
 	itm_bionics_neuro, itm_bionics_hazmat, itm_bionics_medical, NULL);

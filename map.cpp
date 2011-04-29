@@ -575,7 +575,8 @@ void map::process_active_items(game *g)
     if (i_at(i, j)[n].active) {
      tmp = dynamic_cast<it_tool*>(i_at(i, j)[n].type);
      (use.*tmp->use)(g, &(g->u), &i_at(i, j)[n], true);
-     i_at(i, j)[n].charges -= tmp->charges_per_sec;
+     if (g->turn % tmp->turns_per_charge == 0)
+      i_at(i, j)[n].charges--;
      if (i_at(i, j)[n].charges <= 0) {
       (use.*tmp->use)(g, &(g->u), &i_at(i, j)[n], false);
       if (tmp->revert_to == itm_null) {

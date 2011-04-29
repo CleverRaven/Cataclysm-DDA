@@ -1410,7 +1410,7 @@ void player::mutate(game *g)
     break;
    case 13:
     if (has_trait(PF_DEFORMED2) || has_trait(PF_DEFORMED)) {
-     g->add_msg("Your deformations %smelt away.",
+     g->add_msg("Your deformations %smelt away.",// lol smelt
                 (has_trait(PF_DEFORMED2) ? "partially " : ""));
      if (has_trait(PF_DEFORMED2))
       toggle_trait(PF_DEFORMED2);
@@ -1430,6 +1430,7 @@ void player::mutate(game *g)
      g->add_msg("Your body stops disintegrating.");
      toggle_trait(PF_ROT);
      return;
+// Regeneration si really good, so give it a 4 in 5 chance to fail
     } else if (!has_trait(PF_REGEN) && one_in(5)) {
      g->add_msg("You feel your flesh rebuilding itself!");
      toggle_trait(PF_REGEN);
@@ -1702,7 +1703,7 @@ void player::mutate(game *g)
     }
     break;
    case 21:
-    if (!has_trait(PF_RADIOACTIVE)) {
+    if (!has_trait(PF_RADIOACTIVE) && one_in(2)) {
      g->add_msg("You feel radioactive.");
      toggle_trait(PF_RADIOACTIVE);
      return;
@@ -1765,9 +1766,7 @@ int player::sight_range(int light_level)
 
 bool player::is_in_sunlight(game *g)
 {
- if (g->light_level() >= 40 && g->m.ter(posx, posy) != t_floor)
-  return true;
- return false;
+ return (g->light_level() >= 40 && g->m.ter(posx, posy) != t_floor);
 }
 
 bool player::has_two_arms()
@@ -2928,7 +2927,7 @@ void player::suffer(game *g)
   healall(1);
  }
  if (has_trait(PF_RADIOACTIVE)) {
-  if (g->m.radiation(posx, posy) < 20)
+  if (g->m.radiation(posx, posy) < 20 && one_in(5))
    g->m.radiation(posx, posy)++;
  }
  if (has_trait(PF_UNSTABLE) && one_in(28800))	// Average once per 2 days

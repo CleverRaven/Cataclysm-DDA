@@ -709,7 +709,7 @@ void game::process_activity()
   draw();
   if (u.activity.type == ACT_WAIT) {	// Based on time, not speed
    u.activity.moves_left -= 100;
-   u.moves = 0;
+   u.pause();
   } else {
    u.activity.moves_left -= u.moves;
    u.moves = 0;
