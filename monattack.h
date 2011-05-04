@@ -18,6 +18,7 @@ class mattack
   void science		(game *g, monster *z);
   void growplants	(game *g, monster *z);
   void fungus		(game *g, monster *z);
+  void leap		(game *g, monster *z);
   void plant		(game *g, monster *z);
   void disappear	(game *g, monster *z);
   void formblob		(game *g, monster *z);

@@ -16,8 +16,7 @@ bool one_in(int chance)
 int dice(int number, int sides)
 {
  int ret = 0;
- for (int i = 0; i < number; i++) {
+ for (int i = 0; i < number; i++)
   ret += rng(1, sides);
- }
  return ret;
 }

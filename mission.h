@@ -68,14 +68,14 @@ struct mission_start {
 };
 
 struct mission_end {	// These functions are run when a mission ends
- void standard		(game *){}; // Nothing special happens
- void find_family	(game *){};
- void join_faction	(game *){}; // Offer to join GOODFAC
- void get_jelly		(game *){}; // Cure whoever was sick
- void get_jelly_ignt	(game *){}; // ^, plus teach about royal jelly
- void lost_npc		(game *){};
- void kidnap_victim	(game *){};
- void demo		(game *){};
+ void standard		(game *, mission *){}; // Nothing special happens
+ void find_family	(game *, mission *){};
+ void join_faction	(game *, mission *){}; // Offer to join GOODFAC
+ void get_jelly		(game *, mission *){}; // Cure whoever was sick
+ void get_jelly_ignt	(game *, mission *){}; // ^, also teach about jelly
+ void lost_npc		(game *, mission *){};
+ void kidnap_victim	(game *, mission *){};
+ void demo		(game *, mission *){};
 };
 
 struct mission_type {
@@ -91,12 +91,12 @@ struct mission_type {
 
  bool (mission_place::*place)(game *g, int x, int y);
  void (mission_start::*start)(game *g, mission *);
- void (mission_end  ::*end  )(game *g);
+ void (mission_end  ::*end  )(game *g, mission *);
 
  mission_type(std::string NAME, mission_goal GOAL, int DIF,
               bool (mission_place::*PLACE)(game *, int x, int y),
               void (mission_start::*START)(game *, mission *),
-              void (mission_end::*END)(game *)) :
+              void (mission_end::*END)(game *, mission *)) :
   name (NAME), goal (GOAL), difficulty (DIF), place (PLACE), start (START),
   end (END) { deadline_low = 0; deadline_high = 0; };
 

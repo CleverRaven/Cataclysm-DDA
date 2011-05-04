@@ -967,6 +967,35 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     rn = rng(lw + 1, rw - 1);
    while (ter(rn, bw - 1) != t_floor);
    ter(rn, bw - 1) = t_stairs_down;
+  } else if (one_in(50)) { // Non-basements have a 1 in 50 chance of wasps!
+   for (int i = 0; i < SEEX * 2; i++) {
+    for (int j = 0; j < SEEY * 2; j++) {
+     if (ter(i, j) == t_door_c || ter(i, j) == t_door_locked)
+      ter(i, j) = t_door_frame;
+     if (ter(i, j) == t_window && !one_in(3))
+      ter(i, j) = t_window_frame;
+     if (ter(i, j) == t_wall_h && one_in(8))
+      ter(i, j) = t_paper_h;
+     if (ter(i, j) == t_wall_v && one_in(8))
+      ter(i, j) = t_paper_v;
+    }
+   }
+   int num_pods = rng(8, 12);
+   for (int i = 0; i < num_pods; i++) {
+    int podx = rng(1, SEEX * 2 - 2), pody = rng(1, SEEY * 2 - 2);
+    int nonx = 0, nony = 0;
+    while (nonx == 0 && nony == 0) {
+     nonx = rng(-1, 1);
+     nony = rng(-1, 1);
+    }
+    for (int x = -1; x <= 1; x++) {
+     for (int y = -1; y <= 1; y++) {
+      if (x != nonx || y != nony)
+       ter(podx + x, pody + y) = (y == 0 ? t_paper_v : t_paper_h);
+     }
+    }
+    add_spawn(mon_wasp, 1, podx, pody);
+   }
   }
   if (terrain_type == ot_house_east  || terrain_type == ot_house_base_east)
    rotate(1);

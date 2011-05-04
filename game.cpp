@@ -4260,8 +4260,10 @@ void game::plmove(int x, int y)
    int udam = u.hit_mon(this, &z[mondex]);
    if (z[mondex].hurt(udam))
     kill_mon(mondex);
+/*
    else if (udam > 0)	// Stun them
     z[mondex].moves -= udam + int((udam / z[mondex].hp) * z[mondex].speed);
+*/
    return;
   } else
    displace = true;

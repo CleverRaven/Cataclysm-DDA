@@ -21,10 +21,10 @@ void game::init_itypes ()
 {
 // First, the null object.  NOT REALLY AN OBJECT AT ALL.  More of a concept.
  itypes.push_back(
-  new itype(0, 0, 0, "none", "", '#', c_white, MNULL, MNULL, 0, 0, 0, 0, 0));
+  new itype(0, 0, 0, "none", "", '#', c_white, MNULL, MNULL, 0, 0, 0, 0, 0, 0));
  itypes.push_back(
   new itype(1, 0, 0, "corpse", "A dead body.", '%', c_white, MNULL, MNULL, 0, 0,
-            0, 0, 0));
+            0, 0, 0, 0));
  int index = 1;
  
 // Drinks
@@ -35,7 +35,7 @@ void game::init_itypes ()
 #define DRINK(name,rarity,price,color,container,quench,nutr,spoils,stim,\
 healthy,addict,charges,fun,use_func,addict_func,des) \
 	index++;itypes.push_back(new it_comest(index,rarity,price,name,des,'~',\
-color,LIQUID,2,1,0,0,0,quench,nutr,spoils,stim,healthy,addict,charges,\
+color,LIQUID,2,1,0,0,0,0,quench,nutr,spoils,stim,healthy,addict,charges,\
 fun,container,itm_null,use_func,addict_func));
 
 //     NAME		RAR PRC	COLOR     CONTAINER
@@ -119,7 +119,7 @@ to fade away.");
 #define FOOD(name,rarity,price,color,mat1,container,volume,weight,quench,\
 nutr,spoils,stim,healthy,addict,charges,fun,use_func,addict_func,des) \
 	index++;itypes.push_back(new it_comest(index,rarity,price,name,des,'%',\
-color,mat1,volume,weight,0,0,0,quench,nutr,spoils,stim,healthy,addict,charges,\
+color,mat1,volume,weight,0,0,0,0,quench,nutr,spoils,stim,healthy,addict,charges,\
 fun,container,itm_null,use_func,addict_func));
 // FOOD
 
@@ -329,7 +329,7 @@ A large ant egg, the size of a softball.  Extremely nutrtious, but gross.");
 #define MED(name,rarity,price,color,tool,mat,stim,healthy,addict,\
 charges,fun,use_func,addict_func,des) \
 	index++;itypes.push_back(new it_comest(index,rarity,price,name,des,'!',\
-color,mat,1,1,0,0,0,0,0,0,stim,healthy,addict,charges,\
+color,mat,1,1,0,0,0,0,0,0,0,stim,healthy,addict,charges,\
 fun,itm_null,tool,use_func,addict_func));
 
 //  NAME		RAR PRC	COLOR		TOOL
@@ -450,284 +450,288 @@ heroin, as it will be too strong for you.");
 // to_hit (affects chances of hitting) should be kept small, -5 to +5
 // Note that do-nothing objects (e.g. superglue) belong here too!
 #define MELEE(name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
-              des)\
+              flags, des)\
 	index++;itypes.push_back(new itype(index,rarity,price,name,des,sym,\
-color,mat1,mat2,volume,wgt,dam,cut,to_hit))
+color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags))
 
 //    NAME		RAR PRC SYM  COLOR	MAT1	MAT2
 MELEE("paper wrapper",	50,  1, ',', c_ltgray,	PAPER,	MNULL,
-//	VOL WGT DAM CUT HIT
-	 1,  0, -8,  0, -2, "\
+//	VOL WGT DAM CUT HIT FLAGS
+	 1,  0, -8,  0, -2, 0, "\
 Just a piece of butcher's paper.  Good for starting fires.");
 
 MELEE("syringe",	 8, 25, ',', c_ltcyan,	PLASTIC,MNULL,
-	 1,  0, -4,  6, -2, "\
+	 1,  0, -4,  6, -2, mfb(WF_SPEAR), "\
 A medical syringe.  Used for administering heroin and other drugs.");
 
 MELEE("rag",		72, 10, ';', c_dkgray,	COTTON,	MNULL,
-	 2,  1,-10,  0,  0, "\
+	 2,  1,-10,  0,  0, 0, "\
 A small piece of cloth.  Useful for making molotov cocktails and not much else."
 );
 
 MELEE("fur pelt",	 0, 10, ',', c_brown,	WOOL,	FLESH,
-	 1,  1, -8,  0,  0, "\
+	 1,  1, -8,  0,  0, 0, "\
 A small bolt of fur from an animal.  Can be made into warm clothing.");
 
 MELEE("leather pelt",	 0, 20, ',', c_red,	LEATHER,FLESH,
-	 1,  1, -2,  0, -1, "\
+	 1,  1, -2,  0, -1, 0, "\
 A small piece of thick animal hide.  Can be made into tough clothing.");
 
 //    NAME		RAR PRC SYM  COLOR	MAT1	MAT2
 MELEE("superglue",	30, 18, ',', c_white,	PLASTIC,MNULL,
-//	VOL WGT DAM CUT HIT
-	 1,  0, -2,  0, -2, "\
+//	VOL WGT DAM CUT HIT FLAGS
+	 1,  0, -2,  0, -2, 0, "\
 A tube of strong glue.  Used in many crafting recipes.");
 
 MELEE("ID card",	 2,600, ',', c_pink,	PLASTIC,MNULL,
-	 0,  0, -8,  1, -3, "\
+	 0,  0, -8,  1, -3, 0, "\
 This ID card once belonged to a scientist of some sort.  It has a magnetic\n\
 stripe on the back; perhaps it can be used on a control panel.");
 
 MELEE("electrohack",	 3,400, ',', c_green,	PLASTIC,STEEL,
-	 2,  2,  5,  0,  1, "\
+	 2,  2,  5,  0,  1, 0, "\
 This device has many ports attached, allowing to to connect to almost any\n\
 control panel or other electronic machine (but not computers).  With a little\n\
 skill, it can be used to crack passwords and more.");
 
 MELEE("string - 6 in",	 2,  5, ',', c_ltgray,	COTTON,	MNULL,
-	 0,  0,-20,  0,  1, "\
+	 0,  0,-20,  0,  1, 0, "\
 A small piece of cotton string.");
 
 MELEE("string - 3 ft",	40, 30, ',', c_ltgray,	COTTON,	MNULL,
-	 1,  0, -5,  0,  1, "\
+	 1,  0, -5,  0,  1, 0, "\
 A long piece of cotton string.  Use scissors on it to cut it into smaller\n\
 pieces.");
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("rope - 6 ft",	 4, 45, ',', c_yellow,	WOOD,	MNULL,
-//	VOL WGT DAM CUT HIT
-	 2,  4,  1,  0,  1, "\
+//	VOL WGT DAM CUT HIT FLAGS
+	 2,  4,  1,  0,  1, mfb(WF_WRAP), "\
 A short piece of nylon rope.  Too small to be of much use.");
 
 MELEE("rope - 30 ft",	35,100, ',', c_yellow,	WOOD,	MNULL,
-	10, 20,  1,  0, -10, "\
+	10, 20,  1,  0, -10, 0, "\
 A long nylon rope.  Useful for keeping yourself safe from falls.");
 
 MELEE("steel chain",	20, 80, '/', c_cyan,	STEEL,	MNULL,
-	 4,  8, 12,  0,  3, "\
+	 4,  8, 12,  0,  3, mfb(WF_WRAP), "\
 A heavy steel chain.  Useful as a weapon, or for crafting.");
 
 MELEE("processor board",15,120, ',', c_ltcyan,	IRON,	PLASTIC,
-	 1,  0, -3,  0, -1, "\
+	 1,  0, -3,  0, -1, 0, "\
 A central processor unit, useful in advanced electronics crafting.");
 
 MELEE("RAM",		22, 90, ',', c_ltcyan,	IRON,	PLASTIC,
-	 1,  0, -5,  0, -1, "\
+	 1,  0, -5,  0, -1, 0, "\
 A stick of memory.  Useful in advanced electronics crafting.");
 
 MELEE("power converter",16,170, ',', c_ltcyan,	IRON,	PLASTIC,
-	 4,  2,  5,  0, -1, "\
+	 4,  2,  5,  0, -1, 0, "\
 A power supply unit.  Useful in lots of electronics recipes.");
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("amplifier circuit",8,200,',', c_ltcyan,	IRON,	PLASTIC,
-//	VOL WGT DAM CUT HIT
-	 1,  0, -5,  0, -1, "\
+//	VOL WGT DAM CUT HIT FLAGS
+	 1,  0, -5,  0, -1, 0, "\
 A circuit designed to amplify the strength of a signal.  Useful in lots of\n\
 electronics recipes.");
 
 MELEE("transponder circuit",5,240,',',c_ltcyan,	IRON,	PLASTIC,
-	 1,  0, -5,  0, -1, "\
+	 1,  0, -5,  0, -1, 0, "\
 A circuit designed to repeat a signal.  Useful for crafting communications\n\
 equipment.");
 
 MELEE("signal receiver",10,135, ',', c_ltcyan,	IRON,	PLASTIC,
-	 1,  0, -4,  0, -1, "\
+	 1,  0, -4,  0, -1, 0, "\
 A module designed to receive many forms of signals.  Useful for crafting\n\
 communications equipment.");
 
 MELEE("antenna",	18, 80, ',', c_ltcyan,	STEEL,	MNULL,
-	 1,  0, -6,  0,  2, "\
+	 1,  0, -6,  0,  2, 0, "\
 A simple thin aluminum shaft.  Useful in lots of electronics recipes.");
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("chunk of steel", 30, 10, ',', c_ltblue,	STEEL,	MNULL,
-//	VOL WGT DAM CUT HIT
-	 2,  6, 22,  0, -2, "\
+//	VOL WGT DAM CUT HIT FLAGS
+	 2,  6, 12,  0, -2, 0, "\
 A misshapen chunk of steel.  Makes a decent weapon in a pinch, and is also\n\
 useful for some crafting recipes.");
 
 MELEE("electric motor",  2,120, ',', c_ltcyan,	IRON,	MNULL,
-	 4,  6,  4,  0,  0, "\
+	 4,  6,  4,  0,  0, 0, "\
 A powerful electric motor.  Useful for crafting.");
 
 MELEE("rubber hose",	15, 80, ',', c_green,	PLASTIC,MNULL,
-	 3,  2,  4,  0,  3, "\
+	 3,  2,  4,  0,  3, mfb(WF_WRAP), "\
 A flexible rubber hose.  Useful for crafting.");
 
 MELEE("sheet of glass",	 5,135, ']', c_ltcyan,	GLASS,	MNULL,
-	50, 20, 16,  0, -5, "\
+	50, 20, 16,  0, -5, 0, "\
 A large sheet of glass.  Easily shattered.  Useful for re-paning windows.");
 
 MELEE("manhole cover",	 0, 20, ']', c_dkgray,	IRON,	MNULL,
-	45,250, 20,  0,-10, "\
+	45,250, 20,  0,-10, 0, "\
 A heavy iron disc which generally covers a ladder into the sewers.  Lifting\n\
 it from the manhole is impossible without a crowbar.");
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("rock",		40,  0, '*', c_ltgray,	STONE,	MNULL,
-//	VOL WGT DAM CUT HIT
-	 1,  3, 14,  0, -1, "\
+//	VOL WGT DAM CUT HIT FLAGS
+	 1,  3, 14,  0, -1, 0, "\
 A rock the size of a baseball.  Makes a decent melee weapon, and is also good\n\
 for throwing at enemies.");
 
 MELEE("heavy stick",	95,  0, '/', c_brown,	WOOD,	MNULL,
-	 6, 10, 12,  0,  3, "\
+	 6, 10, 12,  0,  3, 0, "\
 A sturdy, heavy stick.  Makes a decent melee weapon, and can be cut into two\n\
 by fours for crafting.");
 
 MELEE("broom",		30, 24, '/', c_blue,	PLASTIC,MNULL,
-	10,  8,  6,  0,  1, "\
+	10,  8,  6,  0,  1, 0, "\
 A long-handled broom.  Makes a terrible weapon unless you're chasing cats.");
 
 MELEE("mop",		20, 28, '/', c_ltblue,	PLASTIC,MNULL,
-	11, 12,  5,  0, -2, "\
+	11, 12,  5,  0, -2, 0, "\
 An unwieldy mop.  Essentially useless.");
 
 MELEE("screwdriver",	40, 65, ';', c_ltcyan,	IRON,	PLASTIC,
-	 1,  1,  2,  8,  1, "\
+	 1,  1,  2,  8,  1, mfb(WF_SPEAR), "\
 A Philips-head screwdriver, important for almost all electronics crafting and\n\
 most mechanics crafting.");
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("wrench",		30, 86, ';', c_ltgray,	IRON,	MNULL,
-//	VOL WGT DAM CUT HIT
-	 2,  5, 15,  0,  2, "\
+//	VOL WGT DAM CUT HIT FLAGS
+	 2,  5, 15,  0,  2, 0, "\
 An adjustable wrench.  Makes a decent melee weapon, and is used in many\n\
 mechanics crafting recipes.");
 
 MELEE("wood saw",	15, 40, ';', c_cyan,	IRON,	WOOD,
-	 7,  3, -6,  1, -2, "\
+	 7,  3, -6,  1, -2, 0, "\
 A flimsy saw, useful for cutting through wood objects.");
 
 MELEE("hack saw",	17, 65, ';', c_ltcyan,	IRON,	MNULL,
-	 4,  2,  1,  1, -1, "\
+	 4,  2,  1,  1, -1, 0, "\
 A sturdy saw, useful for cutting through metal objects.");
 
 MELEE("sledge hammer",	 6, 120,'/', c_brown,	WOOD,	IRON,
-	18, 34, 40,  0,  0, "\
+	18, 34, 40,  0,  0, 0, "\
 A large, heavy hammer.  Makes a good melee weapon for the very strong, but is\n\
 nearly useless in the hands of the weak.");
 
 MELEE("hatchet",	10,  95,';', c_ltgray,	IRON,	WOOD,
-	 6,  7, 12, 18,  1, "\
+	 6,  7, 12, 12,  1, 0, "\
 A one-handed hatchet.  Makes a great melee weapon, and is useful both for\n\
 cutting wood, and for use as a hammer.");
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("wood ax",	 8, 105,'/', c_ltgray,	WOOD,	IRON,
-//	VOL WGT DAM CUT HIT
-	17, 15, 24, 18,  1, "\
+//	VOL WGT DAM CUT HIT FLAGS
+	17, 15, 24, 18,  1, 0, "\
 A large two-handed axe.  Makes a good melee weapon, but is a bit slow.");
 
 MELEE("nail board",	 5,  80,'/', c_ltred,	WOOD,	MNULL,
-	 6,  6, 20, 12,  1, "\
+	 6,  6, 16, 12,  1, 0, "\
 A long piece of wood with several nails through one end; essentiall a simple\n\
 mace.  Makes a great melee weapon.");
 
 MELEE("X-Acto knife",	10,  40,';', c_dkgray,	IRON,	PLASTIC,
-	 1,  2,  0, 14, -4, "\
+	 1,  2,  0, 14, -4, mfb(WF_SPEAR), "\
 A small, very sharp knife.  Causes decent damage but is difficult to hit with."
 );
 
 MELEE("pot",		25,  45,')', c_ltgray,	IRON,	MNULL,
-	 8,  6,  9,  0,  1, "\
+	 8,  6,  9,  0,  1, 0, "\
 Useful for boiling water when cooking spaghetti and more.");
 
 MELEE("frying pan",	25,  50,')', c_ltgray,	IRON,	MNULL,
-	 6,  6, 14,  0,  2, "\
+	 6,  6, 14,  0,  2, 0, "\
 A cast-iron pan.  Makes a decent melee weapon, and is used for cooking.");
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("butter knife",	90,  15,';', c_ltcyan,	STEEL, 	MNULL,
-//	VOL WGT DAM CUT HIT
-	 1,  2,  2,  1, -2, "\
+//	VOL WGT DAM CUT HIT FLAGS
+	 1,  2,  2,  1, -2, 0, "\
 A dull knife, absolutely worthless in combat.");
 
 MELEE("steak knife",	85,  25,';', c_ltcyan,	STEEL,	MNULL,
-	 1,  2,  2, 10, -3, "\
+	 1,  2,  2, 10, -3, mfb(WF_STAB), "\
 A sharp knife.  Makes a poor melee weapon, but is decent at butchering\n\
 corpses.");
 
 MELEE("butcher knife",	10,  80,';', c_cyan,	STEEL,	MNULL,
-	 3,  6,  4, 20, -3, "\
+	 3,  6,  4, 20, -3, 0, "\
 A sharp, heavy knife.  Makes a good melee weapon, and is the best item for\n\
 butchering corpses.");
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("combat knife",	14, 100,';', c_blue,	STEEL,  PLASTIC,
-//	VOL WGT DAM CUT HIT
-	 2,  2,  2, 22, -3, "\
+//	VOL WGT DAM CUT HIT FLAGS
+	 2,  2,  2, 22, -3, mfb(WF_STAB), "\
 Designed for combat, and deadly in the right hands.  Can be used to butcher\n\
 corpses.");
 
 MELEE("two by four", 	60,  80,'/', c_ltred,	WOOD,	MNULL,
-	 6,  6, 14,  0,  1, "\
+	 6,  6, 14,  0,  1, 0, "\
 A plank of wood.  Makes a decent melee weapon, and can be used to board up\n\
 doors and windows if you have a hammer and nails.");
 
 MELEE("muffler",	30,  30,'/', c_ltgray,	IRON,	MNULL,
-	20, 20, 19,  0, -3, "\
+	20, 20, 19,  0, -3, 0, "\
 A muffler from a car.  Very unwieldy as a weapon.  Useful in a few crafting\n\
 recipes.");
 
 MELEE("pipe",		20,  75,'/', c_dkgray,	STEEL,	MNULL,
-	 4, 10, 13,  0,  3, "\
+	 4, 10, 13,  0,  3, 0, "\
 A steel pipe, makes a good melee weapon.  Useful in a few crafting recipes.");
 
 MELEE("baseball bat",	60, 160,'/', c_ltred,	WOOD,	MNULL,
-	12, 10, 28,  0,  3, "\
+	12, 10, 28,  0,  3, 0, "\
 A sturdy wood bat.  Makes a great melee weapon.");
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("machete",	 5, 280,'/', c_blue,	IRON,	MNULL,
-//	VOL WGT DAM CUT HIT
-	 8, 14,  6, 28,  2, "\
+//	VOL WGT DAM CUT HIT FLAGS
+	 8, 14,  6, 28,  2, 0, "\
 This huge iron knife makes an excellent melee weapon.");
 
 MELEE("katana",		 2, 980,'/', c_ltblue,	STEEL,	MNULL,
-	16, 16, 18, 45,  1, "\
+	16, 16, 18, 45,  1, mfb(WF_STAB), "\
 A rare sword from Japan.  Deadly against unarmored targets, and still very\n\
 effective against the armored.");
 
 MELEE("wood spear",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
-	 5,  3, 10, 20,  1, "\
+	 5,  3, 10, 20,  1, mfb(WF_SPEAR), "\
 A simple wood pole with one end sharpened.");
 
 MELEE("expandable baton",8, 175,'/', c_blue,	STEEL,	MNULL,
-	 1,  4, 17,  0,  2, "\
+	 1,  4, 17,  0,  2, 0, "\
 A telescoping baton that collapses for easy storage.  Makes an excellent\n\
 melee weapon.");
 
 MELEE("bee sting",	 5,  70,',', c_dkgray,	FLESH,	MNULL,
-	 1,  0,  7, 20,  1, "\
+	 1,  0,  7, 20,  1, mfb(WF_SPEAR), "\
 A four-inch stinger from a giant bee.  Makes a good melee weapon.");
+
+MELEE("wasp sting",	 5,  70,',', c_dkgray,	FLESH,	MNULL,
+	 1,  0,  7, 24,  1, mfb(WF_SPEAR), "\
+A four-inch stinger from a giant wasp.  Makes a good melee weapon.");
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("chunk of chitin",10,  15,',', c_red,	FLESH,	MNULL,
-//	VOL WGT DAM CUT HIT
-	 1,  0,  1,  0, -2, "\
+//	VOL WGT DAM CUT HIT FLAGS
+	 1,  0,  1,  0, -2, 0, "\
 A piece of an insect's exoskeleton.  It is light and very durable.");
 
 MELEE("empty canister",  5,  20,'*', c_ltgray,	STEEL,	MNULL,
-	 1,  1,  2,  0, -1, "\
+	 1,  1,  2,  0, -1, 0, "\
 An empty cansiter, which may have once held tear gas or other substances.");
 
 // ARMOR
 #define ARMOR(name,rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
 encumber,dmg_resist,cut_resist,env,warmth,storage,covers,des)\
 	index++;itypes.push_back(new it_armor(index,rarity,price,name,des,'[',\
-color,mat1,mat2,volume,wgt,dam,0,to_hit,covers,encumber,dmg_resist,cut_resist,\
+color,mat1,mat2,volume,wgt,dam,0,to_hit,0,covers,encumber,dmg_resist,cut_resist,\
 env,warmth,storage))
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
@@ -894,7 +898,7 @@ ARMOR("utility vest",	15, 200,C_TORSO,	COTTON,		MNULL,
     4,  3, -3,  0,  0,  0,  1,  0,  1, 14,	mfb(bp_torso), "\
 A light vest covered in pockets and straps for storage.");
 
-ARMOR("lab coat",	 2, 155,C_TORSO,	COTTON,		MNULL,
+ARMOR("lab coat",	20, 155,C_TORSO,	COTTON,		MNULL,
    11,  7, -3, -2,  1,  1,  2,  0,  1, 14,	mfb(bp_torso), "\
 A long white coat with several large pockets.");
 
@@ -1119,7 +1123,7 @@ A small holster worn on the ankle.");
 #define AMMO(name,rarity,price,ammo_type,color,mat,volume,wgt,dmg,AP,range,\
 accuracy,recoil,count,des) \
 	index++;itypes.push_back(new it_ammo(index,rarity,price,name,des,'=',\
-color,mat,volume,wgt,1,0,0,ammo_type,dmg,AP,accuracy,recoil,range,count))
+color,mat,volume,wgt,1,0,0,0,ammo_type,dmg,AP,accuracy,recoil,range,count))
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("batteries",	50, 120,AT_BATT,	c_magenta,	IRON,
@@ -1330,7 +1334,7 @@ delivering bolts of superheaed gas at near light speed with no recoil.");
 #define FUEL(name,rarity,price,ammo_type,color,dmg,AP,range,accuracy,recoil,\
              count,des) \
 	index++;itypes.push_back(new it_ammo(index,rarity,price,name,des,'~',\
-color,LIQUID,1,1,0,0,0,ammo_type,dmg,AP,accuracy,recoil,range,count))
+color,LIQUID,1,1,0,0,0,0,ammo_type,dmg,AP,accuracy,recoil,range,count))
 FUEL("gasoline",	0, 400,   AT_GAS,	c_ltred,
 //	DMG  AP RNG ACC REC COUNT
 	 0,  0,  0,  0,  0,  1, "\
@@ -1348,7 +1352,7 @@ potential for violent explosion.");
 #define GUN(name,rarity,price,color,mat1,mat2,skill,ammo,volume,wgt,melee_dam,\
 to_hit,dmg,accuracy,recoil,durability,burst,clip,des) \
 	index++;itypes.push_back(new it_gun(index,rarity,price,name,des,'(',\
-color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,skill,ammo,dmg,accuracy,recoil,\
+color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,0,skill,ammo,dmg,accuracy,recoil,\
 durability,burst,clip))
 
 //  NAME		RAR PRC COLOR		MAT1	MAT2
@@ -1702,7 +1706,7 @@ its bolts to be extremely deadly.");
                newtype, pistol, shotgun, smg, rifle, a_a_t, des)\
   index++; itypes.push_back(new it_gunmod(index, rare, value, name, des, ':',\
                             color, mat1, mat2, volume, weight, meleedam,\
-                            meleecut, meleehit, acc, damage, loudness, clip,\
+                            meleecut, meleehit, acc, 0, damage, loudness, clip,\
                             recoil, burst, newtype, a_a_t, pistol, shotgun,\
                             smg, rifle))
 
@@ -1883,7 +1887,7 @@ capabilities, but also increases accuracy and damage."
 #define BOOK(name,rarity,price,color,mat1,mat2,volume,wgt,melee_dam,to_hit,\
 type,level,req,fun,intel,time,des) \
 	index++;itypes.push_back(new it_book(index,rarity,price,name,des,'?',\
-color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,type,level,req,fun,intel,time))
+color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,0,type,level,req,fun,intel,time))
 //	NAME			RAR PRC	COLOR		MAT1	MAT2
 
 BOOK("Playboy",			20,  30,c_pink,		PAPER,	MNULL,
@@ -2021,7 +2025,7 @@ A rare book on the design of robots, with lots of helpful step-by-step guides."
 #define CONT(name,rarity,price,color,mat1,mat2,volume,wgt,melee_dam,to_hit,\
 contains,flags,des) \
 	index++;itypes.push_back(new it_container(index,rarity,price,name,des,\
-')',color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,contains,flags))
+')',color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,0,contains,flags))
 //	NAME		RAR PRC	COLOR		MAT1	MAT2
 
 CONT("plastic bag",	50,  1,	c_ltgray,	PLASTIC,MNULL,
@@ -2053,122 +2057,124 @@ A small cardboard box.  No bigger than a foot in any dimension.");
 
 #define TOOL(name,rarity,price,sym,color,mat1,mat2,volume,wgt,melee_dam,\
 melee_cut,to_hit,max_charge,def_charge,charge_per_use,charge_per_sec,fuel,\
-revert,func,des) \
+revert,func,flags,des) \
 	index++;itypes.push_back(new it_tool(index,rarity,price,name,des,sym,\
-color,mat1,mat2,volume,wgt,melee_dam,melee_cut,to_hit,max_charge,def_charge,\
-charge_per_use,charge_per_sec,fuel,revert,func))
+color,mat1,mat2,volume,wgt,melee_dam,melee_cut,to_hit,flags,max_charge,\
+def_charge,charge_per_use,charge_per_sec,fuel,revert,func))
 
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
 TOOL("lighter",		60,  35,',', c_blue,	PLASTIC,IRON,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    0,  0,  0,  0,  0, 100,100, 1,  0, AT_NULL,	itm_null, &iuse::lighter, "\
+    0,  0,  0,  0,  0, 100,100, 1,  0, AT_NULL,	itm_null, &iuse::lighter, 0, "\
 A lighter must be carried to use various drugs, like cigarettes, or to light\n\
 things like molotov cocktails.  You can also use a lighter to light nearby\n\
 items on fire.");
 
 TOOL("sewing kit",	30,120, ',', c_red,	PLASTIC,IRON,
-    2,  0, -3,  0, -1,  50, 50, 1,  0, AT_NULL, itm_null, &iuse::sew, "\
+    2,  0, -3,  0, -1,  50, 50, 1,  0, AT_NULL, itm_null, &iuse::sew, 0, "\
 Use a sewing kit on an article of clothing to attempt to repair or reinforce\n\
 that clothing.  This uses your tailoring skill.");
 
 TOOL("scissors",	50,  45,',', c_ltred,	IRON,	PLASTIC,
-    1,  1,  0,  8, -1,   0,  0, 0,  0, AT_NULL, itm_null, &iuse::scissors, "\
+    1,  1,  0,  8, -1,   0,  0, 0,  0, AT_NULL, itm_null, &iuse::scissors,
+mfb(WF_SPEAR), "\
 Use scissors to cut items made from cotton (mostly clothing) into rags.");
 
 TOOL("hammer",		35, 70, ';', c_brown,	IRON,	WOOD,
-    2,  5, 17,  0,  1,   0,  0, 0,  0, AT_NULL, itm_null, &iuse::hammer, "\
+    2,  5, 17,  0,  1,   0,  0, 0,  0, AT_NULL, itm_null, &iuse::hammer, 0, "\
 Use a hammer, with nails and two by fours in your inventory, to board up\n\
 adjacent doors and windows.");
 
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
 TOOL("fire extinguisher",20,700,';', c_red,	IRON,	MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-   16, 20, 26,  0, -1,  80, 80, 1,  0, AT_NULL, itm_null, &iuse::extinguisher,"\
-Use a fire extinguisher to put out adjacent fires.");
+   16, 20, 26,  0, -1,  80, 80, 1,  0, AT_NULL, itm_null, &iuse::extinguisher,0,
+"Use a fire extinguisher to put out adjacent fires.");
 
 TOOL("flashlight (off)",40, 380,';', c_blue,	PLASTIC, IRON,
-    3,  2,  1,  0,  2, 500,500, 0,  0, AT_BATT, itm_null, &iuse::light_off, "\
+    3,  2,  1,  0,  2, 100,100, 0,  0, AT_BATT, itm_null, &iuse::light_off,0,"\
 Using this flashlight will turn it on, assuming it is charged with batteries.\n\
 A turned-on flashlight will provide light during the night or while\n\
 underground.");
 
 TOOL("flashlight (on)",  0, 380,';', c_blue,	PLASTIC, IRON,
-    3,  2,  1,  0,  2, 500,500, 0, 10, AT_BATT,itm_flashlight,&iuse::light_on,"\
-This flashlight is turned on, and continually draining its batteries.  It\n\
+    3,  2,  1,  0,  2, 100,100, 0, 10, AT_BATT,itm_flashlight,&iuse::light_on,0,
+"This flashlight is turned on, and continually draining its batteries.  It\n\
 provides light during the night or while underground.  Use it to turn it off.");
 
 TOOL("hotplate",	10, 250,';', c_green,	IRON,	PLASTIC,
-    5,  6,  8,  0, -1, 40, 20,  0,  0, AT_BATT, itm_null, &iuse::none,"\
+    5,  6,  8,  0, -1, 40, 20,  0,  0, AT_BATT, itm_null, &iuse::none,0,"\
 A small heating element.  Indispensible for cooking and chemisty.");
 
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
 TOOL("soldering iron",	70, 200,',', c_ltblue,	IRON,	MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    3,  1,  2,  6,  0, 50, 20,  0,  0, AT_BATT, itm_null, &iuse::none,"\
+    3,  1,  2,  6,  0, 50, 20,  0,  0, AT_BATT, itm_null, &iuse::none,
+mfb(WF_SPEAR), "\
 A piece of metal that can get very hot.  Necessary for electronics crafting.");
 
 TOOL("water purifier",   5,1200,';', c_ltblue,	PLASTIC, IRON,
-   12, 20,  2,  0, -3, 100,100, 1,  0, AT_BATT,itm_null,&iuse::water_purifier,"\
-Using this item on a container full of water will purify the water.  Water\n\
+   12, 20,  2,  0, -3, 100,100, 1,  0, AT_BATT,itm_null,&iuse::water_purifier,0,
+"Using this item on a container full of water will purify the water.  Water\n\
 taken from uncertain sources like a river may be dirty.");
 
 TOOL("two-way radio",	10, 800,';', c_yellow,	PLASTIC, IRON,
-    2,  3, 10,  0,  0, 500,500, 1,  0, AT_BATT, itm_null,&iuse::two_way_radio,"\
-Using this allows you to send out a signal; either a general SOS, or if you\n\
+    2,  3, 10,  0,  0, 500,500, 1,  0, AT_BATT, itm_null,&iuse::two_way_radio,0,
+"Using this allows you to send out a signal; either a general SOS, or if you\n\
 are in contact with a faction, to send a direct call to them.");
 
 TOOL("radio (off)",	20, 420,';', c_yellow,	PLASTIC, IRON,
-    4,  2,  4,  0, -1, 500,500, 0,  0, AT_BATT,	itm_null, &iuse::radio_off, "\
+    4,  2,  4,  0, -1, 500,500, 0,  0, AT_BATT,	itm_null, &iuse::radio_off, 0,"\
 Using this radio turns it on.  It will pick up any nearby signals being\n\
 broadcast and play them audibly.");
 
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
 TOOL("radio (on)",	 0, 420,';', c_yellow,	PLASTIC, IRON,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    4,  2,  4,  0, -1, 500,500, 0,  8, AT_BATT, itm_radio,&iuse::radio_on, "\
+    4,  2,  4,  0, -1, 500,500, 0,  8, AT_BATT, itm_radio,&iuse::radio_on, 0,"\
 This radio is turned on, and continually draining its batteries.  It is\n\
 playing the broadcast being sent from any nearby radio towers.");
 
 TOOL("crowbar",		18, 130,';', c_ltblue,	IRON,	MNULL,
-    4,  9, 16,  3,  2,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::crowbar, "\
+    4,  9, 16,  3,  2,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::crowbar, 0,"\
 A prying tool.  Use it to open locked doors without destroying them, or to\n\
 lift manhole covers.");
 
 TOOL("hoe",		30,  90,'/', c_brown,	IRON,	WOOD,
-   14, 14, 12,  4,  3,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::makemound, "\
+   14, 14, 12,  4,  3,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::makemound,0,"\
 A farming implement.  Use it to turn tillable land into a slow-to-cross pile\n\
 of dirt.");
 
 TOOL("shovel",		40, 100,'/', c_brown,	IRON,	WOOD,
-   16, 18, 14,  2,  3,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::dig, "\
+   16, 18, 14,  2,  3,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::dig, 0, "\
 A digging tool.  Use it to dig pits adjacent to your location.");
 
 TOOL("chainsaw (off)",	 7, 350,'/', c_red,	IRON,	PLASTIC,
-   12, 40, 10,  0, -4,1000, 0,  0,  0, AT_GAS,	itm_null, &iuse::chainsaw_off,"\
-Using this item will, if it is loaded with gas, cause it to turn on, making a\n\
-very powerful, but slow, wieldy, and noisy, melee weapon.");
+   12, 40, 10,  0, -4,1000, 0,  0,  0, AT_GAS,	itm_null, &iuse::chainsaw_off,0,
+"Using this item will, if loaded with gas, cause it to turn on, making a very\n\
+powerful, but slow, wieldy, and noisy, melee weapon.");
 
 //	NAME		RAR VAL	SYM  COLOR	MAT1	MAT
 TOOL("chainsaw (on)",	 0, 350,'/', c_red,	IRON,	PLASTIC,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
    12, 40,  4, 70, -5,1000, 0,  0,  1, AT_GAS,	itm_chainsaw_off,
-	&iuse::chainsaw_on, "\
+	&iuse::chainsaw_on, mfb(WF_MESSY), "\
 This chainsaw is on, and is continuously draining gasoline.  Use it to turn\n\
 it off.");
 
 TOOL("jackhammer",	 2, 890,';', c_magenta,	IRON,	MNULL,
-   13, 54, 20,  6, -4, 120,  0, 2,  0, AT_GAS,	itm_null, &iuse::jackhammer, "\
+   13, 54, 20,  6, -4, 120,  0, 2,  0, AT_GAS,	itm_null, &iuse::jackhammer,0,"\
 This jackhammer runs on gasoline.  Use it (if loaded) to blast a hole in\n\
 adjacent solid terrain.");
 
 TOOL("bubblewrap",	50,  40,';', c_ltcyan,	PLASTIC,MNULL,
-    2,  0, -8,  0,  0,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap, "\
+    2,  0, -8,  0,  0,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap,0,"\
 A sheet of plastic covered with air-filled bubbles.  Use it to set it on the\n\
 ground, creating a trap that will warn you with noise when something steps on\n\
 it.");
 
 TOOL("bear trap",	 5, 120,';', c_cyan,	IRON,	MNULL,
-    4, 12,  9,  1, -2,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap, "\
+    4, 12,  9,  1, -2,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap,0,"\
 A spring-loaded pair of steel jaws.  Use it to set it on the ground, creating\n\
 a trap that will ensnare and damage anything that steps on it.  If you are\n\
 carrying a shovel, you will have the option of burying it.");
@@ -2176,24 +2182,24 @@ carrying a shovel, you will have the option of burying it.");
 //	NAME		RAR VAL	SYM  COLOR	MAT1	MAT
 TOOL("nailboard trap",	 0, 30, ';', c_brown,	WOOD,	MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-   18, 18, 12,  6, -3,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap, "\
+   18, 18, 12,  6, -3,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap,0,"\
 Several pieces of wood, nailed together, with nails sticking straight up.  If\n\
 an unsuspecting victim steps on it, they'll get nails through the foot.");
 
 TOOL("tripwire trap",	 0, 35, ';', c_ltgray,	PAPER,	MNULL,
-    1,  0,-10,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap, "\
+    1,  0,-10,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap,0,"\
 A tripwire trap must be placed across a doorway or other thin passage.  Its\n\
 purpose is to trip up bypassers, causing them to stumble and possibly hurt\n\
 themselves minorly.");
 
 TOOL("crossbow trap",	 0,600, ';', c_green,	IRON,	WOOD,
-    7, 10,  4,  0, -2,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap, "\
+    7, 10,  4,  0, -2,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap,0,"\
 A simple tripwire is attached to the trigger of a loaded crossbow.  When\n\
 pulled, the crossbow fires.  Only a single round can be used, after which the\n\
 trap is disabled.");
 
 TOOL("shotgun trap",	 0,450, ';', c_red,	IRON,	WOOD,
-    7, 11, 12,  0, -2,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap, "\
+    7, 11, 12,  0, -2,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap,0,"\
 A simple tripwire is attached to the trigger of a loaded sawn-off shotgun.\n\
 When pulled, the shotgun fires.  Two rounds are used; the first time the\n\
 trigger is pulled, one or two may be used.");
@@ -2201,75 +2207,75 @@ trigger is pulled, one or two may be used.");
 //	NAME		RAR VAL	SYM  COLOR	MAT1	MAT
 TOOL("blade trap",	 0,500, ';', c_ltgray,	IRON,	MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-   13, 21,  4, 16, -4,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap, "\
+   13, 21,  4, 16, -4,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap,0,"\
 A machete is attached laterally to a motor, with a tripwire controlling its\n\
 throttle.  When the tripwire is pulled, the blade is swung around with great\n\
 force.  The trap forms a 3x3 area of effect.");
 
 TOOL("land mine",	 3,2400,';', c_red,	IRON,	MNULL,
-    3,  6, 10,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap, "\
+    3,  6, 10,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap,0,"\
 An explosive that is triggered when stepped upon.  It must be partially\n\
 buried to be effective, and so you will need a shovel to use it.");
 
 TOOL("geiger ctr (off)", 8, 300,';', c_green,	PLASTIC,STEEL,
-    2,  2,  2,  0,  0,100,100,  1,  0, AT_BATT,	itm_null, &iuse::geiger, "\
+    2,  2,  2,  0,  0,100,100,  1,  0, AT_BATT,	itm_null, &iuse::geiger,0,"\
 A tool for measuring radiation.  Using it will prompt you to choose whether\n\
 to scan yourself or the terrain, or to turn it on, which will provide\n\
 continuous feedback on ambient radiation.");
 
 TOOL("geiger ctr (on)",	0, 300, ';', c_green,	PLASTIC,STEEL,
-    2,  2,  2,  0,  0,100,100,  0, 10, AT_BATT, itm_geiger_off,&iuse::geiger,"\
-A tool for measuring radiation.  It is in continuous scan mode, and will\n\
+    2,  2,  2,  0,  0,100,100,  0, 10, AT_BATT, itm_geiger_off,&iuse::geiger,0,
+"A tool for measuring radiation.  It is in continuous scan mode, and will\n\
 produce quiet clicking sounds in the presence of ambient radiation. Using it\n\
 allows you to turn it off, or scan yourself or the ground.");
 
 //	NAME		RAR VAL	SYM  COLOR	MAT1	MAT
 TOOL("teleporter",       5,6000,';', c_magenta,	PLASTIC,STEEL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    3, 12,  4,  0, -1, 20, 20,  1,  0, AT_PLUT,	itm_null, &iuse::teleport, "\
+    3, 12,  4,  0, -1, 20, 20,  1,  0, AT_PLUT,	itm_null, &iuse::teleport,0,"\
 An arcane device, powered by plutonium fuel cells.  Using it will cause you\n\
 to teleport a short distance away.");
 
 TOOL("goo canister",     8,3500,';', c_dkgray,  STEEL,	MNULL,
-    6, 22,  7,  0,  1,  1,  1,  1,  0, AT_NULL,	itm_null, &iuse::can_goo, "\
+    6, 22,  7,  0,  1,  1,  1,  1,  0, AT_NULL,	itm_null, &iuse::can_goo,0,"\
 \"Warning: contains highly toxic and corrosive materials.  Contents may be\n\
  sentient.  Open at your own risk.\"");
 
 TOOL("pipe bomb",	 4, 150,'*', c_white,	IRON,	MNULL,
-    2,  3, 11,  0,  1,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::pipebomb, "\
+    2,  3, 11,  0,  1,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::pipebomb,0,"\
 A section of a pipe filled with explosive materials.  Use this item to light\n\
 the fuse, which gives you 3 turns before it detonates.  You will need a\n\
 lighter.  It is somewhat unreliable, and may fail to detonate.");
 
 TOOL("active pipe bomb", 0,   0,'*', c_white,	IRON,	MNULL,
-    2,  3, 11,  0,  1,  3,  3,  0,  1, AT_NULL,	itm_null, &iuse::pipebomb_act,"\
-This pipe bomb's fuse is lit, and it will explode any second now.  Throw it\n\
+    2,  3, 11,  0,  1,  3,  3,  0,  1, AT_NULL,	itm_null, &iuse::pipebomb_act,0,
+"This pipe bomb's fuse is lit, and it will explode any second now.  Throw it\n\
 immediately!");
 
 //	NAME		RAR VAL	SYM  COLOR	MAT1	MAT
 TOOL("grenade",		 3, 400,'*', c_green,	IRON,	PLASTIC,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    1,  1, 10,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::grenade, "\
+    1,  1, 10,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::grenade,0,"\
 Use this item to pull the pin, turning it into an active grenade.  You will\n\
 then have five turns before it explodes; throwing it would be a good idea.");
 
 TOOL("active grenade",	 0,   0,'*', c_green,	IRON,	PLASTIC,
-    1,  1, 10,  0, -1,  5,  5,  0,  1, AT_NULL, itm_null, &iuse::grenade_act, "\
-This grenade is active, and will explode any second now.  Better throw it!");
+    1,  1, 10,  0, -1,  5,  5,  0,  1, AT_NULL, itm_null, &iuse::grenade_act,0,
+"This grenade is active, and will explode any second now.  Better throw it!");
 
 TOOL("EMP grenade",	 2, 600,'*', c_cyan,	STEEL,	PLASTIC,
-    1,  1,  8,  0, -1,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::EMPbomb, "\
+    1,  1,  8,  0, -1,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::EMPbomb,0,"\
 Use this item to pull the pin, turning it into an active EMP grenade.  You\n\
 will then have three turns before it detonates, creating an EMP field which\n\
 damages robots and drains bionic energy.");
 
 TOOL("active EMP grenade",0,  0,'*', c_cyan,	STEEL,	PLASTIC,
-    1,  1,  8,  0, -1,  3,  3,  0,  1, AT_NULL,	itm_null, &iuse::EMPbomb_act, "\
-This EMP grenade is active, and wiill shortly detonate, creating a large EMP\n\
+    1,  1,  8,  0, -1,  3,  3,  0,  1, AT_NULL,	itm_null, &iuse::EMPbomb_act,0,
+"This EMP grenade is active, and wiill shortly detonate, creating a large EMP\n\
 field which damages robots and drains bionic energy.");
 
 TOOL("teargas canister",3,  600,'*', c_yellow,	STEEL, MNULL,
-    1,  1,  6,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::gasbomb, "\
+    1,  1,  6,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::gasbomb,0,"\
 Use this item to pull the pin.  Five turns after you do that, it will begin\n\
 to expell a highly toxic gas for several turns.  This gas damages and slows\n\
 those who enter it, as well as obscuring vision and scent.");
@@ -2277,23 +2283,23 @@ those who enter it, as well as obscuring vision and scent.");
 //	NAME		RAR PRC SYM  COLOR	MAT1	MAT
 TOOL("active teargas",	0,    0,'*', c_yellow,	STEEL, MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    1,  1,  6,  0, -1,  5,  5,  0,  1, AT_NULL, itm_null, &iuse::gasbomb_act, "\
-This canister of teargas has had its pin removed, indicating that it is (or\n\
+    1,  1,  6,  0, -1,  5,  5,  0,  1, AT_NULL, itm_null, &iuse::gasbomb_act,0,
+"This canister of teargas has had its pin removed, indicating that it is (or\n\
 will shortly be) expelling highly toxic gas.");
 
 TOOL("smoke bomb",	5,  180,'*', c_dkgray,	STEEL,	MNULL,
-    1,  1,  5,  0, -1,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::smokebomb, "\
+    1,  1,  5,  0, -1,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::smokebomb,0,"\
 Use this item to pull the pin.  Five turns after you do that, it will begin\n\
 to expell a thick black smoke.  This smoke will slow those who enter it, as\n\
 well as obscuring vision and scent.");
 
 TOOL("active smoke bomb",0,  0, '*', c_dkgray,	STEEL,	MNULL,
-    1,  1,  5,  0, -1,  0,  0,  0,  1, AT_NULL, itm_null,&iuse::smokebomb_act,"\
-This smoke bomb has had its pin removed, indicating that it is (or will\n\
+    1,  1,  5,  0, -1,  0,  0,  0,  1, AT_NULL, itm_null,&iuse::smokebomb_act,0,
+"This smoke bomb has had its pin removed, indicating that it is (or will\n\
 shortly be) expelling thick smoke.");
 
 TOOL("molotov cocktail",0,  200,'*', c_ltred,	GLASS,	COTTON,
-    2,  2,  8,  0,  1,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::molotov, "\
+    2,  2,  8,  0,  1,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::molotov,0,"\
 A bottle of flammable liquid with a rag inserted.  Use this item to light the\n\
 rag; you will, of course, need a lighter in your inventory to do this.  After\n\
 lighting it, throw it to cause fires.");
@@ -2301,23 +2307,23 @@ lighting it, throw it to cause fires.");
 //	NAME		RAR PRC SYM  COLOR	MAT1	MAT
 TOOL("molotov cocktail (lit)",0,0,'*', c_ltred,	GLASS,	COTTON,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    2,  2,  8,  0,  1,  1,  1,  0,  0, AT_NULL,	itm_null, &iuse::molotov_lit,"\
-A bottle of flammable liquid with a flaming rag inserted.  Throwing it will\n\
+    2,  2,  8,  0,  1,  1,  1,  0,  0, AT_NULL,	itm_null, &iuse::molotov_lit,0,
+"A bottle of flammable liquid with a flaming rag inserted.  Throwing it will\n\
 cause the bottle to break, spreading fire.  The flame may go out shortly if\n\
 you do not throw it.  Dropping it while lit is not safe.");
 
 TOOL("dynamite",	5,  700,'*', c_red,	PLASTIC,MNULL,
-    6, 10,  4,  0, -3,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::dynamite, "\
+    6, 10,  4,  0, -3,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::dynamite,0,"\
 Several sticks of explosives with a fuse attached.  Use this item to light\n\
 the fuse; you will, of course, need a lighter in your inventory to do this.\n\
 Shortly after lighting the fuse, this item will explode, so get away!");
 
 TOOL("dynamite (lit)",	5,    0,'*', c_red,	PLASTIC,MNULL,
-    6, 10,  4,  0, -3,  0,  0,  0,  1, AT_NULL,	itm_null, &iuse::dynamite_act,"\
-The fuse on this dynamite is lit and hissing.  It'll explode any moment now.");
+    6, 10,  4,  0, -3,  0,  0,  0,  1, AT_NULL,	itm_null, &iuse::dynamite_act,0,
+"The fuse on this dynamite is lit and hissing.  It'll explode any moment now.");
 
 TOOL("mininuke",	1, 1800,'*', c_ltgreen,	STEEL,	PLASTIC,
-    3,  4,  8,  0, -2,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::mininuke, "\
+    3,  4,  8,  0, -2,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::mininuke,0,"\
 An extremely powerful weapon--essentially a hand-held nuclear bomb.  Use it\n\
 to activate the timer.  Ten turns later it will explode, leaving behind a\n\
 radioactive crater.  The explosion is large enough to take out a house.");
@@ -2325,22 +2331,22 @@ radioactive crater.  The explosion is large enough to take out a house.");
 //	NAME		RAR PRC SYM  COLOR	MAT1	MAT
 TOOL("mininuke (active)",0,   0,'*', c_ltgreen,	STEEL,	PLASTIC,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    3,  4,  8,  0, -2,  0,  0,  0,  1, AT_NULL, itm_null, &iuse::mininuke_act,"\
-This miniature nuclear bomb has a light blinking on the side, indicating that\n\
+    3,  4,  8,  0, -2,  0,  0,  0,  1, AT_NULL, itm_null, &iuse::mininuke_act,0,
+"This miniature nuclear bomb has a light blinking on the side, showing that\n\
 it will soon explode.  You should probably get far away from it.");
 
 TOOL("zombie pheromone",1,  400,'*', c_yellow,	FLESH,	PLASTIC,
-    1,  1, -5,  0, -1,  3,  3,  1,  0, AT_NULL,	itm_null, &iuse::pheromone, "\
+    1,  1, -5,  0, -1,  3,  3,  1,  0, AT_NULL,	itm_null, &iuse::pheromone,0,"\
 This is some kind of disgusting ball of rotting meat.  Squeezing it causes a\n\
 small cloud of pheromones to spray into the air, causing nearby zombies to\n\
 become friendly for a short period of time.");
 
 TOOL("portal generator",2, 6600, ';', c_magenta, STEEL,	PLASTIC,
-    2, 10,  6,  0, -1,  5,  5,  1,  0, AT_NULL,	itm_null, &iuse::portal, "\
+    2, 10,  6,  0, -1,  5,  5,  1,  0, AT_NULL,	itm_null, &iuse::portal,0,"\
 A rare and arcane device, covered in alien markings.");
 
 TOOL("inactive manhack",1, 1200, ',', c_ltgreen, STEEL, PLASTIC,
-    1,  3,  6,  6, -3,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::manhack, "\
+    1,  3,  6,  6, -3,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::manhack,0,"\
 An inactive manhack.  Manhacks are fist-sized robots which fly through the\n\
 air.  They are covered with whirring blades and attack by throwing themselves\n\
 against their target.  Use this item to activate the manhack.");
@@ -2348,19 +2354,19 @@ against their target.  Use this item to activate the manhack.");
 //	NAME		RAR PRC SYM  COLOR	MAT1	MAT
 TOOL("UPS (off)",	 1,2800,';',c_ltgreen,	STEEL,	PLASTIC,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    4,  6, 10,  0, -1,1000, 0,  0,  0, AT_BATT, itm_null, &iuse::UPS_off, "\
+    4,  6, 10,  0, -1,1000, 0,  0,  0, AT_BATT, itm_null, &iuse::UPS_off,0,"\
 A unified power supply, or UPS, is a device developed jointly by military and\n\
 scientific interests for use in combat and the field.  The UPS is designed to\n\
 power armor, goggles, etc., but drains batteries quickly.");
 
 TOOL("UPS (on)",	 0,2800,';',c_ltgreen,	STEEL,	PLASTIC,
-    4,  6, 10,  0, -1,1000, 0,  0,  1, AT_BATT,	itm_UPS_off, &iuse::UPS_on, "\
+    4,  6, 10,  0, -1,1000, 0,  0,  1, AT_BATT,	itm_UPS_off, &iuse::UPS_on,0,"\
 A unified power supply, or UPS, is a device developed jointly by military and\n\
 scientific interests for use in combat and the field.  The UPS is designed to\n\
 power armor, goggles, etc., but drains batteries quickly.");
 
 TOOL("tazer",		 3,1400,';',c_ltred,	IRON,	PLASTIC,
-    1,  3,  6,  0, -1, 500, 0,100, 0, AT_BATT, itm_null, &iuse::tazer, "\
+    1,  3,  6,  0, -1, 500, 0,100, 0, AT_BATT, itm_null, &iuse::tazer,0,"\
 A high-powered stun gun.  Use this item to attempt to electrocute an adjacent\n\
 enemy, damaging and temporarily paralyzing them.  Because the shock can\n\
 actually jump through the air, it is difficult to miss.");
@@ -2368,13 +2374,13 @@ actually jump through the air, it is difficult to miss.");
 //	NAME		RAR PRC SYM  COLOR	MAT1	MAT
 TOOL("mp3 player (off)",18, 800,';',c_ltblue,	IRON,	PLASTIC,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    1,  1,  0,  0,  0, 800,200, 0,  0, AT_BATT, itm_null, &iuse::mp3, "\
+    1,  1,  0,  0,  0, 800,200, 0,  0, AT_BATT, itm_null, &iuse::mp3,0,"\
 This battery-devouring device is loaded up with someone's music collection.\n\
 Fortunately, there's lots of songs you like, and listening to it will raise\n\
 your morale slightly.  Use it to turn it on.");
 
 TOOL("mp3 player (on)",	 0, 800,';',c_ltblue,	IRON,	PLASTIC,
-    1,  1,  0,  0,  0, 800,200, 0,  1, AT_BATT, itm_mp3, &iuse::mp3_on, "\
+    1,  1,  0,  0,  0, 800,200, 0,  1, AT_BATT, itm_mp3, &iuse::mp3_on,0,"\
 This mp3 player is turned on and playing some great tunes, raising your\n\
 morale steadily while on your person.  It runs through batteries quickly; you\n\
 can turn it off by using it.  It also obscures your hearing.");
@@ -2386,7 +2392,7 @@ can turn it off by using it.  It also obscures your hearing.");
 // list of options.
 #define BIO(name, rarity, price, color, difficulty, des, ...) \
 	index++;itypes.push_back(new it_bionic(index,rarity,price,name,des,':',\
-color, STEEL, PLASTIC, 10, 18, 8, 0, 0, difficulty, __VA_ARGS__))
+color, STEEL, PLASTIC, 10, 18, 8, 0, 0, 0, difficulty, __VA_ARGS__))
 //  Name			RAR PRICE	COLOR		DIFFICULTY
 
 BIO("CBM: Internal Battery",	24, 3800,	c_green,	 1, "\
@@ -2491,7 +2497,7 @@ heavy ammunition and weapons.",
   debugmsg("%d items, %d itypes", itypes.size(), num_all_items);
 
 
-MELEE("Null 2 - num_items",0,0,'#',c_white,MNULL,MNULL,0,0,0,0,0,"");
+MELEE("Null 2 - num_items",0,0,'#',c_white,MNULL,MNULL,0,0,0,0,0,0,"");
 
 // BIONIC IMPLANTS
 // Sometimes a bionic needs to set you up with a dummy weapon, or something
@@ -2501,7 +2507,7 @@ MELEE("Null 2 - num_items",0,0,'#',c_white,MNULL,MNULL,0,0,0,0,0,"");
 //    NAME		RARE SYM COLOR		MAT1	MAT2
 MELEE("adamantite claws",0,0,'{', c_pink,	STEEL,	MNULL,
 //	VOL WGT DAM CUT HIT
-	 2,  0,  8, 16,  4, "\
+	 2,  0,  8, 16,  4, mfb(WF_STAB), "\
 Short and sharp claws made from a high-tech metal.");
 
 //  NAME		RARE  TYPE	COLOR		MAT

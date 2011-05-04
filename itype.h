@@ -51,8 +51,8 @@ itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
  itm_hammer_sledge, itm_hatchet, itm_ax, itm_nailboard, itm_xacto, itm_pot,
  itm_pan, itm_knife_butter, itm_knife_steak, itm_knife_butcher,
  itm_knife_combat, itm_2x4, itm_muffler, itm_pipe, itm_bat, itm_machete,
- itm_katana, itm_spear_wood, itm_baton, itm_bee_sting, itm_chitin_piece,
- itm_canister_empty,
+ itm_katana, itm_spear_wood, itm_baton, itm_bee_sting, itm_wasp_sting,
+ itm_chitin_piece, itm_canister_empty,
 // Footwear
 itm_sneakers, itm_boots, itm_boots_steel, itm_boots_winter, itm_mocassins,
  itm_flip_flops, itm_dress_shoes, itm_heels, 
@@ -164,6 +164,15 @@ AT_FUSION,
 NUM_AMMO_TYPES
 };
 
+enum weapon_flag {
+WF_NULL,
+WF_SPEAR,	// Cutting damage is actually a piercing attack
+WF_STAB,	// This weapon *can* pierce, but also has normal cutting
+WF_WRAP,	// Can wrap around your target, costing you and them movement
+WF_MESSY,	// Splatters blood, etc.
+NUM_WEAPON_FLAGS
+};
+
 // Returns the name of a category of ammo (e.g. "shot")
 std::string ammo_name(ammotype t);
 // Returns the default ammo for a category of ammo (e.g. "itm_00_shot")
@@ -174,7 +183,7 @@ struct itype
  unsigned int id;	// ID # that matches its place in master itype list
  			// Used for save files; aligns to itype_id above.
  unsigned char rarity;	// How often it's found
- unsigned int price;	// Its value
+ unsigned int  price;	// Its value
  
  std::string name;	// Proper name
  std::string description;// Flavor text
@@ -192,6 +201,8 @@ struct itype
  signed char melee_dam;	// Bonus for melee damage; may be a penalty
  signed char melee_cut;	// Cutting damage in melee
  signed char m_to_hit;	// To-hit bonus for melee combat; -5 to 5 is reasonable
+
+ unsigned weapon_flags : NUM_WEAPON_FLAGS;
  
  virtual bool is_food()      { return false; }
  virtual bool is_ammo()      { return false; }
@@ -215,13 +226,15 @@ struct itype
   weight = 0;
   melee_dam = 0;
   m_to_hit = 0;
+  weapon_flags = 0;
  }
  
  itype(unsigned short pid, unsigned char prarity, unsigned int pprice,
        std::string pname, std::string pdes,
        char psym, nc_color pcolor, material pm1, material pm2,
        unsigned char pvolume, unsigned char pweight,
-       signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit) {
+       signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
+       unsigned pweapon_flags) {
   id          = pid;
   rarity      = prarity;
   price       = pprice;
@@ -236,6 +249,7 @@ struct itype
   melee_dam   = pmelee_dam;
   melee_cut   = pmelee_cut;
   m_to_hit    = pm_to_hit;
+  weapon_flags = pweapon_flags;
  }
 };
 
@@ -265,7 +279,7 @@ struct it_comest : public itype
            char psym, nc_color pcolor, material pm1,
            unsigned char pvolume, unsigned char pweight,
            signed char pmelee_dam, signed char pmelee_cut,
-           signed char pm_to_hit, 
+           signed char pm_to_hit, unsigned pweapon_flags, 
 
            signed char pquench, unsigned char pnutr, signed char pspoils,
            signed char pstim, signed char phealthy, unsigned char paddict,
@@ -273,7 +287,7 @@ struct it_comest : public itype
            itype_id ptool, void (iuse::*puse)(game *, player *, item *, bool),
            add_type padd) 
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pweapon_flags) {
   quench = pquench;
   nutr = pnutr;
   spoils = pspoils;
@@ -305,12 +319,13 @@ struct it_ammo : public itype
         char psym, nc_color pcolor, material pm1,
         unsigned char pvolume, unsigned char pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
+        unsigned pweapon_flags,
 
         ammotype ptype, unsigned char pdamage, unsigned char ppierce,
 	signed char paccuracy, unsigned char precoil, unsigned char prange,
         unsigned char pcount)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pweapon_flags) {
   type = ptype;
   damage = pdamage;
   pierce = ppierce;
@@ -339,12 +354,13 @@ struct it_gun : public itype
         char psym, nc_color pcolor, material pm1, material pm2,
         unsigned char pvolume, unsigned char pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
+        unsigned pweapon_flags,
 
 	skill pskill_used, ammotype pammo, signed char pdmg_bonus,
 	signed char paccuracy, signed char precoil, unsigned char pdurability,
         unsigned char pburst, unsigned char pclip)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pweapon_flags) {
   skill_used = pskill_used;
   ammo = pammo;
   dmg_bonus = pdmg_bonus;
@@ -373,7 +389,7 @@ struct it_gunmod : public itype
            char psym, nc_color pcolor, material pm1, material pm2,
            unsigned char pvolume, unsigned char pweight,
            signed char pmelee_dam, signed char pmelee_cut,
-           signed char pm_to_hit,
+           signed char pm_to_hit, unsigned pweapon_flags,
 
            signed char paccuracy, signed char pdamage, signed char ploudness,
            signed char pclip, signed char precoil, signed char pburst,
@@ -381,7 +397,7 @@ struct it_gunmod : public itype
            bool shotgun, bool smg, bool rifle)
 
  :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
+        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pweapon_flags) {
   accuracy = paccuracy;
   damage = pdamage;
   loudness = ploudness;
@@ -413,13 +429,14 @@ struct it_armor : public itype
           char psym, nc_color pcolor, material pm1, material pm2,
           unsigned char pvolume, unsigned char pweight,
           signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
+          unsigned pweapon_flags,
 
           unsigned char pcovers, signed char pencumber,
           unsigned char pdmg_resist, unsigned char pcut_resist,
           unsigned char penv_resist, signed char pwarmth,
           unsigned char pstorage)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pweapon_flags) {
   covers = pcovers;
   encumber = pencumber;
   dmg_resist = pdmg_resist;
@@ -445,11 +462,12 @@ struct it_book : public itype
          char psym, nc_color pcolor, material pm1, material pm2,
          unsigned char pvolume, unsigned char pweight,
          signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
+         unsigned pweapon_flags,
 
 	 skill ptype, unsigned char plevel, unsigned char preq,
 	 signed char pfun, unsigned char pintel, unsigned char ptime)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pweapon_flags) {
   type = ptype;
   level = plevel;
   req = preq;
@@ -476,11 +494,11 @@ struct it_container : public itype
               char psym, nc_color pcolor, material pm1, material pm2,
               unsigned char pvolume, unsigned char pweight,
               signed char pmelee_dam, signed char pmelee_cut,
-              signed char pm_to_hit,
+              signed char pm_to_hit, unsigned pweapon_flags,
 
               unsigned char pcontains, unsigned pflags)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pweapon_flags) {
   contains = pcontains;
   flags = pflags;
  }
@@ -501,13 +519,14 @@ struct it_tool : public itype
          char psym, nc_color pcolor, material pm1, material pm2,
          unsigned char pvolume, unsigned char pweight,
          signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
+         unsigned pweapon_flags,
 
          unsigned int pmax_charges, unsigned int pdef_charges,
          unsigned char pcharges_per_use, unsigned char pturns_per_charge,
          ammotype pammo, itype_id prevert_to,
 	 void (iuse::*puse)(game *, player *, item *, bool))
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pweapon_flags) {
   max_charges = pmax_charges;
   def_charges = pdef_charges;
   ammo = pammo;
@@ -529,10 +548,12 @@ struct it_bionic : public itype
            std::string pname, std::string pdes,
            char psym, nc_color pcolor, material pm1, material pm2,
            unsigned char pvolume, unsigned char pweight,
-           signed char pmelee_dam, signed char pmelee_cut,signed char pm_to_hit,
+           signed char pmelee_dam, signed char pmelee_cut,
+           signed char pm_to_hit, unsigned pweapon_flags,
+
            int pdifficulty, ...)
  :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
+        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pweapon_flags) {
    difficulty = pdifficulty;
    va_list ap;
    va_start(ap, pdifficulty);

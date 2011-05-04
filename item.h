@@ -52,14 +52,16 @@ public:
  int volume();
  int volume_contained();
  int attack_time();
+ bool has_weapon_flag(weapon_flag f);
 
-// Our value as a weapon, giving particular skills
+// Our value as a weapon, given particular skills
  int  weapon_value(int skills[num_skill_types]);
 // As above, but discounts its use as a ranged weapon
  int  melee_value(int skills[num_skill_types]);
  bool is_two_handed(player *u);
  bool made_of(material mat);
- bool conductive();
+ bool conductive(); // Electricity
+// Most of the is_whatever() functions call the same function in our itype
  bool is_food(player *u);// Some non-food items are food to certain players
  bool is_food_container(player *u);	// Ditto
  bool is_food();		// Ignoring the ability to eat batteries, etc.
@@ -80,8 +82,8 @@ public:
 
  //bool stack_with(item &it);	// Attempts to stack; returns true on success
 
- itype* type;
- mtype* corpse;
+ itype*   type;
+ mtype*   corpse;
  it_ammo* curammo;
 
  std::vector<item> contents;

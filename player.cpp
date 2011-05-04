@@ -104,10 +104,10 @@ void player::reset()
   int_cur  += int(morale_level() / 40);
  }
  if (radiation > 0) {
-  str_cur  -= int(radiation / 12);
-  dex_cur  -= int(radiation / 18);
-  per_cur  -= int(radiation / 20);
-  int_cur  -= int(radiation / 24);
+  str_cur  -= int(radiation / 24);
+  dex_cur  -= int(radiation / 36);
+  per_cur  -= int(radiation / 40);
+  int_cur  -= int(radiation / 48);
  }
  dex_cur += int(stim / 10);
  per_cur += int(stim /  7);
@@ -172,8 +172,8 @@ int player::current_speed()
   newmoves += morale_bonus;
  }
 
- if (radiation > 0) {
-  int rad_penalty = radiation * .4;
+ if (radiation > 10) {
+  int rad_penalty = radiation / 10;
   if (rad_penalty > 20)
    rad_penalty = 20;
   newmoves -= rad_penalty;
@@ -1838,6 +1838,9 @@ int player::hit_roll()
   cutting = true;
   numdice += int(sklevel[sk_cutting] / 2);
  }
+// Using a spear?
+ if (weapon.has_weapon_flag(WF_SPEAR))
+  numdice += int(sklevel[sk_stabbing]);
 
  int sides = 10;
  if (numdice < 1) {
@@ -1862,7 +1865,8 @@ int player::hit_mon(game *g, monster *z)
 
 // Types of combat (may overlap!)
  bool unarmed = unarmed_attack(), bashing = weapon.is_bashing_weapon(),
-      cutting = weapon.is_cutting_weapon();
+      cutting = weapon.is_cutting_weapon(),
+      stabbing = weapon.has_weapon_flag(WF_SPEAR);
 
 // Recoil penalty
  if (recoil <= 30)
@@ -1897,16 +1901,19 @@ int player::hit_mon(game *g, monster *z)
   hurtall(rng(1, 3));
  }
 // For very high hit rolls, we crit!
- bool critical_hit = (hit_roll() >= 75 + 3 * z->dodge_roll());
+ bool critical_hit = (hit_roll() >= 50 + 3 * z->dodge_roll());
  int dam = base_damage(true);
- int cutting_penalty = 0;
+ int cutting_penalty = 0; // Moves lost from getting a cutting weapon stuck
+
+// Drunken Master bonuses
  if (has_trait(PF_DRUNKEN) && has_disease(DI_DRUNK)) {
   if (unarmed)
    dam += disease_level(DI_DRUNK) / 250;
   else
    dam += disease_level(DI_DRUNK) / 400;
  }
- if (unarmed) {// Unarmed bonuses
+
+ if (unarmed) { // Unarmed bonuses
   dam += rng(0, sklevel[sk_unarmed]);
   if (has_trait(PF_TALONS) && z->type->armor - sklevel[sk_unarmed] < 10) {
    int z_armor = (z->type->armor - sklevel[sk_unarmed]);
@@ -1931,7 +1938,7 @@ int player::hit_mon(game *g, monster *z)
    }
   }
   dam += rng(1, sklevel[sk_unarmed]);
-  practice(sk_unarmed, 3);
+  practice(sk_unarmed, 2);
  }
 // Melee skill bonus
  dam += rng(0, sklevel[sk_melee]);
@@ -1941,10 +1948,22 @@ int player::hit_mon(game *g, monster *z)
  if (bash_dam > bash_cap)// Cap for weak characters
   bash_dam = (bash_cap * 3 + bash_dam) / 4;
  if (bashing)
-  bash_dam += rng(bash_dam / 4, sklevel[sk_bashing]) * sqrt(str_cur);
+  bash_dam += rng(0, sklevel[sk_bashing]) * sqrt(str_cur);
  dam += rng(bash_dam / 2, bash_dam);
+// Spears treat cutting damage specially.
+ if (weapon.has_weapon_flag(WF_SPEAR) &&
+     weapon.type->melee_cut > z->type->armor - int(sklevel[sk_stabbing])) {
+  int z_armor = z->type->armor - int(sklevel[sk_stabbing]);
+  dam += int(weapon.type->melee_cut / 5);
+  int minstab = sklevel[sk_stabbing] + weapon.type->melee_cut,
+      maxstab = sklevel[sk_stabbing] * 5 + weapon.type->melee_cut * 2;
+  z->moves -= rng(minstab, maxstab);
+  cutting_penalty = weapon.type->melee_cut * 4 + z_armor * 8 -
+                    dice(sklevel[sk_stabbing], 10);
+  practice(sk_stabbing, 5);
 // Cutting damage bonus
- if (weapon.type->melee_cut > z->type->armor - int(sklevel[sk_cutting] / 2)) {
+ } else if (weapon.type->melee_cut >
+                z->type->armor - int(sklevel[sk_cutting] / 2)) {
   int z_armor = z->type->armor - int(sklevel[sk_cutting] / 2);
   if (z_armor < 0)
    z_armor = 0;
@@ -1952,6 +1971,8 @@ int player::hit_mon(game *g, monster *z)
   cutting_penalty = weapon.type->melee_cut * 3 + z_armor * 10 -
                     dice(sklevel[sk_cutting], 10);
  }
+
+// Bonus attacks!
 
  bool shock_them = (!z->has_flag(MF_SHOCK) && has_bionic(bio_shock) &&
                     power_level >= 2 && unarmed && one_in(3));
@@ -1965,6 +1986,7 @@ int player::hit_mon(game *g, monster *z)
   power_level--;
  drain_them &= one_in(2);	// Only works half the time
 
+// Critical hit effects
  if (critical_hit) {
   bool headshot = (!z->has_flag(MF_NOHEAD) && !one_in(10));
 // Second chance for shock_them, drain_them, bite_them and peck_them
@@ -1977,6 +1999,13 @@ int player::hit_mon(game *g, monster *z)
                                one_in(5)));
    peck_them = ( peck_them || (has_trait(PF_BEAK)  && z->armor() < 16 &&
                                one_in(4)));
+
+  if (weapon.has_weapon_flag(WF_SPEAR) || weapon.has_weapon_flag(WF_STAB)) {
+   dam += weapon.type->melee_cut;
+   dam += rng(5, 10) * sklevel[sk_stabbing];
+   practice(sk_stabbing, 5);
+  }
+
   if (unarmed) {
    dam += rng(2, 6) * sklevel[sk_unarmed];
    if (sklevel[sk_unarmed] > 5)
@@ -2009,11 +2038,11 @@ int player::hit_mon(game *g, monster *z)
     else if (can_see)
      g->add_msg("%s deliver%s a crushing punch!",You.c_str(),(is_u ? "" : "s"));
    }
-  } else {	// If not unarmed...
+  } else {	// Critial effects if not unarmed
    if (bashing) {
     dam += 2 * sklevel[sk_bashing];
     dam += 8 + (str_cur / 2);
-    z->moves -= dam;	// Stunning blow
+    z->moves -= rng(0, dam);	// Stunning blow
    }
    if (cutting) {
     dam += 3 * sklevel[sk_cutting];
@@ -2066,6 +2095,7 @@ int player::hit_mon(game *g, monster *z)
   dam += 16 - z->armor();
  }
 
+// Make a rather quiet sound, to alert any nearby monsters
  g->sound(posx, posy, 6, "");
 
 // Glass weapons shatter sometimes
@@ -2113,20 +2143,28 @@ int player::hit_mon(game *g, monster *z)
  if (cutting)
   practice(sk_cutting, rng(5, 10));
 
+// Penalize the player if their cutting weapon got stuck
  if (!unarmed && dam < z->hp && cutting_penalty > dice(str_cur, 20)) {
   if (is_u)
    g->add_msg("Your %s gets stuck in the %s, pulling it out of your hands!",
               weapon.tname().c_str(), z->type->name.c_str());
   z->add_item(remove_weapon());
+  if (weapon.has_weapon_flag(WF_SPEAR) || weapon.has_weapon_flag(WF_STAB))
+   z->speed *= .7;
+  else
+   z->speed *= .85;
  } else {
   if (dam >= z->hp) {
    cutting_penalty /= 2;
    cutting_penalty -= rng(sklevel[sk_cutting], sklevel[sk_cutting] * 2 + 2);
   }
-  moves -= cutting_penalty;
-  if (cutting_penalty >= 10 && is_u)
+  if (cutting_penalty > 0)
+   moves -= cutting_penalty;
+  if (cutting_penalty >= 50 && is_u)
    g->add_msg("Your %s gets stuck in the %s, but you yank it free.",
               weapon.tname().c_str(), z->type->name.c_str());
+  if (weapon.has_weapon_flag(WF_SPEAR) || weapon.has_weapon_flag(WF_STAB))
+   z->speed *= .9;
  }
 
  return dam;
@@ -2215,7 +2253,7 @@ int player::dodge()
 //  the dodge skill.
  if (has_disease(DI_SLEEP) || has_disease(DI_LYING_DOWN))
   return 0;
- practice(sk_dodge, 10);
+ practice(sk_dodge, 5);
  int ret = 4 + (dex_cur / 2);
  ret += sklevel[sk_dodge];
  ret -= (encumb(bp_legs) / 2) + encumb(bp_torso);
@@ -2891,7 +2929,7 @@ void player::suffer(game *g)
    auto_use = false;
   }
   if (auto_use)
-   use_up(itm_inhaler, 1);
+   use_charges(itm_inhaler, 1);
   else
    add_disease(DI_ASTHMA, 50 * rng(1, 4), g);
  }
@@ -2932,7 +2970,7 @@ void player::suffer(game *g)
  }
  if (has_trait(PF_UNSTABLE) && one_in(28800))	// Average once per 2 days
   mutate(g);
- radiation += rng(0, g->m.radiation(posx, posy) / 2);
+ radiation += rng(0, g->m.radiation(posx, posy) / 4);
  if (rng(1, 1000) < radiation && g->turn % 600 == 0) {
   mutate(g);
   if (radiation > 2000)
@@ -3196,7 +3234,7 @@ void player::process_active_items(game *g)
   if (inv[i].active) {
    tmp = dynamic_cast<it_tool*>(inv[i].type);
    (use.*tmp->use)(g, this, &inv[i], true);
-   if (g->turn % tmp->turns_per_charge == 0)
+   if (tmp->turns_per_charge > 0 && g->turn % tmp->turns_per_charge == 0)
     inv[i].charges--;
    if (inv[i].charges <= 0) {
     (use.*tmp->use)(g, this, &inv[i], false);
@@ -3312,7 +3350,6 @@ item player::i_remn(int index)
 
 void player::use_up(itype_id it, int quantity)
 {
- int cur_item = 0;
  int used = 0;
  if (weapon.type->id == it) {
   if (weapon.is_ammo() || weapon.is_tool()) {
@@ -3352,6 +3389,7 @@ void player::use_up(itype_id it, int quantity)
   }
  }
 
+ int cur_item = 0;
  while (used < quantity && cur_item < inv.size()) {
   int local_used = 0;
   if (inv[cur_item].type->id == it) { 
@@ -4180,7 +4218,7 @@ int player::encumb(body_part bp)
   if (armor->covers & mfb(bp) ||
       (bp == bp_torso && (armor->covers & mfb(bp_arms)))) {
    ret += armor->encumber;
-   if (armor->encumber > 0 || bp != bp_torso)
+   if (armor->encumber >= 0 || bp != bp_torso)
     layers++;
   }
  }
@@ -4192,7 +4230,7 @@ int player::encumb(body_part bp)
   ret += 2;
  if (volume_carried() > volume_capacity() - 2 && bp != bp_head)
   ret += 3;
- if (has_bionic(bio_stiff) && bp != bp_head)
+ if (has_bionic(bio_stiff) && bp != bp_head && bp != bp_mouth)
   ret += 1;
  return ret;
 }

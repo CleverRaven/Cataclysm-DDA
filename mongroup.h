@@ -16,6 +16,7 @@ enum moncat_id {
  mcat_goo,
  mcat_chud,
  mcat_sewer,
+ mcat_swamp,
  mcat_lab,
  mcat_nether,
  num_moncats

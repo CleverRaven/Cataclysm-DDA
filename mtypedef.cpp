@@ -148,6 +148,17 @@ buzzes angrily through the air, dagger-\n\
 sized sting pointed forward."
 );
 
+mon("giant wasp",	'a', 	c_red,		MS_MEDIUM,	FLESH,
+	(mfb(MF_SMELLS)|mfb(MF_POISON)|mfb(MF_VENOM)|mfb(MF_FLIES)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  2, 18,  5,150,  6,  1,  3,  7,  7,  7,-40, 35, 0,
+	&mdeath::normal,	&mattack::none, "\
+An evil-looking, slender-bodied wasp with\n\
+a vicious sting on its abdomen."
+);
+
+// GIANT WORMS
+
 mon("graboid",		'S',	c_red,		MS_HUGE,	FLESH,
 	(mfb(MF_DIGS)|mfb(MF_HEARS)|mfb(MF_GOODHEARING)|mfb(MF_ATTACKMON)|
 	 mfb(MF_DESTROYS)|mfb(MF_WARM)|mfb(MF_LEATHER)),
@@ -470,6 +481,58 @@ mon("sewer rat",	's',	c_dkgray,	MS_SMALL,	FLESH,
 A large, mangey rat with red eyes.  It\n\
 scampers quickly across the ground, squeaking\n\
 hungrily."
+);
+
+// SWAMP CREATURES
+mon("giant mosquito",	'y',	c_ltgray,	MS_SMALL,	FLESH,
+	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_STUMBLES)|mfb(MF_VENOM)|
+	 mfb(MF_FLIES)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	 30,  6,  3,140,  8,  2,  2,  2,  5,  0,  0, 20, 0,
+	&mdeath::normal,	&mattack::none, "\
+An enormous mosquito, fluttering erratically,\n\
+its face dominated by a long, spear-tipped\n\
+proboscis."
+);
+
+mon("giant dragonfly",	'y',	c_ltgreen,	MS_SMALL,	FLESH,
+	(mfb(MF_SEES)|mfb(MF_SMELLS)|mfb(MF_FLIES)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  6, 13,  4,155, 12,  1,  3,  6,  5,  6,-20, 70, 0,
+	&mdeath::normal,	&mattack::none, "\
+A ferocious airborne predator, flying swiftly\n\
+through the air, its mouth a cluster of fangs."
+);
+
+mon("giant centipede",	'a',	c_ltgreen,	MS_MEDIUM,	FLESH,
+	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_POISON)|mfb(MF_VENOM)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  7,  9,  4,120, 10,  1,  3,  5,  2,  8,-30, 60, 0,
+	&mdeath::normal,	&mattack::none, "\
+A meter-long centipede, moving swiftly on\n\
+dozens of thin legs, a pair of venomous\n\
+pincers attached to its head."
+);
+
+mon("giant frog",	'F',	c_green,	MS_LARGE,	FLESH,
+	(mfb(MF_SEES)|mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_SWIMS)|
+	 mfb(MF_LEATHER)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  5, 10,  3, 90,  8,  2,  3,  0,  2,  4,  0, 70, 5,
+	&mdeath::normal,	&mattack::leap, "\
+A thick-skinned green frog.  It eyes you\n\
+much as you imagine it might eye an insect."
+);
+
+mon("giant slug",	'S',	c_yellow,	MS_HUGE,	FLESH,
+	(mfb(MF_SEES)|mfb(MF_SMELLS)|mfb(MF_BASHES)|mfb(MF_ACIDPROOF)|
+	 mfb(MF_ACIDTRAIL)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  4, 16,  4, 50,  7,  1,  5,  1,  0,  5,  0,190, 10,
+	&mdeath::normal,	&mattack::acid, "\
+A gigantic slug, the size of a small car.\n\
+It moves slowly, dribbling acidic goo from\n\
+its fang-lined mouth."
 );
 
 // NETHER WORLD INHABITANTS

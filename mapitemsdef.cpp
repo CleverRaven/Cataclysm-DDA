@@ -417,13 +417,17 @@ void game::init_mapitems()
 	itm_ant_egg, NULL);	//TODO: More items here?
 
  setvector(
-   mapitems[mi_ants],
+   mapitems[mi_bugs],
 	itm_chitin_piece, NULL);
 
  setvector(
    mapitems[mi_bees],
 	itm_bee_sting, itm_chitin_piece, NULL);
  
+ setvector(
+   mapitems[mi_bees],
+	itm_wasp_sting, itm_chitin_piece, NULL);
+
  setvector(
    mapitems[mi_robots],
 	itm_processor, itm_RAM, itm_power_supply, itm_amplifier,

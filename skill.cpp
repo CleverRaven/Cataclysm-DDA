@@ -15,6 +15,8 @@ std::string skill_name(int sk)
   return "bashing weapons";
  case sk_cutting:
   return "cutting weapons";
+ case sk_stabbing:
+  return "piercing weapons";
  case sk_throw:
   return "throwing";
  case sk_gun:
@@ -85,6 +87,11 @@ This increases damage, and at higher levels will improve your chance to hit.";
 Your skill at combat with weapons that cut or slice your enemies. At first\n\
 this will simply slightly increase accuracy and damage; later on it will\n\
 help you bypass armor and thick hides.";
+ case sk_stabbing:
+  return "\
+Your skill at combat that involves piercing weapons.  This includes spears,\n\
+which only have a stabbing attack, and things like knives, which can cut or\n\
+pierce.  This increases your accuracy and chance of a deadly critical.";
  case sk_throw:
   return "\
 Your skill at throwing items and getting them to go where you want. Increases\n\

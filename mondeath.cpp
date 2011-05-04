@@ -2,6 +2,7 @@
 #include "monster.h"
 #include "game.h"
 #include "rng.h"
+#include "line.h"
 
 void mdeath::normal(game *g, monster *z)
 {
@@ -17,7 +18,7 @@ void mdeath::normal(game *g, monster *z)
  }
 // Drop a dang ol' corpse
 // If their hp is less than -50, we destroyed them so badly no corpse was left
- if ((z->hp >= -50 || z->hp >= 0 - z->type->hp) &&
+ if ((z->hp >= -50 || z->hp >= 0 - 2 * z->type->hp) &&
      (z->made_of(FLESH) || z->made_of(VEGGY))) {
   item tmp;
   tmp.make_corpse(g->itypes[itm_corpse], z->type, g->turn);
@@ -134,6 +135,8 @@ void mdeath::guilt(game *g, monster *z)
 {
  if (g->u.has_trait(PF_HEARTLESS))
   return;	// We don't give a shit!
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1)
+  return;	// Too far away, we can deal with it
  g->add_msg("You feel terrible for killing %s!", z->name().c_str());
  g->u.add_morale(MOR_MONSTER_GUILT);
 }

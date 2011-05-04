@@ -4,7 +4,7 @@
 void game::init_monitems()
 {
  setvector(monitems[mon_ant],
-	mi_ants,	1, NULL);
+	mi_bugs,	1, NULL);
  monitems[mon_ant_soldier]	= monitems[mon_ant];
  monitems[mon_ant_queen]	= monitems[mon_ant];
 
@@ -37,6 +37,13 @@ void game::init_monitems()
 
  setvector(monitems[mon_bee],
 	mi_bees,	1, NULL);
+
+ setvector(monitems[mon_wasp],
+	mi_wasps,	1, NULL);
+
+ setvector(monitems[mon_dragonfly],
+	mi_bugs,	1, NULL);
+ monitems[mon_centipede]	= monitems[mon_dragonfly];
 
  setvector(monitems[mon_eyebot],
 	mi_robots,	4, mi_ammo,	 1,NULL);

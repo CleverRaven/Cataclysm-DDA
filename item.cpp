@@ -16,6 +16,7 @@ item::item()
  bday = 0;
  invlet = 0;
  damage = 0;
+ type = NULL;
  curammo = NULL;
  corpse = NULL;
  active = false;
@@ -555,6 +556,11 @@ int item::volume_contained()
 int item::attack_time()
 {
  return 80 + 4 * volume() + 2 * weight();
+}
+
+bool item::has_weapon_flag(weapon_flag f)
+{
+ return (type->weapon_flags & mfb(f));
 }
 
 int item::weapon_value(int skills[num_skill_types])

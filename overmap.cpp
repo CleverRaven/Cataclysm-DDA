@@ -870,7 +870,9 @@ void overmap::place_forest()
      swamps--;
     } else if (swamp_chance == 0)
      swamps = SWAMPINESS;
-    if (ter(x, y) == ot_field || ter(x, y) == ot_forest)
+    if (ter(x, y) == ot_field)
+     ter(x, y) = ot_forest;
+    else if (ter(x, y) == ot_forest)
      ter(x, y) = ot_forest_thick;
  
     if (swampy && (ter(x, y-1) == ot_field || ter(x, y-1) == ot_forest))
@@ -1846,6 +1848,22 @@ void overmap::place_mongroups()
   }
  }
 
+// Figure out where swamps are, and place swamp monsters
+ for (int x = 3; x < OMAPX - 3; x += 7) {
+  for (int y = 3; y < OMAPY - 3; y += 7) {
+   int swamp_count = 0;
+   for (int sx = x - 3; sx <= x + 3; sx++) {
+    for (int sy = y - 3; sy <= y + 3; sy++) {
+     if (ter(sx, sy) == ot_forest_water)
+      swamp_count++;
+    }
+   }
+   if (swamp_count >= 12) // 25% swamp!
+    zg.push_back(mongroup(mcat_swamp, x * 2, y * 2, 3, rng(500, 2000)));
+  }
+ }
+
+// Place slimepits
  for (int i = 0; i < 15; i++) {
   int x = rng(MAX_GOO_SIZE * 2, OMAPX - MAX_GOO_SIZE * 2);
   int y = rng(MAX_GOO_SIZE * 2, OMAPY - MAX_GOO_SIZE * 2);
@@ -1853,6 +1871,7 @@ void overmap::place_mongroups()
    ter(x, y) = ot_slimepit_down;
  }
 
+// Place a silo or six
  for (int n = 0; n < 6; n++) {
   int x = rng(3, OMAPX - 4);
   int y = rng(3, OMAPY - 4);
@@ -1868,6 +1887,7 @@ void overmap::place_mongroups()
    ter(x, y) = ot_silo;
  }
  
+// Place the "put me anywhere" grounds
  int numgroups = rng(0, 3);
  for (int i = 0; i < numgroups; i++) {
   zg.push_back(
@@ -1887,6 +1907,7 @@ void overmap::place_mongroups()
 	mongroup(mcat_fungi, rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1),
 	         rng(20, 30), rng(400, 800)));
  }
+// Forest groups cover the entire map
  zg.push_back(
 	mongroup(mcat_forest, 0, OMAPY, OMAPY,
                  rng(2000, 12000)));

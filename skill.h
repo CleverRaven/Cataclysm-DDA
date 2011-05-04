@@ -6,7 +6,7 @@
 enum skill {
  sk_null = 0,
 // Melee
- sk_dodge, sk_melee, sk_unarmed, sk_bashing, sk_cutting,
+ sk_dodge, sk_melee, sk_unarmed, sk_bashing, sk_cutting, sk_stabbing,
 // Combat
  sk_throw, sk_gun, sk_pistol, sk_shotgun, sk_smg, sk_rifle,
 // Crafting

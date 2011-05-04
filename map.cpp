@@ -186,6 +186,17 @@ bool map::bash(int x, int y, int str, std::string &sound)
    return true;
   }
   break;
+ case t_paper_v:
+ case t_paper_h:
+  if (str >= dice(2, 6)) {
+   sound += "rrrrip!";
+   ter(x, y) = t_dirt;
+   return true;
+  } else {
+   sound += "slap!";
+   return true;
+  }
+  break;
  case t_toilet:
   if (str >= dice(8, 10)) {
    sound += "porcelain breaking!";
@@ -356,6 +367,12 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items)
   dam -= rng(0, 8);
   if (dam > 0)
    ter(x, y) = t_floor;
+  return;
+ case t_paper_v:
+ case t_paper_h:
+  dam -= rng(4, 16);
+  if (dam > 0)
+   ter(x, y) = t_dirt;
   return;
  case t_gas_pump:
   if (one_in(3) || hit_items) {
@@ -575,7 +592,7 @@ void map::process_active_items(game *g)
     if (i_at(i, j)[n].active) {
      tmp = dynamic_cast<it_tool*>(i_at(i, j)[n].type);
      (use.*tmp->use)(g, &(g->u), &i_at(i, j)[n], true);
-     if (g->turn % tmp->turns_per_charge == 0)
+     if (tmp->turns_per_charge > 0 && g->turn % tmp->turns_per_charge == 0)
       i_at(i, j)[n].charges--;
      if (i_at(i, j)[n].charges <= 0) {
       (use.*tmp->use)(g, &(g->u), &i_at(i, j)[n], false);

@@ -59,8 +59,8 @@ You need to know if your brother is alive.  Check his house.";
       starty = origy - dist, endy = origy + dist;
 
   if (startx < 0)	startx = 0;
-  if (endx >= OMAPX)	endx = OMAPX - 1;
   if (starty < 0)	starty = 0;
+  if (endx >= OMAPX)	endx = OMAPX - 1;
   if (endy >= OMAPY)	endy = OMAPY - 1;
 
   std::vector<point> possible;

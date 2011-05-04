@@ -30,6 +30,16 @@ itype_id ALT_ATTACK_ITEMS[NUM_ALT_ATTACK_ITEMS] = {
 std::string npc_action_name(npc_action action);
 bool thrown_item(item *used);
 
+// Used in npc::drop_items()
+struct ratio_index
+{
+ double ratio;
+ int index;
+ ratio_index(double R, int I) : ratio (R), index (I) {};
+};
+
+// class npc functions!
+ 
 void npc::move(game *g)
 {
  npc_action action = npc_undecided;
@@ -956,13 +966,21 @@ void npc::move_away_from(game *g, int x, int y)
 void npc::move_pause()
 {
  moves = 0;
- recoil = 0;
+ if (recoil > 0) {
+  if (str_cur + 2 * sklevel[sk_gun] >= recoil)
+   recoil = 0;
+  else {
+   recoil -= str_cur + 2 * sklevel[sk_gun];
+   recoil = int(recoil / 2);
+  }
+ }
 }
 
 void npc::find_item(game *g)
 {
  fetching_item = false;
  int best_value = minimum_item_value();
+ double bestWgt = 0., bestVol = 0.;
  int range = sight_range(g->light_level());
  int minx = posx - range, maxx = posx + range,
      miny = posy - range, maxy = posy + range;
@@ -982,9 +1000,10 @@ void npc::find_item(game *g)
     for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
      int itval = value(g->m.i_at(x, y)[i]);
      int wgt = g->m.i_at(x, y)[i].weight(), vol = g->m.i_at(x, y)[i].volume();
-     if (itval > best_value && (itval > worst_item_value ||
-         (weight_carried() + wgt <= weight_capacity() / 4 &&
-          volume_carried() + vol <= volume_capacity()))) {
+     if (itval > best_value &&
+         (itval > worst_item_value ||
+          (weight_carried() + wgt <= weight_capacity() / 4 &&
+           volume_carried() + vol <= volume_capacity()       ))) {
       itx = x;
       ity = y;
       index = i;
@@ -1028,8 +1047,8 @@ void npc::pick_up_item(game *g)
       (volume_carried() + total_volume + vol <= volume_capacity() &&
        weight_carried() + total_weight + wgt <= weight_capacity() / 4))) {
    pickup.push_back(i);
-   total_volume += (*items)[i].volume();
-   total_weight += (*items)[i].weight();
+   total_volume += vol;
+   total_weight += wgt;
   }
  }
  if (total_volume + volume_carried() > volume_capacity() ||
@@ -1081,14 +1100,6 @@ void npc::pick_up_item(game *g)
  }
 }
 
-// Used in npc::drop_items()
-struct ratio_index
-{
- double ratio;
- int index;
- ratio_index(double R, int I) : ratio (R), index (I) {};
-};
- 
 void npc::drop_items(game *g, int weight, int volume)
 {
  if (g->debugmon) {
@@ -1172,6 +1183,7 @@ void npc::drop_items(game *g, int weight, int volume)
   else
    g->add_msg("%s drops a %s.", name.c_str(), item_name_str.c_str());
  }
+ update_worst_item_value();
 }
 
 void npc::melee_monster(game *g, int target)

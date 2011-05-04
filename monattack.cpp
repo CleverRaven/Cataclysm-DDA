@@ -418,6 +418,52 @@ void mattack::fungus(game *g, monster *z)
   z->poly(g->mtypes[mon_fungaloid_dormant]);
 }
 
+void mattack::leap(game *g, monster *z)
+{
+ int linet;
+ if (!g->sees_u(z->posx, z->posy, linet))
+  return;	// Only leap if we can see you!
+
+ std::vector<point> options;
+ int dx = 0, dy = 0, best = 0;
+ if (g->u.posx > z->posx)
+  dx = 1;
+ else if (g->u.posx < z->posx)
+  dx = -1;
+ if (g->u.posy > z->posy)
+  dy = 1;
+ else if (g->u.posy < z->posy)
+  dy = -1;
+
+ if (z->is_fleeing(g->u)) { // Leaping away from the player
+  dx *= -1;
+  dy *= -1;
+ }
+
+ for (int x = z->posx + dx * 3; x != z->posx - dx * 4; x -= dx) {
+  for (int y = z->posy + dy * 3; y != z->posy - dy * 4; y -= dy) {
+   if (g->is_empty(x, y) && rl_dist(z->posx, z->posy, x, y) >= best &&
+       g->m.sees(z->posx, z->posy, x, y, g->light_level(), linet)       ) {
+    options.push_back( point(x, y) );
+    best = rl_dist(z->posx, z->posy, x, y);
+   }
+  }
+ }
+
+ if (options.size() == 0)
+  return; // Nowhere to leap!
+
+ z->moves -= 150;
+ z->sp_timeout = z->type->sp_freq;	// Reset timer
+ point chosen = options[rng(0, options.size() - 1)];
+ bool seen = g->u_see(z, linet); // We can see them jump...
+ z->posx = chosen.x;
+ z->posy = chosen.y;
+ seen |= g->u_see(z, linet); // ... or we can see them land
+ if (seen)
+  g->add_msg("The %s leaps!", z->name().c_str());
+}
+
 void mattack::plant(game *g, monster *z)
 {
 // Spores taking seed and growing into a fungaloid

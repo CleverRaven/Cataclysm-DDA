@@ -324,9 +324,10 @@ positions relative to you, is displayed on the right side of the screen.\n\
 To attack a monster with a melee weapon, simply move into them. The time it\n\
 takes to attack depends on the size and weight of your weapon.  Small, light\n\
 weapons are the fastest; unarmed attacks increase in speed with your Unarmed\n\
-Combat skill, and will eventually be VERY fast.  A successful hit will stun\n\
-the monster temporarily, and most one-on-one fights will be easily won by the\n\
-player.  On the other hand, a miss will make you stumble and cost YOU\n\
+Combat skill, and will eventually be VERY fast.  A successful hit with a\n\
+bashing weapon may stun the monster temporarily, while cutting weapons may get\n\
+stuck, possibly pulling the weapon from your hands--but a monster with a weapon\n\
+stuck in it will move much more slowly.  A miss may make you stumble and lose\n\
 movement points.  If a monster hits you, your clothing may absorb some damage,\n\
 but you will absorb the excess.\n\
 \n\

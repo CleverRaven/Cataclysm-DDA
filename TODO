@@ -156,7 +156,7 @@ GENERAL:
 	>Two levels; "Full" and "Overfull"; Only when Overfull is puking a risk
 	>Three levels, hunger, thirst, and stomach fullness
 
-  Include "(rotten)" in the tname() for food.  Guessing whether a piece of
+**Include "(rotten)" in the tname() for food.  Guessing whether a piece of
   food is rotten is not a fun game.
 	Add some use for rotten food?  Maybe cooking salvages some of it?
 		Or level 1 cooking craft, 5 rotten tomatoes->1 fresh
@@ -178,7 +178,7 @@ GENERAL:
   Highlight or color-invert monsters that're fleeing; also make indifference
   visually obvious in some way (change glyph foreground color?)
 
-  Audit how we're using space in the data section
+  Audit how we're using screen space in the data window
 	Are pain AND painkiller level needed?
 	Definitely add player speed to the display
 	Maybe make a special data structure for how the data section is used and
@@ -303,7 +303,7 @@ CHARACTER CREATION:
 
 TRAITS:
 
-  Auto-use inhaler if Asthmatic; right now the trait is just so annoying
+**Auto-use inhaler if Asthmatic; right now the trait is just so annoying
 
   More Schizophrenic effects
 	Make auditory hallucinations more realistic/varied
