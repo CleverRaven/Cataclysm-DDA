@@ -176,6 +176,7 @@ void npc::randomize(game *g, npc_class type)
  int_max = dice(4, 3);
  per_max = dice(4, 3);
  weapon.make(g->itypes[itm_null]);
+ ret_null.make(g->itypes[itm_null]);
  inv.clear();
  personality.aggression = rng(-10, 10);
  personality.bravery =    rng(-10, 10);

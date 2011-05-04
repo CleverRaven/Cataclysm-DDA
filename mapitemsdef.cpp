@@ -425,7 +425,7 @@ void game::init_mapitems()
 	itm_bee_sting, itm_chitin_piece, NULL);
  
  setvector(
-   mapitems[mi_bees],
+   mapitems[mi_wasps],
 	itm_wasp_sting, itm_chitin_piece, NULL);
 
  setvector(

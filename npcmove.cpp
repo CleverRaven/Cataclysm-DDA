@@ -1160,9 +1160,19 @@ void npc::drop_items(game *g, int weight, int volume)
   if (dWeight > dVolume) {
    index = rWgt[0].index;
    rWgt.erase(rWgt.begin());
+// Fix the rest of those indexes.
+   for (int i = 0; i < rWgt.size(); i++) {
+    if (rWgt[i].index > index)
+     rWgt[i].index--;
+   }
   } else {
    index = rVol[0].index;
    rVol.erase(rVol.begin());
+// Fix the rest of those indexes.
+   for (int i = 0; i < rVol.size(); i++) {
+    if (rVol[i].index > index)
+     rVol[i].index--;
+   }
   }
   weight_dropped += inv[index].weight();
   volume_dropped += inv[index].volume();

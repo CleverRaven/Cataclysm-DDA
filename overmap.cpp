@@ -1854,11 +1854,11 @@ void overmap::place_mongroups()
    int swamp_count = 0;
    for (int sx = x - 3; sx <= x + 3; sx++) {
     for (int sy = y - 3; sy <= y + 3; sy++) {
-     if (ter(sx, sy) == ot_forest_water)
+     if (ter(sx, sy) == ot_forest_water || is_river(ter(sx, sy)))
       swamp_count++;
     }
    }
-   if (swamp_count >= 12) // 25% swamp!
+   if (swamp_count >= 15) // 30% swamp!
     zg.push_back(mongroup(mcat_swamp, x * 2, y * 2, 3, rng(500, 2000)));
   }
  }
