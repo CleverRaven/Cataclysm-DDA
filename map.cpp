@@ -107,7 +107,8 @@ bool map::has_flag(t_flag flag, int x, int y)
 
 bool map::is_destructable(int x, int y)
 {
- return !(terlist[ter(x, y)].flags & mfb(swimmable));
+ return (terlist[ter(x, y)].flags & mfb(bashable) ||
+         terlist[ter(x, y)].flags & mfb(destructable));
 }
 
 bool map::bash(int x, int y, int str, std::string &sound)
@@ -324,6 +325,8 @@ void map::destroy(game *g, int x, int y, bool makesound)
   ter(x, y) = t_rubble;
   break;
  default:
+  if (has_flag(explodes, x, y))
+   g->explosion(x, y, 40, 0, true);
   ter(x, y) = t_rubble;
  }
  if (makesound)
@@ -333,49 +336,57 @@ void map::destroy(game *g, int x, int y, bool makesound)
 void map::shoot(game *g, int x, int y, int &dam, bool hit_items)
 {
  switch (ter(x, y)) {
+
  case t_door_c:
  case t_door_locked:
   dam -= rng(15, 30);
   if (dam > 0)
    ter(x, y) = t_door_b;
-  return;
+  break;
+
  case t_door_b:
-  if (one_in(8)) {	// 1 in 8 chance of hitting the door
+  if (hit_items || one_in(8)) {	// 1 in 8 chance of hitting the door
    dam -= rng(10, 30);
    if (dam > 0)
     ter(x, y) = t_door_frame;
   } else
    dam -= rng(0, 1);
-  return;
+  break;
+
  case t_door_boarded:
   dam -= rng(15, 35);
   if (dam > 0)
    ter(x, y) = t_door_b;
-  return;
+  break;
+
  case t_window:
   dam -= rng(0, 5);
   if (dam > 0)
    ter(x, y) = t_window_frame;
-  return;
+  break;
+
  case t_window_boarded:
   dam -= rng(10, 30);
   if (dam > 0)
    ter(x, y) = t_window_frame;
-  return;
+  break;
+
  case t_wall_glass_h:
  case t_wall_glass_v:
   dam -= rng(0, 8);
   if (dam > 0)
    ter(x, y) = t_floor;
-  return;
+  break;
+
  case t_paper_v:
  case t_paper_h:
   dam -= rng(4, 16);
   if (dam > 0)
    ter(x, y) = t_dirt;
-  return;
+  break;
+
  case t_gas_pump:
-  if (one_in(3) || hit_items) {
+  if (hit_items || one_in(3)) {
    if (dam > 15) {
     for (int i = x - 2; i <= x + 2; i++) {
      for (int j = y - 2; j <= y + 2; j++) {
@@ -387,7 +398,8 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items)
    }
    dam -= 60;
   }
-  return;
+  break;
+
  case t_vat:
   if (dam >= 10) {
    g->sound(x, y, 15, "ke-rash!");
@@ -395,14 +407,19 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items)
   } else
    dam = 0;
   break;
+
  default:
   if (move_cost(x, y) == 0 && !trans(x, y))
    dam = 0;	// TODO: Bullets can go through some walls?
   else
    dam -= (rng(0, 1) * rng(0, 1) * rng(0, 1));
  }
+
+// Now, destroy items on that tile.
+
  if ((move_cost(x, y) == 2 && !hit_items) || !inbounds(x, y))
   return;	// Items on floor-type spaces won't be shot up.
+
  bool destroyed;
  for (int i = 0; i < i_at(x, y).size(); i++) {
   destroyed = false;

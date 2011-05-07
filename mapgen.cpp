@@ -2335,11 +2335,11 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      break;
     }
    }
-   place_items(mi_bedroom, 80,  4, j,  9, j + 2, false, rng(0, turn));
-   place_items(mi_bedroom, 80, 14, j, 19, j + 2, false, rng(0, turn));
+   place_items(mi_bedroom,   80,  4,  j,  9, j + 2, false, rng(0, turn));
+   place_items(mi_bedroom,   80, 14,  j, 19, j + 2, false, rng(0, turn));
   }
-  place_items(mi_livingroom, 40, 5, 15, 10, 16, false, rng(0, turn));
-  place_items(mi_kitchen, 40, 14, 15, 18, 15, false, 0);
+  place_items(mi_livingroom, 40,  5, 15, 10, 16,    false, rng(0, turn));
+  place_items(mi_kitchen,    40, 14, 15, 18, 15,    false, 0);
 // Finally, place items on the randomly-placed special squares
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -2371,7 +2371,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     switch (rng(0, 4)) {
     case 1:
     case 2:
-     place_items(mi_fridge, 88, i, j, i + 6, j + 6, false, turn);
+     place_items(mi_fridge,  88, i, j, i + 6, j + 6, false, turn);
      break;
     case 3:
     case 4:

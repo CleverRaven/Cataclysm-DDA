@@ -843,7 +843,7 @@ void game::get_input()
  } else if (ch == '>')
   vertical_move(-1, false);
  else if (ch == '<')
-  vertical_move(1, false);
+  vertical_move( 1, false);
  else if (ch == '.') {
   if (run_mode == 2) // Monsters around and we don't wanna pause
    add_msg("Monster spotted--run mode is on! (Press '!' to turn it off.)");

@@ -7,9 +7,8 @@ void game::wish()
 {
  int a = 0, shift = 0;
  int line;
- char ch;
- bool grep = false, found = false;;
- int search;
+ char ch = '.';
+ bool search = false, found = false;
  std::string pattern;
  std::string info;
  item tmp;
@@ -17,20 +16,21 @@ void game::wish()
  do {
   erase();
   mvprintw(0, 0, "Wish for a: ");
-  if (grep) {
+  if (search) {
    found = false;
    if (ch == '\n') {
-    grep = false;
+    search = false;
     found = true;
     pattern = "";
-   } else {
-    pattern = pattern + ch;
-    if (ch == ' ')
-     ch = '.';	// Don't escape the wish function yet!
-   }
-   for (search = 0; search < itypes.size() && !found; search++) {
-    if (itypes[search]->name.find(pattern) != std::string::npos) {
-     shift = search;
+    ch = '.';
+   } else if (ch == KEY_BACKSPACE && pattern.length() > 0)
+    pattern.erase(pattern.end() - 1);
+   else
+    pattern += ch;
+
+   for (int i = 0; i < itypes.size() && !found; i++) {
+    if (itypes[i]->name.find(pattern) != std::string::npos) {
+     shift = i;
      a = 0;
      if (shift + 23 > itypes.size()) {
       a = shift + 23 - itypes.size();
@@ -41,15 +41,15 @@ void game::wish()
    }
    if (found)
     mvprintw(1, 0, "%s               ", pattern.c_str());
-   else if (grep)
+   else if (search)
     mvprintz(1, 0, c_red, "%s not found!             ", pattern.c_str());
    else
     mvprintw(1, 0, "                      ");
-  } else {	// Not grepping; scroll by keys
+  } else {	// Not searching; scroll by keys
    if (ch == 'j') a++;
    if (ch == 'k') a--;
    if (ch == '/') { 
-    grep = true;
+    search = true;
     pattern =  "";
    }
   }
@@ -69,14 +69,14 @@ void game::wish()
   }
   tmp.make(itypes[a + shift]);
   if (tmp.is_tool())
-   tmp.charges = dynamic_cast<it_tool*>(tmp.type)->def_charges;
+   tmp.charges = dynamic_cast<it_tool*>(tmp.type)->max_charges;
   else if (tmp.is_ammo())
    tmp.charges = 100;
   info = tmp.info();
   line = 2;
   mvprintw(line, 1, info.c_str());
   ch = getch();
- } while (ch != ' ');
+ } while (ch != '\n');
  clear();
  mvprintw(0, 0, "\nWish granted.");
  tmp.invlet = nextinv;

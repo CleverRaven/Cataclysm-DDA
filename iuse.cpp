@@ -552,6 +552,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
  item* fix = &(p->i_at(ch));
  if (fix->type->id == 0) {
   g->add_msg("You do not have that item!");
+  it->charges++;
   return;
  }
  if (!fix->is_armor()) {

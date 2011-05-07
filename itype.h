@@ -13,7 +13,7 @@
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
-#define mfb(n) int(pow(2,(int)n))
+#define mfb(n) long(pow(2,(long)n))
 #endif
 
 enum itype_id {

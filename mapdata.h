@@ -25,26 +25,27 @@ class monster;
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
-#define mfb(n) int(pow(2,(int)n))
+#define mfb(n) long(pow(2,(long)n))
 #endif
 
 enum t_flag {
- transparent, // Player & monsters can see through/past it
- bashable, // Player & monsters can bash this & make it the next in the list
- container,// Items on this square are hidden until looted by the player
- door,     // Can be opened--used for NPC pathfinding.
- flammable,// May be lit on fire
- explodes, // Explodes when on fire
- diggable, // Digging monsters, seeding monsters, digging w/ shovel, etc.
- swimmable,// You (and monsters) swim here
- sharp,	   // May do minor damage to players/monsters passing it
- rough,    // May hurt the player's feet
- sealed,   // Can't 'e' to retrieve items here
- noitem,   // Items "fall off" this space
- goes_down,// Can '>' to go down a level
- goes_up,  // Can '<' to go up a level
- computer, // Used as a computer
- num_t_flags // MUST be last
+ transparent = 0,// Player & monsters can see through/past it
+ bashable,     // Player & monsters can bash this & make it the next in the list
+ container,    // Items on this square are hidden until looted by the player
+ door,         // Can be opened--used for NPC pathfinding.
+ flammable,    // May be lit on fire
+ explodes,     // Explodes when on fire
+ diggable,     // Digging monsters, seeding monsters, digging w/ shovel, etc.
+ swimmable,    // You (and monsters) swim here
+ sharp,	       // May do minor damage to players/monsters passing it
+ rough,        // May hurt the player's feet
+ sealed,       // Can't 'e' to retrieve items here
+ noitem,       // Items "fall off" this space
+ goes_down,    // Can '>' to go down a level
+ goes_up,      // Can '<' to go up a level
+ computer,     // Used as a computer
+ destructable, // Destroyed by jackhammer, etc.
+ num_t_flags   // MUST be last
 };
 
 struct ter_t {
@@ -52,7 +53,7 @@ struct ter_t {
  char sym;
  nc_color color;
  unsigned char movecost;
- unsigned flags : num_t_flags;
+ unsigned long flags;// : num_t_flags;
 };
 
 enum ter_id {
@@ -141,13 +142,13 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"slime",            '~', c_green,   6,
 	mfb(transparent)|mfb(container)|mfb(flammable)},
 {"wall",             '|', c_ltgray,  0,
-	mfb(flammable)},
+	mfb(flammable)|mfb(destructable)},
 {"wall",             '-', c_ltgray,  0,
-	mfb(flammable)},
+	mfb(flammable)|mfb(destructable)},
 {"metal wall",       '|', c_cyan,    0,
-	0},
+	mfb(destructable)},
 {"metal wall",       '-', c_cyan,    0,
-	0},
+	mfb(destructable)},
 {"glass wall",       '|', c_ltcyan,  0,
 	mfb(transparent)|mfb(bashable)},
 {"glass wall",       '-', c_ltcyan,  0,
@@ -171,15 +172,15 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"boarded up door",  '#', c_brown,   0,
 	mfb(bashable)|mfb(flammable)},
 {"closed metal door",'+', c_cyan,    0,
-	0},
+	mfb(destructable)},
 {"open metal door", '\'', c_cyan,    2,
 	mfb(transparent)},
 {"closed metal door",'+', c_cyan,    0, // Actually locked
-	0},
-{"bulletin board",   '6', c_blue, 0,
-	0},
+	mfb(destructable)},
+{"bulletin board",   '6', c_blue,    0,
+	mfb(destructable)},
 {"makeshift portcullis", '&', c_cyan, 0,
-	0},
+	mfb(destructable)},
 {"window",	     '"', c_ltcyan,  0,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)},
 {"window frame",     '0', c_ltcyan, 12,
@@ -187,7 +188,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"boarded up window",'#', c_brown,   0,
 	mfb(bashable)|mfb(flammable)},
 {"solid rock",       '#', c_white,   0,
-	0},
+	mfb(destructable)},
 {"paper wall",       '|', c_white,   0,
 	mfb(bashable)|mfb(flammable)},
 {"paper wall",       '-', c_white,   0,
@@ -224,37 +225,37 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"toilet",           '&', c_white,   0,
 	mfb(transparent)|mfb(bashable)},
 {"gasoline pump",    '&', c_red,     0,
-	mfb(transparent)|mfb(explodes)},
+	mfb(transparent)|mfb(explodes)|mfb(destructable)},
 {"smashed gas pump", '&', c_ltred,   0,
-	mfb(transparent)},
+	mfb(transparent)|mfb(destructable)},
 {"missile",          '#', c_ltblue,  0,
-	mfb(explodes)},
+	mfb(explodes)|mfb(destructable)},
 {"blown-out missile",'#', c_ltgray,  0,
-	0},
+	mfb(destructable)},
 {"counter",	     '#', c_blue,    4,
-	mfb(transparent)},
+	mfb(transparent)|mfb(destructable)},
 {"radio tower",      '&', c_ltgray,  0,
-	0},
+	mfb(destructable)},
 {"radio controls",   '6', c_green,   0,
 	mfb(transparent)|mfb(bashable)},
 {"broken computer",  '6', c_ltgray,  0,
-	mfb(transparent)},
+	mfb(transparent)|mfb(destructable)},
 {"computer console", '6', c_blue,    0,
-	mfb(transparent)|mfb(computer)},
+	mfb(transparent)|mfb(computer)|mfb(destructable)},
 {"computer console", '6', c_blue,    0,
-	mfb(transparent)|mfb(computer)},
+	mfb(transparent)|mfb(computer)|mfb(destructable)},
 {"computer console", '6', c_blue,    0,
-	mfb(transparent)|mfb(computer)},
+	mfb(transparent)|mfb(computer)|mfb(destructable)},
 {"refrigerator",    '{', c_ltcyan,   0,
-	mfb(container)},
+	mfb(container)|mfb(destructable)},
 {"dresser",          '{', c_brown,   0,
-	mfb(transparent)|mfb(container)|mfb(flammable)},
+	mfb(transparent)|mfb(container)|mfb(flammable)|mfb(destructable)},
 {"display rack",     '{', c_ltgray,  0,
-        mfb(transparent)|mfb(container)},
+        mfb(transparent)|mfb(container|mfb(destructable))},
 {"book case",        '{', c_brown,   0,
-	mfb(container)|mfb(flammable)},
+	mfb(container)|mfb(flammable|mfb(destructable))},
 {"dumpster",	     '{', c_green,   0,
-	mfb(container)},
+	mfb(container)|mfb(destructable)},
 {"cloning vat",      '0', c_ltcyan,  0,
 	mfb(transparent)|mfb(bashable)|mfb(container)|mfb(sealed)},
 {"stairs down",      '>', c_yellow,  2,
@@ -270,9 +271,9 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"upward slope",     '<', c_brown,   2,
 	mfb(transparent)|mfb(goes_up)|mfb(container)},
 {"card reader",	     '6', c_pink,    0,
-	0},
+	mfb(destructable)},
 {"broken card reader",'6', c_ltgray, 0,
-	0},
+	mfb(destructable)},
 {"manhole cover",    '0',  c_dkgray, 2,
 	mfb(transparent)},
 {"slot machine",     '6', c_green,   0,

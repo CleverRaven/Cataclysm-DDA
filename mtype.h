@@ -65,7 +65,7 @@ MS_HUGE		// TAAAANK
 // And comment them well. ;)
 // mfb(n) converts a flag to its appropriate position in mtype's bitfield
 #ifndef mfb
-#define mfb(n) int(pow(2,(int)n))
+#define mfb(n) long(pow(2,(long)n))
 #endif
 enum m_flags {
 MF_SEES,	// It can see you (and will run/follow)
