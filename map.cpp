@@ -107,8 +107,8 @@ bool map::has_flag(t_flag flag, int x, int y)
 
 bool map::is_destructable(int x, int y)
 {
- return (terlist[ter(x, y)].flags & mfb(bashable) ||
-         terlist[ter(x, y)].flags & mfb(destructable));
+ return (has_flag(bashable, x, y) ||
+         (move_cost(x, y) == 0 && !has_flag(transparent, x, y)));
 }
 
 bool map::bash(int x, int y, int str, std::string &sound)

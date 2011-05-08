@@ -631,7 +631,7 @@ MELEE("wood ax",	 8, 105,'/', c_ltgray,	WOOD,	IRON,
 A large two-handed axe.  Makes a good melee weapon, but is a bit slow.");
 
 MELEE("nail board",	 5,  80,'/', c_ltred,	WOOD,	MNULL,
-	 6,  6, 16, 12,  1, 0, "\
+	 6,  6, 16,  6,  1, mfb(WF_STAB), "\
 A long piece of wood with several nails through one end; essentiall a simple\n\
 mace.  Makes a great melee weapon.");
 

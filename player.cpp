@@ -1988,21 +1988,21 @@ int player::hit_mon(game *g, monster *z)
 
 // Critical hit effects
  if (critical_hit) {
-  bool headshot = (!z->has_flag(MF_NOHEAD) && !one_in(10));
+  bool headshot = (!z->has_flag(MF_NOHEAD) && !one_in(3));
 // Second chance for shock_them, drain_them, bite_them and peck_them
   shock_them = (shock_them || (!z->has_flag(MF_SHOCK) && has_bionic(bio_shock)&&
                                power_level >= 2 && unarmed && !one_in(3)));
   drain_them = (drain_them || (has_bionic(bio_heat_absorb) && !is_armed() &&
                                power_level >= 1 && z->has_flag(MF_WARM) &&
                                !one_in(3)));
-   bite_them = ( bite_them || (has_trait(PF_FANGS) && z->armor() < 18 &&
+  bite_them  = ( bite_them || (has_trait(PF_FANGS) && z->armor() < 18 &&
                                one_in(5)));
-   peck_them = ( peck_them || (has_trait(PF_BEAK)  && z->armor() < 16 &&
+  peck_them  = ( peck_them || (has_trait(PF_BEAK)  && z->armor() < 16 &&
                                one_in(4)));
 
   if (weapon.has_weapon_flag(WF_SPEAR) || weapon.has_weapon_flag(WF_STAB)) {
    dam += weapon.type->melee_cut;
-   dam += rng(5, 10) * sklevel[sk_stabbing];
+   dam += rng(1, 10) * sklevel[sk_stabbing];
    practice(sk_stabbing, 5);
   }
 
@@ -2038,7 +2038,7 @@ int player::hit_mon(game *g, monster *z)
     else if (can_see)
      g->add_msg("%s deliver%s a crushing punch!",You.c_str(),(is_u ? "" : "s"));
    }
-  } else {	// Critial effects if not unarmed
+  } else {	// Critical effects if not unarmed
    if (bashing) {
     dam += 2 * sklevel[sk_bashing];
     dam += 8 + (str_cur / 2);
