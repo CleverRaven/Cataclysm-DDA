@@ -3146,7 +3146,14 @@ void game::pickup(int posx, int posy, int min)
  if (m.i_at(posx, posy).size() == 0) {
   if (m.has_flag(swimmable, posx, posy) || m.ter(posx, posy) == t_toilet) {
    item water = m.water_from(posx, posy);
-   handle_liquid(water, true, false);
+   if (query_yn("Drink from your hands?")) {
+    u.inv.push_back(water);
+    u.eat(this, u.inv.size() - 1);
+    u.moves -= 350;
+   } else {
+    handle_liquid(water, true, false);
+    u.moves -= 100;
+   }
   }
   return;
 // Few item here, just get it
@@ -3533,9 +3540,13 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    return false;
   item *cont = &(u.i_at(ch));
   ammotype type = cont->ammo();
-  if (cont->is_tool() && (dynamic_cast<it_tool*>(cont->type))->max_charges>0 &&
-      (dynamic_cast<it_tool*>(cont->type))->ammo == type &&
-      (cont->charges == 0 || cont->curammo->id == liquid.type->id)) {
+  if (cont->type->id == itm_null) {
+   add_msg("Never mind.");
+   return false;
+  } else if (cont->is_tool() &&
+             (dynamic_cast<it_tool*>(cont->type))->max_charges > 0 &&
+             (dynamic_cast<it_tool*>(cont->type))->ammo == type &&
+             (cont->charges == 0 || cont->curammo->id == liquid.type->id)) {
    add_msg("You pour %s into your %s.", ammo_name(type).c_str(),
                                         cont->tname(this).c_str());
    cont->curammo = dynamic_cast<it_ammo*>(liquid.type);
@@ -3552,20 +3563,22 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
      return false;
     }
    }
-  } else if (cont->type->id == itm_null) {
-   add_msg("Never mind.");
-   return false;
   } else if (!cont->is_container()) {
    add_msg("That %s won't hold %s.", cont->tname(this).c_str(),
                                      liquid.tname(this).c_str());
-   u.weapon.charges += liquid.charges;
    return false;
   } else if (!cont->contents.empty()) {
    add_msg("Your %s is not empty.", cont->tname(this).c_str());
-   u.weapon.charges += liquid.charges;
    return false;
   } else {
    it_container* container = dynamic_cast<it_container*>(cont->type);
+   if (!container->flags & mfb(con_wtight)) {
+    add_msg("That %s isn't water-tight.", cont->tname(this).c_str());
+    return false;
+   } else if (!container->flags & mfb(con_seals)) {
+    add_msg("You can't seal that %s!", cont->tname(this).c_str());
+    return false;
+   }
    int default_charges = 1;
    if (liquid.is_food()) {
     it_comest* comest = dynamic_cast<it_comest*>(liquid.type);
