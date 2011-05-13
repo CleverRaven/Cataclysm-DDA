@@ -1864,9 +1864,10 @@ int player::hit_mon(game *g, monster *z)
  std::string your = (is_u ? "your" : (male ? "his" : "her"));
 
 // Types of combat (may overlap!)
- bool unarmed = unarmed_attack(), bashing = weapon.is_bashing_weapon(),
-      cutting = weapon.is_cutting_weapon(),
-      stabbing = weapon.has_weapon_flag(WF_SPEAR);
+ bool unarmed  = unarmed_attack(), bashing = weapon.is_bashing_weapon(),
+      cutting  = weapon.is_cutting_weapon(),
+      stabbing = (weapon.has_weapon_flag(WF_SPEAR) ||
+                  weapon.has_weapon_flag(WF_STAB));
 
 // Recoil penalty
  if (recoil <= 30)
@@ -1907,6 +1908,7 @@ int player::hit_mon(game *g, monster *z)
 
 // Drunken Master bonuses
  if (has_trait(PF_DRUNKEN) && has_disease(DI_DRUNK)) {
+// Remember, a single drink gives 600 levels of DI_DRUNK
   if (unarmed)
    dam += disease_level(DI_DRUNK) / 250;
   else
@@ -1949,7 +1951,7 @@ int player::hit_mon(game *g, monster *z)
   bash_dam = (bash_cap * 3 + bash_dam) / 4;
  if (bashing)
   bash_dam += rng(0, sklevel[sk_bashing]) * sqrt(str_cur);
- dam += rng(bash_dam / 2, bash_dam);
+ dam += rng(bash_dam / 4, bash_dam);
 // Spears treat cutting damage specially.
  if (weapon.has_weapon_flag(WF_SPEAR) &&
      weapon.type->melee_cut > z->type->armor - int(sklevel[sk_stabbing])) {
@@ -1963,13 +1965,27 @@ int player::hit_mon(game *g, monster *z)
   practice(sk_stabbing, 5);
 // Cutting damage bonus
  } else if (weapon.type->melee_cut >
-                z->type->armor - int(sklevel[sk_cutting] / 2)) {
+            z->type->armor - int(sklevel[sk_cutting] / 2)) {
   int z_armor = z->type->armor - int(sklevel[sk_cutting] / 2);
   if (z_armor < 0)
    z_armor = 0;
   dam += weapon.type->melee_cut - z_armor;
   cutting_penalty = weapon.type->melee_cut * 3 + z_armor * 10 -
                     dice(sklevel[sk_cutting], 10);
+ }
+ if (weapon.has_weapon_flag(WF_MESSY)) { // e.g. chainsaws
+  cutting_penalty /= 6; // Harder to get stuck
+  for (int x = z->posx - 1; x <= z->posx + 1; x++) {
+   for (int y = z->posy - 1; y <= z->posy + 1; y++) {
+    if (!one_in(3)) {
+     if (g->m.field_at(x, y).type == fd_blood &&
+         g->m.field_at(x, y).density < 3)
+      g->m.field_at(x, y).density++;
+     else
+      g->m.add_field(g, x, y, fd_blood, 1);
+    }
+   }
+  }
  }
 
 // Bonus attacks!
@@ -2204,7 +2220,6 @@ bool player::hit_player(player &p, body_part &bp, int &hitdam, int &hitcut)
  else
   bp = bp_legs;
  
-// Unarmed: 0 to (strength / 2)
  hitdam = base_damage();
 
  if (unarmed) {// Unarmed bonuses
@@ -2217,8 +2232,8 @@ bool player::hit_player(player &p, body_part &bp, int &hitdam, int &hitcut)
       (one_in(3) || rng(5, 20) < sklevel[sk_unarmed]))
    hitdam *= rng(2, 3);
  }
-// Weapon adds (melee_dam / 2) to (melee_dam)
- hitdam += rng(weapon.type->melee_dam / 2, weapon.type->melee_dam);
+// Weapon adds (melee_dam / 4) to (melee_dam)
+ hitdam += rng(weapon.type->melee_dam / 4, weapon.type->melee_dam);
  if (bashing)
   hitdam += rng(0, sklevel[sk_bashing]) * sqrt(str_cur);
 

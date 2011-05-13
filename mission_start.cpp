@@ -54,7 +54,8 @@ void mission_start::find_family(game *g, mission *miss)
 You need to know if your brother is alive.  Check his house.";
 // Find a house, at least 12 tiles away
  int origx = (g->levx + 1) / 2, origy = (g->levy + 1) / 2;
- for (int dist = 12; dist < 30; dist++) {
+ bool done = false;
+ for (int dist = 12; dist < 30 && !done; dist++) {
   int startx = origx - dist, endx = origx + dist,
       starty = origy - dist, endy = origy + dist;
 
@@ -91,9 +92,21 @@ You need to know if your brother is alive.  Check his house.";
   if (possible.size() > 0) {
    int index = rng(0, possible.size() - 1);
    miss->target = possible[index];
-   return;
+   done = true;
   }
  }
+ if (!done) {
+  debugmsg("Find Your Brother mission couldn't find a valid house!");
+  return;
+ }
+/*
+ if (!one_in(3)) { // 66% chance: brother joined a gang
+  map home(&(g->itypes), &(g->mapitems), &(g->traps));
+  home.load(g, miss->target.x, miss->target.y);
+  for (int x = 0; x < SEEX * 2; x++) {
+   for (int y = 0; y < SEEY * 2; y++) {
+    if (home.ter(x, y) == t_bed) {
+    */
 }
 
 void mission_start::get_jelly(game *g, mission *miss)

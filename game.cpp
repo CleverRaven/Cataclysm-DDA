@@ -499,7 +499,6 @@ void game::start_tutorial(tut_type type)
   cur_om.save(u.name, 0, 0, 9);
   cur_om = overmap(this, 0, 0, TUTORIAL_Z);
   cur_om.make_tutorial();
-  m.load(this, levx, levy);
   u.toggle_trait(PF_QUICK);
   u.inv.push_back(item(itypes[itm_lighter], 0, 'e'));
   u.sklevel[sk_gun] = 5;

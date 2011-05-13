@@ -888,7 +888,7 @@ void game::complete_craft()
   skill_dice += u.sklevel[making.sk_primary];
  else
   skill_dice += u.sklevel[making.sk_secondary];
-// Sides on dict is 20 plus your current intelligence
+// Sides on dice is 16 plus your current intelligence
  int skill_sides = 16 + u.int_cur;
 
  int diff_dice = making.difficulty * 4; // Since skill level is * 4 also
@@ -909,7 +909,7 @@ void game::complete_craft()
   int num_lost = rng(1, will_use.size());
   for (int i = 0; i < num_lost; i++) {
    int n = rng(0, will_use.size() - 1);
-   if (itypes[will_use[n].type]->is_ammo())
+   if (itypes[will_use[n].type]->is_ammo() && will_use[i].type != itm_gasoline)
     u.use_charges(will_use[n].type, will_use[n].count);
    else
     u.use_amount(will_use[n].type, will_use[n].count);
@@ -927,7 +927,7 @@ void game::complete_craft()
 // If we're here, the craft was a success!
 // Use up the items in will_use
  for (int i = 0; i < will_use.size(); i++) {
-  if (itypes[will_use[i].type]->is_ammo())
+  if (itypes[will_use[i].type]->is_ammo() && will_use[i].type != itm_gasoline)
    u.use_charges(will_use[i].type, will_use[i].count);
   else
    u.use_amount(will_use[i].type, will_use[i].count);

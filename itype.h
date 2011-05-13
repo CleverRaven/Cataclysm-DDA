@@ -564,4 +564,5 @@ struct it_bionic : public itype
  }
 };
 
+
 #endif
