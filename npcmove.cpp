@@ -1358,14 +1358,13 @@ void npc::alt_attack(game *g, int target)
     if (g->u_see(posx, posy, linet))
      g->add_msg("%s throws a %s.", name.c_str(), used->tname().c_str());
     g->throw_item(*this, tarx, tary, *used, trajectory);
-
    }
 
   } else { // Within this block, our chosen target is outside of our range
    update_path(g, tarx, tary);
    move_to_next(g); // Move towards the target
   }
- }
+ } // Done with throwing-item block
 }
 
 bool thrown_item(item *used)

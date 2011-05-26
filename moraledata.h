@@ -27,6 +27,7 @@ const morale_datum morale_data[] = {
 {"Killed Innocent",	 -80,	 14400},	// One day
 {"Killed Friend",	-600,	100800},	// One week!
 {"Killed Mom",		 -10,	   900},
+{"Religious Experience", 300,    28800},
 
 {"Caffeine Craving",	 -10,	  1800},
 {"Nicotine Craving",	 -20,	  2200},

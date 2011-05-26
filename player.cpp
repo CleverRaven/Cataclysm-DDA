@@ -72,11 +72,16 @@ void player::normalize(game *g)
  
 void player::reset()
 {
+// Reset our stats to normal levels
+// Any persistent buffs/debuffs will take place in disease.h,
+// player::suffer(), etc.
  str_cur = str_max;
  dex_cur = dex_max;
  int_cur = int_max;
  per_cur = per_max;
+// We can dodge again!
  can_dodge = true;
+// Bionic buffs
  if (has_active_bionic(bio_hydraulics))
   str_cur += 20;
  if (has_bionic(bio_eye_enhancer))
@@ -89,26 +94,37 @@ void player::reset()
   dex_cur -= 2;
  if (has_bionic(bio_armor_torso))
   dex_cur--;
+ if (has_bionic(bio_metabolics) && power_level < max_power_level &&
+     hunger < 100) {
+  hunger += 2;
+  power_level++;
+ }
+
+// Trait / mutation buffs
  if (has_trait(PF_CHITIN))
   dex_cur -= 3;
+// Pain
  if (pain > pkill) {
   str_cur  -= int((pain - pkill) / 15);
   dex_cur  -= int((pain - pkill) / 15);
   per_cur  -= int((pain - pkill) / 20);
   int_cur  -= 1 + int((pain - pkill) / 25);
  }
+// Morale
  if (abs(morale_level()) >= 40) {
   str_cur  += int(morale_level() / 75);
   dex_cur  += int(morale_level() / 80);
   per_cur  += int(morale_level() / 56);
   int_cur  += int(morale_level() / 40);
  }
+// Radiation
  if (radiation > 0) {
   str_cur  -= int(radiation / 24);
   dex_cur  -= int(radiation / 36);
   per_cur  -= int(radiation / 40);
   int_cur  -= int(radiation / 48);
  }
+// Stimulants
  dex_cur += int(stim / 10);
  per_cur += int(stim /  7);
  int_cur += int(stim /  6);
@@ -118,7 +134,10 @@ void player::reset()
   int_cur -= int(abs(stim - 15) / 14);
  }
 
+// Give us our movement points for the turn.
  moves += current_speed();
+
+// Floor for our stats.  No stat changes should occur after this!
  if (dex_cur < 0)
   dex_cur = 0;
  if (str_cur < 0)
@@ -128,12 +147,6 @@ void player::reset()
  if (int_cur < 0)
   int_cur = 0;
  
- if (has_bionic(bio_metabolics) && power_level < max_power_level &&
-     hunger < 100) {
-  hunger += 2;
-  power_level++;
- }
-
  update_morale();
 }
 
@@ -1873,7 +1886,7 @@ int player::hit_mon(game *g, monster *z)
  if (recoil <= 30)
   recoil += 6;
 // Movement cost
- moves -= (80 + 4*weapon.volume() + 2*weapon.weight() + 20*encumb(bp_torso));
+ moves -= weapon.attack_time() + 20 * encumb(bp_torso);
 // Different sizes affect your chance to hit
  if (hit_roll() < z->dodge_roll()) {// A miss!
 // Movement penalty for missing & stumbling
@@ -1951,15 +1964,23 @@ int player::hit_mon(game *g, monster *z)
   bash_dam = (bash_cap * 3 + bash_dam) / 4;
  if (bashing)
   bash_dam += rng(0, sklevel[sk_bashing]) * sqrt(str_cur);
+ int bash_min = bash_dam / 4;
+ if (bash_min < sklevel[sk_bashing] * 2)
+  bash_min = sklevel[sk_bashing] * 2;
  dam += rng(bash_dam / 4, bash_dam);
 // Spears treat cutting damage specially.
  if (weapon.has_weapon_flag(WF_SPEAR) &&
      weapon.type->melee_cut > z->type->armor - int(sklevel[sk_stabbing])) {
   int z_armor = z->type->armor - int(sklevel[sk_stabbing]);
   dam += int(weapon.type->melee_cut / 5);
-  int minstab = sklevel[sk_stabbing] + weapon.type->melee_cut,
-      maxstab = sklevel[sk_stabbing] * 5 + weapon.type->melee_cut * 2;
-  z->moves -= rng(minstab, maxstab);
+  int minstab = sklevel[sk_stabbing] *  8 + weapon.type->melee_cut * 2,
+      maxstab = sklevel[sk_stabbing] * 20 + weapon.type->melee_cut * 4;
+  int monster_penalty = rng(minstab, maxstab);
+  if (monster_penalty >= 150)
+   g->add_msg("You force the %s to the ground!", z->name().c_str());
+  else if (monster_penalty >= 80)
+   g->add_msg("The %s is skewered and flinches!", z->name().c_str());
+  z->moves -= monster_penalty;
   cutting_penalty = weapon.type->melee_cut * 4 + z_armor * 8 -
                     dice(sklevel[sk_stabbing], 10);
   practice(sk_stabbing, 5);
@@ -1970,7 +1991,7 @@ int player::hit_mon(game *g, monster *z)
   if (z_armor < 0)
    z_armor = 0;
   dam += weapon.type->melee_cut - z_armor;
-  cutting_penalty = weapon.type->melee_cut * 3 + z_armor * 10 -
+  cutting_penalty = weapon.type->melee_cut * 3 + z_armor * 8 -
                     dice(sklevel[sk_cutting], 10);
  }
  if (weapon.has_weapon_flag(WF_MESSY)) { // e.g. chainsaws
@@ -2355,11 +2376,11 @@ int player::ranged_per_mod(bool real_life)
  int deviation = 0;
 
  if (per < 6) {
-  deviation = 3.5 * (8 - per);
+  deviation = 2.5 * (8 - per);
   if (real_life)
    deviation = rng(0, deviation);
  } else if (per < 8) {
-  deviation = 3 * (8 - per);
+  deviation = 2 * (8 - per);
   if (real_life)
    deviation = rng(0, deviation);
  } else {
@@ -3221,11 +3242,25 @@ void player::i_add(item it)
 
 bool player::has_active_item(itype_id id)
 {
+ if (weapon.type->id == id && weapon.active)
+  return true;
  for (int i = 0; i < inv.size(); i++) {
   if (inv[i].type->id == id && inv[i].active)
    return true;
  }
  return false;
+}
+
+int player::active_item_charges(itype_id id)
+{
+ int max = 0;
+ if (weapon.type->id == id && weapon.active)
+  max = weapon.charges;
+ for (int i = 0; i < inv.size(); i++) {
+  if (inv[i].type->id == id && inv[i].active && inv[i].charges > max)
+   max = inv[i].charges;
+ }
+ return max;
 }
 
 void player::process_active_items(game *g)
@@ -4158,6 +4193,22 @@ void player::read(game *g, char ch)
            (index == -2 ? weapon.tname(g).c_str() : inv[index].tname(g).c_str()));
   return;
  }
+// Some macguffins can be read, but they aren't treated like books.
+ it_macguffin* mac = NULL;
+ item *used;
+ if (index == -2 && weapon.is_macguffin()) {
+  mac = dynamic_cast<it_macguffin*>(weapon.type);
+  used = &weapon;
+ } else if (index >= 0 && inv[index].is_macguffin()) {
+  mac = dynamic_cast<it_macguffin*>(inv[index].type);
+  used = &(inv[index]);
+ }
+ if (mac != NULL) {
+  iuse use;
+  (use.*mac->use)(g, this, used, false);
+  return;
+ }
+
  it_book* tmp;
  if (index == -2)
   tmp = dynamic_cast<it_book*>(weapon.type);
@@ -4166,7 +4217,7 @@ void player::read(game *g, char ch)
  if (tmp->intel > 0 && has_trait(PF_ILLITERATE)) {
   g->add_msg("You're illiterate!");
   return;
- } else if (tmp->intel > int_cur + sklevel[tmp->type]) {
+ } else if (tmp->intel > int_cur) {
   g->add_msg("This book is way too complex for you to understand.");
   return;
  } else if (tmp->req > sklevel[tmp->type]) {
@@ -4364,9 +4415,9 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
     worn.erase(worn.begin() + i);
    }
   }
+  dam -= arm_bash;
+  cut -= arm_cut;
  }
- dam -= arm_bash;
- cut -= arm_cut;
  if (has_bionic(bio_carbon)) {
   dam -= 2;
   cut -= 4;

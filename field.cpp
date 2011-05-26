@@ -314,16 +314,26 @@ bool map::process_fields(game *g)
      }
     }
     break;
+   case fd_fatigue:
+    if (cur->density < 3 && g->turn % 3600 == 0 && one_in(10))
+     cur->density++;
+    else if (cur->density == 3 && one_in(3600)) { // Spawn nether creature!
+     mon_id type = mon_id(rng(mon_flying_polyp, mon_blank));
+     monster creature(g->mtypes[type]);
+     creature.spawn(x + rng(-3, 3), y + rng(-3, 3));
+     g->z.push_back(creature);
+    }
+    break;
    }
   
-   if (cur->type != fd_null) {
+   if (fieldlist[cur->type].halflife > 0) {
     cur->age++;
     if (cur->age > 0 &&
         dice(3, cur->age) > dice(3, fieldlist[cur->type].halflife)) {
      cur->age = 0;
      cur->density--;
     }
-    if (cur->density <= 0)
+    if (cur->density <= 0) // Totally dissapated.
      field_at(x, y) = field();
    }
   }
@@ -399,6 +409,13 @@ void map::step_in_field(int x, int y, game *g)
    if (one_in(8 - cur->density) && !one_in(30 - g->u.str_cur)) {
     g->add_msg("You're paralyzed!");
     g->u.moves -= cur->density * 150;
+   }
+   break;
+  case fd_fatigue:
+   if (rng(0, 2) < cur->density) {
+    g->add_msg("You're violently teleported!");
+    g->u.hurtall(cur->density);
+    g->teleport();
    }
    break;
  }
@@ -491,6 +508,35 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    if (one_in(8 - cur->density) && one_in(z->armor()))
     z->moves -= cur->density * 150;
    break;
+
+  case fd_fatigue:
+   if (rng(0, 2) < cur->density) {
+    dam = cur->density;
+    int tries = 0;
+    int newposx, newposy;
+    do {
+     newposx = rng(z->posx - SEEX, z->posx + SEEX);
+     newposy = rng(z->posy - SEEY, z->posy + SEEY);
+     tries++;
+    } while (g->m.move_cost(newposx, newposy) == 0 && tries != 10);
+
+    if (tries == 10)
+     g->explode_mon(g->mon_at(z->posx, z->posy));
+    else {
+     int mon_hit = g->mon_at(newposx, newposy), t;
+     if (mon_hit != -1) {
+      if (g->u_see(z, t))
+       g->add_msg("The %s teleports into a %s, killing them both!",
+                  z->name().c_str(), g->z[mon_hit].name().c_str());
+      g->explode_mon(mon_hit);
+     } else {
+      z->posx = newposx;
+      z->posy = newposy;
+     }
+    }
+   }
+   break;
+     
  }
  z->hurt(dam);
 }

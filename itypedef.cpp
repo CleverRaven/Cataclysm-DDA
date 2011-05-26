@@ -96,6 +96,10 @@ DRINK("tequila",	12, 88,	c_brown,  itm_bottle_glass,
 	-12, 2,  0,-12, -2,  6, 20, 35,&iuse::alcohol,	ADD_ALCOHOL, "\
 Don't eat the worm!  Wait, there's no worm in this bottle.");
 
+DRINK("beer",           60, 35, c_brown,  itm_bottle_glass,
+        16, 4,  0, -4, -1,  2, 1, 20, &iuse::alcohol,   ADD_ALCOHOL, "\
+Best served cold, in a glass, and with a lime - but you're not that lucky.");
+
 DRINK("bleach",		20, 18,	c_white,  itm_bottle_plastic,
 	-96, 0,  0,  0, -8,  0,  1,-30,&iuse::blech,	ADD_NULL, "\
 Don't drink it.  Mixing it with ammonia produces toxic gas.");
@@ -324,6 +328,12 @@ Eating this would be pretty gross.  It causes you to mutate.");
 FOOD("ant egg",		 5, 80,	c_white,	FLESH,	itm_null,
     4,  2, 10, 100, 0,  0, -1,  0,  1, -10,	&iuse::none,	ADD_NULL, "\
 A large ant egg, the size of a softball.  Extremely nutrtious, but gross.");
+
+FOOD("marloss berry",	 2,600, c_pink,		VEGGY,	itm_null,
+    1,  1, 20, 40,  0,  0,-10,  0,  1, 30,	&iuse::marloss,	ADD_NULL, "\
+This looks like a blueberry the size of your fist, but pinkish in color.  It\n\
+has a strong but delicious aroma, but is clearly either mutated or of alien\n\
+origin.");
 
 // MEDS
 #define MED(name,rarity,price,color,tool,mat,stim,healthy,addict,\
@@ -704,8 +714,12 @@ MELEE("wood spear",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
 	 5,  3, 10, 20,  1, mfb(WF_SPEAR), "\
 A simple wood pole with one end sharpened.");
 
+MELEE("steel spear",      5,  140,'/', c_ltred,   WOOD,   STEEL,
+         6,  6,  2, 28,  1, mfb(WF_SPEAR), "\
+A simple wood pole made deadlier by the knife tied to it.");
+
 MELEE("expandable baton",8, 175,'/', c_blue,	STEEL,	MNULL,
-	 1,  4, 17,  0,  2, 0, "\
+	 1,  4, 12,  0,  2, 0, "\
 A telescoping baton that collapses for easy storage.  Makes an excellent\n\
 melee weapon.");
 
@@ -2098,7 +2112,7 @@ A turned-on flashlight will provide light during the night or while\n\
 underground.");
 
 TOOL("flashlight (on)",  0, 380,';', c_blue,	PLASTIC, IRON,
-    3,  2,  1,  0,  2, 100,100, 0, 10, AT_BATT,itm_flashlight,&iuse::light_on,0,
+    3,  2,  1,  0,  2, 100,100, 0, 15, AT_BATT,itm_flashlight,&iuse::light_on,0,
 "This flashlight is turned on, and continually draining its batteries.  It\n\
 provides light during the night or while underground.  Use it to turn it off.");
 
@@ -2141,12 +2155,13 @@ A prying tool.  Use it to open locked doors without destroying them, or to\n\
 lift manhole covers.");
 
 TOOL("hoe",		30,  90,'/', c_brown,	IRON,	WOOD,
-   14, 14, 12,  4,  3,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::makemound,0,"\
+   14, 14, 12, 10,  3,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::makemound,
+	mfb(WF_STAB), "\
 A farming implement.  Use it to turn tillable land into a slow-to-cross pile\n\
 of dirt.");
 
 TOOL("shovel",		40, 100,'/', c_brown,	IRON,	WOOD,
-   16, 18, 14,  2,  3,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::dig, 0, "\
+   16, 18, 15,  5,  3,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::dig, 0, "\
 A digging tool.  Use it to dig pits adjacent to your location.");
 
 TOOL("chainsaw (off)",	 7, 350,'/', c_red,	IRON,	PLASTIC,
@@ -2492,6 +2507,15 @@ Compact Bionics Module containing a few devices designed for ranged combat.\n\
 Good for those who want a gun on occasion, but do not wish to carry lots of\n\
 heavy ammunition and weapons.",
     bio_blaster, bio_laser, bio_emp, NULL);
+
+#define MACGUFFIN(name, price, sym, color, mat1, mat2, volume, wgt, dam, cut,\
+                  to_hit, readable, function, description) \
+index++; itypes.push_back(new it_macguffin(index, 0, price, name, description,\
+	sym, color, mat1, mat2, volume, wgt, dam, cut, to_hit, 0, readable,\
+	function))
+MACGUFFIN("paper note", 0, '?', c_white, PAPER, MNULL, 1, 0, 0, 0, 0,
+	true, &iuse::mcg_note, "\
+A hand-written paper note.");
 
  if (itypes.size() > num_items)
   debugmsg("%d items, %d itypes", itypes.size(), num_all_items);

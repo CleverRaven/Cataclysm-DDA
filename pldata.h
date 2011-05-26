@@ -193,6 +193,7 @@ enum pl_flag {
  PF_QUILLS,
  PF_TALONS,
  PF_RADIOGENIC,
+ PF_MARLOSS,
 
  PF_DEFORMED,
  PF_DEFORMED2,
@@ -412,6 +413,9 @@ unarmed attack."},
 {"Radiogenic", 3, true, "\
 Your system has adapted to radiation.  While irradiated, you will actually\n\
 heal slowly, converting the radiation into hit points."},
+{"Marloss Carrier", 4, true, "\
+Ever since you ate that Marloss berry, you can't get its scent out of your\n\
+nose, and you have a strong desire to eat more."},
 
 {"Deformed", -2, true, "\
 You're minorly deformed.  Some people will react badly to your appearance."},

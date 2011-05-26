@@ -79,12 +79,14 @@ t_bulletin,
 t_portcullis,
 t_window, t_window_frame, t_window_boarded,
 t_rock,
-t_paper_v, t_paper_h,
+t_paper,
 // Tree
 t_tree, t_tree_young, t_underbrush,
 t_wax, t_floor_wax,
 t_fence_v, t_fence_h,
 t_railing_v, t_railing_h,
+// Nether
+t_marloss, t_fungus, t_tree_fungal,
 // Water, lava, etc.
 t_water_sh, t_water_dp, t_sewage,
 t_lava,
@@ -188,9 +190,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(bashable)|mfb(flammable)},
 {"solid rock",       '#', c_white,   0,
 	0},
-{"paper wall",       '|', c_white,   0,
-	mfb(bashable)|mfb(flammable)},
-{"paper wall",       '-', c_white,   0,
+{"paper wall",       '#', c_white,   0,
 	mfb(bashable)|mfb(flammable)},
 {"tree",	     '7', c_green,   0,
 	mfb(flammable)},
@@ -211,6 +211,12 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(noitem)},
 {"railing",          '-', c_yellow,  3,
 	mfb(transparent)|mfb(noitem)},
+{"marloss bush",     '1', c_dkgray,  0,
+	mfb(transparent)|mfb(bashable)|mfb(flammable)},
+{"fungal bed",       '#', c_ltgray,  3,
+	mfb(transparent)|mfb(flammable)},
+{"fungal tree",      '7', c_dkgray,  0,
+	mfb(flammable)},
 {"shallow water",    '~', c_ltblue,  5,
 	mfb(transparent)|mfb(swimmable)},
 {"deep water",       '~', c_blue,    0,
@@ -291,6 +297,7 @@ enum map_extra {
  mx_puddle,
  mx_crater,
  mx_fumarole,
+ mx_portal_in,
  num_map_extras
 };
 
@@ -298,14 +305,16 @@ enum map_extra {
 // as a 100 chance to appear.
 const int map_extra_chance[num_map_extras + 1] = {
   0,	// Null - 0 chance
-100,	// Helicopter
+ 40,	// Helicopter
  80,	// Military
-130,	// Science
+120,	// Science
 200,	// Stash
   5,	// Portal
  70,	// Minefield
  30,	// Wolf pack
 250,	// Puddle
+  8,	// Fumarole
+  7,	// One-way portal into this world
   0	// Just a cap value; leave this as the last one
 };
 
@@ -329,12 +338,13 @@ enum field_id {
  fd_tear_gas,
  fd_nuke_gas,
  fd_electricity,
+ fd_fatigue,
  num_fields
 };
 
 const field_t fieldlist[] = {
 {{"",	"",	""},					'%',
- {c_white, c_white, c_white},	{true, true, true}, {false, false, false},  0},
+ {c_white, c_white, c_white},	{true, true, true}, {false, false, false},   0},
 {{"blood splatter", "blood stain", "puddle of blood"},	'%',
  {c_red, c_red, c_red},		{true, true, true}, {false, false, false},2500},
 {{"bile splatter", "bile stain", "puddle of bile"},	'%',
@@ -342,17 +352,19 @@ const field_t fieldlist[] = {
 {{"slime trail", "slime stain", "puddle of slime"},	'%',
  {c_ltgreen, c_ltgreen, c_green},{true, true, true},{false, false, false},2500},
 {{"acid splatter", "acid streak", "pool of acid"},	'5',
- {c_ltgreen, c_green, c_green},	{true, true, true}, {true, true, true},	   10},
+ {c_ltgreen, c_green, c_green},	{true, true, true}, {true, true, true},	    10},
 {{"small fire",	"fire",	"raging fire"},			'4',
- {c_yellow, c_ltred, c_red},	{true, true, true}, {true, true, true},	 2000},
+ {c_yellow, c_ltred, c_red},	{true, true, true}, {true, true, true},	  2000},
 {{"thin smoke",	"smoke", "thick smoke"},		'8',
- {c_white, c_ltgray, c_dkgray},	{true, false, false},{false, true, true}, 400},
+ {c_white, c_ltgray, c_dkgray},	{true, false, false},{false, true, true},  400},
 {{"hazy cloud","tear gas","thick tear gas"},		'8',
- {c_white, c_yellow, c_brown},	{true, false, false},{true, true, true},  600},
+ {c_white, c_yellow, c_brown},	{true, false, false},{true, true, true},   600},
 {{"hazy cloud","radioactive gas", "thick radioactive gas"}, '8',
- {c_white, c_ltgreen, c_green},	{true, true, false}, {true, true, true}, 1000},
+ {c_white, c_ltgreen, c_green},	{true, true, false}, {true, true, true},  1000},
 {{"sparks", "electric crackle", "electric cloud"},	'9',
- {c_white, c_cyan, c_blue},	{true, true, true}, {true, true, true},	    2}
+ {c_white, c_cyan, c_blue},	{true, true, true}, {true, true, true},	     2},
+{{"odd ripple", "swirling air", "tear in reality"},	'*',
+ {c_ltgray, c_dkgray, c_magenta},{true, true, false},{false, false, false},  0}
 };
 
 struct field {

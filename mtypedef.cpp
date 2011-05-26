@@ -528,7 +528,7 @@ mon("giant slug",	'S',	c_yellow,	MS_HUGE,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_SMELLS)|mfb(MF_BASHES)|mfb(MF_ACIDPROOF)|
 	 mfb(MF_ACIDTRAIL)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  4, 16,  4, 50,  7,  1,  5,  1,  0,  5,  0,190, 10,
+	  4, 16,  4, 60,  7,  1,  5,  1,  0,  5,  0,190, 10,
 	&mdeath::normal,	&mattack::acid, "\
 A gigantic slug, the size of a small car.\n\
 It moves slowly, dribbling acidic goo from\n\

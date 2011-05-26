@@ -527,6 +527,69 @@ void iuse::purifier(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::marloss(game *g, player *p, item *it, bool t)
+{
+ if (p->is_npc())
+  return;
+// If we have the marloss in our veins, we are a "breeder" and will spread
+// alien lifeforms.
+ if (p->has_trait(PF_MARLOSS)) {
+  g->add_msg("As you eat the berry, you have a near-religious experience, feeling at one with your surroundings...");
+  p->add_morale(MOR_RELIGIOUS);
+  p->hunger = -100;
+  monster goo(g->mtypes[mon_blob]);
+  goo.friendly = -1;
+  int goo_spawned = 0;
+  for (int x = p->posx - 4; x <= p->posx + 4; x++) {
+   for (int y = p->posy - 4; y <= p->posy + 4; y++) {
+    if (rng(0, 10) > trig_dist(x, y, p->posx, p->posy) &&
+        rng(0, 10) > trig_dist(x, y, p->posx, p->posy)   )
+     g->m.marlossify(x, y);
+    if (one_in(10 + 5 * trig_dist(x, y, p->posx, p->posy)) &&
+        (goo_spawned == 0 || one_in(goo_spawned * 2))) {
+     goo.spawn(x, y);
+     g->z.push_back(goo);
+     goo_spawned++;
+    }
+   }
+  }
+  return;
+ }
+/* If we're not already carriers of Marloss, roll for a random effect:
+ * 1 - Mutate
+ * 2 - Mutate
+ * 3 - Mutate
+ * 4 - Purify
+ * 5 - Purify
+ * 6 - Cleanse radiation + Purify
+ * 7 - Fully satiate
+ * 8 - Vomit
+ * 9 - Give Marloss mutation
+ */
+ int effect = rng(1, 9);
+ if (effect <= 3) {
+  g->add_msg("This berry tastes extremely strange!");
+  p->mutate(g);
+ } else if (effect <= 6) { // Radiation cleanse is below
+  g->add_msg("This berry makes you feel better all over.");
+  p->pkill += 30;
+  this->purifier(g, p, it, t);
+ } else if (effect == 7) {
+  g->add_msg("This berry is delicious, and very filling!");
+  p->hunger = -100;
+ } else if (effect == 8) {
+  g->add_msg("You take one bite, and immediately vomit!");
+  p->vomit(g);
+ } else if (!p->has_trait(PF_MARLOSS)) {
+  g->add_msg("You feel a strange warmth spreading throughout your body...");
+  p->toggle_trait(PF_MARLOSS);
+ }
+ if (effect == 6)
+  p->radiation = 0;
+}
+  
+ 
+
 // TOOLS below this point!
 
 void iuse::lighter(game *g, player *p, item *it, bool t)
@@ -1306,6 +1369,7 @@ void iuse::can_goo(game *g, player *p, item *it, bool t)
   if (g->u_see(goox, gooy, junk))
    g->add_msg("Living black goo emerges from the canister!");
   monster goo(g->mtypes[mon_blob]);
+  goo.friendly = -1;
   goo.spawn(goox, gooy);
   g->z.push_back(goo);
  }
@@ -1735,4 +1799,53 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
   it->make(g->itypes[itm_mp3]);
   it->active = false;
  }
+}
+
+/* MACGUFFIN FUNCTIONS
+ * These functions should refer to it->associated_mission for the particulars
+ */
+void iuse::mcg_note(game *g, player *p, item *it, bool t)
+{
+ std::stringstream message;
+ message << "Dear " << it->name << ":\n";
+ faction* fac = NULL;
+ direction dir = NORTH;
+// Pick an associated faction
+/*
+ switch (it->associated_mission) {
+ case MISSION_FIND_FAMILY_FACTION:
+  fac = &(g->factions[rng(0, g->factions.size() - 1)]);
+  break;
+ case MISSION_FIND_FAMILY_KIDNAPPER:
+  fac = g->random_evil_faction();
+  break;
+ }
+// Calculate where that faction is
+ if (fac != NULL) {
+  int omx = g->cur_om.posx, omy = g->cur_om.posy;
+  if (fac->omx != g->cur_om.posx || fac->omx != g->cur_om.posy)
+   dir = direction_from(omx, omy, fac->omx, fac->omy);
+  else
+   dir = direction_from(g->levx, g->levy, fac->mapx, fac->mapy);
+ }
+// Produce the note and generate the next mission
+ switch (it->associated_mission) {
+ case MISSION_FIND_FAMILY_FACTION:
+  if (fac->name == "The army")
+   message << "\
+I've been rescued by an army patrol.  They're taking me\n\
+to their outpost to the " << direction_name(dir) << ".\n\
+Please meet me there.  I need to know you're alright.";
+  else
+   message << "\
+This group came through, looking for survivors.  They\n\
+said they were members of this group calling itself\n" << fac->name << ".\n\
+They've got a settlement to the " << direction_name(dir) << ", so\n\
+I guess I'm heading there.  Meet me there as soon as\n\
+you can, I need to know you're alright.";
+  break;
+
+
+  popup(message.str().c_str());
+*/
 }

@@ -5,21 +5,26 @@
 void game::init_missions()
 {
  #define MISSION(name, goal, diff, place, start, end) \
- id++; missions.push_back( mission_type(name, goal, diff, place, start, end) )
+ id++; mission_types.push_back( \
+		mission_type(name, goal, diff, place, start, end) )
 
- #define ORIGINS(...) setvector(missions[id].origins, __VA_ARGS__)
- #define INTROS(...)  setvector(missions[id].intros,  __VA_ARGS__)
- #define ITEMS(...)   setvector(missions[id].items,   __VA_ARGS__)
+ #define ORIGINS(...) setvector(mission_types[id].origins, __VA_ARGS__)
+ #define INTROS(...)  setvector(mission_types[id].intros,  __VA_ARGS__)
+ #define ITEMS(...)   setvector(mission_types[id].items,   __VA_ARGS__)
 
 // DEADLINE defines the low and high end time limits, in hours
 // Omitting DEADLINE means the mission never times out
- #define DEADLINE(low, high) missions[id].deadline_low  = low  * 600;\
-                             missions[id].deadline_high = high * 600
+ #define DEADLINE(low, high) mission_types[id].deadline_low  = low  * 600;\
+                             mission_types[id].deadline_high = high * 600
  //#define NPCS   (...) setvector(missions[id].npc
 
 
 // The order of missions should match enum mission_id in mission.h
  int id = -1;
+
+ MISSION("Null mission", MGOAL_NULL, 0,
+         &mission_place::never, &mission_start::standard,
+         &mission_end::standard);
 
  MISSION("Reach safety", MGOAL_GO_TO, 0, 
          &mission_place::danger, &mission_start::danger, &mission_end::demo);

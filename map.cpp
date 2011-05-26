@@ -187,8 +187,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
    return true;
   }
   break;
- case t_paper_v:
- case t_paper_h:
+ case t_paper:
   if (str >= dice(2, 6)) {
    sound += "rrrrip!";
    ter(x, y) = t_dirt;
@@ -263,6 +262,16 @@ bool map::bash(int x, int y, int str, std::string &sound)
    return true;
   } else {
    sound += "brush.";
+   return true;
+  }
+  break;
+ case t_marloss:
+  if (str > rng(0, 40)) {
+   sound += "crunch!";
+   ter(x, y) = t_fungus;
+   return true;
+  } else {
+   sound += "whack!";
    return true;
   }
   break;
@@ -378,8 +387,7 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items)
    ter(x, y) = t_floor;
   break;
 
- case t_paper_v:
- case t_paper_h:
+ case t_paper:
   dam -= rng(4, 16);
   if (dam > 0)
    ter(x, y) = t_dirt;
@@ -451,6 +459,22 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items)
    i_rem(x, y, i);
    i--;
   }
+ }
+}
+
+void map::marlossify(int x, int y)
+{
+ int type = rng(1, 9);
+ switch (type) {
+  case 1:
+  case 2:
+  case 3:
+  case 4: ter(x, y) = t_fungus;      break;
+  case 5:
+  case 6:
+  case 7: ter(x, y) = t_marloss;     break;
+  case 8: ter(x, y) = t_tree_fungal; break;
+  case 9: ter(x, y) = t_slime;       break;
  }
 }
 
@@ -782,7 +806,15 @@ void map::drawsq(WINDOW* w, player &u, int x, int y, bool invert,
 // If there's a field here, draw that instead (unless its symbol is %)
  if (field_at(x, y).type != fd_null) {
   tercol = fieldlist[field_at(x, y).type].color[field_at(x, y).density - 1];
-  if (fieldlist[field_at(x, y).type].sym != '%')
+  if (fieldlist[field_at(x, y).type].sym == '*') {
+   switch (rng(1, 5)) {
+    case 1: sym = '*'; break;
+    case 2: sym = '0'; break;
+    case 3: sym = '8'; break;
+    case 4: sym = '&'; break;
+    case 5: sym = '+'; break;
+   }
+  } else if (fieldlist[field_at(x, y).type].sym != '%')
    sym = fieldlist[field_at(x, y).type].sym;
  }
 // If there's items here, draw those instead

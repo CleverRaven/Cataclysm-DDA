@@ -9,8 +9,11 @@ struct mission;
 class game;
 
 enum mission_id {
+ MISSION_NULL,
  MISSION_REACH_SAFETY,
  MISSION_FIND_FAMILY,
+ MISSION_FIND_FAMILY_FACTION,
+ MISSION_FIND_FAMILY_KIDNAPPER,
  MISSION_FOLLOW_TO_SAFETY,
  MISSION_MEET_FACTION,
  MISSION_GET_JELLY,
@@ -106,10 +109,11 @@ struct mission_type {
 struct mission {
  mission_type *type;
  std::string description; // Basic descriptive text
- point target;	// Marked on the player's map.  (-1,-1) for none
- int deadline;	// Turn number
+ int uid;		// Unique ID number, used for referencing elsewhere
+ point target;		// Marked on the player's map.  (-1,-1) for none
  itype_id item_id;	// Item that needs to be found (or whatever)
  int count;		// How many of that item
+ int deadline;		// Turn number
  int npc_id;		// ID of a related npc
  int good_fac_id, bad_fac_id;	// IDs of the protagonist/antagonist factions
 

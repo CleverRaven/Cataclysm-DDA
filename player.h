@@ -147,14 +147,15 @@ public:
 
  void i_add(item it);
  bool has_active_item(itype_id id);
+ int  active_item_charges(itype_id id);
  void process_active_items(game *g);
  item i_rem(char let);	// Remove item from inventory; returns ret_null on fail
  item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
  item remove_weapon();
  item i_remn(int index);// Remove item from inventory; returns ret_null on fail
  item &i_at(char let);	// Returns the item with inventory letter let
- item &i_of_type(itype_id type);	// Returns the first item with this type
- std::vector<item> inv_dump(); // Dumps full item list (e.g. at death)
+ item &i_of_type(itype_id type); // Returns the first item with this type
+ std::vector<item> inv_dump(); // Inventory + weapon + worn (for death, etc)
  void use_up(itype_id it, int quantity);// Uses up items OR charges if a tool
  void use_amount(itype_id it, int quantity);// Uses up items
  void use_charges(itype_id it, int quantity);// Uses up charges

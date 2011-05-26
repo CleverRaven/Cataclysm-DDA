@@ -1,9 +1,19 @@
 # Max length of a line is 64 characters; the following line is for reference
 # This message may be 16 lines long at maximum.
 ################################################################
-Cataclysm now features a Message Of The Day.  Watch this space
-for news of the latest features, gameplay tips, and other items
-of note.  This feature is mainly useful for those who play on,
-or operate, an SSH cataclysm server; if you wish to display a
-message on your home copy, simply add a file called "motd" in
-the "data" directory.
+Lots of tweaks have been made to melee combat recently, mostly
+in order to debuff it--running around with a machete was WAY too
+easy.
+One of the biggest changes is that cutting weapons may get stuck
+in the flesh of your target--and possible pulled from your hand.
+This slows both you and your target.  This effect is reduced by
+your cutting skill and strength.
+Bashing damage is less reliable, but still can slow your enemy
+by making them stumble a bit.  It's also capped by low strength,
+so if you plan on using bashing weapons--or occasionally bashing
+with your rifle--strength is more important now.
+Finally, there are "spears"--mostly the craftable spears and
+similar items--which do very little damage unless you get a crit
+but can massively slow your enemies.  There's also a related
+skill, "stabbing weapons," which also boosts crit damage when
+using combat knives, nail boards, or other stabbing action.

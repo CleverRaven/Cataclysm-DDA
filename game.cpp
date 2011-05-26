@@ -166,6 +166,7 @@ game::game()
 // Even though we may already have 'd', nextinv will be incremented as needed
  nextinv = 'd';
  next_npc_id = 1;
+ next_mission_id = 1;
  last_target = -1;	// We haven't targeted any monsters yet
  curmes = 0;		// We haven't read any messages yet
  uquit = false;		// We haven't quit the game
@@ -542,7 +543,7 @@ void game::start_tutorial(tut_type type)
 
 void game::create_factions()
 {
- int num = dice(2, 6);
+ int num = dice(4, 3);
  faction tmp;
  tmp.make_army();
  factions.push_back(tmp);
@@ -821,9 +822,30 @@ void game::cancel_activity_query(std::string message)
 
 void game::give_mission(mission_id type)
 {
- mission tmp = missions[type].create(this);
+ mission tmp = mission_types[type].create(this);
+ tmp.uid = next_mission_id;
+ next_mission_id++;
  u.active_missions.push_back(tmp);
  u.active_mission = u.active_missions.size() - 1;
+}
+
+int game::reserve_mission(mission_id type)
+{
+ mission tmp = mission_types[type].create(this);
+ tmp.uid = next_mission_id;
+ active_missions.push_back(tmp);
+ int ret = next_mission_id;
+ next_mission_id++;
+ return ret;
+}
+
+mission* game::find_mission(int id)
+{
+ for (int i = 0; i < active_missions.size(); i++) {
+  if (active_missions[i].uid == id)
+   return &(active_missions[i]);
+ }
+ return NULL;
 }
 
 void game::get_input()
@@ -935,12 +957,8 @@ void game::get_input()
   getch();
  } else if (ch == '*')
   teleport();
- else if (ch == '%') {
-  u.disp_morale();
-  refresh_all();
-  //disp_kills();
 // </DEBUG>
- } else if (ch == ':' || ch == 'm')
+ else if (ch == ':' || ch == 'm')
   draw_overmap();
  else if (ch == 'M')
   list_missions();
@@ -949,7 +967,10 @@ void game::get_input()
   refresh_all();
  } else if (ch == '#')
   list_factions();
- else if (ch == '&')
+ else if (ch == '%') {
+  u.disp_morale();
+  refresh_all();
+ } else if (ch == '&')
   craft();
  else if (ch == '$' && query_yn("Are you sure you want to sleep?")) {
    u.try_to_sleep(this);
@@ -1027,7 +1048,7 @@ void game::update_scent()
  }
  for (x = 0; x < SEEX * 3; x++) {
   for (y = 0; y < SEEY * 3; y++)
-    scent(x, y) = newscent[x][y];
+   scent(x, y) = newscent[x][y];
  }
  if (!u.has_active_bionic(bio_scent_mask))
   scent(u.posx, u.posy) = u.scent;
@@ -1091,7 +1112,8 @@ void game::load(std::string name)
  u.weapon = item(itypes[0], 0);
  int tmprun, tmptar, tmptemp, comx, comy;
  fin >> turn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
-        nextspawn >> tmptemp >> levx >> levy >> levz >> comx >> comy;
+        next_mission_id >> nextspawn >> tmptemp >> levx >> levy >> levz >>
+        comx >> comy;
  cur_om = overmap(this, comx, comy, levz);
 // m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
  m.load(this, levx, levy);
@@ -1160,9 +1182,10 @@ void game::save()
  fout.open(playerfile.str().c_str());
 // First, write out basic game state information.
  fout << turn << " " << int(last_target) << " " << int(run_mode) << " " <<
-         mostseen << " " << nextinv << " " << next_npc_id << " " << nextspawn <<
-         " " << int(temperature) << " " << levx << " " << levy << " " << levz <<
-         " " << cur_om.posx << " " << cur_om.posy << " " << std::endl;
+         mostseen << " " << nextinv << " " << next_npc_id << " " << 
+         next_mission_id << " " << nextspawn << " " << int(temperature) <<
+         " " << levx << " " << levy << " " << levz << " " << cur_om.posx <<
+         " " << cur_om.posy << " " << std::endl;
 // Next, the scent map.
  for (int i = 0; i < SEEX * 3; i++) {
   for (int j = 0; j < SEEY * 3; j++)
@@ -1475,29 +1498,29 @@ void game::list_missions()
   werase(w_missions);
   draw_tabs(w_missions, tab, "ACTIVE MISSIONS", "COMPLETED MISSIONS",
             "FAILED MISSIONS", NULL);
-  std::vector<mission> missions;
+  std::vector<mission> umissions;
   switch (tab) {
-   case 0: missions = u.active_missions;	break;
-   case 1: missions = u.completed_missions;	break;
-   case 2: missions = u.failed_missions;	break;
+   case 0: umissions = u.active_missions;	break;
+   case 1: umissions = u.completed_missions;	break;
+   case 2: umissions = u.failed_missions;	break;
   }
   for (int y = 3; y < 25; y++)
    mvwputch(w_missions, y, 30, c_white, LINE_XOXO);
-  for (int i = 0; i < missions.size(); i++) {
+  for (int i = 0; i < umissions.size(); i++) {
    if (selection == i)
-    mvwprintz(w_missions, 3 + i, 0, h_white, missions[i].name().c_str());
+    mvwprintz(w_missions, 3 + i, 0, h_white, umissions[i].name().c_str());
    else
-    mvwprintz(w_missions, 3 + i, 0, c_white, missions[i].name().c_str());
+    mvwprintz(w_missions, 3 + i, 0, c_white, umissions[i].name().c_str());
   }
 
-  if (selection >= 0 && selection < missions.size()) {
+  if (selection >= 0 && selection < umissions.size()) {
    mvwprintz(w_missions, 4, 31, c_white,
-             missions[selection].description.c_str());
-   if (missions[selection].deadline != 0)
+             umissions[selection].description.c_str());
+   if (umissions[selection].deadline != 0)
     mvwprintz(w_missions, 5, 31, c_white, "Deadline: %d (%d)",
-              missions[selection].deadline, turn);
+              umissions[selection].deadline, turn);
    mvwprintz(w_missions, 6, 31, c_white, "Target: (%d, %d)   You: (%d, %d)",
-             missions[selection].target.x, missions[selection].target.y,
+             umissions[selection].target.x, umissions[selection].target.y,
              (levx + 1) / 2, (levy + 1) / 2);
   } else {
    std::string nope;
@@ -1524,13 +1547,13 @@ void game::list_missions()
    break;
   case 'j':
    selection++;
-   if (selection >= missions.size())
+   if (selection >= umissions.size())
     selection = 0;
    break;
   case 'k':
    selection--;
    if (selection < 0)
-    selection = missions.size() - 1;
+    selection = umissions.size() - 1;
    break;
   }
    
@@ -1879,8 +1902,12 @@ unsigned char game::light_level()
   else
    ret = 60;
  }
- if (ret < 10 && u.has_active_item(itm_flashlight_on))
-  ret = 10;
+ int flashlight = u.active_item_charges(itm_flashlight_on);
+ if (ret < 10 && flashlight > 0) {
+  ret = flashlight;
+  if (ret > 10)
+   ret = 10;
+ }
  if (ret < 8 && u.has_active_bionic(bio_flashlight))
   ret = 8;
  return ret;
@@ -1891,6 +1918,48 @@ int game::assign_npc_id()
  int ret = next_npc_id;
  next_npc_id++;
  return ret;
+}
+
+faction* game::random_good_faction()
+{
+ std::vector<int> valid;
+ for (int i = 0; i < factions.size(); i++) {
+  if (factions[i].good >= 5)
+   valid.push_back(i);
+ }
+ if (valid.size() > 0) {
+  int index = valid[rng(0, valid.size() - 1)];
+  return &(factions[index]);
+ }
+// No good factions exist!  So create one!
+ faction newfac;
+ do
+  newfac.randomize();
+ while (newfac.good < 5);
+ newfac.id = factions.size();
+ factions.push_back(newfac);
+ return &(factions[factions.size() - 1]);
+}
+
+faction* game::random_evil_faction()
+{
+ std::vector<int> valid;
+ for (int i = 0; i < factions.size(); i++) {
+  if (factions[i].good <= -5)
+   valid.push_back(i);
+ }
+ if (valid.size() > 0) {
+  int index = valid[rng(0, valid.size() - 1)];
+  return &(factions[index]);
+ }
+// No good factions exist!  So create one!
+ faction newfac;
+ do
+  newfac.randomize();
+ while (newfac.good > -5);
+ newfac.id = factions.size();
+ factions.push_back(newfac);
+ return &(factions[factions.size() - 1]);
 }
 
 bool game::sees_u(int x, int y, int &t)
@@ -2397,6 +2466,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
    }
   }
  }
+// Draw the explosion
  for (int i = 1; i <= radius; i++) {
   mvwputch(w_terrain, y - i + SEEY - u.posy, x - i + SEEX - u.posx, c_red, '/');
   mvwputch(w_terrain, y - i + SEEY - u.posy, x + i + SEEX - u.posx, c_red,'\\');
@@ -2411,7 +2481,8 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
   wrefresh(w_terrain);
   nanosleep(&ts, NULL);
  }
-   
+
+// The rest of the function is shrapnel
  if (shrapnel <= 0)
   return;
  int sx, sy, t, ijunk, tx, ty;

@@ -58,6 +58,7 @@ class map
  bool bash(int x, int y, int str, std::string &sound);
  void destroy(game *g, int x, int y, bool makesound);
  void shoot(game *g, int x, int y, int &dam, bool hit_items);
+ void marlossify(int x, int y);
 
 // Radiation
  int& radiation(int x, int y);	// Amount of radiation at (x, y);

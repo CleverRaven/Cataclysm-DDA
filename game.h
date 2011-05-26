@@ -69,6 +69,11 @@ class game
   void cancel_activity();
   void cancel_activity_query(std::string message);
   void give_mission(mission_id type);
+// reserve_mission() creates a new mission of the given type and pushes it to
+// active_missions.  The function returns the UID of the new mission, which can
+// then be passed to a MacGuffin or something else that needs to track a mission
+  int reserve_mission(mission_id type);
+  mission* find_mission(int id); // Mission with UID=id; NULL if non-existant
   void teleport();
   void nuke(int x, int y);
   std::vector<faction *> factions_at(int x, int y);
@@ -80,6 +85,9 @@ class game
   bool u_see (monster *mon, int &t);
   bool pl_sees(player *p, monster *mon, int &t);
   void refresh_all();
+
+  faction* random_good_faction();
+  faction* random_evil_faction();
 
   char inv(std::string title = "INVENTORY:");
   faction* list_factions(std::string title = "FACTIONS:");
@@ -100,7 +108,6 @@ class game
   std::vector<monster> z;
   std::vector<monster> monbuff;
   int monbuffx, monbuffy, monbuffz, monbuff_turn;
-  int next_npc_id;
   std::vector<npc> active_npc;
   std::vector<mon_id> moncats[num_moncats];
   std::vector<faction> factions;
@@ -225,6 +232,7 @@ class game
   bool uquit;    // Set to true if the player quits ('Q')
 
   int nextspawn;          // The turn on which monsters will spawn next.
+  int next_npc_id, next_mission_id;	// Keep track of UIDs
   signed char temperature;              // The air temperature
   std::vector <std::string> messages;   // Messages to be printed
   unsigned char curmes;	  // The last-seen message.  Older than 256 is deleted.
@@ -235,7 +243,8 @@ class game
   std::string last_action;		// The keypresses of last turn
 
   std::vector<recipe> recipes;	// The list of valid recipes
-  std::vector<mission_type> missions; // The list of mission templates
+  std::vector<mission_type> mission_types; // The list of mission templates
+  std::vector<mission> active_missions; // Missions which may be assigned
 
   bool tutorials_seen[NUM_LESSONS]; // Which tutorial lessons have we learned
   bool in_tutorial;                 // True if we're in a tutorial right now

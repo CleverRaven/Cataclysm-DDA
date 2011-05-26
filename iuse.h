@@ -37,6 +37,7 @@ class iuse
   void blech		(game *g, player *p, item *it, bool t);
   void mutagen		(game *g, player *p, item *it, bool t);
   void purifier		(game *g, player *p, item *it, bool t);
+  void marloss		(game *g, player *p, item *it, bool t);
 // TOOLS
   void lighter		(game *g, player *p, item *it, bool t);
   void sew		(game *g, player *p, item *it, bool t);
@@ -83,6 +84,8 @@ class iuse
   void tazer		(game *g, player *p, item *it, bool t);
   void mp3		(game *g, player *p, item *it, bool t);
   void mp3_on		(game *g, player *p, item *it, bool t);
+// MACGUFFINS
+  void mcg_note		(game *g, player *p, item *it, bool t);
 // ARTIFACTS
   void heal		(game *g, player *p, item *it, bool t);
   void twist_space	(game *g, player *p, item *it, bool t);

@@ -974,10 +974,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
       ter(i, j) = t_door_frame;
      if (ter(i, j) == t_window && !one_in(3))
       ter(i, j) = t_window_frame;
-     if (ter(i, j) == t_wall_h && one_in(8))
-      ter(i, j) = t_paper_h;
-     if (ter(i, j) == t_wall_v && one_in(8))
-      ter(i, j) = t_paper_v;
+     if ((ter(i, j) == t_wall_h || ter(i, j) == t_wall_v) && one_in(8))
+      ter(i, j) = t_paper;
     }
    }
    int num_pods = rng(8, 12);
@@ -990,8 +988,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     }
     for (int x = -1; x <= 1; x++) {
      for (int y = -1; y <= 1; y++) {
-      if (x != nonx || y != nony)
-       ter(podx + x, pody + y) = (y == 0 ? t_paper_v : t_paper_h);
+      if ((x != nonx || y != nony) && (x != 0 || y != 0))
+       ter(podx + x, pody + y) = t_paper;
      }
     }
     add_spawn(mon_wasp, 1, podx, pody);
@@ -4730,11 +4728,32 @@ void map::add_extra(map_extra type, game *g)
 
  case mx_fumarole:
  {
-  int x1 = rng(0, SEEX - 1),        y1 = rng(0, SEEY - 1),
+  int x1 = rng(0,    SEEX     - 1), y1 = rng(0,    SEEY     - 1),
       x2 = rng(SEEX, SEEX * 2 - 1), y2 = rng(SEEY, SEEY * 2 - 1);
   std::vector<point> fumarole = line_to(x1, y1, x2, y2, 0);
   for (int i = 0; i < fumarole.size(); i++)
    ter(fumarole[i].x, fumarole[i].y) = t_lava;
+ }
+ break;
+
+ case mx_portal_in:
+ {
+  int x = rng(5, SEEX - 6), y = rng(5, SEEY - 6);
+  add_field(g, x, y, fd_fatigue, 3);
+  for (int i = x - 5; i <= x + 5; i++) {
+   for (int j = y - 5; j <= y + 5; j++) {
+    if (rng(0, 9) > trig_dist(x, y, i, j) && rng(0, 9) > trig_dist(x, y, i, j)) {
+     marlossify(i, j);
+     if (ter(i, j) == t_marloss)
+      add_item(x, y, (*itypes)[itm_marloss_berry], g->turn);
+     if (one_in(15)) {
+      monster creature(g->mtypes[mon_id(rng(mon_flying_polyp, mon_blank))]);
+      creature.spawn(i, j);
+      g->z.push_back(creature);
+     }
+    }
+   }
+  }
  }
  break;
 

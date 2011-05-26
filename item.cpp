@@ -21,6 +21,8 @@ item::item()
  corpse = NULL;
  active = false;
  owned = false;
+ mission_id = -1;
+ player_id = -1;
 }
 
 item::item(itype* it, unsigned int turn)
@@ -54,6 +56,8 @@ item::item(itype* it, unsigned int turn)
  curammo = NULL;
  corpse = NULL;
  owned = false;
+ mission_id = -1;
+ player_id = -1;
 }
 
 item::item(itype *it, unsigned int turn, char let)
@@ -87,6 +91,8 @@ item::item(itype *it, unsigned int turn, char let)
  corpse = NULL;
  owned = false;
  invlet = let;
+ mission_id = -1;
+ player_id = -1;
 }
 
 void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
@@ -159,6 +165,12 @@ std::string item::save_info()
   dump << " " << corpse->id;
  else
   dump << " -1";
+ dump << " " << mission_id << " " << player_id;
+ size_t pos = name.find_first_of("\n");
+ while (pos != std::string::npos)  {
+  name.replace(pos, 1, "@@");
+  pos = name.find_first_of("\n");
+ }
  dump << " '" << name << "'";
  return dump.str();
 }
@@ -169,7 +181,7 @@ void item::load_info(std::string data, game *g)
  dump << data;
  int idtmp, ammotmp, lettmp, damtmp, acttmp, owntmp, corp;
  dump >> lettmp >> idtmp >> charges >> damtmp >> ammotmp >> bday >> acttmp >>
-         owntmp >> corp;
+         owntmp >> corp >> mission_id >> player_id;
  if (corp != -1)
   corpse = g->mtypes[corp];
  else
@@ -177,8 +189,14 @@ void item::load_info(std::string data, game *g)
  getline(dump, name);
  if (name == " ''")
   name = "";
- else
+ else {
+  size_t pos = name.find_first_of("@@");
+  while (pos != std::string::npos)  {
+   name.replace(pos, 2, "\n");
+   pos = name.find_first_of("@@");
+  }
   name = name.substr(2, name.size() - 3); // s/^ '(.*)'$/\1/
+ }
  make(g->itypes[idtmp]);
  invlet = char(lettmp);
  damage = damtmp;
@@ -338,6 +356,7 @@ std::string item::info(bool showtext)
    dump << ".";
   else
    dump << " of " << ammo_name(tool->ammo) << ".";
+
  }
 
  if (showtext) {
@@ -555,7 +574,7 @@ int item::volume_contained()
 
 int item::attack_time()
 {
- return 80 + 4 * volume() + 2 * weight();
+ return 50 + 4 * volume() + 2 * weight();
 }
 
 bool item::has_weapon_flag(weapon_flag f)
@@ -711,6 +730,10 @@ bool item::is_armor()
 
 bool item::is_book()
 {
+ if (type->is_macguffin()) {
+  it_macguffin* mac = dynamic_cast<it_macguffin*>(type);
+  return mac->readable;
+ }
  return type->is_book();
 }
 
@@ -722,6 +745,11 @@ bool item::is_container()
 bool item::is_tool()
 {
  return type->is_tool();
+}
+
+bool item::is_macguffin()
+{
+ return type->is_macguffin();
 }
 
 int item::reload_time(player &u)

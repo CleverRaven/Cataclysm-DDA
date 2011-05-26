@@ -238,7 +238,7 @@ missed_by, deviation, trange, p.weapon.charges, p.posx, p.posy, tarx, tary);
       zarm *= rng(2, 4);
      if (zarm > 0)
       dam -= zarm;
-     if (goodhit <= .5 && dam < 0) {
+     if (dam < 0) {
       if (u_see_mon)
        add_msg("The shot reflects off the %s%s!",
                z[mondex].name().c_str(),

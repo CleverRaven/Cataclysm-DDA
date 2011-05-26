@@ -99,14 +99,32 @@ You need to know if your brother is alive.  Check his house.";
   debugmsg("Find Your Brother mission couldn't find a valid house!");
   return;
  }
-/*
  if (!one_in(3)) { // 66% chance: brother joined a gang
   map home(&(g->itypes), &(g->mapitems), &(g->traps));
   home.load(g, miss->target.x, miss->target.y);
-  for (int x = 0; x < SEEX * 2; x++) {
-   for (int y = 0; y < SEEY * 2; y++) {
+// Place a note to this effect
+  item note(g->itypes[itm_note], 0);
+  note.mission_id = g->reserve_mission(MISSION_FIND_FAMILY_FACTION);
+  note.name = g->u.name;
+  bool done = false;
+  for (int x = 0; x < SEEX * 2 && !done; x++) {
+   for (int y = 0; y < SEEY * 2 && !done; y++) {
     if (home.ter(x, y) == t_bed) {
-    */
+     home.add_item(x, y, note);
+     done = true;
+    }
+   }
+  }
+  if (!done) {
+   int x, y;
+   do {
+    x = rng(0, SEEX * 2 - 1);
+    y = rng(0, SEEX * 2 - 1);
+   } while (home.move_cost(x, y) == 0);
+   home.add_item(x, y, note);
+  }
+     
+ }
 }
 
 void mission_start::get_jelly(game *g, mission *miss)

@@ -601,8 +601,8 @@ void mattack::smg(game *g, monster *z)
  tmp.posx = z->posx;
  tmp.posy = z->posy;
  tmp.str_cur = 16;
- tmp.dex_cur = 12;
- tmp.per_cur = 10;
+ tmp.dex_cur =  5;
+ tmp.per_cur =  7;
  tmp.weapon = item(g->itypes[itm_smg_9mm], 0);
  tmp.weapon.curammo = dynamic_cast<it_ammo*>(g->itypes[itm_9mm]);
  tmp.weapon.charges = 10;

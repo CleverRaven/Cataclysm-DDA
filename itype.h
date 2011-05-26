@@ -22,7 +22,7 @@ itm_corpse,
 // Drinks
 itm_water, itm_water_dirty, itm_salt_water, itm_oj, itm_energy_drink, itm_cola,
  itm_rootbeer, itm_milk, itm_V8, itm_whiskey, itm_vodka, itm_rum, itm_tequila,
- itm_bleach, itm_ammonia, itm_mutagen, itm_purifier,
+ itm_beer, itm_bleach, itm_ammonia, itm_mutagen, itm_purifier,
 // Monster Meats
 itm_meat, itm_veggy, itm_meat_tainted, itm_veggy_tainted, itm_meat_cooked,
  itm_veggy_cooked,
@@ -35,7 +35,7 @@ itm_apple, itm_orange, itm_lemon, itm_chips, itm_pretzels, itm_chocolate,
  itm_sauce_red, itm_sauce_pesto, itm_can_beans, itm_can_corn, itm_can_spam,
  itm_can_pineapple, itm_can_coconut, itm_can_sardine, itm_can_tuna,
  itm_can_catfood, itm_honeycomb, itm_royal_jelly, itm_fetus, itm_arm, itm_leg,
- itm_ant_egg,
+ itm_ant_egg, itm_marloss_berry,
 // Medication
 itm_bandages, itm_1st_aid, itm_vitamins, itm_aspirin, itm_caffeine,
  itm_pills_sleep, itm_iodine, itm_dayquil, itm_nyquil, itm_inhaler, itm_codeine,
@@ -51,8 +51,8 @@ itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
  itm_hammer_sledge, itm_hatchet, itm_ax, itm_nailboard, itm_xacto, itm_pot,
  itm_pan, itm_knife_butter, itm_knife_steak, itm_knife_butcher,
  itm_knife_combat, itm_2x4, itm_muffler, itm_pipe, itm_bat, itm_machete,
- itm_katana, itm_spear_wood, itm_baton, itm_bee_sting, itm_wasp_sting,
- itm_chitin_piece, itm_canister_empty,
+ itm_katana, itm_spear_wood, itm_spear_knife, itm_baton, itm_bee_sting,
+ itm_wasp_sting, itm_chitin_piece, itm_canister_empty,
 // Footwear
 itm_sneakers, itm_boots, itm_boots_steel, itm_boots_winter, itm_mocassins,
  itm_flip_flops, itm_dress_shoes, itm_heels, 
@@ -135,6 +135,8 @@ itm_bionics_battery,       itm_bionics_power,   itm_bionics_tools,
  itm_bionics_desert,       itm_bionics_melee,   itm_bionics_armor,
  itm_bionics_espionage,    itm_bionics_defense, itm_bionics_medical,
  itm_bionics_construction, itm_bionics_super,   itm_bionics_ranged,
+// MacGuffins!
+itm_note,
 // Static (non-random) artifacts should go here.
 num_items,
 // These shouldn't be counted among "normal" items; thus, they are outside the
@@ -213,6 +215,7 @@ struct itype
  virtual bool is_book()      { return false; }
  virtual bool is_tool()      { return false; }
  virtual bool is_container() { return false; }
+ virtual bool is_macguffin() { return false; }
 
  itype() {
   id = 0;
@@ -564,5 +567,27 @@ struct it_bionic : public itype
  }
 };
 
+struct it_macguffin : public itype
+{
+ bool readable; // If true, activated with 'R'
+ void (iuse::*use)(game *, player *, item *, bool);
+ 
+ virtual bool is_macguffin() { return true; }
+
+ it_macguffin(unsigned short pid, unsigned char prarity, unsigned int pprice,
+              std::string pname, std::string pdes,
+              char psym, nc_color pcolor, material pm1, material pm2,
+              unsigned char pvolume, unsigned char pweight,
+              signed char pmelee_dam, signed char pmelee_cut,
+              signed char pm_to_hit, unsigned pweapon_flags,
+
+              bool preadable,
+              void (iuse::*puse)(game *, player *, item *, bool))
+:itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pweapon_flags) {
+  readable = preadable;
+  use = puse;
+ }
+};
 
 #endif

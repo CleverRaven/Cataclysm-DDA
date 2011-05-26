@@ -78,6 +78,7 @@ public:
  bool is_book();
  bool is_container();
  bool is_tool();
+ bool is_macguffin();
  virtual bool is_artifact()  { return false; }
 
  //bool stack_with(item &it);	// Attempts to stack; returns true on success
@@ -89,12 +90,15 @@ public:
  std::vector<item> contents;
 
  std::string name;
- char invlet;
+ char invlet;		// Inventory letter
  int charges;
  bool active;		// If true, it has active effects to be processed
  signed char damage;	// How much damage it's sustained; generally, max is 5
  unsigned int bday;	// The turn on which it was created
  bool owned;		// If true, NPCs will shout at you for picking it up
+
+ int mission_id;// Refers to a mission in game's master list
+ int player_id;	// Only give a mission to the right player!
 };
 
 

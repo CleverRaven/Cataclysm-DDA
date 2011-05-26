@@ -17,11 +17,9 @@ NOTABLE BUGS:
 LONG-TERM FEATURES:  Stuff I hope to finish in a year
 
   Finish missions and put a few simple ones in the game, get it working.
-	Need to have a "go-to" arrow in the minimap and full map
-	Code a "list missions" screen, and bind a key to it
+DONE	Need to have a "go-to" arrow in the minimap and full map
+DONE	Code a "list missions" screen, and bind a key to it
 		
-	Need some key to be bound to "list missions"
-		Need to code a list missions screen ;)
 	The mission_type and mission classes will almost certainly need to be
 	  expanded to fit the needs of what we want to do.
 	Missions need to have save() and load() functions.
@@ -113,7 +111,7 @@ GENERAL:
 	They Live!: Special glasses that let you see "reality" somehow
 		Hidden doors?  Some people are really disguised monsters?
 	Indiana Jones: Archeologist class, religious artifacts
-	The Warriors: Making gangs (basically small factions) with coolthemes
+	The Warriors: Making gangs (basically small factions) with cool themes
 	  and costumes would be nice.
 	Dr Strangelove: Mineshafts converted into bunkers; quotes
 	Ghostbusters: Weapons!  Maybe ghosts.
@@ -144,7 +142,10 @@ GENERAL:
   Configurable options:
 	Keybindings
 	Colors (e.g. highlight color, currently blue)
-		Also ncurses options, e.g. A_BLINK support
+		Also ncurses options, e.g. A_BLINK support--not all terminals
+		  can display bright background colors, so black-on-dark-gray
+		  will just show up as a blank tile.  We should have an option
+		  to turn off bright background colors.
 	Run Mode behavior / Run Mode auto-on
 	Auto-drop wrappers (empty soda cans, etc)
 
@@ -162,7 +163,7 @@ GENERAL:
 		Or level 1 cooking craft, 5 rotten tomatoes->1 fresh
 
   When picking items up, highlight useful ones in particular colors
-	Red: Ammo for a gun you have, or vice versa
+DONE	Red: Ammo for a gun you have, or vice versa
 	Green: Important medical (1st aid, bandages, painkiller, etc.)
 		Possibly context-dependant?  Painkillers if you're in pain, etc.
 	Blue: Items you can craft with
