@@ -4187,12 +4187,8 @@ void player::read(game *g, char ch)
  } else if (index == -1) {
   g->add_msg("You do not have that item.");
   return;
- } else if ((index >=  0 && !inv[index].is_book()) ||
-            (index == -2 && !weapon.is_book())) {
-  g->add_msg("Your %s is not good reading material.",
-           (index == -2 ? weapon.tname(g).c_str() : inv[index].tname(g).c_str()));
-  return;
  }
+
 // Some macguffins can be read, but they aren't treated like books.
  it_macguffin* mac = NULL;
  item *used;
@@ -4206,6 +4202,13 @@ void player::read(game *g, char ch)
  if (mac != NULL) {
   iuse use;
   (use.*mac->use)(g, this, used, false);
+  return;
+ }
+
+ if ((index >=  0 && !inv[index].is_book()) ||
+            (index == -2 && !weapon.is_book())) {
+  g->add_msg("Your %s is not good reading material.",
+           (index == -2 ? weapon.tname(g).c_str() : inv[index].tname(g).c_str()));
   return;
  }
 

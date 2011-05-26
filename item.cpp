@@ -730,10 +730,12 @@ bool item::is_armor()
 
 bool item::is_book()
 {
+/*
  if (type->is_macguffin()) {
   it_macguffin* mac = dynamic_cast<it_macguffin*>(type);
   return mac->readable;
  }
+*/
  return type->is_book();
 }
 
