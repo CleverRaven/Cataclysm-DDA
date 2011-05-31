@@ -1,13 +1,11 @@
 NOTABLE BUGS:
 
-  Occasionally, saving an item will crash on item::curammo->type
-	This happens in player-saving, but more frequently in NPC-saving.
-
   Factions cannot be saved at all, or they corrupt the master save file
 
   When crafting, multiple sets of an ammo (nails or batteries) being used in a
   single craft causes their amounts to increase, rather than decrease
 	E.g. crafting a grenade w/ 2 boxes of nails (30) => 2 boxes (60)
+	Is this fixed?
 
   Occasionally taking a stair down will teleport you to the adjacent overmap
   tile, if it contains stairs that're closer than the ones here.
@@ -68,7 +66,8 @@ DONE	Code a "list missions" screen, and bind a key to it
   actual tile graphics; once those are acquired, the only things needing a
   rewrite should be output.{h,cpp} and keypress.{h,cpp}
 	Though mtypedef and itypedef might need to have item glyphs replaced or
-	  enchanced with a link to a image file or part of an image file.
+	  enchanced with a link to a image file or part of an image file. Same
+	  with terrain data
 
   Sustained high morale generates "life points" (think of a less stupid name).
   These can be spent on a permanent stat increase, crafting a "legendary" item,
