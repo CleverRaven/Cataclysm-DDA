@@ -1968,6 +1968,8 @@ int player::hit_mon(game *g, monster *z)
  if (bash_min < sklevel[sk_bashing] * 2)
   bash_min = sklevel[sk_bashing] * 2;
  dam += rng(bash_dam / 4, bash_dam);
+// Take some moves away from the target; at this point it's skill & bash damage
+ z->moves -= rng(0, dam * 2);
 // Spears treat cutting damage specially.
  if (weapon.has_weapon_flag(WF_SPEAR) &&
      weapon.type->melee_cut > z->type->armor - int(sklevel[sk_stabbing])) {
@@ -2079,7 +2081,7 @@ int player::hit_mon(game *g, monster *z)
    if (bashing) {
     dam += 2 * sklevel[sk_bashing];
     dam += 8 + (str_cur / 2);
-    z->moves -= rng(0, dam);	// Stunning blow
+    z->moves -= rng(dam, dam * 2);	// Stunning blow
    }
    if (cutting) {
     dam += 3 * sklevel[sk_cutting];

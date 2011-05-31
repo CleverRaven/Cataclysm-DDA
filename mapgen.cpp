@@ -967,7 +967,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     rn = rng(lw + 1, rw - 1);
    while (ter(rn, bw - 1) != t_floor);
    ter(rn, bw - 1) = t_stairs_down;
-  } else if (one_in(50)) { // Non-basements have a 1 in 50 chance of wasps!
+  } else if (one_in(100)) { // Non-basements have a 1 in 100 chance of wasps!
    for (int i = 0; i < SEEX * 2; i++) {
     for (int j = 0; j < SEEY * 2; j++) {
      if (ter(i, j) == t_door_c || ter(i, j) == t_door_locked)
@@ -4629,6 +4629,8 @@ void map::add_extra(map_extra type, game *g)
    case 6: stash = mi_trash;		size = 92;	break;
   }
 
+  if (move_cost(x, y) == 0)
+   ter(x, y) = t_dirt;
   place_items(stash, size, x, y, x, y, true, 0);
 
 // Now add traps around that stash
@@ -4738,7 +4740,7 @@ void map::add_extra(map_extra type, game *g)
 
  case mx_portal_in:
  {
-  int x = rng(5, SEEX - 6), y = rng(5, SEEY - 6);
+  int x = rng(5, SEEX * 2 - 6), y = rng(5, SEEY * 2 - 6);
   add_field(g, x, y, fd_fatigue, 3);
   for (int i = x - 5; i <= x + 5; i++) {
    for (int j = y - 5; j <= y + 5; j++) {

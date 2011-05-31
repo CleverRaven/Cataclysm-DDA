@@ -150,6 +150,8 @@ std::string item::save_info()
  */
  if (is_gun() && curammo != NULL)
   ammotmp = curammo->id;
+ if (ammotmp < 0 || ammotmp > num_items)
+  ammotmp = 0; // Saves us from some bugs
  std::stringstream dump;// (std::stringstream::in | std::stringstream::out);
  dump << " " << int(invlet) << " " << int(type->id) << " " <<  int(charges) <<
          " " << int(damage) << " " << ammotmp << " " << int(bday);

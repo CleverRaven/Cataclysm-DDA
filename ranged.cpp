@@ -34,10 +34,10 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 // Use different amounts of time depending on the type of gun and our skill
  switch (firing->skill_used) {
  case (sk_pistol):
-  if (p.sklevel[sk_pistol] > 8)
+  if (p.sklevel[sk_pistol] > 6)
    p.moves -= 10;
   else
-   p.moves -= (50 - 5 * p.sklevel[sk_pistol]);
+   p.moves -= (80 - 10 * p.sklevel[sk_pistol]);
   break;
  case (sk_shotgun):
   if (p.sklevel[sk_shotgun] > 3)
@@ -204,9 +204,11 @@ missed_by, deviation, trange, p.weapon.charges, p.posx, p.posy, tarx, tary);
    
    if (dam <= 0) {
     if (is_bolt &&
-        ((u.weapon.curammo->m1 == WOOD && !one_in(5)) ||
-         (u.weapon.curammo->m1 != WOOD && !one_in(15))))
+        ((p.weapon.curammo->m1 == WOOD && !one_in(5)) ||
+         (p.weapon.curammo->m1 != WOOD && !one_in(15))))
      m.add_item(trajectory[i].x, trajectory[i].y, ammotmp);
+    if (p.weapon.charges == 0)
+     p.weapon.curammo = NULL;
     return;
    }
    message = "";
@@ -217,7 +219,8 @@ missed_by, deviation, trange, p.weapon.charges, p.posx, p.posy, tarx, tary);
    int mondex = mon_at(tx, ty);
    if (mondex != -1 && (!z[mondex].has_flag(MF_DIGS) ||
        rl_dist(p.posx, p.posy, z[mondex].posx, z[mondex].posy) <= 1) &&
-       (!missed || one_in((7 - int(z[mon_at(tx, ty)].type->size))))) {
+       ((!missed && i == trajectory.size() - 1) ||
+        one_in((10 - int(z[mon_at(tx, ty)].type->size))))) {
 // If we shot us a monster...
 // Calculate damage depending on how good our hit was
     double goodhit = missed_by;
@@ -264,7 +267,7 @@ missed_by, deviation, trange, p.weapon.charges, p.posx, p.posy, tarx, tary);
       dam = 0;
 // Find the zombie at (x, y) and hurt them, MAYBE kill them!
      if (dam > 0) {
-      z[mondex].moves -= dam * 8;
+      z[mondex].moves -= dam * 5;
       if (&p == &u && u_see_mon)
        add_msg("%s You hit the %s for %d damage.", message.c_str(),
                z[mondex].name().c_str(), dam);
@@ -354,8 +357,8 @@ missed_by, deviation, trange, p.weapon.charges, p.posx, p.posy, tarx, tary);
     m.shoot(this, tx, ty, dam, i == trajectory.size() - 1);
   }
   if (is_bolt &&
-      ((u.weapon.curammo->m1 == WOOD && !one_in(5)) ||
-       (u.weapon.curammo->m1 != WOOD && !one_in(15)))) {
+      ((p.weapon.curammo->m1 == WOOD && !one_in(5)) ||
+       (p.weapon.curammo->m1 != WOOD && !one_in(15)))) {
     int lastx = trajectory[trajectory.size() - 1].x;
     int lasty = trajectory[trajectory.size() - 1].y;
     if (m.move_cost(lastx, lasty) == 0) {

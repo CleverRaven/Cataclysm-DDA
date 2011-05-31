@@ -220,13 +220,13 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_smg],
-	itm_uzi, itm_tec9, itm_calico, itm_hk_mp5, itm_mac_10, itm_hk_ump45,
-	itm_TDI, itm_fn_p90, itm_hk_mp7, NULL);
+	itm_american_180, itm_uzi, itm_tec9, itm_calico, itm_hk_mp5, itm_mac_10,
+	itm_hk_ump45, itm_TDI, itm_fn_p90, itm_hk_mp7, NULL);
 
  setvector(
    mapitems[mi_assault],
 	itm_hk_g3, itm_hk_g36, itm_ak47, itm_fn_fal, itm_acr, itm_ar15,
-	itm_scar_l, itm_scar_h, itm_m249, NULL);
+	itm_scar_l, itm_scar_h, itm_steyr_aug, itm_m249, NULL);
 
  setvector(
    mapitems[mi_allguns],
@@ -234,11 +234,12 @@ void game::init_mapitems()
 	itm_taurus_38, itm_sig_40, itm_sw_610, itm_ruger_redhawk, itm_deagle_44,
 	itm_usp_45, itm_m1911, itm_fn57, itm_hk_ucp, itm_shotgun_s,
 	itm_shotgun_d, itm_remington_870, itm_mossberg_500, itm_saiga_12,
-	itm_uzi, itm_tec9, itm_calico, itm_hk_mp5, itm_mac_10, itm_hk_ump45,
-	itm_TDI, itm_fn_p90, itm_hk_mp7, itm_marlin_9a, itm_ruger_1022,
-	itm_browning_blr, itm_remington_700, itm_sks, itm_ruger_mini,
-	itm_savage_111f, itm_hk_g3, itm_hk_g36, itm_ak47, itm_fn_fal, itm_acr,
-	itm_ar15, itm_scar_l, itm_scar_h, itm_m249, NULL);
+	itm_american_180, itm_uzi, itm_tec9, itm_calico, itm_hk_mp5, itm_mac_10,
+	itm_hk_ump45, itm_TDI, itm_fn_p90, itm_hk_mp7, itm_marlin_9a,
+	itm_ruger_1022, itm_browning_blr, itm_remington_700, itm_sks,
+	itm_ruger_mini, itm_savage_111f, itm_hk_g3, itm_hk_g36, itm_ak47,
+	itm_fn_fal, itm_acr, itm_ar15, itm_scar_l, itm_scar_h, itm_steyr_aug,
+	itm_m249, NULL);
 
  setvector(
    mapitems[mi_gunxtras],

@@ -1528,15 +1528,21 @@ rifle.  It is designed for rapid unloading of many rounds, with less emphasis\n\
 on accuracy or durability.");
 
 //  NAME		RAR PRC COLOR	MAT1	MAT2
-GUN("Uzi 9mm",		 8, 980,c_cyan,	STEEL,	MNULL,
+GUN("American-180",	 2, 800,c_cyan, STEEL,	MNULL,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_smg,		AT_9MM,	 6, 29, 10,  1,  0, 25, -2,  7, 10, 32, "\
+	sk_smg,		AT_22,  12, 23, 11,  0,  2, 20,  0,  6, 20,165, "\
+The American-180 is a submachine gun developed in the 1960s which fires .22\n\
+LR, unusual for an SMG.  Though the round is low-powered, the high rate of\n\
+fire and large magazine makes the 180 a formidable weapon.");
+
+GUN("Uzi 9mm",		 8, 980,c_cyan,	STEEL,	MNULL,
+	sk_smg,		AT_9MM,	 6, 29, 10,  1,  0, 25, -2,  7,  8, 32, "\
 The Uzi 9mm has enjoyed immense popularity, selling more units than any other\n\
 submachine gun.  It is widely used as a personal defense weapon, or as a\n\
 primary weapon by elite frontline forces.");
 
 GUN("TEC-9",		10, 880,c_cyan,	STEEL,	MNULL,
-	sk_smg,		AT_9MM,	 5, 12,  9,  1,  3, 24,  0,  6,  8, 32, "\
+	sk_smg,		AT_9MM,	 5, 12,  9,  1,  3, 24,  0,  6,  6, 32, "\
 The TEC-9 is a machine pistol made of cheap polymers and machine stamped\n\
 parts.  Its rise in popularity among criminals is largely due to its\n\
 intimidating looks and low price.");
@@ -1549,7 +1555,7 @@ allows for high capacities and reduced recoil.");
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("H&K MP5",		12,1400,c_cyan,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_smg,		AT_9MM,	12, 26, 10,  2, -1, 18, -3,  8, 12, 30, "\
+	sk_smg,		AT_9MM,	12, 26, 10,  2, -1, 18, -3,  8,  4, 30, "\
 The Heckler & Koch MP5 is one of the most widely-used submachine guns in the\n\
 world, and has been adopted by special police forces and militaries alike.\n\
 Its high degree of accuracy and low recoil are universally praised.");
@@ -1562,7 +1568,7 @@ enjoyed great popularity among criminals less concerned with quality firearms."
 );
 
 GUN("H&K UMP45",	12,1500,c_cyan,	STEEL,	PLASTIC,
-	sk_smg,		AT_45,	13, 20, 11,  1,  0, 13, -3,  8, 10, 25, "\
+	sk_smg,		AT_45,	13, 20, 11,  1,  0, 13, -3,  8,  4, 25, "\
 Developed as a successor to the MP5 submachine gun, the UMP45 retains the\n\
 earlier model's supreme accuracy and low recoil, but in the higher .45 caliber."
 );
@@ -1570,18 +1576,18 @@ earlier model's supreme accuracy and low recoil, but in the higher .45 caliber."
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("TDI Vector",	 4,1800,c_cyan,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_smg,		AT_45,	13, 20,  9,  0, -2, 15,-14,  7, 15, 30, "\
+	sk_smg,		AT_45,	13, 20,  9,  0, -2, 15,-14,  7,  8, 30, "\
 The TDI Vector is a submachine gun with a unique in-line design which makes\n\
 recoil very managable, even in the powerful .45 caliber.");
 
 GUN("FN P90",		 7,2000,c_cyan,	STEEL,	PLASTIC,
-	sk_smg,		AT_57,	14, 22, 10,  1,  0, 22,  0,  8, 15, 50, "\
+	sk_smg,		AT_57,	14, 22, 10,  1,  0, 22, -8,  8, 15, 50, "\
 The first in a new genre of guns, termed \"personal defense weapons.\"  FN\n\
 designed the P90 to use their proprietary 5.7x28mm ammunition.  It is made\n\
 for firing bursts managably.");
 
 GUN("H&K MP7",		 5,1600,c_cyan,	STEEL,	PLASTIC,
-	sk_smg,		AT_46,	 7, 17,	 7,  1,  0, 21,  0,  8, 16, 20, "\
+	sk_smg,		AT_46,	 7, 17,	 7,  1,  0, 21,-10,  8, 20, 20, "\
 Designed by Heckler & Koch as a competitor to the FN P90, as well as a\n\
 successor to the extremely popular H&K MP5.  Using H&K's proprietary 4.6x30mm\n\
 ammunition, it is designed for burst fire.");
@@ -1633,19 +1639,19 @@ ammo capacity is offset by its accuracy and near-complete lack of recoil.");
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("H&K G3",		15,2550,c_blue,	IRON,	WOOD,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_rifle,	AT_308,	16, 40, 13,  2,  8, 11,  4,  8,  8, 20, "\
+	sk_rifle,	AT_308,	16, 40, 13,  2,  8, 11,  4,  8,  7, 20, "\
 An early battle rifle developed after the end of WWII.  The G3 is designed to\n\
 unload large amounts of deadly ammunition, but it is less suitable over long\n\
 ranges.");
 
 GUN("H&K G36",		17,2300,c_blue,	IRON,	PLASTIC,
-	sk_rifle,	AT_223, 15, 32, 13,  2,  6,  8,  5,  8, 12, 30, "\
+	sk_rifle,	AT_223, 15, 32, 13,  2,  6,  8,  5,  8, 10, 30, "\
 Designed as a replacement for the early H&K G3 battle rifle, the G36 is more\n\
 accurate, and uses the much-lighter .223 round, allowing for a higher ammo\n\
 capacity.");
 
 GUN("AK-47",		16,2100,c_blue,	IRON,	WOOD,
-	sk_rifle,	AT_762,	16, 38, 14,  2,  0, 13,  4,  9, 10, 30, "\
+	sk_rifle,	AT_762,	16, 38, 14,  2,  0, 13,  4,  9,  4, 30, "\
 One of the most recognizable assault rifles ever made, the AK-47 is renowned\n\
 for its durability even under the worst conditions.");
 
@@ -1653,23 +1659,23 @@ GUN("FN FAL",		16,2250,c_blue,	IRON,	WOOD,
 	sk_rifle,	AT_308,	19, 36, 14,  2,  7, 15, -2,  8, 10, 20, "\
 A Belgian-designed battle rifle, the FN FAL is not very accurate for a rifle,\n\
 but its high fire rate and powerful .308 ammunition have made it one of the\n\
-most widely-used battle rifless in the world.");
+most widely-used battle rifles in the world.");
 
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("Bushmaster ACR",	 4,2150,c_blue,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_rifle,	AT_223,	15, 27,	18,  2,  2, 10, -2,  8, 10, 30, "\
+	sk_rifle,	AT_223,	15, 27,	18,  2,  2, 10, -2,  8,  3, 30, "\
 This carbine was developed for military use in the early 21st century.  It is\n\
 damaging and accurate, though its rate of fire is a bit slower than competing\n\
 .223 carbines.");
 
 GUN("AR-15",		 9,2200,c_blue,	STEEL,	PLASTIC,
-	sk_rifle,	AT_223,	19, 28, 12,  2,  0,  6,  0,  7, 13, 30, "\
+	sk_rifle,	AT_223,	19, 28, 12,  2,  0,  6,  0,  7,  5, 30, "\
 A widely used assault rifle and the father of popular rifles such as the M16.\n\
 It is light and accurate, but not very durable.");
 
 GUN("M4A1",		 7,2400,c_blue,	STEEL,	PLASTIC,
-	sk_rifle,	AT_223, 14, 24, 13,  2,  4,  7,  2,  6, 13, 30, "\
+	sk_rifle,	AT_223, 14, 24, 13,  2,  4,  7,  2,  6,  5, 30, "\
 A popular carbine, long used by the US military.  Though accurate, small, and\n\
 lightweight, it is infamous for its fragility, particularly in less-than-\n\
 ideal terrain.");
@@ -1677,19 +1683,25 @@ ideal terrain.");
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("FN SCAR-L",	 6,2500,c_blue,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_rifle,	AT_223,	15, 29, 18,  2,  1,  6, -4,  8, 10, 30, "\
+	sk_rifle,	AT_223,	15, 29, 18,  2,  1,  6, -4,  8,  6, 30, "\
 A modular assault rifle designed for use by US Special Ops units.  The 'L' in\n\
 its name stands for light, as it uses the lightweight .223 round.  It is very\n\
 accurate and low on recoil.");
 
 GUN("FN SCAR-H",	 5,2750,c_blue,	STEEL,	PLASTIC,
-	sk_rifle,	AT_308,	16, 32, 20,  2,  1, 12, -4,  8, 10, 20, "\
+	sk_rifle,	AT_308,	16, 32, 20,  2,  1, 12, -4,  8,  5, 20, "\
 A modular assault rifle designed for use by US Special Ops units.  The 'H' in\n\
 its name stands for heavy, as it uses the powerful .308 round.  It is fairly\n\
 accurate and low on recoil.");
 
+GUN("Steyr AUG",	 6,2900,c_blue, STEEL,	PLASTIC,
+	sk_rifle,	AT_223, 14, 32, 17,  1, -2,  5, -8,  8,  3, 30, "\
+The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is\n\
+used in the armed forces and police forces of many nations, and enjoys\n\
+high accuracy at both medium and long range.");
+
 GUN("M249",		 1,3500,c_ltred,STEEL,	PLASTIC,
-	sk_rifle,	AT_223,	32, 68, 27, -4, -6, 20,  6,  7, 18,200, "\
+	sk_rifle,	AT_223,	32, 68, 27, -4, -6, 20,  6,  7, 20,200, "\
 The M249 is a mountable machine gun used by the US Military and SWAT teams.\n\
 Quite innaccurate and difficult to control, the M249 is designed to fire many\n\
 rounds very quickly."
@@ -2069,6 +2081,21 @@ CONT("sm. cardboard box",50, 0,	c_brown,	PAPER,	MNULL,
     4,  0, -5,  1,	 4,	mfb(con_rigid), "\
 A small cardboard box.  No bigger than a foot in any dimension.");
 
+/* TOOLS
+ * MAX is the maximum number of charges help.
+ * DEF is the default number of charges--items will be generated with this
+ *  many charges.
+ * USE is how many charges are used up when 'a'pplying the object.
+ * SEC is how many turns will pass before a charge is drained if the item is
+ *  active; generally only used in the "<whatever> (on)" forms
+ * FUEL is the type of charge the tool uses; set to AT_NULL if the item is
+ *  unable to be recharged.
+ * REVERT is the item type that the tool will revert to once its charges are
+ *  drained
+ * FUNCTION is a function called when the tool is 'a'pplied, or called once per
+ *  turn if the tool is active.  The same function can be used for both.  See
+ *  iuse.h and iuse.cpp for functions.
+ */
 #define TOOL(name,rarity,price,sym,color,mat1,mat2,volume,wgt,melee_dam,\
 melee_cut,to_hit,max_charge,def_charge,charge_per_use,charge_per_sec,fuel,\
 revert,func,flags,des) \
@@ -2167,7 +2194,7 @@ A digging tool.  Use it to dig pits adjacent to your location.");
 TOOL("chainsaw (off)",	 7, 350,'/', c_red,	IRON,	PLASTIC,
    12, 40, 10,  0, -4,1000, 0,  0,  0, AT_GAS,	itm_null, &iuse::chainsaw_off,0,
 "Using this item will, if loaded with gas, cause it to turn on, making a very\n\
-powerful, but slow, wieldy, and noisy, melee weapon.");
+powerful, but slow, unwieldy, and noisy, melee weapon.");
 
 //	NAME		RAR VAL	SYM  COLOR	MAT1	MAT
 TOOL("chainsaw (on)",	 0, 350,'/', c_red,	IRON,	PLASTIC,
@@ -2245,7 +2272,7 @@ produce quiet clicking sounds in the presence of ambient radiation. Using it\n\
 allows you to turn it off, or scan yourself or the ground.");
 
 //	NAME		RAR VAL	SYM  COLOR	MAT1	MAT
-TOOL("teleporter",       5,6000,';', c_magenta,	PLASTIC,STEEL,
+TOOL("teleporter",      10,6000,';', c_magenta,	PLASTIC,STEEL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
     3, 12,  4,  0, -1, 20, 20,  1,  0, AT_PLUT,	itm_null, &iuse::teleport,0,"\
 An arcane device, powered by plutonium fuel cells.  Using it will cause you\n\
@@ -2375,7 +2402,7 @@ scientific interests for use in combat and the field.  The UPS is designed to\n\
 power armor, goggles, etc., but drains batteries quickly.");
 
 TOOL("UPS (on)",	 0,2800,';',c_ltgreen,	STEEL,	PLASTIC,
-    4,  6, 10,  0, -1,1000, 0,  0,  1, AT_BATT,	itm_UPS_off, &iuse::UPS_on,0,"\
+    4,  6, 10,  0, -1,1000, 0,  0,  2, AT_BATT,	itm_UPS_off, &iuse::UPS_on,0,"\
 A unified power supply, or UPS, is a device developed jointly by military and\n\
 scientific interests for use in combat and the field.  The UPS is designed to\n\
 power armor, goggles, etc., but drains batteries quickly.");
@@ -2414,7 +2441,7 @@ BIO("CBM: Internal Battery",	24, 3800,	c_green,	 1, "\
 Compact Bionics Module which upgrades your power capacity by 10 units. Having\n\
 at least one of these is a prerequisite to using powered bionics.  You will\n\
 also need a power supply, found in another CBM.",
-    NULL);
+    NULL); // This is a special case, which increases power capacity by 10
 
 BIO("CBM: Power Sources",	18, 5000,	c_yellow,	 4, "\
 Compact Bionics Module containing the materials necessary to install any one\n\
