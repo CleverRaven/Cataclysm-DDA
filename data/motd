@@ -1,19 +1,18 @@
 # Max length of a line is 64 characters; the following line is for reference
 # This message may be 16 lines long at maximum.
 ################################################################
-Lots of tweaks have been made to melee combat recently, mostly
-in order to debuff it--running around with a machete was WAY too
-easy.
-One of the biggest changes is that cutting weapons may get stuck
-in the flesh of your target--and possible pulled from your hand.
-This slows both you and your target.  This effect is reduced by
-your cutting skill and strength.
-Bashing damage is less reliable, but still can slow your enemy
-by making them stumble a bit.  It's also capped by low strength,
-so if you plan on using bashing weapons--or occasionally bashing
-with your rifle--strength is more important now.
-Finally, there are "spears"--mostly the craftable spears and
-similar items--which do very little damage unless you get a crit
-but can massively slow your enemies.  There's also a related
-skill, "stabbing weapons," which also boosts crit damage when
-using combat knives, nail boards, or other stabbing action.
+The game has two new major mechanics: weather and an XP pool.
+
+Weather is a set of gameplay effects and is updated on the half-
+hour.  Most notably, rain can get you wet, hurting your morale
+(and possibly your equipment in the future), sun can cause glare
+that reduces perception (wear a baseball cap!) and acid rain is
+almost as bad as a spitter zombie.  Seek cover!
+
+The XP pool is very similar to the one in crawl; it's a set of
+points which are used to increase your skills.  Unlike crawl,
+and pretty much any other game, it's filled by having high
+morale.  This makes tasty food, engaging books, and drugs all
+very valuable!  I'm not sure about this mechanic, and haven't
+tested it thoroughly, but I'm giving it a try.  Let me know what
+you think!
