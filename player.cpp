@@ -4503,12 +4503,6 @@ bool player::wearing_something_on(body_part bp)
 void player::practice(skill s, int amount)
 {
  skill savant = sk_null;
- if (amount > xp_pool) {
-  amount = xp_pool;
-  xp_pool = amount;
- } else
-  xp_pool -= amount;
-
  int savant_level = 0, savant_exercise = 0;
  if (has_trait(PF_SAVANT)) {
 // Find our best skill
@@ -4525,7 +4519,7 @@ void player::practice(skill s, int amount)
  }
  while (amount > 0 && xp_pool >= sklevel[s]) {
   amount--;
-  xp_pool -= sklevel[s];
+  xp_pool--;
   if ((savant == sk_null || savant == s || !one_in(2)) &&
       rng(0, 100) < comprehension_percent(s))
    skexercise[s]++;

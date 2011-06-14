@@ -1679,8 +1679,11 @@ void game::draw()
  if (tername.length() > 14)
   tername = tername.substr(0, 14);
  mvwprintz(w_status, 0,  0, oterlist[cur_ter].color, tername.c_str());
- mvwprintz(w_status, 0, 18, weather_data[weather].color,
-                            weather_data[weather].name.c_str());
+ if (levz < 0)
+  mvwprintz(w_status, 0, 18, c_ltgray, "Underground");
+ else
+  mvwprintz(w_status, 0, 18, weather_data[weather].color,
+                             weather_data[weather].name.c_str());
  nc_color col_temp = c_blue;
  if (temperature >= 90)
   col_temp = c_red;
