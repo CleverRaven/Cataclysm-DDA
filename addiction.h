@@ -15,7 +15,7 @@ void addict_effect(game *g, addiction &add)
    g->add_msg("You %s a cigarette.",
               rng(0, 6) < in ? "need" : "could use");
    g->cancel_activity_query("You have a nicotine craving.");
-   g->u.add_morale(MOR_CRAVING_NICOTINE, 4, 300);
+   g->u.add_morale(MOR_CRAVING_NICOTINE, -1, 300);
    if (one_in(800 - 50 * in))
     g->u.fatigue++;
    if (one_in(400 - 20 * in))
@@ -28,7 +28,7 @@ void addict_effect(game *g, addiction &add)
   if (in > 20 || one_in((500 - 20 * in))) {
    g->add_msg("You want some caffeine.");
    g->cancel_activity_query("You have a caffeine craving.");
-   g->u.add_morale(MOR_CRAVING_CAFFEINE, 1, 100);
+   g->u.add_morale(MOR_CRAVING_CAFFEINE, -1, 100);
    if (rng(0, 10) < in)
     g->u.stim--;
    if (rng(8, 400) < in) {
@@ -46,11 +46,11 @@ void addict_effect(game *g, addiction &add)
   if (one_in(20) && rng(0, 20) < in) {
    g->add_msg("You could use a drink.");
    g->cancel_activity_query("You have an alcohol craving.");
-   g->u.add_morale(MOR_CRAVING_ALCOHOL, rng(5, 10), 600);
+   g->u.add_morale(MOR_CRAVING_ALCOHOL, -1, 600);
   } else if (rng(8, 300) < in) {
    g->add_msg("Your hands start shaking... you need a drink bad!");
    g->cancel_activity_query("You have an alcohol craving.");
-   g->u.add_morale(MOR_CRAVING_ALCOHOL, rng(10, 20), 600);
+   g->u.add_morale(MOR_CRAVING_ALCOHOL, -1, 600);
    g->u.add_disease(DI_SHAKES, 50, g);
   } else if (!g->u.has_disease(DI_HALLU) && rng(10, 1600) < in)
    g->u.add_disease(DI_HALLU, 3600, g);
@@ -79,11 +79,11 @@ void addict_effect(game *g, addiction &add)
    if (one_in(20) && dice(2, 20) < in) {
     g->add_msg("Your hands start shaking... you need some painkillers.");
     g->cancel_activity_query("You have an opiate craving.");
-    g->u.add_morale(MOR_CRAVING_OPIATE, 20, 600);
+    g->u.add_morale(MOR_CRAVING_OPIATE, -20, 600);
     g->u.add_disease(DI_SHAKES, 20 + in * 5, g);
    } else if (one_in(20) && dice(2, 30) < in) {
     g->add_msg("You feel anxious.  You need your painkillers!");
-    g->u.add_morale(MOR_CRAVING_OPIATE, 15, 600);
+    g->u.add_morale(MOR_CRAVING_OPIATE, -15, 600);
     g->cancel_activity_query("You have a craving.");
    } else if (one_in(50) && dice(3, 50) < in) {
     g->add_msg("You throw up heavily!");
@@ -104,11 +104,11 @@ void addict_effect(game *g, addiction &add)
   if (dice(2, 100) < in) {
    g->add_msg("You feel depressed.  Speed would help.");
    g->cancel_activity_query("You have a speed craving.");
-   g->u.add_morale(MOR_CRAVING_SPEED, 5, 300);
+   g->u.add_morale(MOR_CRAVING_SPEED, -1, 300);
   } else if (one_in(10) && dice(2, 80) < in) {
    g->add_msg("Your hands start shaking... you need a pick-me-up.");
    g->cancel_activity_query("You have a speed craving.");
-   g->u.add_morale(MOR_CRAVING_SPEED, 5, 300);
+   g->u.add_morale(MOR_CRAVING_SPEED, -1, 300);
    g->u.add_disease(DI_SHAKES, in * 20, g);
   } else if (one_in(50) && dice(2, 100) < in) {
    g->add_msg("You stop suddenly, feeling bewildered.");
@@ -126,12 +126,12 @@ void addict_effect(game *g, addiction &add)
   if (in >= 30 || one_in((900 - 30 * in))) {
    g->add_msg("You feel like you need a bump.");
    g->cancel_activity_query("You have a craving for cocaine.");
-   g->u.add_morale(MOR_CRAVING_COCAINE, 5, 450);
+   g->u.add_morale(MOR_CRAVING_COCAINE, -1, 450);
   }
   if (dice(2, 80) <= in) {
    g->add_msg("You feel like you need a bump.");
    g->cancel_activity_query("You have a craving for cocaine.");
-   g->u.add_morale(MOR_CRAVING_COCAINE, 5, 450);
+   g->u.add_morale(MOR_CRAVING_COCAINE, -1, 450);
    g->u.stim--;
   }
   break;

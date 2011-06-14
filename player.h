@@ -56,7 +56,6 @@ public:
  void mutate(game *g);
 
  int  sight_range(int light_level);
- bool is_in_sunlight(game *g);
  bool has_two_arms();
  bool can_wear_boots();
  bool is_armed();	// True if we're wielding something; true for bionics
@@ -202,6 +201,7 @@ public:
 
  std::vector<morale_point> morale;
 
+ int xp_pool;
  int sklevel[num_skill_types];
  int skexercise[num_skill_types];
  

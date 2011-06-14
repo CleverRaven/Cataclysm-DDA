@@ -99,7 +99,8 @@ You need to know if your brother is alive.  Check his house.";
   debugmsg("Find Your Brother mission couldn't find a valid house!");
   return;
  }
- if (!one_in(3)) { // 66% chance: brother joined a gang
+ //if (!one_in(3)) { // 66% chance: brother joined a gang
+ if (true) { // For now just always do this one
   map home(&(g->itypes), &(g->mapitems), &(g->traps));
   home.load(g, miss->target.x, miss->target.y);
 // Place a note to this effect
@@ -107,6 +108,7 @@ You need to know if your brother is alive.  Check his house.";
   note.mission_id = g->reserve_mission(MISSION_FIND_FAMILY_FACTION);
   note.name = g->u.name;
   bool done = false;
+// Try to find a bed to leave the note on...
   for (int x = 0; x < SEEX * 2 && !done; x++) {
    for (int y = 0; y < SEEY * 2 && !done; y++) {
     if (home.ter(x, y) == t_bed) {
@@ -115,6 +117,7 @@ You need to know if your brother is alive.  Check his house.";
     }
    }
   }
+// ... or just leave it wherever.
   if (!done) {
    int x, y;
    do {
@@ -123,7 +126,6 @@ You need to know if your brother is alive.  Check his house.";
    } while (home.move_cost(x, y) == 0);
    home.add_item(x, y, note);
   }
-     
  }
 }
 

@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "itype.h"
+#include "texthash.h"
 
 struct mission;
 class game;
@@ -64,6 +65,7 @@ struct mission_start {
  void standard		(game *, mission *);
  void danger		(game *, mission *);
  void find_family	(game *, mission *);
+ void find_family_note	(game *, mission *);
  void get_jelly		(game *, mission *);
  void get_jelly_ignt	(game *, mission *);
  void lost_npc		(game *, mission *);
@@ -116,6 +118,7 @@ struct mission {
  int deadline;		// Turn number
  int npc_id;		// ID of a related npc
  int good_fac_id, bad_fac_id;	// IDs of the protagonist/antagonist factions
+ text_hash text;
 
  std::string name();
 };

@@ -111,6 +111,15 @@ bool map::is_destructable(int x, int y)
          (move_cost(x, y) == 0 && !has_flag(transparent, x, y)));
 }
 
+bool map::is_outside(int x, int y)
+{
+ return (ter(x    , y    ) != t_floor && ter(x - 1, y - 1) != t_floor &&
+         ter(x - 1, y    ) != t_floor && ter(x - 1, y + 1) != t_floor &&
+         ter(x    , y - 1) != t_floor && ter(x    , y    ) != t_floor &&
+         ter(x    , y + 1) != t_floor && ter(x + 1, y - 1) != t_floor &&
+         ter(x + 1, y    ) != t_floor && ter(x + 1, y + 1) != t_floor   );
+}
+
 bool map::bash(int x, int y, int str, std::string &sound)
 {
  sound = "";

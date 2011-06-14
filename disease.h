@@ -11,6 +11,12 @@ struct game;
 void dis_msg(game *g, dis_type type)
 {
  switch (type) {
+ case DI_GLARE:
+  g->add_msg("The sunlight's glare makes it hard to see.");
+  break;
+ case DI_WET:
+  g->add_msg("You're getting soaked!");
+  break;
  case DI_HEATSTROKE:
   g->add_msg("You have heatstroke!");
   break;
@@ -66,6 +72,14 @@ void dis_effect(game *g, player &p, disease &dis)
  int bonus;
  int junk;
  switch (dis.type) {
+ case DI_GLARE:
+  p.per_cur -= 1;
+  break;
+
+ case DI_WET:
+  p.add_morale(MOR_WET, -5, 10);
+  break;
+
  case DI_COLD:
   p.moves -= int(dis.duration / 5);
   p.dex_cur -= int(dis.duration / 80);
@@ -591,6 +605,7 @@ std::string dis_name(disease dis)
 {
  switch (dis.type) {
  case DI_NULL:		return "";
+ case DI_GLARE:		return "Glare";
  case DI_COLD:		return "Cold";
  case DI_COLD_FACE:	return "Cold face";
  case DI_COLD_HANDS:	return "Cold hands";
@@ -646,6 +661,9 @@ std::string dis_description(disease dis)
 
  case DI_NULL:
   return "None";
+
+ case DI_GLARE:
+  return "Perception - 1";
 
  case DI_COLD:
   stream << "Your body in general is uncomfortably cold.\n";

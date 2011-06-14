@@ -43,7 +43,7 @@ mon_sewer_fish, mon_sewer_snake, mon_sewer_rat,
 mon_mosquito, mon_dragonfly, mon_centipede, mon_frog, mon_slug,
 // Subspace monsters
 mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
- mon_flaming_eye, mon_kreck, mon_blank,
+ mon_flaming_eye, mon_kreck, mon_blank, mon_gozu,
 // Robots
 mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_molebot, mon_tripod,
  mon_chickenbot, mon_tankbot, mon_turret,

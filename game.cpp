@@ -5,6 +5,7 @@
 #include "skill.h"
 #include "line.h"
 #include "computer.h"
+#include "weather_data.h"
 #include <fstream>
 #include <sstream>
 #include <math.h>
@@ -172,6 +173,8 @@ game::game()
  uquit = false;		// We haven't quit the game
  debugmon = false;	// We're not printing debug messages
  in_tutorial = false;	// We're not in a tutorial game
+ weather = WEATHER_CLEAR;
+ season = SPRING;
  for (int i = 0; i < num_monsters; i++)	// Reset kill counts to 0
   kills[i] = 0;
 // Set the scent map to 0
@@ -471,7 +474,7 @@ void game::start_game()
  z.push_back(doggy);
 
 // Testing missions!
- give_mission(MISSION_REACH_SAFETY);
+ //give_mission(MISSION_REACH_SAFETY);
 }
 
 void game::start_tutorial(tut_type type)
@@ -577,13 +580,14 @@ bool game::do_turn()
   }
  }
 // Check if we've overdosed... in any deadly way.
- if (u.stim > 150) {
+ if (u.stim > 250) {
   add_msg("You have a sudden heart attack!");
   u.hp_cur[hp_torso] = 0;
- } else if (u.stim < -100 || u.pkill > 120) {
+ } else if (u.stim < -200 || u.pkill > 240) {
   add_msg("Your breathing stops completely.");
   u.hp_cur[hp_torso] = 0;
  }
+
  if (turn % 50 == 0) {	// Hunger, thirst, & fatigue up every 5 minutes
   if ((!u.has_trait(PF_LIGHTEATER) || !one_in(3)) &&
       (!u.has_bionic(bio_recycler) || turn % 300 == 0))
@@ -604,7 +608,7 @@ bool game::do_turn()
    u.pkill--;
   if (u.pkill < 0)
    u.pkill++;
-  if (u.has_bionic(bio_solar) && u.is_in_sunlight(this))
+  if (u.has_bionic(bio_solar) && is_in_sunlight(u.posx, u.posy))
    u.charge_power(1);
  }
  if (turn % 300 == 0) {	// Pain up/down every 30 minutes
@@ -619,6 +623,7 @@ bool game::do_turn()
   if (u.radiation > 1 && one_in(3))
    u.radiation--;
   u.get_sick(this);
+  update_weather();
  }
 
 // The following happens when we stay still; 40/240 minutes overdue for spawn
@@ -638,12 +643,19 @@ bool game::do_turn()
  m.process_fields(this);
  m.process_active_items(this);
  m.step_in_field(u.posx, u.posy, this);
+
  monmove();
  om_npcs_move();
  u.reset();
  u.process_active_items(this);
  u.suffer(this);
- check_warmth();
+
+ if (levz >= 0) {
+  weather_effect weffect;
+  (weffect.*(weather_data[weather].effect))(this);
+  check_warmth();
+ }
+
  update_skills();
  if (u.has_disease(DI_SLEEP)) {
   draw();
@@ -818,6 +830,43 @@ void game::cancel_activity_query(std::string message)
   default:
    u.activity.type = ACT_NULL;
  }
+}
+
+void game::update_weather()
+{
+// Pick a new weather type (most likely the same one)
+ int chances[NUM_WEATHER_TYPES];
+ int total = 0;
+ for (int i = 0; i < NUM_WEATHER_TYPES; i++) {
+// Reduce the chance for freezing-temp-only weather to 0 if it's above freezing
+// and vice versa.
+  if ((weather_data[i].avg_temperature[season] < 32 && temperature > 32) ||
+      (weather_data[i].avg_temperature[season] > 32 && temperature < 32)   )
+   chances[i] = 0;
+  else {
+   chances[i] = weather_shift[season][weather][i];
+   total += chances[i];
+  }
+ }
+ int choice = rng(0, total - 1);
+ weather_type new_weather = WEATHER_CLEAR;
+ while (choice >= chances[new_weather]) {
+  choice -= chances[new_weather];
+  new_weather = weather_type(int(new_weather) + 1);
+ }
+ weather = new_weather;
+ 
+// Now update temperature
+ if (!one_in(4)) { // 3 in 4 chance of respecting avg temp for the weather
+  int average = weather_data[weather].avg_temperature[season];
+  if (temperature < average)
+   temperature++;
+  else if (temperature > average)
+   temperature--;
+ } else // 1 in 4 chance of random walk
+  temperature += rng(-1, 1);
+
+// TODO: Temperature shifts based on day/nighttime
 }
 
 void game::give_mission(mission_id type)
@@ -1613,24 +1662,45 @@ void game::draw()
  int minutes = int(turn / 10);	// One turn = 6 seconds
  int hours = 8 + int(minutes / 60);
  minutes = minutes % 60;
- int day = 12 + int(hours / 24);
+ int day = 1 + int(hours / 24);
  hours = hours % 24;
+ day = day % 14;
  if (hours == 12)
-  mvwprintz(w_status, 0, 30, c_ltgray, "July %d, 12:%02d PM", day, minutes);
+  mvwprintz(w_status, 1, 41, c_white, "12:%02d PM", minutes);
  else if (hours == 0)
-  mvwprintz(w_status, 0, 30, c_ltgray, "July %d, 12:%02d AM", day, minutes);
+  mvwprintz(w_status, 1, 41, c_white, "12:%02d AM", minutes);
  else if (hours > 12)
-  mvwprintz(w_status, 0, 30, c_ltgray, "July %d, %d:%02d PM", day, hours - 12,
-            minutes);
+  mvwprintz(w_status, 1, 41, c_white, "%d:%02d PM", hours - 12, minutes);
  else
-  mvwprintz(w_status, 0, 30, c_ltgray, "July %d, %d:%02d AM", day, hours,
-            minutes);
+  mvwprintz(w_status, 1, 41, c_white, "%d:%02d AM", hours, minutes);
 
  oter_id cur_ter = cur_om.ter((levx + 1) / 2, (levy + 1) / 2);
- mvwprintz(w_status, 0, 0, oterlist[cur_ter].color,
-                           oterlist[cur_ter].name.c_str());
+ std::string tername = oterlist[cur_ter].name;
+ if (tername.length() > 14)
+  tername = tername.substr(0, 14);
+ mvwprintz(w_status, 0,  0, oterlist[cur_ter].color, tername.c_str());
+ mvwprintz(w_status, 0, 18, weather_data[weather].color,
+                            weather_data[weather].name.c_str());
+ nc_color col_temp = c_blue;
+ if (temperature >= 90)
+  col_temp = c_red;
+ else if (temperature >= 75)
+  col_temp = c_yellow;
+ else if (temperature >= 60)
+  col_temp = c_ltgreen;
+ else if (temperature >= 50)
+  col_temp = c_cyan;
+ else if (temperature >  32)
+  col_temp = c_ltblue;
+ wprintz(w_status, col_temp, " %dF", temperature);
+ switch (season) {
+  case SPRING: mvwprintz(w_status, 0, 41, c_white, "Spring, day %d", day);break;
+  case SUMMER: mvwprintz(w_status, 0, 41, c_white, "Summer, day %d", day);break;
+  case AUTUMN: mvwprintz(w_status, 0, 41, c_white, "Autumn, day %d", day);break;
+  case WINTER: mvwprintz(w_status, 0, 41, c_white, "Winter, day %d", day);break;
+ }
  if (run_mode != 0)
-  mvwputch(w_status, 0, 28, c_red, '!');
+  mvwprintz(w_status, 2, 52, c_red, "RUN");
  wrefresh(w_status);
  // Draw messages
  write_msg();
@@ -2725,6 +2795,12 @@ bool game::is_empty(int x, int y)
 {
  return (m.move_cost(x, y) > 0 && npc_at(x, y) == -1 && mon_at(x, y) == -1 &&
          (u.posx != x || u.posy != y));
+}
+
+bool game::is_in_sunlight(int x, int y)
+{
+ return (m.is_outside(x, y) && light_level() >= 40 &&
+         (weather == WEATHER_CLEAR || weather == WEATHER_SUNNY));
 }
 
 void game::kill_mon(int index)

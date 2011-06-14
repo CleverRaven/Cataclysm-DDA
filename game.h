@@ -15,6 +15,7 @@
 #include "faction.h"
 #include "event.h"
 #include "mission.h"
+#include "weather.h"
 #include <vector>
 
 #define LONG_RANGE 10
@@ -58,6 +59,7 @@ class game
   int  npc_at(int x, int y);	// Index of the npc at (x, y); -1 for none
   int  mon_at(int x, int y);	// Index of the monster at (x, y); -1 for none
   bool is_empty(int x, int y);	// True if no PC, no monster, move cost > 0
+  bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
   void kill_mon(int index);	// Kill that monster; fixes any pointers etc
   void explode_mon(int index);	// Explode a monster; like kill_mon but messier
   void plfire(bool burst);	// Player fires a gun (setup of target)...
@@ -195,6 +197,7 @@ class game
   void update_skills();    // Degrades practice levels, checks & upgrades skills
   void process_events();   // Processes and enacts long-term events
   void process_activity(); // Processes and enacts the player's activity
+  void update_weather();   // Updates the temperature and weather patten
   void hallucinate();      // Prints hallucination junk to the screen
   void mon_info();         // Prints a list of nearby monsters (top right)
   void get_input();        // Gets player input and calls the proper function
@@ -234,6 +237,8 @@ class game
   int nextspawn;          // The turn on which monsters will spawn next.
   int next_npc_id, next_mission_id;	// Keep track of UIDs
   signed char temperature;              // The air temperature
+  weather_type weather;			// Weather pattern--SEE weather.h
+  season_type season;
   std::vector <std::string> messages;   // Messages to be printed
   unsigned char curmes;	  // The last-seen message.  Older than 256 is deleted.
   int grscent[SEEX * 3][SEEY * 3];	// The scent map

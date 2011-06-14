@@ -1074,7 +1074,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   if (one_in(5))
    ter(rng(lw + 1, cw - 1), bw) = (one_in(4) ? t_door_c : t_door_locked);
   for (int i = lw + (lw % 2 == 0 ? 3 : 4); i < cw && i < lw + 12; i += 2) {
-   if (one_in(2))
+   if (!one_in(3))
     place_items(mi_snacks,	74, i, tw + 2, i, mw - 2, false, 0);
    else
     place_items(mi_magazines,	74, i, tw + 2, i, mw - 2, false, 0);

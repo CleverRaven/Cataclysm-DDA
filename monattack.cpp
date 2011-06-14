@@ -568,6 +568,21 @@ void mattack::stare(game *g, monster *z)
  }
 }
 
+void mattack::fear_paralyze(game *g, monster *z)
+{
+ int t;
+ if (g->u_see(z->posx, z->posy, t)) {
+  z->sp_timeout = z->type->sp_freq;	// Reset timer
+  if (rng(1, 30) > g->u.int_cur) {
+   g->add_msg("The terrifying visage of the %s paralyzes you.",
+              z->name().c_str());
+   g->u.moves -= 400;
+  } else
+   g->add_msg("You manage to avoid staring at the horrdenous %s.",
+              z->name().c_str());
+ }
+}
+
 void mattack::tazer(game *g, monster *z)
 {
  int j;

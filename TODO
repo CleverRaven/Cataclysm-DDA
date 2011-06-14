@@ -14,6 +14,15 @@ NOTABLE BUGS:
 
 LONG-TERM FEATURES:  Stuff I hope to finish in a year
 
+  Add a "list nearby items" command, which lists visible items by distance,
+  name, type, etc.  Make it searchable, perhaps allow the player to define
+  highlighted items which are always moved to the top of the list.
+
+  Make a "date" class, and replace game::turn (a basic int) with the date
+  (which tracks day, season, time of day).
+	date class will have to have operator -, since almost everything
+	  (e.g. food's rottenness) uses "game::turn - birthday"
+
   Finish missions and put a few simple ones in the game, get it working.
 DONE	Need to have a "go-to" arrow in the minimap and full map
 DONE	Code a "list missions" screen, and bind a key to it
@@ -307,6 +316,9 @@ TRAITS:
 
   More Schizophrenic effects
 	Make auditory hallucinations more realistic/varied
+	Bugs Under Skin disease: causes an int_cur check every few turns; on
+	  failure, the player spends a turn scratching wildly, inducing minor
+	  damage
 
   Balance/fix/remove Jittery
 

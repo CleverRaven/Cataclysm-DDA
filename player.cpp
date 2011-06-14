@@ -41,6 +41,7 @@ player::player()
  moves = 100;
  oxygen = 0;
  active_mission = -1;
+ xp_pool = 0;
  for (int i = 0; i < num_skill_types; i++) {
   sklevel[i] = 0;
   skexercise[i] = 0;
@@ -152,6 +153,17 @@ void player::reset()
 
 void player::update_morale()
 {
+ int mor = morale_level();
+ if      (mor >= 300)
+  xp_pool += 4;
+ else if (mor >= 140)
+  xp_pool += 3;
+ else if (mor >=  60)
+  xp_pool += 2;
+ else if (mor >=  20)
+  xp_pool += 1;
+ else if (mor >=   0)
+  xp_pool += rng(0, 1) * rng(0, 1) * rng(0, 1);
  for (int i = 0; i < morale.size(); i++) {
   morale[i].duration--;
   if (morale[i].duration <= 0) {
@@ -197,7 +209,7 @@ int player::current_speed()
  if (hunger > 100)
   newmoves -= int((hunger - 100) / 10);
 
- newmoves += stim;
+ newmoves += (stim > 40 ? 40 : stim);
 
  if (has_trait(PF_QUICK))
   newmoves = int(newmoves * 1.10);
@@ -418,7 +430,7 @@ void player::disp_info(game *g)
   effect_text.push_back(stim_text.str());
  }
 
- if (has_trait(PF_TROGLO) && is_in_sunlight(g)) {
+ if (has_trait(PF_TROGLO) && g->is_in_sunlight(posx, posy)) {
   effect_name.push_back("In Sunlight");
   effect_text.push_back("The sunlight irritates you terribly.\n\
 Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
@@ -1087,13 +1099,13 @@ void player::disp_status(WINDOW *w)
  mvwprintz(w, 1, 0, c_ltgray, "Weapon: %s", weapname().c_str());
  if (weapon.is_gun()) {
        if (recoil >= 36)
-   mvwprintz(w, 1, 35, c_red,    "Recoil");
+   mvwprintz(w, 1, 30, c_red,    "Recoil");
   else if (recoil >= 20)
-   mvwprintz(w, 1, 35, c_ltred,  "Recoil");
+   mvwprintz(w, 1, 30, c_ltred,  "Recoil");
   else if (recoil >= 4)
-   mvwprintz(w, 1, 35, c_yellow, "Recoil");
+   mvwprintz(w, 1, 30, c_yellow, "Recoil");
   else if (recoil > 0)
-   mvwprintz(w, 1, 35, c_ltgray, "Recoil");
+   mvwprintz(w, 1, 30, c_ltgray, "Recoil");
  }
 
       if (hunger > 2800)
@@ -1110,39 +1122,30 @@ void player::disp_status(WINDOW *w)
   mvwprintz(w, 2, 0, c_green,  "Full");
 
       if (thirst > 520)
-  mvwprintz(w, 2, 14, c_ltred,  "Parched");
+  mvwprintz(w, 2, 15, c_ltred,  "Parched");
  else if (thirst > 240)
-  mvwprintz(w, 2, 14, c_ltred,  "Dehydrated");
+  mvwprintz(w, 2, 15, c_ltred,  "Dehydrated");
  else if (thirst > 80)
-  mvwprintz(w, 2, 14, c_yellow, "Very thirsty");
+  mvwprintz(w, 2, 15, c_yellow, "Very thirsty");
  else if (thirst > 40)
-  mvwprintz(w, 2, 14, c_yellow, "Thirsty");
+  mvwprintz(w, 2, 15, c_yellow, "Thirsty");
  else if (thirst < 0)
-  mvwprintz(w, 2, 14, c_green,  "Slaked");
+  mvwprintz(w, 2, 15, c_green,  "Slaked");
 
       if (fatigue > 575)
-  mvwprintz(w, 2, 27, c_red,    "Exhausted");
+  mvwprintz(w, 2, 30, c_red,    "Exhausted");
  else if (fatigue > 383)
-  mvwprintz(w, 2, 27, c_ltred,  "Dead tired");
+  mvwprintz(w, 2, 30, c_ltred,  "Dead tired");
  else if (fatigue > 191)
-  mvwprintz(w, 2, 27, c_yellow, "Tired");
+  mvwprintz(w, 2, 30, c_yellow, "Tired");
 
- if (str_cur > str_max)
-  mvwprintz(w, 2, 37, c_green, "Str");
- if (str_cur < str_max)
-  mvwprintz(w, 2, 37, c_red,   "Str");
- if (dex_cur > dex_max)
-  mvwprintz(w, 2, 41, c_green, "Dex");
- if (dex_cur < dex_max)
-  mvwprintz(w, 2, 41, c_red,   "Dex");
- if (int_cur > int_max)
-  mvwprintz(w, 2, 45, c_green, "Int");
- if (int_cur < int_max)
-  mvwprintz(w, 2, 45, c_red,   "Int");
- if (per_cur > per_max)
-  mvwprintz(w, 2, 49, c_green, "Per");
- if (per_cur < per_max)
-  mvwprintz(w, 2, 49, c_red,   "Per");
+ mvwprintz(w, 2, 41, c_white, "XP: ");
+ nc_color col_xp = c_dkgray;
+ if (xp_pool >= 100)
+  col_xp = c_white;
+ else if (xp_pool >  0)
+  col_xp = c_ltgray;
+ mvwprintz(w, 2, 45, col_xp, "%d", xp_pool);
 
       if (pain - pkill >= 50)
   mvwprintz(w, 3, 0, c_red,    "Excrutiating pain!");
@@ -1154,19 +1157,39 @@ void player::disp_status(WINDOW *w)
   mvwprintz(w, 3, 0, c_yellow, "Heavy pain");
  else if (pain - pkill >= 10)
   mvwprintz(w, 3, 0, c_yellow, "Moderate pain");
- else if (pain - pkill >  0)
+ else if (pain - pkill >   0)
   mvwprintz(w, 3, 0, c_yellow, "Minor pain");
 
-      if (pkill >= 100)
-  mvwprintz(w, 3, 19, c_red,    "Passing out");
- else if (pkill >= 75)
-  mvwprintz(w, 3, 19, c_ltred,  "Dizzy");
- else if (pkill >= 50)
-  mvwprintz(w, 3, 19, c_ltred,  "Woozy");
- else if (pkill >= 25)
-  mvwprintz(w, 3, 19, c_yellow, "Light-headed");
- else if (pkill >= 10)
-  mvwprintz(w, 3, 19, c_yellow, "Buzzed");
+ nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
+          col_per = c_white, col_spd = c_white;
+ if (str_cur < str_max)
+  col_str = c_red;
+ if (str_cur > str_max)
+  col_str = c_green;
+ if (dex_cur < dex_max)
+  col_dex = c_red;
+ if (dex_cur > dex_max)
+  col_dex = c_green;
+ if (int_cur < int_max)
+  col_int = c_red;
+ if (int_cur > int_max)
+  col_int = c_green;
+ if (per_cur < per_max)
+  col_per = c_red;
+ if (per_cur > per_max)
+  col_per = c_green;
+ int spd_cur = current_speed();
+ if (current_speed() < 100)
+  col_spd = c_red;
+ if (current_speed() > 100)
+  col_spd = c_green;
+
+ mvwprintz(w, 3, 20, col_str, "Str %s%d", str_cur >= 10 ? "" : " ", str_cur);
+ mvwprintz(w, 3, 27, col_dex, "Dex %s%d", dex_cur >= 10 ? "" : " ", dex_cur);
+ mvwprintz(w, 3, 34, col_int, "Int %s%d", int_cur >= 10 ? "" : " ", int_cur);
+ mvwprintz(w, 3, 41, col_per, "Per %s%d", per_cur >= 10 ? "" : " ", per_cur);
+ mvwprintz(w, 3, 48, col_spd, "Spd %s%d", spd_cur >= 10 ? "" : " ", spd_cur);
+
 }
 
 bool player::has_trait(int flag)
@@ -1650,7 +1673,7 @@ void player::mutate(game *g)
     break;
    case 16:
     if (!has_trait(PF_TROGLO)) {
-     if (is_in_sunlight(g))
+     if (g->is_in_sunlight(posx, posy))
       g->add_msg("The sunlight starts to irritate you!");
      else
       g->add_msg("You feel at home here, out of the sunlight.");
@@ -1775,11 +1798,6 @@ int player::sight_range(int light_level)
  if (ret > 4 && has_trait(PF_MYOPIC) && !is_wearing(itm_glasses_eye))
   ret = 4;
  return ret;
-}
-
-bool player::is_in_sunlight(game *g)
-{
- return (g->light_level() >= 40 && g->m.ter(posx, posy) != t_floor);
 }
 
 bool player::has_two_arms()
@@ -2971,7 +2989,7 @@ void player::suffer(game *g)
   else
    add_disease(DI_ASTHMA, 50 * rng(1, 4), g);
  }
- if (has_trait(PF_ALBINO) && is_in_sunlight(g) && one_in(20)) {
+ if (has_trait(PF_ALBINO) && g->is_in_sunlight(posx, posy) && one_in(20)) {
   g->add_msg("The sunlight burns your skin!");
   if (has_disease(DI_SLEEP)) {
    rem_disease(DI_SLEEP);
@@ -2979,7 +2997,7 @@ void player::suffer(game *g)
   }
   hurtall(1);
  }
- if (has_trait(PF_TROGLO) && is_in_sunlight(g)) {
+ if (has_trait(PF_TROGLO) && g->is_in_sunlight(posx, posy)) {
   str_cur -= 4;
   dex_cur -= 4;
   int_cur -= 4;
@@ -4460,7 +4478,9 @@ int player::resist(body_part bp)
 {
  int ret = 0;
  for (int i = 0; i < worn.size(); i++) {
-  if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp))
+  if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp) ||
+      (bp == bp_eyes && // Head protection works on eyes too (e.g. baseball cap)
+           (dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_head)))
    ret += (dynamic_cast<it_armor*>(worn[i].type))->env_resist;
  }
  if (bp == bp_mouth && has_bionic(bio_purifier) && ret < 5) {
@@ -4483,6 +4503,12 @@ bool player::wearing_something_on(body_part bp)
 void player::practice(skill s, int amount)
 {
  skill savant = sk_null;
+ if (amount > xp_pool) {
+  amount = xp_pool;
+  xp_pool = amount;
+ } else
+  xp_pool -= amount;
+
  int savant_level = 0, savant_exercise = 0;
  if (has_trait(PF_SAVANT)) {
 // Find our best skill
@@ -4497,7 +4523,9 @@ void player::practice(skill s, int amount)
    }
   }
  }
- for (int i = 0; i < amount; i++) {
+ while (amount > 0 && xp_pool >= sklevel[s]) {
+  amount--;
+  xp_pool -= sklevel[s];
   if ((savant == sk_null || savant == s || !one_in(2)) &&
       rng(0, 100) < comprehension_percent(s))
    skexercise[s]++;

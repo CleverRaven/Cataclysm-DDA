@@ -1026,15 +1026,16 @@ them."
 );
 
 // Headwear encumberment should ONLY be 0 if it's ok to wear with another
+// Headwear environmental protection (ENV) drops through to eyes
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("baseball cap",	30,  35,C_HAT,		COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    2,  1, -5,  0,  0,  0,  0,  0,  1,  0,	mfb(bp_head), "\
+    2,  1, -5,  0,  0,  0,  0,  2,  1,  0,	mfb(bp_head), "\
 A Red Sox cap.  It provides a little bit of warmth.");
 
 ARMOR("boonie hat",	10,  55,C_HAT,		PLASTIC,	MNULL,
-    2,  1, -5,  0,  0,  0,  1,  0,  2,  0,	mfb(bp_head), "\
+    2,  1, -5,  0,  0,  0,  1,  2,  2,  0,	mfb(bp_head), "\
 Also called a \"bucket hat.\"  Often used in the military.");
 
 ARMOR("cotton hat",	45,  40,C_HAT,		COTTON,		MNULL,
@@ -1046,7 +1047,7 @@ ARMOR("knit hat",	25,  50,C_HAT,		WOOL,		MNULL,
 A snug-fitting wool hat.  Very warm.");
 
 ARMOR("hunting cap",	20,  80,C_HAT,		WOOL,		MNULL,
-    3,  2, -5,  0,  0,  0,  1,  0,  6,  0,	mfb(bp_head), "\
+    3,  2, -5,  0,  0,  0,  1,  2,  6,  0,	mfb(bp_head), "\
 A red plaid hunting cap with ear flaps.  Notably warm.");
 
 ARMOR("fur hat",	15, 120,C_HAT,		WOOL,		MNULL,
@@ -1061,7 +1062,7 @@ A hard plastic hat worn in constructions sites.  Excellent protection from\n\
 cuts and percussion.");
 
 ARMOR("bike helmet",	35, 140,C_HAT,		PLASTIC,	MNULL,
-   12,  4,  4,  0,  1,  8,  2,  0,  2,  0,	mfb(bp_head), "\
+   12,  2,  4,  0,  1,  8,  2,  0,  2,  0,	mfb(bp_head), "\
 A thick foam helmet.  Designed to protect against percussion.");
 
 ARMOR("skid lid",	30, 190,C_HAT,		PLASTIC,	IRON,
@@ -1070,7 +1071,7 @@ A small metal helmet that covers the head and protects against cuts and\n\
 percussion.");
 
 ARMOR("baseball helmet",45, 195,C_HAT,		PLASTIC,	IRON,
-   14,  6,  7, -1,  2, 10, 10,  0,  1,  0,	mfb(bp_head), "\
+   14,  6,  7, -1,  2, 10, 10,  1,  1,  0,	mfb(bp_head), "\
 A hard plastic helmet which covers the head and ears.  Designed to protect\n\
 against a baseball to the head.");
 
@@ -1200,7 +1201,15 @@ Conical Ball .22 is a variety of .22 ammunition with a very small propellant\n\
 charge, generally with no gunpowder, resulting in a subsonic round.  It is\n\
 nearly silent, but is so weak as to be nearly useless.");
 
+AMMO(".22 rat-shot",	 2, 230,AT_22,		c_ltblue,	STEEL,
+	 2,  2,  5,  0,  3,  2,  4, 100, "\
+Rat-shot is extremely weak ammunition, designed for killing rats, snakes, or\n\
+other small vermin while being unable to damage walls.  It has an extremely\n\
+short range and is unable to injure all but the smallest creatures.");
+
+//  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("9mm",		 8, 300,AT_9MM,		c_ltblue,	STEEL,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
 	 2,  7, 18,  1, 14, 16, 13,  50, "\
 9 millimeter parabellum is generally regarded as the most popular handgun\n\
 cartridge, used by the majority of US police forces.  It is also a very\n\
@@ -1230,7 +1239,7 @@ popular choice in pistol competions for its high accuracy, while its stopping\n\
 power keeps it popular for self-defense.");
 
 AMMO("10mm Auto",	 4, 420,AT_40,		c_blue,		STEEL,
-	 2,  9, 26,  5, 14, 18, 19,  50, "\
+	 2,  9, 26,  5, 14, 18, 20,  50, "\
 Originally used by the FBI, the organization eventually abandoned the round\n\
 due to its high recoil.  Although respected for its versatility and power, it\n\
 has largely been supplanted by the downgraded .40 S&W.");
@@ -1264,16 +1273,16 @@ expand upon impact, resulting in reduced damage overall.");
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO(".45 Super",	 5, 520,AT_45,		c_blue,		STEEL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
-	 1, 11, 34,  4, 18, 16, 19,  10, "\
+	 1, 11, 34,  4, 18, 16, 20,  10, "\
 The .45 Super round is an updated variant of .45 ACP.  It is overloaded,\n\
 resulting in a great increase in muzzle velocity.  This translates to higher\n\
 accuracy and range, a minor armor piercing capability, and greater recoil.");
 
 AMMO("5.7x28mm",	 3, 500,AT_57,		c_dkgray,	STEEL,
-	 3,  2, 14, 15, 11, 12,  6, 100, "\
+	 3,  2, 14, 15, 12, 12,  6, 100, "\
 The 5.7x28mm round is a proprietary round developed by FN Hestal for use in\n\
 their P90 SMG.  While it is a very small round, comparable in power to .22,\n\
-it features incredibly armor-piercing capabilities and very low recoil.");
+it features incredible armor-piercing capabilities and very low recoil.");
 
 AMMO("4.6x30mm",	 2, 520,AT_46,		c_dkgray,	STEEL,
 	 3,  1, 13, 18, 12, 12,  6, 100, "\
@@ -1290,7 +1299,7 @@ and the SKS contributed to the widespread adaption of the 7.62x39mm rifle\n\
 round. However, due to its lack of yaw, this round deals less damage than most."
 );
 
-AMMO("7.62x39mm M67",	 7, 600,AT_762,		c_dkgray,	STEEL,
+AMMO("7.62x39mm M67",	 7, 650,AT_762,		c_dkgray,	STEEL,
 	 3,  8, 28,  5, 20, 17, 25,  80, "\
 The M67 variant of the popular 7.62x39mm rifle round was designed to improve\n\
 yaw.  This causes the round to tumble inside a target, causing significantly\n\
@@ -1312,13 +1321,13 @@ very light weight and high damage.  It is designed to shatter inside a\n\
 target, inflicting massive damage.");
 
 AMMO(".270 Winchester",	 8, 900,AT_3006,	c_dkgray,	STEEL,
-	 1,  7, 40,  2, 40, 12, 34,  20, "\
+	 1,  7, 42,  2, 40, 12, 34,  20, "\
 Based off the military .30-03 round, the .270 rifle round is compatible with\n\
 most guns that fire .30-06 rounds.  However, it is designed for hunting, and\n\
 is less powerful than the military rounds, with nearly no armor penetration.");
 
 AMMO(".30-06 AP",	 4,1050,AT_3006,	c_dkgray,	STEEL,
-	 1, 12, 45, 16, 40,  7, 36,  10, "\
+	 1, 12, 50, 16, 40,  7, 36,  10, "\
 The .30-06 is a very powerful rifle round designed for long-range use.  Its\n\
 stupendous accuracy and armor piercing capabilities make it one of the most\n\
 deadly rounds available, offset only by its drastic recoil and noise.");
@@ -1326,13 +1335,13 @@ deadly rounds available, offset only by its drastic recoil and noise.");
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO(".308 Winchester",	 7, 920,AT_308,		c_dkgray,	STEEL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
-	 1,  9, 35,  1, 35,  7, 33,  20, "\
+	 1,  9, 36,  1, 35,  7, 33,  20, "\
 The .308 Winchester is a rifle round, the commercial equivalent of the\n\
 military 7.62x51mm round.  Its high accuracy and phenominal damage have made\n\
 it the most poplar hunting round in the world.");
 
 AMMO("7.62x51mm",	 6,1040,AT_308,		c_dkgray,	STEEL,
-	 1,  9, 42,  4, 35,  6, 34,  20, "\
+	 1,  9, 44,  4, 35,  6, 34,  20, "\
 The 7.62x51mm largely replaced the .30-06 round as the standard military\n\
 rifle round.  It is lighter, but offers similar velocities, resulting in\n\
 greater accuracy and reduced recoil.");
@@ -1400,12 +1409,12 @@ strike the single round it holds.");
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("pipe SMG: 9mm",	0,  540,c_ltblue,	IRON,	WOOD,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_smg,		AT_9MM,  5,  8,  6, -1,  0, 30,  6,  5,  5, 10, "\
+	sk_smg,		AT_9MM,  5,  8,  6, -1,  0, 30,  6,  5,  4, 10, "\
 A home-made machine pistol.  It features a rudimentary blowback system, which\n\
 allows for small bursts.");
 
 GUN("pipe SMG: .45",	0,  575,c_ltblue,	IRON,	WOOD,
-	sk_smg,		AT_45,	 6,  9,  7, -1,  0, 30,  6,  5,  4,  8, "\
+	sk_smg,		AT_45,	 6,  9,  7, -1,  0, 30,  6,  5,  3,  8, "\
 A home-made machine pistol.  It features a rudimentary blowback system, which\n\
 allows for small bursts.");
 

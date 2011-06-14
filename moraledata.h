@@ -29,6 +29,8 @@ const morale_datum morale_data[] = {
 {"Killed Mom",		 -10,	   900},
 {"Religious Experience", 300,    28800},
 
+{"Wet",			 -50,	  1200},
+
 {"Caffeine Craving",	 -10,	  1800},
 {"Nicotine Craving",	 -20,	  2200},
 {"Alcohol Craving",	 -80,	  3600},
@@ -39,4 +41,3 @@ const morale_datum morale_data[] = {
 #endif
 
 #endif
-

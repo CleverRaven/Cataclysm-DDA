@@ -24,6 +24,7 @@ class mattack
   void formblob		(game *g, monster *z);
   void gene_sting	(game *g, monster *z);
   void stare		(game *g, monster *z);
+  void fear_paralyze	(game *g, monster *z);
   void photograph	(game *g, monster *z) { };	// TODO: needs faction
   void tazer		(game *g, monster *z);
   void smg		(game *g, monster *z);

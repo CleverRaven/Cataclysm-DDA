@@ -197,10 +197,10 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_ammo],
 	itm_shot_bird, itm_shot_00, itm_shot_slug, itm_22_lr, itm_22_cb,
-	itm_9mm, itm_9mmP, itm_9mmP2, itm_38_special, itm_38_super, itm_10mm,
-	itm_40sw, itm_44magnum, itm_45_acp, itm_45_jhp, itm_45_super, itm_57mm,
-	itm_46mm, itm_762_m43, itm_762_m87, itm_223, itm_556, itm_270, itm_3006,
-	itm_308, itm_762_51, NULL);
+	itm_22_ratshot, itm_9mm, itm_9mmP, itm_9mmP2, itm_38_special,
+	itm_38_super, itm_10mm, itm_40sw, itm_44magnum, itm_45_acp, itm_45_jhp,
+	itm_45_super, itm_57mm, itm_46mm, itm_762_m43, itm_762_m87, itm_223,
+	itm_556, itm_270, itm_3006, itm_308, itm_762_51, NULL);
 
  setvector(
    mapitems[mi_pistols],

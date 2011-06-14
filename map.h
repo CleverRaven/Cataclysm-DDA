@@ -52,6 +52,7 @@ class map
  std::string features(int x, int y); // Words relevant to terrain (sharp, etc)
  bool has_flag(t_flag flag, int x, int y);
  bool is_destructable(int x, int y);
+ bool is_outside(int x, int y);
 
  bool close_door(int x, int y);
  bool open_door(int x, int y, bool inside);

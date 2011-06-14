@@ -625,6 +625,19 @@ features save for a perfectly round\n\
 mouth."
 );
 
+mon("Gozu",		'G',	c_white,	MS_MEDIUM,	FLESH,
+	(mfb(MF_SEES)|mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_WARM)|
+	 mfb(MF_BASHES)|mfb(MF_ANIMAL)|mfb(MF_FUR)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	 1,  20,  1, 80, 12,  2,  5,  0,  5,  0,  0,400, 20,
+	&mdeath::normal,	&mattack::fear_paralyze, "\
+A beast with the body of a slightly-overweight\n\
+man and the head of a cow.  It walks slowly,\n\
+milky white drool dripping from its mouth,\n\
+wearing only a pair of white underwear."
+);
+
+
 // ROBOTS
 mon("eyebot",		'r',	c_ltblue,	MS_SMALL,	STEEL,
 	(mfb(MF_SEES)|mfb(MF_FLIES)|mfb(MF_ELECTRONIC)),
