@@ -14,7 +14,7 @@ class item;
 enum monster_effect_type {
 ME_NULL = 0,
 ME_BEARTRAP,		// Stuck in beartrap
-ME_FIRE,		// Lit aflame
+ME_ONFIRE,		// Lit aflame
 NUM_MONSTER_EFFECTS
 };
 
@@ -39,14 +39,17 @@ class monster {
  void print_info(game *g, WINDOW* w); // Prints information to w.
  char symbol();			// Just our type's symbol; no context
  void draw(WINDOW* w, int plx, int ply, bool inv);
+ nc_color color_with_effects();	// Color with fire, beartrapped, etc.
 				// Inverts color if inv==true
  bool has_flag(m_flags f);	// Returns true if f is set (see mtype.h)
+ bool has_effect(monster_effect_type t); // True if we have the given effect
  bool made_of(material m);	// Returns true if it's made of m
  void load_info(std::string data, std::vector<mtype*> *mtypes);
  std::string save_info();	// String of all data, for save files
  void debug(player &u); 	// Gives debug info
 
-//Movement
+// Movement
+ void receive_moves();		// Gives us movement points
  void shift(int sx, int sy); 	// Shifts the monster to the appropriate submap
 			     	// Updates current pos AND our plans
  bool wander(); 		// Returns true if we have no plans
@@ -77,7 +80,8 @@ class monster {
  void die(game *g);
 
 // Other
- void add_effect(monster_effect effect, int duration); // Add a long-term effect
+ void add_effect(monster_effect_type effect, int duration);
+ void process_effects(game *g);	// Process long-term effects
  bool make_fungus(game *g);	// Makes this monster into a fungus version
 				// Returns false if no such monster exists
  void make_friendly();

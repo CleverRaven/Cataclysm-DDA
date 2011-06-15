@@ -42,6 +42,7 @@ void popup(const char *mes, ...);
 void full_screen_popup(const char *mes, ...);
 
 nc_color hilite(nc_color c);
+nc_color invert_color(nc_color c);
 nc_color red_background(nc_color c);
 nc_color rand_color();
 char rand_char();

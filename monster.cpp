@@ -160,13 +160,34 @@ void monster::draw(WINDOW *w, int plx, int ply, bool inv)
   color = hilite(color);
  if (inv)
   mvwputch_inv(w, y, x, color, type->sym);
- else
+ else {
+  color = color_with_effects();
   mvwputch(w, y, x, color, type->sym);
+ }
+}
+
+nc_color monster::color_with_effects()
+{
+ nc_color ret = type->color;
+ if (has_effect(ME_BEARTRAP))
+  ret = hilite(ret);
+ if (has_effect(ME_ONFIRE))
+  ret = red_background(ret);
+ return ret;
 }
 
 bool monster::has_flag(m_flags f)
 {
  return type->flags & mfb(f);
+}
+
+bool monster::has_effect(monster_effect_type t)
+{
+ for (int i = 0; i < effects.size(); i++) {
+  if (effects[i].type == t)
+   return true;
+ }
+ return false;
 }
 
 bool monster::made_of(material m)
@@ -410,9 +431,32 @@ void monster::die(game *g)
  (md.*type->dies)(g, this);
 }
 
-void monster::add_effect(monster_effect effect, int duration)
+void monster::add_effect(monster_effect_type effect, int duration)
 {
- effects.push_bask(monster_effect(effect, duration));
+ effects.push_back(monster_effect(effect, duration));
+}
+
+void monster::process_effects(game *g)
+{
+ for (int i = 0; i < effects.size(); i++) {
+  switch (effects[i].type) {
+  case ME_ONFIRE:
+   if (made_of(FLESH))
+    hurt(rng(3, 8));
+   if (made_of(VEGGY))
+    hurt(rng(8, 15));
+   if (made_of(PAPER) || made_of(POWDER) || made_of(WOOD) || made_of(COTTON) ||
+       made_of(WOOL))
+    hurt(rng(15, 40));
+   break;
+
+  }
+  effects[i].duration--;
+  if (effects[i].duration <= 0) {
+   effects.erase(effects.begin() + i);
+   i--;
+  }
+ }
 }
 
 bool monster::make_fungus(game *g)

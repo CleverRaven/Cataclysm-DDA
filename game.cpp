@@ -2278,6 +2278,9 @@ void game::monmove()
   }
 
   bool dead = false;
+  z[i].process_effects(this);
+  if (z[i].hurt(0))
+   dead = true;
   while (z[i].moves > 0 && !dead) {
    z[i].plan(this);	// Formulate a path to follow
    z[i].move(this);	// Move one square, possibly hit u
@@ -2317,7 +2320,7 @@ void game::monmove()
     z.erase(z.begin()+i);
     i--;
    } else
-    z[i].moves += z[i].speed;
+    z[i].receive_moves();
   }
  }
 

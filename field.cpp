@@ -460,14 +460,18 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    else if (cur->density == 2) {
     dam += rng(6, 18);
     if (!z->has_flag(MF_FLIES)) {
-     z->add_effect(ME_ONFIRE, 5);
      z->moves -= 50;
+     if (!z->made_of(LIQUID) && !z->made_of(STONE) && !z->made_of(KEVLAR) &&
+         !z->made_of(STEEL) && !z->has_flag(MF_FIREY))
+      z->add_effect(ME_ONFIRE, 5);
     }
    } else if (cur->density == 3) {
     dam += rng(10, 30);
     if (!z->has_flag(MF_FLIES) || one_in(3)) {
      z->moves -= 80;
-     z->add_effect(ME_ONFIRE, 10);
+     if (!z->made_of(LIQUID) && !z->made_of(STONE) && !z->made_of(KEVLAR) &&
+         !z->made_of(STEEL) && !z->has_flag(MF_FIREY))
+      z->add_effect(ME_ONFIRE, 10);
     }
    }
    break;

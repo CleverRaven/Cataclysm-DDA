@@ -24,6 +24,89 @@
 #define LINE_OXXX 4194423
 #define LINE_XXXX 4194414
 
+nc_color hilite(nc_color c)
+{
+ switch (c) {
+  case c_white:		return h_white;
+  case c_ltgray:	return h_ltgray;
+  case c_dkgray:	return h_dkgray;
+  case c_red:		return h_red;
+  case c_green:		return h_green;
+  case c_blue:		return h_blue;
+  case c_cyan:		return h_cyan;
+  case c_magenta:	return h_magenta;
+  case c_brown:		return h_brown;
+  case c_ltred:		return h_ltred;
+  case c_ltgreen:	return h_ltgreen;
+  case c_ltblue:	return h_ltblue;
+  case c_ltcyan:	return h_ltcyan;
+  case c_pink:		return h_pink;
+  case c_yellow:	return h_yellow;
+ }
+ return h_white;
+}
+
+nc_color invert_color(nc_color c)
+{
+ switch (c) {
+  case c_white:   return i_white;
+  case c_ltgray:  return i_ltgray;
+  case c_dkgray:  return i_dkgray;
+  case c_red:     return i_red;
+  case c_green:   return i_green;
+  case c_blue:    return i_blue;
+  case c_cyan:    return i_cyan;
+  case c_magenta: return i_magenta;
+  case c_brown:   return i_brown;
+  case c_yellow:  return i_yellow;
+  case c_ltred:   return i_ltred;
+  case c_ltgreen: return i_ltgreen;
+  case c_ltblue:  return i_ltblue;
+  case c_ltcyan:  return i_ltcyan;
+  case c_pink:    return i_pink;
+ }
+}
+
+nc_color red_background(nc_color c)
+{
+ switch (c) {
+  case c_white:		return c_white_red;
+  case c_ltgray:	return c_ltgray_red;
+  case c_dkgray:	return c_dkgray_red;
+  case c_red:		return c_red_red;
+  case c_green:		return c_green_red;
+  case c_blue:		return c_blue_red;
+  case c_cyan:		return c_cyan_red;
+  case c_magenta:	return c_magenta_red;
+  case c_brown:		return c_brown_red;
+  case c_ltred:		return c_ltred_red;
+  case c_ltgreen:	return c_ltgreen_red;
+  case c_ltblue:	return c_ltblue_red;
+  case c_ltcyan:	return c_ltcyan_red;
+  case c_pink:		return c_pink_red;
+  case c_yellow:	return c_yellow_red;
+ }
+ return c_white_red;
+}
+
+nc_color rand_color()
+{
+ switch (rng(0, 9)) {
+  case 0:	return c_white;
+  case 1:	return c_ltgray;
+  case 2:	return c_green;
+  case 3:	return c_red;
+  case 4:	return c_yellow;
+  case 5:	return c_blue;
+  case 6:	return c_ltblue;
+  case 7:	return c_pink;
+  case 8:	return c_magenta;
+  case 9:	return c_brown;
+ }
+ return c_dkgray;
+}
+
+
 void mvputch(int y, int x, nc_color FG, long ch)
 {
  attron(FG);
@@ -47,54 +130,7 @@ void mvwputch(WINDOW *w, int y, int x, nc_color FG, long ch)
 
 void mvputch_inv(int y, int x, nc_color FG, long ch)
 {
- nc_color HC;
- switch (FG) {
-  case c_white:
-   HC = i_white;
-   break;
-  case c_ltgray:
-   HC = i_ltgray;
-   break;
-  case c_dkgray:
-   HC = i_dkgray;
-   break;
-  case c_red:
-   HC = i_red;
-   break;
-  case c_green:
-   HC = i_green;
-   break;
-  case c_blue:
-   HC = i_blue;
-   break;
-  case c_cyan:
-   HC = i_cyan;
-   break;
-  case c_magenta:
-   HC = i_magenta;
-   break;
-  case c_brown:
-   HC = i_brown;
-   break;
-  case c_yellow:
-   HC = i_yellow;
-   break;
-  case c_ltred:
-   HC = i_ltred;
-   break;
-  case c_ltgreen:
-   HC = i_ltgreen;
-   break;
-  case c_ltblue:
-   HC = i_ltblue;
-   break;
-  case c_ltcyan:
-   HC = i_ltcyan;
-   break;
-  case c_pink:
-   HC = i_pink;
-   break;
- }
+ nc_color HC = invert_color(FG);
  attron(HC);
  mvaddch(y, x, ch);
  attroff(HC);
@@ -102,54 +138,7 @@ void mvputch_inv(int y, int x, nc_color FG, long ch)
 
 void mvwputch_inv(WINDOW* w, int y, int x, nc_color FG, long ch)
 {
- nc_color HC;
- switch (FG) {
-  case c_white:
-   HC = i_white;
-   break;
-  case c_ltgray:
-   HC = i_ltgray;
-   break;
-  case c_dkgray:
-   HC = i_dkgray;
-   break;
-  case c_red:
-   HC = i_red;
-   break;
-  case c_green:
-   HC = i_green;
-   break;
-  case c_blue:
-   HC = i_blue;
-   break;
-  case c_cyan:
-   HC = i_cyan;
-   break;
-  case c_magenta:
-   HC = i_magenta;
-   break;
-  case c_brown:
-   HC = i_brown;
-   break;
-  case c_yellow:
-   HC = i_yellow;
-   break;
-  case c_ltred:
-   HC = i_ltred;
-   break;
-  case c_ltgreen:
-   HC = i_ltgreen;
-   break;
-  case c_ltblue:
-   HC = i_ltblue;
-   break;
-  case c_ltcyan:
-   HC = i_ltcyan;
-   break;
-  case c_pink:
-   HC = i_pink;
-   break;
- }
+ nc_color HC = invert_color(FG);
  wattron(w, HC);
  mvwaddch(w, y, x, ch);
  wattroff(w, HC);
@@ -157,54 +146,7 @@ void mvwputch_inv(WINDOW* w, int y, int x, nc_color FG, long ch)
 
 void mvputch_hi(int y, int x, nc_color FG, long ch)
 {
- nc_color HC;
- switch (FG) {
-  case c_white:
-   HC = h_white;
-   break;
-  case c_ltgray:
-   HC = h_ltgray;
-   break;
-  case c_dkgray:
-   HC = h_dkgray;
-   break;
-  case c_red:
-   HC = h_red;
-   break;
-  case c_green:
-   HC = h_green;
-   break;
-  case c_blue:
-   HC = h_blue;
-   break;
-  case c_cyan:
-   HC = h_cyan;
-   break;
-  case c_magenta:
-   HC = h_magenta;
-   break;
-  case c_brown:
-   HC = h_brown;
-   break;
-  case c_yellow:
-   HC = h_yellow;
-   break;
-  case c_ltred:
-   HC = h_ltred;
-   break;
-  case c_ltgreen:
-   HC = h_ltgreen;
-   break;
-  case c_ltblue:
-   HC = h_ltblue;
-   break;
-  case c_ltcyan:
-   HC = h_ltcyan;
-   break;
-  case c_pink:
-   HC = h_pink;
-   break;
- }
+ nc_color HC = hilite(FG);
  attron(HC);
  mvaddch(y, x, ch);
  attroff(HC);
@@ -212,54 +154,7 @@ void mvputch_hi(int y, int x, nc_color FG, long ch)
 
 void mvwputch_hi(WINDOW* w, int y, int x, nc_color FG, long ch)
 {
- nc_color HC;
- switch (FG) {
-  case c_white:
-   HC = h_white;
-   break;
-  case c_ltgray:
-   HC = h_ltgray;
-   break;
-  case c_dkgray:
-   HC = h_dkgray;
-   break;
-  case c_red:
-   HC = h_red;
-   break;
-  case c_green:
-   HC = h_green;
-   break;
-  case c_blue:
-   HC = h_blue;
-   break;
-  case c_cyan:
-   HC = h_cyan;
-   break;
-  case c_magenta:
-   HC = h_magenta;
-   break;
-  case c_brown:
-   HC = h_brown;
-   break;
-  case c_yellow:
-   HC = h_yellow;
-   break;
-  case c_ltred:
-   HC = h_ltred;
-   break;
-  case c_ltgreen:
-   HC = h_ltgreen;
-   break;
-  case c_ltblue:
-   HC = h_ltblue;
-   break;
-  case c_ltcyan:
-   HC = h_ltcyan;
-   break;
-  case c_pink:
-   HC = h_pink;
-   break;
- }
+ nc_color HC = hilite(FG);
  wattron(w, HC);
  mvwaddch(w, y, x, ch);
  wattroff(w, HC);
@@ -645,67 +540,6 @@ void full_screen_popup(const char* mes, ...)
  wrefresh(w);
  delwin(w);
  refresh();
-}
-
-nc_color hilite(nc_color c)
-{
- switch (c) {
-  case c_white:		return h_white;
-  case c_ltgray:	return h_ltgray;
-  case c_dkgray:	return h_dkgray;
-  case c_red:		return h_red;
-  case c_green:		return h_green;
-  case c_blue:		return h_blue;
-  case c_cyan:		return h_cyan;
-  case c_magenta:	return h_magenta;
-  case c_brown:		return h_brown;
-  case c_ltred:		return h_ltred;
-  case c_ltgreen:	return h_ltgreen;
-  case c_ltblue:	return h_ltblue;
-  case c_ltcyan:	return h_ltcyan;
-  case c_pink:		return h_pink;
-  case c_yellow:	return h_yellow;
- }
- return h_white;
-}
-
-nc_color red_background(nc_color c)
-{
- switch (c) {
-  case c_white:		return c_white_red;
-  case c_ltgray:	return c_ltgray_red;
-  case c_dkgray:	return c_dkgray_red;
-  case c_red:		return c_red_red;
-  case c_green:		return c_green_red;
-  case c_blue:		return c_blue_red;
-  case c_cyan:		return c_cyan_red;
-  case c_magenta:	return c_magenta_red;
-  case c_brown:		return c_brown_red;
-  case c_ltred:		return c_ltred_red;
-  case c_ltgreen:	return c_ltgreen_red;
-  case c_ltblue:	return c_ltblue_red;
-  case c_ltcyan:	return c_ltcyan_red;
-  case c_pink:		return c_pink_red;
-  case c_yellow:	return c_yellow_red;
- }
- return c_white_red;
-}
-
-nc_color rand_color()
-{
- switch (rng(0, 9)) {
-  case 0:	return c_white;
-  case 1:	return c_ltgray;
-  case 2:	return c_green;
-  case 3:	return c_red;
-  case 4:	return c_yellow;
-  case 5:	return c_blue;
-  case 6:	return c_ltblue;
-  case 7:	return c_pink;
-  case 8:	return c_magenta;
-  case 9:	return c_brown;
- }
- return c_dkgray;
 }
 
 char rand_char()

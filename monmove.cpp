@@ -17,10 +17,16 @@
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #endif
 
+void monster::receive_moves()
+{
+ if (has_effect(ME_BEARTRAP))
+  return;
+ moves += speed;
+}
+
 bool monster::wander()
 {
- if (plans.empty()) return true;
- return false;
+ return (plans.empty());
 }
 
 bool monster::can_move_to(map &m, int x, int y)
