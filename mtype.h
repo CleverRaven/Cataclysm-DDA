@@ -41,6 +41,7 @@ mon_chud, mon_one_eye, mon_crawler,
 mon_sewer_fish, mon_sewer_snake, mon_sewer_rat,
 // Swamp monsters
 mon_mosquito, mon_dragonfly, mon_centipede, mon_frog, mon_slug,
+ mon_dermatik_larva, mon_dermatik,
 // Subspace monsters
 mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
  mon_flaming_eye, mon_kreck, mon_blank, mon_gozu,

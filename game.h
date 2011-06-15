@@ -62,7 +62,7 @@ class game
   bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
   void kill_mon(int index);	// Kill that monster; fixes any pointers etc
   void explode_mon(int index);	// Explode a monster; like kill_mon but messier
-  void plfire(bool burst);	// Player fires a gun (setup of target)...
+  void plfire(bool burst);	// Player fires a gun (target selection)...
 // ... a gun is fired, maybe by an NPC (actual damage, etc.).
   void fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
             bool burst);

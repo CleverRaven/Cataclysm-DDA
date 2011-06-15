@@ -38,7 +38,8 @@ void game::init_moncats()
 	mon_sewer_fish, mon_sewer_snake, mon_sewer_rat, NULL);
  setvector(
    moncats[mcat_swamp],
-	mon_mosquito, mon_dragonfly, mon_centipede, mon_frog, mon_slug, NULL);
+	mon_mosquito, mon_dragonfly, mon_centipede, mon_frog, mon_slug,
+	mon_dermatik_larva, mon_dermatik, NULL);
  setvector(
    moncats[mcat_lab],
 	mon_zombie_scientist, mon_blob_small, mon_manhack, mon_skitterbot,

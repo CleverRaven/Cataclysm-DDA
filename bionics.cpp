@@ -103,6 +103,8 @@ void player::activate_bionic(int b, game *g)
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
   if (has_disease(DI_FUNGUS))
    bad.push_back("Fungal Parasite");
+  if (has_disease(DI_DERMATIK))
+   bad.push_back("Insect Parasite");
   if (has_disease(DI_POISON))
    bad.push_back("Poison");
   if (radiation > 0)

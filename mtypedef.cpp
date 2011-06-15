@@ -10,6 +10,7 @@
 //                  will simply kill the monster
 //  * mongroupdef.cpp - void init_moncats() should be edited, so the monster
 //                      spawns with the proper group
+// PLEASE NOTE: The description is AT MAX 4 lines of 46 characters each.
 void game::init_mtypes ()
 {
  int id = 0;
@@ -533,6 +534,28 @@ mon("giant slug",	'S',	c_yellow,	MS_HUGE,	FLESH,
 A gigantic slug, the size of a small car.\n\
 It moves slowly, dribbling acidic goo from\n\
 its fang-lined mouth."
+);
+
+mon("dermatik larva",	'i',	c_white,	MS_TINY,	FLESH,
+	(mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_POISON)|mfb(MF_DIGS)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  0,  4, -1, 20,  1,  1,  2,  2,  1,  0,  0, 10, 0,
+	&mdeath::normal,	&mattack::none, "\
+A fat, white grub the size of your foot, with\n\
+a set of mandibles that look more suited for\n\
+digging than fighting."
+);
+
+mon("dermatik",		'i',	c_red,		MS_TINY,	FLESH,
+	(mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_STUMBLES)|mfb(MF_POISON)|
+	 mfb(MF_FLIES)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  3, 18,  4,100,  5,  1,  1,  6, 7,   6,  0, 60, 50,
+	&mdeath::normal,	&mattack::dermatik, "\
+A wasp-like flying insect, smaller than most\n\
+mutated wasps.  It does not looke very\n\
+threatening, but has a large ovipositor in\n\
+place of a sting."
 );
 
 // NETHER WORLD INHABITANTS

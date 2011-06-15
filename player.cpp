@@ -1354,8 +1354,8 @@ void player::mutate(game *g)
 {
  while (true) {	// Infinite loop until a mutation forms.
 // GOOD mutations are a 2 in 7 chance, unless you have robust genetics (in which
-//  case it is a 7 in 17 chance).
-  if (rng(1, 7) >= 6 || (has_trait(PF_ROBUST) && one_in(3))) {
+//  case it is a 9 in 14 chance).
+  if (rng(1, 7) >= 6 || (has_trait(PF_ROBUST) && one_in(2))) {
    switch (rng(1, 24)) {
    case 1:
     g->add_msg("Your muscles ripple and grow.");
@@ -1466,7 +1466,7 @@ void player::mutate(game *g)
      g->add_msg("Your body stops disintegrating.");
      toggle_trait(PF_ROT);
      return;
-// Regeneration si really good, so give it a 4 in 5 chance to fail
+// Regeneration is really good, so give it a 4 in 5 chance to fail
     } else if (!has_trait(PF_REGEN) && one_in(5)) {
      g->add_msg("You feel your flesh rebuilding itself!");
      toggle_trait(PF_REGEN);
@@ -2907,7 +2907,7 @@ void player::suffer(game *g)
   if (has_trait(PF_SCHIZOPHRENIC) && one_in(2400)) { // Every 4 hours or so
    monster phantasm;
    int i;
-   switch(rng(0, 10)) {
+   switch(rng(0, 11)) {
     case 0:
      add_disease(DI_HALLU, 3600, g);
      break;
@@ -2954,6 +2954,9 @@ void player::suffer(game *g)
      g->add_msg(std::string(name + name + name + name + name + name + name +
                             name + name + name + name + name + name + name +
                             name + name + name + name + name + name).c_str());
+     break;
+    case 11:
+     add_disease(DI_FORMICATION, 600, g);
      break;
    }
   }
@@ -4517,12 +4520,13 @@ void player::practice(skill s, int amount)
    }
   }
  }
- while (amount > 0 && xp_pool >= sklevel[s]) {
+ while (amount > 0 && xp_pool >= 1) {
   amount--;
-  xp_pool--;
   if ((savant == sk_null || savant == s || !one_in(2)) &&
-      rng(0, 100) < comprehension_percent(s))
+      rng(0, 100) < comprehension_percent(s)) {
+   xp_pool--;
    skexercise[s]++;
+  }
  }
 }
 

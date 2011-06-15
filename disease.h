@@ -50,6 +50,9 @@ void dis_msg(game *g, dis_type type)
  case DI_LYING_DOWN:
   g->add_msg("You lie down to go to sleep...");
   break;
+ case DI_FORMICATION:
+  g->add_msg("There's bugs crawling under your skin!");
+  break;
  case DI_DRUNK:
  case DI_HIGH:
   g->add_msg("You feel lightheaded.");
@@ -438,6 +441,77 @@ void dis_effect(game *g, player &p, disease &dis)
   p.str_cur--;
   break;
 
+ case DI_DERMATIK: {
+  int formication_chance = 600;
+  if (dis.duration > -2400 && dis.duration < 0)
+   formication_chance = 2400 + dis.duration;
+  if (one_in(formication_chance))
+   p.add_disease(DI_FORMICATION, 1200, g);
+
+  if (dis.duration < -2400 && one_in(2400))
+   p.vomit(g);
+
+  if (dis.duration < -14400) { // Spawn some larvae!
+// Choose how many insects; more for large characters
+   int num_insects = 1;
+   while (num_insects < 6 && rng(0, 10) < p.str_max)
+    num_insects++;
+// Figure out where they may be placed
+   std::vector<point> valid_spawns;
+   for (int x = p.posx - 1; x <= p.posy + 1; x++) {
+    for (int y = p.posy - 1; y <= p.posy + 1; y++) {
+     if (g->is_empty(x, y))
+      valid_spawns.push_back(point(x, y));
+    }
+   }
+   if (valid_spawns.size() >= 1) {
+    int t;
+    p.rem_disease(DI_DERMATIK); // No more infection!  yay.
+    if (!p.is_npc())
+     g->add_msg("Insects erupt from your skin!");
+    else if (g->u_see(p.posx, p.posy, t))
+     g->add_msg("Insects erupt from %s's skin!", p.name.c_str());
+    p.moves -= 600;
+    monster grub(g->mtypes[mon_dermatik_larva]);
+    while (valid_spawns.size() > 0 && num_insects > 0) {
+     num_insects--;
+// Hurt the player
+     body_part burst = bp_torso;
+     if (one_in(3))
+      burst = bp_arms;
+     else if (one_in(3))
+      burst = bp_legs;
+     p.hurt(g, burst, rng(0, 1), rng(4, 8));
+// Spawn a larva
+     int sel = rng(0, valid_spawns.size() - 1);
+     grub.spawn(valid_spawns[sel].x, valid_spawns[sel].y);
+     valid_spawns.erase(valid_spawns.begin() + sel);
+// Sometimes it's a friendly larva!
+     if (one_in(3))
+      grub.friendly = -1;
+     else
+      grub.friendly =  0;
+     g->z.push_back(grub);
+    }
+   }
+  }
+ } break;
+
+ case DI_FORMICATION:
+  p.int_cur -= 2;
+  p.str_cur -= 1;
+  if (one_in(300 * p.int_cur)) {
+   int t;
+   if (!p.is_npc())
+    g->add_msg("You start scratching yourself all over!");
+   else if (g->u_see(p.posx, p.posy, t))
+    g->add_msg("%s starts scratching %s all over!", p.name.c_str(),
+               (p.male ? "himself" : "herself"));
+   p.moves -= 150;
+   p.hurt(g, bp_torso, 0, 2);
+  }
+  break;
+
  case DI_HALLU:
 // This assumes that we were given DI_HALLU with a 3600 (6-hour) lifespan
   if (dis.duration > 3000) {	// First hour symptoms
@@ -626,6 +700,7 @@ std::string dis_name(disease dis)
  case DI_POISON:	return "Poisoned";
  case DI_FOODPOISON:	return "Food Poisoning";
  case DI_SHAKES:	return "Shakes";
+ case DI_FORMICATION:	return "Bugs Under Skin";
  case DI_DRUNK:
   if (dis.duration > 2200) return "Wasted";
   if (dis.duration > 1400) return "Trashed";
@@ -763,6 +838,11 @@ Your stomach is extremely upset, and you keep having pangs of pain and nausea.";
 
  case DI_SHAKES:	return "\
 Strength - 1;     Dexterity - 4;";
+
+ case DI_FORMICATION:	return "\
+Strength - 1;     Intelligence - 2;\n\
+You stop to scratch yourself frequently; high intelligence helps you resist\n\
+this urge.";
 
  case DI_DRUNK:
   perpen = int(dis.duration / 1000);

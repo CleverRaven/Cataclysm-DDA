@@ -450,6 +450,14 @@ void mattack::leap(game *g, monster *z)
   }
  }
 
+// Go back and remove all options that aren't tied for best
+ for (int i = 0; i < options.size() && options.size() > 1; i++) {
+  if (rl_dist(z->posx, z->posy, options[i].x, options[i].y > best)) {
+   options.erase(options.begin() + i);
+   i--;
+  }
+ }
+
  if (options.size() == 0)
   return; // Nowhere to leap!
 
@@ -464,6 +472,59 @@ void mattack::leap(game *g, monster *z)
   g->add_msg("The %s leaps!", z->name().c_str());
 }
 
+void mattack::dermatik(game *g, monster *z)
+{
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1 ||
+     g->u.has_disease(DI_DERMATIK))
+  return; // Too far to implant or the player's already incubating bugs
+
+ z->sp_timeout = z->type->sp_freq;	// Reset timer
+
+// Can we dodge the attack?
+ int attack_roll = dice(z->type->melee_skill, 10);
+ int player_dodge = g->u.dodge_roll();
+ if (player_dodge > attack_roll) {
+  g->add_msg("The %s tries to land on you, but you dodge.", z->name().c_str());
+  z->stumble(g, false);
+  return;
+ }
+
+// Can we swat the bug away?
+ int dodge_roll = z->dodge_roll();
+ int swat_skill = (g->u.sklevel[sk_melee] + g->u.sklevel[sk_unarmed] * 2) / 3;
+ int player_swat = dice(swat_skill, 10);
+ if (player_swat > dodge_roll) {
+  g->add_msg("The %s lands on you, but you swat if off.", z->name().c_str());
+  if (z->hp >= z->type->hp / 2)
+   z->hurt(1);
+  if (player_swat > dodge_roll * 1.5)
+   z->stumble(g, false);
+  return;
+ }
+
+// Can the bug penetrate our armor?
+ body_part targeted = bp_head;
+ if (!one_in(4))
+  targeted = bp_torso;
+ else if (one_in(2))
+  targeted = bp_legs;
+ else if (one_in(5))
+  targeted = bp_hands;
+ else if (one_in(5))
+  targeted = bp_feet;
+ if (g->u.armor_cut(targeted) >= 2) {
+  g->add_msg("The %s lands on your %s, but can't penetrate your armor.",
+             z->name().c_str(), body_part_name(targeted, rng(0, 1)).c_str());
+  z->moves -= 150; // Attemped laying takes a while
+  return;
+ }
+
+// Success!
+ z->moves -= 500; // Successful laying takes a long time
+ g->add_msg("The %s sinks its ovipositor into you!", z->name().c_str());
+ g->u.add_disease(DI_DERMATIK, -1, g); // -1 = infinite
+}
+
 void mattack::plant(game *g, monster *z)
 {
 // Spores taking seed and growing into a fungaloid
@@ -472,8 +533,8 @@ void mattack::plant(game *g, monster *z)
   if (g->u_see(z->posx, z->posy, j))
    g->add_msg("The %s takes seed and becomes a fungaloid!", z->name().c_str());
   z->poly(g->mtypes[mon_fungaloid]);
-  z->moves = -1000;			// It takes a while
-  z->sp_timeout = z->type->sp_freq;	// Reset timer
+  z->moves = -1000;	// It takes a while
+  z->sp_timeout = 100;	// New fungaloids can't reproduce for a while
  }
 }
 
