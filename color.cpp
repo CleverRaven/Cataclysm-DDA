@@ -33,5 +33,14 @@ void init_colors()
  init_pair(21, COLOR_MAGENTA, HILIGHT);
  init_pair(22, COLOR_YELLOW,  HILIGHT);
 
- init_pair(23, COLOR_BLACK,   COLOR_BLACK  );
+ // Red background - for monsters on fire
+ init_pair(23, COLOR_WHITE,   COLOR_RED);
+ init_pair(24, COLOR_RED,     COLOR_RED);
+ init_pair(25, COLOR_GREEN,   COLOR_RED);
+ init_pair(26, COLOR_BLUE,    COLOR_RED);
+ init_pair(27, COLOR_CYAN,    COLOR_RED);
+ init_pair(28, COLOR_MAGENTA, COLOR_RED);
+ init_pair(29, COLOR_YELLOW,  COLOR_RED);
+
+ init_pair(30, COLOR_BLACK,   COLOR_BLACK  );
 }

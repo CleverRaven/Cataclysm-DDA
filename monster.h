@@ -11,6 +11,20 @@ class player;
 class game;
 class item;
 
+enum monster_effect_type {
+ME_NULL = 0,
+ME_BEARTRAP,		// Stuck in beartrap
+ME_FIRE,		// Lit aflame
+NUM_MONSTER_EFFECTS
+};
+
+struct monster_effect
+{
+ monster_effect_type type;
+ int duration;
+ monster_effect(monster_effect_type T, int D) : type (T), duration (D) {}
+};
+
 class monster {
  public:
  monster();
@@ -63,16 +77,18 @@ class monster {
  void die(game *g);
 
 // Other
+ void add_effect(monster_effect effect, int duration); // Add a long-term effect
  bool make_fungus(game *g);	// Makes this monster into a fungus version
 				// Returns false if no such monster exists
  void make_friendly();
  void add_item(item it);	// Add an item to inventory
 
-// VALUES
+// TEMP VALUES
  int posx, posy;
  int wandx, wandy; // Wander destination - Just try to move in that direction
  int wandf;	   // Urge to wander - Increased by sound, decrements each move
  std::vector<item> inv; // Inventory
+ std::vector<monster_effect> effects; // Active effects, e.g. on fire
 
 // If we were spawned by the map, store our origin for later use
  int spawnmapx, spawnmapy, spawnposx, spawnposy;

@@ -669,6 +669,28 @@ nc_color hilite(nc_color c)
  return h_white;
 }
 
+nc_color red_background(nc_color c)
+{
+ switch (c) {
+  case c_white:		return c_white_red;
+  case c_ltgray:	return c_ltgray_red;
+  case c_dkgray:	return c_dkgray_red;
+  case c_red:		return c_red_red;
+  case c_green:		return c_green_red;
+  case c_blue:		return c_blue_red;
+  case c_cyan:		return c_cyan_red;
+  case c_magenta:	return c_magenta_red;
+  case c_brown:		return c_brown_red;
+  case c_ltred:		return c_ltred_red;
+  case c_ltgreen:	return c_ltgreen_red;
+  case c_ltblue:	return c_ltblue_red;
+  case c_ltcyan:	return c_ltcyan_red;
+  case c_pink:		return c_pink_red;
+  case c_yellow:	return c_yellow_red;
+ }
+ return c_white_red;
+}
+
 nc_color rand_color()
 {
  switch (rng(0, 9)) {

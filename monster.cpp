@@ -410,6 +410,11 @@ void monster::die(game *g)
  (md.*type->dies)(g, this);
 }
 
+void monster::add_effect(monster_effect effect, int duration)
+{
+ effects.push_bask(monster_effect(effect, duration));
+}
+
 bool monster::make_fungus(game *g)
 {
  switch (mon_id(type->id)) {
@@ -417,6 +422,7 @@ bool monster::make_fungus(game *g)
  case mon_ant_soldier:
  case mon_ant_queen:
  case mon_bee:
+ case mon_dermatik:
   poly(g->mtypes[mon_ant_fungus]);
   return true;
  case mon_zombie:
