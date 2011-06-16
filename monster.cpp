@@ -157,8 +157,8 @@ void monster::draw(WINDOW *w, int plx, int ply, bool inv)
  int y = SEEY + posy - ply;
  nc_color color = type->color;
  if (friendly != 0 && !inv)
-  color = hilite(color);
- if (inv)
+  mvwputch_hi(w, y, x, color, type->sym);
+ else if (inv)
   mvwputch_inv(w, y, x, color, type->sym);
  else {
   color = color_with_effects();

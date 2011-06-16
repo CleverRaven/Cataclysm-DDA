@@ -863,7 +863,7 @@ this urge.";
   return stream.str();
 
  case DI_CIG:
-  if (dis.duration > 200)
+  if (dis.duration >= 600)
    return "\
 Strength - 1;     Dexterity - 1\n\
 You smoked too much.";

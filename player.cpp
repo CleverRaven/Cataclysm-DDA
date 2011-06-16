@@ -179,7 +179,7 @@ int player::current_speed()
 // Minus some for weight...
  if (weight_carried() > weight_capacity())
   newmoves = 1;
- else if (weight_carried() >= weight_capacity() * .25)
+ else if (weight_carried() > weight_capacity() * .25)
   newmoves = int((120 * (weight_capacity() - weight_carried())) /
                          weight_capacity());
 
