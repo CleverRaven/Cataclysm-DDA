@@ -4309,12 +4309,14 @@ int player::encumb(body_part bp)
   if (!worn[i].is_armor())
    debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
             i, worn[i].tname().c_str());
-  armor = dynamic_cast<it_armor*>(worn[i].type);
-  if (armor->covers & mfb(bp) ||
-      (bp == bp_torso && (armor->covers & mfb(bp_arms)))) {
-   ret += armor->encumber;
-   if (armor->encumber >= 0 || bp != bp_torso)
-    layers++;
+  if (worn[i].type->id != itm_glasses_eye) {
+   armor = dynamic_cast<it_armor*>(worn[i].type);
+   if (armor->covers & mfb(bp) ||
+       (bp == bp_torso && (armor->covers & mfb(bp_arms)))) {
+    ret += armor->encumber;
+    if (armor->encumber >= 0 || bp != bp_torso)
+     layers++;
+   }
   }
  }
  if (layers > 1)

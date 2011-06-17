@@ -28,7 +28,7 @@ void addict_effect(game *g, addiction &add)
   if (in > 20 || one_in((500 - 20 * in))) {
    g->add_msg("You want some caffeine.");
    g->cancel_activity_query("You have a caffeine craving.");
-   g->u.add_morale("Nicotine Craving", -5, -30);
+   g->u.add_morale("Caffeine Craving", -5, -30);
    if (rng(0, 10) < in)
     g->u.stim--;
    if (rng(8, 400) < in) {

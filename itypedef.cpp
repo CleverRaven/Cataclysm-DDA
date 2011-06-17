@@ -435,7 +435,7 @@ time.  They are quite addictive.");
 MED("marijuana",	20,180,	c_green,	itm_lighter,
 //	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	VEGGY,   -8,  0,  0, 15, 18,&iuse::weed,	ADD_NULL, "\
-Really useful only for relaxing.  Will reduce your attributes and relexes.");
+Really useful only for relaxing.  Will reduce your attributes and reflexes.");
 
 MED("cocaine",		 8,420,	c_white,	itm_null,
 	POWDER,  20, -2, 30,  8, 25,&iuse::coke,	ADD_COKE, "\
