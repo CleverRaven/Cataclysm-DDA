@@ -657,6 +657,8 @@ bool game::do_turn()
  }
 
  update_skills();
+ if (turn % 10 == 0)
+  u.update_morale();
  if (u.has_disease(DI_SLEEP)) {
   draw();
   refresh();
@@ -766,10 +768,15 @@ void game::process_activity()
     else
      reading = dynamic_cast<it_book*>(u.inv[u.activity.index].type);
 
-    if (reading->fun > 0)
-     u.add_morale(MOR_BOOK_GOOD, reading->fun);
-    else if (reading->fun < 0)
-     u.add_morale(MOR_BOOK_BAD, reading->fun);
+    if (reading->fun > 0) {
+     std::stringstream morale_text;
+     morale_text << "Enjoyed " << reading->name;
+     u.add_morale(morale_text.str(), reading->fun, reading->fun * 3);
+    } else if (reading->fun < 0) {
+     std::stringstream morale_text;
+     morale_text << "Bored by " << reading->name;
+     u.add_morale(morale_text.str(), reading->fun, reading->fun * 3);
+    }
 
     if (u.sklevel[reading->type] < reading->level) {
      add_msg("You learn a little about %s!", skill_name(reading->type).c_str());
@@ -2279,8 +2286,10 @@ void game::monmove()
 
   bool dead = false;
   z[i].process_effects(this);
-  if (z[i].hurt(0))
+  if (z[i].hurt(0)) {
+   kill_mon(i);
    dead = true;
+  }
   while (z[i].moves > 0 && !dead) {
    z[i].plan(this);	// Formulate a path to follow
    z[i].move(this);	// Move one square, possibly hit u

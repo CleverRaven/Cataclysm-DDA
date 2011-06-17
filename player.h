@@ -139,7 +139,7 @@ public:
  int weight_capacity(bool real_life = true);
  int volume_capacity();
  int morale_level();	// Modified by traits, &c
- void add_morale(morale_type type, int bonus = -1, int duration = -1);
+ void add_morale(std::string name, int bonus, int max_bonus = 0);
 
  void sort_inv();	// Sort inventory by type
  std::string weapname(bool charges = true);

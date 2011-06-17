@@ -166,7 +166,9 @@ bool map::process_fields(game *g)
      for (int j = -1; j <= 1; j++)
       g->scent(x+i, y+j) = 0;
     }
-    if (one_in(3)) {
+    if (is_outside(x, y))
+     cur->age += 50;
+    if (one_in(2)) {
      std::vector <point> spread;
      for (int a = -1; a <= 1; a++) {
       for (int b = -1; b <= 1; b++) {
@@ -197,6 +199,8 @@ bool map::process_fields(game *g)
      for (int j = -1; j <= 1; j++)
       g->scent(x+i, y+j) = 0;
     }
+    if (is_outside(x, y))
+     cur->age += 30;
 // One in three chance that it spreads (less than smoke!)
     if (one_in(3)) {
      std::vector <point> spread;
@@ -237,6 +241,8 @@ bool map::process_fields(game *g)
      for (int j = -1; j <= 1; j++)
       g->scent(x+i, y+j) = 0;
     }
+    if (is_outside(x, y))
+     cur->age += 40;
 // Increase long-term radiation in the land underneath
     radiation(x, y) += rng(0, cur->density);
     if (one_in(2)) {
@@ -314,6 +320,7 @@ bool map::process_fields(game *g)
      }
     }
     break;
+
    case fd_fatigue:
     if (cur->density < 3 && g->turn % 3600 == 0 && one_in(10))
      cur->density++;
@@ -456,22 +463,22 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     dam -= 20;
 
    if (cur->density == 1)
-    dam += rng(4, 12);
+    dam += rng(0, 8);
    else if (cur->density == 2) {
-    dam += rng(6, 18);
+    dam += rng(3, 12);
     if (!z->has_flag(MF_FLIES)) {
-     z->moves -= 50;
+     z->moves -= 20;
      if (!z->made_of(LIQUID) && !z->made_of(STONE) && !z->made_of(KEVLAR) &&
          !z->made_of(STEEL) && !z->has_flag(MF_FIREY))
-      z->add_effect(ME_ONFIRE, 5);
+      z->add_effect(ME_ONFIRE, rng(3, 8));
     }
    } else if (cur->density == 3) {
-    dam += rng(10, 30);
+    dam += rng(5, 18);
     if (!z->has_flag(MF_FLIES) || one_in(3)) {
-     z->moves -= 80;
+     z->moves -= 40;
      if (!z->made_of(LIQUID) && !z->made_of(STONE) && !z->made_of(KEVLAR) &&
          !z->made_of(STEEL) && !z->has_flag(MF_FIREY))
-      z->add_effect(ME_ONFIRE, 10);
+      z->add_effect(ME_ONFIRE, rng(8, 12));
     }
    }
    break;

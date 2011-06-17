@@ -1704,10 +1704,10 @@ its name stands for heavy, as it uses the powerful .308 round.  It is fairly\n\
 accurate and low on recoil.");
 
 GUN("Steyr AUG",	 6,2900,c_blue, STEEL,	PLASTIC,
-	sk_rifle,	AT_223, 14, 32, 17,  1, -2,  5, -8,  8,  3, 30, "\
+	sk_rifle,	AT_223, 14, 32, 17,  1, -3,  7, -8,  8,  3, 30, "\
 The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is\n\
 used in the armed forces and police forces of many nations, and enjoys\n\
-high accuracy at both medium and long range.");
+low recoil and high accuracy.");
 
 GUN("M249",		 1,3500,c_ltred,STEEL,	PLASTIC,
 	sk_rifle,	AT_223,	32, 68, 27, -4, -6, 20,  6,  7, 20,200, "\

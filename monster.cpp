@@ -444,7 +444,7 @@ void monster::process_effects(game *g)
    if (made_of(FLESH))
     hurt(rng(3, 8));
    if (made_of(VEGGY))
-    hurt(rng(8, 15));
+    hurt(rng(10, 20));
    if (made_of(PAPER) || made_of(POWDER) || made_of(WOOD) || made_of(COTTON) ||
        made_of(WOOL))
     hurt(rng(15, 40));

@@ -3,6 +3,7 @@
 #include "game.h"
 #include "rng.h"
 #include "line.h"
+#include <sstream>
 
 void mdeath::normal(game *g, monster *z)
 {
@@ -138,7 +139,9 @@ void mdeath::guilt(game *g, monster *z)
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1)
   return;	// Too far away, we can deal with it
  g->add_msg("You feel terrible for killing %s!", z->name().c_str());
- g->u.add_morale(MOR_MONSTER_GUILT);
+ std::stringstream morale_text;
+ morale_text << "Killed " << z->name().c_str();
+ g->u.add_morale(morale_text.str(), -50, -250);
 }
 
 void mdeath::blobsplit(game *g, monster *z)
@@ -152,6 +155,7 @@ void mdeath::blobsplit(game *g, monster *z)
  }
  monster blob(g->mtypes[(speed < 50 ? mon_blob_small : mon_blob)]);
  blob.speed = speed;
+ blob.friendly = z->friendly; // If we're tame, our kids are too
  if (g->u_see(z, j))
   g->add_msg("The %s splits!", z->name().c_str());
  blob.hp = blob.speed;

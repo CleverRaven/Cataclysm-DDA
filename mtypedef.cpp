@@ -92,9 +92,8 @@ mon("ant larva",	'a',	c_white,	MS_SMALL,	FLESH,
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	  1,  0,  1, 65,  4,  1,  3,  0,  0,  0,  0, 10,  0,
 	&mdeath::normal,	&mattack::none, "\
-The size of a large cat, this pulsating\n\
-mass of glistening white flesh turns your\n\
-stomach."
+The size of a large cat, this pulsating mass\n\
+of glistening white flesh turns your stomach."
 );
 
 mon("giant ant",	'a',	c_brown,	MS_MEDIUM,	FLESH,
@@ -103,8 +102,8 @@ mon("giant ant",	'a',	c_brown,	MS_MEDIUM,	FLESH,
 	 20,  7,  3,100,  9,  1,  6,  4,  2,  8,-40, 40,  0,
 	&mdeath::normal,	&mattack::none, "\
 A red ant the size of a crocodile. It is\n\
-covered in chitinous armor, and has a\n\
-pair of vicious mandibles."
+covered in chitinous armor, and has a pair of\n\
+vicious mandibles."
 );
 
 mon("soldier ant",	'a',	c_blue,		MS_MEDIUM,	FLESH,
@@ -128,7 +127,7 @@ slowly, tending to nearby eggs and laying\n\
 still more."
 );
 
-mon("fungal ant",	'a',	c_ltgray,	MS_MEDIUM,	VEGGY,
+mon("fungal insect",	'a',	c_ltgray,	MS_MEDIUM,	VEGGY,
 	(mfb(MF_SMELLS)|mfb(MF_POISON)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	  0,  5,  5, 75,  5,  1,  5,  3,  1,  1,  0, 30, 60,
@@ -152,7 +151,7 @@ sized sting pointed forward."
 mon("giant wasp",	'a', 	c_red,		MS_MEDIUM,	FLESH,
 	(mfb(MF_SMELLS)|mfb(MF_POISON)|mfb(MF_VENOM)|mfb(MF_FLIES)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  2, 18,  5,150,  6,  1,  3,  7,  7,  7,-40, 35, 0,
+	  2, 22,  5,150,  6,  1,  3,  7,  7,  7,-40, 35, 0,
 	&mdeath::normal,	&mattack::none, "\
 An evil-looking, slender-bodied wasp with\n\
 a vicious sting on its abdomen."
@@ -190,8 +189,7 @@ mon("half worm",	's',	c_pink,		MS_MEDIUM,	FLESH,
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	  0,  2,  2, 80,  5,  3,  5,  0,  0,  0,  0, 20,  0,
 	&mdeath::normal,	&mattack::none, "\
-A portion of a giant worm that is still\n\
-alive."
+A portion of a giant worm that is still alive."
 );
 
 // ZOMBIES
@@ -202,8 +200,8 @@ mon("zombie",		'Z',	c_ltgreen,	MS_MEDIUM,	FLESH,
 	 90,  3,  5, 70,  8,  1,  5,  0,  1,  0, 40, 50,  0,
 	&mdeath::normal,	&mattack::none, "\
 A human body, stumbling slowly forward on\n\
-uncertain legs, possessed with an\n\
-unstoppable rage."
+uncertain legs, possessed with an unstoppable\n\
+rage."
 );
 
 mon("shrieker zombie",	'Z',	c_magenta,	MS_MEDIUM,	FLESH,
@@ -244,9 +242,9 @@ mon("fast zombie",	'Z',	c_ltred,	MS_MEDIUM,	FLESH,
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	  6, 12,  5,150, 10,  1,  4,  3,  4,  0, 45, 40,  0,
 	&mdeath::normal,	&mattack::none, "\
-This deformed, sinewy zombie stays close\n\
-to the ground, loping forward faster than\n\
-most humans ever could."
+This deformed, sinewy zombie stays close to\n\
+the ground, loping forward faster than most\n\
+humans ever could."
 );
 
 mon("zombie brute",	'Z',	c_red,		MS_MEDIUM,	FLESH,
@@ -265,8 +263,8 @@ mon("zombie hulk",	'Z',	c_blue,		MS_HUGE,	FLESH,
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	  1, 50,  5,130, 9,  4,  8,  0,  0,  12, 80,260,  0,
 	&mdeath::normal,	&mattack::none, "\
-A zombie that has somehow grown to the size\n\
-of 6 men, with arms as wide as a trash can."
+A zombie that has somehow grown to the size of\n\
+6 men, with arms as wide as a trash can."
 );
 
 mon("fungal zombie",	'Z',	c_ltgray,	MS_MEDIUM,	FLESH,
@@ -276,8 +274,8 @@ mon("fungal zombie",	'Z',	c_ltgray,	MS_MEDIUM,	FLESH,
 	  0,  6,  5, 45,  6,  1,  6,  0,  0,  0, 20, 40, 50,
 	&mdeath::normal,	&mattack::fungus, "\
 A disease zombie. Fungus sprouts from its\n\
-mouth and eyes, and thick gray mold grows\n\
-all over its translucent flesh."
+mouth and eyes, and thick gray mold grows all\n\
+over its translucent flesh."
 );
 
 mon("boomer",		'Z',	c_pink,		MS_LARGE,	FLESH,
@@ -318,9 +316,9 @@ mon("zombie necromancer",'Z',	c_dkgray,	MS_MEDIUM,	FLESH,
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	  3, 13,  5,100,  4,  2,  3,  0,  4,  0, 50,140, 4,
 	&mdeath::normal,	&mattack::resurrect, "\
-A zombie with jet black skin and glowing\n\
-red eyes.  As you look at it, you're gripped\n\
-by a feeling of dread and terror."
+A zombie with jet black skin and glowing red\n\
+eyes.  As you look at it, you're gripped by a\n\
+feeling of dread and terror."
 );
 
 mon("zombie scientist", 'Z',	c_ltgray,	MS_MEDIUM,	FLESH,

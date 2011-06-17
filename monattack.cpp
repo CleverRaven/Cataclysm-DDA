@@ -144,6 +144,8 @@ void mattack::boomer(game *g, monster *z)
 
 void mattack::resurrect(game *g, monster *z)
 {
+ if (z->speed < z->type->speed / 2)
+  return;	// We can only resurrect so many times!
  std::vector<point> corpses;
  int junk;
 // Find all corposes that we can see within 4 tiles.
@@ -159,6 +161,7 @@ void mattack::resurrect(game *g, monster *z)
  }
  if (corpses.size() == 0)	// No nearby corpses
   return;
+ z->speed = (z->speed - rng(0, 10)) * .8;
  bool sees_necromancer = (g->u_see(z, junk));
  if (sees_necromancer)
   g->add_msg("The %s throws its arms wide...", z->name().c_str());
@@ -425,34 +428,29 @@ void mattack::leap(game *g, monster *z)
   return;	// Only leap if we can see you!
 
  std::vector<point> options;
- int dx = 0, dy = 0, best = 0;
- if (g->u.posx > z->posx)
-  dx = 1;
- else if (g->u.posx < z->posx)
-  dx = -1;
- if (g->u.posy > z->posy)
-  dy = 1;
- else if (g->u.posy < z->posy)
-  dy = -1;
+ int best = 0;
+ bool fleeing = z->is_fleeing(g->u);
 
- if (z->is_fleeing(g->u)) { // Leaping away from the player
-  dx *= -1;
-  dy *= -1;
- }
-
- for (int x = z->posx + dx * 3; x != z->posx - dx * 4; x -= dx) {
-  for (int y = z->posy + dy * 3; y != z->posy - dy * 4; y -= dy) {
-   if (g->is_empty(x, y) && rl_dist(z->posx, z->posy, x, y) >= best &&
-       g->m.sees(z->posx, z->posy, x, y, g->light_level(), linet)       ) {
+ for (int x = z->posx - 3; x <= z->posx + 3; x++) {
+  for (int y = z->posy - 3; y <= z->posy + 3; y++) {
+/* If we're fleeing, we want to pick those tiles with the greatest distance
+ * from the player; otherwise, those tiles with the least distance from the
+ * player.
+ */
+   if (g->is_empty(x, y) &&
+       g->m.sees(z->posx, z->posy, x, y, g->light_level(), linet) &&
+       (( fleeing && rl_dist(g->u.posx, g->u.posy, x, y) >= best) ||
+        (!fleeing && rl_dist(g->u.posx, g->u.posy, x, y) <= best)   )) {
     options.push_back( point(x, y) );
-    best = rl_dist(z->posx, z->posy, x, y);
+    best = rl_dist(g->u.posx, g->u.posy, x, y);
    }
   }
  }
 
 // Go back and remove all options that aren't tied for best
  for (int i = 0; i < options.size() && options.size() > 1; i++) {
-  if (rl_dist(z->posx, z->posy, options[i].x, options[i].y > best)) {
+  point p = options[i];
+  if (rl_dist(g->u.posx, g->u.posy, options[i].x, options[i].y) != best) {
    options.erase(options.begin() + i);
    i--;
   }
@@ -476,7 +474,7 @@ void mattack::dermatik(game *g, monster *z)
 {
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1 ||
      g->u.has_disease(DI_DERMATIK))
-  return; // Too far to implant or the player's already incubating bugs
+  return; // Too far to implant, or the player's already incubating bugs
 
  z->sp_timeout = z->type->sp_freq;	// Reset timer
 
@@ -494,7 +492,7 @@ void mattack::dermatik(game *g, monster *z)
  int swat_skill = (g->u.sklevel[sk_melee] + g->u.sklevel[sk_unarmed] * 2) / 3;
  int player_swat = dice(swat_skill, 10);
  if (player_swat > dodge_roll) {
-  g->add_msg("The %s lands on you, but you swat if off.", z->name().c_str());
+  g->add_msg("The %s lands on you, but you swat it off.", z->name().c_str());
   if (z->hp >= z->type->hp / 2)
    z->hurt(1);
   if (player_swat > dodge_roll * 1.5)

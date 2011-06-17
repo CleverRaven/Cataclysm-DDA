@@ -1658,10 +1658,12 @@ void npc::die(game *g, bool your_fault)
  if (g->u_see(posx, posy, j))
   g->add_msg("%s dies!", name.c_str());
  if (your_fault && !g->u.has_trait(PF_HEARTLESS)) {
+  std::stringstream morale_text;
+  morale_text << "Killed " << name;
   if (is_friend())
-   g->u.add_morale(MOR_KILLED_FRIEND);
+   g->u.add_morale(morale_text.str(), -500);
   else if (!is_enemy())
-   g->u.add_morale(MOR_KILLED_NEUTRAL);
+   g->u.add_morale(morale_text.str(), -100);
  }
   
  item my_body;

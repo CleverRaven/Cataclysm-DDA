@@ -535,7 +535,7 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
 // alien lifeforms.
  if (p->has_trait(PF_MARLOSS)) {
   g->add_msg("As you eat the berry, you have a near-religious experience, feeling at one with your surroundings...");
-  p->add_morale(MOR_RELIGIOUS);
+  p->add_morale("Marloss Unity", 250, 1000);
   p->hunger = -100;
   monster goo(g->mtypes[mon_blob]);
   goo.friendly = -1;
@@ -1778,7 +1778,7 @@ void iuse::mp3(game *g, player *p, item *it, bool t)
 void iuse::mp3_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
-  p->add_morale(MOR_MUSIC, rng(0, 1), rng(2, 3));
+  p->add_morale("Enjoyed Music", 1, 100);
 
   if (g->turn % 10 == 0) {	// Every 10 turns, describe the music
    std::string sound = "";
@@ -1789,7 +1789,7 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
     case 4: sound = "some pumping bass.";			break;
     case 5: sound = "dramatic classical music.";
             if (p->int_cur >= 10)
-             p->add_morale(MOR_MUSIC, 1, 1);			break;
+             p->add_morale("Enjoyed Music", 1, 100);		break;
    }
    if (sound.length() > 0)
     g->add_msg("You listen to %s", sound.c_str());

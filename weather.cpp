@@ -16,12 +16,30 @@ void weather_effect::wet(game *g)
 {
  if (PLAYER_OUTSIDE)
   g->u.add_disease(DI_WET, 2, g);
+ for (int x = 0; x < SEEX * 3; x++) {
+  for (int y = 0; y < SEEY * 3; y++) {
+   if (g->m.is_outside(x, y)) {
+    field *fd = &(g->m.field_at(x, y));
+    if (fd->type == fd_fire)
+     fd->age += 15;
+   }
+  }
+ }
 }
 
 void weather_effect::very_wet(game *g)
 {
  if (PLAYER_OUTSIDE)
   g->u.add_disease(DI_WET, 10, g);
+ for (int x = 0; x < SEEX * 3; x++) {
+  for (int y = 0; y < SEEY * 3; y++) {
+   if (g->m.is_outside(x, y)) {
+    field *fd = &(g->m.field_at(x, y));
+    if (fd->type == fd_fire)
+     fd->age += 45;
+   }
+  }
+ }
 }
 
 void weather_effect::thunder(game *g)
