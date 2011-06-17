@@ -82,6 +82,9 @@ DONE	Code a "list missions" screen, and bind a key to it
   These can be spent on a permanent stat increase, crafting a "legendary" item,
   or other otherwise unobtainable goodies.  This gives the player motivation to
   maintain high morale without the artificial-feeling stat bonuses.
+	High morale now generates XP points, which go into increasing your
+	  skills without the use of books.  Maybe these XP points could be used
+	  for the above effects?
 
   Artifacts!  Both fixed ones and randomly-generated ones (a la Crawl)
 	For fixedarts, draw from pop culture and pop christianity; Lance of
@@ -155,7 +158,7 @@ GENERAL:
 		  will just show up as a blank tile.  We should have an option
 		  to turn off bright background colors.
 	Run Mode behavior / Run Mode auto-on
-	Auto-drop wrappers (empty soda cans, etc)
+	Auto-drop food containers (empty soda cans, etc)
 
   Fix eating/fullness; right now only overeating when Full is a risk of puking,
   which comes too quickly and feels unfair.  Thirst (and small amounts of
@@ -193,8 +196,8 @@ DONE	Red: Ammo for a gun you have, or vice versa
 	Maybe make a special data structure for how the data section is used and
 	  layed out; easier to audit, player configurable
 
-  Sharply reduce speed penalties for painkillers, and reduce stat penalties.
-	Eliminate / increase overdose level
+**Sharply reduce speed penalties for painkillers, and reduce stat penalties.
+DONE	Eliminate / increase overdose level
 
   Make swimming more interesting
   	Items at the bottoms of rivers, only discoverable by diving underwater
@@ -239,7 +242,7 @@ DONE	Red: Ammo for a gun you have, or vice versa
   Desires, as in The Sims 3.  These could be their own class, or a special
   type of mission; added more or less randomly, they include things like "eat an
   orange," "read a novel" and other banal actions, and reward the player with a
-  large morale boost.
+  larger-than-usual morale boost.
 
 
 
@@ -316,7 +319,7 @@ TRAITS:
 
   More Schizophrenic effects
 	Make auditory hallucinations more realistic/varied
-	Bugs Under Skin disease: causes an int_cur check every few turns; on
+DONE	Bugs Under Skin disease: causes an int_cur check every few turns; on
 	  failure, the player spends a turn scratching wildly, inducing minor
 	  damage
 
@@ -364,6 +367,8 @@ TRAITS:
 CRAFTING:
 
   Craft using tools/components on floor (and adjacent tiles?)
+	Maybe every item in a 5x5 square around the player can be used for
+	  crafting
 
   Craft using nearby fire as hotplate
 

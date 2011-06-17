@@ -397,9 +397,9 @@ p - Power up / List bionics                  R - Read book\n\
 & - Craft items                              B - Butcher a corpse");
    mvprintz(16, 0, c_white, "INFORMATION:");
    mvprintz(17, 0, c_ltgray, "\
-@ - View character status                    # - List factions\n\
-: or m - Open world map                      ; - Look around\n\
-C - Chat with NPC                            ? - Help page\n\
+@ - View character status                    : or m - Open world map\n\
+# - List Factions                            ; or x - Look around\n\
+C - Chat with NPC                            ?      - Help page\n\
 %%%% - View morale");
    mvprintz(21, 0, c_white, "META:");
    mvprintz(22, 0, c_ltgray, "\

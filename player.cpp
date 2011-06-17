@@ -264,7 +264,7 @@ void player::load_info(std::string data)
          int_cur >> int_max >> per_cur >> per_max >> power_level >>
          max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> scent >> moves >>
-         underwater >> can_dodge >> oxygen >> active_mission;
+         underwater >> can_dodge >> oxygen >> active_mission >> xp_pool;
 
  for (int i = 0; i < PF_MAX2; i++)
   dump >> my_traits[i];
@@ -306,7 +306,7 @@ void player::load_info(std::string data)
  for (int i = 0; i < nummor; i++) {
   dump >> mortmp.bonus;
   getline(dump, mortmp.name);
-  name = name.substr(2, name.size() - 3); // s/^ '(.*)'$/\1/
+  mortmp.name = mortmp.name.substr(2, name.size() - 3); // s/^ '(.*)'$/\1/
  }
 }
 
@@ -320,7 +320,7 @@ std::string player::save_info()
          " " << stim << " " << pain << " " << pkill << " " << radiation <<
          " " << cash << " " << recoil << " " << scent << " " << moves << " " <<
          underwater << " " << can_dodge << " " << oxygen << " " <<
-         active_mission << " ";
+         active_mission << " " << xp_pool;
 
  for (int i = 0; i < PF_MAX2; i++)
   dump << my_traits[i] << " ";
@@ -1077,12 +1077,25 @@ void player::disp_morale()
   int bpos = 24;
   if (abs(b) >= 10)
    bpos--;
+  if (abs(b) >= 100)
+   bpos--;
   if (b < 0)
    bpos--;
 
   mvwprintz(w, i + 3,  1, (b < 0 ? c_red : c_green), morale[i].name.c_str());
   mvwprintz(w, i + 3, bpos, (b < 0 ? c_red : c_green), "%d", b);
  }
+
+ int mor = morale_level();
+ int bpos = 24;
+  if (abs(mor) >= 10)
+   bpos--;
+  if (abs(mor) >= 100)
+   bpos--;
+  if (mor < 0)
+   bpos--;
+ mvwprintz(w, 20, 1, (mor < 0 ? c_red : c_green), "Total:");
+ mvwprintz(w, 20, bpos, (mor < 0 ? c_red : c_green), "%d", mor);
 
  wrefresh(w);
  getch();

@@ -935,7 +935,7 @@ void game::get_input()
   refresh_all();
  } else if (ch == 'e')
   examine();
- else if (ch == ';')
+ else if (ch == ';' || ch == 'x')
   look_around();
  else if (ch == ',' || ch == 'g')
   pickup(u.posx, u.posy, 1);

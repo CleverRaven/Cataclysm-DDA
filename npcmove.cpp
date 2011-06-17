@@ -1593,9 +1593,9 @@ void npc::mug_player(game *g, player &mark)
   } else { // We already have their money; take some goodies!
 // value_mod affects at what point we "take the money and run"
 // A lower value means we'll take more stuff
-   double value_mod = 1 - double((5 - personality.bravery)    * .05) -
-                          double((5 - personality.aggression) * .04) -
-                          double((5 - personality.collector)  * .06);
+   double value_mod = 1 - double((10 - personality.bravery)    * .05) -
+                          double((10 - personality.aggression) * .04) -
+                          double((10 - personality.collector)  * .06);
    if (!mark.is_npc()) {
     value_mod += double(op_of_u.fear * .08);
     value_mod -= double((8 - op_of_u.value) * .07);
