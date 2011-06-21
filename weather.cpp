@@ -89,19 +89,22 @@ void weather_effect::acid(game *g)
 {
  if (PLAYER_OUTSIDE) {
   g->add_msg("The acid rain burns!");
-  if (!one_in(3))
+  if (one_in(3))
    g->u.hit(g, bp_head, 0, 0, 1);
-  if (one_in(3)) {
+  if (one_in(5)) {
    g->u.hit(g, bp_legs, 0, 0, 1);
    g->u.hit(g, bp_legs, 1, 0, 1);
   }
-  if (one_in(5)) {
+  if (one_in(8)) {
    g->u.hit(g, bp_feet, 0, 0, 1);
    g->u.hit(g, bp_feet, 1, 0, 1);
   }
-  g->u.hit(g, bp_torso, 0, 0, 2);
-  g->u.hit(g, bp_arms, 0, 0, 1);
-  g->u.hit(g, bp_arms, 1, 0, 1);
+  if (one_in(3))
+   g->u.hit(g, bp_torso, 0, 0, 1);
+  if (one_in(3)) {
+   g->u.hit(g, bp_arms, 0, 0, 1);
+   g->u.hit(g, bp_arms, 1, 0, 1);
+  }
  }
  if (g->levz >= 0) {
   for (int x = 0; x < SEEX * 3; x++) {
@@ -115,7 +118,7 @@ void weather_effect::acid(game *g)
  for (int i = 0; i < g->z.size(); i++) {
   if (g->m.is_outside(g->z[i].posx, g->z[i].posy)) {
    if (!g->z[i].has_flag(MF_ACIDPROOF))
-    g->z[i].hurt(3);
+    g->z[i].hurt(1);
   }
  }
 }
