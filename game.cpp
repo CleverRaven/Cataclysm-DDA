@@ -465,6 +465,10 @@ void game::start_game()
 // Start us off somewhere in the house.
  u.posx = SEEX + 4;
  u.posy = SEEY + 5;
+ u.str_cur = u.str_max;
+ u.per_cur = u.per_max;
+ u.int_cur = u.int_max;
+ u.dex_cur = u.dex_max;
  nextspawn = 300;	// No monsters until 8:30 AM!
  temperature = 65;	// Kind of cool for June, but okay.
 
@@ -771,11 +775,11 @@ void game::process_activity()
     if (reading->fun > 0) {
      std::stringstream morale_text;
      morale_text << "Enjoyed " << reading->name;
-     u.add_morale(morale_text.str(), reading->fun, reading->fun * 3);
+     u.add_morale(morale_text.str(), reading->fun * 5, reading->fun * 15);
     } else if (reading->fun < 0) {
      std::stringstream morale_text;
      morale_text << "Bored by " << reading->name;
-     u.add_morale(morale_text.str(), reading->fun, reading->fun * 3);
+     u.add_morale(morale_text.str(), reading->fun * 5, reading->fun * 15);
     }
 
     if (u.sklevel[reading->type] < reading->level) {

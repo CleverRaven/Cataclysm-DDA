@@ -271,7 +271,7 @@ mon("fungal zombie",	'Z',	c_ltgray,	MS_MEDIUM,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_STUMBLES)|
 	 mfb(MF_WARM)|mfb(MF_BASHES)|mfb(MF_POISON)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  0,  6,  5, 45,  6,  1,  6,  0,  0,  0, 20, 40, 50,
+	  2,  6,  5, 45,  6,  1,  6,  0,  0,  0, 20, 40, 50,
 	&mdeath::normal,	&mattack::fungus, "\
 A disease zombie. Fungus sprouts from its\n\
 mouth and eyes, and thick gray mold grows all\n\
@@ -293,7 +293,7 @@ mon("fungal boomer",	'B',	c_ltgray,	MS_LARGE,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_STUMBLES)|mfb(MF_WARM)|
 	 mfb(MF_BASHES)|mfb(MF_POISON)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  0,  7,  5, 40,  5,  2,  6,  0,  0,  0, 20, 20, 30,
+	  1,  7,  5, 40,  5,  2,  6,  0,  0,  0, 20, 20, 30,
 	&mdeath::fungus,	&mattack::fungus, "\
 A bloated zombie that is coated with slimy\n\
 gray mold. Its flesh is translucent and gray,\n\
@@ -368,7 +368,7 @@ and immediately takes root."
 mon("fungaloid",	'F',	c_ltgray,	MS_MEDIUM,	VEGGY,
 	(mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_POISON)|mfb(MF_NOHEAD)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	 12, 12,  4, 15,  8,  3,  3,  0,  0,  0,  0, 80, 60,
+	 12, 12,  4, 45,  8,  3,  3,  0,  0,  0,  0, 80, 60,
 	&mdeath::fungus,	&mattack::fungus, "\
 A pale white fungus, one meaty gray stalk\n\
 supporting a bloom at the top. A few\n\
@@ -380,12 +380,23 @@ mobility and a weak attack."
 mon("fungaloid",	'F',	c_ltgray,	MS_MEDIUM,	VEGGY,
 	(mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_POISON)|mfb(MF_NOHEAD)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  0,  0,  4,  0,  8,  3,  5,  0,  0,  0,  0,  1, 0,
+	  0,  0,  4,  1,  8,  3,  5,  0,  0,  0,  0,  1, 0,
 	&mdeath::fungusawake,	&mattack::none, "\
 A pale white fungus, one meaty gray stalk\n\
 supporting a bloom at the top. A few\n\
 tendrils extend from the base, allowing\n\
 mobility and a weak attack."
+);
+
+mon("young fungaloid",	'f',	c_ltgray,	MS_SMALL,	VEGGY,
+	(mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_POISON)|mfb(MF_NOHEAD)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  6,  6,  4, 65,  8,  1,  4,  6,  0,  4,  0, 70, 0,
+	&mdeath::normal,	&mattack::none, "\
+A fungal tendril just a couple feet tall.  Its\n\
+exterior is hardened into a leathery bark and\n\
+covered in thorns; it also moves faster than\n\
+full-grown fungaloids."
 );
 
 mon("spore",		'o',	c_ltgray,	MS_TINY,	VEGGY,

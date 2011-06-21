@@ -32,7 +32,7 @@ mon_zombie, mon_zombie_shrieker, mon_zombie_spitter, mon_zombie_electric,
 // Triffids
 mon_triffid, mon_triffid_young, mon_triffid_queen,
 // Fungaloids
-mon_fungaloid, mon_fungaloid_dormant, mon_spore,
+mon_fungaloid, mon_fungaloid_dormant, mon_fungaloid_young, mon_spore,
 // Blobs
 mon_blob, mon_blob_small,
 // Sewer mutants

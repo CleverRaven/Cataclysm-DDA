@@ -320,7 +320,7 @@ std::string player::save_info()
          " " << stim << " " << pain << " " << pkill << " " << radiation <<
          " " << cash << " " << recoil << " " << scent << " " << moves << " " <<
          underwater << " " << can_dodge << " " << oxygen << " " <<
-         active_mission << " " << xp_pool;
+         active_mission << " " << xp_pool << " ";
 
  for (int i = 0; i < PF_MAX2; i++)
   dump << my_traits[i] << " ";

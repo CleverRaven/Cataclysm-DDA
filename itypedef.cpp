@@ -875,7 +875,7 @@ A professional-looking wool blazer.  Quite encumbersome.");
 
 ARMOR("leather jacket",	30, 150,C_TORSO,	LEATHER,	MNULL,
    14, 14, -2,  1,  2,  1,  9,  1,  4,  4,	mfb(bp_torso), "\
-A jacket made from thick leather.  Encumbersome, but offers excellent\
+A jacket made from thick leather.  Encumbersome, but offers excellent\n\
 protection from cuts.");
 
 ARMOR("kevlar vest",	30, 800,C_TORSO,	KEVLAR,		COTTON,
@@ -884,7 +884,7 @@ A heavy bulletproof vest.  The best protection from cuts and bullets.");
 
 ARMOR("rain coat",	50, 100,C_TORSO,	PLASTIC,	COTTON,
     9,  8, -4,  0,  2,  0,  3,  1,  2,  7,	mfb(bp_torso), "\
-A plastic coat with two very large pockets.");
+A plastic coat with two very large pockets.  Provides protection from rain.");
 
 ARMOR("wool poncho",	15, 120,C_TORSO,	WOOL,		MNULL,
     7,  3, -5, -1,  0,  1,  2,  1,  2,  0,	mfb(bp_torso), "\
@@ -1749,7 +1749,7 @@ its bolts to be extremely deadly.");
 //	NAME      	 RAR  PRC  COLOR     MAT1   MAT2     VOL WGT DAM CUT HIT
 GUNMOD("silencer",	 15,  480, c_dkgray, STEEL, PLASTIC,  2,  1,  3,  0,  2,
 //	ACC DAM NOI CLP REC BST NEWTYPE,	PISTOL	SHOT	SMG	RIFLE
-	-1, -4,-35,  0,  0,  0,	AT_NULL,	true,	false,	true,	true,
+	-1, -4,-45,  0,  0,  0,	AT_NULL,	true,	false,	true,	true,
 	0, "\
 Using a silencer is almost an imperative in zombie-infested regions.  Gunfire\n\
 is very noisy, and will attract predators.  Its only drawback is a reduced\n\
