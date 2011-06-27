@@ -1671,6 +1671,10 @@ void iuse::manhack(game *g, player *p, item *it, bool t)
  g->z.push_back(manhack);
 }
 
+void iuse::turret(game *g, player *p, item *it, bool t)
+{
+}
+
 void iuse::UPS_off(game *g, player *p, item *it, bool t)
 {
  if (it->charges == 0)

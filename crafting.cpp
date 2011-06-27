@@ -485,6 +485,16 @@ void game::init_recipes()
   COMP(itm_power_supply, 1, NULL);
   COMP(itm_battery, 400, itm_plut_cell, 1, NULL);
 
+ RECIPE(itm_bot_turret, CC_MISC, sk_electronics, sk_computer, 7, 9000);
+  TOOL(itm_screwdriver, -1, NULL);
+  TOOL(itm_soldering_iron, 14, NULL);
+  COMP(itm_smg_9mm, 1, itm_uzi, 1, itm_tec9, 1, itm_calico, 1, itm_hk_mp5, 1,
+       NULL);
+  COMP(itm_processor, 2, NULL);
+  COMP(itm_RAM, 2, NULL);
+  COMP(itm_power_supply, 1, NULL);
+  COMP(item_battery, 500, itm_plut_cell, 1, NULL);
+
 }
 
 void game::craft()

@@ -79,6 +79,7 @@ class iuse
   void pheromone	(game *g, player *p, item *it, bool t);
   void portal		(game *g, player *p, item *it, bool t);
   void manhack		(game *g, player *p, item *it, bool t);
+  void turret		(game *g, player *p, item *it, bool t);
   void UPS_off		(game *g, player *p, item *it, bool t);
   void UPS_on		(game *g, player *p, item *it, bool t);
   void tazer		(game *g, player *p, item *it, bool t);

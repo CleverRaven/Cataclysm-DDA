@@ -2403,8 +2403,14 @@ air.  They are covered with whirring blades and attack by throwing themselves\n\
 against their target.  Use this item to activate the manhack.");
 
 //	NAME		RAR PRC SYM  COLOR	MAT1	MAT
-TOOL("UPS (off)",	 1,2800,';',c_ltgreen,	STEEL,	PLASTIC,
+TOOL("inactive turret",  1,2000,';',c_ltgreen,	STEEL,	PLASTIC,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    12, 12, 8,  0, -3,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::turret,0,"\
+An inactive turret.  Using this item involves turning it on and placing it\n\
+on the ground, where it will attach itself.  The turret will then identify\n\
+you as a friendly, and attack all enemies with an SMG.");
+
+TOOL("UPS (off)",	 1,2800,';',c_ltgreen,	STEEL,	PLASTIC,
     4,  6, 10,  0, -1,1000, 0,  0,  0, AT_BATT, itm_null, &iuse::UPS_off,0,"\
 A unified power supply, or UPS, is a device developed jointly by military and\n\
 scientific interests for use in combat and the field.  The UPS is designed to\n\
