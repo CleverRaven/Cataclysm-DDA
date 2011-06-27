@@ -80,7 +80,7 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_WET:
-  p.add_morale("Wet", -1, -50);
+  p.add_morale(MORALE_WET, -1, -50);
   break;
 
  case DI_COLD:

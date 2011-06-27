@@ -576,7 +576,7 @@ void npc::make_shopkeep(game *g, oter_id type)
  if (pool.size() > 0) {
   do {
    items_location place = pool[rng(0, pool.size() - 1)];
-   item_type = g->mapitems[place][rng(0, g->mapitems[place].size())];
+   item_type = g->mapitems[place][rng(0, g->mapitems[place].size() - 1)];
    tmp = item(g->itypes[item_type], g->turn);
    if (volume_carried() + tmp.volume() > volume_capacity() ||
        weight_carried() + tmp.weight() > weight_capacity()   )
@@ -1658,12 +1658,10 @@ void npc::die(game *g, bool your_fault)
  if (g->u_see(posx, posy, j))
   g->add_msg("%s dies!", name.c_str());
  if (your_fault && !g->u.has_trait(PF_HEARTLESS)) {
-  std::stringstream morale_text;
-  morale_text << "Killed " << name;
   if (is_friend())
-   g->u.add_morale(morale_text.str(), -500);
+   g->u.add_morale(MORALE_KILLED_FRIEND, -500);
   else if (!is_enemy())
-   g->u.add_morale(morale_text.str(), -100);
+   g->u.add_morale(MORALE_KILLED_INNOCENT, -100);
  }
   
  item my_body;

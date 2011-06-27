@@ -139,9 +139,7 @@ void mdeath::guilt(game *g, monster *z)
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1)
   return;	// Too far away, we can deal with it
  g->add_msg("You feel terrible for killing %s!", z->name().c_str());
- std::stringstream morale_text;
- morale_text << "Killed " << z->name().c_str();
- g->u.add_morale(morale_text.str(), -50, -250);
+ g->u.add_morale(MORALE_KILLED_MONSTER, -50, -250);
 }
 
 void mdeath::blobsplit(game *g, monster *z)

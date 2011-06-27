@@ -994,7 +994,9 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     }
     add_spawn(mon_wasp, 1, podx, pody);
    }
-  }
+   place_items(mi_rare, 50, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
+    
+  } // Wasps
   if (terrain_type == ot_house_east  || terrain_type == ot_house_base_east)
    rotate(1);
   if (terrain_type == ot_house_south || terrain_type == ot_house_base_south)

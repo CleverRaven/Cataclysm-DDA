@@ -159,6 +159,10 @@ void monster::move(game *g)
   moves = 0;
   return;
  }
+ if (has_effect(ME_STUNNED)) {
+  stumble(g, false);
+  return;
+ }
  if (friendly != 0 ||
      (g->u.has_trait(PF_ANIMALEMPATH) && has_flag(MF_ANIMAL))) {
   if (friendly > 0)

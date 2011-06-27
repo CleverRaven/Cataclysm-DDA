@@ -431,12 +431,14 @@ void iuse::hallu(game *g, player *p, item *it, bool t)
 
 void iuse::thorazine(game *g, player *p, item *it, bool t)
 {
- if (!p->is_npc())
-  g->add_msg("You feel somewhat sedated.");
+ p->fatigue += 15;
  p->rem_disease(DI_HALLU);
  p->rem_disease(DI_VISUALS);
  p->rem_disease(DI_HIGH);
- p->fatigue += 15;
+ if (!p->has_disease(DI_DERMATIK))
+  p->rem_disease(DI_FORMICATION);
+ if (!p->is_npc())
+  g->add_msg("You feel somewhat sedated.");
 }
 
 void iuse::prozac(game *g, player *p, item *it, bool t)
@@ -449,45 +451,45 @@ void iuse::prozac(game *g, player *p, item *it, bool t)
 
 void iuse::sleep(game *g, player *p, item *it, bool t)
 {
+ p->fatigue += 40;
  if (!p->is_npc())
   g->add_msg("You feel very sleepy...");
- p->fatigue += 40;
 }
 
 void iuse::iodine(game *g, player *p, item *it, bool t)
 {
+ p->add_disease(DI_IODINE, 1200, g);
  if (!p->is_npc())
   g->add_msg("You take an iodine tablet.");
- p->add_disease(DI_IODINE, 1200, g);
 }
 
 void iuse::flumed(game *g, player *p, item *it, bool t)
 {
+ p->add_disease(DI_TOOK_FLUMED, 6000, g);
  if (!p->is_npc())
   g->add_msg("You take some %s", it->tname().c_str());
- p->add_disease(DI_TOOK_FLUMED, 6000, g);
 }
 
 void iuse::flusleep(game *g, player *p, item *it, bool t)
 {
- if (!p->is_npc())
-  g->add_msg("You feel very sleepy...");
  p->add_disease(DI_TOOK_FLUMED, 7200, g);
  p->fatigue += 30;
+ if (!p->is_npc())
+  g->add_msg("You feel very sleepy...");
 }
 
 void iuse::inhaler(game *g, player *p, item *it, bool t)
 {
+ p->rem_disease(DI_ASTHMA);
  if (!p->is_npc())
   g->add_msg("You take a puff from your inhaler.");
- p->rem_disease(DI_ASTHMA);
 }
 
 void iuse::blech(game *g, player *p, item *it, bool t)
 {
+// TODO: Add more effects?
  if (!p->is_npc())
   g->add_msg("Blech, that burns your throat!");
-// TODO: Add more effects?
 }
 
 void iuse::mutagen(game *g, player *p, item *it, bool t)
@@ -535,7 +537,7 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
 // alien lifeforms.
  if (p->has_trait(PF_MARLOSS)) {
   g->add_msg("As you eat the berry, you have a near-religious experience, feeling at one with your surroundings...");
-  p->add_morale("Marloss Unity", 250, 1000);
+  p->add_morale(MORALE_MARLOSS, 250, 1000);
   p->hunger = -100;
   monster goo(g->mtypes[mon_blob]);
   goo.friendly = -1;
@@ -1778,7 +1780,7 @@ void iuse::mp3(game *g, player *p, item *it, bool t)
 void iuse::mp3_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
-  p->add_morale("Enjoyed Music", 1, 100);
+  p->add_morale(MORALE_MUSIC, 1, 100);
 
   if (g->turn % 10 == 0) {	// Every 10 turns, describe the music
    std::string sound = "";
@@ -1789,7 +1791,7 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
     case 4: sound = "some pumping bass.";			break;
     case 5: sound = "dramatic classical music.";
             if (p->int_cur >= 10)
-             p->add_morale("Enjoyed Music", 1, 100);		break;
+             p->add_morale(MORALE_MUSIC, 1, 100);		break;
    }
    if (sound.length() > 0)
     g->add_msg("You listen to %s", sound.c_str());

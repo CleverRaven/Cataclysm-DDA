@@ -61,6 +61,7 @@ enum oter_id {
  ot_nuke_plant_entrance, ot_nuke_plant,
  ot_silo, ot_silo_finale,
  ot_temple, ot_temple_stairs, ot_temple_core, ot_temple_finale,
+ ot_sewage_treatment,
 // Settlement
  ot_set_center,
  ot_set_house, ot_set_food, ot_set_weapons, ot_set_guns, ot_set_clinic,
@@ -197,6 +198,7 @@ const oter_t oterlist[num_ter_types] = {
 {"strange temple",	'T',	c_pink,		5, false},
 {"strange temple",	'T',	c_pink,		5, false},
 {"strange temple",	'T',	c_yellow,	5, false},
+{"sewage treatment",	'P',	c_green,	5, false},
 {"town center",		'O',	c_white,	2, false},
 {"living quarters",	'*',	c_ltgreen,	2, false},
 {"food market",		'*',	c_green,	2, false},

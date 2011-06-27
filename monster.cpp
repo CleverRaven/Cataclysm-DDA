@@ -169,7 +169,7 @@ void monster::draw(WINDOW *w, int plx, int ply, bool inv)
 nc_color monster::color_with_effects()
 {
  nc_color ret = type->color;
- if (has_effect(ME_BEARTRAP))
+ if (has_effect(ME_BEARTRAP) || has_effect(ME_STUNNED))
   ret = hilite(ret);
  if (has_effect(ME_ONFIRE))
   ret = red_background(ret);

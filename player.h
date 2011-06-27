@@ -31,7 +31,7 @@ public:
  virtual bool is_npc() { return false; }	// Overloaded for NPCs in npc.h
  nc_color color();				// What color to draw us as
 
- virtual void load_info(std::string data);	// Load from file matching name
+ virtual void load_info(game *g, std::string data);// Load from file 'name.sav'
  virtual std::string save_info();		// Save to file matching name
 
  void disp_info(game *g);	// '@' key; extended character info
@@ -139,7 +139,8 @@ public:
  int weight_capacity(bool real_life = true);
  int volume_capacity();
  int morale_level();	// Modified by traits, &c
- void add_morale(std::string name, int bonus, int max_bonus = 0);
+ void add_morale(morale_type type, int bonus, int max_bonus = 0,
+                 itype* item_type = NULL);
 
  void sort_inv();	// Sort inventory by type
  std::string weapname(bool charges = true);

@@ -1563,7 +1563,6 @@ void overmap::building_on_hiway(int x, int y, int dir)
   if (!is_river(ter(x + xdif, y + ydif)))
    ter(x + xdif, y + ydif) = ot_lab_stairs;
   break;
-// Lab is invalid; fall through to next case
  case 2:
   if (!is_river(ter(x + xdif, y + ydif)))
    ter(x + xdif, y + ydif) = house(rot);
@@ -1572,6 +1571,12 @@ void overmap::building_on_hiway(int x, int y, int dir)
   if (!is_river(ter(x + xdif, y + ydif)))
    ter(x + xdif, y + ydif) = ot_radio_tower;
   break;
+/*
+ case 4:
+  if (!is_river(ter(x + xdif, y + ydif)))
+   ter(x + xdir, y + ydif) = ot_sewage_treatment;
+  break;
+*/
  }
 }
 

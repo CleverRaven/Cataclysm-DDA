@@ -15,6 +15,7 @@ enum monster_effect_type {
 ME_NULL = 0,
 ME_BEARTRAP,		// Stuck in beartrap
 ME_ONFIRE,		// Lit aflame
+ME_STUNNED,		// Stumbling briefly
 NUM_MONSTER_EFFECTS
 };
 

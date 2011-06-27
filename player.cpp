@@ -5,6 +5,7 @@
 #include "disease.h"
 #include "addiction.h"
 #include "keypress.h"
+#include "moraledata.h"
 #include <sstream>
 #include <curses.h>
 #include <stdlib.h>
@@ -106,9 +107,9 @@ void player::reset()
   dex_cur -= 3;
 // Pain
  if (pain > pkill) {
-  str_cur  -= int((pain - pkill) / 15);
-  dex_cur  -= int((pain - pkill) / 15);
-  per_cur  -= int((pain - pkill) / 20);
+  str_cur  -=     int((pain - pkill) / 15);
+  dex_cur  -=     int((pain - pkill) / 15);
+  per_cur  -=     int((pain - pkill) / 20);
   int_cur  -= 1 + int((pain - pkill) / 25);
  }
 // Morale
@@ -256,7 +257,7 @@ nc_color player::color()
  return c_white;
 }
 
-void player::load_info(std::string data)
+void player::load_info(game *g, std::string data)
 {
  std::stringstream dump;
  dump << data;
@@ -283,6 +284,7 @@ void player::load_info(std::string data)
   illtmp.type = dis_type(typetmp);
   illness.push_back(illtmp);
  }
+
  int numadd;
  addiction addtmp;
  dump >> numadd;
@@ -291,6 +293,7 @@ void player::load_info(std::string data)
   addtmp.type = add_type(typetmp);
   addictions.push_back(addtmp);
  }
+
  int numbio;
  bionic biotmp;
  dump >> numbio;
@@ -304,9 +307,15 @@ void player::load_info(std::string data)
  morale_point mortmp;
  dump >> nummor;
  for (int i = 0; i < nummor; i++) {
-  dump >> mortmp.bonus;
-  getline(dump, mortmp.name);
-  mortmp.name = mortmp.name.substr(2, name.size() - 3); // s/^ '(.*)'$/\1/
+  int mortype;
+  int item_id;
+  dump >> mortmp.bonus >> mortype >> item_id;
+  mortmp.type = morale_type(mortype);
+  if (item_id == 0)
+   mortmp.item_type = NULL;
+  else
+   mortmp.item_type = g->itypes[item_id];
+  morale.push_back(mortmp);
  }
 }
 
@@ -344,10 +353,16 @@ std::string player::save_info()
           my_bionics[i].powered << " " << my_bionics[i].charge << " ";
 
  dump << morale.size() << " ";
- for (int i = 0; i < morale.size(); i++)
-  dump << morale[i].bonus << " '" << morale[i].name << "'\n";
-
+ for (int i = 0; i < morale.size(); i++) {
+  dump << morale[i].bonus << " " << morale[i].type << " ";
+  if (morale[i].item_type == NULL)
+   dump << "0";
+  else
+   dump << morale[i].item_type->id;
+  dump << " ";
+ }
  dump << std::endl;
+
  for (int i = 0; i < inv.size(); i++) {
   dump << "I " << inv[i].save_info() << std::endl;
   for (int j = 0; j < inv[i].contents.size(); j++)
@@ -1082,7 +1097,8 @@ void player::disp_morale()
   if (b < 0)
    bpos--;
 
-  mvwprintz(w, i + 3,  1, (b < 0 ? c_red : c_green), morale[i].name.c_str());
+  mvwprintz(w, i + 3,  1, (b < 0 ? c_red : c_green),
+            morale[i].name(morale_data).c_str());
   mvwprintz(w, i + 3, bpos, (b < 0 ? c_red : c_green), "%d", b);
  }
 
@@ -1868,7 +1884,7 @@ int player::hit_roll()
   if (has_trait(PF_DRUNKEN) && has_disease(DI_DRUNK))
    numdice += rng(0, 1) + int(disease_level(DI_DRUNK) / 300);
  } else if (has_trait(PF_DRUNKEN) && has_disease(DI_DRUNK))
-  numdice += int(disease_level(DI_DRUNK) / 500);
+  numdice += int(disease_level(DI_DRUNK) / 400);
 // Using a bashing weapon?
  if (weapon.is_bashing_weapon()) {
   bashing = true;
@@ -1880,7 +1896,7 @@ int player::hit_roll()
   numdice += int(sklevel[sk_cutting] / 2);
  }
 // Using a spear?
- if (weapon.has_weapon_flag(WF_SPEAR))
+ if (weapon.has_weapon_flag(WF_SPEAR) || weapon.has_weapon_flag(WF_STAB))
   numdice += int(sklevel[sk_stabbing]);
 
  int sides = 10;
@@ -1943,7 +1959,7 @@ int player::hit_mon(game *g, monster *z)
   hurtall(rng(1, 3));
  }
 // For very high hit rolls, we crit!
- bool critical_hit = (hit_roll() >= 50 + 3 * z->dodge_roll());
+ bool critical_hit = (hit_roll() >= 50 + 10 * z->dodge_roll());
  int dam = base_damage(true);
  int cutting_penalty = 0; // Moves lost from getting a cutting weapon stuck
 
@@ -2105,10 +2121,13 @@ int player::hit_mon(game *g, monster *z)
     else if (can_see)
      g->add_msg("%s deliver%s a crushing punch!",You.c_str(),(is_u ? "" : "s"));
    }
-  } else {	// Critical effects if not unarmed
+   if (z->hp > 0 && rng(1, 5) < sklevel[sk_unarmed])
+    z->add_effect(ME_STUNNED, 1 + sklevel[sk_unarmed]);
+  } else {	// Not unarmed
    if (bashing) {
     dam += 2 * sklevel[sk_bashing];
     dam += 8 + (str_cur / 2);
+    z->add_effect(ME_STUNNED, int(dam / 20) + sklevel[sk_bashing]);
     z->moves -= rng(dam, dam * 2);	// Stunning blow
    }
    if (cutting) {
@@ -2909,9 +2928,9 @@ void player::suffer(game *g)
    }
    if (one_in(4800)) {
     if (one_in(3))
-     add_morale("Pleasant feeling", 20, 100);
+     add_morale(MORALE_FEELING_GOOD, 20, 100);
     else
-     add_morale("Unpleasant feeling", -20, -100);
+     add_morale(MORALE_FEELING_BAD, -20, -100);
    }
   }
   if (has_trait(PF_SCHIZOPHRENIC) && one_in(2400)) { // Every 4 hours or so
@@ -2929,7 +2948,7 @@ void player::suffer(game *g)
      break;
     case 3:
      g->add_msg("YOU SHOULD QUIT THE GAME IMMEDIATELY.");
-     add_morale("Feeling of dread", -50, -150);
+     add_morale(MORALE_FEELING_BAD, -50, -150);
      break;
     case 4:
      for (i = 0; i < 10; i++) {
@@ -2978,9 +2997,9 @@ void player::suffer(game *g)
   }
   if (has_trait(PF_MOODSWINGS) && one_in(3600)) {
    if (rng(1, 20) > 9)	// 55% chance
-    add_morale("Negative Moodswing", -100, -500);
+    add_morale(MORALE_MOODSWING, -100, -500);
    else			// 45% chance
-    add_morale("Positive Moodswing", 100, 500);
+    add_morale(MORALE_MOODSWING, 100, 500);
   }
   if (has_trait(PF_VOMITOUS) && (one_in(4200) ||
                                  (has_trait(PF_WEAKSTOMACH) && one_in(4200))))
@@ -3156,8 +3175,8 @@ int player::morale_level()
 
  if (has_trait(PF_HOARDER)) {
   int pen = int((volume_capacity()-volume_carried()) / 2);
-  if (pen > 30)
-   pen = 30;
+  if (pen > 70)
+   pen = 70;
   if (has_disease(DI_TOOK_XANAX))
    pen = int(pen / 7);
   else if (has_disease(DI_TOOK_PROZAC))
@@ -3184,17 +3203,18 @@ int player::morale_level()
  }
 
  if (has_disease(DI_TOOK_PROZAC) && ret < 0)
-  ret = int(ret / 2);
+  ret = int(ret / 4);
 
  return ret;
 }
 
-void player::add_morale(std::string name, int bonus, int max_bonus)
+void player::add_morale(morale_type type, int bonus, int max_bonus,
+                        itype* item_type)
 {
  bool placed = false;
 
  for (int i = 0; i < morale.size() && !placed; i++) {
-  if (morale[i].name == name) {
+  if (morale[i].type == type && morale[i].item_type == item_type) {
    placed = true;
    if (abs(morale[i].bonus) < abs(max_bonus) || max_bonus == 0) {
     morale[i].bonus += bonus;
@@ -3204,7 +3224,7 @@ void player::add_morale(std::string name, int bonus, int max_bonus)
   }
  }
  if (!placed) { // Didn't increase an existing point, so add a new one
-  morale_point tmp(name, bonus);
+  morale_point tmp(type, item_type, bonus);
   morale.push_back(tmp);
  }
 }
@@ -3880,7 +3900,7 @@ bool player::eat(game *g, int index)
   if (has_trait(PF_VEGETARIAN) && eaten->made_of(FLESH)) {
    if (!is_npc())
     g->add_msg("You feel bad about eating this meat...");
-   add_morale("Ate Meat", -75, -400);
+   add_morale(MORALE_VEGETARIAN, -75, -400);
   }
   if (has_trait(PF_HERBIVORE) && eaten->made_of(FLESH)) {
    if (!one_in(3))
@@ -3892,13 +3912,10 @@ bool player::eat(game *g, int index)
   }
   std::stringstream morale_text;
   if (has_trait(PF_GOURMAND)) {
-   if (comest->fun < -2) {
-    morale_text << "Disliked " << comest->name;
-    add_morale(morale_text.str(), comest->fun * 5, comest->fun * 15);
-   } else if (comest->fun > 0) {
-    morale_text << "Enjoyed " << comest->name;
-    add_morale(morale_text.str(), comest->fun * 6, comest->fun * 20);
-   }
+   if (comest->fun < -2)
+    add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 15, comest);
+   else if (comest->fun > 0)
+    add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 20, comest);
    if (!is_npc() && (hunger < -60 || thirst < -60))
     g->add_msg("You can't finish it all!");
    if (hunger < -60)
@@ -3906,13 +3923,10 @@ bool player::eat(game *g, int index)
    if (thirst < -60)
     thirst = -60;
   } else {
-   if (comest->fun < 0) {
-    morale_text << "Disliked " << comest->name;
-    add_morale(morale_text.str(), comest->fun * 5, comest->fun * 15);
-   } else if (comest->fun > 0) {
-    morale_text << "Enjoyed " << comest->name;
-    add_morale(morale_text.str(), comest->fun * 5, comest->fun * 15);
-   }
+   if (comest->fun < 0)
+    add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 15, comest);
+   else if (comest->fun > 0)
+    add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 15, comest);
    if (!is_npc() && (hunger < -20 || thirst < -20))
     g->add_msg("You can't finish it all!");
    if (hunger < -20)

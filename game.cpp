@@ -630,9 +630,9 @@ bool game::do_turn()
   update_weather();
  }
 
-// The following happens when we stay still; 40/240 minutes overdue for spawn
- if ((!u.has_trait(PF_INCONSPICUOUS) && turn > nextspawn +  400) ||
-     ( u.has_trait(PF_INCONSPICUOUS) && turn > nextspawn + 2400)   ) {
+// The following happens when we stay still; 10/40 minutes overdue for spawn
+ if ((!u.has_trait(PF_INCONSPICUOUS) && turn > nextspawn +  100) ||
+     ( u.has_trait(PF_INCONSPICUOUS) && turn > nextspawn +  400)   ) {
   spawn_mon(-1 + 2 * rng(0, 1), -1 + 2 * rng(0, 1));
   nextspawn = turn;
  }
@@ -772,14 +772,9 @@ void game::process_activity()
     else
      reading = dynamic_cast<it_book*>(u.inv[u.activity.index].type);
 
-    if (reading->fun > 0) {
+    if (reading->fun != 0) {
      std::stringstream morale_text;
-     morale_text << "Enjoyed " << reading->name;
-     u.add_morale(morale_text.str(), reading->fun * 5, reading->fun * 15);
-    } else if (reading->fun < 0) {
-     std::stringstream morale_text;
-     morale_text << "Bored by " << reading->name;
-     u.add_morale(morale_text.str(), reading->fun * 5, reading->fun * 15);
+     u.add_morale(MORALE_BOOK, reading->fun * 5, reading->fun * 15, reading);
     }
 
     if (u.sklevel[reading->type] < reading->level) {
@@ -1204,7 +1199,7 @@ void game::load(std::string name)
  if (fin.peek() == '\n')
   fin.get(junk); // Chomp that pesky endline
  getline(fin, data);
- u.load_info(data);
+ u.load_info(this, data);
 // And the player's inventory...
  char item_place;
  std::string itemdata;
@@ -2319,8 +2314,8 @@ void game::monmove()
     }
    }
 // We might have stumbled out of range of the player; if so, delete us
-   if (z[i].posx < 0 - SEEX * 3 || z[i].posy < 0 - SEEX * 3 ||
-       z[i].posx >     SEEX * 6 || z[i].posy >     SEEY * 6) {
+   if (z[i].posx < 0 - SEEX * 4 || z[i].posy < 0 - SEEX * 4 ||
+       z[i].posx >     SEEX * 5 || z[i].posy >     SEEY * 5) {
     int group = valid_group((mon_id)(z[i].type->id), levx, levy);
     if (group != -1) {
      cur_om.zg[group].population++;
@@ -4942,7 +4937,7 @@ void game::spawn_mon(int shiftx, int shifty)
 
 // Now, spawn monsters (perhaps)
  monster zom;
- for (int i = 0; i < cur_om.zg.size(); i++) {
+ for (int i = 0; i < cur_om.zg.size(); i++) { // For each valid group...
   group = 0;
   rntype = 0;
   dist = trig_dist(nlevx, nlevy, cur_om.zg[i].posx, cur_om.zg[i].posy);

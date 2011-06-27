@@ -15,7 +15,7 @@ void weather_effect::glare(game *g)
 void weather_effect::wet(game *g)
 {
  if (!g->u.is_wearing(itm_coat_rain) && PLAYER_OUTSIDE)
-  g->u.add_morale("Wet", -1, -50);
+  g->u.add_morale(MORALE_WET, -1, -50);
  for (int x = 0; x < SEEX * 3; x++) {
   for (int y = 0; y < SEEY * 3; y++) {
    if (g->m.is_outside(x, y)) {
@@ -30,7 +30,7 @@ void weather_effect::wet(game *g)
 void weather_effect::very_wet(game *g)
 {
  if (!g->u.is_wearing(itm_coat_rain) && PLAYER_OUTSIDE)
-  g->u.add_morale("Wet", -2, -100);
+  g->u.add_morale(MORALE_WET, -2, -100);
  for (int x = 0; x < SEEX * 3; x++) {
   for (int y = 0; y < SEEY * 3; y++) {
    if (g->m.is_outside(x, y)) {
@@ -44,18 +44,18 @@ void weather_effect::very_wet(game *g)
 
 void weather_effect::thunder(game *g)
 {
+ this->very_wet(g);
  if (one_in(THUNDER_CHANCE)) {
   if (g->levz >= 0)
    g->add_msg("You hear a distant rumble of thunder.");
   else if (!g->u.has_trait(PF_BADHEARING) && one_in(1 - 3 * g->levz))
    g->add_msg("You hear a rumble of thunder from above.");
  }
- weather_effect tmp;
- tmp.very_wet(g);
 }
 
 void weather_effect::lightning(game *g)
 {
+ this->thunder(g);
  if (one_in(LIGHTNING_CHANCE)) {
   std::vector<point> strike;
   for (int x = 0; x < SEEX * 3; x++) {
@@ -73,16 +73,13 @@ void weather_effect::lightning(game *g)
   g->add_msg("Lightning strikes nearby!");
   g->explosion(hit.x, hit.y, 10, 0, one_in(4));
  }
- weather_effect tmp;
- tmp.thunder(g);
 }
 
 void weather_effect::light_acid(game *g)
 {
+ this->wet(g);
  if (g->turn % 10 == 0 && PLAYER_OUTSIDE)
   g->add_msg("The acid rain stings, but is harmless for now...");
- weather_effect tmp;
- tmp.wet(g);
 }
 
 void weather_effect::acid(game *g)
