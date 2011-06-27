@@ -493,7 +493,7 @@ void game::init_recipes()
   COMP(itm_processor, 2, NULL);
   COMP(itm_RAM, 2, NULL);
   COMP(itm_power_supply, 1, NULL);
-  COMP(item_battery, 500, itm_plut_cell, 1, NULL);
+  COMP(itm_battery, 500, itm_plut_cell, 1, NULL);
 
 }
 
