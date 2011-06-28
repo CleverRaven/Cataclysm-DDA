@@ -3612,7 +3612,7 @@ int player::butcher_factor()
 {
  int lowest_factor = 999;
  for (int i = 0; i < inv.size(); i++) {
-  if (inv[i].type->melee_cut >= 10) {
+  if (inv[i].type->melee_cut >= 10 && !inv[i].has_weapon_flag(WF_SPEAR)) {
    int factor = inv[i].volume() * 5 - inv[i].weight() * 1.5 -
                 inv[i].type->melee_cut;
    if (inv[i].type->melee_cut < 20)

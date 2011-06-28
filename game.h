@@ -203,6 +203,7 @@ class game
   void get_input();        // Gets player input and calls the proper function
   void update_scent();     // Updates the scent map
   bool is_game_over();     // Returns true if the player quit or died
+  void death_screen();     // Display our stats, "GAME OVER BOO HOO"
   void gameover();         // Ends the game
   void write_msg();        // Prints the messages in the messages list
   void draw_minimap();     // Draw the 5x5 minimap

@@ -578,8 +578,10 @@ void game::create_factions()
 // Returns true if game is over (death, saved, quit, etc)
 bool game::do_turn()
 {
- if (is_game_over())
+ if (is_game_over()) {
+  death_screen();
   return true;
+ }
  turn++;
  process_events();
  if (in_tutorial) {
@@ -650,8 +652,10 @@ bool game::do_turn()
  while (u.moves > 0) {
   draw();
   get_input();
-  if (is_game_over())
+  if (is_game_over()) {
+   death_screen();
    return true;
+  }
  }
  update_scent();
  m.process_fields(this);
@@ -677,8 +681,6 @@ bool game::do_turn()
   draw();
   refresh();
  }
- if (is_game_over())
-  return true;
  return false;
 }
 
@@ -1129,6 +1131,36 @@ bool game::is_game_over()
   if (u.hp_cur[i] < 1)
    return true;
  }
+}
+
+void game::death_screen()
+{
+ int selection = 0;
+ int num_kills = 0;
+ for (int i = 0; i < num_monsters; i++)
+  num_kills += kills[0];
+
+ WINDOW* w_death = newwin(25, 80, 0, 0);
+ mvwprintz(w_death, 0, 35, c_red, "GAME OVER - Press Spacebar to Quit");
+ mvwprintz(w_death, 2, 0, c_white, "Number of kills: %d", num_kills);
+ int line = 0, mon = 0;
+ while (line < 40 && mon < num_monsters) {
+  if (kills[mon] > 0) {
+   int y = line % 20 + 3, x = int(line / 20) * 40 + 1;
+   mvwprintz(w_death, y, x, c_white, "%s: %d", mtypes[mon]->name.c_str(),
+             kills[mon]);
+   line++;
+  }
+  mon++;
+ }
+
+ wrefresh(w_death);
+ refresh();
+ char ch;
+ do
+  ch = getch();
+ while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+ delwin(w_death);
 }
 
 bool game::load_master()
