@@ -2229,6 +2229,93 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(3);
   break;
 
+ case ot_police_north:
+ case ot_police_east:
+ case ot_police_south:
+ case ot_police_west:
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++) {
+    if ((j ==  7 && i != 17 && i != 18) ||
+        (j == 12 && i !=  0 && i != 17 && i != 18 && i != SEEX * 2 - 1) ||
+        (j == 14 && ((i > 0 && i < 6) || i == 9 || i == 13 || i == 17)) ||
+        (j == 15 && i > 17  && i < SEEX * 2 - 1) ||
+        (j == 17 && i >  0  && i < 17) ||
+        (j == 20))
+     ter(i, j) = t_wall_h;
+    else if (((i == 0 || i == SEEX * 2 - 1) && j > 7 && j < 20) ||
+             ((i == 5 || i == 10 || i == 16 || i == 19) && j > 7 && j < 12) ||
+             ((i == 5 || i ==  9 || i == 13) && j > 14 && j < 17) ||
+             (i == 17 && j > 14 && j < 20))
+     ter(i, j) = t_wall_v;
+    else if (j == 14 && i > 5 && i < 17 && i % 2 == 0)
+     ter(i, j) = t_bars;
+    else if ((i > 1 && i < 4 && j > 8 && j < 11) ||
+             (j == 17 && i > 17 && i < 21))
+     ter(i, j) = t_counter;
+    else if ((i == 20 && j > 7 && j < 12) || (j == 8 && i > 19 && i < 23) ||
+             (j == 15 && i > 0 && i < 5))
+     ter(i, j) = t_rack;
+    else if (j < 7)
+     ter(i, j) = t_pavement;
+    else if (j > 20)
+     ter(i, j) = t_sidewalk;
+    else
+     ter(i, j) = t_floor;
+   }
+  }
+  ter(17, 7) = t_door_locked;
+  ter(18, 7) = t_door_locked;
+  ter(rng( 1,  4), 12) = t_door_c;
+  ter(rng( 6,  9), 12) = t_door_c;
+  ter(rng(11, 15), 12) = t_door_c;
+  ter(rng(21, 22), 12) = t_door_c;
+  ter( 7, 14) = t_door_c;
+  ter(11, 14) = t_door_c;
+  ter(15, 14) = t_door_c;
+  ter(rng(20, 22), 15) = t_door_c;
+  ter(rng( 1,  4), 17) = t_door_c;
+  ter(17, 18) = t_door_c;
+  for (int i = 18; i < SEEX * 2 - 1; i++)
+   ter(i, 20) = t_window;
+  if (one_in(3)) {
+   for (int j = 16; j < 20; j++)
+    ter(SEEX * 2 - 1, j) = t_window;
+  }
+  rn = rng(18, 21);
+  ter(rn, 20) = t_door_c;
+  ter(rn + 1, 20) = t_door_c;
+  rn = rng(1, 5);
+  ter(rn, 20) = t_window;
+  ter(rn + 1, 20) = t_window;
+  rn = rng(10, 14);
+  ter(rn, 20) = t_window;
+  ter(rn + 1, 20) = t_window;
+  if (one_in(2)) {
+   for (int i = 6; i < 10; i++)
+    ter(i, 8) = t_counter;
+  }
+  if (one_in(3)) {
+   for (int j = 8; j < 12; j++)
+    ter(6, j) = t_counter;
+  }
+  if (one_in(3)) {
+   for (int j = 8; j < 12; j++)
+    ter(9, j) = t_counter;
+  }
+  
+  place_items(mi_kitchen,      40,  6,  8,  9, 11,    false, 0);
+  place_items(mi_cop_weapons,  70, 20,  8, 22,  8,    false, 0);
+  place_items(mi_cop_weapons,  70, 20,  8, 20, 11,    false, 0);
+  place_items(mi_cop_evidence, 60,  1, 15,  4, 15,    false, 0);
+
+  if (terrain_type == ot_police_west)
+   rotate(1);
+  if (terrain_type == ot_police_north)
+   rotate(2);
+  if (terrain_type == ot_police_east)
+   rotate(3);
+  break;
+
  case ot_set_center:
   tw = rng(4, SEEY * 2 - 5);
   lw = rng(4, SEEX * 2 - 5);

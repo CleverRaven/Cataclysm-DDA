@@ -308,6 +308,18 @@ void game::init_mapitems()
 	itm_textbook_chemistry, itm_SICP, itm_textbook_robots, NULL);
 
  setvector(
+   mapitems[mi_cop_weapons],
+	itm_baton, itm_kevlar, itm_vest, itm_gloves_leather, itm_mask_gas,
+	itm_goggles_nv, itm_helmet_riot, itm_holster, itm_bootstrap,
+	itm_shot_00, itm_9mm, itm_usp_9mm, itm_remington_870, itm_two_way_radio,
+	itm_UPS_off, itm_tazer, NULL);
+
+ setvector(
+   mapitems[mi_cop_evidence],
+	itm_weed, itm_coke, itm_meth, itm_heroin, itm_syringe, itm_electrohack,
+	itm_knife_combat, itm_crowbar, itm_tazer, NULL);
+
+ setvector(
    mapitems[mi_chemistry],
 	itm_iodine, itm_water, itm_salt_water, itm_bleach, itm_ammonia,
 	itm_mutagen, itm_purifier, itm_royal_jelly, itm_superglue,
