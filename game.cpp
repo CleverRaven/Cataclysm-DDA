@@ -1154,7 +1154,7 @@ void game::death_screen()
  int selection = 0;
  int num_kills = 0;
  for (int i = 0; i < num_monsters; i++)
-  num_kills += kills[0];
+  num_kills += kills[i];
 
  WINDOW* w_death = newwin(25, 80, 0, 0);
  mvwprintz(w_death, 0, 35, c_red, "GAME OVER - Press Spacebar to Quit");
