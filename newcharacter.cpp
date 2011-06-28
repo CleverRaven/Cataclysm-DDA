@@ -28,6 +28,8 @@
 #define COL_TR_BAD_ON		c_red      // A toggled-on bad trait
 #define COL_SKILL_USED		c_green    // A skill with at least one point
 
+#define TRAIT_CAP 3	// How many good/bad traits you can have (of each)
+
 
 void draw_tabs(WINDOW* w);
 
@@ -426,6 +428,16 @@ int set_stats(WINDOW* w, player *u, int &points)
 
 int set_traits(WINDOW* w, player *u, int &points)
 {
+// Track how many good / bad traits we have; cap both at 3
+ int num_good = 0, num_bad = 0;
+ for (int i = 0; i < PF_SPLIT; i++) {
+  if (u->has_trait(i))
+   num_good++;
+ }
+ for (int i = PF_SPLIT + 1; i < PF_MAX; i++) {
+  if (u->has_trait(i))
+   num_bad++;
+ }
 // Draw horizontal lines, with a gap for the active tab
  for (int i = 0; i < 80; i++) {
   if (i < 21 || i > 32)
@@ -594,12 +606,23 @@ int set_traits(WINDOW* w, player *u, int &points)
      if (points + traits[cur_trait].points >= 0) {
       u->toggle_trait(cur_trait);
       points += traits[cur_trait].points;
-     } else {
+      if (using_adv)
+       num_good--;
+      else
+       num_bad--;
+     } else
       mvwprintz(w,  3, 2, c_red, "Points left: %d  ", points);
-     }
-    } else if (points >= traits[cur_trait].points) {
+    } else if (using_adv && num_good >= 3)
+     popup("Sorry, but you can only take three advantages.");
+    else if (!using_adv && num_bad >= 3)
+     popup("Sorry, but you can only take three disadvantages.");
+    else if (points >= traits[cur_trait].points) {
      u->toggle_trait(cur_trait);
      points -= traits[cur_trait].points;
+     if (using_adv)
+      num_good++;
+     else
+      num_bad++;
     }
     break;
    case '<':
