@@ -1147,6 +1147,7 @@ bool game::is_game_over()
    return true;
   }
  }
+ return false;
 }
 
 void game::death_screen()
