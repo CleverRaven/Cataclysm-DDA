@@ -390,8 +390,8 @@ fivedozenwhales@gmail.com.");
      sel2++;
     if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE) {
      layer = 1;
-     for (int i = 0; i < savegames.size() + 1; i++)
-      mvwprintz(w_open, 6 + i, 12, c_black, "                                ");
+     for (int i = 0; i < 14; i++)
+      mvwprintz(w_open, 6 + i, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     }
     if (ch == 'l' || ch == '\n' || ch == '>') {
      if (sel2 > 0 && savegames.size() > 0) {
@@ -1215,24 +1215,25 @@ void game::load(std::string name)
  std::string itemdata;
  while (!fin.eof()) {
   fin >> item_place;
-  if (fin.eof())
-   return;
-  getline(fin, itemdata);
-  if (item_place == 'I')
-   u.inv.push_back(item(itemdata, this));
-  else if (item_place == 'C')
-   u.inv[u.inv.size() - 1].contents.push_back(item(itemdata, this));
-  else if (item_place == 'W')
-   u.worn.push_back(item(itemdata, this));
-  else if (item_place == 'w')
-   u.weapon = item(itemdata, this);
-  else if (item_place == 'c')
-   u.weapon.contents.push_back(item(itemdata, this));
+  if (!fin.eof()) {
+   getline(fin, itemdata);
+   if (item_place == 'I')
+    u.inv.push_back(item(itemdata, this));
+   else if (item_place == 'C')
+    u.inv[u.inv.size() - 1].contents.push_back(item(itemdata, this));
+   else if (item_place == 'W')
+    u.worn.push_back(item(itemdata, this));
+   else if (item_place == 'w')
+    u.weapon = item(itemdata, this);
+   else if (item_place == 'c')
+    u.weapon.contents.push_back(item(itemdata, this));
+  }
  }
 // And the kill counts;
  for (int i = 0; i < num_monsters; i++)
   fin >> kills[i];
  fin.close();
+ int err = unlink(playerfile.str().c_str());
 // Now load up the master game data; factions (and more?)
  load_master();
  draw();
