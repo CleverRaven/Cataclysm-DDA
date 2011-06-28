@@ -161,6 +161,7 @@ void monster::move(game *g)
  }
  if (has_effect(ME_STUNNED)) {
   stumble(g, false);
+  moves = 0;
   return;
  }
  if (friendly != 0 ||

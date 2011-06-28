@@ -529,10 +529,10 @@ void mattack::plant(game *g, monster *z)
  int j;
  if (g->m.has_flag(diggable, z->posx, z->posy)) {
   if (g->u_see(z->posx, z->posy, j))
-   g->add_msg("The %s takes seed and becomes a fungaloid!", z->name().c_str());
+   g->add_msg("The %s takes seed and becomes a young fungaloid!",
+              z->name().c_str());
   z->poly(g->mtypes[mon_fungaloid_young]);
   z->moves = -1000;	// It takes a while
-  z->sp_timeout = 100;	// New fungaloids can't reproduce for a while
  }
 }
 

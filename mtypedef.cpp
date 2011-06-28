@@ -368,7 +368,7 @@ and immediately takes root."
 mon("fungaloid",	'F',	c_ltgray,	MS_MEDIUM,	VEGGY,
 	(mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_POISON)|mfb(MF_NOHEAD)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	 12, 12,  4, 45,  8,  3,  3,  0,  0,  0,  0, 80, 60,
+	 12, 12,  4, 45,  8,  3,  3,  0,  0,  0,  0, 80, 200,
 	&mdeath::fungus,	&mattack::fungus, "\
 A pale white fungus, one meaty gray stalk\n\
 supporting a bloom at the top. A few\n\
