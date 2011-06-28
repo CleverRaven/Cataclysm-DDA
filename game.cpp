@@ -579,6 +579,7 @@ void game::create_factions()
 bool game::do_turn()
 {
  if (is_game_over()) {
+  popup_top("Game over!");
   death_screen();
   return true;
  }
@@ -653,6 +654,7 @@ bool game::do_turn()
   draw();
   get_input();
   if (is_game_over()) {
+   popup_top("Game over!");
    death_screen();
    return true;
   }

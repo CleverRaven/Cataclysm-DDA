@@ -1673,6 +1673,29 @@ void iuse::manhack(game *g, player *p, item *it, bool t)
 
 void iuse::turret(game *g, player *p, item *it, bool t)
 {
+ int dirx, diry;
+ g->draw();
+ mvprintw(0, 0, "Place where?");
+ get_direction(dirx, diry, input());
+ if (dirx == -2) {
+  g->add_msg("Invalid direction.");
+  return;
+ }
+ p->moves -= 100;
+ dirx += p->posx;
+ diry += p->posy;
+ if (!g->is_empty(dirx, diry)) {
+  g->add_msg("You cannot place a turret there.");
+  return;
+ }
+ p->i_rem(it->invlet);	// Remove the turret from the player's inv
+ monster manhack(g->mtypes[mon_turret], dirx, diry);
+ if (rng(0, p->int_cur / 2) + p->sklevel[sk_electronics] / 2 +
+     p->sklevel[sk_computer] < rng(0, 6))
+  g->add_msg("You misprogram the turret; it's hostile!");
+ else
+  manhack.friendly = -1;
+ g->z.push_back(manhack);
 }
 
 void iuse::UPS_off(game *g, player *p, item *it, bool t)
