@@ -1126,16 +1126,9 @@ bool game::is_game_over()
  if (uquit)
   return true;
  for (int i = 0; i <= hp_torso; i++) {
-  if (u.hp_cur[i] < 1) {
-   popup("You would've died just now.\n\
-But since it's an alpha test, KEEP PLAYING! (hp %d <0)\n\
-Press spacebar to be healed and relieved of pain...", i);
-   u.moves = 120;
-   u.pain = 0;
-   u.hp_cur[i] = u.hp_max[i];
-  }
+  if (u.hp_cur[i] < 1)
+   return true;
  }
- return false;
 }
 
 bool game::load_master()
