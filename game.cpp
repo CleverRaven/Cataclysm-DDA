@@ -367,9 +367,19 @@ fivedozenwhales@gmail.com.");
     if (savegames.size() == 0)
      mvwprintz(w_open, 6, 12, c_red, "No save games found!");
     else {
-     for (int i = 0; i < savegames.size(); i++)
-      mvwprintz(w_open, 6 + i, 12, (sel2 - 1 == i ? h_white : c_white),
-                savegames[i].c_str());
+     int savestart = (sel2 < 7 ?  0 : sel2 - 7),
+         saveend   = (sel2 < 7 ? 14 : sel2 + 7);
+/*
+     if (saveend > savegames.size())
+      saveend = savegames.size();
+*/
+     for (int i = savestart; i < saveend; i++) {
+      int line = 6 + i - savestart;
+      mvwprintz(w_open, line, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      if (i < savegames.size())
+       mvwprintz(w_open, line, 12, (sel2 - 1 == i ? h_white : c_white),
+                 savegames[i].c_str());
+     }
     }
     wrefresh(w_open);
     refresh();

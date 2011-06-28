@@ -589,7 +589,6 @@ void npc::make_shopkeep(game *g, oter_id type)
  update_worst_item_value();
 }
 
-
 std::vector<item> starting_clothes(npc_class type, bool male, game *g)
 {
  std::vector<item> ret;
