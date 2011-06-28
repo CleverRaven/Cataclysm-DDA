@@ -432,9 +432,9 @@ void player::disp_info(game *g)
    effect_name.push_back("Stimulant");
   std::stringstream stim_text;
   stim_text << "Speed +" << stim << "   Intelligence " <<
-               (intbonus > 0 ? "+" : "") << intbonus << "   Perception " <<
-               (perbonus > 0 ? "+" : "") << perbonus << "   Dexterity "  <<
-               (dexbonus > 0 ? "+" : "") << dexbonus;
+               (intbonus > 0 ? "+ " : "") << intbonus << "   Perception " <<
+               (perbonus > 0 ? "+ " : "") << perbonus << "   Dexterity "  <<
+               (dexbonus > 0 ? "+ " : "") << dexbonus;
   effect_text.push_back(stim_text.str());
  } else if (stim < 0) {
   effect_name.push_back("Depressants");
@@ -442,6 +442,7 @@ void player::disp_info(game *g)
   int dexpen = int(stim / 10);
   int perpen = int(stim /  7);
   int intpen = int(stim /  6);
+// Since dexpen etc. are always less than 0, no need for + signs
   stim_text << "Speed " << stim << "   Intelligence " << intpen <<
                "   Perception " << perpen << "   Dexterity " << dexpen;
   effect_text.push_back(stim_text.str());

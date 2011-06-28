@@ -170,7 +170,7 @@ game::game()
  next_mission_id = 1;
  last_target = -1;	// We haven't targeted any monsters yet
  curmes = 0;		// We haven't read any messages yet
- uquit = false;		// We haven't quit the game
+ uquit = QUIT_NO;	// We haven't quit the game
  debugmon = false;	// We're not printing debug messages
  in_tutorial = false;	// We're not in a tutorial game
  weather = WEATHER_CLEAR;
@@ -285,7 +285,7 @@ fivedozenwhales@gmail.com.");
     sel1++;
    if ((ch == 'l' || ch == '\n' || ch == '>') && sel1 > 0) {
     if (sel1 == 5) {
-     uquit = true;
+     uquit = QUIT_MENU;
      return false;
     } else if (sel1 == 4) {
      help();
@@ -439,7 +439,7 @@ fivedozenwhales@gmail.com.");
  } while (ch != 0);
  delwin(w_open);
  if (start == false)
-  uquit = true;
+  uquit = QUIT_MENU;
  return start;
 }
 
@@ -579,8 +579,10 @@ void game::create_factions()
 bool game::do_turn()
 {
  if (is_game_over()) {
-  popup_top("Game over!");
-  death_screen();
+  if (uquit == QUIT_DIED)
+   popup_top("Game over!");
+  if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
+   death_screen();
   return true;
  }
  turn++;
@@ -654,8 +656,10 @@ bool game::do_turn()
   draw();
   get_input();
   if (is_game_over()) {
-   popup_top("Game over!");
-   death_screen();
+   if (uquit == QUIT_DIED)
+    popup_top("Game over!");
+   if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
+    death_screen();
    return true;
   }
  }
@@ -1057,7 +1061,7 @@ void game::get_input()
  else if (ch == 'S' && query_yn("Save and quit?")) {
   save();
   u.moves = 0;
-  uquit = true;
+  uquit = QUIT_SAVED;
  } else if (ch == 'Q' && query_yn("Commit suicide?")) {
   u.moves = 0;
   std::vector<item> tmp = u.inv_dump();
@@ -1068,7 +1072,7 @@ void game::get_input()
   for (int i = 0; i < tmp.size(); i++)
    m.add_item(u.posx, u.posy, tmp[i]);
   m.save(&cur_om, turn, levx, levy);
-  uquit = true;
+  uquit = QUIT_SUICIDE;
  } else if (ch == '?') {
   help();
   refresh_all();
@@ -1127,11 +1131,21 @@ void game::update_scent()
 
 bool game::is_game_over()
 {
- if (uquit)
+ if (uquit != QUIT_NO)
   return true;
  for (int i = 0; i <= hp_torso; i++) {
-  if (u.hp_cur[i] < 1)
+  if (u.hp_cur[i] < 1) {
+   std::vector<item> tmp = u.inv_dump();
+   item your_body;
+   your_body.make_corpse(itypes[itm_corpse], mtypes[mon_null], turn);
+   your_body.name = u.name;
+   m.add_item(u.posx, u.posy, your_body);
+   for (int i = 0; i < tmp.size(); i++)
+    m.add_item(u.posx, u.posy, tmp[i]);
+   m.save(&cur_om, turn, levx, levy);
+   uquit = QUIT_DIED;
    return true;
+  }
  }
 }
 
@@ -2372,6 +2386,7 @@ void game::monmove()
 
 // Now, do active NPCs.
  for (int i = 0; i < active_npc.size(); i++) {
+  int turns = 0;
   if(active_npc[i].hp_cur[hp_head] <= 0 || active_npc[i].hp_cur[hp_torso] <= 0){
    active_npc[i].die(this);
    active_npc.erase(active_npc.begin() + i);
@@ -2379,8 +2394,16 @@ void game::monmove()
   } else {
    active_npc[i].reset();
    active_npc[i].suffer(this);
-   while (active_npc[i].moves > 0)
+   while (active_npc[i].moves > 0 && turns < 3) {
+    turns++;
     active_npc[i].move(this);
+   }
+   if (turns == 3) {
+    add_msg("%s's brain explodes!", active_npc[i].name.c_str());
+    active_npc[i].die(this);
+    active_npc.erase(active_npc.begin() + i);
+    i--;
+   }
   }
  }
 }

@@ -29,6 +29,14 @@ enum tut_type {
  TUT_MAX
 };
 
+enum quit_status {
+ QUIT_NO = 0,  // Still playing
+ QUIT_MENU,    // Quit at the menu
+ QUIT_SUICIDE, // Quit with 'Q'
+ QUIT_SAVED,   // Saved and quit
+ QUIT_DIED     // Actual death
+};
+
 struct mtype;
 struct mission_type;
 class map;
@@ -233,7 +241,7 @@ class game
 		 //  monsters spawns, go to 2 - No movement allowed
   int mostseen;	 // # of mons seen last turn; if this increases, run_mode++
 
-  bool uquit;    // Set to true if the player quits ('Q')
+  quit_status uquit;    // Set to true if the player quits ('Q')
 
   int nextspawn;          // The turn on which monsters will spawn next.
   int next_npc_id, next_mission_id;	// Keep track of UIDs
