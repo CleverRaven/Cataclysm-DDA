@@ -642,7 +642,9 @@ bool game::do_turn()
   if (u.radiation > 1 && one_in(3))
    u.radiation--;
   u.get_sick(this);
+// On the half-hour, we also save and update the weather.
   update_weather();
+  save();
  }
 
 // The following happens when we stay still; 10/40 minutes overdue for spawn

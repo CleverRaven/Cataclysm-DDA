@@ -265,7 +265,8 @@ void player::load_info(game *g, std::string data)
          int_cur >> int_max >> per_cur >> per_max >> power_level >>
          max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> scent >> moves >>
-         underwater >> can_dodge >> oxygen >> active_mission >> xp_pool;
+         underwater >> can_dodge >> oxygen >> active_mission >> xp_pool >>
+         male;
 
  for (int i = 0; i < PF_MAX2; i++)
   dump >> my_traits[i];
@@ -329,7 +330,7 @@ std::string player::save_info()
          " " << stim << " " << pain << " " << pkill << " " << radiation <<
          " " << cash << " " << recoil << " " << scent << " " << moves << " " <<
          underwater << " " << can_dodge << " " << oxygen << " " <<
-         active_mission << " " << xp_pool << " ";
+         active_mission << " " << xp_pool << " " << male << " ";
 
  for (int i = 0; i < PF_MAX2; i++)
   dump << my_traits[i] << " ";
