@@ -3915,9 +3915,9 @@ bool player::eat(game *g, int index)
   std::stringstream morale_text;
   if (has_trait(PF_GOURMAND)) {
    if (comest->fun < -2)
-    add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 15, comest);
+    add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 3, comest);
    else if (comest->fun > 0)
-    add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 20, comest);
+    add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 5, comest);
    if (!is_npc() && (hunger < -60 || thirst < -60))
     g->add_msg("You can't finish it all!");
    if (hunger < -60)
@@ -3926,9 +3926,9 @@ bool player::eat(game *g, int index)
     thirst = -60;
   } else {
    if (comest->fun < 0)
-    add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 15, comest);
+    add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 5, comest);
    else if (comest->fun > 0)
-    add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 15, comest);
+    add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 3, comest);
    if (!is_npc() && (hunger < -20 || thirst < -20))
     g->add_msg("You can't finish it all!");
    if (hunger < -20)
