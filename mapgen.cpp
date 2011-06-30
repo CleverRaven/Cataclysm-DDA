@@ -41,6 +41,9 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn);
 void silo_rooms(map *m);
 map_extra random_map_extra();
 
+void line(map *m, ter_id type, int x1, int y1, int x2, int y2);
+void square(map *m, ter_id type, int x1, int y1, int x2, int y2);
+
 void map::generate(game *g, overmap *om, int x, int y, int turn)
 {
  oter_id terrain_type, t_north, t_east, t_south, t_west, t_above;
@@ -2313,6 +2316,85 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   if (terrain_type == ot_police_north)
    rotate(2);
   if (terrain_type == ot_police_east)
+   rotate(3);
+  break;
+
+ case ot_bank_north:
+ case ot_bank_east:
+ case ot_bank_south:
+ case ot_bank_west:
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++)
+    ter(i, j) = grass_or_dirt();
+  }
+  square(this, t_floor, 1, 1, 22, 22);
+  line(this, t_wall_h,  1,  1, 22,  1);
+  line(this, t_wall_h,  2,  6, 19,  6);
+  line(this, t_wall_h,  2, 13, 18, 13);
+  line(this, t_wall_h,  1, 22, 22, 22);
+  line(this, t_wall_h,  9,  9, 18,  8);
+  line(this, t_wall_v,  1,  2,  1, 21);
+  line(this, t_wall_v, 22,  2, 22, 21);
+  line(this, t_wall_v, 19,  9, 19, 21);
+  line(this, t_wall_v, 13, 14, 13, 16);
+  line(this, t_wall_v, 13, 19, 13, 21);
+  line(this, t_wall_v,  8,  7,  8, 12);
+  line(this, t_wall_metal_h,  3, 14, 11, 14);
+  line(this, t_wall_metal_h,  3, 21, 11, 21);
+  line(this, t_wall_metal_v,  2, 14,  2, 21);
+  line(this, t_wall_metal_v, 12, 14, 12, 16);
+  line(this, t_wall_metal_v, 12, 19, 12, 21);
+  line(this, t_counter,  2,  4,  14,  4);
+  ter(13, 17) = t_door_metal_locked;
+  ter(13, 18) = t_door_metal_locked;
+// Front wall--glass or windows?
+  if (!one_in(4)) {
+   line(this, t_wall_glass_h, 2, 1, 21, 1);
+   if (one_in(2))
+    line(this, t_wall_glass_v, 1, 2, 1, 5); // Side glass wall for teller room
+  } else {
+   if (one_in(4))
+    line(this, t_wall_glass_v, 1, 2, 1, 5); // Side glass wall for teller room
+   rn = rng(3, 7);
+   ter(rn    , 1) = t_window;
+   ter(rn + 1, 1) = t_window;
+   rn = rng(13, 18);
+   ter(rn    , 1) = t_window;
+   ter(rn + 1, 1) = t_window;
+  }
+// Doors for offices
+  ter(8, rng(7, 8)) = t_door_c;
+  ter(rng(10, 17), 9) = t_door_c;
+  ter(19, rng(15, 20)) = t_door_c;
+// Side and back windows
+  ter(1, rng(7, 12)) = t_window;
+  ter(1, rng(7, 12)) = t_window;
+  ter(rng(14, 18), 22) = t_window;
+  if (one_in(2))
+   ter(rng(14, 18), 22) = t_window;
+  if (one_in(10))
+   line(this, t_wall_glass_v, 22, 2, 22, 21); // Right side is glass wall!
+  else {
+   rn = rng(7, 12);
+   ter(22, rn    ) = t_window;
+   ter(22, rn + 1) = t_window;
+   rn = rng(13, 19);
+   ter(22, rn    ) = t_window;
+   ter(22, rn + 1) = t_window;
+  }
+// Finally, place the front doors.
+  ter(10, 1) = t_door_c;
+  ter(11, 1) = t_door_c;
+  place_items(mi_office,       60,  2,  7,  7, 12,    false, 0);
+  place_items(mi_office,       60,  9, 10, 18, 12,    false, 0);
+  place_items(mi_office,       70, 14, 14, 18, 21,    false, 0);
+  place_items(mi_vault,        15,  3, 15, 11, 20,    false, 0);
+
+  if (terrain_type == ot_bank_east)
+   rotate(1);
+  if (terrain_type == ot_bank_south)
+   rotate(2);
+  if (terrain_type == ot_bank_west)
    rotate(3);
   break;
 
@@ -4848,5 +4930,21 @@ void map::add_extra(map_extra type, game *g)
  }
  break;
 
+ }
+}
+
+void line(map *m, ter_id type, int x1, int y1, int x2, int y2)
+{
+ std::vector<point> line = line_to(x1, y1, x2, y2, 0);
+ for (int i = 0; i < line.size(); i++)
+  m->ter(line[i].x, line[i].y) = type;
+ m->ter(x1, y1) = type;
+}
+
+void square(map *m, ter_id type, int x1, int y1, int x2, int y2)
+{
+ for (int x = x1; x <= x2; x++) {
+  for (int y = y1; y <= y2; y++)
+   m->ter(x, y) = type;
  }
 }

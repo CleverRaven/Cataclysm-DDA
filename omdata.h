@@ -57,6 +57,7 @@ enum oter_id {
  ot_sub_station_north, ot_sub_station_east, ot_sub_station_south,
   ot_sub_station_west,
  ot_police_north, ot_police_east, ot_police_south, ot_police_west,
+ ot_bank_north, ot_bank_east, ot_bank_south, ot_bank_west,
 // Goodies/dungeons
  ot_lab, ot_lab_stairs, ot_lab_core, ot_lab_finale,
  ot_nuke_plant_entrance, ot_nuke_plant, // TODO
@@ -191,6 +192,10 @@ const oter_t oterlist[num_ter_types] = {
 {"police station",	'>',	c_dkgray,	5, false},
 {"police station",	'v',	c_dkgray,	5, false},
 {"police station",	'<',	c_dkgray,	5, false},
+{"bank",		'^',	c_ltgray,	5, false},
+{"bank",		'>',	c_ltgray,	5, false},
+{"bank",		'v',	c_ltgray,	5, false},
+{"bank",		'<',	c_ltgray,	5, false},
 {"science lab",		'L',	c_ltblue,	5, false},
 {"science lab",		'L',	c_blue,		5, false},
 {"science lab",		'L',	c_ltblue,	5, false},

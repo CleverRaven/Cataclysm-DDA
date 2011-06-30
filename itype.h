@@ -52,7 +52,7 @@ itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
  itm_pan, itm_knife_butter, itm_knife_steak, itm_knife_butcher,
  itm_knife_combat, itm_2x4, itm_muffler, itm_pipe, itm_bat, itm_machete,
  itm_katana, itm_spear_wood, itm_spear_knife, itm_baton, itm_bee_sting,
- itm_wasp_sting, itm_chitin_piece, itm_canister_empty,
+ itm_wasp_sting, itm_chitin_piece, itm_canister_empty, itm_gold,
 // Footwear
 itm_sneakers, itm_boots, itm_boots_steel, itm_boots_winter, itm_mocassins,
  itm_flip_flops, itm_dress_shoes, itm_heels, 

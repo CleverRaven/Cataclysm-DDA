@@ -50,7 +50,7 @@ Water, the stuff of life, the best thirst-quencher available.");
 
 DRINK("salt water",	20,  5,	c_ltcyan, itm_bottle_plastic,
 	-30, 0,  0,  0,  1,  0,  1, -1,&iuse::none,	ADD_NULL, "\
-Wayer with salt added.  Not good for drinking.");
+Water with salt added.  Not good for drinking.");
 
 DRINK("orange juice",	50, 38,	c_yellow, itm_bottle_plastic,
 	35,  4,120,  0,  2,  0,  1,  0,&iuse::none,	ADD_NULL, "\
@@ -415,7 +415,7 @@ MED("Adderall",		10,750,	c_cyan,		itm_null,
 //	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	PLASTIC, 24,  0, 10, 40, 10,&iuse::none,	ADD_SPEED, "\
 A strong stimulant prescribed for ADD.  It will greatly increase your\n\
-stimulant leve, but is quite addictive.");
+stimulant level, but is quite addictive.");
 
 MED("Thorazine",	 7,500,	c_cyan,		itm_null,
 	PLASTIC,  0,  0,  0, 15,  0,&iuse::thorazine,	ADD_NULL, "\
@@ -740,6 +740,11 @@ A piece of an insect's exoskeleton.  It is light and very durable.");
 MELEE("empty canister",  5,  20,'*', c_ltgray,	STEEL,	MNULL,
 	 1,  1,  2,  0, -1, 0, "\
 An empty cansiter, which may have once held tear gas or other substances.");
+
+MELEE("gold bar",	 2,3000,',', c_yellow,	STEEL,	MNULL,
+	 2, 60, 14,  0, -1, 0, "\
+A large bar of gold.  Before the apocalypse, this wouldn't been worth a small\n\
+fortune; now its value is greatly diminished.");
 
 // ARMOR
 #define ARMOR(name,rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\

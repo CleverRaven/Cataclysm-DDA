@@ -18,6 +18,7 @@ enum items_location {
  mi_shoes, mi_pants, mi_shirts, mi_jackets, mi_winter, mi_bags, mi_allclothes,
  mi_novels, mi_manuals, mi_textbooks,
  mi_cop_weapons, mi_cop_evidence,
+ mi_office, mi_vault,
  mi_chemistry, mi_teleport, mi_goo, mi_cloning_vat, mi_dissection,
  mi_hydro, mi_electronics, mi_monparts, mi_bionics,
  mi_weapons, mi_survival_armor, mi_survival_tools,
