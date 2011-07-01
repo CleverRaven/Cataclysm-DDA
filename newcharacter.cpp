@@ -116,7 +116,7 @@ bool player::create(game *g, character_type type)
   points = points - str_max - dex_max - int_max - per_max;
   int num_gtraits = 0, num_btraits = 0, rn, tries;
   while (points < 0 || rng(-3, 20) > points) {
-   if (num_btraits < 5 && one_in(3)) {
+   if (num_btraits < TRAIT_CAP && one_in(3)) {
     num_btraits++;
     tries = 0;
     do {
@@ -137,7 +137,7 @@ bool player::create(game *g, character_type type)
    }
   }
   while (points > 0) {
-   switch (rng((num_gtraits < 5 ? 1 : 5), 9)) {
+   switch (rng((num_gtraits < TRAIT_CAP ? 1 : 5), 9)) {
    case 1:
    case 2:
    case 3:

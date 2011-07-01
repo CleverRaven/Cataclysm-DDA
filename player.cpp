@@ -3590,7 +3590,7 @@ void player::use_charges(itype_id it, int quantity)
    weapon.contents[0].charges = 0;
  }
 
- for (int i = 0; i < inv.size(); i++) {
+ for (int i = 0; i < inv.size() && used < quantity; i++) {
   int local_used = 0;
   if (inv[i].type->id == it) { 
    local_used = inv[i].charges;
