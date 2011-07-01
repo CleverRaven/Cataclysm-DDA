@@ -3768,7 +3768,10 @@ bool player::eat(game *g, int index)
  item *eaten = NULL;
  int which = -3; // Helps us know how to delete the item which got eaten
  int linet;
- if (index == -1) {
+ if (index == -2) {
+  g->add_msg("You do not have that item.");
+  return false;
+ } else if (index == -1) {
   if (weapon.is_food_container(this)) {
    eaten = &weapon.contents[0];
    which = -2;

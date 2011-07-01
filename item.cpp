@@ -687,6 +687,7 @@ bool item::is_food(player *u)
 
 bool item::is_food_container(player *u)
 {
+ debugmsg("%d", contents.size());
  return (contents.size() >= 1 && contents[0].is_food(u));
 }
 
