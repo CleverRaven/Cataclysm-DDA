@@ -426,7 +426,7 @@ mon("small blob",	'o',	c_dkgray,	MS_SMALL,	LIQUID,
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	  1,  2,  5, 50,  6,  1,  4,  0,  0,  0,  0, 50, 0,
 	&mdeath::blobsplit,	&mattack::none, "\
-A small blob of viscous good that oozes\n\
+A small blob of viscous goo that oozes\n\
 across the ground like a mass of living\n\
 oil."
 );

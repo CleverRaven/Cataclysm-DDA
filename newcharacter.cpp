@@ -103,7 +103,7 @@ bool player::create(game *g, character_type type)
   points = points - str_max - dex_max - int_max - per_max;
   int num_gtraits = 0, num_btraits = 0, rn, tries;
   while (points < 0 || rng(-3, 20) > points) {
-   if (num_btraits < 5 && one_in(3)) {
+   if (num_btraits < TRAIT_CAP && one_in(3)) {
     num_btraits++;
     tries = 0;
     do {
@@ -124,7 +124,7 @@ bool player::create(game *g, character_type type)
    }
   }
   while (points > 0) {
-   switch (rng((num_gtraits < 5 ? 1 : 5), 9)) {
+   switch (rng((num_gtraits < TRAIT_CAP ? 1 : 5), 9)) {
    case 1:
    case 2:
    case 3:
@@ -216,15 +216,22 @@ End of cheatery */
  ret_null = item(g->itypes[0], 0);
  weapon   = item(g->itypes[0], 0);
 // Nice to start out less than naked.
- worn.push_back(item(g->itypes[itm_jeans], 0, 'a'));
- worn.push_back(item(g->itypes[itm_tshirt], 0, 'b'));
- worn.push_back(item(g->itypes[itm_sneakers], 0, 'c'));
+ item tmp(g->itypes[itm_jeans], 0, 'a');
+ worn.push_back(tmp);
+ tmp = item(g->itypes[itm_tshirt], 0, 'b');
+ worn.push_back(tmp);
+ tmp = item(g->itypes[itm_sneakers], 0, 'c');
+ worn.push_back(tmp);
 // The near-sighted get to start with glasses.
- if (has_trait(PF_MYOPIC))
-  worn.push_back(item(g->itypes[itm_glasses_eye], 0, 'd'));
+ if (has_trait(PF_MYOPIC)) {
+  tmp = item(g->itypes[itm_glasses_eye], 0, 'd');
+  worn.push_back(tmp);
+ }
 // Likewise, the asthmatic start with their medication.
- if (has_trait(PF_ASTHMA))
-  inv.push_back(item(g->itypes[itm_inhaler], 0, worn[worn.size()-1].invlet +1));
+ if (has_trait(PF_ASTHMA)) {
+  tmp = item(g->itypes[itm_inhaler], 0, 'a' + worn.size());
+  inv.push_back(tmp);
+ }
  return true;
 }
 

@@ -61,7 +61,10 @@ bool is_wall_material(oter_id ter)
 oter_id shop(int dir)
 {
  oter_id ret = ot_s_lot;
- switch (rng(0, 11)) {
+ int type = rng(0, 11);
+ if (one_in(20))
+  type = 12;
+ switch (type) {
   case  0: ret = ot_s_lot;	       break;
   case  1: ret = ot_s_gas_north;       break;
   case  2: ret = ot_s_pharm_north;     break;
@@ -73,7 +76,8 @@ oter_id shop(int dir)
   case  8: ret = ot_s_clothes_north;   break;
   case  9: ret = ot_s_library_north;   break;
   case 10: ret = ot_sub_station_north; break;
-  case 11: ret = ot_police_north;      break;
+  case 11: ret = ot_bank_north;        break;
+  case 12: ret = ot_police_north;      break;
  }
  if (ret == ot_s_lot)
   return ret;
@@ -1168,7 +1172,7 @@ void overmap::put_buildings(int x, int y, int dir, city town)
  int ychange = dir % 2, xchange = (dir + 1) % 2;
  for (int i = -1; i <= 1; i += 2) {
   if ((ter(x+i*xchange, y+i*ychange) == ot_field) && !one_in(STREETCHANCE)) {
-   if (rng(0, 99) > 100 * dist(x,y,town.x,town.y) / town.s)
+   if (rng(0, 99) > 80 * dist(x,y,town.x,town.y) / town.s)
     ter(x+i*xchange, y+i*ychange) = shop(((dir%2)-i)%4);
    else
     ter(x+i*xchange, y+i*ychange) = house(((dir%2)-i)%4);

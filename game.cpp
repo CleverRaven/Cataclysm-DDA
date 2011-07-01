@@ -614,7 +614,9 @@ bool game::do_turn()
   if (u.radiation > 1 && one_in(3))
    u.radiation--;
   u.get_sick(this);
+// On the half-hour, we also save and update the weather.
   update_weather();
+  save();
  }
 
 // The following happens when we stay still; 10/40 minutes overdue for spawn
@@ -1124,6 +1126,9 @@ bool game::is_game_over()
 
 void game::death_screen()
 {
+ std::stringstream playerfile;
+ playerfile << "save/" << u.name << ".sav";
+ int err = unlink(playerfile.str().c_str());
  int selection = 0;
  int num_kills = 0;
  for (int i = 0; i < num_monsters; i++)
@@ -1247,7 +1252,6 @@ void game::load(std::string name)
  for (int i = 0; i < num_monsters; i++)
   fin >> kills[i];
  fin.close();
- int err = unlink(playerfile.str().c_str());
 // Now load up the master game data; factions (and more?)
  load_master();
  draw();

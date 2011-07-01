@@ -320,6 +320,17 @@ void game::init_mapitems()
 	itm_knife_combat, itm_crowbar, itm_tazer, NULL);
 
  setvector(
+   mapitems[mi_office],
+	itm_cola, itm_aspirin, itm_glasses_eye, itm_glasses_reading, itm_purse,
+	itm_mbag, itm_battery, itm_mag_news, itm_manual_business,
+	itm_textbook_business, itm_lighter, itm_extinguisher, itm_flashlight,
+	itm_radio, itm_bubblewrap, NULL);
+
+ setvector(
+   mapitems[mi_vault],
+	itm_gold, NULL);
+
+ setvector(
    mapitems[mi_chemistry],
 	itm_iodine, itm_water, itm_salt_water, itm_bleach, itm_ammonia,
 	itm_mutagen, itm_purifier, itm_royal_jelly, itm_superglue,
