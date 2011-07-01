@@ -1784,7 +1784,7 @@ void game::refresh_all()
 {
  draw();
  draw_minimap();
- werase(w_HP);
+ werase(w_HP); // fix by headswe
  draw_HP();
  wrefresh(w_moninfo);
  wrefresh(w_messages);
