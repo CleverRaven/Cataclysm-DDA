@@ -4223,18 +4223,10 @@ void game::complete_butcher(int index)
  else {
   itype* meat;
   if (corpse->flags & mfb(MF_POISON)) {
-   if (rng(3, 10) < skill_shift) {
-    add_msg("Your skillful butchering eliminates the poison!");
-    if (corpse->mat == FLESH)
-     meat = itypes[itm_meat];
-    else
-     meat = itypes[itm_veggy];
-   } else {
     if (corpse->mat == FLESH)
      meat = itypes[itm_meat_tainted];
     else
      meat = itypes[itm_veggy_tainted];
-   }
   } else {
    if (corpse->mat == FLESH)
     meat = itypes[itm_meat];

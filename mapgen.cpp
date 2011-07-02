@@ -3229,7 +3229,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     ter(i, 5) = t_rack;
     ter(i, 9) = t_rack;
    }
-   place_items(mi_allguns, 92, 2, 1, SEEX * 2 - 3, 1, false, 0);
+   place_items(mi_allguns, 80, 2, 1, SEEX * 2 - 3, 1, false, 0);
    place_items(mi_ammo,    94, 2, 5, SEEX * 2 - 3, 5, false, 0);
    place_items(mi_weapons, 88, 2, 9, SEEX * 2 - 3, 9, false, 0);
    ter(SEEX - 1, SEEY * 2 - 2) = t_stairs_up;

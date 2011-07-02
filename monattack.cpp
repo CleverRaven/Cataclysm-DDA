@@ -58,7 +58,7 @@ void mattack::shriek(game *g, monster *z)
 void mattack::acid(game *g, monster *z)
 {
  int junk;
- if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 12 ||
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 10 ||
      !g->sees_u(z->posx, z->posy, junk))
   return;	// Out of range
  z->moves = -300;			// It takes a while
@@ -83,7 +83,8 @@ void mattack::acid(game *g, monster *z)
 void mattack::shockstorm(game *g, monster *z)
 {
  int t;
- if (!g->sees_u(z->posx, z->posy, t))
+ if (!g->sees_u(z->posx, z->posy, t) ||
+     rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 12)
   return;	// Can't see you, no attack
  z->moves = -50;			// It takes a while
  z->sp_timeout = z->type->sp_freq;	// Reset timer

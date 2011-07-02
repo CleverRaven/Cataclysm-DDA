@@ -47,7 +47,7 @@ int calc_HP(int strength, bool tough);
 bool player::create(game *g, character_type type)
 {
  WINDOW* w = newwin(25, 80, 0, 0);
- int tab = 0, points = 36;
+ int tab = 0, points = 38;
  if (type != PLTYPE_CUSTOM) {
   switch (type) {
   case PLTYPE_RANDOM:
