@@ -7,19 +7,17 @@
 #include <vector>
 
 //      LINE_NESW  - X for on, O for off
-#ifndef LINE_XOXO
-#define LINE_XOXO ACS_VLINE
-#define LINE_OXOX ACS_HLINE
-#define LINE_XXOO ACS_LLCORNER
-#define LINE_OXXO ACS_ULCORNER
-#define LINE_OOXX ACS_URCORNER
-#define LINE_XOOX ACS_LRCORNER
-#define LINE_XXXO ACS_RTEE
-#define LINE_XXOX ACS_BTEE
-#define LINE_XOXX ACS_LTEE
-#define LINE_OXXX ACS_TTEE
-#define LINE_XXXX ACS_PLUS
-#endif
+#define LINE_XOXO 4194424
+#define LINE_OXOX 4194417
+#define LINE_XXOO 4194413
+#define LINE_OXXO 4194412
+#define LINE_OOXX 4194411
+#define LINE_XOOX 4194410
+#define LINE_XXXO 4194420
+#define LINE_XXOX 4194422
+#define LINE_XOXX 4194421
+#define LINE_OXXX 4194423
+#define LINE_XXXX 4194414
 
 void mvputch(int y, int x, nc_color FG, long ch);
 void wputch(WINDOW* w, nc_color FG, long ch);

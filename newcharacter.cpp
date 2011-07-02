@@ -5,6 +5,19 @@
 #include "game.h"
 #include <unistd.h>
 
+// ncurses has not yet been initialized, so we need to define our line chars
+#define LINE_XOXO 4194424
+#define LINE_OXOX 4194417
+#define LINE_XXOO 4194413
+#define LINE_OXXO 4194412
+#define LINE_OOXX 4194411
+#define LINE_XOOX 4194410
+#define LINE_XXXO 4194420
+#define LINE_XXOX 4194422
+#define LINE_XOXX 4194421
+#define LINE_OXXX 4194423
+#define LINE_XXXX 4194414
+
 // Colors used in this file: (Most else defaults to c_ltgray)
 #define COL_STAT_ACT		c_ltred    // Selected stat
 #define COL_TR_GOOD		c_green    // Good trait descriptive text
@@ -175,7 +188,7 @@ bool player::create(game *g, character_type type)
 
  if (tab < 0)
   return false;
-
+ 
  // Character is finalized.  Now just set up HP, &c
  for (int i = 0; i < num_hp_parts; i++) {
   hp_max[i] = calc_HP(str_max, has_trait(PF_TOUGH));
@@ -268,8 +281,8 @@ void draw_tabs(WINDOW* w)
  mvwputch(w, 1,57, c_ltgray, LINE_XOXO);
  mvwputch(w, 1,73, c_ltgray, LINE_XOXO);
 }
-
-
+  
+ 
 
 int set_stats(WINDOW* w, player *u, int &points)
 {
@@ -376,7 +389,7 @@ int set_stats(WINDOW* w, player *u, int &points)
    mvwprintz(w,11, 33, COL_STAT_ACT, "                                            ");
    break;
   }
-
+ 
   wrefresh(w);
   ch = input();
   if (ch == 'j' && sel < 4)
@@ -648,7 +661,7 @@ int set_skills(WINDOW* w, player *u, int &points)
  mvwputch(w, 2,57, c_ltgray, LINE_XXOX);
  mvwputch(w, 2,73, c_ltgray, LINE_XXOX);
  mvwprintz(w,1,40, h_ltgray, "  SKILLS  ");
-
+ 
  int cur_sk = 1;
 
  do {
@@ -714,7 +727,7 @@ int set_skills(WINDOW* w, player *u, int &points)
     }
    }
   }
-
+   
   wrefresh(w);
   switch (input()) {
    case 'j':
@@ -776,7 +789,7 @@ Gender: Male Female                      (Press spacebar to toggle)");
 When your character is finished and you're ready to start playing, press '>'.");
  mvwprintz(w,12, 2, c_ltgray, "\
 To go back and review your character, press '<'.");
-
+ 
  int line = 1;
  bool noname = false;
  long ch;
