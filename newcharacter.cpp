@@ -171,7 +171,7 @@ bool player::create(game *g, character_type type)
   }
   tab = 3;
  } else
-  points = 4;
+  points = 6;
 
  do {
   werase(w);
