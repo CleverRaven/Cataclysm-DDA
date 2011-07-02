@@ -33,9 +33,16 @@ item::item(itype* it, unsigned int turn)
  invlet = 0;
  damage = 0;
  active = false;
- if (it->is_gun()) {
+ curammo = NULL;
+ corpse = NULL;
+ owned = false;
+ mission_id = -1;
+ player_id = -1;
+ if (it == NULL)
+  return;
+ if (it->is_gun())
   charges = 0;
- } else if (it->is_ammo()) {
+ else if (it->is_ammo()) {
   it_ammo* ammo = dynamic_cast<it_ammo*>(it);
   charges = ammo->count;
  } else if (it->is_food()) {
@@ -50,14 +57,8 @@ item::item(itype* it, unsigned int turn)
    charges = -1;
   else
    charges = tool->def_charges;
- } else {
+ } else
   charges = -1;
- }
- curammo = NULL;
- corpse = NULL;
- owned = false;
- mission_id = -1;
- player_id = -1;
 }
 
 item::item(itype *it, unsigned int turn, char let)
@@ -687,7 +688,6 @@ bool item::is_food(player *u)
 
 bool item::is_food_container(player *u)
 {
- debugmsg("%d", contents.size());
  return (contents.size() >= 1 && contents[0].is_food(u));
 }
 

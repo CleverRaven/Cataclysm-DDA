@@ -3582,12 +3582,16 @@ void player::use_charges(itype_id it, int quantity)
    weapon.charges = used - quantity;
   else
    weapon.charges = 0;
+  if (weapon.charges == 0 && !weapon.is_tool())
+   remove_weapon();
  } else if (weapon.contents.size() > 0 && weapon.contents[0].type->id == it) {
   used += weapon.contents[0].charges;
   if (used > quantity)
    weapon.contents[0].charges = used - quantity;
   else
    weapon.contents[0].charges = 0;
+  if (weapon.contents[0].charges == 0 && !weapon.contents[0].is_tool())
+   weapon.contents.erase(weapon.contents.begin());
  }
 
  for (int i = 0; i < inv.size() && used < quantity; i++) {
@@ -3598,6 +3602,10 @@ void player::use_charges(itype_id it, int quantity)
     inv[i].charges = local_used - quantity;
    else
     inv[i].charges = 0;
+   if (inv[i].charges == 0 && !inv[i].is_tool()) {
+    inv.erase(inv.begin() + i);
+    i--;
+   }
   } else if (inv[i].contents.size() > 0 &&
              inv[i].contents[0].type->id == it) {
    local_used = inv[i].contents[0].charges;
@@ -3605,6 +3613,8 @@ void player::use_charges(itype_id it, int quantity)
     inv[i].contents[0].charges = local_used - quantity;
    else
     inv[i].contents[0].charges = 0;
+   if (inv[i].contents[0].charges == 0 && !inv[i].contents[0].is_tool())
+    inv[i].contents.erase(inv[i].contents.begin());
   }
   used += local_used;
  }
@@ -3915,12 +3925,11 @@ bool player::eat(game *g, int index)
    if (comest->nutr >= 2)
     hunger += int(comest->nutr * .75);
   }
-  std::stringstream morale_text;
   if (has_trait(PF_GOURMAND)) {
    if (comest->fun < -2)
-    add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 3, comest);
+    add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, comest);
    else if (comest->fun > 0)
-    add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 5, comest);
+    add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, comest);
    if (!is_npc() && (hunger < -60 || thirst < -60))
     g->add_msg("You can't finish it all!");
    if (hunger < -60)
@@ -3929,9 +3938,9 @@ bool player::eat(game *g, int index)
     thirst = -60;
   } else {
    if (comest->fun < 0)
-    add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 5, comest);
+    add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, comest);
    else if (comest->fun > 0)
-    add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 3, comest);
+    add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, comest);
    if (!is_npc() && (hunger < -20 || thirst < -20))
     g->add_msg("You can't finish it all!");
    if (hunger < -20)

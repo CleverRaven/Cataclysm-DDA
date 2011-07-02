@@ -3,8 +3,8 @@
 
 #include <string>
 
-#define MIN_MORALE_READ		(-20)
-#define MIN_MORALE_CRAFT	(-15)
+#define MIN_MORALE_READ		(-40)
+#define MIN_MORALE_CRAFT	(-50)
 
 enum morale_type
 {
