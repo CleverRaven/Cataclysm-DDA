@@ -1,20 +1,6 @@
 #include "game.h"
 #include "keypress.h"
 
-#ifndef LINE_XOXO
-	#define LINE_XOXO 4194424
-	#define LINE_OXOX 4194417
-	#define LINE_XXOO 4194413
-	#define LINE_OXXO 4194412
-	#define LINE_OOXX 4194411
-	#define LINE_XOOX 4194410
-	#define LINE_XXXO 4194420
-	#define LINE_XXOX 4194422
-	#define LINE_XOXX 4194421
-	#define LINE_OXXX 4194423
-	#define LINE_XXXX 4194414
-#endif
-
 void game::help()
 {
  char ch;
@@ -46,7 +32,7 @@ m: Survival tips\n\
 5: Frequently Asked Questions (Some spoilers!)\n\
 \n\
 q: Return to game");
- 
+
   ch = getch();
   switch (ch) {
   case 'a':
@@ -67,7 +53,7 @@ setting makes some tasks easier. Firearms, medications, and a wide variety of\n\
 tools are all available to help you survive.");
    getch();
    break;
- 
+
   case 'b':
   case 'B':
    erase();
@@ -492,7 +478,7 @@ F           Forest - May be dense or sparse.  Slow moving; foragable food.");
    mvputch(3,  8, c_dkgray, LINE_XOXX);
    mvputch(3,  9, c_dkgray, LINE_OXXX);
    mvputch(3, 10, c_dkgray, LINE_XXXX);
- 
+
    mvprintz( 3, 12, c_dkgray,  "\
 Road - Safe from burrowing animals.");
    mvprintz( 4, 0, c_dkgray,  "\

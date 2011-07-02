@@ -25,7 +25,9 @@ int main(int argc, char *argv[])
  while (!g.do_turn());
  erase();
  endwin();
+ #if !(defined _WIN32 || defined __WIN32__) || defined __CYGWIN__
  system("clear");
+ #endif
  return 0;
 }
 
