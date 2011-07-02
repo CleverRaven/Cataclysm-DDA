@@ -2416,8 +2416,10 @@ void game::check_warmth()
   add_msg("Your head is cold.");
   u.add_disease(DI_COLD, abs(warmth * 2), this);
  } else if (warmth >= 8) {
+/*
   add_msg("Your head is overheating!");
   u.add_disease(DI_HOT, warmth * 1.5, this);
+*/
  }
  // FACE -- Mouth and eyes
  warmth = u.warmth(bp_eyes) + u.warmth(bp_mouth) + int((temperature - 65) / 10);
@@ -2442,8 +2444,10 @@ void game::check_warmth()
   add_msg("Your body is cold.");
   u.add_disease(DI_COLD, abs(warmth), this);
  } else if (warmth >= 12) {
-  add_msg("Your body is too hot.");
+/*
+  add_msg("Your body is too hot."); 
   u.add_disease(DI_HOT, warmth * 2, this);
+*/
  }
  // HANDS
  warmth = u.warmth(bp_hands) + int((temperature - 65) / 10);
@@ -2463,8 +2467,10 @@ void game::check_warmth()
   add_msg("Your legs are very cold.");
   u.add_disease(DI_COLD_LEGS, abs(warmth), this);
  } else if (warmth >= 8) {
+/*
   add_msg("Your legs are overheating!");
   u.add_disease(DI_HOT, rng(0, warmth), this);
+*/
  }
  // FEET
  warmth = u.warmth(bp_feet) + int((temperature - 65) / 10);
@@ -2486,7 +2492,7 @@ void game::sound(int x, int y, int vol, std::string description)
    dist = trig_dist(x, y, z[i].posx, z[i].posy);
    if (z[i].has_flag(MF_GOODHEARING) && int(dist) >> 1 <= vol)
     z[i].wander_to(x, y, int(vol - (int(dist) >> 1)));
-   else if (dist <= vol && dist >= 2) // Adjacent sounds are likely cause by us
+   else if (dist <= vol && dist >= 2) // Adjacent sounds are likely caused by us
     z[i].wander_to(x, y, int(vol - dist));
   }
  }
@@ -2502,9 +2508,9 @@ void game::sound(int x, int y, int vol, std::string description)
  if (description == "")
   return;	// No description (e.g., footsteps)
  if (u.has_bionic(bio_ears))
-  vol = vol * 3.5;
+  vol *= 3.5;
  if (u.has_trait(PF_BADHEARING))
-  vol = vol * .5;
+  vol *= .5;
  dist = trig_dist(x, y, u.posx, u.posy);
  if (dist > vol)
   return;	// Too far away, we didn't hear it!
@@ -3868,6 +3874,7 @@ char game::inv(std::string title)
            !u.inv[i].is_gunmod() && !u.inv[i].is_food_container())
    first_other = i;
  }
+// Print our header
  mvwprintw(w_inv, 0, 0, title.c_str());
  mvwprintw(w_inv, 0, 40, "Weight: ");
  if (u.weight_carried() >= u.weight_capacity() * .25)
@@ -3882,15 +3889,17 @@ char game::inv(std::string title)
  else
   wprintz(w_inv, c_ltgray, "%d", u.volume_carried());
  wprintw(w_inv, "/%d", u.volume_capacity() - 2);
+// Print our weapon
  mvwprintz(w_inv, 2, 40, c_magenta, "WEAPON:");
  mvwprintw(w_inv, 3, 42, u.weapname().c_str());
  if (u.is_armed())
   mvwputch(w_inv, 3, 40, c_white, u.weapon.invlet);
+// Print worn items
  if (u.worn.size() > 0)
   mvwprintz(w_inv, 5, 40, c_magenta, "ITEMS WORN:");
  for (int i = 0; i < u.worn.size(); i++) {
   mvwputch(w_inv, 6 + i, 40, c_white, u.worn[i].invlet);
-  mvwprintw(w_inv, 6 + i, 42, " %s", u.worn[i].tname(this).c_str());
+  mvwprintw(w_inv, 6 + i, 41, " %s", u.worn[i].tname(this).c_str());
  }
 
 
