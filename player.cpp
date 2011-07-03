@@ -805,11 +805,12 @@ Dexterity -%d when throwing items", encumb(bp_hands) * 30, encumb(bp_hands));
    } else if (line == 5) {
     mvwprintz(w_encumb, 7, 2, h_ltgray, "Legs");
     std::string sign = (encumb(bp_legs) >= 0 ? "+" : "");
+    std::string osign = (encumb(bp_legs) < 0 ? "+" : "-");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Running costs %s%d movement points;  Swimming costs %s%d movement points;\n\
 Dodge skill %s%.1f", sign.c_str(), encumb(bp_legs) * 3,
                      sign.c_str(), encumb(bp_legs) *(50 - sklevel[sk_swimming]),
-                     sign.c_str(), double(double(encumb(bp_legs)) / 2));
+                     osign.c_str(), double(double(encumb(bp_legs)) / 2));
    } else if (line == 6) {
     mvwprintz(w_encumb, 8, 2, h_ltgray, "Feet");
     mvwprintz(w_info, 0, 0, c_magenta, "\
