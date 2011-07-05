@@ -297,10 +297,10 @@ int player::hit_mon(game *g, monster *z)
     z->add_effect(ME_STUNNED, turns_stunned);
    }
    if (cutting) {
-    double cut_multiplier = 3 * double(sklevel[sk_cutting] / 12);
-    if (cut_multiplier > 3)
-     cut_multiplier = 3;
-    dam += 3 * weapon.type->melee_cut;
+    double cut_multiplier = double(sklevel[sk_cutting] / 12);
+    if (cut_multiplier > 1.5)
+     cut_multiplier = 1.5;
+    dam += cut_multiplier * weapon.type->melee_cut;
     headshot &= z->hp < dam;
     if (stabbing) {
      if (headshot && can_see)
