@@ -598,7 +598,7 @@ void iuse::lighter(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
  g->draw();
- mvprintw(0, 0, "Place where?");
+ mvprintw(0, 0, "Light where?");
  get_direction(dirx, diry, input());
  if (dirx == -2) {
   g->add_msg("Invalid direction.");

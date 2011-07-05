@@ -394,11 +394,11 @@ void game::init_recipes()
   TOOL(itm_sewing_kit, 8, NULL);
   COMP(itm_fur, 3, NULL);
 
- RECIPE(itm_helmet_chitin, CC_ARMOR, sk_tailor, sk_null, 6, 200000);
+ RECIPE(itm_helmet_chitin, CC_ARMOR, sk_tailor, sk_null, 6,  60000);
   COMP(itm_string_36, 1, itm_string_6, 5, NULL);
   COMP(itm_chitin_piece, 5, NULL);
 
- RECIPE(itm_armor_chitin, CC_ARMOR, sk_tailor, sk_null,  7, 500000);
+ RECIPE(itm_armor_chitin, CC_ARMOR, sk_tailor, sk_null,  7, 100000);
   COMP(itm_string_36, 2, itm_string_6, 12, NULL);
   COMP(itm_chitin_piece, 15, NULL);
 
