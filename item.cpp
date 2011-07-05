@@ -718,12 +718,12 @@ bool item::is_weap()
 
 bool item::is_bashing_weapon()
 {
- return (type->melee_dam > 7);
+ return (type->melee_dam >= 8);
 }
 
 bool item::is_cutting_weapon()
 {
- return (type->melee_cut > 5);
+ return (type->melee_cut >= 8 && !has_weapon_flag(WF_SPEAR));
 }
 
 bool item::is_armor()

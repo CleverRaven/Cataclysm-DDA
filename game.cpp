@@ -764,7 +764,7 @@ void game::process_activity()
     if (u.weapon.is_gun() && reloading->ammo != AT_BB &&
         reloading->ammo != AT_NAIL && one_in(u.sklevel[reloading->skill_used]))
      u.practice(reloading->skill_used, rng(2, 6));
-    if (u.weapon.is_gun() && reloading->skill_used == sk_shotgun) {
+    if (u.weapon.is_gun() && reloading->weapon_flags & mfb(WF_RELOAD_ONE)) {
      add_msg("You insert a cartridge into your %s.",
              u.weapon.tname(this).c_str());
      if (u.recoil < 8)
@@ -4992,6 +4992,7 @@ void game::spawn_mon(int shiftx, int shifty)
  int iter;
  int t;
  // Create a new NPC?
+/*	DISABLED AGAIN
   if (one_in(50 + 5 * cur_om.npcs.size())) {
    npc temp;
    temp.randomize(this);
@@ -5001,6 +5002,7 @@ void game::spawn_mon(int shiftx, int shifty)
    temp.attitude = NPCATT_TALK;
    active_npc.push_back(temp);
   }
+*/
 
 // Now, spawn monsters (perhaps)
  monster zom;

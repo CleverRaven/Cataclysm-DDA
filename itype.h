@@ -173,6 +173,7 @@ WF_SPEAR,	// Cutting damage is actually a piercing attack
 WF_STAB,	// This weapon *can* pierce, but also has normal cutting
 WF_WRAP,	// Can wrap around your target, costing you and them movement
 WF_MESSY,	// Splatters blood, etc.
+WF_RELOAD_ONE,	// Reload cartridge by cartridge (e.g. most shotguns)
 NUM_WEAPON_FLAGS
 };
 

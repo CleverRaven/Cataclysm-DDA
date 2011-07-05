@@ -194,7 +194,7 @@ int player::hit_mon(game *g, monster *z)
   z->moves -= monster_penalty;
   cutting_penalty = weapon.type->melee_cut * 4 + z_armor * 8 -
                     dice(sklevel[sk_stabbing], 10);
-  practice(sk_stabbing, 5);
+  practice(sk_stabbing, 2);
 // Cutting damage bonus
  } else if (weapon.type->melee_cut >
             z->type->armor - int(sklevel[sk_cutting] / 2)) {
