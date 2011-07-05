@@ -250,7 +250,7 @@ int player::hit_mon(game *g, monster *z)
 
   if (weapon.has_weapon_flag(WF_SPEAR) || weapon.has_weapon_flag(WF_STAB)) {
    dam += weapon.type->melee_cut;
-   dam += rng(1, 10) * sklevel[sk_stabbing];
+   dam += weapon.type->melee_cut * double(sklevel[sk_stabbing] / 10);
    practice(sk_stabbing, 5);
   }
 
@@ -290,20 +290,33 @@ int player::hit_mon(game *g, monster *z)
     z->add_effect(ME_STUNNED, 1 + sklevel[sk_unarmed]);
   } else {	// Not unarmed
    if (bashing) {
-    dam += 2 * sklevel[sk_bashing];
     dam += 8 + (str_cur / 2);
-    z->add_effect(ME_STUNNED, int(dam / 20) + sklevel[sk_bashing]);
-    z->moves -= rng(dam, dam * 2);	// Stunning blow
+    int turns_stunned = int(dam / 20) + int(sklevel[sk_bashing] / 2);
+    if (turns_stunned > 6)
+     turns_stunned = 6;
+    z->add_effect(ME_STUNNED, turns_stunned);
    }
    if (cutting) {
-    dam += 3 * sklevel[sk_cutting];
+    double cut_multiplier = 3 * double(sklevel[sk_cutting] / 12);
+    if (cut_multiplier > 3)
+     cut_multiplier = 3;
+    dam += 3 * weapon.type->melee_cut;
     headshot &= z->hp < dam;
-    if (headshot && can_see)
-     g->add_msg("%s %s slices the %s's head off!", Your.c_str(),
-                weapon.tname(g).c_str(), z->name().c_str());
-    else if (can_see)
-     g->add_msg("%s stab %s %s through the %s!", You.c_str(), your.c_str(),
-                weapon.tname(g).c_str(), z->name().c_str());
+    if (stabbing) {
+     if (headshot && can_see)
+      g->add_msg("%s %s stabs through the %s's skull!", Your.c_str(),
+                 weapon.tname(g).c_str(), z->name().c_str());
+     else if (can_see)
+      g->add_msg("%s stab %s %s through the %s!", You.c_str(), your.c_str(),
+                 weapon.tname(g).c_str(), z->name().c_str());
+    } else {
+     if (headshot && can_see)
+      g->add_msg("%s %s slices the %s's head off!", Your.c_str(),
+                 weapon.tname(g).c_str(), z->name().c_str());
+     else
+      g->add_msg("%s %s cuts the %s deeply!", Your.c_str(),
+                 weapon.tname(g).c_str(), z->name().c_str());
+    }
    } else {	// Not cutting, probably bashing
     headshot &= z->hp < dam;
     if (headshot && can_see)
@@ -347,7 +360,7 @@ int player::hit_mon(game *g, monster *z)
  }
 
 // Make a rather quiet sound, to alert any nearby monsters
- g->sound(posx, posy, 6, "");
+ g->sound(posx, posy, 8, "");
 
 // Glass weapons shatter sometimes
  if (weapon.made_of(GLASS) &&
@@ -377,7 +390,9 @@ int player::hit_mon(game *g, monster *z)
   if (bashing)
    practice(sk_bashing, 2);
   if (cutting)
-   practice(sk_cutting, 3);
+   practice(sk_cutting, 2);
+  if (stabbing)
+   practice(sk_stabbing, 2);
   return 0;
  }
  if (is_u)
@@ -393,9 +408,11 @@ int player::hit_mon(game *g, monster *z)
   practice(sk_bashing, rng(5, 10));
  if (cutting)
   practice(sk_cutting, rng(5, 10));
+ if (stabbing)
+  practice(sk_stabbing, rng(5, 10));
 
 // Penalize the player if their cutting weapon got stuck
- if (!unarmed && dam < z->hp && cutting_penalty > dice(str_cur, 20)) {
+ if (!unarmed && dam < z->hp && cutting_penalty > dice(str_cur * 2, 20)) {
   if (is_u)
    g->add_msg("Your %s gets stuck in the %s, pulling it out of your hands!",
               weapon.tname().c_str(), z->type->name.c_str());
