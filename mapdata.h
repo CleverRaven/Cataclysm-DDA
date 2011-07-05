@@ -306,7 +306,7 @@ enum map_extra {
 const int map_extra_chance[num_map_extras + 1] = {
   0,	// Null - 0 chance
  40,	// Helicopter
- 80,	// Military
+ 50,	// Military
 120,	// Science
 200,	// Stash
   5,	// Portal

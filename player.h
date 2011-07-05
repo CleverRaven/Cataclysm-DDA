@@ -67,6 +67,7 @@ public:
  int  hit_mon(game *g, monster *z); // Handles hitting a monster up to its death
 // hit_player returns false on a miss, and modifies bp, hitdam, and hitcut
  bool hit_player(player &p, body_part &bp, int &hitdam, int &hitcut);
+ void stumble(game *g);
  int  dodge();		//Returns the players's dodge, modded by clothing etc
  int  dodge_roll();	// For comparison to hit_roll()
 

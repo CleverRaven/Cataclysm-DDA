@@ -173,8 +173,8 @@ game::game()
  uquit = QUIT_NO;	// We haven't quit the game
  debugmon = false;	// We're not printing debug messages
  in_tutorial = false;	// We're not in a tutorial game
- weather = WEATHER_CLEAR;
- season = SPRING;
+ weather = WEATHER_CLEAR; // Start with some nice weather...
+ season = SPRING;         // With winter conveniently a long way off.
  for (int i = 0; i < num_monsters; i++)	// Reset kill counts to 0
   kills[i] = 0;
 // Set the scent map to 0
@@ -480,7 +480,7 @@ void game::start_game()
  u.int_cur = u.int_max;
  u.dex_cur = u.dex_max;
  nextspawn = 300;	// No monsters until 8:30 AM!
- temperature = 65;	// Kind of cool for June, but okay.
+ temperature = 65;	// Springtime-appropriate?
 
 // Testing pet dog!
  monster doggy(mtypes[mon_dog], u.posx - 1, u.posy - 1);

@@ -121,6 +121,10 @@ class game
   std::vector<npc> active_npc;
   std::vector<mon_id> moncats[num_moncats];
   std::vector<faction> factions;
+// NEW: Dragging a piece of furniture, with a list of items contained
+  ter_id dragging;
+  std::vector<item> items_dragged;
+  int weight_dragged; // Computed once, when you start dragging
   bool debugmon;
 // Display data... TODO: Make this more portable?
   WINDOW *w_terrain;

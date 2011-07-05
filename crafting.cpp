@@ -14,9 +14,10 @@ void game::init_recipes()
  int id = -1;
  int tl, cl;
 
- #define RECIPE(result, cat, sk1, sk2, diff, time) \
+ #define RECIPE(result, category, skill1, skill2, difficulty, time) \
   tl = 0; cl = 0; id++;\
-  recipes.push_back( recipe(id, result, cat, sk1, sk2, diff, time) )
+  recipes.push_back( recipe(id, result, category, skill1, skill2, difficulty, \
+                            time) )
  #define TOOL(...)	setvector(recipes[id].tools[tl],      __VA_ARGS__); tl++
  #define COMP(...)	setvector(recipes[id].components[cl], __VA_ARGS__); cl++
 
