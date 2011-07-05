@@ -54,6 +54,14 @@ void game::init_mapitems()
 	NULL);
 
  setvector(
+   mapitems[mi_home_hw],
+	itm_superglue, itm_string_6, itm_string_36, itm_screwdriver, itm_wrench,
+	itm_hacksaw, itm_xacto, itm_gloves_leather, itm_mask_dust,
+	itm_glasses_safety, itm_battery, itm_nail, itm_nailgun,
+	itm_manual_mechanics, itm_hammer, itm_flashlight, itm_soldering_iron,
+	itm_bubblewrap, NULL);
+
+ setvector(
    mapitems[mi_bedroom],
 	itm_inhaler, itm_cig, itm_weed, itm_coke, itm_meth, itm_heroin,
 	itm_sneakers, itm_mocassins, itm_bandana, itm_glasses_eye,

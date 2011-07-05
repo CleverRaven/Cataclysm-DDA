@@ -4203,6 +4203,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
   placed = mi_kitchen;
   chance = 75;
   m->place_items(mi_cleaning,  58, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
+  m->place_items(mi_home_hw,   40, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
   switch (rng(1, 4)) {
   case 1:
    m->ter(x1 + 2, y1 + 1) = t_fridge;
@@ -4225,8 +4226,10 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
  case room_bedroom:
   placed = mi_bedroom;
   chance = 78;
-  if (one_in(10))
+  if (one_in(14))
    m->place_items(mi_homeguns, 58, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
+  if (one_in(10))
+   m->place_items(mi_home_hw,  40, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
   switch (rng(1, 5)) {
   case 1:
    m->ter(x1 + 1, y1 + 2) = t_bed;

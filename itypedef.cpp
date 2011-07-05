@@ -1155,7 +1155,7 @@ AMMO("plutonium cell",	10,3000,AT_PLUT,	c_ltgreen,	STEEL,
 	 1,  1,  0,  0,  0,  0,  0, 5, "\
 A nuclear-powered battery.  Used to charge advanced and rare electronics.");
 
-AMMO("nails",		20,  60,AT_NAIL,	c_cyan,		IRON,
+AMMO("nails",		35,  60,AT_NAIL,	c_cyan,		IRON,
          1,  8,  4,  3,  3, 40,  4, 100, "\
 A box of nails, mainly useful with a hammer.");
 
