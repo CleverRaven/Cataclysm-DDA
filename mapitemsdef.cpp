@@ -481,11 +481,11 @@ void game::init_mapitems()
 	itm_kevlar, itm_vest, itm_gloves_fingerless, itm_mask_gas,
 	itm_glasses_safety, itm_goggles_nv, itm_hat_boonie, itm_helmet_army,
 	itm_backpack, itm_holster, itm_bootstrap, itm_9mm, itm_45_acp,
-	itm_556, itm_762_51, itm_laser_pack, itm_usp_9mm, itm_usp_45,
-	itm_m4a1, itm_scar_l, itm_scar_h, itm_m249, itm_ftk93, itm_silencer,
-	itm_clip, itm_lighter, itm_flashlight, itm_two_way_radio,
-	itm_landmine, itm_grenade, itm_EMPbomb, itm_gasbomb, itm_smokebomb,
-	itm_UPS_off, itm_tazer, NULL);
+	itm_556, itm_556_incendiary, itm_762_51, itm_762_51_incendiary,
+	itm_laser_pack, itm_usp_9mm, itm_usp_45, itm_m4a1, itm_scar_l,
+	itm_scar_h, itm_m249, itm_ftk93, itm_silencer, itm_clip, itm_lighter,
+	itm_flashlight, itm_two_way_radio, itm_landmine, itm_grenade,
+	itm_EMPbomb, itm_gasbomb, itm_smokebomb, itm_UPS_off, itm_tazer, NULL);
 
  setvector(
    mapitems[mi_science],
