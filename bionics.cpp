@@ -158,8 +158,6 @@ void player::activate_bionic(int b, game *g)
   rem_disease(DI_TOOK_PROZAC);
   rem_disease(DI_TOOK_FLUMED);
   rem_disease(DI_ADRENALINE);
-  pkill = rng(0, pkill);
-  stim = rng(0, stim);
   break;
 
  case bio_evap:
@@ -389,9 +387,9 @@ bool player::install_bionics(game *g, it_bionic* type)
             bionics[id].name.c_str());
  }
 // Helper text
- mvwprintz(w, 2, 40, c_white,         "Difficulty of this module: %d",
+ mvwprintz(w, 2, 40, c_white,        "Difficulty of this module: %d",
            type->difficulty);
- mvwprintz(w, 3, 40, c_white,         "Your installation skill:   %d.%d",
+ mvwprintz(w, 3, 40, c_white,        "Your installation skill:   %d.%d",
            skint, skdec);
  mvwprintz(w, 4, 40, c_white,        "Installation requires high intelligence,");
  mvwprintz(w, 5, 40, c_white,        "and skill in electronics, first aid, and");
@@ -400,7 +398,7 @@ bool player::install_bionics(game *g, it_bionic* type)
  int chance_of_success = int((100 * pl_skill) /
                              (pl_skill + 4 * type->difficulty));
 
- mvwprintz(w, 8, 40, c_white,         "Chance of success:");
+ mvwprintz(w, 8, 40, c_white,        "Chance of success:");
 
  nc_color col_suc;
  if (chance_of_success >= 95)

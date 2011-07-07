@@ -58,7 +58,7 @@ class map
  bool open_door(int x, int y, bool inside);
  bool bash(int x, int y, int str, std::string &sound);
  void destroy(game *g, int x, int y, bool makesound);
- void shoot(game *g, int x, int y, int &dam, bool hit_items);
+ void shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags);
  void marlossify(int x, int y);
 
 // Radiation

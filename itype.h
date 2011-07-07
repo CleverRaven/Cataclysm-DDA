@@ -86,8 +86,9 @@ itm_battery, itm_plut_cell, itm_nail, itm_bb, itm_bolt_wood, itm_bolt_steel,
  itm_shot_bird, itm_shot_00, itm_shot_slug, itm_22_lr, itm_22_cb,
  itm_22_ratshot, itm_9mm, itm_9mmP, itm_9mmP2, itm_38_special, itm_38_super,
  itm_10mm, itm_40sw, itm_44magnum, itm_45_acp, itm_45_jhp, itm_45_super,
- itm_57mm, itm_46mm, itm_762_m43, itm_762_m87, itm_223, itm_556, itm_270,
- itm_3006, itm_308, itm_762_51, itm_laser_pack, itm_gasoline,
+ itm_57mm, itm_46mm, itm_762_m43, itm_762_m87, itm_223, itm_556,
+ itm_556_incendiary, itm_270, itm_3006, itm_3006_incendiary, itm_308,
+ itm_762_51, itm_762_51_incendiary, itm_laser_pack, itm_gasoline,
 // Guns
 itm_nailgun, itm_bbgun, itm_crossbow, itm_rifle_22, itm_rifle_9mm, itm_smg_9mm,
  itm_smg_45, itm_sig_mosquito, itm_sw_22, itm_glock_19, itm_usp_9mm, itm_sw_619,
@@ -174,6 +175,15 @@ WF_STAB,	// This weapon *can* pierce, but also has normal cutting
 WF_WRAP,	// Can wrap around your target, costing you and them movement
 WF_MESSY,	// Splatters blood, etc.
 WF_RELOAD_ONE,	// Reload cartridge by cartridge (e.g. most shotguns)
+
+WF_AMMO_FLAME,	// Sets fire to terrain and monsters
+WF_AMMO_INCENDIARY, // Sparks explosive terrain
+WF_AMMO_EXPLOSIVE, // Small explosion
+WF_AMMO_FRAG,	// Frag explosion
+WF_AMMO_NAPALM,	// Firey explosion
+WF_AMMO_EXPLOSIVE_BIG, // Big explosion!
+WF_AMMO_SCENT,	// Scent burst
+WF_AMMO_TRAIL,	// Leaves a trail of smoke
 NUM_WEAPON_FLAGS
 };
 

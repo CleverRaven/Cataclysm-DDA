@@ -2687,7 +2687,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
     add_msg("Shrapnel hits your %s!", body_part_name(hit, side).c_str());
     u.hit(this, hit, rng(0, 1), 0, dam);
    } else
-    m.shoot(this, tx, ty, dam, j == traj.size() - 1);
+    m.shoot(this, tx, ty, dam, j == traj.size() - 1, 0);
   }
  }
 }
@@ -3772,7 +3772,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
   if (!u.has_item(ch))
    return false;
   item *cont = &(u.i_at(ch));
-  ammotype type = cont->ammo();
+  ammotype type = cont->ammo_type();
   if (cont->type->id == itm_null) {
    add_msg("Never mind.");
    return false;
@@ -4334,7 +4334,7 @@ void game::reload()
 void game::unload()
 {
  if (!u.weapon.is_gun() && u.weapon.contents.size() == 0 &&
-     (!u.weapon.is_tool() || u.weapon.ammo() == AT_NULL)){
+     (!u.weapon.is_tool() || u.weapon.ammo_type() == AT_NULL)) {
   add_msg("You can't unload a %s!", u.weapon.tname(this).c_str());
   return;
  } else if (u.weapon.is_container() || u.weapon.charges == 0) {
@@ -4346,11 +4346,13 @@ void game::unload()
     add_msg("Your %s isn't charged." , u.weapon.tname(this).c_str());
    return;
   }
+// Unloading a container!
   u.moves -= 40 * u.weapon.contents.size();
   std::vector<item> new_contents;	// In case we put stuff back
   while (u.weapon.contents.size() > 0) {
    item content = u.weapon.contents[0];
    int iter = 0;
+// Pick an inventory item for the contents
    while ((content.invlet == 0 || u.has_item(content.invlet)) && iter < 52) {
     content.invlet = nextinv;
     advance_nextinv();
@@ -4375,6 +4377,7 @@ void game::unload()
   u.weapon.contents = new_contents;
   return;
  }
+// Unloading a gun or tool!
  u.moves -= int(u.weapon.reload_time(u) / 2);
  it_ammo* tmpammo;
  if (u.weapon.is_gun()) {	// Gun ammo is combined with existing items
@@ -4394,13 +4397,12 @@ void game::unload()
   }
  }
  item newam;
- int iter;
+ if (u.weapon.curammo != NULL)
+  newam = item(u.weapon.curammo, turn);
+ else
+  newam = item(itypes[default_ammo(u.weapon.ammo_type())], turn);
  while (u.weapon.charges > 0) {
-  if (u.weapon.curammo != NULL)
-   newam = item(u.weapon.curammo, turn);
-  else
-   newam = item(itypes[default_ammo(u.weapon.ammo())], turn);
-  iter = 0;
+  int iter = 0;
   while ((newam.invlet == 0 || u.has_item(newam.invlet)) && iter < 52) {
    newam.invlet = nextinv;
    advance_nextinv();

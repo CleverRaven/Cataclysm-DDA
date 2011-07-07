@@ -351,7 +351,7 @@ void map::destroy(game *g, int x, int y, bool makesound)
   g->sound(x, y, 40, "SMASH!!");
 }
 
-void map::shoot(game *g, int x, int y, int &dam, bool hit_items)
+void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
 {
  switch (ter(x, y)) {
 
@@ -400,15 +400,21 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items)
   dam -= rng(4, 16);
   if (dam > 0)
    ter(x, y) = t_dirt;
+  if (flags & mfb(WF_AMMO_INCENDIARY))
+   add_field(g, x, y, fd_fire, 2);
   break;
 
  case t_gas_pump:
   if (hit_items || one_in(3)) {
    if (dam > 15) {
-    for (int i = x - 2; i <= x + 2; i++) {
-     for (int j = y - 2; j <= y + 2; j++) {
-      if (move_cost(i, j) > 0 && one_in(3))
-       add_item(i, j, g->itypes[itm_gasoline], 0);
+    if (flags & mfb(WF_AMMO_INCENDIARY) || flags & mfb(WF_AMMO_FLAME))
+     g->explosion(x, y, 40, 0, true);
+    else {
+     for (int i = x - 2; i <= x + 2; i++) {
+      for (int j = y - 2; j <= y + 2; j++) {
+       if (move_cost(i, j) > 0 && one_in(3))
+        add_item(i, j, g->itypes[itm_gasoline], 0);
+      }
      }
     }
     ter(x, y) = t_gas_pump_smashed;

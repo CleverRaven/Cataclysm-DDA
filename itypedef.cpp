@@ -1141,56 +1141,65 @@ A small holster worn on the ankle.");
 // IMPORTANT: If adding a new AT_*** ammotype, add it to the ammo_name function
 //   at the end of this file.
 #define AMMO(name,rarity,price,ammo_type,color,mat,volume,wgt,dmg,AP,range,\
-accuracy,recoil,count,des) \
+accuracy,recoil,count,des,flags) \
 	index++;itypes.push_back(new it_ammo(index,rarity,price,name,des,'=',\
-color,mat,volume,wgt,1,0,0,0,ammo_type,dmg,AP,accuracy,recoil,range,count))
+color,mat,volume,wgt,1,0,0,flags,ammo_type,dmg,AP,accuracy,recoil,range,count))
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("batteries",	50, 120,AT_BATT,	c_magenta,	IRON,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
 	 1,  1,  0,  0,  0,  0,  0, 100, "\
-A set of universal batteries.  Used to charge almost any electronic device.");
+A set of universal batteries.  Used to charge almost any electronic device.",
+0);
 
 AMMO("plutonium cell",	10,3000,AT_PLUT,	c_ltgreen,	STEEL,
 	 1,  1,  0,  0,  0,  0,  0, 5, "\
-A nuclear-powered battery.  Used to charge advanced and rare electronics.");
+A nuclear-powered battery.  Used to charge advanced and rare electronics.",
+0);
 
 AMMO("nails",		35,  60,AT_NAIL,	c_cyan,		IRON,
          1,  8,  4,  3,  3, 40,  4, 100, "\
-A box of nails, mainly useful with a hammer.");
+A box of nails, mainly useful with a hammer.",
+0);
 
 AMMO("BB",		 8,  50,AT_BB,		c_pink,		STEEL,
 	 1,  6,  2,  0, 12, 20,  0, 200, "\
-A box of small steel balls.  They deal virtually no damage.");
+A box of small steel balls.  They deal virtually no damage.",
+0);
 
 AMMO("wood crossbow bolt",8,500,AT_BOLT,	c_green,	WOOD,
 	 1, 40, 16,  4, 10, 16,  0,  15, "\
 A sharpened bolt carved from wood.  It's lighter than steel bolts, and does\n\
 less damage and is less accurate.  Stands a good chance of remaining intact\n\
-once fired.");
+once fired.",
+0);
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("steel crossbow bolt",7,900,AT_BOLT,	c_green,	STEEL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
 	 1, 90, 26,  8, 14, 12,  0,  10, "\
 A sharp bolt made from steel.  Deadly in skilled hands.  Stands an excellent\n\
-chance of remaining intact once fired.");
+chance of remaining intact once fired.",
+0);
 
 AMMO("birdshot",	 8, 500,AT_SHOT,	c_red,		PLASTIC,
 	 2, 25, 18,  0,  5,  2, 18,  25, "\
 Weak shotgun ammuntion.  Designed for hunting birds and other small game, its\n\
-applications in combat are very limited.");
+applications in combat are very limited.",
+0);
 
 AMMO("00 shot",		 8, 800,AT_SHOT,	c_red,		PLASTIC,
 	 2, 28, 50,  0,  6,  1, 26,  25, "\
 A shell filled with iron pellets.  Extremely damaging, plus the spread makes\n\
-it very accurate at short range.  Favored by SWAT forces.");
+it very accurate at short range.  Favored by SWAT forces.",
+0);
 
 AMMO("shotgun slug",	 6, 900,AT_SHOT,	c_red,		PLASTIC,
 	 2, 34, 50,  4, 12, 10, 28,  25, "\
 A heavy metal slug used with shotguns to give them the range capabilities of\n\
 a rifle.  Extremely damaging but rather innaccurate.  Works best in a shotgun\n\
-with a rifled barrel.");
+with a rifled barrel.",
+0);
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO(".22 LR",		 9, 250,AT_22,		c_ltblue,	STEEL,
@@ -1198,19 +1207,22 @@ AMMO(".22 LR",		 9, 250,AT_22,		c_ltblue,	STEEL,
 	 2,  2, 11,  0, 13, 14,  6, 100, "\
 One of the smallest calibers available, the .22 Long Rifle cartridge has\n\
 maintained popularity for nearly two centuries.  Its minimal recoil, low cost\n\
-and low noise are offset by its paltry damage.");
+and low noise are offset by its paltry damage.",
+0);
 
 AMMO(".22 CB",		 8, 180,AT_22,		c_ltblue,	STEEL,
 	 2,  2,  7,  0, 10, 16,  4, 100, "\
 Conical Ball .22 is a variety of .22 ammunition with a very small propellant\n\
 charge, generally with no gunpowder, resulting in a subsonic round.  It is\n\
-nearly silent, but is so weak as to be nearly useless.");
+nearly silent, but is so weak as to be nearly useless.",
+0);
 
 AMMO(".22 rat-shot",	 2, 230,AT_22,		c_ltblue,	STEEL,
 	 2,  2,  5,  0,  3,  2,  4, 100, "\
 Rat-shot is extremely weak ammunition, designed for killing rats, snakes, or\n\
 other small vermin while being unable to damage walls.  It has an extremely\n\
-short range and is unable to injure all but the smallest creatures.");
+short range and is unable to injure all but the smallest creatures.",
+0);
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("9mm",		 8, 300,AT_9MM,		c_ltblue,	STEEL,
@@ -1218,36 +1230,42 @@ AMMO("9mm",		 8, 300,AT_9MM,		c_ltblue,	STEEL,
 	 2,  7, 18,  1, 14, 16, 13,  50, "\
 9 millimeter parabellum is generally regarded as the most popular handgun\n\
 cartridge, used by the majority of US police forces.  It is also a very\n\
-popular round in sub-machine guns.");
+popular round in sub-machine guns.",
+0);
 
 AMMO("9mm +P",		 8, 380,AT_9MM,		c_ltblue,	STEEL,
 	 1,  7, 20,  2, 14, 15, 14,  25, "\
 Attempts to improve the ballistics of 9mm ammunition lead to high pressure\n\
-rounds.  Increased velocity resullts in superior accuracy and damage.");
+rounds.  Increased velocity resullts in superior accuracy and damage.",
+0);
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("9mm +P+",		 8, 440,AT_9MM,		c_ltblue,	STEEL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
 	 1,  7, 22,  6, 16, 14, 15,  10, "\
 A step beyond the high-pressure 9mm +P round, the +P+ is a very high pressure\n\
-loading which offers a degree of armor-penetrating ability.");
+loading which offers a degree of armor-penetrating ability.",
+0);
 
 AMMO(".38 Special",	 7, 400,AT_38,		c_ltblue,	STEEL,
 	 2, 10, 20,  0, 14, 16, 12,  50, "\
 The .38 Smith & Wesson Special enjoyed popularity among US police forces\n\
-throughout the 20th century.  It is most commonly used in revolvers.");
+throughout the 20th century.  It is most commonly used in revolvers.",
+0);
 
 AMMO(".38 Super",	 7, 450,AT_38,		c_ltblue,	STEEL,
 	 1,  9, 25,  2, 16, 14, 14,  25, "\
 The .38 Super is a high-pressure load of the .38 Special caliber.  It is a\n\
 popular choice in pistol competions for its high accuracy, while its stopping\n\
-power keeps it popular for self-defense.");
+power keeps it popular for self-defense.",
+0);
 
 AMMO("10mm Auto",	 4, 420,AT_40,		c_blue,		STEEL,
 	 2,  9, 26,  5, 14, 18, 20,  50, "\
 Originally used by the FBI, the organization eventually abandoned the round\n\
 due to its high recoil.  Although respected for its versatility and power, it\n\
-has largely been supplanted by the downgraded .40 S&W.");
+has largely been supplanted by the downgraded .40 S&W.",
+0);
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO(".40 S&W",		 7, 450,AT_40,		c_blue,		STEEL,
@@ -1255,25 +1273,29 @@ AMMO(".40 S&W",		 7, 450,AT_40,		c_blue,		STEEL,
 	 2,  9, 22,  1, 14, 16, 16,  50, "\
 The .40 Smith & Wesson round was developed as an alternative to 10mm Auto for\n\
 the FBI after they complained of high recoil.  It is as accurate as 9mm, but\n\
-has greater stopping power, leading to widespread use in law enforcement.");
+has greater stopping power, leading to widespread use in law enforcement.",
+0);
 
 AMMO(".44 Magnum",	 7, 580,AT_44,		c_blue,		STEEL,
 	 2, 15, 36,  1, 16, 16, 22,  50, "\
 Described (in 1971) by Dirty Harry as \"the most powerful handgun in the\n\
 world,\" the .44 Magnum gained widespead popularity due to its depictions in\n\
-the media.  In reality, its intense recoil makes it unsuitable in most cases.");
+the media.  In reality, its intense recoil makes it unsuitable in most cases.",
+0);
 
 AMMO(".45 ACP",		 7, 470,AT_45,		c_blue,		STEEL,
 	 2, 10, 32,  1, 16, 18, 18,  50, "\
 The .45 round was one of the most popular and powerful handgun rounds through\n\
 the 20th century.  It features very good accuracy and stopping power, but\n\
-suffers from moderate recoil and poor armor penetration.");
+suffers from moderate recoil and poor armor penetration.",
+0);
 
 AMMO(".45 FMJ",		 4, 480,AT_45,		c_blue,		STEEL,
 	 1, 13, 26,  8, 16, 18, 18,  25, "\
 Full Metal Jacket .45 rounds are designed to overcome the poor armor\n\
 penetration of the standard ACP round.  However, they are less likely to\n\
-expand upon impact, resulting in reduced damage overall.");
+expand upon impact, resulting in reduced damage overall.",
+0);
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO(".45 Super",	 5, 520,AT_45,		c_blue,		STEEL,
@@ -1281,19 +1303,22 @@ AMMO(".45 Super",	 5, 520,AT_45,		c_blue,		STEEL,
 	 1, 11, 34,  4, 18, 16, 20,  10, "\
 The .45 Super round is an updated variant of .45 ACP.  It is overloaded,\n\
 resulting in a great increase in muzzle velocity.  This translates to higher\n\
-accuracy and range, a minor armor piercing capability, and greater recoil.");
+accuracy and range, a minor armor piercing capability, and greater recoil.",
+0);
 
 AMMO("5.7x28mm",	 3, 500,AT_57,		c_dkgray,	STEEL,
 	 3,  2, 14, 15, 12, 12,  6, 100, "\
 The 5.7x28mm round is a proprietary round developed by FN Hestal for use in\n\
 their P90 SMG.  While it is a very small round, comparable in power to .22,\n\
-it features incredible armor-piercing capabilities and very low recoil.");
+it features incredible armor-piercing capabilities and very low recoil.",
+0);
 
 AMMO("4.6x30mm",	 2, 520,AT_46,		c_dkgray,	STEEL,
 	 3,  1, 13, 18, 12, 12,  6, 100, "\
 Designed by Heckler & Koch to compete with the 5.7x28mm round, 4.6x30mm is,\n\
 like the 5.7, designed to minimize weight and recoil while increasing\n\
-penetration of body armor.  Its low recoil makes it ideal for automatic fire.");
+penetration of body armor.  Its low recoil makes it ideal for automatic fire.",
+0);
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("7.62x39mm M43",	 6, 500,AT_762,		c_dkgray,	STEEL,
@@ -1302,20 +1327,23 @@ AMMO("7.62x39mm M43",	 6, 500,AT_762,		c_dkgray,	STEEL,
 Designed during World War II by the Soviet Union, the popularity of the AK-47\n\
 and the SKS contributed to the widespread adaption of the 7.62x39mm rifle\n\
 round. However, due to its lack of yaw, this round deals less damage than most."
-);
+,
+0);
 
 AMMO("7.62x39mm M67",	 7, 650,AT_762,		c_dkgray,	STEEL,
 	 3,  8, 28,  5, 20, 17, 25,  80, "\
 The M67 variant of the popular 7.62x39mm rifle round was designed to improve\n\
 yaw.  This causes the round to tumble inside a target, causing significantly\n\
-more damage.  It is still outdone by shattering rounds.");
+more damage.  It is still outdone by shattering rounds.",
+0);
 
 AMMO(".223 Remington",	 8, 720,AT_223,		c_dkgray,	STEEL,
 	 2,  2, 36,  1, 24, 13, 30,  40, "\
 The .223 rifle round is a civilian variant of the 5.56 NATO round.  It is\n\
 designed to tumble or fragment inside a target, dealing devastating damage.\n\
 The lower pressure of the .223 compared to the 5.56 results in lower accuracy."
-);
+,
+0);
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("5.56 NATO",	 6, 950,AT_223,		c_dkgray,	STEEL,
@@ -1323,51 +1351,78 @@ AMMO("5.56 NATO",	 6, 950,AT_223,		c_dkgray,	STEEL,
 	 2,  4, 40,  2, 25, 10, 32,  40, "\
 This rifle round has enjoyed widespread use in NATO countries, thanks to its\n\
 very light weight and high damage.  It is designed to shatter inside a\n\
-target, inflicting massive damage.");
+target, inflicting massive damage.",
+0);
+
+AMMO("5.56 incendiary",	 2,1140,AT_223,		c_dkgray,	STEEL,
+	 2,  4, 28,  7, 25, 11, 32, 30, "\
+A variant of the widely-used 5.56 NATO round, incendiary rounds are designed\n\
+to burn hotly upon impact, piercing armor and igniting flammable substances.",
+mfb(WF_AMMO_INCENDIARY));
 
 AMMO(".270 Winchester",	 8, 900,AT_3006,	c_dkgray,	STEEL,
 	 1,  7, 42,  2, 40, 12, 34,  20, "\
 Based off the military .30-03 round, the .270 rifle round is compatible with\n\
 most guns that fire .30-06 rounds.  However, it is designed for hunting, and\n\
-is less powerful than the military rounds, with nearly no armor penetration.");
+is less powerful than the military rounds, with nearly no armor penetration.",
+0);
 
 AMMO(".30-06 AP",	 4,1050,AT_3006,	c_dkgray,	STEEL,
 	 1, 12, 50, 16, 40,  7, 36,  10, "\
 The .30-06 is a very powerful rifle round designed for long-range use.  Its\n\
 stupendous accuracy and armor piercing capabilities make it one of the most\n\
-deadly rounds available, offset only by its drastic recoil and noise.");
+deadly rounds available, offset only by its drastic recoil and noise.",
+0);
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
-AMMO(".308 Winchester",	 7, 920,AT_308,		c_dkgray,	STEEL,
+AMMO(".30-06 incendiary", 1,1180,AT_3006,	c_dkgray,	STEEL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
+	  1, 12, 35, 20, 40,  8, 35,  5, "\
+A variant of the powerful .30-06 sniper round, incendiary rounds are designed\n\
+to burn hotly upon impact, piercing armor and igniting flammable substances.",
+mfb(WF_AMMO_INCENDIARY));
+
+AMMO(".308 Winchester",	 7, 920,AT_308,		c_dkgray,	STEEL,
 	 1,  9, 36,  1, 35,  7, 33,  20, "\
 The .308 Winchester is a rifle round, the commercial equivalent of the\n\
 military 7.62x51mm round.  Its high accuracy and phenominal damage have made\n\
-it the most poplar hunting round in the world.");
+it the most poplar hunting round in the world.",
+0);
 
 AMMO("7.62x51mm",	 6,1040,AT_308,		c_dkgray,	STEEL,
 	 1,  9, 44,  4, 35,  6, 34,  20, "\
 The 7.62x51mm largely replaced the .30-06 round as the standard military\n\
 rifle round.  It is lighter, but offers similar velocities, resulting in\n\
-greater accuracy and reduced recoil.");
+greater accuracy and reduced recoil.",
+0);
 
-AMMO("fusion pack",	 2, 800,AT_FUSION,	c_ltgreen,	PLASTIC,
+//  NAME		   RAR PRC TYPE		COLOR		MAT
+AMMO("7.62x51mm incendiary",6,1040,AT_308,	c_dkgray,	STEEL,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	  1,  9, 30, 12, 32,  6, 32,  10, "\
+A variant of the powerful 7.62x51mm round, incendiary rounds are designed\n\
+to burn hotly upon impact, piercing armor and igniting flammable substances.",
+mfb(WF_AMMO_INCENDIARY));
+
+AMMO("fusion pack",	 2,1200,AT_FUSION,	c_ltgreen,	PLASTIC,
 	 1,  2, 12,  6, 20,  4,  0,  20, "\
 In the middle of the 21st Century, military powers began to look towards\n\
 energy based weapons.  The result was the standard fusion pack, capable of\n\
-delivering bolts of superheaed gas at near light speed with no recoil.");
+delivering bolts of superheaed gas at near light speed with no recoil.",
+mfb(WF_AMMO_INCENDIARY));
 
 // FUEL
 // Fuel is just a special type of ammo; liquid
 #define FUEL(name,rarity,price,ammo_type,color,dmg,AP,range,accuracy,recoil,\
-             count,des) \
+             count,des,flags) \
 	index++;itypes.push_back(new it_ammo(index,rarity,price,name,des,'~',\
-color,LIQUID,1,1,0,0,0,0,ammo_type,dmg,AP,accuracy,recoil,range,count))
+color,LIQUID,1,1,0,0,0,flags,ammo_type,dmg,AP,accuracy,recoil,range,count))
 FUEL("gasoline",	0, 400,   AT_GAS,	c_ltred,
 //	DMG  AP RNG ACC REC COUNT
 	 0,  0,  0,  0,  0,  1, "\
 Gasoline is a highly flammable liquid.  When under pressure, it has the\n\
-potential for violent explosion.");
+potential for violent explosion.",
+mfb(WF_AMMO_FLAME));
 
 // GUNS
 // ammo_type matches one of the ammo_types above.
@@ -1942,7 +1997,7 @@ GUNMOD(".308 caliber retool",2,520,c_green, STEEL, MNULL,     2,  1,  4,  0,  1,
 	(mfb(AT_SHOT)|mfb(AT_762)|mfb(AT_223)|mfb(AT_3006)), "\
 This kit is used to convert a shotgun or 7.62mm, .223 or .30-06 rifle to the\n\
 popular and powerful .308 caliber.  The conversion results in reduced ammo\n\
-capacity and a slight reductino in accuracy."
+capacity and a slight reduction in accuracy."
 );
 
 GUNMOD(".223 caliber retool",2,500,c_green, STEEL, MNULL,     2,  1,  4,  0,  1,
@@ -1956,7 +2011,7 @@ slight reductions in both accuracy and ammo capacity."
 //	NAME      	RAR  PRC  COLOR     MAT1   MAT2      VOL WGT DAM CUT HIT
 GUNMOD("battle rifle conversion",1,680,c_magenta,STEEL,MNULL, 4,  3,  6,  0, -1,
 //	ACC DAM NOI CLP REC BST NEWTYPE		PISTOL	SHOT	SMG	RIFLE
-	-6,  6,  4, 20,  4, 10, AT_NULL,	false,	false,	false,	true,
+	-6,  6,  4, 20,  4,  4, AT_NULL,	false,	false,	false,	true,
 	0, "\
 This is a complete conversion kit, designed to turn a rifle into a powerful\n\
 battle rifle.  It reduces accuracy, and increases noise and recoil, but also\n\
@@ -2641,7 +2696,7 @@ Short and sharp claws made from a high-tech metal.");
 //  NAME		RARE  TYPE	COLOR		MAT
 AMMO("Fusion blast",	 0,0, AT_FUSION,c_dkgray,	MNULL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
-	 0,  0, 40,  0, 10,  1,  0,  5, "");
+	 0,  0, 40,  0, 10,  1,  0,  5, "", mfb(WF_AMMO_INCENDIARY));
 //  NAME		RARE	COLOR		MAT1	MAT2
 
 GUN("fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,

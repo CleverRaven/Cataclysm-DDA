@@ -31,8 +31,8 @@ max_bio_start,
 // TODO: all these suckers
 bio_banish, bio_gate_out, bio_gate_in, bio_nightfall, bio_drilldown,
 bio_heatwave, bio_lightning, bio_tremor, bio_flashflood,
-// Everything below THIS point is bad bionics, meant to be punishments
 max_bio_good,
+// Everything below THIS point is bad bionics, meant to be punishments
 bio_dis_shock, bio_dis_acid, bio_drain, bio_noise, bio_power_weakness,
  bio_stiff,
 max_bio
