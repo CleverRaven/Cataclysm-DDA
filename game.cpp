@@ -2431,6 +2431,7 @@ void game::om_npcs_move()
 
 void game::check_warmth()
 {
+/*
  // HEAD
  int warmth = u.warmth(bp_head) + int((temperature - 65) / 10);
  if (warmth <= -6) {
@@ -2441,10 +2442,8 @@ void game::check_warmth()
   add_msg("Your head is cold.");
   u.add_disease(DI_COLD, abs(warmth * 2), this);
  } else if (warmth >= 8) {
-/*
   add_msg("Your head is overheating!");
   u.add_disease(DI_HOT, warmth * 1.5, this);
-*/
  }
  // FACE -- Mouth and eyes
  warmth = u.warmth(bp_eyes) + u.warmth(bp_mouth) + int((temperature - 65) / 10);
@@ -2469,10 +2468,8 @@ void game::check_warmth()
   add_msg("Your body is cold.");
   u.add_disease(DI_COLD, abs(warmth), this);
  } else if (warmth >= 12) {
-/*
   add_msg("Your body is too hot."); 
   u.add_disease(DI_HOT, warmth * 2, this);
-*/
  }
  // HANDS
  warmth = u.warmth(bp_hands) + int((temperature - 65) / 10);
@@ -2492,10 +2489,8 @@ void game::check_warmth()
   add_msg("Your legs are very cold.");
   u.add_disease(DI_COLD_LEGS, abs(warmth), this);
  } else if (warmth >= 8) {
-/*
   add_msg("Your legs are overheating!");
   u.add_disease(DI_HOT, rng(0, warmth), this);
-*/
  }
  // FEET
  warmth = u.warmth(bp_feet) + int((temperature - 65) / 10);
@@ -2506,6 +2501,7 @@ void game::check_warmth()
   add_msg("Your feet are overheating!");
   u.add_disease(DI_HOT, rng(0, warmth), this);
  }
+*/
 }
 
 void game::sound(int x, int y, int vol, std::string description)

@@ -387,7 +387,8 @@ void iuse::weed(game *g, player *p, item *it, bool t)
  if (p->has_trait(PF_LIGHTWEIGHT))
   duration = 90;
  p->hunger += 8;
- p->pkill += 10;
+ if (p->pkill < 15)
+  p->pkill += 5;
  p->add_disease(DI_HIGH, duration, g);
 }
 
