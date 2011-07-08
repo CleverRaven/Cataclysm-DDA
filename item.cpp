@@ -994,11 +994,11 @@ Choose ammo type:         Damage     Armor Pierce     Range     Accuracy");
 
 bool item::reload(player &u, int index)
 {
- bool single_load;
+ bool single_load = false;
  int max_load;
  if (is_gun()) {
   it_gun* reloading = dynamic_cast<it_gun*>(type);
-  single_load = (reloading->skill_used == sk_shotgun);
+  single_load = has_weapon_flag(WF_RELOAD_ONE);
   max_load = clip_size();
  } else if (is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(type);

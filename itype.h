@@ -100,6 +100,7 @@ itm_nailgun, itm_bbgun, itm_crossbow, itm_rifle_22, itm_rifle_9mm, itm_smg_9mm,
  itm_browning_blr, itm_remington_700, itm_sks, itm_ruger_mini, itm_savage_111f,
  itm_hk_g3, itm_hk_g36, itm_ak47, itm_fn_fal, itm_acr, itm_ar15, itm_m4a1,
  itm_scar_l, itm_scar_h, itm_steyr_aug, itm_m249, itm_v29, itm_ftk93,
+ itm_flamethrower_simple, itm_flamethrower,
 // Gun modifications
 itm_silencer, itm_grip, itm_barrel_big, itm_barrel_small, itm_barrel_rifled,
  itm_clip, itm_clip2, itm_stablizer, itm_blowback, itm_autofire, itm_retool_45,

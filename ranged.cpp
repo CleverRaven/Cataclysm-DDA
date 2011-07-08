@@ -197,8 +197,11 @@ missed_by, deviation, trange, p.weapon.charges, p.posx, p.posy, tarx, tary);
 // Drawing the bullet uses player u, and not player p, because it's drawn
 // relative to YOUR position, which may not be the gunman's position.
    if (u_see(trajectory[i].x, trajectory[i].y, junk)) {
+    char bullet = '`';
+    if (flags & mfb(WF_AMMO_FLAME))
+     bullet = '#';
     mvwputch(w_terrain, trajectory[i].y + SEEY - u.posy,
-                        trajectory[i].x + SEEX - u.posx, c_red, '`');
+                        trajectory[i].x + SEEX - u.posx, c_red, bullet);
     wrefresh(w_terrain);
     nanosleep(&ts, NULL);
    }
@@ -663,7 +666,7 @@ void game::hit_monster_with_flags(monster &z, unsigned int flags)
   if (z.made_of(VEGGY) || z.made_of(COTTON) || z.made_of(WOOL) ||
       z.made_of(PAPER) || z.made_of(WOOD))
    z.add_effect(ME_ONFIRE, rng(8, 20));
-  else if (z.made_of(FLESH) && one_in(4))
+  else if (z.made_of(FLESH))
    z.add_effect(ME_ONFIRE, rng(5, 10));
   
  } else if (flags & mfb(WF_AMMO_INCENDIARY)) {

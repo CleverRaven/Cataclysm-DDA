@@ -1419,7 +1419,7 @@ mfb(WF_AMMO_INCENDIARY));
 color,LIQUID,1,1,0,0,0,flags,ammo_type,dmg,AP,accuracy,recoil,range,count))
 FUEL("gasoline",	0, 400,   AT_GAS,	c_ltred,
 //	DMG  AP RNG ACC REC COUNT
-	 0,  0,  0,  0,  0,  1, "\
+	 0,  0,  4,  0,  0,  1, "\
 Gasoline is a highly flammable liquid.  When under pressure, it has the\n\
 potential for violent explosion.",
 mfb(WF_AMMO_FLAME));
@@ -1845,6 +1845,20 @@ GUN("FTK-93 fusion gun", 1,5200,c_magenta,STEEL, PLASTIC,
 A very powerful fusion rifle developed shortly before the influx of monsters.\n\
 It can only hold two rounds at a time, but a special superheating unit causes\n\
 its bolts to be extremely deadly.",
+0);
+
+//  NAME		RAR PRC COLOR	 MAT1	MAT2
+GUN("simple flamethrower",1,800,c_pink,	STEEL,	PLASTIC,
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
+	sk_shotgun,	AT_GAS, 16,  8,   8, -1, -5,  6,  0,  6,  0, 12, "\
+A simple, home-made flamethrower.  While its capacity is not superb, it is\n\
+more than capable of igniting terrain and monsters alike.",
+0);
+
+GUN("flamethrower",	 1,1800,c_pink,	STEEL,	MNULL,
+	sk_shotgun,	AT_GAS, 20, 14, 10, -2, 10,  4,  0,  8,  4, 100, "\
+A large flamethrower with substantial gas reserves.  Very manacing and\n\
+deadly.",
 0);
 
 // GUN MODS
