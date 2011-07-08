@@ -4918,7 +4918,7 @@ void map::add_extra(map_extra type, game *g)
   add_field(g, x, y, fd_fatigue, 3);
   for (int i = x - 5; i <= x + 5; i++) {
    for (int j = y - 5; j <= y + 5; j++) {
-    if (rng(0, 9) > trig_dist(x, y, i, j) && rng(0, 9) > trig_dist(x, y, i, j)) {
+    if (rng(0, 9) > trig_dist(x, y, i, j)) {
      marlossify(i, j);
      if (ter(i, j) == t_marloss)
       add_item(x, y, (*itypes)[itm_marloss_berry], g->turn);

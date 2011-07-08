@@ -762,7 +762,7 @@ void game::process_activity()
     if (u.weapon.is_gun())
      reloading = dynamic_cast<it_gun*>(u.weapon.type);
     if (u.weapon.is_gun() && reloading->ammo != AT_BB &&
-        reloading->ammo != AT_NAIL && one_in(u.sklevel[reloading->skill_used]))
+        reloading->ammo != AT_NAIL && u.sklevel[reloading->skill_used] == 0)
      u.practice(reloading->skill_used, rng(2, 6));
     if (u.weapon.is_gun() && reloading->weapon_flags & mfb(WF_RELOAD_ONE)) {
      add_msg("You insert a cartridge into your %s.",
