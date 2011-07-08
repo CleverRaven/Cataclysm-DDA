@@ -14,8 +14,8 @@ void weather_effect::glare(game *g)
 
 void weather_effect::wet(game *g)
 {
- if (!g->u.is_wearing(itm_coat_rain) && PLAYER_OUTSIDE)
-  g->u.add_morale(MORALE_WET, -1, -50);
+ if (!g->u.is_wearing(itm_coat_rain) && PLAYER_OUTSIDE && one_in(2))
+  g->u.add_morale(MORALE_WET, -1, -30);
  for (int x = 0; x < SEEX * 3; x++) {
   for (int y = 0; y < SEEY * 3; y++) {
    if (g->m.is_outside(x, y)) {
@@ -30,7 +30,7 @@ void weather_effect::wet(game *g)
 void weather_effect::very_wet(game *g)
 {
  if (!g->u.is_wearing(itm_coat_rain) && PLAYER_OUTSIDE)
-  g->u.add_morale(MORALE_WET, -2, -100);
+  g->u.add_morale(MORALE_WET, -1, -60);
  for (int x = 0; x < SEEX * 3; x++) {
   for (int y = 0; y < SEEY * 3; y++) {
    if (g->m.is_outside(x, y)) {
