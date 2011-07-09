@@ -239,7 +239,7 @@ Nothing gets you down!  Your morale will generally be higher than average."},
 You heal a little faster than most; sleeping will heal more lost HP."},
 {"Light Eater", 3, false, "\
 Your metabolism is a little slower, and you require less food than most."},
-{"Pain Resistant", 4, false, "\
+{"Pain Resistant", 2, false, "\
 You have a high tolerance for pain."},
 {"Night Vision", 1, false, "\
 You possess natural night vision, and can see two squares instead of one in\n\

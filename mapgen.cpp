@@ -2332,7 +2332,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   line(this, t_wall_h,  2,  6, 19,  6);
   line(this, t_wall_h,  2, 13, 18, 13);
   line(this, t_wall_h,  1, 22, 22, 22);
-  line(this, t_wall_h,  9,  9, 18,  8);
+  line(this, t_wall_h,  9,  9, 18,  9);
   line(this, t_wall_v,  1,  2,  1, 21);
   line(this, t_wall_v, 22,  2, 22, 21);
   line(this, t_wall_v, 19,  9, 19, 21);
