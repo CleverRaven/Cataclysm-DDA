@@ -16,6 +16,7 @@
 #include "event.h"
 #include "mission.h"
 #include "weather.h"
+#include "posix_time.h"
 #include <vector>
 
 #define LONG_RANGE 10
@@ -163,7 +164,7 @@ class game
   void wait();	// Long wait (player action)	'^'
   void open();	// Open a door			'o'
   void close();	// Close a door			'c'
-  void smash();	// Smash terrain		
+  void smash();	// Smash terrain
   void craft();				// See crafting.cpp
   void make_craft(recipe *making);	// See crafting.cpp
   void complete_craft();		// See crafting.cpp
