@@ -2245,7 +2245,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
  case ot_police_north:
  case ot_police_east:
  case ot_police_south:
- case ot_police_west:
+ case ot_police_west: {
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     if ((j ==  7 && i != 17 && i != 18) ||
@@ -2281,12 +2281,22 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   ter(rng( 1,  4), 12) = t_door_c;
   ter(rng( 6,  9), 12) = t_door_c;
   ter(rng(11, 15), 12) = t_door_c;
-  ter(rng(21, 22), 12) = t_door_c;
+  ter(21, 12) = t_door_metal_locked;
+  computer* tmpcomp = add_computer(22, 13, "PolCom OS v1.47", 3);
+  tmpcomp->add_option("Open Supply Room", COMPACT_OPEN, 3);
+  tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
+  tmpcomp->add_failure(COMPFAIL_ALARM);
+  tmpcomp->add_failure(COMPFAIL_MANHACKS);
   ter( 7, 14) = t_door_c;
   ter(11, 14) = t_door_c;
   ter(15, 14) = t_door_c;
   ter(rng(20, 22), 15) = t_door_c;
-  ter(rng( 1,  4), 17) = t_door_c;
+  ter(2, 17) = t_door_metal_locked;
+  tmpcomp = add_computer(22, 13, "PolCom OS v1.47", 3);
+  tmpcomp->add_option("Open Evidence Locker", COMPACT_OPEN, 3);
+  tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
+  tmpcomp->add_failure(COMPFAIL_ALARM);
+  tmpcomp->add_failure(COMPFAIL_MANHACKS);
   ter(17, 18) = t_door_c;
   for (int i = 18; i < SEEX * 2 - 1; i++)
    ter(i, 20) = t_window;
@@ -2327,7 +2337,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_police_east)
    rotate(3);
-  break;
+  } break;
 
  case ot_bank_north:
  case ot_bank_east:

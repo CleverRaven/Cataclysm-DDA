@@ -4468,9 +4468,11 @@ void game::plmove(int x, int y)
       u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(x, y)]->visibility &&
       !query_yn("Really step onto that %s?",traps[m.tr_at(x, y)]->name.c_str()))
    return;
-  if (u.has_trait(PF_PARKOUR) && m.move_cost(x, y) <= 4)
-   movecost = 100 + u.encumb(bp_feet) * 5 + u.encumb(bp_legs) * 3;
-  else
+  if (u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 2) {
+   movecost = m.move_cost(x, y) * 20 + u.encumb(bp_feet) * 5 + u.encumb(bp_legs) * 3;
+   if (movecost < 100)
+    movecost = 100;
+  } else
    movecost = m.move_cost(x, y) * 50 + u.encumb(bp_feet) * 5 +
                                        u.encumb(bp_legs) * 3;
   if (u.has_trait(PF_FLEET) && m.move_cost(x, y) == 2)
@@ -4487,8 +4489,7 @@ void game::plmove(int x, int y)
    }
   }
   u.moves -= movecost;
-  if (m.move_cost(x, y) > 2 &&
-      (!u.has_trait(PF_PARKOUR) || m.move_cost(x, y) > 4))
+  if (movecost > 100)
    add_msg("Moving past this %s is slow!", m.tername(x, y).c_str());
   if (m.has_flag(rough, x, y)) {
    if (one_in(5) && u.armor_bash(bp_feet) < rng(1, 5)) {
@@ -4498,8 +4499,10 @@ void game::plmove(int x, int y)
    }
   }
   if (m.has_flag(sharp, x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur/2))) {
-   add_msg("You cut yourself on the %s!", m.tername(x, y).c_str());
-   u.hit(this, bp_torso, 0, 0, rng(1, 4));
+   if (!u.has_trait(PF_PARKOUR) || one_in(4)) {
+    add_msg("You cut yourself on the %s!", m.tername(x, y).c_str());
+    u.hit(this, bp_torso, 0, 0, rng(1, 4));
+   }
   }
   if (u.has_trait(PF_LIGHTSTEP))
    sound(x, y, 2, "");	// Sound of footsteps may awaken nearby monsters

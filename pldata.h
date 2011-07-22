@@ -228,7 +228,7 @@ const trait traits[] = {
 {"Fleet-Footed", 3, false, "\
 You can run more quickly than most, resulting in a 15%% speed bonus on sure\n\
 footing."},
-{"Parkour Expert", 1, false, "\
+{"Parkour Expert", 2, false, "\
 You're skilled at clearing obstacles; terrain like railings or counters are\n\
 as easy for you to move on as solid ground."},
 {"Quick", 3, false, "\
