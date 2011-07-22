@@ -1,5 +1,6 @@
 #include "game.h"
 #include "output.h"
+#include "keypress.h"
 
 #define LESS(a, b) ((a)<(b)?(a):(b))
 
@@ -23,9 +24,10 @@ void game::wish()
     found = true;
     pattern = "";
     ch = '.';
-   } else if (ch == KEY_BACKSPACE && pattern.length() > 0)
-    pattern.erase(pattern.end() - 1);
-   else
+   } else if (ch == KEY_BACKSPACE || ch == 127) {
+    if (pattern.length() > 0)
+     pattern.erase(pattern.end() - 1);
+   } else
     pattern += ch;
 
    for (int i = 0; i < itypes.size() && !found; i++) {
@@ -72,6 +74,8 @@ void game::wish()
    tmp.charges = dynamic_cast<it_tool*>(tmp.type)->max_charges;
   else if (tmp.is_ammo())
    tmp.charges = 100;
+  else
+   tmp.charges = 0;
   info = tmp.info();
   line = 2;
   mvprintw(line, 1, info.c_str());

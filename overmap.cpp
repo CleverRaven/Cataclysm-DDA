@@ -542,7 +542,7 @@ point overmap::choose_point(game *g)
  std::string note_text, npc_name;
  int cursx = (g->levx + 1) / 2, cursy = (g->levy + 1) / 2;
  int origx = cursx, origy = cursy;
- char ch;
+ char ch = 0;
  overmap hori, vert, diag;
  point ret(-1, -1);
  point target(-1, -1);

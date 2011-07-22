@@ -264,10 +264,8 @@ bool monster::is_fleeing(player &u)
 
  int fleefactor = type->agro - ((4 * (type->hp - hp)) / type->hp);
  if (u.has_trait(PF_ANIMALEMPATH) && has_flag(MF_ANIMAL)) {
-  if (type->agro > 0)	// Agressive animals flee instead
+  if (type->agro > 0) // Agressive animals flee instead
    fleefactor -= 5;
-  else			// Scared animals approach you
-   return false;
  }
  if (u.has_trait(PF_TERRIFYING))
   fleefactor -= 1;
@@ -304,7 +302,7 @@ int monster::hit(player &p, body_part &bp_hit)
  if (has_flag(MF_DIGS))
   highest_hit -= 8;
  if (has_flag(MF_FLIES))
-  highest_hit += 15;
+  highest_hit += 20;
  if (highest_hit <= 1)
   highest_hit = 2;
  if (highest_hit > 20)
@@ -335,10 +333,10 @@ void monster::hit_monster(game *g, int i)
  int numdice = type->melee_skill;
  int dodgedice = target->dodge() * 2;
  switch (target->type->size) {
-  case MS_TINY:		dodgedice += 4;	break;
-  case MS_SMALL: 	dodgedice += 2;	break;
-  case MS_LARGE:	numdice   += 2;	break;
-  case MS_HUGE:		numdice   += 4; break;
+  case MS_TINY:  dodgedice += 6; break;
+  case MS_SMALL: dodgedice += 3; break;
+  case MS_LARGE: dodgedice -= 2; break;
+  case MS_HUGE:  dodgedice -= 4; break;
  }
 
  if (dice(numdice, 10) <= dice(dodgedice, 10)) {
@@ -370,9 +368,12 @@ int monster::armor()
 
 int monster::dodge()
 {
+ int ret = type->sk_dodge;
+ if (has_effect(ME_BEARTRAP))
+  ret /= 2;
  if (moves <= 0 - type->speed)
-  return 0;
- return type->sk_dodge;
+  ret = rng(0, ret);
+ return ret;
 }
 
 int monster::dodge_roll()
@@ -380,8 +381,8 @@ int monster::dodge_roll()
  int numdice = dodge();
  
  switch (type->size) {
-  case MS_TINY:  numdice += 4; break;
-  case MS_SMALL: numdice += 2; break;
+  case MS_TINY:  numdice += 6; break;
+  case MS_SMALL: numdice += 3; break;
   case MS_LARGE: numdice -= 2; break;
   case MS_HUGE:  numdice -= 4; break;
  }
@@ -491,7 +492,7 @@ bool monster::make_fungus(game *g)
  case mon_ant_fungus:
  case mon_zombie_fungus:
  case mon_boomer_fungus:
-  return true;	// Fungusy creatures are immune
+ case mon_skeleton:
  case mon_eyebot:
  case mon_manhack:
  case mon_skitterbot:
@@ -501,7 +502,7 @@ bool monster::make_fungus(game *g)
  case mon_chickenbot:
  case mon_tankbot:
  case mon_turret:
-  return true;	// Robots are immune
+  return true;	// Funguses, skeletons, and robots are immune
  default:
   return false;	// All others die
  }

@@ -54,6 +54,7 @@ class map
  bool is_destructable(int x, int y);
  bool is_outside(int x, int y);
 
+ void translate(ter_id from, ter_id to); // Change all instances of $from->$to
  bool close_door(int x, int y);
  bool open_door(int x, int y, bool inside);
  bool bash(int x, int y, int str, std::string &sound);
@@ -86,12 +87,16 @@ class map
  void step_in_field(int x, int y, game *g);		// See fields.cpp
  void mon_in_field(int x, int y, game *g, monster *z);	// See fields.cpp
 
-// mapgen.h functions
+// Computers
+ computer* computer_at(int x, int y);
+
+// mapgen.cpp functions
  void generate(game *g, overmap *om, int x, int y, int turn);
  void place_items(items_location loc, int chance, int x1, int y1,
                   int x2, int y2, bool ongrass, int turn);
  void make_all_items_owned();
  void add_spawn(mon_id type, int count, int x, int y);
+ computer* add_computer(int x, int y, std::string name, int security);
  
 private:
  void saven(overmap *om, unsigned int turn, int x, int y, int gridx, int gridy);

@@ -711,7 +711,7 @@ A rare sword from Japan.  Deadly against unarmored targets, and still very\n\
 effective against the armored.");
 
 MELEE("wood spear",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
-	 5,  3, 10, 20,  1, mfb(WF_SPEAR), "\
+	 5,  3,  4, 18,  1, mfb(WF_SPEAR), "\
 A simple wood pole with one end sharpened.");
 
 MELEE("steel spear",      5,  140,'/', c_ltred,   WOOD,   STEEL,
@@ -1586,7 +1586,7 @@ GUN("sawn-off shotgun",	 1, 350,c_red,	IRON,	WOOD,
 	sk_shotgun,	AT_SHOT, 6, 10, 14,  2,  4, 40, 15,  4,  0,  2, "\
 The barrels of shotguns are often sawed in half to make it more maneuverable\n\
 and concealable.  This has the added effect of reducing accuracy greatly.",
-WF_RELOAD_ONE);
+mfb(WF_RELOAD_ONE));
 
 GUN("single barrel shotgun",1,300,c_red,IRON,	WOOD,
 	sk_shotgun,	AT_SHOT,10, 20, 14,  3,  0,  6,  5,  6,  0,  1, "\
@@ -1601,20 +1601,20 @@ GUN("double barrel shotgun",2,580,c_red,IRON,	WOOD,
 	sk_shotgun,	AT_SHOT,12, 26, 15,  3,  0,  7,  4,  7,  2,  2, "\
 An old shotgun, possibly antique.  It is little more than a pair of barrels,\n\
 a wood stock, and a hammer to strike the cartridge.",
-WF_RELOAD_ONE);
+mfb(WF_RELOAD_ONE));
 
 GUN("Remington 870",	 9,1200,c_red,	STEEL,	PLASTIC,
 	sk_shotgun,	AT_SHOT,16, 30, 17,  3,  5, 10,  0,  8,  3,  6, "\
 One of the most popular shotguns on the market, the Remington 870 is used by\n\
 hunters and law enforcement agencies alike thanks to its high accuracy and\n\
 muzzle velocity.",
-WF_RELOAD_ONE);
+mfb(WF_RELOAD_ONE));
 
 GUN("Mossberg 500",	 5,1150,c_red,	STEEL,	PLASTIC,
 	sk_shotgun,	AT_SHOT,15, 30, 17,  3,  0, 13, -2,  9,  3,  8, "\
 The Mossberg 500 is a popular series of pump-action shotguns, often acquired\n\
 for military use.  It is noted for its high durability and low recoil.",
-WF_RELOAD_ONE);
+mfb(WF_RELOAD_ONE));
 
 GUN("Saiga-12",		 3,1100,c_red,	STEEL,	PLASTIC,
 	sk_shotgun,	AT_SHOT,15, 36, 17,  3,  0, 17,  2,  7,  4, 10, "\

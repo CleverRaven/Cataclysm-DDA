@@ -174,9 +174,9 @@ int player::hit_mon(game *g, monster *z)
  if (bashing)
   bash_dam += rng(0, sklevel[sk_bashing]) * sqrt(str_cur);
  int bash_min = bash_dam / 4;
- if (bash_min < sklevel[sk_bashing] * 2)
-  bash_min = sklevel[sk_bashing] * 2;
- dam += rng(bash_dam / 4, bash_dam);
+ if (bash_min < sklevel[sk_bashing] * 4)
+  bash_min = sklevel[sk_bashing] * 4;
+ dam += rng(bash_min, bash_dam);
 // Take some moves away from the target; at this point it's skill & bash damage
  z->moves -= rng(0, dam * 2);
 // Spears treat cutting damage specially.

@@ -22,3 +22,12 @@ std::string text_hash::value(std::string key)
  fail << "Key '" << key << "' not found.";
  return fail.str();
 }
+
+bool text_hash::has_key(std::string key)
+{
+ for (int i = 0; i < keys.size(); i++) {
+  if (keys[i] == key)
+   return true;
+ }
+ return false;
+}

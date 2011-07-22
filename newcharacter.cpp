@@ -838,9 +838,11 @@ Points left: %d    You must use the rest of your points!", points);
   } else {
    switch (line) {
     case 1:
-     if ((ch == KEY_BACKSPACE || ch == 127) && u->name.size() > 0) {
-      mvwprintz(w, 6, 8 + u->name.size(), c_ltgray, "_");
-      u->name.erase(u->name.end() - 1);
+     if (ch == KEY_BACKSPACE || ch == 127) {
+      if (u->name.size() > 0) {
+       mvwprintz(w, 6, 8 + u->name.size(), c_ltgray, "_");
+       u->name.erase(u->name.end() - 1);
+      }
      } else if (ch == '\t') {
       line = 2;
       mvwprintz(w, 6, 8 + u->name.size(), c_ltgray, "_");

@@ -2008,10 +2008,9 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
     maxblind = 5;
    add_disease(DI_BLIND, rng(minblind, maxblind), g);
   }
-// Fall through to head damage
- case bp_mouth:
-// Fall through to head damage
- case bp_head:
+
+ case bp_mouth: // Fall through to head damage
+ case bp_head: 
   pain++;
   hp_cur[hp_head] -= dam;
   if (hp_cur[hp_head] < 0)
@@ -2023,8 +2022,7 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
   if (hp_cur[hp_torso] < 0)
    hp_cur[hp_torso] = 0;
  break;
- case bp_hands:
-// Fall through to arms
+ case bp_hands: // Fall through to arms
  case bp_arms:
   if (side == 1 || side == 3 || weapon.is_two_handed(this))
    recoil += int(dam / 3);
@@ -2039,8 +2037,7 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
     hp_cur[hp_arm_r] = 0;
   }
  break;
- case bp_feet:
-// Fall through to legs
+ case bp_feet: // Fall through to legs
  case bp_legs:
   if (side == 0 || side == 3) {
    hp_cur[hp_leg_l] -= dam;
@@ -2477,9 +2474,9 @@ void player::suffer(game *g)
    }
   }
   if (has_trait(PF_JITTERY) && !has_disease(DI_SHAKES)) {
-   if (stim > 0 && one_in(300 - 10 * stim))
-    add_disease(DI_SHAKES, 300 + 10 * stim, g);
-   else if (hunger > 50 && one_in(400 - hunger))
+   if (stim > 50 && one_in(300 - stim))
+    add_disease(DI_SHAKES, 300 + stim, g);
+   else if (hunger > 80 && one_in(500 - hunger))
     add_disease(DI_SHAKES, 400, g);
   }
   if (has_trait(PF_MOODSWINGS) && one_in(3600)) {

@@ -822,6 +822,7 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
 
 void iuse::hammer(game *g, player *p, item *it, bool t)
 {
+ g->draw();
  mvprintz(0, 0, c_red, "Pick a direction in which to construct:");
  int dirx, diry;
  get_direction(dirx, diry, input());

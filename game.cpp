@@ -20,6 +20,12 @@ moncat_id mt_to_mc(mon_id type);	// Pick the moncat that contains type
 // This is the main game set-up process.
 game::game()
 {
+/*
+ std::vector<computer> test_vec;
+ computer tmpcomp("test computer", 5, 6, 6);
+ test_vec.push_back(tmpcomp);
+ debugmsg("%s", test_vec[0].save_data().c_str());
+*/
  clear();	// Clear the screen
  intro();	// Print an intro screen, make sure we're at least 80x25
 // Gee, it sure is init-y around here!
@@ -122,6 +128,7 @@ fivedozenwhales@gmail.com.");
   if (tmp.find(".sav") != std::string::npos && savegames.size() < 18)
    savegames.push_back(tmp.substr(0, tmp.find(".sav")));
  }
+ closedir(dir);
  int sel1 = 0, sel2 = 1, layer = 1;
  char ch;
  bool start = false;
@@ -464,7 +471,7 @@ bool game::do_turn()
 {
  if (is_game_over()) {
   if (uquit == QUIT_DIED)
-   popup_top("Game over!");
+   popup_top("Game over! Press spacebar...");
   if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
    death_screen();
   return true;
@@ -543,7 +550,7 @@ bool game::do_turn()
   get_input();
   if (is_game_over()) {
    if (uquit == QUIT_DIED)
-    popup_top("Game over!");
+    popup_top("Game over! Press spacebar...");
    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
     death_screen();
    return true;
@@ -648,7 +655,7 @@ void game::process_activity()
     if (u.weapon.is_gun() && reloading->ammo != AT_BB &&
         reloading->ammo != AT_NAIL && u.sklevel[reloading->skill_used] == 0)
      u.practice(reloading->skill_used, rng(2, 6));
-    if (u.weapon.is_gun() && reloading->weapon_flags & mfb(WF_RELOAD_ONE)) {
+    if (u.weapon.is_gun() && u.weapon.has_weapon_flag(WF_RELOAD_ONE)) {
      add_msg("You insert a cartridge into your %s.",
              u.weapon.tname(this).c_str());
      if (u.recoil < 8)
@@ -2574,44 +2581,16 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
 
 void game::use_computer(int x, int y)
 {
- computerk used;
- u.practice(sk_computer, 5);
- switch (m.ter(x, y)) {
- case t_computer_nether:
-  used.difficulty = 4;
-  used.failure = &computerk::spawn_manhacks;
-  used.add_opt("Release Specimens",		&computerk::release);
-  used.add_opt("Terminate Specimens",		&computerk::terminate);
-  used.add_opt("Flash Portal",			&computerk::portal);
-  used.add_opt("Activate Resonance Cascade",	&computerk::cascade);
-  break;
- case t_computer_lab:
-  used.difficulty = 2;
-  used.failure = &computerk::spawn_manhacks;
-  used.add_opt("Read Research Logs",		&computerk::research);
-  used.add_opt("Download Map Data",		&computerk::maps);
-  break;
- case t_computer_silo:
-  used.difficulty = 5;
-  used.failure = &computerk::spawn_secubots;
-  used.add_opt("Download Map Data",		&computerk::maps);
-  used.add_opt("Launch Missile",		&computerk::launch);
-  used.add_opt("Disarm Missile",		&computerk::disarm);
-  break;
- default:
-  debugmsg("%s is not a computer!", m.tername(x, y).c_str());
+ computer* used = m.computer_at(x, y);
+
+ if (used == NULL) {
+  debugmsg("Tried to use computer at (%d, %d) - none there", x, y);
   return;
  }
- int success = u.sklevel[sk_computer] + int((u.int_cur - 8) / 3) +
-               rng(int(used.difficulty * .5), int(used.difficulty * 1.5));
- int choice = menu_vec(m.tername(x, y).c_str(), used.list_opts());
- choice--;
- if (success < -2) {
-  (used.*used.failure)(this);
-   return;
- }
- if (!(used.*used.options[choice].action)(this, success))
-  m.ter(x, y) = t_computer_broken;
+ 
+ used->use(this);
+
+ refresh_all();
 }
 
 void game::resonance_cascade(int x, int y)
@@ -2687,9 +2666,9 @@ void game::resonance_cascade(int x, int y)
 void game::emp_blast(int x, int y)
 {
  int rn;
- if (m.has_flag(computer, x, y)) {
+ if (m.has_flag(console, x, y)) {
   add_msg("The %s is rendered non-functional!", m.tername(x, y).c_str());
-  m.ter(x, y) = t_computer_broken;
+  m.ter(x, y) = t_console_broken;
   return;
  }
 // TODO: More terrain effects.
@@ -3048,7 +3027,7 @@ void game::examine()
   else
    pickup(examx, examy, 0);
  }
- if (m.has_flag(computer, examx, examy)) {
+ if (m.has_flag(console, examx, examy)) {
   use_computer(examx, examy);
   return;
  }

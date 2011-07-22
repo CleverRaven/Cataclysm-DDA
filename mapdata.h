@@ -8,6 +8,7 @@
 #include "trap.h"
 #include "monster.h"
 #include "enums.h"
+#include "computer.h"
 
 class game;
 class monster;
@@ -43,7 +44,7 @@ enum t_flag {
  noitem,       // Items "fall off" this space
  goes_down,    // Can '>' to go down a level
  goes_up,      // Can '<' to go up a level
- computer,     // Used as a computer
+ console,      // Used as a computer
  num_t_flags   // MUST be last
 };
 
@@ -96,7 +97,7 @@ t_gas_pump, t_gas_pump_smashed,
 t_missile, t_missile_exploded,
 t_counter,
 t_radio_tower, t_radio_controls,
-t_computer_broken, t_computer_nether, t_computer_lab, t_computer_silo,
+t_console_broken, t_console,
 // Containers
 t_fridge, t_dresser,
 t_rack, t_bookcase,
@@ -243,14 +244,10 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	0},
 {"radio controls",   '6', c_green,   0,
 	mfb(transparent)|mfb(bashable)},
-{"broken computer",  '6', c_ltgray,  0,
+{"broken console",   '6', c_ltgray,  0,
 	mfb(transparent)},
-{"computer console", '6', c_blue,    0,
-	mfb(transparent)|mfb(computer)},
-{"computer console", '6', c_blue,    0,
-	mfb(transparent)|mfb(computer)},
-{"computer console", '6', c_blue,    0,
-	mfb(transparent)|mfb(computer)},
+{"computer console",  '6', c_blue,    0,
+	mfb(transparent)|mfb(console)},
 {"refrigerator",     '{', c_ltcyan,   0,
 	mfb(container)},
 {"dresser",          '{', c_brown,   0,
@@ -411,6 +408,7 @@ struct submap {
  field			fld[SEEX][SEEY]; // Field on each square
  int			rad[SEEX][SEEY]; // Irradiation of each square
  std::vector<spawn_point> spawns;
+ computer comp;
 };
 
 #endif

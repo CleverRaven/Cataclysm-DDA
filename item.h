@@ -52,6 +52,8 @@ public:
  int volume();
  int volume_contained();
  int attack_time();
+ int damage_bash();
+ int damage_cut();
  bool has_weapon_flag(weapon_flag f);
 
 // Our value as a weapon, given particular skills

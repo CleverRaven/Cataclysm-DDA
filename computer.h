@@ -1,51 +1,97 @@
 #ifndef _COMPUTER_H_
 #define _COMPUTER_H_
 
-//#include "game.h"
+#include "texthash.h"
+#include "output.h"
 #include <vector>
 #include <string>
 
-struct computerk;
+#define DEFAULT_COMPUTER_NAME ""
+
 class game;
+class player;
+
+enum computer_action
+{
+ COMPACT_NULL = 0,
+ COMPACT_OPEN,
+ COMPACT_RELEASE,
+ COMPACT_TERMINATE,
+ COMPACT_PORTAL,
+ COMPACT_CASCADE,
+ COMPACT_RESEARCH,
+ COMPACT_MAPS,
+ COMPACT_MISS_LAUNCH,
+ COMPACT_MISS_DISARM,
+ NUM_COMPUTER_ACTIONS
+};
+
+enum computer_failure
+{
+ COMPFAIL_NULL = 0,
+ COMPFAIL_SHUTDOWN,
+ COMPFAIL_ALARM,
+ COMPFAIL_MANHACKS,
+ COMPFAIL_SECUBOTS,
+ COMPFAIL_DAMAGE,
+ NUM_COMPUTER_FAILURES
+};
 
 struct computer_option
 {
  std::string name;
- bool (computerk::*action)(game *, int);
+ computer_action action;
+ int security;
 
- computer_option(std::string N, bool (computerk::*A)(game *, int)) :
-  name (N), action (A) {}
+ computer_option() { name = "Unknown", action = COMPACT_NULL, security = 0; };
+ computer_option(std::string N, computer_action A, int S) :
+   name (N), action (A), security (S) {};
 };
 
-struct computerk
+class computer
 {
- int difficulty;
- std::vector<computer_option> options;
- void (computerk::*failure)(game *);
+public:
+ computer();
+ computer(std::string Name, int Security);
+ ~computer();
 
- void add_opt(std::string s, bool (computerk::*a)(game *, int)) {
-  options.push_back(computer_option(s, a));
- };
+ computer & operator=(const computer &rhs);
+// Initialization
+ void set_security(int Security);
+ void add_option(std::string opt_name, computer_action action, int Security);
+ void add_failure(computer_failure failure);
+// Basic usage
+ void shutdown_terminal(); // Shutdown (free w_terminal, etc)
+ void use(game *g);
+ bool hack_attempt(player *p, int Security = -1);// -1 defaults to main security
+// Save/load
+ std::string save_data();
+ void load_data(std::string data);
 
- std::vector<std::string> list_opts() {
-  std::vector<std::string> ret;
-  for (int i = 0; i < options.size(); i++)
-   ret.push_back(options[i].name);
-  return ret;
- };
+ std::string name; // "Jon's Computer", "Lab 6E77-B Terminal Omega"
 
-// Failure functions
- void spawn_manhacks	(game *);
- void spawn_secubots	(game *);
-// Option functions - return false if the computer is to be broken
- bool release	(game *, int);	// Remove nearby glass walls
- bool terminate (game *, int);	// Kill nearby monsters
- bool portal	(game *, int);	// Create a portal between nearby radio towers
- bool cascade	(game *, int);	// Resonance cascade
- bool research	(game *, int);	// Display lines from LAB_NOTES
- bool maps	(game *, int);	// Reveal the world map
- bool launch	(game *, int);	// Launch a missile
- bool disarm	(game *, int);	// Disarm this missile
+private:
+ int security; // Difficulty of simply logging in
+ std::vector<computer_option> options;   // Things we can do
+ std::vector<computer_failure> failures; // Things that happen if we fail a hack
+ WINDOW *w_terminal; // Output window
+
+// Called by use()
+ void activate_function      (game *g, computer_action action);
+// Generally called when we fail a hack attempt
+ void activate_random_failure(game *g);
+// ...but we can also choose a specific failure.
+ void activate_failure       (game *g, computer_failure fail);
+
+// OUTPUT/INPUT
+// Reset to a blank terminal (e.g. at start of usage loop)
+ void reset_terminal();
+// Prints a line to the terminal (with printf flags)
+ void print_line(const char *text, ...);
+// For now, the same as print_line but in red (TODO: change this?)
+ void print_error(const char *text, ...);
+// Prints a line and waits for Y/N/Q
+ char query_ynq(const char *text, ...);
 };
 
 #endif

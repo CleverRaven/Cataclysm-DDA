@@ -511,6 +511,21 @@ bool map::open_door(int x, int y, bool inside)
  return false;
 }
 
+void map::translate(ter_id from, ter_id to)
+{
+ if (from == to) {
+  debugmsg("map::translate %s => %s", terlist[from].name.c_str(),
+                                      terlist[from].name.c_str());
+  return;
+ }
+ for (int x = 0; x < SEEX * 3; x++) {
+  for (int y = 0; y < SEEY * 3; y++) {
+   if (ter(x, y) == from)
+    ter(x, y) = to;
+  }
+ }
+}
+
 bool map::close_door(int x, int y)
 {
  if (ter(x, y) == t_door_o) {
@@ -751,6 +766,17 @@ bool map::add_field(game *g, int x, int y, field_id t, unsigned char density)
   g->add_msg("You're in a %s!", fieldlist[t].name[density - 1].c_str());
  }
  return true;
+}
+
+computer* map::computer_at(int x, int y)
+{
+ if (!inbounds(x, y))
+  return NULL;
+ int nonant;
+ cast_to_nonant(x, y, nonant);
+ if (grid[nonant].comp.name == "")
+  return NULL;
+ return &(grid[nonant].comp);
 }
 
 void map::debug()
@@ -1142,6 +1168,9 @@ void map::saven(overmap *om, unsigned int turn, int worldx, int worldy,
   fout << "S " << int(tmpsp.type) << " " << tmpsp.count << " " << tmpsp.posx <<
           " " << tmpsp.posy << std::endl;
  }
+// Output the computer
+ if (grid[n].comp.name != "")
+  fout << "c " << grid[n].comp.save_data() << std::endl;
 // Close the file; that's all we need.
  fout.close();
 }
@@ -1162,6 +1191,7 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
  item it_tmp;
  std::ifstream mapin;
  std::string databuff;
+ grid[gridn].comp = computer();
 
  sprintf(fname, "save/m.%d.%d.%d", g->cur_om.posx * OMAPX * 2 + worldx + gridx,
                                    g->cur_om.posy * OMAPY * 2 + worldy + gridy,
@@ -1221,6 +1251,9 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
     mapin >> t >> a >> itx >> ity;
     spawn_point tmp(mon_id(t), a, itx, ity);
     grid[gridn].spawns.push_back(tmp);
+   } else if (!mapin.eof() && ch == 'c') {
+    getline(mapin, databuff);
+    grid[gridn].comp.load_data(databuff);
    }
   }
   mapin.close();
@@ -1230,8 +1263,7 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
      i = int(turndif / 8) + 1;
    }
   }
- } else {
-// No data on this area.   
+ } else {// No data on this area.  Generate some!
   map tmp_map(itypes, mapitems, traps);
 // overx, overy is where in the overmap we need to pull data from
 // Each overmap square is two nonants; to prevent overlap, generate only at
@@ -1305,14 +1337,4 @@ void cast_to_nonant(int &x, int &y, int &n)
   n = 0;
  else if (n > 8)
   n = 8;
-
- if (x < 0) 
-  x = 0;
- else if (x >= SEEX)
-  x = SEEX - 1;
-
- if (y < 0) 
-  y = 0;
- else if (y >= SEEY) 
-  y = SEEY - 1;
 }

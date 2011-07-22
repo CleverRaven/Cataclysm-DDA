@@ -24,7 +24,14 @@ faction::faction()
  strength = 0;
  sneak = 0;
  crime = 0;
+ cult = 0;
  good = 0;
+ omx = 0;
+ omy = 0;
+ mapx = 0;
+ mapy = 0;
+ size = 0;
+ power = 0;
 }
 
 faction::~faction()
