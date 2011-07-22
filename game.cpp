@@ -4489,7 +4489,8 @@ void game::plmove(int x, int y)
    }
   }
   u.moves -= movecost;
-  if (movecost > 100)
+  if ((!u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 2) ||
+      ( u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 4    ))
    add_msg("Moving past this %s is slow!", m.tername(x, y).c_str());
   if (m.has_flag(rough, x, y)) {
    if (one_in(5) && u.armor_bash(bp_feet) < rng(1, 5)) {
