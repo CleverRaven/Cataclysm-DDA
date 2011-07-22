@@ -741,7 +741,7 @@ MELEE("empty canister",  5,  20,'*', c_ltgray,	STEEL,	MNULL,
 	 1,  1,  2,  0, -1, 0, "\
 An empty cansiter, which may have once held tear gas or other substances.");
 
-MELEE("gold bar",	 2,3000,',', c_yellow,	STEEL,	MNULL,
+MELEE("gold bar",	10,3000,'/', c_yellow,	STEEL,	MNULL,
 	 2, 60, 14,  0, -1, 0, "\
 A large bar of gold.  Before the apocalypse, this wouldn't been worth a small\n\
 fortune; now its value is greatly diminished.");
