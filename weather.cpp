@@ -65,13 +65,11 @@ void weather_effect::lightning(game *g)
    }
   }
   point hit;
-  if (strike.size() == 0) {
-   hit.x = rng(0, SEEX * 3 - 1);
-   hit.y = rng(0, SEEY * 3 - 1);
-  } else
+  if (strike.size() > 0) {
    hit = strike[rng(0, strike.size() - 1)];
-  g->add_msg("Lightning strikes nearby!");
-  g->explosion(hit.x, hit.y, 10, 0, one_in(4));
+   g->add_msg("Lightning strikes nearby!");
+   g->explosion(hit.x, hit.y, 10, 0, one_in(4));
+  }
  }
 }
 
