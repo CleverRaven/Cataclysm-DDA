@@ -170,11 +170,17 @@ fivedozenwhales@gmail.com.");
    wrefresh(w_open);
    refresh();
    ch = input();
-   if (ch == 'k' && sel1 > 0)
-    sel1--;
-   if (ch == 'j' && sel1 < 5)
-    sel1++;
-   if ((ch == 'l' || ch == '\n' || ch == '>') && sel1 > 0) {
+   if (ch == 'k') {
+    if (sel1 > 0)
+     sel1--;
+    else
+     sel1 = 5;
+   } else if (ch == 'j') {
+    if (sel1 < 5)
+     sel1++;
+    else
+     sel1 = 0;
+   } else if ((ch == 'l' || ch == '\n' || ch == '>') && sel1 > 0) {
     if (sel1 == 5) {
      uquit = QUIT_MENU;
      return false;
@@ -214,11 +220,17 @@ fivedozenwhales@gmail.com.");
     wrefresh(w_open);
     refresh();
     ch = input();
-    if (ch == 'k' && sel2 > 1)
-     sel2--;
-    if (ch == 'j' && sel2 < 3)
-     sel2++;
-    if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE) {
+    if (ch == 'k') {
+     if (sel2 > 1)
+      sel2--;
+     else
+      sel2 = 3;
+    } if (ch == 'j') {
+     if (sel2 < 3)
+      sel2++;
+     else
+      sel2 = 1;
+    } else if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE) {
      mvwprintz(w_open, 5, 12, c_black, "                ");
      mvwprintz(w_open, 6, 12, c_black, "                ");
      mvwprintz(w_open, 7, 12, c_black, "                ");
@@ -260,10 +272,6 @@ fivedozenwhales@gmail.com.");
     else {
      int savestart = (sel2 < 7 ?  0 : sel2 - 7),
          saveend   = (sel2 < 7 ? 14 : sel2 + 7);
-/*
-     if (saveend > savegames.size())
-      saveend = savegames.size();
-*/
      for (int i = savestart; i < saveend; i++) {
       int line = 6 + i - savestart;
       mvwprintz(w_open, line, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
@@ -275,11 +283,17 @@ fivedozenwhales@gmail.com.");
     wrefresh(w_open);
     refresh();
     ch = input();
-    if (ch == 'k' && sel2 > 1)
-     sel2--;
-    if (ch == 'j' && sel2 < savegames.size())
-     sel2++;
-    if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE) {
+    if (ch == 'k') {
+     if (sel2 > 1)
+      sel2--;
+     else
+      sel2 = savegames.size();
+    } else if (ch == 'j') {
+     if (sel2 < savegames.size())
+      sel2++;
+     else
+      sel2 = 1;
+    } else if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE) {
      layer = 1;
      for (int i = 0; i < 14; i++)
       mvwprintz(w_open, 6 + i, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
@@ -303,14 +317,20 @@ fivedozenwhales@gmail.com.");
    wrefresh(w_open);
    refresh();
    ch = input();
-   if (ch == 'k' && sel1 > 2)
-    sel1--;
-   if (ch == 'j' && sel1 < PLTYPE_MAX - 1)
-    sel1++;
-   if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE) {
+   if (ch == 'k') {
+    if (sel1 > 2)
+     sel1--;
+    else
+     sel1 = PLTYPE_MAX - 1;
+   } else if (ch == 'j') {
+    if (sel1 < PLTYPE_MAX - 1)
+     sel1++;
+    else
+     sel1 = 2;
+   } else if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE) {
     sel1 = 1;
     layer = 2;
-    for (int i = 2; i < PLTYPE_MAX; i++)
+    for (int i = 2; i <= PLTYPE_MAX; i++)
      mvwprintz(w_open, 3 + i, 12, c_black, "                                 ");
     for (int i = 22; i < 25; i++)
      mvwprintw(w_open, i, 0, "                                                 \
@@ -5005,6 +5025,13 @@ void game::gameover()
  erase();
  mvprintw(0, 35, "GAME OVER");
  inv();
+}
+
+bool game::game_quit()
+{
+ if (uquit == QUIT_MENU)
+  return true;
+ return false;
 }
 
 void game::write_msg()

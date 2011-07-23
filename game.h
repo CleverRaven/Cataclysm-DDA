@@ -48,6 +48,7 @@ class game
  public:
   game();
   ~game();
+  bool game_quit(); // True if we actually quit the game - used in main.cpp
   void save();
   bool do_turn();
   void tutorial_message(tut_lesson lesson);

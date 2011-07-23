@@ -1727,7 +1727,7 @@ GUN("Remington 700",	14,1300,c_brown,IRON,	WOOD,
 A very popular and durable hunting or sniping rifle.  Popular among SWAT\n\
 and US Marine snipers.  Highly damaging, but perhaps not as accurate as the\n\
 competing Browning BLR.",
-0);
+mfb(WF_RELOAD_ONE));
 
 GUN("SKS",		12,1600,c_brown,IRON,	WOOD,
 	sk_rifle,	AT_762,	12, 34, 13,  3,  0,  5, -4,  8,  0, 10, "\
@@ -1747,7 +1747,7 @@ GUN("Savage 111F",	10,1980,c_brown,STEEL,	PLASTIC,
 	sk_rifle,	AT_308, 12, 26, 13,  3,  6,  5,-11,  9,  0,  3, "\
 A very accurate rifle chambered for the powerful .308 round.  Its very low\n\
 ammo capacity is offset by its accuracy and near-complete lack of recoil.",
-0);
+mfb(WF_RELOAD_ONE));
 
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("H&K G3",		15,2550,c_blue,	IRON,	WOOD,

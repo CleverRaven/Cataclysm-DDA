@@ -206,8 +206,11 @@ void npc::execute_action(game *g, npc_action action, int target)
   break;
 
  case npc_drop_items:
+/*
   drop_items(g, weight_carried() - weight_capacity() / 4,
                 volume_carried() - volume_capacity());
+*/
+  move_pause();
   break;
 
  case npc_flee:
@@ -454,9 +457,11 @@ npc_action npc::address_needs(game *g, int danger)
      thirst > 80 || hunger > 160)
   return npc_eat;
 
+/*
  if (weight_carried() > weight_capacity() / 4 ||
      volume_carried() > volume_capacity())
   return npc_drop_items;
+*/
 
 /*
  if (danger <= 0 && fatigue > 191)
@@ -1051,12 +1056,14 @@ void npc::pick_up_item(game *g)
    total_weight += wgt;
   }
  }
+/*
  if (total_volume + volume_carried() > volume_capacity() ||
      total_weight + weight_carried() > weight_capacity() / 4) {
   int wgt_to_drop = weight_carried() + total_weight - weight_capacity() / 4;
   int vol_to_drop = volume_carried() + total_volume - volume_capacity();
   drop_items(g, wgt_to_drop, vol_to_drop);
  }
+*/
 // Describe the pickup to the player
  int t;
  bool u_see_me = g->u_see(posx, posy, t), u_see_items = g->u_see(itx, ity, t);
