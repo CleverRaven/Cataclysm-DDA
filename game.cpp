@@ -553,7 +553,7 @@ bool game::do_turn()
   if (u.radiation > 1 && one_in(3))
    u.radiation--;
   u.get_sick(this);
-// On the half-hour, we also save and update the weather.
+// On the half-hour, we also autosave and update the weather.
   update_weather();
   save();
  }
@@ -4384,10 +4384,6 @@ void game::plmove(int x, int y)
    int udam = u.hit_mon(this, &z[mondex]);
    if (z[mondex].hurt(udam))
     kill_mon(mondex);
-/*
-   else if (udam > 0)	// Stun them
-    z[mondex].moves -= udam + int((udam / z[mondex].hp) * z[mondex].speed);
-*/
    return;
   } else
    displace = true;
@@ -4867,6 +4863,7 @@ void game::update_map(int &x, int &y)
    scent(i, j) = newscent[i][j];
  }
  draw_minimap();
+ save(); // We autosave every time the map gets updated.
 }
 
 void game::spawn_mon(int shiftx, int shifty)
