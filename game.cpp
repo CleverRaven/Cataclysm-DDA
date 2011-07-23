@@ -1036,6 +1036,9 @@ bool game::is_game_over()
    for (int i = 0; i < tmp.size(); i++)
     m.add_item(u.posx, u.posy, tmp[i]);
    m.save(&cur_om, turn, levx, levy);
+   std::stringstream playerfile;
+   playerfile << "save/" << u.name << ".sav";
+   unlink(playerfile.str().c_str());
    uquit = QUIT_DIED;
    return true;
   }
