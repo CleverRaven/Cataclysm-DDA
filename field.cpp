@@ -145,7 +145,7 @@ bool map::process_fields(game *g)
         ter(x + i, y + i) = ter_id(int(ter(x + i, y + i)) + 1);
         g->explosion(x+i, y+j, 40, 0, true);
        } else if ((i != 0 || j != 0) && (i_at(x+i, y+j).size() > 0 ||
-                  rng(15, 120) < cur->density * 10)) {
+                  rng(25, 380) < cur->density * 10)) {
         if (field_at(x+i, y+j).type == fd_smoke)
          field_at(x+i, y+j) = field(fd_fire, 1, 0);
 // Fire in pits can only spread to adjacent pits
