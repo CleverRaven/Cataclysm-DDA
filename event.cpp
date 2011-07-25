@@ -27,7 +27,7 @@ void event::actualize(game *g)
    }
   } break;
   case EVENT_ROBOT_ATTACK: {
-   if (abs(g->levx - map_point.x) <= 5 && abs(g->levy - map_point.y) <= 5) {
+   if (rl_dist(g->levx, g->levy, map_point.x, map_point.y) <= 4) {
     mtype *robot_type = g->mtypes[mon_tripod];
     if (faction_id == 0) // The cops!
      robot_type = g->mtypes[mon_copbot];
