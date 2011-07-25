@@ -160,9 +160,9 @@ bool computer::hack_attempt(player *p, int Security)
 
  p->practice(sk_computer, Security * 2);
  int player_roll = p->sklevel[sk_computer];
- if (p->int_cur < 8)
+ if (p->int_cur < 8 && one_in(2))
   player_roll -= rng(0, 8 - p->int_cur);
- else if (p->int_cur > 8)
+ else if (p->int_cur > 8 && one_in(3))
   player_roll += rng(0, p->int_cur - 8);
 
  return (rng(player_roll, 6) >= rng(Security, 6));
@@ -431,6 +431,8 @@ void computer::activate_failure(game *g, computer_failure fail)
 
   case COMPFAIL_ALARM:
    g->sound(g->u.posx, g->u.posy, 60, "An alarm sounds!");
+   if (g->levz > 0 && !g->event_queued(EVENT_WANTED))
+    g->add_event(EVENT_WANTED, g->turn + 300, 0, g->levx, g->levy);
    break;
 
   case COMPFAIL_MANHACKS: {

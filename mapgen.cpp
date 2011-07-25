@@ -2276,8 +2276,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      ter(i, j) = t_floor;
    }
   }
-  ter(17, 7) = t_door_locked;
-  ter(18, 7) = t_door_locked;
+  ter(17, 7) = t_door_locked_alarm;
+  ter(18, 7) = t_door_locked_alarm;
   ter(rng( 1,  4), 12) = t_door_c;
   ter(rng( 6,  9), 12) = t_door_c;
   ter(rng(11, 15), 12) = t_door_c;
@@ -2299,20 +2299,25 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   tmpcomp->add_failure(COMPFAIL_MANHACKS);
   ter(17, 18) = t_door_c;
   for (int i = 18; i < SEEX * 2 - 1; i++)
-   ter(i, 20) = t_window;
+   ter(i, 20) = t_window_alarm;
   if (one_in(3)) {
    for (int j = 16; j < 20; j++)
-    ter(SEEX * 2 - 1, j) = t_window;
+    ter(SEEX * 2 - 1, j) = t_window_alarm;
   }
   rn = rng(18, 21);
-  ter(rn, 20) = t_door_c;
-  ter(rn + 1, 20) = t_door_c;
+  if (one_in(4)) {
+   ter(rn    , 20) = t_door_c;
+   ter(rn + 1, 20) = t_door_c;
+  } else {
+   ter(rn    , 20) = t_door_locked_alarm;
+   ter(rn + 1, 20) = t_door_locked_alarm;
+  }
   rn = rng(1, 5);
-  ter(rn, 20) = t_window;
-  ter(rn + 1, 20) = t_window;
+  ter(rn, 20) = t_window_alarm;
+  ter(rn + 1, 20) = t_window_alarm;
   rn = rng(10, 14);
-  ter(rn, 20) = t_window;
-  ter(rn + 1, 20) = t_window;
+  ter(rn, 20) = t_window_alarm;
+  ter(rn + 1, 20) = t_window_alarm;
   if (one_in(2)) {
    for (int i = 6; i < 10; i++)
     ter(i, 8) = t_counter;
@@ -2373,42 +2378,51 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   tmpcomp->add_failure(COMPFAIL_ALARM);
 // Front wall--glass or windows?
   if (!one_in(4)) {
-   line(this, t_wall_glass_h, 2, 1, 21, 1);
+   line(this, t_wall_glass_h_alarm, 2, 1, 21, 1);
    if (one_in(2))
-    line(this, t_wall_glass_v, 1, 2, 1, 5); // Side glass wall for teller room
+    line(this, t_wall_glass_v_alarm, 1, 2, 1, 5); // Side wall for teller room
   } else {
    if (one_in(4))
-    line(this, t_wall_glass_v, 1, 2, 1, 5); // Side glass wall for teller room
+    line(this, t_wall_glass_v_alarm, 1, 2, 1, 5); // Side wall for teller room
    rn = rng(3, 7);
-   ter(rn    , 1) = t_window;
-   ter(rn + 1, 1) = t_window;
+   ter(rn    , 1) = t_window_alarm;
+   ter(rn + 1, 1) = t_window_alarm;
    rn = rng(13, 18);
-   ter(rn    , 1) = t_window;
-   ter(rn + 1, 1) = t_window;
+   ter(rn    , 1) = t_window_alarm;
+   ter(rn + 1, 1) = t_window_alarm;
   }
 // Doors for offices
   ter(8, rng(7, 8)) = t_door_c;
   ter(rng(10, 17), 9) = t_door_c;
   ter(19, rng(15, 20)) = t_door_c;
 // Side and back windows
-  ter(1, rng(7, 12)) = t_window;
-  ter(1, rng(7, 12)) = t_window;
-  ter(rng(14, 18), 22) = t_window;
+  ter(1, rng(7, 12)) = t_window_alarm;
+  ter(1, rng(7, 12)) = t_window_alarm;
+  ter(rng(14, 18), 22) = t_window_alarm;
   if (one_in(2))
-   ter(rng(14, 18), 22) = t_window;
+   ter(rng(14, 18), 22) = t_window_alarm;
   if (one_in(10))
    line(this, t_wall_glass_v, 22, 2, 22, 21); // Right side is glass wall!
   else {
    rn = rng(7, 12);
-   ter(22, rn    ) = t_window;
-   ter(22, rn + 1) = t_window;
+   ter(22, rn    ) = t_window_alarm;
+   ter(22, rn + 1) = t_window_alarm;
    rn = rng(13, 19);
-   ter(22, rn    ) = t_window;
-   ter(22, rn + 1) = t_window;
+   ter(22, rn    ) = t_window_alarm;
+   ter(22, rn + 1) = t_window_alarm;
   }
 // Finally, place the front doors.
-  ter(10, 1) = t_door_c;
-  ter(11, 1) = t_door_c;
+  if (one_in(4)) { // 1 in 4 are unlocked
+   ter(10, 1) = t_door_c;
+   ter(11, 1) = t_door_c;
+  } else if (one_in(4)) { // 1 in 4 locked ones are un-alarmed
+   ter(10, 1) = t_door_locked;
+   ter(11, 1) = t_door_locked;
+  } else {
+   ter(10, 1) = t_door_locked_alarm;
+   ter(11, 1) = t_door_locked_alarm;
+  }
+
   place_items(mi_office,       60,  2,  7,  7, 12,    false, 0);
   place_items(mi_office,       60,  9, 10, 18, 12,    false, 0);
   place_items(mi_office,       70, 14, 14, 18, 21,    false, 0);
@@ -4154,6 +4168,10 @@ void map::rotate(int turns)
      ter(i, j) = t_wall_glass_v;
     else if (ter(i, j) == t_wall_glass_v)
      ter(i, j) = t_wall_glass_h;
+    else if (ter(i, j) == t_wall_glass_h_alarm)
+     ter(i, j) = t_wall_glass_v_alarm;
+    else if (ter(i, j) == t_wall_glass_v_alarm)
+     ter(i, j) = t_wall_glass_h_alarm;
     else if (ter(i, j) == t_reinforced_glass_h)
      ter(i, j) = t_reinforced_glass_v;
     else if (ter(i, j) == t_reinforced_glass_v)

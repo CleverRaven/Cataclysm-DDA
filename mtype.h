@@ -46,8 +46,8 @@ mon_mosquito, mon_dragonfly, mon_centipede, mon_frog, mon_slug,
 mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
  mon_flaming_eye, mon_kreck, mon_blank, mon_gozu,
 // Robots
-mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_molebot, mon_tripod,
- mon_chickenbot, mon_tankbot, mon_turret,
+mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_copbot, mon_molebot,
+ mon_tripod, mon_chickenbot, mon_tankbot, mon_turret,
 // Hallucinations
 mon_hallu_zom, mon_hallu_bee, mon_hallu_ant, mon_hallu_mom,
 num_monsters

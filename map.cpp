@@ -57,7 +57,6 @@ ter_id& map::ter(int x, int y)
  return grid[nonant].ter[x][y];
 }
 
-
 std::string map::tername(int x, int y)
 {
  return terlist[ter(x, y)].name;
@@ -120,6 +119,21 @@ bool map::is_outside(int x, int y)
          ter(x + 1, y    ) != t_floor && ter(x + 1, y + 1) != t_floor   );
 }
 
+point map::random_outdoor_tile()
+{
+ std::vector<point> options;
+ for (int x = 0; x < SEEX * 3; x++) {
+  for (int y = 0; y < SEEX * 3; y++) {
+   if (is_outside(x, y))
+    options.push_back(point(x, y));
+  }
+ }
+ if (options.empty()) // Nowhere is outdoors!
+  return point(-1, -1);
+
+ return options[rng(0, options.size() - 1)];
+}
+
 bool map::bash(int x, int y, int str, std::string &sound)
 {
  sound = "";
@@ -138,6 +152,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
  switch (ter(x, y)) {
  case t_door_c:
  case t_door_locked:
+ case t_door_locked_alarm:
   if (str >= rng(0, 40)) {
    sound += "smash!";
    ter(x, y) = t_door_b;
@@ -161,6 +176,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
   }
   break;
  case t_window:
+ case t_window_alarm:
   if (str >= rng(0, 6)) {
    sound += "glass breaking!";
    ter(x, y) = t_window_frame;
@@ -231,6 +247,8 @@ bool map::bash(int x, int y, int str, std::string &sound)
   break;
  case t_wall_glass_h:
  case t_wall_glass_v:
+ case t_wall_glass_h_alarm:
+ case t_wall_glass_v_alarm:
   if (str >= rng(0, 20)) {
    sound += "glass breaking!";
    ter(x, y) = t_floor;
@@ -356,10 +374,16 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
  if (flags & mfb(WF_AMMO_FLAME) && has_flag(flammable, x, y))
   add_field(g, x, y, fd_fire, 2);
 
+ if (has_flag(alarmed, x, y) && !g->event_queued(EVENT_WANTED)) {
+  g->sound(g->u.posx, g->u.posy, 30, "An alarm sounds!");
+  g->add_event(EVENT_WANTED, g->turn + 300, 0, g->levx, g->levy);
+ }
+
  switch (ter(x, y)) {
 
  case t_door_c:
  case t_door_locked:
+ case t_door_locked_alarm:
   dam -= rng(15, 30);
   if (dam > 0)
    ter(x, y) = t_door_b;
@@ -381,6 +405,7 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
   break;
 
  case t_window:
+ case t_window_alarm:
   dam -= rng(0, 5);
   if (dam > 0)
    ter(x, y) = t_window_frame;
@@ -394,6 +419,8 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
 
  case t_wall_glass_h:
  case t_wall_glass_v:
+ case t_wall_glass_h_alarm:
+ case t_wall_glass_v_alarm:
   dam -= rng(0, 8);
   if (dam > 0)
    ter(x, y) = t_floor;
@@ -504,7 +531,8 @@ bool map::open_door(int x, int y, bool inside)
  } else if (ter(x, y) == t_door_metal_c) {
   ter(x, y) = t_door_metal_o;
   return true;
- } else if (inside && ter(x, y) == t_door_locked) {
+ } else if (inside &&
+            (ter(x, y) == t_door_locked || ter(x, y) == t_door_locked_alarm)) {
   ter(x, y) = t_door_o;
   return true;
  }
@@ -627,12 +655,12 @@ void map::add_item(int x, int y, item new_item)
 {
  if (!inbounds(x, y))
   return;
- if (has_flag(noitem, x, y) || i_at(x, y).size() >= 24) {// Too many items there
+ if (has_flag(noitem, x, y) || i_at(x, y).size() >= 26) {// Too many items there
   std::vector<point> okay;
   for (int i = x - 1; i <= x + 1; i++) {
    for (int j = y - 1; j <= y + 1; j++) {
     if (inbounds(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
-        i_at(i, j).size() < 24)
+        i_at(i, j).size() < 26)
      okay.push_back(point(i, j));
    }
   }
@@ -640,7 +668,7 @@ void map::add_item(int x, int y, item new_item)
    for (int i = x - 2; i <= x + 2; i++) {
     for (int j = y - 2; j <= y + 2; j++) {
      if (inbounds(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
-         i_at(i, j).size()<24)
+         i_at(i, j).size() < 26)
       okay.push_back(point(i, j));
     }
    }
@@ -704,12 +732,6 @@ void map::add_trap(int x, int y, trap_id t)
  int nonant;
  cast_to_nonant(x, y, nonant);
  grid[nonant].trp[x][y] = t;
-/*
- debugmsg("trap_id %d; traps.size() %d", t, traps->size());
- if (t == tr_portal)
-  debugmsg("add_trap x:%d y:%d, -> nonant %d %d:%d = %d (%s)", oldx, oldy, 
-           nonant, x, y, t, (*traps)[t]->name.c_str());
-*/
 }
 
 void map::disarm_trap(game *g, int x, int y)
@@ -1116,7 +1138,7 @@ void map::saven(overmap *om, unsigned int turn, int worldx, int worldy,
 // Dump the terrain. Add 33 to ter to get a human-readable number or symbol.
  for (int j = 0; j < SEEY; j++) {
   for (int i = 0; i < SEEX; i++)
-   fout << char(int(grid[n].ter[i][j]) + 42);
+   fout << char(int(grid[n].ter[i][j]) + 32);
   fout << std::endl;
  }
 // Dump the radiation
@@ -1207,7 +1229,7 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
   for (int j = 0; j < SEEY; j++) {
    mapin.getline(line, SEEX + 1);
    for (int i = 0; i < SEEX; i++) {
-    grid[gridn].ter[i][j] = ter_id(line[i]-42);
+    grid[gridn].ter[i][j] = ter_id(line[i]-32);
     grid[gridn].itm[i][j].clear();
     grid[gridn].trp[i][j] = tr_null;
     grid[gridn].fld[i][j] = field();

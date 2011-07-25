@@ -71,6 +71,7 @@ enum faction_value {
 
 struct faction {
  faction();
+ faction(int uid);
  ~faction();
 
  std::string save_info();

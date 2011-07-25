@@ -57,6 +57,7 @@ game::game()
 // Even though we may already have 'd', nextinv will be incremented as needed
  nextinv = 'd';
  next_npc_id = 1;
+ next_faction_id = 1;
  next_mission_id = 1;
  last_target = -1;	// We haven't targeted any monsters yet
  curmes = 0;		// We haven't read any messages yet
@@ -472,12 +473,12 @@ void game::start_tutorial(tut_type type)
 void game::create_factions()
 {
  int num = dice(4, 3);
- faction tmp;
+ faction tmp(0);
  tmp.make_army();
  factions.push_back(tmp);
  for (int i = 0; i < num; i++) {
+  tmp = faction(assign_faction_id());
   tmp.randomize();
-  tmp.id = i + 1;
   tmp.likes_u = 100;
   tmp.respects_u = 100;
   tmp.known_by_u = true;
@@ -642,6 +643,7 @@ void game::update_skills()
 void game::process_events()
 {
  for (int i = 0; i < events.size(); i++) {
+  events[i].per_turn(this);
   if (events[i].turn <= turn) {
    events[i].actualize(this);
    events.erase(events.begin() + i);
@@ -1138,8 +1140,8 @@ void game::load(std::string name)
  u.weapon = item(itypes[0], 0);
  int tmprun, tmptar, tmptemp, comx, comy;
  fin >> turn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
-        next_mission_id >> nextspawn >> tmptemp >> levx >> levy >> levz >>
-        comx >> comy;
+        next_faction_id >> next_mission_id >> nextspawn >> tmptemp >> levx >>
+        levy >> levz >> comx >> comy;
  cur_om = overmap(this, comx, comy, levz);
 // m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
  m.load(this, levx, levy);
@@ -1209,9 +1211,9 @@ void game::save()
 // First, write out basic game state information.
  fout << turn << " " << int(last_target) << " " << int(run_mode) << " " <<
          mostseen << " " << nextinv << " " << next_npc_id << " " <<
-         next_mission_id << " " << nextspawn << " " << int(temperature) <<
-         " " << levx << " " << levy << " " << levz << " " << cur_om.posx <<
-         " " << cur_om.posy << " " << std::endl;
+         next_faction_id << " " << next_mission_id << " " << nextspawn <<
+         " " << int(temperature) << " " << levx << " " << levy << " " <<
+         levz << " " << cur_om.posx << " " << cur_om.posy << " " << std::endl;
 // Next, the scent map.
  for (int i = 0; i < SEEX * 3; i++) {
   for (int j = 0; j < SEEY * 3; j++)
@@ -1272,11 +1274,20 @@ void game::add_msg(const char* msg, ...)
  messages.push_back(s);
 }
 
-void game::add_event(event_type type, int on_turn, faction* rel)
+void game::add_event(event_type type, int on_turn, int faction_id = -1,
+                     int x = -1, int y = -1)
 {
- debugmsg("type %d, on turn %d (%d)", type, on_turn, turn);
- event tmp(type, on_turn, rel);
+ event tmp(type, on_turn, faction_id, x, y);
  events.push_back(tmp);
+}
+
+bool game::event_queued(event_type type)
+{
+ for (int i = 0; i < events.size(); i++) {
+  if (events[i].type == type)
+   return true;
+  }
+  return false;
 }
 
 void game::debug()
@@ -1970,6 +1981,22 @@ int game::assign_npc_id()
  return ret;
 }
 
+int game::assign_faction_id()
+{
+ int ret = next_faction_id;
+ next_faction_id++;
+ return ret;
+}
+
+faction* game::faction_by_id(int id)
+{
+ for (int i = 0; i < factions.size(); i++) {
+  if (factions[i].id == id)
+   return &(factions[i]);
+ }
+ return NULL;
+}
+
 faction* game::random_good_faction()
 {
  std::vector<int> valid;
@@ -1982,7 +2009,7 @@ faction* game::random_good_faction()
   return &(factions[index]);
  }
 // No good factions exist!  So create one!
- faction newfac;
+ faction newfac(assign_faction_id());
  do
   newfac.randomize();
  while (newfac.good < 5);
@@ -2003,7 +2030,7 @@ faction* game::random_evil_faction()
   return &(factions[index]);
  }
 // No good factions exist!  So create one!
- faction newfac;
+ faction newfac(assign_faction_id());
  do
   newfac.randomize();
  while (newfac.good > -5);
@@ -2899,6 +2926,7 @@ void game::open()
  if (!didit) {
   switch(m.ter(u.posx + openx, u.posy + openy)) {
   case t_door_locked:
+  case t_door_locked_alarm:
    add_msg("The door is locked!");
    break;	// Trying to open a locked door uses the full turn's movement
   case t_door_o:
@@ -2956,6 +2984,12 @@ void game::smash()
  }
  int smashx, smashy;
  get_direction(smashx, smashy, ch);
+// TODO: Move this elsewhere.
+ if (m.has_flag(alarmed, u.posx + smashx, u.posy + smashy) &&
+     !event_queued(EVENT_WANTED)) {
+  sound(u.posx, u.posy, 30, "An alarm sounds!");
+  add_event(EVENT_WANTED, turn + 300, 0, levx, levy);
+ }
  if (smashx != -2 && smashy != -2)
   didit = m.bash(u.posx + smashx, u.posy + smashy, smashskill, bashsound);
  else
@@ -4611,7 +4645,7 @@ void game::plmove(int x, int y)
    u.moves -= 100;
   } else if (m.open_door(x, y, m.ter(u.posx, u.posy) == t_floor))
    u.moves -= 100;
-  else if (m.ter(x, y) == t_door_locked) {
+  else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_alarm) {
    u.moves -= 100;
    add_msg("That door is locked!");
    if (in_tutorial)

@@ -50,6 +50,7 @@ void game::init_monitems()
  monitems[mon_manhack]		= monitems[mon_eyebot];
  monitems[mon_skitterbot]	= monitems[mon_eyebot];
  monitems[mon_secubot]		= monitems[mon_eyebot];
+ monitems[mon_copbot]		= monitems[mon_eyebot];
  monitems[mon_molebot]		= monitems[mon_eyebot];
  monitems[mon_tripod]		= monitems[mon_eyebot];
  monitems[mon_chickenbot]	= monitems[mon_eyebot];

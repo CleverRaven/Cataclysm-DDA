@@ -26,10 +26,11 @@ class mattack
   void gene_sting	(game *g, monster *z);
   void stare		(game *g, monster *z);
   void fear_paralyze	(game *g, monster *z);
-  void photograph	(game *g, monster *z) { };	// TODO: needs faction
+  void photograph	(game *g, monster *z);
   void tazer		(game *g, monster *z);
   void smg		(game *g, monster *z);
   void flamethrower	(game *g, monster *z);
+  void copbot		(game *g, monster *z);
   void multi_robot	(game *g, monster *z); // Pick from tazer, smg, flame
 };
 

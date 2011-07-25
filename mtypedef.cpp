@@ -674,8 +674,8 @@ wearing only a pair of white underwear."
 mon("eyebot",		'r',	c_ltblue,	MS_SMALL,	STEEL,
 	(mfb(MF_SEES)|mfb(MF_FLIES)|mfb(MF_ELECTRONIC)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	 20,  2,  2,120, 0,  0,  0,  0,  3, 10, 70,  20, 10,
-	&mdeath::explode,	&mattack::photograph, "\
+	 20,  2,  2,120, 0,  0,  0,  0,  3, 10, 70,  20, 30,
+	&mdeath::normal,	&mattack::photograph, "\
 A roughly spherical robot that hovers about\n\
 five feet of the ground.  Its front side is\n\
 dominated by a huge eye and a flash bulb.\n\
@@ -713,6 +713,17 @@ A boxy robot about four feet high.  It moves\n\
 slowly on a set of treads, and is armed with\n\
 a large machine gun type weapon.  It is\n\
 heavily armored."
+);
+
+mon("copbot",		'R',	c_dkgray,	MS_MEDIUM,	STEEL,
+	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_BASHES)|mfb(MF_ATTACKMON)|
+	 mfb(MF_ELECTRONIC)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  0, 12,  3,100,  4,  3,  2,  0,  8,  8, 80, 80, 3,
+	&mdeath::normal,	&mattack::copbot, "\
+A blue-painted robot that moves quickly on a\n\
+set of three omniwheels.  It has a nightstick\n\
+readied, and appears to be well-armored."
 );
 
 mon("molebot",		'R',	c_brown,	MS_MEDIUM,	STEEL,

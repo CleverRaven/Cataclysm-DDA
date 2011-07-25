@@ -80,6 +80,7 @@ class overmap
   std::vector<radio_tower> radios;
   int posx, posy, posz;
   std::vector<npc> npcs;
+
  private:
   oter_id t[OMAPX][OMAPY];
   oter_id nullret;

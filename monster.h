@@ -103,6 +103,7 @@ class monster {
  int hp;
  int sp_timeout;
  int friendly;
+ int faction_id; // If we belong to a faction
  mtype *type;
  bool dead;
 

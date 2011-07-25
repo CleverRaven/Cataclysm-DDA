@@ -56,7 +56,8 @@ class game
   void draw_ter();
   void advance_nextinv();	// Increment the next inventory letter
   void add_msg(const char* msg, ...);
-  void add_event(event_type type, int on_turn, faction* rel);
+  void add_event(event_type type, int on_turn, int faction_id, int x, int y);
+  bool event_queued(event_type type);
 // Sound at (x, y) of intensity (vol), described to the player is (description)
   void sound(int x, int y, int vol, std::string description);
 // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
@@ -94,6 +95,8 @@ class game
   int& scent(int x, int y);
   unsigned char light_level();
   int assign_npc_id();
+  int assign_faction_id();
+  faction* faction_by_id(int it);
   bool sees_u(int x, int y, int &t);
   bool u_see (int x, int y, int &t);
   bool u_see (monster *mon, int &t);
@@ -252,7 +255,7 @@ class game
   quit_status uquit;    // Set to true if the player quits ('Q')
 
   int nextspawn;          // The turn on which monsters will spawn next.
-  int next_npc_id, next_mission_id;	// Keep track of UIDs
+  int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
   signed char temperature;              // The air temperature
   weather_type weather;			// Weather pattern--SEE weather.h
   season_type season;

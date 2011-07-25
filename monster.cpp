@@ -27,6 +27,7 @@ monster::monster()
  spawnposx = -1;
  spawnposy = -1;
  friendly = 0;
+ faction_id = -1;
  dead = false;
 }
 
@@ -47,6 +48,7 @@ monster::monster(mtype *t)
  spawnposx = -1;
  spawnposy = -1;
  friendly = 0;
+ faction_id = -1;
  dead = false;
 }
 
@@ -67,6 +69,7 @@ monster::monster(mtype *t, int x, int y)
  spawnposx = -1;
  spawnposy = -1;
  friendly = 0;
+ faction_id = -1;
  dead = false;
 }
 
@@ -203,7 +206,7 @@ void monster::load_info(std::string data, std::vector <mtype*> *mtypes)
  int idtmp, plansize;
  dump << data;
  dump >> idtmp >> posx >> posy >> wandx >> wandy >> wandf >> moves >> speed >>
-         hp >> sp_timeout >> plansize >> friendly >> dead;
+         hp >> sp_timeout >> plansize >> friendly >> faction_id >> dead;
  type = (*mtypes)[idtmp];
  point ptmp;
  for (int i = 0; i < plansize; i++) {
@@ -218,7 +221,7 @@ std::string monster::save_info()
  pack << int(type->id) << " " << posx << " " << posy << " " << wandx << " " <<
          wandy << " " << wandf << " " << moves << " " << speed << " " << hp <<
          " " << sp_timeout << " " << plans.size() << " " << friendly << " " <<
-          dead;
+          faction_id << " " << dead;
  for (int i = 0; i < plans.size(); i++) {
   pack << " " << plans[i].x << " " << plans[i].y;
  }

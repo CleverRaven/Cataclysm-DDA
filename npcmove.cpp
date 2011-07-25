@@ -1028,7 +1028,8 @@ void npc::find_item(game *g)
 void npc::pick_up_item(game *g)
 {
  if (g->debugmon) {
-  debugmsg("%s::pick_up_item(); [%d, %d] => [%d, %d]", name.c_str(), posx, posy, itx, ity);
+  debugmsg("%s::pick_up_item(); [%d, %d] => [%d, %d]", name.c_str(), posx, posy,
+           itx, ity);
  }
  update_path(g, itx, ity);
 

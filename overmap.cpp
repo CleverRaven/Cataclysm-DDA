@@ -543,7 +543,7 @@ point overmap::choose_point(game *g)
  int cursx = (g->levx + 1) / 2, cursy = (g->levy + 1) / 2;
  int origx = cursx, origy = cursy;
  char ch = 0;
- overmap hori, vert, diag;
+ overmap hori, vert, diag; // Adjacent maps
  point ret(-1, -1);
  point target(-1, -1);
  if (g->u.active_mission >= 0 &&

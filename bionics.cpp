@@ -550,7 +550,7 @@ void bionics_install_failure(game *g, player *u, int success)
  
  case 2:
   fail_text += " and your body is damaged.";
-  u->hurtall(rng(failure_level * 2, failure_level * 3));
+  u->hurtall(rng(failure_level, failure_level * 2));
   break;
 
  case 3:

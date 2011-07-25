@@ -45,6 +45,7 @@ enum t_flag {
  goes_down,    // Can '>' to go down a level
  goes_up,      // Can '<' to go up a level
  console,      // Used as a computer
+ alarmed,      // Sets off an alarm if smashed
  num_t_flags   // MUST be last
 };
 
@@ -72,13 +73,15 @@ t_slime,
 t_wall_v, t_wall_h,
 t_wall_metal_v, t_wall_metal_h,
 t_wall_glass_v, t_wall_glass_h,
+t_wall_glass_v_alarm, t_wall_glass_h_alarm,
 t_reinforced_glass_v, t_reinforced_glass_h,
 t_bars,
-t_door_c, t_door_b, t_door_o, t_door_locked, t_door_frame, t_door_boarded,
+t_door_c, t_door_b, t_door_o, t_door_locked, t_door_locked_alarm, t_door_frame,
+ t_door_boarded,
 t_door_metal_c, t_door_metal_o, t_door_metal_locked,
 t_bulletin,
 t_portcullis,
-t_window, t_window_frame, t_window_boarded,
+t_window, t_window_alarm, t_window_frame, t_window_boarded,
 t_rock,
 t_paper,
 // Tree
@@ -105,8 +108,9 @@ t_dumpster,
 t_vat,
 // Staircases etc.
 t_stairs_down, t_stairs_up, t_manhole, t_ladder, t_slope_down, t_slope_up,
+t_manhole_cover,
 // Special
-t_card_reader, t_card_reader_broken, t_manhole_cover, t_slot_machine,
+t_card_reader, t_card_reader_broken, t_slot_machine,
 num_terrain_types
 };
 
@@ -155,6 +159,10 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(bashable)},
 {"glass wall",       '-', c_ltcyan,  0,
 	mfb(transparent)|mfb(bashable)},
+{"glass wall",       '|', c_ltcyan,  0, // Alarmed
+	mfb(transparent)|mfb(bashable)|mfb(alarmed)},
+{"glass wall",       '-', c_ltcyan,  0, // Alarmed
+	mfb(transparent)|mfb(bashable)|mfb(alarmed)},
 {"reinforced glass", '|', c_ltcyan,  0,
 	mfb(transparent)|mfb(bashable)},
 {"reinforced glass", '-', c_ltcyan,  0,
@@ -169,6 +177,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)},
 {"closed wood door", '+', c_brown,   0,	// Actually locked
 	mfb(bashable)|mfb(flammable)},
+{"closed wood door", '+', c_brown,   0, // Locked and alarmed
+	mfb(bashable)|mfb(flammable)|mfb(alarmed)},
 {"empty door frame", '.', c_brown,   2,
 	mfb(transparent)},
 {"boarded up door",  '#', c_brown,   0,
@@ -185,6 +195,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	0},
 {"window",	     '"', c_ltcyan,  0,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)},
+{"window",	     '"', c_ltcyan,  0, // Actually alarmed
+	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(alarmed)},
 {"window frame",     '0', c_ltcyan, 12,
 	mfb(container)|mfb(transparent)|mfb(sharp)|mfb(flammable)|mfb(noitem)},
 {"boarded up window",'#', c_brown,   0,
@@ -272,12 +284,12 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(goes_down)|mfb(container)},
 {"upward slope",     '<', c_brown,   2,
 	mfb(transparent)|mfb(goes_up)|mfb(container)},
+{"manhole cover",    '0',  c_dkgray, 2,
+	mfb(transparent)},
 {"card reader",	     '6', c_pink,    0,
 	0},
 {"broken card reader",'6', c_ltgray, 0,
 	0},
-{"manhole cover",    '0',  c_dkgray, 2,
-	mfb(transparent)},
 {"slot machine",     '6', c_green,   0,
 	mfb(bashable)}
 };

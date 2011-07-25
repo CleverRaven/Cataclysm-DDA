@@ -233,8 +233,10 @@ void monster::move(game *g)
   } else if (g->m.move_cost(next.x, next.y) == 0 && has_flag(MF_DESTROYS)) {
    g->m.destroy(g, next.x, next.y, true);
    moves -= 250;
-  } else if (can_move_to(g->m, next.x, next.y))
+  } else if (can_move_to(g->m, next.x, next.y) && g->is_empty(next.x, next.y))
    move_to(g, next.x, next.y);
+  else
+   moves -= 100;
  }
 
 // If we're close to our target, we get focused and don't stumble

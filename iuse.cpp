@@ -983,14 +983,16 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
   bonus += fac->respects_u + 3 * fac->likes_u;
   if (bonus >= 25) {
    popup("They reply, \"Help is on the way!\"");
-   g->add_event(EVENT_HELP, g->turn + fac->response_time(g), fac);
+   g->add_event(EVENT_HELP, g->turn + fac->response_time(g), fac->id, -1, -1);
    fac->respects_u -= rng(0, 8);
    fac->likes_u -= rng(3, 5);
   } else if (bonus >= -5) {
    popup("They reply, \"Sorry, you're on your own!\"");
    fac->respects_u -= rng(0, 5);
-  } else
+  } else {
    popup("They reply, \"Hah!  We hope you die!\"");
+   fac->respects_u -= rng(1, 8);
+  }
 
  } else if (ch == '2') {	// Call Acquaitance
 // TODO: Implement me!

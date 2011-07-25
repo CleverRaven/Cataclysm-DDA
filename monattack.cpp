@@ -643,10 +643,25 @@ void mattack::fear_paralyze(game *g, monster *z)
  }
 }
 
+void mattack::photograph(game *g, monster *z)
+{
+ int t;
+ if (z->faction_id == -1 ||
+     rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 6 ||
+     !g->sees_u(z->posx, z->posy, t))
+  return;
+ z->sp_timeout = z->type->sp_freq;
+ z->moves -= 150;
+ g->add_msg("The %s takes your picture!", z->name().c_str());
+// TODO: Make the player known to the faction
+ g->add_event(EVENT_ROBOT_ATTACK, g->turn + rng(15, 30), z->faction_id,
+              g->levx, g->levy);
+}
+
 void mattack::tazer(game *g, monster *z)
 {
  int j;
- if (abs(g->u.posx - z->posx) > 2 || abs(g->u.posy - z->posy) > 2 ||
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 2 ||
      !g->sees_u(z->posx, z->posy, j))
   return;	// Out of range
  z->sp_timeout = z->type->sp_freq;	// Reset timer
@@ -697,6 +712,22 @@ void mattack::flamethrower(game *g, monster *z)
  for (int i = 0; i < traj.size(); i++)
   g->m.add_field(g, traj[i].x, traj[i].y, fd_fire, 1);
  g->u.add_disease(DI_ONFIRE, 8, g);
+}
+
+void mattack::copbot(game *g, monster *z)
+{
+ int t, mode = 0;
+ z->sp_timeout = z->type->sp_freq;	// Reset timer
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 2 ||
+     !g->sees_u(z->posx, z->posy, t)) {
+  if (one_in(3))
+   g->sound(z->posx, z->posy, 18, "a robotic voice boom, \"Citizen, Halt!\"");
+  else
+   g->sound(z->posx, z->posy, 18, "a police siren, whoop WHOOP");
+  return;
+ }
+ mattack tmp;
+ tmp.tazer(g, z);
 }
 
 void mattack::multi_robot(game *g, monster *z)
