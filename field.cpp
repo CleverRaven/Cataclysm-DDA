@@ -441,7 +441,8 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    break;
 
   case fd_acid:
-   if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_ACIDPROOF)) {
+   if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
+       !z->has_flag(MF_ACIDPROOF)) {
     if (cur->density == 3)
      dam = rng(4, 10) + rng(2, 8);
     else

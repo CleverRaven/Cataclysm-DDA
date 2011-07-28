@@ -180,6 +180,7 @@ class game
 // Pick where to put liquid; false if it's left where it was
   bool handle_liquid(item &liquid, bool from_ground, bool infinite);
   void drop();	  // Drop an item		'd'	TODO: Multidrop
+  void drop_in_direction(); // Drop w/ direction 'D'
   void butcher(); // Butcher a corpse		'B'
   void complete_butcher(int index);	// Finish the butchering process
   void eat();	  // Eat food or fuel		'E' (or 'a')

@@ -873,6 +873,8 @@ void game::get_input()
   pickup(u.posx, u.posy, 1);
  else if (ch == 'd')
   drop();
+ else if (ch == 'D')
+  drop_in_direction();
  else if (ch == 'i') {
   bool has = false;
   do {
@@ -3761,6 +3763,7 @@ void game::drop()
   add_msg("Never mind.");
   return;
  }
+// No dropping bionics
  if (ch == u.weapon.invlet && u.weapon.type->id > num_items) {
   add_msg("You cannot drop your %s.", u.weapon.tname(this).c_str());
   return;
@@ -3772,6 +3775,43 @@ void game::drop()
  }
  m.add_item(u.posx, u.posy, tmp);
  add_msg("You drop your %s.", tmp.tname(this).c_str());
+}
+
+void game::drop_in_direction()
+{
+ char ch = inv("Drop item:");
+ if (ch == KEY_ESCAPE) {
+  add_msg("Nevermind.");
+  return;
+ }
+// No dropping bionics
+ if (ch == u.weapon.invlet && u.weapon.type->id > num_items) {
+  add_msg("You cannot drop your %s.", u.weapon.tname(this).c_str());
+  return;
+ }
+ if (u.i_at(ch).name == "none") {
+  add_msg("You do not have that item.");
+  return;
+ }
+ refresh_all();
+ mvprintz(0, 0, c_red, "Choose a direction:");
+ int dirx, diry;
+ get_direction(dirx, diry, input());
+ if (dirx == -2) {
+  add_msg("Invalid direction!");
+  return;
+ }
+ dirx += u.posx;
+ diry += u.posy;
+ if (m.has_flag(noitem, dirx, diry) || m.has_flag(sealed, dirx, diry)) {
+  add_msg("You can't place an item there!");
+  return;
+ }
+ item tmp = u.i_rem(ch);
+ m.add_item(dirx, diry, tmp);
+ add_msg("You put your %s %s the %s.", tmp.tname(this).c_str(),
+         m.move_cost(dirx, diry) > 0 ? "on" : "in",
+         m.tername(dirx, diry).c_str());
 }
 
 // Display current inventory.

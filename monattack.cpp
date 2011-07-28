@@ -674,7 +674,46 @@ void mattack::tazer(game *g, monster *z)
 
 void mattack::smg(game *g, monster *z)
 {
- int t, j;
+ int t, j, fire_t;
+ if (z->friendly != 0) { // Attacking monsters, not the player!
+  monster* target = NULL;
+  int closest = 13;
+  for (int i = 0; i < g->z.size(); i++) {
+   int dist = rl_dist(z->posx, z->posy, g->z[i].posx, g->z[i].posy);
+   if (g->z[i].friendly == 0 && dist < closest && 
+       g->m.sees(z->posx, z->posy, g->z[i].posx, g->z[i].posy, 12, t)) {
+    target = &(g->z[i]);
+    closest = dist;
+    fire_t = t;
+   }
+  }
+  if (target == NULL) // Couldn't find any targets!
+   return;
+  z->sp_timeout = z->type->sp_freq;	// Reset timer
+  z->moves = -150;			// It takes a while
+  if (g->u_see(z->posx, z->posy, t))
+   g->add_msg("The %s fires its smg!", z->name().c_str());
+  player tmp;
+  tmp.name = "The " + z->name();
+  tmp.sklevel[sk_smg] = 1;
+  tmp.sklevel[sk_gun] = 0;
+  tmp.recoil = 0;
+  tmp.posx = z->posx;
+  tmp.posy = z->posy;
+  tmp.str_cur = 16;
+  tmp.dex_cur =  6;
+  tmp.per_cur =  8;
+  tmp.weapon = item(g->itypes[itm_smg_9mm], 0);
+  tmp.weapon.curammo = dynamic_cast<it_ammo*>(g->itypes[itm_9mm]);
+  tmp.weapon.charges = 10;
+  std::vector<point> traj = line_to(z->posx, z->posy,
+                                    target->posx, target->posy, fire_t);
+  g->fire(tmp, target->posx, target->posy, traj, true);
+
+  return;
+ }
+ 
+// Not friendly; hence, firing at the player
  if (trig_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 12 ||
      !g->sees_u(z->posx, z->posy, t))
   return;
@@ -683,6 +722,7 @@ void mattack::smg(game *g, monster *z)
 
  if (g->u_see(z->posx, z->posy, j))
   g->add_msg("The %s fires its smg!", z->name().c_str());
+// Set up a temporary player to fire this gun
  player tmp;
  tmp.name = "The " + z->name();
  tmp.sklevel[sk_smg] = 1;
@@ -691,8 +731,8 @@ void mattack::smg(game *g, monster *z)
  tmp.posx = z->posx;
  tmp.posy = z->posy;
  tmp.str_cur = 16;
- tmp.dex_cur =  5;
- tmp.per_cur =  7;
+ tmp.dex_cur =  6;
+ tmp.per_cur =  8;
  tmp.weapon = item(g->itypes[itm_smg_9mm], 0);
  tmp.weapon.curammo = dynamic_cast<it_ammo*>(g->itypes[itm_9mm]);
  tmp.weapon.charges = 10;

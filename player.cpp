@@ -456,7 +456,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  }
 
  for (int i = 0; i < addictions.size(); i++) {
-  if (addictions[i].sated < 0) {
+  if (addictions[i].sated < 0 &&
+      addictions[i].intensity >= MIN_ADDICTION_LEVEL) {
    effect_name.push_back(addiction_name(addictions[i]));
    effect_text.push_back(addiction_text(addictions[i]));
   }
@@ -1077,7 +1078,6 @@ encumb(bp_feet) * 5);
  delwin(w_effects);
  delwin(w_skills);
  delwin(w_speed);
- delwin(w_info);
  erase();
 }
 
@@ -2300,7 +2300,8 @@ void player::add_addiction(add_type type, int strength)
 bool player::has_addiction(add_type type)
 {
  for (int i = 0; i < addictions.size(); i++) {
-  if (addictions[i].type == type)
+  if (addictions[i].type == type &&
+      addictions[i].intensity >= MIN_ADDICTION_LEVEL)
    return true;
  }
  return false;
@@ -2361,7 +2362,8 @@ void player::suffer(game *g)
   if (has_trait(PF_ADDICTIVE))
    timer = -4000;
   for (int i = 0; i < addictions.size(); i++) {
-   if (addictions[i].sated <= 0)
+   if (addictions[i].sated <= 0 &&
+       addictions[i].intensity >= MIN_ADDICTION_LEVEL)
     addict_effect(g, addictions[i]);
    addictions[i].sated--;
    if (!one_in(addictions[i].intensity - 2) && addictions[i].sated > 0)

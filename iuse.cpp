@@ -641,7 +641,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
   int rn = dice(4, 2 + p->sklevel[sk_tailor]);
   if (p->dex_cur < 8 && one_in(p->dex_cur))
    rn -= rng(2, 6);
-  if (p->dex_cur >= 8 && (p->dex_cur >= 16 || one_in(16 - p->dex_cur)))
+  if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur)))
    rn += rng(2, 6);
   if (p->dex_cur > 16)
    rn += rng(0, p->dex_cur - 16);

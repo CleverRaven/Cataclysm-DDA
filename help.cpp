@@ -387,7 +387,7 @@ $ - Lie down to sleep                        ^      - Long wait\n\
 ! - Toggle Run Mode");
    mvprintz(7, 0, c_white, "ITEMS:");
    mvprintz(8, 0, c_ltgray, "\
-i - View Inventory                           d - Drop item\n\
+i - View Inventory                           d,D - Drop item (with direction)\n\
 w - Wield item                               t - Throw item\n\
 W - Wear item                                T - Take off item\n\
 a - Activate tool                            E - Eat comestible\n\
