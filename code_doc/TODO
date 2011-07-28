@@ -261,7 +261,7 @@ ITEMS / BIONICS:
 
 MAP:
 
-  Police stations
+**Police stations
 	Containing firearms, batons, etc.
 	Jail cells in the basements?
 	Evidence room with drugs etc.
@@ -332,7 +332,7 @@ DONE	Bugs Under Skin disease: causes an int_cur check every few turns; on
   More obvious Wool Allergy text (remind the player that they're allergic)
 	Wool Allergy prevents eating wool (with Internal Furnace bionic)
 
-  Parkour Expert halves all terrain costs (including windows, etc)
+**Parkour Expert halves all terrain costs (including windows, etc)
 	Increase point cost?
 	Decrease chance of being hurt on rough/sharp terrain?
 	Note movement cost change when using ';' command?
@@ -390,7 +390,7 @@ KEYBINDINGS/INPUT:
   Configurable bindings!
 	This ties into options in general.
 
-  Bind 'x' to ';'
+**Bind 'x' to ';'
 
   Make ctrl+movement equivalent to 'e'+movement
 

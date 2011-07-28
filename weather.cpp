@@ -116,4 +116,5 @@ void weather_effect::acid(game *g)
     g->z[i].hurt(1);
   }
  }
+ this->very_wet(g);
 }

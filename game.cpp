@@ -3789,7 +3789,7 @@ void game::drop_in_direction()
   add_msg("You cannot drop your %s.", u.weapon.tname(this).c_str());
   return;
  }
- if (u.i_at(ch).name == "none") {
+ if (!u.has_item(ch)) {
   add_msg("You do not have that item.");
   return;
  }

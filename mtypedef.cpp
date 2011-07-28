@@ -772,7 +772,8 @@ deadly weapons."
 );
 
 mon("turret",		't',	c_ltgray,	MS_SMALL,	STEEL,
-	(mfb(MF_SEES)|mfb(MF_NOHEAD)|mfb(MF_ELECTRONIC)|mfb(MF_IMMOBILE)),
+	(mfb(MF_SEES)|mfb(MF_NOHEAD)|mfb(MF_ELECTRONIC)|mfb(MF_IMMOBILE)|
+	 mfb(MF_FRIENDLY_SPECIAL)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	  0, 14,  5,100,  0,  0,  0,  0,  0, 16, 88, 30, 1,
 	&mdeath::explode,	&mattack::smg, "\
