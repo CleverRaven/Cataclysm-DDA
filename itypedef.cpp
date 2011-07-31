@@ -359,7 +359,7 @@ origin.");
 FOOD("flour",		20, 25, c_white,	POWDER, itm_box_small,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func       addiction type
     2,  4,  0,  1,  0,  0,  0,  0,  8, -5,	&iuse::none,	ADD_NULL, "\
-This white flour is useful for basking.");
+This white flour is useful for baking.");
 
 FOOD("sugar",		20, 25, c_white,	POWDER, itm_box_small,
     2,  3,  0,  3,  0,  4, -3,  0,  8,  1,	&iuse::none,	ADD_NULL, "\
