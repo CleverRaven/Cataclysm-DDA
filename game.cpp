@@ -875,6 +875,8 @@ void game::get_input()
   drop();
  else if (ch == 'D')
   drop_in_direction();
+ else if (ch == '=')
+  reassign_item();
  else if (ch == 'i') {
   bool has = false;
   do {
@@ -3767,16 +3769,16 @@ void game::drop()
   add_msg("Never mind.");
   return;
  }
+ if (!u.has_item(ch)) {
+  add_msg("You do not have that item.");
+  return;
+ }
 // No dropping bionics
  if (ch == u.weapon.invlet && u.weapon.type->id > num_items) {
   add_msg("You cannot drop your %s.", u.weapon.tname(this).c_str());
   return;
  }
  item tmp = u.i_rem(ch);
- if (tmp.type->name == "none") {
-  add_msg("You do not have that item.");
-  return;
- }
  m.add_item(u.posx, u.posy, tmp);
  add_msg("You drop your %s.", tmp.tname(this).c_str());
 }
@@ -3788,13 +3790,13 @@ void game::drop_in_direction()
   add_msg("Nevermind.");
   return;
  }
+ if (!u.has_item(ch)) {
+  add_msg("You do not have that item.");
+  return;
+ }
 // No dropping bionics
  if (ch == u.weapon.invlet && u.weapon.type->id > num_items) {
   add_msg("You cannot drop your %s.", u.weapon.tname(this).c_str());
-  return;
- }
- if (!u.has_item(ch)) {
-  add_msg("You do not have that item.");
   return;
  }
  refresh_all();
@@ -3817,6 +3819,34 @@ void game::drop_in_direction()
          m.move_cost(dirx, diry) > 0 ? "on" : "in",
          m.tername(dirx, diry).c_str());
 }
+
+void game::reassign_item()
+{
+ char ch = inv("Reassign item:");
+ if (ch == KEY_ESCAPE) {
+  add_msg("Never mind.");
+  return;
+ }
+ if (!u.has_item(ch)) {
+  add_msg("You do not have that item.");
+  return;
+ }
+ char newch = popup_getkey("%c - %s; enter new letter.", ch,
+                           u.i_at(ch).tname().c_str());
+ if ((newch < 'A' || (newch > 'Z' && newch < 'a') || newch > 'z')) {
+  add_msg("%c is not a valid inventory letter.", newch);
+  return;
+ }
+ item* change_from = &(u.i_at(ch));
+ if (u.has_item(newch)) {
+  item* change_to = &(u.i_at(newch));
+  change_to->invlet = ch;
+  add_msg("%c - %s", ch, change_to->tname().c_str());
+ }
+ change_from->invlet = newch;
+ add_msg("%c - %s", newch, change_from->tname().c_str());
+}
+
 
 // Display current inventory.
 char game::inv(std::string title)
