@@ -30,7 +30,7 @@ b: Movement\n\
 c: Hunger, Thirst, and Sleep\n\
 d: Pain and Stimulants\n\
 e: Addiction\n\
-f: Morale\n\
+f: Morale and XP\n\
 g: Radioactivity and Mutation\n\
 h: Bionics\n\
 i: Crafting\n\
@@ -181,7 +181,20 @@ Low morale will make you sluggish and unmotivated.  It will also reduce your\n\
 stats, particularly intelligence.  If your morale drops very low, you may\n\
 even commit suicide.  Very high morale fills you with gusto and energy, and\n\
 you will find yourself moving faster.  At extremely high levels, you will\n\
-receive stat bonuses.");
+receive stat bonuses.\n\
+\n\
+Press any key for more...");
+   getch();
+   erase();
+   mvprintz(0, 0, c_white, "\
+Morale is also responsible for filling your XP pool.  This XP pool is used\n\
+for improving your skills; as you use your skills, points are taken from the\n\
+XP pool and placed into the skill used.  If your XP pool is empty, your\n\
+skills cannot be improved except through the use of books.\n\
+\n\
+Your XP pool will not fill unless your morale is at least 0.  A morale level\n\
+between 0 and 100 gives the percentage chance for your XP to increase by 1\n\
+each turn.  Above 100, you get 1 XP point each turn for every 100 morale.");
    getch();
    break;
 

@@ -150,16 +150,10 @@ void player::reset()
   int_cur = 0;
  
  int mor = morale_level();
- if      (mor >= 300)
-  xp_pool += 4;
- else if (mor >= 200)
-  xp_pool += 3;
- else if (mor >= 100)
-  xp_pool += 2;
- else if (mor >=  25)
-  xp_pool += 1;
- else if (mor >=   0)
-  xp_pool += rng(0, 1) * rng(0, 1) * rng(0, 1);
+ if (mor >= 0 && mor < 100 && rng(0, 100) <= mor)
+  xp_pool++;
+ else
+  xp_pool += int(mor / 100);
 }
 
 void player::update_morale()
