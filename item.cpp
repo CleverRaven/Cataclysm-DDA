@@ -211,13 +211,16 @@ void item::load_info(std::string data, game *g)
   owned = true;
  if (is_gun() && ammotmp > 0)
   curammo = dynamic_cast<it_ammo*>(g->itypes[ammotmp]);
+ else
+  curammo = NULL;
 }
  
 std::string item::info(bool showtext)
 {
  std::stringstream dump;
  dump << " Volume: " << volume() << "    Weight: " << weight() << "\n" <<
-         " Bash: " << int(type->melee_dam) << "  Cut: " <<
+         " Bash: " << int(type->melee_dam) <<
+         (has_weapon_flag(WF_SPEAR) ? "  Pierce: " : "  Cut: ") <<
          int(type->melee_cut) << "  To-hit bonus: " <<
          (type->m_to_hit > 0 ? "+" : "" ) << int(type->m_to_hit) << "\n" <<
          " Moves per attack: " << attack_time() << "\n";

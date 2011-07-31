@@ -105,7 +105,7 @@ int player::hit_mon(game *g, monster *z)
  bool unarmed  = unarmed_attack(), bashing = weapon.is_bashing_weapon(),
       cutting  = weapon.is_cutting_weapon(),
       stabbing = (weapon.has_weapon_flag(WF_SPEAR) ||
-                  weapon.has_weapon_flag(WF_STAB));
+                  weapon.has_weapon_flag(WF_STAB)    );
 
 // Recoil penalty
  if (recoil <= 30)

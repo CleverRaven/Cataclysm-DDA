@@ -30,8 +30,8 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_livingroom],
-	itm_rootbeer, itm_cola, itm_cig, itm_weed, itm_coke, itm_meth,
-	itm_sneakers, itm_boots, itm_boots_winter, itm_flip_flops,
+	itm_rootbeer, itm_pizza, itm_cola, itm_cig, itm_weed, itm_coke,
+	itm_meth, itm_sneakers, itm_boots, itm_boots_winter, itm_flip_flops,
 	itm_dress_shoes, itm_heels, itm_coat_rain, itm_poncho, itm_gloves_light,
 	itm_mittens, itm_gloves_light, itm_mittens, itm_gloves_wool,
 	itm_gloves_winter, itm_gloves_leather, itm_gloves_fingerless,
@@ -43,7 +43,7 @@ void game::init_mapitems()
    mapitems[mi_kitchen],
 	itm_pot, itm_pan, itm_knife_butter, itm_knife_steak, itm_knife_butcher,
 	itm_cookbook, itm_rag, itm_hotplate, itm_flashlight, itm_extinguisher,
-	itm_whiskey, itm_bleach, itm_ammonia,
+	itm_whiskey, itm_bleach, itm_ammonia, itm_flour, itm_sugar, itm_salt,
 	NULL);
 
  setvector(
@@ -51,6 +51,7 @@ void game::init_mapitems()
 	itm_water, itm_oj, itm_cola, itm_rootbeer, itm_milk, itm_V8, itm_apple,
 	itm_sandwich_t, itm_mushroom, itm_blueberries, itm_strawberries, 
 	itm_tomato, itm_broccoli, itm_zucchini, itm_frozen_dinner, itm_vodka,
+	itm_apple_cider,
 	NULL);
 
  setvector(
@@ -95,8 +96,9 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_fridgesnacks],
-	itm_water, itm_oj, itm_energy_drink, itm_cola, itm_rootbeer, itm_milk,
-	itm_V8, itm_sandwich_t, itm_frozen_dinner, NULL);
+	itm_water, itm_oj, itm_apple_cider, itm_energy_drink, itm_cola,
+	itm_rootbeer, itm_milk, itm_V8, itm_sandwich_t, itm_frozen_dinner,
+	itm_pizza, itm_pie, NULL);
 
  setvector(
    mapitems[mi_behindcounter],
@@ -122,17 +124,18 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_cannedfood],
 	itm_can_beans, itm_can_corn, itm_can_spam, itm_can_pineapple,
-	itm_can_coconut, itm_can_sardine, itm_can_tuna, itm_can_catfood, NULL);
+	itm_can_coconut, itm_can_sardine, itm_can_tuna, itm_can_catfood,
+	itm_broth, itm_soup, itm_flour, itm_sugar, itm_salt, NULL);
 
  setvector(
    mapitems[mi_pasta],
 	itm_spaghetti_raw, itm_macaroni_raw, itm_ravioli, itm_sauce_red,
-	itm_sauce_pesto, NULL);
+	itm_sauce_pesto, itm_bread, NULL);
 
  setvector(
    mapitems[mi_produce],
-	itm_apple, itm_orange, itm_mushroom, itm_blueberries, itm_strawberries,
-	itm_tomato, itm_broccoli, itm_zucchini, NULL);
+	itm_apple, itm_orange, itm_mushroom, itm_potato_raw, itm_blueberries,
+	itm_strawberries, itm_tomato, itm_broccoli, itm_zucchini, NULL);
 
  setvector(
    mapitems[mi_cleaning],
@@ -154,7 +157,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_bigtools],
 	itm_broom, itm_mop, itm_hoe, itm_shovel, itm_chainsaw_off,
-	itm_jackhammer, NULL);
+	itm_hammer_sledge, itm_jackhammer, NULL);
 
  setvector(
    mapitems[mi_mischw],
@@ -369,7 +372,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_hydro],
 	itm_blueberries, itm_strawberries, itm_tomato, itm_broccoli,
-	itm_zucchini, NULL);
+	itm_zucchini, itm_potato_raw, NULL);
 
  setvector(
    mapitems[mi_electronics],
@@ -442,8 +445,8 @@ void game::init_mapitems()
    mapitems[mi_ant_food],
 	itm_meat, itm_veggy, itm_meat_tainted, itm_veggy_tainted, itm_apple,
 	itm_orange, itm_mushroom, itm_blueberries, itm_strawberries,
-	itm_tomato, itm_broccoli, itm_zucchini, itm_honeycomb, itm_royal_jelly,
-	itm_arm, itm_leg, itm_rock, itm_stick, NULL);
+	itm_tomato, itm_broccoli, itm_zucchini, itm_potato_raw, itm_honeycomb,
+	itm_royal_jelly, itm_arm, itm_leg, itm_rock, itm_stick, NULL);
 
  setvector(
    mapitems[mi_ant_egg],

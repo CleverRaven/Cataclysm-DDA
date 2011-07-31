@@ -2806,6 +2806,10 @@ void player::process_active_items(game *g)
  it_tool* tmp;
  iuse use;
  if (weapon.active) {
+  if (!weapon.is_tool()) {
+   debugmsg("%s is active, but it is not a tool.", weapon.tname().c_str());
+   return;
+  }
   tmp = dynamic_cast<it_tool*>(weapon.type);
   (use.*tmp->use)(g, this, &weapon, true);
   if (g->turn % tmp->turns_per_charge == 0)

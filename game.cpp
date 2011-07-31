@@ -2633,6 +2633,10 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
 
 void game::use_computer(int x, int y)
 {
+ if (u.has_trait(PF_ILLITERATE)) {
+  add_msg("You can not read a computer screen!");
+  return;
+ }
  computer* used = m.computer_at(x, y);
 
  if (used == NULL) {
@@ -4353,7 +4357,7 @@ void game::unload()
   }
  }
  item newam;
- if (u.weapon.curammo != NULL)
+ if (u.weapon.is_gun() && u.weapon.curammo != NULL)
   newam = item(u.weapon.curammo, turn);
  else
   newam = item(itypes[default_ammo(u.weapon.ammo_type())], turn);

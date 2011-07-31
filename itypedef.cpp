@@ -53,8 +53,12 @@ DRINK("salt water",	20,  5,	c_ltcyan, itm_bottle_plastic,
 Water with salt added.  Not good for drinking.");
 
 DRINK("orange juice",	50, 38,	c_yellow, itm_bottle_plastic,
-	35,  4,120,  0,  2,  0,  1,  0,&iuse::none,	ADD_NULL, "\
+	35,  4,120,  0,  2,  0,  1,  3,&iuse::none,	ADD_NULL, "\
 Fresh squeezed from real oranges!  Tasty and nutritious.");
+
+DRINK("apple cider",	50, 38, c_brown,  itm_bottle_plastic,
+	35,  6,144,  0,  3,  0,  1,  2,&iuse::none,	ADD_NULL, "\
+Pressed from fresh apples.  Tasty and nutritious.");
 
 DRINK("energy drink",	55, 45,	c_magenta,itm_can_drink,
 	15,  1,  0,  8, -2,  2,  1,  5,&iuse::caff,	ADD_CAFFEINE, "\
@@ -78,6 +82,16 @@ DRINK("V8",		15, 35,	c_red,    itm_can_drink,
 	 6, 28,240,  0,  1,  0,  1,  0,&iuse::none,	ADD_NULL, "\
 Contains up to 8 vegetables!  Nutritious and tasty.");
 
+//     NAME		RAR PRC	COLOR     CONTAINER
+DRINK("broth",		15, 35, c_yellow, itm_can_food,
+//	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
+	10, 15,160,  0,  0,  0,  1,  1,&iuse::none,	ADD_NULL, "\
+Vegetable stock.  Tasty and fairly nutritious.");
+
+DRINK("soup",		15, 60, c_red,    itm_can_food,
+	10, 60,120,  0,  2,  0,  1,  2,&iuse::none,	ADD_NULL, "\
+A nutritious and delicious hearty vegetable soup.");
+
 DRINK("whiskey",	16, 85,	c_brown,  itm_bottle_glass,
 	-12, 4,  0,-12, -2,  5, 20, 30,&iuse::alcohol,	ADD_ALCOHOL, "\
 Made from, by, and for real Southern colonels!");
@@ -97,7 +111,7 @@ DRINK("tequila",	12, 88,	c_brown,  itm_bottle_glass,
 Don't eat the worm!  Wait, there's no worm in this bottle.");
 
 DRINK("beer",           60, 35, c_brown,  itm_bottle_glass,
-        16, 4,  0, -4, -1,  2, 1, 20, &iuse::alcohol,   ADD_ALCOHOL, "\
+         16, 4,  0, -4, -1,  2,  1, 20, &iuse::alcohol,   ADD_ALCOHOL, "\
 Best served cold, in a glass, and with a lime - but you're not that lucky.");
 
 DRINK("bleach",		20, 18,	c_white,  itm_bottle_plastic,
@@ -232,8 +246,14 @@ FOOD("zucchini",	 7, 30,	c_ltgreen,	VEGGY,	itm_null,
 A tasty summer squash.");
 
 FOOD("frozen dinner",	50, 80,	c_magenta,	FLESH,	itm_box_small,
-    5,  4, -2, 72, 60,  0, -2,  0,  1,  5,	&iuse::none, ADD_NULL, "\
-Now with ONE POUND of meat and ONE POUND of carbs!");
+    5,  4, -2, 60, 60,  0, -2,  0,  1, -3,	&iuse::none, ADD_NULL, "\
+Now with ONE POUND of meat and ONE POUND of carbs!  Not as appetizing or\n\
+nutritious as it would be if heated up.");
+
+FOOD("cooked TV dinner", 0,  0, c_magenta,	FLESH,  itm_null,
+    5,  4, -2, 72, 12,  0, -2,  0,  1,  5,	&iuse::none,	ADD_NULL, "\
+Now with ONE POUND of meat and ONE POUND of carbs!  Nice and heated up.  It's\n\
+tastier and more filling, but will also spoil quickly.");
 
 FOOD("raw spaghetti",	40, 12,	c_yellow,	VEGGY,	itm_box_small,
     6,  2,  0,  6,  0,  0,  0,  0,  1, -8,	&iuse::none, ADD_NULL, "\
@@ -334,6 +354,45 @@ FOOD("marloss berry",	 2,600, c_pink,		VEGGY,	itm_null,
 This looks like a blueberry the size of your fist, but pinkish in color.  It\n\
 has a strong but delicious aroma, but is clearly either mutated or of alien\n\
 origin.");
+
+//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
+FOOD("flour",		20, 25, c_white,	POWDER, itm_box_small,
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func       addiction type
+    2,  4,  0,  1,  0,  0,  0,  0,  8, -5,	&iuse::none,	ADD_NULL, "\
+This white flour is useful for basking.");
+
+FOOD("sugar",		20, 25, c_white,	POWDER, itm_box_small,
+    2,  3,  0,  3,  0,  4, -3,  0,  8,  1,	&iuse::none,	ADD_NULL, "\
+Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty\n\
+on its own.");
+
+FOOD("salt",		20, 18, c_white,	POWDER, itm_box_small,
+    2,  2,-10,  0,  0,  0,  0,  0,  8, -8,	&iuse::none,	ADD_NULL, "\
+Yuck, you surely wouldn't want to eat this.  It's good for preserving meat\n\
+and cooking with, though.");
+
+FOOD("raw potato",	10, 10, c_brown,	VEGGY,  itm_null,
+    1,  1,  0,  8,240,  0, -2,  0,  1, -3,	&iuse::none,	ADD_NULL, "\
+Mildly toxic and not very tasty raw.  When cooked, it is delicious.");
+
+//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
+FOOD("baked potato",	 0, 30, c_brown,	VEGGY,  itm_null,
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func       addiction type
+    1,  1,  0, 20, 48,  0,  1,  0,  1,  3,	&iuse::none,	ADD_NULL, "\
+A delicious baked potato.  Got any sour cream?");
+
+FOOD("bread",		14, 50, c_brown,	VEGGY,  itm_bag_plastic,
+    4,  1,  0, 20,240,  0,  1,  0,  4,  1,	&iuse::none,	ADD_NULL, "\
+Healthy and filling.");
+
+FOOD("fruit pie",	20, 80, c_yellow,	VEGGY,  itm_box_small,
+    6,  3,  5, 16, 72,  2,  1,  0,  6,  3,	&iuse::none,	ADD_NULL, "\
+A delicious baked pie with a sweet fruit filling.");
+
+FOOD("pizza",		 8, 80, c_ltred,	VEGGY,	itm_box_small,
+    8,  4,  0, 18, 48,  0,  0,  0,  8,  6,	&iuse::none,	ADD_NULL, "\
+A vegetarian pizza, with delicious tomato sauce and a fluffy crust.  Its\n\
+smell brings back great memories.");
 
 // MEDS
 #define MED(name,rarity,price,color,tool,mat,stim,healthy,addict,\

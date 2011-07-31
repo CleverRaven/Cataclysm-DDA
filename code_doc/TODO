@@ -141,7 +141,7 @@ GENERAL:
 
   Pushable furniture; push dressers, fridges, etc. in front of doors
 
-  The ability to place items inside of adjacent terrain, like dressers or racks
+**The ability to place items inside of adjacent terrain, like dressers or racks
 
   Some way to protect items from spitter zombie acid, whether it be the above
   or some other method.
@@ -286,7 +286,7 @@ CHARACTER CREATION:
 
   Greater transparency for skill comprehension (at level 0, 4, 8, etc.)
 
-  Cap the number of traits a character can have (5 good, 5 bad?)
+**Cap the number of traits a character can have (5 good, 5 bad?)
 
   Change "Heavy Sleeper costs -1 points" to "Heavy Sleeper earns 1 point"
 

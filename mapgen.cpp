@@ -1030,6 +1030,71 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(3);
   break;
 
+ case ot_park: {
+  if (one_in(3)) { // Playground
+   for (int i = 0; i < SEEX * 2; i++) {
+    for (int j = 0; j < SEEY * 2; j++)
+     ter(i, j) = t_grass;
+   }
+   square(this, t_sandbox,     16,  4, 17,  5);
+   square(this, t_monkey_bars,  4,  7,  6,  9);
+   line(this, t_slide, 11,  8, 11, 11);
+   line(this, t_bench,  6, 14,  6, 15);
+   ter( 3,  9) = t_tree;
+   ter( 5, 15) = t_tree;
+   ter( 6,  4) = t_tree;
+   ter( 9, 17) = t_tree;
+   ter(13,  3) = t_tree;
+   ter(15, 16) = t_tree;
+   ter(19, 14) = t_tree;
+   ter(20,  8) = t_tree;
+   rotate(rng(0, 3));
+  } else { // Basketball court
+   for (int i = 0; i < SEEX * 2; i++) {
+    for (int j = 0; j < SEEY * 2; j++)
+     ter(i, j) = t_pavement;
+   }
+   line(this, t_pavement_y,  1, 11, 22, 11);
+   line(this, t_pavement_y,  6,  2,  6,  8);
+   line(this, t_pavement_y, 16,  2, 16,  8);
+   line(this, t_pavement_y,  6, 14,  6, 20);
+   line(this, t_pavement_y, 16, 14, 16, 20);
+
+   square(this, t_pavement_y,  9,  2, 13,  4);
+   square(this, t_pavement_y,  9, 18, 13, 20);
+   square(this, t_pavement,   10,  2, 12,  3);
+   square(this, t_pavement,   10, 19, 12, 20);
+   ter( 7,  9) = t_pavement_y;
+   ter( 8, 10) = t_pavement_y;
+   ter(15,  9) = t_pavement_y;
+   ter(14, 10) = t_pavement_y;
+   ter( 8, 12) = t_pavement_y;
+   ter( 7, 13) = t_pavement_y;
+   ter(14, 12) = t_pavement_y;
+   ter(15, 13) = t_pavement_y;
+ 
+   line(this, t_bench,  1,  4,  1, 10);
+   line(this, t_bench,  1, 12,  1, 18);
+   line(this, t_bench, 22,  4, 22, 10);
+   line(this, t_bench, 22, 12, 22, 18);
+ 
+   ter(11,  2) = t_backboard;
+   ter(11, 20) = t_backboard;
+ 
+   line(this, t_fence_v,  0,  1,  0, 21);
+   line(this, t_fence_v, 23,  1, 23, 21);
+   line(this, t_fence_h,  1,  1, 22,  1);
+   line(this, t_fence_h,  1, 21, 22, 21);
+ 
+   ter( 2,  1) = t_pavement;
+   ter(21,  1) = t_pavement;
+   ter( 2, 21) = t_pavement;
+   ter(21, 21) = t_pavement;
+
+   rotate(rng(0, 3));
+  }
+ } break;
+
  case ot_s_gas_north:
  case ot_s_gas_east:
  case ot_s_gas_south:
@@ -2436,6 +2501,85 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(3);
   } break;
 
+ case ot_bar_north:
+ case ot_bar_east:
+ case ot_bar_south:
+ case ot_bar_west: {
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++)
+    ter(i, j) = t_pavement;
+  }
+
+  square(this, t_floor, 2, 2, 21, 15);
+  square(this, t_floor, 18, 17, 21, 18);
+  // Main walls
+  line(this, t_wall_h, 2, 1, 21, 1);
+  line(this, t_wall_h, 2, 16, 21, 16);
+  line(this, t_wall_h, 18, 19, 21, 19);
+  line(this, t_wall_v, 1, 1, 1, 16);
+  line(this, t_wall_v, 22, 1, 22, 19);
+  line(this, t_wall_v, 17, 18, 17, 19);
+  // Main bar counter
+  line(this, t_counter, 19, 3, 19, 10);
+  line(this, t_counter, 20, 3, 21, 3);
+  ter(20,10) = t_counter;
+   // Back room counter
+  line(this, t_counter, 18, 18, 21, 18);
+  // Tables
+  square(this, t_table, 4, 3, 5, 4);
+  square(this, t_table, 9, 3, 10, 4);
+  square(this, t_table, 14, 3, 15, 4);
+  square(this, t_table, 4, 8, 5, 9);
+  square(this, t_table, 9, 8, 10, 9);
+  square(this, t_table, 14, 8, 15, 9);
+  // Pool tables
+  square(this, t_pool_table, 4, 13, 8, 14);
+  square(this, t_pool_table, 13, 13, 17, 14);
+  // 1 in 4 chance to have glass walls in front
+  if (one_in(4)) {
+   line(this, t_wall_glass_h, 3, 1, 5, 1);
+   line(this, t_wall_glass_h, 7, 1, 9, 1);
+   line(this, t_wall_glass_h, 14, 1, 16, 1);
+   line(this, t_wall_glass_h, 18, 1, 20, 1);
+   line(this, t_wall_glass_v, 1, 3, 1, 5);
+   line(this, t_wall_glass_v, 1, 7, 1, 9);
+   line(this, t_wall_glass_v, 1, 11, 1, 13);
+  } else {
+   ter(3,1) = t_window;
+   ter(5,1) = t_window;
+   ter(7,1) = t_window;
+   ter(16,1) = t_window;
+   ter(18,1) = t_window;
+   ter(20,1) = t_window;
+   ter(1,6) = t_window;
+   ter(1,11) = t_window;
+  }
+  // Fridges and closets
+  ter(21,4) = t_fridge;
+  line(this, t_rack, 21, 5, 21, 8);
+  ter(21,17) = t_fridge; // Back room fridge
+  // Door placement
+  ter(11,1) = t_door_c;
+  ter(12,1) = t_door_c;
+  ter(20, 16) = t_door_locked;
+  ter(17, 17) = t_door_locked;
+
+  // Item placement
+  place_items(mi_snacks, 30, 19, 3, 19, 10, false, 0);
+  place_items(mi_snacks, 50, 18, 18, 21, 18, false, 0);
+  place_items(mi_fridgesnacks, 60, 21, 4, 21, 4, false, turn);
+  place_items(mi_fridgesnacks, 60, 21, 17, 21, 17, false, turn);
+  place_items(mi_alcohol, 50, 21, 5, 21, 8, false, 0);
+  place_items(mi_trash, 15, 2, 17, 16, 19, true, 0);
+
+  if (terrain_type == ot_bar_east)
+   rotate(1);
+  if (terrain_type == ot_bar_south)
+   rotate(2);
+  if (terrain_type == ot_bar_west)
+   rotate(3);
+ } break;
+
  case ot_set_center:
   tw = rng(4, SEEY * 2 - 5);
   lw = rng(4, SEEX * 2 - 5);
@@ -2625,7 +2769,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    ter(SEEX * 2 - 5, 9) = t_door_c;
   else
    ter(4, 9) = t_door_c;
-  rotate(rng(0, 4));
+  rotate(rng(0, 3));
   break;
 
  case ot_set_guns:
@@ -2664,7 +2808,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   place_items(mi_ammo, 92, 15, 9, 15, 12, false, 0);
   place_items(mi_gunxtras, 80, 15, 9, 15, 12, false, 0);
   make_all_items_owned();
-  rotate(rng(0, 4));
+  rotate(rng(0, 3));
   break;
 
  case ot_set_clinic:
@@ -2701,7 +2845,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    place_items(mi_softdrugs, 86, 7, 8, 9, 8, false, 0);
    place_items(mi_dissection, 60, 14, 7, 17, 7, false, 0);
    make_all_items_owned();
-   rotate(rng(0, 4));
+   rotate(rng(0, 3));
    break;
 
  case ot_set_clothing:
@@ -2776,7 +2920,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   place_items(mi_survival_tools,80, 17,  8, 17, 14, false, turn);
   place_items(mi_cannedfood,	86, 18,  8, 18, 14, false, turn);
   make_all_items_owned();
-  rotate(rng(0, 4));
+  rotate(rng(0, 3));
   break;
 
  case ot_set_casino:
@@ -2865,7 +3009,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   place_items(mi_textbooks,	75, 13,  5, 20,  5, false, 0);
   
   make_all_items_owned();
-  rotate(rng(0, 4));
+  rotate(rng(0, 3));
   break;
 
  case ot_set_lab:

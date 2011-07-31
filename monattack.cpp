@@ -757,12 +757,16 @@ void mattack::flamethrower(game *g, monster *z)
 void mattack::copbot(game *g, monster *z)
 {
  int t, mode = 0;
+ bool sees_u = g->sees_u(z->posx, z->posy, t);
  z->sp_timeout = z->type->sp_freq;	// Reset timer
- if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 2 ||
-     !g->sees_u(z->posx, z->posy, t)) {
-  if (one_in(3))
-   g->sound(z->posx, z->posy, 18, "a robotic voice boom, \"Citizen, Halt!\"");
-  else
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 2 || !sees_u) {
+  if (one_in(3)) {
+   if (sees_u)
+    g->sound(z->posx, z->posy, 18, "a robotic voice boom, \"Citizen, Halt!\"");
+   else
+    g->sound(z->posx, z->posy, 18,
+             "a robotic voice boom, \"Come out with your hands up!\"");
+  } else
    g->sound(z->posx, z->posy, 18, "a police siren, whoop WHOOP");
   return;
  }
