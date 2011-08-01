@@ -318,7 +318,7 @@ limitations.  However, you are guaranteed to start with an inhaler."},
 You simply can not carry as much as people with a similar strength could.\n\
 Your maximum weight carried is reduced by 35%%."},
 {"Illiterate", -5, false, "\
-You never learned to read!  Books are totally off-limits to you."},
+You never learned to read!  Books and computers are off-limits to you."},
 {"Poor Hearing", -2, true, "\
 Your hearing is poor, and you may not hear quiet or far-off noises."},
 {"Insomniac", -2, false, "\

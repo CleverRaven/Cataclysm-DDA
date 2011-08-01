@@ -1296,8 +1296,11 @@ bool game::event_queued(event_type type)
 
 void game::debug()
 {
-// WINDOW *w = newwin(80, 25, 0, 0);
-// mvwprintw(w,
+ WINDOW *w = newwin(80, 25, 0, 0);
+ mvwprintz(w, 0, 0, c_white, "DEBUG FUNCTIONS");
+ mvwprintz(w, 1, 0, c_red, "Note: These functions are meant for gametesting.\n\
+Their use should be considered cheating!");
+ delwin(w);
 }
 
 void game::mondebug()

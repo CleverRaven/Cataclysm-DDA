@@ -362,6 +362,52 @@ std::string string_input_popup(const char *mes, ...)
  } while (true);
 }
 
+std::string string_input_popup(int max_length, const char *mes, ...)
+{
+ std::string ret;
+ va_list ap;
+ va_start(ap, mes);
+ char buff[1024];
+ vsprintf(buff, mes, ap);
+ va_end(ap);
+ int startx = strlen(buff) + 2;
+ WINDOW* w = newwin(3, 80, 11, 0);
+ wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ mvwprintz(w, 1, 1, c_ltred, "%s", buff);
+ for (int i = startx + 1; i < 79; i++)
+  mvwputch(w, 1, i, c_ltgray, '_');
+ int posx = startx;
+ mvwputch(w, 1, posx, h_ltgray, '_');
+ do {
+  wrefresh(w);
+  long ch = getch();
+  if (ch == 27) {	// Escape
+   werase(w);
+   wrefresh(w);
+   delwin(w);
+   refresh();
+   return "";
+  } else if (ch == '\n') {
+   werase(w);
+   wrefresh(w);
+   delwin(w);
+   refresh();
+   return ret;
+  } else if (ch == KEY_BACKSPACE && posx > startx) {
+   ret = ret.substr(0, ret.size() - 1);
+   mvwputch(w, 1, posx, c_ltgray, '_');
+   posx--;
+   mvwputch(w, 1, posx, h_ltgray, '_');
+  } else if(ret.size() < max_length){
+   ret += ch;
+   mvwputch(w, 1, posx, c_magenta, ch);
+   posx++;
+   mvwputch(w, 1, posx, h_ltgray, '_');
+  }
+ } while (true);
+}
+
 char popup_getkey(const char *mes, ...)
 {
  va_list ap;

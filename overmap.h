@@ -6,6 +6,7 @@
 #include "mongroup.h"
 #include "settlement.h"
 #include "npc.h"
+#include "output.h"
 #include <vector>
 #include <curses.h>
 
@@ -61,6 +62,9 @@ class overmap
  */
   point find_closest(point origin, oter_id type, int type_range,
                      int &dist, bool must_be_seen);
+  std::vector<point> find_all(point origin, oter_id type, int type_range,
+                            int &dist, bool must_be_seen);
+  std::vector<point> find_terrain(std::string term, int cursx, int cursy);
 // Interactive point choosing; used as the map screen
   point choose_point(game *g);
 
@@ -72,6 +76,8 @@ class overmap
   std::string note(int x, int y);
   void add_note(int x, int y, std::string message);
   point find_note(point origin, std::string text);
+  void delete_note(int x, int y);
+  point display_notes();
   
   std::vector<city> cities;
   std::vector<city> roads_out;
@@ -87,6 +93,9 @@ class overmap
   bool s[OMAPX][OMAPY];
   bool nullbool;
   std::vector<om_note> notes;
+  //Drawing
+  void draw(WINDOW *w, game *g, int &cursx, int &cursy, 
+                   int &origx, int &origy, char &ch, bool blink);
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();

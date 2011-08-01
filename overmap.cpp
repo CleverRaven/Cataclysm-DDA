@@ -208,6 +208,73 @@ point overmap::find_note(point origin, std::string text)
  return ret;
 }
 
+void overmap::delete_note(int x, int y)
+{
+ std::vector<om_note>::iterator it;
+ for (it = notes.begin(); it < notes.end(); it++) {
+  if (it->x == x && it->y == y){
+  	notes.erase(it);
+  }
+ }
+}
+
+point overmap::display_notes()
+{
+ std::string title = "Notes:";
+ WINDOW* w_notes = newwin(25, 80, 0, 0);
+ const int maxitems = 20;	// Number of items to show at one time.
+ char ch = '.';
+ int start = 0, cur_it;
+ mvwprintz(w_notes, 0, 0, c_ltgray, title.c_str());
+ do{
+  if (ch == '<' && start > 0) {
+   for (int i = 1; i < 25; i++)
+    mvwprintz(w_notes, i, 0, c_black, "                                                     ");
+   start -= maxitems;
+   if (start < 0)
+    start = 0;
+   mvwprintw(w_notes, maxitems + 2, 0, "         ");
+  }
+  if (ch == '>' && cur_it < notes.size()) {
+   start = cur_it;
+   mvwprintw(w_notes, maxitems + 2, 12, "            ");
+   for (int i = 1; i < 25; i++)
+    mvwprintz(w_notes, i, 0, c_black, "                                                     ");
+  }
+  int cur_line = 2;
+  int last_line = -1;
+  char cur_let = 'a';
+  for (cur_it = start; cur_it < start + maxitems && cur_line < 23; cur_it++) {
+   if (cur_it < notes.size()) {
+   mvwputch (w_notes, cur_line, 0, c_white, cur_let++);
+   mvwprintz(w_notes, cur_line, 2, c_ltgray, "- %s", notes[cur_it].text.c_str());
+   } else{
+    last_line = cur_line - 2;
+    break;
+   }
+   cur_line++;
+  }
+
+  if(last_line == -1)
+   last_line = 23;
+  if (start > 0)
+   mvwprintw(w_notes, maxitems + 4, 0, "< Go Back");
+  if (cur_it < notes.size())
+   mvwprintw(w_notes, maxitems + 4, 12, "> More notes"); 
+  if(ch >= 'a' && ch <= 't'){
+   int chosen_line = (int)(ch % (int)'a');
+   if(chosen_line < last_line)
+    return point(notes[start + chosen_line].x, notes[start + chosen_line].y); 
+  }
+  mvwprintz(w_notes, 0, 40, c_white, "Press letter to center on note");
+  mvwprintz(w_notes, 24, 40, c_white, "Spacebar - Return to map  ");
+  wrefresh(w_notes);
+  ch = getch();
+ } while(ch != ' ');
+ delwin(w_notes);
+ return point(-1,-1);
+}
+
 void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
                        overmap* west)
 {
@@ -535,23 +602,60 @@ point overmap::find_closest(point origin, oter_id type, int type_range,
  return point(-1, -1);
 }
 
-point overmap::choose_point(game *g)
+std::vector<point> overmap::find_all(point origin, oter_id type, int type_range,
+                            int &dist, bool must_be_seen)
 {
- timeout(BLINK_SPEED);	// Enable blinking!
- WINDOW* w_map = newwin(25, 80, 0, 0);
- bool legend = true, blink = true, note_here = false, npc_here = false;
+ std::vector<point> res;
+ int max = (dist == 0 ? OMAPX / 2 : dist);
+ for (dist = 0; dist <= max; dist++) {
+  for (int x = origin.x - dist; x <= origin.x + dist; x++) {
+   for (int y = origin.y - dist; y <= origin.y + dist; y++) {
+    if (ter(x, y) >= type && ter(x, y) < type + type_range &&
+        (!must_be_seen || seen(x, y)))
+     res.push_back(point(x, y));
+   }
+  }
+ }
+ return res;
+}
+
+std::vector<point> overmap::find_terrain(std::string term, int cursx, int cursy)
+{
+ int range = 1;
+ std::vector<point> found;
+ for (int i = 0; i < num_ter_types; i++) {
+  if (oterlist[i].name.find(term) != std::string::npos) {
+   if (i == ot_forest || i == ot_hive || i == ot_hiway_ns ||
+       i == ot_bridge_ns)
+    range = 2;
+   else if (i >= ot_road_ns && i < ot_road_nesw_manhole)
+    range = ot_road_nesw_manhole - i + 1;
+   else if (i >= ot_river_center && i < ot_river_nw)
+    range = ot_river_nw - i + 1;
+   else if (i >= ot_house_north && i < ot_lab)
+    range = 4;
+   else if (i == ot_lab)
+    range = 2;
+   int maxdist = OMAPX;
+   found = find_all(point(cursx,cursy), oter_id(i), range, maxdist, true);
+   i = num_ter_types;
+  }
+ }
+ return found;
+}
+
+void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy, 
+                   int &origx, int &origy, char &ch, bool blink)
+{
+ bool legend = true, note_here = false, npc_here = false;
  std::string note_text, npc_name;
- int cursx = (g->levx + 1) / 2, cursy = (g->levy + 1) / 2;
- int origx = cursx, origy = cursy;
- char ch = 0;
+ 
+ int omx, omy;
  overmap hori, vert, diag; // Adjacent maps
- point ret(-1, -1);
  point target(-1, -1);
  if (g->u.active_mission >= 0 &&
      g->u.active_mission < g->u.active_missions.size())
   target = g->u.active_missions[g->u.active_mission].target;
- do {
-  int omx, omy;
   bool see, target_drawn;
   oter_id cur_ter;
   nc_color ter_color;
@@ -668,72 +772,88 @@ point overmap::choose_point(game *g)
      ter_sym = '#';
     }
     if (j == 0 && i == 0)
-     mvwputch_hi (w_map, 12,     25,     ter_color, ter_sym);
+     mvwputch_hi (w, 12,     25,     ter_color, ter_sym);
     else
-     mvwputch    (w_map, 12 + j, 25 + i, ter_color, ter_sym);
+     mvwputch    (w, 12 + j, 25 + i, ter_color, ter_sym);
    }
   }
   if (target.x != -1 && target.y != -1 && blink &&
       (target.x < cursx - 25 || target.x > cursx + 25  ||
        target.y < cursy - 12 || target.y > cursy + 12    )) {
    switch (direction_from(cursx, cursy, target.x, target.y)) {
-    case NORTH:      mvwputch(w_map,  0, 25, c_red, '^');       break;
-    case NORTHEAST:  mvwputch(w_map,  0, 49, c_red, LINE_OOXX); break;
-    case EAST:       mvwputch(w_map, 12, 49, c_red, '>');       break;
-    case SOUTHEAST:  mvwputch(w_map, 24, 49, c_red, LINE_XOOX); break;
-    case SOUTH:      mvwputch(w_map, 24, 25, c_red, 'v');       break;
-    case SOUTHWEST:  mvwputch(w_map, 24,  0, c_red, LINE_XXOO); break;
-    case WEST:       mvwputch(w_map, 12,  0, c_red, '<');       break;
-    case NORTHWEST:  mvwputch(w_map,  0,  0, c_red, LINE_OXXO); break;
+    case NORTH:      mvwputch(w,  0, 25, c_red, '^');       break;
+    case NORTHEAST:  mvwputch(w,  0, 49, c_red, LINE_OOXX); break;
+    case EAST:       mvwputch(w, 12, 49, c_red, '>');       break;
+    case SOUTHEAST:  mvwputch(w, 24, 49, c_red, LINE_XOOX); break;
+    case SOUTH:      mvwputch(w, 24, 25, c_red, 'v');       break;
+    case SOUTHWEST:  mvwputch(w, 24,  0, c_red, LINE_XXOO); break;
+    case WEST:       mvwputch(w, 12,  0, c_red, '<');       break;
+    case NORTHWEST:  mvwputch(w,  0,  0, c_red, LINE_OXXO); break;
    }
   }
   if (has_note(cursx, cursy)) {
    note_text = note(cursx, cursy);
    for (int i = 0; i < note_text.length(); i++)
-    mvwputch(w_map, 1, i, c_white, LINE_OXOX);
-   mvwputch(w_map, 1, note_text.length(), c_white, LINE_XOOX);
-   mvwputch(w_map, 0, note_text.length(), c_white, LINE_XOXO);
-   mvwprintz(w_map, 0, 0, c_yellow, note_text.c_str());
+    mvwputch(w, 1, i, c_white, LINE_OXOX);
+   mvwputch(w, 1, note_text.length(), c_white, LINE_XOOX);
+   mvwputch(w, 0, note_text.length(), c_white, LINE_XOXO);
+   mvwprintz(w, 0, 0, c_yellow, note_text.c_str());
   } else if (npc_here) {
    for (int i = 0; i < npc_name.length(); i++)
-    mvwputch(w_map, 1, i, c_white, LINE_OXOX);
-   mvwputch(w_map, 1, npc_name.length(), c_white, LINE_XOOX);
-   mvwputch(w_map, 0, npc_name.length(), c_white, LINE_XOXO);
-   mvwprintz(w_map, 0, 0, c_yellow, npc_name.c_str());
+    mvwputch(w, 1, i, c_white, LINE_OXOX);
+   mvwputch(w, 1, npc_name.length(), c_white, LINE_XOOX);
+   mvwputch(w, 0, npc_name.length(), c_white, LINE_XOXO);
+   mvwprintz(w, 0, 0, c_yellow, npc_name.c_str());
   }
   if (legend) {
    cur_ter = ter(cursx, cursy);
 // Draw the vertical line
    for (int j = 0; j < 25; j++)
-    mvwputch(w_map, j, 51, c_white, LINE_XOXO);
+    mvwputch(w, j, 51, c_white, LINE_XOXO);
 // Clear the legend
    for (int i = 51; i < 80; i++) {
     for (int j = 0; j < 25; j++)
-     mvwputch(w_map, j, i, c_black, 'x');
+     mvwputch(w, j, i, c_black, 'x');
    }
 
    if (seen(cursx, cursy)) {
-    mvwputch(w_map, 1, 51, oterlist[cur_ter].color, oterlist[cur_ter].sym);
-    mvwprintz(w_map, 1, 53, oterlist[cur_ter].color, "%s",
+    mvwputch(w, 1, 51, oterlist[cur_ter].color, oterlist[cur_ter].sym);
+    mvwprintz(w, 1, 53, oterlist[cur_ter].color, "%s",
               oterlist[cur_ter].name.c_str());
    } else
-    mvwprintz(w_map, 1, 51, c_dkgray, "# Unexplored");
+    mvwprintz(w, 1, 51, c_dkgray, "# Unexplored");
 
    if (target.x != -1 && target.y != -1) {
     int distance = rl_dist(origx, origy, target.x, target.y);
-    mvwprintz(w_map, 3, 51, c_white, "Distance to target: %d", distance);
+    mvwprintz(w, 3, 51, c_white, "Distance to target: %d", distance);
    }
-   mvwprintz(w_map, 19, 51, c_magenta,           "Use movement keys to pan.  ");
-   mvwprintz(w_map, 20, 51, c_magenta,           "0 - Center map on character");
-   mvwprintz(w_map, 21, 51, c_magenta,           "t - Toggle legend          ");
-   mvwprintz(w_map, 22, 51, c_magenta,           "/ - Search                 ");
-   mvwprintz(w_map, 23, 51, c_magenta,           "N - Add a note             ");
-   mvwprintz(w_map, 24, 51, c_magenta,           "Esc or q - Return to game  ");
+   mvwprintz(w, 17, 51, c_magenta,           "Use movement keys to pan.  ");
+   mvwprintz(w, 18, 51, c_magenta,           "0 - Center map on character");
+   mvwprintz(w, 19, 51, c_magenta,           "t - Toggle legend          ");
+   mvwprintz(w, 20, 51, c_magenta,           "/ - Search                 ");
+   mvwprintz(w, 21, 51, c_magenta,           "N - Add a note             ");
+   mvwprintz(w, 22, 51, c_magenta,           "D - Delete a note          ");
+   mvwprintz(w, 23, 51, c_magenta,           "L - List notes             ");
+   mvwprintz(w, 24, 51, c_magenta,           "Esc or q - Return to game  ");
   }
 // Done with all drawing!
-  wrefresh(w_map);
-  ch = input();
+  wrefresh(w);
+}
 
+point overmap::choose_point(game *g)
+{
+ WINDOW* w_map = newwin(25, 80, 0, 0);
+ WINDOW* w_search = newwin(13, 27, 3, 51);
+ timeout(BLINK_SPEED);	// Enable blinking!
+ bool blink = true;
+ int cursx = (g->levx + 1) / 2, cursy = (g->levy + 1) / 2;
+ int origx = cursx, origy = cursy;
+ char ch = 0;
+ point ret(-1, -1);
+ 
+ do {  
+  draw(w_map, g, cursx, cursy, origx, origy, ch, blink);
+  ch = input();
   int dirx, diry;
   if (ch != ERR)
    blink = true;	// If any input is detected, make the blinkies on
@@ -750,32 +870,73 @@ point overmap::choose_point(game *g)
    ret = point(-1, -1);
   else if (ch == 'N') {
    timeout(-1);
-   add_note(cursx, cursy, string_input_popup("Enter note:"));
+   add_note(cursx, cursy, string_input_popup(49, "Enter note")); //49: max note length
    timeout(BLINK_SPEED);
+  } else if(ch == 'D'){
+  	timeout(-1);
+  	if (has_note(cursx, cursy)){
+   	 bool res = query_yn("Really delete note?");
+  	 if (res == true){
+  	  delete_note(cursx, cursy);
+  	 }
+  	}
+  	timeout(BLINK_SPEED);
+  } else if (ch == 'L'){
+     timeout(-1);
+     point p = display_notes();
+     if (p.x != -1){
+      cursx = p.x;
+      cursy = p.y;
+     }
+     timeout(BLINK_SPEED);
+     wrefresh(w_map);
   } else if (ch == '/') {
+   int tmpx = cursx, tmpy = cursy;
    timeout(-1);
    std::string term = string_input_popup("Search term:");
    timeout(BLINK_SPEED);
-   int range = 1;
+   draw(w_map, g, cursx, cursy, origx, origy, ch, blink);
    point found = find_note(point(cursx, cursy), term);
    if (found.x == -1) {	// Didn't find a note
-    for (int i = 0; i < num_ter_types; i++) {
-     if (oterlist[i].name.find(term) != std::string::npos) {
-      if (i == ot_forest || i == ot_hive || i == ot_hiway_ns ||
-          i == ot_bridge_ns)
-       range = 2;
-      else if (i >= ot_road_ns && i < ot_road_nesw_manhole)
-       range = ot_road_nesw_manhole - i + 1;
-      else if (i >= ot_river_center && i < ot_river_nw)
-       range = ot_river_nw - i + 1;
-      else if (i >= ot_house_north && i < ot_lab)
-       range = 4;
-      else if (i == ot_lab)
-       range = 2;
-      int maxdist = OMAPX;
-      found = find_closest(point(cursx,cursy), oter_id(i), range, maxdist,true);
-      i = num_ter_types;
+    std::vector<point> terlist;
+    terlist = find_terrain(term, origx, origy);
+    if(terlist.size() != 0){
+     int i = 0;
+     //Navigate through results
+     do{
+      //Draw search box
+      wborder(w_search, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+      mvwprintz(w_search, 1, 1, c_red, "Find place:");
+      mvwprintz(w_search, 2, 1, c_ltblue, "                         ");
+      mvwprintz(w_search, 2, 1, c_ltblue, "%s", term.c_str());
+      mvwprintz(w_search, 4, 1, c_white,
+       "'<' '>' Cycle targets.");
+      mvwprintz(w_search, 10, 1, c_white, "Enter/Spacebar to select.");
+      mvwprintz(w_search, 11, 1, c_white, "q to return.");
+      ch = input();
+      if (ch == ERR) blink = !blink;
+      else if(ch == '<'){
+       i++;
+       if(i > terlist.size() -1) i = 0;
+      }
+      else if(ch == '>'){
+       i--;
+       if(i < 0)
+        i = terlist.size() - 1;
+      }
+      cursx = terlist[i].x;
+      cursy = terlist[i].y;       
+      draw(w_map, g, cursx, cursy, origx, origy, ch, blink);
+      wrefresh(w_search);
+      timeout(BLINK_SPEED);
+     } while(ch != '\n' && ch != ' ' && ch != 'q'); 
+     //If q is hit, return to the last position
+     if(ch == 'q'){
+      cursx = tmpx;
+      cursy = tmpy;
      }
+     ch = '.';
     }
    }
    if (found.x != -1) {
@@ -796,7 +957,6 @@ point overmap::choose_point(game *g)
  g->refresh_all();
  return ret;
 }
- 
 
 void overmap::first_house(int &x, int &y)
 {

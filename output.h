@@ -35,6 +35,7 @@ void draw_tabs(WINDOW *w, int active_tab, ...);
 void debugmsg(const char *mes, ...);
 bool query_yn(const char *mes, ...);
 std::string string_input_popup(const char *mes, ...);
+std::string string_input_popup(int max_length, const char *mes, ...);
 char popup_getkey(const char *mes, ...);
 int  menu_vec(const char *mes, std::vector<std::string> options);
 int  menu(const char *mes, ...);
