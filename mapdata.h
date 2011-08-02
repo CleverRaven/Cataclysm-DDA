@@ -283,7 +283,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"display rack",     '{', c_ltgray,  0,
         mfb(transparent)|mfb(container)},
 {"book case",        '{', c_brown,   0,
-	mfb(container)|mfb(flammable)},
+	mfb(container)|mfb(flammable)|mfb(bashable)},
 {"dumpster",	     '{', c_green,   0,
 	mfb(container)},
 {"cloning vat",      '0', c_ltcyan,  0,

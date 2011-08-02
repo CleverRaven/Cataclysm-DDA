@@ -244,6 +244,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
   }
   break;
  case t_dresser:
+ case t_bookcase:
   if (str >= dice(3, 45)) {
    sound += "smash!";
    ter(x, y) = t_floor;

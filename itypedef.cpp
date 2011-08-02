@@ -1559,13 +1559,13 @@ shooting.\" --Smith & Wesson official website",
 0);
 
 GUN("Glock 19",		 7, 700,c_dkgray,	STEEL,	PLASTIC,
-	sk_pistol,	AT_9MM,	 2,  5,  8,  1,  2, 24,  6,  6,  0, 15, "\
+	sk_pistol,	AT_9MM,	 2,  5,  8,  1,  0, 24,  6,  6,  0, 15, "\
 Possibly the most popular pistol in existance.  The Glock 19 is often derided\n\
 for its plastic contruction, but it is easy to shoot.",
 0);
 
 GUN("USP 9mm",		 6, 780,c_dkgray,	STEEL,	PLASTIC,
-	sk_pistol,	AT_9MM,	 2,  6,  8,  1,  1, 25,  5,  9,  0, 15, "\
+	sk_pistol,	AT_9MM,	 2,  6,  8,  1, -1, 25,  5,  9,  0, 15, "\
 A popular 9mm pistol, widely used among law enforcement.  Extensively tested\n\
 for durability, it has been found to stay accurate even after subjected to\n\
 extreme abuse.",
@@ -1714,7 +1714,7 @@ allows for high capacities and reduced recoil.",
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("H&K MP5",		12,1400,c_cyan,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_smg,		AT_9MM,	12, 26, 10,  2, -1, 18, -3,  8,  4, 30, "\
+	sk_smg,		AT_9MM,	12, 26, 10,  2,  1, 18, -3,  8,  4, 30, "\
 The Heckler & Koch MP5 is one of the most widely-used submachine guns in the\n\
 world, and has been adopted by special police forces and militaries alike.\n\
 Its high degree of accuracy and low recoil are universally praised.",

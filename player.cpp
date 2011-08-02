@@ -3715,6 +3715,11 @@ void player::read(game *g, char ch)
   g->add_msg("What's the point of reading?  (Your morale is too low!)");
   return;
  }
+// Check if reading is okay
+ if (g->light_level() <= 2) {
+  g->add_msg("It's too dark to read!");
+  return;
+ }
 
 // Find the object
  int index = -1;
@@ -3729,11 +3734,7 @@ void player::read(game *g, char ch)
   }
  }
 
-// Check if reading is okay
- if (g->light_level() <= 2) {
-  g->add_msg("It's too dark to read!");
-  return;
- } else if (index == -1) {
+ if (index == -1) {
   g->add_msg("You do not have that item.");
   return;
  }

@@ -91,7 +91,7 @@ void weather_effect::acid(game *g)
  if (PLAYER_OUTSIDE) {
   g->add_msg("The acid rain burns!");
   if (one_in(3))
-   g->u.hit(g, bp_head, 0, 0, 1);
+   g->u.hit(g, bp_head, 0, 0, 2);
   if (one_in(5)) {
    g->u.hit(g, bp_legs, 0, 0, 1);
    g->u.hit(g, bp_legs, 1, 0, 1);
@@ -101,7 +101,7 @@ void weather_effect::acid(game *g)
    g->u.hit(g, bp_feet, 1, 0, 1);
   }
   if (one_in(3))
-   g->u.hit(g, bp_torso, 0, 0, 1);
+   g->u.hit(g, bp_torso, 0, 0, 2);
   if (one_in(3)) {
    g->u.hit(g, bp_arms, 0, 0, 1);
    g->u.hit(g, bp_arms, 1, 0, 1);
