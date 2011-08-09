@@ -19,7 +19,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   return;
  }
  bool is_bolt = false;
- unsigned int flags = p.weapon.curammo->weapon_flags;
+ unsigned int flags = p.weapon.curammo->item_flags;
  if (p.weapon.curammo->type == AT_BOLT)	// Bolts are silent
   is_bolt = true;
 
@@ -198,7 +198,7 @@ missed_by, deviation, trange, p.weapon.charges, p.posx, p.posy, tarx, tary);
 // relative to YOUR position, which may not be the gunman's position.
    if (u_see(trajectory[i].x, trajectory[i].y, junk)) {
     char bullet = '`';
-    if (flags & mfb(WF_AMMO_FLAME))
+    if (flags & mfb(IF_AMMO_FLAME))
      bullet = '#';
     mvwputch(w_terrain, trajectory[i].y + SEEY - u.posy,
                         trajectory[i].x + SEEX - u.posx, c_red, bullet);
@@ -661,7 +661,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
 void game::hit_monster_with_flags(monster &z, unsigned int flags)
 {
- if (flags & mfb(WF_AMMO_FLAME)) {
+ if (flags & mfb(IF_AMMO_FLAME)) {
 
   if (z.made_of(VEGGY) || z.made_of(COTTON) || z.made_of(WOOL) ||
       z.made_of(PAPER) || z.made_of(WOOD))
@@ -669,7 +669,7 @@ void game::hit_monster_with_flags(monster &z, unsigned int flags)
   else if (z.made_of(FLESH))
    z.add_effect(ME_ONFIRE, rng(5, 10));
   
- } else if (flags & mfb(WF_AMMO_INCENDIARY)) {
+ } else if (flags & mfb(IF_AMMO_INCENDIARY)) {
 
   if (z.made_of(VEGGY) || z.made_of(COTTON) || z.made_of(WOOL) ||
       z.made_of(PAPER) || z.made_of(WOOD))

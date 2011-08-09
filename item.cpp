@@ -220,7 +220,7 @@ std::string item::info(bool showtext)
  std::stringstream dump;
  dump << " Volume: " << volume() << "    Weight: " << weight() << "\n" <<
          " Bash: " << int(type->melee_dam) <<
-         (has_weapon_flag(WF_SPEAR) ? "  Pierce: " : "  Cut: ") <<
+         (has_flag(IF_SPEAR) ? "  Pierce: " : "  Cut: ") <<
          int(type->melee_cut) << "  To-hit bonus: " <<
          (type->m_to_hit > 0 ? "+" : "" ) << int(type->m_to_hit) << "\n" <<
          " Moves per attack: " << attack_time() << "\n";
@@ -273,6 +273,10 @@ std::string item::info(bool showtext)
   dump << (recoil(false) >= 0 ? "+" : "" ) << recoil(false);
   if (has_ammo)
    dump << " = " << recoil();
+
+  dump << "\n Reload time: " << int(gun->reload_time);
+  if (has_flag(IF_RELOAD_ONE))
+   dump << " per round";
 
   if (burst_size() == 0)
    dump << "\n Semi-automatic.";
@@ -366,7 +370,7 @@ std::string item::info(bool showtext)
  }
 
  if (showtext) {
-  dump << "\n\n " << type->description << "\n";
+  dump << "\n\n" << type->description << "\n";
   if (contents.size() > 0) {
    if (is_gun()) {
     for (int i = 0; i < contents.size(); i++)
@@ -583,9 +587,9 @@ int item::attack_time()
  return 50 + 4 * volume() + 2 * weight();
 }
 
-bool item::has_weapon_flag(weapon_flag f)
+bool item::has_flag(item_flag f)
 {
- return (type->weapon_flags & mfb(f));
+ return (type->item_flags & mfb(f));
 }
 
 int item::weapon_value(int skills[num_skill_types])
@@ -726,7 +730,7 @@ bool item::is_bashing_weapon()
 
 bool item::is_cutting_weapon()
 {
- return (type->melee_cut >= 8 && !has_weapon_flag(WF_SPEAR));
+ return (type->melee_cut >= 8 && !has_flag(IF_SPEAR));
 }
 
 bool item::is_armor()
@@ -763,43 +767,21 @@ bool item::is_macguffin()
 int item::reload_time(player &u)
 {
  int ret = 0;
+
  if (is_gun()) {
   it_gun* reloading = dynamic_cast<it_gun*>(type);
-  switch (reloading->skill_used) {
-  case (sk_pistol):
-   if (u.sklevel[sk_pistol] > 8)
-    ret = 30;
-   else
-    ret = (350 - 40 * u.sklevel[sk_pistol]);
-  break;
-  case (sk_shotgun):
-   if (u.sklevel[sk_shotgun] > 10)
-    ret = 20;
-   else
-    ret = (120 - 10 * u.sklevel[sk_shotgun]);
-  break;
-  case (sk_smg):
-   if (u.sklevel[sk_smg] > 8)
-    ret = 50;
-   else
-    ret = (450 - 50 * u.sklevel[sk_smg]);
-   break;
-  case (sk_rifle):
-   if (u.sklevel[sk_rifle] > 8)
-    ret = 60;
-   else
-    ret = (500 - 55 * u.sklevel[sk_rifle]);
-  break;
-  default:
-   debugmsg("Why is reloading %s using %s skill?", (reloading->name).c_str(),
- 		skill_name(reloading->skill_used).c_str());
-  }
-  if (ret <= 0)
-   debugmsg("Reloading %s takes %d moves!", (reloading->name).c_str(), ret);
+  ret = reloading->reload_time;
+  double skill_bonus = double(u.sklevel[reloading->skill_used]) * .075;
+  if (skill_bonus > .75)
+   skill_bonus = .75;
+  ret -= double(ret) * skill_bonus;
  } else if (is_tool())
   ret = 100 + volume() + weight();
- if (type->id == itm_crossbow)	// Crossbows are special, they take longer
-  ret += 150 - u.str_cur * 10;
+
+ if (has_flag(IF_STR_RELOAD))
+  ret -= u.str_cur * 20;
+ if (ret < 25)
+  ret = 25;
  ret += u.encumb(bp_hands) * 30;
  return ret;
 }
@@ -1001,7 +983,7 @@ bool item::reload(player &u, int index)
  int max_load;
  if (is_gun()) {
   it_gun* reloading = dynamic_cast<it_gun*>(type);
-  single_load = has_weapon_flag(WF_RELOAD_ONE);
+  single_load = has_flag(IF_RELOAD_ONE);
   max_load = clip_size();
  } else if (is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(type);

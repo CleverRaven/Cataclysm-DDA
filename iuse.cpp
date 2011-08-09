@@ -1077,7 +1077,8 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
  }
  dirx += p->posx;
  diry += p->posy;
- if (g->m.ter(dirx, diry) == t_door_c || g->m.ter(dirx, diry) == t_door_locked){
+ ter_id type = g->m.ter(dirx, diry);
+ if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm) {
   if (dice(4, 6) < dice(4, p->str_cur)) {
    g->add_msg("You pry the door open.");
    p->moves -= (150 - (p->str_cur * 5));
@@ -1127,7 +1128,7 @@ void iuse::dig(game *g, player *p, item *it, bool t)
   g->m.add_trap(p->posx + dirx, p->posy + diry, tr_pit);
   p->practice(sk_traps, 1);
  } else
-  g->add_msg("You can't dig through %d!",
+  g->add_msg("You can't dig through %s!",
              g->m.tername(p->posx + dirx, p->posy + diry).c_str());
 }
 
@@ -1539,20 +1540,24 @@ void iuse::molotov(game *g, player *p, item *it, bool t)
  p->moves -= 150;
  it->make(g->itypes[itm_molotov_lit]);
  it->charges = 1;
+ it->bday = g->turn;
  it->active = true;
 }
  
 void iuse::molotov_lit(game *g, player *p, item *it, bool t)
 {
+ int age = g->turn - it->bday;
  if (!p->has_item(it)) {
   point pos = g->find_item(it);
   it->charges = 0;
   g->explosion(pos.x, pos.y, 8, 0, true);
- } else if (one_in(20)) {
-  g->add_msg("Your lit molotov goes out.");
-  it->make(g->itypes[itm_molotov]);
-  it->charges = 0;
-  it->active = false;
+ } else if (age >= 5) { // More than 5 turns old = chance of going out
+  if (rng(1, 50) < age) {
+   g->add_msg("Your lit molotov goes out.");
+   it->make(g->itypes[itm_molotov]);
+   it->charges = 0;
+   it->active = false;
+  }
  }
 }
 
@@ -1693,13 +1698,13 @@ void iuse::turret(game *g, player *p, item *it, bool t)
   return;
  }
  p->i_rem(it->invlet);	// Remove the turret from the player's inv
- monster manhack(g->mtypes[mon_turret], dirx, diry);
+ monster turret(g->mtypes[mon_turret], dirx, diry);
  if (rng(0, p->int_cur / 2) + p->sklevel[sk_electronics] / 2 +
      p->sklevel[sk_computer] < rng(0, 6))
   g->add_msg("You misprogram the turret; it's hostile!");
  else
-  manhack.friendly = -1;
- g->z.push_back(manhack);
+  turret.friendly = -1;
+ g->z.push_back(turret);
 }
 
 void iuse::UPS_off(game *g, player *p, item *it, bool t)
@@ -1811,7 +1816,7 @@ void iuse::mp3(game *g, player *p, item *it, bool t)
 void iuse::mp3_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
-  p->add_morale(MORALE_MUSIC, 1, 100);
+  p->add_morale(MORALE_MUSIC, 1, 50);
 
   if (g->turn % 10 == 0) {	// Every 10 turns, describe the music
    std::string sound = "";

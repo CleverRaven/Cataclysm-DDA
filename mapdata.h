@@ -199,7 +199,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)},
 {"window",	     '"', c_ltcyan,  0, // Actually alarmed
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(alarmed)|mfb(noitem)},
-{"window frame",     '0', c_ltcyan, 12,
+{"window frame",     '0', c_ltcyan,  8,
 	mfb(container)|mfb(transparent)|mfb(sharp)|mfb(flammable)|mfb(noitem)},
 {"boarded up window",'#', c_brown,   0,
 	mfb(bashable)|mfb(flammable)|mfb(noitem)},
@@ -211,7 +211,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(flammable)|mfb(noitem)},
 {"young tree",       '1', c_green,   0,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)},
-{"underbrush",       '#', c_green,   7,
+{"underbrush",       '#', c_green,   6,
 	mfb(transparent)|mfb(bashable)|mfb(diggable)|mfb(container)|mfb(rough)|
 	mfb(flammable)},
 {"wax wall",         '#', c_yellow,  0,
@@ -338,6 +338,7 @@ const int map_extra_chance[num_map_extras + 1] = {
  70,	// Minefield
  30,	// Wolf pack
 250,	// Puddle
+ 10,	// Crater
   8,	// Fumarole
   7,	// One-way portal into this world
   0	// Just a cap value; leave this as the last one

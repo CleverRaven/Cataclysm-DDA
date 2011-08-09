@@ -674,10 +674,7 @@ void game::process_activity()
     u.weapon.reload(u, u.activity.index);
     if (u.weapon.is_gun())
      reloading = dynamic_cast<it_gun*>(u.weapon.type);
-    if (u.weapon.is_gun() && reloading->ammo != AT_BB &&
-        reloading->ammo != AT_NAIL && u.sklevel[reloading->skill_used] == 0)
-     u.practice(reloading->skill_used, rng(2, 6));
-    if (u.weapon.is_gun() && u.weapon.has_weapon_flag(WF_RELOAD_ONE)) {
+    if (u.weapon.is_gun() && u.weapon.has_flag(IF_RELOAD_ONE)) {
      add_msg("You insert a cartridge into your %s.",
              u.weapon.tname(this).c_str());
      if (u.recoil < 8)
@@ -914,43 +911,12 @@ void game::get_input()
   plfire(true);
  else if (ch == 'C')
   chat();
-// <DEBUG>
- else if (ch == 'z') {
-  debugmsg("%d radio towers", cur_om.radios.size());
-  for (int i = 0; i < OMAPX; i++) {
-   for (int j = 0; j < OMAPY; j++)
-    cur_om.seen(i, j) = true;
-  }
- } else if (ch == 'N') {
-  erase();
-  mvprintw(0, 0, "%d addictions", u.addictions.size());
-  for (int i = 0; i < u.addictions.size(); i++) {
-  mvprintw(1+i, 0, "%d: int %d sate %d", int(u.addictions[i].type),
-           u.addictions[i].intensity, u.addictions[i].sated);
-  }
-  mvprintw(20, 0, "Turn %d; nextspawn %d", turn, nextspawn);
-  getch();
- } else if (ch == 'Z')
-  wish();
- else if (ch == 'G') {
-  npc temp;
-  temp.randomize(this);
-  temp.attitude = NPCATT_TALK;
-  temp.spawn_at(&cur_om, levx + (1 * rng(-2, 2)), levy + (1 * rng(-2, 2)));
-  temp.posx = u.posx - 4;
-  temp.posy = u.posy - 4;
-  active_npc.push_back(temp);
- } else if (ch == 'g')
-  groupdebug();
- else if (ch == '~')
+ else if (ch == 'Z')
+  debug();
+ else if (ch == '~') {
   debugmon = !debugmon;
- else if (ch == '\'') {
-  display_scent();
-  getch();
- } else if (ch == '*')
-  teleport();
-// </DEBUG>
- else if (ch == ':' || ch == 'm')
+  add_msg("Debug messages %s!", (debugmon ? "ON" : "OFF"));
+ } else if (ch == ':' || ch == 'm')
   draw_overmap();
  else if (ch == 'M')
   list_missions();
@@ -1142,15 +1108,16 @@ void game::load(std::string name)
  u.name = name;
  u.ret_null = item(itypes[0], 0);
  u.weapon = item(itypes[0], 0);
- int tmprun, tmptar, tmptemp, comx, comy;
+ int tmprun, tmptar, tmpweather, tmptemp, comx, comy;
  fin >> turn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
-        next_faction_id >> next_mission_id >> nextspawn >> tmptemp >> levx >>
-        levy >> levz >> comx >> comy;
+        next_faction_id >> next_mission_id >> nextspawn >> tmpweather >>
+        tmptemp >> levx >> levy >> levz >> comx >> comy;
  cur_om = overmap(this, comx, comy, levz);
 // m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
  m.load(this, levx, levy);
  run_mode = tmprun;
  last_target = tmptar;
+ weather = weather_type(tmpweather);
  temperature = tmptemp;
 // Next, the scent map.
  for (int i = 0; i < SEEX * 3; i++) {
@@ -1216,8 +1183,9 @@ void game::save()
  fout << turn << " " << int(last_target) << " " << int(run_mode) << " " <<
          mostseen << " " << nextinv << " " << next_npc_id << " " <<
          next_faction_id << " " << next_mission_id << " " << nextspawn <<
-         " " << int(temperature) << " " << levx << " " << levy << " " <<
-         levz << " " << cur_om.posx << " " << cur_om.posy << " " << std::endl;
+         " " << weather << " " << int(temperature) << " " << levx << " " <<
+         levy << " " << levz << " " << cur_om.posx << " " << cur_om.posy <<
+         " " << std::endl;
 // Next, the scent map.
  for (int i = 0; i < SEEX * 3; i++) {
   for (int j = 0; j < SEEY * 3; j++)
@@ -1296,11 +1264,57 @@ bool game::event_queued(event_type type)
 
 void game::debug()
 {
- WINDOW *w = newwin(80, 25, 0, 0);
- mvwprintz(w, 0, 0, c_white, "DEBUG FUNCTIONS");
- mvwprintz(w, 1, 0, c_red, "Note: These functions are meant for gametesting.\n\
-Their use should be considered cheating!");
- delwin(w);
+ int action = menu("Debug Functions - Using these is CHEATING!",
+                   "Wish for an item",       // 1
+                   "Teleport - Short Range", // 2
+                   "Teleport - Long Range",  // 3
+                   "Reveal map",             // 4
+                   "Spawn NPC",              // 5
+                   "Check game state...",    // 6
+                   "Cancel",                 // 7
+                   NULL);
+ switch (action) {
+  case 1:
+   wish();
+   break;
+  case 2:
+   teleport();
+   break;
+  case 3: {
+   point tmp = cur_om.choose_point(this);
+   if (tmp.x != -1) {
+    z.clear();
+    m.save(&cur_om, turn, levx, levy);
+    levx = tmp.x * 2;
+    levy = tmp.y * 2;
+    m.load(this, levx, levy);
+   }
+  } break;
+  case 4:
+   debugmsg("%d radio towers", cur_om.radios.size());
+   for (int i = 0; i < OMAPX; i++) {
+    for (int j = 0; j < OMAPY; j++)
+     cur_om.seen(i, j) = true;
+   }
+   break;
+  case 5: {
+   npc temp;
+   temp.randomize(this);
+   temp.attitude = NPCATT_TALK;
+   temp.spawn_at(&cur_om, levx + (1 * rng(-2, 2)), levy + (1 * rng(-2, 2)));
+   temp.posx = u.posx - 4;
+   temp.posy = u.posy - 4;
+   active_npc.push_back(temp);
+  } break;
+  case 6:
+   popup_top("\
+Current turn: %d; Next spawn %d.\n\
+%d monsters exist.\n\
+%d events planned.", turn, nextspawn, z.size(), events.size());
+   break;
+ }
+ erase();
+ refresh_all();
 }
 
 void game::mondebug()
@@ -1336,14 +1350,7 @@ void game::groupdebug()
 
 void game::draw_overmap()
 {
- point tmp = cur_om.choose_point(this);
- if (tmp.x != -1) {
-  z.clear();
-  m.save(&cur_om, turn, levx, levy);
-  levx = tmp.x * 2;
-  levy = tmp.y * 2;
-  m.load(this, levx, levy);
- }
+ cur_om.choose_point(this);
 }
 
 void game::disp_kills()
@@ -1964,7 +1971,7 @@ unsigned char game::light_level()
   if (hours < 6 || hours >= 21)
    ret = 1;
   else if (hours >= 6 && hours < 7)
-   ret = int(minutes);
+   ret = int(minutes + 1);
   else if (hours >= 20 && hours < 21)
    ret = 60 - int(minutes);
   else
@@ -2466,12 +2473,16 @@ void game::sound(int x, int y, int vol, std::string description)
   }
  }
 // Loud sounds make the next spawn sooner!
- if (vol >= 20 && nextspawn > vol + 20) {
+ if (vol >= 20) {
   int max = (vol - 20);
   int min = int(max / 6);
-  if (max > 50)
-   max = 50;
-  nextspawn -= rng(min, max);
+  if (max > 100)
+   max = 100;
+  int change = rng(min, max);
+  if (nextspawn < change)
+   nextspawn = 0;
+  else
+   nextspawn -= change;
  }
 // Next, display the sound as the player hears it
  if (description == "")

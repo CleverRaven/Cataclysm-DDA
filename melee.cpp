@@ -69,7 +69,7 @@ int player::hit_roll()
  }
 
 // Using a spear?
- if (weapon.has_weapon_flag(WF_SPEAR) || weapon.has_weapon_flag(WF_STAB)) {
+ if (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)) {
   int stab_bonus = int(sklevel[sk_stabbing] / 2);
   if (stab_bonus > best_bonus)
    best_bonus = stab_bonus;
@@ -104,8 +104,8 @@ int player::hit_mon(game *g, monster *z)
 // Types of combat (may overlap!)
  bool unarmed  = unarmed_attack(), bashing = weapon.is_bashing_weapon(),
       cutting  = weapon.is_cutting_weapon(),
-      stabbing = (weapon.has_weapon_flag(WF_SPEAR) ||
-                  weapon.has_weapon_flag(WF_STAB)    );
+      stabbing = (weapon.has_flag(IF_SPEAR) ||
+                  weapon.has_flag(IF_STAB)    );
 
 // Recoil penalty
  if (recoil <= 30)
@@ -180,7 +180,7 @@ int player::hit_mon(game *g, monster *z)
 // Take some moves away from the target; at this point it's skill & bash damage
  z->moves -= rng(0, dam * 2);
 // Spears treat cutting damage specially.
- if (weapon.has_weapon_flag(WF_SPEAR) &&
+ if (weapon.has_flag(IF_SPEAR) &&
      weapon.type->melee_cut > z->type->armor - int(sklevel[sk_stabbing])) {
   int z_armor = z->type->armor - int(sklevel[sk_stabbing]);
   dam += int(weapon.type->melee_cut / 5);
@@ -205,7 +205,7 @@ int player::hit_mon(game *g, monster *z)
   cutting_penalty = weapon.type->melee_cut * 3 + z_armor * 8 -
                     dice(sklevel[sk_cutting], 10);
  }
- if (weapon.has_weapon_flag(WF_MESSY)) { // e.g. chainsaws
+ if (weapon.has_flag(IF_MESSY)) { // e.g. chainsaws
   cutting_penalty /= 6; // Harder to get stuck
   for (int x = z->posx - 1; x <= z->posx + 1; x++) {
    for (int y = z->posy - 1; y <= z->posy + 1; y++) {
@@ -248,7 +248,7 @@ int player::hit_mon(game *g, monster *z)
   peck_them  = ( peck_them || (has_trait(PF_BEAK)  && z->armor() < 16 &&
                                one_in(4)));
 
-  if (weapon.has_weapon_flag(WF_SPEAR) || weapon.has_weapon_flag(WF_STAB)) {
+  if (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)) {
    dam += weapon.type->melee_cut;
    dam += weapon.type->melee_cut * double(sklevel[sk_stabbing] / 10);
    practice(sk_stabbing, 5);
@@ -417,7 +417,7 @@ int player::hit_mon(game *g, monster *z)
    g->add_msg("Your %s gets stuck in the %s, pulling it out of your hands!",
               weapon.tname().c_str(), z->type->name.c_str());
   z->add_item(remove_weapon());
-  if (weapon.has_weapon_flag(WF_SPEAR) || weapon.has_weapon_flag(WF_STAB))
+  if (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB))
    z->speed *= .7;
   else
    z->speed *= .85;
@@ -431,7 +431,7 @@ int player::hit_mon(game *g, monster *z)
   if (cutting_penalty >= 50 && is_u)
    g->add_msg("Your %s gets stuck in the %s, but you yank it free.",
               weapon.tname().c_str(), z->type->name.c_str());
-  if (weapon.has_weapon_flag(WF_SPEAR) || weapon.has_weapon_flag(WF_STAB))
+  if (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB))
    z->speed *= .9;
  }
 

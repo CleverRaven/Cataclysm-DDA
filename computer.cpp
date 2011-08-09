@@ -126,7 +126,7 @@ void computer::use(game *g)
   char ch;
   do
    ch = getch();
-  while (ch != 'q' && ch != 'Q' && (ch < '1' || ch - '1' > options.size()));
+  while (ch != 'q' && ch != 'Q' && (ch < '1' || ch - '1' >= options.size()));
   if (ch == 'q' || ch == 'Q')
    done = true;
   else { // We selected an option other than quit.
