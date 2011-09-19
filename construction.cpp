@@ -260,17 +260,14 @@ bool game::player_can_build(player &p, inventory inv, constructable con,
  int start = 0;
  if (cont)
   start = level;
- debugmsg("start %d, level %d", start, level);
  for (int i = start; i < con.stages.size() && i <= level; i++) {
   construction_stage stage = con.stages[i];
   for (int j = 0; j < 3; j++) {
    if (stage.tools[j].size() > 0) {
     bool has_tool = false;
     for (int k = 0; k < stage.tools[j].size() && !has_tool; k++) {
-     if (inv.has_amount(stage.tools[j][k], 1)) {
-      debugmsg("tools[%d][%d] acquired - %s", j, k, itypes[stage.tools[j][k]]->name.c_str());
+     if (inv.has_amount(stage.tools[j][k], 1))
       has_tool = true;
-     }
     }
     if (!has_tool)
      return false;
@@ -283,10 +280,8 @@ bool game::player_can_build(player &p, inventory inv, constructable con,
                           stage.components[j][k].count)    ) ||
          (!itypes[stage.components[j][k].type]->is_ammo() &&
           inv.has_amount (stage.components[j][k].type,
-                          stage.components[j][k].count)    )) {
+                          stage.components[j][k].count)    ))
       has_component = true;
-      debugmsg("comps[%d][%d] acquired - %s", j, k, itypes[stage.components[j][k].type]->name.c_str());
-     }
     }
     if (!has_component)
      return false;
