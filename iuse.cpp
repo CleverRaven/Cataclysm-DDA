@@ -408,7 +408,7 @@ void iuse::coke(game *g, player *p, item *it, bool t)
 void iuse::meth(game *g, player *p, item *it, bool t)
 {
  int duration = 10 * (40 - p->str_cur);
- if (p->has_amount(itm_lighter, 1)) {
+ if (p->has_charges(itm_lighter, 1)) {
   if (!p->is_npc())
    g->add_msg("You smoke some crystals.");
   duration *= 1.5;
@@ -878,12 +878,12 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
  }
  nc_color col;
  mvwprintz(w, 1, 1, c_white, title.c_str());
- col = (p->has_amount(itm_nail, nails) ? c_green : c_red);
+ col = (p->has_charges(itm_nail, nails) ? c_green : c_red);
  mvwprintz(w, 2, 1, col, "> %d nails", nails);
  col = (p->has_amount(itm_2x4, boards) ? c_green : c_red);
  mvwprintz(w, 3, 1, col, "> %d two by fours", boards);
 
- if (p->has_amount(itm_nail, nails) && p->has_amount(itm_2x4, boards)) {
+ if (p->has_charges(itm_nail, nails) && p->has_amount(itm_2x4, boards)) {
   mvwprintz(w, 5, 1, c_yellow, "Perform action? (y/n)");
   wrefresh(w);
   char ch;
@@ -1401,7 +1401,7 @@ void iuse::can_goo(game *g, player *p, item *it, bool t)
 
 void iuse::pipebomb(game *g, player *p, item *it, bool t)
 {
- if (!p->has_amount(itm_lighter, 1)) {
+ if (!p->has_charges(itm_lighter, 1)) {
   g->add_msg("You need a lighter!");
   return;
  }
@@ -1533,7 +1533,7 @@ void iuse::smokebomb_act(game *g, player *p, item *it, bool t)
 
 void iuse::molotov(game *g, player *p, item *it, bool t)
 {
- if (!p->has_amount(itm_lighter, 1)) {
+ if (!p->has_charges(itm_lighter, 1)) {
   g->add_msg("You need a lighter!");
   return;
  }
@@ -1565,7 +1565,7 @@ void iuse::molotov_lit(game *g, player *p, item *it, bool t)
 
 void iuse::dynamite(game *g, player *p, item *it, bool t)
 {
- if (!p->has_amount(itm_lighter, 1)) {
+ if (!p->has_charges(itm_lighter, 1)) {
   g->add_msg("You need a lighter!");
   return;
  }

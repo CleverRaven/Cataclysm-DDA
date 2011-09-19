@@ -164,7 +164,7 @@ void game::init_mapitems()
 	itm_2x4, itm_machete, itm_boots_steel, itm_hat_hard, itm_mask_filter,
 	itm_glasses_safety, itm_bb, itm_bbgun, itm_beartrap, itm_two_way_radio,
 	itm_radio, itm_hotplate, itm_extinguisher, itm_nailgun,
-	itm_manual_mechanics, itm_manual_capentry, NULL);
+	itm_manual_mechanics, itm_manual_carpentry, NULL);
 
  setvector(
    mapitems[mi_sports],
