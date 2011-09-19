@@ -66,3 +66,18 @@ void setvector(std::vector<std::string> &vec, ... )
   vec.push_back((std::string)(tmp));
  va_end(ap);
 }
+
+/*
+void setvector(std::vector<construction_stage> &bec, ... )
+{
+ va_list ap;
+ va_start(ap, vec);
+ ter_id tmpter;
+ int tmptime;
+ while (tmp = (ter_id)va_arg(ap, int)) {
+  tmptime = (int)va_arg(ap, int);
+  vec.push_back(construction_stage(tmpter, tmptime));
+ }
+ va_end(ap);
+}
+*/

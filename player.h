@@ -8,6 +8,7 @@
 #include "bionics.h"
 #include "trap.h"
 #include "morale.h"
+#include "inventory.h"
 #include <vector>
 #include <string>
 
@@ -20,6 +21,8 @@ class player {
 public:
  player();
  ~player();
+
+ player& operator= (player rhs);
 
 // newcharacter.cpp 
  bool create(game *g, character_type type);
@@ -157,20 +160,18 @@ public:
  item &i_at(char let);	// Returns the item with inventory letter let
  item &i_of_type(itype_id type); // Returns the first item with this type
  std::vector<item> inv_dump(); // Inventory + weapon + worn (for death, etc)
- void use_up(itype_id it, int quantity);// Uses up items OR charges if a tool
  void use_amount(itype_id it, int quantity);// Uses up items
  void use_charges(itype_id it, int quantity);// Uses up charges
  int  butcher_factor();	// Automatically picks our best butchering tool
 
  bool is_wearing(itype_id it);	// Are we wearing a specific itype?
-// has_amount works for quantity, OR charges if it is a tool.
+// has_amount works ONLY for quantity.
  bool has_amount(itype_id it, int quantity);
-// has_number works ONLY for quantity.
- bool has_number(itype_id it, int quantity);
 // has_charges works ONLY for charges.
  bool has_charges(itype_id it, int quantity);
- bool has_item(char let);	// Has an item with invlet let
- bool has_item(item *it);	// Has a specific item
+ bool has_weapon_or_armor(char let);	// Has an item with invlet let
+ bool has_item(char let);		// Has an item with invlet let
+ bool has_item(item *it);		// Has a specific item
  std::vector<int> has_ammo(ammotype at);// Returns a list of indices of the ammo
 
 // ---------------VALUES-----------------
@@ -208,7 +209,8 @@ public:
  int skexercise[num_skill_types];
  
  bool inv_sorted;
- std::vector <item> inv;
+ //std::vector <item> inv;
+ inventory inv;
  std::vector <item> worn;
  item weapon;
  item ret_null;	// Null item, sometimes returns by weapon() etc

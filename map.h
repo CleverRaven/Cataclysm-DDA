@@ -76,6 +76,9 @@ class map
  void add_item(int x, int y, item new_item);
  void process_active_items(game *g);
 
+ void use_amount(point origin, int range, itype_id type, int quantity);
+ void use_charges(point origin, int range, itype_id type, int quantity);
+
 // Traps
  trap_id& tr_at(int x, int y);
  void add_trap(int x, int y, trap_id t);

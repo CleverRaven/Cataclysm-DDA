@@ -165,7 +165,7 @@ bool computer::hack_attempt(player *p, int Security)
  else if (p->int_cur > 8 && one_in(3))
   player_roll += rng(0, p->int_cur - 8);
 
- return (rng(player_roll, 6) >= rng(Security, 6));
+ return (dice(player_roll, 6) >= dice(Security, 6));
 }
 
 std::string computer::save_data()

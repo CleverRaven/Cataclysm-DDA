@@ -1,7 +1,7 @@
 #ifndef _COMPUTER_H_
 #define _COMPUTER_H_
 
-#include "texthash.h"
+//#include "texthash.h"
 #include "output.h"
 #include <vector>
 #include <string>

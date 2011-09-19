@@ -5,11 +5,11 @@
 #include "omdata.h"
 #include "mongroup.h"
 #include "settlement.h"
-#include "npc.h"
 #include "output.h"
 #include <vector>
 #include <curses.h>
 
+class npc;
 struct settlement;
 
 struct city {

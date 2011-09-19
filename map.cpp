@@ -360,6 +360,7 @@ void map::destroy(game *g, int x, int y, bool makesound)
      add_item(i, j, g->itypes[itm_2x4], 0);
    }
   }
+  break;
  case t_wall_v:
  case t_wall_h:
   for (int i = x - 2; i <= x + 2; i++) {
@@ -383,8 +384,10 @@ void map::destroy(game *g, int x, int y, bool makesound)
 
 void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
 {
+/*
  if (flags & mfb(IF_AMMO_FLAME) && has_flag(flammable, x, y))
   add_field(g, x, y, fd_fire, 2);
+*/
 
  if (has_flag(alarmed, x, y) && !g->event_queued(EVENT_WANTED)) {
   g->sound(g->u.posx, g->u.posy, 30, "An alarm sounds!");
@@ -715,6 +718,81 @@ void map::process_active_items(game *g)
        n--;
       } else
        i_at(i, j)[n].type = g->itypes[tmp->revert_to];
+     }
+    }
+   }
+  }
+ }
+}
+
+void map::use_amount(point origin, int range, itype_id type, int quantity)
+{
+ for (int radius = 0; radius <= range && quantity > 0; radius++) {
+  for (int x = origin.x - radius; x <= origin.x + radius; x++) {
+   for (int y = origin.y - radius; y <= origin.y + radius; y++) {
+    if (rl_dist(origin.x, origin.y, x, y) < radius)
+     y++; // Skip over already-examined tiles
+    else {
+     for (int n = 0; n < i_at(x, y).size(); n++) {
+      item* curit = &(i_at(x, y)[n]);
+      for (int m = 0; m < curit->contents.size(); m++) {
+       if (curit->contents[m].type->id == type) {
+        curit->contents.erase(curit->contents.begin() + m);
+        m--;
+       }
+      }
+      if (curit->type->id == type) {
+       quantity--;
+       i_rem(x, y, n);
+       n--;
+      }
+     }
+    }
+   }
+  }
+ }
+}
+
+void map::use_charges(point origin, int range, itype_id type, int quantity)
+{
+ for (int radius = 0; radius <= range && quantity > 0; radius++) {
+  for (int x = origin.x - radius; x <= origin.x + radius; x++) {
+   for (int y = origin.y - radius; y <= origin.y + radius; y++) {
+    if (rl_dist(origin.x, origin.y, x, y) < radius)
+     y++; // Skip over already-examined tiles
+    else {
+     for (int n = 0; n < i_at(x, y).size(); n++) {
+      item* curit = &(i_at(x, y)[n]);
+// Check contents first
+      for (int m = 0; m < curit->contents.size(); m++) {
+       if (curit->contents[m].type->id == type) {
+        if (curit->contents[m].charges < quantity) {
+         quantity -= curit->contents[m].charges;
+         if (curit->contents[m].destroyed_at_zero_charges()) {
+          curit->contents.erase(curit->contents.begin() + m);
+          m--;
+         } else
+          curit->contents[m].charges = 0;
+        } else {
+         curit->contents[m].charges -= quantity;
+         return;
+        }
+       }
+      }
+// Now check the actual item
+      if (curit->type->id == type) {
+       if (curit->charges < quantity) {
+        quantity -= curit->charges;
+        if (curit->destroyed_at_zero_charges()) {
+         i_rem(x, y, n);
+         n--;
+        } else
+         curit->charges = 0;
+       } else {
+        curit->charges -= quantity;
+        return;
+       }
+      }
      }
     }
    }

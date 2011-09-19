@@ -408,9 +408,9 @@ r - Reload wielded gun or tool               U - Unload wielded gun or tool\n\
 f - Fire gun                                 F - Burst-fire gun\n\
 p - Power up / List bionics                  R - Read book\n\
 & - Craft items                              B - Butcher a corpse\n\
-= - Reassign inventory letter");
-   mvprintz(16, 0, c_white, "INFORMATION:");
-   mvprintz(17, 0, c_ltgray, "\
+= - Reassign inventory letter                * - Construct");
+   mvprintz(17, 0, c_white, "INFORMATION:");
+   mvprintz(18, 0, c_ltgray, "\
 @ - View character status                    : or m - Open world map\n\
 %%%% - View morale                              ; or x - Look around\n\
 C - Chat with NPC                            ?      - Help page");

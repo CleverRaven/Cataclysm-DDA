@@ -3,7 +3,6 @@
 
 #include "player.h"
 #include "monster.h"
-#include "item.h"
 #include "overmap.h"
 #include "faction.h"
 #include <vector>
@@ -17,6 +16,7 @@
 
 class item;
 class overmap;
+class player;
 
 void parse_tags(std::string &phrase, player *u, npc *me);
 
@@ -134,6 +134,7 @@ public:
  ~npc();
  virtual bool is_npc() { return true; }
 
+ npc& operator= (npc rhs);
 
 // Generating our stats, etc.
  void randomize(game *g, npc_class type = NC_NONE);
@@ -186,7 +187,7 @@ public:
 // Bartering - select items we're willing to buy/sell and set prices
 // Prices are later modified by g->u's barter skill; see dialogue.cpp
 // init_buying() fills <indices> with the indices of items in <you>
- void init_buying(std::vector<item> you, std::vector<int> &indices,
+ void init_buying(inventory you, std::vector<int> &indices,
                   std::vector<int> &prices);
 // init_selling() fills <indices> with the indices of items in our inventory
  void init_selling(std::vector<int> &indices, std::vector<int> &prices);

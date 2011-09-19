@@ -613,7 +613,7 @@ void mattack::stare(game *g, monster *z)
  z->sp_timeout = z->type->sp_freq;
  int j;
  if (g->sees_u(z->posx, z->posy, j)) {
-  g->add_msg("The %s stares at you...", z->name().c_str());
+  g->add_msg("The %s stares at you, and you shudder.", z->name().c_str());
   g->u.add_disease(DI_TELEGLOW, 800, g);
  } else {
   g->add_msg("A piercing beam of light bursts forth!");
@@ -633,7 +633,7 @@ void mattack::fear_paralyze(game *g, monster *z)
  int t;
  if (g->u_see(z->posx, z->posy, t)) {
   z->sp_timeout = z->type->sp_freq;	// Reset timer
-  if (rng(1, 30) > g->u.int_cur) {
+  if (rng(1, 20) > g->u.int_cur) {
    g->add_msg("The terrifying visage of the %s paralyzes you.",
               z->name().c_str());
    g->u.moves -= 400;

@@ -4994,7 +4994,7 @@ void map::add_extra(map_extra type, game *g)
  {
   int num_bodies = dice(2, 5);
   for (int i = 0; i < num_bodies; i++) {
-   int x, y, tries = 0;;
+   int x, y, tries = 0;
    do {	// Loop until we find a valid spot to dump a body, or we give up
     x = rng(0, SEEX * 2 - 1);
     y = rng(0, SEEY * 2 - 1);

@@ -29,14 +29,15 @@ game::game()
  clear();	// Clear the screen
  intro();	// Print an intro screen, make sure we're at least 80x25
 // Gee, it sure is init-y around here!
- init_itypes();	  // Set up item types                   (SEE itypedef.cpp)
- init_mtypes();	  // Set up monster types                (SEE mtypedef.cpp)
- init_monitems(); // Set up which items monsters carry   (SEE monitemsdef.cpp)
- init_traps();	  // Set up the trap types               (SEE trapdef.cpp)
- init_mapitems(); // Set up which items appear where     (SEE mapitemsdef.cpp)
- init_recipes();  // Set up crafting reciptes            (SEE crafting.cpp)
- init_moncats();  // Set up monster categories           (SEE mongroupdef.cpp)
- init_missions(); // Set up mission templates            (SEE missiondef.cpp)
+ init_itypes();	      // Set up item types                (SEE itypedef.cpp)
+ init_mtypes();	      // Set up monster types             (SEE mtypedef.cpp)
+ init_monitems();     // Set up the items monsters carry  (SEE monitemsdef.cpp)
+ init_traps();	      // Set up the trap types            (SEE trapdef.cpp)
+ init_mapitems();     // Set up which items appear where  (SEE mapitemsdef.cpp)
+ init_recipes();      // Set up crafting reciptes         (SEE crafting.cpp)
+ init_moncats();      // Set up monster categories        (SEE mongroupdef.cpp)
+ init_missions();     // Set up mission templates         (SEE missiondef.cpp)
+ init_construction(); // Set up constructables            (SEE construction.cpp)
 
  m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
 
@@ -733,6 +734,10 @@ void game::process_activity()
    case ACT_BUTCHER:
     complete_butcher(u.activity.index);
     break;
+
+   case ACT_BUILD:
+    complete_construction();
+    break;
    }
    u.activity.type = ACT_NULL;
   }
@@ -930,6 +935,8 @@ void game::get_input()
   refresh_all();
  } else if (ch == '&')
   craft();
+ else if (ch == '*')
+  construction_menu();
  else if (ch == '$' && query_yn("Are you sure you want to sleep?")) {
    u.try_to_sleep(this);
    u.moves = 0;
@@ -1139,6 +1146,11 @@ void game::load(std::string name)
   montmp.load_info(data, &mtypes);
   z.push_back(montmp);
  }
+// And the kill counts;
+ if (fin.peek() == '\n')
+  fin.get(junk); // Chomp that pesky endline
+ for (int i = 0; i < num_monsters; i++)
+  fin >> kills[i];
 // Finally, the data on the player.
  if (fin.peek() == '\n')
   fin.get(junk); // Chomp that pesky endline
@@ -1163,9 +1175,6 @@ void game::load(std::string name)
     u.weapon.contents.push_back(item(itemdata, this));
   }
  }
-// And the kill counts;
- for (int i = 0; i < num_monsters; i++)
-  fin >> kills[i];
  fin.close();
 // Now load up the master game data; factions (and more?)
  load_master();
@@ -1195,10 +1204,10 @@ void game::save()
  fout << std::endl << z.size() << std::endl;
  for (int i = 0; i < z.size(); i++)
   fout << z[i].save_info() << std::endl;
-// And finally the player.
- fout << u.save_info() << std::endl;
  for (int i = 0; i < num_monsters; i++)	// Save the kill counts, too.
   fout << kills[i] << " ";
+// And finally the player.
+ fout << u.save_info() << std::endl;
  fout << std::endl;
  fout.close();
 // Now write things that aren't player-specific: factions and NPCs
@@ -1978,6 +1987,7 @@ unsigned char game::light_level()
    ret = 60;
  }
  int flashlight = u.active_item_charges(itm_flashlight_on);
+ //int light = u.light_items();
  if (ret < 10 && flashlight > 0) {
   ret = flashlight;
   if (ret > 10)
@@ -3125,7 +3135,7 @@ void game::examine()
    }
    add_msg("You insert your ID card.");
    add_msg("The nearby doors slide into the floor.");
-   u.use_up(itm_card_id, 1);
+   u.use_amount(itm_card_id, 1);
   }
   bool using_electrohack = (u.has_amount(itm_electrohack, 1) &&
                             query_yn("Use electrohack on the reader?"));
@@ -3148,7 +3158,7 @@ void game::examine()
     if (success <= -5) {
      if (using_electrohack) {
       add_msg("Your electrohack is ruined!");
-      u.use_up(itm_electrohack, 1);
+      u.use_amount(itm_electrohack, 1);
      } else {
       add_msg("Your power is drained!");
       u.charge_power(0 - rng(0, u.power_level));
@@ -3335,7 +3345,9 @@ void game::pickup(int posx, int posy, int min)
    add_msg("You can't pick up a liquid!");
    return;
   }
-  while ((newit.invlet == 0 || u.has_item(newit.invlet)) && iter < 52) {
+  while (iter < 52 && (newit.invlet == 0 ||
+                       (u.has_item(newit.invlet) &&
+                        !u.i_at(newit.invlet).stacks_with(newit))) ) {
    newit.invlet = nextinv;
    iter++;
    advance_nextinv();
@@ -3565,10 +3577,13 @@ void game::pickup(int posx, int posy, int min)
   if (getitem[i] && here[i].made_of(LIQUID))
    got_water = true;
   else if (getitem[i]) {
-   while ((here[i].invlet == 0 || u.has_item(here[i].invlet)) && iter < 52) {
+   iter = 0;
+   while (iter < 52 && (here[i].invlet == 0 ||
+                        (u.has_item(here[i].invlet) &&
+                         !u.i_at(here[i].invlet).stacks_with(here[i]))) ) {
     here[i].invlet = nextinv;
-    advance_nextinv();
     iter++;
+    advance_nextinv();
    }
    if (iter == 52) {
     add_msg("You're carrying too many items!");
@@ -3778,41 +3793,20 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
 
 void game::drop()
 {
- char ch = inv("Drop item:");
- if (ch == KEY_ESCAPE) {
+ std::vector<item> dropped = multidrop();
+ if (dropped.size() == 0)
   add_msg("Never mind.");
-  return;
- }
- if (!u.has_item(ch)) {
-  add_msg("You do not have that item.");
-  return;
- }
-// No dropping bionics
- if (ch == u.weapon.invlet && u.weapon.type->id > num_items) {
-  add_msg("You cannot drop your %s.", u.weapon.tname(this).c_str());
-  return;
- }
- item tmp = u.i_rem(ch);
- m.add_item(u.posx, u.posy, tmp);
- add_msg("You drop your %s.", tmp.tname(this).c_str());
+ else if (dropped.size() == 1)
+  add_msg("You drop your %s.", dropped[0].tname(this).c_str());
+ else
+  add_msg("You drop several items.");
+
+ for (int i = 0; i< dropped.size(); i++)
+  m.add_item(u.posx, u.posy, dropped[i]);
 }
 
 void game::drop_in_direction()
 {
- char ch = inv("Drop item:");
- if (ch == KEY_ESCAPE) {
-  add_msg("Nevermind.");
-  return;
- }
- if (!u.has_item(ch)) {
-  add_msg("You do not have that item.");
-  return;
- }
-// No dropping bionics
- if (ch == u.weapon.invlet && u.weapon.type->id > num_items) {
-  add_msg("You cannot drop your %s.", u.weapon.tname(this).c_str());
-  return;
- }
  refresh_all();
  mvprintz(0, 0, c_red, "Choose a direction:");
  int dirx, diry;
@@ -3827,11 +3821,24 @@ void game::drop_in_direction()
   add_msg("You can't place an item there!");
   return;
  }
- item tmp = u.i_rem(ch);
- m.add_item(dirx, diry, tmp);
- add_msg("You put your %s %s the %s.", tmp.tname(this).c_str(),
-         m.move_cost(dirx, diry) > 0 ? "on" : "in",
-         m.tername(dirx, diry).c_str());
+
+ std::string verb = (m.move_cost(dirx, diry) == 0 ? "put" : "drop");
+ std::string prep = (m.move_cost(dirx, diry) == 0 ? "in"  : "on"  );
+
+ std::vector<item> dropped = multidrop();
+
+ if (dropped.size() == 0)
+  add_msg("Never mind.");
+ else if (dropped.size() == 1)
+  add_msg("You %s your %s %s the %s.", verb.c_str(),
+          dropped[0].tname(this).c_str(), prep.c_str(),
+          m.tername(dirx, diry).c_str());
+ else
+  add_msg("You %s several items %s the %s.", verb.c_str(), prep.c_str(),
+          m.tername(dirx, diry).c_str());
+
+ for (int i = 0; i< dropped.size(); i++)
+  m.add_item(dirx, diry, dropped[i]);
 }
 
 void game::reassign_item()
@@ -3862,143 +3869,6 @@ void game::reassign_item()
 }
 
 
-// Display current inventory.
-char game::inv(std::string title)
-{
- if (title == "")
-  title = "Inventory:";
- WINDOW* w_inv = newwin(25, 80, 0, 0);
- const int maxitems = 20;	// Number of items to show at one time.
- char ch = '.';
- int start = 0, cur_it;
- //if (!u.inv_sorted)
- u.sort_inv();
- int first_gun   = -1,
-     first_ammo  = -1,
-     first_weap  = -1,
-     first_armor = -1,
-     first_food  = -1,
-     first_tool  = -1,
-     first_book  = -1,
-     first_other = -1;
- for (int i = 0; i < u.inv.size(); i++) {
-       if (first_gun == -1 && u.inv[i].is_gun())
-   first_gun = i;
-  else if (first_ammo == -1 && u.inv[i].is_ammo())
-   first_ammo = i;
-  else if (first_armor == -1 && u.inv[i].is_armor())
-   first_armor = i;
-  else if (first_food == -1 &&
-           (u.inv[i].is_food() || u.inv[i].is_food_container()))
-   first_food = i;
-  else if (first_tool == -1 && (u.inv[i].is_tool() || u.inv[i].is_gunmod()))
-   first_tool = i;
-  else if (first_book == -1 && u.inv[i].is_book())
-   first_book = i;
-  else if (first_weap == -1 && u.inv[i].is_weap())
-   first_weap = i;
-  else if (first_other == -1   && !u.inv[i].is_food()  && !u.inv[i].is_ammo() &&
-           !u.inv[i].is_gun()  && !u.inv[i].is_armor() && !u.inv[i].is_book() &&
-           !u.inv[i].is_tool() && !u.inv[i].is_weap()  &&
-           !u.inv[i].is_gunmod() && !u.inv[i].is_food_container())
-   first_other = i;
- }
-// Print our header
- mvwprintw(w_inv, 0, 0, title.c_str());
- mvwprintw(w_inv, 0, 40, "Weight: ");
- if (u.weight_carried() >= u.weight_capacity() * .25)
-  wprintz(w_inv, c_red, "%d", u.weight_carried());
- else
-  wprintz(w_inv, c_ltgray, "%d", u.weight_carried());
- wprintz(w_inv, c_ltgray, "/%d/%d", int(u.weight_capacity() * .25),
-                                    u.weight_capacity());
- mvwprintw(w_inv, 0, 60, "Volume: ");
- if (u.volume_carried() > u.volume_capacity() - 2)
-  wprintz(w_inv, c_red, "%d", u.volume_carried());
- else
-  wprintz(w_inv, c_ltgray, "%d", u.volume_carried());
- wprintw(w_inv, "/%d", u.volume_capacity() - 2);
-// Print our weapon
- mvwprintz(w_inv, 2, 40, c_magenta, "WEAPON:");
- mvwprintw(w_inv, 3, 42, u.weapname().c_str());
- if (u.is_armed())
-  mvwputch(w_inv, 3, 40, c_white, u.weapon.invlet);
-// Print worn items
- if (u.worn.size() > 0)
-  mvwprintz(w_inv, 5, 40, c_magenta, "ITEMS WORN:");
- for (int i = 0; i < u.worn.size(); i++) {
-  mvwputch(w_inv, 6 + i, 40, c_white, u.worn[i].invlet);
-  mvwprintw(w_inv, 6 + i, 41, " %s", u.worn[i].tname(this).c_str());
- }
-
-
- do {
-  if (ch == '<' && start > 0) {
-   for (int i = 1; i < 25; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                        ");
-   start -= maxitems;
-   if (start < 0)
-    start = 0;
-   mvwprintw(w_inv, maxitems + 2, 0, "         ");
-  }
-  if (ch == '>' && cur_it < u.inv.size()) {
-   start = cur_it;
-   mvwprintw(w_inv, maxitems + 2, 12, "            ");
-   for (int i = 1; i < 25; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                        ");
-  }
-  int cur_line = 2;
-  for (cur_it = start; cur_it < start + maxitems && cur_line < 23; cur_it++) {
-// Clear the current line;
-   mvwprintw(w_inv, cur_line, 0, "                                    ");
-// Print category header
-   if (cur_it == first_gun) {
-    mvwprintz(w_inv, cur_line, 0, c_magenta, "FIREARMS:");
-    cur_line++;
-   } else if (cur_it == first_ammo) {
-    mvwprintz(w_inv, cur_line, 0, c_magenta, "AMMUNITION:");
-    cur_line++;
-   } else if (cur_it == first_weap) {
-    mvwprintz(w_inv, cur_line, 0, c_magenta, "WEAPONS:");
-    cur_line++;
-   } else if (cur_it == first_armor) {
-    mvwprintz(w_inv, cur_line, 0, c_magenta, "CLOTHING:");
-    cur_line++;
-   } else if (cur_it == first_food) {
-    mvwprintz(w_inv, cur_line, 0, c_magenta, "COMESTIBLES:");
-    cur_line++;
-   } else if (cur_it == first_tool) {
-    mvwprintz(w_inv, cur_line, 0, c_magenta, "TOOLS:");
-    cur_line++;
-   } else if (cur_it == first_book) {
-    mvwprintz(w_inv, cur_line, 0, c_magenta, "BOOKS:");
-    cur_line++;
-   } else if (cur_it == first_other) {
-    mvwprintz(w_inv, cur_line, 0, c_magenta, "OTHER:");
-    cur_line++;
-   }
-   if (cur_it < u.inv.size()) {
-    mvwputch (w_inv, cur_line, 0, c_white, u.inv[cur_it].invlet);
-    mvwprintw(w_inv, cur_line, 1, " %s", u.inv[cur_it].tname(this).c_str());
-    if (u.inv[cur_it].charges > 0)
-     wprintw(w_inv, " (%d)", u.inv[cur_it].charges);
-   }
-   cur_line++;
-  }
-  if (start > 0)
-   mvwprintw(w_inv, maxitems + 4, 0, "< Go Back");
-  if (cur_it < u.inv.size())
-   mvwprintw(w_inv, maxitems + 4, 12, "> More items");
-  wrefresh(w_inv);
-  ch = getch();
- } while (ch == '<' || ch == '>');
- werase(w_inv);
- delwin(w_inv);
- erase();
- refresh_all();
- return ch;
-}
-
 void game::plthrow()
 {
  char ch = inv("Throw item:");
@@ -4011,6 +3881,10 @@ void game::plthrow()
   return;
  }
  item thrown = u.i_at(ch);
+ if (thrown.type->id > num_items) {
+  add_msg("That's part of your body, you can't throw that!");
+  return;
+ }
 
  int x = u.posx, y = u.posy;
  int x0 = x - range;
@@ -4245,7 +4119,6 @@ void game::complete_butcher(int index)
 
 void game::eat()
 {
- u.moves -= 250;	// TODO: Set this to a variable?
  char ch = inv("Consume item:");
  if (ch == KEY_ESCAPE) {
   add_msg("Never mind.");
@@ -4261,14 +4134,10 @@ void game::eat()
  }
  if (!u.has_item(ch)) {
   add_msg("You don't have item '%c'!", ch);
-  u.moves += 250;
   return;
  }
- if (!u.eat(this, u.lookup_item(ch))) {
+ if (!u.eat(this, u.lookup_item(ch)))
   add_msg("You can't eat that!");
-  u.moves += 250;
- } else if (u.has_trait(PF_GOURMAND))
-  u.moves += 150;
 }
 
 void game::wear()
@@ -4279,7 +4148,6 @@ void game::wear()
   return;
  }
  if (u.wear(this, ch)) {
-  u.moves -= 350;	// TODO: Make this variable
   if (in_tutorial) {
    it_armor* armor = dynamic_cast<it_armor*>(u.worn[u.worn.size() - 1].type);
    if (armor->dmg_resist >= 2 || armor->cut_resist >= 4)

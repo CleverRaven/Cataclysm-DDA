@@ -5,6 +5,9 @@
 #include "output.h"
 #include "crafting.h"
 #include "setvector.h"
+#include "inventory.h"
+
+#define PICKUP_RANGE 2
 
 void draw_recipe_tabs(WINDOW *w, craft_cat tab);
 
@@ -32,6 +35,10 @@ void game::init_recipes()
   TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
 	itm_knife_combat, -1, itm_machete, -1, NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, NULL);
+
+ RECIPE(itm_spear_knife, CC_WEAPON, sk_stabbing, sk_null, 1, 600);
+  COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, NULL);
+  COMP(itm_string_36, 1, NULL);
 
  RECIPE(itm_nailboard, CC_WEAPON, sk_null, sk_null, 0, 1000);
   TOOL(itm_hatchet, -1, itm_hammer, -1, itm_rock, -1, NULL);
@@ -581,6 +588,10 @@ void game::craft()
  bool done = false;
  char ch;
 
+ inventory crafting_inv;
+ crafting_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
+ crafting_inv.add_stack(u.inv_dump());
+
  do {
   if (redraw) { // When we switch tabs, redraw the header
    redraw = false;
@@ -643,9 +654,9 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
       itype_id type = current[line]->tools[i][j].type;
       int charges = current[line]->tools[i][j].count;
       nc_color toolcol = c_red;
-      if (charges < 0 && u.has_amount(type, 1))
+      if (charges < 0 && crafting_inv.has_amount(type, 1))
        toolcol = c_green;
-      else if (charges > 0 && u.has_charges(type, charges))
+      else if (charges > 0 && crafting_inv.has_charges(type, charges))
        toolcol = c_green;
       if (u.has_bionic(bio_tools))
        toolcol = c_green;
@@ -683,7 +694,12 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
     for (int j = 0; j < current[line]->components[i].size(); j++) {
      int count = current[line]->components[i][j].count;
      itype_id type = current[line]->components[i][j].type;
-     nc_color compcol = (u.has_amount(type, count) ? c_green : c_red);
+     nc_color compcol = c_red;
+     if (itypes[type]->is_ammo()) {
+      if (crafting_inv.has_charges(type, count))
+       compcol = c_green;
+     } else if (crafting_inv.has_amount(type, count))
+      compcol = c_green;
      std::stringstream dump;
      dump << count << "x " << itypes[type]->name << " ";
      std::string compname = dump.str();
@@ -854,7 +870,12 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
 void game::pick_recipes(std::vector<recipe*> &current,
                         std::vector<bool> &available, craft_cat tab)
 {
+ inventory crafting_inv;
+ crafting_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
+ crafting_inv.add_stack(u.inv_dump());
+
  bool have_tool[5], have_comp[5];
+
  current.clear();
  available.clear();
  for (int i = 0; i < recipes.size(); i++) {
@@ -879,8 +900,8 @@ void game::pick_recipes(std::vector<recipe*> &current,
      itype_id type = current[i]->tools[j][k].type;
      int req = current[i]->tools[j][k].count;	// -1 => 1
      if (u.has_bionic(bio_tools) ||
-         (req < 0 && u.has_amount(type, 1)) ||
-         (req > 0 && u.has_charges(type, req))) {
+         (req <= 0 && crafting_inv.has_amount (type,   1)) ||
+         (req >  0 && crafting_inv.has_charges(type, req))   ) {
       have_tool[j] = true;
       k = current[i]->tools[j].size();
      }
@@ -892,7 +913,12 @@ void game::pick_recipes(std::vector<recipe*> &current,
     for (int k = 0; k < current[i]->components[j].size(); k++) {
      itype_id type = current[i]->components[j][k].type;
      int count = current[i]->components[j][k].count;
-     if (u.has_amount(type, count)) {
+     if (itypes[type]->is_ammo()) {
+      if (crafting_inv.has_charges(type, count)) {
+       have_comp[j] = true;
+       k = current[i]->components[j].size();
+      }
+     } else if (crafting_inv.has_amount(type, count)) {
       have_comp[j] = true;
       k = current[i]->components[j].size();
      }
@@ -914,47 +940,76 @@ void game::make_craft(recipe *making)
 
 void game::complete_craft()
 {
+ inventory map_inv;
+ map_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
  recipe making = recipes[u.activity.index]; // Which recipe is it?
- std::vector<component> will_use; // List of all items we're using, w/ count
+ std::vector<component> player_use; // List of all items we're using, w/ count
+ std::vector<component> map_use; // Same, but from the map
 
 // Up to 5 components / tools
  for (int i = 0; i < 5; i++) {
   if (making.components[i].size() > 0) {
 // For each set of components in the recipe, fill you_have with the list of all
 // matching ingredients the player has.
-   std::vector<component> you_have;
+   std::vector<component> player_has;
+   std::vector<component> map_has;
    for (int j = 0; j < making.components[i].size(); j++) {
-    if (u.has_amount(making.components[i][j].type,
-                     making.components[i][j].count))
-     you_have.push_back(making.components[i][j]);
+    if (itypes[making.components[i][j].type]->is_ammo()) {
+     if (u.has_charges(making.components[i][j].type,
+                      making.components[i][j].count))
+      player_has.push_back(making.components[i][j]);
+     if (map_inv.has_charges(making.components[i][j].type,
+                            making.components[i][j].count))
+      map_has.push_back(making.components[i][j]);
+    } else {
+     if (u.has_amount(making.components[i][j].type,
+                      making.components[i][j].count))
+      player_has.push_back(making.components[i][j]);
+     if (map_inv.has_amount(making.components[i][j].type,
+                            making.components[i][j].count))
+      map_has.push_back(making.components[i][j]);
+    }
    }
 
-   if (you_have.size() == 1) // Only one, so we'll definitely use it
-    will_use.push_back(component(you_have[0].type, you_have[0].count));
-   else {	// Let the player pick which component they want to use
-    WINDOW* w = newwin(you_have.size() + 2, 30, 10, 25);
-    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-               LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-    mvwprintz(w, 0, 5, c_red, "Use which component?");
-    for (int j = 0; j < you_have.size(); j++)
-     mvwprintz(w, j + 1, 1, c_white, "%d: %s", j + 1,
-               itypes[you_have[j].type]->name.c_str());
-    wrefresh(w);
-    char ch;
-    do
-     ch = getch();
-    while (ch < '1' || ch >= '1' + you_have.size());
-    ch -= '1';
-    will_use.push_back(component(you_have[ch].type, you_have[ch].count));
-    delwin(w);
+   if (player_has.size() == 0 && map_has.size() == 1) {
+// One on map, none in inventory, default to the one in the map
+     map_use.push_back(map_has[0]);
+
+   } else if (player_has.size() == 1 && map_has.size() == 0)
+// One in inventory, none on map, default to the one in inventory
+    player_use.push_back(player_has[0]);
+
+   else { // Let the player pick which component they want to use
+    std::vector<std::string> options; // List for the menu_vec below
+// Populate options with the names of the items
+    for (int j = 0; j < map_has.size(); j++) {
+     std::string tmpStr = itypes[map_has[j].type]->name + " (nearby)";
+     options.push_back(tmpStr);
+    }
+    for (int j = 0; j < player_has.size(); j++)
+     options.push_back(itypes[player_has[j].type]->name);
+// Get the selection via a menu popup
+    int selection = menu_vec("Use which component?", options) - 1;
+    if (selection < map_has.size())
+     map_use.push_back(map_has[selection]);
+    else {
+     selection -= map_has.size();
+     player_use.push_back(player_has[selection]);
+    }
    }
   } // Done looking at components
 
 // Use charges of any tools that require charges used
   if (making.tools[i].size() > 0) {
    for (int j = 0; j < making.tools[i].size(); j++) {
-    if (making.tools[i][j].count > 0)
-     u.use_charges(making.tools[i][j].type, making.tools[i][j].count);
+    if (making.tools[i][j].count > 0) {
+     itype_id type = making.tools[i][j].type;
+     int count = making.tools[i][j].count;
+     if (u.has_charges(type, count))
+      u.use_charges(type, count);
+     else
+      m.use_charges(point(u.posx, u.posy), PICKUP_RANGE, type, count);
+    }
    }
   }
  } // Done finding the components/tools needed
@@ -983,15 +1038,28 @@ void game::complete_craft()
  if (making.difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
   add_msg("You fail to make the %s, and waste some materials.",
           itypes[making.result]->name.c_str());
-  int num_lost = rng(1, will_use.size());
-  for (int i = 0; i < num_lost; i++) {
-   int n = rng(0, will_use.size() - 1);
-   if (itypes[will_use[n].type]->is_ammo() && will_use[i].type != itm_gasoline)
-    u.use_charges(will_use[n].type, will_use[n].count);
+  int num_lost = rng(1, player_use.size() + map_use.size());
+  int num_lost_player = rng(0, num_lost);
+  int num_lost_map = num_lost - num_lost_player;
+  for (int i = 0; i < num_lost_player; i++) {
+   int n = rng(0, player_use.size() - 1);
+   if (itypes[player_use[n].type]->is_ammo() &&
+       player_use[i].type != itm_gasoline)
+    u.use_charges(player_use[n].type, player_use[n].count);
    else
-    u.use_amount(will_use[n].type, will_use[n].count);
-   will_use.erase(will_use.begin() + n);
+    u.use_amount(player_use[n].type, player_use[n].count);
+   player_use.erase(player_use.begin() + n);
   }
+  for (int i = 0; i < num_lost_map; i++) {
+   int n = rng(0, map_use.size() - 1);
+   if (itypes[map_use[n].type]->is_ammo() &&
+       map_use[i].type != itm_gasoline)
+    u.use_charges(map_use[n].type, map_use[n].count);
+   else
+    u.use_amount(map_use[n].type, map_use[n].count);
+   map_use.erase(map_use.begin() + n);
+  }
+   
   u.activity.type = ACT_NULL;
   return;
 // Messed up slightly; no components wasted.
@@ -1003,11 +1071,21 @@ void game::complete_craft()
  }
 // If we're here, the craft was a success!
 // Use up the items in will_use
- for (int i = 0; i < will_use.size(); i++) {
-  if (itypes[will_use[i].type]->is_ammo() && will_use[i].type != itm_gasoline)
-   u.use_charges(will_use[i].type, will_use[i].count);
+ for (int i = 0; i < player_use.size(); i++) {
+  if (itypes[player_use[i].type]->is_ammo() &&
+      player_use[i].type != itm_gasoline)
+   u.use_charges(player_use[i].type, player_use[i].count);
   else
-   u.use_amount(will_use[i].type, will_use[i].count);
+   u.use_amount(player_use[i].type, player_use[i].count);
+ }
+ for (int i = 0; i < map_use.size(); i++) {
+  if (itypes[map_use[i].type]->is_ammo() &&
+      map_use[i].type != itm_gasoline)
+   m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,
+                 map_use[i].type, map_use[i].count);
+  else
+   m.use_amount(point(u.posx, u.posy), PICKUP_RANGE,
+                map_use[i].type, map_use[i].count);
  }
 
 // Set up the new item, and pick an inventory letter

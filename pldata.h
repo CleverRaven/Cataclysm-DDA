@@ -105,7 +105,7 @@ struct addiction
 
 enum activity_type {
  ACT_NULL = 0,
- ACT_RELOAD, ACT_READ, ACT_WAIT, ACT_CRAFT, ACT_BUTCHER,
+ ACT_RELOAD, ACT_READ, ACT_WAIT, ACT_CRAFT, ACT_BUTCHER, ACT_BUILD,
  NUM_ACTIVITIES
 };
 
@@ -114,12 +114,16 @@ struct player_activity
  activity_type type;
  int moves_left;
  int index;
- player_activity() { type = ACT_NULL; moves_left = 0; index = -1; }
+ std::vector<int> values;
+ point placement;
+ player_activity() { type = ACT_NULL; moves_left = 0; index = -1;
+                     placement = point(-1, -1); }
  player_activity(activity_type t, int turns, int Index)
  {
   type = t;
   moves_left = turns;
   index = Index;
+  placement = point(-1, -1);
  }
 };
  

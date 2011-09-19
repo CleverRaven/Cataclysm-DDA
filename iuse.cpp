@@ -5,6 +5,7 @@
 #include "output.h"
 #include "rng.h"
 #include "line.h"
+#include "player.h"
 #include <sstream>
 
 void iuse::royal_jelly(game *g, player *p, item *it, bool t)
@@ -731,6 +732,7 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
    else
     p->i_add(string);
   }
+  return;
  }
  if (!cut->made_of(COTTON)) {
   g->add_msg("You can only slice items made of cotton.");
@@ -890,8 +892,8 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
   while (ch != 'y' && ch != 'Y' && ch != 'n' && ch != 'N');
   if (ch == 'y' || ch == 'Y') {
    p->moves -= boards * 50;
-   p->use_up(itm_nail, nails);
-   p->use_up(itm_2x4, boards);
+   p->use_charges(itm_nail, nails);
+   p->use_amount(itm_2x4, boards);
    g->m.ter(dirx, diry) = newter;
   }
  } else {
@@ -1403,7 +1405,7 @@ void iuse::pipebomb(game *g, player *p, item *it, bool t)
   g->add_msg("You need a lighter!");
   return;
  }
- p->use_up(itm_lighter, 1);
+ p->use_charges(itm_lighter, 1);
  g->add_msg("You light the fuse on the pipe bomb.");
  it->make(g->itypes[itm_pipebomb_act]);
  it->charges = 3;
@@ -1535,7 +1537,7 @@ void iuse::molotov(game *g, player *p, item *it, bool t)
   g->add_msg("You need a lighter!");
   return;
  }
- p->use_up(itm_lighter, 1);
+ p->use_charges(itm_lighter, 1);
  g->add_msg("You light the molotov cocktail.");
  p->moves -= 150;
  it->make(g->itypes[itm_molotov_lit]);
@@ -1567,7 +1569,7 @@ void iuse::dynamite(game *g, player *p, item *it, bool t)
   g->add_msg("You need a lighter!");
   return;
  }
- p->use_up(itm_lighter, 1);
+ p->use_charges(itm_lighter, 1);
  g->add_msg("You light the dynamite.");
  it->make(g->itypes[itm_dynamite_act]);
  it->charges = 20;

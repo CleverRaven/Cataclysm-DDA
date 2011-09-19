@@ -2166,6 +2166,7 @@ void overmap::open(game *g, int x, int y, int z)
  char datatype;
  int ct, cx, cy, cs, cp;
  city tmp;
+ std::vector<item> npc_inventory;
 
  plrfilename << "save/" << g->u.name << ".seen." << x << "." << y << "." << z;
  terfilename << "save/o." << x << "." << y << "." << z;
@@ -2205,6 +2206,13 @@ void overmap::open(game *g, int x, int y, int z)
     getline(fin, tmp.message);
     radios.push_back(tmp);
    } else if (datatype == 'n') {	// NPC
+/* When we start loading a new NPC, check to see if we've accumulated items for
+   assignment to an NPC.
+ */
+    if (!npc_inventory.empty() && !npcs.empty()) {
+     npcs.back().inv.add_stack(npc_inventory);
+     npc_inventory.clear();
+    }
     std::string npcdata;
     getline(fin, npcdata);
     npc tmp;
@@ -2222,15 +2230,20 @@ void overmap::open(game *g, int x, int y, int z)
      item tmp(itemdata, g);
      npc* last = &(npcs.back());
      switch (datatype) {
-      case 'I': last->inv.push_back(tmp);			break;
-      case 'C': last->inv.back().contents.push_back(tmp);	break;
-      case 'W': last->worn.push_back(tmp);			break;
-      case 'w': last->weapon = tmp;				break;
-      case 'c': last->weapon.contents.push_back(tmp);		break;
+      case 'I': npc_inventory.push_back(tmp);                 break;
+      case 'C': npc_inventory.back().contents.push_back(tmp); break;
+      case 'W': last->worn.push_back(tmp);                    break;
+      case 'w': last->weapon = tmp;                           break;
+      case 'c': last->weapon.contents.push_back(tmp);         break;
      }
     }
    }
   }
+// If we accrued an npc_inventory, assign it now
+  if (!npc_inventory.empty() && !npcs.empty())
+   npcs.back().inv.add_stack(npc_inventory);
+
+// Private/per-character data
   fin.close();
   fin.open(plrfilename.str().c_str());
   if (fin.is_open()) {	// Load private seen data
@@ -2296,4 +2309,3 @@ void overmap::open(game *g, int x, int y, int z)
   save(g->u.name, x, y, z);
  }
 }
-

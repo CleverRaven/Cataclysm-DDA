@@ -133,7 +133,7 @@ void player::activate_bionic(int b, game *g)
    mvwprintz(w, 1, 1, c_white, "No effects.");
   else {
    for (int line = 1; line < 39 && line <= good.size() + bad.size(); line++) {
-    if (line < bad.size())
+    if (line <= bad.size())
      mvwprintz(w, line, 1, c_red, bad[line - 1].c_str());
     else
      mvwprintz(w, line, 1, c_green, good[line - 1 - bad.size()].c_str());
@@ -326,7 +326,6 @@ void player::activate_bionic(int b, game *g)
       }
       if (l == traj.size())
        g->m.add_item(posx, posy, tmp_item);
-      k--;
      }
     }
    }
@@ -391,9 +390,9 @@ bool player::install_bionics(game *g, it_bionic* type)
            type->difficulty);
  mvwprintz(w, 3, 40, c_white,        "Your installation skill:   %d.%d",
            skint, skdec);
- mvwprintz(w, 4, 40, c_white,        "Installation requires high intelligence,");
- mvwprintz(w, 5, 40, c_white,        "and skill in electronics, first aid, and");
- mvwprintz(w, 6, 40, c_white,        "mechanics (in that order of importance).");
+ mvwprintz(w, 4, 40, c_white,       "Installation requires high intelligence,");
+ mvwprintz(w, 5, 40, c_white,       "and skill in electronics, first aid, and");
+ mvwprintz(w, 6, 40, c_white,       "mechanics (in that order of importance).");
 
  int chance_of_success = int((100 * pl_skill) /
                              (pl_skill + 4 * type->difficulty));

@@ -10,7 +10,7 @@ enum skill {
 // Combat
  sk_throw, sk_gun, sk_pistol, sk_shotgun, sk_smg, sk_rifle,
 // Crafting
- sk_mechanics, sk_electronics, sk_cooking, sk_tailor,
+ sk_mechanics, sk_electronics, sk_cooking, sk_tailor, sk_carpentry,
 // Medical
  sk_firstaid,
 // Social

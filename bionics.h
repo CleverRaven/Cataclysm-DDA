@@ -126,7 +126,7 @@ nutrients.  The net effect is a greatly reduced need to eat and drink."},
 {"Expanded Digestive System", false, false, 0, 0, "\
 You have been outfitted with three synthetic stomachs and industrial-grade\n\
 intestines.  Not only can you extract much more nutrition from food, but you\n\
-are highly resistant to food-born illness, and can sometimes eat rotten food."},
+are highly resistant to foodborne illness, and can sometimes eat rotten food."},
 {"Integrated Toolset", false, false, 0, 0, "\
 Implanted in your hands and fingers is a complete tool set - screwdriver,\n\
 hammer, wrench, and much more.  You no longer need any tools when crafting."},

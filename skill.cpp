@@ -37,6 +37,8 @@ std::string skill_name(int sk)
   return "electronics";
  case sk_cooking:
   return "cooking";
+ case sk_carpentry:
+  return "carpentry";
  case sk_butcher:
   return "butchering";
  case sk_traps:
@@ -135,6 +137,10 @@ that use electrical parts.";
   return "\
 Your skill in combining food ingredients to make other, tastier food items.\n\
 This may also be used in mixing chemicals and other more esoteric tasks.";
+ case sk_carpentry:
+  return "\
+Your general knowledge in construction.  This is used primarily when building\n\
+terrain, via the * screen.";
  case sk_butcher:
   return "\
 Your skill in butchering meat.  This decides how much meat you get from a\n\

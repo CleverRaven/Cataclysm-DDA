@@ -783,11 +783,11 @@ A telescoping baton that collapses for easy storage.  Makes an excellent\n\
 melee weapon.");
 
 MELEE("bee sting",	 5,  70,',', c_dkgray,	FLESH,	MNULL,
-	 1,  0,  7, 20,  1, mfb(IF_SPEAR), "\
+	 1,  0,  0, 18,  1, mfb(IF_SPEAR), "\
 A four-inch stinger from a giant bee.  Makes a good melee weapon.");
 
-MELEE("wasp sting",	 5,  70,',', c_dkgray,	FLESH,	MNULL,
-	 1,  0,  7, 24,  1, mfb(IF_SPEAR), "\
+MELEE("wasp sting",	 5,  90,',', c_dkgray,	FLESH,	MNULL,
+	 1,  0,  0, 22,  1, mfb(IF_SPEAR), "\
 A four-inch stinger from a giant wasp.  Makes a good melee weapon.");
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
@@ -1931,7 +1931,7 @@ deadly.",
                newtype, pistol, shotgun, smg, rifle, a_a_t, des)\
   index++; itypes.push_back(new it_gunmod(index, rare, value, name, des, ':',\
                             color, mat1, mat2, volume, weight, meleedam,\
-                            meleecut, meleehit, acc, 0, damage, loudness, clip,\
+                            meleecut, meleehit, 0, acc, damage, loudness, clip,\
                             recoil, burst, newtype, a_a_t, pistol, shotgun,\
                             smg, rifle))
 
@@ -2207,6 +2207,13 @@ BOOK("How to Trap Anything",	12, 240,c_green,	PAPER,	MNULL,
     2,  1, -3,  0,	sk_traps,	 4,  0,  0,  4, 20, "\
 A worn manual that describes how to set and disarm a wide variety of traps.");
 
+//	NAME			RAR PRC	COLOR		MAT1	MAT2
+BOOK("Building for Beginners",  10, 220,c_green,	PAPER,	MNULL,
+// VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
+    2,  1, -3,  0,	sk_carpentry,	 3,  0,  0,  5, 16, "\
+A large, paperback book detailing several beginner's projects in\n\
+construction.");
+
 BOOK("Computer Science 301",	 8, 500,c_blue,		PAPER,	MNULL,
     7,  4,  5,  1,	sk_computer,	 5,  2, -2, 11, 35, "\
 A college textbook on computer science.");
@@ -2224,6 +2231,10 @@ BOOK("Chemistry Textbook",	11, 495,c_blue,		PAPER,	MNULL,
 // VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
     8,  6,  5,  1,	sk_cooking,	 6,  3, -1, 12, 35, "\
 A college textbook on chemistry.");
+
+BOOK("Engineering 301",		 6, 550,c_blue,		PAPER,	MNULL,
+    6,  3,  4,  1,	sk_carpentry,	 6,  3, -1,  8, 30, "\
+A textbook on civil engineering and construction.");
 
 BOOK("SICP",			 3, 780,c_blue,		PAPER,	MNULL,
     6,  5,  6,  0,	sk_computer,	 8,  4, -1, 13, 50, "\
@@ -2338,7 +2349,8 @@ A turned-on flashlight will provide light during the night or while\n\
 underground.");
 
 TOOL("flashlight (on)",  0, 380,';', c_blue,	PLASTIC, IRON,
-    3,  2,  1,  0,  2, 100,100, 0, 15, AT_BATT,itm_flashlight,&iuse::light_on,0,
+    3,  2,  1,  0,  2, 100,100, 0, 15, AT_BATT,itm_flashlight,&iuse::light_on,
+mfb(IF_LIGHT_8),
 "This flashlight is turned on, and continually draining its batteries.  It\n\
 provides light during the night or while underground.  Use it to turn it off.");
 

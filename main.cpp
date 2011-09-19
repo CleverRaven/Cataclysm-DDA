@@ -13,14 +13,16 @@ int main(int argc, char *argv[])
 {
  srand(time(NULL));
 
- initscr();
- noecho();
- cbreak();
- keypad(stdscr, true);
- init_colors();
- curs_set(0);
+// ncurses stuff
+ initscr(); // Initialize ncurses
+ noecho();  // Don't echo keypresses
+ cbreak();  // C-style breaks (e.g. ^C to SIGINT)
+ keypad(stdscr, true); // Numpad is numbers
+ init_colors(); // See color.cpp
+ curs_set(0); // Invisible cursor
 
- rand();
+ rand();  // For some reason a call to rand() seems to be necessary to avoid
+          // repetion.
  bool quit_game = false;
  game *g;
  do {
@@ -30,9 +32,9 @@ int main(int argc, char *argv[])
    quit_game = true;
   delete g;
  } while (!quit_game);
- erase();
- endwin();
- system("clear");
+ erase(); // Clear screen
+ endwin(); // End ncurses
+ system("clear"); // Tell the terminal to clear itself
  return 0;
 }
 

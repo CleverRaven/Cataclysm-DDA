@@ -1,18 +1,19 @@
 # Max length of a line is 64 characters; the following line is for reference
 # This message may be 16 lines long at maximum.
 ################################################################
-The game has two new major mechanics: weather and an XP pool.
+Welcome to v0.1a, and happy Annual Roguelike Release Party!
 
-Weather is a set of gameplay effects and is updated on the half-
-hour.  Most notably, rain can get you wet, hurting your morale
-(and possibly your equipment in the future), sun can cause glare
-that reduces perception (wear a baseball cap!) and acid rain is
-almost as bad as a spitter zombie.  Seek cover!
+The player's inventory has been overhauled.  Items now stack
+with identical items, and the drop interface allows you to
+select multiple items to drop in one go.  Dropping part of a
+stack works as in nethack or DCSS--enter the number of items you
+want to stack, then the letter assigned to that stack.
 
-The XP pool is very similar to the one in crawl; it's a set of
-points which are used to increase your skills.  Unlike crawl,
-and pretty much any other game, it's filled by having high
-morale.  This makes tasty food, engaging books, and drugs all
-very valuable!  I'm not sure about this mechanic, and haven't
-tested it thoroughly, but I'm giving it a try.  Let me know what
-you think!
+Another major new mechanic has been added: construction!  Right
+now it's fairly new and untested, so please share bug reports.
+It also only has a limited selection of terrain you can build;
+more will be added soon.  Press * to construct.
+
+Finally, you can craft and construct using items on the floor,
+up to two tiles away.  This makes crafting things that require a
+lot of items much easier!

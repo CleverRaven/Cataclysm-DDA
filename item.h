@@ -20,6 +20,7 @@ public:
  item(std::string itemdata, game *g);
  ~item();
  void make(itype* it);
+
 // returns the default container of this item, with this item in it
  item in_its_container(std::vector<itype*> *itypes);
 
@@ -46,6 +47,8 @@ public:
  nc_color color();
  int price();
 
+ bool invlet_is_okay();
+ bool stacks_with(item rhs);
  void put_in(item payload);
 
  int weight();
@@ -55,19 +58,22 @@ public:
  int damage_bash();
  int damage_cut();
  bool has_flag(item_flag f);
+ bool rotten(game *g);
 
 // Our value as a weapon, given particular skills
  int  weapon_value(int skills[num_skill_types]);
 // As above, but discounts its use as a ranged weapon
- int  melee_value(int skills[num_skill_types]);
+ int  melee_value (int skills[num_skill_types]);
  bool is_two_handed(player *u);
  bool made_of(material mat);
  bool conductive(); // Electricity
+ bool destroyed_at_zero_charges();
 // Most of the is_whatever() functions call the same function in our itype
+ bool is_null(); // True if type is NULL, or points to the null item (id == 0)
  bool is_food(player *u);// Some non-food items are food to certain players
- bool is_food_container(player *u);	// Ditto
- bool is_food();		// Ignoring the ability to eat batteries, etc.
- bool is_food_container();	// Ignoring the ability to eat batteries, etc.
+ bool is_food_container(player *u);  // Ditto
+ bool is_food();                // Ignoring the ability to eat batteries, etc.
+ bool is_food_container();      // Ignoring the ability to eat batteries, etc.
  bool is_drink();
  bool is_weap();
  bool is_bashing_weapon();
@@ -81,6 +87,7 @@ public:
  bool is_container();
  bool is_tool();
  bool is_macguffin();
+ bool is_other(); // Doesn't belong in other categories
  virtual bool is_artifact()  { return false; }
 
  //bool stack_with(item &it);	// Attempts to stack; returns true on success
@@ -92,12 +99,12 @@ public:
  std::vector<item> contents;
 
  std::string name;
- char invlet;		// Inventory letter
+ char invlet;           // Inventory letter
  int charges;
- bool active;		// If true, it has active effects to be processed
- signed char damage;	// How much damage it's sustained; generally, max is 5
- unsigned int bday;	// The turn on which it was created
- bool owned;		// If true, NPCs will shout at you for picking it up
+ bool active;           // If true, it has active effects to be processed
+ signed char damage;    // How much damage it's sustained; generally, max is 5
+ unsigned int bday;     // The turn on which it was created
+ bool owned;            // If true, NPCs will shout at you for picking it up
 
  int mission_id;// Refers to a mission in game's master list
  int player_id;	// Only give a mission to the right player!

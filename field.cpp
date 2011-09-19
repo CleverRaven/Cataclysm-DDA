@@ -153,9 +153,8 @@ bool map::process_fields(game *g)
          add_field(g, x+i, y+j, fd_fire, 1);
 // If we're not spreading, maybe we'll stick out some smoke, huh?
        } else if (move_cost(x+i, y+j) > 0 &&
-                  rng(7, 40) < cur->density * 10 && cur->age < 1000) {
+                  rng(7, 40) < cur->density * 10 && cur->age < 1000)
         add_field(g, x+i, y+j, fd_smoke, rng(1, cur->density));
-       }
       }
      }
     }
@@ -173,7 +172,7 @@ bool map::process_fields(game *g)
      for (int a = -1; a <= 1; a++) {
       for (int b = -1; b <= 1; b++) {
        if ((field_at(x+a, y+b).type == fd_smoke &&
-             field_at(x+a, y+b).density < 3)      ||
+             field_at(x+a, y+b).density < 3       ) ||
            (field_at(x+a, y+b).is_null() && move_cost(x+a, y+b) > 0))
         spread.push_back(point(x+a, y+b));
       }
@@ -505,6 +504,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     dam += cur->density * 10;
    }
    break;
+
   case fd_nuke_gas:
    if (cur->density == 3) {
     z->speed -= rng(60, 120);
@@ -557,7 +557,8 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    break;
      
  }
- z->hurt(dam);
+ if (dam > 0)
+  z->hurt(dam);
 }
 
 bool vector_has(std::vector <item> vec, itype_id type)

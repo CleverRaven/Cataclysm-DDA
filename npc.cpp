@@ -50,6 +50,45 @@ npc::~npc()
 
 }
 
+npc& npc::operator= (npc rhs)
+{
+ id = rhs.id;
+ attitude = rhs.attitude;
+ wandx = rhs.wandx;
+ wandy = rhs.wandy;
+ wandf = rhs.wandf;
+ omx = rhs.omx;
+ omy = rhs.omy;
+ omz = rhs.omz;
+ mapx = rhs.mapx;
+ mapy = rhs.mapy;
+ plx = rhs.plx;
+ ply = rhs.ply;
+ plt = rhs.plt;
+ itx = rhs.itx;
+ ity = rhs.ity;
+ goalx = rhs.goalx;
+ goaly = rhs.goaly;
+ fetching_item = rhs.fetching_item;
+ worst_item_value = rhs.worst_item_value;
+ fac_id = rhs.fac_id;
+ my_fac = rhs.my_fac;
+ mission = rhs.mission;
+ personality = rhs.personality;
+ op_of_u = rhs.op_of_u;
+ flags = rhs.flags;
+
+ needs.clear();
+ for (int i = 0; i < rhs.needs.size(); i++)
+  needs.push_back(rhs.needs[i]);
+
+ path.clear();
+ for (int i = 0; i < rhs.path.size(); i++)
+  path.push_back(rhs.path[i]);
+
+ return *this;
+}
+
 std::string npc::save_info()
 {
  std::stringstream dump;
@@ -289,7 +328,8 @@ void npc::randomize(game *g, npc_class type)
  }
  starting_weapon(g);
  worn = starting_clothes(type, male, g);
- inv = starting_inv(this, type, g);
+ inv.clear();
+ inv.add_stack(starting_inv(this, type, g));
  update_worst_item_value();
 }
 
@@ -1305,7 +1345,7 @@ void npc::init_selling(std::vector<int> &indices, std::vector<int> &prices)
  }
 }
 
-void npc::init_buying(std::vector<item> you, std::vector<int> &indices,
+void npc::init_buying(inventory you, std::vector<int> &indices,
                       std::vector<int> &prices)
 {
  int val, price;

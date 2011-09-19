@@ -93,16 +93,16 @@ void trapfunc::crossbow(game *g, int x, int y)
  if (!one_in(4) && rng(8, 20) > g->u.dodge()) {
   body_part hit;
   switch (rng(1, 10)) {
-   case  1: hit = bp_feet;
+   case  1: hit = bp_feet; break;
    case  2:
    case  3:
-   case  4: hit = bp_legs;
+   case  4: hit = bp_legs; break;
    case  5:
    case  6:
    case  7:
    case  8:
-   case  9: hit = bp_torso;
-   case 10: hit = bp_head;
+   case  9: hit = bp_torso; break;
+   case 10: hit = bp_head; break;
   }
   int side = rng(0, 1);
   g->add_msg("Your %s is hit!", body_part_name(hit, side).c_str());
@@ -145,16 +145,16 @@ void trapfunc::shotgun(game *g, int x, int y)
  if (rng(5, 50) > g->u.dodge()) {
   body_part hit;
   switch (rng(1, 10)) {
-   case  1: hit = bp_feet;
+   case  1: hit = bp_feet; break;
    case  2:
    case  3:
-   case  4: hit = bp_legs;
+   case  4: hit = bp_legs; break;
    case  5:
    case  6:
    case  7:
    case  8:
-   case  9: hit = bp_torso;
-   case 10: hit = bp_head;
+   case  9: hit = bp_torso; break;
+   case 10: hit = bp_head; break;
   }
   int side = rng(0, 1);
   g->add_msg("Your %s is hit!", body_part_name(hit, side).c_str());
@@ -175,11 +175,11 @@ void trapfuncm::shotgun(game *g, monster *z, int x, int y)
  bool seen = g->u_see(z, t);
  int chance;
  switch (z->type->size) {
-  case MS_TINY:   chance = 100;
-  case MS_SMALL:  chance =  16;
-  case MS_MEDIUM: chance =  12;
-  case MS_LARGE:  chance =   8;
-  case MS_HUGE:   chance =   2;
+  case MS_TINY:   chance = 100; break;
+  case MS_SMALL:  chance =  16; break;
+  case MS_MEDIUM: chance =  12; break;
+  case MS_LARGE:  chance =   8; break;
+  case MS_HUGE:   chance =   2; break;
  }
  int shots = (one_in(8) || one_in(chance) ? 2 : 1);
  if (g->m.tr_at(x, y) == tr_shotgun_1)
@@ -354,15 +354,15 @@ void trapfunc::pit_spikes(game *g, int x, int y)
   body_part hit;
   switch (rng(1, 10)) {
    case  1:
-   case  2: hit = bp_legs;
+   case  2: hit = bp_legs; break;
    case  3:
-   case  4: hit = bp_arms;
+   case  4: hit = bp_arms; break;
    case  5:
    case  6:
    case  7:
    case  8:
    case  9:
-   case 10: hit = bp_torso;
+   case 10: hit = bp_torso; break;
   }
   int side = rng(0, 1);
   g->add_msg("The spikes impale your %s!", body_part_name(hit, side).c_str());
@@ -392,7 +392,8 @@ void trapfunc::sinkhole(game *g, int x, int y)
                       g->u.sklevel[sk_throw] + g->u.str_cur + g->u.dex_cur);
   if (throwroll >= 12) {
    g->add_msg("The rope catches something!");
-   if (rng(g->u.sklevel[sk_unarmed],g->u.sklevel[sk_unarmed]+g->u.str_cur)>6) {
+   if (rng(g->u.sklevel[sk_unarmed],
+           g->u.sklevel[sk_unarmed] + g->u.str_cur) > 6) {
 // Determine safe places for the character to get pulled to
     std::vector<point> safe;
     for (int i = g->u.posx - 1; i <= g->u.posx + 1; i++) {
@@ -403,7 +404,7 @@ void trapfunc::sinkhole(game *g, int x, int y)
     }
     if (safe.size() == 0) {
      g->add_msg("There's nowhere to pull yourself to, and you sink!");
-     g->u.use_up(itm_rope_30, 1);
+     g->u.use_amount(itm_rope_30, 1);
      g->m.add_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1),
                    g->itypes[itm_rope_30], g->turn);
      g->m.tr_at(g->u.posx, g->u.posy) = tr_pit;
@@ -418,7 +419,7 @@ void trapfunc::sinkhole(game *g, int x, int y)
    } else {
     g->add_msg("You're not strong enough to pull yourself out...");
     g->u.moves -= 100;
-    g->u.use_up(itm_rope_30, 1);
+    g->u.use_amount(itm_rope_30, 1);
     g->m.add_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1),
                   g->itypes[itm_rope_30], g->turn);
     g->vertical_move(-1, true);
@@ -426,7 +427,7 @@ void trapfunc::sinkhole(game *g, int x, int y)
   } else {
    g->add_msg("Your throw misses completely, and you sink!");
    if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
-    g->u.use_up(itm_rope_30, 1);
+    g->u.use_amount(itm_rope_30, 1);
     g->m.add_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1),
                   g->itypes[itm_rope_30], g->turn);
    }

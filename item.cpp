@@ -124,6 +124,11 @@ void item::make(itype* it)
  contents.clear();
 }
 
+bool item::is_null()
+{
+ return (type == NULL || type->id == 0);
+}
+
 item item::in_its_container(std::vector<itype*> *itypes)
 {
  if (!is_food() || (dynamic_cast<it_comest*>(type))->container == itm_null)
@@ -135,6 +140,27 @@ item item::in_its_container(std::vector<itype*> *itypes)
  return ret;
 }
 
+bool item::invlet_is_okay()
+{
+ return ((invlet >= 'a' & invlet <= 'z') || (invlet >= 'A' && invlet <= 'Z'));
+}
+
+bool item::stacks_with(item rhs)
+{
+ bool stacks = (type   == rhs.type   && damage  == rhs.damage  &&
+                active == rhs.active && charges == rhs.charges &&
+                contents.size() == rhs.contents.size() &&
+                (!is_food() || bday == rhs.bday));
+
+ if (contents.size() != rhs.contents.size())
+  return false;
+
+ for (int i = 0; i < contents.size() && stacks; i++)
+   stacks &= contents[i].stacks_with(rhs.contents[i]);
+
+ return stacks;
+}
+ 
 void item::put_in(item payload)
 {
  contents.push_back(payload);
@@ -228,13 +254,13 @@ std::string item::info(bool showtext)
  if (is_food()) {
 
   it_comest* food = dynamic_cast<it_comest*>(type);
-  dump << " Nutrituion: " << int(food->nutr) << "\n Quench: " <<
+  dump << " Nutrition: " << int(food->nutr) << "\n Quench: " <<
           int(food->quench) << "\n Enjoyability: " << int(food->fun);
 
  } else if (is_food_container()) {
 
   it_comest* food = dynamic_cast<it_comest*>(contents[0].type);
-  dump << " Nutrituion: " << int(food->nutr) << "\n Quench: " <<
+  dump << " Nutrition: " << int(food->nutr) << "\n Quench: " <<
           int(food->quench) << "\n Enjoyability: " << int(food->fun);
 
  } else if (is_ammo()) {
@@ -587,9 +613,27 @@ int item::attack_time()
  return 50 + 4 * volume() + 2 * weight();
 }
 
+int item::damage_bash()
+{
+ return type->melee_dam;
+}
+
+int item::damage_cut()
+{
+ return type->melee_cut;
+}
+
 bool item::has_flag(item_flag f)
 {
  return (type->item_flags & mfb(f));
+}
+
+bool item::rotten(game *g)
+{
+ if (!is_food() || g == NULL)
+  return false;
+ it_comest* food = dynamic_cast<it_comest*>(type);
+ return (food->spoils != 0 && g->turn - bday > food->spoils * 600);
 }
 
 int item::weapon_value(int skills[num_skill_types])
@@ -658,6 +702,11 @@ bool item::conductive()
      (type->m2 == IRON || type->m2 == STEEL || type->m2 == SILVER)   )
   return true;
  return false;
+}
+
+bool item::destroyed_at_zero_charges()
+{
+ return (is_ammo() || is_food());
 }
 
 bool item::is_gun()
@@ -762,6 +811,13 @@ bool item::is_tool()
 bool item::is_macguffin()
 {
  return type->is_macguffin();
+}
+
+bool item::is_other()
+{
+ return (!is_gun() && !is_ammo() && !is_armor() && !is_food() &&
+         !is_food_container() && !is_tool() && !is_gunmod() && !is_bionic() &&
+         !is_book() && !is_weap());
 }
 
 int item::reload_time(player &u)

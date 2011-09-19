@@ -32,7 +32,14 @@ std::vector <point> line_to(int x1, int y1, int x2, int y2, int t) {
      y2 < 0 - SEEY * 3 || y2 > SEEY * 6   )
   debugmsg("there's gonna be trouble!");
 */
- if (ax > ay) {
+ if (ax == ay) {
+  do {
+   cur.y += sy;
+   cur.x += sx;
+   ret.push_back(cur);
+  } while ((cur.x != x2 || cur.y != y2) &&
+           (cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax));
+ } else if (ax > ay) {
   do {
    if (t > 0) {
     cur.y += sy;

@@ -65,7 +65,7 @@ void game::wish()
    shift++;
    if (shift + 23 > itypes.size()) shift = itypes.size() - 23;
   }
-  for (int i = 1; i < LESS(24, itypes.size()); i++) {
+  for (int i = 1; i < 24; i++) {
    mvprintz(i, 40, c_white, itypes[i-1+shift]->name.c_str());
    printz(itypes[i-1+shift]->color, "%c%", itypes[i-1+shift]->sym);
   }

@@ -99,7 +99,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  }
  if (p.weapon.curammo->type == AT_FUSION || p.weapon.curammo->type == AT_BATT ||
      p.weapon.curammo->type == AT_PLUT)
-  sound(p.posx, u.posy, 8, "Fzzt!");
+  sound(p.posx, p.posy, 8, "Fzzt!");
  else if (!is_bolt)
   sound(p.posx, p.posy, noise, gunsound);
 // Set up a timespec for use in the nanosleep function below
@@ -132,7 +132,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   if (p.sklevel[firing->skill_used] < 4)
    deviation += rng(0, 6 * (4 - p.sklevel[firing->skill_used]));
   else
-   deviation -= rng(0, 5 * (4 - p.sklevel[firing->skill_used] - 4));
+   deviation -= rng(0, 5 * (p.sklevel[firing->skill_used] - 4));
 
   if (p.sklevel[sk_gun] < 3)
    deviation += rng(0, 3 * (3 - p.sklevel[sk_gun]));

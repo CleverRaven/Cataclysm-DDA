@@ -96,8 +96,11 @@ void addict_effect(game *g, addiction &add)
   }
   break;
 
- case ADD_SPEED:
-  g->u.moves -= in;
+ case ADD_SPEED: {
+  int move_pen = in * 5;
+  if (move_pen > 30)
+   move_pen = 30;
+  g->u.moves -= move_pen;
   g->u.int_cur--;
   g->u.str_cur--;
   if (in >= 20 || g->turn % (100 - in * 5) == 0)
@@ -120,7 +123,7 @@ void addict_effect(game *g, addiction &add)
   } else if (!g->u.has_disease(DI_HALLU) && one_in(20) &&
              8 + dice(2, 80) < in)
    g->u.add_disease(DI_HALLU, 3600, g);
-  break;
+ } break;
 
  case ADD_COKE:
   g->u.int_cur--;
@@ -134,7 +137,7 @@ void addict_effect(game *g, addiction &add)
    g->add_msg("You feel like you need a bump.");
    g->cancel_activity_query("You have a craving for cocaine.");
    g->u.add_morale(MORALE_CRAVING_COCAINE, -20, -250);
-   g->u.stim--;
+   g->u.stim -= 3;
   }
   break;
  }

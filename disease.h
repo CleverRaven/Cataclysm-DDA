@@ -6,6 +6,8 @@
 #include "bodypart.h"
 #include <sstream>
 
+#define MIN_DISEASE_AGE (-43200) // Permanent disease capped @ 3 days
+
 struct game;
 
 void dis_msg(game *g, dis_type type)
@@ -300,9 +302,9 @@ void dis_effect(game *g, player &p, disease &dis)
   p.moves = 0;
   if (g->turn % 25 == 0) {
    if (p.fatigue > 0)
-    p.fatigue -= rng(1, 2);
-   if (p.has_trait(PF_FASTHEALER) && one_in(2))
-    p.healall(rng(0, 1));	// Sum chance of 1/4, PLUS normal rate
+    p.fatigue -= 1 + rng(0, 1) * rng(0, 1);
+   if (p.has_trait(PF_FASTHEALER))
+    p.healall(rng(0, 1));
    else
     p.healall(rng(0, 1) * rng(0, 1) * rng(0, 1));
    if (p.fatigue <= 0 && p.fatigue > -20) {
@@ -318,7 +320,7 @@ void dis_effect(game *g, player &p, disease &dis)
   }
   if (rng(5, 80) + rng(0, 120) + rng(0, abs(p.fatigue)) +
       rng(0, abs(p.fatigue * 5)) < g->light_level() &&
-      (p.fatigue < 10 || one_in(p.fatigue / 10))) {
+      (p.fatigue < 10 || one_in(p.fatigue / 2))) {
    g->add_msg("The light wakes you up.");
    dis.duration = 1;
   }
@@ -500,7 +502,7 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_FORMICATION:
   p.int_cur -= 2;
   p.str_cur -= 1;
-  if (one_in(300 * p.int_cur)) {
+  if (one_in(10 * p.int_cur)) {
    int t;
    if (!p.is_npc())
     g->add_msg("You start scratching yourself all over!");
@@ -602,7 +604,7 @@ void dis_effect(game *g, player &p, disease &dis)
     if (!p.is_npc())
      g->add_msg("Glowing lights surround you, and you teleport.");
     g->teleport();
-    if (one_in(4))
+    if (one_in(10))
      p.rem_disease(DI_TELEGLOW);
    }
    if (one_in(1200 - ((dis.duration - 6000) / 5)) && one_in(20)) {

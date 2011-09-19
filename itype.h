@@ -114,9 +114,9 @@ itm_mag_porn, itm_mag_tv, itm_mag_news, itm_mag_cars, itm_mag_cooking,
  itm_novel_drama, itm_manual_brawl, itm_manual_knives, itm_manual_mechanics,
  itm_manual_speech, itm_manual_business, itm_manual_first_aid,
  itm_manual_computers, itm_cookbook, itm_manual_electronics,
- itm_manual_tailor, itm_manual_traps, itm_textbook_computers,
- itm_textbook_electronics, itm_textbook_business, itm_textbook_chemistry,
- itm_SICP, itm_textbook_robots,
+ itm_manual_tailor, itm_manual_traps, itm_manual_carpentry,
+ itm_textbook_computers, itm_textbook_electronics, itm_textbook_business,
+ itm_textbook_chemistry, itm_textbook_carpentry, itm_SICP, itm_textbook_robots,
 // Containers
 itm_bag_plastic, itm_bottle_plastic, itm_bottle_glass,
  itm_can_drink, itm_can_food, itm_box_small,
@@ -173,6 +173,10 @@ NUM_AMMO_TYPES
 
 enum item_flag {
 IF_NULL,
+
+IF_LIGHT_4,	// Provides 4 tiles of light
+IF_LIGHT_8,	// Provides 8 tiles of light
+
 IF_SPEAR,	// Cutting damage is actually a piercing attack
 IF_STAB,	// This weapon *can* pierce, but also has normal cutting
 IF_WRAP,	// Can wrap around your target, costing you and them movement

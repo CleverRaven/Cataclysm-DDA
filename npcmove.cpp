@@ -525,11 +525,11 @@ npc_action npc::long_term_goal_action(game *g)
  
 bool npc::alt_attack_available()
 {
- if (has_number(itm_grenade,  1) || has_number(itm_grenade_act,  1)  ||
-     has_number(itm_molotov,  1) || has_number(itm_molotov_lit,  1)  ||
-     has_number(itm_gasbomb,  1) || has_number(itm_gasbomb_act,  1)  ||
-     has_number(itm_dynamite, 1) || has_number(itm_dynamite_act, 1)  ||
-     has_number(itm_mininuke, 1) || has_number(itm_mininuke_act, 1)    )
+ if (has_amount(itm_grenade,  1) || has_amount(itm_grenade_act,  1)  ||
+     has_amount(itm_molotov,  1) || has_amount(itm_molotov_lit,  1)  ||
+     has_amount(itm_gasbomb,  1) || has_amount(itm_gasbomb_act,  1)  ||
+     has_amount(itm_dynamite, 1) || has_amount(itm_dynamite_act, 1)  ||
+     has_amount(itm_mininuke, 1) || has_amount(itm_mininuke_act, 1)    )
   return true;
  return false;
 }
@@ -1435,14 +1435,14 @@ void npc::heal_player(game *g, player &patient)
     case hp_torso: amount_healed = 20 + 3   * sklevel[sk_firstaid]; break;
     default:       amount_healed = 15 + 2   * sklevel[sk_firstaid];
    }
-   use_up(itm_1st_aid, 1);
+   use_charges(itm_1st_aid, 1);
   } else if (has_amount(itm_bandages, 1)) {
    switch (worst) {
     case hp_head:  amount_healed =  1 + 1.6 * sklevel[sk_firstaid]; break;
     case hp_torso: amount_healed =  4 + 3   * sklevel[sk_firstaid]; break;
     default:       amount_healed =  3 + 2   * sklevel[sk_firstaid];
    }
-   use_up(itm_bandages, 1);
+   use_charges(itm_bandages, 1);
   }
   patient.heal(worst, amount_healed);
  
@@ -1484,14 +1484,14 @@ void npc::heal_self(game *g)
    case hp_torso: amount_healed = 20 + 3   * sklevel[sk_firstaid]; break;
    default:       amount_healed = 15 + 2   * sklevel[sk_firstaid];
   }
-  use_up(itm_1st_aid, 1);
+  use_charges(itm_1st_aid, 1);
  } else if (has_amount(itm_bandages, 1)) {
   switch (worst) {
    case hp_head:  amount_healed =  1 + 1.6 * sklevel[sk_firstaid]; break;
    case hp_torso: amount_healed =  4 + 3   * sklevel[sk_firstaid]; break;
    default:       amount_healed =  3 + 2   * sklevel[sk_firstaid];
   }
-  use_up(itm_bandages, 1);
+  use_charges(itm_bandages, 1);
  } else {
   debugmsg("NPC tried to heal self, but has no bandages / first aid");
   move_pause();

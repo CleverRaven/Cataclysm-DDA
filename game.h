@@ -16,7 +16,8 @@
 #include "event.h"
 #include "mission.h"
 #include "weather.h"
-#include "posix_time.h"
+#include "construction.h"
+//#include "posix_time.h"
 #include <vector>
 
 #define LONG_RANGE 10
@@ -106,7 +107,8 @@ class game
   faction* random_good_faction();
   faction* random_evil_faction();
 
-  char inv(std::string title = "INVENTORY:");
+  char inv(std::string title = "Inventory:");
+  std::vector<item> multidrop();
   faction* list_factions(std::string title = "FACTIONS:");
   point find_item(item *it);
   void remove_item(item *it);
@@ -140,6 +142,7 @@ class game
   WINDOW *w_moninfo;
   WINDOW *w_messages;
   WINDOW *w_status;
+
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
@@ -156,6 +159,7 @@ class game
   void init_monitems();     // Initializes monster inventory selection
   void init_traps();        // Initializes trap types
   void init_recipes();      // Initializes crafting recipes
+  void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
 
   void create_factions();	// Creates new factions (for a new game world)
@@ -169,11 +173,16 @@ class game
   void open();	// Open a door			'o'
   void close();	// Close a door			'c'
   void smash();	// Smash terrain
-  void craft();				// See crafting.cpp
-  void make_craft(recipe *making);	// See crafting.cpp
-  void complete_craft();		// See crafting.cpp
+  void craft();                    // See crafting.cpp
+  void make_craft(recipe *making); // See crafting.cpp
+  void complete_craft();           // See crafting.cpp
   void pick_recipes(std::vector<recipe*> &current,
                     std::vector<bool> &available, craft_cat tab);// crafting.cpp
+  void construction_menu();                   // See construction.cpp
+  bool player_can_build(player &p, inventory inv, constructable con,
+                        int level = -1, bool cont = false);
+  void place_construction(constructable con); // See construction.cpp
+  void complete_construction();               // See construction.cpp
   void examine();// Examine nearby terrain	'e'
   void look_around();// Look at nearby terrain	';'
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
@@ -271,6 +280,7 @@ class game
 
   std::vector<recipe> recipes;	// The list of valid recipes
   std::vector<mission_type> mission_types; // The list of mission templates
+  std::vector<constructable> constructions; // The list of constructions
   std::vector<mission> active_missions; // Missions which may be assigned
 
   bool tutorials_seen[NUM_LESSONS]; // Which tutorial lessons have we learned

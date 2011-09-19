@@ -12,4 +12,5 @@ void setvector(std::vector <mon_id>  &vec, ... );
 void setvector(std::vector <items_location_and_chance> &vec, ... );
 void setvector(std::vector <mission_origin> &vec, ... );
 void setvector(std::vector <std::string> &vec, ... );
+//void setvector(std::vector <construction_sage> &vec, ... );
 #endif

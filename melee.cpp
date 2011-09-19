@@ -184,12 +184,12 @@ int player::hit_mon(game *g, monster *z)
      weapon.type->melee_cut > z->type->armor - int(sklevel[sk_stabbing])) {
   int z_armor = z->type->armor - int(sklevel[sk_stabbing]);
   dam += int(weapon.type->melee_cut / 5);
-  int minstab = sklevel[sk_stabbing] *  8 + weapon.type->melee_cut * 2,
-      maxstab = sklevel[sk_stabbing] * 20 + weapon.type->melee_cut * 4;
+  int minstab = sklevel[sk_stabbing] *  5 + weapon.volume() * 2,
+      maxstab = sklevel[sk_stabbing] * 15 + weapon.volume() * 4;
   int monster_penalty = rng(minstab, maxstab);
   if (monster_penalty >= 150)
    g->add_msg("You force the %s to the ground!", z->name().c_str());
-  else if (monster_penalty >= 80)
+  else if (monster_penalty >= 50)
    g->add_msg("The %s is skewered and flinches!", z->name().c_str());
   z->moves -= monster_penalty;
   cutting_penalty = weapon.type->melee_cut * 4 + z_armor * 8 -
@@ -553,19 +553,21 @@ int player::dodge()
   ret--; // Penalty if we're hyuuge
  else if (str_max <= 5)
   ret++; // Bonus if we're small
- if (!can_dodge) // We already dodged this turn
-  ret = rng(0, ret);
+ if (!can_dodge) { // We already dodged this turn
+  if (rng(1, sklevel[sk_dodge] + dex_cur + 15) <= sklevel[sk_dodge] + dex_cur)
+   ret = rng(0, ret);
+  else
+   ret = 0;
+ }
  can_dodge = false;
  return ret;
 }
-
 
 
 int player::dodge_roll()
 {
  return dice(dodge(), 6);
 }
-
 
 
 int player::base_damage(bool real_life)
@@ -581,5 +583,3 @@ int player::base_damage(bool real_life)
 
  return dam;
 }
-
-
