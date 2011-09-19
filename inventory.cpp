@@ -141,7 +141,7 @@ void inventory::restack(game *g)
    if (g->u.has_weapon_or_armor(tmp[i].invlet)) {
     int ch;
     for (ch = 'a'; ch <= 'z' && ch > 0; ch++) {
-     if (!g->u.has_weapon_or_armor(ch) && tmp.index_by_letter(ch == -1)) {
+     if (!g->u.has_weapon_or_armor(ch) && tmp.index_by_letter(ch) == -1) {
       for (int j = 0; j < tmp.stack_at(i).size(); j++)
        tmp.stack_at(i)[j].invlet = ch;
       ch = -1;
@@ -149,7 +149,7 @@ void inventory::restack(game *g)
     }
     if (ch > 0) {
      for (ch = 'A'; ch <= 'Z' && ch > 0; ch++) {
-      if (!g->u.has_weapon_or_armor(ch) && tmp.index_by_letter(ch == -1)) {
+      if (!g->u.has_weapon_or_armor(ch) && tmp.index_by_letter(ch) == -1) {
        for (int j = 0; j < tmp.stack_at(i).size(); j++)
         tmp.stack_at(i)[j].invlet = ch;
        ch = -1;
