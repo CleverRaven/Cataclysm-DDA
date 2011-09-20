@@ -161,6 +161,19 @@ bool map::bash(int x, int y, int str, std::string &sound)
   }
  }
  switch (ter(x, y)) {
+ case t_wall_wood:
+  if (str >= rng(0, 120)) {
+   sound += "crash!";
+   ter(x, y) = t_dirt;
+   int num_boards = rng(8, 20);
+   for (int i = 0; i < num_boards; i++)
+    add_item(x, y, (*itypes)[itm_2x4], 0);
+   return true;
+  } else {
+   sound += "whump!";
+   return true;
+  }
+  break;
  case t_door_c:
  case t_door_locked:
  case t_door_locked_alarm:
@@ -733,7 +746,7 @@ void map::use_amount(point origin, int range, itype_id type, int quantity)
     if (rl_dist(origin.x, origin.y, x, y) < radius)
      y++; // Skip over already-examined tiles
     else {
-     for (int n = 0; n < i_at(x, y).size(); n++) {
+     for (int n = 0; n < i_at(x, y).size() && quantity > 0; n++) {
       item* curit = &(i_at(x, y)[n]);
       for (int m = 0; m < curit->contents.size(); m++) {
        if (curit->contents[m].type->id == type) {
@@ -764,7 +777,7 @@ void map::use_charges(point origin, int range, itype_id type, int quantity)
      for (int n = 0; n < i_at(x, y).size(); n++) {
       item* curit = &(i_at(x, y)[n]);
 // Check contents first
-      for (int m = 0; m < curit->contents.size(); m++) {
+      for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
        if (curit->contents[m].type->id == type) {
         if (curit->contents[m].charges < quantity) {
          quantity -= curit->contents[m].charges;

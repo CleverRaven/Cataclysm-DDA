@@ -1115,6 +1115,8 @@ void iuse::makemound(game *g, player *p, item *it, bool t)
 
 void iuse::dig(game *g, player *p, item *it, bool t)
 {
+ g->add_msg("You can dig a pit via the construction menu--hit *");
+/*
  int dirx, diry;
  g->draw();
  mvprintw(0, 0, "Dig where?");
@@ -1132,6 +1134,7 @@ void iuse::dig(game *g, player *p, item *it, bool t)
  } else
   g->add_msg("You can't dig through %s!",
              g->m.tername(p->posx + dirx, p->posy + diry).c_str());
+*/
 }
 
 void iuse::chainsaw_off(game *g, player *p, item *it, bool t)

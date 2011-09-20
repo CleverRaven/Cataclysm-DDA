@@ -38,6 +38,7 @@ void game::init_recipes()
 
  RECIPE(itm_spear_knife, CC_WEAPON, sk_stabbing, sk_null, 1, 600);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, NULL);
+  COMP(itm_knife_steak, 2, itm_knife_combat, 1, NULL);
   COMP(itm_string_36, 1, NULL);
 
  RECIPE(itm_nailboard, CC_WEAPON, sk_null, sk_null, 0, 1000);

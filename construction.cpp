@@ -16,9 +16,9 @@ void game::init_construction()
  int id = -1;
  int tl, cl, sl;
 
- #define CONSTRUCT(name, difficulty, able) \
+ #define CONSTRUCT(name, difficulty, able, done) \
   sl = -1; id++; \
-  constructions.push_back( constructable(id, name, difficulty, able))
+  constructions.push_back( constructable(id, name, difficulty, able, done))
 
  #define STAGE(...)\
   tl = 0; cl = 0; sl++; \
@@ -28,7 +28,13 @@ void game::init_construction()
  #define COMP(...)   setvector(constructions[id].stages[sl].components[cl], \
                                __VA_ARGS__); cl++
 
- CONSTRUCT("Build Wall", 2, &construct::able_empty);
+ CONSTRUCT("Dig Pit", 0, &construct::able_dig, &construct::done_pit);
+  STAGE(t_pit_shallow, 10);
+   TOOL(itm_shovel, NULL);
+  STAGE(t_pit, 10);
+   TOOL(itm_shovel, NULL);
+
+ CONSTRUCT("Build Wall", 2, &construct::able_empty, &construct::done_nothing);
   STAGE(t_wall_half, 10);
    TOOL(itm_hammer, itm_nailgun, NULL);
    COMP(itm_2x4, 10, NULL);
@@ -38,14 +44,16 @@ void game::init_construction()
    COMP(itm_2x4, 10, NULL);
    COMP(itm_nail, 20, NULL);
 
- CONSTRUCT("Build Window", 3, &construct::able_wall);
-  STAGE(t_window_frame, 10);
+ CONSTRUCT("Build Window", 3, &construct::able_wall_wood,
+                              &construct::done_nothing);
+  STAGE(t_window_empty, 10);
    TOOL(itm_saw, NULL);
   STAGE(t_window, 5);
    COMP(itm_glass_sheet, 1, NULL);
 
- CONSTRUCT("Build Door", 4, &construct::able_wall);
-  STAGE(t_door_frame, 10);
+ CONSTRUCT("Build Door", 4, &construct::able_wall_wood,
+                              &construct::done_nothing);
+  STAGE(t_door_frame, 15);
    TOOL(itm_saw, NULL);
   STAGE(t_door_b, 15);
    TOOL(itm_hammer, itm_nailgun, NULL);
@@ -63,7 +71,8 @@ void game::init_construction()
    COMP(itm_2x4, 5, itm_nail, 8, NULL);
 */
 
- CONSTRUCT("Build Roof", 4, &construct::able_between_walls);
+ CONSTRUCT("Build Roof", 4, &construct::able_between_walls,
+                            &construct::done_nothing);
   STAGE(t_floor, 40);
    TOOL(itm_hammer, itm_nailgun, NULL);
    COMP(itm_2x4, 8, NULL);
@@ -371,10 +380,12 @@ void game::complete_construction()
  inventory map_inv;
  map_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
  int stage_num = u.activity.values[0];
- construction_stage stage = constructions[u.activity.index].stages[stage_num];
+ constructable built = constructions[u.activity.index];
+ construction_stage stage = built.stages[stage_num];
  std::vector<component> player_use;
  std::vector<component> map_use;
 
+ u.practice(sk_carpentry, built.difficulty * 10);
  for (int i = 0; i < 3; i++) {
   while (stage.components[i].empty())
    i++;
@@ -449,11 +460,13 @@ void game::complete_construction()
  u.activity.values.erase(u.activity.values.begin());
 // ...and start the next one, if it exists
  if (u.activity.values.size() > 0) {
-  construction_stage next =
-               constructions[u.activity.index].stages[u.activity.values[0]];
+  construction_stage next = built.stages[u.activity.values[0]];
   u.activity.moves_left = next.time * 1000;
- } else // We're finished!
+ } else { // We're finished!
   u.activity.type = ACT_NULL;
+  construct effects;
+  (effects.*built.done)(this, point(terx, tery));
+ }
 }
 
 bool construct::able_empty(game *g, point p)
@@ -463,7 +476,13 @@ bool construct::able_empty(game *g, point p)
 
 bool construct::able_wall(game *g, point p)
 {
- return (g->m.ter(p.x, p.y) == t_wall_h || g->m.ter(p.x, p.y) == t_wall_v);
+ return (g->m.ter(p.x, p.y) == t_wall_h || g->m.ter(p.x, p.y) == t_wall_v ||
+         g->m.ter(p.x, p.y) == t_wall_wood);
+}
+
+bool construct::able_wall_wood(game *g, point p)
+{
+ return (g->m.ter(p.x, p.y) == t_wall_wood);
 }
 
 bool construct::able_between_walls(game *g, point p)
@@ -475,6 +494,11 @@ bool construct::able_between_walls(game *g, point p)
  }
 
  return (will_flood_stop(&(g->m), fill, p.x, p.y)); // See bottom of file
+}
+
+bool construct::able_dig(game *g, point p)
+{
+ return (g->m.has_flag(diggable, p.x, p.y));
 }
 
 bool will_flood_stop(map *m, bool fill[SEEX * 3][SEEY * 3], int x, int y)
@@ -500,4 +524,9 @@ bool will_flood_stop(map *m, bool fill[SEEX * 3][SEEY * 3], int x, int y)
          (skip_east  || will_flood_stop(m, fill, x + 1, y    )) &&
          (skip_south || will_flood_stop(m, fill, x    , y + 1)) &&
          (skip_west  || will_flood_stop(m, fill, x - 1, y    ))   );
+}
+
+void construct::done_pit(game *g, point p)
+{
+ g->m.add_trap(p.x, p.y, tr_pit);
 }

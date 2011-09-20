@@ -61,7 +61,7 @@ enum ter_id {
 t_null = 0,
 t_hole,	// Real nothingness; makes you fall a z-level
 // Ground
-t_dirt, t_dirtmound, t_pit,
+t_dirt, t_dirtmound, t_pit, t_pit_shallow,
 t_rock_floor, t_rubble, t_wreckage,
 t_grass,
 t_metal_floor,
@@ -82,7 +82,7 @@ t_door_c, t_door_b, t_door_o, t_door_locked, t_door_locked_alarm, t_door_frame,
 t_door_metal_c, t_door_metal_o, t_door_metal_locked,
 t_bulletin,
 t_portcullis,
-t_window, t_window_alarm, t_window_frame, t_window_boarded,
+t_window, t_window_alarm, t_window_empty, t_window_frame, t_window_boarded,
 t_rock,
 t_paper,
 // Tree
@@ -125,6 +125,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"dirt",	     '.', c_brown,   2,
 	mfb(transparent)|mfb(diggable)},
 {"mound of dirt",    '#', c_brown,   3,
+	mfb(transparent)|mfb(diggable)},
+{"pit",              '0', c_yellow,  8,
 	mfb(transparent)|mfb(diggable)},
 {"shallow pit",	     '0', c_brown,  14,
 	mfb(transparent)|mfb(diggable)},
@@ -204,8 +206,10 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)},
 {"window",	     '"', c_ltcyan,  0, // Actually alarmed
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(alarmed)|mfb(noitem)},
+{"empty window",     '0', c_yellow,  8,
+	mfb(transparent)|mfb(flammable)|mfb(noitem)},
 {"window frame",     '0', c_ltcyan,  8,
-	mfb(container)|mfb(transparent)|mfb(sharp)|mfb(flammable)|mfb(noitem)},
+	mfb(transparent)|mfb(sharp)|mfb(flammable)|mfb(noitem)},
 {"boarded up window",'#', c_brown,   0,
 	mfb(bashable)|mfb(flammable)|mfb(noitem)},
 {"solid rock",       '#', c_white,   0,

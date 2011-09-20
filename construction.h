@@ -22,17 +22,27 @@ struct constructable
  int difficulty; // Carpentry skill level required
  std::vector<construction_stage> stages;
  bool (construct::*able)  (game *, point);
+ void (construct::*done)  (game *, point);
 
  constructable(int Id, std::string Name, int Diff,
-               bool (construct::*Able) (game *, point)) :
-  id (Id), name (Name), difficulty (Diff), able (Able) {};
+               bool (construct::*Able) (game *, point),
+               void (construct::*Done) (game *, point)) :
+  id (Id), name (Name), difficulty (Diff), able (Able), done (Done) {};
 };
 
 struct construct // Construction functions.
 {
+// Bools - able to build at the given point?
  bool able_always(game *, point) { return true;  }
  bool able_never (game *, point) { return false; }
  bool able_empty (game *, point); // Able if tile is empty
  bool able_wall  (game *, point); // Able if tile is wall
+ bool able_wall_wood(game *g, point); // Only player-built walls
  bool able_between_walls(game *, point); // Flood-fill contained by walls
+ bool able_dig(game *, point); // Able if diggable terrain
+
+// Does anything special happen when we're finished?
+ void done_nothing(game *, point) { }
+ void done_pit(game *, point);
+
 };
