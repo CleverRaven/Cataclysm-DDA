@@ -34,6 +34,12 @@ void game::init_construction()
   STAGE(t_pit, 10);
    TOOL(itm_shovel, NULL);
 
+ CONSTRUCT("Fill Pit", 0, &construct::able_pit, &construct::done_fill_pit);
+  STAGE(t_pit_shallow, 5);
+   TOOL(itm_shovel, NULL);
+  STAGE(t_dirt, 5);
+   TOOL(itm_shovel, NULL);
+
  CONSTRUCT("Build Wall", 2, &construct::able_empty, &construct::done_nothing);
   STAGE(t_wall_half, 10);
    TOOL(itm_hammer, itm_nailgun, NULL);
@@ -455,6 +461,8 @@ void game::complete_construction()
 // Make the terrain change
  int terx = u.activity.placement.x, tery = u.activity.placement.y;
  m.ter(terx, tery) = stage.terrain;
+ construct effects;
+ (effects.*built.done)(this, point(terx, tery));
 
 // Strip off the first stage in our list...
  u.activity.values.erase(u.activity.values.begin());
@@ -462,11 +470,8 @@ void game::complete_construction()
  if (u.activity.values.size() > 0) {
   construction_stage next = built.stages[u.activity.values[0]];
   u.activity.moves_left = next.time * 1000;
- } else { // We're finished!
+ } else // We're finished!
   u.activity.type = ACT_NULL;
-  construct effects;
-  (effects.*built.done)(this, point(terx, tery));
- }
 }
 
 bool construct::able_empty(game *g, point p)
@@ -501,6 +506,11 @@ bool construct::able_dig(game *g, point p)
  return (g->m.has_flag(diggable, p.x, p.y));
 }
 
+bool construct::able_pit(game *g, point p)
+{
+ return (g->m.ter(p.x, p.y) == t_pit || g->m.ter(p.x, p.y) == t_pit_shallow);
+}
+
 bool will_flood_stop(map *m, bool fill[SEEX * 3][SEEY * 3], int x, int y)
 {
  if (x == 0 || y == 0 || x == SEEX * 3 - 1 || y == SEEY * 3 - 1)
@@ -528,5 +538,12 @@ bool will_flood_stop(map *m, bool fill[SEEX * 3][SEEY * 3], int x, int y)
 
 void construct::done_pit(game *g, point p)
 {
- g->m.add_trap(p.x, p.y, tr_pit);
+ if (g->m.ter(p.x, p.y) == t_pit)
+  g->m.add_trap(p.x, p.y, tr_pit);
+}
+
+void construct::done_fill_pit(game *g, point p)
+{
+ if (g->m.tr_at(p.x, p.y) == tr_pit)
+  g->m.tr_at(p.x, p.y) = tr_null;
 }

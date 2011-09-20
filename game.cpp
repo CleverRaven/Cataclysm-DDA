@@ -3223,6 +3223,7 @@ void game::examine()
  }
  if (m.tr_at(examx, examy) != tr_null &&
      u.per_cur-u.encumb(bp_eyes) >= traps[m.tr_at(examx, examy)]->visibility &&
+     traps[m.tr_at(examx, examy)]->difficulty < 99 &&
      query_yn("There is a %s there.  Disarm?",
               traps[m.tr_at(examx, examy)]->name.c_str()))
   m.disarm_trap(this, examx, examy);

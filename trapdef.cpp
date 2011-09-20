@@ -79,21 +79,21 @@ traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
 	itm_null, NULL);
 
 //	Name			Symbol	Color		Vis Avd Diff
- TRAP("sinkhole",		'_',	c_brown,	10, 14, 80,
+ TRAP("sinkhole",		'_',	c_brown,	10, 14, 99,
 	&trapfunc::sinkhole,	&trapfuncm::sinkhole,
 	itm_null, NULL);
 
- TRAP("pit",			'0',	c_brown,	 0,  8, 80,
+ TRAP("pit",			'0',	c_brown,	 0,  8, 99,
 	&trapfunc::pit,		&trapfuncm::pit,
 	itm_null, NULL);
 
- TRAP("spiked pit",		'0',	c_blue,		 0,  8, 80,
+ TRAP("spiked pit",		'0',	c_blue,		 0,  8, 99,
 	&trapfunc::pit_spikes,	&trapfuncm::pit_spikes,
 	itm_null, NULL);
 
 // The '%' symbol makes the portal cycle through ~*0&
 //	Name			Symbol	Color		Vis Avd Diff
- TRAP("shimmering portal",	'%',	c_magenta,	 0, 30, 80,
+ TRAP("shimmering portal",	'%',	c_magenta,	 0, 30, 99,
 	&trapfunc::portal,	&trapfuncm::portal,
 	itm_null, NULL);
 
