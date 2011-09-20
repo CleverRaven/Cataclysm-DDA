@@ -1241,7 +1241,7 @@ void map::saven(overmap *om, unsigned int turn, int worldx, int worldy,
 // Dump the terrain. Add 33 to ter to get a human-readable number or symbol.
  for (int j = 0; j < SEEY; j++) {
   for (int i = 0; i < SEEX; i++)
-   fout << char(int(grid[n].ter[i][j]) + 32);
+   fout << int(grid[n].ter[i][j]) << " ";
   fout << std::endl;
  }
 // Dump the radiation
@@ -1330,9 +1330,10 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
   mapin.getline(line, 1);
 // Load terrain
   for (int j = 0; j < SEEY; j++) {
-   mapin.getline(line, SEEX + 1);
    for (int i = 0; i < SEEX; i++) {
-    grid[gridn].ter[i][j] = ter_id(line[i]-32);
+    int tmpter;
+    mapin >> tmpter;
+    grid[gridn].ter[i][j] = ter_id(tmpter);
     grid[gridn].itm[i][j].clear();
     grid[gridn].trp[i][j] = tr_null;
     grid[gridn].fld[i][j] = field();
