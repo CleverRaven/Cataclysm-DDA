@@ -1055,9 +1055,11 @@ void game::complete_craft()
    int n = rng(0, map_use.size() - 1);
    if (itypes[map_use[n].type]->is_ammo() &&
        map_use[i].type != itm_gasoline)
-    u.use_charges(map_use[n].type, map_use[n].count);
+    m.use_charges(point(u.posx, u.posy), PICKUP_RANGE, 
+                  map_use[n].type, map_use[n].count);
    else
-    u.use_amount(map_use[n].type, map_use[n].count);
+    m.use_amount(point(u.posx, u.posy), PICKUP_RANGE, 
+                 map_use[n].type, map_use[n].count);
    map_use.erase(map_use.begin() + n);
   }
    

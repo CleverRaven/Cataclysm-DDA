@@ -33,7 +33,7 @@ inventory& inventory::operator= (inventory &rhs)
  if (this == &rhs)
   return *this; // No self-assignment
 
- items.clear();
+ clear();
  for (int i = 0; i < rhs.size(); i++)
   items.push_back(rhs.stack_at(i));
  return *this;
@@ -76,6 +76,12 @@ inventory inventory::operator+ (const item &rhs)
 
 void inventory::clear()
 {
+/*
+ for (int i = 0; i < items.size(); i++) {
+  for (int j = 0; j < items[j].size(); j++)
+   delete items[i][j];
+ }
+*/
  items.clear();
 }
 

@@ -1760,7 +1760,8 @@ void game::refresh_all()
 {
  draw();
  draw_minimap();
- wrefresh(w_HP);
+ //wrefresh(w_HP);
+ draw_HP();
  wrefresh(w_moninfo);
  wrefresh(w_messages);
  refresh();
@@ -1793,13 +1794,13 @@ void game::draw_HP()
     mvwprintz(w_HP, i * 2 + 1, 0, col, "  %d    ", curhp);
   }
  }
- mvwprintz(w_HP,  0, 0, c_ltgray, "HEAD:");
- mvwprintz(w_HP,  2, 0, c_ltgray, "TORSO:");
+ mvwprintz(w_HP,  0, 0, c_ltgray, "HEAD:  ");
+ mvwprintz(w_HP,  2, 0, c_ltgray, "TORSO: ");
  mvwprintz(w_HP,  4, 0, c_ltgray, "L. ARM:");
  mvwprintz(w_HP,  6, 0, c_ltgray, "R. ARM:");
  mvwprintz(w_HP,  8, 0, c_ltgray, "L. LEG:");
  mvwprintz(w_HP, 10, 0, c_ltgray, "R. LEG:");
- mvwprintz(w_HP, 12, 0, c_ltgray, "POW:");
+ mvwprintz(w_HP, 12, 0, c_ltgray, "POW:   ");
  if (u.max_power_level == 0)
   mvwprintz(w_HP, 13, 0, c_ltgray, " --   ");
  else {

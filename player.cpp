@@ -3508,9 +3508,15 @@ bool player::takeoff(game *g, char let)
 
 void player::use(game *g, char let)
 {
- item copy = i_at(let);
- item* actual = &i_at(let);
- item* used = &copy;
+ item* used = &i_at(let);
+ item copy;
+ bool replace_item = false;
+ if (inv.index_by_letter(let) != -1) {
+  copy = inv.remove_item_by_letter(let);
+  used = &copy;
+  replace_item = true;
+ }
+ 
  if (used->is_null()) {
   g->add_msg("You do not have that item.");
   return;
@@ -3521,17 +3527,22 @@ void player::use(game *g, char let)
   it_tool *tool = dynamic_cast<it_tool*>(used->type);
   if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use) {
    iuse use;
-   (use.*tool->use)(g, this, actual, false);
-   actual->charges -= tool->charges_per_use;
+   (use.*tool->use)(g, this, used, false);
+   used->charges -= tool->charges_per_use;
   } else
    g->add_msg("Your %s has %d charges but needs %d.", used->tname(g).c_str(),
               used->charges, tool->charges_per_use);
+  if (replace_item)
+   inv.add_item(copy);
+  return;
 
  } else if (used->is_gunmod()) {
 
   if (sklevel[sk_gun] == 0) {
    g->add_msg("You need to be at least level 1 in the firearms skill before you\
  can modify guns.");
+   if (replace_item)
+    inv.add_item(copy);
    return;
   }
   char gunlet = g->inv("Select gun to modify:");
@@ -3540,78 +3551,121 @@ void player::use(game *g, char let)
   item* gun = &(i_at(gunlet));
   if (gun->is_null()) {
    g->add_msg("You do not have that item.");
+   if (replace_item)
+    inv.add_item(copy);
    return;
   } else if (!gun->is_gun()) {
    g->add_msg("That %s is not a gun.", gun->tname(g).c_str());
+   if (replace_item)
+    inv.add_item(copy);
    return;
   }
   it_gun* guntype = dynamic_cast<it_gun*>(gun->type);
   if (guntype->skill_used == sk_pistol && !mod->used_on_pistol) {
    g->add_msg("That %s cannot be attached to a handgun.",
               used->tname(g).c_str());
+   if (replace_item)
+    inv.add_item(copy);
    return;
   } else if (guntype->skill_used == sk_shotgun && !mod->used_on_shotgun) {
    g->add_msg("That %s cannot be attached to a shotgun.",
               used->tname(g).c_str());
+   if (replace_item)
+    inv.add_item(copy);
    return;
   } else if (guntype->skill_used == sk_smg && !mod->used_on_smg) {
    g->add_msg("That %s cannot be attached to a submachine gun.",
               used->tname(g).c_str());
+   if (replace_item)
+    inv.add_item(copy);
    return;
   } else if (guntype->skill_used == sk_rifle && !mod->used_on_rifle) {
    g->add_msg("That %s cannot be attached to a rifle.",
               used->tname(g).c_str());
+   if (replace_item)
+    inv.add_item(copy);
    return;
   } else if (mod->acceptible_ammo_types != 0 &&
              !(mfb(guntype->ammo) & mod->acceptible_ammo_types)) {
    g->add_msg("That %s cannot be used on a %s gun.", used->tname(g).c_str(),
               ammo_name(guntype->ammo).c_str());
+   if (replace_item)
+    inv.add_item(copy);
    return;
   } else if (gun->contents.size() >= 4) {
    g->add_msg("Your %s already has 4 mods installed!  To remove the mods,\
 press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
+   if (replace_item)
+    inv.add_item(copy);
    return;
   }
   for (int i = 0; i < gun->contents.size(); i++) {
    if (gun->contents[i].type->id == used->type->id) {
     g->add_msg("Your %s already has a %s.", gun->tname(g).c_str(),
                used->tname(g).c_str());
+    if (replace_item)
+     inv.add_item(copy);
     return;
    } else if (mod->newtype != AT_NULL &&
         (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != AT_NULL) {
     g->add_msg("Your %s's caliber has already been modified.",
                gun->tname(g).c_str());
+    if (replace_item)
+     inv.add_item(copy);
     return;
    } else if ((mod->id == itm_barrel_big || mod->id == itm_barrel_small) &&
               (gun->contents[i].type->id == itm_barrel_big ||
                gun->contents[i].type->id == itm_barrel_small)) {
     g->add_msg("Your %s already has a barrel replacement.",
                gun->tname(g).c_str());
+    if (replace_item)
+     inv.add_item(copy);
     return;
    } else if ((mod->id == itm_clip || mod->id == itm_clip2) &&
               gun->clip_size() <= 2) {
     g->add_msg("You can not extend the ammo capacity of your %s.",
                gun->tname(g).c_str());
+    if (replace_item)
+     inv.add_item(copy);
     return;
    }
   }
   g->add_msg("You attach the %s to your %s.", used->tname(g).c_str(),
              gun->tname(g).c_str());
   gun->contents.push_back(i_rem(let));
+  return;
 
  } else if (used->is_bionic()) {
+
   it_bionic* tmp = dynamic_cast<it_bionic*>(used->type);
-  if (install_bionics(g, tmp))
-   i_rem(let);
- } else if (used->is_food() || used->is_food_container())
+  if (install_bionics(g, tmp)) {
+   if (!replace_item)
+    i_rem(let);
+  } else if (replace_item)
+   inv.add_item(copy);
+  return;
+
+ } else if (used->is_food() || used->is_food_container()) {
+  if (replace_item)
+   inv.add_item(copy);
   eat(g, lookup_item(let));
- else if (used->is_book())
+  return;
+ } else if (used->is_book()) {
+  if (replace_item)
+   inv.add_item(copy);
   read(g, let);
- else if (used->is_armor())
+  return;
+ } else if (used->is_armor()) {
+  if (replace_item)
+   inv.add_item(copy);
   wear(g, let);
- else
+  return;
+ } else
   g->add_msg("You can't do anything interesting with your %s.",
              used->tname(g).c_str());
+
+ if (replace_item)
+  inv.add_item(copy);
 }
 
 void player::read(game *g, char ch)

@@ -28,6 +28,17 @@ void game::init_construction()
  #define COMP(...)   setvector(constructions[id].stages[sl].components[cl], \
                                __VA_ARGS__); cl++
 
+/* CONSTRUCT( name, time, able, done )
+ * Name is the name as it appears in the menu; 30 characters or less, please.
+ * time is the time in MINUTES that it takes to finish this construction.
+ *  note that 10 turns = 1 minute.
+ * able is a function which returns true if you can build it on a given tile
+ *  See construction.h for options, and this file for definitions.
+ * done is a function which runs each time the construction finishes.
+ *  This is useful, for instance, for removing the trap from a pit, or placing
+ *  items after a deconstruction.
+ */
+
  CONSTRUCT("Dig Pit", 0, &construct::able_dig, &construct::done_pit);
   STAGE(t_pit_shallow, 10);
    TOOL(itm_shovel, NULL);

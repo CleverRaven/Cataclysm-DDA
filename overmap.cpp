@@ -2062,7 +2062,7 @@ void overmap::place_mongroups()
    ter(x, y) = ot_silo;
  }
  
-// Place the "put me anywhere" grounds
+// Place the "put me anywhere" groups
  int numgroups = rng(0, 3);
  for (int i = 0; i < numgroups; i++) {
   zg.push_back(
