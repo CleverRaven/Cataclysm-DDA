@@ -2003,7 +2003,7 @@ int player::comprehension_percent(skill s, bool real_life)
   percent += 125 - 1000 / intel;
 
  if (has_trait(PF_FASTLEARNER))
-  percent = (100 + percent) / 2;
+  percent += 20.;
  return (int)(percent);
 }
 
@@ -3632,7 +3632,10 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
   }
   g->add_msg("You attach the %s to your %s.", used->tname(g).c_str(),
              gun->tname(g).c_str());
-  gun->contents.push_back(i_rem(let));
+  if (replace_item)
+   gun->contents.push_back(copy);
+  else
+   gun->contents.push_back(i_rem(let));
   return;
 
  } else if (used->is_bionic()) {
