@@ -1272,7 +1272,7 @@ void player::disp_status(WINDOW *w)
 
 bool player::has_trait(int flag)
 {
- return my_traits[flag];
+ return my_traits[flag];// || my_mutations[flag];
 }
 
 void player::toggle_trait(int flag)
@@ -1434,7 +1434,7 @@ void player::mutate(game *g)
 // GOOD mutations are a 2 in 7 chance, unless you have robust genetics (in which
 //  case it is a 9 in 14 chance).
   if (rng(1, 7) >= 6 || (has_trait(PF_ROBUST) && one_in(2))) {
-   switch (rng(1, 24)) {
+   switch (rng(1, 26)) {
    case 1:
     g->add_msg("Your muscles ripple and grow.");
     str_max += 1;
@@ -1634,9 +1634,16 @@ void player::mutate(game *g)
      return;
     }
     break;
+   case 26:
+    g->add_msg("You feel tougher.");
+    for (int i = 0; i < num_hp_parts; i++) {
+     hp_cur[i] += 5;
+     hp_max[i] += 5;
+    }
+    return;
    }
   } else {	// Bad mutations!
-   switch (rng(1, 24)) {
+   switch (rng(1, 25)) {
    case 1:
     g->add_msg("You feel weak!");
     str_max -= 1;
@@ -1848,6 +1855,14 @@ void player::mutate(game *g)
      return;
     }
     break;
+   case 25:
+    g->add_msg("You feel fragile.");
+    for (int i = 0; i < num_hp_parts; i++) {
+     if (hp_cur[i] > 5)
+      hp_cur[i] -= 5;
+     hp_max[i] -= 5;
+    }
+    return;
    }
   }
  }
@@ -2942,6 +2957,8 @@ item player::i_rem(itype_id type)
 
 item& player::i_at(char let)
 {
+ if (let == KEY_ESCAPE)
+  return ret_null;
  if (weapon.invlet == let)
   return weapon;
  for (int i = 0; i < worn.size(); i++) {

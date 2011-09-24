@@ -1,6 +1,7 @@
 #include <sstream>
 #include "inventory.h"
 #include "game.h"
+#include "keypress.h"
 
 item& inventory::operator[] (int i)
 {
@@ -254,6 +255,8 @@ item& inventory::item_by_letter(char ch)
 
 int inventory::index_by_letter(char ch)
 {
+ if (ch == KEY_ESCAPE)
+  return -1;
  for (int i = 0; i < items.size(); i++) {
   if (items[i][0].invlet == ch)
    return i;

@@ -507,16 +507,7 @@ void iuse::purifier(game *g, player *p, item *it, bool t)
    valid.push_back(i);
  }
  if (valid.size() == 0) {
-  int stat_raised = rng(1, 4);
-  std::string adj;
-  switch (stat_raised) {
-   case 1: adj = "stronger";		p->str_max++;	break;
-   case 2: adj = "nimbler";		p->dex_max++;	break;
-   case 3: adj = "smarter";		p->int_max++;	break;
-   case 4: adj = "more perceptive";	p->per_max++;	break;
-  }
-  if (!p->is_npc())
-   g->add_msg("You feel %s.", adj.c_str());
+  g->add_msg("You feel cleansed.");
   return;
  }
  int num_cured = rng(1, valid.size());
@@ -617,7 +608,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
 {
  char ch = g->inv("Repair what?");
  item* fix = &(p->i_at(ch));
- if (fix->type->id == 0) {
+ if (fix == NULL || fix->type->id == 0) {
   g->add_msg("You do not have that item!");
   it->charges++;
   return;

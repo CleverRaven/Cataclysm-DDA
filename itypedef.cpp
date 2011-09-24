@@ -942,7 +942,7 @@ ARMOR("leather jacket",	30, 150,C_TORSO,	LEATHER,	MNULL,
 A jacket made from thick leather.  Encumbersome, but offers excellent\n\
 protection from cuts.");
 
-ARMOR("kevlar vest",	30, 800,C_TORSO,	KEVLAR,		COTTON,
+ARMOR("kevlar vest",	30, 800,C_TORSO,	KEVLAR,		MNULL,
    24, 24,  6, -3,  2,  4, 22,  0,  4,  4,	mfb(bp_torso), "\
 A heavy bulletproof vest.  The best protection from cuts and bullets.");
 

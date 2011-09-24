@@ -255,7 +255,7 @@ you less."},
 You're a quick reader, and can get through books a lot faster than most."},
 {"Tough", 5, false, "\
 It takes a lot to bring you down!  You get a 20%% bonus to all hit points."},
-{"Thick-Skinned", 2, true, "\
+{"Thick-Skinned", 2, false, "\
 Your skin is tough.  Cutting damage is slightly reduced for you."},
 {"Packmule", 3, false, "\
 You can manage to find space for anything!  You can carry 40%% more volume."},
@@ -309,21 +309,21 @@ mutation will be beneficial are greatly increased."},
 
 {"NULL", 0, " -------------------------------------------------- "},
 
-{"Near-Sighted", -2, true, "\
+{"Near-Sighted", -2, false, "\
 Without your glasses, your seeing radius is severely reduced!  However, while\n\
 wearing glasses this trait has no effect, and you are guaranteed to start\n\
 with a pair."},
 {"Heavy Sleeper", -1, false, "\
 You're quite the heavy sleeper.  Noises are unlikely to wake you up."},
-{"Asthmatic", -4, true, "\
+{"Asthmatic", -4, false, "\
 You will occasionally need to use an inhaler, or else suffer severe physical\n\
 limitations.  However, you are guaranteed to start with an inhaler."},
-{"Bad Back", -3, true, "\
+{"Bad Back", -3, false, "\
 You simply can not carry as much as people with a similar strength could.\n\
 Your maximum weight carried is reduced by 35%%."},
 {"Illiterate", -5, false, "\
 You never learned to read!  Books and computers are off-limits to you."},
-{"Poor Hearing", -2, true, "\
+{"Poor Hearing", -2, false, "\
 Your hearing is poor, and you may not hear quiet or far-off noises."},
 {"Insomniac", -2, false, "\
 You have a hard time falling asleep, even under the best circumstances!"},
@@ -348,7 +348,7 @@ firearms."},
 {"Smelly", -1, false, "\
 Your scent is particularly strong.  It's not offensive to humans, but animals\n\
 that track your scent will do so more easily."},
-{"Chemical Imbalance", -2, true, "\
+{"Chemical Imbalance", -2, false, "\
 You suffer from a minor chemical imbalance, whether mental or physical. Minor\n\
 changes to your internal chemistry will manifest themselves on occasion,\n\
 such as hunger, sleepiness, narcotic effects, etc."},
