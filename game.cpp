@@ -1989,11 +1989,13 @@ unsigned char game::light_level()
  else {
   if (cal.timedate < cal.sunrise || cal.timedate > cal.sunset) {
    if (cal.timedate < cal.sunset + 1800 && cal.timedate > cal.sunset) {
-    int twilight = (cal.timedate - cal.sunset) / 30;
-    ret = twilight - weather_data[weather].sight_penalty;
+    double twilight = (cal.timedate - cal.sunset) / 1800;
+    ret = cal.moonlight(cal.day()) + twilight * (60 - cal.moonlight(cal.day()));
+    ret -= weather_data[weather].sight_penalty;
    } else if (cal.timedate > cal.sunrise - 1800 && cal.timedate > cal.sunrise) {
-    int twilight = (cal.sunrise - cal.timedate) / 30;
-    ret = twilight - weather_data[weather].sight_penalty;
+    double twilight = (cal.sunrise - cal.timedate) / 1800;
+    ret = cal.moonlight(cal.day()) + twilight * (60 - cal.moonlight(cal.day()));
+    ret -= weather_data[weather].sight_penalty;
    } else // moon light can be 9,6,3,1
     ret = cal.moonlight(cal.day()) - weather_data[weather].sight_penalty;
   } else // 60 is not a bit much!
