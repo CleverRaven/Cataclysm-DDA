@@ -737,6 +737,8 @@ void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)
 {
  field_id blood = fd_blood;
  if (mon != NULL) {
+  if (!mon->made_of(FLESH))
+   return;
   if (mon->type->dies == &mdeath::boomer)
    blood = fd_bile;
   else if (mon->type->dies == &mdeath::acid)
