@@ -1291,7 +1291,7 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
    }
   }
  }
- p->i_rem(it->invlet);
+ //p->i_rem(it->invlet);
 }
 
 void iuse::geiger(game *g, player *p, item *it, bool t)

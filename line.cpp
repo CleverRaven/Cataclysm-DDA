@@ -78,6 +78,34 @@ int rl_dist(int x1, int y1, int x2, int y2)
  return dy;
 }
 
+double slope_of(std::vector<point> line)
+{
+ double dX = line.back().x - line.front().x, dY = line.back().y - line.front().y;
+ if (dX == 0)
+  return SLOPE_VERTICAL;
+ return (dY / dX);
+}
+
+std::vector<point> continue_line(std::vector<point> line, int distance)
+{
+ point start = line.back(), end = line.back();
+ double slope = slope_of(line);
+ int sX = (line.front().x < line.back().x ? 1 : -1),
+     sY = (line.front().y < line.back().y ? 1 : -1);
+ if (abs(slope) == 1) {
+  end.x += distance * sX;
+  end.y += distance * sY;
+ } else if (abs(slope) < 1) {
+  end.x += distance * sX;
+  end.y += int(distance * abs(slope) * sY);
+ } else {
+  end.y += distance * sY;
+  if (slope != SLOPE_VERTICAL)
+   end.x += int(distance / abs(slope)) * sX;
+ }
+ return line_to(start.x, start.y, end.x, end.y, 0);
+}
+
 direction direction_from(int x1, int y1, int x2, int y2)
 {
  int dx = x2 - x1;

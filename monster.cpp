@@ -97,6 +97,18 @@ std::string monster::name()
  return type->name;
 }
 
+std::string monster::name_with_armor()
+{
+ std::string ret = type->name;
+ switch (type->mat) {
+  case VEGGY: ret += "'s thick bark";    break;
+  case FLESH: ret += "'s thick hide";    break;
+  case IRON:
+  case STEEL: ret += "'s armor plating"; break;
+ }
+ return ret;
+}
+
 void monster::print_info(game *g, WINDOW* w)
 {
 // First line of w is the border; the next two are terrain info, and after that

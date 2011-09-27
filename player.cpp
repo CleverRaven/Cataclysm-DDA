@@ -1875,10 +1875,10 @@ int player::sight_range(int light_level)
      has_active_bionic(bio_night_vision)) &&
      ret < 12)
   ret = 12;
- if (has_trait(PF_NIGHTVISION) && ret == 1)
-  ret = 2;
- if (has_trait(PF_NIGHTVISION2) && ret < 4)
-  ret = 4;
+ if (has_trait(PF_NIGHTVISION) && ret < 12)
+  ret += 1;
+ if (has_trait(PF_NIGHTVISION2) && ret < 12)
+  ret += 3;
  if (underwater && !has_bionic(bio_membrane) && !has_trait(PF_MEMBRANE) &&
      !is_wearing(itm_goggles_swim))
   ret = 1;
@@ -3549,7 +3549,7 @@ void player::use(game *g, char let)
   } else
    g->add_msg("Your %s has %d charges but needs %d.", used->tname(g).c_str(),
               used->charges, tool->charges_per_use);
-  if (replace_item)
+  if (replace_item && tool->use != &iuse::set_trap)
    inv.add_item(copy);
   return;
 

@@ -17,6 +17,7 @@
 #include "mission.h"
 #include "weather.h"
 #include "construction.h"
+#include "calendar.h"
 //#include "posix_time.h"
 #include <vector>
 
@@ -43,6 +44,7 @@ struct mtype;
 struct mission_type;
 class map;
 class player;
+class calendar;
 
 class game
 {
@@ -142,6 +144,7 @@ class game
   WINDOW *w_moninfo;
   WINDOW *w_messages;
   WINDOW *w_status;
+  calendar cal;
 
  private:
 // Game-start procedures

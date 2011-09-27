@@ -403,8 +403,10 @@ void game::complete_construction()
  std::vector<component> map_use;
 
  u.practice(sk_carpentry, built.difficulty * 10);
+ if (built.difficulty < 1)
+  u.practice(sk_carpentry, 10);
  for (int i = 0; i < 3; i++) {
-  while (stage.components[i].empty())
+  while (stage.components[i].empty()) 
    i++;
   if (i < 3) {
    std::vector<component> player_has;
@@ -421,6 +423,11 @@ void game::complete_construction()
       player_has.push_back(comp);
      if (map_inv.has_amount(comp.type, comp.count))
       map_has.push_back(comp);
+     if ((u.inv.amount_of(comp.type) + map_inv.amount_of(comp.type)) >= comp.count &&
+	u.inv.amount_of(comp.type) > 0 && map_inv.amount_of(comp.type) > 0) {
+      player_has.push_back(comp);
+      map_has.push_back(comp);
+     }
     }
    }
 
@@ -442,12 +449,22 @@ void game::complete_construction()
     for (int j = 0; j < player_has.size(); j++)
      options.push_back(itypes[player_has[j].type]->name);
 // Get the selection via a menu popup
-    int selection = menu_vec("Use which component?", options) - 1;
-    if (selection < map_has.size())
+    int selection = menu_vec("Use which component first?", options) - 1;
+    if (selection < map_has.size()) {
      map_use.push_back(map_has[selection]);
-    else {
+     if (map_inv.amount_of(map_has[i].type) < map_has[i].count) {
+      player_use.push_back(player_has[i]);
+      player_use[player_use.size()-1].count -= map_inv.amount_of(map_has[i].type);
+      map_use[map_use.size()-1].count = map_inv.amount_of(map_has[i].type);
+     } 
+    } else {
      selection -= map_has.size();
      player_use.push_back(player_has[selection]);
+     if (u.inv.amount_of(player_has[i].type) < player_has[i].count) {
+      map_use.push_back(map_has[i]);
+      map_use[map_use.size()-1].count -= u.inv.amount_of(player_has[i].type);
+      player_use[player_use.size()-1].count = u.inv.amount_of(player_has[i].type);
+     }
     }
    }
   }

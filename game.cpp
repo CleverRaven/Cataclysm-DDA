@@ -1,3 +1,4 @@
+
 #include "game.h"
 #include "rng.h"
 #include "keypress.h"
@@ -66,7 +67,7 @@ game::game()
  debugmon = false;	// We're not printing debug messages
  in_tutorial = false;	// We're not in a tutorial game
  weather = WEATHER_CLEAR; // Start with some nice weather...
- season = SPRING;         // With winter conveniently a long way off.
+ season = cal.season();         // Init season
  for (int i = 0; i < num_monsters; i++)	// Reset kill counts to 0
   kills[i] = 0;
 // Set the scent map to 0
@@ -498,7 +499,8 @@ bool game::do_turn()
    death_screen();
   return true;
  }
- turn++;
+ cal.timedate += 6;
+ turn = cal.turn();
  process_events();
  if (in_tutorial) {
   if (turn == 1) {
@@ -558,6 +560,11 @@ bool game::do_turn()
 // On the half-hour, we also autosave and update the weather.
   update_weather();
   save();
+ }
+// at midnight, we calculate sunrise / sunset for the new day
+ if (cal.hour() == 0 && cal.minute() == 0) { 
+  cal.get_sunset();
+  cal.get_sunrise();
  }
 
 // The following happens when we stay still; 10/40 minutes overdue for spawn
@@ -775,6 +782,7 @@ void game::cancel_activity_query(std::string message)
 
 void game::update_weather()
 {
+ season = cal.season();
 // Pick a new weather type (most likely the same one)
  int chances[NUM_WEATHER_TYPES];
  int total = 0;
@@ -796,6 +804,8 @@ void game::update_weather()
   new_weather = weather_type(int(new_weather) + 1);
  }
  weather = new_weather;
+ if (weather == WEATHER_SUNNY && (cal.timedate > cal.sunset || cal.timedate < cal.sunrise))
+  weather = WEATHER_CLEAR;
 
 // Now update temperature
  if (!one_in(4)) { // 3 in 4 chance of respecting avg temp for the weather
@@ -808,6 +818,11 @@ void game::update_weather()
   temperature += rng(-1, 1);
 
 // TODO: Temperature shifts based on day/nighttime
+// very basic night versus day changes as long as I'm in here
+ if (cal.timedate > cal.sunset || cal.timedate < cal.sunrise)
+  temperature -= rng(-1, 2);
+ else
+  temperature += rng(-1, 2);
 }
 
 void game::give_mission(mission_id type)
@@ -1120,6 +1135,7 @@ void game::load(std::string name)
         next_faction_id >> next_mission_id >> nextspawn >> tmpweather >>
         tmptemp >> levx >> levy >> levz >> comx >> comy;
  cur_om = overmap(this, comx, comy, levz);
+ cal.reinitialize(turn);
 // m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
  m.load(this, levx, levy);
  run_mode = tmprun;
@@ -1670,12 +1686,9 @@ void game::draw()
  draw_HP();
  werase(w_status);
  u.disp_status(w_status);
- int minutes = int(turn / 10);	// One turn = 6 seconds
- int hours = 8 + int(minutes / 60);
- minutes = minutes % 60;
- int day = 1 + int(hours / 24);
- hours = hours % 24;
- day = day % 14;
+ int minutes = cal.minute();  // One turn = 6 seconds
+ int hours = cal.hour();
+ int day = cal.day();
  if (hours == 12)
   mvwprintz(w_status, 1, 41, c_white, "12:%02d PM", minutes);
  else if (hours == 0)
@@ -1707,7 +1720,7 @@ void game::draw()
  else if (temperature >  32)
   col_temp = c_ltblue;
  wprintz(w_status, col_temp, " %dF", temperature);
- switch (season) {
+ switch (cal.season()) {
   case SPRING: mvwprintz(w_status, 0, 41, c_white, "Spring, day %d", day);break;
   case SUMMER: mvwprintz(w_status, 0, 41, c_white, "Summer, day %d", day);break;
   case AUTUMN: mvwprintz(w_status, 0, 41, c_white, "Autumn, day %d", day);break;
@@ -1974,28 +1987,31 @@ unsigned char game::light_level()
  if (levz < 0)	// Underground!
   ret = 1;
  else {
-  int minutes = int(turn / 10);	// One turn = 6 seconds
-  int hours = 8 + int(minutes / 60);
-  minutes = minutes % 60;
-  hours = hours % 24;
-  if (hours < 6 || hours >= 21)
-   ret = 1;
-  else if (hours >= 6 && hours < 7)
-   ret = int(minutes + 1);
-  else if (hours >= 20 && hours < 21)
-   ret = 60 - int(minutes);
-  else
-   ret = 60;
+  if (cal.timedate < cal.sunrise || cal.timedate > cal.sunset) {
+   if (cal.timedate < cal.sunset + 1800 && cal.timedate > cal.sunset) {
+    int twilight = (cal.timedate - cal.sunset) / 30;
+    ret = twilight - weather_data[weather].sight_penalty;
+   } else if (cal.timedate > cal.sunrise - 1800 && cal.timedate > cal.sunrise) {
+    int twilight = (cal.sunrise - cal.timedate) / 30;
+    ret = twilight - weather_data[weather].sight_penalty;
+   } else // moon light can be 9,6,3,1
+    ret = cal.moonlight(cal.day()) - weather_data[weather].sight_penalty;
+  } else // 60 is not a bit much!
+   ret = 60 - weather_data[weather].sight_penalty;
  }
  int flashlight = u.active_item_charges(itm_flashlight_on);
  //int light = u.light_items();
  if (ret < 10 && flashlight > 0) {
-  ret = flashlight;
+/* additive so that low battery flashlights still increase the light level 
+	rather than decrease it 						*/
+  ret += flashlight;
   if (ret > 10)
    ret = 10;
  }
  if (ret < 8 && u.has_active_bionic(bio_flashlight))
   ret = 8;
+ if (ret < 1)
+  ret = 1;
  return ret;
 }
 
@@ -3223,8 +3239,8 @@ void game::examine()
   }
  }
  if (m.tr_at(examx, examy) != tr_null &&
+      traps[m.tr_at(examx, examy)]->difficulty < 99 &&
      u.per_cur-u.encumb(bp_eyes) >= traps[m.tr_at(examx, examy)]->visibility &&
-     traps[m.tr_at(examx, examy)]->difficulty < 99 &&
      query_yn("There is a %s there.  Disarm?",
               traps[m.tr_at(examx, examy)]->name.c_str()))
   m.disarm_trap(this, examx, examy);

@@ -9,8 +9,8 @@ class game;
 enum season_type {
  SPRING = 0,
  SUMMER = 1,
- WINTER = 2,
- AUTUMN = 3
+ AUTUMN = 2,
+ WINTER = 3
 #define FALL AUTUMN
 };
 

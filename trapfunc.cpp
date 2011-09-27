@@ -185,7 +185,7 @@ void trapfuncm::shotgun(game *g, monster *z, int x, int y)
  if (g->m.tr_at(x, y) == tr_shotgun_1)
   shots = 1;
  if (seen)
-  g->add_msg("A bolt shoots out and hits the %s!", z->name().c_str());
+  g->add_msg("A shotgun fires and hits the %s!", z->name().c_str());
  if (z->hurt(rng(40 * shots, 60 * shots)))
   g->kill_mon(g->mon_at(x, y));
  if (shots == 2 || g->m.tr_at(x, y) == tr_shotgun_1) {
