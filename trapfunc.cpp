@@ -231,6 +231,22 @@ void trapfuncm::landmine(game *g, monster *z, int x, int y)
  g->m.tr_at(x, y) = tr_null;
 }
 
+void trapfunc::boobytrap(game *g, int x, int y)
+{
+ g->add_msg("You trigger a boobytrap!");
+ g->explosion(x, y, 18, 12, false);
+ g->m.tr_at(x, y) = tr_null;
+}
+
+void trapfuncm::boobytrap(game *g, monster *z, int x, int y)
+{
+ int t;
+ if (g->u_see(x, y, t))
+  g->add_msg("The %s triggers a boobytrap!", z->name().c_str());
+ g->explosion(x, y, 18, 12, false);
+ g->m.tr_at(x, y) = tr_null;
+}
+
 void trapfunc::telepad(game *g, int x, int y)
 {
  g->sound(x, y, 6, "vvrrrRRMM*POP!*");

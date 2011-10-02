@@ -100,4 +100,8 @@ traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
  TRAP("ledge",			' ',	c_black,	 0, 99, 99,
 	&trapfunc::ledge,	&trapfuncm::ledge,
 	itm_null, NULL);
+
+ TRAP("boobytrap",			'^',	c_ltcyan,	 5,  4,  7,
+ 	&trapfunc::boobytrap,	&trapfuncm::boobytrap,
+ 	itm_null, NULL);
 }

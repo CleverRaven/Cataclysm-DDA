@@ -2646,9 +2646,22 @@ This mp3 player is turned on and playing some great tunes, raising your\n\
 morale steadily while on your person.  It runs through batteries quickly; you\n\
 can turn it off by using it.  It also obscures your hearing.");
 
-TOOL("dog food",         50,  60,'o',c_red,     FLESH,     MNULL,
-	1,  2,  0,  0,  0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::dogfood, 0, "\
+TOOL("dog food",         5,  60,'o',c_red,     FLESH,     MNULL,
+	1,  2,  0,  0,  -5,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::dogfood, 0, "\
 Food for dogs. It smells strange, but dogs love it.");
+
+TOOL("booby trap",         0,  500,'^',c_ltcyan,     STEEL,	PLASTIC,
+	3,  2,  0,  0,  -4,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap, 0, "\
+A crude explosive device triggered by a piece of string.");
+
+TOOL("C4-Explosive",         5,  6000,'o',c_ltcyan,     PLASTIC,     STEEL,
+	1,  2,  0,  0,  -4,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::c4, 0, "\
+Highly explosive, use with caution! Armed with a small timer.");
+
+TOOL("C4-Explosive(armed)",         0,  6000,'o',c_ltcyan,     PLASTIC,     STEEL,
+	1,  2,  0,  0,  -4,  9,  9,  0,  1, AT_NULL, itm_null, &iuse::c4armed, 0, "\
+Highly explosive, use with caution. Comes with a small timer.\n\
+It's armed and ticking!");
 
 
 

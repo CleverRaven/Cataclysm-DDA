@@ -66,6 +66,8 @@ class iuse
   void pipebomb_act	(game *g, player *p, item *it, bool t);
   void grenade		(game *g, player *p, item *it, bool t);
   void grenade_act	(game *g, player *p, item *it, bool t);
+  void c4    		(game *g, player *p, item *it, bool t);
+  void c4armed  	(game *g, player *p, item *it, bool t);
   void EMPbomb		(game *g, player *p, item *it, bool t);
   void EMPbomb_act	(game *g, player *p, item *it, bool t);
   void gasbomb		(game *g, player *p, item *it, bool t);

@@ -28,6 +28,7 @@ enum trap_id {
  tr_spike_pit,
  tr_portal,
  tr_ledge,
+ tr_boobytrap,
  num_trap_types
 };
 
@@ -52,6 +53,7 @@ struct trapfunc {
  void pit_spikes(game *g, int x, int y);
  void portal	(game *g, int x, int y) { };
  void ledge	(game *g, int x, int y);
+ void boobytrap	(game *g, int x, int y);
 };
 
 struct trapfuncm {
@@ -73,6 +75,7 @@ struct trapfuncm {
  void pit_spikes(game *g, monster *z, int x, int y);
  void portal	(game *g, monster *z, int x, int y) { };
  void ledge	(game *g, monster *z, int x, int y);
+ void boobytrap (game *g, monster *z, int x, int y);
 };
 
 struct trap {
