@@ -2646,8 +2646,8 @@ This mp3 player is turned on and playing some great tunes, raising your\n\
 morale steadily while on your person.  It runs through batteries quickly; you\n\
 can turn it off by using it.  It also obscures your hearing.");
 
-TOOL("dogfood",         50,  60,'o',c_red,     FLESH,     MNULL,
-	1,  2,  0,  0,  0,  5, 5,  1,  0, AT_NULL, itm_null, &iuse::dogfood, 0, "\
+TOOL("dog food",         50,  60,'o',c_red,     FLESH,     MNULL,
+	1,  2,  0,  0,  0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::dogfood, 0, "\
 Food for dogs. It smells strange, but dogs love it.");
 
 

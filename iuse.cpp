@@ -605,7 +605,7 @@ void iuse::dogfood(game *g, player *p, item *it, bool t)
 		 g->add_msg("The %s seems quit unimpressed!",g->z[mon_dex].type->name.c_str());
 	 }
  } else {
-	 g->add_msg("You spill the dogfood all over the ground. Now what?");
+	 g->add_msg("You spill the dogfood all over the ground.");
  }
 
 }

@@ -3549,6 +3549,7 @@ void player::use(game *g, char let)
   } else
    g->add_msg("Your %s has %d charges but needs %d.", used->tname(g).c_str(),
               used->charges, tool->charges_per_use);
+  if(tool->use == &iuse::dogfood) replace_item = false;
   if (replace_item && tool->use != &iuse::set_trap)
    inv.add_item(copy);
   return;
