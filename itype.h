@@ -37,7 +37,7 @@ itm_apple, itm_orange, itm_lemon, itm_chips, itm_pretzels, itm_chocolate,
  itm_can_spam, itm_can_pineapple, itm_can_coconut, itm_can_sardine,
  itm_can_tuna, itm_can_catfood, itm_honeycomb, itm_royal_jelly, itm_fetus,
  itm_arm, itm_leg, itm_ant_egg, itm_marloss_berry, itm_flour, itm_sugar,
- itm_salt, itm_potato_raw, itm_potato_baked, itm_bread, itm_pie, itm_pizza,
+ itm_salt, itm_potato_raw, itm_potato_baked, itm_bread, itm_pie, itm_pizza, itm_dogfood,
 // Medication
 itm_bandages, itm_1st_aid, itm_vitamins, itm_aspirin, itm_caffeine,
  itm_pills_sleep, itm_iodine, itm_dayquil, itm_nyquil, itm_inhaler, itm_codeine,

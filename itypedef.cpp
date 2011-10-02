@@ -147,6 +147,10 @@ FOOD("chunk of meat",	50, 50,	c_red,		FLESH,  itm_null,
     1,  2,  0, 20, 24,  0, -1,  0,  1,-10,	&iuse::none, ADD_NULL, "\
 Freshly butchered meat.  You could eat it raw, but cooking it is better.");
 
+FOOD("dogfood", 50,60,c_red, FLESH, itm_null,
+	1,  2,  0, 20, 24,  0, 0,  0,  1,-10,  &iuse::dogfood, ADD_NULL, "\
+Food for dogs. It smells strange, but dogs love it.")
+
 FOOD("chunk of veggy",	30, 60,	c_green,	VEGGY,	itm_null,
     1,  2,  0, 20, 80,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 A raw chunk of vegetable.  Fine for eating raw, tastier when cooked.");

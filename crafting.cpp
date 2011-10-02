@@ -155,6 +155,11 @@ void game::init_recipes()
   TOOL(itm_pan, -1, itm_pot, -1, NULL);
   COMP(itm_meat, 1, NULL);
 
+ RECIPE(itm_dogfood, CC_FOOD, sk_cooking, sk_null, 0, 5000);
+  TOOL(itm_hotplate, 4, NULL);
+  TOOL(itm_pot, -1, NULL);
+  COMP(itm_meat, 1, NULL);
+
  RECIPE(itm_veggy_cooked, CC_FOOD, sk_cooking, sk_null, 0, 4000);
   TOOL(itm_hotplate, 5, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, NULL);

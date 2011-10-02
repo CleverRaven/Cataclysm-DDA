@@ -68,6 +68,8 @@ game::game()
  in_tutorial = false;	// We're not in a tutorial game
  weather = WEATHER_CLEAR; // Start with some nice weather...
  season = cal.season();         // Init season
+ turnssincelastmon = 0; //Auto run mode init
+ autorunmode = false;
  for (int i = 0; i < num_monsters; i++)	// Reset kill counts to 0
   kills[i] = 0;
 // Set the scent map to 0
@@ -574,6 +576,10 @@ bool game::do_turn()
   nextspawn = turn;
  }
  process_activity();
+
+
+
+
  while (u.moves > 0) {
   draw();
   get_input();
@@ -609,6 +615,11 @@ bool game::do_turn()
   draw();
   refresh();
  }
+
+
+
+
+
  return false;
 }
 
@@ -960,7 +971,11 @@ void game::get_input()
    run_mode = 1;
    add_msg("Run mode ON!");
   } else {
+   turnssincelastmon = 0;
    run_mode = 0;
+   if(autorunmode)
+   add_msg("Run mode OFF! (Auto run mode still enabled!)");
+   else
    add_msg("Run mode OFF!");
   }
  } else if (ch == 's')
@@ -983,6 +998,19 @@ void game::get_input()
  } else if (ch == '?') {
   help();
   refresh_all();
+ } else if (ch == '"') {
+	 if(autorunmode){
+		 add_msg("Auto run mode OFF!");
+		 autorunmode = false;
+	 } else {
+		 add_msg("Auto run mode ON");
+		 autorunmode = true;
+	 }
+ } else if (ch == ' '){
+	 if(run_mode == 2){
+		 add_msg("Ignoring enemy!");
+		 run_mode = 1;
+	 }
  }
 }
 
@@ -2257,9 +2285,23 @@ void game::mon_info()
 
  if (newseen > mostseen) {
   cancel_activity_query("Monster spotted!");
+  turnssincelastmon = 0;
   if (run_mode == 1)
    run_mode = 2;	// Stop movement!
  }
+ //Auto run mode
+ if(autorunmode){
+	 if(newseen<=mostseen){
+		 turnssincelastmon++;
+		 if(turnssincelastmon >= 50){
+			 if(run_mode == 0){
+				 run_mode = 1;
+			 }
+		 }
+	 }
+ }
+
+
  mostseen = newseen;
  int line = 0;
  nc_color tmpcol;
@@ -4381,7 +4423,7 @@ void game::chat()
 void game::plmove(int x, int y)
 {
  if (run_mode == 2) { // Monsters around and we don't wanna run
-  add_msg("Monster spotted--run mode is on! (Press '!' to turn it off.)");
+  add_msg("Monster spotted--run mode is on! (Press '!' to turn it off or space to ignore monster.)");
   return;
  }
  x += u.posx;

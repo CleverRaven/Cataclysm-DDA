@@ -265,7 +265,8 @@ class game
   char run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new
 		 //  monsters spawns, go to 2 - No movement allowed
   int mostseen;	 // # of mons seen last turn; if this increases, run_mode++
-
+  bool autorunmode; // is autorunmode enabled?
+  int turnssincelastmon; // turns since the last monster was spotted needed for auto run mode
   quit_status uquit;    // Set to true if the player quits ('Q')
 
   int nextspawn;          // The turn on which monsters will spawn next.
