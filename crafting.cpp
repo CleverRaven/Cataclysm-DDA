@@ -69,8 +69,6 @@ void game::init_recipes()
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_bee_sting, 1,
        NULL);
 
- RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 0, 8000);
-
  RECIPE(itm_crossbow, CC_WEAPON, sk_mechanics, sk_gun, 3, 15000);
   TOOL(itm_wrench, -1, NULL);
   TOOL(itm_screwdriver, -1, NULL);
