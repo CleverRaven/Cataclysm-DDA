@@ -582,6 +582,33 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
  if (effect == 6)
   p->radiation = 0;
 }
+
+void iuse::dogfood(game *g, player *p, item *it, bool t)
+{
+ int dirx, diry;
+ g->draw();
+ mvprintw(0, 0, "Which direction?");
+ get_direction(dirx, diry, input());
+ if (dirx == -2) {
+  g->add_msg("Invalid direction.");
+  return;
+ }
+ p->moves -= 15;
+ dirx += p->posx;
+ diry += p->posy;
+ int mon_dex = g->mon_at(dirx,diry);
+ if(mon_dex != -1){
+	 if(g->z[mon_dex].type->id == mon_dog){
+		 g->add_msg("The dog seems to like you!");
+		 g->z[mon_dex].friendly = -1;
+	 } else {
+		 g->add_msg("The %s seems quit unimpressed!",g->z[mon_dex].type->name.c_str());
+	 }
+ } else {
+	 g->add_msg("You spill the dogfood all over the ground. Now what?");
+ }
+
+}
   
  
 
