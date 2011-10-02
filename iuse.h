@@ -38,8 +38,6 @@ class iuse
   void mutagen		(game *g, player *p, item *it, bool t);
   void purifier		(game *g, player *p, item *it, bool t);
   void marloss		(game *g, player *p, item *it, bool t);
-  void dogfood		(game *g, player *p, item *it, bool t);
-
 // TOOLS
   void lighter		(game *g, player *p, item *it, bool t);
   void sew		(game *g, player *p, item *it, bool t);
