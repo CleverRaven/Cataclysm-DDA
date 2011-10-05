@@ -388,15 +388,17 @@ void map::step_in_field(int x, int y, game *g)
      g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
      g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
      g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
-     g->u.infect(DI_SMOKE, bp_mouth, 5, 20, g);
     } else if (cur->density == 3) {
      g->add_msg("You're set ablaze!");
      g->u.hit(g, bp_legs, 0, 0, rng(2, 6));
      g->u.hit(g, bp_legs, 1, 0, rng(2, 6));
      g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
      g->u.add_disease(DI_ONFIRE, 5, g);
-     g->u.infect(DI_SMOKE, bp_mouth, 7, 30, g);
     }
+    if (cur->density == 2)
+     g->u.infect(DI_SMOKE, bp_mouth, 5, 20, g);
+    else if (cur->density == 3)
+     g->u.infect(DI_SMOKE, bp_mouth, 7, 30, g);
    }
    break;
   case fd_smoke:
