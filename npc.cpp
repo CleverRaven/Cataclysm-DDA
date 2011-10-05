@@ -566,6 +566,7 @@ void npc::make_shopkeep(game *g, oter_id type)
  std::vector<items_location> pool;
  bool done = false;
  switch (type) {
+/*
  case ot_set_food:
   pool.push_back(mi_snacks);
   for (int i = 0; i < 4; i++)	// Weighted to be more likely
@@ -611,6 +612,7 @@ void npc::make_shopkeep(game *g, oter_id type)
   pool.push_back(mi_electronics);
   pool.push_back(mi_bionics);
   break;
+*/
  }
 
  if (pool.size() > 0) {
@@ -1061,7 +1063,7 @@ void npc::perform_mission(game *g)
 {
  switch (mission) {
  case NPC_MISSION_RESCUE_U:
-  if (g->turn % 24 == 0) {
+  if (int(g->turn) % 24 == 0) {
    if (mapx > g->levx)
     mapx--;
    else if (mapx < g->levx)
@@ -1076,7 +1078,7 @@ void npc::perform_mission(game *g)
  case NPC_MISSION_SHOPKEEP:
   break;	// Just stay where we are
  default:	// Random Walk
-  if (g->turn % 24 == 0) {
+  if (int(g->turn) % 24 == 0) {
    mapx += rng(-1, 1);
    mapy += rng(-1, 1);
   }

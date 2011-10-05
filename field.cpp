@@ -321,9 +321,9 @@ bool map::process_fields(game *g)
     break;
 
    case fd_fatigue:
-    if (cur->density < 3 && g->turn % 3600 == 0 && one_in(10))
+    if (cur->density < 3 && int(g->turn) % 3600 == 0 && one_in(10))
      cur->density++;
-    else if (cur->density == 3 && one_in(3600)) { // Spawn nether creature!
+    else if (cur->density == 3 && one_in(600)) { // Spawn nether creature!
      mon_id type = mon_id(rng(mon_flying_polyp, mon_blank));
      monster creature(g->mtypes[type]);
      creature.spawn(x + rng(-3, 3), y + rng(-3, 3));
@@ -355,6 +355,11 @@ void map::step_in_field(int x, int y, game *g)
   case fd_blood:	// It doesn't actually do anything
   case fd_bile:		// Ditto
    return;
+
+  case fd_web:
+   g->u.add_disease(DI_WEBBED, cur->density * 5, g);
+   field_at(x, y) = field();
+   break;
 
   case fd_acid:
    if (cur->density == 3) {
@@ -438,6 +443,12 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
   case fd_blood:	// It doesn't actually do anything
   case fd_bile:		// Ditto
    break;
+
+  case fd_web:
+   if (!z->has_flag(MF_WEBWALK)) {
+    z->speed *= .8;
+    field_at(x, y) = field();
+   }
 
   case fd_acid:
    if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&

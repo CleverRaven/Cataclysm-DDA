@@ -134,7 +134,7 @@ void mission_start::get_jelly(game *g, mission *miss)
 // Find the closest hive, and reveal it on our map.
  int dist = 0;
  point omp = point((g->levx + 1) / 2, (g->levy + 1) / 2);
- point hive = g->cur_om.find_closest( omp, ot_hive_center, 1, dist, false);
+ point hive = g->cur_om.find_closest( omp, ot_hive, 1, dist, false);
 // Reveal the hive (and surrounding terrain) on the player's map
  for (int x = hive.x - 2; x <= hive.x + 2; x++) {
   for (int y = hive.y - 2; y <= hive.y + 2; y++)

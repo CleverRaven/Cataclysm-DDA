@@ -10,6 +10,7 @@ class iuse
  public:
   void none		(game *g, player *p, item *it, bool t) { };
 // FOOD AND DRUGS (ADMINISTRATION)
+  void sewage		(game *g, player *p, item *it, bool t);
   void royal_jelly	(game *g, player *p, item *it, bool t);
   void bandage		(game *g, player *p, item *it, bool t);
   void firstaid		(game *g, player *p, item *it, bool t);

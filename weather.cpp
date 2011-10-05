@@ -82,7 +82,7 @@ void weather_effect::lightning(game *g)
 void weather_effect::light_acid(game *g)
 {
  this->wet(g);
- if (g->turn % 10 == 0 && PLAYER_OUTSIDE)
+ if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE)
   g->add_msg("The acid rain stings, but is harmless for now...");
 }
 

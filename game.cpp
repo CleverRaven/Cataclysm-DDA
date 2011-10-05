@@ -67,9 +67,13 @@ game::game()
  debugmon = false;	// We're not printing debug messages
  in_tutorial = false;	// We're not in a tutorial game
  weather = WEATHER_CLEAR; // Start with some nice weather...
+
  season = cal.season();         // Init season
  turnssincelastmon = 0; //Auto run mode init
  autorunmode = false;
+
+ turn.season = SPRING;    // ... with winter conveniently a long ways off
+
  for (int i = 0; i < num_monsters; i++)	// Reset kill counts to 0
   kills[i] = 0;
 // Set the scent map to 0
@@ -362,7 +366,7 @@ fivedozenwhales@gmail.com.");
 // Set up all default values for a new game
 void game::start_game()
 {
- turn = 0;	// It's turn 0...
+ turn = MINUTES(STARTING_MINUTES);// It's turn 0...
  run_mode = 1;	// run_mode is on by default...
  mostseen = 0;	// ...and mostseen is 0, we haven't seen any monsters yet.
 
@@ -395,7 +399,7 @@ void game::start_game()
  u.per_cur = u.per_max;
  u.int_cur = u.int_max;
  u.dex_cur = u.dex_max;
- nextspawn = 300;	// No monsters until 8:30 AM!
+ nextspawn = HOURS(8) + MINUTES(30);	// No monsters until 8:30 AM!
  temperature = 65;	// Springtime-appropriate?
 
 // Testing pet dog!
@@ -501,9 +505,11 @@ bool game::do_turn()
    death_screen();
   return true;
  }
- cal.timedate += 6;
- turn = cal.turn();
+ turn.increment();
  process_events();
+ if (turn.hour == 0 && turn.minute == 0 && turn.second == 0) // Midnight!
+  cur_om.process_mongroups();
+
  if (in_tutorial) {
   if (turn == 1) {
    tutorial_message(LESSON_INTRO);	// Goes through a list of intro topics
@@ -562,11 +568,6 @@ bool game::do_turn()
 // On the half-hour, we also autosave and update the weather.
   update_weather();
   save();
- }
-// at midnight, we calculate sunrise / sunset for the new day
- if (cal.hour() == 0 && cal.minute() == 0) { 
-  cal.get_sunset();
-  cal.get_sunrise();
  }
 
 // The following happens when we stay still; 10/40 minutes overdue for spawn
@@ -793,7 +794,7 @@ void game::cancel_activity_query(std::string message)
 
 void game::update_weather()
 {
- season = cal.season();
+ season_type season = turn.season;
 // Pick a new weather type (most likely the same one)
  int chances[NUM_WEATHER_TYPES];
  int total = 0;
@@ -815,7 +816,7 @@ void game::update_weather()
   new_weather = weather_type(int(new_weather) + 1);
  }
  weather = new_weather;
- if (weather == WEATHER_SUNNY && (cal.timedate > cal.sunset || cal.timedate < cal.sunrise))
+ if (weather == WEATHER_SUNNY && turn.is_night())
   weather = WEATHER_CLEAR;
 
 // Now update temperature
@@ -828,10 +829,8 @@ void game::update_weather()
  } else // 1 in 4 chance of random walk
   temperature += rng(-1, 1);
 
-// TODO: Temperature shifts based on day/nighttime
-// very basic night versus day changes as long as I'm in here
- if (cal.timedate > cal.sunset || cal.timedate < cal.sunrise)
-  temperature -= rng(-1, 2);
+ if (turn.is_night())
+  temperature += rng(-2, 1);
  else
   temperature += rng(-1, 2);
 }
@@ -1158,12 +1157,13 @@ void game::load(std::string name)
  u.name = name;
  u.ret_null = item(itypes[0], 0);
  u.weapon = item(itypes[0], 0);
- int tmprun, tmptar, tmpweather, tmptemp, comx, comy;
- fin >> turn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
-        next_faction_id >> next_mission_id >> nextspawn >> tmpweather >>
+ int tmpturn, tmpspawn, tmprun, tmptar, tmpweather, tmptemp, comx, comy;
+ fin >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
+        next_faction_id >> next_mission_id >> tmpspawn >> tmpweather >>
         tmptemp >> levx >> levy >> levz >> comx >> comy;
+ turn = tmpturn;
+ nextspawn = tmpspawn;
  cur_om = overmap(this, comx, comy, levz);
- cal.reinitialize(turn);
 // m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
  m.load(this, levx, levy);
  run_mode = tmprun;
@@ -1233,9 +1233,9 @@ void game::save()
  masterfile << "save/master.gsav";
  fout.open(playerfile.str().c_str());
 // First, write out basic game state information.
- fout << turn << " " << int(last_target) << " " << int(run_mode) << " " <<
+ fout << int(turn) << " " << int(last_target) << " " << int(run_mode) << " " <<
          mostseen << " " << nextinv << " " << next_npc_id << " " <<
-         next_faction_id << " " << next_mission_id << " " << nextspawn <<
+         next_faction_id << " " << next_mission_id << " " << int(nextspawn) <<
          " " << weather << " " << int(temperature) << " " << levx << " " <<
          levy << " " << levz << " " << cur_om.posx << " " << cur_om.posy <<
          " " << std::endl;
@@ -1363,7 +1363,7 @@ void game::debug()
    popup_top("\
 Current turn: %d; Next spawn %d.\n\
 %d monsters exist.\n\
-%d events planned.", turn, nextspawn, z.size(), events.size());
+%d events planned.", int(turn), int(nextspawn), z.size(), events.size());
    break;
  }
  erase();
@@ -1622,7 +1622,7 @@ void game::list_missions()
              umissions[selection].description.c_str());
    if (umissions[selection].deadline != 0)
     mvwprintz(w_missions, 5, 31, c_white, "Deadline: %d (%d)",
-              umissions[selection].deadline, turn);
+              umissions[selection].deadline, int(turn));
    mvwprintz(w_missions, 6, 31, c_white, "Target: (%d, %d)   You: (%d, %d)",
              umissions[selection].target.x, umissions[selection].target.y,
              (levx + 1) / 2, (levy + 1) / 2);
@@ -1714,17 +1714,9 @@ void game::draw()
  draw_HP();
  werase(w_status);
  u.disp_status(w_status);
- int minutes = cal.minute();  // One turn = 6 seconds
- int hours = cal.hour();
- int day = cal.day();
- if (hours == 12)
-  mvwprintz(w_status, 1, 41, c_white, "12:%02d PM", minutes);
- else if (hours == 0)
-  mvwprintz(w_status, 1, 41, c_white, "12:%02d AM", minutes);
- else if (hours > 12)
-  mvwprintz(w_status, 1, 41, c_white, "%d:%02d PM", hours - 12, minutes);
- else
-  mvwprintz(w_status, 1, 41, c_white, "%d:%02d AM", hours, minutes);
+ int day = turn.day;
+// TODO: Allow for a 24-hour option--already supported by calendar turn
+ mvwprintz(w_status, 1, 41, c_white, turn.print_time().c_str());
 
  oter_id cur_ter = cur_om.ter((levx + 1) / 2, (levy + 1) / 2);
  std::string tername = oterlist[cur_ter].name;
@@ -1748,12 +1740,8 @@ void game::draw()
  else if (temperature >  32)
   col_temp = c_ltblue;
  wprintz(w_status, col_temp, " %dF", temperature);
- switch (cal.season()) {
-  case SPRING: mvwprintz(w_status, 0, 41, c_white, "Spring, day %d", day);break;
-  case SUMMER: mvwprintz(w_status, 0, 41, c_white, "Summer, day %d", day);break;
-  case AUTUMN: mvwprintz(w_status, 0, 41, c_white, "Autumn, day %d", day);break;
-  case WINTER: mvwprintz(w_status, 0, 41, c_white, "Winter, day %d", day);break;
- }
+ mvwprintz(w_status, 0, 41, c_white, "%s, day %d",
+           season_name[turn.season].c_str(), turn.day + 1);
  if (run_mode != 0)
   mvwprintz(w_status, 2, 52, c_red, "RUN");
  wrefresh(w_status);
@@ -2015,19 +2003,8 @@ unsigned char game::light_level()
  if (levz < 0)	// Underground!
   ret = 1;
  else {
-  if (cal.timedate < cal.sunrise || cal.timedate > cal.sunset) {
-   if (cal.timedate < cal.sunset + 1800 && cal.timedate > cal.sunset) {
-    double twilight = (cal.timedate - cal.sunset) / 1800;
-    ret = cal.moonlight(cal.day()) + twilight * (60 - cal.moonlight(cal.day()));
-    ret -= weather_data[weather].sight_penalty;
-   } else if (cal.timedate > cal.sunrise - 1800 && cal.timedate > cal.sunrise) {
-    double twilight = (cal.sunrise - cal.timedate) / 1800;
-    ret = cal.moonlight(cal.day()) + twilight * (60 - cal.moonlight(cal.day()));
-    ret -= weather_data[weather].sight_penalty;
-   } else // moon light can be 9,6,3,1
-    ret = cal.moonlight(cal.day()) - weather_data[weather].sight_penalty;
-  } else // 60 is not a bit much!
-   ret = 60 - weather_data[weather].sight_penalty;
+  ret = turn.sunlight();
+  ret -= weather_data[weather].sight_penalty;
  }
  int flashlight = u.active_item_charges(itm_flashlight_on);
  //int light = u.light_items();
@@ -3948,6 +3925,9 @@ void game::plthrow()
   return;
  }
 
+ int sight_range = u.sight_range(light_level());
+ if (range < sight_range)
+  range = sight_range;
  int x = u.posx, y = u.posy;
  int x0 = x - range;
  int y0 = y - range;
@@ -4006,6 +3986,9 @@ void game::plfire(bool burst)
 
  int junk;
  int range = u.weapon.curammo->range;
+ int sight_range = u.sight_range(light_level());
+ if (range < sight_range)
+  range = sight_range;
  int x = u.posx, y = u.posy;
  int x0 = x - range;
  int y0 = y - range;
@@ -4364,15 +4347,20 @@ void game::unload()
 
 void game::wield()
 {
- if (u.weapon.type->id > num_items) {
+ if (u.weapon.type->id > num_items) { // Bionics
   add_msg("You cannot unwield your %s.", u.weapon.tname(this).c_str());
   return;
  }
  char ch = inv("Wield item:");
+ bool success = false;
  if (ch == '-')
-  u.wield(this, -3);
+  success = u.wield(this, -3);
  else
-  u.wield(this, u.lookup_item(ch));
+  success = u.wield(this, u.lookup_item(ch));
+
+ if (success)
+  u.recoil = 5;
+
  if (in_tutorial && u.weapon.is_gun())
   tutorial_message(LESSON_GUN_LOAD);
 }
@@ -4995,7 +4983,8 @@ mon_id game::valid_monster_from(std::vector<mon_id> group)
  int rntype = 0;
  for (int i = 0; i < group.size(); i++) {
   if (mtypes[group[i]]->frequency > 0 &&
-      turn + 900 >= mtypes[group[i]]->difficulty * 300) {
+      int(turn) + 900 >=
+          MINUTES(STARTING_MINUTES) + mtypes[group[i]]->difficulty * 300){
    valid.push_back(group[i]);
    rntype += mtypes[group[i]]->frequency;
   }

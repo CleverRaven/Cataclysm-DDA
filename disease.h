@@ -55,6 +55,9 @@ void dis_msg(game *g, dis_type type)
  case DI_FORMICATION:
   g->add_msg("There's bugs crawling under your skin!");
   break;
+ case DI_WEBBED:
+  g->add_msg("You're covered in webs!");
+  break;
  case DI_DRUNK:
  case DI_HIGH:
   g->add_msg("You feel lightheaded.");
@@ -300,7 +303,7 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_SLEEP:
   p.moves = 0;
-  if (g->turn % 25 == 0) {
+  if (int(g->turn) % 25 == 0) {
    if (p.fatigue > 0)
     p.fatigue -= 1 + rng(0, 1) * rng(0, 1);
    if (p.has_trait(PF_FASTHEALER))
@@ -313,7 +316,7 @@ void dis_effect(game *g, player &p, disease &dis)
     dis.duration = dice(3, 100);
    }
   }
-  if (g->turn % 100 == 0) {
+  if (int(g->turn) % 100 == 0) {
 // Hunger and thirst advance more slowly while we sleep.
    p.hunger--;
    p.thirst--;
@@ -416,6 +419,23 @@ void dis_effect(game *g, player &p, disease &dis)
    p.str_cur -= 2;
   break;
 
+ case DI_BADPOISON:
+  if ((!p.has_trait(PF_POISRESIST) && one_in(100)) ||
+      ( p.has_trait(PF_POISRESIST) && one_in(500))   ) {
+   if (!p.is_npc())
+    g->add_msg("You're suddenly wracked with pain!");
+   p.pain += 2;
+   p.hurt(g, bp_torso, 0, rng(0, 2));
+  }
+  p.per_cur -= 2;
+  p.dex_cur -= 2;
+  p.moves -= 10;
+  if (!p.has_trait(PF_POISRESIST))
+   p.str_cur -= 3;
+  else
+   p.str_cur--;
+  break;
+
  case DI_FOODPOISON:
   bonus = 0;
   if (p.has_trait(PF_POISRESIST))
@@ -499,14 +519,21 @@ void dis_effect(game *g, player &p, disease &dis)
   }
  } break;
 
+ case DI_WEBBED:
+  p.str_cur -= 2;
+  p.dex_cur -= 4;
+  p.moves -= 25;
+  break;
+
  case DI_FORMICATION:
   p.int_cur -= 2;
   p.str_cur -= 1;
-  if (one_in(10 * p.int_cur)) {
+  if (one_in(50 * p.int_cur)) {
    int t;
-   if (!p.is_npc())
+   if (!p.is_npc()) {
     g->add_msg("You start scratching yourself all over!");
-   else if (g->u_see(p.posx, p.posy, t))
+    g->cancel_activity();
+   } else if (g->u_see(p.posx, p.posy, t))
     g->add_msg("%s starts scratching %s all over!", p.name.c_str(),
                (p.male ? "himself" : "herself"));
    p.moves -= 150;
@@ -700,9 +727,11 @@ std::string dis_name(disease dis)
  case DI_SLIMED:	return "Slimed";
  case DI_BLIND:		return "Blind";
  case DI_POISON:	return "Poisoned";
+ case DI_BADPOISON:	return "Badly Poisoned";
  case DI_FOODPOISON:	return "Food Poisoning";
  case DI_SHAKES:	return "Shakes";
  case DI_FORMICATION:	return "Bugs Under Skin";
+ case DI_WEBBED:	return "Webbed";
  case DI_DRUNK:
   if (dis.duration > 2200) return "Wasted";
   if (dis.duration > 1400) return "Trashed";
@@ -834,6 +863,11 @@ Range of Sight: 0";
 Perception - 1;    Dexterity - 1;   Strength - 2 IF not resistant\n\
 Occasional pain and/or damage.";
 
+ case DI_BADPOISON:	return "\
+Perception - 2;    Dexterity - 2;\n\
+Strength - 3 IF not resistant, -1 otherwise\n\
+Frequent pain and/or damage.";
+
  case DI_FOODPOISON:	return "\
 Speed - 35%;     Strength - 3;     Dexterity - 1;     Perception - 1\n\
 Your stomach is extremely upset, and you keep having pangs of pain and nausea.";
@@ -845,6 +879,9 @@ Strength - 1;     Dexterity - 4;";
 Strength - 1;     Intelligence - 2;\n\
 You stop to scratch yourself frequently; high intelligence helps you resist\n\
 this urge.";
+
+ case DI_WEBBED:	return "\
+Strength - 1;     Dexterity - 4;    Speed - 25";
 
  case DI_DRUNK:
   perpen = int(dis.duration / 1000);

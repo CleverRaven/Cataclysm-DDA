@@ -21,7 +21,7 @@ struct settlement {
  int posy;
  int pop;
  int size;
- int buildings[ot_wall - ot_set_house + 1];
+ //int buildings[ot_wall - ot_set_house + 1];
 };
 
 #endif

@@ -44,6 +44,11 @@ void game::init_monitems()
  setvector(monitems[mon_dragonfly],
 	mi_bugs,	1, NULL);
  monitems[mon_centipede]	= monitems[mon_dragonfly];
+ monitems[mon_spider_wolf]	= monitems[mon_dragonfly];
+ monitems[mon_spider_web]	= monitems[mon_dragonfly];
+ monitems[mon_spider_jumping]	= monitems[mon_dragonfly];
+ monitems[mon_spider_trapdoor]	= monitems[mon_dragonfly];
+ monitems[mon_spider_widow]	= monitems[mon_dragonfly];
 
  setvector(monitems[mon_eyebot],
 	mi_robots,	4, mi_ammo,	 1,NULL);

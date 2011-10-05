@@ -7,12 +7,15 @@
 #include "mtype.h"
 #include "itype.h"
 #include "output.h"
+#include "mongroup.h"
 
 #define OMAPX 180
 #define OMAPY 180
 
 #define TUTORIAL_Z	10
 #define NETHER_Z 	20
+
+class overmap;
 
 struct oter_t {
  std::string name;
@@ -26,7 +29,8 @@ enum oter_id {
  ot_null = 0,
  ot_crater,
 // Wild terrain
- ot_field, ot_forest, ot_forest_thick, ot_forest_water, ot_hive, ot_hive_center,
+ ot_field, ot_forest, ot_forest_thick, ot_forest_water, ot_hive, ot_spider_pit,
+  ot_fungal_bloom,
 // Roads
  ot_hiway_ns, ot_hiway_ew,
  ot_road_null,
@@ -64,15 +68,10 @@ enum oter_id {
  ot_nuke_plant_entrance, ot_nuke_plant, // TODO
  ot_silo, ot_silo_finale,
  ot_temple, ot_temple_stairs, ot_temple_core, ot_temple_finale, // TODO
- ot_sewage_treatment, // TODO
-// Settlement
- ot_set_center,
- ot_set_house, ot_set_food, ot_set_weapons, ot_set_guns, ot_set_clinic,
-  ot_set_clothing, ot_set_general, ot_set_casino, ot_set_library, ot_set_lab,
-  ot_set_bionics, 
+ ot_sewage_treatment, ot_sewage_treatment_hub, ot_sewage_treatment_under,
  ot_radio_tower,
- ot_gate, ot_wall,
 // Underground terrain
+ ot_spider_pit_under,
  ot_anthill,
  ot_rock, ot_rift, ot_hellmouth,
  ot_slimepit, ot_slimepit_down,
@@ -109,7 +108,8 @@ const oter_t oterlist[num_ter_types] = {
 {"forest",		'F',	c_green,	4, true},
 {"swamp",		'F',	c_cyan,		4, true},
 {"bee hive",		'8',	c_yellow,	3, true},
-{"bee hive",		'8',	c_yellow,	3, true},
+{"forest",		'F',	c_green,	3, true}, // Spider pit
+{"fungal bloom",	'T',	c_ltgray,	2, true},
 {"highway",		'H',	c_dkgray,	2, true},
 {"highway",		'=',	c_dkgray,	2, true},
 {"BUG",			'%',	c_magenta,	0, false},
@@ -214,22 +214,11 @@ const oter_t oterlist[num_ter_types] = {
 {"strange temple",	'T',	c_pink,		5, false},
 {"strange temple",	'T',	c_pink,		5, false},
 {"strange temple",	'T',	c_yellow,	5, false},
+{"sewage treatment",	'P',	c_red,		5, false},
 {"sewage treatment",	'P',	c_green,	5, false},
-{"town center",		'O',	c_white,	2, false},
-{"living quarters",	'*',	c_ltgreen,	2, false},
-{"food market",		'*',	c_green,	2, false},
-{"weapon shop",		'*',	c_cyan,		2, false},
-{"gun shop",		'*',	c_red,		2, false},
-{"clinic",		'*',	c_ltred,	2, false},
-{"clothing store",	'*',	c_blue,		2, false},
-{"general store",	'*',	c_ltblue,	2, false},
-{"casino",		'*',	c_yellow,	2, false},
-{"library",		'*',	c_brown,	2, false},
-{"small laboratory",	'*',	c_magenta,	2, false},
-{"bionics shop",	'*',	c_ltgray,	2, false},
-{"radio tower",		'X',	c_ltgray,	2, false},
-{"city gate",		'o',	c_ltred,	5, false},
-{"wall",		'x',	c_ltgray,	5, false},
+{"sewage treatment",	'P',	c_green,	5, false},
+{"radio tower",         'X',    c_ltgray,       2, false},
+{"cavern",		'0',	c_ltgray,	2, false},
 {"anthill",		'%',	c_brown,	2, false},
 {"solid rock",		'%',	c_dkgray,	5, false},
 {"rift",		'^',	c_red,		2, false},
@@ -277,4 +266,120 @@ const oter_t oterlist[num_ter_types] = {
 {"cavern",		'0',	c_ltgray,	5, false},
 {"tutorial room",	'O',	c_cyan,		5, false}
 };
+
+// Overmap specials--these are "special encounters," dungeons, nests, etc.
+// This specifies how often and where they may be placed.
+
+// OMSPEC_FREQ determines the length of the side of the square in which each
+// overmap special will be placed.  At OMSPEC_FREQ 6, the overmap is divided
+// into 900 squares; lots of space for interesting stuff!
+#define OMSPEC_FREQ 8
+
+// Flags that determine special behavior for placement
+enum omspec_flag {
+OMS_FLAG_NULL = 0,
+OMS_FLAG_ROTATE_ROAD,	// Rotate to face road--assumes 3 following rotations
+OMS_FLAG_ROTATE_RANDOM, // Rotate randomly--assumes 3 following rotations
+OMS_FLAG_3X3,		// 3x3 square, e.g. bee hive
+OMS_FLAG_BLOB,		// Randomly shaped blob
+OMS_FLAG_BIG,		// As big as possible
+OMS_FLAG_ROAD,		// Add a road_point here; connect to towns etc.
+OMS_FLAG_PARKING_LOT,	// Add a road_point to the north of here
+NUM_OMS_FLAGS
+};
+
+struct omspec_place
+{
+// Able functions - true if p is valid
+ bool never      (overmap *om, point p) { return false; }
+ bool always     (overmap *om, point p) { return true;  }
+ bool water      (overmap *om, point p); // Only on rivers
+ bool land       (overmap *om, point p); // Only on land (no rivers)
+ bool forest     (overmap *om, point p); // Forest
+ bool wilderness (overmap *om, point p); // Forest or fields
+ bool by_highway (overmap *om, point p); // Next to existing highways
+};
+
+struct overmap_special
+{
+ oter_id ter;           // Terrain placed
+ int max_appearances;   // Max number in an overmap
+ int min_dist_from_city;// Min distance from city limits
+
+ moncat_id monsters;    // Type of monsters that appear here
+ int monster_pop_min;   // Minimum monster population
+ int monster_pop_max;   // Maximum monster population
+ int monster_rad_min;   // Minimum monster radius
+ int monster_rad_max;   // Maximum monster radius
+
+ bool (omspec_place::*able) (overmap *om, point p); // See above
+ unsigned flags : NUM_OMS_FLAGS; // See above
+};
+
+enum omspec_id
+{
+ OMSPEC_CRATER,
+ OMSPEC_HIVE,
+ OMSPEC_HOUSE,
+ OMSPEC_GAS,
+ OMSPEC_CABIN,
+ OMSPEC_LAB,
+ OMSPEC_SILO,
+ OMSPEC_RADIO,
+ OMSPEC_SEWAGE,
+ OMSPEC_ANTHILL,
+ OMSPEC_SPIDER,
+ OMSPEC_SLIME,
+ OMSPEC_FUNGUS,
+ OMSPEC_LAKE,
+ NUM_OMSPECS
+};
+
+const overmap_special overmap_specials[NUM_OMSPECS] = {
+
+{ot_crater,	  10,  0, mcat_null, 0, 0, 0, 0,
+ &omspec_place::land, mfb(OMS_FLAG_BLOB)},
+
+{ot_hive, 	  50, 10, mcat_bee, 20, 60, 2, 4,
+ &omspec_place::forest, mfb(OMS_FLAG_3X3)},
+
+{ot_house_north, 100,  0, mcat_null, 0, 0, 0, 0,
+ &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD)},
+
+{ot_s_gas_north, 100,  0, mcat_null, 0, 0, 0, 0,
+ &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD)},
+
+{ot_house_north,  50, 20, mcat_null, 0, 0, 0, 0,  // Woods cabin
+ &omspec_place::forest, mfb(OMS_FLAG_ROTATE_RANDOM)},
+
+{ot_lab_stairs,	  30,  5, mcat_null, 0, 0, 0, 0,
+ &omspec_place::land, mfb(OMS_FLAG_ROAD)},
+
+{ot_silo,	   5, 30, mcat_null, 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
+
+{ot_radio_tower, 100,  0, mcat_null, 0, 0, 0, 0,
+ &omspec_place::by_highway, 0},
+
+{ot_sewage_treatment, 10, 10, mcat_null, 0, 0, 0, 0,
+ &omspec_place::land, mfb(OMS_FLAG_PARKING_LOT)},
+
+{ot_anthill,	  30,  10, mcat_ant, 10, 30, 1000, 2000,
+ &omspec_place::wilderness, 0},
+
+{ot_spider_pit,	 500,  0, mcat_null, 0, 0, 0, 0,
+ &omspec_place::forest, 0},
+
+{ot_slimepit,	  10,  0, mcat_goo, 2, 10, 100, 200,
+ &omspec_place::land, 0},
+
+{ot_fungal_bloom,  5,  5, mcat_fungi, 600, 1200, 30, 50,
+ &omspec_place::wilderness, 0},
+
+{ot_river_center, 10, 10, mcat_null, 0, 0, 0, 0,
+ &omspec_place::always, mfb(OMS_FLAG_BLOB)}
+
+};
+ 
+
 #endif

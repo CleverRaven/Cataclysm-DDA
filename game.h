@@ -120,7 +120,7 @@ class game
   std::vector <trap*> traps;
   std::vector <itype_id> mapitems[num_itloc]; // Items at various map types
   std::vector <items_location_and_chance> monitems[num_monsters];
-  unsigned int turn;
+  calendar turn;
   char nextinv;	// Determines which letter the next inv item will have
   overmap cur_om;
   map m;
@@ -144,7 +144,6 @@ class game
   WINDOW *w_moninfo;
   WINDOW *w_messages;
   WINDOW *w_status;
-  calendar cal;
 
  private:
 // Game-start procedures
@@ -269,11 +268,10 @@ class game
   int turnssincelastmon; // turns since the last monster was spotted needed for auto run mode
   quit_status uquit;    // Set to true if the player quits ('Q')
 
-  int nextspawn;          // The turn on which monsters will spawn next.
+  calendar nextspawn; // The turn on which monsters will spawn next.
   int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
   signed char temperature;              // The air temperature
   weather_type weather;			// Weather pattern--SEE weather.h
-  season_type season;
   std::vector <std::string> messages;   // Messages to be printed
   unsigned char curmes;	  // The last-seen message.  Older than 256 is deleted.
   int grscent[SEEX * 3][SEEY * 3];	// The scent map

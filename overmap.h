@@ -52,6 +52,8 @@ class overmap
   void make_tutorial();
   void first_house(int &x, int &y);
 
+  void process_mongroups(); // Makes them die out, maybe more
+
 /* Returns the closest point of terrain type [type, type + type_range)
  * Use type_range of 4, for instance, to match all gun stores (4 rotations).
  * dist is set to the distance between the two points.
@@ -65,11 +67,12 @@ class overmap
   std::vector<point> find_all(point origin, oter_id type, int type_range,
                             int &dist, bool must_be_seen);
   std::vector<point> find_terrain(std::string term, int cursx, int cursy);
+  int dist_from_city(point p);
 // Interactive point choosing; used as the map screen
   point choose_point(game *g);
 
   oter_id& ter(int x, int y);
-  std::vector<mongroup> monsters_at(int x, int y);
+  std::vector<mongroup*> monsters_at(int x, int y);
   bool&   seen(int x, int y);
 
   bool has_note(int x, int y);
@@ -99,8 +102,6 @@ class overmap
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();
-  void place_settlements(game *g);
-  void settlement_building(settlement &set, int x, int y);
   // City Building
   void place_cities(std::vector<city> &cities, int min);
   void put_buildings(int x, int y, int dir, city town);
@@ -122,9 +123,10 @@ class overmap
   void good_road(oter_id base, int x, int y);
   void good_river(int x, int y);
   // Monsters, radios, etc.
+  void place_specials();
+  void place_special(overmap_special special, point p);
   void place_mongroups();
   void place_radios();
-  void place_NPCs(game *g);
   // File I/O
 };
 #endif

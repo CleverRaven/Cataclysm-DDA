@@ -244,6 +244,33 @@ void computer::activate_function(game *g, computer_action action)
    print_line("Doors opened.");
    break;
 
+  case COMPACT_SAMPLE:
+   for (int x = 0; x < SEEX * 3; x++) {
+    for (int y = 0; y < SEEY * 3; y++) {
+     if (g->m.ter(x, y) == t_sewage_pump) {
+      for (int x1 = x - 1; x1 = x + 1; x1++) {
+       for (int y1 = y - 1; y1 = y + 1; y1++ ) {
+        if (g->m.ter(x1, y1) == t_counter) {
+         bool found_item = false;
+         for (int i = 0; i < g->m.i_at(x1, y1).size(); i++) {
+          item *it = &(g->m.i_at(x1, y1)[i]);
+          if (it->is_container() && it->contents.empty()) {
+           it->put_in( item(g->itypes[itm_sewage], g->turn) );
+           found_item = true;
+          }
+         }
+         if (!found_item) {
+          item sewage(g->itypes[itm_sewage], g->turn);
+          g->m.add_item(x1, y1, sewage);
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+   break;
+
   case COMPACT_RELEASE:
    g->sound(g->u.posx, g->u.posy, 40, "An alarm sounds!");
    g->m.translate(t_reinforced_glass_h, t_floor);
@@ -474,6 +501,48 @@ void computer::activate_failure(game *g, computer_failure fail)
   case COMPFAIL_DAMAGE:
    g->add_msg("The console electrocutes you!");
    g->u.hurtall(rng(1, 10));
+   break;
+
+  case COMPFAIL_PUMP_EXPLODE:
+   g->add_msg("The pump explodes!");
+   for (int x = 0; x < SEEX * 3; x++) {
+    for (int y = 0; y < SEEY * 3; y++) {
+     if (g->m.ter(x, y) == t_sewage_pump) {
+      g->m.ter(x, y) = t_rubble;
+      g->explosion(x, y, 10, 0, false);
+     }
+    }
+   }
+   break;
+
+  case COMPFAIL_PUMP_LEAK:
+   g->add_msg("Sewage leaks!");
+   for (int x = 0; x < SEEX * 3; x++) {
+    for (int y = 0; y < SEEY * 3; y++) {
+     if (g->m.ter(x, y) == t_sewage_pump) {
+      point p(x, y);
+      int leak_size = rng(4, 10);
+      for (int i = 0; i < leak_size; i++) {
+       std::vector<point> next_move;
+       if (g->m.move_cost(p.x, p.y - 1) > 0)
+        next_move.push_back( point(p.x, p.y - 1) );
+       if (g->m.move_cost(p.x + 1, p.y) > 0)
+        next_move.push_back( point(p.x + 1, p.y) );
+       if (g->m.move_cost(p.x, p.y + 1) > 0)
+        next_move.push_back( point(p.x, p.y + 1) );
+       if (g->m.move_cost(p.x - 1, p.y) > 0)
+        next_move.push_back( point(p.x - 1, p.y) );
+
+       if (next_move.empty())
+        i = leak_size;
+       else {
+        p = next_move[rng(0, next_move.size() - 1)];
+        g->m.ter(p.x, p.y) = t_sewage;
+       }
+      }
+     }
+    }
+   }
    break;
  }// switch (fail)
 }

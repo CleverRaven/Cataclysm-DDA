@@ -3,6 +3,10 @@
 
 #include "weather.h"
 
+std::string season_name[4] = {
+"Spring", "Summer", "Autumn", "Winter"
+};
+
 weather_datum weather_data[NUM_WEATHER_TYPES] = {
 {"NULL Weather - BUG", c_magenta,
  {0, 0, 0, 0}, 0, 0,

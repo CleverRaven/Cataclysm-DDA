@@ -140,14 +140,14 @@ oter_id& overmap::ter(int x, int y)
  return t[x][y];
 }
 
-std::vector<mongroup> overmap::monsters_at(int x, int y)
+std::vector<mongroup*> overmap::monsters_at(int x, int y)
 {
- std::vector<mongroup> ret;
+ std::vector<mongroup*> ret;
  if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY)
   return ret;
  for (int i = 0; i < zg.size(); i++) {
   if (trig_dist(x, y, zg[i].posx, zg[i].posy) <= zg[i].radius)
-   ret.push_back(zg[i]);
+   ret.push_back(&(zg[i]));
  }
  return ret;
 }
@@ -479,13 +479,15 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
    viable_roads.erase(viable_roads.begin() + tmp);
   }
  }
-// Compile our master list of roads; it's less messy if road_points is first
+// Compile our master list of roads; it's less messy if roads_out is first
  for (int i = 0; i < roads_out.size(); i++)
   road_points.push_back(roads_out[i]);
  for (int i = 0; i < cities.size(); i++)
   road_points.push_back(cities[i]);
 // And finally connect them via "highways"
- place_hiways(road_points, ot_road_nesw);
+ place_hiways(road_points, ot_road_null);
+// Place specials
+ place_specials();
 // Make the roads out road points;
  for (int i = 0; i < roads_out.size(); i++)
   ter(roads_out[i].x, roads_out[i].y) = ot_road_nesw;
@@ -493,11 +495,7 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
  polish();
 // Place the monsters, now that the terrain is laid out
  place_mongroups();
-// We need to place settlements last, because people settle where there are no
-// monsters!
- place_settlements(g);
  place_radios();
- place_NPCs(g);
 }
 
 void overmap::generate_sub(overmap* above)
@@ -511,32 +509,57 @@ void overmap::generate_sub(overmap* above)
   for (int j = 0; j < OMAPY; j++) {
    seen(i, j) = false;	// Start by setting all squares to unseen
    ter(i, j) = ot_rock;	// Start by setting everything to solid rock
+  }
+ }
+
+ for (int i = 0; i < OMAPX; i++) {
+  for (int j = 0; j < OMAPY; j++) {
    if (above->ter(i, j) >= ot_sub_station_north &&
        above->ter(i, j) <= ot_sub_station_west) {
     ter(i, j) = ot_subway_nesw;
     subway_points.push_back(city(i, j, 0));
+
    } else if (above->ter(i, j) == ot_road_nesw_manhole) {
     ter(i, j) = ot_sewer_nesw;
     sewer_points.push_back(city(i, j, 0));
-   } else if (above->ter(i, j) == ot_anthill) {
+
+   } else if (above->ter(i, j) == ot_sewage_treatment) {
+    for (int x = i-1; x <= i+1; x++) {
+     for (int y = j-1; y <= j+1; y++) {
+      ter(x, y) = ot_sewage_treatment_under;
+     }
+    }
+    ter(i, j) = ot_sewage_treatment_hub;
+    sewer_points.push_back(city(i, j, 0));
+
+   } else if (above->ter(i, j) == ot_spider_pit)
+    ter(i, j) = ot_spider_pit_under;
+
+   else if (above->ter(i, j) == ot_anthill) {
     int size = rng(MIN_ANT_SIZE, MAX_ANT_SIZE);
     ant_points.push_back(city(i, j, size));
     zg.push_back(mongroup(mcat_ant, i * 2, j * 2, size * 1.5, rng(6000, 8000)));
+
    } else if (above->ter(i, j) == ot_slimepit_down) {
     int size = rng(MIN_GOO_SIZE, MAX_GOO_SIZE);
     goo_points.push_back(city(i, j, size));
+
    } else if (above->ter(i, j) == ot_forest_water)
     ter(i, j) = ot_cavern;
+
    else if (above->ter(i, j) == ot_lab_core ||
             (posz == -1 && above->ter(i, j) == ot_lab_stairs))
     lab_points.push_back(city(i, j, rng(1, 5 + posz)));
+
    else if (above->ter(i, j) == ot_lab_stairs)
     ter(i, j) = ot_lab;
+
    else if (above->ter(i, j) == ot_silo) {
     if (rng(2, 7) < abs(posz) || rng(2, 7) < abs(posz))
      ter(i, j) = ot_silo_finale;
     else
      ter(i, j) = ot_silo;
+
    }
   }
  }
@@ -642,6 +665,18 @@ std::vector<point> overmap::find_terrain(std::string term, int cursx, int cursy)
   }
  }
  return found;
+}
+
+int overmap::dist_from_city(point p)
+{
+ int distance = 999;
+ for (int i = 0; i < cities.size(); i++) {
+  int dist = rl_dist(p.x, p.y, cities[i].x, cities[i].y);
+  dist -= cities[i].s;
+  if (dist < distance)
+   distance = dist;
+ }
+ return distance;
 }
 
 void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy, 
@@ -971,6 +1006,16 @@ void overmap::first_house(int &x, int &y)
  x = startx;
  y = starty;
 }
+
+void overmap::process_mongroups()
+{
+ for (int i = 0; i < zg.size(); i++) {
+  if (zg[i].dying) {
+   zg[i].population *= .8;
+   zg[i].radius *= .9;
+  }
+ }
+}
   
 void overmap::place_forest()
 {
@@ -999,76 +1044,56 @@ void overmap::place_forest()
   y = fory;
 // Depending on the size on the forest...
   for (int j = 0; j < fors; j++) {
-   if (one_in(HIVECHANCE)) {	// Sometimes, a hive instead of a forest
-    int hivesize = 0;
-    for (int k = -1; k <= 1; k++) {
-     for (int l = -1; l <= 1; l++) {
-      if (ter(x + k, y + l) == ot_field || ter(x + k, y + l) == ot_forest ||
-          ter(x + k, y + l) == ot_forest_thick ||
-          ter(x + k, y + l) == ot_forest_water)
-       ter(x + k, y + l) = ot_hive;
-      if (ter(x + k, y + l) == ot_hive)
-       hivesize++;
-     }
-    }
-    if (ter(x, y) == ot_hive) {
-     zg.push_back(mongroup(mcat_bee, x * 2, y * 2, 2,
-                  hivesize * 2 + rng(0, hivesize * 4)));
-     if (hivesize == 9)
-      ter(x, y) = ot_hive_center;
-    }
-   } else {	// If it's not a hive, calculate a chance that it's swamp...
-    int swamp_chance = 0;
-    for (int k = -2; k <= 2; k++) {
-     for (int l = -2; l <= 2; l++) {
-      if (ter(x + k, y + l) == ot_forest_water ||
-          (ter(x+k, y+l) >= ot_river_center && ter(x+k, y+l) <= ot_river_nw))
-       swamp_chance += 5;
-     }  
-    }
-    bool swampy = false;
-    if (swamps > 0 && swamp_chance > 0 && !one_in(swamp_chance) &&
-        (ter(x, y) == ot_forest || ter(x, y) == ot_forest_thick ||
-         ter(x, y) == ot_field  || one_in(SWAMPCHANCE))) {
+   int swamp_chance = 0;
+   for (int k = -2; k <= 2; k++) {
+    for (int l = -2; l <= 2; l++) {
+     if (ter(x + k, y + l) == ot_forest_water ||
+         (ter(x+k, y+l) >= ot_river_center && ter(x+k, y+l) <= ot_river_nw))
+      swamp_chance += 5;
+    }  
+   }
+   bool swampy = false;
+   if (swamps > 0 && swamp_chance > 0 && !one_in(swamp_chance) &&
+       (ter(x, y) == ot_forest || ter(x, y) == ot_forest_thick ||
+        ter(x, y) == ot_field  || one_in(SWAMPCHANCE))) {
 // ...and make a swamp.
-     ter(x, y) = ot_forest_water;
-     swampy = true;
-     swamps--;
-    } else if (swamp_chance == 0)
-     swamps = SWAMPINESS;
-    if (ter(x, y) == ot_field)
-     ter(x, y) = ot_forest;
-    else if (ter(x, y) == ot_forest)
-     ter(x, y) = ot_forest_thick;
- 
-    if (swampy && (ter(x, y-1) == ot_field || ter(x, y-1) == ot_forest))
-     ter(x, y-1) = ot_forest_water;
-    else if (ter(x, y-1) == ot_forest)
-     ter(x, y-1) = ot_forest_thick;
-    else if (ter(x, y-1) == ot_field)
-     ter(x, y-1) = ot_forest;
+    ter(x, y) = ot_forest_water;
+    swampy = true;
+    swamps--;
+   } else if (swamp_chance == 0)
+    swamps = SWAMPINESS;
+   if (ter(x, y) == ot_field)
+    ter(x, y) = ot_forest;
+   else if (ter(x, y) == ot_forest)
+    ter(x, y) = ot_forest_thick;
 
-    if (swampy && (ter(x, y+1) == ot_field || ter(x, y+1) == ot_forest))
-     ter(x, y+1) = ot_forest_water;
-    else if (ter(x, y+1) == ot_forest)
-      ter(x, y+1) = ot_forest_thick;
-    else if (ter(x, y+1) == ot_field)
-      ter(x, y+1) = ot_forest;
+   if (swampy && (ter(x, y-1) == ot_field || ter(x, y-1) == ot_forest))
+    ter(x, y-1) = ot_forest_water;
+   else if (ter(x, y-1) == ot_forest)
+    ter(x, y-1) = ot_forest_thick;
+   else if (ter(x, y-1) == ot_field)
+    ter(x, y-1) = ot_forest;
 
-    if (swampy && (ter(x-1, y) == ot_field || ter(x-1, y) == ot_forest))
-     ter(x-1, y) = ot_forest_water;
-    else if (ter(x-1, y) == ot_forest)
-     ter(x-1, y) = ot_forest_thick;
-    else if (ter(x-1, y) == ot_field)
+   if (swampy && (ter(x, y+1) == ot_field || ter(x, y+1) == ot_forest))
+    ter(x, y+1) = ot_forest_water;
+   else if (ter(x, y+1) == ot_forest)
+     ter(x, y+1) = ot_forest_thick;
+   else if (ter(x, y+1) == ot_field)
+     ter(x, y+1) = ot_forest;
+
+   if (swampy && (ter(x-1, y) == ot_field || ter(x-1, y) == ot_forest))
+    ter(x-1, y) = ot_forest_water;
+   else if (ter(x-1, y) == ot_forest)
+    ter(x-1, y) = ot_forest_thick;
+   else if (ter(x-1, y) == ot_field)
      ter(x-1, y) = ot_forest;
 
-    if (swampy && (ter(x+1, y) == ot_field || ter(x+1, y) == ot_forest))
-     ter(x+1, y) = ot_forest_water;
-    else if (ter(x+1, y) == ot_forest)
-     ter(x+1, y) = ot_forest_thick;
-    else if (ter(x+1, y) == ot_field)
-     ter(x+1, y) = ot_forest;
-   }
+   if (swampy && (ter(x+1, y) == ot_field || ter(x+1, y) == ot_forest))
+    ter(x+1, y) = ot_forest_water;
+   else if (ter(x+1, y) == ot_forest)
+    ter(x+1, y) = ot_forest_thick;
+   else if (ter(x+1, y) == ot_field)
+    ter(x+1, y) = ot_forest;
 // Random walk our forest
    x += rng(-2, 2);
    if (x < 0    ) x = 0;
@@ -1079,183 +1104,6 @@ void overmap::place_forest()
   }
  }
 }
-
-void overmap::place_settlements(game *g)
-{
- int num_settlements = dice(SETTLE_DICE, SETTLE_SIDES);
- for (int i = 0; i < num_settlements; i++) {
-  settlement tmp(posx, posy);
-  tmp.posx = rng(30, OMAPX - 30);
-  tmp.posy = rng(30, OMAPY - 30);
-  for (int j = 0; j < zg.size(); j++) {
-// tmp.pos is doubled because monster groups on are a half-size scale.
-// This is the most confusing part about the scaling of the overmap.
-   int dist = trig_dist(tmp.posx*2, tmp.posy*2, zg[j].posx, zg[j].posy);
-   int rad = zg[j].radius;
-// Basically, the CENTER of the settlement can't be inside a group's radius,
-//  but the OUTSKIRTS of town certain can be.
-   while (zg[j].type != mcat_forest && dist <= rad * 1.5) {
-// tmp.pos is doubled because monster groups on are a half-size scale.
-    dist = trig_dist(tmp.posx*2, tmp.posy*2, zg[j].posx, zg[j].posy);
-    zg[j].radius;
-    tmp.posx = rng(30, OMAPX - 30);
-    tmp.posy = rng(30, OMAPY - 30);
-    j = 0;
-   }
-  }
-  tmp.set_population();
-  tmp.size = (tmp.pop < 24 ? 2 : tmp.pop / 8);
-  towns.push_back(tmp);
- }
-
- for (int i = 0; i < towns.size(); i++) {
-  for (int x = 0 - towns[i].size; x <= towns[i].size; x++) {
-// First, build a wall around the town.  TODO: Not so square?
-   if (is_wall_material(ter(x, towns[i].posy - towns[i].size)))
-    ter(towns[i].posx + x, towns[i].posy - towns[i].size) = ot_wall;
-   if (is_wall_material(ter(x, towns[i].posy + towns[i].size)))
-    ter(towns[i].posx + x, towns[i].posy + towns[i].size) = ot_wall;
-   if (is_wall_material(ter(towns[i].posx - towns[i].size, x)))
-    ter(towns[i].posx - towns[i].size, towns[i].posy + x) = ot_wall;
-   if (is_wall_material(ter(towns[i].posx + towns[i].size, towns[i].posy + x)))
-    ter(towns[i].posx + towns[i].size, towns[i].posy + x) = ot_wall;
-  }
-// Pick a side and make an entrance over there
-  switch (rng(0, 3)) {
-   case 0: ter(towns[i].posx, towns[i].posy - towns[i].size) = ot_gate; break;
-   case 1: ter(towns[i].posx + towns[i].size, towns[i].posy) = ot_gate; break;
-   case 2: ter(towns[i].posx, towns[i].posy + towns[i].size) = ot_gate; break;
-   case 3: ter(towns[i].posx - towns[i].size, towns[i].posy) = ot_gate; break;
-  }
-
-// Clear the terrain around the city, place buildings inside the city
-  for (int x = towns[i].size * -2; x <= towns[i].size * 2; x++) {
-   for (int y = towns[i].size * -2; y <= towns[i].size * 2; y++) {
-// Inside the walls, build buildings...
-    if (x >= 0 - towns[i].size + 1 && x <= towns[i].size - 1 &&
-        y >= 0 - towns[i].size + 1 && y <= towns[i].size - 1   )
-     settlement_building(towns[i], towns[i].posx + x, towns[i].posy + y);
-    else if (is_ground(ter(towns[i].posx + x, towns[i].posy + y)))
-     ter(towns[i].posx + x, towns[i].posy + y) = ot_field;// Clear terrain
-   }
-  }
-// Finally, pick a place for the town center (bulletin board, etc)
-  int center_tries = 0, cx, cy;
-  do {
-   cx = towns[i].posx + rng(towns[i].size * -1 + 1, towns[i].size - 1);
-   cy = towns[i].posy + rng(towns[i].size * -1 + 1, towns[i].size - 1);
-   if (ter(cx, cy) == ot_set_house || ter(cx, cy) == ot_field ||
-       ter(cx, cy) == ot_forest) {
-    ter(cx, cy) = ot_set_center;
-    center_tries = 10;
-   } else {
-    center_tries++;
-    if (center_tries == 10)
-     ter(cx, cy) = ot_set_center;
-   }
-  } while (center_tries != 10);
-  towns[i].populate(g);
- }
-}
-
-void overmap::place_NPCs(game *g)
-{
- npc shopkeep;
- shopkeep.omx = posx;
- shopkeep.omy = posy;
- shopkeep.omz = posz;
- int npcx, npcy;
- for (int x = 0; x < OMAPX; x++) {
-  for (int y = 0; y < OMAPY; y++) {
-   switch (ter(x, y)) {
-    case ot_set_food:
-     switch(rng(0, 3)) {
-      case 0: npcx =  5; npcy =  5; break;
-      case 1: npcx = 18; npcy =  5; break;
-      case 2: npcx =  5; npcy = 18; break;
-      case 3: npcx = 18; npcy = 18; break;
-     }
-     break;
-    case ot_set_weapons:	npcx = 11; npcy =  8; break;
-    case ot_set_guns:		npcx = 10; npcy = 12; break;
-    case ot_set_clinic:		npcx = 12; npcy =  8; break;
-    case ot_set_clothing:	npcx = 10; npcy = 15; break;
-    case ot_set_general:	npcx =  8; npcy = 14; break;
-    case ot_set_casino:		npcx = 19; npcy = 10 + 4 * rng(0, 1); break;
-    case ot_set_library:	npcx = 16; npcy = 20; break;
-    case ot_set_bionics:	npcx = 12; npcy = 15; break;
-    default:			npcx = -1; npcy = -1; break;
-   }
-   if (npcx != -1 && npcy != -1) {
-    shopkeep.mapx = x * 2;
-    shopkeep.mapy = y * 2;
-    shopkeep.posx = npcx;
-    shopkeep.posy = npcy;
-    shopkeep.make_shopkeep(g, ter(x, y));
-    npcs.push_back(shopkeep);
-   }
-  }
- }
-}
-
-void overmap::settlement_building(settlement &set, int x, int y)
-{
- std::vector<oter_id> valid;
-// Basically, one house for every five residents (rounded up).
- valid.push_back(ot_field);
- for (int i = 0; i + set.num(ot_set_house) < set.pop * 5 + 1 && i < 4; i++)
-  valid.push_back(ot_set_house);
- if (set.num(ot_set_food) * 20 < set.pop)
-  valid.push_back(ot_set_food);
- if (set.num(ot_set_weapons) * (25 - set.fact.strength) < set.pop)
-  valid.push_back(ot_set_weapons);
- if (set.num(ot_set_guns) * (20 - set.fact.strength) < set.pop)
-  valid.push_back(ot_set_guns);
- if (set.num(ot_set_clinic) * 20 < set.pop) {
-  valid.push_back(ot_set_clinic);
-  if (set.fact.has_job(FACJOB_DOCTORS)) {
-   valid.push_back(ot_set_clinic);
-   valid.push_back(ot_set_clinic);
-   valid.push_back(ot_set_clinic);
-  }
- }
- if (set.num(ot_set_clothing) * 30 < set.pop)
-  valid.push_back(ot_set_clothing);
- if (set.num(ot_set_general) * 12 < set.pop)
-  valid.push_back(ot_set_general);
- if (set.num(ot_set_lab) * 100 < set.pop &&
-     (set.fact.goal == FACGOAL_KNOWLEDGE || set.fact.has_job(FACJOB_DRUGS)))
-  valid.push_back(ot_set_lab);
- if (set.num(ot_set_bionics) * 80 < set.pop &&
-     (set.fact.has_value(FACVAL_BIONICS) || rng(50, 400) < set.fact.power))
-  valid.push_back(ot_set_bionics);
-
- if (set.fact.has_job(FACJOB_GAMBLING)) {
-  valid.push_back(ot_set_casino);
-  valid.push_back(ot_set_casino);
-  valid.push_back(ot_set_casino);
-  valid.push_back(ot_set_casino);
- }
- if (set.fact.has_value(FACVAL_BOOKS)) {
-  valid.push_back(ot_set_library);
-  valid.push_back(ot_set_library);
-  valid.push_back(ot_set_library);
-  valid.push_back(ot_set_library);
- }
- if (set.fact.goal == FACGOAL_NATURE) {
-  valid.push_back(ot_forest);
-  valid.push_back(ot_forest);
-  valid.push_back(ot_forest);
-  valid.push_back(ot_forest);
- }
- if (set.num(ot_radio_tower) == 0)
-  valid.push_back(ot_radio_tower);
-
- oter_id pick = valid[rng(0, valid.size() - 1)];
- ter(x, y) = pick;
- set.add_building(pick);
-}
- 
 
 void overmap::place_river(point pa, point pb)
 {
@@ -1323,7 +1171,7 @@ void overmap::place_cities(std::vector<city> &cities, int min)
    cities.push_back(tmp);
    start_dir = rng(0, 3);
    for (int j = 0; j < 4; j++)
-     make_road(cx, cy, cs, (start_dir + j) % 4, tmp);
+    make_road(cx, cy, cs, (start_dir + j) % 4, tmp);
   }
  }
 }
@@ -1614,6 +1462,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, oter_id base)
  int xdir, ydir;
  int tmp;
  bool bridge_is_okay = false;
+ bool found_road = false;
  do {
   next.clear(); // Clear list of valid points
   // Add valid points -- step in the right x-direction
@@ -1646,7 +1495,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, oter_id base)
     y = next[1].y;
     if (is_river(ter(x, y)))
      ter(x, y) = ot_bridge_ns;
-    else
+    else if (!is_road(base, x, y))
      ter(x, y) = base;
    } else if (next.size() == 1) { // Y must be correct, take the x-change
     if (dir == 1)
@@ -1656,7 +1505,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, oter_id base)
     y = next[0].y;
     if (is_river(ter(x, y)))
      ter(x, y) = ot_bridge_ew;
-    else
+    else if (!is_road(base, x, y))
      ter(x, y) = base;
    } else {	// More than one eligable route; pick one randomly
     if (one_in(12) &&
@@ -1683,7 +1532,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, oter_id base)
        }
        ter(x, y) = base;
       }
-     } else
+     } else if (!is_road(base, x, y))
       ter(x, y) = base;
     } else {		// Moving vertically
      if (is_river(ter(x, y))) {
@@ -1704,14 +1553,22 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, oter_id base)
        }
        ter(x, y) = base;
       }
-     } else
+     } else if (!is_road(base, x, y))
       ter(x, y) = base;
     }
    }
+/*
    if (one_in(50) && posz == 0)
     building_on_hiway(x, y, dir);
+*/
   }
- } while (x != x2 || y != y2);
+  found_road = (
+        ((ter(x, y - 1) > ot_road_null && ter(x, y - 1) < ot_river_center) ||
+         (ter(x, y + 1) > ot_road_null && ter(x, y + 1) < ot_river_center) ||
+         (ter(x - 1, y) > ot_road_null && ter(x - 1, y) < ot_river_center) ||
+         (ter(x + 1, y) > ot_road_null && ter(x + 1, y) < ot_river_center)  ) &&
+        rl_dist(x, y, x1, y2) > rl_dist(x, y, x2, y2));
+ } while ((x != x2 || y != y2) && !found_road);
 }
 
 void overmap::building_on_hiway(int x, int y, int dir)
@@ -1842,7 +1699,10 @@ bool overmap::is_road(int x, int y)
   }
  }
  if ((ter(x, y) >= ot_road_null && ter(x, y) <= ot_bridge_ew) ||
-     (ter(x, y) >= ot_subway_ns && ter(x, y) <= ot_subway_nesw))
+     (ter(x, y) >= ot_subway_ns && ter(x, y) <= ot_subway_nesw) ||
+     (ter(x, y) >= ot_sewer_ns  && ter(x, y) <= ot_sewer_nesw) ||
+     ter(x, y) == ot_sewage_treatment_hub ||
+     ter(x, y) == ot_sewage_treatment_under)
   return true;
  return false;
 }
@@ -1859,6 +1719,9 @@ bool overmap::is_road(oter_id base, int x, int y)
  } else if (base >= ot_sewer_ns && base <= ot_sewer_nesw) {
   min = ot_sewer_ns;
   max = ot_sewer_nesw;
+  if (ter(x, y) == ot_sewage_treatment_hub ||
+      ter(x, y) == ot_sewage_treatment_under )
+   return true;
  } else if (base >= ot_ants_ns && base <= ot_ants_queen) {
   min = ot_ants_ns;
   max = ot_ants_queen;
@@ -1994,7 +1857,155 @@ void overmap::good_river(int x, int y)
   }
  }
 }
-    
+
+void overmap::place_specials()
+{
+ int placed[NUM_OMSPECS];
+ for (int i = 0; i < NUM_OMSPECS; i++)
+  placed[i] = 0;
+
+ std::vector<point> sectors;
+ for (int x = 0; x < OMAPX; x += OMSPEC_FREQ) {
+  for (int y = 0; y < OMAPY; y += OMSPEC_FREQ)
+   sectors.push_back(point(x, y));
+ }
+
+ while (!sectors.empty()) {
+  int sector_pick = rng(0, sectors.size() - 1);
+  int x = sectors[sector_pick].x, y = sectors[sector_pick].y;
+  sectors.erase(sectors.begin() + sector_pick);
+  std::vector<omspec_id> valid;
+  int tries = 0;
+  point p;
+  do {
+   p = point(rng(x, x + OMSPEC_FREQ - 1), rng(y, y + OMSPEC_FREQ - 1));
+   if (p.x >= OMAPX - 1)
+    p.x = OMAPX - 2;
+   if (p.y >= OMAPY - 1)
+    p.y = OMAPY - 2;
+   if (p.x == 0)
+    p.x = 1;
+   if (p.y == 0)
+    p.y = 1;
+   for (int i = 0; i < NUM_OMSPECS; i++) {
+    omspec_place place;
+    overmap_special special = overmap_specials[i];
+    if ((placed[i] < special.max_appearances || special.max_appearances == 0) &&
+        dist_from_city(p) >= special.min_dist_from_city &&
+        (place.*special.able)(this, p))
+     valid.push_back( omspec_id(i) );
+   }
+   tries++;
+  } while (valid.empty() && tries < 15); // Done looking for valid spot
+
+  if (tries < 15) { // We found a valid spot!
+   int selection = rng(0, valid.size() - 1);
+   overmap_special special = overmap_specials[ valid[selection] ];
+   placed[ valid[selection] ]++;
+   place_special(special, p);
+  } // Done with <Found a valid spot>
+
+ } // Done picking sectors...
+}
+
+void overmap::place_special(overmap_special special, point p)
+{
+// First, place terrain...
+ ter(p.x, p.y) = special.ter;
+// Next, obey any special effects the flags might have
+ if (special.flags & mfb(OMS_FLAG_ROTATE_ROAD)) {
+  if (is_road(p.x + 1, p.y))
+   ter(p.x, p.y) = oter_id( int(ter(p.x, p.y)) + 1);
+  else if (is_road(p.x, p.y + 1))
+   ter(p.x, p.y) = oter_id( int(ter(p.x, p.y)) + 2);
+  else if (is_road(p.x - 1, p.y))
+   ter(p.x, p.y) = oter_id( int(ter(p.x, p.y)) + 3);
+ }
+
+ if (special.flags & mfb(OMS_FLAG_ROTATE_RANDOM))
+  ter(p.x, p.y) = oter_id( int(ter(p.x, p.y)) + rng(0, 3) );
+  
+ if (special.flags & mfb(OMS_FLAG_3X3)) {
+  for (int x = -1; x <= 1; x++) {
+   for (int y = -1; y <= 1; y++) {
+    if (x == 0 & y == 0)
+     y++; // Already handled
+    point np(p.x + x, p.y + y);
+    ter(np.x, np.y) = special.ter;
+   }
+  }
+ }
+
+ if (special.flags & mfb(OMS_FLAG_BLOB)) {
+  for (int x = -2; x <= 2; x++) {
+   for (int y = -2; y <= 2; y++) {
+    if (x == 0 && y == 0)
+     y++; // Already handled
+    omspec_place place;
+    point np(p.x + x, p.y + y);
+    if (one_in(1 + abs(x) + abs(y)) && (place.*special.able)(this, np))
+     ter(p.x + x, p.y + y) = special.ter;
+   }
+  }
+ }
+
+ if (special.flags & mfb(OMS_FLAG_BIG)) {
+  for (int x = -3; x <= 3; x++) {
+   for (int y = -3; y <= 3; y++) {
+    if (x == 0 && y == 0)
+     y++; // Already handled
+    omspec_place place;
+    point np(p.x + x, p.y + y);
+    if ((place.*special.able)(this, np))
+     ter(p.x + x, p.y + y) = special.ter;
+     ter(p.x + x, p.y + y) = special.ter;
+   }
+  }
+ }
+
+ if (special.flags & mfb(OMS_FLAG_ROAD)) {
+  int closest = -1, distance = 999;
+  for (int i = 0; i < cities.size(); i++) {
+   int dist = rl_dist(p.x, p.y, cities[i].x, cities[i].y);
+   if (dist < distance) {
+    closest = i;
+    distance = dist;
+   }
+  }
+  make_hiway(p.x, p.y, cities[closest].x, cities[closest].y, ot_road_null);
+ }
+
+ if (special.flags & mfb(OMS_FLAG_PARKING_LOT)) {
+  int closest = -1, distance = 999;
+  for (int i = 0; i < cities.size(); i++) {
+   int dist = rl_dist(p.x, p.y, cities[i].x, cities[i].y);
+   if (dist < distance) {
+    closest = i;
+    distance = dist;
+   }
+  }
+  ter(p.x, p.y - 1) = ot_s_lot;
+  make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, ot_road_null);
+ }
+
+// Finally, place monsters if applicable
+ if (special.monsters != mcat_null) {
+  if (special.monster_pop_min == 0 || special.monster_pop_max == 0 ||
+      special.monster_rad_min == 0 || special.monster_rad_max == 0   ) {
+   debugmsg("Overmap special %s has bad spawn: pop(%d, %d) rad(%d, %d)",
+            oterlist[special.ter].name.c_str(), special.monster_pop_min,
+            special.monster_pop_max, special.monster_rad_min,
+            special.monster_rad_max);
+   return;
+  }
+       
+  int population = rng(special.monster_pop_min, special.monster_pop_max);
+  int radius     = rng(special.monster_rad_min, special.monster_rad_max);
+  zg.push_back(
+     mongroup(special.monsters, p.x * 2, p.y * 2, radius, population));
+ }
+}
+
 void overmap::place_mongroups()
 {
 // Cities are full of zombies
@@ -2003,24 +2014,6 @@ void overmap::place_mongroups()
    zg.push_back(
 	mongroup(mcat_zombie, (cities[i].x * 2), (cities[i].y * 2),
 	         int(cities[i].s * 2.5), cities[i].s * 80));
- }
-
-// Lots of random anthills
- for (int n = 0; n < 30; n++) {
-  int x = rng(MAX_ANT_SIZE * 2, OMAPX - MAX_ANT_SIZE * 2);
-  int y = rng(MAX_ANT_SIZE * 2, OMAPY - MAX_ANT_SIZE * 2);
-  bool is_okay = true;
-  for (int i = -2; i <= 2 && is_okay; i++) {
-   for (int j = -2; j <= 2 && is_okay; j++) {
-    if (ter(x + i, y + j) != ot_field)
-     is_okay = false;
-   }
-  }
-  if (is_okay) {
-   ter(x, y) = ot_anthill;
-   zg.push_back(
-	mongroup(mcat_ant, x * 2, y * 2, dice(6, 6), rng(1000, 2000)));
-  }
  }
 
 // Figure out where swamps are, and place swamp monsters
@@ -2038,30 +2031,6 @@ void overmap::place_mongroups()
   }
  }
 
-// Place slimepits
- for (int i = 0; i < 15; i++) {
-  int x = rng(MAX_GOO_SIZE * 2, OMAPX - MAX_GOO_SIZE * 2);
-  int y = rng(MAX_GOO_SIZE * 2, OMAPY - MAX_GOO_SIZE * 2);
-  if (ter(x, y) == ot_field)
-   ter(x, y) = ot_slimepit_down;
- }
-
-// Place a silo or six
- for (int n = 0; n < 6; n++) {
-  int x = rng(3, OMAPX - 4);
-  int y = rng(3, OMAPY - 4);
-  bool okay = true;
-  for (int i = x - 3; i <= x + 3 && okay; i++) {
-   for (int j = y - 3; j <= y + 3 && okay; j++) {
-    if (ter(i, j) != ot_field && ter(i, j) != ot_forest &&
-        ter(i, j) != ot_forest_thick && ter(i, j) != ot_forest_water)
-     okay = false;
-   }
-  }
-  if (okay)
-   ter(x, y) = ot_silo;
- }
- 
 // Place the "put me anywhere" groups
  int numgroups = rng(0, 3);
  for (int i = 0; i < numgroups; i++) {
@@ -2076,12 +2045,14 @@ void overmap::place_mongroups()
 	mongroup(mcat_plants, rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1),
 	         rng(30, 50), rng(800, 1300)));
  }
+/*
  numgroups = rng(0, 7);
  for (int i = 0; i < numgroups; i++) {
   zg.push_back(
 	mongroup(mcat_fungi, rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1),
 	         rng(20, 30), rng(400, 800)));
  }
+*/
 // Forest groups cover the entire map
  zg.push_back(
 	mongroup(mcat_forest, 0, OMAPY, OMAPY,
@@ -2103,7 +2074,8 @@ void overmap::place_radios()
   for (int j = 0; j < OMAPY; j++) {
    if (ter(i, j) == ot_radio_tower)
     radios.push_back(radio_tower(i*2, j*2, rng(80, 200),
-                     "This is the debug Radio Tower Msg"));
+   "This is the emergency broadcast system.  Please proceed quickly and calmly \
+to your designated evacuation point."));
   }
  }
 }
@@ -2308,4 +2280,43 @@ void overmap::open(game *g, int x, int y, int z)
    delete pointers[i];
   save(g->u.name, x, y, z);
  }
+}
+
+
+// Overmap special placement functions
+
+bool omspec_place::water(overmap *om, point p)
+{
+ oter_id ter = om->ter(p.x, p.y);
+ return (ter >= ot_river_center && ter <= ot_river_nw);
+}
+
+bool omspec_place::land(overmap *om, point p)
+{
+ oter_id ter = om->ter(p.x, p.y);
+ return (ter < ot_river_center || ter > ot_river_nw);
+}
+
+bool omspec_place::forest(overmap *om, point p)
+{
+ oter_id ter = om->ter(p.x, p.y);
+ return (ter == ot_forest || ter == ot_forest_thick || ter == ot_forest_water);
+}
+
+bool omspec_place::wilderness(overmap *om, point p)
+{
+ oter_id ter = om->ter(p.x, p.y);
+ return (ter == ot_forest || ter == ot_forest_thick || ter == ot_forest_water ||
+         ter == ot_field);
+}
+
+bool omspec_place::by_highway(overmap *om, point p)
+{
+ oter_id north = om->ter(p.x, p.y - 1), east = om->ter(p.x + 1, p.y),
+         south = om->ter(p.x, p.y + 1), west = om->ter(p.x - 1, p.y);
+
+ return ((north == ot_hiway_ew || north == ot_road_ew) ||
+         (east  == ot_hiway_ns || east  == ot_road_ns) ||
+         (south == ot_hiway_ew || south == ot_road_ew) ||
+         (west  == ot_hiway_ns || west  == ot_road_ns)   );
 }

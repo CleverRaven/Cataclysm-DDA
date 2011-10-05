@@ -58,6 +58,7 @@ public:
  int damage_bash();
  int damage_cut();
  bool has_flag(item_flag f);
+ bool goes_bad();
  bool rotten(game *g);
 
 // Our value as a weapon, given particular skills

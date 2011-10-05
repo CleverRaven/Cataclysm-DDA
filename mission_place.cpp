@@ -11,10 +11,10 @@ bool mission_place::danger(game *g, int posx, int posy)
 bool mission_place::get_jelly(game *g, int posx, int posy)
 {
 // First, make sure there's fungaloids here to cause the infection.
- std::vector<mongroup> monsters = g->cur_om.monsters_at(posx, posy);
+ std::vector<mongroup*> monsters = g->cur_om.monsters_at(posx, posy);
  bool found_fungus = false;
  for (int i = 0; i < monsters.size(); i++) {
-  if (monsters[i].type == mcat_fungi) {
+  if (monsters[i]->type == mcat_fungi) {
    found_fungus = true;
    i = monsters.size();
   }
@@ -23,7 +23,7 @@ bool mission_place::get_jelly(game *g, int posx, int posy)
   return false;
 // Now, make sure there's a bee hive close enough.
  int dist = MAX_HIVE_DIST;
- point hive = g->cur_om.find_closest(point(posx, posy), ot_hive_center, 1, dist,
+ point hive = g->cur_om.find_closest(point(posx, posy), ot_hive, 1, dist,
                                      false);
  if (hive.x == -1)
   return false;

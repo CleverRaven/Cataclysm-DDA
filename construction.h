@@ -36,6 +36,7 @@ struct construct // Construction functions.
  bool able_always(game *, point) { return true;  }
  bool able_never (game *, point) { return false; }
  bool able_empty (game *, point); // Able if tile is empty
+ bool able_broken_window(game *, point); // Able if tile is broken window
  bool able_wall  (game *, point); // Able if tile is wall
  bool able_wall_wood(game *g, point); // Only player-built walls
  bool able_between_walls(game *, point); // Flood-fill contained by walls

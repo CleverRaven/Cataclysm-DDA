@@ -23,9 +23,11 @@ enum items_location {
  mi_chemistry, mi_teleport, mi_goo, mi_cloning_vat, mi_dissection,
  mi_hydro, mi_electronics, mi_monparts, mi_bionics,
  mi_weapons, mi_survival_armor, mi_survival_tools,
+ mi_sewage_plant,
  mi_radio,
  mi_subway, mi_sewer,
  mi_cavern,
+ mi_spider,
  mi_ant_food, mi_ant_egg,
 // Monster drops
  mi_bugs, mi_bees, mi_wasps, mi_robots,

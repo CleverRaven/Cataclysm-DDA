@@ -51,6 +51,10 @@ void game::init_construction()
   STAGE(t_dirt, 5);
    TOOL(itm_shovel, NULL);
 
+ CONSTRUCT("Clean Broken Window", 0, &construct::able_broken_window,
+                                     &construct::done_nothing);
+  STAGE(t_window_empty, 8);
+
  CONSTRUCT("Build Wall", 2, &construct::able_empty, &construct::done_nothing);
   STAGE(t_wall_half, 10);
    TOOL(itm_hammer, itm_nailgun, NULL);
@@ -414,56 +418,105 @@ void game::complete_construction()
    for (int j = 0; j < stage.components[i].size(); j++) {
     component comp = stage.components[i][j];
     if (itypes[comp.type]->is_ammo()) {
-     if (u.has_charges(comp.type, comp.count))
+// Check if we have components in both locations and enough to do the job
+     if ((u.inv.charges_of(comp.type) + map_inv.charges_of(comp.type)) >= comp.count &&
+	u.inv.charges_of(comp.type) > 0 && map_inv.charges_of(comp.type) > 0) {
       player_has.push_back(comp);
-     if (map_inv.has_charges(comp.type, comp.count))
       map_has.push_back(comp);
+// If not, check to see if either location has enough
+     } else {
+      if (u.has_charges(comp.type, comp.count)) {
+       player_has.push_back(comp);
+// dummy component to make our indexes line up
+       map_has.push_back(comp);
+       map_has[0].count = 0;
+      } else if (map_inv.has_charges(comp.type, comp.count)) {
+       map_has.push_back(comp);
+       player_has.push_back(comp);
+       player_has[0].count = 0;
+      }
+     }
     } else {
-     if (u.has_amount(comp.type, comp.count))
-      player_has.push_back(comp);
-     if (map_inv.has_amount(comp.type, comp.count))
-      map_has.push_back(comp);
+// repeat the above
      if ((u.inv.amount_of(comp.type) + map_inv.amount_of(comp.type)) >= comp.count &&
 	u.inv.amount_of(comp.type) > 0 && map_inv.amount_of(comp.type) > 0) {
       player_has.push_back(comp);
       map_has.push_back(comp);
+     } else {
+      if (u.has_amount(comp.type, comp.count)) {
+       player_has.push_back(comp);
+       map_has.push_back(comp);
+       map_has[0].count = 0;
+      } else if (map_inv.has_amount(comp.type, comp.count)) {
+       map_has.push_back(comp);
+       player_has.push_back(comp);
+       player_has[0].count = 0;
+      }
      }
     }
    }
 
-   if (player_has.size() == 0 && map_has.size() == 1)
+   if (player_has[0].count == 0 && map_has[0].count > 0)
 // One on map, none in inventory, default to the one in the map
-    map_use.push_back(map_has[0]);
+    map_use.push_back(map_has[i]);
 
-   else if (player_has.size() == 1 && map_has.size() == 0)
+   else if (player_has[0].count > 0 && map_has[0].count == 0)
 // One in inventory, none on map, default to the one in inventory
-    player_use.push_back(player_has[0]);
+    player_use.push_back(player_has[i]);
 
    else { // Let the player pick which component they want to use
     std::vector<std::string> options; // List for the menu_vec below
 // Populate options with the names of the items
     for (int j = 0; j < map_has.size(); j++) {
-     std::string tmpStr = itypes[map_has[j].type]->name + " (nearby)";
-     options.push_back(tmpStr);
+     if (map_has[j].count != 0) {
+      std::string tmpStr = itypes[map_has[j].type]->name + " (nearby)";
+      options.push_back(tmpStr);
+     }
     }
     for (int j = 0; j < player_has.size(); j++)
-     options.push_back(itypes[player_has[j].type]->name);
+     if (player_has[j].count != 0) 
+      options.push_back(itypes[player_has[j].type]->name);
 // Get the selection via a menu popup
     int selection = menu_vec("Use which component first?", options) - 1;
     if (selection < map_has.size()) {
+// Since we have dummy components, need to weed them out
+     while(map_has[selection].count == 0)
+      selection++;
      map_use.push_back(map_has[selection]);
-     if (map_inv.amount_of(map_has[i].type) < map_has[i].count) {
-      player_use.push_back(player_has[i]);
-      player_use[player_use.size()-1].count -= map_inv.amount_of(map_has[i].type);
-      map_use[map_use.size()-1].count = map_inv.amount_of(map_has[i].type);
+// check if it's ammo
+     if (itypes[map_use[map_use.size()-1].type]->is_ammo()) {
+// if not enough on the ground, we have to pull from inventory
+      if (map_inv.charges_of(map_use[map_use.size()-1].type) < map_has[0].count) {
+       player_use.push_back(player_has[0]);
+       player_use[player_use.size()-1].count -= map_inv.charges_of(map_has[0].type);
+       map_use[map_use.size()-1].count = map_inv.charges_of(map_has[0].type);
+      }
+// not enough on the ground. go to inventory
+     } else if (map_inv.amount_of(map_has[0].type) < map_has[0].count) {
+      player_use.push_back(player_has[0]);
+      player_use[player_use.size()-1].count -= map_inv.amount_of(map_has[0].type);
+      map_use[map_use.size()-1].count = map_inv.amount_of(map_has[0].type);
      } 
+// not a map selection
     } else {
      selection -= map_has.size();
+// weed out dummies
+     while(player_has[selection].count == 0)
+      selection++;
      player_use.push_back(player_has[selection]);
-     if (u.inv.amount_of(player_has[i].type) < player_has[i].count) {
-      map_use.push_back(map_has[i]);
-      map_use[map_use.size()-1].count -= u.inv.amount_of(player_has[i].type);
-      player_use[player_use.size()-1].count = u.inv.amount_of(player_has[i].type);
+// ammo
+     if (itypes[player_use[player_use.size()-1].type]->is_ammo()) {
+// grab from the ground if required
+      if (u.inv.charges_of(player_use[player_use.size()-1].type) < player_has[0].count) {
+       map_use.push_back(map_has[0]);
+       map_use[map_use.size()-1].count -= u.inv.charges_of(player_has[0].type);
+       player_use[player_use.size()-1].count = u.inv.charges_of(player_has[0].type);
+      }
+// not ammo & we don't have enough in pockets
+     } else if (u.inv.amount_of(player_has[0].type) < player_has[0].count) {
+      map_use.push_back(map_has[0]);
+      map_use[map_use.size()-1].count -= u.inv.amount_of(player_use[player_use.size()-1].type);
+      player_use[player_use.size()-1].count = u.inv.amount_of(player_has[0].type);
      }
     }
    }
@@ -505,6 +558,11 @@ void game::complete_construction()
 bool construct::able_empty(game *g, point p)
 {
  return (g->m.move_cost(p.x, p.y) == 2);
+}
+
+bool construct::able_broken_window(game *g, point p)
+{
+ return (g->m.ter(p.x, p.y) == t_window_frame);
 }
 
 bool construct::able_wall(game *g, point p)

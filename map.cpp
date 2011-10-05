@@ -722,7 +722,7 @@ void map::process_active_items(game *g)
     if (i_at(i, j)[n].active) {
      tmp = dynamic_cast<it_tool*>(i_at(i, j)[n].type);
      (use.*tmp->use)(g, &(g->u), &i_at(i, j)[n], true);
-     if (tmp->turns_per_charge > 0 && g->turn % tmp->turns_per_charge == 0)
+     if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0)
       i_at(i, j)[n].charges--;
      if (i_at(i, j)[n].charges <= 0) {
       (use.*tmp->use)(g, &(g->u), &i_at(i, j)[n], false);
@@ -1326,7 +1326,7 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
 // Load turn number
   mapin >> old_turn;
 // Turns since last visited
-  int turndif = (g->turn > old_turn ? g->turn - old_turn : 0);
+  int turndif = (int(g->turn) > old_turn ? int(g->turn) - old_turn : 0);
   mapin.getline(line, 1);
 // Load terrain
   for (int j = 0; j < SEEY; j++) {
@@ -1402,7 +1402,7 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
    newmapy = worldy + gridy;
   if (worldx + gridx < 0)
    newmapx = worldx + gridx;
-  tmp_map.generate(g, &(g->cur_om), newmapx, newmapy, g->turn);
+  tmp_map.generate(g, &(g->cur_om), newmapx, newmapy, int(g->turn));
   mapin.close();
   return false;
  }
@@ -1426,8 +1426,8 @@ void map::spawn_monsters(game *g)
      tmp.spawnmapy = g->levy;
      int fx = mx + gx * SEEX, fy = my + gy * SEEY;
 
-     while ((!g->is_empty(fx, fy) || !tmp.can_move_to(g->m, fx, fy) ||
-             sees(g->u.posx, g->u.posy, fx, fy, SEEX, t)) && tries < 10) {
+     while ((!g->is_empty(fx, fy) || !tmp.can_move_to(g->m, fx, fy)) && 
+            tries < 10) {
       mx = grid[n].spawns[i].posx + rng(-3, 3);
       my = grid[n].spawns[i].posy + rng(-3, 3);
       fx = mx + gx * SEEX;
