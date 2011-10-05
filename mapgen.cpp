@@ -2685,6 +2685,50 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   }
   break;
 
+ case ot_radio_tower:
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++)
+    ter(i, j) = grass_or_dirt();
+  }
+  lw = rng(1, SEEX * 2 - 2);
+  tw = rng(1, SEEY * 2 - 2);
+  for (int i = lw; i < lw + 4; i++) {
+   for (int j = tw; j < tw + 4; j++)
+    ter(i, j) = t_radio_tower;
+  }
+  rw = -1;
+  bw = -1;
+  if (lw <= 4)
+   rw = rng(lw + 5, 10);
+  else if (lw >= 16)
+   rw = rng(3, lw - 13);
+  if (tw <= 3)
+   bw = rng(tw + 5, 10);
+  else if (tw >= 16)
+   bw = rng(3, tw - 7);
+  if (rw != -1 && bw != -1) {
+   for (int i = rw; i < rw + 12; i++) {
+    for (int j = bw; j < bw + 6; j++) {
+     if (j == bw || j == bw + 5)
+      ter(i, j) = t_wall_h;
+     else if (i == rw || i == rw + 11)
+      ter(i, j) = t_wall_v;
+     else if (j == bw + 1)
+      ter(i, j) = t_counter;
+     else
+      ter(i, j) = t_floor;
+    }
+   }
+   cw = rng(rw + 2, rw + 8);
+   ter(cw, bw + 5) = t_window;
+   ter(cw + 1, bw + 5) = t_window;
+   ter(rng(rw + 2, rw + 8), bw + 5) = t_door_c;
+   ter(rng(rw + 2, rw + 8), bw + 1) = t_radio_controls;
+   place_items(mi_radio, 60, rw + 1, bw + 2, rw + 10, bw + 4, true, 0);
+  } else	// No control room... simple controls near the tower
+   ter(rng(lw, lw + 3), tw + 4) = t_radio_controls;
+  break;
+
  case ot_sub_station_north:
  case ot_sub_station_east:
  case ot_sub_station_south:
