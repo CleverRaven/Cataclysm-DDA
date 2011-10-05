@@ -6,7 +6,7 @@ mission mission_type::create(game *g)
  mission ret;
  ret.type = this;
  if (deadline_low != 0 || deadline_high != 0)
-  ret.deadline = g->turn + rng(deadline_low, deadline_high);
+  ret.deadline = int(g->turn) + rng(deadline_low, deadline_high);
  else
   ret.deadline = 0;
 

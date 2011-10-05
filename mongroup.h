@@ -27,6 +27,7 @@ struct mongroup {
  int posx, posy;
  unsigned char radius;
  unsigned int population;
+ bool dying;
  mongroup(moncat_id ptype, int pposx, int pposy, unsigned char prad,
           unsigned int ppop) {
   type = ptype;
@@ -34,6 +35,7 @@ struct mongroup {
   posy = pposy;
   radius = prad;
   population = ppop;
+  dying = false;
  }
 };
 

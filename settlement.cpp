@@ -11,8 +11,10 @@ settlement::settlement()
  posy = 0;
  size = 0;
  pop = 0;
+/*
  for (int i = 0; i < ot_wall - ot_set_house + 1; i++)
   buildings[i] = 0;
+*/
 }
 
 settlement::settlement(int mapx, int mapy)
@@ -22,8 +24,10 @@ settlement::settlement(int mapx, int mapy)
  posy = mapy;
  size = 0;
  pop = 0;
+/*
  for (int i = 0; i < ot_wall - ot_set_house + 1; i++)
   buildings[i] = 0;
+*/
 }
 
 void settlement::set_population()
@@ -36,17 +40,23 @@ void settlement::set_population()
 
 int settlement::num(oter_id ter)
 {
+ return -1;
+/*
  if (ter < ot_set_house || ter > ot_wall) {
   debugmsg("settlement::num requested bad oter_id (%s)",
            oterlist[ter].name.c_str());
   return -1;
  }
  return buildings[ter - ot_set_house];
+*/
 }
 
 void settlement::add_building(oter_id ter)
 {
+ return;
+/*
  if (ter < ot_set_house || ter > ot_wall)
   return;
  buildings[ter - ot_set_house]++;
+*/
 }

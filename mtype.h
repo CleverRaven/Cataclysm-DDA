@@ -33,6 +33,7 @@ mon_zombie, mon_zombie_shrieker, mon_zombie_spitter, mon_zombie_electric,
 mon_triffid, mon_triffid_young, mon_triffid_queen,
 // Fungaloids
 mon_fungaloid, mon_fungaloid_dormant, mon_fungaloid_young, mon_spore,
+ mon_fungaloid_queen, mon_fungal_wall,
 // Blobs
 mon_blob, mon_blob_small,
 // Sewer mutants
@@ -42,6 +43,9 @@ mon_sewer_fish, mon_sewer_snake, mon_sewer_rat,
 // Swamp monsters
 mon_mosquito, mon_dragonfly, mon_centipede, mon_frog, mon_slug,
  mon_dermatik_larva, mon_dermatik,
+// SPIDERS
+mon_spider_wolf, mon_spider_web, mon_spider_jumping, mon_spider_trapdoor,
+ mon_spider_widow,
 // Subspace monsters
 mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
  mon_flaming_eye, mon_kreck, mon_blank, mon_gozu,
@@ -81,6 +85,8 @@ MF_BASHES,	// Bashes down doors
 MF_DESTROYS,	// Bashes down walls and more
 MF_POISON,	// Poisonous to eat
 MF_VENOM,	// Attack may poison the player
+MF_BADVENOM,	// Attack may SEVERELY poison the player
+MF_WEBWALK,	// Doesn't destroy webs
 MF_DIGS,	// Digs through the ground
 MF_FLIES,	// Can fly (over water, etc)
 MF_AQUATIC,	// Confined to water
@@ -98,6 +104,7 @@ MF_FUR,		// May produce fur when butchered.
 MF_LEATHER,	// May produce leather when butchered
 MF_IMMOBILE,	// Doesn't move (e.g. turrets)
 MF_FRIENDLY_SPECIAL, // Use our special attack, even if friendly
+MF_QUEEN,	// When it dies, local populations start to die off too
 MF_MAX		// Sets the length of the flags - obviously MUST be last
 };
 

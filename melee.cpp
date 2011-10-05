@@ -296,7 +296,7 @@ int player::hit_mon(game *g, monster *z)
      turns_stunned = 6;
     z->add_effect(ME_STUNNED, turns_stunned);
    }
-   if (cutting) {
+   if (cutting || stabbing) {
     double cut_multiplier = double(sklevel[sk_cutting] / 12);
     if (cut_multiplier > 1.5)
      cut_multiplier = 1.5;
@@ -317,7 +317,7 @@ int player::hit_mon(game *g, monster *z)
       g->add_msg("%s %s cuts the %s deeply!", Your.c_str(),
                  weapon.tname(g).c_str(), z->name().c_str());
     }
-   } else {	// Not cutting, probably bashing
+   } else if (bashing) {
     headshot &= z->hp < dam;
     if (headshot && can_see)
      g->add_msg("%s crush%s the %s's skull!", You.c_str(), (is_u ? "" : "es"),

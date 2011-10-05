@@ -150,7 +150,7 @@ bool item::stacks_with(item rhs)
  bool stacks = (type   == rhs.type   && damage  == rhs.damage  &&
                 active == rhs.active && charges == rhs.charges &&
                 contents.size() == rhs.contents.size() &&
-                (!is_food() || bday == rhs.bday));
+                (!goes_bad() || bday == rhs.bday));
 
  if (contents.size() != rhs.contents.size())
   return false;
@@ -530,7 +530,7 @@ std::string item::tname(game *g)
  else if (is_food_container())
   food = dynamic_cast<it_comest*>(contents[0].type);
  if (food != NULL && g != NULL && food->spoils != 0 &&
-     g->turn - bday > food->spoils * 600)
+     int(g->turn) - bday > food->spoils * 600)
   ret << " (rotten)";
 
 
@@ -633,7 +633,15 @@ bool item::rotten(game *g)
  if (!is_food() || g == NULL)
   return false;
  it_comest* food = dynamic_cast<it_comest*>(type);
- return (food->spoils != 0 && g->turn - bday > food->spoils * 600);
+ return (food->spoils != 0 && int(g->turn) - bday > food->spoils * 600);
+}
+
+bool item::goes_bad()
+{
+ if (!is_food())
+  return false;
+ it_comest* food = dynamic_cast<it_comest*>(type);
+ return (food->spoils != 0);
 }
 
 int item::weapon_value(int skills[num_skill_types])

@@ -67,7 +67,7 @@ void addict_effect(game *g, addiction &add)
   break;
 
  case ADD_PKILLER:
-  if ((in >= 25 || g->turn % (100 - in * 4) == 0) && g->u.pkill > 0)
+  if ((in >= 25 || int(g->turn) % (100 - in * 4) == 0) && g->u.pkill > 0)
    g->u.pkill--;	// Tolerance increases!
   if (g->u.pkill >= 35) // No further effects if we're doped up.
    add.sated = 0;
@@ -103,7 +103,7 @@ void addict_effect(game *g, addiction &add)
   g->u.moves -= move_pen;
   g->u.int_cur--;
   g->u.str_cur--;
-  if (in >= 20 || g->turn % (100 - in * 5) == 0)
+  if (in >= 20 || int(g->turn) % (100 - in * 5) == 0)
    g->u.stim--;
   if (rng(0, 150) <= in)
    g->u.health--;

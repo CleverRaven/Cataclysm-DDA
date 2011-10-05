@@ -427,6 +427,10 @@ void monster::hit_player(game *g, player &p)
    if (!is_npc)
     g->add_msg("You're poisoned!");
    p.add_disease(DI_POISON, 30, g);
+  } else if (has_flag(MF_BADVENOM)) {
+   if (!is_npc)
+    g->add_msg("You feel poison flood your body, wracking you with pain...");
+   p.add_disease(DI_BADPOISON, 40, g);
   }
  }
  if (is_npc) {

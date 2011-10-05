@@ -117,7 +117,7 @@ mandibles."
 );
 
 mon("queen ant",	'a',	c_ltred,	MS_LARGE,	FLESH,
-	(mfb(MF_SMELLS)),
+	(mfb(MF_SMELLS)|mfb(MF_QUEEN)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	  0, 13,  2, 60,  6,  3,  4,  4,  1, 14,-40,180, 5,
 	&mdeath::normal,	&mattack::antqueen, "\
@@ -303,7 +303,7 @@ and it dribbles a gray sludge from its mouth."
 mon("skeleton",		'Z',	c_white,	MS_MEDIUM,	STONE,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_HARDTOSHOOT)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  7,  8,  5, 90, 10,  1,  5,  3,  2, 30,  0, 40, 0,
+	  7,  8,  5, 90, 10,  1,  5,  3,  2, 15,  0, 40, 0,
 	&mdeath::normal,	&mattack::none, "\
 A skeleton picked clean of all but a few\n\
 rotten scraps of flesh, somehow still in\n\
@@ -406,6 +406,27 @@ mon("spore",		'o',	c_ltgray,	MS_TINY,	VEGGY,
 	&mdeath::disintegrate,	&mattack::plant, "\
 A wispy spore, about the size of a fist,\n\
 wafting on the breeze."
+);
+
+mon("fungal spire",	'T',	c_ltgray,	MS_HUGE,	VEGGY,
+	mfb(MF_NOHEAD)|mfb(MF_POISON)|mfb(MF_IMMOBILE)|mfb(MF_QUEEN),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  0, 40,  5,100,  0,  0,  0,  0,  0, 10,  0,300, 5,
+	&mdeath::fungus,	&mattack::fungus_sprout, "\
+An enormous fungal spire, towering 30 feet\n\
+above the ground.  It pulsates slowly,\n\
+continuously growing new defenses."
+);
+
+mon("fungal wall",	'F',	c_dkgray,	MS_HUGE,	VEGGY,
+	mfb(MF_NOHEAD)|mfb(MF_POISON)|mfb(MF_IMMOBILE),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  0,  5,  0,100,  0,  0,  0,  0,  0, 10,  0, 60, 3,
+	&mdeath::disintegrate,	&mattack::fungus, "\
+A veritable wall of fungus, grown as a\n\
+natural defense by the fungal spire. It\n\
+looks very tough, and spews spores at an\n\
+alarming rate."
 );
 
 // BLOBS & SLIMES &c
@@ -566,6 +587,60 @@ mutated wasps.  It does not looke very\n\
 threatening, but has a large ovipositor in\n\
 place of a sting."
 );
+
+
+// SPIDERS
+mon("wolf spider",	's',	c_brown,	MS_MEDIUM,	FLESH,
+	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_VENOM)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  1, 20,  4,110, 7,   1,  1,  8,  6,  8,-70, 40, 0,
+	&mdeath::normal,	&mattack::none, "\
+A large, brown spider, which moves quickly\n\
+and aggresively."
+);
+
+mon("web spider",	's',	c_yellow,	MS_SMALL,	FLESH,
+	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_VENOM)|mfb(MF_WEBWALK)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  1, 16,  3,120,  5,  1,  1,  7,  5,  7,-70, 35, 0,
+	&mdeath::normal,	&mattack::none, "\
+A yellow spider the size of a dog.  It lives\n\
+in webs, waiting for prey to become\n\
+entangled before pouncing and biting."
+);
+
+mon("jumping spider",	's',	c_white,	MS_SMALL,	FLESH,
+	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_VENOM)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  2, 14,  4,100,  7,  1,  1,  4,  8,  3,-60, 30, 2,
+	&mdeath::normal,	&mattack::leap, "\
+A small, almost cute-looking spider.  It\n\
+leaps so quickly that it almost appears to\n\
+instantaneously move from one place to\n\
+another."
+);
+
+mon("trap door spider",	's',	c_blue,		MS_MEDIUM,	FLESH,
+	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_VENOM)|mfb(MF_WEBWALK)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  1, 20,  5,110,  5,  1,  2,  7,  3,  8,-80, 70, 0,
+	&mdeath::normal,	&mattack::none, "\
+A large spider with a bulbous thorax.  It\n\
+creates a subterranean nest and lies in\n\
+wait for prey to fall in and become trapped\n\
+in its webs."
+);
+
+mon("black widow",	's',	c_dkgray,	MS_SMALL,	FLESH,
+	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_BADVENOM)|mfb(MF_WEBWALK)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  1, 20,  3, 90,  6,  1,  1,  6,  3,  3,-50, 40, 0,
+	&mdeath::normal,	&mattack::none, "\
+A spider with a characteristic red\n\
+hourglass on its black carapace.  It is\n\
+known for its highly toxic venom."
+);
+
 
 // NETHER WORLD INHABITANTS
 mon("flying polyp",	'H',	c_dkgray,	MS_HUGE,	FLESH,

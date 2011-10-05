@@ -2597,7 +2597,7 @@ void player::suffer(game *g)
            g->m.field_at(posx, posy).density < 3)
    g->m.field_at(posx, posy).density++;
  }
- if (has_trait(PF_RADIOGENIC) && g->turn % 50 == 0 && radiation >= 10) {
+ if (has_trait(PF_RADIOGENIC) && int(g->turn) % 50 == 0 && radiation >= 10) {
   radiation -= 10;
   healall(1);
  }
@@ -2608,7 +2608,7 @@ void player::suffer(game *g)
  if (has_trait(PF_UNSTABLE) && one_in(28800))	// Average once per 2 days
   mutate(g);
  radiation += rng(0, g->m.radiation(posx, posy) / 4);
- if (rng(1, 1000) < radiation && g->turn % 600 == 0) {
+ if (rng(1, 1000) < radiation && int(g->turn) % 600 == 0) {
   mutate(g);
   if (radiation > 2000)
    radiation = 2000;
@@ -2877,7 +2877,7 @@ void player::process_active_items(game *g)
   }
   tmp = dynamic_cast<it_tool*>(weapon.type);
   (use.*tmp->use)(g, this, &weapon, true);
-  if (tmp->turns_per_charge > 0 && g->turn % tmp->turns_per_charge == 0)
+  if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0)
    weapon.charges--;
   if (weapon.charges <= 0) {
    (use.*tmp->use)(g, this, &weapon, false);
@@ -2893,7 +2893,7 @@ void player::process_active_items(game *g)
    if (tmp_it->active) {
     tmp = dynamic_cast<it_tool*>(tmp_it->type);
     (use.*tmp->use)(g, this, tmp_it, true);
-    if (tmp->turns_per_charge > 0 && g->turn % tmp->turns_per_charge == 0)
+    if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0)
     tmp_it->charges--;
     if (tmp_it->charges <= 0) {
      (use.*tmp->use)(g, this, tmp_it, false);
@@ -3229,23 +3229,21 @@ bool player::eat(game *g, int index)
    debugmsg("player::eat(%s); comest is NULL!", eaten->tname(g).c_str());
    return false;
   }
-  if (comest != NULL && comest->tool != itm_null && !has_amount(comest->tool, 1)) {
+  if (comest->tool != itm_null && !has_amount(comest->tool, 1)) {
    if (!is_npc())
     g->add_msg("You need a %s to consume that!",
                g->itypes[comest->tool]->name.c_str());
    return false;
   }
-  bool overeating = (!has_trait(PF_GOURMAND) && hunger < 0 && comest->nutr >= 15);
-  bool spoiled = (comest->spoils != 0 &&
-                  (g->turn - eaten->bday) / 600 > comest->spoils);
-  bool very_spoiled = (spoiled &&
-                       (g->turn - eaten->bday / 600) > comest->spoils * 1.2);
+  bool overeating = (!has_trait(PF_GOURMAND) && hunger < 0 &&
+                     comest->nutr >= 15);
+  bool spoiled = eaten->rotten(g);
 
   if (overeating && !is_npc() &&
       !query_yn("You're full.  Force yourself to eat?"))
    return false;
 
-  if (has_trait(PF_CARNIVORE) && eaten->made_of(VEGGY)) {
+  if (has_trait(PF_CARNIVORE) && eaten->made_of(VEGGY) && comest->nutr > 0) {
    if (!is_npc())
     g->add_msg("You can only eat meat!");
    else
@@ -3259,19 +3257,16 @@ bool player::eat(game *g, int index)
 
   if (spoiled) {
 // We're only warned if we're a supertaster, OR the food is very old
-   if ((!has_trait(PF_SUPERTASTER) && very_spoiled) || 
-       (!is_npc() && query_yn("This %s smells awful!  Eat it?",
-                              eaten->tname(g).c_str()))) {
-    if (is_npc())
-     return false;
-    g->add_msg("Ick, this %s doesn't taste so good...",eaten->tname(g).c_str());
-    if (!has_bionic(bio_digestion) || one_in(3))
-     add_disease(DI_FOODPOISON, rng(60, (comest->nutr + 1) * 60), g);
-    hunger -= rng(0, comest->nutr);
-    if (!has_bionic(bio_digestion))
-     health -= 3;
-   } else
+   if (is_npc())
     return false;
+   if (!query_yn("This %s smells awful!  Eat it?", eaten->tname(g).c_str()))
+    return false;
+   g->add_msg("Ick, this %s doesn't taste so good...",eaten->tname(g).c_str());
+   if (!has_bionic(bio_digestion) || one_in(3))
+    add_disease(DI_FOODPOISON, rng(60, (comest->nutr + 1) * 60), g);
+   hunger -= rng(0, comest->nutr);
+   if (!has_bionic(bio_digestion))
+    health -= 3;
   } else {
    hunger -= comest->nutr;
    thirst -= comest->quench;
@@ -3299,8 +3294,14 @@ bool player::eat(game *g, int index)
 
   if (g->itypes[comest->tool]->is_tool())
    use_charges(comest->tool, 1); // Tools like lighters get used
-  if (comest->stim > 0 && stim < comest->stim * 3)
-   stim += comest->stim;
+  if (comest->stim > 0) {
+   if (comest->stim < 10 && stim < comest->stim) {
+    stim += comest->stim;
+    if (stim > comest->stim)
+     stim = comest->stim;
+   } else if (comest->stim >= 10 && stim < comest->stim * 3)
+    stim += comest->stim;
+  }
  
   iuse use;
   (use.*comest->use)(g, this, eaten, false);

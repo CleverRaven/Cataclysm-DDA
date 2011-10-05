@@ -8,6 +8,13 @@
 #include "player.h"
 #include <sstream>
 
+void iuse::sewage(game *g, player *p, item *it, bool t)
+{
+ p->vomit(g);
+ if (one_in(4))
+  p->mutate(g);
+}
+
 void iuse::royal_jelly(game *g, player *p, item *it, bool t)
 {
 // TODO: Add other diseases here; royal jelly is a cure-all!
@@ -608,7 +615,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
 {
  char ch = g->inv("Repair what?");
  item* fix = &(p->i_at(ch));
- if (fix == NULL || fix->type->id == 0) {
+ if (fix == NULL || fix->is_null() == 0) {
   g->add_msg("You do not have that item!");
   it->charges++;
   return;
@@ -706,7 +713,7 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
  if (cut->type->id == itm_string_36) {
   p->moves -= 150;
   g->add_msg("You cut the string into 6 smaller pieces.");
-  item string(g->itypes[itm_string_6], g->turn, g->nextinv);
+  item string(g->itypes[itm_string_6], int(g->turn), g->nextinv);
   p->i_rem(ch);
   bool drop = false;
   for (int i = 0; i < 6; i++) {
@@ -745,7 +752,7 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
  }
  g->add_msg("You slice the %s into %d rag%s.", cut->tname().c_str(), count,
             (count == 1 ? "" : "s"));
- item rag(g->itypes[itm_rag], g->turn, g->nextinv);
+ item rag(g->itypes[itm_rag], int(g->turn), g->nextinv);
  p->i_rem(ch);
  bool drop = false;
  for (int i = 0; i < count; i++) {
@@ -976,7 +983,7 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
   bonus += fac->respects_u + 3 * fac->likes_u;
   if (bonus >= 25) {
    popup("They reply, \"Help is on the way!\"");
-   g->add_event(EVENT_HELP, g->turn + fac->response_time(g), fac->id, -1, -1);
+   g->add_event(EVENT_HELP, int(g->turn) + fac->response_time(g), fac->id, -1, -1);
    fac->respects_u -= rng(0, 8);
    fac->likes_u -= rng(3, 5);
   } else if (bonus >= -5) {
@@ -1536,13 +1543,13 @@ void iuse::molotov(game *g, player *p, item *it, bool t)
  p->moves -= 150;
  it->make(g->itypes[itm_molotov_lit]);
  it->charges = 1;
- it->bday = g->turn;
+ it->bday = int(g->turn);
  it->active = true;
 }
  
 void iuse::molotov_lit(game *g, player *p, item *it, bool t)
 {
- int age = g->turn - it->bday;
+ int age = int(g->turn) - it->bday;
  if (!p->has_item(it)) {
   point pos = g->find_item(it);
   it->charges = 0;
@@ -1814,7 +1821,7 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
  if (t) {	// Normal use
   p->add_morale(MORALE_MUSIC, 1, 50);
 
-  if (g->turn % 10 == 0) {	// Every 10 turns, describe the music
+  if (int(g->turn) % 10 == 0) {	// Every 10 turns, describe the music
    std::string sound = "";
    switch (rng(1, 10)) {
     case 1: sound = "a sweet guitar solo!";	p->stim++;	break;

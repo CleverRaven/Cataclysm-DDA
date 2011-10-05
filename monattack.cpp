@@ -422,6 +422,23 @@ void mattack::fungus(game *g, monster *z)
   z->poly(g->mtypes[mon_fungaloid_dormant]);
 }
 
+void mattack::fungus_sprout(game *g, monster *z)
+{
+ for (int x = z->posx - 1; x <= z->posx + 1; x++) {
+  for (int y = z->posy - 1; y <= z->posy + 1; y++) {
+   if (g->u.posx == x && g->u.posy == y) {
+    g->add_msg("You're shoved away as a fungal wall grows!");
+    g->teleport();
+   }
+   if (g->is_empty(x, y)) {
+    monster wall(g->mtypes[mon_fungal_wall]);
+    wall.spawn(x, y);
+    g->z.push_back(wall);
+   }
+  }
+ }
+}
+
 void mattack::leap(game *g, monster *z)
 {
  int linet;
@@ -654,7 +671,7 @@ void mattack::photograph(game *g, monster *z)
  z->moves -= 150;
  g->add_msg("The %s takes your picture!", z->name().c_str());
 // TODO: Make the player known to the faction
- g->add_event(EVENT_ROBOT_ATTACK, g->turn + rng(15, 30), z->faction_id,
+ g->add_event(EVENT_ROBOT_ATTACK, int(g->turn) + rng(15, 30), z->faction_id,
               g->levx, g->levy);
 }
 

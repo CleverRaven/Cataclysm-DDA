@@ -5,10 +5,11 @@ void game::init_moncats()
 {
  setvector(
    moncats[mcat_forest],
-	mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, NULL);
+	mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_spider_wolf,
+	mon_spider_jumping, NULL);
  setvector(
    moncats[mcat_ant],
-	mon_ant_larva, mon_ant, mon_ant_soldier, NULL);
+	mon_ant_larva, mon_ant, mon_ant_soldier, mon_ant_queen, NULL);
  setvector(
    moncats[mcat_bee],
 	mon_bee, NULL);
@@ -26,7 +27,8 @@ void game::init_moncats()
  setvector(
    moncats[mcat_fungi],
 	mon_fungaloid, mon_fungaloid_dormant, mon_ant_fungus, mon_zombie_fungus,
-	mon_boomer_fungus, mon_spore, NULL);
+	mon_boomer_fungus, mon_spore, mon_fungaloid_queen, mon_fungal_wall,
+	NULL);
  setvector(
    moncats[mcat_goo],
 	mon_blob, NULL);

@@ -20,7 +20,7 @@ enum itype_id {
 itm_null = 0,
 itm_corpse,
 // Drinks
-itm_water, itm_water_dirty, itm_salt_water, itm_oj, itm_apple_cider,
+itm_water, itm_water_dirty, itm_sewage, itm_salt_water, itm_oj, itm_apple_cider,
  itm_energy_drink, itm_cola, itm_rootbeer, itm_milk, itm_V8, itm_broth,
  itm_soup, itm_whiskey, itm_vodka, itm_rum, itm_tequila, itm_beer, itm_bleach,
  itm_ammonia, itm_mutagen, itm_purifier,

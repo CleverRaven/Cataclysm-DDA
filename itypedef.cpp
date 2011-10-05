@@ -48,6 +48,10 @@ DRINK("water",		 0, 50,	c_ltcyan, itm_null,// Dirty water, from rivers
 	30,  0,  0,  0, -4,  0,  1,  0,&iuse::poison,	ADD_NULL, "\
 Water, the stuff of life, the best thirst-quencher available.");
 
+DRINK("sewage sample",	 5,  5, c_ltgreen, itm_bottle_plastic,
+	 5,  0,  0,  0,-10,  0,  1,-20,&iuse::sewage,	ADD_NULL, "\
+A sample of sewage from a treatment plant.  Gross.");
+
 DRINK("salt water",	20,  5,	c_ltcyan, itm_bottle_plastic,
 	-30, 0,  0,  0,  1,  0,  1, -1,&iuse::none,	ADD_NULL, "\
 Water with salt added.  Not good for drinking.");
@@ -421,7 +425,7 @@ MED("aspirin",		85, 30,	c_cyan,		itm_null,
 Low-grade painkiller.  Best taken in pairs.");
 
 MED("caffeine pills",	25, 60,	c_cyan,		itm_null,
-	PLASTIC, 15,  0,  3, 20,  0,&iuse::caff,	ADD_CAFFEINE, "\
+	PLASTIC,  8,  0,  3, 20,  0,&iuse::caff,	ADD_CAFFEINE, "\
 No-doz pills.  Useful for staying up all night.");
 
 //  NAME		RAR PRC	COLOR		TOOL
@@ -1939,7 +1943,7 @@ deadly.",
 //	NAME      	 RAR  PRC  COLOR     MAT1   MAT2     VOL WGT DAM CUT HIT
 GUNMOD("silencer",	 15,  480, c_dkgray, STEEL, PLASTIC,  2,  1,  3,  0,  2,
 //	ACC DAM NOI CLP REC BST NEWTYPE,	PISTOL	SHOT	SMG	RIFLE
-	-1, -4,-45,  0,  0,  0,	AT_NULL,	true,	false,	true,	true,
+	-1, -4,-25,  0,  0,  0,	AT_NULL,	true,	false,	true,	true,
 	0, "\
 Using a silencer is almost an imperative in zombie-infested regions.  Gunfire\n\
 is very noisy, and will attract predators.  Its only drawback is a reduced\n\

@@ -421,6 +421,14 @@ void game::init_mapitems()
 	itm_UPS_off, NULL);
 
  setvector(
+   mapitems[mi_sewage_plant],
+	itm_1st_aid, itm_motor, itm_hose, itm_screwdriver, itm_wrench, itm_pipe,
+	itm_boots, itm_jumpsuit, itm_coat_lab, itm_gloves_rubber,
+	itm_mask_filter, itm_glasses_safety, itm_hat_hard, itm_extinguisher,
+	itm_flashlight, itm_water_purifier, itm_two_way_radio,
+	itm_bionics_tools, itm_bionics_hazmat, itm_bionics_construction, NULL);
+
+ setvector(
    mapitems[mi_radio],
 	itm_cola, itm_caffeine, itm_cig, itm_weed, itm_amplifier,
 	itm_transponder, itm_receiver, itm_antenna, itm_screwdriver,
@@ -441,6 +449,21 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_cavern],
 	itm_rock, itm_jackhammer, itm_flashlight, itm_dynamite, NULL);
+
+ setvector(
+   mapitems[mi_spider],
+	itm_corpse, itm_mutagen, itm_purifier, itm_meat, itm_meat_tainted,
+	itm_arm, itm_leg, itm_1st_aid, itm_codeine, itm_oxycodone, itm_weed,
+	itm_wrapper, itm_fur, itm_leather, itm_card_id, itm_rope_30, itm_stick,
+	itm_hatchet, itm_ax, itm_bee_sting, itm_chitin_piece, itm_vest,
+	itm_mask_gas, itm_goggles_nv, itm_hat_boonie, itm_helmet_riot,
+	itm_bolt_steel, itm_shot_00, itm_762_m87, itm_556, itm_556_incendiary,
+	itm_3006_incendiary, itm_762_51, itm_762_51_incendiary, itm_saiga_12,
+	itm_hk_mp5, itm_TDI, itm_savage_111f, itm_sks, itm_ak47, itm_m4a1,
+	itm_steyr_aug, itm_v29, itm_flamethrower, itm_flashlight, itm_radio,
+	itm_geiger_off, itm_teleporter, itm_canister_goo, itm_dynamite,
+	itm_mininuke, itm_bot_manhack, itm_UPS_off, itm_bionics_battery,
+	itm_bionics_tools, NULL);
 
  setvector(
    mapitems[mi_ant_food],

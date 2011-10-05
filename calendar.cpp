@@ -1,183 +1,352 @@
+#include <sstream>
 #include "calendar.h"
+#include "output.h"
 
-calendar::calendar() {
-  t.tm_year = 12; 
-  t.tm_mon = 12;
-  t.tm_mday = 21;
-  t.tm_hour = 8;
-  t.tm_min = 0;
-  t.tm_sec = 0;
-  t.tm_isdst = 0;
-
-  timedate = mktime(&t);
-  starting_seconds = timedate;
-  sunrise = time(0);
-  sr = *localtime(&sunrise);
-  sunset = time(0);
-  ss = *localtime(&sunset);
-
-  get_sunrise();
-  get_sunset();
+calendar::calendar()
+{
+ second = 0;
+ minute = 0;
+ hour = 0;
+ day = 0;
+ season = SPRING;
+ year = 0;
 }
 
-calendar::~calendar() {
-
+calendar::calendar(const calendar &copy)
+{
+ second = copy.second;
+ minute = copy.minute;
+ hour   = copy.hour;
+ day    = copy.day;
+ season = copy.season;
+ year   = copy.year;
 }
 
-unsigned int calendar::reinitialize(unsigned int turn) {
-  timedate = (turn * 6) + starting_seconds;
+calendar::calendar(int Minute, int Hour, int Day, season_type Season, int Year)
+{
+ second = 0;
+ minute = Minute;
+ hour = Hour;
+ day = Day;
+ season = Season;
+ year = Year;
 }
 
-unsigned int calendar::turn() {
-  return((timedate - starting_seconds) / 6);
+calendar::calendar(int turn)
+{
+ int minutes = int(turn / 10);
+ int hours = minutes / 60;
+ int days = hours / 24;
+ int seasons = days / DAYS_IN_SEASON;
+ second = 6 * (turn % 10);
+ minute = minutes % 60;
+ hour = hours % 24;
+ day = 1 + days % DAYS_IN_SEASON;
+ season = season_type(seasons % 4);
+ year = seasons / 4;
 }
 
-/* returns day of season. assumes 14 days in a season */
-int calendar::day() const {
-  int seconds;
-  seconds = timedate - starting_seconds;
-  seconds += 8 * 3600; /* prevent wonkiness of the day changing in the middle of the night */
-  return(seconds / 86400 % 14 + 1);
+int calendar::get_turn()
+{
+ int ret = second / 6;
+ ret += minute * 10;
+ ret += hour * 600;
+ ret += day * 14400;
+ ret += int(season) * 14400 * DAYS_IN_SEASON;
+ ret += year * 14400 * 4 * DAYS_IN_SEASON;
+ return ret;
 }
 
-/* returns the current season */
-season_type calendar::season() const {
-  int seconds;
-  seconds = timedate - starting_seconds;
-  seconds += 8 * 3600;
-  return((season_type) (seconds / 86400 / 14 % 4));
+calendar::operator int() const
+{
+ int ret = second / 6;
+ ret += minute * 10;
+ ret += hour * 600;
+ ret += day * 14400;
+ ret += int(season) * 14400 * DAYS_IN_SEASON;
+ ret += year * 14400 * 4 * DAYS_IN_SEASON;
+ return ret;
 }
 
-/* determines the year based on 14 days in a season and 4 season / year */
-int calendar::year() const {
-  int seconds;
-  seconds = timedate - starting_seconds;
-  seconds += 8 * 3600;
-  return(seconds / 86400 / 14 / 4 + 1);
+calendar& calendar::operator =(calendar &rhs)
+{
+ if (this == &rhs)
+  return *this;
+
+ second = rhs.second;
+ minute = rhs.minute;
+ hour = rhs.hour;
+ day = rhs.day;
+ season = rhs.season;
+ year = rhs.year;
+
+ return *this;
 }
 
-/* returns the phase of the moon. argument is a day from 1-14 */
-moon_phase calendar::moon(int m) const { 
-  if (m > 12 || m < 3)
-    return(MOON_FULL);
-  else if (m > 10 || m < 5)
-    return(MOON_BRIGHT);
-  else if (m > 8 || m < 7)
-    return(MOON_DIM);
+calendar& calendar::operator =(int rhs)
+{
+ int minutes = int(rhs / 10);
+ int hours = minutes / 60;
+ int days = hours / 24;
+ int seasons = days / DAYS_IN_SEASON;
+ second = 6 * (rhs % 10);
+ minute = minutes % 60;
+ hour = hours % 24;
+ day = days % DAYS_IN_SEASON;
+ season = season_type(seasons % 4);
+ year = seasons / 4;
+ return *this;
+}
+ 
+calendar& calendar::operator -=(calendar &rhs)
+{
+ second -= rhs.second;
+ minute -= rhs.minute;
+ hour   -= rhs.hour;
+ day    -= rhs.day;
+ int tmpseason = int(season) - int(rhs.season);
+ while (tmpseason < 0) {
+  year--;
+  tmpseason += 4;
+ }
+ season = season_type(tmpseason);
+ year -= rhs.year;
+ standardize();
+ return *this;
+}
+
+calendar& calendar::operator -=(int rhs)
+{
+ calendar tmp(rhs);
+ *this -= tmp;
+ return *this;
+}
+
+calendar& calendar::operator +=(calendar &rhs)
+{
+ second += rhs.second;
+ minute += rhs.minute;
+ hour   += rhs.hour;
+ day    += rhs.day;
+ int tmpseason = int(season) + int(rhs.season);
+ while (tmpseason >= 4) {
+  year++;
+  tmpseason -= 4;
+ }
+ season = season_type(tmpseason);
+ year += rhs.year;
+ standardize();
+ return *this;
+}
+
+calendar& calendar::operator +=(int rhs)
+{
+ second += rhs * 6;
+ standardize();
+ return *this;
+}
+
+/*
+calendar& calendar::operator ++()
+{
+ *this += 1;
+ return *this;
+}
+*/
+
+calendar calendar::operator -(calendar &rhs)
+{
+ return calendar(*this) -= rhs;
+}
+
+calendar calendar::operator -(int rhs)
+{
+ return calendar(*this) -= rhs;
+}
+
+calendar calendar::operator +(calendar &rhs)
+{
+ return calendar(*this) += rhs;
+}
+
+calendar calendar::operator +(int rhs)
+{
+ return calendar(*this) += rhs;
+}
+
+void calendar::increment()
+{
+ second += 6;
+ if (second >= 60)
+  standardize();
+}
+
+void calendar::standardize()
+{
+ if (second >= 60) {
+  minute += second / 60;
+  second %= 60;
+ }
+ if (minute >= 60) {
+  hour += minute / 60;
+  minute %= 60;
+ }
+ if (hour >= 24) {
+  day += hour / 24;
+  hour %= 24;
+ }
+ int tmpseason = int(season);
+ if (day >= DAYS_IN_SEASON) {
+  tmpseason += day / DAYS_IN_SEASON;
+  day %= DAYS_IN_SEASON;
+ }
+ if (tmpseason >= 4) {
+  year += tmpseason / 4;
+  tmpseason %= 4;
+ }
+ season = season_type(tmpseason);
+}
+
+int calendar::minutes_past_midnight()
+{
+ return minute + hour * 60;
+}
+
+moon_phase calendar::moon()
+{
+ int phase = day / (DAYS_IN_SEASON / 4);
+ phase %= 4;
+ if (phase = 3)
+  return MOON_HALF;
+ else
+  return moon_phase(phase);
+}
+
+calendar calendar::sunrise()
+{
+ calendar ret;
+ int start_hour = 0, end_hour = 0;
+ switch (season) {
+  case SPRING:
+   start_hour = SUNRISE_SOLSTICE;
+   end_hour   = SUNRISE_SUMMER;
+   break;
+  case SUMMER:
+   start_hour = SUNRISE_SUMMER;
+   end_hour   = SUNRISE_SOLSTICE;
+   break;
+  case AUTUMN:
+   start_hour = SUNRISE_SOLSTICE;
+   end_hour   = SUNRISE_WINTER;
+   break;
+  case WINTER:
+   start_hour = SUNRISE_WINTER;
+   end_hour   = SUNRISE_SOLSTICE;
+   break;
+ }
+ double percent = double(double(day) / DAYS_IN_SEASON);
+ double time = double(start_hour) * (1.- percent) + double(end_hour) * percent;
+
+ ret.hour = int(time);
+ time -= int(time);
+ ret.minute = int(time * 60);
+
+ return ret;
+}
+
+calendar calendar::sunset()
+{
+ calendar ret;
+ int start_hour = 0, end_hour = 0;
+ switch (season) {
+  case SPRING:
+   start_hour = SUNSET_SOLSTICE;
+   end_hour   = SUNSET_SUMMER;
+   break;
+  case SUMMER:
+   start_hour = SUNSET_SUMMER;
+   end_hour   = SUNSET_SOLSTICE;
+   break;
+  case AUTUMN:
+   start_hour = SUNSET_SOLSTICE;
+   end_hour   = SUNSET_WINTER;
+   break;
+  case WINTER:
+   start_hour = SUNSET_WINTER;
+   end_hour   = SUNSET_SOLSTICE;
+   break;
+ }
+ double percent = double(double(day) / DAYS_IN_SEASON);
+ double time = double(start_hour) * (1.- percent) + double(end_hour) * percent;
+
+ ret.hour = int(time);
+ time -= int(time);
+ ret.minute = int(time * 60);
+
+ return ret;
+}
+
+bool calendar::is_night()
+{
+ calendar sunrise_time = sunrise(), sunset_time = sunset();
+
+ int mins = minutes_past_midnight(),
+     sunrise_mins = sunrise_time.minutes_past_midnight(),
+     sunset_mins  = sunset_time.minutes_past_midnight();
+
+ return (mins > sunset_mins + TWILIGHT_MINUTES && mins < sunrise_mins);
+}
+
+int calendar::sunlight()
+{
+ calendar sunrise_time = sunrise(), sunset_time = sunset();
+
+ int mins         = minutes_past_midnight(),
+     sunrise_mins = sunrise_time.minutes_past_midnight(),
+     sunset_mins  = sunset_time.minutes_past_midnight();
+
+ int moonlight = int(moon()) * MOONLIGHT_LEVEL;
+
+ if (mins > sunset_mins + TWILIGHT_MINUTES && mins < sunrise_mins) // Night
+  return moonlight;
+
+ else if (mins >= sunrise_mins && mins < sunrise_mins + TWILIGHT_MINUTES) {
+
+  double percent = double(mins - sunrise_mins) / TWILIGHT_MINUTES;
+  return int( double(moonlight)      * (1. - percent) +
+              double(DAYLIGHT_LEVEL) * percent         );
+
+ } else if (mins >= sunset_mins && mins < sunset_mins + TWILIGHT_MINUTES) {
+
+  double percent = double(mins - sunset_mins) / TWILIGHT_MINUTES;
+  return int( double(DAYLIGHT_LEVEL) * (1. - percent) +
+              double(moonlight)      * percent         );
+
+ } else
+  return DAYLIGHT_LEVEL;
+}
+
+std::string calendar::print_time(bool twentyfour)
+{
+ std::stringstream ret;
+ if (twentyfour) {
+  ret << hour << ":";
+  if (minute < 10)
+   ret << "0";
+  ret << minute;
+ } else {
+  int hours = hour % 12;
+  if (hours == 0)
+   hours = 12;
+  ret << hours << ":";
+  if (minute < 10)
+   ret << "0";
+  ret << minute;
+  if (hour < 12)
+   ret << " AM";
   else
-    return(MOON_NEW);
-}
+   ret << " PM";
+ }
 
-/* full moon lasts from day 13 until day 2 of the next season 
-   this lets us start the game w/ a full moon. From there, we progress 
-   downwards to a new moon in the middle of the month */
-int calendar::moonlight(int m) const {
-  switch (moon(m)) {
-    case MOON_FULL:
-      return(9);
-      break;
-    case MOON_BRIGHT:
-      return(6);
-      break;
-    case MOON_DIM:
-      return(3);
-      break;
-    default:
-      return(1);
-  }
-}
-
-int calendar::hour() const {
-  struct tm *t;
-  t = localtime(&timedate);
-  return(t->tm_hour);
-}
-
-int calendar::minute() const {
-  struct tm *t;
-  t = localtime(&timedate);
-  return(t->tm_min);
-}
-
-int calendar::second() const {
-  struct tm *t;
-  t = localtime(&timedate);
-  return(t->tm_sec);
-}
-
-struct tm calendar::get_sunrise() {
-  struct tm *t;
-  t = localtime(&timedate);
-/* we only care about hour and minute for sunset / sunrise,
-   but time structures are convenient	*/
-  if (sr.tm_mday != t->tm_mday) {
-    sr.tm_year = t->tm_year; 
-    sr.tm_mon = t->tm_mon;
-    sr.tm_mday = t->tm_mday;
-    /* nominal sunrise 6:30 can vary by 84 minutes */
-    sr.tm_hour = 6;
-    sr.tm_min = 30;
-    sr.tm_sec = 0;
-    sr.tm_isdst = 0;
-    sunrise = mktime(&sr);
-    sunrise -= offset() * 60;
-    sr = *localtime(&sunrise);
-  }
-  return(sr);
-}
-
-struct tm calendar::get_sunset() {
-  struct tm *t;
-  t = localtime(&timedate);
-  if (ss.tm_mday != t->tm_mday) {
-    ss.tm_year = t->tm_year; 
-    ss.tm_mon = t->tm_mon;
-    ss.tm_mday = t->tm_mday;
-    ss.tm_hour = 18;
-    ss.tm_min = 30;
-    ss.tm_sec = 0;
-    ss.tm_isdst = 0;
-    sunset = mktime(&ss);
-    sunset += offset() * 60;
-    ss = *localtime(&sunset);
-  }
-  return(ss);
-}
-
-int calendar::offset() const {
-/* sunrise and sunset varies by 3 minutes per day. overall, the daylight period
-   will vary 6 minutes from one day to the next. Over the course of the year, this
-   will give roughly 5 1/2 hours more sunlight in the middle of the summer than the
-   middle of winter */
-  int d;
-  int m;
-  d = day();
-
-  switch (season()) {
-    case SPRING:
-      m = 21; /* minutes we gained since winter solstice */
-      m += 3 * d;
-      break;
-    case SUMMER:
-      m = 63; /* late winter + spring gain */
-      if (d < 8) {
-        m += 3 * d;
-      } else 
-        m -= (3 * d);
-      break;
-    case AUTUMN:
-      m = -21; /* time loss since summer solstice */
-      m -= 3 * d;
-      break;
-    case WINTER:
-      m = -63; /* summer / fall loss */
-      if (d > 7)
-        m += 3 * d;
-      else 
-        m -= 3 * d;
-      break;
-     default: // shouldn't be possible
-       m = 0;
-  }
-  return(m);
+ return ret.str();
 }
