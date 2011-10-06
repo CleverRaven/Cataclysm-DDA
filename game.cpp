@@ -67,8 +67,6 @@ game::game()
  debugmon = false;	// We're not printing debug messages
  in_tutorial = false;	// We're not in a tutorial game
  weather = WEATHER_CLEAR; // Start with some nice weather...
-
- season = cal.season();         // Init season
  turnssincelastmon = 0; //Auto run mode init
  autorunmode = false;
 
