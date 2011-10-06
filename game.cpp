@@ -4938,7 +4938,7 @@ void game::spawn_mon(int shiftx, int shifty)
   if (dist <= rad) {
 // (The area of the group's territory) in (population/square at this range)
 // chance of adding one monster; cap at the population OR 16
-   while (long((1.1 - double(dist / rad)) * pop) > rng(0, pow(rad, 2)) &&
+   while (long((1.0 - double(dist / rad)) * pop) > rng(0, pow(rad, 2)) &&
           rng(1, 20) > group && group < pop && group < 16)
     group++;
    cur_om.zg[i].population -= group;

@@ -2965,7 +2965,6 @@ item& player::i_at(char let)
   if (worn[i].invlet == let)
    return worn[i];
  }
- return inv.item_by_letter(let);
  int index = inv.index_by_letter(let);
  if (index == -1)
   return ret_null;
