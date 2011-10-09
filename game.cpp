@@ -4919,6 +4919,7 @@ void game::spawn_mon(int shiftx, int shifty)
   if (one_in(50 + 5 * cur_om.npcs.size())) {
    npc temp;
    temp.randomize(this);
+   temp.normalize(this);
    temp.spawn_at(&cur_om, levx + (1 * rng(-2, 2)), levy + (1 * rng(-2, 2)));
    temp.posx = SEEX * 2 * (temp.mapx - levx) + rng(0 - SEEX, SEEX);
    temp.posy = SEEY * 2 * (temp.mapy - levy) + rng(0 - SEEY, SEEY);
