@@ -808,8 +808,25 @@ An empty cansiter, which may have once held tear gas or other substances.");
 
 MELEE("gold bar",	10,3000,'/', c_yellow,	STEEL,	MNULL,
 	 2, 60, 14,  0, -1, 0, "\
-A large bar of gold.  Before the apocalypse, this wouldn't been worth a small\n\
+A large bar of gold.  Before the apocalypse, this would've been worth a small\n\
 fortune; now its value is greatly diminished.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+MELEE("coal pallet",	20, 600,'/', c_dkgray,	STONE,	MNULL,
+//	VOL WGT DAM CUT HIT FLAGS
+	 72,100, 8,  0, -5, 0, "\
+A large block of semi-processed coal.");
+
+MELEE("petrified eye",   1,2000,'*', c_dkgray,	STONE,	MNULL,
+	 2,  8, 10,  0, -1, 0, "\
+A fist-sized eyeball with a cross-shaped pupil.  It seems to be made of\n\
+stone, but doesn't look like it was carved.");
+
+MELEE("spiral stone",   20, 200,'*', c_pink,	STONE,	MNULL,
+	 1,  3, 14,  0, -1, 0, "\
+A rock the size of your fist.  It is covered with intricate spirals; it is\n\
+impossible to tell whether they are carved, naturally formed, or some kind of\n\
+fossil.");
 
 // ARMOR
 #define ARMOR(name,rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
@@ -2650,6 +2667,11 @@ This mp3 player is turned on and playing some great tunes, raising your\n\
 morale steadily while on your person.  It runs through batteries quickly; you\n\
 can turn it off by using it.  It also obscures your hearing.");
 
+TOOL("vortex stone",     2,3000,';',c_pink,	STONE,	MNULL,
+    2,  0,  6,  0,  0,   1,  1, 1,  0, AT_NULL, itm_null, &iuse::vortex,0,"\
+A stone with spirals all over it, and holes around its perimeter.  Though it\n\
+is fairly large, it weighs next to nothing.  Air seems to gather around it.");
+
 TOOL("dog food",         5,  60,'o',c_red,     FLESH,     MNULL,
 	1,  2,  0,  0,  -5,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::dogfood, 0, "\
 Food for dogs. It smells strange, but dogs love it.");
@@ -2666,7 +2688,6 @@ TOOL("C4-Explosive(armed)",         0,  6000,'o',c_ltcyan,     PLASTIC,     STEE
 	1,  2,  0,  0,  -4,  9,  9,  0,  1, AT_NULL, itm_null, &iuse::c4armed, 0, "\
 Highly explosive, use with caution. Comes with a small timer.\n\
 It's armed and ticking!");
-
 
 
 

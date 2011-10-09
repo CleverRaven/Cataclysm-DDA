@@ -397,14 +397,10 @@ void map::destroy(game *g, int x, int y, bool makesound)
 
 void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
 {
-/*
- if (flags & mfb(IF_AMMO_FLAME) && has_flag(flammable, x, y))
-  add_field(g, x, y, fd_fire, 2);
-*/
 
  if (has_flag(alarmed, x, y) && !g->event_queued(EVENT_WANTED)) {
   g->sound(g->u.posx, g->u.posy, 30, "An alarm sounds!");
-  g->add_event(EVENT_WANTED, g->turn + 300, 0, g->levx, g->levy);
+  g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
  }
 
  switch (ter(x, y)) {
@@ -533,6 +529,56 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
    i--;
   }
  }
+}
+
+bool map::hit_with_acid(game *g, int x, int y)
+{
+ if (move_cost(x, y) != 0)
+  return false; // Didn't hit the tile!
+
+ switch (ter(x, y)) {
+  case t_wall_glass_v:
+  case t_wall_glass_h:
+  case t_wall_glass_v_alarm:
+  case t_wall_glass_h_alarm:
+  case t_vat:
+   ter(x, y) = t_floor;
+   break;
+
+  case t_door_c:
+  case t_door_locked:
+  case t_door_locked_alarm:
+   if (one_in(3))
+    ter(x, y) = t_door_b;
+   break;
+
+  case t_door_b:
+   if (one_in(4))
+    ter(x, y) = t_door_frame;
+   else
+    return false;
+   break;
+
+  case t_window:
+  case t_window_alarm:
+   ter(x, y) = t_window_empty;
+   break;
+
+  case t_wax:
+   ter(x, y) = t_floor_wax;
+   break;
+
+  case t_toilet:
+  case t_gas_pump:
+  case t_gas_pump_smashed:
+   return false;
+
+  case t_card_reader:
+   ter(x, y) = t_card_reader_broken;
+   break;
+ }
+
+ return true;
 }
 
 void map::marlossify(int x, int y)
@@ -1424,6 +1470,9 @@ void map::spawn_monsters(game *g)
      tmp.spawnposy = my;
      tmp.spawnmapx = g->levx;
      tmp.spawnmapy = g->levy;
+// TODO: this is a hacky hacky hack
+     if (tmp.type->id == mon_dog_thing)
+      tmp.friendly = -1;
      int fx = mx + gx * SEEX, fy = my + gy * SEEY;
 
      while ((!g->is_empty(fx, fy) || !tmp.can_move_to(g->m, fx, fy)) && 

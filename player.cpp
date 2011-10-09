@@ -50,6 +50,8 @@ player::player()
  }
  for (int i = 0; i < PF_MAX2; i++)
   my_traits[i] = false;
+ for (int i = 0; i < PF_MAX2; i++)
+  my_mutations[i] = false;
 }
 
 player::~player()
@@ -93,6 +95,8 @@ player& player::operator= (player rhs)
  }
  for (int i = 0; i < PF_MAX2; i++)
   my_traits[i] = rhs.my_traits[i];
+ for (int i = 0; i < PF_MAX2; i++)
+  my_mutations[i] = rhs.my_mutations[i];
 
  inv.clear();
  for (int i = 0; i < rhs.inv.size(); i++)
@@ -317,6 +321,9 @@ void player::load_info(game *g, std::string data)
  for (int i = 0; i < PF_MAX2; i++)
   dump >> my_traits[i];
 
+ for (int i = 0; i < PF_MAX2; i++)
+  dump >> my_mutations[i];
+
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
  for (int i = 0; i < num_skill_types; i++)
@@ -380,6 +387,8 @@ std::string player::save_info()
 
  for (int i = 0; i < PF_MAX2; i++)
   dump << my_traits[i] << " ";
+ for (int i = 0; i < PF_MAX2; i++)
+  dump << my_mutations[i] << " ";
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
  for (int i = 0; i < num_skill_types; i++)
@@ -1272,12 +1281,18 @@ void player::disp_status(WINDOW *w)
 
 bool player::has_trait(int flag)
 {
- return my_traits[flag];// || my_mutations[flag];
+ return my_traits[flag];
+}
+
+bool player::has_mutation(int flag)
+{
+ return my_mutations[flag];
 }
 
 void player::toggle_trait(int flag)
 {
  my_traits[flag] = !my_traits[flag];
+ my_mutations[flag] = !my_mutations[flag];
 }
 
 bool player::has_bionic(bionic_id b)
@@ -1478,15 +1493,16 @@ void player::mutate(game *g)
     }
     break;
    case 8:
-    if (!has_trait(PF_NIGHTVISION) && !has_trait(PF_NIGHTVISION2)) {
-     if (g->light_level() <= 2)
+    if (!has_trait(PF_NIGHTVISION)) {
+     if (g->light_level() <= 2 && !has_trait(PF_NIGHTVISION2))
+      g->add_msg("The darkness seems clearer.");
+     else if (g->light_level() <= 4)
       g->add_msg("The darkness seems clearer.");
      toggle_trait(PF_NIGHTVISION);
      return;
     } else if (!has_trait(PF_NIGHTVISION2)) {
      if (g->light_level() <= 4)
       g->add_msg("The darkness seems clearer.");
-     toggle_trait(PF_NIGHTVISION);
      toggle_trait(PF_NIGHTVISION2);
      return;
     }
@@ -1499,12 +1515,6 @@ void player::mutate(game *g)
     }
     break;
    case 10:
-    if (!has_trait(PF_SUPERTASTER)) {
-     g->add_msg("Your sense of taste feels acute.");
-     toggle_trait(PF_SUPERTASTER);
-     return;
-    }
-    break;
    case 11:
     if (has_trait(PF_MYOPIC)) {
      g->add_msg("Your vision feels sharper.");
@@ -1878,7 +1888,7 @@ int player::sight_range(int light_level)
  if (has_trait(PF_NIGHTVISION) && ret < 12)
   ret += 1;
  if (has_trait(PF_NIGHTVISION2) && ret < 12)
-  ret += 3;
+  ret += 2;
  if (underwater && !has_bionic(bio_membrane) && !has_trait(PF_MEMBRANE) &&
      !is_wearing(itm_goggles_swim))
   ret = 1;
@@ -2018,7 +2028,7 @@ int player::comprehension_percent(skill s, bool real_life)
   percent += 125 - 1000 / intel;
 
  if (has_trait(PF_FASTLEARNER))
-  percent += 20.;
+  percent += 50.;
  return (int)(percent);
 }
 
@@ -3549,8 +3559,12 @@ void player::use(game *g, char let)
   } else
    g->add_msg("Your %s has %d charges but needs %d.", used->tname(g).c_str(),
               used->charges, tool->charges_per_use);
+<<<<<<< HEAD
   if(tool->use == &iuse::dogfood) replace_item = false;
   if (replace_item && tool->use != &iuse::set_trap)
+=======
+  if (replace_item && used->invlet != 0)
+>>>>>>> 6815400644d95e8de69876670f0c9373e758b0dd
    inv.add_item(copy);
   return;
 

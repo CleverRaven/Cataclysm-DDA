@@ -46,6 +46,11 @@ mon_mosquito, mon_dragonfly, mon_centipede, mon_frog, mon_slug,
 // SPIDERS
 mon_spider_wolf, mon_spider_web, mon_spider_jumping, mon_spider_trapdoor,
  mon_spider_widow,
+// Unearthed Horrors
+mon_dark_wyrm, mon_amigara_horror, mon_dog_thing, mon_headless_dog_thing,
+ mon_thing,
+// Spiral monsters
+mon_human_snail, mon_twisted_body, mon_vortex,
 // Subspace monsters
 mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
  mon_flaming_eye, mon_kreck, mon_blank, mon_gozu,
@@ -117,7 +122,7 @@ struct mtype {
 
  m_size size;
  material mat;	// See enums.h for material list.  Generally, flesh; veggy?
- unsigned flags : MF_MAX; // Bitfield of m_flags
+ unsigned long flags : MF_MAX; // Bitfield of m_flags
 
  unsigned char frequency;	// How often do these show up? 0 (never) to ??
  int difficulty;// Used all over; 30 min + (diff-3)*30 min = earlist appearance

@@ -505,6 +505,8 @@ void overmap::generate_sub(overmap* above)
  std::vector<city> ant_points;
  std::vector<city> goo_points;
  std::vector<city> lab_points;
+ std::vector<city> shaft_points;
+ std::vector<city> mine_points;
  for (int i = 0; i < OMAPX; i++) {
   for (int j = 0; j < OMAPY; j++) {
    seen(i, j) = false;	// Start by setting all squares to unseen
@@ -554,7 +556,23 @@ void overmap::generate_sub(overmap* above)
    else if (above->ter(i, j) == ot_lab_stairs)
     ter(i, j) = ot_lab;
 
-   else if (above->ter(i, j) == ot_silo) {
+   else if (above->ter(i, j) == ot_mine_entrance)
+    shaft_points.push_back(city(i, j, 0));
+
+   else if (above->ter(i, j) == ot_mine_shaft ||
+            above->ter(i, j) == ot_mine_down    ) {
+    ter(i, j) = ot_mine;
+    mine_points.push_back(city(i, j, rng(6 + posz, 10 + posz)));
+
+   } else if (above->ter(i, j) == ot_mine_finale) {
+    for (int x = i - 1; x <= i + 1; x++) {
+     for (int y = j - 1; y <= j + 1; y++)
+      ter(x, y) = ot_spiral;
+    }
+    ter(i, j) = ot_spiral_hub;
+    zg.push_back(mongroup(mcat_spiral, i * 2, j * 2, 2, 200));
+
+   } else if (above->ter(i, j) == ot_silo) {
     if (rng(2, 7) < abs(posz) || rng(2, 7) < abs(posz))
      ter(i, j) = ot_silo_finale;
     else
@@ -585,6 +603,8 @@ void overmap::generate_sub(overmap* above)
              above->cities[i].s * 3.5, above->cities[i].s * 70));
  }
  place_rifts();
+ for (int i = 0; i < mine_points.size(); i++)
+  build_mine(mine_points[i].x, mine_points[i].y, mine_points[i].s);
  polish(ot_subway_ns, ot_subway_nesw);
  polish(ot_ants_ns, ot_ants_nesw);
 // Basements done last so sewers, etc. don't overwrite them
@@ -595,6 +615,8 @@ void overmap::generate_sub(overmap* above)
     ter(i, j) = ot_basement;
   }
  }
+ for (int i = 0; i < shaft_points.size(); i++)
+  ter(shaft_points[i].x, shaft_points[i].y) = ot_mine_shaft;
 }
 
 void overmap::make_tutorial()
@@ -1344,11 +1366,13 @@ void overmap::build_lab(int x, int y, int s)
  }
  if (numstairs == 0) {	// This is the bottom of the lab;  We need a finale
   int finalex, finaley;
+  int tries = 0;
   do {
    finalex = rng(x - s, x + s);
    finaley = rng(y - s, y + s);
-  } while (ter(finalex, finaley) != ot_lab &&
-           ter(finalex, finaley) != ot_lab_core);
+   tries++;
+  } while (tries < 15 && ter(finalex, finaley) != ot_lab &&
+                         ter(finalex, finaley) != ot_lab_core);
   ter(finalex, finaley) = ot_lab_finale;
  }
  zg.push_back(mongroup(mcat_lab, (x * 2), (y * 2), s, 60));
@@ -1424,6 +1448,33 @@ void overmap::build_slimepit(int x, int y, int s)
     }
    }
  }
+}
+
+void overmap::build_mine(int x, int y, int s)
+{
+ bool finale = (s <= rng(1, 3));
+ int built = 0;
+ if (s < 2)
+  s = 2;
+ while (built < s) {
+  ter(x, y) = ot_mine;
+  std::vector<point> next;
+  for (int i = -1; i <= 1; i += 2) {
+   if (ter(x, y + i) == ot_rock)
+    next.push_back( point(x, y + i) );
+   if (ter(x + i, y) == ot_rock)
+    next.push_back( point(x + i, y) );
+  }
+  if (next.empty()) { // Dead end!  Go down!
+   ter(x, y) = (finale ? ot_mine_finale : ot_mine_down);
+   return;
+  }
+  point p = next[ rng(0, next.size() - 1) ];
+  x = p.x;
+  y = p.y;
+  built++;
+ }
+ ter(x, y) = (finale ? ot_mine_finale : ot_mine_down);
 }
 
 void overmap::place_rifts()
@@ -2045,14 +2096,6 @@ void overmap::place_mongroups()
 	mongroup(mcat_plants, rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1),
 	         rng(30, 50), rng(800, 1300)));
  }
-/*
- numgroups = rng(0, 7);
- for (int i = 0; i < numgroups; i++) {
-  zg.push_back(
-	mongroup(mcat_fungi, rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1),
-	         rng(20, 30), rng(400, 800)));
- }
-*/
 // Forest groups cover the entire map
  zg.push_back(
 	mongroup(mcat_forest, 0, OMAPY, OMAPY,

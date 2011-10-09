@@ -61,6 +61,7 @@ class map
  bool bash(int x, int y, int str, std::string &sound);
  void destroy(game *g, int x, int y, bool makesound);
  void shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags);
+ bool hit_with_acid(game *g, int x, int y);
  void marlossify(int x, int y);
 
 // Radiation
@@ -106,7 +107,8 @@ private:
  void saven(overmap *om, unsigned int turn, int x, int y, int gridx, int gridy);
  bool loadn(game *g, int x, int y, int gridx, int gridy);
  void draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
-               oter_id t_south, oter_id t_west, oter_id t_above, int turn);
+               oter_id t_south, oter_id t_west, oter_id t_above, int turn,
+               game *g);
  void add_extra(map_extra type, game *g);
  void rotate(int turns);// Rotates the current map 90*turns degress clockwise
 			// Useful for houses, shops, etc

@@ -65,6 +65,15 @@ void mattack::acid(game *g, monster *z)
  z->sp_timeout = z->type->sp_freq;	// Reset timer
  g->sound(z->posx, z->posy, 4, "a spitting noise.");
  int hitx = g->u.posx + rng(-2, 2), hity = g->u.posy + rng(-2, 2);
+ std::vector<point> line = line_to(z->posx, z->posy, hitx, hity, junk);
+ for (int i = 0; i < line.size(); i++) {
+  if (g->m.hit_with_acid(g, line[i].x, line[i].y)) {
+   if (g->u_see(line[i].x, line[i].y, junk))
+    g->add_msg("A glob of acid hits the %s!",
+               g->m.tername(line[i].x, line[i].y).c_str());
+   return;
+  }
+ }
  for (int i = -3; i <= 3; i++) {
   for (int j = -3; j <= 3; j++) {
    if (g->m.move_cost(hitx + i, hity +j) > 0 &&
@@ -609,6 +618,219 @@ void mattack::formblob(game *g, monster *z)
    return;
   }
  }
+}
+
+void mattack::dogthing(game *g, monster *z)
+{
+ if (!one_in(3))
+  return;
+
+ int t;
+ if (g->u_see(z, t))
+  g->add_msg("The %s's head explodes in a mass of roiling tentacles!",
+             z->name().c_str());
+
+ for (int x = z->posx - 2; x <= z->posx + 2; x++) {
+  for (int y = z->posy - 2; y <= z->posy + 2; y++) {
+   if (rng(0, 2) >= rl_dist(z->posx, z->posy, x, y))
+    g->m.add_field(g, x, y, fd_blood, 2);
+  }
+ }
+
+ z->friendly = 0;
+ z->poly(g->mtypes[mon_headless_dog_thing]);
+}
+
+void mattack::tentacle(game *g, monster *z)
+{
+ int t;
+ if (!g->sees_u(z->posx, z->posy, t))
+  return;
+
+ g->add_msg("The %s lashes its tentacle at you!", z->name().c_str());
+ z->moves -= 100;
+ z->sp_timeout = z->type->sp_freq;	// Reset timer
+
+ std::vector<point> line = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
+ for (int i = 0; i < line.size(); i++) {
+  int tmpdam = 20;
+  g->m.shoot(g, line[i].x, line[i].y, tmpdam, true, 0);
+ }
+
+ if (rng(0, 20) > g->u.dodge() || one_in(g->u.dodge())) {
+  g->add_msg("You dodge it!");
+  return;
+ }
+ body_part hit = random_body_part();
+ int dam = rng(10, 20), side = rng(0, 1);
+ g->add_msg("Your %s is hit for %d damage!", body_part_name(hit, side).c_str(),
+            dam);
+ g->u.hit(g, hit, side, dam, 0);
+}
+
+void mattack::vortex(game *g, monster *z)
+{
+ int t;
+// Moves are NOT used up by this attack, as it is "passive"
+ z->sp_timeout = z->type->sp_freq;
+// Before anything else, smash terrain!
+ for (int x = z->posx - 2; x <= z->posx + 2; x++) {
+  for (int y = z->posx - 2; y <= z->posy + 2; y++) {
+   if (x == z->posx && y == z->posy) // Don't throw us!
+    y++;
+   std::string sound;
+   g->m.bash(x, y, 14, sound);
+   g->sound(x, y, 8, sound);
+  }
+ }
+ for (int x = z->posx - 2; x <= z->posx + 2; x++) {
+  for (int y = z->posx - 2; y <= z->posy + 2; y++) {
+   if (x == z->posx && y == z->posy) // Don't throw us!
+    y++;
+   std::vector<point> from_monster = line_to(z->posx, z->posy, x, y, 0);
+   while (!g->m.i_at(x, y).empty()) {
+    item thrown = g->m.i_at(x, y)[0];
+    g->m.i_rem(x, y, 0);
+    int distance = 5 - (thrown.weight() / 15);
+    if (distance > 0) {
+     int dam = thrown.weight() / double(3 + double(thrown.volume() / 6));
+     std::vector<point> traj = continue_line(from_monster, distance);
+     for (int i = 0; i < traj.size() && dam > 0; i++) {
+      g->m.shoot(g, traj[i].x, traj[i].y, dam, false, 0);
+      int mondex = g->mon_at(traj[i].x, traj[i].y);
+      if (mondex != -1) {
+       if (g->z[mondex].hurt(dam))
+        g->kill_mon(mondex);
+       dam = 0;
+      }
+      if (g->m.move_cost(traj[i].x, traj[i].y) == 0) {
+       dam = 0;
+       i--;
+      } else if (traj[i].x == g->u.posx && traj[i].y == g->u.posy) {
+       body_part hit = random_body_part();
+       int side = rng(0, 1);
+       g->add_msg("A %s hits your %s for %d damage!", thrown.tname().c_str(),
+                  body_part_name(hit, side).c_str(), dam);
+       g->u.hit(g, hit, side, dam, 0);
+       dam = 0;
+      }
+// TODO: Hit NPCs
+      if (dam == 0 || i == traj.size() - 1) {
+       if (thrown.made_of(GLASS)) {
+        if (g->u_see(traj[i].x, traj[i].y, t))
+         g->add_msg("The %s shatters!", thrown.tname().c_str());
+        for (int n = 0; n < thrown.contents.size(); n++)
+         g->m.add_item(traj[i].x, traj[i].y, thrown.contents[n]);
+        g->sound(traj[i].x, traj[i].y, 16, "glass breaking!");
+       } else
+        g->m.add_item(traj[i].x, traj[i].y, thrown);
+      }
+     }
+    } // Done throwing item
+   } // Done getting items
+// Throw monsters
+   int mondex = g->mon_at(x, y);
+   if (mondex != -1) {
+    int distance = 0, damage = 0;
+    monster *thrown = &(g->z[mondex]);
+    switch (thrown->type->size) {
+     case MS_TINY:   distance = 5; break;
+     case MS_SMALL:  distance = 3; break;
+     case MS_MEDIUM: distance = 2; break;
+     case MS_LARGE:  distance = 1; break;
+     case MS_HUGE:   distance = 0; break;
+    }
+    damage = distance * 4;
+    switch (thrown->type->mat) {
+     case LIQUID:  distance += 3; damage -= 10; break;
+     case VEGGY:   distance += 1; damage -=  5; break;
+     case POWDER:  distance += 4; damage -= 30; break;
+     case COTTON:
+     case WOOL:    distance += 5; damage -= 40; break;
+     case LEATHER: distance -= 1; damage +=  5; break;
+     case KEVLAR:  distance -= 3; damage -= 20; break;
+     case STONE:   distance -= 3; damage +=  5; break;
+     case PAPER:   distance += 6; damage -= 10; break;
+     case WOOD:    distance += 1; damage +=  5; break;
+     case PLASTIC: distance += 1; damage +=  5; break;
+     case GLASS:   distance += 2; damage += 20; break;
+     case IRON:    distance -= 1; // fall through
+     case STEEL:
+     case SILVER:  distance -= 3; damage -= 10; break;
+    }
+    if (distance > 0) {
+     if (g->u_see(thrown, t))
+      g->add_msg("The %s is thrown by winds!", thrown->name().c_str());
+     std::vector<point> traj = continue_line(from_monster, distance);
+     bool hit_wall = false;
+     for (int i = 0; i < traj.size() && !hit_wall; i++) {
+      int monhit = g->mon_at(traj[i].x, traj[i].y);
+      if (i > 0 && monhit != -1 && !g->z[monhit].has_flag(MF_DIGS)) {
+       if (g->u_see(traj[i].x, traj[i].y, t))
+        g->add_msg("The %s hits a %s!", thrown->name().c_str(),
+                   g->z[monhit].name().c_str());
+       if (g->z[monhit].hurt(damage))
+        g->kill_mon(monhit);
+       hit_wall = true;
+       thrown->posx = traj[i - 1].x;
+       thrown->posy = traj[i - 1].y;
+      } else if (g->m.move_cost(traj[i].x, traj[i].y) == 0) {
+       hit_wall = true;
+       thrown->posx = traj[i - 1].x;
+       thrown->posy = traj[i - 1].y;
+      }
+      int damage_copy = damage;
+      g->m.shoot(g, traj[i].x, traj[i].y, damage_copy, false, 0);
+      if (damage_copy < damage)
+       thrown->hurt(damage - damage_copy);
+     }
+     if (hit_wall)
+      damage *= 2;
+     else {
+      thrown->posx = traj[traj.size() - 1].x;
+      thrown->posy = traj[traj.size() - 1].y;
+     }
+     if (thrown->hurt(damage))
+      g->kill_mon(g->mon_at(thrown->posx, thrown->posy));
+    } // if (distance > 0)
+   } // if (mondex != -1)
+
+   if (g->u.posx == x && g->u.posy == y) { // Throw... the player?! D:
+    std::vector<point> traj = continue_line(from_monster, rng(3, 4));
+    bool hit_wall = false;
+    int damage = rng(5, 10);
+    for (int i = 0; i < traj.size() && !hit_wall; i++) {
+     int monhit = g->mon_at(traj[i].x, traj[i].y);
+     if (i > 0 && monhit != -1 && !g->z[monhit].has_flag(MF_DIGS)) {
+      if (g->u_see(traj[i].x, traj[i].y, t))
+       g->add_msg("You hit a %s!", g->z[monhit].name().c_str());
+      if (g->z[monhit].hurt(damage))
+       g->kill_mon(monhit);
+      hit_wall = true;
+      g->u.posx = traj[i - 1].x;
+      g->u.posy = traj[i - 1].y;
+     } else if (g->m.move_cost(traj[i].x, traj[i].y) == 0) {
+      g->add_msg("You slam into a %s",
+                 g->m.tername(traj[i].x, traj[i].y).c_str());
+      hit_wall = true;
+      g->u.posx = traj[i - 1].x;
+      g->u.posy = traj[i - 1].y;
+     }
+     int damage_copy = damage;
+     g->m.shoot(g, traj[i].x, traj[i].y, damage_copy, false, 0);
+     if (damage_copy < damage)
+      g->u.hit(g, bp_torso, 0, damage - damage_copy, 0);
+    }
+    if (hit_wall)
+     damage *= 2;
+    else {
+     g->u.posx = traj[traj.size() - 1].x;
+     g->u.posy = traj[traj.size() - 1].y;
+    }
+    g->u.hit(g, bp_torso, 0, damage, 0);
+   } // Done with checking for player
+  }
+ } // Done with loop!
 }
 
 void mattack::gene_sting(game *g, monster *z)

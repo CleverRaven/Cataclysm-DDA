@@ -209,13 +209,15 @@ void calendar::standardize()
 
 int calendar::minutes_past_midnight()
 {
- return minute + hour * 60;
+ //debugmsg("minute: %d  hour: %d");
+ int ret = minute + hour * 60;
+ return ret;
 }
 
 moon_phase calendar::moon()
 {
  int phase = day / (DAYS_IN_SEASON / 4);
- phase %= 4;
+ //phase %= 4;   Redundant?
  if (phase = 3)
   return MOON_HALF;
  else
@@ -290,24 +292,25 @@ bool calendar::is_night()
 {
  calendar sunrise_time = sunrise(), sunset_time = sunset();
 
- int mins = minutes_past_midnight(),
+ int mins         = minutes_past_midnight(),
      sunrise_mins = sunrise_time.minutes_past_midnight(),
      sunset_mins  = sunset_time.minutes_past_midnight();
 
- return (mins > sunset_mins + TWILIGHT_MINUTES && mins < sunrise_mins);
+ return (mins > sunset_mins + TWILIGHT_MINUTES || mins < sunrise_mins);
 }
 
 int calendar::sunlight()
 {
  calendar sunrise_time = sunrise(), sunset_time = sunset();
 
- int mins         = minutes_past_midnight(),
-     sunrise_mins = sunrise_time.minutes_past_midnight(),
-     sunset_mins  = sunset_time.minutes_past_midnight();
+ int mins = 0, sunrise_mins = 0, sunset_mins = 0;
+ mins = minutes_past_midnight();
+ sunrise_mins = sunrise_time.minutes_past_midnight();
+ sunset_mins = sunset_time.minutes_past_midnight();
 
- int moonlight = int(moon()) * MOONLIGHT_LEVEL;
+ int moonlight = 1 + int(moon()) * MOONLIGHT_LEVEL;
 
- if (mins > sunset_mins + TWILIGHT_MINUTES && mins < sunrise_mins) // Night
+ if (mins > sunset_mins + TWILIGHT_MINUTES || mins < sunrise_mins) // Night
   return moonlight;
 
  else if (mins >= sunrise_mins && mins < sunrise_mins + TWILIGHT_MINUTES) {

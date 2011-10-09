@@ -24,6 +24,10 @@ enum computer_action
  COMPACT_MAPS,
  COMPACT_MISS_LAUNCH,
  COMPACT_MISS_DISARM,
+ COMPACT_LIST_BIONICS,
+ COMPACT_ELEVATOR_ON,
+ COMPACT_AMIGARA_LOG,
+ COMPACT_AMIGARA_START,
  NUM_COMPUTER_ACTIONS
 };
 
@@ -37,6 +41,7 @@ enum computer_failure
  COMPFAIL_DAMAGE,
  COMPFAIL_PUMP_EXPLODE,
  COMPFAIL_PUMP_LEAK,
+ COMPFAIL_AMIGARA,
  NUM_COMPUTER_FAILURES
 };
 
@@ -93,8 +98,12 @@ private:
  void print_line(const char *text, ...);
 // For now, the same as print_line but in red (TODO: change this?)
  void print_error(const char *text, ...);
+// Prints code-looking gibberish
+ void print_gibberish_line();
 // Prints a line and waits for Y/N/Q
  char query_ynq(const char *text, ...);
+// Same as query_ynq, but returns true for y or Y
+ bool query_bool(const char *text, ...);
 };
 
 #endif

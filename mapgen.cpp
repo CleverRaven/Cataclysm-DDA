@@ -26,11 +26,17 @@ enum room_type {
  room_goo,
  room_cloning,
  room_vivisect,
+ room_bionics,
  room_dorm,
  room_living,
  room_bathroom,
  room_kitchen,
  room_bedroom,
+ room_mine_shaft,
+ room_mine_office,
+ room_mine_storage,
+ room_mine_fuel,
+ room_mine_housing,
  room_split
 };
 
@@ -39,6 +45,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2);
 void science_room(map *m, int x1, int y1, int x2, int y2, int rotate);
 void set_science_room(map *m, int x1, int y1, bool faces_right, int turn);
 void silo_rooms(map *m);
+void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2);
 map_extra random_map_extra();
 
 void line(map *m, ter_id type, int x1, int y1, int x2, int y2);
@@ -90,7 +97,7 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
    t_west = tmp.ter(overx - 1, overy);
   else
    t_west = om->ter(OMAPX - 1, overy);
-  draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn);
+  draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g);
   for (int i = 0; i < 2; i++) {
    for (int j = 0; j < 2; j++)
     saven(&tmp, turn, overx*2, overy*2, i, j);
@@ -126,7 +133,7 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
    overmap tmp(g, om->posx - 1, om->posy, 0);
    t_west = tmp.ter(OMAPX - 1, overy);
   }
-  draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn);
+  draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g);
 
   if (oterlist[terrain_type].embellished && one_in(MAP_EXTRA_CHANCE))
    add_extra(random_map_extra(), g);
@@ -140,7 +147,8 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
 }
 
 void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
-                   oter_id t_south, oter_id t_west, oter_id t_above, int turn)
+                   oter_id t_south, oter_id t_west, oter_id t_above, int turn,
+                   game *g)
 {
 // Big old switch statement with a case for each overmap terrain type.
 // Many of these can be copied from another type, then rotated; for instance,
@@ -186,6 +194,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      ter(i, j) = t_dirt;
    }
   }
+  place_items(mi_wreckage, 83, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
   break;
 
  case ot_field:
@@ -2685,6 +2694,454 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   }
   break;
 
+ case ot_mine_entrance: {
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++)
+    ter(i, j) = grass_or_dirt();
+  }
+  int tries = 0;
+  bool build_shaft = true;
+  do {
+   int x1 = rng(1, SEEX * 2 - 10), y1 = rng(1, SEEY * 2 - 10);
+   int x2 = x1 + rng(4, 9),        y2 = y1 + rng(4, 9);
+   if (build_shaft) {
+    build_mine_room(this, room_mine_shaft, x1, y1, x2, y2);
+    build_shaft = false;
+   } else {
+    bool okay = true;
+    for (int x = x1; x <= x2 && okay; x++) {
+     for (int y = y1; y <= y2 && okay; y++) {
+      if (ter(x, y) != t_grass & ter(x, y) != t_dirt)
+       okay = false;
+     }
+    }
+    if (okay) {
+     room_type type = room_type( rng(room_mine_office, room_mine_housing) );
+     build_mine_room(this, type, x1, y1, x2, y2);
+     tries = 0;
+    } else
+     tries++;
+   }
+  } while (tries < 5);
+ } break;
+
+ case ot_mine_shaft: // Not intended to actually be inhabited!
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++) {
+    if (i < SEEX - 1 || i > SEEX + 2 || j < SEEY - 1 || j > SEEY + 2)
+     ter(i, j) = t_rock;
+    else
+     ter(i, j) = t_hole;
+   }
+  }
+  break;
+
+ case ot_mine:
+ case ot_mine_down:
+  if (t_north >= ot_mine && t_north <= ot_mine_finale)
+   n_fac = (one_in(10) ? 0 : -2);
+  else
+   n_fac = 4;
+  if (t_east >= ot_mine  && t_east <= ot_mine_finale)
+   e_fac = (one_in(10) ? 0 : -2);
+  else
+   e_fac = 4;
+  if (t_south >= ot_mine && t_south <= ot_mine_finale)
+   s_fac = (one_in(10) ? 0 : -2);
+  else
+   s_fac = 4;
+  if (t_west >= ot_mine  && t_west <= ot_mine_finale)
+   w_fac = (one_in(10) ? 0 : -2);
+  else
+   w_fac = 4;
+
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++) {
+    if (i >= w_fac + rng(0, 2) && i <= SEEX * 2 - 1 - e_fac - rng(0, 2) &&
+        j >= n_fac + rng(0, 2) && j <= SEEY * 2 - 1 - s_fac - rng(0, 2) &&
+        i + j >= 4 && (SEEX * 2 - i) + (SEEY * 2 - j) >= 6  )
+     ter(i, j) = t_rock_floor;
+    else
+     ter(i, j) = t_rock;
+   }
+  }
+
+  if (t_above == ot_mine_shaft) { // We need the entrance room
+   square(this, t_floor, 10, 10, 15, 15);
+   line(this, t_wall_h,  9,  9, 16,  9);
+   line(this, t_wall_h,  9, 16, 16, 16);
+   line(this, t_wall_v,  9, 10,  9, 15);
+   line(this, t_wall_v, 16, 10, 16, 15);
+   line(this, t_wall_h, 10, 11, 12, 11);
+   ter(10, 10) = t_elevator_control;
+   ter(11, 10) = t_elevator;
+   line(this, t_counter, 10, 15, 15, 15);
+   place_items(mi_mine_equipment, 86, 10, 15, 15, 15, false, 0);
+   if (one_in(2))
+    ter(9, 12) = t_door_c;
+   else
+    ter(16, 12) = t_door_c;
+
+  } else { // Not an entrance; maybe some hazards!
+   switch( rng(0, 6) ) {
+    case 0: break; // Nothing!  Lucky!
+
+    case 1: { // Toxic gas
+     int cx = rng(9, 14), cy = rng(9, 14);
+     for (int i = cx - 3; i < cx + 3; i++) {
+      for (int j = cy - 3; j < cy + 3; j++)
+       add_field(g, i, j, fd_toxic_gas, rng(1, 3));
+     }
+    } break;
+
+    case 2: { // Lava
+     int x1 = rng(6, SEEX),                y1 = rng(6, SEEY),
+         x2 = rng(SEEX + 1, SEEX * 2 - 7), y2 = rng(SEEY + 1, SEEY * 2 - 7);
+     int num = rng(2, 4);
+     for (int i = 0; i < num; i++) {
+      int lx1 = x1 + rng(-1, 1), lx2 = x2 + rng(-1, 1),
+          ly1 = y1 + rng(-1, 1), ly2 = y2 + rng(-1, 1);
+      line(this, t_lava, lx1, ly1, lx2, ly2);
+     }
+    } break;
+
+    case 3: { // Wrecked equipment
+     int x = rng(9, 14), y = rng(9, 14);
+     for (int i = x - 3; i < x + 3; i++) {
+      for (int j = y - 3; j < y + 3; j++) {
+       if (!one_in(4))
+        ter(i, j) = t_wreckage;
+      }
+     }
+     place_items(mi_wreckage, 70, x - 3, y - 3, x + 2, y + 2, false, 0);
+    } break;
+
+    case 4: { // Dead miners
+     int num_bodies = rng(4, 8);
+     for (int i = 0; i < num_bodies; i++) {
+      int tries = 0;
+      point body;
+      do {
+       body = point(-1, -1);
+       int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
+       if (move_cost(x, y) == 2)
+        body = point(x, y);
+       else
+        tries++;
+      } while (body.x == -1 && tries < 10);
+      if (tries < 10) {
+       item miner;
+       miner.make_corpse(g->itypes[itm_corpse], g->mtypes[mon_null], 0);
+       add_item(body.x, body.y, miner);
+       place_items(mi_mine_equipment, 60, body.x, body.y, body.x, body.y,
+                   false, 0);
+      }
+     }
+    } break;
+
+    case 5: { // Dark worm!
+     int num_worms = rng(1, 5);
+     for (int i = 0; i < num_worms; i++) {
+      std::vector<direction> sides;
+      if (n_fac == 6)
+       sides.push_back(NORTH);
+      if (e_fac == 6)
+       sides.push_back(EAST);
+      if (s_fac == 6)
+       sides.push_back(SOUTH);
+      if (w_fac == 6)
+       sides.push_back(WEST);
+      if (sides.empty()) {
+       add_spawn(mon_dark_wyrm, 1, SEEX, SEEY);
+       i = num_worms;
+      } else {
+       direction side = sides[rng(0, sides.size() - 1)];
+       point p;
+       switch (side) {
+        case NORTH: p = point(rng(1, SEEX * 2 - 2), rng(1, 5)           );break;
+        case EAST:  p = point(SEEX * 2 - rng(2, 6), rng(1, SEEY * 2 - 2));break;
+        case SOUTH: p = point(rng(1, SEEX * 2 - 2), SEEY * 2 - rng(2, 6));break;
+        case WEST:  p = point(rng(1, 5)           , rng(1, SEEY * 2 - 2));break;
+       }
+       ter(p.x, p.y) = t_rock_floor;
+       add_spawn(mon_dark_wyrm, 1, p.x, p.y);
+      }
+     }
+    } break;
+
+    case 6: { // Spiral
+     int orx = rng(SEEX - 4, SEEX), ory = rng(SEEY - 4, SEEY);
+     line(this, t_rock, orx    , ory    , orx + 5, ory    );
+     line(this, t_rock, orx + 5, ory    , orx + 5, ory + 5);
+     line(this, t_rock, orx + 1, ory + 5, orx + 5, ory + 5);
+     line(this, t_rock, orx + 1, ory + 2, orx + 1, ory + 4);
+     line(this, t_rock, orx + 1, ory + 2, orx + 3, ory + 2);
+     ter(orx + 3, ory + 3) = t_rock;
+     item miner;
+     miner.make_corpse(g->itypes[itm_corpse], g->mtypes[mon_null], 0);
+     add_item(orx + 2, ory + 3, miner);
+     place_items(mi_mine_equipment, 60, orx + 2, ory + 3, orx + 2, ory + 3,
+                   false, 0);
+    } break;
+   }
+  }
+
+  if (terrain_type == ot_mine_down) { // Don't forget to build a slope down!
+   std::vector<direction> open;
+   if (n_fac == 4)
+    open.push_back(NORTH);
+   if (e_fac == 4)
+    open.push_back(EAST);
+   if (s_fac == 4)
+    open.push_back(SOUTH);
+   if (w_fac == 4)
+    open.push_back(WEST);
+
+   if (open.empty()) { // We'll have to build it in the center
+    int tries = 0;
+    point p;
+    bool okay = true;
+    do {
+     p.x = rng(SEEX - 6, SEEX + 1);
+     p.y = rng(SEEY - 6, SEEY + 1);
+     okay = true;
+     for (int i = p.x; i <= p.x + 5 && okay; i++) {
+      for (int j = p.y; j <= p.y + 5 && okay; j++) {
+       if (ter(i, j) != t_rock_floor)
+        okay = false;
+      }
+     }
+     if (!okay)
+      tries++;
+    } while (!okay && tries < 10);
+    if (tries == 10) // Clear the area around the slope down
+     square(this, t_rock_floor, p.x, p.y, p.x + 5, p.y + 5);
+    square(this, t_slope_down, p.x + 1, p.y + 1, p.x + 2, p.y + 2);
+
+   } else { // We can build against a wall
+    direction side = open[rng(0, open.size() - 1)];
+    switch (side) {
+     case NORTH:
+      square(this, t_rock_floor, SEEX - 3, 6, SEEX + 2, SEEY);
+      line(this, t_slope_down, SEEX - 2, 6, SEEX + 1, 6);
+      break;
+     case EAST:
+      square(this, t_rock_floor, SEEX + 1, SEEY - 3, SEEX * 2 - 7, SEEY + 2);
+      line(this, t_slope_down, SEEX * 2 - 7, SEEY - 2, SEEX * 2 - 7, SEEY + 1);
+      break;
+     case SOUTH:
+      square(this, t_rock_floor, SEEX - 3, SEEY + 1, SEEX + 2, SEEY * 2 - 7);
+      line(this, t_slope_down, SEEX - 2, SEEY * 2 - 7, SEEX + 1, SEEY * 2 - 7);
+      break;
+     case WEST:
+      square(this, t_rock_floor, 6, SEEY - 3, SEEX, SEEY + 2);
+      line(this, t_slope_down, 6, SEEY - 2, 6, SEEY + 1);
+      break;
+    }
+   }
+  } // Done building a slope down
+   
+  if (t_above == ot_mine_down) {  // Don't forget to build a slope up!
+   std::vector<direction> open;
+   if (n_fac == 6 && ter(SEEX, 6) != t_slope_down)
+    open.push_back(NORTH);
+   if (e_fac == 6 && ter(SEEX * 2 - 7, SEEY) != t_slope_down)
+    open.push_back(EAST);
+   if (s_fac == 6 && ter(SEEX, SEEY * 2 - 7) != t_slope_down)
+    open.push_back(SOUTH);
+   if (w_fac == 6 && ter(6, SEEY) != t_slope_down)
+    open.push_back(WEST);
+
+   if (open.empty()) { // We'll have to build it in the center
+    int tries = 0;
+    point p;
+    bool okay = true;
+    do {
+     p.x = rng(SEEX - 6, SEEX + 1);
+     p.y = rng(SEEY - 6, SEEY + 1);
+     okay = true;
+     for (int i = p.x; i <= p.x + 5 && okay; i++) {
+      for (int j = p.y; j <= p.y + 5 && okay; j++) {
+       if (ter(i, j) != t_rock_floor)
+        okay = false;
+      }
+     }
+     if (!okay)
+      tries++;
+    } while (!okay && tries < 10);
+    if (tries == 10) // Clear the area around the slope down
+     square(this, t_rock_floor, p.x, p.y, p.x + 5, p.y + 5);
+    square(this, t_slope_up, p.x + 1, p.y + 1, p.x + 2, p.y + 2);
+
+   } else { // We can build against a wall
+    direction side = open[rng(0, open.size() - 1)];
+    switch (side) {
+     case NORTH:
+      line(this, t_slope_up, SEEX - 2, 6, SEEX + 1, 6);
+      break;
+     case EAST:
+      line(this, t_slope_up, SEEX * 2 - 7, SEEY - 2, SEEX * 2 - 7, SEEY + 1);
+      break;
+     case SOUTH:
+      line(this, t_slope_up, SEEX - 2, SEEY * 2 - 7, SEEX + 1, SEEY * 2 - 7);
+      break;
+     case WEST:
+      line(this, t_slope_up, 6, SEEY - 2, 6, SEEY + 1);
+      break;
+    }
+   }
+  } // Done building a slope up
+  break;
+
+ case ot_mine_finale: {
+// Set up the basic chamber
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++) {
+    if (i > rng(1, 3) && i < SEEX * 2 - rng(2, 4) &&
+        j > rng(1, 3) && j < SEEY * 2 - rng(2, 4)   )
+     ter(i, j) = t_rock_floor;
+    else
+     ter(i, j) = t_rock;
+   }
+  }
+  std::vector<direction> face; // Which walls are solid, and can be a facing?
+// Now draw the entrance(s)
+  if (t_north == ot_mine)
+   square(this, t_rock_floor, SEEX, 0, SEEX + 1, 3);
+  else
+   face.push_back(NORTH);
+
+  if (t_east  == ot_mine)
+   square(this, t_rock_floor, SEEX * 2 - 4, SEEY, SEEX * 2 - 1, SEEY + 1);
+  else
+   face.push_back(EAST);
+
+  if (t_south == ot_mine)
+   square(this, t_rock_floor, SEEX, SEEY * 2 - 4, SEEX + 1, SEEY * 2 - 1);
+  else
+   face.push_back(SOUTH);
+
+  if (t_west  == ot_mine)
+   square(this, t_rock_floor, 0, SEEY, 3, SEEY + 1);
+  else
+   face.push_back(WEST);
+
+// Now, pick and generate a type of finale!
+  if (face.empty())
+   rn = rng(1, 3); // Amigara fault is not valid
+  else
+   rn = rng(1, 4);
+
+  switch (rn) {
+   case 1: { // Wyrms
+    int x = rng(SEEX, SEEX + 1), y = rng(SEEY, SEEY + 1);
+    ter(x, y) = t_pedestal_wyrm;
+    add_item(x, y, (*itypes)[itm_petrified_eye], 0);
+   } break; // That's it!  game::examine handles the pedestal/wyrm spawns
+
+   case 2: { // The Thing dog
+    item miner;
+    miner.make_corpse(g->itypes[itm_corpse], g->mtypes[mon_null], 0);
+    int num_bodies = rng(4, 8);
+    for (int i = 0; i < num_bodies; i++) {
+     int x = rng(4, SEEX * 2 - 5), y = rng(4, SEEX * 2 - 5);
+     add_item(x, y, miner);
+     place_items(mi_mine_equipment, 60, x, y, x, y, false, 0);
+    }
+    add_spawn(mon_dog_thing, 1, rng(SEEX, SEEX + 1), rng(SEEX, SEEX + 1));
+   } break;
+
+   case 3: { // Spiral down
+    line(this, t_rock,  5,  5,  5, 18);
+    line(this, t_rock,  5,  5, 18,  5);
+    line(this, t_rock, 18,  5, 18, 18);
+    line(this, t_rock,  8, 18, 18, 18);
+    line(this, t_rock,  8,  8,  8, 18);
+    line(this, t_rock,  8,  8, 15,  8);
+    line(this, t_rock, 15,  8, 15, 15);
+    line(this, t_rock, 10, 15, 15, 15);
+    line(this, t_rock, 10, 10, 10, 15);
+    line(this, t_rock, 10, 10, 13, 10);
+    line(this, t_rock, 13, 10, 13, 13);
+    ter(12, 13) = t_rock;
+    ter(12, 12) = t_slope_down;
+    ter(12, 11) = t_slope_down;
+   } break;
+
+   case 4: { // Amigara fault
+    direction fault = face[rng(0, face.size() - 1)];
+// Construct the fault on the appropriate face
+    switch (fault) {
+     case NORTH:
+      square(this, t_rock, 0, 0, SEEX * 2 - 1, 4);
+      line(this, t_fault, 4, 4, SEEX * 2 - 5, 4);
+      break;
+     case EAST:
+      square(this, t_rock, SEEX * 2 - 5, 0, SEEY * 2 - 1, SEEX * 2 - 1);
+      line(this, t_fault, SEEX * 2 - 5, 4, SEEX * 2 - 5, SEEY * 2 - 5);
+      break;
+     case SOUTH:
+      square(this, t_rock, 0, SEEY * 2 - 5, SEEX * 2 - 1, SEEY * 2 - 1);
+      line(this, t_fault, 4, SEEY * 2 - 5, SEEX * 2 - 5, SEEY * 2 - 5);
+      break;
+     case WEST:
+      square(this, t_rock, 0, 0, 4, SEEY * 2 - 1);
+      line(this, t_fault, 4, 4, 4, SEEY * 2 - 5);
+      break;
+    }
+
+    ter(SEEX, SEEY) = t_console;
+    tmpcomp = add_computer(SEEX, SEEY, "NEPowerOS", 0);
+    tmpcomp->add_option("Read Logs", COMPACT_AMIGARA_LOG, 0);
+    tmpcomp->add_option("Initiate Tremors", COMPACT_AMIGARA_START, 4);
+    tmpcomp->add_failure(COMPFAIL_AMIGARA);
+   } break;
+  }
+  } break;
+
+ case ot_spiral_hub:
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++)
+    ter(i, j) = t_rock_floor;
+  }
+  line(this, t_rock, 23,  0, 23, 23);
+  line(this, t_rock,  2, 23, 23, 23);
+  line(this, t_rock,  2,  4,  2, 23);
+  line(this, t_rock,  2,  4, 18,  4);
+  line(this, t_rock, 18,  4, 18, 18); // bad
+  line(this, t_rock,  6, 18, 18, 18);
+  line(this, t_rock,  6,  7,  6, 18);
+  line(this, t_rock,  6,  7, 15,  7);
+  line(this, t_rock, 15,  7, 15, 15);
+  line(this, t_rock,  8, 15, 15, 15);
+  line(this, t_rock,  8,  9,  8, 15);
+  line(this, t_rock,  8,  9, 13,  9);
+  line(this, t_rock, 13,  9, 13, 13);
+  line(this, t_rock, 10, 13, 13, 13);
+  line(this, t_rock, 10, 11, 10, 13);
+  square(this, t_slope_up, 11, 11, 12, 12);
+  rotate(rng(0, 3));
+  break;
+
+ case ot_spiral: {
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++)
+    ter(i, j) = t_rock_floor;
+  }
+  int num_spiral = rng(1, 4);
+  for (int i = 0; i < num_spiral; i++) {
+   int orx = rng(SEEX - 4, SEEX), ory = rng(SEEY - 4, SEEY);
+   line(this, t_rock, orx    , ory    , orx + 5, ory    );
+   line(this, t_rock, orx + 5, ory    , orx + 5, ory + 5);
+   line(this, t_rock, orx + 1, ory + 5, orx + 5, ory + 5);
+   line(this, t_rock, orx + 1, ory + 2, orx + 1, ory + 4);
+   line(this, t_rock, orx + 1, ory + 2, orx + 3, ory + 2);
+   ter(orx + 3, ory + 3) = t_rock;
+   ter(orx + 2, ory + 3) = t_rock_floor;
+   place_items(mi_spiral, 60, orx + 2, ory + 3, orx + 2, ory + 3, false, 0);
+  }
+ } break;
+
  case ot_radio_tower:
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++)
@@ -4398,8 +4855,10 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
   valid_rooms.push_back(room_chemistry);
  if ((height > 7 || width > 7) && height > 2 && width > 2)
   valid_rooms.push_back(room_teleport);
- if (height > 4 && width > 4)
+ if (height > 4 && width > 4) {
   valid_rooms.push_back(room_goo);
+  valid_rooms.push_back(room_bionics);
+ }
  if (height > 7 && width > 7)
   valid_rooms.push_back(room_cloning);
  if (area >= 9)
@@ -4529,6 +4988,62 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     m->place_items(mi_dissection, 80, x2 - 1, y1, x2 - 1, y2, false, 0);
    }
    m->add_trap(int((x1 + x2) / 2), int((y1 + y2) / 2), tr_dissector);
+   break;
+
+  case room_bionics:
+   if (rotate % 2 == 0) {
+    int biox = x1, bioy = int((y1 + y2) / 2);
+    m->ter(biox    , bioy - 1) = t_wall_h;
+    m->ter(biox + 1, bioy - 1) = t_wall_h;
+    m->ter(biox    , bioy + 1) = t_wall_h;
+    m->ter(biox + 1, bioy + 1) = t_wall_h;
+    m->ter(biox    , bioy    ) = t_counter;
+    m->ter(biox + 1, bioy    ) = t_reinforced_glass_v;
+    m->place_items(mi_bionics, 70, biox, bioy, biox, bioy, false, 0);
+
+    biox = x2;
+    m->ter(biox    , bioy - 1) = t_wall_h;
+    m->ter(biox - 1, bioy - 1) = t_wall_h;
+    m->ter(biox    , bioy + 1) = t_wall_h;
+    m->ter(biox - 1, bioy + 1) = t_wall_h;
+    m->ter(biox    , bioy    ) = t_counter;
+    m->ter(biox - 1, bioy    ) = t_reinforced_glass_v;
+    m->place_items(mi_bionics, 70, biox, bioy, biox, bioy, false, 0);
+
+    int compx = int((x1 + x2) / 2), compy = int((y1 + y2) / 2);
+    m->ter(compx, compy) = t_console;
+    computer* tmpcomp = m->add_computer(compx, compy, "Bionic access", 4);
+    tmpcomp->add_option("Manifest", COMPACT_LIST_BIONICS, 0);
+    tmpcomp->add_option("Open Chambers", COMPACT_RELEASE, 2);
+    tmpcomp->add_failure(COMPFAIL_MANHACKS);
+    tmpcomp->add_failure(COMPFAIL_SECUBOTS);
+   } else {
+    int bioy = y1, biox = int((x1 + x2) / 2);
+    m->ter(biox - 1, bioy    ) = t_wall_v;
+    m->ter(biox - 1, bioy + 1) = t_wall_v;
+    m->ter(biox + 1, bioy    ) = t_wall_v;
+    m->ter(biox + 1, bioy + 1) = t_wall_v;
+    m->ter(biox    , bioy    ) = t_counter;
+    m->ter(biox    , bioy + 1) = t_reinforced_glass_h;
+    m->place_items(mi_bionics, 70, biox, bioy, biox, bioy, false, 0);
+
+    bioy = y2;
+    m->ter(biox - 1, bioy    ) = t_wall_v;
+    m->ter(biox - 1, bioy - 1) = t_wall_v;
+    m->ter(biox + 1, bioy    ) = t_wall_v;
+    m->ter(biox + 1, bioy - 1) = t_wall_v;
+    m->ter(biox    , bioy    ) = t_counter;
+    m->ter(biox    , bioy - 1) = t_reinforced_glass_h;
+    m->place_items(mi_bionics, 70, biox, bioy, biox, bioy, false, 0);
+
+    int compx = int((x1 + x2) / 2), compy = int((y1 + y2) / 2);
+    m->ter(compx, compy) = t_console;
+    computer* tmpcomp = m->add_computer(compx, compy, "Bionic access", 4);
+    tmpcomp->add_option("Manifest", COMPACT_LIST_BIONICS, 0);
+    tmpcomp->add_option("Open Chambers", COMPACT_RELEASE, 2);
+    tmpcomp->add_failure(COMPFAIL_MANHACKS);
+    tmpcomp->add_failure(COMPFAIL_SECUBOTS);
+   }
    break;
   case room_dorm:
    if (rotate % 2 == 0) {
@@ -4785,6 +5300,141 @@ void silo_rooms(map *m)
   }
   rooms.erase(rooms.begin());
   room_sizes.erase(room_sizes.begin());
+ }
+}
+
+void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2)
+{
+ direction door_side;
+ std::vector<direction> possibilities;
+ int midx = int( (x1 + x2) / 2), midy = int( (y1 + y2) / 2);
+ if (x2 < SEEX)
+  possibilities.push_back(EAST);
+ if (x1 > SEEX + 1)
+  possibilities.push_back(WEST);
+ if (y1 > SEEY + 1)
+  possibilities.push_back(NORTH);
+ if (y2 < SEEY)
+  possibilities.push_back(SOUTH);
+
+ if (possibilities.empty()) { // We're in the middle of the map!
+  if (midx <= SEEX)
+   possibilities.push_back(EAST);
+  else
+   possibilities.push_back(WEST);
+  if (midy <= SEEY)
+   possibilities.push_back(SOUTH);
+  else
+   possibilities.push_back(NORTH);
+ }
+
+ door_side = possibilities[rng(0, possibilities.size() - 1)];
+ point door_point;
+ switch (door_side) {
+  case NORTH:
+   door_point.x = midx;
+   door_point.y = y1;
+   break;
+  case EAST:
+   door_point.x = x2;
+   door_point.y = midy;
+   break;
+  case SOUTH:
+   door_point.x = midx;
+   door_point.y = y2;
+   break;
+  case WEST:
+   door_point.x = x1;
+   door_point.y = midy;
+   break;
+ }
+ square(m, t_floor, x1, y1, x2, y2);
+ line(m, t_wall_h, x1, y1, x2, y1);
+ line(m, t_wall_h, x1, y2, x2, y2);
+ line(m, t_wall_v, x1, y1 + 1, x1, y2 - 1);
+ line(m, t_wall_v, x2, y1 + 1, x2, y2 - 1);
+// Main build switch!
+ switch (type) {
+  case room_mine_shaft: {
+   m->ter(x1 + 1, y1 + 1) = t_console;
+   line(m, t_wall_h, x2 - 2, y1 + 2, x2 - 1, y1 + 2);
+   m->ter(x2 - 2, y1 + 1) = t_elevator;
+   m->ter(x2 - 1, y1 + 1) = t_elevator_control_off;
+   computer* tmpcomp = m->add_computer(x1 + 1, y1 + 1, "NEPowerOS", 2);
+   tmpcomp->add_option("Divert power to elevator", COMPACT_ELEVATOR_ON, 0);
+   tmpcomp->add_failure(COMPFAIL_ALARM);
+  } break;
+
+  case room_mine_office:
+   line(m, t_counter, midx, y1 + 2, midx, y2 - 2);
+   line(m, t_window, midx - 1, y1, midx + 1, y1);
+   line(m, t_window, midx - 1, y2, midx + 1, y2);
+   line(m, t_window, x1, midy - 1, x1, midy + 1);
+   line(m, t_window, x2, midy - 1, x2, midy + 1);
+   m->place_items(mi_office, 80, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
+   break;
+
+  case room_mine_storage:
+   m->place_items(mi_mine_storage,85, x1 + 2, y1 + 2, x2 - 2, y2 - 2, false, 0);
+   break;
+
+  case room_mine_fuel: {
+   int spacing = rng(2, 4);
+   if (door_side == NORTH || door_side == SOUTH) {
+    int y = (door_side == NORTH ? y1 + 2 : y2 - 2);
+    for (int x = x1 + 1; x <= x2 - 1; x += spacing)
+     m->ter(x, y) = t_gas_pump;
+   } else {
+    int x = (door_side == EAST ? x2 - 2 : x1 + 2);
+    for (int y = y1 + 1; y <= y2 - 1; y += spacing)
+     m->ter(x, y) = t_gas_pump;
+   }
+  } break;
+
+  case room_mine_housing:
+   if (door_side == NORTH || door_side == SOUTH) {
+    for (int y = y1 + 2; y <= y2 - 2; y += 2) {
+     m->ter(x1    , y) = t_window;
+     m->ter(x1 + 1, y) = t_bed;
+     m->ter(x1 + 2, y) = t_bed;
+     m->ter(x2    , y) = t_window;
+     m->ter(x2 - 1, y) = t_bed;
+     m->ter(x2 - 2, y) = t_bed;
+     m->ter(x1 + 1, y + 1) = t_dresser;
+     m->place_items(mi_dresser, 78, x1 + 1, y + 1, x1 + 1, y + 1, false, 0);
+     m->ter(x2 - 1, y + 1) = t_dresser;
+     m->place_items(mi_dresser, 78, x2 - 1, y + 1, x2 - 1, y + 1, false, 0);
+    }
+   } else {
+    for (int x = x1 + 2; x <= x2 - 2; x += 2) {
+     m->ter(x, y1    ) = t_window;
+     m->ter(x, y1 + 1) = t_bed;
+     m->ter(x, y1 + 2) = t_bed;
+     m->ter(x, y2    ) = t_window;
+     m->ter(x, y2 - 1) = t_bed;
+     m->ter(x, y2 - 2) = t_bed;
+     m->ter(x + 1, y1 + 1) = t_dresser;
+     m->place_items(mi_dresser, 78, x + 1, y1 + 1, x + 1, y1 + 1, false, 0);
+     m->ter(x + 1, y2 - 1) = t_dresser;
+     m->place_items(mi_dresser, 78, x + 1, y2 - 1, x + 1, y2 - 1, false, 0);
+    }
+   }
+   m->place_items(mi_bedroom, 65, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
+   break;
+ }
+
+ if (type == room_mine_fuel) { // Fuel stations are open on one side
+  switch (door_side) {
+   case NORTH: line(m, t_floor, x1, y1    , x2, y1    ); break;
+   case EAST:  line(m, t_floor, x2, y1 + 1, x2, y2 - 1); break;
+   case SOUTH: line(m, t_floor, x1, y2    , x2, y2    ); break;
+   case WEST:  line(m, t_floor, x1, y1 + 1, x1, y2 - 1); break;
+  }
+ } else {
+  if (type == room_mine_storage) // Storage has a locked door
+   m->ter(door_point.x, door_point.y) = t_door_locked;
+  else
+   m->ter(door_point.x, door_point.y) = t_door_c;
  }
 }
 

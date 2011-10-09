@@ -641,6 +641,87 @@ hourglass on its black carapace.  It is\n\
 known for its highly toxic venom."
 );
 
+// UNEARTHED HORRORS
+mon("dark wyrm",	'S',	c_blue,		MS_LARGE,	FLESH,
+	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_GOODHEARING)|mfb(MF_DESTROYS)|
+	 mfb(MF_POISON)|mfb(MF_SUNDEATH)|mfb(MF_ACIDPROOF)|mfb(MF_ACIDTRAIL)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  1, 20,  5, 90,  8,  2,  6,  4,  4,  0,  0, 80, 0,
+	&mdeath::normal,	&mattack::none, "\
+A huge, black worm, its flesh glistening\n\
+with an acidic, blue slime.  It has a gaping\n\
+round mouth lined with dagger-like teeth."
+);
+
+mon("Amigara horror",	'H',	c_white,	MS_LARGE,	FLESH,
+	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_SEES)|mfb(MF_STUMBLES)|
+	 mfb(MF_HARDTOSHOOT)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  1, 30,  5, 70, 10,  2,  4,  0,  2,  0,  0,250, 0,
+	&mdeath::amigara,	&mattack::fear_paralyze, "\
+A spindly body, standing at least 15 feet\n\
+tall.  It looks vaguely human, but its face is\n\
+grotesquely stretched out, and its limbs are\n\
+distorted to the point of being tentacles."
+);
+
+// This "dog" is, in fact, a disguised Thing
+mon("dog",		'd',	c_white,	MS_SMALL,	FLESH,
+	(mfb(MF_SEES)|mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_ANIMAL)|mfb(MF_WARM)|
+	 mfb(MF_FUR)|mfb(MF_FRIENDLY_SPECIAL)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  3,  5,  1,150, 12,  2,  3,  3,  3,  0,  0, 25, 40,
+	&mdeath::thing,		&mattack::dogthing, "\
+A medium-sized domesticated dog, gone feral."
+);
+
+mon("tentacle dog",	'd',	c_dkgray,	MS_MEDIUM,	FLESH,
+	(mfb(MF_SEES)|mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_BASHES)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  1, 14,  5,120, 12,  2,  4,  0,  3,  0,  0,120, 5,
+	&mdeath::thing,		&mattack::tentacle, "\
+A dog's body with a mass of ropy, black\n\
+tentacles extending from its head."
+);
+
+mon("Thing",		'H',	c_dkgray,	MS_LARGE,	FLESH,
+	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_NOHEAD)|mfb(MF_BASHES)|
+	 mfb(MF_SWIMS)|mfb(MF_ATTACKMON)|mfb(MF_PLASTIC)|mfb(MF_ACIDPROOF)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  1, 25,  5,135, 14,  2,  4,  0,  5,  0,  0,160, 5,
+	&mdeath::melt,		&mattack::tentacle, "\
+An amorphous black creature which seems to\n\
+sprout tentacles rapidly."
+);
+
+mon("human snail",	'h',	c_green,	MS_LARGE,	FLESH,
+	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_POISON)|mfb(MF_ACIDPROOF)|
+	 mfb(MF_ACIDTRAIL)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	 20, 10,  3, 50,  4,  1,  5,  0,  0, 10,  0, 50, 15,
+	&mdeath::normal,	&mattack::acid, "\
+A large snail, with an oddly human face."
+);
+
+mon("twisted body",	'h',	c_pink,		MS_MEDIUM,	FLESH,
+	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_GOODHEARING)|mfb(MF_POISON)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  5, 12,  5, 90,  5,  2,  4,  0,  6,  0,  0, 65, 0,
+	&mdeath::normal,	&mattack::none, "\
+A human body, but with its limbs, neck, and\n\
+hair impossibly twisted."
+);
+
+mon("vortex",		'v',	c_white,	MS_SMALL,	POWDER,
+	(mfb(MF_HEARS)|mfb(MF_GOODHEARING)|mfb(MF_STUMBLES)|mfb(MF_NOHEAD)|
+	 mfb(MF_HARDTOSHOOT)|mfb(MF_FLIES)|mfb(MF_PLASTIC)|mfb(MF_SHOCK)|
+	 mfb(MF_FRIENDLY_SPECIAL)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  2, 30,  5,120,  0,  0,  0,  0,  0,  0,  0, 20, 6,
+	&mdeath::melt,		&mattack::vortex, "\
+A twisting spot in the air, with some kind\n\
+of morphing mass at its center."
+);
 
 // NETHER WORLD INHABITANTS
 mon("flying polyp",	'H',	c_dkgray,	MS_HUGE,	FLESH,

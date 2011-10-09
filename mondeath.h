@@ -19,6 +19,8 @@ public:
  void guilt		(game *g, monster *z); // Morale penalty
  void blobsplit		(game *g, monster *z); // Creates more blobs
  void melt		(game *g, monster *z); // Normal death, but melts
+ void amigara		(game *g, monster *z); // Removes hypnosis if last one
+ void thing		(game *g, monster *z); // Turn into a full thing
  void explode		(game *g, monster *z); // Damaging explosion
 };
 

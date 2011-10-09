@@ -254,7 +254,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
    if (thrown.made_of(GLASS) && !thrown.active && // active = molotov, etc.
        rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
     if (u_see(tx, ty, tart))
-    add_msg("The %s shatters!", thrown.tname().c_str());
+     add_msg("The %s shatters!", thrown.tname().c_str());
     for (int i = 0; i < thrown.contents.size(); i++)
      m.add_item(tx, ty, thrown.contents[i]);
     sound(tx, ty, 16, "glass breaking!");

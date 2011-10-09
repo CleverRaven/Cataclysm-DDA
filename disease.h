@@ -72,6 +72,9 @@ void dis_msg(game *g, dis_type type)
  case DI_BLIND:
   g->add_msg("You're blinded!");
   break;
+ case DI_AMIGARA:
+  g->add_msg("You can't look away from the fautline...");
+  break;
  }
 }
   

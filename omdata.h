@@ -69,6 +69,8 @@ enum oter_id {
  ot_silo, ot_silo_finale,
  ot_temple, ot_temple_stairs, ot_temple_core, ot_temple_finale, // TODO
  ot_sewage_treatment, ot_sewage_treatment_hub, ot_sewage_treatment_under,
+ ot_mine_entrance, ot_mine_shaft, ot_mine, ot_mine_down, ot_mine_finale,
+ ot_spiral_hub, ot_spiral,
  ot_radio_tower,
 // Underground terrain
  ot_spider_pit_under,
@@ -217,6 +219,13 @@ const oter_t oterlist[num_ter_types] = {
 {"sewage treatment",	'P',	c_red,		5, false},
 {"sewage treatment",	'P',	c_green,	5, false},
 {"sewage treatment",	'P',	c_green,	5, false},
+{"mine entrance",	'M',	c_ltgray,	5, false},
+{"mine shaft",		'O',	c_dkgray,	5, false},
+{"mine",		'M',	c_brown,	2, false},
+{"mine",		'M',	c_brown,	2, false},
+{"mine",		'M',	c_brown,	2, false},
+{"spiral cavern",	'@',	c_pink,		2, false},
+{"spiral cavern",	'@',	c_pink,		2, false},
 {"radio tower",         'X',    c_ltgray,       2, false},
 {"cavern",		'0',	c_ltgray,	2, false},
 {"anthill",		'%',	c_brown,	2, false},
@@ -327,6 +336,7 @@ enum omspec_id
  OMSPEC_SILO,
  OMSPEC_RADIO,
  OMSPEC_SEWAGE,
+ OMSPEC_MINE,
  OMSPEC_ANTHILL,
  OMSPEC_SPIDER,
  OMSPEC_SLIME,
@@ -363,6 +373,9 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 
 {ot_sewage_treatment, 10, 10, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_PARKING_LOT)},
+
+{ot_mine_entrance,  5,  15, mcat_null, 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT)},
 
 {ot_anthill,	  30,  10, mcat_ant, 10, 30, 1000, 2000,
  &omspec_place::wilderness, 0},

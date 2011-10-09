@@ -16,9 +16,9 @@
 #define SUNRISE_SOLSTICE 6
 #define SUNRISE_SUMMER   5
 
-#define SUNSET_WINTER   5
-#define SUNSET_SOLSTICE 7
-#define SUNSET_SUMMER   9
+#define SUNSET_WINTER   17
+#define SUNSET_SOLSTICE 19
+#define SUNSET_SUMMER   21
 
 // How long, in minutes, does sunrise/sunset last?
 #define TWILIGHT_MINUTES 60

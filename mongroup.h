@@ -19,6 +19,7 @@ enum moncat_id {
  mcat_swamp,
  mcat_lab,
  mcat_nether,
+ mcat_spiral,
  num_moncats
 };
 

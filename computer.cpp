@@ -117,7 +117,8 @@ void computer::use(game *g)
 
  bool done = false; // Are we done using the computer?
  do {
-  reset_terminal();
+  //reset_terminal();
+  print_line("");
   print_line("%s - Root Menu", name.c_str());
   for (int i = 0; i < options.size(); i++)
    print_line("%d - %s", i + 1, options[i].name.c_str());
@@ -134,7 +135,7 @@ void computer::use(game *g)
    computer_option current = options[ch];
    if (current.security > 0) {
     print_error("Password required.");
-    if (query_ynq("Hack into system?")) {
+    if (query_bool("Hack into system?")) {
      if (!hack_attempt(&(g->u), current.security)) {
       activate_random_failure(g);
       shutdown_terminal();
@@ -248,8 +249,8 @@ void computer::activate_function(game *g, computer_action action)
    for (int x = 0; x < SEEX * 3; x++) {
     for (int y = 0; y < SEEY * 3; y++) {
      if (g->m.ter(x, y) == t_sewage_pump) {
-      for (int x1 = x - 1; x1 = x + 1; x1++) {
-       for (int y1 = y - 1; y1 = y + 1; y1++ ) {
+      for (int x1 = x - 1; x1 <= x + 1; x1++) {
+       for (int y1 = y - 1; y1 <= y + 1; y1++ ) {
         if (g->m.ter(x1, y1) == t_counter) {
          bool found_item = false;
          for (int i = 0; i < g->m.i_at(x1, y1).size(); i++) {
@@ -314,7 +315,7 @@ void computer::activate_function(game *g, computer_action action)
    break;
 
   case COMPACT_CASCADE: {
-   if (!query_yn("WARNING: Resonance cascade carries severe risk!  Continue?"))
+   if (!query_bool("WARNING: Resonance cascade carries severe risk!  Continue?"))
     return;
    std::vector<point> cascade_points;
    for (int i = g->u.posx - 10; i <= g->u.posx + 10; i++) {
@@ -367,7 +368,7 @@ void computer::activate_function(game *g, computer_action action)
      }
     } while(tmp.find_first_of('%') != 0 && getline(fin, tmp));
    }
-   print_line(log.c_str());
+   print_line(" %s", log.c_str());
    print_line("Press any key...");
    getch();
   } break;
@@ -430,6 +431,127 @@ void computer::activate_function(game *g, computer_action action)
   case COMPACT_MISS_DISARM: // TODO: This!
    break;
 
+  case COMPACT_LIST_BIONICS: {
+   std::vector<std::string> names;
+   int more = 0;
+   for (int x = 0; x < SEEX * 3; x++) {
+    for (int y = 0; y < SEEY * 3; y++) {
+     for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
+      if (g->m.i_at(x, y)[i].is_bionic()) {
+       if (names.size() < 9)
+        names.push_back(g->m.i_at(x, y)[i].name);
+       else
+        more++;
+      }
+     }
+    }
+   }
+   for (int i = 0; i < names.size(); i++)
+    print_line(names[i].c_str());
+   if (more > 0)
+    print_line("%d OTHERS FOUND...");
+  } break;
+
+  case COMPACT_ELEVATOR_ON:
+   for (int x = 0; x < SEEX * 3; x++) {
+    for (int y = 0; y < SEEY * 3; y++) {
+     if (g->m.ter(x, y) == t_elevator_control_off)
+      g->m.ter(x, y) = t_elevator_control;
+    }
+   }
+   print_line("Elevator activated.");
+   break;
+
+  case COMPACT_AMIGARA_LOG: // TODO: This is static, move to data file?
+   print_line("NEPower Mine(%d:%d) Log", g->levx, g->levy);
+   print_line("\
+ENTRY 47:\n\
+Our normal mining routine has unearthed a hollow chamber.  This would not be\n\
+out of the ordinary, save for the odd, perfectly vertical faultline found.\n\
+This faultline has several odd concavities in it which have the more\n\
+superstitious crew members alarmed; they seem to be of human origin.\n\
+\n\
+ENTRY 48:\n\
+The concavities are between 10 and 20 feet tall, and run the length of the\n\
+faultline.  Each one is vaguely human in shape, but with the proportions of\n\
+the limbs, neck and head greatly distended, all twisted and curled in on\n\
+themselves.\n");
+   if (!query_bool("Continue reading?"))
+    return;
+   reset_terminal();
+   print_line("NEPower Mine(%d:%d) Log", g->levx, g->levy);
+   print_line("\
+ENTRY 49:\n\
+We've stopped mining operations in this area, obviously, until archaeologists\n\
+have the chance to inspect the area.  This is going to set our schedule back\n\
+by at least a week.  This stupid artifact-preservation law has been in place\n\
+for 50 years, and hasn't even been up for termination despite the fact that\n\
+these mining operations are the backbone of our economy.\n\
+\n\
+ENTRY 52:\n\
+Still waiting on the archaeologists.  We've done a little light insepction of\n\
+the faultline; our sounding equipment is insufficient to measure the depth of\n\
+the concavities.  The equipment is rated at 15 miles depth, but it isn't made\n\
+for such narrow tunnels, so it's hard to say exactly how far back they go.\n");
+   if (!query_bool("Continue reading?"))
+    return;
+   reset_terminal();
+   print_line("NEPower Mine(%d:%d) Log", g->levx, g->levy);
+   print_line("\
+ENTRY 54:\n\
+I noticed a couple of the guys down in the chamber with a chisel, breaking\n\
+off a piece of the sheer wall.  I'm looking the other way.  It's not like\n\
+the eggheads are going to notice a little piece missing.  Fuck em.\n\
+\n\
+ENTRY 55:\n\
+Well, the archaeologists are down there now with a couple of the boys as\n\
+guides.  They're hardly Indiana Jones types; I doubt they been below 20\n\
+feet.  I hate taking guys off assignment just to babysit the scientists, but\n\
+if they get hurt we'll be shut down for god knows how long.\n\
+\n\
+ENTRY 58:\n\
+They're bringing in ANOTHER CREW?  Christ, it's just some cave carvings!  I\n\
+know that's sort of a big deal, but come on, these guys can't handle it?\n");
+   if (!query_bool("Continue reading?"))
+    return;
+   reset_terminal();
+   for (int i = 0; i < 10; i++)
+    print_gibberish_line();
+   print_line("");
+   print_line("");
+   print_line("");
+   print_line("AMIGARA PROJECT");
+   print_line("");
+   print_line("");
+   if (!query_bool("Continue reading?"))
+    return;
+   reset_terminal();
+   print_line("\
+SITE %d%d%d%d%d\n\
+PERTINANT FOREMAN LOGS WILL BE PREPENDED TO NOTES",
+g->cur_om.posx, g->cur_om.posy, g->levx, g->levy, abs(g->levz));
+   print_line("\n\
+MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER\n\
+   IMPERATIVE 2:07B\n\
+FAULTLINE SOUNDING HAS PLACED DEPTH AT 30.09 KM\n\
+DAMAGE TO FAULTLINE DISCOVERED; NEPOWER MINE CREW PLACED UNDER ARREST FOR\n\
+   VIOLATION OF REGULATION 87.08 AND TRANSFERRED TO LAB 89-C FOR USE AS\n\
+   SUBJECTS\n\
+QUALITIY OF FAULTLINE NOT COMPROMISED\n\
+INITIATING STANDARD TREMOR TEST...");
+   print_gibberish_line();
+   print_gibberish_line();
+   print_line("");
+   print_error("FILE CORRUPTED, PRESS ANY KEY...");
+   getch();
+   reset_terminal();
+   break;
+
+  case COMPACT_AMIGARA_START:
+   g->add_event(EVENT_AMIGARA, int(g->turn) + 10, 0, 0, 0);
+   g->u.add_disease(DI_AMIGARA, -1, g);
+   break;
+
  } // switch (action)
 }
 
@@ -459,7 +581,7 @@ void computer::activate_failure(game *g, computer_failure fail)
   case COMPFAIL_ALARM:
    g->sound(g->u.posx, g->u.posy, 60, "An alarm sounds!");
    if (g->levz > 0 && !g->event_queued(EVENT_WANTED))
-    g->add_event(EVENT_WANTED, g->turn + 300, 0, g->levx, g->levy);
+    g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
    break;
 
   case COMPFAIL_MANHACKS: {
@@ -481,7 +603,7 @@ void computer::activate_failure(game *g, computer_failure fail)
   } break;
 
   case COMPFAIL_SECUBOTS: {
-   int num_robots = rng(4, 8);
+   int num_robots = 1;
    for (int i = 0; i < num_robots; i++) {
     int mx, my, tries = 0;
     do {
@@ -544,9 +666,37 @@ void computer::activate_failure(game *g, computer_failure fail)
     }
    }
    break;
+
+  case COMPFAIL_AMIGARA:
+   g->add_event(EVENT_AMIGARA, int(g->turn) + 5, 0, 0, 0);
+   g->u.add_disease(DI_AMIGARA, -1, g);
+   g->explosion(rng(0, SEEX * 3), rng(0, SEEY * 3), 10, 10, false);
+   g->explosion(rng(0, SEEX * 3), rng(0, SEEY * 3), 10, 10, false);
+   break;
  }// switch (fail)
 }
 
+bool computer::query_bool(const char *mes, ...)
+{
+// Translate the printf flags
+ va_list ap;
+ va_start(ap, mes);
+ char buff[6000];
+ vsprintf(buff, mes, ap);
+ va_end(ap);
+// Append with (Y/N/Q)
+ std::string full_line = buff;
+ full_line += " (Y/N/Q)";
+// Print the resulting text
+ print_line(full_line.c_str());
+ char ret;
+ do
+  ret = getch();
+ while (ret != 'y' && ret != 'Y' && ret != 'n' && ret != 'N' && ret != 'q' &&
+        ret != 'Q');
+ return (ret == 'y' || ret == 'Y');
+}
+ 
 char computer::query_ynq(const char *mes, ...)
 {
 // Translate the printf flags
@@ -576,8 +726,18 @@ void computer::print_line(const char *mes, ...)
  char buff[6000];
  vsprintf(buff, mes, ap);
  va_end(ap);
+// Replace any '\n' with "\n " to allow for the border
+ std::string message = buff;
+ size_t pos = 0;
+ while (pos != std::string::npos) {
+  pos = message.find("\n", pos);
+  if (pos != std::string::npos) {
+   message.replace(pos, 1, "\n ");
+   pos += 2;
+  }
+ }
 // Print the line.
- wprintz(w_terminal, c_green, " %s%s", buff, "\n");
+ wprintz(w_terminal, c_green, " %s%s", message.c_str(), "\n");
 // Reprint the border, in case we pushed a line over it
  wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                      LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -595,6 +755,25 @@ void computer::print_error(const char *mes, ...)
 // Print the line.
  wprintz(w_terminal, c_red, " %s%s", buff, "\n");
 // Reprint the border, in case we pushed a line over it
+ wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                     LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ wrefresh(w_terminal);
+}
+
+void computer::print_gibberish_line()
+{
+ std::string gibberish;
+ int length = rng(50, 70);
+ for (int i = 0; i < length; i++) {
+  switch (rng(0, 4)) {
+  case 0: gibberish += '0' + rng(0, 9); break;
+  case 1:
+  case 2: gibberish += 'a' + rng(0, 25); break;
+  case 3:
+  case 4: gibberish += 'A' + rng(0, 25); break;
+  }
+ }
+ wprintz(w_terminal, c_yellow, gibberish.c_str());
  wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                      LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  wrefresh(w_terminal);

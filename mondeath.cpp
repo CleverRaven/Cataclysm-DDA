@@ -184,6 +184,29 @@ void mdeath::melt(game *g, monster *z)
   g->add_msg("The %s melts away!", z->name().c_str());
 }
 
+void mdeath::amigara(game *g, monster *z)
+{
+ if (g->u.has_disease(DI_AMIGARA)) {
+  int count = 0;
+  for (int i = 0; i < g->z.size(); i++) {
+   if (g->z[i].type->id == mon_amigara_horror)
+    count++;
+  }
+  if (count <= 1) { // We're the last!
+   g->u.rem_disease(DI_AMIGARA);
+   g->add_msg("Your obsession with the fault fades away...");
+  }
+ }
+ normal(g, z);
+}
+
+void mdeath::thing(game *g, monster *z)
+{
+ monster thing(g->mtypes[mon_thing]);
+ thing.spawn(z->posx, z->posy);
+ g->z.push_back(thing);
+}
+
 void mdeath::explode(game *g, monster *z)
 {
  int size;
