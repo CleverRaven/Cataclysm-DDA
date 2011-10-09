@@ -804,7 +804,8 @@ void game::update_weather()
  if (weather == WEATHER_SUNNY && turn.is_night())
   weather = WEATHER_CLEAR;
 
- if (weather_data[weather].dangerous) {
+ if (weather_data[weather].dangerous && levz >= 0 &&
+     m.is_outside(u.posx, u.posy)) {
   std::stringstream weather_text;
   weather_text << "The weather changed to " << weather_data[weather].name <<
                   "!";
