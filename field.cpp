@@ -234,6 +234,51 @@ bool map::process_fields(game *g)
     }
     break;
 
+   case fd_toxic_gas:
+// Reset nearby scents to zero
+    for (int i = -1; i <= 1; i++) {
+     for (int j = -1; j <= 1; j++)
+      g->scent(x+i, y+j) = 0;
+    }
+    if (is_outside(x, y))
+     cur->age += 40;
+    if (one_in(2)) {
+     std::vector <point> spread;
+// Pick all eligible points to spread to
+     for (int a = -1; a <= 1; a++) {
+      for (int b = -1; b <= 1; b++) {
+       if (((field_at(x+a, y+b).type == fd_smoke ||
+             field_at(x+a, y+b).type == fd_tear_gas ||
+             field_at(x+a, y+b).type == fd_toxic_gas ||
+             field_at(x+a, y+b).type == fd_nuke_gas   ) &&
+             field_at(x+a, y+b).density < 3            )      ||
+           (field_at(x+a, y+b).is_null() && move_cost(x+a, y+b) > 0))
+        spread.push_back(point(x+a, y+b));
+      }
+     }
+// Then, spread to a nearby point
+     if (cur->density > 0 && cur->age > 0 && spread.size() > 0) {
+      point p = spread[rng(0, spread.size() - 1)];
+// Nearby toxic gas grows thicker
+      if (field_at(p.x, p.y).type == fd_toxic_gas &&
+          field_at(p.x, p.y).density < 3) {
+        field_at(p.x, p.y).density++;
+        cur->density--;
+// Nearby smoke & teargas is converted into toxic gas
+      } else if (field_at(p.x, p.y).type == fd_smoke ||
+                 field_at(p.x, p.y).type == fd_tear_gas) {
+       field_at(p.x, p.y).type = fd_toxic_gas;
+// Or, just create a new field.
+      } else if (cur->density > 0 && move_cost(p.x, p.y) > 0 &&
+                 add_field(g, p.x, p.y, fd_toxic_gas, 1)) {
+       cur->density--;
+       field_at(p.x, p.y).age = cur->age;
+      }
+     }
+    }
+    break;
+
+
    case fd_nuke_gas:
 // Reset nearby scents to zero
     for (int i = -1; i <= 1; i++) {
@@ -251,6 +296,7 @@ bool map::process_fields(game *g)
       for (int b = -1; b <= 1; b++) {
        if (((field_at(x+a, y+b).type == fd_smoke ||
              field_at(x+a, y+b).type == fd_tear_gas ||
+             field_at(x+a, y+b).type == fd_toxic_gas ||
              field_at(x+a, y+b).type == fd_nuke_gas   ) &&
              field_at(x+a, y+b).density < 3            )      ||
            (field_at(x+a, y+b).is_null() && move_cost(x+a, y+b) > 0))
@@ -265,8 +311,9 @@ bool map::process_fields(game *g)
           field_at(p.x, p.y).density < 3) {
         field_at(p.x, p.y).density++;
         cur->density--;
-// Nearby smoke & teargas is converted into nukegas
+// Nearby smoke, tear, and toxic gas is converted into nukegas
       } else if (field_at(p.x, p.y).type == fd_smoke ||
+                 field_at(p.x, p.y).type == fd_toxic_gas ||
                  field_at(p.x, p.y).type == fd_tear_gas) {
        field_at(p.x, p.y).type = fd_nuke_gas;
 // Or, just create a new field.
@@ -408,6 +455,12 @@ void map::step_in_field(int x, int y, game *g)
   case fd_tear_gas:
    if (cur->density > 1 || !one_in(3))
     g->u.infect(DI_TEARGAS, bp_mouth, 5, 20, g);
+   break;
+  case fd_toxic_gas:
+   if (cur->density == 2)
+    g->u.infect(DI_POISON, bp_mouth, 5, 30, g);
+   else if (cur->density == 3)
+    g->u.infect(DI_BADPOISON, bp_mouth, 5, 30, g);
    break;
   case fd_nuke_gas:
    g->u.radiation += rng(0, cur->density * (cur->density + 1));

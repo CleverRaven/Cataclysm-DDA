@@ -59,7 +59,8 @@ class game
   void draw_ter();
   void advance_nextinv();	// Increment the next inventory letter
   void add_msg(const char* msg, ...);
-  void add_event(event_type type, int on_turn, int faction_id, int x, int y);
+  void add_event(event_type type, int on_turn, int faction_id = -1,
+                 int x = -1, int y = -1);
   bool event_queued(event_type type);
 // Sound at (x, y) of intensity (vol), described to the player is (description)
   void sound(int x, int y, int vol, std::string description);

@@ -47,6 +47,7 @@ public:
  int  swim_speed();	// Our speed when swimming
 
  bool has_trait(int flag);
+ bool has_mutation(int flag);
  void toggle_trait(int flag);
 
  bool has_bionic(bionic_id b);
@@ -185,6 +186,7 @@ public:
  std::string name;
  bool male;
  bool my_traits[PF_MAX2];
+ bool my_mutations[PF_MAX2];
  std::vector<bionic> my_bionics;
 // Current--i.e. modified by disease, pain, etc.
  int str_cur, dex_cur, int_cur, per_cur;

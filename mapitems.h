@@ -24,6 +24,8 @@ enum items_location {
  mi_hydro, mi_electronics, mi_monparts, mi_bionics,
  mi_weapons, mi_survival_armor, mi_survival_tools,
  mi_sewage_plant,
+ mi_mine_storage, mi_mine_equipment,
+ mi_spiral,
  mi_radio,
  mi_subway, mi_sewer,
  mi_cavern,
@@ -33,7 +35,7 @@ enum items_location {
  mi_bugs, mi_bees, mi_wasps, mi_robots,
 // Map Extras
  mi_helicopter, mi_military, mi_science, mi_rare, mi_stash_food, mi_stash_ammo,
- mi_stash_wood, mi_stash_drugs,
+ mi_stash_wood, mi_stash_drugs, mi_wreckage,
 // Shopkeeps &c
  mi_trader_avoid,
  num_itloc

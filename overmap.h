@@ -110,6 +110,7 @@ class overmap
   void build_anthill(int x, int y, int s);
   void build_tunnel(int x, int y, int s, int dir);
   void build_slimepit(int x, int y, int s);
+  void build_mine(int x, int y, int s);
   void place_rifts();
   // Connection highways
   void place_hiways(std::vector<city> cities, oter_id base);

@@ -77,7 +77,7 @@ enum dis_type {
 // Traps
  DI_BEARTRAP, DI_IN_PIT,
 // Other
- DI_TELEGLOW
+ DI_AMIGARA, DI_TELEGLOW
 };
 
 enum add_type {
@@ -146,7 +146,6 @@ enum pl_flag {
  PF_DEFT,	// Less movement penalty for melee miss
  PF_DRUNKEN,	// Having a drunk status improves melee combat
  PF_GOURMAND,	// Faster eating, higher level of max satiated
- PF_SUPERTASTER,// ALWAYS warned for rotten food
  PF_ANIMALEMPATH,// Animals run away more
  PF_TERRIFYING,	// All creatures run away more
  PF_DISRESISTANT,// Less likely to succumb to low health; TODO: Implement this
@@ -261,7 +260,7 @@ Your skin is tough.  Cutting damage is slightly reduced for you."},
 {"Packmule", 3, false, "\
 You can manage to find space for anything!  You can carry 40%% more volume."},
 {"Fast Learner", 3, false, "\
-Your skill comprehension is 50%% higher, allowing you to learn skills much\n\
+Your skill comprehension is 20%% higher, allowing you to learn skills much\n\
 faster than others.  Note that this only applies to real-world experience,\n\
 not to skill gain from other sources like books."},
 {"Deft", 2, false, "\
@@ -275,8 +274,6 @@ considerably, especially unarmed combat."},
 You eat faster, and can eat and drink more, than anyone else!  You also enjoy\n\
 food more; delicious food is better for your morale, and you don't mind some\n\
 unsavory meals."},
-{"Supertaster", 1, false, "\
-You can tell if food is even a little spoiled before eating it."},
 {"Animal Empathy", 1, false, "\
 Peaceful animals will not run away from you, and even aggressive animals are\n\
 less likely to attack.  This only applies to natural animals such as woodland\n\

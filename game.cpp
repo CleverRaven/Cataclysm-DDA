@@ -649,7 +649,7 @@ void game::process_events()
 {
  for (int i = 0; i < events.size(); i++) {
   events[i].per_turn(this);
-  if (events[i].turn <= turn) {
+  if (events[i].turn <= int(turn)) {
    events[i].actualize(this);
    events.erase(events.begin() + i);
    i--;
@@ -803,6 +803,13 @@ void game::update_weather()
  weather = new_weather;
  if (weather == WEATHER_SUNNY && turn.is_night())
   weather = WEATHER_CLEAR;
+
+ if (weather_data[weather].dangerous) {
+  std::stringstream weather_text;
+  weather_text << "The weather changed to " << weather_data[weather].name <<
+                  "!";
+  cancel_activity_query(weather_text.str());
+ }
 
 // Now update temperature
  if (!one_in(4)) { // 3 in 4 chance of respecting avg temp for the weather
@@ -1267,8 +1274,7 @@ void game::add_msg(const char* msg, ...)
  messages.push_back(s);
 }
 
-void game::add_event(event_type type, int on_turn, int faction_id = -1,
-                     int x = -1, int y = -1)
+void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
 {
  event tmp(type, on_turn, faction_id, x, y);
  events.push_back(tmp);
@@ -1968,6 +1974,10 @@ void game::hallucinate()
 unsigned char game::light_level()
 {
  int ret;
+/*
+ debugmsg("mins: %d hour: %d past midnight: %d", turn.minute, turn.hour,
+          turn.minutes_past_midnight());
+*/
  if (levz < 0)	// Underground!
   ret = 1;
  else {
@@ -3012,7 +3022,7 @@ void game::smash()
  if (m.has_flag(alarmed, u.posx + smashx, u.posy + smashy) &&
      !event_queued(EVENT_WANTED)) {
   sound(u.posx, u.posy, 30, "An alarm sounds!");
-  add_event(EVENT_WANTED, turn + 300, 0, levx, levy);
+  add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
  }
  if (smashx != -2 && smashy != -2)
   didit = m.bash(u.posx + smashx, u.posy + smashy, smashskill, bashsound);
@@ -3170,6 +3180,25 @@ void game::examine()
     }
    }
   }
+ } else if (m.ter(examx, examy) == t_elevator_control &&
+            query_yn("Activate elevator?")) {
+  int movez = (levz < 0 ? 2 : -2);
+  levz += movez;
+  cur_om.save(u.name);
+  m.save(&cur_om, turn, levx, levy);
+  overmap(this, cur_om.posx, cur_om.posy, -1);
+  cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz + movez);
+  m.load(this, levx, levy);
+  update_map(u.posx, u.posy);
+  for (int x = 0; x < SEEX * 3; x++) {
+   for (int y = 0; y < SEEY * 3; y++) {
+    if (m.ter(x, y) == t_elevator) {
+     u.posx = x;
+     u.posy = y;
+    }
+   }
+  }
+  refresh_all();
  } else if (m.ter(examx, examy) == t_gas_pump && query_yn("Pump gas?")) {
   item gas(itypes[itm_gasoline], turn);
   if (one_in(u.dex_cur)) {
@@ -3212,7 +3241,18 @@ void game::examine()
    case 4:
     break;
   }
+ } else if (m.ter(examx, examy) == t_fault) {
+  popup("\
+This wall is perfectly vertical.  Odd, twisted holes are set in it, leading\n\
+as far back into the solid rock as you can see.  The holes are humanoid in\n\
+shape, but with long, twisted, distended limbs.");
+ } else if (m.ter(examx, examy) == t_pedestal_wyrm &&
+            m.i_at(examx, examy).empty()) {
+  add_msg("The pedestal sinks into the ground...");
+  m.ter(examx, examy) = t_rock_floor;
+  add_event(EVENT_SPAWN_WYRMS, int(turn) + rng(3, 5));
  }
+
  if (m.tr_at(examx, examy) != tr_null &&
       traps[m.tr_at(examx, examy)]->difficulty < 99 &&
      u.per_cur-u.encumb(bp_eyes) >= traps[m.tr_at(examx, examy)]->visibility &&
@@ -4461,9 +4501,30 @@ void game::plmove(int x, int y)
  }
 
 // Otherwise, actual movement, zomg
+ if (u.has_disease(DI_AMIGARA)) {
+  int curdist = 999, newdist = 999;
+  for (int cx = 0; cx < SEEX * 3; cx++) {
+   for (int cy = 0; cy < SEEY * 3; cy++) {
+    if (m.ter(cx, cy) == t_fault) {
+     int dist = rl_dist(cx, cy, u.posx, u.posy);
+     if (dist < curdist)
+      curdist = dist;
+     dist = rl_dist(cx, cy, x, y);
+     if (dist < newdist)
+      newdist = dist;
+    }
+   }
+  }
+  if (newdist > curdist) {
+   add_msg("You cannot pull yourself away from the faultline...");
+   return;
+  }
+ }
+
  if (u.has_disease(DI_IN_PIT)) {
   if (rng(0, 40) > u.str_cur + int(u.dex_cur / 2)) {
    add_msg("You try to escape the pit, but slip back in.");
+   u.moves -= 100;
    return;
   } else {
    add_msg("You escape the pit!");
@@ -4895,7 +4956,7 @@ void game::spawn_mon(int shiftx, int shifty)
 // (The area of the group's territory) in (population/square at this range)
 // chance of adding one monster; cap at the population OR 16
    while (long((1.0 - double(dist / rad)) * pop) > rng(0, pow(rad, 2)) &&
-          rng(1, 20) > group && group < pop && group < 16)
+          rng(0, 17) > group && group < pop && group < 16)
     group++;
    cur_om.zg[i].population -= group;
    if (group > 0) // If we spawned some zombies, advance the timer

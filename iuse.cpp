@@ -8,6 +8,9 @@
 #include "player.h"
 #include <sstream>
 
+/* To mark an item as "removed from inventory", set its invlet to 0
+   This is useful for traps (placed on ground), inactive bots, etc
+ */
 void iuse::sewage(game *g, player *p, item *it, bool t)
 {
  p->vomit(g);
@@ -510,7 +513,7 @@ void iuse::purifier(game *g, player *p, item *it, bool t)
 {
  std::vector<int> valid;	// Which flags the player has
  for (int i = 0; i < PF_MAX2; i++) {
-  if (p->has_trait(pl_flag(i)) && traits[i].curable)
+  if (p->has_mutation(pl_flag(i))|| p->has_trait(pl_flag(i)) && traits[i].curable)
    valid.push_back(i);
  }
  if (valid.size() == 0) {
@@ -615,7 +618,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
 {
  char ch = g->inv("Repair what?");
  item* fix = &(p->i_at(ch));
- if (fix == NULL || fix->is_null() == 0) {
+ if (fix == NULL || fix->is_null()) {
   g->add_msg("You do not have that item!");
   it->charges++;
   return;
@@ -1298,7 +1301,7 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
    }
   }
  }
- //p->i_rem(it->invlet);
+ it->invlet = 0; // Remove the trap from the player's inv
 }
 
 void iuse::geiger(game *g, player *p, item *it, bool t)
@@ -1673,7 +1676,7 @@ void iuse::manhack(game *g, player *p, item *it, bool t)
  }
  int index = rng(0, valid.size() - 1);
  p->moves -= 60;
- p->i_rem(it->invlet);	// Remove the manhack from the player's inv
+ it->invlet = 0; // Remove the manhack from the player's inv
  monster manhack(g->mtypes[mon_manhack], valid[index].x, valid[index].y);
  if (rng(0, p->int_cur / 2) + p->sklevel[sk_electronics] / 2 +
      p->sklevel[sk_computer] < rng(0, 4))
@@ -1700,7 +1703,7 @@ void iuse::turret(game *g, player *p, item *it, bool t)
   g->add_msg("You cannot place a turret there.");
   return;
  }
- p->i_rem(it->invlet);	// Remove the turret from the player's inv
+ it->invlet = 0; // Remove the turret from the player's inv
  monster turret(g->mtypes[mon_turret], dirx, diry);
  if (rng(0, p->int_cur / 2) + p->sklevel[sk_electronics] / 2 +
      p->sklevel[sk_computer] < rng(0, 6))
@@ -1840,6 +1843,35 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
   it->make(g->itypes[itm_mp3]);
   it->active = false;
  }
+}
+
+void iuse::vortex(game *g, player *p, item *it, bool t)
+{
+ std::vector<point> spawn;
+ for (int i = -3; i <= 3; i++) {
+  if (g->is_empty(p->posx - 3, p->posy + i))
+   spawn.push_back( point(p->posx - 3, p->posy + i) );
+  if (g->is_empty(p->posx + 3, p->posy + i))
+   spawn.push_back( point(p->posx + 3, p->posy + i) );
+  if (g->is_empty(p->posx + i, p->posy - 3))
+   spawn.push_back( point(p->posx + i, p->posy - 3) );
+  if (g->is_empty(p->posx + i, p->posy + 3))
+   spawn.push_back( point(p->posx + i, p->posy + 3) );
+ }
+ if (spawn.empty()) {
+  if (!p->is_npc())
+   g->add_msg("Air swirls around you for a moment.");
+  it->make(g->itypes[itm_spiral_stone]);
+  return;
+ }
+
+ g->add_msg("Air swirls all over...");
+ int index = rng(0, spawn.size() - 1);
+ p->moves -= 100;
+ it->make(g->itypes[itm_spiral_stone]);
+ monster vortex(g->mtypes[mon_vortex], spawn[index].x, spawn[index].y);
+ vortex.friendly = -1;
+ g->z.push_back(vortex);
 }
 
 /* MACGUFFIN FUNCTIONS

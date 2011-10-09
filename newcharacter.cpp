@@ -245,6 +245,9 @@ End of cheatery */
   tmp = item(g->itypes[itm_inhaler], 0, 'a' + worn.size());
   inv.push_back(tmp);
  }
+// make sure we have no mutations
+for (int i = 0; i < PF_MAX2; i++)
+  my_mutations[i] = false;
  return true;
 }
 
@@ -934,7 +937,7 @@ int player::random_good_trait(character_type type)
    case 10: return PF_PACKMULE;
    case 11: if (!has_trait(PF_SAVANT)) return PF_FASTLEARNER;
    case 12: return PF_DEFT;
-   case 13: return PF_SUPERTASTER;
+   case 13:
    case 14: return PF_DISRESISTANT;
    case 15: return PF_INCONSPICUOUS;
    case 16: return PF_LIGHTSTEP;
@@ -989,7 +992,7 @@ int player::random_good_trait(character_type type)
    case 16: return PF_THICKSKIN;
    case 17:
    case 18:
-   case 19: return PF_SUPERTASTER;
+   case 19:
    case 20:
    case 21: return PF_ANIMALEMPATH;
    case 22: return PF_TERRIFYING;
@@ -1018,7 +1021,7 @@ int player::random_good_trait(character_type type)
    case 11:
    case 12: if (!has_trait(PF_SAVANT)) return PF_FASTLEARNER;
    case 13: return PF_GOURMAND;
-   case 14: return PF_SUPERTASTER;
+   case 14:
    case 15:
    case 16: return PF_INCONSPICUOUS;
    case 17:
@@ -1035,7 +1038,7 @@ int player::random_good_trait(character_type type)
    case  6: return PF_POISRESIST;
    case  7: return PF_FASTREADER;
    case  8: if (!has_trait(PF_SAVANT)) return PF_FASTLEARNER;
-   case  9: return PF_SUPERTASTER;
+   case  9:
    case 10:
    case 11:
    case 12: return PF_DISRESISTANT;

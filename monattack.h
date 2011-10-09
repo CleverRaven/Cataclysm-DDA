@@ -24,6 +24,9 @@ class mattack
   void plant		(game *g, monster *z);
   void disappear	(game *g, monster *z);
   void formblob		(game *g, monster *z);
+  void dogthing		(game *g, monster *z);
+  void tentacle		(game *g, monster *z);
+  void vortex		(game *g, monster *z);
   void gene_sting	(game *g, monster *z);
   void stare		(game *g, monster *z);
   void fear_paralyze	(game *g, monster *z);

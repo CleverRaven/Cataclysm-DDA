@@ -426,7 +426,24 @@ void game::init_mapitems()
 	itm_boots, itm_jumpsuit, itm_coat_lab, itm_gloves_rubber,
 	itm_mask_filter, itm_glasses_safety, itm_hat_hard, itm_extinguisher,
 	itm_flashlight, itm_water_purifier, itm_two_way_radio,
-	itm_bionics_tools, itm_bionics_hazmat, itm_bionics_construction, NULL);
+	itm_bionics_tools, itm_bionics_hazmat, NULL);
+
+ setvector(
+   mapitems[mi_mine_storage],
+	itm_rock, itm_coal, NULL);
+
+ setvector(
+   mapitems[mi_mine_equipment],
+	itm_water, itm_1st_aid, itm_rope_30, itm_chain, itm_boots_steel,
+	itm_jumpsuit, itm_gloves_leather, itm_mask_filter, itm_mask_gas,
+	itm_glasses_safety, itm_goggles_welding, itm_goggles_nv, itm_hat_hard,
+	itm_backpack, itm_battery, itm_flashlight, itm_two_way_radio,
+	itm_jackhammer, itm_dynamite, itm_UPS_off, itm_bionics_tools,
+	itm_bionics_construction, NULL);
+
+ setvector(
+   mapitems[mi_spiral],
+	itm_spiral_stone, itm_vortex_stone, NULL);
 
  setvector(
    mapitems[mi_radio],
@@ -525,8 +542,7 @@ void game::init_mapitems()
 	itm_textbook_chemistry, itm_SICP, itm_textbook_robots,
 	itm_soldering_iron, itm_geiger_off, itm_teleporter, itm_canister_goo,
 	itm_EMPbomb, itm_pheromone, itm_portal, itm_bot_manhack, itm_UPS_off,
-	itm_tazer, itm_bionics_battery, itm_bionics_power, itm_bionics_tools,
-	itm_bionics_neuro, itm_bionics_hazmat, itm_bionics_medical, NULL);
+	itm_tazer, itm_bionics_hazmat, NULL);
 
  setvector(
    mapitems[mi_rare],
@@ -555,6 +571,10 @@ void game::init_mapitems()
    mapitems[mi_stash_drugs],
 	itm_pills_sleep, itm_oxycodone, itm_xanax, itm_adderall, itm_weed,
 	itm_coke, itm_meth, itm_heroin, NULL);
+
+ setvector(
+   mapitems[mi_wreckage],
+	itm_chain, itm_steel_chunk, itm_rock, NULL);
 
 // This one kind of an inverted list; what a traveling salesman will NOT carry
  setvector(
