@@ -102,6 +102,8 @@ private:
  void print_gibberish_line();
 // Prints a line and waits for Y/N/Q
  char query_ynq(const char *text, ...);
+// Same as query_ynq, but returns true for y or Y
+ bool query_bool(const char *text, ...);
 };
 
 #endif

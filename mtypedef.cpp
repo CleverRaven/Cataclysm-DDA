@@ -646,7 +646,7 @@ mon("dark wyrm",	'S',	c_blue,		MS_LARGE,	FLESH,
 	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_GOODHEARING)|mfb(MF_DESTROYS)|
 	 mfb(MF_POISON)|mfb(MF_SUNDEATH)|mfb(MF_ACIDPROOF)|mfb(MF_ACIDTRAIL)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  1, 20,  5, 90,  8,  2,  6,  4,  4,  0,  0,100, 0,
+	  1, 20,  5, 90,  8,  2,  6,  4,  4,  0,  0, 80, 0,
 	&mdeath::normal,	&mattack::none, "\
 A huge, black worm, its flesh glistening\n\
 with an acidic, blue slime.  It has a gaping\n\
@@ -698,7 +698,7 @@ mon("human snail",	'h',	c_green,	MS_LARGE,	FLESH,
 	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_POISON)|mfb(MF_ACIDPROOF)|
 	 mfb(MF_ACIDTRAIL)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	 20, 10,  3, 50,  4,  1,  5,  0,  0, 10,  0, 50, 5,
+	 20, 10,  3, 50,  4,  1,  5,  0,  0, 10,  0, 50, 15,
 	&mdeath::normal,	&mattack::acid, "\
 A large snail, with an oddly human face."
 );

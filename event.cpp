@@ -61,7 +61,7 @@ void event::actualize(game *g)
     }
    }
    if (!one_in(15)) // They just keep coming!
-    g->add_event(EVENT_SPAWN_WYRMS, int(g->turn) + rng(10, 20));
+    g->add_event(EVENT_SPAWN_WYRMS, int(g->turn) + rng(15, 25));
   } break;
 
   case EVENT_AMIGARA: {
@@ -134,7 +134,8 @@ void event::per_turn(game *g)
     turn--;
     return;
    }
-   g->add_msg("You hear screeches from the rock above and around you!");
+   if (int(g->turn) % 3 == 0)
+    g->add_msg("You hear screeches from the rock above and around you!");
    break;
 
   case EVENT_AMIGARA:

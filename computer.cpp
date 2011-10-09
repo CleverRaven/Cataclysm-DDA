@@ -135,7 +135,7 @@ void computer::use(game *g)
    computer_option current = options[ch];
    if (current.security > 0) {
     print_error("Password required.");
-    if (query_ynq("Hack into system?")) {
+    if (query_bool("Hack into system?")) {
      if (!hack_attempt(&(g->u), current.security)) {
       activate_random_failure(g);
       shutdown_terminal();
@@ -315,7 +315,7 @@ void computer::activate_function(game *g, computer_action action)
    break;
 
   case COMPACT_CASCADE: {
-   if (!query_yn("WARNING: Resonance cascade carries severe risk!  Continue?"))
+   if (!query_bool("WARNING: Resonance cascade carries severe risk!  Continue?"))
     return;
    std::vector<point> cascade_points;
    for (int i = g->u.posx - 10; i <= g->u.posx + 10; i++) {
@@ -476,7 +476,7 @@ The concavities are between 10 and 20 feet tall, and run the length of the\n\
 faultline.  Each one is vaguely human in shape, but with the proportions of\n\
 the limbs, neck and head greatly distended, all twisted and curled in on\n\
 themselves.\n");
-   if (!query_ynq("Continue reading?"))
+   if (!query_bool("Continue reading?"))
     return;
    reset_terminal();
    print_line("NEPower Mine(%d:%d) Log", g->levx, g->levy);
@@ -493,7 +493,7 @@ Still waiting on the archaeologists.  We've done a little light insepction of\n\
 the faultline; our sounding equipment is insufficient to measure the depth of\n\
 the concavities.  The equipment is rated at 15 miles depth, but it isn't made\n\
 for such narrow tunnels, so it's hard to say exactly how far back they go.\n");
-   if (!query_ynq("Continue reading?"))
+   if (!query_bool("Continue reading?"))
     return;
    reset_terminal();
    print_line("NEPower Mine(%d:%d) Log", g->levx, g->levy);
@@ -512,7 +512,7 @@ if they get hurt we'll be shut down for god knows how long.\n\
 ENTRY 58:\n\
 They're bringing in ANOTHER CREW?  Christ, it's just some cave carvings!  I\n\
 know that's sort of a big deal, but come on, these guys can't handle it?\n");
-   if (!query_ynq("Continue reading?"))
+   if (!query_bool("Continue reading?"))
     return;
    reset_terminal();
    for (int i = 0; i < 10; i++)
@@ -523,7 +523,7 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n");
    print_line("AMIGARA PROJECT");
    print_line("");
    print_line("");
-   if (!query_ynq("Continue reading?"))
+   if (!query_bool("Continue reading?"))
     return;
    reset_terminal();
    print_line("\
@@ -603,7 +603,7 @@ void computer::activate_failure(game *g, computer_failure fail)
   } break;
 
   case COMPFAIL_SECUBOTS: {
-   int num_robots = rng(1, 3);
+   int num_robots = 1;
    for (int i = 0; i < num_robots; i++) {
     int mx, my, tries = 0;
     do {
@@ -676,6 +676,27 @@ void computer::activate_failure(game *g, computer_failure fail)
  }// switch (fail)
 }
 
+bool computer::query_bool(const char *mes, ...)
+{
+// Translate the printf flags
+ va_list ap;
+ va_start(ap, mes);
+ char buff[6000];
+ vsprintf(buff, mes, ap);
+ va_end(ap);
+// Append with (Y/N/Q)
+ std::string full_line = buff;
+ full_line += " (Y/N/Q)";
+// Print the resulting text
+ print_line(full_line.c_str());
+ char ret;
+ do
+  ret = getch();
+ while (ret != 'y' && ret != 'Y' && ret != 'n' && ret != 'N' && ret != 'q' &&
+        ret != 'Q');
+ return (ret == 'y' || ret == 'Y');
+}
+ 
 char computer::query_ynq(const char *mes, ...)
 {
 // Translate the printf flags
@@ -708,12 +729,15 @@ void computer::print_line(const char *mes, ...)
 // Replace any '\n' with "\n " to allow for the border
  std::string message = buff;
  size_t pos = 0;
- while ((pos = message.find("\n", pos) != std::string::npos)) {
-  message.replace(pos, 1, "\n ");
-  pos += 2;
+ while (pos != std::string::npos) {
+  pos = message.find("\n", pos);
+  if (pos != std::string::npos) {
+   message.replace(pos, 1, "\n ");
+   pos += 2;
+  }
  }
 // Print the line.
- wprintz(w_terminal, c_green, "%s%s", message.c_str(), "\n");
+ wprintz(w_terminal, c_green, " %s%s", message.c_str(), "\n");
 // Reprint the border, in case we pushed a line over it
  wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                      LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );

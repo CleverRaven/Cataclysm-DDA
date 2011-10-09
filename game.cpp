@@ -3982,7 +3982,7 @@ void game::plfire(bool burst)
  int junk;
  int range = u.weapon.curammo->range;
  int sight_range = u.sight_range(light_level());
- if (range < sight_range)
+ if (range > sight_range)
   range = sight_range;
  int x = u.posx, y = u.posy;
  int x0 = x - range;
@@ -4978,7 +4978,8 @@ void game::spawn_mon(int shiftx, int shifty)
       mony += rng(-5, 10);
       iter++;
      } while ((!zom.can_move_to(m, monx, mony) || !is_empty(monx, mony) ||
-                m.sees(u.posx, u.posy, monx, mony, SEEX, t)) && iter < 50);
+                m.sees(u.posx, u.posy, monx, mony, 18, t) ||
+                rl_dist(u.posx, u.posy, monx, mony) < SEEX) && iter < 50);
      if (iter < 50) {
       zom.spawn(monx, mony);
       z.push_back(zom);
@@ -5000,7 +5001,7 @@ mon_id game::valid_monster_from(std::vector<mon_id> group)
  for (int i = 0; i < group.size(); i++) {
   if (mtypes[group[i]]->frequency > 0 &&
       int(turn) + 900 >=
-          MINUTES(STARTING_MINUTES) + mtypes[group[i]]->difficulty * 300){
+          MINUTES(STARTING_MINUTES) + HOURS(mtypes[group[i]]->difficulty)){
    valid.push_back(group[i]);
    rntype += mtypes[group[i]]->frequency;
   }
