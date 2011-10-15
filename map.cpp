@@ -148,6 +148,9 @@ point map::random_outdoor_tile()
 bool map::bash(int x, int y, int str, std::string &sound)
 {
  sound = "";
+ if (field_at(x, y).type == fd_web)
+  field_at(x, y).type == fd_null;
+
  for (int i = 0; i < i_at(x, y).size(); i++) {	// Destroy glass items (maybe)
   if (i_at(x, y)[i].made_of(GLASS) && one_in(2)) {
    if (sound == "")
@@ -924,7 +927,9 @@ field& map::field_at(int x, int y)
 
 bool map::add_field(game *g, int x, int y, field_id t, unsigned char density)
 {
- if (!field_at(x, y).is_null()) // Blood & bile are null too
+ if (field_at(x, y).type == fd_web && t == fd_fire)
+  density++;
+ else if (!field_at(x, y).is_null()) // Blood & bile are null too
   return false;
  if (density > 3)
   density = 3;

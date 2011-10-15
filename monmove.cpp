@@ -457,7 +457,8 @@ void monster::move_to(game *g, int x, int y)
    moves -= (g->m.move_cost(x, y) - 2) * 50;
   posx = x;
   posy = y;
-  if (g->m.tr_at(posx, posy) != tr_null) { // Monster stepped on a trap!
+  if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES) &&
+      g->m.tr_at(posx, posy) != tr_null) { // Monster stepped on a trap!
    trap* tr = g->traps[g->m.tr_at(posx, posy)];
    if (dice(3, sk_dodge + 1) < dice(3, tr->avoidance)) {
     trapfuncm f;
@@ -518,4 +519,40 @@ void monster::stumble(game *g, bool moved)
     plans.clear();
   }
  }
+}
+
+/* will_reach() is used for determining whether we'll get to stairs (and 
+ * potentially other locations of interest).  It is generally permissive.
+ */
+bool monster::will_reach(game *g, int x, int y)
+{
+ if (has_flag(MF_SMELLS) && g->scent(posx, posy) > 0 &&
+     g->scent(x, y) >= g->scent(posx, posy))
+  return true;
+
+ if (has_flag(MF_HEARS) && wandf > 0 && rl_dist(wandx, wandy, x, y) <= 3 &&
+     rl_dist(posx, posy, wandx, wandy) <= wandf)
+  return true;
+
+ int t;
+ if (has_flag(MF_SEES) && g->m.sees(posx, posy, x, y, g->light_level(), t))
+  return true;
+
+ return false;
+}
+
+int monster::turns_to_reach(game *g, int x, int y)
+{
+ std::vector<point> path = g->m.route(posx, posy, x, y);
+ if (path.size() == 0)
+  return 999;
+
+ double turns = 0.;
+ for (int i = 0; i < path.size(); i++) {
+  if (g->m.move_cost(path[i].x, path[i].y) == 0) // We have to bash through
+   turns += 5;
+  else
+   turns += double(50 * g->m.move_cost(path[i].x, path[i].y)) / speed;
+ }
+ return int(turns + .9); // Round up
 }

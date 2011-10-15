@@ -61,9 +61,9 @@ bool is_wall_material(oter_id ter)
 oter_id shop(int dir)
 {
  oter_id ret = ot_s_lot;
- int type = rng(0, 12);
+ int type = rng(0, 13);
  if (one_in(20))
-  type = 13;
+  type = 14;
  switch (type) {
   case  0: ret = ot_s_lot;	       break;
   case  1: ret = ot_s_gas_north;       break;
@@ -78,7 +78,8 @@ oter_id shop(int dir)
   case 10: ret = ot_sub_station_north; break;
   case 11: ret = ot_bank_north;        break;
   case 12: ret = ot_bar_north;         break;
-  case 13: ret = ot_police_north;      break;
+  case 13: ret = ot_s_electronics_north; break;
+  case 14: ret = ot_police_north;      break;
  }
  if (ret == ot_s_lot)
   return ret;
@@ -930,23 +931,22 @@ point overmap::choose_point(game *g)
    add_note(cursx, cursy, string_input_popup(49, "Enter note")); //49: max note length
    timeout(BLINK_SPEED);
   } else if(ch == 'D'){
-  	timeout(-1);
-  	if (has_note(cursx, cursy)){
-   	 bool res = query_yn("Really delete note?");
-  	 if (res == true){
-  	  delete_note(cursx, cursy);
-  	 }
-  	}
-  	timeout(BLINK_SPEED);
+   timeout(-1);
+   if (has_note(cursx, cursy)){
+    bool res = query_yn("Really delete note?");
+    if (res == true)
+     delete_note(cursx, cursy);
+   }
+   timeout(BLINK_SPEED);
   } else if (ch == 'L'){
-     timeout(-1);
-     point p = display_notes();
-     if (p.x != -1){
-      cursx = p.x;
-      cursy = p.y;
-     }
-     timeout(BLINK_SPEED);
-     wrefresh(w_map);
+   timeout(-1);
+   point p = display_notes();
+   if (p.x != -1){
+    cursx = p.x;
+    cursy = p.y;
+   }
+   timeout(BLINK_SPEED);
+   wrefresh(w_map);
   } else if (ch == '/') {
    int tmpx = cursx, tmpy = cursy;
    timeout(-1);
@@ -963,7 +963,7 @@ point overmap::choose_point(game *g)
      do{
       //Draw search box
       wborder(w_search, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
       mvwprintz(w_search, 1, 1, c_red, "Find place:");
       mvwprintz(w_search, 2, 1, c_ltblue, "                         ");
       mvwprintz(w_search, 2, 1, c_ltblue, "%s", term.c_str());

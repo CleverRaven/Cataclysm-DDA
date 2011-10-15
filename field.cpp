@@ -403,10 +403,12 @@ void map::step_in_field(int x, int y, game *g)
   case fd_bile:		// Ditto
    return;
 
-  case fd_web:
-   g->u.add_disease(DI_WEBBED, cur->density * 5, g);
+  case fd_web: {
+   int web = cur->density * 5 - g->u.disease_level(DI_WEBBED);
+   if (web > 0)
+    g->u.add_disease(DI_WEBBED, web, g);
    field_at(x, y) = field();
-   break;
+  } break;
 
   case fd_acid:
    if (cur->density == 3) {
@@ -448,20 +450,24 @@ void map::step_in_field(int x, int y, game *g)
      g->u.infect(DI_SMOKE, bp_mouth, 7, 30, g);
    }
    break;
+
   case fd_smoke:
    if (cur->density == 3)
     g->u.infect(DI_SMOKE, bp_mouth, 4, 15, g);
    break;
+
   case fd_tear_gas:
    if (cur->density > 1 || !one_in(3))
     g->u.infect(DI_TEARGAS, bp_mouth, 5, 20, g);
    break;
+
   case fd_toxic_gas:
    if (cur->density == 2)
     g->u.infect(DI_POISON, bp_mouth, 5, 30, g);
    else if (cur->density == 3)
     g->u.infect(DI_BADPOISON, bp_mouth, 5, 30, g);
    break;
+
   case fd_nuke_gas:
    g->u.radiation += rng(0, cur->density * (cur->density + 1));
    if (cur->density == 3) {
@@ -469,6 +475,7 @@ void map::step_in_field(int x, int y, game *g)
     g->u.hurtall(rng(1, 3));
    }
    break;
+
   case fd_electricity:
    g->add_msg("You're electrocuted!");
    g->u.hurtall(rng(1, cur->density));
@@ -477,6 +484,7 @@ void map::step_in_field(int x, int y, game *g)
     g->u.moves -= cur->density * 150;
    }
    break;
+
   case fd_fatigue:
    if (rng(0, 2) < cur->density) {
     g->add_msg("You're violently teleported!");
@@ -569,6 +577,11 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     z->speed -= rng(cur->density * 5, cur->density * 12);
     dam += cur->density * 10;
    }
+   break;
+
+  case fd_toxic_gas:
+   dam = cur->density;
+   z->speed -= cur->density;
    break;
 
   case fd_nuke_gas:

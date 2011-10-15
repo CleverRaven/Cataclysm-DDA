@@ -62,7 +62,7 @@ mon("wolf",		'w',	c_dkgray,	MS_MEDIUM,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_ANIMAL)|mfb(MF_WARM)|
 	 mfb(MF_FUR)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  4,  7,  3,165, 14,  2,  3,  4,  4,  0,  0, 28,  0,
+	  4, 12,  3,165, 14,  2,  3,  4,  4,  0,  0, 28,  0,
 	&mdeath::normal,	&mattack::none, "\
 A vicious and fast pack hunter."
 );
@@ -793,7 +793,7 @@ through the air."
 mon("kreck",		'h',	c_ltred,	MS_SMALL,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_WARM)|mfb(MF_BASHES)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  9,  5,  5,135,  6,  2,  3,  4,  5,  5,  0, 35, 0,
+	  9,  5,  5,135,  6,  2,  2,  1,  5,  5,  0, 35, 0,
 	&mdeath::melt,		&mattack::none, "\
 A small humanoid, the size of a dog, with\n\
 twisted red flesh and a distended neck. It\n\

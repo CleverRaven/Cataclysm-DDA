@@ -260,7 +260,7 @@ Your skin is tough.  Cutting damage is slightly reduced for you."},
 {"Packmule", 3, false, "\
 You can manage to find space for anything!  You can carry 40%% more volume."},
 {"Fast Learner", 3, false, "\
-Your skill comprehension is 20%% higher, allowing you to learn skills much\n\
+Your skill comprehension is 50%% higher, allowing you to learn skills much\n\
 faster than others.  Note that this only applies to real-world experience,\n\
 not to skill gain from other sources like books."},
 {"Deft", 2, false, "\

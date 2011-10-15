@@ -1337,7 +1337,7 @@ void iuse::geiger(game *g, player *p, item *it, bool t)
   return;
  }
  std::string toggle_text = "Turn continuous scan ";
- toggle_text += (is_on ? "on" : "off");
+ toggle_text += (is_on ? "off" : "on");
  int ch = menu("Geiger counter:", "Scan yourself", "Scan the ground",
                toggle_text.c_str(), "Cancel", NULL);
  switch (ch) {
@@ -1387,15 +1387,15 @@ void iuse::can_goo(game *g, player *p, item *it, bool t)
   g->z.push_back(goo);
  }
  tries = 0;
- while (!one_in(5) && tries < 10) {
+ while (!one_in(4) && tries < 10) {
   tries = 0;
   do {
    goox = p->posx + rng(-2, 2);
    gooy = p->posy + rng(-2, 2);
    tries++;
   } while (g->m.move_cost(goox, gooy) == 0 &&
-           g->m.tr_at(goox, gooy) != tr_null && tries < 10);
-  if (g->m.tr_at(goox, gooy) == tr_null) {
+           g->m.tr_at(goox, gooy) == tr_null && tries < 10);
+  if (tries < 10) {
    if (g->u_see(goox, gooy, junk))
     g->add_msg("A nearby splatter of goo forms into a goo pit.");
    g->m.tr_at(goox, gooy) = tr_goo;
@@ -1621,7 +1621,8 @@ void iuse::mininuke_act(game *g, player *p, item *it, bool t)
 
 void iuse::pheromone(game *g, player *p, item *it, bool t)
 {
- point pos = g->find_item(it);
+ point pos(p->posx, p->posy);
+
  int junk;
  bool is_u = !p->is_npc(), can_see = (is_u || g->u_see(p->posx, p->posy, junk));
  if (pos.x == -999 || pos.y == -999)

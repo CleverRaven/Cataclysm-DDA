@@ -319,7 +319,7 @@ void dis_effect(game *g, player &p, disease &dis)
     dis.duration = dice(3, 100);
    }
   }
-  if (int(g->turn) % 100 == 0) {
+  if (int(g->turn) % 100 == 0 && !p.has_bionic(bio_recycler)) {
 // Hunger and thirst advance more slowly while we sleep.
    p.hunger--;
    p.thirst--;

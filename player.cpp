@@ -223,11 +223,12 @@ int player::current_speed()
 {
  int newmoves = 100; // Start with 100 movement points...
 // Minus some for weight...
- if (weight_carried() > weight_capacity())
-  newmoves = 1;
- else if (weight_carried() > weight_capacity() * .25)
-  newmoves = int((120 * (weight_capacity() - weight_carried())) /
-                         weight_capacity());
+ int carry_penalty = 0;
+ if (weight_carried() > int(weight_capacity() * .25))
+  carry_penalty = 75 * double((weight_carried() - int(weight_capacity() * .25))/
+                              (weight_capacity() * .75));
+
+ newmoves -= carry_penalty;
 
  if (pain > pkill) {
   int pain_penalty = int((pain - pkill) * .7);
@@ -700,12 +701,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  int newmoves = current_speed();
  int pen = 0;
  line = 3;
- if (weight_carried() > weight_capacity()) {
-  mvwprintz(w_speed, line, 1, c_red, "OVERBURDENED! Move 1!!!");
-  line++;
- } else if (weight_carried() > weight_capacity() * .25) {
-  pen = 100 - int((120 * (weight_capacity() - weight_carried())) /
-                         weight_capacity());
+ if (weight_carried() > int(weight_capacity() * .25)) {
+  pen = 75 * double((weight_carried() - int(weight_capacity() * .25)) /
+                    (weight_capacity() * .75));
   mvwprintz(w_speed, line, 1, c_red, "Overburdened        -%s%d%%%%",
             (pen < 10 ? " " : ""), pen);
   line++;
@@ -1416,7 +1414,8 @@ void player::power_bionics(game *g)
       if (tmp->powered) {
        tmp->powered = false;
        g->add_msg("%s powered off.", bionics[tmp->id].name.c_str());
-      } else if (power_level >= bionics[tmp->id].power_cost)
+      } else if (power_level >= bionics[tmp->id].power_cost ||
+                 (weapon.type->id == itm_bio_claws && tmp->id == bio_claws))
        activate_bionic(b, g);
      } else
       mvwprintz(wBio, 22, 0, c_ltred, "\
@@ -3316,7 +3315,7 @@ bool player::eat(game *g, int index)
   (use.*comest->use)(g, this, eaten, false);
   add_addiction(comest->add, comest->addict);
   if (has_bionic(bio_ethanol) && comest->use == &iuse::alcohol)
-   charge_power(rng(20, 30));
+   charge_power(rng(2, 8));
 
   if (has_trait(PF_VEGETARIAN) && eaten->made_of(FLESH)) {
    if (!is_npc())
@@ -3369,10 +3368,11 @@ bool player::eat(game *g, int index)
   else if (which >= inv.size()) {
    which -= inv.size();
    inv[which].contents.erase(inv[which].contents.begin());
-   inv.restack();
    if (!is_npc())
     g->add_msg("%c - an empty %s", inv[which].invlet,
                                    inv[which].tname(g).c_str());
+   if (inv.stack_at(which).size() > 0)
+    inv.restack();
    inv_sorted = false;
   }
  }
@@ -3561,6 +3561,8 @@ void player::use(game *g, char let)
               used->charges, tool->charges_per_use);
   if (replace_item && used->invlet != 0)
    inv.add_item(copy);
+  else if (used->invlet == 0 && used == &weapon)
+   remove_weapon();
   return;
 
  } else if (used->is_gunmod()) {

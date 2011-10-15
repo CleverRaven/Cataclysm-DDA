@@ -113,6 +113,7 @@ t_dumpster,
 t_vat,
 // Staircases etc.
 t_stairs_down, t_stairs_up, t_manhole, t_ladder, t_slope_down, t_slope_up,
+ t_rope_up,
 t_manhole_cover,
 // Special
 t_card_reader, t_card_reader_broken, t_slot_machine, t_elevator_control,
@@ -320,6 +321,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(goes_down)|mfb(container)},
 {"upward slope",     '<', c_brown,   2,
 	mfb(transparent)|mfb(goes_up)|mfb(container)},
+{"rope leading up",  '<', c_white,   2,
+	mfb(transparent)|mfb(goes_up)},
 {"manhole cover",    '0', c_dkgray,  2,
 	mfb(transparent)},
 {"card reader",	     '6', c_pink,    0,

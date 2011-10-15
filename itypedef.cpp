@@ -2392,12 +2392,12 @@ TOOL("water purifier",   5,1200,';', c_ltblue,	PLASTIC, IRON,
 taken from uncertain sources like a river may be dirty.");
 
 TOOL("two-way radio",	10, 800,';', c_yellow,	PLASTIC, IRON,
-    2,  3, 10,  0,  0, 500,500, 1,  0, AT_BATT, itm_null,&iuse::two_way_radio,0,
+    2,  3, 10,  0,  0, 100,100, 1,  0, AT_BATT, itm_null,&iuse::two_way_radio,0,
 "Using this allows you to send out a signal; either a general SOS, or if you\n\
 are in contact with a faction, to send a direct call to them.");
 
 TOOL("radio (off)",	20, 420,';', c_yellow,	PLASTIC, IRON,
-    4,  2,  4,  0, -1, 500,500, 0,  0, AT_BATT,	itm_null, &iuse::radio_off, 0,"\
+    4,  2,  4,  0, -1, 100,100, 0,  0, AT_BATT,	itm_null, &iuse::radio_off, 0,"\
 Using this radio turns it on.  It will pick up any nearby signals being\n\
 broadcast and play them audibly.");
 

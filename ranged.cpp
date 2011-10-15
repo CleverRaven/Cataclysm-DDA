@@ -406,6 +406,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
      }
     }
    }
+   mvwprintw(w_target, 5, 1, "Range: %d", rl_dist(u.posx, u.posy, x, y));
    if (mon_at(x, y) == -1) {
     mvwputch(w_terrain, y + SEEY - u.posy, x + SEEX - u.posx, c_red, '*');
     mvwprintw(w_status, 0, 9, "                             ");
@@ -687,7 +688,7 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
   p.practice(firing->skill_used, 5);
  } else if (goodhit < .2) {
   hit = bp_torso;
-  dam = rng(1.5 * dam, 3 * dam);
+  dam = rng(dam, 2 * dam);
   p.practice(firing->skill_used, 2);
  } else if (goodhit < .4) {
   if (one_in(3))
@@ -708,7 +709,7 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
   dam = 0;
  }
  if (dam > 0) {
-  h->moves -= dam * 4;
+  h->moves -= rng(0, dam);
   if (h == &(g->u))
    g->add_msg("%s shoots your %s for %d damage!", p.name.c_str(),
               body_part_name(hit, side).c_str(), dam);
