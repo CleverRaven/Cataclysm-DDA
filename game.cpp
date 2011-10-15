@@ -4786,9 +4786,10 @@ void game::vertical_move(int movez, bool force)
      cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz - movez);
      return;
     } else if (u.has_amount(itm_rope_30, 1)) {
-     if (query_yn("There is a sheer drop halfway down.  Climb your rope down?"))
+     if (query_yn("There is a sheer drop halfway down. Climb your rope down?")){
       tmpmap.ter(u.posx, u.posy) = t_rope_up;
-     else {
+      u.use_amount(itm_rope_30, 1);
+     } else {
       cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz - movez);
       return;
      }
