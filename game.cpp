@@ -3833,8 +3833,10 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
 void game::drop()
 {
  std::vector<item> dropped = multidrop();
- if (dropped.size() == 0)
+ if (dropped.size() == 0) {
   add_msg("Never mind.");
+  return;
+ }
 
  itype_id first = itype_id(dropped[0].type->id);
  bool same = true;
