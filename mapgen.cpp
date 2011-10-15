@@ -2394,6 +2394,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    add_trap(SEEX - 2, SEEY + 1, tr_dissector);
    add_trap(SEEX + 1, SEEY + 1, tr_dissector);
    square(this, t_counter, SEEX - 1, SEEY - 1, SEEX, SEEY);
+   place_items(mi_bionics, 75, SEEX - 1, SEEY - 1, SEEX, SEEY, false, 0);
    line(this, t_reinforced_glass_h, SEEX - 2, SEEY - 2, SEEX + 1, SEEY - 2);
    line(this, t_reinforced_glass_h, SEEX - 2, SEEY + 1, SEEX + 1, SEEY - 1);
    line(this, t_reinforced_glass_v, SEEX - 2, SEEY - 1, SEEX - 2, SEEY);
@@ -2401,7 +2402,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    ter(SEEX - 3, SEEY - 3) = t_console;
    tmpcomp = add_computer(SEEX - 3, SEEY - 3, "Bionic access", 4);
    tmpcomp->add_option("Manifest", COMPACT_LIST_BIONICS, 0);
-   tmpcomp->add_option("Open Chambers", COMPACT_RELEASE, 2);
+   tmpcomp->add_option("Open Chambers", COMPACT_RELEASE, 4);
    tmpcomp->add_failure(COMPFAIL_MANHACKS);
    tmpcomp->add_failure(COMPFAIL_SECUBOTS);
    break;

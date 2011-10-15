@@ -876,7 +876,7 @@ void mattack::fear_paralyze(game *g, monster *z)
   if (rng(1, 20) > g->u.int_cur) {
    g->add_msg("The terrifying visage of the %s paralyzes you.",
               z->name().c_str());
-   g->u.moves -= 200;
+   g->u.moves -= 100;
   } else
    g->add_msg("You manage to avoid staring at the horrdenous %s.",
               z->name().c_str());
