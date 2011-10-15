@@ -313,13 +313,13 @@ int calendar::sunlight()
  if (mins > sunset_mins + TWILIGHT_MINUTES || mins < sunrise_mins) // Night
   return moonlight;
 
- else if (mins >= sunrise_mins && mins < sunrise_mins + TWILIGHT_MINUTES) {
+ else if (mins >= sunrise_mins && mins <= sunrise_mins + TWILIGHT_MINUTES) {
 
   double percent = double(mins - sunrise_mins) / TWILIGHT_MINUTES;
   return int( double(moonlight)      * (1. - percent) +
               double(DAYLIGHT_LEVEL) * percent         );
 
- } else if (mins >= sunset_mins && mins < sunset_mins + TWILIGHT_MINUTES) {
+ } else if (mins >= sunset_mins && mins <= sunset_mins + TWILIGHT_MINUTES) {
 
   double percent = double(mins - sunset_mins) / TWILIGHT_MINUTES;
   return int( double(DAYLIGHT_LEVEL) * (1. - percent) +

@@ -40,6 +40,13 @@ enum quit_status {
  QUIT_DIED     // Actual death
 };
 
+struct monster_and_count
+{
+ monster mon;
+ int count;
+ monster_and_count(monster M, int C) : mon (M), count (C) {};
+};
+
 struct mtype;
 struct mission_type;
 class map;
@@ -106,6 +113,7 @@ class game
   bool u_see (monster *mon, int &t);
   bool pl_sees(player *p, monster *mon, int &t);
   void refresh_all();
+  void update_map(int &x, int &y);  // Called by plmove when the map updates
 
   faction* random_good_faction();
   faction* random_evil_faction();
@@ -128,8 +136,8 @@ class game
   int levx, levy, levz;	// Placement inside the overmap
   player u;
   std::vector<monster> z;
-  std::vector<monster> monbuff;
-  int monbuffx, monbuffy, monbuffz, monbuff_turn;
+  std::vector<monster_and_count> coming_to_stairs;
+  int monstairx, monstairy, monstairz;
   std::vector<npc> active_npc;
   std::vector<mon_id> moncats[num_moncats];
   std::vector<faction> factions;
@@ -217,7 +225,8 @@ class game
                             item *relevent);
 
 // Map updating and monster spawning
-  void update_map(int &x, int &y);  // Called by plmove when the map updates
+  void replace_stair_monsters();
+  void update_stair_monsters();
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
   mon_id valid_monster_from(std::vector<mon_id> group);
   int valid_group(mon_id type, int x, int y);// Picks a group from cur_om

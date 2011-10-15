@@ -739,8 +739,12 @@ bool item::is_ammo()
 
 bool item::is_food(player *u)
 {
+ if (u == NULL)
+  return is_food();
+
  if (type->is_food())
   return true;
+
  if (u->has_bionic(bio_batteries) && is_ammo() &&
      (dynamic_cast<it_ammo*>(type))->type == AT_BATT)
   return true;
@@ -1086,42 +1090,7 @@ void item::use(player &u)
   charges--;
 }
 
-/*
-bool item::stack_with(item &it)
-{
- if (type->id != it.type->id || damage != it.damage ||
-     charges != it.charges || owned != it.owned || active != it.active ||
-     ((is_food() || is_food_container()) && bday != it.bday))
-  return false;
-
- if (contents.size() > 0) {
-  if (contents.size() != it.contents.size())
-   return false;
-  std::vector<int> tmp_contents; // Duplicate it to check if it matches
-  for (int i = 0; i < it.contents.size(); i++)
-   tmp_contents.push_back(it.contents[i].type->id);
-  for (int i = 0; i < contents.size(); i++) {
-   for (int j = 0; j < tmp_contents.size(); j++) {
-    if (tmp_contents[j] == contents[i].type->id) {
-    tmp_contents.erase(tmp_contents.begin() + j);
-     j = tmp_contents.size();
-    }
-   }
-  }
-// At this point, tmp_contents should be empty if it's a perfect match
-  if (!tmp_contents.empty())
-   return false;
- }
-
- count++;
- return true;
-}
-*/
-
 bool is_flammable(material m)
 {
- if (m == VEGGY   || m == FLESH || m == POWDER || m == COTTON || m == WOOL ||
-     m == LEATHER || m == PAPER || m == WOOD   || m == MNULL)
-  return true;
- return false;
+ return (m == COTTON || m == WOOL || m == PAPER || m == WOOD || m == MNULL);
 }

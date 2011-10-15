@@ -622,13 +622,12 @@ void mattack::formblob(game *g, monster *z)
 
 void mattack::dogthing(game *g, monster *z)
 {
- if (!one_in(3))
+ int t;
+ if (!one_in(3) || !g->u_see(z, t))
   return;
 
- int t;
- if (g->u_see(z, t))
-  g->add_msg("The %s's head explodes in a mass of roiling tentacles!",
-             z->name().c_str());
+ g->add_msg("The %s's head explodes in a mass of roiling tentacles!",
+            z->name().c_str());
 
  for (int x = z->posx - 2; x <= z->posx + 2; x++) {
   for (int y = z->posy - 2; y <= z->posy + 2; y++) {
@@ -796,7 +795,8 @@ void mattack::vortex(game *g, monster *z)
    } // if (mondex != -1)
 
    if (g->u.posx == x && g->u.posy == y) { // Throw... the player?! D:
-    std::vector<point> traj = continue_line(from_monster, rng(3, 4));
+    std::vector<point> traj = continue_line(from_monster, rng(2, 3));
+    g->add_msg("You're thrown by winds!");
     bool hit_wall = false;
     int damage = rng(5, 10);
     for (int i = 0; i < traj.size() && !hit_wall; i++) {
@@ -828,6 +828,7 @@ void mattack::vortex(game *g, monster *z)
      g->u.posy = traj[traj.size() - 1].y;
     }
     g->u.hit(g, bp_torso, 0, damage, 0);
+    g->update_map(g->u.posx, g->u.posy);
    } // Done with checking for player
   }
  } // Done with loop!
@@ -875,7 +876,7 @@ void mattack::fear_paralyze(game *g, monster *z)
   if (rng(1, 20) > g->u.int_cur) {
    g->add_msg("The terrifying visage of the %s paralyzes you.",
               z->name().c_str());
-   g->u.moves -= 400;
+   g->u.moves -= 100;
   } else
    g->add_msg("You manage to avoid staring at the horrdenous %s.",
               z->name().c_str());

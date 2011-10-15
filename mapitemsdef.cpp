@@ -167,6 +167,12 @@ void game::init_mapitems()
 	itm_manual_mechanics, itm_manual_carpentry, NULL);
 
  setvector(
+   mapitems[mi_consumer_electronics],
+        itm_amplifier, itm_antenna, itm_battery, itm_soldering_iron,
+        itm_screwdriver, itm_processor, itm_RAM, itm_mp3, itm_flashlight,
+        itm_radio, itm_hotplate, itm_receiver, itm_transponder, itm_tazer, itm_two_way_radio, NULL);
+
+ setvector(
    mapitems[mi_sports],
 	itm_bandages, itm_aspirin, itm_bat, itm_sneakers, itm_tshirt,
 	itm_tank_top, itm_gloves_fingerless, itm_glasses_safety,
@@ -397,6 +403,10 @@ void game::init_mapitems()
 	itm_bionics_melee, itm_bionics_armor, itm_bionics_espionage,
 	itm_bionics_defense, itm_bionics_medical, itm_bionics_construction,
 	itm_bionics_super, itm_bionics_ranged, NULL);
+
+ setvector(
+   mapitems[mi_bionics_common],
+	itm_bionics_battery, itm_bionics_power, itm_bionics_tools, NULL);
 
  setvector(
    mapitems[mi_weapons],

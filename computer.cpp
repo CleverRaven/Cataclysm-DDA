@@ -439,7 +439,7 @@ void computer::activate_function(game *g, computer_action action)
      for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
       if (g->m.i_at(x, y)[i].is_bionic()) {
        if (names.size() < 9)
-        names.push_back(g->m.i_at(x, y)[i].name);
+        names.push_back(g->m.i_at(x, y)[i].tname());
        else
         more++;
       }

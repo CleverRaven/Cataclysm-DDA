@@ -397,7 +397,7 @@ void game::start_game()
  u.per_cur = u.per_max;
  u.int_cur = u.int_max;
  u.dex_cur = u.dex_max;
- nextspawn = HOURS(8) + MINUTES(30);	// No monsters until 8:30 AM!
+ nextspawn = int(turn);	
  temperature = 65;	// Springtime-appropriate?
 
 // Testing pet dog!
@@ -596,6 +596,7 @@ bool game::do_turn()
  m.step_in_field(u.posx, u.posy, this);
 
  monmove();
+ update_stair_monsters();
  om_npcs_move();
  u.reset();
  u.process_active_items(this);
@@ -2331,6 +2332,7 @@ void game::mon_info()
 void game::monmove()
 {
  for (int i = 0; i < z.size(); i++) {
+  bool dead = false;
   if (i < 0 || i > z.size())
    debugmsg("Moving out of bounds monster! i %d, z.size() %d", i, z.size());
   while (!z[i].can_move_to(m, z[i].posx, z[i].posy) && i < z.size()) {
@@ -2348,15 +2350,18 @@ void game::monmove()
      }
     }
    }
-   if (!okay)
+   if (!okay) {
     z.erase(z.begin() + i);// Delete us if no replacement found
+    dead = true;
+   }
   }
 
-  bool dead = false;
-  z[i].process_effects(this);
-  if (z[i].hurt(0)) {
-   kill_mon(i);
-   dead = true;
+  if (!dead) {
+   z[i].process_effects(this);
+   if (z[i].hurt(0)) {
+    kill_mon(i);
+    dead = true;
+   }
   }
   while (z[i].moves > 0 && !dead) {
    z[i].plan(this);	// Formulate a path to follow
@@ -3872,10 +3877,20 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
 void game::drop()
 {
  std::vector<item> dropped = multidrop();
- if (dropped.size() == 0)
+ if (dropped.size() == 0) {
   add_msg("Never mind.");
- else if (dropped.size() == 1)
-  add_msg("You drop your %s.", dropped[0].tname(this).c_str());
+  return;
+ }
+
+ itype_id first = itype_id(dropped[0].type->id);
+ bool same = true;
+ for (int i = 1; i < dropped.size() && same; i++) {
+  if (dropped[i].type->id != first)
+   same = false;
+ }
+ if (dropped.size() == 1 || same)
+  add_msg("You drop your %s%s.", dropped[0].tname(this).c_str(),
+          (dropped.size() == 1 ? "" : "s"));
  else
   add_msg("You drop several items.");
 
@@ -3896,7 +3911,7 @@ void game::drop_in_direction()
  dirx += u.posx;
  diry += u.posy;
  if (m.has_flag(noitem, dirx, diry) || m.has_flag(sealed, dirx, diry)) {
-  add_msg("You can't place an item there!");
+  add_msg("You can't place items there!");
   return;
  }
 
@@ -3907,9 +3922,17 @@ void game::drop_in_direction()
 
  if (dropped.size() == 0)
   add_msg("Never mind.");
- else if (dropped.size() == 1)
-  add_msg("You %s your %s %s the %s.", verb.c_str(),
-          dropped[0].tname(this).c_str(), prep.c_str(),
+
+ itype_id first = itype_id(dropped[0].type->id);
+ bool same = true;
+ for (int i = 1; i < dropped.size() && same; i++) {
+  if (dropped[i].type->id != first)
+   same = false;
+ }
+ if (dropped.size() == 1 || same)
+  add_msg("You %s your %s%s %s the %s.", verb.c_str(),
+          dropped[0].tname(this).c_str(),
+          (dropped.size() == 1 ? "" : "s"), prep.c_str(),
           m.tername(dirx, diry).c_str());
  else
   add_msg("You %s several items %s the %s.", verb.c_str(), prep.c_str(),
@@ -4776,14 +4799,94 @@ void game::vertical_move(int movez, bool force)
   add_msg("You can't go %s here!", (movez == -1 ? "down" : "up"));
   return;
  }
- levz += movez;
- if (levz == monbuffz &&
-     monbuff_turn + 120 <= turn - trig_dist(levx, levy, monbuffx, monbuffy)) {
-  for (int i = 0; i < monbuff.size(); i++)
-   z.push_back(monbuff[i]);
-  monbuff.clear();
+
+ cur_om.save(u.name);
+ m.save(&cur_om, turn, levx, levy);
+ cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz + movez);
+ map tmpmap(&itypes, &mapitems, &traps);
+ tmpmap.load(this, levx, levy);
+// Find the corresponding staircase
+ int stairx = -1, stairy = -1;
+ if (force) {
+  stairx = u.posx;
+  stairy = u.posy;
+ } else { // We need to find the stairs.
+  for (int i = 0; i < SEEX * 3 && stairx == -1; i++) {
+   for (int j = 0; j < SEEX * 3 && stairx == -1; j++) {
+    int sx = (i + u.posx) % (SEEX * 3), sy = (j + u.posy) % (SEEY * 3);
+    if ((movez == -1 && tmpmap.has_flag(goes_up, sx, sy)) ||
+        (movez ==  1 && (tmpmap.has_flag(goes_down, sx, sy)) ||
+                         tmpmap.ter(sx, sy) == t_manhole_cover      ))  {
+     stairx = sx;
+     stairy = sy;
+    }
+   }
+  }
+
+  if (stairx == -1 || stairy == -1) { // No stairs found!
+// Before we return in any of these cases, we have to reset cur_om to the 
+// proper level!
+   if (movez < 0) {
+    if (tmpmap.move_cost(u.posx, u.posy) == 0) {
+     popup("Halfway down, the way down becomes blocked off.");
+     cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz - movez);
+     return;
+    } else if (u.has_amount(itm_rope_30, 1)) {
+     if (query_yn("There is a sheer drop halfway down. Climb your rope down?")){
+      tmpmap.ter(u.posx, u.posy) = t_rope_up;
+      u.use_amount(itm_rope_30, 1);
+     } else {
+      cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz - movez);
+      return;
+     }
+    } else if (!query_yn("There is a sheer drop halfway down.  Jump?")) {
+     cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz - movez);
+     return;
+    }
+   }
+   stairx = u.posx;
+   stairy = u.posy;
+  }
  }
+ 
+// We moved!  Load the new map.
+ levz += movez;
  u.moves -= 100;
+ bool replace_monsters = false;
+// Replace the stair monsters if we just came back
+ if (abs(monstairx - levx) <= 1 && abs(monstairy - levy) <= 1 &&
+     monstairz == levz)
+  replace_monsters = true;
+ 
+ if (!force) {
+  monstairx = levx;
+  monstairy = levy;
+  monstairz = levz - movez;
+  for (int i = 0; i < z.size(); i++) {
+   if (z[i].will_reach(this, u.posx, u.posy))
+    coming_to_stairs.push_back(
+        monster_and_count(z[i], 1 + z[i].turns_to_reach(this, u.posx, u.posy)));
+   else {
+    int group = valid_group( (mon_id)(z[i].type->id), levx, levy);
+    if (group != -1)
+     cur_om.zg[group].population++;
+   }
+  }
+ }
+ z.clear();
+
+ m.load(this, levx, levy);
+ u.posx = stairx;
+ u.posy = stairy;
+ if (m.ter(stairx, stairy) == t_manhole_cover) {
+  m.add_item(stairx + rng(-1, 1), stairy + rng(-1, 1),
+             itypes[itm_manhole_cover], 0);
+  m.ter(stairx, stairy) = t_manhole;
+ }
+
+ if (replace_monsters)
+  replace_stair_monsters();
+
  if (force) {	// Basically, we fell.
   int dam = int((u.str_max / 4) + rng(5, 10)) * rng(1, 3);// The bigger they are
   dam -= rng(u.dodge(), u.dodge() * 3);
@@ -4794,62 +4897,8 @@ void game::vertical_move(int movez, bool force)
    u.hurtall(dam);
   }
  }
- int group, junk;
- monbuffx = levx;
- monbuffy = levy;
- monbuffz = levz - movez;
- for (int i = 0; i < z.size(); i++) {
-  if (trig_dist(u.posx, u.posy, z[i].posx, z[i].posy) > 3) {
-   monbuff.push_back(z[i]);
-   group = valid_group((mon_id)(z[i].type->id), levx, levy);
-   if (group != -1) {
-    cur_om.zg[group].population++;
-    if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2) > 5)
-     cur_om.zg[group].radius++;
-   } else if (mt_to_mc((mon_id)(z[i].type->id)) != mcat_null)
-    cur_om.zg.push_back(mongroup(mt_to_mc(mon_id(z[i].type->id)),
-                                 levx, levy, 1, 1));
-   z.erase(z.begin()+i);
-   i--;
-  } else if (u_see(&(z[i]), junk))
-   add_msg("The %s follows you %s.", z[i].name().c_str(),
-           (movez == -1 ? "down" : "up"));
- }
- cur_om.save(u.name);
- m.save(&cur_om, turn, levx, levy);
- cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz + movez);
- m.load(this, levx, levy);
-// Move the player to the corresponding up-route. (If one exists.)
- for (int i = 0; i < SEEX * 3; i++) {
-  for (int j = 0; j < SEEY * 3; j++) {
-   if ((movez == -1 && m.has_flag(goes_up,   i, j)) ||
-       (movez ==  1 && m.has_flag(goes_down, i, j))   )  {
-    u.posx = i;
-    u.posy = j;
-    j = SEEY * 3;
-    i = SEEX * 3;
-   } else if (movez == 1 && m.ter(i, j) == t_manhole_cover) {
-    m.add_item(i + rng(-1, 1), j + rng(-1, 1), itypes[itm_manhole_cover], 0);
-    m.ter(i, j) = t_manhole;
-    u.posx = i;
-    u.posy = j;
-    j = SEEY * 3;
-    i = SEEX * 3;
-   }
-  }
- }
+
  update_map(u.posx, u.posy);
- for (int i = 0; i < SEEX * 3; i++) {
-  for (int j = 0; j < SEEY * 3; j++) {
-   if ((movez == -1 && m.has_flag(goes_up,   i, j)) ||
-       (movez ==  1 && m.has_flag(goes_down, i, j))   )  {
-    u.posx = i;
-    u.posy = j;
-    j = SEEY * 3;
-    i = SEEX * 3;
-   }
-  }
- }
  refresh_all();
 }
 
@@ -4859,10 +4908,28 @@ void game::update_map(int &x, int &y)
  int shiftx = 0, shifty = 0;
  int group;
  int olevx = 0, olevy = 0;
+/*
       if (x <  SEEX    ) { x = SEEX * 2 - 1; shiftx = -1; }
  else if (x >= SEEX * 2) { x = SEEX;         shiftx =  1; }
       if (y <  SEEY    ) { y = SEEY * 2 - 1; shifty = -1; }
  else if (y >= SEEY * 2) { y = SEEY;         shifty =  1; }
+*/
+ while (x < SEEX) {
+  x += SEEX;
+  shiftx--;
+ }
+ while (x >= SEEX * 2) {
+  x -= SEEX;
+  shiftx++;
+ }
+ while (y < SEEY) {
+  y += SEEY;
+  shifty--;
+ }
+ while (y >= SEEY * 2) {
+  y -= SEEY;
+  shifty++;
+ }
 // Before we shift/save the map, check if we need to move monsters back to
 // their spawn locations.
  m.shift(this, levx, levy, shiftx, shifty);
@@ -4903,9 +4970,12 @@ void game::update_map(int &x, int &y)
      cur_om.zg[group].population++;
      if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2) > 5)
       cur_om.zg[group].radius++;
-    } else if (mt_to_mc((mon_id)(z[i].type->id)) != mcat_null)
+    }
+/*  Removing adding new groups for now.  Haha!
+ else if (mt_to_mc((mon_id)(z[i].type->id)) != mcat_null)
      cur_om.zg.push_back(mongroup(mt_to_mc((mon_id)(z[i].type->id)),
                                   levx + shiftx, levy + shifty, 1, 1));
+*/
    }
    z.erase(z.begin()+i);
    i--;
@@ -4966,6 +5036,59 @@ void game::update_map(int &x, int &y)
  save(); // We autosave every time the map gets updated.
 }
 
+void game::replace_stair_monsters()
+{
+ for (int i = 0; i < coming_to_stairs.size(); i++)
+  z.push_back(coming_to_stairs[i].mon);
+ coming_to_stairs.clear();
+}
+
+void game::update_stair_monsters()
+{
+ if (abs(levx - monstairx) > 1 || abs(levy - monstairy) > 1)
+  return;
+
+ for (int i = 0; i < coming_to_stairs.size(); i++) {
+  coming_to_stairs[i].count--;
+  if (coming_to_stairs[i].count <= 0) {
+   int startx = rng(0, SEEX * 3 - 1), starty = rng(0, SEEY * 3 - 1);
+   bool found_stairs = false;
+   for (int x = 0; x < SEEX * 3 && !found_stairs; x++) {
+    for (int y = 0; y < SEEY * 3 && !found_stairs; y++) {
+     int sx = (startx + x) % (SEEX * 3), sy = (starty + y) % (SEEY * 3);
+     if (m.has_flag(goes_up, sx, sy) || m.has_flag(goes_down, sx, sy)) {
+      found_stairs = true;
+      int mposx = sx, mposy = sy;
+      int tries = 0;
+      while (!is_empty(mposx, mposy) && tries < 10) {
+       mposx = sx + rng(-2, 2);
+       mposy = sy + rng(-2, 2);
+       tries++;
+      }
+      if (tries < 10) {
+       coming_to_stairs[i].mon.posx = sx;
+       coming_to_stairs[i].mon.posy = sy;
+       z.push_back( coming_to_stairs[i].mon );
+       int t;
+       if (u_see(sx, sy, t))
+        add_msg("A %s comes %s the %s!", coming_to_stairs[i].mon.name().c_str(),
+                (m.has_flag(goes_up, sx, sy) ? "down" : "up"),
+                m.tername(sx, sy).c_str());
+      }
+     }
+    }
+   }
+   coming_to_stairs.erase(coming_to_stairs.begin() + i);
+   i--;
+  }
+ }
+ if (coming_to_stairs.empty()) {
+  monstairx = -1;
+  monstairy = -1;
+  monstairz = 999;
+ }
+}
+
 void game::spawn_mon(int shiftx, int shifty)
 {
  int nlevx = levx + shiftx;
@@ -5019,12 +5142,13 @@ void game::spawn_mon(int shiftx, int shifty)
       mony = rng(0, SEEY * 3 - 1);
       if (shiftx == -1) monx = 0 - SEEX * 2; if (shiftx == 1) monx = SEEX * 4;
       if (shifty == -1) mony = 0 - SEEX * 2; if (shifty == 1) mony = SEEY * 4;
-      monx += rng(-5, 10);
-      mony += rng(-5, 10);
+      monx += rng(-5, 5);
+      mony += rng(-5, 5);
       iter++;
+
      } while ((!zom.can_move_to(m, monx, mony) || !is_empty(monx, mony) ||
-                m.sees(u.posx, u.posy, monx, mony, 18, t) ||
-                rl_dist(u.posx, u.posy, monx, mony) < SEEX) && iter < 50);
+                m.sees(u.posx, u.posy, monx, mony, SEEX, t) ||
+                rl_dist(u.posx, u.posy, monx, mony) < 8) && iter < 50);
      if (iter < 50) {
       zom.spawn(monx, mony);
       z.push_back(zom);
@@ -5078,7 +5202,7 @@ int game::valid_group(mon_id type, int x, int y)
      j = (moncats[cur_om.zg[i].type]).size();
     }
    }
-  } else if (dist < cur_om.zg[i].radius + 1) {
+  } else if (dist < cur_om.zg[i].radius + 3) {
    for (int j = 0; j < (moncats[cur_om.zg[i].type]).size(); j++) {
     if (type == (moncats[cur_om.zg[i].type])[j]) {
      semi_valid.push_back(i);

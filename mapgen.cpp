@@ -188,10 +188,13 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     if (rng(0, w_fac) <= i && rng(0, e_fac) <= SEEX * 2 - 1 - i &&
-        rng(0, n_fac) <= j && rng(0, s_fac) <= SEEX * 2 - 1 - j   )
+        rng(0, n_fac) <= j && rng(0, s_fac) <= SEEX * 2 - 1 - j   ) {
      ter(i, j) = t_rubble;
-    else
+     radiation(i, j) = rng(0, 4) * rng(0, 2);
+    } else {
      ter(i, j) = t_dirt;
+     radiation(i, j) = rng(0, 2) * rng(0, 2) * rng(0, 2);
+    }
    }
   }
   place_items(mi_wreckage, 83, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
@@ -1143,7 +1146,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
           field_at(x, y) = field(fd_web, rng(2, 3), 0);
         }
        }
-      } else if (field_at(i, j).is_null() && one_in(5))
+      } else if (move_cost(x, y) > 0 && field_at(i, j).is_null() && one_in(5))
        field_at(i, j) = field(fd_web, 1, 0);
      }
     }
@@ -1569,6 +1572,70 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   if (terrain_type == ot_s_hardware_south)
    rotate(2);
   if (terrain_type == ot_s_hardware_west)
+   rotate(3);
+  break;
+
+ case ot_s_electronics_north:
+ case ot_s_electronics_east:
+ case ot_s_electronics_south:
+ case ot_s_electronics_west:
+     /*
+     -------""-+--"""------
+     |{{{{{           #   |
+     |{               #   |
+     |{               #   |
+     |{               ### |
+     |{                   |
+     |{     {{            "
+     |{     {{            "
+     |{                   "
+     |{                   |
+     |{                   |
+     |{  {{     {{        "
+     |{  {{     {{        "
+     |{                   "
+     |{                   |
+     |#     {      {     #|
+     |#     {      {     #|
+     |#     {      {     #|
+     |#     {      {     #|
+     |####################|
+     ----------------------
+
+     */
+
+  square(this, grass_or_dirt(), 0, 0, SEEX * 2, SEEY * 2);
+  square(this, t_floor, 4, 4, SEEX * 2 - 4, SEEY * 2 - 4);
+  line(this, t_wall_v, 3, 4, 3, SEEY * 2 - 4);
+  line(this, t_wall_v, SEEX * 2 - 3, 4, SEEX * 2 - 3, SEEY * 2 - 4);
+  line(this, t_wall_h, 3, 3, SEEX * 2 - 3, 3);
+  line(this, t_wall_h, 3, SEEY * 2 - 3, SEEX * 2 - 3, SEEY * 2 - 3);
+  ter(13, 3) = t_door_c;
+  line(this, t_window, 10, 3, 11, 3);
+  line(this, t_window, 16, 3, 18, 3);
+  line(this, t_window, SEEX * 2 - 3, 9,  SEEX * 2 - 3, 11);
+  line(this, t_window, SEEX * 2 - 3, 14,  SEEX * 2 - 3, 16);
+  line(this, t_counter, 4, SEEY * 2 - 4, SEEX * 2 - 4, SEEY * 2 - 4);
+  line(this, t_counter, 4, SEEY * 2 - 5, 4, SEEY * 2 - 9);
+  line(this, t_counter, SEEX * 2 - 4, SEEY * 2 - 5, SEEX * 2 - 4, SEEY * 2 - 9);
+  line(this, t_counter, SEEX * 2 - 7, 4, SEEX * 2 - 7, 6);
+  line(this, t_counter, SEEX * 2 - 7, 7, SEEX * 2 - 5, 7);
+  line(this, t_rack, 9, SEEY * 2 - 5, 9, SEEY * 2 - 9);
+  line(this, t_rack, SEEX * 2 - 9, SEEY * 2 - 5, SEEX * 2 - 9, SEEY * 2 - 9);
+  line(this, t_rack, 4, 4, 4, SEEY * 2 - 10);
+  line(this, t_rack, 5, 4, 8, 4);
+  place_items(mi_consumer_electronics, 85, 4,SEEY * 2 - 4, SEEX * 2 - 4, SEEY * 2 - 4, false, turn - 50);
+  place_items(mi_consumer_electronics, 85, 4, SEEY * 2 - 5, 4, SEEY * 2 - 9, false, turn - 50);
+  place_items(mi_consumer_electronics, 85, SEEX * 2 - 4, SEEY * 2 - 5, SEEX * 2 - 4, SEEY * 2 - 9, false, turn - 50);
+  place_items(mi_consumer_electronics, 85, 9, SEEY * 2 - 5, 9, SEEY * 2 - 9, false, turn - 50);
+  place_items(mi_consumer_electronics, 85, SEEX * 2 - 9, SEEY * 2 - 5, SEEX * 2 - 9, SEEY * 2 - 9, false, turn - 50);
+  place_items(mi_consumer_electronics, 85, 4, 4, 4, SEEY * 2 - 10, false, turn - 50);
+  place_items(mi_consumer_electronics, 85, 5, 4, 8, 4, false, turn - 50);
+  if (terrain_type == ot_s_electronics_east)
+   rotate(1);
+  if (terrain_type == ot_s_electronics_south)
+   rotate(2);
+  if (terrain_type == ot_s_electronics_west)
    rotate(3);
   break;
 
@@ -2239,7 +2306,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    ter(SEEX - 1, SEEY * 2 - 1) = t_door_metal_c;
    ter(SEEX    , SEEY * 2 - 1) = t_door_metal_c;
   }
-  switch (rng(1, 2)) {
+
+  switch (rng(1, 3)) {
   case 1:	// Weapons testing
    add_spawn(mon_secubot, 1,            6,            6);
    add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
@@ -2278,6 +2346,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     place_items(mi_allguns, 96, SEEX - 2, SEEY, SEEX + 1, SEEY, false, 0);
    }
    break;
+
   case 2: {	// Netherworld access
    if (!one_in(4)) {	// Trapped netherworld monsters
     tw = rng(SEEY + 3, SEEY + 5);
@@ -2304,7 +2373,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    }
    tmpcomp = add_computer(SEEX, 8, "Sub-prime contact console", 7);
    tmpcomp->add_option("Terminate Specimens", COMPACT_TERMINATE, 2);
-   tmpcomp->add_option("Release Specimens", COMPACT_RELEASE, 4);
+   tmpcomp->add_option("Release Specimens", COMPACT_RELEASE, 3);
    tmpcomp->add_option("Toggle Portal", COMPACT_PORTAL, 8);
    tmpcomp->add_option("Activate Resonance Cascade", COMPACT_CASCADE, 10);
    tmpcomp->add_failure(COMPFAIL_MANHACKS);
@@ -2314,6 +2383,29 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    ter(SEEX - 2, 7) = t_radio_tower;
    ter(SEEX + 1, 7) = t_radio_tower;
    } break;
+
+  case 3: // Bionics
+   add_spawn(mon_secubot, 1,            6,            6);
+   add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
+   add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
+   add_spawn(mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7);
+   add_trap(SEEX - 2, SEEY - 2, tr_dissector);
+   add_trap(SEEX + 1, SEEY - 2, tr_dissector);
+   add_trap(SEEX - 2, SEEY + 1, tr_dissector);
+   add_trap(SEEX + 1, SEEY + 1, tr_dissector);
+   square(this, t_counter, SEEX - 1, SEEY - 1, SEEX, SEEY);
+   place_items(mi_bionics, 75, SEEX - 1, SEEY - 1, SEEX, SEEY, false, 0);
+   line(this, t_reinforced_glass_h, SEEX - 2, SEEY - 2, SEEX + 1, SEEY - 2);
+   line(this, t_reinforced_glass_h, SEEX - 2, SEEY + 1, SEEX + 1, SEEY - 1);
+   line(this, t_reinforced_glass_v, SEEX - 2, SEEY - 1, SEEX - 2, SEEY);
+   line(this, t_reinforced_glass_v, SEEX + 1, SEEY - 1, SEEX + 1, SEEY);
+   ter(SEEX - 3, SEEY - 3) = t_console;
+   tmpcomp = add_computer(SEEX - 3, SEEY - 3, "Bionic access", 4);
+   tmpcomp->add_option("Manifest", COMPACT_LIST_BIONICS, 0);
+   tmpcomp->add_option("Open Chambers", COMPACT_RELEASE, 4);
+   tmpcomp->add_failure(COMPFAIL_MANHACKS);
+   tmpcomp->add_failure(COMPFAIL_SECUBOTS);
+   break;
   }
   break;
 
@@ -4999,7 +5091,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     m->ter(biox + 1, bioy + 1) = t_wall_h;
     m->ter(biox    , bioy    ) = t_counter;
     m->ter(biox + 1, bioy    ) = t_reinforced_glass_v;
-    m->place_items(mi_bionics, 70, biox, bioy, biox, bioy, false, 0);
+    m->place_items(mi_bionics_common, 70, biox, bioy, biox, bioy, false, 0);
 
     biox = x2;
     m->ter(biox    , bioy - 1) = t_wall_h;
@@ -5008,7 +5100,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     m->ter(biox - 1, bioy + 1) = t_wall_h;
     m->ter(biox    , bioy    ) = t_counter;
     m->ter(biox - 1, bioy    ) = t_reinforced_glass_v;
-    m->place_items(mi_bionics, 70, biox, bioy, biox, bioy, false, 0);
+    m->place_items(mi_bionics_common, 70, biox, bioy, biox, bioy, false, 0);
 
     int compx = int((x1 + x2) / 2), compy = int((y1 + y2) / 2);
     m->ter(compx, compy) = t_console;
