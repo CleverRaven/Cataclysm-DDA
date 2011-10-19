@@ -179,7 +179,7 @@ damaging unarmed attackers and those with a conductive weapon."},
 {"Olfactory Mask", false, true, 1, 8, "\
 While this system is powered, your body will produce very little odor, making\n\
 it nearly impossible for creatures to track you by scent."},
-{"Scent Vision", false, true, 1, 10, "\
+{"Scent Vision", false, true, 1, 30, "\
 While this system is powered, you're able to visually sense your own scent,\n\
 making it possible for you to recognize your surroundings even if you can't\n\
 see it."},

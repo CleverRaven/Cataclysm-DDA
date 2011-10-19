@@ -2726,7 +2726,7 @@ brain surgery, these are best installed by a highly skill professional.",
 BIO("CBM: Sensory",		10, 4500,	c_ltblue,	 5, "\
 Compact Bionics Module containing a few upgrades to one's sensory systems,\n\
 particularly sight.  Fairly difficult to install.",
-    bio_ears, bio_eye_enhancer, bio_night_vision, bio_infrared, NULL);
+    bio_ears, bio_eye_enhancer, bio_night_vision, bio_infrared, bio_scent_vision, NULL);
 
 BIO("CBM: Aquatic",		 5, 3000,	c_blue,		 3, "\
 Compact Bionics Module with a couple of upgrades designed with those who are\n\
