@@ -68,7 +68,7 @@ game::game()
  in_tutorial = false;	// We're not in a tutorial game
  weather = WEATHER_CLEAR; // Start with some nice weather...
  turnssincelastmon = 0; //Auto run mode init
- autorunmode = false;
+ autorunmode = true;
 
  turn.season = SPRING;    // ... with winter conveniently a long ways off
 
@@ -1755,10 +1755,33 @@ void game::draw()
  write_msg();
 }
 
+bool game::isBetween(int test, int down, int up)
+{
+	if(test>down && test<up) return true;
+	else return false;
+}
+
 void game::draw_ter()
 {
  int t = 0;
- m.draw(this, w_terrain);
+	m.draw(this, w_terrain);
+	//TODO Draw scent when bionic is installed
+	//if (!u.has_active_bionic(bio_scent_mask))
+	for (int realx = u.posx - SEEX; realx <= u.posx + SEEX; realx++) {
+		for (int realy = u.posy - SEEY; realy <= u.posy + SEEY; realy++) {
+			if (scent(realx, realy) != 0) {
+				int tempx = u.posx - realx, tempy = u.posy - realy;
+				if (!(isBetween(tempx, -2, 2) && isBetween(tempy, -2, 2))) {
+					mvwputch(w_terrain, realy + SEEY - u.posy,
+							realx + SEEX - u.posx, c_magenta, '#');
+					if(mon_at(realx,realy)!= -1)
+					mvwputch(w_terrain, realy + SEEY - u.posy,
+							realx + SEEX - u.posx, c_white, '?');
+
+				}
+			}
+		}
+	}
 
  // Draw monsters
  int distx, disty;
