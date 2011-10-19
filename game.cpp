@@ -1786,7 +1786,7 @@ void game::draw_ter()
       u_see(active_npc[i].posx, active_npc[i].posy, t))
    active_npc[i].draw(w_terrain, u.posx, u.posy, false);
  }
-	if (!u.has_active_bionic(bio_scent_vision)) {
+	if (u.has_active_bionic(bio_scent_vision)) {
 		for (int realx = u.posx - SEEX; realx <= u.posx + SEEX; realx++) {
 			for (int realy = u.posy - SEEY; realy <= u.posy + SEEY; realy++) {
 				if (scent(realx, realy) != 0) {
