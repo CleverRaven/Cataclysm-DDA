@@ -3890,10 +3890,10 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    line(this, t_rock, SEEX - 2, SEEY * 2 - 4, SEEX - 2, SEEY * 2 - 2);
    line(this, t_rock, SEEX + 1, SEEY * 2 - 4, SEEX + 1, SEEY * 2 - 2);
    line(this, t_door_locked, SEEX - 1, SEEY * 2 - 4, SEEX, SEEY * 2 - 4);
-   for (int i = 3; i += 5; i <= SEEX * 2 - 4) {
-    for (int j = 3; j += 5; j <= SEEY * 2 - 9) {
+   for (int i = 3; i < SEEX * 2 - 3; i += 5) {
+    for (int j = 3; j < 16; j += 5) {
      square(this, t_dirt, i, j, i + 2, j + 2);
-     int num_weed = rng(0, 3);
+     int num_weed = rng(0, 3) * rng(0, 1);
      for (int n = 0; n < num_weed; n++) {
       int x = rng(i, i + 2), y = rng(j, j + 2);
       add_item(x, y, (*itypes)[itm_weed], 0);
