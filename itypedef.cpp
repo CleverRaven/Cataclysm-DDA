@@ -22,10 +22,16 @@ void game::init_itypes ()
 // First, the null object.  NOT REALLY AN OBJECT AT ALL.  More of a concept.
  itypes.push_back(
   new itype(0, 0, 0, "none", "", '#', c_white, MNULL, MNULL, 0, 0, 0, 0, 0, 0));
+// Corpse - a special item
  itypes.push_back(
   new itype(1, 0, 0, "corpse", "A dead body.", '%', c_white, MNULL, MNULL, 0, 0,
             0, 0, 0, 0));
- int index = 1;
+// Fire - also special
+ itypes.push_back(
+  new itype(2, 0, 0, "nearby fire",
+            "Some fire - if you are reading this it's a bug!",
+            '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0));
+ int index = 2;
  
 // Drinks
 // Stim should be -8 to 8.
@@ -1247,6 +1253,19 @@ AMMO("BB",		 8,  50,AT_BB,		c_pink,		STEEL,
 A box of small steel balls.  They deal virtually no damage.",
 0);
 
+AMMO("wood arrow",       5,500,AT_ARROW,        c_green,        WOOD,
+         2, 60, 16,  3, 10, 14,  0,  15, "\
+A sharpened arrow carved from wood.  It's light-weight, does little damage,\n\
+and is so-so on accuracy.  Stands a good chance of remaining intact once\n\
+fired.",
+0);
+            
+AMMO("carbon fiber arrow",5,500,AT_ARROW,       c_green,        PLASTIC,
+         2, 30, 24,  5, 15, 18,  0,  12, "\
+High-tech carbon fiber shafts and 100 grain broadheads. Very light weight,\n\
+fast, and notoriously fragile.",
+0);
+
 AMMO("wood crossbow bolt",8,500,AT_BOLT,	c_green,	WOOD,
 	 1, 40, 16,  4, 10, 16,  0,  15, "\
 A sharpened bolt carved from wood.  It's lighter than steel bolts, and does\n\
@@ -1533,14 +1552,28 @@ It could be used to practice your rifle skill up to level 1.",
 0);
 
 GUN("crossbow",		 2, 500,c_green,	IRON,	WOOD,
-	sk_pistol,	AT_BOLT, 6,  9, 11,  1,  0, 18,  0,  6,  0,  1, 800, "\
+	sk_archery,	AT_BOLT, 6,  9, 11,  1,  0, 18,  0,  6,  0,  1, 800, "\
 A slow-loading hand weapon that launches bolts.  Stronger people can reload\n\
 it much faster.  Bolts fired from this weapon have a good chance of remaining\n\
 intact for re-use.",
 mfb(IF_STR_RELOAD));
 
+GUN("compound bow",      2, 700,c_yellow,       STEEL,  PLASTIC,
+        sk_archery,     AT_ARROW,12, 8,  8,  1,  0, 16,  0,  6,  0,  1, 400, "\
+A bow with wheels that fires high velocity arrows.  Weaker people can use\n\
+compound bows more easily.  Arrows fired from this weapon have a good chance\n\
+of remaining intact for re-use.",
+mfb(IF_STR8_DRAW));
+        
+GUN("longbow",           5, 400,c_yellow,       WOOD,   MNULL,
+        sk_archery,     AT_ARROW,8, 4, 10,  0,  0, 12,  0,  6,  0,  1, 400, "\
+A six-foot wooden bow that fires feathered arrows.  This takes a fair amount\n\
+of strength to draw.  Arrows fired from this weapon have a good chance of\n\
+remaining intact for re-use.",
+mfb(IF_STR10_DRAW));
+
 GUN("pipe rifle: .22",	0,  400,c_ltblue,	IRON,	WOOD,
-	sk_rifle,	AT_22,	 9, 13, 10,  2, -2, 15,  2,  6,  0,  1, 250, "\
+sk_rifle,	AT_22,	 9, 13, 10,  2, -2, 15,  2,  6,  0,  1, 250, "\
 A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to\n\
 strike the single round it holds.",
 0);
@@ -2825,6 +2858,7 @@ std::string ammo_name(ammotype t)
   case AT_NAIL:   return "nails";
   case AT_BB:	  return "BBs";
   case AT_BOLT:	  return "bolts";
+  case AT_ARROW:  return "arrows";
   case AT_SHOT:	  return "shot";
   case AT_22:	  return ".22";
   case AT_9MM:	  return "9mm";
@@ -2852,6 +2886,7 @@ itype_id default_ammo(ammotype guntype)
  case AT_NAIL:	return itm_nail;
  case AT_BB:	return itm_bb;
  case AT_BOLT:	return itm_bolt_wood;
+ case AT_ARROW: return itm_arrow_wood;
  case AT_SHOT:	return itm_shot_00;
  case AT_22:	return itm_22_lr;
  case AT_9MM:	return itm_9mm;

@@ -29,6 +29,8 @@ std::string skill_name(int sk)
   return "submachine guns";
  case sk_rifle:
   return "rifles";
+ case sk_archery:
+  return "archery";
  case sk_computer:
   return "computers";
  case sk_mechanics:
@@ -39,8 +41,8 @@ std::string skill_name(int sk)
   return "cooking";
  case sk_carpentry:
   return "carpentry";
- case sk_butcher:
-  return "butchering";
+ case sk_survival:
+  return "survival";
  case sk_traps:
   return "traps";
  case sk_tailor:
@@ -121,6 +123,11 @@ bursts, but they are not very accurate.";
 Your skill with rifles, both assault rifles and semi-auto hunting rifles.\n\
 These have terrific range and accuracy, but are very slow to fire and reload,\n\
 and are not very good in close quarters.";
+ case sk_archery:
+  return "\
+Your skill with all kinds of bows, from crossbows to handmade long bows.\n\
+These are quiet, but require some amount of strength to use, and are not\n\
+terribly accurate. They can only be deadly in skilled hands.";
  case sk_computer:
   return "\
 Your skill with computers, both in terms of legitimate use, and hacking. This\n\
@@ -141,11 +148,11 @@ This may also be used in mixing chemicals and other more esoteric tasks.";
   return "\
 Your general knowledge in construction.  This is used primarily when building\n\
 terrain, via the * screen.";
- case sk_butcher:
+ case sk_survival:
   return "\
-Your skill in butchering meat.  This decides how much meat you get from a\n\
-corpse.  High levels may allow you to eliminate the poison from tainted meat.\n\
-This is also used for skinning corpses to acquire pelts.";
+Your skill in wilderness survival.  This helps you butcher meat from a corpse\n\
+and craft various basic survival items.  High levels may allow you to remove\n\
+poison from tainted meat. Also used for skinning corpses to acquire pelts.";
  case sk_traps:
   return "\
 Your skill at setting and disarming traps safely and effectively. Note that\n\

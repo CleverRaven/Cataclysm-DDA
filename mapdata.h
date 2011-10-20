@@ -347,6 +347,7 @@ enum map_extra {
  mx_military,
  mx_science,
  mx_stash,
+ mx_drugdeal,
  mx_portal,
  mx_minefield,
  mx_wolfpack,
@@ -365,6 +366,7 @@ const int map_extra_chance[num_map_extras + 1] = {
  50,	// Military
 120,	// Science
 200,	// Stash
+ 20,	// Drug deal
   5,	// Portal
  70,	// Minefield
  30,	// Wolf pack

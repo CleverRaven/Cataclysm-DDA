@@ -245,6 +245,7 @@ std::vector<item> game::multidrop()
      if (ch == u.weapon.invlet && u.weapon.type->id > num_items) {
       if (!warned_about_bionic)
        add_msg("You cannot drop your %s.", u.weapon.tname(this).c_str());
+      warned_about_bionic = true;
      } else {
       weapon_and_armor.push_back(ch);
       print_inv_statics(this, w_inv, "Multidrop:", weapon_and_armor);
@@ -279,11 +280,13 @@ std::vector<item> game::multidrop()
  int max_size = u.inv.size();
  for (int i = 0; i < max_size; i++) {
   for (int j = 0; j < dropping[i]; j++) {
-   if (u.inv.stack_at(current_stack).size() == 1) {
-    ret.push_back(u.inv.remove_item(current_stack));
-    current_stack--;
-   } else
-    ret.push_back(u.inv.remove_item(current_stack));
+   if (current_stack >= 0) {
+    if (u.inv.stack_at(current_stack).size() == 1) {
+     ret.push_back(u.inv.remove_item(current_stack));
+     current_stack--;
+    } else
+     ret.push_back(u.inv.remove_item(current_stack));
+   }
   }
   current_stack++;
  }

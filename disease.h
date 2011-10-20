@@ -531,7 +531,7 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_FORMICATION:
   p.int_cur -= 2;
   p.str_cur -= 1;
-  if (one_in(50 * p.int_cur)) {
+  if (one_in(10 + 40 * p.int_cur)) {
    int t;
    if (!p.is_npc()) {
     g->add_msg("You start scratching yourself all over!");
@@ -540,7 +540,7 @@ void dis_effect(game *g, player &p, disease &dis)
     g->add_msg("%s starts scratching %s all over!", p.name.c_str(),
                (p.male ? "himself" : "herself"));
    p.moves -= 150;
-   p.hurt(g, bp_torso, 0, 2);
+   p.hurt(g, bp_torso, 0, 1);
   }
   break;
 

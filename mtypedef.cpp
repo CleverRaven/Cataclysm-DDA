@@ -160,8 +160,8 @@ a vicious sting on its abdomen."
 // GIANT WORMS
 
 mon("graboid",		'S',	c_red,		MS_HUGE,	FLESH,
-	(mfb(MF_DIGS)|mfb(MF_HEARS)|mfb(MF_GOODHEARING)|mfb(MF_ATTACKMON)|
-	 mfb(MF_DESTROYS)|mfb(MF_WARM)|mfb(MF_LEATHER)),
+	(mfb(MF_DIGS)|mfb(MF_HEARS)|mfb(MF_GOODHEARING)|mfb(MF_DESTROYS)|
+	 mfb(MF_WARM)|mfb(MF_LEATHER)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	  1, 17,  5,180, 11,  3,  8,  4,  0,  5,  0,180,  0,
 	&mdeath::worm,		&mattack::none, "\
@@ -172,8 +172,8 @@ enormous body is hidden underground."
 );
 
 mon("giant worm",	'S',	c_pink,		MS_LARGE,	FLESH,
-	(mfb(MF_DIGS)|mfb(MF_HEARS)|mfb(MF_GOODHEARING)|mfb(MF_ATTACKMON)|
-	 mfb(MF_WARM)|mfb(MF_LEATHER)),
+	(mfb(MF_DIGS)|mfb(MF_HEARS)|mfb(MF_GOODHEARING)|mfb(MF_WARM)|
+	 mfb(MF_LEATHER)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	 30, 10,  3, 85,  9,  4,  5,  2,  0,  0,  0, 50,  0,
 	&mdeath::worm,		&mattack::none, "\
@@ -519,7 +519,7 @@ mon("giant mosquito",	'y',	c_ltgray,	MS_SMALL,	FLESH,
 	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_STUMBLES)|mfb(MF_VENOM)|
 	 mfb(MF_FLIES)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	 30,  6,  3,140,  8,  2,  2,  2,  5,  0,  0, 20, 0,
+	 22, 12,  3,120,  8,  1,  1,  1,  5,  0,  0, 20, 0,
 	&mdeath::normal,	&mattack::none, "\
 An enormous mosquito, fluttering erratically,\n\
 its face dominated by a long, spear-tipped\n\
