@@ -404,6 +404,8 @@ FOOD("pizza",		 8, 80, c_ltred,	VEGGY,	itm_box_small,
 A vegetarian pizza, with delicious tomato sauce and a fluffy crust.  Its\n\
 smell brings back great memories.");
 
+
+
 // MEDS
 #define MED(name,rarity,price,color,tool,mat,stim,healthy,addict,\
 charges,fun,use_func,addict_func,des) \
@@ -2703,6 +2705,24 @@ TOOL("vortex stone",     2,3000,';',c_pink,	STONE,	MNULL,
 A stone with spirals all over it, and holes around its perimeter.  Though it\n\
 is fairly large, it weighs next to nothing.  Air seems to gather around it.");
 
+TOOL("dog food",         5,  60,'o',c_red,     FLESH,     MNULL,
+	1,  2,  0,  0,  -5,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::dogfood, 0, "\
+Food for dogs. It smells strange, but dogs love it.");
+
+TOOL("booby trap",         0,  500,'^',c_ltcyan,     STEEL,	PLASTIC,
+	3,  2,  0,  0,  -4,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap, 0, "\
+A crude explosive device triggered by a piece of string.");
+
+TOOL("C4-Explosive",         5,  6000,'o',c_ltcyan,     PLASTIC,     STEEL,
+	1,  2,  0,  0,  -4,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::c4, 0, "\
+Highly explosive, use with caution! Armed with a small timer.");
+
+TOOL("C4-Explosive(armed)",         0,  6000,'o',c_ltcyan,     PLASTIC,     STEEL,
+	1,  2,  0,  0,  -4,  9,  9,  0,  1, AT_NULL, itm_null, &iuse::c4armed, 0, "\
+Highly explosive, use with caution. Comes with a small timer.\n\
+It's armed and ticking!");
+
+
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
@@ -2739,7 +2759,7 @@ brain surgery, these are best installed by a highly skill professional.",
 BIO("CBM: Sensory",		10, 4500,	c_ltblue,	 5, "\
 Compact Bionics Module containing a few upgrades to one's sensory systems,\n\
 particularly sight.  Fairly difficult to install.",
-    bio_ears, bio_eye_enhancer, bio_night_vision, bio_infrared, NULL);
+    bio_ears, bio_eye_enhancer, bio_night_vision, bio_infrared, bio_scent_vision, NULL);
 
 BIO("CBM: Aquatic",		 5, 3000,	c_blue,		 3, "\
 Compact Bionics Module with a couple of upgrades designed with those who are\n\

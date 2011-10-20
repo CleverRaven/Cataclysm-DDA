@@ -6,7 +6,8 @@ void game::init_moncats()
  setvector(
    moncats[mcat_forest],
 	mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_spider_wolf,
-	mon_spider_jumping, NULL);
+	mon_spider_jumping,mon_dog, NULL);
+
  setvector(
    moncats[mcat_ant],
 	mon_ant_larva, mon_ant, mon_ant_soldier, mon_ant_queen, NULL);

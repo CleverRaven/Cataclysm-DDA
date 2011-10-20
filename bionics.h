@@ -19,7 +19,7 @@ bio_carbon, bio_armor_head, bio_armor_torso, bio_armor_arms, bio_armor_legs,
 // Player Activated
 bio_flashlight, bio_night_vision, bio_infrared, 
 bio_face_mask,	// TODO
-bio_ads, bio_ods, bio_scent_mask, bio_cloak, bio_painkiller, bio_nanobots,
+bio_ads, bio_ods, bio_scent_mask,bio_scent_vision, bio_cloak, bio_painkiller, bio_nanobots,
  bio_heatsink, bio_resonator, bio_time_freeze, bio_teleport, bio_blood_anal,
  bio_blood_filter, bio_alarm,
 bio_evap, bio_lighter, bio_claws, bio_blaster, bio_laser, bio_emp,
@@ -71,7 +71,7 @@ struct bionic {
 const bionic_data bionics[] = {
 {"NULL bionics", false, false, 0, 0, "\
 If you're seeing this, it's a bug."},
-
+// NAME          ,PW_SRC, ACT ,COST, TIME,
 {"Battery System", true, false, 0, 0, "\
 You have a battery draining attachment, and thus can make use of the energy\n\
 contained in normal, everyday batteries.  Use 'E' to consume batteries."},
@@ -179,6 +179,10 @@ damaging unarmed attackers and those with a conductive weapon."},
 {"Olfactory Mask", false, true, 1, 8, "\
 While this system is powered, your body will produce very little odor, making\n\
 it nearly impossible for creatures to track you by scent."},
+{"Scent Vision", false, true, 1, 30, "\
+While this system is powered, you're able to visually sense your own scent,\n\
+making it possible for you to recognize your surroundings even if you can't\n\
+see it."},
 {"Cloaking System", false, true, 2, 1, "\
 This high-power system uses a set of cameras and LEDs to make you blend into\n\
 your background, rendering you fully invisible to normal vision.  However,\n\

@@ -592,6 +592,33 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
  if (effect == 6)
   p->radiation = 0;
 }
+
+void iuse::dogfood(game *g, player *p, item *it, bool t)
+{
+ int dirx, diry;
+ g->draw();
+ mvprintw(0, 0, "Which direction?");
+ get_direction(dirx, diry, input());
+ if (dirx == -2) {
+  g->add_msg("Invalid direction.");
+  return;
+ }
+ p->moves -= 15;
+ dirx += p->posx;
+ diry += p->posy;
+ int mon_dex = g->mon_at(dirx,diry);
+ if(mon_dex != -1){
+	 if(g->z[mon_dex].type->id == mon_dog){
+		 g->add_msg("The dog seems to like you!");
+		 g->z[mon_dex].friendly = -1;
+	 } else {
+		 g->add_msg("The %s seems quit unimpressed!",g->z[mon_dex].type->name.c_str());
+	 }
+ } else {
+	 g->add_msg("You spill the dogfood all over the ground.");
+ }
+
+}
   
  
 
@@ -1190,6 +1217,11 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
  int practice;
 
  switch (it->type->id) {
+ case itm_boobytrap:
+  message << "You set the boobytrap up and activate the grenade.";
+  type = tr_boobytrap;
+  practice = 4;
+  break;
  case itm_bubblewrap:
   message << "You set the bubblewrap on the ground, ready to be popped.";
   type = tr_bubblewrap;
@@ -1432,6 +1464,26 @@ void iuse::grenade_act(game *g, player *p, item *it, bool t)
   g->sound(pos.x, pos.y, 0, "Tick.");	// Vol 0 = only heard if you hold it
  else	// When that timer runs down...
   g->explosion(pos.x, pos.y, 18, 12, false);
+}
+
+void iuse::c4(game *g, player *p, item *it, bool t)
+{
+ int time = query_int("Set the timer to?");
+ g->add_msg("You set the timer to %d.", time);
+ it->make(g->itypes[itm_c4armed]);
+ it->charges = time;
+ it->active = true;
+}
+
+void iuse::c4armed(game *g, player *p, item *it, bool t)
+{
+ point pos = g->find_item(it);
+ if (pos.x == -999 || pos.y == -999)
+  return;
+ if (t) // Simple timer effects
+  g->sound(pos.x, pos.y, 0, "Tick.");	// Vol 0 = only heard if you hold it
+ else	// When that timer runs down...
+  g->explosion(pos.x, pos.y, 40, 3, false);
 }
 
 void iuse::EMPbomb(game *g, player *p, item *it, bool t)

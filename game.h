@@ -81,6 +81,7 @@ class game
   int  npc_at(int x, int y);	// Index of the npc at (x, y); -1 for none
   int  mon_at(int x, int y);	// Index of the monster at (x, y); -1 for none
   bool is_empty(int x, int y);	// True if no PC, no monster, move cost > 0
+  bool isBetween(int test, int down, int up);
   bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
   void kill_mon(int index);	// Kill that monster; fixes any pointers etc
   void explode_mon(int index);	// Explode a monster; like kill_mon but messier
@@ -268,13 +269,15 @@ class game
   void groupdebug();      // Get into on monster groups
 
 
+
 // ########################## DATA ################################
 
   signed char last_target;// The last monster targeted
   char run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new
 		 //  monsters spawns, go to 2 - No movement allowed
   int mostseen;	 // # of mons seen last turn; if this increases, run_mode++
-
+  bool autorunmode; // is autorunmode enabled?
+  int turnssincelastmon; // turns since the last monster was spotted needed for auto run mode
   quit_status uquit;    // Set to true if the player quits ('Q')
 
   calendar nextspawn; // The turn on which monsters will spawn next.

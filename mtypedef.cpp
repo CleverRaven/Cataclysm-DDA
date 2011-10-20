@@ -81,7 +81,7 @@ mon("dog",		'd',	c_white,	MS_SMALL,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_ANIMAL)|mfb(MF_WARM)|
 	 mfb(MF_FUR)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  3,  5,  1,150, 12,  2,  3,  3,  3,  0,  0, 25, 0,
+	 3,  5,  1,150, 12,  2,  3,  3,  3,  0,  0, 25,  0,
 	&mdeath::normal,	&mattack::none, "\
 A medium-sized domesticated dog, gone feral."
 );

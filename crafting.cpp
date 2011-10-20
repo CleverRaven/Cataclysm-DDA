@@ -160,12 +160,30 @@ void game::init_recipes()
   COMP(itm_battery, 2, NULL);
   COMP(itm_power_supply, 1, NULL);
 
+/*
+ * We need a some Chemicals which arn't implemented to realistically craft this!
+  RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
+   TOOL(itm_screwdriver, -1, NULL);
+   COMP(itm_can_food, 1, itm_steel_chunk, 1, itm_canister_empty, 1, NULL);
+   COMP(itm_battery, 1, NULL);
+   COMP(itm_superglue,1,NULL);
+   COMP(itm_soldering_iron,1,NULL);
+   COMP(itm_power_supply, 1, NULL);
+*/
+
 // FOOD
 
  RECIPE(itm_meat_cooked, CC_FOOD, sk_cooking, sk_null, 0, 5000);
   TOOL(itm_hotplate, 7, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, NULL);
   COMP(itm_meat, 1, NULL);
+
+ RECIPE(itm_dogfood, CC_FOOD, sk_cooking, sk_null, 4, 10000);
+  TOOL(itm_hotplate, 6, NULL);
+  TOOL(itm_pot, -1, NULL);
+  COMP(itm_meat, 1, NULL);
+  COMP(itm_veggy,1, NULL);
+  COMP(itm_water,1, NULL);
 
  RECIPE(itm_veggy_cooked, CC_FOOD, sk_cooking, sk_null, 0, 4000);
   TOOL(itm_hotplate, 5, itm_fire, -1, NULL);
@@ -535,6 +553,11 @@ void game::init_recipes()
   COMP(itm_motor, 1, NULL);
   COMP(itm_machete, 1, NULL);
   COMP(itm_string_36, 1, NULL);
+
+  RECIPE(itm_boobytrap, CC_MISC, sk_mechanics, sk_traps,3,5000);
+  COMP(itm_grenade,1,NULL);
+  COMP(itm_string_6,1,NULL);
+  COMP(itm_can_food,1,NULL);
 
  RECIPE(itm_landmine, CC_WEAPON, sk_traps, sk_mechanics, 5, 10000);
   TOOL(itm_screwdriver, -1, NULL);

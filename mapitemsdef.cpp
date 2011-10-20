@@ -543,7 +543,7 @@ void game::init_mapitems()
 	itm_laser_pack, itm_usp_9mm, itm_usp_45, itm_m4a1, itm_scar_l,
 	itm_scar_h, itm_m249, itm_ftk93, itm_silencer, itm_clip, itm_lighter,
 	itm_flashlight, itm_two_way_radio, itm_landmine, itm_grenade,
-	itm_EMPbomb, itm_gasbomb, itm_smokebomb, itm_UPS_off, itm_tazer, NULL);
+	itm_EMPbomb, itm_gasbomb, itm_smokebomb, itm_UPS_off, itm_tazer,itm_c4, NULL);
 
  setvector(
    mapitems[mi_science],
@@ -562,7 +562,7 @@ void game::init_mapitems()
 	itm_mutagen, itm_purifier, itm_royal_jelly, itm_fetus, itm_card_id,
 	itm_electrohack, itm_processor, itm_armor_chitin, itm_plut_cell,
 	itm_laser_pack, itm_m249, itm_v29, itm_ftk93, itm_conversion_battle,
-	itm_conversion_sniper, itm_canister_goo, itm_mininuke, itm_portal,
+	itm_conversion_sniper, itm_canister_goo, itm_mininuke, itm_portal,itm_c4,
 	NULL);
 
  setvector(
@@ -610,5 +610,5 @@ void game::init_mapitems()
 	itm_fetus, itm_arm, itm_leg, itm_wrapper, itm_manhole_cover, itm_rock,
 	itm_stick, itm_bag_plastic, itm_flashlight_on, itm_radio_on,
 	itm_chainsaw_on, itm_grenade_act, itm_EMPbomb_act, itm_gasbomb_act,
-	itm_molotov_lit, itm_dynamite_act, itm_mininuke_act, itm_mp3_on, NULL);
+	itm_molotov_lit, itm_dynamite_act, itm_mininuke_act, itm_mp3_on,itm_c4, NULL);
 }
