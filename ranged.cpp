@@ -6,6 +6,7 @@
 #include "line.h"
 #include "skill.h"
 #include "rng.h"
+#include "item.h"
 
 int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
@@ -31,8 +32,12 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  }
  bool is_bolt = false;
  unsigned int flags = p.weapon.curammo->item_flags;
- if (p.weapon.curammo->type == AT_BOLT)	// Bolts are silent
+ if (p.weapon.curammo->type == AT_BOLT || p.weapon.curammo->type == AT_ARROW)	// Bolts and arrows are silent
   is_bolt = true;
+ if (p.weapon.has_flag(IF_STR8_DRAW) && p.str_cur < 8)
+  {add_msg("You're not strong enough to draw the bow!"); return;}
+ if (p.weapon.has_flag(IF_STR10_DRAW) && p.str_cur < 10)
+  {add_msg("You're not strong enough to draw the bow!"); return;}
 
  int x = p.posx, y = p.posy;
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
@@ -229,8 +234,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
  }
 
  std::string message;
- int dam = (thrown.weight() + thrown.type->melee_dam + p.str_cur) /
-            double(2 + double(thrown.volume() / 6));
+ int dam = (thrown.weight() / 4 + thrown.type->melee_dam / 2 + p.str_cur / 2) /
+            double(2 + double(thrown.volume() / 4));
  int i, tx, ty;
  for (i = 0; i < trajectory.size() && dam > 0; i++) {
   message = "";
@@ -504,7 +509,11 @@ int time_to_fire(player &p, it_gun* firing)
    return 30;
   else
    return (150 - 15 * p.sklevel[sk_rifle]);
- break;
+ case (sk_archery):
+  if (p.sklevel[sk_archery] > 8)
+   return 20;
+  else
+   return (220 - 25 * p.sklevel[sk_archery]); break;
  default:
   debugmsg("Why is shooting %s using %s skill?", (firing->name).c_str(),
 		skill_name(firing->skill_used).c_str());
@@ -541,7 +550,7 @@ void make_gun_sound_effect(game *g, player &p, bool burst)
  if (p.weapon.curammo->type == AT_FUSION || p.weapon.curammo->type == AT_BATT ||
      p.weapon.curammo->type == AT_PLUT)
   g->sound(p.posx, p.posy, 8, "Fzzt!");
- else if (p.weapon.curammo->type != AT_BOLT)
+ else if (p.weapon.curammo->type != AT_BOLT && p.weapon.curammo->type != AT_ARROW)
   g->sound(p.posx, p.posy, noise, gunsound);
 }
 

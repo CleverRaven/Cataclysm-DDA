@@ -19,6 +19,7 @@
 enum itype_id {
 itm_null = 0,
 itm_corpse,
+itm_fire,
 // Drinks
 itm_water, itm_water_dirty, itm_sewage, itm_salt_water, itm_oj, itm_apple_cider,
  itm_energy_drink, itm_cola, itm_rootbeer, itm_milk, itm_V8, itm_broth,
@@ -85,24 +86,25 @@ itm_hat_ball, itm_hat_boonie, itm_hat_cotton, itm_hat_knit, itm_hat_hunting,
 // High-storage
 itm_backpack, itm_purse, itm_mbag, itm_fanny, itm_holster, itm_bootstrap,
 // Ammunition
-itm_battery, itm_plut_cell, itm_nail, itm_bb, itm_bolt_wood, itm_bolt_steel,
- itm_shot_bird, itm_shot_00, itm_shot_slug, itm_22_lr, itm_22_cb,
- itm_22_ratshot, itm_9mm, itm_9mmP, itm_9mmP2, itm_38_special, itm_38_super,
- itm_10mm, itm_40sw, itm_44magnum, itm_45_acp, itm_45_jhp, itm_45_super,
- itm_57mm, itm_46mm, itm_762_m43, itm_762_m87, itm_223, itm_556,
- itm_556_incendiary, itm_270, itm_3006, itm_3006_incendiary, itm_308,
- itm_762_51, itm_762_51_incendiary, itm_laser_pack, itm_gasoline,
+itm_battery, itm_plut_cell, itm_nail, itm_bb, itm_arrow_wood, itm_arrow_cf,
+ itm_bolt_wood, itm_bolt_steel, itm_shot_bird, itm_shot_00, itm_shot_slug,
+ itm_22_lr, itm_22_cb, itm_22_ratshot, itm_9mm, itm_9mmP, itm_9mmP2,
+ itm_38_special, itm_38_super, itm_10mm, itm_40sw, itm_44magnum, itm_45_acp,
+ itm_45_jhp, itm_45_super, itm_57mm, itm_46mm, itm_762_m43, itm_762_m87,
+ itm_223, itm_556, itm_556_incendiary, itm_270, itm_3006, itm_3006_incendiary,
+ itm_308, itm_762_51, itm_762_51_incendiary, itm_laser_pack, itm_gasoline,
 // Guns
-itm_nailgun, itm_bbgun, itm_crossbow, itm_rifle_22, itm_rifle_9mm, itm_smg_9mm,
- itm_smg_45, itm_sig_mosquito, itm_sw_22, itm_glock_19, itm_usp_9mm, itm_sw_619,
- itm_taurus_38, itm_sig_40, itm_sw_610, itm_ruger_redhawk, itm_deagle_44,
- itm_usp_45, itm_m1911, itm_fn57, itm_hk_ucp, itm_shotgun_sawn, itm_shotgun_s,
- itm_shotgun_d,  itm_remington_870, itm_mossberg_500, itm_saiga_12,
- itm_american_180, itm_uzi, itm_tec9, itm_calico, itm_hk_mp5, itm_mac_10,
- itm_hk_ump45, itm_TDI, itm_fn_p90, itm_hk_mp7, itm_marlin_9a, itm_ruger_1022,
- itm_browning_blr, itm_remington_700, itm_sks, itm_ruger_mini, itm_savage_111f,
- itm_hk_g3, itm_hk_g36, itm_ak47, itm_fn_fal, itm_acr, itm_ar15, itm_m4a1,
- itm_scar_l, itm_scar_h, itm_steyr_aug, itm_m249, itm_v29, itm_ftk93,
+itm_nailgun, itm_bbgun, itm_crossbow, itm_compbow, itm_longbow, itm_rifle_22,
+ itm_rifle_9mm, itm_smg_9mm, itm_smg_45, itm_sig_mosquito, itm_sw_22,
+ itm_glock_19, itm_usp_9mm, itm_sw_619, itm_taurus_38, itm_sig_40, itm_sw_610,
+ itm_ruger_redhawk, itm_deagle_44, itm_usp_45, itm_m1911, itm_fn57, itm_hk_ucp,
+ itm_shotgun_sawn, itm_shotgun_s, itm_shotgun_d,  itm_remington_870,
+ itm_mossberg_500, itm_saiga_12, itm_american_180, itm_uzi, itm_tec9,
+ itm_calico, itm_hk_mp5, itm_mac_10, itm_hk_ump45, itm_TDI, itm_fn_p90,
+ itm_hk_mp7, itm_marlin_9a, itm_ruger_1022, itm_browning_blr,
+ itm_remington_700, itm_sks, itm_ruger_mini, itm_savage_111f, itm_hk_g3,
+ itm_hk_g36, itm_ak47, itm_fn_fal, itm_acr, itm_ar15, itm_m4a1, itm_scar_l,
+ itm_scar_h, itm_steyr_aug, itm_m249, itm_v29, itm_ftk93,
  itm_flamethrower_simple, itm_flamethrower,
 // Gun modifications
 itm_silencer, itm_grip, itm_barrel_big, itm_barrel_small, itm_barrel_rifled,
@@ -162,7 +164,7 @@ IC_MISC
 enum ammotype {
 AT_NULL,
 AT_BATT, AT_PLUT,
-AT_NAIL, AT_BB, AT_BOLT,
+AT_NAIL, AT_BB, AT_BOLT, AT_ARROW,
 AT_SHOT,
 AT_22, AT_9MM, AT_38, AT_40, AT_44, AT_45,
 AT_57, AT_46,
@@ -184,6 +186,8 @@ IF_WRAP,	// Can wrap around your target, costing you and them movement
 IF_MESSY,	// Splatters blood, etc.
 IF_RELOAD_ONE,	// Reload cartridge by cartridge (e.g. most shotguns)
 IF_STR_RELOAD,  // Reloading time is reduced by Strength * 20
+IF_STR8_DRAW,   // Requires strength 8 to draw
+IF_STR10_DRAW,  // Requires strength 10 to draw
 
 IF_AMMO_FLAME,	// Sets fire to terrain and monsters
 IF_AMMO_INCENDIARY, // Sparks explosive terrain
@@ -237,6 +241,7 @@ struct itype
  virtual bool is_tool()      { return false; }
  virtual bool is_container() { return false; }
  virtual bool is_macguffin() { return false; }
+ virtual bool count_by_charges() { return false; }
 
  itype() {
   id = 0;
@@ -294,6 +299,7 @@ struct it_comest : public itype
  itype_id tool;		// Tool needed to consume (e.g. lighter for cigarettes)
 
  virtual bool is_food() { return true; }
+ virtual bool count_by_charges() { return charges > 0; }
 
  void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
  add_type add;				// Effects of addiction
@@ -338,6 +344,8 @@ struct it_ammo : public itype
  unsigned char count;	// Default charges
 
  virtual bool is_ammo() { return true; }
+ virtual bool count_by_charges() { return true; }
+
  it_ammo(unsigned short pid, unsigned char prarity, unsigned int pprice,
         std::string pname, std::string pdes,
         char psym, nc_color pcolor, material pm1,

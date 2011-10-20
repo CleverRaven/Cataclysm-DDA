@@ -53,7 +53,27 @@ void game::init_construction()
 
  CONSTRUCT("Clean Broken Window", 0, &construct::able_broken_window,
                                      &construct::done_nothing);
-  STAGE(t_window_empty, 8);
+  STAGE(t_window_empty, 5);
+
+ CONSTRUCT("Repair Door", 1, &construct::able_door_broken,
+                             &construct::done_nothing);
+  STAGE(t_door_c, 10);
+   TOOL(itm_hammer, itm_nailgun, NULL);
+   COMP(itm_2x4, 3, NULL);
+   COMP(itm_nail, 12, NULL);
+
+ CONSTRUCT("Board Up Door", 0, &construct::able_door, &construct::done_nothing);
+  STAGE(t_door_boarded, 8);
+   TOOL(itm_hammer, itm_nailgun, NULL);
+   COMP(itm_2x4, 4, NULL);
+   COMP(itm_nail, 8, NULL);
+
+ CONSTRUCT("Board Up Window", 0, &construct::able_window,
+                                 &construct::done_nothing);
+  STAGE(t_window_boarded, 5);
+   TOOL(itm_hammer, itm_nailgun, NULL);
+   COMP(itm_2x4, 4, NULL);
+   COMP(itm_nail, 8, NULL);
 
  CONSTRUCT("Build Wall", 2, &construct::able_empty, &construct::done_nothing);
   STAGE(t_wall_half, 10);
@@ -560,9 +580,29 @@ bool construct::able_empty(game *g, point p)
  return (g->m.move_cost(p.x, p.y) == 2);
 }
 
+bool construct::able_window(game *g, point p)
+{
+ return (g->m.ter(p.x, p.y) == t_window_frame ||
+         g->m.ter(p.x, p.y) == t_window_empty ||
+         g->m.ter(p.x, p.y) == t_window);
+}
+
 bool construct::able_broken_window(game *g, point p)
 {
  return (g->m.ter(p.x, p.y) == t_window_frame);
+}
+
+bool construct::able_door(game *g, point p)
+{
+ return (g->m.ter(p.x, p.y) == t_door_c ||
+         g->m.ter(p.x, p.y) == t_door_b ||
+         g->m.ter(p.x, p.y) == t_door_o ||
+         g->m.ter(p.x, p.y) == t_door_locked);
+}
+
+bool construct::able_door_broken(game *g, point p)
+{
+ return (g->m.ter(p.x, p.y) == t_door_b);
 }
 
 bool construct::able_wall(game *g, point p)

@@ -61,6 +61,10 @@ game::game()
  next_npc_id = 1;
  next_faction_id = 1;
  next_mission_id = 1;
+// Clear monstair values
+ monstairx = -1;
+ monstairy = -1;
+ monstairz = -1;
  last_target = -1;	// We haven't targeted any monsters yet
  curmes = 0;		// We haven't read any messages yet
  uquit = QUIT_NO;	// We haven't quit the game
@@ -497,6 +501,7 @@ void game::create_factions()
 bool game::do_turn()
 {
  if (is_game_over()) {
+  write_msg();
   if (uquit == QUIT_DIED)
    popup_top("Game over! Press spacebar...");
   if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
@@ -638,7 +643,7 @@ void game::update_skills()
   tmp = u.sklevel[i] > 7 ? 7 : u.sklevel[i];
   if (u.sklevel[i] > 0 && turn % (4096 / int(pow(2, tmp - 1))) == 0 &&
       (( u.has_trait(PF_FORGETFUL) && one_in(3)) ||
-       (!u.has_trait(PF_FORGETFUL) && one_in(4))  )) {
+       (!u.has_trait(PF_FORGETFUL) && one_in(4))   )) {
    if (u.has_bionic(bio_memory) && u.power_level > 0) {
     if (one_in(5))
      u.power_level--;
@@ -3614,7 +3619,7 @@ void game::pickup(int posx, int posy, int min)
     update = true;
    }
   }
-  if (ch == ',' || ch == 'g') {
+  if (ch == ',') {
    int count = 0;
    for (int i = 0; i < here.size(); i++) {
     if (getitem[i])
@@ -3943,8 +3948,10 @@ void game::drop_in_direction()
 
  std::vector<item> dropped = multidrop();
 
- if (dropped.size() == 0)
+ if (dropped.size() == 0) {
   add_msg("Never mind.");
+  return;
+ }
 
  itype_id first = itype_id(dropped[0].type->id);
  bool same = true;
@@ -4187,10 +4194,10 @@ void game::complete_butcher(int index)
   case MS_LARGE:  pieces =  8; pelts = 10; break;
   case MS_HUGE:   pieces = 16; pelts = 18; break;
  }
- if (u.sklevel[sk_butcher] < 3)
-  skill_shift -= rng(0, 8 - u.sklevel[sk_butcher]);
+ if (u.sklevel[sk_survival] < 3)
+  skill_shift -= rng(0, 8 - u.sklevel[sk_survival]);
  else
-  skill_shift += rng(0, u.sklevel[sk_butcher]);
+  skill_shift += rng(0, u.sklevel[sk_survival]);
  if (u.dex_cur < 8)
   skill_shift -= rng(0, 8 - u.dex_cur) / 4;
  else
@@ -4203,7 +4210,7 @@ void game::complete_butcher(int index)
  int practice = 4 + pieces;
  if (practice > 20)
   practice = 20;
- u.practice(sk_butcher, practice);
+ u.practice(sk_survival, practice);
 
  pieces += int(skill_shift);
  if (skill_shift < 5)	// Lose some pelts

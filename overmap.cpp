@@ -2078,7 +2078,7 @@ void overmap::place_mongroups()
     }
    }
    if (swamp_count >= 15) // 30% swamp!
-    zg.push_back(mongroup(mcat_swamp, x * 2, y * 2, 3, rng(500, 2000)));
+    zg.push_back(mongroup(mcat_swamp, x * 2, y * 2, 3, rng(200, 800)));
   }
  }
 

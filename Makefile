@@ -1,6 +1,9 @@
 # comment these to toggle them as one sees fit.
+# DEBUG is best turned on if you plan to debug in gdb -- please do!
+# PROFILE is for use with gprof or a similar program -- don't bother generally
 #WARNINGS = -Wall
 DEBUG = -g
+#PROFILE = -pg
 
 ODIR = obj
 DDIR = .deps
@@ -10,7 +13,7 @@ TARGET = cataclysm
 OS  = $(shell uname -o)
 CXX = g++
 
-CFLAGS = $(WARNINGS) $(DEBUG)
+CFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE)
 
 ifeq ($(OS), Msys)
 LDFLAGS = -static -lpdcurses

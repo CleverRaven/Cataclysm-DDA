@@ -644,6 +644,17 @@ bool item::goes_bad()
  return (food->spoils != 0);
 }
 
+bool item::count_by_charges()
+{
+ if (is_ammo())
+  return true;
+ if (is_food()) {
+  it_comest* food = dynamic_cast<it_comest*>(type);
+  return (food->charges > 0);
+ }
+ return false;
+}
+
 int item::weapon_value(int skills[num_skill_types])
 {
  int my_value = 0;
