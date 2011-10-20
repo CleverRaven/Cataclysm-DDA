@@ -2576,8 +2576,10 @@ void player::suffer(game *g)
   }
   if (auto_use)
    use_charges(itm_inhaler, 1);
-  else
+  else {
    add_disease(DI_ASTHMA, 50 * rng(1, 4), g);
+   g->cancel_activity_query("You have an asthma attack!");
+  }
  }
  if (has_trait(PF_ALBINO) && g->is_in_sunlight(posx, posy) && one_in(20)) {
   g->add_msg("The sunlight burns your skin!");
@@ -2634,7 +2636,7 @@ void player::suffer(game *g)
   moves -= 150;
  }
  if (has_bionic(bio_dis_acid) && one_in(1500)) {
-  g->add_msg("You suffer a buurning acided discharge!");
+  g->add_msg("You suffer a burning acidic discharge!");
   hurtall(1);
  }
  if (has_bionic(bio_drain) && power_level > 0 && one_in(600)) {

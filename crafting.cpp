@@ -41,6 +41,18 @@ void game::init_recipes()
   COMP(itm_knife_steak, 2, itm_knife_combat, 1, NULL);
   COMP(itm_string_36, 1, NULL);
 
+ RECIPE(itm_longbow, CC_WEAPON, sk_archery, sk_survival, 2, 15000);
+  TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
+   itm_knife_combat, -1, itm_machete, -1, NULL);
+  COMP(itm_stick, 1, NULL);
+  COMP(itm_string_36, 2, NULL);
+
+ RECIPE(itm_arrow_wood, CC_WEAPON, sk_archery, sk_survival, 1, 5000);
+  TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
+   itm_knife_combat, -1, itm_machete, -1, NULL);
+  COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_bee_sting, 1,
+   NULL);
+                                   
  RECIPE(itm_nailboard, CC_WEAPON, sk_null, sk_null, 0, 1000);
   TOOL(itm_hatchet, -1, itm_hammer, -1, itm_rock, -1, NULL);
   COMP(itm_2x4, 1, itm_bat, 1, NULL);
@@ -63,13 +75,13 @@ void game::init_recipes()
   COMP(itm_shotgun_d, 1, itm_remington_870, 1, itm_mossberg_500, 1,
        itm_saiga_12, 1, NULL);
 
- RECIPE(itm_bolt_wood, CC_WEAPON, sk_mechanics, sk_gun, 1, 5000);
+ RECIPE(itm_bolt_wood, CC_WEAPON, sk_mechanics, sk_archery, 1, 5000);
   TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
 	itm_knife_combat, -1, itm_machete, -1, NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_bee_sting, 1,
        NULL);
 
- RECIPE(itm_crossbow, CC_WEAPON, sk_mechanics, sk_gun, 3, 15000);
+ RECIPE(itm_crossbow, CC_WEAPON, sk_mechanics, sk_archery, 3, 15000);
   TOOL(itm_wrench, -1, NULL);
   TOOL(itm_screwdriver, -1, NULL);
   COMP(itm_2x4, 1, itm_stick, 4, NULL);
@@ -162,7 +174,7 @@ void game::init_recipes()
 // FOOD
 
  RECIPE(itm_meat_cooked, CC_FOOD, sk_cooking, sk_null, 0, 5000);
-  TOOL(itm_hotplate, 7, NULL);
+  TOOL(itm_hotplate, 7, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, NULL);
   COMP(itm_meat, 1, NULL);
 
@@ -174,28 +186,28 @@ void game::init_recipes()
   COMP(itm_water,1, NULL);
 
  RECIPE(itm_veggy_cooked, CC_FOOD, sk_cooking, sk_null, 0, 4000);
-  TOOL(itm_hotplate, 5, NULL);
+  TOOL(itm_hotplate, 5, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, NULL);
   COMP(itm_veggy, 1, NULL);
 
  RECIPE(itm_spaghetti_cooked, CC_FOOD, sk_cooking, sk_null, 0, 10000);
-  TOOL(itm_hotplate, 4, NULL);
+  TOOL(itm_hotplate, 4, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_spaghetti_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_dirty, 1, NULL);
 
  RECIPE(itm_cooked_dinner, CC_FOOD, sk_cooking, sk_null, 0, 5000);
-  TOOL(itm_hotplate, 3, NULL);
+  TOOL(itm_hotplate, 3, itm_fire, -1, NULL);
   COMP(itm_frozen_dinner, 1, NULL);
 
  RECIPE(itm_macaroni_cooked, CC_FOOD, sk_cooking, sk_null, 1, 10000);
-  TOOL(itm_hotplate, 4, NULL);
+  TOOL(itm_hotplate, 4, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_macaroni_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_dirty, 1, NULL);
 
  RECIPE(itm_potato_baked, CC_FOOD, sk_cooking, sk_null, 1, 15000);
-  TOOL(itm_hotplate, 3, NULL);
+  TOOL(itm_hotplate, 3, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, NULL);
   COMP(itm_potato_raw, 1, NULL);
 
@@ -211,7 +223,7 @@ void game::init_recipes()
   COMP(itm_apple, 3, NULL);
  
  RECIPE(itm_jerky, CC_FOOD, sk_cooking, sk_null, 2, 30000);
-  TOOL(itm_hotplate, 10, NULL);
+  TOOL(itm_hotplate, 10, itm_fire, -1, NULL);
   COMP(itm_salt_water, 1, itm_salt, 4, NULL);
   COMP(itm_meat, 1, NULL);
 
@@ -222,14 +234,14 @@ void game::init_recipes()
   COMP(itm_zucchini, 1, NULL);
 
  RECIPE(itm_broth, CC_FOOD, sk_cooking, sk_null, 2, 10000);
-  TOOL(itm_hotplate, 5, NULL);
+  TOOL(itm_hotplate, 5, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_water, 1, itm_water_dirty, 1, NULL);
   COMP(itm_broccoli, 1, itm_zucchini, 1, itm_veggy, 1, NULL);
   COMP(itm_can_food, 1, NULL);
 
  RECIPE(itm_soup, CC_FOOD, sk_cooking, sk_null, 3, 10000);
-  TOOL(itm_hotplate, 5, NULL);
+  TOOL(itm_hotplate, 5, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_broth, 2, NULL);
   COMP(itm_macaroni_raw, 1, itm_potato_raw, 1, NULL);
@@ -237,13 +249,13 @@ void game::init_recipes()
   COMP(itm_can_food, 1, NULL);
 
  RECIPE(itm_bread, CC_FOOD, sk_cooking, sk_null, 3, 20000);
-  TOOL(itm_hotplate, 8, NULL);
+  TOOL(itm_hotplate, 8, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_flour, 3, NULL);
   COMP(itm_water, 2, itm_water_dirty, 2, NULL);
 
  RECIPE(itm_pie, CC_FOOD, sk_cooking, sk_null, 4, 25000);
-  TOOL(itm_hotplate, 6, NULL);
+  TOOL(itm_hotplate, 6, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, NULL);
   COMP(itm_flour, 2, NULL);
   COMP(itm_strawberries, 2, itm_apple, 2, itm_blueberries, 2, NULL);
@@ -251,7 +263,7 @@ void game::init_recipes()
   COMP(itm_water, 1, itm_water_dirty, 1, NULL);
 
  RECIPE(itm_pizza, CC_FOOD, sk_cooking, sk_null, 4, 20000);
-  TOOL(itm_hotplate, 8, NULL);
+  TOOL(itm_hotplate, 8, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, NULL);
   COMP(itm_flour, 2, NULL);
   COMP(itm_veggy, 1, itm_tomato, 2, itm_broccoli, 1, NULL);
@@ -259,7 +271,7 @@ void game::init_recipes()
   COMP(itm_water, 1, itm_water_dirty, 1, NULL);
 
  RECIPE(itm_meth, CC_FOOD, sk_cooking, sk_null, 4, 20000);
-  TOOL(itm_hotplate, 15, NULL);
+  TOOL(itm_hotplate, 15, itm_fire, -1, NULL);
   TOOL(itm_bottle_glass, -1, itm_hose, -1, NULL);
   COMP(itm_dayquil, 2, itm_royal_jelly, 1, NULL);
   COMP(itm_aspirin, 40, NULL);
@@ -270,20 +282,20 @@ void game::init_recipes()
   COMP(itm_bleach, 2, itm_purifier, 1, NULL);
 
  RECIPE(itm_heroin, CC_FOOD, sk_cooking, sk_null, 6, 2000);
-  TOOL(itm_hotplate, 3, itm_lighter, 25, NULL);
+  TOOL(itm_hotplate, 3, itm_fire, -1, itm_lighter, 25, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, NULL);
   COMP(itm_salt_water, 1, itm_salt, 4, NULL);
   COMP(itm_oxycodone, 40, NULL);
 
  RECIPE(itm_mutagen, CC_FOOD, sk_cooking, sk_firstaid, 8, 10000);
-  TOOL(itm_hotplate, 25, NULL);
+  TOOL(itm_hotplate, 25, itm_fire, -1, NULL);
   COMP(itm_meat_tainted, 3, itm_veggy_tainted, 5, itm_fetus, 1, itm_arm, 2,
        itm_leg, 2, NULL);
   COMP(itm_bleach, 2, NULL);
   COMP(itm_ammonia, 1, NULL);
 
  RECIPE(itm_purifier, CC_FOOD, sk_cooking, sk_firstaid, 9, 10000);
-  TOOL(itm_hotplate, 25, NULL);
+  TOOL(itm_hotplate, 25, itm_fire, -1, NULL);
   COMP(itm_royal_jelly, 3, itm_mutagen, 1, NULL);
   COMP(itm_bleach, 3, NULL);
   COMP(itm_ammonia, 2, NULL);
@@ -340,7 +352,7 @@ void game::init_recipes()
 
  RECIPE(itm_water_purifier, CC_ELECTRONIC, sk_mechanics,sk_electronics,3,25000);
   TOOL(itm_screwdriver, -1, NULL);
-  COMP(itm_hotplate, 1, NULL);
+  COMP(itm_hotplate, 1, itm_fire, -1, NULL);
   COMP(itm_bottle_glass, 2, itm_bottle_plastic, 5, NULL);
   COMP(itm_hose, 1, NULL);
 
@@ -501,7 +513,7 @@ void game::init_recipes()
 // MISC
 
  RECIPE(itm_superglue, CC_MISC, sk_cooking, sk_null, 2, 12000);
-  TOOL(itm_hotplate, 5, NULL);
+  TOOL(itm_hotplate, 5, itm_fire, -1, NULL);
   COMP(itm_water, 1, itm_water_dirty, 1, NULL);
   COMP(itm_bleach, 1, itm_ant_egg, 1, NULL);
 
@@ -565,7 +577,7 @@ void game::init_recipes()
   COMP(itm_pipe, 1, NULL);
 
  RECIPE(itm_pheromone, CC_MISC, sk_cooking, sk_null, 3, 1200);
-  TOOL(itm_hotplate, 18, NULL);
+  TOOL(itm_hotplate, 18, itm_fire, -1, NULL);
   COMP(itm_meat_tainted, 1, NULL);
   COMP(itm_ammonia, 1, NULL);
 
@@ -719,7 +731,7 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
      int count = current[line]->components[i][j].count;
      itype_id type = current[line]->components[i][j].type;
      nc_color compcol = c_red;
-     if (itypes[type]->is_ammo()) {
+     if (itypes[type]->count_by_charges())  {
       if (crafting_inv.has_charges(type, count))
        compcol = c_green;
      } else if (crafting_inv.has_amount(type, count))
@@ -937,7 +949,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
     for (int k = 0; k < current[i]->components[j].size(); k++) {
      itype_id type = current[i]->components[j][k].type;
      int count = current[i]->components[j][k].count;
-     if (itypes[type]->is_ammo()) {
+     if (itypes[type]->count_by_charges()) {
       if (crafting_inv.has_charges(type, count)) {
        have_comp[j] = true;
        k = current[i]->components[j].size();
@@ -978,7 +990,7 @@ void game::complete_craft()
    std::vector<component> player_has;
    std::vector<component> map_has;
    for (int j = 0; j < making.components[i].size(); j++) {
-    if (itypes[making.components[i][j].type]->is_ammo()) {
+    if (itypes[making.components[i][j].type]->count_by_charges()) {
      if (u.has_charges(making.components[i][j].type,
                       making.components[i][j].count))
       player_has.push_back(making.components[i][j]);
@@ -1067,7 +1079,7 @@ void game::complete_craft()
   int num_lost_map = num_lost - num_lost_player;
   for (int i = 0; i < num_lost_player; i++) {
    int n = rng(0, player_use.size() - 1);
-   if (itypes[player_use[n].type]->is_ammo() &&
+   if (itypes[player_use[n].type]->count_by_charges() &&
        player_use[i].type != itm_gasoline)
     u.use_charges(player_use[n].type, player_use[n].count);
    else
@@ -1076,7 +1088,7 @@ void game::complete_craft()
   }
   for (int i = 0; i < num_lost_map; i++) {
    int n = rng(0, map_use.size() - 1);
-   if (itypes[map_use[n].type]->is_ammo() &&
+   if (itypes[map_use[n].type]->count_by_charges() &&
        map_use[i].type != itm_gasoline)
     m.use_charges(point(u.posx, u.posy), PICKUP_RANGE, 
                   map_use[n].type, map_use[n].count);
@@ -1098,14 +1110,14 @@ void game::complete_craft()
 // If we're here, the craft was a success!
 // Use up the items in will_use
  for (int i = 0; i < player_use.size(); i++) {
-  if (itypes[player_use[i].type]->is_ammo() &&
+  if (itypes[player_use[i].type]->count_by_charges() &&
       player_use[i].type != itm_gasoline)
    u.use_charges(player_use[i].type, player_use[i].count);
   else
    u.use_amount(player_use[i].type, player_use[i].count);
  }
  for (int i = 0; i < map_use.size(); i++) {
-  if (itypes[map_use[i].type]->is_ammo() &&
+  if (itypes[map_use[i].type]->count_by_charges() &&
       map_use[i].type != itm_gasoline)
    m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,
                  map_use[i].type, map_use[i].count);
@@ -1117,6 +1129,8 @@ void game::complete_craft()
 // Set up the new item, and pick an inventory letter
  int iter = 0;
  item newit(itypes[making.result], turn, nextinv);
+ if (!newit.count_by_charges())
+  newit.charges = 0;
  do {
   newit.invlet = nextinv;
   advance_nextinv();

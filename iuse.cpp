@@ -853,7 +853,7 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
 void iuse::hammer(game *g, player *p, item *it, bool t)
 {
  g->draw();
- mvprintz(0, 0, c_red, "Pick a direction in which to construct:");
+ mvprintz(0, 0, c_red, "Pick a direction in which to pry:");
  int dirx, diry;
  get_direction(dirx, diry, input());
  if (dirx == -2) {
@@ -862,74 +862,32 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
  }
  dirx += p->posx;
  diry += p->posy;
- WINDOW* w = newwin(7, 40, 9, 30);
- wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  int nails = 0, boards = 0;
- std::string title;
  ter_id newter;
  switch (g->m.ter(dirx, diry)) {
- case t_door_b:
-  title = "Repair Door";
+ case t_window_boarded:
   nails = 12;
   boards = 3;
-  newter = t_door_c;
+  newter = t_window_empty;
   break;
- case t_door_c:
- case t_door_locked:
-  title = "Board Up Door";
+ case t_door_boarded:
   nails = 12;
   boards = 3;
-  newter = t_door_boarded;
-  break;
- case t_door_frame:
-  title = "Board Up Door Frame";
-  nails = 24;
-  boards = 6;
-  newter = t_door_boarded;
-  break;
- case t_window:
- case t_window_frame:
-  title = "Board Up Window";
-  nails = 4;
-  boards = 2;
-  newter = t_window_boarded;
+  newter = t_door_b;
   break;
  default:
-  title = "";
-  nails = 0;
-  boards = 0;
- }
- if (nails == 0) {
-  g->add_msg("Nothing to board up there!");
+  g->add_msg("Hammers can only remove boards from windows and doors.");
+  g->add_msg("To board up a window or door, press *");
   return;
  }
- nc_color col;
- mvwprintz(w, 1, 1, c_white, title.c_str());
- col = (p->has_charges(itm_nail, nails) ? c_green : c_red);
- mvwprintz(w, 2, 1, col, "> %d nails", nails);
- col = (p->has_amount(itm_2x4, boards) ? c_green : c_red);
- mvwprintz(w, 3, 1, col, "> %d two by fours", boards);
-
- if (p->has_charges(itm_nail, nails) && p->has_amount(itm_2x4, boards)) {
-  mvwprintz(w, 5, 1, c_yellow, "Perform action? (y/n)");
-  wrefresh(w);
-  char ch;
-  do
-   ch = getch();
-  while (ch != 'y' && ch != 'Y' && ch != 'n' && ch != 'N');
-  if (ch == 'y' || ch == 'Y') {
-   p->moves -= boards * 50;
-   p->use_charges(itm_nail, nails);
-   p->use_amount(itm_2x4, boards);
-   g->m.ter(dirx, diry) = newter;
-  }
- } else {
-  mvwprintz(w, 5, 1, c_red, "Cannot perform action.");
-  wrefresh(w);
-  getch();
- }
- delwin(w);
+ p->moves -= 500;
+ item it_nails(g->itypes[itm_nail], 0, g->nextinv);
+ it_nails.charges = nails;
+ g->m.add_item(p->posx, p->posy, it_nails);
+ item board(g->itypes[itm_2x4], 0, g->nextinv);
+ for (int i = 0; i < boards; i++)
+  g->m.add_item(p->posx, p->posy, board);
+ g->m.ter(dirx, diry) = newter;
 }
  
 void iuse::light_off(game *g, player *p, item *it, bool t)
@@ -1127,8 +1085,33 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
    g->add_msg("You pry, but cannot lift the manhole cover.");
    p->moves -= 100;
   }
- } else
-  g->add_msg("There's nothing to pry there.");
+ } else {
+  int nails = 0, boards = 0;
+  ter_id newter;
+  switch (g->m.ter(dirx, diry)) {
+  case t_window_boarded:
+   nails = 12;
+   boards = 3;
+   newter = t_window_empty;
+   break;
+  case t_door_boarded:
+   nails = 12;
+   boards = 3;
+   newter = t_door_b;
+   break;
+  default:
+   g->add_msg("There's nothing to pry there.");
+   return;
+  }
+  p->moves -= 500;
+  item it_nails(g->itypes[itm_nail], 0, g->nextinv);
+  it_nails.charges = nails;
+  g->m.add_item(p->posx, p->posy, it_nails);
+  item board(g->itypes[itm_2x4], 0, g->nextinv);
+  for (int i = 0; i < boards; i++)
+   g->m.add_item(p->posx, p->posy, board);
+  g->m.ter(dirx, diry) = newter;
+ }
 }
 
 void iuse::makemound(game *g, player *p, item *it, bool t)

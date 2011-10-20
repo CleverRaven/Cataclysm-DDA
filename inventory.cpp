@@ -181,6 +181,12 @@ void inventory::form_from_map(game *g, point origin, int range)
   for (int y = origin.y - range; y <= origin.y + range; y++) {
    for (int i = 0; i < g->m.i_at(x, y).size(); i++)
     add_item(g->m.i_at(x, y)[i]);
+// Kludge for now!
+   if (g->m.field_at(x, y).type == fd_fire) {
+    item fire(g->itypes[itm_fire], 0);
+    fire.charges = 1;
+    add_item(fire);
+   }
   }
  }
 }
@@ -285,11 +291,19 @@ int inventory::charges_of(itype_id it)
  int count = 0;
  for (int i = 0; i < items.size(); i++) {
   for (int j = 0; j < items[i].size(); j++) {
-   if (items[i][j].type->id == it)
-    count += items[i][j].charges;
+   if (items[i][j].type->id == it) {
+    if (items[i][j].charges < 0)
+     count++;
+    else
+     count += items[i][j].charges;
+   }
    for (int k = 0; k < items[i][j].contents.size(); k++) {
-    if (items[i][j].contents[k].type->id == it)
-     count += items[i][j].contents[k].charges;
+    if (items[i][j].contents[k].type->id == it) {
+     if (items[i][j].contents[k].charges < 0)
+      count++;
+     else
+      count += items[i][j].contents[k].charges;
+    }
    }
   }
  }

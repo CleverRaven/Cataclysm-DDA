@@ -148,8 +148,11 @@ point map::random_outdoor_tile()
 bool map::bash(int x, int y, int str, std::string &sound)
 {
  sound = "";
- if (field_at(x, y).type == fd_web)
-  field_at(x, y).type == fd_null;
+ bool smashed_web = false;
+ if (field_at(x, y).type == fd_web) {
+  smashed_web = true;
+  field_at(x, y) = field();
+ }
 
  for (int i = 0; i < i_at(x, y).size(); i++) {	// Destroy glass items (maybe)
   if (i_at(x, y)[i].made_of(GLASS) && one_in(2)) {
@@ -344,7 +347,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
   sound += "thump!";
   return true;
  }
- return false;	// If we kick empty space, the action is cancelled
+ return smashed_web;// If we kick empty space, the action is cancelled
 }
 
 // map::destroy is only called (?) if the terrain is NOT bashable.
@@ -1508,10 +1511,18 @@ bool inbounds(int x, int y)
 
 void cast_to_nonant(int &x, int &y, int &n)
 {
+ if (x < 0 || x >= SEEX * 3 || y < 0 || y >= SEEY * 3) {
+  n = 0;
+  x = -1;
+  y = -1;
+  return;
+ }
  n = int(x / SEEX) + int(y / SEEY) * 3;
 
- x %= SEEX;
- y %= SEEY;
+ while (x >= SEEX)
+  x -= SEEX;
+ while (y >= SEEY)
+  y -= SEEY;
 
  if (n < 0)
   n = 0;

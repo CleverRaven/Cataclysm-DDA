@@ -2040,7 +2040,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      }
     }
    }
-  } else {	// We're below ground, and no sewers
+  } else { // We're below ground, and no sewers
 // Set up the boudaries of walls (connect to adjacent lab squares)
    tw = (t_north >= ot_lab && t_north <= ot_lab_finale) ? 0 : 2;
    rw = (t_east  >= ot_lab && t_east  <= ot_lab_finale) ? 1 : 2;
@@ -2260,21 +2260,19 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   }
 
 // Slimes pretty much wreck up the place, too, but only underground
-  if (t_above == ot_null) {
-   tw = (t_north == ot_slimepit ? SEEY     : 0);
-   rw = (t_east  == ot_slimepit ? SEEX + 1 : 0);
-   bw = (t_south == ot_slimepit ? SEEY + 1 : 0);
-   lw = (t_west  == ot_slimepit ? SEEX     : 0);
-   if (tw != 0 || rw != 0 || bw != 0 || lw != 0) {
-    for (int i = 0; i < SEEX * 2; i++) {
-     for (int j = 0; j < SEEY * 2; j++) {
-      if (((j <= tw || i >= rw) && i >= j && (SEEX * 2 - 1 - i) <= j) ||
-          ((j >= bw || i <= lw) && i <= j && (SEEY * 2 - 1 - j) <= i)   ) {
-       if (one_in(5))
-        ter(i, j) = t_rubble;
-       else if (!one_in(5))
-        ter(i, j) = t_slime;
-      }
+  tw = (t_north == ot_slimepit ? SEEY     : 0);
+  rw = (t_east  == ot_slimepit ? SEEX + 1 : 0);
+  bw = (t_south == ot_slimepit ? SEEY + 1 : 0);
+  lw = (t_west  == ot_slimepit ? SEEX     : 0);
+  if (tw != 0 || rw != 0 || bw != 0 || lw != 0) {
+   for (int i = 0; i < SEEX * 2; i++) {
+    for (int j = 0; j < SEEY * 2; j++) {
+     if (((j <= tw || i >= rw) && i >= j && (SEEX * 2 - 1 - i) <= j) ||
+         ((j >= bw || i <= lw) && i <= j && (SEEY * 2 - 1 - j) <= i)   ) {
+      if (one_in(5))
+       ter(i, j) = t_rubble;
+      else if (!one_in(5))
+       ter(i, j) = t_slime;
      }
     }
    }
@@ -3829,7 +3827,16 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      ter(i, j) = t_rock_floor;
    }
   }
-  switch (rng(1, 3)) {	// TODO: More types!
+  switch (rng(0, 4)) {	// TODO: More types!
+
+  case 0:	// Junk!
+   ter(SEEX - 1, SEEY * 2 - 2) = t_stairs_up;
+   ter(SEEX    , SEEY * 2 - 2) = t_stairs_up;
+   place_items(mi_bedroom, 60, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
+   place_items(mi_home_hw, 80, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
+   place_items(mi_homeguns, 10, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
+   
+
   case 1:	// Weapons cache
    for (int i = 2; i < SEEX * 2 - 2; i++) {
     ter(i, 1) = t_rack;
@@ -3842,6 +3849,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    ter(SEEX - 1, SEEY * 2 - 2) = t_stairs_up;
    ter(SEEX    , SEEY * 2 - 2) = t_stairs_up;
    break;
+
   case 2:	// Survival Bunker
    ter(1, 1) = t_bed;
    ter(1, 2) = t_bed;
@@ -3859,6 +3867,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    ter(SEEX - 1, SEEY * 2 - 2) = t_stairs_up;
    ter(SEEX    , SEEY * 2 - 2) = t_stairs_up;
    break;
+
   case 3:	// Chem lab
    for (int i = 1; i < SEEY + 4; i++) {
     ter(1           , i) = t_counter;
@@ -3871,6 +3880,26 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     place_items(mi_electronics,	90, SEEX*2-2, 1, SEEX*2-2, SEEY + 3, false, 0);
    ter(SEEX - 1, SEEY * 2 - 2) = t_stairs_up;
    ter(SEEX    , SEEY * 2 - 2) = t_stairs_up;
+   break;
+
+  case 4:	// Weed grow
+   line(this, t_counter, 1, 1, 1, SEEY * 2 - 2);
+   line(this, t_counter, SEEX * 2 - 2, 1, SEEX * 2 - 2, SEEY * 2 - 2);
+   ter(SEEX - 1, SEEY * 2 - 2) = t_stairs_up;
+   ter(SEEX    , SEEY * 2 - 2) = t_stairs_up;
+   line(this, t_rock, SEEX - 2, SEEY * 2 - 4, SEEX - 2, SEEY * 2 - 2);
+   line(this, t_rock, SEEX + 1, SEEY * 2 - 4, SEEX + 1, SEEY * 2 - 2);
+   line(this, t_door_locked, SEEX - 1, SEEY * 2 - 4, SEEX, SEEY * 2 - 4);
+   for (int i = 3; i < SEEX * 2 - 3; i += 5) {
+    for (int j = 3; j < 16; j += 5) {
+     square(this, t_dirt, i, j, i + 2, j + 2);
+     int num_weed = rng(0, 3) * rng(0, 1);
+     for (int n = 0; n < num_weed; n++) {
+      int x = rng(i, i + 2), y = rng(j, j + 2);
+      add_item(x, y, (*itypes)[itm_weed], 0);
+     }
+    }
+   }
    break;
   }
   break;
@@ -5117,7 +5146,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     m->ter(biox + 1, bioy + 1) = t_wall_v;
     m->ter(biox    , bioy    ) = t_counter;
     m->ter(biox    , bioy + 1) = t_reinforced_glass_h;
-    m->place_items(mi_bionics, 70, biox, bioy, biox, bioy, false, 0);
+    m->place_items(mi_bionics_common, 70, biox, bioy, biox, bioy, false, 0);
 
     bioy = y2;
     m->ter(biox - 1, bioy    ) = t_wall_v;
@@ -5126,7 +5155,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     m->ter(biox + 1, bioy - 1) = t_wall_v;
     m->ter(biox    , bioy    ) = t_counter;
     m->ter(biox    , bioy - 1) = t_reinforced_glass_h;
-    m->place_items(mi_bionics, 70, biox, bioy, biox, bioy, false, 0);
+    m->place_items(mi_bionics_common, 70, biox, bioy, biox, bioy, false, 0);
 
     int compx = int((x1 + x2) / 2), compy = int((y1 + y2) / 2);
     m->ter(compx, compy) = t_console;
@@ -5677,6 +5706,95 @@ void map::add_extra(map_extra type, game *g)
  }
  break;
 
+ case mx_drugdeal: {
+// Decide on a drug type
+  int num_drugs;
+  itype* drugtype;
+  switch (rng(1, 10)) {
+   case 1: // Weed
+    num_drugs = rng(20, 30);
+    drugtype = (*itypes)[itm_weed];
+    break;
+   case 2:
+   case 3:
+   case 4:
+   case 5: // Cocaine
+    num_drugs = rng(10, 20);
+    drugtype = (*itypes)[itm_coke];
+    break;
+   case 6:
+   case 7:
+   case 8: // Meth
+    num_drugs = rng(8, 14);
+    drugtype = (*itypes)[itm_meth];
+    break;
+   case 9:
+   case 10: // Heroin
+    num_drugs = rng(6, 12);
+    drugtype = (*itypes)[itm_heroin];
+    break;
+  }
+  int num_bodies_a = dice(4, 3);
+  int num_bodies_b = dice(4, 3);
+  bool north_south = one_in(2);
+  bool a_has_drugs = one_in(2);
+  for (int i = 0; i < num_bodies_a; i++) {
+   int x, y, tries = 0;
+   do {	// Loop until we find a valid spot to dump a body, or we give up
+    if (north_south) {
+     x = rng(0, SEEX * 2 - 1);
+     y = rng(0, SEEY - 4);
+    } else {
+     x = rng(0, SEEX - 4);
+     y = rng(0, SEEY * 2 - 1);
+    }
+    tries++;
+   } while (tries < 10 && move_cost(x, y) == 0);
+
+   if (tries < 10) {	// We found a valid spot!
+    add_item(x, y, body);
+    place_items(mi_drugdealer, 75, x, y, x, y, true, 0);
+    if (a_has_drugs && num_drugs > 0) {
+     int drugs_placed = rng(2, 6);
+     if (drugs_placed > num_drugs) {
+      drugs_placed = num_drugs;
+      num_drugs = 0;
+     }
+     for (int n = 0; n < drugs_placed; n++)
+      add_item(x, y, drugtype, 0);
+    }
+   }
+  }
+  for (int i = 0; i < num_bodies_b; i++) {
+   int x, y, tries = 0;
+   do {	// Loop until we find a valid spot to dump a body, or we give up
+    if (north_south) {
+     x = rng(0, SEEX * 2 - 1);
+     y = rng(SEEY + 3, SEEY * 2 - 1);
+    } else {
+     x = rng(SEEX + 3, SEEX * 2 - 1);
+     y = rng(0, SEEY * 2 - 1);
+    }
+    tries++;
+   } while (tries < 10 && move_cost(x, y) == 0);
+
+   if (tries < 10) {	// We found a valid spot!
+    add_item(x, y, body);
+    place_items(mi_drugdealer, 75, x, y, x, y, true, 0);
+    if (!a_has_drugs && num_drugs > 0) {
+     int drugs_placed = rng(2, 6);
+     if (drugs_placed > num_drugs) {
+      drugs_placed = num_drugs;
+      num_drugs = 0;
+     }
+     for (int n = 0; n < drugs_placed; n++)
+      add_item(x, y, drugtype, 0);
+    }
+   }
+  }
+ } break;
+  
+
  case mx_portal:
  {
   int x = rng(1, SEEX * 2 - 2), y = rng(1, SEEY * 2 - 2);
@@ -5714,7 +5832,7 @@ void map::add_extra(map_extra type, game *g)
  break;
 
  case mx_wolfpack:
-  add_spawn(mon_wolf, rng(4, 10), SEEX, SEEY);
+  add_spawn(mon_wolf, rng(3, 6), SEEX, SEEY);
   break;
 
  case mx_puddle:
