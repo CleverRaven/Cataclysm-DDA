@@ -13,6 +13,7 @@ class inventory
  public:
   item& operator[] (int i);
   std::vector<item>& stack_at(int i);
+  std::vector<item> as_vector();
   item& front();
   item& back();
   int size() const;
@@ -51,7 +52,7 @@ class inventory
   int  amount_of (itype_id it);
   int  charges_of(itype_id it);
 
-  void use_amount (itype_id it, int quantity);
+  void use_amount (itype_id it, int quantity, bool use_container = false);
   void use_charges(itype_id it, int quantity);
 
   bool has_amount (itype_id it, int quantity);

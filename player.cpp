@@ -3018,22 +3018,27 @@ item player::i_remn(int index)
  return inv.remove_item(index);
 }
 
-void player::use_amount(itype_id it, int quantity)
+void player::use_amount(itype_id it, int quantity, bool use_container)
 {
  int cur_item = 0;
+ bool used_weapon_contents = false;
  for (int i = 0; i < weapon.contents.size(); i++) {
   if (weapon.contents[0].type->id == it) {
    quantity--;
    weapon.contents.erase(weapon.contents.begin() + 0);
    i--;
+   used_weapon_contents = true;
   }
  }
+ if (use_container && used_weapon_contents)
+  remove_weapon();
+
  if (weapon.type->id == it) {
   quantity--;
   remove_weapon();
  }
 
- inv.use_amount(it, quantity);
+ inv.use_amount(it, quantity, use_container);
 }
 
 void player::use_charges(itype_id it, int quantity)

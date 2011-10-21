@@ -60,8 +60,8 @@ void game::init_recipes()
 
  RECIPE(itm_molotov, CC_WEAPON, sk_null, sk_null, 0, 500);
   COMP(itm_rag, 1, NULL);
-  COMP(itm_whiskey, 1, itm_vodka, 1, itm_rum, 1, itm_tequila, 1,
-       itm_gasoline, 1, NULL);
+  COMP(itm_whiskey, -1, itm_vodka, -1, itm_rum, -1, itm_tequila, -1,
+       itm_gasoline, -1, NULL);
 
  RECIPE(itm_pipebomb, CC_WEAPON, sk_mechanics, sk_null, 1, 750);
   TOOL(itm_hacksaw, -1, NULL);
@@ -626,7 +626,7 @@ void game::craft()
 
  inventory crafting_inv;
  crafting_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
- crafting_inv.add_stack(u.inv_dump());
+ crafting_inv += u.inv;
 
  do {
   if (redraw) { // When we switch tabs, redraw the header
@@ -731,13 +731,13 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
      int count = current[line]->components[i][j].count;
      itype_id type = current[line]->components[i][j].type;
      nc_color compcol = c_red;
-     if (itypes[type]->count_by_charges())  {
+     if (itypes[type]->count_by_charges() && count > 0)  {
       if (crafting_inv.has_charges(type, count))
        compcol = c_green;
-     } else if (crafting_inv.has_amount(type, count))
+     } else if (crafting_inv.has_amount(type, abs(count)))
       compcol = c_green;
      std::stringstream dump;
-     dump << count << "x " << itypes[type]->name << " ";
+     dump << abs(count) << "x " << itypes[type]->name << " ";
      std::string compname = dump.str();
      if (xpos + compname.length() >= 80) {
       ypos++;
@@ -908,7 +908,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
 {
  inventory crafting_inv;
  crafting_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
- crafting_inv.add_stack(u.inv_dump());
+ crafting_inv += u.inv;
 
  bool have_tool[5], have_comp[5];
 
@@ -946,15 +946,15 @@ void game::pick_recipes(std::vector<recipe*> &current,
    if (current[i]->components[j].size() == 0)
     have_comp[j] = true;
    else {
-    for (int k = 0; k < current[i]->components[j].size(); k++) {
+    for (int k = 0; k < current[i]->components[j].size() && !have_comp[j]; k++){
      itype_id type = current[i]->components[j][k].type;
      int count = current[i]->components[j][k].count;
-     if (itypes[type]->count_by_charges()) {
+     if (itypes[type]->count_by_charges() && count > 0) {
       if (crafting_inv.has_charges(type, count)) {
        have_comp[j] = true;
        k = current[i]->components[j].size();
       }
-     } else if (crafting_inv.has_amount(type, count)) {
+     } else if (crafting_inv.has_amount(type, abs(count))) {
       have_comp[j] = true;
       k = current[i]->components[j].size();
      }
@@ -990,19 +990,17 @@ void game::complete_craft()
    std::vector<component> player_has;
    std::vector<component> map_has;
    for (int j = 0; j < making.components[i].size(); j++) {
-    if (itypes[making.components[i][j].type]->count_by_charges()) {
-     if (u.has_charges(making.components[i][j].type,
-                      making.components[i][j].count))
+    itype_id type = making.components[i][j].type;
+    int count = making.components[i][j].count;
+    if (itypes[type]->count_by_charges() && count > 0) {
+     if (u.has_charges(type, count))
       player_has.push_back(making.components[i][j]);
-     if (map_inv.has_charges(making.components[i][j].type,
-                            making.components[i][j].count))
+     if (map_inv.has_charges(type, count))
       map_has.push_back(making.components[i][j]);
     } else {
-     if (u.has_amount(making.components[i][j].type,
-                      making.components[i][j].count))
+     if (u.has_amount(type, abs(count)))
       player_has.push_back(making.components[i][j]);
-     if (map_inv.has_amount(making.components[i][j].type,
-                            making.components[i][j].count))
+     if (map_inv.has_amount(type, abs(count)))
       map_has.push_back(making.components[i][j]);
     }
    }
@@ -1080,21 +1078,22 @@ void game::complete_craft()
   for (int i = 0; i < num_lost_player; i++) {
    int n = rng(0, player_use.size() - 1);
    if (itypes[player_use[n].type]->count_by_charges() &&
-       player_use[i].type != itm_gasoline)
+       player_use[n].count > 0)
     u.use_charges(player_use[n].type, player_use[n].count);
    else
-    u.use_amount(player_use[n].type, player_use[n].count);
+    u.use_amount(player_use[n].type, abs(player_use[n].count),
+                 (player_use[n].count < 0)); // If true, use container
    player_use.erase(player_use.begin() + n);
   }
   for (int i = 0; i < num_lost_map; i++) {
    int n = rng(0, map_use.size() - 1);
    if (itypes[map_use[n].type]->count_by_charges() &&
-       map_use[i].type != itm_gasoline)
+       map_use[n].count > 0)
     m.use_charges(point(u.posx, u.posy), PICKUP_RANGE, 
                   map_use[n].type, map_use[n].count);
    else
     m.use_amount(point(u.posx, u.posy), PICKUP_RANGE, 
-                 map_use[n].type, map_use[n].count);
+                 map_use[n].type, abs(map_use[n].count),(map_use[n].count < 0));
    map_use.erase(map_use.begin() + n);
   }
    
@@ -1111,25 +1110,26 @@ void game::complete_craft()
 // Use up the items in will_use
  for (int i = 0; i < player_use.size(); i++) {
   if (itypes[player_use[i].type]->count_by_charges() &&
-      player_use[i].type != itm_gasoline)
+      player_use[i].count > 0)
    u.use_charges(player_use[i].type, player_use[i].count);
   else
-   u.use_amount(player_use[i].type, player_use[i].count);
+   u.use_amount(player_use[i].type, abs(player_use[i].count),
+                (player_use[i].count < 0));
  }
  for (int i = 0; i < map_use.size(); i++) {
   if (itypes[map_use[i].type]->count_by_charges() &&
-      map_use[i].type != itm_gasoline)
+      map_use[i].count > 0)
    m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,
                  map_use[i].type, map_use[i].count);
   else
    m.use_amount(point(u.posx, u.posy), PICKUP_RANGE,
-                map_use[i].type, map_use[i].count);
+                map_use[i].type, abs(map_use[i].count), (map_use[i].count < 0));
  }
 
 // Set up the new item, and pick an inventory letter
  int iter = 0;
  item newit(itypes[making.result], turn, nextinv);
- if (!newit.count_by_charges())
+ if (!newit.craft_has_charges())
   newit.charges = 0;
  do {
   newit.invlet = nextinv;

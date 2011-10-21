@@ -1808,10 +1808,6 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
    g->add_msg("You attempt to shock the %s, but miss.", z->name().c_str());
    return;
   }
-  if (z->has_flag(MF_SHOCK)) {
-   g->add_msg("You shock the %s, but it seems immune!", z->name().c_str());
-   return;
-  }
   g->add_msg("You shock the %s!", z->name().c_str());
   int shock = rng(5, 25);
   z->moves -= shock * 100;

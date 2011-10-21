@@ -534,24 +534,8 @@ bool monster::make_fungus(game *g)
  case mon_triffid_queen:
   poly(g->mtypes[mon_fungaloid]);
   return true;
- case mon_fungaloid:
- case mon_spore:
- case mon_ant_fungus:
- case mon_zombie_fungus:
- case mon_boomer_fungus:
- case mon_skeleton:
- case mon_eyebot:
- case mon_manhack:
- case mon_skitterbot:
- case mon_secubot:
- case mon_molebot:
- case mon_tripod:
- case mon_chickenbot:
- case mon_tankbot:
- case mon_turret:
-  return true;	// Funguses, skeletons, and robots are immune
  default:
-  return false;	// All others die
+  return true;
  }
  return false;
 }

@@ -227,7 +227,7 @@ yellow fluid."
 
 mon("shocker zombie",	'Z',	c_ltcyan,	MS_MEDIUM,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_WARM)|mfb(MF_BASHES)|
-	 mfb(MF_POISON)|mfb(MF_SHOCK)),
+	 mfb(MF_POISON)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	  3, 10,  5,110,  8,  1,  6,  0,  4,  0, 40, 65, 25,
 	&mdeath::normal,	&mattack::shockstorm, "\
@@ -408,7 +408,7 @@ A wispy spore, about the size of a fist,\n\
 wafting on the breeze."
 );
 
-mon("fungal spire",	'T',	c_ltgray,	MS_HUGE,	VEGGY,
+mon("fungal spire",	'T',	c_ltgray,	MS_HUGE,	STONE,
 	mfb(MF_NOHEAD)|mfb(MF_POISON)|mfb(MF_IMMOBILE)|mfb(MF_QUEEN),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	  0, 40,  5,100,  0,  0,  0,  0,  0, 10,  0,300, 5,
@@ -421,7 +421,7 @@ continuously growing new defenses."
 mon("fungal wall",	'F',	c_dkgray,	MS_HUGE,	VEGGY,
 	mfb(MF_NOHEAD)|mfb(MF_POISON)|mfb(MF_IMMOBILE),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  0,  5,  0,100,  0,  0,  0,  0,  0, 10,  0, 60, 3,
+	  0,  5,  0,100,  0,  0,  0,  0,  0, 10,  0, 60, 8,
 	&mdeath::disintegrate,	&mattack::fungus, "\
 A veritable wall of fungus, grown as a\n\
 natural defense by the fungal spire. It\n\
@@ -714,7 +714,7 @@ hair impossibly twisted."
 
 mon("vortex",		'v',	c_white,	MS_SMALL,	POWDER,
 	(mfb(MF_HEARS)|mfb(MF_GOODHEARING)|mfb(MF_STUMBLES)|mfb(MF_NOHEAD)|
-	 mfb(MF_HARDTOSHOOT)|mfb(MF_FLIES)|mfb(MF_PLASTIC)|mfb(MF_SHOCK)|
+	 mfb(MF_HARDTOSHOOT)|mfb(MF_FLIES)|mfb(MF_PLASTIC)|
 	 mfb(MF_FRIENDLY_SPECIAL)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	  2, 30,  5,120,  0,  0,  0,  0,  0,  0,  0, 20, 6,

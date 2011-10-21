@@ -655,6 +655,16 @@ bool item::count_by_charges()
  return false;
 }
 
+bool item::craft_has_charges()
+{
+ if (count_by_charges())
+  return true;
+ else if (ammo_type() == AT_NULL)
+  return true;
+
+ return false;
+}
+
 int item::weapon_value(int skills[num_skill_types])
 {
  int my_value = 0;

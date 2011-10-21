@@ -1334,16 +1334,19 @@ void game::debug()
                    "Teleport - Long Range",  // 3
                    "Reveal map",             // 4
                    "Spawn NPC",              // 5
-                   "Check game state...",    // 6
-                   "Cancel",                 // 7
+                   "Spawn Monster",          // 6
+                   "Check game state...",    // 7
+                   "Cancel",                 // 8
                    NULL);
  switch (action) {
   case 1:
    wish();
    break;
+
   case 2:
    teleport();
    break;
+
   case 3: {
    point tmp = cur_om.choose_point(this);
    if (tmp.x != -1) {
@@ -1354,6 +1357,7 @@ void game::debug()
     m.load(this, levx, levy);
    }
   } break;
+
   case 4:
    debugmsg("%d radio towers", cur_om.radios.size());
    for (int i = 0; i < OMAPX; i++) {
@@ -1361,6 +1365,7 @@ void game::debug()
      cur_om.seen(i, j) = true;
    }
    break;
+
   case 5: {
    npc temp;
    temp.randomize(this);
@@ -1370,7 +1375,12 @@ void game::debug()
    temp.posy = u.posy - 4;
    active_npc.push_back(temp);
   } break;
+
   case 6:
+   monster_wish();
+   break;
+
+  case 7:
    popup_top("\
 Current turn: %d; Next spawn %d.\n\
 %d monsters exist.\n\
@@ -3339,7 +3349,7 @@ shape, but with long, twisted, distended limbs.");
   m.disarm_trap(this, examx, examy);
 }
 
-void game::look_around()
+point game::look_around()
 {
  int lx = u.posx, ly = u.posy;
  int mx, my, junk;
@@ -3421,7 +3431,10 @@ void game::look_around()
   }
   wrefresh(w_look);
   wrefresh(w_terrain);
- } while (ch != ' ' && ch != KEY_ESCAPE && ch != ';' && ch != '\n');
+ } while (ch != ' ' && ch != KEY_ESCAPE && ch != '\n');
+ if (ch == '\n')
+  return point(lx, ly);
+ return point(-1, -1);
 }
 
 // Pick up items at (posx, posy).
@@ -3837,14 +3850,27 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    return false;
   item *cont = &(u.i_at(ch));
   ammotype type = cont->ammo_type();
-  if (cont->type->id == itm_null) {
+  if (cont == NULL || cont->is_null()) {
    add_msg("Never mind.");
    return false;
-  } else if (cont->is_tool() &&
-             (dynamic_cast<it_tool*>(cont->type))->max_charges > 0 &&
-             (dynamic_cast<it_tool*>(cont->type))->ammo == type &&
-             (cont->charges == 0 || cont->curammo->id == liquid.type->id)) {
-   add_msg("You pour %s into your %s.", ammo_name(type).c_str(),
+  } else if (liquid.is_ammo() && cont->is_tool()) {
+   it_tool* tool = dynamic_cast<it_tool*>(cont->type);
+   ammotype liquid_type = liquid.ammo_type();
+   if (tool->ammo != liquid_type) {
+    add_msg("Your %s won't hold %s.", cont->tname(this).c_str(),
+                                      liquid.tname(this).c_str());
+    return false;
+   }
+   if (tool->max_charges <= 0 || cont->charges >= tool->max_charges) {
+    add_msg("Your %s can't hold any more %s.", cont->tname(this).c_str(),
+                                               liquid.tname(this).c_str());
+    return false;
+   }
+   if (cont->charges > 0 && cont->curammo->id != liquid.type->id) {
+    add_msg("You can't mix loads in your %s.", cont->tname(this).c_str());
+    return false;
+   }
+   add_msg("You pour %s into your %s.", liquid.tname(this).c_str(),
                                         cont->tname(this).c_str());
    cont->curammo = dynamic_cast<it_ammo*>(liquid.type);
    int max_charges = (dynamic_cast<it_tool*>(cont->type))->max_charges;

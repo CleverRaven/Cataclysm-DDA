@@ -161,7 +161,7 @@ public:
  item &i_at(char let);	// Returns the item with inventory letter let
  item &i_of_type(itype_id type); // Returns the first item with this type
  std::vector<item> inv_dump(); // Inventory + weapon + worn (for death, etc)
- void use_amount(itype_id it, int quantity);// Uses up items
+ void use_amount(itype_id it, int quantity, bool use_container = false);
  void use_charges(itype_id it, int quantity);// Uses up charges
  int  butcher_factor();	// Automatically picks our best butchering tool
 

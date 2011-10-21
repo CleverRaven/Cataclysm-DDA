@@ -174,13 +174,14 @@ class game
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
 
-  void create_factions();	// Creates new factions (for a new game world)
+  void create_factions();   // Creates new factions (for a new game world)
 
 // Player actions
   void wish();	// Cheat by wishing for an item 'Z'
-  void plmove(int x, int y);	// Standard movement; handles attacks, traps, &c
-  void plswim(int x, int y);	// Called by plmove.  Handles swimming
+  void monster_wish(); // Create a monster
 
+  void plmove(int x, int y); // Standard movement; handles attacks, traps, &c
+  void plswim(int x, int y); // Called by plmove.  Handles swimming
   void wait();	// Long wait (player action)	'^'
   void open();	// Open a door			'o'
   void close();	// Close a door			'c'
@@ -196,7 +197,7 @@ class game
   void place_construction(constructable con); // See construction.cpp
   void complete_construction();               // See construction.cpp
   void examine();// Examine nearby terrain	'e'
-  void look_around();// Look at nearby terrain	';'
+  point look_around();// Look at nearby terrain	';'
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
 // Pick where to put liquid; false if it's left where it was
   bool handle_liquid(item &liquid, bool from_ground, bool infinite);

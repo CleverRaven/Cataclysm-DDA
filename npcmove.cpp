@@ -90,6 +90,14 @@ void npc::move(game *g)
   }
  }
 
+/* Sometimes we'll be following the player at this point, but close enough that
+ * "following" means standing still.  If that's the case, if there are any
+ * monsters around, we should attack them after all!
+ */
+ if (action == npc_follow_player && danger > 0 &&
+     rl_dist(posx, posy, g->u.posx, g->u.posy) <= follow_distance())
+  action = method_of_attack(g, target, danger);
+
  if (g->debugmon)
   debugmsg("%s chose action %s.", name.c_str(), npc_action_name(action).c_str());
 

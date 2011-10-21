@@ -253,7 +253,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
   }
   break;
  case t_toilet:
-  if (str >= dice(8, 10) - 8) {
+  if (str >= dice(8, 4) - 8) {
    sound += "porcelain breaking!";
    ter(x, y) = t_rubble;
    return true;
@@ -790,7 +790,8 @@ void map::process_active_items(game *g)
  }
 }
 
-void map::use_amount(point origin, int range, itype_id type, int quantity)
+void map::use_amount(point origin, int range, itype_id type, int quantity,
+                     bool use_container)
 {
  for (int radius = 0; radius <= range && quantity > 0; radius++) {
   for (int x = origin.x - radius; x <= origin.x + radius; x++) {
@@ -800,13 +801,18 @@ void map::use_amount(point origin, int range, itype_id type, int quantity)
     else {
      for (int n = 0; n < i_at(x, y).size() && quantity > 0; n++) {
       item* curit = &(i_at(x, y)[n]);
+      bool used_contents = false;
       for (int m = 0; m < curit->contents.size(); m++) {
        if (curit->contents[m].type->id == type) {
         curit->contents.erase(curit->contents.begin() + m);
         m--;
+        used_contents = true;
        }
       }
-      if (curit->type->id == type) {
+      if (use_container && used_contents) {
+       i_rem(x, y, n);
+       n--;
+      } else if (curit->type->id == type) {
        quantity--;
        i_rem(x, y, n);
        n--;

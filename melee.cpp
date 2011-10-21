@@ -117,12 +117,6 @@ int player::hit_mon(game *g, monster *z)
   stumble(g);
   return 0;
  }
- if (z->has_flag(MF_SHOCK) && !wearing_something_on(bp_hands) &&
-     (unarmed || weapon.conductive())) {
-  if (is_u)
-   g->add_msg("The %s's electric body shocks you!", z->name().c_str());
-  hurtall(rng(1, 3));
- }
 // For very high hit rolls, we crit!
  bool critical_hit = (hit_roll() >= 50 + 10 * z->dodge_roll());
  int dam = base_damage(true);
@@ -222,8 +216,8 @@ int player::hit_mon(game *g, monster *z)
 
 // Bonus attacks!
 
- bool shock_them = (!z->has_flag(MF_SHOCK) && has_bionic(bio_shock) &&
-                    power_level >= 2 && unarmed && one_in(3));
+ bool shock_them = (has_bionic(bio_shock) && power_level >= 2 && unarmed &&
+                    one_in(3));
  bool drain_them = (has_bionic(bio_heat_absorb) && power_level >= 1 &&
                     !is_armed() && z->has_flag(MF_WARM));
  bool  bite_them = (has_trait(PF_FANGS) && z->armor() < 18 &&
@@ -238,8 +232,8 @@ int player::hit_mon(game *g, monster *z)
  if (critical_hit) {
   bool headshot = (!z->has_flag(MF_NOHEAD) && !one_in(3));
 // Second chance for shock_them, drain_them, bite_them and peck_them
-  shock_them = (shock_them || (!z->has_flag(MF_SHOCK) && has_bionic(bio_shock)&&
-                               power_level >= 2 && unarmed && !one_in(3)));
+  shock_them = (shock_them || (has_bionic(bio_shock)&& power_level >= 2 &&
+                               unarmed && !one_in(3)));
   drain_them = (drain_them || (has_bionic(bio_heat_absorb) && !is_armed() &&
                                power_level >= 1 && z->has_flag(MF_WARM) &&
                                !one_in(3)));
