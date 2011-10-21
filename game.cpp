@@ -2564,7 +2564,7 @@ void game::sound(int x, int y, int vol, std::string description)
 // First, alert all monsters (that can hear) to the sound
  double dist;
  for (int i = 0; i < z.size(); i++) {
-  if (z[i].has_flag(MF_HEARS)) {
+  if (z[i].can_hear()) {
    dist = trig_dist(x, y, z[i].posx, z[i].posy);
    if (z[i].has_flag(MF_GOODHEARING) && int(dist) >> 1 <= vol)
     z[i].wander_to(x, y, int(vol - (int(dist) >> 1)));
@@ -2587,6 +2587,9 @@ void game::sound(int x, int y, int vol, std::string description)
 // Next, display the sound as the player hears it
  if (description == "")
   return;	// No description (e.g., footsteps)
+ if (u.has_disease(DI_DEAF))
+  return;	// We're deaf, can't hear it
+
  if (u.has_bionic(bio_ears))
   vol *= 3.5;
  if (u.has_trait(PF_BADHEARING))
@@ -2747,6 +2750,30 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
  }
 }
 
+void game::flashbang(int x, int y)
+{
+ int dist = rl_dist(u.posx, u.posy, x, y), t;
+ if (dist <= 8) {
+  if (!u.has_bionic(bio_ears))
+   u.add_disease(DI_DEAF, 40 - dist * 4, this);
+  if (m.sees(u.posx, u.posy, x, y, 8, t))
+   u.infect(DI_BLIND, bp_eyes, (12 - dist) / 2, 10 - dist, this);
+ }
+ for (int i = 0; i < z.size(); i++) {
+  dist = rl_dist(z[i].posx, z[i].posy, x, y);
+  if (dist <= 4)
+   z[i].add_effect(ME_STUNNED, 10 - dist);
+  if (dist <= 8) {
+   if (z[i].has_flag(MF_SEES) && m.sees(z[i].posx, z[i].posy, x, y, 8, t))
+    z[i].add_effect(ME_BLIND, 18 - dist);
+   if (z[i].has_flag(MF_HEARS))
+    z[i].add_effect(ME_DEAF, 60 - dist * 4);
+  }
+ }
+ sound(x, y, 60, "huge boom!");
+// TODO: Blind/deafen NPC
+}
+
 void game::use_computer(int x, int y)
 {
  if (u.has_trait(PF_ILLITERATE)) {
@@ -2845,7 +2872,8 @@ void game::emp_blast(int x, int y)
  }
 // TODO: More terrain effects.
  switch (m.ter(x, y)) {
- case t_card_reader:
+ case t_card_science:
+ case t_card_military:
   rn = rng(1, 100);
   if (rn > 92 || rn < 40) {
    add_msg("The card reader is rendered non-functional.");
@@ -2853,8 +2881,8 @@ void game::emp_blast(int x, int y)
   }
   if (rn > 80) {
    add_msg("The nearby doors slide open!");
-   for (int i = -5; i <= 5; i++) {
-    for (int j = -5; j <= 5; j++) {
+   for (int i = -3; i <= 3; i++) {
+    for (int j = -3; j <= 3; j++) {
      if (m.ter(x + i, y + j) == t_door_metal_locked)
       m.ter(x + i, y + j) = t_floor;
     }
@@ -3210,22 +3238,27 @@ void game::examine()
   use_computer(examx, examy);
   return;
  }
- if (m.ter(examx, examy) == t_card_reader) {
-  if (u.has_amount(itm_card_id, 1) && query_yn("Swipe your ID card?")) {
+ if (m.ter(examx, examy) == t_card_science ||
+     m.ter(examx, examy) == t_card_military  ) {
+  itype_id card_type = (m.ter(examx, examy) == t_card_science ? itm_id_science :
+                                                               itm_id_military);
+  if (u.has_amount(card_type, 1) && query_yn("Swipe your ID card?")) {
    u.moves -= 100;
-   for (int i = -5; i <= 5; i++) {
-    for (int j = -5; j <= 5; j++) {
+   for (int i = -3; i <= 3; i++) {
+    for (int j = -3; j <= 3; j++) {
      if (m.ter(examx + i, examy + j) == t_door_metal_locked)
       m.ter(examx + i, examy + j) = t_floor;
     }
    }
    for (int i = 0; i < z.size(); i++) {
-    if (z[i].type->id == mon_turret)
-     kill_mon(i);
+    if (z[i].type->id == mon_turret) {
+     z.erase(z.begin() + i);
+     i--;
+    }
    }
    add_msg("You insert your ID card.");
    add_msg("The nearby doors slide into the floor.");
-   u.use_amount(itm_card_id, 1);
+   u.use_amount(card_type, 1);
   }
   bool using_electrohack = (u.has_amount(itm_electrohack, 1) &&
                             query_yn("Use electrohack on the reader?"));

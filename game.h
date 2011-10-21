@@ -73,6 +73,8 @@ class game
   void sound(int x, int y, int vol, std::string description);
 // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
   void explosion(int x, int y, int power, int shrapnel, bool fire);
+// Flashback at (x, y)
+  void flashbang(int x, int y);
 // Move the player vertically, if (force) then they fell
   void vertical_move(int z, bool force);
   void use_computer(int x, int y);

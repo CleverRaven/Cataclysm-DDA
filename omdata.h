@@ -68,6 +68,7 @@ enum oter_id {
 // Goodies/dungeons
  ot_lab, ot_lab_stairs, ot_lab_core, ot_lab_finale,
  ot_nuke_plant_entrance, ot_nuke_plant, // TODO
+ ot_bunker,
  ot_silo, ot_silo_finale,
  ot_temple, ot_temple_stairs, ot_temple_core, ot_temple_finale, // TODO
  ot_sewage_treatment, ot_sewage_treatment_hub, ot_sewage_treatment_under,
@@ -216,6 +217,7 @@ const oter_t oterlist[num_ter_types] = {
 {"science lab",		'L',	c_cyan,		5, false},
 {"nuclear plant",	'P',	c_ltgreen,	5, false},
 {"nuclear plant",	'P',	c_ltgreen,	5, false},
+{"military bunker",	'B',	c_dkgray,	2, false},
 {"missile silo",	'0',	c_ltgray,	2, false},
 {"missile silo",	'0',	c_ltgray,	2, false},
 {"strange temple",	'T',	c_magenta,	5, false},
@@ -339,6 +341,7 @@ enum omspec_id
  OMSPEC_GAS,
  OMSPEC_CABIN,
  OMSPEC_LAB,
+ OMSPEC_BUNKER,
  OMSPEC_SILO,
  OMSPEC_RADIO,
  OMSPEC_SEWAGE,
@@ -368,7 +371,10 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_house_north,  50, 20, mcat_null, 0, 0, 0, 0,  // Woods cabin
  &omspec_place::forest, mfb(OMS_FLAG_ROTATE_RANDOM)},
 
-{ot_lab_stairs,	  30,  5, mcat_null, 0, 0, 0, 0,
+{ot_lab_stairs,	  30,  8, mcat_null, 0, 0, 0, 0,
+ &omspec_place::land, mfb(OMS_FLAG_ROAD)},
+
+{ot_bunker,	  30,  4, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_ROAD)},
 
 {ot_silo,	   5, 30, mcat_null, 0, 0, 0, 0,

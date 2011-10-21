@@ -557,6 +557,9 @@ void overmap::generate_sub(overmap* above)
    else if (above->ter(i, j) == ot_lab_stairs)
     ter(i, j) = ot_lab;
 
+   else if (above->ter(i, j) == ot_bunker && posz == -1)
+    ter(i, j) = ot_bunker;
+
    else if (above->ter(i, j) == ot_mine_entrance)
     shaft_points.push_back(city(i, j, 0));
 

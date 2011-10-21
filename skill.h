@@ -9,6 +9,7 @@ enum skill {
  sk_dodge, sk_melee, sk_unarmed, sk_bashing, sk_cutting, sk_stabbing,
 // Combat
  sk_throw, sk_gun, sk_pistol, sk_shotgun, sk_smg, sk_rifle, sk_archery,
+  sk_launcher,
 // Crafting
  sk_mechanics, sk_electronics, sk_cooking, sk_tailor, sk_carpentry,
 // Medical

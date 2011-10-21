@@ -19,6 +19,8 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit);
 void splatter(game *g, std::vector<point> trajectory, int dam,
               monster* mon = NULL);
 
+void ammo_effects(game *g, int x, int y, long flags);
+
 void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
                 bool burst)
 {
@@ -34,10 +36,11 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  unsigned int flags = p.weapon.curammo->item_flags;
  if (p.weapon.curammo->type == AT_BOLT || p.weapon.curammo->type == AT_ARROW)	// Bolts and arrows are silent
   is_bolt = true;
- if (p.weapon.has_flag(IF_STR8_DRAW) && p.str_cur < 8)
-  {add_msg("You're not strong enough to draw the bow!"); return;}
- if (p.weapon.has_flag(IF_STR10_DRAW) && p.str_cur < 10)
-  {add_msg("You're not strong enough to draw the bow!"); return;}
+ if ((p.weapon.has_flag(IF_STR8_DRAW)  && p.str_cur <  8) ||
+     (p.weapon.has_flag(IF_STR10_DRAW) && p.str_cur < 10)   ) {
+  add_msg("You're not strong enough to draw the bow!");
+  return;
+ }
 
  int x = p.posx, y = p.posy;
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
@@ -119,6 +122,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    }
    
    if (dam <= 0) { // Ran out of momentum.
+    ammo_effects(this, trajectory[i].x, trajectory[i].y, flags);
     if (is_bolt &&
         ((p.weapon.curammo->m1 == WOOD && !one_in(4)) ||
          (p.weapon.curammo->m1 != WOOD && !one_in(15))))
@@ -164,17 +168,18 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     m.shoot(this, tx, ty, dam, i == trajectory.size() - 1, flags);
   } // Done with the trajectory!
 
+  int lastx = trajectory[trajectory.size() - 1].x;
+  int lasty = trajectory[trajectory.size() - 1].y;
+  ammo_effects(this, lastx, lasty, flags);
+
+  if (m.move_cost(lastx, lasty) == 0) {
+   lastx = trajectory[trajectory.size() - 2].x;
+   lasty = trajectory[trajectory.size() - 2].y;
+  }
   if (is_bolt &&
       ((p.weapon.curammo->m1 == WOOD && !one_in(5)) ||
-       (p.weapon.curammo->m1 != WOOD && !one_in(15)))) {
-    int lastx = trajectory[trajectory.size() - 1].x;
-    int lasty = trajectory[trajectory.size() - 1].y;
-    if (m.move_cost(lastx, lasty) == 0) {
-     lastx = trajectory[trajectory.size() - 2].x;
-     lasty = trajectory[trajectory.size() - 2].y;
-    }
+       (p.weapon.curammo->m1 != WOOD && !one_in(15))  ))
     m.add_item(lastx, lasty, ammotmp);
-  }
  }
 
  if (p.weapon.charges == 0)
@@ -514,6 +519,11 @@ int time_to_fire(player &p, it_gun* firing)
    return 20;
   else
    return (220 - 25 * p.sklevel[sk_archery]); break;
+ case sk_launcher:
+  if (p.sklevel[sk_launcher] > 8)
+   return 30;
+  else
+   return (200 - 20 * p.sklevel[sk_launcher]);
  default:
   debugmsg("Why is shooting %s using %s skill?", (firing->name).c_str(),
 		skill_name(firing->skill_used).c_str());
@@ -550,6 +560,8 @@ void make_gun_sound_effect(game *g, player &p, bool burst)
  if (p.weapon.curammo->type == AT_FUSION || p.weapon.curammo->type == AT_BATT ||
      p.weapon.curammo->type == AT_PLUT)
   g->sound(p.posx, p.posy, 8, "Fzzt!");
+ else if (p.weapon.curammo->type == AT_40MM)
+  g->sound(p.posx, p.posy, 8, "Thunk!");
  else if (p.weapon.curammo->type != AT_BOLT && p.weapon.curammo->type != AT_ARROW)
   g->sound(p.posx, p.posy, noise, gunsound);
 }
@@ -771,4 +783,37 @@ void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)
   else
    g->m.add_field(g, tarx, tary, blood, 1);
  }
+}
+
+void ammo_effects(game *g, int x, int y, long flags)
+{
+ if (flags & mfb(IF_AMMO_EXPLOSIVE))
+  g->explosion(x, y, 24, 0, false);
+
+ if (flags & mfb(IF_AMMO_FRAG))
+  g->explosion(x, y, 12, 18, false);
+
+ if (flags & mfb(IF_AMMO_NAPALM))
+  g->explosion(x, y, 18, 0, true);
+
+ if (flags & mfb(IF_AMMO_EXPLOSIVE_BIG))
+  g->explosion(x, y, 40, 0, false);
+
+ if (flags & mfb(IF_AMMO_TEARGAS)) {
+  for (int i = -2; i <= 2; i++) {
+   for (int j = -2; j <= 2; j++)
+    g->m.add_field(g, x + i, y + j, fd_tear_gas, 3);
+  }
+ }
+ 
+ if (flags & mfb(IF_AMMO_SMOKE)) {
+  for (int i = -1; i <= 1; i++) {
+   for (int j = -1; j <= 1; j++)
+    g->m.add_field(g, x + i, y + j, fd_smoke, 3);
+  }
+ }
+
+ if (flags & mfb(IF_AMMO_FLASHBANG))
+  g->flashbang(x, y);
+
 }

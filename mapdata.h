@@ -116,8 +116,8 @@ t_stairs_down, t_stairs_up, t_manhole, t_ladder, t_slope_down, t_slope_up,
  t_rope_up,
 t_manhole_cover,
 // Special
-t_card_reader, t_card_reader_broken, t_slot_machine, t_elevator_control,
- t_elevator_control_off, t_elevator, t_pedestal_wyrm,
+t_card_science, t_card_military, t_card_reader_broken, t_slot_machine,
+ t_elevator_control, t_elevator_control_off, t_elevator, t_pedestal_wyrm,
 num_terrain_types
 };
 
@@ -325,7 +325,9 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(goes_up)},
 {"manhole cover",    '0', c_dkgray,  2,
 	mfb(transparent)},
-{"card reader",	     '6', c_pink,    0,
+{"card reader",	     '6', c_pink,    0,	// Science
+	mfb(noitem)},
+{"card reader",	     '6', c_pink,    0,	// Military
 	mfb(noitem)},
 {"broken card reader",'6',c_ltgray,  0,
 	mfb(noitem)},
@@ -395,8 +397,8 @@ enum field_id {
  fd_acid,
  fd_fire,
  fd_smoke,
- fd_tear_gas,
  fd_toxic_gas,
+ fd_tear_gas,
  fd_nuke_gas,
  fd_electricity,
  fd_fatigue,

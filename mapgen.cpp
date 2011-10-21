@@ -37,6 +37,11 @@ enum room_type {
  room_mine_storage,
  room_mine_fuel,
  room_mine_housing,
+ room_bunker_bots,
+ room_bunker_launcher,
+ room_bunker_rifles,
+ room_bunker_grenades,
+ room_bunker_armor,
  room_split
 };
 
@@ -1996,7 +2001,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    ter(SEEX - 1, 1) = t_door_metal_locked;
    ter(SEEX    , 0) = t_dirt;
    ter(SEEX    , 1) = t_door_metal_locked;
-   ter(SEEX - 2 + rng(0, 1) * 4, 0) = t_card_reader;
+   ter(SEEX - 2 + rng(0, 1) * 4, 0) = t_card_science;
    ter(SEEX - 2, SEEY    ) = t_door_metal_c;
    ter(SEEX + 1, SEEY    ) = t_door_metal_c;
    ter(SEEX - 2, SEEY - 1) = t_door_metal_c;
@@ -2407,6 +2412,82 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   }
   break;
 
+ case ot_bunker:
+  if (t_above == ot_null) {	// We're on ground level
+   for (int i = 0; i < SEEX * 2; i++) {
+    for (int j = 0; j < SEEY * 2; j++)
+     ter(i, j) = grass_or_dirt();
+   }
+   line(this, t_wall_metal_h,  7,  7, 16,  7);
+   line(this, t_wall_metal_h,  8,  8, 15,  8);
+   line(this, t_wall_metal_h,  8, 15, 15, 15);
+   line(this, t_wall_metal_h,  7, 16, 10, 16);
+   line(this, t_wall_metal_h, 14, 16, 16, 16);
+   line(this, t_wall_metal_v,  7,  8,  7, 15);
+   line(this, t_wall_metal_v, 16,  8, 16, 15);
+   line(this, t_wall_metal_v,  8,  9,  8, 14);
+   line(this, t_wall_metal_v, 15,  9, 15, 14);
+   square(this, t_floor, 9, 10, 14, 14);
+   line(this, t_stairs_down,  11,  9, 12,  9);
+   line(this, t_door_metal_locked, 11, 15, 12, 15);
+   for (int i = 9; i <= 13; i += 2) {
+    line(this, t_wall_metal_h,  9, i, 10, i);
+    line(this, t_wall_metal_h, 13, i, 14, i);
+    add_spawn(mon_turret, 1, 9, i + 1);
+    add_spawn(mon_turret, 1, 14, i + 1);
+   }
+   ter(13, 16) = t_card_military;
+
+  } else { // Below ground!
+
+   square(this, t_rock,  0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
+   square(this, t_floor, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2);
+   line(this, t_wall_metal_h,  2,  8,  8,  8);
+   line(this, t_wall_metal_h, 15,  8, 21,  8);
+   line(this, t_wall_metal_h,  2, 15,  8, 15);
+   line(this, t_wall_metal_h, 15, 15, 21, 15);
+   for (int j = 2; j <= 16; j += 7) {
+    ter( 9, j    ) = t_card_military;
+    ter(14, j    ) = t_card_military;
+    ter( 9, j + 1) = t_door_metal_locked;
+    ter(14, j + 1) = t_door_metal_locked;
+    line(this, t_reinforced_glass_v,  9, j + 2,  9, j + 4);
+    line(this, t_reinforced_glass_v, 14, j + 2, 14, j + 4);
+    line(this, t_wall_metal_v,  9, j + 5,  9, j + 6);
+    line(this, t_wall_metal_v, 14, j + 5, 14, j + 6);
+
+// Fill rooms with items!
+    for (int i = 2; i <= 15; i += 13) {
+     items_location goods;
+     int size;
+     switch (rng(1, 14)) {
+      case  1:
+      case  2: goods = mi_bots; size = 75; break;
+      case  3:
+      case  4: goods = mi_launchers; size = 80; break;
+      case  5:
+      case  6: goods = mi_mil_rifles; size = 84; break;
+      case  7:
+      case  8: goods = mi_grenades; size = 86; break;
+      case  9:
+      case 10: goods = mi_mil_armor; size = 82; break;
+      case 11:
+      case 12:
+      case 13: goods = mi_mil_food; size = 88; break;
+      case 14: goods = mi_bionics_mil; size = 70; break;
+     }
+     place_items(goods, size, i, j, i + 6, j + 5, false, 0);
+    }
+   }
+   line(this, t_wall_metal_h, 1, 1, SEEX * 2 - 2, 1);
+   line(this, t_wall_metal_h, 1, SEEY * 2 - 2, SEEX * 2 - 2, SEEY * 2 - 2);
+   line(this, t_wall_metal_v, 1, 2, 1, SEEY * 2 - 3);
+   line(this, t_wall_metal_v, SEEX * 2 - 2, 2, SEEX * 2 - 2, SEEY * 2 - 3);
+   ter(SEEX - 1, 21) = t_stairs_up;
+   ter(SEEX,     21) = t_stairs_up;
+  }
+  break;
+
  case ot_silo:
   if (t_above == ot_null) {	// We're on ground level
    for (int i = 0; i < SEEX * 2; i++) {
@@ -2447,7 +2528,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    ter(lw + 1, tw + 1) = t_stairs_down;
    ter(lw + 2, tw + 1) = t_wall_metal_v;
    ter(mw    , tw + 1) = t_door_metal_locked;
-   ter(mw    , tw + 2) = t_card_reader;
+   ter(mw    , tw + 2) = t_card_military;
 
   } else {	// We are NOT above ground.
    for (int i = 0; i < SEEX * 2; i++) {
@@ -5631,6 +5712,8 @@ void map::add_extra(map_extra type, game *g)
    if (tries < 10) {	// We found a valid spot!
     add_item(x, y, body);
     place_items(mi_military, 86, x, y, x, y, true, 0);
+    if (one_in(8))
+     add_item(x, y, (*itypes)[itm_id_military], 0);
    }
   }
   place_items(mi_rare, 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
@@ -5650,7 +5733,7 @@ void map::add_extra(map_extra type, game *g)
 
    if (tries < 10) {	// We found a valid spot!
     add_item(x, y, body);
-    add_item(x, y, (*itypes)[itm_card_id], 0);
+    add_item(x, y, (*itypes)[itm_id_science], 0);
     place_items(mi_science, 84, x, y, x, y, true, 0);
    }
   }

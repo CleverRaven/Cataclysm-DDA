@@ -205,6 +205,16 @@ bool monster::has_effect(monster_effect_type t)
  return false;
 }
 
+bool monster::can_see()
+{
+ return has_flag(MF_SEES) && !has_effect(ME_BLIND);
+}
+
+bool monster::can_hear()
+{
+ return has_flag(MF_HEARS) && !has_effect(ME_DEAF);
+}
+
 bool monster::made_of(material m)
 {
  if (type->mat == m)

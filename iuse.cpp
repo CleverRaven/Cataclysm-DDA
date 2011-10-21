@@ -1463,7 +1463,26 @@ void iuse::grenade_act(game *g, player *p, item *it, bool t)
  if (t) // Simple timer effects
   g->sound(pos.x, pos.y, 0, "Tick.");	// Vol 0 = only heard if you hold it
  else	// When that timer runs down...
-  g->explosion(pos.x, pos.y, 18, 12, false);
+  g->explosion(pos.x, pos.y, 12, 18, false);
+}
+
+void iuse::flashbang(game *g, player *p, item *it, bool t)
+{
+ g->add_msg("You pull the pin on the flashbang.");
+ it->make(g->itypes[itm_flashbang_act]);
+ it->charges = 5;
+ it->active = true;
+}
+
+void iuse::flashbang_act(game *g, player *p, item *it, bool t)
+{
+ point pos = g->find_item(it);
+ if (pos.x == -999 || pos.y == -999)
+  return;
+ if (t) // Simple timer effects
+  g->sound(pos.x, pos.y, 0, "Tick.");	// Vol 0 = only heard if you hold it
+ else	// When that timer runs down...
+  g->flashbang(pos.x, pos.y);
 }
 
 void iuse::c4(game *g, player *p, item *it, bool t)

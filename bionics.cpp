@@ -6,6 +6,8 @@
 #include "bionics.h"
 #include "line.h"
 
+#define BATTERY_AMOUNT 4 // How much batteries increase your power
+
 void bionics_install_failure(game *g, player *u, int success);
 
 
@@ -419,7 +421,7 @@ bool player::install_bionics(game *g, it_bionic* type)
  wrefresh(w);
 
  if (type->id == itm_bionics_battery) {	// No selection list; just confirm
-  mvwprintz(w,  2, 0, h_ltblue, "Battery Level +10");
+  mvwprintz(w,  2, 0, h_ltblue, "Battery Level +%d", BATTERY_AMOUNT);
   mvwprintz(w, 22, 0, c_ltblue, "\
 Installing this bionic will increase your total battery capacity by 10.\n\
 Batteries are necessary for most bionics to function.  They also require a\n\
@@ -433,7 +435,7 @@ charge mechanism, which must be installed from another CBM.");
    int success = chance_of_success - rng(1, 100);
    if (success > 0) {
     g->add_msg("Successfully installed batteries.");
-    max_power_level += 10;
+    max_power_level += BATTERY_AMOUNT;
    } else
     bionics_install_failure(g, this, success);
    werase(w);

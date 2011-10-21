@@ -31,6 +31,8 @@ std::string skill_name(int sk)
   return "rifles";
  case sk_archery:
   return "archery";
+ case sk_launcher:
+  return "grenade launcher";
  case sk_computer:
   return "computers";
  case sk_mechanics:
@@ -128,6 +130,11 @@ and are not very good in close quarters.";
 Your skill with all kinds of bows, from crossbows to handmade long bows.\n\
 These are quiet, but require some amount of strength to use, and are not\n\
 terribly accurate. They can only be deadly in skilled hands.";
+ case sk_launcher:
+  return "\
+Your skill with grenade launchers, whether standalone or as a rifle mod.\n\
+These launchers fire a variety of 40mm grenades with different uses,\n\
+but they and their rounds are hard to find.";
  case sk_computer:
   return "\
 Your skill with computers, both in terms of legitimate use, and hacking. This\n\

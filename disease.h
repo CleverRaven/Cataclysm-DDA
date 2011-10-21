@@ -69,6 +69,9 @@ void dis_msg(game *g, dis_type type)
  case DI_ASTHMA:
   g->add_msg("You can't breathe... asthma attack!");
   break;
+ case DI_DEAF:
+  g->add_msg("You're deafened!");
+  break;
  case DI_BLIND:
   g->add_msg("You're blinded!");
   break;
@@ -728,6 +731,7 @@ std::string dis_name(disease dis)
  case DI_BOOMERED:	return "Boomered";
  case DI_SPORES:	return "Spores";
  case DI_SLIMED:	return "Slimed";
+ case DI_DEAF:		return "Deaf";
  case DI_BLIND:		return "Blind";
  case DI_POISON:	return "Poisoned";
  case DI_BADPOISON:	return "Badly Poisoned";
@@ -858,6 +862,9 @@ You can feel the tiny spores sinking directly into your flesh.";
 
  case DI_SLIMED:	return "\
 Speed -40%;     Dexterity - 2";
+
+ case DI_DEAF:		return "\
+Sounds will not be reported.  You cannot talk with NPCs.";
 
  case DI_BLIND:		return "\
 Range of Sight: 0";

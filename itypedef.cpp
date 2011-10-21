@@ -399,10 +399,17 @@ FOOD("fruit pie",	20, 80, c_yellow,	VEGGY,  itm_box_small,
     6,  3,  5, 16, 72,  2,  1,  0,  6,  3,	&iuse::none,	ADD_NULL, "\
 A delicious baked pie with a sweet fruit filling.");
 
+//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("pizza",		 8, 80, c_ltred,	VEGGY,	itm_box_small,
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func       addiction type
     8,  4,  0, 18, 48,  0,  0,  0,  8,  6,	&iuse::none,	ADD_NULL, "\
 A vegetarian pizza, with delicious tomato sauce and a fluffy crust.  Its\n\
 smell brings back great memories.");
+
+FOOD("MRE",		10,100, c_green,	FLESH,	itm_null,
+    2,  1,  0, 50,  0,  0,  1,  0,  1, -4,	&iuse::none,	ADD_NULL, "\
+Meal Ready to Eat.  A military ration.  Though not very tasty, it is very\n\
+filling and will not spoil.");
 
 
 
@@ -564,10 +571,16 @@ MELEE("superglue",	30, 18, ',', c_white,	PLASTIC,MNULL,
 	 1,  0, -2,  0, -2, 0, "\
 A tube of strong glue.  Used in many crafting recipes.");
 
-MELEE("ID card",	 2,600, ',', c_pink,	PLASTIC,MNULL,
+MELEE("science ID card", 2,600, ',', c_pink,	PLASTIC,MNULL,
 	 0,  0, -8,  1, -3, 0, "\
 This ID card once belonged to a scientist of some sort.  It has a magnetic\n\
 stripe on the back; perhaps it can be used on a control panel.");
+
+MELEE("military ID card",3,1200,',', c_pink,	PLASTIC,MNULL,
+	 0,  0, -8,  1, -3, 0, "\
+This ID card once belonged to a military officer with high-level clearance.\n\
+It has a magnetic stripe on the back; perhaps it can be used on a control\n\
+panel.");
 
 MELEE("electrohack",	 3,400, ',', c_green,	PLASTIC,STEEL,
 	 2,  2,  5,  0,  1, 0, "\
@@ -1295,12 +1308,20 @@ A shell filled with iron pellets.  Extremely damaging, plus the spread makes\n\
 it very accurate at short range.  Favored by SWAT forces.",
 0);
 
+//  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("shotgun slug",	 6, 900,AT_SHOT,	c_red,		PLASTIC,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
 	 2, 34, 50,  4, 12, 10, 28,  25, "\
 A heavy metal slug used with shotguns to give them the range capabilities of\n\
 a rifle.  Extremely damaging but rather innaccurate.  Works best in a shotgun\n\
 with a rifled barrel.",
 0);
+
+AMMO("explosive slug",   0,1200,AT_SHOT,	c_red,		PLASTIC,
+	 2, 30, 10,  0, 12, 12, 20,   5, "\
+A shotgun slug loaded with concussive explosives.  While the slug itself will\n\
+not do much damage to its target, it will explode on contact.",
+mfb(IF_AMMO_EXPLOSIVE));
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO(".22 LR",		 9, 250,AT_22,		c_ltblue,	STEEL,
@@ -1511,6 +1532,43 @@ In the middle of the 21st Century, military powers began to look towards\n\
 energy based weapons.  The result was the standard fusion pack, capable of\n\
 delivering bolts of superheaed gas at near light speed with no recoil.",
 mfb(IF_AMMO_INCENDIARY));
+
+AMMO("40mm concussive",     10,800,AT_40MM,	c_ltred,	STEEL,
+	  1,200,  5,  0, 20,  8, 15,  4, "\
+A 40mm grenade with a concussive explosion.",
+mfb(IF_AMMO_EXPLOSIVE));
+
+//  NAME		   RAR PRC TYPE		COLOR		MAT
+AMMO("40mm frag",           8, 900,AT_40MM,	c_ltred,	STEEL,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	  1,220,  5,  0, 20,  8, 15,  4, "\
+A 40mm grenade with a small explosion and a high number of damaging fragments.",
+mfb(IF_AMMO_FRAG));
+
+AMMO("40mm incendiary",     6,1000,AT_40MM,	c_ltred,	STEEL,
+	  1,200,  5,  0, 20,  8, 15,  4, "\
+A 40mm grenade with a small napalm load, designed to create a burst of flame.",
+mfb(IF_AMMO_NAPALM));
+
+AMMO("40mm teargas",        5, 900,AT_40MM,	c_ltred,	STEEL,
+	  1,210,  5,  0, 20,  8, 15,  4, "\
+A 40mm grenade with a teargas load.  It will burst in a cloud of highly\n\
+incapacitating gas.",
+mfb(IF_AMMO_TEARGAS));
+
+AMMO("40mm smoke cover",    4, 750,AT_40MM,	c_ltred,	STEEL,
+	  1,210,  5,  0, 20,  8, 15,  6, "\
+A 40mm grenade with a smoke load.  It will burst in a cloud of harmless gas,\n\
+and will also leave a streak of smoke cover in its wake.",
+mfb(IF_AMMO_SMOKE)|mfb(IF_AMMO_TRAIL));
+
+//  NAME		   RAR PRC TYPE		COLOR		MAT
+AMMO("40mm flashbang",      8, 900,AT_40MM,	c_ltred,	STEEL,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	  1,210,  5,  0, 20,  8, 15,  6, "\
+A 40mm grenade with a flashbang load.  It will detonate with a blast of light\n\
+and sound, designed to blind, deafen, and disorient anyone nearby.",
+mfb(IF_AMMO_FLASHBANG));
 
 // FUEL
 // Fuel is just a special type of ammo; liquid
@@ -1964,7 +2022,7 @@ its bolts to be extremely deadly.",
 
 //  NAME		RAR PRC COLOR	 MAT1	MAT2
 GUN("simple flamethrower",1,800,c_pink,	STEEL,	PLASTIC,
-//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
 	sk_shotgun,	AT_GAS, 16,  8,   8, -1, -5,  6,  0,  6,  0, 12, 800, "\
 A simple, home-made flamethrower.  While its capacity is not superb, it is\n\
 more than capable of igniting terrain and monsters alike.",
@@ -1975,6 +2033,35 @@ GUN("flamethrower",	 1,1800,c_pink,	STEEL,	MNULL,
 A large flamethrower with substantial gas reserves.  Very manacing and\n\
 deadly.",
 0);
+
+GUN("tube 40mm launcher",0, 800,c_ltred,STEEL,	WOOD,
+	sk_launcher,	AT_40MM,12, 20, 13, -1,  0, 16,  0,  6, 0,  1, 350, "\
+A simple, home-made grenade launcher.  Basically a tube with a pin firing\n\
+mechanism to activate the grenade.",
+0);
+
+//  NAME		RAR PRC COLOR	 MAT1	MAT2
+GUN("M79 launcher",	 5,2000,c_ltred,STEEL,	WOOD,
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
+	sk_launcher,	AT_40MM,14, 24, 16, -1,  3,  4, -5,  8, 0,  1, 250, "\
+A widely-used grenade launcher which first saw use by American forces in the\n\
+Vietnam war.  Though mostly replaced by more modern launchers, the M79 still\n\
+sees use with many units worldwide.",
+0);
+
+GUN("M320 launcher",	10,4200,c_ltred,STEEL,	MNULL,
+	sk_launcher,	AT_40MM,  5, 13,  6,  0,  0, 12,  5,  9,  0,  1, 150, "\
+Developed by Heckler & Koch, the M320 grenade launcher has the functionality\n\
+of larger launchers in a very small package.  However, its smaller size\n\
+contributes to a lack of accuracy.",
+0);
+
+GUN("Milkor MGL",	 6,5200,c_ltred,STEEL,	MNULL,
+	sk_launcher,	AT_40MM, 24, 45, 13, -1,  0,  5, -2,  8,  2,  6, 300, "\
+The Milkor Multi-Grenade Launcher is designed to compensate for the drawback\n\
+of single-shot grenade launchers by allowing sustained heavy firepower.\n\
+However, it is still slow to reload and must be used with careful planning.",
+mfb(IF_RELOAD_ONE));
 
 // GUN MODS
 // Accuracy is inverted from guns; high values are a bonus, low values a penalty
@@ -2154,6 +2241,13 @@ This is a complete conversion kit, designed to turn a rifle into a deadly\n\
 sniper rifle.  It decreases ammo capacity, and removes any automatic fire\n\
 capabilities, but also increases accuracy and damage."
 );
+
+GUNMOD("M203",		2,650,	c_ltred, STEEL,	MNULL,        2,  1,  2,  0, -1,
+	-2,  0,  0,  0,  0, 0, AT_NULL,		false,	false,	false,	true,
+	0, "\
+The M203 was originally designed for use with M16 variants but today can be\n\
+attached to almost any rifle.  A gun with this attached may be loaded with\n\
+its normal rounds, or with a single 40MM round.");
 
 // BOOKS
 // Try to keep colors consistant among types of books.
@@ -2572,7 +2666,20 @@ TOOL("active grenade",	 0,   0,'*', c_green,	IRON,	PLASTIC,
     1,  1, 10,  0, -1,  5,  5,  0,  1, AT_NULL, itm_null, &iuse::grenade_act,0,
 "This grenade is active, and will explode any second now.  Better throw it!");
 
+TOOL("flashbang",	 3, 380,'*', c_white,	STEEL,	PLASTIC,
+    1,  1,  8,  0, -1,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::flashbang,0,"\
+Use this item to pull the pin, turning it into an active flashbang.  You will\n\
+then have five turns before it detonates with intense light and sound,\n\
+blinding, deafening and disorienting anyone nearby.");
+
+TOOL("active flashbang", 0,   0,'*', c_white,	STEEL,	PLASTIC,
+    1,  1,  8,  0, -1,  5,  5,  0,  1, AT_NULL,	itm_null, &iuse::flashbang_act,
+0,"This flashbang is active, and will soon detonate with intense light and\n\
+sound, blinding, deafening and disorienting anyone nearby.");
+
+//	NAME		RAR VAL	SYM  COLOR	MAT1	MAT
 TOOL("EMP grenade",	 2, 600,'*', c_cyan,	STEEL,	PLASTIC,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
     1,  1,  8,  0, -1,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::EMPbomb,0,"\
 Use this item to pull the pin, turning it into an active EMP grenade.  You\n\
 will then have three turns before it detonates, creating an EMP field which\n\
@@ -2580,7 +2687,7 @@ damages robots and drains bionic energy.");
 
 TOOL("active EMP grenade",0,  0,'*', c_cyan,	STEEL,	PLASTIC,
     1,  1,  8,  0, -1,  3,  3,  0,  1, AT_NULL,	itm_null, &iuse::EMPbomb_act,0,
-"This EMP grenade is active, and wiill shortly detonate, creating a large EMP\n\
+"This EMP grenade is active, and will shortly detonate, creating a large EMP\n\
 field which damages robots and drains bionic energy.");
 
 TOOL("teargas canister",3,  600,'*', c_yellow,	STEEL, MNULL,
@@ -2705,20 +2812,20 @@ TOOL("vortex stone",     2,3000,';',c_pink,	STONE,	MNULL,
 A stone with spirals all over it, and holes around its perimeter.  Though it\n\
 is fairly large, it weighs next to nothing.  Air seems to gather around it.");
 
-TOOL("dog food",         5,  60,'o',c_red,     FLESH,     MNULL,
+TOOL("dog food",         5,  60,';',c_red,     FLESH,     MNULL,
 	1,  2,  0,  0,  -5,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::dogfood, 0, "\
 Food for dogs. It smells strange, but dogs love it.");
 
-TOOL("booby trap",         0,  500,'^',c_ltcyan,     STEEL,	PLASTIC,
+TOOL("booby trap",         0,  500,';',c_ltcyan,     STEEL,	PLASTIC,
 	3,  2,  0,  0,  -4,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap, 0, "\
 A crude explosive device triggered by a piece of string.");
 
-TOOL("C4-Explosive",         5,  6000,'o',c_ltcyan,     PLASTIC,     STEEL,
-	1,  2,  0,  0,  -4,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::c4, 0, "\
+TOOL("C4-Explosive",         5,  6000,';',c_ltcyan,     PLASTIC,     STEEL,
+	6,  2,  0,  0,  -4,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::c4, 0, "\
 Highly explosive, use with caution! Armed with a small timer.");
 
-TOOL("C4-Explosive(armed)",         0,  6000,'o',c_ltcyan,     PLASTIC,     STEEL,
-	1,  2,  0,  0,  -4,  9,  9,  0,  1, AT_NULL, itm_null, &iuse::c4armed, 0, "\
+TOOL("C4-Explosive(armed)",         0,  6000,';',c_ltcyan,     PLASTIC,     STEEL,
+	6,  2,  0,  0,  -4,  9,  9,  0,  1, AT_NULL, itm_null, &iuse::c4armed, 0, "\
 Highly explosive, use with caution. Comes with a small timer.\n\
 It's armed and ticking!");
 
@@ -2892,6 +2999,7 @@ std::string ammo_name(ammotype t)
   case AT_223:	  return ".223";
   case AT_3006:   return ".30-06";
   case AT_308:	  return ".308";
+  case AT_40MM:   return "40mm grenade";
   case AT_GAS:	  return "gasoline";
   case AT_BATT:   return "batteries";
   case AT_PLUT:   return "plutonium";
@@ -2920,6 +3028,7 @@ itype_id default_ammo(ammotype guntype)
  case AT_223:	return itm_223;
  case AT_308:	return itm_308;
  case AT_3006:	return itm_270;
+ case AT_40MM:  return itm_40mm_concussive;
  case AT_BATT:	return itm_battery;
  case AT_FUSION:return itm_laser_pack;
  case AT_PLUT:	return itm_plut_cell;

@@ -23,6 +23,8 @@ enum items_location {
  mi_office, mi_vault,
  mi_chemistry, mi_teleport, mi_goo, mi_cloning_vat, mi_dissection,
  mi_hydro, mi_electronics, mi_monparts, mi_bionics, mi_bionics_common,
+ mi_bots, mi_launchers, mi_mil_rifles, mi_grenades, mi_mil_armor, mi_mil_food,
+  mi_bionics_mil,
  mi_weapons, mi_survival_armor, mi_survival_tools,
  mi_sewage_plant,
  mi_mine_storage, mi_mine_equipment,

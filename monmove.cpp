@@ -93,14 +93,14 @@ void monster::plan(game *g)
   }
   return;
  }
- if (is_fleeing(g->u) && has_flag(MF_SEES) && g->sees_u(posx, posy, tc) &&
+ if (is_fleeing(g->u) && can_see() && g->sees_u(posx, posy, tc) &&
      (!g->u.has_trait(PF_ANIMALEMPATH) || !has_flag(MF_ANIMAL))) {
   wandx = posx * 2 - g->u.posx;
   wandy = posy * 2 - g->u.posy;
   wandf = 40;
  }
 // If we can see, and we can see a character, start moving towards them
- if (!is_fleeing(g->u) && has_flag(MF_SEES)) {
+ if (!is_fleeing(g->u) && can_see()) {
   if (g->sees_u(posx, posy, tc)) {
    dist = rl_dist(posx, posy, g->u.posx, g->u.posy);
    closest = -2;
@@ -533,12 +533,12 @@ bool monster::will_reach(game *g, int x, int y)
      g->scent(x, y) >= g->scent(posx, posy))
   return true;
 
- if (has_flag(MF_HEARS) && wandf > 0 && rl_dist(wandx, wandy, x, y) <= 3 &&
+ if (can_hear() && wandf > 0 && rl_dist(wandx, wandy, x, y) <= 3 &&
      rl_dist(posx, posy, wandx, wandy) <= wandf)
   return true;
 
  int t;
- if (has_flag(MF_SEES) && g->m.sees(posx, posy, x, y, g->light_level(), t))
+ if (can_see() && g->m.sees(posx, posy, x, y, g->light_level(), t))
   return true;
 
  return false;

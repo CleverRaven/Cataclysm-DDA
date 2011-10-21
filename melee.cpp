@@ -538,6 +538,8 @@ int player::dodge()
 //  the dodge skill.
  if (has_disease(DI_SLEEP) || has_disease(DI_LYING_DOWN))
   return 0;
+ if (activity.type != ACT_NULL)
+  return 0;
  practice(sk_dodge, 5);
  int ret = 4 + (dex_cur / 2);
  ret += sklevel[sk_dodge];

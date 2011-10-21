@@ -498,6 +498,9 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
    dam -= (rng(0, 1) * rng(0, 1) * rng(0, 1));
  }
 
+ if (flags & mfb(IF_AMMO_TRAIL) && !one_in(4))
+  add_field(g, x, y, fd_smoke, rng(1, 2));
+
 // Now, destroy items on that tile.
 
  if ((move_cost(x, y) == 2 && !hit_items) || !inbounds(x, y))
@@ -579,7 +582,8 @@ bool map::hit_with_acid(game *g, int x, int y)
   case t_gas_pump_smashed:
    return false;
 
-  case t_card_reader:
+  case t_card_science:
+  case t_card_military:
    ter(x, y) = t_card_reader_broken;
    break;
  }

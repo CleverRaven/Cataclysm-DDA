@@ -16,6 +16,8 @@ ME_NULL = 0,
 ME_BEARTRAP,		// Stuck in beartrap
 ME_ONFIRE,		// Lit aflame
 ME_STUNNED,		// Stumbling briefly
+ME_BLIND,		// Can't use sight
+ME_DEAF,		// Can't use hearing
 NUM_MONSTER_EFFECTS
 };
 
@@ -45,6 +47,8 @@ class monster {
 				// Inverts color if inv==true
  bool has_flag(m_flags f);	// Returns true if f is set (see mtype.h)
  bool has_effect(monster_effect_type t); // True if we have the given effect
+ bool can_see();		// MF_SEES and no ME_BLIND
+ bool can_hear();		// MF_HEARS and no ME_DEAF
  bool made_of(material m);	// Returns true if it's made of m
  void load_info(std::string data, std::vector<mtype*> *mtypes);
  std::string save_info();	// String of all data, for save files

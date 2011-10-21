@@ -190,7 +190,8 @@ void inventory::form_from_map(game *g, point origin, int range)
  for (int x = origin.x - range; x <= origin.x + range; x++) {
   for (int y = origin.y - range; y <= origin.y + range; y++) {
    for (int i = 0; i < g->m.i_at(x, y).size(); i++)
-    add_item(g->m.i_at(x, y)[i]);
+    if (!g->m.i_at(x, y)[i].made_of(LIQUID))
+     add_item(g->m.i_at(x, y)[i]);
 // Kludge for now!
    if (g->m.field_at(x, y).type == fd_fire) {
     item fire(g->itypes[itm_fire], 0);

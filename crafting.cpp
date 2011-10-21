@@ -122,6 +122,18 @@ void game::init_recipes()
   COMP(itm_hose, 2, NULL);
   COMP(itm_bottle_glass, 4, itm_bottle_plastic, 6, NULL);
 
+ RECIPE(itm_launcher_simple, CC_WEAPON, sk_mechanics, sk_gun, 6, 6000);
+  TOOL(itm_hacksaw, -1, NULL);
+  COMP(itm_pipe, 1, NULL);
+  COMP(itm_2x4, 1, NULL);
+  COMP(itm_nail, 1, NULL);
+
+ RECIPE(itm_shot_he, CC_WEAPON, sk_mechanics, sk_gun, 4, 2000);
+  TOOL(itm_screwdriver, -1, NULL);
+  COMP(itm_superglue, 1, NULL);
+  COMP(itm_shot_slug, 4, NULL);
+  COMP(itm_gasoline, 1, NULL);
+
  RECIPE(itm_grenade, CC_WEAPON, sk_mechanics, sk_null, 2, 5000);
   TOOL(itm_screwdriver, -1, NULL);
   COMP(itm_superglue, 1, itm_string_36, 1, NULL);
@@ -411,8 +423,9 @@ void game::init_recipes()
  RECIPE(itm_bionics_battery, CC_ELECTRONIC, sk_electronics, sk_null, 6, 50000);
   TOOL(itm_screwdriver, -1, NULL);
   TOOL(itm_soldering_iron, 20, NULL);
-  COMP(itm_UPS_off, 1, itm_power_supply, 4, NULL);
-  COMP(itm_amplifier, 2, NULL);
+  COMP(itm_UPS_off, 1, itm_power_supply, 6, NULL);
+  COMP(itm_amplifier, 4, NULL);
+  COMP(itm_plut_cell, 1, NULL);
 
  RECIPE(itm_teleporter, CC_ELECTRONIC, sk_electronics, sk_null, 8, 50000);
   TOOL(itm_screwdriver, -1, NULL);
@@ -627,6 +640,7 @@ void game::craft()
  inventory crafting_inv;
  crafting_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
  crafting_inv += u.inv;
+ crafting_inv += u.weapon;
 
  do {
   if (redraw) { // When we switch tabs, redraw the header
@@ -909,6 +923,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
  inventory crafting_inv;
  crafting_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
  crafting_inv += u.inv;
+ crafting_inv += u.weapon;
 
  bool have_tool[5], have_comp[5];
 

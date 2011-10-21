@@ -39,6 +39,7 @@ itm_apple, itm_orange, itm_lemon, itm_chips, itm_pretzels, itm_chocolate,
  itm_can_tuna, itm_can_catfood, itm_honeycomb, itm_royal_jelly, itm_fetus,
  itm_arm, itm_leg, itm_ant_egg, itm_marloss_berry, itm_flour, itm_sugar,
  itm_salt, itm_potato_raw, itm_potato_baked, itm_bread, itm_pie, itm_pizza,
+ itm_mre,
 // Medication
 itm_bandages, itm_1st_aid, itm_vitamins, itm_aspirin, itm_caffeine,
  itm_pills_sleep, itm_iodine, itm_dayquil, itm_nyquil, itm_inhaler, itm_codeine,
@@ -46,8 +47,8 @@ itm_bandages, itm_1st_aid, itm_vitamins, itm_aspirin, itm_caffeine,
  itm_prozac, itm_cig, itm_weed, itm_coke, itm_meth, itm_heroin,
 // Do-nothing / Melee weapons
 itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
- itm_card_id, itm_electrohack, itm_string_6, itm_string_36, itm_rope_6,
- itm_rope_30, itm_chain, itm_processor, itm_RAM, itm_power_supply,
+ itm_id_science, itm_id_military, itm_electrohack, itm_string_6, itm_string_36,
+ itm_rope_6, itm_rope_30, itm_chain, itm_processor, itm_RAM, itm_power_supply,
  itm_amplifier, itm_transponder, itm_receiver, itm_antenna, itm_steel_chunk,
  itm_motor, itm_hose, itm_glass_sheet, itm_manhole_cover, itm_rock, itm_stick,
  itm_broom, itm_mop, itm_screwdriver, itm_wrench, itm_saw, itm_hacksaw,
@@ -88,11 +89,13 @@ itm_backpack, itm_purse, itm_mbag, itm_fanny, itm_holster, itm_bootstrap,
 // Ammunition
 itm_battery, itm_plut_cell, itm_nail, itm_bb, itm_arrow_wood, itm_arrow_cf,
  itm_bolt_wood, itm_bolt_steel, itm_shot_bird, itm_shot_00, itm_shot_slug,
- itm_22_lr, itm_22_cb, itm_22_ratshot, itm_9mm, itm_9mmP, itm_9mmP2,
- itm_38_special, itm_38_super, itm_10mm, itm_40sw, itm_44magnum, itm_45_acp,
- itm_45_jhp, itm_45_super, itm_57mm, itm_46mm, itm_762_m43, itm_762_m87,
- itm_223, itm_556, itm_556_incendiary, itm_270, itm_3006, itm_3006_incendiary,
- itm_308, itm_762_51, itm_762_51_incendiary, itm_laser_pack, itm_gasoline,
+ itm_shot_he, itm_22_lr, itm_22_cb, itm_22_ratshot, itm_9mm, itm_9mmP,
+ itm_9mmP2, itm_38_special, itm_38_super, itm_10mm, itm_40sw, itm_44magnum,
+ itm_45_acp, itm_45_jhp, itm_45_super, itm_57mm, itm_46mm, itm_762_m43,
+ itm_762_m87, itm_223, itm_556, itm_556_incendiary, itm_270, itm_3006,
+ itm_3006_incendiary, itm_308, itm_762_51, itm_762_51_incendiary,
+ itm_laser_pack, itm_40mm_concussive, itm_40mm_frag, itm_40mm_incendiary,
+ itm_40mm_teargas, itm_40mm_smoke, itm_40mm_flashbang, itm_gasoline,
 // Guns
 itm_nailgun, itm_bbgun, itm_crossbow, itm_compbow, itm_longbow, itm_rifle_22,
  itm_rifle_9mm, itm_smg_9mm, itm_smg_45, itm_sig_mosquito, itm_sw_22,
@@ -105,12 +108,13 @@ itm_nailgun, itm_bbgun, itm_crossbow, itm_compbow, itm_longbow, itm_rifle_22,
  itm_remington_700, itm_sks, itm_ruger_mini, itm_savage_111f, itm_hk_g3,
  itm_hk_g36, itm_ak47, itm_fn_fal, itm_acr, itm_ar15, itm_m4a1, itm_scar_l,
  itm_scar_h, itm_steyr_aug, itm_m249, itm_v29, itm_ftk93,
- itm_flamethrower_simple, itm_flamethrower,
+ itm_flamethrower_simple, itm_flamethrower, itm_launcher_simple, itm_m79,
+ itm_m320, itm_mgl,
 // Gun modifications
 itm_silencer, itm_grip, itm_barrel_big, itm_barrel_small, itm_barrel_rifled,
  itm_clip, itm_clip2, itm_stablizer, itm_blowback, itm_autofire, itm_retool_45,
  itm_retool_9mm, itm_retool_22, itm_retool_57, itm_retool_46, itm_retool_308,
- itm_retool_223, itm_conversion_battle, itm_conversion_sniper,
+ itm_retool_223, itm_conversion_battle, itm_conversion_sniper, itm_m203,
 // Books
 itm_mag_porn, itm_mag_tv, itm_mag_news, itm_mag_cars, itm_mag_cooking,
  itm_mag_guns, itm_novel_romance, itm_novel_spy, itm_novel_scifi,
@@ -131,8 +135,9 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_bubblewrap, itm_beartrap, itm_board_trap, itm_tripwire, itm_crossbow_trap,
  itm_shotgun_trap, itm_blade_trap, itm_landmine, itm_geiger_off, itm_geiger_on,
  itm_teleporter, itm_canister_goo, itm_pipebomb, itm_pipebomb_act, itm_grenade,
- itm_grenade_act, itm_EMPbomb, itm_EMPbomb_act, itm_gasbomb, itm_gasbomb_act,
- itm_smokebomb, itm_smokebomb_act, itm_molotov, itm_molotov_lit, itm_dynamite,
+ itm_grenade_act, itm_flashbang, itm_flashbang_act, itm_EMPbomb,
+ itm_EMPbomb_act, itm_gasbomb, itm_gasbomb_act, itm_smokebomb,
+ itm_smokebomb_act, itm_molotov, itm_molotov_lit, itm_dynamite,
  itm_dynamite_act, itm_mininuke, itm_mininuke_act, itm_pheromone, itm_portal,
  itm_bot_manhack, itm_bot_turret, itm_UPS_off, itm_UPS_on, itm_tazer, itm_mp3,
  itm_mp3_on, itm_vortex_stone, itm_dogfood, itm_boobytrap, itm_c4,  itm_c4armed,
@@ -169,6 +174,7 @@ AT_SHOT,
 AT_22, AT_9MM, AT_38, AT_40, AT_44, AT_45,
 AT_57, AT_46,
 AT_762, AT_223, AT_3006, AT_308,
+AT_40MM,
 AT_GAS,
 AT_FUSION,
 NUM_AMMO_TYPES
@@ -195,8 +201,10 @@ IF_AMMO_EXPLOSIVE, // Small explosion
 IF_AMMO_FRAG,	// Frag explosion
 IF_AMMO_NAPALM,	// Firey explosion
 IF_AMMO_EXPLOSIVE_BIG, // Big explosion!
-IF_AMMO_SCENT,	// Scent burst
+IF_AMMO_TEARGAS,// Teargas burst
+IF_AMMO_SMOKE,  // Smoke burst
 IF_AMMO_TRAIL,	// Leaves a trail of smoke
+IF_AMMO_FLASHBANG, // Disorients and blinds
 NUM_ITEM_FLAGS
 };
 
