@@ -526,6 +526,9 @@ void monster::stumble(game *g, bool moved)
  */
 bool monster::will_reach(game *g, int x, int y)
 {
+ if (has_flag(MF_IMMOBILE) && (posx != x || posy != y))
+  return false;
+
  if (has_flag(MF_SMELLS) && g->scent(posx, posy) > 0 &&
      g->scent(x, y) >= g->scent(posx, posy))
   return true;
