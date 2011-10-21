@@ -1017,7 +1017,7 @@ void game::get_input()
 		 add_msg("Auto run mode ON");
 		 autorunmode = true;
 	 }
- } else if (ch == ' '){
+ } else if (ch == '\''){
 	 if(run_mode == 2){
 		 add_msg("Ignoring enemy!");
 		 run_mode = 1;
