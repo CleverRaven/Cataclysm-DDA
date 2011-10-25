@@ -568,8 +568,9 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    }
    for (int x1 = x - 3; x1 <= x + 3; x1++) {
     for (int y1 = y - 3; y1 <= y + 3; y1++) {
-     ter(x1, y1) = t_dirt;
      field_at(x1, y1) = field(fd_web, rng(2, 3), 0);
+     if (ter(x1, y1) != t_slope_down)
+      ter(x1, y1) = t_dirt;
     }
    }
   }
@@ -3667,6 +3668,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      ter(i, j) = t_rock;
    }
   }
+  ter(rng(3, SEEX * 2 - 4), rng(3, SEEY * 2 - 4)) = t_slope_up;
   place_items(mi_spider, 85, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, 0);
   add_spawn(mon_spider_trapdoor, 1, rng(3, SEEX * 2 - 5), rng(3, SEEY * 2 - 4));
   break;
