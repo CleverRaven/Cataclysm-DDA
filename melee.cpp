@@ -557,6 +557,9 @@ bool player::scored_crit()
   best_skill = sklevel[sk_bashing];
  if (weapon.is_cutting_weapon() && sklevel[sk_cutting] > best_skill)
   best_skill = sklevel[sk_cutting];
+ if ((weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)) &&
+     sklevel[sk_stabbing] > best_skill)
+  best_skill = sklevel[sk_stabbing];
  if (unarmed_attack() && sklevel[sk_unarmed] > best_skill)
   best_skill = sklevel[sk_unarmed];
 
