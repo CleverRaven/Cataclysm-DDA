@@ -344,7 +344,7 @@ void inventory::use_amount(itype_id it, int quantity, bool use_container)
      i--;
      j = 0;
     }
-   } else if (items[i][j].type->id == it) {
+   } else if (items[i][j].type->id == it && quantity > 0) {
     quantity--;
     items[i].erase(items[i].begin() + j);
     j--;
@@ -365,7 +365,7 @@ void inventory::use_charges(itype_id it, int quantity)
 // First, check contents
    for (int k = 0; k < items[i][j].contents.size() && quantity > 0; k++) {
     if (items[i][j].contents[k].type->id == it) {
-     if (items[i][j].contents[k].charges < quantity) {
+     if (items[i][j].contents[k].charges <= quantity) {
       quantity -= items[i][j].contents[k].charges;
       if (items[i][j].contents[k].destroyed_at_zero_charges()) {
        items[i][j].contents.erase(items[i][j].contents.begin() + k);
@@ -380,7 +380,7 @@ void inventory::use_charges(itype_id it, int quantity)
    }
 // Now check the item itself
    if (items[i][j].type->id == it) {
-    if (items[i][j].charges < quantity) {
+    if (items[i][j].charges <= quantity) {
      quantity -= items[i][j].charges;
      if (items[i][j].destroyed_at_zero_charges()) {
       items[i].erase(items[i].begin() + j);
@@ -397,7 +397,6 @@ void inventory::use_charges(itype_id it, int quantity)
      return;
     }
    }
-
   }
  }
 }

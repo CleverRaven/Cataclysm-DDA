@@ -55,33 +55,39 @@ void game::init_construction()
                                      &construct::done_nothing);
   STAGE(t_window_empty, 5);
 
+ CONSTRUCT("Remove Window Pane",  1, &construct::able_window_pane,
+                                     &construct::done_window_pane);
+  STAGE(t_window_empty, 10);
+   TOOL(itm_hammer, itm_rock, itm_hatchet, NULL);
+   TOOL(itm_screwdriver, itm_knife_butter, NULL);
+
  CONSTRUCT("Repair Door", 1, &construct::able_door_broken,
                              &construct::done_nothing);
   STAGE(t_door_c, 10);
-   TOOL(itm_hammer, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 3, NULL);
    COMP(itm_nail, 12, NULL);
 
  CONSTRUCT("Board Up Door", 0, &construct::able_door, &construct::done_nothing);
   STAGE(t_door_boarded, 8);
-   TOOL(itm_hammer, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 4, NULL);
    COMP(itm_nail, 8, NULL);
 
  CONSTRUCT("Board Up Window", 0, &construct::able_window,
                                  &construct::done_nothing);
   STAGE(t_window_boarded, 5);
-   TOOL(itm_hammer, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 4, NULL);
    COMP(itm_nail, 8, NULL);
 
  CONSTRUCT("Build Wall", 2, &construct::able_empty, &construct::done_nothing);
   STAGE(t_wall_half, 10);
-   TOOL(itm_hammer, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 10, NULL);
    COMP(itm_nail, 20, NULL);
   STAGE(t_wall_wood, 10);
-   TOOL(itm_hammer, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 10, NULL);
    COMP(itm_nail, 20, NULL);
 
@@ -97,25 +103,25 @@ void game::init_construction()
   STAGE(t_door_frame, 15);
    TOOL(itm_saw, NULL);
   STAGE(t_door_b, 15);
-   TOOL(itm_hammer, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 4, NULL);
    COMP(itm_nail, 12, NULL);
   STAGE(t_door_c, 15);
-   TOOL(itm_hammer, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 4, NULL);
    COMP(itm_nail, 12, NULL);
 
 /*  Removed until we have some way of auto-aligning fences!
  CONSTRUCT("Build Fence", 1, 15, &construct::able_empty);
   STAGE(t_fence_h, 10);
-   TOOL(itm_hammer, NULL);
+   TOOL(itm_hammer, itm_hatchet, NULL);
    COMP(itm_2x4, 5, itm_nail, 8, NULL);
 */
 
  CONSTRUCT("Build Roof", 4, &construct::able_between_walls,
                             &construct::done_nothing);
   STAGE(t_floor, 40);
-   TOOL(itm_hammer, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 8, NULL);
    COMP(itm_nail, 40, NULL);
 
@@ -187,10 +193,10 @@ void game::construction_menu()
     bool has_tool[3] = {stage.tools[0].empty(),
                         stage.tools[1].empty(),
                         stage.tools[2].empty()};
-    for (int i = 0; i < 3; i++) {
-     while (has_tool[i])
-      i++;
-     for (int j = 0; j < stage.tools[i].size() && i < 3; j++) {
+    for (int i = 0; i < 3 && !has_tool[i]; i++) {
+     posy++;
+     posx = 33;
+     for (int j = 0; j < stage.tools[i].size(); j++) {
       itype_id tool = stage.tools[i][j];
       nc_color col = c_red;
       if (total_inv.has_amount(tool, 1)) {
@@ -587,6 +593,11 @@ bool construct::able_window(game *g, point p)
          g->m.ter(p.x, p.y) == t_window);
 }
 
+bool construct::able_window_pane(game *g, point p)
+{
+ return (g->m.ter(p.x, p.y) == t_window);
+}
+
 bool construct::able_broken_window(game *g, point p)
 {
  return (g->m.ter(p.x, p.y) == t_window_frame);
@@ -672,4 +683,9 @@ void construct::done_fill_pit(game *g, point p)
 {
  if (g->m.tr_at(p.x, p.y) == tr_pit)
   g->m.tr_at(p.x, p.y) = tr_null;
+}
+
+void construct::done_window_pane(game *g, point p)
+{
+ g->m.add_item(g->u.posx, g->u.posy, g->itypes[itm_glass_sheet], 0);
 }

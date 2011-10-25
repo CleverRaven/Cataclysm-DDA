@@ -302,8 +302,12 @@ bool monster::is_fleeing(player &u)
 int monster::hit(player &p, body_part &bp_hit)
 {
  int numdice = type->melee_skill;
- if (dice(numdice, 10) <= dice(p.dodge(), 10))
+ if (dice(numdice, 10) <= dice(p.dodge(), 10)) {
+  if (numdice < p.sklevel[sk_dodge])
+   p.practice(sk_dodge, 5);
   return 0;	// We missed!
+ }
+ p.practice(sk_dodge, 2);
  int ret = 0;
  int highest_hit;
  switch (type->size) {

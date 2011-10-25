@@ -37,6 +37,7 @@ struct construct // Construction functions.
  bool able_never (game *, point) { return false; }
  bool able_empty (game *, point); // Able if tile is empty
  bool able_window(game *, point); // Any window tile
+ bool able_window_pane(game *, point); // Only intact windows
  bool able_broken_window(game *, point); // Able if tile is broken window
  bool able_door(game *, point); // Any door tile
  bool able_door_broken(game *, point); // Broken door
@@ -50,5 +51,6 @@ struct construct // Construction functions.
  void done_nothing(game *, point) { }
  void done_pit(game *, point);
  void done_fill_pit(game *, point);
+ void done_window_pane(game *, point);
 
 };

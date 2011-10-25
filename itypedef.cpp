@@ -143,6 +143,15 @@ DRINK("purifier",	12,16000,c_pink,  itm_bottle_glass,
 A rare stem-cell treatment, which causes mutations and other genetic defects\n\
 to fade away.");
 
+DRINK("tea",		1, 50,	c_green, itm_bottle_plastic,
+//	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
+	40,  3,  0,  0,  0,  0,  1, 6,&iuse::none,	ADD_NULL, "\
+Tea, the beverage of gentlemen everywhere.");
+
+DRINK("coffee",		1, 50,	c_brown, itm_bottle_plastic,
+//	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
+	40,  3,  0,  12,  0,  0,  1, 6,&iuse::caff,	ADD_CAFFEINE, "\
+Coffee. The morning ritual of the pre-apocalypse world.");
 
 #define FOOD(name,rarity,price,color,mat1,container,volume,weight,quench,\
 nutr,spoils,stim,healthy,addict,charges,fun,use_func,addict_func,des) \
@@ -406,12 +415,20 @@ FOOD("pizza",		 8, 80, c_ltred,	VEGGY,	itm_box_small,
 A vegetarian pizza, with delicious tomato sauce and a fluffy crust.  Its\n\
 smell brings back great memories.");
 
-FOOD("MRE",		10,100, c_green,	FLESH,	itm_null,
+FOOD("MRE",		50,100, c_green,	FLESH,	itm_null,
     2,  1,  0, 50,  0,  0,  1,  0,  1, -4,	&iuse::none,	ADD_NULL, "\
 Meal Ready to Eat.  A military ration.  Though not very tasty, it is very\n\
 filling and will not spoil.");
 
+FOOD("tea leaves",	55, 13,	c_green,	VEGGY,	itm_bag_plastic,
+    2,  1, 0,  2,  0,  0,  0,  0,  5, -1,	&iuse::none, ADD_NULL, "\
+Dried leaves of a tropical plant. You cam boil them into tea, or you\n\
+can just eat them raw. They aren't too filling though.");
 
+FOOD("coffee powder",	55, 13,	c_brown,	VEGGY,	itm_bag_plastic,
+    2,  1, 0,  0,  0,  8,  0,  0,  4, -5,	&iuse::caff, ADD_CAFFEINE, "\
+Ground coffee beans. You can boil it into a mediocre stimulant,\n\
+or swallow it raw for a lesser stimulative boost.");
 
 // MEDS
 #define MED(name,rarity,price,color,tool,mat,stim,healthy,addict,\
@@ -530,6 +547,10 @@ MED("heroin",		 1,600,	c_brown,	itm_syringe,
 	POWDER, -10, -3, 60,  4, 45,&iuse::pkill_4,	ADD_PKILLER, "\
 A very strong illegal opiate.  Unless you have an opiate tolerance, avoid\n\
 heroin, as it will be too strong for you.");
+
+MED("cigars",		 5,120,	c_dkgray,	itm_lighter,
+	VEGGY,    1, -1, 40, 10, 15,&iuse::cig,		ADD_CIG, "\
+A gentleman's vice. Cigars are what separates a gentleman from a savage.");
 
 // MELEE WEAPONS
 // Only use secondary material if it will have a major impact.
@@ -798,7 +819,9 @@ MELEE("wood spear",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
 	 5,  3,  4, 18,  1, mfb(IF_SPEAR), "\
 A simple wood pole with one end sharpened.");
 
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("steel spear",      5,  140,'/', c_ltred,   WOOD,   STEEL,
+//	VOL WGT DAM CUT HIT FLAGS
          6,  6,  2, 28,  1, mfb(IF_SPEAR), "\
 A simple wood pole made deadlier by the knife tied to it.");
 
@@ -846,6 +869,18 @@ MELEE("spiral stone",   20, 200,'*', c_pink,	STONE,	MNULL,
 A rock the size of your fist.  It is covered with intricate spirals; it is\n\
 impossible to tell whether they are carved, naturally formed, or some kind of\n\
 fossil.");
+
+MELEE("rapier",		 3, 980,'/', c_ltblue,	STEEL,	MNULL,
+	 8, 10, 5, 20,  2, mfb(IF_STAB), "\
+Preferred weapon of gentlemen and swashbucklers. Light and quick, it makes\n\
+any battle a stylish battle.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+MELEE("walking cane",   10, 160,'/', c_ltred,	WOOD,	MNULL,
+//	VOL WGT DAM CUT HIT FLAGS
+	  8,  7, 10,  0,  2, 0, "\
+Handicapped or not, you always walk in stile.  Consisting of a metal\n\
+headpiece and a wooden body, this makes a great bashing weapon in a pinch.");
 
 // ARMOR
 #define ARMOR(name,rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
@@ -932,6 +967,11 @@ A long cotton dress.  Difficult to move in and lacks any storage space.");
 ARMOR("chitinous armor", 1,1200,C_BODY,		FLESH,		MNULL,
    90, 10,  2, -5,  2,  8, 14,  0,  1,  0,	mfb(bp_legs)|mfb(bp_torso), "\
 Leg and body armor made from the exoskeletons of insects.  Light and durable.");
+
+ARMOR("suit",		60, 180,C_BODY,		COTTON,		MNULL,
+   10,  7, -5, -5,  1,  0,  1,  0,  2,  10,	mfb(bp_legs)|mfb(bp_torso), "\
+A full-body cotton suit. Makes the apocalypse a truly gentlemanly\n\
+experience.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("t shirt",	80,  80,C_TORSO,	COTTON,		MNULL,
@@ -1128,8 +1168,12 @@ ARMOR("light amp goggles",1,920,C_EYES,		STEEL,		GLASS,
     3,  6,  1, -2,  2,  2,  3,  6,  2,  0,	mfb(bp_eyes), "\
 A pair of goggles that amplify ambient light, allowing you to see in the\n\
 dark.  You must be carrying a powered-on unified power supply, or UPS, to use\n\
-them."
-);
+them.");
+
+ARMOR("monocle",	 2, 200,C_EYES,		GLASS,		PLASTIC,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    1,  0, -3, -2,  0,  0,  1,  1,  0,  0,	mfb(bp_eyes), "\
+An essential article of the gentleman's apparel. Also negates near-sight.");
 
 // Headwear encumberment should ONLY be 0 if it's ok to wear with another
 // Headwear environmental protection (ENV) drops through to eyes
@@ -1203,8 +1247,13 @@ ARMOR("chitinous helmet", 1, 380,C_HAT,		FLESH,		MNULL,
 A helmet made from the exoskeletons of insects.  Covers the entire head; very\n\
 light and durable.");
 
+ARMOR("top hat",	10,  55,C_HAT,		PLASTIC,	MNULL,
+    2,  1, -5,  0,  0,  0,  1,  1,  1,  0,	mfb(bp_head), "\
+The only hat for a gentleman. Look exquisite while laughing in the face\n\
+of danger!");
+
 ARMOR("backpack",	38, 210,C_STORE,	PLASTIC,	MNULL,
-   14,  2, -4,  0,  2,  0,  0,  0,  0, 80,	mfb(bp_torso), "\
+   14,  2, -4,  0,  3,  0,  0,  0,  0, 80,	mfb(bp_torso), "\
 Provides more storage than any other piece of clothing.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
@@ -1333,14 +1382,14 @@ and low noise are offset by its paltry damage.",
 0);
 
 AMMO(".22 CB",		 8, 180,AT_22,		c_ltblue,	STEEL,
-	 2,  2,  7,  0, 10, 16,  4, 100, "\
+	 2,  2,  5,  0, 10, 16,  4, 100, "\
 Conical Ball .22 is a variety of .22 ammunition with a very small propellant\n\
 charge, generally with no gunpowder, resulting in a subsonic round.  It is\n\
 nearly silent, but is so weak as to be nearly useless.",
 0);
 
 AMMO(".22 rat-shot",	 2, 230,AT_22,		c_ltblue,	STEEL,
-	 2,  2,  5,  0,  3,  2,  4, 100, "\
+	 2,  2,  4,  0,  3,  2,  4, 100, "\
 Rat-shot is extremely weak ammunition, designed for killing rats, snakes, or\n\
 other small vermin while being unable to damage walls.  It has an extremely\n\
 short range and is unable to injure all but the smallest creatures.",
@@ -2802,7 +2851,7 @@ Fortunately, there's lots of songs you like, and listening to it will raise\n\
 your morale slightly.  Use it to turn it on.");
 
 TOOL("mp3 player (on)",	 0, 800,';',c_ltblue,	IRON,	PLASTIC,
-    1,  1,  0,  0,  0, 100,100, 0,  1, AT_BATT, itm_mp3, &iuse::mp3_on,0,"\
+    1,  1,  0,  0,  0, 100,100, 0, 10, AT_BATT, itm_mp3, &iuse::mp3_on,0,"\
 This mp3 player is turned on and playing some great tunes, raising your\n\
 morale steadily while on your person.  It runs through batteries quickly; you\n\
 can turn it off by using it.  It also obscures your hearing.");

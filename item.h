@@ -27,6 +27,7 @@ public:
  nc_color color(player *u);
  std::string tname(game *g = NULL); // g needed for rotten-test
  void use(player &u);
+ bool burn(int amount = 1); // Returns true if destroyed
 
 // Firearm specifics
  int reload_time(player &u);
@@ -106,6 +107,7 @@ public:
  int charges;
  bool active;           // If true, it has active effects to be processed
  signed char damage;    // How much damage it's sustained; generally, max is 5
+ char burnt;		// How badly we're burnt
  unsigned int bday;     // The turn on which it was created
  bool owned;            // If true, NPCs will shout at you for picking it up
 

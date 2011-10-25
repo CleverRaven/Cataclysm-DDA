@@ -163,7 +163,8 @@ void mattack::resurrect(game *g, monster *z)
   for (int y = z->posy - 4; y <= z->posy + 4; y++) {
    if (g->is_empty(x, y) && g->m.sees(z->posx, z->posy, x, y, -1, junk)) {
     for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
-     if (g->m.i_at(x, y)[i].type->id == itm_corpse)
+     if (g->m.i_at(x, y)[i].type->id == itm_corpse &&
+         g->m.i_at(x, y)[i].corpse->sym == 'Z')
       corpses.push_back(point(x, y));
     }
    }

@@ -75,6 +75,10 @@ void game::wish()
       search_results.push_back(i);
      }
     }
+    if (search_results.size() > 0) {
+     shift = search_results[0];
+     a = 0;
+    }
    }
 
   } else {	// Not searching; scroll by keys

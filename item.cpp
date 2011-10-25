@@ -16,6 +16,7 @@ item::item()
  bday = 0;
  invlet = 0;
  damage = 0;
+ burnt = 0;
  type = NULL;
  curammo = NULL;
  corpse = NULL;
@@ -32,6 +33,7 @@ item::item(itype* it, unsigned int turn)
  name = "";
  invlet = 0;
  damage = 0;
+ burnt = 0;
  active = false;
  curammo = NULL;
  corpse = NULL;
@@ -67,6 +69,7 @@ item::item(itype *it, unsigned int turn, char let)
  bday = turn;
  name = "";
  damage = 0;
+ burnt = 0;
  active = false;
  if (it->is_gun()) {
   charges = 0;
@@ -102,6 +105,7 @@ void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
  charges = -1;
  invlet = 0;
  damage = 0;
+ burnt = 0;
  curammo = NULL;
  active = false;
  type = it;
@@ -181,7 +185,8 @@ std::string item::save_info()
   ammotmp = 0; // Saves us from some bugs
  std::stringstream dump;// (std::stringstream::in | std::stringstream::out);
  dump << " " << int(invlet) << " " << int(type->id) << " " <<  int(charges) <<
-         " " << int(damage) << " " << ammotmp << " " << int(bday);
+         " " << int(damage) << " " << int(burnt) << " " << ammotmp << " " <<
+         int(bday);
  if (active)
   dump << " 1";
  else
@@ -208,9 +213,9 @@ void item::load_info(std::string data, game *g)
 {
  std::stringstream dump;
  dump << data;
- int idtmp, ammotmp, lettmp, damtmp, acttmp, owntmp, corp;
- dump >> lettmp >> idtmp >> charges >> damtmp >> ammotmp >> bday >> acttmp >>
-         owntmp >> corp >> mission_id >> player_id;
+ int idtmp, ammotmp, lettmp, damtmp, burntmp, acttmp, owntmp, corp;
+ dump >> lettmp >> idtmp >> charges >> damtmp >> burntmp >> ammotmp >> bday >>
+         acttmp >> owntmp >> corp >> mission_id >> player_id;
  if (corp != -1)
   corpse = g->mtypes[corp];
  else
@@ -229,6 +234,7 @@ void item::load_info(std::string data, game *g)
  make(g->itypes[idtmp]);
  invlet = char(lettmp);
  damage = damtmp;
+ burnt = burntmp;
  active = false;
  if (acttmp == 1)
   active = true;
@@ -505,6 +511,11 @@ std::string item::tname(game *g)
   }
   ret << damtext;
  }
+
+ if (volume() >= 4 && burnt >= volume() * 2)
+  ret << "badly burnt ";
+ else if (burnt > 0)
+  ret << "burnt ";
 
  if (type->id == itm_corpse) {
   ret << corpse->name << " corpse";
@@ -1098,8 +1109,14 @@ bool item::reload(player &u, int index)
 // If the gun is currently loaded with a different type of ammo, reloading fails
   if (is_gun() && charges > 0 && curammo->id != u.inv[index].type->id)
    return false;
-  if (is_gun())
+  if (is_gun()) {
+   if (!u.inv[index].is_ammo()) {
+    debugmsg("Tried to reload %s with %s!", tname().c_str(),
+             u.inv[index].tname().c_str());
+    return false;
+   }
    curammo = dynamic_cast<it_ammo*>((u.inv[index].type));
+  }
   if (single_load) {	// Only insert one cartridge!
    charges++;
    u.inv[index].charges--;
@@ -1124,6 +1141,12 @@ void item::use(player &u)
 {
  if (charges > 0)
   charges--;
+}
+
+bool item::burn(int amount)
+{
+ burnt += amount;
+ return (burnt >= volume() * 3);
 }
 
 bool is_flammable(material m)

@@ -811,6 +811,7 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
 {
  int total_space = me->volume_capacity() - 2;
  std::vector<item> ret;
+ ret.push_back( item(g->itypes[itm_lighter], 0) );
  itype_id tmp;
 
 // First, if we're wielding a gun, get some ammo for it
@@ -1366,7 +1367,7 @@ void npc::init_buying(inventory you, std::vector<int> &indices,
 
 int npc::minimum_item_value()
 {
- int ret = 10;
+ int ret = 20;
  ret -= personality.collector;
  return ret;
 }
@@ -1552,7 +1553,7 @@ int npc::danger_assessment(game *g)
 
 bool npc::bravery_check(int diff)
 {
- return (dice(10 + personality.bravery, 8) >= dice(diff, 4));
+ return (dice(10 + personality.bravery, 6) >= dice(diff, 4));
 }
 
 bool npc::emergency(int danger)

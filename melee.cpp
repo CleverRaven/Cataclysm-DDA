@@ -118,7 +118,7 @@ int player::hit_mon(game *g, monster *z)
   return 0;
  }
 // For very high hit rolls, we crit!
- bool critical_hit = (hit_roll() >= 50 + 10 * z->dodge_roll());
+ bool critical_hit = scored_crit();
  int dam = base_damage(true);
  int cutting_penalty = 0; // Moves lost from getting a cutting weapon stuck
 
@@ -139,10 +139,10 @@ int player::hit_mon(game *g, monster *z)
     z_armor = 0;
    dam += 10 - z_armor;
   }
- } else if (rng(1, 45 - dex_cur) < 2 * sklevel[sk_unarmed] &&
-            rng(1, 65 - dex_cur) < 2 * sklevel[sk_unarmed]   ) {
-// If we're not unarmed, there's still a possibility of getting in a bonus
-// unarmed attack.
+ }
+ if (rng(1, 45 - dex_cur) < 2 * sklevel[sk_unarmed] &&
+     rng(1, 65 - dex_cur) < 2 * sklevel[sk_unarmed]   ) {
+// Bonus unarmed attack!
   if (is_u || can_see) {
    switch (rng(1, 4)) {
     case 1: g->add_msg("%s kick%s the %s!", You.c_str(), (is_u ? "" : "s"),
@@ -166,10 +166,10 @@ int player::hit_mon(game *g, monster *z)
  if (bash_dam > bash_cap)// Cap for weak characters
   bash_dam = (bash_cap * 3 + bash_dam) / 4;
  if (bashing)
-  bash_dam += rng(0, sklevel[sk_bashing]) * sqrt(str_cur);
+  bash_dam += rng(0, sklevel[sk_bashing] + sqrt(str_cur));
  int bash_min = bash_dam / 4;
- if (bash_min < sklevel[sk_bashing] * 4)
-  bash_min = sklevel[sk_bashing] * 4;
+ if (bash_min < sklevel[sk_bashing] )
+  bash_min = sklevel[sk_bashing];
  dam += rng(bash_min, bash_dam);
 // Take some moves away from the target; at this point it's skill & bash damage
  z->moves -= rng(0, dam * 2);
@@ -530,7 +530,50 @@ bool player::hit_player(player &p, body_part &bp, int &hitdam, int &hitcut)
  return true;
 }
 
+bool player::scored_crit()
+{
+ bool to_hit_crit = false, dex_crit = false, skill_crit = false;
 
+ if (weapon.type->m_to_hit >= 0) {
+  for (int i = 0; i <= weapon.type->m_to_hit && !to_hit_crit; i++)
+   to_hit_crit = one_in(3);
+ } else {
+  to_hit_crit = true;
+  for (int i = 0; i >= weapon.type->m_to_hit && to_hit_crit; i--)
+   to_hit_crit = !one_in(2);
+ }
+
+ if (dex_cur >= 8) {
+  for (int i = 8; i <= dex_cur && !dex_crit; i++)
+   dex_crit = one_in(3);
+ } else {
+  dex_crit = true;
+  for (int i = 8; i >= dex_cur && dex_crit; i--)
+   dex_crit = !one_in(2);
+ }
+
+ int best_skill = 0;
+ if (weapon.is_bashing_weapon() && sklevel[sk_bashing] > best_skill)
+  best_skill = sklevel[sk_bashing];
+ if (weapon.is_cutting_weapon() && sklevel[sk_cutting] > best_skill)
+  best_skill = sklevel[sk_cutting];
+ if (unarmed_attack() && sklevel[sk_unarmed] > best_skill)
+  best_skill = sklevel[sk_unarmed];
+
+ best_skill += int(sklevel[sk_melee] / 2.5);
+
+ if (best_skill >= 3) {
+  for (int i = 3; i <= best_skill && !skill_crit; i++)
+   skill_crit = one_in(3);
+ } else {
+  skill_crit = true;
+  for (int i = 3; i >= best_skill && skill_crit; i--)
+   skill_crit = !one_in(2);
+ }
+
+ return ((to_hit_crit && dex_crit) || (to_hit_crit && skill_crit) ||
+         (dex_crit && skill_crit));
+}
 
 int player::dodge()
 {
@@ -540,7 +583,6 @@ int player::dodge()
   return 0;
  if (activity.type != ACT_NULL)
   return 0;
- practice(sk_dodge, 5);
  int ret = 4 + (dex_cur / 2);
  ret += sklevel[sk_dodge];
  ret -= (encumb(bp_legs) / 2) + encumb(bp_torso);

@@ -1,4 +1,3 @@
-
 #include "game.h"
 #include "rng.h"
 #include "keypress.h"
@@ -136,7 +135,7 @@ fivedozenwhales@gmail.com.");
  }
  while (dp = readdir(dir)) {
   tmp = dp->d_name;
-  if (tmp.find(".sav") != std::string::npos && savegames.size() < 18)
+  if (tmp.find(".sav") != std::string::npos)
    savegames.push_back(tmp.substr(0, tmp.find(".sav")));
  }
  closedir(dir);
@@ -1263,7 +1262,7 @@ void game::save()
  for (int i = 0; i < num_monsters; i++)	// Save the kill counts, too.
   fout << kills[i] << " ";
 // And finally the player.
- fout << u.save_info() << std::endl;
+ fout << std::endl << u.save_info() << std::endl;
  fout << std::endl;
  fout.close();
 // Now write things that aren't player-specific: factions and NPCs
@@ -1336,7 +1335,8 @@ void game::debug()
                    "Spawn NPC",              // 5
                    "Spawn Monster",          // 6
                    "Check game state...",    // 7
-                   "Cancel",                 // 8
+                   "Kill NPCs",              // 8
+                   "Cancel",                 // 9
                    NULL);
  switch (action) {
   case 1:
@@ -1385,6 +1385,13 @@ void game::debug()
 Current turn: %d; Next spawn %d.\n\
 %d monsters exist.\n\
 %d events planned.", int(turn), int(nextspawn), z.size(), events.size());
+   break;
+
+  case 8:
+   for (int i = 0; i < active_npc.size(); i++) {
+    add_msg("%s's head implodes!", active_npc[i].name.c_str());
+    active_npc[i].hp_cur[bp_head] = 0;
+   }
    break;
  }
  erase();
@@ -1801,23 +1808,23 @@ void game::draw_ter()
       u_see(active_npc[i].posx, active_npc[i].posy, t))
    active_npc[i].draw(w_terrain, u.posx, u.posy, false);
  }
-	if (u.has_active_bionic(bio_scent_vision)) {
-		for (int realx = u.posx - SEEX; realx <= u.posx + SEEX; realx++) {
-			for (int realy = u.posy - SEEY; realy <= u.posy + SEEY; realy++) {
-				if (scent(realx, realy) != 0) {
-					int tempx = u.posx - realx, tempy = u.posy - realy;
-					if (!(isBetween(tempx, -2, 2) && isBetween(tempy, -2, 2))) {
-						mvwputch(w_terrain, realy + SEEY - u.posy,
-								realx + SEEX - u.posx, c_magenta, '#');
-						if (mon_at(realx, realy) != -1)
-							mvwputch(w_terrain, realy + SEEY - u.posy,
-									realx + SEEX - u.posx, c_white, '?');
+ if (u.has_active_bionic(bio_scent_vision)) {
+  for (int realx = u.posx - SEEX; realx <= u.posx + SEEX; realx++) {
+   for (int realy = u.posy - SEEY; realy <= u.posy + SEEY; realy++) {
+    if (scent(realx, realy) != 0) {
+     int tempx = u.posx - realx, tempy = u.posy - realy;
+     if (!(isBetween(tempx, -2, 2) && isBetween(tempy, -2, 2))) {
+      mvwputch(w_terrain, realy + SEEY - u.posy,
+        realx + SEEX - u.posx, c_magenta, '#');
+      if (mon_at(realx, realy) != -1)
+       mvwputch(w_terrain, realy + SEEY - u.posy,
+         realx + SEEX - u.posx, c_white, '?');
 
-					}
-				}
-			}
-		}
-	}
+     }
+    }
+   }
+  }
+ }
  wrefresh(w_terrain);
  if (u.has_disease(DI_VISUALS))
   hallucinate();
@@ -2454,11 +2461,11 @@ void game::monmove()
   } else {
    active_npc[i].reset();
    active_npc[i].suffer(this);
-   while (active_npc[i].moves > 0 && turns < 3) {
+   while (active_npc[i].moves > 0 && turns < 10) {
     turns++;
     active_npc[i].move(this);
    }
-   if (turns == 3) {
+   if (turns == 10) {
     add_msg("%s's brain explodes!", active_npc[i].name.c_str());
     active_npc[i].die(this);
     active_npc.erase(active_npc.begin() + i);
@@ -2710,7 +2717,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
    traj = line_to(x, y, sx, sy, t);
   else
    traj = line_to(x, y, sx, sy, 0);
-  dam = rng(10, 40);
+  dam = rng(20, 60);
   for (int j = 0; j < traj.size(); j++) {
    if (j > 0 && u_see(traj[j - 1].x, traj[j - 1].y, ijunk))
     m.drawsq(w_terrain, u, traj[j - 1].x, traj[j - 1].y, false, true);
@@ -2770,7 +2777,7 @@ void game::flashbang(int x, int y)
     z[i].add_effect(ME_DEAF, 60 - dist * 4);
   }
  }
- sound(x, y, 60, "huge boom!");
+ sound(x, y, 12, "a huge boom!");
 // TODO: Blind/deafen NPC
 }
 
@@ -3293,8 +3300,8 @@ void game::examine()
    else {
     add_msg("You activate the panel!");
     add_msg("The nearby doors slide into the floor.");
-    for (int i = -5; i <= 5; i++) {
-     for (int j = -5; j <= 5; j++) {
+    for (int i = -3; i <= 3; i++) {
+     for (int j = -3; j <= 3; j++) {
       if (m.ter(examx + i, examy + j) == t_door_metal_locked)
        m.ter(examx + i, examy + j) = t_floor;
      }

@@ -122,7 +122,7 @@ void game::init_recipes()
   COMP(itm_hose, 2, NULL);
   COMP(itm_bottle_glass, 4, itm_bottle_plastic, 6, NULL);
 
- RECIPE(itm_launcher_simple, CC_WEAPON, sk_mechanics, sk_gun, 6, 6000);
+ RECIPE(itm_launcher_simple, CC_WEAPON, sk_mechanics, sk_launcher, 6, 6000);
   TOOL(itm_hacksaw, -1, NULL);
   COMP(itm_pipe, 1, NULL);
   COMP(itm_2x4, 1, NULL);
@@ -222,6 +222,18 @@ void game::init_recipes()
   TOOL(itm_hotplate, 3, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, NULL);
   COMP(itm_potato_raw, 1, NULL);
+
+ RECIPE(itm_tea, CC_FOOD, sk_cooking, sk_null, 1, 4000);
+  TOOL(itm_hotplate, 2, itm_fire, -1, NULL);
+  TOOL(itm_pot, -1, NULL);
+  COMP(itm_tea_raw, 1, NULL);
+  COMP(itm_bottle_plastic, 1, NULL);
+
+ RECIPE(itm_coffee, CC_FOOD, sk_cooking, sk_null, 1, 4000);
+  TOOL(itm_hotplate, 2, itm_fire, -1, NULL);
+  TOOL(itm_pot, -1, NULL);
+  COMP(itm_coffee_raw, 1, NULL);
+  COMP(itm_bottle_plastic, 1, NULL);
 
  RECIPE(itm_oj, CC_FOOD, sk_cooking, sk_null, 1, 5000);
   TOOL(itm_rock, -1, NULL);
@@ -364,7 +376,7 @@ void game::init_recipes()
 
  RECIPE(itm_water_purifier, CC_ELECTRONIC, sk_mechanics,sk_electronics,3,25000);
   TOOL(itm_screwdriver, -1, NULL);
-  COMP(itm_hotplate, 1, itm_fire, -1, NULL);
+  COMP(itm_hotplate, 1, NULL);
   COMP(itm_bottle_glass, 2, itm_bottle_plastic, 5, NULL);
   COMP(itm_hose, 1, NULL);
 
@@ -694,22 +706,24 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
    } else {
     ypos = 5;
  // Loop to print the required tools
-    for (int i = 0; i < 5; i++) {
-     if (current[line]->tools[i].size() > 0) {
-      ypos++;
-      mvwputch(w_data, ypos, 30, col, '>');
-     }
+    for (int i = 0; i < 5 && current[line]->tools[i].size() > 0; i++) {
+     ypos++;
      xpos = 32;
+     mvwputch(w_data, ypos, 30, col, '>');
+
      for (int j = 0; j < current[line]->tools[i].size(); j++) {
       itype_id type = current[line]->tools[i][j].type;
       int charges = current[line]->tools[i][j].count;
       nc_color toolcol = c_red;
+
       if (charges < 0 && crafting_inv.has_amount(type, 1))
        toolcol = c_green;
       else if (charges > 0 && crafting_inv.has_charges(type, charges))
        toolcol = c_green;
+
       if (u.has_bionic(bio_tools))
        toolcol = c_green;
+
       std::stringstream toolinfo;
       toolinfo << itypes[type]->name + " ";
       if (charges > 0)

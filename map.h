@@ -53,6 +53,7 @@ class map
  bool has_flag(t_flag flag, int x, int y);
  bool is_destructable(int x, int y);
  bool is_outside(int x, int y);
+ bool flammable_items_at(int x, int y);
  point random_outdoor_tile();
 
  void translate(ter_id from, ter_id to); // Change all instances of $from->$to

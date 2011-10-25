@@ -65,7 +65,7 @@ void event::actualize(game *g)
   } break;
 
   case EVENT_AMIGARA: {
-   int num_horrors = rng(4, 8);
+   int num_horrors = rng(3, 5);
    int faultx = -1, faulty = -1;
    bool horizontal;
    for (int x = 0; x < SEEX * 3 && faultx == -1; x++) {

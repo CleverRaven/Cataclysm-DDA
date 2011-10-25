@@ -43,9 +43,9 @@ struct ratio_index
 void npc::move(game *g)
 {
  npc_action action = npc_undecided;
- int danger = 0, target = -1;
+ int danger = 0, total_danger = 0, target = -1;
 
- choose_monster_target(g, target, danger);
+ choose_monster_target(g, target, danger, total_danger);
  if (g->debugmon)
   debugmsg("NPC %s: target = %d, danger = %d", name.c_str(), target, danger);
 
@@ -60,10 +60,10 @@ void npc::move(game *g)
  }
 // TODO: Place player-aiding actions here, with a weight
 
- if (!bravery_check(danger) ||
+ if (!bravery_check(danger) || !bravery_check(total_danger) || 
      (target == TARGET_PLAYER && attitude == NPCATT_FLEE))
   action = method_of_fleeing(g, target);
- else if (danger > 0)
+ else if (danger > 0 || (target == TARGET_PLAYER && attitude == NPCATT_KILL))
   action = method_of_attack(g, target, danger);
 
  else {	// No present danger
@@ -136,14 +136,16 @@ void npc::execute_action(game *g, npc_action action, int target)
   move_pause();
   break;
 
- case npc_reload:
+ case npc_reload: {
   moves -= weapon.reload_time(*this);
-  weapon.reload(*this, false);
+  int ammo_index = weapon.pick_reload_ammo(*this, false);
+  if (!weapon.reload(*this, ammo_index))
+   debugmsg("NPC reload failed.");
   recoil = 6;
   if (g->u_see(posx, posy, linet))
    g->add_msg("%s reloads %s %s.", name.c_str(), (male ? "his" : "her"),
               weapon.tname().c_str());
-  break;
+  } break;
 
  case npc_sleep:
 /* TODO: Open a dialogue with the player, allowing us to ask if it's alright if
@@ -311,31 +313,36 @@ void npc::execute_action(game *g, npc_action action, int target)
  }
 }
 
-void npc::choose_monster_target(game *g, int &enemy, int &danger)
+void npc::choose_monster_target(game *g, int &enemy, int &danger,
+                                int &total_danger)
 {
  int linet = 0;
  bool defend_u = g->sees_u(posx, posy, linet) && is_defending();
  int highest_priority = 0;
+ total_danger = 0;
 
  for (int i = 0; i < g->z.size(); i++) {
   monster *mon = &(g->z[i]);
   if (g->pl_sees(this, mon, linet)) {
-   int distance = (100 * trig_dist(posx, posy, mon->posx, mon->posy)) /
+   int distance = (100 * rl_dist(posx, posy, mon->posx, mon->posy)) /
                   mon->speed;
    double hp_percent = (mon->type->hp - mon->hp) / mon->type->hp;
    int priority = mon->type->difficulty * (1 + hp_percent);
    priority -= distance;
    int monster_danger = (mon->type->difficulty * mon->hp) / mon->type->hp;
+   if (!mon->is_fleeing(*this))
+    monster_danger++;
 
    if (mon->friendly != 0) {
     priority = -999;
-    monster_danger = -999;
+    monster_danger *= -1;
    }/* else if (mon->speed < current_speed()) {
     priority -= 10;
     monster_danger -= 10;
    } else
     priority *= 1 + (.1 * distance);
 */
+   total_danger += int(monster_danger / (distance == 0 ? 1 : distance));
 
    if (monster_danger > danger) {
     danger = monster_danger;
@@ -350,7 +357,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger)
     enemy = i;
    } else if (defend_u) {
     priority = mon->type->difficulty * (1 + hp_percent);
-    distance = (100 * trig_dist(g->u.posx, g->u.posy, mon->posx, mon->posy)) /
+    distance = (100 * rl_dist(g->u.posx, g->u.posy, mon->posx, mon->posy)) /
                mon->speed;
     priority -= distance;
     if (mon->speed < current_speed())
@@ -426,16 +433,27 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
 
 // Check if there's something better to wield
  bool has_empty_gun = false, has_better_melee = false;
+ std::vector<int> empty_guns;
  for (int i = 0; i < inv.size(); i++) {
   if (inv[i].is_gun() && inv[i].charges > 0)
    return npc_wield_loaded_gun;
-  else if (inv[i].is_gun() && enough_time_to_reload(g, target, inv[i]))
+  else if (inv[i].is_gun() && enough_time_to_reload(g, target, inv[i])) {
    has_empty_gun = true;
-  else if (inv[i].melee_value(sklevel) > weapon.melee_value(sklevel) * 1.1)
+   empty_guns.push_back(i);
+  } else if (inv[i].melee_value(sklevel) > weapon.melee_value(sklevel) * 1.1)
    has_better_melee = true;
  }
 
- if (has_empty_gun)
+ bool has_ammo_for_empty_gun = false;
+ for (int i = 0; i < empty_guns.size(); i++) {
+  for (int j = 0; j < inv.size(); j++) {
+   if (inv[j].is_ammo() &&
+       inv[j].ammo_type() == inv[ empty_guns[i] ].ammo_type())
+    has_ammo_for_empty_gun = true;
+  }
+ }
+
+ if (has_empty_gun && has_ammo_for_empty_gun)
   return npc_wield_empty_gun;
  else if (has_better_melee)
   return npc_wield_melee;
@@ -665,6 +683,9 @@ int npc::confident_range(int index)
  }
 
 // Using 180 for now for extra-confident NPCs.
+ int ret = (max > int(180 / deviation) ? max : int(180 / deviation));
+ if (weapon.is_gun() && weapon.charges > 0 && ret > weapon.curammo->range)
+  return weapon.curammo->range;
  return (max > int(180 / deviation) ? max : int(180 / deviation));
 }
 
@@ -1014,9 +1035,9 @@ void npc::find_item(game *g)
      int itval = value(g->m.i_at(x, y)[i]);
      int wgt = g->m.i_at(x, y)[i].weight(), vol = g->m.i_at(x, y)[i].volume();
      if (itval > best_value &&
-         (itval > worst_item_value ||
+         //(itval > worst_item_value ||
           (weight_carried() + wgt <= weight_capacity() / 4 &&
-           volume_carried() + vol <= volume_capacity()       ))) {
+           volume_carried() + vol <= volume_capacity()       )) {
       itx = x;
       ity = y;
       index = i;
@@ -1057,9 +1078,9 @@ void npc::pick_up_item(game *g)
  for (int i = 0; i < items->size(); i++) {
   int itval = value((*items)[i]), vol = (*items)[i].volume(),
       wgt = (*items)[i].weight();
-  if (itval >= minimum_item_value() && (itval >= worst_item_value ||
+  if (itval >= minimum_item_value() &&// (itval >= worst_item_value ||
       (volume_carried() + total_volume + vol <= volume_capacity() &&
-       weight_carried() + total_weight + wgt <= weight_capacity() / 4))) {
+       weight_carried() + total_weight + wgt <= weight_capacity() / 4)) {
    pickup.push_back(i);
    total_volume += vol;
    total_weight += wgt;
@@ -1271,7 +1292,7 @@ void npc::alt_attack(game *g, int target)
   move_pause();
   return;
  }
- int dist = trig_dist(posx, posy, tarx, tary);
+ int dist = rl_dist(posx, posy, tarx, tary);
 /* ALT_ATTACK_ITEMS is an array which stores the itype_id of all alternate
  * items, from least to most important.
  * See npc.h for definition of ALT_ATTACK_ITEMS
@@ -1309,8 +1330,7 @@ void npc::alt_attack(game *g, int target)
 
 // Are we going to throw this item?
  if (!thrown_item(used))
-  //activate_item(g, index);
-  debugmsg("npc::activate_item() needs to be written!");
+  activate_item(g, index);
  else { // We are throwing it!
 
   std::vector<point> trajectory;
@@ -1337,7 +1357,7 @@ void npc::alt_attack(game *g, int target)
      for (int x = posx - dist; x <= posx + dist; x++) {
       for (int y = posy - dist; y <= posy + dist; y++) {
        int newtarget = g->mon_at(x, y);
-       int newdist = trig_dist(posx, posy, x, y);
+       int newdist = rl_dist(posx, posy, x, y);
 // TODO: Change "newdist >= 2" to "newdist >= safe_distance(used)"
 // Molotovs are safe at 2 tiles, grenades at 4, mininukes at 8ish
        if (newdist <= conf && newdist >= 2 && newtarget != -1 &&
@@ -1356,7 +1376,7 @@ void npc::alt_attack(game *g, int target)
     for (int dist = 2; dist <= conf; dist++) {
      for (int x = posx - dist; x <= posx + dist; x++) {
       for (int y = posy - dist; y <= posy + dist; y++) {
-       int new_dist = trig_dist(posx, posy, x, y);
+       int new_dist = rl_dist(posx, posy, x, y);
        if (new_dist > best_dist && wont_hit_friend(g, x, y, index)) {
         best_dist = new_dist;
         tarx = x;
@@ -1384,6 +1404,19 @@ void npc::alt_attack(game *g, int target)
    move_to_next(g); // Move towards the target
   }
  } // Done with throwing-item block
+}
+
+void npc::activate_item(game *g, int index)
+{
+ item *it = &(inv[index]);
+ iuse use;
+ if (it->is_tool()) {
+  it_tool* tool = dynamic_cast<it_tool*>(it->type);
+  (use.*tool->use)(g, this, it, false);
+ } else if (it->is_food()) {
+  it_comest* comest = dynamic_cast<it_comest*>(it->type);
+  (use.*comest->use)(g, this, it, false);
+ }
 }
 
 bool thrown_item(item *used)

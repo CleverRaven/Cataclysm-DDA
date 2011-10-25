@@ -202,6 +202,7 @@ public:
  bool has_healing_item();
  bool has_painkiller();
  void use_painkiller(game *g);
+ void activate_item(game *g, int index);
 
 
 // Interaction and assessment of the world around us
@@ -223,7 +224,8 @@ public:
  void execute_action(game *g, npc_action action, int target); // Performs action
 
 // Functions which choose an action for a particular goal
- void choose_monster_target(game *g, int &enemy, int &danger);
+ void choose_monster_target(game *g, int &enemy, int &danger,
+                            int &total_danger);
  npc_action method_of_fleeing	(game *g, int enemy);
  npc_action method_of_attack	(game *g, int enemy, int danger);
  npc_action address_needs	(game *g, int danger);

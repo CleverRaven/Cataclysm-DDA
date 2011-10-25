@@ -454,7 +454,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    if (target == t.size()) target = 0;
    x = t[target].posx;
    y = t[target].posy;
-  } else if (ch == '.' || ch == 'f' || ch == 'F') {
+  } else if (ch == '.' || ch == 'f' || ch == 'F' || ch == '\n') {
    for (int i = 0; i < t.size(); i++) {
     if (t[i].posx == x && t[i].posy == y)
      target = i;
@@ -791,7 +791,7 @@ void ammo_effects(game *g, int x, int y, long flags)
   g->explosion(x, y, 24, 0, false);
 
  if (flags & mfb(IF_AMMO_FRAG))
-  g->explosion(x, y, 12, 18, false);
+  g->explosion(x, y, 12, 28, false);
 
  if (flags & mfb(IF_AMMO_NAPALM))
   g->explosion(x, y, 18, 0, true);

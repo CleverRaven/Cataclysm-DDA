@@ -56,44 +56,93 @@ bool map::process_fields(game *g)
     }
     break;
 
-   case fd_fire:
+   case fd_fire: {
 // Consume items as fuel to help us grow/last longer.
     bool destroyed;
-    int vol;
-    for (int i = 0; i < i_at(x, y).size(); i++) {
+    int vol, smoke, consumed = 0;
+    for (int i = 0; i < i_at(x, y).size() && consumed < cur->density * 2; i++) {
      destroyed = false;
      vol = i_at(x, y)[i].volume();
-     if (i_at(x, y)[i].is_ammo()) {
+     item *it = &(i_at(x, y)[i]);
+
+     if (it->is_ammo()) {
       cur->age /= 2;
-      cur->age -= 300;
+      cur->age -= 600;
       destroyed = true;
-     } else if (i_at(x, y)[i].made_of(PAPER)) {
-      cur->age -= vol * 10;
-      destroyed = true;
-     } else if ((i_at(x, y)[i].made_of(WOOD) || i_at(x, y)[i].made_of(VEGGY)) &&
-                (vol <= cur->density*10-(cur->age>0 ? rng(0,cur->age/10) : 0) ||
-                 cur->density == 3)) {
-      cur->age -= vol * 10;
-      destroyed = true;
-     } else if ((i_at(x, y)[i].made_of(COTTON) || i_at(x, y)[i].made_of(FLESH)||
-                 i_at(x, y)[i].made_of(WOOL)) &&
-                (vol <= cur->density*2 || (cur->density == 3 && one_in(vol)))) {
-      cur->age -= vol * 5;
-      destroyed = true;
-     } else if (i_at(x, y)[i].made_of(LIQUID) || i_at(x, y)[i].made_of(POWDER)||
-                i_at(x, y)[i].made_of(PLASTIC)||
-                (cur->density >= 2 && i_at(x, y)[i].made_of(GLASS)) ||
-                (cur->density == 3 && i_at(x, y)[i].made_of(IRON))) {
-      switch (i_at(x, y)[i].type->id) { // TODO: Make this be not a hack.
+      smoke += 6;
+      consumed++;
+
+     } else if (it->made_of(PAPER)) {
+      destroyed = it->burn(cur->density * 3);
+      consumed++;
+      if (cur->density == 1)
+       cur->age -= vol * 10;
+      if (vol >= 4)
+       smoke++;
+
+     } else if ((it->made_of(WOOD) || it->made_of(VEGGY))) {
+      if (vol <= cur->density * 10 || cur->density == 3) {
+       cur->age -= 4;
+       destroyed = it->burn(cur->density);
+       smoke++;
+       consumed++;
+      } else if (it->burnt < cur->density) {
+       destroyed = it->burn(1);
+       smoke++;
+      }
+
+     } else if ((it->made_of(COTTON) || it->made_of(WOOL))) {
+      if (vol <= cur->density * 5 || cur->density == 3) {
+       cur->age--;
+       destroyed = it->burn(cur->density);
+       smoke++;
+       consumed++;
+      } else if (it->burnt < cur->density) {
+       destroyed = it->burn(1);
+       smoke++;
+      }
+
+     } else if (it->made_of(FLESH)) {
+      if (vol <= cur->density * 5 || cur->density == 3 && one_in(vol / 20)) {
+       cur->age--;
+       destroyed = it->burn(cur->density);
+       smoke += 3;
+       consumed++;
+      } else if (it->burnt < cur->density * 5 || cur->density >= 2) {
+       destroyed = it->burn(1);
+       smoke++;
+      }
+
+     } else if (it->made_of(LIQUID)) {
+      switch (it->type->id) { // TODO: Make this be not a hack.
        case itm_whiskey:
        case itm_vodka:
        case itm_rum:
        case itm_tequila:
-        cur->age -= 220;
+        cur->age -= 300;
+        smoke += 6;
         break;
+       default:
+        cur->age += rng(80 * vol, 300 * vol);
+        smoke++;
       }
       destroyed = true;
+      consumed++;
+
+     } else if (it->made_of(POWDER)) {
+      cur->age -= vol;
+      destroyed = true;
+      smoke += 2;
+
+     } else if (it->made_of(PLASTIC)) {
+      smoke += 3;
+      if (it->burnt <= cur->density * 2 || cur->density == 3 && one_in(vol)) {
+       destroyed = it->burn(cur->density);
+       if (one_in(vol + it->burnt))
+        cur->age--;
+      }
      }
+
      if (destroyed) {
       for (int m = 0; m < i_at(x, y)[i].contents.size(); m++)
        i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
@@ -102,63 +151,91 @@ bool map::process_fields(game *g)
      }
     }
 // Consume the terrain we're on
-    if (terlist[ter(x, y)].flags & mfb(flammable) && one_in(8 - cur->density)) {
-     cur->age -= cur->density * cur->density * 40;
-     if (cur->density == 3)
-      ter(x, y) = t_rubble;
-    } else if (terlist[ter(x, y)].flags & mfb(explodes)) {
+    if (has_flag(explodes, x, y)) {
      ter(x, y) = ter_id(int(ter(x, y)) + 1);
      cur->age = 0;
      cur->density = 3;
      g->explosion(x, y, 40, 0, true);
+
+    } else if (has_flag(flammable, x, y) && one_in(32 - cur->density * 10)) {
+     cur->age -= cur->density * cur->density * 40;
+     smoke += 15;
+     if (cur->density == 3)
+      ter(x, y) = t_rubble;
+
     } else if (terlist[ter(x, y)].flags & mfb(swimmable))
      cur->age += 800;	// Flames die quickly on water
+
 // If we consumed a lot, the flames grow higher
     while (cur->density < 3 && cur->age < 0) {
      cur->age += 300;
      cur->density++;
     }
+// If the flames are in a pit, it can't spread to non-pit
+    bool in_pit = (ter(x, y) == t_pit);
 // If the flames are REALLY big, they contribute to adjacent flames
     if (cur->density == 3 && cur->age < 0) {
-// If the flames are in a pit, it can't spread to non-pit
-     bool in_pit = (ter(x, y) == t_pit);
 // Randomly offset our x/y shifts by 0-2, to randomly pick a square to spread to
      int starti = rng(0, 2);
      int startj = rng(0, 2);
      for (int i = 0; i < 3 && cur->age < 0; i++) {
       for (int j = 0; j < 3 && cur->age < 0; j++) {
-       if (field_at(x+((i+starti)%3), y+((j+startj)%3)).type == fd_fire &&
-           field_at(x+((i+starti)%3), y+((j+startj)%3)).density < 3 &&
-           (!in_pit || ter(x+((i+starti)%3), y+((j+startj)%3)) == t_pit)) {
-        field_at(x+((i+starti)%3), y+((j+startj)%3)).density++; 
-        field_at(x+((i+starti)%3), y+((j+startj)%3)).age = 0;
+       int fx = x + ((i + starti) % 3) - 1, fy = y + ((j + startj) % 3) - 1;
+       if (field_at(fx, fy).type == fd_fire && field_at(fx, fy).density < 3 &&
+           (!in_pit || ter(fx, fy) == t_pit)) {
+        field_at(fx, fy).density++; 
+        field_at(fx, fy).age = 0;
         cur->age = 0;
        }
       }
      }
     }
 // Consume adjacent fuel / terrain to spread.
-    for (int i = -1; i <= 1; i++) {
-     for (int j = -1; j <= 1; j++) {
-      if (x+i >= 0 && y+j >= 0 && x+i < SEEX * 3 && y+j <= SEEY * 3) {
-       if (has_flag(explodes, x + i, y + j) && one_in(8 - cur->density)) {
-        ter(x + i, y + i) = ter_id(int(ter(x + i, y + i)) + 1);
-        g->explosion(x+i, y+j, 40, 0, true);
-       } else if ((i != 0 || j != 0) && (i_at(x+i, y+j).size() > 0 ||
-                  rng(25, 380) < cur->density * 10)) {
-        if (field_at(x+i, y+j).type == fd_smoke)
-         field_at(x+i, y+j) = field(fd_fire, 1, 0);
-// Fire in pits can only spread to adjacent pits
-        else if (ter(x, y) != t_pit || ter(x + i, y + j) == t_pit)
-         add_field(g, x+i, y+j, fd_fire, 1);
+// Randomly offset our x/y shifts by 0-2, to randomly pick a square to spread to
+    int starti = rng(0, 2);
+    int startj = rng(0, 2);
+    for (int i = 0; i < 3; i++) {
+     for (int j = 0; j < 3; j++) {
+      int fx = x + ((i + starti) % 3) - 1, fy = y + ((j + startj) % 3) - 1;
+      if (fx >= 0 && fy >= 0 && fx < SEEX * 3 && fy < SEEY * 3) {
+       int spread_chance = 20 * (cur->density - 1) + 10 * smoke;
+       if (has_flag(explodes, fx, fy) && one_in(8 - cur->density)) {
+        ter(fx, fy) = ter_id(int(ter(fx, fy)) + 1);
+        g->explosion(fx, fy, 40, 0, true);
+       } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
+                  (!in_pit || ter(fx, fy) == t_pit) &&
+                  ((cur->density == 3 &&
+                    (has_flag(flammable, fx, fy) || one_in(20))) ||
+                   flammable_items_at(fx, fy) ||
+                   field_at(fx, fy).type == fd_web)) {
+        if (field_at(fx, fy).type == fd_smoke ||
+            field_at(fx, fy).type == fd_web)
+         field_at(fx, fy) = field(fd_fire, 1, 0);
+        else
+         add_field(g, fx, fy, fd_fire, 1);
+       } else {
+        bool nosmoke = true;
+        for (int ii = -1; ii <= 1; ii++) {
+         for (int jj = -1; jj <= 1; jj++) {
+          if (field_at(x+ii, y+jj).type == fd_fire &&
+              field_at(x+ii, y+jj).density == 3)
+           smoke++;
+          else if (field_at(x+ii, y+jj).type == fd_smoke)
+           nosmoke = false;
+         }
+        }
 // If we're not spreading, maybe we'll stick out some smoke, huh?
-       } else if (move_cost(x+i, y+j) > 0 &&
-                  rng(7, 40) < cur->density * 10 && cur->age < 1000)
-        add_field(g, x+i, y+j, fd_smoke, rng(1, cur->density));
+        if (move_cost(fx, fy) > 0 &&
+            (!one_in(smoke) || (nosmoke && one_in(40))) && 
+            rng(3, 35) < cur->density * 10 && cur->age < 1000) {
+         smoke--;
+         add_field(g, fx, fy, fd_smoke, rng(1, cur->density));
+        }
+       }
       }
      }
     }
-   break;
+   } break;
   
    case fd_smoke:
     for (int i = -1; i <= 1; i++) {
@@ -459,6 +536,8 @@ void map::step_in_field(int x, int y, game *g)
   case fd_tear_gas:
    if (cur->density > 1 || !one_in(3))
     g->u.infect(DI_TEARGAS, bp_mouth, 5, 20, g);
+   if (cur->density > 1)
+    g->u.infect(DI_BLIND, bp_eyes, cur->density * 2, 10, g);
    break;
 
   case fd_toxic_gas:
@@ -565,17 +644,20 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    break;
 
   case fd_tear_gas:
-   if (cur->density == 3) {
-    z->speed -= rng(30, 60);
-    dam = rng(8, 20);
-   } else if (cur->density == 2) {
-    z->speed -= rng(10, 25);
-    dam = rng(4, 10);
-   } else
-    z->speed -= rng(0, 6);
-   if (z->made_of(VEGGY)) {
-    z->speed -= rng(cur->density * 5, cur->density * 12);
-    dam += cur->density * 10;
+   if (z->made_of(FLESH) || z->made_of(VEGGY)) {
+    z->add_effect(ME_BLIND, cur->density * 3);
+    if (cur->density == 3) {
+     z->add_effect(ME_STUNNED, rng(10, 20));
+     dam = rng(4, 10);
+    } else if (cur->density == 2) {
+     z->add_effect(ME_STUNNED, rng(5, 10));
+     dam = rng(2, 5);
+    } else
+     z->add_effect(ME_STUNNED, rng(1, 5));
+    if (z->made_of(VEGGY)) {
+     z->speed -= rng(cur->density * 5, cur->density * 12);
+     dam += cur->density * rng(8, 14);
+    }
    }
    break;
 

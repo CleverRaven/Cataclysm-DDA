@@ -68,6 +68,7 @@ public:
 
  void pause();		// '.' command; pauses & reduces recoil
  int  hit_roll(); // Our basic hit roll, compared to our target's dodge roll
+ bool scored_crit();
  int  hit_mon(game *g, monster *z); // Handles hitting a monster up to its death
 // hit_player returns false on a miss, and modifies bp, hitdam, and hitcut
  bool hit_player(player &p, body_part &bp, int &hitdam, int &hitcut);

@@ -632,13 +632,19 @@ void iuse::lighter(game *g, player *p, item *it, bool t)
  get_direction(dirx, diry, input());
  if (dirx == -2) {
   g->add_msg("Invalid direction.");
+  it->charges++;
   return;
  }
  p->moves -= 15;
  dirx += p->posx;
  diry += p->posy;
- if (g->m.add_field(g, dirx, diry, fd_fire, 1))
-  g->m.field_at(dirx, diry).age = 1400;
+ if (g->m.flammable_items_at(dirx, diry)) {
+  if (g->m.add_field(g, dirx, diry, fd_fire, 1))
+   g->m.field_at(dirx, diry).age = 30;
+ } else {
+  g->add_msg("There's nothing to light there.");
+  it->charges++;
+ }
 }
 
 void iuse::sew(game *g, player *p, item *it, bool t)
@@ -1463,7 +1469,7 @@ void iuse::grenade_act(game *g, player *p, item *it, bool t)
  if (t) // Simple timer effects
   g->sound(pos.x, pos.y, 0, "Tick.");	// Vol 0 = only heard if you hold it
  else	// When that timer runs down...
-  g->explosion(pos.x, pos.y, 12, 18, false);
+  g->explosion(pos.x, pos.y, 12, 28, false);
 }
 
 void iuse::flashbang(game *g, player *p, item *it, bool t)

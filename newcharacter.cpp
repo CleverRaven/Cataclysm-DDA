@@ -28,8 +28,8 @@
 #define COL_TR_BAD_ON		c_red      // A toggled-on bad trait
 #define COL_SKILL_USED		c_green    // A skill with at least one point
 
-#define TRAIT_CAP 3	// How many good/bad traits you can have (of each)
-
+#define HIGH_STAT 14 // The point after which stats cost double
+#define MAX_TRAIT_POINTS 12 // How many points from traits
 
 void draw_tabs(WINDOW* w);
 
@@ -114,18 +114,27 @@ bool player::create(game *g, character_type type)
    break;
   }
   points = points - str_max - dex_max - int_max - per_max;
+  if (str_max > HIGH_STAT)
+   points -= (str_max - HIGH_STAT);
+  if (dex_max > HIGH_STAT)
+   points -= (dex_max - HIGH_STAT);
+  if (int_max > HIGH_STAT)
+   points -= (int_max - HIGH_STAT);
+  if (per_max > HIGH_STAT)
+   points -= (per_max - HIGH_STAT);
   int num_gtraits = 0, num_btraits = 0, rn, tries;
   while (points < 0 || rng(-3, 20) > points) {
-   if (num_btraits < TRAIT_CAP && one_in(3)) {
-    num_btraits++;
+   if (num_btraits < MAX_TRAIT_POINTS && one_in(3)) {
     tries = 0;
     do {
      rn = random_bad_trait(type);
      tries++;
-    } while (has_trait(rn) && tries < 5);
+    } while ((has_trait(rn) ||
+              num_btraits - traits[rn].points > MAX_TRAIT_POINTS) && tries < 5);
     if (tries < 5) {
      toggle_trait(rn);
      points -= traits[rn].points;
+     num_btraits -= traits[rn].points;
     }
    } else {
     switch (rng(1, 4)) {
@@ -137,15 +146,17 @@ bool player::create(game *g, character_type type)
    }
   }
   while (points > 0) {
-   switch (rng((num_gtraits < TRAIT_CAP ? 1 : 5), 9)) {
+   switch (rng((num_gtraits < MAX_TRAIT_POINTS ? 1 : 5), 9)) {
    case 1:
    case 2:
    case 3:
    case 4:
     rn = random_good_trait(type);
-    if (!has_trait(rn) && points >= traits[rn].points) {
+    if (!has_trait(rn) && points >= traits[rn].points &&
+        num_gtraits + traits[rn].points <= MAX_TRAIT_POINTS) {
      toggle_trait(rn);
      points -= traits[rn].points;
+     num_gtraits += traits[rn].points;
     }
     break;
    case 5:
@@ -326,6 +337,10 @@ int set_stats(WINDOW* w, player *u, int &points)
   mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
   switch (sel) {
   case 1:
+   if (u->str_max >= HIGH_STAT)
+    mvwprintz(w, 3, 33, c_ltred, "Increasing Str further costs 2 points.");
+   else
+    mvwprintz(w, 3, 33, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
    mvwprintz(w, 6,  2, COL_STAT_ACT, "Strength:     %d  ", u->str_max);
    mvwprintz(w, 7,  2, c_ltgray,     "Dexterity:    %d  ", u->dex_max);
    mvwprintz(w, 8,  2, c_ltgray,     "Intelligence: %d  ", u->int_max);
@@ -340,7 +355,12 @@ int set_stats(WINDOW* w, player *u, int &points)
    mvwprintz(w,10, 33, COL_STAT_ACT, "many diseases and poisons, and makes actions");
    mvwprintz(w,11, 33, COL_STAT_ACT, "which require brute force more effective.   ");
    break;
+
   case 2:
+   if (u->dex_max >= HIGH_STAT)
+    mvwprintz(w, 3, 33, c_ltred, "Increasing Dex further costs 2 points.");
+   else
+    mvwprintz(w, 3, 33, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
    mvwprintz(w, 6,  2, c_ltgray,     "Strength:     %d  ", u->str_max);
    mvwprintz(w, 7,  2, COL_STAT_ACT, "Dexterity:    %d  ", u->dex_max);
    mvwprintz(w, 8,  2, c_ltgray,     "Intelligence: %d  ", u->int_max);
@@ -361,7 +381,12 @@ int set_stats(WINDOW* w, player *u, int &points)
    mvwprintz(w,10, 33, COL_STAT_ACT, "require finesse.                            ");
    mvwprintz(w,11, 33, COL_STAT_ACT, "                                            ");
    break;
+
   case 3:
+   if (u->int_max >= HIGH_STAT)
+    mvwprintz(w, 3, 33, c_ltred, "Increasing Int further costs 2 points.");
+   else
+    mvwprintz(w, 3, 33, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
    mvwprintz(w, 6,  2, c_ltgray,     "Strength:     %d  ", u->str_max);
    mvwprintz(w, 7,  2, c_ltgray,     "Dexterity:    %d  ", u->dex_max);
    mvwprintz(w, 8,  2, COL_STAT_ACT, "Intelligence: %d  ", u->int_max);
@@ -375,7 +400,12 @@ int set_stats(WINDOW* w, player *u, int &points)
    mvwprintz(w,10, 33, COL_STAT_ACT, "NPCs.                                       ");
    mvwprintz(w,11, 33, COL_STAT_ACT, "                                            ");
    break;
+
   case 4:
+   if (u->per_max >= HIGH_STAT)
+    mvwprintz(w, 3, 33, c_ltred, "Increasing Per further costs 2 points.");
+   else
+    mvwprintz(w, 3, 33, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
    mvwprintz(w, 6,  2, c_ltgray,     "Strength:     %d  ", u->str_max);
    mvwprintz(w, 7,  2, c_ltgray,     "Dexterity:    %d  ", u->dex_max);
    mvwprintz(w, 8,  2, c_ltgray,     "Intelligence: %d  ", u->int_max);
@@ -400,32 +430,51 @@ int set_stats(WINDOW* w, player *u, int &points)
   if (ch == 'k' && sel > 1)
    sel--;
   if (ch == 'h') {
-          if (sel == 1 && u->str_max > 1) {
+   if (sel == 1 && u->str_max > 4) {
+    if (u->str_max > HIGH_STAT)
+     points++;
     u->str_max--;
     points++;
-   } else if (sel == 2 && u->dex_max > 1) {
+   } else if (sel == 2 && u->dex_max > 4) {
+    if (u->dex_max > HIGH_STAT)
+     points++;
     u->dex_max--;
     points++;
-   } else if (sel == 3 && u->int_max > 1) {
+   } else if (sel == 3 && u->int_max > 4) {
+    if (u->int_max > HIGH_STAT)
+     points++;
     u->int_max--;
     points++;
-   } else if (sel == 4 && u->per_max > 1) {
+   } else if (sel == 4 && u->per_max > 4) {
+    if (u->per_max > HIGH_STAT)
+     points++;
     u->per_max--;
     points++;
    }
   }
   if (ch == 'l' && points > 0) {
-          if (sel == 1 && u->str_max < 20) {
+   if (sel == 1 && u->str_max < 20 && (u->str_max < HIGH_STAT || points > 1)) {
     points--;
+    if (u->str_max >= HIGH_STAT)
+     points--;
     u->str_max++;
-   } else if (sel == 2 && u->dex_max < 20) {
+   } else if (sel == 2 && u->dex_max < 20 &&
+              (u->dex_max < HIGH_STAT || points > 1)) {
     points--;
+    if (u->dex_max >= HIGH_STAT)
+     points--;
     u->dex_max++;
-   } else if (sel == 3 && u->int_max < 20) {
+   } else if (sel == 3 && u->int_max < 20 &&
+              (u->int_max < HIGH_STAT || points > 1)) {
     points--;
+    if (u->int_max >= HIGH_STAT)
+     points--;
     u->int_max++;
-   } else if (sel == 4 && u->per_max < 20) {
+   } else if (sel == 4 && u->per_max < 20 &&
+              (u->per_max < HIGH_STAT || points > 1)) {
     points--;
+    if (u->per_max >= HIGH_STAT)
+     points--;
     u->per_max++;
    }
   }
@@ -438,15 +487,15 @@ int set_stats(WINDOW* w, player *u, int &points)
 
 int set_traits(WINDOW* w, player *u, int &points)
 {
-// Track how many good / bad traits we have; cap both at 3
+// Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
  int num_good = 0, num_bad = 0;
  for (int i = 0; i < PF_SPLIT; i++) {
   if (u->has_trait(i))
-   num_good++;
+   num_good += traits[i].points;
  }
  for (int i = PF_SPLIT + 1; i < PF_MAX; i++) {
   if (u->has_trait(i))
-   num_bad++;
+   num_bad += abs(traits[i].points);
  }
 // Draw horizontal lines, with a gap for the active tab
  for (int i = 0; i < 80; i++) {
@@ -486,7 +535,10 @@ int set_traits(WINDOW* w, player *u, int &points)
 
  do {
   mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
-  mvwprintz(w,  3,20, c_ltgray, "< h  Spacebar  l >");
+  mvwprintz(w,  3,20, c_ltgreen, "%s%d/%d", (num_good < 10 ? " " : ""),
+                                 num_good, MAX_TRAIT_POINTS);
+  mvwprintz(w,  3,33, c_ltred, "%s%d/%d", (num_bad < 10 ? " " : ""),
+                               num_bad, MAX_TRAIT_POINTS);
 // Clear the bottom of the screen.
   mvwprintz(w, 22, 0, c_ltgray, "\
                                                                              ");
@@ -617,22 +669,26 @@ int set_traits(WINDOW* w, player *u, int &points)
       u->toggle_trait(cur_trait);
       points += traits[cur_trait].points;
       if (using_adv)
-       num_good--;
+       num_good -= traits[cur_trait].points;
       else
-       num_bad--;
+       num_bad += traits[cur_trait].points;
      } else
       mvwprintz(w,  3, 2, c_red, "Points left: %d  ", points);
-    } else if (using_adv && num_good >= 3)
-     popup("Sorry, but you can only take three advantages.");
-    else if (!using_adv && num_bad >= 3)
-     popup("Sorry, but you can only take three disadvantages.");
+    } else if (using_adv && num_good + traits[cur_trait].points >
+                            MAX_TRAIT_POINTS)
+     popup("Sorry, but you can only take %d points of advantages.",
+           MAX_TRAIT_POINTS);
+    else if (!using_adv && num_bad - traits[cur_trait].points >
+                           MAX_TRAIT_POINTS)
+     popup("Sorry, but you can only take %d points of disadvantages.",
+           MAX_TRAIT_POINTS);
     else if (points >= traits[cur_trait].points) {
      u->toggle_trait(cur_trait);
      points -= traits[cur_trait].points;
      if (using_adv)
-      num_good++;
+      num_good += traits[cur_trait].points;
      else
-      num_bad++;
+      num_bad -= traits[cur_trait].points;
     }
     break;
    case '<':
