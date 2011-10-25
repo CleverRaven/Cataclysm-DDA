@@ -1262,7 +1262,7 @@ void game::save()
  for (int i = 0; i < num_monsters; i++)	// Save the kill counts, too.
   fout << kills[i] << " ";
 // And finally the player.
- fout << std::endl << u.save_info() << std::endl;
+ fout << u.save_info() << std::endl;
  fout << std::endl;
  fout.close();
 // Now write things that aren't player-specific: factions and NPCs
