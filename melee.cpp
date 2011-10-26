@@ -544,7 +544,7 @@ bool player::scored_crit()
  }
 
  if (dex_cur >= 8) {
-  for (int i = 8; i <= dex_cur && !dex_crit; i++)
+  for (int i = 8; i <= dex_cur + rng(0, 1) && !dex_crit; i += 2)
    dex_crit = one_in(4);
  } else {
   dex_crit = true;

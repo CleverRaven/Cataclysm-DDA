@@ -448,8 +448,7 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
  case t_window:
  case t_window_alarm:
   dam -= rng(0, 5);
-  if (dam > 0)
-   ter(x, y) = t_window_frame;
+  ter(x, y) = t_window_frame;
   break;
 
  case t_window_boarded:
@@ -463,8 +462,7 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
  case t_wall_glass_h_alarm:
  case t_wall_glass_v_alarm:
   dam -= rng(0, 8);
-  if (dam > 0)
-   ter(x, y) = t_floor;
+  ter(x, y) = t_floor;
   break;
 
  case t_paper:

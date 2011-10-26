@@ -65,7 +65,9 @@ bool map::process_fields(game *g)
      vol = i_at(x, y)[i].volume();
      item *it = &(i_at(x, y)[i]);
 
-     if (it->is_ammo()) {
+     if (it->is_ammo() && it->ammo_type() != AT_BATT &&
+         it->ammo_type() != AT_NAIL && it->ammo_type() != AT_BB &&
+         it->ammo_type() != AT_BOLT && it->ammo_type() != AT_ARROW) {
       cur->age /= 2;
       cur->age -= 600;
       destroyed = true;

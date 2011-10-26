@@ -3814,7 +3814,10 @@ bool player::can_sleep(game *g)
   sleepy += 1;
  else
   sleepy -= g->m.move_cost(posx, posy);
- sleepy += int((fatigue - 192) / 16);
+ if (fatigue < 192)
+  sleepy -= int( (192 - fatigue) / 4);
+ else
+  sleepy += int((fatigue - 192) / 16);
  sleepy += rng(-8, 8);
  sleepy -= 2 * stim;
  if (sleepy > 0)
