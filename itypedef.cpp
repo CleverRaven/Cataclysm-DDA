@@ -420,12 +420,12 @@ FOOD("MRE",		50,100, c_green,	FLESH,	itm_null,
 Meal Ready to Eat.  A military ration.  Though not very tasty, it is very\n\
 filling and will not spoil.");
 
-FOOD("tea leaves",	55, 13,	c_green,	VEGGY,	itm_bag_plastic,
+FOOD("tea leaves",	10, 13,	c_green,	VEGGY,	itm_bag_plastic,
     2,  1, 0,  2,  0,  0,  0,  0,  5, -1,	&iuse::none, ADD_NULL, "\
 Dried leaves of a tropical plant. You cam boil them into tea, or you\n\
 can just eat them raw. They aren't too filling though.");
 
-FOOD("coffee powder",	55, 13,	c_brown,	VEGGY,	itm_bag_plastic,
+FOOD("coffee powder",	15, 13,	c_brown,	VEGGY,	itm_bag_plastic,
     2,  1, 0,  0,  0,  8,  0,  0,  4, -5,	&iuse::caff, ADD_CAFFEINE, "\
 Ground coffee beans. You can boil it into a mediocre stimulant,\n\
 or swallow it raw for a lesser stimulative boost.");

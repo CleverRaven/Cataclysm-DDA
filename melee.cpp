@@ -536,20 +536,20 @@ bool player::scored_crit()
 
  if (weapon.type->m_to_hit >= 0) {
   for (int i = 0; i <= weapon.type->m_to_hit && !to_hit_crit; i++)
-   to_hit_crit = one_in(3);
+   to_hit_crit = one_in(4);
  } else {
   to_hit_crit = true;
   for (int i = 0; i >= weapon.type->m_to_hit && to_hit_crit; i--)
-   to_hit_crit = !one_in(2);
+   to_hit_crit = !one_in(3);
  }
 
  if (dex_cur >= 8) {
   for (int i = 8; i <= dex_cur && !dex_crit; i++)
-   dex_crit = one_in(3);
+   dex_crit = one_in(4);
  } else {
   dex_crit = true;
   for (int i = 8; i >= dex_cur && dex_crit; i--)
-   dex_crit = !one_in(2);
+   dex_crit = !one_in(3);
  }
 
  int best_skill = 0;
@@ -567,11 +567,11 @@ bool player::scored_crit()
 
  if (best_skill >= 3) {
   for (int i = 3; i <= best_skill && !skill_crit; i++)
-   skill_crit = one_in(3);
+   skill_crit = one_in(4);
  } else {
   skill_crit = true;
   for (int i = 3; i >= best_skill && skill_crit; i--)
-   skill_crit = !one_in(2);
+   skill_crit = !one_in(3);
  }
 
  return ((to_hit_crit && dex_crit) || (to_hit_crit && skill_crit) ||

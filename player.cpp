@@ -1897,9 +1897,8 @@ int player::sight_range(int light_level)
   ret = 1;
  if (has_disease(DI_BLIND))
   ret = 0;
- if (ret > 4 && has_trait(PF_MYOPIC) && !is_wearing(itm_glasses_eye))
-  ret = 4;
- if (ret > 4 && has_trait(PF_MYOPIC) && !is_wearing(itm_glasses_monocle))
+ if (ret > 4 && has_trait(PF_MYOPIC) && !is_wearing(itm_glasses_eye) &&
+     !is_wearing(itm_glasses_monocle))
   ret = 4;
  return ret;
 }
