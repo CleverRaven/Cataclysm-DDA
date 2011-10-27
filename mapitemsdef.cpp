@@ -429,8 +429,9 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_mil_rifles],
 	itm_556, itm_556_incendiary, itm_762_51, itm_762_51_incendiary,
-	itm_laser_pack, itm_m4a1, itm_scar_l, itm_scar_h, itm_m249, itm_ftk93,
-	itm_silencer, itm_clip, itm_m203, NULL);
+	itm_laser_pack, itm_12mm, itm_plasma, itm_m4a1, itm_scar_l, itm_scar_h,
+	itm_m249, itm_ftk93, itm_hk_g80, itm_plasma_rifle, itm_silencer,
+	itm_clip, itm_m203, itm_UPS_off, NULL);
 
  setvector(
    mapitems[mi_grenades],
@@ -590,7 +591,7 @@ void game::init_mapitems()
 	itm_m320, itm_mgl, itm_silencer, itm_clip, itm_lighter, itm_flashlight,
 	itm_two_way_radio, itm_landmine, itm_grenade, itm_flashbang,
 	itm_EMPbomb, itm_gasbomb, itm_smokebomb, itm_UPS_off, itm_tazer,
-	itm_c4, NULL);
+	itm_c4, itm_hk_g80, itm_12mm, NULL);
 
  setvector(
    mapitems[mi_science],
@@ -602,7 +603,7 @@ void game::init_mapitems()
 	itm_textbook_chemistry, itm_SICP, itm_textbook_robots,
 	itm_soldering_iron, itm_geiger_off, itm_teleporter, itm_canister_goo,
 	itm_EMPbomb, itm_pheromone, itm_portal, itm_bot_manhack, itm_UPS_off,
-	itm_tazer, itm_bionics_hazmat, NULL);
+	itm_tazer, itm_bionics_hazmat, itm_plasma, NULL);
 
  setvector(
    mapitems[mi_rare],
@@ -610,7 +611,8 @@ void game::init_mapitems()
 	itm_id_military, itm_electrohack, itm_processor, itm_armor_chitin,
 	itm_plut_cell, itm_laser_pack, itm_m249, itm_v29, itm_ftk93,
 	itm_conversion_battle, itm_conversion_sniper, itm_canister_goo,
-	itm_mininuke, itm_portal, itm_c4, NULL);
+	itm_mininuke, itm_portal, itm_c4, itm_12mm, itm_hk_g80,
+	itm_plasma, itm_plasma_rifle, NULL);
 
  setvector(
    mapitems[mi_stash_food],

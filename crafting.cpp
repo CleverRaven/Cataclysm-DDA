@@ -223,13 +223,13 @@ void game::init_recipes()
   TOOL(itm_pan, -1, itm_pot, -1, NULL);
   COMP(itm_potato_raw, 1, NULL);
 
- RECIPE(itm_tea, CC_FOOD, sk_cooking, sk_null, 1, 4000);
+ RECIPE(itm_tea, CC_FOOD, sk_cooking, sk_null, 0, 4000);
   TOOL(itm_hotplate, 2, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_tea_raw, 1, NULL);
   COMP(itm_bottle_plastic, 1, NULL);
 
- RECIPE(itm_coffee, CC_FOOD, sk_cooking, sk_null, 1, 4000);
+ RECIPE(itm_coffee, CC_FOOD, sk_cooking, sk_null, 0, 4000);
   TOOL(itm_hotplate, 2, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_coffee_raw, 1, NULL);
@@ -367,6 +367,13 @@ void game::init_recipes()
   COMP(itm_steel_chunk, 1, itm_knife_butter, 1, itm_knife_steak, 1,
        itm_bolt_steel, 1, NULL);
   COMP(itm_can_drink, 1, itm_can_food, 1, NULL);
+
+ RECIPE(itm_coilgun, CC_WEAPON, sk_electronics, sk_null, 3, 25000);
+  TOOL(itm_screwdriver, -1, NULL);
+  TOOL(itm_soldering_iron, 10, NULL);
+  COMP(itm_pipe, 1, NULL);
+  COMP(itm_power_supply, 1, NULL);
+  COMP(itm_amplifier, 1, NULL);
 
  RECIPE(itm_radio, CC_ELECTRONIC, sk_electronics, sk_null, 2, 25000);
   TOOL(itm_screwdriver, -1, NULL);

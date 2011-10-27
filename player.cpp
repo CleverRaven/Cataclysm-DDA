@@ -198,7 +198,7 @@ void player::reset()
   int_cur = 0;
  
  int mor = morale_level();
- if (mor >= 0 && mor < 100 && rng(0, 100) <= mor + 20)
+ if (mor >= 0 && mor < 100 && rng(0, 100) <= mor + 8)
   xp_pool++;
  else if (mor > 0)
   xp_pool += int(mor / 100);
@@ -429,7 +429,8 @@ std::string player::save_info()
  }
  for (int i = 0; i < worn.size(); i++)
   dump << "W " << worn[i].save_info() << std::endl;
- dump << "w " << weapon.save_info() << std::endl;
+ if (!weapon.is_null())
+  dump << "w " << weapon.save_info() << std::endl;
  for (int j = 0; j < weapon.contents.size(); j++)
   dump << "c " << weapon.contents[j].save_info() << std::endl;
 

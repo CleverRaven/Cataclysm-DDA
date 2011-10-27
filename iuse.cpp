@@ -31,9 +31,11 @@ void iuse::royal_jelly(game *g, player *p, item *it, bool t)
   message = "Your sight returns!";
   p->rem_disease(DI_BLIND);
  }
- if (p->has_disease(DI_POISON) || p->has_disease(DI_FOODPOISON)) {
+ if (p->has_disease(DI_POISON) || p->has_disease(DI_FOODPOISON) ||
+     p->has_disease(DI_BADPOISON)) {
   message = "You feel much better!";
   p->rem_disease(DI_POISON);
+  p->rem_disease(DI_BADPOISON);
   p->rem_disease(DI_FOODPOISON);
  }
  if (p->has_disease(DI_ASTHMA)) {
@@ -872,7 +874,7 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
  ter_id newter;
  switch (g->m.ter(dirx, diry)) {
  case t_window_boarded:
-  nails = 12;
+  nails =  8;
   boards = 3;
   newter = t_window_empty;
   break;
@@ -1096,7 +1098,7 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
   ter_id newter;
   switch (g->m.ter(dirx, diry)) {
   case t_window_boarded:
-   nails = 12;
+   nails =  8;
    boards = 3;
    newter = t_window_empty;
    break;
@@ -1378,7 +1380,8 @@ void iuse::geiger(game *g, player *p, item *it, bool t)
 
 void iuse::teleport(game *g, player *p, item *it, bool t)
 {
- g->teleport();
+ p->moves -= 100;
+ g->teleport(p);
 }
 
 void iuse::can_goo(game *g, player *p, item *it, bool t)

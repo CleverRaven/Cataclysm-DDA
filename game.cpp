@@ -116,7 +116,7 @@ fivedozenwhales@gmail.com.");
  refresh();
  wrefresh(w_open);
  refresh();
- std::vector<std::string> savegames;
+ std::vector<std::string> savegames, templates;
  std::string tmp;
  dirent *dp;
  DIR *dir = opendir("save");
@@ -139,6 +139,12 @@ fivedozenwhales@gmail.com.");
    savegames.push_back(tmp.substr(0, tmp.find(".sav")));
  }
  closedir(dir);
+ dir = opendir("data");
+ while (dp = readdir(dir)) {
+  tmp = dp->d_name;
+  if (tmp.find(".template") != std::string::npos)
+   templates.push_back(tmp.substr(0, tmp.find(".template")));
+ }
  int sel1 = 0, sel2 = 1, layer = 1;
  char ch;
  bool start = false;
@@ -260,7 +266,7 @@ fivedozenwhales@gmail.com.");
      }
      if (sel2 == 2) {
       layer = 3;
-      sel1 = 2;
+      sel1 = 0;
       mvwprintz(w_open, 5, 12, c_dkgray, "Custom Character");
       mvwprintz(w_open, 6, 12, c_white,  "Preset Character");
       mvwprintz(w_open, 7, 12, c_dkgray, "Random Character");
@@ -316,38 +322,44 @@ fivedozenwhales@gmail.com.");
      }
     }
    }
-  } else if (layer == 3) {	// Character presets
-   for (int i = 2; i < PLTYPE_MAX; i++)
-    mvwprintz(w_open, 4 + i, 29, (sel1 == i ? h_white : c_white),
-              pltype_name[i].c_str());
-   for (int i = 22; i < 25; i++)
-    mvwprintw(w_open, i, 0, "                                                  \
-                              ");
-   mvwprintz(w_open, 22, 0, c_magenta, pltype_desc[sel1].c_str());
+  } else if (layer == 3) {	// Character Templates
+   if (templates.size() == 0)
+    mvwprintz(w_open, 6, 12, c_red, "No templates found!");
+   else {
+    int tempstart = (sel1 < 6 ?  0 : sel1 - 6),
+        tempend   = (sel1 < 6 ? 14 : sel1 + 6);
+    for (int i = tempstart; i < tempend; i++) {
+     int line = 6 + i - tempstart;
+     mvwprintz(w_open, line, 29, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+     if (i < templates.size())
+      mvwprintz(w_open, line, 29, (sel1 == i ? h_white : c_white),
+                templates[i].c_str());
+    }
+   }
    wrefresh(w_open);
    refresh();
    ch = input();
    if (ch == 'k') {
-    if (sel1 > 2)
+    if (sel1 > 0)
      sel1--;
     else
-     sel1 = PLTYPE_MAX - 1;
+     sel1 = templates.size() - 1;
    } else if (ch == 'j') {
-    if (sel1 < PLTYPE_MAX - 1)
+    if (sel1 < templates.size() - 1)
      sel1++;
     else
-     sel1 = 2;
+     sel1 = 0;
    } else if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE) {
     sel1 = 1;
     layer = 2;
-    for (int i = 2; i <= PLTYPE_MAX; i++)
-     mvwprintz(w_open, 3 + i, 12, c_black, "                                 ");
+    for (int i = 0; i < templates.size() && i < 21; i++)
+     mvwprintz(w_open, 6 + i, 12, c_black, "                                 ");
     for (int i = 22; i < 25; i++)
      mvwprintw(w_open, i, 0, "                                                 \
                                 ");
    }
    if (ch == 'l' || ch == '\n' || ch == '>') {
-    if (!u.create(this, character_type(sel1))) {
+    if (!u.create(this, PLTYPE_TEMPLATE, templates[sel1])) {
      u = player();
      delwin(w_open);
      return (opening_screen());
@@ -4141,6 +4153,11 @@ void game::plfire(bool burst)
   add_msg("You need to reload!");
   return;
  }
+ if (u.weapon.has_flag(IF_USE_UPS) && !u.has_charges(itm_UPS_off, 5) &&
+     !u.has_charges(itm_UPS_on, 5)) {
+  add_msg("You need a UPS with at least 5 charges to fire that!");
+  return;
+ }
 
  int junk;
  int range = u.weapon.curammo->range;
@@ -4185,6 +4202,13 @@ void game::plfire(bool burst)
   return;
  if (passtarget != -1)	// We picked a real live target
   last_target = targetindices[passtarget]; // Make it our default for next time
+
+ if (u.weapon.has_flag(IF_USE_UPS)) {
+  if (u.has_charges(itm_UPS_off, 5))
+   u.use_charges(itm_UPS_off, 5);
+  else if (u.has_charges(itm_UPS_on, 5))
+   u.use_charges(itm_UPS_on, 5);
+ }
 
 // Train up our skill
  it_gun* firing = dynamic_cast<it_gun*>(u.weapon.type);
@@ -5372,30 +5396,38 @@ void game::write_msg()
  wrefresh(w_messages);
 }
 
-void game::teleport()
+void game::teleport(player *p)
 {
- int newx, newy, tries = 0;
- u.add_disease(DI_TELEGLOW, 300, this);
+ if (p == NULL)
+  p = &u;
+ int newx, newy, t, tries = 0;
+ bool is_u = (p == &u);
+ p->add_disease(DI_TELEGLOW, 300, this);
  do {
-  newx = u.posx + rng(0, SEEX * 2) - SEEX;
-  newy = u.posy + rng(0, SEEY * 2) - SEEY;
+  newx = p->posx + rng(0, SEEX * 2) - SEEX;
+  newy = p->posy + rng(0, SEEY * 2) - SEEY;
   tries++;
- } while (tries < 15 &&
-          (m.move_cost(newx, newy) == 0 || mon_at(newx, newy) != -1));
- u.posx = newx;
- u.posy = newy;
+ } while (tries < 15 && !is_empty(newx, newy));
+ bool can_see = (is_u || u_see(newx, newy, t));
+ std::string You = (is_u ? "You" : p->name);
+ p->posx = newx;
+ p->posy = newy;
  if (tries == 15) {
   if (m.move_cost(newx, newy) == 0) {	// TODO: If we land in water, swim
-   add_msg("You teleport into the middle of a %s!",
-           m.tername(newx, newy).c_str());
-   u.hurt(this, bp_torso, 0, 500);
+   if (can_see)
+    add_msg("%s teleport%s into the middle of a %s!", You.c_str(),
+            (is_u ? "" : "s"), m.tername(newx, newy).c_str());
+   p->hurt(this, bp_torso, 0, 500);
   } else if (mon_at(newx, newy) != -1) {
    int i = mon_at(newx, newy);
-   add_msg("You teleport into the middle of a %s!", z[i].name().c_str());
+   if (can_see)
+    add_msg("%s teleport%s into the middle of a %s!", You.c_str(),
+            (is_u ? "" : "s"), z[i].name().c_str());
    explode_mon(i);
   }
  }
- update_map(u.posx, u.posy);
+ if (is_u)
+  update_map(u.posx, u.posy);
 }
 
 void game::nuke(int x, int y)

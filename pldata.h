@@ -4,20 +4,12 @@
 enum character_type {
  PLTYPE_CUSTOM,
  PLTYPE_RANDOM,
- PLTYPE_STUDENT,
- PLTYPE_FARMER,
- PLTYPE_MECHANIC,
- PLTYPE_CLERK,
- PLTYPE_COP,
- PLTYPE_SURVIVALIST,
- PLTYPE_PROGRAMMER,
- PLTYPE_DOCTOR,
+ PLTYPE_TEMPLATE,
  PLTYPE_MAX
 };
 
 const std::string pltype_name[PLTYPE_MAX] = {
-"Custom Character", "Random Character", "Student", "Farmer", "Mechanic",
- "Clerk", "Police Officer", "Survivalist", "Programmer", "Doctor" };
+"Custom Character", "Random Character", "Template Character"};
 
 const std::string pltype_desc[PLTYPE_MAX] = { "\
 A custom character you design yourself.  A pool of points is used for\n\
@@ -25,33 +17,7 @@ statistics, traits, and skills.",
 "\
 A character with stats, traits, and skills chosen randomly.",
 "\
-Before the influx of monsters, you were a college student.  You start with\n\
-high intelligence, average strength, perception, and dexterity, and a\n\
-smattering of varied skills.",
-"\
-As a farmer, you have a naturally robust strength, while your other stats may\n\
-vary.  You are slightly skilled in cutting weapons, as many farm tools are.",
-"\
-Reparing cars has given you a keen skill in mechanics and a decent dexterity.\n\
-You are also slightly skilled in bashing weapons, like wrenches and hammers.",
-"\
-Spending your time behind a checkout counter has honed your skills of speech\n\
-and barter, but you're not particularly good at much else.",
-"\
-Police training demands a good strength, dexterity and perception, with less\n\
-emphasis on intelligence.  You're also trained in the use of pistols, and\n\
-possibly other firearms.",
-"\
-You love living off the land and firing your guns--the apocalypse is a dream\n\
-come true!  You start off skilled in traps, rifles, and first aid.",
-"\
-Hours at a computer have caused your strength and perception to decline, but\n\
-your mind couldn't be better honed.  You're highly skilled with computers and\n\
-possibly one or two other technical areas.",
-"\
-Possessed of a mind and stamina capable of carrying you through law school,\n\
-you're highly skilled both with first aid and more serious medical procedure,\n\
-but less so with fighting."
+A character loaded from a template file.",
 };
 
 enum dis_type {

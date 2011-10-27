@@ -95,7 +95,8 @@ itm_battery, itm_plut_cell, itm_nail, itm_bb, itm_arrow_wood, itm_arrow_cf,
  itm_762_m87, itm_223, itm_556, itm_556_incendiary, itm_270, itm_3006,
  itm_3006_incendiary, itm_308, itm_762_51, itm_762_51_incendiary,
  itm_laser_pack, itm_40mm_concussive, itm_40mm_frag, itm_40mm_incendiary,
- itm_40mm_teargas, itm_40mm_smoke, itm_40mm_flashbang, itm_gasoline,
+ itm_40mm_teargas, itm_40mm_smoke, itm_40mm_flashbang, itm_12mm, itm_plasma,
+ itm_gasoline,
 // Guns
 itm_nailgun, itm_bbgun, itm_crossbow, itm_compbow, itm_longbow, itm_rifle_22,
  itm_rifle_9mm, itm_smg_9mm, itm_smg_45, itm_sig_mosquito, itm_sw_22,
@@ -109,7 +110,7 @@ itm_nailgun, itm_bbgun, itm_crossbow, itm_compbow, itm_longbow, itm_rifle_22,
  itm_hk_g36, itm_ak47, itm_fn_fal, itm_acr, itm_ar15, itm_m4a1, itm_scar_l,
  itm_scar_h, itm_steyr_aug, itm_m249, itm_v29, itm_ftk93,
  itm_flamethrower_simple, itm_flamethrower, itm_launcher_simple, itm_m79,
- itm_m320, itm_mgl,
+ itm_m320, itm_mgl, itm_coilgun, itm_hk_g80, itm_plasma_rifle,
 // Gun modifications
 itm_silencer, itm_grip, itm_barrel_big, itm_barrel_small, itm_barrel_rifled,
  itm_clip, itm_clip2, itm_stablizer, itm_blowback, itm_autofire, itm_retool_45,
@@ -177,6 +178,8 @@ AT_762, AT_223, AT_3006, AT_308,
 AT_40MM,
 AT_GAS,
 AT_FUSION,
+AT_12MM,
+AT_PLASMA,
 NUM_AMMO_TYPES
 };
 
@@ -194,6 +197,7 @@ IF_RELOAD_ONE,	// Reload cartridge by cartridge (e.g. most shotguns)
 IF_STR_RELOAD,  // Reloading time is reduced by Strength * 20
 IF_STR8_DRAW,   // Requires strength 8 to draw
 IF_STR10_DRAW,  // Requires strength 10 to draw
+IF_USE_UPS,	// Draws power from a UPS
 
 IF_AMMO_FLAME,	// Sets fire to terrain and monsters
 IF_AMMO_INCENDIARY, // Sparks explosive terrain

@@ -1619,6 +1619,17 @@ A 40mm grenade with a flashbang load.  It will detonate with a blast of light\n\
 and sound, designed to blind, deafen, and disorient anyone nearby.",
 mfb(IF_AMMO_FLASHBANG));
 
+AMMO("H&K 12mm",	 2, 500,AT_12MM,		c_red,	STEEL,
+	 1,  10, 25,  6, 35,  9, 7,  20, "\
+The Heckler & Koch 12mm projectiles are used in H&K railguns. It's made of a\n\
+ferromagnetic metal, probably cobalt.",
+0);
+
+AMMO("hydrogen",	 8,1200,AT_PLASMA,	c_green,	STEEL,
+	 10,  25, 35,  3, 8,  4,  0,  25, "\
+A canister of hydrogen. With proper equipment, it could be heated to plasma.",
+mfb(IF_AMMO_INCENDIARY));
+
 // FUEL
 // Fuel is just a special type of ammo; liquid
 #define FUEL(name,rarity,price,ammo_type,color,dmg,AP,range,accuracy,recoil,\
@@ -1667,7 +1678,9 @@ it much faster.  Bolts fired from this weapon have a good chance of remaining\n\
 intact for re-use.",
 mfb(IF_STR_RELOAD));
 
+//  NAME		RAR PRC COLOR		MAT1	MAT2
 GUN("compound bow",      2, 700,c_yellow,       STEEL,  PLASTIC,
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
         sk_archery,     AT_ARROW,12, 8,  8,  1,  0, 16,  0,  6,  0,  1, 400, "\
 A bow with wheels that fires high velocity arrows.  Weaker people can use\n\
 compound bows more easily.  Arrows fired from this weapon have a good chance\n\
@@ -1687,15 +1700,15 @@ A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to\n\
 strike the single round it holds.",
 0);
 
+//  NAME		RAR PRC COLOR		MAT1	MAT2
 GUN("pipe rifle: 9mm",	0,  460,c_ltblue,	IRON,	WOOD,
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
 	sk_rifle,	AT_9MM,	10, 16, 10,  2, -2, 15,  2,  6,  0,  1, 250, "\
 A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to\n\
 strike the single round it holds.",
 0);
 
-//  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("pipe SMG: 9mm",	0,  540,c_ltblue,	IRON,	WOOD,
-//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
 	sk_smg,		AT_9MM,  5,  8,  6, -1,  0, 30,  6,  5,  4, 10, 400, "\
 A home-made machine pistol.  It features a rudimentary blowback system, which\n\
 allows for small bursts.",
@@ -2111,6 +2124,28 @@ The Milkor Multi-Grenade Launcher is designed to compensate for the drawback\n\
 of single-shot grenade launchers by allowing sustained heavy firepower.\n\
 However, it is still slow to reload and must be used with careful planning.",
 mfb(IF_RELOAD_ONE));
+
+//  NAME		    RAR PRC COLOR		MAT1	MAT2
+GUN("coilgun",		1, 100,c_ltblue,	IRON,	MNULL,
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
+	sk_pistol,	AT_NAIL, 6, 30, 10, -1,  8, 10,  0,  5,  0, 100, 600, "\
+A homemade gun, using electromagnets to accelerate a ferromagnetic\n\
+projectile to high velocity. Powered by UPS.",
+mfb(IF_USE_UPS));
+
+GUN("H&K G80 Railgun",		2,1600,c_ltblue,STEEL,	MNULL,
+	sk_rifle,	AT_12MM,12, 36, 12,  1,  5,  15, 0,  8,  0, 20, 550, "\
+Developed by Heckler & Koch in 2033, the railgun magnetically propels\n\
+a ferromagnetic projectile using an alternating current. This makes it\n\
+silent while still deadly. Powered by UPS.",
+mfb(IF_USE_UPS));
+
+GUN("Boeing XM-P Plasma Rifle",		1,2000,c_ltblue,STEEL,	MNULL,
+	sk_rifle,	AT_PLASMA,15, 40, 12, 1,  5,  5, 0,  8,  5, 25, 700, "\
+Boeing developed the focused plasma weaponry together with DARPA. It heats\n\
+hydrogen to create plasma and envelops it with polymers to reduce blooming.\n\
+While powerful, it suffers from short range. Powered by UPS.",
+mfb(IF_USE_UPS));
 
 // GUN MODS
 // Accuracy is inverted from guns; high values are a bonus, low values a penalty
@@ -2824,17 +2859,17 @@ An inactive turret.  Using this item involves turning it on and placing it\n\
 on the ground, where it will attach itself.  The turret will then identify\n\
 you as a friendly, and attack all enemies with an SMG.");
 
-TOOL("UPS (off)",	 1,2800,';',c_ltgreen,	STEEL,	PLASTIC,
+TOOL("UPS (off)",	 5,2800,';',c_ltgreen,	STEEL,	PLASTIC,
     4,  6, 10,  0, -1,1000, 0,  0,  0, AT_BATT, itm_null, &iuse::UPS_off,0,"\
 A unified power supply, or UPS, is a device developed jointly by military and\n\
 scientific interests for use in combat and the field.  The UPS is designed to\n\
-power armor, goggles, etc., but drains batteries quickly.");
+power armor and some guns, but drains batteries quickly.");
 
 TOOL("UPS (on)",	 0,2800,';',c_ltgreen,	STEEL,	PLASTIC,
     4,  6, 10,  0, -1,1000, 0,  0,  2, AT_BATT,	itm_UPS_off, &iuse::UPS_on,0,"\
 A unified power supply, or UPS, is a device developed jointly by military and\n\
 scientific interests for use in combat and the field.  The UPS is designed to\n\
-power armor, goggles, etc., but drains batteries quickly.");
+power armor and some guns, but drains batteries quickly.");
 
 TOOL("tazer",		 3,1400,';',c_ltred,	IRON,	PLASTIC,
     1,  3,  6,  0, -1, 500, 0,100, 0, AT_BATT, itm_null, &iuse::tazer,0,"\
@@ -2890,7 +2925,7 @@ color, STEEL, PLASTIC, 10, 18, 8, 0, 0, 0, difficulty, __VA_ARGS__))
 //  Name			RAR PRICE	COLOR		DIFFICULTY
 
 BIO("CBM: Internal Battery",	24, 3800,	c_green,	 1, "\
-Compact Bionics Module which upgrades your power capacity by 10 units. Having\n\
+Compact Bionics Module which upgrades your power capacity by 4 units. Having\n\
 at least one of these is a prerequisite to using powered bionics.  You will\n\
 also need a power supply, found in another CBM.",
     NULL); // This is a special case, which increases power capacity by 10
@@ -3053,6 +3088,8 @@ std::string ammo_name(ammotype t)
   case AT_BATT:   return "batteries";
   case AT_PLUT:   return "plutonium";
   case AT_FUSION: return "fusion cell";
+  case AT_12MM:   return "12mm slugs";
+  case AT_PLASMA: return "hydrogen";
   default:	  return "XXX";
  }
 }
@@ -3080,6 +3117,8 @@ itype_id default_ammo(ammotype guntype)
  case AT_40MM:  return itm_40mm_concussive;
  case AT_BATT:	return itm_battery;
  case AT_FUSION:return itm_laser_pack;
+ case AT_12MM:  return itm_12mm;
+ case AT_PLASMA:return itm_plasma;
  case AT_PLUT:	return itm_plut_cell;
  case AT_GAS:	return itm_gasoline;
  }

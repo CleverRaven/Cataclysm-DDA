@@ -139,6 +139,7 @@ bool map::flammable_items_at(int x, int y)
       it->type->id == itm_rum || it->type->id == itm_tequila)
    return true;
  }
+ return false;
 }
 
 point map::random_outdoor_tile()

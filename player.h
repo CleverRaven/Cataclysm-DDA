@@ -25,9 +25,9 @@ public:
  player& operator= (player rhs);
 
 // newcharacter.cpp 
- bool create(game *g, character_type type);
- int  random_good_trait(character_type type);
- int  random_bad_trait (character_type type);
+ bool create(game *g, character_type type, std::string tempname = "");
+ int  random_good_trait();
+ int  random_bad_trait ();
  void normalize(game *g);	// Starting set up of HP and inventory
 // </newcharacter.cpp>
 

@@ -103,7 +103,7 @@ class game
 // then be passed to a MacGuffin or something else that needs to track a mission
   int reserve_mission(mission_id type);
   mission* find_mission(int id); // Mission with UID=id; NULL if non-existant
-  void teleport();
+  void teleport(player *p = NULL);
   void nuke(int x, int y);
   std::vector<faction *> factions_at(int x, int y);
   int& scent(int x, int y);

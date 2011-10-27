@@ -4,6 +4,8 @@
 #include "keypress.h"
 #include "game.h"
 #include <unistd.h>
+#include <fstream>
+#include <sstream>
 
 // ncurses has not yet been initialized, so we need to define our line chars
 #define LINE_XOXO 4194424
@@ -38,147 +40,105 @@ int set_traits(WINDOW* w, player *u, int &points);
 int set_skills(WINDOW* w, player *u, int &points);
 int set_description(WINDOW* w, player *u, int &points);
 
-int random_good_trait(character_type type);
-int random_bad_trait(character_type type);
-int random_skill(character_type type);
+int random_skill();
 
 int calc_HP(int strength, bool tough);
 
-bool player::create(game *g, character_type type)
+void save_template(player *u);
+
+bool player::create(game *g, character_type type, std::string tempname)
 {
  WINDOW* w = newwin(25, 80, 0, 0);
  int tab = 0, points = 38;
  if (type != PLTYPE_CUSTOM) {
   switch (type) {
-  case PLTYPE_RANDOM:
-   str_max = rng(6, 12);
-   dex_max = rng(6, 12);
-   int_max = rng(6, 12);
-   per_max = rng(6, 12);
-   break;
-  case PLTYPE_STUDENT:
-   str_max = dice(2, 5) + 3;
-   dex_max = dice(2, 5) + 3;
-   int_max = dice(3, 4) + 4;
-   per_max = dice(2, 5) + 3;
-   break;
-  case PLTYPE_FARMER:
-   str_max = dice(4, 4) + 3;
-   dex_max = dice(2, 5) + 4;
-   int_max = dice(2, 5) + 3;
-   per_max = dice(2, 5) + 3;
-   break;
-  case PLTYPE_MECHANIC:
-   str_max = rng(6, 14);
-   dex_max = dice(2, 6) + 3;
-   int_max = dice(2, 6) + 3;
-   per_max = dice(2, 7) + 3;
-   sklevel[sk_mechanics] = 2;
-   points--;
-   break;
-  case PLTYPE_CLERK:
-   str_max = dice(2, 6) + 3;
-   dex_max = dice(2, 6) + 3;
-   int_max = dice(2, 6) + 3;
-   per_max = dice(2, 6) + 3;
-   sklevel[sk_barter] = 2;
-   points--;
-   break;
-  case PLTYPE_COP:
-   str_max = dice(3, 5) + 3;
-   dex_max = dice(3, 5) + 3;
-   int_max = dice(3, 3) + 2;
-   per_max = dice(2, 6) + 4;
-   break;
-  case PLTYPE_SURVIVALIST:
-   str_max = dice(2, 6) + 4;
-   dex_max = dice(2, 6) + 4;
-   int_max = dice(2, 6) + 3;
-   per_max = dice(2, 6) + 4;
-   break;
-  case PLTYPE_PROGRAMMER:
-   str_max = rng(5, 8);
-   dex_max = dice(2, 4) + 3;
-   int_max = dice(4, 4) + 4;
-   per_max = dice(2, 5) + 3;
-   sklevel[sk_computer] = 2;
-   points--;
-   break;
-  case PLTYPE_DOCTOR:
-   str_max = dice(2, 6) + 4;
-   dex_max = dice(2, 6) + 4;
-   int_max = dice(2, 7) + 5;
-   per_max = dice(2, 6) + 4;
-   sklevel[sk_firstaid] = 2;
-   points--;
-   break;
-  }
-  points = points - str_max - dex_max - int_max - per_max;
-  if (str_max > HIGH_STAT)
-   points -= (str_max - HIGH_STAT);
-  if (dex_max > HIGH_STAT)
-   points -= (dex_max - HIGH_STAT);
-  if (int_max > HIGH_STAT)
-   points -= (int_max - HIGH_STAT);
-  if (per_max > HIGH_STAT)
-   points -= (per_max - HIGH_STAT);
-  int num_gtraits = 0, num_btraits = 0, rn, tries;
-  while (points < 0 || rng(-3, 20) > points) {
-   if (num_btraits < MAX_TRAIT_POINTS && one_in(3)) {
-    tries = 0;
-    do {
-     rn = random_bad_trait(type);
-     tries++;
-    } while ((has_trait(rn) ||
-              num_btraits - traits[rn].points > MAX_TRAIT_POINTS) && tries < 5);
-    if (tries < 5) {
-     toggle_trait(rn);
-     points -= traits[rn].points;
-     num_btraits -= traits[rn].points;
+   case PLTYPE_RANDOM: {
+    str_max = rng(6, 12);
+    dex_max = rng(6, 12);
+    int_max = rng(6, 12);
+    per_max = rng(6, 12);
+    points = points - str_max - dex_max - int_max - per_max;
+    if (str_max > HIGH_STAT)
+     points -= (str_max - HIGH_STAT);
+    if (dex_max > HIGH_STAT)
+     points -= (dex_max - HIGH_STAT);
+    if (int_max > HIGH_STAT)
+     points -= (int_max - HIGH_STAT);
+    if (per_max > HIGH_STAT)
+     points -= (per_max - HIGH_STAT);
+ 
+    int num_gtraits = 0, num_btraits = 0, rn, tries;
+    while (points < 0 || rng(-3, 20) > points) {
+     if (num_btraits < MAX_TRAIT_POINTS && one_in(3)) {
+      tries = 0;
+      do {
+       rn = random_bad_trait();
+       tries++;
+      } while ((has_trait(rn) ||
+               num_btraits - traits[rn].points > MAX_TRAIT_POINTS) && tries < 5);
+      if (tries < 5) {
+       toggle_trait(rn);
+       points -= traits[rn].points;
+       num_btraits -= traits[rn].points;
+      }
+     } else {
+      switch (rng(1, 4)) {
+       case 1: if (str_max > 5) { str_max--; points++; } break;
+       case 2: if (dex_max > 5) { dex_max--; points++; } break;
+       case 3: if (int_max > 5) { int_max--; points++; } break;
+       case 4: if (per_max > 5) { per_max--; points++; } break;
+      }
+     }
     }
-   } else {
-    switch (rng(1, 4)) {
-     case 1: if (str_max > 5) { str_max--; points++; } break;
-     case 2: if (dex_max > 5) { dex_max--; points++; } break;
-     case 3: if (int_max > 5) { int_max--; points++; } break;
-     case 4: if (per_max > 5) { per_max--; points++; } break;
+    while (points > 0) {
+     switch (rng((num_gtraits < MAX_TRAIT_POINTS ? 1 : 5), 9)) {
+     case 1:
+     case 2:
+     case 3:
+     case 4:
+      rn = random_good_trait();
+      if (!has_trait(rn) && points >= traits[rn].points &&
+          num_gtraits + traits[rn].points <= MAX_TRAIT_POINTS) {
+       toggle_trait(rn);
+       points -= traits[rn].points;
+       num_gtraits += traits[rn].points;
+      }
+      break;
+     case 5:
+      switch (rng(1, 4)) {
+       case 1: if (str_max < HIGH_STAT) { str_max++; points--; } break;
+       case 2: if (dex_max < HIGH_STAT) { dex_max++; points--; } break;
+       case 3: if (int_max < HIGH_STAT) { int_max++; points--; } break;
+       case 4: if (per_max < HIGH_STAT) { per_max++; points--; } break;
+      }
+      break;
+     case 6:
+     case 7:
+     case 8:
+     case 9:
+      rn = random_skill();
+      if (points >= sklevel[rn] + 1) {
+       points -= sklevel[rn] + 1;
+       sklevel[rn] += 2;
+      }
+      break;
+     }
     }
-   }
-  }
-  while (points > 0) {
-   switch (rng((num_gtraits < MAX_TRAIT_POINTS ? 1 : 5), 9)) {
-   case 1:
-   case 2:
-   case 3:
-   case 4:
-    rn = random_good_trait(type);
-    if (!has_trait(rn) && points >= traits[rn].points &&
-        num_gtraits + traits[rn].points <= MAX_TRAIT_POINTS) {
-     toggle_trait(rn);
-     points -= traits[rn].points;
-     num_gtraits += traits[rn].points;
+   } break;
+   case PLTYPE_TEMPLATE: {
+    std::ifstream fin;
+    std::stringstream filename;
+    filename << "data/" << tempname << ".template";
+    fin.open(filename.str().c_str());
+    if (!fin.is_open()) {
+     debugmsg("Couldn't open %s!", filename.str().c_str());
+     return false;
     }
-    break;
-   case 5:
-    points--;
-    switch (rng(1, 4)) {
-     case 1: str_max++; break;
-     case 2: dex_max++; break;
-     case 3: int_max++; break;
-     case 4: per_max++; break;
-    }
-    break;
-   case 6:
-   case 7:
-   case 8:
-   case 9:
-    rn = random_skill(type);
-    if (points >= sklevel[rn] + 1) {
-     points -= sklevel[rn] + 1;
-     sklevel[rn] += 2;
-    }
-    break;
-   }
+    std::string(data);
+    getline(fin, data);
+    load_info(g, data);
+    points = 0;
+   } break;
   }
   tab = 3;
  } else
@@ -845,9 +805,11 @@ Name: ______________________________     (Press TAB to move off this line)");
  mvwprintz(w, 8, 2, c_ltgray, "\
 Gender: Male Female                      (Press spacebar to toggle)");
  mvwprintz(w,10, 2, c_ltgray, "\
-When your character is finished and you're ready to start playing, press '>'.");
+When your character is finished and you're ready to start playing, press >");
  mvwprintz(w,12, 2, c_ltgray, "\
-To go back and review your character, press '<'.");
+To go back and review your character, press <");
+ mvwprintz(w, 14, 2, c_green, "\
+To save this character as a template, press S.");
  
  int line = 1;
  bool noname = false;
@@ -894,6 +856,13 @@ Points left: %d    You must use the rest of your points!", points);
     refresh();
   } else if (ch == '<') {
    return -1;
+  } else if (ch == 'S') {
+   if (points > 0) {
+    popup("You cannot save a template with unused points!");
+   } else
+    save_template(u);
+   mvwprintz(w,12, 2, c_ltgray,"To go back and review your character, press <");
+   wrefresh(w);
   } else {
    switch (line) {
     case 1:
@@ -923,486 +892,34 @@ Points left: %d    You must use the rest of your points!", points);
  } while (true);
 }
 
-int player::random_good_trait(character_type type)
+int player::random_good_trait()
 {
- switch (type) {
- case PLTYPE_RANDOM: return rng(1, PF_SPLIT - 1);
- case PLTYPE_STUDENT:
-  switch(rng(1, 12)) {
-   case  1: return PF_LIGHTEATER;
-   case  2:
-   case  3:
-   case  4: return PF_FASTREADER;
-   case  5: return PF_PACKMULE;
-   case  6:
-   case  7:
-   case  8:
-   case  9: if (!has_trait(PF_SAVANT)) return PF_FASTLEARNER;
-   case 10: return PF_INCONSPICUOUS;
-   case 11: return PF_LIGHTSTEP;
-   case 12: if (one_in(3)) return PF_ANDROID; else return PF_FASTLEARNER;
-  }
- case PLTYPE_FARMER:
-  switch (rng(1, 18)) {
-   case  1: return PF_OPTIMISTIC;
-   case  2: return PF_FASTHEALER;
-   case  3:
-   case  4: return PF_PAINRESIST;
-   case  5:
-   case  6: return PF_POISRESIST;
-   case  7:
-   case  8:
-   case  9: return PF_TOUGH;
-   case 10:
-   case 11:
-   case 12: return PF_THICKSKIN;
-   case 13: return PF_GOURMAND;
-   case 14:
-   case 15:
-   case 16: return PF_ANIMALEMPATH;
-   case 17:
-   case 18: return PF_DISRESISTANT;
-  }
- case PLTYPE_MECHANIC:
-  switch (rng(1, 13)) {
-   case  1: return PF_QUICK;
-   case  2: return PF_FASTHEALER;
-   case  3: return PF_PAINRESIST;
-   case  4: return PF_NIGHTVISION;
-   case  5: return PF_TOUGH;
-   case  6:
-   case  7: return PF_THICKSKIN;
-   case  8: return PF_PACKMULE;
-   case  9: if (!has_trait(PF_SAVANT)) return PF_FASTLEARNER;
-   case 10: return PF_DEFT;
-   case 11: return PF_TERRIFYING;
-   case 12: return PF_MASOCHIST;
-   case 13: return PF_ANDROID;
-  }
- case PLTYPE_CLERK:
-  switch (rng(1, 16)) {
-   case  1:
-   case  2: return PF_PARKOUR;
-   case  3: return PF_QUICK;
-   case  4: return PF_OPTIMISTIC;
-   case  5: return PF_LIGHTEATER;
-   case  6: return PF_NIGHTVISION;
-   case  7:
-   case  8:
-   case  9:
-   case 10: return PF_PACKMULE;
-   case 11: if (!has_trait(PF_SAVANT)) return PF_FASTLEARNER;
-   case 12: return PF_DEFT;
-   case 13:
-   case 14: return PF_DISRESISTANT;
-   case 15: return PF_INCONSPICUOUS;
-   case 16: return PF_LIGHTSTEP;
-  }
- case PLTYPE_COP:
-  switch (rng(1, 27)) {
-   case  1:
-   case  2:
-   case  3: return PF_FLEET;
-   case  4:
-   case  5:
-   case  6: return PF_PARKOUR;
-   case  7:
-   case  8: return PF_QUICK;
-   case  9: return PF_PAINRESIST;
-   case 10:
-   case 11: return PF_NIGHTVISION;
-   case 12: if (!has_trait(PF_SAVANT)) return PF_FASTLEARNER;
-   case 13:
-   case 14:
-   case 15: return PF_DEFT;
-   case 16: return PF_ANIMALEMPATH;
-   case 17:
-   case 18:
-   case 19: return PF_TERRIFYING;
-   case 20:
-   case 21: return PF_ADRENALINE;
-   case 22: return PF_LIGHTSTEP;
-   case 23:
-   case 24:
-   case 25: return PF_HEARTLESS;
-   case 26:
-   case 27: return PF_ANDROID;
-  }
- case PLTYPE_SURVIVALIST:
-  switch (rng(1, 31)) {
-   case  1:
-   case  2:
-   case  3: return PF_FLEET;
-   case  4: return PF_PARKOUR;
-   case  5: return PF_QUICK;
-   case  6:
-   case  7: return PF_OPTIMISTIC;
-   case  8: return PF_FASTHEALER;
-   case  9: return PF_LIGHTEATER;
-   case 10: return PF_PAINRESIST;
-   case 11:
-   case 12: return PF_NIGHTVISION;
-   case 13: return PF_POISRESIST;
-   case 14:
-   case 15: return PF_TOUGH;
-   case 16: return PF_THICKSKIN;
-   case 17:
-   case 18:
-   case 19:
-   case 20:
-   case 21: return PF_ANIMALEMPATH;
-   case 22: return PF_TERRIFYING;
-   case 23:
-   case 24: return PF_DISRESISTANT;
-   case 25: return PF_ADRENALINE;
-   case 26:
-   case 27: return PF_INCONSPICUOUS;
-   case 28:
-   case 29:
-   case 30: return PF_LIGHTSTEP;
-   case 31: return PF_HEARTLESS;
-  }
- case PLTYPE_PROGRAMMER:
-  switch (rng(1, 19)) {
-   case  1: return PF_OPTIMISTIC;
-   case  2:
-   case  3:
-   case  4: return PF_LIGHTEATER;
-   case  5:
-   case  6:
-   case  7:
-   case  8: return PF_FASTREADER;
-   case  9:
-   case 10:
-   case 11:
-   case 12: if (!has_trait(PF_SAVANT)) return PF_FASTLEARNER;
-   case 13: return PF_GOURMAND;
-   case 14:
-   case 15:
-   case 16: return PF_INCONSPICUOUS;
-   case 17:
-   case 18:
-   case 19: return PF_ANDROID;
-  }
- case PLTYPE_DOCTOR:
-  switch (rng(1, 14)) {
-   case  1:
-   case  2: return PF_QUICK;
-   case  3:
-   case  4: return PF_FASTHEALER;
-   case  5: return PF_PAINRESIST;
-   case  6: return PF_POISRESIST;
-   case  7: return PF_FASTREADER;
-   case  8: if (!has_trait(PF_SAVANT)) return PF_FASTLEARNER;
-   case  9:
-   case 10:
-   case 11:
-   case 12: return PF_DISRESISTANT;
-   case 13: return PF_ADRENALINE;
-   case 14: return PF_ANDROID;
-  }
- }
+ return rng(1, PF_SPLIT - 1);
 }
 
-int player::random_bad_trait(character_type type)
+int player::random_bad_trait()
 {
- switch (type) {
- case PLTYPE_RANDOM: return rng(PF_SPLIT + 1, PF_MAX - 1);
- case PLTYPE_STUDENT:
-  switch(rng(1, 19)) {
-   case  1:
-   case  2:
-   case  3: return PF_MYOPIC;
-   case  4:
-   case  5:
-   case  6: return PF_HEAVYSLEEPER;
-   case  7: return PF_BADBACK;
-   case  8:
-   case  9: return PF_INSOMNIA;
-   case 10:
-   case 11: return PF_VEGETARIAN;
-   case 12: return PF_GLASSJAW;
-   case 13:
-   case 14: return PF_ADDICTIVE;
-   case 15: return PF_SMELLY;
-   case 16: return PF_CHEMIMBALANCE;
-   case 17:
-   case 18: if (!has_trait(PF_FASTLEARNER)) return PF_SAVANT;
-   case 19: return PF_MOODSWINGS;
-  }
- case PLTYPE_FARMER:
-  switch (rng(1, 7)) {
-   case  1: return PF_MYOPIC;
-   case  2: return PF_BADBACK;
-   case  3: return PF_ILLITERATE;
-   case  4: return PF_BADHEARING;
-   case  5: return PF_FORGETFUL;
-   case  6:
-   case  7: return PF_SMELLY;
-  }
- case PLTYPE_MECHANIC:
-  switch (rng(1, 14)) {
-   case  1: return PF_HEAVYSLEEPER;
-   case  2: return PF_ILLITERATE;
-   case  3:
-   case  4:
-   case  5: return PF_BADHEARING;
-   case  6: return PF_INSOMNIA;
-   case  7: return PF_FORGETFUL;
-   case  8: return PF_ADDICTIVE;
-   case  9:
-   case 10: return PF_TRIGGERHAPPY;
-   case 11:
-   case 12: return PF_SMELLY;
-   case 13: return PF_CHEMIMBALANCE;
-   case 14: return PF_HOARDER;
-  }
- case PLTYPE_CLERK:
-  switch (rng(1, 15)) {
-   case  1: return PF_MYOPIC;
-   case  2:
-   case  3:
-   case  4: return PF_HEAVYSLEEPER;
-   case  5: return PF_ASTHMA;
-   case  6: return PF_BADHEARING;
-   case  7:
-   case  8: return PF_INSOMNIA;
-   case  9: return PF_VEGETARIAN;
-   case 10: return PF_GLASSJAW;
-   case 11:
-   case 12: return PF_FORGETFUL;
-   case 13:
-   case 14: return PF_HOARDER;
-   case 15: return PF_MOODSWINGS;
-  }
- case PLTYPE_COP:
-  switch (rng(1, 11)) {
-   case  1:
-   case  2:
-   case  3:
-   case  4: return PF_INSOMNIA;
-   case  5: return PF_GLASSJAW;
-   case  6: return PF_LIGHTWEIGHT;
-   case  7:
-   case  8: return PF_TRIGGERHAPPY;
-   case  9: if (one_in(3)) return PF_SCHIZOPHRENIC; else return PF_INSOMNIA;
-   case 10: return PF_JITTERY;
-   case 11: return PF_HPIGNORANT;
-  }
- case PLTYPE_SURVIVALIST:
-  switch (rng(1, 18)) {
-   case  1: return PF_BADBACK;
-   case  2: return PF_ILLITERATE;
-   case  3: return PF_BADHEARING;
-   case  4: return PF_INSOMNIA;
-   case  5: return PF_FORGETFUL;
-   case  6:
-   case  7: return PF_ADDICTIVE;
-   case  8:
-   case  9:
-   case 10: return PF_TRIGGERHAPPY;
-   case 11:
-   case 12:
-   case 13: return PF_SMELLY;
-   case 14: return PF_CHEMIMBALANCE;
-   case 15: return PF_SCHIZOPHRENIC;
-   case 16:
-   case 17: return PF_HOARDER;
-   case 18: return PF_HPIGNORANT;
-  }
- case PLTYPE_PROGRAMMER:
-  switch (rng(1, 36)) {
-   case  1:
-   case  2:
-   case  3:
-   case  4:
-   case  5: return PF_MYOPIC;
-   case  6: return PF_HEAVYSLEEPER;
-   case  7:
-   case  8:
-   case  9:
-   case 10: return PF_ASTHMA;
-   case 11:
-   case 12:
-   case 13: return PF_BADBACK;
-   case 14: return PF_BADHEARING;
-   case 15: return PF_INSOMNIA;
-   case 16:
-   case 17:
-   case 18: return PF_GLASSJAW;
-   case 19:
-   case 20:
-   case 21: return PF_LIGHTWEIGHT;
-   case 22:
-   case 23:
-   case 24: return PF_SMELLY;
-   case 25: return PF_CHEMIMBALANCE;
-   case 26:
-   case 27:
-   case 28: if (!has_trait(PF_FASTLEARNER)) return PF_SAVANT;
-   case 29:
-   case 30:
-   case 31: return PF_WEAKSTOMACH;
-   case 32:
-   case 33:
-   case 34: return PF_WOOLALLERGY;
-   case 35:
-   case 36: return PF_HPIGNORANT;
-  }
- case PLTYPE_DOCTOR:
-  switch (rng(1, 14)) {
-   case  1:
-   case  2: return PF_MYOPIC;
-   case  3: return PF_ASTHMA;
-   case  4: return PF_BADBACK;
-   case  5:
-   case  6: return PF_INSOMNIA;
-   case  7:
-   case  8: return PF_VEGETARIAN;
-   case  9: return PF_GLASSJAW;
-   case 10:
-   case 11:
-   case 12: return PF_ADDICTIVE;
-   case 13: if (!has_trait(PF_FASTLEARNER)) return PF_SAVANT;
-   case 14: return PF_WEAKSTOMACH;
-  }
- }
+ return rng(PF_SPLIT + 1, PF_MAX - 1);
 }
 
-int random_skill(character_type type)
+int random_skill()
 {
- switch (type) {
- case PLTYPE_RANDOM: return rng(1, num_skill_types - 1);
- case PLTYPE_STUDENT:
-  switch(rng(1, 8)) {
-   case 1:
-   case 2: return sk_computer;
-   case 3: return sk_mechanics;
-   case 4: return sk_electronics;
-   case 5: return sk_firstaid;
-   case 6:
-   case 7:
-   case 8: return sk_speech;
-  }
- case PLTYPE_FARMER:
-  switch (rng(1, 15)) {
-   case  1:
-   case  2: return sk_melee;
-   case  3: return sk_unarmed;
-   case  4: return sk_bashing;
-   case  5:
-   case  6:
-   case  7:
-   case  8:
-   case  9: return sk_cutting;
-   case 10: return sk_gun;
-   case 11: return sk_mechanics;
-   case 12:
-   case 13: return sk_cooking;
-   case 14: return sk_traps;
-   case 15: return sk_barter;
-  }
- case PLTYPE_MECHANIC:
-  switch (rng(1, 12)) {
-   case  1: return sk_melee;
-   case  2:
-   case  3:
-   case  4: return sk_bashing;
-   case  5:
-   case  6:
-   case  7:
-   case  8:
-   case  9: return sk_mechanics;
-   case 10:
-   case 11: return sk_electronics;
-   case 12: return sk_barter;
-  }
- case PLTYPE_CLERK:
-  switch (rng(1, 9)) {
-   case 1: return sk_computer;
-   case 2: return sk_electronics;
-   case 3:
-   case 4:
-   case 5: return sk_speech;
-   case 6:
-   case 7:
-   case 8:
-   case 9: return sk_barter;
-  }
- case PLTYPE_COP:
-  switch (rng(1, 18)) {
-   case  1: return sk_dodge;
-   case  2: return sk_melee;
-   case  3: return sk_unarmed;
-   case  4: return sk_bashing;
-   case  5:
-   case  6:
-   case  7: return sk_gun;
-   case  8:
-   case  9:
-   case 10:
-   case 11:
-   case 12: return sk_pistol;
-   case 13:
-   case 14: return sk_shotgun;
-   case 15: return sk_smg;
-   case 16: return sk_rifle;
-   case 17: return sk_firstaid;
-   case 18: return sk_speech;
-  }
- case PLTYPE_SURVIVALIST:
-  switch (rng(1, 16)) {
-   case  1: return sk_melee;
-   case  2:
-   case  3: return sk_unarmed;
-   case  4:
-   case  5:
-   case  6: return sk_gun;
-   case  7:
-   case  8:
-   case  9: return sk_rifle;
-   case 10:
-   case 11: return sk_cooking;
-   case 12:
-   case 13:
-   case 14: return sk_traps;
-   case 15:
-   case 16: return sk_firstaid;
-  }
- case PLTYPE_PROGRAMMER:
-  switch (rng(1, 10)) {
-   case  1:
-   case  2:
-   case  3:
-   case  4:
-   case  5: return sk_computer;
-   case  6: return sk_mechanics;
-   case  7:
-   case  8:
-   case  9: return sk_electronics;
-   case 10: return sk_cooking;
-  }
- case PLTYPE_DOCTOR:
-  switch (rng(1, 14)) {
-   case  1:
-   case  2: return sk_computer;
-   case  3:
-   case  4:
-   case  5: return sk_cooking;
-   case  6:
-   case  7:
-   case  8:
-   case  9:
-   case 10:
-   case 11:
-   case 12: return sk_firstaid;
-   case 13:
-   case 14: return sk_speech;
-  }
- }
+ return rng(1, num_skill_types - 1);
 }
 
 int calc_HP(int strength, bool tough)
 {
  return (60 + 3 * strength) * (tough ? 1.2 : 1);
+}
+
+void save_template(player *u)
+{
+ std::string name = string_input_popup("Name of template:");
+ if (name.length() == 0)
+  return;
+ std::stringstream playerfile;
+ playerfile << "data/" << name << ".template";
+ std::ofstream fout;
+ fout.open(playerfile.str().c_str());
+ fout << u->save_info();
 }

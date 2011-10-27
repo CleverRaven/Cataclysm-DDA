@@ -802,14 +802,17 @@ void npc::move_to(game *g, int x, int y)
   }
  }
  if (rl_dist(posx, posy, x, y) > 1) {
+/*
   debugmsg("Tried to move_to more than one space! (%d, %d) to (%d, %d)",
            posx, posy, x, y);
-  //debugmsg("Route is size %d.", path.size());
+  debugmsg("Route is size %d.", path.size());
+*/
   int linet;
+  std::vector<point> newpath;
   if (g->m.sees(posx, posy, x, y, -1, linet))
-   path = line_to(posx, posy, x, y, linet);
-  moves -= 100;
-  return;
+   newpath = line_to(posx, posy, x, y, linet);
+  x = newpath[0].x;
+  y = newpath[0].y;
  }
  if (x == posx && y == posy)	// We're just pausing!
   moves -= 100;
