@@ -540,7 +540,7 @@ bool player::scored_crit()
    chance += (100 / (4 + i * 2));
  } else if (chance < 0) {
   for (int i = 0; i > weapon.type->m_to_hit; i--)
-   chace /= 2;
+   chance /= 2;
  }
  to_hit_crit = rng(0, 99) < chance;
 
@@ -577,7 +577,7 @@ bool player::scored_crit()
    chance += (100 / (4 + i * 2));
  } else if (chance < 3) {
   for (int i = 3; i > best_skill; i--)
-   chace /= 2;
+   chance /= 2;
  }
  skill_crit = rng(0, 99) < chance;
 
