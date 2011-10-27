@@ -534,23 +534,29 @@ bool player::scored_crit()
 {
  bool to_hit_crit = false, dex_crit = false, skill_crit = false;
 
- if (weapon.type->m_to_hit >= 0) {
-  for (int i = 0; i <= weapon.type->m_to_hit && !to_hit_crit; i++)
-   to_hit_crit = one_in(4);
- } else {
-  to_hit_crit = true;
-  for (int i = 0; i >= weapon.type->m_to_hit && to_hit_crit; i--)
-   to_hit_crit = !one_in(3);
+ int chance = 25;
+ if (weapon.type->m_to_hit > 0) {
+  for (int i = 1; i <= weapon.type->m_to_hit; i++)
+   chance += (100 / (4 + i * 2));
+ } else if (chance < 0) {
+  for (int i = 0; i > weapon.type->m_to_hit; i--)
+   chace /= 2;
  }
+ to_hit_crit = rng(0, 99) < chance;
 
- if (dex_cur >= 8) {
-  for (int i = 8; i <= dex_cur + rng(0, 1) && !dex_crit; i += 2)
-   dex_crit = one_in(4);
+ chance = 25;
+ if (dex_cur > 8) {
+  for (int i = 9; i <= dex_cur; i++)
+   chance += (23 - i); // 12, 11, 10...
  } else {
-  dex_crit = true;
-  for (int i = 8; i >= dex_cur && dex_crit; i--)
-   dex_crit = !one_in(3);
+  int decrease = 5;
+  for (int i = 7; i >= dex_cur; i--) {
+   chance -= decrease;
+   if (i % 2 == 0)
+    decrease--;
+  }
  }
+ dex_crit = rng(0, 99) < chance;
 
  int best_skill = 0;
  if (weapon.is_bashing_weapon() && sklevel[sk_bashing] > best_skill)
@@ -565,14 +571,15 @@ bool player::scored_crit()
 
  best_skill += int(sklevel[sk_melee] / 2.5);
 
- if (best_skill >= 3) {
-  for (int i = 3; i <= best_skill && !skill_crit; i++)
-   skill_crit = one_in(4);
- } else {
-  skill_crit = true;
-  for (int i = 3; i >= best_skill && skill_crit; i--)
-   skill_crit = !one_in(3);
+ chance = 25;
+ if (best_skill > 3) {
+  for (int i = 3; i < best_skill; i++)
+   chance += (100 / (4 + i * 2));
+ } else if (chance < 3) {
+  for (int i = 3; i > best_skill; i--)
+   chace /= 2;
  }
+ skill_crit = rng(0, 99) < chance;
 
  return ((to_hit_crit && dex_crit) || (to_hit_crit && skill_crit) ||
          (dex_crit && skill_crit));
