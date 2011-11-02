@@ -966,7 +966,7 @@ point overmap::choose_point(game *g)
     if(terlist.size() != 0){
      int i = 0;
      //Navigate through results
-     do{
+     do {
       //Draw search box
       wborder(w_search, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
               LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -1016,6 +1016,9 @@ point overmap::choose_point(game *g)
  werase(w_map);
  wrefresh(w_map);
  delwin(w_map);
+ werase(w_search);
+ wrefresh(w_search);
+ delwin(w_search);
  erase();
  g->refresh_all();
  return ret;

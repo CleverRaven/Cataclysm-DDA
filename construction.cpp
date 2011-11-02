@@ -6,6 +6,7 @@
 #include "inventory.h"
 #include "mapdata.h"
 #include "skill.h"
+#include "crafting.h" // For the use_comps use_tools functions
 
 #define PICKUP_RANGE 2
 
@@ -436,135 +437,10 @@ void game::complete_construction()
  if (built.difficulty < 1)
   u.practice(sk_carpentry, 10);
  for (int i = 0; i < 3; i++) {
-  while (stage.components[i].empty()) 
-   i++;
-  if (i < 3) {
-   std::vector<component> player_has;
-   std::vector<component> map_has;
-   for (int j = 0; j < stage.components[i].size(); j++) {
-    component comp = stage.components[i][j];
-    if (itypes[comp.type]->is_ammo()) {
-// Check if we have components in both locations and enough to do the job
-     if ((u.inv.charges_of(comp.type) + map_inv.charges_of(comp.type)) >= comp.count &&
-	u.inv.charges_of(comp.type) > 0 && map_inv.charges_of(comp.type) > 0) {
-      player_has.push_back(comp);
-      map_has.push_back(comp);
-// If not, check to see if either location has enough
-     } else {
-      if (u.has_charges(comp.type, comp.count)) {
-       player_has.push_back(comp);
-// dummy component to make our indexes line up
-       map_has.push_back(comp);
-       map_has[0].count = 0;
-      } else if (map_inv.has_charges(comp.type, comp.count)) {
-       map_has.push_back(comp);
-       player_has.push_back(comp);
-       player_has[0].count = 0;
-      }
-     }
-    } else {
-// repeat the above
-     if ((u.inv.amount_of(comp.type) + map_inv.amount_of(comp.type)) >= comp.count &&
-	u.inv.amount_of(comp.type) > 0 && map_inv.amount_of(comp.type) > 0) {
-      player_has.push_back(comp);
-      map_has.push_back(comp);
-     } else {
-      if (u.has_amount(comp.type, comp.count)) {
-       player_has.push_back(comp);
-       map_has.push_back(comp);
-       map_has[0].count = 0;
-      } else if (map_inv.has_amount(comp.type, comp.count)) {
-       map_has.push_back(comp);
-       player_has.push_back(comp);
-       player_has[0].count = 0;
-      }
-     }
-    }
-   }
-
-   if (player_has[0].count == 0 && map_has[0].count > 0)
-// One on map, none in inventory, default to the one in the map
-    map_use.push_back(map_has[i]);
-
-   else if (player_has[0].count > 0 && map_has[0].count == 0)
-// One in inventory, none on map, default to the one in inventory
-    player_use.push_back(player_has[i]);
-
-   else { // Let the player pick which component they want to use
-    std::vector<std::string> options; // List for the menu_vec below
-// Populate options with the names of the items
-    for (int j = 0; j < map_has.size(); j++) {
-     if (map_has[j].count != 0) {
-      std::string tmpStr = itypes[map_has[j].type]->name + " (nearby)";
-      options.push_back(tmpStr);
-     }
-    }
-    for (int j = 0; j < player_has.size(); j++)
-     if (player_has[j].count != 0) 
-      options.push_back(itypes[player_has[j].type]->name);
-// Get the selection via a menu popup
-    int selection = menu_vec("Use which component first?", options) - 1;
-    if (selection < map_has.size()) {
-// Since we have dummy components, need to weed them out
-     while(map_has[selection].count == 0)
-      selection++;
-     map_use.push_back(map_has[selection]);
-// check if it's ammo
-     if (itypes[map_use[map_use.size()-1].type]->is_ammo()) {
-// if not enough on the ground, we have to pull from inventory
-      if (map_inv.charges_of(map_use[map_use.size()-1].type) < map_has[0].count) {
-       player_use.push_back(player_has[0]);
-       player_use[player_use.size()-1].count -= map_inv.charges_of(map_has[0].type);
-       map_use[map_use.size()-1].count = map_inv.charges_of(map_has[0].type);
-      }
-// not enough on the ground. go to inventory
-     } else if (map_inv.amount_of(map_has[0].type) < map_has[0].count) {
-      player_use.push_back(player_has[0]);
-      player_use[player_use.size()-1].count -= map_inv.amount_of(map_has[0].type);
-      map_use[map_use.size()-1].count = map_inv.amount_of(map_has[0].type);
-     } 
-// not a map selection
-    } else {
-     selection -= map_has.size();
-// weed out dummies
-     while(player_has[selection].count == 0)
-      selection++;
-     player_use.push_back(player_has[selection]);
-// ammo
-     if (itypes[player_use[player_use.size()-1].type]->is_ammo()) {
-// grab from the ground if required
-      if (u.inv.charges_of(player_use[player_use.size()-1].type) < player_has[0].count) {
-       map_use.push_back(map_has[0]);
-       map_use[map_use.size()-1].count -= u.inv.charges_of(player_has[0].type);
-       player_use[player_use.size()-1].count = u.inv.charges_of(player_has[0].type);
-      }
-// not ammo & we don't have enough in pockets
-     } else if (u.inv.amount_of(player_has[0].type) < player_has[0].count) {
-      map_use.push_back(map_has[0]);
-      map_use[map_use.size()-1].count -= u.inv.amount_of(player_use[player_use.size()-1].type);
-      player_use[player_use.size()-1].count = u.inv.amount_of(player_has[0].type);
-     }
-    }
-   }
-  }
- } // Done looking at components
+  if (!stage.components[i].empty())
+   consume_items(this, stage.components[i]);
+ }
  
-// Use up materials
- for (int i = 0; i < player_use.size(); i++) {
-  if (itypes[player_use[i].type]->is_ammo())
-   u.use_charges(player_use[i].type, player_use[i].count);
-  else
-   u.use_amount(player_use[i].type, player_use[i].count);
- }
- for (int i = 0; i < map_use.size(); i++) {
-  if (itypes[map_use[i].type]->is_ammo())
-   m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,
-                 map_use[i].type, map_use[i].count);
-  else
-   m.use_amount(point(u.posx, u.posy), PICKUP_RANGE,
-                map_use[i].type, map_use[i].count);
- }
-
 // Make the terrain change
  int terx = u.activity.placement.x, tery = u.activity.placement.y;
  m.ter(terx, tery) = stage.terrain;

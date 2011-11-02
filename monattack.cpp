@@ -879,7 +879,7 @@ void mattack::fear_paralyze(game *g, monster *z)
               z->name().c_str());
    g->u.moves -= 100;
   } else
-   g->add_msg("You manage to avoid staring at the horrdenous %s.",
+   g->add_msg("You manage to avoid staring at the horrendous %s.",
               z->name().c_str());
  }
 }

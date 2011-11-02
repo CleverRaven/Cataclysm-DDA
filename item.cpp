@@ -631,11 +631,23 @@ int item::damage_bash()
 
 int item::damage_cut()
 {
+ if (is_gun()) {
+  for (int i = 0; i < contents.size(); i++) {
+   if (contents[i].type->id == itm_bayonet)
+    return contents[i].type->melee_cut;
+  }
+ }
  return type->melee_cut;
 }
 
 bool item::has_flag(item_flag f)
 {
+ if (is_gun()) {
+  for (int i = 0; i < contents.size(); i++) {
+   if (contents[i].has_flag(f))
+    return true;
+  }
+ }
  return (type->item_flags & mfb(f));
 }
 

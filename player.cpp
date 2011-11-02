@@ -3120,24 +3120,38 @@ bool player::is_wearing(itype_id it)
 
 bool player::has_amount(itype_id it, int quantity)
 {
+ return (amount_of(it) >= quantity);
+}
+
+int player::amount_of(itype_id it)
+{
+ int quantity = 0;
  if (weapon.type->id == it)
-  quantity--;
+  quantity++;
  for (int i = 0; i < weapon.contents.size(); i++) {
   if (weapon.contents[i].type->id == it)
-   quantity--;
+   quantity++;
  }
- return (inv.has_amount(it, quantity));
+ quantity += inv.amount_of(it);
+ return quantity;
 }
 
 bool player::has_charges(itype_id it, int quantity)
 {
+ return (charges_of(it) >= quantity);
+}
+
+int player::charges_of(itype_id it)
+{
+ int quantity = 0;
  if (weapon.type->id == it)
-  quantity -= weapon.charges;
+  quantity += weapon.charges;
  for (int i = 0; i < weapon.contents.size(); i++) {
   if (weapon.contents[i].type->id == it)
-   quantity -= weapon.contents[i].charges;
+   quantity += weapon.contents[i].charges;
  }
- return (inv.has_charges(it, quantity));
+ quantity += inv.charges_of(it);
+ return quantity;
 }
 
 bool player::has_weapon_or_armor(char let)

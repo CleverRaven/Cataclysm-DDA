@@ -879,7 +879,7 @@ any battle a stylish battle.");
 MELEE("walking cane",   10, 160,'/', c_ltred,	WOOD,	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
 	  8,  7, 10,  0,  2, 0, "\
-Handicapped or not, you always walk in stile.  Consisting of a metal\n\
+Handicapped or not, you always walk in style.  Consisting of a metal\n\
 headpiece and a wooden body, this makes a great bashing weapon in a pinch.");
 
 // ARMOR
@@ -2155,12 +2155,12 @@ mfb(IF_USE_UPS));
 //   gun)
 #define GUNMOD(name, rare, value, color, mat1, mat2, volume, weight, meleedam,\
                meleecut, meleehit, acc, damage, loudness, clip, recoil, burst,\
-               newtype, pistol, shotgun, smg, rifle, a_a_t, des)\
+               newtype, pistol, shotgun, smg, rifle, a_a_t, des, flags)\
   index++; itypes.push_back(new it_gunmod(index, rare, value, name, des, ':',\
                             color, mat1, mat2, volume, weight, meleedam,\
-                            meleecut, meleehit, 0, acc, damage, loudness, clip,\
-                            recoil, burst, newtype, a_a_t, pistol, shotgun,\
-                            smg, rifle))
+                            meleecut, meleehit, flags, acc, damage, loudness,\
+                            clip, recoil, burst, newtype, a_a_t, pistol,\
+                            shotgun, smg, rifle))
 
 
 //	NAME      	 RAR  PRC  COLOR     MAT1   MAT2     VOL WGT DAM CUT HIT
@@ -2170,23 +2170,23 @@ GUNMOD("silencer",	 15,  480, c_dkgray, STEEL, PLASTIC,  2,  1,  3,  0,  2,
 	0, "\
 Using a silencer is almost an imperative in zombie-infested regions.  Gunfire\n\
 is very noisy, and will attract predators.  Its only drawback is a reduced\n\
-muzzle velocity, resulting in less accuracy and damage."
-);
+muzzle velocity, resulting in less accuracy and damage.",
+0);
 
 GUNMOD("enhanced grip",  12, 280, c_brown,  STEEL, PLASTIC,   1,  1,  0,  0, -1,
 	 2,  0,  0,  0, -2,  0, AT_NULL,	false,	true,	true,	true,
 	0, "\
 A grip placed forward on the barrel allows for greater control and accuracy.\n\
-Aside from increased weight, there are no drawbacks."
-);
+Aside from increased weight, there are no drawbacks.",
+0);
 
 GUNMOD("barrel extension",10,400,  c_ltgray, STEEL, MNULL,    4,  1,  5,  0,  2,
 	 6,  1,  0,  0,  5,  0,	AT_NULL,	false,	false,	true,	true,
 	0, "\
 A longer barrel increases the muzzle velocity of a firearm, contributing to\n\
 both accuracy and damage.  However, the longer barrel tends to vibrate after\n\
-firing, greatly increasing recoil."
-);
+firing, greatly increasing recoil.",
+0);
 
 //	NAME      	 RAR  PRC  COLOR     MAT1   MAT2     VOL WGT DAM CUT HIT
 GUNMOD("shortened barrel", 6, 320, c_ltgray, STEEL, MNULL,    1,  1, -2,  0, -1,
@@ -2195,22 +2195,22 @@ GUNMOD("shortened barrel", 6, 320, c_ltgray, STEEL, MNULL,    1,  1, -2,  0, -1,
 	0, "\
 A shortened barrel results in markedly reduced accuracy, and a minor increase\n\
 in noise, but also reduces recoil greatly as a result of the improved\n\
-managability of the firearm."
-);
+managability of the firearm.",
+0);
 
 GUNMOD("rifled barrel",    5, 220, c_ltgray, STEEL, MNULL,    2,  1,  3,  0,  1,
 	10,-20,  0,  0,  0, -1, AT_NULL,	false,	true,	false,	false,
 	0, "\
 Rifling a shotgun barrel is mainly done in order to improve its accuracy when\n\
-firing slugs.  The rifling makes the gun less suitable for shot, however."
-);
+firing slugs.  The rifling makes the gun less suitable for shot, however.",
+0);
 
 GUNMOD("extended clip",	  8,  560, c_ltgray, STEEL, PLASTIC,  1,  1, -2,  0, -1,
 	-1,  0,  0, 50,  0,  0, AT_NULL,	true,	true,	true,	true,
 	0, "\
 Increases the ammunition capacity of your firearm by 50%, but the added bulk\n\
-reduces accuracy slightly."
-);
+reduces accuracy slightly.",
+0);
 
 //	NAME      	 RAR  PRC  COLOR     MAT1   MAT2     VOL WGT DAM CUT HIT
 GUNMOD("double clip",	   4, 720, c_ltgray, STEEL, PLASTIC,  2,  2,  0,  0,  0,
@@ -2218,23 +2218,23 @@ GUNMOD("double clip",	   4, 720, c_ltgray, STEEL, PLASTIC,  2,  2,  0,  0,  0,
 	-2,  0,  0,100,  2,  0, AT_NULL,	false,	true,	true,	true,
 	0, "\
 Completely doubles the ammunition capacity of your firmarm, but the added\n\
-bulk reduces accuracy and increases recoil."
-);
+bulk reduces accuracy and increases recoil.",
+0);
 
 GUNMOD("gyroscopic stablizer",4,680,c_blue,  STEEL, PLASTIC,  3,  2,  0,  0, -3,
 	 2, -2,  0,-10, -8,  0, AT_NULL,	false,	false,	true,	true,
 	0, "\
 An advanced unit which straps onto the side of your firearm and reduces\n\
 vibration, greatly reducing recoil and increasing accuracy.  However, it also\n\
-takes up space in the magazine slot, reducing ammo capacity."
-);
+takes up space in the magazine slot, reducing ammo capacity.",
+0);
 
 GUNMOD("rapid blowback",   3, 700, c_red,    STEEL, PLASTIC,  0,  1,  0,  0,  0,
 	-3,  0,  4,  0,  0,  6, AT_NULL,	false,	false,	true,	true,
 	0, "\
 An improved blowback mechanism makes your firearm's automatic fire faster, at\n\
-the cost of reduced accuracy and increased noise."
-);
+the cost of reduced accuracy and increased noise.",
+0);
 
 //	NAME      	 RAR  PRC  COLOR     MAT1   MAT2     VOL WGT DAM CUT HIT
 GUNMOD("auto-fire mechanism",2,650,c_red,    STEEL, PLASTIC,  1,  2,  2,  0, -1,
@@ -2243,8 +2243,8 @@ GUNMOD("auto-fire mechanism",2,650,c_red,    STEEL, PLASTIC,  1,  2,  2,  0, -1,
 	(mfb(AT_22)|mfb(AT_9MM)|mfb(AT_38)|mfb(AT_40)|mfb(AT_57)|mfb(AT_46)), "\
 A simple mechanism which converts a pistol to a fully-automatic weapon, with\n\
 a burst size of three rounds.  However, it reduces accuracy, while increasing\n\
-noise and recoil."
-);
+noise and recoil.",
+0);
 
 //	NAME      	 RAR  PRC  COLOR     MAT1   MAT2     VOL WGT DAM CUT HIT
 GUNMOD(".45 caliber retool",3,480, c_green,  STEEL, MNULL,    2,  2,  3,  0, -1,
@@ -2253,15 +2253,15 @@ GUNMOD(".45 caliber retool",3,480, c_green,  STEEL, MNULL,    2,  2,  3,  0, -1,
 	(mfb(AT_9MM)|mfb(AT_38)|mfb(AT_40)|mfb(AT_44)), "\
 Replacing several key parts of a 9mm, .38, .40 or .44 firearm converts it to\n\
 a .45 firearm.  The conversion results in reduced accuracy and increased\n\
-recoil."
-);
+recoil.",
+0);
 
 GUNMOD("9mm caliber retool",3,420, c_green,  STEEL, MNULL,    1,  1,  0,  0, -1,
 	-1,  0,  0,  0,  0,  0, AT_9MM,		true,	false,	true,	false,
 	(mfb(AT_38)|mfb(AT_40)|mfb(AT_44)|mfb(AT_45)), "\
 Replacing several key parts of a .38, .40, .44 or .45 firearm converts it to\n\
-a 9mm firearm.  The conversion results in a slight reduction in accuracy."
-);
+a 9mm firearm.  The conversion results in a slight reduction in accuracy.",
+0);
 
 GUNMOD(".22 caliber retool",2,320, c_green,  STEEL, MNULL,    1,  1, -2,  0, -1,
 	-1,  0,  0,  0,  0,  0, AT_22,		true,	false,	true,	true,
@@ -2269,8 +2269,8 @@ GUNMOD(".22 caliber retool",2,320, c_green,  STEEL, MNULL,    1,  1, -2,  0, -1,
 	 mfb(AT_223)), "\
 Replacing several key parts of a 9mm, .38, .40, 5.7mm, 4.6mm, 7.62mm or .223\n\
 firearm converts it to a .22 firearm.  The conversion results in a slight\n\
-reduction in accuracy."
-);
+reduction in accuracy.",
+0);
 
 //	NAME      	 RAR  PRC  COLOR     MAT1   MAT2     VOL WGT DAM CUT HIT
 GUNMOD("5.7mm caliber retool",1,460,c_green, STEEL, MNULL,    1,  1, -3,  0, -1,
@@ -2279,16 +2279,16 @@ GUNMOD("5.7mm caliber retool",1,460,c_green, STEEL, MNULL,    1,  1, -3,  0, -1,
 	(mfb(AT_22)|mfb(AT_9MM)|mfb(AT_38)), "\
 FN Hestal sells a conversion kit, used to convert .22, 9mm, or .38 firearms\n\
 to their proprietary 5.7x28mm, a round designed for accuracy and armor\n\
-penetration."
-);
+penetration.",
+0);
 
 GUNMOD("4.6mm caliber retool",1,460,c_green, STEEL, MNULL,    1,  1, -3,  0, -1,
 	-1,  0,  0,  0,  0,  0, AT_46,		true,	false,	true,	false,
 	(mfb(AT_22)|mfb(AT_9MM)|mfb(AT_38)), "\
 Heckler and Koch sells a conversion kit, used to convert .22, 9mm, or .38\n\
 firearms to their proprietary 4.6x30mm, a round designed for accuracy and\n\
-armor penetration."
-);
+armor penetration.",
+0);
 
 //	NAME      	RAR  PRC  COLOR     MAT1   MAT2      VOL WGT DAM CUT HIT
 GUNMOD(".308 caliber retool",2,520,c_green, STEEL, MNULL,     2,  1,  4,  0,  1,
@@ -2297,16 +2297,16 @@ GUNMOD(".308 caliber retool",2,520,c_green, STEEL, MNULL,     2,  1,  4,  0,  1,
 	(mfb(AT_SHOT)|mfb(AT_762)|mfb(AT_223)|mfb(AT_3006)), "\
 This kit is used to convert a shotgun or 7.62mm, .223 or .30-06 rifle to the\n\
 popular and powerful .308 caliber.  The conversion results in reduced ammo\n\
-capacity and a slight reduction in accuracy."
-);
+capacity and a slight reduction in accuracy.",
+0);
 
 GUNMOD(".223 caliber retool",2,500,c_green, STEEL, MNULL,     2,  1,  4,  0,  1,
 	-2,  0,  0,-10,  0,  0, AT_223,		false,	true,	false,	true,
 	(mfb(AT_SHOT)|mfb(AT_762)|mfb(AT_3006)|mfb(AT_308)), "\
 This kit is used to convert a shotgun or 7.62mm, .30-06, or .308 rifle to the\n\
 popular, accurate, and damaging .223 caliber.  The conversion results in\n\
-slight reductions in both accuracy and ammo capacity."
-);
+slight reductions in both accuracy and ammo capacity.",
+0);
 
 //	NAME      	RAR  PRC  COLOR     MAT1   MAT2      VOL WGT DAM CUT HIT
 GUNMOD("battle rifle conversion",1,680,c_magenta,STEEL,MNULL, 4,  3,  6,  0, -1,
@@ -2315,23 +2315,34 @@ GUNMOD("battle rifle conversion",1,680,c_magenta,STEEL,MNULL, 4,  3,  6,  0, -1,
 	0, "\
 This is a complete conversion kit, designed to turn a rifle into a powerful\n\
 battle rifle.  It reduces accuracy, and increases noise and recoil, but also\n\
-increases damage, ammo capacity, and fire rate."
-);
+increases damage, ammo capacity, and fire rate.",
+0);
 
 GUNMOD("sniper conversion",1,660, c_green,  STEEL, MNULL,     1,  2,  0,  0, -1,
 	10,  8,  3,-15,  0,-99, AT_NULL,	false,	false,	false,	true,
 	0, "\
 This is a complete conversion kit, designed to turn a rifle into a deadly\n\
 sniper rifle.  It decreases ammo capacity, and removes any automatic fire\n\
-capabilities, but also increases accuracy and damage."
-);
+capabilities, but also increases accuracy and damage.",
+0);
 
 GUNMOD("M203",		2,650,	c_ltred, STEEL,	MNULL,        2,  1,  2,  0, -1,
 	-2,  0,  0,  0,  0, 0, AT_NULL,		false,	false,	false,	true,
 	0, "\
 The M203 was originally designed for use with M16 variants but today can be\n\
 attached to almost any rifle.  A gun with this attached may be loaded with\n\
-its normal rounds, or with a single 40MM round.");
+its normal rounds, or with a single 40MM round.",
+0);
+
+//	NAME      	RAR  PRC  COLOR     MAT1   MAT2      VOL WGT DAM CUT HIT
+GUNMOD("bayonet",	 6, 400, c_ltcyan, STEEL, MNULL,       2,  2,  0, 20, -2,
+//	ACC DAM NOI CLP REC BST NEWTYPE		PISTOL	SHOT	SMG	RIFLE
+	  0,  0,  0,  0,  2,  0, AT_NULL,	false,	true,	true,	true,
+	0, "\
+A bayonet is a stabbing weapon which can be attached to the front of a\n\
+shotgun, sub-machinegun or rifle, allowing a melee attack to deal\n\
+piercing damage.  The added length increases recoil slightly.",
+mfb(IF_SPEAR));
 
 // BOOKS
 // Try to keep colors consistant among types of books.

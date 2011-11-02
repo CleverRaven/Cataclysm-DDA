@@ -1496,7 +1496,11 @@ void iuse::flashbang_act(game *g, player *p, item *it, bool t)
 
 void iuse::c4(game *g, player *p, item *it, bool t)
 {
- int time = query_int("Set the timer to?");
+ int time = query_int("Set the timer to (0 to cancel)?");
+ if (time == 0) {
+  g->add_msg("Never mind.");
+  return;
+ }
  g->add_msg("You set the timer to %d.", time);
  it->make(g->itypes[itm_c4armed]);
  it->charges = time;

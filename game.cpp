@@ -3741,6 +3741,7 @@ void game::pickup(int posx, int posy, int min)
   werase(w_pickup);
   wrefresh(w_pickup);
   delwin(w_pickup);
+  delwin(w_item_info);
   return;
  }
 // At this point we've selected our items, now we add them to our inventory
@@ -3881,6 +3882,7 @@ void game::pickup(int posx, int posy, int min)
  werase(w_pickup);
  wrefresh(w_pickup);
  delwin(w_pickup);
+ delwin(w_item_info);
 }
 
 // Handle_liquid returns false if we didn't handle all the liquid.
@@ -3905,15 +3907,25 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
   if (cont == NULL || cont->is_null()) {
    add_msg("Never mind.");
    return false;
-  } else if (liquid.is_ammo() && cont->is_tool()) {
-   it_tool* tool = dynamic_cast<it_tool*>(cont->type);
+  } else if (liquid.is_ammo() && cont->is_tool() || cont->is_gun()) {
+   ammotype ammo = AT_NULL;
+   int max = 0;
+   if (cont->is_tool()) {
+    it_tool* tool = dynamic_cast<it_tool*>(cont->type);
+    ammo = tool->ammo;
+    max = tool->max_charges;
+   } else {
+    it_gun* gun = dynamic_cast<it_gun*>(cont->type);
+    ammo = gun->ammo;
+    max = gun->clip;
+   }
    ammotype liquid_type = liquid.ammo_type();
-   if (tool->ammo != liquid_type) {
+   if (ammo != liquid_type) {
     add_msg("Your %s won't hold %s.", cont->tname(this).c_str(),
                                       liquid.tname(this).c_str());
     return false;
    }
-   if (tool->max_charges <= 0 || cont->charges >= tool->max_charges) {
+   if (max <= 0 || cont->charges >= max) {
     add_msg("Your %s can't hold any more %s.", cont->tname(this).c_str(),
                                                liquid.tname(this).c_str());
     return false;
@@ -3925,14 +3937,13 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    add_msg("You pour %s into your %s.", liquid.tname(this).c_str(),
                                         cont->tname(this).c_str());
    cont->curammo = dynamic_cast<it_ammo*>(liquid.type);
-   int max_charges = (dynamic_cast<it_tool*>(cont->type))->max_charges;
    if (infinite)
-    cont->charges = max_charges;
+    cont->charges = max;
    else {
     cont->charges += liquid.charges;
-    if (cont->charges > max_charges) {
+    if (cont->charges > max) {
      int extra = 0 - cont->charges;
-     cont->charges = max_charges;
+     cont->charges = max;
      liquid.charges = extra;
      add_msg("There's some left over!");
      return false;

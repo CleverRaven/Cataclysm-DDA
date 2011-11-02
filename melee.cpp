@@ -161,7 +161,7 @@ int player::hit_mon(game *g, monster *z)
 // Melee skill bonus
  dam += rng(0, sklevel[sk_melee]);
 // Bashing damage bonus
- int bash_dam = weapon.type->melee_dam,
+ int bash_dam = weapon.damage_bash(),
      bash_cap = 5 + str_cur + sklevel[sk_bashing];
  if (bash_dam > bash_cap)// Cap for weak characters
   bash_dam = (bash_cap * 3 + bash_dam) / 4;
@@ -175,9 +175,9 @@ int player::hit_mon(game *g, monster *z)
  z->moves -= rng(0, dam * 2);
 // Spears treat cutting damage specially.
  if (weapon.has_flag(IF_SPEAR) &&
-     weapon.type->melee_cut > z->type->armor - int(sklevel[sk_stabbing])) {
+     weapon.damage_cut() > z->type->armor - int(sklevel[sk_stabbing])) {
   int z_armor = z->type->armor - int(sklevel[sk_stabbing]);
-  dam += int(weapon.type->melee_cut / 5);
+  dam += int(weapon.damage_cut() / 5);
   int minstab = sklevel[sk_stabbing] *  5 + weapon.volume() * 2,
       maxstab = sklevel[sk_stabbing] * 15 + weapon.volume() * 4;
   int monster_penalty = rng(minstab, maxstab);
@@ -186,17 +186,17 @@ int player::hit_mon(game *g, monster *z)
   else if (monster_penalty >= 50)
    g->add_msg("The %s is skewered and flinches!", z->name().c_str());
   z->moves -= monster_penalty;
-  cutting_penalty = weapon.type->melee_cut * 4 + z_armor * 8 -
+  cutting_penalty = weapon.damage_cut() * 4 + z_armor * 8 -
                     dice(sklevel[sk_stabbing], 10);
   practice(sk_stabbing, 2);
 // Cutting damage bonus
- } else if (weapon.type->melee_cut >
+ } else if (weapon.damage_cut() >
             z->type->armor - int(sklevel[sk_cutting] / 2)) {
   int z_armor = z->type->armor - int(sklevel[sk_cutting] / 2);
   if (z_armor < 0)
    z_armor = 0;
-  dam += weapon.type->melee_cut - z_armor;
-  cutting_penalty = weapon.type->melee_cut * 3 + z_armor * 8 -
+  dam += weapon.damage_cut() - z_armor;
+  cutting_penalty = weapon.damage_cut() * 3 + z_armor * 8 -
                     dice(sklevel[sk_cutting], 10);
  }
  if (weapon.has_flag(IF_MESSY)) { // e.g. chainsaws
@@ -243,8 +243,8 @@ int player::hit_mon(game *g, monster *z)
                                one_in(4)));
 
   if (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)) {
-   dam += weapon.type->melee_cut;
-   dam += weapon.type->melee_cut * double(sklevel[sk_stabbing] / 10);
+   dam += weapon.damage_cut();
+   dam += weapon.damage_cut() * double(sklevel[sk_stabbing] / 10);
    practice(sk_stabbing, 5);
   }
 
@@ -294,7 +294,7 @@ int player::hit_mon(game *g, monster *z)
     double cut_multiplier = double(sklevel[sk_cutting] / 12);
     if (cut_multiplier > 1.5)
      cut_multiplier = 1.5;
-    dam += cut_multiplier * weapon.type->melee_cut;
+    dam += cut_multiplier * weapon.damage_cut();
     headshot &= z->hp < dam;
     if (stabbing) {
      if (headshot && can_see)
@@ -501,12 +501,12 @@ bool player::hit_player(player &p, body_part &bp, int &hitdam, int &hitcut)
    hitdam *= rng(2, 3);
  }
 // Weapon adds (melee_dam / 4) to (melee_dam)
- hitdam += rng(weapon.type->melee_dam / 4, weapon.type->melee_dam);
+ hitdam += rng(weapon.damage_bash() / 4, weapon.damage_bash());
  if (bashing)
   hitdam += rng(0, sklevel[sk_bashing]) * sqrt(str_cur);
 
  hitdam += int(pow(1.5, sklevel[sk_melee]));
- hitcut = weapon.type->melee_cut;
+ hitcut = weapon.damage_cut();
  if (hitcut > 0)
   hitcut += int(sklevel[sk_cutting] / 3);
  if (hitdam < 0) hitdam = 0;
@@ -537,7 +537,7 @@ bool player::scored_crit()
  int chance = 25;
  if (weapon.type->m_to_hit > 0) {
   for (int i = 1; i <= weapon.type->m_to_hit; i++)
-   chance += (100 / (4 + i * 2));
+   chance += (50 / (2 + i));
  } else if (chance < 0) {
   for (int i = 0; i > weapon.type->m_to_hit; i--)
    chance /= 2;
@@ -547,7 +547,7 @@ bool player::scored_crit()
  chance = 25;
  if (dex_cur > 8) {
   for (int i = 9; i <= dex_cur; i++)
-   chance += (23 - i); // 12, 11, 10...
+   chance += (21 - i); // 12, 11, 10...
  } else {
   int decrease = 5;
   for (int i = 7; i >= dex_cur; i--) {
@@ -574,7 +574,7 @@ bool player::scored_crit()
  chance = 25;
  if (best_skill > 3) {
   for (int i = 3; i < best_skill; i++)
-   chance += (100 / (4 + i * 2));
+   chance += (50 / (2 + i));
  } else if (chance < 3) {
   for (int i = 3; i > best_skill; i--)
    chance /= 2;

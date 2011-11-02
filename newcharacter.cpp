@@ -809,7 +809,7 @@ When your character is finished and you're ready to start playing, press >");
  mvwprintz(w,12, 2, c_ltgray, "\
 To go back and review your character, press <");
  mvwprintz(w, 14, 2, c_green, "\
-To save this character as a template, press S.");
+To save this character as a template, press !.");
  
  int line = 1;
  bool noname = false;
@@ -856,7 +856,7 @@ Points left: %d    You must use the rest of your points!", points);
     refresh();
   } else if (ch == '<') {
    return -1;
-  } else if (ch == 'S') {
+  } else if (ch == '!') {
    if (points > 0) {
     popup("You cannot save a template with unused points!");
    } else

@@ -2400,7 +2400,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    square(this, t_counter, SEEX - 1, SEEY - 1, SEEX, SEEY);
    place_items(mi_bionics, 75, SEEX - 1, SEEY - 1, SEEX, SEEY, false, 0);
    line(this, t_reinforced_glass_h, SEEX - 2, SEEY - 2, SEEX + 1, SEEY - 2);
-   line(this, t_reinforced_glass_h, SEEX - 2, SEEY + 1, SEEX + 1, SEEY - 1);
+   line(this, t_reinforced_glass_h, SEEX - 2, SEEY + 1, SEEX + 1, SEEY + 1);
    line(this, t_reinforced_glass_v, SEEX - 2, SEEY - 1, SEEX - 2, SEEY);
    line(this, t_reinforced_glass_v, SEEX + 1, SEEY - 1, SEEX + 1, SEEY);
    ter(SEEX - 3, SEEY - 3) = t_console;

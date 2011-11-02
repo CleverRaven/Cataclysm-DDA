@@ -562,6 +562,8 @@ void make_gun_sound_effect(game *g, player &p, bool burst)
   g->sound(p.posx, p.posy, 8, "Fzzt!");
  else if (p.weapon.curammo->type == AT_40MM)
   g->sound(p.posx, p.posy, 8, "Thunk!");
+ else if (p.weapon.curammo->type == AT_GAS)
+  g->sound(p.posx, p.posy, 4, "Fwoosh!");
  else if (p.weapon.curammo->type != AT_BOLT &&
           p.weapon.curammo->type != AT_ARROW)
   g->sound(p.posx, p.posy, noise, gunsound);
@@ -816,5 +818,10 @@ void ammo_effects(game *g, int x, int y, long flags)
 
  if (flags & mfb(IF_AMMO_FLASHBANG))
   g->flashbang(x, y);
+
+ if (flags & mfb(IF_AMMO_FLAME)) {
+  if (g->m.add_field(g, x, y, fd_fire, 1))
+   g->m.field_at(x, y).age = 800;
+ }
 
 }
