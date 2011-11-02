@@ -557,6 +557,10 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_hatchet, -1, itm_hammer, -1, itm_rock, -1, NULL);
   COMP(itm_pipe, 1, NULL);
 
+ RECIPE(itm_bayonet, CC_MISC, sk_gun, sk_null, 1, 500);
+  COMP(itm_knife_steak, 3, itm_knife_combat, 1, NULL);
+  COMP(itm_string_36, 1, NULL);
+
  RECIPE(itm_tripwire, CC_MISC, sk_traps, sk_null, 1, 500);
   COMP(itm_string_36, 1, NULL);
   COMP(itm_superglue, 1, NULL);
