@@ -17,6 +17,7 @@ long input()
   case KEY_DOWN:
   case '2': return 'j';
   case '3': return 'n';
+  case 459: return '\n';
   default:  return ch;
  }
 }
