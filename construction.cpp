@@ -47,7 +47,7 @@ void game::init_construction()
    TOOL(itm_shovel, NULL);
 
  CONSTRUCT("Spike Pit", 0, &construct::able_pit, &construct::done_trap_pit);
-  STAGE(t_pit, 5);
+  STAGE(t_pit_spiked, 5);
    COMP(itm_spear_wood, 4, NULL);
 
  CONSTRUCT("Fill Pit", 0, &construct::able_pit, &construct::done_fill_pit);
@@ -561,7 +561,7 @@ void construct::done_pit(game *g, point p)
 
 void construct::done_trap_pit(game *g, point p)
 {
- if (g->m.ter(p.x, p.y) == t_pit)
+ if (g->m.ter(p.x, p.y) == t_pit_spiked)
   g->m.add_trap(p.x, p.y, tr_spike_pit);
 }
 

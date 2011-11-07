@@ -61,7 +61,7 @@ enum ter_id {
 t_null = 0,
 t_hole,	// Real nothingness; makes you fall a z-level
 // Ground
-t_dirt, t_dirtmound, t_pit_shallow, t_pit,
+t_dirt, t_dirtmound, t_pit_shallow, t_pit, t_pit_spiked,
 t_rock_floor, t_rubble, t_wreckage,
 t_grass,
 t_metal_floor,
@@ -134,6 +134,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"shallow pit",	     '0', c_yellow,  8,
 	mfb(transparent)|mfb(diggable)},
 {"pit",              '0', c_brown,  10,
+	mfb(transparent)|mfb(diggable)},
+{"spiked pit",       '0', c_ltred,  10,
 	mfb(transparent)|mfb(diggable)},
 {"rock floor",       '.', c_ltgray,  2,
 	mfb(transparent)},
