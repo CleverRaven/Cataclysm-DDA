@@ -519,26 +519,31 @@ void mattack::spit_sap(game *g, monster *z)
 void mattack::triffid_heartbeat(game *g, monster *z)
 {
  g->sound(z->posx, z->posy, 14, "thu-THUMP.");
- z->moves -= 100;
+ z->moves -= 300;
  z->sp_timeout = z->type->sp_freq;
  if (z->posx < 0 || z->posx >= SEEX * 3 & z->posy < 0 && z->posy >= SEEY * 3 ||
-     z->posx - 3 < g->u.posx + 1 || z->posy - 3 < g->u.posy + 1)
+     z->posx - 3 < g->u.posx + 2 || z->posy - 3 < g->u.posy + 2)
   return;
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 5 &&
      !g->m.route(g->u.posx, g->u.posy, z->posx, z->posy).empty()) {
   g->add_msg("The root walls creak around you.");
-  for (int x = g->u.posx + 1; x <= z->posx - 3; x++) {
-   for (int y = g->u.posy + 1; y <= z->posy - 3; y++) {
-    if (g->is_empty(x, y))
+  for (int x = g->u.posx + 2; x <= z->posx - 3; x++) {
+   for (int y = g->u.posy + 2; y <= z->posy - 3; y++) {
+    if (g->is_empty(x, y) && one_in(4))
      g->m.ter(x, y) = t_root_wall;
+    else if (g->m.ter(x, y) == t_root_wall && one_in(10))
+     g->m.ter(x, y) = t_dirt;
    }
   }
 // Open blank tiles as long as there's no possible route
-  while (g->m.route(g->u.posx, g->u.posy, z->posx, z->posy).empty()) {
-   int x = rng(g->u.posx + 1, z->posx - 3), y = rng(g->u.posy + 1, z->posy - 3);
+  int tries = 0;
+  while (g->m.route(g->u.posx, g->u.posy, z->posx, z->posy).empty() &&
+         tries < 20) {
+   int x = rng(g->u.posx + 2, z->posx - 3), y = rng(g->u.posy + 2, z->posy - 3);
+   tries++;
    g->m.ter(x, y) = t_dirt;
    if (rl_dist(x, y, g->u.posx, g->u.posy > 3 && g->z.size() < 30 &&
-       one_in(20))) { // Spawn an extra monster
+       g->mon_at(x, y) == -1 && one_in(20))) { // Spawn an extra monster
     mon_id montype = mon_triffid;
     if (one_in(4))
      montype = mon_creeper_hub;
