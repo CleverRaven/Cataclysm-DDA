@@ -4012,7 +4012,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   do {
    ter(x, y) = t_dirt;
 
-   if (one_in(10)) { // Add a spawn
+   if (chance >= 10 && one_in(10)) { // Add a spawn
     if (one_in(2))
      add_spawn(mon_biollante, 1, x, y);
     else if (!one_in(4))
