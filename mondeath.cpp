@@ -115,6 +115,16 @@ void mdeath::vine_cut(game *g, monster *z)
  }
 }
 
+void mdeath::triffid_heart(game *g, monster *z)
+{
+ for (int x = 0; x < SEEX * 3; x++) {
+  for (int y = 0; y < SEEY * 3; y++) {
+   if (g->m.ter(x, y) == t_root_wall)
+    g->m.ter(x, y) = t_underbrush;
+  }
+ }
+}
+
 void mdeath::fungus(game *g, monster *z)
 {
  monster spore(g->mtypes[mon_spore]);

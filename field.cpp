@@ -56,6 +56,9 @@ bool map::process_fields(game *g)
     }
     break;
 
+   case fd_sap:
+    break; // It doesn't do anything.
+
    case fd_fire: {
 // Consume items as fuel to help us grow/last longer.
     bool destroyed;
@@ -503,6 +506,15 @@ void map::step_in_field(int x, int y, game *g)
    }
    break;
 
+ case fd_sap:
+  g->add_msg("The sap sticks to you!");
+  g->u.add_disease(DI_SAP, cur->density * 2, g);
+  if (cur->density == 1)
+   field_at(x, y) = field();
+  else
+   cur->density--;
+  break;
+
   case fd_fire:
    if (!g->u.has_active_bionic(bio_heatsink)) {
     if (cur->density == 1) {
@@ -602,6 +614,14 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     else
      dam = rng(cur->density, cur->density * 4);
    }
+   break;
+
+  case fd_sap:
+   z->speed -= cur->density * 5;
+   if (cur->density == 1)
+    field_at(x, y) = field();
+   else
+    cur->density--;
    break;
 
   case fd_fire:

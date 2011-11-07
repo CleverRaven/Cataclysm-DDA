@@ -12,6 +12,7 @@ public:
  void boomer		(game *g, monster *z); // Explodes in vomit :3
  void kill_vines	(game *g, monster *z); // Kill all nearby vines
  void vine_cut		(game *g, monster *z); // Kill adjacent vine if it's cut
+ void triffid_heart	(game *g, monster *z); // Destroy all roots
  void fungus		(game *g, monster *z); // Explodes in spores D:
  void fungusawake	(game *g, monster *z); // Turn into live fungaloid
  void disintegrate	(game *g, monster *z); // Falls apart

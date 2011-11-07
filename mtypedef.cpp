@@ -397,7 +397,7 @@ mon("triffid heart",	'T',	c_red,		MS_HUGE,	VEGGY,
 	(mfb(MF_NOHEAD)|mfb(MF_IMMOBILE)|mfb(MF_QUEEN)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
           0, 45,  5,100,  0,  0,  0,  0,  0, 14,  0,300, 5,
-	&mdeath::normal,	&mattack::triffid_heartbeat, "\
+	&mdeath::triffid_heart,	&mattack::triffid_heartbeat, "\
 A knot of roots that looks bizarrely like a\n\
 heart.  It beats slowly with sap, powering\n\
 the root walls around it."
