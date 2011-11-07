@@ -406,7 +406,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_fungal_bloom,  5,  5, mcat_fungi, 600, 1200, 30, 50,
  &omspec_place::wilderness, 0},
 
-{ot_triffid_grove, 8,  0, mcat_triffid, 800, 1300, 30, 40,
+{ot_triffid_grove, 8,  0, mcat_triffid, 800, 1300, 12, 20,
  &omspec_place::forest, 0},
 
 {ot_river_center, 10, 10, mcat_null, 0, 0, 0, 0,
