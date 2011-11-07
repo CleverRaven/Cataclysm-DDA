@@ -105,7 +105,7 @@ bool map::process_fields(game *g)
       }
 
      } else if (it->made_of(FLESH)) {
-      if (vol <= cur->density * 5 || cur->density == 3 && one_in(vol / 20)) {
+      if (vol <= cur->density * 5 || (cur->density == 3 && one_in(vol / 20))) {
        cur->age--;
        destroyed = it->burn(cur->density);
        smoke += 3;
@@ -138,7 +138,7 @@ bool map::process_fields(game *g)
 
      } else if (it->made_of(PLASTIC)) {
       smoke += 3;
-      if (it->burnt <= cur->density * 2 || cur->density == 3 && one_in(vol)) {
+      if (it->burnt <= cur->density * 2 || (cur->density == 3 && one_in(vol))) {
        destroyed = it->burn(cur->density);
        if (one_in(vol + it->burnt))
         cur->age--;
@@ -581,7 +581,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
  if (z->has_flag(MF_DIGS))
   return;	// Digging monsters are immune to fields
  field *cur = &field_at(x, y);
- int dam = 0, j;
+ int dam = 0;
  switch (cur->type) {
   case fd_null:
   case fd_blood:	// It doesn't actually do anything
@@ -647,7 +647,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
 
   case fd_tear_gas:
    if (z->made_of(FLESH) || z->made_of(VEGGY)) {
-    z->add_effect(ME_BLIND, cur->density * 3);
+    z->add_effect(ME_BLIND, cur->density * 8);
     if (cur->density == 3) {
      z->add_effect(ME_STUNNED, rng(10, 20));
      dam = rng(4, 10);

@@ -17,6 +17,10 @@ class mattack
   void resurrect        (game *g, monster *z);
   void science		(game *g, monster *z);
   void growplants	(game *g, monster *z);
+  void grow_vine	(game *g, monster *z);
+  void vine		(game *g, monster *z);
+  void spit_sap		(game *g, monster *z);
+  void triffid_heartbeat(game *g, monster *z);
   void fungus		(game *g, monster *z);
   void fungus_sprout	(game *g, monster *z);
   void leap		(game *g, monster *z);

@@ -80,6 +80,7 @@ enum oter_id {
  ot_anthill,
  ot_rock, ot_rift, ot_hellmouth,
  ot_slimepit, ot_slimepit_down,
+ ot_triffid_grove, ot_triffid_roots, ot_triffid_finale,
  ot_basement,
  ot_subway_station,
  ot_subway_ns, ot_subway_ew,
@@ -242,6 +243,9 @@ const oter_t oterlist[num_ter_types] = {
 {"hellmouth",		'^',	c_ltred,	2, false},
 {"slime pit",		'~',	c_ltgreen,	2, false},
 {"slime pit",		'~',	c_ltgreen,	2, false},
+{"triffid grove",	'T',	c_ltred,	5, false},
+{"triffid roots",	'T',	c_ltred,	5, false},
+{"triffid heart",	'T',	c_red,		5, false},
 {"basement",		'O',	c_dkgray,	5, false},
 {"subway station",	'S',	c_yellow,	5, false},
 {"subway",        LINE_XOXO,	c_dkgray,	5, false},
@@ -350,6 +354,7 @@ enum omspec_id
  OMSPEC_SPIDER,
  OMSPEC_SLIME,
  OMSPEC_FUNGUS,
+ OMSPEC_TRIFFID,
  OMSPEC_LAKE,
  NUM_OMSPECS
 };
@@ -400,6 +405,9 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 
 {ot_fungal_bloom,  5,  5, mcat_fungi, 600, 1200, 30, 50,
  &omspec_place::wilderness, 0},
+
+{ot_triffid_grove, 8,  0, mcat_triffid, 800, 1300, 30, 40,
+ &omspec_place::forest, 0},
 
 {ot_river_center, 10, 10, mcat_null, 0, 0, 0, 0,
  &omspec_place::always, mfb(OMS_FLAG_BLOB)}

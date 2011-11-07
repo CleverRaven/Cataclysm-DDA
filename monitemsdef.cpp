@@ -29,6 +29,9 @@ void game::init_monitems()
 	mi_teleport,	 6,mi_goo,		 8,mi_cloning_vat,	 1,
 	mi_dissection,	10,mi_electronics,	 9,mi_bionics,		 1,
 	mi_radio,	 2,mi_textbooks,	 3,NULL);
+
+ setvector(monitems[mon_biollante],
+	mi_biollante, 1, NULL);
  
  setvector(monitems[mon_chud],
 	mi_subway,	40,mi_sewer,	20,mi_trash,	 5,mi_bedroom,	 1,

@@ -1188,7 +1188,7 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty)
 
  do {
   //debugmsg("Open.size() = %d", open.size());
-  int best;
+  int best = 9999;
   int index = -1;
   for (int i = 0; i < open.size(); i++) {
    if (i == 0 || score[open[i].x][open[i].y] < best) {
@@ -1486,7 +1486,6 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
 
 void map::spawn_monsters(game *g)
 {
- int t;
  for (int gx = 0; gx < 3; gx++) {
   for (int gy = 0; gy < 3; gy++) {
    int n = gx + gy * 3;

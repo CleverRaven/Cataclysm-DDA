@@ -35,7 +35,7 @@ enum items_location {
  mi_spider,
  mi_ant_food, mi_ant_egg,
 // Monster drops
- mi_bugs, mi_bees, mi_wasps, mi_robots,
+ mi_biollante, mi_bugs, mi_bees, mi_wasps, mi_robots,
 // Map Extras
  mi_helicopter, mi_military, mi_science, mi_rare, mi_stash_food, mi_stash_ammo,
  mi_stash_wood, mi_stash_drugs, mi_drugdealer, mi_wreckage,

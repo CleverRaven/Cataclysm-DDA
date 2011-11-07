@@ -59,7 +59,6 @@ void npc::talk_to_u(game *g)
 
 void say_hello(game *g, dialogue &d)
 {
- talk_topic topic = TALK_NONE;
  int opt = d.opt("Hello.", "\"Let's travel together.\"", "\"Leave me alone.\"",
                  "Ignore them", NULL);
  switch (opt) {

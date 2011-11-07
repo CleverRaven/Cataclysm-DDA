@@ -101,6 +101,8 @@ player& player::operator= (player rhs)
  inv.clear();
  for (int i = 0; i < rhs.inv.size(); i++)
   inv.add_stack(rhs.inv.stack_at(i));
+
+ return (*this);
 }
 
 void player::normalize(game *g)
@@ -265,6 +267,9 @@ int player::current_speed()
   newmoves -= int((hunger - 100) / 10);
 
  newmoves += (stim > 40 ? 40 : stim);
+
+ for (int i = 0; i < illness.size(); i++)
+  newmoves += disease_speed_boost(illness[i]);
 
  if (has_trait(PF_QUICK))
   newmoves = int(newmoves * 1.10);
@@ -724,6 +729,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   line++;
  }
  pen = int((pain - pkill) * .7);
+ if (pen > 60)
+  pen = 60;
  if (pen >= 1) {
   mvwprintz(w_speed, line, 1, c_red, "Pain                -%s%d%%%%",
             (pen < 10 ? " " : ""), pen);
@@ -756,6 +763,17 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   mvwprintz(w_speed, line, 1, c_red, "Hunger              -%s%d%%%%",
             (pen < 10 ? " " : ""), pen);
   line++;
+ }
+ for (int i = 0; i < illness.size(); i++) {
+  int move_adjust = disease_speed_boost(illness[i]);
+  if (move_adjust != 0) {
+   nc_color col = (move_adjust > 0 ? c_green : c_red);
+   mvwprintz(w_speed, line,  1, col, dis_name(illness[i]).c_str());
+   mvwprintz(w_speed, line, 21, col, (move_adjust > 0 ? "+" : "-"));
+   move_adjust = abs(move_adjust);
+   mvwprintz(w_speed, line, (move_adjust >= 10 ? 22 : 23), col, "%d%%%%",
+             move_adjust);
+  }
  }
  if (has_trait(PF_QUICK)) {
   pen = int(newmoves * .1);
@@ -3022,7 +3040,6 @@ item player::i_remn(int index)
 
 void player::use_amount(itype_id it, int quantity, bool use_container)
 {
- int cur_item = 0;
  bool used_weapon_contents = false;
  for (int i = 0; i < weapon.contents.size(); i++) {
   if (weapon.contents[0].type->id == it) {
@@ -3048,7 +3065,8 @@ void player::use_charges(itype_id it, int quantity)
 // Start by checking weapon contents
  for (int i = 0; i < weapon.contents.size(); i++) {
   if (weapon.contents[i].type->id == it) {
-   if (weapon.contents[i].charges <= quantity) {
+   if (weapon.contents[i].charges > 0 &&
+       weapon.contents[i].charges <= quantity) {
     quantity -= weapon.contents[i].charges;
     if (weapon.contents[i].destroyed_at_zero_charges()) {
      weapon.contents.erase(weapon.contents.begin() + i);
@@ -3065,7 +3083,7 @@ void player::use_charges(itype_id it, int quantity)
  }
   
  if (weapon.type->id == it) {
-  if (weapon.charges <= quantity) {
+  if (weapon.charges > 0 && weapon.charges <= quantity) {
    quantity -= weapon.charges;
    if (weapon.destroyed_at_zero_charges())
     remove_weapon();

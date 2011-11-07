@@ -552,6 +552,10 @@ void game::init_mapitems()
 	itm_ant_egg, NULL);	//TODO: More items here?
 
  setvector(
+   mapitems[mi_biollante],
+	itm_biollante_bud, NULL);
+
+ setvector(
    mapitems[mi_bugs],
 	itm_chitin_piece, NULL);
 

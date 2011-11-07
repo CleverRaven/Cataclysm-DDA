@@ -149,7 +149,6 @@ the fungus-infected humans.";
 void mission_start::get_jelly_ignt(game *g, mission *miss)
 {
 // Same as above, but without revealing the hive.
- int dist = 0;
  point omp = point((g->levx + 1) / 2, (g->levy + 1) / 2);
  miss->target = omp;
  miss->description = "\

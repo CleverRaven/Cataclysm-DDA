@@ -506,9 +506,10 @@ void overmap::generate_sub(overmap* above)
  std::vector<city> ant_points;
  std::vector<city> goo_points;
  std::vector<city> lab_points;
- std::vector<city> shaft_points;
+ std::vector<point> shaft_points;
  std::vector<city> mine_points;
  std::vector<point> bunker_points;
+ std::vector<point> triffid_points;
  for (int i = 0; i < OMAPX; i++) {
   for (int j = 0; j < OMAPY; j++) {
    seen(i, j) = false;	// Start by setting all squares to unseen
@@ -551,6 +552,10 @@ void overmap::generate_sub(overmap* above)
    } else if (above->ter(i, j) == ot_forest_water)
     ter(i, j) = ot_cavern;
 
+   else if (above->ter(i, j) == ot_triffid_grove ||
+            above->ter(i, j) == ot_triffid_roots)
+    triffid_points.push_back( point(i, j) );
+
    else if (above->ter(i, j) == ot_lab_core ||
             (posz == -1 && above->ter(i, j) == ot_lab_stairs))
     lab_points.push_back(city(i, j, rng(1, 5 + posz)));
@@ -562,7 +567,7 @@ void overmap::generate_sub(overmap* above)
     bunker_points.push_back( point(i, j) );
 
    else if (above->ter(i, j) == ot_mine_entrance)
-    shaft_points.push_back(city(i, j, 0));
+    shaft_points.push_back( point(i, j) );
 
    else if (above->ter(i, j) == ot_mine_shaft ||
             above->ter(i, j) == ot_mine_down    ) {
@@ -582,10 +587,11 @@ void overmap::generate_sub(overmap* above)
      ter(i, j) = ot_silo_finale;
     else
      ter(i, j) = ot_silo;
-
    }
+
   }
  }
+
  for (int i = 0; i < goo_points.size(); i++)
   build_slimepit(goo_points[i].x, goo_points[i].y, goo_points[i].s);
  place_hiways(sewer_points,  ot_sewer_nesw);
@@ -597,6 +603,8 @@ void overmap::generate_sub(overmap* above)
   build_lab(lab_points[i].x, lab_points[i].y, lab_points[i].s);
  for (int i = 0; i < ant_points.size(); i++)
   build_anthill(ant_points[i].x, ant_points[i].y, ant_points[i].s);
+ polish(ot_subway_ns, ot_subway_nesw);
+ polish(ot_ants_ns, ot_ants_nesw);
  for (int i = 0; i < above->cities.size(); i++) {
   if (one_in(3))
    zg.push_back(
@@ -610,8 +618,6 @@ void overmap::generate_sub(overmap* above)
  place_rifts();
  for (int i = 0; i < mine_points.size(); i++)
   build_mine(mine_points[i].x, mine_points[i].y, mine_points[i].s);
- polish(ot_subway_ns, ot_subway_nesw);
- polish(ot_ants_ns, ot_ants_nesw);
 // Basements done last so sewers, etc. don't overwrite them
  for (int i = 0; i < OMAPX; i++) {
   for (int j = 0; j < OMAPY; j++) {
@@ -624,6 +630,13 @@ void overmap::generate_sub(overmap* above)
   ter(shaft_points[i].x, shaft_points[i].y) = ot_mine_shaft;
  for (int i = 0; i < bunker_points.size(); i++)
   ter(bunker_points[i].x, bunker_points[i].y) = ot_bunker;
+ for (int i = 0; i < triffid_points.size(); i++) {
+  if (posz == -1)
+   ter( triffid_points[i].x, triffid_points[i].y ) = ot_triffid_roots;
+  else
+   ter( triffid_points[i].x, triffid_points[i].y ) = ot_triffid_finale;
+ }
+
 }
 
 void overmap::make_tutorial()
@@ -720,7 +733,7 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
  if (g->u.active_mission >= 0 &&
      g->u.active_mission < g->u.active_missions.size())
   target = g->u.active_missions[g->u.active_mission].target;
-  bool see, target_drawn;
+  bool see;
   oter_id cur_ter;
   nc_color ter_color;
   long ter_sym;
@@ -748,7 +761,6 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
 // Now actually draw the map
   for (int i = -25; i < 25; i++) {
    for (int j = -12; j <= (ch == 'j' ? 13 : 12); j++) {
-    target_drawn = false;
     omx = cursx + i;
     omy = cursy + j;
     see = false;
@@ -1988,7 +2000,7 @@ void overmap::place_special(overmap_special special, point p)
  if (special.flags & mfb(OMS_FLAG_3X3)) {
   for (int x = -1; x <= 1; x++) {
    for (int y = -1; y <= 1; y++) {
-    if (x == 0 & y == 0)
+    if (x == 0 && y == 0)
      y++; // Already handled
     point np(p.x + x, p.y + y);
     ter(np.x, np.y) = special.ter;
@@ -2099,12 +2111,6 @@ void overmap::place_mongroups()
 	         rng(20, 40), rng(500, 1000)));
  }
 
- numgroups = rng(0, 6);
- for (int i = 0; i < numgroups; i++) {
-  zg.push_back(
-	mongroup(mcat_plants, rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1),
-	         rng(30, 50), rng(800, 1300)));
- }
 // Forest groups cover the entire map
  zg.push_back(
 	mongroup(mcat_forest, 0, OMAPY, OMAPY,

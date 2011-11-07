@@ -844,6 +844,11 @@ MELEE("chunk of chitin",10,  15,',', c_red,	FLESH,	MNULL,
 	 1,  0,  1,  0, -2, 0, "\
 A piece of an insect's exoskeleton.  It is light and very durable.");
 
+MELEE("biollante bud",   1, 400,',', c_magenta,	VEGGY,	MNULL,
+	 1,  0, -8,  0, -3, 0, "\
+An unopened biollante flower, brilliant purple in color.  It may still have\n\
+its sap-producing organ intact.");
+
 MELEE("empty canister",  5,  20,'*', c_ltgray,	STEEL,	MNULL,
 	 1,  1,  2,  0, -1, 0, "\
 An empty cansiter, which may have once held tear gas or other substances.");
@@ -2342,7 +2347,7 @@ GUNMOD("bayonet",	 6, 400, c_ltcyan, STEEL, MNULL,       2,  2,  0, 20, -2,
 A bayonet is a stabbing weapon which can be attached to the front of a\n\
 shotgun, sub-machinegun or rifle, allowing a melee attack to deal\n\
 piercing damage.  The added length increases recoil slightly.",
-mfb(IF_SPEAR));
+mfb(IF_STAB));
 
 // BOOKS
 // Try to keep colors consistant among types of books.

@@ -146,7 +146,7 @@ item item::in_its_container(std::vector<itype*> *itypes)
 
 bool item::invlet_is_okay()
 {
- return ((invlet >= 'a' & invlet <= 'z') || (invlet >= 'A' && invlet <= 'Z'));
+ return ((invlet >= 'a' && invlet <= 'z') || (invlet >= 'A' && invlet <= 'Z'));
 }
 
 bool item::stacks_with(item rhs)
@@ -673,7 +673,7 @@ bool item::count_by_charges()
   return true;
  if (is_food()) {
   it_comest* food = dynamic_cast<it_comest*>(type);
-  return (food->charges > 0);
+  return (food->charges > 1);
  }
  return false;
 }
@@ -1020,13 +1020,12 @@ int item::pick_reload_ammo(player &u, bool interactive)
   debugmsg("RELOADING NON-GUN NON-TOOL");
   return false;
  }
- bool single_load = false, has_m203 = false;
+ bool has_m203 = false;
  for (int i = 0; i < contents.size() && !has_m203; i++) {
   if (contents[i].type->id == itm_m203)
    has_m203 = true;
  }
 
- int max_load = 0;
  std::vector<int> am;	// List of indicies of valid ammo
 
  if (type->is_gun()) {
@@ -1044,14 +1043,10 @@ int item::pick_reload_ammo(player &u, bool interactive)
     for (int i = 0; i < grenades.size(); i++)
      am.push_back(grenades[i]);
    }
-   max_load = tmp->clip;
-   if (tmp->skill_used == sk_shotgun)
-    single_load = true;
   }
  } else {
   it_tool* tmp = dynamic_cast<it_tool*>(type);
   am = u.has_ammo(ammo_type());
-  max_load = tmp->max_charges;
  }
 
  int index = -1;
@@ -1106,7 +1101,6 @@ bool item::reload(player &u, int index)
  bool single_load = false;
  int max_load;
  if (is_gun()) {
-  it_gun* reloading = dynamic_cast<it_gun*>(type);
   single_load = has_flag(IF_RELOAD_ONE);
   if (u.inv[index].ammo_type() == AT_40MM && ammo_type() != AT_40MM)
    max_load = 1;

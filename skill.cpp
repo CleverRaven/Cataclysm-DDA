@@ -189,6 +189,8 @@ Your skill at swimming.  This affects speed, your ability to swim while\n\
 wearing clothes or carrying weights, and in-water combat.";
  case num_skill_types:
   return "out of bounds";
+ default:
+  return "What is this skill I don't even know!  BUG!";
  }
 }
 

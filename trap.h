@@ -110,7 +110,7 @@ struct trap {
   va_list ap;
   va_start(ap, pactm);
   itype_id tmp;
-  while (tmp = (itype_id)va_arg(ap, int))
+  while ((tmp = (itype_id)va_arg(ap, int)))
    components.push_back(tmp);
   va_end(ap);
  };

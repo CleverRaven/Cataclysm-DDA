@@ -23,8 +23,9 @@ void game::init_moncats()
 	mon_zombie_electric, mon_zombie_brute, mon_zombie_hulk,
 	mon_zombie_necro, mon_boomer, mon_skeleton, NULL);
  setvector(
-   moncats[mcat_plants],
-	mon_triffid, mon_triffid_young, mon_triffid_queen, NULL);
+   moncats[mcat_triffid],
+	mon_triffid, mon_triffid_young, mon_triffid_queen, mon_creeper_hub,
+	mon_creeper_vine, mon_biollante, mon_triffid_heart, NULL);
  setvector(
    moncats[mcat_fungi],
 	mon_fungaloid, mon_fungaloid_dormant, mon_ant_fungus, mon_zombie_fungus,

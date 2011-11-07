@@ -227,13 +227,11 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_hotplate, 2, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_tea_raw, 1, NULL);
-  COMP(itm_bottle_plastic, 1, NULL);
 
  RECIPE(itm_coffee, CC_FOOD, sk_cooking, sk_null, 0, 4000);
   TOOL(itm_hotplate, 2, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_coffee_raw, 1, NULL);
-  COMP(itm_bottle_plastic, 1, NULL);
 
  RECIPE(itm_oj, CC_FOOD, sk_cooking, sk_null, 1, 5000);
   TOOL(itm_rock, -1, NULL);
@@ -880,7 +878,7 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
  mvwputch(w, 2, 74, c_ltgray, LINE_XXOX);
 
  mvwprintz(w, 1, 0, c_ltgray, "\
-     WEAPONS         FOOD         ELECTRONICS         ARMOR         MISC");
+      WEAPONS         FOOD         ELECTRONICS         ARMOR         MISC");
  mvwputch(w, 1,  4, c_ltgray, LINE_XOXO);
  mvwputch(w, 1, 20, c_ltgray, LINE_XOXO);
  mvwputch(w, 1, 33, c_ltgray, LINE_XOXO);
@@ -1115,7 +1113,7 @@ void consume_items(game *g, std::vector<component> components)
 
  for (int i = 0; i < components.size(); i++) {
   itype_id type = components[i].type;
-  int count = components[i].count;
+  int count = abs(components[i].count);
   bool pl = false, mp = false;
 
   if (g->itypes[type]->count_by_charges() && count > 0) {

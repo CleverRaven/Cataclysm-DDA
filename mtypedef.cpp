@@ -138,8 +138,7 @@ from every joint on its body."
 );
 
 mon("giant bee",	'a',	c_yellow,	MS_SMALL,	FLESH,
-	(mfb(MF_SMELLS)|mfb(MF_VENOM)|mfb(MF_FLIES)|mfb(MF_STUMBLES)|
-	 mfb(MF_ANIMAL)),
+	(mfb(MF_SMELLS)|mfb(MF_VENOM)|mfb(MF_FLIES)|mfb(MF_STUMBLES)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	  2, 15,  4,140,  4,  1,  1,  5,  6,  5,-50, 20,  0,
 	&mdeath::normal,	&mattack::none, "\
@@ -363,6 +362,45 @@ A very large triffid, with a particularly\n\
 vicious sting and thick bark.  As it\n\
 moves, plant matter drops off its body\n\
 and immediately takes root."
+);
+
+mon("creeper hub",	'V',	c_dkgray,	MS_MEDIUM,	VEGGY,
+	(mfb(MF_NOHEAD)|mfb(MF_IMMOBILE)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  0, 16,  5,100,  0,  0,  0,  0,  0,  8,  0,100, 2,
+	&mdeath::kill_vines,	&mattack::grow_vine, "\
+A thick stalk, rooted to the ground.\n\
+It rapidly sprouts thorny vines in all\n\
+directions."
+);
+
+mon("creeping vine",	'v',	c_green,	MS_TINY,	VEGGY,
+	(mfb(MF_NOHEAD)|mfb(MF_HARDTOSHOOT)|mfb(MF_PLASTIC)|mfb(MF_IMMOBILE)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  0,  4,  5, 75,  0,  0,  0,  0,  0,  2,  0, 20, 2,
+	&mdeath::vine_cut,	&mattack::vine, "\
+A thorny vine.  It twists wildly as\n\
+it grows, spreading rapidly."
+);
+
+mon("biollante",	'F',	c_magenta,	MS_LARGE,	VEGGY,
+	(mfb(MF_NOHEAD)|mfb(MF_IMMOBILE)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  0, 20,  5,100,  0,  0,  0,  0,  0,  0,-80,120, 2,
+	&mdeath::normal,	&mattack::spit_sap, "\
+A thick stalk topped with a purple\n\
+flower.  The flower's petals are closed,\n\
+and pulsate ominously."
+);
+
+mon("triffid heart",	'T',	c_red,		MS_HUGE,	VEGGY,
+	(mfb(MF_NOHEAD)|mfb(MF_IMMOBILE)|mfb(MF_QUEEN)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+          0, 45,  5,100,  0,  0,  0,  0,  0, 14,  0,300, 5,
+	&mdeath::normal,	&mattack::triffid_heartbeat, "\
+A knot of roots that looks bizarrely like a\n\
+heart.  It beats slowly with sap, powering\n\
+the root walls around it."
 );
 
 mon("fungaloid",	'F',	c_ltgray,	MS_MEDIUM,	VEGGY,
@@ -728,7 +766,7 @@ mon("flying polyp",	'H',	c_dkgray,	MS_HUGE,	FLESH,
 	(mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_GOODHEARING)|mfb(MF_NOHEAD)|
 	 mfb(MF_BASHES)|mfb(MF_FLIES)|mfb(MF_ATTACKMON)|mfb(MF_PLASTIC)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  1, 42,  5,280, 16,  5,  8, 12,  7,  8,  0,350, 0,
+	  1, 42,  5,280, 16,  3,  8,  6,  7,  8,  0,350, 0,
 	&mdeath::melt,		&mattack::none, "\
 An amorphous mass of twisting black flesh\n\
 that flies through the air swiftly."

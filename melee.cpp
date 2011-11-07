@@ -167,6 +167,8 @@ int player::hit_mon(game *g, monster *z)
   bash_dam = (bash_cap * 3 + bash_dam) / 4;
  if (bashing)
   bash_dam += rng(0, sklevel[sk_bashing] + sqrt(str_cur));
+ if (z->has_flag(MF_PLASTIC))
+  bash_dam /= rng(2, 4);
  int bash_min = bash_dam / 4;
  if (bash_min < sklevel[sk_bashing] )
   bash_min = sklevel[sk_bashing];

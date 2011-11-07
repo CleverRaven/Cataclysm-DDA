@@ -293,7 +293,13 @@ void mattack::growplants(game *g, monster *z)
  int junk;
  for (int i = -3; i <= 3; i++) {
   for (int j = -3; j <= 3; j++) {
-   if ((i != 0 || j != 0) && g->m.has_flag(diggable, z->posx + i, z->posy + j)){
+   if (i == 0 && j == 0)
+    j++;
+   if (!g->m.has_flag(diggable, z->posx + i, z->posy + j) && one_in(4))
+    g->m.ter(z->posx + i, z->posy + j) = t_dirt;
+   else if (one_in(3) && g->m.is_destructable(z->posx + i, z->posy + j))
+    g->m.ter(z->posx + i, z->posy + j) = t_dirtmound; // Destroy walls, &c
+   else {
     if (one_in(4)) {	// 1 in 4 chance to grow a tree
      int mondex = g->mon_at(z->posx + i, z->posy + j);
      if (mondex != -1) {
@@ -336,8 +342,7 @@ void mattack::growplants(game *g, monster *z)
      g->m.ter(z->posx + i, z->posy + j) = t_tree_young;
     } else if (one_in(3)) // If no tree, perhaps underbrush
      g->m.ter(z->posx + i, z->posy + j) = t_underbrush;
-   } else if (one_in(3) && g->m.is_destructable(z->posx + i, z->posy + j))
-    g->m.ter(z->posx + i, z->posy + j) = t_dirtmound; // Destroy walls, &c
+   }
   }
  }
 
@@ -390,6 +395,172 @@ void mattack::growplants(game *g, monster *z)
     }
    }
   }
+ }
+}
+
+void mattack::grow_vine(game *g, monster *z)
+{
+ z->sp_timeout = z->type->sp_freq;
+ z->moves -= 100;
+ monster vine(g->mtypes[mon_creeper_vine]);
+ int xshift = rng(0, 2), yshift = rng(0, 2);
+ for (int x = 0; x < 3; x++) {
+  for (int y = 0; y < 3; y++) {
+   int xvine = z->posx + (x + xshift) % 3 - 1,
+       yvine = z->posy + (y + yshift) % 3 - 1;
+   if (g->is_empty(xvine, yvine)) {
+    monster vine(g->mtypes[mon_creeper_vine]);
+    vine.sp_timeout = 5;
+    vine.spawn(xvine, yvine);
+    g->z.push_back(vine);
+   }
+  }
+ }
+}
+
+void mattack::vine(game *g, monster *z)
+{
+ bool hit_u = false;
+ std::vector<point> grow;
+ int vine_neighbors = 0;
+ z->sp_timeout = z->type->sp_freq;
+ z->moves -= 100;
+ for (int x = z->posx - 1; x <= z->posx + 1; x++) {
+  for (int y = z->posy - 1; y <= z->posy + 1; y++) {
+   if (g->u.posx == x && g->u.posy == y) {
+    body_part bphit = random_body_part();
+    int side = rng(0, 1);
+    g->add_msg("The %s lashes your %s!", z->name().c_str(),
+               body_part_name(bphit, side).c_str());
+    g->u.hit(g, bphit, side, 4, 4);
+    z->sp_timeout = z->type->sp_freq;
+    z->moves -= 100;
+    return;
+   } else if (g->is_empty(x, y))
+    grow.push_back(point(x, y));
+   else if (g->mon_at(x, y) > -1 &&
+            g->z[g->mon_at(x, y)].type->id == mon_creeper_vine)
+    vine_neighbors++;
+  }
+ }
+// Calculate distance from nearest hub
+ int dist_from_hub = 999;
+ for (int i = 0; i < g->z.size(); i++) {
+  if (g->z[i].type->id == mon_creeper_hub) {
+   int dist = rl_dist(z->posx, z->posy, g->z[i].posx, g->z[i].posy);
+   if (dist < dist_from_hub)
+    dist_from_hub = dist;
+  }
+ }
+ if (grow.empty() || vine_neighbors > 5 || one_in(7 - vine_neighbors) ||
+     !one_in(dist_from_hub))
+  return;
+ int index = rng(0, grow.size() - 1);
+ monster vine(g->mtypes[mon_creeper_vine]);
+ vine.sp_timeout = 5;
+ vine.spawn(grow[index].x, grow[index].y);
+ g->z.push_back(vine);
+}
+
+void mattack::spit_sap(game *g, monster *z)
+{
+// TODO: Friendly biollantes?
+ int t = 0;
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 12 ||
+     !g->sees_u(z->posx, z->posy, t))
+  return;
+
+ z->moves -= 150;
+ z->sp_timeout = z->type->sp_freq;
+
+ int dist = rl_dist(z->posx, z->posy, g->u.posx, g->u.posy);
+ int deviation = rng(1, 10);
+ double missed_by = (.0325 * deviation * dist);
+
+ if (missed_by > 1.) {
+  if (g->u_see(z->posx, z->posy, t))
+   g->add_msg("The %s spits sap, but misses you.", z->name().c_str());
+
+  int hitx = g->u.posx + rng(0 - int(missed_by), int(missed_by)),
+      hity = g->u.posy + rng(0 - int(missed_by), int(missed_by));
+  std::vector<point> line = line_to(z->posx, z->posy, hitx, hity, 0);
+  int dam = 5;
+  for (int i = 0; i < line.size() && dam > 0; i++) {
+   g->m.shoot(g, line[i].x, line[i].y, dam, false, 0);
+   if (dam == 0 && g->u_see(line[i].x, line[i].y, t)) {
+    g->add_msg("A glob of sap hits the %s!",
+               g->m.tername(line[i].x, line[i].y).c_str());
+    return;
+   }
+  }
+  return;
+ }
+
+ if (g->u_see(z->posx, z->posy, t))
+  g->add_msg("The %s spits sap!", z->name().c_str());
+ std::vector<point> line = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
+ int dam = 5;
+ for (int i = 0; i < line.size() && dam > 0; i++) {
+  g->m.shoot(g, line[i].x, line[i].y, dam, false, 0);
+  if (dam == 0 && g->u_see(line[i].x, line[i].y, t)) {
+   g->add_msg("A glob of sap hits the %s!",
+              g->m.tername(line[i].x, line[i].y).c_str());
+   return;
+  }
+ }
+ if (dam <= 0)
+  return;
+ g->add_msg("A glob of sap hits you!");
+ g->u.hit(g, bp_torso, 0, dam, 0);
+ g->u.add_disease(DI_SAP, dam, g);
+}
+
+void mattack::triffid_heartbeat(game *g, monster *z)
+{
+ g->sound(z->posx, z->posy, 14, "thu-THUMP.");
+ z->moves -= 100;
+ z->sp_timeout = z->type->sp_freq;
+ if (z->posx < 0 || z->posx >= SEEX * 3 & z->posy < 0 && z->posy >= SEEY * 3 ||
+     z->posx - 3 < g->u.posx + 1 || z->posy - 3 < g->u.posy + 1)
+  return;
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 5 &&
+     !g->m.route(g->u.posx, g->u.posy, z->posx, z->posy).empty()) {
+  g->add_msg("The root walls creak around you.");
+  for (int x = g->u.posx + 1; x <= z->posx - 3; x++) {
+   for (int y = g->u.posy + 1; y <= z->posy - 3; y++) {
+    if (g->is_empty(x, y))
+     g->m.ter(x, y) = t_root_wall;
+   }
+  }
+// Open blank tiles as long as there's no possible route
+  while (g->m.route(g->u.posx, g->u.posy, z->posx, z->posy).empty()) {
+   int x = rng(g->u.posx + 1, z->posx - 3), y = rng(g->u.posy + 1, z->posy - 3);
+   g->m.ter(x, y) = t_dirt;
+   if (rl_dist(x, y, g->u.posx, g->u.posy > 3 && g->z.size() < 30 &&
+       one_in(20))) { // Spawn an extra monster
+    mon_id montype = mon_triffid;
+    if (one_in(4))
+     montype = mon_creeper_hub;
+    else if (one_in(3))
+     montype = mon_biollante;
+    monster plant(g->mtypes[montype]);
+    plant.spawn(x, y);
+    g->z.push_back(plant);
+   }
+  }
+
+ } else { // The player is close enough for a fight!
+
+  monster triffid(g->mtypes[mon_triffid]);
+  for (int x = z->posx - 1; x <= z->posx + 1; x++) {
+   for (int y = z->posy - 1; y <= z->posy + 1; y++) {
+    if (g->is_empty(x, y) && one_in(2)) {
+     triffid.spawn(x, y);
+     g->z.push_back(triffid);
+    }
+   }
+  }
+
  }
 }
 
@@ -961,6 +1132,12 @@ void mattack::smg(game *g, monster *z)
  z->sp_timeout = z->type->sp_freq;	// Reset timer
  z->moves = -150;			// It takes a while
 
+ if (!z->has_effect(ME_TARGETED)) {
+  g->sound(z->posx, z->posy, 6, "beep-beep-beep!");
+  z->add_effect(ME_TARGETED, 3);
+  return;
+ }
+
  if (g->u_see(z->posx, z->posy, j))
   g->add_msg("The %s fires its smg!", z->name().c_str());
 // Set up a temporary player to fire this gun
@@ -997,7 +1174,7 @@ void mattack::flamethrower(game *g, monster *z)
 
 void mattack::copbot(game *g, monster *z)
 {
- int t, mode = 0;
+ int t;
  bool sees_u = g->sees_u(z->posx, z->posy, t);
  z->sp_timeout = z->type->sp_freq;	// Reset timer
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 2 || !sees_u) {

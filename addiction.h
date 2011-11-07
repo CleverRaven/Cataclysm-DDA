@@ -188,6 +188,9 @@ Movement rate reduction.  Depression.  Weak immune system.  Frequent cravings.";
 
  case ADD_COKE:
   return "Perception - 1;   Intelligence - 1;  Frequent cravings.";
+
+ default:
+  return "";
  }
 }
 

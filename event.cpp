@@ -45,7 +45,7 @@ void event::actualize(game *g)
    if (g->levz >= 0)
     return;
    monster wyrm(g->mtypes[mon_dark_wyrm]);
-   int num_wyrms = rng(2, 6);
+   int num_wyrms = rng(1, 4);
    for (int i = 0; i < num_wyrms; i++) {
     int tries = 0;
     int monx = -1, mony = -1;
@@ -60,7 +60,7 @@ void event::actualize(game *g)
      g->z.push_back(wyrm);
     }
    }
-   if (!one_in(15)) // They just keep coming!
+   if (!one_in(25)) // They just keep coming!
     g->add_event(EVENT_SPAWN_WYRMS, int(g->turn) + rng(15, 25));
   } break;
 

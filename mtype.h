@@ -30,7 +30,8 @@ mon_zombie, mon_zombie_shrieker, mon_zombie_spitter, mon_zombie_electric,
  mon_boomer, mon_boomer_fungus, mon_skeleton, mon_zombie_necro,
  mon_zombie_scientist,
 // Triffids
-mon_triffid, mon_triffid_young, mon_triffid_queen,
+mon_triffid, mon_triffid_young, mon_triffid_queen, mon_creeper_hub,
+ mon_creeper_vine, mon_biollante, mon_triffid_heart,
 // Fungaloids
 mon_fungaloid, mon_fungaloid_dormant, mon_fungaloid_young, mon_spore,
  mon_fungaloid_queen, mon_fungal_wall,

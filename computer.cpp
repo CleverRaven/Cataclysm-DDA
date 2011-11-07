@@ -358,7 +358,6 @@ void computer::activate_function(game *g, computer_action action)
      if (tmp.find_first_of('%') == 0)
       choice--;
     }
-    bool get_okay;
     getline(fin, tmp);
     do {
      lines++;

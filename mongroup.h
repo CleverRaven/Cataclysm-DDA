@@ -11,7 +11,7 @@ enum moncat_id {
  mcat_bee,
  mcat_worm,
  mcat_zombie,
- mcat_plants,
+ mcat_triffid,
  mcat_fungi,
  mcat_goo,
  mcat_chud,

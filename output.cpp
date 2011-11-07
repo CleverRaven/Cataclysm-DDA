@@ -677,5 +677,6 @@ char rand_char()
   case 8:	return '*';
   case 9:	return '^';
  }
+ return '?';
 }
 #endif

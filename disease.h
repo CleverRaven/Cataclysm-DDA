@@ -43,6 +43,9 @@ void dis_msg(game *g, dis_type type)
  case DI_BOOMERED:
   g->add_msg("You're covered in bile!");
   break;
+ case DI_SAP:
+  g->add_msg("You're coated in sap!");
+  break;
  case DI_SPORES:
   g->add_msg("You're covered in tiny spores!");
   break;
@@ -95,7 +98,6 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_COLD:
-  p.moves -= int(dis.duration / 5);
   p.dex_cur -= int(dis.duration / 80);
   break;
 
@@ -114,11 +116,9 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_COLD_LEGS:
-  p.moves -= (dis.duration > 60 ? 30 : int(dis.duration / 2));
   break;
 
  case DI_COLD_FEET:
-  p.moves -= (dis.duration > 60 ? 15 : int(dis.duration / 4));
   if (dis.duration >= 200 ||
       (dis.duration >= 100 && one_in(300 - dis.duration)))
    p.add_disease(DI_FBFEET, 50, g);
@@ -131,7 +131,6 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
    
  case DI_HEATSTROKE:
-  p.moves   -= 15;
   p.str_cur -=  2;
   p.per_cur -=  1;
   p.int_cur -=  2;
@@ -146,7 +145,6 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_FBFEET:
-  p.moves   -= 40;
   p.str_cur -=  1;
   break;
 
@@ -202,8 +200,11 @@ void dis_effect(game *g, player &p, disease &dis)
   p.per_cur -= 5;
   break;
 
+ case DI_SAP:
+  p.dex_cur -= 3;
+  break;
+
  case DI_SPORES:
-  p.moves -= 40;
   if (one_in(30))
    p.add_disease(DI_FUNGUS, -1, g);
   break;
@@ -236,7 +237,7 @@ void dis_effect(game *g, player &p, disease &dis)
    if (one_in(600 + bonus * 3)) {
     if (!p.is_npc())
      g->add_msg("You spasm suddenly!");
-    p.moves = 0;
+    p.moves -= 100;
     p.hurt(g, bp_torso, 0, 5);
    }
    if ((p.has_trait(PF_WEAKSTOMACH) && one_in(1600 + bonus *  8)) ||
@@ -288,9 +289,6 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_SLIMED:
-  p.moves -= 30;
-  if (p.moves < 1)
-   p.moves = 1;
   p.dex_cur -= 2;
   break;
 
@@ -435,7 +433,6 @@ void dis_effect(game *g, player &p, disease &dis)
   }
   p.per_cur -= 2;
   p.dex_cur -= 2;
-  p.moves -= 10;
   if (!p.has_trait(PF_POISRESIST))
    p.str_cur -= 3;
   else
@@ -454,14 +451,11 @@ void dis_effect(game *g, player &p, disease &dis)
   if ((p.has_trait(PF_WEAKSTOMACH) && one_in(350 + bonus)) ||
       one_in(900 + bonus)) 
    p.vomit(g);
-  p.moves -= 35;
   p.str_cur -= 3;
   p.dex_cur--;
   p.per_cur--;
-  if (p.has_trait(PF_POISRESIST)) {
-   p.moves += 15;
+  if (p.has_trait(PF_POISRESIST))
    p.str_cur += 2;
-  }
   break;
 
  case DI_SHAKES:
@@ -528,7 +522,6 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_WEBBED:
   p.str_cur -= 2;
   p.dex_cur -= 4;
-  p.moves -= 25;
   break;
 
  case DI_FORMICATION:
@@ -585,7 +578,6 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_ADRENALINE:
   if (dis.duration > 150) {	// 5 minutes positive effects
-   p.moves += rng(40, 100);
    p.str_cur += 5;
    p.dex_cur += 3;
    p.int_cur -= 8;
@@ -608,7 +600,6 @@ void dis_effect(game *g, player &p, disease &dis)
     g->add_msg("Your asthma overcomes you.  You stop breathing and die...");
    p.hurtall(500);
   }
-  p.moves -= dis.duration / 5;
   p.str_cur -= 2;
   p.dex_cur -= 3;
   break;
@@ -619,12 +610,10 @@ void dis_effect(game *g, player &p, disease &dis)
    p.dex_cur += 2;
    p.int_cur += 3;
    p.per_cur += 3;
-   p.moves += 50;
   } else {
    p.str_cur -= 3;
    p.dex_cur -= 2;
    p.int_cur -= 1;
-   p.moves -= 40;
   }
   break;
 
@@ -710,6 +699,24 @@ void dis_effect(game *g, player &p, disease &dis)
  }
 }
 
+int disease_speed_boost(disease dis)
+{
+ switch (dis.type) {
+ case DI_COLD:		return 0 - int(dis.duration / 5);
+ case DI_HEATSTROKE:	return -15;
+ case DI_SAP:		return -25;
+ case DI_SPORES:	return -15;
+ case DI_SLIMED:	return -25;
+ case DI_BADPOISON:	return -10;
+ case DI_FOODPOISON:	return -20;
+ case DI_WEBBED:	return -25;
+ case DI_ADRENALINE:	return (dis.duration > 150 ? 40 : -10);
+ case DI_ASTHMA:	return 0 - int(dis.duration / 5);
+ case DI_METH:		return (dis.duration > 600 ? 50 : -40);
+ default:		return 0;
+ }
+}
+
 std::string dis_name(disease dis)
 {
  switch (dis.type) {
@@ -729,6 +736,7 @@ std::string dis_name(disease dis)
  case DI_TEARGAS:	return "Tear gas";
  case DI_ONFIRE:	return "On Fire";
  case DI_BOOMERED:	return "Boomered";
+ case DI_SAP:		return "Sap-coated";
  case DI_SPORES:	return "Spores";
  case DI_SLIMED:	return "Slimed";
  case DI_DEAF:		return "Deaf";
@@ -855,6 +863,9 @@ Your clothing and other equipment may be consumed by the flames.";
  case DI_BOOMERED:	return "\
 Perception - 5\n\
 Range of Sight: 1;     All sight is tinted magenta";
+
+ case DI_SAP:		return "\
+Dexterity - 3;   Speed - 25";
 
  case DI_SPORES:	return "\
 Speed -40%\

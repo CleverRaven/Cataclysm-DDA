@@ -689,7 +689,6 @@ void game::process_events()
 
 void game::process_activity()
 {
- it_gun* reloading;
  it_book* reading;
  if (u.activity.type != ACT_NULL) {
   draw();
@@ -707,8 +706,6 @@ void game::process_activity()
 
    case ACT_RELOAD:
     u.weapon.reload(u, u.activity.index);
-    if (u.weapon.is_gun())
-     reloading = dynamic_cast<it_gun*>(u.weapon.type);
     if (u.weapon.is_gun() && u.weapon.has_flag(IF_RELOAD_ONE)) {
      add_msg("You insert a cartridge into your %s.",
              u.weapon.tname(this).c_str());
@@ -1114,8 +1111,7 @@ void game::death_screen()
 {
  std::stringstream playerfile;
  playerfile << "save/" << u.name << ".sav";
- int err = unlink(playerfile.str().c_str());
- int selection = 0;
+ unlink(playerfile.str().c_str());
  int num_kills = 0;
  for (int i = 0; i < num_monsters; i++)
   num_kills += kills[i];
@@ -1637,7 +1633,6 @@ void game::list_missions()
  WINDOW *w_missions = newwin(25, 80, 0, 0);
  int tab = 0, selection = 0;
  char ch;
- bool redraw = true;
  do {
   werase(w_missions);
   draw_tabs(w_missions, tab, "ACTIVE MISSIONS", "COMPLETED MISSIONS",
@@ -1754,7 +1749,6 @@ void game::draw()
  draw_HP();
  werase(w_status);
  u.disp_status(w_status);
- int day = turn.day;
 // TODO: Allow for a 24-hour option--already supported by calendar turn
  mvwprintz(w_status, 1, 41, c_white, turn.print_time().c_str());
 
@@ -3312,6 +3306,7 @@ void game::examine()
    else {
     add_msg("You activate the panel!");
     add_msg("The nearby doors slide into the floor.");
+    m.ter(examx, examy) = t_card_reader_broken;
     for (int i = -3; i <= 3; i++) {
      for (int j = -3; j <= 3; j++) {
       if (m.ter(examx + i, examy + j) == t_door_metal_locked)
@@ -3737,11 +3732,12 @@ void game::pickup(int posx, int posy, int min)
   wrefresh(w_pickup);
   ch = getch();
  } while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
- if (ch == KEY_ESCAPE) {
+ if (ch != '\n') {
   werase(w_pickup);
   wrefresh(w_pickup);
   delwin(w_pickup);
   delwin(w_item_info);
+  add_msg("Never mind.");
   return;
  }
 // At this point we've selected our items, now we add them to our inventory
@@ -3903,11 +3899,10 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
   if (!u.has_item(ch))
    return false;
   item *cont = &(u.i_at(ch));
-  ammotype type = cont->ammo_type();
   if (cont == NULL || cont->is_null()) {
    add_msg("Never mind.");
    return false;
-  } else if (liquid.is_ammo() && cont->is_tool() || cont->is_gun()) {
+  } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
    ammotype ammo = AT_NULL;
    int max = 0;
    if (cont->is_tool()) {
@@ -4604,7 +4599,8 @@ void game::chat()
 void game::plmove(int x, int y)
 {
  if (run_mode == 2) { // Monsters around and we don't wanna run
-  add_msg("Monster spotted--run mode is on! (Press '!' to turn it off or space to ignore monster.)");
+  add_msg("Monster spotted--run mode is on! \
+(Press '!' to turn it off or ' to ignore monster.)");
   return;
  }
  x += u.posx;
@@ -4938,6 +4934,7 @@ void game::vertical_move(int movez, bool force)
  tmpmap.load(this, levx, levy);
 // Find the corresponding staircase
  int stairx = -1, stairy = -1;
+ bool rope_ladder = false;
  if (force) {
   stairx = u.posx;
   stairy = u.posy;
@@ -4946,8 +4943,8 @@ void game::vertical_move(int movez, bool force)
    for (int j = 0; j < SEEX * 3 && stairx == -1; j++) {
     int sx = (i + u.posx) % (SEEX * 3), sy = (j + u.posy) % (SEEY * 3);
     if ((movez == -1 && tmpmap.has_flag(goes_up, sx, sy)) ||
-        (movez ==  1 && (tmpmap.has_flag(goes_down, sx, sy)) ||
-                         tmpmap.ter(sx, sy) == t_manhole_cover      ))  {
+        (movez ==  1 && (tmpmap.has_flag(goes_down, sx, sy) ||
+                         tmpmap.ter(sx, sy) == t_manhole_cover)))  {
      stairx = sx;
      stairy = sy;
     }
@@ -4964,7 +4961,7 @@ void game::vertical_move(int movez, bool force)
      return;
     } else if (u.has_amount(itm_rope_30, 1)) {
      if (query_yn("There is a sheer drop halfway down. Climb your rope down?")){
-      tmpmap.ter(u.posx, u.posy) = t_rope_up;
+      rope_ladder = true;
       u.use_amount(itm_rope_30, 1);
      } else {
       cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz - movez);
@@ -5009,6 +5006,8 @@ void game::vertical_move(int movez, bool force)
  m.load(this, levx, levy);
  u.posx = stairx;
  u.posy = stairy;
+ if (rope_ladder)
+  m.ter(u.posx, u.posy) = t_rope_up;
  if (m.ter(stairx, stairy) == t_manhole_cover) {
   m.add_item(stairx + rng(-1, 1), stairy + rng(-1, 1),
              itypes[itm_manhole_cover], 0);
@@ -5225,7 +5224,7 @@ void game::spawn_mon(int shiftx, int shifty)
  int nlevx = levx + shiftx;
  int nlevy = levy + shifty;
  int group;
- int monx, mony, rntype;
+ int monx, mony;
  int dist;
  int pop, rad;
  int iter;
@@ -5248,7 +5247,6 @@ void game::spawn_mon(int shiftx, int shifty)
  monster zom;
  for (int i = 0; i < cur_om.zg.size(); i++) { // For each valid group...
   group = 0;
-  rntype = 0;
   dist = trig_dist(nlevx, nlevy, cur_om.zg[i].posx, cur_om.zg[i].posy);
   pop = cur_om.zg[i].population;
   rad = cur_om.zg[i].radius;

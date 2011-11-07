@@ -50,6 +50,7 @@ struct construct // Construction functions.
 // Does anything special happen when we're finished?
  void done_nothing(game *, point) { }
  void done_pit(game *, point);
+ void done_trap_pit(game *, point);
  void done_fill_pit(game *, point);
  void done_window_pane(game *, point);
 

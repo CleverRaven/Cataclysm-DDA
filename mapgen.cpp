@@ -1152,7 +1152,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
           field_at(x, y) = field(fd_web, rng(2, 3), 0);
         }
        }
-      } else if (move_cost(x, y) > 0 && field_at(i, j).is_null() && one_in(5))
+      } else if (move_cost(i, j) > 0 && field_at(i, j).is_null() && one_in(5))
        field_at(i, j) = field(fd_web, 1, 0);
      }
     }
@@ -2883,7 +2883,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     bool okay = true;
     for (int x = x1; x <= x2 && okay; x++) {
      for (int y = y1; y <= y2 && okay; y++) {
-      if (ter(x, y) != t_grass & ter(x, y) != t_dirt)
+      if (ter(x, y) != t_grass && ter(x, y) != t_dirt)
        okay = false;
      }
     }
@@ -2895,17 +2895,22 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      tries++;
    }
   } while (tries < 5);
+  int ladderx = rng(0, SEEX * 2 - 1), laddery = rng(0, SEEY * 2 - 1);
+  while (ter(ladderx, laddery) != t_dirt && ter(ladderx, laddery) != t_grass) {
+   ladderx = rng(0, SEEX * 2 - 1);
+   laddery = rng(0, SEEY * 2 - 1);
+  }
+  ter(ladderx, laddery) = t_manhole_cover;
+ 
  } break;
 
  case ot_mine_shaft: // Not intended to actually be inhabited!
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (i < SEEX - 1 || i > SEEX + 2 || j < SEEY - 1 || j > SEEY + 2)
-     ter(i, j) = t_rock;
-    else
-     ter(i, j) = t_hole;
-   }
-  }
+  square(this, t_rock, 0, 0, 23, 23);
+  square(this, t_hole, SEEX - 3, SEEY - 3, SEEX + 2, SEEY + 2);
+  line(this, t_grate, SEEX - 3, SEEY - 4, SEEX + 2, SEEY - 4);
+  ter(SEEX - 3, SEEY - 5) = t_ladder_up;
+  ter(SEEX + 2, SEEY - 5) = t_ladder_down;
+  rotate(rng(0, 3));
   break;
 
  case ot_mine:
@@ -2947,6 +2952,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    line(this, t_wall_h, 10, 11, 12, 11);
    ter(10, 10) = t_elevator_control;
    ter(11, 10) = t_elevator;
+   ter(10, 12) = t_ladder_up;
    line(this, t_counter, 10, 15, 15, 15);
    place_items(mi_mine_equipment, 86, 10, 15, 15, 15, false, 0);
    if (one_in(2))
@@ -3901,6 +3907,160 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 
   break;
 
+ case ot_triffid_grove:
+  square(this, t_dirt, 0, 0, 23, 23);
+  for (int rad = 5; rad < SEEX - 2; rad += rng(2, 3)) {
+   square(this, t_tree, rad, rad, 23 - rad, 23 - rad);
+   square(this, t_dirt, rad + 1, rad + 1, 22 - rad, 22 - rad);
+   if (one_in(2)) { // Vertical side opening
+    int x = (one_in(2) ? rad : 23 - rad), y = rng(rad + 1, 22 - rad);
+    ter(x, y) = t_dirt;
+   } else { // Horizontal side opening
+    int x = rng(rad + 1, 22 - rad), y = (one_in(2) ? rad : 23 - rad);
+    ter(x, y) = t_dirt;
+   }
+   add_spawn( (one_in(3) ? mon_biollante : mon_triffid), 1, rad + 1, rad + 1);
+   add_spawn( (one_in(3) ? mon_biollante : mon_triffid), 1, 22 - rad, rad + 1);
+   add_spawn( (one_in(3) ? mon_biollante : mon_triffid), 1, rad + 1, 22 - rad);
+   add_spawn( (one_in(3) ? mon_biollante : mon_triffid), 1, 22 - rad, 22 - rad);
+  }
+  square(this, t_slope_down, SEEX - 1, SEEY - 1, SEEX, SEEY);
+  break;
+
+ case ot_triffid_roots: {
+  square(this, t_root_wall, 0, 0, 23, 23);
+  int node = 0;
+  int step = 0;
+  bool node_built[16];
+  bool done = false;
+  for (int i = 0; i < 16; i++)
+   node_built[i] = false;
+  do {
+   node_built[node] = true;
+   step++;
+   int nodex = 1 + 6 * (node % 4), nodey = 1 + 6 * int(node / 4);
+// Clear a 4x4 dirt square
+   square(this, t_dirt, nodex, nodey, nodex + 3, nodey + 3);
+// Spawn a monster in there
+   if (step > 2) { // First couple of chambers are safe
+    int monrng = rng(1, 20);
+    int spawnx = nodex + rng(0, 3), spawny = nodey + rng(0, 3);
+    if (monrng <= 5)
+     add_spawn(mon_triffid, rng(1, 4), spawnx, spawny);
+    else if (monrng <= 13)
+     add_spawn(mon_creeper_hub, 1, spawnx, spawny);
+    else if (monrng <= 19)
+     add_spawn(mon_biollante, 1, spawnx, spawny);
+    else {
+     for (int webx = nodex; webx <= nodex + 3; webx++) {
+      for (int weby = nodey; weby <= nodey + 3; weby++)
+       add_field(g, webx, weby, fd_web, rng(1, 3));
+     }
+     add_spawn(mon_spider_web, 1, spawnx, spawny);
+    }
+   }
+// TODO: Non-monster hazards?
+// Next, pick a cell to move to
+   std::vector<direction> move;
+   if (node % 4 > 0 && !node_built[node - 1])
+    move.push_back(WEST);
+   if (node % 4 < 3 && !node_built[node + 1])
+    move.push_back(EAST);
+   if (int(node / 4) > 0 && !node_built[node - 4])
+    move.push_back(NORTH);
+   if (int(node / 4) < 3 && !node_built[node + 4])
+    move.push_back(SOUTH);
+
+   if (move.empty()) { // Nowhere to go!
+    square(this, t_slope_down, nodex + 1, nodey + 1, nodex + 2, nodey + 2);
+    done = true;
+   } else {
+    int index = rng(0, move.size() - 1);
+    switch (move[index]) {
+     case NORTH:
+      square(this, t_dirt, nodex + 1, nodey - 2, nodex + 2, nodey - 1);
+      node -= 4;
+      break;
+     case EAST:
+      square(this, t_dirt, nodex + 4, nodey + 1, nodex + 5, nodey + 2);
+      node++;
+      break;
+     case SOUTH:
+      square(this, t_dirt, nodex + 1, nodey + 4, nodex + 2, nodey + 5);
+      node += 4;
+      break;
+     case WEST:
+      square(this, t_dirt, nodex - 2, nodey + 1, nodex - 1, nodey + 2);
+      node--;
+      break;
+    }
+   }
+  } while (!done);
+  square(this, t_slope_up, 2, 2, 3, 3);
+  rotate(rng(0, 3));
+ } break;
+
+ case ot_triffid_finale: {
+  square(this, t_root_wall, 0, 0, 23, 23);
+  square(this, t_dirt, 1, 1, 4, 4);
+  square(this, t_dirt, 19, 19, 22, 22);
+// Drunken walk until we reach the heart (lower right, [19, 19])
+// Chance increases by 1 each turn, and gives the % chance of forcing a move
+// to the right or down.
+  int chance = 0;
+  int x = 4, y = 4;
+  do {
+   ter(x, y) = t_dirt;
+
+   if (one_in(10)) { // Add a spawn
+    if (one_in(2))
+     add_spawn(mon_biollante, 1, x, y);
+    else if (!one_in(4))
+     add_spawn(mon_creeper_hub, 1, x, y);
+    else
+     add_spawn(mon_triffid, 1, x, y);
+   }
+
+   if (rng(0, 99) < chance) { // Force movement down or to the right
+    if (x >= 19)
+     y++;
+    else if (y >= 19)
+     x++;
+    else {
+     if (one_in(2))
+      x++;
+     else
+      y++;
+    }
+   } else {
+    chance++; // Increase chance of forced movement down/right
+// Weigh movement towards directions with lots of existing walls
+    int chance_west = 0, chance_east = 0, chance_north = 0, chance_south = 0;
+    for (int dist = 1; dist <= 5; dist++) {
+     if (ter(x - dist, y) == t_root_wall)
+      chance_west++;
+     if (ter(x + dist, y) == t_root_wall)
+      chance_east++;
+     if (ter(x, y - dist) == t_root_wall)
+      chance_north++;
+     if (ter(x, y + dist) == t_root_wall)
+      chance_south++;
+    }
+    int roll = rng(0, chance_west + chance_east + chance_north + chance_south);
+    if (roll < chance_west && x > 0)
+     x--;
+    else if (roll < chance_west + chance_east && x < 23)
+     x++;
+    else if (roll < chance_west + chance_east + chance_north && y > 0)
+     y--;
+    else if (y < 23)
+     y++;
+   } // Done with drunken walk
+  } while (x < 19 || y < 19);
+  square(this, t_slope_up, 1, 1, 2, 2);
+  add_spawn(mon_triffid_heart, 1, 21, 21);
+ } break;
+
  case ot_basement:
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -4580,7 +4740,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   }
  } else if (terrain_type >= ot_sewer_ns && terrain_type <= ot_sewer_nesw) {
   if (t_above == ot_road_nesw_manhole)
-   ter(rng(SEEX - 2, SEEX + 1), rng(SEEY - 2, SEEY + 1)) = t_ladder;
+   ter(rng(SEEX - 2, SEEX + 1), rng(SEEY - 2, SEEY + 1)) = t_ladder_up;
   if (t_north >= ot_subway_ns && t_north <= ot_subway_nesw &&
       !connects_to(terrain_type, 0)) {
    for (int j = 0; j < SEEY - 3; j++) {
@@ -4648,11 +4808,10 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
  int item_chance = 0;	// # of items
  for (int i = 0; i < eligible.size(); i++)
    item_chance += (*itypes)[eligible[i]]->rarity;
- int selection, randnum, debugrn;
+ int selection, randnum;
  int px, py;
  while (rng(0, 99) < chance) {
   randnum = rng(1, item_chance);
-  debugrn = randnum;
   selection = -1;
   while (randnum > 0) {
    selection++;
@@ -4717,7 +4876,7 @@ void map::rotate(int turns)
  trap_id traprot        [SEEX*2][SEEY*2];
  std::vector<item> itrot[SEEX*2][SEEY*2];
  std::vector<spawn_point> sprot[9];
- computer tmpcomp, comprot[9];
+ computer tmpcomp;
 
  switch (turns) {
  case 1:
@@ -5819,8 +5978,8 @@ void map::add_extra(map_extra type, game *g)
     drugtype = (*itypes)[itm_heroin];
     break;
   }
-  int num_bodies_a = dice(4, 3);
-  int num_bodies_b = dice(4, 3);
+  int num_bodies_a = dice(3, 3);
+  int num_bodies_b = dice(3, 3);
   bool north_south = one_in(2);
   bool a_has_drugs = one_in(2);
   for (int i = 0; i < num_bodies_a; i++) {
@@ -5923,7 +6082,6 @@ void map::add_extra(map_extra type, game *g)
  case mx_puddle:
  {
   int x = rng(6, SEEX * 2 - 7), y = rng(6, SEEY * 2 - 7);
-  int dist = 0;
   for (int dist = 0; dist < 6; dist++) {
    for (int px = x - dist; px <= x + dist; px++) {
     for (int py = y - dist; py <= y + dist; py++) {

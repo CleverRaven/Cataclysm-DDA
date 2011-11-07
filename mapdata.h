@@ -88,6 +88,7 @@ t_rock, t_fault,
 t_paper,
 // Tree
 t_tree, t_tree_young, t_underbrush,
+t_root_wall,
 t_wax, t_floor_wax,
 t_fence_v, t_fence_h,
 t_railing_v, t_railing_h,
@@ -112,8 +113,8 @@ t_rack, t_bookcase,
 t_dumpster,
 t_vat,
 // Staircases etc.
-t_stairs_down, t_stairs_up, t_manhole, t_ladder, t_slope_down, t_slope_up,
- t_rope_up,
+t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
+ t_slope_up, t_rope_up,
 t_manhole_cover,
 // Special
 t_card_science, t_card_military, t_card_reader_broken, t_slot_machine,
@@ -231,6 +232,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"underbrush",       '#', c_green,   6,
 	mfb(transparent)|mfb(bashable)|mfb(diggable)|mfb(container)|mfb(rough)|
 	mfb(flammable)},
+{"root wall",        '#', c_brown,   0,
+	mfb(noitem)},
 {"wax wall",         '#', c_yellow,  0,
 	mfb(container)|mfb(flammable)|mfb(noitem)},
 {"wax floor",        '.', c_yellow,  2,
@@ -317,6 +320,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(goes_down)|mfb(container)},
 {"ladder",           '<', c_dkgray,  2,
 	mfb(transparent)|mfb(goes_up)|mfb(container)},
+{"ladder",           '>', c_dkgray,  2,
+	mfb(transparent)|mfb(goes_down)|mfb(container)},
 {"downward slope",   '>', c_brown,   2,
 	mfb(transparent)|mfb(goes_down)|mfb(container)},
 {"upward slope",     '<', c_brown,   2,
@@ -395,6 +400,7 @@ enum field_id {
  fd_web,
  fd_slime,
  fd_acid,
+ fd_sap,
  fd_fire,
  fd_smoke,
  fd_toxic_gas,
@@ -408,28 +414,43 @@ enum field_id {
 const field_t fieldlist[] = {
 {{"",	"",	""},					'%',
  {c_white, c_white, c_white},	{true, true, true}, {false, false, false},   0},
+
 {{"blood splatter", "blood stain", "puddle of blood"},	'%',
  {c_red, c_red, c_red},		{true, true, true}, {false, false, false},2500},
+
 {{"bile splatter", "bile stain", "puddle of bile"},	'%',
  {c_pink, c_pink, c_pink},	{true, true, true}, {false, false, false},2500},
+
 {{"cobwebs","webs", "thick webs"},			'}',
  {c_white, c_white, c_white},	{true, true, false},{false, false, false},   0},
+
 {{"slime trail", "slime stain", "puddle of slime"},	'%',
  {c_ltgreen, c_ltgreen, c_green},{true, true, true},{false, false, false},2500},
+
 {{"acid splatter", "acid streak", "pool of acid"},	'5',
  {c_ltgreen, c_green, c_green},	{true, true, true}, {true, true, true},	    10},
+
+{{"sap splatter", "glob of sap", "pool of sap"},	'5',
+ {c_yellow, c_brown, c_brown},	{true, true, true}, {true, true, true},     20},
+
 {{"small fire",	"fire",	"raging fire"},			'4',
  {c_yellow, c_ltred, c_red},	{true, true, true}, {true, true, true},	   800},
+
 {{"thin smoke",	"smoke", "thick smoke"},		'8',
  {c_white, c_ltgray, c_dkgray},	{true, false, false},{false, true, true},  300},
+
 {{"hazy cloud","toxic gas","thick toxic gas"},		'8',
  {c_white, c_ltgreen, c_green}, {true, false, false},{false, true, true},  900},
+
 {{"hazy cloud","tear gas","thick tear gas"},		'8',
  {c_white, c_yellow, c_brown},	{true, false, false},{true, true, true},   600},
+
 {{"hazy cloud","radioactive gas", "thick radioactive gas"}, '8',
  {c_white, c_ltgreen, c_green},	{true, true, false}, {true, true, true},  1000},
+
 {{"sparks", "electric crackle", "electric cloud"},	'9',
  {c_white, c_cyan, c_blue},	{true, true, true}, {true, true, true},	     2},
+
 {{"odd ripple", "swirling air", "tear in reality"},	'*',
  {c_ltgray, c_dkgray, c_magenta},{true, true, false},{false, false, false},  0}
 };

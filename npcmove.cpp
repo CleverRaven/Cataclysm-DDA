@@ -11,8 +11,8 @@
 #define NUM_ESCAPE_ITEMS 12
 itype_id ESCAPE_ITEMS[NUM_ESCAPE_ITEMS] = {
  itm_cola, itm_caffeine, itm_energy_drink, itm_canister_goo, itm_smokebomb,
- itm_smokebomb_act, itm_adderall, itm_coke, itm_meth, itm_portal,
- itm_teleporter, itm_pheromone
+ itm_smokebomb_act, itm_adderall, itm_coke, itm_meth, itm_teleporter,
+ itm_pheromone
 };
 #endif
 
@@ -425,7 +425,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
    return npc_avoid_friendly_fire;
   else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
            gun->burst > 1 &&
-           (target_HP >= weapon.curammo->damage * 3) || emergency(danger * 2))
+           (target_HP >= weapon.curammo->damage * 3 || emergency(danger * 2)))
    return npc_shoot_burst;
   else
    return npc_shoot;
@@ -503,7 +503,7 @@ npc_action npc::address_needs(game *g, int danger)
 npc_action npc::address_player(game *g)
 {
  int linet;
- if (attitude == NPCATT_TALK || attitude == NPCATT_TRADE &&
+ if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) &&
      g->sees_u(posx, posy, linet)) {
   if (rl_dist(posx, posy, g->u.posx, g->u.posy) <= 6)
    return npc_talk_to_player; // Close enough to talk to you
@@ -531,8 +531,6 @@ npc_action npc::long_term_goal_action(game *g)
 {
  if (g->debugmon)
   debugmsg("long_term_goal_action()");
- int linet;
- int light = g->light_level();
  path.clear();
 
  if (mission == NPC_MISSION_SHOPKEEP)
@@ -612,7 +610,7 @@ void npc::use_escape_item(game *g, int index, int target)
 int npc::confident_range(int index)
 {
  
- if (index == -1 && !weapon.is_gun() || weapon.charges <= 0)
+ if (index == -1 || !weapon.is_gun() || weapon.charges <= 0)
   return 1;
 
  double deviation = 0;
@@ -659,7 +657,7 @@ int npc::confident_range(int index)
  } else { // We aren't firing a gun, we're throwing something!
 
   item *thrown = &(inv[index]);
-  int max = throw_range(index); // The max distance we can throw
+  max = throw_range(index); // The max distance we can throw
   int deviation = 0;
   if (sklevel[sk_throw] < 8)
    deviation += rng(0, 8 - sklevel[sk_throw]);
@@ -856,17 +854,16 @@ void npc::move_to_next(game *g)
   path.erase(path.begin());
 }
 
+// TODO: Rewrite this.  It doesn't work well and is ugly.
 void npc::avoid_friendly_fire(game *g, int target)
 {
- int blockx, blocky, tarx, tary;
+ int tarx, tary;
  if (target == TARGET_PLAYER) {
   tarx = g->u.posx;
   tary = g->u.posy;
  } else if (target >= 0) {
   tarx = g->z[target].posx;
   tary = g->z[target].posy;
-  blockx = g->u.posx;
-  blocky = g->u.posy;
   if (!one_in(3))
    say(g, "<move> so I can shoot that %s!", g->z[target].name().c_str());
  } else {
@@ -876,7 +873,6 @@ void npc::avoid_friendly_fire(game *g, int target)
  }
 
  int xdir = (tarx > posx ? 1 : -1), ydir = (tary > posy ? 1 : -1);
- int xdif = abs(tarx - posx), ydif = abs(tary - posy);
  direction dir_to_target = direction_from(posx, posy, tarx, tary);
  std::vector<point> valid_moves;
 /* Ugh, big ugly switch.  This fills valid_moves with a list of moves from most
@@ -1017,7 +1013,6 @@ void npc::find_item(game *g)
 {
  fetching_item = false;
  int best_value = minimum_item_value();
- double bestWgt = 0., bestVol = 0.;
  int range = sight_range(g->light_level());
  int minx = posx - range, maxx = posx + range,
      miny = posy - range, maxy = posy + range;
@@ -1586,9 +1581,9 @@ void npc::pick_and_eat(game *g)
   int eaten_hunger = -1, eaten_thirst = -1;
   it_comest* food = NULL;
   if (inv[i].is_food())
-   it_comest* food = dynamic_cast<it_comest*>(inv[i].type);
+   food = dynamic_cast<it_comest*>(inv[i].type);
   else if (inv[i].is_food_container())
-   it_comest* food = dynamic_cast<it_comest*>(inv[i].contents[0].type);
+   food = dynamic_cast<it_comest*>(inv[i].contents[0].type);
   if (food != NULL) {
    eaten_hunger = hunger - food->nutr;
    eaten_thirst = thirst - food->quench;

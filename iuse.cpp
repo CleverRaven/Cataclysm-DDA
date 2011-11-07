@@ -515,7 +515,7 @@ void iuse::purifier(game *g, player *p, item *it, bool t)
 {
  std::vector<int> valid;	// Which flags the player has
  for (int i = 0; i < PF_MAX2; i++) {
-  if (p->has_mutation(pl_flag(i))|| p->has_trait(pl_flag(i)) && traits[i].curable)
+  if (p->has_mutation(pl_flag(i)))
    valid.push_back(i);
  }
  if (valid.size() == 0) {
@@ -1236,7 +1236,9 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
   practice = 2;
   break;
  case itm_beartrap:
-  buried = (p->has_amount(itm_shovel, 1) && query_yn("Bury the beartrap?"));
+  buried = (p->has_amount(itm_shovel, 1) &&
+            g->m.has_flag(diggable, posx, posy) &&
+            query_yn("Bury the beartrap?"));
   type = (buried ? tr_beartrap_buried : tr_beartrap);
   message << "You " << (buried ? "bury" : "set") << " the beartrap.";
   practice = (buried ? 7 : 4); 
@@ -1945,10 +1947,10 @@ void iuse::mcg_note(game *g, player *p, item *it, bool t)
 {
  std::stringstream message;
  message << "Dear " << it->name << ":\n";
+/*
  faction* fac = NULL;
  direction dir = NORTH;
 // Pick an associated faction
-/*
  switch (it->associated_mission) {
  case MISSION_FIND_FAMILY_FACTION:
   fac = &(g->factions[rng(0, g->factions.size() - 1)]);

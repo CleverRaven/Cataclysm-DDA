@@ -58,6 +58,63 @@ void mdeath::boomer(game *g, monster *z)
   g->u.infect(DI_BOOMERED, bp_eyes, 2, 24, g);
 }
 
+void mdeath::kill_vines(game *g, monster *z)
+{
+ std::vector<int> vines;
+ std::vector<int> hubs;
+ for (int i = 0; i < g->z.size(); i++) {
+  if (g->z[i].type->id == mon_creeper_hub &&
+      (g->z[i].posx != z->posx || g->z[i].posy != z->posy))
+   hubs.push_back(i);
+  if (g->z[i].type->id == mon_creeper_vine)
+   vines.push_back(i);
+ }
+
+ for (int i = 0; i < vines.size(); i++) {
+  monster *vine = &(g->z[ vines[i] ]);
+  int dist = rl_dist(vine->posx, vine->posy, z->posx, z->posy);
+  bool closer_hub = false;
+  for (int j = 0; j < hubs.size() && !closer_hub; j++) {
+   if (rl_dist(vine->posx, vine->posy,
+               g->z[ hubs[j] ].posx, g->z[ hubs[j] ].posy) < dist)
+    closer_hub = true;
+  }
+  if (!closer_hub)
+   vine->hp = 0;
+ }
+}
+
+void mdeath::vine_cut(game *g, monster *z)
+{
+ std::vector<int> vines;
+ for (int x = z->posx - 1; x <= z->posx + 1; x++) {
+  for (int y = z->posy - 1; y <= z->posy + 1; y++) {
+   if (x == z->posx && y == z->posy)
+    y++; // Skip ourselves
+   int mondex = g->mon_at(x, y);
+   if (mondex != -1 && g->z[mondex].type->id == mon_creeper_vine)
+    vines.push_back(mondex);
+  }
+ }
+
+ for (int i = 0; i < vines.size(); i++) {
+  bool found_neighbor = false;
+  monster *vine = &(g->z[ vines[i] ]);
+  for (int x = vine->posx - 1; x <= vine->posx + 1 && !found_neighbor; x++) {
+   for (int y = vine->posy - 1; y <= vine->posy + 1 && !found_neighbor; y++) {
+    if (x != z->posx || y != z->posy) { // Not the dying vine
+     int mondex = g->mon_at(x, y);
+     if (mondex != -1 && (g->z[mondex].type->id == mon_creeper_hub ||
+                          g->z[mondex].type->id == mon_creeper_vine  ))
+      found_neighbor = true;
+    }
+   }
+  }
+  if (!found_neighbor)
+   vine->hp = 0;
+ }
+}
+
 void mdeath::fungus(game *g, monster *z)
 {
  monster spore(g->mtypes[mon_spore]);

@@ -46,6 +46,10 @@ void game::init_construction()
   STAGE(t_pit, 10);
    TOOL(itm_shovel, NULL);
 
+ CONSTRUCT("Spike Pit", 0, &construct::able_pit, &construct::done_trap_pit);
+  STAGE(t_pit, 5);
+   COMP(itm_spear_wood, 4, NULL);
+
  CONSTRUCT("Fill Pit", 0, &construct::able_pit, &construct::done_fill_pit);
   STAGE(t_pit_shallow, 5);
    TOOL(itm_shovel, NULL);
@@ -521,7 +525,7 @@ bool construct::able_dig(game *g, point p)
 
 bool construct::able_pit(game *g, point p)
 {
- return (g->m.ter(p.x, p.y) == t_pit || g->m.ter(p.x, p.y) == t_pit_shallow);
+ return (g->m.ter(p.x, p.y) == t_pit);//|| g->m.ter(p.x, p.y) == t_pit_shallow);
 }
 
 bool will_flood_stop(map *m, bool fill[SEEX * 3][SEEY * 3], int x, int y)
@@ -553,6 +557,12 @@ void construct::done_pit(game *g, point p)
 {
  if (g->m.ter(p.x, p.y) == t_pit)
   g->m.add_trap(p.x, p.y, tr_pit);
+}
+
+void construct::done_trap_pit(game *g, point p)
+{
+ if (g->m.ter(p.x, p.y) == t_pit)
+  g->m.add_trap(p.x, p.y, tr_spike_pit);
 }
 
 void construct::done_fill_pit(game *g, point p)

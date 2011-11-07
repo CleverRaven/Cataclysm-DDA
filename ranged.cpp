@@ -162,7 +162,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
      h = &(active_npc[npc_at(tx, ty)]);
 
     splatter(this, trajectory, dam);
-    shoot_player(this, p, h, dam, missed_by);
+    shoot_player(this, p, h, dam, goodhit);
 
    } else
     m.shoot(this, tx, ty, dam, i == trajectory.size() - 1, flags);

@@ -180,11 +180,8 @@ void monster::move(game *g)
 */
 
  moves -= 100;
- int rn=0, hmove=0;
  bool moved=false;
  point next;
- rn = rng(0, 50);
- hmove = rng(0, 5);
  int mondex = (plans.size() > 0 ? g->mon_at(plans[0].x, plans[0].y) : -1);
 
  if (plans.size() > 0 &&
