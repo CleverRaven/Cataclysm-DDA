@@ -1369,8 +1369,7 @@ void game::debug()
                    "Spawn Monster",          // 6
                    "Check game state...",    // 7
                    "Kill NPCs",              // 8
-                   "Generate artifact",      // 9
-                   "Cancel",                 // ?
+                   "Cancel",                 // 9
                    NULL);
  switch (action) {
   case 1:
@@ -1428,10 +1427,6 @@ Current turn: %d; Next spawn %d.\n\
    }
    break;
 
-  case 9:
-   item art(new_artifact(), turn);
-   m.add_item(u.posx, u.posy - 1, art);
-   break;
  }
  erase();
  refresh_all();
