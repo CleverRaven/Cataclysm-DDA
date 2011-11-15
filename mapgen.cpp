@@ -2789,6 +2789,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   square(this, t_rock_floor, SEEX, 5, SEEX + 1, SEEY * 2 - 1);
   line(this, t_stairs_up, SEEX, SEEY * 2 - 1, SEEX + 1, SEEY * 2 - 1);
   add_item(rng(SEEX, SEEX + 1), rng(2, 3), g->new_artifact(), 0);
+  add_item(rng(SEEX, SEEX + 1), rng(2, 3), g->new_artifact(), 0);
   return;
 
  case ot_sewage_treatment:
@@ -3413,6 +3414,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      place_items(mi_mine_equipment, 60, x, y, x, y, false, 0);
     }
     add_spawn(mon_dog_thing, 1, rng(SEEX, SEEX + 1), rng(SEEX, SEEX + 1), true);
+    add_item(rng(SEEX, SEEX + 1), rng(SEEY, SEEY + 1), g->new_artifact(), 0);
    } break;
 
    case 3: { // Spiral down
