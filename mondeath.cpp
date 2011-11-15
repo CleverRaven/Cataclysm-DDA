@@ -117,12 +117,8 @@ void mdeath::vine_cut(game *g, monster *z)
 
 void mdeath::triffid_heart(game *g, monster *z)
 {
- for (int x = 0; x < SEEX * 3; x++) {
-  for (int y = 0; y < SEEY * 3; y++) {
-   if (g->m.ter(x, y) == t_root_wall)
-    g->m.ter(x, y) = t_underbrush;
-  }
- }
+ g->add_msg("The root walls begin to crumble around you.");
+ g->add_event(EVENT_ROOTS_DIE, int(g->turn) + 100);
 }
 
 void mdeath::fungus(game *g, monster *z)

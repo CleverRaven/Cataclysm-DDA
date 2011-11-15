@@ -119,6 +119,10 @@ t_manhole_cover,
 // Special
 t_card_science, t_card_military, t_card_reader_broken, t_slot_machine,
  t_elevator_control, t_elevator_control_off, t_elevator, t_pedestal_wyrm,
+ t_pedestal_temple,
+// Temple tiles
+t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
+ t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
 num_terrain_types
 };
 
@@ -344,10 +348,33 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(noitem)},
 {"powerless controls",'6',c_ltgray,  0,
 	mfb(noitem)},
-{"elevator",         '.', c_magenta,  2,
+{"elevator",         '.', c_magenta, 2,
 	0},
 {"dark pedestal",    '&', c_dkgray,  0,
+	mfb(transparent)},
+{"light pedestal",   '&', c_white,   0,
+	mfb(transparent)},
+{"red stone",        '#', c_red,     0,
+	0},
+{"green stone",      '#', c_green,   0,
+	0},
+{"blue stone",       '#', c_blue,    0,
+	0},
+{"red floor",        '.', c_red,     2,
+	mfb(transparent)},
+{"green floor",      '.', c_green,   2,
+	mfb(transparent)},
+{"blue floor",       '.', c_blue,    2,
+	mfb(transparent)},
+{"yellow switch",    '6', c_yellow,  0,
+	mfb(transparent)},
+{"cyan switch",      '6', c_cyan,    0,
+	mfb(transparent)},
+{"purple switch",    '6', c_magenta, 0,
+	mfb(transparent)},
+{"checkered switch", '6', c_white,   0,
 	mfb(transparent)}
+
 };
 
 enum map_extra {
@@ -408,6 +435,9 @@ enum field_id {
  fd_toxic_gas,
  fd_tear_gas,
  fd_nuke_gas,
+ fd_gas_vent,
+ fd_fire_vent,
+ fd_flame_burst,
  fd_electricity,
  fd_fatigue,
  num_fields
@@ -450,6 +480,15 @@ const field_t fieldlist[] = {
 {{"hazy cloud","radioactive gas", "thick radioactive gas"}, '8',
  {c_white, c_ltgreen, c_green},	{true, true, false}, {true, true, true},  1000},
 
+{{"gas vent", "gas vent", "gas vent"}, '%',
+ {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0},
+
+{{"", "", ""}, '%', // fire vents
+ {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0},
+
+{{"fire", "fire", "fire"}, '5',
+ {c_red, c_red, c_red}, {true, true, true}, {true, true, true}, 0},
+
 {{"sparks", "electric crackle", "electric cloud"},	'9',
  {c_white, c_cyan, c_blue},	{true, true, true}, {true, true, true},	     2},
 
@@ -490,8 +529,10 @@ struct spawn_point {
  int posx, posy;
  int count;
  mon_id type;
- spawn_point(mon_id T = mon_null, int C = 0, int X = -1, int Y = -1) :
-             posx (X), posy (Y), count (C), type (T) {}
+ bool friendly;
+ spawn_point(mon_id T = mon_null, int C = 0, int X = -1, int Y = -1,
+             bool F = false) :
+             posx (X), posy (Y), count (C), type (T), friendly (F) {}
 };
 
 struct submap {

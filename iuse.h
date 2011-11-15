@@ -96,6 +96,10 @@ class iuse
 // MACGUFFINS
   void mcg_note		(game *g, player *p, item *it, bool t);
 // ARTIFACTS
+// This function is used when an artifact is activated
+// It examines the item's artifact-specific properties
+// See artifact.h for a list
+  void artifact		(game *g, player *p, item *it, bool t);
   void heal		(game *g, player *p, item *it, bool t);
   void twist_space	(game *g, player *p, item *it, bool t);
   void mass_vampire	(game *g, player *p, item *it, bool t);

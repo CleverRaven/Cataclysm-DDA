@@ -344,6 +344,7 @@ enum omspec_id
  OMSPEC_HOUSE,
  OMSPEC_GAS,
  OMSPEC_CABIN,
+ OMSPEC_TEMPLE,
  OMSPEC_LAB,
  OMSPEC_BUNKER,
  OMSPEC_SILO,
@@ -375,6 +376,9 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 
 {ot_house_north,  50, 20, mcat_null, 0, 0, 0, 0,  // Woods cabin
  &omspec_place::forest, mfb(OMS_FLAG_ROTATE_RANDOM)},
+
+{ot_temple_stairs, 3, 20, mcat_null, 0, 0, 0, 0,
+ &omspec_place::forest, 0},
 
 {ot_lab_stairs,	  30,  8, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_ROAD)},

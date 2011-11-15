@@ -242,6 +242,37 @@ void monster::move(game *g)
   stumble(g, moved);
 }
 
+// footsteps will determine how loud a monster's normal movement is
+// and create a sound in the monsters location when they move
+void monster::footsteps(game *g, int x, int y)
+{
+ if (has_flag(MF_FLIES))
+  return; // Flying monsters don't have footsteps!
+ int volume = 6; // same as player's footsteps
+ if (has_flag(MF_DIGS))
+  volume = 10;
+ switch (type->size) {
+  case MS_TINY:
+   volume /= 4;
+   break;
+  case MS_SMALL:
+   volume /= 2;
+   break;
+  case MS_MEDIUM:
+   break;
+  case MS_LARGE:
+   volume *= .5;
+   break;
+  case MS_HUGE:
+   volume *= 2;
+   break;
+  default: break;
+ }
+ int dist = rl_dist(x, y, g->u.posx, g->u.posy);
+ g->add_footstep(x, y, volume, dist);
+ return;
+}
+
 void monster::friendly_move(game *g)
 {
  point next;
@@ -454,6 +485,7 @@ void monster::move_to(game *g, int x, int y)
    moves -= (g->m.move_cost(x, y) - 2) * 50;
   posx = x;
   posy = y;
+  footsteps(g, x, y);
   if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES) &&
       g->m.tr_at(posx, posy) != tr_null) { // Monster stepped on a trap!
    trap* tr = g->traps[g->m.tr_at(posx, posy)];
@@ -520,6 +552,9 @@ void monster::stumble(game *g, bool moved)
 
 /* will_reach() is used for determining whether we'll get to stairs (and 
  * potentially other locations of interest).  It is generally permissive.
+ * TODO: Pathfinding;
+         Make sure that non-smashing monsters won't "teleport" through windows
+         Injure monsters if they're gonna be walking through pits or whatevs
  */
 bool monster::will_reach(game *g, int x, int y)
 {
@@ -527,10 +562,10 @@ bool monster::will_reach(game *g, int x, int y)
   return false;
 
  if (has_flag(MF_SMELLS) && g->scent(posx, posy) > 0 &&
-     g->scent(x, y) >= g->scent(posx, posy))
+     g->scent(x, y) > g->scent(posx, posy))
   return true;
 
- if (can_hear() && wandf > 0 && rl_dist(wandx, wandy, x, y) <= 3 &&
+ if (can_hear() && wandf > 0 && rl_dist(wandx, wandy, x, y) <= 2 &&
      rl_dist(posx, posy, wandx, wandy) <= wandf)
   return true;
 

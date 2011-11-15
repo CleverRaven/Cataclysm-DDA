@@ -51,7 +51,7 @@ void game::init_moncats()
  setvector(
    moncats[mcat_nether],
 	mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
-	mon_flaming_eye, mon_kreck, mon_blank, NULL);
+	mon_flaming_eye, mon_kreck, mon_blank, mon_gozu, NULL);
  setvector(
    moncats[mcat_spiral],
 	mon_human_snail, mon_twisted_body, mon_vortex, NULL);

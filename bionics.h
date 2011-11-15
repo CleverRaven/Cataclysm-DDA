@@ -129,7 +129,8 @@ intestines.  Not only can you extract much more nutrition from food, but you\n\
 are highly resistant to foodborne illness, and can sometimes eat rotten food."},
 {"Integrated Toolset", false, false, 0, 0, "\
 Implanted in your hands and fingers is a complete tool set - screwdriver,\n\
-hammer, wrench, and much more.  You no longer need any tools when crafting."},
+hammer, wrench, and heating elements.  You can use this in place of many\n\
+tools when crafting."},
 {"Electroshock Unit", false, false, 1, 0, "\
 While fighting unarmed, or with a weapon that conducts electricity, there is\n\
 a chance that a successful hit will shock your opponent, inflicting extra\n\

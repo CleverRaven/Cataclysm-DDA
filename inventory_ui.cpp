@@ -242,7 +242,8 @@ std::vector<item> game::multidrop()
      }
     }
     if (!found) {
-     if (ch == u.weapon.invlet && u.weapon.type->id > num_items) {
+     if (ch == u.weapon.invlet && u.weapon.type->id > num_items &&
+         u.weapon.type->id < num_all_items) {
       if (!warned_about_bionic)
        add_msg("You cannot drop your %s.", u.weapon.tname(this).c_str());
       warned_about_bionic = true;

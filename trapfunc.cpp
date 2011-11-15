@@ -363,7 +363,7 @@ void trapfunc::pit_spikes(game *g, int x, int y)
 {
  g->add_msg("You fall in a pit!");
  int dodge = g->u.dodge();
- int damage = rng(40, 70);
+ int damage = rng(20, 50);
  if (rng(5, 30) < dodge)
   g->add_msg("You avoid the spikes within.");
  else {
@@ -383,7 +383,6 @@ void trapfunc::pit_spikes(game *g, int x, int y)
   int side = rng(0, 1);
   g->add_msg("The spikes impale your %s!", body_part_name(hit, side).c_str());
   g->u.hit(g, hit, side, 0, damage);
-  g->u.hit(g, bp_legs, 1, damage, 0);
  }
  g->u.add_disease(DI_IN_PIT, -1, g);
 }
@@ -393,7 +392,7 @@ void trapfuncm::pit_spikes(game *g, monster *z, int x, int y)
  int junk;
  if (g->u_see(z, junk))
   g->add_msg("The %s falls in a spiked pit!", z->name().c_str());
- if (z->hurt(rng(40, 70)))
+ if (z->hurt(rng(20, 50)))
   g->kill_mon(g->mon_at(x, y));
  else
   z->moves = -1000;
@@ -430,6 +429,7 @@ void trapfunc::sinkhole(game *g, int x, int y)
      int index = rng(0, safe.size() - 1);
      g->u.posx = safe[index].x;
      g->u.posy = safe[index].y;
+     g->update_map(g->u.posx, g->u.posy);
      g->m.tr_at(g->u.posx, g->u.posy) = tr_pit;
     }
    } else {
@@ -466,4 +466,49 @@ void trapfuncm::ledge(game *g, monster *z, int x, int y)
 {
  g->add_msg("The %s falls down a level!", z->name().c_str());
  g->kill_mon(g->mon_at(x, y));
+}
+
+void trapfunc::temple_flood(game *g, int x, int y)
+{
+ g->add_msg("You step on a loose tile, and water starts to flood the room!");
+ for (int i = 0; i < SEEX * 3; i++) {
+  for (int j = 0; j < SEEY * 3; j++) {
+   if (g->m.tr_at(i, j) == tr_temple_flood)
+    g->m.tr_at(i, j) = tr_null;
+  }
+ }
+ g->add_event(EVENT_TEMPLE_FLOOD, g->turn + 3);
+}
+
+void trapfunc::temple_toggle(game *g, int x, int y)
+{
+ g->add_msg("You hear the grinding of shifting rock.");
+ ter_id type = g->m.ter(x, y);
+ for (int i = 0; i < SEEX * 3; i++) {
+  for (int j = 0; j < SEEY * 3; j++) {
+   switch (type) {
+    case t_floor_red:
+     if (g->m.ter(i, j) == t_rock_green)
+      g->m.ter(i, j) = t_floor_green;
+     else if (g->m.ter(i, j) == t_floor_green)
+      g->m.ter(i, j) = t_rock_green;
+     break;
+
+    case t_floor_green:
+     if (g->m.ter(i, j) == t_rock_blue)
+      g->m.ter(i, j) = t_floor_blue;
+     else if (g->m.ter(i, j) == t_floor_blue)
+      g->m.ter(i, j) = t_rock_blue;
+     break;
+
+    case t_floor_blue:
+     if (g->m.ter(i, j) == t_rock_red)
+      g->m.ter(i, j) = t_floor_red;
+     else if (g->m.ter(i, j) == t_floor_red)
+      g->m.ter(i, j) = t_rock_red;
+     break;
+
+   }
+  }
+ }
 }

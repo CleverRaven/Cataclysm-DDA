@@ -106,6 +106,108 @@ void event::actualize(game *g)
    }
   } break;
 
+  case EVENT_ROOTS_DIE:
+   for (int x = 0; x < SEEX * 3; x++) {
+    for (int y = 0; y < SEEY * 3; y++) {
+     if (g->m.ter(x, y) == t_root_wall && one_in(3))
+      g->m.ter(x, y) = t_underbrush;
+    }
+   }
+   break;
+
+  case EVENT_TEMPLE_OPEN: {
+   bool saw_grate = false;
+   for (int x = 0; x < SEEX * 3; x++) {
+    for (int y = 0; y < SEEY * 3; y++) {
+     if (g->m.ter(x, y) == t_grate) {
+      g->m.ter(x, y) = t_stairs_down;
+      int j;
+      if (!saw_grate && g->u_see(x, y, j))
+       saw_grate = true;
+     }
+    }
+   }
+   if (saw_grate)
+    g->add_msg("The nearby grates open to reveal a staircase!");
+  } break;
+
+  case EVENT_TEMPLE_FLOOD: {
+   bool flooded = false;
+   map copy;
+   for (int x = 0; x < SEEX * 3; x++) {
+    for (int y = 0; y < SEEY * 3; y++)
+     copy.ter(x, y) = g->m.ter(x, y);
+   }
+   for (int x = 0; x < SEEX * 3; x++) {
+    for (int y = 0; y < SEEY * 3; y++) {
+     if (g->m.ter(x, y) == t_water_sh) {
+      bool deepen = false;
+      for (int wx = x - 1;  wx <= x + 1 && !deepen; wx++) {
+       for (int wy = y - 1;  wy <= y + 1 && !deepen; wy++) {
+        if (g->m.ter(wx, wy) == t_water_dp)
+         deepen = true;
+       }
+      }
+      if (deepen) {
+       copy.ter(x, y) = t_water_dp;
+       flooded = true;
+      }
+     } else if (g->m.ter(x, y) == t_rock_floor) {
+      bool flood = false;
+      for (int wx = x - 1;  wx <= x + 1 && !flood; wx++) {
+       for (int wy = y - 1;  wy <= y + 1 && !flood; wy++) {
+        if (g->m.ter(wx, wy) == t_water_dp || g->m.ter(wx, wy) == t_water_sh)
+         flood = true;
+       }
+      }
+      if (flood) {
+       copy.ter(x, y) = t_water_sh;
+       flooded = true;
+      }
+     }
+    }
+   }
+   if (!flooded)
+    return; // We finished flooding the entire chamber!
+// Check if we should print a message
+   if (copy.ter(g->u.posx, g->u.posy) != g->m.ter(g->u.posx, g->u.posy)) {
+    if (copy.ter(g->u.posx, g->u.posy) == t_water_sh)
+     g->add_msg("Water quickly floods up to your knees.");
+    else { // Must be deep water!
+     g->add_msg("Water fills nearly to the ceiling!");
+     g->plswim(g->u.posx, g->u.posy);
+    }
+   }
+// copy is filled with correct tiles; now copy them back to g->m
+   for (int x = 0; x < SEEX * 3; x++) {
+    for (int y = 0; y < SEEY * 3; y++)
+     g->m.ter(x, y) = copy.ter(x, y);
+   }
+   g->add_event(EVENT_TEMPLE_FLOOD, int(g->turn) + rng(2, 3));
+  } break;
+
+  case EVENT_TEMPLE_SPAWN: {
+   mon_id montype;
+   switch (rng(1, 4)) {
+    case 1: montype = mon_sewer_snake;  break;
+    case 2: montype = mon_centipede;    break;
+    case 3: montype = mon_dermatik;     break;
+    case 4: montype = mon_spider_widow; break;
+   }
+   monster spawned( g->mtypes[montype] );
+   int tries = 0, x, y;
+   do {
+    x = rng(g->u.posx - 5, g->u.posx + 5);
+    y = rng(g->u.posy - 5, g->u.posy + 5);
+    tries++;
+   } while (tries < 20 && !g->is_empty(x, y) &&
+            rl_dist(x, y, g->u.posx, g->u.posy) <= 2);
+   if (tries < 20) {
+    spawned.spawn(x, y);
+    g->z.push_back(spawned);
+   }
+  } break;
+
   default:
    break; // Nothing happens for other events
  }
@@ -141,6 +243,11 @@ void event::per_turn(game *g)
   case EVENT_AMIGARA:
    g->add_msg("The entire cavern shakes!");
    break;
+
+  case EVENT_TEMPLE_OPEN:
+   g->add_msg("The earth rumbles.");
+   break;
+
 
   default:
    break; // Nothing happens for other events

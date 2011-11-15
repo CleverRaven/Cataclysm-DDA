@@ -92,9 +92,7 @@ public:
  bool is_tool();
  bool is_macguffin();
  bool is_other(); // Doesn't belong in other categories
- virtual bool is_artifact()  { return false; }
-
- //bool stack_with(item &it);	// Attempts to stack; returns true on success
+ bool is_artifact();
 
  itype*   type;
  mtype*   corpse;
@@ -110,6 +108,7 @@ public:
  char burnt;		// How badly we're burnt
  unsigned int bday;     // The turn on which it was created
  bool owned;            // If true, NPCs will shout at you for picking it up
+ int poison;		// How badly poisoned is it?
 
  int mission_id;// Refers to a mission in game's master list
  int player_id;	// Only give a mission to the right player!

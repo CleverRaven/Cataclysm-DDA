@@ -513,6 +513,22 @@ bool game::do_turn()
 {
  if (is_game_over()) {
   write_msg();
+// Save the monsters before we die!
+  for (int i = 0; i < z.size(); i++) {
+   if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
+    map tmp;
+    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
+    tmp.add_spawn(mon_id(z[i].type->id), 1, z[i].spawnposx, z[i].spawnposy);
+    tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
+   } else {	// Absorb them back into a group
+    int group = valid_group((mon_id)(z[i].type->id), levx, levy);
+    if (group != -1) {
+     cur_om.zg[group].population++;
+     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2) > 5)
+      cur_om.zg[group].radius++;
+    }
+   }
+  }
   if (uquit == QUIT_DIED)
    popup_top("Game over! Press spacebar...");
   if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
@@ -579,10 +595,12 @@ bool game::do_turn()
   if (u.radiation > 1 && one_in(3))
    u.radiation--;
   u.get_sick(this);
-// On the half-hour, we also autosave and update the weather.
-  update_weather();
+// Auto-save on the half-hour
   save();
  }
+// Every two hours, we update the weather.
+ if (turn % 1200 == 0)
+  update_weather();
 
 // The following happens when we stay still; 10/40 minutes overdue for spawn
  if ((!u.has_trait(PF_INCONSPICUOUS) && turn > nextspawn +  100) ||
@@ -1278,6 +1296,13 @@ void game::save()
  for (int i = 0; i < factions.size(); i++)
   fout << "F " << factions[i].save_info() << std::endl;
  fout.close();
+// Finally, save artifacts.
+ if (itypes.size() > num_all_items) {
+  fout.open("save/artifacts.gsav");
+  for (int i = num_all_items; i < itypes.size(); i++)
+   fout << itypes[i]->save_data() << "\n";
+  fout.close();
+ }
 // aaaand the overmap, and the local map.
  cur_om.save(u.name);
  m.save(&cur_om, turn, levx, levy);
@@ -1344,7 +1369,8 @@ void game::debug()
                    "Spawn Monster",          // 6
                    "Check game state...",    // 7
                    "Kill NPCs",              // 8
-                   "Cancel",                 // 9
+                   "Generate artifact",      // 9
+                   "Cancel",                 // ?
                    NULL);
  switch (action) {
   case 1:
@@ -1400,6 +1426,11 @@ Current turn: %d; Next spawn %d.\n\
     add_msg("%s's head implodes!", active_npc[i].name.c_str());
     active_npc[i].hp_cur[bp_head] = 0;
    }
+   break;
+
+  case 9:
+   item art(new_artifact(), turn);
+   m.add_item(u.posx, u.posy - 1, art);
    break;
  }
  erase();
@@ -1744,6 +1775,7 @@ void game::draw()
  // Draw map
  werase(w_terrain);
  draw_ter();
+ draw_footsteps();
  mon_info();
  // Draw Status
  draw_HP();
@@ -2591,6 +2623,8 @@ void game::sound(int x, int y, int vol, std::string description)
   int min = int(max / 6);
   if (max > 100)
    max = 100;
+  if (min > 100)
+   min = 100;
   int change = rng(min, max);
   if (nextspawn < change)
    nextspawn = 0;
@@ -2630,6 +2664,49 @@ void game::sound(int x, int y, int vol, std::string description)
  }
  std::string direction = direction_name(direction_from(u.posx, u.posy, x, y));
  add_msg("From the %s you hear %s", direction.c_str(), description.c_str());
+}
+
+// add_footstep will create a list of locations to draw monster
+// footsteps. these will be more or less accurate depending on the
+// characters hearing and how close they are
+void game::add_footstep(int x, int y, int volume, int distance)
+{
+ int t = 0;
+ if (x == u.posx && y == u.posy)
+  return;
+ else if (u_see(x, y, t))
+  return;
+ int err_offset;
+ if (volume / distance < 2)
+  err_offset = 3;
+ else if (volume / distance < 3)
+  err_offset = 2;
+ else
+  err_offset = 1;
+ if (u.has_bionic(bio_ears))
+  err_offset--;
+ if (u.has_trait(PF_BADHEARING))
+  err_offset++;
+ if (err_offset > 0) {
+  do {
+   x += rng(-err_offset, err_offset);
+   y += rng(-err_offset, err_offset);
+  } while (u_see(x, y, t));
+ }
+ footsteps.push_back(point(x, y));
+ return;
+}
+
+// draws footsteps that have been created by monsters moving about
+void game::draw_footsteps()
+{
+ for (int i = 0; i < footsteps.size(); i++) {
+  mvwputch(w_terrain, SEEY + footsteps[i].y - u.posy, 
+           SEEX + footsteps[i].x - u.posx, c_yellow, '?');
+ }
+ footsteps.clear();
+ wrefresh(w_terrain);
+ return;
 }
 
 void game::explosion(int x, int y, int power, int shrapnel, bool fire)
@@ -3385,7 +3462,74 @@ shape, but with long, twisted, distended limbs.");
             m.i_at(examx, examy).empty()) {
   add_msg("The pedestal sinks into the ground...");
   m.ter(examx, examy) = t_rock_floor;
-  add_event(EVENT_SPAWN_WYRMS, int(turn) + rng(3, 5));
+  add_event(EVENT_SPAWN_WYRMS, int(turn) + rng(5, 10));
+ } else if (m.ter(examx, examy) == t_pedestal_temple) {
+  if (m.i_at(examx, examy).size() == 1 &&
+      m.i_at(examx, examy)[0].type->id == itm_petrified_eye) {
+   add_msg("The pedestal sinks into the ground...");
+   m.ter(examx, examy) = t_dirt;
+   m.i_at(examx, examy).clear();
+   add_event(EVENT_TEMPLE_OPEN, int(turn) + 4);
+  } else
+   add_msg("This pedestal is engraved in eye-shaped diagrams, and has a large\
+ semi-spherical indentation at the top.");
+ } else if (m.ter(examx, examy) >= t_switch_rg &&
+            m.ter(examx, examy) <= t_switch_even &&
+            query_yn("Flip the %s?", m.tername(examx, examy).c_str())) {
+  for (int y = examy; y <= examy + 5; y++) {
+   for (int x = 0; x < SEEX * 3; x++) {
+    switch (m.ter(examx, examy)) {
+     case t_switch_rg:
+      if (m.ter(x, y) == t_rock_red)
+       m.ter(x, y) = t_floor_red;
+      else if (m.ter(x, y) == t_floor_red)
+       m.ter(x, y) = t_rock_red;
+      else if (m.ter(x, y) == t_rock_green)
+       m.ter(x, y) = t_floor_green;
+      else if (m.ter(x, y) == t_floor_green)
+       m.ter(x, y) = t_rock_green;
+      break;
+     case t_switch_gb:
+      if (m.ter(x, y) == t_rock_blue)
+       m.ter(x, y) = t_floor_blue;
+      else if (m.ter(x, y) == t_floor_blue)
+       m.ter(x, y) = t_rock_blue;
+      else if (m.ter(x, y) == t_rock_green)
+       m.ter(x, y) = t_floor_green;
+      else if (m.ter(x, y) == t_floor_green)
+       m.ter(x, y) = t_rock_green;
+      break;
+     case t_switch_rb:
+      if (m.ter(x, y) == t_rock_blue)
+       m.ter(x, y) = t_floor_blue;
+      else if (m.ter(x, y) == t_floor_blue)
+       m.ter(x, y) = t_rock_blue;
+      else if (m.ter(x, y) == t_rock_red)
+       m.ter(x, y) = t_floor_red;
+      else if (m.ter(x, y) == t_floor_red)
+       m.ter(x, y) = t_rock_red;
+      break;
+     case t_switch_even:
+      if ((y - examy) % 2 == 1) {
+       if (m.ter(x, y) == t_rock_red)
+        m.ter(x, y) = t_floor_red;
+       else if (m.ter(x, y) == t_floor_red)
+        m.ter(x, y) = t_rock_red;
+       else if (m.ter(x, y) == t_rock_green)
+        m.ter(x, y) = t_floor_green;
+       else if (m.ter(x, y) == t_floor_green)
+        m.ter(x, y) = t_rock_green;
+       else if (m.ter(x, y) == t_rock_blue)
+        m.ter(x, y) = t_floor_blue;
+       else if (m.ter(x, y) == t_floor_blue)
+        m.ter(x, y) = t_rock_blue;
+      }
+      break;
+    }
+   }
+  }
+  add_msg("You hear the rumble of rock shifting.");
+  add_event(EVENT_TEMPLE_SPAWN, turn + 3);
  }
 
  if (m.tr_at(examx, examy) != tr_null &&
@@ -4096,7 +4240,7 @@ void game::plthrow()
   return;
  }
  item thrown = u.i_at(ch);
- if (thrown.type->id > num_items) {
+ if (thrown.type->id > num_items && thrown.type->id < num_all_items) {
   add_msg("That's part of your body, you can't throw that!");
   return;
  }
@@ -4535,7 +4679,8 @@ void game::unload()
 
 void game::wield()
 {
- if (u.weapon.type->id > num_items) { // Bionics
+ if (u.weapon.type->id > num_items && u.weapon.type->id < num_all_items) {
+// Bionics can't be unwielded
   add_msg("You cannot unwield your %s.", u.weapon.tname(this).c_str());
   return;
  }
@@ -4737,18 +4882,23 @@ void game::plmove(int x, int y)
       u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(x, y)]->visibility &&
       !query_yn("Really step onto that %s?",traps[m.tr_at(x, y)]->name.c_str()))
    return;
+
+// Calculate cost of moving
   if (u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 2) {
-   movecost = m.move_cost(x, y) * 20 + u.encumb(bp_feet) * 5 + u.encumb(bp_legs) * 3;
+   movecost = m.move_cost(x, y) * 20;
    if (movecost < 100)
     movecost = 100;
   } else
-   movecost = m.move_cost(x, y) * 50 + u.encumb(bp_feet) * 5 +
-                                       u.encumb(bp_legs) * 3;
+   movecost = m.move_cost(x, y) * 50;
   if (u.has_trait(PF_FLEET) && m.move_cost(x, y) == 2)
    movecost = int(movecost * .85);
-  movecost += u.encumb(bp_mouth) * 5;
+  movecost += u.encumb(bp_mouth) * 5 + u.encumb(bp_feet) * 5 +
+              u.encumb(bp_legs) * 3;
   if (!u.wearing_something_on(bp_feet))
    movecost += 15;
+  u.moves -= movecost;
+
+// Adjust recoil down
   if (u.recoil > 0) {
    if (int(u.str_cur / 2) + u.sklevel[sk_gun] >= u.recoil)
     u.recoil = 0;
@@ -4757,7 +4907,6 @@ void game::plmove(int x, int y)
     u.recoil = int(u.recoil / 2);
    }
   }
-  u.moves -= movecost;
   if ((!u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 2) ||
       ( u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 4    ))
    add_msg("Moving past this %s is slow!", m.tername(x, y).c_str());
@@ -4843,7 +4992,7 @@ void game::plmove(int x, int y)
    add_msg(buff.c_str());
   } else if (m.i_at(x, y).size() != 0)
    add_msg("There are many items here.");
- } else if (m.has_flag(swimmable, x, y)) {	// Dive into water!
+ } else if (m.has_flag(swimmable, x, y)) { // Dive into water!
 // Requires confirmation if we were on dry land previously
   if ((m.has_flag(swimmable, u.posx, u.posy) &&
       m.move_cost(u.posx, u.posy) == 0) || query_yn("Dive into the water?")) {
@@ -4897,7 +5046,7 @@ void game::plswim(int x, int y)
  }
  u.moves -= movecost;
  for (int i = 0; i < u.inv.size(); i++) {
-  if (u.inv[i].type->m1 == IRON && u.inv[i].damage < 5 && one_in(3))
+  if (u.inv[i].type->m1 == IRON && u.inv[i].damage < 5 && one_in(8))
    u.inv[i].damage++;
  }
 }
@@ -4927,11 +5076,13 @@ void game::vertical_move(int movez, bool force)
   return;
  }
 
+ int original_z = cur_om.posz;
  cur_om.save(u.name);
  m.save(&cur_om, turn, levx, levy);
  cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz + movez);
  map tmpmap(&itypes, &mapitems, &traps);
  tmpmap.load(this, levx, levy);
+ cur_om = overmap(this, cur_om.posx, cur_om.posy, original_z);
 // Find the corresponding staircase
  int stairx = -1, stairy = -1;
  bool rope_ladder = false;
@@ -4952,34 +5103,24 @@ void game::vertical_move(int movez, bool force)
   }
 
   if (stairx == -1 || stairy == -1) { // No stairs found!
-// Before we return in any of these cases, we have to reset cur_om to the 
-// proper level!
    if (movez < 0) {
     if (tmpmap.move_cost(u.posx, u.posy) == 0) {
      popup("Halfway down, the way down becomes blocked off.");
-     cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz - movez);
      return;
     } else if (u.has_amount(itm_rope_30, 1)) {
      if (query_yn("There is a sheer drop halfway down. Climb your rope down?")){
       rope_ladder = true;
       u.use_amount(itm_rope_30, 1);
-     } else {
-      cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz - movez);
+     } else
       return;
-     }
-    } else if (!query_yn("There is a sheer drop halfway down.  Jump?")) {
-     cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz - movez);
+    } else if (!query_yn("There is a sheer drop halfway down.  Jump?"))
      return;
-    }
    }
    stairx = u.posx;
    stairy = u.posy;
   }
  }
  
-// We moved!  Load the new map.
- levz += movez;
- u.moves -= 100;
  bool replace_monsters = false;
 // Replace the stair monsters if we just came back
  if (abs(monstairx - levx) <= 1 && abs(monstairy - levy) <= 1 &&
@@ -4994,7 +5135,17 @@ void game::vertical_move(int movez, bool force)
    if (z[i].will_reach(this, u.posx, u.posy))
     coming_to_stairs.push_back(
         monster_and_count(z[i], 1 + z[i].turns_to_reach(this, u.posx, u.posy)));
-   else {
+   else if (z[i].spawnmapx != -1) { // Static spawn, move them back there
+    map tmp;
+    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
+    tmp.add_spawn(mon_id(z[i].type->id), 1, z[i].spawnposx, z[i].spawnposy);
+    tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
+   } else if (z[i].friendly != 0) { // Friendly, make it into a static spawn
+    map tmp;
+    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
+    tmp.add_spawn(mon_id(z[i].type->id), 1, z[i].posx, z[i].posy, true);
+    tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
+   } else {
     int group = valid_group( (mon_id)(z[i].type->id), levx, levy);
     if (group != -1)
      cur_om.zg[group].population++;
@@ -5003,6 +5154,10 @@ void game::vertical_move(int movez, bool force)
  }
  z.clear();
 
+// We moved!  Load the new map.
+ cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz + movez);
+ levz += movez;
+ u.moves -= 100;
  m.load(this, levx, levy);
  u.posx = stairx;
  u.posy = stairy;
@@ -5029,6 +5184,15 @@ void game::vertical_move(int movez, bool force)
  }
 
  update_map(u.posx, u.posy);
+
+ if (m.tr_at(u.posx, u.posy) != tr_null) { // We stepped on a trap!
+  trap* tr = traps[m.tr_at(u.posx, u.posy)];
+  if (force || !u.avoid_trap(tr)) {
+   trapfunc f;
+   (f.*(tr->act))(this, u.posx, u.posy);
+  }
+ }
+
  refresh_all();
 }
 
@@ -5038,12 +5202,6 @@ void game::update_map(int &x, int &y)
  int shiftx = 0, shifty = 0;
  int group;
  int olevx = 0, olevy = 0;
-/*
-      if (x <  SEEX    ) { x = SEEX * 2 - 1; shiftx = -1; }
- else if (x >= SEEX * 2) { x = SEEX;         shiftx =  1; }
-      if (y <  SEEY    ) { y = SEEY * 2 - 1; shifty = -1; }
- else if (y >= SEEY * 2) { y = SEEY;         shifty =  1; }
-*/
  while (x < SEEX) {
   x += SEEX;
   shiftx--;

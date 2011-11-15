@@ -70,6 +70,7 @@ class monster {
 				      // the route.  Give up after f steps.
  void plan(game *g);
  void move(game *g); // Actual movement
+ void footsteps(game *g, int x, int y); // noise made by movement
  void friendly_move(game *g);
 
  point scent_move(game *g);

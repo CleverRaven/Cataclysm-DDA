@@ -29,31 +29,35 @@ enum trap_id {
  tr_portal,
  tr_ledge,
  tr_boobytrap,
+ tr_temple_flood,
+ tr_temple_toggle,
  num_trap_types
 };
 
 struct trap;
 
 struct trapfunc {
- void none	(game *g, int x, int y) { };
- void bubble	(game *g, int x, int y);
- void beartrap	(game *g, int x, int y);
- void snare	(game *g, int x, int y) { };
- void board	(game *g, int x, int y);
- void tripwire	(game *g, int x, int y);
- void crossbow	(game *g, int x, int y);
- void shotgun	(game *g, int x, int y);
- void blade	(game *g, int x, int y);
- void landmine	(game *g, int x, int y);
- void telepad	(game *g, int x, int y);
- void goo	(game *g, int x, int y);
- void dissector	(game *g, int x, int y);
- void sinkhole	(game *g, int x, int y);
- void pit	(game *g, int x, int y);
- void pit_spikes(game *g, int x, int y);
- void portal	(game *g, int x, int y) { };
- void ledge	(game *g, int x, int y);
- void boobytrap	(game *g, int x, int y);
+ void none		(game *g, int x, int y) { };
+ void bubble		(game *g, int x, int y);
+ void beartrap		(game *g, int x, int y);
+ void snare		(game *g, int x, int y) { };
+ void board		(game *g, int x, int y);
+ void tripwire		(game *g, int x, int y);
+ void crossbow		(game *g, int x, int y);
+ void shotgun		(game *g, int x, int y);
+ void blade		(game *g, int x, int y);
+ void landmine		(game *g, int x, int y);
+ void telepad		(game *g, int x, int y);
+ void goo		(game *g, int x, int y);
+ void dissector		(game *g, int x, int y);
+ void sinkhole		(game *g, int x, int y);
+ void pit		(game *g, int x, int y);
+ void pit_spikes	(game *g, int x, int y);
+ void portal		(game *g, int x, int y) { };
+ void ledge		(game *g, int x, int y);
+ void boobytrap		(game *g, int x, int y);
+ void temple_flood	(game *g, int x, int y);
+ void temple_toggle	(game *g, int x, int y);
 };
 
 struct trapfuncm {

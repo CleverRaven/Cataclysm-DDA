@@ -81,6 +81,8 @@ void dis_msg(game *g, dis_type type)
  case DI_AMIGARA:
   g->add_msg("You can't look away from the fautline...");
   break;
+ default:
+  break;
  }
 }
   
@@ -696,6 +698,69 @@ void dis_effect(game *g, player &p, disease &dis)
    p.rem_disease(DI_TELEGLOW);
   }
   break;
+
+ case DI_ATTENTION:
+  if (one_in( 100000 / dis.duration )) {
+   int range = g->moncats[mcat_nether].size();
+   mon_id type = (g->moncats[mcat_nether])[rng(0, range - 1)];
+   monster beast(g->mtypes[type]);
+   int x, y, tries = 0, junk;
+   do {
+    x = p.posx + rng(-4, 4);
+    y = p.posy + rng(-4, 4);
+    tries++;
+   } while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1) &&
+            tries < 10);
+   if (tries < 10) {
+    if (g->m.move_cost(x, y) == 0)
+     g->m.ter(x, y) = t_rubble;
+    beast.spawn(x, y);
+    g->z.push_back(beast);
+    if (g->u_see(x, y, junk))
+     g->add_msg("A portal opens nearby, and a monster crawls through!");
+    dis.duration /= 2;
+   }
+  }
+  break;
+
+ case DI_EVIL: {
+  bool lesser = false; // Worn or wielded; diminished effects
+  if (p.weapon.is_artifact() && p.weapon.is_tool()) {
+   it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(p.weapon.type);
+   for (int i = 0; i < tool->effects_carried.size(); i++) {
+    if (tool->effects_carried[i] == AEP_EVIL)
+     lesser = true;
+   }
+   for (int i = 0; i < tool->effects_wielded.size(); i++) {
+    if (tool->effects_wielded[i] == AEP_EVIL)
+     lesser = true;
+   }
+  }
+  for (int i = 0; !lesser && i < p.worn.size(); i++) {
+   if (p.worn[i].is_artifact()) {
+    it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(p.worn[i].type);
+    for (int i = 0; i < armor->effects_worn.size(); i++) {
+     if (armor->effects_worn[i] == AEP_EVIL)
+      lesser = true;
+    }
+   }
+  }
+
+  if (lesser) { // Only minor effects, some even good!
+   p.str_cur += (dis.duration > 4500 ? 10 : int(dis.duration / 450));
+   if (dis.duration < 600)
+    p.dex_cur++;
+   else
+    p.dex_cur -= (dis.duration > 3600 ? 10 : int((dis.duration - 600) / 300));
+   p.int_cur -= (dis.duration > 3000 ? 10 : int((dis.duration - 500) / 250));
+   p.per_cur -= (dis.duration > 4800 ? 10 : int((dis.duration - 800) / 400));
+  } else { // Major effects, all bad.
+   p.str_cur -= (dis.duration > 5000 ? 10 : int(dis.duration / 500));
+   p.dex_cur -= (dis.duration > 6000 ? 10 : int(dis.duration / 600));
+   p.int_cur -= (dis.duration > 4500 ? 10 : int(dis.duration / 450));
+   p.per_cur -= (dis.duration > 4000 ? 10 : int(dis.duration / 400));
+  }
+ } break;
  }
 }
 

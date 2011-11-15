@@ -657,11 +657,11 @@ void game::init_mapitems()
 // This one kind of an inverted list; what a traveling salesman will NOT carry
  setvector(
    mapitems[mi_trader_avoid],
-	itm_null, itm_water_dirty, itm_meat, itm_veggy, itm_meat_tainted,
-	itm_veggy_tainted, itm_meat_cooked, itm_veggy_cooked,
-	itm_mushroom_poison, itm_spaghetti_cooked, itm_macaroni_cooked,
-	itm_fetus, itm_arm, itm_leg, itm_wrapper, itm_manhole_cover, itm_rock,
-	itm_stick, itm_bag_plastic, itm_flashlight_on, itm_radio_on,
-	itm_chainsaw_on, itm_grenade_act, itm_EMPbomb_act, itm_gasbomb_act,
-	itm_molotov_lit, itm_dynamite_act, itm_mininuke_act, itm_mp3_on,itm_c4, NULL);
+	itm_null, itm_meat, itm_veggy, itm_meat_tainted, itm_veggy_tainted,
+	itm_meat_cooked, itm_veggy_cooked, itm_mushroom_poison,
+	itm_spaghetti_cooked, itm_macaroni_cooked, itm_fetus, itm_arm, itm_leg,
+	itm_wrapper, itm_manhole_cover, itm_rock, itm_stick, itm_bag_plastic,
+	itm_flashlight_on, itm_radio_on, itm_chainsaw_on, itm_grenade_act,
+	itm_EMPbomb_act, itm_gasbomb_act, itm_molotov_lit, itm_dynamite_act,
+	itm_mininuke_act, itm_mp3_on,itm_c4, NULL);
 }

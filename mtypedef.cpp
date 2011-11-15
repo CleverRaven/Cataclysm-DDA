@@ -119,7 +119,7 @@ mandibles."
 mon("queen ant",	'a',	c_ltred,	MS_LARGE,	FLESH,
 	(mfb(MF_SMELLS)|mfb(MF_QUEEN)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  0, 13,  2, 60,  6,  3,  4,  4,  1, 14,-40,180, 5,
+	  0, 13,  2, 60,  6,  3,  4,  4,  1, 14,-40,180, 1,
 	&mdeath::normal,	&mattack::antqueen, "\
 This ant has a long, bloated thorax, bulging\n\
 with hundreds of small ant eggs.  It moves\n\

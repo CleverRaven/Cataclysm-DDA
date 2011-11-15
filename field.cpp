@@ -408,6 +408,36 @@ bool map::process_fields(game *g)
     }
     break;
 
+   case fd_gas_vent:
+    for (int i = x - 1; i <= x + 1; i++) {
+     for (int j = y - 1; j <= y + 1; j++) {
+      if (field_at(i, j).type == fd_toxic_gas && field_at(i, j).density < 3)
+       field_at(i, j).density++;
+      else
+       add_field(g, i, j, fd_toxic_gas, 3);
+     }
+    }
+    break;
+
+   case fd_fire_vent:
+    if (cur->density > 1) {
+     if (one_in(3))
+      cur->density--;
+    } else {
+     cur->type = fd_flame_burst;
+     cur->density = 3;
+    }
+    break;
+
+   case fd_flame_burst:
+    if (cur->density > 1)
+      cur->density--;
+    else {
+     cur->type = fd_fire_vent;
+     cur->density = 3;
+    }
+    break;
+
    case fd_electricity:
     if (!one_in(5)) {	// 4 in 5 chance to spread
      std::vector<point> valid;
@@ -461,8 +491,8 @@ bool map::process_fields(game *g)
     break;
    }
   
+   cur->age++;
    if (fieldlist[cur->type].halflife > 0) {
-    cur->age++;
     if (cur->age > 0 &&
         dice(3, cur->age) > dice(3, fieldlist[cur->type].halflife)) {
      cur->age = 0;
@@ -567,6 +597,13 @@ void map::step_in_field(int x, int y, game *g)
     g->add_msg("This radioactive gas burns!");
     g->u.hurtall(rng(1, 3));
    }
+   break;
+
+  case fd_flame_burst:
+   g->add_msg("You're torched by flames!");
+   g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
+   g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
+   g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
    break;
 
   case fd_electricity:
@@ -703,6 +740,20 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     z->speed -= rng(cur->density * 5, cur->density * 12);
     dam *= cur->density;
    }
+   break;
+
+  case fd_flame_burst:
+   if (z->made_of(FLESH))
+    dam = 3;
+   if (z->made_of(VEGGY))
+    dam = 12;
+   if (z->made_of(PAPER) || z->made_of(LIQUID) || z->made_of(POWDER) ||
+       z->made_of(WOOD)  || z->made_of(COTTON) || z->made_of(WOOL))
+    dam = 50;
+   if (z->made_of(STONE) || z->made_of(KEVLAR) || z->made_of(STEEL))
+    dam = -25;
+   dam += rng(0, 8);
+   z->moves -= 20;
    break;
 
   case fd_electricity:

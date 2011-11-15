@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <sstream>
 #include "color.h"
 #include "enums.h"
 #include "iuse.h"
@@ -10,6 +11,7 @@
 #include "bodypart.h"
 #include "skill.h"
 #include "bionics.h"
+#include "artifact.h"
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
@@ -19,9 +21,10 @@
 enum itype_id {
 itm_null = 0,
 itm_corpse,
-itm_fire,
+// Special crafting-only pseudoitems
+itm_fire, itm_toolset,
 // Drinks
-itm_water, itm_water_dirty, itm_sewage, itm_salt_water, itm_oj, itm_apple_cider,
+itm_water, itm_sewage, itm_salt_water, itm_oj, itm_apple_cider,
  itm_energy_drink, itm_cola, itm_rootbeer, itm_milk, itm_V8, itm_broth,
  itm_soup, itm_whiskey, itm_vodka, itm_rum, itm_tequila, itm_beer, itm_bleach,
  itm_ammonia, itm_mutagen, itm_purifier, itm_tea, itm_coffee,
@@ -160,12 +163,6 @@ itm_bio_claws, itm_bio_fusion, itm_bio_blaster,
 num_all_items
 };
 
-enum item_cat {
-IC_NULL,
-IC_GUN, IC_AMMO, IC_WEAPON, IC_TOOL, IC_FOOD, IC_DRUG, IC_BOOK, IC_ARMOR,
-IC_MISC
-};
-
 // IMPORTANT: If adding a new AT_*** ammotype, add it to the ammo_name function
 //  at the end of itypedef.cpp
 enum ammotype {
@@ -200,16 +197,16 @@ IF_STR8_DRAW,   // Requires strength 8 to draw
 IF_STR10_DRAW,  // Requires strength 10 to draw
 IF_USE_UPS,	// Draws power from a UPS
 
-IF_AMMO_FLAME,	// Sets fire to terrain and monsters
-IF_AMMO_INCENDIARY, // Sparks explosive terrain
-IF_AMMO_EXPLOSIVE, // Small explosion
-IF_AMMO_FRAG,	// Frag explosion
-IF_AMMO_NAPALM,	// Firey explosion
-IF_AMMO_EXPLOSIVE_BIG, // Big explosion!
-IF_AMMO_TEARGAS,// Teargas burst
-IF_AMMO_SMOKE,  // Smoke burst
-IF_AMMO_TRAIL,	// Leaves a trail of smoke
-IF_AMMO_FLASHBANG, // Disorients and blinds
+IF_AMMO_FLAME,		// Sets fire to terrain and monsters
+IF_AMMO_INCENDIARY,	// Sparks explosive terrain
+IF_AMMO_EXPLOSIVE,	// Small explosion
+IF_AMMO_FRAG,		// Frag explosion
+IF_AMMO_NAPALM,		// Firey explosion
+IF_AMMO_EXPLOSIVE_BIG,	// Big explosion!
+IF_AMMO_TEARGAS,	// Teargas burst
+IF_AMMO_SMOKE,  	// Smoke burst
+IF_AMMO_TRAIL,		// Leaves a trail of smoke
+IF_AMMO_FLASHBANG,	// Disorients and blinds
 NUM_ITEM_FLAGS
 };
 
@@ -220,7 +217,7 @@ itype_id default_ammo(ammotype guntype);
 
 struct itype
 {
- unsigned int id;	// ID # that matches its place in master itype list
+ int id;		// ID # that matches its place in master itype list
  			// Used for save files; aligns to itype_id above.
  unsigned char rarity;	// How often it's found
  unsigned int  price;	// Its value
@@ -244,17 +241,19 @@ struct itype
 
  unsigned item_flags : NUM_ITEM_FLAGS;
  
- virtual bool is_food()      { return false; }
- virtual bool is_ammo()      { return false; }
- virtual bool is_gun()       { return false; }
- virtual bool is_gunmod()    { return false; }
- virtual bool is_bionic()    { return false; }
- virtual bool is_armor()     { return false; }
- virtual bool is_book()      { return false; }
- virtual bool is_tool()      { return false; }
- virtual bool is_container() { return false; }
- virtual bool is_macguffin() { return false; }
+ virtual bool is_food()          { return false; }
+ virtual bool is_ammo()          { return false; }
+ virtual bool is_gun()           { return false; }
+ virtual bool is_gunmod()        { return false; }
+ virtual bool is_bionic()        { return false; }
+ virtual bool is_armor()         { return false; }
+ virtual bool is_book()          { return false; }
+ virtual bool is_tool()          { return false; }
+ virtual bool is_container()     { return false; }
+ virtual bool is_macguffin()     { return false; }
+ virtual bool is_artifact()      { return false; }
  virtual bool count_by_charges() { return false; }
+ virtual std::string save_data() { return std::string(); }
 
  itype() {
   id = 0;
@@ -271,7 +270,7 @@ struct itype
   item_flags = 0;
  }
  
- itype(unsigned short pid, unsigned char prarity, unsigned int pprice,
+ itype(int pid, unsigned char prarity, unsigned int pprice,
        std::string pname, std::string pdes,
        char psym, nc_color pcolor, material pm1, material pm2,
        unsigned char pvolume, unsigned char pweight,
@@ -317,7 +316,7 @@ struct it_comest : public itype
  void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
  add_type add;				// Effects of addiction
 
- it_comest(unsigned short pid, unsigned char prarity, unsigned int pprice,
+ it_comest(int pid, unsigned char prarity, unsigned int pprice,
            std::string pname, std::string pdes,
            char psym, nc_color pcolor, material pm1,
            unsigned char pvolume, unsigned char pweight,
@@ -359,7 +358,7 @@ struct it_ammo : public itype
  virtual bool is_ammo() { return true; }
  virtual bool count_by_charges() { return true; }
 
- it_ammo(unsigned short pid, unsigned char prarity, unsigned int pprice,
+ it_ammo(int pid, unsigned char prarity, unsigned int pprice,
         std::string pname, std::string pdes,
         char psym, nc_color pcolor, material pm1,
         unsigned char pvolume, unsigned char pweight,
@@ -395,7 +394,7 @@ struct it_gun : public itype
 
  virtual bool is_gun() { return true; }
 
- it_gun(unsigned short pid, unsigned char prarity, unsigned int pprice,
+ it_gun(int pid, unsigned char prarity, unsigned int pprice,
         std::string pname, std::string pdes,
         char psym, nc_color pcolor, material pm1, material pm2,
         unsigned char pvolume, unsigned char pweight,
@@ -431,7 +430,7 @@ struct it_gunmod : public itype
 
  virtual bool is_gunmod() { return true; }
 
- it_gunmod(unsigned short pid, unsigned char prarity, unsigned int pprice,
+ it_gunmod(int pid, unsigned char prarity, unsigned int pprice,
            std::string pname, std::string pdes,
            char psym, nc_color pcolor, material pm1, material pm2,
            unsigned char pvolume, unsigned char pweight,
@@ -470,8 +469,23 @@ struct it_armor : public itype
  unsigned char env_resist; // Resistance to environmental effects
  signed char warmth;
  unsigned char storage;
+
  virtual bool is_armor() { return true; }
- it_armor(unsigned short pid, unsigned char prarity, unsigned int pprice,
+ virtual bool is_artifact() { return false; }
+ virtual std::string save_data() { return std::string(); }
+
+ it_armor()
+ {
+  covers = 0;
+  encumber = 0;
+  dmg_resist = 0;
+  cut_resist = 0;
+  env_resist = 0;
+  warmth = 0;
+  storage = 0;
+ }
+
+ it_armor(int pid, unsigned char prarity, unsigned int pprice,
           std::string pname, std::string pdes,
           char psym, nc_color pcolor, material pm1, material pm2,
           unsigned char pvolume, unsigned char pweight,
@@ -504,7 +518,7 @@ struct it_book : public itype
  unsigned char time;	// How long, in 10-turns (aka minutes), it takes to read
 			// "To read" means getting 1 skill point, not all of em
  virtual bool is_book() { return true; }
- it_book(unsigned short pid, unsigned char prarity, unsigned int pprice,
+ it_book(int pid, unsigned char prarity, unsigned int pprice,
          std::string pname, std::string pdes,
          char psym, nc_color pcolor, material pm1, material pm2,
          unsigned char pvolume, unsigned char pweight,
@@ -536,7 +550,7 @@ struct it_container : public itype
  unsigned char contains;	// Internal volume
  unsigned flags : num_con_flags;
  virtual bool is_container() { return true; }
- it_container(unsigned short pid, unsigned char prarity, unsigned int pprice,
+ it_container(int pid, unsigned char prarity, unsigned int pprice,
               std::string pname, std::string pdes,
               char psym, nc_color pcolor, material pm1, material pm2,
               unsigned char pvolume, unsigned char pweight,
@@ -560,8 +574,23 @@ struct it_tool : public itype
  unsigned char turns_per_charge;
  itype_id revert_to;
  void (iuse::*use)(game *, player *, item *, bool);
- virtual bool is_tool() { return true; }
- it_tool(unsigned short pid, unsigned char prarity, unsigned int pprice,
+
+ virtual bool is_tool()          { return true; }
+ virtual bool is_artifact()      { return false; }
+ virtual std::string save_data() { return std::string(); }
+
+ it_tool()
+ {
+  ammo = AT_NULL;
+  max_charges = 0;
+  def_charges = 0;
+  charges_per_use = 0;
+  turns_per_charge = 0;
+  revert_to = itm_null;
+  use = &iuse::none;
+ }
+
+ it_tool(int pid, unsigned char prarity, unsigned int pprice,
          std::string pname, std::string pdes,
          char psym, nc_color pcolor, material pm1, material pm2,
          unsigned char pvolume, unsigned char pweight,
@@ -591,7 +620,7 @@ struct it_bionic : public itype
 
  virtual bool is_bionic()    { return true; }
 
- it_bionic(unsigned short pid, unsigned char prarity, unsigned int pprice,
+ it_bionic(int pid, unsigned char prarity, unsigned int pprice,
            std::string pname, std::string pdes,
            char psym, nc_color pcolor, material pm1, material pm2,
            unsigned char pvolume, unsigned char pweight,
@@ -618,7 +647,7 @@ struct it_macguffin : public itype
  
  virtual bool is_macguffin() { return true; }
 
- it_macguffin(unsigned short pid, unsigned char prarity, unsigned int pprice,
+ it_macguffin(int pid, unsigned char prarity, unsigned int pprice,
               std::string pname, std::string pdes,
               char psym, nc_color pcolor, material pm1, material pm2,
               unsigned char pvolume, unsigned char pweight,
@@ -632,6 +661,121 @@ struct it_macguffin : public itype
   readable = preadable;
   use = puse;
  }
+};
+
+struct it_artifact_tool : public it_tool
+{
+ art_charge charge_type;
+ std::vector<art_effect_passive> effects_wielded;
+ std::vector<art_effect_active>  effects_activated;
+ std::vector<art_effect_passive> effects_carried;
+
+ virtual bool is_artifact()  { return true; }
+ virtual std::string save_data()
+ {
+  std::stringstream data;
+  data << "T " << price << " " << sym << " " << color_to_int(color) << " " <<
+          int(m1) << " " << int(m2) << " " << int(volume) << " " <<
+          int(weight) << " " << int(melee_dam) << " " << int(melee_cut) <<
+          " " << int(m_to_hit) << " " << int(item_flags) << " " <<
+          int(charge_type) << " " << max_charges << " " <<
+          effects_wielded.size();
+  for (int i = 0; i < effects_wielded.size(); i++)
+   data << " " << int(effects_wielded[i]);
+
+  data << " " << effects_activated.size();
+  for (int i = 0; i < effects_activated.size(); i++)
+   data << " " << int(effects_activated[i]);
+
+  data << " " << effects_carried.size();
+  for (int i = 0; i < effects_carried.size(); i++)
+   data << " " << int(effects_carried[i]);
+
+  data << " " << name << " - ";
+  std::string desctmp = description;
+  size_t endline;
+  do {
+   endline = desctmp.find("\n");
+   if (endline != std::string::npos)
+    desctmp.replace(endline, 1, " = ");
+  } while (endline != std::string::npos);
+  data << desctmp << " -";
+  return data.str();
+ }
+
+ it_artifact_tool() {
+  ammo = AT_NULL;
+  price = 0;
+  def_charges = 0;
+  charges_per_use = 1;
+  turns_per_charge = 0;
+  revert_to = itm_null;
+  use = &iuse::artifact;
+ };
+
+ it_artifact_tool(int pid, unsigned int pprice, std::string pname,
+                  std::string pdes, char psym, nc_color pcolor, material pm1,
+                  material pm2, unsigned char pvolume, unsigned char pweight,
+                  signed char pmelee_dam, signed char pmelee_cut,
+                  signed char pm_to_hit, unsigned pitem_flags)
+
+:it_tool(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+         pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags,
+         0, 0, 1, 0, AT_NULL, itm_null, &iuse::artifact) { };
+};
+
+struct it_artifact_armor : public it_armor
+{
+ std::vector<art_effect_passive> effects_worn;
+
+ virtual bool is_artifact()  { return true; }
+
+ virtual std::string save_data()
+ {
+  std::stringstream data;
+  data << "A " << price << " " << sym << " " << color_to_int(color) << " " <<
+          int(m1) << " " << int(m2) << " " << int(volume) << " " <<
+          int(weight) << " " << int(melee_dam) << " " << int(melee_cut) <<
+          " " << int(m_to_hit) << " " << int(item_flags) << " " <<
+          int(covers) << " " << int(encumber) << " " << int(dmg_resist) <<
+          " " << int(cut_resist) << " " << int(env_resist) << " " <<
+          int(warmth) << " " << int(storage) << " " << effects_worn.size();
+  for (int i = 0; i < effects_worn.size(); i++)
+   data << " " << int(effects_worn[i]);
+
+  data << " " << name << " - ";
+  std::string desctmp = description;
+  size_t endline;
+  do {
+   endline = desctmp.find("\n");
+   if (endline != std::string::npos)
+    desctmp.replace(endline, 1, " = ");
+  } while (endline != std::string::npos);
+
+  data << desctmp << " -";
+
+  return data.str();
+ }
+
+ it_artifact_armor()
+ {
+  price = 0;
+ };
+
+ it_artifact_armor(int pid, unsigned int pprice, std::string pname,
+                   std::string pdes, char psym, nc_color pcolor, material pm1,
+                   material pm2, unsigned char pvolume, unsigned char pweight,
+                   signed char pmelee_dam, signed char pmelee_cut,
+                   signed char pm_to_hit, unsigned pitem_flags,
+
+                   unsigned char pcovers, signed char pencumber,
+                   unsigned char pdmg_resist, unsigned char pcut_resist,
+                   unsigned char penv_resist, signed char pwarmth,
+                   unsigned char pstorage)
+:it_armor(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+          pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags,
+          pcovers, pencumber, pdmg_resist, pcut_resist, penv_resist, pwarmth,
+          pstorage) { };
 };
 
 #endif

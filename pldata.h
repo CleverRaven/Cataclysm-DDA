@@ -43,7 +43,7 @@ enum dis_type {
 // Traps
  DI_BEARTRAP, DI_IN_PIT,
 // Other
- DI_AMIGARA, DI_TELEGLOW
+ DI_AMIGARA, DI_TELEGLOW, DI_ATTENTION, DI_EVIL
 };
 
 enum add_type {

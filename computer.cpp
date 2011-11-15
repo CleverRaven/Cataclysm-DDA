@@ -390,6 +390,28 @@ void computer::activate_function(game *g, computer_action action)
    print_line("Surface map data downloaded.");
   } break;
 
+  case COMPACT_MAP_SEWER: {
+   int minx = int(g->levx / 2) - 60;
+   int maxx = int(g->levx / 2) + 60;
+   int miny = int(g->levy / 2) - 60;
+   int maxy = int(g->levy / 2) + 60;
+   if (minx < 0)             minx = 0;
+   if (maxx >= OMAPX) maxx = OMAPX - 1;
+   if (miny < 0)             miny = 0;
+   if (maxy >= OMAPY) maxy = OMAPY - 1;
+   overmap tmp(g, g->cur_om.posx, g->cur_om.posy, g->cur_om.posz);
+   for (int i = minx; i <= maxx; i++) {
+    for (int j = miny; j <= maxy; j++)
+     if ((tmp.ter(i, j) >= ot_sewer_ns && tmp.ter(i, j) <= ot_sewer_nesw) || 
+         (tmp.ter(i, j) >= ot_sewage_treatment &&
+          tmp.ter(i, j) <= ot_sewage_treatment_under))
+     tmp.seen(i, j) = true;
+   }
+   tmp.save(g->u.name, g->cur_om.posx, g->cur_om.posy, 0);
+   print_line("Sewage map data downloaded.");
+  } break;
+
+
   case COMPACT_MISS_LAUNCH: {
    overmap tmp_om(g, g->cur_om.posx, g->cur_om.posy, 0);
 // Target Acquisition.

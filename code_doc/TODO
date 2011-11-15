@@ -2,10 +2,6 @@ NOTABLE BUGS:
 
   Factions cannot be saved at all, or they corrupt the master save file
 
-  When crafting, multiple sets of an ammo (nails or batteries) being used in a
-  single craft causes their amounts to increase, rather than decrease
-	E.g. crafting a grenade w/ 2 boxes of nails (30) => 2 boxes (60)
-	Is this fixed?
 
 
 LONG-TERM FEATURES:  Stuff I hope to finish in a year
@@ -13,11 +9,6 @@ LONG-TERM FEATURES:  Stuff I hope to finish in a year
   Add a "list nearby items" command, which lists visible items by distance,
   name, type, etc.  Make it searchable, perhaps allow the player to define
   highlighted items which are always moved to the top of the list.
-
-  Make a "date" class, and replace game::turn (a basic int) with the date
-  (which tracks day, season, time of day).
-	date class will have to have operator -, since almost everything
-	  (e.g. food's rottenness) uses "game::turn - birthday"
 
   Finish missions and put a few simple ones in the game, get it working.
 DONE	Need to have a "go-to" arrow in the minimap and full map
@@ -95,6 +86,7 @@ GENERAL:
   More cultural references!
 	LOST: Black cloud monster, polar bear, hatches
 	Resident Evil style zombies
+		Kinda done with The Thing dog
 	->The whole game is already a reference to Fallout, let's admit it.  So
 	  avoid Fallout references in general, they're too easy.
 	Hellraiser: High level Void monsters could be Cenobites.
@@ -145,10 +137,9 @@ GENERAL:
 	>Two levels; "Full" and "Overfull"; Only when Overfull is puking a risk
 	>Three levels, hunger, thirst, and stomach fullness
 
-**Include "(rotten)" in the tname() for food.  Guessing whether a piece of
-  food is rotten is not a fun game.
-	Add some use for rotten food?  Maybe cooking salvages some of it?
-		Or level 1 cooking craft, 5 rotten tomatoes->1 fresh
+  Make cooking a rotten item result in a rotten item
+	Or, average the original item's birthday with the current turn, to allow
+	for some freshening.
 
   When picking items up, highlight useful ones in particular colors
 DONE	Red: Ammo for a gun you have, or vice versa
@@ -167,6 +158,9 @@ DONE	Red: Ammo for a gun you have, or vice versa
   Highlight or color-invert monsters that're fleeing; also make indifference
   visually obvious in some way (change glyph foreground color?)
 
+  Monster morale levels; reduced upon taking damage, upon seeing a friend die,
+    upon stepping close to fire if we're an animal
+
   Audit how we're using screen space in the data window
 	Are pain AND painkiller level needed?
 	Definitely add player speed to the display
@@ -184,24 +178,7 @@ DONE	Eliminate / increase overdose level
 	Water-dwelling monsters.  Probably rare, because for unskilled swimmers
 	  almost any monsters would be deadly
 
-  Various pit depths (from shovels)
-	Each depth can only be dug by using a shovel while in a nearby depth
-	  e.g. standing in a trench lets you dig pits and deep pits
-	Trench; minor melee penalty if you're in it, but chance of dodging any
-	  projectiles fired at you
-	Pit; as is now, dangerous to fall into and hard to escape
-	Deep Pit; deadly to fall into and impossible to escape without tools
-	Hole; tunnels through to level below (if applicable)
-	Make falling damage relative?  E.g. ground level -> deep pit is deadly,
-	  but pit -> deep pit is less so, even safe
-	
-  Allow ropes to be used for vertical movement in some cases
-	Maybe extended shovel use allows you to break through to the subway
-	  below, and rope lets you build a ladder going down?
-
   More blood & gore!  Spatter blood on heavy hits, etc.
-
-  Multidrop ('d' button lets you select a list of items to drop)
 
   Automatically drop items if our volume capacity suddenly drops (e.g. from a
   torn-open backpack)
@@ -237,15 +214,6 @@ ITEMS / BIONICS:
 
 
 MAP:
-
-**Police stations
-	Containing firearms, batons, etc.
-	Jail cells in the basements?
-	Evidence room with drugs etc.
-
-  Sewage treatment plant
-	Placed when there's a 3x3 square of sewer tiles, or just randomly
-	Contains tools, maybe some fuel?  Interactive computers
 
   Hatch (see cultural references, above)
 
@@ -292,13 +260,8 @@ CHARACTER CREATION:
 
 TRAITS:
 
-**Auto-use inhaler if Asthmatic; right now the trait is just so annoying
-
   More Schizophrenic effects
 	Make auditory hallucinations more realistic/varied
-DONE	Bugs Under Skin disease: causes an int_cur check every few turns; on
-	  failure, the player spends a turn scratching wildly, inducing minor
-	  damage
 
   Balance/fix/remove Jittery
 
@@ -316,16 +279,12 @@ DONE	Bugs Under Skin disease: causes an int_cur check every few turns; on
 
   Increase Night Vision radius to 3?
 
-  Make Tough more effective/cheaper
-
   Re-examine Thick-Skinned; make it more effective?
 
   Make Fast Learner affect skill comprehension directly
 	Rewrite description
 
   Fold Deft into unified player::miss_penalty()
-
-  Remove Supertaster or change what it does.  (See rotten food under GENERAL)
 
   Review the code for Animal Empathy; I think it needs to be unified somehow.
 
@@ -343,19 +302,6 @@ DONE	Bugs Under Skin disease: causes an int_cur check every few turns; on
 
 CRAFTING:
 
-  Craft using tools/components on floor (and adjacent tiles?)
-	Maybe every item in a 5x5 square around the player can be used for
-	  crafting
-
-  Craft using nearby fire as hotplate
-
-  Or, make "heat" a single requirement, whether its source is a hotplate, fire,
-  or something else the player invents; emergent gameplay!
-
-  Similarly, "boiling water" could be a single requirement.
-	This would help hide the clean/dirty water distinction.
-	Create a class for meta-requirements?
-
   Expand cooking; much more morale-boosting (i.e. tasty) recipes
 
   Fruit drying; remove quench and some nutrition, but won't go bad
@@ -366,8 +312,6 @@ KEYBINDINGS/INPUT:
 
   Configurable bindings!
 	This ties into options in general.
-
-**Bind 'x' to ';'
 
   Make ctrl+movement equivalent to 'e'+movement
 

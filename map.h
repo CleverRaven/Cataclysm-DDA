@@ -102,7 +102,7 @@ class map
  void place_items(items_location loc, int chance, int x1, int y1,
                   int x2, int y2, bool ongrass, int turn);
  void make_all_items_owned();
- void add_spawn(mon_id type, int count, int x, int y);
+ void add_spawn(mon_id type, int count, int x, int y, bool friendly = false);
  computer* add_computer(int x, int y, std::string name, int security);
  
 private:

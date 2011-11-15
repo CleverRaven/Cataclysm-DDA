@@ -84,6 +84,9 @@ c_yellow_red  = COLOR_PAIR(29) | A_BOLD
 
 };
 
+int color_to_int(nc_color col);
+nc_color int_to_color(int key);
+
 void setattr(nc_color &col, col_attribute attr);
 
 #endif

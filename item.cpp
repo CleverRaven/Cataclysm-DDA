@@ -17,6 +17,7 @@ item::item()
  invlet = 0;
  damage = 0;
  burnt = 0;
+ poison = 0;
  type = NULL;
  curammo = NULL;
  corpse = NULL;
@@ -34,6 +35,7 @@ item::item(itype* it, unsigned int turn)
  invlet = 0;
  damage = 0;
  burnt = 0;
+ poison = 0;
  active = false;
  curammo = NULL;
  corpse = NULL;
@@ -70,6 +72,7 @@ item::item(itype *it, unsigned int turn, char let)
  name = "";
  damage = 0;
  burnt = 0;
+ poison = 0;
  active = false;
  if (it->is_gun()) {
   charges = 0;
@@ -106,6 +109,7 @@ void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
  invlet = 0;
  damage = 0;
  burnt = 0;
+ poison = 0;
  curammo = NULL;
  active = false;
  type = it;
@@ -185,7 +189,8 @@ std::string item::save_info()
   ammotmp = 0; // Saves us from some bugs
  std::stringstream dump;// (std::stringstream::in | std::stringstream::out);
  dump << " " << int(invlet) << " " << int(type->id) << " " <<  int(charges) <<
-         " " << int(damage) << " " << int(burnt) << " " << ammotmp << " " <<
+         " " << int(damage) << " " << int(burnt) << " " << poison << " " <<
+         ammotmp << " " <<
          int(bday);
  if (active)
   dump << " 1";
@@ -214,8 +219,8 @@ void item::load_info(std::string data, game *g)
  std::stringstream dump;
  dump << data;
  int idtmp, ammotmp, lettmp, damtmp, burntmp, acttmp, owntmp, corp;
- dump >> lettmp >> idtmp >> charges >> damtmp >> burntmp >> ammotmp >> bday >>
-         acttmp >> owntmp >> corp >> mission_id >> player_id;
+ dump >> lettmp >> idtmp >> charges >> damtmp >> burntmp >> poison >> ammotmp >>
+         bday >> acttmp >> owntmp >> corp >> mission_id >> player_id;
  if (corp != -1)
   corpse = g->mtypes[corp];
  else
@@ -793,7 +798,7 @@ bool item::is_food(player *u)
      (dynamic_cast<it_ammo*>(type))->type == AT_BATT)
   return true;
  if (u->has_bionic(bio_furnace) && is_flammable(type->m1) &&
-     is_flammable(type->m2))
+     is_flammable(type->m2) && type->id != itm_corpse)
   return true;
  return false;
 }
@@ -874,6 +879,11 @@ bool item::is_other()
  return (!is_gun() && !is_ammo() && !is_armor() && !is_food() &&
          !is_food_container() && !is_tool() && !is_gunmod() && !is_bionic() &&
          !is_book() && !is_weap());
+}
+
+bool item::is_artifact()
+{
+ return type->is_artifact();
 }
 
 int item::reload_time(player &u)

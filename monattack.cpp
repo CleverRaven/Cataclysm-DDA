@@ -8,25 +8,44 @@
 void mattack::antqueen(game *g, monster *z)
 {
  std::vector<point> egg_points;
+ std::vector<int> ants;
  z->sp_timeout = z->type->sp_freq;	// Reset timer
 // Count up all adjacent tiles the contain at least one egg.
- for (int x = z->posx - 1; x <= z->posx + 1; x++) {
-  for (int y = z->posy - 1; y <= z->posy + 1; y++) {
+ for (int x = z->posx - 2; x <= z->posx + 2; x++) {
+  for (int y = z->posy - 2; y <= z->posy + 2; y++) {
    for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
 // is_empty() because we can't hatch an ant under the player, a monster, etc.
     if (g->m.i_at(x, y)[i].type->id == itm_ant_egg && g->is_empty(x, y)) {
      egg_points.push_back(point(x, y));
      i = g->m.i_at(x, y).size();	// Done looking at this tile
     }
+    int mondex = g->mon_at(x, y);
+    if (mondex != -1 && (g->z[mondex].type->id == mon_ant_larva ||
+                         g->z[mondex].type->id == mon_ant         ))
+     ants.push_back(mondex);
    }
   }
  }
- if (egg_points.size() == 0) {	// There's no eggs nearby.  Let's lay one.
+
+ if (ants.size() > 0) {
+  int junk;
+  z->moves -= 100; // It takes a while
+  int mondex = ants[ rng(0, ants.size() - 1) ];
+  monster *ant = &(g->z[mondex]);
+  if (g->u_see(z->posx, z->posy, junk) && g->u_see(ant->posx, ant->posy, junk))
+   g->add_msg("The %s feeds an %s and it grows!", z->name().c_str(),
+              ant->name().c_str());
+  if (ant->type->id == mon_ant_larva)
+   ant->poly(g->mtypes[mon_ant]);
+  else
+   ant->poly(g->mtypes[mon_ant_soldier]);
+ } else if (egg_points.size() == 0) {	// There's no eggs nearby--lay one.
   int junk;
   if (g->u_see(z->posx, z->posy, junk))
    g->add_msg("The %s lays an egg!", z->name().c_str());
   g->m.add_item(z->posx, z->posy, g->itypes[itm_ant_egg], g->turn);
- } else {			// There are eggs nearby.  Let's hatch some.
+ } else { // There are eggs nearby.  Let's hatch some.
+  z->moves -= 20 * egg_points.size(); // It takes a while
   int junk;
   if (g->u_see(z->posx, z->posy, junk))
    g->add_msg("The %s tends nearby eggs, and they hatch!", z->name().c_str());
@@ -521,14 +540,13 @@ void mattack::triffid_heartbeat(game *g, monster *z)
  g->sound(z->posx, z->posy, 14, "thu-THUMP.");
  z->moves -= 300;
  z->sp_timeout = z->type->sp_freq;
- if (z->posx < 0 || z->posx >= SEEX * 3 & z->posy < 0 && z->posy >= SEEY * 3 ||
-     z->posx - 3 < g->u.posx + 2 || z->posy - 3 < g->u.posy + 2)
+ if (z->posx < 0 || z->posx >= SEEX * 3 & z->posy < 0 && z->posy >= SEEY * 3)
   return;
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 5 &&
      !g->m.route(g->u.posx, g->u.posy, z->posx, z->posy).empty()) {
   g->add_msg("The root walls creak around you.");
-  for (int x = g->u.posx + 2; x <= z->posx - 3; x++) {
-   for (int y = g->u.posy + 2; y <= z->posy - 3; y++) {
+  for (int x = g->u.posx; x <= z->posx - 3; x++) {
+   for (int y = g->u.posy; y <= z->posy - 3; y++) {
     if (g->is_empty(x, y) && one_in(4))
      g->m.ter(x, y) = t_root_wall;
     else if (g->m.ter(x, y) == t_root_wall && one_in(10))
@@ -539,7 +557,7 @@ void mattack::triffid_heartbeat(game *g, monster *z)
   int tries = 0;
   while (g->m.route(g->u.posx, g->u.posy, z->posx, z->posy).empty() &&
          tries < 20) {
-   int x = rng(g->u.posx + 2, z->posx - 3), y = rng(g->u.posy + 2, z->posy - 3);
+   int x = rng(g->u.posx, z->posx - 3), y = rng(g->u.posy, z->posy - 3);
    tries++;
    g->m.ter(x, y) = t_dirt;
    if (rl_dist(x, y, g->u.posx, g->u.posy > 3 && g->z.size() < 30 &&

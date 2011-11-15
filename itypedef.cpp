@@ -1,5 +1,6 @@
 #include "itype.h"
 #include "game.h"
+#include <fstream>
 
 // Armor colors
 #define C_SHOES  c_blue
@@ -26,12 +27,17 @@ void game::init_itypes ()
  itypes.push_back(
   new itype(1, 0, 0, "corpse", "A dead body.", '%', c_white, MNULL, MNULL, 0, 0,
             0, 0, 0, 0));
-// Fire - also special
+// Fire - only appears in crafting recipes
  itypes.push_back(
   new itype(2, 0, 0, "nearby fire",
             "Some fire - if you are reading this it's a bug!",
             '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0));
- int index = 2;
+// Integrated toolset - ditto
+ itypes.push_back(
+  new itype(3, 0, 0, "integrated toolset",
+            "A fake item.  If you are reading this it's a bug!",
+            '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0));
+ int index = 3;
  
 // Drinks
 // Stim should be -8 to 8.
@@ -48,10 +54,6 @@ fun,container,itm_null,use_func,addict_func));
 DRINK("water",		90, 50,	c_ltcyan, itm_bottle_plastic,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
 	50,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
-Water, the stuff of life, the best thirst-quencher available.");
-
-DRINK("water",		 0, 50,	c_ltcyan, itm_null,// Dirty water, from rivers
-	30,  0,  0,  0, -4,  0,  1,  0,&iuse::poison,	ADD_NULL, "\
 Water, the stuff of life, the best thirst-quencher available.");
 
 DRINK("sewage sample",	 5,  5, c_ltgreen, itm_bottle_plastic,
@@ -2858,7 +2860,7 @@ small cloud of pheromones to spray into the air, causing nearby zombies to\n\
 become friendly for a short period of time.");
 
 TOOL("portal generator",2, 6600, ';', c_magenta, STEEL,	PLASTIC,
-    2, 10,  6,  0, -1,  5,  5,  1,  0, AT_NULL,	itm_null, &iuse::portal,0,"\
+    2, 10,  6,  0, -1, 10, 10,  5,  0, AT_NULL,	itm_null, &iuse::portal,0,"\
 A rare and arcane device, covered in alien markings.");
 
 TOOL("inactive manhack",1, 1200, ',', c_ltgreen, STEEL, PLASTIC,
@@ -3068,8 +3070,8 @@ Short and sharp claws made from a high-tech metal.");
 AMMO("Fusion blast",	 0,0, AT_FUSION,c_dkgray,	MNULL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
 	 0,  0, 40,  0, 10,  1,  0,  5, "", mfb(IF_AMMO_INCENDIARY));
-//  NAME		RARE	COLOR		MAT1	MAT2
 
+//  NAME		RARE	COLOR		MAT1	MAT2
 GUN("fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG ACC REC DUR BST CLIP REL
 	sk_rifle,	AT_FUSION, 12,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
@@ -3077,6 +3079,165 @@ GUN("fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,
  if (itypes.size() != num_all_items)
   debugmsg("%d items, %d itypes (+bio)", itypes.size(), num_all_items - 1);
 
+// Finally, load up artifacts!
+ std::ifstream fin;
+ fin.open("save/artifacts.gsav");
+ if (!fin.is_open())
+  return; // No artifacts yet!
+
+ bool done = fin.eof();
+ while (!done) {
+  char arttype = ' ';
+  fin >> arttype;
+
+  if (arttype == 'T') {
+   it_artifact_tool *art = new it_artifact_tool();
+
+   int num_effects, chargetmp, m1tmp, m2tmp, voltmp, wgttmp, bashtmp,
+       cuttmp, hittmp, flagstmp, colortmp, pricetmp, maxtmp;
+   fin >> pricetmp >> art->sym >> colortmp >> m1tmp >> m2tmp >> voltmp >>
+          wgttmp >> bashtmp >> cuttmp >> hittmp >> flagstmp >>
+          chargetmp >> maxtmp >> num_effects;
+   art->price = pricetmp;
+   art->color = int_to_color(colortmp);
+   art->m1 = material(m1tmp);
+   art->m2 = material(m2tmp);
+   art->volume = voltmp;
+   art->weight = wgttmp;
+   art->melee_dam = bashtmp;
+   art->melee_cut = cuttmp;
+   art->m_to_hit = hittmp;
+   art->charge_type = art_charge(chargetmp);
+   art->item_flags = flagstmp;
+   art->max_charges = maxtmp;
+   for (int i = 0; i < num_effects; i++) {
+    int effect;
+    fin >> effect;
+    art->effects_wielded.push_back( art_effect_passive(effect) );
+   }
+   fin >> num_effects;
+   for (int i = 0; i < num_effects; i++) {
+    int effect;
+    fin >> effect;
+    art->effects_activated.push_back( art_effect_active(effect) );
+   }
+   fin >> num_effects;
+   for (int i = 0; i < num_effects; i++) {
+    int effect;
+    fin >> effect;
+    art->effects_carried.push_back( art_effect_passive(effect) );
+   }
+
+   std::string namepart;
+   std::stringstream namedata;
+   bool start = true;
+   do {
+    fin >> namepart;
+    if (namepart != "-") {
+     if (!start)
+      namedata << " ";
+     else
+      start = false;
+     namedata << namepart;
+    }
+   } while (namepart.find("-") == std::string::npos);
+   art->name = namedata.str();
+   start = true;
+ 
+   std::stringstream descdata;
+   do {
+    fin >> namepart;
+    if (namepart == "=") {
+     descdata << "\n";
+     start = true;
+    } else if (namepart != "-") {
+     if (!start)
+      descdata << " ";
+     descdata << namepart;
+     start = false;
+    }
+   } while (namepart.find("-") == std::string::npos && !fin.eof());
+   art->description = descdata.str();
+
+   art->id = itypes.size();
+   itypes.push_back(art);
+
+  } else if (arttype == 'A') {
+   it_artifact_armor *art = new it_artifact_armor();
+
+   int num_effects, m1tmp, m2tmp, voltmp, wgttmp, bashtmp, cuttmp,
+       hittmp, covertmp, enctmp, dmgrestmp, cutrestmp, envrestmp, warmtmp,
+       storagetmp, flagstmp, colortmp, pricetmp;
+   fin >> pricetmp >> art->sym >> colortmp >> m1tmp >> m2tmp >> voltmp >>
+          wgttmp >> bashtmp >> cuttmp >> hittmp >> flagstmp >>
+          covertmp >> enctmp >> dmgrestmp >> cutrestmp >> envrestmp >>
+          warmtmp >> storagetmp >> num_effects;
+   art->price = pricetmp;
+   art->color = int_to_color(colortmp);
+   art->m1 = material(m1tmp);
+   art->m2 = material(m2tmp);
+   art->volume = voltmp;
+   art->weight = wgttmp;
+   art->melee_dam = bashtmp;
+   art->melee_cut = cuttmp;
+   art->m_to_hit = hittmp;
+   art->covers = covertmp;
+   art->encumber = enctmp;
+   art->dmg_resist = dmgrestmp;
+   art->cut_resist = cutrestmp;
+   art->env_resist = envrestmp;
+   art->warmth = warmtmp;
+   art->storage = storagetmp;
+   art->item_flags = flagstmp;
+   for (int i = 0; i < num_effects; i++) {
+    int effect;
+    fin >> effect;
+    art->effects_worn.push_back( art_effect_passive(effect) );
+   }
+
+   std::string namepart;
+   std::stringstream namedata;
+   bool start = true;
+   do {
+    if (!start)
+     namedata << " ";
+    else
+     start = false;
+    fin >> namepart;
+    if (namepart != "-")
+     namedata << namepart;
+   } while (namepart.find("-") == std::string::npos);
+   art->name = namedata.str();
+   start = true;
+
+   std::stringstream descdata;
+   do {
+    fin >> namepart;
+    if (namepart == "=") {
+     descdata << "\n";
+     start = true;
+    } else if (namepart != "-") {
+     if (!start)
+      descdata << " ";
+     descdata << namepart;
+     start = false;
+    }
+   } while (namepart.find("-") == std::string::npos && !fin.eof());
+   art->description = descdata.str();
+
+   art->id = itypes.size();
+   itypes.push_back(art);
+
+  }
+
+/*
+  std::string chomper;
+  getline(fin, chomper);
+*/
+  if (fin.eof())
+   done = true;
+ } // Done reading the file
+ fin.close();
 }
 
 std::string ammo_name(ammotype t)

@@ -1630,12 +1630,18 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   line(this, t_rack, SEEX * 2 - 9, SEEY * 2 - 5, SEEX * 2 - 9, SEEY * 2 - 9);
   line(this, t_rack, 4, 4, 4, SEEY * 2 - 10);
   line(this, t_rack, 5, 4, 8, 4);
-  place_items(mi_consumer_electronics, 85, 4,SEEY * 2 - 4, SEEX * 2 - 4, SEEY * 2 - 4, false, turn - 50);
-  place_items(mi_consumer_electronics, 85, 4, SEEY * 2 - 5, 4, SEEY * 2 - 9, false, turn - 50);
-  place_items(mi_consumer_electronics, 85, SEEX * 2 - 4, SEEY * 2 - 5, SEEX * 2 - 4, SEEY * 2 - 9, false, turn - 50);
-  place_items(mi_consumer_electronics, 85, 9, SEEY * 2 - 5, 9, SEEY * 2 - 9, false, turn - 50);
-  place_items(mi_consumer_electronics, 85, SEEX * 2 - 9, SEEY * 2 - 5, SEEX * 2 - 9, SEEY * 2 - 9, false, turn - 50);
-  place_items(mi_consumer_electronics, 85, 4, 4, 4, SEEY * 2 - 10, false, turn - 50);
+  place_items(mi_consumer_electronics, 85, 4, SEEY * 2 - 4, SEEX * 2 - 4,
+              SEEY * 2 - 4, false, turn - 50);
+  place_items(mi_consumer_electronics, 85, 4, SEEY * 2 - 5, 4, SEEY * 2 - 9,
+              false, turn - 50);
+  place_items(mi_consumer_electronics, 85, SEEX * 2 - 4, SEEY * 2 - 5,
+              SEEX * 2 - 4, SEEY * 2 - 9, false, turn - 50);
+  place_items(mi_consumer_electronics, 85, 9, SEEY * 2 - 5, 9, SEEY * 2 - 9,
+              false, turn - 50);
+  place_items(mi_consumer_electronics, 85, SEEX * 2 - 9, SEEY * 2 - 5,
+              SEEX * 2 - 9, SEEY * 2 - 9, false, turn - 50);
+  place_items(mi_consumer_electronics, 85, 4, 4, 4, SEEY * 2 - 10, false,
+              turn - 50);
   place_items(mi_consumer_electronics, 85, 5, 4, 8, 4, false, turn - 50);
   if (terrain_type == ot_s_electronics_east)
    rotate(1);
@@ -2369,7 +2375,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
       else if (j == tw + 2)
        ter(i, j) = t_wall_h;
       else {	// Empty space holds monsters!
-       mon_id type = mon_id(rng(mon_flying_polyp, mon_blank));
+       mon_id type = mon_id(rng(mon_flying_polyp, mon_gozu));
        add_spawn(type, 1, i, j);
       }
      }
@@ -2575,35 +2581,215 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 
  case ot_temple:
  case ot_temple_stairs:
- case ot_temple_core:
-  if (t_above == ot_null) {	// We're on ground level
-   switch (rng(1, 4)) {	// Temple type
-   case 1:	// Swamp with stairs down
-    for (int i = 0; i < SEEX * 2; i++) {
-     for (int j = 0; j < SEEY * 2; j++) {
-      if (one_in(6))
-       ter(i, j) = t_tree;
-      else if (one_in(6))
-       ter(i, j) = t_tree_young;
-      else if (one_in(5))
-       ter(i, j) = t_underbrush;
-      else if (one_in(4))
-       ter(i, j) = t_water_sh;
-      else if (one_in(10))
-       ter(i, j) = t_water_dp;
-      else
-       ter(i, j) = t_dirt;
+  if (t_above == ot_null) { // Ground floor
+// TODO: More varieties?
+   square(this, t_dirt, 0, 0, 23, 23);
+   square(this, t_grate, SEEX - 1, SEEY - 1, SEEX, SEEX);
+   ter(SEEX + 1, SEEY + 1) = t_pedestal_temple;
+  } else { // Underground!  Shit's about to get interesting!
+// Start with all rock floor
+   square(this, t_rock_floor, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
+// We always start at the south and go north.
+// We use (g->levx / 2 + g->levz) % 5 to guarantee that rooms don't repeat.
+   switch (1 + int(g->levy / 2 + g->levz) % 4) {// TODO: More varieties!
+
+    case 1: // Flame bursts
+     square(this, t_rock, 0, 0, SEEX - 1, SEEY * 2 - 1);
+     square(this, t_rock, SEEX + 2, 0, SEEX * 2 - 1, SEEY * 2 - 1);
+     for (int i = 2; i < SEEY * 2 - 4; i++) {
+      add_field(g, SEEX    , i, fd_fire_vent, rng(1, 3));
+      add_field(g, SEEX + 1, i, fd_fire_vent, rng(1, 3));
      }
-    }
-    ter(SEEX - 4, SEEY - 4) = t_lava;
-    ter(SEEX + 3, SEEY - 4) = t_lava;
-    ter(SEEX - 4, SEEY + 3) = t_lava;
-    ter(SEEX + 3, SEEY + 3) = t_lava;
-    ter( rng(SEEX - 3, SEEX + 2), rng(SEEY - 3, SEEY + 2)) = t_stairs_down;
-    break;
-   }
-  }
+     break;
+
+    case 2: // Spreading water
+     square(this, t_water_dp, 4, 4, 5, 5);
+     add_spawn(mon_sewer_snake, 1, 4, 4);
+     add_spawn(mon_sewer_snake, 1, 5, 5);
+
+     square(this, t_water_dp, SEEX * 2 - 5, 4, SEEX * 2 - 4, 6);
+     add_spawn(mon_sewer_snake, 1, SEEX * 2 - 5, 4);
+     add_spawn(mon_sewer_snake, 1, SEEX * 2 - 4, 5);
+
+     square(this, t_water_dp, 4, SEEY * 2 - 5, 6, SEEY * 2 - 4);
+     add_spawn(mon_sewer_snake, 1, 4, SEEY * 2 - 5);
+     add_spawn(mon_sewer_snake, 1, 5, SEEY * 2 - 4);
+
+     square(this, t_water_dp, SEEX * 2 - 5, SEEY * 2 - 5, SEEX * 2 - 4,
+                              SEEY * 2 - 4);
+     add_spawn(mon_sewer_snake, 1, SEEX * 2 - 4, SEEY * 2 - 4);
+     add_spawn(mon_sewer_snake, 1, SEEX * 2 - 5, SEEY * 2 - 5);
+
+     square(this, t_rock, 0, SEEY * 2 - 2, SEEX - 1, SEEY * 2 - 1);
+     square(this, t_rock, SEEX + 2, SEEY * 2 - 2, SEEX * 2 - 1, SEEY * 2 - 1);
+     line(this, t_grate, SEEX, 1, SEEX + 1, 1); // To drain the water
+     add_trap(SEEX, SEEY * 2 - 2, tr_temple_flood);
+     add_trap(SEEX + 1, SEEY * 2 - 2, tr_temple_flood);
+     for (int y = 2; y < SEEY * 2 - 2; y++) {
+      for (int x = 2; x < SEEX * 2 - 2; x++) {
+       if (ter(x, y) == t_rock_floor && one_in(4))
+        add_trap(x, y, tr_temple_flood);
+      }
+     }
+     break;
+
+    case 3: { // Flipping walls puzzle
+     line(this, t_rock, 0, 0, SEEX - 1, 0);
+     line(this, t_rock, SEEX + 2, 0, SEEX * 2 - 1, 0);
+     line(this, t_rock, SEEX - 1, 1, SEEX - 1, 6);
+     line(this, t_bars, SEEX + 2, 1, SEEX + 2, 6);
+     ter(14, 1) = t_switch_rg;
+     ter(15, 1) = t_switch_gb;
+     ter(16, 1) = t_switch_rb;
+     ter(17, 1) = t_switch_even;
+// Start with clear floors--then work backwards to the starting state
+     line(this, t_floor_red,   SEEX, 1, SEEX + 1, 1);
+     line(this, t_floor_green, SEEX, 2, SEEX + 1, 2);
+     line(this, t_floor_blue,  SEEX, 3, SEEX + 1, 3);
+     line(this, t_floor_red,   SEEX, 4, SEEX + 1, 4);
+     line(this, t_floor_green, SEEX, 5, SEEX + 1, 5);
+     line(this, t_floor_blue,  SEEX, 6, SEEX + 1, 6);
+// Now, randomly choose actions
+// Set up an actions vector so that there's not undue repetion
+     std::vector<int> actions;
+     actions.push_back(1);
+     actions.push_back(2);
+     actions.push_back(3);
+     actions.push_back(4);
+     actions.push_back(rng(1, 3));
+     while (!actions.empty()) {
+      int index = rng(0, actions.size() - 1);
+      int action = actions[index];
+      actions.erase(actions.begin() + index);
+      for (int y = 1; y < 7; y++) {
+       for (int x = SEEX; x <= SEEX + 1; x++) {
+        switch (action) {
+         case 1: // Toggle RG
+          if (ter(x, y) == t_floor_red)
+           ter(x, y) = t_rock_red;
+          else if (ter(x, y) == t_rock_red)
+           ter(x, y) = t_floor_red;
+          else if (ter(x, y) == t_floor_green)
+           ter(x, y) = t_rock_green;
+          else if (ter(x, y) == t_rock_green)
+           ter(x, y) = t_floor_green;
+          break;
+         case 2: // Toggle GB
+          if (ter(x, y) == t_floor_blue)
+           ter(x, y) = t_rock_blue;
+          else if (ter(x, y) == t_rock_blue)
+           ter(x, y) = t_floor_blue;
+          else if (ter(x, y) == t_floor_green)
+           ter(x, y) = t_rock_green;
+          else if (ter(x, y) == t_rock_green)
+           ter(x, y) = t_floor_green;
+          break;
+         case 3: // Toggle RB
+          if (ter(x, y) == t_floor_blue)
+           ter(x, y) = t_rock_blue;
+          else if (ter(x, y) == t_rock_blue)
+           ter(x, y) = t_floor_blue;
+          else if (ter(x, y) == t_floor_red)
+           ter(x, y) = t_rock_red;
+          else if (ter(x, y) == t_rock_red)
+           ter(x, y) = t_floor_red;
+          break;
+         case 4: // Toggle Even
+          if (y % 2 == 0) {
+           if (ter(x, y) == t_floor_blue)
+            ter(x, y) = t_rock_blue;
+           else if (ter(x, y) == t_rock_blue)
+            ter(x, y) = t_floor_blue;
+           else if (ter(x, y) == t_floor_red)
+            ter(x, y) = t_rock_red;
+           else if (ter(x, y) == t_rock_red)
+            ter(x, y) = t_floor_red;
+           else if (ter(x, y) == t_floor_green)
+            ter(x, y) = t_rock_green;
+           else if (ter(x, y) == t_rock_green)
+            ter(x, y) = t_floor_green;
+          }
+          break;
+        }
+       }
+      }
+     }
+    } break;
+
+    case 4: { // Toggling walls maze
+     square(this, t_rock,        0,            0, SEEX     - 1,            1);
+     square(this, t_rock,        0, SEEY * 2 - 2, SEEX     - 1, SEEY * 2 - 1);
+     square(this, t_rock,        0,            2, SEEX     - 4, SEEY * 2 - 3);
+     square(this, t_rock, SEEX + 2,            0, SEEX * 2 - 1,            1);
+     square(this, t_rock, SEEX + 2, SEEY * 2 - 2, SEEX * 2 - 1, SEEY * 2 - 1);
+     square(this, t_rock, SEEX + 5,            2, SEEX * 2 - 1, SEEY * 2 - 3);
+     int x = rng(SEEX - 1, SEEX + 2), y = 2;
+     std::vector<point> path; // Path, from end to start
+     while (x < SEEX - 1 || x > SEEX + 2 || y < SEEY * 2 - 2) {
+      path.push_back( point(x, y) );
+      ter(x, y) = ter_id( rng(t_floor_red, t_floor_blue) );
+      if (y == SEEY * 2 - 2) {
+       if (x < SEEX - 1)
+        x++;
+       else if (x > SEEX + 2)
+        x--;
+      } else {
+       std::vector<point> next;
+       for (int nx = x - 1; nx <= x + 1; nx++ ) {
+        for (int ny = y; ny <= y + 1; ny++) {
+         if (ter(nx, ny) == t_rock_floor);
+          next.push_back( point(nx, ny) );
+        }
+       }
+       int index = rng(0, next.size() - 1);
+       x = next[index].x;
+       y = next[index].y;
+      }
+     }
+// Now go backwards through path (start to finish), toggling any tiles that need
+     bool toggle_red = false, toggle_green = false, toggle_blue = false;
+     for (int i = path.size() - 1; i >= 0; i--) {
+      if (ter(path[i].x, path[i].y) == t_floor_red) {
+       toggle_green = !toggle_green;
+       if (toggle_red)
+        ter(path[i].x, path[i].y) = t_rock_red;
+      } else if (ter(path[i].x, path[i].y) == t_floor_green) {
+       toggle_blue = !toggle_blue;
+       if (toggle_green)
+        ter(path[i].x, path[i].y) = t_rock_green;
+      } else if (ter(path[i].x, path[i].y) == t_floor_blue) {
+       toggle_red = !toggle_red;
+       if (toggle_blue)
+        ter(path[i].x, path[i].y) = t_rock_blue;
+      }
+     }
+// Finally, fill in the rest with random tiles, and place toggle traps
+     for (int i = SEEX - 3; i <= SEEX + 4; i++) {
+      for (int j = 2; j <= SEEY * 2 - 2; j++) {
+       add_trap(i, j, tr_temple_toggle);
+       if (ter(i, j) == t_rock_floor)
+        ter(i, j) = ter_id( rng(t_rock_red, t_floor_blue) );
+      }
+     }
+    } break;
+   } // Done with room type switch
+// Stairs down if we need them
+   if (terrain_type == ot_temple_stairs)
+    line(this, t_stairs_down, SEEX, 0, SEEX + 1, 0);
+// Stairs at the south if t_above has stairs down.
+   if (t_above == ot_temple_stairs)
+    line(this, t_stairs_up, SEEX, SEEY * 2 - 1, SEEX + 1, SEEY * 2 - 1);
+
+  } // Done with underground-only stuff
   break;
+
+ case ot_temple_finale:
+  square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1);
+  square(this, t_rock_floor, SEEX - 1, 1, SEEX + 2, 4);
+  square(this, t_rock_floor, SEEX, 5, SEEX + 1, SEEY * 2 - 1);
+  line(this, t_stairs_up, SEEX, SEEY * 2 - 1, SEEX + 1, SEEY * 2 - 1);
+  add_item(rng(SEEX, SEEX + 1), rng(2, 3), g->new_artifact(), 0);
+  return;
 
  case ot_sewage_treatment:
   square(this, t_floor, 0,  0, 23, 23); // Set all to floor
@@ -2791,6 +2977,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    ter(2, 6) = t_counter;
    ter(1, 2) = t_console;
    tmpcomp = add_computer(1, 2, "EnviroCom OS v2.03", 0);
+   tmpcomp->add_option("Download Sewer Maps", COMPACT_MAP_SEWER, 0);
    tmpcomp->add_option("Divert sample", COMPACT_SAMPLE, 3);
    tmpcomp->add_failure(COMPFAIL_PUMP_EXPLODE);
    tmpcomp->add_failure(COMPFAIL_PUMP_LEAK);
@@ -2815,6 +3002,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    ter(20, 22) = t_counter;
    ter(16, 23) = t_console;
    tmpcomp = add_computer(16, 23, "EnviroCom OS v2.03", 0);
+   tmpcomp->add_option("Download Sewer Maps", COMPACT_MAP_SEWER, 0);
    tmpcomp->add_option("Divert sample", COMPACT_SAMPLE, 3);
    tmpcomp->add_failure(COMPFAIL_PUMP_EXPLODE);
    tmpcomp->add_failure(COMPFAIL_PUMP_LEAK);
@@ -2966,10 +3154,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 
     case 1: { // Toxic gas
      int cx = rng(9, 14), cy = rng(9, 14);
-     for (int i = cx - 3; i < cx + 3; i++) {
-      for (int j = cy - 3; j < cy + 3; j++)
-       add_field(g, i, j, fd_toxic_gas, rng(1, 3));
-     }
+     ter(cx, cy) = t_rock;
+     add_field(g, cx, cy, fd_gas_vent, 1);
     } break;
 
     case 2: { // Lava
@@ -3059,7 +3245,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      miner.make_corpse(g->itypes[itm_corpse], g->mtypes[mon_null], 0);
      add_item(orx + 2, ory + 3, miner);
      place_items(mi_mine_equipment, 60, orx + 2, ory + 3, orx + 2, ory + 3,
-                   false, 0);
+                 false, 0);
     } break;
    }
   }
@@ -3226,7 +3412,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      add_item(x, y, miner);
      place_items(mi_mine_equipment, 60, x, y, x, y, false, 0);
     }
-    add_spawn(mon_dog_thing, 1, rng(SEEX, SEEX + 1), rng(SEEX, SEEX + 1));
+    add_spawn(mon_dog_thing, 1, rng(SEEX, SEEX + 1), rng(SEEX, SEEX + 1), true);
    } break;
 
    case 3: { // Spiral down
@@ -3649,8 +3835,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   // Item placement
   place_items(mi_snacks, 30, 19, 3, 19, 10, false, 0);
   place_items(mi_snacks, 50, 18, 18, 21, 18, false, 0);
-  place_items(mi_fridgesnacks, 60, 21, 4, 21, 4, false, turn);
-  place_items(mi_fridgesnacks, 60, 21, 17, 21, 17, false, turn);
+  place_items(mi_fridgesnacks, 60, 21, 4, 21, 4, false, 0);
+  place_items(mi_fridgesnacks, 60, 21, 17, 21, 17, false, 0);
   place_items(mi_alcohol, 50, 21, 5, 21, 8, false, 0);
   place_items(mi_trash, 15, 2, 17, 16, 19, true, 0);
 
@@ -4078,6 +4264,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    place_items(mi_bedroom, 60, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
    place_items(mi_home_hw, 80, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
    place_items(mi_homeguns, 10, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
+   break;
    
 
   case 1:	// Weapons cache
@@ -4383,7 +4570,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
  case ot_ants_wn:
   x = SEEX;
   y = 1;
-  rn = rng(80, 100);
+  rn = 0;
 // First, set it all to rock
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++)
@@ -4405,15 +4592,19 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
       ter(i, j) = t_rock_floor;
     }
    }
-   if (!one_in(3))
+   if (rn < SEEX) {
+    x += rng(-1, 1);
+    y++;
+   } else {
     x++;
-   if (!one_in(x - SEEX))
-    y += rng(-1, 1);
-   if (rn <= 0) {
-    if (y < SEEY) y++;
-    if (y > SEEY) y--;
-   } else
-    rn--;
+    if (!one_in(x - SEEX))
+     y += rng(-1, 1);
+    else if (y < SEEY)
+     y++;
+    else if (y > SEEY)
+     y--;
+   }
+   rn++;
   } while (x < SEEX * 2 - 1 || y != SEEY);
   for (int i = x - 2; i <= x + 3; i++) {
    for (int j = y - 2; j <= y + 3; j++) {
@@ -4838,7 +5029,7 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
  }
 }
 
-void map::add_spawn(mon_id type, int count, int x, int y)
+void map::add_spawn(mon_id type, int count, int x, int y, bool friendly)
 {
  if (x < 0 || x >= SEEX * 3 || y < 0 || y >= SEEY * 3) {
   debugmsg("Bad add_spawn(%d, %d, %d, %d)", type, count, x, y);
@@ -4847,7 +5038,7 @@ void map::add_spawn(mon_id type, int count, int x, int y)
  int nonant = int(x / SEEX) + int(y / SEEY) * 3;
  x %= SEEX;
  y %= SEEY;
- spawn_point tmp(type, count, x, y);
+ spawn_point tmp(type, count, x, y, friendly);
  grid[nonant].spawns.push_back(tmp);
 }
 
@@ -5218,10 +5409,10 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
   valid_rooms.push_back(room_chemistry);
  if ((height > 7 || width > 7) && height > 2 && width > 2)
   valid_rooms.push_back(room_teleport);
- if (height > 4 && width > 4) {
+ if (height > 4 && width > 4)
   valid_rooms.push_back(room_goo);
+ if (height > 6 && width > 6)
   valid_rooms.push_back(room_bionics);
- }
  if (height > 7 && width > 7)
   valid_rooms.push_back(room_cloning);
  if (area >= 9)
@@ -5355,7 +5546,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
 
   case room_bionics:
    if (rotate % 2 == 0) {
-    int biox = x1, bioy = int((y1 + y2) / 2);
+    int biox = x1 + 2, bioy = int((y1 + y2) / 2);
     m->ter(biox    , bioy - 1) = t_wall_h;
     m->ter(biox + 1, bioy - 1) = t_wall_h;
     m->ter(biox    , bioy + 1) = t_wall_h;
@@ -5364,7 +5555,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     m->ter(biox + 1, bioy    ) = t_reinforced_glass_v;
     m->place_items(mi_bionics_common, 70, biox, bioy, biox, bioy, false, 0);
 
-    biox = x2;
+    biox = x2 - 2;
     m->ter(biox    , bioy - 1) = t_wall_h;
     m->ter(biox - 1, bioy - 1) = t_wall_h;
     m->ter(biox    , bioy + 1) = t_wall_h;
@@ -5381,7 +5572,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     tmpcomp->add_failure(COMPFAIL_MANHACKS);
     tmpcomp->add_failure(COMPFAIL_SECUBOTS);
    } else {
-    int bioy = y1, biox = int((x1 + x2) / 2);
+    int bioy = y1 + 2, biox = int((x1 + x2) / 2);
     m->ter(biox - 1, bioy    ) = t_wall_v;
     m->ter(biox - 1, bioy + 1) = t_wall_v;
     m->ter(biox + 1, bioy    ) = t_wall_v;
@@ -5390,7 +5581,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     m->ter(biox    , bioy + 1) = t_reinforced_glass_h;
     m->place_items(mi_bionics_common, 70, biox, bioy, biox, bioy, false, 0);
 
-    bioy = y2;
+    bioy = y2 - 2;
     m->ter(biox - 1, bioy    ) = t_wall_v;
     m->ter(biox - 1, bioy - 1) = t_wall_v;
     m->ter(biox + 1, bioy    ) = t_wall_v;
@@ -6049,7 +6240,7 @@ void map::add_extra(map_extra type, game *g)
   add_trap(x, y, tr_portal);
   int num_monsters = rng(0, 4);
   for (int i = 0; i < num_monsters; i++) {
-   mon_id type = mon_id(rng(mon_flying_polyp, mon_blank));
+   mon_id type = mon_id( rng(mon_gelatin, mon_blank) );
    int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
    ter(mx, my) = t_rubble;
    add_spawn(type, 1, mx, my);
@@ -6127,7 +6318,7 @@ void map::add_extra(map_extra type, game *g)
      if (ter(i, j) == t_marloss)
       add_item(x, y, (*itypes)[itm_marloss_berry], g->turn);
      if (one_in(15)) {
-      monster creature(g->mtypes[mon_id(rng(mon_flying_polyp, mon_blank))]);
+      monster creature(g->mtypes[mon_id(rng(mon_gelatin, mon_blank))]);
       creature.spawn(i, j);
       g->z.push_back(creature);
      }

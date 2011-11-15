@@ -75,10 +75,11 @@ monster::monster(mtype *t, int x, int y)
 
 void monster::poly(mtype *t)
 {
+ double hp_percentage = double(hp) / double(type->hp);
  type = t;
  moves = 0;
  speed = type->speed;
- hp = type->hp;
+ hp = int(hp_percentage * type->hp);
  sp_timeout = type->sp_freq;
 }
 

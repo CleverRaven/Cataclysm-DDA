@@ -46,7 +46,8 @@ enum items_location {
 
 // This is used only for monsters; they get a list of items_locations, and
 // a chance that each one will be used.
-struct items_location_and_chance {
+struct items_location_and_chance
+{
  items_location loc;
  int chance;
  items_location_and_chance (items_location l, int c) {

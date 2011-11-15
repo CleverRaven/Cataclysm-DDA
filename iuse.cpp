@@ -932,13 +932,13 @@ void iuse::water_purifier(game *g, player *p, item *it, bool t)
   return;
  }
  item *pure = &(p->i_at(ch).contents[0]);
- if (pure->type->id != itm_water && pure->type->id != itm_water_dirty &&
-     pure->type->id != itm_salt_water) {
+ if (pure->type->id != itm_water && pure->type->id != itm_salt_water) {
   g->add_msg("You can only purify water.");
   return;
  }
  p->moves -= 150;
  pure->make(g->itypes[itm_water]);
+ pure->poison = 0;
 }
 
 void iuse::two_way_radio(game *g, player *p, item *it, bool t)
@@ -1987,4 +1987,215 @@ you can, I need to know you're alright.";
 
   popup(message.str().c_str());
 */
+}
+
+void iuse::artifact(game *g, player *p, item *it, bool t)
+{
+ if (!it->is_artifact()) {
+  debugmsg("iuse::artifact called on a non-artifact item! %s",
+           it->tname().c_str());
+  return;
+ } else if (!it->is_tool()) {
+  debugmsg("iuse::artifact called on a non-tool artifact! %s",
+           it->tname().c_str());
+  return;
+ }
+ it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(it->type);
+ int num_used = rng(1, art->effects_activated.size());
+ if (num_used < art->effects_activated.size())
+  num_used += rng(1, art->effects_activated.size() - num_used);
+
+ std::vector<art_effect_active> effects = art->effects_activated;
+ debugmsg("num_used %d", num_used);
+ for (int i = 0; i < num_used; i++) {
+  int index = rng(0, effects.size() - 1);
+  art_effect_active used = effects[index];
+  effects.erase(effects.begin() + index);
+
+ debugmsg("used %d", used);
+
+  switch (used) {
+  case AEA_STORM: {
+   g->sound(p->posx, p->posy, 10, "Ka-BOOM!");
+   int num_bolts = rng(2, 4);
+   for (int j = 0; j < num_bolts; j++) {
+    int xdir = 0, ydir = 0;
+    while (xdir == 0 && ydir == 0) {
+     xdir = rng(-1, 1);
+     ydir = rng(-1, 1);
+    }
+    int dist = rng(4, 12);
+    int boltx = p->posx, bolty = p->posy;
+    for (int n = 0; n < dist; n++) {
+     boltx += xdir;
+     bolty += ydir;
+     g->m.add_field(g, boltx, bolty, fd_electricity, rng(2, 3));
+     if (one_in(4)) {
+      if (xdir == 0)
+       xdir = rng(0, 1) * 2 - 1;
+      else
+       xdir = 0;
+     }
+     if (one_in(4)) {
+      if (ydir == 0)
+       ydir = rng(0, 1) * 2 - 1;
+      else
+       ydir = 0;
+     }
+    }
+   }
+  } break;
+
+  case AEA_FIREBALL: {
+   point fireball = g->look_around();
+   if (fireball.x != -1 && fireball.y != -1)
+    g->explosion(fireball.x, fireball.y, 8, 0, true);
+  } break;
+
+  case AEA_ADRENALINE:
+   g->add_msg("You're filled with a roaring energy!");
+   p->add_disease(DI_ADRENALINE, rng(200, 250), g);
+   break;
+
+  case AEA_MAP: {
+   bool new_map = false;
+   for (int x = int(g->levx / 2) - 20; x <= int(g->levx / 2) + 20; x++) {
+    for (int y = int(g->levy / 2) - 20; y <= int(g->levy / 2) + 20; y++) {
+     if (!g->cur_om.seen(x, y)) {
+      new_map = true;
+      g->cur_om.seen(x, y) = true;
+     }
+    }
+   }
+   if (new_map) {
+    g->add_msg("You have a vision of the surrounding area...");
+    p->moves -= 100;
+   }
+  } break;
+
+  case AEA_BLOOD: {
+   bool blood = false;
+   int j;
+   for (int x = p->posx - 4; x <= p->posx + 4; x++) {
+    for (int y = p->posy - 4; y <= p->posy + 4; y++) {
+     if (!one_in(4) && g->m.add_field(g, x, y, fd_blood, 3) &&
+         (blood || g->u_see(x, y, j)))
+      blood = true;
+    }
+   }
+   if (blood)
+    g->add_msg("Blood soaks out of the ground and walls.");
+  } break;
+
+  case AEA_FATIGUE: {
+   g->add_msg("The fabric of space seems to decay.");
+   int x = rng(p->posx - 3, p->posx + 3), y = rng(p->posy - 3, p->posy + 3);
+   if (g->m.field_at(x, y).type == fd_fatigue &&
+       g->m.field_at(x, y).density < 3)
+    g->m.field_at(x, y).density++;
+   else
+    g->m.add_field(g, x, y, fd_fatigue, rng(1, 2));
+  } break;
+
+  case AEA_ACIDBALL: {
+   point acidball = g->look_around();
+   if (acidball.x != -1 && acidball.y != -1) {
+    for (int x = acidball.x - 1; x <= acidball.x + 1; x++) {
+     for (int y = acidball.y - 1; y <= acidball.y + 1; y++) {
+      if (g->m.field_at(x, y).type == fd_acid &&
+          g->m.field_at(x, y).density < 3)
+       g->m.field_at(x, y).density++;
+      else
+       g->m.add_field(g, x, y, fd_acid, rng(2, 3));
+     }
+    }
+   }
+  } break;
+
+  case AEA_PULSE:
+   g->sound(p->posx, p->posy, 30, "The earth shakes!");
+   for (int x = p->posx - 2; x <= p->posx + 2; x++) {
+    for (int y = p->posy - 2; y <= p->posy + 2; y++) {
+     std::string junk;
+     g->m.bash(x, y, 40, junk);
+     g->m.bash(x, y, 40, junk);  // Multibash effect, so that doors &c will fall
+     g->m.bash(x, y, 40, junk);
+     if (g->m.is_destructable(x, y) && rng(1, 10) >= 3)
+      g->m.ter(x, y) = t_rubble;
+    }
+   }
+   break;
+
+  case AEA_HEAL:
+   g->add_msg("You feel healed.");
+   p->healall(2);
+   break;
+
+  case AEA_CONFUSED:
+   for (int x = p->posx - 8; x <= p->posx + 8; x++) {
+    for (int y = p->posy - 8; y <= p->posy + 8; y++) {
+     int mondex = g->mon_at(x, y);
+     if (mondex != -1)
+      g->z[mondex].add_effect(ME_STUNNED, rng(5, 15));
+    }
+   }
+
+  case AEA_ENTRANCE:
+   for (int x = p->posx - 8; x <= p->posx + 8; x++) {
+    for (int y = p->posy - 8; y <= p->posy + 8; y++) {
+     int mondex = g->mon_at(x, y);
+     if (mondex != -1 &&  g->z[mondex].friendly == 0 &&
+         rng(0, 600) > g->z[mondex].hp)
+      g->z[mondex].make_friendly();
+    }
+   }
+   break;
+
+  case AEA_RADIATION:
+   g->add_msg("Horrible gasses are emitted!");
+   for (int x = p->posx - 1; x <= p->posx + 1; x++) {
+    for (int y = p->posy - 1; y <= p->posy + 1; y++)
+     g->m.add_field(g, x, y, fd_nuke_gas, rng(2, 3));
+   }
+   break;
+
+  case AEA_PAIN:
+   g->add_msg("You're wracked with pain!");
+   p->pain += rng(5, 15);
+   break;
+
+  case AEA_MUTATE:
+   if (!one_in(3))
+    p->mutate(g);
+   break;
+
+  case AEA_PARALYZE:
+   g->add_msg("You're paralyzed!");
+   p->moves -= rng(50, 200);
+   break;
+
+  case AEA_FIRESTORM:
+   g->add_msg("Fire rains down around you!");
+   for (int x = p->posx - 3; x <= p->posx + 3; x++) {
+    for (int y = p->posy - 3; y <= p->posy + 3; y++) {
+     if (!one_in(3)) {
+      if (g->m.add_field(g, x, y, fd_fire, 1 + rng(0, 1) * rng(0, 1)))
+       g->m.field_at(x, y).age = 30;
+     }
+    }
+   }
+   break;
+
+  case AEA_ATTENTION:
+   g->add_msg("You feel like your action has attracted attention.");
+   p->add_disease(DI_ATTENTION, 600 * rng(3, 6), g);
+   break;
+
+  case AEA_TELEGLOW:
+   g->add_msg("You feel unhinged.");
+   p->add_disease(DI_TELEGLOW, 100 * rng(3, 12), g);
+   break;
+
+  }
+ }
 }

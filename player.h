@@ -9,6 +9,7 @@
 #include "trap.h"
 #include "morale.h"
 #include "inventory.h"
+#include "artifact.h"
 #include <vector>
 #include <string>
 
@@ -164,6 +165,7 @@ public:
  std::vector<item> inv_dump(); // Inventory + weapon + worn (for death, etc)
  int  butcher_factor();	// Automatically picks our best butchering tool
  bool is_wearing(itype_id it);	// Are we wearing a specific itype?
+ bool has_artifact_with(art_effect_passive effect);
 
 // has_amount works ONLY for quantity.
 // has_charges works ONLY for charges.

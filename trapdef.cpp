@@ -101,7 +101,17 @@ traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
 	&trapfunc::ledge,	&trapfuncm::ledge,
 	itm_null, NULL);
 
- TRAP("boobytrap",			'^',	c_ltcyan,	 5,  4,  7,
+ TRAP("boobytrap",		'^',	c_ltcyan,	 5,  4,  7,
  	&trapfunc::boobytrap,	&trapfuncm::boobytrap,
  	itm_null, NULL);
+
+ TRAP("raised tile",		'^',	c_ltgray,	 9, 20, 99,
+	&trapfunc::temple_flood,&trapfuncm::none,
+	itm_null, NULL);
+
+// Toggles through states of RGB walls
+ TRAP("",			'^',	c_white,	99, 99, 99,
+	&trapfunc::temple_toggle,	&trapfuncm::none,
+	itm_null, NULL);
+
 }
