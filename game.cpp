@@ -3477,6 +3477,7 @@ shape, but with long, twisted, distended limbs.");
  } else if (m.ter(examx, examy) >= t_switch_rg &&
             m.ter(examx, examy) <= t_switch_even &&
             query_yn("Flip the %s?", m.tername(examx, examy).c_str())) {
+  u.moves -= 100;
   for (int y = examy; y <= examy + 5; y++) {
    for (int x = 0; x < SEEX * 3; x++) {
     switch (m.ter(examx, examy)) {
