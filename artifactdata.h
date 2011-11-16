@@ -121,8 +121,8 @@ struct artifact_armor_form_datum
  unsigned char env_resist;
  signed char warmth;
  unsigned char storage;
- unsigned char covers;
  int melee_bash, melee_cut, melee_hit;
+ unsigned char covers;
  bool plural;
  artifact_armor_mod available_mods[5];
 
