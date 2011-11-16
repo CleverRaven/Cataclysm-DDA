@@ -28,7 +28,7 @@ itype* game::new_artifact()
   art->item_flags = weapon->flags;
 // Add an extra weapon perhaps?
   if (one_in(2)) {
-   int select = rng(0, 4);
+   int select = rng(0, 2);
    if (info->extra_weapons[select] != ARTWEAP_NULL) {
     weapon = &(artifact_weapon_data[ info->extra_weapons[select] ]);
     art->volume += weapon->volume;

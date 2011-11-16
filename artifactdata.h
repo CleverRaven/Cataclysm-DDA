@@ -115,12 +115,12 @@ struct artifact_armor_form_datum
  material m1;
  material m2;
  int volume, weight;
- signed char encumb;
- unsigned char dmg_resist;
- unsigned char cut_resist;
- unsigned char env_resist;
- signed char warmth;
- unsigned char storage;
+ int encumb;
+ int dmg_resist;
+ int cut_resist;
+ int env_resist;
+ int warmth;
+ int storage;
  int melee_bash, melee_cut, melee_hit;
  unsigned char covers;
  bool plural;
@@ -159,7 +159,7 @@ artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] = {
  0, false,
  {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 // Name    color  Materials      Vol Wgt Enc Dmg Cut Env Wrm Sto Bsh Cut Hit
-{"Robe",   c_red, WOOL, MNULL,     6,  3,  8,  3,  1,  0,  2,  0, -8,  0, -3,
+{"Robe",   c_red, WOOL, MNULL,     6,  6,  1,  3,  1,  0,  2,  0, -8,  0, -3,
  mfb(bp_torso)|mfb(bp_legs), false,
  {ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
   ARMORMOD_PADDED}},
