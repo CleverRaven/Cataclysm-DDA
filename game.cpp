@@ -3465,6 +3465,12 @@ shape, but with long, twisted, distended limbs.");
    m.ter(examx, examy) = t_dirt;
    m.i_at(examx, examy).clear();
    add_event(EVENT_TEMPLE_OPEN, int(turn) + 4);
+  } else if (u.has_amount(itm_petrified_eye, 1) &&
+             query_yn("Place your petrified eye on the pedestal?")) {
+   u.use_amount(itm_petrified_eye, 1);
+   add_msg("The pedestal sinks into the ground...");
+   m.ter(examx, examy) = t_dirt;
+   add_event(EVENT_TEMPLE_OPEN, int(turn) + 4);
   } else
    add_msg("This pedestal is engraved in eye-shaped diagrams, and has a large\
  semi-spherical indentation at the top.");
