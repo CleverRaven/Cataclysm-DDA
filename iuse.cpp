@@ -2006,13 +2006,10 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
   num_used += rng(1, art->effects_activated.size() - num_used);
 
  std::vector<art_effect_active> effects = art->effects_activated;
- debugmsg("num_used %d", num_used);
  for (int i = 0; i < num_used; i++) {
   int index = rng(0, effects.size() - 1);
   art_effect_active used = effects[index];
   effects.erase(effects.begin() + index);
-
- debugmsg("used %d", used);
 
   switch (used) {
   case AEA_STORM: {
