@@ -23,7 +23,7 @@ itype* game::new_artifact()
 // Set up the basic weapon type
   artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
   art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
-  art->melee_cut = rng(weapon->bash_min, weapon->bash_max);
+  art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
   art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
   art->item_flags = weapon->flags;
 // Add an extra weapon perhaps?

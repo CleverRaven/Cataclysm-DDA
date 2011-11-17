@@ -5132,21 +5132,23 @@ void game::vertical_move(int movez, bool force)
  if (!force) {
   monstairx = levx;
   monstairy = levy;
-  monstairz = levz - movez;
+  monstairz = original_z;
   for (int i = 0; i < z.size(); i++) {
-   if (z[i].will_reach(this, u.posx, u.posy))
-    coming_to_stairs.push_back(
-        monster_and_count(z[i], 1 + z[i].turns_to_reach(this, u.posx, u.posy)));
-   else if (z[i].spawnmapx != -1) { // Static spawn, move them back there
+   if (z[i].will_reach(this, u.posx, u.posy)) {
+    int turns = z[i].turns_to_reach(this, u.posx, u.posy);
+    if (turns < 999)
+     coming_to_stairs.push_back( monster_and_count(z[i], 1 + turns) );
+   } else if (z[i].spawnmapx != -1) { // Static spawn, move them back there
     map tmp;
     tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
     tmp.add_spawn(mon_id(z[i].type->id), 1, z[i].spawnposx, z[i].spawnposy);
     tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
    } else if (z[i].friendly != 0) { // Friendly, make it into a static spawn
     map tmp;
-    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
-    tmp.add_spawn(mon_id(z[i].type->id), 1, z[i].posx, z[i].posy, true);
-    tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
+    tmp.load(this, levx, levy);
+    tmp.add_spawn(mon_id(z[i].type->id), 1, z[i].posx % SEEX, z[i].posy % SEEY,
+                  true);
+    tmp.save(&cur_om, turn, levx, levy);
    } else {
     int group = valid_group( (mon_id)(z[i].type->id), levx, levy);
     if (group != -1)

@@ -5551,19 +5551,25 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     int biox = x1 + 2, bioy = int((y1 + y2) / 2);
     m->ter(biox    , bioy - 1) = t_wall_h;
     m->ter(biox + 1, bioy - 1) = t_wall_h;
+    m->ter(biox - 1, bioy - 1) = t_wall_h;
     m->ter(biox    , bioy + 1) = t_wall_h;
     m->ter(biox + 1, bioy + 1) = t_wall_h;
+    m->ter(biox - 1, bioy + 1) = t_wall_h;
     m->ter(biox    , bioy    ) = t_counter;
     m->ter(biox + 1, bioy    ) = t_reinforced_glass_v;
+    m->ter(biox - 1, bioy    ) = t_wall_v;
     m->place_items(mi_bionics_common, 70, biox, bioy, biox, bioy, false, 0);
 
     biox = x2 - 2;
     m->ter(biox    , bioy - 1) = t_wall_h;
     m->ter(biox - 1, bioy - 1) = t_wall_h;
+    m->ter(biox + 1, bioy - 1) = t_wall_h;
     m->ter(biox    , bioy + 1) = t_wall_h;
     m->ter(biox - 1, bioy + 1) = t_wall_h;
+    m->ter(biox + 1, bioy + 1) = t_wall_h;
     m->ter(biox    , bioy    ) = t_counter;
     m->ter(biox - 1, bioy    ) = t_reinforced_glass_v;
+    m->ter(biox + 1, bioy    ) = t_wall_h;
     m->place_items(mi_bionics_common, 70, biox, bioy, biox, bioy, false, 0);
 
     int compx = int((x1 + x2) / 2), compy = int((y1 + y2) / 2);
@@ -5577,19 +5583,25 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     int bioy = y1 + 2, biox = int((x1 + x2) / 2);
     m->ter(biox - 1, bioy    ) = t_wall_v;
     m->ter(biox - 1, bioy + 1) = t_wall_v;
+    m->ter(biox - 1, bioy - 1) = t_wall_v;
     m->ter(biox + 1, bioy    ) = t_wall_v;
     m->ter(biox + 1, bioy + 1) = t_wall_v;
+    m->ter(biox + 1, bioy - 1) = t_wall_v;
     m->ter(biox    , bioy    ) = t_counter;
     m->ter(biox    , bioy + 1) = t_reinforced_glass_h;
+    m->ter(biox    , bioy - 1) = t_wall_h;
     m->place_items(mi_bionics_common, 70, biox, bioy, biox, bioy, false, 0);
 
     bioy = y2 - 2;
     m->ter(biox - 1, bioy    ) = t_wall_v;
     m->ter(biox - 1, bioy - 1) = t_wall_v;
+    m->ter(biox - 1, bioy + 1) = t_wall_v;
     m->ter(biox + 1, bioy    ) = t_wall_v;
     m->ter(biox + 1, bioy - 1) = t_wall_v;
+    m->ter(biox + 1, bioy + 1) = t_wall_v;
     m->ter(biox    , bioy    ) = t_counter;
     m->ter(biox    , bioy - 1) = t_reinforced_glass_h;
+    m->ter(biox    , bioy + 1) = t_wall_h;
     m->place_items(mi_bionics_common, 70, biox, bioy, biox, bioy, false, 0);
 
     int compx = int((x1 + x2) / 2), compy = int((y1 + y2) / 2);

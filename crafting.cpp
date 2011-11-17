@@ -102,7 +102,7 @@ recipes.push_back( recipe(id, result, category, skill1, skill2, difficulty, \
  RECIPE(itm_smg_9mm, CC_WEAPON, sk_mechanics, sk_gun, 5, 18000);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
-  TOOL(itm_hammer, -1, itm_rock, -1, itm_hatchet, -1, NULL);
+  TOOL(itm_hammer, -1, itm_rock, -1, itm_hatchet, -1, itm_toolset, -1, NULL);
   COMP(itm_pipe, 1, NULL);
   COMP(itm_2x4, 2, NULL);
   COMP(itm_nail, 4, NULL);
@@ -662,6 +662,11 @@ void game::craft()
  crafting_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
  crafting_inv += u.inv;
  crafting_inv += u.weapon;
+ if (u.has_bionic(bio_tools)) {
+  item tools(itypes[itm_toolset], turn);
+  tools.charges = u.power_level;
+  crafting_inv += tools;
+ }
 
  do {
   if (redraw) { // When we switch tabs, redraw the header
@@ -944,6 +949,11 @@ void game::pick_recipes(std::vector<recipe*> &current,
  crafting_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
  crafting_inv += u.inv;
  crafting_inv += u.weapon;
+ if (u.has_bionic(bio_tools)) {
+  item tools(itypes[itm_toolset], turn);
+  tools.charges = u.power_level;
+  crafting_inv += tools;
+ }
 
  bool have_tool[5], have_comp[5];
 
