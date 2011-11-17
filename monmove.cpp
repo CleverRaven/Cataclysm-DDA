@@ -253,15 +253,14 @@ void monster::footsteps(game *g, int x, int y)
   volume = 10;
  switch (type->size) {
   case MS_TINY:
-   volume /= 4;
-   break;
+   return; // No sound for the tinies
   case MS_SMALL:
-   volume /= 2;
+   volume /= 3;
    break;
   case MS_MEDIUM:
    break;
   case MS_LARGE:
-   volume *= .5;
+   volume *= 1.5;
    break;
   case MS_HUGE:
    volume *= 2;
