@@ -558,6 +558,9 @@ void monster::stumble(game *g, bool moved)
  */
 bool monster::will_reach(game *g, int x, int y)
 {
+ if (is_fleeing(g->u))
+  return false;
+
  if (has_flag(MF_IMMOBILE) && (posx != x || posy != y))
   return false;
 
