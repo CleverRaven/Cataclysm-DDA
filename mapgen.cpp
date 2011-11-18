@@ -2605,20 +2605,14 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     case 2: // Spreading water
      square(this, t_water_dp, 4, 4, 5, 5);
      add_spawn(mon_sewer_snake, 1, 4, 4);
-     add_spawn(mon_sewer_snake, 1, 5, 5);
 
      square(this, t_water_dp, SEEX * 2 - 5, 4, SEEX * 2 - 4, 6);
      add_spawn(mon_sewer_snake, 1, SEEX * 2 - 5, 4);
-     add_spawn(mon_sewer_snake, 1, SEEX * 2 - 4, 5);
 
      square(this, t_water_dp, 4, SEEY * 2 - 5, 6, SEEY * 2 - 4);
-     add_spawn(mon_sewer_snake, 1, 4, SEEY * 2 - 5);
-     add_spawn(mon_sewer_snake, 1, 5, SEEY * 2 - 4);
 
      square(this, t_water_dp, SEEX * 2 - 5, SEEY * 2 - 5, SEEX * 2 - 4,
                               SEEY * 2 - 4);
-     add_spawn(mon_sewer_snake, 1, SEEX * 2 - 4, SEEY * 2 - 4);
-     add_spawn(mon_sewer_snake, 1, SEEX * 2 - 5, SEEY * 2 - 5);
 
      square(this, t_rock, 0, SEEY * 2 - 2, SEEX - 1, SEEY * 2 - 1);
      square(this, t_rock, SEEX + 2, SEEY * 2 - 2, SEEX * 2 - 1, SEEY * 2 - 1);
