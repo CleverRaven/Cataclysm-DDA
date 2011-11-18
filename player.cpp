@@ -172,10 +172,10 @@ void player::reset()
  }
 // Radiation
  if (radiation > 0) {
-  str_cur  -= int(radiation / 24);
-  dex_cur  -= int(radiation / 36);
-  per_cur  -= int(radiation / 40);
-  int_cur  -= int(radiation / 48);
+  str_cur  -= int(radiation / 80);
+  dex_cur  -= int(radiation / 110);
+  per_cur  -= int(radiation / 100);
+  int_cur  -= int(radiation / 120);
  }
 // Stimulants
  dex_cur += int(stim / 10);
@@ -314,7 +314,7 @@ nc_color player::color()
   return c_pink;
  if (underwater)
   return c_blue;
- if (has_active_bionic(bio_cloak))
+ if (has_active_bionic(bio_cloak) || has_artifact_with(AEP_INVISIBLE))
   return c_dkgray;
  return c_white;
 }
@@ -1928,6 +1928,25 @@ int player::sight_range(int light_level)
  return ret;
 }
 
+int player::overmap_sight_range(int light_level)
+{
+ int sight = sight_range(light_level);
+ if (sight < SEEX)
+  return 0;
+ if (sight <= SEEX * 4)
+  return (sight / (SEEX / 2));
+ if (has_amount(itm_binoculars, 1))
+  return 20;
+
+ return 10;
+}
+
+int player::clairvoyance()
+{
+ if (has_artifact_with(AEP_CLAIRVOYANCE))
+  return 3;
+}
+
 bool player::has_two_arms()
 {
  if (has_bionic(bio_blaster) || hp_cur[hp_arm_l] < 10 || hp_cur[hp_arm_r] < 10)
@@ -2459,9 +2478,7 @@ void player::suffer(game *g)
  if (underwater) {
   if (!has_trait(PF_GILLS))
    oxygen--;
-  if (oxygen <= 5)
-   g->add_msg("You're almost out of air!  Press '<' to surface.");
-  else if (oxygen < 0) {
+  if (oxygen < 0) {
    if (has_bionic(bio_gills) && power_level > 0) {
     oxygen += 5;
     power_level--;
@@ -2469,7 +2486,8 @@ void player::suffer(game *g)
     g->add_msg("You're drowning!");
     hurt(g, bp_torso, 0, rng(2, 5));
    }
-  }
+  } else if (oxygen <= 5)
+   g->add_msg("You're almost out of air!  Press '<' to surface.");
  }
  for (int i = 0; i < illness.size(); i++) {
   dis_effect(g, *this, illness[i]);
@@ -2671,6 +2689,8 @@ void player::suffer(game *g)
  }
  if (has_trait(PF_UNSTABLE) && one_in(28800))	// Average once per 2 days
   mutate(g);
+ if (has_artifact_with(AEP_MUTAGENIC) && one_in(28800))
+  mutate(g);
  radiation += rng(0, g->m.radiation(posx, posy) / 4);
  if (rng(1, 1000) < radiation && int(g->turn) % 600 == 0) {
   mutate(g);
@@ -2703,6 +2723,9 @@ void player::suffer(game *g)
  if (has_bionic(bio_power_weakness) && max_power_level > 0 &&
      power_level >= max_power_level * .75)
   str_cur -= 3;
+
+ if (has_artifact_with(AEP_ATTENTION))
+  add_disease(DI_ATTENTION, 3, g);
 
  if (dex_cur < 0)
   dex_cur = 0;

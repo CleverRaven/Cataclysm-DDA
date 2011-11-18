@@ -1840,7 +1840,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     if (j == 2 && (i == 11 || i == 12))
-     ter(i, j) = t_door_c;
+     ter(i, j) = t_door_glass_c;
     else if (j == 2 && i > 3 && i < SEEX * 2 - 4)
      ter(i, j) = t_wall_glass_h;
     else if (((j == 2 || j == SEEY * 2 - 2) && i > 1 && i < SEEX * 2 - 2) ||
@@ -3849,6 +3849,151 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   if (terrain_type == ot_bar_west)
    rotate(3);
  } break;
+
+ case ot_megastore_entrance: {
+  square(this, t_floor, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
+// Construct facing north; below, we'll rotate to face road
+  line(this, t_wall_glass_h, 0, 0, SEEX * 2 - 1, 0);
+  ter(SEEX, 0) = t_door_glass_c;
+  ter(SEEX + 1, 0) = t_door_glass_c;
+// Long checkout lanes
+  for (int x = 2; x <= 18; x += 4) {
+   line(this, t_counter, x, 4, x, 14);
+   line(this, t_rack, x + 3, 4, x + 3, 14);
+   place_items(mi_snacks,    80, x + 3, 4, x + 3, 14, false, 0);
+   place_items(mi_magazines, 70, x + 3, 4, x + 3, 14, false, 0);
+  }
+  for (int i = 0; i < 10; i++) {
+   int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
+   if (ter(x, y) == t_floor)
+    add_spawn(mon_zombie, 1, x, y);
+  }
+// Finally, figure out where the road is; contruct our entrance facing that.
+  std::vector<direction> faces_road;
+  if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
+   rotate(1);
+  if (t_south >= ot_road_null && t_south <= ot_bridge_ew)
+   rotate(2);
+  if (t_west >= ot_road_null && t_west <= ot_bridge_ew)
+   rotate(3);
+ } break;
+
+ case ot_megastore:
+  square(this, t_floor, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
+
+// Randomly pick contents
+  switch (rng(1, 5)) {
+  case 1: { // Groceries
+   bool fridge = false;
+   for (int x = rng(2, 3); x < SEEX * 2 - 1; x += 3) {
+    for (int y = 2; y <= SEEY; y += SEEY - 2) {
+     if (one_in(3))
+      fridge = !fridge;
+     if (fridge) {
+      line(this, t_fridge, x, y, x, y + SEEY - 4);
+      if (one_in(3))
+       place_items(mi_fridgesnacks, 80, x, y, x, y + SEEY - 4, false, 0);
+      else
+       place_items(mi_fridge,       70, x, y, x, y + SEEY - 4, false, 0);
+     } else {
+      line(this, t_rack, x, y, x, y + SEEY - 4);
+      if (one_in(3))
+       place_items(mi_cannedfood, 78, x, y, x, y + SEEY - 4, false, 0);
+      else if (one_in(2))
+       place_items(mi_pasta,      82, x, y, x, y + SEEY - 4, false, 0);
+      else if (one_in(2))
+       place_items(mi_produce,    65, x, y, x, y + SEEY - 4, false, 0);
+      else
+       place_items(mi_snacks,     72, x, y, x, y + SEEY - 4, false, 0);
+     }
+    }
+   }
+  } break;
+  case 2: // Hardware
+   for (int x = 2; x <= 22; x += 4) {
+    line(this, t_rack, x, 4, x, SEEY * 2 - 5);
+    if (one_in(3))
+     place_items(mi_tools,    70, x, 4, x, SEEY * 2 - 5, false, 0);
+    else if (one_in(2))
+     place_items(mi_bigtools, 70, x, 4, x, SEEY * 2 - 5, false, 0);
+    else if (one_in(3))
+     place_items(mi_hardware, 70, x, 4, x, SEEY * 2 - 5, false, 0);
+    else
+     place_items(mi_mischw,   70, x, 4, x, SEEY * 2 - 5, false, 0);
+   }
+   break;
+  case 3: // Clothing
+   for (int x = 2; x < SEEX * 2; x += 6) {
+    for (int y = 3; y <= 9; y += 6) {
+     square(this, t_rack, x, y, x + 1, y + 1);
+     if (one_in(2))
+      place_items(mi_shirts,  75, x, y, x + 1, y + 1, false, 0);
+     else if (one_in(2))
+      place_items(mi_pants,   72, x, y, x + 1, y + 1, false, 0);
+     else if (one_in(2))
+      place_items(mi_jackets, 65, x, y, x + 1, y + 1, false, 0);
+     else
+      place_items(mi_winter,  62, x, y, x + 1, y + 1, false, 0);
+    }
+   }
+   for (int y = 13; y <= SEEY * 2 - 2; y += 3) {
+    line(this, t_rack, 2, y, SEEX * 2 - 3, y);
+    if (one_in(3))
+     place_items(mi_shirts,     75, 2, y, SEEX * 2 - 3, y, false, 0);
+    else if (one_in(2))
+     place_items(mi_shoes,      75, 2, y, SEEX * 2 - 3, y, false, 0);
+    else if (one_in(2))
+     place_items(mi_bags,       75, 2, y, SEEX * 2 - 3, y, false, 0);
+    else
+     place_items(mi_allclothes, 75, 2, y, SEEX * 2 - 3, y, false, 0);
+   }
+   break;
+  case 4: // Cleaning and soft drugs and novels and junk
+   for (int x = rng(2, 3); x < SEEX * 2 - 1; x += 3) {
+    for (int y = 2; y <= SEEY; y += SEEY - 2) {
+     line(this, t_rack, x, y, x, y + SEEY - 4);
+     if (one_in(3))
+      place_items(mi_cleaning,  78, x, y, x, y + SEEY - 4, false, 0);
+     else if (one_in(2))
+      place_items(mi_softdrugs, 72, x, y, x, y + SEEY - 4, false, 0);
+     else
+      place_items(mi_novels,    84, x, y, x, y + SEEY - 4, false, 0);
+    }
+   }
+   break;
+  case 5: // Sporting goods
+   for (int x = rng(2, 3); x < SEEX * 2 - 1; x += 3) {
+    for (int y = 2; y <= SEEY; y += SEEY - 2) {
+     line(this, t_rack, x, y, x, y + SEEY - 4);
+     if (one_in(2))
+      place_items(mi_sports,  72, x, y, x, y + SEEY - 4, false, 0);
+     else if (one_in(10))
+      place_items(mi_rifles,  20, x, y, x, y + SEEY - 4, false, 0);
+     else
+      place_items(mi_camping, 68, x, y, x, y + SEEY - 4, false, 0);
+    }
+   }
+   break;
+  }
+
+// Add some spawns
+  for (int i = 0; i < 15; i++) {
+   int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
+   if (ter(x, y) == t_floor)
+    add_spawn(mon_zombie, 1, x, y);
+  }
+// Rotate randomly...
+  rotate(rng(0, 3));
+// ... then place walls as needed.
+  if (t_north != ot_megastore_entrance && t_north != ot_megastore)
+   line(this, t_wall_h, 0, 0, SEEX * 2 - 1, 0);
+  if (t_east != ot_megastore_entrance && t_east != ot_megastore)
+   line(this, t_wall_v, SEEX * 2 - 1, 0, SEEX * 2 - 1, SEEY * 2 - 1);
+  if (t_south != ot_megastore_entrance && t_south != ot_megastore)
+   line(this, t_wall_h, 0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
+  if (t_west != ot_megastore_entrance && t_west != ot_megastore)
+   line(this, t_wall_v, 0, 0, 0, SEEY * 2 - 1);
+  break;
 
  case ot_spider_pit_under:
   for (int i = 0; i < SEEX * 2; i++) {

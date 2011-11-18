@@ -2148,6 +2148,45 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    }
    break;
 
+  case AEA_BUGS: {
+   int roll = rng(1, 10);
+   mon_id bug = mon_null;
+   int num = 0;
+   std::vector<point> empty;
+   for (int x = p->posx - 1; x <= p->posx + 1; x++) {
+    for (int y = p->posy - 1; y <= p->posy + 1; y++) {
+     if (g->is_empty(x, y))
+      empty.push_back( point(x, y) );
+    }
+   }
+   if (empty.empty() == 0 || roll <= 4)
+    g->add_msg("Flies buzz around you.");
+   else if (roll <= 7) {
+    g->add_msg("Giant flies appear!");
+    bug = mon_fly;
+    num = rng(2, 4);
+   } else if (roll <= 9) {
+    g->add_msg("Giant bees appear!");
+    bug = mon_bee;
+    num = rng(1, 3);
+   } else {
+    g->add_msg("Giant wasps appear!");
+    bug = mon_wasp;
+    num = rng(1, 2);
+   }
+   if (bug != mon_null) {
+    monster spawned(g->mtypes[bug]);
+    for (int i = 0; i < num && !empty.empty(); i++) {
+     int index = rng(0, empty.size() - 1);
+     point spawnp = empty[index];
+     empty.erase(empty.begin() + index);
+     spawned.spawn(spawnp.x, spawnp.y);
+     g->z.push_back(spawned);
+    }
+   }
+  } break;
+    
+
   case AEA_RADIATION:
    g->add_msg("Horrible gasses are emitted!");
    for (int x = p->posx - 1; x <= p->posx + 1; x++) {

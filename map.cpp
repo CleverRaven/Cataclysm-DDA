@@ -292,6 +292,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
  case t_wall_glass_v:
  case t_wall_glass_h_alarm:
  case t_wall_glass_v_alarm:
+ case t_door_glass_c:
   if (str >= rng(0, 20)) {
    sound += "glass breaking!";
    ter(x, y) = t_floor;
@@ -625,6 +626,9 @@ bool map::open_door(int x, int y, bool inside)
  } else if (ter(x, y) == t_door_metal_c) {
   ter(x, y) = t_door_metal_o;
   return true;
+ } else if (ter(x, y) == t_door_glass_c) {
+  ter(x, y) = t_door_glass_o;
+  return true;
  } else if (inside &&
             (ter(x, y) == t_door_locked || ter(x, y) == t_door_locked_alarm)) {
   ter(x, y) = t_door_o;
@@ -655,6 +659,9 @@ bool map::close_door(int x, int y)
   return true;
  } else if (ter(x, y) == t_door_metal_o) {
   ter(x, y) = t_door_metal_c;
+  return true;
+ } else if (ter(x, y) == t_door_glass_o) {
+  ter(x, y) = t_door_glass_c;
   return true;
  }
  return false;
@@ -992,12 +999,14 @@ void map::draw(game *g, WINDOW* w)
  int light = g->u.sight_range(g->light_level());
  for  (int realx = g->u.posx - SEEX; realx <= g->u.posx + SEEX; realx++) {
   for (int realy = g->u.posy - SEEY; realy <= g->u.posy + SEEY; realy++) {
-   if (rl_dist(g->u.posx, g->u.posy, realx, realy) > light) {
+   int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
+   if (dist > light) {
     if (g->u.has_disease(DI_BOOMERED))
      mvwputch(w, realx+SEEX - g->u.posx, realy+SEEY - g->u.posy, c_magenta,'#');
     else
      mvwputch(w, realx+SEEX - g->u.posx, realy+SEEY - g->u.posy, c_dkgray, '#');
-   } else if (sees(g->u.posx, g->u.posy, realx, realy, light, t))
+   } else if (dist <= g->u.clairvoyance() ||
+              sees(g->u.posx, g->u.posy, realx, realy, light, t))
     drawsq(w, g->u, realx, realy, false, true);
   }
  }
@@ -1495,8 +1504,8 @@ void map::spawn_monsters(game *g)
 
      while ((!g->is_empty(fx, fy) || !tmp.can_move_to(g->m, fx, fy)) && 
             tries < 10) {
-      mx = grid[n].spawns[i].posx + rng(-3, 3);
-      my = grid[n].spawns[i].posy + rng(-3, 3);
+      mx = (grid[n].spawns[i].posx + rng(-3, 3)) % SEEX;
+      my = (grid[n].spawns[i].posy + rng(-3, 3)) % SEEY;
       fx = mx + gx * SEEX;
       fy = my + gy * SEEY;
       tries++;

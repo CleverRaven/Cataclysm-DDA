@@ -137,6 +137,15 @@ chitin weakened by the fungus sprouting\n\
 from every joint on its body."
 );
 
+mon("giant fly",	'a',	c_ltgray,	MS_SMALL,	FLESH,
+	(mfb(MF_SMELLS)|mfb(MF_FLIES)|mfb(MF_STUMBLES)),
+//	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
+	  0,  8,  5,120,  3,  1,  3,  0,  5,  0,  0, 25,  0,
+	&mdeath::normal,	&mattack::none, "\
+A large housefly the size of a small dog.\n\
+It buzzes around incessantly."
+);
+
 mon("giant bee",	'a',	c_yellow,	MS_SMALL,	FLESH,
 	(mfb(MF_SMELLS)|mfb(MF_VENOM)|mfb(MF_FLIES)|mfb(MF_STUMBLES)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq

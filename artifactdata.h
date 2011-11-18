@@ -5,11 +5,42 @@
 #include "artifact.h"
 #include "itype.h"
 
+int passive_effect_cost[NUM_AEPS] = {
+0,	// AEP_NULL
+
+3,	// AEP_STR_UP
+3,	// AEP_DEX_UP
+3,	// AEP_PER_UP
+3,	// AEP_INT_UP
+5,	// AEP_ALL_UP
+4,	// AEP_SPEED_UP
+2,	// AEP_IODINE
+4,	// AEP_SNAKES
+7,	// AEP_INVISIBLE
+5,	// AEP_CLAIRVOYANCE
+
+0,	// AEP_SPLIT
+
+-1,	// AEP_SMOKE
+-6,	// AEP_EVIL
+-4,	// AEP_SCHIZO
+-4,	// AEP_RADIOACTIVE
+-3,	// AEP_MUTAGENIC
+-4,	// AEP_ATTENTION
+-2,	// AEP_STR_DOWN
+-2,	// AEP_DEX_DOWN
+-2,	// AEP_PER_DOWN
+-2,	// AEP_INT_DOWN
+-5,	// AEP_ALL_DOWN
+-4	// AEP_SPEED_DOWN
+};
+
+
 enum artifact_weapon_type
 {
  ARTWEAP_NULL,
- ARTWEAP_BULK, // A bulky item that works okay for bashing
- ARTWEAP_CLUB, // An item designed to bash
+ ARTWEAP_BULK,  // A bulky item that works okay for bashing
+ ARTWEAP_CLUB,  // An item designed to bash
  ARTWEAP_SPEAR, // A stab-only weapon
  ARTWEAP_SWORD, // A long slasher
  ARTWEAP_KNIFE, // Short, slash and stab

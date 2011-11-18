@@ -21,7 +21,7 @@ mon_dog,
 // Ants
 mon_ant_larva, mon_ant, mon_ant_soldier, mon_ant_queen, mon_ant_fungus,
 // Bees
-mon_bee, mon_wasp,
+mon_fly, mon_bee, mon_wasp,
 // Worms
 mon_graboid, mon_worm, mon_halfworm,
 // Zombies

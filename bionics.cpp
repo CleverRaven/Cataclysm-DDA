@@ -305,6 +305,7 @@ void player::activate_bionic(int b, game *g)
      else
       traj = line_to(i, j, posx, posy, 0);
     }
+    traj.insert(traj.begin(), point(i, j));
     for (int k = 0; k < g->m.i_at(i, j).size(); k++) {
      if (g->m.i_at(i, j)[k].made_of(IRON) || g->m.i_at(i, j)[k].made_of(STEEL)){
       tmp_item = g->m.i_at(i, j)[k];
@@ -312,13 +313,12 @@ void player::activate_bionic(int b, game *g)
       for (l = 0; l < traj.size(); l++) {
        index = g->mon_at(traj[l].x, traj[l].y);
        if (index != -1) {
-        if (g->z[index].hurt(tmp_item.weight() * tmp_item.volume()))
+        if (g->z[index].hurt(tmp_item.weight() * 2))
          g->kill_mon(index);
         g->m.add_item(traj[l].x, traj[l].y, tmp_item);
         l = traj.size() + 1;
        } else if (l > 0 && g->m.move_cost(traj[l].x, traj[l].y) == 0) {
-        g->m.bash(traj[l].x, traj[l].y, tmp_item.weight() * tmp_item.volume(),
-                  junk);
+        g->m.bash(traj[l].x, traj[l].y, tmp_item.weight() * 2, junk);
         g->sound(traj[l].x, traj[l].y, 12, junk);
         if (g->m.move_cost(traj[l].x, traj[l].y) == 0) {
          g->m.add_item(traj[l - 1].x, traj[l - 1].y, tmp_item);

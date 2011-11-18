@@ -51,7 +51,7 @@ int player::hit_roll()
  if (unarmed_attack()) {
   best_bonus = sklevel[sk_unarmed];
   if (sklevel[sk_unarmed] > 4)
-   best_bonus += sklevel[sk_unarmed] - 2; // Extra bonus for high levels
+   best_bonus += sklevel[sk_unarmed] - 4; // Extra bonus for high levels
  }
 
 // Using a bashing weapon?
@@ -118,17 +118,22 @@ int player::hit_mon(game *g, monster *z)
   return 0;
  }
 // For very high hit rolls, we crit!
- bool critical_hit = scored_crit();
+ bool critical_hit = scored_crit(z->dodge_roll());
  int dam = base_damage(true);
  int cutting_penalty = 0; // Moves lost from getting a cutting weapon stuck
 
 // Drunken Master damage bonuses
  if (has_trait(PF_DRUNKEN) && has_disease(DI_DRUNK)) {
 // Remember, a single drink gives 600 levels of DI_DRUNK
-  if (unarmed)
-   dam += disease_level(DI_DRUNK) / 250;
-  else
-   dam += disease_level(DI_DRUNK) / 400;
+  int mindrunk, maxdrunk;
+  if (unarmed) {
+   mindrunk = disease_level(DI_DRUNK) / 600;
+   maxdrunk = disease_level(DI_DRUNK) / 250;
+  } else {
+   mindrunk = disease_level(DI_DRUNK) / 900;
+   maxdrunk = disease_level(DI_DRUNK) / 400;
+  }
+  dam += rng(mindrunk, maxdrunk);
  }
 
  if (unarmed) { // Unarmed bonuses
@@ -155,7 +160,10 @@ int player::hit_mon(game *g, monster *z)
                        z->name().c_str()); break;
    }
   }
-  dam += rng(1, sklevel[sk_unarmed]);
+  if (sklevel[sk_unarmed] >= 4)
+   dam += rng(1, sklevel[sk_unarmed] / 2);
+  else
+   dam++;
   practice(sk_unarmed, 2);
  }
 // Melee skill bonus
@@ -251,9 +259,9 @@ int player::hit_mon(game *g, monster *z)
   }
 
   if (unarmed) {
-   dam += rng(2, 6) * sklevel[sk_unarmed];
+   dam += rng(1, 4) * sklevel[sk_unarmed];
    if (sklevel[sk_unarmed] > 5)
-    dam += 4 * (sklevel[sk_unarmed - 3]);
+    dam += 4 * (sklevel[sk_unarmed - 5]);
    z->moves -= dam;	// Stunning blow
    if (weapon.type->id == itm_bio_claws) {
     if (sklevel[sk_cutting] >= 3)
@@ -532,9 +540,10 @@ bool player::hit_player(player &p, body_part &bp, int &hitdam, int &hitcut)
  return true;
 }
 
-bool player::scored_crit()
+bool player::scored_crit(int target_dodge)
 {
  bool to_hit_crit = false, dex_crit = false, skill_crit = false;
+ int num_crits = 0;
 
  int chance = 25;
  if (weapon.type->m_to_hit > 0) {
@@ -544,7 +553,8 @@ bool player::scored_crit()
   for (int i = 0; i > weapon.type->m_to_hit; i--)
    chance /= 2;
  }
- to_hit_crit = rng(0, 99) < chance;
+ if (rng(0, 99) < chance)
+  num_crits++;
 
  chance = 25;
  if (dex_cur > 8) {
@@ -558,7 +568,8 @@ bool player::scored_crit()
     decrease--;
   }
  }
- dex_crit = rng(0, 99) < chance;
+ if (rng(0, 99) < chance)
+  num_crits++;
 
  int best_skill = 0;
  if (weapon.is_bashing_weapon() && sklevel[sk_bashing] > best_skill)
@@ -581,10 +592,15 @@ bool player::scored_crit()
   for (int i = 3; i > best_skill; i--)
    chance /= 2;
  }
- skill_crit = rng(0, 99) < chance;
+ if (rng(0, 99) < chance)
+  num_crits++;
 
- return ((to_hit_crit && dex_crit) || (to_hit_crit && skill_crit) ||
-         (dex_crit && skill_crit));
+ if (num_crits == 3)
+  return true;
+ else if (num_crits == 2)
+  return (hit_roll() >= target_dodge * 1.5);
+
+ return false;
 }
 
 int player::dodge()

@@ -1960,8 +1960,10 @@ void overmap::place_specials()
    for (int i = 0; i < NUM_OMSPECS; i++) {
     omspec_place place;
     overmap_special special = overmap_specials[i];
+    int min = special.min_dist_from_city, max = special.max_dist_from_city;
     if ((placed[i] < special.max_appearances || special.max_appearances == 0) &&
-        dist_from_city(p) >= special.min_dist_from_city &&
+        (min == -1 || dist_from_city(p) >= min) &&
+        (max == -1 || dist_from_city(p) <= max) &&
         (place.*special.able)(this, p))
      valid.push_back( omspec_id(i) );
    }
@@ -1980,19 +1982,26 @@ void overmap::place_specials()
 
 void overmap::place_special(overmap_special special, point p)
 {
+ bool rotated = false;
 // First, place terrain...
  ter(p.x, p.y) = special.ter;
 // Next, obey any special effects the flags might have
  if (special.flags & mfb(OMS_FLAG_ROTATE_ROAD)) {
-  if (is_road(p.x + 1, p.y))
+  if (is_road(p.x, p.y - 1))
+   rotated = true;
+  else if (is_road(p.x + 1, p.y)) {
    ter(p.x, p.y) = oter_id( int(ter(p.x, p.y)) + 1);
-  else if (is_road(p.x, p.y + 1))
+   rotated = true;
+  } else if (is_road(p.x, p.y + 1)) {
    ter(p.x, p.y) = oter_id( int(ter(p.x, p.y)) + 2);
-  else if (is_road(p.x - 1, p.y))
+   rotated = true;
+  } else if (is_road(p.x - 1, p.y)) {
    ter(p.x, p.y) = oter_id( int(ter(p.x, p.y)) + 3);
+   rotated = true;
+  }
  }
 
- if (special.flags & mfb(OMS_FLAG_ROTATE_RANDOM))
+ if (!rotated && special.flags & mfb(OMS_FLAG_ROTATE_RANDOM))
   ter(p.x, p.y) = oter_id( int(ter(p.x, p.y)) + rng(0, 3) );
   
  if (special.flags & mfb(OMS_FLAG_3X3)) {
@@ -2003,6 +2012,30 @@ void overmap::place_special(overmap_special special, point p)
     point np(p.x + x, p.y + y);
     ter(np.x, np.y) = special.ter;
    }
+  }
+ }
+
+ if (special.flags & mfb(OMS_FLAG_3X3_SECOND)) {
+  int startx = -1, starty = -1;
+  if (is_road(p.x, p.y - 1)) { // Road to north
+   startx = p.x - 1;
+   starty = p.y;
+  } else if (is_road(p.x + 1, p.y)) { // Road to east
+   startx = p.x - 2;
+   starty = p.y - 1;
+  } else if (is_road(p.x, p.y + 1)) { // Road to south
+   startx = p.x - 1;
+   starty = p.y - 2;
+  } else if (is_road(p.x - 1, p.y)) { // Road to west
+   startx = p.x;
+   starty = p.y - 1;
+  }
+  if (startx != -1) {
+   for (int x = startx; x < startx + 3; x++) {
+    for (int y = starty; y < starty + 3; y++)
+     ter(x, y) = oter_id(special.ter + 1);
+   }
+   ter(p.x, p.y) = special.ter;
   }
  }
 

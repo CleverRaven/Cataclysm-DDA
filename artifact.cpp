@@ -1,7 +1,13 @@
 #include <sstream>
+#include <vector>
 #include "game.h"
 #include "artifact.h"
 #include "artifactdata.h"
+
+std::vector<art_effect_passive> fill_good_passive();
+std::vector<art_effect_passive> fill_bad_passive();
+std::vector<art_effect_active> fill_good_active();
+std::vector<art_effect_active> fill_bad_active();
 
 std::string artifact_name(std::string type);
 
@@ -52,32 +58,49 @@ It may have unknown powers; use 'a' to activate them.";
 // Finally, pick some powers
   art_effect_passive passive_tmp = AEP_NULL;
   art_effect_active active_tmp = AEA_NULL;
-  int num_good = 0, num_bad = 0;
+  int num_good = 0, num_bad = 0, value = 0;
+  std::vector<art_effect_passive> good_effects = fill_good_passive();
+  std::vector<art_effect_passive> bad_effects = fill_bad_passive();
   
 // Wielded effects first
-  while (num_good < 1 || num_bad < 1 || one_in(num_good + 1) ||
-         one_in(num_bad + 1)) {
-   if (one_in(2)) { // good effect
-    passive_tmp = art_effect_passive( rng(AEP_NULL + 1, AEP_SPLIT - 1) );
+  while (!good_effects.empty() && !bad_effects.empty() &&
+         (num_good < 1 || num_bad < 1 || one_in(num_good + 1) ||
+          one_in(num_bad + 1) || value > 1)) {
+   if (one_in(2)) { // Good
+    int index = rng(0, good_effects.size() - 1);
+    passive_tmp = good_effects[index];
+    good_effects.erase(good_effects.begin() + index);
     num_good++;
-   } else { // Bad effect
-    passive_tmp = art_effect_passive( rng(AEP_SPLIT + 1, NUM_AEPS - 1) );
+   } else if (!bad_effects.empty()) { // Bad effect
+    int index = rng(0, bad_effects.size() - 1);
+    passive_tmp = bad_effects[index];
+    bad_effects.erase(bad_effects.begin() + index);
     num_bad++;
    }
+   value += passive_effect_cost[passive_tmp];
    art->effects_wielded.push_back(passive_tmp);
   }
 // Next, carried effects; more likely to be just bad
   num_good = 0;
   num_bad = 0;
-  while (one_in(2) && ((num_good > 2 && one_in(num_good + 1)) || num_bad < 1 ||
-                       one_in(num_bad + 1))) {
-   if (one_in(3)) { // good effect
-    passive_tmp = art_effect_passive( rng(AEP_NULL + 1, AEP_SPLIT - 1) );
+  value = 0;
+  good_effects = fill_good_passive();
+  bad_effects = fill_bad_passive();
+  while (one_in(2) && !good_effects.empty() && !bad_effects.empty() &&
+         ((num_good > 2 && one_in(num_good + 1)) || num_bad < 1 ||
+          one_in(num_bad + 1) || value > 1)) {
+   if (one_in(3)) { // Good
+    int index = rng(0, good_effects.size() - 1);
+    passive_tmp = good_effects[index];
+    good_effects.erase(good_effects.begin() + index);
     num_good++;
    } else { // Bad effect
-    passive_tmp = art_effect_passive( rng(AEP_SPLIT + 1, NUM_AEPS - 1) );
+    int index = rng(0, bad_effects.size() - 1);
+    passive_tmp = bad_effects[index];
+    bad_effects.erase(bad_effects.begin() + index);
     num_bad++;
    }
+   value += passive_effect_cost[passive_tmp];
    art->effects_carried.push_back(passive_tmp);
   }
 // Finally, activated effects; not necessarily good or bad
@@ -85,13 +108,20 @@ It may have unknown powers; use 'a' to activate them.";
   num_bad = 0;
   art->def_charges = 0;
   art->max_charges = 0;
-  while ((num_bad > 0 && num_good == 0) || !one_in(3 - num_good) ||
-         !one_in(3 - num_bad)) {
+  std::vector<art_effect_active> good_a_effects = fill_good_active();
+  std::vector<art_effect_active> bad_a_effects = fill_bad_active();
+  while (!good_a_effects.empty() && !bad_a_effects.empty() &&
+         ((num_bad > 0 && num_good == 0) || !one_in(3 - num_good) ||
+          !one_in(3 - num_bad))) {
    if (!one_in(3)) { // Good effect
-    active_tmp = art_effect_active( rng(AEA_NULL + 1, AEA_SPLIT - 1) );
+    int index = rng(0, good_a_effects.size() - 1);
+    active_tmp = good_a_effects[index];
+    good_a_effects.erase(good_a_effects.begin() + index);
     num_good++;
    } else { // Bad effect
-    active_tmp = art_effect_active( rng(AEA_SPLIT + 1, NUM_AEAS - 1) );
+    int index = rng(0, bad_a_effects.size() - 1);
+    active_tmp = bad_a_effects[index];
+    bad_a_effects.erase(bad_a_effects.begin() + index);
     num_bad++;
    }
    art->effects_activated.push_back(active_tmp);
@@ -182,17 +212,26 @@ It may have unknown powers; use 'a' to activate them.";
   art->description = description.str();
 
 // Finally, pick some effects
-  int num_good = 0, num_bad = 0;
+  int num_good = 0, num_bad = 0, value = 0;
   art_effect_passive passive_tmp = AEP_NULL;
+  std::vector<art_effect_passive> good_effects = fill_good_passive();
+  std::vector<art_effect_passive> bad_effects = fill_bad_passive();
 
-  while (num_good < 1 || one_in(num_good) || !one_in(3 - num_bad)) {
+  while (!good_effects.empty() && !bad_effects.empty() &&
+         (num_good < 1 || one_in(num_good) || !one_in(3 - num_bad) ||
+          value > 1)) {
    if (one_in(2)) { // Good effect
-    passive_tmp = art_effect_passive( rng(AEP_NULL + 1, AEP_SPLIT - 1) );
+    int index = rng(0, good_effects.size() - 1);
+    passive_tmp = good_effects[index];
+    good_effects.erase(good_effects.begin() + index);
     num_good++;
    } else { // Bad effect
-    passive_tmp = art_effect_passive( rng(AEP_SPLIT + 1, NUM_AEPS - 1) );
+    int index = rng(0, bad_effects.size() - 1);
+    passive_tmp = bad_effects[index];
+    bad_effects.erase(bad_effects.begin() + index);
     num_bad++;
    }
+   value += passive_effect_cost[passive_tmp];
    art->effects_worn.push_back(passive_tmp);
   }
 
@@ -202,6 +241,37 @@ It may have unknown powers; use 'a' to activate them.";
  }
 }
 
+std::vector<art_effect_passive> fill_good_passive()
+{
+ std::vector<art_effect_passive> ret;
+ for (int i = AEP_NULL + 1; i < AEP_SPLIT; i++)
+  ret.push_back( art_effect_passive(i) );
+ return ret;
+}
+
+std::vector<art_effect_passive> fill_bad_passive()
+{
+ std::vector<art_effect_passive> ret;
+ for (int i = AEP_SPLIT + 1; i < NUM_AEPS; i++)
+  ret.push_back( art_effect_passive(i) );
+ return ret;
+}
+
+std::vector<art_effect_active> fill_good_active()
+{
+ std::vector<art_effect_active> ret;
+ for (int i = AEA_NULL + 1; i < AEA_SPLIT; i++)
+  ret.push_back( art_effect_active(i) );
+ return ret;
+}
+
+std::vector<art_effect_active> fill_bad_active()
+{
+ std::vector<art_effect_active> ret;
+ for (int i = AEA_SPLIT + 1; i < NUM_AEAS; i++)
+  ret.push_back( art_effect_active(i) );
+ return ret;
+}
 
 std::string artifact_name(std::string type)
 {

@@ -65,6 +65,7 @@ enum oter_id {
  ot_police_north, ot_police_east, ot_police_south, ot_police_west,
  ot_bank_north, ot_bank_east, ot_bank_south, ot_bank_west,
  ot_bar_north, ot_bar_east, ot_bar_south, ot_bar_west,
+ ot_megastore_entrance, ot_megastore,
 // Goodies/dungeons
  ot_lab, ot_lab_stairs, ot_lab_core, ot_lab_finale,
  ot_nuke_plant_entrance, ot_nuke_plant, // TODO
@@ -212,6 +213,8 @@ const oter_t oterlist[num_ter_types] = {
 {"bar",			'>',	c_white,	5, false},
 {"bar",			'v',	c_white,	5, false},
 {"bar",			'<',	c_white,	5, false},
+{"megastore",		'M',	c_ltblue,	5, false},
+{"metastore",		'M',	c_blue,		5, false},
 {"science lab",		'L',	c_ltblue,	5, false},
 {"science lab",		'L',	c_blue,		5, false},
 {"science lab",		'L',	c_ltblue,	5, false},
@@ -294,7 +297,7 @@ const oter_t oterlist[num_ter_types] = {
 // OMSPEC_FREQ determines the length of the side of the square in which each
 // overmap special will be placed.  At OMSPEC_FREQ 6, the overmap is divided
 // into 900 squares; lots of space for interesting stuff!
-#define OMSPEC_FREQ 8
+#define OMSPEC_FREQ 7
 
 // Flags that determine special behavior for placement
 enum omspec_flag {
@@ -303,6 +306,7 @@ OMS_FLAG_ROTATE_ROAD,	// Rotate to face road--assumes 3 following rotations
 OMS_FLAG_ROTATE_RANDOM, // Rotate randomly--assumes 3 following rotations
 OMS_FLAG_3X3,		// 3x3 square, e.g. bee hive
 OMS_FLAG_BLOB,		// Randomly shaped blob
+OMS_FLAG_3X3_SECOND,	// 3x3 square, made of the tile AFTER the main one
 OMS_FLAG_BIG,		// As big as possible
 OMS_FLAG_ROAD,		// Add a road_point here; connect to towns etc.
 OMS_FLAG_PARKING_LOT,	// Add a road_point to the north of here
@@ -326,6 +330,7 @@ struct overmap_special
  oter_id ter;           // Terrain placed
  int max_appearances;   // Max number in an overmap
  int min_dist_from_city;// Min distance from city limits
+ int max_dist_from_city;// Max distance from city limits
 
  moncat_id monsters;    // Type of monsters that appear here
  int monster_pop_min;   // Minimum monster population
@@ -349,6 +354,7 @@ enum omspec_id
  OMSPEC_BUNKER,
  OMSPEC_SILO,
  OMSPEC_RADIO,
+ OMSPEC_MEGASTORE,
  OMSPEC_SEWAGE,
  OMSPEC_MINE,
  OMSPEC_ANTHILL,
@@ -360,60 +366,68 @@ enum omspec_id
  NUM_OMSPECS
 };
 
+// Set min or max to -1 to ignore them
+
 const overmap_special overmap_specials[NUM_OMSPECS] = {
 
-{ot_crater,	  10,  0, mcat_null, 0, 0, 0, 0,
+// Terrain	 NUM MIN MAX
+{ot_crater,	  10,  0, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_BLOB)},
 
-{ot_hive, 	  50, 10, mcat_bee, 20, 60, 2, 4,
+{ot_hive, 	  50, 10, -1, mcat_bee, 20, 60, 2, 4,
  &omspec_place::forest, mfb(OMS_FLAG_3X3)},
 
-{ot_house_north, 100,  0, mcat_null, 0, 0, 0, 0,
+{ot_house_north, 100,  0, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD)},
 
-{ot_s_gas_north, 100,  0, mcat_null, 0, 0, 0, 0,
+{ot_s_gas_north, 100,  0, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD)},
 
-{ot_house_north,  50, 20, mcat_null, 0, 0, 0, 0,  // Woods cabin
- &omspec_place::forest, mfb(OMS_FLAG_ROTATE_RANDOM)},
+{ot_house_north,  50, 20, -1, mcat_null, 0, 0, 0, 0,  // Woods cabin
+ &omspec_place::forest, mfb(OMS_FLAG_ROTATE_RANDOM)|mfb(OMS_FLAG_ROTATE_ROAD)},
 
-{ot_temple_stairs, 3, 20, mcat_null, 0, 0, 0, 0,
+{ot_temple_stairs, 3, 20, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::forest, 0},
 
-{ot_lab_stairs,	  30,  8, mcat_null, 0, 0, 0, 0,
+{ot_lab_stairs,	  30,  8, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_ROAD)},
 
-{ot_bunker,	  30,  4, mcat_null, 0, 0, 0, 0,
+// Terrain	 NUM MIN MAX
+{ot_bunker,	  30,  4, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_ROAD)},
 
-{ot_silo,	   5, 30, mcat_null, 0, 0, 0, 0,
+{ot_silo,	   5, 30, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
 
-{ot_radio_tower, 100,  0, mcat_null, 0, 0, 0, 0,
+{ot_radio_tower, 100,  0, 20, mcat_null, 0, 0, 0, 0,
  &omspec_place::by_highway, 0},
 
-{ot_sewage_treatment, 10, 10, mcat_null, 0, 0, 0, 0,
+{ot_megastore_entrance, 5, 0, 10, mcat_null, 0, 0, 0, 0,
+ &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND)},
+
+{ot_sewage_treatment, 10, 10, 20, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_PARKING_LOT)},
 
-{ot_mine_entrance,  5,  15, mcat_null, 0, 0, 0, 0,
+{ot_mine_entrance,  5,  15, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT)},
 
-{ot_anthill,	  30,  10, mcat_ant, 10, 30, 1000, 2000,
+{ot_anthill,	  30,  10, -1, mcat_ant, 10, 30, 1000, 2000,
  &omspec_place::wilderness, 0},
 
-{ot_spider_pit,	 500,  0, mcat_null, 0, 0, 0, 0,
+{ot_spider_pit,	 500,  0, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::forest, 0},
 
-{ot_slimepit,	  10,  0, mcat_goo, 2, 10, 100, 200,
+// Terrain	 NUM MIN MAX
+{ot_slimepit,	  10,  0, -1, mcat_goo, 2, 10, 100, 200,
  &omspec_place::land, 0},
 
-{ot_fungal_bloom,  5,  5, mcat_fungi, 600, 1200, 30, 50,
+{ot_fungal_bloom,  5,  5, -1, mcat_fungi, 600, 1200, 30, 50,
  &omspec_place::wilderness, 0},
 
-{ot_triffid_grove, 8,  0, mcat_triffid, 800, 1300, 12, 20,
+{ot_triffid_grove, 8,  0, -1, mcat_triffid, 800, 1300, 12, 20,
  &omspec_place::forest, 0},
 
-{ot_river_center, 10, 10, mcat_null, 0, 0, 0, 0,
+{ot_river_center, 10, 10, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::always, mfb(OMS_FLAG_BLOB)}
 
 };

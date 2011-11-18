@@ -53,6 +53,7 @@ struct weather_datum
  int avg_temperature[4]; // Spring, Summer, Winter, Fall
  int ranged_penalty;
  int sight_penalty; // Penalty to max sight range
+ int mintime, maxtime; // min/max time it lasts, in minutes
  bool dangerous; // If true, our activity gets interrupted
  void (weather_effect::*effect)(game *);
 };

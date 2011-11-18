@@ -14,14 +14,18 @@ enum art_effect_passive {
  AEP_ALL_UP, // All stats + 2
  AEP_SPEED_UP, // +20 speed
  AEP_IODINE, // Reduces radiation
- AEP_SMOKE, // Emits smoke occasionally
  AEP_SNAKES, // Summons friendly snakes when you're hit
-// Splits good from bad; you'll get at least good
+ AEP_INVISIBLE, // Makes you invisible
+ AEP_CLAIRVOYANCE, // See through walls
+// Splits good from bad
  AEP_SPLIT,
 // Bad
+ AEP_SMOKE, // Emits smoke occasionally
  AEP_EVIL, // Addiction to the power
  AEP_SCHIZO, // Mimicks schizophrenia
  AEP_RADIOACTIVE, // Increases your radiation
+ AEP_MUTAGENIC, // Mutates you slowly
+ AEP_ATTENTION, // Draws netherworld attention slowly
  AEP_STR_DOWN, // Strength - 3
  AEP_DEX_DOWN, // Dex - 3
  AEP_PER_DOWN, // Per - 3
@@ -45,6 +49,7 @@ enum art_effect_active {
  AEA_HEAL, // Heals minor damage
  AEA_CONFUSED, // Confuses all monsters in view
  AEA_ENTRANCE, // Chance to make nearby monsters friendly
+ AEA_BUGS, // Chance to summon friendly insects
 
  AEA_SPLIT, // Split between good and bad
 

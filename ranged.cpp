@@ -146,7 +146,9 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     if (i < trajectory.size() - 1) // Unintentional hit
      goodhit = double(rand() / (RAND_MAX + 1.0)) / 2;
     
-    splatter(this, trajectory, dam, &z[mondex]);
+    std::vector<point> blood_traj = trajectory;
+    blood_traj.insert(blood_traj.begin(), point(p.posx, p.posy));
+    splatter(this, blood_traj, dam, &z[mondex]);
     shoot_monster(this, p, z[mondex], dam, goodhit);
 
 
@@ -161,7 +163,9 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     else
      h = &(active_npc[npc_at(tx, ty)]);
 
-    splatter(this, trajectory, dam);
+    std::vector<point> blood_traj = trajectory;
+    blood_traj.insert(blood_traj.begin(), point(p.posx, p.posy));
+    splatter(this, blood_traj, dam);
     shoot_player(this, p, h, dam, goodhit);
 
    } else
@@ -773,7 +777,7 @@ void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)
  int distance = 1;
  if (dam > 50)
   distance = 3;
- else if (dam > 15)
+ else if (dam > 20)
   distance = 2;
 
  std::vector<point> spurt = continue_line(trajectory, distance);

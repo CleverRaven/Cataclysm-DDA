@@ -20,12 +20,6 @@ moncat_id mt_to_mc(mon_id type);	// Pick the moncat that contains type
 // This is the main game set-up process.
 game::game()
 {
-/*
- std::vector<computer> test_vec;
- computer tmpcomp("test computer", 5, 6, 6);
- test_vec.push_back(tmpcomp);
- debugmsg("%s", test_vec[0].save_data().c_str());
-*/
  clear();	// Clear the screen
  intro();	// Print an intro screen, make sure we're at least 80x25
 // Gee, it sure is init-y around here!
@@ -70,6 +64,7 @@ game::game()
  debugmon = false;	// We're not printing debug messages
  in_tutorial = false;	// We're not in a tutorial game
  weather = WEATHER_CLEAR; // Start with some nice weather...
+ nextweather = MINUTES(STARTING_MINUTES + 30); // Weather shift in 30
  turnssincelastmon = 0; //Auto run mode init
  autorunmode = true;
 
@@ -598,8 +593,8 @@ bool game::do_turn()
 // Auto-save on the half-hour
   save();
  }
-// Every two hours, we update the weather.
- if (turn % 1200 == 0)
+// Update the weather, if it's time.
+ if (turn >= nextweather)
   update_weather();
 
 // The following happens when we stay still; 10/40 minutes overdue for spawn
@@ -649,11 +644,6 @@ bool game::do_turn()
   draw();
   refresh();
  }
-
-
-
-
-
  return false;
 }
 
@@ -845,6 +835,10 @@ void game::update_weather()
   choice -= chances[new_weather];
   new_weather = weather_type(int(new_weather) + 1);
  }
+// Advance the weather timer
+ int minutes = rng(weather_data[new_weather].mintime,
+                   weather_data[new_weather].maxtime);
+ nextweather = turn + MINUTES(minutes);
  weather = new_weather;
  if (weather == WEATHER_SUNNY && turn.is_night())
   weather = WEATHER_CLEAR;
@@ -1194,12 +1188,14 @@ void game::load(std::string name)
  u.name = name;
  u.ret_null = item(itypes[0], 0);
  u.weapon = item(itypes[0], 0);
- int tmpturn, tmpspawn, tmprun, tmptar, tmpweather, tmptemp, comx, comy;
+ int tmpturn, tmpspawn, tmpnextweather, tmprun, tmptar, tmpweather, tmptemp,
+     comx, comy;
  fin >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
-        next_faction_id >> next_mission_id >> tmpspawn >> tmpweather >>
-        tmptemp >> levx >> levy >> levz >> comx >> comy;
+        next_faction_id >> next_mission_id >> tmpspawn >> tmpnextweather >>
+        tmpweather >> tmptemp >> levx >> levy >> levz >> comx >> comy;
  turn = tmpturn;
  nextspawn = tmpspawn;
+ nextweather = tmpnextweather;
  cur_om = overmap(this, comx, comy, levz);
 // m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
  m.load(this, levx, levy);
@@ -1273,9 +1269,9 @@ void game::save()
  fout << int(turn) << " " << int(last_target) << " " << int(run_mode) << " " <<
          mostseen << " " << nextinv << " " << next_npc_id << " " <<
          next_faction_id << " " << next_mission_id << " " << int(nextspawn) <<
-         " " << weather << " " << int(temperature) << " " << levx << " " <<
-         levy << " " << levz << " " << cur_om.posx << " " << cur_om.posy <<
-         " " << std::endl;
+         int(nextweather) << " " << weather << " " << int(temperature) << " " <<
+         levx << " " << levy << " " << levz << " " << cur_om.posx << " " <<
+         cur_om.posy << " " << std::endl;
 // Next, the scent map.
  for (int i = 0; i < SEEX * 3; i++) {
   for (int j = 0; j < SEEY * 3; j++)
@@ -1952,115 +1948,64 @@ void game::draw_minimap()
 
  int cursx = (levx + 1) / 2;
  int cursy = (levy + 1) / 2;
- int omx, omy;
- oter_id cur_ter;
- nc_color ter_color;
- long ter_sym;
- bool seen = true;
- overmap hori;
- overmap vert;
- if (cursx < 2)
-  hori = overmap(this, cur_om.posx - 1, cur_om.posy, 0);
- if (cursx > OMAPX - 3)
-  hori = overmap(this, cur_om.posx + 1, cur_om.posy, 0);
- if (cursy < 2)
-  vert = overmap(this, cur_om.posx, cur_om.posy - 1, 0);
- if (cursy > OMAPY - 3)
-  vert = overmap(this, cur_om.posx, cur_om.posy + 1, 0);
- for (int i = -1; i <= 1; i++) {
-  for (int j = -1; j <= 1; j++) {
-   omx = cursx + i;
-   omy = cursy + j;
-   if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) {
-    cur_ter = cur_om.ter(omx, omy);
-    cur_om.seen(omx, omy) = true;
-   } else if ((omx < 0 || omx >= OMAPX) && (omy < 0 || omy >= OMAPY)) {
-    cur_ter = ot_null;
-   } else if (omx < 0) {
-    omx += OMAPX;
-    cur_ter = hori.ter(omx, omy);
-    hori.seen(omx, omy) = true;
-   } else if (omx >= OMAPX) {
-    omx -= OMAPX;
-    cur_ter = hori.ter(omx, omy);
-    hori.seen(omx, omy) = true;
-   } else if (omy < 0) {
-    omy += OMAPY;
-    cur_ter = vert.ter(omx, omy);
-    vert.seen(omx, omy) = true;
-   } else if (omy >= OMAPY) {
-    omy -= OMAPY;
-    cur_ter = vert.ter(omx, omy);
-    vert.seen(omx, omy) = true;
-   } else {
-    debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
-   }
-   ter_color = oterlist[cur_ter].color;
-   ter_sym = oterlist[cur_ter].sym;
-   if (i == 0 && j == 0)
-    mvwputch_hi(w_minimap, 3,     3,     ter_color, ter_sym);
-   else
-    mvwputch   (w_minimap, 3 + j, 3 + i, ter_color, ter_sym);
-  }
+// Set up adjacent overmaps
+ overmap hori, vert, diag;
+ if (cursx < 5)
+  hori = overmap(this, cur_om.posx - 1, cur_om.posy, cur_om.posz);
+ if (cursx > OMAPX - 6)
+  hori = overmap(this, cur_om.posx + 1, cur_om.posy, cur_om.posz);
+ if (cursy < 5)
+  vert = overmap(this, cur_om.posx, cur_om.posy - 1, cur_om.posz);
+ if (cursy > OMAPY - 6)
+  vert = overmap(this, cur_om.posx, cur_om.posy + 1, cur_om.posz);
+
+ if (cursx < 5) {
+  if (cursy < 5)
+   diag = overmap(this, cur_om.posx - 1, cur_om.posy - 1, cur_om.posz);
+  else if (cursy > OMAPY - 6)
+   diag = overmap(this, cur_om.posx - 1, cur_om.posy + 1, cur_om.posz);
+ } else if (cursx > OMAPX - 6) {
+  if (cursy < 5)
+   diag = overmap(this, cur_om.posx + 1, cur_om.posy - 1, cur_om.posz);
+  else if (cursy > OMAPY - 6)
+   diag = overmap(this, cur_om.posx + 1, cur_om.posy + 1, cur_om.posz);
  }
-// Two spaces away!
- int barx, bary;
+
  for (int i = -2; i <= 2; i++) {
   for (int j = -2; j <= 2; j++) {
-   omx = cursx + i;
-   omy = cursy + j;
-   barx = cursx + sgn(i);
-   bary = cursy + sgn(j);
-   if (abs(i) == 2 || abs(j) == 2) {
-    if (i == 0) barx = cursx;
-    if (j == 0) bary = cursy;
-    seen = false;
-    if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY)
-     seen = cur_om.seen(omx, omy);
-           if (barx >= 0 && barx < OMAPX && bary >= 0 && bary < OMAPY) {
-     cur_ter = cur_om.ter(barx, bary);
-    } else if ((barx < 0 || barx >= OMAPX) && (bary < 0 || bary >= OMAPY)) {
-     cur_ter = ot_null;
-    } else if (barx < 0) {
-     barx += OMAPX;
-     cur_ter = hori.ter(barx, bary);
-    } else if (barx >= OMAPX) {
-     barx -= OMAPX;
-     cur_ter = hori.ter(barx, bary);
-    } else if (bary < 0) {
-     bary += OMAPY;
-     cur_ter = vert.ter(barx, bary);
-    } else if (bary >= OMAPY) {
-     bary -= OMAPY;
-     cur_ter = vert.ter(barx, bary);
-    }
-    if (oterlist[cur_ter].see_cost <= 2 || seen) {
-            if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) {
-      cur_ter = cur_om.ter(omx, omy);
-      cur_om.seen(omx, omy) = true;
-     } else if ((omx < 0 || omx >= OMAPX) && (omy < 0 || omy >= OMAPY)) {
-      cur_ter = ot_null;
-     } else if (omx < 0) {
-      omx += OMAPX;
-      cur_ter = hori.ter(omx, omy);
-      hori.seen(omx, omy) = true;
-     } else if (omx >= OMAPX) {
-      omx -= OMAPX;
-      cur_ter = hori.ter(omx, omy);
-      hori.seen(omx, omy) = true;
-     } else if (omy < 0) {
-      omy += OMAPY;
-      cur_ter = vert.ter(omx, omy);
-      vert.seen(omx, omy) = true;
-     } else if (omy >= OMAPY) {
-      omy -= OMAPY;
-      cur_ter = vert.ter(omx, omy);
-      vert.seen(omx, omy) = true;
-     }
-     ter_color = oterlist[cur_ter].color;
-     ter_sym = oterlist[cur_ter].sym;
-     mvwputch(w_minimap, 3 + j, 3 + i, ter_color, ter_sym);
-    }
+   int omx = cursx + i;
+   int omy = cursy + j;
+   bool seen = false;
+   oter_id cur_ter;
+   if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) {
+    cur_ter = cur_om.ter(omx, omy);
+    seen    = cur_om.seen(omx, omy);
+   } else if ((omx < 0 || omx >= OMAPX) && (omy < 0 || omy >= OMAPY)) {
+    if (omx < 0) omx += OMAPX;
+    else         omx -= OMAPX;
+    if (omy < 0) omy += OMAPY;
+    else         omy -= OMAPY;
+    cur_ter = diag.ter(omx, omy);
+    seen    = diag.seen(omx, omy);
+   } else if (omx < 0 || omx >= OMAPX) {
+    if (omx < 0) omx += OMAPX;
+    else         omx -= OMAPX;
+    cur_ter = hori.ter(omx, omy);
+    seen    = hori.seen(omx, omy);
+   } else if (omy < 0 || omy >= OMAPY) {
+    if (omy < 0) omy += OMAPY;
+    else         omy -= OMAPY;
+    cur_ter = vert.ter(omx, omy);
+    seen    = vert.seen(omx, omy);
+   } else
+    debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
+   nc_color ter_color = oterlist[cur_ter].color;
+   long ter_sym = oterlist[cur_ter].sym;
+   if (seen) {
+    if (i == 0 && j == 0)
+     mvwputch_hi(w_minimap, 3,     3,     ter_color, ter_sym);
+    else
+     mvwputch   (w_minimap, 3 + j, 3 + i, ter_color, ter_sym);
    }
   }
  }
@@ -2178,12 +2123,19 @@ faction* game::random_evil_faction()
 bool game::sees_u(int x, int y, int &t)
 {
  return (!u.has_active_bionic(bio_cloak) &&
+         !u.has_artifact_with(AEP_INVISIBLE) && 
          m.sees(x, y, u.posx, u.posy, light_level(), t));
 }
 
 bool game::u_see(int x, int y, int &t)
 {
- return m.sees(u.posx, u.posy, x, y, u.sight_range(light_level()), t);
+ int range = u.sight_range(light_level());
+ if (u.has_artifact_with(AEP_CLAIRVOYANCE)) {
+  int crange = (range > u.clairvoyance() ? u.clairvoyance() : range);
+  if (rl_dist(u.posx, u.posy, x, y) <= crange)
+   return true;
+ }
+ return m.sees(u.posx, u.posy, x, y, range, t);
 }
 
 bool game::u_see(monster *mon, int &t)
@@ -2192,6 +2144,11 @@ bool game::u_see(monster *mon, int &t)
      rl_dist(u.posx, u.posy, mon->posx, mon->posy) > 1)
   return false;	// Can't see digging monsters until we're right next to them
  int range = u.sight_range(light_level());
+ if (u.has_artifact_with(AEP_CLAIRVOYANCE)) {
+  int crange = (range > u.clairvoyance() ? u.clairvoyance() : range);
+  if (rl_dist(u.posx, u.posy, mon->posx, mon->posy) <= crange)
+   return true;
+ }
  return m.sees(u.posx, u.posy, mon->posx, mon->posy, range, t);
 }
 
@@ -5324,8 +5281,95 @@ void game::update_map(int &x, int &y)
   for (int j = 0; j < SEEY * 3; j++)
    scent(i, j) = newscent[i][j];
  }
+// Update what parts of the world map we can see
+ update_overmap_seen();
  draw_minimap();
  save(); // We autosave every time the map gets updated.
+}
+
+void game::update_overmap_seen()
+{
+ overmap hori, vert, diag;
+ int omx = (levx + 1) / 2, omy = (levy + 1) / 2;
+ if (omy < 40)
+  vert = overmap(this, cur_om.posx, cur_om.posy - 1, cur_om.posz);
+ if (omy > OMAPY - 41)
+  vert = overmap(this, cur_om.posx, cur_om.posy + 1, cur_om.posz);
+
+ if (omx < 40) {
+  hori = overmap(this, cur_om.posx - 1, cur_om.posy, cur_om.posz);
+  if (omy < 40)
+   diag = overmap(this, cur_om.posx - 1, cur_om.posy - 1, cur_om.posz);
+  else if (omy > OMAPY - 41)
+   diag = overmap(this, cur_om.posx - 1, cur_om.posy + 1, cur_om.posz);
+ } else if (omx > OMAPX - 41) {
+  hori = overmap(this, cur_om.posx + 1, cur_om.posy, cur_om.posz);
+  if (omy < 40)
+   diag = overmap(this, cur_om.posx + 1, cur_om.posy - 1, cur_om.posz);
+  else if (omy > OMAPY - 41)
+   diag = overmap(this, cur_om.posx + 1, cur_om.posy + 1, cur_om.posz);
+ }
+
+ int dist = u.overmap_sight_range(light_level());
+ cur_om.seen(omx, omy) = true; // We can always see where we're standing
+ bool altered_vert = false, altered_diag = false, altered_hori = false;
+ for (int x = omx - dist; x <= omx + dist; x++) {
+  for (int y = omy - dist; y <= omy + dist; y++) {
+   std::vector<point> line = line_to(omx, omy, x, y, 0);
+   int sight_points = dist;
+   for (int i = 0; i < line.size() && sight_points >= 0; i++) {
+    int cost;
+    int lx = line[i].x, ly = line[i].y;
+    if (lx >= 0 && lx < OMAPX && ly >= 0 && ly < OMAPY)
+     cost = oterlist[cur_om.ter(lx, ly)].see_cost;
+    else if ((lx < 0 || lx >= OMAPX) && (ly < 0 || ly >= OMAPY)) {
+     if (lx < 0) lx += OMAPX;
+     else        lx -= OMAPX;
+     if (ly < 0) ly += OMAPY;
+     else        ly -= OMAPY;
+     cost = oterlist[diag.ter(lx, ly)].see_cost;
+    } else if (lx < 0 || lx >= OMAPX) {
+     if (lx < 0) lx += OMAPX;
+     else        lx -= OMAPX;
+     cost = oterlist[hori.ter(lx, ly)].see_cost;
+    } else if (ly < 0 || ly >= OMAPY) {
+     if (ly < 0) ly += OMAPY;
+     else        ly -= OMAPY;
+     cost = oterlist[vert.ter(lx, ly)].see_cost;
+    }
+    sight_points -= cost;
+   }
+   if (sight_points >= 0) {
+    int tmpx = x, tmpy = y;
+    if (tmpx >= 0 && tmpx < OMAPX && tmpy >= 0 && tmpy < OMAPY)
+     cur_om.seen(tmpx, tmpy) = true;
+    else if ((tmpx < 0 || tmpx >= OMAPX) && (tmpy < 0 || tmpy >= OMAPY)) {
+     if (tmpx < 0) tmpx += OMAPX;
+     else          tmpx -= OMAPX;
+     if (tmpy < 0) tmpy += OMAPY;
+     else          tmpy -= OMAPY;
+     diag.seen(tmpx, tmpy) = true;
+     altered_diag = true;
+    } else if (tmpx < 0 || tmpx >= OMAPX) {
+     if (tmpx < 0) tmpx += OMAPX;
+     else          tmpx -= OMAPX;
+     hori.seen(tmpx, tmpy) = true;
+     altered_hori = true;
+    } else if (tmpy < 0 || tmpy >= OMAPY) {
+     if (tmpy < 0) tmpy += OMAPY;
+     else          tmpy -= OMAPY;
+     vert.seen(tmpx, tmpy) = true;
+     altered_vert = true;
+    }
+   }
+  }
+ }
+ if (altered_vert)
+  vert.save(u.name);
+ if (altered_hori)
+  hori.save(u.name);
+ if (altered_diag)
+  diag.save(u.name);
 }
 
 void game::replace_stair_monsters()

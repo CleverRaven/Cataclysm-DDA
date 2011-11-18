@@ -124,6 +124,7 @@ class game
   point look_around();// Look at nearby terrain	';'
   void refresh_all();
   void update_map(int &x, int &y);  // Called by plmove when the map updates
+  void update_overmap_seen(); // Update which overmap tiles we can see
 
   faction* random_good_faction();
   faction* random_evil_faction();
@@ -292,6 +293,7 @@ class game
   quit_status uquit;    // Set to true if the player quits ('Q')
 
   calendar nextspawn; // The turn on which monsters will spawn next.
+  calendar nextweather; // The turn on which weather will shift next.
   int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
   signed char temperature;              // The air temperature
   weather_type weather;			// Weather pattern--SEE weather.h

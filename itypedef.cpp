@@ -889,6 +889,12 @@ MELEE("walking cane",   10, 160,'/', c_ltred,	WOOD,	MNULL,
 Handicapped or not, you always walk in style.  Consisting of a metal\n\
 headpiece and a wooden body, this makes a great bashing weapon in a pinch.");
 
+MELEE("binoculars",	20, 300,';', c_ltgray,	PLASTIC,GLASS,
+	  2,  3,  6,  0, -1, 0, "\
+A tool useful for seeing long distances.  Simply carrying this item in your\n\
+inventory will double the distance that is mapped around you during your\n\
+travels.");
+
 // ARMOR
 #define ARMOR(name,rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
 encumber,dmg_resist,cut_resist,env,warmth,storage,covers,des)\
