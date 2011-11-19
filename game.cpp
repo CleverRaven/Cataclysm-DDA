@@ -5103,7 +5103,12 @@ void game::vertical_move(int movez, bool force)
    } else if (z[i].friendly != 0) { // Friendly, make it into a static spawn
     map tmp;
     tmp.load(this, levx, levy);
-    tmp.add_spawn(mon_id(z[i].type->id), 1, z[i].posx % SEEX, z[i].posy % SEEY,
+    int spawnx = z[i].posx, spawny = z[i].posy;
+    while (spawnx < 0)
+     spawnx += SEEX;
+    while (spawny < 0)
+     spawny += SEEY;
+    tmp.add_spawn(mon_id(z[i].type->id), 1, spawnx % SEEX, spawny % SEEY,
                   true);
     tmp.save(&cur_om, turn, levx, levy);
    } else {

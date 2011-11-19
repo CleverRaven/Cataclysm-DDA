@@ -1506,6 +1506,10 @@ void map::spawn_monsters(game *g)
             tries < 10) {
       mx = (grid[n].spawns[i].posx + rng(-3, 3)) % SEEX;
       my = (grid[n].spawns[i].posy + rng(-3, 3)) % SEEY;
+      if (mx < 0)
+       mx += SEEX;
+      if (my < 0)
+       my += SEEY;
       fx = mx + gx * SEEX;
       fy = my + gy * SEEY;
       tries++;
