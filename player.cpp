@@ -351,7 +351,7 @@ void player::load_info(game *g, std::string data)
   illness.push_back(illtmp);
  }
 
- int numadd;
+ int numadd = 0;
  addiction addtmp;
  dump >> numadd;
  for (int i = 0; i < numadd; i++) {
@@ -360,7 +360,7 @@ void player::load_info(game *g, std::string data)
   addictions.push_back(addtmp);
  }
 
- int numbio;
+ int numbio = 0;
  bionic biotmp;
  dump >> numbio;
  for (int i = 0; i < numbio; i++) {

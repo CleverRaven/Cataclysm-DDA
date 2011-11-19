@@ -1269,9 +1269,9 @@ void game::save()
  fout << int(turn) << " " << int(last_target) << " " << int(run_mode) << " " <<
          mostseen << " " << nextinv << " " << next_npc_id << " " <<
          next_faction_id << " " << next_mission_id << " " << int(nextspawn) <<
-         int(nextweather) << " " << weather << " " << int(temperature) << " " <<
-         levx << " " << levy << " " << levz << " " << cur_om.posx << " " <<
-         cur_om.posy << " " << std::endl;
+         " " << int(nextweather) << " " << weather << " " << int(temperature) <<
+         " " << levx << " " << levy << " " << levz << " " << cur_om.posx <<
+         " " << cur_om.posy << " " << std::endl;
 // Next, the scent map.
  for (int i = 0; i < SEEX * 3; i++) {
   for (int j = 0; j < SEEY * 3; j++)
