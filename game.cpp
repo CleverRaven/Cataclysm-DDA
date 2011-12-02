@@ -1254,6 +1254,7 @@ void game::load(std::string name)
  fin.close();
 // Now load up the master game data; factions (and more?)
  load_master();
+ set_adjacent_overmaps(true);
  draw();
 }
 
