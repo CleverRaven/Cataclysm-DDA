@@ -384,18 +384,39 @@ void trapfunc::pit_spikes(game *g, int x, int y)
   g->add_msg("The spikes impale your %s!", body_part_name(hit, side).c_str());
   g->u.hit(g, hit, side, 0, damage);
  }
+ if (one_in(4)) {
+  g->add_msg("The spears break!");
+  g->m.ter(x, y) = t_pit;
+  g->m.tr_at(x, y) = tr_pit;
+  for (int i = 0; i < 4; i++) { // 4 spears to a pit
+   if (one_in(3))
+    g->m.add_item(x, y, g->itypes[itm_spear_wood], g->turn);
+  }
+ }
  g->u.add_disease(DI_IN_PIT, -1, g);
 }
 
 void trapfuncm::pit_spikes(game *g, monster *z, int x, int y)
 {
  int junk;
- if (g->u_see(z, junk))
+ bool sees = g->u_see(z, junk);
+ if (sees)
   g->add_msg("The %s falls in a spiked pit!", z->name().c_str());
  if (z->hurt(rng(20, 50)))
   g->kill_mon(g->mon_at(x, y));
  else
   z->moves = -1000;
+
+ if (one_in(4)) {
+  if (sees)
+   g->add_msg("The spears break!");
+  g->m.ter(x, y) = t_pit;
+  g->m.tr_at(x, y) = tr_pit;
+  for (int i = 0; i < 4; i++) { // 4 spears to a pit
+   if (one_in(3))
+    g->m.add_item(x, y, g->itypes[itm_spear_wood], g->turn);
+  }
+ }
 }
 
 void trapfunc::sinkhole(game *g, int x, int y)
@@ -471,8 +492,8 @@ void trapfuncm::ledge(game *g, monster *z, int x, int y)
 void trapfunc::temple_flood(game *g, int x, int y)
 {
  g->add_msg("You step on a loose tile, and water starts to flood the room!");
- for (int i = 0; i < SEEX * 3; i++) {
-  for (int j = 0; j < SEEY * 3; j++) {
+ for (int i = 0; i < SEEX * MAPSIZE; i++) {
+  for (int j = 0; j < SEEY * MAPSIZE; j++) {
    if (g->m.tr_at(i, j) == tr_temple_flood)
     g->m.tr_at(i, j) = tr_null;
   }
@@ -484,8 +505,8 @@ void trapfunc::temple_toggle(game *g, int x, int y)
 {
  g->add_msg("You hear the grinding of shifting rock.");
  ter_id type = g->m.ter(x, y);
- for (int i = 0; i < SEEX * 3; i++) {
-  for (int j = 0; j < SEEY * 3; j++) {
+ for (int i = 0; i < SEEX * MAPSIZE; i++) {
+  for (int j = 0; j < SEEY * MAPSIZE; j++) {
    switch (type) {
     case t_floor_red:
      if (g->m.ter(i, j) == t_rock_green)

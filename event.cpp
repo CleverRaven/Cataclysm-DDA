@@ -50,8 +50,8 @@ void event::actualize(game *g)
     int tries = 0;
     int monx = -1, mony = -1;
     do {
-     monx = rng(0, SEEX * 3);
-     mony = rng(0, SEEY * 3);
+     monx = rng(0, SEEX * MAPSIZE);
+     mony = rng(0, SEEY * MAPSIZE);
      tries++;
     } while (tries < 10 && !g->is_empty(monx, mony) &&
              rl_dist(g->u.posx, g->u.posx, monx, mony) <= 2);
@@ -68,8 +68,8 @@ void event::actualize(game *g)
    int num_horrors = rng(3, 5);
    int faultx = -1, faulty = -1;
    bool horizontal;
-   for (int x = 0; x < SEEX * 3 && faultx == -1; x++) {
-    for (int y = 0; y < SEEY * 3 && faulty == -1; y++) {
+   for (int x = 0; x < SEEX * MAPSIZE && faultx == -1; x++) {
+    for (int y = 0; y < SEEY * MAPSIZE && faulty == -1; y++) {
      if (g->m.ter(x, y) == t_fault) {
       faultx = x;
       faulty = y;
@@ -87,13 +87,13 @@ void event::actualize(game *g)
     do {
      tries = 0;
      if (horizontal) {
-      monx = rng(0, SEEX * 3);
+      monx = rng(0, SEEX * MAPSIZE);
       for (int n = -1; n <= 1; n++) {
        if (g->m.ter(monx, faulty + n) == t_rock_floor)
         mony = faulty + n;
       }
      } else { // Vertical fault
-      mony = rng(0, SEEY * 3);
+      mony = rng(0, SEEY * MAPSIZE);
       for (int n = -1; n <= 1; n++) {
        if (g->m.ter(faultx + n, mony) == t_rock_floor)
         monx = faultx + n;
@@ -107,8 +107,8 @@ void event::actualize(game *g)
   } break;
 
   case EVENT_ROOTS_DIE:
-   for (int x = 0; x < SEEX * 3; x++) {
-    for (int y = 0; y < SEEY * 3; y++) {
+   for (int x = 0; x < SEEX * MAPSIZE; x++) {
+    for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_root_wall && one_in(3))
       g->m.ter(x, y) = t_underbrush;
     }
@@ -117,8 +117,8 @@ void event::actualize(game *g)
 
   case EVENT_TEMPLE_OPEN: {
    bool saw_grate = false;
-   for (int x = 0; x < SEEX * 3; x++) {
-    for (int y = 0; y < SEEY * 3; y++) {
+   for (int x = 0; x < SEEX * MAPSIZE; x++) {
+    for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_grate) {
       g->m.ter(x, y) = t_stairs_down;
       int j;
@@ -134,12 +134,12 @@ void event::actualize(game *g)
   case EVENT_TEMPLE_FLOOD: {
    bool flooded = false;
    map copy;
-   for (int x = 0; x < SEEX * 3; x++) {
-    for (int y = 0; y < SEEY * 3; y++)
+   for (int x = 0; x < SEEX * MAPSIZE; x++) {
+    for (int y = 0; y < SEEY * MAPSIZE; y++)
      copy.ter(x, y) = g->m.ter(x, y);
    }
-   for (int x = 0; x < SEEX * 3; x++) {
-    for (int y = 0; y < SEEY * 3; y++) {
+   for (int x = 0; x < SEEX * MAPSIZE; x++) {
+    for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_water_sh) {
       bool deepen = false;
       for (int wx = x - 1;  wx <= x + 1 && !deepen; wx++) {
@@ -179,8 +179,8 @@ void event::actualize(game *g)
     }
    }
 // copy is filled with correct tiles; now copy them back to g->m
-   for (int x = 0; x < SEEX * 3; x++) {
-    for (int y = 0; y < SEEY * 3; y++)
+   for (int x = 0; x < SEEX * MAPSIZE; x++) {
+    for (int y = 0; y < SEEY * MAPSIZE; y++)
      g->m.ter(x, y) = copy.ter(x, y);
    }
    g->add_event(EVENT_TEMPLE_FLOOD, int(g->turn) + rng(2, 3));

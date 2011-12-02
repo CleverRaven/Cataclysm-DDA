@@ -13,6 +13,8 @@
 #include "monster.h"
 #include "npc.h"
 
+#define MAPSIZE 11
+
 class player;
 class item;
 struct itype;
@@ -109,6 +111,7 @@ class map
 private:
  void saven(overmap *om, unsigned int turn, int x, int y, int gridx, int gridy);
  bool loadn(game *g, int x, int y, int gridx, int gridy);
+ void copy_grid(int to, int from);
  void draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                oter_id t_south, oter_id t_west, oter_id t_above, int turn,
                game *g);
@@ -116,7 +119,7 @@ private:
  void rotate(int turns);// Rotates the current map 90*turns degress clockwise
 			// Useful for houses, shops, etc
 
- submap grid[9];
+ submap grid[MAPSIZE * MAPSIZE];
  std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
  ter_id nulter;	// Returned when &ter() is asked for an OOB value
  trap_id nultrap; // Returned when &tr_at() is asked for an OOB value

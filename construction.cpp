@@ -10,7 +10,8 @@
 
 #define PICKUP_RANGE 2
 
-bool will_flood_stop(map *m, bool fill[SEEX * 3][SEEY *3], int x, int y);
+bool will_flood_stop(map *m, bool fill[SEEX * MAPSIZE][SEEY * MAPSIZE],
+                     int x, int y);
 
 void game::init_construction()
 {
@@ -64,7 +65,7 @@ void game::init_construction()
                                      &construct::done_window_pane);
   STAGE(t_window_empty, 10);
    TOOL(itm_hammer, itm_rock, itm_hatchet, NULL);
-   TOOL(itm_screwdriver, itm_knife_butter, NULL);
+   TOOL(itm_screwdriver, itm_knife_butter, itm_toolset, NULL);
 
  CONSTRUCT("Repair Door", 1, &construct::able_door_broken,
                              &construct::done_nothing);
@@ -509,9 +510,9 @@ bool construct::able_wall_wood(game *g, point p)
 
 bool construct::able_between_walls(game *g, point p)
 {
- bool fill[SEEX * 3][SEEY * 3];
- for (int x = 0; x < SEEX * 3; x++) {
-  for (int y = 0; y < SEEY * 3; y++)
+ bool fill[SEEX * MAPSIZE][SEEY * MAPSIZE];
+ for (int x = 0; x < SEEX * MAPSIZE; x++) {
+  for (int y = 0; y < SEEY * MAPSIZE; y++)
    fill[x][y] = false;
  }
 
@@ -528,9 +529,10 @@ bool construct::able_pit(game *g, point p)
  return (g->m.ter(p.x, p.y) == t_pit);//|| g->m.ter(p.x, p.y) == t_pit_shallow);
 }
 
-bool will_flood_stop(map *m, bool fill[SEEX * 3][SEEY * 3], int x, int y)
+bool will_flood_stop(map *m, bool fill[SEEX * MAPSIZE][SEEY * MAPSIZE],
+                     int x, int y)
 {
- if (x == 0 || y == 0 || x == SEEX * 3 - 1 || y == SEEY * 3 - 1)
+ if (x == 0 || y == 0 || x == SEEX * MAPSIZE - 1 || y == SEEY * MAPSIZE - 1)
   return false;
 
  fill[x][y] = true;

@@ -142,6 +142,9 @@ char game::inv(std::string title)
      wprintw(w_inv, " [%d]", u.inv.stack_at(cur_it).size());
     if (u.inv[cur_it].charges > 0)
      wprintw(w_inv, " (%d)", u.inv[cur_it].charges);
+    else if (u.inv[cur_it].contents.size() == 1 &&
+             u.inv[cur_it].contents[0].charges > 0)
+     wprintw(w_inv, " (%d)", u.inv[cur_it].contents[0].charges);
    }
    cur_line++;
   }
@@ -217,6 +220,9 @@ std::vector<item> game::multidrop()
      wprintz(w_inv, col, " [%d]", u.inv.stack_at(cur_it).size());
     if (u.inv[cur_it].charges > 0)
      wprintz(w_inv, col, " (%d)", u.inv[cur_it].charges);
+    else if (u.inv[cur_it].contents.size() == 1 &&
+             u.inv[cur_it].contents[0].charges > 0)
+     wprintw(w_inv, " (%d)", u.inv[cur_it].contents[0].charges);
    }
    cur_line++;
   }

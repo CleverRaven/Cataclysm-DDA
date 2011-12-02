@@ -21,6 +21,7 @@ enum items_location {
  mi_novels, mi_manuals, mi_textbooks,
  mi_cop_weapons, mi_cop_evidence,
  mi_office, mi_vault,
+ mi_pawn, mi_mil_surplus,
  mi_chemistry, mi_teleport, mi_goo, mi_cloning_vat, mi_dissection,
  mi_hydro, mi_electronics, mi_monparts, mi_bionics, mi_bionics_common,
  mi_bots, mi_launchers, mi_mil_rifles, mi_grenades, mi_mil_armor, mi_mil_food,

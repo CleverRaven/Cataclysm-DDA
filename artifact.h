@@ -17,9 +17,15 @@ enum art_effect_passive {
  AEP_SNAKES, // Summons friendly snakes when you're hit
  AEP_INVISIBLE, // Makes you invisible
  AEP_CLAIRVOYANCE, // See through walls
+ AEP_STEALTH, // Your steps are quieted
+ AEP_EXTINGUISH, // May extinguish nearby flames
+ AEP_GLOW, // Four-tile light source
+ AEP_PSYSHIELD, // Protection from stare attacks
 // Splits good from bad
  AEP_SPLIT,
 // Bad
+ AEP_HUNGER, // Increases hunger
+ AEP_THIRST, // Increases thirst
  AEP_SMOKE, // Emits smoke occasionally
  AEP_EVIL, // Addiction to the power
  AEP_SCHIZO, // Mimicks schizophrenia

@@ -204,9 +204,10 @@ void mattack::resurrect(game *g, monster *z)
    if (g->m.i_at(x, y)[n].type->id == itm_corpse && one_in(2)) {
     if (g->u_see(x, y, junk))
      raised++;
+    int burnt_penalty = g->m.i_at(x, y)[n].burnt;
     monster mon(g->m.i_at(x, y)[n].corpse, x, y);
-    mon.speed = int(mon.speed * .8);	// Raised corpses are slower
-    mon.hp    = int(mon.hp    * .7);	// Raised corpses are weaker
+    mon.speed = int(mon.speed * .8) - burnt_penalty / 2;
+    mon.hp    = int(mon.hp    * .7) - burnt_penalty;
     g->m.i_rem(x, y, n);
     n = g->m.i_at(x, y).size();	// Only one body raised per tile
     g->z.push_back(mon);
@@ -540,7 +541,8 @@ void mattack::triffid_heartbeat(game *g, monster *z)
  g->sound(z->posx, z->posy, 14, "thu-THUMP.");
  z->moves -= 300;
  z->sp_timeout = z->type->sp_freq;
- if (z->posx < 0 || z->posx >= SEEX * 3 & z->posy < 0 && z->posy >= SEEY * 3)
+ if ((z->posx < 0 || z->posx >= SEEX * MAPSIZE) &&
+     (z->posy < 0 || z->posy >= SEEY * MAPSIZE)   )
   return;
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 5 &&
      !g->m.route(g->u.posx, g->u.posy, z->posx, z->posy).empty()) {
@@ -865,6 +867,12 @@ void mattack::tentacle(game *g, monster *z)
 
 void mattack::vortex(game *g, monster *z)
 {
+// Make sure that the player's butchering is interrupted!
+ if (g->u.activity.type == ACT_BUTCHER &&
+     rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) <= 2) {
+  g->add_msg("The buffeting winds interrupt your butchering!");
+  g->u.activity.type = ACT_NULL;
+ }
  int t;
 // Moves are NOT used up by this attack, as it is "passive"
  z->sp_timeout = z->type->sp_freq;
@@ -1069,7 +1077,9 @@ void mattack::fear_paralyze(game *g, monster *z)
  int t;
  if (g->u_see(z->posx, z->posy, t)) {
   z->sp_timeout = z->type->sp_freq;	// Reset timer
-  if (rng(1, 20) > g->u.int_cur) {
+  if (g->u.has_artifact_with(AEP_PSYSHIELD)) {
+   g->add_msg("The %s probes your mind, but is rebuffed!", z->name().c_str());
+  } else if (rng(1, 20) > g->u.int_cur) {
    g->add_msg("The terrifying visage of the %s paralyzes you.",
               z->name().c_str());
    g->u.moves -= 100;
@@ -1231,10 +1241,9 @@ void mattack::multi_robot(game *g, monster *z)
  if (mode == 0)
   return;	// No attacks were valid!
 
- mattack tmp;
  switch (mode) {
-  case 1: tmp.tazer(g, z);        break;
-  case 2: tmp.flamethrower(g, z); break;
-  case 3: tmp.smg(g, z);          break;
+  case 1: this->tazer(g, z);        break;
+  case 2: this->flamethrower(g, z); break;
+  case 3: this->smg(g, z);          break;
  }
 }

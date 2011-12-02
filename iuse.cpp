@@ -782,6 +782,7 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
   count -= rng(0, 2);
  if (dice(3, 3) > p->dex_cur)
   count -= rng(1, 3);
+
  if (count <= 0) {
   g->add_msg("You clumsily cut the %s into useless ribbons.",
              cut->tname().c_str());
@@ -1878,6 +1879,8 @@ void iuse::mp3(game *g, player *p, item *it, bool t)
 {
  if (it->charges == 0)
   g->add_msg("The mp3 player's batteries are dead.");
+ else if (p->has_active_item(itm_mp3_on))
+  g->add_msg("You are already listening to an mp3 player!");
  else {
   g->add_msg("You put in the earbuds and start listening to music.");
   it->make(g->itypes[itm_mp3_on]);
@@ -2159,7 +2162,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
       empty.push_back( point(x, y) );
     }
    }
-   if (empty.empty() == 0 || roll <= 4)
+   if (empty.empty() || roll <= 4)
     g->add_msg("Flies buzz around you.");
    else if (roll <= 7) {
     g->add_msg("Giant flies appear!");
@@ -2176,6 +2179,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    }
    if (bug != mon_null) {
     monster spawned(g->mtypes[bug]);
+    spawned.friendly = -1;
     for (int i = 0; i < num && !empty.empty(); i++) {
      int index = rng(0, empty.size() - 1);
      point spawnp = empty[index];

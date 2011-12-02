@@ -3844,6 +3844,166 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(3);
  } break;
 
+ case ot_pawn_north:
+ case ot_pawn_east:
+ case ot_pawn_south:
+ case ot_pawn_west:
+// Init to plain grass/dirt
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++)
+    ter(i, j) = grass_or_dirt();
+  }
+
+  tw = rng(0, 10);
+  bw = SEEY * 2 - rng(1, 2) - rng(0, 1) * rng(0, 1);
+  lw = rng(0, 4);
+  rw = SEEX * 2 - rng(1, 5);
+  if (tw >= 6) { // Big enough for its own parking lot
+   square(this, t_pavement, 0, 0, SEEX * 2 - 1, tw - 1);
+   for (int i = rng(0, 1); i < SEEX * 2; i += 4)
+    line(this, t_pavement_y, i, 1, i, tw - 1);
+  }
+// Floor and walls
+  square(this, t_floor, lw, tw, rw, bw);
+  line(this, t_wall_h, lw, tw, rw, tw);
+  line(this, t_wall_h, lw, bw, rw, bw);
+  line(this, t_wall_v, lw, tw + 1, lw, bw - 1);
+  line(this, t_wall_v, rw, tw + 1, rw, bw - 1);
+// Doors and windows--almost certainly alarmed
+  if (one_in(15)) {
+   line(this, t_window, lw + 2, tw, lw + 5, tw);
+   line(this, t_window, rw - 5, tw, rw - 2, tw);
+   line(this, t_door_locked, SEEX, tw, SEEX + 1, tw);
+  } else {
+   line(this, t_window_alarm, lw + 2, tw, lw + 5, tw);
+   line(this, t_window_alarm, rw - 5, tw, rw - 2, tw);
+   line(this, t_door_locked_alarm, SEEX, tw, SEEX + 1, tw);
+  }
+// Some display racks by the left and right walls
+  line(this, t_rack, lw + 1, tw + 1, lw + 1, bw - 1);
+  place_items(mi_pawn, 82, lw + 1, tw + 1, lw + 1, bw - 1, false, 0);
+  line(this, t_rack, rw - 1, tw + 1, rw - 1, bw - 1);
+  place_items(mi_pawn, 82, rw - 1, tw + 1, rw - 1, bw - 1, false, 0);
+// Some display counters
+  line(this, t_counter, lw + 4, tw + 2, lw + 4, bw - 3);
+  place_items(mi_pawn, 60, lw + 4, tw + 2, lw + 4, bw - 3, false, 0);
+  line(this, t_counter, rw - 4, tw + 2, rw - 4, bw - 3);
+  place_items(mi_pawn, 60, rw - 4, tw + 2, rw - 4, bw - 3, false, 0);
+// More display counters, if there's room for them
+  if (rw - lw >= 18 && one_in(rw - lw - 17)) {
+   for (int j = tw + rng(3, 5); j <= bw - 3; j += 3) {
+    line(this, t_counter, lw + 6, j, rw - 6, j);
+    place_items(mi_pawn, 58, lw + 6, j, rw - 6, j, false, 0);
+   }
+  }
+// Finally, place an office sometimes
+  if (!one_in(5)) {
+   if (one_in(2)) { // Office on the left side
+    int office_top = bw - rng(3, 5), office_right = lw + rng(4, 7);
+// Clear out any items in that area!  And reset to floor.
+    for (int i = lw + 1; i <= office_right; i++) {
+     for (int j = office_top; j <= bw - 1; j++) {
+      i_clear(i, j);
+      ter(i, j) = t_floor;
+     }
+    }
+    line(this, t_wall_h, lw + 1, office_top, office_right, office_top);
+    line(this, t_wall_v, office_right, office_top + 1, office_right, bw - 1);
+    ter(office_right, rng(office_top + 1, bw - 1)) = t_door_locked;
+    if (one_in(4)) // Back door
+     ter(rng(lw + 1, office_right - 1), bw) = t_door_locked_alarm;
+// Finally, add some stuff in there
+    place_items(mi_office, 70, lw + 1, office_top + 1, office_right - 1, bw - 1,
+                false, 0);
+    place_items(mi_homeguns, 50, lw + 1, office_top + 1, office_right - 1,
+                bw - 1, false, 0);
+    place_items(mi_harddrugs, 20, lw + 1, office_top + 1, office_right - 1,
+                bw - 1, false, 0);
+   } else { // Office on the right side
+    int office_top = bw - rng(3, 5), office_left = rw - rng(4, 7);
+    for (int i = office_left; i <= rw - 1; i++) {
+     for (int j = office_top; j <= bw - 1; j++) {
+      i_clear(i, j);
+      ter(i, j) = t_floor;
+     }
+    }
+    line(this, t_wall_h, office_left, office_top, rw - 1, office_top);
+    line(this, t_wall_v, office_left, office_top + 1, office_left, bw - 1);
+    ter(office_left, rng(office_top + 1, bw - 1)) = t_door_locked;
+    if (one_in(4)) // Back door
+     ter(rng(office_left + 1, rw - 1), bw) = t_door_locked_alarm;
+    place_items(mi_office, 70, office_left + 1, office_top + 1, rw - 1, bw - 1,
+                false, 0);
+    place_items(mi_homeguns, 50, office_left + 1, office_top + 1, rw - 1,
+                bw - 1, false, 0);
+    place_items(mi_harddrugs, 20, office_left + 1, office_top + 1, rw - 1,
+                bw - 1, false, 0);
+   }
+  }
+  if (terrain_type == ot_pawn_east)
+   rotate(1);
+  if (terrain_type == ot_pawn_south)
+   rotate(2);
+  if (terrain_type == ot_pawn_west)
+   rotate(3);
+  break;
+
+ case ot_mil_surplus_north:
+ case ot_mil_surplus_east:
+ case ot_mil_surplus_south:
+ case ot_mil_surplus_west:
+// Init to plain grass/dirt
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++)
+    ter(i, j) = grass_or_dirt();
+  }
+  lw = rng(0, 2);
+  rw = SEEX * 2 - rng(1, 3);
+  tw = rng(0, 4);
+  bw = SEEY * 2 - rng(3, 8);
+  square(this, t_floor, lw, tw, rw, bw);
+  line(this, t_wall_h, lw, tw, rw, tw);
+  line(this, t_wall_h, lw, bw, rw, bw);
+  line(this, t_wall_v, lw, tw + 1, lw, bw - 1);
+  line(this, t_wall_v, rw, tw + 1, rw, bw - 1);
+  rn = rng(4, 7);
+  line(this, t_window, lw + 2, tw, lw + rn, tw);
+  line(this, t_window, rw - rn, tw, rw - 2, tw);
+  line(this, t_door_c, SEEX, tw, SEEX + 1, tw);
+  if (one_in(2)) // counter on left
+   line(this, t_counter, lw + 2, tw + 1, lw + 2, tw + rng(3, 4));
+  else // counter on right
+   line(this, t_counter, rw - 2, tw + 1, rw - 2, tw + rng(3, 4));
+  for (int i = lw + 1; i <= SEEX; i += 2) {
+   line(this, t_rack, i, tw + 5, i, bw - 2);
+   items_location loc;
+   if (one_in(3))
+    loc = mi_mil_armor;
+   else if (one_in(3))
+    loc = mi_mil_surplus;
+   else
+    loc = mi_mil_food;
+   place_items(loc, 70, i, tw + 5, i, bw - 2, false, 0);
+  }
+  for (int i = rw - 1; i >= SEEX + 1; i -= 2) {
+   line(this, t_rack, i, tw + 5, i, bw - 2);
+   items_location loc;
+   if (one_in(3))
+    loc = mi_mil_armor;
+   else if (one_in(3))
+    loc = mi_mil_surplus;
+   else
+    loc = mi_mil_food;
+   place_items(loc, 70, i, tw + 5, i, bw - 2, false, 0);
+  }
+  if (terrain_type == ot_mil_surplus_east)
+   rotate(1);
+  if (terrain_type == ot_mil_surplus_south)
+   rotate(2);
+  if (terrain_type == ot_mil_surplus_west)
+   rotate(3);
+  break;
+
  case ot_megastore_entrance: {
   square(this, t_floor, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
 // Construct facing north; below, we'll rotate to face road
@@ -5172,7 +5332,7 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
 
 void map::add_spawn(mon_id type, int count, int x, int y, bool friendly)
 {
- if (x < 0 || x >= SEEX * 3 || y < 0 || y >= SEEY * 3) {
+ if (x < 0 || x >= SEEX * MAPSIZE || y < 0 || y >= SEEY * MAPSIZE) {
   debugmsg("Bad add_spawn(%d, %d, %d, %d)", type, count, x, y);
   return;
  }

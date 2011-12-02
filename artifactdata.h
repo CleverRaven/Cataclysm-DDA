@@ -18,9 +18,15 @@ int passive_effect_cost[NUM_AEPS] = {
 4,	// AEP_SNAKES
 7,	// AEP_INVISIBLE
 5,	// AEP_CLAIRVOYANCE
+2,	// AEP_STEALTH
+2,	// AEP_EXTINGUISH
+1,	// AEP_GLOW
+1,	// AEP_PSYSHIELD
 
 0,	// AEP_SPLIT
 
+-2,	// AEP_HUNGER
+-2,	// AEP_THIRST
 -1,	// AEP_SMOKE
 -6,	// AEP_EVIL
 -4,	// AEP_SCHIZO

@@ -2484,10 +2484,9 @@ void player::suffer(game *g)
     power_level--;
    } else {
     g->add_msg("You're drowning!");
-    hurt(g, bp_torso, 0, rng(2, 5));
+    hurt(g, bp_torso, 0, rng(1, 4));
    }
-  } else if (oxygen <= 5)
-   g->add_msg("You're almost out of air!  Press '<' to surface.");
+  }
  }
  for (int i = 0; i < illness.size(); i++) {
   dis_effect(g, *this, illness[i]);
@@ -2724,6 +2723,7 @@ void player::suffer(game *g)
      power_level >= max_power_level * .75)
   str_cur -= 3;
 
+// Artifact effects
  if (has_artifact_with(AEP_ATTENTION))
   add_disease(DI_ATTENTION, 3, g);
 
@@ -3579,6 +3579,10 @@ bool player::wield(game *g, int index)
  }
  if (!is_armed()) {
   weapon = inv.remove_item(index);
+  if (weapon.is_artifact() && weapon.is_tool()) {
+   it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
+   g->add_artifact_messages(art->effects_wielded);
+  }
   moves -= 30;
   return true;
  } else if (volume_carried() + weapon.volume() - inv[index].volume() <
@@ -3588,6 +3592,10 @@ bool player::wield(game *g, int index)
   inv.remove_item(index);
   inv_sorted = false;
   moves -= 45;
+  if (weapon.is_artifact() && weapon.is_tool()) {
+   it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
+   g->add_artifact_messages(art->effects_wielded);
+  }
   return true;
  } else if (query_yn("No space in inventory for your %s.  Drop it?",
                      weapon.tname(g).c_str())) {
@@ -3596,6 +3604,10 @@ bool player::wield(game *g, int index)
   inv.remove_item(index);
   inv_sorted = false;
   moves -= 30;
+  if (weapon.is_artifact() && weapon.is_tool()) {
+   it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
+   g->add_artifact_messages(art->effects_wielded);
+  }
   return true;
  }
 
@@ -3655,6 +3667,10 @@ bool player::wear(game *g, char let)
   return false;
  }
  g->add_msg("You put on your %s.", to_wear->tname(g).c_str());
+ if (to_wear->is_artifact()) {
+  it_artifact_armor *art = dynamic_cast<it_artifact_armor*>(to_wear->type);
+  g->add_artifact_messages(art->effects_worn);
+ }
  moves -= 350; // TODO: Make this variable?
  worn.push_back(*to_wear);
  if (index == -2)

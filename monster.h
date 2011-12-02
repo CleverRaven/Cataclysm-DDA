@@ -115,6 +115,7 @@ class monster {
  int faction_id; // If we belong to a faction
  mtype *type;
  bool dead;
+ bool made_footstep;
 
 private:
  std::vector <point> plans;

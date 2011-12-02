@@ -81,7 +81,7 @@ mon("dog",		'd',	c_white,	MS_SMALL,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_SMELLS)|mfb(MF_HEARS)|mfb(MF_ANIMAL)|mfb(MF_WARM)|
 	 mfb(MF_FUR)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	 3,  5,  1,150, 12,  2,  3,  3,  3,  0,  0, 25,  0,
+	 1,   5,  1,150, 12,  2,  3,  3,  3,  0,  0, 25,  0,
 	&mdeath::normal,	&mattack::none, "\
 A medium-sized domesticated dog, gone feral."
 );
@@ -269,7 +269,7 @@ mon("zombie hulk",	'Z',	c_blue,		MS_HUGE,	FLESH,
 	(mfb(MF_SEES)|mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_WARM)|mfb(MF_BASHES)|
 	 mfb(MF_DESTROYS)|mfb(MF_POISON)|mfb(MF_ATTACKMON)|mfb(MF_LEATHER)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  1, 50,  5,130, 9,  4,  8,  0,  0,  12, 80,260,  0,
+	  1, 50,  5,130,  9,  4,  8,  0,  0, 12, 80,260,  0,
 	&mdeath::normal,	&mattack::none, "\
 A zombie that has somehow grown to the size of\n\
 6 men, with arms as wide as a trash can."
@@ -281,7 +281,7 @@ mon("fungal zombie",	'Z',	c_ltgray,	MS_MEDIUM,	FLESH,
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
 	  2,  6,  5, 45,  6,  1,  6,  0,  0,  0, 20, 40, 50,
 	&mdeath::normal,	&mattack::fungus, "\
-A disease zombie. Fungus sprouts from its\n\
+A diseased zombie. Fungus sprouts from its\n\
 mouth and eyes, and thick gray mold grows all\n\
 over its translucent flesh."
 );
@@ -427,7 +427,7 @@ mobility and a weak attack."
 mon("fungaloid",	'F',	c_ltgray,	MS_MEDIUM,	VEGGY,
 	(mfb(MF_HEARS)|mfb(MF_SMELLS)|mfb(MF_POISON)|mfb(MF_NOHEAD)),
 //	frq dif agr spd msk mdi m## cut dge arm itm  HP special freq
-	  0,  0,  4,  1,  8,  3,  5,  0,  0,  0,  0,  1, 0,
+	  0,  0,  4,  1,  8,  2,  4,  0,  0,  0,  0,  1, 0,
 	&mdeath::fungusawake,	&mattack::none, "\
 A pale white fungus, one meaty gray stalk\n\
 supporting a bloom at the top. A few\n\

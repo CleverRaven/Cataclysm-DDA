@@ -417,8 +417,13 @@ FOOD("pizza",		 8, 80, c_ltred,	VEGGY,	itm_box_small,
 A vegetarian pizza, with delicious tomato sauce and a fluffy crust.  Its\n\
 smell brings back great memories.");
 
-FOOD("MRE",		50,100, c_green,	FLESH,	itm_null,
+FOOD("MRE - beef",		50,100, c_green,	FLESH,	itm_null,
     2,  1,  0, 50,  0,  0,  1,  0,  1, -4,	&iuse::none,	ADD_NULL, "\
+Meal Ready to Eat.  A military ration.  Though not very tasty, it is very\n\
+filling and will not spoil.");
+
+FOOD("MRE - vegetable",		50,100, c_green,	VEGGY,	itm_null,
+    2,  1,  0, 40,  0,  0,  1,  0,  1, -4,	&iuse::none,	ADD_NULL, "\
 Meal Ready to Eat.  A military ration.  Though not very tasty, it is very\n\
 filling and will not spoil.");
 
@@ -576,7 +581,7 @@ MELEE("syringe",	 8, 25, ',', c_ltcyan,	PLASTIC,MNULL,
 A medical syringe.  Used for administering heroin and other drugs.");
 
 MELEE("rag",		72, 10, ';', c_dkgray,	COTTON,	MNULL,
-	 2,  1,-10,  0,  0, 0, "\
+	 1,  1,-10,  0,  0, 0, "\
 A small piece of cloth.  Useful for making molotov cocktails and not much else."
 );
 
@@ -1698,14 +1703,14 @@ GUN("compound bow",      2, 700,c_yellow,       STEEL,  PLASTIC,
 A bow with wheels that fires high velocity arrows.  Weaker people can use\n\
 compound bows more easily.  Arrows fired from this weapon have a good chance\n\
 of remaining intact for re-use.",
-mfb(IF_STR8_DRAW));
+mfb(IF_STR8_DRAW)|mfb(IF_RELOAD_AND_SHOOT));
         
 GUN("longbow",           5, 400,c_yellow,       WOOD,   MNULL,
         sk_archery,     AT_ARROW,8, 4, 10,  0,  0, 12,  0,  6,  0,  1, 400, "\
 A six-foot wooden bow that fires feathered arrows.  This takes a fair amount\n\
 of strength to draw.  Arrows fired from this weapon have a good chance of\n\
 remaining intact for re-use.",
-mfb(IF_STR10_DRAW));
+mfb(IF_STR10_DRAW)|mfb(IF_RELOAD_AND_SHOOT));
 
 GUN("pipe rifle: .22",	0,  400,c_ltblue,	IRON,	WOOD,
 sk_rifle,	AT_22,	 9, 13, 10,  2, -2, 15,  2,  6,  0,  1, 250, "\

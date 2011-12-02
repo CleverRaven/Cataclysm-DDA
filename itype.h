@@ -42,7 +42,7 @@ itm_apple, itm_orange, itm_lemon, itm_chips, itm_pretzels, itm_chocolate,
  itm_can_tuna, itm_can_catfood, itm_honeycomb, itm_royal_jelly, itm_fetus,
  itm_arm, itm_leg, itm_ant_egg, itm_marloss_berry, itm_flour, itm_sugar,
  itm_salt, itm_potato_raw, itm_potato_baked, itm_bread, itm_pie, itm_pizza,
- itm_mre, itm_tea_raw, itm_coffee_raw,
+ itm_mre_beef, itm_mre_veggy, itm_tea_raw, itm_coffee_raw,
 // Medication
 itm_bandages, itm_1st_aid, itm_vitamins, itm_aspirin, itm_caffeine,
  itm_pills_sleep, itm_iodine, itm_dayquil, itm_nyquil, itm_inhaler, itm_codeine,
@@ -197,6 +197,7 @@ IF_STR_RELOAD,  // Reloading time is reduced by Strength * 20
 IF_STR8_DRAW,   // Requires strength 8 to draw
 IF_STR10_DRAW,  // Requires strength 10 to draw
 IF_USE_UPS,	// Draws power from a UPS
+IF_RELOAD_AND_SHOOT, // Reloading and shooting is one action
 
 IF_AMMO_FLAME,		// Sets fire to terrain and monsters
 IF_AMMO_INCENDIARY,	// Sparks explosive terrain

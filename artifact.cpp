@@ -66,7 +66,7 @@ It may have unknown powers; use 'a' to activate them.";
   while (!good_effects.empty() && !bad_effects.empty() &&
          (num_good < 1 || num_bad < 1 || one_in(num_good + 1) ||
           one_in(num_bad + 1) || value > 1)) {
-   if (one_in(2)) { // Good
+   if (value < 1 && one_in(2)) { // Good
     int index = rng(0, good_effects.size() - 1);
     passive_tmp = good_effects[index];
     good_effects.erase(good_effects.begin() + index);
@@ -89,7 +89,7 @@ It may have unknown powers; use 'a' to activate them.";
   while (one_in(2) && !good_effects.empty() && !bad_effects.empty() &&
          ((num_good > 2 && one_in(num_good + 1)) || num_bad < 1 ||
           one_in(num_bad + 1) || value > 1)) {
-   if (one_in(3)) { // Good
+   if (value < 1 && one_in(3)) { // Good
     int index = rng(0, good_effects.size() - 1);
     passive_tmp = good_effects[index];
     good_effects.erase(good_effects.begin() + index);
@@ -218,9 +218,9 @@ It may have unknown powers; use 'a' to activate them.";
   std::vector<art_effect_passive> bad_effects = fill_bad_passive();
 
   while (!good_effects.empty() && !bad_effects.empty() &&
-         (num_good < 1 || one_in(num_good) || !one_in(3 - num_bad) ||
-          value > 1)) {
-   if (one_in(2)) { // Good effect
+         (num_good < 1 || one_in(num_good * 2) || value > 1 ||
+          (num_bad < 3 && !one_in(3 - num_bad)))) {
+   if (value < 1 && one_in(2)) { // Good effect
     int index = rng(0, good_effects.size() - 1);
     passive_tmp = good_effects[index];
     good_effects.erase(good_effects.begin() + index);
@@ -304,26 +304,27 @@ void game::process_artifact(item *it, player *p, bool wielded)
   if (it->charges < tool->max_charges) {
    switch (tool->charge_type) {
     case ARTC_TIME:
-     if (int(turn) % 300 == 0)
+     if (turn.second == 0 && turn.minute == 0) // Once per hour
       it->charges++;
      break;
     case ARTC_SOLAR:
-     if (int(turn) % 100 == 0 && is_in_sunlight(p->posx, p->posy))
+     if (turn.second == 0 && turn.minute % 10 == 0 &&
+         is_in_sunlight(p->posx, p->posy))
       it->charges++;
      break;
     case ARTC_PAIN:
-     if (int(turn) % 50 == 0) {
+     if (turn.second == 0) {
       add_msg("You suddenly feel sharp pain for no reason.");
       p->pain += 3 * rng(1, 3);
       it->charges++;
      }
      break;
     case ARTC_HP:
-     if (int(turn) % 50 == 0) {
+     if (turn.second == 0) {
       add_msg("You feel your body decaying.");
       p->hurtall(1);
+      it->charges++;
      }
-     it->charges++;
      break;
    }
   }
@@ -367,6 +368,29 @@ void game::process_artifact(item *it, player *p, bool wielded)
 
   case AEP_SNAKES:
    break; // Handled in player::hit()
+
+  case AEP_EXTINGUISH:
+   for (int x = p->posx - 1; x <= p->posx + 1; x++) {
+    for (int y = p->posy - 1; y <= p->posy + 1; y++) {
+     if (m.field_at(x, y).type == fd_fire) {
+      if (m.field_at(x, y).density == 0)
+       m.field_at(x, y) = field();
+      else
+       m.field_at(x, y).density--;
+     }
+    }
+   }
+   break;
+
+  case AEP_HUNGER:
+   if (one_in(100))
+    p->hunger++;
+   break;
+
+  case AEP_THIRST:
+   if (one_in(120))
+    p->thirst++;
+   break;
 
   case AEP_EVIL:
    if (one_in(150)) { // Once every 15 minutes, on average
@@ -412,4 +436,103 @@ void game::process_artifact(item *it, player *p, bool wielded)
    break; // Handled in player::current_speed()
   }
  }
+}
+
+void game::add_artifact_messages(std::vector<art_effect_passive> effects)
+{
+ int net_str = 0, net_dex = 0, net_per = 0, net_int = 0, net_speed = 0;
+ for (int i = 0; i < effects.size(); i++) {
+  switch (effects[i]) {
+   case AEP_STR_UP:   net_str += 4; break;
+   case AEP_DEX_UP:   net_dex += 4; break;
+   case AEP_PER_UP:   net_per += 4; break;
+   case AEP_INT_UP:   net_int += 4; break;
+   case AEP_ALL_UP:   net_str += 2;
+                      net_dex += 2;
+                      net_per += 2;
+                      net_int += 2; break;
+   case AEP_STR_DOWN: net_str -= 3; break;
+   case AEP_DEX_DOWN: net_dex -= 3; break;
+   case AEP_PER_DOWN: net_per -= 3; break;
+   case AEP_INT_DOWN: net_int -= 3; break;
+   case AEP_ALL_DOWN: net_str -= 2;
+                      net_dex -= 2;
+                      net_per -= 2;
+                      net_int -= 2; break;
+
+   case AEP_SPEED_UP:   net_speed += 20; break;
+   case AEP_SPEED_DOWN: net_speed -= 20; break;
+
+   case AEP_IODINE:
+    break; // No message
+
+   case AEP_SNAKES:
+    add_msg("Your skin feels slithery.");
+    break;
+
+   case AEP_INVISIBLE:
+    add_msg("You fade into invisibility!");
+    break;
+
+   case AEP_CLAIRVOYANCE:
+    add_msg("You can see through walls!");
+    break;
+
+   case AEP_STEALTH:
+    add_msg("Your steps stop making noise.");
+    break;
+
+   case AEP_GLOW:
+    add_msg("A glow of light forms around you.");
+    break;
+
+   case AEP_PSYSHIELD:
+    add_msg("Your mental state feels protected.");
+    break;
+
+   case AEP_HUNGER:
+    add_msg("You feel hungry.");
+    break;
+
+   case AEP_THIRST:
+    add_msg("You feel thirsty.");
+    break;
+
+   case AEP_EVIL:
+    add_msg("You feel an evil presence...");
+    break;
+
+   case AEP_SCHIZO:
+    add_msg("You feel a tickle of insanity.");
+    break;
+
+   case AEP_RADIOACTIVE:
+    add_msg("Your skin prickles with radiation.");
+    break;
+
+   case AEP_MUTAGENIC:
+    add_msg("You feel your genetic makeup degrading.");
+    break;
+
+   case AEP_ATTENTION:
+    add_msg("You feel an otherworldly attention upon you...");
+    break;
+  }
+ }
+
+ std::stringstream stat_info;
+ if (net_str != 0)
+  stat_info << "Str " << (net_str > 0 ? "+" : "") << net_str << "! ";
+ if (net_dex != 0)
+  stat_info << "Dex " << (net_dex > 0 ? "+" : "") << net_dex << "! ";
+ if (net_int != 0)
+  stat_info << "Int " << (net_int > 0 ? "+" : "") << net_int << "! ";
+ if (net_per != 0)
+  stat_info << "Per " << (net_per > 0 ? "+" : "") << net_per << "! ";
+
+ if (stat_info.str().length() > 0)
+  add_msg(stat_info.str().c_str());
+
+ if (net_speed != 0)
+  add_msg("Speed %s%d", (net_speed > 0 ? "+" : ""), net_speed);
 }

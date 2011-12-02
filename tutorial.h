@@ -75,8 +75,7 @@ wearing clothing with a lot of storage space, like a backpack, or cargo pants.",
 "\
 The item you just picked up has been wielded as a weapon automatically.  This\n\
 happened because it is a good melee weapon, and you were empty-handed.  This\n\
-usually is faster than than picking it up, then wielding it, but if you want\n\
-to turn it off, press O for the Options screen and turn off Autowield.",
+usually is faster than than picking it up, then wielding it.",
 "\
 The item you just picked up went into your inventory, the shared storage\n\
 space of all the clothing you're wearing.  To view your inventory, press 'i'.\n\

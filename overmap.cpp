@@ -61,9 +61,9 @@ bool is_wall_material(oter_id ter)
 oter_id shop(int dir)
 {
  oter_id ret = ot_s_lot;
- int type = rng(0, 13);
+ int type = rng(0, 15);
  if (one_in(20))
-  type = 14;
+  type = 16;
  switch (type) {
   case  0: ret = ot_s_lot;	         break;
   case  1: ret = ot_s_gas_north;         break;
@@ -79,7 +79,9 @@ oter_id shop(int dir)
   case 11: ret = ot_bank_north;          break;
   case 12: ret = ot_bar_north;           break;
   case 13: ret = ot_s_electronics_north; break;
-  case 14: ret = ot_police_north;        break;
+  case 14: ret = ot_pawn_north;          break;
+  case 15: ret = ot_mil_surplus_north;   break;
+  case 16: ret = ot_police_north;        break;
  }
  if (ret == ot_s_lot)
   return ret;
@@ -399,12 +401,9 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
    if (!river_end.empty()) {
     place_river(river_start[index], river_end[0]);
     river_end.erase(river_end.begin());
-   } else {
-    mvprintw(0, 0, "%d   ", river_end_copy.size());
-    getch();
+   } else
     place_river(river_start[index],
                 river_end_copy[rng(0, river_end_copy.size() - 1)]);
-   }
    river_start.erase(river_start.begin() + index);
   }
  } else if (river_end.size() > river_start.size() && river_start.size() > 0) {
@@ -415,12 +414,9 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
    if (!river_start.empty()) {
     place_river(river_start[0], river_end[index]);
     river_start.erase(river_start.begin());
-   } else {
-    mvprintw(0, 0, "%d   ", river_start_copy.size());
-    getch();
+   } else
     place_river(river_start_copy[rng(0, river_start_copy.size() - 1)],
                 river_end[index]);
-   }
    river_end.erase(river_end.begin() + index);
   }
  } else if (river_end.size() > 0) {
@@ -920,7 +916,8 @@ point overmap::choose_point(game *g)
  WINDOW* w_search = newwin(13, 27, 3, 51);
  timeout(BLINK_SPEED);	// Enable blinking!
  bool blink = true;
- int cursx = (g->levx + 1) / 2, cursy = (g->levy + 1) / 2;
+ int cursx = (g->levx + int(MAPSIZE / 2)) / 2,
+     cursy = (g->levy + int(MAPSIZE / 2)) / 2;
  int origx = cursx, origy = cursy;
  char ch = 0;
  point ret(-1, -1);
@@ -973,7 +970,7 @@ point overmap::choose_point(game *g)
    if (found.x == -1) {	// Didn't find a note
     std::vector<point> terlist;
     terlist = find_terrain(term, origx, origy);
-    if(terlist.size() != 0){
+    if (terlist.size() != 0){
      int i = 0;
      //Navigate through results
      do {
@@ -988,12 +985,13 @@ point overmap::choose_point(game *g)
       mvwprintz(w_search, 10, 1, c_white, "Enter/Spacebar to select.");
       mvwprintz(w_search, 11, 1, c_white, "q to return.");
       ch = input();
-      if (ch == ERR) blink = !blink;
-      else if(ch == '<'){
+      if (ch == ERR)
+       blink = !blink;
+      else if (ch == '<') {
        i++;
-       if(i > terlist.size() -1) i = 0;
-      }
-      else if(ch == '>'){
+       if(i > terlist.size() - 1)
+        i = 0;
+      } else if(ch == '>'){
        i--;
        if(i < 0)
         i = terlist.size() - 1;
@@ -1021,7 +1019,8 @@ point overmap::choose_point(game *g)
 */
   else if (ch == ERR)	// Hit timeout on input, so make characters blink
    blink = !blink;
- } while (ch != KEY_ESCAPE && ch != 'q' && ch != 'Q' && ch != ' ' && ch != '\n');
+ } while (ch != KEY_ESCAPE && ch != 'q' && ch != 'Q' && ch != ' ' &&
+          ch != '\n');
  timeout(-1);
  werase(w_map);
  wrefresh(w_map);
@@ -1530,7 +1529,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, oter_id base)
  int dir = 0;
  int x = x1, y = y1;
  int xdir, ydir;
- int tmp;
+ int tmp = 0;
  bool bridge_is_okay = false;
  bool found_road = false;
  do {

@@ -102,7 +102,7 @@ recipes.push_back( recipe(id, result, category, skill1, skill2, difficulty, \
  RECIPE(itm_smg_9mm, CC_WEAPON, sk_mechanics, sk_gun, 5, 18000);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
-  TOOL(itm_hammer, -1, itm_rock, -1, itm_hatchet, -1, itm_toolset, -1, NULL);
+  TOOL(itm_hammer, -1, itm_rock, -1, itm_hatchet, -1, NULL);
   COMP(itm_pipe, 1, NULL);
   COMP(itm_2x4, 2, NULL);
   COMP(itm_nail, 4, NULL);
@@ -110,7 +110,7 @@ recipes.push_back( recipe(id, result, category, skill1, skill2, difficulty, \
  RECIPE(itm_smg_45, CC_WEAPON, sk_mechanics, sk_gun, 5, 20000);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
-  TOOL(itm_hammer, -1, itm_rock, -1, itm_hatchet, -1, itm_toolset, -1, NULL);
+  TOOL(itm_hammer, -1, itm_rock, -1, itm_hatchet, -1, NULL);
   COMP(itm_pipe, 1, NULL);
   COMP(itm_2x4, 2, NULL);
   COMP(itm_nail, 4, NULL);
@@ -144,7 +144,7 @@ recipes.push_back( recipe(id, result, category, skill1, skill2, difficulty, \
 
  RECIPE(itm_chainsaw_off, CC_WEAPON, sk_mechanics, sk_null, 4, 20000);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
-  TOOL(itm_hammer, -1, itm_hatchet, -1, itm_toolset, -1, NULL);
+  TOOL(itm_hammer, -1, itm_hatchet, -1, NULL);
   TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
   COMP(itm_motor, 1, NULL);
   COMP(itm_chain, 1, NULL);
@@ -227,11 +227,13 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_hotplate, 2, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_tea_raw, 1, NULL);
+  COMP(itm_water, 1, NULL);
 
  RECIPE(itm_coffee, CC_FOOD, sk_cooking, sk_null, 0, 4000);
   TOOL(itm_hotplate, 2, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_coffee_raw, 1, NULL);
+  COMP(itm_water, 1, NULL);
 
  RECIPE(itm_oj, CC_FOOD, sk_cooking, sk_null, 1, 5000);
   TOOL(itm_rock, -1, itm_toolset, -1, NULL);
@@ -480,11 +482,11 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
  RECIPE(itm_hoodie, CC_ARMOR, sk_tailor, sk_null, 3, 40000);
   TOOL(itm_sewing_kit, 14, NULL);
-  COMP(itm_rag, 8, NULL);
+  COMP(itm_rag, 12, NULL);
 
  RECIPE(itm_trenchcoat, CC_ARMOR, sk_tailor, sk_null, 3, 42000);
   TOOL(itm_sewing_kit, 24, NULL);
-  COMP(itm_rag, 10, NULL);
+  COMP(itm_rag, 11, NULL);
 
  RECIPE(itm_coat_fur, CC_ARMOR, sk_tailor, sk_null, 4, 100000);
   TOOL(itm_sewing_kit, 20, NULL);

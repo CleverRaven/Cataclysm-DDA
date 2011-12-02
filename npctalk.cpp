@@ -283,7 +283,7 @@ void say_listen_need(game *g, dialogue &d)
      else {
       std::stringstream msg;
       std::string unit = "feet";
-      dist *= SEEX * 3;
+      dist *= SEEX * MAPSIZE;
       msg << "There's one to the " <<
              direction_from(g->levx, g->levy, lookp.x, lookp.y);
       if (dist >= 50000)

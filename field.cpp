@@ -9,8 +9,8 @@ bool map::process_fields(game *g)
  bool found_field = false;
  field *cur;
  field_id curtype;
- for (int x = 0; x < SEEX * 3; x++) {
-  for (int y = 0; y < SEEY * 3; y++) {
+ for (int x = 0; x < SEEX * MAPSIZE; x++) {
+  for (int y = 0; y < SEEY * MAPSIZE; y++) {
    cur = &field_at(x, y);
    curtype = cur->type;
    if (!found_field && curtype != fd_null)
@@ -202,7 +202,7 @@ bool map::process_fields(game *g)
     for (int i = 0; i < 3; i++) {
      for (int j = 0; j < 3; j++) {
       int fx = x + ((i + starti) % 3) - 1, fy = y + ((j + startj) % 3) - 1;
-      if (fx >= 0 && fy >= 0 && fx < SEEX * 3 && fy < SEEY * 3) {
+      if (fx >= 0 && fy >= 0 && fx < SEEX * MAPSIZE && fy < SEEY * MAPSIZE) {
        int spread_chance = 20 * (cur->density - 1) + 10 * smoke;
        if (has_flag(explodes, fx, fy) && one_in(8 - cur->density)) {
         ter(fx, fy) = ter_id(int(ter(fx, fy)) + 1);

@@ -190,7 +190,7 @@ void npc::execute_action(game *g, npc_action action, int target)
   int index = -1;
   for (int i = 0; i < inv.size(); i++) {
    bool am = (inv[i].is_gun() &&
-              has_ammo( (dynamic_cast<it_gun*>(inv[i].type))->ammo ).size() > 0);
+             has_ammo( (dynamic_cast<it_gun*>(inv[i].type))->ammo ).size() > 0);
    if (inv[i].is_gun() && (!ammo_found || am)) {
     index = i;
     ammo_found = (ammo_found || am);
@@ -375,7 +375,8 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
 
 npc_action npc::method_of_fleeing(game *g, int enemy)
 {
- int speed = (enemy == TARGET_PLAYER ? g->u.current_speed() : g->z[enemy].speed);
+ int speed = (enemy == TARGET_PLAYER ? g->u.current_speed() :
+                                       g->z[enemy].speed);
  point enemy_loc = (enemy == TARGET_PLAYER ? point(g->u.posx, g->u.posy) :
                     point(g->z[enemy].posx, g->z[enemy].posy));
  int distance = rl_dist(posx, posy, enemy_loc.x, enemy_loc.y);
@@ -1022,10 +1023,10 @@ void npc::find_item(game *g)
   minx = 0;
  if (miny < 0)
   miny = 0;
- if (maxx >= SEEX * 3)
-  maxx = SEEX * 3 - 1;
- if (maxy >= SEEY * 3)
-  maxy = SEEY * 3 - 1;
+ if (maxx >= SEEX * MAPSIZE)
+  maxx = SEEX * MAPSIZE - 1;
+ if (maxy >= SEEY * MAPSIZE)
+  maxy = SEEY * MAPSIZE - 1;
 
  for (int x = minx; x <= maxx; x++) {
   for (int y = miny; y <= maxy; y++) {
@@ -1489,8 +1490,8 @@ void npc::heal_player(game *g, player &patient)
   if (!patient.is_npc()) {
  // Test if we want to heal the player further
    if (op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 +
-       (fac_has_value(FACVAL_CHARITABLE)    ?  5 : 0) +
-       (fac_has_job  (FACJOB_DOCTORS)       ? 15 : 0) - op_of_u.fear * 3 <  25) {
+       (fac_has_value(FACVAL_CHARITABLE) ?  5 : 0) +
+       (fac_has_job  (FACJOB_DOCTORS)    ? 15 : 0) - op_of_u.fear * 3 <  25) {
     attitude = NPCATT_FOLLOW;
     say(g, "That's all the healing I can do.");
    } else
@@ -1716,8 +1717,8 @@ void npc::look_for_player(game *g, player &sought)
   path.clear();
  }
  std::vector<point> possibilities;
- for (int x = 1; x < SEEX * 3; x += 11) { // 1, 12, 23, 34
-  for (int y = 1; y < SEEY * 3; y += 11) {
+ for (int x = 1; x < SEEX * MAPSIZE; x += 11) { // 1, 12, 23, 34
+  for (int y = 1; y < SEEY * MAPSIZE; y += 11) {
    if (g->m.sees(posx, posy, x, y, range, linet))
     possibilities.push_back(point(x, y));
   }
@@ -1736,7 +1737,8 @@ void npc::look_for_player(game *g, player &sought)
 
 bool npc::saw_player_recently()
 {
- return (plx >= 0 && plx < SEEX * 3 && ply >= 0 && ply < SEEY * 3 && plt > 0);
+ return (plx >= 0 && plx < SEEX * MAPSIZE && ply >= 0 && ply < SEEY * MAPSIZE &&
+         plt > 0);
 }
 
 bool npc::has_destination()

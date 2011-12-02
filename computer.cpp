@@ -246,8 +246,8 @@ void computer::activate_function(game *g, computer_action action)
    break;
 
   case COMPACT_SAMPLE:
-   for (int x = 0; x < SEEX * 3; x++) {
-    for (int y = 0; y < SEEY * 3; y++) {
+   for (int x = 0; x < SEEX * MAPSIZE; x++) {
+    for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_sewage_pump) {
       for (int x1 = x - 1; x1 <= x + 1; x1++) {
        for (int y1 = y - 1; y1 <= y + 1; y1++ ) {
@@ -280,8 +280,8 @@ void computer::activate_function(game *g, computer_action action)
    break;
 
   case COMPACT_TERMINATE:
-   for (int x = 0; x < SEEX * 3; x++) {
-    for (int y = 0; y < SEEY * 3; y++) {
+   for (int x = 0; x < SEEX * MAPSIZE; x++) {
+    for (int y = 0; y < SEEY * MAPSIZE; y++) {
      int mondex = g->mon_at(x, y);
      if (mondex != -1 &&
          ((g->m.ter(x, y - 1) == t_reinforced_glass_h &&
@@ -295,8 +295,8 @@ void computer::activate_function(game *g, computer_action action)
    break;
 
   case COMPACT_PORTAL:
-   for (int i = 0; i < SEEX * 3; i++) {
-    for (int j = 0; j < SEEY * 3; j++) {
+   for (int i = 0; i < SEEX * MAPSIZE; i++) {
+    for (int j = 0; j < SEEY * MAPSIZE; j++) {
      int numtowers = 0;
      for (int xt = i - 2; xt <= i + 2; xt++) {
       for (int yt = j - 2; yt <= j + 2; yt++) {
@@ -399,15 +399,14 @@ void computer::activate_function(game *g, computer_action action)
    if (maxx >= OMAPX) maxx = OMAPX - 1;
    if (miny < 0)             miny = 0;
    if (maxy >= OMAPY) maxy = OMAPY - 1;
-   overmap tmp(g, g->cur_om.posx, g->cur_om.posy, g->cur_om.posz);
    for (int i = minx; i <= maxx; i++) {
     for (int j = miny; j <= maxy; j++)
-     if ((tmp.ter(i, j) >= ot_sewer_ns && tmp.ter(i, j) <= ot_sewer_nesw) || 
-         (tmp.ter(i, j) >= ot_sewage_treatment &&
-          tmp.ter(i, j) <= ot_sewage_treatment_under))
-     tmp.seen(i, j) = true;
+     if ((g->cur_om.ter(i, j) >= ot_sewer_ns &&
+          g->cur_om.ter(i, j) <= ot_sewer_nesw) || 
+         (g->cur_om.ter(i, j) >= ot_sewage_treatment &&
+          g->cur_om.ter(i, j) <= ot_sewage_treatment_under))
+     g->cur_om.seen(i, j) = true;
    }
-   tmp.save(g->u.name, g->cur_om.posx, g->cur_om.posy, 0);
    print_line("Sewage map data downloaded.");
   } break;
 
@@ -422,7 +421,7 @@ void computer::activate_function(game *g, computer_action action)
    }
 // Figure out where the glass wall is...
    int wall_spot = 0;
-   for (int i = 0; i < SEEX * 3 && wall_spot == 0; i++) {
+   for (int i = g->u.posx; i < g->u.posx + SEEX * 2 && wall_spot == 0; i++) {
     if (g->m.ter(i, 10) == t_wall_glass_v)
      wall_spot = i;
    }
@@ -455,8 +454,8 @@ void computer::activate_function(game *g, computer_action action)
   case COMPACT_LIST_BIONICS: {
    std::vector<std::string> names;
    int more = 0;
-   for (int x = 0; x < SEEX * 3; x++) {
-    for (int y = 0; y < SEEY * 3; y++) {
+   for (int x = 0; x < SEEX * MAPSIZE; x++) {
+    for (int y = 0; y < SEEY * MAPSIZE; y++) {
      for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
       if (g->m.i_at(x, y)[i].is_bionic()) {
        if (names.size() < 9)
@@ -474,8 +473,8 @@ void computer::activate_function(game *g, computer_action action)
   } break;
 
   case COMPACT_ELEVATOR_ON:
-   for (int x = 0; x < SEEX * 3; x++) {
-    for (int y = 0; y < SEEY * 3; y++) {
+   for (int x = 0; x < SEEX * MAPSIZE; x++) {
+    for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_elevator_control_off)
       g->m.ter(x, y) = t_elevator_control;
     }
@@ -570,7 +569,8 @@ INITIATING STANDARD TREMOR TEST...");
 
   case COMPACT_AMIGARA_START:
    g->add_event(EVENT_AMIGARA, int(g->turn) + 10, 0, 0, 0);
-   g->u.add_disease(DI_AMIGARA, -1, g);
+   if (!g->u.has_artifact_with(AEP_PSYSHIELD))
+    g->u.add_disease(DI_AMIGARA, -1, g);
    break;
 
  } // switch (action)
@@ -591,8 +591,8 @@ void computer::activate_failure(game *g, computer_failure fail)
    break;	// Do nothing.  Why was this even called >:|
 
   case COMPFAIL_SHUTDOWN:
-   for (int x = 0; x < SEEX * 3; x++) {
-    for (int y = 0; y < SEEY * 3; y++) {
+   for (int x = 0; x < SEEX * MAPSIZE; x++) {
+    for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.has_flag(console, x, y))
       g->m.ter(x, y) = t_console_broken;
     }
@@ -648,8 +648,8 @@ void computer::activate_failure(game *g, computer_failure fail)
 
   case COMPFAIL_PUMP_EXPLODE:
    g->add_msg("The pump explodes!");
-   for (int x = 0; x < SEEX * 3; x++) {
-    for (int y = 0; y < SEEY * 3; y++) {
+   for (int x = 0; x < SEEX * MAPSIZE; x++) {
+    for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_sewage_pump) {
       g->m.ter(x, y) = t_rubble;
       g->explosion(x, y, 10, 0, false);
@@ -660,8 +660,8 @@ void computer::activate_failure(game *g, computer_failure fail)
 
   case COMPFAIL_PUMP_LEAK:
    g->add_msg("Sewage leaks!");
-   for (int x = 0; x < SEEX * 3; x++) {
-    for (int y = 0; y < SEEY * 3; y++) {
+   for (int x = 0; x < SEEX * MAPSIZE; x++) {
+    for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_sewage_pump) {
       point p(x, y);
       int leak_size = rng(4, 10);
@@ -691,8 +691,8 @@ void computer::activate_failure(game *g, computer_failure fail)
   case COMPFAIL_AMIGARA:
    g->add_event(EVENT_AMIGARA, int(g->turn) + 5, 0, 0, 0);
    g->u.add_disease(DI_AMIGARA, -1, g);
-   g->explosion(rng(0, SEEX * 3), rng(0, SEEY * 3), 10, 10, false);
-   g->explosion(rng(0, SEEX * 3), rng(0, SEEY * 3), 10, 10, false);
+   g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
+   g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
    break;
  }// switch (fail)
 }

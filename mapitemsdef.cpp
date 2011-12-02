@@ -358,6 +358,21 @@ void game::init_mapitems()
 	itm_gold, itm_bionics_super, NULL);
 
  setvector(
+   mapitems[mi_pawn],
+	itm_cigar, itm_katana, itm_gold, itm_rapier, itm_cane, itm_suit,
+	itm_mask_gas, itm_goggles_welding, itm_goggles_nv, itm_glasses_monocle,
+	itm_tophat, itm_ruger_redhawk, itm_deagle_44, itm_m1911, itm_geiger_off,
+	itm_UPS_off, itm_tazer, itm_mp3, NULL);
+
+ setvector(
+   mapitems[mi_mil_surplus], // NOT food or armor!
+	itm_knife_combat, itm_binoculars, itm_bolt_steel, itm_crossbow,
+	itm_mag_guns, itm_manual_brawl, itm_manual_knives,
+	itm_manual_mechanics, itm_manual_first_aid, itm_manual_traps,
+	itm_flashlight, itm_water_purifier, itm_two_way_radio, itm_radio,
+	itm_geiger_off, NULL);
+
+ setvector(
    mapitems[mi_chemistry],
 	itm_iodine, itm_water, itm_salt_water, itm_bleach, itm_ammonia,
 	itm_mutagen, itm_purifier, itm_royal_jelly, itm_superglue,
@@ -445,8 +460,8 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_mil_food],
-	itm_chocolate, itm_can_beans, itm_mre, itm_1st_aid, itm_codeine,
-	itm_water, itm_purifier, NULL);
+	itm_chocolate, itm_can_beans, itm_mre_beef, itm_mre_veggy, itm_1st_aid,
+	itm_codeine, itm_water, itm_purifier, NULL);
 
  setvector(
    mapitems[mi_bionics_mil],
@@ -583,19 +598,20 @@ void game::init_mapitems()
 // TODO: Replace kevlar with the ceramic plate armor
  setvector(
    mapitems[mi_military],
-	itm_water, itm_mre, itm_bandages, itm_1st_aid, itm_iodine, itm_codeine,
-	itm_cig, itm_knife_combat, itm_boots_steel, itm_pants_army, itm_kevlar,
-	itm_vest, itm_gloves_fingerless, itm_mask_gas, itm_glasses_safety,
-	itm_goggles_nv, itm_hat_boonie, itm_helmet_army, itm_backpack,
-	itm_holster, itm_bootstrap, itm_9mm, itm_45_acp, itm_556,
-	itm_556_incendiary, itm_762_51, itm_762_51_incendiary, itm_laser_pack,
-	itm_40mm_concussive, itm_40mm_frag, itm_40mm_incendiary,
-	itm_40mm_teargas, itm_40mm_smoke, itm_40mm_flashbang, itm_usp_9mm,
-	itm_usp_45, itm_m4a1, itm_scar_l, itm_scar_h, itm_m249, itm_ftk93,
-	itm_m320, itm_mgl, itm_silencer, itm_clip, itm_lighter, itm_flashlight,
-	itm_two_way_radio, itm_landmine, itm_grenade, itm_flashbang,
-	itm_EMPbomb, itm_gasbomb, itm_smokebomb, itm_UPS_off, itm_tazer,
-	itm_c4, itm_hk_g80, itm_12mm, itm_binoculars, NULL);
+	itm_water, itm_mre_beef, itm_mre_veggy, itm_bandages, itm_1st_aid,
+	itm_iodine, itm_codeine, itm_cig, itm_knife_combat, itm_boots_steel,
+	itm_pants_army, itm_kevlar, itm_vest, itm_gloves_fingerless,
+	itm_mask_gas, itm_glasses_safety, itm_goggles_nv, itm_hat_boonie,
+	itm_helmet_army, itm_backpack, itm_holster, itm_bootstrap, itm_9mm,
+	itm_45_acp, itm_556, itm_556_incendiary, itm_762_51,
+	itm_762_51_incendiary, itm_laser_pack, itm_40mm_concussive,
+	itm_40mm_frag, itm_40mm_incendiary, itm_40mm_teargas, itm_40mm_smoke,
+	itm_40mm_flashbang, itm_usp_9mm, itm_usp_45, itm_m4a1, itm_scar_l,
+	itm_scar_h, itm_m249, itm_ftk93, itm_m320, itm_mgl, itm_silencer,
+	itm_clip, itm_lighter, itm_flashlight, itm_two_way_radio, itm_landmine,
+	itm_grenade, itm_flashbang, itm_EMPbomb, itm_gasbomb, itm_smokebomb,
+	itm_UPS_off, itm_tazer, itm_c4, itm_hk_g80, itm_12mm, itm_binoculars,
+	NULL);
 
  setvector(
    mapitems[mi_science],
