@@ -26,7 +26,7 @@ class monster;
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
-#define mfb(n) long(pow(2,(long)n))
+#define mfb(n) long(pow(2,(double)(n)))
 #endif
 
 enum t_flag {
@@ -112,7 +112,7 @@ t_sewage_pipe, t_sewage_pump,
 t_fridge, t_dresser,
 t_rack, t_bookcase,
 t_dumpster,
-t_vat,
+t_vat, t_crate_c, t_crate_o,
 // Staircases etc.
 t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
  t_slope_up, t_rope_up,
@@ -323,6 +323,11 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(container)},
 {"cloning vat",      '0', c_ltcyan,  0,
 	mfb(transparent)|mfb(bashable)|mfb(container)|mfb(sealed)},
+{"crate",            '{', c_brown,   0,
+        mfb(transparent)|mfb(bashable)|mfb(container)|mfb(sealed)|
+        mfb(flammable)},
+{"open crate",       '{', c_brown,   0,
+        mfb(transparent)|mfb(bashable)|mfb(container)|mfb(flammable)},
 {"stairs down",      '>', c_yellow,  2,
 	mfb(transparent)|mfb(goes_down)|mfb(container)},
 {"stairs up",        '<', c_yellow,  2,
@@ -389,6 +394,7 @@ enum map_extra {
  mx_science,
  mx_stash,
  mx_drugdeal,
+ mx_supplydrop,
  mx_portal,
  mx_minefield,
  mx_wolfpack,
@@ -408,6 +414,7 @@ const int map_extra_chance[num_map_extras + 1] = {
 120,	// Science
 200,	// Stash
  20,	// Drug deal
+ 10,    // Supply drop
   5,	// Portal
  70,	// Minefield
  30,	// Wolf pack
@@ -416,6 +423,33 @@ const int map_extra_chance[num_map_extras + 1] = {
   8,	// Fumarole
   7,	// One-way portal into this world
   0	// Just a cap value; leave this as the last one
+};
+
+struct map_extras {
+ unsigned int chance;
+ int chances[num_map_extras + 1];
+ map_extras(unsigned int embellished, int helicopter = 0, int mili = 0,
+            int sci = 0, int stash = 0, int drug = 0, int supply = 0,
+            int portal = 0, int minefield = 0, int wolves = 0, int puddle = 0, 
+            int crater = 0, int lava = 0, int marloss = 0)
+            : chance(embellished)
+ {
+  chances[ 0] = 0;
+  chances[ 1] = helicopter;
+  chances[ 2] = mili;
+  chances[ 3] = sci;
+  chances[ 4] = stash;
+  chances[ 5] = drug;
+  chances[ 6] = supply;
+  chances[ 7] = portal;
+  chances[ 8] = minefield;
+  chances[ 9] = wolves;
+  chances[10] = puddle;
+  chances[11] = crater;
+  chances[12] = lava;
+  chances[13] = marloss;
+  chances[14] = 0;
+ }
 };
 
 struct field_t {

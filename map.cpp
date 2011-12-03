@@ -354,6 +354,20 @@ bool map::bash(int x, int y, int str, std::string &sound)
    sound += "plunk.";
    return true;
   }
+ case t_crate_c:
+ case t_crate_o:
+  if (str >= dice(4, 20)) {
+   sound += "smash";
+   ter(x, y) = t_dirt;
+   int num_boards = rng(1, 5);
+   for (int i = 0; i < num_boards; i++)
+    add_item(x, y, (*itypes)[itm_2x4], 0);
+   return true;
+  } else {
+   sound += "wham!";
+   return true;
+  }
+   
  }
  if (move_cost(x, y) == 0) {
   sound += "thump!";

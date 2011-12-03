@@ -51,7 +51,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate);
 void set_science_room(map *m, int x1, int y1, bool faces_right, int turn);
 void silo_rooms(map *m);
 void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2);
-map_extra random_map_extra();
+map_extra random_map_extra(map_extras);
 
 void line(map *m, ter_id type, int x1, int y1, int x2, int y2);
 void square(map *m, ter_id type, int x1, int y1, int x2, int y2);
@@ -140,8 +140,8 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
   }
   draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g);
 
-  if (oterlist[terrain_type].embellished && one_in(MAP_EXTRA_CHANCE))
-   add_extra(random_map_extra(), g);
+  if (one_in(oterlist[terrain_type].embellishments.chance))
+   add_extra(random_map_extra(oterlist[terrain_type].embellishments), g);
 
 // And finally save.
   for (int i = 0; i < 2; i++) {
@@ -3881,19 +3881,19 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   }
 // Some display racks by the left and right walls
   line(this, t_rack, lw + 1, tw + 1, lw + 1, bw - 1);
-  place_items(mi_pawn, 82, lw + 1, tw + 1, lw + 1, bw - 1, false, 0);
+  place_items(mi_pawn, 92, lw + 1, tw + 1, lw + 1, bw - 1, false, 0);
   line(this, t_rack, rw - 1, tw + 1, rw - 1, bw - 1);
-  place_items(mi_pawn, 82, rw - 1, tw + 1, rw - 1, bw - 1, false, 0);
+  place_items(mi_pawn, 92, rw - 1, tw + 1, rw - 1, bw - 1, false, 0);
 // Some display counters
   line(this, t_counter, lw + 4, tw + 2, lw + 4, bw - 3);
-  place_items(mi_pawn, 60, lw + 4, tw + 2, lw + 4, bw - 3, false, 0);
+  place_items(mi_pawn, 82, lw + 4, tw + 2, lw + 4, bw - 3, false, 0);
   line(this, t_counter, rw - 4, tw + 2, rw - 4, bw - 3);
-  place_items(mi_pawn, 60, rw - 4, tw + 2, rw - 4, bw - 3, false, 0);
+  place_items(mi_pawn, 82, rw - 4, tw + 2, rw - 4, bw - 3, false, 0);
 // More display counters, if there's room for them
   if (rw - lw >= 18 && one_in(rw - lw - 17)) {
    for (int j = tw + rng(3, 5); j <= bw - 3; j += 3) {
     line(this, t_counter, lw + 6, j, rw - 6, j);
-    place_items(mi_pawn, 58, lw + 6, j, rw - 6, j, false, 0);
+    place_items(mi_pawn, 78, lw + 6, j, rw - 6, j, false, 0);
    }
   }
 // Finally, place an office sometimes
@@ -6305,18 +6305,18 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2)
  }
 }
 
-map_extra random_map_extra()
+map_extra random_map_extra(map_extras embellishments)
 {
  int pick = 0;
 // Set pick to the total of all the chances for map extras
  for (int i = 0; i < num_map_extras; i++)
-  pick += map_extra_chance[i];
+  pick += embellishments.chances[i];
 // Set pick to a number between 0 and the total
  pick = rng(0, pick - 1);
  int choice = -1;
  while (pick >= 0) {
   choice++;
-  pick -= map_extra_chance[choice];
+  pick -= embellishments.chances[choice];
  }
  return map_extra(choice);
 }
@@ -6542,6 +6542,39 @@ void map::add_extra(map_extra type, game *g)
   }
  } break;
   
+ case mx_supplydrop: {
+  int num_crates = rng(1, 5);
+  for (int i = 0; i < num_crates; i++) {
+   int x, y, tries = 0;
+   do {	// Loop until we find a valid spot to dump a body, or we give up
+    x = rng(0, SEEX * 2 - 1);
+    y = rng(0, SEEY * 2 - 1);
+    tries++;
+   } while (tries < 10 && move_cost(x, y) == 0);
+   ter(x, y) = t_crate_c;
+   switch (rng(1, 10)) {
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+     place_items(mi_mil_food, 95, x, y, x, y, true, 0);
+     break;
+    case 5:
+    case 6:
+    case 7:
+     place_items(mi_grenades, 85, x, y, x, y, true, 0);
+     break;
+    case 8:
+    case 9:
+     place_items(mi_mil_armor, 75, x, y, x, y, true, 0);
+     break;
+    case 10:
+     place_items(mi_mil_rifles, 95, x, y, x, y, true, 0);
+     break;
+   }
+  }
+ }
+ break;
 
  case mx_portal:
  {

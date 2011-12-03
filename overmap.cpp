@@ -33,7 +33,7 @@ void settlement_building(settlement &set, int x, int y);
 
 double dist(int x1, int y1, int x2, int y2)
 {
- return sqrt(pow(x1-x2, 2) + pow(y1-y2, 2));
+ return sqrt(double(pow(x1-x2, 2.0) + pow(y1-y2, 2.0)));
 }
 
 bool is_river(oter_id ter)
@@ -2222,7 +2222,6 @@ void overmap::open(game *g, int x, int y, int z)
 {
  std::stringstream plrfilename, terfilename;
  std::ifstream fin;
- char line[OMAPX];
  char datatype;
  int ct, cx, cy, cs, cp;
  city tmp;
@@ -2308,9 +2307,10 @@ void overmap::open(game *g, int x, int y, int z)
   fin.open(plrfilename.str().c_str());
   if (fin.is_open()) {	// Load private seen data
    for (int j = 0; j < OMAPY; j++) {
-    fin.getline(line, OMAPX + 1);
+    std::string dataline;
+    getline(fin, dataline);
     for (int i = 0; i < OMAPX; i++) {
-     if (line[i] == '1')
+     if (dataline[i] == '1')
       seen(i, j) = true;
      else
       seen(i, j) = false;

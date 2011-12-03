@@ -17,8 +17,8 @@ void weather_effect::wet(game *g)
  if (!g->u.is_wearing(itm_coat_rain) && PLAYER_OUTSIDE && one_in(2))
   g->u.add_morale(MORALE_WET, -1, -30);
 // Put out fires and reduce scent
- for (int x = 0; x < SEEX * MAPSIZE; x++) {
-  for (int y = 0; y < SEEY * MAPSIZE; y++) {
+ for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
+  for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
    if (g->m.is_outside(x, y)) {
     field *fd = &(g->m.field_at(x, y));
     if (fd->type == fd_fire)
@@ -35,8 +35,8 @@ void weather_effect::very_wet(game *g)
  if (!g->u.is_wearing(itm_coat_rain) && PLAYER_OUTSIDE)
   g->u.add_morale(MORALE_WET, -1, -60);
 // Put out fires and reduce scent
- for (int x = 0; x < SEEX * MAPSIZE; x++) {
-  for (int y = 0; y < SEEY * MAPSIZE; y++) {
+ for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
+  for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
    if (g->m.is_outside(x, y)) {
     field *fd = &(g->m.field_at(x, y));
     if (fd->type == fd_fire)
@@ -50,7 +50,7 @@ void weather_effect::very_wet(game *g)
 
 void weather_effect::thunder(game *g)
 {
- this->very_wet(g);
+ very_wet(g);
  if (one_in(THUNDER_CHANCE)) {
   if (g->levz >= 0)
    g->add_msg("You hear a distant rumble of thunder.");
@@ -61,11 +61,11 @@ void weather_effect::thunder(game *g)
 
 void weather_effect::lightning(game *g)
 {
- this->thunder(g);
+ thunder(g);
  if (one_in(LIGHTNING_CHANCE)) {
   std::vector<point> strike;
-  for (int x = 0; x < SEEX * MAPSIZE; x++) {
-   for (int y = 0; y < SEEY * MAPSIZE; y++) {
+  for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
+   for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
     if (g->m.move_cost(x, y) == 0 && g->m.is_outside(x, y))
      strike.push_back(point(x, y));
    }
@@ -81,7 +81,7 @@ void weather_effect::lightning(game *g)
 
 void weather_effect::light_acid(game *g)
 {
- this->wet(g);
+ wet(g);
  if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE)
   g->add_msg("The acid rain stings, but is harmless for now...");
 }
@@ -108,8 +108,8 @@ void weather_effect::acid(game *g)
   }
  }
  if (g->levz >= 0) {
-  for (int x = 0; x < SEEX * MAPSIZE; x++) {
-   for (int y = 0; y < SEEY * MAPSIZE; y++) {
+  for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
+   for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
     if (!g->m.has_flag(diggable, x, y) && !g->m.has_flag(noitem, x, y) &&
         g->m.move_cost(x, y) > 0 && g->m.is_outside(x, y) && one_in(400))
      g->m.add_field(g, x, y, fd_acid, 1);
@@ -122,5 +122,5 @@ void weather_effect::acid(game *g)
     g->z[i].hurt(1);
   }
  }
- this->very_wet(g);
+ very_wet(g);
 }

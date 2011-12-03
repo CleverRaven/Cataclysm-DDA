@@ -1094,6 +1094,15 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
    g->add_msg("You pry, but cannot lift the manhole cover.");
    p->moves -= 100;
   }
+ } else if (g->m.ter(dirx, diry) == t_crate_c) {
+  if (p->str_cur >= rng(3, 30)) {
+   g->add_msg("You pop the crate open.");
+   p->moves -= (150 - (p->str_cur * 5));
+   g->m.ter(dirx, diry) = t_crate_o;
+  } else {
+   g->add_msg("You pry, but cannot open the crate.");
+   p->moves -= 100;
+  } 
  } else {
   int nails = 0, boards = 0;
   ter_id newter;

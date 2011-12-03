@@ -2134,9 +2134,9 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  }
   
  if (has_trait(PF_PAINRESIST))
-  painadd = (sqrt(cut) + dam + cut) / (rng(4, 6));
+  painadd = (sqrt(double(cut)) + dam + cut) / (rng(4, 6));
  else
-  painadd = (sqrt(cut) + dam + cut) / 4;
+  painadd = (sqrt(double(cut)) + dam + cut) / 4;
  pain += painadd;
 
  switch (bphurt) {

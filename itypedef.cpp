@@ -12,6 +12,7 @@
 #define C_EYES   c_cyan
 #define C_HAT    c_dkgray
 #define C_STORE  c_green
+#define C_DECOR  c_ltgreen
 
 // GENERAL GUIDELINES
 // When adding a new item, you MUST REMEMBER to insert it in the itype_id enum
@@ -1292,9 +1293,21 @@ ARMOR("holster",	 8,  90,C_STORE,	LEATHER,	MNULL,
     2,  2,  2, -1,  0,  0,  0,  0,  0,  3,	0, "\
 Provides a bit of extra storage without encumbering you at all.");
 
+//     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("bootstrap",	 3,  80,C_STORE, 	LEATHER,	MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
     1,  1, -1, -1,  0,  0,  0,  0,  1,  2,	mfb(bp_legs), "\
 A small holster worn on the ankle.");
+
+ARMOR("gold ring",	12, 600,C_DECOR,	SILVER,		MNULL,
+    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,	0,	"\
+A flashy gold ring.  You can wear it if you like, but it won't provide\n\
+any effects.");
+
+ARMOR("silver necklace",14, 500,C_DECOR,	SILVER,		MNULL,
+    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,	0,	"\
+A nice silver necklace.  You can wear it if you like, but it won't provide\n\
+any effects.");
 
 // AMMUNITION
 // Material should be the wrapper--even though shot is made of iron, because
@@ -1699,14 +1712,14 @@ mfb(IF_STR_RELOAD));
 //  NAME		RAR PRC COLOR		MAT1	MAT2
 GUN("compound bow",      2, 700,c_yellow,       STEEL,  PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
-        sk_archery,     AT_ARROW,12, 8,  8,  1,  0, 16,  0,  6,  0,  1, 400, "\
+        sk_archery,     AT_ARROW,12, 8,  8,  1,  0, 16,  0,  6,  0,  1, 100, "\
 A bow with wheels that fires high velocity arrows.  Weaker people can use\n\
 compound bows more easily.  Arrows fired from this weapon have a good chance\n\
 of remaining intact for re-use.",
 mfb(IF_STR8_DRAW)|mfb(IF_RELOAD_AND_SHOOT));
         
 GUN("longbow",           5, 400,c_yellow,       WOOD,   MNULL,
-        sk_archery,     AT_ARROW,8, 4, 10,  0,  0, 12,  0,  6,  0,  1, 400, "\
+        sk_archery,     AT_ARROW,8, 4, 10,  0,  0, 12,  0,  6,  0,  1,  80, "\
 A six-foot wooden bow that fires feathered arrows.  This takes a fair amount\n\
 of strength to draw.  Arrows fired from this weapon have a good chance of\n\
 remaining intact for re-use.",

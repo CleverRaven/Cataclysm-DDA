@@ -82,8 +82,8 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   if (missed_by >= 1) {
 // We missed D:
 // Shoot a random nearby space?
-   tarx += rng(0 - int(sqrt(missed_by)), int(sqrt(missed_by)));
-   tary += rng(0 - int(sqrt(missed_by)), int(sqrt(missed_by)));
+   tarx += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
+   tary += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
    if (m.sees(p.posx, p.posy, x, y, -1, tart))
     trajectory = line_to(p.posx, p.posy, tarx, tary, tart);
    else
@@ -226,8 +226,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
 // Shoot a random nearby space?
   if (missed_by > 9)
    missed_by = 9;
-  tarx += rng(0 - int(sqrt(missed_by)), int(sqrt(missed_by)));
-  tary += rng(0 - int(sqrt(missed_by)), int(sqrt(missed_by)));
+  tarx += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
+  tary += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
   if (m.sees(p.posx, p.posy, tarx, tary, -1, tart))
    trajectory = line_to(p.posx, p.posy, tarx, tary, tart);
   else
@@ -544,9 +544,6 @@ int time_to_fire(player &p, it_gun* firing)
 		skill_name(firing->skill_used).c_str());
   time =  0;
  }
-
- if (firing->item_flags & mfb(IF_RELOAD_AND_SHOOT))
-  time *= 2;
 
  return time;
 }

@@ -113,7 +113,7 @@ int player::hit_mon(game *g, monster *z)
 // Movement cost
  moves -= weapon.attack_time() + 20 * encumb(bp_torso);
 // Different sizes affect your chance to hit
- if (hit_roll() < z->dodge_roll()) {// A miss!
+ if (hit_roll() < z->dodge_roll() || one_in(2 + dex_cur)) {// A miss!
   stumble(g);
   return 0;
  }
@@ -174,7 +174,7 @@ int player::hit_mon(game *g, monster *z)
  if (bash_dam > bash_cap)// Cap for weak characters
   bash_dam = (bash_cap * 3 + bash_dam) / 4;
  if (bashing)
-  bash_dam += rng(0, sklevel[sk_bashing] + sqrt(str_cur));
+  bash_dam += rng(0, sklevel[sk_bashing] + sqrt(double(str_cur)));
  if (z->has_flag(MF_PLASTIC))
   bash_dam /= rng(2, 4);
  int bash_min = bash_dam / 4;
@@ -261,7 +261,7 @@ int player::hit_mon(game *g, monster *z)
   if (unarmed) {
    dam += rng(1, 4) * sklevel[sk_unarmed];
    if (sklevel[sk_unarmed] > 5)
-    dam += 4 * (sklevel[sk_unarmed - 5]);
+    dam += 4 * (sklevel[sk_unarmed] - 5);
    z->moves -= dam;	// Stunning blow
    if (weapon.type->id == itm_bio_claws) {
     if (sklevel[sk_cutting] >= 3)
@@ -513,9 +513,9 @@ bool player::hit_player(player &p, body_part &bp, int &hitdam, int &hitcut)
 // Weapon adds (melee_dam / 4) to (melee_dam)
  hitdam += rng(weapon.damage_bash() / 4, weapon.damage_bash());
  if (bashing)
-  hitdam += rng(0, sklevel[sk_bashing]) * sqrt(str_cur);
+  hitdam += rng(0, sklevel[sk_bashing]) * sqrt(double(str_cur));
 
- hitdam += int(pow(1.5, sklevel[sk_melee]));
+ hitdam += int(pow(1.5, double(sklevel[sk_melee])));
  hitcut = weapon.damage_cut();
  if (hitcut > 0)
   hitcut += int(sklevel[sk_cutting] / 3);
@@ -598,15 +598,13 @@ bool player::scored_crit(int target_dodge)
  if (num_crits == 3)
   return true;
  else if (num_crits == 2)
-  return (hit_roll() >= target_dodge * 1.5);
+  return (hit_roll() >= target_dodge * 1.5 && !one_in(4));
 
  return false;
 }
 
 int player::dodge()
 {
-// If this function is called, it should be assumed that we're exercising
-//  the dodge skill.
  if (has_disease(DI_SLEEP) || has_disease(DI_LYING_DOWN))
   return 0;
  if (activity.type != ACT_NULL)

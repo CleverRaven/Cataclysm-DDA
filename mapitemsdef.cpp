@@ -362,7 +362,18 @@ void game::init_mapitems()
 	itm_cigar, itm_katana, itm_gold, itm_rapier, itm_cane, itm_suit,
 	itm_mask_gas, itm_goggles_welding, itm_goggles_nv, itm_glasses_monocle,
 	itm_tophat, itm_ruger_redhawk, itm_deagle_44, itm_m1911, itm_geiger_off,
-	itm_UPS_off, itm_tazer, itm_mp3, NULL);
+	itm_UPS_off, itm_tazer, itm_mp3, itm_fur, itm_leather, itm_string_36,
+	itm_chain, itm_steel_chunk, itm_manhole_cover, itm_rock,
+	itm_hammer_sledge, itm_ax, itm_knife_butcher, itm_knife_combat,
+	itm_bat, itm_petrified_eye, itm_binoculars, itm_boots, itm_mocassins,
+	itm_dress_shoes, itm_heels, itm_pants, itm_pants_army, itm_skirt,
+	itm_jumpsuit, itm_dress, itm_dress_shirt, itm_sweater, itm_blazer,
+	itm_jacket_leather, itm_coat_fur, itm_peacoat, itm_coat_lab,
+	itm_helmet_army, itm_hat_fur, itm_holster, itm_bootstrap,
+	itm_remington_870, itm_browning_blr, itm_remington_700, itm_sks,
+	itm_novel_romance, itm_novel_spy, itm_novel_scifi, itm_novel_drama,
+	itm_SICP, itm_textbook_robots, itm_extinguisher, itm_radio,
+	itm_chainsaw_off, itm_jackhammer, itm_ring, itm_necklace, NULL);
 
  setvector(
    mapitems[mi_mil_surplus], // NOT food or armor!

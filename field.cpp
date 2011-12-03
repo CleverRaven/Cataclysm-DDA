@@ -61,8 +61,8 @@ bool map::process_fields(game *g)
 
    case fd_fire: {
 // Consume items as fuel to help us grow/last longer.
-    bool destroyed;
-    int vol, smoke, consumed = 0;
+    bool destroyed = false;
+    int vol = 0, smoke = 0, consumed = 0;
     for (int i = 0; i < i_at(x, y).size() && consumed < cur->density * 2; i++) {
      destroyed = false;
      vol = i_at(x, y)[i].volume();

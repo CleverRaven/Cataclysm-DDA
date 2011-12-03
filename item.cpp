@@ -626,7 +626,7 @@ int item::volume_contained()
 
 int item::attack_time()
 {
- return 50 + 4 * volume() + 2 * weight();
+ return 75 + 4 * volume() + 2 * weight();
 }
 
 int item::damage_bash()

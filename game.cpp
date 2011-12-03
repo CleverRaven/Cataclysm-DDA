@@ -520,7 +520,7 @@ bool game::do_turn()
     int group = valid_group((mon_id)(z[i].type->id), levx, levy);
     if (group != -1) {
      cur_om.zg[group].population++;
-     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2) > 5)
+     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5)
       cur_om.zg[group].radius++;
     }
    }
@@ -656,10 +656,9 @@ void game::update_skills()
 //	5	 128
 //	6	  64
 //	7+	  32
- int tmp;
  for (int i = 0; i < num_skill_types; i++) {
-  tmp = u.sklevel[i] > 7 ? 7 : u.sklevel[i];
-  if (u.sklevel[i] > 0 && turn % (4096 / int(pow(2, tmp - 1))) == 0 &&
+  int tmp = u.sklevel[i] > 7 ? 7 : u.sklevel[i];
+  if (u.sklevel[i] > 0 && turn % (4096 / int(pow(2, double(tmp - 1)))) == 0 &&
       (( u.has_trait(PF_FORGETFUL) && one_in(3)) ||
        (!u.has_trait(PF_FORGETFUL) && one_in(4))   )) {
    if (u.has_bionic(bio_memory) && u.power_level > 0) {
@@ -974,6 +973,8 @@ void game::get_input()
   chat();
  else if (ch == 'Z')
   debug();
+ else if (ch == '-')
+  display_scent();
  else if (ch == '~') {
   debugmon = !debugmon;
   add_msg("Debug messages %s!", (debugmon ? "ON" : "OFF"));
@@ -1731,20 +1732,6 @@ void game::list_missions()
  refresh_all();
 }
 
-void game::display_scent()
-{
- int sc;
- char ch[1];
- for (int x = u.posx - SEEX; x <= u.posx + SEEX; x++) {
-  for (int y = u.posy - SEEY; y <= u.posy + SEEY; y++) {
-   sc = scent(x, y);
-   sprintf(ch, "%d", 10 * (sc - ( (sc - 1) / (u.scent / 6) ) ) );
-   mvputch(y + SEEY - u.posy, x + SEEX - u.posx, sev((sc - 1) / (u.scent / 6)),
-           ch[0]);
-  }
- }
-}
-
 void game::tutorial_message(tut_lesson lesson)
 {
 // Cycle through intro lessons
@@ -2418,7 +2405,7 @@ void game::monmove()
     int group = valid_group((mon_id)(z[i].type->id), levx, levy);
     if (group != -1) {
      cur_om.zg[group].population++;
-     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2) > 5)
+     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5)
       cur_om.zg[group].radius++;
     } else if (mt_to_mc((mon_id)(z[i].type->id)) != mcat_null) {
      cur_om.zg.push_back(mongroup(mt_to_mc((mon_id)(z[i].type->id)),
@@ -2629,13 +2616,17 @@ void game::add_footstep(int x, int y, int volume, int distance)
   err_offset--;
  if (u.has_trait(PF_BADHEARING))
   err_offset++;
+
+ int tries = 0, origx = x, origy = y;
  if (err_offset > 0) {
   do {
-   x += rng(-err_offset, err_offset);
-   y += rng(-err_offset, err_offset);
-  } while (u_see(x, y, t));
+   tries++;
+   x = origx + rng(-err_offset, err_offset);
+   y = origy + rng(-err_offset, err_offset);
+  } while (tries < 10 && (u_see(x, y, t) || (x == u.posx && y == u.posy)));
  }
- footsteps.push_back(point(x, y));
+ if (tries < 10)
+  footsteps.push_back(point(x, y));
  return;
 }
 
@@ -2656,7 +2647,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
  timespec ts;	// Timespec for the animation of the explosion
  ts.tv_sec = 0;
  ts.tv_nsec = EXPLOSION_SPEED;
- int radius = sqrt(power / 4);
+ int radius = sqrt(double(power / 4));
  int dam;
  std::string junk;
  if (power >= 30)
@@ -3493,6 +3484,7 @@ shape, but with long, twisted, distended limbs.");
 
 point game::look_around()
 {
+ draw_ter();
  int lx = u.posx, ly = u.posy;
  int mx, my, junk;
  char ch;
@@ -4048,10 +4040,10 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    return false;
   } else {
    it_container* container = dynamic_cast<it_container*>(cont->type);
-   if (!container->flags & mfb(con_wtight)) {
+   if (!(container->flags & mfb(con_wtight))) {
     add_msg("That %s isn't water-tight.", cont->tname(this).c_str());
     return false;
-   } else if (!container->flags & mfb(con_seals)) {
+   } else if (!(container->flags & mfb(con_seals))) {
     add_msg("You can't seal that %s!", cont->tname(this).c_str());
     return false;
    }
@@ -4250,7 +4242,17 @@ void game::plfire(bool burst)
 {
  if (!u.weapon.is_gun())
   return;
- if (u.weapon.charges == 0 && !u.weapon.has_flag(IF_RELOAD_AND_SHOOT)) {
+ if (u.weapon.has_flag(IF_RELOAD_AND_SHOOT)) {
+  int index = u.weapon.pick_reload_ammo(u, true);
+  if (index == -1) {
+   add_msg("Out of ammo!");
+   return;
+  }
+  u.moves -= u.weapon.reload_time(u);
+  u.weapon.reload(u, index);
+  draw_ter();
+ }
+ if (u.weapon.charges == 0) {
   add_msg("You need to reload!");
   return;
  }
@@ -4501,7 +4503,7 @@ void game::reload()
  if (u.weapon.is_gun()) {
   if (u.weapon.has_flag(IF_RELOAD_AND_SHOOT)) {
    add_msg("Your %s does not need to be reloaded; it reloads and fires in a \
-single action.");
+single action.", u.weapon.tname().c_str());
    return;
   }
   if (u.weapon.charges == u.weapon.clip_size()) {
@@ -5016,6 +5018,10 @@ void game::vertical_move(int movez, bool force)
 // > and < are used for diving underwater.
  if (m.move_cost(u.posx, u.posy) == 0 && m.has_flag(swimmable, u.posx, u.posy)){
   if (movez == -1) {
+   if (u.underwater) {
+    add_msg("You are already underwater!");
+    return;
+   }
    u.underwater = true;
    u.oxygen = 30 + 2 * u.str_cur;
    add_msg("You dive underwater!");
@@ -5050,15 +5056,16 @@ void game::vertical_move(int movez, bool force)
   stairx = u.posx;
   stairy = u.posy;
  } else { // We need to find the stairs.
-  for (int i = 0; i < SEEX * MAPSIZE && stairx == -1; i++) {
-   for (int j = 0; j < SEEX * MAPSIZE && stairx == -1; j++) {
-    int sx = (i + u.posx) % (SEEX * MAPSIZE),
-        sy = (j + u.posy) % (SEEY * MAPSIZE);
-    if ((movez == -1 && tmpmap.has_flag(goes_up, sx, sy)) ||
-        (movez ==  1 && (tmpmap.has_flag(goes_down, sx, sy) ||
-                         tmpmap.ter(sx, sy) == t_manhole_cover)))  {
-     stairx = sx;
-     stairy = sy;
+  int best = 999;
+   for (int i = u.posx - SEEX * 2; i <= u.posx + SEEX * 2; i++) {
+    for (int j = u.posy - SEEY * 2; j <= u.posy + SEEY * 2; j++) {
+    if (rl_dist(u.posx, u.posy, i, j) <= best &&
+        ((movez == -1 && tmpmap.has_flag(goes_up, i, j)) ||
+         (movez ==  1 && (tmpmap.has_flag(goes_down, i, j) ||
+                          tmpmap.ter(i, j) == t_manhole_cover)))) {
+     stairx = i;
+     stairy = j;
+     best = rl_dist(u.posx, u.posy, i, j);
     }
    }
   }
@@ -5248,7 +5255,7 @@ void game::update_map(int &x, int &y)
     group = valid_group((mon_id)(z[i].type->id), levx + shiftx, levy + shifty);
     if (group != -1) {
      cur_om.zg[group].population++;
-     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2) > 5)
+     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5)
       cur_om.zg[group].radius++;
     }
 /*  Removing adding new groups for now.  Haha!
@@ -5505,12 +5512,12 @@ void game::spawn_mon(int shiftx, int shifty)
   if (dist <= rad) {
 // (The area of the group's territory) in (population/square at this range)
 // chance of adding one monster; cap at the population OR 16
-   while (long((1.0 - double(dist / rad)) * pop) > rng(0, pow(rad, 2)) &&
-          rng(0, 17) > group && group < pop && group < 16)
+   while (long((1.0 - double(dist / rad)) * pop) > rng(0, pow(rad, 2.0)) &&
+          rng(0, 15) > group && group < pop && group < 24)
     group++;
    cur_om.zg[i].population -= group;
    if (group > 0) // If we spawned some zombies, advance the timer
-    nextspawn += rng(group + z.size() * 5, group * 3 + z.size() * 10);
+    nextspawn += rng(group + z.size() * 3, group * 3 + z.size() * 7);
    for (int j = 0; j < group; j++) {	// For each monster in the group...
     mon_id type = valid_monster_from(moncats[cur_om.zg[i].type]);
     if (type == mon_null)
@@ -5793,6 +5800,21 @@ nc_color sev(int a)
   case 6: return c_magenta;
  }
  return c_dkgray;
+}
+
+void game::display_scent()
+{
+ int div = query_int("Sensitivity");
+ draw_ter();
+ for (int x = u.posx - SEEX; x <= u.posx + SEEX; x++) {
+  for (int y = u.posy - SEEY; y <= u.posy + SEEY; y++) {
+   int sn = scent(x, y) / (div * 2);
+   mvwprintz(w_terrain, SEEY + y - u.posy, SEEX + x - u.posx, sev(sn), "%d",
+             sn % 10);
+  }
+ }
+ wrefresh(w_terrain);
+ getch();
 }
 
 void intro()
