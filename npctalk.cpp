@@ -50,7 +50,7 @@ void npc::talk_to_u(game *g)
  }
  most_difficult_mission = 0;
  for (int i = 0; i < chatbin.missions_assigned.size(); i++) {
-  mission_type *type = g->find_mission_type(chatbin.missions[i]);
+  mission_type *type = g->find_mission_type(chatbin.missions_assigned[i]);
   if (type->urgent && type->difficulty > most_difficult_mission) {
    d.topic_stack.push_back(TALK_INQUIRE_MISSION);
    chatbin.mission_selected = i;

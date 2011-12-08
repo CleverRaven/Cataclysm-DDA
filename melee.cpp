@@ -471,6 +471,8 @@ bool player::hit_player(player &p, body_part &bp, int &hitdam, int &hitcut)
   npc *foe = dynamic_cast<npc*>(&p);
   foe->make_angry();
  }
+// Movement cost
+ moves -= weapon.attack_time() + 20 * encumb(bp_torso);
  bool unarmed = unarmed_attack(), bashing = weapon.is_bashing_weapon(),
       cutting = weapon.is_cutting_weapon();
  int hitit = hit_roll() - p.dodge_roll();
