@@ -5489,7 +5489,7 @@ void game::update_overmap_seen()
     }
     sight_points -= cost;
    }
-   if (sight_points >= 0 - cost) {
+   if (sight_points >= 0) {
     int tmpx = x, tmpy = y;
     if (tmpx >= 0 && tmpx < OMAPX && tmpy >= 0 && tmpy < OMAPY)
      cur_om.seen(tmpx, tmpy) = true;
