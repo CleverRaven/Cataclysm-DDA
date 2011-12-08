@@ -26,7 +26,7 @@ class monster;
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
-#define mfb(n) long(pow(2,(double)(n)))
+#define mfb(n) long(1 << (n))
 #endif
 
 enum t_flag {

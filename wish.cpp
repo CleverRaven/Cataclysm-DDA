@@ -150,7 +150,7 @@ void game::wish()
    ch = input();
  } while (ch != '\n');
  clear();
- mvprintw(0, 0, "\nWish granted.");
+ mvprintw(0, 0, "\nWish granted - %d (%d).", tmp.type->id, itm_antibiotics);
  tmp.invlet = nextinv;
  u.i_add(tmp);
  advance_nextinv();

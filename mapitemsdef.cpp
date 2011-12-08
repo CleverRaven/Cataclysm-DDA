@@ -123,7 +123,8 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_harddrugs],
 	itm_inhaler, itm_codeine, itm_oxycodone, itm_tramadol, itm_xanax,
-	itm_adderall, itm_thorazine, itm_prozac, itm_syringe, NULL);
+	itm_adderall, itm_thorazine, itm_prozac, itm_antibiotics, itm_syringe,
+	NULL);
 
  setvector(
    mapitems[mi_cannedfood],
@@ -382,6 +383,18 @@ void game::init_mapitems()
 	itm_manual_mechanics, itm_manual_first_aid, itm_manual_traps,
 	itm_flashlight, itm_water_purifier, itm_two_way_radio, itm_radio,
 	itm_geiger_off, NULL);
+
+ setvector(
+   mapitems[mi_shelter],
+	itm_water, itm_soup, itm_chocolate, itm_ravioli, itm_can_beans,
+	itm_can_spam, itm_can_tuna, itm_coffee_raw, itm_bandages, itm_1st_aid,
+	itm_vitamins, itm_iodine, itm_dayquil, itm_screwdriver, itm_boots,
+	itm_boots_winter, itm_jeans, itm_tshirt, itm_sweatshirt, itm_sweater,
+	itm_coat_winter, itm_gloves_wool, itm_gloves_winter, itm_hat_knit,
+	itm_backpack, itm_battery, itm_novel_scifi, itm_novel_drama,
+	itm_manual_first_aid, itm_manual_tailor, itm_manual_carpentry,
+	itm_lighter, itm_sewing_kit, itm_hammer, itm_extinguisher,
+	itm_flashlight, itm_hotplate, itm_water_purifier, itm_radio, NULL);
 
  setvector(
    mapitems[mi_chemistry],

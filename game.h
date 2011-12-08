@@ -104,11 +104,17 @@ class game
   void cancel_activity();
   void cancel_activity_query(std::string message);
   void give_mission(mission_id type);
+  void assign_mission(int id);
 // reserve_mission() creates a new mission of the given type and pushes it to
 // active_missions.  The function returns the UID of the new mission, which can
 // then be passed to a MacGuffin or something else that needs to track a mission
-  int reserve_mission(mission_id type);
+  int reserve_mission(mission_id type, int npc_id = -1);
   mission* find_mission(int id); // Mission with UID=id; NULL if non-existant
+  mission_type* find_mission_type(int id); // Same, but returns its type
+  bool mission_complete(int id, int npc_id); // True if we made it
+  void wrap_up_mission(int id); // Perform required actions
+  void process_missions(); // Process missions, see if time's run out
+
   void teleport(player *p = NULL);
   void plswim(int x, int y); // Called by plmove.  Handles swimming
   void nuke(int x, int y);
@@ -145,6 +151,7 @@ class game
   std::vector <trap*> traps;
   std::vector <itype_id> mapitems[num_itloc]; // Items at various map types
   std::vector <items_location_and_chance> monitems[num_monsters];
+  std::vector<mission_type> mission_types; // The list of mission templates
   calendar turn;
   char nextinv;	// Determines which letter the next inv item will have
   overmap cur_om;
@@ -190,6 +197,7 @@ class game
   void init_missions();     // Initializes mission templates
 
   void create_factions();   // Creates new factions (for a new game world)
+  void create_starting_npcs(); // Creates NPCs that start near you
 
 // Player actions
   void wish();	// Cheat by wishing for an item 'Z'
@@ -310,7 +318,6 @@ class game
   std::string last_action;		// The keypresses of last turn
 
   std::vector<recipe> recipes;	// The list of valid recipes
-  std::vector<mission_type> mission_types; // The list of mission templates
   std::vector<constructable> constructions; // The list of constructions
   std::vector<mission> active_missions; // Missions which may be assigned
 

@@ -28,12 +28,17 @@ struct oter_t {
  bool known_up;
 };
 
-const map_extras road_extras(35, 40, 70, 130, 20, 40, 20, 7, 80, 10, 150, 10, 8,
-                             10);
 const map_extras no_extras(0);
-const map_extras field_extras(40, 40, 20, 40, 10, 5, 10, 3, 50, 70, 300, 10, 8, 5);
-const map_extras subway_extras(50, 0, 50, 70, 0, 5, 0, 7, 0, 0, 120, 0, 0, 5);
-const map_extras building_extras(50, 0, 60, 140, 0, 40, 0, 5); 
+const map_extras road_extras(
+// %%% HEL MIL SCI STA DRG SUP PRT MIN WLF PUD CRT FUM 1WY
+    35, 40, 50,120,200, 30, 10,  5, 80, 20,200, 10,  8,  4);
+const map_extras field_extras(
+    45, 40, 25, 60,100, 10, 10,  3, 50, 80,300, 10,  8,  3);
+const map_extras subway_extras(
+// %%% HEL MIL SCI STA DRG SUP PRT MIN WLF PUD CRT FUM 1WY
+    60,  0,  5, 12,  5,  5,  0,  7,  0,  0,120,  0, 20,  5);
+const map_extras building_extras(
+    90,  0,  5, 12,  0, 10,  0,  5,  5,  0,  0, 60,  8,  3); 
 
 enum oter_id {
  ot_null = 0,
@@ -80,6 +85,7 @@ enum oter_id {
   ot_mil_surplus_west,
  ot_megastore_entrance, ot_megastore,
 // Goodies/dungeons
+ ot_shelter, ot_shelter_under,
  ot_lab, ot_lab_stairs, ot_lab_core, ot_lab_finale,
  ot_nuke_plant_entrance, ot_nuke_plant, // TODO
  ot_bunker,
@@ -219,10 +225,10 @@ const oter_t oterlist[num_ter_types] = {
 {"police station",	'>',	c_dkgray,	5, building_extras, false, false},
 {"police station",	'v',	c_dkgray,	5, building_extras, false, false},
 {"police station",	'<',	c_dkgray,	5, building_extras, false, false},
-{"bank",		'^',	c_ltgray,	5, building_extras, false, false},
-{"bank",		'>',	c_ltgray,	5, building_extras, false, false},
-{"bank",		'v',	c_ltgray,	5, building_extras, false, false},
-{"bank",		'<',	c_ltgray,	5, building_extras, false, false},
+{"bank",		'^',	c_ltgray,	5, no_extras, false, false},
+{"bank",		'>',	c_ltgray,	5, no_extras, false, false},
+{"bank",		'v',	c_ltgray,	5, no_extras, false, false},
+{"bank",		'<',	c_ltgray,	5, no_extras, false, false},
 {"bar",			'^',	c_pink,		5, building_extras, false, false},
 {"bar",			'>',	c_pink,		5, building_extras, false, false},
 {"bar",			'v',	c_pink,		5, building_extras, false, false},
@@ -237,10 +243,12 @@ const oter_t oterlist[num_ter_types] = {
 {"mil. surplus",	'<',	c_white,	5, building_extras, false, false},
 {"megastore",		'M',	c_ltblue,	5, building_extras, false, false},
 {"megastore",		'M',	c_blue,		5, building_extras, false, false},
-{"science lab",		'L',	c_ltblue,	5, no_extras, true, false},
+{"evac shelter",	'+',	c_white,	2, no_extras, true, false},
+{"evac shelter",	'+',	c_white,	2, no_extras, false, true},
+{"science lab",		'L',	c_ltblue,	5, no_extras, false, false},
 {"science lab",		'L',	c_blue,		5, no_extras, true, false},
-{"science lab",		'L',	c_ltblue,	5, no_extras, true, false},
-{"science lab",		'L',	c_cyan,		5, no_extras, true, false},
+{"science lab",		'L',	c_ltblue,	5, no_extras, false, false},
+{"science lab",		'L',	c_cyan,		5, no_extras, false, false},
 {"nuclear plant",	'P',	c_ltgreen,	5, no_extras, false, false},
 {"nuclear plant",	'P',	c_ltgreen,	5, no_extras, false, false},
 {"military bunker",	'B',	c_dkgray,	2, no_extras, true, true},
@@ -385,6 +393,7 @@ enum omspec_id
  OMSPEC_FUNGUS,
  OMSPEC_TRIFFID,
  OMSPEC_LAKE,
+ OMSPEC_SHELTER,
  NUM_OMSPECS
 };
 
@@ -450,7 +459,10 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::forest, 0},
 
 {ot_river_center, 10, 10, -1, mcat_null, 0, 0, 0, 0,
- &omspec_place::always, mfb(OMS_FLAG_BLOB)}
+ &omspec_place::always, mfb(OMS_FLAG_BLOB)},
+
+{ot_shelter,      10, 5, 10, mcat_null, 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)}
 
 };
  

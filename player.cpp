@@ -2087,9 +2087,32 @@ int player::read_speed(bool real_life)
  return (real_life ? ret : ret / 10);
 }
 
-int player::convince_score()
+int player::talk_skill()
 {
- return int_cur + sklevel[sk_speech] * 3;
+ int ret = int_cur + per_cur + sklevel[sk_speech] * 3;
+ if (has_trait(PF_DEFORMED))
+  ret -= 4;
+ else if (has_trait(PF_DEFORMED2))
+  ret -= 6;
+
+ return ret;
+}
+
+int player::intimidation()
+{
+ int ret = str_cur * 2;
+ if (weapon.is_gun())
+  ret += 10;
+ if (weapon.damage_bash() >= 12 || weapon.damage_cut() >= 12)
+  ret += 5;
+ if (has_trait(PF_DEFORMED2))
+  ret += 3;
+ if (stim > 20)
+  ret += 2;
+ if (has_disease(DI_DRUNK))
+  ret -= 4;
+
+ return ret;
 }
 
 void player::hit(game *g, body_part bphurt, int side, int dam, int cut)

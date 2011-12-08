@@ -10,26 +10,63 @@
 #include <sstream>
 #include <fstream>
 
-void say_hello		(game *g, dialogue &d);
-void say_ask_for	(game *g, dialogue &d, npc_need need);
-void say_put_em_up	(game *g, dialogue &d);
-void say_listen		(game *g, dialogue &d);
-void say_listen_need	(game *g, dialogue &d);
-void say_give_advice	(game *g, dialogue &d);
-void say_listen_about	(game *g, dialogue &d);
-void say_why_join	(game *g, dialogue &d);
+// Some aliases to help with gen_responses
+#define RESPONSE(txt)	   ret.push_back(talk_response());\
+                           ret.back().text = txt
 
+#define SELECT_MISS(txt, index)  ret.push_back(talk_response());\
+                                 ret.back().text = txt;\
+                                 ret.back().mission_index = index
+
+#define TRIAL(tr)       ret.back().trial = tr
+#define DIFF(diff)      ret.back().difficulty = diff
+#define SUCCESS(topic)  ret.back().success = topic
+#define FAILURE(topic)  ret.back().failure = topic
+#define SUCCESS_ACTION(func)  ret.back().effect_success = func
+#define FAILURE_ACTION(func)  ret.back().effect_failure = func
+
+std::string dynamic_line(talk_topic topic, game *g, npc *p);
+std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p);
+int trial_chance(talk_response response, player *u, npc *p);
 bool trade(game *g, dialogue &d, int cost, std::string deal);
 
 void npc::talk_to_u(game *g)
 {
- moves -= 100;
  if (attitude == NPCATT_TALK)
   attitude = NPCATT_NULL;
  dialogue d;
  d.alpha = &g->u;
  d.beta = this;
- d.done = false;
+ d.topic_stack.push_back(chatbin.first_topic);
+
+ int most_difficult_mission = 0;
+ for (int i = 0; i < chatbin.missions.size(); i++) {
+  mission_type *type = g->find_mission_type(chatbin.missions[i]);
+  if (type->urgent && type->difficulty > most_difficult_mission) {
+   d.topic_stack.push_back(TALK_DESCRIBE_MISSION);
+   chatbin.mission_selected = i;
+   most_difficult_mission = type->difficulty;
+  }
+ }
+ most_difficult_mission = 0;
+ for (int i = 0; i < chatbin.missions_assigned.size(); i++) {
+  mission_type *type = g->find_mission_type(chatbin.missions[i]);
+  if (type->urgent && type->difficulty > most_difficult_mission) {
+   d.topic_stack.push_back(TALK_INQUIRE_MISSION);
+   chatbin.mission_selected = i;
+   most_difficult_mission = type->difficulty;
+  }
+ }
+
+ if (d.topic_stack.back() == TALK_NONE) {
+  g->add_msg("%s says, \"Leave me alone.\"", name.c_str());
+  return;
+ }
+
+ moves -= 100;
+ decide_needs();
+  
+
  d.win = newwin(25, 80, 0, 0);
  wborder(d.win, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -39,443 +76,275 @@ void npc::talk_to_u(game *g)
  mvwputch(d.win, 24, 41, c_ltgray, LINE_XXOX);
  mvwprintz(d.win, 1,  1, c_white, "Dialogue with %s", name.c_str());
  mvwprintz(d.win, 1, 43, c_white, "Your response:");
- decide_needs();
 
-// Decide on opening line
+// Main dialogue loop
  do { 
-  if (op_of_u.fear  < personality.bravery &&
-      op_of_u.value < personality.aggression * 2)
-   say_put_em_up(g, d);
-  else if (attitude == NPCATT_TALK && needs.size() > 0 && needs[0] != need_none)
-   say_ask_for(g, d, needs[0]);
-  else if (attitude == NPCATT_TALK)
-   say_hello(g, d);
-  else
-   say_listen(g, d);
+  talk_topic next = d.opt(d.topic_stack.back(), g);
+  if (next == TALK_NONE) {
+   d.topic_stack.pop_back();
+   while (d.topic_stack.back() >= TALK_MISSION_START &&
+          d.topic_stack.back() <= TALK_MISSION_END     )
+    d.topic_stack.pop_back();
+  }
+  if (next == TALK_DONE || d.topic_stack.empty())
+   d.done = true;
+  else if (next != TALK_NONE)
+   d.topic_stack.push_back(next);
  } while (!d.done);
  delwin(d.win);
  g->refresh_all();
 }
 
-void say_hello(game *g, dialogue &d)
+std::string dynamic_line(talk_topic topic, game *g, npc *p)
 {
- int opt = d.opt("Hello.", "\"Let's travel together.\"", "\"Leave me alone.\"",
-                 "Ignore them", NULL);
- switch (opt) {
-  case 1:
-   say_why_join(g, d);
-   break;
-  case 2:
-   d.done = true;
-   d.beta->attitude = NPCATT_NULL;
-   break;
-  case 0:
-   d.done = true;
-   if (d.beta->op_of_u.fear <= 0 && d.beta->op_of_u.value > 5)
-    d.beta->attitude = NPCATT_FOLLOW;
-   else
-    d.beta->attitude = NPCATT_NULL;
-   break;
- }
-}
+// First, a sanity test for mission stuff
+ if (topic >= TALK_MISSION_START && topic <= TALK_MISSION_END) {
 
-// need is what we have determined to be our dearest need at the moment.
-// This is determined in npc::decide_needs(), found in npc.cpp
-// See dialogue.h for the strings talk_needs
-void say_ask_for(game *g, dialogue &d, npc_need need)
-{
- int opt = d.opt(talk_needs[need][rng(0, 4)],
-                 "\"Okay, let's trade.\"",
-                 "&\"Follow me, we'll search together.\"",
-                 "\"I don't have any, but...\"", "Ignore them", NULL);
- switch (opt) {
-  case 1:
-   trade(g, d, 0, "");
-   wrefresh(d.win);
-   break;
-  case 2:
-   d.done = true;
-// TODO: Maybe not follow
-   d.beta->attitude = NPCATT_FOLLOW;
-   break;
-  case 3:
-   say_listen(g, d);
-   break;
-  case 0:
-   d.done = true;
-   if (d.beta->op_of_u.fear <= 0 && d.beta->op_of_u.value > 5)
-    d.beta->attitude = NPCATT_FOLLOW;
-   else
-    d.beta->attitude = NPCATT_NULL;
-   break;
- }
-}
+  if (topic == TALK_MISSION_START)
+   return "Used TALK_MISSION_START - not meant to be used!";
+  if (topic == TALK_MISSION_END)
+   return "Used TALK_MISSION_END - not meant to be used!";
 
-void say_put_em_up(game *g, dialogue &d)
-{
- int opt;
- if (d.alpha->weapon.type->id == 0) {
-  opt = d.opt(talk_hands_up[rng(0, 9)],
-              "*Put hands up", "!Exit dialogue", NULL);
-  switch (opt) {
-   case 1:
-    d.beta->attitude = NPCATT_MUG;
-    d.done = true;
-    break;
-   case 0:
-    d.beta->attitude = NPCATT_KILL;
-    d.beta->op_of_u.trust -= 8;
-    d.done = true;
-  }
- } else {
-  opt = d.opt("<drop_it>",
-              "Drop weapon", "!Exit dialogue", NULL);
-  switch (opt) {
-  case 1:
-   g->m.add_item(d.alpha->posx, d.alpha->posy, d.alpha->remove_weapon());
-   say_put_em_up(g, d);
-   break;
-  case 0:
-   d.beta->attitude = NPCATT_KILL;
-   d.beta->op_of_u.trust -= 10;
-   d.done = true;
-   break;
-  }
- }
-}
-
-void say_listen(game *g, dialogue &d)
-{
- if (d.beta->is_following()) {
-  int opt = d.opt("Yes?", "\"I need...",
-                          "\"Tell me about...",
-                          "\"Let's do some trading.\"",
-                          "\"We need to get out of here!\"",
-                          (d.beta->attitude == NPCATT_DEFEND ?
-                           "\"I'm okay, just watch your own ass.\"" :
-                           "\"Help me!\""),
-                          (d.beta->attitude == NPCATT_WAIT ?
-                           "\"Okay, let's go.\"" :
-                           "\"Wait here.\""),
-                          "\"Stop following me.\"",
-                          "\"Nothing, let's go.\"", NULL);
-  switch (opt) {
-  case 1:
-   say_listen_need(g, d);
-   break;
-  case 2:
-   say_listen_about(g, d);
-   break;
-  case 3:
-   if (trade(g, d, 0, ""))
-    d.done = true;
-   wrefresh(d.win);
-   break;
-  case 4:
-   d.beta->attitude = NPCATT_FOLLOW_RUN;
-   d.done = true;
-   break;
-  case 5:
-   if (d.beta->attitude == NPCATT_DEFEND)
-    d.beta->attitude = NPCATT_FOLLOW;
-   else
-    d.beta->told_to_help(g);
-   d.done = true;
-   break;
-  case 6:
-   if (d.beta->attitude == NPCATT_WAIT)
-    d.beta->attitude = NPCATT_FOLLOW;
-   else
-    d.beta->told_to_wait(g);
-   d.done = true;
-   break;
-  case 7:
-   d.beta->told_to_leave(g);
-   d.done = true;
-   break;
-  case 0:
-   d.done = true;
-   break;
-  }
- } else {
-  int opt = d.opt("Yes?", "\"I need...\"",
-                          "\"Want to travel together?\"", 
-                          "\"Want to trade?\"",
-                          "\"Nothing, bye.\"", NULL);
-  switch (opt) {
-  case 1:
-   say_listen_need(g, d);
-   break;
-  case 2:
-   say_why_join(g, d);
-   break;
-  case 3:
-   if (trade(g, d, 0, ""))
-    d.done = true;
-   wrefresh(d.win);
-   break;
-  case 0:
-   d.done = true;
-   break;
-  }
- }
-}
-
-void say_listen_need(game *g, dialogue &d)
-{
- std::string response;
- point lookp;
- npc_opinion opinion = d.beta->op_of_u;
- int opt2;
- int opt = d.opt("What do you need, <name_g>?",
-                 "\"Healing.\"",
-                 "\"Directions to...\"",
-                 "\"Advice!\"",
-                 "\"Never mind.\"",
-                 "\"Bye.\"", NULL);
- switch (opt) {
- case 1:
-  opinion.value--;
-  if (opinion.fear > 0)
-   opinion.fear--;
-  if (opinion.value * 4 + opinion.trust + d.beta->personality.altruism * 3 +
-      (d.beta->fac_has_value(FACVAL_CHARITABLE)    ?  5 : 0) +
-      (d.beta->fac_has_job(FACJOB_DOCTORS) ? 15 : 0) -
-      opinion.fear * 3 >= 25) {
-   if (d.beta->has_amount(itm_bandages,1) || d.beta->has_amount(itm_1st_aid,1)){
-    d.beta->attitude = NPCATT_HEAL;
-    d.done = true;
-    d.beta->say(g, "Okay, hold still and I'll heal you.");
-   } else
-    d.beta->say(g, "I would if I had some medical supplies...");
+  if (p->chatbin.mission_selected == -1)
+   return "mission_selected = -1; BUG!";
+  int id = -1;
+  if (topic == TALK_INQUIRE_MISSION || topic == TALK_MISSION_ACCEPTED ||
+      topic == TALK_MISSION_SUCCESS) {
+   if (p->chatbin.mission_selected >= p->chatbin.missions_assigned.size())
+    return "mission_selected is too high; BUG!";
+   id = p->chatbin.missions_assigned[ p->chatbin.mission_selected ];
   } else {
-   d.done = true;
-   d.beta->say(g, "Sorry... I can't help you.");
+   if (p->chatbin.mission_selected >= p->chatbin.missions.size())
+    return "mission_selected is too high; BUG!";
+   id = p->chatbin.missions[ p->chatbin.mission_selected ];
   }
-  break;
- case 2:
-  do {
-   opt2 = d.opt("Directions to what?",
-                "\"A gun store.\"",
-                "\"A pharmacy.\"",
-                "\"A grocery store.\"",
-                "\"A liquor store.\"",
-                "\"A hardware store.\"",
-                "\"Bye.\"", NULL);
-   oter_id look;
-   switch (opt2) {
-    case 1: look = ot_s_gun_north;      break;
-    case 2: look = ot_s_pharm_north;    break;
-    case 3: look = ot_s_grocery_north;  break;
-    case 4: look = ot_s_liquor_north;   break;
-    case 5: look = ot_s_hardware_north; break;
-    case 0: d.done = true;              break;
-   }
-   if (opt2 != 0) {
-    int dist = 50;
-    lookp = g->cur_om.find_closest(point(g->levx / 2, g->levy / 2), look, 4,
-                                   dist, false);
-    if (lookp.x != -1) {
-     lookp.x = lookp.x * 2 - 1;
-     lookp.y = lookp.y * 2 - 1;
-     if (lookp.x == g->levx && lookp.y == g->levy)
-      response = "We're standing in one!";
-     else {
-      std::stringstream msg;
-      std::string unit = "feet";
-      dist *= SEEX * MAPSIZE;
-      msg << "There's one to the " <<
-             direction_from(g->levx, g->levy, lookp.x, lookp.y);
-      if (dist >= 50000)
-       msg << ", many miles away.";
-      else if (dist >= 15000)
-       msg << ", a few miles away.";
-      else if (dist >= 9000)
-       msg << ", a couple miles away.";
-      else if (dist >= 5000)
-       msg << ", about a mile away.";
-      else if (dist >= 2500)
-       msg << ", about half a mile away.";
-      else {
-       dist = int(dist / 50) * 50;
-       if (dist == 0)
-        msg << ", like... right there.";
-       else
-        msg << ", about " << dist << " feet away.";
-      }
-      response = msg.str();
-     }
-    } else
-     response = "I honestly have no idea.";
-    opt2 = d.opt(response,
-                 "\"Thanks.  I need more directions.\"",
-                 "\"Thanks.  Something else...\"",
-                 "\"Thanks, that's all.\"", NULL);
-   }
-  } while (opt2 == 1);
-  if (opt2 == 2)
-   say_listen(g, d);
-  if (opt2 == 0)
-   d.done = true;
-  break;
- case 3:
-  say_give_advice(g, d);
-  break;
- case 4:
-  say_listen(g, d);
-  break;
- case 0:
-  d.done = true;
-  break;
+
+// Mission stuff is a special case, so we'll handle it up here
+  mission_dialogue_state dia_state;
+  switch (topic) {
+   case TALK_DESCRIBE_MISSION: dia_state = MISSION_DIA_MENTION; break;
+   case TALK_OFFER_MISSION:    dia_state = MISSION_DIA_OFFER;   break;
+   case TALK_MISSION_ACCEPTED: dia_state = MISSION_DIA_ACCEPT;  break;
+   case TALK_MISSION_REJECTED: dia_state = MISSION_DIA_REFUSE;  break;
+   case TALK_INQUIRE_MISSION:  dia_state = MISSION_DIA_INQUIRE; break;
+   case TALK_MISSION_SUCCESS:  dia_state = MISSION_DIA_SUCCESS; break;
+  }
+
+  mission_type *type = g->find_mission_type(id);
+
+  return mission_dialogue(mission_id(type->id), dia_state);
  }
+  
+ switch (topic) {
+ case TALK_NONE:
+ case TALK_DONE:
+  return "";
+
+ case TALK_MISSION_LIST:
+  if (p->chatbin.missions.empty()) {
+   if (p->chatbin.missions_assigned.empty())
+    return "I don't have any jobs for you.";
+   else
+    return "I don't have any more jobs for you.";
+  } else if (p->chatbin.missions.size() == 1) {
+    if (p->chatbin.missions_assigned.empty())
+     return "I just have one job for you.  Want to hear about it?";
+    else
+     return "I have other one job for you.  Want to hear about it?";
+  } else if (p->chatbin.missions_assigned.empty())
+    return "I have several jobs for you.  Which should I describe?";
+  else
+   return "I have several more jobs for you.  Which should I describe?";
+
+ case TALK_SHELTER:
+  switch (rng(1, 2)) {
+   case 1: return "Well, I guess it's just us.";
+   case 2: return "At least we've got shelter.";
+  }
+
+ case TALK_SHELTER_PLANS:
+  return "I don't know, look for supplies and other survivors I guess.";
+
+ }
+
+ return "I don't know what to say. (BUG)";
 }
 
-void say_give_advice(game *g, dialogue &d)
+std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
 {
- std::ifstream fin;
- fin.open("data/NPC_HINTS");
- if (!fin.is_open()) {
-  debugmsg("Couldn't open NPC_HINTS.");
-  d.done = true;
+ std::vector<talk_response> ret;
+
+ switch (topic) {
+ case TALK_MISSION_LIST:
+  if (p->chatbin.missions.empty()) {
+   RESPONSE("Oh, okay");
+    SUCCESS(TALK_NONE);
+  } else if (p->chatbin.missions.size() == 1) {
+   SELECT_MISS("Tell me about it", 0);
+    SUCCESS(TALK_OFFER_MISSION);
+   RESPONSE("Never mind, I'm not interested.");
+    SUCCESS(TALK_NONE);
+  } else {
+   for (int i = 0; i < p->chatbin.missions.size(); i++) {
+    SELECT_MISS(g->find_mission_type( p->chatbin.missions[i] )->name, i);
+     SUCCESS(TALK_OFFER_MISSION);
+   }
+   RESPONSE("Never mind, I'm not interested.");
+    SUCCESS(TALK_NONE);
+  }
+  break;
+
+ case TALK_DESCRIBE_MISSION:
+  RESPONSE("What's the matter?");
+   SUCCESS(TALK_OFFER_MISSION);
+  RESPONSE("I don't care.");
+   SUCCESS(TALK_MISSION_REJECTED);
+  break;
+
+ case TALK_OFFER_MISSION:
+  RESPONSE("I'll do it!");
+   SUCCESS(TALK_MISSION_ACCEPTED);
+   SUCCESS_ACTION(&talk_function::assign_mission);
+  RESPONSE("Not interested.");
+   SUCCESS(TALK_MISSION_REJECTED);
+  break;
+
+ case TALK_MISSION_ACCEPTED:
+  RESPONSE("Not a problem.");
+   SUCCESS(TALK_NONE);
+  RESPONSE("I'll be back soon!");
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_MISSION_REJECTED:
+  RESPONSE("I'm sorry.");
+   SUCCESS(TALK_NONE);
+  RESPONSE("Whatever.  Bye.");
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_INQUIRE_MISSION: {
+  int id = p->chatbin.missions_assigned[ p->chatbin.mission_selected ];
+  if (!g->mission_complete(id, p->id)) {
+   RESPONSE("Not yet.");
+    SUCCESS(TALK_NONE);
+// TODO: Lie about mission
+   RESPONSE("No.  I'll get back to it, bye!");
+    SUCCESS(TALK_DONE);
+  } else {
+// TODO: Lie about mission
+   mission_type *type = g->find_mission_type(id);
+   switch (type->goal) {
+   case MGOAL_FIND_ITEM:
+    RESPONSE("Yup!  Here it is!");
+     SUCCESS(TALK_MISSION_SUCCESS);
+     SUCCESS_ACTION(&talk_function::mission_success);
+    break;
+   case MGOAL_GO_TO:
+   case MGOAL_FIND_NPC:
+    RESPONSE("Here I am.");
+     SUCCESS(TALK_MISSION_SUCCESS);
+     SUCCESS_ACTION(&talk_function::mission_success);
+    break;
+   default:
+    RESPONSE("Mission success!  I don't know what else to say.");
+     SUCCESS(TALK_MISSION_SUCCESS);
+     SUCCESS_ACTION(&talk_function::mission_success);
+    break;
+   }
+  }
+ } break;
+
+ case TALK_MISSION_SUCCESS:
+// TODO: Demand reward.
+  RESPONSE("Glad to help.");
+   SUCCESS(TALK_NONE);
+   SUCCESS_ACTION(&talk_function::clear_mission);
+  RESPONSE("Glad to help.  Bye!");
+   SUCCESS(TALK_DONE);
+   SUCCESS_ACTION(&talk_function::clear_mission);
+  break;
+
+ case TALK_SHELTER:
+  RESPONSE("What should we do now?");
+   SUCCESS(TALK_SHELTER_PLANS);
+  RESPONSE("Well, bye.");
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_SHELTER_PLANS:
+// TODO: Add "follow me"
+  RESPONSE("Hmm, okay.  Bye.");
+   SUCCESS(TALK_DONE);
+  break;
+
+ }
+
+ if (ret.empty()) {
+  RESPONSE("Bye.");
+   SUCCESS(TALK_DONE);
+ }
+
+ return ret;
+}
+
+int trial_chance(talk_response response, player *u, npc *p)
+{
+ talk_trial trial = response.trial;
+ int diff = response.difficulty;
+ switch (trial) {
+  case TALK_TRIAL_LIE:
+   return diff - u->talk_skill() + p->talk_skill();
+
+  case TALK_TRIAL_PERSUADE:
+   return diff - u->talk_skill() + int(p->talk_skill() / 2);
+
+  case TALK_TRIAL_INTIMIDATE:
+   return diff - u->intimidation() + p->intimidation();
+
+ }
+
+ return 0;
+}
+
+void talk_function::assign_mission(game *g, npc *p)
+{
+ int selected = p->chatbin.mission_selected;
+ if (selected == -1 || selected >= p->chatbin.missions.size()) {
+  debugmsg("mission_selected = %d; missions.size() = %d!",
+           selected, p->chatbin.missions.size());
   return;
  }
-// Count the number of lines in NPC_HINTS
- int num_hints = 0;
- std::string hint;
- while (getline(fin, hint)) {
-  if (hint.length() > 2)	// Ignore empty or near-empty lines
-   num_hints++;
- }
- int nhint = rng(1, num_hints);
- int cur = 0;
- fin.clear();
- fin.seekg(0, std::ios::beg);
- fin.clear();
- while (cur < nhint && getline(fin, hint)) {
-  if (hint.length() > 2)
-   cur++;
- }
-
- int opt = d.opt(hint,
-                 "\"Thanks.  Anything else?\"",
-                 "\"Thanks.  That's all I need.\"",
-                 "\"Thanks.  Bye.\"", NULL);
- switch (opt) {
-  case 1: say_give_advice(g, d);break;
-  case 2: say_listen(g, d);	break;
-  case 0: d.done = true;	break;
- }
+ g->assign_mission(p->chatbin.missions[selected]);
+ g->u.active_missions.back().npc_id = p->id;
+ p->chatbin.missions_assigned.push_back( p->chatbin.missions[selected] );
+ p->chatbin.missions.erase(p->chatbin.missions.begin() + selected);
 }
 
-void say_listen_about(game *g, dialogue &d)
+void talk_function::mission_success(game *g, npc *p)
 {
- int opt = d.opt("About what?",
-                 "\"About you.\"",
-                 "\"About your faction.\"",
-                 "\"About other factions.\"",
-                 "\"Never mind.\"",
-                 "\"Never mind, bye.\"", NULL);
- std::string describe;
- switch (opt) {
- case 1:
-  //describe = d.beta->describe_self();
-  describe = "Not coded yet.";
-  break;
- case 2:
-  if (d.beta->my_fac == NULL)
-   describe = talk_no_faction[rng(0, 9)];
-  else
-   describe = d.beta->my_fac->describe();
-  break;
- case 3:
-  debugmsg("Not coded yet.");
-  d.done = true;
- case 4:
-  say_listen(g, d);
-  break;
- case 0:
-  d.done = true;
-  break;
+ int selected = p->chatbin.mission_selected;
+ if (selected == -1 || selected >= p->chatbin.missions_assigned.size()) {
+  debugmsg("mission_selected = %d; missions_assigned.size() = %d!",
+           selected, p->chatbin.missions_assigned.size());
+  return;
  }
- if (opt == 1 || opt == 2) {
-  switch(d.opt(describe,
-               "\"Okay, another question...\"",
-               "\"Thanks, that's it.\"", NULL)) {
-   case 1: say_listen_about(g, d); break;
-   case 0: d.done = true; break;
-  }
+ g->wrap_up_mission(p->chatbin.missions_assigned[selected]);
+}
+
+void talk_function::clear_mission(game *g, npc *p)
+{
+ int selected = p->chatbin.mission_selected;
+ p->chatbin.mission_selected = -1;
+ if (selected == -1 || selected >= p->chatbin.missions_assigned.size()) {
+  debugmsg("mission_selected = %d; missions_assigned.size() = %d!",
+           selected, p->chatbin.missions_assigned.size());
+  return;
  }
+ p->chatbin.missions_assigned.erase( p->chatbin.missions_assigned.begin() +
+                                     selected);
 }
  
-void say_why_join(game *g, dialogue &d)
-{
- int opt = d.opt("Why should I travel with you?",
-                 "\"We'll be safer together.\"",
-                 "\"I'll pay you.\"",
-                 "!\"I'll kill you if you don't.\"",
-                 "\"Never mind.  Bye.\"", NULL);
- bool will_travel = false;
- switch (opt) {
- case 1:
-  d.alpha->practice(sk_speech, 4);
-  if (d.beta->wants_to_travel_with(d.alpha)) {
-   d.beta->op_of_u.value++;
-   d.beta->op_of_u.trust++;
-   d.beta->say(g, "Alright, let's do it!");
-   will_travel = true;
-  }
-  break;
- case 2:
- // if (trade(g, d, d.beta->price_to_follow())) {
-  if (trade(g, d, -1000, "Hire: Travel together")) {
-   d.beta->op_of_u.value--;
-   d.beta->op_of_u.trust += 2;
-   d.beta->op_of_u.fear--;
-   will_travel = true;
-   d.beta->say(g, "You've got yourself a deal!");
-  }
-  wrefresh(d.win);
-  break;
- case 3:
-  d.beta->op_of_u.trust -= 8;
-  d.beta->op_of_u.value -= 3;
-  d.beta->op_of_u.fear++;
-  if (d.beta->op_of_u.fear - d.beta->personality.bravery -
-      d.beta->personality.aggression < 0) {
-   d.beta->op_of_u.value++;
-   d.beta->say(g, "Fine, you monster!");
-   will_travel = true;
-  } else if (d.beta->op_of_u.fear - 2 * d.beta->personality.aggression -
-             d.beta->personality.bravery < -4) {
-   d.beta->say(g, "Never!");
-   d.beta->attitude = NPCATT_KILL;
-   d.done = true;
-  } else {
-   d.beta->attitude = NPCATT_FLEE;
-   d.done = true;
-  }
-  break;
- case 0:
-  d.done = true;
-  break;
- }
- if (will_travel) {
-  if (opt == 3)
-   d.beta->attitude = NPCATT_SLAVE;
-  else
-   d.beta->attitude = NPCATT_FOLLOW;
-  d.done = true;
- } else if (d.done == false) {
-  opt = d.opt("Eh.  No thanks.", "\"Oh.  But what if...\"",
-                                 "\"That's fine.  How about...\"",
-                                 "\"Alright.  Bye.\"", NULL);
-  switch (opt) {
-   case 1: say_why_join(g, d); break;
-   case 2: say_listen(g, d);   break;
-   case 0: d.done = true;      break;
-  }
- }
-}
 
 void parse_tags(std::string &phrase, player *u, npc *me)
 {
@@ -522,15 +391,18 @@ void parse_tags(std::string &phrase, player *u, npc *me)
      case 2: phrase.replace(fa, l, "!");   break;
     }
    } else if (tag != "") {
-    debugmsg("Bad tag. %s (%d - %d)", tag.c_str(), fa, fb);
+    debugmsg("Bad tag. '%s' (%d - %d)", tag.c_str(), fa, fb);
     phrase.replace(fa, fb - fa + 1, "????");
    }
   }
  } while (fa != std::string::npos && fb != std::string::npos);
 }
+
  
-int dialogue::opt(std::string challenge, ...)
+talk_topic dialogue::opt(talk_topic topic, game *g)
 {
+ std::string challenge = dynamic_line(topic, g, beta);
+ std::vector<talk_response> responses = gen_responses(topic, g, beta);
 // Put quotes around challenge (unless it's an action)
  if (challenge.find_first_of("*") != 0) {
   std::stringstream tmp;
@@ -555,34 +427,25 @@ int dialogue::opt(std::string challenge, ...)
  }
  history.push_back(challenge);
 
- va_list ap;
- va_start(ap, challenge);
  std::vector<std::string> options;
- char* tmp;
- while (tmp = va_arg(ap, char*))
-  options.push_back(tmp);
- va_end(ap);
- nc_color cols[options.size()];
-
- for (int i = 0; i < options.size(); i++) {
-  if (options[i][0] == '!') {
-   cols[i] = c_red;
-   options[i] = options[i].substr(1);
-  } else if (options[i][0] == '*') {
-   cols[i] = c_ltred;
-   options[i] = options[i].substr(1);
-  } else if (options[i][0] == '&') {
-   cols[i] = c_green;
-   options[i] = options[i].substr(1);
-  } else {
-   cols[i] = c_white;
-  }
-  std::stringstream msg;
-  if (i < options.size() - 1)
-   msg << i + 1 << ": " << options[i];
+ std::vector<nc_color>    colors;
+ for (int i = 0; i < responses.size(); i++) {
+  std::stringstream text;
+  text << i + 1 << ": ";
+  if (responses[i].trial != TALK_TRIAL_NONE)
+   text << "[" << talk_trial_text[responses[i].trial] << " " <<
+           trial_chance(responses[i], alpha, beta) << "%] ";
+  text << responses[i].text;
+  options.push_back(text.str());
+  parse_tags(options.back(), alpha, beta);
+  if (responses[i].text[0] == '!')
+   colors.push_back(c_red);
+  else if (responses[i].text[0] == '*')
+   colors.push_back(c_ltred);
+  else if (responses[i].text[0] == '&')
+   colors.push_back(c_green);
   else
-   msg << "0: " << options[i];
-  options[i] = msg.str();
+   colors.push_back(c_white);
  }
   
  for (int i = 2; i < 24; i++) {
@@ -608,39 +471,46 @@ int dialogue::opt(std::string challenge, ...)
  for (int i = 0; i < options.size(); i++) {
   while (options[i].size() > 36) {
    split = options[i].find_last_of(' ', 36);
-   mvwprintz(win, curline, 42, cols[i], options[i].substr(0, split).c_str());
+   mvwprintz(win, curline, 42, colors[i], options[i].substr(0, split).c_str());
    options[i] = "  " + options[i].substr(split);
    curline++;
   }
-  mvwprintz(win, curline, 42, cols[i], options[i].c_str());
+  mvwprintz(win, curline, 42, colors[i], options[i].c_str());
   curline++;
  }
 
  wrefresh(win);
 
- int ch, r;
+ int ch;
  bool okay;
  do {
   do {
-   ch = getch() - '0';
-   r = ch - 1;
-   if (r < 0)
-    r += options.size();
+   ch = getch() - '1';
   } while (ch < 0 || ch >= options.size());
   okay = false;
-  if (cols[r] == c_white || cols[r] == c_green)
+  if (colors[ch] == c_white || colors[ch] == c_green)
    okay = true;
-  if (cols[r] == c_red && query_yn("You may be attacked! Proceed?"))
+  if (colors[ch] == c_red && query_yn("You may be attacked! Proceed?"))
    okay = true;
-  if (cols[r] == c_ltred && query_yn("You'll be helpless! Proceed?"))
+  if (colors[ch] == c_ltred && query_yn("You'll be helpless! Proceed?"))
    okay = true;
  } while (!okay);
  history.push_back("");
- if (ch == 0)
-  history.push_back("You: " + options[options.size() - 1].substr(3));
- else
-  history.push_back("You: " + options[ch - 1].substr(3));
- return ch;
+ history.push_back("You: " + responses[ch].text);
+
+ talk_response chosen = responses[ch];
+ if (chosen.mission_index != -1)
+  beta->chatbin.mission_selected = chosen.mission_index;
+ talk_function effect;
+ if (chosen.trial == TALK_TRIAL_NONE ||
+     rng(0, 99) < trial_chance(chosen, alpha, beta)) {
+  (effect.*chosen.effect_success)(g, beta);
+  return chosen.success;
+ } else {
+  (effect.*chosen.effect_failure)(g, beta);
+  return chosen.failure;
+ }
+ return TALK_NONE; // Shouldn't ever happen
 }
 
 bool trade(game *g, dialogue &d, int cost, std::string deal)

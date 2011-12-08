@@ -47,7 +47,7 @@ std::string encumb_text(body_part bp)
   case bp_head:  return "";
   case bp_eyes:  return "Ranged combat is hampered.";
   case bp_mouth: return "Running is slowed.";
-  case bp_torso: return "Movement and melee is hampered.";
+  case bp_torso: return "Dodging and melee is hampered.";
   case bp_arms:  return "Melee and ranged combat is hampered.";
   case bp_hands: return "Manual tasks are slowed.";
   case bp_legs:  return "Running and swimming are slowed.";

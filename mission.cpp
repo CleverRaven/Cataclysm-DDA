@@ -10,6 +10,8 @@ mission mission_type::create(game *g)
  else
   ret.deadline = 0;
 
+ ret.item_id = item_id;
+
  mission_start m_s;
  (m_s.*start)(g, &ret);
 
@@ -22,3 +24,43 @@ std::string mission::name()
   return "NULL";
  return type->name;
 }
+
+std::string mission_dialogue (mission_id id, mission_dialogue_state state)
+{
+ switch (id) {
+
+ case MISSION_GET_ANTIBIOTICS:
+  switch (state) {
+   case MISSION_DIA_MENTION:
+    switch (rng(1, 4)) {
+     case 1: return "Hey <name_g>... I really need your help...";
+     case 2: return "<swear!><punc> I'm hurting...";
+     case 3: return "This infection is bad, <very> bad...";
+     case 4: return "Oh god, it <swear> hurts...";
+    }
+    break;
+   case MISSION_DIA_OFFER:
+    return "\
+I'm infected.  Badly.  I need you to get some antibiotics for me...";
+   case MISSION_DIA_REFUSE:
+    return "\
+What?!  Please, <ill_die> without your help!";
+   case MISSION_DIA_ACCEPT:
+    return "\
+Oh, thank god, thank you so much!  I won't last more than a couple of days, \
+so hurry...";
+   case MISSION_DIA_COMPLETE:
+    return "Thank you so much!  Hopefully I'll be better in no time...";
+   case MISSION_DIA_INQUIRE:
+    return "Find any antibiotics yet?";
+   case MISSION_DIA_SUCCESS:
+    return "Oh thank god!  I'll be right as rain in no time.";
+  }
+  break;
+
+  default:
+   return "Someone forgot to code this message!";
+ }
+ return "Someone forgot to code this message!";
+}
+

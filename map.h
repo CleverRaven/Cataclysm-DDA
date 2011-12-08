@@ -34,8 +34,8 @@ class map
  void drawsq(WINDOW* w, player &u, int x, int y, bool invert, bool show_items);
 
 // File I/O
- void save(overmap *om, unsigned int turn, int x, int y);
- void load(game *g, int wx, int wy);
+ virtual void save(overmap *om, unsigned int turn, int x, int y);
+ virtual void load(game *g, int wx, int wy);
  void shift(game *g, int wx, int wy, int x, int y);
  void spawn_monsters(game *g);
 
@@ -108,7 +108,7 @@ class map
  void add_spawn(mon_id type, int count, int x, int y, bool friendly = false);
  computer* add_computer(int x, int y, std::string name, int security);
  
-private:
+protected:
  void saven(overmap *om, unsigned int turn, int x, int y, int gridx, int gridy);
  bool loadn(game *g, int x, int y, int gridx, int gridy);
  void copy_grid(int to, int from);
@@ -119,7 +119,9 @@ private:
  void rotate(int turns);// Rotates the current map 90*turns degress clockwise
 			// Useful for houses, shops, etc
 
- submap grid[MAPSIZE * MAPSIZE];
+ bool inbounds(int x, int y);
+ virtual int my_MAPSIZE() { return MAPSIZE; };
+
  std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
  ter_id nulter;	// Returned when &ter() is asked for an OOB value
  trap_id nultrap; // Returned when &tr_at() is asked for an OOB value
@@ -129,6 +131,24 @@ private:
  std::vector <itype*> *itypes;
  std::vector <trap*> *traps;
  std::vector <itype_id> (*mapitems)[num_itloc];
+
+private:
+ submap grid[MAPSIZE * MAPSIZE];
+};
+
+class tinymap : public map
+{
+public:
+ tinymap();
+ tinymap(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
+     std::vector<trap*> *trptr);
+ ~tinymap();
+
+protected:
+ virtual int my_MAPSIZE() { return 2; };
+
+private:
+ submap grid[4];
 };
 
 #endif

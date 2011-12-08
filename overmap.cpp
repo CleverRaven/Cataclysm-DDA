@@ -505,6 +505,7 @@ void overmap::generate_sub(overmap* above)
  std::vector<point> shaft_points;
  std::vector<city> mine_points;
  std::vector<point> bunker_points;
+ std::vector<point> shelter_points;
  std::vector<point> triffid_points;
  std::vector<point> temple_points;
  for (int i = 0; i < OMAPX; i++) {
@@ -566,6 +567,9 @@ void overmap::generate_sub(overmap* above)
    else if (above->ter(i, j) == ot_bunker && posz == -1)
     bunker_points.push_back( point(i, j) );
 
+   else if (above->ter(i, j) == ot_shelter)
+    shelter_points.push_back( point(i, j) );
+
    else if (above->ter(i, j) == ot_mine_entrance)
     shaft_points.push_back( point(i, j) );
 
@@ -626,10 +630,16 @@ void overmap::generate_sub(overmap* above)
     ter(i, j) = ot_basement;
   }
  }
+
  for (int i = 0; i < shaft_points.size(); i++)
   ter(shaft_points[i].x, shaft_points[i].y) = ot_mine_shaft;
+
  for (int i = 0; i < bunker_points.size(); i++)
   ter(bunker_points[i].x, bunker_points[i].y) = ot_bunker;
+
+ for (int i = 0; i < shelter_points.size(); i++)
+  ter(shelter_points[i].x, shelter_points[i].y) = ot_shelter_under;
+
  for (int i = 0; i < triffid_points.size(); i++) {
   if (posz == -1)
    ter( triffid_points[i].x, triffid_points[i].y ) = ot_triffid_roots;
@@ -1035,16 +1045,22 @@ point overmap::choose_point(game *g)
 
 void overmap::first_house(int &x, int &y)
 {
- int startx = rng(1, OMAPX - 1);
- int starty = rng(1, OMAPY - 1);
- while (ter(startx, starty) < ot_house_base_north ||
-        ter(startx, starty) > ot_house_base_west) {
-  startx = rng(1, OMAPX - 1);
-  starty = rng(1, OMAPY - 1);
+ std::vector<point> valid;
+ for (int i = 0; i < OMAPX; i++) {
+  for (int j = 0; j < OMAPY; j++) {
+   if (ter(i, j) == ot_shelter)
+    valid.push_back( point(i, j) );
+  }
  }
-
- x = startx;
- y = starty;
+ if (valid.size() == 0) {
+  debugmsg("Couldn't find a shelter!");
+  x = 1;
+  y = 1;
+  return;
+ }
+ int index = rng(0, valid.size() - 1);
+ x = valid[index].x;
+ y = valid[index].y;
 }
 
 void overmap::process_mongroups()

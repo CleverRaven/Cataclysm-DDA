@@ -1976,6 +1976,31 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(3);
   break;
 
+ case ot_shelter:
+// Init to grass & dirt;
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++)
+    ter(i, j) = grass_or_dirt();
+  }
+  square(this, t_floor, 5, 5, SEEX * 2 - 6, SEEY * 2 - 6);
+  square(this, t_stairs_down, SEEX - 1, SEEY - 1, SEEX, SEEY);
+  line(this, t_wall_h, 4, 4, SEEX * 2 - 5, 4);
+  line(this, t_door_c, SEEX - 1, 4, SEEX, 4);
+  line(this, t_wall_h, 4, SEEY * 2 - 5, SEEX * 2 - 5, SEEY * 2 - 5);
+  line(this, t_door_c, SEEX - 1, SEEY * 2 - 5, SEEX, SEEY * 2 - 5);
+  line(this, t_wall_v, 4, 5, 4, SEEY * 2 - 6);
+  line(this, t_door_c, 4, SEEY - 1, 4, SEEY);
+  line(this, t_wall_v, SEEX * 2 - 5, 5, SEEX * 2 - 5, SEEY * 2 - 6);
+  line(this, t_door_c, SEEX * 2 - 5, SEEY - 1, SEEX * 2 - 5, SEEY);
+  break;
+
+ case ot_shelter_under:
+  square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
+  square(this, t_floor, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9);
+  line(this, t_stairs_up, SEEX - 1, SEEY * 2 - 8, SEEX, SEEY * 2 - 8);
+  place_items(mi_shelter, 80, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9, false, 0);
+  break;
+
  case ot_lab:
  case ot_lab_stairs:
  case ot_lab_core:
@@ -3881,19 +3906,19 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   }
 // Some display racks by the left and right walls
   line(this, t_rack, lw + 1, tw + 1, lw + 1, bw - 1);
-  place_items(mi_pawn, 92, lw + 1, tw + 1, lw + 1, bw - 1, false, 0);
+  place_items(mi_pawn, 86, lw + 1, tw + 1, lw + 1, bw - 1, false, 0);
   line(this, t_rack, rw - 1, tw + 1, rw - 1, bw - 1);
-  place_items(mi_pawn, 92, rw - 1, tw + 1, rw - 1, bw - 1, false, 0);
+  place_items(mi_pawn, 86, rw - 1, tw + 1, rw - 1, bw - 1, false, 0);
 // Some display counters
   line(this, t_counter, lw + 4, tw + 2, lw + 4, bw - 3);
-  place_items(mi_pawn, 82, lw + 4, tw + 2, lw + 4, bw - 3, false, 0);
+  place_items(mi_pawn, 80, lw + 4, tw + 2, lw + 4, bw - 3, false, 0);
   line(this, t_counter, rw - 4, tw + 2, rw - 4, bw - 3);
-  place_items(mi_pawn, 82, rw - 4, tw + 2, rw - 4, bw - 3, false, 0);
+  place_items(mi_pawn, 80, rw - 4, tw + 2, rw - 4, bw - 3, false, 0);
 // More display counters, if there's room for them
   if (rw - lw >= 18 && one_in(rw - lw - 17)) {
    for (int j = tw + rng(3, 5); j <= bw - 3; j += 3) {
     line(this, t_counter, lw + 6, j, rw - 6, j);
-    place_items(mi_pawn, 78, lw + 6, j, rw - 6, j, false, 0);
+    place_items(mi_pawn, 75, lw + 6, j, rw - 6, j, false, 0);
    }
   }
 // Finally, place an office sometimes
@@ -5336,7 +5361,7 @@ void map::add_spawn(mon_id type, int count, int x, int y, bool friendly)
   debugmsg("Bad add_spawn(%d, %d, %d, %d)", type, count, x, y);
   return;
  }
- int nonant = int(x / SEEX) + int(y / SEEY) * 3;
+ int nonant = int(x / SEEX) + int(y / SEEY) * MAPSIZE;
  x %= SEEX;
  y %= SEEY;
  spawn_point tmp(type, count, x, y, friendly);
@@ -5346,7 +5371,7 @@ void map::add_spawn(mon_id type, int count, int x, int y, bool friendly)
 computer* map::add_computer(int x, int y, std::string name, int security)
 {
  ter(x, y) = t_console; // TODO: Turn this off?
- int nonant = int(x / SEEX) + int(y / SEEY) * 3;
+ int nonant = int(x / SEEX) + int(y / SEEY) * MAPSIZE;
  computer tmp(name, security);
  grid[nonant].comp = tmp;
  return &(grid[nonant].comp);
@@ -5712,7 +5737,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
   valid_rooms.push_back(room_teleport);
  if (height > 4 && width > 4)
   valid_rooms.push_back(room_goo);
- if (height > 6 && width > 6)
+ if (height > 7 && width > 7)
   valid_rooms.push_back(room_bionics);
  if (height > 7 && width > 7)
   valid_rooms.push_back(room_cloning);
@@ -5868,7 +5893,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     m->ter(biox + 1, bioy + 1) = t_wall_h;
     m->ter(biox    , bioy    ) = t_counter;
     m->ter(biox - 1, bioy    ) = t_reinforced_glass_v;
-    m->ter(biox + 1, bioy    ) = t_wall_h;
+    m->ter(biox + 1, bioy    ) = t_wall_v;
     m->place_items(mi_bionics_common, 70, biox, bioy, biox, bioy, false, 0);
 
     int compx = int((x1 + x2) / 2), compy = int((y1 + y2) / 2);

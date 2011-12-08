@@ -53,6 +53,7 @@ npc::~npc()
 npc& npc::operator= (npc rhs)
 {
  id = rhs.id;
+ name = rhs.name;
  attitude = rhs.attitude;
  wandx = rhs.wandx;
  wandy = rhs.wandy;
@@ -77,6 +78,16 @@ npc& npc::operator= (npc rhs)
  personality = rhs.personality;
  op_of_u = rhs.op_of_u;
  flags = rhs.flags;
+ posx = rhs.posx;
+ posy = rhs.posy;
+ chatbin = rhs.chatbin;
+
+ weapon = rhs.weapon;
+ inv.clear();
+ inv = rhs.inv;
+ worn.clear();
+ for (int i = 0; i < rhs.worn.size(); i++)
+  worn.push_back(rhs.worn[i]);
 
  needs.clear();
  for (int i = 0; i < rhs.needs.size(); i++)
@@ -85,6 +96,11 @@ npc& npc::operator= (npc rhs)
  path.clear();
  for (int i = 0; i < rhs.path.size(); i++)
   path.push_back(rhs.path[i]);
+
+ for (int i = 0; i < num_hp_parts; i++) {
+  hp_cur[i] = rhs.hp_cur[i];
+  hp_max[i] = rhs.hp_max[i];
+ }
 
  return *this;
 }
@@ -914,21 +930,21 @@ void npc::pick_name()
  name = ss.str();
 }
 
-void npc::spawn_at(overmap *o, int posx, int posy)
+void npc::spawn_at(overmap *o, int x, int y)
 {
 // First, specify that we are in this overmap!
  omx = o->posx;
  omy = o->posy;
- mapx = posx;
- mapy = posy;
- if (posx == -1 || posy == -1) {
+ mapx = x;
+ mapy = y;
+ if (x == -1 || y == -1) {
   int city_index = rng(0, o->cities.size() - 1);
   int x = o->cities[city_index].x;
   int y = o->cities[city_index].y;
   int s = o->cities[city_index].s;
-  if (posx == -1)
+  if (x == -1)
    mapx = rng(x - s, x + s);
-  if (posy == -1)
+  if (y == -1)
    mapy = rng(y - s, y + s);
  }
 }
@@ -1227,10 +1243,13 @@ void npc::make_angry()
 
 bool npc::wants_to_travel_with(player *p)
 {
+/*
  int target = 8 + personality.bravery * 3 - personality.altruism * 2 -
               personality.collector * .5;
  int total = op_of_u.value * 3 + p->convince_score();
  return (total >= target);
+*/
+ return true;
 }
 
 int npc::minutes_to_u(game *g)

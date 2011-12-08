@@ -560,6 +560,10 @@ MED("cigars",		 5,120,	c_dkgray,	itm_lighter,
 	VEGGY,    1, -1, 40, 10, 15,&iuse::cig,		ADD_CIG, "\
 A gentleman's vice. Cigars are what separates a gentleman from a savage.");
 
+MED("antibiotics",	25,900, c_cyan,		itm_null,
+	PLASTIC,   0, -2,  0, 15,  0,&iuse::none,	ADD_NULL, "\
+Medication designed to stop the spread of, and kill, bacteria infections.");
+
 // MELEE WEAPONS
 // Only use secondary material if it will have a major impact.
 // dam is a somewhat rigid bonus--anything above 30, tops, is ridiculous
@@ -1669,7 +1673,7 @@ mfb(IF_AMMO_INCENDIARY));
 color,LIQUID,1,1,0,0,0,flags,ammo_type,dmg,AP,accuracy,recoil,range,count))
 FUEL("gasoline",	0, 400,   AT_GAS,	c_ltred,
 //	DMG  AP RNG ACC REC COUNT
-	 0,  0,  4,  0,  0,  1, "\
+	 0,  0,  4,  0,  0,   50, "\
 Gasoline is a highly flammable liquid.  When under pressure, it has the\n\
 potential for violent explosion.",
 mfb(IF_AMMO_FLAME));
@@ -2116,7 +2120,7 @@ its bolts to be extremely deadly.",
 //  NAME		RAR PRC COLOR	 MAT1	MAT2
 GUN("simple flamethrower",1,800,c_pink,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
-	sk_shotgun,	AT_GAS, 16,  8,   8, -1, -5,  6,  0,  6,  0, 12, 800, "\
+	sk_shotgun,	AT_GAS, 16,  8,   8, -1, -5,  6,  0,  6,  0, 50, 800, "\
 A simple, home-made flamethrower.  While its capacity is not superb, it is\n\
 more than capable of igniting terrain and monsters alike.",
 0);

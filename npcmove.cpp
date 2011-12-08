@@ -75,7 +75,9 @@ void npc::move(game *g)
   if (g->debugmon)
    debugmsg("address_player %s", npc_action_name(action).c_str());
   if (action == npc_undecided) {
-   if (!fetching_item)
+   if (mission == NPC_MISSION_SHELTER || has_disease(DI_INFECTION))
+    action = npc_pause;
+   else if (!fetching_item)
     find_item(g);
    if (g->debugmon)
     debugmsg("find_item %s", npc_action_name(action).c_str());
@@ -534,7 +536,7 @@ npc_action npc::long_term_goal_action(game *g)
   debugmsg("long_term_goal_action()");
  path.clear();
 
- if (mission == NPC_MISSION_SHOPKEEP)
+ if (mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER)
   return npc_pause;	// Shopkeeps just stay put.
 
 // TODO: Follow / look for player
@@ -1016,6 +1018,8 @@ void npc::find_item(game *g)
  fetching_item = false;
  int best_value = minimum_item_value();
  int range = sight_range(g->light_level());
+ if (range > 12)
+  range = 12;
  int minx = posx - range, maxx = posx + range,
      miny = posy - range, maxy = posy + range;
  int index = -1, linet;

@@ -86,9 +86,11 @@ public:
  int ranged_per_mod	(bool real_life = true);
  int throw_dex_mod	(bool real_life = true);
 
+// Mental skills and stats
  int comprehension_percent(skill s, bool real_life = true);
  int read_speed		(bool real_life = true);
- int convince_score(); // Skill at convincing NPCs of stuff
+ int talk_skill(); // Skill at convincing NPCs of stuff
+ int intimidation(); // Physical intimidation
 
 // Converts bphurt to a hp_part (if side == 0, the left), then does/heals dam
 // hit() processes damage through armor

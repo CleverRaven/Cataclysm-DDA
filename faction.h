@@ -8,7 +8,7 @@
 #define MAX_FAC_NAME_SIZE 40
 
 #ifndef mfb
-#define mfb(n) long(pow(2,(long)n))
+#define mfb(n) long(1 << (n))
 #endif
 
 std::string fac_ranking_text(int val);

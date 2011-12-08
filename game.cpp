@@ -384,7 +384,8 @@ void game::start_game()
  cur_om = overmap(this, 0, 0, 0);	// We start in the (0,0,0) overmap.
 // Find a random house on the map, and set us there.
  cur_om.first_house(levx, levy);
- set_adjacent_overmaps(true);
+ levx -= int(int(MAPSIZE / 2) / 2);
+ levy -= int(int(MAPSIZE / 2) / 2);
  levz = 0;
 // Start the overmap out with none of it seen by the player...
  for (int i = 0; i < OMAPX; i++) {
@@ -392,16 +393,17 @@ void game::start_game()
    cur_om.seen(i, j) = false;
  }
 // ...except for our immediate neighborhood.
- for (int i = -20; i <= 20; i++) {
-  for (int j = -20; j <= 20; j++)
+ for (int i = -15; i <= 15; i++) {
+  for (int j = -15; j <= 15; j++)
    cur_om.seen(levx + i, levy + j) = true;
  }
 // Convert the overmap coordinates to submap coordinates
  levx = levx * 2 - 1;
  levy = levy * 2 - 1;
+ set_adjacent_overmaps(true);
 // Init the starting map at this location.
  m.load(this, levx, levy);
-// Start us off somewhere in the house.
+// Start us off somewhere in the shelter.
  u.posx = SEEX * int(MAPSIZE / 2) + 5;
  u.posy = SEEY * int(MAPSIZE / 2) + 5;
  u.str_cur = u.str_max;
@@ -409,12 +411,15 @@ void game::start_game()
  u.int_cur = u.int_max;
  u.dex_cur = u.dex_max;
  nextspawn = int(turn);	
- temperature = 65;	// Springtime-appropriate?
+ temperature = 65; // Springtime-appropriate?
 
 // Testing pet dog!
- monster doggy(mtypes[mon_dog], u.posx - 1, u.posy - 1);
+ monster doggy(mtypes[mon_dog], u.posx + 1, u.posy + 1);
  doggy.friendly = -1;
  z.push_back(doggy);
+
+// Put some NPCs in there!
+ create_starting_npcs();
 
 // Testing missions!
  //give_mission(MISSION_REACH_SAFETY);
@@ -429,7 +434,7 @@ void game::start_tutorial(tut_type type)
   for (int j = 0; j < SEEX * MAPSIZE; j++)
    grscent[i][j] = 0;
  }
- temperature = 65;		// Kind of cool for June, but okay.
+ temperature = 65;
  in_tutorial = true;
  switch (type) {
  case TUT_NULL:
@@ -502,6 +507,24 @@ void game::create_factions()
   factions.push_back(tmp);
  }
 }
+
+void game::create_starting_npcs()
+{
+ npc tmp;
+ tmp.randomize(this);
+ tmp.normalize(this);
+ tmp.spawn_at(&cur_om, levx, levy);
+ tmp.posx = SEEX * int(MAPSIZE / 2) + SEEX;
+ tmp.posy = SEEY * int(MAPSIZE / 2) + 6;
+ tmp.attitude = NPCATT_NULL;
+ tmp.mission = NPC_MISSION_SHELTER;
+ tmp.chatbin.first_topic = TALK_SHELTER;
+ tmp.chatbin.missions.push_back( 
+    reserve_mission(MISSION_GET_ANTIBIOTICS, tmp.id) );
+
+ active_npc.push_back(tmp);
+}
+ 
 
 // MAIN GAME LOOP
 // Returns true if game is over (death, saved, quit, etc)
@@ -874,14 +897,22 @@ void game::give_mission(mission_id type)
  u.active_mission = u.active_missions.size() - 1;
 }
 
-int game::reserve_mission(mission_id type)
+void game::assign_mission(int id)
+{
+ for (int i = 0; i < active_missions.size(); i++) {
+  if (active_missions[i].uid == id)
+   u.active_missions.push_back(active_missions[i]);
+ }
+}
+ 
+int game::reserve_mission(mission_id type, int npc_id)
 {
  mission tmp = mission_types[type].create(this);
  tmp.uid = next_mission_id;
+ tmp.npc_id = npc_id;
  active_missions.push_back(tmp);
- int ret = next_mission_id;
  next_mission_id++;
- return ret;
+ return tmp.uid;
 }
 
 mission* game::find_mission(int id)
@@ -891,6 +922,59 @@ mission* game::find_mission(int id)
    return &(active_missions[i]);
  }
  return NULL;
+}
+
+mission_type* game::find_mission_type(int id)
+{
+ for (int i = 0; i < active_missions.size(); i++) {
+  if (active_missions[i].uid == id)
+   return active_missions[i].type;
+ }
+ return NULL;
+}
+
+bool game::mission_complete(int id, int npc_id)
+{
+ mission* miss = find_mission(id);
+ if (miss == NULL) {
+  debugmsg("game::mission_complete(%d) - it's NULL!", id);
+  return false;
+ }
+ mission_type* type = miss->type;
+ switch (type->goal) {
+  case MGOAL_GO_TO: {
+   point cur_pos(levx + int(MAPSIZE / 2), levy + int(MAPSIZE / 2));
+   if (rl_dist(cur_pos.x, cur_pos.y, miss->target.x, miss->target.y) <= 1)
+    return true;
+   return false;
+  } break;
+
+  case MGOAL_FIND_ITEM:
+   if (!u.has_amount(type->item_id, 1))
+    return false;
+   if (miss->npc_id != -1 && miss->npc_id != npc_id)
+    return false;
+   return true;
+
+  case MGOAL_FIND_NPC:
+   return (miss->npc_id == npc_id);
+
+  default:
+   return false;
+ }
+ return false;
+}
+
+void game::wrap_up_mission(int id)
+{
+ mission *miss = find_mission(id);
+ u.completed_missions.push_back( *miss );
+ for (int i = 0; i < u.active_missions.size(); i++) {
+  if (u.active_missions[i].uid == id)
+   u.active_missions.erase( u.active_missions.begin() + i );
+ }
+ mission_end endfunc;
+ (endfunc.*miss->type->end)(this, miss);
 }
 
 void game::get_input()
@@ -1414,12 +1498,15 @@ void game::debug()
 
   case 7:
    popup_top("\
-Location %d:%d, %s\n\
+Location %d:%d in %d:%d, %s\n\
 Current turn: %d; Next spawn %d.\n\
 %d monsters exist.\n\
-%d events planned.", levx, levy,
+%d events planned.", u.posx, u.posy, levx, levy,
 oterlist[cur_om.ter(levx / 2, levy / 2)].name.c_str(),
 int(turn), int(nextspawn), z.size(), events.size());
+   if (!active_npc.empty())
+    popup_top("\%s: %d:%d (you: %d:%d)", active_npc[0].name.c_str(),
+              active_npc[0].posx, active_npc[0].posy, u.posx, u.posy);
    break;
 
   case 8:
@@ -2283,17 +2370,10 @@ void game::mon_info()
   turnssincelastmon = 0;
   if (run_mode == 1)
    run_mode = 2;	// Stop movement!
- }
- //Auto run mode
- if(autorunmode){
-	 if(newseen<=mostseen){
-		 turnssincelastmon++;
-		 if(turnssincelastmon >= 50){
-			 if(run_mode == 0){
-				 run_mode = 1;
-			 }
-		 }
-	 }
+ } else if (autorunmode) { // Auto-runmode
+  turnssincelastmon++;
+  if(turnssincelastmon >= 50 && run_mode == 0)
+   run_mode = 1;
  }
 
 
@@ -2400,7 +2480,7 @@ void game::monmove()
     }
    }
 // We might have stumbled out of range of the player; if so, delete us
-   if (z[i].posx < 0 - SEEX || z[i].posy < 0 - SEEX ||
+   if (z[i].posx < 0 - SEEX || z[i].posy < 0 - SEEY ||
        z[i].posx > SEEX * (MAPSIZE + 1) || z[i].posy > SEEY * (MAPSIZE + 1)) {
     int group = valid_group((mon_id)(z[i].type->id), levx, levy);
     if (group != -1) {
@@ -3348,6 +3428,7 @@ void game::examine()
   refresh_all();
  } else if (m.ter(examx, examy) == t_gas_pump && query_yn("Pump gas?")) {
   item gas(itypes[itm_gasoline], turn);
+  gas.charges = 50;
   if (one_in(u.dex_cur)) {
    add_msg("You accidentally spill the gasoline.");
    m.add_item(u.posx, u.posy, gas);
@@ -3356,24 +3437,26 @@ void game::examine()
    handle_liquid(gas, false, true);
   }
  } else if (m.ter(examx, examy) == t_slot_machine) {
-  if (u.cash > 0 && query_yn("Insert $1?")) {
+  if (u.cash < 10)
+   add_msg("You need $10 to play.");
+  else if (query_yn("Insert $10?")) {
    do {
     if (one_in(5))
-     popup("Three cherries... you get your coin back!");
+     popup("Three cherries... you get your money back!");
     else if (one_in(20)) {
-     popup("Three bells... you win $5!");
-     u.cash += 4;	// Minus the $1 we wagered
+     popup("Three bells... you win $50!");
+     u.cash += 40;	// Minus the $10 we wagered
     } else if (one_in(50)) {
-     popup("Three stars... you win $20!");
-     u.cash += 19;
+     popup("Three stars... you win $200!");
+     u.cash += 190;
     } else if (one_in(1000)) {
-     popup("JACKPOT!  You win $500!");
-     u.cash += 499;
+     popup("JACKPOT!  You win $5000!");
+     u.cash += 4990;
     } else {
      popup("No win.");
-     u.cash -= 1;
+     u.cash -= 10;
     }
-   } while (u.cash > 0 && query_yn("Play again?"));
+   } while (u.cash >= 10 && query_yn("Play again?"));
   }
  } else if (m.ter(examx, examy) == t_bulletin) {
 // TODO: Bulletin Boards
@@ -4893,6 +4976,14 @@ void game::plmove(int x, int y)
    u.rem_disease(DI_ONFIRE);
   }
   if (displace) {	// We displaced a friendly monster!
+// TODO: This is hacky, but the turret is the only thing it's need for now
+   if (z[mondex].type->id == mon_turret) {
+    if (query_yn("Deactivate the turret?")) {
+     z.erase(z.begin() + mondex);
+     m.add_item(z[mondex].posx, z[mondex].posy, itypes[itm_bot_turret], turn);
+    }
+    return;
+   }
    z[mondex].move_to(this, u.posx, u.posy);
    add_msg("You displace the %s.", z[mondex].name().c_str());
   }
@@ -5105,12 +5196,12 @@ void game::vertical_move(int movez, bool force)
     if (turns < 999)
      coming_to_stairs.push_back( monster_and_count(z[i], 1 + turns) );
    } else if (z[i].spawnmapx != -1) { // Static spawn, move them back there
-    map tmp;
+    map tmp(&itypes, &mapitems, &traps);
     tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
     tmp.add_spawn(mon_id(z[i].type->id), 1, z[i].spawnposx, z[i].spawnposy);
     tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
    } else if (z[i].friendly != 0) { // Friendly, make it into a static spawn
-    map tmp;
+    map tmp(&itypes, &mapitems, &traps);
     tmp.load(this, levx, levy);
     int spawnx = z[i].posx, spawny = z[i].posy;
     while (spawnx < 0)
@@ -5182,8 +5273,6 @@ void game::vertical_move(int movez, bool force)
   }
  }
 
- update_map(u.posx, u.posy);
-
  if (m.tr_at(u.posx, u.posy) != tr_null) { // We stepped on a trap!
   trap* tr = traps[m.tr_at(u.posx, u.posy)];
   if (force || !u.avoid_trap(tr)) {
@@ -5192,6 +5281,7 @@ void game::vertical_move(int movez, bool force)
   }
  }
 
+ set_adjacent_overmaps();
  refresh_all();
 }
 
@@ -5249,7 +5339,8 @@ void game::update_map(int &x, int &y)
    if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
     map tmp;
     tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
-    tmp.add_spawn(mon_id(z[i].type->id), 1, z[i].spawnposx, z[i].spawnposy);
+    tmp.add_spawn(mon_id(z[i].type->id), 1, z[i].spawnposx, z[i].spawnposy,
+                  (z[i].friendly != 0));
     tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
    } else {	// Absorb them back into a group
     group = valid_group((mon_id)(z[i].type->id), levx + shiftx, levy + shifty);
@@ -5271,10 +5362,14 @@ void game::update_map(int &x, int &y)
 // Shift NPCs
  for (int i = 0; i < active_npc.size(); i++) {
   active_npc[i].shift(shiftx, shifty);
-  if (active_npc[i].posx < 0 - SEEX * MAPSIZE ||
-      active_npc[i].posy < 0 - SEEX * MAPSIZE ||
-      active_npc[i].posx >     SEEX * MAPSIZE * 2 ||
-      active_npc[i].posy >     SEEY * MAPSIZE * 2   ) {
+  if (active_npc[i].posx < 0 - SEEX * 2 ||
+      active_npc[i].posy < 0 - SEEX * 2 ||
+      active_npc[i].posx >     SEEX * (MAPSIZE + 2) ||
+      active_npc[i].posy >     SEEY * (MAPSIZE + 2)   ) {
+   active_npc[i].mapx = levx + (active_npc[i].posx / SEEX);
+   active_npc[i].mapy = levy + (active_npc[i].posy / SEEY);
+   active_npc[i].posx %= SEEX;
+   active_npc[i].posy %= SEEY;
    cur_om.npcs.push_back(active_npc[i]);
    active_npc.erase(active_npc.begin() + i);
    i--;
@@ -5284,14 +5379,17 @@ void game::update_map(int &x, int &y)
  if (!in_tutorial) {
   npc temp;
   for (int i = 0; i < cur_om.npcs.size(); i++) {
-   if (rl_dist(levx, levy, cur_om.npcs[i].mapx, cur_om.npcs[i].mapy) <= 2) {
+   if (rl_dist(levx + int(MAPSIZE / 2), levy + int(MAPSIZE / 2),
+               cur_om.npcs[i].mapx, cur_om.npcs[i].mapy) <= 
+       int(MAPSIZE / 2) + 1) {
     int dx = cur_om.npcs[i].mapx - levx, dy = cur_om.npcs[i].mapy - levy;
     if (debugmon)
      debugmsg("Spawning static NPC, %d:%d (%d:%d)", levx, levy,
               cur_om.npcs[i].mapx, cur_om.npcs[i].mapy);
     temp = cur_om.npcs[i];
     if (temp.posx == -1 || temp.posy == -1) {
-     debugmsg("Static NPC with no fine location data.");
+     debugmsg("Static NPC with no fine location data (%d:%d).",
+              temp.posx, temp.posy);
      temp.posx = SEEX * 2 * (temp.mapx - levx) + rng(0 - SEEX, SEEX);
      temp.posy = SEEY * 2 * (temp.mapy - levy) + rng(0 - SEEY, SEEY);
     } else {
@@ -5369,8 +5467,8 @@ void game::update_overmap_seen()
   for (int y = omy - dist; y <= omy + dist; y++) {
    std::vector<point> line = line_to(omx, omy, x, y, 0);
    int sight_points = dist;
+   int cost = 0;
    for (int i = 0; i < line.size() && sight_points >= 0; i++) {
-    int cost;
     int lx = line[i].x, ly = line[i].y;
     if (lx >= 0 && lx < OMAPX && ly >= 0 && ly < OMAPY)
      cost = oterlist[cur_om.ter(lx, ly)].see_cost;
@@ -5391,7 +5489,7 @@ void game::update_overmap_seen()
     }
     sight_points -= cost;
    }
-   if (sight_points >= 0) {
+   if (sight_points >= 0 - cost) {
     int tmpx = x, tmpy = y;
     if (tmpx >= 0 && tmpx < OMAPX && tmpy >= 0 && tmpy < OMAPY)
      cur_om.seen(tmpx, tmpy) = true;

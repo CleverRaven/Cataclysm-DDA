@@ -8,6 +8,8 @@
 #include "player.h"
 #include <sstream>
 
+#define RADIO_PER_TURN 25 // how many characters per turn of radio
+
 /* To mark an item as "removed from inventory", set its invlet to 0
    This is useful for traps (placed on ground), inactive bots, etc
  */
@@ -1044,14 +1046,27 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
   }
   if (best_signal > 0) {
    for (int j = 0; j < message.length(); j++) {
-    if (dice(10, 100) > dice(10, best_signal * 5)) {
+    if (dice(10, 100) > dice(10, best_signal * 3)) {
      if (!one_in(10))
       message[j] = '#';
      else
       message[j] = char(rng('a', 'z'));
     }
    }
-   message = "radio: " + message;
+
+   std::vector<std::string> segments;
+   while (message.length() > RADIO_PER_TURN) {
+    int spot = message.find_last_of(' ', RADIO_PER_TURN);
+    if (spot == std::string::npos)
+     spot = RADIO_PER_TURN;
+    segments.push_back( message.substr(0, spot) );
+    message = message.substr(spot);
+   }
+   segments.push_back(message);
+   int index = g->turn % (segments.size());
+   std::stringstream messtream;
+   messtream << "radio: " << segments[index];
+   message = messtream.str();
   }
   point p = g->find_item(it);
   g->sound(p.x, p.y, 6, message.c_str());

@@ -5,6 +5,7 @@
 #include "monster.h"
 #include "overmap.h"
 #include "faction.h"
+#include "mission.h"
 #include <vector>
 #include <string>
 
@@ -51,6 +52,7 @@ enum npc_attitude {
 enum npc_mission {
  NPC_MISSION_NULL = 0,	// Nothing in particular
  NPC_MISSION_RESCUE_U,	// Find the player and aid them
+ NPC_MISSION_SHELTER,	// Stay in shelter, introduce player to game
  NPC_MISSION_SHOPKEEP,	// Stay still unless combat or something and sell stuff
 
  NPC_MISSION_MISSING,	// Special; following player to finish mission
@@ -124,6 +126,38 @@ struct npc_opinion {
   fear  = 0;
   value = 0;
  };
+};
+
+enum talk_topic {
+ TALK_NONE = 0,	// Used to go back to last subject
+ TALK_DONE,	// Used to end the conversation
+ TALK_MISSION_LIST, // List available missions. Intentionally placed above START
+ TALK_MISSION_START, // NOT USED; start of mission topics
+ TALK_DESCRIBE_MISSION, // Describe a mission
+ TALK_OFFER_MISSION, // Offer a mission
+ TALK_MISSION_ACCEPTED,
+ TALK_MISSION_REJECTED,
+ TALK_INQUIRE_MISSION,
+ TALK_MISSION_SUCCESS,
+ TALK_MISSION_END, // NOT USED: end of mission topics
+ TALK_SHELTER,
+ TALK_SHELTER_PLANS,
+ TALK_SHOPKEEP,
+ NUM_TALK_TOPICS
+};
+
+struct npc_chatbin
+{
+ std::vector<int> missions;
+ std::vector<int> missions_assigned;
+ int mission_selected;
+ talk_topic first_topic;
+
+ npc_chatbin()
+ {
+  mission_selected = -1;
+  first_topic = TALK_NONE;
+ }
 };
 
 class npc : public player {
@@ -303,6 +337,7 @@ public:
  npc_mission mission;
  npc_personality personality;
  npc_opinion op_of_u;
+ npc_chatbin chatbin;
  std::vector<npc_need> needs;
  unsigned flags : NF_MAX;
 };

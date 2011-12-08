@@ -7,8 +7,6 @@
 #include <stdlib.h>
 #include <fstream>
 
-bool inbounds(int x, int y);
-void cast_to_nonant(int &x, int &y, int &n);
 #define SGN(a) (((a)<0) ? -1 : 1)
 
 enum astar_list {
@@ -31,7 +29,7 @@ map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
  itypes = itptr;
  mapitems = miptr;
  traps = trptr;
- for (int n = 0; n < MAPSIZE * MAPSIZE; n++) {
+ for (int n = 0; n < my_MAPSIZE() * my_MAPSIZE(); n++) {
   for (int x = 0; x < SEEX; x++) {
    for (int y = 0; y < SEEY; y++) {
     grid[n].trp[x][y] = tr_null;
@@ -55,7 +53,7 @@ ter_id& map::ter(int x, int y)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * MAPSIZE;
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
 
  x %= SEEX;
  y %= SEEY;
@@ -144,8 +142,8 @@ bool map::flammable_items_at(int x, int y)
 point map::random_outdoor_tile()
 {
  std::vector<point> options;
- for (int x = 0; x < SEEX * MAPSIZE; x++) {
-  for (int y = 0; y < SEEY * MAPSIZE; y++) {
+ for (int x = 0; x < SEEX * my_MAPSIZE(); x++) {
+  for (int y = 0; y < SEEY * my_MAPSIZE(); y++) {
    if (is_outside(x, y))
     options.push_back(point(x, y));
   }
@@ -657,8 +655,8 @@ void map::translate(ter_id from, ter_id to)
                                       terlist[from].name.c_str());
   return;
  }
- for (int x = 0; x < SEEX * MAPSIZE; x++) {
-  for (int y = 0; y < SEEY * MAPSIZE; y++) {
+ for (int x = 0; x < SEEX * my_MAPSIZE(); x++) {
+  for (int y = 0; y < SEEY * my_MAPSIZE(); y++) {
    if (ter(x, y) == from)
     ter(x, y) = to;
   }
@@ -690,7 +688,7 @@ int& map::radiation(int x, int y)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * MAPSIZE;
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
 
  x %= SEEX;
  y %= SEEY;
@@ -707,7 +705,7 @@ std::vector<item>& map::i_at(int x, int y)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * MAPSIZE;
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
 
  x %= SEEX;
  y %= SEEY;
@@ -744,8 +742,8 @@ void map::i_clear(int x, int y)
 point map::find_item(item *it)
 {
  point ret;
- for (ret.x = 0; ret.x < SEEX * MAPSIZE; ret.x++) {
-  for (ret.y = 0; ret.y < SEEY * MAPSIZE; ret.y++) {
+ for (ret.x = 0; ret.x < SEEX * my_MAPSIZE(); ret.x++) {
+  for (ret.y = 0; ret.y < SEEY * my_MAPSIZE(); ret.y++) {
    for (int i = 0; i < i_at(ret.x, ret.y).size(); i++) {
     if (it == &i_at(ret.x, ret.y)[i])
      return ret;
@@ -800,7 +798,7 @@ void map::add_item(int x, int y, item new_item)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * MAPSIZE;
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
 
  x %= SEEX;
  y %= SEEY;
@@ -811,8 +809,8 @@ void map::process_active_items(game *g)
 {
  it_tool* tmp;
  iuse use;
- for (int i = 0; i < SEEX * MAPSIZE; i++) {
-  for (int j = 0; j < SEEY * MAPSIZE; j++) {
+ for (int i = 0; i < SEEX * my_MAPSIZE(); i++) {
+  for (int j = 0; j < SEEY * my_MAPSIZE(); j++) {
    for (int n = 0; n < i_at(i, j).size(); n++) {
     if (i_at(i, j)[n].active) {
      tmp = dynamic_cast<it_tool*>(i_at(i, j)[n].type);
@@ -925,7 +923,7 @@ trap_id& map::tr_at(int x, int y)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * MAPSIZE;
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
 
  x %= SEEX;
  y %= SEEY;
@@ -944,7 +942,7 @@ void map::add_trap(int x, int y, trap_id t)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * MAPSIZE;
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
 
  x %= SEEX;
  y %= SEEY;
@@ -989,7 +987,7 @@ field& map::field_at(int x, int y)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * MAPSIZE;
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
 
  x %= SEEX;
  y %= SEEY;
@@ -1023,7 +1021,7 @@ computer* map::computer_at(int x, int y)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * MAPSIZE;
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
 
  x %= SEEX;
  y %= SEEY;
@@ -1225,15 +1223,24 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty, bool bash)
            tername(Fx, Fy).c_str(), Tx, Ty);
 */
  std::vector<point> open;
- astar_list list[SEEX * MAPSIZE][SEEY * MAPSIZE];
- int score	[SEEX * MAPSIZE][SEEY * MAPSIZE];
- int gscore	[SEEX * MAPSIZE][SEEY * MAPSIZE];
- point parent	[SEEX * MAPSIZE][SEEY * MAPSIZE];
- for (int x = 0; x < SEEX * MAPSIZE; x++) {
-  for (int y = 0; y < SEEY * MAPSIZE; y++) {
-   list  [x][y] = ASL_NONE;	// Init to not being on any list
-   score [x][y] = 0;	// No score!
-   gscore[x][y] = 0;	// No score!
+ astar_list list[SEEX * my_MAPSIZE()][SEEY * my_MAPSIZE()];
+ int score	[SEEX * my_MAPSIZE()][SEEY * my_MAPSIZE()];
+ int gscore	[SEEX * my_MAPSIZE()][SEEY * my_MAPSIZE()];
+ point parent	[SEEX * my_MAPSIZE()][SEEY * my_MAPSIZE()];
+ int startx = Fx - 4, endx = Tx + 4, starty = Fy - 4, endy = Ty + 4;
+ if (Tx < Fx) {
+  startx = Tx - 4;
+  endx = Fx + 4;
+ }
+ if (Ty < Fy) {
+  starty = Ty - 4;
+  endy = Fy + 4;
+ }
+ for (int x = startx; x <= endx; x++) {
+  for (int y = starty; y <= endy; y++) {
+   list  [x][y] = ASL_NONE; // Init to not being on any list
+   score [x][y] = 0;        // No score!
+   gscore[x][y] = 0;        // No score!
    parent[x][y] = point(-1, -1);
   }
  }
@@ -1259,7 +1266,7 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty, bool bash)
     if (x == Tx && y == Ty) {
      done = true;
      parent[x][y] = open[index];
-    } else if (inbounds(x, y) &&
+    } else if (x >= startx && x <= endx && y >= starty && y <= endy &&
                (move_cost(x, y) > 0 || (bash && has_flag(bashable, x, y)))) {
      if (list[x][y] == ASL_NONE) {	// Not listed, so make it open
       list[x][y] = ASL_OPEN;
@@ -1312,16 +1319,16 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty, bool bash)
 
 void map::save(overmap *om, unsigned int turn, int x, int y)
 {
- for (int gridx = 0; gridx < MAPSIZE; gridx++) {
-  for (int gridy = 0; gridy < MAPSIZE; gridy++)
+ for (int gridx = 0; gridx < my_MAPSIZE(); gridx++) {
+  for (int gridy = 0; gridy < my_MAPSIZE(); gridy++)
    saven(om, turn, x, y, gridx, gridy);
  }
 }
 
 void map::load(game *g, int wx, int wy)
 {
- for (int gridx = 0; gridx < MAPSIZE; gridx++) {
-  for (int gridy = 0; gridy < MAPSIZE; gridy++) {
+ for (int gridx = 0; gridx < my_MAPSIZE(); gridx++) {
+  for (int gridy = 0; gridy < my_MAPSIZE(); gridy++) {
    if (!loadn(g, wx, wy, gridx, gridy))
     loadn(g, wx, wy, gridx, gridy);
   }
@@ -1333,8 +1340,8 @@ void map::shift(game *g, int wx, int wy, int sx, int sy)
 {
 // Special case of 0-shift; refresh the map
  if (sx == 0 && sy == 0) {
-  for (int gridx = 0; gridx < MAPSIZE; gridx++) {
-   for (int gridy = 0; gridy < MAPSIZE; gridy++) {
+  for (int gridx = 0; gridx < my_MAPSIZE(); gridx++) {
+   for (int gridy = 0; gridy < my_MAPSIZE(); gridy++) {
     if (!loadn(g, wx+sx, wy+sy, gridx, gridy))
      loadn(g, wx+sx, wy+sy, gridx, gridy);
    }
@@ -1346,44 +1353,48 @@ void map::shift(game *g, int wx, int wy, int sx, int sy)
 // wx and wy are our position in the world, for saving/loading purposes.
 
  if (sx >= 0) {
-  for (int gridx = 0; gridx < MAPSIZE; gridx++) {
+  for (int gridx = 0; gridx < my_MAPSIZE(); gridx++) {
    if (sy >= 0) {
-    for (int gridy = 0; gridy < MAPSIZE; gridy++) {
+    for (int gridy = 0; gridy < my_MAPSIZE(); gridy++) {
      if (gridx < sx || gridy < sy)
       saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     if (gridx + sx < MAPSIZE && gridy + sy < MAPSIZE)
-      copy_grid(gridx + gridy * MAPSIZE, gridx + sx + (gridy + sy) * MAPSIZE);
+     if (gridx + sx < my_MAPSIZE() && gridy + sy < my_MAPSIZE())
+      copy_grid(gridx + gridy * my_MAPSIZE(),
+                gridx + sx + (gridy + sy) * my_MAPSIZE());
      else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
       loadn(g, wx + sx, wy + sy, gridx, gridy);
     }
    } else { // sy < 0; work through it backwards
-    for (int gridy = MAPSIZE - 1; gridy >= 0; gridy--) {
-     if (gridx < sx || gridy - MAPSIZE >= sy)
+    for (int gridy = my_MAPSIZE() - 1; gridy >= 0; gridy--) {
+     if (gridx < sx || gridy - my_MAPSIZE() >= sy)
       saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     if (gridx + sx < MAPSIZE && gridy + sy >= 0)
-      copy_grid(gridx + gridy * MAPSIZE, gridx + sx + (gridy + sy) * MAPSIZE);
+     if (gridx + sx < my_MAPSIZE() && gridy + sy >= 0)
+      copy_grid(gridx + gridy * my_MAPSIZE(),
+                gridx + sx + (gridy + sy) * my_MAPSIZE());
      else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
       loadn(g, wx + sx, wy + sy, gridx, gridy);
     }
    }
   }
  } else { // sx < 0; work through it backwards
-  for (int gridx = MAPSIZE - 1; gridx >= 0; gridx--) {
+  for (int gridx = my_MAPSIZE() - 1; gridx >= 0; gridx--) {
    if (sy >= 0) {
-    for (int gridy = 0; gridy < MAPSIZE; gridy++) {
-     if (gridx - MAPSIZE >= sx || gridy < sy)
+    for (int gridy = 0; gridy < my_MAPSIZE(); gridy++) {
+     if (gridx - my_MAPSIZE() >= sx || gridy < sy)
       saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     if (gridx + sx >= 0 && gridy + sy < MAPSIZE)
-      copy_grid(gridx + gridy * MAPSIZE, gridx + sx + (gridy + sy) * MAPSIZE);
+     if (gridx + sx >= 0 && gridy + sy < my_MAPSIZE())
+      copy_grid(gridx + gridy * my_MAPSIZE(),
+                gridx + sx + (gridy + sy) * my_MAPSIZE());
      else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
       loadn(g, wx + sx, wy + sy, gridx, gridy);
     }
    } else { // sy < 0; work through it backwards
-    for (int gridy = MAPSIZE - 1; gridy >= 0; gridy--) {
-     if (gridx - MAPSIZE >= sx || gridy - MAPSIZE >= sy)
+    for (int gridy = my_MAPSIZE() - 1; gridy >= 0; gridy--) {
+     if (gridx - my_MAPSIZE() >= sx || gridy - my_MAPSIZE() >= sy)
       saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
      if (gridx + sx >= 0 && gridy + sy >= 0)
-      copy_grid(gridx + gridy * MAPSIZE, gridx + sx + (gridy + sy) * MAPSIZE);
+      copy_grid(gridx + gridy * my_MAPSIZE(),
+                gridx + sx + (gridy + sy) * my_MAPSIZE());
      else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
       loadn(g, wx + sx, wy + sy, gridx, gridy);
     }
@@ -1401,7 +1412,7 @@ void map::shift(game *g, int wx, int wy, int sx, int sy)
 void map::saven(overmap *om, unsigned int turn, int worldx, int worldy,
                 int gridx, int gridy)
 {
- int n = gridx + gridy * MAPSIZE;
+ int n = gridx + gridy * my_MAPSIZE();
 // Open appropriate file.
  char buff[32];
  sprintf(buff, "save/m.%d.%d.%d", om->posx * OMAPX * 2 + worldx + gridx,
@@ -1484,7 +1495,7 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
  char fname[32];
  char line[SEEX];
  char ch = 0;
- int gridn = gridx + gridy * MAPSIZE;
+ int gridn = gridx + gridy * my_MAPSIZE();
  int itx, ity, t, d, a, old_turn;
  bool fields_here = false;
  item it_tmp;
@@ -1586,8 +1597,8 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
 
 void map::copy_grid(int to, int from)
 {
- if (from < 0 || from >= MAPSIZE * MAPSIZE ||
-     to   < 0 || to   >= MAPSIZE * MAPSIZE   ) {
+ if (from < 0 || from >= my_MAPSIZE() * my_MAPSIZE() ||
+     to   < 0 || to   >= my_MAPSIZE() * my_MAPSIZE()   ) {
   debugmsg("Attempted to copy grid %d to grid %d", from, to);
   return;
  }
@@ -1602,15 +1613,17 @@ void map::copy_grid(int to, int from)
   }
  }
 
- grid[to].spawns = grid[from].spawns;
  grid[to].comp = grid[from].comp;
+ grid[to].spawns.clear();
+ for (int i = 0; i < grid[from].spawns.size(); i++)
+  grid[to].spawns.push_back(grid[from].spawns[i]);
 }
 
 void map::spawn_monsters(game *g)
 {
- for (int gx = 0; gx < MAPSIZE; gx++) {
-  for (int gy = 0; gy < MAPSIZE; gy++) {
-   int n = gx + gy * MAPSIZE;
+ for (int gx = 0; gx < my_MAPSIZE(); gx++) {
+  for (int gy = 0; gy < my_MAPSIZE(); gy++) {
+   int n = gx + gy * my_MAPSIZE();
    for (int i = 0; i < grid[n].spawns.size(); i++) {
     for (int j = 0; j < grid[n].spawns[i].count; j++) {
      int tries = 0;
@@ -1647,24 +1660,55 @@ void map::spawn_monsters(game *g)
  }
 }
 
-bool inbounds(int x, int y)
+bool map::inbounds(int x, int y)
 {
- if (x < 0 || x >= SEEX * MAPSIZE || y < 0 || y >= SEEY * MAPSIZE)
+ if (x < 0 || x >= SEEX * my_MAPSIZE() || y < 0 || y >= SEEY * my_MAPSIZE())
   return false;
  return true;
 }
 
-void cast_to_nonant(int &x, int &y, int &n)
+tinymap::tinymap()
 {
- if (x < 0 || x >= SEEX * MAPSIZE || y < 0 || y >= SEEY * MAPSIZE) {
+ nulter = t_null;
+ nultrap = tr_null;
+}
+
+tinymap::tinymap(std::vector<itype*> *itptr,
+                 std::vector<itype_id> (*miptr)[num_itloc],
+                 std::vector<trap*> *trptr)
+{
+ nulter = t_null;
+ nultrap = tr_null;
+ itypes = itptr;
+ mapitems = miptr;
+ traps = trptr;
+ for (int n = 0; n < 4; n++) {
+  for (int x = 0; x < SEEX; x++) {
+   for (int y = 0; y < SEEY; y++) {
+    grid[n].trp[x][y] = tr_null;
+    grid[n].rad[x][y] = 0;
+   }
+  }
+ }
+}
+
+tinymap::~tinymap()
+{
+}
+
+/*
+void map::cast_to_nonant(int &x, int &y, int &n)
+{
+ if (x < 0 || x >= SEEX * my_MAPSIZE() || y < 0 || y >= SEEY * my_MAPSIZE()) {
   n = 0;
   x = -1;
   y = -1;
   return;
  }
- n = int(x / SEEX) + int(y / SEEY) * MAPSIZE;
+ n = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
 
  x %= SEEX;
  y %= SEEY;
 
 }
+*/

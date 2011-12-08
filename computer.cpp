@@ -373,10 +373,10 @@ void computer::activate_function(game *g, computer_action action)
   } break;
 
   case COMPACT_MAPS: {
-   int minx = int(g->levx / 2) - 40;
-   int maxx = int(g->levx / 2) + 40;
-   int miny = int(g->levy / 2) - 40;
-   int maxy = int(g->levy / 2) + 40;
+   int minx = int((g->levx + int(MAPSIZE / 2)) / 2) - 40;
+   int maxx = int((g->levx + int(MAPSIZE / 2)) / 2) + 40;
+   int miny = int((g->levy + int(MAPSIZE / 2)) / 2) - 40;
+   int maxy = int((g->levy + int(MAPSIZE / 2)) / 2) + 40;
    if (minx < 0)             minx = 0;
    if (maxx >= OMAPX) maxx = OMAPX - 1;
    if (miny < 0)             miny = 0;
@@ -391,13 +391,13 @@ void computer::activate_function(game *g, computer_action action)
   } break;
 
   case COMPACT_MAP_SEWER: {
-   int minx = int(g->levx / 2) - 60;
-   int maxx = int(g->levx / 2) + 60;
-   int miny = int(g->levy / 2) - 60;
-   int maxy = int(g->levy / 2) + 60;
-   if (minx < 0)             minx = 0;
+   int minx = int((g->levx + int(MAPSIZE / 2)) / 2) - 60;
+   int maxx = int((g->levx + int(MAPSIZE / 2)) / 2) + 60;
+   int miny = int((g->levy + int(MAPSIZE / 2)) / 2) - 60;
+   int maxy = int((g->levy + int(MAPSIZE / 2)) / 2) + 60;
+   if (minx < 0)      minx = 0;
    if (maxx >= OMAPX) maxx = OMAPX - 1;
-   if (miny < 0)             miny = 0;
+   if (miny < 0)      miny = 0;
    if (maxy >= OMAPY) maxy = OMAPY - 1;
    for (int i = minx; i <= maxx; i++) {
     for (int j = miny; j <= maxy; j++)
