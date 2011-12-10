@@ -750,6 +750,8 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  talk_function effect;
  if (chosen.trial == TALK_TRIAL_NONE ||
      rng(0, 99) < trial_chance(chosen, alpha, beta)) {
+  if (chosen.trial != TALK_TRIAL_NONE)
+   alpha->practice(sk_speech, (100 - trial_chance(chosen, alpha, beta)) / 10);
   (effect.*chosen.effect_success)(g, beta);
   beta->op_of_u += chosen.opinion_success;
   if (beta->op_of_u.anger >= 10 + beta->op_of_u.fear) {
@@ -758,6 +760,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
   }
   return chosen.success;
  } else {
+  alpha->practice(sk_speech, (100 - trial_chance(chosen, alpha, beta)) / 7);
   (effect.*chosen.effect_failure)(g, beta);
   beta->op_of_u += chosen.opinion_failure;
   if (beta->op_of_u.anger >= 10 + beta->op_of_u.fear) {
