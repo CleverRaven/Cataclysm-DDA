@@ -8,7 +8,7 @@
 
 // A list of items used for escape, in order from least to most valuable
 #ifndef NUM_ESCAPE_ITEMS
-#define NUM_ESCAPE_ITEMS 12
+#define NUM_ESCAPE_ITEMS 11
 itype_id ESCAPE_ITEMS[NUM_ESCAPE_ITEMS] = {
  itm_cola, itm_caffeine, itm_energy_drink, itm_canister_goo, itm_smokebomb,
  itm_smokebomb_act, itm_adderall, itm_coke, itm_meth, itm_teleporter,
@@ -570,6 +570,7 @@ int npc::choose_escape_item()
        (j > best || (j == best && inv[i].charges < inv[ret].charges))) {
     ret = i;
     best = j;
+    j = NUM_ESCAPE_ITEMS;
    }
   }
  }
@@ -605,7 +606,8 @@ void npc::use_escape_item(game *g, int index, int target)
   return;
  }
 
- debugmsg("NPC tried to use %s but it has no use?", used->tname().c_str());
+ debugmsg("NPC tried to use %s (%d) but it has no use?", used->tname().c_str(),
+          index);
  move_pause();
 }
 

@@ -1198,6 +1198,70 @@ bool map::sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc)
  }
 }
 
+bool map::clear_path(int Fx, int Fy, int Tx, int Ty, int range, int cost_min,
+                     int cost_max, int &tc)
+{
+ int dx = Tx - Fx;
+ int dy = Ty - Fy;
+ int ax = abs(dx) << 1;
+ int ay = abs(dy) << 1;
+ int sx = SGN(dx);
+ int sy = SGN(dy);
+ int x = Fx;
+ int y = Fy;
+ int t = 0;
+ int st;
+ 
+ if (range >= 0 && (abs(dx) > range || abs(dy) > range))
+  return false;	// Out of range!
+ if (ax > ay) { // Mostly-horizontal line
+  st = SGN(ay - (ax >> 1));
+// Doing it "backwards" prioritizes straight lines before diagonal.
+// This will help avoid creating a string of zombies behind you and will
+// promote "mobbing" behavior (zombies surround you to beat on you)
+  for (tc = abs(ay - (ax >> 1)) * 2 + 1; tc >= -1; tc--) {
+   t = tc * st;
+   x = Fx;
+   y = Fy;
+   do {
+    if (t > 0) {
+     y += sy;
+     t -= ax;
+    }
+    x += sx;
+    t += ay;
+    if (x == Tx && y == Ty) {
+     tc *= st;
+     return true;
+    }
+   } while (move_cost(x, y) >= cost_min && move_cost(x, y) <= cost_max &&
+            inbounds(x, y));
+  }
+  return false;
+ } else { // Same as above, for mostly-vertical lines
+  st = SGN(ax - (ay >> 1));
+  for (tc = abs(ax - (ay >> 1)) * 2 + 1; tc >= -1; tc--) {
+  t = tc * st;
+  x = Fx;
+  y = Fy;
+   do {
+    if (t > 0) {
+     x += sx;
+     t -= ay;
+    }
+    y += sy;
+    t += ax;
+    if (x == Tx && y == Ty) {
+     tc *= st;
+     return true;
+    }
+   } while (move_cost(x, y) >= cost_min && move_cost(x, y) <= cost_max &&
+            inbounds(x,y));
+  }
+  return false;
+ }
+}
+
 // Bash defaults to true.
 std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty, bool bash)
 {
@@ -1214,6 +1278,10 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty, bool bash)
    return empty;
   }
  }
+// First, check for a simple straight line on flat ground
+ int linet = 0;
+ if (clear_path(Fx, Fy, Tx, Ty, -1, 2, 2, linet))
+  return line_to(Fx, Fy, Tx, Ty, linet);
 /*
  if (move_cost(Tx, Ty) == 0)
   debugmsg("%d:%d wanted to move to %d:%d, a %s!", Fx, Fy, Tx, Ty,
@@ -1236,6 +1304,15 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty, bool bash)
   starty = Ty - 4;
   endy = Fy + 4;
  }
+ if (startx < 0)
+  startx = 0;
+ if (starty < 0)
+  starty = 0;
+ if (endx > SEEX * my_MAPSIZE() - 1)
+  endx = SEEX * my_MAPSIZE() - 1;
+ if (endy > SEEY * my_MAPSIZE() - 1)
+  endy = SEEY * my_MAPSIZE() - 1;
+
  for (int x = startx; x <= endx; x++) {
   for (int y = starty; y <= endy; y++) {
    list  [x][y] = ASL_NONE; // Init to not being on any list

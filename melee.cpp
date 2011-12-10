@@ -113,7 +113,8 @@ int player::hit_mon(game *g, monster *z)
 // Movement cost
  moves -= weapon.attack_time() + 20 * encumb(bp_torso);
 // Different sizes affect your chance to hit
- if (hit_roll() < z->dodge_roll() || one_in(2 + dex_cur)) {// A miss!
+ if (hit_roll() < z->dodge_roll() ||
+     one_in(4 + dex_cur + weapon.type->m_to_hit)) {// A miss!
   stumble(g);
   return 0;
  }
@@ -626,6 +627,8 @@ int player::dodge()
    ret = 0;
  }
  can_dodge = false;
+ if (ret > int(dex_cur / 4) + sklevel[sk_dodge] * 3)
+  ret = int(dex_cur / 4) + sklevel[sk_dodge] * 3;
  return ret;
 }
 

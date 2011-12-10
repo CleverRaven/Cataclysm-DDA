@@ -973,6 +973,11 @@ void game::wrap_up_mission(int id)
   if (u.active_missions[i].uid == id)
    u.active_missions.erase( u.active_missions.begin() + i );
  }
+ switch (miss->type->goal) {
+  case MGOAL_FIND_ITEM:
+   u.use_amount(miss->type->item_id, 1);
+  break;
+ }
  mission_end endfunc;
  (endfunc.*miss->type->end)(this, miss);
 }
@@ -2276,9 +2281,9 @@ void game::remove_item(item *it)
     return;
    }
   }
-  for (int j = 0; j < u.worn.size(); j++) {
+  for (int j = 0; j < active_npc[i].worn.size(); j++) {
    if (it == &active_npc[i].worn[j]) {
-    active_npc[i].worn.erase(u.worn.begin() + j);
+    active_npc[i].worn.erase(active_npc[i].worn.begin() + j);
     return;
    }
   }
@@ -2615,25 +2620,26 @@ void game::check_warmth()
 
 void game::sound(int x, int y, int vol, std::string description)
 {
+ vol *= 1.5; // Scale it a little
 // First, alert all monsters (that can hear) to the sound
- double dist;
  for (int i = 0; i < z.size(); i++) {
   if (z[i].can_hear()) {
-   dist = trig_dist(x, y, z[i].posx, z[i].posy);
-   if (z[i].has_flag(MF_GOODHEARING) && int(dist) >> 1 <= vol)
-    z[i].wander_to(x, y, int(vol - (int(dist) >> 1)));
-   else if (dist <= vol && dist >= 2) // Adjacent sounds are likely caused by us
-    z[i].wander_to(x, y, int(vol - dist));
+   int dist = rl_dist(x, y, z[i].posx, z[i].posy);
+   if (z[i].has_flag(MF_GOODHEARING) && int(dist / 2) <= vol)
+    z[i].wander_to(x, y, vol - int(dist / 2));
+   else if (dist <= vol && dist >= 2) // Adjacent sounds are this monster
+    z[i].wander_to(x, y, vol - dist);
   }
  }
 // Loud sounds make the next spawn sooner!
- if (vol >= 20) {
-  int max = (vol - 20);
+ int spawn_range = int(MAPSIZE / 2) * SEEX;
+ if (vol >= spawn_range) {
+  int max = (vol - spawn_range);
   int min = int(max / 6);
-  if (max > 100)
-   max = 100;
-  if (min > 100)
-   min = 100;
+  if (max > spawn_range * 4)
+   max = spawn_range * 4;
+  if (min > spawn_range * 4)
+   min = spawn_range * 4;
   int change = rng(min, max);
   if (nextspawn < change)
    nextspawn = 0;
@@ -2650,7 +2656,7 @@ void game::sound(int x, int y, int vol, std::string description)
   vol *= 3.5;
  if (u.has_trait(PF_BADHEARING))
   vol *= .5;
- dist = trig_dist(x, y, u.posx, u.posy);
+ int dist = rl_dist(x, y, u.posx, u.posy);
  if (dist > vol)
   return;	// Too far away, we didn't hear it!
  if (u.has_disease(DI_SLEEP) &&
@@ -3002,13 +3008,16 @@ void game::emp_blast(int x, int y)
    int dam = dice(10, 10);
    if (z[mondex].hurt(dam))
     kill_mon(mondex);
+   else if (one_in(6))
+    z[mondex].make_friendly();
   } else
    add_msg("The %s is unaffected by the EMP blast.", z[mondex].name().c_str());
  }
  if (u.posx == x && u.posy == y) {
   if (u.power_level > 0) {
    add_msg("The EMP blast drains your power.");
-   u.charge_power(rng(-20, -5));
+   int max_drain = (u.power_level > 40 ? 40 : u.power_level);
+   u.charge_power(0 - rng(1 + max_drain / 3, max_drain));
   }
 // TODO: More effects?
  }
@@ -3428,7 +3437,6 @@ void game::examine()
   refresh_all();
  } else if (m.ter(examx, examy) == t_gas_pump && query_yn("Pump gas?")) {
   item gas(itypes[itm_gasoline], turn);
-  gas.charges = 50;
   if (one_in(u.dex_cur)) {
    add_msg("You accidentally spill the gasoline.");
    m.add_item(u.posx, u.posy, gas);
@@ -4114,6 +4122,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
      return false;
     }
    }
+   return true;
   } else if (!cont->is_container()) {
    add_msg("That %s won't hold %s.", cont->tname(this).c_str(),
                                      liquid.tname(this).c_str());
@@ -4138,12 +4147,12 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
     it_ammo* ammo = dynamic_cast<it_ammo*>(liquid.type);
     default_charges = ammo->count;
    }
-   if (liquid.charges * default_charges > container->contains) {
+   if (liquid.charges > container->contains * default_charges) {
     add_msg("You fill your %s with some of the %s.", cont->tname(this).c_str(),
                                                     liquid.tname(this).c_str());
     u.inv_sorted = false;
     int oldcharges = liquid.charges - container->contains * default_charges;
-    liquid.charges = container->contains;
+    liquid.charges = container->contains * default_charges;
     cont->put_in(liquid);
     liquid.charges = oldcharges;
     return false;
@@ -4331,12 +4340,16 @@ void game::plfire(bool burst)
    add_msg("Out of ammo!");
    return;
   }
-  u.moves -= u.weapon.reload_time(u);
   u.weapon.reload(u, index);
-  draw_ter();
+  u.moves -= u.weapon.reload_time(u);
+  refresh_all();
  }
  if (u.weapon.charges == 0) {
   add_msg("You need to reload!");
+  return;
+ }
+ if (u.weapon.has_flag(IF_FIRE_100) && u.weapon.charges < 100) {
+  add_msg("Your %s needs 100 charges to fire!", u.weapon.tname().c_str());
   return;
  }
  if (u.weapon.has_flag(IF_USE_UPS) && !u.has_charges(itm_UPS_off, 5) &&
@@ -5611,7 +5624,7 @@ void game::spawn_mon(int shiftx, int shifty)
 // (The area of the group's territory) in (population/square at this range)
 // chance of adding one monster; cap at the population OR 16
    while (long((1.0 - double(dist / rad)) * pop) > rng(0, pow(rad, 2.0)) &&
-          rng(0, 15) > group && group < pop && group < 24)
+          rng(0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
     group++;
    cur_om.zg[i].population -= group;
    if (group > 0) // If we spawned some zombies, advance the timer

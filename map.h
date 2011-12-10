@@ -46,6 +46,9 @@ class map
  // tc indicates the Bresenham line used to connect the two points, and may
  //  subsequently be used to form a path between them
  bool sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc);
+// clear_path is the same idea, but uses cost_min <= move_cost <= cost_max
+ bool clear_path(int Fx, int Fy, int Tx, int Ty, int range, int cost_min,
+                 int cost_max, int &tc);
 // route() generates an A* best path; if bash is true, we can bash through doors
  std::vector<point> route(int Fx, int Fy, int Tx, int Ty, bool bash = true);
 

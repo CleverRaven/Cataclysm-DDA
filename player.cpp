@@ -35,7 +35,7 @@ player::player()
  pain = 0;
  pkill = 0;
  radiation = 0;
- cash = 8000;
+ cash = 0;
  recoil = 0;
  scent = 500;
  name = "";

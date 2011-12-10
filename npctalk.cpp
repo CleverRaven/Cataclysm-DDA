@@ -10,6 +10,9 @@
 #include <sstream>
 #include <fstream>
 
+// Every OWED_VAL that the NPC owes you counts as +1 towards convincing
+#define OWED_VAL 250
+
 // Some aliases to help with gen_responses
 #define RESPONSE(txt)	   ret.push_back(talk_response());\
                            ret.back().text = txt
@@ -18,17 +21,26 @@
                                  ret.back().text = txt;\
                                  ret.back().mission_index = index
 
-#define TRIAL(tr)       ret.back().trial = tr
-#define DIFF(diff)      ret.back().difficulty = diff
+#define TRIAL(tr, diff) ret.back().trial = tr;\
+                        ret.back().difficulty = diff
 #define SUCCESS(topic)  ret.back().success = topic
 #define FAILURE(topic)  ret.back().failure = topic
+#define SUCCESS_OPINION(T, F, V, A, O)   ret.back().opinion_success =\
+                                         npc_opinion(T, F, V, A, O)
+#define FAILURE_OPINION(T, F, V, A, O)   ret.back().opinion_failure =\
+                                         npc_opinion(T, F, V, A, O)
 #define SUCCESS_ACTION(func)  ret.back().effect_success = func
 #define FAILURE_ACTION(func)  ret.back().effect_failure = func
 
 std::string dynamic_line(talk_topic topic, game *g, npc *p);
 std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p);
+int topic_category(talk_topic topic);
+
+talk_topic special_talk(char ch);
+
 int trial_chance(talk_response response, player *u, npc *p);
-bool trade(game *g, dialogue &d, int cost, std::string deal);
+
+bool trade(game *g, npc *p, int cost, std::string deal);
 
 void npc::talk_to_u(game *g)
 {
@@ -43,7 +55,7 @@ void npc::talk_to_u(game *g)
  for (int i = 0; i < chatbin.missions.size(); i++) {
   mission_type *type = g->find_mission_type(chatbin.missions[i]);
   if (type->urgent && type->difficulty > most_difficult_mission) {
-   d.topic_stack.push_back(TALK_DESCRIBE_MISSION);
+   d.topic_stack.push_back(TALK_MISSION_DESCRIBE);
    chatbin.mission_selected = i;
    most_difficult_mission = type->difficulty;
   }
@@ -52,7 +64,7 @@ void npc::talk_to_u(game *g)
  for (int i = 0; i < chatbin.missions_assigned.size(); i++) {
   mission_type *type = g->find_mission_type(chatbin.missions_assigned[i]);
   if (type->urgent && type->difficulty > most_difficult_mission) {
-   d.topic_stack.push_back(TALK_INQUIRE_MISSION);
+   d.topic_stack.push_back(TALK_MISSION_INQUIRE);
    chatbin.mission_selected = i;
    most_difficult_mission = type->difficulty;
   }
@@ -81,10 +93,10 @@ void npc::talk_to_u(game *g)
  do { 
   talk_topic next = d.opt(d.topic_stack.back(), g);
   if (next == TALK_NONE) {
-   d.topic_stack.pop_back();
-   while (d.topic_stack.back() >= TALK_MISSION_START &&
-          d.topic_stack.back() <= TALK_MISSION_END     )
+   int cat = topic_category(d.topic_stack.back());
+   do
     d.topic_stack.pop_back();
+   while (cat != -1 && topic_category(d.topic_stack.back()) == cat);
   }
   if (next == TALK_DONE || d.topic_stack.empty())
    d.done = true;
@@ -108,8 +120,8 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   if (p->chatbin.mission_selected == -1)
    return "mission_selected = -1; BUG!";
   int id = -1;
-  if (topic == TALK_INQUIRE_MISSION || topic == TALK_MISSION_ACCEPTED ||
-      topic == TALK_MISSION_SUCCESS) {
+  if (topic == TALK_MISSION_INQUIRE || topic == TALK_MISSION_ACCEPTED ||
+      topic == TALK_MISSION_SUCCESS || topic == TALK_MISSION_ADVICE     ) {
    if (p->chatbin.mission_selected >= p->chatbin.missions_assigned.size())
     return "mission_selected is too high; BUG!";
    id = p->chatbin.missions_assigned[ p->chatbin.mission_selected ];
@@ -120,19 +132,9 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   }
 
 // Mission stuff is a special case, so we'll handle it up here
-  mission_dialogue_state dia_state;
-  switch (topic) {
-   case TALK_DESCRIBE_MISSION: dia_state = MISSION_DIA_MENTION; break;
-   case TALK_OFFER_MISSION:    dia_state = MISSION_DIA_OFFER;   break;
-   case TALK_MISSION_ACCEPTED: dia_state = MISSION_DIA_ACCEPT;  break;
-   case TALK_MISSION_REJECTED: dia_state = MISSION_DIA_REFUSE;  break;
-   case TALK_INQUIRE_MISSION:  dia_state = MISSION_DIA_INQUIRE; break;
-   case TALK_MISSION_SUCCESS:  dia_state = MISSION_DIA_SUCCESS; break;
-  }
-
   mission_type *type = g->find_mission_type(id);
 
-  return mission_dialogue(mission_id(type->id), dia_state);
+  return mission_dialogue(mission_id(type->id), topic);
  }
   
  switch (topic) {
@@ -156,6 +158,13 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   else
    return "I have several more jobs for you.  Which should I describe?";
 
+ case TALK_MISSION_REWARD:
+  if (p->op_of_u.owed <= 0)
+   return "I gave you your reward before you finished the mission!";
+  else
+   return "Sure, here you go!";
+  break;
+
  case TALK_SHELTER:
   switch (rng(1, 2)) {
    case 1: return "Well, I guess it's just us.";
@@ -164,6 +173,51 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
 
  case TALK_SHELTER_PLANS:
   return "I don't know, look for supplies and other survivors I guess.";
+
+ case TALK_SHARE_EQUIPMENT:
+  return "Why should I share my equipment with you?";
+
+ case TALK_GIVE_EQUIPMENT:
+  return "Okay, here you go.";
+
+ case TALK_DENY_EQUIPMENT:
+  return "<no><punc> <fuck_you>!";
+
+ case TALK_SIZE_UP: {
+  int ability = g->u.per_cur * 3 + g->u.int_cur;
+  if (ability <= 10)
+   return "&You can't make anything out.";
+
+  std::stringstream info;
+  info << "&";
+  int str_range = int(100 / ability);
+  int str_min = int(p->str_max / str_range) * str_range;
+  info << "Str " << str_min << " - " << str_min + str_range;
+
+  if (ability >= 40) {
+   int dex_range = int(160 / ability);
+   int dex_min = int(p->dex_max / dex_range) * dex_range;
+   info << "  Dex " << dex_min << " - " << dex_min + dex_range;
+  }
+  if (ability >= 50) {
+   int int_range = int(200 / ability);
+   int int_min = int(p->int_max / int_range) * int_range;
+   info << "  Int " << int_min << " - " << int_min + int_range;
+  }
+  if (ability >= 60) {
+   int per_range = int(240 / ability);
+   int per_min = int(p->per_max / per_range) * per_range;
+   info << "  Per " << per_min << " - " << per_min + per_range;
+  }
+
+  return info.str();
+ } break;
+
+ case TALK_LOOK_AT: {
+  std::stringstream look;
+  look << "&" << p->short_description();
+  return look.str();
+ } break;
 
  }
 
@@ -181,27 +235,27 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
     SUCCESS(TALK_NONE);
   } else if (p->chatbin.missions.size() == 1) {
    SELECT_MISS("Tell me about it", 0);
-    SUCCESS(TALK_OFFER_MISSION);
+    SUCCESS(TALK_MISSION_OFFER);
    RESPONSE("Never mind, I'm not interested.");
     SUCCESS(TALK_NONE);
   } else {
    for (int i = 0; i < p->chatbin.missions.size(); i++) {
     SELECT_MISS(g->find_mission_type( p->chatbin.missions[i] )->name, i);
-     SUCCESS(TALK_OFFER_MISSION);
+     SUCCESS(TALK_MISSION_OFFER);
    }
    RESPONSE("Never mind, I'm not interested.");
     SUCCESS(TALK_NONE);
   }
   break;
 
- case TALK_DESCRIBE_MISSION:
+ case TALK_MISSION_DESCRIBE:
   RESPONSE("What's the matter?");
-   SUCCESS(TALK_OFFER_MISSION);
+   SUCCESS(TALK_MISSION_OFFER);
   RESPONSE("I don't care.");
    SUCCESS(TALK_MISSION_REJECTED);
   break;
 
- case TALK_OFFER_MISSION:
+ case TALK_MISSION_OFFER:
   RESPONSE("I'll do it!");
    SUCCESS(TALK_MISSION_ACCEPTED);
    SUCCESS_ACTION(&talk_function::assign_mission);
@@ -212,7 +266,18 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
  case TALK_MISSION_ACCEPTED:
   RESPONSE("Not a problem.");
    SUCCESS(TALK_NONE);
+  RESPONSE("Got any advice?");
+   SUCCESS(TALK_MISSION_ADVICE);
+  RESPONSE("Can you share some equipment?");
+   SUCCESS(TALK_SHARE_EQUIPMENT);
   RESPONSE("I'll be back soon!");
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_MISSION_ADVICE:
+  RESPONSE("Sounds good, thanks.");
+   SUCCESS(TALK_NONE);
+  RESPONSE("Sounds good.  Bye!");
    SUCCESS(TALK_DONE);
   break;
 
@@ -223,7 +288,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    SUCCESS(TALK_DONE);
   break;
 
- case TALK_INQUIRE_MISSION: {
+ case TALK_MISSION_INQUIRE: {
   int id = p->chatbin.missions_assigned[ p->chatbin.mission_selected ];
   if (!g->mission_complete(id, p->id)) {
    RESPONSE("Not yet.");
@@ -257,10 +322,26 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
 
  case TALK_MISSION_SUCCESS:
 // TODO: Demand reward.
-  RESPONSE("Glad to help.");
+  RESPONSE("Glad to help.  I need no payment.");
+   SUCCESS(TALK_NONE);
+   SUCCESS_OPINION(p->op_of_u.owed / (OWED_VAL * 4), -1,
+                   p->op_of_u.owed / (OWED_VAL * 2), -1, 0 - p->op_of_u.owed);
+   SUCCESS_ACTION(&talk_function::clear_mission);
+  RESPONSE("How about payment?");
+   SUCCESS(TALK_MISSION_REWARD);
+   SUCCESS_ACTION(&talk_function::mission_reward);
+  RESPONSE("Glad to help.  I need no payment.  Bye!");
+   SUCCESS(TALK_DONE);
+   SUCCESS_ACTION(&talk_function::clear_mission);
+   SUCCESS_OPINION(p->op_of_u.owed / (OWED_VAL * 4), -1,
+                   p->op_of_u.owed / (OWED_VAL * 2), -1, 0 - p->op_of_u.owed);
+  break;
+
+ case TALK_MISSION_REWARD:
+  RESPONSE("Thank you.");
    SUCCESS(TALK_NONE);
    SUCCESS_ACTION(&talk_function::clear_mission);
-  RESPONSE("Glad to help.  Bye!");
+  RESPONSE("Thanks, bye.");
    SUCCESS(TALK_DONE);
    SUCCESS_ACTION(&talk_function::clear_mission);
   break;
@@ -268,6 +349,8 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
  case TALK_SHELTER:
   RESPONSE("What should we do now?");
    SUCCESS(TALK_SHELTER_PLANS);
+  RESPONSE("I can't leave the shelter without equipment...");
+   SUCCESS(TALK_SHARE_EQUIPMENT);
   RESPONSE("Well, bye.");
    SUCCESS(TALK_DONE);
   break;
@@ -278,6 +361,70 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    SUCCESS(TALK_DONE);
   break;
 
+ case TALK_SHARE_EQUIPMENT: {
+  int score = p->op_of_u.trust + p->op_of_u.value * 3 +
+              p->personality.altruism * 2;
+  int missions_value = p->assigned_missions_value(g);
+  RESPONSE("Because I'm your friend!");
+   TRIAL(TALK_TRIAL_PERSUADE, 10 + score);
+   SUCCESS(TALK_GIVE_EQUIPMENT);
+    SUCCESS_ACTION(&talk_function::give_equipment);
+    SUCCESS_OPINION(0, 0, -1, 0, score * 300);
+   FAILURE(TALK_DENY_EQUIPMENT);
+    FAILURE_OPINION(0, 0, -1, 0, 0);
+  if (missions_value >= 1) {
+   RESPONSE("Well, I am helping you out...");
+    TRIAL(TALK_TRIAL_PERSUADE, 10 + score + p->op_of_u.owed / OWED_VAL);
+    SUCCESS(TALK_GIVE_EQUIPMENT);
+     SUCCESS_ACTION(&talk_function::give_equipment);
+    FAILURE(TALK_DENY_EQUIPMENT);
+     FAILURE_OPINION(0, 0, -1, 0, 0);
+  }
+  RESPONSE("I'll give it back!");
+   TRIAL(TALK_TRIAL_LIE, score * 1.5);
+   SUCCESS(TALK_GIVE_EQUIPMENT);
+    SUCCESS_ACTION(&talk_function::give_equipment);
+    SUCCESS_OPINION(0, 0, -1, 0, score * 300);
+   FAILURE(TALK_DENY_EQUIPMENT);
+    FAILURE_OPINION(0, -1, -1, 0, 0);
+  RESPONSE("Give it to me, or else!");
+   TRIAL(TALK_TRIAL_INTIMIDATE, 40);
+   SUCCESS(TALK_GIVE_EQUIPMENT);
+    SUCCESS_ACTION(&talk_function::give_equipment);
+    SUCCESS_OPINION(-3, 2, -2, 2,
+                    (g->u.intimidation() + p->op_of_u.fear -
+                     p->personality.bravery - p->intimidation()) * 500);
+   FAILURE(TALK_DENY_EQUIPMENT);
+    FAILURE_OPINION(-3, 1, -3, 4, 0);
+  RESPONSE("Eh, never mind.");
+   SUCCESS(TALK_NONE);
+  RESPONSE("Never mind, I'll do without.  Bye.");
+   SUCCESS(TALK_DONE);
+ } break;
+
+ case TALK_GIVE_EQUIPMENT:
+  RESPONSE("Thank you!");
+   SUCCESS(TALK_NONE);
+  RESPONSE("Thanks!  But can I have some more?");
+   SUCCESS(TALK_SHARE_EQUIPMENT);
+  RESPONSE("Thanks, see you later!");
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_DENY_EQUIPMENT:
+  RESPONSE("Okay, okay, sorry.");
+   SUCCESS(TALK_NONE);
+  RESPONSE("Seriously, give me more stuff!");
+   SUCCESS(TALK_SHARE_EQUIPMENT);
+  RESPONSE("Okay, fine, bye.");
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_SIZE_UP:
+ case TALK_LOOK_AT:
+  RESPONSE("Okay.");
+   SUCCESS(TALK_NONE);
+  break;
  }
 
  if (ret.empty()) {
@@ -294,17 +441,54 @@ int trial_chance(talk_response response, player *u, npc *p)
  int diff = response.difficulty;
  switch (trial) {
   case TALK_TRIAL_LIE:
-   return diff - u->talk_skill() + p->talk_skill();
+   diff += u->talk_skill() - p->talk_skill();
 
   case TALK_TRIAL_PERSUADE:
-   return diff - u->talk_skill() + int(p->talk_skill() / 2);
+   diff += u->talk_skill() - int(p->talk_skill() / 2) +
+           p->op_of_u.trust * 2 + p->op_of_u.value;
 
   case TALK_TRIAL_INTIMIDATE:
-   return diff - u->intimidation() + p->intimidation();
+   diff += u->intimidation() - p->intimidation() + p->op_of_u.fear * 2 -
+           p->personality.bravery * 2;
 
  }
 
- return 0;
+ if (diff < 0)
+  return 0;
+ if (diff > 100)
+  return 100;
+
+ return diff;
+}
+
+int topic_category(talk_topic topic)
+{
+ switch (topic) {
+  case TALK_MISSION_START:
+  case TALK_MISSION_DESCRIBE:
+  case TALK_MISSION_OFFER:
+  case TALK_MISSION_ACCEPTED:
+  case TALK_MISSION_REJECTED:
+  case TALK_MISSION_ADVICE:
+  case TALK_MISSION_INQUIRE:
+  case TALK_MISSION_SUCCESS:
+  case TALK_MISSION_REWARD:
+  case TALK_MISSION_END:
+   return 1;
+
+  case TALK_SHARE_EQUIPMENT:
+  case TALK_GIVE_EQUIPMENT:
+  case TALK_DENY_EQUIPMENT:
+   return 2;
+
+  case TALK_SIZE_UP:
+  case TALK_LOOK_AT:
+   return 3;
+
+  default:
+   return -1; // Not grouped with other topics
+ }
+ return -1;
 }
 
 void talk_function::assign_mission(game *g, npc *p)
@@ -316,6 +500,7 @@ void talk_function::assign_mission(game *g, npc *p)
   return;
  }
  g->assign_mission(p->chatbin.missions[selected]);
+ p->op_of_u.owed += g->find_mission(p->chatbin.missions[selected])->value;
  g->u.active_missions.back().npc_id = p->id;
  p->chatbin.missions_assigned.push_back( p->chatbin.missions[selected] );
  p->chatbin.missions.erase(p->chatbin.missions.begin() + selected);
@@ -344,6 +529,47 @@ void talk_function::clear_mission(game *g, npc *p)
  p->chatbin.missions_assigned.erase( p->chatbin.missions_assigned.begin() +
                                      selected);
 }
+
+void talk_function::mission_reward(game *g, npc *p)
+{
+ int trade_amount = p->op_of_u.owed;
+ p->op_of_u.owed = 0;
+ trade(g, p, trade_amount, "Reward");
+}
+ 
+void talk_function::give_equipment(game *g, npc *p)
+{
+ std::vector<int> giving;
+ std::vector<int> prices;
+ p->init_selling(giving, prices);
+ int chosen = -1;
+ if (giving.empty()) {
+  for (int i = 0; i < p->inv.size(); i++) {
+   int val = p->value(p->inv[i]) - p->inv[i].price() / 50;
+   giving.push_back(i);
+   prices.push_back(p->inv[i].price());
+  }
+ }
+ while (chosen == -1 && giving.size() > 1) {
+  int index = rng(0, giving.size() - 1);
+  if (prices[index] < p->op_of_u.owed)
+   chosen = index;
+  giving.erase(giving.begin() + index);
+  prices.erase(prices.begin() + index);
+ }
+ if (giving.empty()) {
+  popup("%s has nothing to give!", p->name.c_str());
+  return;
+ }
+ if (chosen == -1)
+  chosen = 0;
+ int item_index = giving[chosen];
+ popup("%s gives you a %s.", p->name.c_str(),
+       p->inv[item_index].tname().c_str());
+ g->u.i_add( p->i_remn(item_index) );
+ p->op_of_u.owed -= prices[chosen];
+}
+ 
  
 
 void parse_tags(std::string &phrase, player *u, npc *me)
@@ -404,7 +630,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  std::string challenge = dynamic_line(topic, g, beta);
  std::vector<talk_response> responses = gen_responses(topic, g, beta);
 // Put quotes around challenge (unless it's an action)
- if (challenge.find_first_of("*") != 0) {
+ if (challenge.find_first_of("*") != 0 && challenge[0] != '&') {
   std::stringstream tmp;
   tmp << "\"" << challenge << "\"";
  }
@@ -413,7 +639,10 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  if (challenge[0] >= 'a' && challenge[0] <= 'z')
   challenge[0] += 'A' - 'a';
 // Prepend "My Name: "
- challenge = beta->name + ": " + challenge;
+ if (challenge[0] == '&') // No name prepended!
+   challenge = challenge.substr(1);
+ else
+  challenge = beta->name + ": " + challenge;
  history.push_back(""); // Empty line between lines of dialogue
  
 // Number of lines to highlight
@@ -478,6 +707,8 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
   mvwprintz(win, curline, 42, colors[i], options[i].c_str());
   curline++;
  }
+ mvwprintz(win, curline + 2, 42, c_magenta, "L: Look at");
+ mvwprintz(win, curline + 3, 42, c_magenta, "S: Size up stats");
 
  wrefresh(win);
 
@@ -485,18 +716,33 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  bool okay;
  do {
   do {
-   ch = getch() - '1';
-  } while (ch < 0 || ch >= options.size());
+   ch = getch();
+   if (special_talk(ch) == TALK_NONE)
+    ch -= '1';
+  } while (special_talk(ch) == TALK_NONE && (ch < 0 || ch >= options.size()));
   okay = false;
-  if (colors[ch] == c_white || colors[ch] == c_green)
+  if (special_talk(ch) != TALK_NONE)
    okay = true;
-  if (colors[ch] == c_red && query_yn("You may be attacked! Proceed?"))
+  else if (colors[ch] == c_white || colors[ch] == c_green)
    okay = true;
-  if (colors[ch] == c_ltred && query_yn("You'll be helpless! Proceed?"))
+  else if (colors[ch] == c_red && query_yn("You may be attacked! Proceed?"))
+   okay = true;
+  else if (colors[ch] == c_ltred && query_yn("You'll be helpless! Proceed?"))
    okay = true;
  } while (!okay);
  history.push_back("");
- history.push_back("You: " + responses[ch].text);
+
+ if (special_talk(ch) != TALK_NONE)
+  return special_talk(ch);
+
+ std::string response_printed = "You: " + responses[ch].text;
+ while (response_printed.length() > 40) {
+  hilight_lines++;
+  split = response_printed.find_last_of(' ', 40);
+  history.push_back(response_printed.substr(0, split));
+  response_printed = response_printed.substr(split);
+ }
+ history.push_back(response_printed);
 
  talk_response chosen = responses[ch];
  if (chosen.mission_index != -1)
@@ -505,15 +751,40 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  if (chosen.trial == TALK_TRIAL_NONE ||
      rng(0, 99) < trial_chance(chosen, alpha, beta)) {
   (effect.*chosen.effect_success)(g, beta);
+  beta->op_of_u += chosen.opinion_success;
+  if (beta->op_of_u.anger >= 10 + beta->op_of_u.fear) {
+   beta->attitude = NPCATT_KILL;
+   done = true;
+  }
   return chosen.success;
  } else {
   (effect.*chosen.effect_failure)(g, beta);
+  beta->op_of_u += chosen.opinion_failure;
+  if (beta->op_of_u.anger >= 10 + beta->op_of_u.fear) {
+   beta->attitude = NPCATT_KILL;
+   done = true;
+  }
   return chosen.failure;
  }
  return TALK_NONE; // Shouldn't ever happen
 }
 
-bool trade(game *g, dialogue &d, int cost, std::string deal)
+talk_topic special_talk(char ch)
+{
+ switch (ch) {
+  case 'L':
+  case 'l':
+   return TALK_LOOK_AT;
+  case 'S':
+  case 's':
+   return TALK_SIZE_UP;
+  default:
+   return TALK_NONE;
+ }
+ return TALK_NONE;
+}
+
+bool trade(game *g, npc *p, int cost, std::string deal)
 {
  WINDOW* w_head = newwin( 4, 80,  0,  0);
  WINDOW* w_them = newwin(21, 40,  4,  0);
@@ -522,7 +793,7 @@ bool trade(game *g, dialogue &d, int cost, std::string deal)
  mvwprintz(w_head, 0, 0, c_white, "\
 Trading with %s\n\
 Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n\
-? to get information on an item", d.beta->name.c_str());
+? to get information on an item", p->name.c_str());
 
 // Set up line drawings
  for (int i = 0; i < 80; i++)
@@ -535,19 +806,19 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
 // Populate the list of what the NPC is willing to buy, and the prices they pay
 // Note that the NPC's barter skill is factored into these prices.
  std::vector<int> theirs, their_price, yours, your_price;
- d.beta->init_selling(theirs, their_price);
- d.beta->init_buying(d.alpha->inv, yours, your_price);
+ p->init_selling(theirs, their_price);
+ p->init_buying(g->u.inv, yours, your_price);
  bool getting_theirs[theirs.size()], getting_yours[yours.size()];
 
 // Adjust the prices based on your barter skill.
  for (int i = 0; i < their_price.size(); i++) {
-  their_price[i] *= (price_adjustment(d.alpha->sklevel[sk_barter]) +
-                     (d.beta->int_cur - d.alpha->int_cur) / 15);
+  their_price[i] *= (price_adjustment(g->u.sklevel[sk_barter]) +
+                     (p->int_cur - g->u.int_cur) / 15);
   getting_theirs[i] = false;
  }
  for (int i = 0; i < your_price.size(); i++) {
-  your_price[i] /= (price_adjustment(d.alpha->sklevel[sk_barter]) +
-                    (d.beta->int_cur - d.alpha->int_cur) / 15);
+  your_price[i] /= (price_adjustment(g->u.sklevel[sk_barter]) +
+                    (p->int_cur - g->u.int_cur) / 15);
   getting_yours[i] = false;
  }
 
@@ -565,8 +836,8 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    werase(w_you);
    for (int i = 1; i < 80; i++)
     mvwputch(w_head, 3, i, c_white, LINE_OXOX);
-   mvwprintz(w_head, 3, 30, ((cash <  0 && d.alpha->cash >= cash * -1) ||
-                             (cash >= 0 && d.beta->cash  >= cash) ?
+   mvwprintz(w_head, 3, 30, ((cash <  0 && g->u.cash >= cash * -1) ||
+                             (cash >= 0 && p->cash  >= cash) ?
                              c_green : c_red),
              "%s $%d", (cash >= 0 ? "Profit" : "Cost"), abs(cash));
    if (deal != "")
@@ -581,16 +852,16 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
                    LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
    wattroff(w_them, c_yellow);
    wattroff(w_you,  c_yellow);
-   mvwprintz(w_them, 0, 1, (cash < 0 || d.beta->cash >= cash ? c_green : c_red),
-             "%s: $%d", d.beta->name.c_str(), d.beta->cash);
-   mvwprintz(w_you,  0, 2, (cash > 0 || d.alpha->cash>=cash*-1 ? c_green:c_red),
-             "You: $%d", d.alpha->cash);
+   mvwprintz(w_them, 0, 1, (cash < 0 || p->cash >= cash ? c_green : c_red),
+             "%s: $%d", p->name.c_str(), p->cash);
+   mvwprintz(w_you,  0, 2, (cash > 0 || g->u.cash>=cash*-1 ? c_green:c_red),
+             "You: $%d", g->u.cash);
 // Draw their list of items, starting from them_off
    for (int i = them_off; i < theirs.size() && i < 17; i++)
     mvwprintz(w_them, i - them_off + 1, 1,
               (getting_theirs[i] ? c_white : c_ltgray), "%c %c %s - $%d",
               char(i + 'a'), (getting_theirs[i] ? '+' : '-'),
-              d.beta->inv[theirs[i + them_off]].tname().substr( 0,25).c_str(),
+              p->inv[theirs[i + them_off]].tname().substr( 0,25).c_str(),
               their_price[i + them_off]);
    if (them_off > 0)
     mvwprintw(w_them, 19, 1, "< Back");
@@ -601,7 +872,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
     mvwprintz(w_you, i - you_off + 1, 1,
               (getting_yours[i] ? c_white : c_ltgray), "%c %c %s - $%d",
               char(i + 'a'), (getting_yours[i] ? '+' : '-'),
-              d.alpha->inv[yours[i + you_off]].tname().substr( 0,25).c_str(),
+              g->u.inv[yours[i + you_off]].tname().substr( 0,25).c_str(),
               your_price[i + you_off]);
    if (you_off > 0)
     mvwprintw(w_you, 19, 1, "< Back");
@@ -657,22 +928,19 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    wrefresh(w_head);
    if (focus_them) {
     if (help >= 0 && help < theirs.size())
-     popup(d.beta->inv[theirs[help]].info().c_str());
+     popup(p->inv[theirs[help]].info().c_str());
    } else {
     if (help >= 0 && help < yours.size())
-     popup(d.alpha->inv[theirs[help]].info().c_str());
+     popup(g->u.inv[theirs[help]].info().c_str());
    }
    break;
   case '\n':	// Check if we have enough cash...
-   if (cash < 0 && d.alpha->cash < cash * -1) {
-    popup("Not enough cash!  You have $%d, price is $%d.", d.alpha->cash, cash);
+   if (cash < 0 && g->u.cash < cash * -1) {
+    popup("Not enough cash!  You have $%d, price is $%d.", g->u.cash, cash);
     update = true;
     ch = ' ';
-   } else if (cash > 0 && d.beta->cash < cash) {
-    popup("They don't have enough cash!");
-    update = true;
-    ch = ' ';
-   }
+   } else if (cash > 0 && p->cash < cash)
+    p->op_of_u.owed += cash;
    break;
   default:	// Letters & such
    if (ch >= 'a' && ch <= 'z') {
@@ -704,27 +972,27 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
  if (ch == '\n') {
   int practice = 0;
   std::vector<char> removing;
-  debugmsg("Old size: %d", d.beta->inv.size());
+  debugmsg("Old size: %d", p->inv.size());
   for (int i = 0; i < yours.size(); i++) {
    if (getting_yours[i]) {
-    d.beta->inv.push_back(d.alpha->inv[yours[i]]);
+    p->inv.push_back(g->u.inv[yours[i]]);
     practice++;
-    debugmsg("Gave a %s", d.alpha->inv[yours[i]].tname().c_str());
-    removing.push_back(d.alpha->inv[yours[i]].invlet);
+    debugmsg("Gave a %s", g->u.inv[yours[i]].tname().c_str());
+    removing.push_back(g->u.inv[yours[i]].invlet);
    }
   }
-  debugmsg("New size: %d", d.beta->inv.size());
+  debugmsg("New size: %d", p->inv.size());
 // Do it in two passes, so removing items doesn't corrupt yours[]
   for (int i = 0; i < removing.size(); i++)
-    d.alpha->i_rem(removing[i]);
+    g->u.i_rem(removing[i]);
 
   inventory newinv;
   for (int i = 0; i < theirs.size(); i++) {
-   item tmp = d.beta->inv[theirs[i]];
+   item tmp = p->inv[theirs[i]];
    if (getting_theirs[i]) {
     practice += 2;
     tmp.invlet = 'a';
-    while (d.alpha->has_item(tmp.invlet)) {
+    while (g->u.has_item(tmp.invlet)) {
      if (tmp.invlet == 'z')
       tmp.invlet = 'A';
      else if (tmp.invlet == 'Z')
@@ -732,14 +1000,14 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
      else
       tmp.invlet++;
     }
-    d.alpha->inv.push_back(tmp);
+    g->u.inv.push_back(tmp);
    } else
     newinv.push_back(tmp);
   }
-  d.alpha->practice(sk_barter, practice / 2);
-  d.beta->inv = newinv;
-  d.alpha->cash += cash;
-  d.beta->cash  -= cash;
+  g->u.practice(sk_barter, practice / 2);
+  p->inv = newinv;
+  g->u.cash += cash;
+  p->cash    -= cash;
  }
  werase(w_head);
  werase(w_you);

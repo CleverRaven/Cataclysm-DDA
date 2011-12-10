@@ -769,6 +769,7 @@ int disease_speed_boost(disease dis)
  switch (dis.type) {
  case DI_COLD:		return 0 - int(dis.duration / 5);
  case DI_HEATSTROKE:	return -15;
+ case DI_INFECTION:	return -80;
  case DI_SAP:		return -25;
  case DI_SPORES:	return -15;
  case DI_SLIMED:	return -25;

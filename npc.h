@@ -5,7 +5,6 @@
 #include "monster.h"
 #include "overmap.h"
 #include "faction.h"
-#include "mission.h"
 #include <vector>
 #include <string>
 
@@ -121,10 +120,37 @@ struct npc_opinion {
  signed char trust;
  signed char fear;
  signed char value;
+ signed char anger;
+ int owed;
  npc_opinion() {
   trust = 0;
   fear  = 0;
   value = 0;
+  owed = 0;
+ };
+ npc_opinion(signed char T, signed char F, signed char V, signed char A, int O):
+             trust (T), fear (F), value (V), anger(A), owed (O) { };
+
+ npc_opinion(npc_opinion &copy)
+ {
+  trust = copy.trust;
+  fear = copy.fear;
+  value = copy.value;
+  owed = copy.owed;
+ };
+
+ npc_opinion& operator+= (npc_opinion &rhs)
+ {
+  trust += rhs.trust;
+  fear  += rhs.fear;
+  value += rhs.value;
+  owed  += rhs.owed;
+  return *this;
+ };
+
+ npc_opinion& operator+ (npc_opinion &rhs)
+ {
+  return (npc_opinion(*this) += rhs);
  };
 };
 
@@ -132,17 +158,30 @@ enum talk_topic {
  TALK_NONE = 0,	// Used to go back to last subject
  TALK_DONE,	// Used to end the conversation
  TALK_MISSION_LIST, // List available missions. Intentionally placed above START
+
  TALK_MISSION_START, // NOT USED; start of mission topics
- TALK_DESCRIBE_MISSION, // Describe a mission
- TALK_OFFER_MISSION, // Offer a mission
+ TALK_MISSION_DESCRIBE, // Describe a mission
+ TALK_MISSION_OFFER, // Offer a mission
  TALK_MISSION_ACCEPTED,
  TALK_MISSION_REJECTED,
- TALK_INQUIRE_MISSION,
+ TALK_MISSION_ADVICE,
+ TALK_MISSION_INQUIRE,
  TALK_MISSION_SUCCESS,
  TALK_MISSION_END, // NOT USED: end of mission topics
+
+ TALK_MISSION_REWARD, // Intentionally placed below END
+
  TALK_SHELTER,
  TALK_SHELTER_PLANS,
+ TALK_SHARE_EQUIPMENT,
+ TALK_GIVE_EQUIPMENT,
+ TALK_DENY_EQUIPMENT,
+
  TALK_SHOPKEEP,
+
+ TALK_SIZE_UP,
+ TALK_LOOK_AT,
+
  NUM_TALK_TOPICS
 };
 
@@ -165,10 +204,13 @@ class npc : public player {
 public:
 
  npc();
+ //npc(npc& rhs);
+ npc(const npc &rhs);
  ~npc();
  virtual bool is_npc() { return true; }
 
- npc& operator= (npc rhs);
+ npc& operator= (npc &rhs);
+ npc& operator= (const npc &rhs);
 
 // Generating our stats, etc.
  void randomize(game *g, npc_class type = NC_NONE);
@@ -188,7 +230,7 @@ public:
 // Display
  void draw(WINDOW* w, int plx, int ply, bool inv);
  void print_info(WINDOW* w);
-
+ std::string short_description();
 
 // Goal / mission functions
  void pick_long_term_goal(game *g);
@@ -203,6 +245,7 @@ public:
  int  player_danger(player *u); // Comparable to monsters
  void make_angry(); // Called if the player attacks us
  bool wants_to_travel_with(player *p);
+ int assigned_missions_value(game *g);
 // State checks
  bool is_enemy(); // We want to kill/mug/etc the player
  bool is_following(); // Traveling w/ player (whether as a friend or a slave)

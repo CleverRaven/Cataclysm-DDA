@@ -5,10 +5,11 @@
 #include <string>
 #include "itype.h"
 #include "texthash.h"
+#include "npc.h"
 
 struct mission;
 class game;
-
+enum talk_topic;
 
 enum mission_id {
  MISSION_NULL,
@@ -16,18 +17,7 @@ enum mission_id {
  NUM_MISSION_IDS
 };
 
-enum mission_dialogue_state {
- MISSION_DIA_MENTION,
- MISSION_DIA_OFFER,
- MISSION_DIA_ACCEPT,
- MISSION_DIA_REFUSE,
- MISSION_DIA_COMPLETE,
- MISSION_DIA_INQUIRE,
- MISSION_DIA_SUCCESS,
- NUM_MISSION_DIA
-};
-
-std::string mission_dialogue(mission_id id, mission_dialogue_state state);
+std::string mission_dialogue(mission_id id, talk_topic state);
 
 enum mission_origin {
  ORIGIN_NULL = 0,
@@ -76,6 +66,7 @@ struct mission_type {
  std::string name;	// The name the mission is given in menus
  mission_goal goal;	// The basic goal type
  int difficulty;	// Difficulty; TODO: come up with a scale
+ int value;		// Value; determines rewards and such
  int deadline_low, deadline_high; // Low and high deadlines (turn numbers)
  bool urgent;	// If true, the NPC will press this mission!
 
@@ -86,12 +77,13 @@ struct mission_type {
  void (mission_start::*start)(game *g, mission *);
  void (mission_end  ::*end  )(game *g, mission *);
 
- mission_type(int ID, std::string NAME, mission_goal GOAL, int DIF, bool URGENT,
+ mission_type(int ID, std::string NAME, mission_goal GOAL, int DIF, int VAL,
+              bool URGENT,
               bool (mission_place::*PLACE)(game *, int x, int y),
               void (mission_start::*START)(game *, mission *),
               void (mission_end::*END)(game *, mission *)) :
-  id (ID), name (NAME), goal (GOAL), difficulty (DIF), urgent(URGENT),
-  place (PLACE), start (START), end (END)
+  id (ID), name (NAME), goal (GOAL), difficulty (DIF), value (VAL),
+  urgent(URGENT), place (PLACE), start (START), end (END)
   { deadline_low = 0; deadline_high = 0; };
 
  mission create(game *g); // Create a mission based on this template
@@ -100,6 +92,7 @@ struct mission_type {
 struct mission {
  mission_type *type;
  std::string description; // Basic descriptive text
+ int value;
  int uid;		// Unique ID number, used for referencing elsewhere
  point target;		// Marked on the player's map.  (-1,-1) for none
  itype_id item_id;	// Item that needs to be found (or whatever)

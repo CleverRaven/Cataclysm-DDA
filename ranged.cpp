@@ -71,7 +71,12 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  ts.tv_nsec = BULLET_SPEED;
 
 // Use up some ammunition
- p.weapon.charges -= num_shots;
+ if (p.weapon.has_flag(IF_FIRE_100))
+  p.weapon.charges -= 100;
+ else
+  p.weapon.charges -= num_shots;
+ if (p.weapon.charges < 0)
+  p.weapon.charges = 0;
  bool missed = false;
  int tart;
  for (int curshot = 0; curshot < num_shots; curshot++) {

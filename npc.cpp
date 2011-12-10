@@ -45,12 +45,17 @@ npc::npc()
  mission = NPC_MISSION_NULL;
 }
 
+npc::npc(const npc &rhs)
+{
+ *this = rhs;
+}
+
 npc::~npc()
 {
 
 }
 
-npc& npc::operator= (npc rhs)
+npc& npc::operator= (npc &rhs)
 {
  id = rhs.id;
  name = rhs.name;
@@ -83,7 +88,60 @@ npc& npc::operator= (npc rhs)
  chatbin = rhs.chatbin;
 
  weapon = rhs.weapon;
- inv.clear();
+ inv = rhs.inv;
+ worn.clear();
+ for (int i = 0; i < rhs.worn.size(); i++)
+  worn.push_back(rhs.worn[i]);
+
+ needs.clear();
+ for (int i = 0; i < rhs.needs.size(); i++)
+  needs.push_back(rhs.needs[i]);
+
+ path.clear();
+ for (int i = 0; i < rhs.path.size(); i++)
+  path.push_back(rhs.path[i]);
+
+ for (int i = 0; i < num_hp_parts; i++) {
+  hp_cur[i] = rhs.hp_cur[i];
+  hp_max[i] = rhs.hp_max[i];
+ }
+
+ return *this;
+}
+
+npc& npc::operator= (const npc &rhs)
+{
+ id = rhs.id;
+ name = rhs.name;
+ attitude = rhs.attitude;
+ wandx = rhs.wandx;
+ wandy = rhs.wandy;
+ wandf = rhs.wandf;
+ omx = rhs.omx;
+ omy = rhs.omy;
+ omz = rhs.omz;
+ mapx = rhs.mapx;
+ mapy = rhs.mapy;
+ plx = rhs.plx;
+ ply = rhs.ply;
+ plt = rhs.plt;
+ itx = rhs.itx;
+ ity = rhs.ity;
+ goalx = rhs.goalx;
+ goaly = rhs.goaly;
+ fetching_item = rhs.fetching_item;
+ worst_item_value = rhs.worst_item_value;
+ fac_id = rhs.fac_id;
+ my_fac = rhs.my_fac;
+ mission = rhs.mission;
+ personality = rhs.personality;
+ op_of_u = rhs.op_of_u;
+ flags = rhs.flags;
+ posx = rhs.posx;
+ posy = rhs.posy;
+ chatbin = rhs.chatbin;
+
+ weapon = rhs.weapon;
  inv = rhs.inv;
  worn.clear();
  for (int i = 0; i < rhs.worn.size(); i++)
@@ -237,7 +295,8 @@ void npc::randomize(game *g, npc_class type)
  personality.bravery =    rng(-10, 10);
  personality.collector =  rng(-10, 10);
  personality.altruism =   rng(-10, 10);
- cash = 100 * rng(0, 20) + 10 * rng(0, 30) + rng(0, 50);
+ //cash = 100 * rng(0, 20) + 10 * rng(0, 30) + rng(0, 50);
+ cash = 0;
  moves = 100;
  mission = NPC_MISSION_NULL;
  if (one_in(2))
@@ -650,7 +709,9 @@ void npc::make_shopkeep(game *g, oter_id type)
 std::vector<item> starting_clothes(npc_class type, bool male, game *g)
 {
  std::vector<item> ret;
- itype_id pants, shoes, shirt, gloves, coat, mask, glasses, hat;
+ itype_id pants = itm_null, shoes = itm_null, shirt = itm_null,
+                  gloves = itm_null, coat = itm_null, mask = itm_null,
+                  glasses = itm_null, hat = itm_null;
 
  switch(rng(0, (male ? 3 : 4))) {
   case 0: pants = itm_jeans; break;
@@ -665,13 +726,11 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
   case 2: shirt = itm_dress_shirt; break;
   case 3: shirt = itm_tank_top; break;
  }
- gloves = itm_null;
  switch(rng(0, 10)) {
   case  8: gloves = itm_gloves_leather; break;
   case  9: gloves = itm_gloves_fingerless; break;
   case 10: gloves = itm_fire_gauntlets; break;
  }
- coat = itm_null;
  switch (rng(0, 6)) {
   case 2: coat = itm_hoodie; break;
   case 3: coat = itm_jacket_light; break;
@@ -721,6 +780,7 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
   if (gloves != itm_null || one_in(3))
    gloves = itm_gloves_medical;
   break;
+
  case NC_TRADER:
   if (one_in(2))
    pants = itm_pants_cargo;
@@ -731,6 +791,7 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
    case 5: case 6: case 7: case 8: coat = itm_trenchcoat; break;
   }
   break;
+
  case NC_NINJA:
   if (one_in(4))
    shirt = itm_null;
@@ -743,6 +804,7 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
   if (one_in(3))
    hat = itm_null;
   break;
+
  case NC_COWBOY:
   if (one_in(2))
    shoes = itm_boots;
@@ -757,6 +819,7 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
   if (one_in(3))
    hat = itm_hat_boonie;
   break;
+
  case NC_SCIENTIST:
   if (one_in(4))
    glasses = itm_glasses_eye;
@@ -765,6 +828,7 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
   if (one_in(5))
    coat = itm_coat_lab;
   break;
+
  case NC_BOUNTY_HUNTER:
   if (one_in(3))
    pants = itm_pants_cargo;
@@ -1252,6 +1316,14 @@ bool npc::wants_to_travel_with(player *p)
  return true;
 }
 
+int npc::assigned_missions_value(game *g)
+{
+ int ret = 0;
+ for (int i = 0; i < chatbin.missions_assigned.size(); i++)
+  ret += g->find_mission(chatbin.missions_assigned[i])->value;
+ return ret;
+}
+
 int npc::minutes_to_u(game *g)
 {
  int ret = abs(mapx - g->levx);
@@ -1700,7 +1772,19 @@ void npc::print_info(WINDOW* w)
   line++;
  } while (split != std::string::npos && line <= 11);
 }
-  
+
+std::string npc::short_description()
+{
+ std::stringstream ret;
+ ret << "Wielding " << weapon.tname() << ";   " << "Wearing: ";
+ for (int i = 0; i < worn.size(); i++) {
+  if (i > 0)
+   ret << ", ";
+  ret << worn[i].tname();
+ }
+
+ return ret.str();
+}
 
 void npc::shift(int sx, int sy)
 {

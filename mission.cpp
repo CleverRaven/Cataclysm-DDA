@@ -11,6 +11,7 @@ mission mission_type::create(game *g)
   ret.deadline = 0;
 
  ret.item_id = item_id;
+ ret.value = value;
 
  mission_start m_s;
  (m_s.*start)(g, &ret);
@@ -25,13 +26,13 @@ std::string mission::name()
  return type->name;
 }
 
-std::string mission_dialogue (mission_id id, mission_dialogue_state state)
+std::string mission_dialogue (mission_id id, talk_topic state)
 {
  switch (id) {
 
  case MISSION_GET_ANTIBIOTICS:
   switch (state) {
-   case MISSION_DIA_MENTION:
+   case TALK_MISSION_DESCRIBE:
     switch (rng(1, 4)) {
      case 1: return "Hey <name_g>... I really need your help...";
      case 2: return "<swear!><punc> I'm hurting...";
@@ -39,21 +40,22 @@ std::string mission_dialogue (mission_id id, mission_dialogue_state state)
      case 4: return "Oh god, it <swear> hurts...";
     }
     break;
-   case MISSION_DIA_OFFER:
+   case TALK_MISSION_OFFER:
     return "\
 I'm infected.  Badly.  I need you to get some antibiotics for me...";
-   case MISSION_DIA_REFUSE:
-    return "\
-What?!  Please, <ill_die> without your help!";
-   case MISSION_DIA_ACCEPT:
+   case TALK_MISSION_ACCEPTED:
     return "\
 Oh, thank god, thank you so much!  I won't last more than a couple of days, \
 so hurry...";
-   case MISSION_DIA_COMPLETE:
-    return "Thank you so much!  Hopefully I'll be better in no time...";
-   case MISSION_DIA_INQUIRE:
+   case TALK_MISSION_REJECTED:
+    return "\
+What?!  Please, <ill_die> without your help!";
+   case TALK_MISSION_ADVICE:
+    return "\
+There's a town nearby.  Check pharmacies; it'll be behind the counter.";
+   case TALK_MISSION_INQUIRE:
     return "Find any antibiotics yet?";
-   case MISSION_DIA_SUCCESS:
+   case TALK_MISSION_SUCCESS:
     return "Oh thank god!  I'll be right as rain in no time.";
   }
   break;

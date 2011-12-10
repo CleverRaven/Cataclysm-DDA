@@ -13,16 +13,18 @@ class inventory
  public:
   item& operator[] (int i);
   std::vector<item>& stack_at(int i);
+  std::vector<item> const_stack(int i) const;
   std::vector<item> as_vector();
   item& front();
   item& back();
   int size() const;
 
   inventory& operator=  (inventory &rhs);
-  inventory& operator+= (inventory &rhs);
+  inventory& operator=  (const inventory &rhs);
+  inventory& operator+= (const inventory &rhs);
   inventory& operator+= (const item &rhs);
   inventory& operator+= (const std::vector<item> &rhs);
-  inventory  operator+  (inventory &rhs);
+  inventory  operator+  (const inventory &rhs);
   inventory  operator+  (const item &rhs);
   inventory  operator+  (const std::vector<item> &rhs);
 

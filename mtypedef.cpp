@@ -11,6 +11,7 @@
 //  * mongroupdef.cpp - void init_moncats() should be edited, so the monster
 //                      spawns with the proper group
 // PLEASE NOTE: The description is AT MAX 4 lines of 46 characters each.
+
 void game::init_mtypes ()
 {
  int id = 0;

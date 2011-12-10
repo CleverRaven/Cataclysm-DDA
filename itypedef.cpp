@@ -1673,7 +1673,7 @@ mfb(IF_AMMO_INCENDIARY));
 color,LIQUID,1,1,0,0,0,flags,ammo_type,dmg,AP,accuracy,recoil,range,count))
 FUEL("gasoline",	0, 400,   AT_GAS,	c_ltred,
 //	DMG  AP RNG ACC REC COUNT
-	 0,  0,  4,  0,  0,   50, "\
+	 0,  0,  4,  0,  0,  200, "\
 Gasoline is a highly flammable liquid.  When under pressure, it has the\n\
 potential for violent explosion.",
 mfb(IF_AMMO_FLAME));
@@ -2118,18 +2118,18 @@ its bolts to be extremely deadly.",
 0);
 
 //  NAME		RAR PRC COLOR	 MAT1	MAT2
-GUN("simple flamethrower",1,800,c_pink,	STEEL,	PLASTIC,
+GUN("simple flamethr.",1,800,c_pink,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
-	sk_shotgun,	AT_GAS, 16,  8,   8, -1, -5,  6,  0,  6,  0, 50, 800, "\
+	sk_shotgun,	AT_GAS, 16,  8,   8, -1, -5,  6,  0,  6,  0,800, 800, "\
 A simple, home-made flamethrower.  While its capacity is not superb, it is\n\
 more than capable of igniting terrain and monsters alike.",
-0);
+mfb(IF_FIRE_100));
 
 GUN("flamethrower",	 1,1800,c_pink,	STEEL,	MNULL,
-	sk_shotgun,	AT_GAS, 20, 14, 10, -2, 10,  4,  0,  8,  4, 100, 900, "\
+	sk_shotgun,	AT_GAS, 20, 14, 10, -2, 10,  4,  0,  8,  4,1600, 900, "\
 A large flamethrower with substantial gas reserves.  Very manacing and\n\
 deadly.",
-0);
+mfb(IF_FIRE_100));
 
 GUN("tube 40mm launcher",0, 800,c_ltred,STEEL,	WOOD,
 	sk_launcher,	AT_40MM,12, 20, 13, -1,  0, 16,  0,  6, 0,  1, 350, "\
@@ -2683,14 +2683,14 @@ TOOL("shovel",		40, 100,'/', c_brown,	IRON,	WOOD,
 A digging tool.  Use it to dig pits adjacent to your location.");
 
 TOOL("chainsaw (off)",	 7, 350,'/', c_red,	IRON,	PLASTIC,
-   12, 40, 10,  0, -4,1000, 0,  0,  0, AT_GAS,	itm_null, &iuse::chainsaw_off,0,
+   12, 40, 10,  0, -4, 400, 0,  0,  0, AT_GAS,	itm_null, &iuse::chainsaw_off,0,
 "Using this item will, if loaded with gas, cause it to turn on, making a very\n\
 powerful, but slow, unwieldy, and noisy, melee weapon.");
 
 //	NAME		RAR VAL	SYM  COLOR	MAT1	MAT
 TOOL("chainsaw (on)",	 0, 350,'/', c_red,	IRON,	PLASTIC,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-   12, 40,  4, 70, -5,1000, 0,  0,  1, AT_GAS,	itm_chainsaw_off,
+   12, 40,  4, 70, -5, 400, 0,  0,  1, AT_GAS,	itm_chainsaw_off,
 	&iuse::chainsaw_on, mfb(IF_MESSY), "\
 This chainsaw is on, and is continuously draining gasoline.  Use it to turn\n\
 it off.");

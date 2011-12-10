@@ -24,6 +24,16 @@ std::vector<item>& inventory::stack_at(int i)
  return items[i];
 }
 
+std::vector<item> inventory::const_stack(int i) const
+{
+ if (i < 0 || i > items.size()) {
+  debugmsg("Attempted to access stack %d in an inventory (size %d)",
+           i, items.size());
+  return nullstack;
+ }
+ return items[i];
+}
+
 std::vector<item> inventory::as_vector()
 {
  std::vector<item> ret;
@@ -50,10 +60,21 @@ inventory& inventory::operator= (inventory &rhs)
  return *this;
 }
 
-inventory& inventory::operator+= (inventory &rhs)
+inventory& inventory::operator= (const inventory &rhs)
+{
+ if (this == &rhs)
+  return *this; // No self-assignment
+
+ clear();
+ for (int i = 0; i < rhs.size(); i++)
+  items.push_back(rhs.const_stack(i));
+ return *this;
+}
+
+inventory& inventory::operator+= (const inventory &rhs)
 {
  for (int i = 0; i < rhs.size(); i++)
-  add_stack(rhs.stack_at(i));
+  add_stack(rhs.const_stack(i));
  return *this;
 }
 
@@ -70,7 +91,7 @@ inventory& inventory::operator+= (const item &rhs)
  return *this;
 }
 
-inventory inventory::operator+ (inventory &rhs)
+inventory inventory::operator+ (const inventory &rhs)
 {
  return inventory(*this) += rhs;
 }
@@ -96,7 +117,7 @@ void inventory::clear()
  items.clear();
 }
 
-void inventory::add_stack(std::vector<item> newits)
+void inventory::add_stack(const std::vector<item> newits)
 {
  for (int i = 0; i < newits.size(); i++)
   add_item(newits[i]);

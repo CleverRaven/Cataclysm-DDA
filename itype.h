@@ -201,6 +201,7 @@ IF_STR8_DRAW,   // Requires strength 8 to draw
 IF_STR10_DRAW,  // Requires strength 10 to draw
 IF_USE_UPS,	// Draws power from a UPS
 IF_RELOAD_AND_SHOOT, // Reloading and shooting is one action
+IF_FIRE_100,	// Fires 100 rounds at once! (e.g. flamethrower)
 
 IF_AMMO_FLAME,		// Sets fire to terrain and monsters
 IF_AMMO_INCENDIARY,	// Sparks explosive terrain
@@ -394,7 +395,7 @@ struct it_gun : public itype
  signed char recoil;
  signed char durability;
  unsigned char burst;
- unsigned char clip;
+ int clip;
  int reload_time;
 
  virtual bool is_gun() { return true; }
@@ -408,7 +409,7 @@ struct it_gun : public itype
 
 	skill pskill_used, ammotype pammo, signed char pdmg_bonus,
 	signed char paccuracy, signed char precoil, unsigned char pdurability,
-        unsigned char pburst, unsigned char pclip, int preload_time)
+        unsigned char pburst, int pclip, int preload_time)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
   skill_used = pskill_used;

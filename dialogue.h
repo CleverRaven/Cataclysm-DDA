@@ -27,6 +27,76 @@ struct dialogue {
  }
 };
 
+struct talk_function
+{
+ void nothing(game *g, npc *p) {};
+ void assign_mission(game *g, npc *p);
+ void mission_success(game *g, npc *p);
+ void clear_mission(game *g, npc *p);
+ void mission_reward(game *g, npc *p);
+ void give_equipment(game *g, npc *p);
+ void enslave(game *g, npc *p) {}; // p becomes slave of u
+ void hostile(game *g, npc *p) {}; // p turns hostile to u
+};
+
+enum talk_trial
+{
+ TALK_TRIAL_NONE, // No challenge here!
+ TALK_TRIAL_LIE, // Straight up lying
+ TALK_TRIAL_PERSUADE, // Convince them
+ TALK_TRIAL_INTIMIDATE, // Physical intimidation
+ NUM_TALK_TRIALS
+};
+
+std::string talk_trial_text[NUM_TALK_TRIALS] = {
+"", "LIE", "PERSUADE", "INTIMIDATE"
+};
+
+struct talk_response
+{
+ std::string text;
+ talk_trial trial;
+ int difficulty;
+ int mission_index;
+ npc_opinion opinion_success;
+ npc_opinion opinion_failure;
+ void (talk_function::*effect_success)(game *, npc *);
+ void (talk_function::*effect_failure)(game *, npc *);
+ talk_topic success;
+ talk_topic failure;
+
+ talk_response()
+ {
+  text = "";
+  trial = TALK_TRIAL_NONE;
+  difficulty = 0;
+  mission_index = -1;
+  effect_success = &talk_function::nothing;
+  effect_failure = &talk_function::nothing;
+  success = TALK_NONE;
+  failure = TALK_NONE;
+ }
+
+ talk_response(const talk_response &rhs)
+ {
+  text = rhs.text;
+  trial = rhs.trial;
+  difficulty = rhs.difficulty;
+  mission_index = rhs.mission_index;
+  effect_success = rhs.effect_success;
+  effect_failure = rhs.effect_failure;
+  success = rhs.success;
+  failure = rhs.failure;
+ }
+};
+
+struct talk_response_list
+{
+ std::vector<talk_response> none(game *g, npc *p);
+ std::vector<talk_response> shelter(game *g, npc *p);
+ std::vector<talk_response> shopkeep(game *g, npc *p);
+};
+
 /* There is a array of tag_data, "tags", at the bottom of this file.
  * It maps tags to the array of string replacements;
  * e.g. "<name_g>" => talk_good_names
@@ -72,6 +142,10 @@ std::string talk_okay[10] = {
 "okay", "get it", "you dig", "dig", "got it", "you see", "see, <name_g>",
 "alright", "that clear"};
 
+std::string talk_no[10] = {
+"no", "fuck no", "hell no", "no way", "not a chance",
+"I don't think so", "no way in hell", "nuh uh", "nope", "fat chance"};
+
 std::string talk_bad_names[10] = {
 "punk",		"bitch",	"dickhead",	"asshole",	"fucker",
 "sucker",	"fuckwad",	"cocksucker",	"motherfucker",	"shithead"};
@@ -87,6 +161,11 @@ std::string talk_swear[10] = { // e.g. "drop the <swear> weapon"
 std::string talk_swear_interjection[10] = {
 "fuck", "damn", "damnit", "shit", "cocksucker", "crap",
 "motherfucker", "<swear><punc> <swear!>", "<very> <swear!>", "son of a bitch"};
+
+std::string talk_fuck_you[10] = {
+"fuck you", "fuck off", "go fuck yourself", "<fuck_you>, <name_b>",
+"<fuck_you>, <swear> <name_b>", "<name_b>", "<swear> <name_b>",
+"fuck you", "fuck off", "go fuck yourself"};
 
 std::string talk_very[10] = { // Synonyms for "very" -- applied to adjectives
 "really", "fucking", "super", "wicked", "very", "mega", "uber", "ultra",
@@ -221,15 +300,17 @@ std::string talk_done_mugging[10] = {
 "Thanks, <name_g>!"
 };
 
-#define NUM_STATIC_TAGS 20
+#define NUM_STATIC_TAGS 22
 
 
 tag_data talk_tags[NUM_STATIC_TAGS] = {
 {"<okay>",		&talk_okay},
+{"<no>",		&talk_no},
 {"<name_b>",		&talk_bad_names},
 {"<name_g>",		&talk_good_names},
 {"<swear>",		&talk_swear},
 {"<swear!>",		&talk_swear_interjection},
+{"<fuck_you>",		&talk_fuck_you},
 {"<very>",		&talk_very},
 {"<really>",		&talk_really},
 {"<happy>",		&talk_happy},
@@ -245,60 +326,6 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 {"<let_me_pass>",	&talk_let_me_pass},
 {"<move>",		&talk_move},
 {"<done_mugging>",	&talk_done_mugging}
-};
-
-struct talk_function
-{
- void nothing(game *g, npc *p) {};
- void assign_mission(game *g, npc *p);
- void mission_success(game *g, npc *p);
- void clear_mission(game *g, npc *p);
- void enslave(game *g, npc *p) {}; // p becomes slave of u
- void hostile(game *g, npc *p) {}; // p turns hostile to u
-};
-
-enum talk_trial
-{
- TALK_TRIAL_NONE, // No challenge here!
- TALK_TRIAL_LIE, // Straight up lying
- TALK_TRIAL_PERSUADE, // Convince them
- TALK_TRIAL_INTIMIDATE, // Physical intimidation
- NUM_TALK_TRIALS
-};
-
-std::string talk_trial_text[NUM_TALK_TRIALS] = {
-"", "LIE", "PERSUADE", "INTIMIDATE"
-};
-
-struct talk_response
-{
- std::string text;
- talk_trial trial;
- int difficulty;
- int mission_index;
- void (talk_function::*effect_success)(game *, npc *);
- void (talk_function::*effect_failure)(game *, npc *);
- talk_topic success;
- talk_topic failure;
-
- talk_response()
- {
-  text = "";
-  trial = TALK_TRIAL_NONE;
-  difficulty = 0;
-  mission_index = -1;
-  effect_success = &talk_function::nothing;
-  effect_failure = &talk_function::nothing;
-  success = TALK_NONE;
-  failure = TALK_NONE;
- }
-};
-
-struct talk_response_list
-{
- std::vector<talk_response> none(game *g, npc *p);
- std::vector<talk_response> shelter(game *g, npc *p);
- std::vector<talk_response> shopkeep(game *g, npc *p);
 };
 
 #endif

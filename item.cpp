@@ -1109,7 +1109,7 @@ Choose ammo type:         Damage     Armor Pierce     Range     Accuracy");
 bool item::reload(player &u, int index)
 {
  bool single_load = false;
- int max_load;
+ int max_load = 1;
  if (is_gun()) {
   single_load = has_flag(IF_RELOAD_ONE);
   if (u.inv[index].ammo_type() == AT_40MM && ammo_type() != AT_40MM)
@@ -1133,7 +1133,7 @@ bool item::reload(player &u, int index)
    }
    curammo = dynamic_cast<it_ammo*>((u.inv[index].type));
   }
-  if (single_load) {	// Only insert one cartridge!
+  if (single_load || max_load == 1) {	// Only insert one cartridge!
    charges++;
    u.inv[index].charges--;
   } else {
@@ -1145,9 +1145,8 @@ bool item::reload(player &u, int index)
     charges = max_load;
    }
   }
-  if (u.inv[index].charges == 0) {
+  if (u.inv[index].charges == 0)
    u.i_remn(index);
-  }
   return true;
  } else
   return false;

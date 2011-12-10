@@ -5392,7 +5392,7 @@ void map::rotate(int turns)
  ter_id rotated         [SEEX*2][SEEY*2];
  trap_id traprot        [SEEX*2][SEEY*2];
  std::vector<item> itrot[SEEX*2][SEEY*2];
- std::vector<spawn_point> sprot[9];
+ std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
  computer tmpcomp;
 
  switch (turns) {
@@ -5406,26 +5406,24 @@ void map::rotate(int turns)
    }
   }
 // Now, spawn points
-  for (int i = 0; i < 5; i++) {
-   for (int j = 0; j < grid[i].spawns.size(); j++) {
-    int n;
-         if (i == 0) n = 1;
-    else if (i == 1) n = 4;
-    else if (i == 3) n = 0;
-    else if (i == 4) n = 3;
-    else             debugmsg("Found weird spawn; grid %d", i);
-    spawn_point tmp = grid[i].spawns[j];
-    int tmpy = tmp.posy;
-    tmp.posy = tmp.posx;
-    tmp.posx = SEEY - 1 - tmpy;
-    sprot[n].push_back(tmp);
+  for (int sx = 0; sx < 2; sx++) {
+   for (int sy = 0; sy < 2; sy++) {
+    int gridfrom = sx + sy * MAPSIZE;
+    int gridto = sx * MAPSIZE + 1 - sy;
+    for (int j = 0; j < grid[gridfrom].spawns.size(); j++) {
+     spawn_point tmp = grid[gridfrom].spawns[j];
+     int tmpy = tmp.posy;
+     tmp.posy = tmp.posx;
+     tmp.posx = SEEY - 1 - tmpy;
+     sprot[gridto].push_back(tmp);
+    }
    }
   }
 // Finally, computers
   tmpcomp = grid[0].comp;
-  grid[0].comp = grid[3].comp;
-  grid[3].comp = grid[4].comp;
-  grid[4].comp = grid[1].comp;
+  grid[0].comp = grid[MAPSIZE].comp;
+  grid[MAPSIZE].comp = grid[MAPSIZE + 1].comp;
+  grid[MAPSIZE + 1].comp = grid[1].comp;
   grid[1].comp = tmpcomp;
   break;
     
@@ -5439,27 +5437,25 @@ void map::rotate(int turns)
    }
   }
 // Now, spawn points
-  for (int i = 0; i < 5; i++) {
-   for (int j = 0; j < grid[i].spawns.size(); j++) {
-    int n;
-         if (i == 0) n = 4;
-    else if (i == 1) n = 3;
-    else if (i == 3) n = 1;
-    else if (i == 4) n = 0;
-    else             debugmsg("Found weird spawn; grid %d", i);
-    spawn_point tmp = grid[i].spawns[j];
-    int tmpy = tmp.posy;
-    tmp.posy = SEEX - 1 - tmp.posx;
-    tmp.posx = SEEY - 1 - tmpy;
-    sprot[n].push_back(tmp);
+  for (int sx = 0; sx < 2; sx++) {
+   for (int sy = 0; sy < 2; sy++) {
+    int gridfrom = sx + sy * MAPSIZE;
+    int gridto = (1 - sy) * MAPSIZE + 1 - sx;
+    for (int j = 0; j < grid[gridfrom].spawns.size(); j++) {
+     spawn_point tmp = grid[gridfrom].spawns[j];
+     int tmpy = tmp.posy;
+     tmp.posy = tmp.posx;
+     tmp.posx = SEEY - 1 - tmpy;
+     sprot[gridto].push_back(tmp);
+    }
    }
   }
   tmpcomp = grid[0].comp;
-  grid[0].comp = grid[4].comp;
-  grid[4].comp = tmpcomp;
+  grid[0].comp = grid[MAPSIZE + 1].comp;
+  grid[MAPSIZE + 1].comp = tmpcomp;
   tmpcomp = grid[1].comp;
-  grid[1].comp = grid[3].comp;
-  grid[3].comp = tmpcomp;
+  grid[1].comp = grid[MAPSIZE].comp;
+  grid[MAPSIZE].comp = tmpcomp;
   break;
     
  case 3:
@@ -5472,26 +5468,24 @@ void map::rotate(int turns)
    }
   }
 // Now, spawn points
-  for (int i = 0; i < 5; i++) {
-   for (int j = 0; j < grid[i].spawns.size(); j++) {
-    int n;
-         if (i == 0) n = 3;
-    else if (i == 1) n = 0;
-    else if (i == 3) n = 4;
-    else if (i == 4) n = 1;
-    else             debugmsg("Found weird spawn; grid %d", i);
-    spawn_point tmp = grid[i].spawns[j];
-    int tmpy = tmp.posy;
-    tmp.posy = SEEX - 1 - tmp.posx;
-    tmp.posx = tmpy;
-    sprot[n].push_back(tmp);
+  for (int sx = 0; sx < 2; sx++) {
+   for (int sy = 0; sy < 2; sy++) {
+    int gridfrom = sx + sy * MAPSIZE;
+    int gridto = (1 - sx) * MAPSIZE + sy;
+    for (int j = 0; j < grid[gridfrom].spawns.size(); j++) {
+     spawn_point tmp = grid[gridfrom].spawns[j];
+     int tmpy = tmp.posy;
+     tmp.posy = tmp.posx;
+     tmp.posx = SEEY - 1 - tmpy;
+     sprot[gridto].push_back(tmp);
+    }
    }
   }
   tmpcomp = grid[0].comp;
   grid[0].comp = grid[1].comp;
-  grid[1].comp = grid[4].comp;
-  grid[4].comp = grid[3].comp;
-  grid[3].comp = tmpcomp;
+  grid[1].comp = grid[MAPSIZE + 1].comp;
+  grid[MAPSIZE + 1].comp = grid[MAPSIZE].comp;
+  grid[MAPSIZE].comp = tmpcomp;
   break;
 
  default:
@@ -5499,10 +5493,10 @@ void map::rotate(int turns)
  }
 
 // Set the spawn points
- for (int i = 0; i < 5; i++) {
-  if (i != 2)
-   grid[i].spawns = sprot[i];
- }
+ grid[0].spawns = sprot[0];
+ grid[1].spawns = sprot[1];
+ grid[MAPSIZE].spawns = sprot[MAPSIZE];
+ grid[MAPSIZE + 1].spawns = sprot[MAPSIZE + 1];
  for (int i = 0; i < SEEX * 2; i++) {
   for (int j = 0; j < SEEY * 2; j++) {
    ter  (i, j) = rotated[i][j];
