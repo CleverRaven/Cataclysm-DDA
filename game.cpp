@@ -1066,8 +1066,9 @@ void game::mission_step_complete(int id, int step)
 void game::process_missions()
 {
  for (int i = 0; i < active_missions.size(); i++) {
-  if (int(turn) > active_missions[i].deadline)
-   fail_mission(i);
+  if (active_missions[i].deadline > 0 &&
+      int(turn) > active_missions[i].deadline)
+   fail_mission(active_missions[i].uid);
  }
 }
 
