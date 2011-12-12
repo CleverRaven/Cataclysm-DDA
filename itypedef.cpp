@@ -560,7 +560,7 @@ MED("cigars",		 5,120,	c_dkgray,	itm_lighter,
 	VEGGY,    1, -1, 40, 10, 15,&iuse::cig,		ADD_CIG, "\
 A gentleman's vice. Cigars are what separates a gentleman from a savage.");
 
-MED("antibiotics",	25,900, c_cyan,		itm_null,
+MED("antibiotics",	25,900, c_pink,		itm_null,
 	PLASTIC,   0, -2,  0, 15,  0,&iuse::none,	ADD_NULL, "\
 Medication designed to stop the spread of, and kill, bacteria infections.");
 
@@ -2943,22 +2943,29 @@ A stone with spirals all over it, and holes around its perimeter.  Though it\n\
 is fairly large, it weighs next to nothing.  Air seems to gather around it.");
 
 TOOL("dog food",         5,  60,';',c_red,     FLESH,     MNULL,
-	1,  2,  0,  0,  -5,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::dogfood, 0, "\
+    1,  2,  0,  0,  -5,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::dogfood, 0, "\
 Food for dogs. It smells strange, but dogs love it.");
 
-TOOL("booby trap",         0,  500,';',c_ltcyan,     STEEL,	PLASTIC,
-	3,  2,  0,  0,  -4,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap, 0, "\
+//	NAME		RAR PRC SYM  COLOR	MAT1	MAT
+TOOL("booby trap",        0,500,';',c_ltcyan,   STEEL,	PLASTIC,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+     3,  2,  0,  0, -4,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap, 0, "\
 A crude explosive device triggered by a piece of string.");
 
-TOOL("C4-Explosive",         5,  6000,';',c_ltcyan,     PLASTIC,     STEEL,
-	6,  2,  0,  0,  -4,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::c4, 0, "\
+TOOL("C4-Explosive",      5, 6000,';',c_ltcyan, PLASTIC,     STEEL,
+     6,  2,  0,  0, -4,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::c4, 0, "\
 Highly explosive, use with caution! Armed with a small timer.");
 
-TOOL("C4-Explosive(armed)",         0,  6000,';',c_ltcyan,     PLASTIC,     STEEL,
-	6,  2,  0,  0,  -4,  9,  9,  0,  1, AT_NULL, itm_null, &iuse::c4armed, 0, "\
+TOOL("C4-Explosive(armed)",0,6000,';',c_ltcyan, PLASTIC,     STEEL,
+     6,  2,  0,  0, -4,  9,  9,  0,  1, AT_NULL, itm_null, &iuse::c4armed, 0, "\
 Highly explosive, use with caution. Comes with a small timer.\n\
 It's armed and ticking!");
 
+TOOL("dog whistle",	  0,  300,';',c_white,	STEEL,	MNULL,
+     0,  0,  0,  0,  0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::dog_whistle,
+0, "\
+A small whistle.  When used, it produces a high tone which causes nearby\n\
+friendly dogs to stop attacking enemies and stick close for a while.");
 
 
 // BIONICS

@@ -3,7 +3,8 @@
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 
-std::vector <point> line_to(int x1, int y1, int x2, int y2, int t) {
+std::vector <point> line_to(int x1, int y1, int x2, int y2, int t)
+{
  std::vector<point> ret;
  int dx = x2 - x1;
  int dy = y2 - y1;

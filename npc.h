@@ -126,6 +126,7 @@ struct npc_opinion {
   trust = 0;
   fear  = 0;
   value = 0;
+  anger = 0;
   owed = 0;
  };
  npc_opinion(signed char T, signed char F, signed char V, signed char A, int O):
@@ -136,6 +137,7 @@ struct npc_opinion {
   trust = copy.trust;
   fear = copy.fear;
   value = copy.value;
+  anger = copy.anger;
   owed = copy.owed;
  };
 
@@ -144,6 +146,7 @@ struct npc_opinion {
   trust += rhs.trust;
   fear  += rhs.fear;
   value += rhs.value;
+  anger += rhs.anger;
   owed  += rhs.owed;
   return *this;
  };
@@ -158,6 +161,7 @@ enum talk_topic {
  TALK_NONE = 0,	// Used to go back to last subject
  TALK_DONE,	// Used to end the conversation
  TALK_MISSION_LIST, // List available missions. Intentionally placed above START
+ TALK_MISSION_LIST_ASSIGNED, // Same, but for assigned missions.
 
  TALK_MISSION_START, // NOT USED; start of mission topics
  TALK_MISSION_DESCRIBE, // Describe a mission
@@ -167,6 +171,8 @@ enum talk_topic {
  TALK_MISSION_ADVICE,
  TALK_MISSION_INQUIRE,
  TALK_MISSION_SUCCESS,
+ TALK_MISSION_SUCCESS_LIE, // Lie caught!
+ TALK_MISSION_FAILURE,
  TALK_MISSION_END, // NOT USED: end of mission topics
 
  TALK_MISSION_REWARD, // Intentionally placed below END
@@ -198,6 +204,10 @@ struct npc_chatbin
   first_topic = TALK_NONE;
  }
 };
+
+std::string random_first_name(bool male);
+
+std::string random_last_name();
 
 class npc : public player {
 
@@ -243,6 +253,8 @@ public:
 // Interaction with the player
  void form_opinion(player *u);
  int  player_danger(player *u); // Comparable to monsters
+ bool turned_hostile(); // True if our anger is at least equal to...
+ int hostile_anger_level(); // ... this value!
  void make_angry(); // Called if the player attacks us
  bool wants_to_travel_with(player *p);
  int assigned_missions_value(game *g);
@@ -381,6 +393,7 @@ public:
  npc_personality personality;
  npc_opinion op_of_u;
  npc_chatbin chatbin;
+ bool marked_for_death; // If true, we die as soon as we respawn!
  std::vector<npc_need> needs;
  unsigned flags : NF_MAX;
 };

@@ -41,6 +41,7 @@ npc::npc()
  int_max = 0;
  per_max = 0;
  my_fac = NULL;
+ marked_for_death = false;
  moves = 100;
  mission = NPC_MISSION_NULL;
 }
@@ -106,6 +107,8 @@ npc& npc::operator= (npc &rhs)
   hp_max[i] = rhs.hp_max[i];
  }
 
+ marked_for_death = rhs.marked_for_death;
+
  return *this;
 }
 
@@ -160,6 +163,8 @@ npc& npc::operator= (const npc &rhs)
   hp_max[i] = rhs.hp_max[i];
  }
 
+ marked_for_death = rhs.marked_for_death;
+
  return *this;
 }
 
@@ -171,7 +176,8 @@ std::string npc::save_info()
          " " << per_cur << " " << per_max << " " << hunger << " " << thirst <<
          " " << fatigue << " " << stim << " " << pain << " " << pkill << " " <<
          radiation << " " << cash << " " << recoil << " " << scent << " " <<
-         moves << " " << underwater << " " << can_dodge << " " << oxygen << " ";
+         moves << " " << underwater << " " << can_dodge << " " << oxygen <<
+         " " << (marked_for_death ? "1" : "0") << " ";
 
  for (int i = 0; i < PF_MAX2; i++)
   dump << my_traits[i] << " ";
@@ -225,12 +231,18 @@ std::string npc::save_info()
 void npc::load_info(std::string data)
 {
  std::stringstream dump;
+ int deathtmp;
  dump << data;
 // Standard player stuff
  dump >> id >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
          int_cur >> int_max >> per_cur >> per_max >> hunger >> thirst >>
          fatigue >> stim >> pain >> pkill >> radiation >> cash >> recoil >>
-         scent >> moves >> underwater >> can_dodge >> oxygen;
+         scent >> moves >> underwater >> can_dodge >> oxygen >> deathtmp;
+
+ if (deathtmp == 1)
+  marked_for_death = true;
+ else
+  marked_for_death = false;
 
  for (int i = 0; i < PF_MAX2; i++)
   dump >> my_traits[i];
@@ -911,21 +923,12 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
  if (type == NC_TRADER) {	// Traders just have tons of random junk
   while (total_space > 0 && !one_in(50)) {
    tmp = itype_id(rng(2, num_items - 1));
-// Make sure the item *isn't* in the list of not-okay items
-// TODO: Make this more efficient
-   for (int i = 0; i < g->mapitems[mi_trader_avoid].size(); i++) {
-    if (tmp == g->mapitems[mi_trader_avoid][i]) {
-     tmp = itype_id(rng(2, num_items - 1));
-     i = 0;
-    }
-   }
    if (total_space >= g->itypes[tmp]->volume) {
     ret.push_back(item(g->itypes[tmp], 0));
     ret[ret.size() - 1] = ret[ret.size() - 1].in_its_container(&g->itypes);
     total_space -= ret[ret.size() - 1].volume();
    }
   }
-  return ret;
  }
  int index;
  items_location from;
@@ -954,43 +957,23 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
    total_space -= ret[ret.size() - 1].volume();
   }
  }
+
+ for (int i = 0; i < ret.size(); i++) {
+  for (int j = 0; j < g->mapitems[mi_trader_avoid].size(); j++) {
+   if (ret[i].type->id == g->mapitems[mi_trader_avoid][j]) {
+    ret.erase(ret.begin() + i);
+    i--;
+   }
+  }
+ }
  
  return ret;
 }
 
 void npc::pick_name()
 {
- std::ifstream fin;
- char buff[256];
- if (male)
-  fin.open("data/NAMES_MALE");
- else
-  fin.open("data/NAMES_FEMALE");
- if (!fin.is_open()) {
-  debugmsg("Could not open npc first names list (%s)",
-           (male ? "NAMES_MALE" : "NAMES_FEMALE"));
-  return;
- }
- int line = rng(1, 100);	// TODO: Don't assume 100 first names.
- for (int i = 0; i < line; i++)
-  fin.getline(buff, 256);
- name = buff;
- fin.close();
-
- std::string lastname;
- fin.open("data/NAMES_LAST");
- if (!fin.is_open()) {
-  debugmsg("Could not open npc last names list (NAMES_LAST)");
-  return;
- }
- line = rng(1, 100);		// TODO: Shouldn't assume this one, either.
- for (int i = 0; i < line; i++)
-  fin.getline(buff, 256);
- lastname = buff;
- fin.close();
-
  std::stringstream ss;
- ss << name << " " << lastname;
+ ss << random_first_name(male) << " " << random_last_name();
  name = ss.str();
 }
 
@@ -1295,6 +1278,16 @@ int npc::player_danger(player *u)
  return ret;
 }
 
+bool npc::turned_hostile()
+{
+ return (op_of_u.anger >= hostile_anger_level());
+}
+
+int npc::hostile_anger_level()
+{
+ return (20 + op_of_u.fear - personality.aggression);
+}
+
 void npc::make_angry()
 {
  if (is_enemy())
@@ -1429,12 +1422,17 @@ void npc::say(game *g, std::string line, ...)
 void npc::init_selling(std::vector<int> &indices, std::vector<int> &prices)
 {
  int val, price;
+ bool found_lighter = false;
  for (int i = 0; i < inv.size(); i++) {
-  val = value(inv[i]) - (inv[i].price() / 50);
-  if (val <= NPC_LOW_VALUE || mission == NPC_MISSION_SHOPKEEP) {
-   indices.push_back(i);
-   price = inv[i].price() / (price_adjustment(sklevel[sk_barter]));
-   prices.push_back(price);
+  if (inv[i].type->id == itm_lighter && !found_lighter)
+   found_lighter = true;
+  else {
+   val = value(inv[i]) - (inv[i].price() / 50);
+   if (val <= NPC_LOW_VALUE || mission == NPC_MISSION_SHOPKEEP) {
+    indices.push_back(i);
+    price = inv[i].price() / (price_adjustment(sklevel[sk_barter]));
+    prices.push_back(price);
+   }
   }
  }
 }
@@ -1821,4 +1819,44 @@ void npc::die(game *g, bool your_fault)
   g->m.add_item(posx, posy, worn[i]);
  if (weapon.type->id != itm_null)
   g->m.add_item(posx, posy, weapon);
+}
+
+std::string random_first_name(bool male)
+{
+ std::ifstream fin;
+ std::string name;
+ char buff[256];
+ if (male)
+  fin.open("data/NAMES_MALE");
+ else
+  fin.open("data/NAMES_FEMALE");
+ if (!fin.is_open()) {
+  debugmsg("Could not open npc first names list (%s)",
+           (male ? "NAMES_MALE" : "NAMES_FEMALE"));
+  return "";
+ }
+ int line = rng(1, 100);	// TODO: Don't assume 100 first names.
+ for (int i = 0; i < line; i++)
+  fin.getline(buff, 256);
+ name = buff;
+ fin.close();
+ return name;
+}
+
+std::string random_last_name()
+{
+ std::string lastname;
+ std::ifstream fin;
+ fin.open("data/NAMES_LAST");
+ if (!fin.is_open()) {
+  debugmsg("Could not open npc last names list (NAMES_LAST)");
+  return "";
+ }
+ int line = rng(1, 100);	// TODO: Shouldn't 100 last names.
+ char buff[256];
+ for (int i = 0; i < line; i++)
+  fin.getline(buff, 256);
+ lastname = buff;
+ fin.close();
+ return lastname;
 }

@@ -3,8 +3,14 @@
 #include "game.h"
 #include "keypress.h"
 #include <sstream>
-#include <curses.h>
 #include <stdlib.h>
+
+#if (defined _WIN32 || defined WINDOWS)
+	#include "catacurse.h"
+#else
+	#include <curses.h>
+#endif
+
 
 /* Melee Functions!
  * These all belong to class player.

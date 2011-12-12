@@ -4007,7 +4007,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    else if (one_in(3))
     loc = mi_mil_surplus;
    else
-    loc = mi_mil_food;
+    loc = mi_mil_food_nodrugs;
    place_items(loc, 70, i, tw + 5, i, bw - 2, false, 0);
   }
   for (int i = rw - 1; i >= SEEX + 1; i -= 2) {
@@ -4018,7 +4018,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    else if (one_in(3))
     loc = mi_mil_surplus;
    else
-    loc = mi_mil_food;
+    loc = mi_mil_food_nodrugs;
    place_items(loc, 70, i, tw + 5, i, bw - 2, false, 0);
   }
   if (terrain_type == ot_mil_surplus_east)
@@ -5355,17 +5355,39 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
  }
 }
 
-void map::add_spawn(mon_id type, int count, int x, int y, bool friendly)
+void map::add_spawn(mon_id type, int count, int x, int y, bool friendly,
+                    int faction_id, int mission_id, std::string name)
 {
- if (x < 0 || x >= SEEX * MAPSIZE || y < 0 || y >= SEEY * MAPSIZE) {
+ if (x < 0 || x >= SEEX * my_MAPSIZE() || y < 0 || y >= SEEY * my_MAPSIZE()) {
   debugmsg("Bad add_spawn(%d, %d, %d, %d)", type, count, x, y);
   return;
  }
- int nonant = int(x / SEEX) + int(y / SEEY) * MAPSIZE;
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
  x %= SEEX;
  y %= SEEY;
- spawn_point tmp(type, count, x, y, friendly);
+ spawn_point tmp(type, count, x, y, faction_id, mission_id, friendly, name);
  grid[nonant].spawns.push_back(tmp);
+}
+
+void map::add_spawn(monster *mon)
+{
+ int spawnx, spawny;
+ std::string spawnname = (mon->unique_name == "" ? "NONE" : mon->unique_name);
+ if (mon->spawnmapx != -1) {
+  spawnx = mon->spawnposx;
+  spawny = mon->spawnposy;
+ } else {
+  spawnx = mon->posx;
+  spawny = mon->posy;
+ }
+ while (spawnx < 0)
+  spawnx += SEEX;
+ while (spawny < 0)
+  spawny += SEEY;
+ spawnx %= SEEX;
+ spawny %= SEEY;
+ add_spawn(mon_id(mon->type->id), 1, spawnx, spawny, (mon->friendly < 0),
+           mon->faction_id, mon->mission_id, spawnname);
 }
 
 computer* map::add_computer(int x, int y, std::string name, int security)
@@ -5379,12 +5401,14 @@ computer* map::add_computer(int x, int y, std::string name, int security)
 
 void map::make_all_items_owned()
 {
+/*
  for (int i = 0; i < SEEX * 2; i++) {
   for (int j = 0; j < SEEY * 2; j++) {
    for (int n = 0; n < i_at(i, j).size(); n++)
     i_at(i, j)[n].owned = true;
   }
  }
+*/
 }
    
 void map::rotate(int turns)
@@ -5392,7 +5416,7 @@ void map::rotate(int turns)
  ter_id rotated         [SEEX*2][SEEY*2];
  trap_id traprot        [SEEX*2][SEEY*2];
  std::vector<item> itrot[SEEX*2][SEEY*2];
- std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
+ std::vector<spawn_point> sprot[my_MAPSIZE() * my_MAPSIZE()];
  computer tmpcomp;
 
  switch (turns) {
@@ -5408,8 +5432,8 @@ void map::rotate(int turns)
 // Now, spawn points
   for (int sx = 0; sx < 2; sx++) {
    for (int sy = 0; sy < 2; sy++) {
-    int gridfrom = sx + sy * MAPSIZE;
-    int gridto = sx * MAPSIZE + 1 - sy;
+    int gridfrom = sx + sy * my_MAPSIZE();
+    int gridto = sx * my_MAPSIZE() + 1 - sy;
     for (int j = 0; j < grid[gridfrom].spawns.size(); j++) {
      spawn_point tmp = grid[gridfrom].spawns[j];
      int tmpy = tmp.posy;
@@ -5421,9 +5445,9 @@ void map::rotate(int turns)
   }
 // Finally, computers
   tmpcomp = grid[0].comp;
-  grid[0].comp = grid[MAPSIZE].comp;
-  grid[MAPSIZE].comp = grid[MAPSIZE + 1].comp;
-  grid[MAPSIZE + 1].comp = grid[1].comp;
+  grid[0].comp = grid[my_MAPSIZE()].comp;
+  grid[my_MAPSIZE()].comp = grid[my_MAPSIZE() + 1].comp;
+  grid[my_MAPSIZE() + 1].comp = grid[1].comp;
   grid[1].comp = tmpcomp;
   break;
     
@@ -5439,8 +5463,8 @@ void map::rotate(int turns)
 // Now, spawn points
   for (int sx = 0; sx < 2; sx++) {
    for (int sy = 0; sy < 2; sy++) {
-    int gridfrom = sx + sy * MAPSIZE;
-    int gridto = (1 - sy) * MAPSIZE + 1 - sx;
+    int gridfrom = sx + sy * my_MAPSIZE();
+    int gridto = (1 - sy) * my_MAPSIZE() + 1 - sx;
     for (int j = 0; j < grid[gridfrom].spawns.size(); j++) {
      spawn_point tmp = grid[gridfrom].spawns[j];
      int tmpy = tmp.posy;
@@ -5451,11 +5475,11 @@ void map::rotate(int turns)
    }
   }
   tmpcomp = grid[0].comp;
-  grid[0].comp = grid[MAPSIZE + 1].comp;
-  grid[MAPSIZE + 1].comp = tmpcomp;
+  grid[0].comp = grid[my_MAPSIZE() + 1].comp;
+  grid[my_MAPSIZE() + 1].comp = tmpcomp;
   tmpcomp = grid[1].comp;
-  grid[1].comp = grid[MAPSIZE].comp;
-  grid[MAPSIZE].comp = tmpcomp;
+  grid[1].comp = grid[my_MAPSIZE()].comp;
+  grid[my_MAPSIZE()].comp = tmpcomp;
   break;
     
  case 3:
@@ -5470,8 +5494,8 @@ void map::rotate(int turns)
 // Now, spawn points
   for (int sx = 0; sx < 2; sx++) {
    for (int sy = 0; sy < 2; sy++) {
-    int gridfrom = sx + sy * MAPSIZE;
-    int gridto = (1 - sx) * MAPSIZE + sy;
+    int gridfrom = sx + sy * my_MAPSIZE();
+    int gridto = (1 - sx) * my_MAPSIZE() + sy;
     for (int j = 0; j < grid[gridfrom].spawns.size(); j++) {
      spawn_point tmp = grid[gridfrom].spawns[j];
      int tmpy = tmp.posy;
@@ -5483,9 +5507,9 @@ void map::rotate(int turns)
   }
   tmpcomp = grid[0].comp;
   grid[0].comp = grid[1].comp;
-  grid[1].comp = grid[MAPSIZE + 1].comp;
-  grid[MAPSIZE + 1].comp = grid[MAPSIZE].comp;
-  grid[MAPSIZE].comp = tmpcomp;
+  grid[1].comp = grid[my_MAPSIZE() + 1].comp;
+  grid[my_MAPSIZE() + 1].comp = grid[my_MAPSIZE()].comp;
+  grid[my_MAPSIZE()].comp = tmpcomp;
   break;
 
  default:
@@ -5495,8 +5519,8 @@ void map::rotate(int turns)
 // Set the spawn points
  grid[0].spawns = sprot[0];
  grid[1].spawns = sprot[1];
- grid[MAPSIZE].spawns = sprot[MAPSIZE];
- grid[MAPSIZE + 1].spawns = sprot[MAPSIZE + 1];
+ grid[my_MAPSIZE()].spawns = sprot[my_MAPSIZE()];
+ grid[my_MAPSIZE() + 1].spawns = sprot[my_MAPSIZE() + 1];
  for (int i = 0; i < SEEX * 2; i++) {
   for (int j = 0; j < SEEY * 2; j++) {
    ter  (i, j) = rotated[i][j];
@@ -6576,19 +6600,19 @@ void map::add_extra(map_extra type, game *g)
     case 2:
     case 3:
     case 4:
-     place_items(mi_mil_food, 95, x, y, x, y, true, 0);
+     place_items(mi_mil_food, 88, x, y, x, y, true, 0);
      break;
     case 5:
     case 6:
     case 7:
-     place_items(mi_grenades, 85, x, y, x, y, true, 0);
+     place_items(mi_grenades, 82, x, y, x, y, true, 0);
      break;
     case 8:
     case 9:
      place_items(mi_mil_armor, 75, x, y, x, y, true, 0);
      break;
     case 10:
-     place_items(mi_mil_rifles, 95, x, y, x, y, true, 0);
+     place_items(mi_mil_rifles, 80, x, y, x, y, true, 0);
      break;
    }
   }

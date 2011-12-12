@@ -19,6 +19,7 @@ ME_STUNNED,		// Stumbling briefly
 ME_BLIND,		// Can't use sight
 ME_DEAF,		// Can't use hearing
 ME_TARGETED,		// Targeting locked on--for robots that shoot guns
+ME_DOCILE,		// If friendly, stops attacking monsters for a while
 NUM_MONSTER_EFFECTS
 };
 
@@ -47,7 +48,6 @@ class monster {
  nc_color color_with_effects();	// Color with fire, beartrapped, etc.
 				// Inverts color if inv==true
  bool has_flag(m_flags f);	// Returns true if f is set (see mtype.h)
- bool has_effect(monster_effect_type t); // True if we have the given effect
  bool can_see();		// MF_SEES and no ME_BLIND
  bool can_hear();		// MF_HEARS and no ME_DEAF
  bool made_of(material m);	// Returns true if it's made of m
@@ -91,6 +91,8 @@ class monster {
 
 // Other
  void add_effect(monster_effect_type effect, int duration);
+ bool has_effect(monster_effect_type effect); // True if we have the effect
+ void rem_effect(monster_effect_type effect); // Remove a given effect
  void process_effects(game *g);	// Process long-term effects
  bool make_fungus(game *g);	// Makes this monster into a fungus version
 				// Returns false if no such monster exists
@@ -113,9 +115,11 @@ class monster {
  int sp_timeout;
  int friendly;
  int faction_id; // If we belong to a faction
+ int mission_id; // If we're related to a mission
  mtype *type;
  bool dead;
  bool made_footstep;
+ std::string unique_name; // If we're unique
 
 private:
  std::vector <point> plans;

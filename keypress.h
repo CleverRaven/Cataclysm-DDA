@@ -1,6 +1,11 @@
 #ifndef _KEYPRESS_H_
 #define _KEYPRESS_H_
-#include <curses.h>
+#if (defined _WIN32 || defined WINDOWS)
+	#include "catacurse.h"
+#else
+	#include <curses.h>
+#endif
+
 // Simple text input--translates numpad to vikeys
 long input();
 // If ch is vikey, x & y are set to corresponding direction; ch=='y'->x=-1,y=-1

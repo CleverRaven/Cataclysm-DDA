@@ -1411,7 +1411,6 @@ void map::load(game *g, int wx, int wy)
   }
  }
 }
- 
 
 void map::shift(game *g, int wx, int wy, int sx, int sy)
 {
@@ -1553,7 +1552,9 @@ void map::saven(overmap *om, unsigned int turn, int worldx, int worldy,
  for (int i = 0; i < grid[n].spawns.size(); i++) {
   tmpsp = grid[n].spawns[i];
   fout << "S " << int(tmpsp.type) << " " << tmpsp.count << " " << tmpsp.posx <<
-          " " << tmpsp.posy << " " << (tmpsp.friendly ? "1" : "0") << std::endl;
+          " " << tmpsp.posy << " " << tmpsp.faction_id << " " <<
+          tmpsp.mission_id << (tmpsp.friendly ? " 1 " : " 0 ") <<
+          tmpsp.name << std::endl;
  }
 // Output the computer
  if (grid[n].comp.name != "")
@@ -1637,8 +1638,11 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
     grid[gridn].fld[itx][ity] = field(field_id(t), d, a);
    } else if (!mapin.eof() && ch == 'S') {
     char tmpfriend;
-    mapin >> t >> a >> itx >> ity >> tmpfriend;
-    spawn_point tmp(mon_id(t), a, itx, ity, (tmpfriend == '1'));
+    int tmpfac = -1, tmpmis = -1;
+    std::string spawnname;
+    mapin >> t >> a >> itx >> ity >> tmpfac >> tmpmis >> tmpfriend >> spawnname;
+    spawn_point tmp(mon_id(t), a, itx, ity, tmpfac, tmpmis, (tmpfriend == '1'),
+                    spawnname);
     grid[gridn].spawns.push_back(tmp);
    } else if (!mapin.eof() && ch == 'c') {
     getline(mapin, databuff);
@@ -1708,6 +1712,10 @@ void map::spawn_monsters(game *g)
      monster tmp(g->mtypes[grid[n].spawns[i].type]);
      tmp.spawnmapx = g->levx;
      tmp.spawnmapy = g->levy;
+     tmp.faction_id = grid[n].spawns[i].faction_id;
+     tmp.mission_id = grid[n].spawns[i].mission_id;
+     if (grid[n].spawns[i].name != "NONE")
+      tmp.unique_name = grid[n].spawns[i].name;
      if (grid[n].spawns[i].friendly)
       tmp.friendly = -1;
      int fx = mx + gx * SEEX, fy = my + gy * SEEY;

@@ -7,7 +7,12 @@
 #include "item.h"
 #include <sstream>
 #include <stdlib.h>
-#include <curses.h>
+
+#if (defined _WIN32 || defined WINDOWS)
+	#include "catacurse.h"
+#else
+	#include <curses.h>
+#endif
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) (a*a)
@@ -28,8 +33,10 @@ monster::monster()
  spawnposy = -1;
  friendly = 0;
  faction_id = -1;
+ mission_id = -1;
  dead = false;
  made_footstep = false;
+ unique_name = "";
 }
 
 monster::monster(mtype *t)
@@ -50,8 +57,10 @@ monster::monster(mtype *t)
  spawnposy = -1;
  friendly = 0;
  faction_id = -1;
+ mission_id = -1;
  dead = false;
  made_footstep = false;
+ unique_name = "";
 }
 
 monster::monster(mtype *t, int x, int y)
@@ -72,8 +81,10 @@ monster::monster(mtype *t, int x, int y)
  spawnposy = -1;
  friendly = 0;
  faction_id = -1;
+ mission_id = -1;
  dead = false;
  made_footstep = false;
+ unique_name = "";
 }
 
 void monster::poly(mtype *t)
@@ -98,6 +109,8 @@ monster::~monster()
 
 std::string monster::name()
 {
+ if (unique_name != "")
+  return type->name + ": " + unique_name;
  return type->name;
 }
 
@@ -200,15 +213,6 @@ bool monster::has_flag(m_flags f)
  return type->flags & mfb(f);
 }
 
-bool monster::has_effect(monster_effect_type t)
-{
- for (int i = 0; i < effects.size(); i++) {
-  if (effects[i].type == t)
-   return true;
- }
- return false;
-}
-
 bool monster::can_see()
 {
  return has_flag(MF_SEES) && !has_effect(ME_BLIND);
@@ -232,7 +236,8 @@ void monster::load_info(std::string data, std::vector <mtype*> *mtypes)
  int idtmp, plansize;
  dump << data;
  dump >> idtmp >> posx >> posy >> wandx >> wandy >> wandf >> moves >> speed >>
-         hp >> sp_timeout >> plansize >> friendly >> faction_id >> dead;
+         hp >> sp_timeout >> plansize >> friendly >> faction_id >> mission_id >>
+         dead;
  type = (*mtypes)[idtmp];
  point ptmp;
  for (int i = 0; i < plansize; i++) {
@@ -247,7 +252,7 @@ std::string monster::save_info()
  pack << int(type->id) << " " << posx << " " << posy << " " << wandx << " " <<
          wandy << " " << wandf << " " << moves << " " << speed << " " << hp <<
          " " << sp_timeout << " " << plans.size() << " " << friendly << " " <<
-          faction_id << " " << dead;
+          faction_id << " " << mission_id << " " << dead;
  for (int i = 0; i < plans.size(); i++) {
   pack << " " << plans[i].x << " " << plans[i].y;
  }
@@ -494,6 +499,14 @@ void monster::die(game *g)
     groups[i]->dying = true;
   }
  }
+// If we're a mission monster, update the mission
+ if (mission_id != -1) {
+  mission_type *misstype = g->find_mission_type(mission_id);
+  if (misstype->goal == MGOAL_FIND_MONSTER)
+   g->fail_mission(mission_id);
+  if (misstype->goal == MGOAL_KILL_MONSTER)
+   g->mission_step_complete(mission_id, 1);
+ }
 // Also, perform our death function
  mdeath md;
  (md.*type->dies)(g, this);
@@ -502,6 +515,25 @@ void monster::die(game *g)
 void monster::add_effect(monster_effect_type effect, int duration)
 {
  effects.push_back(monster_effect(effect, duration));
+}
+
+bool monster::has_effect(monster_effect_type effect)
+{
+ for (int i = 0; i < effects.size(); i++) {
+  if (effects[i].type == effect)
+   return true;
+ }
+ return false;
+}
+
+void monster::rem_effect(monster_effect_type effect)
+{
+ for (int i = 0; i < effects.size(); i++) {
+  if (effects[i].type == effect) {
+   effects.erase(effects.begin() + i);
+   i--;
+  }
+ }
 }
 
 void monster::process_effects(game *g)
@@ -519,10 +551,12 @@ void monster::process_effects(game *g)
    break;
 
   }
-  effects[i].duration--;
-  if (effects[i].duration <= 0) {
-   effects.erase(effects.begin() + i);
-   i--;
+  if (effects[i].duration > 0) {
+   effects[i].duration--;
+   if (effects[i].duration <= 0) {
+    effects.erase(effects.begin() + i);
+    i--;
+   }
   }
  }
 }

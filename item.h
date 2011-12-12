@@ -107,7 +107,7 @@ public:
  signed char damage;    // How much damage it's sustained; generally, max is 5
  char burnt;		// How badly we're burnt
  unsigned int bday;     // The turn on which it was created
- bool owned;            // If true, NPCs will shout at you for picking it up
+ int owned;		// UID of NPC owner; 0 = player, -1 = unowned
  int poison;		// How badly poisoned is it?
 
  int mission_id;// Refers to a mission in game's master list

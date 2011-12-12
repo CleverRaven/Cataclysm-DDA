@@ -13,6 +13,8 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
+#define MAX_MONSTERS_MOVING 40 // Efficiency!
+
 void intro();
 nc_color sev(int a);	// Right now, ONLY used for scent debugging....
 moncat_id mt_to_mc(mon_id type);	// Pick the moncat that contains type
@@ -413,11 +415,6 @@ void game::start_game()
  nextspawn = int(turn);	
  temperature = 65; // Springtime-appropriate?
 
-// Testing pet dog!
- monster doggy(mtypes[mon_dog], u.posx + 1, u.posy + 1);
- doggy.friendly = -1;
- z.push_back(doggy);
-
 // Put some NPCs in there!
  create_starting_npcs();
 
@@ -516,11 +513,13 @@ void game::create_starting_npcs()
  tmp.spawn_at(&cur_om, levx, levy);
  tmp.posx = SEEX * int(MAPSIZE / 2) + SEEX;
  tmp.posy = SEEY * int(MAPSIZE / 2) + 6;
+ tmp.form_opinion(&u);
  tmp.attitude = NPCATT_NULL;
  tmp.mission = NPC_MISSION_SHELTER;
  tmp.chatbin.first_topic = TALK_SHELTER;
  tmp.chatbin.missions.push_back( 
-    reserve_mission(MISSION_GET_ANTIBIOTICS, tmp.id) );
+     reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp.id) );
+//    reserve_mission(MISSION_GET_ANTIBIOTICS, tmp.id) );
 
  active_npc.push_back(tmp);
 }
@@ -535,9 +534,9 @@ bool game::do_turn()
 // Save the monsters before we die!
   for (int i = 0; i < z.size(); i++) {
    if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
-    map tmp;
+    tinymap tmp;
     tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
-    tmp.add_spawn(mon_id(z[i].type->id), 1, z[i].spawnposx, z[i].spawnposy);
+    tmp.add_spawn(&(z[i]));
     tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
    } else {	// Absorb them back into a group
     int group = valid_group((mon_id)(z[i].type->id), levx, levy);
@@ -888,31 +887,56 @@ void game::update_weather()
   temperature += rng(-1, 2);
 }
 
+int game::assign_mission_id()
+{
+ int ret = next_mission_id;
+ next_mission_id++;
+ return ret;
+}
+
 void game::give_mission(mission_id type)
 {
  mission tmp = mission_types[type].create(this);
- tmp.uid = next_mission_id;
- next_mission_id++;
- u.active_missions.push_back(tmp);
+ u.active_missions.push_back(tmp.uid);
  u.active_mission = u.active_missions.size() - 1;
 }
 
 void game::assign_mission(int id)
 {
- for (int i = 0; i < active_missions.size(); i++) {
-  if (active_missions[i].uid == id)
-   u.active_missions.push_back(active_missions[i]);
- }
+ u.active_missions.push_back(id);
+ u.active_mission = u.active_missions.size() - 1;
 }
  
 int game::reserve_mission(mission_id type, int npc_id)
 {
  mission tmp = mission_types[type].create(this);
- tmp.uid = next_mission_id;
  tmp.npc_id = npc_id;
  active_missions.push_back(tmp);
- next_mission_id++;
  return tmp.uid;
+}
+
+int game::reserve_random_mission(mission_origin origin, point p, int npc_id)
+{
+ std::vector<int> valid;
+ mission_place place;
+ for (int i = 0; i < mission_types.size(); i++) {
+  for (int j = 0; j < mission_types[i].origins.size(); j++) {
+   if (mission_types[i].origins[j] == origin &&
+       (place.*mission_types[i].place)(this, p.x, p.y)) {
+    valid.push_back(i);
+    j = mission_types[i].origins.size();
+   }
+  }
+ }
+
+ if (valid.empty()) {
+  debugmsg("No missions with origin %d found.", origin);
+  return -1;
+ }
+
+ int index = valid[rng(0, valid.size() - 1)];
+
+ return reserve_mission(mission_id(index), npc_id);
 }
 
 mission* game::find_mission(int id)
@@ -956,8 +980,20 @@ bool game::mission_complete(int id, int npc_id)
     return false;
    return true;
 
+  case MGOAL_FIND_MONSTER:
+   if (miss->npc_id != -1 && miss->npc_id != npc_id)
+    return false;
+   for (int i = 0; i < z.size(); i++) {
+    if (z[i].mission_id == miss->uid)
+     return true;
+   }
+   return false;
+
   case MGOAL_FIND_NPC:
    return (miss->npc_id == npc_id);
+
+  case MGOAL_KILL_MONSTER:
+   return (miss->step >= 1);
 
   default:
    return false;
@@ -965,13 +1001,21 @@ bool game::mission_complete(int id, int npc_id)
  return false;
 }
 
+bool game::mission_failed(int id)
+{
+ mission *miss = find_mission(id);
+ return (miss->failed);
+}
+
 void game::wrap_up_mission(int id)
 {
  mission *miss = find_mission(id);
- u.completed_missions.push_back( *miss );
+ u.completed_missions.push_back( id );
  for (int i = 0; i < u.active_missions.size(); i++) {
-  if (u.active_missions[i].uid == id)
+  if (u.active_missions[i] == id) {
    u.active_missions.erase( u.active_missions.begin() + i );
+   i--;
+  }
  }
  switch (miss->type->goal) {
   case MGOAL_FIND_ITEM:
@@ -980,6 +1024,42 @@ void game::wrap_up_mission(int id)
  }
  mission_end endfunc;
  (endfunc.*miss->type->end)(this, miss);
+}
+
+void game::fail_mission(int id)
+{
+ mission *miss = find_mission(id);
+ miss->failed = true;
+ u.failed_missions.push_back( id );
+ for (int i = 0; i < u.active_missions.size(); i++) {
+  if (u.active_missions[i] == id) {
+   u.active_missions.erase( u.active_missions.begin() + i );
+   i--;
+  }
+ }
+ mission_fail failfunc;
+ (failfunc.*miss->type->fail)(this, miss);
+}
+
+void game::mission_step_complete(int id, int step)
+{
+ mission *miss = find_mission(id);
+ miss->step = step;
+ switch (miss->type->goal) {
+  case MGOAL_FIND_ITEM:
+  case MGOAL_FIND_MONSTER:
+  case MGOAL_KILL_MONSTER: {
+   bool npc_found = false;
+   for (int i = 0; i < cur_om.npcs.size(); i++) {
+    if (cur_om.npcs[i].id == miss->npc_id) {
+     miss->target = point(cur_om.npcs[i].mapx, cur_om.npcs[i].mapy);
+     npc_found = true;
+    }
+   }
+   if (!npc_found)
+    miss->target = point(-1, -1);
+  } break;
+ }
 }
 
 void game::get_input()
@@ -1076,10 +1156,10 @@ void game::get_input()
   refresh_all();
  } else if (ch == '#')
   list_factions();
- else if (ch == '%') {
+ else if (ch == '%' || ch == '+') {
   u.disp_morale();
   refresh_all();
- } else if (ch == '&')
+ } else if (ch == '&' || ch == '/')
   craft();
  else if (ch == '*')
   construction_menu();
@@ -1757,7 +1837,7 @@ void game::list_missions()
   werase(w_missions);
   draw_tabs(w_missions, tab, "ACTIVE MISSIONS", "COMPLETED MISSIONS",
             "FAILED MISSIONS", NULL);
-  std::vector<mission> umissions;
+  std::vector<int> umissions;
   switch (tab) {
    case 0: umissions = u.active_missions;	break;
    case 1: umissions = u.completed_missions;	break;
@@ -1766,27 +1846,32 @@ void game::list_missions()
   for (int y = 3; y < 25; y++)
    mvwputch(w_missions, y, 30, c_white, LINE_XOXO);
   for (int i = 0; i < umissions.size(); i++) {
+   mission *miss = find_mission(umissions[i]);
+   nc_color col = c_white;
+   if (i == u.active_mission && tab == 0) 
+    col = c_ltred;
    if (selection == i)
-    mvwprintz(w_missions, 3 + i, 0, h_white, umissions[i].name().c_str());
+    mvwprintz(w_missions, 3 + i, 0, hilite(col), miss->name().c_str());
    else
-    mvwprintz(w_missions, 3 + i, 0, c_white, umissions[i].name().c_str());
+    mvwprintz(w_missions, 3 + i, 0, col, miss->name().c_str());
   }
 
   if (selection >= 0 && selection < umissions.size()) {
+   mission *miss = find_mission(umissions[selection]);
    mvwprintz(w_missions, 4, 31, c_white,
-             umissions[selection].description.c_str());
-   if (umissions[selection].deadline != 0)
+             miss->description.c_str());
+   if (miss->deadline != 0)
     mvwprintz(w_missions, 5, 31, c_white, "Deadline: %d (%d)",
-              umissions[selection].deadline, int(turn));
+              miss->deadline, int(turn));
    mvwprintz(w_missions, 6, 31, c_white, "Target: (%d, %d)   You: (%d, %d)",
-             umissions[selection].target.x, umissions[selection].target.y,
-             (levx + 1) / 2, (levy + 1) / 2);
+             miss->target.x, miss->target.y,
+             (levx + int (MAPSIZE / 2)) / 2, (levy + int (MAPSIZE / 2)) / 2);
   } else {
    std::string nope;
    switch (tab) {
     case 0: nope = "You have no active missions!"; break;
     case 1: nope = "You haven't completed any missions!"; break;
-    case 2: nope = "You haven't failed and missions!"; break;
+    case 2: nope = "You haven't failed any missions!"; break;
    }
    mvwprintz(w_missions, 4, 31, c_ltred, nope.c_str());
   }
@@ -1813,6 +1898,9 @@ void game::list_missions()
    selection--;
    if (selection < 0)
     selection = umissions.size() - 1;
+   break;
+  case '\n':
+   u.active_mission = selection;
    break;
   }
 
@@ -2034,6 +2122,16 @@ void game::draw_minimap()
  int cursx = (levx + int(MAPSIZE / 2)) / 2;
  int cursy = (levy + int(MAPSIZE / 2)) / 2;
 
+ bool drew_mission = false;
+ point target(-1, -1);
+ if (u.active_mission >= 0 && u.active_mission < u.active_missions.size())
+  target = find_mission(u.active_missions[u.active_mission])->target;
+ else
+  drew_mission = true;
+
+ if (target.x == -1)
+  drew_mission = true;
+
  for (int i = -2; i <= 2; i++) {
   for (int j = -2; j <= 2; j++) {
    int omx = cursx + i;
@@ -2065,13 +2163,51 @@ void game::draw_minimap()
    nc_color ter_color = oterlist[cur_ter].color;
    long ter_sym = oterlist[cur_ter].sym;
    if (seen) {
-    if (i == 0 && j == 0)
+    if (!drew_mission && target.x == omx && target.y == omy) {
+     drew_mission = true;
+     if (i != 0 || j != 0)
+      mvwputch   (w_minimap, 3 + j, 3 + i, red_background(ter_color), ter_sym);
+     else
+      mvwputch_hi(w_minimap, 3,     3,     ter_color, ter_sym);
+    } else if (i == 0 && j == 0)
      mvwputch_hi(w_minimap, 3,     3,     ter_color, ter_sym);
     else
      mvwputch   (w_minimap, 3 + j, 3 + i, ter_color, ter_sym);
    }
   }
  }
+
+// Print arrow to mission if we have one!
+ if (!drew_mission) {
+  double slope;
+  if (cursx != target.x)
+   slope = double(target.y - cursy) / double(target.x - cursx);
+  if (cursx == target.x || abs(slope) > 3.5 ) { // Vertical slope
+   if (target.y > cursy)
+    mvwputch(w_minimap, 6, 3, c_red, '*');
+   else
+    mvwputch(w_minimap, 0, 3, c_red, '*');
+  } else {
+   int arrowx = 3, arrowy = 3;
+   if (abs(slope) >= 1.) { // y diff is bigger!
+    arrowy = (target.y > cursy ? 6 : 0);
+    arrowx = 3 + 3 * (target.y > cursy ? slope : (0 - slope));
+    if (arrowx < 0)
+     arrowx = 0;
+    if (arrowx > 6)
+     arrowx = 6;
+   } else {
+    arrowx = (target.x > cursx ? 6 : 0);
+    arrowy = 3 + 3 * (target.x > cursx ? slope : (0 - slope));
+    if (arrowy < 0)
+     arrowy = 0;
+    if (arrowy > 6)
+     arrowy = 6;
+   }
+   mvwputch(w_minimap, arrowy, arrowx, c_red, '*');
+  }
+ }
+
  wrefresh(w_minimap);
 }
 
@@ -2424,7 +2560,7 @@ void game::mon_info()
 
 void game::monmove()
 {
- for (int i = 0; i < z.size(); i++) {
+ for (int i = 0; i < z.size() && i < MAX_MONSTERS_MOVING; i++) {
   bool dead = false;
   if (i < 0 || i > z.size())
    debugmsg("Moving out of bounds monster! i %d, z.size() %d", i, z.size());
@@ -5209,20 +5345,19 @@ void game::vertical_move(int movez, bool force)
     if (turns < 999)
      coming_to_stairs.push_back( monster_and_count(z[i], 1 + turns) );
    } else if (z[i].spawnmapx != -1) { // Static spawn, move them back there
-    map tmp(&itypes, &mapitems, &traps);
+    tinymap tmp(&itypes, &mapitems, &traps);
     tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
-    tmp.add_spawn(mon_id(z[i].type->id), 1, z[i].spawnposx, z[i].spawnposy);
+    tmp.add_spawn(&(z[i]));
     tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
-   } else if (z[i].friendly != 0) { // Friendly, make it into a static spawn
-    map tmp(&itypes, &mapitems, &traps);
+   } else if (z[i].friendly < 0) { // Friendly, make it into a static spawn
+    tinymap tmp(&itypes, &mapitems, &traps);
     tmp.load(this, levx, levy);
     int spawnx = z[i].posx, spawny = z[i].posy;
     while (spawnx < 0)
      spawnx += SEEX;
     while (spawny < 0)
      spawny += SEEY;
-    tmp.add_spawn(mon_id(z[i].type->id), 1, spawnx % SEEX, spawny % SEEY,
-                  true);
+    tmp.add_spawn(&(z[i]));
     tmp.save(&cur_om, turn, levx, levy);
    } else {
     int group = valid_group( (mon_id)(z[i].type->id), levx, levy);
@@ -5350,10 +5485,9 @@ void game::update_map(int &x, int &y)
       z[i].posx > SEEX * (MAPSIZE + 1) || z[i].posy > SEEY * (MAPSIZE + 1)) {
 // Despawn; we're out of bounds
    if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
-    map tmp;
+    tinymap tmp;
     tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
-    tmp.add_spawn(mon_id(z[i].type->id), 1, z[i].spawnposx, z[i].spawnposy,
-                  (z[i].friendly != 0));
+    tmp.add_spawn(&(z[i]));
     tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
    } else {	// Absorb them back into a group
     group = valid_group((mon_id)(z[i].type->id), levx + shiftx, levy + shifty);
@@ -5394,7 +5528,7 @@ void game::update_map(int &x, int &y)
   for (int i = 0; i < cur_om.npcs.size(); i++) {
    if (rl_dist(levx + int(MAPSIZE / 2), levy + int(MAPSIZE / 2),
                cur_om.npcs[i].mapx, cur_om.npcs[i].mapy) <= 
-       int(MAPSIZE / 2) + 1) {
+               int(MAPSIZE / 2) + 1) {
     int dx = cur_om.npcs[i].mapx - levx, dy = cur_om.npcs[i].mapy - levy;
     if (debugmon)
      debugmsg("Spawning static NPC, %d:%d (%d:%d)", levx, levy,
@@ -5412,7 +5546,10 @@ void game::update_map(int &x, int &y)
      temp.posx += dx * SEEX;
      temp.posy += dy * SEEY;
     }
-    active_npc.push_back(temp);
+    if (temp.marked_for_death)
+     temp.die(this, false);
+    else
+     active_npc.push_back(temp);
     cur_om.npcs.erase(cur_om.npcs.begin() + i);
     i--;
    }
@@ -5533,6 +5670,14 @@ void game::update_overmap_seen()
   om_hori.save(u.name);
  if (altered_om_diag)
   om_diag.save(u.name);
+}
+
+point game::om_location()
+{
+ point ret;
+ ret.x = int( (levx + int(MAPSIZE / 2)) / 2);
+ ret.y = int( (levy + int(MAPSIZE / 2)) / 2);
+ return ret;
 }
 
 void game::replace_stair_monsters()

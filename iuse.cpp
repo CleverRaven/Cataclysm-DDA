@@ -1967,6 +1967,27 @@ void iuse::vortex(game *g, player *p, item *it, bool t)
  g->z.push_back(vortex);
 }
 
+void iuse::dog_whistle(game *g, player *p, item *it, bool t)
+{
+ if (!p->is_npc())
+  g->add_msg("You blow your dog whistle.");
+ for (int i = 0; i < g->z.size(); i++) {
+  if (g->z[i].friendly != 0 && g->z[i].type->id == mon_dog) {
+   int linet;
+   bool u_see = g->u_see(&(g->z[i]), linet);
+   if (g->z[i].has_effect(ME_DOCILE)) {
+    if (u_see)
+     g->add_msg("Your %s looks ready to attack.", g->z[i].name().c_str());
+    g->z[i].rem_effect(ME_DOCILE);
+   } else {
+    if (u_see)
+     g->add_msg("Your %s goes docile.", g->z[i].name().c_str());
+    g->z[i].add_effect(ME_DOCILE, -1);
+   }
+  }
+ }
+}
+
 /* MACGUFFIN FUNCTIONS
  * These functions should refer to it->associated_mission for the particulars
  */

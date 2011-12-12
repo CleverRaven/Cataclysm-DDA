@@ -7,7 +7,12 @@
 #include "rng.h"
 #include "pldata.h"
 #include <stdlib.h>
-#include <curses.h>
+
+#if (defined _WIN32 || defined WINDOWS)
+	#include "catacurse.h"
+#else
+	#include <curses.h>
+#endif
 
 #ifndef SGN
 #define SGN(a) (((a)<0) ? -1 : 1)
@@ -81,6 +86,8 @@ void monster::plan(game *g)
     stc = tc;
    }
   }
+  if (has_effect(ME_DOCILE))
+   closest = -1;
   if (closest >= 0)
    set_dest(g->z[closest].posx, g->z[closest].posy, stc);
   else if (friendly > 0 && one_in(3))	// Grow restless with no targets

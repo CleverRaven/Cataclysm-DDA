@@ -9,8 +9,13 @@
 #include "inventory.h"
 #include "artifact.h"
 #include <sstream>
-#include <curses.h>
 #include <stdlib.h>
+
+#if (defined _WIN32 || defined WINDOWS)
+	#include "catacurse.h"
+#else
+	#include <curses.h>
+#endif
 
 nc_color encumb_color(int level);
 
@@ -111,10 +116,12 @@ void player::normalize(game *g)
  ret_null = item(g->itypes[0], 0);
  weapon   = item(g->itypes[0], 0);
 // Nice to start out less than naked.
+/*
  worn.push_back(item(g->itypes[itm_jeans],    0, 'a'));
  worn.push_back(item(g->itypes[itm_tshirt],   0, 'b'));
  worn.push_back(item(g->itypes[itm_sneakers], 0, 'c'));
  worn.push_back(item(g->itypes[itm_holster],  0, 'd'));
+*/
  for (int i = 0; i < num_hp_parts; i++) {
   hp_max[i] = 60 + str_max * 3;
   if (has_trait(PF_TOUGH))
@@ -3308,6 +3315,18 @@ int player::charges_of(itype_id it)
  }
  quantity += inv.charges_of(it);
  return quantity;
+}
+
+bool player::has_watertight_container()
+{
+ for (int i = 0; i < inv.size(); i++) {
+  if (inv[i].is_container() && inv[i].contents.empty()) {
+   it_container* cont = dynamic_cast<it_container*>(inv[i].type);
+   if (cont->flags & mfb(con_wtight) && cont->flags & mfb(con_seals))
+    return true;
+  }
+ }
+ return false;
 }
 
 bool player::has_weapon_or_armor(char let)

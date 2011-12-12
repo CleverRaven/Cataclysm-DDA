@@ -485,7 +485,12 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_mil_food],
 	itm_chocolate, itm_can_beans, itm_mre_beef, itm_mre_veggy, itm_1st_aid,
-	itm_codeine, itm_water, itm_purifier, NULL);
+	itm_codeine, itm_antibiotics, itm_water, itm_purifier, NULL);
+
+ setvector(
+   mapitems[mi_mil_food_nodrugs],
+	itm_chocolate, itm_can_beans, itm_mre_beef, itm_mre_veggy, itm_1st_aid,
+	itm_water, NULL);
 
  setvector(
    mapitems[mi_bionics_mil],
@@ -694,14 +699,16 @@ void game::init_mapitems()
    mapitems[mi_wreckage],
 	itm_chain, itm_steel_chunk, itm_rock, NULL);
 
-// This one kind of an inverted list; what a traveling salesman will NOT carry
+// This one kind of an inverted list; what an NPC will NOT carry
  setvector(
    mapitems[mi_trader_avoid],
-	itm_null, itm_meat, itm_veggy, itm_meat_tainted, itm_veggy_tainted,
-	itm_meat_cooked, itm_veggy_cooked, itm_mushroom_poison,
-	itm_spaghetti_cooked, itm_macaroni_cooked, itm_fetus, itm_arm, itm_leg,
-	itm_wrapper, itm_manhole_cover, itm_rock, itm_stick, itm_bag_plastic,
-	itm_flashlight_on, itm_radio_on, itm_chainsaw_on, itm_grenade_act,
-	itm_EMPbomb_act, itm_gasbomb_act, itm_molotov_lit, itm_dynamite_act,
-	itm_mininuke_act, itm_mp3_on,itm_c4, NULL);
+	itm_null, itm_corpse, itm_fire, itm_toolset, itm_meat, itm_veggy,
+	itm_meat_tainted, itm_veggy_tainted, itm_meat_cooked, itm_veggy_cooked,
+	itm_mushroom_poison, itm_spaghetti_cooked, itm_macaroni_cooked,
+	itm_fetus, itm_arm, itm_leg, itm_wrapper, itm_manhole_cover, itm_rock,
+	itm_stick, itm_bag_plastic, itm_flashlight_on, itm_radio_on,
+	itm_chainsaw_on, itm_pipebomb_act, itm_grenade_act, itm_flashbang_act,
+	itm_EMPbomb_act, itm_gasbomb_act, itm_smokebomb_act, itm_molotov_lit,
+	itm_dynamite_act, itm_mininuke_act, itm_UPS_on, itm_mp3_on, itm_c4armed,
+	NULL);
 }

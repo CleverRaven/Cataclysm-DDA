@@ -1,4 +1,9 @@
-#include <curses.h>
+#if (defined _WIN32 || defined WINDOWS)
+	#include "catacurse.h"
+#else
+	#include <curses.h>
+#endif
+
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
@@ -713,6 +718,44 @@ std::vector<point> overmap::find_terrain(std::string term, int cursx, int cursy)
  return found;
 }
 
+int overmap::closest_city(point p)
+{
+ int distance = 999, ret = -1;
+ for (int i = 0; i < cities.size(); i++) {
+  int dist = rl_dist(p.x, p.y, cities[i].x, cities[i].y);
+  if (dist < distance || (dist == distance && cities[i].s < cities[ret].s)) {
+   ret = i;
+   distance = dist;
+  }
+ }
+
+ return ret;
+}
+
+point overmap::random_house_in_city(int city_id)
+{
+ if (city_id < 0 || city_id >= cities.size()) {
+  debugmsg("overmap::random_house_in_city(%d) (max %d)", city_id,
+           cities.size() - 1);
+  return point(-1, -1);
+ }
+ std::vector<point> valid;
+ int startx = cities[city_id].x - cities[city_id].s,
+     endx   = cities[city_id].x + cities[city_id].s,
+     starty = cities[city_id].y - cities[city_id].s,
+     endy   = cities[city_id].y + cities[city_id].s;
+ for (int x = startx; x <= endx; x++) {
+  for (int y = starty; y <= endy; y++) {
+   if (ter(x, y) >= ot_house_north && ter(x, y) <= ot_house_west)
+    valid.push_back( point(x, y) );
+  }
+ }
+ if (valid.empty())
+  return point(-1, -1);
+
+ return valid[ rng(0, valid.size() - 1) ];
+}
+
 int overmap::dist_from_city(point p)
 {
  int distance = 999;
@@ -736,7 +779,7 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
  point target(-1, -1);
  if (g->u.active_mission >= 0 &&
      g->u.active_mission < g->u.active_missions.size())
-  target = g->u.active_missions[g->u.active_mission].target;
+  target = g->find_mission(g->u.active_missions[g->u.active_mission])->target;
   bool see;
   oter_id cur_ter;
   nc_color ter_color;

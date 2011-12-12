@@ -4,7 +4,12 @@
  * Who knows
  */
 
-#include <curses.h>
+#if (defined _WIN32 || defined WINDOWS)
+	#include "catacurse.h"
+#else
+	#include <curses.h>
+#endif
+
 #include <ctime>
 #include "game.h"
 #include "color.h"

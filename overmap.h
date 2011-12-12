@@ -7,7 +7,13 @@
 #include "settlement.h"
 #include "output.h"
 #include <vector>
-#include <curses.h>
+
+#if (defined _WIN32 || defined WINDOWS)
+	#include "catacurse.h"
+#else
+	#include <curses.h>
+#endif
+
 
 class npc;
 struct settlement;
@@ -67,6 +73,8 @@ class overmap
   std::vector<point> find_all(point origin, oter_id type, int type_range,
                             int &dist, bool must_be_seen);
   std::vector<point> find_terrain(std::string term, int cursx, int cursy);
+  int closest_city(point p);
+  point random_house_in_city(int city_id);
   int dist_from_city(point p);
 // Interactive point choosing; used as the map screen
   point choose_point(game *g);

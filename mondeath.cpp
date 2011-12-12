@@ -54,7 +54,7 @@ void mdeath::boomer(game *g, monster *z)
    }
   }
  }
- if (abs(z->posx - g->u.posx) <= 1 && abs(z->posy - g->u.posy) <= 1)
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy))
   g->u.infect(DI_BOOMERED, bp_eyes, 2, 24, g);
 }
 

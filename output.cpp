@@ -1,7 +1,12 @@
 #ifndef _OUTPUT_H_
 #define _OUTPUT_H_
 
-#include <curses.h>
+#if (defined _WIN32 || defined WINDOWS)
+	#include "catacurse.h"
+#else
+	#include <curses.h>
+#endif
+
 #include <string>
 #include <vector>
 #include <cstdarg>

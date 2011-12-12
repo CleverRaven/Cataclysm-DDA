@@ -4,7 +4,12 @@
 #include "skill.h"
 #include "game.h"
 #include <sstream>
-#include <curses.h>
+
+#if (defined _WIN32 || defined WINDOWS)
+	#include "catacurse.h"
+#else
+	#include <curses.h>
+#endif
 
 bool is_flammable(material m);
 
@@ -22,7 +27,7 @@ item::item()
  curammo = NULL;
  corpse = NULL;
  active = false;
- owned = false;
+ owned = -1;
  mission_id = -1;
  player_id = -1;
 }
@@ -39,7 +44,7 @@ item::item(itype* it, unsigned int turn)
  active = false;
  curammo = NULL;
  corpse = NULL;
- owned = false;
+ owned = -1;
  mission_id = -1;
  player_id = -1;
  if (it == NULL)
@@ -96,7 +101,7 @@ item::item(itype *it, unsigned int turn, char let)
  }
  curammo = NULL;
  corpse = NULL;
- owned = false;
+ owned = -1;
  invlet = let;
  mission_id = -1;
  player_id = -1;
@@ -190,13 +195,8 @@ std::string item::save_info()
  std::stringstream dump;// (std::stringstream::in | std::stringstream::out);
  dump << " " << int(invlet) << " " << int(type->id) << " " <<  int(charges) <<
          " " << int(damage) << " " << int(burnt) << " " << poison << " " <<
-         ammotmp << " " <<
-         int(bday);
+         ammotmp << " " << owned << " " << int(bday);
  if (active)
-  dump << " 1";
- else
-  dump << " 0";
- if (owned)
   dump << " 1";
  else
   dump << " 0";
@@ -218,9 +218,9 @@ void item::load_info(std::string data, game *g)
 {
  std::stringstream dump;
  dump << data;
- int idtmp, ammotmp, lettmp, damtmp, burntmp, acttmp, owntmp, corp;
+ int idtmp, ammotmp, lettmp, damtmp, burntmp, acttmp, corp;
  dump >> lettmp >> idtmp >> charges >> damtmp >> burntmp >> poison >> ammotmp >>
-         bday >> acttmp >> owntmp >> corp >> mission_id >> player_id;
+         owned >> bday >> acttmp >> corp >> mission_id >> player_id;
  if (corp != -1)
   corpse = g->mtypes[corp];
  else
@@ -243,9 +243,6 @@ void item::load_info(std::string data, game *g)
  active = false;
  if (acttmp == 1)
   active = true;
- owned = false;
- if (owntmp == 1)
-  owned = true;
  if (is_gun() && ammotmp > 0)
   curammo = dynamic_cast<it_ammo*>(g->itypes[ammotmp]);
  else
@@ -550,7 +547,7 @@ std::string item::tname(game *g)
   ret << " (rotten)";
 
 
- if (owned)
+ if (owned > 0)
   ret << " (owned)";
  return ret.str();
 }

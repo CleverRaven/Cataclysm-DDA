@@ -32,6 +32,7 @@ struct talk_function
  void nothing(game *g, npc *p) {};
  void assign_mission(game *g, npc *p);
  void mission_success(game *g, npc *p);
+ void mission_failure(game *g, npc *p);
  void clear_mission(game *g, npc *p);
  void mission_reward(game *g, npc *p);
  void give_equipment(game *g, npc *p);
@@ -195,6 +196,11 @@ std::string talk_ill_die[10] = {
 "I'm <very> doomed", "I'm done for", "I won't last much longer",
 "my days are <really> numbered"};
 
+std::string talk_ill_kill_you[10] = {
+"I'll kill you", "you're dead", "I'll <swear> kill you", "you're dead meat",
+"<ill_kill_you>, <name_b>", "you're a dead <man>", "you'll taste my <mywp>",
+"you're <swear> dead", "<name_b>, <ill_kill_you>"};
+
 std::string talk_drop_weapon[10] = {
 "Drop your <swear> weapon!",
 "Okay <name_b>, drop your weapon!",
@@ -300,7 +306,7 @@ std::string talk_done_mugging[10] = {
 "Thanks, <name_g>!"
 };
 
-#define NUM_STATIC_TAGS 22
+#define NUM_STATIC_TAGS 23
 
 
 tag_data talk_tags[NUM_STATIC_TAGS] = {
@@ -317,6 +323,7 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 {"<sad>",		&talk_sad},
 {"<greet>",		&talk_greeting_gen},
 {"<ill_die>",		&talk_ill_die},
+{"<ill_kill_you>",	&talk_ill_kill_you},
 {"<drop_it>",		&talk_drop_weapon},
 {"<hands_up>",		&talk_hands_up},
 {"<no_faction>",	&talk_no_faction},

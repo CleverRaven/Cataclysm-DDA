@@ -103,16 +103,22 @@ class game
                   std::vector<point> &trajectory);
   void cancel_activity();
   void cancel_activity_query(std::string message);
+  int assign_mission_id(); // Just returns the next available one
   void give_mission(mission_id type);
   void assign_mission(int id);
 // reserve_mission() creates a new mission of the given type and pushes it to
 // active_missions.  The function returns the UID of the new mission, which can
 // then be passed to a MacGuffin or something else that needs to track a mission
   int reserve_mission(mission_id type, int npc_id = -1);
+  int reserve_random_mission(mission_origin origin, point p = point(-1, -1),
+                             int npc_id = -1);
   mission* find_mission(int id); // Mission with UID=id; NULL if non-existant
   mission_type* find_mission_type(int id); // Same, but returns its type
   bool mission_complete(int id, int npc_id); // True if we made it
+  bool mission_failed(int id); // True if we failed it
   void wrap_up_mission(int id); // Perform required actions
+  void fail_mission(int id); // Perform required actions, move to failed list
+  void mission_step_complete(int id, int step); // Parial completion
   void process_missions(); // Process missions, see if time's run out
 
   void teleport(player *p = NULL);
@@ -128,10 +134,10 @@ class game
   bool u_see (int x, int y, int &t);
   bool u_see (monster *mon, int &t);
   bool pl_sees(player *p, monster *mon, int &t);
-  point look_around();// Look at nearby terrain	';'
   void refresh_all();
   void update_map(int &x, int &y);  // Called by plmove when the map updates
   void update_overmap_seen(); // Update which overmap tiles we can see
+  point om_location(); // levx and levy converted to overmap coordinates
 
   faction* random_good_faction();
   faction* random_evil_faction();
@@ -140,6 +146,7 @@ class game
   void process_artifact(item *it, player *p, bool wielded = false);
   void add_artifact_messages(std::vector<art_effect_passive> effects);
 
+  point look_around();// Look at nearby terrain	';'
   char inv(std::string title = "Inventory:");
   std::vector<item> multidrop();
   faction* list_factions(std::string title = "FACTIONS:");

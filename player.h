@@ -180,6 +180,7 @@ public:
  int  amount_of(itype_id it);
  int  charges_of(itype_id it);
 
+ bool has_watertight_container();
  bool has_weapon_or_armor(char let);	// Has an item with invlet let
  bool has_item(char let);		// Has an item with invlet let
  bool has_item(item *it);		// Has a specific item
@@ -188,9 +189,10 @@ public:
 // ---------------VALUES-----------------
  int posx, posy;
  player_activity activity;
- std::vector<mission> active_missions;
- std::vector<mission> completed_missions;
- std::vector<mission> failed_missions;
+// _missions vectors are of mission IDs
+ std::vector<int> active_missions;
+ std::vector<int> completed_missions;
+ std::vector<int> failed_missions;
  int active_mission;
  
  std::string name;

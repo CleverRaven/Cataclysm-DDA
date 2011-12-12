@@ -568,10 +568,15 @@ struct spawn_point {
  int posx, posy;
  int count;
  mon_id type;
+ int faction_id;
+ int mission_id;
  bool friendly;
+ std::string name;
  spawn_point(mon_id T = mon_null, int C = 0, int X = -1, int Y = -1,
-             bool F = false) :
-             posx (X), posy (Y), count (C), type (T), friendly (F) {}
+             int FAC = -1, int MIS = -1, bool F = false,
+             std::string N = "NONE") :
+             posx (X), posy (Y), count (C), type (T), faction_id (FAC),
+             mission_id (MIS), friendly (F), name (N) {}
 };
 
 struct submap {

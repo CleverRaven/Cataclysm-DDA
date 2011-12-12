@@ -1,7 +1,12 @@
 #ifndef _MAP_H_
 #define _MAP_H_
 
-#include <curses.h>
+#if (defined _WIN32 || defined WINDOWS)
+	#include "catacurse.h"
+#else
+	#include <curses.h>
+#endif
+
 #include <stdlib.h>
 #include <vector>
 #include <string>
@@ -108,7 +113,10 @@ class map
  void place_items(items_location loc, int chance, int x1, int y1,
                   int x2, int y2, bool ongrass, int turn);
  void make_all_items_owned();
- void add_spawn(mon_id type, int count, int x, int y, bool friendly = false);
+ void add_spawn(mon_id type, int count, int x, int y, bool friendly = false,
+                int faction_id = -1, int mission_id = -1,
+                std::string name = "NONE");
+ void add_spawn(monster *mon);
  computer* add_computer(int x, int y, std::string name, int security);
  
 protected:

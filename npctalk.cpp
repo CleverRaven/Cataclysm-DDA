@@ -61,9 +61,13 @@ void npc::talk_to_u(game *g)
   }
  }
  most_difficult_mission = 0;
+ bool chosen_urgent = false;
  for (int i = 0; i < chatbin.missions_assigned.size(); i++) {
   mission_type *type = g->find_mission_type(chatbin.missions_assigned[i]);
-  if (type->urgent && type->difficulty > most_difficult_mission) {
+  if ((type->urgent && !chosen_urgent) ||
+      (type->difficulty > most_difficult_mission &&
+       (type->urgent || !chosen_urgent)            )) {
+   chosen_urgent = type->urgent;
    d.topic_stack.push_back(TALK_MISSION_INQUIRE);
    chatbin.mission_selected = i;
    most_difficult_mission = type->difficulty;
@@ -121,7 +125,8 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
    return "mission_selected = -1; BUG!";
   int id = -1;
   if (topic == TALK_MISSION_INQUIRE || topic == TALK_MISSION_ACCEPTED ||
-      topic == TALK_MISSION_SUCCESS || topic == TALK_MISSION_ADVICE     ) {
+      topic == TALK_MISSION_SUCCESS || topic == TALK_MISSION_ADVICE ||
+      topic == TALK_MISSION_FAILURE || topic == TALK_MISSION_SUCCESS_LIE) {
    if (p->chatbin.mission_selected >= p->chatbin.missions_assigned.size())
     return "mission_selected is too high; BUG!";
    id = p->chatbin.missions_assigned[ p->chatbin.mission_selected ];
@@ -158,6 +163,14 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   else
    return "I have several more jobs for you.  Which should I describe?";
 
+ case TALK_MISSION_LIST_ASSIGNED:
+  if (p->chatbin.missions_assigned.empty())
+   return "You're not working on anything for me right now.";
+  else if (p->chatbin.missions_assigned.size() == 1)
+   return "What about it?";
+  else
+   return "Which job?";
+
  case TALK_MISSION_REWARD:
   if (p->op_of_u.owed <= 0)
    return "I gave you your reward before you finished the mission!";
@@ -181,7 +194,10 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   return "Okay, here you go.";
 
  case TALK_DENY_EQUIPMENT:
-  return "<no><punc> <fuck_you>!";
+  if (p->op_of_u.anger >= p->hostile_anger_level() - 4)
+   return "<no>, and if you ask again, <ill_kill_you>!";
+  else
+   return "<no><punc> <fuck_you>!";
 
  case TALK_SIZE_UP: {
   int ability = g->u.per_cur * 3 + g->u.int_cur;
@@ -231,10 +247,10 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
  switch (topic) {
  case TALK_MISSION_LIST:
   if (p->chatbin.missions.empty()) {
-   RESPONSE("Oh, okay");
+   RESPONSE("Oh, okay.");
     SUCCESS(TALK_NONE);
   } else if (p->chatbin.missions.size() == 1) {
-   SELECT_MISS("Tell me about it", 0);
+   SELECT_MISS("Tell me about it.", 0);
     SUCCESS(TALK_MISSION_OFFER);
    RESPONSE("Never mind, I'm not interested.");
     SUCCESS(TALK_NONE);
@@ -244,6 +260,26 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
      SUCCESS(TALK_MISSION_OFFER);
    }
    RESPONSE("Never mind, I'm not interested.");
+    SUCCESS(TALK_NONE);
+  }
+  break;
+
+ case TALK_MISSION_LIST_ASSIGNED:
+  if (p->chatbin.missions_assigned.empty()) {
+   RESPONSE("Never mind then.");
+    SUCCESS(TALK_NONE);
+  } else if (p->chatbin.missions_assigned.size() == 1) {
+   SELECT_MISS("I have news.", 0);
+    SUCCESS(TALK_MISSION_INQUIRE);
+   RESPONSE("Never mind.");
+    SUCCESS(TALK_NONE);
+  } else {
+   for (int i = 0; i < p->chatbin.missions_assigned.size(); i++) {
+    SELECT_MISS(g->find_mission_type( p->chatbin.missions_assigned[i] )->name,
+                i);
+     SUCCESS(TALK_MISSION_INQUIRE);
+   }
+   RESPONSE("Never mind.");
     SUCCESS(TALK_NONE);
   }
   break;
@@ -290,10 +326,28 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
 
  case TALK_MISSION_INQUIRE: {
   int id = p->chatbin.missions_assigned[ p->chatbin.mission_selected ];
-  if (!g->mission_complete(id, p->id)) {
+  if (g->mission_failed(id)) {
+   RESPONSE("I'm sorry... I failed.");
+    SUCCESS(TALK_MISSION_FAILURE);
+     SUCCESS_OPINION(-1, 0, -1, 1, 0);
+   RESPONSE("Not yet.");
+    TRIAL(TALK_TRIAL_LIE, 10 + p->op_of_u.trust * 3);
+    SUCCESS(TALK_NONE);
+    FAILURE(TALK_MISSION_FAILURE);
+     FAILURE_OPINION(-3, 0, -1, 2, 0);
+  } else if (!g->mission_complete(id, p->id)) {
+   mission_type *type = g->find_mission_type(id);
    RESPONSE("Not yet.");
     SUCCESS(TALK_NONE);
-// TODO: Lie about mission
+   if (type->goal == MGOAL_KILL_MONSTER) {
+    RESPONSE("Yup, I killed it.");
+    TRIAL(TALK_TRIAL_LIE, 10 + p->op_of_u.trust * 5);
+    SUCCESS(TALK_MISSION_SUCCESS);
+     SUCCESS_ACTION(&talk_function::mission_success);
+    FAILURE(TALK_MISSION_SUCCESS_LIE);
+     FAILURE_OPINION(-5, 0, -1, 5, 0);
+     FAILURE_ACTION(&talk_function::mission_failure);
+   }
    RESPONSE("No.  I'll get back to it, bye!");
     SUCCESS(TALK_DONE);
   } else {
@@ -311,6 +365,14 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
      SUCCESS(TALK_MISSION_SUCCESS);
      SUCCESS_ACTION(&talk_function::mission_success);
     break;
+   case MGOAL_FIND_MONSTER:
+    RESPONSE("Here it is!");
+     SUCCESS(TALK_MISSION_SUCCESS);
+     SUCCESS_ACTION(&talk_function::mission_success);
+   case MGOAL_KILL_MONSTER:
+    RESPONSE("I killed it.");
+     SUCCESS(TALK_MISSION_SUCCESS);
+     SUCCESS_ACTION(&talk_function::mission_success);
    default:
     RESPONSE("Mission success!  I don't know what else to say.");
      SUCCESS(TALK_MISSION_SUCCESS);
@@ -337,6 +399,16 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
                    p->op_of_u.owed / (OWED_VAL * 2), -1, 0 - p->op_of_u.owed);
   break;
 
+ case TALK_MISSION_SUCCESS_LIE:
+  RESPONSE("Well, um, sorry.");
+   SUCCESS(TALK_NONE);
+   SUCCESS_ACTION(&talk_function::clear_mission);
+
+ case TALK_MISSION_FAILURE:
+  RESPONSE("I'm sorry.  I did what I could.");
+   SUCCESS(TALK_NONE);
+  break;
+
  case TALK_MISSION_REWARD:
   RESPONSE("Thank you.");
    SUCCESS(TALK_NONE);
@@ -349,6 +421,15 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
  case TALK_SHELTER:
   RESPONSE("What should we do now?");
    SUCCESS(TALK_SHELTER_PLANS);
+  RESPONSE("Can I do anything for you?");
+   SUCCESS(TALK_MISSION_LIST);
+  if (p->chatbin.missions_assigned.size() == 1) {
+   RESPONSE("About that job...");
+    SUCCESS(TALK_MISSION_INQUIRE);
+  } else if (p->chatbin.missions_assigned.size() >= 2) {
+   RESPONSE("About one of those jobs...");
+    SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+  }
   RESPONSE("I can't leave the shelter without equipment...");
    SUCCESS(TALK_SHARE_EQUIPMENT);
   RESPONSE("Well, bye.");
@@ -386,7 +467,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
     SUCCESS_ACTION(&talk_function::give_equipment);
     SUCCESS_OPINION(0, 0, -1, 0, score * 300);
    FAILURE(TALK_DENY_EQUIPMENT);
-    FAILURE_OPINION(0, -1, -1, 0, 0);
+    FAILURE_OPINION(0, -1, -1, 1, 0);
   RESPONSE("Give it to me, or else!");
    TRIAL(TALK_TRIAL_INTIMIDATE, 40);
    SUCCESS(TALK_GIVE_EQUIPMENT);
@@ -395,7 +476,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
                     (g->u.intimidation() + p->op_of_u.fear -
                      p->personality.bravery - p->intimidation()) * 500);
    FAILURE(TALK_DENY_EQUIPMENT);
-    FAILURE_OPINION(-3, 1, -3, 4, 0);
+    FAILURE_OPINION(-3, 1, -3, 5, 0);
   RESPONSE("Eh, never mind.");
    SUCCESS(TALK_NONE);
   RESPONSE("Never mind, I'll do without.  Bye.");
@@ -472,6 +553,8 @@ int topic_category(talk_topic topic)
   case TALK_MISSION_ADVICE:
   case TALK_MISSION_INQUIRE:
   case TALK_MISSION_SUCCESS:
+  case TALK_MISSION_SUCCESS_LIE:
+  case TALK_MISSION_FAILURE:
   case TALK_MISSION_REWARD:
   case TALK_MISSION_END:
    return 1;
@@ -499,11 +582,20 @@ void talk_function::assign_mission(game *g, npc *p)
            selected, p->chatbin.missions.size());
   return;
  }
+ mission *miss = g->find_mission( p->chatbin.missions[selected] );
  g->assign_mission(p->chatbin.missions[selected]);
  p->op_of_u.owed += g->find_mission(p->chatbin.missions[selected])->value;
- g->u.active_missions.back().npc_id = p->id;
+ miss->npc_id = p->id;
+ g->u.active_mission = g->u.active_missions.size() - 1;
  p->chatbin.missions_assigned.push_back( p->chatbin.missions[selected] );
  p->chatbin.missions.erase(p->chatbin.missions.begin() + selected);
+
+ switch (g->find_mission_type(g->u.active_missions.back())->id) {
+  case MISSION_RESCUE_DOG:
+   g->u.i_add( item(g->itypes[itm_dog_whistle], 0) );
+   g->add_msg("%s gives you a dog whistle.", p->name.c_str());
+   break;
+ }
 }
 
 void talk_function::mission_success(game *g, npc *p)
@@ -515,6 +607,17 @@ void talk_function::mission_success(game *g, npc *p)
   return;
  }
  g->wrap_up_mission(p->chatbin.missions_assigned[selected]);
+}
+
+void talk_function::mission_failure(game *g, npc *p)
+{
+ int selected = p->chatbin.mission_selected;
+ if (selected == -1 || selected >= p->chatbin.missions_assigned.size()) {
+  debugmsg("mission_selected = %d; missions_assigned.size() = %d!",
+           selected, p->chatbin.missions_assigned.size());
+  return;
+ }
+ g->mission_failed(p->chatbin.missions_assigned[selected]);
 }
 
 void talk_function::clear_mission(game *g, npc *p)
@@ -754,8 +857,8 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
    alpha->practice(sk_speech, (100 - trial_chance(chosen, alpha, beta)) / 10);
   (effect.*chosen.effect_success)(g, beta);
   beta->op_of_u += chosen.opinion_success;
-  if (beta->op_of_u.anger >= 10 + beta->op_of_u.fear) {
-   beta->attitude = NPCATT_KILL;
+  if (beta->turned_hostile()) {
+   beta->make_angry();
    done = true;
   }
   return chosen.success;
@@ -763,8 +866,8 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
   alpha->practice(sk_speech, (100 - trial_chance(chosen, alpha, beta)) / 7);
   (effect.*chosen.effect_failure)(g, beta);
   beta->op_of_u += chosen.opinion_failure;
-  if (beta->op_of_u.anger >= 10 + beta->op_of_u.fear) {
-   beta->attitude = NPCATT_KILL;
+  if (beta->turned_hostile()) {
+   beta->make_angry();
    done = true;
   }
   return chosen.failure;
