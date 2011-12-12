@@ -555,6 +555,7 @@ bool game::do_turn()
  }
  turn.increment();
  process_events();
+ process_missions();
  if (turn.hour == 0 && turn.minute == 0 && turn.second == 0) // Midnight!
   cur_om.process_mongroups();
 
@@ -1059,6 +1060,14 @@ void game::mission_step_complete(int id, int step)
    if (!npc_found)
     miss->target = point(-1, -1);
   } break;
+ }
+}
+
+void game::process_missions()
+{
+ for (int i = 0; i < active_missions.size(); i++) {
+  if (int(turn) > active_missions[i].deadline)
+   fail_mission(i);
  }
 }
 
