@@ -21,13 +21,13 @@
 enum itype_id {
 itm_null = 0,
 itm_corpse,
-// Special crafting-only pseudoitems
+// Special pseudoitems
 itm_fire, itm_toolset,
 // Drinks
 itm_water, itm_sewage, itm_salt_water, itm_oj, itm_apple_cider,
  itm_energy_drink, itm_cola, itm_rootbeer, itm_milk, itm_V8, itm_broth,
  itm_soup, itm_whiskey, itm_vodka, itm_rum, itm_tequila, itm_beer, itm_bleach,
- itm_ammonia, itm_mutagen, itm_purifier, itm_tea, itm_coffee,
+ itm_ammonia, itm_mutagen, itm_purifier, itm_tea, itm_coffee, itm_blood,
 // Monster Meats
 itm_meat, itm_veggy, itm_meat_tainted, itm_veggy_tainted, itm_meat_cooked,
  itm_veggy_cooked,
@@ -56,13 +56,13 @@ itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
  itm_amplifier, itm_transponder, itm_receiver, itm_antenna, itm_steel_chunk,
  itm_motor, itm_hose, itm_glass_sheet, itm_manhole_cover, itm_rock, itm_stick,
  itm_broom, itm_mop, itm_screwdriver, itm_wrench, itm_saw, itm_hacksaw,
- itm_hammer_sledge, itm_hatchet, itm_ax, itm_nailboard, itm_xacto, itm_pot,
- itm_pan, itm_knife_butter, itm_knife_steak, itm_knife_butcher,
+ itm_hammer_sledge, itm_hatchet, itm_ax, itm_nailboard, itm_xacto, itm_scalpel,
+ itm_pot, itm_pan, itm_knife_butter, itm_knife_steak, itm_knife_butcher,
  itm_knife_combat, itm_2x4, itm_muffler, itm_pipe, itm_bat, itm_machete,
  itm_katana, itm_spear_wood, itm_spear_knife, itm_baton, itm_bee_sting,
  itm_wasp_sting, itm_chitin_piece, itm_biollante_bud, itm_canister_empty,
  itm_gold, itm_coal, itm_petrified_eye, itm_spiral_stone, itm_rapier, itm_cane,
- itm_binoculars,
+ itm_binoculars, itm_usb_drive,
 // Footwear
 itm_sneakers, itm_boots, itm_boots_steel, itm_boots_winter, itm_mocassins,
  itm_flip_flops, itm_dress_shoes, itm_heels, 
@@ -150,7 +150,7 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_dynamite_act, itm_mininuke, itm_mininuke_act, itm_pheromone, itm_portal,
  itm_bot_manhack, itm_bot_turret, itm_UPS_off, itm_UPS_on, itm_tazer, itm_mp3,
  itm_mp3_on, itm_vortex_stone, itm_dogfood, itm_boobytrap, itm_c4,  itm_c4armed,
- itm_dog_whistle,
+ itm_dog_whistle, itm_vacutainer,
 // Bionics containers
 itm_bionics_battery,       itm_bionics_power,   itm_bionics_tools,
  itm_bionics_neuro,        itm_bionics_sensory, itm_bionics_aquatic,
@@ -158,6 +158,9 @@ itm_bionics_battery,       itm_bionics_power,   itm_bionics_tools,
  itm_bionics_desert,       itm_bionics_melee,   itm_bionics_armor,
  itm_bionics_espionage,    itm_bionics_defense, itm_bionics_medical,
  itm_bionics_construction, itm_bionics_super,   itm_bionics_ranged,
+// Software
+itm_software_useless, itm_software_hacking, itm_software_medical,
+ itm_software_math, itm_software_blood_data,
 // MacGuffins!
 itm_note,
 // Static (non-random) artifacts should go here.
@@ -184,6 +187,16 @@ AT_FUSION,
 AT_12MM,
 AT_PLASMA,
 NUM_AMMO_TYPES
+};
+
+enum software_type {
+SW_NULL,
+SW_USELESS,
+SW_HACKING,
+SW_MEDICAL,
+SW_SCIENCE,
+SW_DATA,
+NUM_SOFTWARE_TYPES
 };
 
 enum item_flag {
@@ -257,6 +270,7 @@ struct itype
  virtual bool is_book()          { return false; }
  virtual bool is_tool()          { return false; }
  virtual bool is_container()     { return false; }
+ virtual bool is_software()      { return false; }
  virtual bool is_macguffin()     { return false; }
  virtual bool is_artifact()      { return false; }
  virtual bool count_by_charges() { return false; }
@@ -363,7 +377,7 @@ struct it_ammo : public itype
  unsigned char count;	// Default charges
 
  virtual bool is_ammo() { return true; }
- virtual bool count_by_charges() { return true; }
+ virtual bool count_by_charges() { return id != itm_gasoline; }
 
  it_ammo(int pid, unsigned char prarity, unsigned int pprice,
         std::string pname, std::string pdes,
@@ -667,6 +681,28 @@ struct it_macguffin : public itype
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
   readable = preadable;
   use = puse;
+ }
+};
+
+struct it_software : public itype
+{
+ software_type swtype;
+ int power;
+
+ virtual bool is_software()      { return true; }
+
+ it_software(int pid, unsigned char prarity, unsigned int pprice,
+             std::string pname, std::string pdes,
+             char psym, nc_color pcolor, material pm1, material pm2,
+             unsigned char pvolume, unsigned char pweight,
+             signed char pmelee_dam, signed char pmelee_cut,
+             signed char pm_to_hit, unsigned pitem_flags,
+
+             software_type pswtype, int ppower)
+:itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+  swtype = pswtype;
+  power = ppower;
  }
 };
 

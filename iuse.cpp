@@ -1988,6 +1988,37 @@ void iuse::dog_whistle(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::vacutainer(game *g, player *p, item *it, bool t)
+{
+ if (p->is_npc())
+  return; // No NPCs for now!
+
+ if (!it->contents.empty()) {
+  g->add_msg("That %s is full!", it->tname().c_str());
+  return;
+ }
+
+ item blood(g->itypes[itm_blood], g->turn);
+ bool drew_blood = false;
+ for (int i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
+  item *it = &(g->m.i_at(p->posx, p->posy)[i]);
+  if (it->type->id == itm_corpse &&
+      query_yn("Draw blood from %s?", it->tname().c_str())) {
+   blood.corpse = it->corpse;
+   drew_blood = true;
+  }
+ }
+
+ if (!drew_blood && query_yn("Draw your own blood?"))
+  drew_blood = true;
+
+ if (!drew_blood)
+  return;
+
+ it->put_in(blood);
+}
+ 
+
 /* MACGUFFIN FUNCTIONS
  * These functions should refer to it->associated_mission for the particulars
  */

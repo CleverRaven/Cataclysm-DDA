@@ -12,6 +12,7 @@ computer::computer()
  security = 0;
  name = DEFAULT_COMPUTER_NAME;
  w_terminal = NULL;
+ mission_id = -1;
 }
 
 computer::computer(std::string Name, int Security)
@@ -19,6 +20,7 @@ computer::computer(std::string Name, int Security)
  security = Security;
  name = Name;
  w_terminal = NULL;
+ mission_id = -1;
 }
 
 computer::~computer()
@@ -31,6 +33,7 @@ computer& computer::operator=(const computer &rhs)
 {
  security = rhs.security;
  name = rhs.name;
+ mission_id = rhs.mission_id;
  options.clear();
  for (int i = 0; i < rhs.options.size(); i++) 
   options.push_back(rhs.options[i]);
@@ -123,6 +126,7 @@ void computer::use(game *g)
   for (int i = 0; i < options.size(); i++)
    print_line("%d - %s", i + 1, options[i].name.c_str());
   print_line("Q - Quit and shut down");
+  print_line("");
  
   char ch;
   do
@@ -142,7 +146,6 @@ void computer::use(game *g)
       return;
      } else {
       activate_function(g, current.action);
-      done = true;
       reset_terminal();
      }
     }
@@ -178,7 +181,8 @@ std::string computer::save_data()
   savename.replace(found, 1, "_");
   found = savename.find(" ");
  }
- data << savename << " " << security << " " << options.size() << " ";
+ data << savename << " " << security << " " << mission_id << " " <<
+         options.size() << " ";
  for (int i = 0; i < options.size(); i++) {
   savename = options[i].name;
   found = savename.find(" ");
@@ -204,7 +208,7 @@ void computer::load_data(std::string data)
  std::string buffer;
  dump << data;
 // Pull in name and security
- dump >> name >> security;
+ dump >> name >> security >> mission_id;
  size_t found = name.find("_");
  while (found != std::string::npos) {
   name.replace(found, 1, " ");
@@ -436,7 +440,7 @@ void computer::activate_function(game *g, computer_action action)
    for (int level = g->cur_om.posz; level < 0; level++) {
     tmp_om = g->cur_om;
     g->cur_om = overmap(g, tmp_om.posx, tmp_om.posy, level);
-    map tmpmap(&g->itypes, &g->mapitems, &g->traps);
+    tinymap tmpmap(&g->itypes, &g->mapitems, &g->traps);
     tmpmap.load(g, g->levx, g->levy);
     tmpmap.translate(t_missile, t_hole);
     tmpmap.save(&tmp_om, g->turn, g->levx, g->levy);
@@ -573,6 +577,66 @@ INITIATING STANDARD TREMOR TEST...");
     g->u.add_disease(DI_AMIGARA, -1, g);
    break;
 
+  case COMPACT_DOWNLOAD_SOFTWARE:
+   if (!g->u.has_amount(itm_usb_drive, 1))
+    print_error("USB drive required!");
+   else {
+    mission *miss = g->find_mission(mission_id);
+    if (miss == NULL) {
+     debugmsg("Computer couldn't find its mission!");
+     return;
+    }
+    item software(g->itypes[miss->item_id], 0);
+    software.mission_id = mission_id;
+    int index = g->u.pick_usb();
+    g->u.inv[index].contents.clear();
+    g->u.inv[index].put_in(software);
+    print_line("Software downloaded.");
+   }
+   break;
+
+  case COMPACT_BLOOD_ANAL:
+   for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
+    for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
+     if (g->m.ter(x, y) == t_centrifuge) {
+      if (g->m.i_at(x, y).empty())
+       print_error("ERROR: Please place sample in centrifuge.");
+      else if (g->m.i_at(x, y).size() > 1)
+       print_error("ERROR: Please remove all but one sample from centrifuge.");
+      else if (g->m.i_at(x, y)[0].type->id != itm_vacutainer)
+       print_error("ERROR: Please use vacutainer-contained samples.");
+      else if (g->m.i_at(x, y)[0].contents.empty())
+       print_error("ERROR: Vacutainer empty.");
+      else if (g->m.i_at(x, y)[0].contents[0].type->id != itm_blood)
+       print_error("ERROR: Please only use blood samples.");
+      else { // Success!
+       item *blood = &(g->m.i_at(x, y)[0].contents[0]);
+       if (blood->corpse == NULL || blood->corpse->id == mon_null)
+        print_line("Result:  Human blood, no pathogens found.");
+       else if (blood->corpse->sym == 'Z') {
+        print_line("Result:  Human blood.  Unknown pathogen found.");
+        print_line("Pathogen bonded to erythrocytes and leukocytes.");
+        if (query_bool("Download data?")) {
+         if (!g->u.has_amount(itm_usb_drive, 1))
+          print_error("USB drive required!");
+         else {
+          item software(g->itypes[itm_software_blood_data], 0);
+          int index = g->u.pick_usb();
+          g->u.inv[index].contents.clear();
+          g->u.inv[index].put_in(software);
+          print_line("Software downloaded.");
+         }
+        }
+       } else
+        print_line("Result: Unknown blood type.  Test nonconclusive.");
+       print_line("Press any key...");
+       getch();
+      }
+     }
+    }
+   }
+   break;
+
  } // switch (action)
 }
 
@@ -693,6 +757,33 @@ void computer::activate_failure(game *g, computer_failure fail)
    g->u.add_disease(DI_AMIGARA, -1, g);
    g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
    g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
+   break;
+
+  case COMPFAIL_DESTROY_BLOOD:
+   print_error("ERROR: Disruptive Spin");
+   for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
+    for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
+     if (g->m.ter(x, y) == t_centrifuge) {
+      for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
+       if (g->m.i_at(x, y).empty())
+        print_error("ERROR: Please place sample in centrifuge.");
+       else if (g->m.i_at(x, y).size() > 1)
+        print_error("ERROR: Please remove all but one sample from centrifuge.");
+       else if (g->m.i_at(x, y)[0].type->id != itm_vacutainer)
+        print_error("ERROR: Please use vacutainer-contained samples.");
+       else if (g->m.i_at(x, y)[0].contents.empty())
+        print_error("ERROR: Vacutainer empty.");
+       else if (g->m.i_at(x, y)[0].contents[0].type->id != itm_blood)
+        print_error("ERROR: Please only use blood samples.");
+       else {
+        print_error("ERROR: Blood sample destroyed.");
+        g->m.i_at(x, y)[i].contents.clear();
+       }
+      }
+     }
+    }
+   }
+   getch();
    break;
  }// switch (fail)
 }

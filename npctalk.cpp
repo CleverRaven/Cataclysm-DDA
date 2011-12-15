@@ -137,9 +137,13 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   }
 
 // Mission stuff is a special case, so we'll handle it up here
-  mission_type *type = g->find_mission_type(id);
+  mission *miss = g->find_mission(id);
+  mission_type *type = miss->type;
+  std::string ret = mission_dialogue(mission_id(type->id), topic);
+  if (topic == TALK_MISSION_SUCCESS && miss->follow_up != MISSION_NULL)
+   return ret + "  And I have more I'd like you to do.";
+  return ret;
 
-  return mission_dialogue(mission_id(type->id), topic);
  }
   
  switch (topic) {
@@ -172,11 +176,7 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
    return "Which job?";
 
  case TALK_MISSION_REWARD:
-  if (p->op_of_u.owed <= 0)
-   return "I gave you your reward before you finished the mission!";
-  else
-   return "Sure, here you go!";
-  break;
+  return "Sure, here you go!";
 
  case TALK_SHELTER:
   switch (rng(1, 2)) {
@@ -355,6 +355,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    mission_type *type = g->find_mission_type(id);
    switch (type->goal) {
    case MGOAL_FIND_ITEM:
+   case MGOAL_FIND_ANY_ITEM:
     RESPONSE("Yup!  Here it is!");
      SUCCESS(TALK_MISSION_SUCCESS);
      SUCCESS_ACTION(&talk_function::mission_success);
@@ -385,7 +386,6 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
  } break;
 
  case TALK_MISSION_SUCCESS:
-// TODO: Demand reward.
   RESPONSE("Glad to help.  I need no payment.");
    SUCCESS(TALK_NONE);
    SUCCESS_OPINION(p->op_of_u.owed / (OWED_VAL * 4), -1,
@@ -525,14 +525,23 @@ int trial_chance(talk_response response, player *u, npc *p)
  switch (trial) {
   case TALK_TRIAL_LIE:
    diff += u->talk_skill() - p->talk_skill();
+   if (u->has_trait(PF_TRUTHTELLER))
+    diff += 40;
+   break;
 
   case TALK_TRIAL_PERSUADE:
    diff += u->talk_skill() - int(p->talk_skill() / 2) +
            p->op_of_u.trust * 2 + p->op_of_u.value;
+   break;
 
   case TALK_TRIAL_INTIMIDATE:
    diff += u->intimidation() - p->intimidation() + p->op_of_u.fear * 2 -
            p->personality.bravery * 2;
+   if (u->has_trait(PF_TERRIFYING))
+    diff -= 15;
+   if (p->has_trait(PF_TERRIFYING))
+    diff += 15;
+   break;
 
  }
 
@@ -586,18 +595,10 @@ void talk_function::assign_mission(game *g, npc *p)
  }
  mission *miss = g->find_mission( p->chatbin.missions[selected] );
  g->assign_mission(p->chatbin.missions[selected]);
- p->op_of_u.owed += g->find_mission(p->chatbin.missions[selected])->value;
  miss->npc_id = p->id;
  g->u.active_mission = g->u.active_missions.size() - 1;
  p->chatbin.missions_assigned.push_back( p->chatbin.missions[selected] );
  p->chatbin.missions.erase(p->chatbin.missions.begin() + selected);
-
- switch (g->find_mission_type(g->u.active_missions.back())->id) {
-  case MISSION_RESCUE_DOG:
-   g->u.i_add( item(g->itypes[itm_dog_whistle], 0) );
-   g->add_msg("%s gives you a dog whistle.", p->name.c_str());
-   break;
- }
 }
 
 void talk_function::mission_success(game *g, npc *p)
@@ -608,7 +609,9 @@ void talk_function::mission_success(game *g, npc *p)
            selected, p->chatbin.missions_assigned.size());
   return;
  }
- g->wrap_up_mission(p->chatbin.missions_assigned[selected]);
+ int index = p->chatbin.missions_assigned[selected];
+ p->op_of_u.owed += g->find_mission(index)->value;
+ g->wrap_up_mission(index);
 }
 
 void talk_function::mission_failure(game *g, npc *p)
@@ -631,8 +634,11 @@ void talk_function::clear_mission(game *g, npc *p)
            selected, p->chatbin.missions_assigned.size());
   return;
  }
+ mission *miss = g->find_mission( p->chatbin.missions_assigned[selected] );
  p->chatbin.missions_assigned.erase( p->chatbin.missions_assigned.begin() +
                                      selected);
+ if (miss->follow_up != MISSION_NULL)
+  p->chatbin.missions.push_back( g->reserve_mission(miss->follow_up, p->id) );
 }
 
 void talk_function::mission_reward(game *g, npc *p)
@@ -1080,16 +1086,13 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
  if (ch == '\n') {
   int practice = 0;
   std::vector<char> removing;
-  debugmsg("Old size: %d", p->inv.size());
   for (int i = 0; i < yours.size(); i++) {
    if (getting_yours[i]) {
     p->inv.push_back(g->u.inv[yours[i]]);
     practice++;
-    debugmsg("Gave a %s", g->u.inv[yours[i]].tname().c_str());
     removing.push_back(g->u.inv[yours[i]].invlet);
    }
   }
-  debugmsg("New size: %d", p->inv.size());
 // Do it in two passes, so removing items doesn't corrupt yours[]
   for (int i = 0; i < removing.size(); i++)
     g->u.i_rem(removing[i]);

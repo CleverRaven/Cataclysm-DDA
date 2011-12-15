@@ -14,6 +14,8 @@ enum talk_topic;
 enum mission_id {
  MISSION_NULL,
  MISSION_GET_ANTIBIOTICS,
+ MISSION_GET_SOFTWARE,
+ MISSION_GET_ZOMBIE_BLOOD_ANAL,
  MISSION_RESCUE_DOG,
  MISSION_KILL_ZOMBIE_MOM,
  NUM_MISSION_IDS
@@ -25,6 +27,7 @@ enum mission_origin {
  ORIGIN_NULL = 0,
  ORIGIN_GAME_START,	// Given when the game starts
  ORIGIN_OPENER_NPC,	// NPC comes up to you when the game starts
+ ORIGIN_SECONDARY,	// Given at the end of another mission
  NUM_ORIGIN
 };
 
@@ -32,6 +35,7 @@ enum mission_goal {
  MGOAL_NULL = 0,
  MGOAL_GO_TO,		// Reach a certain overmap tile
  MGOAL_FIND_ITEM,	// Find an item of a given type
+ MGOAL_FIND_ANY_ITEM,	// Find an item tagged with this mission
  MGOAL_FIND_MONSTER,	// Find and retrieve a friendly monster
  MGOAL_FIND_NPC,	// Find a given NPC
  MGOAL_ASSASSINATE,	// Kill a given NPC
@@ -55,6 +59,8 @@ struct mission_start {
  void standard		(game *, mission *); // Standard for its goal type
  void place_dog		(game *, mission *); // Put a dog in a house!
  void place_zombie_mom	(game *, mission *); // Put a zombie mom in a house!
+ void place_npc_software(game *, mission *); // Put NPC-type-dependant software
+ void reveal_hospital	(game *, mission *); // Reveal the nearest hospital
 };
 
 struct mission_end {	// These functions are run when a mission ends
@@ -78,6 +84,7 @@ struct mission_type {
 
  std::vector<mission_origin> origins;	// Points of origin
  itype_id item_id;
+ mission_id follow_up;
 
  bool (mission_place::*place)(game *g, int x, int y);
  void (mission_start::*start)(game *g, mission *);
@@ -92,9 +99,14 @@ struct mission_type {
               void (mission_fail ::*FAIL )(game *, mission *)) :
   id (ID), name (NAME), goal (GOAL), difficulty (DIF), value (VAL),
   urgent(URGENT), place (PLACE), start (START), end (END), fail (FAIL)
-  { deadline_low = 0; deadline_high = 0; };
+  {
+   deadline_low = 0;
+   deadline_high = 0;
+   item_id = itm_null;
+   follow_up = MISSION_NULL;
+  };
 
- mission create(game *g); // Create a mission based on this template
+ mission create(game *g, int npc_id = -1); // Create a mission
 };
 
 struct mission {
@@ -110,6 +122,7 @@ struct mission {
  int npc_id;		// ID of a related npc
  int good_fac_id, bad_fac_id;	// IDs of the protagonist/antagonist factions
  int step;		// How much have we completed?
+ mission_id follow_up;	// What mission do we get after this succeeds?
  text_hash text;
 
  std::string name();

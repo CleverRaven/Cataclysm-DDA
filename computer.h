@@ -29,6 +29,8 @@ enum computer_action
  COMPACT_ELEVATOR_ON,
  COMPACT_AMIGARA_LOG,
  COMPACT_AMIGARA_START,
+ COMPACT_DOWNLOAD_SOFTWARE,
+ COMPACT_BLOOD_ANAL,
  NUM_COMPUTER_ACTIONS
 };
 
@@ -43,6 +45,7 @@ enum computer_failure
  COMPFAIL_PUMP_EXPLODE,
  COMPFAIL_PUMP_LEAK,
  COMPFAIL_AMIGARA,
+ COMPFAIL_DESTROY_BLOOD,
  NUM_COMPUTER_FAILURES
 };
 
@@ -78,6 +81,7 @@ public:
  void load_data(std::string data);
 
  std::string name; // "Jon's Computer", "Lab 6E77-B Terminal Omega"
+ int mission_id; // Linked to a mission?
 
 private:
  int security; // Difficulty of simply logging in

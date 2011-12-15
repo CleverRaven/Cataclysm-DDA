@@ -20,6 +20,7 @@ enum items_location {
  mi_shoes, mi_pants, mi_shirts, mi_jackets, mi_winter, mi_bags, mi_allclothes,
  mi_novels, mi_manuals, mi_textbooks,
  mi_cop_weapons, mi_cop_evidence,
+ mi_hospital_lab, mi_hospital_samples, mi_surgery,
  mi_office, mi_vault,
  mi_pawn, mi_mil_surplus,
  mi_shelter,
@@ -42,6 +43,7 @@ enum items_location {
  mi_helicopter, mi_military, mi_science, mi_rare, mi_stash_food, mi_stash_ammo,
  mi_stash_wood, mi_stash_drugs, mi_drugdealer, mi_wreckage,
 // Shopkeeps &c
+ mi_npc_hacker,
  mi_trader_avoid,
  num_itloc
 };

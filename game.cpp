@@ -70,7 +70,7 @@ game::game()
  turnssincelastmon = 0; //Auto run mode init
  autorunmode = true;
 
- turn.season = SPRING;    // ... with winter conveniently a long ways off
+ turn.season = SUMMER;    // ... with winter conveniently a long ways off
 
  for (int i = 0; i < num_monsters; i++)	// Reset kill counts to 0
   kills[i] = 0;
@@ -508,8 +508,8 @@ void game::create_factions()
 void game::create_starting_npcs()
 {
  npc tmp;
- tmp.randomize(this);
  tmp.normalize(this);
+ tmp.randomize(this, (one_in(2) ? NC_DOCTOR : NC_NONE));
  tmp.spawn_at(&cur_om, levx, levy);
  tmp.posx = SEEX * int(MAPSIZE / 2) + SEEX;
  tmp.posy = SEEY * int(MAPSIZE / 2) + 6;
@@ -517,8 +517,11 @@ void game::create_starting_npcs()
  tmp.attitude = NPCATT_NULL;
  tmp.mission = NPC_MISSION_SHELTER;
  tmp.chatbin.first_topic = TALK_SHELTER;
+ tmp.chatbin.missions.push_back( reserve_mission(MISSION_GET_SOFTWARE, tmp.id));
+/*
  tmp.chatbin.missions.push_back( 
      reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp.id) );
+*/
 //    reserve_mission(MISSION_GET_ANTIBIOTICS, tmp.id) );
 
  active_npc.push_back(tmp);
@@ -906,12 +909,14 @@ void game::assign_mission(int id)
 {
  u.active_missions.push_back(id);
  u.active_mission = u.active_missions.size() - 1;
+ mission_start m_s;
+ mission *miss = find_mission(id);
+ (m_s.*miss->type->start)(this, miss);
 }
  
 int game::reserve_mission(mission_id type, int npc_id)
 {
- mission tmp = mission_types[type].create(this);
- tmp.npc_id = npc_id;
+ mission tmp = mission_types[type].create(this, npc_id);
  active_missions.push_back(tmp);
  return tmp.uid;
 }
@@ -938,6 +943,19 @@ int game::reserve_random_mission(mission_origin origin, point p, int npc_id)
  int index = valid[rng(0, valid.size() - 1)];
 
  return reserve_mission(mission_id(index), npc_id);
+}
+
+npc* game::find_npc(int id)
+{
+ for (int i = 0; i < active_npc.size(); i++) {
+  if (active_npc[i].id == id)
+   return &(active_npc[i]);
+ }
+ for (int i = 0; i < cur_om.npcs.size(); i++) {
+  if (cur_om.npcs[i].id == id)
+   return &(cur_om.npcs[i]);
+ }
+ return NULL;
 }
 
 mission* game::find_mission(int id)
@@ -981,6 +999,10 @@ bool game::mission_complete(int id, int npc_id)
     return false;
    return true;
 
+  case MGOAL_FIND_ANY_ITEM:
+   return (u.has_mission_item(miss->uid) &&
+           (miss->npc_id == -1 || miss->npc_id == npc_id));
+
   case MGOAL_FIND_MONSTER:
    if (miss->npc_id != -1 && miss->npc_id != npc_id)
     return false;
@@ -1021,7 +1043,10 @@ void game::wrap_up_mission(int id)
  switch (miss->type->goal) {
   case MGOAL_FIND_ITEM:
    u.use_amount(miss->type->item_id, 1);
-  break;
+   break;
+  case MGOAL_FIND_ANY_ITEM:
+   u.remove_mission_items(miss->uid);
+   break;
  }
  mission_end endfunc;
  (endfunc.*miss->type->end)(this, miss);
@@ -5495,7 +5520,7 @@ void game::update_map(int &x, int &y)
       z[i].posx > SEEX * (MAPSIZE + 1) || z[i].posy > SEEY * (MAPSIZE + 1)) {
 // Despawn; we're out of bounds
    if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
-    tinymap tmp;
+    map tmp;
     tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
     tmp.add_spawn(&(z[i]));
     tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);

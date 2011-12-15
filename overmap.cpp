@@ -426,8 +426,8 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
   }
  } else if (river_end.size() > 0) {
   if (river_start.size() != river_end.size())
-   debugmsg("river_start.size() = %d; river_end.size() = %d; not equal??",
-             river_start.size(),      river_end.size());
+   river_start.push_back( point(rng(OMAPX * .25, OMAPX * .75),
+                                rng(OMAPY * .25, OMAPY * .75)));
   for (int i = 0; i < river_start.size(); i++)
    place_river(river_start[i], river_end[i]);
  }
@@ -2029,10 +2029,23 @@ void overmap::place_specials()
   } while (valid.empty() && tries < 15); // Done looking for valid spot
 
   if (tries < 15) { // We found a valid spot!
-   int selection = rng(0, valid.size() - 1);
-   overmap_special special = overmap_specials[ valid[selection] ];
-   placed[ valid[selection] ]++;
-   place_special(special, p);
+// Place the MUST HAVE ones first, to try and guarantee that they appear
+   std::vector<omspec_id> must_place;
+   for (int i = 0; i < valid.size(); i++) {
+    if (placed[i] < overmap_specials[ valid[i] ].min_appearances)
+     must_place.push_back(valid[i]);
+   }
+   if (must_place.empty()) {
+    int selection = rng(0, valid.size() - 1);
+    overmap_special special = overmap_specials[ valid[selection] ];
+    placed[ valid[selection] ]++;
+    place_special(special, p);
+   } else {
+    int selection = rng(0, must_place.size() - 1);
+    overmap_special special = overmap_specials[ must_place[selection] ];
+    placed[ must_place[selection] ]++;
+    place_special(special, p);
+   }
   } // Done with <Found a valid spot>
 
  } // Done picking sectors...

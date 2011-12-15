@@ -112,6 +112,7 @@ class game
   int reserve_mission(mission_id type, int npc_id = -1);
   int reserve_random_mission(mission_origin origin, point p = point(-1, -1),
                              int npc_id = -1);
+  npc* find_npc(int id);
   mission* find_mission(int id); // Mission with UID=id; NULL if non-existant
   mission_type* find_mission_type(int id); // Same, but returns its type
   bool mission_complete(int id, int npc_id); // True if we made it

@@ -210,7 +210,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    for (int j = 0; j < SEEY * 2; j++)
     ter(i, j) = grass_or_dirt();
   }
-  place_items(mi_field, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 2, true, turn);
+  place_items(mi_field, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
   break;
 
  case ot_forest:
@@ -4174,6 +4174,403 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    line(this, t_wall_v, 0, 0, 0, SEEY * 2 - 1);
   break;
 
+ case ot_hospital_entrance:
+  square(this, t_pavement, 0, 0, SEEX * 2 - 1, 5);
+  square(this, t_floor, 0, 6, SEEX * 2 - 1, SEEY * 2 - 1);
+// Ambulance parking place
+  line(this, t_pavement_y,  5, 1, 22, 1);
+  line(this, t_pavement_y,  5, 2,  5, 5);
+  line(this, t_pavement_y, 22, 2, 22, 5);
+// Top wall
+  line(this, t_wall_h, 0, 6, 6, 6);
+  line(this, t_door_glass_c, 3, 6, 4, 6);
+  line(this, t_wall_glass_h, 7, 6, 19, 6);
+  line(this, t_wall_h, 20, 6, SEEX * 2 - 1, 6);
+// Left wall
+  line(this, t_wall_v, 0, 0, 0, SEEY * 2 - 1);
+  line(this, t_floor, 0, 11, 0, 12);
+// Waiting area
+  line(this, t_bench,  8, 7, 11,  7);
+  line(this, t_bench, 13, 7, 17,  7);
+  line(this, t_bench, 20, 7, 22,  7);
+  line(this, t_bench, 22, 8, 22, 10);
+  place_items(mi_magazines, 70, 8, 7, 22, 10, false, 0);
+// Reception and examination rooms
+  line(this, t_counter, 8, 13, 9, 13);
+  line(this, t_wall_h, 10, 13, SEEX * 2 - 1, 13);
+  line(this, t_door_c, 15, 13, 16, 13);
+  line(this, t_wall_h,  8, 17, 13, 17);
+  line(this, t_wall_h, 18, 17, 22, 17);
+  line(this, t_wall_h,  8, 20, 13, 20);
+  line(this, t_wall_h, 18, 20, 22, 20);
+  line(this, t_wall_v,  7, 13,  7, 22);
+  line(this, t_wall_v, 14, 15, 14, 20);
+  line(this, t_wall_v, 17, 14, 17, 22);
+  line(this, t_bed,  8, 19,  9, 19);
+  line(this, t_bed, 21, 19, 22, 19);
+  line(this, t_bed, 21, 22, 22, 22);
+  line(this, t_rack, 18, 14, 22, 14);
+  place_items(mi_harddrugs, 80, 18, 14, 22, 14, false, 0);
+  line(this, t_rack, 8, 21, 8, 22);
+  place_items(mi_softdrugs, 70, 8, 21, 8, 22, false, 0);
+  ter(14, rng(18, 19)) = t_door_c;
+  ter(17, rng(15, 16)) = t_door_locked; // Hard drugs room is locked
+  ter(17, rng(18, 19)) = t_door_c;
+  ter(17, rng(21, 22)) = t_door_c;
+// ER and bottom wall
+  line(this, t_wall_h, 0, 16, 6, 16);
+  line(this, t_door_c, 3, 16, 4, 16);
+  square(this, t_bed, 3, 19, 4, 20);
+  line(this, t_counter, 1, 22, 6, 22);
+  place_items(mi_surgery, 78, 1, 22, 6, 22, false, 0);
+  line(this, t_wall_h, 1, 23, 22, 23);
+  line(this, t_floor, 11, 23, 12, 23);
+// Right side wall (needed sometimes!)
+  line(this, t_wall_v, 23,  0, 23, 10);
+  line(this, t_wall_v, 23, 13, 23, 23);
+
+// Generate bodies / zombies
+  rn = rng(10, 15);
+  for (int i = 0; i < rn; i++) {
+   item body;
+   body.make_corpse(g->itypes[itm_corpse], g->mtypes[mon_null], g->turn);
+   int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
+   if (ter(zx, zy) == t_bed || one_in(3))
+    add_item(zx, zy, body);
+   else if (move_cost(zx, zy) > 0) {
+    mon_id zom = mon_zombie;
+    if (one_in(6))
+     zom = mon_zombie_spitter;
+    else if (!one_in(3))
+     zom = mon_boomer;
+    add_spawn(zom, 1, zx, zy);
+   }
+  }
+
+  if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
+   rotate(1);
+  if (t_south >= ot_road_null && t_south <= ot_bridge_ew)
+   rotate(2);
+  if (t_west >= ot_road_null && t_west <= ot_bridge_ew)
+   rotate(3);
+  break;
+
+ case ot_hospital:
+  square(this, t_floor, 0, 0, 23, 23);
+// We always have walls on the left and bottom
+  line(this, t_wall_v, 0,  0,  0, 22);
+  line(this, t_wall_h, 0, 23, 23, 23);
+// These walls contain doors if they lead to more hospital
+  if (t_west == ot_hospital_entrance || t_west == ot_hospital)
+   line(this, t_door_c, 0, 11, 0, 12);
+  if (t_south == ot_hospital_entrance || t_south == ot_hospital)
+   line(this, t_door_c, 11, 23, 12, 23);
+
+  if ((t_north == ot_hospital_entrance || t_north == ot_hospital) &&
+      (t_east  == ot_hospital_entrance || t_east  == ot_hospital) &&
+      (t_south == ot_hospital_entrance || t_south == ot_hospital) &&
+      (t_west  == ot_hospital_entrance || t_west  == ot_hospital)   ) {
+// We're in the center; center is always blood lab
+// Large lab
+   line(this, t_wall_h,  1,  2, 21,  2);
+   line(this, t_wall_h,  1, 10, 21, 10);
+   line(this, t_wall_v, 21,  3, 21,  9);
+   line(this, t_counter, 2,  3,  2,  9);
+   place_items(mi_hospital_lab, 70, 2, 3, 2, 9, false, 0);
+   square(this, t_counter,  5,  4,  6,  8);
+   place_items(mi_hospital_lab, 74, 5, 4, 6, 8, false, 0);
+   square(this, t_counter, 10,  4, 11,  8);
+   place_items(mi_hospital_lab, 74, 10, 4, 11, 8, false, 0);
+   square(this, t_counter, 15,  4, 16,  8);
+   place_items(mi_hospital_lab, 74, 15, 4, 16, 8, false, 0);
+   ter(rng(3, 18),  2) = t_door_c;
+   ter(rng(3, 18), 10) = t_door_c;
+   if (one_in(4)) // Door on the right side
+    ter(21, rng(4, 8)) = t_door_c;
+   else { // Counter on the right side
+    line(this, t_counter, 20, 3, 20, 9);
+    place_items(mi_hospital_lab, 70, 20, 3, 20, 9, false, 0);
+   }
+// Blood testing facility
+   line(this, t_wall_h,  1, 13, 10, 13);
+   line(this, t_wall_v, 10, 14, 10, 22);
+   rn = rng(1, 3);
+   if (rn == 1 || rn == 3)
+    ter(rng(3, 8), 13) = t_door_c;
+   if (rn == 2 || rn == 3)
+    ter(10, rng(15, 21)) = t_door_c;
+   line(this, t_counter, 2, 14,  2, 22);
+   place_items(mi_hospital_lab, 60, 2, 14, 2, 22, false, 0);
+   square(this, t_counter, 4, 17, 6, 19);
+   ter(4, 18) = t_centrifuge;
+   line(this, t_floor, 5, 18, 6, rng(17, 19)); // Clear path to console
+   tmpcomp = add_computer(5, 18, "Centrifuge", 0);
+   tmpcomp->add_option("Analyze blood", COMPACT_BLOOD_ANAL, 4);
+   tmpcomp->add_failure(COMPFAIL_DESTROY_BLOOD);
+// Sample storage
+   line(this, t_wall_h, 13, 13, 23, 13);
+   line(this, t_wall_v, 13, 14, 13, 23);
+   rn = rng(1, 3);
+   if (rn == 1 || rn == 3)
+    ter(rng(14, 22), 13) = t_door_c;
+   if (rn == 2 || rn == 3)
+    ter(13, rng(14, 21)) = t_door_c;
+   square(this, t_rack, 16, 16, 21, 17);
+   place_items(mi_hospital_samples, 68, 16, 16, 21, 17, false, 0);
+   square(this, t_rack, 16, 19, 21, 20);
+   place_items(mi_hospital_samples, 68, 16, 19, 21, 20, false, 0);
+   line(this, t_rack, 14, 22, 23, 22);
+   place_items(mi_hospital_samples, 62, 14, 22, 23, 22, false, 0);
+
+  } else { // We're NOT in the center; a random hospital type!
+
+   switch (rng(1, 4)) { // What type?
+   case 1: // Dorms
+// Upper left rooms
+    line(this, t_wall_h, 1, 5, 9, 5);
+    for (int i = 1; i <= 7; i += 3) {
+     line(this, t_bed, i, 1, i, 2);
+     line(this, t_wall_v, i + 2, 0, i + 2, 4);
+     ter(rng(i, i + 1), 5) = t_door_c;
+    }
+// Upper right rooms
+    line(this, t_wall_h, 14, 5, 23, 5);
+    line(this, t_wall_v, 14, 0, 14, 4);
+    line(this, t_bed, 15, 1, 15, 2);
+    ter(rng(15, 16), 5) = t_door_c;
+    line(this, t_wall_v, 17, 0, 17, 4);
+    line(this, t_bed, 18, 1, 18, 2);
+    ter(rng(18, 19), 5) = t_door_c;
+    line(this, t_wall_v, 20, 0, 20, 4);
+    line(this, t_bed, 21, 1, 21, 2);
+    ter(rng(21, 22), 5) = t_door_c;
+// Waiting area
+    for (int i = 1; i <= 9; i += 4)
+     line(this, t_bench, i, 7, i, 10);
+    line(this, t_table, 3, 8, 3, 9);
+    place_items(mi_magazines, 50, 3, 8, 3, 9, false, 0);
+    line(this, t_table, 7, 8, 7, 9);
+    place_items(mi_magazines, 50, 7, 8, 7, 9, false, 0);
+// Middle right rooms
+    line(this, t_wall_v, 14, 7, 14, 10);
+    line(this, t_wall_h, 15, 7, 23, 7);
+    line(this, t_wall_h, 15, 10, 23, 10);
+    line(this, t_wall_v, 19, 8, 19, 9);
+    line(this, t_bed, 18, 8, 18, 9);
+    line(this, t_bed, 20, 8, 20, 9);
+    if (one_in(3)) { // Doors to north
+     ter(rng(15, 16), 7) = t_door_c;
+     ter(rng(21, 22), 7) = t_door_c;
+    } else { // Doors to south
+     ter(rng(15, 16), 10) = t_door_c;
+     ter(rng(21, 22), 10) = t_door_c;
+    }
+    line(this, t_wall_v, 14, 13, 14, 16);
+    line(this, t_wall_h, 15, 13, 23, 13);
+    line(this, t_wall_h, 15, 16, 23, 16);
+    line(this, t_wall_v, 19, 14, 19, 15);
+    line(this, t_bed, 18, 14, 18, 15);
+    line(this, t_bed, 20, 14, 20, 15);
+    if (one_in(3)) { // Doors to south
+     ter(rng(15, 16), 16) = t_door_c;
+     ter(rng(21, 22), 16) = t_door_c;
+    } else { // Doors to north
+     ter(rng(15, 16), 13) = t_door_c;
+     ter(rng(21, 22), 13) = t_door_c;
+    }
+// Lower left rooms
+    line(this, t_wall_v, 5, 13, 5, 22);
+    line(this, t_wall_h, 1, 13, 4, 13);
+    line(this, t_bed, 1, 14, 1, 15);
+    line(this, t_wall_h, 1, 17, 4, 17);
+    line(this, t_bed, 1, 18, 1, 19);
+    line(this, t_wall_h, 1, 20, 4, 20);
+    line(this, t_bed, 1, 21, 1, 22);
+    ter(5, rng(14, 16)) = t_door_c;
+    ter(5, rng(18, 19)) = t_door_c;
+    ter(5, rng(21, 22)) = t_door_c;
+    line(this, t_wall_h, 7, 13, 10, 13);
+    line(this, t_wall_v, 7, 14, 7, 22);
+    line(this, t_wall_v, 10, 14, 10, 22);
+    line(this, t_wall_h, 8, 18, 9, 18);
+    line(this, t_bed, 8, 17, 9, 17);
+    line(this, t_bed, 8, 22, 9, 22);
+    if (one_in(3)) { // Doors to west
+     ter(7, rng(14, 16)) = t_door_c;
+     ter(7, rng(19, 21)) = t_door_c;
+    } else { // Doors to east
+     ter(10, rng(14, 16)) = t_door_c;
+     ter(10, rng(19, 21)) = t_door_c;
+    }
+// Lower-right rooms
+    line(this, t_wall_h, 14, 18, 23, 18);
+    for (int i = 14; i <= 20; i += 3) {
+     line(this, t_wall_v, i, 19, i, 22);
+     line(this, t_bed, i + 1, 21, i + 1, 22);
+     ter(rng(i + 1, i + 2), 18) = t_door_c;
+    }
+    break;
+
+   case 2: // Offices and cafeteria
+// Offices to north
+    line(this, t_wall_v, 10, 0, 10, 8);
+    line(this, t_wall_v, 13, 0, 13, 8);
+    line(this, t_wall_h,  1, 5,  9, 5);
+    line(this, t_wall_h, 14, 5, 23, 5);
+    line(this, t_wall_h,  1, 9, 23, 9);
+    line(this, t_door_c, 11, 9, 12, 9);
+    line(this, t_table,  3, 3,  7, 3);
+    line(this, t_table, 16, 3, 20, 3);
+    line(this, t_table,  3, 8,  7, 8);
+    line(this, t_table, 16, 8, 20, 8);
+    ter(10, rng(2, 3)) = t_door_c;
+    ter(13, rng(2, 3)) = t_door_c;
+    ter(10, rng(6, 7)) = t_door_c;
+    ter(13, rng(6, 7)) = t_door_c;
+    place_items(mi_office, 70,  1, 1,  9, 3, false, 0);
+    place_items(mi_office, 70, 14, 1, 22, 3, false, 0);
+    place_items(mi_office, 70,  1, 5,  9, 8, false, 0);
+    place_items(mi_office, 70, 14, 5, 22, 8, false, 0);
+// Cafeteria to south
+    line(this, t_wall_h,  1, 14,  8, 14);
+    line(this, t_wall_h, 15, 14, 23, 14);
+    for (int i = 16; i <= 19; i += 3) {
+     for (int j = 17; j <= 20; j += 3) {
+      square(this, t_table, i, j, i + 1, j + 1);
+      place_items(mi_snacks,  60, i, j, i + 1, j + 1, false, 0);
+      place_items(mi_produce, 65, i, j, i + 1, j + 1, false, 0);
+     }
+    }
+    for (int i = 3; i <= 6; i += 3) {
+     for (int j = 17; j <= 20; j += 3) {
+      square(this, t_table, i, j, i + 1, j + 1);
+      place_items(mi_snacks,  60, i, j, i + 1, j + 1, false, 0);
+      place_items(mi_produce, 65, i, j, i + 1, j + 1, false, 0);
+     }
+    }
+    break;
+
+   case 3: // Operating rooms
+// First, walls and doors; divide it into four big operating rooms
+    line(this, t_wall_v, 10,  0, 10,  9);
+    line(this, t_door_c, 10,  4, 10,  5);
+    line(this, t_wall_v, 13,  0, 13,  9);
+    line(this, t_door_c, 13,  4, 13,  5);
+    line(this, t_wall_v, 10, 14, 10, 22);
+    line(this, t_door_c, 10, 18, 10, 19);
+    line(this, t_wall_v, 13, 14, 13, 22);
+    line(this, t_door_c, 13, 18, 13, 19);
+// Horizontal walls/doors
+    line(this, t_wall_h,  1, 10, 10, 10);
+    line(this, t_door_c,  5, 10,  6, 10);
+    line(this, t_wall_h, 13, 10, 23, 10);
+    line(this, t_door_c, 18, 10, 19, 10);
+    line(this, t_wall_h,  1, 13, 10, 13);
+    line(this, t_door_c,  5, 13,  6, 13);
+    line(this, t_wall_h, 13, 13, 23, 13);
+    line(this, t_door_c, 18, 13, 19, 13);
+// Next, the contents of each operating room
+    line(this, t_counter, 1, 0, 1, 9);
+    place_items(mi_surgery, 70, 1, 1, 1, 9, false, 0);
+    square(this, t_bed, 5, 4, 6, 5);
+
+    line(this, t_counter, 1, 14, 1, 22);
+    place_items(mi_surgery, 70, 1, 14, 1, 22, false, 0);
+    square(this, t_bed, 5, 18, 6, 19);
+
+    line(this, t_counter, 14, 6, 14, 9);
+    place_items(mi_surgery, 60, 14, 6, 14, 9, false, 0);
+    line(this, t_counter, 15, 9, 17, 9);
+    place_items(mi_surgery, 60, 15, 9, 17, 9, false, 0);
+    square(this, t_bed, 18, 4, 19, 5);
+
+    line(this, t_counter, 14, 14, 14, 17);
+    place_items(mi_surgery, 60, 14, 14, 14, 17, false, 0);
+    line(this, t_counter, 15, 14, 17, 14);
+    place_items(mi_surgery, 60, 15, 14, 17, 14, false, 0);
+    square(this, t_bed, 18, 18, 19, 19);
+
+    break;
+
+   case 4: // Storage
+// Soft drug storage
+    line(this, t_wall_h, 3,  2, 12,  2);
+    line(this, t_wall_h, 3, 10, 12, 10);
+    line(this, t_wall_v, 3,  3,  3,  9);
+    ter(3, 6) = t_door_c;
+    line(this, t_rack,   4,  3, 11,  3);
+    place_items(mi_softdrugs, 90, 4, 3, 11, 3, false, 0);
+    line(this, t_rack,   4,  9, 11,  9);
+    place_items(mi_softdrugs, 90, 4, 9, 11, 9, false, 0);
+    line(this, t_rack, 6, 5, 10, 5);
+    place_items(mi_softdrugs, 80, 6, 5, 10, 5, false, 0);
+    line(this, t_rack, 6, 7, 10, 7);
+    place_items(mi_softdrugs, 80, 6, 7, 10, 7, false, 0);
+// Hard drug storage
+    line(this, t_wall_v, 13, 0, 13, 19);
+    ter(13, 6) = t_door_locked;
+    line(this, t_rack, 14, 0, 14, 4);
+    place_items(mi_harddrugs, 78, 14, 1, 14, 4, false, 0);
+    line(this, t_rack, 17, 0, 17, 7);
+    place_items(mi_harddrugs, 85, 17, 0, 17, 7, false, 0);
+    line(this, t_rack, 20, 0, 20, 7);
+    place_items(mi_harddrugs, 85, 20, 0, 20, 7, false, 0);
+    line(this, t_wall_h, 20, 10, 23, 10);
+    line(this, t_rack, 16, 10, 19, 10);
+    place_items(mi_harddrugs, 78, 16, 10, 19, 10, false, 0);
+    line(this, t_rack, 16, 12, 19, 12);
+    place_items(mi_harddrugs, 78, 16, 12, 19, 12, false, 0);
+    line(this, t_wall_h, 14, 14, 19, 14);
+    ter(rng(14, 15), 14) = t_door_locked;
+    ter(rng(16, 18), 14) = t_bars;
+    line(this, t_wall_v, 20, 11, 20, 19);
+    line(this, t_wall_h, 13, 20, 20, 20);
+    line(this, t_door_c, 16, 20, 17, 20);
+// Laundry room
+    line(this, t_wall_h, 1, 13, 10, 13);
+    ter(rng(3, 8), 13) = t_door_c;
+    line(this, t_wall_v, 10, 14, 10, 22);
+    ter(10, rng(16, 20)) = t_door_c;
+    line(this, t_counter, 1, 14, 1, 22);
+    place_items(mi_allclothes, 70, 1, 14, 1, 22, false, 0);
+    for (int j = 15; j <= 21; j += 3) {
+     line(this, t_rack, 4, j, 7, j);
+     if (one_in(2))
+      place_items(mi_cleaning, 92, 4, j, 7, j, false, 0);
+     else if (one_in(5))
+      place_items(mi_cannedfood, 75, 4, j, 7, j, false, 0);
+     else
+      place_items(mi_allclothes, 50, 4, j, 7, j, false, 0);
+    }
+    break;
+   }
+    
+
+// We have walls to the north and east if they're not hospitals
+   if (t_east != ot_hospital_entrance && t_east != ot_hospital)
+    line(this, t_wall_v, 23, 0, 23, 23);
+   if (t_north != ot_hospital_entrance && t_north != ot_hospital)
+    line(this, t_wall_h, 0, 0, 23, 0);
+  }
+// Generate bodies / zombies
+  rn = rng(15, 20);
+  for (int i = 0; i < rn; i++) {
+   item body;
+   body.make_corpse(g->itypes[itm_corpse], g->mtypes[mon_null], g->turn);
+   int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
+   if (ter(zx, zy) == t_bed || one_in(3))
+    add_item(zx, zy, body);
+   else if (move_cost(zx, zy) > 0) {
+    mon_id zom = mon_zombie;
+    if (one_in(6))
+     zom = mon_zombie_spitter;
+    else if (!one_in(3))
+     zom = mon_boomer;
+    add_spawn(zom, 1, zx, zy);
+   }
+  }
+  break;
+
  case ot_spider_pit_under:
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -5379,13 +5776,13 @@ void map::add_spawn(monster *mon)
  } else {
   spawnx = mon->posx;
   spawny = mon->posy;
+  while (spawnx < 0)
+   spawnx += SEEX;
+  while (spawny < 0)
+   spawny += SEEY;
+  spawnx %= SEEX;
+  spawny %= SEEY;
  }
- while (spawnx < 0)
-  spawnx += SEEX;
- while (spawny < 0)
-  spawny += SEEY;
- spawnx %= SEEX;
- spawny %= SEEY;
  add_spawn(mon_id(mon->type->id), 1, spawnx, spawny, (mon->friendly < 0),
            mon->faction_id, mon->mission_id, spawnname);
 }
@@ -5393,7 +5790,7 @@ void map::add_spawn(monster *mon)
 computer* map::add_computer(int x, int y, std::string name, int security)
 {
  ter(x, y) = t_console; // TODO: Turn this off?
- int nonant = int(x / SEEX) + int(y / SEEY) * MAPSIZE;
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
  computer tmp(name, security);
  grid[nonant].comp = tmp;
  return &(grid[nonant].comp);
@@ -5468,8 +5865,8 @@ void map::rotate(int turns)
     for (int j = 0; j < grid[gridfrom].spawns.size(); j++) {
      spawn_point tmp = grid[gridfrom].spawns[j];
      int tmpy = tmp.posy;
-     tmp.posy = tmp.posx;
-     tmp.posx = SEEY - 1 - tmpy;
+     tmp.posy = SEEY - 1 - tmp.posy;
+     tmp.posx = SEEX - 1 - tmp.posx;
      sprot[gridto].push_back(tmp);
     }
    }
@@ -5499,8 +5896,8 @@ void map::rotate(int turns)
     for (int j = 0; j < grid[gridfrom].spawns.size(); j++) {
      spawn_point tmp = grid[gridfrom].spawns[j];
      int tmpy = tmp.posy;
-     tmp.posy = tmp.posx;
-     tmp.posx = SEEY - 1 - tmpy;
+     tmp.posy = SEEX - 1 - tmp.posx;
+     tmp.posx = tmpy;
      sprot[gridto].push_back(tmp);
     }
    }

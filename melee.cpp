@@ -633,8 +633,8 @@ int player::dodge()
    ret = 0;
  }
  can_dodge = false;
- if (ret > int(dex_cur / 4) + sklevel[sk_dodge] * 3)
-  ret = int(dex_cur / 4) + sklevel[sk_dodge] * 3;
+ if (ret > int(dex_cur / 2) + sklevel[sk_dodge] * 2)
+  ret = int(dex_cur / 2) + sklevel[sk_dodge] * 2;
  return ret;
 }
 

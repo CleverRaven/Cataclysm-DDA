@@ -62,6 +62,7 @@ enum npc_mission {
 enum npc_class {
  NC_NONE,
  NC_SHOPKEEP,	// Found in towns.  Stays in his shop mostly.
+ NC_HACKER,	// Weak in combat but has hacking skills and equipment
  NC_DOCTOR,	// Found in towns, or roaming.  Stays in the clinic.
  NC_TRADER,	// Roaming trader, journeying between towns.
  NC_NINJA,	// Specializes in unarmed combat, carries few items
@@ -371,6 +372,7 @@ public:
 
  int id;	// A unique ID number, assigned by the game class
  npc_attitude attitude;	// What we want to do to the player
+ npc_class myclass; // What's our archetype?
  int wandx, wandy, wandf;	// Location of heard sound, etc.
 
 // Location:

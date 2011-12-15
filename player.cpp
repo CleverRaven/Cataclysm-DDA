@@ -115,13 +115,6 @@ void player::normalize(game *g)
 {
  ret_null = item(g->itypes[0], 0);
  weapon   = item(g->itypes[0], 0);
-// Nice to start out less than naked.
-/*
- worn.push_back(item(g->itypes[itm_jeans],    0, 'a'));
- worn.push_back(item(g->itypes[itm_tshirt],   0, 'b'));
- worn.push_back(item(g->itypes[itm_sneakers], 0, 'c'));
- worn.push_back(item(g->itypes[itm_holster],  0, 'd'));
-*/
  for (int i = 0; i < num_hp_parts; i++) {
   hp_max[i] = 60 + str_max * 3;
   if (has_trait(PF_TOUGH))
@@ -3046,6 +3039,49 @@ item player::remove_weapon()
  return tmp;
 }
 
+void player::remove_mission_items(int mission_id)
+{
+ if (mission_id == -1)
+  return;
+ if (weapon.mission_id == mission_id)
+  remove_weapon();
+ else {
+  for (int i = 0; i < weapon.contents.size(); i++) {
+   if (weapon.contents[i].mission_id == mission_id)
+    remove_weapon();
+  }
+ }
+ for (int i = 0; i < inv.size(); i++) {
+  for (int j = 0; j < inv.stack_at(i).size(); j++) {
+   if (inv.stack_at(i)[j].mission_id == mission_id) {
+    if (inv.stack_at(i).size() == 1) {
+     inv.remove_item(i, j);
+     i--;
+     j = 0;
+    } else {
+     inv.remove_item(i, j);
+     j--;
+    }
+   } else {
+    bool rem = false;
+    for (int k = 0; !rem && k < inv.stack_at(i)[j].contents.size(); k++) {
+     if (inv.stack_at(i)[j].contents[k].mission_id == mission_id) {
+      if (inv.stack_at(i).size() == 1) {
+       inv.remove_item(i, j);
+       i--;
+       j = 0;
+      } else {
+       inv.remove_item(i, j);
+       j--;
+      }
+      rem = true;
+     }
+    }
+   }
+  }
+ }
+}
+
 item player::i_rem(char let)
 {
  item tmp;
@@ -3227,6 +3263,29 @@ int player::butcher_factor()
  return lowest_factor;
 }
 
+int player::pick_usb()
+{
+ std::vector<int> drives;
+ for (int i = 0; i < inv.size(); i++) {
+  if (inv[i].type->id == itm_usb_drive) {
+   if (inv[i].contents.empty())
+    return i; // No need to pick, use an empty one by default!
+   drives.push_back(i);
+  }
+ }
+
+ if (drives.empty())
+  return -1; // None available!
+
+ std::vector<std::string> selections;
+ for (int i = 0; i < drives.size() && i < 9; i++)
+  selections.push_back( inv[drives[i]].tname() );
+
+ int select = menu_vec("Choose drive:", selections);
+
+ return drives[ select - 1 ];
+}
+
 bool player::is_wearing(itype_id it)
 {
  for (int i = 0; i < worn.size(); i++) {
@@ -3354,6 +3413,29 @@ bool player::has_item(item *it)
    return true;
  }
  return inv.has_item(it);
+}
+
+bool player::has_mission_item(int mission_id)
+{
+ if (mission_id == -1)
+  return false;
+ if (weapon.mission_id == mission_id)
+  return true;
+ for (int i = 0; i < weapon.contents.size(); i++) {
+  if (weapon.contents[i].mission_id == mission_id)
+   return true;
+ }
+ for (int i = 0; i < inv.size(); i++) {
+  for (int j = 0; j < inv.stack_at(i).size(); j++) {
+   if (inv.stack_at(i)[j].mission_id == mission_id)
+    return true;
+   for (int k = 0; k < inv.stack_at(i)[j].contents.size(); k++) {
+    if (inv.stack_at(i)[j].contents[k].mission_id == mission_id)
+     return true;
+   }
+  }
+ }
+ return false;
 }
 
 int player::lookup_item(char let)
@@ -4188,7 +4270,12 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
        rng(0, tmp->dmg_resist * 2) < dam && !one_in(dam))
     worn[i].damage++;
    if (worn[i].damage >= 5) {
-    g->add_msg("Your %s is completely destroyed!", worn[i].tname(g).c_str());
+    int linet;
+    if (!is_npc())
+     g->add_msg("Your %s is completely destroyed!", worn[i].tname(g).c_str());
+    else if (g->u_see(posx, posy, linet))
+     g->add_msg("%s's %s is destroyed!", name.c_str(),
+                worn[i].tname(g).c_str());
     worn.erase(worn.begin() + i);
    }
   }

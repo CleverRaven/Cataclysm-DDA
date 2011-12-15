@@ -1,8 +1,7 @@
-#if (defined _WIN32 || defined WINDOWS)  // This is a Windows-only file!
-
+#if (defined _WIN32 || defined WINDOWS)
 #include "catacurse.h"
 #include <cstdlib>
-
+#include <fstream>
 //***********************************
 //Globals                           *
 //***********************************
@@ -175,13 +174,13 @@ void DrawWindow(WINDOW *win)
                 FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
 
                 if ( tmp > 0){
-                if (tmp==95){
-                        HorzLineDIB(drawx,drawy+fontheight-2,drawx+fontwidth,1,FG);
-                    } else {
+                //if (tmp==95){//If your font doesnt draw underscores..uncomment
+                //        HorzLineDIB(drawx,drawy+fontheight-2,drawx+fontwidth,1,FG);
+                //    } else { // all the wa to here
                     int color = RGB(windowsPalette[FG].rgbRed,windowsPalette[FG].rgbGreen,windowsPalette[FG].rgbBlue);
                     SetTextColor(backbuffer,color);
                     ExtTextOut(backbuffer,drawx,drawy,0,NULL,&tmp,1,NULL);
-                    }
+                //    }     //and this line too.
                 } else if (  tmp < 0 ) {
                     switch (tmp) {
                     case -60://box bottom/top side (horizontal line)
@@ -255,14 +254,32 @@ void CheckMessages()
 //Basic Init, create the font, backbuffer, etc
 WINDOW *initscr(void)
 {
-
-    GetCurrentDirectory(sizeof(szDirectory) - 1, szDirectory);
     _windows = new WINDOW[20];         //initialize all of our variables
     BITMAPINFO bmi;
     lastchar=-1;
     inputdelay=-1;
-    fontheight=16;
-    fontwidth=8;
+    std::string typeface;
+char * typeface_c;
+std::ifstream fin;
+fin.open("data\\FONTDATA");
+ if (!fin.is_open()){
+     MessageBox(WindowHandle, "Failed to open FONTDATA, loading defaults.",
+                NULL, NULL);
+     fontheight=16;
+     fontwidth=8;
+ } else {
+     getline(fin, typeface);
+     typeface_c= new char [typeface.size()+1];
+     strcpy (typeface_c, typeface.c_str());
+     fin >> fontwidth;
+     fin >> fontheight;
+     if ((fontwidth <= 4) || (fontheight <=4)){
+         MessageBox(WindowHandle, "Invalid font size specified!",
+                    NULL, NULL);
+        fontheight=16;
+        fontwidth=8;
+     }
+ }
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
     WindowWidth=80*fontwidth;
@@ -286,28 +303,25 @@ WINDOW *initscr(void)
     backbit = CreateDIBSection(0, &bmi, DIB_RGB_COLORS, (void**)&dcbits, NULL, 0);
     DeleteObject(SelectObject(backbuffer, backbit));//load the buffer into DC
 
-   // char *filedir;
-    //filedir = new char[strlen(szDirectory)+strlen("\\data\\termfont.ttf")];
-    //sprintf(filedir,"%s%s",szDirectory,"\data\\termfont.ttf");
-    int nResults = AddFontResourceExA("data\\termfont.fon",FR_PRIVATE,NULL);
-    //if (nResults==0)    //Try to load a .ttf instead!
-    //    int nResults = AddFontResourceExA("data\\termfont.ttf",FR_PRIVATE,NULL);
-
-   // delete filedir;
+ int nResults = AddFontResourceExA("data\\termfont",FR_PRIVATE,NULL);
    if (nResults>0){
-    font = CreateFont(fontheight, fontwidth, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
+    font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
                       ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
-                      PROOF_QUALITY, FF_MODERN, "Terminus");   //Create our font
-   } else{
+                      PROOF_QUALITY, FF_MODERN, typeface_c);   //Create our font
+
+  } else {
+      MessageBox(WindowHandle, "Failed to load default font, using FixedSys.",
+                NULL, NULL);
        font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
                       ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
                       PROOF_QUALITY, FF_MODERN, "FixedSys");   //Create our font
    }
-                     // PROOF_QUALITY, FF_MODERN, "FixedSys");   //Create our font
     //FixedSys will be user-changable at some point in time??
     SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
     SelectObject(backbuffer, font);//Load our font into the DC
     WindowCount=0;
+
+    delete typeface_c;
     return newwin(25,80,0,0);   //create the 'stdscr' window and return its ref
 };
 
@@ -326,7 +340,7 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
     _windows[WindowCount].FG=8;
     _windows[WindowCount].cursorx=0;
     _windows[WindowCount].cursory=0;
-     _windows[WindowCount].line = new curseline[nlines];
+    _windows[WindowCount].line = new curseline[nlines];
 
     for (j=0; j<nlines; j++)
     {
@@ -382,7 +396,6 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
 {
 
     int i, j;
-//    int w=FindWin(win);
     int oldx=win->cursorx;//methods below move the cursor, save the value!
     int oldy=win->cursory;//methods below move the cursor, save the value!
     if (ls>0)
@@ -601,11 +614,7 @@ int endwin(void)
     DeleteObject(font);
     WinDestroy();
     delete _windows;
-    BOOL b = RemoveFontResourceExA(
-    "\\data\\termfont.fon", // name of font file
-    FR_PRIVATE,   		// font characteristics
-    NULL         		// Reserved.
-    );
+    BOOL b = RemoveFontResourceExA("data\\termfont",FR_PRIVATE,NULL);//Unload it
     return 1;
 };
 

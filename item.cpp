@@ -144,6 +144,12 @@ bool item::is_null()
 
 item item::in_its_container(std::vector<itype*> *itypes)
 {
+ if (is_software()) {
+  item ret( (*itypes)[itm_usb_drive], 0);
+  ret.contents.push_back(*this);
+  ret.invlet = invlet;
+  return ret;
+ }
  if (!is_food() || (dynamic_cast<it_comest*>(type))->container == itm_null)
   return *this;
  it_comest *food = dynamic_cast<it_comest*>(type);
@@ -165,6 +171,14 @@ bool item::stacks_with(item rhs)
                 contents.size() == rhs.contents.size() &&
                 (!goes_bad() || bday == rhs.bday));
 
+ if ((corpse == NULL && rhs.corpse != NULL) ||
+     (corpse != NULL && rhs.corpse == NULL)   )
+  return false;
+
+ if (corpse != NULL && rhs.corpse != NULL &&
+     corpse->id != rhs.corpse->id)
+  return false;
+  
  if (contents.size() != rhs.contents.size())
   return false;
 
@@ -864,6 +878,11 @@ bool item::is_container()
 bool item::is_tool()
 {
  return type->is_tool();
+}
+
+bool item::is_software()
+{
+ return type->is_software();
 }
 
 bool item::is_macguffin()

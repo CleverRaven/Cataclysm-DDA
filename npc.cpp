@@ -44,6 +44,7 @@ npc::npc()
  marked_for_death = false;
  moves = 100;
  mission = NPC_MISSION_NULL;
+ myclass = NC_NONE;
 }
 
 npc::npc(const npc &rhs)
@@ -87,6 +88,7 @@ npc& npc::operator= (npc &rhs)
  posx = rhs.posx;
  posy = rhs.posy;
  chatbin = rhs.chatbin;
+ myclass = rhs.myclass;
 
  weapon = rhs.weapon;
  inv = rhs.inv;
@@ -143,6 +145,7 @@ npc& npc::operator= (const npc &rhs)
  posx = rhs.posx;
  posy = rhs.posy;
  chatbin = rhs.chatbin;
+ myclass = rhs.myclass;
 
  weapon = rhs.weapon;
  inv = rhs.inv;
@@ -177,7 +180,7 @@ std::string npc::save_info()
          " " << fatigue << " " << stim << " " << pain << " " << pkill << " " <<
          radiation << " " << cash << " " << recoil << " " << scent << " " <<
          moves << " " << underwater << " " << can_dodge << " " << oxygen <<
-         " " << (marked_for_death ? "1" : "0") << " ";
+         " " << (marked_for_death ? "1" : "0") << " " << myclass << " ";
 
  for (int i = 0; i < PF_MAX2; i++)
   dump << my_traits[i] << " ";
@@ -207,7 +210,8 @@ std::string npc::save_info()
          wandf << " " << omx << " " << omy << " " << omz << " " << mapx <<
          " " << mapy << " " << plx << " " << ply << " " <<  goalx << " " <<
          goaly << " " << int(mission) << " " << int(op_of_u.trust) << " " <<
-         int(op_of_u.value) << " " << int(op_of_u.fear) << " " << int(flags) <<
+         int(op_of_u.value) << " " << int(op_of_u.fear) << " " <<
+         int(op_of_u.anger) << " " << int(op_of_u.owed) << " " << int(flags) <<
          " ";
  if (my_fac == NULL)
   dump << -1;
@@ -231,18 +235,21 @@ std::string npc::save_info()
 void npc::load_info(std::string data)
 {
  std::stringstream dump;
- int deathtmp;
+ int deathtmp, classtmp;
  dump << data;
 // Standard player stuff
  dump >> id >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
          int_cur >> int_max >> per_cur >> per_max >> hunger >> thirst >>
          fatigue >> stim >> pain >> pkill >> radiation >> cash >> recoil >>
-         scent >> moves >> underwater >> can_dodge >> oxygen >> deathtmp;
+         scent >> moves >> underwater >> can_dodge >> oxygen >> deathtmp >>
+         classtmp;
 
  if (deathtmp == 1)
   marked_for_death = true;
  else
   marked_for_death = false;
+
+ myclass = npc_class(classtmp);
 
  for (int i = 0; i < PF_MAX2; i++)
   dump >> my_traits[i];
@@ -278,10 +285,10 @@ void npc::load_info(std::string data)
   my_bionics.push_back(biotmp);
  }
 // Special NPC stuff
- int misstmp, flagstmp, agg, bra, col, alt, tru, val, fea;
+ int misstmp, flagstmp, agg, bra, col, alt, tru, val, fea, ang, owe;
  dump >> agg >> bra >> col >> alt >> wandx >> wandy >> wandf >> omx >> omy >>
          omz >> mapx >> mapy >> plx >> ply >> goalx >> goaly >> misstmp >>
-         tru >> val >> fea >> flagstmp >> fac_id;
+         tru >> val >> fea >> ang >> owe >> flagstmp >> fac_id;
  personality.aggression = agg;
  personality.bravery = bra;
  personality.collector = col;
@@ -289,6 +296,8 @@ void npc::load_info(std::string data)
  op_of_u.trust = tru;
  op_of_u.value = val;
  op_of_u.fear = fea;
+ op_of_u.anger = ang;
+ op_of_u.owed = owe;
  mission = npc_mission(misstmp);
  flags = flagstmp;
 }
@@ -321,11 +330,27 @@ void npc::randomize(game *g, npc_class type)
   type = npc_class(rng(0, NC_MAX - 1));
  if (one_in(5))
   type = NC_NONE;
+
+ myclass = type;
  switch (type) {	// Type of character
  case NC_NONE:	// Untyped; no particular specialization
   for (int i = 1; i < num_skill_types; i++)
    sklevel[i] = dice(4, 2) - 4;
   break;
+
+ case NC_HACKER:
+  for (int i = 1; i < num_skill_types; i++)
+   sklevel[i] = dice(2, 2) - 2;
+  sklevel[sk_electronics] += rng(1, 4);
+  sklevel[sk_computer] += rng(3, 6);
+  str_max -= rng(0, 4);
+  dex_max -= rng(0, 2);
+  int_max += rng(1, 5);
+  per_max -= rng(0, 2);
+  personality.bravery -= rng(1, 3);
+  personality.aggression -= rng(0, 2);
+  break;
+
  case NC_DOCTOR:
   for (int i = 1; i < num_skill_types; i++)
    sklevel[i] = dice(3, 2) - 3;
@@ -338,6 +363,7 @@ void npc::randomize(game *g, npc_class type)
    flags |= mfb(NF_DRUGGIE);
   cash += 100 * rng(0, 3) * rng(0, 3);
   break;
+
  case NC_TRADER:
   for (int i = 1; i < num_skill_types; i++)
    sklevel[i] = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
@@ -350,6 +376,7 @@ void npc::randomize(game *g, npc_class type)
   personality.collector += rng(1, 5);
   cash += 250 * rng(1, 10);
   break;
+
  case NC_NINJA:
   for (int i = 1; i < num_skill_types; i++)
    sklevel[i] = dice(2, 2) - 2;
@@ -363,6 +390,7 @@ void npc::randomize(game *g, npc_class type)
   personality.bravery += rng(0, 3);
   personality.collector -= rng(1, 6);
   break;
+
  case NC_COWBOY:
   for (int i = 1; i < num_skill_types; i++) {
    sklevel[i] = dice(3, 2) - 4;
@@ -377,14 +405,15 @@ void npc::randomize(game *g, npc_class type)
   personality.aggression += rng(0, 2);
   personality.bravery += rng(1,5);
   break;
+
  case NC_SCIENTIST:
   for (int i = 1; i < num_skill_types; i++) {
    sklevel[i] = dice(3, 2) - 4;
    if (sklevel[i] < 0)
     sklevel[i] = 0;
   }
-  sklevel[sk_computer] += rng(1, 4);
-  sklevel[sk_electronics] += rng(1, 3);
+  sklevel[sk_computer] += rng(0, 3);
+  sklevel[sk_electronics] += rng(0, 3);
   sklevel[sk_firstaid] += rng(0, 1);
   if (one_in(4))
    flags |= mfb(NF_TECHNOPHILE);
@@ -397,6 +426,7 @@ void npc::randomize(game *g, npc_class type)
   personality.bravery -= rng(2, 8);
   personality.collector += rng (0, 2);
   break;
+
  case NC_BOUNTY_HUNTER:
   for (int i = 1; i < num_skill_types; i++) {
    sklevel[i] = dice(3, 2) - 3;
@@ -932,6 +962,19 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
  }
  int index;
  items_location from;
+ if (type == NC_HACKER) {
+  from = mi_npc_hacker;
+  while(total_space > 0 && !one_in(10)) {
+   index = rng(0, g->mapitems[from].size() - 1);
+   tmp = g->mapitems[from][index];
+   item tmpit(g->itypes[tmp], 0);
+   tmpit = tmpit.in_its_container(&g->itypes);
+   if (total_space >= tmpit.volume()) {
+    ret.push_back(tmpit);
+    total_space -= tmpit.volume();
+   }
+  }
+ }
  if (type == NC_DOCTOR) {
   while(total_space > 0 && !one_in(10)) {
    if (one_in(3))
@@ -940,17 +983,18 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
     from = mi_harddrugs;
    index = rng(0, g->mapitems[from].size() - 1);
    tmp = g->mapitems[from][index];
-   if (total_space >= g->itypes[tmp]->volume) {
-    ret.push_back(item(g->itypes[tmp], 0));
-    ret[ret.size() - 1] = ret[ret.size() - 1].in_its_container(&g->itypes);
-    total_space -= ret[ret.size() - 1].volume();
+   item tmpit(g->itypes[tmp], 0);
+   tmpit = tmpit.in_its_container(&g->itypes);
+   if (total_space >= tmpit.volume()) {
+    ret.push_back(tmpit);
+    total_space -= tmpit.volume();
    }
   }
  }
 // TODO: More specifics.
 
  while (total_space > 0 && !one_in(8)) {
-  tmp = itype_id(rng(2, num_items - 1));
+  tmp = itype_id(rng(4, num_items - 1));
   if (total_space >= g->itypes[tmp]->volume) {
    ret.push_back(item(g->itypes[tmp], 0));
    ret[ret.size() - 1] = ret[ret.size() - 1].in_its_container(&g->itypes);

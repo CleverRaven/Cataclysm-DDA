@@ -90,6 +90,7 @@ public:
  bool is_book();
  bool is_container();
  bool is_tool();
+ bool is_software();
  bool is_macguffin();
  bool is_other(); // Doesn't belong in other categories
  bool is_artifact();

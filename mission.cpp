@@ -1,21 +1,20 @@
 #include "mission.h"
 #include "game.h"
 
-mission mission_type::create(game *g)
+mission mission_type::create(game *g, int npc_id)
 {
  mission ret;
  ret.uid = g->assign_mission_id();
  ret.type = this;
+ ret.npc_id = npc_id;
+ ret.item_id = item_id;
+ ret.value = value;
+ ret.follow_up = follow_up;
+
  if (deadline_low != 0 || deadline_high != 0)
   ret.deadline = int(g->turn) + rng(deadline_low, deadline_high);
  else
   ret.deadline = 0;
-
- ret.item_id = item_id;
- ret.value = value;
-
- mission_start m_s;
- (m_s.*start)(g, &ret);
 
  return ret;
 }
@@ -65,6 +64,61 @@ There's a town nearby.  Check pharmacies; it'll be behind the counter.";
   }
   break;
 
+ case MISSION_GET_SOFTWARE:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "Oh man, I can't believe I forgot to download it...";
+   case TALK_MISSION_OFFER:
+    return "There's some important software on my computer that I need on USB.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Thanks!  Just pull the data onto this USB drive and bring it to me.";
+   case TALK_MISSION_REJECTED:
+    return "Seriously?  It's an easy job...";
+   case TALK_MISSION_ADVICE:
+    return "Take this USB drive.  Use the console, and download the software.";
+   case TALK_MISSION_INQUIRE:
+    return "So, do you have my software yet?";
+   case TALK_MISSION_SUCCESS:
+    return "Excellent, thank you!";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "What?!  You liar!";
+   case TALK_MISSION_FAILURE:
+    return "Wow, you failed?  All that work, down the drain...";
+  }
+  break;
+
+ case MISSION_GET_ZOMBIE_BLOOD_ANAL:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "\
+It could be very informative to perform an analysis of zombie blood...";
+   case TALK_MISSION_OFFER:
+    return "\
+I need someone to get a sample of zombie blood, take it to a hospital, and \
+perform a centrifuge analysis of it.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Excellent.  Take this vacutainer; once you've produced a zombie corpse, use it \
+to extrace blood from the body, then take it to a hospital for analysis.";
+   case TALK_MISSION_REJECTED:
+    return "\
+Are you sure?  The scientific value of that blood data could be priceless...";
+   case TALK_MISSION_ADVICE:
+    return "\
+The centrifuge is a bit technical; you might want to study up on the usage of \
+computers before completing that part.";
+   case TALK_MISSION_INQUIRE:
+    return "Well, do you have the data yet?";
+   case TALK_MISSION_SUCCESS:
+    return "Excellent!  This may be the key to removing the infection.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "Wait, you couldn't possibly have the data!  Liar!";
+   case TALK_MISSION_FAILURE:
+    return "What a shame, that data could have proved invaluable...";
+  }
+  break;
+  
  case MISSION_RESCUE_DOG:
   switch (state) {
    case TALK_MISSION_DESCRIBE:

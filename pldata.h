@@ -149,6 +149,7 @@ enum pl_flag {
  PF_WEAKSTOMACH,// More likely to throw up in all circumstances
  PF_WOOLALLERGY,// Can't wear wool
  PF_HPIGNORANT,	// Don't get to see exact HP numbers, just colors & symbols
+ PF_TRUTHTELLER, // Worse at telling lies
 
  PF_MAX,
 // Below this point is mutations and other mid-game perks.
@@ -342,6 +343,9 @@ substance."},
 {"HP Ignorant", -2, false, "\
 You do not get to see your exact amount of HP remaining, but do have a vague\n\
 idea of whether you're in good condition or not."},
+{"Truth Teller", -2, false, "\
+When you try to tell a lie, you blush, stammer, and get all shifty-eyed.\n\
+Telling lies and otherwise bluffing will be much more difficult for you."},
 
 {"Bug - PF_MAX", 0, false, "\
 This shouldn't be here!  You have the trait PF_MAX toggled.  Weird."},

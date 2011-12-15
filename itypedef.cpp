@@ -152,9 +152,14 @@ DRINK("tea",		1, 50,	c_green, itm_bottle_plastic,
 Tea, the beverage of gentlemen everywhere.");
 
 DRINK("coffee",		1, 50,	c_brown, itm_bottle_plastic,
-//	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
 	40,  3,  0,  12,  0,  0,  1, 6,&iuse::caff,	ADD_CAFFEINE, "\
 Coffee. The morning ritual of the pre-apocalypse world.");
+
+//     NAME		RAR PRC	COLOR     CONTAINER
+DRINK("blood",		 20,  0, c_red, itm_vacutainer,
+//	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
+	  5,  5,  0,  0, -8,  0,  1,-50,&iuse::none,	ADD_NULL, "\
+Blood, possibly that of a human.  Disgusting!");
 
 #define FOOD(name,rarity,price,color,mat1,container,volume,weight,quench,\
 nutr,spoils,stim,healthy,addict,charges,fun,use_func,addict_func,des) \
@@ -763,9 +768,13 @@ A long piece of wood with several nails through one end; essentiall a simple\n\
 mace.  Makes a great melee weapon.");
 
 MELEE("X-Acto knife",	10,  40,';', c_dkgray,	IRON,	PLASTIC,
-	 1,  2,  0, 14, -4, mfb(IF_SPEAR), "\
+	 1,  0,  0, 14, -4, mfb(IF_SPEAR), "\
 A small, very sharp knife.  Causes decent damage but is difficult to hit with."
 );
+
+MELEE("scalpel",	48,  40,',', c_cyan,	STEEL,	MNULL,
+	 1,  0,  0, 18, -4, mfb(IF_SPEAR), "\
+A small, very sharp knife, used in surgery.");
 
 MELEE("pot",		25,  45,')', c_ltgray,	IRON,	MNULL,
 	 8,  6,  9,  0,  1, 0, "\
@@ -904,6 +913,10 @@ MELEE("binoculars",	20, 300,';', c_ltgray,	PLASTIC,GLASS,
 A tool useful for seeing long distances.  Simply carrying this item in your\n\
 inventory will double the distance that is mapped around you during your\n\
 travels.");
+
+MELEE("USB drive",	 5, 100,',', c_white,	PLASTIC,MNULL,
+	  0,  0,  0,  0,  0, 0, "\
+A USB thumb drive.  Useful for holding software.");
 
 // ARMOR
 #define ARMOR(name,rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
@@ -2663,7 +2676,7 @@ broadcast and play them audibly.");
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
 TOOL("radio (on)",	 0, 420,';', c_yellow,	PLASTIC, IRON,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    4,  2,  4,  0, -1, 500,500, 0,  8, AT_BATT, itm_radio,&iuse::radio_on, 0,"\
+    4,  2,  4,  0, -1, 100,100, 0,  8, AT_BATT, itm_radio,&iuse::radio_on, 0,"\
 This radio is turned on, and continually draining its batteries.  It is\n\
 playing the broadcast being sent from any nearby radio towers.");
 
@@ -2965,8 +2978,17 @@ TOOL("dog whistle",	  0,  300,';',c_white,	STEEL,	MNULL,
      0,  0,  0,  0,  0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::dog_whistle,
 0, "\
 A small whistle.  When used, it produces a high tone which causes nearby\n\
-friendly dogs to stop attacking enemies and stick close for a while.");
+friendly dogs to either follow you closely and stop attacking, or to start\n\
+attacking enemies if they are currently docile.");
 
+//	NAME		RAR PRC SYM  COLOR	MAT1	MAT
+TOOL("vacutainer",	 10,300,';', c_ltcyan,	PLASTIC,MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+     1,  0,  0,  6, -3,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::vacutainer,
+mfb(IF_SPEAR), "\
+A tool for drawing blood, including a vacuum-sealed test tube for holding the\n\
+sample.  Use this tool to draw blood, either from yourself or from a corpse\n\
+you are standing on.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
@@ -2981,7 +3003,7 @@ BIO("CBM: Internal Battery",	24, 3800,	c_green,	 1, "\
 Compact Bionics Module which upgrades your power capacity by 4 units. Having\n\
 at least one of these is a prerequisite to using powered bionics.  You will\n\
 also need a power supply, found in another CBM.",
-    NULL); // This is a special case, which increases power capacity by 10
+    NULL); // This is a special case, which increases power capacity by 4
 
 BIO("CBM: Power Sources",	18, 5000,	c_yellow,	 4, "\
 Compact Bionics Module containing the materials necessary to install any one\n\
@@ -3075,6 +3097,27 @@ Good for those who want a gun on occasion, but do not wish to carry lots of\n\
 heavy ammunition and weapons.",
     bio_blaster, bio_laser, bio_emp, NULL);
 
+// SOFTWARE
+
+#define SOFTWARE(name, price, swtype, power, description) \
+index++; itypes.push_back(new it_software(index, 0, price, name, description,\
+	' ', c_white, MNULL, MNULL, 0, 0, 0, 0, 0, 0, swtype, power))
+SOFTWARE("misc software", 300, SW_USELESS, 0, "\
+A miscellaneous piece of hobby software.  Probably useless.");
+
+SOFTWARE("hackPRO", 800, SW_HACKING, 2, "\
+A piece of hacking software.");
+
+SOFTWARE("MediSoft", 600, SW_MEDICAL, 2, "\
+A piece of medical software.");
+
+SOFTWARE("MatheMAX", 500, SW_SCIENCE, 3, "\
+A piece of mathematical software.");
+
+SOFTWARE("infection data", 200, SW_DATA, 5, "\
+Medical data on zombie blood.");
+
+
 #define MACGUFFIN(name, price, sym, color, mat1, mat2, volume, wgt, dam, cut,\
                   to_hit, readable, function, description) \
 index++; itypes.push_back(new it_macguffin(index, 0, price, name, description,\
@@ -3111,6 +3154,9 @@ GUN("fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG ACC REC DUR BST CLIP REL
 	sk_rifle,	AT_FUSION, 12,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
 "",0);
+
+
+
  if (itypes.size() != num_all_items)
   debugmsg("%d items, %d itypes (+bio)", itypes.size(), num_all_items - 1);
 
