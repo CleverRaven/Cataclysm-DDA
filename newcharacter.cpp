@@ -488,7 +488,7 @@ int set_traits(WINDOW* w, player *u, int &points)
  mvwprintz(w,15,32, c_ltgray, "Space");
  mvwprintz(w,16,31, c_ltgray,"Toggles");
 
- int cur_adv = 0, cur_dis = PF_SPLIT + 1, cur_trait, traitmin, traitmax, xoff;
+ int cur_adv = 1, cur_dis = PF_SPLIT + 1, cur_trait, traitmin, traitmax, xoff;
  nc_color col_on, col_off, hi_on, hi_off;
  bool using_adv = true;	// True if we're selecting advantages, false if we're
 			// selecting disadvantages
@@ -513,7 +513,7 @@ int set_traits(WINDOW* w, player *u, int &points)
    hi_off  = hilite(col_off);
    xoff = 0;
    cur_trait = cur_adv;
-   traitmin = 0;
+   traitmin = 1;
    traitmax = PF_SPLIT;
    mvwprintz(w,  3, 40, c_ltgray, "                                       ");
    mvwprintz(w,  3, 40, COL_TR_GOOD, "%s costs %d points",
@@ -606,7 +606,7 @@ int set_traits(WINDOW* w, player *u, int &points)
     break;
    case 'k':
     if (using_adv) {
-     if (cur_adv > 0)
+     if (cur_adv > 1)
       cur_adv--;
     } else {
      if (cur_dis > PF_SPLIT + 1)

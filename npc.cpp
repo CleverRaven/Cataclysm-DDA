@@ -1603,6 +1603,12 @@ bool npc::has_painkiller()
  return false;
 }
 
+bool npc::took_painkiller()
+{
+ return (has_disease(DI_PKILL1) || has_disease(DI_PKILL2) ||
+         has_disease(DI_PKILL3) || has_disease(DI_PKILL_L));
+}
+
 bool npc::is_friend()
 {
  if (attitude == NPCATT_FOLLOW || attitude == NPCATT_DEFEND)

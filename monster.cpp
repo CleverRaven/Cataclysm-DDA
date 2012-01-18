@@ -308,10 +308,10 @@ bool monster::is_fleeing(player &u)
  return true;
 }
 
-int monster::hit(player &p, body_part &bp_hit)
+int monster::hit(game *g, player &p, body_part &bp_hit)
 {
  int numdice = type->melee_skill;
- if (dice(numdice, 10) <= dice(p.dodge(), 10) && !one_in(20)) {
+ if (dice(numdice, 10) <= dice(p.dodge(g), 10) && !one_in(20)) {
   if (numdice > p.sklevel[sk_dodge])
    p.practice(sk_dodge, 10);
   return 0;	// We missed!
@@ -540,6 +540,11 @@ void monster::process_effects(game *g)
 {
  for (int i = 0; i < effects.size(); i++) {
   switch (effects[i].type) {
+  case ME_POISONED:
+   speed -= rng(0, 3);
+   hurt(rng(1, 3));
+   break;
+
   case ME_ONFIRE:
    if (made_of(FLESH))
     hurt(rng(3, 8));

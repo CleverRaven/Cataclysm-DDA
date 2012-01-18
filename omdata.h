@@ -406,7 +406,7 @@ enum omspec_id
 
 const overmap_special overmap_specials[NUM_OMSPECS] = {
 
-// Terrain	 MIN NUM DISTANCE
+// Terrain	 MIN MAX DISTANCE
 {ot_crater,	   0, 10,  0, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_BLOB)},
 
@@ -428,7 +428,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_lab_stairs,	   0, 30,  8, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_ROAD)},
 
-// Terrain	 MIN NUM DISTANCE
+// Terrain	 MIN MAX DISTANCE
 {ot_bunker,	   2, 30,  4, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_ROAD)},
 
@@ -442,7 +442,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND)},
 
 {ot_hospital_entrance, 1, 5, 3, 15, mcat_null, 0, 0, 0, 0,
- &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND)},
+ &omspec_place::land, mfb(OMS_FLAG_3X3_SECOND)|mfb(OMS_FLAG_ROAD)},
 
 {ot_sewage_treatment, 1, 10, 10, 20, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_PARKING_LOT)},
@@ -450,7 +450,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_mine_entrance,  0,  5,  15, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT)},
 
-// Terrain	 MIN NUM DISTANCE
+// Terrain	 MIN MAX DISTANCE
 {ot_anthill,	   0, 30,  10, -1, mcat_ant, 10, 30, 1000, 2000,
  &omspec_place::wilderness, 0},
 
@@ -469,7 +469,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_river_center,  0, 10, 10, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::always, mfb(OMS_FLAG_BLOB)},
 
-// Terrain	 MIN NUM DISTANCE
+// Terrain	 MIN MAX DISTANCE
 {ot_shelter,       5, 10, 5, 10, mcat_null, 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)}
 

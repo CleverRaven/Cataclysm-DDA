@@ -2019,7 +2019,7 @@ void overmap::place_specials()
     omspec_place place;
     overmap_special special = overmap_specials[i];
     int min = special.min_dist_from_city, max = special.max_dist_from_city;
-    if ((placed[i] < special.max_appearances || special.max_appearances == 0) &&
+    if ((placed[i] < special.max_appearances || special.max_appearances <= 0) &&
         (min == -1 || dist_from_city(p) >= min) &&
         (max == -1 || dist_from_city(p) <= max) &&
         (place.*special.able)(this, p))

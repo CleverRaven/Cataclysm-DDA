@@ -536,18 +536,10 @@ bool will_flood_stop(map *m, bool fill[SEEX * MAPSIZE][SEEY * MAPSIZE],
   return false;
 
  fill[x][y] = true;
- bool skip_north = (fill[x][y - 1] || m->ter(x, y - 1) == t_wall_h ||
-                                      m->ter(x, y - 1) == t_wall_v ||  
-                                      m->ter(x, y - 1) == t_wall_wood),
-      skip_south = (fill[x][y + 1] || m->ter(x, y + 1) == t_wall_h ||
-                                      m->ter(x, y + 1) == t_wall_v ||
-                                      m->ter(x, y + 1) == t_wall_wood),
-      skip_east  = (fill[x + 1][y] || m->ter(x + 1, y) == t_wall_h ||
-                                      m->ter(x + 1, y) == t_wall_v ||  
-                                      m->ter(x + 1, y) == t_wall_wood),
-      skip_west  = (fill[x - 1][y] || m->ter(x - 1, y) == t_wall_h ||
-                                      m->ter(x - 1, y) == t_wall_v ||
-                                      m->ter(x - 1, y) == t_wall_wood);
+ bool skip_north = (fill[x][y - 1] || m->has_flag(supports_roof, x, y - 1)),
+      skip_south = (fill[x][y + 1] || m->has_flag(supports_roof, x, y + 1)),
+      skip_east  = (fill[x + 1][y] || m->has_flag(supports_roof, x + 1, y)),
+      skip_west  = (fill[x - 1][y] || m->has_flag(supports_roof, x - 1, y));
 
  return ((skip_north || will_flood_stop(m, fill, x    , y - 1)) &&
          (skip_east  || will_flood_stop(m, fill, x + 1, y    )) &&

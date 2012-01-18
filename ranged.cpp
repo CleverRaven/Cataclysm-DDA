@@ -82,9 +82,18 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  for (int curshot = 0; curshot < num_shots; curshot++) {
   int trange = calculate_range(p, tarx, tary);
   double missed_by = calculate_missed_by(p, trange);
+// Calculate a penalty based on the monster's speed
+  double monster_speed_penalty = 1.;
+  int target_index = mon_at(tarx, tary);
+  if (target_index != -1) {
+   monster_speed_penalty = double(z[target_index].speed) / 80.;
+   if (monster_speed_penalty < 1.)
+    monster_speed_penalty = 1.;
+  }
+
   p.recoil += recoil_add(p);
 
-  if (missed_by >= 1) {
+  if (missed_by >= 1.) {
 // We missed D:
 // Shoot a random nearby space?
    tarx += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
@@ -100,7 +109,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     else if (u_see_shooter)
      add_msg("%s misses!", p.name.c_str());
    }
-  } else if (missed_by >= .7) {
+  } else if (missed_by >= .7 / monster_speed_penalty) {
 // Hit the space, but not necessarily the monster there
    missed = true;
    if (!burst) {
@@ -150,6 +159,10 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     double goodhit = missed_by;
     if (i < trajectory.size() - 1) // Unintentional hit
      goodhit = double(rand() / (RAND_MAX + 1.0)) / 2;
+
+// Penalize for the monster's speed
+    if (z[mondex].speed > 80)
+     goodhit *= double( double(z[mondex].speed) / 80.);
     
     std::vector<point> blood_traj = trajectory;
     blood_traj.insert(blood_traj.begin(), point(p.posx, p.posy));
@@ -250,6 +263,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
  std::string message;
  int dam = (thrown.weight() / 4 + thrown.type->melee_dam / 2 + p.str_cur / 2) /
             double(2 + double(thrown.volume() / 4));
+ if (dam > thrown.weight() / 6)
+  dam = thrown.weight() / 6;
  int i, tx, ty;
  for (i = 0; i < trajectory.size() && dam > 0; i++) {
   message = "";

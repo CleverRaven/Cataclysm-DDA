@@ -12,6 +12,20 @@
 
 class mdeath;
 
+enum monster_species {
+species_none = 0,
+species_mammal,
+species_insect,
+species_worm,
+species_zombie,
+species_plant,
+species_fungus,
+species_nether,
+species_robot,
+species_hallu,
+num_species
+};
+
 enum mon_id {
 mon_null = 0,
 // Wildlife
@@ -117,6 +131,7 @@ struct mtype {
  int id;
  std::string name;
  std::string description;
+ monster_species species;
  char sym;	// Symbol on the map
  nc_color color;// Color of symbol (see color.h)
 
@@ -149,6 +164,7 @@ struct mtype {
   id = 0;
   name = "human";
   description = "";
+  species = species_none;
   sym = ' ';
   color = c_white;
   size = MS_MEDIUM;
@@ -171,17 +187,19 @@ struct mtype {
   sp_attack = NULL;
  }
  // Non-default (messy)
- mtype (int pid, std::string pname, char psym, nc_color pcolor, m_size psize,
-        material pmat, unsigned pflags, unsigned char pfreq, unsigned int pdiff,
-        signed char pagro, unsigned int pspeed, unsigned char pml_skill,
-        unsigned char pml_dice, unsigned char pml_sides, unsigned char pml_cut,
-        unsigned char pdodge, unsigned char parmor, signed char pitem_chance,
-        int php, unsigned char psp_freq,
+ mtype (int pid, std::string pname, monster_species pspecies, char psym,
+        nc_color pcolor, m_size psize, material pmat, unsigned pflags,
+        unsigned char pfreq, unsigned int pdiff, signed char pagro,
+        unsigned int pspeed, unsigned char pml_skill, unsigned char pml_dice,
+        unsigned char pml_sides, unsigned char pml_cut, unsigned char pdodge,
+        unsigned char parmor, signed char pitem_chance, int php,
+        unsigned char psp_freq,
         void (mdeath::*pdies)      (game *, monster *),
         void (mattack::*psp_attack)(game *, monster *),
         std::string pdescription ) { 
   id = pid; 
   name = pname; 
+  species = pspecies;
   sym = psym;
   color = pcolor;
   size = psize;

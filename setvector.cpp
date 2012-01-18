@@ -67,6 +67,28 @@ void setvector(std::vector<std::string> &vec, ... )
  va_end(ap);
 }
 
+
+template <class T> void setvec(std::vector<T> &vec, ... )
+{
+ va_list ap;
+ va_start(ap, vec);
+ T tmp;
+ while (tmp = (T)va_arg(ap, int))
+  vec.push_back(tmp);
+ va_end(ap);
+}
+ 
+void setvector(std::vector<pl_flag> &vec, ... )
+{
+ va_list ap;
+ va_start(ap, vec);
+ pl_flag tmp;
+ while (tmp = (pl_flag)va_arg(ap, int))
+  vec.push_back(tmp);
+ va_end(ap);
+}
+ 
+
 /*
 void setvector(std::vector<construction_stage> &bec, ... )
 {

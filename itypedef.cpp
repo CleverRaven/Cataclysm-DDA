@@ -138,7 +138,7 @@ DRINK("ammonia",	24, 30,	c_yellow, itm_bottle_plastic,
 Don't drink it.  Mixing it with bleach produces toxic gas.");
 
 DRINK("mutagen",	 8,8000,c_magenta,itm_bottle_glass,
-	  0, 0,  0,  0, -2,  0,  1,  0,&iuse::mutagen,	ADD_NULL, "\
+	  0, 0,  0,  0, -2,  0,  1,  0,&iuse::mutagen_3,ADD_NULL, "\
 A rare substance of uncertain origins.  Causes you to mutate.");
 
 DRINK("purifier",	12,16000,c_pink,  itm_bottle_glass,
@@ -1871,16 +1871,16 @@ The barrels of shotguns are often sawed in half to make it more maneuverable\n\
 and concealable.  This has the added effect of reducing accuracy greatly.",
 mfb(IF_RELOAD_ONE));
 
+//  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("single barrel shotgun",1,300,c_red,IRON,	WOOD,
-	sk_shotgun,	AT_SHOT,10, 20, 14,  3,  0,  6,  5,  6,  0,  1, 100, "\
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
+	sk_shotgun,	AT_SHOT,12, 20, 14,  3,  0,  6,  5,  6,  0,  1, 100, "\
 An old shotgun, possibly antique.  It is little more than a barrel, a wood\n\
 stock, and a hammer to strike the cartridge.  Its simple design keeps it both\n\
 light and accurate.",
 0);
 
-//  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("double barrel shotgun",2,580,c_red,IRON,	WOOD,
-//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
 	sk_shotgun,	AT_SHOT,12, 26, 15,  3,  0,  7,  4,  7,  2,  2, 100, "\
 An old shotgun, possibly antique.  It is little more than a pair of barrels,\n\
 a wood stock, and a hammer to strike the cartridge.",
@@ -1899,16 +1899,16 @@ The Mossberg 500 is a popular series of pump-action shotguns, often acquired\n\
 for military use.  It is noted for its high durability and low recoil.",
 mfb(IF_RELOAD_ONE));
 
+//  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("Saiga-12",		 3,1100,c_red,	STEEL,	PLASTIC,
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
 	sk_shotgun,	AT_SHOT,15, 36, 17,  3,  0, 17,  2,  7,  4, 10, 500, "\
 The Saiga-12 shotgun is designed on the same Kalishnikov pattern as the AK47\n\
 rifle.  It reloads with a magazine, rather than one shell at a time like most\n\
 shotguns.",
 0);
 
-//  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("American-180",	 2, 800,c_cyan, STEEL,	MNULL,
-//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
 	sk_smg,		AT_22,  12, 23, 11,  0,  2, 20,  0,  6, 20,165, 500, "\
 The American-180 is a submachine gun developed in the 1960s which fires .22\n\
 LR, unusual for an SMG.  Though the round is low-powered, the high rate of\n\
@@ -1922,7 +1922,9 @@ submachine gun.  It is widely used as a personal defense weapon, or as a\n\
 primary weapon by elite frontline forces.",
 0);
 
+//  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("TEC-9",		10, 880,c_cyan,	STEEL,	MNULL,
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
 	sk_smg,		AT_9MM,	 5, 12,  9,  1,  3, 24,  0,  6,  6, 32, 400, "\
 The TEC-9 is a machine pistol made of cheap polymers and machine stamped\n\
 parts.  Its rise in popularity among criminals is largely due to its\n\
@@ -2864,8 +2866,20 @@ rag; you will, of course, need a lighter in your inventory to do this.  After\n\
 lighting it, throw it to cause fires.");
 
 //	NAME		RAR PRC SYM  COLOR	MAT1	MAT
-TOOL("molotov cocktail (lit)",0,0,'*', c_ltred,	GLASS,	COTTON,
+TOOL("acid bomb", 	  0,500,'*', c_yellow,	GLASS,	MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+     1,  1,  4,  0, -1,  0,  0,  0,  0,AT_NULL,	itm_null, &iuse::acidbomb,0,"\
+A glass vial, split into two chambers.  The divider is removable, which will\n\
+cause the chemicals to mix.  If this mixture is exposed to air (as happens\n\
+if you throw the vial) they will spill out as a pool of potent acid.");
+
+TOOL("acid bomb (active)",0,  0,'*', c_yellow, GLASS, MNULL,
+    1,  1,  4,  0,  -1,  0,  0,  0,  0,AT_NULL,itm_null,&iuse::acidbomb_act,0,"\
+A glass vial, with two chemicals mixing inside.  If this mixture is exposed\n\
+to air (as happens if you throw the vial), they will spill out as a pool of\n\
+potent acid.");
+
+TOOL("molotov cocktail (lit)",0,0,'*', c_ltred,	GLASS,	COTTON,
     2,  2,  8,  0,  1,  1,  1,  0,  0, AT_NULL,itm_molotov,&iuse::molotov_lit,0,
 "A bottle of flammable liquid with a flaming rag inserted.  Throwing it will\n\
 cause the bottle to break, spreading fire.  The flame may go out shortly if\n\

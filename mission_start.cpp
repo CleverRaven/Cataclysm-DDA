@@ -185,6 +185,11 @@ void mission_start::place_npc_software(game *g, mission *miss)
 
 void mission_start::reveal_hospital(game *g, mission *miss)
 {
+ npc* dev = g->find_npc(miss->npc_id);
+ if (dev != NULL) {
+  g->u.i_add( item(g->itypes[itm_vacutainer], 0) );
+  g->add_msg("%s gave you a vacutainer.", dev->name.c_str());
+ }
  int dist = 0;
  point place = g->cur_om.find_closest(g->om_location(), ot_hospital, 1, dist,
                                       false);

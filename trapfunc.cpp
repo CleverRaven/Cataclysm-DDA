@@ -90,7 +90,7 @@ void trapfunc::crossbow(game *g, int x, int y)
 {
  bool add_bolt = true;
  g->add_msg("You trigger a crossbow trap!");
- if (!one_in(4) && rng(8, 20) > g->u.dodge()) {
+ if (!one_in(4) && rng(8, 20) > g->u.dodge(g)) {
   body_part hit;
   switch (rng(1, 10)) {
    case  1: hit = bp_feet; break;
@@ -130,6 +130,7 @@ void trapfuncm::crossbow(game *g, monster *z, int x, int y)
   add_bolt = !one_in(10);
  } else if (seen)
   g->add_msg("A bolt shoots out, but misses the %s.", z->name().c_str());
+ g->m.tr_at(x, y) = tr_null;
  g->m.add_item(x, y, g->itypes[itm_crossbow], 0);
  g->m.add_item(x, y, g->itypes[itm_string_6], 0);
  if (add_bolt)
@@ -142,7 +143,7 @@ void trapfunc::shotgun(game *g, int x, int y)
  int shots = (one_in(8) || one_in(20 - g->u.str_max) ? 2 : 1);
  if (g->m.tr_at(x, y) == tr_shotgun_1)
   shots = 1;
- if (rng(5, 50) > g->u.dodge()) {
+ if (rng(5, 50) > g->u.dodge(g)) {
   body_part hit;
   switch (rng(1, 10)) {
    case  1: hit = bp_feet; break;
@@ -336,15 +337,19 @@ void trapfuncm::dissector(game *g, monster *z, int x, int y)
 void trapfunc::pit(game *g, int x, int y)
 {
  g->add_msg("You fall in a pit!");
- int dodge = g->u.dodge();
- int damage = rng(10, 20) - rng(dodge, dodge * 5);
- if (damage > 0) {
-  g->add_msg("You hurt yourself!");
-  g->u.hurtall(rng(int(damage / 2), damage));
-  g->u.hit(g, bp_legs, 0, damage, 0);
-  g->u.hit(g, bp_legs, 1, damage, 0);
- } else
-  g->add_msg("You land nimbly.");
+ if (g->u.has_trait(PF_WINGS_BIRD))
+  g->add_msg("You flap your wings and flutter down gracefully.");
+ else {
+  int dodge = g->u.dodge(g);
+  int damage = rng(10, 20) - rng(dodge, dodge * 5);
+  if (damage > 0) {
+   g->add_msg("You hurt yourself!");
+   g->u.hurtall(rng(int(damage / 2), damage));
+   g->u.hit(g, bp_legs, 0, damage, 0);
+   g->u.hit(g, bp_legs, 1, damage, 0);
+  } else
+   g->add_msg("You land nimbly.");
+ }
  g->u.add_disease(DI_IN_PIT, -1, g);
 }
 
@@ -362,9 +367,11 @@ void trapfuncm::pit(game *g, monster *z, int x, int y)
 void trapfunc::pit_spikes(game *g, int x, int y)
 {
  g->add_msg("You fall in a pit!");
- int dodge = g->u.dodge();
+ int dodge = g->u.dodge(g);
  int damage = rng(20, 50);
- if (rng(5, 30) < dodge)
+ if (g->u.has_trait(PF_WINGS_BIRD))
+  g->add_msg("You flap your wings and flutter down gracefully.");
+ else if (rng(5, 30) < dodge)
   g->add_msg("You avoid the spikes within.");
  else {
   body_part hit;
@@ -383,14 +390,14 @@ void trapfunc::pit_spikes(game *g, int x, int y)
   int side = rng(0, 1);
   g->add_msg("The spikes impale your %s!", body_part_name(hit, side).c_str());
   g->u.hit(g, hit, side, 0, damage);
- }
- if (one_in(4)) {
-  g->add_msg("The spears break!");
-  g->m.ter(x, y) = t_pit;
-  g->m.tr_at(x, y) = tr_pit;
-  for (int i = 0; i < 4; i++) { // 4 spears to a pit
-   if (one_in(3))
-    g->m.add_item(x, y, g->itypes[itm_spear_wood], g->turn);
+  if (one_in(4)) {
+   g->add_msg("The spears break!");
+   g->m.ter(x, y) = t_pit;
+   g->m.tr_at(x, y) = tr_pit;
+   for (int i = 0; i < 4; i++) { // 4 spears to a pit
+    if (one_in(3))
+     g->m.add_item(x, y, g->itypes[itm_spear_wood], g->turn);
+   }
   }
  }
  g->u.add_disease(DI_IN_PIT, -1, g);

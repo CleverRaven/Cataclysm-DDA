@@ -338,7 +338,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
    if (mon->friendly != 0) {
     priority = -999;
     monster_danger *= -1;
-   }/* else if (mon->speed < current_speed()) {
+   }/* else if (mon->speed < current_speed(g)) {
     priority -= 10;
     monster_danger -= 10;
    } else
@@ -362,7 +362,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
     distance = (100 * rl_dist(g->u.posx, g->u.posy, mon->posx, mon->posy)) /
                mon->speed;
     priority -= distance;
-    if (mon->speed < current_speed())
+    if (mon->speed < current_speed(g))
      priority -= 10;
     priority *= (personality.bravery + personality.altruism + op_of_u.value) /
                 15;
@@ -377,7 +377,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
 
 npc_action npc::method_of_fleeing(game *g, int enemy)
 {
- int speed = (enemy == TARGET_PLAYER ? g->u.current_speed() :
+ int speed = (enemy == TARGET_PLAYER ? g->u.current_speed(g) :
                                        g->z[enemy].speed);
  point enemy_loc = (enemy == TARGET_PLAYER ? point(g->u.posx, g->u.posy) :
                     point(g->z[enemy].posx, g->z[enemy].posy));
@@ -386,7 +386,7 @@ npc_action npc::method_of_fleeing(game *g, int enemy)
  if (choose_escape_item() >= 0) // We have an escape item!
   return npc_escape_item;
 
- if (speed > 0 && (100 * distance) / speed <= 4 && speed > current_speed())
+ if (speed > 0 && (100 * distance) / speed <= 4 && speed > current_speed(g))
   return method_of_attack(g, enemy, -1); // Can't outrun, so attack
 
  return npc_flee;
@@ -476,7 +476,7 @@ npc_action npc::address_needs(game *g, int danger)
   }
  }
 
- if (has_painkiller() && pain - pkill >= 15)
+ if (has_painkiller() && !took_painkiller() && pain - pkill >= 15)
   return npc_use_painkiller;
 
  if (can_reload())
@@ -754,14 +754,14 @@ bool npc::need_to_reload()
 bool npc::enough_time_to_reload(game *g, int target, item &gun)
 {
  int rltime = gun.reload_time(*this);
- double turns_til_reloaded = rltime / current_speed();
+ double turns_til_reloaded = rltime / current_speed(g);
  int dist, speed, linet;
 
  if (target == TARGET_PLAYER) {
   if (g->sees_u(posx, posy, linet) && g->u.weapon.is_gun() && rltime > 200)
    return false; // Don't take longer than 2 turns if player has a gun
   dist = rl_dist(posx, posy, g->u.posx, g->u.posy);
-  speed = speed_estimate(g->u.current_speed());
+  speed = speed_estimate(g->u.current_speed(g));
  } else if (target >= 0) {
   dist = rl_dist(posx, posy, g->z[target].posx, g->z[target].posy);
   speed = speed_estimate(g->z[target].speed);
@@ -1254,7 +1254,7 @@ void npc::melee_player(game *g, player &foe)
 {
  int dam = 0, cut = 0;
  body_part hit;
- if (hit_player(foe, hit, dam, cut)) {
+ if (hit_player(g, foe, hit, dam, cut)) {
   int side = rng(0, 1);
   g->add_msg("%s hits your %s with %s %s.", name.c_str(),
              body_part_name(hit, side).c_str(), (male ? "his" : "her"),

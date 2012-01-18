@@ -14,6 +14,7 @@ class item;
 enum monster_effect_type {
 ME_NULL = 0,
 ME_BEARTRAP,		// Stuck in beartrap
+ME_POISONED,		// Slowed, takes damage
 ME_ONFIRE,		// Lit aflame
 ME_STUNNED,		// Stumbling briefly
 ME_BLIND,		// Can't use sight
@@ -81,7 +82,7 @@ class monster {
 
 // Combat
  bool is_fleeing(player &u);	// True if we're fleeing
- int  hit(player &p, body_part &bp_hit);	// Returns a damage
+ int  hit(game *g, player &p, body_part &bp_hit); // Returns a damage
  void hit_monster(game *g, int i);
  bool hurt(int dam); 	// Deals this dam damage; returns true if we dead
  int  armor();		// Natural armor, plus any worn armor

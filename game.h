@@ -20,6 +20,7 @@
 #include "calendar.h"
 #include "posix_time.h"
 #include "artifact.h"
+#include "mutation.h"
 #include <vector>
 
 #define LONG_RANGE 10
@@ -53,6 +54,7 @@ struct mission_type;
 class map;
 class player;
 class calendar;
+struct mutation_branch;
 
 class game
 {
@@ -159,8 +161,12 @@ class game
   std::vector <trap*> traps;
   std::vector <itype_id> mapitems[num_itloc]; // Items at various map types
   std::vector <items_location_and_chance> monitems[num_monsters];
-  std::vector<mission_type> mission_types; // The list of mission templates
+  std::vector <mission_type> mission_types; // The list of mission templates
+  mutation_branch mutation_data[PF_MAX2]; // Mutation data
+
   calendar turn;
+  signed char temperature;              // The air temperature
+  weather_type weather;			// Weather pattern--SEE weather.h
   char nextinv;	// Determines which letter the next inv item will have
   overmap cur_om;
   map m;
@@ -203,6 +209,7 @@ class game
   void init_recipes();      // Initializes crafting recipes
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
+  void init_mutations();    // Initializes mutation "tech tree"
 
   void create_factions();   // Creates new factions (for a new game world)
   void create_starting_npcs(); // Creates NPCs that start near you
@@ -210,6 +217,7 @@ class game
 // Player actions
   void wish();	// Cheat by wishing for an item 'Z'
   void monster_wish(); // Create a monster
+  void mutation_wish(); // Mutate
 
   void plmove(int x, int y); // Standard movement; handles attacks, traps, &c
   void wait();	// Long wait (player action)	'^'
@@ -307,16 +315,14 @@ class game
   char run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new
 		 //  monsters spawns, go to 2 - No movement allowed
   int mostseen;	 // # of mons seen last turn; if this increases, run_mode++
-  bool autorunmode; // is autorunmode enabled?
-  int turnssincelastmon; // turns since the last monster was spotted needed for auto run mode
+  bool autosafemode; // is autosafemode enabled?
+  int turnssincelastmon; // needed for auto run mode
   quit_status uquit;    // Set to true if the player quits ('Q')
 
   calendar nextspawn; // The turn on which monsters will spawn next.
   calendar nextweather; // The turn on which weather will shift next.
   overmap om_hori, om_vert, om_diag; // Adjacent overmaps
   int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
-  signed char temperature;              // The air temperature
-  weather_type weather;			// Weather pattern--SEE weather.h
   std::vector <std::string> messages;   // Messages to be printed
   unsigned char curmes;	  // The last-seen message.  Older than 256 is deleted.
   int grscent[SEEX * MAPSIZE][SEEY * MAPSIZE];	// The scent map

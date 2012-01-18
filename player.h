@@ -10,6 +10,7 @@
 #include "morale.h"
 #include "inventory.h"
 #include "artifact.h"
+#include "mutation.h"
 #include <vector>
 #include <string>
 
@@ -17,6 +18,16 @@ class monster;
 class game;
 class trap;
 class mission;
+
+struct special_attack
+{
+ std::string text;
+ int bash;
+ int cut;
+ int stab;
+
+ special_attack() { bash = 0; cut = 0; stab = 0; };
+};
 
 class player {
 public:
@@ -40,11 +51,11 @@ public:
 
  void disp_info(game *g);	// '@' key; extended character info
  void disp_morale();		// '%' key; morale info
- void disp_status(WINDOW* w);	// The constant data in the lower right
+ void disp_status(WINDOW* w, game *g = NULL);// On-screen data
 
- void reset();	// Resets movement points, stats, and applies pain, effects, etc
+ void reset(game *g = NULL);// Resets movement points, stats, applies effects
  void update_morale();	// Ticks down morale counters and removes them
- int  current_speed(); // Returns the number of movement points we get each turn
+ int  current_speed(game *g = NULL); // Number of movement points we get a turn
  int  swim_speed();	// Our speed when swimming
 
  bool has_trait(int flag);
@@ -59,6 +70,9 @@ public:
  void activate_bionic(int b, game *g);
 
  void mutate(game *g);
+ void mutate_towards(game *g, pl_flag mut);
+ void remove_mutation(game *g, pl_flag mut);
+ bool has_child_flag(game *g, pl_flag mut);
 
  int  sight_range(int light_level);
  int  overmap_sight_range(int light_level);
@@ -69,17 +83,18 @@ public:
  bool unarmed_attack(); // False if we're wielding something; true for bionics
  bool avoid_trap(trap *tr);
 
- void pause();		// '.' command; pauses & reduces recoil
+ void pause(); // '.' command; pauses & reduces recoil
  int  hit_roll(); // Our basic hit roll, compared to our target's dodge roll
  bool scored_crit(int target_dodge = 0);
  int  hit_mon(game *g, monster *z); // Handles hitting a monster up to its death
 // hit_player returns false on a miss, and modifies bp, hitdam, and hitcut
- bool hit_player(player &p, body_part &bp, int &hitdam, int &hitcut);
+ bool hit_player(game *g, player &p, body_part &bp, int &hitdam, int &hitcut);
+ std::vector<special_attack> mutation_attacks(monster *z);
  void stumble(game *g);
- int  dodge();		//Returns the players's dodge, modded by clothing etc
- int  dodge_roll();	// For comparison to hit_roll()
+ int  dodge(game *g);     // Returns the players's dodge, modded by clothing etc
+ int  dodge_roll(game *g);// For comparison to hit_roll()
 
- int throw_range(int index);	// Range of throwing item; -1:ERR 0:Can't throw
+ int throw_range(int index); // Range of throwing item; -1:ERR 0:Can't throw
  int base_damage	(bool real_life = true);
  int base_to_hit	(bool real_life = true);
  int ranged_dex_mod	(bool real_life = true);
@@ -202,6 +217,7 @@ public:
  bool male;
  bool my_traits[PF_MAX2];
  bool my_mutations[PF_MAX2];
+ int mutation_category_level[NUM_MUTATION_CATEGORIES];
  std::vector<bionic> my_bionics;
 // Current--i.e. modified by disease, pain, etc.
  int str_cur, dex_cur, int_cur, per_cur;

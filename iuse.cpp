@@ -513,10 +513,17 @@ void iuse::mutagen(game *g, player *p, item *it, bool t)
  p->mutate(g);
 }
 
+void iuse::mutagen_3(game *g, player *p, item *it, bool t)
+{
+ p->mutate(g);
+ p->mutate(g);
+ p->mutate(g);
+}
+
 void iuse::purifier(game *g, player *p, item *it, bool t)
 {
  std::vector<int> valid;	// Which flags the player has
- for (int i = 0; i < PF_MAX2; i++) {
+ for (int i = 1; i < PF_MAX2; i++) {
   if (p->has_mutation(pl_flag(i)))
    valid.push_back(i);
  }
@@ -529,9 +536,7 @@ void iuse::purifier(game *g, player *p, item *it, bool t)
   num_cured = 4;
  for (int i = 0; i < num_cured && valid.size() > 0; i++) {
   int index = rng(0, valid.size() - 1);
-  if (!p->is_npc())
-   g->add_msg("You lose your %s.", traits[valid[index]].name.c_str());
-  p->toggle_trait(pl_flag(valid[index]));
+  p->remove_mutation(g, pl_flag(valid[index]) );
   valid.erase(valid.begin() + index);
  }
 }
@@ -611,16 +616,14 @@ void iuse::dogfood(game *g, player *p, item *it, bool t)
  dirx += p->posx;
  diry += p->posy;
  int mon_dex = g->mon_at(dirx,diry);
- if(mon_dex != -1){
-	 if(g->z[mon_dex].type->id == mon_dog){
-		 g->add_msg("The dog seems to like you!");
-		 g->z[mon_dex].friendly = -1;
-	 } else {
-		 g->add_msg("The %s seems quit unimpressed!",g->z[mon_dex].type->name.c_str());
-	 }
- } else {
-	 g->add_msg("You spill the dogfood all over the ground.");
- }
+ if (mon_dex != -1) {
+  if (g->z[mon_dex].type->id == mon_dog) {
+   g->add_msg("The dog seems to like you!");
+   g->z[mon_dex].friendly = -1;
+  } else
+   g->add_msg("The %s seems quit unimpressed!",g->z[mon_dex].type->name.c_str());
+ } else
+  g->add_msg("You spill the dogfood all over the ground.");
 
 }
   
@@ -1628,6 +1631,29 @@ void iuse::smokebomb_act(game *g, player *p, item *it, bool t)
   it->make(g->itypes[itm_canister_empty]);
 }
 
+void iuse::acidbomb(game *g, player *p, item *it, bool t)
+{
+ g->add_msg("You remove the divider, and the chemicals mix.");
+ p->moves -= 150;
+ it->make(g->itypes[itm_acidbomb_act]);
+ it->charges = 1;
+ it->bday = int(g->turn);
+ it->active = true;
+}
+ 
+void iuse::acidbomb_act(game *g, player *p, item *it, bool t)
+{
+ if (!p->has_item(it)) {
+  point pos = g->find_item(it);
+  if (pos.x == -999)
+   pos = point(p->posx, p->posy);
+  it->charges = 0;
+  for (int x = pos.x - 1; x <= pos.x + 1; x++) {
+   for (int y = pos.y - 1; y <= pos.y + 1; y++)
+    g->m.add_field(g, x, y, fd_acid, 3);
+  }
+ }
+}
 
 void iuse::molotov(game *g, player *p, item *it, bool t)
 {
@@ -1883,7 +1909,7 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
     numdice++;	// Minor bonus against huge people
   else if (foe->str_max <= 5)
    numdice--;	// Minor penalty against tiny people
-  if (dice(numdice, 10) <= dice(foe->dodge(), 6)) {
+  if (dice(numdice, 10) <= dice(foe->dodge(g), 6)) {
    g->add_msg("You attempt to shock %s, but miss.", foe->name.c_str());
    return;
   }

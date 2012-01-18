@@ -291,6 +291,7 @@ public:
  virtual bool wield(game *g, int index);
  bool has_healing_item();
  bool has_painkiller();
+ bool took_painkiller();
  void use_painkiller(game *g);
  void activate_item(game *g, int index);
 

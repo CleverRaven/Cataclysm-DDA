@@ -521,36 +521,44 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
 int trial_chance(talk_response response, player *u, npc *p)
 {
  talk_trial trial = response.trial;
- int diff = response.difficulty;
+ int chance = response.difficulty;
  switch (trial) {
   case TALK_TRIAL_LIE:
-   diff += u->talk_skill() - p->talk_skill();
+   chance += u->talk_skill() - p->talk_skill() + p->op_of_u.trust * 3;
    if (u->has_trait(PF_TRUTHTELLER))
-    diff += 40;
+    chance -= 40;
    break;
 
   case TALK_TRIAL_PERSUADE:
-   diff += u->talk_skill() - int(p->talk_skill() / 2) +
+   chance += u->talk_skill() - int(p->talk_skill() / 2) +
            p->op_of_u.trust * 2 + p->op_of_u.value;
+   if (u->has_trait(PF_GROWL))
+    chance -= 25;
+   if (u->has_trait(PF_SNARL))
+    chance -= 60;
    break;
 
   case TALK_TRIAL_INTIMIDATE:
-   diff += u->intimidation() - p->intimidation() + p->op_of_u.fear * 2 -
+   chance += u->intimidation() - p->intimidation() + p->op_of_u.fear * 2 -
            p->personality.bravery * 2;
    if (u->has_trait(PF_TERRIFYING))
-    diff -= 15;
+    chance += 15;
    if (p->has_trait(PF_TERRIFYING))
-    diff += 15;
+    chance -= 15;
+   if (u->has_trait(PF_GROWL))
+    chance += 15;
+   if (u->has_trait(PF_SNARL))
+    chance += 30;
    break;
 
  }
 
- if (diff < 0)
+ if (chance < 0)
   return 0;
- if (diff > 100)
+ if (chance > 100)
   return 100;
 
- return diff;
+ return chance;
 }
 
 int topic_category(talk_topic topic)

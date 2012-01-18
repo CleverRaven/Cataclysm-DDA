@@ -326,9 +326,12 @@ std::string item::info(bool showtext)
   if (has_flag(IF_RELOAD_ONE))
    dump << " per round";
 
-  if (burst_size() == 0)
-   dump << "\n Semi-automatic.";
-  else
+  if (burst_size() == 0) {
+   if (gun->skill_used == sk_pistol && has_flag(IF_RELOAD_ONE))
+    dump << "\n Revolver.";
+   else
+    dump << "\n Semi-automatic.";
+  } else
    dump << "\n Burst size: " << burst_size();
   if (contents.size() > 0)
    dump << "\n";
@@ -537,6 +540,12 @@ std::string item::tname(game *g)
   ret << corpse->name << " corpse";
   if (name != "")
    ret << " of " << name;
+  return ret.str();
+ } else if (type->id == itm_blood) {
+  if (corpse == NULL || corpse->id == mon_null)
+   ret << "human blood";
+  else
+   ret << corpse->name << " blood";
   return ret.str();
  }
 

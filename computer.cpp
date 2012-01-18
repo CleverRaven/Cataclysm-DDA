@@ -849,7 +849,7 @@ void computer::print_line(const char *mes, ...)
   }
  }
 // Print the line.
- wprintz(w_terminal, c_green, " %s%s", message.c_str(), "\n");
+ wprintz(w_terminal, c_green, " %s\n", message.c_str());
 // Reprint the border, in case we pushed a line over it
  wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                      LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );

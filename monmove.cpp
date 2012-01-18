@@ -172,7 +172,9 @@ void monster::move(game *g)
   return;
  }
  if (friendly != 0 ||
-     (g->u.has_trait(PF_ANIMALEMPATH) && has_flag(MF_ANIMAL))) {
+     (g->u.has_trait(PF_ANIMALEMPATH) && has_flag(MF_ANIMAL) ||
+     (g->u.has_trait(PF_PHEROMONE_INSECT) && type->species == species_insect) ||
+     (g->u.has_trait(PF_PHEROMONE_MAMMAL) && type->species == species_mammal))){
   if (friendly > 0)
    friendly--;
   friendly_move(g);
@@ -431,7 +433,7 @@ void monster::hit_player(game *g, player &p)
  std::string Your = (is_npc ? p.name + "'s" : "Your");
  body_part bphit;
  int side = rng(0, 1);
- int dam = hit(p, bphit);
+ int dam = hit(g, p, bphit);
  if (dam == 0 && u_see)
   g->add_msg("The %s misses %s.", name().c_str(), you.c_str());
  else if (dam > 0) {

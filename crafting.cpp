@@ -383,7 +383,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
  RECIPE(itm_water_purifier, CC_ELECTRONIC, sk_mechanics,sk_electronics,3,25000);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
-  COMP(itm_hotplate, 2, itm_toolset, 1, NULL);
+  COMP(itm_hotplate, 2, NULL);
   COMP(itm_bottle_glass, 2, itm_bottle_plastic, 5, NULL);
   COMP(itm_hose, 1, NULL);
 

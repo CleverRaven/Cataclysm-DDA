@@ -37,6 +37,7 @@ class iuse
   void inhaler		(game *g, player *p, item *it, bool t);
   void blech		(game *g, player *p, item *it, bool t);
   void mutagen		(game *g, player *p, item *it, bool t);
+  void mutagen_3	(game *g, player *p, item *it, bool t);
   void purifier		(game *g, player *p, item *it, bool t);
   void marloss		(game *g, player *p, item *it, bool t);
   void dogfood		(game *g, player *p, item *it, bool t);
@@ -77,6 +78,8 @@ class iuse
   void gasbomb_act	(game *g, player *p, item *it, bool t);
   void smokebomb	(game *g, player *p, item *it, bool t);
   void smokebomb_act	(game *g, player *p, item *it, bool t);
+  void acidbomb		(game *g, player *p, item *it, bool t);
+  void acidbomb_act	(game *g, player *p, item *it, bool t);
   void molotov		(game *g, player *p, item *it, bool t);
   void molotov_lit	(game *g, player *p, item *it, bool t);
   void dynamite		(game *g, player *p, item *it, bool t);

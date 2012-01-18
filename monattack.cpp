@@ -165,7 +165,7 @@ void mattack::boomer(game *g, monster *z)
    return;
   }
  }
- if (rng(0, 10) > g->u.dodge() || one_in(g->u.dodge()))
+ if (rng(0, 10) > g->u.dodge(g) || one_in(g->u.dodge(g)))
   g->u.infect(DI_BOOMERED, bp_eyes, 3, 12, g);
  else if (u_see)
   g->add_msg("You dodge it!");
@@ -183,7 +183,7 @@ void mattack::resurrect(game *g, monster *z)
    if (g->is_empty(x, y) && g->m.sees(z->posx, z->posy, x, y, -1, junk)) {
     for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
      if (g->m.i_at(x, y)[i].type->id == itm_corpse &&
-         g->m.i_at(x, y)[i].corpse->sym == 'Z') {
+         g->m.i_at(x, y)[i].corpse->species == species_zombie) {
       corpses.push_back(point(x, y));
       i = g->m.i_at(x, y).size();
      }
@@ -267,7 +267,7 @@ void mattack::science(game *g, monster *z)	// I said SCIENCE again!
   g->add_msg("The %s opens it's mouth and a beam shoots towards you!",
              z->name().c_str());
   z->moves -= 400;
-  if (g->u.dodge() > rng(1, 16))
+  if (g->u.dodge(g) > rng(1, 16))
    g->add_msg("You dodge the beam!");
   else if (one_in(6))
    g->u.mutate(g);
@@ -707,7 +707,7 @@ void mattack::dermatik(game *g, monster *z)
 
 // Can we dodge the attack?
  int attack_roll = dice(z->type->melee_skill, 10);
- int player_dodge = g->u.dodge_roll();
+ int player_dodge = g->u.dodge_roll(g);
  if (player_dodge > attack_roll) {
   g->add_msg("The %s tries to land on you, but you dodge.", z->name().c_str());
   z->stumble(g, false);
@@ -856,7 +856,7 @@ void mattack::tentacle(game *g, monster *z)
   g->m.shoot(g, line[i].x, line[i].y, tmpdam, true, 0);
  }
 
- if (rng(0, 20) > g->u.dodge() || one_in(g->u.dodge())) {
+ if (rng(0, 20) > g->u.dodge(g) || one_in(g->u.dodge(g))) {
   g->add_msg("You dodge it!");
   return;
  }

@@ -37,7 +37,8 @@ void game::init_mapitems()
 	itm_gloves_wool, itm_gloves_winter, itm_gloves_leather,
 	itm_gloves_fingerless, itm_bandana, itm_scarf, itm_hat_cotton,
 	itm_hat_knit, itm_hat_fur, itm_helmet_bike, itm_helmet_motor,
-	itm_mag_tv, itm_mag_news, itm_lighter, itm_extinguisher, itm_mp3, NULL);
+	itm_mag_tv, itm_mag_news, itm_lighter, itm_extinguisher, itm_mp3, 
+	itm_usb_drive, NULL);
 
  setvector(
    mapitems[mi_kitchen],
@@ -52,8 +53,7 @@ void game::init_mapitems()
 	itm_water, itm_oj, itm_cola, itm_rootbeer, itm_milk, itm_V8, itm_apple,
 	itm_sandwich_t, itm_mushroom, itm_blueberries, itm_strawberries, 
 	itm_tomato, itm_broccoli, itm_zucchini, itm_frozen_dinner, itm_vodka,
-	itm_apple_cider,
-	NULL);
+	itm_apple_cider, NULL);
 
  setvector(
    mapitems[mi_home_hw],
@@ -352,7 +352,7 @@ void game::init_mapitems()
    mapitems[mi_hospital_lab],
 	itm_blood, itm_iodine, itm_bleach, itm_bandages, itm_syringe,
 	itm_canister_empty, itm_coat_lab, itm_gloves_medical, itm_mask_dust,
-	itm_glasses_safety, itm_vacutainer, NULL);
+	itm_glasses_safety, itm_vacutainer, itm_usb_drive, NULL);
 
  setvector(
    mapitems[mi_hospital_samples],

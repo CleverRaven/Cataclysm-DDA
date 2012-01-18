@@ -34,6 +34,7 @@ game::game()
  init_moncats();      // Set up monster categories        (SEE mongroupdef.cpp)
  init_missions();     // Set up mission templates         (SEE missiondef.cpp)
  init_construction(); // Set up constructables            (SEE construction.cpp)
+ init_mutations();
 
  m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
 
@@ -67,8 +68,8 @@ game::game()
  in_tutorial = false;	// We're not in a tutorial game
  weather = WEATHER_CLEAR; // Start with some nice weather...
  nextweather = MINUTES(STARTING_MINUTES + 30); // Weather shift in 30
- turnssincelastmon = 0; //Auto run mode init
- autorunmode = true;
+ turnssincelastmon = 0; //Auto safe mode init
+ autosafemode = true;
 
  turn.season = SUMMER;    // ... with winter conveniently a long ways off
 
@@ -418,8 +419,6 @@ void game::start_game()
 // Put some NPCs in there!
  create_starting_npcs();
 
-// Testing missions!
- //give_mission(MISSION_REACH_SAFETY);
 }
 
 void game::start_tutorial(tut_type type)
@@ -517,12 +516,11 @@ void game::create_starting_npcs()
  tmp.attitude = NPCATT_NULL;
  tmp.mission = NPC_MISSION_SHELTER;
  tmp.chatbin.first_topic = TALK_SHELTER;
- tmp.chatbin.missions.push_back( reserve_mission(MISSION_GET_SOFTWARE, tmp.id));
-/*
- tmp.chatbin.missions.push_back( 
-     reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp.id) );
-*/
-//    reserve_mission(MISSION_GET_ANTIBIOTICS, tmp.id) );
+ if (one_in(2))
+  tmp.chatbin.missions.push_back( reserve_mission(MISSION_GET_SOFTWARE, tmp.id));
+ else
+  tmp.chatbin.missions.push_back( 
+      reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp.id) );
 
  active_npc.push_back(tmp);
 }
@@ -610,15 +608,21 @@ bool game::do_turn()
    u.pain--;
   else if (u.pain < 0)
    u.pain++;
-  if (u.has_trait(PF_REGEN) && !one_in(3))
+// Mutation healing effects
+  if (u.has_trait(PF_FASTHEALER2) && one_in(5))
    u.healall(1);
-  if (u.has_trait(PF_ROT) && !one_in(3))
+  if (u.has_trait(PF_REGEN) && one_in(2))
+   u.healall(1);
+  if (u.has_trait(PF_ROT2) && one_in(5))
    u.hurtall(1);
+  if (u.has_trait(PF_ROT3) && one_in(2))
+   u.hurtall(1);
+
   if (u.radiation > 1 && one_in(3))
    u.radiation--;
   u.get_sick(this);
 // Auto-save on the half-hour
-  //save();
+  save();
  }
 // Update the weather, if it's time.
  if (turn >= nextweather)
@@ -652,7 +656,7 @@ bool game::do_turn()
  monmove();
  update_stair_monsters();
  om_npcs_move();
- u.reset();
+ u.reset(this);
  u.process_active_items(this);
  u.suffer(this);
 
@@ -1116,7 +1120,7 @@ void game::get_input()
   vertical_move( 1, false);
  else if (ch == '.') {
   if (run_mode == 2) // Monsters around and we don't wanna pause
-   add_msg("Monster spotted--run mode is on! (Press '!' to turn it off.)");
+   add_msg("Monster spotted--safe mode is on! (Press '!' to turn it off.)");
   else
    u.pause();
  } else if (ch == 'o')
@@ -1204,14 +1208,14 @@ void game::get_input()
  } else if (ch == '!') {
   if (run_mode == 0 ) {
    run_mode = 1;
-   add_msg("Run mode ON!");
+   add_msg("Safe mode ON!");
   } else {
    turnssincelastmon = 0;
    run_mode = 0;
-   if(autorunmode)
-   add_msg("Run mode OFF! (Auto run mode still enabled!)");
+   if(autosafemode)
+   add_msg("Safe mode OFF! (Auto safe mode still enabled!)");
    else
-   add_msg("Run mode OFF!");
+   add_msg("Safe mode OFF!");
   }
  } else if (ch == 's')
   smash();
@@ -1234,12 +1238,12 @@ void game::get_input()
   help();
   refresh_all();
  } else if (ch == '"') {
-  if (autorunmode) {
-   add_msg("Auto run mode OFF!");
-   autorunmode = false;
+  if (autosafemode) {
+   add_msg("Auto safe mode OFF!");
+   autosafemode = false;
   } else {
-   add_msg("Auto run mode ON");
-   autorunmode = true;
+   add_msg("Auto safe mode ON");
+   autosafemode = true;
   }
  } else if (ch == '\''){
   if (run_mode == 2) {
@@ -1572,7 +1576,8 @@ void game::debug()
                    "Spawn Monster",          // 6
                    "Check game state...",    // 7
                    "Kill NPCs",              // 8
-                   "Cancel",                 // 9
+                   "Mutate",                 // 9
+//                   "Cancel",                 // 9
                    NULL);
  switch (action) {
   case 1:
@@ -1634,6 +1639,10 @@ int(turn), int(nextspawn), z.size(), events.size());
     add_msg("%s's head implodes!", active_npc[i].name.c_str());
     active_npc[i].hp_cur[bp_head] = 0;
    }
+   break;
+
+  case 9:
+   mutation_wish();
    break;
 
  }
@@ -1978,7 +1987,7 @@ void game::draw()
  // Draw Status
  draw_HP();
  werase(w_status);
- u.disp_status(w_status);
+ u.disp_status(w_status, this);
 // TODO: Allow for a 24-hour option--already supported by calendar turn
  mvwprintz(w_status, 1, 41, c_white, turn.print_time().c_str());
 
@@ -2008,7 +2017,7 @@ void game::draw()
  mvwprintz(w_status, 0, 41, c_white, "%s, day %d",
            season_name[turn.season].c_str(), turn.day + 1);
  if (run_mode != 0)
-  mvwprintz(w_status, 2, 52, c_red, "RUN");
+  mvwprintz(w_status, 2, 51, c_red, "SAFE");
  wrefresh(w_status);
  // Draw messages
  write_msg();
@@ -2376,13 +2385,16 @@ bool game::u_see(int x, int y, int &t)
 
 bool game::u_see(monster *mon, int &t)
 {
+ int dist = rl_dist(u.posx, u.posy, mon->posx, mon->posy);
+ if (u.has_trait(PF_ANTENNAE) && dist <= 2)
+  return true;
  if (mon->has_flag(MF_DIGS) && !u.has_active_bionic(bio_ground_sonar) &&
-     rl_dist(u.posx, u.posy, mon->posx, mon->posy) > 1)
+     dist > 1)
   return false;	// Can't see digging monsters until we're right next to them
  int range = u.sight_range(light_level());
  if (u.has_artifact_with(AEP_CLAIRVOYANCE)) {
   int crange = (range > u.clairvoyance() ? u.clairvoyance() : range);
-  if (rl_dist(u.posx, u.posy, mon->posx, mon->posy) <= crange)
+  if (dist <= crange)
    return true;
  }
  return m.sees(u.posx, u.posy, mon->posx, mon->posy, range, t);
@@ -2546,7 +2558,7 @@ void game::mon_info()
   turnssincelastmon = 0;
   if (run_mode == 1)
    run_mode = 2;	// Stop movement!
- } else if (autorunmode) { // Auto-runmode
+ } else if (autosafemode) { // Auto-safemode
   turnssincelastmon++;
   if(turnssincelastmon >= 50 && run_mode == 0)
    run_mode = 1;
@@ -2595,7 +2607,7 @@ void game::mon_info()
 
 void game::monmove()
 {
- for (int i = 0; i < z.size() && i < MAX_MONSTERS_MOVING; i++) {
+ for (int i = 0; i < z.size(); i++) {
   bool dead = false;
   if (i < 0 || i > z.size())
    debugmsg("Moving out of bounds monster! i %d, z.size() %d", i, z.size());
@@ -4716,6 +4728,14 @@ void game::complete_butcher(int index)
 
 void game::eat()
 {
+ if (u.has_trait(PF_RUMINANT) && m.ter(u.posx, u.posy) == t_underbrush &&
+     query_yn("Eat underbrush?")) {
+  u.moves -= 400;
+  u.hunger -= 10;
+  m.ter(u.posx, u.posy) = t_grass;
+  add_msg("You eat the underbrush.");
+  return;
+ }
  char ch = inv("Consume item:");
  if (ch == KEY_ESCAPE) {
   add_msg("Never mind.");
@@ -4969,7 +4989,7 @@ void game::chat()
 void game::plmove(int x, int y)
 {
  if (run_mode == 2) { // Monsters around and we don't wanna run
-  add_msg("Monster spotted--run mode is on! \
+  add_msg("Monster spotted--safe mode is on! \
 (Press '!' to turn it off or ' to ignore monster.)");
   return;
  }
@@ -4995,7 +5015,7 @@ void game::plmove(int x, int y)
    return;	// Cancel the attack
   body_part bphit;
   int hitdam = 0, hitcut = 0;
-  bool success = u.hit_player(active_npc[npcdex], bphit, hitdam, hitcut);
+  bool success = u.hit_player(this, active_npc[npcdex], bphit, hitdam, hitcut);
   if (u.recoil <= 30)
    u.recoil += 6;
   u.moves -= (80 + u.weapon.volume() * 2 + u.weapon.weight() +
@@ -5117,9 +5137,26 @@ void game::plmove(int x, int y)
    movecost = m.move_cost(x, y) * 50;
   if (u.has_trait(PF_FLEET) && m.move_cost(x, y) == 2)
    movecost = int(movecost * .85);
+  if (u.has_trait(PF_FLEET2) && m.move_cost(x, y) == 2)
+   movecost = int(movecost * .7);
+  if (u.has_trait(PF_PADDED_FEET) && !u.wearing_something_on(bp_feet))
+   movecost = int(movecost * .9);
+  if (u.has_trait(PF_LIGHT_BONES))
+   movecost = int(movecost * .9);
+  if (u.has_trait(PF_HOLLOW_BONES))
+   movecost = int(movecost * .8);
+  if (u.has_trait(PF_WINGS_INSECT))
+   movecost -= 15;
+  if (u.has_trait(PF_PONDEROUS1))
+   movecost = int(movecost * 1.1);
+  if (u.has_trait(PF_PONDEROUS2))
+   movecost = int(movecost * 1.2);
+  if (u.has_trait(PF_PONDEROUS3))
+   movecost = int(movecost * 1.3);
   movecost += u.encumb(bp_mouth) * 5 + u.encumb(bp_feet) * 5 +
               u.encumb(bp_legs) * 3;
-  if (!u.wearing_something_on(bp_feet))
+  if (!u.wearing_something_on(bp_feet) && !u.has_trait(PF_PADDED_FEET) &&
+      !u.has_trait(PF_HOOVES))
    movecost += 15;
   u.moves -= movecost;
 
@@ -5446,13 +5483,17 @@ void game::vertical_move(int movez, bool force)
   replace_stair_monsters();
 
  if (force) {	// Basically, we fell.
-  int dam = int((u.str_max / 4) + rng(5, 10)) * rng(1, 3);// The bigger they are
-  dam -= rng(u.dodge(), u.dodge() * 3);
-  if (dam <= 0)
-   add_msg("You fall expertly and take no damage.");
+  if (u.has_trait(PF_WINGS_BIRD))
+   add_msg("You flap your wings and flutter down gracefully.");
   else {
-   add_msg("You fall heavily, taking %d damage.", dam);
-   u.hurtall(dam);
+   int dam = int((u.str_max / 4) + rng(5, 10)) * rng(1, 3);// The bigger they are
+   dam -= rng(u.dodge(this), u.dodge(this) * 3);
+   if (dam <= 0)
+    add_msg("You fall expertly and take no damage.");
+   else {
+    add_msg("You fall heavily, taking %d damage.", dam);
+    u.hurtall(dam);
+   }
   }
  }
 

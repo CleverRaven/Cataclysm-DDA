@@ -1,19 +1,17 @@
-# Max length of a line is 64 characters; the following line is for reference
 # This message may be 16 lines long at maximum.
+# Max length of a line is 64 characters; the following line is for reference
 ################################################################
-Welcome to v0.1a, and happy Annual Roguelike Release Party!
+Welcome to 2012, roguelike fans!
+I was away on vacation for a few weeks, so excuse my absence and
+the small-ish update.  This update focuses on a new mutation
+system.  It now works on a tech tree of sorts; one mutation can
+lead to another, some mutations cancel each other, and mutations
+are grouped into types; tree-like or fish-like, for example.
+Mutating inside a type increases your chances of mutating in
+that type in the future.
+There's also some rebalance tweaks here; most notably, the XP
+pool is capped rather low, and shooting at fast-moving monsters
+is harder.
 
-The player's inventory has been overhauled.  Items now stack
-with identical items, and the drop interface allows you to
-select multiple items to drop in one go.  Dropping part of a
-stack works as in nethack or DCSS--enter the number of items you
-want to stack, then the letter assigned to that stack.
-
-Another major new mechanic has been added: construction!  Right
-now it's fairly new and untested, so please share bug reports.
-It also only has a limited selection of terrain you can build;
-more will be added soon.  Press * to construct.
-
-Finally, you can craft and construct using items on the floor,
-up to two tiles away.  This makes crafting things that require a
-lot of items much easier!
+Please visit the official Cataclysm forums:
+http://whalesdev.com/forums/index.php
