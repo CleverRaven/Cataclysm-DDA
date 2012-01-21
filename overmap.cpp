@@ -1772,6 +1772,12 @@ void overmap::polish(oter_id min, oter_id max)
    if (ter(x, y) >= min && ter(x, y) <= max) {
     if (ter(x, y) >= ot_road_null && ter(x, y) <= ot_road_nesw)
      good_road(ot_road_ns, x, y);
+    else if (ter(x, y) >= ot_bridge_ns && ter(x, y) <= ot_bridge_ew &&
+             ter(x - 1, y) >= ot_bridge_ns && ter(x - 1, y) <= ot_bridge_ew &&
+             ter(x + 1, y) >= ot_bridge_ns && ter(x + 1, y) <= ot_bridge_ew &&
+             ter(x, y - 1) >= ot_bridge_ns && ter(x, y - 1) <= ot_bridge_ew &&
+             ter(x, y + 1) >= ot_bridge_ns && ter(x, y + 1) <= ot_bridge_ew)
+     ter(x, y) = ot_road_nesw;
     else if (ter(x, y) >= ot_subway_ns && ter(x, y) <= ot_subway_nesw)
      good_road(ot_subway_ns, x, y);
     else if (ter(x, y) >= ot_sewer_ns && ter(x, y) <= ot_sewer_nesw)

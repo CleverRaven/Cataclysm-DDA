@@ -321,7 +321,7 @@ class game
 
   calendar nextspawn; // The turn on which monsters will spawn next.
   calendar nextweather; // The turn on which weather will shift next.
-  overmap om_hori, om_vert, om_diag; // Adjacent overmaps
+  overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
   int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
   std::vector <std::string> messages;   // Messages to be printed
   unsigned char curmes;	  // The last-seen message.  Older than 256 is deleted.

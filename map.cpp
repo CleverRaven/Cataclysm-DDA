@@ -788,7 +788,7 @@ void map::add_item(int x, int y, item new_item)
     }
    }
   }
-  if (okay.size() == 0)	// STILL?
+  if (okay.size() == 0)// STILL?
    return;
   point choice = okay[rng(0, okay.size() - 1)];
   add_item(choice.x, choice.y, new_item);

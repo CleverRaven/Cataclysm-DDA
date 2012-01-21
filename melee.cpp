@@ -153,31 +153,36 @@ int player::hit_mon(game *g, monster *z)
 
  if (unarmed) { // Unarmed bonuses
   dam += rng(0, sklevel[sk_unarmed]);
-  if (has_trait(PF_NAILS) && z->armor() == 0 &&
+  if (has_trait(PF_NAILS) && z->armor_cut() == 0 &&
       !wearing_something_on(bp_hands)) {
    dam++;
    if (one_in(2))
     can_poison = true;
   }
-  if (has_trait(PF_CLAWS) && z->armor() < 6 &&
+  if (has_trait(PF_CLAWS) && z->armor_cut() < 6 &&
       !wearing_something_on(bp_hands)) {
    dam += 6;
    if (one_in(2))
     can_poison = true;
   }
-  if (has_trait(PF_TALONS) && z->armor() - sklevel[sk_unarmed] < 10) {
-   int z_armor = (z->armor() - sklevel[sk_unarmed]);
+  if (has_trait(PF_TALONS) && z->armor_cut() - sklevel[sk_unarmed] < 10) {
+   int z_armor = (z->armor_cut() - sklevel[sk_unarmed]);
    if (z_armor < 0)
     z_armor = 0;
    dam += 10 - z_armor;
    if (one_in(2))
     can_poison = true;
   }
-  if (has_trait(PF_THORNS) && z->armor() < 4 &&
+  if (has_trait(PF_THORNS) && z->armor_cut() < 4 &&
       !wearing_something_on(bp_hands)) {
-   dam += 4 - z->armor();
+   dam += 4 - z->armor_cut();
    if (one_in(2))
     can_poison = true;
+  }
+  if (has_trait(PF_SLIME_HANDS) && !z->has_flag(MF_ACIDPROOF) &&
+      !wearing_something_on(bp_hands)) {
+   dam += rng(4, 6);
+   can_poison = true;
   }
  }
 
@@ -201,7 +206,7 @@ int player::hit_mon(game *g, monster *z)
 // Melee skill bonus
  dam += rng(0, sklevel[sk_melee]);
 // Bashing damage bonus
- int bash_dam = weapon.damage_bash(),
+ int bash_dam = weapon.damage_bash() - z->armor_bash(),
      bash_cap = 5 + str_cur + sklevel[sk_bashing];
  if (bash_dam > bash_cap)// Cap for weak characters
   bash_dam = (bash_cap * 3 + bash_dam) / 4;
@@ -218,8 +223,8 @@ int player::hit_mon(game *g, monster *z)
 
 // Spears treat cutting damage specially.
  if (weapon.has_flag(IF_SPEAR) &&
-     weapon.damage_cut() > z->type->armor - int(sklevel[sk_stabbing])) {
-  int z_armor = z->type->armor - int(sklevel[sk_stabbing]);
+     weapon.damage_cut() > z->armor_cut() - int(sklevel[sk_stabbing])) {
+  int z_armor = z->armor_cut() - int(sklevel[sk_stabbing]);
   dam += int(weapon.damage_cut() / 5);
   int minstab = sklevel[sk_stabbing] *  5 + weapon.volume() * 2,
       maxstab = sklevel[sk_stabbing] * 15 + weapon.volume() * 4;
@@ -235,14 +240,16 @@ int player::hit_mon(game *g, monster *z)
 
 // Cutting damage bonus
  } else if (weapon.damage_cut() >
-            z->type->armor - int(sklevel[sk_cutting] / 2)) {
-  int z_armor = z->type->armor - int(sklevel[sk_cutting] / 2);
+            z->armor_cut() - int(sklevel[sk_cutting] / 2)) {
+
+  int z_armor = z->armor_cut() - int(sklevel[sk_cutting] / 2);
   if (z_armor < 0)
    z_armor = 0;
   dam += weapon.damage_cut() - z_armor;
   cutting_penalty = weapon.damage_cut() * 3 + z_armor * 8 -
                     dice(sklevel[sk_cutting], 10);
  }
+
  if (weapon.has_flag(IF_MESSY)) { // e.g. chainsaws
   cutting_penalty /= 6; // Harder to get stuck
   for (int x = z->posx - 1; x <= z->posx + 1; x++) {
@@ -382,14 +389,14 @@ int player::hit_mon(game *g, monster *z)
  for (int i = 0; i < special_attacks.size(); i++) {
   int spec_dam = 0;
   spec_dam += special_attacks[i].bash;
-  if (special_attacks[i].cut > z->armor())
-   spec_dam += special_attacks[i].cut - z->armor();
-  if (special_attacks[i].stab > z->armor() * .8)
-   spec_dam += special_attacks[i].stab - z->armor() * .8;
+  if (special_attacks[i].cut > z->armor_cut())
+   spec_dam += special_attacks[i].cut - z->armor_cut();
+  if (special_attacks[i].stab > z->armor_cut() * .8)
+   spec_dam += special_attacks[i].stab - z->armor_cut() * .8;
 
   if (!can_poison && one_in(2) &&
-      (special_attacks[i].cut > z->armor() ||
-       special_attacks[i].stab > z->armor() * .8))
+      (special_attacks[i].cut > z->armor_cut() ||
+       special_attacks[i].stab > z->armor_cut() * .8))
    can_poison = true;
 
   if (spec_dam > 0) {
@@ -720,6 +727,15 @@ std::vector<special_attack> player::mutation_attacks(monster *z)
   ret.push_back(tmp);
  }
 
+ if (has_trait(PF_MANDIBLES) && one_in(22 - dex_cur - sklevel[sk_unarmed])) {
+  special_attack tmp;
+  text << You << " slice" << (is_u ? " " : "s ") << "the " << z->name() <<
+          " with " << your << " mandibles!";
+  tmp.text = text.str();
+  tmp.cut = 12;
+  ret.push_back(tmp);
+ }
+
  if (has_trait(PF_BEAK) && one_in(15 - dex_cur - sklevel[sk_unarmed])) {
   special_attack tmp;
   text << You << " peck" << (is_u ? " " : "s ") << "the " << z->name() << "!";
@@ -761,7 +777,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z)
  if (has_trait(PF_HORNS_POINTED) && one_in(22 - dex_cur - sklevel[sk_unarmed])){
   special_attack tmp;
   text << You << " stab" << (is_u ? " " : "s ") << "the " << z->name() <<
-          " with " << your << " curled horns!";
+          " with " << your << " pointed horns!";
   tmp.text = text.str();
   tmp.stab = 24;
   ret.push_back(tmp);
@@ -792,6 +808,29 @@ std::vector<special_attack> player::mutation_attacks(monster *z)
   tmp.text = text.str();
   tmp.bash = 18;
   ret.push_back(tmp);
+ }
+
+ if (has_trait(PF_ARM_TENTACLES) || has_trait(PF_ARM_TENTACLES_4) ||
+     has_trait(PF_ARM_TENTACLES_8)) {
+  int num_attacks = 1;
+  if (has_trait(PF_ARM_TENTACLES_4))
+   num_attacks = 3;
+  if (has_trait(PF_ARM_TENTACLES_8))
+   num_attacks = 7;
+  if (weapon.is_two_handed(this))
+   num_attacks--;
+
+  for (int i = 0; i < num_attacks; i++) {
+   if (one_in(18 - dex_cur - sklevel[sk_unarmed])) {
+    special_attack tmp;
+    text.str("");
+    text << You << " slap" << (is_u ? " " : "s ") << "the " << z->name() <<
+            " with " << your << " tentacle!";
+    tmp.text = text.str();
+    tmp.bash = str_cur / 2;
+    ret.push_back(tmp);
+   }
+  }
  }
 
  return ret;

@@ -5776,13 +5776,13 @@ void map::add_spawn(monster *mon)
  } else {
   spawnx = mon->posx;
   spawny = mon->posy;
-  while (spawnx < 0)
-   spawnx += SEEX;
-  while (spawny < 0)
-   spawny += SEEY;
-  spawnx %= SEEX;
-  spawny %= SEEY;
  }
+ while (spawnx < 0)
+  spawnx += SEEX;
+ while (spawny < 0)
+  spawny += SEEY;
+ spawnx %= SEEX;
+ spawny %= SEEY;
  add_spawn(mon_id(mon->type->id), 1, spawnx, spawny, (mon->friendly < 0),
            mon->faction_id, mon->mission_id, spawnname);
 }

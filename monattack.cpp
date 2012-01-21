@@ -329,7 +329,7 @@ void mattack::growplants(game *g, monster *z)
        g->add_msg("A tree bursts forth from the earth and pierces the %s!",
                   g->z[mondex].name().c_str());
       int rn = rng(10, 30);
-      rn -= g->z[mondex].armor();
+      rn -= g->z[mondex].armor_cut();
       if (rn < 0)
        rn = 0;
       if (g->z[mondex].hurt(rn))
@@ -382,7 +382,7 @@ void mattack::growplants(game *g, monster *z)
         g->add_msg("Underbrush forms into a tree, and it pierces the %s!",
                    g->z[mondex].name().c_str());
        int rn = rng(10, 30);
-       rn -= g->z[mondex].armor();
+       rn -= g->z[mondex].armor_cut();
        if (rn < 0)
         rn = 0;
        if (g->z[mondex].hurt(rn))

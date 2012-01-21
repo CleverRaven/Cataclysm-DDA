@@ -209,10 +209,13 @@ void trapfuncm::blade(game *g, monster *z, int x, int y)
  int t;
  if (g->u_see(z, t))
   g->add_msg("A machete swings out and hacks the %s!", z->name().c_str());
- int cutdam = 30 - z->type->armor;
+ int cutdam = 30 - z->armor_cut();
+ int bashdam = 12 - z->armor_bash();
  if (cutdam < 0)
   cutdam = 0;
- if (z->hurt(12 + cutdam))
+ if (bashdam < 0)
+  bashdam = 0;
+ if (z->hurt(bashdam + cutdam))
   g->kill_mon(g->mon_at(x, y));
 }
 

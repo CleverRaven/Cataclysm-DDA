@@ -150,8 +150,6 @@ void player::reset(game *g)
  if (has_bionic(bio_armor_head))
   per_cur--;
  if (has_bionic(bio_armor_arms))
-  dex_cur -= 2;
- if (has_bionic(bio_armor_torso))
   dex_cur--;
  if (has_bionic(bio_metabolics) && power_level < max_power_level &&
      hunger < 100) {
@@ -166,6 +164,9 @@ void player::reset(game *g)
   dex_cur--;
  if (has_trait(PF_COMPOUND_EYES) && !wearing_something_on(bp_eyes))
   per_cur++;
+ if (has_trait(PF_ARM_TENTACLES) || has_trait(PF_ARM_TENTACLES_4) ||
+     has_trait(PF_ARM_TENTACLES_8))
+  dex_cur++;
 // Pain
  if (pain > pkill) {
   str_cur  -=     int((pain - pkill) / 15);
@@ -223,10 +224,11 @@ void player::reset(game *g)
   int_cur = 0;
  
  int mor = morale_level();
- if (mor >= 0 && mor < 100 && rng(0, 100) <= mor + 8)
+ int xp_frequency = 10 - int(mor / 20);
+ if (xp_frequency < 1)
+  xp_frequency = 1;
+ if (int(g->turn) % xp_frequency == 0)
   xp_pool++;
- else if (mor > 0)
-  xp_pool += int(mor / 100);
 
  if (xp_pool > 800)
   xp_pool = 800;
@@ -334,6 +336,8 @@ int player::swim_speed()
   ret -= 100 + str_cur * 10;
  if (has_trait(PF_SLEEK_SCALES))
   ret -= 100;
+ if (has_trait(PF_LEG_TENTACLES))
+  ret -= 60;
  ret += (50 - sklevel[sk_swimming] * 2) * abs(encumb(bp_legs));
  ret += (80 - sklevel[sk_swimming] * 3) * abs(encumb(bp_torso));
  if (sklevel[sk_swimming] < 10) {
@@ -1732,7 +1736,7 @@ int player::read_speed(bool real_life)
  int intel = (real_life ? int_cur : int_max);
  int ret = 1000 - 50 * (intel - 8);
  if (has_trait(PF_FASTREADER))
-  ret /= 3;
+  ret *= .8;
  if (ret < 100)
   ret = 100;
  return (real_life ? ret : ret / 10);
@@ -1990,9 +1994,11 @@ void player::heal(hp_part healed, int dam)
 void player::healall(int dam)
 {
  for (int i = 0; i < num_hp_parts; i++) {
-  hp_cur[i] += dam;
-  if (hp_cur[i] > hp_max[i])
-   hp_cur[i] = hp_max[i];
+  if (hp_cur[i] > 0) {
+   hp_cur[i] += dam;
+   if (hp_cur[i] > hp_max[i])
+    hp_cur[i] = hp_max[i];
+  }
  }
 }
 
@@ -2037,9 +2043,9 @@ void player::get_sick(game *g)
 
  if (one_in(700 + 25 * health + (has_trait(PF_DISRESISTANT) ? 300 : 0))) {
   if (one_in(6))
-   add_disease(DI_FLU, rng(40000, 80000), g);
+   infect(DI_FLU, bp_mouth, 3, rng(40000, 80000), g);
   else
-   add_disease(DI_COMMON_COLD, rng(20000, 60000), g);
+   infect(DI_COMMON_COLD, bp_mouth, 3, rng(20000, 60000), g);
  }
 }
 
@@ -2403,6 +2409,14 @@ void player::suffer(game *g)
    g->m.field_at(posx, posy).density++;
  }
 
+ if (has_trait(PF_WEB_WEAVER) && one_in(3)) {
+  if (g->m.field_at(posx, posy).type == fd_null)
+   g->m.add_field(g, posx, posy, fd_web, 1);
+  else if (g->m.field_at(posx, posy).type == fd_web &&
+           g->m.field_at(posx, posy).density < 3)
+   g->m.field_at(posx, posy).density++;
+ }
+
  if (has_trait(PF_RADIOGENIC) && int(g->turn) % 50 == 0 && radiation >= 10) {
   radiation -= 10;
   healall(1);
@@ -2541,6 +2555,8 @@ int player::volume_capacity()
  }
  if (has_bionic(bio_storage))
   ret += 6;
+ if (has_trait(PF_SHELL))
+  ret += 16;
  if (has_trait(PF_PACKMULE))
   ret = int(ret * 1.4);
  return ret;
@@ -3528,6 +3544,10 @@ bool player::wear(game *g, char let)
   g->add_msg("You cannot wear headgear over your horns.");
   return false;
  }
+ if (armor->covers & mfb(bp_torso) && has_trait(PF_SHELL)) {
+  g->add_msg("You cannot wear anything over your shell.");
+  return false;
+ }
  if (armor->covers & mfb(bp_head) && !to_wear->made_of(WOOL) &&
      !to_wear->made_of(COTTON) && !to_wear->made_of(LEATHER) &&
      (has_trait(PF_HORNS_POINTED) || has_trait(PF_ANTENNAE) ||
@@ -3912,6 +3932,10 @@ int player::encumb(body_part bp)
   ret += 1;
  if (has_trait(PF_SLIT_NOSTRILS) && bp == bp_mouth)
   ret += 1;
+ if (bp == bp_hands &&
+     (has_trait(PF_ARM_TENTACLES) || has_trait(PF_ARM_TENTACLES_4) ||
+      has_trait(PF_ARM_TENTACLES_8)))
+  ret += 3;
  return ret;
 }
 
@@ -3938,6 +3962,8 @@ int player::armor_bash(body_part bp)
   ret++;
  if (has_trait(PF_CHITIN))
   ret += 2;
+ if (has_trait(PF_SHELL) && bp == bp_torso)
+  ret += 6;
  return ret;
 }
 
@@ -3974,6 +4000,8 @@ int player::armor_cut(body_part bp)
   ret += 4;
  if (has_trait(PF_CHITIN3))
   ret += 8;
+ if (has_trait(PF_SHELL) && bp == bp_torso)
+  ret += 14;
  return ret;
 }
 
@@ -4143,11 +4171,11 @@ void player::practice(skill s, int amount)
    }
   }
  }
- while (amount > sklevel[s] && xp_pool >= 5 * (1 + sklevel[s])) {
+ while (amount > sklevel[s] && xp_pool >= (1 + sklevel[s])) {
   amount -= sklevel[s] + 1;
   if ((savant == sk_null || savant == s || !one_in(2)) &&
       rng(0, 100) < comprehension_percent(s)) {
-   xp_pool -= 10 * (1 + sklevel[s]);
+   xp_pool -= (1 + sklevel[s]);
    skexercise[s]++;
   }
  }

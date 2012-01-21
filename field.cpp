@@ -516,10 +516,12 @@ void map::step_in_field(int x, int y, game *g)
    return;
 
   case fd_web: {
-   int web = cur->density * 5 - g->u.disease_level(DI_WEBBED);
-   if (web > 0)
-    g->u.add_disease(DI_WEBBED, web, g);
-   field_at(x, y) = field();
+   if (!g->u.has_trait(PF_WEB_WALKER)) {
+    int web = cur->density * 5 - g->u.disease_level(DI_WEBBED);
+    if (web > 0)
+     g->u.add_disease(DI_WEBBED, web, g);
+    field_at(x, y) = field();
+   }
   } break;
 
   case fd_acid:
@@ -758,7 +760,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
 
   case fd_electricity:
    dam = rng(1, cur->density);
-   if (one_in(8 - cur->density) && one_in(z->armor()))
+   if (one_in(8 - cur->density))
     z->moves -= cur->density * 150;
    break;
 

@@ -442,7 +442,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND)},
 
 {ot_hospital_entrance, 1, 5, 3, 15, mcat_null, 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_3X3_SECOND)|mfb(OMS_FLAG_ROAD)},
+ &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND)},
 
 {ot_sewage_treatment, 1, 10, 10, 20, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_PARKING_LOT)},

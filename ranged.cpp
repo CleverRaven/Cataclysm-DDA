@@ -263,10 +263,11 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
  std::string message;
  int dam = (thrown.weight() / 4 + thrown.type->melee_dam / 2 + p.str_cur / 2) /
             double(2 + double(thrown.volume() / 4));
- if (dam > thrown.weight() / 6)
-  dam = thrown.weight() / 6;
- int i, tx, ty;
- for (i = 0; i < trajectory.size() && dam > 0; i++) {
+ if (dam > thrown.weight() * 3)
+  dam = thrown.weight() * 3;
+
+ int i = 0, tx = 0, ty = 0;
+ for (i = 0; i < trajectory.size() && dam > -10; i++) {
   message = "";
   double goodhit = missed_by;
   tx = trajectory[i].x;
@@ -282,8 +283,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
      message += z[mon_at(tx, ty)].name();
      message += "!";
     }
-    if (thrown.type->melee_cut > z[mon_at(tx, ty)].armor())
-     dam += (thrown.type->melee_cut - z[mon_at(tx, ty)].armor());
+    if (thrown.type->melee_cut > z[mon_at(tx, ty)].armor_cut())
+     dam += (thrown.type->melee_cut - z[mon_at(tx, ty)].armor_cut());
    }
    if (thrown.made_of(GLASS) && !thrown.active && // active = molotov, etc.
        rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
@@ -293,8 +294,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
      m.add_item(tx, ty, thrown.contents[i]);
     sound(tx, ty, 16, "glass breaking!");
     int glassdam = rng(0, thrown.volume() * 2);
-    if (glassdam > z[mon_at(tx, ty)].armor())
-     dam += (glassdam - z[mon_at(tx, ty)].armor());
+    if (glassdam > z[mon_at(tx, ty)].armor_cut())
+     dam += (glassdam - z[mon_at(tx, ty)].armor_cut());
    } else
     m.add_item(tx, ty, thrown);
    if (i < trajectory.size() - 1)
@@ -346,11 +347,11 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
  }
  if (thrown.made_of(GLASS) && !thrown.active && // active means molotov, etc
      rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
-   if (u_see(tx, ty, tart))
-    add_msg("The %s shatters!", thrown.tname().c_str());
-   for (int i = 0; i < thrown.contents.size(); i++)
-    m.add_item(tx, ty, thrown.contents[i]);
-   sound(tx, ty, 16, "glass breaking!");
+  if (u_see(tx, ty, tart))
+   add_msg("The %s shatters!", thrown.tname().c_str());
+  for (int i = 0; i < thrown.contents.size(); i++)
+   m.add_item(tx, ty, thrown.contents[i]);
+  sound(tx, ty, 16, "glass breaking!");
  } else {
   sound(tx, ty, 8, "thud.");
   m.add_item(tx, ty, thrown);
@@ -681,7 +682,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit)
   goodhit = 1;
  } else { // Not HARDTOSHOOT
 // Armor blocks BEFORE any critical effects.
-  int zarm = mon.armor();
+  int zarm = mon.armor_cut();
   zarm -= p.weapon.curammo->pierce;
   if (p.weapon.curammo->accuracy < 4) // Shot doesn't penetrate armor well
    zarm *= rng(2, 4);

@@ -598,7 +598,7 @@ int set_traits(WINDOW* w, player *u, int &points)
      for (int i = 0; i < 16; i++) {
       mvwprintz(w, 5 + i, 0, c_dkgray, "\
                                        ");
-      mvwprintz(w, 5 + i, 0, c_dkgray, traits[i].name.c_str());
+      mvwprintz(w, 5 + i, 0, c_dkgray, traits[i + 1].name.c_str());
      }
     }
     using_adv = !using_adv;

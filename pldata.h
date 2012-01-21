@@ -171,6 +171,7 @@ enum pl_flag {
  PF_SLEEK_SCALES,//
  PF_LIGHT_BONES,//
  PF_FEATHERS,//
+ PF_LIGHTFUR,// TODO: Warmth effects
  PF_FUR,// TODO: Warmth effects
  PF_CHITIN,//
  PF_CHITIN2,//
@@ -212,12 +213,18 @@ enum pl_flag {
  PF_PAINREC3,//
  PF_WINGS_BIRD,//
  PF_WINGS_INSECT,//
+ PF_MOUTH_TENTACLES,//
+ PF_MANDIBLES,//
+ PF_CANINE_EARS,
+ PF_WEB_WALKER,
+ PF_WEB_WEAVER,
 
  PF_HEADBUMPS,//
  PF_ANTLERS,//
  PF_SLIT_NOSTRILS,//
  PF_FORKED_TONGUE,//
  PF_EYEBULGE,//
+ PF_MOUTH_FLAPS,//
  PF_WINGS_STUB,//
  PF_WINGS_BAT,//
  PF_PALE,//
@@ -260,6 +267,11 @@ enum pl_flag {
  PF_SHOUT1,//
  PF_SHOUT2,//
  PF_SHOUT3,//
+ PF_ARM_TENTACLES,
+ PF_ARM_TENTACLES_4,
+ PF_ARM_TENTACLES_8,
+ PF_SHELL,
+ PF_LEG_TENTACLES,
 
  PF_MAX2
 };
@@ -457,10 +469,10 @@ Your flesh regenerates from wounds incredibly quickly."},
 {"Fangs", 2, 2, 2, "\
 Your teeth have grown into two-inch-long fangs, allowing you to make an extra\n\
 attack when conditions favor it."},
-{"Nictating Membrane", 1, 1, 3, "\
+{"Nictating Membrane", 1, 1, 2, "\
 You have a second set of clear eyelids which lower while underwater, allowing\n\
 you to see as though you were wearing goggles."},
-{"Gills", 3, 6, 4, "\
+{"Gills", 3, 5, 3, "\
 You've grown a set of gills in your neck, allowing you to breathe underwater."},
 {"Scales", 6, 10, 3, "\
 A set of flexible green scales have grown to cover your body, acting as a\n\
@@ -477,20 +489,23 @@ difficult to grab."},
 Your bones are very light.  This enables you to run and attack 10%% faster,\n\
 but also reduces your carrying weight by 15%% and makes bashing attacks hurt\n\
 a little more."},
-{"Feathers", 2, 10, 5, "\
+{"Feathers", 2, 10, 3, "\
 Iridescent feathers have grown to cover your entire body, providing a\n\
 marginal protection against attacks and minor protection from cold. They\n\
 also provide a natural waterproofing."},
-{"Furry", 2, 10, 5, "\
+{"Lightly Furred", 1, 6, 2, "\
+Light fur has grown to coveryour entire body, providing slight protection\n\
+from cold."},
+{"Furry", 2, 10, 3, "\
 Thick black fur has grown to cover your entire body, providing a marginal\n\
 protection against attacks, and considerable protection from cold."},
-{"Chitinous Skin", 2, 6, 4, "\
+{"Chitinous Skin", 2, 3, 2, "\
 Your epidermis has turned into a thin, flexible layer of chitin.  It provides\n\
 minor protection from cutting wounds."},
-{"Chitinous Armor", 2, 8, 6, "\
+{"Chitinous Armor", 2, 6, 3, "\
 You've grown a chitin exoskeleton, much like that of an insect.  It provides\n\
 considerable physical protection, but reduces your dexterity by 1."},
-{"Chitinous Plate", 2, 10, 8, "\
+{"Chitinous Plate", 2, 8, 5, "\
 You've grown a chitin exoskeleton made of thick, stiff plates, like that of\n\
 a beetle.  It provides excellent physical protection, but reduces your\n\
 dexterity by 1 and encumbers all body parts but your eyes and mouth."},
@@ -502,18 +517,18 @@ moderate damage."},
 Your body is covered with large quills.  Whenever an unarmed opponent strikes\n\
 a part of your body that is not covered by clothing, they will receive\n\
 significant damage."},
-{"Phelloderm", 3, 5, 4, "\
+{"Phelloderm", 3, 3, 2, "\
 Your skin is light green and has a slightly woody quality to it.  This\n\
 provides a weak armor, and helps you retain moisture, resulting in less\n\
 thirst."},
-{"Bark", 5, 10, 5, "\
+{"Bark", 5, 10, 3, "\
 Your skin is coated in a light bark, like that of a tree.  This provides\n\
 resistance to bashing and cutting damage and minor protection from fire."},
-{"Thorns", 6, 9, 6, "\
+{"Thorns", 6, 8, 4, "\
 Your skin is covered in small, woody thorns.  Whenever an unarmed opponent\n\
 strikes a part of your body that is not covered by clothing, they will\n\
 receive minor damage.  Your punches may also deal extra damage."},
-{"Leaves", 6, 8, 4, "\
+{"Leaves", 6, 8, 3, "\
 All the hair on your body has turned to long, grass-like leaves.  Apart from\n\
 being physically striking, these provide you with a minor amount of nutrition\n\
 while in sunlight."},
@@ -545,17 +560,17 @@ disease."},
 {"Poisonous", 8, 0, 0, "\
 Your body produces a potent venom.  Any special attacks from mutatations\n\
 have a chance to poison your target."},
-{"Slime Hands", 4, 7, 8, "\
+{"Slime Hands", 4, 5, 4, "\
 The skin on your hands is a mucous membrane and produces a thick, acrid\n\
 slime.  Attacks using your hand will cause minor acid damage."},
-{"Compound Eyes", 2, 9, 8, "\
+{"Compound Eyes", 2, 9, 5, "\
 Your eyes are compound, like those of an insect.  This increases your\n\
 perception by 2 so long as you aren't wearing eyewear."},
-{"Padded Feet", 1, 1, 1, "\
+{"Padded Feet", 1, 1, 0, "\
 The bottoms of your feet are strongly padded.  You receive no movement\n\
 penalty for not wearing shoes, and even receive a 10%% bonus when running\n\
 barefoot."},
-{"Hooves", -4, 2, 7, "\
+{"Hooves", -4, 2, 2, "\
 Your feet have fused into hooves.  This allows kicking attacks to do much\n\
 more damage, provides natural armor, and removes the need to wear shoes;\n\
 however, you can not wear shoes of any kind."},
@@ -578,7 +593,7 @@ headwear."},
 You have a pair of long, pointed horns, like those of an antelope.  They\n\
 allow you to make a strong piercing headbutt attack, but prevent you from\n\
 wearing any headwear the is not made of fabric."},
-{"Antennae", 1, 9, 3, "\
+{"Antennae", 1, 9, 4, "\
 You have a pair of antennae.  They allow you to detect the presence of\n\
 monsters up to a few tiles away, even if you can't see or hear them, but\n\
 prevent you from wearing headwear that is not made of fabric."},
@@ -615,14 +630,30 @@ take falling damage under any circumstances."},
 {"Insect Wings", 3, 4, 4, "\
 You have a pair of large, translucent wings.  You buzz them as you run,\n\
 enabling you to run faster."},
+{"Mouth Tentacles", 1, 8, 5, "\
+A set of tentacles surrounds your mouth.  They allow you to eat twice as\n\
+fast."},
+{"Mandibles", 2, 8, 6, "\
+A set of insect-like mandibles have grown around your mouth.  They allow you\n\
+to eat faster and provide a slicing unarmed attack, but prevent you from\n\
+wearing mouthwear."},
+{"Canine Ears", 2, 4, 1, "\
+Your ears have extended into long, pointed ones, like those of a canine.\n\
+They enhance your hearing, allowing you to hear at greater distances."},
+{"Web Walker", 3, 0, 0, "\
+Your body excretes very fine amounts of a chemcial which prevents you from\n\
+sticking to webs.  Walking through webs does not affect you at all."},
+{"Web Weaver", 3, 0, 0, "\
+Your body produces webs.  As you move, there is a chance that you will\n\
+leave webs in your wake."},
 
 {"Head Bumps", 0, 3, 3, "\
 You have a pair of bumps on your skull."},
-{"Antlers", -2, 10, 4, "\
+{"Antlers", -2, 10, 3, "\
 You have a huge rack of antlers, like those of a moose.  They prevent you\n\
 from hearing headwear that is not made of fabric, but provide a weak\n\
 headbutt attack."},
-{"Slit Nostrils", -2, 7, 3, "\
+{"Slit Nostrils", -2, 7, 4, "\
 You have a flattened nose and thin slits for nostrils, giving you a lizard-\n\
 like appearance.  This makes breathing slightly difficult and increases\n\
 mouth encumbrance by 1."},
@@ -631,10 +662,13 @@ Your tongue is forked, like that of a reptile.  This has no effect."},
 {"Bulging Eyes", 0, 8, 4, "\
 Your eyes bulge out several inches from your skull.  This does not affect\n\
 your vision in any way."},
+{"Mouth Flaps", -1, 7, 6, "\
+Skin tabs and odd flaps of skin surround your mouth.  They don't affect your\n\
+eating, but are unpleasant to look at."},
 {"Wing Stubs", 0, 2, 2, "\
 You have a pair of stubby little wings projecting from your shoulderblades.\n\
 They can be wiggled at will, but are useless."},
-{"Bat Wings", -1, 4, 3, "\
+{"Bat Wings", -1, 9, 4, "\
 You have a pair of large, leathery wings.  You can move them a little, but\n\
 they are useless, and in fact put you off balance, reducing your ability to\n\
 dodge slightly."},
@@ -642,12 +676,12 @@ dodge slightly."},
 Your skin is rather pale."},
 {"Spots", 0, 6, 2, "\
 Your skin is covered in a pattern of red spots."},
-{"Very Smelly", -4, 0, 0, "\
+{"Very Smelly", -4, 4, 5, "\
 You smell awful.  Monsters that track scent will find you very easily, and\n\
 humans will react poorly."},
 {"Deformed", -2, 4, 4, "\
 You're minorly deformed.  Some people will react badly to your appearance."},
-{"Badly Deformed", -4, 8, 6, "\
+{"Badly Deformed", -4, 7, 7, "\
 You're hideously deformed.  Some people will have a strong negative reaction\n\
 to your appearance."},
 {"Grotesque", -7, 10, 10, "\
@@ -691,7 +725,7 @@ all stats."},
 {"Webbed Hands", -1, 3, 2, "\
 Your hands and feet are heavily webbed, reducing your dexterity by 1 and\n\
 preventing you from wearing gloves.  However, you can swim much faster."},
-{"Beak", -1, 8, 3, "\
+{"Beak", -1, 8, 4, "\
 You have a beak for a mouth.  You can occasionally use it to peck at your\n\
 enemies, but it is impossible for you to wear mouthgear."},
 {"Genetically Unstable", -4, 0, 0, "\
@@ -709,7 +743,7 @@ contaminate the world around you."},
 Your body has become radioactive!  You continuously emit heavy levels of\n\
 radiation, some of which will be absorbed by you, and some of which will\n\
 contaminate the world around you."},
-{"Slimy", -1, 7, 7, "\
+{"Slimy", -1, 7, 6, "\
 Your body is coated with a fine slime, which oozes off of you, leaving a\n\
 trail."},
 {"Herbivore", -3, 0, 0, "\
@@ -748,7 +782,27 @@ You occasionally shout uncontrollably."},
 {"Screamer", -3, 0, 0, "\
 You sometimes scream uncontrollably."},
 {"Howler", -5, 0, 0, "\
-You frequently let out a piercing howl."}
+You frequently let out a piercing howl."},
+{"Tentacle Arms", -5, 7, 4, "\
+Your arms have transformed into tentacles.  Though they are flexible and\n\
+increase your dexterity by 1, the lack of fingers results in a permanent\n\
+hand encumbrance of 3, and prevents the wearing of gloves."},
+{"4 Tentacles", -3, 8, 5, "\
+Your arms have transformed into four tentacles, resulting in a bonus of 1 to\n\
+dexterity, permanent hand encumbrance of 3, and preventing you from wearing\n\
+gloves.  You can make up to 3 extra attacks with them."},
+{"8 Tentacles", -2, 9, 6, "\
+Your arms have transformed into eight tentacles, resulting in a bonus of 1 to\n\
+dexterity, permanent hand encumbrance of 3, and preventing you from wearing\n\
+gloves.  You can make up to 7 extra attacks with them."},
+{"Shell", -6, 8, 3, "\
+You have grown a thick shell over your torso, providing excellent armor.  You\n\
+find you can use the empty space as 16 storage space, but cannot wear\n\
+anything on your torso."},
+{"Leg Tentacles", -3, 8, 4, "\
+Your legs have transformed into six tentacles.  This decreases your speed on\n\
+land by 20%, but makes your movement silent.  However, they also increase\n\
+your swimming speed."}
 };
 
 enum hp_part {

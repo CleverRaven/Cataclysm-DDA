@@ -2866,8 +2866,14 @@ rag; you will, of course, need a lighter in your inventory to do this.  After\n\
 lighting it, throw it to cause fires.");
 
 //	NAME		RAR PRC SYM  COLOR	MAT1	MAT
-TOOL("acid bomb", 	  0,500,'*', c_yellow,	GLASS,	MNULL,
+TOOL("molotov cocktail (lit)",0,0,'*', c_ltred,	GLASS,	COTTON,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    2,  2,  8,  0,  1,  1,  1,  0,  0, AT_NULL,itm_molotov,&iuse::molotov_lit,0,
+"A bottle of flammable liquid with a flaming rag inserted.  Throwing it will\n\
+cause the bottle to break, spreading fire.  The flame may go out shortly if\n\
+you do not throw it.  Dropping it while lit is not safe.");
+
+TOOL("acid bomb", 	  0,500,'*', c_yellow,	GLASS,	MNULL,
      1,  1,  4,  0, -1,  0,  0,  0,  0,AT_NULL,	itm_null, &iuse::acidbomb,0,"\
 A glass vial, split into two chambers.  The divider is removable, which will\n\
 cause the chemicals to mix.  If this mixture is exposed to air (as happens\n\
@@ -2879,13 +2885,9 @@ A glass vial, with two chemicals mixing inside.  If this mixture is exposed\n\
 to air (as happens if you throw the vial), they will spill out as a pool of\n\
 potent acid.");
 
-TOOL("molotov cocktail (lit)",0,0,'*', c_ltred,	GLASS,	COTTON,
-    2,  2,  8,  0,  1,  1,  1,  0,  0, AT_NULL,itm_molotov,&iuse::molotov_lit,0,
-"A bottle of flammable liquid with a flaming rag inserted.  Throwing it will\n\
-cause the bottle to break, spreading fire.  The flame may go out shortly if\n\
-you do not throw it.  Dropping it while lit is not safe.");
-
+//	NAME		RAR PRC SYM  COLOR	MAT1	MAT
 TOOL("dynamite",	5,  700,'*', c_red,	PLASTIC,MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
     6, 10,  4,  0, -3,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::dynamite,0,"\
 Several sticks of explosives with a fuse attached.  Use this item to light\n\
 the fuse; you will, of course, need a lighter in your inventory to do this.\n\
@@ -2901,14 +2903,14 @@ An extremely powerful weapon--essentially a hand-held nuclear bomb.  Use it\n\
 to activate the timer.  Ten turns later it will explode, leaving behind a\n\
 radioactive crater.  The explosion is large enough to take out a house.");
 
-//	NAME		RAR PRC SYM  COLOR	MAT1	MAT
 TOOL("mininuke (active)",0,   0,'*', c_ltgreen,	STEEL,	PLASTIC,
-// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
     3,  4,  8,  0, -2,  0,  0,  0,  1, AT_NULL, itm_null, &iuse::mininuke_act,0,
 "This miniature nuclear bomb has a light blinking on the side, showing that\n\
 it will soon explode.  You should probably get far away from it.");
 
+//	NAME		RAR PRC SYM  COLOR	MAT1	MAT
 TOOL("zombie pheromone",1,  400,'*', c_yellow,	FLESH,	PLASTIC,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
     1,  1, -5,  0, -1,  3,  3,  1,  0, AT_NULL,	itm_null, &iuse::pheromone,0,"\
 This is some kind of disgusting ball of rotting meat.  Squeezing it causes a\n\
 small cloud of pheromones to spray into the air, causing nearby zombies to\n\

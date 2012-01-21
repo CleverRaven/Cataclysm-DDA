@@ -777,12 +777,14 @@ void game::process_activity()
 
     if (u.sklevel[reading->type] < reading->level) {
      add_msg("You learn a little about %s!", skill_name(reading->type).c_str());
-     int min_ex = reading->time / 3 + u.int_cur,
-         max_ex = reading->time     + u.int_cur;
-     if (min_ex < 5)
-      min_ex = 5;
-     if (max_ex > 35)
-      max_ex = 35;
+     int min_ex = reading->time / 10 + u.int_cur / 4,
+         max_ex = reading->time /  5 + u.int_cur / 2 - u.sklevel[reading->type];
+     if (min_ex < 1)
+      min_ex = 1;
+     if (max_ex < 2)
+      max_ex = 2;
+     if (max_ex > 10)
+      max_ex = 10;
      u.skexercise[reading->type] += rng(min_ex, max_ex);
      if (u.sklevel[reading->type] +
         (u.skexercise[reading->type] >= 100 ? 1 : 0) >= reading->level)
@@ -2190,18 +2192,18 @@ void game::draw_minimap()
     else         omx -= OMAPX;
     if (omy < 0) omy += OMAPY;
     else         omy -= OMAPY;
-    cur_ter = om_diag.ter(omx, omy);
-    seen    = om_diag.seen(omx, omy);
+    cur_ter = om_diag->ter(omx, omy);
+    seen    = om_diag->seen(omx, omy);
    } else if (omx < 0 || omx >= OMAPX) {
     if (omx < 0) omx += OMAPX;
     else         omx -= OMAPX;
-    cur_ter = om_hori.ter(omx, omy);
-    seen    = om_hori.seen(omx, omy);
+    cur_ter = om_hori->ter(omx, omy);
+    seen    = om_hori->seen(omx, omy);
    } else if (omy < 0 || omy >= OMAPY) {
     if (omy < 0) omy += OMAPY;
     else         omy -= OMAPY;
-    cur_ter = om_vert.ter(omx, omy);
-    seen    = om_vert.seen(omx, omy);
+    cur_ter = om_vert->ter(omx, omy);
+    seen    = om_vert->seen(omx, omy);
    } else
     debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
    nc_color ter_color = oterlist[cur_ter].color;
@@ -2694,7 +2696,7 @@ void game::monmove()
    active_npc.erase(active_npc.begin() + i);
    i--;
   } else {
-   active_npc[i].reset();
+   active_npc[i].reset(this);
    active_npc[i].suffer(this);
    while (active_npc[i].moves > 0 && turns < 10) {
     turns++;
@@ -2839,6 +2841,8 @@ void game::sound(int x, int y, int vol, std::string description)
   vol *= 3.5;
  if (u.has_trait(PF_BADHEARING))
   vol *= .5;
+ if (u.has_trait(PF_CANINE_EARS))
+  vol *= 1.5;
  int dist = rl_dist(x, y, u.posx, u.posy);
  if (dist > vol)
   return;	// Too far away, we didn't hear it!
@@ -3015,7 +3019,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
    tx = traj[j].x;
    ty = traj[j].y;
    if (mon_at(tx, ty) != -1) {
-    dam -= z[mon_at(tx, ty)].armor();
+    dam -= z[mon_at(tx, ty)].armor_cut();
     if (z[mon_at(tx, ty)].hurt(dam))
      kill_mon(mon_at(tx, ty));
    } else if (npc_at(tx, ty) != -1) {
@@ -5147,6 +5151,8 @@ void game::plmove(int x, int y)
    movecost = int(movecost * .8);
   if (u.has_trait(PF_WINGS_INSECT))
    movecost -= 15;
+  if (u.has_trait(PF_LEG_TENTACLES))
+   movecost += 20;
   if (u.has_trait(PF_PONDEROUS1))
    movecost = int(movecost * 1.1);
   if (u.has_trait(PF_PONDEROUS2))
@@ -5185,7 +5191,7 @@ void game::plmove(int x, int y)
     u.hit(this, bp_torso, 0, 0, rng(1, 4));
    }
   }
-  if (!u.has_artifact_with(AEP_STEALTH)) {
+  if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait(PF_LEG_TENTACLES)) {
    if (u.has_trait(PF_LIGHTSTEP))
     sound(x, y, 2, "");	// Sound of footsteps may awaken nearby monsters
    else
@@ -5654,31 +5660,38 @@ void game::update_map(int &x, int &y)
 void game::set_adjacent_overmaps(bool from_scratch)
 {
  if (levx == OMAPX - 1 || levx == 0 || (from_scratch && levx <= OMAPX)) {
-  om_hori = overmap(this, cur_om.posx - 1, cur_om.posy, cur_om.posz);
-
-  if (levy == OMAPY - 1 || levy == 0 || (from_scratch && levy <= OMAPY))
-   om_diag = overmap(this, cur_om.posx - 1, cur_om.posy - 1, cur_om.posz);
-  else if (levy == OMAPY || levy == OMAPY * 2 - 1 ||
-           (from_scratch && levy > OMAPY))
-   om_diag = overmap(this, cur_om.posx - 1, cur_om.posy + 1, cur_om.posz);
-
+  delete om_hori;
+  om_hori = new overmap(this, cur_om.posx - 1, cur_om.posy, cur_om.posz);
+  if (levy == OMAPY - 1 || levy == 0 || (from_scratch && levy <= OMAPY)) {
+   delete om_diag;
+   om_diag = new overmap(this, cur_om.posx - 1, cur_om.posy - 1, cur_om.posz);
+  } else if (levy == OMAPY || levy == OMAPY * 2 - 1 ||
+             (from_scratch && levy > OMAPY)) {
+   delete om_diag;
+   om_diag = new overmap(this, cur_om.posx - 1, cur_om.posy + 1, cur_om.posz);
+  }
  } else if (levx == OMAPX || levx == OMAPX * 2 - 1 ||
             (from_scratch && levx > OMAPX)) {
-  om_hori = overmap(this, cur_om.posx + 1, cur_om.posy, cur_om.posz);
-
-  if (levy == OMAPY - 1 || levy == 0 || (from_scratch && levy <= OMAPY))
-   om_diag = overmap(this, cur_om.posx + 1, cur_om.posy - 1, cur_om.posz);
-  else if (levy == OMAPY || levy == OMAPY * 2 - 1 ||
-           (from_scratch && levy > OMAPY))
-   om_diag = overmap(this, cur_om.posx + 1, cur_om.posy + 1, cur_om.posz);
-
+  delete om_hori;
+  om_hori = new overmap(this, cur_om.posx + 1, cur_om.posy, cur_om.posz);
+  if (levy == OMAPY - 1 || levy == 0 || (from_scratch && levy <= OMAPY)) {
+   delete om_diag;
+   om_diag = new overmap(this, cur_om.posx + 1, cur_om.posy - 1, cur_om.posz);
+  } else if (levy == OMAPY || levy == OMAPY * 2 - 1 ||
+             (from_scratch && levy > OMAPY)) {
+   delete om_diag;
+   om_diag = new overmap(this, cur_om.posx + 1, cur_om.posy + 1, cur_om.posz);
+  }
  }
 
- if (levy == OMAPY - 1 || levy == 0 || (from_scratch && levy <= OMAPY))
-  om_vert = overmap(this, cur_om.posx    , cur_om.posy - 1, cur_om.posz);
- else if (levy == OMAPY || levy == OMAPY * 2 - 1 ||
-          (from_scratch && levy > OMAPY))
-  om_vert = overmap(this, cur_om.posx    , cur_om.posy + 1, cur_om.posz);
+ if (levy == OMAPY - 1 || levy == 0 || (from_scratch && levy <= OMAPY)) {
+  delete om_vert;
+  om_vert = new overmap(this, cur_om.posx    , cur_om.posy - 1, cur_om.posz);
+ } else if (levy == OMAPY || levy == OMAPY * 2 - 1 ||
+            (from_scratch && levy > OMAPY)) {
+  delete om_vert;
+  om_vert = new overmap(this, cur_om.posx    , cur_om.posy + 1, cur_om.posz);
+ }
 }
 
 void game::update_overmap_seen()
@@ -5703,15 +5716,15 @@ void game::update_overmap_seen()
      else        lx -= OMAPX;
      if (ly < 0) ly += OMAPY;
      else        ly -= OMAPY;
-     cost = oterlist[om_diag.ter(lx, ly)].see_cost;
+     cost = oterlist[om_diag->ter(lx, ly)].see_cost;
     } else if (lx < 0 || lx >= OMAPX) {
      if (lx < 0) lx += OMAPX;
      else        lx -= OMAPX;
-     cost = oterlist[om_hori.ter(lx, ly)].see_cost;
+     cost = oterlist[om_hori->ter(lx, ly)].see_cost;
     } else if (ly < 0 || ly >= OMAPY) {
      if (ly < 0) ly += OMAPY;
      else        ly -= OMAPY;
-     cost = oterlist[om_vert.ter(lx, ly)].see_cost;
+     cost = oterlist[om_vert->ter(lx, ly)].see_cost;
     }
     sight_points -= cost;
    }
@@ -5724,28 +5737,28 @@ void game::update_overmap_seen()
      else          tmpx -= OMAPX;
      if (tmpy < 0) tmpy += OMAPY;
      else          tmpy -= OMAPY;
-     om_diag.seen(tmpx, tmpy) = true;
+     om_diag->seen(tmpx, tmpy) = true;
      altered_om_diag = true;
     } else if (tmpx < 0 || tmpx >= OMAPX) {
      if (tmpx < 0) tmpx += OMAPX;
      else          tmpx -= OMAPX;
-     om_hori.seen(tmpx, tmpy) = true;
+     om_hori->seen(tmpx, tmpy) = true;
      altered_om_hori = true;
     } else if (tmpy < 0 || tmpy >= OMAPY) {
      if (tmpy < 0) tmpy += OMAPY;
      else          tmpy -= OMAPY;
-     om_vert.seen(tmpx, tmpy) = true;
+     om_vert->seen(tmpx, tmpy) = true;
      altered_om_vert = true;
     }
    }
   }
  }
  if (altered_om_vert)
-  om_vert.save(u.name);
+  om_vert->save(u.name);
  if (altered_om_hori)
-  om_hori.save(u.name);
+  om_hori->save(u.name);
  if (altered_om_diag)
-  om_diag.save(u.name);
+  om_diag->save(u.name);
 }
 
 point game::om_location()

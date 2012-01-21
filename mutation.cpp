@@ -206,6 +206,9 @@ void mutation_effect(game *g, player &p, pl_flag mut)
  switch (mut) {
 // Push off gloves
   case PF_WEBBED:
+  case PF_ARM_TENTACLES:
+  case PF_ARM_TENTACLES_4:
+  case PF_ARM_TENTACLES_8:
    bps.push_back(bp_hands);
    break;
 // Destroy gloves
@@ -215,6 +218,7 @@ void mutation_effect(game *g, player &p, pl_flag mut)
    break;
 // Destroy mouthwear
   case PF_BEAK:
+  case PF_MANDIBLES:
    destroy = true;
    bps.push_back(bp_mouth);
    break;
@@ -222,6 +226,11 @@ void mutation_effect(game *g, player &p, pl_flag mut)
   case PF_HOOVES:
    destroy = true;
    bps.push_back(bp_feet);
+   break;
+// Destroy torsowear
+  case PF_SHELL:
+   destroy = true;
+   bps.push_back(bp_torso);
    break;
 // Push off all helmets
   case PF_HORNS_CURLED:

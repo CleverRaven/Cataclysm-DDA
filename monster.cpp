@@ -398,10 +398,15 @@ bool monster::hurt(int dam)
  return false;
 }
 
-int monster::armor()
+int monster::armor_cut()
 {
 // TODO: Add support for worn armor?
- return int(type->armor);
+ return int(type->armor_cut);
+}
+
+int monster::armor_bash()
+{
+ return int(type->armor_bash);
 }
 
 int monster::dodge()

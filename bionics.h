@@ -149,10 +149,10 @@ your head and jaw regions, but increasing encumberance by 2 and decreasing\n\
 perception by 1."},
 {"Alloy Plating - Torso", false, false, 0, 0, "\
 The flesh on your torso has been replaced by a strong armor, protecting you\n\
-greatly, but increasing your encumberance by 2 and decreasing dexterity by 1."},
+greatly, but increasing your encumberance by 2."},
 {"Alloy Plating - Arms", false, false, 0, 0, "\
 The flesh on your arms has been replaced by a strong armor, protecting you\n\
-greatly, but decreasing your dexterity by 2."},
+greatly, but decreasing your dexterity by 1."},
 {"Alloy Plating - Legs", false, false, 0, 0, "\
 The flesh on your legs has been replaced by a strong armor, protecting you\n\
 greatly, but decreasing your speed by 15."},

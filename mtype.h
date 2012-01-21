@@ -71,7 +71,7 @@ mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
  mon_flaming_eye, mon_kreck, mon_blank, mon_gozu,
 // Robots
 mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_copbot, mon_molebot,
- mon_tripod, mon_chickenbot, mon_tankbot, mon_turret,
+ mon_tripod, mon_chickenbot, mon_tankbot, mon_turret, mon_exploder,
 // Hallucinations
 mon_hallu_zom, mon_hallu_bee, mon_hallu_ant, mon_hallu_mom,
 num_monsters
@@ -149,7 +149,8 @@ struct mtype {
  unsigned char melee_sides;	// Number of sides those dice have
  unsigned char melee_cut;	// Bonus cutting damage
  unsigned char sk_dodge;	// Dodge skill; should be 0 to 5
- unsigned char armor;		// Natural armor
+ unsigned char armor_bash;	// Natural armor vs. bash
+ unsigned char armor_cut;	// Natural armor vs. cut
  signed char item_chance;	// Higher # means higher chance of loot
 				// Negative # means one item gen'd, tops
  int hp;
@@ -179,7 +180,8 @@ struct mtype {
   melee_sides = 0;
   melee_cut = 0;
   sk_dodge = 0;
-  armor = 0;
+  armor_bash = 0;
+  armor_cut = 0;
   hp = 0;
   sp_freq = 0;
   item_chance = 0;
@@ -192,8 +194,8 @@ struct mtype {
         unsigned char pfreq, unsigned int pdiff, signed char pagro,
         unsigned int pspeed, unsigned char pml_skill, unsigned char pml_dice,
         unsigned char pml_sides, unsigned char pml_cut, unsigned char pdodge,
-        unsigned char parmor, signed char pitem_chance, int php,
-        unsigned char psp_freq,
+        unsigned char parmor_bash, unsigned char parmor_cut,
+	signed char pitem_chance, int php, unsigned char psp_freq,
         void (mdeath::*pdies)      (game *, monster *),
         void (mattack::*psp_attack)(game *, monster *),
         std::string pdescription ) { 
@@ -214,7 +216,8 @@ struct mtype {
   melee_sides = pml_sides;
   melee_cut = pml_cut;
   sk_dodge = pdodge;
-  armor = parmor;
+  armor_bash = parmor_bash;
+  armor_cut = parmor_cut;
   item_chance = pitem_chance;
   hp = php;
   sp_freq = psp_freq;
