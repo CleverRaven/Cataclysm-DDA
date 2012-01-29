@@ -49,7 +49,11 @@ void npc::talk_to_u(game *g)
  dialogue d;
  d.alpha = &g->u;
  d.beta = this;
+
  d.topic_stack.push_back(chatbin.first_topic);
+
+ if (is_friend())
+  d.topic_stack.push_back(TALK_FRIEND);
 
  int most_difficult_mission = 0;
  for (int i = 0; i < chatbin.missions.size(); i++) {
@@ -198,6 +202,43 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
    return "<no>, and if you ask again, <ill_kill_you>!";
   else
    return "<no><punc> <fuck_you>!";
+
+ case TALK_SUGGEST_FOLLOW:
+  if (p->has_disease(DI_INFECTION))
+   return "Not until I get some antibiotics...";
+  if (p->has_disease(DI_ASKED_TO_FOLLOW))
+   return "You asked me recently; ask again later.";
+  return "Why should I travel with you?";
+
+ case TALK_AGREE_FOLLOW:
+  return "You got it, I'm with you!";
+
+ case TALK_DENY_FOLLOW:
+  return "Yeah... I don't think so.";
+
+ case TALK_FRIEND:
+  return "What is it?";
+
+ case TALK_COMBAT_COMMANDS: {
+  std::stringstream status;
+  status << "*is "; // Prepending * makes this an action, not a phrase
+  switch (p->combat_rules.engagement) {
+  case ENGAGE_NONE:  status << "not engaging enemies.";         break;
+  case ENGAGE_CLOSE: status << "engaging nearby enemies.";      break;
+  case ENGAGE_WEAK:  status << "engaging weak enemies.";        break;
+  case ENGAGE_HIT:   status << "engaging enenmies you attack."; break;
+  case ENGAGE_ALL:   status << "engaging all enemies.";         break;
+  }
+  status << " " << (p->male ? "He" : "She") << " will " <<
+            (p->combat_rules.use_guns ? "" : "not ") << "use firearms.";
+  status << " " << (p->male ? "He" : "She") << " will " <<
+            (p->combat_rules.use_grenades ? "" : "not ") << "use grenades.";
+
+  return status.str();
+ }
+
+ case TALK_COMBAT_ENGAGEMENT:
+  return "What should I do?";
 
  case TALK_SIZE_UP: {
   int ability = g->u.per_cur * 3 + g->u.int_cur;
@@ -425,6 +466,10 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    SUCCESS(TALK_SHELTER_PLANS);
   RESPONSE("Can I do anything for you?");
    SUCCESS(TALK_MISSION_LIST);
+  if (!p->is_following()) {
+   RESPONSE("Want to travel with me?");
+    SUCCESS(TALK_SUGGEST_FOLLOW);
+  }
   if (p->chatbin.missions_assigned.size() == 1) {
    RESPONSE("About that job...");
     SUCCESS(TALK_MISSION_INQUIRE);
@@ -502,6 +547,133 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   RESPONSE("Okay, fine, bye.");
    SUCCESS(TALK_DONE);
   break;
+
+ case TALK_SUGGEST_FOLLOW:
+  if (p->has_disease(DI_INFECTION)) {
+   RESPONSE("Understood.  I'll get those antibiotics.");
+    SUCCESS(TALK_NONE);
+  } else if (p->has_disease(DI_ASKED_TO_FOLLOW)) {
+   RESPONSE("Right, right, I'll ask later.");
+    SUCCESS(TALK_NONE);
+  } else {
+   int strength = 3 * p->op_of_u.fear + p->op_of_u.value + p->op_of_u.trust +
+                  (10 - p->personality.bravery);
+   int weakness = 3 * p->personality.altruism + p->personality.bravery -
+                  p->op_of_u.fear + p->op_of_u.value;
+   int friends = 2 * p->op_of_u.trust + 2 * p->op_of_u.value -
+                 2 * p->op_of_u.anger + p->op_of_u.owed / 50;
+   RESPONSE("I can keep you safe.");
+    TRIAL(TALK_TRIAL_PERSUADE, strength * 2);
+    SUCCESS(TALK_AGREE_FOLLOW);
+     SUCCESS_ACTION(&talk_function::follow);
+     SUCCESS_OPINION(1, 0, 1, 0, 0);
+    FAILURE(TALK_DENY_FOLLOW);
+     FAILURE_ACTION(&talk_function::deny_follow);
+     FAILURE_OPINION(0, 0, -1, 1, 0);
+   RESPONSE("You can keep me safe.");
+    TRIAL(TALK_TRIAL_PERSUADE, weakness * 2);
+    SUCCESS(TALK_AGREE_FOLLOW);
+     SUCCESS_ACTION(&talk_function::follow);
+     SUCCESS_OPINION(0, 0, -1, 0, 0);
+    FAILURE(TALK_DENY_FOLLOW);
+     FAILURE_ACTION(&talk_function::deny_follow);
+     FAILURE_OPINION(0, -1, -1, 1, 0);
+   RESPONSE("We're friends, aren't we?");
+    TRIAL(TALK_TRIAL_PERSUADE, friends * 1.5);
+    SUCCESS(TALK_AGREE_FOLLOW);
+     SUCCESS_ACTION(&talk_function::follow);
+     SUCCESS_OPINION(2, 0, 0, -1, 0);
+    FAILURE(TALK_DENY_FOLLOW);
+     FAILURE_ACTION(&talk_function::deny_follow);
+     FAILURE_OPINION(-1, -2, -1, 1, 0);
+   RESPONSE("!I'll kill you if you don't.");
+    TRIAL(TALK_TRIAL_INTIMIDATE, strength * 2);
+    SUCCESS(TALK_AGREE_FOLLOW);
+     SUCCESS_ACTION(&talk_function::follow);
+     SUCCESS_OPINION(-4, 3, -1, 4, 0);
+    FAILURE(TALK_DENY_FOLLOW);
+     FAILURE_OPINION(-4, 0, -5, 10, 0);
+  }
+  break;
+
+ case TALK_AGREE_FOLLOW:
+  RESPONSE("Awesome!");
+   SUCCESS(TALK_NONE);
+  RESPONSE("Okay, let's go!");
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_DENY_FOLLOW:
+  RESPONSE("Oh, okay.");
+   SUCCESS(TALK_NONE);
+  break;
+
+ case TALK_FRIEND:
+  RESPONSE("Combat commands...");
+   SUCCESS(TALK_COMBAT_COMMANDS);
+  RESPONSE("Can I do anything for you?");
+   SUCCESS(TALK_MISSION_LIST);
+  RESPONSE("Let's trade items.");
+   SUCCESS(TALK_NONE);
+   SUCCESS_ACTION(&talk_function::start_trade);
+  RESPONSE("Let's go.");
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_COMBAT_COMMANDS: {
+  RESPONSE("Change your engagement rules...");
+   SUCCESS(TALK_COMBAT_ENGAGEMENT);
+  if (p->combat_rules.use_guns) {
+   RESPONSE("Don't use guns anymore.");
+    SUCCESS(TALK_COMBAT_COMMANDS);
+    SUCCESS_ACTION(&talk_function::toggle_use_guns);
+  } else {
+   RESPONSE("You can use guns.");
+    SUCCESS(TALK_COMBAT_COMMANDS);
+    SUCCESS_ACTION(&talk_function::toggle_use_guns);
+  }
+  if (p->combat_rules.use_grenades) {
+   RESPONSE("Don't use grenades anymore.");
+    SUCCESS(TALK_COMBAT_COMMANDS);
+    SUCCESS_ACTION(&talk_function::toggle_use_grenades);
+  } else {
+   RESPONSE("You can use grenades.");
+    SUCCESS(TALK_COMBAT_COMMANDS);
+    SUCCESS_ACTION(&talk_function::toggle_use_grenades);
+  }
+  RESPONSE("Never mind.");
+   SUCCESS(TALK_NONE);
+ } break;
+
+ case TALK_COMBAT_ENGAGEMENT: {
+  if (p->combat_rules.engagement != ENGAGE_NONE) {
+   RESPONSE("Don't fight unless your life depends on it.");
+    SUCCESS(TALK_NONE);
+    SUCCESS_ACTION(&talk_function::set_engagement_none);
+  }
+  if (p->combat_rules.engagement != ENGAGE_CLOSE) {
+   RESPONSE("Attack enemies that get too close.");
+    SUCCESS(TALK_NONE);
+    SUCCESS_ACTION(&talk_function::set_engagement_close);
+  }
+  if (p->combat_rules.engagement != ENGAGE_WEAK) {
+   RESPONSE("Attack enemies that you can kill easily.");
+    SUCCESS(TALK_NONE);
+    SUCCESS_ACTION(&talk_function::set_engagement_weak);
+  }
+  if (p->combat_rules.engagement != ENGAGE_HIT) {
+   RESPONSE("Attack only enemies that I attack first.");
+    SUCCESS(TALK_NONE);
+    SUCCESS_ACTION(&talk_function::set_engagement_hit);
+  }
+  if (p->combat_rules.engagement != ENGAGE_ALL) {
+   RESPONSE("Attack anything you want.");
+    SUCCESS(TALK_NONE);
+    SUCCESS_ACTION(&talk_function::set_engagement_all);
+  }
+  RESPONSE("Never mind.");
+   SUCCESS(TALK_NONE);
+ } break;
 
  case TALK_SIZE_UP:
  case TALK_LOOK_AT:
@@ -583,9 +755,20 @@ int topic_category(talk_topic topic)
   case TALK_DENY_EQUIPMENT:
    return 2;
 
+  case TALK_SUGGEST_FOLLOW:
+  case TALK_AGREE_FOLLOW:
+  case TALK_DENY_FOLLOW:
+   return 3;
+
+  case TALK_COMBAT_ENGAGEMENT:
+   return 4;
+
+  case TALK_COMBAT_COMMANDS:
+   return 5;
+
   case TALK_SIZE_UP:
   case TALK_LOOK_AT:
-   return 3;
+   return 99;
 
   default:
    return -1; // Not grouped with other topics
@@ -655,6 +838,13 @@ void talk_function::mission_reward(game *g, npc *p)
  p->op_of_u.owed = 0;
  trade(g, p, trade_amount, "Reward");
 }
+
+void talk_function::start_trade(game *g, npc *p)
+{
+ int trade_amount = p->op_of_u.owed;
+ p->op_of_u.owed = 0;
+ trade(g, p, trade_amount, "Trade");
+}
  
 void talk_function::give_equipment(game *g, npc *p)
 {
@@ -688,8 +878,52 @@ void talk_function::give_equipment(game *g, npc *p)
  g->u.i_add( p->i_remn(item_index) );
  p->op_of_u.owed -= prices[chosen];
 }
+
+void talk_function::follow(game *g, npc *p)
+{
+ p->attitude = NPCATT_FOLLOW;
+}
+
+void talk_function::deny_follow(game *g, npc *p)
+{
+ p->add_disease(DI_ASKED_TO_FOLLOW, 3600, g);
+}
  
- 
+void talk_function::toggle_use_guns(game *g, npc *p)
+{
+ p->combat_rules.use_guns = !p->combat_rules.use_guns;
+}
+
+void talk_function::toggle_use_grenades(game *g, npc *p)
+{
+ p->combat_rules.use_grenades = !p->combat_rules.use_grenades;
+}
+
+void talk_function::set_engagement_none(game *g, npc *p)
+{
+ p->combat_rules.engagement = ENGAGE_NONE;
+}
+
+void talk_function::set_engagement_close(game *g, npc *p)
+{
+ p->combat_rules.engagement = ENGAGE_CLOSE;
+}
+
+void talk_function::set_engagement_weak(game *g, npc *p)
+{
+ p->combat_rules.engagement = ENGAGE_WEAK;
+}
+
+void talk_function::set_engagement_hit(game *g, npc *p)
+{
+ p->combat_rules.engagement = ENGAGE_HIT;
+}
+
+void talk_function::set_engagement_all(game *g, npc *p)
+{
+ p->combat_rules.engagement = ENGAGE_ALL;
+}
+
 
 void parse_tags(std::string &phrase, player *u, npc *me)
 {
@@ -749,7 +983,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  std::string challenge = dynamic_line(topic, g, beta);
  std::vector<talk_response> responses = gen_responses(topic, g, beta);
 // Put quotes around challenge (unless it's an action)
- if (challenge.find_first_of("*") != 0 && challenge[0] != '&') {
+ if (challenge[0] != '*' && challenge[0] != '&') {
   std::stringstream tmp;
   tmp << "\"" << challenge << "\"";
  }
@@ -759,7 +993,9 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
   challenge[0] += 'A' - 'a';
 // Prepend "My Name: "
  if (challenge[0] == '&') // No name prepended!
-   challenge = challenge.substr(1);
+  challenge = challenge.substr(1);
+ else if (challenge[0] == '*')
+  challenge = beta->name + " " + challenge.substr(1);
  else
   challenge = beta->name + ": " + challenge;
  history.push_back(""); // Empty line between lines of dialogue
@@ -1092,20 +1328,20 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
  } while (ch != KEY_ESCAPE && ch != '\n');
 
  if (ch == '\n') {
+  inventory newinv;
   int practice = 0;
-  std::vector<char> removing;
+  std::vector<int> removing;
   for (int i = 0; i < yours.size(); i++) {
    if (getting_yours[i]) {
-    p->inv.push_back(g->u.inv[yours[i]]);
+    newinv.push_back(g->u.inv[yours[i]]);
     practice++;
-    removing.push_back(g->u.inv[yours[i]].invlet);
+    removing.push_back(yours[i]);
    }
   }
 // Do it in two passes, so removing items doesn't corrupt yours[]
   for (int i = 0; i < removing.size(); i++)
-    g->u.i_rem(removing[i]);
+   g->u.i_remn(removing[i]);
 
-  inventory newinv;
   for (int i = 0; i < theirs.size(); i++) {
    item tmp = p->inv[theirs[i]];
    if (getting_theirs[i]) {
@@ -1126,7 +1362,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
   g->u.practice(sk_barter, practice / 2);
   p->inv = newinv;
   g->u.cash += cash;
-  p->cash    -= cash;
+  p->cash   -= cash;
  }
  werase(w_head);
  werase(w_you);

@@ -506,6 +506,7 @@ void iuse::blech(game *g, player *p, item *it, bool t)
 // TODO: Add more effects?
  if (!p->is_npc())
   g->add_msg("Blech, that burns your throat!");
+ p->vomit(g);
 }
 
 void iuse::mutagen(game *g, player *p, item *it, bool t)
@@ -524,7 +525,7 @@ void iuse::purifier(game *g, player *p, item *it, bool t)
 {
  std::vector<int> valid;	// Which flags the player has
  for (int i = 1; i < PF_MAX2; i++) {
-  if (p->has_mutation(pl_flag(i)))
+  if (p->has_trait(pl_flag(i)) && p->has_mutation(pl_flag(i)))
    valid.push_back(i);
  }
  if (valid.size() == 0) {
@@ -549,7 +550,7 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
 // alien lifeforms.
  if (p->has_trait(PF_MARLOSS)) {
   g->add_msg("As you eat the berry, you have a near-religious experience, feeling at one with your surroundings...");
-  p->add_morale(MORALE_MARLOSS, 250, 1000);
+  p->add_morale(MORALE_MARLOSS, 100, 1000);
   p->hunger = -100;
   monster goo(g->mtypes[mon_blob]);
   goo.friendly = -1;
@@ -833,7 +834,7 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
   g->m.field_at(x, y).density -= rng(2, 3);
   if (g->m.field_at(x, y).density <= 0) {
    g->m.field_at(x, y).density = 1;
-   g->m.field_at(x, y).type = fd_null;
+   g->m.remove_field(x, y);
   }
  }
  int mondex = g->mon_at(x, y);
@@ -858,7 +859,7 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
    g->m.field_at(x, y).density -= rng(0, 1) + rng(0, 1);
    if (g->m.field_at(x, y).density <= 0) {
     g->m.field_at(x, y).density = 1;
-    g->m.field_at(x, y).type = fd_null;
+    g->m.remove_field(x, y);
    }
   }
  }
@@ -1675,7 +1676,7 @@ void iuse::molotov_lit(game *g, player *p, item *it, bool t)
  int age = int(g->turn) - it->bday;
  if (!p->has_item(it)) {
   point pos = g->find_item(it);
-  it->charges = 0;
+  it->charges = -1;
   g->explosion(pos.x, pos.y, 8, 0, true);
  } else if (age >= 5) { // More than 5 turns old = chance of going out
   if (rng(1, 50) < age) {
@@ -1940,6 +1941,8 @@ void iuse::mp3(game *g, player *p, item *it, bool t)
 
 void iuse::mp3_on(game *g, player *p, item *it, bool t)
 {
+ if (!p->has_item(it))
+  return;	// We're not carrying it!
  if (t) {	// Normal use
   p->add_morale(MORALE_MUSIC, 1, 50);
 

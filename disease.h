@@ -169,6 +169,7 @@ void dis_effect(game *g, player &p, disease &dis)
    p.per_cur--;
   }
   if (one_in(300)) {
+   p.moves -= 80;
    if (!p.is_npc()) {
     g->add_msg("You cough noisily.");
     g->sound(p.posx, p.posy, 12, "");
@@ -190,6 +191,7 @@ void dis_effect(game *g, player &p, disease &dis)
    p.per_cur--;
   }
   if (one_in(300)) {
+   p.moves -= 80;
    if (!p.is_npc()) {
     g->add_msg("You cough noisily.");
     g->sound(p.posx, p.posy, 12, "");
@@ -197,8 +199,10 @@ void dis_effect(game *g, player &p, disease &dis)
     g->sound(p.posx, p.posy, 12, "loud coughing");
   }
   if (one_in(3600) || (p.has_trait(PF_WEAKSTOMACH) && one_in(3000)) ||
-      (p.has_trait(PF_NAUSEA) && one_in(2400)))
-   p.vomit(g);
+      (p.has_trait(PF_NAUSEA) && one_in(2400))) {
+   if (!p.has_disease(DI_TOOK_FLUMED) || one_in(2))
+    p.vomit(g);
+  }
   break;
 
  case DI_SMOKE:

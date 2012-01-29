@@ -34,10 +34,11 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  }
  bool is_bolt = false;
  unsigned int flags = p.weapon.curammo->item_flags;
- if (p.weapon.curammo->type == AT_BOLT || p.weapon.curammo->type == AT_ARROW)	// Bolts and arrows are silent
+// Bolts and arrows are silent
+ if (p.weapon.curammo->type == AT_BOLT || p.weapon.curammo->type == AT_ARROW)
   is_bolt = true;
- if ((p.weapon.has_flag(IF_STR8_DRAW)  && p.str_cur <  8) ||
-     (p.weapon.has_flag(IF_STR10_DRAW) && p.str_cur < 10)   ) {
+ if ((p.weapon.has_flag(IF_STR8_DRAW)  && p.str_cur <  4) ||
+     (p.weapon.has_flag(IF_STR10_DRAW) && p.str_cur <  5)   ) {
   add_msg("You're not strong enough to draw the bow!");
   return;
  }

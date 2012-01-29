@@ -397,7 +397,7 @@ o - Open a door                              c      - Close a door\n\
 s - Smash terrain                            , or g - Pick up items\n\
 e - Examine terrain, open container          < or > - Go up or down stairs\n\
 $ - Lie down to sleep                        ^      - Long wait\n\
-! - Toggle Run Mode                          \"      - Toggle Auto Run Mode");
+! - Toggle Safe Mode                         \"      - Toggle Auto Safe Mode");
    mvprintz(7, 0, c_white, "ITEMS:");
    mvprintz(8, 0, c_ltgray, "\
 i - View Inventory                           d,D - Drop item (with direction)\n\

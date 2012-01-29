@@ -21,6 +21,7 @@ ME_BLIND,		// Can't use sight
 ME_DEAF,		// Can't use hearing
 ME_TARGETED,		// Targeting locked on--for robots that shoot guns
 ME_DOCILE,		// If friendly, stops attacking monsters for a while
+ME_HIT_BY_PLAYER,	// We shot or hit them
 NUM_MONSTER_EFFECTS
 };
 

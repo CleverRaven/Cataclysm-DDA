@@ -96,6 +96,8 @@ enum oter_id {
  ot_mine_entrance, ot_mine_shaft, ot_mine, ot_mine_down, ot_mine_finale,
  ot_spiral_hub, ot_spiral,
  ot_radio_tower,
+ ot_toxic_dump,
+ ot_cave,
 // Underground terrain
  ot_spider_pit_under,
  ot_anthill,
@@ -272,6 +274,8 @@ const oter_t oterlist[num_ter_types] = {
 {"spiral cavern",	'@',	c_pink,		2, no_extras, false, false},
 {"spiral cavern",	'@',	c_pink,		2, no_extras, false, false},
 {"radio tower",         'X',    c_ltgray,       2, no_extras, false, false},
+{"toxic waste dump",	'D',	c_pink,		2, no_extras, false, false},
+{"cave",		'C',	c_brown,	2, field_extras, true, true},
 {"cavern",		'0',	c_ltgray,	2, no_extras, false, false},
 {"anthill",		'%',	c_brown,	2, no_extras, true, false},
 {"solid rock",		'%',	c_dkgray,	5, no_extras, false, false},
@@ -399,6 +403,8 @@ enum omspec_id
  OMSPEC_TRIFFID,
  OMSPEC_LAKE,
  OMSPEC_SHELTER,
+ OMSPEC_CAVE,
+ OMSPEC_TOXIC_DUMP,
  NUM_OMSPECS
 };
 
@@ -470,8 +476,14 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::always, mfb(OMS_FLAG_BLOB)},
 
 // Terrain	 MIN MAX DISTANCE
-{ot_shelter,       5, 10, 5, 10, mcat_null, 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)}
+{ot_shelter,       5, 10,  5, 10, mcat_null, 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
+
+{ot_cave,	   0, 30,  0, -1, mcat_null, 0, 0, 0, 0,
+ &omspec_place::wilderness, 0},
+
+{ot_toxic_dump,	   0, 10, 15, -1, mcat_null, 0, 0, 0, 0,
+ &omspec_place::wilderness,0}
 
 };
  

@@ -8,6 +8,8 @@
 #include <fstream>
 
 #define SGN(a) (((a)<0) ? -1 : 1)
+#define INBOUNDS(x, y) \
+ (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
 
 enum astar_list {
  ASL_NONE,
@@ -19,6 +21,10 @@ map::map()
 {
  nulter = t_null;
  nultrap = tr_null;
+ if (is_tiny())
+  my_MAPSIZE = 2;
+ else
+  my_MAPSIZE = MAPSIZE;
 }
 
 map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
@@ -29,7 +35,13 @@ map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
  itypes = itptr;
  mapitems = miptr;
  traps = trptr;
- for (int n = 0; n < my_MAPSIZE() * my_MAPSIZE(); n++) {
+ if (is_tiny())
+  my_MAPSIZE = 2;
+ else
+  my_MAPSIZE = MAPSIZE;
+ for (int n = 0; n < my_MAPSIZE * my_MAPSIZE; n++) {
+  grid[n].active_item_count = 0;
+  grid[n].field_count = 0;
   for (int x = 0; x < SEEX; x++) {
    for (int y = 0; y < SEEY; y++) {
     grid[n].trp[x][y] = tr_null;
@@ -45,7 +57,7 @@ map::~map()
 
 ter_id& map::ter(int x, int y)
 {
- if (!inbounds(x, y)) {
+ if (!INBOUNDS(x, y)) {
   nulter = t_null;
   return nulter;	// Out-of-bounds - null terrain 
  }
@@ -53,7 +65,7 @@ ter_id& map::ter(int x, int y)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
  x %= SEEX;
  y %= SEEY;
@@ -142,8 +154,8 @@ bool map::flammable_items_at(int x, int y)
 point map::random_outdoor_tile()
 {
  std::vector<point> options;
- for (int x = 0; x < SEEX * my_MAPSIZE(); x++) {
-  for (int y = 0; y < SEEY * my_MAPSIZE(); y++) {
+ for (int x = 0; x < SEEX * my_MAPSIZE; x++) {
+  for (int y = 0; y < SEEY * my_MAPSIZE; y++) {
    if (is_outside(x, y))
     options.push_back(point(x, y));
   }
@@ -160,7 +172,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
  bool smashed_web = false;
  if (field_at(x, y).type == fd_web) {
   smashed_web = true;
-  field_at(x, y) = field();
+  remove_field(x, y);
  }
 
  for (int i = 0; i < i_at(x, y).size(); i++) {	// Destroy glass items (maybe)
@@ -525,7 +537,7 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
 
 // Now, destroy items on that tile.
 
- if ((move_cost(x, y) == 2 && !hit_items) || !inbounds(x, y))
+ if ((move_cost(x, y) == 2 && !hit_items) || !INBOUNDS(x, y))
   return;	// Items on floor-type spaces won't be shot up.
 
  bool destroyed;
@@ -655,8 +667,8 @@ void map::translate(ter_id from, ter_id to)
                                       terlist[from].name.c_str());
   return;
  }
- for (int x = 0; x < SEEX * my_MAPSIZE(); x++) {
-  for (int y = 0; y < SEEY * my_MAPSIZE(); y++) {
+ for (int x = 0; x < SEEX * my_MAPSIZE; x++) {
+  for (int y = 0; y < SEEY * my_MAPSIZE; y++) {
    if (ter(x, y) == from)
     ter(x, y) = to;
   }
@@ -680,7 +692,7 @@ bool map::close_door(int x, int y)
 
 int& map::radiation(int x, int y)
 {
- if (!inbounds(x, y)) {
+ if (!INBOUNDS(x, y)) {
   nulrad = 0;
   return nulrad;
  }
@@ -688,7 +700,7 @@ int& map::radiation(int x, int y)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
  x %= SEEX;
  y %= SEEY;
@@ -697,7 +709,7 @@ int& map::radiation(int x, int y)
 
 std::vector<item>& map::i_at(int x, int y)
 {
- if (!inbounds(x, y)) {
+ if (!INBOUNDS(x, y)) {
   nulitems.clear();
   return nulitems;
  }
@@ -705,7 +717,7 @@ std::vector<item>& map::i_at(int x, int y)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
  x %= SEEX;
  y %= SEEY;
@@ -742,8 +754,8 @@ void map::i_clear(int x, int y)
 point map::find_item(item *it)
 {
  point ret;
- for (ret.x = 0; ret.x < SEEX * my_MAPSIZE(); ret.x++) {
-  for (ret.y = 0; ret.y < SEEY * my_MAPSIZE(); ret.y++) {
+ for (ret.x = 0; ret.x < SEEX * my_MAPSIZE; ret.x++) {
+  for (ret.y = 0; ret.y < SEEY * my_MAPSIZE; ret.y++) {
    for (int i = 0; i < i_at(ret.x, ret.y).size(); i++) {
     if (it == &i_at(ret.x, ret.y)[i])
      return ret;
@@ -766,7 +778,7 @@ void map::add_item(int x, int y, itype* type, int birthday)
 
 void map::add_item(int x, int y, item new_item)
 {
- if (!inbounds(x, y))
+ if (!INBOUNDS(x, y))
   return;
  if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
@@ -774,7 +786,7 @@ void map::add_item(int x, int y, item new_item)
   std::vector<point> okay;
   for (int i = x - 1; i <= x + 1; i++) {
    for (int j = y - 1; j <= y + 1; j++) {
-    if (inbounds(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
+    if (INBOUNDS(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
         i_at(i, j).size() < 26)
      okay.push_back(point(i, j));
    }
@@ -782,7 +794,7 @@ void map::add_item(int x, int y, item new_item)
   if (okay.size() == 0) {
    for (int i = x - 2; i <= x + 2; i++) {
     for (int j = y - 2; j <= y + 2; j++) {
-     if (inbounds(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
+     if (INBOUNDS(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
          i_at(i, j).size() < 26)
       okay.push_back(point(i, j));
     }
@@ -798,32 +810,46 @@ void map::add_item(int x, int y, item new_item)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
  x %= SEEX;
  y %= SEEY;
  grid[nonant].itm[x][y].push_back(new_item);
+ if (new_item.active)
+  grid[nonant].active_item_count++;
 }
 
 void map::process_active_items(game *g)
 {
+ for (int gx = 0; gx < my_MAPSIZE; gx++) {
+  for (int gy = 0; gy < my_MAPSIZE; gy++) {
+   if (grid[gx + gy * my_MAPSIZE].active_item_count > 0)
+    process_active_items_in_submap(g, gx + gy * my_MAPSIZE);
+  }
+ }
+}
+     
+void map::process_active_items_in_submap(game *g, int nonant)
+{
  it_tool* tmp;
  iuse use;
- for (int i = 0; i < SEEX * my_MAPSIZE(); i++) {
-  for (int j = 0; j < SEEY * my_MAPSIZE(); j++) {
-   for (int n = 0; n < i_at(i, j).size(); n++) {
-    if (i_at(i, j)[n].active) {
-     tmp = dynamic_cast<it_tool*>(i_at(i, j)[n].type);
-     (use.*tmp->use)(g, &(g->u), &i_at(i, j)[n], true);
+ for (int i = 0; i < SEEX; i++) {
+  for (int j = 0; j < SEEY; j++) {
+   std::vector<item> *items = &(grid[nonant].itm[i][j]);
+   for (int n = 0; n < items->size(); n++) {
+    if ((*items)[n].active) {
+     tmp = dynamic_cast<it_tool*>((*items)[n].type);
+     (use.*tmp->use)(g, &(g->u), &((*items)[n]), true);
      if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0)
-      i_at(i, j)[n].charges--;
-     if (i_at(i, j)[n].charges <= 0) {
-      (use.*tmp->use)(g, &(g->u), &i_at(i, j)[n], false);
-      if (tmp->revert_to == itm_null) {
-       i_at(i, j).erase(i_at(i, j).begin() + n);
+      (*items)[n].charges--;
+     if ((*items)[n].charges <= 0) {
+      (use.*tmp->use)(g, &(g->u), &((*items)[n]), false);
+      if (tmp->revert_to == itm_null || (*items)[n].charges == -1) {
+       items->erase(items->begin() + n);
+       grid[nonant].active_item_count--;
        n--;
       } else
-       i_at(i, j)[n].type = g->itypes[tmp->revert_to];
+       (*items)[n].type = g->itypes[tmp->revert_to];
      }
     }
    }
@@ -915,7 +941,7 @@ void map::use_charges(point origin, int range, itype_id type, int quantity)
  
 trap_id& map::tr_at(int x, int y)
 {
- if (!inbounds(x, y)) {
+ if (!INBOUNDS(x, y)) {
   nultrap = tr_null;
   return nultrap;	// Out-of-bounds, return our null trap
  }
@@ -923,7 +949,7 @@ trap_id& map::tr_at(int x, int y)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
  x %= SEEX;
  y %= SEEY;
@@ -942,7 +968,7 @@ void map::add_trap(int x, int y, trap_id t)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
  x %= SEEX;
  y %= SEEY;
@@ -979,7 +1005,7 @@ void map::disarm_trap(game *g, int x, int y)
  
 field& map::field_at(int x, int y)
 {
- if (!inbounds(x, y)) {
+ if (!INBOUNDS(x, y)) {
   nulfield = field();
   return nulfield;
  }
@@ -987,7 +1013,7 @@ field& map::field_at(int x, int y)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
  x %= SEEX;
  y %= SEEY;
@@ -996,6 +1022,8 @@ field& map::field_at(int x, int y)
 
 bool map::add_field(game *g, int x, int y, field_id t, unsigned char density)
 {
+ if (!INBOUNDS(x, y))
+  return false;
  if (field_at(x, y).type == fd_web && t == fd_fire)
   density++;
  else if (!field_at(x, y).is_null()) // Blood & bile are null too
@@ -1004,24 +1032,41 @@ bool map::add_field(game *g, int x, int y, field_id t, unsigned char density)
   density = 3;
  if (density <= 0)
   return false;
- field_at(x, y) = field(t, density, 0);
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+ x %= SEEX;
+ y %= SEEY;
+ if (grid[nonant].fld[x][y].type == fd_null)
+  grid[nonant].field_count++;
+ grid[nonant].fld[x][y] = field(t, density, 0);
  if (g != NULL && x == g->u.posx && y == g->u.posy &&
-     field_at(x, y).is_dangerous()) {
+     grid[nonant].fld[x][y].is_dangerous()) {
   g->cancel_activity();
   g->add_msg("You're in a %s!", fieldlist[t].name[density - 1].c_str());
  }
  return true;
 }
 
+void map::remove_field(int x, int y)
+{
+ if (!INBOUNDS(x, y))
+  return;
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+ x %= SEEX;
+ y %= SEEY;
+ if (grid[nonant].fld[x][y].type != fd_null)
+  grid[nonant].field_count--;
+ grid[nonant].fld[x][y] = field();
+}
+
 computer* map::computer_at(int x, int y)
 {
- if (!inbounds(x, y))
+ if (!INBOUNDS(x, y))
   return NULL;
 /*
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
  x %= SEEX;
  y %= SEEY;
@@ -1069,7 +1114,7 @@ void map::draw(game *g, WINDOW* w)
 void map::drawsq(WINDOW* w, player &u, int x, int y, bool invert,
                  bool show_items)
 {
- if (!inbounds(x, y))
+ if (!INBOUNDS(x, y))
   return;	// Out of bounds
  int k = x + SEEX - u.posx;
  int j = y + SEEY - u.posy;
@@ -1172,7 +1217,7 @@ bool map::sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc)
      tc *= st;
      return true;
     }
-   } while ((trans(x, y)) && (inbounds(x,y)));
+   } while ((trans(x, y)) && (INBOUNDS(x,y)));
   }
   return false;
  } else { // Same as above, for mostly-vertical lines
@@ -1192,7 +1237,7 @@ bool map::sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc)
      tc *= st;
      return true;
     }
-   } while ((trans(x, y)) && (inbounds(x,y)));
+   } while ((trans(x, y)) && (INBOUNDS(x,y)));
   }
   return false;
  }
@@ -1235,7 +1280,7 @@ bool map::clear_path(int Fx, int Fy, int Tx, int Ty, int range, int cost_min,
      return true;
     }
    } while (move_cost(x, y) >= cost_min && move_cost(x, y) <= cost_max &&
-            inbounds(x, y));
+            INBOUNDS(x, y));
   }
   return false;
  } else { // Same as above, for mostly-vertical lines
@@ -1256,7 +1301,7 @@ bool map::clear_path(int Fx, int Fy, int Tx, int Ty, int range, int cost_min,
      return true;
     }
    } while (move_cost(x, y) >= cost_min && move_cost(x, y) <= cost_max &&
-            inbounds(x,y));
+            INBOUNDS(x,y));
   }
   return false;
  }
@@ -1269,7 +1314,7 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty, bool bash)
  * in-bounds point and go to that, then to the real origin/destination.
  */
 
- if (!inbounds(Fx, Fy) || !inbounds(Tx, Ty)) {
+ if (!INBOUNDS(Fx, Fy) || !INBOUNDS(Tx, Ty)) {
   int linet;
   if (sees(Fx, Fy, Tx, Ty, -1, linet))
    return line_to(Fx, Fy, Tx, Ty, linet);
@@ -1291,10 +1336,10 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty, bool bash)
            tername(Fx, Fy).c_str(), Tx, Ty);
 */
  std::vector<point> open;
- astar_list list[SEEX * my_MAPSIZE()][SEEY * my_MAPSIZE()];
- int score	[SEEX * my_MAPSIZE()][SEEY * my_MAPSIZE()];
- int gscore	[SEEX * my_MAPSIZE()][SEEY * my_MAPSIZE()];
- point parent	[SEEX * my_MAPSIZE()][SEEY * my_MAPSIZE()];
+ astar_list list[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
+ int score	[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
+ int gscore	[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
+ point parent	[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
  int startx = Fx - 4, endx = Tx + 4, starty = Fy - 4, endy = Ty + 4;
  if (Tx < Fx) {
   startx = Tx - 4;
@@ -1308,10 +1353,10 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty, bool bash)
   startx = 0;
  if (starty < 0)
   starty = 0;
- if (endx > SEEX * my_MAPSIZE() - 1)
-  endx = SEEX * my_MAPSIZE() - 1;
- if (endy > SEEY * my_MAPSIZE() - 1)
-  endy = SEEY * my_MAPSIZE() - 1;
+ if (endx > SEEX * my_MAPSIZE - 1)
+  endx = SEEX * my_MAPSIZE - 1;
+ if (endy > SEEY * my_MAPSIZE - 1)
+  endy = SEEY * my_MAPSIZE - 1;
 
  for (int x = startx; x <= endx; x++) {
   for (int y = starty; y <= endy; y++) {
@@ -1396,16 +1441,16 @@ std::vector<point> map::route(int Fx, int Fy, int Tx, int Ty, bool bash)
 
 void map::save(overmap *om, unsigned int turn, int x, int y)
 {
- for (int gridx = 0; gridx < my_MAPSIZE(); gridx++) {
-  for (int gridy = 0; gridy < my_MAPSIZE(); gridy++)
+ for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
+  for (int gridy = 0; gridy < my_MAPSIZE; gridy++)
    saven(om, turn, x, y, gridx, gridy);
  }
 }
 
 void map::load(game *g, int wx, int wy)
 {
- for (int gridx = 0; gridx < my_MAPSIZE(); gridx++) {
-  for (int gridy = 0; gridy < my_MAPSIZE(); gridy++) {
+ for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
+  for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
    if (!loadn(g, wx, wy, gridx, gridy))
     loadn(g, wx, wy, gridx, gridy);
   }
@@ -1416,8 +1461,9 @@ void map::shift(game *g, int wx, int wy, int sx, int sy)
 {
 // Special case of 0-shift; refresh the map
  if (sx == 0 && sy == 0) {
-  for (int gridx = 0; gridx < my_MAPSIZE(); gridx++) {
-   for (int gridy = 0; gridy < my_MAPSIZE(); gridy++) {
+  return; // Skip this?
+  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
+   for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
     if (!loadn(g, wx+sx, wy+sy, gridx, gridy))
      loadn(g, wx+sx, wy+sy, gridx, gridy);
    }
@@ -1429,48 +1475,52 @@ void map::shift(game *g, int wx, int wy, int sx, int sy)
 // wx and wy are our position in the world, for saving/loading purposes.
 
  if (sx >= 0) {
-  for (int gridx = 0; gridx < my_MAPSIZE(); gridx++) {
+  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
    if (sy >= 0) {
-    for (int gridy = 0; gridy < my_MAPSIZE(); gridy++) {
-     if (gridx < sx || gridy < sy)
+    for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
+     if (gridx < sx || gridy < sy) {
       saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     if (gridx + sx < my_MAPSIZE() && gridy + sy < my_MAPSIZE())
-      copy_grid(gridx + gridy * my_MAPSIZE(),
-                gridx + sx + (gridy + sy) * my_MAPSIZE());
+     }
+     if (gridx + sx < my_MAPSIZE && gridy + sy < my_MAPSIZE)
+      copy_grid(gridx + gridy * my_MAPSIZE,
+                gridx + sx + (gridy + sy) * my_MAPSIZE);
      else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
       loadn(g, wx + sx, wy + sy, gridx, gridy);
     }
    } else { // sy < 0; work through it backwards
-    for (int gridy = my_MAPSIZE() - 1; gridy >= 0; gridy--) {
-     if (gridx < sx || gridy - my_MAPSIZE() >= sy)
+    for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
+     if (gridx < sx || gridy - my_MAPSIZE >= sy) {
       saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     if (gridx + sx < my_MAPSIZE() && gridy + sy >= 0)
-      copy_grid(gridx + gridy * my_MAPSIZE(),
-                gridx + sx + (gridy + sy) * my_MAPSIZE());
+     }
+     if (gridx + sx < my_MAPSIZE && gridy + sy >= 0)
+      copy_grid(gridx + gridy * my_MAPSIZE,
+                gridx + sx + (gridy + sy) * my_MAPSIZE);
      else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
       loadn(g, wx + sx, wy + sy, gridx, gridy);
     }
    }
   }
  } else { // sx < 0; work through it backwards
-  for (int gridx = my_MAPSIZE() - 1; gridx >= 0; gridx--) {
+  for (int gridx = my_MAPSIZE - 1; gridx >= 0; gridx--) {
    if (sy >= 0) {
-    for (int gridy = 0; gridy < my_MAPSIZE(); gridy++) {
-     if (gridx - my_MAPSIZE() >= sx || gridy < sy)
+    for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
+     if (gridx - my_MAPSIZE >= sx || gridy < sy) {
       saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
-     if (gridx + sx >= 0 && gridy + sy < my_MAPSIZE())
-      copy_grid(gridx + gridy * my_MAPSIZE(),
-                gridx + sx + (gridy + sy) * my_MAPSIZE());
+     }
+     if (gridx + sx >= 0 && gridy + sy < my_MAPSIZE)
+      copy_grid(gridx + gridy * my_MAPSIZE,
+                gridx + sx + (gridy + sy) * my_MAPSIZE);
      else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
       loadn(g, wx + sx, wy + sy, gridx, gridy);
     }
    } else { // sy < 0; work through it backwards
-    for (int gridy = my_MAPSIZE() - 1; gridy >= 0; gridy--) {
-     if (gridx - my_MAPSIZE() >= sx || gridy - my_MAPSIZE() >= sy)
+    for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
+     if (gridx - my_MAPSIZE >= sx || gridy - my_MAPSIZE >= sy) {
       saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
+     }
      if (gridx + sx >= 0 && gridy + sy >= 0)
-      copy_grid(gridx + gridy * my_MAPSIZE(),
-                gridx + sx + (gridy + sy) * my_MAPSIZE());
+      copy_grid(gridx + gridy * my_MAPSIZE,
+                gridx + sx + (gridy + sy) * my_MAPSIZE);
      else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
       loadn(g, wx + sx, wy + sy, gridx, gridy);
     }
@@ -1488,7 +1538,7 @@ void map::shift(game *g, int wx, int wy, int sx, int sy)
 void map::saven(overmap *om, unsigned int turn, int worldx, int worldy,
                 int gridx, int gridy)
 {
- int n = gridx + gridy * my_MAPSIZE();
+ int n = gridx + gridy * my_MAPSIZE;
 // Open appropriate file.
  char buff[32];
  sprintf(buff, "save/m.%d.%d.%d", om->posx * OMAPX * 2 + worldx + gridx,
@@ -1573,12 +1623,16 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
  char fname[32];
  char line[SEEX];
  char ch = 0;
- int gridn = gridx + gridy * my_MAPSIZE();
+ int gridn = gridx + gridy * my_MAPSIZE;
  int itx, ity, t, d, a, old_turn;
  bool fields_here = false;
  item it_tmp;
  std::ifstream mapin;
  std::string databuff;
+
+ //debugmsg("%d", grid[gridn]);
+ grid[gridn].active_item_count = 0;
+ grid[gridn].field_count = 0;
  grid[gridn].comp = computer();
 
  sprintf(fname, "save/m.%d.%d.%d", g->cur_om.posx * OMAPX * 2 + worldx + gridx,
@@ -1623,12 +1677,16 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
     getline(mapin, databuff);
     it_tmp.load_info(databuff, g);
     grid[gridn].itm[itx][ity].push_back(it_tmp);
+    if (it_tmp.active)
+     grid[gridn].active_item_count++;
    } else if (!mapin.eof() && ch == 'C') {
     getline(mapin, databuff); // Clear out the endline
     getline(mapin, databuff);
     int index = grid[gridn].itm[itx][ity].size() - 1;
     it_tmp.load_info(databuff, g);
     grid[gridn].itm[itx][ity][index].put_in(it_tmp);
+    if (it_tmp.active)
+     grid[gridn].active_item_count++;
    } else if (!mapin.eof() && ch == 'T') {
     mapin >> itx >> ity >> t;
     grid[gridn].trp[itx][ity] = trap_id(t);
@@ -1636,6 +1694,7 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
     fields_here = true;
     mapin >> itx >> ity >> t >> d >> a;
     grid[gridn].fld[itx][ity] = field(field_id(t), d, a);
+    grid[gridn].field_count++;
    } else if (!mapin.eof() && ch == 'S') {
     char tmpfriend;
     int tmpfac = -1, tmpmis = -1;
@@ -1651,7 +1710,7 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
   }
   mapin.close();
   if (fields_here && turndif >= 8) {
-   for (int i = 0; i < int(turndif / 8); i++) {
+   for (int i = 0; i < int(turndif / 8) && i < 5000; i++) {
     if (!process_fields(g))
      i = int(turndif / 8) + 1;
    }
@@ -1678,8 +1737,8 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
 
 void map::copy_grid(int to, int from)
 {
- if (from < 0 || from >= my_MAPSIZE() * my_MAPSIZE() ||
-     to   < 0 || to   >= my_MAPSIZE() * my_MAPSIZE()   ) {
+ if (from < 0 || from >= my_MAPSIZE * my_MAPSIZE ||
+     to   < 0 || to   >= my_MAPSIZE * my_MAPSIZE   ) {
   debugmsg("Attempted to copy grid %d to grid %d", from, to);
   return;
  }
@@ -1691,20 +1750,25 @@ void map::copy_grid(int to, int from)
    grid[to].trp[x][y] = grid[from].trp[x][y];
    grid[to].fld[x][y] = grid[from].fld[x][y];
    grid[to].rad[x][y] = grid[from].rad[x][y];
+   grid[to].active_item_count = grid[from].active_item_count;
+   grid[to].field_count = grid[from].field_count;
   }
  }
 
  grid[to].comp = grid[from].comp;
+// Not needed?
+/*
  grid[to].spawns.clear();
  for (int i = 0; i < grid[from].spawns.size(); i++)
   grid[to].spawns.push_back(grid[from].spawns[i]);
+*/
 }
 
 void map::spawn_monsters(game *g)
 {
- for (int gx = 0; gx < my_MAPSIZE(); gx++) {
-  for (int gy = 0; gy < my_MAPSIZE(); gy++) {
-   int n = gx + gy * my_MAPSIZE();
+ for (int gx = 0; gx < my_MAPSIZE; gx++) {
+  for (int gy = 0; gy < my_MAPSIZE; gy++) {
+   int n = gx + gy * my_MAPSIZE;
    for (int i = 0; i < grid[n].spawns.size(); i++) {
     for (int j = 0; j < grid[n].spawns[i].count; j++) {
      int tries = 0;
@@ -1747,9 +1811,7 @@ void map::spawn_monsters(game *g)
 
 bool map::inbounds(int x, int y)
 {
- if (x < 0 || x >= SEEX * my_MAPSIZE() || y < 0 || y >= SEEY * my_MAPSIZE())
-  return false;
- return true;
+ return (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE);
 }
 
 tinymap::tinymap()
@@ -1784,13 +1846,13 @@ tinymap::~tinymap()
 /*
 void map::cast_to_nonant(int &x, int &y, int &n)
 {
- if (x < 0 || x >= SEEX * my_MAPSIZE() || y < 0 || y >= SEEY * my_MAPSIZE()) {
+ if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE) {
   n = 0;
   x = -1;
   y = -1;
   return;
  }
- n = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
+ n = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
  x %= SEEX;
  y %= SEEY;

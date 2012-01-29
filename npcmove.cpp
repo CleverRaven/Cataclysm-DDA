@@ -51,7 +51,7 @@ void npc::move(game *g)
 
  if (is_enemy()) {
   int pl_danger = player_danger( &(g->u) );
-  if (is_enemy() && (pl_danger > danger || target == -1)) {
+  if (pl_danger > danger || target == -1) {
    target = TARGET_PLAYER;
    danger = pl_danger;
    if (g->debugmon)
@@ -329,8 +329,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
    int distance = (100 * rl_dist(posx, posy, mon->posx, mon->posy)) /
                   mon->speed;
    double hp_percent = (mon->type->hp - mon->hp) / mon->type->hp;
-   int priority = mon->type->difficulty * (1 + hp_percent);
-   priority -= distance;
+   int priority = mon->type->difficulty * (1 + hp_percent) - distance;
    int monster_danger = (mon->type->difficulty * mon->hp) / mon->type->hp;
    if (!mon->is_fleeing(*this))
     monster_danger++;
@@ -346,7 +345,25 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
 */
    total_danger += int(monster_danger / (distance == 0 ? 1 : distance));
 
-   if (monster_danger > danger) {
+   bool okay_by_rules = true;
+   if (is_following()) {
+    switch (combat_rules.engagement) {
+     case ENGAGE_NONE:
+      okay_by_rules = false;
+      break;
+     case ENGAGE_CLOSE:
+      okay_by_rules = (distance <= 6);
+      break;
+     case ENGAGE_WEAK:
+      okay_by_rules = (mon->hp <= average_damage_dealt());
+      break;
+     case ENGAGE_HIT:
+      okay_by_rules = (mon->has_effect(ME_HIT_BY_PLAYER));
+      break;
+    }
+   }
+
+   if (okay_by_rules && monster_danger > danger) {
     danger = monster_danger;
     if (enemy == -1) {
      highest_priority = priority;
@@ -354,10 +371,10 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
     }
    }
 
-   if (priority > highest_priority) {
+   if (okay_by_rules && priority > highest_priority) {
     highest_priority = priority;
     enemy = i;
-   } else if (defend_u) {
+   } else if (okay_by_rules && defend_u) {
     priority = mon->type->difficulty * (1 + hp_percent);
     distance = (100 * rl_dist(g->u.posx, g->u.posy, mon->posx, mon->posy)) /
                mon->speed;
@@ -395,6 +412,8 @@ npc_action npc::method_of_fleeing(game *g, int enemy)
 npc_action npc::method_of_attack(game *g, int target, int danger)
 {
  int tarx = posx, tary = posy;
+ bool can_use_gun =      (!is_following() || combat_rules.use_guns),
+      can_use_grenades = (!is_following() || combat_rules.use_grenades);
  if (target == TARGET_PLAYER) {
   tarx = g->u.posx;
   tary = g->u.posy;
@@ -412,35 +431,38 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
  else
   target_HP = g->z[target].hp;
 
- if (need_to_reload() && can_reload())
-  return npc_reload;
- if (emergency(danger_assessment(g)) && alt_attack_available())
-  return npc_alt_attack;
- if (weapon.is_gun() && weapon.charges > 0) {
-  it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
-  if (dist > confident_range()) {
-   if (can_reload() && enough_time_to_reload(g, target, weapon))
-    return npc_reload;
+ if (can_use_gun) {
+  if (need_to_reload() && can_reload())
+   return npc_reload;
+  if (emergency(danger_assessment(g)) && alt_attack_available(g))
+   return npc_alt_attack;
+  if (weapon.is_gun() && weapon.charges > 0) {
+   it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
+   if (dist > confident_range()) {
+    if (can_reload() && enough_time_to_reload(g, target, weapon))
+     return npc_reload;
+    else
+     return npc_melee;
+   }
+   if (!wont_hit_friend(g, tarx, tary))
+    return npc_avoid_friendly_fire;
+   else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
+            gun->burst > 1 &&
+            (target_HP >= weapon.curammo->damage * 3 || emergency(danger * 2)))
+    return npc_shoot_burst;
    else
-    return npc_melee;
+    return npc_shoot;
   }
-  if (!wont_hit_friend(g, tarx, tary))
-   return npc_avoid_friendly_fire;
-  else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
-           gun->burst > 1 &&
-           (target_HP >= weapon.curammo->damage * 3 || emergency(danger * 2)))
-   return npc_shoot_burst;
-  else
-   return npc_shoot;
  }
 
 // Check if there's something better to wield
  bool has_empty_gun = false, has_better_melee = false;
  std::vector<int> empty_guns;
  for (int i = 0; i < inv.size(); i++) {
-  if (inv[i].is_gun() && inv[i].charges > 0)
+  if (can_use_gun && inv[i].is_gun() && inv[i].charges > 0)
    return npc_wield_loaded_gun;
-  else if (inv[i].is_gun() && enough_time_to_reload(g, target, inv[i])) {
+  else if (can_use_gun && inv[i].is_gun() &&
+           enough_time_to_reload(g, target, inv[i])) {
    has_empty_gun = true;
    empty_guns.push_back(i);
   } else if (inv[i].melee_value(sklevel) > weapon.melee_value(sklevel) * 1.1)
@@ -550,14 +572,14 @@ npc_action npc::long_term_goal_action(game *g)
 }
  
  
-bool npc::alt_attack_available()
+bool npc::alt_attack_available(game *g)
 {
- if (has_amount(itm_grenade,  1) || has_amount(itm_grenade_act,  1)  ||
-     has_amount(itm_molotov,  1) || has_amount(itm_molotov_lit,  1)  ||
-     has_amount(itm_gasbomb,  1) || has_amount(itm_gasbomb_act,  1)  ||
-     has_amount(itm_dynamite, 1) || has_amount(itm_dynamite_act, 1)  ||
-     has_amount(itm_mininuke, 1) || has_amount(itm_mininuke_act, 1)    )
-  return true;
+ for (int i = 0; i < NUM_ALT_ATTACK_ITEMS; i++) {
+  if ((!is_following() || combat_rules.use_grenades ||
+       !g->itypes[ALT_ATTACK_ITEMS[i]]->item_flags & mfb(IF_GRENADE)) &&
+      has_amount(ALT_ATTACK_ITEMS[i], 1))
+   return true;
+ }
  return false;
 }
 
@@ -566,7 +588,12 @@ int npc::choose_escape_item()
  int best = -1, ret = -1;
  for (int i = 0; i < inv.size(); i++) {
   for (int j = 0; j < NUM_ESCAPE_ITEMS; j++) {
+   it_comest* food = NULL;
+   if (inv[i].is_food())
+    food = dynamic_cast<it_comest*>(inv[i].type);
    if (inv[i].type->id == ESCAPE_ITEMS[j] &&
+       (food == NULL || stim < food->stim ||            // Avoid guzzling down
+        (food->stim >= 10 && stim < food->stim * 2)) && //  Adderall etc.
        (j > best || (j == best && inv[i].charges < inv[ret].charges))) {
     ret = i;
     best = j;
@@ -603,6 +630,8 @@ void npc::use_escape_item(game *g, int index, int target)
   iuse use;
   (use.*tool->use)(g, this, used, false);
   used->charges -= tool->charges_per_use;
+  if (used->invlet == 0)
+   inv.remove_item(index);
   return;
  }
 
@@ -833,7 +862,7 @@ void npc::move_to(game *g, int x, int y)
  else if (g->m.move_cost(x, y) > 0) {
   posx = x;
   posy = y;
-  moves -= g->m.move_cost(x, y) * 50;
+  moves -= run_cost(g->m.move_cost(x, y) * 50);
  } else if (g->m.open_door(x, y, (g->m.ter(posx, posy) == t_floor)))
   moves -= 100;
  else if (g->m.has_flag(bashable, x, y)) {
@@ -1244,9 +1273,9 @@ void npc::drop_items(game *g, int weight, int volume)
 
 void npc::melee_monster(game *g, int target)
 {
- monster* hit = &(g->z[target]);
- int dam = hit_mon(g, hit);
- if (hit->hurt(dam))
+ monster* monhit = &(g->z[target]);
+ int dam = hit_mon(g, monhit);
+ if (monhit->hurt(dam))
   g->kill_mon(target);
 }
 
@@ -1304,7 +1333,9 @@ void npc::alt_attack(game *g, int target)
  * See npc.h for definition of ALT_ATTACK_ITEMS
  */
  for (int i = 0; i < NUM_ALT_ATTACK_ITEMS; i++) {
-  if (has_amount(ALT_ATTACK_ITEMS[i], 1))
+  if ((!is_following() || combat_rules.use_grenades ||
+       !g->itypes[ALT_ATTACK_ITEMS[i]]->item_flags & mfb(IF_GRENADE)) &&
+      has_amount(ALT_ATTACK_ITEMS[i], 1))
    which = ALT_ATTACK_ITEMS[i];
  }
 

@@ -1026,6 +1026,31 @@ int item::recoil(bool with_ammo)
  return ret;
 }
 
+int item::range(player *p)
+{
+ if (!is_gun())
+  return 0;
+ it_gun* gun = dynamic_cast<it_gun*>(type);
+ int ret = 0;
+ if (curammo != NULL)
+  ret += curammo->range;
+
+ if (has_flag(IF_STR8_DRAW) && p != NULL) {
+  if (p->str_cur < 4)
+   return 0;
+  else if (p->str_cur < 8)
+   ret -= 2 * (8 - p->str_cur);
+ } else if (has_flag(IF_STR10_DRAW) && p != NULL) {
+  if (p->str_cur < 5)
+   return 0;
+  else if (p->str_cur < 10)
+   ret -= 2 * (10 - p->str_cur);
+ }
+
+ return ret;
+}
+ 
+
 ammotype item::ammo_type()
 {
  if (is_gun()) {

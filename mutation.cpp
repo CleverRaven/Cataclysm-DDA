@@ -93,8 +93,10 @@ void player::mutate(game *g)
 
 void player::mutate_towards(game *g, pl_flag mut)
 {
- if (has_child_flag(g, mut))
-  debugmsg("Tried to mutate %s, has a child of it!", traits[mut].name.c_str());
+ if (has_child_flag(g, mut)) {
+  remove_child_flag(g, mut);
+  return;
+ }
  std::vector<pl_flag> prereq = g->mutation_data[mut].prereqs;
  std::vector<pl_flag> cancel = g->mutation_data[mut].cancels;
 
@@ -196,6 +198,20 @@ bool player::has_child_flag(game *g, pl_flag flag)
    return true;
  }
  return false;
+}
+
+void player::remove_child_flag(game *g, pl_flag flag)
+{
+ for (int i = 0; i < g->mutation_data[flag].replacements.size(); i++) {
+  pl_flag tmp = g->mutation_data[flag].replacements[i];
+  if (has_trait(tmp)) {
+   remove_mutation(g, tmp);
+   return;
+  } else if (has_child_flag(g, tmp)) {
+   remove_child_flag(g, tmp);
+   return;
+  }
+ }
 }
 
 void mutation_effect(game *g, player &p, pl_flag mut)

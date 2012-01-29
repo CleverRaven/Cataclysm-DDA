@@ -425,6 +425,7 @@ void monster::hit_player(game *g, player &p)
 {
  if (type->melee_dice == 0) // We don't attack, so just return
   return;
+ add_effect(ME_HIT_BY_PLAYER, 3); // Make us a valid target for a few turns
  bool is_npc = p.is_npc();
  int  junk;
  bool u_see = (!is_npc || g->u_see(p.posx, p.posy, junk));

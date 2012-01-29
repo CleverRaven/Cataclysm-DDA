@@ -575,6 +575,13 @@ void game::init_mapitems()
 	itm_usb_drive, NULL);
 
  setvector(
+   mapitems[mi_toxic_dump_equipment],
+	itm_1st_aid, itm_iodine, itm_canister_empty, itm_boots_steel,
+	itm_hazmat_suit, itm_mask_gas, itm_hat_hard, itm_textbook_carpentry,
+	itm_extinguisher, itm_radio, itm_geiger_off, itm_UPS_off,
+	itm_bionics_hazmat, NULL);
+
+ setvector(
    mapitems[mi_subway],
 	itm_wrapper, itm_string_6, itm_chain, itm_rock, itm_pipe,
 	itm_mag_porn, itm_bottle_plastic, itm_bottle_glass, itm_can_drink,

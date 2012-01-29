@@ -638,7 +638,8 @@ bool game::do_turn()
 
 
  while (u.moves > 0) {
-  draw();
+  if (!u.has_disease(DI_SLEEP) && u.activity.type == ACT_NULL)
+   draw();
   get_input();
   if (is_game_over()) {
    if (uquit == QUIT_DIED)
@@ -666,29 +667,30 @@ bool game::do_turn()
   check_warmth();
  }
 
- update_skills();
- if (turn % 10 == 0)
-  u.update_morale();
- if (u.has_disease(DI_SLEEP)) {
+ if (u.has_disease(DI_SLEEP) && int(turn) % 300 == 0) {
   draw();
   refresh();
  }
+
+ update_skills();
+ if (turn % 10 == 0)
+  u.update_morale();
  return false;
 }
 
 void game::update_skills()
 {
 //    SKILL   TURNS/--
-//	1	2048
-//	2	1024
-//	3	 512
-//	4	 256
-//	5	 128
-//	6	  64
-//	7+	  32
+//	1	4096
+//	2	2048
+//	3	1024
+//	4	 512
+//	5	 256
+//	6	 128
+//	7+	  64
  for (int i = 0; i < num_skill_types; i++) {
   int tmp = u.sklevel[i] > 7 ? 7 : u.sklevel[i];
-  if (u.sklevel[i] > 0 && turn % (4096 / int(pow(2, double(tmp - 1)))) == 0 &&
+  if (u.sklevel[i] > 0 && turn % (8192 / int(pow(2, double(tmp - 1)))) == 0 &&
       (( u.has_trait(PF_FORGETFUL) && one_in(3)) ||
        (!u.has_trait(PF_FORGETFUL) && one_in(4))   )) {
    if (u.has_bionic(bio_memory) && u.power_level > 0) {
@@ -727,7 +729,8 @@ void game::process_activity()
 {
  it_book* reading;
  if (u.activity.type != ACT_NULL) {
-  draw();
+  if (int(turn) % 150 == 0)
+   draw();
   if (u.activity.type == ACT_WAIT) {	// Based on time, not speed
    u.activity.moves_left -= 100;
    u.pause();
@@ -834,7 +837,11 @@ void game::cancel_activity_query(std::string message)
     u.activity.type = ACT_NULL;
    break;
   case ACT_BUTCHER:
-   if  (query_yn("%s Stop butchering?", message.c_str()))
+   if (query_yn("%s Stop butchering?", message.c_str()))
+    u.activity.type = ACT_NULL;
+   break;
+  case ACT_BUILD:
+   if (query_yn("%s Stop construction?", message.c_str()))
     u.activity.type = ACT_NULL;
    break;
   default:
@@ -1268,18 +1275,19 @@ void game::update_scent()
 {
  signed int newscent[SEEX * MAPSIZE][SEEY * MAPSIZE];
  if (!u.has_active_bionic(bio_scent_mask))
-  scent(u.posx, u.posy) = u.scent;
+  grscent[u.posx][u.posy] = u.scent;
  else
-  scent(u.posx, u.posy) = 0;
- for (int x = u.posx - SEEX * 2; x <= u.posx + SEEX * 2; x++) {
-  for (int y = u.posy - SEEY * 2; y <= u.posy + SEEY * 2; y++) {
+  grscent[u.posx][u.posy] = 0;
+
+ for (int x = u.posx - 18; x <= u.posx + 18; x++) {
+  for (int y = u.posy - 18; y <= u.posy + 18; y++) {
    newscent[x][y] = 0;
    if (m.move_cost(x, y) != 0 || m.has_flag(bashable, x, y)) {
     int squares_used = 0;
     for (int i = -1; i <= 1; i++) {
      for (int j = -1; j <= 1; j++) {
-      if (scent(x, y) <= scent(x+i, y+j)) {
-       newscent[x][y] += scent(x+i, y+j);
+      if (grscent[x][y] <= grscent[x+i][y+j]) {
+       newscent[x][y] += grscent[x+i][y+j];
        squares_used++;
       }
      }
@@ -1295,14 +1303,14 @@ void game::update_scent()
    }
   }
  }
- for (int x = u.posx - SEEX * 2; x <= u.posx + SEEX * 2; x++) {
-  for (int y = u.posy - SEEY * 2; y <= u.posy + SEEY * 2; y++)
-   scent(x, y) = newscent[x][y];
+ for (int x = u.posx - 18; x <= u.posx + 18; x++) {
+  for (int y = u.posy - 18; y <= u.posy + 18; y++)
+   grscent[x][y] = newscent[x][y];
  }
  if (!u.has_active_bionic(bio_scent_mask))
-  scent(u.posx, u.posy) = u.scent;
+  grscent[u.posx][u.posy] = u.scent;
  else
-  scent(u.posx, u.posy) = 0;
+  grscent[u.posx][u.posy] = 0;
 }
 
 bool game::is_game_over()
@@ -4546,7 +4554,7 @@ void game::plfire(bool burst)
  }
 
  int junk;
- int range = u.weapon.curammo->range;
+ int range = u.weapon.range(&u);
  int sight_range = u.sight_range(light_level());
  if (range > sight_range)
   range = sight_range;
@@ -4586,8 +4594,10 @@ void game::plfire(bool burst)
                                          passtarget, &u.weapon);
  if (trajectory.size() == 0)
   return;
- if (passtarget != -1)	// We picked a real live target
+ if (passtarget != -1) { // We picked a real live target
   last_target = targetindices[passtarget]; // Make it our default for next time
+  z[targetindices[passtarget]].add_effect(ME_HIT_BY_PLAYER, 100);
+ }
 
  if (u.weapon.has_flag(IF_USE_UPS)) {
   if (u.has_charges(itm_UPS_off, 5))
@@ -5133,38 +5143,7 @@ void game::plmove(int x, int y)
    return;
 
 // Calculate cost of moving
-  if (u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 2) {
-   movecost = m.move_cost(x, y) * 20;
-   if (movecost < 100)
-    movecost = 100;
-  } else
-   movecost = m.move_cost(x, y) * 50;
-  if (u.has_trait(PF_FLEET) && m.move_cost(x, y) == 2)
-   movecost = int(movecost * .85);
-  if (u.has_trait(PF_FLEET2) && m.move_cost(x, y) == 2)
-   movecost = int(movecost * .7);
-  if (u.has_trait(PF_PADDED_FEET) && !u.wearing_something_on(bp_feet))
-   movecost = int(movecost * .9);
-  if (u.has_trait(PF_LIGHT_BONES))
-   movecost = int(movecost * .9);
-  if (u.has_trait(PF_HOLLOW_BONES))
-   movecost = int(movecost * .8);
-  if (u.has_trait(PF_WINGS_INSECT))
-   movecost -= 15;
-  if (u.has_trait(PF_LEG_TENTACLES))
-   movecost += 20;
-  if (u.has_trait(PF_PONDEROUS1))
-   movecost = int(movecost * 1.1);
-  if (u.has_trait(PF_PONDEROUS2))
-   movecost = int(movecost * 1.2);
-  if (u.has_trait(PF_PONDEROUS3))
-   movecost = int(movecost * 1.3);
-  movecost += u.encumb(bp_mouth) * 5 + u.encumb(bp_feet) * 5 +
-              u.encumb(bp_legs) * 3;
-  if (!u.wearing_something_on(bp_feet) && !u.has_trait(PF_PADDED_FEET) &&
-      !u.has_trait(PF_HOOVES))
-   movecost += 15;
-  u.moves -= movecost;
+  u.moves -= u.run_cost(m.move_cost(x, y) * 50);
 
 // Adjust recoil down
   if (u.recoil > 0) {

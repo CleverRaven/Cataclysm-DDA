@@ -29,15 +29,26 @@ struct dialogue {
 
 struct talk_function
 {
- void nothing(game *g, npc *p) {};
- void assign_mission(game *g, npc *p);
- void mission_success(game *g, npc *p);
- void mission_failure(game *g, npc *p);
- void clear_mission(game *g, npc *p);
- void mission_reward(game *g, npc *p);
- void give_equipment(game *g, npc *p);
- void enslave(game *g, npc *p) {}; // p becomes slave of u
- void hostile(game *g, npc *p) {}; // p turns hostile to u
+ void nothing			(game *g, npc *p) {};
+ void assign_mission		(game *g, npc *p);
+ void mission_success		(game *g, npc *p);
+ void mission_failure		(game *g, npc *p);
+ void clear_mission		(game *g, npc *p);
+ void mission_reward		(game *g, npc *p);
+ void give_equipment		(game *g, npc *p);
+ void start_trade		(game *g, npc *p);
+ void follow			(game *g, npc *p); // p follows u
+ void deny_follow		(game *g, npc *p); // p gets DI_ASKED_TO_FOLLOW
+ void enslave			(game *g, npc *p) {}; // p becomes slave of u
+ void hostile			(game *g, npc *p) {}; // p turns hostile to u
+
+ void toggle_use_guns		(game *g, npc *p);
+ void toggle_use_grenades	(game *g, npc *p);
+ void set_engagement_none	(game *g, npc *p);
+ void set_engagement_close	(game *g, npc *p);
+ void set_engagement_weak	(game *g, npc *p);
+ void set_engagement_hit	(game *g, npc *p);
+ void set_engagement_all	(game *g, npc *p);
 };
 
 enum talk_trial

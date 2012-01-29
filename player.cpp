@@ -327,6 +327,44 @@ int player::current_speed(game *g)
  return newmoves;
 }
 
+int player::run_cost(int base_cost)
+{
+ int movecost = base_cost;
+ if (has_trait(PF_PARKOUR) && base_cost > 100) {
+  movecost *= .5;
+  if (movecost < 100)
+   movecost = 100;
+ }
+ if (has_trait(PF_FLEET) && base_cost == 100)
+  movecost = int(movecost * .85);
+ if (has_trait(PF_FLEET2) && base_cost == 100)
+  movecost = int(movecost * .7);
+ if (has_trait(PF_PADDED_FEET) && !wearing_something_on(bp_feet))
+  movecost = int(movecost * .9);
+ if (has_trait(PF_LIGHT_BONES))
+  movecost = int(movecost * .9);
+ if (has_trait(PF_HOLLOW_BONES))
+  movecost = int(movecost * .8);
+ if (has_trait(PF_WINGS_INSECT))
+  movecost -= 15;
+ if (has_trait(PF_LEG_TENTACLES))
+  movecost += 20;
+ if (has_trait(PF_PONDEROUS1))
+  movecost = int(movecost * 1.1);
+ if (has_trait(PF_PONDEROUS2))
+  movecost = int(movecost * 1.2);
+ if (has_trait(PF_PONDEROUS3))
+  movecost = int(movecost * 1.3);
+ movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 +
+             encumb(bp_legs) * 3;
+ if (!wearing_something_on(bp_feet) && !has_trait(PF_PADDED_FEET) &&
+     !has_trait(PF_HOOVES))
+  movecost += 15;
+
+ return movecost;
+}
+ 
+
 int player::swim_speed()
 {
  int ret = 440 + 2 * weight_carried() - 50 * sklevel[sk_swimming];
@@ -772,6 +810,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
 
 // Finally, draw speed.
  mvwprintz(w_speed, 0, 11, c_ltgray, "SPEED");
+ mvwprintz(w_speed, 1,  1, c_ltgray, "Base Move Cost:");
  mvwprintz(w_speed, 2,  1, c_ltgray, "Current Speed:");
  int newmoves = current_speed(g);
  int pen = 0;
@@ -868,8 +907,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   mvwprintz(w_speed, line, 1, c_green, "Quick               +%s%d%%%%",
             (pen < 10 ? " " : ""), pen);
  }
- mvwprintw(w_speed, 2, (newmoves >= 100 ? 21 : (newmoves < 10 ? 23 : 22)),
-           "%d%%", newmoves);
+ int runcost = run_cost(100);
+ nc_color col = (runcost <= 100 ? c_green : c_red);
+ mvwprintz(w_speed, 1, (runcost  >= 100 ? 22 : (runcost  < 10 ? 24 : 23)), col,
+           "%d", runcost);
+ col = (newmoves >= 100 ? c_green : c_red);
+ mvwprintz(w_speed, 2, (newmoves >= 100 ? 22 : (newmoves < 10 ? 24 : 23)), col,
+           "%d", newmoves);
  wrefresh(w_speed);
 
  refresh();
@@ -2032,7 +2076,11 @@ int player::hp_percentage()
 
 void player::get_sick(game *g)
 {
- if (one_in(5))
+ if (health > 0 && rng(0, health + 10) < health)
+  health--;
+ if (health < 0 && rng(0, 10 - health) < (0 - health))
+  health++;
+ if (one_in(12))
   health -= 1;
 
  if (g->debugmon)
@@ -2041,7 +2089,8 @@ void player::get_sick(game *g)
  if (has_trait(PF_DISIMMUNE))
   return;
 
- if (one_in(700 + 25 * health + (has_trait(PF_DISRESISTANT) ? 300 : 0))) {
+ if (!has_disease(DI_FLU) && !has_disease(DI_COMMON_COLD) &&
+     one_in(900 + 10 * health + (has_trait(PF_DISRESISTANT) ? 300 : 0))) {
   if (one_in(6))
    infect(DI_FLU, bp_mouth, 3, rng(40000, 80000), g);
   else
@@ -2439,7 +2488,11 @@ void player::suffer(game *g)
   mutate(g);
  if (has_artifact_with(AEP_MUTAGENIC) && one_in(28800))
   mutate(g);
- radiation += rng(0, g->m.radiation(posx, posy) / 4);
+
+ if (is_wearing(itm_hazmat_suit))
+  radiation += rng(0, g->m.radiation(posx, posy) / 12);
+ else
+  radiation += rng(0, g->m.radiation(posx, posy) / 4);
  if (rng(1, 1000) < radiation && int(g->turn) % 600 == 0) {
   mutate(g);
   if (radiation > 2000)
@@ -2491,21 +2544,21 @@ void player::vomit(game *g)
  g->add_msg("You throw up heavily!");
  hunger += 30;
  thirst += 30;
+ moves -= 100;
  for (int i = 0; i < illness.size(); i++) {
-  if (illness[i].type == DI_FOODPOISON)
-   illness[i].duration -= 600;
-  else if (illness[i].type == DI_DRUNK)
-   illness[i].duration -= rng(0, 5) * 100;
-  if (illness[i].duration < 0)
-   rem_disease(illness[i].type);
+  if (illness[i].type == DI_FOODPOISON) {
+   illness[i].duration -= 300;
+   if (illness[i].duration < 0)
+    rem_disease(illness[i].type);
+  } else if (illness[i].type == DI_DRUNK) {
+   illness[i].duration -= rng(1, 5) * 100;
+   if (illness[i].duration < 0)
+    rem_disease(illness[i].type);
+  }
  }
  rem_disease(DI_PKILL1);
  rem_disease(DI_PKILL2);
  rem_disease(DI_PKILL3);
- if (has_disease(DI_SLEEP) && one_in(4)) { // Pulled a Hendrix!
-  g->add_msg("You choke on your vomit and die...");
-  hurtall(500);
- }
  rem_disease(DI_SLEEP);
 }
 
@@ -2539,9 +2592,9 @@ int player::weight_capacity(bool real_life)
  if (has_trait(PF_BADBACK))
   ret = int(ret * .65);
  if (has_trait(PF_LIGHT_BONES))
-  ret = int(ret * .85);
+  ret = int(ret * .80);
  if (has_trait(PF_HOLLOW_BONES))
-  ret = int(ret * .70);
+  ret = int(ret * .60);
  return ret;
 }
 
@@ -2589,12 +2642,12 @@ int player::morale_level()
  }
 
  if (has_trait(PF_OPTIMISTIC)) {
-  if (ret < 0) {	// Up to -15 is canceled out
-   ret += 15;
+  if (ret < 0) {	// Up to -30 is canceled out
+   ret += 30;
    if (ret > 0)
     ret = 0;
   } else		// Otherwise, we're just extra-happy
-   ret += 6;
+   ret += 20;
  }
 
  if (has_disease(DI_TOOK_PROZAC) && ret < 0)
@@ -3788,7 +3841,7 @@ void player::read(game *g, char ch)
   return;
  }
 // Check if reading is okay
- if (g->light_level() <= 2) {
+ if (g->light_level() < 8) {
   g->add_msg("It's too dark to read!");
   return;
  }

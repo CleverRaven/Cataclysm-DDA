@@ -128,7 +128,7 @@ struct npc_opinion {
   fear  = 0;
   value = 0;
   anger = 0;
-  owed = 0;
+  owed  = 0;
  };
  npc_opinion(signed char T, signed char F, signed char V, signed char A, int O):
              trust (T), fear (F), value (V), anger(A), owed (O) { };
@@ -158,6 +158,28 @@ struct npc_opinion {
  };
 };
 
+enum combat_engagement {
+ ENGAGE_NONE = 0,
+ ENGAGE_CLOSE,
+ ENGAGE_WEAK,
+ ENGAGE_HIT,
+ ENGAGE_ALL
+};
+
+struct npc_combat_rules
+{
+ combat_engagement engagement;
+ bool use_guns;
+ bool use_grenades;
+
+ npc_combat_rules()
+ {
+  engagement = ENGAGE_ALL;
+  use_guns = true;
+  use_grenades = true;
+ };
+};
+
 enum talk_topic {
  TALK_NONE = 0,	// Used to go back to last subject
  TALK_DONE,	// Used to end the conversation
@@ -184,7 +206,17 @@ enum talk_topic {
  TALK_GIVE_EQUIPMENT,
  TALK_DENY_EQUIPMENT,
 
+ TALK_SUGGEST_FOLLOW,
+
+ TALK_AGREE_FOLLOW,
+ TALK_DENY_FOLLOW,
+
  TALK_SHOPKEEP,
+
+ TALK_FRIEND,
+
+ TALK_COMBAT_COMMANDS,
+ TALK_COMBAT_ENGAGEMENT,
 
  TALK_SIZE_UP,
  TALK_LOOK_AT,
@@ -298,6 +330,7 @@ public:
 
 // Interaction and assessment of the world around us
  int  danger_assessment(game *g);
+ int  average_damage_dealt(); // Our guess at how much damage we can deal
  bool bravery_check(int diff);
  bool emergency(int danger);
  void say(game *g, std::string line, ...);
@@ -322,7 +355,7 @@ public:
  npc_action address_needs	(game *g, int danger);
  npc_action address_player	(game *g);
  npc_action long_term_goal_action(game *g);
- bool alt_attack_available();	// Do we have grenades, molotov, etc?
+ bool alt_attack_available(game *g);	// Do we have grenades, molotov, etc?
  int  choose_escape_item(); // Returns index of our best escape aid
 
 // Helper functions for ranged combat
@@ -396,6 +429,7 @@ public:
  npc_personality personality;
  npc_opinion op_of_u;
  npc_chatbin chatbin;
+ npc_combat_rules combat_rules;
  bool marked_for_death; // If true, we die as soon as we respawn!
  std::vector<npc_need> needs;
  unsigned flags : NF_MAX;

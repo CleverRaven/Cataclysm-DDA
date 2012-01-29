@@ -37,6 +37,7 @@ public:
  int noise();
  int burst_size();
  int recoil(bool with_ammo = true);
+ int range(player *p = NULL);
  ammotype ammo_type();
  int pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, int index);

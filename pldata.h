@@ -45,7 +45,7 @@ enum dis_type {
 // Traps
  DI_BEARTRAP, DI_IN_PIT,
 // Other
- DI_AMIGARA, DI_TELEGLOW, DI_ATTENTION, DI_EVIL
+ DI_AMIGARA, DI_TELEGLOW, DI_ATTENTION, DI_EVIL, DI_ASKED_TO_FOLLOW,
 };
 
 enum add_type {
@@ -469,7 +469,7 @@ Your flesh regenerates from wounds incredibly quickly."},
 {"Fangs", 2, 2, 2, "\
 Your teeth have grown into two-inch-long fangs, allowing you to make an extra\n\
 attack when conditions favor it."},
-{"Nictating Membrane", 1, 1, 2, "\
+{"Nictitating Membrane", 1, 1, 2, "\
 You have a second set of clear eyelids which lower while underwater, allowing\n\
 you to see as though you were wearing goggles."},
 {"Gills", 3, 5, 3, "\
@@ -487,7 +487,7 @@ act as a weak set of armor, improve your ability to swim, and make you\n\
 difficult to grab."},
 {"Light Bones", 2, 0, 0, "\
 Your bones are very light.  This enables you to run and attack 10%% faster,\n\
-but also reduces your carrying weight by 15%% and makes bashing attacks hurt\n\
+but also reduces your carrying weight by 20%% and makes bashing attacks hurt\n\
 a little more."},
 {"Feathers", 2, 10, 3, "\
 Iridescent feathers have grown to cover your entire body, providing a\n\
@@ -690,7 +690,7 @@ want to interact with you unless they have a very good reason to."},
 {"Hollow Bones", -6, 0, 0, "\
 You have Avian Bone Syndrome--your bones are nearly hollow.  Your body is\n\
 very light as a result, enabling you to run and attack 20%% faster, but\n\
-also frail; you can carry 30%% less, and bashing attacks injure you more."},
+also frail; you can carry 40%% less, and bashing attacks injure you more."},
 {"Nausea", -3, 0, 0, "\
 You feel nauseous almost constantly, and are more liable to throw up from\n\
 food poisoning, alcohol, etc."},

@@ -169,7 +169,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 //  integer should be 0, unless the items are "fresh-grown" like wild fruit.
  int rn, lw, rw, mw, tw, bw, cw, x, y;
  int n_fac = 0, e_fac = 0, s_fac = 0, w_fac = 0;
- computer *tmpcomp;
+ computer *tmpcomp = NULL;
  switch (terrain_type) {
  case ot_null:
   for (int i = 0; i < SEEX * 2; i++) {
@@ -3571,6 +3571,97 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    ter(rng(lw, lw + 3), tw + 4) = t_radio_controls;
   break;
 
+ case ot_toxic_dump: {
+  square(this, t_dirt, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
+  for (int n = 0; n < 6; n++) {
+   int poolx = rng(4, SEEX * 2 - 5), pooly = rng(4, SEEY * 2 - 5);
+   for (int i = poolx - 3; i <= poolx + 3; i++) {
+    for (int j = pooly - 3; j <= pooly + 3; j++) {
+     if (rng(2, 5) > rl_dist(poolx, pooly, i, j)) {
+      ter(i, j) = t_sewage;
+      radiation(i, j) += rng(20, 60);
+     }
+    }
+   }
+  }
+  int buildx = rng(6, SEEX * 2 - 7), buildy = rng(6, SEEY * 2 - 7);
+  square(this, t_floor, buildx - 3, buildy - 3, buildx + 3, buildy + 3);
+  line(this, t_wall_h, buildx - 4, buildy - 4, buildx + 4, buildy - 4);
+  line(this, t_wall_h, buildx - 4, buildy + 4, buildx + 4, buildy + 4);
+  line(this, t_wall_v, buildx - 4, buildy - 4, buildx - 4, buildy + 4);
+  line(this, t_wall_v, buildx + 4, buildy - 4, buildx + 4, buildy + 4);
+  line(this, t_counter, buildx - 3, buildy - 3, buildx + 3, buildy - 3);
+  place_items(mi_toxic_dump_equipment, 80,
+              buildx - 3, buildy - 3, buildx + 3, buildy - 3, false, 0);
+  add_item(buildx, buildy, g->itypes[itm_id_military], 0);
+  ter(buildx, buildy + 4) = t_door_locked;
+
+  rotate(rng(0, 3));
+ } break;
+
+
+ case ot_cave:
+  if (t_above == ot_cave) { // We're underground!
+   for (int i = 0; i < SEEX * 2; i++) {
+    for (int j = 0; j < SEEY * 2; j++) {
+     if (rng(0, 6) < i || SEEX * 2 - rng(1, 7) > i ||
+         rng(0, 6) < j || SEEY * 2 - rng(1, 7) > j   )
+      ter(i, j) = t_rock_floor;
+     else
+      ter(i, j) = t_rock;
+    }
+   }
+   square(this, t_slope_up, SEEX - 1, SEEY - 1, SEEX, SEEY);
+
+   switch (rng(1, 3)) { // What type of cave is it?
+   case 1: // Bear cave
+    add_spawn(mon_bear, 1, rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5));
+    if (one_in(4))
+     add_spawn(mon_bear, 1, rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5));
+    place_items(mi_ant_food, 80, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+    break;
+   case 2: // Wolf cave!
+    do
+     add_spawn(mon_wolf, 1, rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5));
+    while (one_in(2));
+    place_items(mi_ant_food, 86, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+    break;
+   case 3: { // Hermit cave
+    int origx = rng(SEEX - 1, SEEX), origy = rng(SEEY - 1, SEEY),
+        hermx = rng(SEEX - 6, SEEX + 5), hermy = rng(SEEX - 6, SEEY + 5);
+    std::vector<point> bloodline = line_to(origx, origy, hermx, hermy, 0);
+    for (int ii = 0; ii < bloodline.size(); ii++)
+     add_field(g, bloodline[ii].x, bloodline[ii].y, fd_blood, 2);
+    item body;
+    body.make_corpse(g->itypes[itm_corpse], g->mtypes[mon_null], g->turn);
+    add_item(hermx, hermy, body);
+    place_items(mi_rare, 25, hermx - 1, hermy - 1, hermx + 1, hermy + 1,true,0);
+   } break;
+   }
+
+  } else { // We're above ground!
+// First, draw a forest
+   draw_map(ot_forest, t_north, t_east, t_south, t_west, t_above, turn, g);
+// Clear the center with some rocks
+   square(this, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5);
+   int pathx, pathy;
+   if (one_in(2)) {
+    pathx = rng(SEEX - 6, SEEX + 5);
+    pathy = (one_in(2) ? SEEY - 8 : SEEY + 7);
+   } else {
+    pathx = (one_in(2) ? SEEX - 8 : SEEX + 7);
+    pathy = rng(SEEY - 6, SEEY + 5);
+   }
+   std::vector<point> pathline = line_to(pathx, pathy, SEEX - 1, SEEY - 1, 0);
+   for (int ii = 0; ii < pathline.size(); ii++)
+    square(this, t_dirt, pathline[ii].x,     pathline[ii].y,
+                         pathline[ii].x + 1, pathline[ii].y + 1);
+   while (!one_in(8))
+    ter(rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5)) = t_dirt;
+   square(this, t_slope_down, SEEX - 1, SEEY - 1, SEEX, SEEY);
+  }
+  break;
+
  case ot_sub_station_north:
  case ot_sub_station_east:
  case ot_sub_station_south:
@@ -5755,11 +5846,11 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
 void map::add_spawn(mon_id type, int count, int x, int y, bool friendly,
                     int faction_id, int mission_id, std::string name)
 {
- if (x < 0 || x >= SEEX * my_MAPSIZE() || y < 0 || y >= SEEY * my_MAPSIZE()) {
+ if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE) {
   debugmsg("Bad add_spawn(%d, %d, %d, %d)", type, count, x, y);
   return;
  }
- int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
  x %= SEEX;
  y %= SEEY;
  spawn_point tmp(type, count, x, y, faction_id, mission_id, friendly, name);
@@ -5790,9 +5881,8 @@ void map::add_spawn(monster *mon)
 computer* map::add_computer(int x, int y, std::string name, int security)
 {
  ter(x, y) = t_console; // TODO: Turn this off?
- int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
- computer tmp(name, security);
- grid[nonant].comp = tmp;
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+ grid[nonant].comp = computer(name, security);
  return &(grid[nonant].comp);
 }
 
@@ -5813,7 +5903,7 @@ void map::rotate(int turns)
  ter_id rotated         [SEEX*2][SEEY*2];
  trap_id traprot        [SEEX*2][SEEY*2];
  std::vector<item> itrot[SEEX*2][SEEY*2];
- std::vector<spawn_point> sprot[my_MAPSIZE() * my_MAPSIZE()];
+ std::vector<spawn_point> sprot[my_MAPSIZE * my_MAPSIZE];
  computer tmpcomp;
 
  switch (turns) {
@@ -5829,8 +5919,8 @@ void map::rotate(int turns)
 // Now, spawn points
   for (int sx = 0; sx < 2; sx++) {
    for (int sy = 0; sy < 2; sy++) {
-    int gridfrom = sx + sy * my_MAPSIZE();
-    int gridto = sx * my_MAPSIZE() + 1 - sy;
+    int gridfrom = sx + sy * my_MAPSIZE;
+    int gridto = sx * my_MAPSIZE + 1 - sy;
     for (int j = 0; j < grid[gridfrom].spawns.size(); j++) {
      spawn_point tmp = grid[gridfrom].spawns[j];
      int tmpy = tmp.posy;
@@ -5842,9 +5932,9 @@ void map::rotate(int turns)
   }
 // Finally, computers
   tmpcomp = grid[0].comp;
-  grid[0].comp = grid[my_MAPSIZE()].comp;
-  grid[my_MAPSIZE()].comp = grid[my_MAPSIZE() + 1].comp;
-  grid[my_MAPSIZE() + 1].comp = grid[1].comp;
+  grid[0].comp = grid[my_MAPSIZE].comp;
+  grid[my_MAPSIZE].comp = grid[my_MAPSIZE + 1].comp;
+  grid[my_MAPSIZE + 1].comp = grid[1].comp;
   grid[1].comp = tmpcomp;
   break;
     
@@ -5860,8 +5950,8 @@ void map::rotate(int turns)
 // Now, spawn points
   for (int sx = 0; sx < 2; sx++) {
    for (int sy = 0; sy < 2; sy++) {
-    int gridfrom = sx + sy * my_MAPSIZE();
-    int gridto = (1 - sy) * my_MAPSIZE() + 1 - sx;
+    int gridfrom = sx + sy * my_MAPSIZE;
+    int gridto = (1 - sy) * my_MAPSIZE + 1 - sx;
     for (int j = 0; j < grid[gridfrom].spawns.size(); j++) {
      spawn_point tmp = grid[gridfrom].spawns[j];
      int tmpy = tmp.posy;
@@ -5872,11 +5962,11 @@ void map::rotate(int turns)
    }
   }
   tmpcomp = grid[0].comp;
-  grid[0].comp = grid[my_MAPSIZE() + 1].comp;
-  grid[my_MAPSIZE() + 1].comp = tmpcomp;
+  grid[0].comp = grid[my_MAPSIZE + 1].comp;
+  grid[my_MAPSIZE + 1].comp = tmpcomp;
   tmpcomp = grid[1].comp;
-  grid[1].comp = grid[my_MAPSIZE()].comp;
-  grid[my_MAPSIZE()].comp = tmpcomp;
+  grid[1].comp = grid[my_MAPSIZE].comp;
+  grid[my_MAPSIZE].comp = tmpcomp;
   break;
     
  case 3:
@@ -5891,8 +5981,8 @@ void map::rotate(int turns)
 // Now, spawn points
   for (int sx = 0; sx < 2; sx++) {
    for (int sy = 0; sy < 2; sy++) {
-    int gridfrom = sx + sy * my_MAPSIZE();
-    int gridto = (1 - sx) * my_MAPSIZE() + sy;
+    int gridfrom = sx + sy * my_MAPSIZE;
+    int gridto = (1 - sx) * my_MAPSIZE + sy;
     for (int j = 0; j < grid[gridfrom].spawns.size(); j++) {
      spawn_point tmp = grid[gridfrom].spawns[j];
      int tmpy = tmp.posy;
@@ -5904,9 +5994,9 @@ void map::rotate(int turns)
   }
   tmpcomp = grid[0].comp;
   grid[0].comp = grid[1].comp;
-  grid[1].comp = grid[my_MAPSIZE() + 1].comp;
-  grid[my_MAPSIZE() + 1].comp = grid[my_MAPSIZE()].comp;
-  grid[my_MAPSIZE()].comp = tmpcomp;
+  grid[1].comp = grid[my_MAPSIZE + 1].comp;
+  grid[my_MAPSIZE + 1].comp = grid[my_MAPSIZE].comp;
+  grid[my_MAPSIZE].comp = tmpcomp;
   break;
 
  default:
@@ -5916,8 +6006,8 @@ void map::rotate(int turns)
 // Set the spawn points
  grid[0].spawns = sprot[0];
  grid[1].spawns = sprot[1];
- grid[my_MAPSIZE()].spawns = sprot[my_MAPSIZE()];
- grid[my_MAPSIZE() + 1].spawns = sprot[my_MAPSIZE() + 1];
+ grid[my_MAPSIZE].spawns = sprot[my_MAPSIZE];
+ grid[my_MAPSIZE + 1].spawns = sprot[my_MAPSIZE + 1];
  for (int i = 0; i < SEEX * 2; i++) {
   for (int j = 0; j < SEEY * 2; j++) {
    ter  (i, j) = rotated[i][j];

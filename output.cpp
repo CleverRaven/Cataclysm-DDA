@@ -380,6 +380,7 @@ std::string string_input_popup(const char *mes, ...)
    refresh();
    return ret;
   } else if ((ch == KEY_BACKSPACE || ch == 127) && posx > startx) {
+// Move the cursor back and re-draw it
    ret = ret.substr(0, ret.size() - 1);
    mvwputch(w, 1, posx, c_ltgray, '_');
    posx--;
@@ -426,11 +427,12 @@ std::string string_input_popup(int max_length, const char *mes, ...)
    refresh();
    return ret;
   } else if ((ch == KEY_BACKSPACE || ch == 127) && posx > startx) {
+// Move the cursor back and re-draw it
    ret = ret.substr(0, ret.size() - 1);
    mvwputch(w, 1, posx, c_ltgray, '_');
    posx--;
    mvwputch(w, 1, posx, h_ltgray, '_');
-  } else if(ret.size() < max_length){
+  } else if(ret.size() < max_length || max_length == 0) {
    ret += ch;
    mvwputch(w, 1, posx, c_magenta, ch);
    posx++;

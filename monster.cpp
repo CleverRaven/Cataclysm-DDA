@@ -563,10 +563,14 @@ void monster::process_effects(game *g)
   }
   if (effects[i].duration > 0) {
    effects[i].duration--;
-   if (effects[i].duration <= 0) {
-    effects.erase(effects.begin() + i);
-    i--;
-   }
+   if (g->debugmon)
+    debugmsg("Duration %d", effects[i].duration);
+  }
+  if (effects[i].duration <= 0) {
+   if (g->debugmon)
+    debugmsg("Deleting");
+   effects.erase(effects.begin() + i);
+   i--;
   }
  }
 }

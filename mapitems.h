@@ -33,6 +33,7 @@ enum items_location {
  mi_mine_storage, mi_mine_equipment,
  mi_spiral,
  mi_radio,
+ mi_toxic_dump_equipment,
  mi_subway, mi_sewer,
  mi_cavern,
  mi_spider,

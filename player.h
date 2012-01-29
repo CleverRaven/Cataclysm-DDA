@@ -56,6 +56,7 @@ public:
  void reset(game *g = NULL);// Resets movement points, stats, applies effects
  void update_morale();	// Ticks down morale counters and removes them
  int  current_speed(game *g = NULL); // Number of movement points we get a turn
+ int  run_cost(int base_cost); // Adjust base_cost
  int  swim_speed();	// Our speed when swimming
 
  bool has_trait(int flag);
@@ -73,6 +74,7 @@ public:
  void mutate_towards(game *g, pl_flag mut);
  void remove_mutation(game *g, pl_flag mut);
  bool has_child_flag(game *g, pl_flag mut);
+ void remove_child_flag(game *g, pl_flag mut);
 
  int  sight_range(int light_level);
  int  overmap_sight_range(int light_level);

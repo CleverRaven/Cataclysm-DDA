@@ -1001,13 +1001,18 @@ ARMOR("dress",		70, 180,C_BODY,		COTTON,		MNULL,
 A long cotton dress.  Difficult to move in and lacks any storage space.");
 
 ARMOR("chitinous armor", 1,1200,C_BODY,		FLESH,		MNULL,
-   90, 10,  2, -5,  2,  8, 14,  0,  1,  0,	mfb(bp_legs)|mfb(bp_torso), "\
+   70, 10,  2, -5,  2,  8, 14,  0,  1,  0,	mfb(bp_legs)|mfb(bp_torso), "\
 Leg and body armor made from the exoskeletons of insects.  Light and durable.");
 
 ARMOR("suit",		60, 180,C_BODY,		COTTON,		MNULL,
    10,  7, -5, -5,  1,  0,  1,  0,  2,  10,	mfb(bp_legs)|mfb(bp_torso), "\
 A full-body cotton suit. Makes the apocalypse a truly gentlemanly\n\
 experience.");
+
+ARMOR("hazmat suit",	10,1000,C_BODY,		PLASTIC,	MNULL,
+   20, 8, -5,  -8,  4,  0,  0,10,  2, 12,	mfb(bp_legs)|mfb(bp_torso), "\
+A hazardous materials suit.  Though quite bulky and cumbersome, wearing it\n\
+will provide excellent protection against ambient radiation.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("t shirt",	80,  80,C_TORSO,	COTTON,		MNULL,

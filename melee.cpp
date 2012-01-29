@@ -101,6 +101,8 @@ int player::hit_roll()
 int player::hit_mon(game *g, monster *z)
 {
  bool is_u = (this == &(g->u));	// Affects how we'll display messages
+ if (is_u)
+  z->add_effect(ME_HIT_BY_PLAYER, 100); // Flag as attacked by us
  int j;
  bool can_see = (is_u || g->u_see(posx, posy, j));
  std::string You  = (is_u ? "You"  : name);

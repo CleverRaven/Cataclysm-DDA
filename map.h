@@ -88,6 +88,7 @@ class map
  void add_item(int x, int y, itype* type, int birthday);
  void add_item(int x, int y, item new_item);
  void process_active_items(game *g);
+ void process_active_items_in_submap(game *g, int nonant);
 
  void use_amount(point origin, int range, itype_id type, int quantity,
                  bool use_container = false);
@@ -101,7 +102,9 @@ class map
 // Fields
  field& field_at(int x, int y);
  bool add_field(game *g, int x, int y, field_id t, unsigned char density);
+ void remove_field(int x, int y);
  bool process_fields(game *g);				// See fields.cpp
+ bool process_fields_in_submap(game *g, int gridn);	// See fields.cpp
  void step_in_field(int x, int y, game *g);		// See fields.cpp
  void mon_in_field(int x, int y, game *g, monster *z);	// See fields.cpp
 
@@ -131,7 +134,8 @@ protected:
 			// Useful for houses, shops, etc
 
  bool inbounds(int x, int y);
- virtual int my_MAPSIZE() { return MAPSIZE; };
+ int my_MAPSIZE;
+ virtual bool is_tiny() { return false; };
 
  std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
  ter_id nulter;	// Returned when &ter() is asked for an OOB value
@@ -156,7 +160,7 @@ public:
  ~tinymap();
 
 protected:
- virtual int my_MAPSIZE() { return 2; };
+ virtual bool is_tiny() { return true; };
 
 private:
  submap grid[4];

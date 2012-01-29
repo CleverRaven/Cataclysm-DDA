@@ -70,7 +70,7 @@ itm_sneakers, itm_boots, itm_boots_steel, itm_boots_winter, itm_mocassins,
 itm_jeans, itm_pants, itm_pants_leather, itm_pants_cargo, itm_pants_army,
  itm_skirt,
 // Full-body clothing
-itm_jumpsuit, itm_dress, itm_armor_chitin, itm_suit,
+itm_jumpsuit, itm_dress, itm_armor_chitin, itm_suit, itm_hazmat_suit,
 // Torso clothing
 itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top, itm_sweatshirt,
  itm_sweater, itm_hoodie, itm_jacket_light, itm_jacket_jean, itm_blazer,
@@ -88,7 +88,8 @@ itm_glasses_eye, itm_glasses_reading, itm_glasses_safety, itm_goggles_swim,
 // Headwear
 itm_hat_ball, itm_hat_boonie, itm_hat_cotton, itm_hat_knit, itm_hat_hunting,
  itm_hat_fur, itm_hat_hard, itm_helmet_bike, itm_helmet_skid, itm_helmet_ball,
- itm_helmet_army, itm_helmet_riot, itm_helmet_motor, itm_helmet_chitin, itm_tophat,
+ itm_helmet_army, itm_helmet_riot, itm_helmet_motor, itm_helmet_chitin,
+ itm_tophat,
 // High-storage
 itm_backpack, itm_purse, itm_mbag, itm_fanny, itm_holster, itm_bootstrap,
 // Decorative
@@ -217,6 +218,7 @@ IF_STR10_DRAW,  // Requires strength 10 to draw
 IF_USE_UPS,	// Draws power from a UPS
 IF_RELOAD_AND_SHOOT, // Reloading and shooting is one action
 IF_FIRE_100,	// Fires 100 rounds at once! (e.g. flamethrower)
+IF_GRENADE,	// NPCs treat this as a grenade
 
 IF_AMMO_FLAME,		// Sets fire to terrain and monsters
 IF_AMMO_INCENDIARY,	// Sparks explosive terrain

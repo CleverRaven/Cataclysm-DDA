@@ -543,6 +543,9 @@ void overmap::generate_sub(overmap* above)
    } else if (above->ter(i, j) == ot_spider_pit)
     ter(i, j) = ot_spider_pit_under;
 
+   else if (above->ter(i, j) == ot_cave && posz == -1)
+    ter(i, j) = ot_cave;
+
    else if (above->ter(i, j) == ot_anthill) {
     int size = rng(MIN_ANT_SIZE, MAX_ANT_SIZE);
     ant_points.push_back(city(i, j, size));

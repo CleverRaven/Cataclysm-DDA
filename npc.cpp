@@ -1336,7 +1336,7 @@ void npc::make_angry()
 {
  if (is_enemy())
   return; // We're already angry!
- if (op_of_u.fear > personality.aggression + personality.bravery)
+ if (op_of_u.fear > 10 + personality.aggression + personality.bravery)
   attitude = NPCATT_FLEE; // We don't want to take u on!
  else
   attitude = NPCATT_KILL; // Yeah, we think we could take you!
@@ -1687,6 +1687,15 @@ int npc::danger_assessment(game *g)
     ret += 1;
   }
  }
+ return ret;
+}
+
+int npc::average_damage_dealt()
+{
+ int ret = base_damage();
+ ret += weapon.damage_cut() + weapon.damage_bash() / 2;
+ ret *= (base_to_hit() + weapon.type->m_to_hit);
+ ret /= 15;
  return ret;
 }
 

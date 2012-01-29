@@ -594,6 +594,8 @@ void mattack::triffid_heartbeat(game *g, monster *z)
 
 void mattack::fungus(game *g, monster *z)
 {
+ if (g->z.size() > 100)
+  return; // Prevent crowding the monster list.
 // TODO: Infect NPCs?
  z->moves = -200;			// It takes a while
  z->sp_timeout = z->type->sp_freq;	// Reset timer
