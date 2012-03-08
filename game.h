@@ -178,6 +178,7 @@ class game
   std::vector<npc> active_npc;
   std::vector<mon_id> moncats[num_moncats];
   std::vector<faction> factions;
+  std::vector<mission> active_missions; // Missions which may be assigned
 // NEW: Dragging a piece of furniture, with a list of items contained
   ter_id dragging;
   std::vector<item> items_dragged;
@@ -230,15 +231,15 @@ class game
   void pick_recipes(std::vector<recipe*> &current,
                     std::vector<bool> &available, craft_cat tab);// crafting.cpp
   void construction_menu();                   // See construction.cpp
-  bool player_can_build(player &p, inventory inv, constructable con,
+  bool player_can_build(player &p, inventory inv, constructable* con,
                         int level = -1, bool cont = false);
-  void place_construction(constructable con); // See construction.cpp
+  void place_construction(constructable *con); // See construction.cpp
   void complete_construction();               // See construction.cpp
   void examine();// Examine nearby terrain	'e'
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
 // Pick where to put liquid; false if it's left where it was
   bool handle_liquid(item &liquid, bool from_ground, bool infinite);
-  void drop();	  // Drop an item		'd'	TODO: Multidrop
+  void drop();	  // Drop an item		'd'
   void drop_in_direction(); // Drop w/ direction 'D'
   void reassign_item(); // Reassign the letter of an item   '='
   void butcher(); // Butcher a corpse		'B'
@@ -331,9 +332,8 @@ class game
   int kills[num_monsters];	        // Player's kill count
   std::string last_action;		// The keypresses of last turn
 
-  std::vector<recipe> recipes;	// The list of valid recipes
-  std::vector<constructable> constructions; // The list of constructions
-  std::vector<mission> active_missions; // Missions which may be assigned
+  std::vector<recipe*> recipes;	// The list of valid recipes
+  std::vector<constructable*> constructions; // The list of constructions
 
   bool tutorials_seen[NUM_LESSONS]; // Which tutorial lessons have we learned
   bool in_tutorial;                 // True if we're in a tutorial right now

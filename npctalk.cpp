@@ -276,6 +276,12 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   return look.str();
  } break;
 
+ case TALK_OPINION: {
+  std::stringstream opinion;
+  opinion << "&" << p->opinion_text();
+  return opinion.str();
+ } break;
+
  }
 
  return "I don't know what to say. (BUG)";
@@ -677,6 +683,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
 
  case TALK_SIZE_UP:
  case TALK_LOOK_AT:
+ case TALK_OPINION:
   RESPONSE("Okay.");
    SUCCESS(TALK_NONE);
   break;
@@ -768,6 +775,7 @@ int topic_category(talk_topic topic)
 
   case TALK_SIZE_UP:
   case TALK_LOOK_AT:
+  case TALK_OPINION:
    return 99;
 
   default:
@@ -1136,6 +1144,9 @@ talk_topic special_talk(char ch)
   case 'S':
   case 's':
    return TALK_SIZE_UP;
+  case 'O':
+  case 'o':
+   return TALK_OPINION;
   default:
    return TALK_NONE;
  }
@@ -1330,17 +1341,17 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
  if (ch == '\n') {
   inventory newinv;
   int practice = 0;
-  std::vector<int> removing;
+  std::vector<char> removing;
   for (int i = 0; i < yours.size(); i++) {
    if (getting_yours[i]) {
     newinv.push_back(g->u.inv[yours[i]]);
     practice++;
-    removing.push_back(yours[i]);
+    removing.push_back(g->u.inv[yours[i]].invlet);
    }
   }
 // Do it in two passes, so removing items doesn't corrupt yours[]
   for (int i = 0; i < removing.size(); i++)
-   g->u.i_remn(removing[i]);
+   g->u.i_rem(removing[i]);
 
   for (int i = 0; i < theirs.size(); i++) {
    item tmp = p->inv[theirs[i]];

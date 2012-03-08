@@ -423,6 +423,7 @@ void game::start_game()
 
 void game::start_tutorial(tut_type type)
 {
+ turn = HOURS(12); // Start at noon
  for (int i = 0; i < NUM_LESSONS; i++)
   tutorials_seen[i] = false;
 // Set the scent map to 0
@@ -457,27 +458,13 @@ void game::start_tutorial(tut_type type)
     cur_om.seen(i, j) = true;
   }
 // Init the starting map at this location.
-  m.load(this, levx, levy);
-// Make sure the map is totally reset
-  for (int i = 0; i < SEEX * MAPSIZE; i++) {
-   for (int j = 0; j < SEEY * MAPSIZE; j++)
-    m.i_at(i, j).clear();
+  for (int i = 0; i <= MAPSIZE; i += 2) {
+   for (int j = 0; j <= MAPSIZE; j += 2) {
+    tinymap tm(&itypes, &mapitems, &traps);
+    tm.generate(this, &cur_om, levx + i - 1, levy + j - 1, int(turn));
+   }
   }
-// Special items for the tutorial.
-  m.add_item(           5, SEEY * 2 + 1, itypes[itm_helmet_bike], 0);
-  m.add_item(           4, SEEY * 2 + 1, itypes[itm_backpack], 0);
-  m.add_item(           3, SEEY * 2 + 1, itypes[itm_pants_cargo], 0);
-  m.add_item(           7, SEEY * MAPSIZE - 4, itypes[itm_machete], 0);
-  m.add_item(           7, SEEY * MAPSIZE - 4, itypes[itm_9mm], 0);
-  m.add_item(           7, SEEY * MAPSIZE - 4, itypes[itm_9mmP], 0);
-  m.add_item(           7, SEEY * MAPSIZE - 4, itypes[itm_uzi], 0);
-  m.add_item(SEEX * 2 - 2, SEEY * 2 + 5, itypes[itm_bubblewrap], 0);
-  m.add_item(SEEX * 2 - 2, SEEY * 2 + 6, itypes[itm_grenade], 0);
-  m.add_item(SEEX * 2 - 3, SEEY * 2 + 6, itypes[itm_flashlight], 0);
-  m.add_item(SEEX * 2 - 2, SEEY * 2 + 7, itypes[itm_cig], 0);
-  m.add_item(SEEX * 2 - 2, SEEY * 2 + 7, itypes[itm_codeine], 0);
-  m.add_item(SEEX * 2 - 3, SEEY * 2 + 7, itypes[itm_water], 0);
-
+  m.load(this, levx, levy);
   levz = 0;
   u.posx = SEEX + 2;
   u.posy = SEEY + 4;
@@ -561,10 +548,10 @@ bool game::do_turn()
   cur_om.process_mongroups();
 
  if (in_tutorial) {
-  if (turn == 1) {
+  if (turn == HOURS(12) + 1) {
    tutorial_message(LESSON_INTRO);	// Goes through a list of intro topics
    tutorial_message(LESSON_INTRO);
-  } else if (turn == 3)
+  } else if (turn == HOURS(12) + 3)
    tutorial_message(LESSON_INTRO);
   if (turn == 50) {
    monster tmp(mtypes[mon_zombie], 3, 3);
@@ -2396,7 +2383,7 @@ bool game::u_see(int x, int y, int &t)
 bool game::u_see(monster *mon, int &t)
 {
  int dist = rl_dist(u.posx, u.posy, mon->posx, mon->posy);
- if (u.has_trait(PF_ANTENNAE) && dist <= 2)
+ if (u.has_trait(PF_ANTENNAE) && dist <= 3)
   return true;
  if (mon->has_flag(MF_DIGS) && !u.has_active_bionic(bio_ground_sonar) &&
      dist > 1)
@@ -2656,6 +2643,7 @@ void game::monmove()
    z[i].made_footstep = false;
    z[i].plan(this);	// Formulate a path to follow
    z[i].move(this);	// Move one square, possibly hit u
+   z[i].process_triggers(this);
    m.mon_in_field(z[i].posx, z[i].posy, this, &(z[i]));
    if (z[i].hurt(0)) {	// Maybe we died...
     kill_mon(i);
@@ -3306,7 +3294,7 @@ void game::explode_mon(int index)
    case MS_HUGE:   num_chunks = 16; break;
   }
   itype* meat;
-  if (corpse->flags & mfb(MF_POISON)) {
+  if (corpse->has_flag(MF_POISON)) {
    if (corpse->mat == FLESH)
     meat = itypes[itm_meat_tainted];
    else
@@ -4702,17 +4690,17 @@ void game::complete_butcher(int index)
  if (skill_shift < 5)	// Lose some pelts
   pelts += (skill_shift - 5);
 
- if ((corpse->flags & mfb(MF_FUR) || corpse->flags & mfb(MF_LEATHER)) &&
+ if ((corpse->has_flag(MF_FUR) || corpse->has_flag(MF_LEATHER)) &&
      pelts > 0) {
   add_msg("You manage to skin the %s!", corpse->name.c_str());
   for (int i = 0; i < pelts; i++) {
    itype* pelt;
-   if (corpse->flags & mfb(MF_FUR) && corpse->flags & mfb(MF_LEATHER)) {
+   if (corpse->has_flag(MF_FUR) && corpse->has_flag(MF_LEATHER)) {
     if (one_in(2))
      pelt = itypes[itm_fur];
     else
      pelt = itypes[itm_leather];
-   } else if (corpse->flags & mfb(MF_FUR))
+   } else if (corpse->has_flag(MF_FUR))
     pelt = itypes[itm_fur];
    else
     pelt = itypes[itm_leather];
@@ -4723,7 +4711,7 @@ void game::complete_butcher(int index)
   add_msg("Your clumsy butchering destroys the meat!");
  else {
   itype* meat;
-  if (corpse->flags & mfb(MF_POISON)) {
+  if (corpse->has_flag(MF_POISON)) {
     if (corpse->mat == FLESH)
      meat = itypes[itm_meat_tainted];
     else
@@ -5466,6 +5454,8 @@ void game::vertical_move(int movez, bool force)
 
  if (replace_monsters)
   replace_stair_monsters();
+
+ m.spawn_monsters(this);
 
  if (force) {	// Basically, we fell.
   if (u.has_trait(PF_WINGS_BIRD))

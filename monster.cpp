@@ -15,7 +15,7 @@
 #endif
 
 #define SGN(a) (((a)<0) ? -1 : 1)
-#define SQR(a) (a*a)
+#define SQR(a) ((a)*(a))
 
 monster::monster()
 {
@@ -32,6 +32,8 @@ monster::monster()
  spawnposx = -1;
  spawnposy = -1;
  friendly = 0;
+ anger = 0;
+ morale = 0;
  faction_id = -1;
  mission_id = -1;
  dead = false;
@@ -56,6 +58,8 @@ monster::monster(mtype *t)
  spawnposx = -1;
  spawnposy = -1;
  friendly = 0;
+ anger = t->agro;
+ morale = t->morale;
  faction_id = -1;
  mission_id = -1;
  dead = false;
@@ -80,6 +84,8 @@ monster::monster(mtype *t, int x, int y)
  spawnposx = -1;
  spawnposy = -1;
  friendly = 0;
+ anger = 0;
+ morale = 0;
  faction_id = -1;
  mission_id = -1;
  dead = false;
@@ -93,6 +99,8 @@ void monster::poly(mtype *t)
  type = t;
  moves = 0;
  speed = type->speed;
+ anger = type->agro;
+ morale = type->morale;
  hp = int(hp_percentage * type->hp);
  sp_timeout = type->sp_freq;
 }
@@ -132,11 +140,28 @@ void monster::print_info(game *g, WINDOW* w)
 // is a blank line. w is 13 characters tall, and we can't use the last one
 // because it's a border as well; so we have lines 4 through 11.
 // w is also 48 characters wide - 2 characters for border = 46 characters for us
- mvwprintz(w, 6, 1, type->color, type->name.c_str());
- if (friendly != 0) {
-  wprintz(w, c_white, " ");
-  wprintz(w, h_white, "Friendly!");
+ mvwprintz(w, 6, 1, c_white, "%s ", type->name.c_str());
+ switch (attitude(&(g->u))) {
+  case MATT_FRIEND:
+   wprintz(w, h_white, "Friendly!");
+   break;
+  case MATT_FLEE:
+   wprintz(w, c_green, "Fleeing!");
+   break;
+  case MATT_IGNORE:
+   wprintz(w, c_ltgray, "Ignoring");
+   break;
+  case MATT_FOLLOW:
+   wprintz(w, c_yellow, "Hunting");
+   break;
+  case MATT_ATTACK:
+   wprintz(w, c_red, "Hostile!");
+   break;
+  default:
+   wprintz(w, h_red, "BUG: Behavior unnamed");
+   break;
  }
+ wprintz(w, c_white, " %d %d", anger, morale);
  std::string damage_info;
  nc_color col;
  if (hp == type->hp) {
@@ -159,11 +184,6 @@ void monster::print_info(game *g, WINDOW* w)
   col = c_red;
  }
  mvwprintz(w, 7, 1, col, damage_info.c_str());
- if (is_fleeing(g->u))
-  wprintz(w, c_white, ", and it is fleeing.");
- else
-  wprintz(w, col, ".");
-
 
  std::string tmp = type->description;
  std::string out;
@@ -208,9 +228,13 @@ nc_color monster::color_with_effects()
  return ret;
 }
 
-bool monster::has_flag(m_flags f)
+bool monster::has_flag(m_flag f)
 {
- return type->flags & mfb(f);
+ for (int i = 0; i < type->flags.size(); i++) {
+  if (type->flags[i] == f)
+   return true;
+ }
+ return false;
 }
 
 bool monster::can_see()
@@ -285,27 +309,144 @@ void monster::shift(int sx, int sy)
 
 bool monster::is_fleeing(player &u)
 {
-// fleefactor is by default the agressiveness of the animal, minus the
-//  percentage of remaining HP times four.  So, aggresiveness of 5 has a
-//  fleefactor of 2 AT MINIMUM.
- if (type->hp == 0) {
-  debugmsg("%s has type->hp of 0!", type->name.c_str());
-  return false;
- }
+ if (has_effect(ME_RUN))
+  return true;
+ monster_attitude att = attitude(&u);
+ return (att == MATT_FLEE ||
+         (att == MATT_FOLLOW && rl_dist(posx, posy, u.posx, u.posy) <= 4));
+}
 
+monster_attitude monster::attitude(player *u)
+{
  if (friendly != 0)
-  return false;
+  return MATT_FRIEND;
+ if (has_effect(ME_RUN))
+  return MATT_FLEE;
 
- int fleefactor = type->agro - ((4 * (type->hp - hp)) / type->hp);
- if (u.has_trait(PF_ANIMALEMPATH) && has_flag(MF_ANIMAL)) {
-  if (type->agro > 0) // Agressive animals flee instead
-   fleefactor -= 5;
+ int effective_anger = anger;
+ int effective_morale = morale;
+
+ if (u != NULL) {
+
+  if (((type->species == species_mammal && u->has_trait(PF_PHEROMONE_MAMMAL)) ||
+       (type->species == species_insect && u->has_trait(PF_PHEROMONE_INSECT)))&&
+      effective_anger >= 10)
+   effective_anger -= 20;
+
+  if (u->has_trait(PF_TERRIFYING))
+   effective_morale -= 10;
+
+  if (u->has_trait(PF_ANIMALEMPATH) && has_flag(MF_ANIMAL)) {
+   if (effective_anger >= 10)
+    effective_anger -= 10;
+   if (effective_anger < 10)
+    effective_morale += 5;
+  }
+
  }
- if (u.has_trait(PF_TERRIFYING))
-  fleefactor -= 1;
- if (fleefactor > 0)
-  return false;
- return true;
+
+ if (effective_morale < 0) {
+  if (effective_morale + effective_anger > 0)
+   return MATT_FOLLOW;
+  return MATT_FLEE;
+ }
+
+ if (effective_anger < 0)
+  return MATT_IGNORE;
+
+ if (effective_anger < 10)
+  return MATT_FOLLOW;
+
+ return MATT_ATTACK;
+}
+
+void monster::process_triggers(game *g)
+{
+ anger  += trigger_sum(g, &(type->anger));
+ anger  -= trigger_sum(g, &(type->placate));
+ if (morale < 0) {
+  if (morale < type->morale && one_in(20))
+  morale++;
+ } else
+  morale -= trigger_sum(g, &(type->fear));
+}
+
+// This Adjustes anger/morale levels given a single trigger.
+void monster::process_trigger(monster_trigger trig, int amount)
+{
+ for (int i = 0; i < type->anger.size(); i++) {
+  if (type->anger[i] == trig)
+   anger += amount;
+ }
+ for (int i = 0; i < type->placate.size(); i++) {
+  if (type->placate[i] == trig)
+   anger -= amount;
+ }
+ for (int i = 0; i < type->fear.size(); i++) {
+  if (type->fear[i] == trig)
+   morale -= amount;
+ }
+}
+
+
+int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
+{
+ int ret = 0;
+ bool check_terrain = false, check_meat = false, check_fire = false;
+ for (int i = 0; i < triggers->size(); i++) {
+  switch ((*triggers)[i]) {
+  case MTRIG_TIME:
+   if (one_in(20))
+    ret++;
+   break;
+  case MTRIG_MEAT:
+   check_meat = true;
+   check_terrain = true;
+   break;
+  case MTRIG_PLAYER_CLOSE:
+   if (rl_dist(posx, posy, g->u.posx, g->u.posy) <= 3)
+    ret += 5;
+   for (int i = 0; i < g->active_npc.size(); i++) {
+    if (rl_dist(posx, posy, g->active_npc[i].posx, g->active_npc[i].posy) <= 3)
+     ret += 5;
+   }
+   break;
+  case MTRIG_FIRE:
+   check_meat = true;
+   check_terrain = true;
+   break;
+  case MTRIG_PLAYER_WEAK:
+   if (g->u.hp_percentage() <= 70)
+    ret += 10 - int(g->u.hp_percentage());
+   break;
+  default:
+   break; // The rest are handled when the impetus occurs
+  }
+ }
+
+ if (check_terrain) {
+  for (int x = posx - 3; x <= posx + 3; x++) {
+   for (int y = posy - 3; y <= posy + 3; y++) {
+    if (check_meat) {
+     std::vector<item> *items = &(g->m.i_at(x, y));
+     for (int n = 0; n < items->size(); n++) {
+      if ((*items)[n].type->id == itm_corpse ||
+          (*items)[n].type->id == itm_meat ||
+          (*items)[n].type->id == itm_meat_tainted) {
+       ret += 3;
+       check_meat = false;
+      }
+     }
+    }
+    if (check_fire) {
+     if (g->m.field_at(x, y).type == fd_fire)
+      ret += 5 * g->m.field_at(x, y).density;
+    }
+   }
+  }
+ }
+
+ return ret;
 }
 
 int monster::hit(game *g, player &p, body_part &bp_hit)
@@ -393,6 +534,7 @@ void monster::hit_monster(game *g, int i)
 bool monster::hurt(int dam)
 {
  hp -= dam;
+ process_trigger(MTRIG_HURT, int(dam / 8));
  if (hp < 1)
   return true;
  return false;
@@ -515,6 +657,30 @@ void monster::die(game *g)
 // Also, perform our death function
  mdeath md;
  (md.*type->dies)(g, this);
+// If our species fears seeing one of our own die, process that
+ int anger_adjust = 0, morale_adjust = 0;
+ for (int i = 0; i < type->anger.size(); i++) {
+  if (type->anger[i] == MTRIG_FRIEND_DIED)
+   anger_adjust += 15;
+ }
+ for (int i = 0; i < type->placate.size(); i++) {
+  if (type->placate[i] == MTRIG_FRIEND_DIED)
+   anger_adjust -= 15;
+ }
+ for (int i = 0; i < type->fear.size(); i++) {
+  if (type->fear[i] == MTRIG_FRIEND_DIED)
+   morale_adjust -= 15;
+ }
+ if (anger_adjust != 0 && morale_adjust != 0) {
+  int light = g->light_level();
+  for (int i = 0; i < g->z.size(); i++) {
+   int t = 0;
+   if (g->m.sees(g->z[i].posx, g->z[i].posy, posx, posy, light, t)) {
+    g->z[i].morale += morale_adjust;
+    g->z[i].anger += anger_adjust;
+   }
+  }
+ }
 }
 
 void monster::add_effect(monster_effect_type effect, int duration)

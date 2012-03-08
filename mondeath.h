@@ -25,6 +25,7 @@ public:
  void amigara		(game *g, monster *z); // Removes hypnosis if last one
  void thing		(game *g, monster *z); // Turn into a full thing
  void explode		(game *g, monster *z); // Damaging explosion
+ void ratking		(game *g, monster *z); // Cure verminitis
 };
 
 #endif

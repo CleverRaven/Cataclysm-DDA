@@ -275,8 +275,11 @@ item inventory::remove_item(int stack, int index)
 item inventory::remove_item_by_letter(char ch)
 {
  for (int i = 0; i < items.size(); i++) {
-  if (items[i][0].invlet == ch)
+  if (items[i][0].invlet == ch) {
+   if (items[i].size() > 1)
+    items[i][1].invlet = ch;
    return remove_item(i);
+  }
  }
 
  return nullitem;

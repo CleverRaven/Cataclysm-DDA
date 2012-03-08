@@ -220,6 +220,7 @@ enum talk_topic {
 
  TALK_SIZE_UP,
  TALK_LOOK_AT,
+ TALK_OPINION,
 
  NUM_TALK_TOPICS
 };
@@ -274,6 +275,7 @@ public:
  void draw(WINDOW* w, int plx, int ply, bool inv);
  void print_info(WINDOW* w);
  std::string short_description();
+ std::string opinion_text();
 
 // Goal / mission functions
  void pick_long_term_goal(game *g);
@@ -327,7 +329,6 @@ public:
  void use_painkiller(game *g);
  void activate_item(game *g, int index);
 
-
 // Interaction and assessment of the world around us
  int  danger_assessment(game *g);
  int  average_damage_dealt(); // Our guess at how much damage we can deal
@@ -378,6 +379,7 @@ public:
  void find_item		(game *g); // Look around and pick an item
  void pick_up_item	(game *g); // Move to, or grab, our targeted item
  void drop_items	(game *g, int weight, int volume); // Drop wgt and vol
+ npc_action scan_new_items(game *g, int target);
 
 // Combat functions and player interaction functions
  void melee_monster	(game *g, int target);
@@ -417,6 +419,7 @@ public:
  int goalx, goaly;// Which mapx:mapy square we want to get to
 
  bool fetching_item;
+ bool has_new_items; // If true, we have something new and should re-equip
  int  worst_item_value; // The value of our least-wanted item
 
  std::vector<point> path;	// Our movement plans

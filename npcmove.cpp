@@ -60,8 +60,8 @@ void npc::move(game *g)
  }
 // TODO: Place player-aiding actions here, with a weight
 
- if (!bravery_check(danger) || !bravery_check(total_danger) || 
-     (target == TARGET_PLAYER && attitude == NPCATT_FLEE))
+ //if (!bravery_check(danger) || !bravery_check(total_danger) || 
+ if (target == TARGET_PLAYER && attitude == NPCATT_FLEE)
   action = method_of_fleeing(g, target);
  else if (danger > 0 || (target == TARGET_PLAYER && attitude == NPCATT_KILL))
   action = method_of_attack(g, target, danger);
@@ -77,6 +77,8 @@ void npc::move(game *g)
   if (action == npc_undecided) {
    if (mission == NPC_MISSION_SHELTER || has_disease(DI_INFECTION))
     action = npc_pause;
+   else if (has_new_items)
+    action = scan_new_items(g, target);
    else if (!fetching_item)
     find_item(g);
    if (g->debugmon)
@@ -1269,6 +1271,40 @@ void npc::drop_items(game *g, int weight, int volume)
    g->add_msg("%s drops a %s.", name.c_str(), item_name_str.c_str());
  }
  update_worst_item_value();
+}
+
+npc_action npc::scan_new_items(game *g, int target)
+{
+ bool can_use_gun =      (!is_following() || combat_rules.use_guns);
+// Check if there's something better to wield
+ bool has_empty_gun = false, has_better_melee = false;
+ std::vector<int> empty_guns;
+ for (int i = 0; i < inv.size(); i++) {
+  if (can_use_gun && inv[i].is_gun() && inv[i].charges > 0)
+   return npc_wield_loaded_gun;
+  else if (can_use_gun && inv[i].is_gun() &&
+           enough_time_to_reload(g, target, inv[i])) {
+   has_empty_gun = true;
+   empty_guns.push_back(i);
+  } else if (inv[i].melee_value(sklevel) > weapon.melee_value(sklevel) * 1.1)
+   has_better_melee = true;
+ }
+
+ bool has_ammo_for_empty_gun = false;
+ for (int i = 0; i < empty_guns.size(); i++) {
+  for (int j = 0; j < inv.size(); j++) {
+   if (inv[j].is_ammo() &&
+       inv[j].ammo_type() == inv[ empty_guns[i] ].ammo_type())
+    has_ammo_for_empty_gun = true;
+  }
+ }
+
+ if (has_empty_gun && has_ammo_for_empty_gun)
+  return npc_wield_empty_gun;
+ else if (has_better_melee)
+  return npc_wield_melee;
+
+ return npc_pause;
 }
 
 void npc::melee_monster(game *g, int target)

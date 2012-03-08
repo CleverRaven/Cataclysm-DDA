@@ -20,14 +20,14 @@ void game::init_construction()
 
  #define CONSTRUCT(name, difficulty, able, done) \
   sl = -1; id++; \
-  constructions.push_back( constructable(id, name, difficulty, able, done))
+  constructions.push_back( new constructable(id, name, difficulty, able, done))
 
  #define STAGE(...)\
   tl = 0; cl = 0; sl++; \
-  constructions[id].stages.push_back(construction_stage(__VA_ARGS__));
- #define TOOL(...)   setvector(constructions[id].stages[sl].tools[tl], \
+  constructions[id]->stages.push_back(construction_stage(__VA_ARGS__));
+ #define TOOL(...)   setvector(constructions[id]->stages[sl].tools[tl], \
                                __VA_ARGS__); tl++
- #define COMP(...)   setvector(constructions[id].stages[sl].components[cl], \
+ #define COMP(...)   setvector(constructions[id]->stages[sl].components[cl], \
                                __VA_ARGS__); cl++
 
 /* CONSTRUCT( name, time, able, done )
@@ -170,14 +170,14 @@ void game::construction_menu()
                    c_white : c_dkgray);
    if (current == select)
     col = hilite(col);
-   mvwprintz(w_con, 1 + i, 1, col, constructions[current].name.c_str());
+   mvwprintz(w_con, 1 + i, 1, col, constructions[current]->name.c_str());
   }
 
   if (update_info) {
    update_info = false;
-   constructable current_con = constructions[select];
+   constructable* current_con = constructions[select];
 // Print difficulty
-   int pskill = u.sklevel[sk_carpentry], diff = current_con.difficulty;
+   int pskill = u.sklevel[sk_carpentry], diff = current_con->difficulty;
    mvwprintz(w_con, 1, 43, (pskill >= diff ? c_white : c_red),
              "%d   ", diff);
 // Clear out lines for tools & materials
@@ -188,14 +188,14 @@ void game::construction_menu()
 
 // Print stages and their requirements
    int posx = 33, posy = 2;
-   for (int n = 0; n < current_con.stages.size(); n++) {
+   for (int n = 0; n < current_con->stages.size(); n++) {
     nc_color color_stage = (player_can_build(u, total_inv, current_con, n) ?
                             c_white : c_dkgray);
     mvwprintz(w_con, posy, 31, color_stage, "Stage %d: %s", n + 1,
-              terlist[current_con.stages[n].terrain].name.c_str());
+              terlist[current_con->stages[n].terrain].name.c_str());
     posy++;
 // Print tools
-    construction_stage stage = current_con.stages[n];
+    construction_stage stage = current_con->stages[n];
     bool has_tool[3] = {stage.tools[0].empty(),
                         stage.tools[1].empty(),
                         stage.tools[2].empty()};
@@ -310,20 +310,20 @@ void game::construction_menu()
  refresh_all();
 }
 
-bool game::player_can_build(player &p, inventory inv, constructable con,
+bool game::player_can_build(player &p, inventory inv, constructable* con,
                             int level, bool cont)
 {
- if (p.sklevel[sk_carpentry] < con.difficulty)
+ if (p.sklevel[sk_carpentry] < con->difficulty)
   return false;
 
  if (level < 0)
-  level = con.stages.size();
+  level = con->stages.size();
 
  int start = 0;
  if (cont)
   start = level;
- for (int i = start; i < con.stages.size() && i <= level; i++) {
-  construction_stage stage = con.stages[i];
+ for (int i = start; i < con->stages.size() && i <= level; i++) {
+  construction_stage stage = con->stages[i];
   for (int j = 0; j < 3; j++) {
    if (stage.tools[j].size() > 0) {
     bool has_tool = false;
@@ -353,7 +353,7 @@ bool game::player_can_build(player &p, inventory inv, constructable con,
  return true;
 }
 
-void game::place_construction(constructable con)
+void game::place_construction(constructable *con)
 {
  refresh_all();
  inventory total_inv;
@@ -366,17 +366,17 @@ void game::place_construction(constructable con)
    if (x == u.posx && y == u.posy)
     y++;
    construct test;
-   bool place_okay = (test.*con.able)(this, point(x, y));
-   for (int i = 0; i < con.stages.size() && !place_okay; i++) {
-    if (m.ter(x, y) == con.stages[i].terrain)
+   bool place_okay = (test.*(con->able))(this, point(x, y));
+   for (int i = 0; i < con->stages.size() && !place_okay; i++) {
+    if (m.ter(x, y) == con->stages[i].terrain)
      place_okay = true;
    }
 
    if (place_okay) {
 // Make sure we're not trying to continue a construction that we can't finish
     int starting_stage = 0, max_stage = 0;
-    for (int i = 0; i < con.stages.size(); i++) {
-     if (m.ter(x, y) == con.stages[i].terrain)
+    for (int i = 0; i < con->stages.size(); i++) {
+     if (m.ter(x, y) == con->stages[i].terrain)
       starting_stage = i + 1;
      if (player_can_build(u, total_inv, con, i, true))
       max_stage = i;
@@ -411,15 +411,15 @@ void game::place_construction(constructable con)
 
 // Figure out what stage to start at, and what stage is the maximum
  int starting_stage = 0, max_stage = 0;
- for (int i = 0; i < con.stages.size(); i++) {
-  if (m.ter(dirx, diry) == con.stages[i].terrain)
+ for (int i = 0; i < con->stages.size(); i++) {
+  if (m.ter(dirx, diry) == con->stages[i].terrain)
    starting_stage = i + 1;
   if (player_can_build(u, total_inv, con, i, true))
    max_stage = i;
  }
 
- u.activity = player_activity(ACT_BUILD, con.stages[starting_stage].time * 1000,
-                              con.id);
+ u.activity = player_activity(ACT_BUILD, con->stages[starting_stage].time*1000,
+                              con->id);
  u.moves = 0;
  std::vector<int> stages;
  for (int i = starting_stage; i <= max_stage; i++)
@@ -433,13 +433,13 @@ void game::complete_construction()
  inventory map_inv;
  map_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
  int stage_num = u.activity.values[0];
- constructable built = constructions[u.activity.index];
- construction_stage stage = built.stages[stage_num];
+ constructable *built = constructions[u.activity.index];
+ construction_stage stage = built->stages[stage_num];
  std::vector<component> player_use;
  std::vector<component> map_use;
 
- u.practice(sk_carpentry, built.difficulty * 10);
- if (built.difficulty < 1)
+ u.practice(sk_carpentry, built->difficulty * 10);
+ if (built->difficulty < 1)
   u.practice(sk_carpentry, 10);
  for (int i = 0; i < 3; i++) {
   if (!stage.components[i].empty())
@@ -450,13 +450,13 @@ void game::complete_construction()
  int terx = u.activity.placement.x, tery = u.activity.placement.y;
  m.ter(terx, tery) = stage.terrain;
  construct effects;
- (effects.*built.done)(this, point(terx, tery));
+ (effects.*(built->done))(this, point(terx, tery));
 
 // Strip off the first stage in our list...
  u.activity.values.erase(u.activity.values.begin());
 // ...and start the next one, if it exists
  if (u.activity.values.size() > 0) {
-  construction_stage next = built.stages[u.activity.values[0]];
+  construction_stage next = built->stages[u.activity.values[0]];
   u.activity.moves_left = next.time * 1000;
  } else // We're finished!
   u.activity.type = ACT_NULL;

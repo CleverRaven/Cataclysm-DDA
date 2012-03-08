@@ -89,7 +89,7 @@ enum oter_id {
  ot_shelter, ot_shelter_under,
  ot_lab, ot_lab_stairs, ot_lab_core, ot_lab_finale,
  ot_nuke_plant_entrance, ot_nuke_plant, // TODO
- ot_bunker,
+ ot_bunker, ot_outpost,
  ot_silo, ot_silo_finale,
  ot_temple, ot_temple_stairs, ot_temple_core, ot_temple_finale, // TODO
  ot_sewage_treatment, ot_sewage_treatment_hub, ot_sewage_treatment_under,
@@ -97,7 +97,7 @@ enum oter_id {
  ot_spiral_hub, ot_spiral,
  ot_radio_tower,
  ot_toxic_dump,
- ot_cave,
+ ot_cave, ot_cave_rat,
 // Underground terrain
  ot_spider_pit_under,
  ot_anthill,
@@ -257,6 +257,7 @@ const oter_t oterlist[num_ter_types] = {
 {"nuclear plant",	'P',	c_ltgreen,	5, no_extras, false, false},
 {"nuclear plant",	'P',	c_ltgreen,	5, no_extras, false, false},
 {"military bunker",	'B',	c_dkgray,	2, no_extras, true, true},
+{"military outpost",	'M',	c_dkgray,	2, building_extras, false, false},
 {"missile silo",	'0',	c_ltgray,	2, no_extras, false, false},
 {"missile silo",	'0',	c_ltgray,	2, no_extras, false, false},
 {"strange temple",	'T',	c_magenta,	5, no_extras, true, false},
@@ -275,7 +276,8 @@ const oter_t oterlist[num_ter_types] = {
 {"spiral cavern",	'@',	c_pink,		2, no_extras, false, false},
 {"radio tower",         'X',    c_ltgray,       2, no_extras, false, false},
 {"toxic waste dump",	'D',	c_pink,		2, no_extras, false, false},
-{"cave",		'C',	c_brown,	2, field_extras, true, true},
+{"cave",		'C',	c_brown,	2, field_extras, false, false},
+{"rat cave",		'C',	c_dkgray,	2, no_extras, true, false},
 {"cavern",		'0',	c_ltgray,	2, no_extras, false, false},
 {"anthill",		'%',	c_brown,	2, no_extras, true, false},
 {"solid rock",		'%',	c_dkgray,	5, no_extras, false, false},
@@ -390,6 +392,7 @@ enum omspec_id
  OMSPEC_TEMPLE,
  OMSPEC_LAB,
  OMSPEC_BUNKER,
+ OMSPEC_OUTPOST,
  OMSPEC_SILO,
  OMSPEC_RADIO,
  OMSPEC_MEGASTORE,
@@ -437,6 +440,9 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 // Terrain	 MIN MAX DISTANCE
 {ot_bunker,	   2, 30,  4, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_ROAD)},
+
+{ot_outpost,	   0, 10,  4, -1, mcat_null, 0, 0, 0, 0,
+ &omspec_place::wilderness, 0},
 
 {ot_silo,	   0,  2, 30, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},

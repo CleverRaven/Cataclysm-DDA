@@ -87,7 +87,26 @@ void setvector(std::vector<pl_flag> &vec, ... )
   vec.push_back(tmp);
  va_end(ap);
 }
- 
+
+void setvector(std::vector<m_flag> &vec, ... )
+{
+ va_list ap;
+ va_start(ap, vec);
+ m_flag tmp;
+ while (tmp = (m_flag)va_arg(ap, int))
+  vec.push_back(tmp);
+ va_end(ap);
+}
+
+void setvector(std::vector<monster_trigger> &vec, ... )
+{
+ va_list ap;
+ va_start(ap, vec);
+ monster_trigger tmp;
+ while (tmp = (monster_trigger)va_arg(ap, int))
+  vec.push_back(tmp);
+ va_end(ap);
+}
 
 /*
 void setvector(std::vector<construction_stage> &bec, ... )

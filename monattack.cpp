@@ -1194,6 +1194,7 @@ void mattack::smg(game *g, monster *z)
  tmp.weapon.charges = 10;
  std::vector<point> traj = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
  g->fire(tmp, g->u.posx, g->u.posy, traj, true);
+ z->add_effect(ME_TARGETED, 3);
 }
 
 void mattack::flamethrower(game *g, monster *z)
@@ -1250,4 +1251,21 @@ void mattack::multi_robot(game *g, monster *z)
   case 2: this->flamethrower(g, z); break;
   case 3: this->smg(g, z);          break;
  }
+}
+
+void mattack::ratking(game *g, monster *z)
+{
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 4)
+  return;
+ z->sp_timeout = z->type->sp_freq;	// Reset timer
+
+ switch (rng(1, 5)) { // What do we say?
+  case 1: g->add_msg("\"YOU... ARE FILTH...\""); break;
+  case 2: g->add_msg("\"VERMIN... YOU ARE VERMIN...\""); break;
+  case 3: g->add_msg("\"LEAVE NOW...\""); break;
+  case 4: g->add_msg("\"WE... WILL FEAST... UPON YOU...\""); break;
+  case 5: g->add_msg("\"FOUL INTERLOPER...\""); break;
+ }
+
+ g->u.add_disease(DI_RAT, 20, g);
 }

@@ -20,9 +20,20 @@ ME_STUNNED,		// Stumbling briefly
 ME_BLIND,		// Can't use sight
 ME_DEAF,		// Can't use hearing
 ME_TARGETED,		// Targeting locked on--for robots that shoot guns
-ME_DOCILE,		// If friendly, stops attacking monsters for a while
+ME_DOCILE,		// Don't attack other monsters--for tame monster
 ME_HIT_BY_PLAYER,	// We shot or hit them
+ME_RUN,			// For hit-and-run monsters; we're running for a bit;
 NUM_MONSTER_EFFECTS
+};
+
+enum monster_attitude {
+MATT_NULL = 0,
+MATT_FRIEND,
+MATT_FLEE,
+MATT_IGNORE,
+MATT_FOLLOW,
+MATT_ATTACK,
+NUM_MONSTER_ATTITUDES
 };
 
 struct monster_effect
@@ -49,7 +60,7 @@ class monster {
  void draw(WINDOW* w, int plx, int ply, bool inv);
  nc_color color_with_effects();	// Color with fire, beartrapped, etc.
 				// Inverts color if inv==true
- bool has_flag(m_flags f);	// Returns true if f is set (see mtype.h)
+ bool has_flag(m_flag f);	// Returns true if f is set (see mtype.h)
  bool can_see();		// MF_SEES and no ME_BLIND
  bool can_hear();		// MF_HEARS and no ME_DEAF
  bool made_of(material m);	// Returns true if it's made of m
@@ -83,6 +94,11 @@ class monster {
 
 // Combat
  bool is_fleeing(player &u);	// True if we're fleeing
+ monster_attitude attitude(player *u = NULL);	// See the enum above
+ int morale_level(player &u);	// Looks at our HP etc.
+ void process_triggers(game *g);// Process things that anger/scare us
+ void process_trigger(monster_trigger trig, int amount);// Single trigger
+ int trigger_sum(game *g, std::vector<monster_trigger> *triggers);
  int  hit(game *g, player &p, body_part &bp_hit); // Returns a damage
  void hit_monster(game *g, int i);
  bool hurt(int dam); 	// Deals this dam damage; returns true if we dead
@@ -117,6 +133,7 @@ class monster {
  int hp;
  int sp_timeout;
  int friendly;
+ int anger, morale;
  int faction_id; // If we belong to a faction
  int mission_id; // If we're related to a mission
  mtype *type;

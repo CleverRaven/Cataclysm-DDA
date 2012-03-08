@@ -38,6 +38,7 @@ enum dis_type {
  DI_POISON, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
  DI_WEBBED,
+ DI_RAT,
 // Food & Drugs
  DI_PKILL1, DI_PKILL2, DI_PKILL3, DI_PKILL_L, DI_DRUNK, DI_CIG, DI_HIGH,
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
@@ -218,6 +219,7 @@ enum pl_flag {
  PF_CANINE_EARS,
  PF_WEB_WALKER,
  PF_WEB_WEAVER,
+ PF_WHISKERS,
 
  PF_HEADBUMPS,//
  PF_ANTLERS,//
@@ -646,6 +648,10 @@ sticking to webs.  Walking through webs does not affect you at all."},
 {"Web Weaver", 3, 0, 0, "\
 Your body produces webs.  As you move, there is a chance that you will\n\
 leave webs in your wake."},
+{"Whiskers", 1, 3, 1, "\
+You have a set of prominent rodent-like whiskers around your mouth.  These\n\
+make you more aware of vibrations in the air, and improve your ability to\n\
+dodge very slightly."},
 
 {"Head Bumps", 0, 3, 3, "\
 You have a pair of bumps on your skull."},

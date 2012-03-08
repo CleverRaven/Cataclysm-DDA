@@ -81,6 +81,30 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  bool missed = false;
  int tart;
  for (int curshot = 0; curshot < num_shots; curshot++) {
+// Burst-fire weapons allow us to pick a new target after killing the first
+  if (curshot > 0 &&
+      (mon_at(tarx, tary) == -1 || z[mon_at(tarx, tary)].hp <= 0)) {
+   std::vector<point> new_targets;
+   for (int radius = 1; radius <= 3 && new_targets.empty(); radius++) {
+    for (int diff = 0 - radius; diff <= radius; diff++) {
+     if (mon_at(tarx + diff, tary - radius) != -1)
+      new_targets.push_back( point(tarx + diff, tary - radius) );
+     if (mon_at(tarx + diff, tary + radius) != -1)
+      new_targets.push_back( point(tarx + diff, tary + radius) );
+     if (diff != 0 - radius && diff != radius) { // Corners were already checked
+      if (mon_at(tarx - radius, tary + diff) != -1)
+       new_targets.push_back( point(tarx - radius, tary + diff) );
+      if (mon_at(tarx + radius, tary + diff) != -1)
+       new_targets.push_back( point(tarx + radius, tary + diff) );
+     }
+    }
+   }
+   if (!new_targets.empty()) {
+    int target_picked = rng(0, new_targets.size() - 1);
+    tarx = new_targets[target_picked].x;
+    tary = new_targets[target_picked].y;
+   }
+  }
   int trange = calculate_range(p, tarx, tary);
   double missed_by = calculate_missed_by(p, trange);
 // Calculate a penalty based on the monster's speed
@@ -92,7 +116,12 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     monster_speed_penalty = 1.;
   }
 
-  p.recoil += recoil_add(p);
+  if (curshot > 0) {
+   if (recoil_add(p) % 2 == 1)
+    p.recoil++;
+   p.recoil += recoil_add(p) / 2;
+  } else
+   p.recoil += recoil_add(p);
 
   if (missed_by >= 1.) {
 // We missed D:
@@ -127,7 +156,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 // Drawing the bullet uses player u, and not player p, because it's drawn
 // relative to YOUR position, which may not be the gunman's position.
    if (u_see(trajectory[i].x, trajectory[i].y, junk)) {
-    char bullet = '`';
+    char bullet = '*';
     if (flags & mfb(IF_AMMO_FLAME))
      bullet = '#';
     mvwputch(w_terrain, trajectory[i].y + SEEY - u.posy,

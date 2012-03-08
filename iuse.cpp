@@ -44,6 +44,11 @@ void iuse::royal_jelly(game *g, player *p, item *it, bool t)
   message = "Your breathing clears up!";
   p->rem_disease(DI_ASTHMA);
  }
+ if (p->has_disease(DI_COMMON_COLD) || p->has_disease(DI_FLU)) {
+  message = "You feel healther!";
+  p->rem_disease(DI_COMMON_COLD);
+  p->rem_disease(DI_FLU);
+ }
  if (!p->is_npc())
   g->add_msg(message.c_str());
 }
@@ -1941,9 +1946,9 @@ void iuse::mp3(game *g, player *p, item *it, bool t)
 
 void iuse::mp3_on(game *g, player *p, item *it, bool t)
 {
- if (!p->has_item(it))
-  return;	// We're not carrying it!
  if (t) {	// Normal use
+  if (!p->has_item(it))
+   return;	// We're not carrying it!
   p->add_morale(MORALE_MUSIC, 1, 50);
 
   if (int(g->turn) % 10 == 0) {	// Every 10 turns, describe the music

@@ -26,7 +26,7 @@ mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
          &mission_end::standard, &mission_fail::standard);
 
  MISSION("Find Antibiotics", MGOAL_FIND_ITEM, 2, 1500, true,
-	&mission_place::always, &mission_start::standard,
+	&mission_place::always, &mission_start::infect_npc,
 	&mission_end::heal_infection, &mission_fail::kill_npc);
   ORIGINS(ORIGIN_OPENER_NPC, NULL);
   ITEM(itm_antibiotics);

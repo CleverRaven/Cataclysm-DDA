@@ -284,3 +284,8 @@ void mdeath::explode(game *g, monster *z)
  }
  g->explosion(z->posx, z->posy, size, 0, false);
 }
+
+void mdeath::ratking(game *g, monster *z)
+{
+ g->u.rem_disease(DI_RAT);
+}

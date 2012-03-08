@@ -1757,11 +1757,9 @@ void map::copy_grid(int to, int from)
 
  grid[to].comp = grid[from].comp;
 // Not needed?
-/*
  grid[to].spawns.clear();
  for (int i = 0; i < grid[from].spawns.size(); i++)
   grid[to].spawns.push_back(grid[from].spawns[i]);
-*/
 }
 
 void map::spawn_monsters(game *g)
@@ -1774,8 +1772,8 @@ void map::spawn_monsters(game *g)
      int tries = 0;
      int mx = grid[n].spawns[i].posx, my = grid[n].spawns[i].posy;
      monster tmp(g->mtypes[grid[n].spawns[i].type]);
-     tmp.spawnmapx = g->levx;
-     tmp.spawnmapy = g->levy;
+     tmp.spawnmapx = g->levx + gx;
+     tmp.spawnmapy = g->levy + gy;
      tmp.faction_id = grid[n].spawns[i].faction_id;
      tmp.mission_id = grid[n].spawns[i].mission_id;
      if (grid[n].spawns[i].name != "NONE")

@@ -584,6 +584,18 @@ void dis_effect(game *g, player &p, disease &dis)
   p.dex_cur -= 4;
   break;
 
+ case DI_RAT:
+  p.int_cur -= int(dis.duration / 20);
+  p.str_cur -= int(dis.duration / 50);
+  p.per_cur -= int(dis.duration / 25);
+  if (rng(30, 100) < rng(0, dis.duration) && one_in(3))
+   p.vomit(g);
+  if (rng(0, 100) < rng(0, dis.duration))
+   p.mutation_category_level[MUTCAT_RAT]++;
+  if (rng(50, 500) < rng(0, dis.duration))
+   p.mutate(g);
+  break;
+
  case DI_FORMICATION:
   p.int_cur -= 2;
   p.str_cur -= 1;
@@ -873,6 +885,7 @@ std::string dis_name(disease dis)
  case DI_SHAKES:	return "Shakes";
  case DI_FORMICATION:	return "Bugs Under Skin";
  case DI_WEBBED:	return "Webbed";
+ case DI_RAT:		return "Ratting";
  case DI_DRUNK:
   if (dis.duration > 2200) return "Wasted";
   if (dis.duration > 1400) return "Trashed";
@@ -1039,6 +1052,19 @@ this urge.";
 
  case DI_WEBBED:	return "\
 Strength - 1;     Dexterity - 4;    Speed - 25";
+
+ case DI_RAT:
+  intpen = int(dis.duration / 20);
+  perpen = int(dis.duration / 25);
+  strpen = int(dis.duration / 50);
+  stream << "You feal nauseated and rat-like.\n";
+  if (intpen > 0)
+   stream << "Intelligence - " << intpen << ";   ";
+  if (perpen > 0)
+   stream << "Perception - " << perpen << ";   ";
+  if (strpen > 0)
+   stream << "Strength - " << strpen << ";   ";
+  return stream.str();
 
  case DI_DRUNK:
   perpen = int(dis.duration / 1000);

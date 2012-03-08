@@ -6,6 +6,7 @@
 //Globals                           *
 //***********************************
 
+WINDOW *mainwin;
 const WCHAR *szWindowClass = (L"CataCurseWindow");    //Class name :D
 HINSTANCE WindowINST;   //the instance of the window
 HWND WindowHandle;      //the handle of the window
@@ -16,8 +17,8 @@ int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
 int inputdelay;         //How long getch will wait for a character to be typed
-WINDOW *_windows;  //Probably need to change this to dynamic at some point
-int WindowCount;        //The number of curses windows currently in use
+//WINDOW *_windows;  //Probably need to change this to dynamic at some point
+//int WindowCount;        //The number of curses windows currently in use
 HDC backbuffer;         //an off-screen DC to prevent flickering, lower cpu
 HBITMAP backbit;        //the bitmap that is used in conjunction wth the above
 int fontwidth;          //the width of the font, background is always this size
@@ -35,7 +36,7 @@ char szDirectory[MAX_PATH] = "";
 //***********************************
 
 //Registers, creates, and shows the Window!!
-bool WinCreate(bool initgl)
+bool WinCreate()
 {
     int success;
     WNDCLASSEXW WindowClassType;
@@ -254,7 +255,7 @@ void CheckMessages()
 //Basic Init, create the font, backbuffer, etc
 WINDOW *initscr(void)
 {
-    _windows = new WINDOW[20];         //initialize all of our variables
+   // _windows = new WINDOW[20];         //initialize all of our variables
     BITMAPINFO bmi;
     lastchar=-1;
     inputdelay=-1;
@@ -286,7 +287,7 @@ fin.open("data\\FONTDATA");
     WindowHeight=25*fontheight;
     WindowX=(GetSystemMetrics(SM_CXSCREEN) / 2)-WindowWidth;    //center this
     WindowY=(GetSystemMetrics(SM_CYSCREEN) / 2)-WindowHeight;   //sucker
-    WinCreate(TRUE);    //Create the actual window, register it, etc
+    WinCreate();    //Create the actual window, register it, etc
     CheckMessages();    //Let the message queue handle setting up the window
     WindowDC = GetDC(WindowHandle);
     backbuffer = CreateCompatibleDC(WindowDC);
@@ -319,43 +320,44 @@ fin.open("data\\FONTDATA");
     //FixedSys will be user-changable at some point in time??
     SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
     SelectObject(backbuffer, font);//Load our font into the DC
-    WindowCount=0;
+//    WindowCount=0;
 
     delete typeface_c;
-    return newwin(25,80,0,0);   //create the 'stdscr' window and return its ref
+    mainwin = newwin(25,80,0,0);
+    return mainwin;   //create the 'stdscr' window and return its ref
 };
 
 WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
 {
     int i,j;
-    WINDOW *newwindow;
-    newwindow=&_windows[WindowCount];
-    _windows[WindowCount].x=begin_x;
-    _windows[WindowCount].y=begin_y;
-    _windows[WindowCount].width=ncols;
-    _windows[WindowCount].height=nlines;
-    _windows[WindowCount].inuse=true;
-    _windows[WindowCount].draw=false;
-    _windows[WindowCount].BG=0;
-    _windows[WindowCount].FG=8;
-    _windows[WindowCount].cursorx=0;
-    _windows[WindowCount].cursory=0;
-    _windows[WindowCount].line = new curseline[nlines];
+    WINDOW *newwindow = new WINDOW;
+    //newwindow=&_windows[WindowCount];
+    newwindow->x=begin_x;
+    newwindow->y=begin_y;
+    newwindow->width=ncols;
+    newwindow->height=nlines;
+    newwindow->inuse=true;
+    newwindow->draw=false;
+    newwindow->BG=0;
+    newwindow->FG=8;
+    newwindow->cursorx=0;
+    newwindow->cursory=0;
+    newwindow->line = new curseline[nlines];
 
     for (j=0; j<nlines; j++)
     {
-         _windows[WindowCount].line[j].chars= new char[ncols];
-        _windows[WindowCount].line[j].FG= new char[ncols];
-        _windows[WindowCount].line[j].BG= new char[ncols];
-        _windows[WindowCount].line[j].touched=true;//Touch them all !?
+        newwindow->line[j].chars= new char[ncols];
+        newwindow->line[j].FG= new char[ncols];
+        newwindow->line[j].BG= new char[ncols];
+        newwindow->line[j].touched=true;//Touch them all !?
         for (i=0; i<ncols; i++)
         {
-          _windows[WindowCount].line[j].chars[i]=0;
-          _windows[WindowCount].line[j].FG[i]=0;
-          _windows[WindowCount].line[j].BG[i]=0;
+          newwindow->line[j].chars[i]=0;
+          newwindow->line[j].FG[i]=0;
+          newwindow->line[j].BG[i]=0;
         }
     }
-    WindowCount++;
+    //WindowCount++;
     return newwindow;
 };
 
@@ -363,9 +365,7 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
 //Deletes the window and marks it as free. Clears it just in case.
 int delwin(WINDOW *win)
 {
-    int i;
     int j;
-    //int w=FindWin(win);
     win->inuse=false;
     win->draw=false;
     for (j=0; j<win->height; j++){
@@ -374,8 +374,7 @@ int delwin(WINDOW *win)
         delete win->line[j].BG;
         }
     delete win->line;
-    //DrawWindow(0);
-    WindowCount--;
+    delete win;
     return 1;
 };
 inline void newline(WINDOW *win){
@@ -383,7 +382,7 @@ win->cursory++;
 win->cursorx=0;
 };
 
-inline int addedchar(WINDOW *win){
+inline void addedchar(WINDOW *win){
 win->cursorx++;
 win->line[win->cursory].touched=true;
 if (win->cursorx > win->width)
@@ -427,7 +426,7 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
 //Refreshes a window, causing it to redraw on top.
 int wrefresh(WINDOW *win)
 {
-    if (win==0) win=&_windows[0];
+    if (win==0) win=mainwin;
     if (win->draw)
         DrawWindow(win);
     return 1;
@@ -436,17 +435,16 @@ int wrefresh(WINDOW *win)
 //Refreshes window 0 (stdscr), causing it to redraw on top.
 int refresh(void)
 {
-    return wrefresh(&_windows[0]);
+    return wrefresh(mainwin);
 };
 
 //Not terribly sure how this function is suppose to work,
 //but jday helped to figure most of it out
 int getch(void)
 {
-    refresh();
-
-InvalidateRect(WindowHandle,NULL,true);
-    lastchar=ERR;//ERR=-1
+ refresh();
+ InvalidateRect(WindowHandle,NULL,true);
+ lastchar=ERR;//ERR=-1
     if (inputdelay < 0)
     {
         do
@@ -481,30 +479,20 @@ InvalidateRect(WindowHandle,NULL,true);
 //The core printing function, prints characters to the array, and sets colors
 inline int printstring(WINDOW *win, char *fmt)
 {
-    char *buf;
-    buf = strtok (fmt,"\n");
-    while (buf != NULL)
-    {
-        int size = strlen(buf);
-
-        int j;
-
-        for (j=0; j<size; j++){
-        win->line[win->cursory].chars[win->cursorx]=buf[j];
-        win->line[win->cursory].FG[win->cursorx]=win->FG;
-        win->line[win->cursory].BG[win->cursorx]=win->BG;
-        win->line[win->cursory].touched=true;
-        addedchar(win);
-        }
-        buf = strtok (NULL, "\n");
-        if (buf != NULL) //{
-            newline(win);
-
-       // } else
-        //_windows[w].cursorx+=size;
-    }
-    win->draw=true;
-    return 1;
+ int size = strlen(fmt);
+ int j;
+ for (j=0; j<size; j++){
+     if (!(fmt[j]==10)){//check for a newline character
+         win->line[win->cursory].chars[win->cursorx]=fmt[j];
+         win->line[win->cursory].FG[win->cursorx]=win->FG;
+         win->line[win->cursory].BG[win->cursorx]=win->BG;
+         win->line[win->cursory].touched=true;
+         addedchar(win);
+     } else
+         newline(win); // if found, make sure to move down a line
+ }
+ win->draw=true;
+ return 1;
 }
 
 //Prints a formatted string to a window at the current cursor, base function
@@ -539,7 +527,7 @@ int mvprintw(int y, int x, const char *fmt, ...)
     vsnprintf(printbuf, 2047, fmt, args);
     va_end(args);
     if (move(y,x)==0) return 0;
-    return printstring(&_windows[0],printbuf);
+    return printstring(mainwin,printbuf);
 };
 
 //Prints a formatted string to window 0 (stdscr) at the current cursor
@@ -550,7 +538,7 @@ int printw(const char *fmt, ...)
     char printbuf[2078];
     vsnprintf(printbuf, 2047, fmt, args);
     va_end(args);
-    return printstring(&_windows[0],printbuf);
+    return printstring(mainwin,printbuf);
 };
 
 //erases a window of all text and attributes
@@ -575,7 +563,7 @@ int werase(WINDOW *win)
 //erases window 0 (stdscr) of all text and attributes
 int erase(void)
 {
-    return werase(&_windows[0]);
+    return werase(mainwin);
 };
 
 //pairs up a foreground and background color and puts it into the array of pairs
@@ -605,7 +593,7 @@ int wmove(WINDOW *win, int y, int x)
 //Clears windows 0 (stdscr)     I'm not sure if its suppose to do this?
 int clear(void)
 {
-    return wclear(&_windows[0]);
+    return wclear(mainwin);
 };
 
 //Ends the terminal, destroy everything
@@ -613,8 +601,7 @@ int endwin(void)
 {
     DeleteObject(font);
     WinDestroy();
-    delete _windows;
-    BOOL b = RemoveFontResourceExA("data\\termfont",FR_PRIVATE,NULL);//Unload it
+    RemoveFontResourceExA("data\\termfont",FR_PRIVATE,NULL);//Unload it
     return 1;
 };
 
@@ -636,14 +623,14 @@ int wclear(WINDOW *win)
 //gets the max x of a window (the width)
 int getmaxx(WINDOW *win)
 {
-    if (win==0) return _windows[0].width;     //StdScr
+    if (win==0) return mainwin->width;     //StdScr
     return win->width;
 };
 
 //gets the max y of a window (the height)
 int getmaxy(WINDOW *win)
 {
-    if (win==0) return _windows[0].height;     //StdScr
+    if (win==0) return mainwin->height;     //StdScr
     return win->height;
 };
 
@@ -704,7 +691,7 @@ int curs_set(int visibility)
 
 int mvaddch(int y, int x, const chtype ch)
 {
-    return mvwaddch(&_windows[0],y,x,ch);
+    return mvwaddch(mainwin,y,x,ch);
 };
 
 int wattron(WINDOW *win, int attrs)
@@ -726,11 +713,11 @@ int wattroff(WINDOW *win, int attrs)
 };
 int attron(int attrs)
 {
-    return wattron(&_windows[0],attrs);
+    return wattron(mainwin, attrs);
 };
 int attroff(int attrs)
 {
-    return wattroff(&_windows[0],attrs);
+    return wattroff(mainwin,attrs);
 };
 int waddch(WINDOW *win, const chtype ch)
 {
@@ -800,7 +787,7 @@ int cury=win->cursory;
 //Move the cursor of windows 0 (stdscr)
 int move(int y, int x)
 {
-    return wmove(&_windows[0],y,x);
+    return wmove(mainwin,y,x);
 };
 
 //Set the amount of time getch waits for input

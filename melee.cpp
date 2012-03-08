@@ -118,6 +118,8 @@ int player::hit_mon(game *g, monster *z)
 
  bool can_poison = false;
 
+ bool conductive = (weapon.conductive() && !wearing_something_on(bp_hands));
+
 // Recoil penalty
  if (recoil <= 30)
   recoil += 6;
@@ -225,9 +227,11 @@ int player::hit_mon(game *g, monster *z)
 
 // Spears treat cutting damage specially.
  if (weapon.has_flag(IF_SPEAR) &&
-     weapon.damage_cut() > z->armor_cut() - int(sklevel[sk_stabbing])) {
-  int z_armor = z->armor_cut() - int(sklevel[sk_stabbing]);
-  dam += int(weapon.damage_cut() / 5);
+     weapon.damage_cut() > z->armor_cut() - 2 * sklevel[sk_stabbing]) {
+  int z_armor = z->armor_cut() - 2 * sklevel[sk_stabbing];
+  dam += int((weapon.damage_cut() - z_armor) / 5);
+  if (z->speed > 100) // Bonus against fast monsters
+   dam += rng( int((z->speed - 100) / 10), int((z->speed - 100) / 5));
   int minstab = sklevel[sk_stabbing] *  5 + weapon.volume() * 2,
       maxstab = sklevel[sk_stabbing] * 15 + weapon.volume() * 4;
   int monster_penalty = rng(minstab, maxstab);
@@ -241,15 +245,31 @@ int player::hit_mon(game *g, monster *z)
   practice(sk_stabbing, 2);
 
 // Cutting damage bonus
- } else if (weapon.damage_cut() >
-            z->armor_cut() - int(sklevel[sk_cutting] / 2)) {
+ } else if ((weapon.damage_cut() >
+             z->armor_cut() - int(sklevel[sk_cutting] / 2)) ||
+            (stabbing && 
+             weapon.damage_cut() > z->armor_cut() - 2 * sklevel[sk_stabbing])) {
 
-  int z_armor = z->armor_cut() - int(sklevel[sk_cutting] / 2);
-  if (z_armor < 0)
-   z_armor = 0;
-  dam += weapon.damage_cut() - z_armor;
-  cutting_penalty = weapon.damage_cut() * 3 + z_armor * 8 -
-                    dice(sklevel[sk_cutting], 10);
+  int z_armor_cut = z->armor_cut() - int(sklevel[sk_cutting] / 2);
+  if (z_armor_cut < 0)
+   z_armor_cut = 0;
+  int z_armor_stab = z->armor_cut() - 2 * sklevel[sk_stabbing];
+  if (z_armor_stab < 0)
+   z_armor_stab = 0;
+// Check cut dam vs. stab dam and automatically pick one
+  int cutdam = weapon.damage_cut() - z_armor_cut;
+  int stabdam = int((weapon.damage_cut() - z_armor_stab) / 5);
+  if (z->speed > 100)
+   stabdam += rng( int((z->speed - 100) / 10), int((z->speed - 100) / 5));
+  if (cutdam > stabdam || !stabbing) {
+   dam += cutdam;
+   cutting_penalty = weapon.damage_cut() * 3 + z_armor_cut * 8 -
+                     dice(sklevel[sk_cutting], 10);
+  } else {
+   dam += stabdam;
+   cutting_penalty = weapon.damage_cut() * 3 + z_armor_stab * 8 -
+                     dice(sklevel[sk_cutting], 10);
+  }
  }
 
  if (weapon.has_flag(IF_MESSY)) { // e.g. chainsaws
@@ -361,7 +381,7 @@ int player::hit_mon(game *g, monster *z)
 
 // Bonus attacks!
  bool shock_them = (has_bionic(bio_shock) && power_level >= 2 && unarmed &&
-                    one_in(3));
+                    !z->has_flag(MF_ELECTRIC) && one_in(3));
  bool drain_them = (has_bionic(bio_heat_absorb) && power_level >= 1 &&
                     !is_armed() && z->has_flag(MF_WARM));
  if (drain_them)
@@ -408,10 +428,17 @@ int player::hit_mon(game *g, monster *z)
  }
 
  if (can_poison && has_trait(PF_POISONOUS)) {
-   if (is_u)
-    g->add_msg("You poison the %s!", z->name().c_str());
-   z->add_effect(ME_POISONED, 6);
-  }
+  z->add_effect(ME_POISONED, 6);
+  if (is_u)
+   g->add_msg("You poison the %s!", z->name().c_str());
+ }
+
+ if (z->has_flag(MF_ELECTRIC) && conductive) {
+  hurtall(rng(0, 1));
+  moves -= rng(0, 50);
+  if (is_u)
+   g->add_msg("Contact with the %s shocks you!", z->name().c_str());
+ }
 
 // Make a rather quiet sound, to alert any nearby monsters
  g->sound(posx, posy, 8, "");
@@ -670,6 +697,8 @@ int player::dodge(game *g)
   ret += 4;
  if (has_trait(PF_TAIL_FLUFFY))
   ret += 8;
+ if (has_trait(PF_WHISKERS))
+  ret += 1;
  if (has_trait(PF_WINGS_BAT))
   ret -= 3;
  if (str_max >= 16)

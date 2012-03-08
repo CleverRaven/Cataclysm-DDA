@@ -55,6 +55,7 @@ map_extra random_map_extra(map_extras);
 
 void line(map *m, ter_id type, int x1, int y1, int x2, int y2);
 void square(map *m, ter_id type, int x1, int y1, int x2, int y2);
+void rough_circle(map *m, ter_id type, int x, int y, int rad);
 
 void map::generate(game *g, overmap *om, int x, int y, int turn)
 {
@@ -2494,19 +2495,19 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      int size;
      switch (rng(1, 14)) {
       case  1:
-      case  2: goods = mi_bots; size = 75; break;
+      case  2: goods = mi_bots; size = 85; break;
       case  3:
-      case  4: goods = mi_launchers; size = 80; break;
+      case  4: goods = mi_launchers; size = 83; break;
       case  5:
-      case  6: goods = mi_mil_rifles; size = 84; break;
+      case  6: goods = mi_mil_rifles; size = 87; break;
       case  7:
-      case  8: goods = mi_grenades; size = 86; break;
+      case  8: goods = mi_grenades; size = 88; break;
       case  9:
-      case 10: goods = mi_mil_armor; size = 82; break;
+      case 10: goods = mi_mil_armor; size = 85; break;
       case 11:
       case 12:
-      case 13: goods = mi_mil_food; size = 88; break;
-      case 14: goods = mi_bionics_mil; size = 70; break;
+      case 13: goods = mi_mil_food; size = 90; break;
+      case 14: goods = mi_bionics_mil; size = 78; break;
      }
      place_items(goods, size, i, j, i + 6, j + 5, false, 0);
     }
@@ -2520,6 +2521,162 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   }
   break;
 
+ case ot_outpost: {
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++)
+    ter(i, j) = grass_or_dirt();
+  }
+  square(this, t_dirt, 3, 3, 20, 20);
+  line(this, t_wall_metal_h,  2,  2, 10,  2);
+  line(this, t_wall_metal_h, 13,  2, 21,  2);
+  line(this, t_wall_metal_h,  2, 21, 10, 21);
+  line(this, t_wall_metal_h, 13, 21, 21, 21);
+  line(this, t_wall_metal_v,  2,  3,  2, 10);
+  line(this, t_wall_metal_v, 21,  3, 21, 10);
+  line(this, t_wall_metal_v,  2, 13,  2, 20);
+  line(this, t_wall_metal_v, 21, 13, 21, 20);
+// Place some random buildings
+
+  bool okay = true;
+  while (okay) {
+   int buildx = rng(6, 17), buildy = rng(6, 17);
+   int buildwidthmax  = (buildx <= 11 ? buildx - 3 : 20 - buildx),
+       buildheightmax = (buildy <= 11 ? buildy - 3 : 20 - buildy);
+   int buildwidth = rng(3, buildwidthmax), buildheight = rng(3, buildheightmax);
+   if (ter(buildx, buildy) != t_dirt)
+    okay = false;
+   else {
+    int bx1 = buildx - buildwidth, bx2 = buildx + buildwidth,
+        by1 = buildy - buildheight, by2 = buildy + buildheight;
+    square(this, t_floor, bx1, by1, bx2, by2);
+    line(this, t_wall_metal_h, bx1, by1, bx2, by1);
+    line(this, t_wall_metal_h, bx1, by2, bx2, by2);
+    line(this, t_wall_metal_v, bx1, by1, bx1, by2);
+    line(this, t_wall_metal_v, bx2, by1, bx2, by2);
+    switch (rng(1, 3)) {  // What type of building?
+    case 1: // Barracks
+     for (int i = by1 + 1; i <= by2 - 1; i += 2) {
+      line(this, t_bed, bx1 + 1, i, bx1 + 2, i);
+      line(this, t_bed, bx2 - 2, i, bx2 - 1, i);
+     }
+     place_items(mi_bedroom, 84, bx1 + 1, by1 + 1, bx2 - 1, by2 - 1, false, 0);
+     break;
+    case 2: // Armory
+     line(this, t_counter, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1);
+     line(this, t_counter, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1);
+     line(this, t_counter, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2);
+     line(this, t_counter, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2);
+     place_items(mi_mil_rifles, 40, bx1+1, by1+1, bx2-1, by1+1, false, 0);
+     place_items(mi_launchers,  40, bx1+1, by2-1, bx2-1, by2-1, false, 0);
+     place_items(mi_grenades,   40, bx1+1, by1+2, bx1+1, by2-2, false, 0);
+     place_items(mi_mil_armor,  40, bx2-1, by1+2, bx2-1, by2-2, false, 0);
+     break;
+    case 3: // Supplies
+     for (int i = by1 + 1; i <= by2 - 1; i += 3) {
+      line(this, t_rack, bx1 + 1, i, bx2 - 1, i);
+      place_items(mi_mil_food, 78, bx1 + 1, i, bx2 - 1, i, false, 0);
+     }
+     break;
+    }
+    std::vector<direction> doorsides;
+    if (bx1 > 3)
+     doorsides.push_back(WEST);
+    if (bx2 < 20)
+     doorsides.push_back(EAST);
+    if (by1 > 3)
+     doorsides.push_back(NORTH);
+    if (by2 < 20)
+     doorsides.push_back(SOUTH);
+    int doorx, doory;
+    switch (doorsides[rng(0, doorsides.size() - 1)]) {
+     case WEST:
+      doorx = bx1;
+      doory = rng(by1 + 1, by2 - 1);
+      break;
+     case EAST:
+      doorx = bx2;
+      doory = rng(by1 + 1, by2 - 1);
+      break;
+     case NORTH:
+      doorx = rng(bx1 + 1, bx2 - 1);
+      doory = by1;
+      break;
+     case SOUTH:
+      doorx = rng(bx1 + 1, bx2 - 1);
+      doory = by2;
+      break;
+    }
+    for (int i = doorx - 1; i <= doorx + 1; i++) {
+     for (int j = doory - 1; j <= doory + 1; j++) {
+      i_clear(i, j);
+      if (ter(i, j) == t_bed || ter(i, j) == t_rack || ter(i, j) == t_counter)
+       ter(i, j) = t_floor;
+     }
+    }
+    ter(doorx, doory) = t_door_c;
+   }
+  }
+// Seal up the entrances if there's walls there
+  if (ter(11,  3) != t_dirt)
+   ter(11,  2) = t_wall_metal_h;
+  if (ter(12,  3) != t_dirt)
+   ter(12,  2) = t_wall_metal_h;
+
+  if (ter(11, 20) != t_dirt)
+   ter(11,  2) = t_wall_metal_h;
+  if (ter(12, 20) != t_dirt)
+   ter(12,  2) = t_wall_metal_h;
+
+  if (ter( 3, 11) != t_dirt)
+   ter( 2, 11) = t_wall_metal_v;
+  if (ter( 3, 12) != t_dirt)
+   ter( 2, 12) = t_wall_metal_v;
+
+  if (ter( 3, 11) != t_dirt)
+   ter( 2, 11) = t_wall_metal_v;
+  if (ter( 3, 12) != t_dirt)
+   ter( 2, 12) = t_wall_metal_v;
+
+// Place turrets by (possible) entrances
+  add_spawn(mon_turret, 1,  3, 11);
+  add_spawn(mon_turret, 1,  3, 12);
+  add_spawn(mon_turret, 1, 20, 11);
+  add_spawn(mon_turret, 1, 20, 12);
+  add_spawn(mon_turret, 1, 11,  3);
+  add_spawn(mon_turret, 1, 12,  3);
+  add_spawn(mon_turret, 1, 11, 20);
+  add_spawn(mon_turret, 1, 12, 20);
+
+// Finally, scatter dead bodies / mil zombies
+  for (int i = 0; i < 20; i++) {
+   int rnx = rng(3, 20), rny = rng(3, 20);
+   if (move_cost(rnx, rny) != 0) {
+    if (one_in(5)) // Military zombie
+     add_spawn(mon_zombie_soldier, 1, rnx, rny);
+    else if (one_in(2)) {
+     item body;
+     body.make_corpse(g->itypes[itm_corpse], g->mtypes[mon_null], 0);
+     add_item(rnx, rny, body);
+     place_items(mi_launchers,  10, rnx, rny, rnx, rny, true, 0);
+     place_items(mi_mil_rifles, 30, rnx, rny, rnx, rny, true, 0);
+     place_items(mi_mil_armor,  70, rnx, rny, rnx, rny, true, 0);
+     place_items(mi_mil_food,   40, rnx, rny, rnx, rny, true, 0);
+     add_item(rnx, rny, (*itypes)[itm_id_military], 0);
+    } else if (one_in(20))
+     rough_circle(this, t_rubble, rnx, rny, rng(3, 6));
+   }
+  }
+// Oh wait--let's also put radiation in any rubble
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++) {
+    radiation(i, j) += (one_in(5) ? rng(1, 2) : 0);
+    if (ter(i, j) == t_rubble)
+     radiation(i, j) += rng(1, 3);
+   }
+  }
+
+ } break;
+    
  case ot_silo:
   if (t_above == ot_null) {	// We're on ground level
    for (int i = 0; i < SEEX * 2; i++) {
@@ -3659,6 +3816,67 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    while (!one_in(8))
     ter(rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5)) = t_dirt;
    square(this, t_slope_down, SEEX - 1, SEEY - 1, SEEX, SEEY);
+  }
+  break;
+
+ case ot_cave_rat:
+  square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
+
+  if (t_above == ot_cave_rat) { // Finale
+   rough_circle(this, t_rock_floor, SEEX, SEEY, 8);
+   square(this, t_rock_floor, SEEX - 1, SEEY, SEEX, SEEY * 2 - 2);
+   line(this, t_slope_up, SEEX - 1, SEEY * 2 - 3, SEEX, SEEY * 2 - 2);
+   for (int i = SEEX - 4; i <= SEEX + 4; i++) {
+    for (int j = SEEY - 4; j <= SEEY + 4; j++) {
+     if ((i <= SEEX - 2 || i >= SEEX + 2) && (j <= SEEY - 2 || j >= SEEY + 2))
+      add_spawn(mon_sewer_rat, 1, i, j);
+    }
+   }
+   add_spawn(mon_rat_king, 1, SEEX, SEEY);
+   place_items(mi_rare, 75, SEEX - 4, SEEY - 4, SEEX + 4, SEEY + 4, true, 0);
+  } else { // Level 1
+   int cavex = SEEX, cavey = SEEY * 2 - 3;
+   int stairsx = SEEX - 1, stairsy = 1; // Default stairs location--may change
+   int centerx;
+   do {
+    cavex += rng(-1, 1);
+    cavey -= rng(0, 1);
+    for (int cx = cavex - 1; cx <= cavex + 1; cx++) {
+     for (int cy = cavey - 1; cy <= cavey + 1; cy++) {
+      ter(cx, cy) = t_rock_floor;
+      if (one_in(10))
+       add_field(g, cx, cy, fd_blood, rng(1, 3));
+      if (one_in(20))
+       add_spawn(mon_sewer_rat, 1, cx, cy);
+     }
+    }
+    if (cavey == SEEY - 1)
+     centerx = cavex;
+   } while (cavey > 2);
+// Now draw some extra passages!
+   do {
+    int tox = (one_in(2) ? 2 : SEEX * 2 - 3), toy = rng(2, SEEY * 2 - 3);
+    std::vector<point> path = line_to(centerx, SEEY - 1, tox, toy, 0);
+    for (int i = 0; i < path.size(); i++) {
+     for (int cx = path[i].x - 1; cx <= path[i].x + 1; cx++) {
+      for (int cy = path[i].y - 1; cy <= path[i].y + 1; cy++) {
+       ter(cx, cy) = t_rock_floor;
+       if (one_in(10))
+        add_field(g, cx, cy, fd_blood, rng(1, 3));
+       if (one_in(20))
+        add_spawn(mon_sewer_rat, 1, cx, cy);
+      }
+     }
+    }
+    if (one_in(2)) {
+     stairsx = tox;
+     stairsy = toy;
+    }
+   } while (one_in(2));
+// Finally, draw the stairs up and down.
+   ter(SEEX - 1, SEEX * 2 - 2) = t_slope_up;
+   ter(SEEX    , SEEX * 2 - 2) = t_slope_up;
+   ter(stairsx, stairsy) = t_slope_down;
   }
   break;
 
@@ -5591,8 +5809,22 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    ter(2, 3) = t_water_sh;
    ter(3, 2) = t_water_sh;
    ter(3, 3) = t_water_sh;
-  } else
+  } else {
+   add_item(           5, SEEY + 1, (*itypes)[itm_helmet_bike], 0);
+   add_item(           4, SEEY + 1, (*itypes)[itm_backpack], 0);
+   add_item(           3, SEEY + 1, (*itypes)[itm_pants_cargo], 0);
+   add_item(           7, SEEY * 2 - 4, (*itypes)[itm_machete], 0);
+   add_item(           7, SEEY * 2 - 4, (*itypes)[itm_9mm], 0);
+   add_item(           7, SEEY * 2 - 4, (*itypes)[itm_9mmP], 0);
+   add_item(           7, SEEY * 2 - 4, (*itypes)[itm_uzi], 0);
+   add_item(SEEX * 2 - 2, SEEY + 5, (*itypes)[itm_bubblewrap], 0);
+   add_item(SEEX * 2 - 2, SEEY + 6, (*itypes)[itm_grenade], 0);
+   add_item(SEEX * 2 - 3, SEEY + 6, (*itypes)[itm_flashlight], 0);
+   add_item(SEEX * 2 - 2, SEEY + 7, (*itypes)[itm_cig], 0);
+   add_item(SEEX * 2 - 2, SEEY + 7, (*itypes)[itm_codeine], 0);
+   add_item(SEEX * 2 - 3, SEEY + 7, (*itypes)[itm_water], 0);
    ter(SEEX - 2, SEEY + 2) = t_stairs_down;
+  }
   break;
 
  case ot_cavern:
@@ -5825,20 +6057,25 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
              selection, eligible.size(), randnum, item_chance);
    randnum -= (*itypes)[eligible[selection]]->rarity;
   }
+  int tries = 0;
   do {
    px = rng(x1, x2);
    py = rng(y1, y2);
+   tries++;
 // Only place on valid terrain
-  } while ((terlist[ter(px, py)].movecost == 0 && 
-            !(terlist[ter(px, py)].flags & mfb(container))) ||
-           (!ongrass && (ter(px, py) == t_dirt || ter(px, py) == t_grass)));
-  add_item(px, py, (*itypes)[eligible[selection]], turn);
+  } while (((terlist[ter(px, py)].movecost == 0 && 
+             !(terlist[ter(px, py)].flags & mfb(container))) ||
+            (!ongrass && (ter(px, py) == t_dirt || ter(px, py) == t_grass))) &&
+           tries < 20);
+  if (tries < 20) {
+   add_item(px, py, (*itypes)[eligible[selection]], turn);
 // Guns in the home and behind counters are generated with their ammo
 // TODO: Make this less of a hack
-  if ((*itypes)[eligible[selection]]->is_gun() && 
-      (loc == mi_homeguns || loc == mi_behindcounter)) {
-   it_gun* tmpgun = dynamic_cast<it_gun*> ((*itypes)[eligible[selection]]);
-   add_item(px, py, (*itypes)[default_ammo(tmpgun->ammo)], turn);
+   if ((*itypes)[eligible[selection]]->is_gun() && 
+       (loc == mi_homeguns || loc == mi_behindcounter)) {
+    it_gun* tmpgun = dynamic_cast<it_gun*> ((*itypes)[eligible[selection]]);
+    add_item(px, py, (*itypes)[default_ammo(tmpgun->ammo)], turn);
+   }
   }
  }
 }
@@ -7220,5 +7457,15 @@ void square(map *m, ter_id type, int x1, int y1, int x2, int y2)
  for (int x = x1; x <= x2; x++) {
   for (int y = y1; y <= y2; y++)
    m->ter(x, y) = type;
+ }
+}
+
+void rough_circle(map *m, ter_id type, int x, int y, int rad)
+{
+ for (int i = x - rad; i <= x + rad; i++) {
+  for (int j = y - rad; j <= y + rad; j++) {
+   if (rl_dist(x, y, i, j) + rng(0, 3) <= rad)
+    m->ter(i, j) = type;
+  }
  }
 }

@@ -13,6 +13,8 @@ void setvector(std::vector <items_location_and_chance> &vec, ... );
 void setvector(std::vector <mission_origin> &vec, ... );
 void setvector(std::vector <std::string> &vec, ... );
 void setvector(std::vector <pl_flag> &vec, ... );
+void setvector(std::vector <m_flag> &vec, ... );
+void setvector(std::vector <monster_trigger> &vec, ... );
 template <class T> void setvec(std::vector<T> &vec, ... );
 //void setvector(std::vector <construction_sage> &vec, ... );
 #endif

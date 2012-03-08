@@ -22,6 +22,8 @@
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #endif
 
+#define MONSTER_FOLLOW_DIST 8
+
 void monster::receive_moves()
 {
  if (has_effect(ME_BEARTRAP))
@@ -76,6 +78,7 @@ void monster::plan(game *g)
  int closest = -1;
  int dist = 1000;
  int tc, stc;
+ bool fleeing = false;
  if (friendly != 0) {	// Target monsters, not the player!
   for (int i = 0; i < g->z.size(); i++) {
    monster *tmp = &(g->z[i]);
@@ -100,37 +103,59 @@ void monster::plan(game *g)
   }
   return;
  }
- if (is_fleeing(g->u) && can_see() && g->sees_u(posx, posy, tc) &&
-     (!g->u.has_trait(PF_ANIMALEMPATH) || !has_flag(MF_ANIMAL))) {
+ if (is_fleeing(g->u) && can_see() && g->sees_u(posx, posy, tc)) {
+  fleeing = true;
   wandx = posx * 2 - g->u.posx;
   wandy = posy * 2 - g->u.posy;
   wandf = 40;
+  dist = rl_dist(posx, posy, g->u.posx, g->u.posy);
  }
 // If we can see, and we can see a character, start moving towards them
- if (!is_fleeing(g->u) && can_see()) {
-  if (g->sees_u(posx, posy, tc)) {
-   dist = rl_dist(posx, posy, g->u.posx, g->u.posy);
-   closest = -2;
-   stc = tc;
-  }
-  for (int i = 0; i < g->active_npc.size(); i++) {
-   npc *me = &(g->active_npc[i]);
-   if (rl_dist(posx, posy, me->posx, me->posy) < dist &&
-       g->m.sees(posx, posy, me->posx, me->posy, sightrange, tc)) {
+ if (!is_fleeing(g->u) && can_see() && g->sees_u(posx, posy, tc)) {
+  dist = rl_dist(posx, posy, g->u.posx, g->u.posy);
+  closest = -2;
+  stc = tc;
+ }
+ for (int i = 0; i < g->active_npc.size(); i++) {
+  npc *me = &(g->active_npc[i]);
+  int medist = rl_dist(posx, posy, me->posx, me->posy);
+  if ((medist < dist || (!fleeing && is_fleeing(*me))) &&
+      (can_see() &&
+       g->m.sees(posx, posy, me->posx, me->posy, sightrange, tc))) {
+   if (is_fleeing(*me)) {
+    fleeing = true;
+    wandx = posx * 2 - me->posx;
+    wandy = posy * 2 - me->posy;
+    wandf = 40;
+    dist = medist;
+   } else if (can_see() &&
+              g->m.sees(posx, posy, me->posx, me->posy, sightrange, tc)) {
     dist = rl_dist(posx, posy, me->posx, me->posy);
     closest = i;
     stc = tc;
    }
   }
+ }
+ if (!fleeing) {
+  fleeing = attitude() == MATT_FLEE;
   for (int i = 0; i < g->z.size(); i++) {
    monster *mon = &(g->z[i]);
-   if (mon->friendly != 0 && rl_dist(posx, posy, mon->posx, mon->posy) < dist &&
+   int mondist = rl_dist(posx, posy, mon->posx, mon->posy);
+   if (mon->friendly != 0 && mondist < dist && can_see() &&
        g->m.sees(posx, posy, mon->posx, mon->posy, sightrange, tc)) {
-    dist = rl_dist(posx, posy, mon->posx, mon->posy);
-    closest = -3 - i;
-    stc = tc;
+    dist = mondist;
+    if (fleeing) {
+     wandx = posx * 2 - mon->posx;
+     wandy = posy * 2 - mon->posy;
+     wandf = 40;
+    } else {
+     closest = -3 - i;
+     stc = tc;
+    }
    }
   }
+ }
+ if (!fleeing) {
   if (closest == -2)
    set_dest(g->u.posx, g->u.posy, stc);
   else if (closest <= -3)
@@ -171,29 +196,39 @@ void monster::move(game *g)
   moves = 0;
   return;
  }
- if (friendly != 0 ||
-     (g->u.has_trait(PF_ANIMALEMPATH) && has_flag(MF_ANIMAL) ||
-     (g->u.has_trait(PF_PHEROMONE_INSECT) && type->species == species_insect) ||
-     (g->u.has_trait(PF_PHEROMONE_MAMMAL) && type->species == species_mammal))){
+ if (friendly != 0) {
   if (friendly > 0)
    friendly--;
   friendly_move(g);
   return;
  }
-/*
- if (!is_fleeing(g->u) && has_flag(MF_ANIMAL)) {
-  stumble(g, false);
-  moves = 0;
-  return;
- }
-*/
 
  moves -= 100;
- bool moved=false;
+ bool moved = false;
  point next;
  int mondex = (plans.size() > 0 ? g->mon_at(plans[0].x, plans[0].y) : -1);
 
- if (plans.size() > 0 &&
+ monster_attitude current_attitude = attitude();
+// If our plans end in a player, set our attitude to consider that player
+ if (plans.size() > 0) {
+  if (plans.back().x == g->u.posx && plans.back().y == g->u.posy)
+   current_attitude = attitude(&(g->u));
+  else {
+   for (int i = 0; i < g->active_npc.size(); i++) {
+    if (plans.back().x == g->active_npc[i].posx &&
+        plans.back().y == g->active_npc[i].posy)
+     current_attitude = attitude(&(g->active_npc[i]));
+   }
+  }
+ }
+
+ if (current_attitude == MATT_IGNORE ||
+     (current_attitude == MATT_FOLLOW && plans.size() <= MONSTER_FOLLOW_DIST)) {
+  stumble(g, false);
+  return;
+ }
+
+ if (plans.size() > 0 && !is_fleeing(g->u) &&
      (mondex == -1 || g->z[mondex].friendly != 0 || has_flag(MF_ATTACKMON)) &&
      (can_move_to(g->m, plans[0].x, plans[0].y) ||
       (plans[0].x == g->u.posx && plans[0].y == g->u.posy) || 
@@ -330,7 +365,8 @@ point monster::scent_move(game *g)
  for (int x = -1; x <= 1; x++) {
   for (int y = -1; y <= 1; y++) {
    smell = g->scent(posx + x, posy + y);
-   if ((g->mon_at(posx + x, posy + y) == -1 || has_flag(MF_ATTACKMON)) &&
+   int mon = g->mon_at(posx + x, posy + y);
+   if ((mon == -1 || g->z[mon].friendly != 0 || has_flag(MF_ATTACKMON)) &&
        (can_move_to(g->m, posx + x, posy + y) ||
         (posx + x == g->u.posx && posx + y == g->u.posy) ||
         (g->m.has_flag(bashable, posx + x, posy + y) && has_flag(MF_BASHES)))) {
@@ -426,6 +462,8 @@ void monster::hit_player(game *g, player &p)
  if (type->melee_dice == 0) // We don't attack, so just return
   return;
  add_effect(ME_HIT_BY_PLAYER, 3); // Make us a valid target for a few turns
+ if (has_flag(MF_HIT_AND_RUN))
+  add_effect(ME_RUN, 4);
  bool is_npc = p.is_npc();
  int  junk;
  bool u_see = (!is_npc || g->u_see(p.posx, p.posy, junk));
@@ -480,6 +518,27 @@ void monster::hit_player(game *g, player &p)
    int index = g->npc_at(p.posx, p.posy);
    g->active_npc.erase(g->active_npc.begin() + index);
    plans.clear();
+  }
+ }
+// Adjust anger/morale of same-species monsters, if appropriate
+ int anger_adjust = 0, morale_adjust = 0;
+ for (int i = 0; i < type->anger.size(); i++) {
+  if (type->anger[i] == MTRIG_FRIEND_ATTACKED)
+   anger_adjust += 15;
+ }
+ for (int i = 0; i < type->placate.size(); i++) {
+  if (type->placate[i] == MTRIG_FRIEND_ATTACKED)
+   anger_adjust -= 15;
+ }
+ for (int i = 0; i < type->fear.size(); i++) {
+  if (type->fear[i] == MTRIG_FRIEND_ATTACKED)
+   morale_adjust -= 15;
+ }
+ if (anger_adjust != 0 && morale_adjust != 0) {
+  int light = g->light_level();
+  for (int i = 0; i < g->z.size(); i++) {
+   g->z[i].morale += morale_adjust;
+   g->z[i].anger += anger_adjust;
   }
  }
 }
@@ -570,7 +629,8 @@ void monster::stumble(game *g, bool moved)
  */
 bool monster::will_reach(game *g, int x, int y)
 {
- if (is_fleeing(g->u))
+ monster_attitude att = attitude(&(g->u));
+ if (att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND)
   return false;
 
  if (has_flag(MF_DIGS))

@@ -775,8 +775,12 @@ bool item::made_of(material mat)
 
 bool item::conductive()
 {
- if ((type->m1 == IRON || type->m1 == STEEL || type->m1 == SILVER) &&
-     (type->m2 == IRON || type->m2 == STEEL || type->m2 == SILVER)   )
+ if ((type->m1 == IRON || type->m1 == STEEL || type->m1 == SILVER ||
+      type->m1 == MNULL) &&
+     (type->m2 == IRON || type->m2 == STEEL || type->m2 == SILVER ||
+      type->m2 == MNULL))
+  return true;
+ if (type->m1 == MNULL && type->m2 == MNULL)
   return true;
  return false;
 }

@@ -30,6 +30,13 @@ void game::init_monitems()
 	mi_dissection,	10,mi_electronics,	 9,mi_bionics,		 1,
 	mi_radio,	 2,mi_textbooks,	 3,NULL);
 
+ setvector(monitems[mon_zombie_soldier],
+	mi_dresser,	 5,mi_ammo,		10,mi_pistols,		 5,
+	mi_shotguns,	 2,mi_smg,		 5,mi_bots,		 1,
+	mi_launchers,	 2,mi_mil_rifles,	10,mi_grenades,		 5,
+	mi_mil_armor,	14,mi_mil_food,		 5,mi_bionics_mil,	 1,
+	NULL);
+
  setvector(monitems[mon_biollante],
 	mi_biollante, 1, NULL);
  

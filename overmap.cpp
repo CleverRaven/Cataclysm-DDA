@@ -543,8 +543,14 @@ void overmap::generate_sub(overmap* above)
    } else if (above->ter(i, j) == ot_spider_pit)
     ter(i, j) = ot_spider_pit_under;
 
-   else if (above->ter(i, j) == ot_cave && posz == -1)
-    ter(i, j) = ot_cave;
+   else if (above->ter(i, j) == ot_cave && posz == -1) {
+    if (one_in(3))
+     ter(i, j) = ot_cave_rat;
+    else
+     ter(i, j) = ot_cave;
+
+   } else if (above->ter(i, j) == ot_cave_rat && posz == -2)
+    ter(i, j) = ot_cave_rat;
 
    else if (above->ter(i, j) == ot_anthill) {
     int size = rng(MIN_ANT_SIZE, MAX_ANT_SIZE);

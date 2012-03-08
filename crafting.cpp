@@ -19,10 +19,10 @@ void game::init_recipes()
 
  #define RECIPE(result, category, skill1, skill2, difficulty, time) \
 tl = 0; cl = 0; id++;\
-recipes.push_back( recipe(id, result, category, skill1, skill2, difficulty, \
-                          time) )
- #define TOOL(...)	setvector(recipes[id].tools[tl],      __VA_ARGS__); tl++
- #define COMP(...)	setvector(recipes[id].components[cl], __VA_ARGS__); cl++
+recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
+                              time) )
+ #define TOOL(...)  setvector(recipes[id]->tools[tl],      __VA_ARGS__); tl++
+ #define COMP(...)  setvector(recipes[id]->components[cl], __VA_ARGS__); cl++
 
 /* A recipe will not appear in your menu until your level in the primary skill
  * is at least equal to the difficulty.  At that point, your chance of success
@@ -966,12 +966,12 @@ void game::pick_recipes(std::vector<recipe*> &current,
  available.clear();
  for (int i = 0; i < recipes.size(); i++) {
 // Check if the category matches the tab, and we have the requisite skills
-  if (recipes[i].category == tab &&
-      (recipes[i].sk_primary == sk_null ||
-       u.sklevel[recipes[i].sk_primary] >= recipes[i].difficulty) &&
-      (recipes[i].sk_secondary == sk_null ||
-       u.sklevel[recipes[i].sk_secondary] > 0))
-  current.push_back(&(recipes[i]));
+  if (recipes[i]->category == tab &&
+      (recipes[i]->sk_primary == sk_null ||
+       u.sklevel[recipes[i]->sk_primary] >= recipes[i]->difficulty) &&
+      (recipes[i]->sk_secondary == sk_null ||
+       u.sklevel[recipes[i]->sk_secondary] > 0))
+  current.push_back(recipes[i]);
   available.push_back(false);
  }
  for (int i = 0; i < current.size() && i < 22; i++) {
@@ -1025,63 +1025,63 @@ void game::make_craft(recipe *making)
 
 void game::complete_craft()
 {
- recipe making = recipes[u.activity.index]; // Which recipe is it?
+ recipe* making = recipes[u.activity.index]; // Which recipe is it?
 
 // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
- int skill_dice = u.sklevel[making.sk_primary] * 3;
- if (making.sk_secondary == sk_null)
-  skill_dice += u.sklevel[making.sk_primary];
+ int skill_dice = u.sklevel[making->sk_primary] * 3;
+ if (making->sk_secondary == sk_null)
+  skill_dice += u.sklevel[making->sk_primary];
  else
-  skill_dice += u.sklevel[making.sk_secondary];
+  skill_dice += u.sklevel[making->sk_secondary];
 // Sides on dice is 16 plus your current intelligence
  int skill_sides = 16 + u.int_cur;
 
- int diff_dice = making.difficulty * 4; // Since skill level is * 4 also
+ int diff_dice = making->difficulty * 4; // Since skill level is * 4 also
  int diff_sides = 24;	// 16 + 8 (default intelligence)
 
  int skill_roll = dice(skill_dice, skill_sides);
  int diff_roll  = dice(diff_dice,  diff_sides);
 
- if (making.sk_primary != sk_null)
-  u.practice(making.sk_primary, making.difficulty * 5 + 20);
- if (making.sk_secondary != sk_null)
-  u.practice(making.sk_secondary, 5);
+ if (making->sk_primary != sk_null)
+  u.practice(making->sk_primary, making->difficulty * 5 + 20);
+ if (making->sk_secondary != sk_null)
+  u.practice(making->sk_secondary, 5);
 
 // Messed up badly; waste some components.
- if (making.difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
+ if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
   add_msg("You fail to make the %s, and waste some materials.",
-          itypes[making.result]->name.c_str());
+          itypes[making->result]->name.c_str());
   for (int i = 0; i < 5; i++) {
-   if (making.components[i].size() > 0) {
-    std::vector<component> copy = making.components[i];
+   if (making->components[i].size() > 0) {
+    std::vector<component> copy = making->components[i];
     for (int j = 0; j < copy.size(); j++)
      copy[j].count = rng(0, copy[j].count);
     consume_items(this, copy);
    }
-   if (making.tools[i].size() > 0)
-    consume_tools(this, making.tools[i]);
+   if (making->tools[i].size() > 0)
+    consume_tools(this, making->tools[i]);
   }
   u.activity.type = ACT_NULL;
   return;
   // Messed up slightly; no components wasted.
  } else if (diff_roll > skill_roll) {
   add_msg("You fail to make the %s, but don't waste any materials.",
-          itypes[making.result]->name.c_str());
+          itypes[making->result]->name.c_str());
   u.activity.type = ACT_NULL;
   return;
  }
 // If we're here, the craft was a success!
 // Use up the components and tools
  for (int i = 0; i < 5; i++) {
-  if (making.components[i].size() > 0)
-   consume_items(this, making.components[i]);
-  if (making.tools[i].size() > 0)
-   consume_tools(this, making.tools[i]);
+  if (making->components[i].size() > 0)
+   consume_items(this, making->components[i]);
+  if (making->tools[i].size() > 0)
+   consume_tools(this, making->tools[i]);
  }
 
   // Set up the new item, and pick an inventory letter
  int iter = 0;
- item newit(itypes[making.result], turn, nextinv);
+ item newit(itypes[making->result], turn, nextinv);
  if (!newit.craft_has_charges())
   newit.charges = 0;
  do {

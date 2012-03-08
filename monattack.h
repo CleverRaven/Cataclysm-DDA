@@ -40,6 +40,7 @@ class mattack
   void flamethrower	(game *g, monster *z);
   void copbot		(game *g, monster *z);
   void multi_robot	(game *g, monster *z); // Pick from tazer, smg, flame
+  void ratking		(game *g, monster *z);
 };
 
 #endif
