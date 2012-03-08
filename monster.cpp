@@ -152,7 +152,7 @@ void monster::print_info(game *g, WINDOW* w)
    wprintz(w, c_ltgray, "Ignoring");
    break;
   case MATT_FOLLOW:
-   wprintz(w, c_yellow, "Hunting");
+   wprintz(w, c_yellow, "Tracking");
    break;
   case MATT_ATTACK:
    wprintz(w, c_red, "Hostile!");
@@ -161,7 +161,6 @@ void monster::print_info(game *g, WINDOW* w)
    wprintz(w, h_red, "BUG: Behavior unnamed");
    break;
  }
- wprintz(w, c_white, " %d %d", anger, morale);
  std::string damage_info;
  nc_color col;
  if (hp == type->hp) {
