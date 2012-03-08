@@ -522,7 +522,7 @@ bool game::do_turn()
 // Save the monsters before we die!
   for (int i = 0; i < z.size(); i++) {
    if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
-    tinymap tmp;
+    tinymap tmp(&itypes, &mapitems, &traps);
     tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
     tmp.add_spawn(&(z[i]));
     tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
@@ -5536,7 +5536,7 @@ void game::update_map(int &x, int &y)
       z[i].posx > SEEX * (MAPSIZE + 1) || z[i].posy > SEEY * (MAPSIZE + 1)) {
 // Despawn; we're out of bounds
    if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
-    map tmp;
+    map tmp(&itypes, &mapitems, &traps);
     tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
     tmp.add_spawn(&(z[i]));
     tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);

@@ -85,7 +85,8 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   if (curshot > 0 &&
       (mon_at(tarx, tary) == -1 || z[mon_at(tarx, tary)].hp <= 0)) {
    std::vector<point> new_targets;
-   for (int radius = 1; radius <= 3 && new_targets.empty(); radius++) {
+   for (int radius = 1; radius <= 2 + p.sklevel[sk_gun] && new_targets.empty();
+        radius++) {
     for (int diff = 0 - radius; diff <= radius; diff++) {
      if (mon_at(tarx + diff, tary - radius) != -1)
       new_targets.push_back( point(tarx + diff, tary - radius) );
