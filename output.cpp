@@ -637,6 +637,51 @@ void popup(const char *mes, ...)
  refresh();
 }
 
+void popup_nowait(const char *mes, ...)
+{
+ va_list ap;
+ va_start(ap, mes);
+ char buff[8192];
+ vsprintf(buff, mes, ap);
+ va_end(ap);
+ std::string tmp = buff;
+ int width = 0;
+ int height = 2;
+ size_t pos = tmp.find_first_of('\n');
+ while (pos != std::string::npos) {
+  height++;
+  if (pos > width)
+   width = pos;
+  tmp = tmp.substr(pos + 1);
+  pos = tmp.find_first_of('\n');
+ }
+ if (width == 0 || tmp.length() > width)
+  width = tmp.length();
+ width += 2;
+ if (height > 25)
+  height = 25;
+ WINDOW* w = newwin(height + 1, width, int((25 - height) / 2),
+                    int((80 - width) / 2));
+ wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ tmp = buff;
+ pos = tmp.find_first_of('\n');
+ int line_num = 0;
+ while (pos != std::string::npos) {
+  std::string line = tmp.substr(0, pos);
+  line_num++;
+  mvwprintz(w, line_num, 1, c_white, line.c_str());
+  tmp = tmp.substr(pos + 1);
+  pos = tmp.find_first_of('\n');
+ }
+ line_num++;
+ mvwprintz(w, line_num, 1, c_white, tmp.c_str());
+ 
+ wrefresh(w);
+ delwin(w);
+ refresh();
+}
+
 void full_screen_popup(const char* mes, ...)
 {
  va_list ap;

@@ -1137,9 +1137,9 @@ void mattack::smg(game *g, monster *z)
     fire_t = t;
    }
   }
+  z->sp_timeout = z->type->sp_freq;	// Reset timer
   if (target == NULL) // Couldn't find any targets!
    return;
-  z->sp_timeout = z->type->sp_freq;	// Reset timer
   z->moves = -150;			// It takes a while
   if (g->u_see(z->posx, z->posy, t))
    g->add_msg("The %s fires its smg!", z->name().c_str());
@@ -1172,7 +1172,7 @@ void mattack::smg(game *g, monster *z)
 
  if (!z->has_effect(ME_TARGETED)) {
   g->sound(z->posx, z->posy, 6, "beep-beep-beep!");
-  z->add_effect(ME_TARGETED, 3);
+  z->add_effect(ME_TARGETED, 8);
   return;
  }
 
@@ -1255,7 +1255,7 @@ void mattack::multi_robot(game *g, monster *z)
 
 void mattack::ratking(game *g, monster *z)
 {
- if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 4)
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 10)
   return;
  z->sp_timeout = z->type->sp_freq;	// Reset timer
 
@@ -1268,4 +1268,11 @@ void mattack::ratking(game *g, monster *z)
  }
 
  g->u.add_disease(DI_RAT, 20, g);
+}
+
+void mattack::generator(game *g, monster *z)
+{
+ g->sound(z->posx, z->posy, 100, "");
+ if (int(g->turn) % 10 == 0 && z->hp < z->type->hp)
+  z->hp++;
 }

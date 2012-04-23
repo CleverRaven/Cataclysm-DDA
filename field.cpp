@@ -186,6 +186,12 @@ bool map::process_fields_in_submap(game *g, int gridn)
      if (cur->density == 3)
       ter(x, y) = t_rubble;
 
+    } else if (has_flag(l_flammable, x, y) && one_in(62 - cur->density * 10)) {
+     cur->age -= cur->density * cur->density * 30;
+     smoke += 10;
+     if (cur->density == 3)
+      ter(x, y) = t_rubble;
+
     } else if (terlist[ter(x, y)].flags & mfb(swimmable))
      cur->age += 800;	// Flames die quickly on water
 
@@ -229,6 +235,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
                   (!in_pit || ter(fx, fy) == t_pit) &&
                   ((cur->density == 3 &&
                     (has_flag(flammable, fx, fy) || one_in(20))) ||
+                   (cur->density == 3 &&
+                    (has_flag(l_flammable, fx, fy) && one_in(10))) ||
                    flammable_items_at(fx, fy) ||
                    field_at(fx, fy).type == fd_web)) {
         if (field_at(fx, fy).type == fd_smoke ||

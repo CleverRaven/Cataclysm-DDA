@@ -75,6 +75,8 @@ mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_copbot, mon_molebot,
  mon_tripod, mon_chickenbot, mon_tankbot, mon_turret, mon_exploder,
 // Hallucinations
 mon_hallu_zom, mon_hallu_bee, mon_hallu_ant, mon_hallu_mom,
+// Special monsters
+mon_generator,
 num_monsters
 };
 
@@ -98,6 +100,7 @@ MTRIG_HURT,		// We are hurt
 MTRIG_FIRE,		// Fire nearby
 MTRIG_FRIEND_DIED,	// A monster of the same type died
 MTRIG_FRIEND_ATTACKED,	// A monster of the same type attacked
+MTRIG_SOUND,		// Heard a sound
 N_MONSTER_TRIGGERS
 };
 
@@ -167,8 +170,8 @@ struct mtype {
 
  unsigned char frequency;	// How often do these show up? 0 (never) to ??
  int difficulty;// Used all over; 30 min + (diff-3)*30 min = earlist appearance
- signed char agro;		// How likely to attack; -5 to 5
- signed char morale;		// Default morale level
+ int agro;	// How likely to attack; -100 to 100
+ int morale;	// Default morale level
 
  unsigned int  speed;		// Speed; human = 100
  unsigned char melee_skill;	// Melee skill; should be 0 to 5

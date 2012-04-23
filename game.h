@@ -11,7 +11,6 @@
 #include "crafting.h"
 #include "trap.h"
 #include "npc.h"
-#include "tutorial.h"
 #include "faction.h"
 #include "event.h"
 #include "mission.h"
@@ -21,7 +20,10 @@
 #include "posix_time.h"
 #include "artifact.h"
 #include "mutation.h"
+#include "gamemode.h"
+#include "action.h"
 #include <vector>
+#include <map>
 
 #define LONG_RANGE 10
 #define BLINK_SPEED 300
@@ -64,7 +66,6 @@ class game
   bool game_quit(); // True if we actually quit the game - used in main.cpp
   void save();
   bool do_turn();
-  void tutorial_message(tut_lesson lesson);
   void draw();
   void draw_ter();
   void advance_nextinv();	// Increment the next inventory letter
@@ -104,7 +105,7 @@ class game
   void throw_item(player &p, int tarx, int tary, item &thrown,
                   std::vector<point> &trajectory);
   void cancel_activity();
-  void cancel_activity_query(std::string message);
+  void cancel_activity_query(const char* message, ...);
   int assign_mission_id(); // Just returns the next available one
   void give_mission(mission_id type);
   void assign_mission(int id);
@@ -159,10 +160,14 @@ class game
   std::vector <itype*> itypes;
   std::vector <mtype*> mtypes;
   std::vector <trap*> traps;
+  std::vector<recipe*> recipes;	// The list of valid recipes
+  std::vector<constructable*> constructions; // The list of constructions
+
   std::vector <itype_id> mapitems[num_itloc]; // Items at various map types
   std::vector <items_location_and_chance> monitems[num_monsters];
   std::vector <mission_type> mission_types; // The list of mission templates
   mutation_branch mutation_data[PF_MAX2]; // Mutation data
+  std::map<char, action_id> keymap;
 
   calendar turn;
   signed char temperature;              // The air temperature
@@ -198,7 +203,7 @@ class game
   bool load_master();	// Load the master data file, with factions &c
   void load(std::string name);	// Load a player-specific save file
   void start_game();	// Starts a new game
-  void start_tutorial(tut_type type);	// Starts a new tutorial
+  void start_special_game(special_game_id gametype); // See gamemode.cpp
 
 // Data Initialization
   void init_itypes();       // Initializes item types
@@ -211,6 +216,8 @@ class game
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
   void init_mutations();    // Initializes mutation "tech tree"
+
+  void load_keyboard_settings(); // Load keybindings from disk
 
   void create_factions();   // Creates new factions (for a new game world)
   void create_starting_npcs(); // Creates NPCs that start near you
@@ -332,11 +339,7 @@ class game
   int kills[num_monsters];	        // Player's kill count
   std::string last_action;		// The keypresses of last turn
 
-  std::vector<recipe*> recipes;	// The list of valid recipes
-  std::vector<constructable*> constructions; // The list of constructions
-
-  bool tutorials_seen[NUM_LESSONS]; // Which tutorial lessons have we learned
-  bool in_tutorial;                 // True if we're in a tutorial right now
+  special_game *gamemode;
 };
 
 #endif

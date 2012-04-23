@@ -50,6 +50,7 @@ player::player()
  oxygen = 0;
  active_mission = -1;
  xp_pool = 0;
+ last_item = itype_id(itm_null);
  for (int i = 0; i < num_skill_types; i++) {
   sklevel[i] = 0;
   skexercise[i] = 0;
@@ -140,6 +141,8 @@ void player::reset(game *g)
  per_cur = per_max;
 // We can dodge again!
  can_dodge = true;
+// Didn't just pick something up
+ last_item = itype_id(itm_null);
 // Bionic buffs
  if (has_active_bionic(bio_hydraulics))
   str_cur += 20;
@@ -422,7 +425,7 @@ void player::load_info(game *g, std::string data)
          max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> scent >> moves >>
          underwater >> can_dodge >> oxygen >> active_mission >> xp_pool >>
-         male;
+         male >> health;
 
  for (int i = 0; i < PF_MAX2; i++)
   dump >> my_traits[i];
@@ -492,7 +495,8 @@ std::string player::save_info()
          " " << stim << " " << pain << " " << pkill << " " << radiation <<
          " " << cash << " " << recoil << " " << scent << " " << moves << " " <<
          underwater << " " << can_dodge << " " << oxygen << " " <<
-         active_mission << " " << xp_pool << " " << male << " ";
+         active_mission << " " << xp_pool << " " << male << " " << health <<
+         " ";
 
  for (int i = 0; i < PF_MAX2; i++)
   dump << my_traits[i] << " ";
@@ -1838,6 +1842,8 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  if (dam <= 0)
   return;
 
+ g->cancel_activity_query("You were hurt!");
+
  if (has_artifact_with(AEP_SNAKES) && dam >= 6) {
   int snakes = int(dam / 6);
   std::vector<point> valid;
@@ -1943,6 +1949,8 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
 
  if (dam <= 0)
   return;
+
+ g->cancel_activity_query("You were hurt!");
 
  if (has_trait(PF_PAINRESIST))
   painadd = dam / 3;
@@ -2498,11 +2506,13 @@ void player::suffer(game *g)
  if (has_artifact_with(AEP_MUTAGENIC) && one_in(28800))
   mutate(g);
 
- if (is_wearing(itm_hazmat_suit))
-  radiation += rng(0, g->m.radiation(posx, posy) / 12);
- else
+ if (is_wearing(itm_hazmat_suit)) {
+  if (radiation < 100 * int(g->m.radiation(posx, posy) / 12))
+   radiation += rng(0, g->m.radiation(posx, posy) / 12);
+ } else if (radiation < 100 * int(g->m.radiation(posx, posy) / 4))
   radiation += rng(0, g->m.radiation(posx, posy) / 4);
- if (rng(1, 1000) < radiation && int(g->turn) % 600 == 0) {
+
+ if (rng(1, 1000) < radiation && (int(g->turn) % 150 == 0 || radiation > 2000)){
   mutate(g);
   if (radiation > 2000)
    radiation = 2000;
@@ -2720,6 +2730,7 @@ void player::sort_inv()
 
 void player::i_add(item it)
 {
+ last_item = itype_id(it.type->id);
  if (it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() || 
      it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container())
   inv_sorted = false;
@@ -3311,15 +3322,22 @@ bool player::eat(game *g, int index)
    debugmsg("player::eat(%s); comest is NULL!", eaten->tname(g).c_str());
    return false;
   }
-  if (comest->tool != itm_null && !has_amount(comest->tool, 1)) {
-   if (!is_npc())
-    g->add_msg("You need a %s to consume that!",
-               g->itypes[comest->tool]->name.c_str());
-   return false;
+  if (comest->tool != itm_null) {
+   bool has = has_amount(comest->tool, 1);
+   if (g->itypes[comest->tool]->count_by_charges())
+    has = has_charges(comest->tool, 1);
+   if (!has) {
+    if (!is_npc())
+     g->add_msg("You need a %s to consume that!",
+                g->itypes[comest->tool]->name.c_str());
+    return false;
+   }
   }
   bool overeating = (!has_trait(PF_GOURMAND) && hunger < 0 &&
                      comest->nutr >= 15);
   bool spoiled = eaten->rotten(g);
+
+  last_item = itype_id(eaten->type->id);
 
   if (overeating && !is_npc() &&
       !query_yn("You're full.  Force yourself to eat?"))
@@ -3381,7 +3399,8 @@ bool player::eat(game *g, int index)
   } else if (g->u_see(posx, posy, linet))
    g->add_msg("%s eats a %s.", name.c_str(), eaten->tname(g).c_str());
 
-  if (g->itypes[comest->tool]->is_tool())
+  if (g->itypes[comest->tool]->is_tool() &&
+      g->itypes[comest->tool]->count_by_charges())
    use_charges(comest->tool, 1); // Tools like lighters get used
   if (comest->stim > 0) {
    if (comest->stim < 10 && stim < comest->stim) {
@@ -3505,6 +3524,7 @@ bool player::wield(game *g, int index)
    g->add_artifact_messages(art->effects_wielded);
   }
   moves -= 30;
+  last_item = itype_id(weapon.type->id);
   return true;
  } else if (volume_carried() + weapon.volume() - inv[index].volume() <
             volume_capacity()) {
@@ -3517,6 +3537,7 @@ bool player::wield(game *g, int index)
    it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
    g->add_artifact_messages(art->effects_wielded);
   }
+  last_item = itype_id(weapon.type->id);
   return true;
  } else if (query_yn("No space in inventory for your %s.  Drop it?",
                      weapon.tname(g).c_str())) {
@@ -3529,6 +3550,7 @@ bool player::wield(game *g, int index)
    it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
    g->add_artifact_messages(art->effects_wielded);
   }
+  last_item = itype_id(weapon.type->id);
   return true;
  }
 
@@ -3629,6 +3651,7 @@ bool player::wear(game *g, char let)
   g->add_artifact_messages(art->effects_worn);
  }
  moves -= 350; // TODO: Make this variable?
+ last_item = itype_id(to_wear->type->id);
  worn.push_back(*to_wear);
  if (index == -2)
   weapon = ret_null;
@@ -3682,6 +3705,8 @@ void player::use(game *g, char let)
   g->add_msg("You do not have that item.");
   return;
  }
+
+ last_item = itype_id(used->type->id);
 
  if (used->is_tool()) {
 
@@ -3771,6 +3796,13 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
     inv.add_item(copy);
    return;
   }
+  if ((mod->id == itm_clip || mod->id == itm_clip2) && gun->clip_size() <= 2) {
+   g->add_msg("You can not extend the ammo capacity of your %s.",
+              gun->tname(g).c_str());
+   if (replace_item)
+    inv.add_item(copy);
+   return;
+  }
   for (int i = 0; i < gun->contents.size(); i++) {
    if (gun->contents[i].type->id == used->type->id) {
     g->add_msg("Your %s already has a %s.", gun->tname(g).c_str(),
@@ -3789,13 +3821,6 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
               (gun->contents[i].type->id == itm_barrel_big ||
                gun->contents[i].type->id == itm_barrel_small)) {
     g->add_msg("Your %s already has a barrel replacement.",
-               gun->tname(g).c_str());
-    if (replace_item)
-     inv.add_item(copy);
-    return;
-   } else if ((mod->id == itm_clip || mod->id == itm_clip2) &&
-              gun->clip_size() <= 2) {
-    g->add_msg("You can not extend the ammo capacity of your %s.",
                gun->tname(g).c_str());
     if (replace_item)
      inv.add_item(copy);

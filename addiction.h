@@ -103,7 +103,7 @@ void addict_effect(game *g, addiction &add)
   g->u.moves -= move_pen;
   g->u.int_cur--;
   g->u.str_cur--;
-  if (in >= 20 || int(g->turn) % (100 - in * 5) == 0)
+  if (g->u.stim > -100 && (in >= 20 || int(g->turn) % (100 - in * 5) == 0))
    g->u.stim--;
   if (rng(0, 150) <= in)
    g->u.health--;

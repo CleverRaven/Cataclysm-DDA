@@ -20,6 +20,9 @@ enum moncat_id {
  mcat_lab,
  mcat_nether,
  mcat_spiral,
+ mcat_vanilla_zombie,	// Defense mode only
+ mcat_spider,		// Defense mode only
+ mcat_robot,		// Defense mode only
  num_moncats
 };
 

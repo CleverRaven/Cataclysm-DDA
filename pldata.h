@@ -607,8 +607,8 @@ You have a short, stubby tail, like a rabbit's.  It serves no purpose."},
 {"Tail Fin", 1, 4, 2, "\
 You have a fin-like tail.  It allows you to swim more quickly."},
 {"Long Tail", 2, 6, 2, "\
-You have a long, graceful tail.  It improves your balance, making your\n\
-ability to dodge higher."},
+You have a long, graceful tail, like that of a big cat.  It improves your\n\
+balance, making your ability to dodge higher."},
 {"Fluffy Tail", 2, 7, 0, "\
 You have a long, fluffy-furred tail.  It greatly improves your balance,\n\
 making your ability to dodge much higher."},

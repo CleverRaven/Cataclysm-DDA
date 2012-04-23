@@ -209,6 +209,8 @@ void monster::move(game *g)
  int mondex = (plans.size() > 0 ? g->mon_at(plans[0].x, plans[0].y) : -1);
 
  monster_attitude current_attitude = attitude();
+ if (friendly == 0)
+  current_attitude = attitude(&(g->u));
 // If our plans end in a player, set our attitude to consider that player
  if (plans.size() > 0) {
   if (plans.back().x == g->u.posx && plans.back().y == g->u.posy)

@@ -41,6 +41,7 @@ class mattack
   void copbot		(game *g, monster *z);
   void multi_robot	(game *g, monster *z); // Pick from tazer, smg, flame
   void ratking		(game *g, monster *z);
+  void generator	(game *g, monster *z);
 };
 
 #endif

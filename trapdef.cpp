@@ -26,11 +26,11 @@ traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
 	itm_beartrap, NULL);
 
 //	Name			Symbol	Color		Vis Avd Diff
- TRAP("rabbit snare",		'\\',	c_brown,	 5, 10,  6,
+ TRAP("rabbit snare",		'\\',	c_brown,	 5, 10,  2,
 	&trapfunc::snare,	&trapfuncm::snare,
 	itm_stick, itm_string_36, NULL);
 
- TRAP("spiked board",		'_',	c_ltgray,	 1,  6,  2,
+ TRAP("spiked board",		'_',	c_ltgray,	 1,  6,  0,
 	&trapfunc::board,	&trapfuncm::board,
 	itm_board_trap, NULL);
 
@@ -74,7 +74,7 @@ traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
 	itm_null, NULL);
 
 //	Name			Symbol	Color		Vis Avd Diff
- TRAP("dissector",		'7',	c_cyan,		 2, 20, 20,
+ TRAP("dissector",		'7',	c_cyan,		 2, 20, 99,
 	&trapfunc::dissector,	&trapfuncm::dissector,
 	itm_null, NULL);
 

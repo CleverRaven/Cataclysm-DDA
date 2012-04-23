@@ -1,4 +1,5 @@
 #include "keypress.h"
+#include "action.h"
 
 long input()
 {
@@ -58,6 +59,49 @@ void get_direction(int &x, int &y, char ch)
  case '.':
  case ',':
  case 'g':
+  x = 0;
+  y = 0;
+  return;
+ default:
+  x = -2;
+  y = -2;
+ }
+}
+
+void get_direction(int &x, int &y, action_id act)
+{
+ x = 0;
+ y = 0;
+ switch (act) {
+ case ACTION_MOVE_NW:
+  x = -1;
+  y = -1;
+  return;
+ case ACTION_MOVE_NE:
+  x = 1;
+  y = -1;
+  return;
+ case ACTION_MOVE_W:
+  x = -1;
+  return;
+ case ACTION_MOVE_S:
+  y = 1;
+  return;
+ case ACTION_MOVE_N:
+  y = -1;
+  return;
+ case ACTION_MOVE_E:
+  x = 1;
+  return;
+ case ACTION_MOVE_SW:
+  x = -1;
+  y = 1;
+  return;
+ case ACTION_MOVE_SE:
+  x = 1;
+  y = 1;
+  return;
+ case ACTION_PAUSE:
   x = 0;
   y = 0;
   return;

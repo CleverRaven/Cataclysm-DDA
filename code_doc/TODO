@@ -10,17 +10,9 @@ LONG-TERM FEATURES:  Stuff I hope to finish in a year
   name, type, etc.  Make it searchable, perhaps allow the player to define
   highlighted items which are always moved to the top of the list.
 
-  Finish missions and put a few simple ones in the game, get it working.
-DONE	Need to have a "go-to" arrow in the minimap and full map
-DONE	Code a "list missions" screen, and bind a key to it
-		
-	The mission_type and mission classes will almost certainly need to be
-	  expanded to fit the needs of what we want to do.
-	Missions need to have save() and load() functions.
-	
+  Missions need to have save() and load() functions.
 
-  Make sure the NPC unique ID system works okay.  Save the master list of NPCs
-  when we save the game.
+  Save NPCs.
 
   Once NPCs are working, populate settlements with them.  Make sure that the
   code for placing an NPC REALLY WORKS, so that shopkeepers stay where
@@ -71,16 +63,6 @@ DONE	Code a "list missions" screen, and bind a key to it
 	  skills without the use of books.  Maybe these XP points could be used
 	  for the above effects?
 
-  Artifacts!  Both fixed ones and randomly-generated ones (a la Crawl)
-	For fixedarts, draw from pop culture and pop christianity; Lance of
-	  Longinus, Ark of the Covenant, Lament Configuration, the map from
-	  Harry Potter that shows you where people are
-	Randarts are normal items with a randomly chosen ability
-	Artifacts should have drawbacks commiserate with their power; the Sword
-	  of Destiny is a guaranteed one-shot kill, but eventually makes your
-	  body decay
-
-
 GENERAL:
 
   More cultural references!
@@ -89,6 +71,7 @@ GENERAL:
 		Kinda done with The Thing dog
 	->The whole game is already a reference to Fallout, let's admit it.  So
 	  avoid Fallout references in general, they're too easy.
+	->Ditto for Half-Life, the game is saturated with HL references
 	Hellraiser: High level Void monsters could be Cenobites.
 	Bladerunner: "Androids And The People Who Kill Them"
 	Steam powered robots (built by post-apoc factions)
@@ -113,11 +96,6 @@ GENERAL:
 		
 	 
   Pushable furniture; push dressers, fridges, etc. in front of doors
-
-  Some way to protect items from spitter zombie acid, whether it be the above
-  or some other method.
-
-  Unify player::miss_penalty() for moves lost when a melee attack misses
 
   Configurable options:
 	Keybindings
@@ -151,24 +129,12 @@ DONE	Red: Ammo for a gun you have, or vice versa
   Food canning.  We already have tin cans, add an item "canning kit"
 	Or make it a craft; canning requires boiling water + equipment
 
-  Random illness, e.g. cold, flu, etc.  Right now we have player::get_sick()
-  which just modifies player::health, and the Disease Resistant trait which
-  does absolutely nothing.
-
   Highlight or color-invert monsters that're fleeing; also make indifference
   visually obvious in some way (change glyph foreground color?)
 
-  Monster morale levels; reduced upon taking damage, upon seeing a friend die,
-    upon stepping close to fire if we're an animal
-
   Audit how we're using screen space in the data window
-	Are pain AND painkiller level needed?
-	Definitely add player speed to the display
 	Maybe make a special data structure for how the data section is used and
 	  layed out; easier to audit, player configurable
-
-**Sharply reduce speed penalties for painkillers, and reduce stat penalties.
-DONE	Eliminate / increase overdose level
 
   Make swimming more interesting
   	Items at the bottoms of rivers, only discoverable by diving underwater
@@ -177,8 +143,6 @@ DONE	Eliminate / increase overdose level
 		Underwater monster lair?
 	Water-dwelling monsters.  Probably rare, because for unskilled swimmers
 	  almost any monsters would be deadly
-
-  More blood & gore!  Spatter blood on heavy hits, etc.
 
   Automatically drop items if our volume capacity suddenly drops (e.g. from a
   torn-open backpack)
@@ -192,6 +156,8 @@ DONE	Eliminate / increase overdose level
   class for computer networks; an area on the overmap, protected by a password.
   Once you hack the password, you gain access to certain commands on computers
   found inside that area.
+	Make computer functions use skills other than sk_computer.  For
+	  instance, the computers in hospitals should use sk_firstaid
 
   Desires, as in The Sims 3.  These could be their own class, or a special
   type of mission; added more or less randomly, they include things like "eat an
@@ -231,10 +197,6 @@ CHARACTER CREATION:
 
   Greater transparency for skill comprehension (at level 0, 4, 8, etc.)
 
-**Cap the number of traits a character can have (5 good, 5 bad?)
-
-  Change "Heavy Sleeper costs -1 points" to "Heavy Sleeper earns 1 point"
-
   Show food consumption rate?  (Modified by Light Eater)
 	Should high Strength increase this rate?
 
@@ -265,34 +227,11 @@ TRAITS:
 
   Balance/fix/remove Jittery
 
-  Balance/fix/remove Hoarder (it's too annoying)
-	Maybe you just can't drop stuff unless you're over 80% volume/weight?
-	Xanax providing a temporary cure should definitely stay.
-
   More obvious Wool Allergy text (remind the player that they're allergic)
 	Wool Allergy prevents eating wool (with Internal Furnace bionic)
 
-**Parkour Expert halves all terrain costs (including windows, etc)
-	Increase point cost?
-	Decrease chance of being hurt on rough/sharp terrain?
-	Note movement cost change when using ';' command?
-
-  Increase Night Vision radius to 3?
-
-  Re-examine Thick-Skinned; make it more effective?
-
   Make Fast Learner affect skill comprehension directly
 	Rewrite description
-
-  Fold Deft into unified player::miss_penalty()
-
-  Review the code for Animal Empathy; I think it needs to be unified somehow.
-
-  Likewise for Terrifying.  Maybe a single monster::opinion_of_you() that
-  returns aggressive, afraid, indifferent or friend?
-
-  High Adrenaline needs a little balancing.  A special note in the data area
-  might be a good idea; "Adr. Rush" or "Adr. Comedown"
 
   Android encourages start-scumming.  Maybe make it a static set, or present
   the player with a few different options?

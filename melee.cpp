@@ -268,7 +268,7 @@ int player::hit_mon(game *g, monster *z)
   } else {
    dam += stabdam;
    cutting_penalty = weapon.damage_cut() * 3 + z_armor_stab * 8 -
-                     dice(sklevel[sk_cutting], 10);
+                     dice(sklevel[sk_stabbing], 10);
   }
  }
 

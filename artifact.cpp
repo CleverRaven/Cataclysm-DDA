@@ -64,6 +64,7 @@ It may have unknown powers; use 'a' to activate them.";
   
 // Wielded effects first
   while (!good_effects.empty() && !bad_effects.empty() &&
+         num_good < 3 && num_bad < 3 &&
          (num_good < 1 || num_bad < 1 || one_in(num_good + 1) ||
           one_in(num_bad + 1) || value > 1)) {
    if (value < 1 && one_in(2)) { // Good
@@ -87,6 +88,7 @@ It may have unknown powers; use 'a' to activate them.";
   good_effects = fill_good_passive();
   bad_effects = fill_bad_passive();
   while (one_in(2) && !good_effects.empty() && !bad_effects.empty() &&
+         num_good < 3 && num_bad < 3 &&
          ((num_good > 2 && one_in(num_good + 1)) || num_bad < 1 ||
           one_in(num_bad + 1) || value > 1)) {
    if (value < 1 && one_in(3)) { // Good
@@ -111,6 +113,7 @@ It may have unknown powers; use 'a' to activate them.";
   std::vector<art_effect_active> good_a_effects = fill_good_active();
   std::vector<art_effect_active> bad_a_effects = fill_bad_active();
   while (!good_a_effects.empty() && !bad_a_effects.empty() &&
+         num_good < 3 && num_bad < 3 && 
          ((num_bad > 0 && num_good == 0) || !one_in(3 - num_good) ||
           !one_in(3 - num_bad))) {
    if (!one_in(3)) { // Good effect
@@ -218,6 +221,7 @@ It may have unknown powers; use 'a' to activate them.";
   std::vector<art_effect_passive> bad_effects = fill_bad_passive();
 
   while (!good_effects.empty() && !bad_effects.empty() &&
+         num_good < 3 && num_bad < 3 &&
          (num_good < 1 || one_in(num_good * 2) || value > 1 ||
           (num_bad < 3 && !one_in(3 - num_bad)))) {
    if (value < 1 && one_in(2)) { // Good effect

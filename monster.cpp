@@ -260,7 +260,7 @@ void monster::load_info(std::string data, std::vector <mtype*> *mtypes)
  dump << data;
  dump >> idtmp >> posx >> posy >> wandx >> wandy >> wandf >> moves >> speed >>
          hp >> sp_timeout >> plansize >> friendly >> faction_id >> mission_id >>
-         dead;
+         dead >> anger >> morale;
  type = (*mtypes)[idtmp];
  point ptmp;
  for (int i = 0; i < plansize; i++) {
@@ -275,7 +275,8 @@ std::string monster::save_info()
  pack << int(type->id) << " " << posx << " " << posy << " " << wandx << " " <<
          wandy << " " << wandf << " " << moves << " " << speed << " " << hp <<
          " " << sp_timeout << " " << plans.size() << " " << friendly << " " <<
-          faction_id << " " << mission_id << " " << dead;
+          faction_id << " " << mission_id << " " << dead << " " << anger <<
+         " " << morale;
  for (int i = 0; i < plans.size(); i++) {
   pack << " " << plans[i].x << " " << plans[i].y;
  }
@@ -322,7 +323,7 @@ monster_attitude monster::attitude(player *u)
  if (has_effect(ME_RUN))
   return MATT_FLEE;
 
- int effective_anger = anger;
+ int effective_anger  = anger;
  int effective_morale = morale;
 
  if (u != NULL) {
@@ -361,8 +362,8 @@ monster_attitude monster::attitude(player *u)
 
 void monster::process_triggers(game *g)
 {
- anger  += trigger_sum(g, &(type->anger));
- anger  -= trigger_sum(g, &(type->placate));
+ anger += trigger_sum(g, &(type->anger));
+ anger -= trigger_sum(g, &(type->placate));
  if (morale < 0) {
   if (morale < type->morale && one_in(20))
   morale++;
@@ -393,31 +394,37 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
  int ret = 0;
  bool check_terrain = false, check_meat = false, check_fire = false;
  for (int i = 0; i < triggers->size(); i++) {
+
   switch ((*triggers)[i]) {
   case MTRIG_TIME:
    if (one_in(20))
     ret++;
    break;
+
   case MTRIG_MEAT:
-   check_meat = true;
    check_terrain = true;
+   check_meat = true;
    break;
+
   case MTRIG_PLAYER_CLOSE:
-   if (rl_dist(posx, posy, g->u.posx, g->u.posy) <= 3)
+   if (rl_dist(posx, posy, g->u.posx, g->u.posy) <= 5)
     ret += 5;
    for (int i = 0; i < g->active_npc.size(); i++) {
-    if (rl_dist(posx, posy, g->active_npc[i].posx, g->active_npc[i].posy) <= 3)
+    if (rl_dist(posx, posy, g->active_npc[i].posx, g->active_npc[i].posy) <= 5)
      ret += 5;
    }
    break;
+
   case MTRIG_FIRE:
-   check_meat = true;
    check_terrain = true;
+   check_fire = true;
    break;
+
   case MTRIG_PLAYER_WEAK:
    if (g->u.hp_percentage() <= 70)
-    ret += 10 - int(g->u.hp_percentage());
+    ret += 10 - int(g->u.hp_percentage() / 10);
    break;
+
   default:
    break; // The rest are handled when the impetus occurs
   }
@@ -533,9 +540,10 @@ void monster::hit_monster(game *g, int i)
 bool monster::hurt(int dam)
 {
  hp -= dam;
- process_trigger(MTRIG_HURT, int(dam / 8));
  if (hp < 1)
   return true;
+ if (dam > 0)
+  process_trigger(MTRIG_HURT, 1 + int(dam / 3));
  return false;
 }
 
@@ -731,7 +739,7 @@ void monster::process_effects(game *g)
    if (g->debugmon)
     debugmsg("Duration %d", effects[i].duration);
   }
-  if (effects[i].duration <= 0) {
+  if (effects[i].duration == 0) {
    if (g->debugmon)
     debugmsg("Deleting");
    effects.erase(effects.begin() + i);

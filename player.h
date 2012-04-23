@@ -246,6 +246,7 @@ public:
  bool inv_sorted;
  //std::vector <item> inv;
  inventory inv;
+ itype_id last_item;
  std::vector <item> worn;
  item weapon;
  item ret_null;	// Null item, sometimes returns by weapon() etc

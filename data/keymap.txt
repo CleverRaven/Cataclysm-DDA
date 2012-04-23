@@ -1,0 +1,91 @@
+# This is the keymapping for Cataclysm.
+# You can start a line with # to make it a comment--it will be ignored.
+# Blank lines are ignored too.
+# Extra whitespace, including tabs, is ignored, so format things how you like.
+
+# The format for each line is an action identifier, followed by several
+# keys.  Any action may have an unlimited number of keys bound to it.
+# If you bind the same key to multiple actions, the second and subsequent
+# bindings will be ignored--and you'll get a warning when the game starts.
+# Keys are case-sensitive, of course; c and C are different.
+ 
+# WARNING: If you skip an action identifier, there will be no key bound to
+# that action!  You will be NOT be warned of this when the game starts.
+# If you're going to mess with stuff, maybe you should back this file up?
+
+# It is okay to split commands across lines.
+# pause . 5      is equivalent to:
+# pause .
+# pause 5
+
+# Note that movement keybindings ONLY apply to movement (for now).
+# That is, binding w to move_n will let you use w to move north, but you
+# cannot use w to smash north, examine to the north, etc.
+# For now, you must use vikeys, the numpad, or arrow keys for those actions.
+# This is planned to change in the future.
+
+# Finally, there is no support for special keys, like tab, spacebar, Home, and
+# so on.  This is not a planned feature, but if it's important to you, please
+# let me know.
+
+# MOVEMENT:
+pause     . 5
+move_n    k 8
+move_ne   u 9
+move_e    l 6
+move_se   n 3
+move_s    j 2
+move_sw   b 1
+move_w    h 4
+move_nw   y 7
+move_down >
+move_up   <
+
+# ENVIRONMENT INTERACTION
+open  o
+close c
+smash s
+examine e
+pickup , g
+butcher B
+chat C
+look ; x
+
+# INVENTORY & QUASI-INVENTORY INTERACTION
+inventory i
+apply a
+wear W
+take_off T
+eat E
+read R
+wield w
+reload r
+unload U
+throw t
+fire f
+fire_burst F
+drop d
+drop_adj D
+bionics p
+
+# LONG TERM & SPECIAL ACTIONS
+wait ^
+craft &
+construct *
+sleep $
+safemode !
+autosafe "
+ignore_enemy '
+save S
+quit Q
+
+# INFO SCREENS
+player_data @
+map m :
+factions #
+morale %
+
+# DEBUG FUNCTIONS
+debug Z
+debug_scent -
+debug_mon ~

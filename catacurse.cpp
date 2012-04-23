@@ -377,8 +377,10 @@ int delwin(WINDOW *win)
     delete win;
     return 1;
 };
+
 inline void newline(WINDOW *win){
-win->cursory++;
+if (win->cursory < win->height - 1)
+ win->cursory++;
 win->cursorx=0;
 };
 
@@ -482,14 +484,18 @@ inline int printstring(WINDOW *win, char *fmt)
  int size = strlen(fmt);
  int j;
  for (j=0; j<size; j++){
-     if (!(fmt[j]==10)){//check for a newline character
-         win->line[win->cursory].chars[win->cursorx]=fmt[j];
-         win->line[win->cursory].FG[win->cursorx]=win->FG;
-         win->line[win->cursory].BG[win->cursorx]=win->BG;
-         win->line[win->cursory].touched=true;
-         addedchar(win);
-     } else
-         newline(win); // if found, make sure to move down a line
+  if (!(fmt[j]==10)){//check for a newline character
+   if (win->cursorx <= win->width - 1 && win->cursory <= win->height - 1) {
+    win->line[win->cursory].chars[win->cursorx]=fmt[j];
+    win->line[win->cursory].FG[win->cursorx]=win->FG;
+    win->line[win->cursory].BG[win->cursorx]=win->BG;
+    win->line[win->cursory].touched=true;
+    addedchar(win);
+   }
+  } else if (win->cursory >= win->height - 1)
+   return 0;
+  else
+   newline(win); // if found, make sure to move down a line
  }
  win->draw=true;
  return 1;

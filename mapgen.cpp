@@ -42,6 +42,16 @@ enum room_type {
  room_bunker_rifles,
  room_bunker_grenades,
  room_bunker_armor,
+ room_mansion_courtyard,
+ room_mansion_entry,
+ room_mansion_bedroom,
+ room_mansion_library,
+ room_mansion_kitchen,
+ room_mansion_dining,
+ room_mansion_game,
+ room_mansion_pool,
+ room_mansion_bathroom,
+ room_mansion_gallery,
  room_split
 };
 
@@ -52,6 +62,10 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn);
 void silo_rooms(map *m);
 void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2);
 map_extra random_map_extra(map_extras);
+
+room_type pick_mansion_room(int x1, int y1, int x2, int y2);
+void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2);
+void mansion_room(map *m, int x1, int y1, int x2, int y2); // pick & build
 
 void line(map *m, ter_id type, int x1, int y1, int x2, int y2);
 void square(map *m, ter_id type, int x1, int y1, int x2, int y2);
@@ -4131,8 +4145,10 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   square(this, t_table, 9, 8, 10, 9);
   square(this, t_table, 14, 8, 15, 9);
   // Pool tables
-  square(this, t_pool_table, 4, 13, 8, 14);
-  square(this, t_pool_table, 13, 13, 17, 14);
+  square(this, t_pool_table,      4, 13,  8, 14);
+  place_items(mi_pool_table, 50,  4, 13,  8, 14, false, 0);
+  square(this, t_pool_table,     13, 13, 17, 14);
+  place_items(mi_pool_table, 50, 13, 13, 17, 14, false, 0);
   // 1 in 4 chance to have glass walls in front
   if (one_in(4)) {
    line(this, t_wall_glass_h, 3, 1, 5, 1);
@@ -4167,7 +4183,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   place_items(mi_snacks, 50, 18, 18, 21, 18, false, 0);
   place_items(mi_fridgesnacks, 60, 21, 4, 21, 4, false, 0);
   place_items(mi_fridgesnacks, 60, 21, 17, 21, 17, false, 0);
-  place_items(mi_alcohol, 50, 21, 5, 21, 8, false, 0);
+  place_items(mi_alcohol, 70, 21, 5, 21, 8, false, 0);
   place_items(mi_trash, 15, 2, 17, 16, 19, true, 0);
 
   if (terrain_type == ot_bar_east)
@@ -4556,6 +4572,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    }
   }
 
+// Rotate to face the road
   if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
    rotate(1);
   if (t_south >= ot_road_null && t_south <= ot_bridge_ew)
@@ -4879,6 +4896,211 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    }
   }
   break;
+
+ case ot_mansion_entrance: {
+// Left wall
+  line(this, t_wall_v,  0,  0,  0, SEEY * 2 - 2);
+  line(this, t_door_c,  0, SEEY - 1, 0, SEEY);
+// Front wall
+  line(this, t_wall_h,  1, 10,  SEEX * 2 - 1, 10);
+  line(this, t_door_locked, SEEX - 1, 10, SEEX, 10);
+  int winx1 = rng(2, 4);
+  int winx2 = rng(4, 6);
+  line(this, t_window, winx1, 10, winx2, 10);
+  line(this, t_window, SEEX * 2 - 1 - winx1, 10, SEEX * 2 - 1 - winx2, 10);
+  winx1 = rng(7, 10);
+  winx2 = rng(10, 11);
+  line(this, t_window, winx1, 10, winx2, 10);
+  line(this, t_window, SEEX * 2 - 1 - winx1, 10, SEEX * 2 - 1 - winx2, 10);
+  line(this, t_door_c, SEEX - 1, 10, SEEX, 10);
+// Bottom wall
+  line(this, t_wall_h,  0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
+  line(this, t_door_c, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
+
+  build_mansion_room(this, room_mansion_courtyard, 1, 0, SEEX * 2 - 1, 9);
+  square(this, t_floor, 1, 11, SEEX * 2 - 1, SEEY * 2 - 2);
+  build_mansion_room(this, room_mansion_entry, 1, 11, SEEX * 2 - 1, SEEY*2 - 2);
+// Rotate to face the road
+  if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
+   rotate(1);
+  if (t_south >= ot_road_null && t_south <= ot_bridge_ew)
+   rotate(2);
+  if (t_west >= ot_road_null && t_west <= ot_bridge_ew)
+   rotate(3);
+ } break;
+
+ case ot_mansion:
+// Start with floors all over
+  square(this, t_floor, 1, 0, SEEX * 2 - 1, SEEY * 2 - 2);
+// We always have a left and bottom wall
+  line(this, t_wall_v, 0, 0, 0, SEEY * 2 - 2);
+  line(this, t_wall_h, 0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
+// tw and rw are the boundaries of the rooms inside...
+  tw = 0;
+  rw = SEEX * 2 - 1;
+// ...if we need outside walls, adjust tw & rw and build them
+// We build windows below.
+  if (t_north != ot_mansion_entrance && t_north != ot_mansion) {
+   tw = 1;
+   line(this, t_wall_h, 0, 0, SEEX * 2 - 1, 0);
+  }
+  if (t_east != ot_mansion_entrance && t_east != ot_mansion) {
+   rw = SEEX * 2 - 2;
+   line(this, t_wall_v, SEEX * 2 - 1, 0, SEEX * 2 - 1, SEEX * 2 - 1);
+  }
+// Now pick a random layout
+  switch (rng(1, 6)) {
+
+  case 1: // Just one. big. room.
+   mansion_room(this, 1, tw, rw, SEEY * 2 - 2);
+   if (t_west == ot_mansion_entrance || t_west == ot_mansion)
+    line(this, t_door_c, 0, SEEY - 1, 0, SEEY);
+   if (t_south == ot_mansion_entrance || t_south == ot_mansion)
+    line(this, t_door_c, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
+   break;
+
+  case 2: // Wide hallway, two rooms.
+   if (one_in(2)) { // vertical hallway
+    line(this, t_wall_v,  9,  tw,  9, SEEY * 2 - 2);
+    line(this, t_wall_v, 14,  tw, 14, SEEY * 2 - 2);
+    line(this, t_floor, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
+    line(this, t_door_c, 0, SEEY - 1, 0, SEEY);
+    mansion_room(this, 1, tw, 8, SEEY * 2 - 2);
+    mansion_room(this, 15, tw, rw, SEEY * 2 - 2);
+    ter( 9, rng(tw + 2, SEEX * 2 - 4)) = t_door_c;
+    ter(14, rng(tw + 2, SEEX * 2 - 4)) = t_door_c;
+   } else { // horizontal hallway
+    line(this, t_wall_h, 1,  9, rw,  9);
+    line(this, t_wall_h, 1, 14, rw, 14);
+    line(this, t_door_c, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
+    line(this, t_floor, 0, SEEY - 1, 0, SEEY);
+    mansion_room(this, 1, tw, rw, 8);
+    mansion_room(this, 1, 15, rw, SEEY * 2 - 2);
+    ter(rng(3, rw - 2),  9) = t_door_c;
+    ter(rng(3, rw - 2), 14) = t_door_c;
+   }
+   if (t_west == ot_mansion_entrance || t_west == ot_mansion)
+    line(this, t_door_c, 0, SEEY - 1, 0, SEEY);
+   if (t_south == ot_mansion_entrance || t_south == ot_mansion)
+    line(this, t_floor, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
+   break;
+   
+  case 3: // Four corners rooms
+   line(this, t_wall_v, 10, tw, 10,  9);
+   line(this, t_wall_v, 13, tw, 13,  9);
+   line(this, t_wall_v, 10, 14, 10, SEEY * 2 - 2);
+   line(this, t_wall_v, 13, 14, 13, SEEY * 2 - 2);
+   line(this, t_wall_h,  1, 10, 10, 10);
+   line(this, t_wall_h,  1, 13, 10, 13);
+   line(this, t_wall_h, 13, 10, rw, 10);
+   line(this, t_wall_h, 13, 13, rw, 13);
+   mansion_room(this,  1, tw,  9,  9);
+   mansion_room(this, 14, tw, rw,  9);
+   mansion_room(this,  1, 14,  9, SEEY * 2 - 2);
+   mansion_room(this, 14, 14, rw, SEEY * 2 - 2);
+   if (t_west == ot_mansion_entrance || t_west == ot_mansion)
+    line(this, t_floor, 0, SEEY - 1, 0, SEEY);
+   if (t_south == ot_mansion_entrance || t_south == ot_mansion)
+    line(this, t_floor, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
+   break;
+
+  case 4: // One large room in lower-left
+   mw = rng( 4, 10);
+   cw = rng(13, 19);
+   line(this, t_wall_h,  1, mw, cw, mw);
+   ter(rng(2, cw - 1), mw) = t_door_c;
+   line(this, t_wall_v, cw, mw + 1, cw, SEEY * 2 - 2);
+   ter(cw, rng(mw + 2, SEEY * 2 - 3)) = t_door_c;
+   mansion_room(this, 1, mw + 1, cw - 1, SEEY * 2 - 2);
+// And a couple small rooms in the UL LR corners
+   x = rng(5, 10);
+   line(this, t_wall_v, x, tw, x, mw - 1);
+   mansion_room(this, 1, tw, x - 1, mw - 1);
+   if (one_in(2))
+    ter(rng(2, x - 2), mw) = t_door_c;
+   else
+    ter(x, rng(tw + 2, mw - 2)) = t_door_c;
+   y = rng(13, 18);
+   line(this, t_wall_h, cw + 1, y, rw, y);
+   mansion_room(this, cw + 1, y, rw, SEEY * 2 - 2);
+   if (one_in(2))
+    ter(rng(cw + 2, rw - 1), y) = t_door_c;
+   else
+    ter(rng(y + 2, SEEY * 2 - 3), cw) = t_door_c;
+
+   if (t_west == ot_mansion_entrance || t_west == ot_mansion)
+    line(this, t_floor, 0, SEEY - 1, 0, SEEY);
+   if (t_south == ot_mansion_entrance || t_south == ot_mansion)
+    line(this, t_floor, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
+   break;
+  }
+// Finally, place windows on outside-facing walls if necessary
+  if (t_west != ot_mansion_entrance && t_west != ot_mansion) {
+   int consecutive = 0;
+   for (int i = 1; i < SEEY; i++) {
+    if (move_cost(1, i) != 0 && move_cost(1, SEEY * 2 - 1 - i) != 0) {
+     if (consecutive == 3)
+      consecutive = 0; // No really long windows
+     else {
+      consecutive++;
+      ter(0, i) = t_window;
+      ter(0, SEEY * 2 - 1 - i) = t_window;
+     }
+    } else
+     consecutive = 0;
+   }
+  }
+  if (t_south != ot_mansion_entrance && t_south != ot_mansion) {
+   int consecutive = 0;
+   for (int i = 1; i < SEEX; i++) {
+    if (move_cost(i, SEEY * 2 - 2) != 0 &&
+        move_cost(SEEX * 2 - 1 - i, SEEY * 2 - 2) != 0) {
+     if (consecutive == 3)
+      consecutive = 0; // No really long windows
+     else {
+      consecutive++;
+      ter(i, SEEY * 2 - 1) = t_window;
+      ter(SEEX * 2 - 1 - i, SEEY * 2 - 1) = t_window;
+     }
+    } else
+     consecutive = 0;
+   }
+  }
+  if (t_east != ot_mansion_entrance && t_east != ot_mansion) {
+   int consecutive = 0;
+   for (int i = 1; i < SEEY; i++) {
+    if (move_cost(SEEX * 2 - 2, i) != 0 &&
+        move_cost(SEEX * 2 - 2, SEEY * 2 - 1 - i) != 0) {
+     if (consecutive == 3)
+      consecutive = 0; // No really long windows
+     else {
+      consecutive++;
+      ter(SEEX * 2 - 1, i) = t_window;
+      ter(SEEX * 2 - 1, SEEY * 2 - 1 - i) = t_window;
+     }
+    } else
+     consecutive = 0;
+   }
+  }
+
+  if (t_north != ot_mansion_entrance && t_north != ot_mansion) {
+   int consecutive = 0;
+   for (int i = 1; i < SEEX; i++) {
+    if (move_cost(i, 1) != 0 && move_cost(SEEX * 2 - 1 - i, 1) != 0) {
+     if (consecutive == 3)
+      consecutive = 0; // No really long windows
+     else {
+      consecutive++;
+      ter(i, 0) = t_window;
+      ter(SEEX * 2 - 1 - i, 0) = t_window;
+     }
+    } else
+     consecutive = 0;
+   }
+  }
+
+  break;
+
 
  case ot_spider_pit_under:
   for (int i = 0; i < SEEX * 2; i++) {
@@ -7086,6 +7308,292 @@ map_extra random_map_extra(map_extras embellishments)
   pick -= embellishments.chances[choice];
  }
  return map_extra(choice);
+}
+
+
+room_type pick_mansion_room(int x1, int y1, int x2, int y2)
+{
+ int dx = abs(x1 - x2), dy = abs(y1 - y2), area = dx * dy;
+ int shortest = (dx < dy ? dx : dy), longest = (dx > dy ? dx : dy);
+ std::vector<room_type> valid;
+ if (shortest >= 12)
+  valid.push_back(room_mansion_courtyard);
+ if (shortest >= 7 && area >= 64 && area <= 100)
+  valid.push_back(room_mansion_bedroom);
+ if (shortest >= 9)
+  valid.push_back(room_mansion_library);
+ if (shortest >= 6 && area <= 60)
+  valid.push_back(room_mansion_kitchen);
+ if (longest >= 7 && shortest >= 5)
+  valid.push_back(room_mansion_dining);
+ if (shortest >= 6 && longest <= 10)
+  valid.push_back(room_mansion_game);
+ if (shortest >= 10)
+  valid.push_back(room_mansion_pool);
+ if (longest <= 6)
+  valid.push_back(room_mansion_bathroom);
+ if (longest >= 8 && shortest <= 6)
+  valid.push_back(room_mansion_gallery);
+
+ if (valid.empty()) {
+  debugmsg("x: %d - %d, dx: %d\n\
+       y: %d - %d, dy: %d", x1, x2, dx,
+                            y1, y2, dy);
+  return room_null;
+ }
+
+ return valid[ rng(0, valid.size() - 1) ];
+}
+ 
+void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2)
+{
+ int dx = abs(x1 - x2), dy = abs(y1 - y2), area = dx * dy;
+ int cx_low = (x1 + x2) / 2, cx_hi = (x1 + x2 + 1) / 2,
+     cy_low = (y1 + y2) / 2, cy_hi = (y1 + y2 + 1) / 2;
+
+/*
+ debugmsg("\
+x: %d - %d, dx: %d cx: %d/%d\n\
+x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
+                               y1, y2, dy, cy_low, cy_hi);
+*/
+ bool walled_west = (x1 == 0), walled_north = (y1 == 0),
+      walled_east = (x2 == SEEX * 2 - 1), walled_south = (y2 == SEEY * 2 - 1);
+
+ switch (type) {
+
+ case room_mansion_courtyard:
+  for (int x = x1; x <= x2; x++) {
+   for (int y = y1; y <= y2; y++)
+    m->ter(x, y) = grass_or_dirt();
+  }
+  if (one_in(4)) { // Tree grid
+   for (int x = 1; x <= dx / 2; x += 4) {
+    for (int y = 1; y <= dx / 2; y += 4) {
+     m->ter(x1 + x, y1 + y) = t_tree;
+     m->ter(x2 - x, y2 - y) = t_tree;
+    }
+   }
+  }
+  if (one_in(3)) { // shrub-lined
+   for (int i = x1; i <= x2; i++) {
+    if (m->ter(i, y2 + 1) != t_door_c)
+     m->ter(i, y2) = t_shrub;
+   }
+  }
+  break;
+
+ case room_mansion_entry:
+  if (!one_in(3)) { // Columns
+   for (int y = y1 + 2; y <= y2; y += 3) {
+    m->ter(cx_low - 3, y) = t_column;
+    m->ter(cx_low + 3, y) = t_column;
+   }
+  }
+  if (one_in(6)) { // Suits of armor
+   int start = y1 + rng(2, 4), end = y2 - rng(0, 4), step = rng(3, 6);
+   for (int y = start; y <= end; y += step) {
+    m->add_item(x1 + 1, y, (*(m->itypes))[itm_helmet_plate], 0);
+    m->add_item(x1 + 1, y, (*(m->itypes))[itm_armor_plate],  0);
+    if (one_in(2))
+     m->add_item(x1 + 1, y, (*(m->itypes))[itm_pike],  0);
+    else if (one_in(3))
+     m->add_item(x1 + 1, y, (*(m->itypes))[itm_broadsword],  0);
+    else if (one_in(6))
+     m->add_item(x1 + 1, y, (*(m->itypes))[itm_mace],  0);
+    else if (one_in(6))
+     m->add_item(x1 + 1, y, (*(m->itypes))[itm_morningstar],  0);
+
+    m->add_item(x2 - 1, y, (*(m->itypes))[itm_helmet_plate], 0);
+    m->add_item(x2 - 1, y, (*(m->itypes))[itm_armor_plate],  0);
+    if (one_in(2))
+     m->add_item(x2 - 1, y, (*(m->itypes))[itm_pike],  0);
+    else if (one_in(3))
+     m->add_item(x2 - 1, y, (*(m->itypes))[itm_broadsword],  0);
+    else if (one_in(6))
+     m->add_item(x2 - 1, y, (*(m->itypes))[itm_mace],  0);
+    else if (one_in(6))
+     m->add_item(x2 - 1, y, (*(m->itypes))[itm_morningstar],  0);
+   }
+  }
+  break;
+  
+ case room_mansion_bedroom:
+  if (dx > dy || (dx == dy && one_in(2))) { // horizontal
+   int dressy = (one_in(2) ? cy_low - 2 : cy_low + 2);
+   if (one_in(2)) { // bed on left
+    square(m, t_bed, x1 + 1, cy_low - 1, x1 + 3, cy_low + 1);
+    m->ter(x1 + 1, dressy) = t_dresser;
+    m->place_items(mi_dresser, 80, x1 + 1, dressy, x1 + 1, dressy, false, 0);
+   } else { // bed on right
+    square(m, t_bed, x2 - 3, cy_low - 1, x2 - 1, cy_low + 1);
+    m->ter(x1 + 1, dressy) = t_dresser;
+    m->place_items(mi_dresser, 80, x2 - 1, dressy, x2 - 1, dressy, false, 0);
+   }
+  } else { // vertical
+   int dressx = (one_in(2) ? cx_low - 2 : cx_low + 2);
+   if (one_in(2)) { // bed at top
+    square(m, t_bed, cx_low - 1, y1 + 1, cx_low + 1, y1 + 3);
+    m->ter(dressx, y1 + 1) = t_dresser;
+    m->place_items(mi_dresser, 80, dressx, y1 + 1, dressx, y1 + 1, false, 0);
+   } else { // bed at bottom
+    square(m, t_bed, cx_low - 1, y2 - 3, cx_low + 1, y2 - 1);
+    m->ter(dressx, y2 - 1) = t_dresser;
+    m->place_items(mi_dresser, 80, dressx, y2 - 1, dressx, y2 - 1, false, 0);
+   }
+  }
+  m->place_items(mi_bedroom, 75, x1, y1, x2, y2, false, 0);
+  if (one_in(10))
+   m->place_items(mi_homeguns, 58, x1, y1, x2, y2, false, 0);
+  break;
+
+ case room_mansion_library:
+  if (dx < dy || (dx == dy && one_in(2))) { // vertically-aligned bookshelves
+   for (int x = x1 + 1; x <= cx_low - 2; x += 3) {
+    for (int y = y1 + 1; y <= y2 - 3; y += 4) {
+     square(m, t_bookcase, x, y, x + 1, y + 2);
+     m->place_items(mi_novels,    85, x, y, x + 1, y + 2, false, 0);
+     m->place_items(mi_manuals,   62, x, y, x + 1, y + 2, false, 0);
+     m->place_items(mi_textbooks, 40, x, y, x + 1, y + 2, false, 0);
+    }
+   }
+   for (int x = x2 - 1; x >= cx_low + 2; x -= 3) {
+    for (int y = y1 + 1; y <= y2 - 3; y += 4) {
+     square(m, t_bookcase, x - 1, y, x, y + 2);
+     m->place_items(mi_novels,    85, x - 1, y, x, y + 2, false, 0);
+     m->place_items(mi_manuals,   62, x - 1, y, x, y + 2, false, 0);
+     m->place_items(mi_textbooks, 40, x - 1, y, x, y + 2, false, 0);
+    }
+   }
+  } else { // horizontally-aligned bookshelves
+   for (int y = y1 + 1; y <= cy_low - 2; y += 3) {
+    for (int x = x1 + 1; x <= x2 - 3; x += 4) {
+     square(m, t_bookcase, x, y, x + 2, y + 1);
+     m->place_items(mi_novels,    85, x, y, x + 2, y + 1, false, 0);
+     m->place_items(mi_manuals,   62, x, y, x + 2, y + 1, false, 0);
+     m->place_items(mi_textbooks, 40, x, y, x + 2, y + 1, false, 0);
+    }
+   }
+   for (int y = y2 - 1; y >= cy_low + 2; y -= 3) {
+    for (int x = x1 + 1; x <= x2 - 3; x += 4) {
+     square(m, t_bookcase, x, y - 1, x + 2, y);
+     m->place_items(mi_novels,    85, x, y - 1, x + 2, y, false, 0);
+     m->place_items(mi_manuals,   62, x, y - 1, x + 2, y, false, 0);
+     m->place_items(mi_textbooks, 40, x, y - 1, x + 2, y, false, 0);
+    }
+   }
+  }
+  break;
+
+ case room_mansion_kitchen:
+  square(m, t_counter, cx_low, cy_low, cx_hi, cy_hi);
+  m->place_items(mi_cleaning,  58, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
+  if (one_in(2)) { // Fridge/racks on left/right
+   line(m, t_fridge, cx_low - 1, cy_low, cx_low - 1, cy_hi);
+   m->place_items(mi_fridge, 82, cx_low - 1, cy_low, cx_low - 1, cy_hi,
+                  false, 0);
+   line(m, t_rack, cx_hi + 1, cy_low, cx_hi + 1, cy_hi);
+   m->place_items(mi_cannedfood, 50, cx_hi + 1, cy_low, cx_hi + 1, cy_hi,
+                  false, 0);
+   m->place_items(mi_pasta,      50, cx_hi + 1, cy_low, cx_hi + 1, cy_hi,
+                  false, 0);
+  } else { // Fridge/racks on top/bottom
+   line(m, t_fridge, cx_low, cy_low - 1, cx_hi, cy_low - 1);
+   m->place_items(mi_fridge, 82, cx_low, cy_low - 1, cx_hi, cy_low - 1,
+                  false, 0);
+   line(m, t_rack, cx_low, cy_hi + 1, cx_hi, cy_hi + 1);
+   m->place_items(mi_cannedfood, 50, cx_low, cy_hi + 1, cx_hi, cy_hi + 1,
+                  false, 0);
+   m->place_items(mi_pasta,      50, cx_low, cy_hi + 1, cx_hi, cy_hi + 1,
+                  false, 0);
+  }
+  break;
+   
+ case room_mansion_dining:
+  if (dx < dy || (dx == dy && one_in(2))) { // vertically-aligned table
+   line(m, t_table, cx_low, y1 + 2, cx_low, y2 - 2);
+   line(m, t_bench, cx_low - 1, y1 + 2, cx_low - 1, y2 - 2);
+   line(m, t_bench, cx_low + 1, y1 + 2, cx_low + 1, y2 - 2);
+   m->place_items(mi_dining, 78, cx_low, y1 + 2, cx_low, y2 - 2, false, 0);
+  } else { // horizontally-aligned table
+   line(m, t_table, x1 + 2, cy_low, x2 - 2, cy_low);
+   line(m, t_bench, x1 + 2, cy_low - 1, x2 - 2, cy_low - 1);
+   line(m, t_bench, x1 + 2, cy_low + 1, x2 - 2, cy_low + 1);
+   m->place_items(mi_dining, 78, x1 + 2, cy_low, x2 - 2, cy_low, false, 0);
+  }
+  break;
+
+ case room_mansion_game:
+  if (dx < dy || one_in(2)) { // vertically-aligned table
+   square(m, t_pool_table, cx_low, cy_low - 1, cx_low + 1, cy_low + 1);
+   m->place_items(mi_pool_table, 80, cx_low, cy_low - 1, cx_low + 1, cy_low + 1,
+                  false, 0);
+  } else { // horizontally-aligned table
+   square(m, t_pool_table, cx_low - 1, cy_low, cx_low + 1, cy_low + 1);
+   m->place_items(mi_pool_table, 80, cx_low - 1, cy_low, cx_low + 1, cy_low + 1,
+                  false, 0);
+  }
+  break;
+
+ case room_mansion_pool:
+  square(m, t_water_sh, x1 + 2, y1 + 2, x2 - 2, y2 - 2);
+  break;
+
+ case room_mansion_bathroom:
+  m->ter( rng(x1 + 1, x2 - 1), rng(y1 + 1, y2 - 1) ) = t_toilet;
+  m->place_items(mi_harddrugs, 20, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
+  m->place_items(mi_softdrugs, 72, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
+  m->place_items(mi_cleaning,  48, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
+  break;
+  
+ case room_mansion_gallery:
+  for (int x = x1 + 1; x <= cx_low - 1; x += rng(2, 4)) {
+   for (int y = y1 + 1; y <= cy_low - 1; y += rng(2, 4)) {
+    if (one_in(10)) { // Suit of armor
+     m->add_item(x, y, (*(m->itypes))[itm_helmet_plate], 0);
+     m->add_item(x, y, (*(m->itypes))[itm_armor_plate],  0);
+     if (one_in(2))
+      m->add_item(x, y, (*(m->itypes))[itm_pike],  0);
+     else if (one_in(3))
+      m->add_item(x, y, (*(m->itypes))[itm_broadsword],  0);
+     else if (one_in(6))
+      m->add_item(x, y, (*(m->itypes))[itm_mace],  0);
+     else if (one_in(6))
+      m->add_item(x, y, (*(m->itypes))[itm_morningstar],  0);
+    } else { // Objets d'art
+     m->ter(x, y) = t_counter;
+     m->place_items(mi_art, 70, x, y, x, y, false, 0);
+    }
+   }
+  }
+  for (int x = x2 - 1; x >= cx_hi + 1; x -= rng(2, 4)) {
+   for (int y = y2 - 1; y >= cy_hi + 1; y -= rng(2, 4)) {
+    if (one_in(10)) { // Suit of armor
+     m->add_item(x, y, (*(m->itypes))[itm_helmet_plate], 0);
+     m->add_item(x, y, (*(m->itypes))[itm_armor_plate],  0);
+     if (one_in(2))
+      m->add_item(x, y, (*(m->itypes))[itm_pike],  0);
+     else if (one_in(3))
+      m->add_item(x, y, (*(m->itypes))[itm_broadsword],  0);
+     else if (one_in(6))
+      m->add_item(x, y, (*(m->itypes))[itm_mace],  0);
+     else if (one_in(6))
+      m->add_item(x, y, (*(m->itypes))[itm_morningstar],  0);
+    } else { // Objets d'art
+     m->ter(x, y) = t_counter;
+     m->place_items(mi_art, 70, x, y, x, y, false, 0);
+    }
+   }
+  }
+  break;
+
+ }
+}
+
+void mansion_room(map *m, int x1, int y1, int x2, int y2)
+{
+ room_type type = pick_mansion_room(x1, y1, x2, y2);
+ build_mansion_room(m, type, x1, y1, x2, y2);
 }
 
 void map::add_extra(map_extra type, game *g)

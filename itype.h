@@ -62,7 +62,8 @@ itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
  itm_katana, itm_spear_wood, itm_spear_knife, itm_baton, itm_bee_sting,
  itm_wasp_sting, itm_chitin_piece, itm_biollante_bud, itm_canister_empty,
  itm_gold, itm_coal, itm_petrified_eye, itm_spiral_stone, itm_rapier, itm_cane,
- itm_binoculars, itm_usb_drive,
+ itm_binoculars, itm_usb_drive, itm_pike, itm_broadsword, itm_mace,
+ itm_morningstar, itm_pool_cue, itm_pool_ball, itm_candlestick,
 // Footwear
 itm_sneakers, itm_boots, itm_boots_steel, itm_boots_winter, itm_mocassins,
  itm_flip_flops, itm_dress_shoes, itm_heels, 
@@ -71,6 +72,7 @@ itm_jeans, itm_pants, itm_pants_leather, itm_pants_cargo, itm_pants_army,
  itm_skirt,
 // Full-body clothing
 itm_jumpsuit, itm_dress, itm_armor_chitin, itm_suit, itm_hazmat_suit,
+ itm_armor_plate,
 // Torso clothing
 itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top, itm_sweatshirt,
  itm_sweater, itm_hoodie, itm_jacket_light, itm_jacket_jean, itm_blazer,
@@ -89,7 +91,7 @@ itm_glasses_eye, itm_glasses_reading, itm_glasses_safety, itm_goggles_swim,
 itm_hat_ball, itm_hat_boonie, itm_hat_cotton, itm_hat_knit, itm_hat_hunting,
  itm_hat_fur, itm_hat_hard, itm_helmet_bike, itm_helmet_skid, itm_helmet_ball,
  itm_helmet_army, itm_helmet_riot, itm_helmet_motor, itm_helmet_chitin,
- itm_tophat,
+ itm_helmet_plate, itm_tophat,
 // High-storage
 itm_backpack, itm_purse, itm_mbag, itm_fanny, itm_holster, itm_bootstrap,
 // Decorative
@@ -230,6 +232,7 @@ IF_AMMO_TEARGAS,	// Teargas burst
 IF_AMMO_SMOKE,  	// Smoke burst
 IF_AMMO_TRAIL,		// Leaves a trail of smoke
 IF_AMMO_FLASHBANG,	// Disorients and blinds
+IF_AMMO_STREAM,		// Doesn't stop once it hits a monster
 NUM_ITEM_FLAGS
 };
 

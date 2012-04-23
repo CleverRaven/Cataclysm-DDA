@@ -7,7 +7,6 @@ void game::init_moncats()
    moncats[mcat_forest],
 	mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_spider_wolf,
 	mon_spider_jumping, mon_dog, NULL);
-
  setvector(
    moncats[mcat_ant],
 	mon_ant_larva, mon_ant, mon_ant_soldier, mon_ant_queen, NULL);
@@ -24,8 +23,7 @@ void game::init_moncats()
 	mon_zombie_necro, mon_boomer, mon_skeleton, NULL);
  setvector(
    moncats[mcat_triffid],
-	mon_triffid, mon_triffid_young, mon_triffid_queen, mon_creeper_hub,
-	mon_creeper_vine, mon_biollante, mon_triffid_heart, NULL);
+	mon_triffid, mon_triffid_young, mon_triffid_queen, NULL);
  setvector(
    moncats[mcat_fungi],
 	mon_fungaloid, mon_fungaloid_dormant, mon_ant_fungus, mon_zombie_fungus,
@@ -55,5 +53,16 @@ void game::init_moncats()
  setvector(
    moncats[mcat_spiral],
 	mon_human_snail, mon_twisted_body, mon_vortex, NULL);
+ setvector(
+   moncats[mcat_vanilla_zombie],
+	mon_zombie, NULL);
+ setvector(
+   moncats[mcat_spider],
+	mon_spider_wolf, mon_spider_web, mon_spider_jumping, mon_spider_widow,
+	NULL);
+ setvector(
+   moncats[mcat_robot],
+	mon_manhack, mon_skitterbot, mon_secubot, mon_copbot, mon_molebot,
+	mon_tripod, mon_chickenbot, mon_tankbot, NULL);
 }
 

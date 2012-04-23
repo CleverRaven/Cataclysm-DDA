@@ -26,6 +26,8 @@ public:
  void thing		(game *g, monster *z); // Turn into a full thing
  void explode		(game *g, monster *z); // Damaging explosion
  void ratking		(game *g, monster *z); // Cure verminitis
+
+ void gameover		(game *g, monster *z); // Game over!  Defense mode
 };
 
 #endif

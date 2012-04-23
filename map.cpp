@@ -187,12 +187,13 @@ bool map::bash(int x, int y, int str, std::string &sound)
    i--;
   }
  }
+
  switch (ter(x, y)) {
  case t_wall_wood:
-  if (str >= rng(0, 120)) {
-   sound += "crash!";
-   ter(x, y) = t_dirt;
-   int num_boards = rng(8, 20);
+  if (str >= rng(0, 120) && str >= rng(0, 120)) {
+   sound += "crunch!";
+   ter(x, y) = t_wall_wood_chipped;
+   int num_boards = rng(0, 2);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
    return true;
@@ -201,6 +202,35 @@ bool map::bash(int x, int y, int str, std::string &sound)
    return true;
   }
   break;
+
+ case t_wall_wood_chipped:
+  if (str >= rng(0, 100) && str >= rng(0, 100)) {
+   sound += "crunch!";
+   ter(x, y) = t_wall_wood_broken;
+   int num_boards = rng(3, 8);
+   for (int i = 0; i < num_boards; i++)
+    add_item(x, y, (*itypes)[itm_2x4], 0);
+   return true;
+  } else {
+   sound += "whump!";
+   return true;
+  }
+  break;
+
+ case t_wall_wood_broken:
+  if (str >= rng(0, 80) && str >= rng(0, 80)) {
+   sound += "crash!";
+   ter(x, y) = t_dirt;
+   int num_boards = rng(4, 10);
+   for (int i = 0; i < num_boards; i++)
+    add_item(x, y, (*itypes)[itm_2x4], 0);
+   return true;
+  } else {
+   sound += "whump!";
+   return true;
+  }
+  break;
+
  case t_door_c:
  case t_door_locked:
  case t_door_locked_alarm:
@@ -213,6 +243,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
    return true;
   }
   break;
+
  case t_door_b:
   if (str >= rng(0, 30)) {
    sound += "crash!";
@@ -226,6 +257,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
    return true;
   }
   break;
+
  case t_window:
  case t_window_alarm:
   if (str >= rng(0, 6)) {
@@ -237,6 +269,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
    return true;
   }
   break;
+
  case t_door_boarded:
   if (str >= dice(3, 50)) {
    sound += "crash!";
@@ -250,6 +283,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
    return true;
   }
   break;
+
  case t_window_boarded:
   if (str >= dice(3, 30)) {
    sound += "crash!";
@@ -263,6 +297,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
    return true;
   }
   break;
+
  case t_paper:
   if (str >= dice(2, 6) - 2) {
    sound += "rrrrip!";
@@ -273,6 +308,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
    return true;
   }
   break;
+
  case t_toilet:
   if (str >= dice(8, 4) - 8) {
    sound += "porcelain breaking!";
@@ -283,6 +319,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
    return true;
   }
   break;
+
  case t_dresser:
  case t_bookcase:
   if (str >= dice(3, 45)) {
@@ -297,6 +334,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
    return true;
   }
   break;
+
  case t_wall_glass_h:
  case t_wall_glass_v:
  case t_wall_glass_h_alarm:
@@ -311,6 +349,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
    return true;
   }
   break;
+
  case t_reinforced_glass_h:
  case t_reinforced_glass_v:
   if (str >= rng(60, 100)) {
@@ -322,6 +361,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
    return true;
   }
   break;
+
  case t_tree_young:
   if (str >= rng(0, 50)) {
    sound += "crunch!";
@@ -335,6 +375,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
    return true;
   }
   break;
+
  case t_underbrush:
   if (str >= rng(0, 30) && !one_in(4)) {
    sound += "crunch.";
@@ -345,6 +386,18 @@ bool map::bash(int x, int y, int str, std::string &sound)
    return true;
   }
   break;
+
+ case t_shrub:
+  if (str >= rng(0, 30) && str >= rng(0, 30) && str >= rng(0, 30) && one_in(2)){
+   sound += "crunch.";
+   ter(x, y) = t_underbrush;
+   return true;
+  } else {
+   sound += "brush.";
+   return true;
+  }
+  break;
+
  case t_marloss:
   if (str > rng(0, 40)) {
    sound += "crunch!";
@@ -355,6 +408,7 @@ bool map::bash(int x, int y, int str, std::string &sound)
    return true;
   }
   break;
+
  case t_vat:
   if (str >= dice(2, 20)) {
    sound += "ker-rash!";
@@ -404,6 +458,7 @@ void map::destroy(game *g, int x, int y, bool makesound)
    }
   ter(x, y) = t_rubble;
   break;
+
  case t_door_c:
  case t_door_b:
  case t_door_locked:
@@ -416,6 +471,7 @@ void map::destroy(game *g, int x, int y, bool makesound)
    }
   }
   break;
+
  case t_wall_v:
  case t_wall_h:
   for (int i = x - 2; i <= x + 2; i++) {
@@ -428,6 +484,7 @@ void map::destroy(game *g, int x, int y, bool makesound)
   }
   ter(x, y) = t_rubble;
   break;
+
  default:
   if (has_flag(explodes, x, y))
    g->explosion(x, y, 40, 0, true);
@@ -447,21 +504,23 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
 
  switch (ter(x, y)) {
 
+ case t_wall_wood_broken:
+ case t_door_b:
+  if (hit_items || one_in(8)) {	// 1 in 8 chance of hitting the door
+   dam -= rng(20, 40);
+   if (dam > 0)
+    ter(x, y) = t_dirt;
+  } else
+   dam -= rng(0, 1);
+  break;
+
+
  case t_door_c:
  case t_door_locked:
  case t_door_locked_alarm:
   dam -= rng(15, 30);
   if (dam > 0)
    ter(x, y) = t_door_b;
-  break;
-
- case t_door_b:
-  if (hit_items || one_in(8)) {	// 1 in 8 chance of hitting the door
-   dam -= rng(10, 30);
-   if (dam > 0)
-    ter(x, y) = t_door_frame;
-  } else
-   dam -= rng(0, 1);
   break;
 
  case t_door_boarded:
@@ -1806,6 +1865,23 @@ void map::spawn_monsters(game *g)
   }
  }
 }
+
+void map::clear_spawns()
+{
+ for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++)
+  grid[i].spawns.clear();
+}
+
+void map::clear_traps()
+{
+ for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
+  for (int x = 0; x < SEEX; x++) {
+   for (int y = 0; y < SEEY; y++)
+    grid[i].trp[x][y] = tr_null;
+  }
+ }
+}
+
 
 bool map::inbounds(int x, int y)
 {

@@ -201,6 +201,8 @@ void mdeath::guilt(game *g, monster *z)
   return;	// We don't give a shit!
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1)
   return;	// Too far away, we can deal with it
+ if (z->hp >= 0)
+  return;	// It probably didn't die from damage
  g->add_msg("You feel terrible for killing %s!", z->name().c_str());
  g->u.add_morale(MORALE_KILLED_MONSTER, -50, -250);
 }
@@ -288,4 +290,10 @@ void mdeath::explode(game *g, monster *z)
 void mdeath::ratking(game *g, monster *z)
 {
  g->u.rem_disease(DI_RAT);
+}
+
+void mdeath::gameover(game *g, monster *z)
+{
+ g->add_msg("Your %s is destroyed!  GAME OVER!", z->name().c_str());
+ g->u.hp_cur[hp_torso] = 0;
 }
