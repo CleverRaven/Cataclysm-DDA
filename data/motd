@@ -1,17 +1,17 @@
 # This message may be 16 lines long at maximum.
 # Max length of a line is 64 characters; the following line is for reference
 ################################################################
-Welcome to 2012, roguelike fans!
-I was away on vacation for a few weeks, so excuse my absence and
-the small-ish update.  This update focuses on a new mutation
-system.  It now works on a tech tree of sorts; one mutation can
-lead to another, some mutations cancel each other, and mutations
-are grouped into types; tree-like or fish-like, for example.
-Mutating inside a type increases your chances of mutating in
-that type in the future.
-There's also some rebalance tweaks here; most notably, the XP
-pool is capped rather low, and shooting at fast-moving monsters
-is harder.
+In this version, there's a new special game mode: Defense.
 
-Please visit the official Cataclysm forums:
-http://whalesdev.com/forums/index.php
+Defense Mode, and the Tutorial, can be found under Special...
+<--- Here.
+
+In Defense Mode, you start in a chosen location, and have to
+fight off increasingly difficult waves of enemies.  There is a
+generator nearby which you have to defend.
+To aid you, there are regular caravans from which you can buy
+supplies.  Additionally, crafting performs much, much faster.
+
+It's relatively easy to add new game modes.  Read the
+code_doc/GAMEMODES file for instructions on the basic, and
+check out defense.cpp for some examples.
