@@ -306,7 +306,7 @@ int player::current_speed(game *g)
   newmoves = int(newmoves * 1.10);
 
  if (g != NULL) {
-  if (has_trait(PF_SUNLIGHT_DEPENDANT) && !g->is_in_sunlight(posx, posy))
+  if (has_trait(PF_SUNLIGHT_DEPENDENT) && !g->is_in_sunlight(posx, posy))
    newmoves -= (g->light_level() >= 12 ? 5 : 10);
   if ((has_trait(PF_COLDBLOOD) || has_trait(PF_COLDBLOOD2) ||
        has_trait(PF_COLDBLOOD3)) && g->temperature < 65) {
@@ -885,7 +885,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
             (pen < 10 ? " " : ""), pen);
   line++;
  }
- if (has_trait(PF_SUNLIGHT_DEPENDANT) && !g->is_in_sunlight(posx, posy)) {
+ if (has_trait(PF_SUNLIGHT_DEPENDENT) && !g->is_in_sunlight(posx, posy)) {
   pen = (g->light_level() >= 12 ? 5 : 10);
   mvwprintz(w_speed, line, 1, c_red, "Out of Sunlight     -%s%d%%%%",
             (pen < 10 ? " " : ""), pen);

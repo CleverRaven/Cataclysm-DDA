@@ -260,7 +260,7 @@ enum pl_flag {
  PF_PONDEROUS1,	// 10% movement penalty
  PF_PONDEROUS2, // 20%
  PF_PONDEROUS3, // 30%
- PF_SUNLIGHT_dependent,//
+ PF_SUNLIGHT_DEPENDENT,//
  PF_COLDBLOOD,//
  PF_COLDBLOOD2,//
  PF_COLDBLOOD3,//

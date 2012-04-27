@@ -6,21 +6,10 @@ long input()
 {
  long ch = getch();
  switch (ch) {
-/*  Legacy
-  case '7': return 'y';
-  case KEY_UP:
-  case '8': return 'k';
-  case '9': return 'u';
-  case KEY_LEFT:
-  case '4': return 'h';
-  case '5': return '.';
-  case KEY_RIGHT:
-  case '6': return 'l';
-  case '1': return 'b';
-  case KEY_DOWN:
-  case '2': return 'j';
-  case '3': return 'n';
-*/
+  case KEY_UP: return 'k';
+  case KEY_LEFT: return 'h';
+  case KEY_RIGHT: return 'l';
+  case KEY_DOWN: return 'j';
   case 459: return '\n';
   default:  return ch;
  }
