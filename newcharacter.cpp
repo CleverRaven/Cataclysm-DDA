@@ -255,8 +255,6 @@ void draw_tabs(WINDOW* w)
  mvwputch(w, 1,57, c_ltgray, LINE_XOXO);
  mvwputch(w, 1,73, c_ltgray, LINE_XOXO);
 }
-  
- 
 
 int set_stats(WINDOW* w, player *u, int &points)
 {
@@ -533,8 +531,13 @@ int set_traits(WINDOW* w, player *u, int &points)
    traitmin = PF_SPLIT + 1;
    traitmax = PF_MAX;
    mvwprintz(w,  3, 40, c_ltgray, "                                       ");
-   mvwprintz(w,  3, 40, COL_TR_BAD, "%s costs %d points",
-             traits[cur_dis].name.c_str(), traits[cur_dis].points);
+   if (traits[cur_dis].points > 0)
+    mvwprintz(w,  3, 40, COL_TR_BAD, "%s costs %d points",
+              traits[cur_dis].name.c_str(), traits[cur_dis].points);
+   else
+    mvwprintz(w,  3, 40, COL_TR_GOOD, "%s earns %d points",
+              traits[cur_adv].name.c_str(), traits[cur_adv].points * -1);
+   mvwprintz(w, 22, 0, COL_TR_GOOD, "%s", traits[cur_adv].description.c_str());
    mvwprintz(w, 22, 0, COL_TR_BAD, "%s", traits[cur_dis].description.c_str());
   }
   if (cur_trait <= traitmin + 7) {

@@ -399,6 +399,8 @@ enum omspec_id
  OMSPEC_OUTPOST,
  OMSPEC_SILO,
  OMSPEC_RADIO,
+ OMSPEC_MANSION,
+ OMSPEC_MANSION_WILD,
  OMSPEC_MEGASTORE,
  OMSPEC_HOSPITAL,
  OMSPEC_SEWAGE,
@@ -453,6 +455,12 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 
 {ot_radio_tower,   1,  5,  0, 20, mcat_null, 0, 0, 0, 0,
  &omspec_place::by_highway, 0},
+
+{ot_mansion_entrance, 0, 8, 0, -1, mcat_null, 0, 0, 0, 0,
+ &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND)},
+
+{ot_mansion_entrance, 0, 4, 10, -1, mcat_null, 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND)},
 
 {ot_megastore_entrance, 0, 5, 0, 10, mcat_null, 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND)},

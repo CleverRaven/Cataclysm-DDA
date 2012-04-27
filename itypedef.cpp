@@ -310,7 +310,7 @@ Tomato sauce, yum yum.");
 
 FOOD("pesto",		15, 20,	c_ltgreen,	VEGGY,	itm_can_food,
     2,  3,  0, 18,  0,  0,  1,  0,  1,  4,	&iuse::none, ADD_NULL, "\
-Olive oil, basil, garlic, pine nuts.  Simple and deliicous.");
+Olive oil, basil, garlic, pine nuts.  Simple and delicious.");
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("beans",		40, 55,	c_cyan,		VEGGY,	itm_can_food,
@@ -709,7 +709,7 @@ it from the manhole is impossible without a crowbar.");
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("rock",		40,  0, '*', c_ltgray,	STONE,	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
-	 1,  3, 12,  0, -3, 0, "\
+	 1,  3, 12,  0, -2, 0, "\
 A rock the size of a baseball.  Makes a decent melee weapon, and is also good\n\
 for throwing at enemies.");
 
@@ -872,7 +872,7 @@ its sap-producing organ intact.");
 
 MELEE("empty canister",  5,  20,'*', c_ltgray,	STEEL,	MNULL,
 	 1,  1,  2,  0, -1, 0, "\
-An empty cansiter, which may have once held tear gas or other substances.");
+An empty canister, which may have once held tear gas or other substances.");
 
 MELEE("gold bar",	10,3000,'/', c_yellow,	STEEL,	MNULL,
 	 2, 60, 14,  0, -1, 0, "\
@@ -1196,7 +1196,7 @@ of protection from air-borne illness and dust.");
 ARMOR("bandana",	35,  28,C_MOUTH,	COTTON, 	MNULL,
     1,  0, -4, -1,  0,  0,  0,  1,  2,  0,	mfb(bp_mouth), "\
 A cotton bandana, worn over the mouth for warmth and minor protection from\n\
-dust and other contaminents.");
+dust and other contaminants.");
 
 ARMOR("scarf",		45,  40,C_MOUTH,	WOOL,   	MNULL,
     2,  3, -5, -3,  1,  1,  0,  2,  3,  0,	mfb(bp_mouth), "\
@@ -1205,12 +1205,12 @@ A long wool scarf, worn over the mouth for warmth.");
 ARMOR("filter mask",	30,  80,C_MOUTH,	PLASTIC,	MNULL,
     3,  6,  1,  1,  2,  1,  1,  7,  2,  0,	mfb(bp_mouth), "\
 A mask that straps over your mouth and nose and filters air.  Protects from\n\
-smoke, dust, and other contaminents quite well.");
+smoke, dust, and other contaminants quite well.");
 
 ARMOR("gas mask",	10, 240,C_MOUTH,	PLASTIC,	MNULL,
     6,  8,  0, -3,  4,  1,  2, 16,  4,  0,	mfb(bp_mouth)|mfb(bp_eyes), "\
 A full gas mask that covers the face and eyes.  Provides excellent protection\n\
-from smoke, teargas, and other contaminents.");
+from smoke, teargas, and other contaminants.");
 
 // Eyewear - Encumberment is its effect on your eyesight.
 // Environment is the defense to your eyes from noxious fumes etc.
@@ -1453,7 +1453,7 @@ chance of remaining intact once fired.",
 
 AMMO("birdshot",	 8, 500,AT_SHOT,	c_red,		PLASTIC,
 	 2, 25, 18,  0,  5,  2, 18,  25, "\
-Weak shotgun ammuntion.  Designed for hunting birds and other small game, its\n\
+Weak shotgun ammunition. Designed for hunting birds and other small game, its\n\
 applications in combat are very limited.",
 0);
 
@@ -1685,7 +1685,7 @@ AMMO("fusion pack",	 2, 800,AT_FUSION,	c_ltgreen,	PLASTIC,
 	 1,  2, 12,  6, 20,  4,  0,  20, "\
 In the middle of the 21st Century, military powers began to look towards\n\
 energy based weapons.  The result was the standard fusion pack, capable of\n\
-delivering bolts of superheaed gas at near light speed with no recoil.",
+delivering bolts of superheated gas at near light speed with no recoil.",
 mfb(IF_AMMO_INCENDIARY));
 
 AMMO("40mm concussive",     10,400,AT_40MM,	c_ltred,	STEEL,
@@ -2709,7 +2709,7 @@ provides light during the night or while underground.  Use it to turn it off.");
 
 TOOL("hotplate",	10, 250,';', c_green,	IRON,	PLASTIC,
     5,  6,  8,  0, -1, 40, 20,  0,  0, AT_BATT, itm_null, &iuse::none,0,"\
-A small heating element.  Indispensible for cooking and chemisty.");
+A small heating element.  Indispensable for cooking and chemistry.");
 
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
 TOOL("soldering iron",	70, 200,',', c_ltblue,	IRON,	MNULL,
@@ -2978,7 +2978,7 @@ TOOL("portal generator",2, 6600, ';', c_magenta, STEEL,	PLASTIC,
     2, 10,  6,  0, -1, 10, 10,  5,  0, AT_NULL,	itm_null, &iuse::portal,0,"\
 A rare and arcane device, covered in alien markings.");
 
-TOOL("inactive manhack",1, 1200, ',', c_ltgreen, STEEL, PLASTIC,
+TOOL("inactive manhack",1,  600, ',', c_ltgreen, STEEL, PLASTIC,
     1,  3,  6,  6, -3,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::manhack,0,"\
 An inactive manhack.  Manhacks are fist-sized robots which fly through the\n\
 air.  They are covered with whirring blades and attack by throwing themselves\n\

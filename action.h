@@ -26,6 +26,7 @@ ACTION_CHAT,
 ACTION_LOOK,
 // Inventory Interaction (including quasi-inventories like bionics)
 ACTION_INVENTORY,
+ACTION_ORGANIZE,
 ACTION_USE,
 ACTION_WEAR,
 ACTION_TAKE_OFF,

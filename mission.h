@@ -60,7 +60,7 @@ struct mission_start {
  void infect_npc	(game *, mission *); // DI_INFECTION, remove antibiotics
  void place_dog		(game *, mission *); // Put a dog in a house!
  void place_zombie_mom	(game *, mission *); // Put a zombie mom in a house!
- void place_npc_software(game *, mission *); // Put NPC-type-dependant software
+ void place_npc_software(game *, mission *); // Put NPC-type-dependent software
  void reveal_hospital	(game *, mission *); // Reveal the nearest hospital
 };
 

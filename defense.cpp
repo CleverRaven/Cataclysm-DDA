@@ -50,11 +50,12 @@ defense_game::defense_game()
  init_to_style(DEFENSE_EASY);
 }
 
-void defense_game::init(game *g)
+bool defense_game::init(game *g)
 {
  g->turn = HOURS(12); // Start at noon
  g->temperature = 65;
- g->u.create(g, PLTYPE_CUSTOM);
+ if (!g->u.create(g, PLTYPE_CUSTOM))
+  return false;
  g->u.str_cur = g->u.str_max;
  g->u.per_cur = g->u.per_max;
  g->u.int_cur = g->u.int_max;
@@ -80,6 +81,7 @@ void defense_game::init(game *g)
  popup_nowait("Please wait as the map generates [ 0%]");
  init_map(g);
  caravan(g);
+ return true;
 }
 
 void defense_game::per_turn(game *g)
@@ -239,7 +241,7 @@ void defense_game::init_map(game *g)
   for (int j = 0; j <= MAPSIZE * 2; j += 2) {
    int mx = g->levx - MAPSIZE + i, my = g->levy - MAPSIZE + j;
    int percent = 100 * ((j / 2 + MAPSIZE * (i / 2))) /
-                       ((MAPSIZE + 1) * (MAPSIZE + 1));
+                       ((MAPSIZE) * (MAPSIZE + 1));
    if (percent >= old_percent + 1) {
     popup_nowait("Please wait as the map generates [%s%d%]",
                  (percent < 10 ? " " : ""), percent);
@@ -260,6 +262,18 @@ void defense_game::init_map(game *g)
 
  g->update_map(g->u.posx, g->u.posy);
  monster generator(g->mtypes[mon_generator], g->u.posx + 1, g->u.posy + 1);
+// Find a valid spot to spawn the generator
+ std::vector<point> valid;
+ for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
+  for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
+   if (generator.can_move_to(g->m, x, y) && g->is_empty(x, y))
+    valid.push_back( point(x, y) );
+  }
+ }
+ if (!valid.empty()) {
+  point p = valid[rng(0, valid.size() - 1)];
+  generator.spawn(p.x, p.y);
+ }
  generator.friendly = -1;
  g->z.push_back(generator);
 }
@@ -1266,6 +1280,9 @@ void defense_game::spawn_wave_monster(game *g, mtype *type)
  tmp.wandx = g->u.posx;
  tmp.wandy = g->u.posy;
  tmp.wandf = 150;
+// We wanna kill!
+ tmp.anger = 100;
+ tmp.morale = 100;
  g->z.push_back(tmp);
 }
 

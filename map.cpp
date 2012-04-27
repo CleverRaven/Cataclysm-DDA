@@ -496,6 +496,8 @@ void map::destroy(game *g, int x, int y, bool makesound)
 
 void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
 {
+ if (dam < 0)
+  return;
 
  if (has_flag(alarmed, x, y) && !g->event_queued(EVENT_WANTED)) {
   g->sound(g->u.posx, g->u.posy, 30, "An alarm sounds!");
@@ -593,6 +595,10 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
 
  if (flags & mfb(IF_AMMO_TRAIL) && !one_in(4))
   add_field(g, x, y, fd_smoke, rng(1, 2));
+
+// Set damage to 0 if it's less
+ if (dam < 0)
+  dam = 0;
 
 // Now, destroy items on that tile.
 
@@ -922,9 +928,7 @@ void map::use_amount(point origin, int range, itype_id type, int quantity,
  for (int radius = 0; radius <= range && quantity > 0; radius++) {
   for (int x = origin.x - radius; x <= origin.x + radius; x++) {
    for (int y = origin.y - radius; y <= origin.y + radius; y++) {
-    if (rl_dist(origin.x, origin.y, x, y) < radius)
-     y++; // Skip over already-examined tiles
-    else {
+    if (rl_dist(origin.x, origin.y, x, y) >= radius) {
      for (int n = 0; n < i_at(x, y).size() && quantity > 0; n++) {
       item* curit = &(i_at(x, y)[n]);
       bool used_contents = false;
@@ -956,9 +960,7 @@ void map::use_charges(point origin, int range, itype_id type, int quantity)
  for (int radius = 0; radius <= range && quantity > 0; radius++) {
   for (int x = origin.x - radius; x <= origin.x + radius; x++) {
    for (int y = origin.y - radius; y <= origin.y + radius; y++) {
-    if (rl_dist(origin.x, origin.y, x, y) < radius)
-     y++; // Skip over already-examined tiles
-    else {
+    if (rl_dist(origin.x, origin.y, x, y) >= radius) {
      for (int n = 0; n < i_at(x, y).size(); n++) {
       item* curit = &(i_at(x, y)[n]);
 // Check contents first

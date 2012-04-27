@@ -497,11 +497,11 @@ int player::hit_mon(game *g, monster *z)
   if (is_u)
    g->add_msg("Your %s gets stuck in the %s, pulling it out of your hands!",
               weapon.tname().c_str(), z->type->name.c_str());
-  z->add_item(remove_weapon());
   if (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB))
    z->speed *= .7;
   else
    z->speed *= .85;
+  z->add_item(remove_weapon());
  } else {
   if (dam >= z->hp) {
    cutting_penalty /= 2;

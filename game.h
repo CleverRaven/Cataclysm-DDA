@@ -69,6 +69,7 @@ class game
   void draw();
   void draw_ter();
   void advance_nextinv();	// Increment the next inventory letter
+  void decrease_nextinv();	// Decrement the next inventory letter
   void add_msg(const char* msg, ...);
   void add_event(event_type type, int on_turn, int faction_id = -1,
                  int x = -1, int y = -1);

@@ -1,4 +1,5 @@
 #include "game.h"
+#include "keypress.h"
 #include <fstream>
 
 action_id look_up_action(std::string ident);
@@ -7,6 +8,17 @@ void game::load_keyboard_settings()
 {
  std::ifstream fin;
  fin.open("data/keymap.txt");
+ if (!fin) { // It doesn't exist
+  std::ofstream fout;
+  fout.open("data/keymap.txt");
+  fout << default_keymap_txt();
+  fout.close();
+  fin.open("data/keymap.txt");
+ }
+ if (!fin) { // Still can't open it--probably bad permissions
+  debugmsg("Can't open data/keymap.txt.  This may be a permissions issue.");
+  return;
+ }
  while (!fin.eof()) {
   std::string id;
   fin >> id;
@@ -79,6 +91,8 @@ action_id look_up_action(std::string ident)
   return ACTION_LOOK;
  if (ident == "inventory")
   return ACTION_INVENTORY;
+ if (ident == "organize")
+  return ACTION_ORGANIZE;
  if (ident == "apply")
   return ACTION_USE;
  if (ident == "wear")

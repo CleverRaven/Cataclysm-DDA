@@ -1168,13 +1168,14 @@ void mattack::smg(game *g, monster *z)
      !g->sees_u(z->posx, z->posy, t))
   return;
  z->sp_timeout = z->type->sp_freq;	// Reset timer
- z->moves = -150;			// It takes a while
 
  if (!z->has_effect(ME_TARGETED)) {
   g->sound(z->posx, z->posy, 6, "beep-beep-beep!");
   z->add_effect(ME_TARGETED, 8);
+  z->moves -= 100;
   return;
  }
+ z->moves = -150;			// It takes a while
 
  if (g->u_see(z->posx, z->posy, j))
   g->add_msg("The %s fires its smg!", z->name().c_str());

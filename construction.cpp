@@ -155,6 +155,11 @@ void game::construction_menu()
  inventory total_inv;
  total_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
  total_inv.add_stack(u.inv_dump());
+ if (u.has_bionic(bio_tools)) {
+  item tools(itypes[itm_toolset], turn);
+  tools.charges = u.power_level;
+  total_inv += tools;
+ }
 
  do {
 // Determine where in the master list to start printing
@@ -392,7 +397,7 @@ void game::place_construction(constructable *con)
  }
  mvprintz(0, 0, c_red, "Pick a direction in which to construct:");
  int dirx, diry;
- get_direction(dirx, diry, input());
+ get_direction(this, dirx, diry, input());
  if (dirx == -2) {
   add_msg("Invalid direction.");
   return;

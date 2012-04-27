@@ -200,7 +200,7 @@ void player::activate_bionic(int b, game *g)
  case bio_lighter:
   g->draw();
   mvprintw(0, 0, "Torch in which direction?");
-  get_direction(dirx, diry, input());
+  get_direction(g, dirx, diry, input());
   if (dirx == -2) {
    g->add_msg("Invalid direction.");
    power_level += bionics[bio_lighter].power_cost;
@@ -252,7 +252,7 @@ void player::activate_bionic(int b, game *g)
  case bio_emp:
   g->draw();
   mvprintw(0, 0, "Fire EMP in which direction?");
-  get_direction(dirx, diry, input());
+  get_direction(g, dirx, diry, input());
   if (dirx == -2) {
    g->add_msg("Invalid direction.");
    power_level += bionics[bio_emp].power_cost;
@@ -337,7 +337,7 @@ void player::activate_bionic(int b, game *g)
  case bio_lockpick:
   g->draw();
   mvprintw(0, 0, "Unlock in which direction?");
-  get_direction(dirx, diry, input());
+  get_direction(g, dirx, diry, input());
   if (dirx == -2) {
    g->add_msg("Invalid direction.");
    power_level += bionics[bio_lockpick].power_cost;

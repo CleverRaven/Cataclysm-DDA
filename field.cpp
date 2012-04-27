@@ -672,6 +672,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     z->speed *= .8;
     remove_field(x, y);
    }
+   break;
 
   case fd_acid:
    if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&

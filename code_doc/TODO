@@ -98,7 +98,6 @@ GENERAL:
   Pushable furniture; push dressers, fridges, etc. in front of doors
 
   Configurable options:
-	Keybindings
 	Colors (e.g. highlight color, currently blue)
 		Also ncurses options, e.g. A_BLINK support--not all terminals
 		  can display bright background colors, so black-on-dark-gray

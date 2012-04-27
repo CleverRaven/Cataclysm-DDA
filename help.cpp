@@ -150,7 +150,7 @@ the more intense high of Adderall and methamphetamine.");
    erase();
    mvprintz(0, 0, c_white, "\
 Many drugs have a potential for addiction.  Each time you consume such a drug\n\
-there is a chance that you will grow dependant on it.  Consuming more of that\n\
+there is a chance that you will grow dependent on it.  Consuming more of that\n\
 drug will increase your dependance.  Effects vary greatly between drugs, but\n\
 all addictions have only one cure; going cold turkey.  The process may last\n\
 days, and will leave you very weak, so try to do it in a safe area.\n\
@@ -290,7 +290,7 @@ replaced by some or all of its constituent parts; however, if you fail, there\n\
 is a chance that you will set off the trap, suffering the consequences.\n\
 \n\
 Many traps are fully or partially hidden.  Your ability to detect traps is\n\
-entirely dependant upon your Perception.  Should you stumble into a trap, you\n\
+entirely dependent upon your Perception.  Should you stumble into a trap, you\n\
 may have a chance to avoid it, depending on your Dodge skill.");
 
    getch();

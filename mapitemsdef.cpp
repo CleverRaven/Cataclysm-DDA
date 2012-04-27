@@ -182,7 +182,7 @@ void game::init_mapitems()
         itm_amplifier, itm_antenna, itm_battery, itm_soldering_iron,
         itm_screwdriver, itm_processor, itm_RAM, itm_mp3, itm_flashlight,
         itm_radio, itm_hotplate, itm_receiver, itm_transponder, itm_tazer,
-	itm_two_way_radio, itm_usb_drive, NULL);
+	itm_two_way_radio, itm_usb_drive, itm_manual_electronics, NULL);
 
  setvector(
    mapitems[mi_sports],

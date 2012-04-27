@@ -990,7 +990,7 @@ point overmap::choose_point(game *g)
   int dirx, diry;
   if (ch != ERR)
    blink = true;	// If any input is detected, make the blinkies on
-  get_direction(dirx, diry, ch);
+  get_direction(g, dirx, diry, ch);
   if (dirx != -2 && diry != -2) {
    cursx += dirx;
    cursy += diry;

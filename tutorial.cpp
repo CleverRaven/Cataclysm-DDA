@@ -3,7 +3,7 @@
 #include "action.h"
 #include "tutorial.h"
 
-void tutorial_game::init(game *g)
+bool tutorial_game::init(game *g)
 {
  g->turn = HOURS(12); // Start at noon
  for (int i = 0; i < NUM_LESSONS; i++)
@@ -49,6 +49,8 @@ void tutorial_game::init(game *g)
  g->levz = 0;
  g->u.posx = SEEX + 2;
  g->u.posy = SEEY + 4;
+
+ return true;
 }
 
 void tutorial_game::per_turn(game *g)

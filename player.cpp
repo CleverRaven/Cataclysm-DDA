@@ -3381,7 +3381,7 @@ bool player::eat(game *g, int index)
   }
 // At this point, we've definitely eaten the item, so use up some turns.
   if (has_trait(PF_GOURMAND))
-   moves -= 150;
+   moves -= 150; 
   else
    moves -= 250;
 // If it's poisonous... poison us.  TODO: More several poison effects
@@ -3399,8 +3399,7 @@ bool player::eat(game *g, int index)
   } else if (g->u_see(posx, posy, linet))
    g->add_msg("%s eats a %s.", name.c_str(), eaten->tname(g).c_str());
 
-  if (g->itypes[comest->tool]->is_tool() &&
-      g->itypes[comest->tool]->count_by_charges())
+  if (g->itypes[comest->tool]->is_tool())
    use_charges(comest->tool, 1); // Tools like lighters get used
   if (comest->stim > 0) {
    if (comest->stim < 10 && stim < comest->stim) {

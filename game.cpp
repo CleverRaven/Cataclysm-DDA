@@ -343,8 +343,15 @@ fivedozenwhales@gmail.com.");
     }
     if (ch == 'l' || ch == '\n' || ch == '>') {
      if (sel2 >= 1 && sel2 < NUM_SPECIAL_GAMES) {
+      delete gamemode;
       gamemode = get_special_game( special_game_id(sel2) );
-      gamemode->init(this);
+      if (!gamemode->init(this)) {
+       delete gamemode;
+       gamemode = new special_game;
+       u = player();
+       delwin(w_open);
+       return (opening_screen());
+      }
       start = true;
       ch = 0;
      }
@@ -1166,6 +1173,10 @@ void game::get_input()
    refresh_all();
   } break;
 
+  case ACTION_ORGANIZE:
+   reassign_item();
+   break;
+
   case ACTION_USE:
    use_item();
    break;
@@ -1604,6 +1615,16 @@ void game::advance_nextinv()
   nextinv = 'A';
  else if (nextinv == 'Z')
   nextinv = 'a';
+ else
+  nextinv++;
+}
+
+void game::decrease_nextinv()
+{
+ if (nextinv == 'a')
+  nextinv = 'Z';
+ else if (nextinv == 'A')
+  nextinv = 'z';
  else
   nextinv++;
 }
@@ -2717,7 +2738,7 @@ void game::monmove()
    i--;
   else {
    if (u.has_active_bionic(bio_alarm) && u.power_level >= 1 &&
-       abs(z[i].posx - u.posx) <= 5 && abs(z[i].posy - u.posy) <= 5) {
+       rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= 5) {
     u.power_level--;
     add_msg("Your motion alarm goes off!");
     u.activity.type = ACT_NULL;
@@ -3311,13 +3332,13 @@ void game::kill_mon(int index)
   debugmsg("Tried to kill monster %d! (%d in play)", index, z.size());
   return;
  }
- if (z[index].dead)
-  return;
- z[index].dead = true;
- kills[z[index].type->id]++;	// Increment our kill counter
- for (int i = 0; i < z[index].inv.size(); i++)
-  m.add_item(z[index].posx, z[index].posy, z[index].inv[i]);
- z[index].die(this);
+ if (!z[index].dead) {
+  z[index].dead = true;
+  kills[z[index].type->id]++;	// Increment our kill counter
+  for (int i = 0; i < z[index].inv.size(); i++)
+   m.add_item(z[index].posx, z[index].posy, z[index].inv[i]);
+  z[index].die(this);
+ }
  z.erase(z.begin()+index);
  if (last_target == index)
   last_target = -1;
@@ -3331,69 +3352,69 @@ void game::explode_mon(int index)
   debugmsg("Tried to explode monster %d! (%d in play)", index, z.size());
   return;
  }
- if (z[index].dead)
-  return;
- z[index].dead = true;
- kills[z[index].type->id]++;	// Increment our kill counter
+ if (!z[index].dead) {
+  z[index].dead = true;
+  kills[z[index].type->id]++;	// Increment our kill counter
 // Send body parts and blood all over!
- mtype* corpse = z[index].type;
- if (corpse->mat == FLESH || corpse->mat == VEGGY) { // No chunks otherwise
-  int num_chunks;
-  switch (corpse->size) {
-   case MS_TINY:   num_chunks =  1; break;
-   case MS_SMALL:  num_chunks =  2; break;
-   case MS_MEDIUM: num_chunks =  4; break;
-   case MS_LARGE:  num_chunks =  8; break;
-   case MS_HUGE:   num_chunks = 16; break;
-  }
-  itype* meat;
-  if (corpse->has_flag(MF_POISON)) {
-   if (corpse->mat == FLESH)
-    meat = itypes[itm_meat_tainted];
-   else
-    meat = itypes[itm_veggy_tainted];
-  } else {
-   if (corpse->mat == FLESH)
-    meat = itypes[itm_meat];
-   else
-    meat = itypes[itm_veggy];
-  }
-
-  int posx = z[index].posx, posy = z[index].posy;
-  for (int i = 0; i < num_chunks; i++) {
-   int tarx = posx + rng(-3, 3), tary = posy + rng(-3, 3);
-   std::vector<point> traj = line_to(posx, posy, tarx, tary, 0);
-
-   bool done = false;
-   for (int j = 0; j < traj.size() && !done; j++) {
-    tarx = traj[j].x;
-    tary = traj[j].y;
-// Choose a blood type and place it
-    field_id blood_type = fd_blood;
-    if (corpse->dies == &mdeath::boomer)
-     blood_type = fd_bile;
-    else if (corpse->dies == &mdeath::acid)
-     blood_type = fd_acid;
-    if (m.field_at(tarx, tary).type == blood_type &&
-        m.field_at(tarx, tary).density < 3)
-     m.field_at(tarx, tary).density++;
+  mtype* corpse = z[index].type;
+  if (corpse->mat == FLESH || corpse->mat == VEGGY) { // No chunks otherwise
+   int num_chunks;
+   switch (corpse->size) {
+    case MS_TINY:   num_chunks =  1; break;
+    case MS_SMALL:  num_chunks =  2; break;
+    case MS_MEDIUM: num_chunks =  4; break;
+    case MS_LARGE:  num_chunks =  8; break;
+    case MS_HUGE:   num_chunks = 16; break;
+   }
+   itype* meat;
+   if (corpse->has_flag(MF_POISON)) {
+    if (corpse->mat == FLESH)
+     meat = itypes[itm_meat_tainted];
     else
-     m.add_field(this, tarx, tary, blood_type, 1);
+     meat = itypes[itm_veggy_tainted];
+   } else {
+    if (corpse->mat == FLESH)
+     meat = itypes[itm_meat];
+    else
+     meat = itypes[itm_veggy];
+   }
 
-    if (m.move_cost(tarx, tary) == 0) {
-     std::string tmp = "";
-     if (m.bash(tarx, tary, 3, tmp))
-      sound(tarx, tary, 18, tmp);
-     else {
-      if (j > 0) {
-       tarx = traj[j - 1].x;
-       tary = traj[j - 1].y;
+   int posx = z[index].posx, posy = z[index].posy;
+   for (int i = 0; i < num_chunks; i++) {
+    int tarx = posx + rng(-3, 3), tary = posy + rng(-3, 3);
+    std::vector<point> traj = line_to(posx, posy, tarx, tary, 0);
+ 
+    bool done = false;
+    for (int j = 0; j < traj.size() && !done; j++) {
+     tarx = traj[j].x;
+     tary = traj[j].y;
+// Choose a blood type and place it
+     field_id blood_type = fd_blood;
+     if (corpse->dies == &mdeath::boomer)
+      blood_type = fd_bile;
+     else if (corpse->dies == &mdeath::acid)
+      blood_type = fd_acid;
+     if (m.field_at(tarx, tary).type == blood_type &&
+         m.field_at(tarx, tary).density < 3)
+      m.field_at(tarx, tary).density++;
+     else
+      m.add_field(this, tarx, tary, blood_type, 1);
+
+     if (m.move_cost(tarx, tary) == 0) {
+      std::string tmp = "";
+      if (m.bash(tarx, tary, 3, tmp))
+       sound(tarx, tary, 18, tmp);
+      else {
+       if (j > 0) {
+        tarx = traj[j - 1].x;
+        tary = traj[j - 1].y;
+       }
+       done = true;
       }
-      done = true;
      }
     }
+    m.add_item(tarx, tary, meat, turn);
    }
-   m.add_item(tarx, tary, meat, turn);
   }
  }
 
@@ -3413,7 +3434,7 @@ void game::open()
  int openx, openy;
  char ch = input();
  last_action += ch;
- get_direction(openx, openy, ch);
+ get_direction(this, openx, openy, ch);
  if (openx != -2 && openy != -2)
   if (m.ter(u.posx, u.posy) == t_floor)
    didit = m.open_door(u.posx + openx, u.posy + openy, true);
@@ -3446,7 +3467,7 @@ void game::close()
  int closex, closey;
  char ch = input();
  last_action += ch;
- get_direction(closex, closey, ch);
+ get_direction(this, closex, closey, ch);
  if (closex != -2 && closey != -2) {
   closex += u.posx;
   closey += u.posy;
@@ -3479,7 +3500,7 @@ void game::smash()
   return;
  }
  int smashx, smashy;
- get_direction(smashx, smashy, ch);
+ get_direction(this, smashx, smashy, ch);
 // TODO: Move this elsewhere.
  if (m.has_flag(alarmed, u.posx + smashx, u.posy + smashy) &&
      !event_queued(EVENT_WANTED)) {
@@ -3532,7 +3553,7 @@ void game::examine()
  last_action += ch;
  if (ch == KEY_ESCAPE || ch == 'e' || ch == 'q')
   return;
- get_direction(examx, examy, ch);
+ get_direction(this, examx, examy, ch);
  if (examx == -2 || examy == -2) {
   add_msg("Invalid direction.");
   return;
@@ -3811,7 +3832,7 @@ point game::look_around()
   if (!u_see(lx, ly, junk))
    mvwputch(w_terrain, ly - u.posy + SEEY, lx - u.posx + SEEX, c_black, ' ');
   draw_ter();
-  get_direction(mx, my, ch);
+  get_direction(this, mx, my, ch);
   if (mx != -2 && my != -2) {	// Directional key pressed
    lx += mx;
    ly += my;
@@ -3914,9 +3935,12 @@ void game::pickup(int posx, int posy, int min)
    add_msg("You can't pick up a liquid!");
    return;
   }
-  while (iter < 52 && (newit.invlet == 0 ||
-                       (u.has_item(newit.invlet) &&
-                        !u.i_at(newit.invlet).stacks_with(newit))) ) {
+  if (newit.invlet == 0) {
+   newit.invlet = nextinv;
+   advance_nextinv();
+  }
+  while (iter < 52 && u.has_item(newit.invlet) &&
+         !u.i_at(newit.invlet).stacks_with(newit)) {
    newit.invlet = nextinv;
    iter++;
    advance_nextinv();
@@ -3926,7 +3950,7 @@ void game::pickup(int posx, int posy, int min)
    return;
   } else if (u.weight_carried() + newit.weight() > u.weight_capacity()) {
    add_msg("The %s is too heavy!", newit.tname(this).c_str());
-   nextinv--;
+   decrease_nextinv();
   } else if (u.volume_carried() + newit.volume() > u.volume_capacity()) {
    if (u.is_armed()) {
     if (u.weapon.type->id < num_items && // Not a bionic
@@ -3939,7 +3963,7 @@ void game::pickup(int posx, int posy, int min)
      u.moves -= 100;
      add_msg("Wielding %c - %s", newit.invlet, newit.tname(this).c_str());
     } else
-     nextinv--;
+     decrease_nextinv();
    } else {
     u.i_add(newit);
     u.wield(this, u.inv.size() - 1);
@@ -4103,7 +4127,7 @@ void game::pickup(int posx, int posy, int min)
     return;
    } else if (u.weight_carried() + here[i].weight() > u.weight_capacity()) {
     add_msg("The %s is too heavy!", here[i].tname(this).c_str());
-    nextinv--;
+    decrease_nextinv();
    } else if (u.volume_carried() + here[i].volume() > u.volume_capacity()) {
     if (u.is_armed()) {
      if (u.weapon.type->id < num_items && // Not a bionic
@@ -4116,7 +4140,7 @@ void game::pickup(int posx, int posy, int min)
       m.i_rem(posx, posy, curmit);
       curmit--;
      } else
-      nextinv--;
+      decrease_nextinv();
     } else {
      u.i_add(here[i]);
      u.wield(this, u.inv.size() - 1);
@@ -4288,7 +4312,7 @@ void game::drop_in_direction()
  refresh_all();
  mvprintz(0, 0, c_red, "Choose a direction:");
  int dirx, diry;
- get_direction(dirx, diry, input());
+ get_direction(this, dirx, diry, input());
  if (dirx == -2) {
   add_msg("Invalid direction!");
   return;
@@ -5058,13 +5082,20 @@ void game::plmove(int x, int y)
    u.rem_disease(DI_ONFIRE);
   }
   if (displace) {	// We displaced a friendly monster!
-// TODO: This is hacky, but the turret is the only thing it's need for now
-   if (z[mondex].type->id == mon_turret) {
-    if (query_yn("Deactivate the turret?")) {
-     z.erase(z.begin() + mondex);
-     m.add_item(z[mondex].posx, z[mondex].posy, itypes[itm_bot_turret], turn);
+// Immobile monsters can't be displaced.
+   if (z[mondex].has_flag(MF_IMMOBILE)) {
+// ...except that turrets can be picked up.
+    if (z[mondex].type->id == mon_turret) {
+     if (query_yn("Deactivate the turret?")) {
+      z.erase(z.begin() + mondex);
+      u.moves -= 100;
+      m.add_item(z[mondex].posx, z[mondex].posy, itypes[itm_bot_turret], turn);
+     }
+     return;
+    } else {
+     add_msg("You can't displace your %s.", z[mondex].name().c_str());
+     return;
     }
-    return;
    }
    z[mondex].move_to(this, u.posx, u.posy);
    add_msg("You displace the %s.", z[mondex].name().c_str());

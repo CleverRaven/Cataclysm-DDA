@@ -921,7 +921,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_GOODHEARING, MF_ELECTRONIC);
 
 mon("secubot",	species_robot, 'R',	c_dkgray,	MS_SMALL,	STEEL,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  7, 19,100,100, 70,  0,  0,  0,  0,  0,  0, 14, 80, 80, 8,
+	  7, 19,100,100, 70,  0,  0,  0,  0,  0,  0, 14, 80, 80, 2,
 	&mdeath::explode,	&mattack::smg, "\
 A boxy robot about four feet high.  It moves\n\
 slowly on a set of treads, and is armed with\n\

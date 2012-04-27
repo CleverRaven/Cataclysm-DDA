@@ -4994,6 +4994,27 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    line(this, t_wall_h,  1, 13, 10, 13);
    line(this, t_wall_h, 13, 10, rw, 10);
    line(this, t_wall_h, 13, 13, rw, 13);
+// Doors
+   if (one_in(2))
+    ter(10, rng(tw + 1, 8)) = t_door_c;
+   else
+    ter(rng(2, 8), 10) = t_door_c;
+
+   if (one_in(2))
+    ter(13, rng(tw + 1, 8)) = t_door_c;
+   else
+    ter(rng(15, rw - 1), 10) = t_door_c;
+
+   if (one_in(2))
+    ter(10, rng(15, SEEY * 2 - 3)) = t_door_c;
+   else
+    ter(rng(2, 8), 13) = t_door_c;
+
+   if (one_in(2))
+    ter(13, rng(15, SEEY * 2 - 3)) = t_door_c;
+   else
+    ter(rng(15, rw - 1), 13) = t_door_c;
+
    mansion_room(this,  1, tw,  9,  9);
    mansion_room(this, 14, tw, rw,  9);
    mansion_room(this,  1, 14,  9, SEEY * 2 - 2);
@@ -5098,9 +5119,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      consecutive = 0;
    }
   }
-
   break;
-
 
  case ot_spider_pit_under:
   for (int i = 0; i < SEEX * 2; i++) {
@@ -7330,7 +7349,7 @@ room_type pick_mansion_room(int x1, int y1, int x2, int y2)
   valid.push_back(room_mansion_game);
  if (shortest >= 10)
   valid.push_back(room_mansion_pool);
- if (longest <= 6)
+ if (longest <= 6 || shortest <= 4)
   valid.push_back(room_mansion_bathroom);
  if (longest >= 8 && shortest <= 6)
   valid.push_back(room_mansion_gallery);

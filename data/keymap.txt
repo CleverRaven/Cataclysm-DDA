@@ -1,7 +1,7 @@
 # This is the keymapping for Cataclysm.
 # You can start a line with # to make it a comment--it will be ignored.
 # Blank lines are ignored too.
-# Extra whitespace, including tabs, is ignored, so format things how you like.
+# Extra whitespace, including tab, is ignored, so format things how you like.
 
 # The format for each line is an action identifier, followed by several
 # keys.  Any action may have an unlimited number of keys bound to it.
@@ -24,7 +24,7 @@
 # For now, you must use vikeys, the numpad, or arrow keys for those actions.
 # This is planned to change in the future.
 
-# Finally, there is no support for special keys, like tab, spacebar, Home, and
+# Finally, there is no support for special keys, like spacebar, Home, and
 # so on.  This is not a planned feature, but if it's important to you, please
 # let me know.
 
@@ -53,6 +53,7 @@ look ; x
 
 # INVENTORY & QUASI-INVENTORY INTERACTION
 inventory i
+organize =
 apply a
 wear W
 take_off T
@@ -84,6 +85,7 @@ player_data @
 map m :
 factions #
 morale %
+help ?
 
 # DEBUG FUNCTIONS
 debug Z

@@ -24,7 +24,7 @@ struct special_game
 {
  virtual special_game_id id() { return SGAME_NULL; };
 // init is run when the game begins
- virtual void init(game *g) { };
+ virtual bool init(game *g) { return true; };
 // per_turn is run every turn--before any player actions
  virtual void per_turn(game *g) { };
 // pre_action is run after a keypress, but before the game handles the action
@@ -67,7 +67,7 @@ NUM_LESSONS
 struct tutorial_game : public special_game
 {
  virtual special_game_id id() { return SGAME_TUTORIAL; };
- virtual void init(game *g);
+ virtual bool init(game *g);
  virtual void per_turn(game *g);
  virtual void pre_action(game *g, action_id &act);
  virtual void post_action(game *g, action_id act);
@@ -121,7 +121,7 @@ struct defense_game : public special_game
  defense_game();
 
  virtual special_game_id id() { return SGAME_DEFENSE; };
- virtual void init(game *g);
+ virtual bool init(game *g);
  virtual void per_turn(game *g);
  virtual void pre_action(game *g, action_id &act);
  virtual void post_action(game *g, action_id act);
