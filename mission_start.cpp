@@ -215,3 +215,39 @@ void mission_start::reveal_hospital(game *g, mission *miss)
  }
  miss->target = place;
 }
+
+void mission_start::find_safety(game *g, mission *miss)
+{
+ point place = g->om_location();
+ bool done = false;
+ for (int radius = 0; radius <= 20 && !done; radius++) {
+  for (int dist = 0 - radius; dist <= radius && !done; dist++) {
+   int offset = rng(0, 3); // Randomizes the direction we check first
+   for (int i = 0; i <= 3 && !done; i++) { // Which direction?
+    point check = place;
+    switch ( (offset + i) % 4 ) {
+     case 0: check.x += dist; check.y -= radius; break;
+     case 1: check.x += dist; check.y += radius; break;
+     case 2: check.y += dist; check.x -= radius; break;
+     case 3: check.y += dist; check.x += radius; break;
+    }
+    if (g->cur_om.is_safe(check.x, check.y)) {
+     miss->target = check;
+     done = true;
+    }
+   }
+  }
+ }
+ if (!done) { // Couldn't find safety; so just set the target to far away
+  switch ( rng(0, 3) ) {
+   case 0: miss->target = point(place.x - 20, place.y - 20); break;
+   case 1: miss->target = point(place.x - 20, place.y + 20); break;
+   case 2: miss->target = point(place.x + 20, place.y - 20); break;
+   case 3: miss->target = point(place.x + 20, place.y + 20); break;
+  }
+ }
+}
+
+void mission_start::place_book(game *g, mission *miss)
+{
+}

@@ -110,16 +110,16 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
         case WM_KEYDOWN:                //Here we handle non-character input
             switch (wParam){
                 case VK_LEFT:
-                    lastchar = 52;
+                    lastchar = KEY_LEFT;
                     break;
                 case VK_RIGHT:
-                    lastchar = 54;
+                    lastchar = KEY_RIGHT;
                     break;
                 case VK_UP:
-                    lastchar = 56;
+                    lastchar = KEY_UP;
                     break;
                 case VK_DOWN:
-                    lastchar = 50;
+                    lastchar = KEY_DOWN;
                     break;
                 default:
                     break;
@@ -285,8 +285,8 @@ fin.open("data\\FONTDATA");
     halfheight=fontheight / 2;
     WindowWidth=80*fontwidth;
     WindowHeight=25*fontheight;
-    WindowX=(GetSystemMetrics(SM_CXSCREEN) / 2)-WindowWidth;    //center this
-    WindowY=(GetSystemMetrics(SM_CYSCREEN) / 2)-WindowHeight;   //sucker
+    WindowX=(GetSystemMetrics(SM_CXSCREEN) / 2)-WindowWidth/2;    //center this
+    WindowY=(GetSystemMetrics(SM_CYSCREEN) / 2)-WindowHeight/2;   //sucker
     WinCreate();    //Create the actual window, register it, etc
     CheckMessages();    //Let the message queue handle setting up the window
     WindowDC = GetDC(WindowHandle);
@@ -378,17 +378,20 @@ int delwin(WINDOW *win)
     return 1;
 };
 
-inline void newline(WINDOW *win){
-if (win->cursory < win->height - 1)
- win->cursory++;
-win->cursorx=0;
+inline int newline(WINDOW *win){
+    if (win->cursory < win->height - 1){
+        win->cursory++;
+        win->cursorx=0;
+        return 1;
+    }
+return 0;
 };
 
 inline void addedchar(WINDOW *win){
-win->cursorx++;
-win->line[win->cursory].touched=true;
-if (win->cursorx > win->width)
-newline(win);
+    win->cursorx++;
+    win->line[win->cursory].touched=true;
+    if (win->cursorx > win->width)
+        newline(win);
 };
 
 
@@ -484,18 +487,19 @@ inline int printstring(WINDOW *win, char *fmt)
  int size = strlen(fmt);
  int j;
  for (j=0; j<size; j++){
-  if (!(fmt[j]==10)){//check for a newline character
+  if (!(fmt[j]==10)){//check that this isnt a newline char
    if (win->cursorx <= win->width - 1 && win->cursory <= win->height - 1) {
     win->line[win->cursory].chars[win->cursorx]=fmt[j];
     win->line[win->cursory].FG[win->cursorx]=win->FG;
     win->line[win->cursory].BG[win->cursorx]=win->BG;
     win->line[win->cursory].touched=true;
     addedchar(win);
-   }
-  } else if (win->cursory >= win->height - 1)
-   return 0;
-  else
-   newline(win); // if found, make sure to move down a line
+   } else
+   return 0; //if we try and write anything outside the window, abort completely
+} else // if the character is a newline, make sure to move down a line
+  if (newline(win)==0){
+      return 0;
+      }
  }
  win->draw=true;
  return 1;

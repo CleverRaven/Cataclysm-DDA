@@ -43,8 +43,8 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
    mvwprintz(w_inv, 3, 40, c_white, "%c + %s", g->u.weapon.invlet,
              g->u.weapname().c_str());
   else
-   mvwprintz(w_inv, 3, 40, c_ltgray, "%c - %s", g->u.weapon.invlet,
-             g->u.weapname().c_str());
+   mvwprintz(w_inv, 3, 40, g->u.weapon.color_in_inventory(&(g->u)), "%c - %s",
+             g->u.weapon.invlet, g->u.weapname().c_str());
  } else
   mvwprintz(w_inv, 3, 42, c_ltgray, g->u.weapname().c_str());
 // Print worn items
@@ -110,7 +110,7 @@ char game::inv(std::string title)
  std::vector<int> firsts = find_firsts(u.inv);
 
  do {
-  if (ch == '<' && start > 0) {
+  if (ch == '<' && start > 0) { // Clear lines and shift
    for (int i = 1; i < 25; i++)
     mvwprintz(w_inv, i, 0, c_black, "                                        ");
    start -= maxitems;
@@ -118,7 +118,7 @@ char game::inv(std::string title)
     start = 0;
    mvwprintw(w_inv, maxitems + 2, 0, "         ");
   }
-  if (ch == '>' && cur_it < u.inv.size()) {
+  if (ch == '>' && cur_it < u.inv.size()) { // Clear lines and shift
    start = cur_it;
    mvwprintw(w_inv, maxitems + 2, 12, "            ");
    for (int i = 1; i < 25; i++)
@@ -137,7 +137,8 @@ char game::inv(std::string title)
    }
    if (cur_it < u.inv.size()) {
     mvwputch (w_inv, cur_line, 0, c_white, u.inv[cur_it].invlet);
-    mvwprintw(w_inv, cur_line, 1, " %s", u.inv[cur_it].tname(this).c_str());
+    mvwprintz(w_inv, cur_line, 1, u.inv[cur_it].color_in_inventory(&u), " %s",
+              u.inv[cur_it].tname(this).c_str());
     if (u.inv.stack_at(cur_it).size() > 1)
      wprintw(w_inv, " [%d]", u.inv.stack_at(cur_it).size());
     if (u.inv[cur_it].charges > 0)
@@ -164,6 +165,8 @@ char game::inv(std::string title)
 
 std::vector<item> game::multidrop()
 {
+ u.inv.restack(this);
+ u.sort_inv();
  WINDOW* w_inv = newwin(25, 80, 0, 0);
  const int maxitems = 20;    // Number of items to show at one time.
  int dropping[u.inv.size()]; // Count of how many we'll drop from each stack
@@ -172,8 +175,6 @@ std::vector<item> game::multidrop()
  int count = 0; // The current count
  std::vector<char> weapon_and_armor; // Always single, not counted
  bool warned_about_bionic = false; // Printed add_msg re: dropping bionics
- u.inv.restack(this);
- u.sort_inv();
  print_inv_statics(this, w_inv, "Multidrop:", weapon_and_armor);
 // Gun, ammo, weapon, armor, food, tool, book, other
  std::vector<int> firsts = find_firsts(u.inv);

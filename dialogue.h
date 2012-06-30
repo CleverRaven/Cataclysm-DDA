@@ -35,12 +35,27 @@ struct talk_function
  void mission_failure		(game *g, npc *p);
  void clear_mission		(game *g, npc *p);
  void mission_reward		(game *g, npc *p);
+ void mission_favor		(game *g, npc *p);
  void give_equipment		(game *g, npc *p);
  void start_trade		(game *g, npc *p);
  void follow			(game *g, npc *p); // p follows u
  void deny_follow		(game *g, npc *p); // p gets DI_ASKED_TO_FOLLOW
+ void deny_lead			(game *g, npc *p); // p gets DI_ASKED_TO_LEAD
+ void deny_equipment		(game *g, npc *p); // p gets DI_ASKED_FOR_ITEM
  void enslave			(game *g, npc *p) {}; // p becomes slave of u
- void hostile			(game *g, npc *p) {}; // p turns hostile to u
+ void hostile			(game *g, npc *p); // p turns hostile to u
+ void flee			(game *g, npc *p);
+ void leave			(game *g, npc *p); // p becomes indifferant
+
+ void start_mugging		(game *g, npc *p);
+ void player_leaving		(game *g, npc *p);
+
+ void drop_weapon		(game *g, npc *p);
+ void player_weapon_away	(game *g, npc *p);
+ void player_weapon_drop	(game *g, npc *p);
+
+ void lead_to_safety		(game *g, npc *p);
+ void start_training		(game *g, npc *p);
 
  void toggle_use_guns		(game *g, npc *p);
  void toggle_use_grenades	(game *g, npc *p);
@@ -70,6 +85,8 @@ struct talk_response
  talk_trial trial;
  int difficulty;
  int mission_index;
+ mission_id miss;	// If it generates a new mission
+ int tempvalue;		// Used for various stuff
  npc_opinion opinion_success;
  npc_opinion opinion_failure;
  void (talk_function::*effect_success)(game *, npc *);
@@ -83,6 +100,8 @@ struct talk_response
   trial = TALK_TRIAL_NONE;
   difficulty = 0;
   mission_index = -1;
+  miss = MISSION_NULL;
+  tempvalue = -1;
   effect_success = &talk_function::nothing;
   effect_failure = &talk_function::nothing;
   success = TALK_NONE;
@@ -95,6 +114,8 @@ struct talk_response
   trial = rhs.trial;
   difficulty = rhs.difficulty;
   mission_index = rhs.mission_index;
+  miss = rhs.miss;
+  tempvalue = rhs.tempvalue;
   effect_success = rhs.effect_success;
   effect_failure = rhs.effect_failure;
   success = rhs.success;
@@ -264,6 +285,20 @@ std::string talk_come_here[10] = {
 "Look, <name_g><punc> let's talk!"
 };
 
+std::string talk_keep_up[10] = {
+"Catch up!",
+"Get over here!",
+"Catch up, <name_g>!",
+"Keep up!",
+"Come on, <catch_up>!",
+
+"Keep it moving!",
+"Stay with me!",
+"Keep close!",
+"Stay close!",
+"Let's keep going!"
+};
+
 std::string talk_wait[10] = {
 "Hey, where are you?",
 "Wait up, <name_g>!",
@@ -317,8 +352,7 @@ std::string talk_done_mugging[10] = {
 "Thanks, <name_g>!"
 };
 
-#define NUM_STATIC_TAGS 23
-
+#define NUM_STATIC_TAGS 24
 
 tag_data talk_tags[NUM_STATIC_TAGS] = {
 {"<okay>",		&talk_okay},
@@ -339,6 +373,7 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 {"<hands_up>",		&talk_hands_up},
 {"<no_faction>",	&talk_no_faction},
 {"<come_here>",		&talk_come_here},
+{"<keep_up>",		&talk_keep_up},
 {"<lets_talk>",		&talk_come_here},
 {"<wait>",		&talk_wait},
 {"<let_me_pass>",	&talk_let_me_pass},

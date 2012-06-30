@@ -409,8 +409,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   }
   
 // j and i loop through appropriate hive-cell center squares
-  for (int j = 5; j < SEEY * 2; j += 6) {
-   for (int i = (j == 5 || j == 17 ? 3 : 6); i < SEEX * 2; i += 6) {
+  for (int j = 5; j < SEEY * 2 - 5; j += 6) {
+   for (int i = (j == 5 || j == 17 ? 3 : 6); i < SEEX * 2 - 5; i += 6) {
     if (!one_in(8)) {
 // Caps are always there
      ter(i    , j - 5) = t_wax;
@@ -1085,7 +1085,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     house_room(this, room_bathroom, lw, cw, lw + 3, bw);
     house_room(this, room_bedroom, lw + 3, cw, rw, bw);
     if (one_in(4))
-     ter(rng(lw + 1, lw + 2), bw - 2) = t_door_c;
+     ter(rng(lw + 1, lw + 2), cw) = t_door_c;
     else
      ter(lw + 3, rng(cw + 2, bw - 2)) = t_door_c;
     rn = rng(lw + 4, rw - 2);
@@ -1185,7 +1185,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 
  case ot_s_lot:
   for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEX * 2; j++) {
+   for (int j = 0; j < SEEY * 2; j++) {
     if ((j == 5 || j == 9 || j == 13 || j == 17 || j == 21) &&
         ((i > 1 && i < 8) || (i > 14 && i < SEEX * 2 - 2)))
      ter(i, j) = t_pavement_y;
@@ -1195,6 +1195,15 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     else
      ter(i, j) = grass_or_dirt();
    }
+  }
+  if (one_in(3))
+  {
+      int vx = rng (0, 3) * 4 + 5;
+      int vy = 4;
+      vhtype_id vt = (one_in(10)? veh_sandbike :
+                     (one_in(8)? veh_truck :
+                     (one_in(3)? veh_car : veh_motorcycle)));
+      add_vehicle (g, vt, vx, vy, one_in(2)? 90 : 270);
   }
   place_items(mi_road, 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
   if (t_east  >= ot_road_null && t_east  <= ot_road_nesw_manhole)
@@ -2450,9 +2459,9 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    line(this, t_reinforced_glass_v, SEEX - 2, SEEY - 1, SEEX - 2, SEEY);
    line(this, t_reinforced_glass_v, SEEX + 1, SEEY - 1, SEEX + 1, SEEY);
    ter(SEEX - 3, SEEY - 3) = t_console;
-   tmpcomp = add_computer(SEEX - 3, SEEY - 3, "Bionic access", 4);
+   tmpcomp = add_computer(SEEX - 3, SEEY - 3, "Bionic access", 3);
    tmpcomp->add_option("Manifest", COMPACT_LIST_BIONICS, 0);
-   tmpcomp->add_option("Open Chambers", COMPACT_RELEASE, 4);
+   tmpcomp->add_option("Open Chambers", COMPACT_RELEASE, 5);
    tmpcomp->add_failure(COMPFAIL_MANHACKS);
    tmpcomp->add_failure(COMPFAIL_SECUBOTS);
    break;
@@ -2587,8 +2596,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      break;
     case 3: // Supplies
      for (int i = by1 + 1; i <= by2 - 1; i += 3) {
-      line(this, t_rack, bx1 + 1, i, bx2 - 1, i);
-      place_items(mi_mil_food, 78, bx1 + 1, i, bx2 - 1, i, false, 0);
+      line(this, t_rack, bx1 + 2, i, bx2 - 2, i);
+      place_items(mi_mil_food, 78, bx1 + 2, i, bx2 - 2, i, false, 0);
      }
      break;
     }
@@ -2927,7 +2936,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
        std::vector<point> next;
        for (int nx = x - 1; nx <= x + 1; nx++ ) {
         for (int ny = y; ny <= y + 1; ny++) {
-         if (ter(nx, ny) == t_rock_floor);
+         if (ter(nx, ny) == t_rock_floor)
           next.push_back( point(nx, ny) );
         }
        }
@@ -4949,7 +4958,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    line(this, t_wall_v, SEEX * 2 - 1, 0, SEEX * 2 - 1, SEEX * 2 - 1);
   }
 // Now pick a random layout
-  switch (rng(1, 6)) {
+  switch (rng(1, 4)) {
 
   case 1: // Just one. big. room.
    mansion_room(this, 1, tw, rw, SEEY * 2 - 2);
@@ -5028,33 +5037,34 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   case 4: // One large room in lower-left
    mw = rng( 4, 10);
    cw = rng(13, 19);
+   x = rng(5, 10);
+   y = rng(13, 18);
    line(this, t_wall_h,  1, mw, cw, mw);
-   ter(rng(2, cw - 1), mw) = t_door_c;
+   ter( rng(x + 1, cw - 1), mw) = t_door_c;
    line(this, t_wall_v, cw, mw + 1, cw, SEEY * 2 - 2);
-   ter(cw, rng(mw + 2, SEEY * 2 - 3)) = t_door_c;
+   ter(cw, rng(y + 2, SEEY * 2 - 3) ) = t_door_c;
    mansion_room(this, 1, mw + 1, cw - 1, SEEY * 2 - 2);
 // And a couple small rooms in the UL LR corners
-   x = rng(5, 10);
    line(this, t_wall_v, x, tw, x, mw - 1);
    mansion_room(this, 1, tw, x - 1, mw - 1);
    if (one_in(2))
     ter(rng(2, x - 2), mw) = t_door_c;
    else
     ter(x, rng(tw + 2, mw - 2)) = t_door_c;
-   y = rng(13, 18);
    line(this, t_wall_h, cw + 1, y, rw, y);
    mansion_room(this, cw + 1, y, rw, SEEY * 2 - 2);
    if (one_in(2))
     ter(rng(cw + 2, rw - 1), y) = t_door_c;
    else
-    ter(rng(y + 2, SEEY * 2 - 3), cw) = t_door_c;
+    ter(cw, rng(y + 2, SEEY * 2 - 3)) = t_door_c;
 
    if (t_west == ot_mansion_entrance || t_west == ot_mansion)
     line(this, t_floor, 0, SEEY - 1, 0, SEEY);
    if (t_south == ot_mansion_entrance || t_south == ot_mansion)
     line(this, t_floor, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
    break;
-  }
+  } // switch (rng(1, 4))
+
 // Finally, place windows on outside-facing walls if necessary
   if (t_west != ot_mansion_entrance && t_west != ot_mansion) {
    int consecutive = 0;
@@ -6356,6 +6366,32 @@ void map::add_spawn(monster *mon)
            mon->faction_id, mon->mission_id, spawnname);
 }
 
+vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir)
+{
+ if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE) {
+  debugmsg("Bad add_vehicle t=%d d=%d x=%d y=%d", type, dir, x, y);
+  return 0;
+ }
+// debugmsg("add_vehicle t=%d d=%d x=%d y=%d", type, dir, x, y);
+ int smx = x / SEEX;
+ int smy = y / SEEY;
+ int nonant = smx + smy * my_MAPSIZE;
+ x %= SEEX;
+ y %= SEEY;
+// debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
+ vehicle veh(g, type);
+ veh.posx = x;
+ veh.posy = y;
+ veh.smx = smx;
+ veh.smy = smy;
+ veh.face.init(dir);
+ veh.turn_dir = dir;
+ veh.precalc_mounts (0, dir);
+ grid[nonant].vehicles.push_back(veh);
+ //debugmsg ("grid[%d].vehicles.size=%d veh.parts.size=%d", nonant, grid[nonant].vehicles.size(),veh.parts.size());
+ return &grid[nonant].vehicles[grid[nonant].vehicles.size()-1];
+}
+
 computer* map::add_computer(int x, int y, std::string name, int security)
 {
  ter(x, y) = t_console; // TODO: Turn this off?
@@ -6383,6 +6419,7 @@ void map::rotate(int turns)
  std::vector<item> itrot[SEEX*2][SEEY*2];
  std::vector<spawn_point> sprot[my_MAPSIZE * my_MAPSIZE];
  computer tmpcomp;
+ std::vector<vehicle> tmpveh;
 
  switch (turns) {
  case 1:
@@ -6414,6 +6451,12 @@ void map::rotate(int turns)
   grid[my_MAPSIZE].comp = grid[my_MAPSIZE + 1].comp;
   grid[my_MAPSIZE + 1].comp = grid[1].comp;
   grid[1].comp = tmpcomp;
+// ...and vehicles
+  tmpveh = grid[0].vehicles;
+  grid[0].vehicles = grid[my_MAPSIZE].vehicles;
+  grid[my_MAPSIZE].vehicles = grid[my_MAPSIZE + 1].vehicles;
+  grid[my_MAPSIZE + 1].vehicles = grid[1].vehicles;
+  grid[1].vehicles = tmpveh;
   break;
     
  case 2:
@@ -6445,6 +6488,13 @@ void map::rotate(int turns)
   tmpcomp = grid[1].comp;
   grid[1].comp = grid[my_MAPSIZE].comp;
   grid[my_MAPSIZE].comp = tmpcomp;
+// ...and vehicles
+  tmpveh = grid[0].vehicles;
+  grid[0].vehicles = grid[my_MAPSIZE + 1].vehicles;
+  grid[my_MAPSIZE + 1].vehicles = tmpveh;
+  tmpveh = grid[1].vehicles;
+  grid[1].vehicles = grid[my_MAPSIZE].vehicles;
+  grid[my_MAPSIZE].vehicles = tmpveh;
   break;
     
  case 3:
@@ -6475,11 +6525,23 @@ void map::rotate(int turns)
   grid[1].comp = grid[my_MAPSIZE + 1].comp;
   grid[my_MAPSIZE + 1].comp = grid[my_MAPSIZE].comp;
   grid[my_MAPSIZE].comp = tmpcomp;
+// ...and vehicles
+  tmpveh = grid[0].vehicles;
+  grid[0].vehicles = grid[1].vehicles;
+  grid[1].vehicles = grid[my_MAPSIZE + 1].vehicles;
+  grid[my_MAPSIZE + 1].vehicles = grid[my_MAPSIZE].vehicles;
+  grid[my_MAPSIZE].vehicles = tmpveh;
   break;
 
  default:
   return;
  }
+
+// change vehicles' directions
+ for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++)
+     for (int v = 0; v < grid[i].vehicles.size(); v++)
+         if (turns >= 1 && turns <= 3)
+            grid[i].vehicles[v].turn (turns * 90);
 
 // Set the spawn points
  grid[0].spawns = sprot[0];
@@ -6881,9 +6943,9 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
 
     int compx = int((x1 + x2) / 2), compy = int((y1 + y2) / 2);
     m->ter(compx, compy) = t_console;
-    computer* tmpcomp = m->add_computer(compx, compy, "Bionic access", 4);
+    computer* tmpcomp = m->add_computer(compx, compy, "Bionic access", 2);
     tmpcomp->add_option("Manifest", COMPACT_LIST_BIONICS, 0);
-    tmpcomp->add_option("Open Chambers", COMPACT_RELEASE, 2);
+    tmpcomp->add_option("Open Chambers", COMPACT_RELEASE, 3);
     tmpcomp->add_failure(COMPFAIL_MANHACKS);
     tmpcomp->add_failure(COMPFAIL_SECUBOTS);
    } else {
@@ -7376,8 +7438,8 @@ x: %d - %d, dx: %d cx: %d/%d\n\
 x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
                                y1, y2, dy, cy_low, cy_hi);
 */
- bool walled_west = (x1 == 0), walled_north = (y1 == 0),
-      walled_east = (x2 == SEEX * 2 - 1), walled_south = (y2 == SEEY * 2 - 1);
+ bool walled_west = (x1 <= 1),            walled_north = (y1 == 0),
+      walled_east = (x2 == SEEX * 2 - 1), walled_south = (y2 >= SEEY * 2 - 2);
 
  switch (type) {
 
@@ -7398,6 +7460,10 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
    for (int i = x1; i <= x2; i++) {
     if (m->ter(i, y2 + 1) != t_door_c)
      m->ter(i, y2) = t_shrub;
+   }
+   if (walled_south && x1 <= SEEX && SEEX <= x2) {
+    m->ter(SEEX - 1, y2) = grass_or_dirt();
+    m->ter(SEEX,     y2) = grass_or_dirt();
    }
   }
   break;
@@ -7630,7 +7696,7 @@ void map::add_extra(map_extra type, game *g)
  {
   int cx = rng(4, SEEX * 2 - 5), cy = rng(4, SEEY * 2 - 5);
   for (int x = 0; x < SEEX * 2; x++) {
-   for (int y = 0; y <= SEEY * 2; y++) {
+   for (int y = 0; y < SEEY * 2; y++) {
     if (x >= cx - 4 && x <= cx + 4 && y >= cy - 4 && y <= cy + 4) {
      if (!one_in(5))
       ter(x, y) = t_wreckage;

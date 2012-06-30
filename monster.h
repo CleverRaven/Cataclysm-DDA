@@ -17,6 +17,7 @@ ME_BEARTRAP,		// Stuck in beartrap
 ME_POISONED,		// Slowed, takes damage
 ME_ONFIRE,		// Lit aflame
 ME_STUNNED,		// Stumbling briefly
+ME_DOWNED,		// Knocked down
 ME_BLIND,		// Can't use sight
 ME_DEAF,		// Can't use hearing
 ME_TARGETED,		// Targeting locked on--for robots that shoot guns
@@ -88,9 +89,10 @@ class monster {
 
  point scent_move(game *g);
  point sound_move(game *g);
- void hit_player(game *g, player &p);
+ void hit_player(game *g, player &p, bool can_grab = true);
  void move_to(game *g, int x, int y);
  void stumble(game *g, bool moved);
+ void knock_back_from(game *g, int posx, int posy);
 
 // Combat
  bool is_fleeing(player &u);	// True if we're fleeing
@@ -106,6 +108,7 @@ class monster {
  int  armor_bash();	// Natural armor, plus any worn armor
  int  dodge();		// Natural dodge, or 0 if we're occupied
  int  dodge_roll();	// For the purposes of comparing to player::hit_roll()
+ int  fall_damage();	// How much a fall hurts us
  void die(game *g);
 
 // Other

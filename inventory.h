@@ -18,6 +18,7 @@ class inventory
   item& front();
   item& back();
   int size() const;
+  int num_items() const;
 
   inventory& operator=  (inventory &rhs);
   inventory& operator=  (const inventory &rhs);

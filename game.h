@@ -30,6 +30,8 @@
 #define BULLET_SPEED 10000000
 #define EXPLOSION_SPEED 70000000
 
+#define PICKUP_RANGE 2
+
 enum tut_type {
  TUT_NULL,
  TUT_BASIC, TUT_COMBAT,
@@ -88,9 +90,11 @@ class game
 // Move the player vertically, if (force) then they fell
   void vertical_move(int z, bool force);
   void use_computer(int x, int y);
+  bool pl_refill_vehicle (vehicle &veh, int part, bool test=false);
   void resonance_cascade(int x, int y);
   void emp_blast(int x, int y);
   int  npc_at(int x, int y);	// Index of the npc at (x, y); -1 for none
+ // void build_monmap();		// Caches data for mon_at()
   int  mon_at(int x, int y);	// Index of the monster at (x, y); -1 for none
   bool is_empty(int x, int y);	// True if no PC, no monster, move cost > 0
   bool isBetween(int test, int down, int up);
@@ -108,8 +112,8 @@ class game
   void cancel_activity();
   void cancel_activity_query(const char* message, ...);
   int assign_mission_id(); // Just returns the next available one
-  void give_mission(mission_id type);
-  void assign_mission(int id);
+  void give_mission(mission_id type); // Create the mission and assign it
+  void assign_mission(int id); // Just assign an existing mission
 // reserve_mission() creates a new mission of the given type and pushes it to
 // active_missions.  The function returns the UID of the new mission, which can
 // then be passed to a MacGuffin or something else that needs to track a mission
@@ -128,6 +132,9 @@ class game
 
   void teleport(player *p = NULL);
   void plswim(int x, int y); // Called by plmove.  Handles swimming
+  // when player is thrown (by impact or something)
+  void fling_player_or_monster(player *p, monster *zz, int dir, int flvel);
+
   void nuke(int x, int y);
   std::vector<faction *> factions_at(int x, int y);
   int& scent(int x, int y);
@@ -160,6 +167,7 @@ class game
 
   std::vector <itype*> itypes;
   std::vector <mtype*> mtypes;
+  std::vector <vehicle*> vtypes;
   std::vector <trap*> traps;
   std::vector<recipe*> recipes;	// The list of valid recipes
   std::vector<constructable*> constructions; // The list of constructions
@@ -189,7 +197,7 @@ class game
   ter_id dragging;
   std::vector<item> items_dragged;
   int weight_dragged; // Computed once, when you start dragging
-  bool debugmon;
+  bool debugmon; 
 // Display data... TODO: Make this more portable?
   WINDOW *w_terrain;
   WINDOW *w_minimap;
@@ -217,6 +225,7 @@ class game
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
   void init_mutations();    // Initializes mutation "tech tree"
+  void init_vehicles();     // Initializes vehicle types
 
   void load_keyboard_settings(); // Load keybindings from disk
 
@@ -228,6 +237,7 @@ class game
   void monster_wish(); // Create a monster
   void mutation_wish(); // Mutate
 
+  void pldrive(int x, int y); // drive vehicle
   void plmove(int x, int y); // Standard movement; handles attacks, traps, &c
   void wait();	// Long wait (player action)	'^'
   void open();	// Open a door			'o'
@@ -243,7 +253,12 @@ class game
                         int level = -1, bool cont = false);
   void place_construction(constructable *con); // See construction.cpp
   void complete_construction();               // See construction.cpp
+  bool pl_choose_vehicle (int &x, int &y);
+  bool vehicle_near ();
+  void handbrake ();
   void examine();// Examine nearby terrain	'e'
+  // open vehicle interaction screen
+  void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
 // Pick where to put liquid; false if it's left where it was
   bool handle_liquid(item &liquid, bool from_ground, bool infinite);
@@ -335,6 +350,7 @@ class game
   std::vector <std::string> messages;   // Messages to be printed
   unsigned char curmes;	  // The last-seen message.  Older than 256 is deleted.
   int grscent[SEEX * MAPSIZE][SEEY * MAPSIZE];	// The scent map
+  //int monmap[SEEX * MAPSIZE][SEEY * MAPSIZE]; // Temp monster map, for mon_at()
   int nulscent;				// Returned for OOB scent checks
   std::vector<event> events;	        // Game events to be processed
   int kills[num_monsters];	        // Player's kill count

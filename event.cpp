@@ -87,23 +87,25 @@ void event::actualize(game *g)
     do {
      tries = 0;
      if (horizontal) {
-      monx = rng(0, SEEX * MAPSIZE);
+      monx = rng(faultx, faultx + 2 * SEEX - 8);
       for (int n = -1; n <= 1; n++) {
        if (g->m.ter(monx, faulty + n) == t_rock_floor)
         mony = faulty + n;
       }
      } else { // Vertical fault
-      mony = rng(0, SEEY * MAPSIZE);
+      mony = rng(faulty, faulty + 2 * SEEY - 8);
       for (int n = -1; n <= 1; n++) {
        if (g->m.ter(faultx + n, mony) == t_rock_floor)
         monx = faultx + n;
       }
      }
      tries++;
-    } while (monx != -1 && mony != -1 && !g->is_empty(monx, mony) &&
+    } while ((monx == -1 || mony == -1 || g->is_empty(monx, mony)) &&
              tries < 10);
-    horror.spawn(monx, mony);
-    g->z.push_back(horror);
+    if (tries < 10) {
+     horror.spawn(monx, mony);
+     g->z.push_back(horror);
+    }
    }
   } break;
 

@@ -21,16 +21,25 @@
                                  ret.back().text = txt;\
                                  ret.back().mission_index = index
 
+#define SELECT_TEMP(txt, index)  ret.push_back(talk_response());\
+                                 ret.back().text = txt;\
+                                 ret.back().tempvalue = index
+
 #define TRIAL(tr, diff) ret.back().trial = tr;\
                         ret.back().difficulty = diff
+
 #define SUCCESS(topic)  ret.back().success = topic
 #define FAILURE(topic)  ret.back().failure = topic
+
 #define SUCCESS_OPINION(T, F, V, A, O)   ret.back().opinion_success =\
                                          npc_opinion(T, F, V, A, O)
 #define FAILURE_OPINION(T, F, V, A, O)   ret.back().opinion_failure =\
                                          npc_opinion(T, F, V, A, O)
+
 #define SUCCESS_ACTION(func)  ret.back().effect_success = func
 #define FAILURE_ACTION(func)  ret.back().effect_failure = func
+
+#define SUCCESS_MISSION(type) ret.back().miss = type
 
 std::string dynamic_line(talk_topic topic, game *g, npc *p);
 std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p);
@@ -44,15 +53,25 @@ bool trade(game *g, npc *p, int cost, std::string deal);
 
 void npc::talk_to_u(game *g)
 {
+// This is necessary so that we don't bug the player over and over
  if (attitude == NPCATT_TALK)
   attitude = NPCATT_NULL;
+ else if (attitude == NPCATT_FLEE) {
+  g->add_msg("%d is fleeing you!", name.c_str());
+  return;
+ } else if (attitude == NPCATT_KILL) {
+  g->add_msg("%d is hostile!", name.c_str());
+  return;
+ }
  dialogue d;
  d.alpha = &g->u;
  d.beta = this;
 
  d.topic_stack.push_back(chatbin.first_topic);
 
- if (is_friend())
+ if (is_leader())
+  d.topic_stack.push_back(TALK_LEADER);
+ else if (is_friend())
   d.topic_stack.push_back(TALK_FRIEND);
 
  int most_difficult_mission = 0;
@@ -79,13 +98,12 @@ void npc::talk_to_u(game *g)
  }
 
  if (d.topic_stack.back() == TALK_NONE) {
-  g->add_msg("%s says, \"Leave me alone.\"", name.c_str());
+  d.topic_stack.back() = pick_talk_topic(&(g->u));
   return;
  }
 
  moves -= 100;
  decide_needs();
-  
 
  d.win = newwin(25, 80, 0, 0);
  wborder(d.win, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -192,6 +210,8 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   return "I don't know, look for supplies and other survivors I guess.";
 
  case TALK_SHARE_EQUIPMENT:
+  if (p->has_disease(DI_ASKED_FOR_ITEM))
+   return "You just asked me for stuff; ask later.";
   return "Why should I share my equipment with you?";
 
  case TALK_GIVE_EQUIPMENT:
@@ -202,6 +222,27 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
    return "<no>, and if you ask again, <ill_kill_you>!";
   else
    return "<no><punc> <fuck_you>!";
+
+ case TALK_TRAIN: {
+  if (g->u.backlog.type == ACT_TRAIN)
+   return "Shall we resume?";
+  std::vector<skill> trainable = p->skills_offered_to( &(g->u) );
+  std::vector<itype_id> styles = p->styles_offered_to( &(g->u) );
+  if (trainable.empty() && styles.empty())
+   return "Sorry, but it doesn't seem I have anything to teach you.";
+  else
+   return "Here's what I can teach you...";
+ } break;
+
+ case TALK_TRAIN_START:
+  if (g->cur_om.is_safe(g->om_location().x, g->om_location().y))
+   return "Alright, let's begin.";
+  else
+   return "It's not safe here.  Let's get to safety first.";
+ break;
+  
+ case TALK_TRAIN_FORCE:
+  return "Alright, let's begin.";
 
  case TALK_SUGGEST_FOLLOW:
   if (p->has_disease(DI_INFECTION))
@@ -215,6 +256,34 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
 
  case TALK_DENY_FOLLOW:
   return "Yeah... I don't think so.";
+
+ case TALK_LEADER:
+  return "What is it?";
+
+ case TALK_LEAVE:
+  return "You're really leaving?";
+
+ case TALK_PLAYER_LEADS:
+  return "Alright.  You can lead now.";
+
+ case TALK_LEADER_STAYS:
+  return "No.  I'm the leader here.";
+
+ case TALK_HOW_MUCH_FURTHER: {
+  int dist = rl_dist(g->om_location(), point(p->goalx, p->goaly));
+  std::stringstream response;
+  dist *= 100;
+  if (dist >= 1300) {
+   int miles = dist / 52; // *100, e.g. quarter mile is "25"
+   miles -= miles % 25; // Round to nearest quarter-mile
+   int fullmiles = (miles - miles % 100) / 100; // Left of the decimal point
+   if (fullmiles > 0)
+    response << fullmiles;
+   response << "." << miles << " miles.";
+  } else
+   response << dist << " feet.";
+  return response.str();
+ }
 
  case TALK_FRIEND:
   return "What is it?";
@@ -239,6 +308,87 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
 
  case TALK_COMBAT_ENGAGEMENT:
   return "What should I do?";
+
+ case TALK_STRANGER_NEUTRAL:
+  if (p->myclass == NC_TRADER)
+   return "Hello!  Would you care to see my goods?";
+  return "Hello there.";
+
+ case TALK_STRANGER_WARY:
+  return "Okay, no sudden movements...";
+
+ case TALK_STRANGER_SCARED:
+  return "Keep your distance!";
+
+ case TALK_STRANGER_FRIENDLY:
+  if (p->myclass == NC_TRADER)
+   return "Hello!  Would you care to see my goods?";
+  return "Hey there, <name_g>.";
+
+ case TALK_STRANGER_AGGRESSIVE:
+  if (!g->u.unarmed_attack())
+   return "<drop_it>";
+  else
+   return "This is my territory, <name_b>.";
+
+ case TALK_MUG:
+  if (!g->u.unarmed_attack())
+   return "<drop_it>";
+  else
+   return "<hands_up>";
+
+ case TALK_DESCRIBE_MISSION:
+  switch (p->mission) {
+   case NPC_MISSION_RESCUE_U:
+    return "I'm here to save you!";
+   case NPC_MISSION_SHELTER:
+    return "I'm holing up here for safety.";
+   case NPC_MISSION_SHOPKEEP:
+    return "I run the shop here.";
+   case NPC_MISSION_MISSING:
+    return "Well, I was lost, but you found me...";
+   case NPC_MISSION_KIDNAPPED:
+    return "Well, I was kidnapped, but you saved me...";
+   case NPC_MISSION_NULL:
+    switch (p->myclass) {
+     case NC_HACKER:
+      return "I'm looking for some choice systems to hack.";
+     case NC_DOCTOR:
+      return "I'm looking for wounded to help.";
+     case NC_TRADER:
+      return "I'm collecting gear and selling it.";
+     case NC_NINJA:
+      if (!p->styles.empty()) {
+       std::stringstream ret;
+       ret << "I am a wandering master of " <<
+              g->itypes[p->styles[0]]->name.c_str() << ".";
+       return ret.str();
+      } else
+       return "I am looking for a master to train my fighting techniques.";
+     case NC_COWBOY:
+      return "Just looking for some wrongs to right.";
+     case NC_SCIENTIST:
+      return "I'm looking for clues concerning these monsters' origins...";
+     case NC_BOUNTY_HUNTER:
+      return "I'm a killer for hire.";
+     case NC_NONE:
+      return "I'm just wandering.";
+     default:
+      return "ERROR: Someone forgot to code an npc_class text.";
+    } // switch (p->myclass)
+   default:
+    return "ERROR: Someone forgot to code an npc_mission text.";
+  } // switch (p->mission)
+  break;
+
+ case TALK_WEAPON_DROPPED: {
+  std::stringstream ret;
+  ret << "*drops " << (p->male ? "his" : "her") << " weapon.";
+  return ret.str();
+ }
+ 
+ case TALK_DEMAND_LEAVE:
+  return "Now get out of here, before I kill you.";
 
  case TALK_SIZE_UP: {
   int ability = g->u.per_cur * 3 + g->u.int_cur;
@@ -290,6 +440,10 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
 std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
 {
  std::vector<talk_response> ret;
+ int selected = p->chatbin.mission_selected;
+ mission *miss = NULL;
+ if (selected != -1 && selected < p->chatbin.missions_assigned.size())
+  miss = g->find_mission( p->chatbin.missions_assigned[selected] );
 
  switch (topic) {
  case TALK_MISSION_LIST:
@@ -435,17 +589,23 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
  case TALK_MISSION_SUCCESS:
   RESPONSE("Glad to help.  I need no payment.");
    SUCCESS(TALK_NONE);
-   SUCCESS_OPINION(p->op_of_u.owed / (OWED_VAL * 4), -1,
-                   p->op_of_u.owed / (OWED_VAL * 2), -1, 0 - p->op_of_u.owed);
+   SUCCESS_OPINION(miss->value / (OWED_VAL * 4), -1,
+                   miss->value / (OWED_VAL * 2), -1, 0 - miss->value);
    SUCCESS_ACTION(&talk_function::clear_mission);
-  RESPONSE("How about payment?");
+  RESPONSE("How about some items as payment?");
    SUCCESS(TALK_MISSION_REWARD);
    SUCCESS_ACTION(&talk_function::mission_reward);
+  SELECT_TEMP("Maybe you can teach me something as payment.", 0);
+   SUCCESS(TALK_TRAIN);
+   SUCCESS_ACTION(&talk_function::clear_mission);
+  RESPONSE("Alright, well, you owe me one.");
+   SUCCESS(TALK_NONE);
+   SUCCESS_ACTION(&talk_function::clear_mission);
   RESPONSE("Glad to help.  I need no payment.  Bye!");
    SUCCESS(TALK_DONE);
    SUCCESS_ACTION(&talk_function::clear_mission);
    SUCCESS_OPINION(p->op_of_u.owed / (OWED_VAL * 4), -1,
-                   p->op_of_u.owed / (OWED_VAL * 2), -1, 0 - p->op_of_u.owed);
+                   p->op_of_u.owed / (OWED_VAL * 2), -1, 0 - miss->value);
   break;
 
  case TALK_MISSION_SUCCESS_LIE:
@@ -495,46 +655,51 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    SUCCESS(TALK_DONE);
   break;
 
- case TALK_SHARE_EQUIPMENT: {
-  int score = p->op_of_u.trust + p->op_of_u.value * 3 +
-              p->personality.altruism * 2;
-  int missions_value = p->assigned_missions_value(g);
-  RESPONSE("Because I'm your friend!");
-   TRIAL(TALK_TRIAL_PERSUADE, 10 + score);
-   SUCCESS(TALK_GIVE_EQUIPMENT);
-    SUCCESS_ACTION(&talk_function::give_equipment);
-    SUCCESS_OPINION(0, 0, -1, 0, score * 300);
-   FAILURE(TALK_DENY_EQUIPMENT);
-    FAILURE_OPINION(0, 0, -1, 0, 0);
-  if (missions_value >= 1) {
-   RESPONSE("Well, I am helping you out...");
-    TRIAL(TALK_TRIAL_PERSUADE, 10 + score + p->op_of_u.owed / OWED_VAL);
+ case TALK_SHARE_EQUIPMENT:
+  if (p->has_disease(DI_ASKED_FOR_ITEM)) {
+   RESPONSE("Okay, fine.");
+    SUCCESS(TALK_NONE);
+  } else {
+   int score = p->op_of_u.trust + p->op_of_u.value * 3 +
+               p->personality.altruism * 2;
+   int missions_value = p->assigned_missions_value(g);
+   RESPONSE("Because I'm your friend!");
+    TRIAL(TALK_TRIAL_PERSUADE, 10 + score);
     SUCCESS(TALK_GIVE_EQUIPMENT);
      SUCCESS_ACTION(&talk_function::give_equipment);
+     SUCCESS_OPINION(0, 0, -1, 0, score * 300);
     FAILURE(TALK_DENY_EQUIPMENT);
      FAILURE_OPINION(0, 0, -1, 0, 0);
+   if (missions_value >= 1) {
+    RESPONSE("Well, I am helping you out...");
+     TRIAL(TALK_TRIAL_PERSUADE, 12 + (.8 * score) + missions_value / OWED_VAL);
+     SUCCESS(TALK_GIVE_EQUIPMENT);
+      SUCCESS_ACTION(&talk_function::give_equipment);
+     FAILURE(TALK_DENY_EQUIPMENT);
+      FAILURE_OPINION(0, 0, -1, 0, 0);
+   }
+   RESPONSE("I'll give it back!");
+    TRIAL(TALK_TRIAL_LIE, score * 1.5);
+    SUCCESS(TALK_GIVE_EQUIPMENT);
+     SUCCESS_ACTION(&talk_function::give_equipment);
+     SUCCESS_OPINION(0, 0, -1, 0, score * 300);
+    FAILURE(TALK_DENY_EQUIPMENT);
+     FAILURE_OPINION(0, -1, -1, 1, 0);
+   RESPONSE("Give it to me, or else!");
+    TRIAL(TALK_TRIAL_INTIMIDATE, 40);
+    SUCCESS(TALK_GIVE_EQUIPMENT);
+     SUCCESS_ACTION(&talk_function::give_equipment);
+     SUCCESS_OPINION(-3, 2, -2, 2,
+                     (g->u.intimidation() + p->op_of_u.fear -
+                      p->personality.bravery - p->intimidation()) * 500);
+    FAILURE(TALK_DENY_EQUIPMENT);
+     FAILURE_OPINION(-3, 1, -3, 5, 0);
+   RESPONSE("Eh, never mind.");
+    SUCCESS(TALK_NONE);
+   RESPONSE("Never mind, I'll do without.  Bye.");
+    SUCCESS(TALK_DONE);
   }
-  RESPONSE("I'll give it back!");
-   TRIAL(TALK_TRIAL_LIE, score * 1.5);
-   SUCCESS(TALK_GIVE_EQUIPMENT);
-    SUCCESS_ACTION(&talk_function::give_equipment);
-    SUCCESS_OPINION(0, 0, -1, 0, score * 300);
-   FAILURE(TALK_DENY_EQUIPMENT);
-    FAILURE_OPINION(0, -1, -1, 1, 0);
-  RESPONSE("Give it to me, or else!");
-   TRIAL(TALK_TRIAL_INTIMIDATE, 40);
-   SUCCESS(TALK_GIVE_EQUIPMENT);
-    SUCCESS_ACTION(&talk_function::give_equipment);
-    SUCCESS_OPINION(-3, 2, -2, 2,
-                    (g->u.intimidation() + p->op_of_u.fear -
-                     p->personality.bravery - p->intimidation()) * 500);
-   FAILURE(TALK_DENY_EQUIPMENT);
-    FAILURE_OPINION(-3, 1, -3, 5, 0);
-  RESPONSE("Eh, never mind.");
-   SUCCESS(TALK_NONE);
-  RESPONSE("Never mind, I'll do without.  Bye.");
-   SUCCESS(TALK_DONE);
- } break;
+  break;
 
  case TALK_GIVE_EQUIPMENT:
   RESPONSE("Thank you!");
@@ -552,6 +717,79 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    SUCCESS(TALK_SHARE_EQUIPMENT);
   RESPONSE("Okay, fine, bye.");
    SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_TRAIN: {
+  if (g->u.backlog.type == ACT_TRAIN) {
+   std::stringstream resume;
+   resume << "Yes, let's resume training " <<
+             (g->u.backlog.index > 0 ?
+              skill_name(g->u.backlog.index) :
+              g->itypes[ 0 - g->u.backlog.index ]->name);
+   SELECT_TEMP( resume.str(), g->u.backlog.index);
+    SUCCESS(TALK_TRAIN_START);
+  }
+  std::vector<skill> trainable = p->skills_offered_to( &(g->u) );
+  std::vector<itype_id> styles = p->styles_offered_to( &(g->u) );
+  if (trainable.empty() && styles.empty()) {
+   RESPONSE("Oh, okay."); // Nothing to learn here
+    SUCCESS(TALK_NONE);
+  }
+  int printed = 0;
+  int shift = p->chatbin.tempvalue;
+  bool more = trainable.size() + styles.size() - shift > 9;
+  for (int i = shift; i < trainable.size() && printed < 9; i++) {
+   shift--;
+   printed++;
+   std::stringstream skilltext;
+   skill trained = trainable[i];
+
+   skilltext << skill_name(trained) << ": " << g->u.sklevel[trained] <<
+                " -> " << g->u.sklevel[trained] + 1 << "(cost " <<
+                200 * (g->u.sklevel[trained] + 1) << ")";
+   SELECT_TEMP( skilltext.str(), trainable[i] );
+    SUCCESS(TALK_TRAIN_START);
+  }
+  if (shift < 0)
+   shift = 0;
+  for (int i = shift; i < styles.size() && printed < 9; i++) {
+   printed++;
+   SELECT_TEMP( g->itypes[styles[i]]->name + " (cost 800)",
+                0 - styles[i] );
+    SUCCESS(TALK_TRAIN_START);
+  }
+  if (more) {
+   SELECT_TEMP("More...", shift + 9);
+    SUCCESS(TALK_TRAIN);
+  }
+  RESPONSE("Eh, never mind.");
+   SUCCESS(TALK_NONE);
+  } break;
+
+ case TALK_TRAIN_START:
+  if (g->cur_om.is_safe(g->om_location().x, g->om_location().y)) {
+   RESPONSE("Sounds good.");
+    SUCCESS(TALK_DONE);
+    SUCCESS_ACTION(&talk_function::start_training);
+   RESPONSE("On second thought, never mind.");
+    SUCCESS(TALK_NONE);
+  } else {
+   RESPONSE("Okay.  Lead the way.");
+    SUCCESS(TALK_DONE);
+    SUCCESS_ACTION(&talk_function::lead_to_safety);
+   RESPONSE("No, we'll be okay here.");
+    SUCCESS(TALK_TRAIN_FORCE);
+   RESPONSE("On second thought, never mind.");
+    SUCCESS(TALK_NONE);
+  }
+  break;
+
+ case TALK_TRAIN_FORCE:
+  RESPONSE("Sounds good.");
+   SUCCESS(TALK_DONE);
+   SUCCESS_ACTION(&talk_function::start_training);
+  RESPONSE("On second thought, never mind.");
+   SUCCESS(TALK_NONE);
   break;
 
  case TALK_SUGGEST_FOLLOW:
@@ -614,11 +852,73 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    SUCCESS(TALK_NONE);
   break;
 
+ case TALK_LEADER: {
+  int persuade = p->op_of_u.fear + p->op_of_u.value + p->op_of_u.trust -
+                 p->personality.bravery - p->personality.aggression;
+  if (p->has_destination()) {
+   RESPONSE("How much further?");
+    SUCCESS(TALK_HOW_MUCH_FURTHER);
+  }
+  RESPONSE("I'm going to go my own way for a while.");
+   SUCCESS(TALK_LEAVE);
+  if (!p->has_disease(DI_ASKED_TO_LEAD)) {
+   RESPONSE("I'd like to lead for a while.");
+    TRIAL(TALK_TRIAL_PERSUADE, persuade);
+    SUCCESS(TALK_PLAYER_LEADS);
+     SUCCESS_ACTION(&talk_function::follow);
+    FAILURE(TALK_LEADER_STAYS);
+     FAILURE_OPINION(0, 0, -1, -1, 0);
+   RESPONSE("Step aside.  I'm leader now.");
+    TRIAL(TALK_TRIAL_INTIMIDATE, 40);
+    SUCCESS(TALK_PLAYER_LEADS);
+     SUCCESS_ACTION(&talk_function::follow);
+     SUCCESS_OPINION(-1, 1, -1, 1, 0);
+    FAILURE(TALK_LEADER_STAYS);
+     FAILURE_OPINION(-1, 0, -1, 1, 0);
+  }
+  RESPONSE("Can I do anything for you?");
+   SUCCESS(TALK_MISSION_LIST);
+  RESPONSE("Let's trade items.");
+   SUCCESS(TALK_NONE);
+   SUCCESS_ACTION(&talk_function::start_trade);
+  RESPONSE("Let's go.");
+   SUCCESS(TALK_DONE);
+ } break;
+
+ case TALK_LEAVE:
+  RESPONSE("Nah, I'm just kidding.");
+   SUCCESS(TALK_NONE);
+  RESPONSE("Yeah, I'm sure.  Bye.");
+   SUCCESS_ACTION(&talk_function::leave);
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_PLAYER_LEADS:
+  RESPONSE("Good.  Something else...");
+   SUCCESS(TALK_FRIEND);
+  RESPONSE("Alright, let's go.");
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_LEADER_STAYS:
+  RESPONSE("Okay, okay.");
+   SUCCESS(TALK_NONE);
+  break;
+
+ case TALK_HOW_MUCH_FURTHER:
+  RESPONSE("Okay, thanks.");
+   SUCCESS(TALK_NONE);
+  RESPONSE("Let's keep moving.");
+   SUCCESS(TALK_DONE);
+  break;
+
  case TALK_FRIEND:
   RESPONSE("Combat commands...");
    SUCCESS(TALK_COMBAT_COMMANDS);
   RESPONSE("Can I do anything for you?");
    SUCCESS(TALK_MISSION_LIST);
+  SELECT_TEMP("Can you teach me anything?", 0);
+   SUCCESS(TALK_TRAIN);
   RESPONSE("Let's trade items.");
    SUCCESS(TALK_NONE);
    SUCCESS_ACTION(&talk_function::start_trade);
@@ -680,6 +980,124 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   RESPONSE("Never mind.");
    SUCCESS(TALK_NONE);
  } break;
+
+ case TALK_STRANGER_NEUTRAL:
+ case TALK_STRANGER_WARY:
+ case TALK_STRANGER_SCARED:
+ case TALK_STRANGER_FRIENDLY:
+  if (topic == TALK_STRANGER_NEUTRAL || topic == TALK_STRANGER_FRIENDLY) {
+   RESPONSE("Another survivor!  We should travel together.");
+    SUCCESS(TALK_SUGGEST_FOLLOW);
+   RESPONSE("What are you doing?");
+    SUCCESS(TALK_DESCRIBE_MISSION);
+   RESPONSE("Care to trade?");
+    SUCCESS(TALK_NONE);
+    SUCCESS_ACTION(&talk_function::start_trade);
+  } else {
+   if (!g->u.unarmed_attack()) {
+    if (g->u.volume_carried() + g->u.weapon.volume() <= g->u.volume_capacity()){
+     RESPONSE("&Put away weapon.");
+      SUCCESS(TALK_STRANGER_NEUTRAL);
+      SUCCESS_ACTION(&talk_function::player_weapon_away);
+      SUCCESS_OPINION(2, -2, 0, 0, 0);
+    }
+    RESPONSE("&Drop weapon.");
+     SUCCESS(TALK_STRANGER_NEUTRAL);
+     SUCCESS_ACTION(&talk_function::player_weapon_drop);
+     SUCCESS_OPINION(4, -3, 0, 0, 0);
+   }
+   int diff = 50 + p->personality.bravery - 2 * p->op_of_u.fear +
+                                            2 * p->op_of_u.trust;
+   RESPONSE("Don't worry, I'm not going to hurt you.");
+    TRIAL(TALK_TRIAL_PERSUADE, diff);
+    SUCCESS(TALK_STRANGER_NEUTRAL);
+     SUCCESS_OPINION(1, -1, 0, 0, 0);
+    FAILURE(TALK_DONE);
+     FAILURE_ACTION(&talk_function::flee);
+  }
+  if (!p->unarmed_attack()) {
+   RESPONSE("!Drop your weapon!");
+    TRIAL(TALK_TRIAL_INTIMIDATE, 30);
+    SUCCESS(TALK_WEAPON_DROPPED);
+     SUCCESS_ACTION(&talk_function::drop_weapon);
+    FAILURE(TALK_DONE);
+     FAILURE_ACTION(&talk_function::hostile);
+  }
+  RESPONSE("!Get out of here or I'll kill you.");
+   TRIAL(TALK_TRIAL_INTIMIDATE, 20);
+   SUCCESS(TALK_DONE);
+    SUCCESS_ACTION(&talk_function::flee);
+   FAILURE(TALK_DONE);
+    FAILURE_ACTION(&talk_function::hostile);
+  break;
+
+ case TALK_STRANGER_AGGRESSIVE:
+ case TALK_MUG:
+  if (!g->u.unarmed_attack()) {
+   int chance = 30 + p->personality.bravery - 3 * p->personality.aggression +
+                 2 * p->personality.altruism - 2 * p->op_of_u.fear +
+                 3 * p->op_of_u.trust;
+   RESPONSE("!Calm down.  I'm not going to hurt you.");
+    TRIAL(TALK_TRIAL_PERSUADE, chance);
+    SUCCESS(TALK_STRANGER_WARY);
+     SUCCESS_OPINION(1, -1, 0, 0, 0);
+    FAILURE(TALK_DONE);
+     FAILURE_ACTION(&talk_function::hostile);
+   RESPONSE("!Screw you, no.");
+    TRIAL(TALK_TRIAL_INTIMIDATE, chance - 5);
+    SUCCESS(TALK_STRANGER_SCARED);
+     SUCCESS_OPINION(-2, 1, 0, 1, 0);
+    FAILURE(TALK_DONE);
+     FAILURE_ACTION(&talk_function::hostile);
+   RESPONSE("&Drop weapon.");
+    if (topic == TALK_MUG) {
+     SUCCESS(TALK_MUG);
+    } else {
+     SUCCESS(TALK_DEMAND_LEAVE);
+    }
+    SUCCESS_ACTION(&talk_function::player_weapon_drop);
+  } else if (topic == TALK_MUG) {
+   int chance = 35 + p->personality.bravery - 3 * p->personality.aggression +
+                 2 * p->personality.altruism - 2 * p->op_of_u.fear +
+                 3 * p->op_of_u.trust;
+   RESPONSE("!Calm down.  I'm not going to hurt you.");
+    TRIAL(TALK_TRIAL_PERSUADE, chance);
+    SUCCESS(TALK_STRANGER_WARY);
+     SUCCESS_OPINION(1, -1, 0, 0, 0);
+    FAILURE(TALK_DONE);
+     FAILURE_ACTION(&talk_function::hostile);
+   RESPONSE("!Screw you, no.");
+    TRIAL(TALK_TRIAL_INTIMIDATE, chance - 5);
+    SUCCESS(TALK_STRANGER_SCARED);
+     SUCCESS_OPINION(-2, 1, 0, 1, 0);
+    FAILURE(TALK_DONE);
+     FAILURE_ACTION(&talk_function::hostile);
+   RESPONSE("&Put hands up.");
+    SUCCESS(TALK_DONE);
+    SUCCESS_ACTION(&talk_function::start_mugging);
+  }
+  break;
+
+ case TALK_DESCRIBE_MISSION:
+  RESPONSE("I see.");
+   SUCCESS(TALK_NONE);
+  RESPONSE("Bye.");
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_WEAPON_DROPPED:
+  RESPONSE("Now get out of here.");
+   SUCCESS(TALK_DONE);
+   SUCCESS_OPINION(-1, -2, 0, -2, 0);
+   SUCCESS_ACTION(&talk_function::flee);
+  break;
+
+ case TALK_DEMAND_LEAVE:
+  RESPONSE("Okay, I'm going.");
+   SUCCESS(TALK_DONE);
+   SUCCESS_OPINION(0, -1, 0, 0, 0);
+   SUCCESS_ACTION(&talk_function::player_leaving);
+  break;
 
  case TALK_SIZE_UP:
  case TALK_LOOK_AT:
@@ -773,6 +1191,11 @@ int topic_category(talk_topic topic)
   case TALK_COMBAT_COMMANDS:
    return 5;
 
+  case TALK_TRAIN:
+  case TALK_TRAIN_START:
+  case TALK_TRAIN_FORCE:
+   return 6;
+
   case TALK_SIZE_UP:
   case TALK_LOOK_AT:
   case TALK_OPINION:
@@ -809,7 +1232,9 @@ void talk_function::mission_success(game *g, npc *p)
   return;
  }
  int index = p->chatbin.missions_assigned[selected];
- p->op_of_u.owed += g->find_mission(index)->value;
+ mission *miss = g->find_mission(index);
+ npc_opinion tmp( 0, 0, 1 + (miss->value / 1000), -1, miss->value);
+ p->op_of_u += tmp;
  g->wrap_up_mission(index);
 }
 
@@ -821,6 +1246,8 @@ void talk_function::mission_failure(game *g, npc *p)
            selected, p->chatbin.missions_assigned.size());
   return;
  }
+ npc_opinion tmp( -1, 0, -1, 1, 0);
+ p->op_of_u += tmp;
  g->mission_failed(p->chatbin.missions_assigned[selected]);
 }
 
@@ -896,6 +1323,68 @@ void talk_function::deny_follow(game *g, npc *p)
 {
  p->add_disease(DI_ASKED_TO_FOLLOW, 3600, g);
 }
+
+void talk_function::deny_lead(game *g, npc *p)
+{
+ p->add_disease(DI_ASKED_TO_LEAD, 3600, g);
+}
+
+void talk_function::deny_equipment(game *g, npc *p)
+{
+ p->add_disease(DI_ASKED_FOR_ITEM, 600, g);
+}
+
+void talk_function::hostile(game *g, npc *p)
+{
+ p->attitude = NPCATT_KILL;
+}
+
+void talk_function::flee(game *g, npc *p)
+{
+ p->attitude = NPCATT_FLEE;
+}
+
+void talk_function::leave(game *g, npc *p)
+{
+ p->attitude = NPCATT_NULL;
+}
+
+void talk_function::start_mugging(game *g, npc *p)
+{
+ p->attitude = NPCATT_MUG;
+ g->add_msg("Pause to stay still.  Any movement may cause %s to attack.",
+            p->name.c_str());
+}
+
+void talk_function::player_leaving(game *g, npc *p)
+{
+ p->attitude = NPCATT_WAIT_FOR_LEAVE;
+ p->patience = 15 - p->personality.aggression;
+}
+
+void talk_function::drop_weapon(game *g, npc *p)
+{
+ g->m.add_item(p->posx, p->posy, p->remove_weapon());
+}
+
+void talk_function::player_weapon_away(game *g, npc *p)
+{
+ g->u.i_add(g->u.remove_weapon());
+}
+
+void talk_function::player_weapon_drop(game *g, npc *p)
+{
+ g->m.add_item(g->u.posx, g->u.posy, g->u.remove_weapon());
+}
+
+void talk_function::lead_to_safety(game *g, npc *p)
+{
+ g->give_mission(MISSION_REACH_SAFETY);
+ point target = g->find_mission( g->u.active_mission )->target;
+ p->goalx = target.x;
+ p->goaly = target.y;
+ p->attitude = NPCATT_LEAD;
+}
  
 void talk_function::toggle_use_guns(game *g, npc *p)
 {
@@ -932,6 +1421,29 @@ void talk_function::set_engagement_all(game *g, npc *p)
  p->combat_rules.engagement = ENGAGE_ALL;
 }
 
+void talk_function::start_training(game *g, npc *p)
+{
+ int cost = 0, time = 0;
+ skill sk_used = sk_null;
+ itype_id style = itm_null;
+ if (p->chatbin.tempvalue < 0) {
+  cost = -800;
+  style = itype_id(0 - p->chatbin.tempvalue);
+  time = 30000;
+ } else {
+  sk_used = skill(p->chatbin.tempvalue);
+  cost = -200 * (1 + g->u.sklevel[sk_used]);
+  time = 10000 + 5000 * g->u.sklevel[sk_used];
+ }
+
+// Pay for it
+ if (p->op_of_u.owed >= cost)
+  p->op_of_u.owed -= cost;
+ else if (!trade(g, p, cost, "Pay for training:"))
+   return;
+// Then receive it
+ g->u.assign_activity(ACT_TRAIN, time, p->chatbin.tempvalue);
+}
 
 void parse_tags(std::string &phrase, player *u, npc *me)
 {
@@ -1023,7 +1535,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  std::vector<nc_color>    colors;
  for (int i = 0; i < responses.size(); i++) {
   std::stringstream text;
-  text << i + 1 << ": ";
+  text << char('a' + i) << ": ";
   if (responses[i].trial != TALK_TRIAL_NONE)
    text << "[" << talk_trial_text[responses[i].trial] << " " <<
            trial_chance(responses[i], alpha, beta) << "%] ";
@@ -1081,7 +1593,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
   do {
    ch = getch();
    if (special_talk(ch) == TALK_NONE)
-    ch -= '1';
+    ch -= 'a';
   } while (special_talk(ch) == TALK_NONE && (ch < 0 || ch >= options.size()));
   okay = false;
   if (special_talk(ch) != TALK_NONE)
@@ -1110,6 +1622,9 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  talk_response chosen = responses[ch];
  if (chosen.mission_index != -1)
   beta->chatbin.mission_selected = chosen.mission_index;
+ if (chosen.tempvalue != -1)
+  beta->chatbin.tempvalue = chosen.tempvalue;
+
  talk_function effect;
  if (chosen.trial == TALK_TRIAL_NONE ||
      rng(0, 99) < trial_chance(chosen, alpha, beta)) {
@@ -1191,10 +1706,10 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
   getting_yours[i] = false;
  }
 
- int cash = cost;// How much cash you get in the deal (negative = losing money)
+ int  cash = cost;// How much cash you get in the deal (negative = losing money)
  bool focus_them = true;	// Is the focus on them?
  bool update = true;		// Re-draw the screen?
- int them_off = 0, you_off = 0;	// Offset from the start of the list
+ int  them_off = 0, you_off = 0;// Offset from the start of the list
  char ch, help;
  
  do {

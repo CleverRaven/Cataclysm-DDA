@@ -7,6 +7,7 @@
 #include "faction.h"
 #include <vector>
 #include <string>
+#include <sstream>
 
 #define NPC_LOW_VALUE       5
 #define NPC_HI_VALUE        8
@@ -29,15 +30,18 @@ void parse_tags(std::string &phrase, player *u, npc *me);
  * Flee:   Trust low, fear mid->high, need low
  */
 
+// Attitude is how we feel about the player, what we do around them
 enum npc_attitude {
  NPCATT_NULL = 0,	// Don't care/ignoring player
  NPCATT_TALK,		// Move to and talk to player
  NPCATT_TRADE,		// Move to and trade with player
  NPCATT_FOLLOW,		// Follow the player
  NPCATT_FOLLOW_RUN,	// Follow the player, don't shoot monsters
+ NPCATT_LEAD,		// Lead the player, wait for them if they're behind
  NPCATT_WAIT,		// Waiting for the player
  NPCATT_DEFEND,		// Kill monsters that threaten the player
  NPCATT_MUG,		// Mug the player
+ NPCATT_WAIT_FOR_LEAVE,	// Attack the player if our patience runs out
  NPCATT_KILL,		// Kill the player
  NPCATT_FLEE,		// Get away from the player
  NPCATT_SLAVE,		// Following the player under duress
@@ -103,6 +107,31 @@ enum npc_flag {
  NF_MAX
 };
 
+enum npc_favor_type {
+ FAVOR_NULL,
+ FAVOR_GENERAL,	// We owe you... a favor?
+ FAVOR_CASH,	// We owe cash (or goods of equivalent value)
+ FAVOR_ITEM,	// We owe a specific item
+ FAVOR_TRAINING,// We owe skill or style training
+ NUM_FAVOR_TYPES
+};
+
+struct npc_favor
+{
+ npc_favor_type type;
+ int value;
+ itype_id item_id;
+ skill skill_id;
+
+ npc_favor() {
+  type = FAVOR_NULL;
+  value = 0;
+  item_id = itm_null;
+  skill_id = sk_null;
+ };
+
+};
+
 struct npc_personality {
 // All values should be in the -10 to 10 range.
  signed char aggression;
@@ -117,18 +146,26 @@ struct npc_personality {
  };
 };
 
-struct npc_opinion {
- signed char trust;
- signed char fear;
- signed char value;
- signed char anger;
+struct npc_opinion
+{
+ int trust;
+ int fear;
+ int value;
+ int anger;
  int owed;
+ std::vector<npc_favor> favors;
+
+ int total_owed() {
+  int ret = owed;
+  return ret;
+ }
+
  npc_opinion() {
   trust = 0;
   fear  = 0;
   value = 0;
   anger = 0;
-  owed  = 0;
+  owed = 0;
  };
  npc_opinion(signed char T, signed char F, signed char V, signed char A, int O):
              trust (T), fear (F), value (V), anger(A), owed (O) { };
@@ -140,6 +177,9 @@ struct npc_opinion {
   value = copy.value;
   anger = copy.anger;
   owed = copy.owed;
+  favors.clear();
+  for (int i = 0; i < copy.favors.size(); i++)
+   favors.push_back( copy.favors[i] );
  };
 
  npc_opinion& operator+= (npc_opinion &rhs)
@@ -152,10 +192,48 @@ struct npc_opinion {
   return *this;
  };
 
+/*
+ npc_opinion& operator+= (npc_opinion rhs)
+ {
+  trust += rhs.trust;
+  fear  += rhs.fear;
+  value += rhs.value;
+  anger += rhs.anger;
+  owed  += rhs.owed;
+  return *this;
+ };
+*/
+
  npc_opinion& operator+ (npc_opinion &rhs)
  {
   return (npc_opinion(*this) += rhs);
  };
+
+ std::string save_info()
+ {
+  std::stringstream ret;
+  ret << trust << " " << fear << " " << value << " " << anger << " " << owed <<
+         " " << favors.size();
+  for (int i = 0; i < favors.size(); i++)
+    ret << " " << int(favors[i].type) << " " << favors[i].value << " " <<
+           favors[i].item_id << " " << favors[i].skill_id;
+  return ret.str();
+ }
+
+ void load_info(std::stringstream &info)
+ {
+  int tmpsize;
+  info >> trust >> fear >> value >> anger >> owed >> tmpsize;
+  for (int i = 0; i < tmpsize; i++) {
+   int tmptype, tmpitem, tmpskill;
+   npc_favor tmpfavor;
+   info >> tmptype >> tmpfavor.value >> tmpitem >> tmpskill;
+   tmpfavor.type = npc_favor_type(tmptype);
+   tmpfavor.item_id = itype_id(tmpitem);
+   tmpfavor.skill_id = skill(tmpskill);
+   favors.push_back(tmpfavor);
+  }
+ }
 };
 
 enum combat_engagement {
@@ -206,17 +284,37 @@ enum talk_topic {
  TALK_GIVE_EQUIPMENT,
  TALK_DENY_EQUIPMENT,
 
- TALK_SUGGEST_FOLLOW,
+ TALK_TRAIN,
+ TALK_TRAIN_START,
+ TALK_TRAIN_FORCE,
 
+ TALK_SUGGEST_FOLLOW,
  TALK_AGREE_FOLLOW,
  TALK_DENY_FOLLOW,
 
  TALK_SHOPKEEP,
 
- TALK_FRIEND,
+ TALK_LEADER,
+ TALK_LEAVE,
+ TALK_PLAYER_LEADS,
+ TALK_LEADER_STAYS,
+ TALK_HOW_MUCH_FURTHER,
 
+ TALK_FRIEND,
  TALK_COMBAT_COMMANDS,
  TALK_COMBAT_ENGAGEMENT,
+
+ TALK_STRANGER_NEUTRAL,
+ TALK_STRANGER_WARY,
+ TALK_STRANGER_SCARED,
+ TALK_STRANGER_FRIENDLY,
+ TALK_STRANGER_AGGRESSIVE,
+ TALK_MUG,
+
+ TALK_DESCRIBE_MISSION,
+
+ TALK_WEAPON_DROPPED,
+ TALK_DEMAND_LEAVE,
 
  TALK_SIZE_UP,
  TALK_LOOK_AT,
@@ -230,17 +328,48 @@ struct npc_chatbin
  std::vector<int> missions;
  std::vector<int> missions_assigned;
  int mission_selected;
+ int tempvalue;
  talk_topic first_topic;
 
  npc_chatbin()
  {
   mission_selected = -1;
+  tempvalue = -1;
   first_topic = TALK_NONE;
+ }
+
+ std::string save_info()
+ {
+  std::stringstream ret;
+  ret << first_topic << " " << mission_selected << " " << tempvalue << " " <<
+          missions.size() << " " << missions_assigned.size();
+  for (int i = 0; i < missions.size(); i++)
+   ret << " " << missions[i];
+  for (int i = 0; i < missions_assigned.size(); i++)
+   ret << " " << missions_assigned[i];
+  return ret.str();
+ }
+
+ void load_info(std::stringstream &info)
+ {
+  int tmpsize_miss, tmpsize_assigned, tmptopic;
+  info >> tmptopic >> mission_selected >> tempvalue >> tmpsize_miss >>
+          tmpsize_assigned;
+  first_topic = talk_topic(tmptopic);
+  for (int i = 0; i < tmpsize_miss; i++) {
+   int tmpmiss;
+   info >> tmpmiss;
+   missions.push_back(tmpmiss);
+  }
+  for (int i = 0; i < tmpsize_assigned; i++) {
+   int tmpmiss;
+   info >> tmpmiss;
+   missions_assigned.push_back(tmpmiss);
+  }
  }
 };
 
 std::string random_first_name(bool male);
-
 std::string random_last_name();
 
 class npc : public player {
@@ -267,7 +396,7 @@ public:
 
 
 // Save & load
- virtual void load_info(std::string data);// Overloaded from player::load_info()
+ virtual void load_info(game *g, std::string data);// Overloaded from player
  virtual std::string save_info();
 
 
@@ -284,19 +413,22 @@ public:
  bool fac_has_value(faction_value value);
  bool fac_has_job(faction_job job);
 
-
 // Interaction with the player
  void form_opinion(player *u);
+ talk_topic pick_talk_topic(player *u);
  int  player_danger(player *u); // Comparable to monsters
  bool turned_hostile(); // True if our anger is at least equal to...
  int hostile_anger_level(); // ... this value!
  void make_angry(); // Called if the player attacks us
  bool wants_to_travel_with(player *p);
  int assigned_missions_value(game *g);
+ std::vector<skill> skills_offered_to(player *p); // Skills that're higher
+ std::vector<itype_id> styles_offered_to(player *p); // Martial Arts
 // State checks
  bool is_enemy(); // We want to kill/mug/etc the player
  bool is_following(); // Traveling w/ player (whether as a friend or a slave)
  bool is_friend(); // Allies with the player
+ bool is_leader(); // Leading the player
  bool is_defending(); // Putting the player's safety ahead of ours
 // What happens when the player makes a request
  void told_to_help(game *g);
@@ -398,7 +530,8 @@ public:
 // Movement on the overmap scale
  bool has_destination();	// Do we have a long-term destination?
  void set_destination(game *g);	// Pick a place to go
- void go_to_destination(game *g);
+ void go_to_destination(game *g); // Move there; on the micro scale
+ void reach_destination(game *g); // We made it!
 
 // The preceding are in npcmove.cpp
 
@@ -432,8 +565,10 @@ public:
  npc_personality personality;
  npc_opinion op_of_u;
  npc_chatbin chatbin;
+ int patience; // Used when we expect the player to leave the area
  npc_combat_rules combat_rules;
  bool marked_for_death; // If true, we die as soon as we respawn!
+ bool dead;		// If true, we need to be cleaned up
  std::vector<npc_need> needs;
  unsigned flags : NF_MAX;
 };

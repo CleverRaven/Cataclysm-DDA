@@ -7,8 +7,6 @@
 #include "setvector.h"
 #include "inventory.h"
 
-#define PICKUP_RANGE 2
-
 void draw_recipe_tabs(WINDOW *w, craft_cat tab);
 
 // This function just defines the recipes used throughout the game.
@@ -553,6 +551,23 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_saw, -1, NULL);
   COMP(itm_stick, 1, NULL);
 
+ RECIPE(itm_frame, CC_MISC, sk_mechanics, sk_null, 1, 8000);
+  TOOL(itm_welder, 50, NULL);
+  COMP(itm_steel_lump, 3, NULL);
+
+ RECIPE(itm_steel_plate, CC_MISC, sk_mechanics, sk_null,4, 12000);
+  TOOL(itm_welder, 100, NULL);
+  COMP(itm_steel_lump, 8, NULL);
+
+ RECIPE(itm_spiked_plate, CC_MISC, sk_mechanics, sk_null, 4, 12000);
+  TOOL(itm_welder, 120, NULL);
+  COMP(itm_steel_lump, 8, NULL);
+  COMP(itm_steel_chunk, 4, NULL);
+
+ RECIPE(itm_hard_plate, CC_MISC, sk_mechanics, sk_null, 4, 12000);
+  TOOL(itm_welder, 300, NULL);
+  COMP(itm_steel_lump, 24, NULL);
+
  RECIPE(itm_crowbar, CC_MISC, sk_mechanics, sk_null, 1, 1000);
   TOOL(itm_hatchet, -1, itm_hammer, -1, itm_rock, -1, itm_toolset, -1, NULL);
   COMP(itm_pipe, 1, NULL);
@@ -1019,7 +1034,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
 
 void game::make_craft(recipe *making)
 {
- u.activity = player_activity(ACT_CRAFT, making->time, making->id);
+ u.assign_activity(ACT_CRAFT, making->time, making->id);
  u.moves = 0;
 }
 

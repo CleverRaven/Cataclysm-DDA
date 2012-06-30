@@ -17,7 +17,7 @@ enum skill {
 // Social
  sk_speech, sk_barter,
 // Other
- sk_computer, sk_survival, sk_traps, sk_swimming,
+ sk_computer, sk_survival, sk_traps, sk_swimming, sk_driving,
  num_skill_types	// MUST be last!
 };
 

@@ -85,17 +85,25 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   if (curshot > 0 &&
       (mon_at(tarx, tary) == -1 || z[mon_at(tarx, tary)].hp <= 0)) {
    std::vector<point> new_targets;
+   int mondex;
    for (int radius = 1; radius <= 2 + p.sklevel[sk_gun] && new_targets.empty();
         radius++) {
     for (int diff = 0 - radius; diff <= radius; diff++) {
-     if (mon_at(tarx + diff, tary - radius) != -1)
+     mondex = mon_at(tarx + diff, tary - radius);
+     if (mondex != -1 && z[mondex].friendly == 0)
       new_targets.push_back( point(tarx + diff, tary - radius) );
-     if (mon_at(tarx + diff, tary + radius) != -1)
+
+     mondex = mon_at(tarx + diff, tary + radius);
+     if (mondex != -1 && z[mondex].friendly == 0)
       new_targets.push_back( point(tarx + diff, tary + radius) );
+
      if (diff != 0 - radius && diff != radius) { // Corners were already checked
-      if (mon_at(tarx - radius, tary + diff) != -1)
+      mondex = mon_at(tarx - radius, tary + diff);
+      if (mondex != -1 && z[mondex].friendly == 0)
        new_targets.push_back( point(tarx - radius, tary + diff) );
-      if (mon_at(tarx + radius, tary + diff) != -1)
+
+      mondex = mon_at(tarx + radius, tary + diff);
+      if (mondex != -1 && z[mondex].friendly == 0)
        new_targets.push_back( point(tarx + radius, tary + diff) );
      }
     }
@@ -155,7 +163,8 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    }
   }
   int dam = p.weapon.gun_damage();
-  for (int i = 0; i < trajectory.size() && dam > 0; i++) {
+  for (int i = 0; i < trajectory.size() &&
+       (dam > 0 || (flags & IF_AMMO_FLAME)); i++) {
    if (i > 0)
     m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, false, true);
 // Drawing the bullet uses player u, and not player p, because it's drawn
@@ -248,7 +257,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                       std::vector<point> &trajectory)
 {
  int deviation = 0;
- int trange = 1.5 * trig_dist(p.posx, p.posy, tarx, tary);
+ int trange = 1.5 * rl_dist(p.posx, p.posy, tarx, tary);
 
  if (p.sklevel[sk_throw] < 8)
   deviation += rng(0, 8 - p.sklevel[sk_throw]);
@@ -353,7 +362,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     add_msg("%s You hit the %s for %d damage.",
             message.c_str(), z[mon_at(tx, ty)].name().c_str(), dam);
    else if (u_see(tx, ty, tart))
-    add_msg("%s hits the %s for %d damage.",
+    add_msg("%s hits the %s for %d damage.", message.c_str(),
             z[mon_at(tx, ty)].name().c_str(), dam);
    if (z[mon_at(tx, ty)].hurt(dam))
     kill_mon(mon_at(tx, ty));
@@ -409,7 +418,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    double closest = -1;
    double dist;
    for (int i = 0; i < t.size(); i++) {
-    dist = trig_dist(t[i].posx, t[i].posy, u.posx, u.posy);
+    dist = rl_dist(t[i].posx, t[i].posy, u.posx, u.posy);
     if (closest < 0 || dist < closest) {
      closest = dist;
      target = i;
@@ -424,6 +433,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  WINDOW* w_target = newwin(13, 48, 12, SEEX * 2 + 8);
  wborder(w_target, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ if (!relevent) // currently targetting vehicle to refill with fuel
+  mvwprintz(w_target, 1, 1, c_red, "Select a vehicle");
+ else
  if (relevent == &u.weapon && relevent->is_gun())
   mvwprintz(w_target, 1, 1, c_red, "Firing %s - %s (%d)",
             u.weapon.tname().c_str(), u.weapon.curammo->name.c_str(),
@@ -432,6 +444,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   mvwprintz(w_target, 1, 1, c_red, "Throwing %s", relevent->tname().c_str());
  mvwprintz(w_target, 2, 1, c_white,
            "Move cursor to target with directional keys.");
+ if (relevent)
  mvwprintz(w_target, 3, 1, c_white,
            "'<' '>' Cycle targets; 'f' or '.' to fire.");
  wrefresh(w_target);
@@ -476,7 +489,14 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
      }
     }
    }
-   mvwprintw(w_target, 5, 1, "Range: %d", rl_dist(u.posx, u.posy, x, y));
+   if (!relevent) // currently targetting vehicle to refill with fuel
+   {
+    vehicle &veh = m.veh_at (x, y);
+    if (veh.type != veh_null)
+        mvwprintw(w_target, 5, 1, "There is a %s", veh.name.c_str());
+   }
+   else
+    mvwprintw(w_target, 5, 1, "Range: %d", rl_dist(u.posx, u.posy, x, y));
    if (mon_at(x, y) == -1) {
     mvwputch(w_terrain, y + SEEY - u.posy, x + SEEX - u.posx, c_red, '*');
     mvwprintw(w_status, 0, 9, "                             ");
@@ -683,7 +703,8 @@ double calculate_missed_by(player &p, int trange)
 
   deviation += rng(0, p.weapon.curammo->accuracy);
   deviation += rng(0, p.weapon.accuracy());
-  deviation += rng(int(p.recoil / 4), p.recoil);
+  int adj_recoil = p.recoil + p.driving_recoil;
+  deviation += rng(int(adj_recoil / 4), adj_recoil);
 
 // .013 * trange is a computationally cheap version of finding the tangent.
 // (note that .00325 * 4 = .013; .00325 is used because deviation is a number

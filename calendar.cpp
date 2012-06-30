@@ -218,7 +218,7 @@ moon_phase calendar::moon()
 {
  int phase = day / (DAYS_IN_SEASON / 4);
  //phase %= 4;   Redundant?
- if (phase = 3)
+ if (phase == 3)
   return MOON_HALF;
  else
   return moon_phase(phase);

@@ -57,6 +57,8 @@ std::string skill_name(int sk)
   return "barter";
  case sk_swimming:
   return "swimming";
+ case sk_driving:
+  return "driving";
  case num_skill_types:
   return "out of bounds";
  }
@@ -187,6 +189,10 @@ might even see you getting freebies.";
   return "\
 Your skill at swimming.  This affects speed, your ability to swim while\n\
 wearing clothes or carrying weights, and in-water combat.";
+ case sk_driving:
+  return "\
+Your skill at driving. This affects how well you can control a vehicle,\n\
+as well as the penalty of shooting while driving.";
  case num_skill_types:
   return "out of bounds";
  default:

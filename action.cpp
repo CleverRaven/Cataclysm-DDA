@@ -105,6 +105,8 @@ action_id look_up_action(std::string ident)
   return ACTION_READ;
  if (ident == "wield")
   return ACTION_WIELD;
+ if (ident == "pick_style")
+  return ACTION_PICK_STYLE;
  if (ident == "reload")
   return ACTION_RELOAD;
  if (ident == "unload")
@@ -143,6 +145,8 @@ action_id look_up_action(std::string ident)
   return ACTION_PL_INFO;
  if (ident == "map")
   return ACTION_MAP;
+ if (ident == "missions")
+  return ACTION_MISSIONS;
  if (ident == "factions")
   return ACTION_FACTIONS;
  if (ident == "morale")
@@ -153,7 +157,7 @@ action_id look_up_action(std::string ident)
   return ACTION_DEBUG;
  if (ident == "debug_scent")
   return ACTION_DISPLAY_SCENT;
- if (ident == "debug_mon")
+ if (ident == "debug_mode")
   return ACTION_TOGGLE_DEBUGMON;
 
  return ACTION_NULL;

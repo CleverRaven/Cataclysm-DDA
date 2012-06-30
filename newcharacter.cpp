@@ -75,7 +75,7 @@ bool player::create(game *g, character_type type, std::string tempname)
        rn = random_bad_trait();
        tries++;
       } while ((has_trait(rn) ||
-               num_btraits - traits[rn].points > MAX_TRAIT_POINTS) && tries < 5);
+              num_btraits - traits[rn].points > MAX_TRAIT_POINTS) && tries < 5);
       if (tries < 5) {
        toggle_trait(rn);
        points -= traits[rn].points;
@@ -197,8 +197,32 @@ bool player::create(game *g, character_type type, std::string tempname)
 
 End of cheatery */
  }
+
+ if (has_trait(PF_MARTIAL_ARTS)) {
+  itype_id ma_type;
+  do {
+   int choice = menu("Pick your style:",
+                     "Karate", "Judo", "Aikido", "Tai Chi", "Taekwando", NULL);
+   if (choice == 1)
+    ma_type = itm_style_karate;
+   if (choice == 2)
+    ma_type = itm_style_judo;
+   if (choice == 3)
+    ma_type = itm_style_aikido;
+   if (choice == 4)
+    ma_type = itm_style_tai_chi;
+   if (choice == 5)
+    ma_type = itm_style_taekwando;
+   item tmpitem = item(g->itypes[ma_type], 0);
+   full_screen_popup(tmpitem.info(true).c_str());
+  } while (!query_yn("Use this style?"));
+  styles.push_back(ma_type);
+ }
  ret_null = item(g->itypes[0], 0);
- weapon   = item(g->itypes[0], 0);
+ if (!styles.empty())
+  weapon = item(g->itypes[ styles[0] ], 0);
+ else
+  weapon   = item(g->itypes[0], 0);
 // Nice to start out less than naked.
  item tmp(g->itypes[itm_jeans], 0, 'a');
  worn.push_back(tmp);
@@ -217,7 +241,7 @@ End of cheatery */
   inv.push_back(tmp);
  }
 // make sure we have no mutations
-for (int i = 0; i < PF_MAX2; i++)
+ for (int i = 0; i < PF_MAX2; i++)
   my_mutations[i] = false;
  return true;
 }

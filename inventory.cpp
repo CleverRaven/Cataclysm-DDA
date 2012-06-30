@@ -49,6 +49,15 @@ int inventory::size() const
  return items.size();
 }
 
+int inventory::num_items() const
+{
+ int ret = 0;
+ for (int i = 0; i < items.size(); i++)
+  ret += items[i].size();
+
+ return ret;
+}
+
 inventory& inventory::operator= (inventory &rhs)
 {
  if (this == &rhs)
@@ -130,6 +139,8 @@ void inventory::push_back(std::vector<item> newits)
  
 void inventory::add_item(item newit)
 {
+ if (newit.is_style())
+  return; // Styles never belong in our inventory.
  for (int i = 0; i < items.size(); i++) {
   if (items[i][0].stacks_with(newit)) {
    newit.invlet = items[i][0].invlet;

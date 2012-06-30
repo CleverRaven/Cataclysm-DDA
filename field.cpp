@@ -39,6 +39,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
   if (cur->age == 0)	// Don't process "newborn" fields
    curtype = fd_null;
 
+  int part;
+  vehicle *veh;
   switch (curtype) {
 
    case fd_null:
@@ -173,6 +175,10 @@ bool map::process_fields_in_submap(game *g, int gridn)
       i--;
      }
     }
+
+    veh = &(veh_at(x, y, part));
+    if (veh->type != veh_null)
+        veh->damage (part, cur->density * 10, false);
 // Consume the terrain we're on
     if (has_flag(explodes, x, y)) {
      ter(x, y) = ter_id(int(ter(x, y)) + 1);
@@ -630,10 +636,13 @@ void map::step_in_field(int x, int y, game *g)
    break;
 
   case fd_flame_burst:
-   g->add_msg("You're torched by flames!");
-   g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
-   g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
-   g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
+   if (!g->u.has_active_bionic(bio_heatsink)) {
+    g->add_msg("You're torched by flames!");
+    g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
+    g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
+    g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
+   } else
+    g->add_msg("These flames do not burn you.");
    break;
 
   case fd_electricity:

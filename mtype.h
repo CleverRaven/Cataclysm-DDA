@@ -43,10 +43,11 @@ mon_graboid, mon_worm, mon_halfworm,
 mon_zombie, mon_zombie_shrieker, mon_zombie_spitter, mon_zombie_electric,
  mon_zombie_fast, mon_zombie_brute, mon_zombie_hulk, mon_zombie_fungus,
  mon_boomer, mon_boomer_fungus, mon_skeleton, mon_zombie_necro,
- mon_zombie_scientist, mon_zombie_soldier,
+ mon_zombie_scientist, mon_zombie_soldier, mon_zombie_grabber,
+ mon_zombie_master,
 // Triffids
 mon_triffid, mon_triffid_young, mon_triffid_queen, mon_creeper_hub,
- mon_creeper_vine, mon_biollante, mon_triffid_heart,
+ mon_creeper_vine, mon_biollante, mon_vinebeast, mon_triffid_heart,
 // Fungaloids
 mon_fungaloid, mon_fungaloid_dormant, mon_fungaloid_young, mon_spore,
  mon_fungaloid_queen, mon_fungal_wall,
@@ -125,6 +126,7 @@ MF_STUMBLES,	// Stumbles in its movement
 MF_WARM,	// Warm blooded
 MF_NOHEAD,	// Headshots not allowed!
 MF_HARDTOSHOOT,	// Some shots are actually misses
+MF_GRABS,	// Its attacks may grab us!
 MF_BASHES,	// Bashes down doors
 MF_DESTROYS,	// Bashes down walls and more
 MF_POISON,	// Poisonous to eat

@@ -1009,7 +1009,7 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
   std::vector<npc*> in_range;
   for (int i = 0; i < g->cur_om.npcs.size(); i++) {
    if (g->cur_om.npcs[i].op_of_u.value >= 4 &&
-       trig_dist(g->levx, g->levy, g->cur_om.npcs[i].mapx,
+       rl_dist(g->levx, g->levy, g->cur_om.npcs[i].mapx,
                                    g->cur_om.npcs[i].mapy) <= 30)
     in_range.push_back(&(g->cur_om.npcs[i]));
   }
@@ -1046,7 +1046,7 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
   std::string message = "Radio: Kssssssssssssh.";
   for (int k = 0; k < g->cur_om.radios.size(); k++) {
    int signal = g->cur_om.radios[k].strength -
-                trig_dist(g->cur_om.radios[k].x, g->cur_om.radios[k].y,
+                rl_dist(g->cur_om.radios[k].x, g->cur_om.radios[k].y,
                           g->levx, g->levy);
    if (signal > best_signal) {
     best_signal = signal;
@@ -1351,7 +1351,7 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
  g->add_msg(message.str().c_str());
  p->practice(sk_traps, practice);
  g->m.add_trap(posx, posy, type);
- p->moves -= practice * 25;
+ p->moves -= 100 + practice * 25;
  if (type == tr_engine) {
   for (int i = -1; i <= 1; i++) {
    for (int j = -1; j <= 1; j++) {

@@ -2,8 +2,8 @@
 # WARNINGS will spam hundreds of warnings, mostly safe, if turned on
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
 # PROFILE is for use with gprof or a similar program -- don't bother generally
-#WARNINGS = -Wall
-DEBUG = -g
+#WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-char-subscripts
+#DEBUG = -g
 #PROFILE = -pg
 
 ODIR = obj

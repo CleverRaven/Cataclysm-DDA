@@ -32,6 +32,7 @@ struct special_attack
 class player {
 public:
  player();
+ player(const player &rhs);
  ~player();
 
  player& operator= (player rhs);
@@ -85,20 +86,46 @@ public:
  bool unarmed_attack(); // False if we're wielding something; true for bionics
  bool avoid_trap(trap *tr);
 
- void pause(); // '.' command; pauses & reduces recoil
+ void pause(game *g); // '.' command; pauses & reduces recoil
+
+// melee.cpp
+ int  hit_mon(game *g, monster *z, bool allow_grab = true);
+ void hit_player(game *g, player &p, bool allow_grab = true);
+
+ int base_damage(bool real_life = true, int stat = -999);
+ int base_to_hit(bool real_life = true, int stat = -999);
+
  int  hit_roll(); // Our basic hit roll, compared to our target's dodge roll
- bool scored_crit(int target_dodge = 0);
- int  hit_mon(game *g, monster *z); // Handles hitting a monster up to its death
-// hit_player returns false on a miss, and modifies bp, hitdam, and hitcut
- bool hit_player(game *g, player &p, body_part &bp, int &hitdam, int &hitcut);
- std::vector<special_attack> mutation_attacks(monster *z);
- void stumble(game *g);
+ bool scored_crit(int target_dodge = 0); // Critical hit?
+
+ int roll_bash_damage(monster *z, bool crit);
+ int roll_cut_damage(monster *z, bool crit);
+ int roll_stab_damage(monster *z, bool crit);
+ int roll_stuck_penalty(monster *z, bool stabbing);
+
+ technique_id pick_technique(game *g, monster *z, player *p,
+                             bool crit, bool allowgrab);
+ void perform_technique(technique_id technique, game *g, monster *z, player *p,
+                       int &bash_dam, int &cut_dam, int &pierce_dam, int &pain);
+
+ technique_id pick_defensive_technique(game *g, monster *z, player *p);
+
+ void perform_defensive_technique(technique_id technique, game *g, monster *z,
+                                  player *p, body_part &bp_hit, int &side,
+                                  int &bash_dam, int &cut_dam, int &stab_dam);
+
+ void perform_special_attacks(game *g, monster *z, player *p,
+                        int &bash_dam, int &cut_dam, int &pierce_dam);
+
+ std::vector<special_attack> mutation_attacks(monster *z, player *p);
+ void melee_special_effects(game *g, monster *z, player *p, bool crit,
+                            int &bash_dam, int &cut_dam, int &stab_dam);
+
  int  dodge(game *g);     // Returns the players's dodge, modded by clothing etc
  int  dodge_roll(game *g);// For comparison to hit_roll()
 
+// ranged.cpp
  int throw_range(int index); // Range of throwing item; -1:ERR 0:Can't throw
- int base_damage	(bool real_life = true);
- int base_to_hit	(bool real_life = true);
  int ranged_dex_mod	(bool real_life = true);
  int ranged_per_mod	(bool real_life = true);
  int throw_dex_mod	(bool real_life = true);
@@ -121,6 +148,10 @@ public:
  void heal(hp_part healed, int dam);
  void healall(int dam);
  void hurtall(int dam);
+ // checks armor. if vary > 0, then damage to parts are random within 'vary' percent (1-100)
+ void hitall(game *g, int dam, int vary = 0);
+// Sends us flying one tile
+ void knock_back_from(game *g, int x, int y);
 
  int hp_percentage();	// % of HP remaining, overall
 
@@ -129,10 +160,12 @@ public:
  void infect(dis_type type, body_part vector, int strength, int duration,
              game *g);
 // add_disease() does NOT give us a chance to save
- void add_disease(dis_type type, int duration, game *g);
+ void add_disease(dis_type type, int duration, game *g, int intensity = 0,
+                  int max_intensity = -1);
  void rem_disease(dis_type type);
  bool has_disease(dis_type type);
  int  disease_level(dis_type type);
+ int  disease_intensity(dis_type type);
 
  void add_addiction(add_type type, int strength);
  void rem_addiction(add_type type);
@@ -145,6 +178,7 @@ public:
  int  lookup_item(char let);
  bool eat(game *g, int index);	// Eat item; returns false on fail
  virtual bool wield(game *g, int index);// Wield item; returns false on fail
+ void pick_style(game *g); // Pick a style
  bool wear(game *g, char let);	// Wear item; returns false on fail
  bool takeoff(game *g, char let);// Take off item; returns false on fail
  void use(game *g, char let);	// Use a tool
@@ -161,6 +195,9 @@ public:
  bool wearing_something_on(body_part bp); // True if wearing something on bp
 
  void practice(skill s, int amount);	// Practice a skill
+
+ void assign_activity(activity_type type, int moves, int index = -1);
+ void cancel_activity();
 
  int weight_carried();
  int volume_carried();
@@ -208,7 +245,9 @@ public:
 
 // ---------------VALUES-----------------
  int posx, posy;
+ bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
  player_activity activity;
+ player_activity backlog;
 // _missions vectors are of mission IDs
  std::vector<int> active_missions;
  std::vector<int> completed_missions;
@@ -228,10 +267,11 @@ public:
  int power_level, max_power_level;
  int hunger, thirst, fatigue, health;
  bool underwater;
- bool can_dodge;
  int oxygen;
  unsigned int recoil;
+ unsigned int driving_recoil;
  unsigned int scent;
+ int dodges_left, blocks_left;
  int stim, pain, pkill, radiation;
  int cash;
  int moves;
@@ -248,6 +288,8 @@ public:
  inventory inv;
  itype_id last_item;
  std::vector <item> worn;
+ std::vector<itype_id> styles;
+ itype_id style_selected;
  item weapon;
  item ret_null;	// Null item, sometimes returns by weapon() etc
 

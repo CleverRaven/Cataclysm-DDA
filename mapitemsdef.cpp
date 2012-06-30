@@ -26,7 +26,8 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_road],
-	itm_muffler, itm_pipe, itm_motor, NULL);
+	itm_muffler, itm_pipe, itm_motor, itm_wheel, itm_big_wheel, itm_seat, 
+    itm_combustion_small, itm_combustion, NULL);
 
  setvector(
    mapitems[mi_livingroom],
@@ -157,7 +158,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_hardware],
 	itm_superglue, itm_chain, itm_rope_6, itm_rope_30, itm_glass_sheet,
-	itm_pipe, itm_nail, itm_hose, itm_string_36, NULL);
+	itm_pipe, itm_nail, itm_hose, itm_string_36, itm_frame, itm_metal_tank, NULL);
 
  setvector(
    mapitems[mi_tools],
@@ -168,7 +169,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_bigtools],
 	itm_broom, itm_mop, itm_hoe, itm_shovel, itm_chainsaw_off,
-	itm_hammer_sledge, itm_jackhammer, NULL);
+	itm_hammer_sledge, itm_jackhammer, itm_welder, NULL);
 
  setvector(
    mapitems[mi_mischw],
@@ -383,7 +384,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_vault],
 	itm_purifier, itm_plut_cell, itm_ftk93, itm_canister_goo, itm_UPS_off,
-	itm_gold, itm_bionics_super, NULL);
+	itm_gold, itm_bionics_super, itm_plasma_engine, itm_minireactor, itm_alloy_plate, NULL);
 
  setvector(
    mapitems[mi_art],
@@ -396,7 +397,7 @@ void game::init_mapitems()
 	itm_mask_gas, itm_goggles_welding, itm_goggles_nv, itm_glasses_monocle,
 	itm_tophat, itm_ruger_redhawk, itm_deagle_44, itm_m1911, itm_geiger_off,
 	itm_UPS_off, itm_tazer, itm_mp3, itm_fur, itm_leather, itm_string_36,
-	itm_chain, itm_steel_chunk, itm_manhole_cover, itm_rock,
+	itm_chain, itm_steel_chunk, itm_steel_lump, itm_manhole_cover, itm_rock,
 	itm_hammer_sledge, itm_ax, itm_knife_butcher, itm_knife_combat,
 	itm_bat, itm_petrified_eye, itm_binoculars, itm_boots, itm_mocassins,
 	itm_dress_shoes, itm_heels, itm_pants, itm_pants_army, itm_skirt,
@@ -467,10 +468,10 @@ void game::init_mapitems()
    mapitems[mi_electronics],
 	itm_superglue, itm_electrohack, itm_processor, itm_RAM,
 	itm_power_supply, itm_amplifier, itm_transponder, itm_receiver,
-	itm_antenna, itm_motor, itm_screwdriver, itm_mask_dust,
+	itm_antenna, itm_motor, itm_motor_large, itm_storage_battery, itm_screwdriver, itm_mask_dust,
 	itm_glasses_safety, itm_goggles_welding, itm_battery, itm_plut_cell,
 	itm_manual_electronics, itm_textbook_electronics, itm_soldering_iron,
-	itm_hotplate, itm_UPS_off, itm_usb_drive, itm_software_useless, NULL);
+	itm_hotplate, itm_UPS_off, itm_usb_drive, itm_software_useless, itm_solar_panel, NULL);
 
  setvector(
    mapitems[mi_monparts],
@@ -656,14 +657,15 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_robots],
 	itm_processor, itm_RAM, itm_power_supply, itm_amplifier,
-	itm_transponder, itm_receiver, itm_antenna, itm_steel_chunk, itm_motor,
+	itm_transponder, itm_receiver, itm_antenna, itm_steel_chunk, itm_steel_lump, itm_motor,
 	itm_battery, itm_plut_cell, NULL);
 
  setvector(
    mapitems[mi_helicopter],
-	itm_chain, itm_power_supply, itm_antenna, itm_steel_chunk, itm_motor,
+	itm_chain, itm_power_supply, itm_antenna, itm_steel_chunk, itm_steel_lump, itm_frame, 
+    itm_steel_plate, itm_spiked_plate, itm_hard_plate, itm_motor, itm_motor_large,
 	itm_hose, itm_pants_army, itm_jumpsuit, itm_kevlar, itm_mask_gas,
-	itm_helmet_army, itm_battery, itm_plut_cell, itm_m249,
+	itm_helmet_army, itm_battery, itm_plut_cell, itm_m249, itm_combustion_large,
 	itm_extinguisher, itm_two_way_radio, itm_radio, itm_UPS_off, NULL);
 
 // TODO: Replace kevlar with the ceramic plate armor
@@ -740,7 +742,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_wreckage],
-	itm_chain, itm_steel_chunk, itm_rock, NULL);
+	itm_chain, itm_steel_chunk, itm_steel_lump, itm_frame, itm_rock, NULL);
 
  setvector(
    mapitems[mi_npc_hacker],

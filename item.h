@@ -25,6 +25,7 @@ public:
  item in_its_container(std::vector<itype*> *itypes);
 
  nc_color color(player *u);
+ nc_color color_in_inventory(player *u);
  std::string tname(game *g = NULL); // g needed for rotten-test
  void use(player &u);
  bool burn(int amount = 1); // Returns true if destroyed
@@ -60,6 +61,8 @@ public:
  int damage_bash();
  int damage_cut();
  bool has_flag(item_flag f);
+ bool has_technique(technique_id t, player *p = NULL);
+ std::vector<technique_id> techniques();
  bool goes_bad();
  bool count_by_charges();
  bool craft_has_charges();
@@ -69,6 +72,8 @@ public:
  int  weapon_value(int skills[num_skill_types]);
 // As above, but discounts its use as a ranged weapon
  int  melee_value (int skills[num_skill_types]);
+// Returns the data associated with tech, if we are an it_style
+ style_move style_data(technique_id tech);
  bool is_two_handed(player *u);
  bool made_of(material mat);
  bool conductive(); // Electricity
@@ -93,6 +98,7 @@ public:
  bool is_tool();
  bool is_software();
  bool is_macguffin();
+ bool is_style();
  bool is_other(); // Doesn't belong in other categories
  bool is_artifact();
 
@@ -114,6 +120,7 @@ public:
 
  int mission_id;// Refers to a mission in game's master list
  int player_id;	// Only give a mission to the right player!
+
 };
 
 

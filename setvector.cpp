@@ -117,3 +117,19 @@ void setvector(std::vector<moncat_id> &vec, ... )
   vec.push_back(tmp);
  va_end(ap);
 }
+
+void setvector(std::vector<style_move> &vec, ... )
+{
+ va_list ap;
+ va_start(ap, vec);
+ char *tmpname;
+ technique_id tmptech;
+ int tmplevel;
+
+ while (tmpname = (char *)va_arg(ap, int)) {
+  tmptech = (technique_id)va_arg(ap, int);
+  tmplevel = (int)va_arg(ap, int);
+  vec.push_back( style_move(tmpname, tmptech, tmplevel) );
+ }
+ va_end(ap);
+}

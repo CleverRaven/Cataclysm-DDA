@@ -26,6 +26,7 @@ enum trap_id {
  tr_sinkhole,
  tr_pit,
  tr_spike_pit,
+ tr_lava,
  tr_portal,
  tr_ledge,
  tr_boobytrap,
@@ -53,6 +54,7 @@ struct trapfunc {
  void sinkhole		(game *g, int x, int y);
  void pit		(game *g, int x, int y);
  void pit_spikes	(game *g, int x, int y);
+ void lava		(game *g, int x, int y);
  void portal		(game *g, int x, int y) { };
  void ledge		(game *g, int x, int y);
  void boobytrap		(game *g, int x, int y);
@@ -77,6 +79,7 @@ struct trapfuncm {
  void sinkhole	(game *g, monster *z, int x, int y) { };
  void pit	(game *g, monster *z, int x, int y);
  void pit_spikes(game *g, monster *z, int x, int y);
+ void lava	(game *g, monster *z, int x, int y);
  void portal	(game *g, monster *z, int x, int y) { };
  void ledge	(game *g, monster *z, int x, int y);
  void boobytrap (game *g, monster *z, int x, int y);

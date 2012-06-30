@@ -1,5 +1,3 @@
-#ifndef _OUTPUT_H_
-#define _OUTPUT_H_
 
 #if (defined _WIN32 || defined WINDOWS)
 	#include "catacurse.h"
@@ -502,22 +500,39 @@ int menu_vec(const char *mes, std::vector<std::string> options)
   if (options[i].length() + 6 > width)
    width = options[i].length() + 6;
  }
- WINDOW* w = newwin(height, width, 6, 10);
+ WINDOW* w = newwin(height, width, 1, 10);
  wattron(w, c_white);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintw(w, 1, 1, title.c_str());
  for (int i = 0; i < options.size(); i++)
-  mvwprintw(w, i + 2, 1, "%d: %s", i + 1, options[i].c_str());
+  mvwprintw(w, i + 2, 1, "%c: %s", (i < 9? i + '1' :
+                                   (i == 9? '0' : 'a' + i - 10)),
+            options[i].c_str());
  long ch;
  wrefresh(w);
+ int res;
  do
+ {
   ch = getch();
- while (ch < '1' || ch >= '1' + options.size());
+  if (ch >= '1' && ch <= '9')
+   res = ch - '1' + 1;
+  else
+  if (ch == '0')
+   res = 10;
+  else
+  if (ch >= 'a' && ch <= 'z')
+   res = ch - 'a' + 11;
+  else
+   res = -1;
+  if (res > options.size())
+   res = -1;
+ }
+ while (res == -1);
  werase(w);
  wrefresh(w);
  delwin(w);
- return (ch - '1' + 1);
+ return (res);
 }
 
 int menu(const char *mes, ...)
@@ -731,4 +746,22 @@ char rand_char()
  }
  return '?';
 }
-#endif
+
+// this translates symbol y, u, n, b to NW, NE, SE, SW lines correspondingly
+// h, j, c to horizontal, vertical, cross correspondingly 
+long special_symbol (char sym)
+{
+    switch (sym)
+    {
+    case 'j': return LINE_XOXO;
+    case 'h': return LINE_OXOX;
+    case 'c': return LINE_XXXX;
+    case 'y': return LINE_OXXO;
+    case 'u': return LINE_OOXX;
+    case 'n': return LINE_XOOX;
+    case 'b': return LINE_XXOO;
+    default: return sym;
+    }
+}
+
+

@@ -84,8 +84,8 @@ monster::monster(mtype *t, int x, int y)
  spawnposx = -1;
  spawnposy = -1;
  friendly = 0;
- anger = 0;
- morale = 0;
+ anger = type->agro;
+ morale = type->morale;
  faction_id = -1;
  mission_id = -1;
  dead = false;
@@ -117,6 +117,11 @@ monster::~monster()
 
 std::string monster::name()
 {
+ if (!type)
+ {
+     debugmsg ("monster::name empty type!");
+     return std::string();
+ }
  if (unique_name != "")
   return type->name + ": " + unique_name;
  return type->name;
@@ -143,24 +148,30 @@ void monster::print_info(game *g, WINDOW* w)
  mvwprintz(w, 6, 1, c_white, "%s ", type->name.c_str());
  switch (attitude(&(g->u))) {
   case MATT_FRIEND:
-   wprintz(w, h_white, "Friendly!");
+   wprintz(w, h_white, "Friendly! ");
    break;
   case MATT_FLEE:
-   wprintz(w, c_green, "Fleeing!");
+   wprintz(w, c_green, "Fleeing! ");
    break;
   case MATT_IGNORE:
-   wprintz(w, c_ltgray, "Ignoring");
+   wprintz(w, c_ltgray, "Ignoring ");
    break;
   case MATT_FOLLOW:
-   wprintz(w, c_yellow, "Tracking");
+   wprintz(w, c_yellow, "Tracking ");
    break;
   case MATT_ATTACK:
-   wprintz(w, c_red, "Hostile!");
+   wprintz(w, c_red, "Hostile! ");
    break;
   default:
-   wprintz(w, h_red, "BUG: Behavior unnamed");
+   wprintz(w, h_red, "BUG: Behavior unnamed ");
    break;
  }
+ if (has_effect(ME_DOWNED))
+  wprintz(w, h_white, "On ground");
+ else if (has_effect(ME_STUNNED))
+  wprintz(w, h_white, "Stunned");
+ else if (has_effect(ME_BEARTRAP))
+  wprintz(w, h_white, "Trapped");
  std::string damage_info;
  nc_color col;
  if (hp == type->hp) {
@@ -220,7 +231,7 @@ void monster::draw(WINDOW *w, int plx, int ply, bool inv)
 nc_color monster::color_with_effects()
 {
  nc_color ret = type->color;
- if (has_effect(ME_BEARTRAP) || has_effect(ME_STUNNED))
+ if (has_effect(ME_BEARTRAP) || has_effect(ME_STUNNED) || has_effect(ME_DOWNED))
   ret = hilite(ret);
  if (has_effect(ME_ONFIRE))
   ret = red_background(ret);
@@ -560,10 +571,12 @@ int monster::armor_bash()
 
 int monster::dodge()
 {
+ if (has_effect(ME_DOWNED))
+  return 0;
  int ret = type->sk_dodge;
  if (has_effect(ME_BEARTRAP))
   ret /= 2;
- if (moves <= 0 - type->speed)
+ if (moves <= 0 - 100 - type->speed)
   ret = rng(0, ret);
  return ret;
 }
@@ -581,6 +594,21 @@ int monster::dodge_roll()
 
  numdice += int(speed / 80);
  return dice(numdice, 10);
+}
+
+int monster::fall_damage()
+{
+ if (has_flag(MF_FLIES))
+  return 0;
+ switch (type->size) {
+  case MS_TINY:   return rng(0, 4);  break;
+  case MS_SMALL:  return rng(0, 6);  break;
+  case MS_MEDIUM: return dice(2, 4); break;
+  case MS_LARGE:  return dice(2, 6); break;
+  case MS_HUGE:   return dice(3, 5); break;
+ }
+
+ return 0;
 }
 
 void monster::die(game *g)
@@ -692,6 +720,12 @@ void monster::die(game *g)
 
 void monster::add_effect(monster_effect_type effect, int duration)
 {
+ for (int i = 0; i < effects.size(); i++) {
+  if (effects[i].type == effect) {
+   effects[i].duration += duration;
+   return;
+  }
+ }
  effects.push_back(monster_effect(effect, duration));
 }
 

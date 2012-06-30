@@ -91,6 +91,10 @@ traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
 	&trapfunc::pit_spikes,	&trapfuncm::pit_spikes,
 	itm_null, NULL);
 
+ TRAP("lava",			'~',	c_red,		 0, 99, 99,
+	&trapfunc::lava,	&trapfuncm::lava,
+	itm_null, NULL);
+
 // The '%' symbol makes the portal cycle through ~*0&
 //	Name			Symbol	Color		Vis Avd Diff
  TRAP("shimmering portal",	'%',	c_magenta,	 0, 30, 99,

@@ -81,6 +81,7 @@ class overmap
 
   oter_id& ter(int x, int y);
   std::vector<mongroup*> monsters_at(int x, int y);
+  bool is_safe(int x, int y); // true if monsters_at is empty, or only woodland
   bool&   seen(int x, int y);
 
   bool has_note(int x, int y);

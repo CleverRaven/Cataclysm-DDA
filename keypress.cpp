@@ -6,10 +6,10 @@ long input()
 {
  long ch = getch();
  switch (ch) {
-  case KEY_UP: return 'k';
-  case KEY_LEFT: return 'h';
+  case KEY_UP:    return 'k';
+  case KEY_LEFT:  return 'h';
   case KEY_RIGHT: return 'l';
-  case KEY_DOWN: return 'j';
+  case KEY_DOWN:  return 'j';
   case 459: return '\n';
   default:  return ch;
  }
@@ -100,6 +100,7 @@ void get_direction(game *g, int &x, int &y, char ch)
   y = 1;
   return;
  case ACTION_PAUSE:
+ case ACTION_PICKUP:
   x = 0;
   y = 0;
   return;
@@ -175,6 +176,7 @@ take_off T\n\
 eat E\n\
 read R\n\
 wield w\n\
+pick_style _\n\
 reload r\n\
 unload U\n\
 throw t\n\
@@ -198,13 +200,14 @@ quit Q\n\
 # INFO SCREENS\n\
 player_data @\n\
 map m :\n\
+missions M\n\
 factions #\n\
 morale %\n\
 help ?\n\
 \n\
 # DEBUG FUNCTIONS\n\
-debug Z\n\
-debug_scent -\n\
-debug_mon ~\n\
+debug_mode ~\n\
+# debug Z\n\
+# debug_scent -\n\
 ";
 }

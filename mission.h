@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <sstream>
 #include "itype.h"
 #include "texthash.h"
 #include "npc.h"
@@ -18,6 +19,7 @@ enum mission_id {
  MISSION_GET_ZOMBIE_BLOOD_ANAL,
  MISSION_RESCUE_DOG,
  MISSION_KILL_ZOMBIE_MOM,
+ MISSION_REACH_SAFETY,
  NUM_MISSION_IDS
 };
 
@@ -27,6 +29,7 @@ enum mission_origin {
  ORIGIN_NULL = 0,
  ORIGIN_GAME_START,	// Given when the game starts
  ORIGIN_OPENER_NPC,	// NPC comes up to you when the game starts
+ ORIGIN_ANY_NPC,	// Any NPC
  ORIGIN_SECONDARY,	// Given at the end of another mission
  NUM_ORIGIN
 };
@@ -62,6 +65,8 @@ struct mission_start {
  void place_zombie_mom	(game *, mission *); // Put a zombie mom in a house!
  void place_npc_software(game *, mission *); // Put NPC-type-dependent software
  void reveal_hospital	(game *, mission *); // Reveal the nearest hospital
+ void find_safety	(game *, mission *); // Goal is set to non-spawn area
+ void place_book	(game *, mission *); // Place a book to retrieve
 };
 
 struct mission_end {	// These functions are run when a mission ends
@@ -80,6 +85,7 @@ struct mission_type {
  mission_goal goal;	// The basic goal type
  int difficulty;	// Difficulty; TODO: come up with a scale
  int value;		// Value; determines rewards and such
+ npc_favor special_reward; // If we have a special gift, not cash value
  int deadline_low, deadline_high; // Low and high deadlines (turn numbers)
  bool urgent;	// If true, the NPC will press this mission!
 
@@ -114,7 +120,8 @@ struct mission {
  mission_type *type;
  std::string description; // Basic descriptive text
  bool failed;		// True if we've failed it!
- int value;
+ int value;		// Cash/Favor value of completing this
+ npc_favor reward;	// If there's a special reward for completing it
  int uid;		// Unique ID number, used for referencing elsewhere
  point target;		// Marked on the player's map.  (-1,-1) for none
  itype_id item_id;	// Item that needs to be found (or whatever)
@@ -127,6 +134,9 @@ struct mission {
  text_hash text;
 
  std::string name();
+ std::string save_info();
+ void load_info(game *g, std::ifstream &info);
+
  mission()
  {
   type = NULL;

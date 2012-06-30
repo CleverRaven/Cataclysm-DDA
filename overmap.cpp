@@ -160,6 +160,20 @@ std::vector<mongroup*> overmap::monsters_at(int x, int y)
  return ret;
 }
 
+bool overmap::is_safe(int x, int y)
+{
+ std::vector<mongroup*> mons = monsters_at(x, y);
+ if (monsters_at(x, y).empty())
+  return true;
+
+ bool safe = true;
+ for (int n = 0; n < mons.size() && safe; n++)
+  safe = mons[n]->is_safe();
+
+ return safe;
+}
+
+
 bool& overmap::seen(int x, int y)
 {
  if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY) {
@@ -815,6 +829,8 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
    vert = overmap(g, posx, posy + 1, posz);
 
 // Now actually draw the map
+  bool csee = false;
+  oter_id ccur_ter;
   for (int i = -25; i < 25; i++) {
    for (int j = -12; j <= (ch == 'j' ? 13 : 12); j++) {
     omx = cursx + i;
@@ -903,9 +919,11 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
      ter_color = c_dkgray;
      ter_sym = '#';
     }
-    if (j == 0 && i == 0)
+    if (j == 0 && i == 0) {
      mvwputch_hi (w, 12,     25,     ter_color, ter_sym);
-    else
+     csee = see;
+     ccur_ter = cur_ter;
+    } else
      mvwputch    (w, 12 + j, 25 + i, ter_color, ter_sym);
    }
   }
@@ -948,10 +966,10 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
      mvwputch(w, j, i, c_black, 'x');
    }
 
-   if (seen(cursx, cursy)) {
-    mvwputch(w, 1, 51, oterlist[cur_ter].color, oterlist[cur_ter].sym);
-    mvwprintz(w, 1, 53, oterlist[cur_ter].color, "%s",
-              oterlist[cur_ter].name.c_str());
+   if (csee) {
+    mvwputch(w, 1, 51, oterlist[ccur_ter].color, oterlist[ccur_ter].sym);
+    mvwprintz(w, 1, 53, oterlist[ccur_ter].color, "%s",
+              oterlist[ccur_ter].name.c_str());
    } else
     mvwprintz(w, 1, 51, c_dkgray, "# Unexplored");
 
@@ -1461,7 +1479,7 @@ void overmap::build_lab(int x, int y, int s)
                          ter(finalex, finaley) != ot_lab_core);
   ter(finalex, finaley) = ot_lab_finale;
  }
- zg.push_back(mongroup(mcat_lab, (x * 2), (y * 2), s, 60));
+ zg.push_back(mongroup(mcat_lab, (x * 2), (y * 2), s, 400));
 }
 
 void overmap::build_anthill(int x, int y, int s)
@@ -2102,7 +2120,7 @@ void overmap::place_special(overmap_special special, point p)
  }
 
  if (special.flags & mfb(OMS_FLAG_3X3_SECOND)) {
-  int startx = -1, starty = -1;
+  int startx = p.x - 1, starty = p.y;
   if (is_road(p.x, p.y - 1)) { // Road to north
    startx = p.x - 1;
    starty = p.y;
@@ -2211,12 +2229,15 @@ void overmap::place_mongroups()
    int swamp_count = 0;
    for (int sx = x - 3; sx <= x + 3; sx++) {
     for (int sy = y - 3; sy <= y + 3; sy++) {
-     if (ter(sx, sy) == ot_forest_water || is_river(ter(sx, sy)))
+     if (ter(sx, sy) == ot_forest_water)
+      swamp_count += 2;
+     else if (is_river(ter(sx, sy)))
       swamp_count++;
     }
    }
-   if (swamp_count >= 15) // 30% swamp!
-    zg.push_back(mongroup(mcat_swamp, x * 2, y * 2, 3, rng(200, 800)));
+   if (swamp_count >= 25) // ~25% swamp or ~50% river
+    zg.push_back(mongroup(mcat_swamp, x * 2, y * 2, 3,
+                          rng(swamp_count * 8, swamp_count * 25)));
   }
  }
 
@@ -2298,10 +2319,10 @@ void overmap::save(std::string name, int x, int y, int z)
   fout << "T " << radios[i].x << " " << radios[i].y << " " <<
           radios[i].strength << " " << std::endl << radios[i].message <<
           std::endl;
-/*	BUGGY - omit for now
+
  for (int i = 0; i < npcs.size(); i++)
   fout << "n " << npcs[i].save_info() << std::endl;
-*/
+
  fout.close();
 }
 
@@ -2362,7 +2383,7 @@ void overmap::open(game *g, int x, int y, int z)
     std::string npcdata;
     getline(fin, npcdata);
     npc tmp;
-    tmp.load_info(npcdata);
+    tmp.load_info(g, npcdata);
     npcs.push_back(tmp);
    } else if (datatype == 'I' || datatype == 'C' || datatype == 'W' ||
               datatype == 'w' || datatype == 'c') {

@@ -127,7 +127,7 @@ void game::wish()
    shift++;
    if (shift + 23 > itypes.size()) shift = itypes.size() - 23;
   }
-  for (int i = 1; i < 24; i++) {
+  for (int i = 1; i < 24 && i-1+shift < itypes.size(); i++) {
    nc_color col = c_white;
    if (i == a + 1)
     col = h_white;

@@ -1,6 +1,8 @@
 #ifndef _PLDATA_H_
 #define _PLDATA_H_
 
+#include <sstream>
+
 enum character_type {
  PLTYPE_CUSTOM,
  PLTYPE_RANDOM,
@@ -44,9 +46,16 @@ enum dis_type {
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
   DI_TOOK_FLUMED, DI_ADRENALINE, DI_ASTHMA, DI_METH,
 // Traps
- DI_BEARTRAP, DI_IN_PIT,
+ DI_BEARTRAP, DI_IN_PIT, DI_STUNNED, DI_DOWNED,
+// Martial Arts
+ DI_ATTACK_BOOST, DI_DAMAGE_BOOST, DI_DODGE_BOOST, DI_ARMOR_BOOST,
+  DI_SPEED_BOOST, DI_VIPER_COMBO,
 // Other
- DI_AMIGARA, DI_TELEGLOW, DI_ATTENTION, DI_EVIL, DI_ASKED_TO_FOLLOW,
+ DI_AMIGARA, DI_TELEGLOW, DI_ATTENTION, DI_EVIL,
+// Inflicted by an NPC
+ DI_ASKED_TO_FOLLOW, DI_ASKED_TO_LEAD, DI_ASKED_FOR_ITEM,
+// NPC-only
+ DI_CATCH_UP
 };
 
 enum add_type {
@@ -58,9 +67,10 @@ enum add_type {
 struct disease
 {
  dis_type type;
+ int intensity;
  int duration;
- disease() { type = DI_NULL; duration = 0; }
- disease(dis_type t, int d) { type = t; duration = d;}
+ disease() { type = DI_NULL; duration = 0; intensity = 0; }
+ disease(dis_type t, int d, int i = 0) { type = t; duration = d; intensity = i;}
 };
 
 struct addiction
@@ -75,7 +85,8 @@ struct addiction
 
 enum activity_type {
  ACT_NULL = 0,
- ACT_RELOAD, ACT_READ, ACT_WAIT, ACT_CRAFT, ACT_BUTCHER, ACT_BUILD,
+ ACT_RELOAD, ACT_READ, ACT_WAIT, ACT_CRAFT, ACT_BUTCHER, ACT_BUILD, ACT_VEHICLE,
+ ACT_TRAIN,
  NUM_ACTIVITIES
 };
 
@@ -86,14 +97,50 @@ struct player_activity
  int index;
  std::vector<int> values;
  point placement;
+
  player_activity() { type = ACT_NULL; moves_left = 0; index = -1;
                      placement = point(-1, -1); }
+
  player_activity(activity_type t, int turns, int Index)
  {
   type = t;
   moves_left = turns;
   index = Index;
   placement = point(-1, -1);
+ }
+
+ player_activity(player_activity &copy)
+ {
+  type = copy.type;
+  moves_left = copy.moves_left;
+  index = copy.index;
+  placement = copy.placement;
+  values.clear();
+  for (int i = 0; i < copy.values.size(); i++)
+   values.push_back(copy.values[i]);
+ }
+
+ std::string save_info()
+ {
+  std::stringstream ret;
+  ret << type << " " << moves_left << " " << index << " " << placement.x <<
+         " " << placement.y << " " << values.size();
+  for (int i = 0; i < values.size(); i++)
+   ret << " " << values[i];
+
+  return ret.str();
+ }
+
+ void load_info(std::stringstream &dump)
+ {
+  int tmp, tmptype;
+  dump >> tmptype >> moves_left >> index >> placement.x >> placement.y >> tmp;
+  type = activity_type(tmptype);
+  for (int i = 0; i < tmp; i++) {
+   int tmp2;
+   dump >> tmp2;
+   values.push_back(tmp2);
+  }
  }
 };
  
@@ -126,6 +173,7 @@ enum pl_flag {
  PF_HEARTLESS,	// No morale penalty for murder &c
  PF_ANDROID,	// Start with two bionics (occasionally one)
  PF_ROBUST,	// Mutations tend to be good (usually they tend to be bad)
+ PF_MARTIAL_ARTS, // Start with a martial art
 
  PF_SPLIT,	// Null trait, splits between bad & good
 
@@ -364,6 +412,9 @@ You start the game with a power system, and one random bionic enhancement."},
 {"Robust Genetics", 2, 0, 0, "\
 You have a very strong genetic base.  If you mutate, the odds that the\n\
 mutation will be beneficial are greatly increased."},
+{"Martial Arts Training", 3, 0, 0, "\
+You have receives some martial arts training at a local dojo.  You will start\n\
+with your choice of karate, judo, aikido, tai chi, or taekwando."},
 
 {"NULL", 0, 0, 0, " -------------------------------------------------- "},
 

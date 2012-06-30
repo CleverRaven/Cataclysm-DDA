@@ -26,6 +26,8 @@ enum moncat_id {
  num_moncats
 };
 
+bool moncat_is_safe(moncat_id id);
+
 struct mongroup {
  moncat_id type;
  int posx, posy;
@@ -41,6 +43,7 @@ struct mongroup {
   population = ppop;
   dying = false;
  }
+ bool is_safe() { return moncat_is_safe(type); };
 };
 
 #endif

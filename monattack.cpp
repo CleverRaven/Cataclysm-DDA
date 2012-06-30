@@ -1127,11 +1127,11 @@ void mattack::smg(game *g, monster *z)
  int t, j, fire_t;
  if (z->friendly != 0) { // Attacking monsters, not the player!
   monster* target = NULL;
-  int closest = 13;
+  int closest = 19;
   for (int i = 0; i < g->z.size(); i++) {
    int dist = rl_dist(z->posx, z->posy, g->z[i].posx, g->z[i].posy);
    if (g->z[i].friendly == 0 && dist < closest && 
-       g->m.sees(z->posx, z->posy, g->z[i].posx, g->z[i].posy, 12, t)) {
+       g->m.sees(z->posx, z->posy, g->z[i].posx, g->z[i].posy, 18, t)) {
     target = &(g->z[i]);
     closest = dist;
     fire_t = t;
@@ -1164,7 +1164,7 @@ void mattack::smg(game *g, monster *z)
  }
  
 // Not friendly; hence, firing at the player
- if (trig_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 12 ||
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 24 ||
      !g->sees_u(z->posx, z->posy, t))
   return;
  z->sp_timeout = z->type->sp_freq;	// Reset timer
@@ -1219,9 +1219,13 @@ void mattack::copbot(game *g, monster *z)
  z->sp_timeout = z->type->sp_freq;	// Reset timer
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 2 || !sees_u) {
   if (one_in(3)) {
-   if (sees_u)
-    g->sound(z->posx, z->posy, 18, "a robotic voice boom, \"Citizen, Halt!\"");
-   else
+   if (sees_u) {
+    if (g->u.unarmed_attack())
+     g->sound(z->posx, z->posy, 18, "a robotic voice boom, \"Citizen, Halt!\"");
+    else
+     g->sound(z->posx, z->posy, 18, "a robotic voice boom, \"\
+Please put down your weapon.\"");
+   } else
     g->sound(z->posx, z->posy, 18,
              "a robotic voice boom, \"Come out with your hands up!\"");
   } else
@@ -1276,4 +1280,48 @@ void mattack::generator(game *g, monster *z)
  g->sound(z->posx, z->posy, 100, "");
  if (int(g->turn) % 10 == 0 && z->hp < z->type->hp)
   z->hp++;
+}
+
+void mattack::upgrade(game *g, monster *z)
+{
+ std::vector<int> targets;
+ for (int i = 0; i < g->z.size(); i++) {
+  if (g->z[i].type->id == mon_zombie &&
+      rl_dist(z->posx, z->posy, g->z[i].posx, g->z[i].posy) <= 5)
+   targets.push_back(i);
+ }
+ if (targets.empty())
+  return;
+ z->sp_timeout = z->type->sp_freq;	// Reset timer
+ z->moves -= 150;			// It takes a while
+
+ monster *target = &( g->z[ targets[ rng(0, targets.size()-1) ] ] );
+
+ mon_id newtype = mon_zombie;
+ 
+ switch( rng(1, 10) ) {
+  case  1: newtype = mon_zombie_shrieker;
+           break;
+  case  2:
+  case  3: newtype = mon_zombie_spitter;
+           break;
+  case  4:
+  case  5: newtype = mon_zombie_electric;
+           break;
+  case  6:
+  case  7:
+  case  8: newtype = mon_zombie_fast;
+           break;
+  case  9: newtype = mon_zombie_brute;
+           break;
+  case 10: newtype = mon_boomer;
+           break;
+ }
+
+ target->poly(g->mtypes[newtype]);
+ int junk;
+ if (g->u_see(z->posx, z->posy, junk))
+  g->add_msg("The black mist around the %s grows...", z->name().c_str());
+ if (g->u_see(target->posx, target->posy, junk))
+  g->add_msg("...a zombie becomes a %s!", target->name().c_str());
 }

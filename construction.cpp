@@ -8,7 +8,6 @@
 #include "skill.h"
 #include "crafting.h" // For the use_comps use_tools functions
 
-#define PICKUP_RANGE 2
 
 bool will_flood_stop(map *m, bool fill[SEEX * MAPSIZE][SEEY * MAPSIZE],
                      int x, int y);
@@ -41,21 +40,29 @@ void game::init_construction()
  *  items after a deconstruction.
  */
 
- CONSTRUCT("Dig Pit", 0, &construct::able_dig, &construct::done_pit);
+ CONSTRUCT("Dig Pit", 0, &construct::able_dig, &construct::done_nothing);
   STAGE(t_pit_shallow, 10);
    TOOL(itm_shovel, NULL);
   STAGE(t_pit, 10);
    TOOL(itm_shovel, NULL);
 
- CONSTRUCT("Spike Pit", 0, &construct::able_pit, &construct::done_trap_pit);
+ CONSTRUCT("Spike Pit", 0, &construct::able_pit, &construct::done_nothing);
   STAGE(t_pit_spiked, 5);
    COMP(itm_spear_wood, 4, NULL);
 
- CONSTRUCT("Fill Pit", 0, &construct::able_pit, &construct::done_fill_pit);
+ CONSTRUCT("Fill Pit", 0, &construct::able_pit, &construct::done_nothing);
   STAGE(t_pit_shallow, 5);
    TOOL(itm_shovel, NULL);
   STAGE(t_dirt, 5);
    TOOL(itm_shovel, NULL);
+
+ CONSTRUCT("Chop Down Tree", 0, &construct::able_tree, &construct::done_tree);
+  STAGE(t_dirt, 10);
+   TOOL(itm_ax, itm_chainsaw_on, NULL);
+
+ CONSTRUCT("Chop Up Log", 0, &construct::able_log, &construct::done_log);
+  STAGE(t_dirt, 20);
+   TOOL(itm_ax, itm_chainsaw_on, NULL);
 
  CONSTRUCT("Clean Broken Window", 0, &construct::able_broken_window,
                                      &construct::done_nothing);
@@ -131,6 +138,10 @@ void game::init_construction()
    COMP(itm_2x4, 8, NULL);
    COMP(itm_nail, 40, NULL);
 
+ CONSTRUCT("Start vehicle construction", 0, &construct::able_empty, &construct::done_vehicle);
+  STAGE(t_null, 10);
+   COMP(itm_frame, 1, NULL);
+
 }
 
 void game::construction_menu()
@@ -197,7 +208,7 @@ void game::construction_menu()
     nc_color color_stage = (player_can_build(u, total_inv, current_con, n) ?
                             c_white : c_dkgray);
     mvwprintz(w_con, posy, 31, color_stage, "Stage %d: %s", n + 1,
-              terlist[current_con->stages[n].terrain].name.c_str());
+              current_con->stages[n].terrain == t_null? "" : terlist[current_con->stages[n].terrain].name.c_str());
     posy++;
 // Print tools
     construction_stage stage = current_con->stages[n];
@@ -423,8 +434,8 @@ void game::place_construction(constructable *con)
    max_stage = i;
  }
 
- u.activity = player_activity(ACT_BUILD, con->stages[starting_stage].time*1000,
-                              con->id);
+ u.assign_activity(ACT_BUILD, con->stages[starting_stage].time * 1000, con->id);
+
  u.moves = 0;
  std::vector<int> stages;
  for (int i = starting_stage; i <= max_stage; i++)
@@ -453,7 +464,8 @@ void game::complete_construction()
  
 // Make the terrain change
  int terx = u.activity.placement.x, tery = u.activity.placement.y;
- m.ter(terx, tery) = stage.terrain;
+ if (stage.terrain != t_null)
+  m.ter(terx, tery) = stage.terrain;
  construct effects;
  (effects.*(built->done))(this, point(terx, tery));
 
@@ -470,6 +482,16 @@ void game::complete_construction()
 bool construct::able_empty(game *g, point p)
 {
  return (g->m.move_cost(p.x, p.y) == 2);
+}
+
+bool construct::able_tree(game *g, point p)
+{
+ return (g->m.ter(p.x, p.y) == t_tree);
+}
+
+bool construct::able_log(game *g, point p)
+{
+ return (g->m.ter(p.x, p.y) == t_log);
 }
 
 bool construct::able_window(game *g, point p)
@@ -552,25 +574,43 @@ bool will_flood_stop(map *m, bool fill[SEEX * MAPSIZE][SEEY * MAPSIZE],
          (skip_west  || will_flood_stop(m, fill, x - 1, y    ))   );
 }
 
-void construct::done_pit(game *g, point p)
-{
- if (g->m.ter(p.x, p.y) == t_pit)
-  g->m.add_trap(p.x, p.y, tr_pit);
-}
-
-void construct::done_trap_pit(game *g, point p)
-{
- if (g->m.ter(p.x, p.y) == t_pit_spiked)
-  g->m.add_trap(p.x, p.y, tr_spike_pit);
-}
-
-void construct::done_fill_pit(game *g, point p)
-{
- if (g->m.tr_at(p.x, p.y) == tr_pit)
-  g->m.tr_at(p.x, p.y) = tr_null;
-}
-
 void construct::done_window_pane(game *g, point p)
 {
  g->m.add_item(g->u.posx, g->u.posy, g->itypes[itm_glass_sheet], 0);
+}
+
+void construct::done_tree(game *g, point p)
+{
+ mvprintz(0, 0, c_red, "Press a direction for the tree to fall in:");
+ int x = 0, y = 0;
+ do
+  get_direction(g, x, y, input());
+ while (x == -2 || y == -2);
+ x = p.x + x * 3 + rng(-1, 1);
+ y = p.y + y * 3 + rng(-1, 1);
+ std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
+ for (int i = 0; i < tree.size(); i++) {
+  g->m.destroy(g, tree[i].x, tree[i].y, true);
+  g->m.ter(tree[i].x, tree[i].y) = t_log;
+ }
+}
+
+void construct::done_log(game *g, point p)
+{
+ int num_sticks = rng(10, 20);
+ for (int i = 0; i < num_sticks; i++)
+  g->m.add_item(p.x, p.y, g->itypes[itm_2x4], int(g->turn));
+}
+
+void construct::done_vehicle(game *g, point p)
+{
+    std::string name = string_input_popup(20, "Enter new vehicle name");
+    vehicle *veh = g->m.add_vehicle (g, veh_custom, p.x, p.y, 270);
+    if (!veh)
+    {
+        debugmsg ("error constructing vehicle");
+        return;
+    }
+    veh->name = name;
+    veh->install_part (0, 0, vp_frame_v2);
 }

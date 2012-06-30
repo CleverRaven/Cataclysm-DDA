@@ -432,6 +432,9 @@ charge mechanism, which must be installed from another CBM.");
    ch = getch();
   while (ch != 'q' && ch != '\n' && ch != KEY_ESCAPE);
   if (ch == '\n') {
+   practice(sk_electronics, (100 - chance_of_success) * 1.5);
+   practice(sk_firstaid, (100 - chance_of_success) * 1.0);
+   practice(sk_mechanics, (100 - chance_of_success) * 0.5);
    int success = chance_of_success - rng(1, 100);
    if (success > 0) {
     g->add_msg("Successfully installed batteries.");
@@ -496,6 +499,9 @@ charge mechanism, which must be installed from another CBM.");
  } while (ch != '\n' && ch != 'q' && ch != KEY_ESCAPE);
 
  if (ch == '\n') {
+  practice(sk_electronics, (100 - chance_of_success) * 1.5);
+  practice(sk_firstaid, (100 - chance_of_success) * 1.0);
+  practice(sk_mechanics, (100 - chance_of_success) * 0.5);
   bionic_id id = type->options[selection];
   int success = chance_of_success - rng(1, 100);
   if (success > 0) {

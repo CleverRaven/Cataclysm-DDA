@@ -13,6 +13,7 @@
 
 bool is_flammable(material m);
 
+std::string default_technique_name(technique_id tech);
 
 item::item()
 {
@@ -202,7 +203,7 @@ std::string item::save_info()
  * curammo isn't NULL.  The crashes seem to occur most frequently when saving an
  * NPC, or when saving map data containing an item an NPC has dropped.
  */
- if (is_gun() && curammo != NULL)
+ if (curammo != NULL)
   ammotmp = curammo->id;
  if (ammotmp < 0 || ammotmp > num_items)
   ammotmp = 0; // Saves us from some bugs
@@ -257,7 +258,7 @@ void item::load_info(std::string data, game *g)
  active = false;
  if (acttmp == 1)
   active = true;
- if (is_gun() && ammotmp > 0)
+ if (ammotmp > 0)
   curammo = dynamic_cast<it_ammo*>(g->itypes[ammotmp]);
  else
   curammo = NULL;
@@ -418,6 +419,15 @@ std::string item::info(bool showtext)
   else
    dump << " of " << ammo_name(tool->ammo) << ".";
 
+ } else if (is_style()) {
+
+  dump << "\n";
+  it_style* style = dynamic_cast<it_style*>(type);
+  for (int i = 0; i < style->moves.size(); i++) {
+   dump << default_technique_name(style->moves[i].tech) <<
+           ". Requires Unarmed Skill of " << style->moves[i].level << "\n";
+  }
+
  }
 
  if (showtext) {
@@ -443,7 +453,9 @@ nc_color item::color(player *u)
 {
  nc_color ret = c_ltgray;
 
- if (is_gun()) { // Guns are green if you are carrying ammo for them
+ if (active) // Active items show up as yellow
+  ret = c_yellow;
+ else if (is_gun()) { // Guns are green if you are carrying ammo for them
   ammotype amtype = ammo_type();
   if (u->has_ammo(amtype).size() > 0)
    ret = c_green;
@@ -466,6 +478,16 @@ nc_color item::color(player *u)
       tmp->req <= u->sklevel[tmp->type] && tmp->level > u->sklevel[tmp->type])
    ret = c_ltblue;
  }
+ return ret;
+}
+
+nc_color item::color_in_inventory(player *u)
+{
+// Items in our inventory get colorized specially
+ nc_color ret = c_white;
+ if (active)
+  ret = c_yellow;
+
  return ret;
 }
 
@@ -646,7 +668,8 @@ int item::volume_contained()
 
 int item::attack_time()
 {
- return 65 + 4 * volume() + 2 * weight();
+ int ret = 65 + 4 * volume() + 2 * weight();
+ return ret;
 }
 
 int item::damage_bash()
@@ -674,6 +697,29 @@ bool item::has_flag(item_flag f)
   }
  }
  return (type->item_flags & mfb(f));
+}
+
+bool item::has_technique(technique_id tech, player *p)
+{
+ if (is_style()) {
+  it_style *style = dynamic_cast<it_style*>(type);
+  for (int i = 0; i < style->moves.size(); i++) {
+   if (style->moves[i].tech == tech &&
+       (p == NULL || p->sklevel[sk_unarmed] >= style->moves[i].level))
+    return true;
+  }
+ }
+ return (type->techniques & mfb(tech));
+}
+
+std::vector<technique_id> item::techniques()
+{
+ std::vector<technique_id> ret;
+ for (int i = 0; i < NUM_TECHNIQUES; i++) {
+  if (has_technique( technique_id(i) ))
+   ret.push_back( technique_id(i) );
+ }
+ return ret;
 }
 
 bool item::rotten(game *g)
@@ -757,6 +803,23 @@ int item::melee_value(int skills[num_skill_types])
  //debugmsg("My value: (+hit) %d", my_value);
 
  return my_value;
+}
+
+style_move item::style_data(technique_id tech)
+{
+ style_move ret;
+
+ if (!is_style())
+  return ret;
+
+ it_style* style = dynamic_cast<it_style*>(type);
+
+ for (int i = 0; i < style->moves.size(); i++) {
+  if (style->moves[i].tech == tech)
+   return style->moves[i];
+ }
+
+ return ret;
 }
  
 bool item::is_two_handed(player *u)
@@ -901,6 +964,11 @@ bool item::is_software()
 bool item::is_macguffin()
 {
  return type->is_macguffin();
+}
+
+bool item::is_style()
+{
+ return type->is_style();
 }
 
 bool item::is_other()
@@ -1221,4 +1289,29 @@ bool item::burn(int amount)
 bool is_flammable(material m)
 {
  return (m == COTTON || m == WOOL || m == PAPER || m == WOOD || m == MNULL);
+}
+
+std::string default_technique_name(technique_id tech)
+{
+ switch (tech) {
+  case TEC_SWEEP: return "Sweep attack";
+  case TEC_PRECISE: return "Precision attack";
+  case TEC_BRUTAL: return "Knock-back attack";
+  case TEC_GRAB: return "Grab";
+  case TEC_WIDE: return "Hit all adjacent monsters";
+  case TEC_RAPID: return "Rapid attack";
+  case TEC_FEINT: return "Feint";
+  case TEC_THROW: return "Throw";
+  case TEC_BLOCK: return "Block";
+  case TEC_BLOCK_LEGS: return "Leg block";
+  case TEC_WBLOCK_1: return "Weak block";
+  case TEC_WBLOCK_2: return "Parry";
+  case TEC_WBLOCK_3: return "Shield";
+  case TEC_COUNTER: return "Counter-attack";
+  case TEC_BREAK: return "Grab break";
+  case TEC_DEF_THROW: return "Defensive throw";
+  case TEC_DEF_DISARM: return "Defense disarm";
+  default: return "A BUG!";
+ }
+ return "A BUG!";
 }

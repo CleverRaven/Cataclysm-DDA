@@ -196,6 +196,10 @@ void monster::move(game *g)
   moves = 0;
   return;
  }
+ if (has_effect(ME_DOWNED)) {
+  moves = 0;
+  return;
+ }
  if (friendly != 0) {
   if (friendly > 0)
    friendly--;
@@ -459,7 +463,7 @@ point monster::sound_move(game *g)
  return next;
 }
 
-void monster::hit_player(game *g, player &p)
+void monster::hit_player(game *g, player &p, bool can_grab)
 {
  if (type->melee_dice == 0) // We don't attack, so just return
   return;
@@ -470,17 +474,23 @@ void monster::hit_player(game *g, player &p)
  int  junk;
  bool u_see = (!is_npc || g->u_see(p.posx, p.posy, junk));
  std::string you  = (is_npc ? p.name : "you");
+ std::string You  = (is_npc ? p.name : "You");
  std::string your = (is_npc ? p.name + "'s" : "your");
  std::string Your = (is_npc ? p.name + "'s" : "Your");
  body_part bphit;
  int side = rng(0, 1);
- int dam = hit(g, p, bphit);
+ int dam = hit(g, p, bphit), cut = type->melee_cut, stab = 0;
+ technique_id tech = p.pick_defensive_technique(g, this, NULL);
+ p.perform_defensive_technique(tech, g, this, NULL, bphit, side,
+                               dam, cut, stab);
  if (dam == 0 && u_see)
   g->add_msg("The %s misses %s.", name().c_str(), you.c_str());
  else if (dam > 0) {
-  if (u_see)
+  if (u_see && tech != TEC_BLOCK)
    g->add_msg("The %s hits %s %s.", name().c_str(), your.c_str(),
               body_part_name(bphit, side).c_str());
+// Attempt defensive moves
+
   if (!is_npc) {
    if (g->u.activity.type == ACT_RELOAD)
     g->add_msg("You stop reloading.");
@@ -502,7 +512,11 @@ void monster::hit_player(game *g, player &p)
               (g->u.has_trait(PF_QUILLS) ? "quills" : "spines"));
    hurt(spine);
   }
-  p.hit(g, bphit, side, dam, type->melee_cut);
+
+  if (dam + cut <= 0)
+   return; // Defensive technique canceled damage.
+
+  p.hit(g, bphit, side, dam, cut);
   if (has_flag(MF_VENOM)) {
    if (!is_npc)
     g->add_msg("You're poisoned!");
@@ -512,7 +526,23 @@ void monster::hit_player(game *g, player &p)
     g->add_msg("You feel poison flood your body, wracking you with pain...");
    p.add_disease(DI_BADPOISON, 40, g);
   }
- }
+  if (can_grab && has_flag(MF_GRABS) &&
+      dice(type->melee_dice, 10) > dice(p.dodge(g), 10)) {
+   if (!is_npc)
+    g->add_msg("The %s grabs you!", name().c_str());
+   if (p.weapon.has_technique(TEC_BREAK, &p) &&
+       dice(p.dex_cur + p.sklevel[sk_melee], 12) > dice(type->melee_dice, 10)){
+    if (!is_npc)
+     g->add_msg("You break the grab!");
+   } else
+    hit_player(g, p, false);
+  }
+     
+  if (tech == TEC_COUNTER && !is_npc) {
+   g->add_msg("Counter-attack!");
+   hurt( p.hit_mon(g, this) );
+  }
+ } // if dam > 0
  if (is_npc) {
   if (p.hp_cur[hp_head] <= 0 || p.hp_cur[hp_torso] <= 0) {
    npc* tmp = dynamic_cast<npc*>(&p);
@@ -622,6 +652,86 @@ void monster::stumble(game *g, bool moved)
   }
  }
 }
+
+void monster::knock_back_from(game *g, int x, int y)
+{
+ if (x == posx && y == posy)
+  return; // No effect
+ point to(posx, posy);
+ if (x < posx)
+  to.x++;
+ if (x > posx)
+  to.x--;
+ if (y < posy)
+  to.y++;
+ if (y > posy)
+  to.y--;
+
+ int t = 0;
+ bool u_see = g->u_see(to.x, to.y, t);
+
+// First, see if we hit another monster
+ int mondex = g->mon_at(to.x, to.y);
+ if (mondex != -1) {
+  monster *z = &(g->z[mondex]);
+  hurt(z->type->size);
+  add_effect(ME_STUNNED, 1);
+  if (type->size > 1 + z->type->size) {
+   z->knock_back_from(g, posx, posy); // Chain reaction!
+   z->hurt(type->size);
+   z->add_effect(ME_STUNNED, 1);
+  } else if (type->size > z->type->size) {
+   z->hurt(type->size);
+   z->add_effect(ME_STUNNED, 1);
+  }
+
+  if (u_see)
+   g->add_msg("The %s bounces off a %s!", name().c_str(), z->name().c_str());
+
+  return;
+ }
+
+ int npcdex = g->npc_at(to.x, to.y);
+ if (npcdex != -1) {
+  npc *p = &(g->active_npc[npcdex]);
+  hurt(3);
+  add_effect(ME_STUNNED, 1);
+  p->hit(g, bp_torso, 0, type->size, 0);
+  if (u_see)
+   g->add_msg("The %s bounces off %s!", name().c_str(), p->name.c_str());
+
+  return;
+ }
+
+// If we're still in the function at this point, we're actually moving a tile!
+ if (g->m.move_cost(to.x, to.y) == 0) { // Wait, it's a wall (or water)
+
+  if (g->m.has_flag(liquid, to.x, to.y)) {
+   if (!has_flag(MF_SWIMS) && !has_flag(MF_AQUATIC)) {
+    hurt(9999);
+    if (u_see)
+     g->add_msg("The %s drowns!", name().c_str());
+   }
+
+  } else if (has_flag(MF_AQUATIC)) { // We swim but we're NOT in water
+   hurt(9999);
+   if (u_see)
+    g->add_msg("The %s flops around and dies!", name().c_str());
+
+  } else { // It's some kind of wall.
+   hurt(type->size);
+   add_effect(ME_STUNNED, 2);
+   if (u_see)
+    g->add_msg("The %s bounces off a %s.", name().c_str(),
+                                           g->m.tername(to.x, to.y).c_str());
+  }
+
+ } else { // It's no wall
+  posx = to.x;
+  posy = to.y;
+ }
+}
+
 
 /* will_reach() is used for determining whether we'll get to stairs (and 
  * potentially other locations of interest).  It is generally permissive.

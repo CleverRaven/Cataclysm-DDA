@@ -37,7 +37,8 @@ i: Crafting\n\
 j: Traps\n\
 k: Items overview\n\
 l: Combat\n\
-m: Survival tips\n\
+m: Unarmed Styles\n\
+n: Survival tips\n\
 \n\
 1: List of all commands\n\
 2: List of item types and data\n\
@@ -361,6 +362,30 @@ escape tactic.");
   case 'M':
    erase();
    mvprintz(0, 0, c_white, "\
+For the unarmed fighter, a variety of fighting styles are available.  You can\n\
+start with your choice of a single, commonly-taught style by starting with\n\
+the Martial Arts Training trait.  Many, many more can be taught by NPCs.\n\
+\n\
+To select a fighting style, press _ (underscore).  If you are already unarmed\n\
+this will make you start using the style.  Otherwise, it will be locked in as\n\
+your default unarmed style; to start using it, press w-.\n\
+\n\
+Most styles have a variety of special moves associated with them.  Most have\n\
+a skill requirement, and will be unavailable until you reach a level of\n\
+unarmed skill.  You can check the moves by examining your style via the\n\
+inventory screen (i key).\n\
+\n\
+Many styles also have special effects unlocked under certain conditions.\n\
+These are varied and unique to each style, and range from special combo moves\n\
+to bonuses depending on the situation you are in.  You can check these by\n\
+examining your style.");
+   getch();
+   break;
+
+  case 'n':
+  case 'N':
+   erase();
+   mvprintz(0, 0, c_white, "\
 The first thing to do is to check your home for useful items. Your initial\n\
 storage is limited, and a backpack, trenchcoat, or other storage medium will\n\
 let you carry a lot more. Finding a weapon is important; frying pans, butcher\n\
@@ -401,14 +426,14 @@ $ - Lie down to sleep                        ^      - Long wait\n\
    mvprintz(7, 0, c_white, "ITEMS:");
    mvprintz(8, 0, c_ltgray, "\
 i - View Inventory                           d,D - Drop item (with direction)\n\
-w - Wield item                               t - Throw item\n\
+w - Wield item (w- wields nothing)           t - Throw item\n\
 W - Wear item                                T - Take off item\n\
 a - Activate tool                            E - Eat comestible\n\
 r - Reload wielded gun or tool               U - Unload wielded gun or tool\n\
-f - Fire gun                                 F - Burst-fire gun\n\
+f - Fire gun (F burst-fires)                 B - Butcher a corpse\n\
 p - Power up / List bionics                  R - Read book\n\
-& - Craft items                              B - Butcher a corpse\n\
-= - Reassign inventory letter                * - Construct");
+& - Craft items                              * - Construct\n\
+= - Reassign inventory letter                _ - Select Melee style");
    mvprintz(17, 0, c_white, "INFORMATION:");
    mvprintz(18, 0, c_ltgray, "\
 @ - View character status                    : or m - Open world map\n\

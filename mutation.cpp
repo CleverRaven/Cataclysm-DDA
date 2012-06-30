@@ -7,9 +7,9 @@ void mutation_effect(game *g, player &p, pl_flag mut);
 
 void player::mutate(game *g)
 {
- bool force_bad = one_in(2); // 50% chance!
- if (has_trait(PF_ROBUST) && force_bad && one_in(2))
-  force_bad = false; // 25% chance!
+ bool force_bad = one_in(3); // 33% chance!
+ if (has_trait(PF_ROBUST) && force_bad && one_in(3))
+  force_bad = false; // 11% chance!
 
 // First, see if we should ugrade/extend an existing mutation
  std::vector<pl_flag> upgrades;
@@ -97,6 +97,7 @@ void player::mutate_towards(game *g, pl_flag mut)
   remove_child_flag(g, mut);
   return;
  }
+ bool has_prereqs = false;
  std::vector<pl_flag> prereq = g->mutation_data[mut].prereqs;
  std::vector<pl_flag> cancel = g->mutation_data[mut].cancels;
 
@@ -113,13 +114,11 @@ void player::mutate_towards(game *g, pl_flag mut)
   return;
  }
 
- for (int i = 0; i < prereq.size(); i++) {
-  if (has_trait(prereq[i])) {
-   prereq.erase(prereq.begin() + i);
-   i--;
-  }
+ for (int i = 0; !has_prereqs && i < prereq.size(); i++) {
+  if (has_trait(prereq[i]))
+   has_prereqs = true;
  }
- if (!prereq.empty()) {
+ if (!has_prereqs && !prereq.empty()) {
   pl_flag devel = prereq[ rng(0, prereq.size() - 1) ];
   mutate_towards(g, devel);
   return;

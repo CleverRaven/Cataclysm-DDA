@@ -429,6 +429,40 @@ void trapfuncm::pit_spikes(game *g, monster *z, int x, int y)
  }
 }
 
+void trapfunc::lava(game *g, int x, int y)
+{
+ g->add_msg("The %s burns you horribly!", g->m.tername(x, y).c_str());
+ g->u.hit(g, bp_feet, 0, 0, 20);
+ g->u.hit(g, bp_feet, 1, 0, 20);
+ g->u.hit(g, bp_legs, 0, 0, 20);
+ g->u.hit(g, bp_legs, 1, 0, 20);
+}
+
+void trapfuncm::lava(game *g, monster *z, int x, int y)
+{
+ int junk;
+ bool sees = g->u_see(z, junk);
+ if (sees)
+  g->add_msg("The %s burns the %s!", g->m.tername(x, y).c_str(),
+                                     z->name().c_str());
+
+ int dam = 30;
+ if (z->made_of(FLESH))
+  dam = 50;
+ if (z->made_of(VEGGY))
+  dam = 80;
+ if (z->made_of(PAPER) || z->made_of(LIQUID) || z->made_of(POWDER) ||
+     z->made_of(WOOD)  || z->made_of(COTTON) || z->made_of(WOOL))
+  dam = 200;
+ if (z->made_of(STONE))
+  dam = 15;
+ if (z->made_of(KEVLAR) || z->made_of(STEEL))
+  dam = 5;
+
+ z->hurt(dam);
+}
+ 
+
 void trapfunc::sinkhole(game *g, int x, int y)
 {
  g->add_msg("You step into a sinkhole, and start to sink down!");
