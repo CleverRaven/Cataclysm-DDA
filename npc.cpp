@@ -1362,7 +1362,7 @@ void npc::form_opinion(player *u)
  if (op_of_u.fear < personality.bravery + 3 &&
      op_of_u.fear - personality.aggression > -8 && op_of_u.trust > -4)
   attitude = NPCATT_TALK;
- else if (op_of_u.fear - 2 * personality.aggression - personality.bravery < -8)
+ else if (op_of_u.fear - 2 * personality.aggression - personality.bravery < -30)
   attitude = NPCATT_KILL;
  else
   attitude = NPCATT_FLEE;
@@ -1438,7 +1438,7 @@ bool npc::turned_hostile()
 
 int npc::hostile_anger_level()
 {
- return (10 + op_of_u.fear - personality.aggression);
+ return (20 + op_of_u.fear - personality.aggression);
 }
 
 void npc::make_angry()
