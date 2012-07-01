@@ -1380,7 +1380,8 @@ void talk_function::player_weapon_drop(game *g, npc *p)
 void talk_function::lead_to_safety(game *g, npc *p)
 {
  g->give_mission(MISSION_REACH_SAFETY);
- point target = g->find_mission( g->u.active_mission )->target;
+ int missid = g->u.active_missions[g->u.active_mission];
+ point target = g->find_mission( missid )->target;
  p->goalx = target.x;
  p->goaly = target.y;
  p->attitude = NPCATT_LEAD;
