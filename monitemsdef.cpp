@@ -23,6 +23,8 @@ void game::init_monitems()
  monitems[mon_boomer]		= monitems[mon_zombie];
  monitems[mon_boomer_fungus]	= monitems[mon_zombie];
  monitems[mon_zombie_necro]	= monitems[mon_zombie];
+ monitems[mon_zombie_grabber]	= monitems[mon_zombie];
+ monitems[mon_zombie_master]	= monitems[mon_zombie];
 
  setvector(monitems[mon_zombie_scientist],
 	mi_dresser,	10,mi_harddrugs,	 6,mi_chemistry,	10,

@@ -48,6 +48,8 @@ npc::npc()
  mission = NPC_MISSION_NULL;
  myclass = NC_NONE;
  patience = 0;
+ for (int i = 0; i < num_skill_types; i++)
+  sklevel[i] = 0;
 }
 
 npc::npc(const npc &rhs)
@@ -1330,7 +1332,7 @@ void npc::form_opinion(player *u)
 
  if (u->weapon.is_gun())
   op_of_u.trust -= 2;
- else if (u->weapon.type->id == 0)
+ else if (u->unarmed_attack())
   op_of_u.trust += 2;
 
  if (u->has_disease(DI_HIGH))
@@ -1359,8 +1361,8 @@ void npc::form_opinion(player *u)
    op_of_u.value += 2;
  }
 
- if (op_of_u.fear < personality.bravery + 3 &&
-     op_of_u.fear - personality.aggression > -8 && op_of_u.trust > -4)
+ if (op_of_u.fear < 2 * personality.bravery + 3 &&
+     op_of_u.fear - personality.aggression > -10 && op_of_u.trust > -8)
   attitude = NPCATT_TALK;
  else if (op_of_u.fear - 2 * personality.aggression - personality.bravery < -30)
   attitude = NPCATT_KILL;

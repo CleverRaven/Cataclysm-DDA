@@ -1309,6 +1309,7 @@ std::string default_technique_name(technique_id tech)
   case TEC_WBLOCK_3: return "Shield";
   case TEC_COUNTER: return "Counter-attack";
   case TEC_BREAK: return "Grab break";
+  case TEC_DISARM: return "Disarm";
   case TEC_DEF_THROW: return "Defensive throw";
   case TEC_DEF_DISARM: return "Defense disarm";
   default: return "A BUG!";

@@ -1083,7 +1083,7 @@ int vehicle::part_collision (int vx, int vy, int part, int x, int y)
                        // map::bash function deside, how much absorb is
     }
     else
-    if (g->m.is_destructable_ter_only(x, y))
+    if (g->m.move_cost_ter_only(x, y) == 0 && g->m.is_destructable_ter_only(x, y))
     {
         collision_type = 5; // destructible (wall)
         mass2 = 200;

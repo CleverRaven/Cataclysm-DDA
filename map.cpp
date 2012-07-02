@@ -716,7 +716,7 @@ bool map::is_destructable(int x, int y)
 bool map::is_destructable_ter_only(int x, int y)
 {
  return (has_flag_ter_only(bashable, x, y) ||
-         (move_cost(x, y) == 0 && !has_flag(liquid, x, y)));
+         (move_cost_ter_only(x, y) == 0 && !has_flag(liquid, x, y)));
 }
 
 bool map::is_outside(int x, int y)

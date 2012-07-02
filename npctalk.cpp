@@ -57,10 +57,10 @@ void npc::talk_to_u(game *g)
  if (attitude == NPCATT_TALK)
   attitude = NPCATT_NULL;
  else if (attitude == NPCATT_FLEE) {
-  g->add_msg("%d is fleeing you!", name.c_str());
+  g->add_msg("%s is fleeing you!", name.c_str());
   return;
  } else if (attitude == NPCATT_KILL) {
-  g->add_msg("%d is hostile!", name.c_str());
+  g->add_msg("%s is hostile!", name.c_str());
   return;
  }
  dialogue d;
@@ -1438,10 +1438,10 @@ void talk_function::start_training(game *g, npc *p)
  }
 
 // Pay for it
- if (p->op_of_u.owed >= cost)
-  p->op_of_u.owed -= cost;
+ if (p->op_of_u.owed >= 0 - cost)
+  p->op_of_u.owed += cost;
  else if (!trade(g, p, cost, "Pay for training:"))
-   return;
+  return;
 // Then receive it
  g->u.assign_activity(ACT_TRAIN, time, p->chatbin.tempvalue);
 }

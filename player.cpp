@@ -549,7 +549,7 @@ std::string player::save_info()
 
  dump << styles.size() << " ";
  for (int i = 0; i < styles.size(); i++)
-  dump << int(styles[i]);
+  dump << int(styles[i]) << " ";
 
  dump << illness.size() << " ";
  for (int i = 0; i < illness.size();  i++)
