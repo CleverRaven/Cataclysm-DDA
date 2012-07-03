@@ -97,10 +97,8 @@ void npc::talk_to_u(game *g)
   }
  }
 
- if (d.topic_stack.back() == TALK_NONE) {
+ if (d.topic_stack.back() == TALK_NONE)
   d.topic_stack.back() = pick_talk_topic(&(g->u));
-  return;
- }
 
  moves -= 100;
  decide_needs();
@@ -762,6 +760,13 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    SELECT_TEMP("More...", shift + 9);
     SUCCESS(TALK_TRAIN);
   }
+  if (shift > 0) {
+   int newshift = shift - 9;
+   if (newshift < 0)
+    newshift = 0;
+   SELECT_TEMP("Back...", newshift);
+    SUCCESS(TALK_TRAIN);
+  }
   RESPONSE("Eh, never mind.");
    SUCCESS(TALK_NONE);
   } break;
@@ -1336,16 +1341,19 @@ void talk_function::deny_equipment(game *g, npc *p)
 
 void talk_function::hostile(game *g, npc *p)
 {
+ g->add_msg("%s turns hostile!", p->name.c_str());
  p->attitude = NPCATT_KILL;
 }
 
 void talk_function::flee(game *g, npc *p)
 {
+ g->add_msg("%s turns to flee!", p->name.c_str());
  p->attitude = NPCATT_FLEE;
 }
 
 void talk_function::leave(game *g, npc *p)
 {
+ g->add_msg("%s leaves.", p->name.c_str());
  p->attitude = NPCATT_NULL;
 }
 

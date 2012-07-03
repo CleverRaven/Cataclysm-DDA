@@ -69,6 +69,13 @@ game::game()
  curmes = 0;		// We haven't read any messages yet
  uquit = QUIT_NO;	// We haven't quit the game
  debugmon = false;	// We're not printing debug messages
+ no_npc = false;		// We're not suppressing NPC spawns
+
+// ... Unless data/no_npc.txt exists.
+ std::ifstream ifile("data/no_npc.txt");
+ if (ifile)
+  no_npc = true;
+
  weather = WEATHER_CLEAR; // Start with some nice weather...
  nextweather = MINUTES(STARTING_MINUTES + 30); // Weather shift in 30
  turnssincelastmon = 0; //Auto safe mode init
@@ -1120,7 +1127,8 @@ void game::get_input()
  char ch = input(); // See keypress.h - translates keypad and arrows to vikeys
 
  if (keymap.find(ch) == keymap.end()) {
-  add_msg("Unknown command: '%c'", ch);
+  if (ch != ' ' && ch != KEY_ESCAPE && ch != '\n')
+   add_msg("Unknown command: '%c'", ch);
   return;
  }
 
@@ -1575,7 +1583,6 @@ bool game::load_master()
  int num_missions, num_npc, num_factions, num_items;
 
  fin >> num_missions;
- debugmsg("missions: %d", num_missions);
  if (fin.peek() == '\n')
   fin.get(junk); // Chomp that pesky endline
  for (int i = 0; i < num_missions; i++) {
@@ -1585,7 +1592,6 @@ bool game::load_master()
  }
 
  fin >> num_factions;
- debugmsg("factions: %d", num_factions);
  if (fin.peek() == '\n')
   fin.get(junk); // Chomp that pesky endline
  for (int i = 0; i < num_factions; i++) {
@@ -1596,7 +1602,6 @@ bool game::load_master()
  }
 // NPCs come next
  fin >> num_npc;
- debugmsg("npcs: %d", num_npc);
  if (fin.peek() == '\n')
   fin.get(junk); // Chomp that pesky endline
  for (int i = 0; i < num_npc; i++) {
@@ -1862,7 +1867,8 @@ void game::debug()
                    "Spawn a vehicle",        // 10
                    "Increase all skills",    // 11
                    "Learn all melee styles", // 12
-                   "Cancel",                 // 13
+                   "Check NPC",              // 13
+                   "Cancel",                 // 14
                    NULL);
  int veh_num;
  std::vector<std::string> opts;
@@ -1896,11 +1902,19 @@ void game::debug()
 
   case 5: {
    npc temp;
+   temp.normalize(this);
    temp.randomize(this);
    temp.attitude = NPCATT_TALK;
    temp.spawn_at(&cur_om, levx + (1 * rng(-2, 2)), levy + (1 * rng(-2, 2)));
    temp.posx = u.posx - 4;
    temp.posy = u.posy - 4;
+   temp.form_opinion(&u);
+   temp.attitude = NPCATT_TALK;
+   temp.mission = NPC_MISSION_NULL;
+   int mission_index = reserve_random_mission(ORIGIN_ANY_NPC,
+                                              om_location(), temp.id);
+   if (mission_index != -1)
+   temp.chatbin.missions.push_back(mission_index);
    active_npc.push_back(temp);
   } break;
 
@@ -1912,12 +1926,15 @@ void game::debug()
    popup_top("\
 Location %d:%d in %d:%d, %s\n\
 Current turn: %d; Next spawn %d.\n\
+NPCs are %s spawn.\n\
 %d monsters exist.\n\
 %d events planned.", u.posx, u.posy, levx, levy,
 oterlist[cur_om.ter(levx / 2, levy / 2)].name.c_str(),
-int(turn), int(nextspawn), z.size(), events.size());
+int(turn), int(nextspawn), (no_npc ? "NOT going to" : "going to"),
+z.size(), events.size());
+
    if (!active_npc.empty())
-    popup_top("\%s: %d:%d (you: %d:%d)", active_npc[0].name.c_str(),
+    popup_top("%s: %d:%d (you: %d:%d)", active_npc[0].name.c_str(),
               active_npc[0].posx, active_npc[0].posy, u.posx, u.posy);
    break;
 
@@ -1933,21 +1950,21 @@ int(turn), int(nextspawn), z.size(), events.size());
    break;
 
   case 10:
-   if (m.veh_at(u.posx, u.posy).type != veh_null) {
-       debugmsg ("There's already vehicle here");
-       break;
+   if (m.veh_at(u.posx, u.posy).type != veh_null)
+    debugmsg ("There's already vehicle here");
+   else {
+    for (int i = 2; i < vtypes.size(); i++)
+     opts.push_back (vtypes[i]->name);
+    opts.push_back (std::string("Cancel"));
+    veh_num = menu_vec ("Choose vehicle to spawn", opts) + 1;
+    if (veh_num > 1 && veh_num < num_vehicles)
+     m.add_vehicle (this, (vhtype_id)veh_num, u.posx, u.posy, -90);
    }
-   for (int i = 2; i < vtypes.size(); i++)
-       opts.push_back (vtypes[i]->name);
-   opts.push_back (std::string("Cancel"));
-   veh_num = menu_vec ("Choose vehicle to spawn", opts) + 1;
-   if (veh_num > 1 && veh_num < num_vehicles)
-    m.add_vehicle (this, (vhtype_id)veh_num, u.posx, u.posy, -90);
    break;
 
   case 11:
    for (int i = 0; i < num_skill_types; i++)
-       u.sklevel[i]++;
+    u.sklevel[i] += 3;
    break;
 
   case 12:
@@ -1955,6 +1972,41 @@ int(turn), int(nextspawn), z.size(), events.size());
     u.styles.push_back( itype_id(i) );
    break;
 
+  case 13: {
+   point p = look_around();
+   int npcdex = npc_at(p.x, p.y);
+   if (npcdex == -1)
+    popup("No NPC there.");
+   else {
+    std::stringstream data;
+    npc *p = &(active_npc[npcdex]);
+    data << p->name << " " << (p->male ? "Male" : "Female") << std::endl;
+    data << npc_class_name(p->myclass) << "; " <<
+            npc_attitude_name(p->attitude) << std::endl;
+    if (p->has_destination())
+     data << "Destination: " << p->goalx << ":" << p->goaly << "(" <<
+             oterlist[ cur_om.ter(p->goalx, p->goaly) ].name << ")" <<
+             std::endl;
+    else
+     data << "No destination." << std::endl;
+    data << "Trust: " << p->op_of_u.trust << " Fear: " << p->op_of_u.fear <<
+            " Value: " << p->op_of_u.value << " Anger: " << p->op_of_u.anger <<
+            " Owed: " << p->op_of_u.owed << std::endl;
+    data << "Aggression: " << int(p->personality.aggression) << " Bravery: " <<
+            int(p->personality.bravery) << " Collector: " <<
+            int(p->personality.collector) << " Altruism: " <<
+            int(p->personality.altruism) << std::endl;
+    for (int i = 0; i < num_skill_types; i++) {
+     data << skill_name( skill(i) ) << ": " << p->sklevel[i];
+     if (i % 2 == 1)
+      data << std::endl;
+     else
+      data << "\t";
+    }
+
+    full_screen_popup(data.str().c_str());
+   }
+  } break;
  }
  erase();
  refresh_all();
@@ -6521,7 +6573,7 @@ void game::spawn_mon(int shiftx, int shifty)
  int iter;
  int t;
  // Create a new NPC?
- if (one_in(50 + 5 * cur_om.npcs.size())) {
+ if (!no_npc && one_in(100 + 15 * cur_om.npcs.size())) {
   npc tmp;
   tmp.normalize(this);
   tmp.randomize(this);

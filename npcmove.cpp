@@ -47,7 +47,8 @@ void npc::move(game *g)
 
  choose_monster_target(g, target, danger, total_danger);
  if (g->debugmon)
-  debugmsg("NPC %s: target = %d, danger = %d", name.c_str(), target, danger);
+  debugmsg("NPC %s: target = %d, danger = %d, range = %d",
+           name.c_str(), target, danger, confident_range(-1));
 
  if (is_enemy()) {
   int pl_danger = player_danger( &(g->u) );
@@ -287,6 +288,7 @@ void npc::execute_action(game *g, npc_action action, int target)
 
  case npc_talk_to_player:
   talk_to_u(g);
+  moves = 0;
   break;
 
  case npc_mug_player:
@@ -312,7 +314,7 @@ void npc::execute_action(game *g, npc_action action, int target)
  }
 
  if (oldmoves == moves) {
-  debugmsg("NPC didn't use its moves.  Turning on debug mode.");
+  debugmsg("NPC didn't use its moves.  Action %d.  Turning on debug mode.", action);
   g->debugmon = true;
  }
 }
@@ -672,7 +674,7 @@ void npc::use_escape_item(game *g, int index, int target)
 int npc::confident_range(int index)
 {
  
- if (index == -1 || !weapon.is_gun() || weapon.charges <= 0)
+ if (index == -1 && (!weapon.is_gun() || weapon.charges <= 0))
   return 1;
 
  double deviation = 0;
@@ -711,7 +713,7 @@ int npc::confident_range(int index)
    debugmsg("%s has NULL curammo!", name.c_str()); // TODO: investigate this bug
   else {
    deviation += .5 * weapon.curammo->accuracy;
-   max = weapon.curammo->range;
+   max = weapon.range();
   }
   deviation += .5 * firing->accuracy;
   deviation += 3 * recoil;
@@ -744,9 +746,9 @@ int npc::confident_range(int index)
 
 // Using 180 for now for extra-confident NPCs.
  int ret = (max > int(180 / deviation) ? max : int(180 / deviation));
- if (weapon.is_gun() && weapon.charges > 0 && ret > weapon.curammo->range)
+ if (ret > weapon.curammo->range)
   return weapon.curammo->range;
- return (max > int(180 / deviation) ? max : int(180 / deviation));
+ return ret;
 }
 
 // Index defaults to -1, i.e., wielded weapon
@@ -779,12 +781,14 @@ bool npc::wont_hit_friend(game *g, int tarx, int tary, int index)
     }
 */
 // Hit an NPC that's on our team?
+/*
     for (int n = 0; n < g->active_npc.size(); n++) {
      npc* guy = &(g->active_npc[n]);
      if (guy != this && (is_friend() == guy->is_friend()) &&
          guy->posx == x && guy->posy == y)
       return false;
     }
+*/
    }
   }
  }
@@ -1783,6 +1787,7 @@ void npc::mug_player(game *g, player &mark)
     attitude = NPCATT_FLEE;
     if (!one_in(3))
      say(g, "<done_mugging>");
+    moves -= 100;
    } else {
     int t;
     bool u_see_me   = g->u_see(posx, posy, t),

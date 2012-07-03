@@ -52,6 +52,8 @@ enum npc_attitude {
  NPCATT_MAX
 };
 
+std::string npc_attitude_name(npc_attitude);
+
 enum npc_mission {
  NPC_MISSION_NULL = 0,	// Nothing in particular
  NPC_MISSION_RESCUE_U,	// Find the player and aid them
@@ -62,6 +64,8 @@ enum npc_mission {
  NPC_MISSION_KIDNAPPED,	// Special; was kidnapped, to be rescued by player
  NUM_NPC_MISSIONS
 };
+
+//std::string npc_mission_name(npc_mission);
 
 enum npc_class {
  NC_NONE,
@@ -76,17 +80,19 @@ enum npc_class {
  NC_MAX
 };
 
+std::string npc_class_name(npc_class);
+
 enum npc_action {
  npc_undecided = 0,
- npc_pause,
- npc_reload, npc_sleep,
- npc_pickup,
+ npc_pause, //1
+ npc_reload, npc_sleep, // 2, 3
+ npc_pickup, // 4
  npc_escape_item, npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
-  npc_heal, npc_use_painkiller, npc_eat, npc_drop_items,
- npc_flee, npc_melee, npc_shoot, npc_shoot_burst, npc_alt_attack,
+  npc_heal, npc_use_painkiller, npc_eat, npc_drop_items, // 5 - 12
+ npc_flee, npc_melee, npc_shoot, npc_shoot_burst, npc_alt_attack, // 13 - 17
  npc_look_for_player, npc_heal_player, npc_follow_player, npc_talk_to_player,
-  npc_mug_player,
- npc_goto_destination, npc_avoid_friendly_fire,
+  npc_mug_player, // 18 - 22
+ npc_goto_destination, npc_avoid_friendly_fire, // 23, 24
  num_npc_actions
 };
 

@@ -368,8 +368,8 @@ void npc::randomize(game *g, npc_class type)
  weapon   = item(g->itypes[0], 0);
  inv.clear();
  personality.aggression = rng(-10, 10);
- personality.bravery =    rng(-10, 10);
- personality.collector =  rng(-10, 10);
+ personality.bravery =    rng( -3, 10);
+ personality.collector =  rng( -1, 10);
  personality.altruism =   rng(-10, 10);
  //cash = 100 * rng(0, 20) + 10 * rng(0, 30) + rng(0, 50);
  cash = 0;
@@ -1361,7 +1361,7 @@ void npc::form_opinion(player *u)
    op_of_u.value += 2;
  }
 
- if (op_of_u.fear < 2 * personality.bravery + 3 &&
+ if (op_of_u.fear < personality.bravery + 10 &&
      op_of_u.fear - personality.aggression > -10 && op_of_u.trust > -8)
   attitude = NPCATT_TALK;
  else if (op_of_u.fear - 2 * personality.aggression - personality.bravery < -30)
@@ -1372,7 +1372,7 @@ void npc::form_opinion(player *u)
 
 talk_topic npc::pick_talk_topic(player *u)
 {
- form_opinion(u);
+ //form_opinion(u);
  if (personality.aggression > 0) {
   if (op_of_u.fear * 2 < personality.bravery && personality.altruism < 0)
    return TALK_MUG;
@@ -1688,7 +1688,7 @@ int npc::value(item &it)
    if (inv[i].is_gun()) {
     gun = dynamic_cast<it_gun*>(inv[i].type);
     if (ammo->type == gun->ammo)
-     ret += 6;
+     ret += 14;
    }
   }
  }
@@ -2148,4 +2148,71 @@ std::string random_last_name()
  lastname = buff;
  fin.close();
  return lastname;
+}
+
+std::string npc_attitude_name(npc_attitude att)
+{
+ switch (att) {
+ case NPCATT_NULL:	// Don't care/ignoring player
+  return "Ignoring";
+ case NPCATT_TALK:		// Move to and talk to player
+  return "Wants to talk";
+ case NPCATT_TRADE:		// Move to and trade with player
+  return "Wants to trade";
+ case NPCATT_FOLLOW:		// Follow the player
+  return "Following";
+ case NPCATT_FOLLOW_RUN:	// Follow the player, don't shoot monsters
+  return "Following & ignoring monsters";
+ case NPCATT_LEAD:		// Lead the player, wait for them if they're behind
+  return "Leading";
+ case NPCATT_WAIT:		// Waiting for the player
+  return "Waiting for you";
+ case NPCATT_DEFEND:		// Kill monsters that threaten the player
+  return "Defending you";
+ case NPCATT_MUG:		// Mug the player
+  return "Mugging you";
+ case NPCATT_WAIT_FOR_LEAVE:	// Attack the player if our patience runs out
+  return "Waiting for you to leave";
+ case NPCATT_KILL:		// Kill the player
+  return "Attacking to kill";
+ case NPCATT_FLEE:		// Get away from the player
+  return "Fleeing";
+ case NPCATT_SLAVE:		// Following the player under duress
+  return "Enslaved";
+ case NPCATT_HEAL:		// Get to the player and heal them
+  return "Healing you";
+
+ case NPCATT_MISSING:	// Special; missing NPC as part of mission
+  return "Missing NPC";
+ case NPCATT_KIDNAPPED:	// Special; kidnapped NPC as part of mission
+  return "Kidnapped";
+ default:
+  return "Unknown";
+ }
+ return "Unknown";
+}
+
+std::string npc_class_name(npc_class classtype)
+{
+ switch(classtype) {
+ case NC_NONE:
+  return "No class";
+ case NC_SHOPKEEP:	// Found in towns.  Stays in his shop mostly.
+  return "Shopkeep";
+ case NC_HACKER:	// Weak in combat but has hacking skills and equipment
+  return "Hacker";
+ case NC_DOCTOR:	// Found in towns, or roaming.  Stays in the clinic.
+  return "Doctor";
+ case NC_TRADER:	// Roaming trader, journeying between towns.
+  return "Trader";
+ case NC_NINJA:	// Specializes in unarmed combat, carries few items
+  return "Ninja";
+ case NC_COWBOY:	// Gunslinger and survivalist
+  return "Cowboy";
+ case NC_SCIENTIST:	// Uses intelligence-based skills and high-tech items
+  return "Scientist";
+ case NC_BOUNTY_HUNTER: // Resourceful and well-armored
+  return "Bounty Hunter";
+ }
+ return "Unknown class";
 }
