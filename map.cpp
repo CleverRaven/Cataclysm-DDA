@@ -1401,6 +1401,34 @@ int& map::radiation(int x, int y)
  return grid[nonant].rad[x][y];
 }
 
+int map::lightsource(int x, int y)
+{
+ if (field_at(x, y).type = fd_fire) {
+  return field_at(x, y).density;
+ }
+
+ return 0;
+}
+
+float map::ambientlight(int x, int y)
+{
+ // TOOD: generate a temp light map for visable area rather than recalulating each time
+
+ float light = 0;
+ for(int lx = x - SEEX; lx <= x + SEEX; ++x) {
+  for(int ly = y - SEEY; ly <= y + SEEY; ++y) {
+   if(field_at(x, y).type = fd_fire) {
+    // TODO: implement radial light
+    float dist = rl_dist(x, y, lx, ly);
+    float source = field_at(x, y).density * field_at(x, y).density;
+    light += source / ((dist * dist) + 1);
+   }
+  }
+ }
+
+ return light;
+}
+
 std::vector<item>& map::i_at(int x, int y)
 {
  if (!INBOUNDS(x, y)) {
@@ -1802,14 +1830,21 @@ void map::draw(game *g, WINDOW* w)
  for  (int realx = g->u.posx - SEEX; realx <= g->u.posx + SEEX; realx++) {
   for (int realy = g->u.posy - SEEY; realy <= g->u.posy + SEEY; realy++) {
    int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
-   if (dist > light) {
-    if (g->u.has_disease(DI_BOOMERED))
+   if ((dist > light) &&
+       (g->u.has_disease(DI_BOOMERED))) {
+    if (lightsource(realx, realy) > 1) {
+     // fires are bright
+     mvwputch(w, realx+SEEX - g->u.posx, realy+SEEY - g->u.posy, h_magenta,'#');
+    } else {
      mvwputch(w, realx+SEEX - g->u.posx, realy+SEEY - g->u.posy, c_magenta,'#');
-    else
+    }
+   } else if ((dist > light) &&
+              (ambientlight(realx, realy) < 0.5)) {
      mvwputch(w, realx+SEEX - g->u.posx, realy+SEEY - g->u.posy, c_dkgray, '#');
    } else if (dist <= g->u.clairvoyance() ||
-              sees(g->u.posx, g->u.posy, realx, realy, light, t))
+              sees(g->u.posx, g->u.posy, realx, realy, 12, t)) {
     drawsq(w, g->u, realx, realy, false, true);
+   }
   }
  }
  mvwputch(w, SEEY, SEEX, g->u.color(), '@');
