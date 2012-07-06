@@ -3868,7 +3868,7 @@ bool game::pl_choose_vehicle (int &x, int &y)
  refresh_all();
  mvprintz(0, 0, c_red, "Choose a vehicle at direction:");
  int dirx, diry;
- get_direction(dirx, diry, input());
+ get_direction(this, dirx, diry, input());
  if (dirx == -2) {
   add_msg("Invalid direction!");
   return false;
