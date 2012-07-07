@@ -3365,7 +3365,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
   dam = rng(20, 60);
   for (int j = 0; j < traj.size(); j++) {
    if (j > 0 && u_see(traj[j - 1].x, traj[j - 1].y, ijunk))
-    m.drawsq(w_terrain, u, traj[j - 1].x, traj[j - 1].y, false, true);
+    m.drawsq(w_terrain, u, traj[j - 1].x, traj[j - 1].y, false, true, false);
    if (u_see(traj[j].x, traj[j].y, ijunk)) {
     mvwputch(w_terrain, traj[j].y + SEEY - u.posy,
                         traj[j].x + SEEX - u.posx, c_red, '`');
@@ -4423,15 +4423,15 @@ point game::look_around()
    } else if (veh) {
      mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
      veh->print_part_desc(w_look, 4, 48, veh_part);
-     m.drawsq(w_terrain, u, lx, ly, true, true);
+     m.drawsq(w_terrain, u, lx, ly, true, true, false);
    } else if (m.i_at(lx, ly).size() > 0) {
     mvwprintw(w_look, 3, 1, "There is a %s there.",
               m.i_at(lx, ly)[0].tname(this).c_str());
     if (m.i_at(lx, ly).size() > 1)
      mvwprintw(w_look, 4, 1, "There are other items there as well.");
-    m.drawsq(w_terrain, u, lx, ly, true, true);
+    m.drawsq(w_terrain, u, lx, ly, true, true, false);
    } else
-    m.drawsq(w_terrain, u, lx, ly, true, true);
+    m.drawsq(w_terrain, u, lx, ly, true, true, false);
 
   } else if (lx == u.posx && ly == u.posy) {
    mvwputch_inv(w_terrain, SEEX, SEEY, u.color(), '@');
@@ -4439,7 +4439,7 @@ point game::look_around()
    if (veh) {
     mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
     veh->print_part_desc(w_look, 4, 48, veh_part);
-    m.drawsq(w_terrain, u, lx, ly, true, true);
+    m.drawsq(w_terrain, u, lx, ly, true, true, false);
    }
 
   } else {
@@ -5097,7 +5097,7 @@ void game::plthrow()
   for (int k = u.posy - SEEY; k <= u.posy + SEEY; k++) {
    if (u_see(j, k, junk)) {
     if (k >= y0 && k <= y1 && j >= x0 && j <= x1)
-     m.drawsq(w_terrain, u, j, k, false, true);
+     m.drawsq(w_terrain, u, j, k, false, true, false);
     else
      mvwputch(w_terrain, k + SEEY - u.posy, j + SEEX - u.posx, c_dkgray, '#');
    }
@@ -5180,7 +5180,7 @@ void game::plfire(bool burst)
   for (int k = y - SEEY; k <= y + SEEY; k++) {
    if (u_see(j, k, junk)) {
     if (k >= y0 && k <= y1 && j >= x0 && j <= x1)
-     m.drawsq(w_terrain, u, j, k, false, true);
+     m.drawsq(w_terrain, u, j, k, false, true, false);
     else
      mvwputch(w_terrain, k + SEEY - y, j + SEEX - x, c_dkgray, '#');
    }

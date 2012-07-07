@@ -1403,7 +1403,7 @@ int& map::radiation(int x, int y)
 
 int map::lightsource(int x, int y)
 {
- if (field_at(x, y).type = fd_fire) {
+ if (fd_fire == field_at(x, y).type) {
   return field_at(x, y).density;
  }
 
@@ -1415,13 +1415,19 @@ float map::ambientlight(int x, int y)
  // TOOD: generate a temp light map for visable area rather than recalulating each time
 
  float light = 0;
- for(int lx = x - SEEX; lx <= x + SEEX; ++x) {
-  for(int ly = y - SEEY; ly <= y + SEEY; ++y) {
-   if(field_at(x, y).type = fd_fire) {
+ for(int lx = x - SEEX; lx <= x + SEEX; ++lx) {
+  for(int ly = y - SEEY; ly <= y + SEEY; ++ly) {
+   if(fd_fire == field_at(lx, ly).type) {
     // TODO: implement radial light
     float dist = rl_dist(x, y, lx, ly);
-    float source = field_at(x, y).density * field_at(x, y).density;
-    light += source / ((dist * dist) + 1);
+    int t = 0;
+    float source = field_at(lx, ly).density * field_at(lx, ly).density;
+
+    if (dist == 0) {
+     light += source;
+    } else if (sees(x, y, lx, ly, dist, t)) {
+     light += source / ((dist * dist) + 1);
+    }
    }
   }
  }
@@ -1830,20 +1836,22 @@ void map::draw(game *g, WINDOW* w)
  for  (int realx = g->u.posx - SEEX; realx <= g->u.posx + SEEX; realx++) {
   for (int realy = g->u.posy - SEEY; realy <= g->u.posy + SEEY; realy++) {
    int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
+   float ambient = ambientlight(realx, realy);
    if ((dist > light) &&
        (g->u.has_disease(DI_BOOMERED))) {
     if (lightsource(realx, realy) > 1) {
      // fires are bright
-     mvwputch(w, realx+SEEX - g->u.posx, realy+SEEY - g->u.posy, h_magenta,'#');
+     mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, h_magenta, '#');
     } else {
-     mvwputch(w, realx+SEEX - g->u.posx, realy+SEEY - g->u.posy, c_magenta,'#');
+     mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_magenta, '#');
     }
-   } else if ((dist > light) &&
-              (ambientlight(realx, realy) < 0.5)) {
-     mvwputch(w, realx+SEEX - g->u.posx, realy+SEEY - g->u.posy, c_dkgray, '#');
+   } else if (dist > light &&
+              ambient < 0.2) {
+     mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_dkgray, '#');
    } else if (dist <= g->u.clairvoyance() ||
               sees(g->u.posx, g->u.posy, realx, realy, 12, t)) {
-    drawsq(w, g->u, realx, realy, false, true);
+    bool low_light = (dist > light) && (ambient < 0.5);
+    drawsq(w, g->u, realx, realy, false, true, low_light);
    }
   }
  }
@@ -1851,7 +1859,7 @@ void map::draw(game *g, WINDOW* w)
 }
 
 void map::drawsq(WINDOW* w, player &u, int x, int y, bool invert,
-                 bool show_items)
+                 bool show_items, bool low_light)
 {
  if (!INBOUNDS(x, y))
   return;	// Out of bounds
@@ -1866,6 +1874,8 @@ void map::drawsq(WINDOW* w, player &u, int x, int y, bool invert,
  else if ((u.is_wearing(itm_goggles_nv) && u.has_active_item(itm_UPS_on)) ||
           u.has_active_bionic(bio_night_vision))
   tercol = c_ltgreen;
+ else if (low_light)
+  tercol = c_dkgray;
  else
  {
   normal_tercol = true;

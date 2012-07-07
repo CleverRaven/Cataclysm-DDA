@@ -166,7 +166,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   for (int i = 0; i < trajectory.size() &&
        (dam > 0 || (flags & IF_AMMO_FLAME)); i++) {
    if (i > 0)
-    m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, false, true);
+    m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, false, true, false);
 // Drawing the bullet uses player u, and not player p, because it's drawn
 // relative to YOUR position, which may not be the gunman's position.
    if (u_see(trajectory[i].x, trajectory[i].y, junk)) {
@@ -459,7 +459,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   if (x != u.posx || y != u.posy) {
 // Calculate the return vector (and draw it too)
    for (int i = 0; i < ret.size(); i++)
-    m.drawsq(w_terrain, u, ret[i].x, ret[i].y, false, true);
+    m.drawsq(w_terrain, u, ret[i].x, ret[i].y, false, true, false);
 // Draw the player
    mvwputch(w_terrain, SEEX, SEEY, u.color(), '@');
 // Draw the Monsters
@@ -485,7 +485,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
        active_npc[npc_at(ret[i].x, ret[i].y)].draw(w_terrain, u.posx, u.posy,
                                                    true);
       else
-       m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true, true);
+       m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true, true, false);
      }
     }
    }
@@ -512,7 +512,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   get_direction(this, tarx, tary, ch);
   if (tarx != -2 && tary != -2 && ch != '.') {	// Direction character pressed
    if (m.sees(u.posx, u.posy, x, y, -1, junk))
-    m.drawsq(w_terrain, u, x, y, false, true);
+    m.drawsq(w_terrain, u, x, y, false, true, false);
    else
     mvwputch(w_terrain, y + SEEY - u.posy, x + SEEX - u.posx, c_black, 'X');
    x += tarx;
