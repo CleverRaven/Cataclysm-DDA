@@ -104,10 +104,6 @@ class map
 // Radiation
  int& radiation(int x, int y);	// Amount of radiation at (x, y);
 
-// Dynamic Lighting
- int light_source(int x, int y);  // intensity of light source at (x, y)
- float ambient_light(int x, int y); // brightness of light at (x, y)
-
 // Items
  std::vector<item>& i_at(int x, int y);
  item water_from(int x, int y);
