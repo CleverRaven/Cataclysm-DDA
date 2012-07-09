@@ -436,7 +436,7 @@ FLAGS(MF_NOHEAD, MF_IMMOBILE);
 
 mon("vinebeast",species_plant, 'V',	c_red,		MS_LARGE,	VEGGY,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 10, 14, 60, 40, 80, 15,  2,  4,  2,  4, 10,  0,  0,100, 0,
+	  8, 14, 60, 40, 75, 15,  2,  4,  2,  4, 10,  0,  0,100, 0,
 	&mdeath::normal,	&mattack::none,	"\
 This appears to be a mass of vines, moving\n\
 with surprising speed.  It is so thick and\n\

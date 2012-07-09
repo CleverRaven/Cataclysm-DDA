@@ -397,8 +397,11 @@ void npc::randomize(game *g, npc_class type)
   break;
 
  case NC_HACKER:
-  for (int i = 1; i < num_skill_types; i++)
+  for (int i = 1; i < num_skill_types; i++) {
    sklevel[i] = dice(2, 2) - rng(1, 2);
+   if (!one_in(3))
+    sklevel[i] = 0;
+  }
   sklevel[sk_electronics] += rng(1, 4);
   sklevel[sk_computer] += rng(3, 6);
   str_max -= rng(0, 4);
@@ -410,8 +413,11 @@ void npc::randomize(game *g, npc_class type)
   break;
 
  case NC_DOCTOR:
-  for (int i = 1; i < num_skill_types; i++)
+  for (int i = 1; i < num_skill_types; i++) {
    sklevel[i] = dice(3, 2) - rng(1, 3);
+   if (!one_in(3))
+    sklevel[i] = 0;
+  }
   sklevel[sk_firstaid] += rng(2, 6);
   str_max -= rng(0, 2);
   int_max += rng(0, 2);
@@ -423,8 +429,11 @@ void npc::randomize(game *g, npc_class type)
   break;
 
  case NC_TRADER:
-  for (int i = 1; i < num_skill_types; i++)
+  for (int i = 1; i < num_skill_types; i++) {
    sklevel[i] = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
+   if (!one_in(3))
+    sklevel[i] = 0;
+  }
   sklevel[sk_mechanics] += rng(0, 2);
   sklevel[sk_electronics] +=  rng(0, 2);
   sklevel[sk_speech] += rng(0, 3);
@@ -436,8 +445,11 @@ void npc::randomize(game *g, npc_class type)
   break;
 
  case NC_NINJA:
-  for (int i = 1; i < num_skill_types; i++)
+  for (int i = 1; i < num_skill_types; i++) {
    sklevel[i] = dice(2, 2) - rng(1, 2);
+   if (!one_in(3))
+    sklevel[i] = 0;
+  }
   sklevel[sk_dodge] += rng(2, 4);
   sklevel[sk_melee] += rng(1, 4);
   sklevel[sk_unarmed] += rng(4, 6);
