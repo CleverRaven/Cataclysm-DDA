@@ -1,4 +1,5 @@
 #include "map.h"
+#include "lightmap.h"
 #include "output.h"
 #include "rng.h"
 #include "game.h"
@@ -1401,40 +1402,6 @@ int& map::radiation(int x, int y)
  return grid[nonant].rad[x][y];
 }
 
-int map::light_source(int x, int y)
-{
- if (fd_fire == field_at(x, y).type) {
-  return field_at(x, y).density;
- }
-
- return 0;
-}
-
-float map::ambient_light(int x, int y)
-{
- // TOOD: generate a temp light map for visable area rather than recalulating each time
-
- float light = 0;
- for(int lx = x - SEEX; lx <= x + SEEX; ++lx) {
-  for(int ly = y - SEEY; ly <= y + SEEY; ++ly) {
-   if(fd_fire == field_at(lx, ly).type) {
-    // TODO: implement radial light
-    float dist = rl_dist(x, y, lx, ly);
-    int t = 0;
-    float source = field_at(lx, ly).density * field_at(lx, ly).density;
-
-    if (dist == 0) {
-     light += source;
-    } else if (sees(x, y, lx, ly, dist, t)) {
-     light += source / ((dist * dist) + 1);
-    }
-   }
-  }
- }
-
- return light;
-}
-
 std::vector<item>& map::i_at(int x, int y)
 {
  if (!INBOUNDS(x, y)) {
@@ -1831,27 +1798,30 @@ void map::debug()
 
 void map::draw(game *g, WINDOW* w)
 {
+ int sight_range = g->u.sight_range(g->light_level());
+
+ light_map lm;
+ lm.generate(sight_range, this, g->u.posx, g->u.posy);
+
  int t = 0;
- int light = g->u.sight_range(g->light_level());
  for  (int realx = g->u.posx - SEEX; realx <= g->u.posx + SEEX; realx++) {
   for (int realy = g->u.posy - SEEY; realy <= g->u.posy + SEEY; realy++) {
    int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
-   float ambient = ambient_light(realx, realy);
-   if ((dist > light) &&
+   lit_level lit = lm.at(realx - g->u.posx, realy - g->u.posy);
+   
+   if ((dist > sight_range) &&
        (g->u.has_disease(DI_BOOMERED))) {
-    if (light_source(realx, realy) > 1) {
-     // fires are bright
+    if (LL_BRIGHT == lit) {
      mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, h_magenta, '#');
     } else {
      mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_magenta, '#');
     }
-   } else if (dist > light &&
-              ambient < 0.2) {
+   } else if (dist > sight_range &&
+              LL_DARK == lit) {
      mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_dkgray, '#');
    } else if (dist <= g->u.clairvoyance() ||
               sees(g->u.posx, g->u.posy, realx, realy, 12, t)) {
-    bool low_light = (dist > light) && (ambient < 0.5);
-    drawsq(w, g->u, realx, realy, false, true, low_light);
+    drawsq(w, g->u, realx, realy, false, true, LL_LOW == lit);
    }
   }
  }
