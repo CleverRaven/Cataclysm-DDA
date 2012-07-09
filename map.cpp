@@ -1401,7 +1401,7 @@ int& map::radiation(int x, int y)
  return grid[nonant].rad[x][y];
 }
 
-int map::lightsource(int x, int y)
+int map::light_source(int x, int y)
 {
  if (fd_fire == field_at(x, y).type) {
   return field_at(x, y).density;
@@ -1410,7 +1410,7 @@ int map::lightsource(int x, int y)
  return 0;
 }
 
-float map::ambientlight(int x, int y)
+float map::ambient_light(int x, int y)
 {
  // TOOD: generate a temp light map for visable area rather than recalulating each time
 
@@ -1836,10 +1836,10 @@ void map::draw(game *g, WINDOW* w)
  for  (int realx = g->u.posx - SEEX; realx <= g->u.posx + SEEX; realx++) {
   for (int realy = g->u.posy - SEEY; realy <= g->u.posy + SEEY; realy++) {
    int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
-   float ambient = ambientlight(realx, realy);
+   float ambient = ambient_light(realx, realy);
    if ((dist > light) &&
        (g->u.has_disease(DI_BOOMERED))) {
-    if (lightsource(realx, realy) > 1) {
+    if (light_source(realx, realy) > 1) {
      // fires are bright
      mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, h_magenta, '#');
     } else {
