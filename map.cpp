@@ -1800,16 +1800,12 @@ void map::draw(game *g, WINDOW* w)
 {
  int sight_range = g->u.sight_range(g->light_level());
 
- // TODO: just create this once
- light_map lm(this);
- lm.generate(sight_range, g->u.posx, g->u.posy);
-
  int t = 0;
  for  (int realx = g->u.posx - SEEX; realx <= g->u.posx + SEEX; realx++) {
   for (int realy = g->u.posy - SEEY; realy <= g->u.posy + SEEY; realy++) {
    int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
    int can_see = sees(g->u.posx, g->u.posy, realx, realy, std::max(SEEX, SEEY), t);
-   lit_level lit = lm.at(realx - g->u.posx, realy - g->u.posy);
+   lit_level lit = g->lm.at(realx - g->u.posx, realy - g->u.posy);
 //mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_dkgray, '0' + lit);
 //continue;
 

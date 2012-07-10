@@ -20,20 +20,18 @@ enum lit_level {
 class light_map
 {
  public:
-  light_map(map *map);
+  light_map();
 
-  void generate(int sight_range, int x, int y);
+  void generate(map* m, int x, int y);
   lit_level at(int dx, int dy); // assumes 0,0 is light map center
 
  private:
   // TODO: sneak c++0x requirement into catalysm
   //std::array<lit_level, (2 * SEEX + 1) * (2 * SEEY + 1)> light_map;
   lit_level lm[(2 * SEEX + 1) * (2 * SEEY + 1)];
-  map *m;
-  int cx, cy;
 
-  void apply_source(int dx, int dy, int brightness, bool cast_light);
-  void apply_light_mask(int dx, int dy, int lit_range, int low_range);
+  void apply_source(map* m, int cx, int cy, int dx, int dy, int brightness);
+  void apply_light_mask(map* m, int cx, int cy, int dx, int dy, int lit_range, int low_range);
 };
 
 #endif
