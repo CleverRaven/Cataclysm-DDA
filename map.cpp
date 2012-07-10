@@ -1804,10 +1804,8 @@ void map::draw(game *g, WINDOW* w)
  for  (int realx = g->u.posx - SEEX; realx <= g->u.posx + SEEX; realx++) {
   for (int realy = g->u.posy - SEEY; realy <= g->u.posy + SEEY; realy++) {
    int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
-   int can_see = sees(g->u.posx, g->u.posy, realx, realy, std::max(SEEX, SEEY), t);
+   int can_see = true; //sees(g->u.posx, g->u.posy, realx, realy, std::max(SEEX, SEEY), t);
    lit_level lit = g->lm.at(realx - g->u.posx, realy - g->u.posy);
-//mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_dkgray, '0' + lit);
-//continue;
 
    if ((dist > sight_range) && (g->u.has_disease(DI_BOOMERED))) {
     if (LL_BRIGHT == lit) {
@@ -1818,8 +1816,10 @@ void map::draw(game *g, WINDOW* w)
    } else if (dist > sight_range && (LL_DARK == lit || !can_see)) {
      mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_dkgray, '#');
    } else if (dist <= g->u.clairvoyance() || can_see) {
-    drawsq(w, g->u, realx, realy, false, true, LL_LOW == lit);
+    drawsq(w, g->u, realx, realy, false, true, LL_LOW == lit && dist > sight_range);
    }
+//if (lit > 0)
+//mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_dkgray, '0' + lit);
   }
  }
  mvwputch(w, SEEY, SEEX, g->u.color(), '@');
