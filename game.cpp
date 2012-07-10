@@ -2714,9 +2714,15 @@ faction* game::random_evil_faction()
 
 bool game::sees_u(int x, int y, int &t)
 {
+ int range = light_level();
+
+ // doesn't matter if this actually reduces the range as we only need to look this far
+ if (lm.at(0, 0) >= LL_LOW)
+  range = rl_dist(x, y, u.posx, u.posy);
+
  return (!u.has_active_bionic(bio_cloak) &&
          !u.has_artifact_with(AEP_INVISIBLE) && 
-         m.sees(x, y, u.posx, u.posy, light_level(), t));
+         m.sees(x, y, u.posx, u.posy, range, t));
 }
 
 bool game::u_see(int x, int y, int &t)
