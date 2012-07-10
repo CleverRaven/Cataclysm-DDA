@@ -73,8 +73,8 @@ void light_map::apply_source(map* m, int cx, int cy, int dx, int dy, int brightn
  int bright_range = LIGHT_RANGE(brightness / 2.0f);
  apply_light_mask(m, cx, cy, dx, dy, bright_range, range);
 
- if(brightness >= LIGHT_SOURCE_BRIGHT && INBOUNDS(dx, dy))
-  lm[XY2LM(dx, dy)] = LL_BRIGHT;
+ if (INBOUNDS(dx, dy)) 
+  lm[XY2LM(dx, dy)] = (brightness >= LIGHT_SOURCE_BRIGHT) ? LL_BRIGHT : LL_LIT;
 }
 
 void light_map::apply_light_mask(map* m, int cx, int cy, int dx, int dy, int lit_range, int low_range)
@@ -90,11 +90,11 @@ void light_map::apply_light_mask(map* m, int cx, int cy, int dx, int dy, int lit
  int fx = cx + dx;
  int fy = cy + dy;
 
-// int t;
+ int t;
  for(int x = sx; x <= ex; ++x) {
   for(int y = sy; y <= ey; ++y) {
-//   if (!m->sees(fx, fy, fx + x, fy + y, max_light_range(), t))
-//    continue;
+   if (!m->sees(fx, fy, cx + x, cy + y, max_light_range(), t))
+    continue;
    int off = XY2LM(x, y);
    if (LL_BRIGHT == lm[off])
     continue; // skip sources

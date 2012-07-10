@@ -1735,7 +1735,6 @@ void game::load(std::string name)
 // Now load up the master game data; factions (and more?)
  load_master();
  set_adjacent_overmaps(true);
- lm.generate(&m, u.posx, u.posy);
  draw();
 }
 
@@ -2385,6 +2384,7 @@ bool game::isBetween(int test, int down, int up)
 void game::draw_ter()
 {
  int t = 0;
+ lm.generate(&m, u.posx, u.posy);
  m.draw(this, w_terrain);
 
  // Draw monsters
