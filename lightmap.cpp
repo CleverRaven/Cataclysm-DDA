@@ -22,39 +22,33 @@ void fill(T (&array)[N], T const& value)
  }
 }
 
-light_map::light_map(map *map)
+light_map::light_map()
  : lm()
- , m(map)
 {
  fill(lm, LL_DARK);
 }
 
-void light_map::generate(int sight_range, int x, int y)
+void light_map::generate(map* m, int x, int y)
 {
- cx = x;
- cy = y;
  fill(lm, LL_DARK);
 
- apply_light_mask(0, 0, sight_range, sight_range); //sight_range, sight_range);
- bool cast_light = (sight_range < std::max(SEEX, SEEY));
-
- for(int sx = cx - SEEX - max_light_range(); sx <= cx + SEEX + max_light_range(); ++sx) {
-  for(int sy = cy - SEEY - max_light_range(); sy <= cy + SEEY + max_light_range(); ++sy) {
+ for(int sx = x - SEEX - max_light_range(); sx <= x + SEEX + max_light_range(); ++sx) {
+  for(int sy = y - SEEY - max_light_range(); sy <= y + SEEY + max_light_range(); ++sy) {
    // TODO: attach light brightness to fields
    switch(m->field_at(sx, sy).type) {
     case fd_fire:
      if (3 == m->field_at(sx, sy).density)
-      apply_source(sx - cx, sy - cy, 50, cast_light);
+      apply_source(m, x, y, sx - x, sy - y, 50);
      else if (2 == m->field_at(sx, sy).density)
-      apply_source(sx - cx, sy - cy, 25, cast_light);
+      apply_source(m, x, y, sx - x, sy - y, 25);
      else
-      apply_source(sx - cx, sy - cy, 5, cast_light);
+      apply_source(m, x, y, sx - x, sy - y, 5);
      break;
     case fd_fire_vent:
     case fd_flame_burst:
-     apply_source(sx - cx, sy - cy, 10, cast_light);
+     apply_source(m, x, y, sx - x, sy - y, 10);
     case fd_electricity:
-     apply_source(sx - cx, sy - cy, 5, cast_light);
+     apply_source(m, x, y, sx - x, sy - y, 5);
      break;
    }
   }
@@ -73,19 +67,17 @@ lit_level light_map::at(int dx, int dy)
  return lm[XY2LM(dx, dy)];
 }
 
-void light_map::apply_source(int dx, int dy, int brightness, bool apply_mask)
+void light_map::apply_source(map* m, int cx, int cy, int dx, int dy, int brightness)
 {
- if (apply_mask) {
-  int range = LIGHT_RANGE(brightness);
-  int bright_range = LIGHT_RANGE(brightness / 2.0f);
-  apply_light_mask(dx, dy, bright_range, range);
- }
+ int range = LIGHT_RANGE(brightness);
+ int bright_range = LIGHT_RANGE(brightness / 2.0f);
+ apply_light_mask(m, cx, cy, dx, dy, bright_range, range);
 
  if(brightness >= LIGHT_SOURCE_BRIGHT && INBOUNDS(dx, dy))
   lm[XY2LM(dx, dy)] = LL_BRIGHT;
 }
 
-void light_map::apply_light_mask(int dx, int dy, int lit_range, int low_range)
+void light_map::apply_light_mask(map* m, int cx, int cy, int dx, int dy, int lit_range, int low_range)
 {
  int range = std::max(lit_range, low_range);
  int sx = std::max(-SEEX, dx - range); int ex = std::min(SEEX, dx + range);
@@ -98,17 +90,17 @@ void light_map::apply_light_mask(int dx, int dy, int lit_range, int low_range)
  int fx = cx + dx;
  int fy = cy + dy;
 
- int t;
+// int t;
  for(int x = sx; x <= ex; ++x) {
   for(int y = sy; y <= ey; ++y) {
 //   if (!m->sees(fx, fy, fx + x, fy + y, max_light_range(), t))
 //    continue;
    int off = XY2LM(x, y);
+   if (LL_BRIGHT == lm[off])
+    continue; // skip sources
+
    if (x >= sbx && x <= ebx && y >= sby && y <= eby)
     lm[off] = LL_LIT; // areas in the bright range get lit
-// TODO: map floating point lights
-//   else if (LL_LOW == lm[off])
-//    lm[off] = LL_LIT; // areas in mulitple low ranges get lit
    else if (LL_DARK == lm[off])
     lm[off] = LL_LOW; // dark areas are now marked low
   }

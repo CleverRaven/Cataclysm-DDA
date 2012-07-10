@@ -1145,6 +1145,7 @@ void game::get_input()
  vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
  bool veh_ctrl = veh && veh->player_in_control (&u);
 
+ lm.generate(&m, u.posx, u.posy);
  switch (act) {
 
   case ACTION_PAUSE:
@@ -1734,6 +1735,7 @@ void game::load(std::string name)
 // Now load up the master game data; factions (and more?)
  load_master();
  set_adjacent_overmaps(true);
+ lm.generate(&m, u.posx, u.posy);
  draw();
 }
 
