@@ -2735,7 +2735,7 @@ bool game::u_see(int x, int y, int &t)
                          !u.is_wearing(itm_glasses_monocle)) || u.has_disease(DI_BOOMERED);
   // again doesn't matter if this actually reduces the range as we only need to look this far
   // even the sight_impared can see bright lights
-  if (!sight_impaired && lm.at(x - u.posx, y - u.posy) >= LL_LOW ||
+  if ((!sight_impaired && lm.at(x - u.posx, y - u.posy) >= LL_LOW) ||
       lm.at(x - u.posx, y - u.posy) == LL_BRIGHT)
    range = rl_dist(x, y, u.posx, u.posy);
  }
