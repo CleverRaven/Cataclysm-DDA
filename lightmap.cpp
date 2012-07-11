@@ -48,7 +48,13 @@ void light_map::generate(map* m, int x, int y)
     case fd_flame_burst:
      apply_source(m, x, y, sx - x, sy - y, 10);
     case fd_electricity:
-     apply_source(m, x, y, sx - x, sy - y, 5);
+     if (3 == m->field_at(sx, sy).density)
+      apply_source(m, x, y, sx - x, sy - y, 5);
+	 else if (2 == m->field_at(sx, sy).density)
+      apply_source(m, x, y, sx - x, sy - y, 1);
+	 else
+	  // kinda a hack as the square will still get marked
+      apply_source(m, x, y, sx - x, sy - y, 0);
      break;
    }
   }
