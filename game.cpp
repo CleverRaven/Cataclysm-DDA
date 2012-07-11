@@ -2728,11 +2728,17 @@ bool game::sees_u(int x, int y, int &t)
 bool game::u_see(int x, int y, int &t)
 {
  int range = u.sight_range(light_level());
+
+ // again doesn't matter if this actually reduces the range as we only need to look this far
+ if (lm.at(x - u.posx, y - u.posy) >= LL_LOW)
+  range = rl_dist(x, y, u.posx, u.posy);
+
  if (u.has_artifact_with(AEP_CLAIRVOYANCE)) {
   int crange = (range > u.clairvoyance() ? u.clairvoyance() : range);
   if (rl_dist(u.posx, u.posy, x, y) <= crange)
    return true;
  }
+
  return m.sees(u.posx, u.posy, x, y, range, t);
 }
 
