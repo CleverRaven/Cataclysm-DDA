@@ -1800,26 +1800,38 @@ void map::draw(game *g, WINDOW* w)
 {
  int sight_range = g->u.sight_range(g->light_level());
 
+ bool sight_impaired = (g->u.has_trait(PF_MYOPIC) &&
+                        !g->u.is_wearing(itm_glasses_eye) &&
+                        !g->u.is_wearing(itm_glasses_monocle)) ||
+                        g->u.has_disease(DI_BOOMERED);
+
+ // We don't care about distances further than this anyway
+ int range = std::max(SEEX, SEEY);
+ if (g->u.has_disease(DI_IN_PIT) || g->u.has_disease(DI_BLIND))
+  range = sight_range;
+
  int t = 0;
  for  (int realx = g->u.posx - SEEX; realx <= g->u.posx + SEEX; realx++) {
   for (int realy = g->u.posy - SEEY; realy <= g->u.posy + SEEY; realy++) {
    int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
-   int can_see = sees(g->u.posx, g->u.posy, realx, realy, std::max(SEEX, SEEY), t);
+
+   int can_see = sees(g->u.posx, g->u.posy, realx, realy, range, t);
    lit_level lit = g->lm.at(realx - g->u.posx, realy - g->u.posy);
 
-   if ((dist > sight_range) && (g->u.has_disease(DI_BOOMERED))) {
-    if (LL_BRIGHT == lit) {
-     mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, h_magenta, '#');
-    } else {
+   if (dist > sight_range && (!can_see || lit == LL_DARK ||
+        (sight_impaired && lit != LL_BRIGHT))) {
+    if (g->u.has_disease(DI_BOOMERED))
      mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_magenta, '#');
-    }
-   } else if (dist > sight_range && (LL_DARK == lit || !can_see)) {
+	else
      mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_dkgray, '#');
-   } else if (dist <= g->u.clairvoyance() || can_see) {
-    drawsq(w, g->u, realx, realy, false, true, LL_LOW == lit && dist > sight_range);
+   } else if (dist > sight_range && sight_impaired && lit == LL_BRIGHT) {
+	if (g->u.has_disease(DI_BOOMERED))
+	 mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_pink, '#');
+	else
+     mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_ltgray, '#');
    }
-//if (lit > 0)
-//mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_dkgray, '0' + lit);
+   else if (dist <= g->u.clairvoyance() || can_see)
+   	drawsq(w, g->u, realx, realy, false, true, LL_LOW == lit && dist > sight_range);
   }
  }
  mvwputch(w, SEEY, SEEX, g->u.color(), '@');
