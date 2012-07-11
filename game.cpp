@@ -2729,9 +2729,16 @@ bool game::u_see(int x, int y, int &t)
 {
  int range = u.sight_range(light_level());
 
- // again doesn't matter if this actually reduces the range as we only need to look this far
- if (lm.at(x - u.posx, y - u.posy) >= LL_LOW)
-  range = rl_dist(x, y, u.posx, u.posy);
+ // TODO: seperate sight ranges for light and for other vision imparements
+ if (!u.has_disease(DI_IN_PIT) && !u.has_disease(DI_BLIND)) {
+  bool sight_impaired = (u.has_trait(PF_MYOPIC) && !u.is_wearing(itm_glasses_eye) &&
+                         !u.is_wearing(itm_glasses_monocle)) || u.has_disease(DI_BOOMERED);
+  // again doesn't matter if this actually reduces the range as we only need to look this far
+  // even the sight_impared can see bright lights
+  if (!sight_impaired && lm.at(x - u.posx, y - u.posy) >= LL_LOW ||
+      lm.at(x - u.posx, y - u.posy) == LL_BRIGHT)
+   range = rl_dist(x, y, u.posx, u.posy);
+ }
 
  if (u.has_artifact_with(AEP_CLAIRVOYANCE)) {
   int crange = (range > u.clairvoyance() ? u.clairvoyance() : range);
