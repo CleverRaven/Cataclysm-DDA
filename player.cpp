@@ -136,6 +136,10 @@ player& player::operator= (player rhs)
  style_selected = rhs.style_selected;
  weapon = rhs.weapon;
 
+ active_missions = rhs.active_missions;
+ completed_missions = rhs.completed_missions;
+ failed_missions = rhs.failed_missions;
+
  return (*this);
 }
 
@@ -150,6 +154,13 @@ void player::normalize(game *g)
    hp_max[i] = int(hp_max[i] * 1.2);
   hp_cur[i] = hp_max[i];
  }
+}
+
+void player::pick_name()
+{
+ std::stringstream ss;
+ ss << random_first_name(male) << " " << random_last_name();
+ name = ss.str();
 }
  
 void player::reset(game *g)
@@ -519,6 +530,25 @@ void player::load_info(game *g, std::string data)
    mortmp.item_type = g->itypes[item_id];
   morale.push_back(mortmp);
  }
+
+ int nummis = 0;
+ int mistmp;
+ dump >> nummis;
+ for (int i = 0; i < nummis; i++) {
+  dump >> mistmp;
+  active_missions.push_back(mistmp);
+ }
+ dump >> nummis;
+ for (int i = 0; i < nummis; i++) {
+  dump >> mistmp;
+  completed_missions.push_back(mistmp);
+ }
+ dump >> nummis;
+ for (int i = 0; i < nummis; i++) {
+  dump >> mistmp;
+  failed_missions.push_back(mistmp);
+ }
+ 
 }
 
 std::string player::save_info()
@@ -574,6 +604,19 @@ std::string player::save_info()
    dump << morale[i].item_type->id;
   dump << " ";
  }
+
+ dump << " " << active_missions.size() << " ";
+ for (int i = 0; i < active_missions.size(); i++)
+  dump << active_missions[i] << " ";
+
+ dump << " " << completed_missions.size() << " ";
+ for (int i = 0; i < completed_missions.size(); i++)
+  dump << completed_missions[i] << " ";
+
+ dump << " " << failed_missions.size() << " ";
+ for (int i = 0; i < failed_missions.size(); i++)
+  dump << failed_missions[i] << " ";
+
  dump << std::endl;
 
  for (int i = 0; i < inv.size(); i++) {
@@ -1453,8 +1496,8 @@ void player::disp_status(WINDOW *w, game *g)
  else if (pain - pkill >   0)
   mvwprintz(w, 3, 0, c_yellow, "Minor pain");
 
- vehicle &veh = g->m.veh_at (posx, posy);
- int dmor = in_vehicle && veh.type != veh_null? 0 : 9;
+ vehicle *veh = g->m.veh_at (posx, posy);
+ int dmor = (in_vehicle && veh) ? 0 : 9;
 
  int morale_cur = morale_level ();
  nc_color col_morale = c_white;
@@ -1470,82 +1513,75 @@ void player::disp_status(WINDOW *w, game *g)
  else
   mvwprintz(w, 3, 11 + dmor, col_morale, "M %3d", morale_cur);
 
- if (in_vehicle && veh.type != veh_null)
- {
-     veh.print_fuel_indicator (w, 3, 49);
-     nc_color col_indf1 = c_ltgray;
+ if (in_vehicle && veh) {
+  veh->print_fuel_indicator (w, 3, 49);
+  nc_color col_indf1 = c_ltgray;
 
-     float strain = veh.strain();
-     nc_color col_vel = strain <= 0? c_ltblue :
-                        (strain <= 0.2? c_yellow :
-                        (strain <= 0.4? c_ltred : c_red));
+  float strain = veh->strain();
+  nc_color col_vel = strain <= 0? c_ltblue :
+                     (strain <= 0.2? c_yellow :
+                     (strain <= 0.4? c_ltred : c_red));
 
-     bool has_turrets = false;
-     for (int p = 0; p < veh.parts.size(); p++)
-         if (veh.part_flag (p, vpf_turret))
-         {
-             has_turrets = true;
-             break;
-         }
+  bool has_turrets = false;
+  for (int p = 0; p < veh->parts.size(); p++) {
+   if (veh->part_flag (p, vpf_turret)) {
+    has_turrets = true;
+    break;
+   }
+  }
 
-     if (has_turrets)
-     {
-        mvwprintz(w, 3, 25, col_indf1, "Gun:");
-        mvwprintz(w, 3, 29, veh.turret_mode? c_ltred : c_ltblue, veh.turret_mode? "auto" : "off ");
-     }
+  if (has_turrets) {
+   mvwprintz(w, 3, 25, col_indf1, "Gun:");
+   mvwprintz(w, 3, 29, veh->turret_mode ? c_ltred : c_ltblue,
+                       veh->turret_mode ? "auto" : "off ");
+  }
 
-     if (veh.cruise_on)
-     {
-        mvwprintz(w, 3, 34, col_indf1, "{mph....>....}");
-        mvwprintz(w, 3, 38, col_vel, "%4d", veh.velocity / 100);
-        mvwprintz(w, 3, 43, c_ltgreen, "%4d", veh.cruise_velocity / 100);
-     }
-     else
-     {
-        mvwprintz(w, 3, 34, col_indf1, "  {mph....}  ");
-        mvwprintz(w, 3, 40, col_vel, "%4d", veh.velocity / 100);
-     }
+  if (veh->cruise_on) {
+   mvwprintz(w, 3, 34, col_indf1, "{mph....>....}");
+   mvwprintz(w, 3, 38, col_vel, "%4d", veh->velocity / 100);
+   mvwprintz(w, 3, 43, c_ltgreen, "%4d", veh->cruise_velocity / 100);
+  } else {
+   mvwprintz(w, 3, 34, col_indf1, "  {mph....}  ");
+   mvwprintz(w, 3, 40, col_vel, "%4d", veh->velocity / 100);
+  }
 
-     if (veh.velocity != 0)
-     {
-        nc_color col_indc = veh.skidding? c_red : c_green;
-        int dfm = veh.face.dir() - veh.move.dir();
-        mvwprintz(w, 3, 21, col_indc, dfm < 0? "L" : ".");
-        mvwprintz(w, 3, 22, col_indc, dfm == 0? "0" : ".");
-        mvwprintz(w, 3, 23, col_indc, dfm > 0? "R" : ".");
-     }
- }
- else
- {
-    nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
-             col_per = c_white, col_spd = c_white;
-    if (str_cur < str_max)
-     col_str = c_red;
-    if (str_cur > str_max)
-     col_str = c_green;
-    if (dex_cur < dex_max)
-     col_dex = c_red;
-    if (dex_cur > dex_max)
-     col_dex = c_green;
-    if (int_cur < int_max)
-     col_int = c_red;
-    if (int_cur > int_max)
-     col_int = c_green;
-    if (per_cur < per_max)
-     col_per = c_red;
-    if (per_cur > per_max)
-     col_per = c_green;
-    int spd_cur = current_speed();
-    if (current_speed() < 100)
-     col_spd = c_red;
-    if (current_speed() > 100)
-     col_spd = c_green;
+  if (veh->velocity != 0) {
+   nc_color col_indc = veh->skidding? c_red : c_green;
+   int dfm = veh->face.dir() - veh->move.dir();
+   mvwprintz(w, 3, 21, col_indc, dfm < 0? "L" : ".");
+   mvwprintz(w, 3, 22, col_indc, dfm == 0? "0" : ".");
+   mvwprintz(w, 3, 23, col_indc, dfm > 0? "R" : ".");
+  }
+ } else {  // Not in vehicle
+  nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
+           col_per = c_white, col_spd = c_white;
+  if (str_cur < str_max)
+   col_str = c_red;
+  if (str_cur > str_max)
+   col_str = c_green;
+  if (dex_cur < dex_max)
+   col_dex = c_red;
+  if (dex_cur > dex_max)
+   col_dex = c_green;
+  if (int_cur < int_max)
+   col_int = c_red;
+  if (int_cur > int_max)
+   col_int = c_green;
+  if (per_cur < per_max)
+   col_per = c_red;
+  if (per_cur > per_max)
+   col_per = c_green;
+  int spd_cur = current_speed();
+  if (current_speed() < 100)
+   col_spd = c_red;
+  if (current_speed() > 100)
+   col_spd = c_green;
 
-    mvwprintz(w, 3, 26, col_str, "St %s%d", str_cur >= 10 ? "" : " ", str_cur);
-    mvwprintz(w, 3, 32, col_dex, "Dx %s%d", dex_cur >= 10 ? "" : " ", dex_cur);
-    mvwprintz(w, 3, 38, col_int, "In %s%d", int_cur >= 10 ? "" : " ", int_cur);
-    mvwprintz(w, 3, 44, col_per, "Pe %s%d", per_cur >= 10 ? "" : " ", per_cur);
-    mvwprintz(w, 3, 50, col_spd, "S %s%d", spd_cur >= 10 ? "" : " ", spd_cur);
+  mvwprintz(w, 3, 26, col_str, "St %s%d", str_cur >= 10 ? "" : " ", str_cur);
+  mvwprintz(w, 3, 32, col_dex, "Dx %s%d", dex_cur >= 10 ? "" : " ", dex_cur);
+  mvwprintz(w, 3, 38, col_int, "In %s%d", int_cur >= 10 ? "" : " ", int_cur);
+  mvwprintz(w, 3, 44, col_per, "Pe %s%d", per_cur >= 10 ? "" : " ", per_cur);
+  mvwprintz(w, 3, 50, col_spd, "S %s%d", spd_cur >= 10 ? "" : " ", spd_cur);
  }
 }
 
@@ -3104,12 +3140,12 @@ void player::remove_mission_items(int mission_id)
   }
  }
  for (int i = 0; i < inv.size(); i++) {
-  for (int j = 0; j < inv.stack_at(i).size(); j++) {
+  for (int j = 0; j < inv.stack_at(i).size() && j > 0; j++) {
    if (inv.stack_at(i)[j].mission_id == mission_id) {
     if (inv.stack_at(i).size() == 1) {
      inv.remove_item(i, j);
      i--;
-     j = 0;
+     j = -999;
     } else {
      inv.remove_item(i, j);
      j--;
@@ -3719,7 +3755,7 @@ bool player::eat(game *g, int index)
     g->add_msg("%c - an empty %s", inv[which].invlet,
                                    inv[which].tname(g).c_str());
    if (inv.stack_at(which).size() > 0)
-    inv.restack();
+    inv.restack(this);
    inv_sorted = false;
   }
  }
@@ -3788,9 +3824,9 @@ bool player::wield(game *g, int index)
   return true;
  } else if (volume_carried() + weapon.volume() - inv[index].volume() <
             volume_capacity()) {
-  inv.push_back(remove_weapon());
-  weapon = inv[index];
-  inv.remove_item(index);
+  item tmpweap = remove_weapon();
+  weapon = inv.remove_item(index);
+  inv.push_back(tmpweap);
   inv_sorted = false;
   moves -= 45;
   if (weapon.is_artifact() && weapon.is_tool()) {
@@ -3853,6 +3889,19 @@ bool player::wear(game *g, char let)
   return false;
  }
 
+ if (!wear_item(g, to_wear))
+  return false;
+
+ if (index == -2)
+  weapon = ret_null;
+ else
+  inv.remove_item(index);
+
+ return true;
+}
+
+bool player::wear_item(game *g, item *to_wear)
+{
  it_armor* armor = NULL;
  if (to_wear->is_armor())
   armor = dynamic_cast<it_armor*>(to_wear->type);
@@ -3926,10 +3975,6 @@ bool player::wear(game *g, char let)
  moves -= 350; // TODO: Make this variable?
  last_item = itype_id(to_wear->type->id);
  worn.push_back(*to_wear);
- if (index == -2)
-  weapon = ret_null;
- else
-  inv.remove_item(index);
  for (body_part i = bp_head; i < num_bp; i = body_part(i + 1)) {
   if (armor->covers & mfb(i) && encumb(i) >= 4)
    g->add_msg("Your %s %s very encumbered! %s",
@@ -3970,6 +4015,7 @@ void player::use(game *g, char let)
  bool replace_item = false;
  if (inv.index_by_letter(let) != -1) {
   copy = inv.remove_item_by_letter(let);
+  copy.invlet = let;
   used = &copy;
   replace_item = true;
  }
@@ -3992,10 +4038,10 @@ void player::use(game *g, char let)
    g->add_msg("Your %s has %d charges but needs %d.", used->tname(g).c_str(),
               used->charges, tool->charges_per_use);
 
-  if(tool->use == &iuse::dogfood) replace_item = false;
+  if (tool->use == &iuse::dogfood) replace_item = false;
 
   if (replace_item && used->invlet != 0)
-   inv.add_item(copy);
+   inv.add_item_keep_invlet(copy);
   else if (used->invlet == 0 && used == &weapon)
    remove_weapon();
   return;
@@ -4143,10 +4189,10 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
 
 void player::read(game *g, char ch)
 {
- vehicle &veh = g->m.veh_at (posx, posy);
- if (veh.type != veh_null && veh.player_in_control (this)) {
-   g->add_msg("It's bad idea to read while driving.");
-   return;
+ vehicle *veh = g->m.veh_at (posx, posy);
+ if (veh && veh->player_in_control (this)) {
+  g->add_msg("It's bad idea to read while driving.");
+  return;
  }
  if (morale_level() < MIN_MORALE_READ) {	// See morale.h
   g->add_msg("What's the point of reading?  (Your morale is too low!)");
@@ -4245,8 +4291,8 @@ bool player::can_sleep(game *g)
   sleepy -= 8;
 
  int vpart = -1;
- vehicle &veh = g->m.veh_at (posx, posy, vpart);
- if (veh.type != veh_null && veh.part_with_feature (vpart, vpf_seat) >= 0)
+ vehicle *veh = g->m.veh_at (posx, posy, vpart);
+ if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0)
   sleepy += 4;
  else if (g->m.ter(posx, posy) == t_bed)
   sleepy += 5;
@@ -4728,5 +4774,45 @@ bool activity_is_suspendable(activity_type type)
  if (type == ACT_NULL || type == ACT_RELOAD)
   return false;
  return true;
+}
+
+std::string random_first_name(bool male)
+{
+ std::ifstream fin;
+ std::string name;
+ char buff[256];
+ if (male)
+  fin.open("data/NAMES_MALE");
+ else
+  fin.open("data/NAMES_FEMALE");
+ if (!fin.is_open()) {
+  debugmsg("Could not open npc first names list (%s)",
+           (male ? "NAMES_MALE" : "NAMES_FEMALE"));
+  return "";
+ }
+ int line = rng(1, NUM_FIRST_NAMES);
+ for (int i = 0; i < line; i++)
+  fin.getline(buff, 256);
+ name = buff;
+ fin.close();
+ return name;
+}
+
+std::string random_last_name()
+{
+ std::string lastname;
+ std::ifstream fin;
+ fin.open("data/NAMES_LAST");
+ if (!fin.is_open()) {
+  debugmsg("Could not open npc last names list (NAMES_LAST)");
+  return "";
+ }
+ int line = rng(1, NUM_LAST_NAMES);
+ char buff[256];
+ for (int i = 0; i < line; i++)
+  fin.getline(buff, 256);
+ lastname = buff;
+ fin.close();
+ return lastname;
 }
 

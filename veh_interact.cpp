@@ -432,11 +432,12 @@ void veh_interact::move_cursor (int dx, int dy)
     int vehx = veh->global_x() + vx;
     int vehy = veh->global_y() + vy;
     bool obstruct = g->m.move_cost_ter_only (vehx, vehy) == 0;
-    vehicle &oveh = g->m.veh_at (vehx, vehy);
-    if (oveh.type != veh_null && &oveh != veh)
+    vehicle *oveh = g->m.veh_at (vehx, vehy);
+    if (oveh && oveh != veh)
         obstruct = true;
     nc_color col = cpart >= 0? veh->part_color (cpart) : c_black;
-    mvwputch (w_disp, cy+6, cx+6, obstruct? red_background(col) : hilite(col), special_symbol(cpart >= 0? veh->part_sym (cpart) : ' '));
+    mvwputch (w_disp, cy+6, cx+6, obstruct? red_background(col) : hilite(col),
+                      special_symbol(cpart >= 0? veh->part_sym (cpart) : ' '));
     wrefresh (w_disp);
     werase (w_parts);
     veh->print_part_desc (w_parts, 0, winw2, cpart, -1);
@@ -610,8 +611,8 @@ void complete_vehicle (game *g)
         debugmsg ("Invalid activity ACT_VEHICLE values:%d", g->u.activity.values.size());
         return;
     }
-    vehicle &veh = g->m.veh_at (g->u.activity.values[0], g->u.activity.values[1]);
-    if (veh.type == veh_null)
+    vehicle *veh = g->m.veh_at (g->u.activity.values[0], g->u.activity.values[1]);
+    if (!veh)
     {
         debugmsg ("Activity ACT_VEHICLE: vehicle not found");
         return;
@@ -623,11 +624,6 @@ void complete_vehicle (game *g)
     std::vector<component> comps;
     std::vector<component> tools;
     int welder_charges = ((it_tool *) g->itypes[itm_welder])->charges_per_use;
-    if (veh.type == veh_null)
-    {
-        debugmsg ("Activity ACT_VEHICLE: bad part %d/%d", part, veh.parts.size());
-        return;
-    }
     itype_id itm;
     bool broken;
 
@@ -635,57 +631,58 @@ void complete_vehicle (game *g)
     switch (cmd)
     {
     case 'i':
-        if (veh.install_part (dx, dy, (vpart_id) part) < 0)
+        if (veh->install_part (dx, dy, (vpart_id) part) < 0)
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part);
         comps.push_back(component(vpart_list[part].item, 1));
         consume_items(g, comps);
         tools.push_back(component(itm_welder, welder_charges));
         tools.push_back(component(itm_toolset, welder_charges/5));
         consume_tools(g, tools);
-        g->add_msg ("You install %s into %s.", 
-                   vpart_list[part].name, veh.name.c_str());
+        g->add_msg ("You install a %s into the %s.", 
+                   vpart_list[part].name, veh->name.c_str());
         g->u.practice (sk_mechanics, vpart_list[part].difficulty * 5 + 20);
         break;
     case 'r':
-        if (veh.parts[part].hp <= 0)
+        if (veh->parts[part].hp <= 0)
         {
-            comps.push_back(component(veh.part_info(part).item, 1));
+            comps.push_back(component(veh->part_info(part).item, 1));
             consume_items(g, comps);
             tools.push_back(component(itm_wrench, 1));
             consume_tools(g, tools);
             tools.clear();
             dd = 0;
-            veh.insides_dirty = true;
+            veh->insides_dirty = true;
         }
         tools.push_back(component(itm_welder, welder_charges));
         tools.push_back(component(itm_toolset, welder_charges/5));
         consume_tools(g, tools);
-        veh.parts[part].hp = veh.part_info(part).durability;
-        g->add_msg ("You repair %s's %s.", 
-                    veh.name.c_str(), veh.part_info(part).name);
+        veh->parts[part].hp = veh->part_info(part).durability;
+        g->add_msg ("You repair the %s's %s.", 
+                    veh->name.c_str(), veh->part_info(part).name);
         g->u.practice (sk_mechanics, (vpart_list[part].difficulty + dd) * 5 + 20);
         break;
     case 'f':
-        if (!g->pl_refill_vehicle(veh, part, true))
+        if (!g->pl_refill_vehicle(*veh, part, true))
             debugmsg ("complete_vehicle refill broken");
-        g->pl_refill_vehicle(veh, part);        
+        g->pl_refill_vehicle(*veh, part);        
         break;
     case 'o':
-        for (int i = 0; i < veh.parts[part].items.size(); i++)
-            g->m.add_item (g->u.posx, g->u.posy, veh.parts[part].items[i]);
-        veh.parts[part].items.clear();
-        itm = veh.part_info(part).item;
-        broken = veh.parts[part].hp <= 0;
-        if (veh.parts.size() < 2)
+        for (int i = 0; i < veh->parts[part].items.size(); i++)
+            g->m.add_item (g->u.posx, g->u.posy, veh->parts[part].items[i]);
+        veh->parts[part].items.clear();
+        itm = veh->part_info(part).item;
+        broken = veh->parts[part].hp <= 0;
+        if (veh->parts.size() < 2)
         {
-            g->add_msg ("You completely dismantle %s.", veh.name.c_str());
+            g->add_msg ("You completely dismantle %s.", veh->name.c_str());
             g->u.activity.type = ACT_NULL;
             g->m.destroy_vehicle (veh);
         }
         else
         {
-            g->add_msg ("You remove %s%s from %s.", broken? "broken " : "", veh.part_info(part).name, veh.name.c_str());
-            veh.remove_part (part);
+            g->add_msg ("You remove %s%s from %s.", broken? "broken " : "",
+                        veh->part_info(part).name, veh->name.c_str());
+            veh->remove_part (part);
         }
         if (!broken)
             g->m.add_item (g->u.posx, g->u.posy, g->itypes[itm], g->turn);

@@ -222,7 +222,7 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
  va_list ap;
  va_start(ap, active_tab);
  char *tmp;
- while (tmp = (char *)va_arg(ap, int))
+ while (tmp = va_arg(ap, char *))
   labels.push_back((std::string)(tmp));
  va_end(ap);
 

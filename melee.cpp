@@ -1466,13 +1466,13 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 std::string melee_verb(technique_id tech, std::string your, player &p,
                        int bash_dam, int cut_dam, int stab_dam)
 {
+ std::string s = (p.is_npc() ? "s" : "");
+
  if (tech != TEC_NULL && p.weapon.is_style() &&
      p.weapon.style_data(tech).name != "")
-  return p.weapon.style_data(tech).name;
+  return p.weapon.style_data(tech).name + s;
 
  std::stringstream ret;
-
- std::string s = (p.is_npc() ? "s" : "");
 
  switch (tech) {
 

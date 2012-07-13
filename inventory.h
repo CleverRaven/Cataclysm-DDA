@@ -32,14 +32,15 @@ class inventory
   void clear();
   void add_stack(std::vector<item> newits);
   void push_back(std::vector<item> newits);
-  void add_item (item newit);
+  void add_item (item newit, bool keep_invlet = false);
+  void add_item_keep_invlet(item newit);
   void push_back(item newit);
 
 /* Check all items for proper stacking, rearranging as needed
  * game pointer is not necessary, but if supplied, will ensure no overlap with
  * the player's worn items / weapon
  */
-  void restack(game *g = NULL);
+  void restack(player *p = NULL);
 
   void form_from_map(game *g, point origin, int distance);
 
@@ -70,6 +71,7 @@ class inventory
   item nullitem;
   std::vector<item> nullstack;
  private:
+  void assign_empty_invlet(item &it, player *p = NULL);
   std::vector< std::vector<item> > items;
 };
 

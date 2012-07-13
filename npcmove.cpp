@@ -844,7 +844,7 @@ void npc::update_path(game *g, int x, int y)
  if (last.x == x && last.y == y)
   return; // Our path already leads to that point, no need to recalculate
  path = g->m.route(posx, posy, x, y);
- if (path[0].x == posx && path[0].y == posy)
+ if (!path.empty() && path[0].x == posx && path[0].y == posy)
   path.erase(path.begin());
 }
 
@@ -1374,12 +1374,7 @@ void npc::melee_player(game *g, player &foe)
 
 void npc::wield_best_melee(game *g)
 {
- if (!styles.empty()) { // Always wield a style if we have one
-// TODO: More intelligent style choosing
-  wield(g, 0 - rng(1, styles.size()));
-  return;
- }
- int best_score = 0, index = -1;
+ int best_score = 0, index = -999;
  for (int i = 0; i < inv.size(); i++) {
   int score = inv[i].melee_value(sklevel);
   if (score > best_score) {
@@ -1387,7 +1382,13 @@ void npc::wield_best_melee(game *g)
    index = i;
   }
  }
- if (index == -1) {
+ if (!styles.empty() && // Wield a style if our skills warrant it
+      best_score < 15 * sklevel[sk_unarmed] + 8 * sklevel[sk_melee]) {
+// TODO: More intelligent style choosing
+  wield(g, 0 - rng(1, styles.size()));
+  return;
+ }
+ if (index == -999) {
   debugmsg("npc::wield_best_melee failed to find a melee weapon.");
   move_pause();
   return;
@@ -1608,6 +1609,7 @@ void npc::heal_player(game *g, player &patient)
    use_charges(itm_bandages, 1);
   }
   patient.heal(worst, amount_healed);
+  moves -= 250;
  
   if (!patient.is_npc()) {
  // Test if we want to heal the player further
@@ -1663,6 +1665,7 @@ void npc::heal_self(game *g)
  if (g->u_see(posx, posy, t))
   g->add_msg("%s heals %sself.", name.c_str(), (male ? "him" : "her"));
  heal(worst, amount_healed);
+ moves -= 250;
 }
 
 void npc::use_painkiller(game *g)

@@ -293,7 +293,7 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   case ENGAGE_NONE:  status << "not engaging enemies.";         break;
   case ENGAGE_CLOSE: status << "engaging nearby enemies.";      break;
   case ENGAGE_WEAK:  status << "engaging weak enemies.";        break;
-  case ENGAGE_HIT:   status << "engaging enenmies you attack."; break;
+  case ENGAGE_HIT:   status << "engaging enemies you attack."; break;
   case ENGAGE_ALL:   status << "engaging all enemies.";         break;
   }
   status << " " << (p->male ? "He" : "She") << " will " <<
@@ -737,7 +737,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   int shift = p->chatbin.tempvalue;
   bool more = trainable.size() + styles.size() - shift > 9;
   for (int i = shift; i < trainable.size() && printed < 9; i++) {
-   shift--;
+   //shift--;
    printed++;
    std::stringstream skilltext;
    skill trained = trainable[i];
@@ -750,7 +750,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   }
   if (shift < 0)
    shift = 0;
-  for (int i = shift; i < styles.size() && printed < 9; i++) {
+  for (int i = 0; i < styles.size() && printed < 9; i++) {
    printed++;
    SELECT_TEMP( g->itypes[styles[i]]->name + " (cost 800)",
                 0 - styles[i] );
@@ -1480,7 +1480,7 @@ void parse_tags(std::string &phrase, player *u, npc *me)
   if (!replaced) { // Special, dynamic tags go here
    if (tag == "<yrwp>")
     phrase.replace(fa, l, u->weapon.tname());
-   if (tag == "<mywp>") {
+   else if (tag == "<mywp>") {
     if (me->weapon.type->id == 0)
      phrase.replace(fa, l, "fists");
     else

@@ -1813,15 +1813,15 @@ void overmap::polish(oter_id min, oter_id max)
      good_road(ot_ants_ns, x, y);
     else if (ter(x, y) >= ot_river_center && ter(x, y) < ot_river_nw)
      good_river(x, y);
-   }
 // Sometimes a bridge will start at the edge of a river, and this looks ugly
 // So, fix it by making that square normal road; bit of a kludge but it works
-   else if (ter(x, y) == ot_bridge_ns &&
-            (!is_river(ter(x - 1, y)) || !is_river(ter(x + 1, y))))
-    ter(x, y) = ot_road_ns;
-   else if (ter(x, y) == ot_bridge_ew &&
-            (!is_river(ter(x, y - 1)) || !is_river(ter(x, y + 1))))
-    ter(x, y) = ot_road_ew;
+    else if (ter(x, y) == ot_bridge_ns &&
+             (!is_river(ter(x - 1, y)) || !is_river(ter(x + 1, y))))
+     ter(x, y) = ot_road_ns;
+    else if (ter(x, y) == ot_bridge_ew &&
+             (!is_river(ter(x, y - 1)) || !is_river(ter(x, y + 1))))
+     ter(x, y) = ot_road_ew;
+   }
   }
  }
 // Fixes stretches of parallel roads--turns them into two-lane highways

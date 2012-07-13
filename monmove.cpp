@@ -548,7 +548,8 @@ void monster::hit_player(game *g, player &p, bool can_grab)
    npc* tmp = dynamic_cast<npc*>(&p);
    tmp->die(g);
    int index = g->npc_at(p.posx, p.posy);
-   g->active_npc.erase(g->active_npc.begin() + index);
+   if (index != -1 && index < g->active_npc.size())
+    g->active_npc.erase(g->active_npc.begin() + index);
    plans.clear();
   }
  }

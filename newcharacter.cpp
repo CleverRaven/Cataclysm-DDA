@@ -220,7 +220,7 @@ End of cheatery */
  }
  ret_null = item(g->itypes[0], 0);
  if (!styles.empty())
-  weapon = item(g->itypes[ styles[0] ], 0);
+  weapon = item(g->itypes[ styles[0] ], 0, ':');
  else
   weapon   = item(g->itypes[0], 0);
 // Nice to start out less than naked.
@@ -831,6 +831,8 @@ When your character is finished and you're ready to start playing, press >");
  mvwprintz(w,12, 2, c_ltgray, "\
 To go back and review your character, press <");
  mvwprintz(w, 14, 2, c_green, "\
+To pick a random name for your character, press ?.");
+ mvwprintz(w, 16, 2, c_green, "\
 To save this character as a template, press !.");
  
  int line = 1;
@@ -872,6 +874,10 @@ Points left: %d    You must use the rest of your points!", points);
     mvwprintz(w, 6, 8, h_ltgray, "______NO NAME ENTERED!!!!_____");
     noname = true;
     wrefresh(w);
+    if (query_yn("Are you SURE you're finished? Your name will be randomly generated.")){
+     u->pick_name();
+     return 1;
+    }
    } else if (query_yn("Are you SURE you're finished?"))
     return 1;
    else
@@ -885,6 +891,9 @@ Points left: %d    You must use the rest of your points!", points);
     save_template(u);
    mvwprintz(w,12, 2, c_ltgray,"To go back and review your character, press <");
    wrefresh(w);
+  } else if (ch == '?') {
+   mvwprintz(w, 6, 8, c_ltgray, "______________________________");
+   u->pick_name();
   } else {
    switch (line) {
     case 1:

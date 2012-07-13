@@ -505,5 +505,18 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 
 };
  
+// Overmap "Zones"
+// Areas which have special post-generation processing attached to them
+
+enum overmap_zone
+{
+ OMZONE_NULL = 0,
+ OMZONE_BOMBED,		// Terrain is heavily destroyed
+ OMZONE_RADIOACTIVE,	// Lots of radioactivity
+ OMZONE_CORRUPTED,	// Fabric of space is weak
+ OMZONE_OVERGROWN,	// Lots of plants, etc.
+ OMZONE_FUNGAL,		// Overgrown with fungus
+ OMZONE_MAX
+};
 
 #endif

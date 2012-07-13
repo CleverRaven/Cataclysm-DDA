@@ -62,13 +62,16 @@ class map
  std::vector<point> route(int Fx, int Fy, int Tx, int Ty, bool bash = true);
 
 // vehicles
- vehicle& veh_at(int x, int y, int &part_num); // checks, if tile is occupied by vehicle and by which part
- vehicle& veh_at(int x, int y);                // checks, if tile is occupied by vehicle
- void board_vehicle(game *g, int x, int y, player *p); // put player on vehicle at x,y
- void unboard_vehicle(game *g, int x, int y);          // remoev player from vehicle at x,y
+// checks, if tile is occupied by vehicle and by which part
+ vehicle* veh_at(int x, int y, int &part_num);
+ vehicle* veh_at(int x, int y);// checks, if tile is occupied by vehicle
+ // put player on vehicle at x,y
+ void board_vehicle(game *g, int x, int y, player *p);
+ void unboard_vehicle(game *g, int x, int y);//remove player from vehicle at x,y
 
- void destroy_vehicle (vehicle &veh);
-// Change vehicle coords and move vehicle's driver along. Returns true, if there was a submap change.
+ void destroy_vehicle (vehicle *veh);
+// Change vehicle coords and move vehicle's driver along.
+// Returns true, if there was a submap change.
 // If test is true, function only checks for submap change, no displacement
 // WARNING: not checking collisions!
  bool displace_vehicle (game *g, int &x, int &y, int dx, int dy, bool test);

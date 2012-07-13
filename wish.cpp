@@ -135,6 +135,7 @@ void game::wish()
    wprintz(w_list, itypes[i-1+shift]->color, "%c%", itypes[i-1+shift]->sym);
   }
   tmp.make(itypes[a + shift]);
+  tmp.bday = turn;
   if (tmp.is_tool())
    tmp.charges = dynamic_cast<it_tool*>(tmp.type)->max_charges;
   else if (tmp.is_ammo())

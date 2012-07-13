@@ -262,6 +262,20 @@ struct npc_combat_rules
   use_guns = true;
   use_grenades = true;
  };
+
+ std::string save_info()
+ {
+  std::stringstream dump;
+  dump << engagement << " " << use_guns << " " << use_grenades << " ";
+  return dump.str();
+ }
+
+ void load_info(std::istream &data)
+ {
+  int tmpen;
+  data >> tmpen >> use_guns >> use_grenades;
+  engagement = combat_engagement(tmpen);
+ }
 };
 
 enum talk_topic {
@@ -375,9 +389,6 @@ struct npc_chatbin
  }
 };
 
-std::string random_first_name(bool male);
-std::string random_last_name();
-
 class npc : public player {
 
 public:
@@ -395,7 +406,6 @@ public:
  void randomize(game *g, npc_class type = NC_NONE);
  void randomize_from_faction(game *g, faction *fac);
  void make_shopkeep(game *g, oter_id type);
- void pick_name(); // Picks a name from NAMES_*
  void spawn_at(overmap *o, int posx, int posy);
  skill best_skill();
  void starting_weapon(game *g);

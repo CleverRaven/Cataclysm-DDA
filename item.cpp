@@ -802,6 +802,9 @@ int item::melee_value(int skills[num_skill_types])
  my_value += int(type->m_to_hit  * (1.2 + .3 * skills[sk_melee]));
  //debugmsg("My value: (+hit) %d", my_value);
 
+ if (is_style())
+  my_value += 15 * skills[sk_unarmed] + 8 * skills[sk_melee];
+
  return my_value;
 }
 

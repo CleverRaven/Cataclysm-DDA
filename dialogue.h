@@ -104,6 +104,8 @@ struct talk_response
   tempvalue = -1;
   effect_success = &talk_function::nothing;
   effect_failure = &talk_function::nothing;
+  opinion_success = npc_opinion();
+  opinion_failure = npc_opinion();
   success = TALK_NONE;
   failure = TALK_NONE;
  }
@@ -118,6 +120,8 @@ struct talk_response
   tempvalue = rhs.tempvalue;
   effect_success = rhs.effect_success;
   effect_failure = rhs.effect_failure;
+  opinion_success = rhs.opinion_success;
+  opinion_failure = rhs.opinion_failure;
   success = rhs.success;
   failure = rhs.failure;
  }

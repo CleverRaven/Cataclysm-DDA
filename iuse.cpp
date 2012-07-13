@@ -759,13 +759,17 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
   g->add_msg("There's no point in cutting a rag.");
   return;
  }
- if (cut->type->id == itm_string_36) {
+ if (cut->type->id == itm_string_36 || cut->type->id == itm_rope_30) {
   p->moves -= 150;
-  g->add_msg("You cut the string into 6 smaller pieces.");
-  item string(g->itypes[itm_string_6], int(g->turn), g->nextinv);
+  bool is_string = (cut->type->id == itm_string_36);
+  int pieces = (is_string ? 6 : 5);
+  g->add_msg("You cut the %s into %s smaller pieces.",
+             (is_string ? "string" : "rope"), pieces);
+  itype_id piece_id = (is_string ? itm_string_6 : itm_rope_6);
+  item string(g->itypes[piece_id], int(g->turn), g->nextinv);
   p->i_rem(ch);
   bool drop = false;
-  for (int i = 0; i < 6; i++) {
+  for (int i = 0; i < pieces; i++) {
    int iter = 0;
    while (p->has_item(string.invlet)) {
     string.invlet = g->nextinv;
@@ -913,7 +917,7 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
 void iuse::light_off(game *g, player *p, item *it, bool t)
 {
  if (it->charges == 0)
-  g->add_msg("The flaslight's batteries are dead.");
+  g->add_msg("The flashlight's batteries are dead.");
  else {
   g->add_msg("You turn the flashlight on.");
   it->make(g->itypes[itm_flashlight_on]);

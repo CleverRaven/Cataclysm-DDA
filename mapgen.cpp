@@ -6975,9 +6975,9 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
 
     int compx = int((x1 + x2) / 2), compy = int((y1 + y2) / 2);
     m->ter(compx, compy) = t_console;
-    computer* tmpcomp = m->add_computer(compx, compy, "Bionic access", 4);
+    computer* tmpcomp = m->add_computer(compx, compy, "Bionic access", 2);
     tmpcomp->add_option("Manifest", COMPACT_LIST_BIONICS, 0);
-    tmpcomp->add_option("Open Chambers", COMPACT_RELEASE, 2);
+    tmpcomp->add_option("Open Chambers", COMPACT_RELEASE, 3);
     tmpcomp->add_failure(COMPFAIL_MANHACKS);
     tmpcomp->add_failure(COMPFAIL_SECUBOTS);
    }

@@ -45,7 +45,10 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
   else
    mvwprintz(w_inv, 3, 40, g->u.weapon.color_in_inventory(&(g->u)), "%c - %s",
              g->u.weapon.invlet, g->u.weapname().c_str());
- } else
+ } else if (g->u.weapon.is_style())
+  mvwprintz(w_inv, 3, 40, c_ltgray, "%c - %s",
+            g->u.weapon.invlet, g->u.weapname().c_str());
+ else
   mvwprintz(w_inv, 3, 42, c_ltgray, g->u.weapname().c_str());
 // Print worn items
  if (g->u.worn.size() > 0)
@@ -102,8 +105,8 @@ char game::inv(std::string title)
  const int maxitems = 20;	// Number of items to show at one time.
  char ch = '.';
  int start = 0, cur_it;
- u.inv.restack(this);
  u.sort_inv();
+ u.inv.restack(&u);
  std::vector<char> null_vector;
  print_inv_statics(this, w_inv, title, null_vector);
 // Gun, ammo, weapon, armor, food, tool, book, other
@@ -165,8 +168,8 @@ char game::inv(std::string title)
 
 std::vector<item> game::multidrop()
 {
- u.inv.restack(this);
  u.sort_inv();
+ u.inv.restack(&u);
  WINDOW* w_inv = newwin(25, 80, 0, 0);
  const int maxitems = 20;    // Number of items to show at one time.
  int dropping[u.inv.size()]; // Count of how many we'll drop from each stack

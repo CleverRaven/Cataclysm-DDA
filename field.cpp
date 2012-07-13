@@ -176,9 +176,9 @@ bool map::process_fields_in_submap(game *g, int gridn)
      }
     }
 
-    veh = &(veh_at(x, y, part));
-    if (veh->type != veh_null)
-        veh->damage (part, cur->density * 10, false);
+    veh = veh_at(x, y, part);
+    if (veh)
+     veh->damage (part, cur->density * 10, false);
 // Consume the terrain we're on
     if (has_flag(explodes, x, y)) {
      ter(x, y) = ter_id(int(ter(x, y)) + 1);
@@ -225,7 +225,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
       }
      }
     }
-// Consume adjacent fuel / terrain to spread.
+// Consume adjacent fuel / terrain / webs to spread.
 // Randomly offset our x/y shifts by 0-2, to randomly pick a square to spread to
     int starti = rng(0, 2);
     int startj = rng(0, 2);
@@ -234,6 +234,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
       int fx = x + ((i + starti) % 3) - 1, fy = y + ((j + startj) % 3) - 1;
       if (INBOUNDS(fx, fy)) {
        int spread_chance = 20 * (cur->density - 1) + 10 * smoke;
+       if (field_at(fx, fy).type == fd_web)
+        spread_chance = 50 + spread_chance / 2;
        if (has_flag(explodes, fx, fy) && one_in(8 - cur->density)) {
         ter(fx, fy) = ter_id(int(ter(fx, fy)) + 1);
         g->explosion(fx, fy, 40, 0, true);

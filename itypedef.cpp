@@ -989,21 +989,21 @@ MELEE("candlestick",	20,100,'/', c_yellow,	SILVER,	MNULL,
 A gold candlestick.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("steel frame",  25, 35, ',', c_cyan,  STEEL,   MNULL,
+MELEE("steel frame",  25, 35, ']', c_cyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     60,  240,  20,  0,  -5, 0, "\
 A large frame made of steel.  Useful for crafting.");
 TECH( mfb(TEC_WBLOCK_3) );
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("wheel",  15, 50, '0', c_dkgray,  STEEL,   PLASTIC,
+MELEE("wheel",  15, 50, ']', c_dkgray,  STEEL,   PLASTIC,
 //  VOL WGT DAM CUT HIT FLAGS
     10,  80,  8,  0,  -4, 0, "\
 A wheel, perhaps from some car.");
 TECH( mfb(TEC_WBLOCK_3) );
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("large wheel",  6, 80, '0', c_dkgray,  STEEL,   PLASTIC,
+MELEE("large wheel",  6, 80, ']', c_dkgray,  STEEL,   PLASTIC,
 //  VOL WGT DAM CUT HIT FLAGS
     20,  200,  12,  0,  -5, 0, "\
 A large wheel, from some big car.");
@@ -1022,19 +1022,19 @@ MELEE("vehicle controls",  3, 400, '$', c_ltcyan,  PLASTIC,   STEEL,
 A set of various vehicle controls.  Useful for crafting.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("1L combustion engine",  5, 150, ',', c_ltcyan,  IRON,   MNULL,
+MELEE("1L combustion engine",  5, 150, ':', c_ltcyan,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     6,  160,  8,  0,  -2, 0, "\
 A small, yet powerful 2-cylinder combustion engine.  Useful for crafting.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("2.5L combustion engine",  4, 180, ',', c_ltcyan,  IRON,   MNULL,
+MELEE("2.5L combustion engine",  4, 180, ':', c_ltcyan,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     14,  400,  12,  0,  -3, 0, "\
 A powerful 4-cylinder combustion engine.  Useful for crafting.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("6L combustion engine",  2, 250, ',', c_ltcyan,  IRON,   MNULL,
+MELEE("6L combustion engine",  2, 250, ':', c_ltcyan,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     25,  1100,  15,  0,  -5, 0, "\
 A large and very powerful 8-cylinder combustion engine.  Useful for\n\
@@ -1047,63 +1047,63 @@ MELEE("electric motor",  2,120, ',', c_ltcyan,  IRON,   MNULL,
 A powerful electric motor.  Useful for crafting.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("large electric motor",  1,220, ',', c_ltcyan,  IRON,   MNULL,
+MELEE("large electric motor",  1,220, ':', c_ltcyan,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     15,  650,  9,  0,  -3, 0, "\
 A large and very powerful electric motor.  Useful for crafting.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("plasma engine",  1, 900, ',', c_ltcyan,  STEEL,   MNULL,
+MELEE("plasma engine",  1, 900, ':', c_ltcyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     12,  350,  7,  0,  -2, 0, "\
 High technology engine, working on hydrgen fuel.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("metal tank",  10, 40, '{', c_ltcyan,  STEEL,   MNULL,
+MELEE("metal tank",  10, 40, '}', c_ltcyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     18,  25,  3,  0,  -2, 0, "\
 A metal tank for holding liquids.  Useful for crafting.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("storage battery",  6, 80, ',', c_ltcyan,  IRON,   MNULL,
+MELEE("storage battery",  6, 80, ':', c_ltcyan,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     8,  220,  6,  0,  -2, 0, "\
 A large storage battery.  Useful for crafting.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("minireactor",  1, 900, ',', c_ltcyan,  STEEL,   MNULL,
+MELEE("minireactor",  1, 900, ':', c_ltcyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     6,  250,  11,  0,  -4, 0, "\
 A small portable plutonium reactor. Handle with great care!");
 
 //      NAME          RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("solar panel",  3, 900, '#', c_yellow,  GLASS,   MNULL,
+MELEE("solar panel",  3, 900, ']', c_yellow,  GLASS,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     12,  4,  1,  0,  -4, 0, "\
 Electronic device which can convert solar radiation into electric\n\
 power.  Useful for crafting.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("steel plating",  30, 120, ',', c_ltcyan,  STEEL,   MNULL,
+MELEE("steel plating",  30, 120, ']', c_ltcyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     12,  600,  6,  0,  -1, 0, "\
 A piece of armor plating made of steel.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("superalloy plating",  10, 185, ',', c_ltcyan,  STEEL,   MNULL,
+MELEE("superalloy plating",  10, 185, ']', c_ltcyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     12,  350,  6,  0,  -1, 0, "\
 A piece of armor plating made of sturdy superalloy.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("spiked plating",  15, 185, ',', c_ltcyan,  STEEL,   MNULL,
+MELEE("spiked plating",  15, 185, ']', c_ltcyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     14,  600,  6,  3,  -1, 0, "\
 A piece of armor plating made of steel. It is covered by menacing\n\
 spikes.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("hard plating",  30, 160, ',', c_ltcyan,  STEEL,   MNULL,
+MELEE("hard plating",  30, 160, ']', c_ltcyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     12,  1800,  6,  0,  -1, 0, "\
 A piece of very thick armor plating made of steel.");

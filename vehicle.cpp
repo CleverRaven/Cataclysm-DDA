@@ -46,8 +46,8 @@ bool vehicle::player_in_control (player *p)
     if (type == veh_null)
         return false;
     int veh_part;
-    vehicle &veh = g->m.veh_at (p->posx, p->posy, veh_part);
-    if (&veh != this)
+    vehicle *veh = g->m.veh_at (p->posx, p->posy, veh_part);
+    if (veh && veh != this)
         return false;
     return part_with_feature(veh_part, vpf_controls, false) >= 0 && p->in_vehicle;
 }
@@ -1016,8 +1016,8 @@ int vehicle::part_collision (int vx, int vy, int part, int x, int y)
     bool u_here = x == g->u.posx && y == g->u.posy && !g->u.in_vehicle;
     monster *z = mondex >= 0? &g->z[mondex] : 0;
     player *ph = (npcind >= 0? &g->active_npc[npcind] : (u_here? &g->u : 0));
-    vehicle &oveh = g->m.veh_at (x, y);
-    bool veh_collision = oveh.type != veh_null && (oveh.posx != posx || oveh.posy != posy);
+    vehicle *oveh = g->m.veh_at (x, y);
+    bool veh_collision = oveh && (oveh->posx != posx || oveh->posy != posy);
     bool body_collision = (g->u.posx == x && g->u.posy == y && !g->u.in_vehicle) ||
                            mondex >= 0 || npcind >= 0;
     int dummy;
@@ -1038,9 +1038,9 @@ int vehicle::part_collision (int vx, int vy, int part, int x, int y)
     if (veh_collision)
     { // first, check if we collide with another vehicle (there shouldn't be impassable terrain below)
         collision_type = 2; // vehicle
-        mass2 = oveh.total_mass() / 8;
+        mass2 = oveh->total_mass() / 8;
         body_collision = false;
-        obs_name = oveh.name.c_str();
+        obs_name = oveh->name.c_str();
     }
     else
     if (body_collision)

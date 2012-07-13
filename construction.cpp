@@ -173,6 +173,11 @@ void game::construction_menu()
  }
 
  do {
+// Erase existing list of constructions
+  for (int i = 1; i < 24; i++) {
+   for (int j = 1; j < 29; j++)
+    mvwputch(w_con, i, j, c_black, 'x');
+  }
 // Determine where in the master list to start printing
   int offset = select - 11;
   if (offset > constructions.size() - 22)

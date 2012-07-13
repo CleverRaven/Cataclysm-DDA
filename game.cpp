@@ -797,10 +797,10 @@ void game::process_activity()
      debugmsg ("process_activity invalid ACT_VEHICLE values:%d",
                 u.activity.values.size());
     else {
-     vehicle &veh = m.veh_at(u.activity.values[0], u.activity.values[1]);
-     if (veh.type != veh_null) {
-      exam_vehicle(veh, u.activity.values[0], u.activity.values[1],
-                        u.activity.values[2], u.activity.values[3]);
+     vehicle *veh = m.veh_at(u.activity.values[0], u.activity.values[1]);
+     if (veh) {
+      exam_vehicle(*veh, u.activity.values[0], u.activity.values[1],
+                         u.activity.values[2], u.activity.values[3]);
       return;
      } else
       debugmsg ("process_activity ACT_VEHICLE: vehicle not found");
@@ -847,7 +847,12 @@ void game::cancel_activity_query(const char* message, ...)
     doit = true;
    break;
   case ACT_BUILD:
+  case ACT_VEHICLE:
    if (query_yn("%s Stop construction?", s.c_str()))
+    doit = true;
+   break;
+  case ACT_TRAIN:
+   if (query_yn("%s Stop training?", s.c_str()))
     doit = true;
    break;
   default:
@@ -1137,8 +1142,8 @@ void game::get_input()
  gamemode->pre_action(this, act);
 
  int veh_part;
- vehicle &veh = m.veh_at (u.posx, u.posy, veh_part);
- bool veh_ctrl = veh.type != veh_null && veh.player_in_control (&u);
+ vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
+ bool veh_ctrl = veh && veh->player_in_control (&u);
 
  switch (act) {
 
@@ -1332,13 +1337,11 @@ void game::get_input()
    break;
 
   case ACTION_WAIT:
-   if (veh_ctrl)
-   {
-       veh.turret_mode++;
-       if (veh.turret_mode > 1)
-           veh.turret_mode = 0;
-   }
-   else
+   if (veh_ctrl) {
+    veh->turret_mode++;
+    if (veh->turret_mode > 1)
+     veh->turret_mode = 0;
+   } else
     wait();
    break;
 
@@ -1355,8 +1358,8 @@ void game::get_input()
 
   case ACTION_SLEEP:
    if (veh_ctrl) {
-    veh.cruise_on = !veh.cruise_on;
-    add_msg("Cruise control turned %s.", veh.cruise_on? "on" : "off");
+    veh->cruise_on = !veh->cruise_on;
+    add_msg("Cruise control turned %s.", veh->cruise_on? "on" : "off");
    } else if (query_yn("Are you sure you want to sleep?")) {
     u.try_to_sleep(this);
     u.moves = 0;
@@ -1619,16 +1622,20 @@ bool game::load_master()
     getline(fin, itemdata);
     if (item_place == 'I')
      tmpinv.push_back(item(itemdata, this));
-    else if (item_place == 'C' && !tmpinv.empty())
+    else if (item_place == 'C' && !tmpinv.empty()) {
      tmpinv[tmpinv.size() - 1].contents.push_back(item(itemdata, this));
-    else if (item_place == 'W')
+     j--;
+    } else if (item_place == 'W')
      tmp.worn.push_back(item(itemdata, this));
     else if (item_place == 'w')
      tmp.weapon = item(itemdata, this);
-    else if (item_place == 'c')
+    else if (item_place == 'c') {
      tmp.weapon.contents.push_back(item(itemdata, this));
+     j--;
+    }
    }
   }
+  tmp.inv.add_stack(tmpinv);
   active_npc.push_back(tmp);
   if (fin.peek() == '\n')
    fin.get(junk); // Chomp that pesky endline
@@ -1773,8 +1780,11 @@ void game::save()
   fout << factions[i].save_info() << std::endl;
 
  fout << active_npc.size() << std::endl;
- for (int i = 0; i < active_npc.size(); i++)
+ for (int i = 0; i < active_npc.size(); i++) {
+  active_npc[i].mapx = levx;
+  active_npc[i].mapy = levy;
   fout << active_npc[i].save_info() << std::endl;
+ }
 
  fout.close();
 
@@ -1950,7 +1960,7 @@ z.size(), events.size());
    break;
 
   case 10:
-   if (m.veh_at(u.posx, u.posy).type != veh_null)
+   if (m.veh_at(u.posx, u.posy))
     debugmsg ("There's already vehicle here");
    else {
     for (int i = 2; i < vtypes.size(); i++)
@@ -3288,9 +3298,9 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
      kill_mon(mon_hit);
 
     int vpart;
-    vehicle &veh = m.veh_at(i, j, vpart);
-    if (veh.type != veh_null)
-     veh.damage (vpart, dam, false);
+    vehicle *veh = m.veh_at(i, j, vpart);
+    if (veh)
+     veh->damage (vpart, dam, false);
    }
 
    if (npc_hit != -1) {
@@ -3725,20 +3735,16 @@ void game::open()
  if (openx != -2 && openy != -2)
  {
   int vpart;
-  vehicle &veh = m.veh_at(u.posx + openx, u.posy + openy, vpart);
-  if (veh.type != veh_null && veh.part_flag(vpart, vpf_openable))
-  {
-    if (veh.parts[vpart].open)
-    {
-     add_msg("That door is already open.");
-     u.moves += 100;
-    }
-    else
-    {
-     veh.parts[vpart].open = 1;
-     veh.insides_dirty = true;
-    }
-    return;
+  vehicle *veh = m.veh_at(u.posx + openx, u.posy + openy, vpart);
+  if (veh && veh->part_flag(vpart, vpf_openable)) {
+   if (veh->parts[vpart].open) {
+    add_msg("That door is already open.");
+    u.moves += 100;
+   } else {
+    veh->parts[vpart].open = 1;
+    veh->insides_dirty = true;
+   }
+   return;
   }
 
   if (m.ter(u.posx, u.posy) == t_floor)
@@ -3778,15 +3784,15 @@ void game::close()
   closex += u.posx;
   closey += u.posy;
   int vpart;
-  vehicle &veh = m.veh_at(closex, closey, vpart);
+  vehicle *veh = m.veh_at(closex, closey, vpart);
   if (mon_at(closex, closey) != -1)
    add_msg("There's a %s in the way!",z[mon_at(closex, closey)].name().c_str());
-  else if (veh.type != veh_null && veh.part_flag(vpart, vpf_openable) && veh.parts[vpart].open) {
-      veh.parts[vpart].open = 0;
-      veh.insides_dirty = true;
-      didit = true;
-  }
-  else if (m.i_at(closex, closey).size() > 0)
+  else if (veh && veh->part_flag(vpart, vpf_openable) &&
+          veh->parts[vpart].open) {
+   veh->parts[vpart].open = 0;
+   veh->insides_dirty = true;
+   didit = true;
+  } else if (m.i_at(closex, closey).size() > 0)
    add_msg("There's %s in the way!", m.i_at(closex, closey).size() == 1 ?
            m.i_at(closex, closey)[0].tname(this).c_str() : "some stuff");
   else if (closex == u.posx && closey == u.posy)
@@ -3897,14 +3903,13 @@ int junk;
 
 bool game::vehicle_near ()
 {
-    for (int dx = -1; dx <= 1; dx++)
-        for (int dy = -1; dy <= 1; dy++)
-        {
-            vehicle &veh = m.veh_at (u.posx + dx, u.posy + dy);
-            if (veh.type != veh_null)
-                return true;
-        }
-    return false;
+ for (int dx = -1; dx <= 1; dx++) {
+  for (int dy = -1; dy <= 1; dy++) {
+   if (m.veh_at(u.posx + dx, u.posy + dy))
+    return true;
+  }
+ }
+ return false;
 }
 
 bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
@@ -4005,27 +4010,23 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
 
 void game::handbrake ()
 {
-    vehicle &veh = m.veh_at (u.posx, u.posy);
-    if (veh.type == veh_null)
-        return;
-    add_msg ("You pull a handbrake.");
-    veh.cruise_velocity = 0;
-    if (veh.last_turn != 0 && rng (15, 60) * 100 < abs(veh.velocity))
-    {
-        veh.skidding = true;
-        add_msg ("You lose control of %s.", veh.name.c_str());
-        veh.turn (veh.last_turn > 0? 60 : -60);
-    }
-    else
-    if (veh.velocity < 0)
-        veh.stop();
-    else
-    {
-        veh.velocity = veh.velocity / 2 - 10*100;
-        if (veh.velocity < 0)
-            veh.stop();
-    }
-    u.moves = 0;
+ vehicle *veh = m.veh_at (u.posx, u.posy);
+ if (!veh)
+  return;
+ add_msg ("You pull a handbrake.");
+ veh->cruise_velocity = 0;
+ if (veh->last_turn != 0 && rng (15, 60) * 100 < abs(veh->velocity)) {
+  veh->skidding = true;
+  add_msg ("You lose control of %s.", veh->name.c_str());
+  veh->turn (veh->last_turn > 0? 60 : -60);
+ } else if (veh->velocity < 0)
+  veh->stop();
+ else {
+  veh->velocity = veh->velocity / 2 - 10*100;
+  if (veh->velocity < 0)
+      veh->stop();
+ }
+ u.moves = 0;
 }
 
 void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
@@ -4054,23 +4055,21 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
 
 void game::examine()
 {
- if (u.in_vehicle)
- {
-    int vpart;
-    vehicle &veh = m.veh_at (u.posx, u.posy, vpart);
-    bool qexv = (veh.type != veh_null && veh.velocity != 0?
-        query_yn("Really exit moving vehicle?") : query_yn("Exit vehicle?"));
-    if (qexv)
-    {
-        m.unboard_vehicle (this, u.posx, u.posy);
-        u.moves -= 200;
-        if (veh.velocity)        // TODO: move player out of harms way
-        {
-            int dsgn = veh.parts[vpart].mount_dx > 0? 1 : -1;
-            fling_player_or_monster (&u, 0, veh.face.dir() + 90 * dsgn, 35);
-        }
-        return;
-    }
+ if (u.in_vehicle) {
+  int vpart;
+  vehicle *veh = m.veh_at(u.posx, u.posy, vpart);
+  bool qexv = (veh && (veh->velocity != 0 ?
+                       query_yn("Really exit moving vehicle?") :
+                       query_yn("Exit vehicle?")));
+  if (qexv) {
+   m.unboard_vehicle (this, u.posx, u.posy);
+   u.moves -= 200;
+   if (veh->velocity) {      // TODO: move player out of harms way
+    int dsgn = veh->parts[vpart].mount_dx > 0? 1 : -1;
+    fling_player_or_monster (&u, 0, veh->face.dir() + 90 * dsgn, 35);
+   }
+   return;
+  }
  }
  mvwprintw(w_terrain, 0, 0, "Examine where? (Direction button) ");
  wrefresh(w_terrain);
@@ -4089,23 +4088,18 @@ void game::examine()
  add_msg("That is a %s.", m.tername(examx, examy).c_str());
 
  int veh_part = 0;
- vehicle &veh = m.veh_at (examx, examy, veh_part);
- if (veh.type != veh_null)
- {
-    int vpcargo = veh.part_with_feature(veh_part, vpf_cargo, false);
-    if (vpcargo >= 0 && veh.parts[vpcargo].items.size() > 0)
-        pickup(examx, examy, 0);
-    else
-    if (u.in_vehicle)
-        add_msg ("You can't do that while onboard.");
-    else
-    if (abs(veh.velocity) > 0)
-        add_msg ("You can't do that on moving vehicle.");
-    else
-        exam_vehicle (veh, examx, examy);
- }
- else
- if (m.has_flag(sealed, examx, examy)) {
+ vehicle *veh = m.veh_at (examx, examy, veh_part);
+ if (veh) {
+  int vpcargo = veh->part_with_feature(veh_part, vpf_cargo, false);
+  if (vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0)
+   pickup(examx, examy, 0);
+  else if (u.in_vehicle)
+   add_msg ("You can't do that while onboard.");
+  else if (abs(veh->velocity) > 0)
+   add_msg ("You can't do that on moving vehicle.");
+  else
+   exam_vehicle (*veh, examx, examy);
+ } else if (m.has_flag(sealed, examx, examy)) {
   if (m.trans(examx, examy)) {
    std::string buff;
    if (m.i_at(examx, examy).size() <= 3 && m.i_at(examx, examy).size() != 0) {
@@ -4390,11 +4384,11 @@ point game::look_around()
     ly = u.posy + SEEY;
   }
   for (int i = 1; i < 12; i++) {
-   for (int j = 1; j < 46; j++)
+   for (int j = 1; j < 47; j++)
     mvwputch(w_look, i, j, c_white, ' ');
   }
   int veh_part = 0;
-  vehicle &veh = m.veh_at(lx, ly, veh_part);
+  vehicle *veh = m.veh_at(lx, ly, veh_part);
   if (u_see(lx, ly, junk)) {
    if (m.move_cost(lx, ly) == 0)
     mvwprintw(w_look, 1, 1, "%s; Impassable", m.tername(lx, ly).c_str());
@@ -4426,9 +4420,9 @@ point game::look_around()
      mvwprintw(w_look, 3, 1, "There are several items there.");
     else if (m.i_at(lx, ly).size() == 1)
      mvwprintw(w_look, 3, 1, "There is an item there.");
-   } else if (veh.type != veh_null) {
-     mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh.name.c_str());
-     veh.print_part_desc(w_look, 4, 48, veh_part);
+   } else if (veh) {
+     mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
+     veh->print_part_desc(w_look, 4, 48, veh_part);
      m.drawsq(w_terrain, u, lx, ly, true, true);
    } else if (m.i_at(lx, ly).size() > 0) {
     mvwprintw(w_look, 3, 1, "There is a %s there.",
@@ -4442,9 +4436,9 @@ point game::look_around()
   } else if (lx == u.posx && ly == u.posy) {
    mvwputch_inv(w_terrain, SEEX, SEEY, u.color(), '@');
    mvwprintw(w_look, 1, 1, "You (%s)", u.name.c_str());
-   if (veh.type != veh_null) {
-    mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh.name.c_str());
-    veh.print_part_desc(w_look, 4, 48, veh_part);
+   if (veh) {
+    mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
+    veh->print_part_desc(w_look, 4, 48, veh_part);
     m.drawsq(w_terrain, u, lx, ly, true, true);
    }
 
@@ -4470,14 +4464,15 @@ void game::pickup(int posx, int posy, int min)
  }
  bool weight_is_okay = (u.weight_carried() <= u.weight_capacity() * .25);
  bool volume_is_okay = (u.volume_carried() <= u.volume_capacity() -  2);
+ bool from_veh = false;
  int veh_part = 0;
- vehicle &veh = m.veh_at (posx, posy, veh_part);
- veh_part = veh.part_with_feature(veh_part, vpf_cargo, false);
- bool from_veh = veh.type != veh_null && veh_part >= 0 &&
-                 veh.parts[veh_part].items.size() > 0;
- if (from_veh)
-  if (!query_yn("Get items from %s?", veh.part_info(veh_part).name))
-      from_veh = false;
+ vehicle *veh = m.veh_at (posx, posy, veh_part);
+ if (veh) {
+  veh_part = veh->part_with_feature(veh_part, vpf_cargo, false);
+  from_veh = veh && veh_part >= 0 &&
+             veh->parts[veh_part].items.size() > 0 &&
+             query_yn("Get items from %s?", veh->part_info(veh_part).name);
+ }
 // Picking up water?
  if ((!from_veh) && m.i_at(posx, posy).size() == 0) {
   if (m.has_flag(swimmable, posx, posy) || m.ter(posx, posy) == t_toilet) {
@@ -4493,10 +4488,10 @@ void game::pickup(int posx, int posy, int min)
   }
   return;
 // Few item here, just get it
- } else if ((from_veh? veh.parts[veh_part].items.size() :
-                       m.i_at(posx, posy).size()         ) <= min) {
+ } else if ((from_veh ? veh->parts[veh_part].items.size() :
+                        m.i_at(posx, posy).size()          ) <= min) {
   int iter = 0;
-  item newit = from_veh? veh.parts[veh_part].items[0] : m.i_at(posx, posy)[0];
+  item newit = from_veh ? veh->parts[veh_part].items[0] : m.i_at(posx, posy)[0];
   if (newit.made_of(LIQUID)) {
    add_msg("You can't pick up a liquid!");
    return;
@@ -4519,25 +4514,33 @@ void game::pickup(int posx, int posy, int min)
    decrease_nextinv();
   } else if (u.volume_carried() + newit.volume() > u.volume_capacity()) {
    if (u.is_armed()) {
-    if (!u.weapon.has_flag(IF_NO_UNWIELD) && // Not a bionic
-        query_yn("Drop your %s and pick up %s?",
-                 u.weapon.tname(this).c_str(), newit.tname(this).c_str())) {
-     if (from_veh)
-      veh.remove_item (veh_part, 0);
-     else
-      m.i_clear(posx, posy);
-     m.add_item(posx, posy, u.remove_weapon());
-     u.i_add(newit);
-     u.wield(this, u.inv.size() - 1);
-     u.moves -= 100;
-     add_msg("Wielding %c - %s", newit.invlet, newit.tname(this).c_str());
-    } else
+    if (!u.weapon.has_flag(IF_NO_UNWIELD)) {
+     if (newit.is_armor() && // Armor can be instantly worn
+         query_yn("Put on the %s?", newit.tname(this).c_str()))
+      u.wear_item(this, &newit);
+     else if (query_yn("Drop your %s and pick up %s?",
+               u.weapon.tname(this).c_str(), newit.tname(this).c_str())) {
+      if (from_veh)
+       veh->remove_item (veh_part, 0);
+      else
+       m.i_clear(posx, posy);
+      m.add_item(posx, posy, u.remove_weapon());
+      u.i_add(newit);
+      u.wield(this, u.inv.size() - 1);
+      u.moves -= 100;
+      add_msg("Wielding %c - %s", newit.invlet, newit.tname(this).c_str());
+     } else
+      decrease_nextinv();
+    } else {
+     add_msg("There's no room in your inventory for the %s, and you can't\
+ unwield your %s.", newit.tname(this).c_str(), u.weapon.tname(this).c_str());
      decrease_nextinv();
+    }
    } else {
     u.i_add(newit);
     u.wield(this, u.inv.size() - 1);
     if (from_veh)
-     veh.remove_item (veh_part, 0);
+     veh->remove_item (veh_part, 0);
     else
      m.i_clear(posx, posy);
     u.moves -= 100;
@@ -4548,7 +4551,7 @@ void game::pickup(int posx, int posy, int min)
               newit.is_weap() || newit.is_gun())) {
    u.weapon = newit;
    if (from_veh)
-    veh.remove_item (veh_part, 0);
+    veh->remove_item (veh_part, 0);
    else
     m.i_clear(posx, posy);
    u.moves -= 100;
@@ -4556,7 +4559,7 @@ void game::pickup(int posx, int posy, int min)
   } else {
    u.i_add(newit);
    if (from_veh)
-    veh.remove_item (veh_part, 0);
+    veh->remove_item (veh_part, 0);
    else
     m.i_clear(posx, posy);
    u.moves -= 100;
@@ -4573,7 +4576,7 @@ void game::pickup(int posx, int posy, int min)
  WINDOW* w_pickup = newwin(12, 48, 0, SEEX * 2 + 8);
  WINDOW* w_item_info = newwin(12, 48, 12, SEEX * 2 + 8);
  int maxitems = 9;	 // Number of items to show at one time.
- std::vector <item> here = from_veh? veh.parts[veh_part].items : m.i_at(posx, posy);
+ std::vector <item> here = from_veh? veh->parts[veh_part].items : m.i_at(posx, posy);
  bool getitem[here.size()];
  for (int i = 0; i < here.size(); i++)
   getitem[i] = false;
@@ -4708,25 +4711,33 @@ void game::pickup(int posx, int posy, int min)
     decrease_nextinv();
    } else if (u.volume_carried() + here[i].volume() > u.volume_capacity()) {
     if (u.is_armed()) {
-     if (!u.weapon.has_flag(IF_NO_UNWIELD) && // Not a bionic
-         query_yn("Drop your %s and pick up %s?",
-                  u.weapon.tname(this).c_str(), here[i].tname(this).c_str())) {
-      m.add_item(posx, posy, u.remove_weapon());
-      u.i_add(here[i]);
-      u.wield(this, u.inv.size() - 1);
-      u.moves -= 100;
-      if (from_veh)
-       veh.remove_item (veh_part, curmit);
-      else
-       m.i_rem(posx, posy, curmit);
-      curmit--;
-     } else
+     if (!u.weapon.has_flag(IF_NO_UNWIELD)) {
+      if (here[i].is_armor() && // Armor can be instantly worn
+          query_yn("Put on the %s?", here[i].tname(this).c_str()))
+       u.wear_item(this, &(here[i]));
+      else if (query_yn("Drop your %s and pick up %s?",
+                u.weapon.tname(this).c_str(), here[i].tname(this).c_str())) {
+       if (from_veh)
+        veh->remove_item (veh_part, 0);
+       else
+        m.i_clear(posx, posy);
+       m.add_item(posx, posy, u.remove_weapon());
+       u.i_add(here[i]);
+       u.wield(this, u.inv.size() - 1);
+       u.moves -= 100;
+       add_msg("Wielding %c - %s", here[i].invlet, here[i].tname(this).c_str());
+      } else
+       decrease_nextinv();
+     } else {
+      add_msg("There's no room in your inventory for the %s, and you can't\
+  unwield your %s.", here[i].tname(this).c_str(), u.weapon.tname(this).c_str());
       decrease_nextinv();
+     }
     } else {
      u.i_add(here[i]);
      u.wield(this, u.inv.size() - 1);
      if (from_veh)
-      veh.remove_item (veh_part, curmit);
+      veh->remove_item (veh_part, curmit);
      else
       m.i_rem(posx, posy, curmit);
      curmit--;
@@ -4737,7 +4748,7 @@ void game::pickup(int posx, int posy, int min)
               here[i].is_weap() || here[i].is_gun())) {
     u.weapon = here[i];
     if (from_veh)
-     veh.remove_item (veh_part, curmit);
+     veh->remove_item (veh_part, curmit);
     else
      m.i_rem(posx, posy, curmit);
     u.moves -= 100;
@@ -4745,7 +4756,7 @@ void game::pickup(int posx, int posy, int min)
    } else {
     u.i_add(here[i]);
     if (from_veh)
-     veh.remove_item (veh_part, curmit);
+     veh->remove_item (veh_part, curmit);
     else
      m.i_rem(posx, posy, curmit);
     u.moves -= 100;
@@ -4782,24 +4793,24 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
      query_yn ("Refill vehicle?")) {
   int vx = u.posx, vy = u.posy;
   if (pl_choose_vehicle(vx, vy)) {
-   vehicle &veh = m.veh_at (vx, vy);
-   if (veh.type != veh_null) {
+   vehicle *veh = m.veh_at (vx, vy);
+   if (veh) {
     int ftype = AT_GAS;
-    int fuel_cap = veh.fuel_capacity(ftype);
-    int fuel_amnt = veh.fuel_left(ftype);
+    int fuel_cap = veh->fuel_capacity(ftype);
+    int fuel_amnt = veh->fuel_left(ftype);
     if (fuel_cap < 1)
-     add_msg ("This vehicle doesn't use %s.", veh.fuel_name(ftype).c_str());
+     add_msg ("This vehicle doesn't use %s.", veh->fuel_name(ftype).c_str());
     else if (fuel_amnt == fuel_cap)
      add_msg ("Already full.");
     else {
-     veh.refill (AT_GAS, liquid.charges);
-     add_msg ("You refill %s with %s%s.", veh.name.c_str(),
-              veh.fuel_name(ftype).c_str(),
-              veh.fuel_left(ftype) >= fuel_cap? " to its maximum" : "");
+     veh->refill (AT_GAS, liquid.charges);
+     add_msg ("You refill %s with %s%s.", veh->name.c_str(),
+              veh->fuel_name(ftype).c_str(),
+              veh->fuel_left(ftype) >= fuel_cap? " to its maximum" : "");
      return true;
     }
-   } else // if (veh.type != veh_null)
-    add_msg ("There's no any vehicle there.");
+   } else // if (veh)
+    add_msg ("There isn't any vehicle there.");
    return false;
   } // if (pl_choose_vehicle(vx, vy))
  } else { // Not filling vehicle
@@ -4913,42 +4924,41 @@ void game::drop()
  }
 
  int veh_part = 0;
- vehicle &veh = m.veh_at(u.posx, u.posy, veh_part);
- veh_part = veh.part_with_feature (veh_part, vpf_cargo);
- bool to_veh = veh.type != veh_null && veh_part >= 0;
- if (dropped.size() == 1 || same)
- {
+ bool to_veh = false;
+ vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
+ if (veh) {
+  veh_part = veh->part_with_feature (veh_part, vpf_cargo);
+  to_veh = veh_part >= 0;
+ }
+ if (dropped.size() == 1 || same) {
   if (to_veh)
-   add_msg("You put your %s%s in %s's %s.", dropped[0].tname(this).c_str(),
-          (dropped.size() == 1 ? "" : "s"), veh.name.c_str(), veh.part_info(veh_part).name);
+   add_msg("You put your %s%s in the %s's %s.", dropped[0].tname(this).c_str(),
+          (dropped.size() == 1 ? "" : "s"), veh->name.c_str(),
+          veh->part_info(veh_part).name);
   else
    add_msg("You drop your %s%s.", dropped[0].tname(this).c_str(),
           (dropped.size() == 1 ? "" : "s"));
- }
- else
- {
+ } else {
   if (to_veh)
-   add_msg("You put several items in %s's %s.", veh.name.c_str(), veh.part_info(veh_part).name);
+   add_msg("You put several items in the %s's %s.", veh->name.c_str(),
+           veh->part_info(veh_part).name);
   else
    add_msg("You drop several items.");
  }
 
  bool vh_overflow = false;
  int i = 0;
- if (to_veh)
- {
-  for (; i < dropped.size(); i++)
-    if (!veh.add_item (veh_part, dropped[i]))
-    {
-        vh_overflow = true;
-        break;
-    }
+ if (to_veh) {
+  for (i = 0; i < dropped.size(); i++)
+   if (!veh->add_item (veh_part, dropped[i])) {
+    vh_overflow = true;
+    break;
+   }
   if (vh_overflow)
-    add_msg ("Trunk is full, so some items fall on the ground.");
+   add_msg ("The trunk is full, so some items fall on the ground.");
  }
  if (!to_veh || vh_overflow)
- for (; i< dropped.size(); i++)
- {
+  for (i = 0; i < dropped.size(); i++) {
     m.add_item(u.posx, u.posy, dropped[i]);
  }
 }
@@ -4966,9 +4976,12 @@ void game::drop_in_direction()
  dirx += u.posx;
  diry += u.posy;
  int veh_part = 0;
- vehicle &veh = m.veh_at(dirx, diry, veh_part);
- veh_part = veh.part_with_feature (veh_part, vpf_cargo);
- bool to_veh = veh.type != veh_null && veh_part >= 0;
+ bool to_veh = false;
+ vehicle *veh = m.veh_at(dirx, diry, veh_part);
+ if (veh) {
+  veh_part = veh->part_with_feature (veh_part, vpf_cargo);
+  to_veh = veh->type != veh_null && veh_part >= 0;
+ }
 
  if (m.has_flag(noitem, dirx, diry) || m.has_flag(sealed, dirx, diry)) {
   add_msg("You can't place items there!");
@@ -4994,33 +5007,35 @@ void game::drop_in_direction()
  if (dropped.size() == 1 || same)
  {
   if (to_veh)
-   add_msg("You put your %s%s in %s's %s.", dropped[0].tname(this).c_str(),
-          (dropped.size() == 1 ? "" : "s"), veh.name.c_str(), veh.part_info(veh_part).name);
+   add_msg("You put your %s%s in the %s's %s.", dropped[0].tname(this).c_str(),
+          (dropped.size() == 1 ? "" : "s"), veh->name.c_str(),
+          veh->part_info(veh_part).name);
   else
    add_msg("You %s your %s%s %s the %s.", verb.c_str(),
-          dropped[0].tname(this).c_str(),
-          (dropped.size() == 1 ? "" : "s"), prep.c_str(),
-          m.tername(dirx, diry).c_str());
- }
- else
- {
+           dropped[0].tname(this).c_str(),
+           (dropped.size() == 1 ? "" : "s"), prep.c_str(),
+           m.tername(dirx, diry).c_str());
+ } else {
   if (to_veh)
-   add_msg("You put several items in %s's %s.", veh.name.c_str(), veh.part_info(veh_part).name);
+   add_msg("You put several items in the %s's %s.", veh->name.c_str(),
+           veh->part_info(veh_part).name);
   else
    add_msg("You %s several items %s the %s.", verb.c_str(), prep.c_str(),
-          m.tername(dirx, diry).c_str());
+           m.tername(dirx, diry).c_str());
  }
- if (to_veh)
- {
+ if (to_veh) {
   bool vh_overflow = false;
-  for (int i = 0; i < dropped.size(); i++)
-    vh_overflow = vh_overflow || !veh.add_item (veh_part, dropped[i]);
+  for (int i = 0; i < dropped.size(); i++) {
+   vh_overflow = vh_overflow || !veh->add_item (veh_part, dropped[i]);
+   if (vh_overflow)
+    m.add_item(dirx, diry, dropped[i]);
+  }
   if (vh_overflow)
-    add_msg ("Trunk is full, so some items fall on the ground.");
+   add_msg ("Trunk is full, so some items fall on the ground.");
+ } else {
+  for (int i = 0; i < dropped.size(); i++)
+   m.add_item(dirx, diry, dropped[i]);
  }
- else
- for (int i = 0; i< dropped.size(); i++)
-  m.add_item(dirx, diry, dropped[i]);
 }
 
 void game::reassign_item()
@@ -5122,8 +5137,8 @@ void game::plfire(bool burst)
 {
  if (!u.weapon.is_gun())
   return;
- vehicle &veh = m.veh_at (u.posx, u.posy);
- if (veh.type != veh_null && veh.player_in_control(&u) && u.weapon.is_two_handed(&u)) {
+ vehicle *veh = m.veh_at(u.posx, u.posy);
+ if (veh && veh->player_in_control(&u) && u.weapon.is_two_handed(&u)) {
   add_msg ("You need free arm to drive!");
   return;
  }
@@ -5589,35 +5604,35 @@ void game::pldrive(int x, int y)
   return;
  }
  int part = -1;
- vehicle &veh = m.veh_at (u.posx, u.posy, part);
- if (veh.type == veh_null) {
+ vehicle *veh = m.veh_at (u.posx, u.posy, part);
+ if (!veh) {
   debugmsg ("game::pldrive error: can't find vehicle! Drive mode is now off.");
   u.in_vehicle = false;
   return;
  }
- int pctr = veh.part_with_feature (part, vpf_controls);
+ int pctr = veh->part_with_feature (part, vpf_controls);
  if (pctr < 0) {
-  add_msg ("You can't drive vehicle from here. You need controls!");
+  add_msg ("You can't drive the vehicle from here. You need controls!");
   return;
  }
 
  int thr_amount = 10 * 100;
- if (veh.cruise_on)
-  veh.cruise_thrust (-y * thr_amount);
+ if (veh->cruise_on)
+  veh->cruise_thrust (-y * thr_amount);
  else {
-  veh.thrust (-y);
+  veh->thrust (-y);
  }
- veh.turn (15 * x);
- if (veh.skidding && veh.valid_wheel_config()) {
+ veh->turn (15 * x);
+ if (veh->skidding && veh->valid_wheel_config()) {
   if (rng (0, 40) < u.dex_cur + u.sklevel[sk_driving] * 2) {
-   add_msg ("You regain control of %s.", veh.name.c_str());
-   veh.skidding = false;
-   veh.move.init (veh.turn_dir);
+   add_msg ("You regain control of the %s.", veh->name.c_str());
+   veh->skidding = false;
+   veh->move.init (veh->turn_dir);
   }
  }
 
  u.moves = 0;
- if (x != 0 && veh.velocity != 0 && one_in(4))
+ if (x != 0 && veh->velocity != 0 && one_in(4))
   u.practice(sk_driving, 1);
 }
 
@@ -5710,26 +5725,24 @@ void game::plmove(int x, int y)
  }
 
  int vpart = -1, dpart = -1;
- vehicle &veh = m.veh_at(x, y, vpart);
+ vehicle *veh = m.veh_at(x, y, vpart);
  bool veh_closed_door = false;
- if (veh.type != veh_null)
- {
-  dpart = veh.part_with_feature (vpart, vpf_openable);
-  veh_closed_door = dpart >= 0 && !veh.parts[dpart].open;
+ if (veh) {
+  dpart = veh->part_with_feature (vpart, vpf_openable);
+  veh_closed_door = dpart >= 0 && !veh->parts[dpart].open;
  }
 
  if (m.move_cost(x, y) > 0) { // move_cost() of 0 = impassible (e.g. a wall)
   if (u.underwater)
    u.underwater = false;
-  dpart = veh.type != veh_null? veh.part_with_feature (vpart, vpf_seat) : -1;
-  bool can_board = dpart >= 0 && !veh.parts[dpart].passenger;
+  dpart = veh ? veh->part_with_feature (vpart, vpf_seat) : -1;
+  bool can_board = dpart >= 0 && !veh->parts[dpart].passenger;
 /*  if (veh.type != veh_null)
       add_msg ("vp=%d dp=%d can=%c", vpart, dpart, can_board? 'y' : 'n',);*/
-  if (can_board && query_yn("Board vehicle?"))
-  { // empty vehicle's seat ahead
-    m.board_vehicle (this, x, y, &u);
-    u.moves -= 200;
-    return;
+  if (can_board && query_yn("Board vehicle?")) { // empty vehicle's seat ahead
+   m.board_vehicle (this, x, y, &u);
+   u.moves -= 200;
+   return;
   }
 
   if (m.field_at(x, y).is_dangerous() &&
@@ -5755,8 +5768,8 @@ void game::plmove(int x, int y)
   if ((!u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 2) ||
       ( u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 4    ))
   {
-   if (veh.type != veh_null)
-    add_msg("Moving past this %s is slow!", veh.part_info(vpart).name);
+   if (veh)
+    add_msg("Moving past this %s is slow!", veh->part_info(vpart).name);
    else
     add_msg("Moving past this %s is slow!", m.tername(x, y).c_str());
   }
@@ -5878,10 +5891,11 @@ void game::plmove(int x, int y)
    add_msg("There are many items here.");
 
  } else if (veh_closed_door) { // move_cost <= 0
-  veh.parts[dpart].open = 1;
-  veh.insides_dirty = true;
+  veh->parts[dpart].open = 1;
+  veh->insides_dirty = true;
   u.moves -= 100;
-  add_msg ("You open %s's %s.", veh.name.c_str(), veh.part_info(dpart).name);
+  add_msg ("You open the %s's %s.", veh->name.c_str(),
+                                    veh->part_info(dpart).name);
 
  } else if (m.has_flag(swimmable, x, y)) { // Dive into water!
 // Requires confirmation if we were on dry land previously
@@ -5999,14 +6013,11 @@ void game::fling_player_or_monster(player *p, monster *zz, int dir, int flvel)
                 p->hitall (this, dam1, 40);
             else
                 zz->hurt(dam1);
-        }
-        else
-        if (m.move_cost(x, y) == 0 && !m.has_flag(swimmable, x, y)) // not passable
-        {
+        } else if (m.move_cost(x, y) == 0 && !m.has_flag(swimmable, x, y)) {
             slam = true;
             int vpart;
-            vehicle &veh = m.veh_at(x, y, vpart);
-            dname = veh.type != veh_null? veh.part_info(vpart).name : m.tername(x, y).c_str();
+            vehicle *veh = m.veh_at(x, y, vpart);
+            dname = veh ? veh->part_info(vpart).name : m.tername(x, y).c_str();
             if (m.has_flag(bashable, x, y))
                 thru = m.bash(x, y, flvel, snd);
             else
@@ -6252,7 +6263,7 @@ void game::vertical_move(int movez, bool force)
   }
  }
 
- set_adjacent_overmaps();
+ set_adjacent_overmaps(true);
  refresh_all();
 }
 

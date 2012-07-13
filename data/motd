@@ -1,17 +1,19 @@
 # This message may be 16 lines long at maximum.
 # Max length of a line is 64 characters; the following line is for reference
 ################################################################
-In this version, there's a new special game mode: Defense.
+This version introduces a new concept: unarmed styles!
 
-Defense Mode, and the Tutorial, can be found under Special...
-<--- Here.
+You can start with a style if you choose the Martial Arts
+Training trait, and NPCs will teach many more (22 styles exist!)
 
-In Defense Mode, you start in a chosen location, and have to
-fight off increasingly difficult waves of enemies.  There is a
-generator nearby which you have to defend.
-To aid you, there are regular caravans from which you can buy
-supplies.  Additionally, crafting performs much, much faster.
+Select your style with _ and wield it with w-
 
-It's relatively easy to add new game modes.  Read the
-code_doc/GAMEMODES file for instructions on the basic, and
-check out defense.cpp for some examples.
+Each style has a variety of special moves associated with it,
+and most have some other unique effect--from special combos to
+the exotic like wall-running and damage resistance.
+
+This release also sees the return of wandering NPCs.  If you
+don't want wandering NPCs in your game, you can turn them off
+by placing a file called no_npc.txt in your data folder.
+
+Official Forums: http://whalesdev.com/forums/index.php
