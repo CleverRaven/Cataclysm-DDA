@@ -1145,7 +1145,6 @@ void game::get_input()
  vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
  bool veh_ctrl = veh && veh->player_in_control (&u);
 
- lm.generate(&m, u.posx, u.posy);
  switch (act) {
 
   case ACTION_PAUSE:
@@ -2384,7 +2383,7 @@ bool game::isBetween(int test, int down, int up)
 void game::draw_ter()
 {
  int t = 0;
- lm.generate(&m, u.posx, u.posy);
+ lm.generate(m, u.posx, u.posy, natural_light_level());
  m.draw(this, w_terrain);
 
  // Draw monsters
@@ -2614,6 +2613,23 @@ void game::hallucinate()
   }
  }
  wrefresh(w_terrain);
+}
+
+float game::natural_light_level()
+{
+ float ret = 0;
+
+ if (levz >= 0) {
+  ret = turn.sunlight();
+
+  // TODO: add real light penalties to sunlight
+  //       for now the this should get some nice effects
+  //       of course it might just make them broken
+  if (weather_data[weather].sight_penalty > 0)
+   ret /= (weather_data[weather].sight_penalty * weather_data[weather].sight_penalty);
+ }
+
+ return ret;
 }
 
 unsigned char game::light_level()
@@ -3889,7 +3905,7 @@ bool game::pl_choose_vehicle (int &x, int &y)
  refresh_all();
  mvprintz(0, 0, c_red, "Choose a vehicle at direction:");
  int dirx, diry;
- get_direction(dirx, diry, input());
+ get_direction(this, dirx, diry, input());
  if (dirx == -2) {
   add_msg("Invalid direction!");
   return false;
@@ -4411,6 +4427,7 @@ point game::look_around()
   int veh_part = 0;
   vehicle *veh = m.veh_at(lx, ly, veh_part);
   if (u_see(lx, ly, junk)) {
+   // TODO: Handle low light situation nicely
    if (m.move_cost(lx, ly) == 0)
     mvwprintw(w_look, 1, 1, "%s; Impassable", m.tername(lx, ly).c_str());
    else

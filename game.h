@@ -139,6 +139,7 @@ class game
   void nuke(int x, int y);
   std::vector<faction *> factions_at(int x, int y);
   int& scent(int x, int y);
+  float natural_light_level();
   unsigned char light_level();
   int assign_npc_id();
   int assign_faction_id();

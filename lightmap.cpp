@@ -1,115 +1,286 @@
+
 #include "mapdata.h"
 #include "map.h"
 #include "lightmap.h"
 
-// TODO: move these to const functions
-#define XY2LM(x, y) (((y + SEEY) * (2 * SEEX + 1)) + x + SEEX)
-#define LIGHT_RANGE(b) static_cast<int>(sqrt(b / LIGHT_AMBIENT_LOW));
+#define LIGHT_RANGE(b) static_cast<int>(sqrt(b / LIGHT_AMBIENT_LOW) + 1)
 #define INBOUNDS(x, y) (x >= -SEEX && x <= SEEX && y >= -SEEY && y <= SEEY)
 
-int max_light_range()
+template <typename T, size_t X, size_t Y>
+void fill(T (&array)[X][Y], T const& value)
 {
- static int max = LIGHT_RANGE(LIGHT_MAX_SOURCE);
- return max;
-}
-
-// TODO: replace with std::array::fill
-template <typename T, size_t N>
-void fill(T (&array)[N], T const& value)
-{
- for(size_t i = 0; i < N; ++i) {
-  array[i] = value;
+ for(size_t x = 0; x < X; ++x) {
+  for(size_t y = 0; y < Y; ++y) {
+   array[x][y] = value;
+  }
  }
 }
 
 light_map::light_map()
  : lm()
+ , sm()
 {
- fill(lm, LL_DARK);
+ fill(lm, 0.0f);
+ fill(sm, 0.0f);
 }
 
-void light_map::generate(map* m, int x, int y)
+void light_map::generate(map& m, int x, int y, float natural_light)
 {
- fill(lm, LL_DARK);
+ fill(lm, 0.0f);
+ fill(sm, 0.0f);
 
- for(int sx = x - SEEX - max_light_range(); sx <= x + SEEX + max_light_range(); ++sx) {
-  for(int sy = y - SEEY - max_light_range(); sy <= y + SEEY + max_light_range(); ++sy) {
-   // TODO: attach light brightness to fields
-   switch(m->field_at(sx, sy).type) {
+ int dir_x[] = {  0, 1, 0 , -1 };
+ int dir_y[] = { -1, 0, 1 ,  0 };
+
+ // TODO: Apply player light sources (torch, biolight etc)
+ //       maybe this should be past in light natural_light for easy reuse
+
+ for(int sx = x - SEEX - LIGHT_RANGE(LIGHT_MAX_SOURCE); sx <= x + SEEX + LIGHT_RANGE(LIGHT_MAX_SOURCE); ++sx) {
+  for(int sy = y - SEEY - LIGHT_RANGE(LIGHT_MAX_SOURCE); sy <= y + SEEY + LIGHT_RANGE(LIGHT_MAX_SOURCE); ++sy) {
+   if (natural_light > LIGHT_AMBIENT_LOW) {
+    // Apply sunlight, first light source so just assign
+   	if (m.is_outside(sx, sy)) {
+     if (INBOUNDS(sx - x, sy - y)) 
+      lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
+    } else {
+     // Apply light sources for external/internal divide
+     for(int i = 0; i < 4; ++i) {
+      if (m.is_outside(sx + dir_x[i], sy + dir_y[i])) {
+       if (INBOUNDS(sx - x, sy - y))
+        lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
+       
+       // This is 2 because it turns out everything is too dark otherwise
+       if (check_opacity(m, sx, sy) > LIGHT_TRANSPARENCY_SOLID)
+       	apply_light_arc(m, sx, sy, -dir_x[i], -dir_y[i], x, y, 2 * natural_light);
+      }
+	 }
+    }
+   }
+
+   // TODO: Attach light brightness to fields
+   switch(m.field_at(sx, sy).type) {
     case fd_fire:
-     if (3 == m->field_at(sx, sy).density)
-      apply_source(m, x, y, sx - x, sy - y, 50);
-     else if (2 == m->field_at(sx, sy).density)
-      apply_source(m, x, y, sx - x, sy - y, 25);
+     if (3 == m.field_at(sx, sy).density)
+      apply_light_source(m, sx, sy, x, y, 50);
+     else if (2 == m.field_at(sx, sy).density)
+      apply_light_source(m, sx, sy, x, y, 25);
      else
-      apply_source(m, x, y, sx - x, sy - y, 5);
+      apply_light_source(m, sx, sy, x, y, 5);
      break;
     case fd_fire_vent:
     case fd_flame_burst:
-     apply_source(m, x, y, sx - x, sy - y, 10);
+     apply_light_source(m, sx, sy, x, y, 10);
     case fd_electricity:
-     if (3 == m->field_at(sx, sy).density)
-      apply_source(m, x, y, sx - x, sy - y, 5);
-	 else if (2 == m->field_at(sx, sy).density)
-      apply_source(m, x, y, sx - x, sy - y, 1);
-	 else
-	  // kinda a hack as the square will still get marked
-      apply_source(m, x, y, sx - x, sy - y, 0);
+     if (3 == m.field_at(sx, sy).density)
+      apply_light_source(m, sx, sy, x, y, 10);
+     else if (2 == m.field_at(sx, sy).density)
+      apply_light_source(m, sx, sy, x, y, 1);
+     else
+      apply_light_source(m, sx, sy, x, y, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
      break;
    }
+
+   // TODO: Apply any vehicle light sources
   }
  } 
 }
 
 lit_level light_map::at(int dx, int dy)
 {
- if (!INBOUNDS(dx, dy)) {
-  return LL_DARK; // out of bounds
+ if (!INBOUNDS(dx, dy))
+  return LL_DARK; // Out of bounds
+
+ if (sm[dx + SEEX][dy + SEEY] >= LIGHT_SOURCE_BRIGHT)
+  return LL_BRIGHT;
+
+ if (lm[dx + SEEX][dy + SEEY] >= LIGHT_AMBIENT_LIT)
+  return LL_LIT;
+
+ if (lm[dx + SEEX][dy + SEEY] >= LIGHT_AMBIENT_LOW)
+  return LL_LOW;
+
+ return LL_DARK;
+}
+
+float light_map::ambience_at(int dx, int dy)
+{
+ if (!INBOUNDS(dx, dy))
+  return 0.0f;
+
+ return lm[dx + SEEX][dy + SEEY];
+}
+
+void light_map::apply_light_source(map& m, int x, int y, int cx, int cy, float luminance)
+{
+ bool lit[LIGHTMAP_X][LIGHTMAP_Y];
+ fill(lit, false);
+
+ if (INBOUNDS(x - cx, y - cy)) {
+  lit[x - cx + SEEX][y - cy + SEEY] = true;
+  lm[x - cx + SEEX][y - cy + SEEY] += luminance;
+  sm[x - cx + SEEX][y - cy + SEEY] += luminance;
  }
 
- int off = XY2LM(dx, dy);
- int foo = lm[XY2LM(dx, dy)];
+ if (luminance > LIGHT_SOURCE_LOCAL) {
+  int range = LIGHT_RANGE(luminance);
+  int sx = x - cx - range; int ex = x - cx + range;
+  int sy = y - cy - range; int ey = y - cy + range;
 
- return lm[XY2LM(dx, dy)];
-}
+  for(int off = sx; off <= ex; ++off) {
+   apply_light_ray(m, lit, x, y, cx + off, cy + sy, cx, cy, luminance);
+   apply_light_ray(m, lit, x, y, cx + off, cy + ey, cx, cy, luminance);
+  }
 
-void light_map::apply_source(map* m, int cx, int cy, int dx, int dy, int brightness)
-{
- int range = LIGHT_RANGE(brightness);
- int bright_range = LIGHT_RANGE(brightness / 2.0f);
- apply_light_mask(m, cx, cy, dx, dy, bright_range, range);
-
- if (INBOUNDS(dx, dy)) 
-  lm[XY2LM(dx, dy)] = (brightness >= LIGHT_SOURCE_BRIGHT) ? LL_BRIGHT : LL_LIT;
-}
-
-void light_map::apply_light_mask(map* m, int cx, int cy, int dx, int dy, int lit_range, int low_range)
-{
- int range = std::max(lit_range, low_range);
- int sx = std::max(-SEEX, dx - range); int ex = std::min(SEEX, dx + range);
- int sy = std::max(-SEEY, dy - range); int ey = std::min(SEEY, dy + range);
- 
- int sbx = std::max(-SEEX, dx - lit_range); int ebx = std::min(SEEX, dx + lit_range);
- int sby = std::max(-SEEY, dy - lit_range); int eby = std::min(SEEY, dy + lit_range);
-
- // [f]ire coords = center + delta
- int fx = cx + dx;
- int fy = cy + dy;
-
- int t;
- for(int x = sx; x <= ex; ++x) {
-  for(int y = sy; y <= ey; ++y) {
-   if (!m->sees(fx, fy, cx + x, cy + y, max_light_range(), t))
-    continue;
-   int off = XY2LM(x, y);
-   if (LL_BRIGHT == lm[off])
-    continue; // skip sources
-
-   if (x >= sbx && x <= ebx && y >= sby && y <= eby)
-    lm[off] = LL_LIT; // areas in the bright range get lit
-   else if (LL_DARK == lm[off])
-    lm[off] = LL_LOW; // dark areas are now marked low
+  // Skip corners with + 1 and < as they were done
+  for(int off = sy + 1; off < ey; ++off) {
+   apply_light_ray(m, lit, x, y, cx + sx, cy + off, cx, cy, luminance);
+   apply_light_ray(m, lit, x, y, cx + ex, cy + off, cx, cy, luminance);
   }
  }
 }
 
+void light_map::apply_light_arc(map& m, int x, int y, int dx, int dy, int cx, int cy, float luminance)
+{
+ if (luminance <= LIGHT_SOURCE_LOCAL)
+  return;
+
+ bool lit[LIGHTMAP_X][LIGHTMAP_Y];
+ fill(lit, false);
+
+ int range = LIGHT_RANGE(luminance);
+
+ if (0 == dy) {
+  int sx = x - cx; int ex = x - cx + (range * dx);
+  int sy = y - cy - range; int ey = y - cy + range;
+
+  for(int off = sx; off != ex + dx; off += dx) {
+   apply_light_ray(m, lit, x, y, cx + off, cy + sy, cx, cy, luminance);
+   apply_light_ray(m, lit, x, y, cx + off, cy + ey, cx, cy, luminance);
+  }
+  for(int off = sy; off <= ey; ++off)
+   apply_light_ray(m, lit, x, y, cx + ex, cy + off, cx, cy, luminance);
+ } else if (0 == dx) {
+  int sx = x - cx - range; int ex = x - cx + range;
+  int sy = y - cy; int ey = y - cy + (range * dy);
+
+  for(int off = sy; off != ey + dy; off += dy) {
+   apply_light_ray(m, lit, x, y, cx + sx, cy + off, cx, cy, luminance);
+   apply_light_ray(m, lit, x, y, cx + ex, cy + off, cx, cy, luminance);
+  }
+  for(int off = sx; off <= ex; ++off)
+   apply_light_ray(m, lit, x, y, cx + off, cy + ey, cx, cy, luminance);
+ } else {
+  // TODO: diagonal lights, will be needed for vehicles
+ }
+}
+
+void light_map::apply_light_ray(map& m, bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy, 
+                                int ex, int ey, int cx, int cy, float luminance)
+{
+ int ax = abs(ex - sx) << 1;
+ int ay = abs(ey - sy) << 1;
+ int dx = (sx < ex) ? 1 : -1;
+ int dy = (sy < ey) ? 1 : -1;
+ int x = sx;
+ int y = sy;
+
+ float transparency = LIGHT_TRANSPARENCY_CLEAR;
+
+ // TODO: Pull out the common code here into something funky rather than duplication
+ if (ax > ay) {
+  int t = ay - (ax >> 1);
+  do {
+   if(t >= 0) {
+    y += dy;
+    t -= ax;
+   }
+
+   x += dx;
+   t += ay;
+
+   if (!INBOUNDS(x - cx, y - cy))
+   	continue;
+
+   if (!lit[x - cx + SEEX][y - cy + SEEY]) {
+    // Multiple rays will pass through the same squares so we need to record that
+    lit[x - cx + SEEX][y - cy + SEEY] = true;
+
+    // We know x is the longest angle here and squares can ignore the abs calculation
+    float light = luminance / ((sx - x) * (sx - x));
+    lm[x - cx + SEEX][y - cy + SEEY] += light * transparency;
+   }
+
+   transparency = check_opacity(m, x, y, transparency); 
+   if (transparency <= LIGHT_TRANSPARENCY_SOLID)
+    break;
+
+  } while(!(x == ex && y == ey));
+ } else {
+  int t = ax - (ay >> 1);
+  do {
+   if(t >= 0) {
+    x += dx;
+    t -= ay;
+   }
+ 
+   y += dy;
+   t += ax;
+
+   if (!INBOUNDS(x - cx, y - cy))
+   	continue;
+
+   if (!lit[x - cx + SEEX][y - cy + SEEY]) {
+    // Multiple rays will pass through the same squares so we need to record that
+    lit[x - cx + SEEX][y - cy + SEEY] = true;
+
+    // We know y is the longest angle here and squares can ignore the abs calculation
+    float light = luminance / ((sy - y) * (sy - y));
+    lm[x - cx + SEEX][y - cy + SEEY] += light;
+   }
+
+   transparency = check_opacity(m, x, y, transparency); 
+   if (transparency <= LIGHT_TRANSPARENCY_SOLID)
+    break;
+
+  } while(!(x == ex && y == ey));
+ }
+}
+
+float light_map::check_opacity(map& m, int x, int y, float transparency)
+{
+ int vpart = -1;
+ vehicle *veh = m.veh_at(x, y, vpart);
+ if (veh) {
+  if (veh->part_flag(vpart, vpf_opaque) && veh->parts[vpart].hp > 0) {
+   int dpart = veh->part_with_feature(vpart, vpf_openable);
+   if (dpart < 0 || !veh->parts[dpart].open)
+   	transparency = LIGHT_TRANSPARENCY_SOLID;
+  }
+ } else if (!(terlist[m.ter(x, y)].flags & mfb(transparent)))
+  transparency = LIGHT_TRANSPARENCY_SOLID;
+
+ if(m.field_at(x, y).type > 0) {
+  if(!fieldlist[m.field_at(x, y).type].transparent[m.field_at(x, y).density - 1]) {
+   // Fields are either transparent or not, however we want some to be translucent
+   switch(m.field_at(x, y).type) {
+    case fd_smoke:
+	case fd_toxic_gas:
+	case fd_tear_gas:
+     if(m.field_at(x, y).density == 3)
+      transparency = LIGHT_TRANSPARENCY_SOLID;
+     if(m.field_at(x, y).density == 2)
+      transparency *= 0.5;
+     break;
+	case fd_nuke_gas:
+     transparency *= 0.5;
+     break;
+    default:
+     transparency = LIGHT_TRANSPARENCY_SOLID;
+   }
+  }
+ }
+
+ // TODO: Have glass reduce light as well
+
+ return transparency;
+}
