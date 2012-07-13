@@ -7,7 +7,7 @@
 // Raging fire value, also the most we want to check for
 #define LIGHT_MAX_SOURCE    50
 
-#define LIGHT_SOURCE_LOCAL  1
+#define LIGHT_SOURCE_LOCAL  0.1
 #define LIGHT_SOURCE_BRIGHT 10
 
 #define LIGHT_AMBIENT_LOW   1

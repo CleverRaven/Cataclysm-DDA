@@ -52,18 +52,18 @@ void light_map::generate(map& m, int x, int y, float natural_light)
      if (3 == m.field_at(sx, sy).density)
       apply_light_source(m, sx, sy, x, y, 50);
      else if (2 == m.field_at(sx, sy).density)
-      apply_light_source(m, sx, sy, x, y, 20);
+      apply_light_source(m, sx, sy, x, y, 25);
      else
       apply_light_source(m, sx, sy, x, y, 5);
      break;
     case fd_fire_vent:
     case fd_flame_burst:
-     apply_light_source(m, sx, sy, x, y, 20);
+     apply_light_source(m, sx, sy, x, y, 10);
     case fd_electricity:
      if (3 == m.field_at(sx, sy).density)
       apply_light_source(m, sx, sy, x, y, 10);
      else if (2 == m.field_at(sx, sy).density)
-      apply_light_source(m, sx, sy, x, y, 2);
+      apply_light_source(m, sx, sy, x, y, 1);
      else
       apply_light_source(m, sx, sy, x, y, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
      break;
