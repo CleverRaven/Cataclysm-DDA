@@ -1805,6 +1805,8 @@ void map::draw(game *g, WINDOW* w)
                         !g->u.is_wearing(itm_glasses_monocle)) ||
                         g->u.has_disease(DI_BOOMERED);
 
+ // TODO: treat sight range and sight range due to light seperatly
+
  // We don't care about distances further than this anyway
  int range = std::max(SEEX, SEEY);
  if (g->u.has_disease(DI_IN_PIT) || g->u.has_disease(DI_BLIND))
@@ -1816,10 +1818,8 @@ void map::draw(game *g, WINDOW* w)
    int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
 
    int can_see = sees(g->u.posx, g->u.posy, realx, realy, range, t);
-   int /* lit_level */ lit = g->lm.at(realx - g->u.posx, realy - g->u.posy);
+   lit_level lit = g->lm.at(realx - g->u.posx, realy - g->u.posy);
 
- mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_magenta, '0' + lit);
- continue;
    if (dist > sight_range && (!can_see || lit == LL_DARK ||
         (sight_impaired && lit != LL_BRIGHT))) {
     if (g->u.has_disease(DI_BOOMERED))

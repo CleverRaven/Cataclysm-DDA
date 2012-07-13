@@ -4,7 +4,7 @@
 #include "mapdata.h"
 #include "map.h"
 
-// raging fire value, also the most we want to check for
+// Raging fire value, also the most we want to check for
 #define LIGHT_MAX_SOURCE    250
 
 #define LIGHT_SOURCE_LOCAL  1
@@ -18,9 +18,9 @@
 
 enum lit_level {
  LL_DARK = 0,
- LL_LOW,    // hard to see
+ LL_LOW,    // Hard to see
  LL_LIT,
- LL_BRIGHT  // probably only for light sources
+ LL_BRIGHT  // Probably only for light sources
 };
 
 class light_map
@@ -29,7 +29,9 @@ class light_map
   light_map();
 
   void generate(map& m, int x, int y, float natural_light);
-  lit_level at(int dx, int dy); // assumes 0,0 is light map center
+  
+  // TODO: For the tileset version this should provide the raw data so we get gradient light
+  lit_level at(int dx, int dy); // Assumes 0,0 is light map center
 
  private:
   float lm[LIGHTMAP_X][LIGHTMAP_Y];

@@ -4,7 +4,6 @@
 #include "map.h"
 #include "lightmap.h"
 
-// TODO: move these to const functions
 #define LIGHT_RANGE(b) static_cast<int>(sqrt(b / LIGHT_AMBIENT_LOW) + 1)
 #define INBOUNDS(x, y) (x >= -SEEX && x <= SEEX && y >= -SEEY && y <= SEEY)
 
@@ -31,14 +30,23 @@ void light_map::generate(map& m, int x, int y, float natural_light)
  fill(lm, 0.0f);
  fill(sm, 0.0f);
 
+ // TODO: Apply player light sources (torch, biolight etc)
+ //       maybe this should be past in light natural_light for easy reuse
+
  for(int sx = x - SEEX - LIGHT_RANGE(LIGHT_MAX_SOURCE); sx <= x + SEEX + LIGHT_RANGE(LIGHT_MAX_SOURCE); ++sx) {
   for(int sy = y - SEEY - LIGHT_RANGE(LIGHT_MAX_SOURCE); sy <= y + SEEY + LIGHT_RANGE(LIGHT_MAX_SOURCE); ++sy) {
-   if (INBOUNDS(sx, sy) && m.is_outside(sx, sy)) {
-    // apply sunlight, first light source so just assign
-    lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
+   if (natural_light > LIGHT_AMBIENT_LOW && m.is_outside(sx, sy)) {
+    // Apply sunlight, first light source so just assign
+    if (INBOUNDS(sx, sy)) 
+     lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
+    
+    // TODO: Apply light sources for external/internal divide
+    // foreach axial directions 
+    //  if inside
+    //   apply directional light towards axial direction based on natural light
    }
 
-   // TODO: attach light brightness to fields
+   // TODO: Attach light brightness to fields
    switch(m.field_at(sx, sy).type) {
     case fd_fire:
      if (3 == m.field_at(sx, sy).density)
@@ -60,6 +68,8 @@ void light_map::generate(map& m, int x, int y, float natural_light)
       apply_light_source(m, sx, sy, x, y, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
      break;
    }
+
+   // TODO: Apply any vehicle light sources
   }
  } 
 }
@@ -67,7 +77,7 @@ void light_map::generate(map& m, int x, int y, float natural_light)
 lit_level light_map::at(int dx, int dy)
 {
  if (!INBOUNDS(dx, dy))
-  return LL_DARK; // out of bounds
+  return LL_DARK; // Out of bounds
 
  if (sm[dx][dy] >= LIGHT_SOURCE_BRIGHT)
   return LL_BRIGHT;
@@ -102,7 +112,7 @@ void light_map::apply_light_source(map& m, int x, int y, int cx, int cy, float l
    apply_light_ray(m, lit, x, y, cx + off, cy + ey, cx, cy, luminance);
   }
 
-  // skip corners with + 1 and < as they were done
+  // Skip corners with + 1 and < as they were done
   for(int off = sy + 1; off < ey; ++off) {
    apply_light_ray(m, lit, x, y, cx + sx, cy + off, cx, cy, luminance);
    apply_light_ray(m, lit, x, y, cx + ex, cy + off, cx, cy, luminance);
@@ -120,7 +130,7 @@ void light_map::apply_light_ray(map& m, bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx
  int x = sx;
  int y = sy;
 
- // TODO: pull out the common code here into some funky template rather than duplication
+ // TODO: Pull out the common code here into something funky rather than duplication
  if (ax > ay) {
   int t = ay - (ax >> 1);
   do {
@@ -136,7 +146,7 @@ void light_map::apply_light_ray(map& m, bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx
    assert(y - cy >= -SEEY && y - cy <= SEEY);
 
    if (!lit[x - cx + SEEX][y - cy + SEEY]) {
-    // multiple rays will pass through the same squares so we need to record that
+    // Multiple rays will pass through the same squares so we need to record that
     lit[x - cx + SEEX][y - cy + SEEY] = true;
 
    	// We know x is the longest angle here and squares can ignore the abs calculation
@@ -144,7 +154,7 @@ void light_map::apply_light_ray(map& m, bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx
     lm[x - cx + SEEX][y - cy + SEEY] += light;
    }
 
-   // TODO: rather than blocking light have a square check to see if light can be defused
+   // TODO: Rather than blocking light have a square check to see if light can be defused
    if (m.trans(x, y))
    	break;
 
@@ -164,7 +174,7 @@ void light_map::apply_light_ray(map& m, bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx
    assert(y - cy >= -SEEY && y - cy <= SEEY);
 
    if (!lit[x - cx + SEEX][y - cy + SEEY]) {
-    // multiple rays will pass through the same squares so we need to record that
+    // Multiple rays will pass through the same squares so we need to record that
     lit[x - cx + SEEX][y - cy + SEEY] = true;
 
     // We know y is the longest angle here and squares can ignore the abs calculation
@@ -172,7 +182,7 @@ void light_map::apply_light_ray(map& m, bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx
     lm[x - cx + SEEX][y - cy + SEEY] += light;
    }
 
-   // TODO: rather than blocking light have a square check to see if light can be defused
+   // TODO: Rather than blocking light have a square check to see if light can be defused
    if (m.trans(x, y))
    	break;
 
