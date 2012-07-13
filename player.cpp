@@ -1760,11 +1760,11 @@ float player::active_light()
 
  int flashlight = active_item_charges(itm_flashlight_on);
  if (flashlight > 0)
-  lumination = std::min(100, flashlight * 10); // Will do for now
+  lumination = std::min(60, flashlight * 10); // Will do for now
  else if (has_active_bionic(bio_flashlight))
-  lumination = 64;
+  lumination = 40;
  else if (has_artifact_with(AEP_GLOW))
-  lumination = 16;
+  lumination = 10;
 
  return lumination;
 }
