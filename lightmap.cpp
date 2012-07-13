@@ -156,6 +156,9 @@ void light_map::apply_light_ray(map& m, bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx
    y += dy;
    t += ax;
 
+   assert(x - cx >= -SEEX && x - cx <= SEEX);
+   assert(y - cy >= -SEEY && y - cy <= SEEY);
+
    if (!lit[x - cx + SEEX][y - cy + SEEY]) {
     // multiple rays will pass through the same squares so we need to record that
     lit[x - cx + SEEX][y - cy + SEEY] = true;

@@ -10,8 +10,8 @@
 #define LIGHT_AMBIENT_LOW   1
 #define LIGHT_AMBIENT_LIT   5
 
-#define LIGHTMAP_X 2 * SEEX + 1
-#define LIGHTMAP_Y 2 * SEEY + 1
+#define LIGHTMAP_X (2 * SEEX + 1)
+#define LIGHTMAP_Y (2 * SEEY + 1)
 
 enum lit_level {
  LL_DARK = 0,
