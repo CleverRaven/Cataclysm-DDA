@@ -5,17 +5,9 @@
 #include "lightmap.h"
 
 // TODO: move these to const functions
-#define XY2LM(x, y) (((y + SEEY) * (2 * SEEX + 1)) + x + SEEX)
-#define LIGHT_RANGE(b) static_cast<int>(sqrt(b / LIGHT_AMBIENT_LOW) + 1);
+#define LIGHT_RANGE(b) static_cast<int>(sqrt(b / LIGHT_AMBIENT_LOW) + 1)
 #define INBOUNDS(x, y) (x >= -SEEX && x <= SEEX && y >= -SEEY && y <= SEEY)
 
-int max_light_range()
-{
- static int max = LIGHT_RANGE(LIGHT_MAX_SOURCE);
- return max;
-}
-
-// TODO: replace with std::array::fill
 template <typename T, size_t X, size_t Y>
 void fill(T (&array)[X][Y], T const& value)
 {
@@ -28,49 +20,57 @@ void fill(T (&array)[X][Y], T const& value)
 
 light_map::light_map()
  : lm()
+ , sm()
 {
  fill(lm, 0.0f);
+ fill(sm, 0.0f);
 }
 
-void light_map::generate(map& m, int x, int y)
+void light_map::generate(map& m, int x, int y, float natural_light)
 {
  fill(lm, 0.0f);
+ fill(sm, 0.0f);
 
- for(int sx = x - SEEX - max_light_range(); sx <= x + SEEX + max_light_range(); ++sx) {
-  for(int sy = y - SEEY - max_light_range(); sy <= y + SEEY + max_light_range(); ++sy) {
+ for(int sx = x - SEEX - LIGHT_RANGE(LIGHT_MAX_SOURCE); sx <= x + SEEX + LIGHT_RANGE(LIGHT_MAX_SOURCE); ++sx) {
+  for(int sy = y - SEEY - LIGHT_RANGE(LIGHT_MAX_SOURCE); sy <= y + SEEY + LIGHT_RANGE(LIGHT_MAX_SOURCE); ++sy) {
+   if (INBOUNDS(sx, sy) && m.is_outside(sx, sy)) {
+    // apply sunlight, first light source so just assign
+    lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
+   }
+
    // TODO: attach light brightness to fields
    switch(m.field_at(sx, sy).type) {
     case fd_fire:
      if (3 == m.field_at(sx, sy).density)
-      apply_light_source(m, sx, sy, x, y, 50);
+      apply_light_source(m, sx, sy, x, y, 250);
      else if (2 == m.field_at(sx, sy).density)
-      apply_light_source(m, sx, sy, x, y, 25);
+      apply_light_source(m, sx, sy, x, y, 100);
      else
-      apply_light_source(m, sx, sy, x, y, 5);
+      apply_light_source(m, sx, sy, x, y, 20);
      break;
     case fd_fire_vent:
     case fd_flame_burst:
-     apply_light_source(m, sx, sy, x, y, 10);
+     apply_light_source(m, sx, sy, x, y, 50);
     case fd_electricity:
      if (3 == m.field_at(sx, sy).density)
+      apply_light_source(m, sx, sy, x, y, 20);
+     else if (2 == m.field_at(sx, sy).density)
       apply_light_source(m, sx, sy, x, y, 5);
-	 else if (2 == m.field_at(sx, sy).density)
-      apply_light_source(m, sx, sy, x, y, 1);
-	 else
-	  // kinda a hack as the square will still get marked
-      apply_light_source(m, sx, sy, x, y, 0);
+     else
+      apply_light_source(m, sx, sy, x, y, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
      break;
    }
   }
  } 
 }
 
-int light_map::at(int dx, int dy)
+lit_level light_map::at(int dx, int dy)
 {
  if (!INBOUNDS(dx, dy))
   return LL_DARK; // out of bounds
 
- // TODO: add source
+ if (sm[dx][dy] >= LIGHT_SOURCE_BRIGHT)
+  return LL_BRIGHT;
 
  if (lm[dx][dy] >= LIGHT_AMBIENT_LIT)
   return LL_LIT;
@@ -89,20 +89,24 @@ void light_map::apply_light_source(map& m, int x, int y, int cx, int cy, float l
  if (INBOUNDS(x - cx, y - cy)) {
   lit[x - cx + SEEX][y - cy + SEEY] = true;
   lm[x - cx + SEEX][y - cy + SEEY] += luminance;
+  sm[x - cx + SEEX][y - cy + SEEY] += luminance;
  }
 
- int range = LIGHT_RANGE(luminance);
- int sx = std::max(-SEEX, x - cx - range); int ex = std::min(SEEX, x - cx + range);
- int sy = std::max(-SEEY, y - cy - range); int ey = std::min(SEEY, y - cy + range);
+ if (luminance > LIGHT_SOURCE_LOCAL) {
+  int range = LIGHT_RANGE(luminance);
+  int sx = std::max(-SEEX, x - cx - range); int ex = std::min(SEEX, x - cx + range);
+  int sy = std::max(-SEEY, y - cy - range); int ey = std::min(SEEY, y - cy + range);
 
- for(int off = sx; off <= ex; ++off) {
-  apply_light_ray(m, lit, x, y, cx + off, cy + sy, cx, cy, luminance);
-  apply_light_ray(m, lit, x, y, cx + off, cy + ey, cx, cy, luminance);
- }
+  for(int off = sx; off <= ex; ++off) {
+   apply_light_ray(m, lit, x, y, cx + off, cy + sy, cx, cy, luminance);
+   apply_light_ray(m, lit, x, y, cx + off, cy + ey, cx, cy, luminance);
+  }
 
- for(int off = sy; off <= ey; ++off) {
-  apply_light_ray(m, lit, x, y, cx + sx, cy + off, cx, cy, luminance);
-  apply_light_ray(m, lit, x, y, cx + ex, cy + off, cx, cy, luminance);
+  // skip corners with + 1 and < as they were done
+  for(int off = sy + 1; off < ey; ++off) {
+   apply_light_ray(m, lit, x, y, cx + sx, cy + off, cx, cy, luminance);
+   apply_light_ray(m, lit, x, y, cx + ex, cy + off, cx, cy, luminance);
+  }
  }
 }
 
@@ -144,7 +148,7 @@ void light_map::apply_light_ray(map& m, bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx
    if (m.trans(x, y))
    	break;
 
-  } while(x != ex && y != ey);
+  } while(!(x == ex && y == ey));
  } else {
   int t = ax - (ay >> 1);
   do {
@@ -172,7 +176,7 @@ void light_map::apply_light_ray(map& m, bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx
    if (m.trans(x, y))
    	break;
 
-  } while(x != ex && y != ey);
+  } while(!(x == ex && y == ey));
  }
 }
 

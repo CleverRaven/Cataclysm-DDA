@@ -1145,7 +1145,7 @@ void game::get_input()
  vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
  bool veh_ctrl = veh && veh->player_in_control (&u);
 
- lm.generate(m, u.posx, u.posy);
+ lm.generate(m, u.posx, u.posy, natural_light_level());
  switch (act) {
 
   case ACTION_PAUSE:
@@ -2384,7 +2384,7 @@ bool game::isBetween(int test, int down, int up)
 void game::draw_ter()
 {
  int t = 0;
- lm.generate(m, u.posx, u.posy);
+ lm.generate(m, u.posx, u.posy, natural_light_level());
  m.draw(this, w_terrain);
 
  // Draw monsters
@@ -2614,6 +2614,22 @@ void game::hallucinate()
   }
  }
  wrefresh(w_terrain);
+}
+
+float game::natural_light_level()
+{
+ float ret = 0;
+
+ if (levz >= 0) {
+  ret = turn.sunlight();
+
+  // TODO: add real light penalties to sunlight
+  //       for now the this should get some nice effects
+  if (weather_data[weather].sight_penalty > 0)
+   ret /= weather_data[weather].sight_penalty;
+ }
+
+ return ret;
 }
 
 unsigned char game::light_level()
