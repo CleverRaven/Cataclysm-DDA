@@ -2383,7 +2383,7 @@ bool game::isBetween(int test, int down, int up)
 void game::draw_ter()
 {
  int t = 0;
- lm.generate(m, u.posx, u.posy, natural_light_level());
+ lm.generate(m, u.posx, u.posy, natural_light_level(), u.active_light());
  m.draw(this, w_terrain);
 
  // Draw monsters

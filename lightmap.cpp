@@ -24,16 +24,13 @@ light_map::light_map()
  fill(sm, 0.0f);
 }
 
-void light_map::generate(map& m, int x, int y, float natural_light)
+void light_map::generate(map& m, int x, int y, float natural_light, float luminance)
 {
  fill(lm, 0.0f);
  fill(sm, 0.0f);
 
  int dir_x[] = {  0, 1, 0 , -1 };
  int dir_y[] = { -1, 0, 1 ,  0 };
-
- // TODO: Apply player light sources (torch, biolight etc)
- //       maybe this should be past in light natural_light for easy reuse
 
  for(int sx = x - SEEX - LIGHT_RANGE(LIGHT_MAX_SOURCE); sx <= x + SEEX + LIGHT_RANGE(LIGHT_MAX_SOURCE); ++sx) {
   for(int sy = y - SEEY - LIGHT_RANGE(LIGHT_MAX_SOURCE); sy <= y + SEEY + LIGHT_RANGE(LIGHT_MAX_SOURCE); ++sy) {
@@ -56,6 +53,10 @@ void light_map::generate(map& m, int x, int y, float natural_light)
 	 }
     }
    }
+
+   // Apply player light sources
+   if (luminance > LIGHT_AMBIENT_LOW)
+    apply_light_source(m, x, y, x, y, luminance);
 
    // TODO: Attach light brightness to fields
    switch(m.field_at(sx, sy).type) {

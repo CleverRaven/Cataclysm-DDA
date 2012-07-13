@@ -78,6 +78,7 @@ public:
  void charge_power(int amount);
  void power_bionics(game *g);
  void activate_bionic(int b, game *g);
+ float active_light();
 
  void mutate(game *g);
  void mutate_towards(game *g, pl_flag mut);

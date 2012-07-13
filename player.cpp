@@ -1754,6 +1754,21 @@ You can not activate %s!  To read a description of \
  erase();
 }
 
+float player::active_light()
+{
+ float lumination = 0;
+
+ int flashlight = active_item_charges(itm_flashlight_on);
+ if (flashlight > 0)
+  lumination = std::min(100, flashlight * 10); // Will do for now
+ else if (has_active_bionic(bio_flashlight))
+  lumination = 64;
+ else if (has_artifact_with(AEP_GLOW))
+  lumination = 16;
+
+ return lumination;
+}
+
 int player::sight_range(int light_level)
 {
  int ret = light_level;
