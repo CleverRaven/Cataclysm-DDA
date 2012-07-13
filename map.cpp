@@ -1821,19 +1821,19 @@ void map::draw(game *g, WINDOW* w)
    lit_level lit = g->lm.at(realx - g->u.posx, realy - g->u.posy);
 
    if (dist > sight_range && (!can_see || lit == LL_DARK ||
-        (sight_impaired && lit != LL_BRIGHT))) {
+       (sight_impaired && lit != LL_BRIGHT))) {
     if (g->u.has_disease(DI_BOOMERED))
      mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_magenta, '#');
-	else
+    else
      mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_dkgray, '#');
    } else if (dist > sight_range && sight_impaired && lit == LL_BRIGHT) {
-	if (g->u.has_disease(DI_BOOMERED))
-	 mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_pink, '#');
-	else
+    if (g->u.has_disease(DI_BOOMERED))
+      mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_pink, '#');
+    else
      mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_ltgray, '#');
    }
    else if (dist <= g->u.clairvoyance() || can_see)
-   	drawsq(w, g->u, realx, realy, false, true, LL_LOW == lit && dist > sight_range);
+    drawsq(w, g->u, realx, realy, false, true, LL_LOW == lit && dist > sight_range);
   }
  }
  mvwputch(w, SEEY, SEEX, g->u.color(), '@');

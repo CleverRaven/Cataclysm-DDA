@@ -5,13 +5,13 @@
 #include "map.h"
 
 // Raging fire value, also the most we want to check for
-#define LIGHT_MAX_SOURCE    250
+#define LIGHT_MAX_SOURCE    50
 
 #define LIGHT_SOURCE_LOCAL  1
-#define LIGHT_SOURCE_BRIGHT 50
+#define LIGHT_SOURCE_BRIGHT 10
 
-#define LIGHT_AMBIENT_LOW   5
-#define LIGHT_AMBIENT_LIT   25
+#define LIGHT_AMBIENT_LOW   1
+#define LIGHT_AMBIENT_LIT   5
 
 #define LIGHTMAP_X (2 * SEEX + 1)
 #define LIGHTMAP_Y (2 * SEEY + 1)

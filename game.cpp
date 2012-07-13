@@ -2625,8 +2625,9 @@ float game::natural_light_level()
 
   // TODO: add real light penalties to sunlight
   //       for now the this should get some nice effects
+  //       of course it might just make them broken
   if (weather_data[weather].sight_penalty > 0)
-   ret /= weather_data[weather].sight_penalty;
+   ret /= (weather_data[weather].sight_penalty * weather_data[weather].sight_penalty);
  }
 
  return ret;

@@ -50,20 +50,20 @@ void light_map::generate(map& m, int x, int y, float natural_light)
    switch(m.field_at(sx, sy).type) {
     case fd_fire:
      if (3 == m.field_at(sx, sy).density)
-      apply_light_source(m, sx, sy, x, y, 250);
+      apply_light_source(m, sx, sy, x, y, 50);
      else if (2 == m.field_at(sx, sy).density)
-      apply_light_source(m, sx, sy, x, y, 100);
-     else
       apply_light_source(m, sx, sy, x, y, 20);
+     else
+      apply_light_source(m, sx, sy, x, y, 5);
      break;
     case fd_fire_vent:
     case fd_flame_burst:
-     apply_light_source(m, sx, sy, x, y, 50);
+     apply_light_source(m, sx, sy, x, y, 20);
     case fd_electricity:
      if (3 == m.field_at(sx, sy).density)
-      apply_light_source(m, sx, sy, x, y, 20);
+      apply_light_source(m, sx, sy, x, y, 10);
      else if (2 == m.field_at(sx, sy).density)
-      apply_light_source(m, sx, sy, x, y, 5);
+      apply_light_source(m, sx, sy, x, y, 2);
      else
       apply_light_source(m, sx, sy, x, y, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
      break;
@@ -79,13 +79,13 @@ lit_level light_map::at(int dx, int dy)
  if (!INBOUNDS(dx, dy))
   return LL_DARK; // Out of bounds
 
- if (sm[dx][dy] >= LIGHT_SOURCE_BRIGHT)
+ if (sm[dx + SEEX][dy + SEEY] >= LIGHT_SOURCE_BRIGHT)
   return LL_BRIGHT;
 
- if (lm[dx][dy] >= LIGHT_AMBIENT_LIT)
+ if (lm[dx + SEEX][dy + SEEY] >= LIGHT_AMBIENT_LIT)
   return LL_LIT;
 
- if (lm[dx][dy] >= LIGHT_AMBIENT_LOW)
+ if (lm[dx + SEEX][dy + SEEY] >= LIGHT_AMBIENT_LOW)
   return LL_LOW;
 
  return LL_DARK;
@@ -149,14 +149,14 @@ void light_map::apply_light_ray(map& m, bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx
     // Multiple rays will pass through the same squares so we need to record that
     lit[x - cx + SEEX][y - cy + SEEY] = true;
 
-   	// We know x is the longest angle here and squares can ignore the abs calculation
+    // We know x is the longest angle here and squares can ignore the abs calculation
     float light = luminance / ((sx - x) * (sx - x));
     lm[x - cx + SEEX][y - cy + SEEY] += light;
    }
 
    // TODO: Rather than blocking light have a square check to see if light can be defused
-   if (m.trans(x, y))
-   	break;
+   if (!m.trans(x, y))
+    break;
 
   } while(!(x == ex && y == ey));
  } else {
@@ -183,8 +183,8 @@ void light_map::apply_light_ray(map& m, bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx
    }
 
    // TODO: Rather than blocking light have a square check to see if light can be defused
-   if (m.trans(x, y))
-   	break;
+   if (!m.trans(x, y))
+    break;
 
   } while(!(x == ex && y == ey));
  }
