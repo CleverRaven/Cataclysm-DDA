@@ -1782,6 +1782,16 @@ int player::sight_range(int light_level)
  return ret;
 }
 
+int player::unimpaired_range()
+{
+ int ret = 12;
+ if (has_disease(DI_IN_PIT))
+  ret = 1;
+ if (has_disease(DI_BLIND))
+  ret = 0;
+ return ret;
+}
+
 int player::overmap_sight_range(int light_level)
 {
  int sight = sight_range(light_level);
@@ -1800,6 +1810,15 @@ int player::clairvoyance()
  if (has_artifact_with(AEP_CLAIRVOYANCE))
   return 3;
  return 0;
+}
+
+bool player::sight_impaired()
+{
+ return has_disease(DI_BOOMERED) ||
+  (underwater && !has_bionic(bio_membrane) && !has_trait(PF_MEMBRANE) 
+              && !is_wearing(itm_goggles_swim)) ||
+  (has_trait(PF_MYOPIC) && !is_wearing(itm_glasses_eye) 
+                        && !is_wearing(itm_glasses_monocle));
 }
 
 bool player::has_two_arms()
