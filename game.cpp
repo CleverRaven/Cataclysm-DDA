@@ -4460,7 +4460,7 @@ point game::look_around()
    } else if (veh) {
      mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
      veh->print_part_desc(w_look, 4, 48, veh_part);
-     m.drawsq(w_terrain, u, lx, ly, true, true, false
+     m.drawsq(w_terrain, u, lx, ly, true, true, false);
    } else if (m.i_at(lx, ly).size() > 0) {
     mvwprintw(w_look, 3, 1, "There is a %s there.",
               m.i_at(lx, ly)[0].tname(this).c_str());
