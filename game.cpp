@@ -1145,7 +1145,7 @@ void game::get_input()
  vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
  bool veh_ctrl = veh && veh->player_in_control (&u);
 
- lm.generate(&m, u.posx, u.posy);
+ lm.generate(m, u.posx, u.posy);
  switch (act) {
 
   case ACTION_PAUSE:
@@ -2384,7 +2384,7 @@ bool game::isBetween(int test, int down, int up)
 void game::draw_ter()
 {
  int t = 0;
- lm.generate(&m, u.posx, u.posy);
+ lm.generate(m, u.posx, u.posy);
  m.draw(this, w_terrain);
 
  // Draw monsters

@@ -10,6 +10,9 @@
 #define LIGHT_AMBIENT_LOW   1
 #define LIGHT_AMBIENT_LIT   5
 
+#define LIGHTMAP_X 2 * SEEX + 1
+#define LIGHTMAP_Y 2 * SEEY + 1
+
 enum lit_level {
  LL_DARK = 0,
  LL_LOW,    // hard to see
@@ -22,16 +25,16 @@ class light_map
  public:
   light_map();
 
-  void generate(map* m, int x, int y);
-  lit_level at(int dx, int dy); // assumes 0,0 is light map center
+  void generate(map& m, int x, int y);
+  int /*lit_level*/ at(int dx, int dy); // assumes 0,0 is light map center
 
  private:
-  // TODO: sneak c++0x requirement into catalysm
-  //std::array<lit_level, (2 * SEEX + 1) * (2 * SEEY + 1)> light_map;
-  lit_level lm[(2 * SEEX + 1) * (2 * SEEY + 1)];
+  float lm[LIGHTMAP_X][LIGHTMAP_Y];
 
-  void apply_source(map* m, int cx, int cy, int dx, int dy, int brightness);
-  void apply_light_mask(map* m, int cx, int cy, int dx, int dy, int lit_range, int low_range);
+  void apply_light_source(map& m, int x, int y, int cx, int cy, float luminance);
+
+  void apply_light_ray(map& m, bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy,
+                       int ex, int ey, int cx, int cy, float luminance);
 };
 
 #endif

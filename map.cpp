@@ -1816,8 +1816,10 @@ void map::draw(game *g, WINDOW* w)
    int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
 
    int can_see = sees(g->u.posx, g->u.posy, realx, realy, range, t);
-   lit_level lit = g->lm.at(realx - g->u.posx, realy - g->u.posy);
+   int /* lit_level */ lit = g->lm.at(realx - g->u.posx, realy - g->u.posy);
 
+ mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_magenta, '0' + lit);
+ continue;
    if (dist > sight_range && (!can_see || lit == LL_DARK ||
         (sight_impaired && lit != LL_BRIGHT))) {
     if (g->u.has_disease(DI_BOOMERED))
