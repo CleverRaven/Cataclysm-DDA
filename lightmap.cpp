@@ -46,7 +46,7 @@ void light_map::generate(map& m, int x, int y, float natural_light)
      // Apply light sources for external/internal divide
      for(int i = 0; i < 4; ++i) {
       if (m.is_outside(sx + dir_x[i], sy + dir_y[i])) {
-       if (INBOUNDS(sx - x, sy - y))
+       if (INBOUNDS(sx - x, sy - y) && m.is_outside(x, y))
         lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
        
        // This is 2 because it turns out everything is too dark otherwise
