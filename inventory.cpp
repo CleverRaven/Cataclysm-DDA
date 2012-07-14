@@ -129,7 +129,7 @@ void inventory::clear()
 void inventory::add_stack(const std::vector<item> newits)
 {
  for (int i = 0; i < newits.size(); i++)
-  add_item(newits[i]);
+  add_item(newits[i], true);
 }
 
 void inventory::push_back(std::vector<item> newits)
@@ -154,7 +154,7 @@ void inventory::add_item(item newit, bool keep_invlet)
     newit.invlet = items[i][0].invlet;
    items[i].push_back(newit);
    return;
-  } else if (items[i][0].invlet = newit.invlet && keep_invlet)
+  } else if (keep_invlet && items[i][0].invlet == newit.invlet)
    assign_empty_invlet(items[i][0]);
  }
  if (!newit.invlet_is_okay() || index_by_letter(newit.invlet) != -1) 
