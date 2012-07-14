@@ -4549,10 +4549,14 @@ void game::pickup(int posx, int posy, int min)
    if (u.is_armed()) {
     if (!u.weapon.has_flag(IF_NO_UNWIELD)) {
      if (newit.is_armor() && // Armor can be instantly worn
-         query_yn("Put on the %s?", newit.tname(this).c_str()))
+         query_yn("Put on the %s?", newit.tname(this).c_str())) {
       u.wear_item(this, &newit);
-     else if (query_yn("Drop your %s and pick up %s?",
-               u.weapon.tname(this).c_str(), newit.tname(this).c_str())) {
+      if (from_veh)
+       veh->remove_item (veh_part, 0);
+      else
+       m.i_clear(posx, posy);
+     } else if (query_yn("Drop your %s and pick up %s?",
+                u.weapon.tname(this).c_str(), newit.tname(this).c_str())) {
       if (from_veh)
        veh->remove_item (veh_part, 0);
       else
@@ -4746,14 +4750,18 @@ void game::pickup(int posx, int posy, int min)
     if (u.is_armed()) {
      if (!u.weapon.has_flag(IF_NO_UNWIELD)) {
       if (here[i].is_armor() && // Armor can be instantly worn
-          query_yn("Put on the %s?", here[i].tname(this).c_str()))
+          query_yn("Put on the %s?", here[i].tname(this).c_str())) {
        u.wear_item(this, &(here[i]));
-      else if (query_yn("Drop your %s and pick up %s?",
+       if (from_veh)
+        veh->remove_item (veh_part, curmit);
+       else
+        m.i_rem(posx, posy, curmit);
+      } else if (query_yn("Drop your %s and pick up %s?",
                 u.weapon.tname(this).c_str(), here[i].tname(this).c_str())) {
        if (from_veh)
-        veh->remove_item (veh_part, 0);
+        veh->remove_item (veh_part, curmit);
        else
-        m.i_clear(posx, posy);
+        m.i_rem(posx, posy, curmit);
        m.add_item(posx, posy, u.remove_weapon());
        u.i_add(here[i]);
        u.wield(this, u.inv.size() - 1);
