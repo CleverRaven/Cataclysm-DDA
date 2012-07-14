@@ -1810,6 +1810,12 @@ void map::draw(game *g, WINDOW* w)
    int can_see = sees(g->u.posx, g->u.posy, realx, realy, max_sight_range, t);
    lit_level lit = g->lm.at(realx - g->u.posx, realy - g->u.posy);
 
+/*
+float level = g->lm.ambient_at(realx - g->u.posx, realy - g->u.posy);
+mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_magenta, '0' + level);
+continue;
+*/
+
    if (dist > max_sight_range || !can_see ||
        (dist > min_sight_range && lit == LL_DARK) ||
        (dist > sight_range && g->u.sight_impaired() && lit != LL_BRIGHT)) {
