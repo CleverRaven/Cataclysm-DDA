@@ -32,14 +32,25 @@ void light_map::generate(map& m, int x, int y, float natural_light, float lumina
  int dir_x[] = {  0, 1, 0 , -1 };
  int dir_y[] = { -1, 0, 1 ,  0 };
 
+ if (natural_light > LIGHT_AMBIENT_LOW) {
+  // Apply sunlight, first light source so just assign
+  for(int sx = x - SEEX; sx <= x + SEEX; ++sx) {
+   for(int sy = y - SEEY; sy <= y + SEEY; ++sy) {
+    // Outside always has natural_light
+    // In bright light indoor light exists to some degree
+    if (m.is_outside(sx, sy))
+     lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
+    else if (natural_light > LIGHT_SOURCE_BRIGHT)
+     lm[sx - x + SEEX][sy - y + SEEY] = LIGHT_AMBIENT_LOW;
+   }
+  }
+ }
+
  for(int sx = x - SEEX - LIGHT_RANGE(LIGHT_MAX_SOURCE); sx <= x + SEEX + LIGHT_RANGE(LIGHT_MAX_SOURCE); ++sx) {
   for(int sy = y - SEEY - LIGHT_RANGE(LIGHT_MAX_SOURCE); sy <= y + SEEY + LIGHT_RANGE(LIGHT_MAX_SOURCE); ++sy) {
+   // When underground natural_light is 0, if this changes we need to revisit
    if (natural_light > LIGHT_AMBIENT_LOW) {
-    // Apply sunlight, first light source so just assign
-   	if (m.is_outside(sx, sy)) {
-     if (INBOUNDS(sx - x, sy - y)) 
-      lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
-    } else {
+   	if (!m.is_outside(sx, sy)) {
      // Apply light sources for external/internal divide
      for(int i = 0; i < 4; ++i) {
       if (m.is_outside(sx + dir_x[i], sy + dir_y[i])) {
@@ -50,7 +61,7 @@ void light_map::generate(map& m, int x, int y, float natural_light, float lumina
        if (check_opacity(m, sx, sy) > LIGHT_TRANSPARENCY_SOLID)
        	apply_light_arc(m, sx, sy, -dir_x[i], -dir_y[i], x, y, 2 * natural_light);
       }
-	 }
+	    }
     }
    }
 
@@ -71,6 +82,7 @@ void light_map::generate(map& m, int x, int y, float natural_light, float lumina
     case fd_fire_vent:
     case fd_flame_burst:
      apply_light_source(m, sx, sy, x, y, 10);
+     break;
     case fd_electricity:
      if (3 == m.field_at(sx, sy).density)
       apply_light_source(m, sx, sy, x, y, 10);
@@ -250,7 +262,12 @@ void light_map::apply_light_ray(map& m, bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx
 float light_map::check_opacity(map& m, int x, int y, float transparency)
 {
  int vpart = -1;
- vehicle *veh = m.veh_at(x, y, vpart);
+ vehicle *veh = NULL;
+
+ // Vehicles aren't found indoors
+ if (m.is_outside(x, y))
+  m.veh_at(x, y, vpart);
+
  if (veh) {
   if (veh->part_flag(vpart, vpf_opaque) && veh->parts[vpart].hp > 0) {
    int dpart = veh->part_with_feature(vpart, vpf_openable);
@@ -265,18 +282,19 @@ float light_map::check_opacity(map& m, int x, int y, float transparency)
    // Fields are either transparent or not, however we want some to be translucent
    switch(m.field_at(x, y).type) {
     case fd_smoke:
-	case fd_toxic_gas:
-	case fd_tear_gas:
+    case fd_toxic_gas:
+	   case fd_tear_gas:
      if(m.field_at(x, y).density == 3)
       transparency = LIGHT_TRANSPARENCY_SOLID;
      if(m.field_at(x, y).density == 2)
       transparency *= 0.5;
      break;
-	case fd_nuke_gas:
+    case fd_nuke_gas:
      transparency *= 0.5;
      break;
     default:
      transparency = LIGHT_TRANSPARENCY_SOLID;
+     break;
    }
   }
  }

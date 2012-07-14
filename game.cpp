@@ -2621,15 +2621,10 @@ float game::natural_light_level()
 
  if (levz >= 0) {
   ret = turn.sunlight();
-
-  // TODO: add real light penalties to sunlight
-  //       for now the this should get some nice effects
-  //       of course it might just make them broken
-  if (weather_data[weather].sight_penalty > 0)
-   ret /= (weather_data[weather].sight_penalty * weather_data[weather].sight_penalty);
+  ret += weather_data[weather].light_modifier;
  }
 
- return ret;
+ return std::max(0.0f, ret);
 }
 
 unsigned char game::light_level()
