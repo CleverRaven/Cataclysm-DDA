@@ -80,7 +80,7 @@ void light_map::generate(map& m, int x, int y, float natural_light, float lumina
    if(m.ter(sx, sy) == t_lava)
     apply_light_source(c, sx, sy, x, y, 50);
 
-   // TODO: Attach light brightness to fields
+   // TODO: [lightmap] Attach light brightness to fields
    switch(m.field_at(sx, sy).type) {
     case fd_fire:
      if (3 == m.field_at(sx, sy).density)
@@ -104,9 +104,9 @@ void light_map::generate(map& m, int x, int y, float natural_light, float lumina
      break;
    }
 
-   // TODO: Apply any vehicle light sources
+   // TODO: [lightmap] Apply any vehicle light sources
 
-   // TODO: Apply creature light sources
+   // TODO: [lightmap] Apply creature light sources
    //       mon_zombie_electric - sometimes
    //       mon_flaming_eye
    //       manhack - maybe (glowing red eye?)
@@ -199,7 +199,7 @@ void light_map::apply_light_arc(light_cache& c, int x, int y, int dx, int dy, in
   for(int off = sx; off <= ex; ++off)
    apply_light_ray(c, lit, x, y, cx + off, cy + ey, cx, cy, luminance);
  } else {
-  // TODO: diagonal lights, will be needed for vehicles
+  // TODO: [lightmap] Diagonal lights, will be needed for vehicles
  }
 }
 
@@ -215,7 +215,7 @@ void light_map::apply_light_ray(light_cache& c, bool lit[LIGHTMAP_X][LIGHTMAP_Y]
 
  float transparency = LIGHT_TRANSPARENCY_CLEAR;
 
- // TODO: Pull out the common code here into something funky rather than duplication
+ // TODO: [lightmap] Pull out the common code here rather than duplication
  if (ax > ay) {
   int t = ay - (ax >> 1);
   do {
@@ -322,7 +322,7 @@ void light_map::build_light_cache(map& m, int cx, int cy, light_cache& c)
      }
     }
 
-    // TODO: Have glass reduce light as well
+    // TODO: [lightmap] Have glass reduce light as well
    }
   }
  }
