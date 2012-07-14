@@ -763,7 +763,7 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
   p->moves -= 150;
   bool is_string = (cut->type->id == itm_string_36);
   int pieces = (is_string ? 6 : 5);
-  g->add_msg("You cut the %s into %s smaller pieces.",
+  g->add_msg("You cut the %s into %d smaller pieces.",
              (is_string ? "string" : "rope"), pieces);
   itype_id piece_id = (is_string ? itm_string_6 : itm_rope_6);
   item string(g->itypes[piece_id], int(g->turn), g->nextinv);
