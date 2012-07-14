@@ -61,19 +61,24 @@ void light_map::generate(map& m, int x, int y, float natural_light, float lumina
     if (!c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].is_outside) {
      // Apply light sources for external/internal divide
      for(int i = 0; i < 4; ++i) {
-      if (INBOUNDS_LARGE(sx - x + dir_x[i], sy - y + dir_y[i])) {
-      if (c[sx - x + LIGHTMAP_RANGE_X + dir_x[i]][sy - y + LIGHTMAP_RANGE_Y + dir_y[i]].is_outside) {
+      if (INBOUNDS_LARGE(sx - x + dir_x[i], sy - y + dir_y[i]) &&
+          c[sx - x + LIGHTMAP_RANGE_X + dir_x[i]][sy - y + LIGHTMAP_RANGE_Y + dir_y[i]].is_outside) {
        if (INBOUNDS(sx - x, sy - y) && c[LIGHTMAP_RANGE_X][LIGHTMAP_RANGE_Y].is_outside)
         lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
        
-       // This is 2 because it turns out everything is too dark otherwise
        if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].transparency > LIGHT_TRANSPARENCY_SOLID)
-       	apply_light_arc(c, sx, sy, -dir_x[i], -dir_y[i], x, y, 2 * natural_light);
-      }
+       	apply_light_arc(c, sx, sy, -dir_x[i], -dir_y[i], x, y, natural_light);
       }
 	    }
     }
    }
+
+   if (m.i_at(sx, sy).size() == 1 &&
+       m.i_at(sx, sy)[0].type->id == itm_flashlight_on)
+    apply_light_source(c, sx, sy, x, y, 20);
+
+   if(m.ter(sx, sy) == t_lava)
+    apply_light_source(c, sx, sy, x, y, 50);
 
    // TODO: Attach light brightness to fields
    switch(m.field_at(sx, sy).type) {
@@ -81,24 +86,30 @@ void light_map::generate(map& m, int x, int y, float natural_light, float lumina
      if (3 == m.field_at(sx, sy).density)
       apply_light_source(c, sx, sy, x, y, 50);
      else if (2 == m.field_at(sx, sy).density)
-      apply_light_source(c, sx, sy, x, y, 25);
+      apply_light_source(c, sx, sy, x, y, 20);
      else
-      apply_light_source(c, sx, sy, x, y, 5);
+      apply_light_source(c, sx, sy, x, y, 3);
      break;
     case fd_fire_vent:
     case fd_flame_burst:
-     apply_light_source(c, sx, sy, x, y, 10);
+     apply_light_source(c, sx, sy, x, y, 8);
      break;
     case fd_electricity:
      if (3 == m.field_at(sx, sy).density)
-      apply_light_source(c, sx, sy, x, y, 10);
+      apply_light_source(c, sx, sy, x, y, 8);
      else if (2 == m.field_at(sx, sy).density)
       apply_light_source(c, sx, sy, x, y, 1);
      else
       apply_light_source(c, sx, sy, x, y, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
      break;
    }
+
    // TODO: Apply any vehicle light sources
+
+   // TODO: Apply creature light sources
+   //       mon_zombie_electric - sometimes
+   //       mon_flaming_eye
+   //       manhack - maybe (glowing red eye?)
   }
  }
 }
