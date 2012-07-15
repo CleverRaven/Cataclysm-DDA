@@ -30,8 +30,8 @@ void light_map::generate(map& m, int x, int y, float natural_light, float lumina
  fill(lm, 0.0f);
  fill(sm, 0.0f);
 
- int dir_x[] = {  0, 1, 0 , -1 };
- int dir_y[] = { -1, 0, 1 ,  0 };
+ int dir_x[] = { 1, 0 , -1,  0 };
+ int dir_y[] = { 0, 1 ,  0, -1 };
 
  light_cache c;
  build_light_cache(m, x, y, c);
@@ -104,7 +104,17 @@ void light_map::generate(map& m, int x, int y, float natural_light, float lumina
      break;
    }
 
-   // TODO: [lightmap] Apply any vehicle light sources
+   // Apply any vehicle light sources
+   if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh &&
+       c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh_light > LL_DARK) {
+    if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh_light > LL_LIT) {
+     // TODO: [lightmap] Improve for more than 4 directions
+     int dir = c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh->face.dir4();
+     float luminance = c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh_light;
+     apply_light_arc(c, sx, sy, dir_x[dir], dir_y[dir], x, y, luminance);
+    }
+    apply_light_source(c, sx, sy, x, y, LIGHT_SOURCE_LOCAL);
+   }
 
    // TODO: [lightmap] Apply creature light sources
    //       mon_zombie_electric - sometimes
@@ -146,7 +156,7 @@ void light_map::apply_light_source(light_cache& c, int x, int y, int cx, int cy,
 
  if (INBOUNDS(x - cx, y - cy)) {
   lit[x - cx + SEEX][y - cy + SEEY] = true;
-  lm[x - cx + SEEX][y - cy + SEEY] += luminance;
+  lm[x - cx + SEEX][y - cy + SEEY] += std::max(luminance, static_cast<float>(LL_LOW));
   sm[x - cx + SEEX][y - cy + SEEY] += luminance;
  }
 
@@ -179,25 +189,19 @@ void light_map::apply_light_arc(light_cache& c, int x, int y, int dx, int dy, in
  int range = LIGHT_RANGE(luminance);
 
  if (0 == dy) {
-  int sx = x - cx; int ex = x - cx + (range * dx);
+  int ex = x - cx + (range * dx);
   int sy = y - cy - range; int ey = y - cy + range;
 
-  for(int off = sx; off != ex + dx; off += dx) {
-   apply_light_ray(c, lit, x, y, cx + off, cy + sy, cx, cy, luminance);
-   apply_light_ray(c, lit, x, y, cx + off, cy + ey, cx, cy, luminance);
-  }
   for(int off = sy; off <= ey; ++off)
    apply_light_ray(c, lit, x, y, cx + ex, cy + off, cx, cy, luminance);
+
  } else if (0 == dx) {
   int sx = x - cx - range; int ex = x - cx + range;
-  int sy = y - cy; int ey = y - cy + (range * dy);
+  int ey = y - cy + (range * dy);
 
-  for(int off = sy; off != ey + dy; off += dy) {
-   apply_light_ray(c, lit, x, y, cx + sx, cy + off, cx, cy, luminance);
-   apply_light_ray(c, lit, x, y, cx + ex, cy + off, cx, cy, luminance);
-  }
   for(int off = sx; off <= ex; ++off)
    apply_light_ray(c, lit, x, y, cx + off, cy + ey, cx, cy, luminance);
+
  } else {
   // TODO: [lightmap] Diagonal lights, will be needed for vehicles
  }
@@ -284,7 +288,12 @@ void light_map::build_light_cache(map& m, int cx, int cy, light_cache& c)
 
    c[x][y].is_outside = m.is_outside(sx, sy);
    c[x][y].transparency = LIGHT_TRANSPARENCY_CLEAR;
+   c[x][y].veh = NULL;
+   c[x][y].veh_light = 0;
 
+   // TODO: [lightmap] As cache generation takes a lot of our time and vehicles
+   //                  cover multiple squares then pull out of loop and do once
+   //                  per vehicle in the wider area.
    int vpart = -1;
    vehicle *veh = NULL;
 
@@ -292,10 +301,21 @@ void light_map::build_light_cache(map& m, int cx, int cy, light_cache& c)
     veh = m.veh_at(sx, sy, vpart);
 
    if (veh) {
+    c[x][y].veh = veh;
     if (veh->part_flag(vpart, vpf_opaque) && veh->parts[vpart].hp > 0) {
      int dpart = veh->part_with_feature(vpart, vpf_openable);
      if (dpart < 0 || !veh->parts[dpart].open)
       c[x][y].transparency = LIGHT_TRANSPARENCY_SOLID;
+    }
+
+    // Check for vehicle lights
+    for(size_t i = 0; i < veh->parts.size(); ++i) {
+     // We already know vpart is on our square
+     if (veh->part_flag(i, vpf_light) &&
+         veh->parts[i].precalc_dx[0] == veh->parts[vpart].precalc_dx[0] &&
+         veh->parts[i].precalc_dy[0] == veh->parts[vpart].precalc_dy[0]) {
+      c[x][y].veh_light = veh->part_info(i).power;
+     }
     }
    } else if (!(terlist[m.ter(sx, sy)].flags & mfb(transparent)))
     c[x][y].transparency = LIGHT_TRANSPARENCY_SOLID;

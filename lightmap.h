@@ -34,6 +34,8 @@ enum lit_level {
 struct light_map_cache {
  bool is_outside;
  float transparency;
+ vehicle* veh;
+ int veh_light;
 };
 
 class light_map
