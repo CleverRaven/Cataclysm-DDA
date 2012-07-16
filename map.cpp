@@ -1807,7 +1807,7 @@ void map::draw(game *g, WINDOW* w)
   for (int realy = g->u.posy - SEEY; realy <= g->u.posy + SEEY; realy++) {
    int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
 
-   int can_see = sees(g->u.posx, g->u.posy, realx, realy, max_sight_range, t);
+   bool can_see = sees(g->u.posx, g->u.posy, realx, realy, max_sight_range, t);
    lit_level lit = g->lm.at(realx - g->u.posx, realy - g->u.posy);
 
 /*

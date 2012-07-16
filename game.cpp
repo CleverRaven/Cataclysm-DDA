@@ -2740,19 +2740,15 @@ bool game::sees_u(int x, int y, int &t)
 
 bool game::u_see(int x, int y, int &t)
 {
- int range = u.sight_range(1);
- int wanted_range = range = rl_dist(u.posx, u.posy, x, y);
-
- if (range > wanted_range &&
-     lm.at(x - u.posx, y - u.posy) >= LL_LOW)
-  range = wanted_range;
+ int wanted_range = rl_dist(u.posx, u.posy, x, y);
 
  bool can_see = false;
- if (range < u.clairvoyance())
+ if (wanted_range < u.clairvoyance())
   can_see = true;
- else if (range <= u.unimpaired_range() ||
-     lm.at(x - u.posx, y - u.posy) != LL_BRIGHT)
-  can_see = m.sees(u.posx, u.posy, x, y, range, t);
+ else if (wanted_range <= u.sight_range(1) ||
+          (wanted_range <= u.sight_range(DAYLIGHT_LEVEL) &&
+            lm.at(x - u.posx, y - u.posy) >= LL_LOW))
+  can_see = m.sees(u.posx, u.posy, x, y, wanted_range, t);
 
  return can_see;
 }
@@ -4467,7 +4463,15 @@ point game::look_around()
     veh->print_part_desc(w_look, 4, 48, veh_part);
     m.drawsq(w_terrain, u, lx, ly, true, true, false);
    }
-
+  } else if (u.sight_impaired() &&
+              lm.at(lx - u.posx, ly - u.posy) == LL_BRIGHT &&
+              rl_dist(u.posx, u.posy, lx, ly) < u.unimpaired_range() &&
+              m.sees(u.posx, u.posy, lx, ly, u.unimpaired_range(), junk)) {
+   if (u.has_disease(DI_BOOMERED))
+    mvwputch_inv(w_terrain, ly - u.posy + SEEY, lx - u.posx + SEEX, c_pink, '#');
+   else
+    mvwputch_inv(w_terrain, ly - u.posy + SEEY, lx - u.posx + SEEX, c_ltgray, '#');
+   mvwprintw(w_look, 1, 1, "Bright light.");
   } else {
    mvwputch(w_terrain, ly - u.posy + SEEY, lx - u.posx + SEEX, c_white, 'x');
    mvwprintw(w_look, 1, 1, "Unseen.");
