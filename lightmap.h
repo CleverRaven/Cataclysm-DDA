@@ -54,7 +54,7 @@ class light_map
   float sm[LIGHTMAP_X][LIGHTMAP_Y];
 
   void apply_light_source(light_cache& c, int x, int y, int cx, int cy, float luminance);
-  void apply_light_arc(light_cache& c, int x, int y, int dx, int dy, int cx, int cy, float luminance);
+  void apply_light_arc(light_cache& c, int x, int y, int angle, int cx, int cy, float luminance);
 
   void apply_light_ray(light_cache& c, bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy,
                        int ex, int ey, int cx, int cy, float luminance);

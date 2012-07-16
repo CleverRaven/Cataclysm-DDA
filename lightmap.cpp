@@ -32,6 +32,7 @@ void light_map::generate(map& m, int x, int y, float natural_light, float lumina
 
  int dir_x[] = { 1, 0 , -1,  0 };
  int dir_y[] = { 0, 1 ,  0, -1 };
+ int dir_d[] = { 180, 270, 0, 90 };
 
  light_cache c;
  build_light_cache(m, x, y, c);
@@ -67,7 +68,7 @@ void light_map::generate(map& m, int x, int y, float natural_light, float lumina
         lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
        
        if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].transparency > LIGHT_TRANSPARENCY_SOLID)
-       	apply_light_arc(c, sx, sy, -dir_x[i], -dir_y[i], x, y, natural_light);
+       	apply_light_arc(c, sx, sy, dir_d[i], x, y, natural_light);
       }
 	    }
     }
@@ -109,11 +110,10 @@ void light_map::generate(map& m, int x, int y, float natural_light, float lumina
        c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh_light > LL_DARK) {
     if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh_light > LL_LIT) {
      // TODO: [lightmap] Improve for more than 4 directions
-     int dir = c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh->face.dir4();
+     int dir = c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh->face.dir();
      float luminance = c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh_light;
-     apply_light_arc(c, sx, sy, dir_x[dir], dir_y[dir], x, y, luminance);
+     apply_light_arc(c, sx, sy, dir, x, y, luminance);
     }
-    apply_light_source(c, sx, sy, x, y, LIGHT_SOURCE_LOCAL);
    }
 
    // TODO: [lightmap] Apply creature light sources
@@ -178,7 +178,7 @@ void light_map::apply_light_source(light_cache& c, int x, int y, int cx, int cy,
  }
 }
 
-void light_map::apply_light_arc(light_cache& c, int x, int y, int dx, int dy, int cx, int cy, float luminance)
+void light_map::apply_light_arc(light_cache& c, int x, int y, int angle, int cx, int cy, float luminance)
 {
  if (luminance <= LIGHT_SOURCE_LOCAL)
   return;
@@ -187,23 +187,49 @@ void light_map::apply_light_arc(light_cache& c, int x, int y, int dx, int dy, in
  fill(lit, false);
 
  int range = LIGHT_RANGE(luminance);
+ apply_light_source(c, x, y, cx, cy, LIGHT_SOURCE_LOCAL);
 
- if (0 == dy) {
-  int ex = x - cx + (range * dx);
-  int sy = y - cy - range; int ey = y - cy + range;
+ // Normalise (should work with negative values too)
+ angle = angle % 360;
 
-  for(int off = sy; off <= ey; ++off)
-   apply_light_ray(c, lit, x, y, cx + ex, cy + off, cx, cy, luminance);
+ // East side
+ if (angle < 90 || angle > 270) {
+  int sy = y - cy - ((angle <  90) ? range * (( 45 - angle) / 45.0f) : range);
+  int ey = y - cy + ((angle > 270) ? range * ((angle - 315) / 45.0f) : range);
 
- } else if (0 == dx) {
-  int sx = x - cx - range; int ex = x - cx + range;
-  int ey = y - cy + (range * dy);
+  int ox = x - cx + range;
+  for(int oy = sy; oy <= ey; ++oy)
+   apply_light_ray(c, lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
+ }
 
-  for(int off = sx; off <= ex; ++off)
-   apply_light_ray(c, lit, x, y, cx + off, cy + ey, cx, cy, luminance);
+ // South side
+ if (angle < 180) {
+  int sx = x - cx - ((angle < 90) ? range * (( angle - 45) / 45.0f) : range);
+  int ex = x - cx + ((angle > 90) ? range * ((135 - angle) / 45.0f) : range);
 
- } else {
-  // TODO: [lightmap] Diagonal lights, will be needed for vehicles
+  int oy = y - cy + range;
+  for(int ox = sx; ox <= ex; ++ox)
+   apply_light_ray(c, lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
+ }
+
+ // West side
+ if (angle > 90 && angle < 270) {
+  int sy = y - cy - ((angle < 180) ? range * ((angle - 135) / 45.0f) : range);
+  int ey = y - cy + ((angle > 180) ? range * ((225 - angle) / 45.0f) : range);
+
+  int ox = x - cx - range;
+  for(int oy = sy; oy <= ey; ++oy)
+   apply_light_ray(c, lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
+ }
+
+ // North side
+ if (angle > 180) {
+  int sx = x - cx - ((angle > 270) ? range * ((315 - angle) / 45.0f) : range);
+  int ex = x - cx + ((angle < 270) ? range * ((angle - 225) / 45.0f) : range);
+
+  int oy = y - cy - range;
+  for(int ox = sx; ox <= ex; ++ox)
+   apply_light_ray(c, lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
  }
 }
 
