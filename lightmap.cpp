@@ -117,6 +117,9 @@ void light_map::generate(game* g, map& m, int x, int y, float natural_light, flo
    }
 
    if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].mon >= 0) {
+    if (g->z[c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].mon].has_effect(ME_ONFIRE))
+     apply_light_source(c, sx, sy, x, y, 3);
+
     // TODO: [lightmap] Attach natural light brightness to creatures
     // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
     // TODO: [lightmap] Allow creatures to have facing and arc lights
@@ -132,9 +135,6 @@ void light_map::generate(game* g, map& m, int x, int y, float natural_light, flo
       break;
     }
    }
-   //       mon_zombie_electric - sometimes
-   //       mon_flaming_eye
-   //       manhack - maybe (glowing red eye?)
   }
  }
 }
