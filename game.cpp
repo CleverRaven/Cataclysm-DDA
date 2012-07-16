@@ -2383,7 +2383,7 @@ bool game::isBetween(int test, int down, int up)
 void game::draw_ter()
 {
  int t = 0;
- lm.generate(m, u.posx, u.posy, natural_light_level(), u.active_light());
+ lm.generate(this, m, u.posx, u.posy, natural_light_level(), u.active_light());
  m.draw(this, w_terrain);
 
  // Draw monsters
@@ -4411,7 +4411,6 @@ point game::look_around()
   int veh_part = 0;
   vehicle *veh = m.veh_at(lx, ly, veh_part);
   if (u_see(lx, ly, junk)) {
-   // TODO: [lightmap] Handle low light situation nicely
    if (m.move_cost(lx, ly) == 0)
     mvwprintw(w_look, 1, 1, "%s; Impassable", m.tername(lx, ly).c_str());
    else

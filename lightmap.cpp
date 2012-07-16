@@ -1,6 +1,7 @@
 
 #include "mapdata.h"
 #include "map.h"
+#include "game.h"
 #include "lightmap.h"
 
 #define INBOUNDS(x, y) (x >= -SEEX && x <= SEEX && y >= -SEEY && y <= SEEY)
@@ -25,7 +26,7 @@ light_map::light_map()
  fill(sm, 0.0f);
 }
 
-void light_map::generate(map& m, int x, int y, float natural_light, float luminance)
+void light_map::generate(game* g, map& m, int x, int y, float natural_light, float luminance)
 {
  fill(lm, 0.0f);
  fill(sm, 0.0f);
@@ -35,7 +36,7 @@ void light_map::generate(map& m, int x, int y, float natural_light, float lumina
  int dir_d[] = { 180, 270, 0, 90 };
 
  light_cache c;
- build_light_cache(m, x, y, c);
+ build_light_cache(g, m, x, y, c);
 
  if (natural_light > LIGHT_AMBIENT_LOW) {
   // Apply sunlight, first light source so just assign
@@ -109,14 +110,28 @@ void light_map::generate(map& m, int x, int y, float natural_light, float lumina
    if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh &&
        c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh_light > LL_DARK) {
     if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh_light > LL_LIT) {
-     // TODO: [lightmap] Improve for more than 4 directions
      int dir = c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh->face.dir();
      float luminance = c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh_light;
      apply_light_arc(c, sx, sy, dir, x, y, luminance);
     }
    }
 
-   // TODO: [lightmap] Apply creature light sources
+   if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].mon >= 0) {
+    // TODO: [lightmap] Attach natural light brightness to creatures
+    // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
+    // TODO: [lightmap] Allow creatures to have facing and arc lights
+    switch(g->z[c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].mon].type->id) {
+     case mon_zombie_electric:
+      apply_light_source(c, sx, sy, x, y, 1);
+      break;
+     case mon_flaming_eye:
+      apply_light_source(c, sx, sy, x, y, LIGHT_SOURCE_BRIGHT);
+      break;
+     case mon_manhack:
+      apply_light_source(c, sx, sy, x, y, LIGHT_SOURCE_LOCAL);
+      break;
+    }
+   }
    //       mon_zombie_electric - sometimes
    //       mon_flaming_eye
    //       manhack - maybe (glowing red eye?)
@@ -305,8 +320,9 @@ void light_map::apply_light_ray(light_cache& c, bool lit[LIGHTMAP_X][LIGHTMAP_Y]
 
 // We only do this once now so we don't make 100k calls to is_outside for each
 // generation. As well as close to that for the veh_at function.
-void light_map::build_light_cache(map& m, int cx, int cy, light_cache& c)
+void light_map::build_light_cache(game* g, map& m, int cx, int cy, light_cache& c)
 {
+ // clear cache
  for(int sx = cx - LIGHTMAP_RANGE_X; sx <= cx + LIGHTMAP_RANGE_X; ++sx) {
   for(int sy = cy - LIGHTMAP_RANGE_Y; sy <= cy + LIGHTMAP_RANGE_Y; ++sy) {
    int x = sx - cx + LIGHTMAP_RANGE_X;
@@ -316,6 +332,18 @@ void light_map::build_light_cache(map& m, int cx, int cy, light_cache& c)
    c[x][y].transparency = LIGHT_TRANSPARENCY_CLEAR;
    c[x][y].veh = NULL;
    c[x][y].veh_light = 0;
+   c[x][y].mon = -1;
+  }
+ }
+
+ for (int i = 0; i < g->z.size(); ++i)
+  if (INBOUNDS(g->z[i].posx - cx, g->z[i].posy - cy))
+   c[g->z[i].posx - cx + LIGHTMAP_RANGE_X][g->z[i].posy - cy + LIGHTMAP_RANGE_Y].mon = i;
+
+ for(int sx = cx - LIGHTMAP_RANGE_X; sx <= cx + LIGHTMAP_RANGE_X; ++sx) {
+  for(int sy = cy - LIGHTMAP_RANGE_Y; sy <= cy + LIGHTMAP_RANGE_Y; ++sy) {
+   int x = sx - cx + LIGHTMAP_RANGE_X;
+   int y = sy - cy + LIGHTMAP_RANGE_Y;
 
    // TODO: [lightmap] As cache generation takes a lot of our time and vehicles
    //                  cover multiple squares then pull out of loop and do once
