@@ -1337,12 +1337,7 @@ void game::get_input()
    break;
 
   case ACTION_WAIT:
-   if (veh_ctrl) {
-    veh->turret_mode++;
-    if (veh->turret_mode > 1)
-     veh->turret_mode = 0;
-   } else
-    wait();
+   wait();
    break;
 
   case ACTION_CRAFT:
