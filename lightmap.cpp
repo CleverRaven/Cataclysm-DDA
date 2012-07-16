@@ -363,12 +363,14 @@ void light_map::build_light_cache(game* g, map& m, int cx, int cy, light_cache& 
     }
 
     // Check for vehicle lights
-    for(size_t i = 0; i < veh->parts.size(); ++i) {
-     // We already know vpart is on our square
-     if (veh->part_flag(i, vpf_light) &&
-         veh->parts[i].precalc_dx[0] == veh->parts[vpart].precalc_dx[0] &&
-         veh->parts[i].precalc_dy[0] == veh->parts[vpart].precalc_dy[0]) {
-      c[x][y].veh_light = veh->part_info(i).power;
+    if (veh->lights_on) {
+     for(size_t i = 0; i < veh->parts.size(); ++i) {
+      // We already know vpart is on our square
+      if (veh->part_flag(i, vpf_light) && veh->parts[i].hp > 0 &&
+          veh->parts[i].precalc_dx[0] == veh->parts[vpart].precalc_dx[0] &&
+          veh->parts[i].precalc_dy[0] == veh->parts[vpart].precalc_dy[0]) {
+       c[x][y].veh_light = veh->part_info(i).power;
+      }
      }
     }
    } else if (!(terlist[m.ter(sx, sy)].flags & mfb(transparent)))

@@ -1358,8 +1358,9 @@ void game::get_input()
 
   case ACTION_SLEEP:
    if (veh_ctrl) {
-    veh->cruise_on = !veh->cruise_on;
-    add_msg("Cruise control turned %s.", veh->cruise_on? "on" : "off");
+    std::string message = veh->use_controls();
+    if (!message.empty())
+     add_msg(message.c_str());
    } else if (query_yn("Are you sure you want to sleep?")) {
     u.try_to_sleep(this);
     u.moves = 0;
