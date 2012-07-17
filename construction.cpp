@@ -405,7 +405,7 @@ void game::place_construction(constructable *con)
 
     if (max_stage >= starting_stage) {
      valid.push_back(point(x, y));
-     m.drawsq(w_terrain, u, x, y, true, false, false);
+     m.drawsq(w_terrain, u, x, y, true, false);
      wrefresh(w_terrain);
     }
    }

@@ -1810,12 +1810,6 @@ void map::draw(game *g, WINDOW* w)
    bool can_see = sees(g->u.posx, g->u.posy, realx, realy, max_sight_range, t);
    lit_level lit = g->lm.at(realx - g->u.posx, realy - g->u.posy);
 
-/*
-float level = g->lm.ambient_at(realx - g->u.posx, realy - g->u.posy);
-mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_magenta, '0' + level);
-continue;
-*/
-
    if (dist > max_sight_range || !can_see ||
        (dist > min_sight_range && lit == LL_DARK) ||
        (dist > sight_range && g->u.sight_impaired() && lit != LL_BRIGHT)) {
@@ -1829,14 +1823,15 @@ continue;
     else
      mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_ltgray, '#');
    } else if (dist <= g->u.clairvoyance() || can_see)
-    drawsq(w, g->u, realx, realy, false, true, dist > min_sight_range && LL_LOW == lit);
+    drawsq(w, g->u, realx, realy, false, true, dist > min_sight_range &&
+           LL_LOW == lit, LL_BRIGHT == lit);
   }
  }
  mvwputch(w, SEEY, SEEX, g->u.color(), '@');
 }
 
 void map::drawsq(WINDOW* w, player &u, int x, int y, bool invert,
-                 bool show_items, bool low_light)
+                 bool show_items, bool low_light, bool bright_light)
 {
  if (!INBOUNDS(x, y))
   return;	// Out of bounds
@@ -1850,7 +1845,7 @@ void map::drawsq(WINDOW* w, player &u, int x, int y, bool invert,
   tercol = c_magenta;
  else if ((u.is_wearing(itm_goggles_nv) && u.has_active_item(itm_UPS_on)) ||
           u.has_active_bionic(bio_night_vision))
-  tercol = c_ltgreen;
+  tercol = (bright_light) ? c_white : c_ltgreen;
  else if (low_light)
   tercol = c_dkgray;
  else
