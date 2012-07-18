@@ -1827,8 +1827,9 @@ void map::debug()
 
 void map::draw(game *g, WINDOW* w)
 {
- int light_sight_range = g->u.sight_range(g->light_level());
  int natural_sight_range = g->u.sight_range(1);
+ int light_sight_range = g->u.sight_range(g->light_level());
+ int lowlight_sight_range = std::max(g->light_level() / 2, natural_sight_range);
  int max_sight_range = g->u.unimpaired_range();
 
  int t = 0;
@@ -1845,21 +1846,23 @@ void map::draw(game *g, WINDOW* w)
    lit_level lit = g->lm.at(realx - g->u.posx, realy - g->u.posy);
 
    if (dist > max_sight_range ||
-       (dist > sight_range &&
-         lit == LL_DARK) ||
-         (g->u.sight_impaired() && lit != LL_BRIGHT)) {
+       (dist > light_sight_range &&
+         (lit == LL_DARK ||
+         (g->u.sight_impaired() && lit != LL_BRIGHT)))) {
     if (g->u.has_disease(DI_BOOMERED))
    	 mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_magenta, '#');
    	else
    	 mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_dkgray, '#');
-   } else if (dist > sight_range && g->u.sight_impaired() && lit == LL_BRIGHT) {
+   } else if (dist > light_sight_range && g->u.sight_impaired() && lit == LL_BRIGHT) {
     if (g->u.has_disease(DI_BOOMERED))
      mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_pink, '#');
     else
      mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_ltgray, '#');
    } else if (dist <= g->u.clairvoyance() || can_see)
-    drawsq(w, g->u, realx, realy, false, true, dist > sight_range &&
-           LL_LOW == lit, LL_BRIGHT == lit);
+    drawsq(w, g->u, realx, realy, false, true,
+           (dist > lowlight_sight_range && LL_LIT > lit) ||
+           (dist > sight_range && LL_LOW == lit),
+           LL_BRIGHT == lit);
   }
  }
  mvwputch(w, SEEY, SEEX, g->u.color(), '@');

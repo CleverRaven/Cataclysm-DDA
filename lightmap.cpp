@@ -341,13 +341,13 @@ void light_map::build_light_cache(game* g, int cx, int cy, light_cache& c)
    c[g->z[i].posx - cx + LIGHTMAP_RANGE_X][g->z[i].posy - cy + LIGHTMAP_RANGE_Y].mon = i;
 
  // Check for vehicles and cache
- vehicle_list vehs = g->m.get_vehicles(cx - LIGHTMAP_RANGE_X, cy - LIGHTMAP_RANGE_Y, LIGHTMAP_RANGE_X, LIGHTMAP_RANGE_Y);
+ vehicle_list vehs = g->m.get_vehicles(cx - LIGHTMAP_RANGE_X, cy - LIGHTMAP_RANGE_Y, cx + LIGHTMAP_RANGE_X, cy + LIGHTMAP_RANGE_Y);
  for(int v = 0; v < vehs.size(); ++v) {
   for(int p = 0; p < vehs[v].item->parts.size(); ++p) {
    int px = vehs[v].x + vehs[v].item->parts[p].precalc_dx[0] - cx;
    int py = vehs[v].y + vehs[v].item->parts[p].precalc_dy[0] - cy;
       
-   if (INBOUNDS(px - cx, py - cy)) {
+   if (INBOUNDS(px, py)) {
     px += LIGHTMAP_RANGE_X;
     py += LIGHTMAP_RANGE_Y;
 
