@@ -320,7 +320,7 @@ void light_map::apply_light_ray(light_cache& c, bool lit[LIGHTMAP_X][LIGHTMAP_Y]
 // generation. As well as close to that for the veh_at function.
 void light_map::build_light_cache(game* g, int cx, int cy, light_cache& c)
 {
- // clear cache
+ // Clear cache
  for(int sx = cx - LIGHTMAP_RANGE_X; sx <= cx + LIGHTMAP_RANGE_X; ++sx) {
   for(int sy = cy - LIGHTMAP_RANGE_Y; sy <= cy + LIGHTMAP_RANGE_Y; ++sy) {
    int x = sx - cx + LIGHTMAP_RANGE_X;
@@ -329,47 +329,53 @@ void light_map::build_light_cache(game* g, int cx, int cy, light_cache& c)
    c[x][y].is_outside = g->m.is_outside(sx, sy);
    c[x][y].transparency = LIGHT_TRANSPARENCY_CLEAR;
    c[x][y].veh = NULL;
+   c[x][y].veh_part = 0;
    c[x][y].veh_light = 0;
    c[x][y].mon = -1;
   }
  }
 
+ // Check for critters and cache
  for (int i = 0; i < g->z.size(); ++i)
   if (INBOUNDS(g->z[i].posx - cx, g->z[i].posy - cy))
    c[g->z[i].posx - cx + LIGHTMAP_RANGE_X][g->z[i].posy - cy + LIGHTMAP_RANGE_Y].mon = i;
+
+ // Check for vehicles and cache
+ vehicle_list vehs = g->m.get_vehicles(cx - LIGHTMAP_RANGE_X, cy - LIGHTMAP_RANGE_Y, LIGHTMAP_RANGE_X, LIGHTMAP_RANGE_Y);
+ for(int v = 0; v < vehs.size(); ++v) {
+  for(int p = 0; p < vehs[v].item->parts.size(); ++p) {
+   int px = vehs[v].x + vehs[v].item->parts[p].precalc_dx[0] - cx;
+   int py = vehs[v].y + vehs[v].item->parts[p].precalc_dy[0] - cy;
+      
+   if (INBOUNDS(px - cx, py - cy)) {
+    px += LIGHTMAP_RANGE_X;
+    py += LIGHTMAP_RANGE_Y;
+
+    // External part appears to always be the first?
+    if (!c[px][py].veh) {
+     c[px][py].veh = vehs[v].item;
+     c[px][py].veh_part = p;
+    }
+
+    if (vehs[v].item->lights_on &&
+        vehs[v].item->part_flag(p, vpf_light) &&
+        vehs[v].item->parts[p].hp > 0)
+     c[px][py].veh_light = vehs[v].item->part_info(p).power;
+   }
+  }
+ }
 
  for(int sx = cx - LIGHTMAP_RANGE_X; sx <= cx + LIGHTMAP_RANGE_X; ++sx) {
   for(int sy = cy - LIGHTMAP_RANGE_Y; sy <= cy + LIGHTMAP_RANGE_Y; ++sy) {
    int x = sx - cx + LIGHTMAP_RANGE_X;
    int y = sy - cy + LIGHTMAP_RANGE_Y;
 
-   // TODO: [lightmap] As cache generation takes a lot of our time and vehicles
-   //                  cover multiple squares then pull out of loop and do once
-   //                  per vehicle in the wider area.
-   int vpart = -1;
-   vehicle *veh = NULL;
-
-   if (c[x][y].is_outside)
-    veh = g->m.veh_at(sx, sy, vpart);
-
-   if (veh) {
-    c[x][y].veh = veh;
-    if (veh->part_flag(vpart, vpf_opaque) && veh->parts[vpart].hp > 0) {
-     int dpart = veh->part_with_feature(vpart, vpf_openable);
-     if (dpart < 0 || !veh->parts[dpart].open)
+   if (c[x][y].veh) {
+    if (c[x][y].veh->part_flag(c[x][y].veh_part, vpf_opaque) &&
+        c[x][y].veh->parts[c[x][y].veh_part].hp > 0) {
+     int dpart = c[x][y].veh->part_with_feature(c[x][y].veh_part, vpf_openable);
+     if (dpart < 0 || !c[x][y].veh->parts[dpart].open)
       c[x][y].transparency = LIGHT_TRANSPARENCY_SOLID;
-    }
-
-    // Check for vehicle lights
-    if (veh->lights_on) {
-     for(size_t i = 0; i < veh->parts.size(); ++i) {
-      // We already know vpart is on our square
-      if (veh->part_flag(i, vpf_light) && veh->parts[i].hp > 0 &&
-          veh->parts[i].precalc_dx[0] == veh->parts[vpart].precalc_dx[0] &&
-          veh->parts[i].precalc_dy[0] == veh->parts[vpart].precalc_dy[0]) {
-       c[x][y].veh_light = veh->part_info(i).power;
-      }
-     }
     }
    } else if (!(terlist[g->m.ter(sx, sy)].flags & mfb(transparent)))
     c[x][y].transparency = LIGHT_TRANSPARENCY_SOLID;

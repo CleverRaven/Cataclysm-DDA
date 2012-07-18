@@ -56,6 +56,35 @@ map::~map()
 {
 }
 
+vehicle_list map::get_vehicles(int sx, int sy, int ex, int ey)
+{
+ int chunk_sx = (sx / SEEX) - 1;
+ int chunk_ex = (ex / SEEX) + 1;
+
+ int chunk_sy = (sy / SEEY) - 1;
+ int chunk_ey = (ey / SEEY) + 1;
+
+ vehicle_list vehs;
+
+ for(int cx = chunk_sx; cx <= chunk_ex; ++cx) {
+  for(int cy = chunk_sy; cy <= chunk_ey; ++cy) {
+   int nonant = cx + cy * my_MAPSIZE;
+   if (nonant < 0 || nonant >= my_MAPSIZE * my_MAPSIZE)
+    continue; // out of grid
+
+   for(int i = 0; i < grid[nonant].vehicles.size(); ++i) {
+    wrapped_vehicle w;
+    w.item = &(grid[nonant].vehicles[i]);
+    w.x = w.item->posx + cx * SEEX;
+    w.y = w.item->posy + cy * SEEY;
+    vehs.push_back(w);
+   }
+  }
+ }
+
+ return vehs;
+}
+
 vehicle* map::veh_at(int x, int y, int &part_num)
 {
  if (!inbounds(x, y))

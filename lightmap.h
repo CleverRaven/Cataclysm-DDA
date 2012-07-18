@@ -35,6 +35,7 @@ struct light_map_cache {
  bool is_outside;
  float transparency;
  vehicle* veh;
+ int veh_part;
  int veh_light;
  int mon;
 };
