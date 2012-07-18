@@ -1798,21 +1798,27 @@ void map::debug()
 
 void map::draw(game *g, WINDOW* w)
 {
- int sight_range = g->u.sight_range(DAYLIGHT_LEVEL);
+ int light_sight_range = g->u.sight_range(g->light_level());
+ int natural_sight_range = g->u.sight_range(1);
  int max_sight_range = g->u.unimpaired_range();
- int min_sight_range = g->u.sight_range(1);
 
  int t = 0;
  for  (int realx = g->u.posx - SEEX; realx <= g->u.posx + SEEX; realx++) {
   for (int realy = g->u.posy - SEEY; realy <= g->u.posy + SEEY; realy++) {
    int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
+   int sight_range = light_sight_range;
+
+   // While viewing indoor areas use lightmap model
+   if (!is_outside(realx, realy))
+    sight_range = natural_sight_range;
 
    bool can_see = sees(g->u.posx, g->u.posy, realx, realy, max_sight_range, t);
    lit_level lit = g->lm.at(realx - g->u.posx, realy - g->u.posy);
 
-   if (dist > max_sight_range || !can_see ||
-       (dist > min_sight_range && lit == LL_DARK) ||
-       (dist > sight_range && g->u.sight_impaired() && lit != LL_BRIGHT)) {
+   if (dist > max_sight_range ||
+       (dist > sight_range &&
+         lit == LL_DARK) ||
+         (g->u.sight_impaired() && lit != LL_BRIGHT)) {
     if (g->u.has_disease(DI_BOOMERED))
    	 mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_magenta, '#');
    	else
@@ -1823,7 +1829,7 @@ void map::draw(game *g, WINDOW* w)
     else
      mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_ltgray, '#');
    } else if (dist <= g->u.clairvoyance() || can_see)
-    drawsq(w, g->u, realx, realy, false, true, dist > min_sight_range &&
+    drawsq(w, g->u, realx, realy, false, true, dist > sight_range &&
            LL_LOW == lit, LL_BRIGHT == lit);
   }
  }

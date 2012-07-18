@@ -26,7 +26,7 @@ light_map::light_map()
  fill(sm, 0.0f);
 }
 
-void light_map::generate(game* g, map& m, int x, int y, float natural_light, float luminance)
+void light_map::generate(game* g, int x, int y, float natural_light, float luminance)
 {
  fill(lm, 0.0f);
  fill(sm, 0.0f);
@@ -36,17 +36,15 @@ void light_map::generate(game* g, map& m, int x, int y, float natural_light, flo
  int dir_d[] = { 180, 270, 0, 90 };
 
  light_cache c;
- build_light_cache(g, m, x, y, c);
+ build_light_cache(g, x, y, c);
 
- if (natural_light > LIGHT_AMBIENT_LOW) {
+ // Daylight vision handling returned back to map due to issues it causes here
+ if (natural_light > LIGHT_SOURCE_BRIGHT) {
   // Apply sunlight, first light source so just assign
   for(int sx = x - SEEX; sx <= x + SEEX; ++sx) {
    for(int sy = y - SEEY; sy <= y + SEEY; ++sy) {
-    // Outside always has natural_light
     // In bright light indoor light exists to some degree
-    if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].is_outside)
-     lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
-    else if (natural_light > LIGHT_SOURCE_BRIGHT)
+    if (!c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].is_outside)
      lm[sx - x + SEEX][sy - y + SEEY] = LIGHT_AMBIENT_LOW;
    }
   }
@@ -75,19 +73,19 @@ void light_map::generate(game* g, map& m, int x, int y, float natural_light, flo
     }
    }
 
-   if (m.i_at(sx, sy).size() == 1 &&
-       m.i_at(sx, sy)[0].type->id == itm_flashlight_on)
+   if (g->m.i_at(sx, sy).size() == 1 &&
+       g->m.i_at(sx, sy)[0].type->id == itm_flashlight_on)
     apply_light_source(c, sx, sy, x, y, 20);
 
-   if(m.ter(sx, sy) == t_lava)
+   if(g->m.ter(sx, sy) == t_lava)
     apply_light_source(c, sx, sy, x, y, 50);
 
    // TODO: [lightmap] Attach light brightness to fields
-   switch(m.field_at(sx, sy).type) {
+   switch(g->m.field_at(sx, sy).type) {
     case fd_fire:
-     if (3 == m.field_at(sx, sy).density)
+     if (3 == g->m.field_at(sx, sy).density)
       apply_light_source(c, sx, sy, x, y, 50);
-     else if (2 == m.field_at(sx, sy).density)
+     else if (2 == g->m.field_at(sx, sy).density)
       apply_light_source(c, sx, sy, x, y, 20);
      else
       apply_light_source(c, sx, sy, x, y, 3);
@@ -97,9 +95,9 @@ void light_map::generate(game* g, map& m, int x, int y, float natural_light, flo
      apply_light_source(c, sx, sy, x, y, 8);
      break;
     case fd_electricity:
-     if (3 == m.field_at(sx, sy).density)
+     if (3 == g->m.field_at(sx, sy).density)
       apply_light_source(c, sx, sy, x, y, 8);
-     else if (2 == m.field_at(sx, sy).density)
+     else if (2 == g->m.field_at(sx, sy).density)
       apply_light_source(c, sx, sy, x, y, 1);
      else
       apply_light_source(c, sx, sy, x, y, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
@@ -320,7 +318,7 @@ void light_map::apply_light_ray(light_cache& c, bool lit[LIGHTMAP_X][LIGHTMAP_Y]
 
 // We only do this once now so we don't make 100k calls to is_outside for each
 // generation. As well as close to that for the veh_at function.
-void light_map::build_light_cache(game* g, map& m, int cx, int cy, light_cache& c)
+void light_map::build_light_cache(game* g, int cx, int cy, light_cache& c)
 {
  // clear cache
  for(int sx = cx - LIGHTMAP_RANGE_X; sx <= cx + LIGHTMAP_RANGE_X; ++sx) {
@@ -328,7 +326,7 @@ void light_map::build_light_cache(game* g, map& m, int cx, int cy, light_cache& 
    int x = sx - cx + LIGHTMAP_RANGE_X;
    int y = sy - cy + LIGHTMAP_RANGE_Y;
 
-   c[x][y].is_outside = m.is_outside(sx, sy);
+   c[x][y].is_outside = g->m.is_outside(sx, sy);
    c[x][y].transparency = LIGHT_TRANSPARENCY_CLEAR;
    c[x][y].veh = NULL;
    c[x][y].veh_light = 0;
@@ -352,7 +350,7 @@ void light_map::build_light_cache(game* g, map& m, int cx, int cy, light_cache& 
    vehicle *veh = NULL;
 
    if (c[x][y].is_outside)
-    veh = m.veh_at(sx, sy, vpart);
+    veh = g->m.veh_at(sx, sy, vpart);
 
    if (veh) {
     c[x][y].veh = veh;
@@ -373,10 +371,10 @@ void light_map::build_light_cache(game* g, map& m, int cx, int cy, light_cache& 
       }
      }
     }
-   } else if (!(terlist[m.ter(sx, sy)].flags & mfb(transparent)))
+   } else if (!(terlist[g->m.ter(sx, sy)].flags & mfb(transparent)))
     c[x][y].transparency = LIGHT_TRANSPARENCY_SOLID;
 
-   field& f = m.field_at(sx, sy);
+   field& f = g->m.field_at(sx, sy);
    if(f.type > 0) {
     if(!fieldlist[f.type].transparent[f.density - 1]) {
      // Fields are either transparent or not, however we want some to be translucent

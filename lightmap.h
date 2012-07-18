@@ -44,7 +44,7 @@ class light_map
  public:
   light_map();
 
-  void generate(game* g, map& m, int x, int y, float natural_light, float luminance);
+  void generate(game* g, int x, int y, float natural_light, float luminance);
   
   lit_level at(int dx, int dy); // Assumes 0,0 is light map center
   float ambient_at(int dx, int dy); // Raw values for tilesets
@@ -60,7 +60,7 @@ class light_map
   void apply_light_ray(light_cache& c, bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy,
                        int ex, int ey, int cx, int cy, float luminance);
 
-  void build_light_cache(game* g, map& m, int x, int y, light_cache& c);
+  void build_light_cache(game* g, int x, int y, light_cache& c);
 };
 
 #endif

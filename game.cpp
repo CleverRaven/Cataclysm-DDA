@@ -2379,7 +2379,7 @@ bool game::isBetween(int test, int down, int up)
 void game::draw_ter()
 {
  int t = 0;
- lm.generate(this, m, u.posx, u.posy, natural_light_level(), u.active_light());
+ lm.generate(this, u.posx, u.posy, natural_light_level(), u.active_light());
  m.draw(this, w_terrain);
 
  // Draw monsters
@@ -2741,7 +2741,7 @@ bool game::u_see(int x, int y, int &t)
  bool can_see = false;
  if (wanted_range < u.clairvoyance())
   can_see = true;
- else if (wanted_range <= u.sight_range(1) ||
+ else if (wanted_range <= u.sight_range(light_level()) ||
           (wanted_range <= u.sight_range(DAYLIGHT_LEVEL) &&
             lm.at(x - u.posx, y - u.posy) >= LL_LOW))
   can_see = m.sees(u.posx, u.posy, x, y, wanted_range, t);
