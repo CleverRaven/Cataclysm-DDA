@@ -28,15 +28,13 @@ light_map::light_map()
 
 void light_map::generate(game* g, int x, int y, float natural_light, float luminance)
 {
+ build_light_cache(g, x, y);
  fill(lm, 0.0f);
  fill(sm, 0.0f);
 
  int dir_x[] = { 1, 0 , -1,  0 };
  int dir_y[] = { 0, 1 ,  0, -1 };
  int dir_d[] = { 180, 270, 0, 90 };
-
- light_cache c;
- build_light_cache(g, x, y, c);
 
  // Daylight vision handling returned back to map due to issues it causes here
  if (natural_light > LIGHT_SOURCE_BRIGHT) {
@@ -52,7 +50,7 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
 
  // Apply player light sources
  if (luminance > LIGHT_AMBIENT_LOW)
-  apply_light_source(c, x, y, x, y, luminance);
+  apply_light_source(x, y, x, y, luminance);
 
  for(int sx = x - LIGHTMAP_RANGE_X; sx <= x + LIGHTMAP_RANGE_X; ++sx) {
   for(int sy = y - LIGHTMAP_RANGE_Y; sy <= y + LIGHTMAP_RANGE_Y; ++sy) {
@@ -67,7 +65,7 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
         lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
        
        if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].transparency > LIGHT_TRANSPARENCY_SOLID)
-       	apply_light_arc(c, sx, sy, dir_d[i], x, y, natural_light);
+       	apply_light_arc(sx, sy, dir_d[i], x, y, natural_light);
       }
 	    }
     }
@@ -75,32 +73,32 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
 
    if (g->m.i_at(sx, sy).size() == 1 &&
        g->m.i_at(sx, sy)[0].type->id == itm_flashlight_on)
-    apply_light_source(c, sx, sy, x, y, 20);
+    apply_light_source(sx, sy, x, y, 20);
 
    if(g->m.ter(sx, sy) == t_lava)
-    apply_light_source(c, sx, sy, x, y, 50);
+    apply_light_source(sx, sy, x, y, 50);
 
    // TODO: [lightmap] Attach light brightness to fields
    switch(g->m.field_at(sx, sy).type) {
     case fd_fire:
      if (3 == g->m.field_at(sx, sy).density)
-      apply_light_source(c, sx, sy, x, y, 50);
+      apply_light_source(sx, sy, x, y, 50);
      else if (2 == g->m.field_at(sx, sy).density)
-      apply_light_source(c, sx, sy, x, y, 20);
+      apply_light_source(sx, sy, x, y, 20);
      else
-      apply_light_source(c, sx, sy, x, y, 3);
+      apply_light_source(sx, sy, x, y, 3);
      break;
     case fd_fire_vent:
     case fd_flame_burst:
-     apply_light_source(c, sx, sy, x, y, 8);
+     apply_light_source(sx, sy, x, y, 8);
      break;
     case fd_electricity:
      if (3 == g->m.field_at(sx, sy).density)
-      apply_light_source(c, sx, sy, x, y, 8);
+      apply_light_source(sx, sy, x, y, 8);
      else if (2 == g->m.field_at(sx, sy).density)
-      apply_light_source(c, sx, sy, x, y, 1);
+      apply_light_source(sx, sy, x, y, 1);
      else
-      apply_light_source(c, sx, sy, x, y, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
+      apply_light_source(sx, sy, x, y, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
      break;
    }
 
@@ -110,26 +108,26 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
     if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh_light > LL_LIT) {
      int dir = c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh->face.dir();
      float luminance = c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh_light;
-     apply_light_arc(c, sx, sy, dir, x, y, luminance);
+     apply_light_arc(sx, sy, dir, x, y, luminance);
     }
    }
 
    if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].mon >= 0) {
     if (g->z[c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].mon].has_effect(ME_ONFIRE))
-     apply_light_source(c, sx, sy, x, y, 3);
+     apply_light_source(sx, sy, x, y, 3);
 
     // TODO: [lightmap] Attach natural light brightness to creatures
     // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
     // TODO: [lightmap] Allow creatures to have facing and arc lights
     switch(g->z[c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].mon].type->id) {
      case mon_zombie_electric:
-      apply_light_source(c, sx, sy, x, y, 1);
+      apply_light_source(sx, sy, x, y, 1);
       break;
      case mon_flaming_eye:
-      apply_light_source(c, sx, sy, x, y, LIGHT_SOURCE_BRIGHT);
+      apply_light_source(sx, sy, x, y, LIGHT_SOURCE_BRIGHT);
       break;
      case mon_manhack:
-      apply_light_source(c, sx, sy, x, y, LIGHT_SOURCE_LOCAL);
+      apply_light_source(sx, sy, x, y, LIGHT_SOURCE_LOCAL);
       break;
     }
    }
@@ -162,7 +160,69 @@ float light_map::ambient_at(int dx, int dy)
  return lm[dx + SEEX][dy + SEEY];
 }
 
-void light_map::apply_light_source(light_cache& c, int x, int y, int cx, int cy, float luminance)
+bool light_map::is_outside(int dx, int dy)
+{
+ // We don't know and true seems a better default than false
+ if (!INBOUNDS_LARGE(dx, dy))
+  return true;
+
+ return c[dx + LIGHTMAP_RANGE_X][dy + LIGHTMAP_RANGE_Y].is_outside;
+}
+
+bool light_map::sees(int fx, int fy, int tx, int ty, int max_range)
+{
+ if(!INBOUNDS_LARGE(fx, fy) || !INBOUNDS_LARGE(tx, ty))
+  return false;
+
+ if (max_range >= 0 && (abs(tx - fx) > max_range || abs(ty - fy) > max_range))
+  return false; // Out of range!
+
+ int ax = abs(tx - fx) << 1;
+ int ay = abs(ty - fy) << 1;
+ int dx = (fx < tx) ? 1 : -1;
+ int dy = (fy < ty) ? 1 : -1;
+ int x = fx;
+ int y = fy;
+
+ float transparency = LIGHT_TRANSPARENCY_CLEAR;
+
+ // TODO: [lightmap] Pull out the common code here rather than duplication
+ if (ax > ay) {
+  int t = ay - (ax >> 1);
+  do {
+   if(t >= 0 && ((y + dy != ty) || (x + dx == tx))) {
+    y += dy;
+    t -= ax;
+   }
+
+   x += dx;
+   t += ay;
+
+   if(c[x + LIGHTMAP_RANGE_X][y + LIGHTMAP_RANGE_Y].transparency == LIGHT_TRANSPARENCY_SOLID)
+    break;
+
+  } while(!(x == tx && y == ty));
+ } else {
+  int t = ax - (ay >> 1);
+  do {
+   if(t >= 0 && ((x + dx != tx) || (y + dy == ty))) {
+    x += dx;
+    t -= ay;
+   }
+
+   y += dy;
+   t += ax;
+
+   if(c[x + LIGHTMAP_RANGE_X][y + LIGHTMAP_RANGE_Y].transparency == LIGHT_TRANSPARENCY_SOLID)
+    break;
+
+  } while(!(x == tx && y == ty));
+ }
+
+ return (x == tx && y == ty);
+}
+
+void light_map::apply_light_source(int x, int y, int cx, int cy, float luminance)
 {
  bool lit[LIGHTMAP_X][LIGHTMAP_Y];
  fill(lit, false);
@@ -179,19 +239,19 @@ void light_map::apply_light_source(light_cache& c, int x, int y, int cx, int cy,
   int sy = y - cy - range; int ey = y - cy + range;
 
   for(int off = sx; off <= ex; ++off) {
-   apply_light_ray(c, lit, x, y, cx + off, cy + sy, cx, cy, luminance);
-   apply_light_ray(c, lit, x, y, cx + off, cy + ey, cx, cy, luminance);
+   apply_light_ray(lit, x, y, cx + off, cy + sy, cx, cy, luminance);
+   apply_light_ray(lit, x, y, cx + off, cy + ey, cx, cy, luminance);
   }
 
   // Skip corners with + 1 and < as they were done
   for(int off = sy + 1; off < ey; ++off) {
-   apply_light_ray(c, lit, x, y, cx + sx, cy + off, cx, cy, luminance);
-   apply_light_ray(c, lit, x, y, cx + ex, cy + off, cx, cy, luminance);
+   apply_light_ray(lit, x, y, cx + sx, cy + off, cx, cy, luminance);
+   apply_light_ray(lit, x, y, cx + ex, cy + off, cx, cy, luminance);
   }
  }
 }
 
-void light_map::apply_light_arc(light_cache& c, int x, int y, int angle, int cx, int cy, float luminance)
+void light_map::apply_light_arc(int x, int y, int angle, int cx, int cy, float luminance)
 {
  if (luminance <= LIGHT_SOURCE_LOCAL)
   return;
@@ -200,7 +260,7 @@ void light_map::apply_light_arc(light_cache& c, int x, int y, int angle, int cx,
  fill(lit, false);
 
  int range = LIGHT_RANGE(luminance);
- apply_light_source(c, x, y, cx, cy, LIGHT_SOURCE_LOCAL);
+ apply_light_source(x, y, cx, cy, LIGHT_SOURCE_LOCAL);
 
  // Normalise (should work with negative values too)
  angle = angle % 360;
@@ -212,7 +272,7 @@ void light_map::apply_light_arc(light_cache& c, int x, int y, int angle, int cx,
 
   int ox = x - cx + range;
   for(int oy = sy; oy <= ey; ++oy)
-   apply_light_ray(c, lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
+   apply_light_ray(lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
  }
 
  // South side
@@ -222,7 +282,7 @@ void light_map::apply_light_arc(light_cache& c, int x, int y, int angle, int cx,
 
   int oy = y - cy + range;
   for(int ox = sx; ox <= ex; ++ox)
-   apply_light_ray(c, lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
+   apply_light_ray(lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
  }
 
  // West side
@@ -232,7 +292,7 @@ void light_map::apply_light_arc(light_cache& c, int x, int y, int angle, int cx,
 
   int ox = x - cx - range;
   for(int oy = sy; oy <= ey; ++oy)
-   apply_light_ray(c, lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
+   apply_light_ray(lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
  }
 
  // North side
@@ -242,11 +302,11 @@ void light_map::apply_light_arc(light_cache& c, int x, int y, int angle, int cx,
 
   int oy = y - cy - range;
   for(int ox = sx; ox <= ex; ++ox)
-   apply_light_ray(c, lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
+   apply_light_ray(lit, x, y, cx + ox, cy + oy, cx, cy, luminance);
  }
 }
 
-void light_map::apply_light_ray(light_cache& c, bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy,
+void light_map::apply_light_ray(bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy,
                                 int ex, int ey, int cx, int cy, float luminance)
 {
  int ax = abs(ex - sx) << 1;
@@ -318,7 +378,7 @@ void light_map::apply_light_ray(light_cache& c, bool lit[LIGHTMAP_X][LIGHTMAP_Y]
 
 // We only do this once now so we don't make 100k calls to is_outside for each
 // generation. As well as close to that for the veh_at function.
-void light_map::build_light_cache(game* g, int cx, int cy, light_cache& c)
+void light_map::build_light_cache(game* g, int cx, int cy)
 {
  // Clear cache
  for(int sx = cx - LIGHTMAP_RANGE_X; sx <= cx + LIGHTMAP_RANGE_X; ++sx) {

@@ -1839,10 +1839,10 @@ void map::draw(game *g, WINDOW* w)
    int sight_range = light_sight_range;
 
    // While viewing indoor areas use lightmap model
-   if (!is_outside(realx, realy))
+   if (!g->lm.is_outside(realx - g->u.posx, realy - g->u.posy))
     sight_range = natural_sight_range;
 
-   bool can_see = sees(g->u.posx, g->u.posy, realx, realy, max_sight_range, t);
+   bool can_see = g->lm.sees(0, 0, realx - g->u.posx, realy - g->u.posy, max_sight_range);
    lit_level lit = g->lm.at(realx - g->u.posx, realy - g->u.posy);
 
    if (dist > max_sight_range ||
