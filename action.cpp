@@ -151,6 +151,8 @@ action_id look_up_action(std::string ident)
   return ACTION_FACTIONS;
  if (ident == "morale")
   return ACTION_MORALE;
+ if (ident == "messages")
+  return ACTION_MESSAGES;
  if (ident == "help")
   return ACTION_HELP;
  if (ident == "debug")

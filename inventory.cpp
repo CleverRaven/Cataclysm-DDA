@@ -468,5 +468,5 @@ void inventory::assign_empty_invlet(item &it, player *p)
   }
  }
  it.invlet = '`';
- debugmsg("Couldn't find empty invlet");
+ //debugmsg("Couldn't find empty invlet");
 }

@@ -152,6 +152,7 @@ MF_LEATHER,	// May produce leather when butchered
 MF_IMMOBILE,	// Doesn't move (e.g. turrets)
 MF_FRIENDLY_SPECIAL, // Use our special attack, even if friendly
 MF_HIT_AND_RUN,	// Flee for several turns after a melee attack
+MF_GUILT,	// You feel guilty for killing it
 MF_MAX		// Sets the length of the flags - obviously MUST be last
 };
 

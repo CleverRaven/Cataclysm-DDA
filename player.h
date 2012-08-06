@@ -294,6 +294,7 @@ public:
  int xp_pool;
  int sklevel[num_skill_types];
  int skexercise[num_skill_types];
+ int sktrain[num_skill_types];
  
  bool inv_sorted;
  //std::vector <item> inv;

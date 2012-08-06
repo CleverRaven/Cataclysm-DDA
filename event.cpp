@@ -85,7 +85,6 @@ void event::actualize(game *g)
     int tries = 0;
     int monx = -1, mony = -1;
     do {
-     tries = 0;
      if (horizontal) {
       monx = rng(faultx, faultx + 2 * SEEX - 8);
       for (int n = -1; n <= 1; n++) {

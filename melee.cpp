@@ -901,6 +901,17 @@ technique_id player::pick_defensive_technique(game *g, monster *z, player *p)
  else if (p != NULL)
   foe_dodge = p->dodge_roll(g);
 
+ int foe_size = 0;
+ if (z)
+  foe_size = 4 + z->type->size * 4;
+ else if (p) {
+  foe_size = 12;
+  if (p->str_max <= 5)
+   foe_size -= 3;
+  if (p->str_max >= 12)
+   foe_size += 3;
+ }
+
  blocks_left--;
  if (weapon.has_technique(TEC_WBLOCK_3) &&
      dice(dex_cur + sklevel[sk_melee], 12) > dice(foe_melee_skill, 10))
@@ -922,7 +933,7 @@ technique_id player::pick_defensive_technique(game *g, monster *z, player *p)
   return TEC_DEF_DISARM;
 
  if (weapon.has_technique(TEC_DEF_THROW, this) && 
-     str_cur + sklevel[sk_melee] >= 4 + z->type->size * 4 + rng(-4, 4) &&
+     str_cur + sklevel[sk_melee] >= foe_size + rng(-4, 4) &&
      hit_roll() > rng(1, 5) + foe_dodge && !one_in(3))
   return TEC_DEF_THROW;
 

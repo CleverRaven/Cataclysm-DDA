@@ -117,10 +117,9 @@ monster::~monster()
 
 std::string monster::name()
 {
- if (!type)
- {
-     debugmsg ("monster::name empty type!");
-     return std::string();
+ if (!type) {
+  debugmsg ("monster::name empty type!");
+  return std::string();
  }
  if (unique_name != "")
   return type->name + ": " + unique_name;
@@ -130,11 +129,15 @@ std::string monster::name()
 std::string monster::name_with_armor()
 {
  std::string ret = type->name;
- switch (type->mat) {
-  case VEGGY: ret += "'s thick bark";    break;
-  case FLESH: ret += "'s thick hide";    break;
-  case IRON:
-  case STEEL: ret += "'s armor plating"; break;
+ if (type->species == species_insect)
+  ret += "'s carapace";
+ else {
+  switch (type->mat) {
+   case VEGGY: ret += "'s thick bark";    break;
+   case FLESH: ret += "'s thick hide";    break;
+   case IRON:
+   case STEEL: ret += "'s armor plating"; break;
+  }
  }
  return ret;
 }
@@ -544,7 +547,7 @@ void monster::hit_monster(game *g, int i)
   g->add_msg("The %s hits the %s!", name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
  if (target->hurt(damage))
-  g->kill_mon(i);
+  g->kill_mon(i, (friendly != 0));
 }
  
 
@@ -613,6 +616,8 @@ int monster::fall_damage()
 
 void monster::die(game *g)
 {
+ if (!dead)
+  dead = true;
 // Drop goodies
  int total_chance = 0, total_it_chance, cur_chance, selected_location,
      selected_item;

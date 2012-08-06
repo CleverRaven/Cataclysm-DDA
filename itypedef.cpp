@@ -1895,6 +1895,15 @@ AMMO("hydrogen",	 8, 800,AT_PLASMA,	c_green,	STEEL,
 A canister of hydrogen. With proper equipment, it could be heated to plasma.",
 mfb(IF_AMMO_INCENDIARY));
 
+// The following ammo type is charger rounds and subject to change wildly
+//  NAME		   RAR PRC TYPE		COLOR		MAT
+AMMO("charge",	     0,  0,AT_NULL,	c_red,		MNULL,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	  0,  0,  5,  0, 12,  8,  0, 1, "\
+A weak plasma charge.",
+0);
+
+
 // FUEL
 // Fuel is just a special type of ammo; liquid
 #define FUEL(name,rarity,price,ammo_type,color,dmg,AP,range,accuracy,recoil,\
@@ -2352,16 +2361,23 @@ It can only hold two rounds at a time, but a special superheating unit causes\n\
 its bolts to be extremely deadly.",
 0);
 
+GUN("NX-17 charge rifle",1,12000,c_magenta,STEEL, PLASTIC,
+	sk_rifle,	AT_NULL, 13,16,  8, -1,  0,   6,  0,  8,  0, 10,   0, "\
+A multi-purpose rifle, designed for use in conjunction with a unified power\n\
+supply, or UPS.  It does not reload normally; instead, press fire once to\n\
+start charging it from your UPS, then again to unload the charge.",
+mfb(IF_CHARGE));
+
 //  NAME		RAR PRC COLOR	 MAT1	MAT2
 GUN("simple flamethr.",1,1600,c_pink,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
-	sk_shotgun,	AT_GAS, 16,  8,   8, -1, -5,  6,  0,  6,  0,800, 800, "\
+	sk_shotgun,	AT_GAS,  16,  8,  8, -1, -5,  6,  0,  6,  0,800, 800, "\
 A simple, home-made flamethrower.  While its capacity is not superb, it is\n\
 more than capable of igniting terrain and monsters alike.",
 mfb(IF_FIRE_100));
 
 GUN("flamethrower",	 1,3800,c_pink,	STEEL,	MNULL,
-	sk_shotgun,	AT_GAS, 20, 14, 10, -2, 10,  4,  0,  8,  4,1600, 900, "\
+	sk_shotgun,	AT_GAS,  20, 14, 10, -2,  0,  4,  0,  8,  4,1600, 900, "\
 A large flamethrower with substantial gas reserves.  Very manacing and\n\
 deadly.",
 mfb(IF_FIRE_100));
@@ -3157,13 +3173,13 @@ on the ground, where it will attach itself.  The turret will then identify\n\
 you as a friendly, and attack all enemies with an SMG.");
 
 TOOL("UPS (off)",	 5,2800,';',c_ltgreen,	STEEL,	PLASTIC,
-    4,  6, 10,  0, -1,1000, 0,  0,  0, AT_BATT, itm_null, &iuse::UPS_off,0,"\
+   12,  6, 10,  0, -1,1000, 0,  0,  0, AT_BATT, itm_null, &iuse::UPS_off,0,"\
 A unified power supply, or UPS, is a device developed jointly by military and\n\
 scientific interests for use in combat and the field.  The UPS is designed to\n\
 power armor and some guns, but drains batteries quickly.");
 
 TOOL("UPS (on)",	 0,2800,';',c_ltgreen,	STEEL,	PLASTIC,
-    4,  6, 10,  0, -1,1000, 0,  0,  2, AT_BATT,	itm_UPS_off, &iuse::UPS_on,0,"\
+   12,  6, 10,  0, -1,1000, 0,  0,  2, AT_BATT,	itm_UPS_off, &iuse::UPS_on,0,"\
 A unified power supply, or UPS, is a device developed jointly by military and\n\
 scientific interests for use in combat and the field.  The UPS is designed to\n\
 power armor and some guns, but drains batteries quickly.");

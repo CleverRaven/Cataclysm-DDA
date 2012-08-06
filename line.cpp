@@ -113,9 +113,9 @@ direction direction_from(int x1, int y1, int x2, int y2)
  int dx = x2 - x1;
  int dy = y2 - y1;
  if (dx < 0) {
-  if (abs(dx) >> 1 > abs(dy) || dy == 0) {
+  if (abs(dx) / 2 > abs(dy) || dy == 0) {
    return WEST;
-  } else if (abs(dy) >> 1 > abs(dx)) {
+  } else if (abs(dy) / 2 > abs(dx)) {
    if (dy < 0)
     return NORTH;
    else
@@ -127,9 +127,9 @@ direction direction_from(int x1, int y1, int x2, int y2)
     return SOUTHWEST;
   }
  } else {
-  if (dx >> 1 > abs(dy) || dy == 0) {
+  if (dx / 2 > abs(dy) || dy == 0) {
    return EAST;
-  } else if (abs(dy) >> 1 > dx || dx == 0) {
+  } else if (abs(dy) / 2 > dx || dx == 0) {
    if (dy < 0)
     return NORTH;
    else

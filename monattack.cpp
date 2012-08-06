@@ -333,7 +333,7 @@ void mattack::growplants(game *g, monster *z)
       if (rn < 0)
        rn = 0;
       if (g->z[mondex].hurt(rn))
-       g->kill_mon(mondex);
+       g->kill_mon(mondex, (z->friendly != 0));
      } else if (g->u.posx == z->posx + i && g->u.posy == z->posy + j) {
 // Player is hit by a growing tree
       body_part hit = bp_legs;
@@ -386,7 +386,7 @@ void mattack::growplants(game *g, monster *z)
        if (rn < 0)
         rn = 0;
        if (g->z[mondex].hurt(rn))
-        g->kill_mon(mondex);
+        g->kill_mon(mondex, (z->friendly != 0));
       } else if (g->u.posx == z->posx + i && g->u.posy == z->posy + j) {
        body_part hit = bp_legs;
        int side = rng(1, 2);
@@ -619,7 +619,7 @@ void mattack::fungus(game *g, monster *z)
       g->add_msg("The %s is covered in tiny spores!",
                  g->z[mondex].name().c_str());
      if (!g->z[mondex].make_fungus(g))
-      g->kill_mon(mondex);
+      g->kill_mon(mondex, (z->friendly != 0));
     } else if (g->u.posx == sporex && g->u.posy == sporey)
      g->u.infect(DI_SPORES, bp_mouth, 4, 30, g); // Spores hit the player
     else { // Spawn a spore
@@ -907,7 +907,7 @@ void mattack::vortex(game *g, monster *z)
       int mondex = g->mon_at(traj[i].x, traj[i].y);
       if (mondex != -1) {
        if (g->z[mondex].hurt(dam))
-        g->kill_mon(mondex);
+        g->kill_mon(mondex, (z->friendly != 0));
        dam = 0;
       }
       if (g->m.move_cost(traj[i].x, traj[i].y) == 0) {
@@ -977,7 +977,7 @@ void mattack::vortex(game *g, monster *z)
         g->add_msg("The %s hits a %s!", thrown->name().c_str(),
                    g->z[monhit].name().c_str());
        if (g->z[monhit].hurt(damage))
-        g->kill_mon(monhit);
+        g->kill_mon(monhit, (z->friendly != 0));
        hit_wall = true;
        thrown->posx = traj[i - 1].x;
        thrown->posy = traj[i - 1].y;
@@ -998,7 +998,7 @@ void mattack::vortex(game *g, monster *z)
       thrown->posy = traj[traj.size() - 1].y;
      }
      if (thrown->hurt(damage))
-      g->kill_mon(g->mon_at(thrown->posx, thrown->posy));
+      g->kill_mon(g->mon_at(thrown->posx, thrown->posy), (z->friendly != 0));
     } // if (distance > 0)
    } // if (mondex != -1)
 
@@ -1013,7 +1013,7 @@ void mattack::vortex(game *g, monster *z)
       if (g->u_see(traj[i].x, traj[i].y, t))
        g->add_msg("You hit a %s!", g->z[monhit].name().c_str());
       if (g->z[monhit].hurt(damage))
-       g->kill_mon(monhit);
+       g->kill_mon(monhit, true); // We get the kill :)
       hit_wall = true;
       g->u.posx = traj[i - 1].x;
       g->u.posy = traj[i - 1].y;

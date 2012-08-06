@@ -65,7 +65,7 @@ itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
  itm_rapier, itm_cane, itm_binoculars, itm_usb_drive, itm_pike, itm_broadsword,
  itm_mace, itm_morningstar, itm_pool_cue, itm_pool_ball, itm_candlestick,
 // Vehicle parts
- itm_frame, itm_wheel, itm_big_wheel, itm_seat, itm_vehicle_controls,
+itm_frame, itm_wheel, itm_big_wheel, itm_seat, itm_vehicle_controls,
  itm_combustion_small, itm_combustion, itm_combustion_large,
  itm_motor, itm_motor_large, itm_plasma_engine,
  itm_metal_tank, itm_storage_battery, itm_minireactor, itm_solar_panel,
@@ -112,6 +112,7 @@ itm_battery, itm_plut_cell, itm_nail, itm_bb, itm_arrow_wood, itm_arrow_cf,
  itm_3006_incendiary, itm_308, itm_762_51, itm_762_51_incendiary,
  itm_laser_pack, itm_40mm_concussive, itm_40mm_frag, itm_40mm_incendiary,
  itm_40mm_teargas, itm_40mm_smoke, itm_40mm_flashbang, itm_12mm, itm_plasma,
+ itm_charge_shot,
  itm_gasoline,
 // Guns
 itm_nailgun, itm_bbgun, itm_crossbow, itm_compbow, itm_longbow, itm_rifle_22,
@@ -124,7 +125,7 @@ itm_nailgun, itm_bbgun, itm_crossbow, itm_compbow, itm_longbow, itm_rifle_22,
  itm_hk_mp7, itm_marlin_9a, itm_ruger_1022, itm_browning_blr,
  itm_remington_700, itm_sks, itm_ruger_mini, itm_savage_111f, itm_hk_g3,
  itm_hk_g36, itm_ak47, itm_fn_fal, itm_acr, itm_ar15, itm_m4a1, itm_scar_l,
- itm_scar_h, itm_steyr_aug, itm_m249, itm_v29, itm_ftk93,
+ itm_scar_h, itm_steyr_aug, itm_m249, itm_v29, itm_ftk93, itm_nx17,
  itm_flamethrower_simple, itm_flamethrower, itm_launcher_simple, itm_m79,
  itm_m320, itm_mgl, itm_coilgun, itm_hk_g80, itm_plasma_rifle,
 // Gun modifications
@@ -234,6 +235,7 @@ IF_USE_UPS,	// Draws power from a UPS
 IF_RELOAD_AND_SHOOT, // Reloading and shooting is one action
 IF_FIRE_100,	// Fires 100 rounds at once! (e.g. flamethrower)
 IF_GRENADE,	// NPCs treat this as a grenade
+IF_CHARGE,	// For guns; charges up slowly
 
 IF_UNARMED_WEAPON, // Counts as an unarmed weapon
 IF_NO_UNWIELD, // Impossible to unwield, e.g. bionic claws

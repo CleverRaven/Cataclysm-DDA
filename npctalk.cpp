@@ -1317,6 +1317,7 @@ void talk_function::give_equipment(game *g, npc *p)
        p->inv[item_index].tname().c_str());
  g->u.i_add( p->i_remn(item_index) );
  p->op_of_u.owed -= prices[chosen];
+ p->add_disease(DI_ASKED_FOR_ITEM, 1800, g);
 }
 
 void talk_function::follow(game *g, npc *p)

@@ -314,7 +314,7 @@ void player::activate_bionic(int b, game *g)
        index = g->mon_at(traj[l].x, traj[l].y);
        if (index != -1) {
         if (g->z[index].hurt(tmp_item.weight() * 2))
-         g->kill_mon(index);
+         g->kill_mon(index, true);
         g->m.add_item(traj[l].x, traj[l].y, tmp_item);
         l = traj.size() + 1;
        } else if (l > 0 && g->m.move_cost(traj[l].x, traj[l].y) == 0) {
