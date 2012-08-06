@@ -19,9 +19,9 @@ bio_carbon, bio_armor_head, bio_armor_torso, bio_armor_arms, bio_armor_legs,
 // Player Activated
 bio_flashlight, bio_night_vision, bio_infrared, 
 bio_face_mask,	// TODO
-bio_ads, bio_ods, bio_scent_mask,bio_scent_vision, bio_cloak, bio_painkiller, bio_nanobots,
- bio_heatsink, bio_resonator, bio_time_freeze, bio_teleport, bio_blood_anal,
- bio_blood_filter, bio_alarm,
+bio_ads, bio_ods, bio_scent_mask,bio_scent_vision, bio_cloak, bio_painkiller,
+ bio_nanobots, bio_heatsink, bio_resonator, bio_time_freeze, bio_teleport,
+ bio_blood_anal, bio_blood_filter, bio_alarm,
 bio_evap, bio_lighter, bio_claws, bio_blaster, bio_laser, bio_emp,
  bio_hydraulics, bio_water_extractor, bio_magnet, bio_fingerhack, bio_lockpick,
 bio_ground_sonar,

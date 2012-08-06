@@ -396,7 +396,7 @@ FLAGS(MF_HEARS, MF_SMELLS, MF_NOHEAD);
 
 mon("queen triffid",species_plant, 'F',	c_red,		MS_LARGE,	VEGGY,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  3, 22,100,200, 85, 14,  2,  7,  8,  0, 10,  4,  0,280, 2,
+	  3, 28,100,200, 85, 14,  2,  7,  8,  0, 10,  4,  0,280, 2,
 	&mdeath::normal,	&mattack::growplants, "\
 A very large triffid, with a particularly\n\
 vicious sting and thick bark.  As it\n\
@@ -1074,10 +1074,10 @@ FLAGS(MF_SMELLS);
 mon("your mother",species_hallu, '@',	c_white,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	  0,  0,100,100,100,  3,  0,  0,  0,  0,  0,  0,  0,  5,  20,
-	&mdeath::guilt,		&mattack::disappear, "\
+	&mdeath::disappear,	&mattack::disappear, "\
 Mom?"
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_GUILT);
 
 mon("generator", species_none, 'G',	c_white,	MS_LARGE,	STEEL,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq

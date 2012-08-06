@@ -1199,7 +1199,7 @@ int vehicle::part_collision (int vx, int vy, int part, int x, int y)
             if (vel2 > rng (5, 30))
                 g->fling_player_or_monster (0, z, move.dir() + angle, vel2 / 100);
             if (z->hp < 1)
-                g->kill_mon (mondex);
+                g->kill_mon (mondex, pl_ctrl);
         }
         else
         {

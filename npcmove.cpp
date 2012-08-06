@@ -237,12 +237,13 @@ void npc::execute_action(game *g, npc_action action, int target)
   update_path(g, tarx, tary);
   if (path.size() > 1)
    move_to_next(g);
-  else if (path.size() <= 1) {
+  else if (path.size() == 1) {
    if (target >= 0)
     melee_monster(g, target);
    else if (target == TARGET_PLAYER)
     melee_player(g, g->u);
-  }
+  } else
+   look_for_player(g, g->u);
   break;
   
  case npc_shoot:
@@ -1350,26 +1351,12 @@ void npc::melee_monster(game *g, int target)
  monster* monhit = &(g->z[target]);
  int dam = hit_mon(g, monhit);
  if (monhit->hurt(dam))
-  g->kill_mon(target);
+  g->kill_mon(target, false);
 }
 
 void npc::melee_player(game *g, player &foe)
 {
  hit_player(g, foe);
-/*
- int dam = 0, cut = 0;
- body_part hit;
- 
- if (hit_player(g, foe)) {
-  int side = rng(0, 1);
-  g->add_msg("%s hits your %s with %s %s.", name.c_str(),
-             body_part_name(hit, side).c_str(), (male ? "his" : "her"),
-             weapname(false).c_str());
-  g->u.hit(g, hit, side, dam, cut);
- } else
-  g->add_msg("%s swings %s %s at you, but misses.", name.c_str(),
-             (male ? "his" : "her"), weapname(false).c_str());
-*/
 }
 
 void npc::wield_best_melee(game *g)

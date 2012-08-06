@@ -200,6 +200,48 @@ as well as the penalty of shooting while driving.";
  }
 }
 
+std::string skill_long_name(skill sk, int level)
+{
+ switch (sk) {
+  case sk_null:
+   return "Nothing";
+  case sk_dodge:
+   if (level == 0)
+    return "Easily-Hit";
+   if (level == 1)
+    return "huh";
+  case sk_melee:
+  case sk_unarmed:
+  case sk_bashing:
+  case sk_cutting:
+  case sk_stabbing:
+  case sk_throw:
+  case sk_gun:
+  case sk_pistol:
+  case sk_shotgun:
+  case sk_smg:
+  case sk_rifle:
+  case sk_archery:
+  case sk_launcher:
+  case sk_mechanics:
+  case sk_electronics:
+  case sk_cooking:
+  case sk_tailor:
+  case sk_carpentry:
+  case sk_firstaid:
+  case sk_speech:
+  case sk_barter:
+  case sk_computer:
+  case sk_survival:
+  case sk_traps:
+  case sk_swimming:
+  case sk_driving:
+   return "huh";
+ }
+ return "huh";
+}
+
+
 double price_adjustment(int barter_skill)
 {
  switch (barter_skill) {

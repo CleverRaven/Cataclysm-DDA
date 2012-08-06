@@ -292,7 +292,7 @@ void computer::activate_function(game *g, computer_action action)
            g->m.ter(x, y + 1) == t_wall_h) ||
           (g->m.ter(x, y + 1) == t_reinforced_glass_h &&
            g->m.ter(x, y - 1) == t_wall_h)))
-      g->kill_mon(mondex);
+      g->kill_mon(mondex, true);
     }
    }
    print_line("Subjects terminated.");

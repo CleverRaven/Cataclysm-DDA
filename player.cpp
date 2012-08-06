@@ -1501,17 +1501,20 @@ void player::disp_status(WINDOW *w, game *g)
 
  int morale_cur = morale_level ();
  nc_color col_morale = c_white;
- if (morale_cur > 0)
+ if (morale_cur >= 10)
   col_morale = c_green;
- else
- if (morale_cur < 0)
+ else if (morale_cur <= -10)
   col_morale = c_red;
- if (morale_cur >= 1000)
-  mvwprintz(w, 3, 11 + dmor, col_morale, "M  hi");
- else if (morale_cur <= -100)
-  mvwprintz(w, 3, 11 + dmor, col_morale, "M low");
+ if (morale_cur >= 100)
+  mvwprintz(w, 3, 10 + dmor, col_morale, ":D");
+ else if (morale_cur >= 10)
+  mvwprintz(w, 3, 10 + dmor, col_morale, ":)");
+ else if (morale_cur > -10)
+  mvwprintz(w, 3, 10 + dmor, col_morale, ":|");
+ else if (morale_cur > -100)
+  mvwprintz(w, 3, 10 + dmor, col_morale, ":(");
  else
-  mvwprintz(w, 3, 11 + dmor, col_morale, "M %3d", morale_cur);
+  mvwprintz(w, 3, 10 + dmor, col_morale, "D:");
 
  if (in_vehicle && veh) {
   veh->print_fuel_indicator (w, 3, 49);
@@ -1577,11 +1580,11 @@ void player::disp_status(WINDOW *w, game *g)
   if (current_speed() > 100)
    col_spd = c_green;
 
-  mvwprintz(w, 3, 26, col_str, "St %s%d", str_cur >= 10 ? "" : " ", str_cur);
-  mvwprintz(w, 3, 32, col_dex, "Dx %s%d", dex_cur >= 10 ? "" : " ", dex_cur);
-  mvwprintz(w, 3, 38, col_int, "In %s%d", int_cur >= 10 ? "" : " ", int_cur);
-  mvwprintz(w, 3, 44, col_per, "Pe %s%d", per_cur >= 10 ? "" : " ", per_cur);
-  mvwprintz(w, 3, 50, col_spd, "S %s%d", spd_cur >= 10 ? "" : " ", spd_cur);
+  mvwprintz(w, 3, 22, col_str, "Str %s%d", str_cur >= 10 ? "" : " ", str_cur);
+  mvwprintz(w, 3, 29, col_dex, "Dex %s%d", dex_cur >= 10 ? "" : " ", dex_cur);
+  mvwprintz(w, 3, 36, col_int, "Int %s%d", int_cur >= 10 ? "" : " ", int_cur);
+  mvwprintz(w, 3, 43, col_per, "Per %s%d", per_cur >= 10 ? "" : " ", per_cur);
+  mvwprintz(w, 3, 50, col_spd, "Spd %s%d", spd_cur >= 10 ? "" : " ", spd_cur);
  }
 }
 
@@ -1865,8 +1868,8 @@ int player::throw_range(int index)
  if (ret < 1)
   return 1;
 // Cap at double our strength + skill
- if (ret > str_cur * 2 + sklevel[sk_throw])
-  return str_cur * 2 + sklevel[sk_throw];
+ if (ret > str_cur * 1.5 + sklevel[sk_throw])
+  return str_cur * 1.5 + sklevel[sk_throw];
  return ret;
 }
  
@@ -1879,6 +1882,8 @@ int player::ranged_dex_mod(bool real_life)
   return (real_life ? (0 - rng(0, dex - 8)) : (8 - dex));
 
  int deviation = 0;
+ if (dex < 4)
+  deviation = 4 * (8 - dex);
  if (dex < 6)
   deviation = 2 * (8 - dex);
  else
@@ -1894,7 +1899,11 @@ int player::ranged_per_mod(bool real_life)
   return 0;
  int deviation = 0;
 
- if (per < 6) {
+ if (per < 4) {
+  deviation = 5 * (8 - per);
+  if (real_life)
+   deviation = rng(0, deviation);
+ } else if (per < 6) {
   deviation = 2.5 * (8 - per);
   if (real_life)
    deviation = rng(0, deviation);
@@ -1919,7 +1928,9 @@ int player::throw_dex_mod(bool real_life)
   return (real_life ? 0 - rng(0, dex - 9) : 9 - dex);
  
  int deviation = 0;
- if (dex < 6)
+ if (dex < 4)
+  deviation = 4 * (8 - dex);
+ else if (dex < 6)
   deviation = 3 * (8 - dex);
  else
   deviation = 2 * (8 - dex);
@@ -3064,6 +3075,51 @@ void player::process_active_items(game *g)
  if (weapon.is_artifact() && weapon.is_tool())
   g->process_artifact(&weapon, this, true);
  else if (weapon.active) {
+  if (weapon.has_flag(IF_CHARGE)) { // We're chargin it up!
+   if (weapon.charges == 8) {
+    bool maintain = false;
+    if (has_charges(itm_UPS_on, 4)) {
+     use_charges(itm_UPS_on, 4);
+     maintain = true;
+    } else if (has_charges(itm_UPS_off, 4)) {
+     use_charges(itm_UPS_off, 4);
+     maintain = true;
+    }
+    if (maintain) {
+     if (one_in(20)) {
+      g->add_msg("Your %s discharges!", weapon.tname().c_str());
+      point target(posx + rng(-12, 12), posy + rng(-12, 12));
+      std::vector<point> traj = line_to(posx, posy, target.x, target.y, 0);
+      g->fire(*this, target.x, target.y, traj, false);
+     } else
+      g->add_msg("Your %s beeps alarmingly.", weapon.tname().c_str());
+    }
+   } else {
+    if (has_charges(itm_UPS_on, 1 + weapon.charges)) {
+     use_charges(itm_UPS_on, 1 + weapon.charges);
+     weapon.poison++;
+    } else if (has_charges(itm_UPS_off, 1 + weapon.charges)) {
+     use_charges(itm_UPS_off, 1 + weapon.charges);
+     weapon.poison++;
+    } else {
+     g->add_msg("Your %s spins down.", weapon.tname().c_str());
+     if (weapon.poison <= 0) {
+      weapon.charges--;
+      weapon.poison = weapon.charges - 1;
+     } else
+      weapon.poison--;
+     if (weapon.charges == 0)
+      weapon.active = false;
+    }
+    if (weapon.poison >= weapon.charges) {
+     weapon.charges++;
+     weapon.poison = 0;
+    }
+   }
+   return;
+  } // if (weapon.has_flag(IF_CHARGE))
+
+     
   if (!weapon.is_tool()) {
    debugmsg("%s is active, but it is not a tool.", weapon.tname().c_str());
    return;
@@ -3340,7 +3396,7 @@ int player::butcher_factor()
    }
   }
  }
- if (weapon.damage_cut() >= 10) {
+ if (weapon.damage_cut() >= 10 && !weapon.has_flag(IF_SPEAR)) {
   int factor = weapon.volume() * 5 - weapon.weight() * 1.5 -
                weapon.damage_cut();
   if (weapon.damage_cut() <= 20)

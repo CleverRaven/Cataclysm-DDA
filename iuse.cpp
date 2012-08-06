@@ -856,7 +856,7 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
    if (g->u_see(&(g->z[mondex]), linet))
     g->add_msg("The %s is frozen!", g->z[mondex].name().c_str());
    if (g->z[mondex].hurt(rng(20, 60)))
-    g->kill_mon(mondex);
+    g->kill_mon(mondex, (p == &(g->u)));
    else
     g->z[mondex].speed /= 2;
   }
@@ -1907,7 +1907,7 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
   int shock = rng(5, 25);
   z->moves -= shock * 100;
   if (z->hurt(shock))
-   g->kill_mon(mondex);
+   g->kill_mon(mondex, (p == &(g->u)));
   return;
  }
  

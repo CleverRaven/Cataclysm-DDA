@@ -53,6 +53,15 @@ struct monster_and_count
  monster_and_count(monster M, int C) : mon (M), count (C) {};
 };
 
+struct game_message
+{
+ calendar turn;
+ int count;
+ std::string message;
+ game_message() { turn = 0; count = 1; message = ""; };
+ game_message(calendar T, std::string M) : turn (T), message (M) { count = 1; };
+};
+
 struct mtype;
 struct mission_type;
 class map;
@@ -99,7 +108,8 @@ class game
   bool is_empty(int x, int y);	// True if no PC, no monster, move cost > 0
   bool isBetween(int test, int down, int up);
   bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
-  void kill_mon(int index);	// Kill that monster; fixes any pointers etc
+// Kill that monster; fixes any pointers etc
+  void kill_mon(int index, bool player_did_it = false);
   void explode_mon(int index);	// Explode a monster; like kill_mon but messier
 // hit_monster_with_flags processes ammo flags (e.g. incendiary, etc)
   void hit_monster_with_flags(monster &z, unsigned int flags);
@@ -298,6 +308,7 @@ class game
   void set_adjacent_overmaps(bool from_scratch = false);
 
 // Routine loop functions, approximately in order of execution
+  void cleanup_dead();     // Delete any dead NPCs/monsters
   void monmove();          // Monster movement
   void om_npcs_move();     // Movement of NPCs on the overmap (non-local)
   void check_warmth();     // Checks the player's warmth (applying clothing)
@@ -313,6 +324,7 @@ class game
   void death_screen();     // Display our stats, "GAME OVER BOO HOO"
   void gameover();         // Ends the game
   void write_msg();        // Prints the messages in the messages list
+  void msg_buffer();       // Opens a window with old messages in it
   void draw_minimap();     // Draw the 5x5 minimap
   void draw_HP();          // Draws the player's HP and Power level
 
@@ -348,8 +360,8 @@ class game
   calendar nextweather; // The turn on which weather will shift next.
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
   int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
-  std::vector <std::string> messages;   // Messages to be printed
-  unsigned char curmes;	  // The last-seen message.  Older than 256 is deleted.
+  std::vector <game_message> messages;   // Messages to be printed
+  int curmes;	  // The last-seen message.
   int grscent[SEEX * MAPSIZE][SEEY * MAPSIZE];	// The scent map
   //int monmap[SEEX * MAPSIZE][SEEY * MAPSIZE]; // Temp monster map, for mon_at()
   int nulscent;				// Returned for OOB scent checks

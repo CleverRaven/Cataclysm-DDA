@@ -203,6 +203,7 @@ map m :\n\
 missions M\n\
 factions #\n\
 morale %\n\
+messages P\n\
 help ?\n\
 \n\
 # DEBUG FUNCTIONS\n\

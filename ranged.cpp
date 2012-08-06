@@ -24,8 +24,36 @@ void ammo_effects(game *g, int x, int y, long flags);
 void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
                 bool burst)
 {
- // If we aren't wielding a loaded gun, we can't shoot!
- item ammotmp = item(p.weapon.curammo, 0);
+ item ammotmp;
+ if (p.weapon.has_flag(IF_CHARGE)) { // It's a charger gun, so make up a type
+// Charges maxes out at 8.
+  it_ammo *tmpammo = dynamic_cast<it_ammo*>(itypes[itm_charge_shot]);
+  tmpammo->damage = p.weapon.charges * p.weapon.charges;
+  tmpammo->pierce = (p.weapon.charges >= 4 ? (p.weapon.charges - 3) * 2.5 : 0);
+  tmpammo->range = 5 + p.weapon.charges * 5;
+  if (p.weapon.charges <= 4)
+   tmpammo->accuracy = 14 - p.weapon.charges * 2;
+  else // 5, 12, 21, 32
+   tmpammo->accuracy = p.weapon.charges * (p.weapon.charges - 4);
+  tmpammo->recoil = tmpammo->accuracy * .8;
+  tmpammo->item_flags = 0;
+  if (p.weapon.charges == 8)
+   tmpammo->item_flags |= mfb(IF_AMMO_EXPLOSIVE_BIG);
+  else if (p.weapon.charges >= 6)
+   tmpammo->item_flags |= mfb(IF_AMMO_EXPLOSIVE);
+  if (p.weapon.charges >= 5)
+   tmpammo->item_flags |= mfb(IF_AMMO_FLAME);
+  else if (p.weapon.charges >= 4)
+   tmpammo->item_flags |= mfb(IF_AMMO_INCENDIARY);
+
+  ammotmp = item(tmpammo, 0);
+  p.weapon.curammo = tmpammo;
+  p.weapon.active = false;
+  p.weapon.charges = 0;
+
+ } else // Just a normal gun. If we're here, we know curammo is valid.
+  ammotmp = item(p.weapon.curammo, 0);
+
  ammotmp.charges = 1;
  if (!p.weapon.is_gun()) {
   debugmsg("%s tried to fire a non-gun (%s).", p.name.c_str(),
@@ -58,7 +86,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  int num_shots = 1;
  if (burst)
   num_shots = p.weapon.burst_size();
- if (num_shots > p.weapon.charges)
+ if (num_shots > p.weapon.charges && !p.weapon.has_flag(IF_CHARGE))
   num_shots = p.weapon.charges;
 
  if (num_shots == 0)
@@ -213,7 +241,6 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     splatter(this, blood_traj, dam, &z[mondex]);
     shoot_monster(this, p, z[mondex], dam, goodhit);
 
-
    } else if ((!missed || one_in(3)) &&
               (npc_at(tx, ty) != -1 || (u.posx == tx && u.posy == ty)))  {
     double goodhit = missed_by;
@@ -258,6 +285,10 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
 {
  int deviation = 0;
  int trange = 1.5 * rl_dist(p.posx, p.posy, tarx, tary);
+
+// Throwing attempts below "Basic Competency" level are extra-bad
+ if (p.sklevel[sk_throw] < 3)
+  deviation += rng(0, 8 - p.sklevel[sk_throw]);
 
  if (p.sklevel[sk_throw] < 8)
   deviation += rng(0, 8 - p.sklevel[sk_throw]);
@@ -365,7 +396,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     add_msg("%s hits the %s for %d damage.", message.c_str(),
             z[mon_at(tx, ty)].name().c_str(), dam);
    if (z[mon_at(tx, ty)].hurt(dam))
-    kill_mon(mon_at(tx, ty));
+    kill_mon(mon_at(tx, ty), !p.is_npc());
    return;
   } else // No monster hit, but the terrain might be.
    m.shoot(this, tx, ty, dam, false, 0);
@@ -732,6 +763,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit)
  int junk;
  bool u_see_mon = g->u_see(&(mon), junk);
  if (mon.has_flag(MF_HARDTOSHOOT) && !one_in(4) &&
+     !p.weapon.curammo->m1 == LIQUID && 
      p.weapon.curammo->accuracy >= 4) { // Buckshot hits anyway
   if (u_see_mon)
    g->add_msg("The shot passes through the %s without hitting.",
@@ -741,11 +773,13 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit)
 // Armor blocks BEFORE any critical effects.
   int zarm = mon.armor_cut();
   zarm -= p.weapon.curammo->pierce;
-  if (p.weapon.curammo->accuracy < 4) // Shot doesn't penetrate armor well
+  if (p.weapon.curammo->m1 == LIQUID)
+   zarm = 0;
+  else if (p.weapon.curammo->accuracy < 4) // Shot doesn't penetrate armor well
    zarm *= rng(2, 4);
   if (zarm > 0)
    dam -= zarm;
-  if (dam < 0) {
+  if (dam <= 0) {
    if (u_see_mon)
     g->add_msg("The shot reflects off the %s!",
             mon.name_with_armor().c_str());
@@ -778,7 +812,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit)
     g->add_msg("%s %s shoots the %s.", message.c_str(), p.name.c_str(),
             mon.name().c_str());
    if (mon.hurt(dam))
-    g->kill_mon(g->mon_at(mon.posx, mon.posy));
+    g->kill_mon(g->mon_at(mon.posx, mon.posy), (&p == &(g->u)));
    else if (p.weapon.curammo->item_flags != 0)
     g->hit_monster_with_flags(mon, p.weapon.curammo->item_flags);
    dam = 0;

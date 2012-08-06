@@ -23,5 +23,6 @@ enum skill {
 
 std::string skill_name(int);
 std::string skill_description(int);
+std::string skill_long_name(skill sk, int level);
 double price_adjustment(int);
 #endif

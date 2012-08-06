@@ -136,7 +136,7 @@ void mdeath::fungus(game *g, monster *z)
       g->add_msg("The %s is covered in tiny spores!",
                  g->z[g->mon_at(sporex, sporey)].name().c_str());
      if (!g->z[g->mon_at(sporex, sporey)].make_fungus(g))
-      g->kill_mon(g->mon_at(sporex, sporey));
+      g->kill_mon(g->mon_at(sporex, sporey), (z->friendly != 0));
     } else if (g->u.posx == sporex && g->u.posy == sporey)
      g->u.infect(DI_SPORES, bp_mouth, 4, 30, g);
     else {

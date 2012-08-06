@@ -162,6 +162,13 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP(itm_canister_empty, 1, itm_can_food, 1, NULL);
   COMP(itm_superglue, 1, NULL);
 
+ RECIPE(itm_nx17, CC_WEAPON, sk_electronics, sk_mechanics, 8, 40000);
+  TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
+  TOOL(itm_soldering_iron, 6, itm_toolset, 6, NULL);
+  COMP(itm_vacutainer, 1, NULL);
+  COMP(itm_power_supply, 8, NULL);
+  COMP(itm_amplifier, 8, NULL);
+
  RECIPE(itm_mininuke, CC_WEAPON, sk_mechanics, sk_electronics, 10, 40000);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_wrench, -1, itm_toolset, -1, NULL);

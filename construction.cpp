@@ -471,8 +471,6 @@ void game::complete_construction()
  int terx = u.activity.placement.x, tery = u.activity.placement.y;
  if (stage.terrain != t_null)
   m.ter(terx, tery) = stage.terrain;
- construct effects;
- (effects.*(built->done))(this, point(terx, tery));
 
 // Strip off the first stage in our list...
  u.activity.values.erase(u.activity.values.begin());
@@ -482,6 +480,11 @@ void game::complete_construction()
   u.activity.moves_left = next.time * 1000;
  } else // We're finished!
   u.activity.type = ACT_NULL;
+
+// This comes after clearing the activity, in case the function interrupts
+// activities
+ construct effects;
+ (effects.*(built->done))(this, point(terx, tery));
 }
 
 bool construct::able_empty(game *g, point p)
