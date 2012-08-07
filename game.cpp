@@ -609,6 +609,7 @@ bool game::do_turn()
  process_activity();
 
  while (u.moves > 0) {
+  cleanup_dead();
   if (!u.has_disease(DI_SLEEP) && u.activity.type == ACT_NULL)
    draw();
   get_input();
@@ -1139,6 +1140,7 @@ void game::get_input()
 
  action_id act = keymap[ch];
 
+// This has no action unless we're in a special game mode.
  gamemode->pre_action(this, act);
 
  int veh_part;
@@ -1843,7 +1845,6 @@ void game::add_msg(const char* msg, ...)
 
  if (messages.size() == 256)
   messages.erase(messages.begin());
- curmes++;
 /*
  size_t split;
  while (s.length() > maxlength) {
@@ -2980,7 +2981,16 @@ void game::mon_info()
    }
    if (pr.y < 12) { // Don't print if we've overflowed
     mvwputch (w_moninfo, pr.y, pr.x, mtypes[buff]->color, mtypes[buff]->sym);
-    mvwprintz(w_moninfo, pr.y, pr.x + 2, c_ltgray, name.c_str());
+    nc_color danger = c_dkgray;
+    if (mtypes[buff]->difficulty >= 30)
+     danger = c_red;
+    else if (mtypes[buff]->difficulty >= 15)
+     danger = c_ltred;
+    else if (mtypes[buff]->difficulty >= 8)
+     danger = c_white;
+    else if (mtypes[buff]->agro > 0)
+     danger = c_ltgray;
+    mvwprintz(w_moninfo, pr.y, pr.x + 2, danger, name.c_str());
    }
 // +4 for the "Z " and two trailing spaces
    pr.x += 4 + name.length();
@@ -3092,9 +3102,8 @@ void game::monmove()
     z[i].dead = true;
    }
   }
-  if (z[i].dead)
-   i--;
-  else {
+
+  if (!z[i].dead) {
    if (u.has_active_bionic(bio_alarm) && u.power_level >= 1 &&
        rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= 5) {
     u.power_level--;
@@ -6912,7 +6921,7 @@ void game::write_msg()
 {
  werase(w_messages);
  int maxlength = 80 - (SEEX * 2 + 10);	// Matches size of w_messages
- int line = 0;
+ int line = 8;
  for (int i = messages.size() - 1; i >= 0 && line < 9; i--) {
   std::string mes = messages[i].message;
   if (messages[i].count > 1) {
@@ -6922,7 +6931,7 @@ void game::write_msg()
   }
 // Split the message into many if we must!
   size_t split;
-  while (mes.length() > maxlength && line < 9) {
+  while (mes.length() > maxlength && line >= 0) {
    split = mes.find_last_of(' ', maxlength);
    if (split > maxlength)
     split = maxlength;
@@ -6931,18 +6940,20 @@ void game::write_msg()
     col = c_ltred;
    else if (int(messages[i].turn) + 5 >= curmes)
     col = c_ltgray;
-   mvwprintz(w_messages, line, 0, col, mes.substr(0, split).c_str());
-   line++;
-   mes = mes.substr(split + 1);
+   //mvwprintz(w_messages, line, 0, col, mes.substr(0, split).c_str());
+   mvwprintz(w_messages, line, 0, col, mes.substr(split + 1).c_str());
+   mes = mes.substr(0, split);
+   line--;
+   //mes = mes.substr(split + 1);
   }
-  if (line < 9) {
+  if (line >= 0) {
    nc_color col = c_dkgray;
    if (int(messages[i].turn) >= curmes)
     col = c_ltred;
    else if (int(messages[i].turn) + 5 >= curmes)
     col = c_ltgray;
    mvwprintz(w_messages, line, 0, col, mes.c_str());
-   line++;
+   line--;
   }
  }
  curmes = int(turn);

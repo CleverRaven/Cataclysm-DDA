@@ -3,7 +3,7 @@
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
 # PROFILE is for use with gprof or a similar program -- don't bother generally
 #WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-char-subscripts
-DEBUG = -g
+#DEBUG = -g
 #PROFILE = -pg
 
 ODIR = obj

@@ -67,4 +67,8 @@ ACTION_TOGGLE_DEBUGMON,
 NUM_ACTIONS
 };
 
+action_id look_up_action(std::string ident);
+std::string action_ident(action_id);
+std::string action_name(action_id);
+
 #endif
