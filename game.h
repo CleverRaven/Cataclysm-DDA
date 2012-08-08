@@ -242,6 +242,9 @@ class game
   void init_vehicles();     // Initializes vehicle types
 
   void load_keyboard_settings(); // Load keybindings from disk
+  void save_keymap();		// Save keybindings to disk
+  std::vector<char> keys_bound_to(action_id act); // All keys bound to act
+  void clear_bindings(action_id act); // Deletes all keys bound to act
 
   void create_factions();   // Creates new factions (for a new game world)
   void create_starting_npcs(); // Creates NPCs that start near you

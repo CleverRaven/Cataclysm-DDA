@@ -2,8 +2,6 @@
 #include "keypress.h"
 #include <fstream>
 
-action_id look_up_action(std::string ident);
-
 void game::load_keyboard_settings()
 {
  std::ifstream fin;
@@ -49,118 +47,288 @@ Fix data/keymap.txt at your next chance!", ch, id.c_str());
  }
 }
 
+void game::save_keymap()
+{
+ std::ofstream fout;
+ fout.open("data/keymap.txt");
+ if (!fout) { // It doesn't exist
+  debugmsg("Can't open data/keymap.txt.");
+  fout.close();
+  return;
+ }
+ std::map<char, action_id>::iterator it;
+ for (it = keymap.begin(); it != keymap.end(); it++)
+  fout << action_ident( (*it).second ) << " " << (*it).first << std::endl;
+
+ fout.close();
+}
+
+std::vector<char> game::keys_bound_to(action_id act)
+{
+ std::vector<char> ret;
+ std::map<char, action_id>::iterator it;
+ for (it = keymap.begin(); it != keymap.end(); it++) {
+  if ( (*it).second == act )
+   ret.push_back( (*it).first );
+ }
+
+ return ret;
+}
+
+void game::clear_bindings(action_id act)
+{
+ std::map<char, action_id>::iterator it;
+ for (it = keymap.begin(); it != keymap.end(); it++) {
+  if ( (*it).second == act ) {
+   keymap.erase(it);
+   it = keymap.begin();
+  }
+ }
+}
+
+std::string action_ident(action_id act)
+{
+ switch (act) {
+  case ACTION_PAUSE:
+   return "pause";
+  case ACTION_MOVE_N:
+   return "move_n";
+  case ACTION_MOVE_NE:
+   return "move_ne";
+  case ACTION_MOVE_E:
+   return "move_e";
+  case ACTION_MOVE_SE:
+   return "move_se";
+  case ACTION_MOVE_S:
+   return "move_s";
+  case ACTION_MOVE_SW:
+   return "move_sw";
+  case ACTION_MOVE_W:
+   return "move_w";
+  case ACTION_MOVE_NW:
+   return "move_nw";
+  case ACTION_MOVE_DOWN:
+   return "move_down";
+  case ACTION_MOVE_UP:
+   return "move_up";
+  case ACTION_OPEN:
+   return "open";
+  case ACTION_CLOSE:
+   return "close";
+  case ACTION_SMASH:
+   return "smash";
+  case ACTION_EXAMINE:
+   return "examine";
+  case ACTION_PICKUP:
+   return "pickup";
+  case ACTION_BUTCHER:
+   return "butcher";
+  case ACTION_CHAT:
+   return "chat";
+  case ACTION_LOOK:
+   return "look";
+  case ACTION_INVENTORY:
+   return "inventory";
+  case ACTION_ORGANIZE:
+   return "organize";
+  case ACTION_USE:
+   return "apply";
+  case ACTION_WEAR:
+   return "wear";
+  case ACTION_TAKE_OFF:
+   return "take_off";
+  case ACTION_EAT:
+   return "eat";
+  case ACTION_READ:
+   return "read";
+  case ACTION_WIELD:
+   return "wield";
+  case ACTION_PICK_STYLE:
+   return "pick_style";
+  case ACTION_RELOAD:
+   return "reload";
+  case ACTION_UNLOAD:
+   return "unload";
+  case ACTION_THROW:
+   return "throw";
+  case ACTION_FIRE:
+   return "fire";
+  case ACTION_FIRE_BURST:
+   return "fire_burst";
+  case ACTION_DROP:
+   return "drop";
+  case ACTION_DIR_DROP:
+   return "drop_adj";
+  case ACTION_BIONICS:
+   return "bionics";
+  case ACTION_WAIT:
+   return "wait";
+  case ACTION_CRAFT:
+   return "craft";
+  case ACTION_CONSTRUCT:
+   return "construct";
+  case ACTION_SLEEP:
+   return "sleep";
+  case ACTION_TOGGLE_SAFEMODE:
+   return "safemode";
+  case ACTION_TOGGLE_AUTOSAFE:
+   return "autosafe";
+  case ACTION_IGNORE_ENEMY:
+   return "ignore_enemy";
+  case ACTION_SAVE:
+   return "save";
+  case ACTION_QUIT:
+   return "quit";
+  case ACTION_PL_INFO:
+   return "player_data";
+  case ACTION_MAP:
+   return "map";
+  case ACTION_MISSIONS:
+   return "missions";
+  case ACTION_FACTIONS:
+   return "factions";
+  case ACTION_MORALE:
+   return "morale";
+  case ACTION_MESSAGES:
+   return "messages";
+  case ACTION_HELP:
+   return "help";
+  case ACTION_DEBUG:
+   return "debug";
+  case ACTION_DISPLAY_SCENT:
+   return "debug_scent";
+  case ACTION_TOGGLE_DEBUGMON:
+   return "debug_mode";
+  case ACTION_NULL:
+   return "null";
+ }
+ return "unknown";
+}
+
 action_id look_up_action(std::string ident)
 {
- if (ident == "pause")
-  return ACTION_PAUSE;
- if (ident == "move_n")
-  return ACTION_MOVE_N;
- if (ident == "move_ne")
-  return ACTION_MOVE_NE;
- if (ident == "move_e")
-  return ACTION_MOVE_E;
- if (ident == "move_se")
-  return ACTION_MOVE_SE;
- if (ident == "move_s")
-  return ACTION_MOVE_S;
- if (ident == "move_sw")
-  return ACTION_MOVE_SW;
- if (ident == "move_w")
-  return ACTION_MOVE_W;
- if (ident == "move_nw")
-  return ACTION_MOVE_NW;
- if (ident == "move_down")
-  return ACTION_MOVE_DOWN;
- if (ident == "move_up")
-  return ACTION_MOVE_UP;
- if (ident == "open")
-  return ACTION_OPEN;
- if (ident == "close")
-  return ACTION_CLOSE;
- if (ident == "smash")
-  return ACTION_SMASH;
- if (ident == "examine")
-  return ACTION_EXAMINE;
- if (ident == "pickup")
-  return ACTION_PICKUP;
- if (ident == "butcher")
-  return ACTION_BUTCHER;
- if (ident == "chat")
-  return ACTION_CHAT;
- if (ident == "look")
-  return ACTION_LOOK;
- if (ident == "inventory")
-  return ACTION_INVENTORY;
- if (ident == "organize")
-  return ACTION_ORGANIZE;
- if (ident == "apply")
-  return ACTION_USE;
- if (ident == "wear")
-  return ACTION_WEAR;
- if (ident == "take_off")
-  return ACTION_TAKE_OFF;
- if (ident == "eat")
-  return ACTION_EAT;
- if (ident == "read")
-  return ACTION_READ;
- if (ident == "wield")
-  return ACTION_WIELD;
- if (ident == "pick_style")
-  return ACTION_PICK_STYLE;
- if (ident == "reload")
-  return ACTION_RELOAD;
- if (ident == "unload")
-  return ACTION_UNLOAD;
- if (ident == "throw")
-  return ACTION_THROW;
- if (ident == "fire")
-  return ACTION_FIRE;
- if (ident == "fire_burst")
-  return ACTION_FIRE_BURST;
- if (ident == "drop")
-  return ACTION_DROP;
- if (ident == "drop_adj")
-  return ACTION_DIR_DROP;
- if (ident == "bionics")
-  return ACTION_BIONICS;
- if (ident == "wait")
-  return ACTION_WAIT;
- if (ident == "craft")
-  return ACTION_CRAFT;
- if (ident == "construct")
-  return ACTION_CONSTRUCT;
- if (ident == "sleep")
-  return ACTION_SLEEP;
- if (ident == "safemode")
-  return ACTION_TOGGLE_SAFEMODE;
- if (ident == "autosafe")
-  return ACTION_TOGGLE_AUTOSAFE;
- if (ident == "ignore_enemy")
-  return ACTION_IGNORE_ENEMY;
- if (ident == "save")
-  return ACTION_SAVE;
- if (ident == "quit")
-  return ACTION_QUIT;
- if (ident == "player_data")
-  return ACTION_PL_INFO;
- if (ident == "map")
-  return ACTION_MAP;
- if (ident == "missions")
-  return ACTION_MISSIONS;
- if (ident == "factions")
-  return ACTION_FACTIONS;
- if (ident == "morale")
-  return ACTION_MORALE;
- if (ident == "messages")
-  return ACTION_MESSAGES;
- if (ident == "help")
-  return ACTION_HELP;
- if (ident == "debug")
-  return ACTION_DEBUG;
- if (ident == "debug_scent")
-  return ACTION_DISPLAY_SCENT;
- if (ident == "debug_mode")
-  return ACTION_TOGGLE_DEBUGMON;
-
+ for (int i = 0; i < NUM_ACTIONS; i++) {
+  if (action_ident( action_id(i) ) == ident)
+   return action_id(i);
+ }
  return ACTION_NULL;
+}
+
+std::string action_name(action_id act)
+{
+ switch (act) {
+  case ACTION_PAUSE:
+   return "Pause";
+  case ACTION_MOVE_N:
+   return "Move North";
+  case ACTION_MOVE_NE:
+   return "Move Northeast";
+  case ACTION_MOVE_E:
+   return "Move East";
+  case ACTION_MOVE_SE:
+   return "Move Southeast";
+  case ACTION_MOVE_S:
+   return "Move South";
+  case ACTION_MOVE_SW:
+   return "Move Southwest";
+  case ACTION_MOVE_W:
+   return "Move West";
+  case ACTION_MOVE_NW:
+   return "Move Northwest";
+  case ACTION_MOVE_DOWN:
+   return "Descend Stairs";
+  case ACTION_MOVE_UP:
+   return "Ascend Stairs";
+  case ACTION_OPEN:
+   return "Open Door";
+  case ACTION_CLOSE:
+   return "Close Door";
+  case ACTION_SMASH:
+   return "Smash Nearby Terrain";
+  case ACTION_EXAMINE:
+   return "Examine Nearby Terrain";
+  case ACTION_PICKUP:
+   return "Pick Item(s) Up";
+  case ACTION_BUTCHER:
+   return "Butcher";
+  case ACTION_CHAT:
+   return "Chat with NPC";
+  case ACTION_LOOK:
+   return "Look Around";
+  case ACTION_INVENTORY:
+   return "Open Inventory";
+  case ACTION_ORGANIZE:
+   return "Swap Inventory Letters";
+  case ACTION_USE:
+   return "Apply or Use Item";
+  case ACTION_WEAR:
+   return "Wear Item";
+  case ACTION_TAKE_OFF:
+   return "Take Off Worn Item";
+  case ACTION_EAT:
+   return "Eat";
+  case ACTION_READ:
+   return "Read";
+  case ACTION_WIELD:
+   return "Wield";
+  case ACTION_PICK_STYLE:
+   return "Select Unarmed Style";
+  case ACTION_RELOAD:
+   return "Reload Wielded Item";
+  case ACTION_UNLOAD:
+   return "Unload or Empty Wielded Item";
+  case ACTION_THROW:
+   return "Throw Item";
+  case ACTION_FIRE:
+   return "Fire Wielded Item";
+  case ACTION_FIRE_BURST:
+   return "Burst-Fire Wielded Item";
+  case ACTION_DROP:
+   return "Drop Item";
+  case ACTION_DIR_DROP:
+   return "Drop Item to Adjacent Tile";
+  case ACTION_BIONICS:
+   return "View/Activate Bionics";
+  case ACTION_WAIT:
+   return "Wait for Several Minutes";
+  case ACTION_CRAFT:
+   return "Craft Items";
+  case ACTION_CONSTRUCT:
+   return "Construct Terrain";
+  case ACTION_SLEEP:
+   return "Sleep";
+  case ACTION_TOGGLE_SAFEMODE:
+   return "Toggle Safemode";
+  case ACTION_TOGGLE_AUTOSAFE:
+   return "Toggle Auto-Safemode";
+  case ACTION_IGNORE_ENEMY:
+   return "Ignore Nearby Enemy";
+  case ACTION_SAVE:
+   return "Save and Quit";
+  case ACTION_QUIT:
+   return "Commit Suicide";
+  case ACTION_PL_INFO:
+   return "View Player Info";
+  case ACTION_MAP:
+   return "View Map";
+  case ACTION_MISSIONS:
+   return "View Missions";
+  case ACTION_FACTIONS:
+   return "View Factions";
+  case ACTION_MORALE:
+   return "View Morale";
+  case ACTION_MESSAGES:
+   return "View Message Log";
+  case ACTION_HELP:
+   return "View Help";
+  case ACTION_DEBUG:
+   return "Debug Menu";
+  case ACTION_DISPLAY_SCENT:
+   return "View Scentmap";
+  case ACTION_TOGGLE_DEBUGMON:
+   return "Toggle Debug Messages";
+  case ACTION_NULL:
+   return "No Action";
+ }
+ return "Someone forgot to name an action.";
 }

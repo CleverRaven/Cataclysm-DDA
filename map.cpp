@@ -1562,18 +1562,23 @@ void map::process_active_items_in_submap(game *g, int nonant)
    std::vector<item> *items = &(grid[nonant].itm[i][j]);
    for (int n = 0; n < items->size(); n++) {
     if ((*items)[n].active) {
-     tmp = dynamic_cast<it_tool*>((*items)[n].type);
-     (use.*tmp->use)(g, &(g->u), &((*items)[n]), true);
-     if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0)
-      (*items)[n].charges--;
-     if ((*items)[n].charges <= 0) {
-      (use.*tmp->use)(g, &(g->u), &((*items)[n]), false);
-      if (tmp->revert_to == itm_null || (*items)[n].charges == -1) {
-       items->erase(items->begin() + n);
-       grid[nonant].active_item_count--;
-       n--;
-      } else
-       (*items)[n].type = g->itypes[tmp->revert_to];
+     if (!(*items)[n].is_tool()) { // It's probably a charger gun
+      (*items)[n].active = false;
+      (*items)[n].charges = 0;
+     } else { 
+      tmp = dynamic_cast<it_tool*>((*items)[n].type);
+      (use.*tmp->use)(g, &(g->u), &((*items)[n]), true);
+      if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge ==0)
+       (*items)[n].charges--;
+      if ((*items)[n].charges <= 0) {
+       (use.*tmp->use)(g, &(g->u), &((*items)[n]), false);
+       if (tmp->revert_to == itm_null || (*items)[n].charges == -1) {
+        items->erase(items->begin() + n);
+        grid[nonant].active_item_count--;
+        n--;
+       } else
+        (*items)[n].type = g->itypes[tmp->revert_to];
+      }
      }
     }
    }

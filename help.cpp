@@ -40,7 +40,7 @@ l: Combat\n\
 m: Unarmed Styles\n\
 n: Survival tips\n\
 \n\
-1: List of all commands\n\
+1: List of all commands (you can change key commands here)\n\
 2: List of item types and data\n\
 3: Description of map symbols\n\
 4: Description of gun types\n\
@@ -413,40 +413,79 @@ easily drop unwanted items on the floor.");
    getch();
    break;
 
-  case '1':
+  case '1': {
    erase();
-   mvprintz(0, 0, c_white, "MOVEMENT:");
-   mvprintz(1, 0, c_ltgray, "\
-vikeys or numpad - Movement or attack        . or 5 - Pause for one turn\n\
-o - Open a door                              c      - Close a door\n\
-s - Smash terrain                            , or g - Pick up items\n\
-e - Examine terrain, open container          < or > - Go up or down stairs\n\
-$ - Lie down to sleep                        ^      - Long wait\n\
-! - Toggle Safe Mode                         \"      - Toggle Auto Safe Mode");
-   mvprintz(7, 0, c_white, "ITEMS:");
-   mvprintz(8, 0, c_ltgray, "\
-i - View Inventory                           d,D - Drop item (with direction)\n\
-w - Wield item (w- wields nothing)           t - Throw item\n\
-W - Wear item                                T - Take off item\n\
-a - Activate tool                            E - Eat comestible\n\
-r - Reload wielded gun or tool               U - Unload wielded gun or tool\n\
-f - Fire gun (F burst-fires)                 B - Butcher a corpse\n\
-p - Power up / List bionics                  R - Read book\n\
-& - Craft items                              * - Construct\n\
-= - Reassign inventory letter                _ - Select Melee style");
-   mvprintz(17, 0, c_white, "INFORMATION:");
-   mvprintz(18, 0, c_ltgray, "\
-@ - View character status                    : or m - Open world map\n\
-%%%% - View morale                              ; or x - Look around\n\
-C - Chat with NPC                            ?      - Help page");
-   mvprintz(21, 0, c_white, "META:");
-   mvprintz(22, 0, c_ltgray, "\
-S - Save game                                Q - Quit w/o saving");
-   mvprintz(23, 0, c_red, "\
-Note that 'a' is context-sensitive, and can be used in place of 'W', 'E', or\n\
-'R', if you like.");
-   getch();
-   break;
+   int offset = 1;
+   char ch = ' ';
+   bool changed_keymap = false;
+   bool needs_refresh = true;
+   do {
+    if (needs_refresh) {
+     erase();
+     mvprintz(0, 40, c_white, "Use the arrow keys (or movement keys)");
+     mvprintz(1, 40, c_white, "to scroll.");
+     mvprintz(2, 40, c_white, "Press ESC or q to return.            ");
+     mvprintz(3, 40, c_white, "Press - to clear the keybindings for ");
+     mvprintz(4, 40, c_white, "an action.                           ");
+     mvprintz(5, 40, c_white, "Press + to add a keybinding for an   ");
+     mvprintz(6, 40, c_white, "action.                              ");
+     needs_refresh = false;
+    }
+// Clear the lines
+    for (int i = 0; i < 25; i++)
+     mvprintz(i, 0, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+
+    for (int i = 0; i < 25 && offset + i < NUM_ACTIONS; i++) {
+     std::vector<char> keys = keys_bound_to( action_id(offset + i) );
+     nc_color col = (keys.empty() ? c_ltred : c_white);
+     mvprintz(i, 3, col, "%s: ", action_name( action_id(offset + i) ).c_str());
+     if (keys.empty())
+      printz(c_red, "Unbound!");
+     else {
+      for (int j = 0; j < keys.size(); j++) {
+       printz(c_yellow, "%c", keys[j]);
+       if (j < keys.size() - 1)
+        printz(c_white, " or ");
+      }
+     }
+    }
+    refresh();
+    ch = input();
+    int sx = 0, sy = 0;
+    get_direction(this, sx, sy, ch);
+    if (sy == -1 && offset > 1)
+     offset--;
+    if (sy == 1 && offset + 20 < NUM_ACTIONS)
+     offset++;
+    if (ch == '-' || ch == '+') {
+     needs_refresh = true;
+     for (int i = 0; i < 25; i++) {
+      mvprintz(i, 0, c_ltblue, "%c", 'a' + i);
+      mvprintz(i, 1, c_white, ":");
+     }
+     refresh();
+     char actch = getch();
+     if (actch >= 'a' && actch <= 'a' + 24) {
+      action_id act = action_id(actch - 'a' + offset);
+      if (ch == '-' && query_yn("Clear keys for %s?",action_name(act).c_str())){
+       clear_bindings(act);
+       changed_keymap = true;
+      } else if (ch == '+') {
+       char newbind = popup_getkey("New key for %s:", action_name(act).c_str());
+       if (keymap.find(newbind) == keymap.end()) { // It's not in use!  Good.
+        keymap[ newbind ] = act;
+        changed_keymap = true;
+       } else
+        popup("%c is used for %s.", newbind,
+              action_name( keymap[newbind] ).c_str());
+      }
+     }
+    }
+   } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+   if (changed_keymap && query_yn("Save changes?"))
+    save_keymap();
+   erase();
+  } break;
   case '2':
    erase();
    mvprintz(0, 0, c_white, "\
