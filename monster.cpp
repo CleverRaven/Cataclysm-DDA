@@ -40,10 +40,6 @@ monster::monster()
  dead = false;
  made_footstep = false;
  unique_name = "";
- std::ofstream debugout;
- debugout.open("mons.txt", std::ios_base::app);
- debugout << "Made\n";
- debugout.close();
 }
 
 monster::monster(mtype *t)
@@ -70,10 +66,6 @@ monster::monster(mtype *t)
  dead = false;
  made_footstep = false;
  unique_name = "";
- std::ofstream debugout;
- debugout.open("mons.txt", std::ios_base::app);
- debugout << "Made " << t->name << "\n";
- debugout.close();
 }
 
 monster::monster(mtype *t, int x, int y)
@@ -100,18 +92,10 @@ monster::monster(mtype *t, int x, int y)
  dead = false;
  made_footstep = false;
  unique_name = "";
- std::ofstream debugout;
- debugout.open("mons.txt", std::ios_base::app);
- debugout << "Made " << t->name << "\n";
- debugout.close();
 }
 
 monster::~monster()
 {
- std::ofstream debugout;
- debugout.open("mons.txt", std::ios_base::app);
- debugout << "Destroyed\n";
- debugout.close();
 }
 
 void monster::poly(mtype *t)
