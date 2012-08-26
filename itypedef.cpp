@@ -3245,9 +3245,9 @@ sample.  Use this tool to draw blood, either from yourself or from a corpse\n\
 you are standing on.");
 
 //  NAME        RAR PRC SYM  COLOR  MAT1    MAT
-TOOL("welder",   10,900,';', c_ltred,  IRON,MNULL,
-// VOL WGT DAM CUT HIT   MAX    DEF  USE SEC   FUEL    REVERT    FUNCTION
-     6,  24,  7,  0, -1,  1000,  300,  50,  0, AT_BATT, itm_null, &iuse::none,
+TOOL("welder",   25,900,';', c_ltred,  IRON,MNULL,
+// VOL WGT DAM CUT HIT   MAX DEF  USE SEC   FUEL    REVERT    FUNCTION
+     6, 24,  7,  0, -1, 1000,  0,  50,  0, AT_BATT, itm_null, &iuse::none,
 0, "\
 A tool for welding metal pieces together.  Useful for construction.");
 

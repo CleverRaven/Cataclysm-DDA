@@ -78,7 +78,7 @@ class game
   void save();
   bool do_turn();
   void draw();
-  void draw_ter();
+  void draw_ter(int posx = -999, int posy = -999);
   void advance_nextinv();	// Increment the next inventory letter
   void decrease_nextinv();	// Decrement the next inventory letter
   void add_msg(const char* msg, ...);

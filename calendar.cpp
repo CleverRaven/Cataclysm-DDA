@@ -1,6 +1,7 @@
 #include <sstream>
 #include "calendar.h"
 #include "output.h"
+#include "options.h"
 
 calendar::calendar()
 {
@@ -340,17 +341,26 @@ std::string calendar::print_time(bool twentyfour)
    ret << "0";
   ret << minute;
  } else {
-  int hours = hour % 12;
-  if (hours == 0)
-   hours = 12;
-  ret << hours << ":";
+  if (OPTIONS[OPT_24_HOUR]) {
+   int hours = hour % 24;
+   if (hours < 10)
+    ret << "0";
+   ret << hours;
+  } else {
+   int hours = hour % 12;
+   if (hours == 0)
+    hours = 12;
+   ret << hours << ":";
+  }
   if (minute < 10)
    ret << "0";
   ret << minute;
-  if (hour < 12)
-   ret << " AM";
-  else
-   ret << " PM";
+  if (!OPTIONS[OPT_24_HOUR]) {
+   if (hour < 12)
+    ret << " AM";
+   else
+    ret << " PM";
+  }
  }
 
  return ret.str();

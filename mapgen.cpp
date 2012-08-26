@@ -70,10 +70,12 @@ void mansion_room(map *m, int x1, int y1, int x2, int y2); // pick & build
 void line(map *m, ter_id type, int x1, int y1, int x2, int y2);
 void square(map *m, ter_id type, int x1, int y1, int x2, int y2);
 void rough_circle(map *m, ter_id type, int x, int y, int rad);
+void add_corpse(game *g, map *m, int x, int y);
 
 void map::generate(game *g, overmap *om, int x, int y, int turn)
 {
  oter_id terrain_type, t_north, t_east, t_south, t_west, t_above;
+ unsigned zones = 0;
  int overx = x / 2;
  int overy = y / 2;
  if (x >= OMAPX * 2 || x < 0 || y >= OMAPY * 2 || y < 0) {
@@ -96,6 +98,7 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
   }
   overmap tmp(g, om->posx + sx, om->posy + sy, om->posz);
   terrain_type = tmp.ter(overx, overy);
+  //zones = tmp.zones(overx, overy);
   if (om->posz < 0 || om->posz == 9) {	// 9 is for tutorial overmap
    overmap tmp2 = overmap(g, om->posx, om->posy, om->posz + 1);
    t_above = tmp2.ter(overx, overy);
@@ -118,6 +121,7 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
   else
    t_west = om->ter(OMAPX - 1, overy);
   draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g);
+  post_process(g, zones);
   for (int i = 0; i < 2; i++) {
    for (int j = 0; j < 2; j++)
     saven(&tmp, turn, overx*2, overy*2, i, j);
@@ -157,6 +161,8 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
 
   if (one_in(oterlist[terrain_type].embellishments.chance))
    add_extra(random_map_extra(oterlist[terrain_type].embellishments), g);
+
+  post_process(g, zones);
 
 // And finally save.
   for (int i = 0; i < 2; i++) {
@@ -1999,6 +2005,131 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   if (terrain_type == ot_s_library_west)
    rotate(3);
   break;
+
+ case ot_s_restaurant_north:
+ case ot_s_restaurant_east:
+ case ot_s_restaurant_south:
+ case ot_s_restaurant_west: {
+// Init to grass/dirt
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++)
+    ter(i, j) = grass_or_dirt();
+  }
+  ter_id doortype = (one_in(4) ? t_door_c : t_door_glass_c);
+  lw = rng(0, 4);
+  rw = rng(19, 23);
+  tw = rng(0, 4);
+  bw = rng(17, 23);
+// Fill in with floor
+  square(this, t_floor, lw + 1, tw + 1, rw - 1, bw - 1);
+// Draw the walls
+  line(this, t_wall_h, lw, tw, rw, tw);
+  line(this, t_wall_h, lw, bw, rw, bw);
+  line(this, t_wall_v, lw, tw + 1, lw, bw - 1);
+  line(this, t_wall_v, rw, tw + 1, rw, bw - 1);
+  
+// What's the front wall look like?
+  switch (rng(1, 3)) {
+  case 1: // Door to one side
+  case 2:
+// Mirror it?
+   if (one_in(2))
+    ter(lw + 2, tw) = doortype;
+   else
+    ter(rw - 2, tw) = doortype;
+   break;
+  case 3: // Double-door in center
+   line(this, doortype, (lw + rw) / 2, tw, 1 + ((lw + rw) / 2), tw);
+   break;
+  }
+// What type of windows?
+  switch (rng(1, 6)) {
+  case 1: // None!
+   break;
+  case 2:
+  case 3: // Glass walls everywhere
+   for (int i = lw + 1; i <= rw - 1; i++) {
+    if (ter(i, tw) == t_wall_h)
+     ter(i, tw) = t_wall_glass_h;
+   }
+   while (!one_in(3)) { // 2 in 3 chance of having some walls too
+    rn = rng(1, 3);
+    if (ter(lw + rn, tw) == t_wall_glass_h)
+     ter(lw + rn, tw) = t_wall_h;
+    if (ter(rw - rn, tw) == t_wall_glass_h)
+     ter(rw - rn, tw) = t_wall_h;
+   }
+   break;
+  case 4:
+  case 5:
+  case 6: { // Just some windows
+   rn = rng(1, 3);
+   int win_width = rng(1, 3);
+   for (int i = rn; i <= rn + win_width; i++) {
+    if (ter(lw + i, tw) == t_wall_h)
+     ter(lw + i, tw) = t_window;
+    if (ter(rw - i, tw) == t_wall_h)
+     ter(rw - i, tw) = t_window;
+   }
+   } break;
+  } // Done building windows
+// Build a kitchen
+  mw = rng(bw - 6, bw - 3);
+  cw = (one_in(3) ? rw - 3 : rw - 1); // 1 in 3 chance for corridor to back
+  line(this, t_wall_h, lw + 1, mw, cw, mw);
+  line(this, t_wall_v, cw, mw + 1, cw, bw - 1);
+  ter(lw + 1, mw + 1) = t_fridge;
+  ter(lw + 2, mw + 1) = t_fridge;
+  place_items(mi_fridge, 80, lw + 1, mw + 1, lw + 2, mw + 1, false, 0);
+  line(this, t_counter, lw + 3, mw + 1, cw - 1, mw + 1);
+  place_items(mi_kitchen, 70, lw + 3, mw + 1, cw - 1, mw + 1, false, 0);
+// Place a door to the kitchen
+  if (cw != rw - 1 && one_in(2)) // side door
+   ter(cw, rng(mw + 2, bw - 1)) = t_door_c;
+  else { // north-facing door
+   rn = rng(lw + 4, cw - 2);
+// Clear the counters around the door
+   line(this, t_floor, rn - 1, mw + 1, rn + 1, mw + 1);
+   ter(rn, mw) = t_door_c;
+  }
+// Back door?
+  if (bw <= 19 || one_in(3)) {
+// If we have a corridor, put it over there
+   if (cw == rw - 3) {
+// One in two chance of a double-door
+    if (one_in(2))
+     line(this, t_door_locked, cw + 1, bw, rw - 1, bw);
+    else
+     ter( rng(cw + 1, rw - 1), bw) = t_door_locked;
+   } else // No corridor
+    ter( rng(lw + 1, rw - 1), bw) = t_door_locked;
+  }
+// Build a dining area
+  int table_spacing = rng(2, 4);
+  for (int i = lw + table_spacing + 1; i <= rw - 2 - table_spacing;
+           i += table_spacing + 2) {
+   for (int j = tw + table_spacing + 1; j <= mw - 1 - table_spacing;
+            j += table_spacing + 2) {
+    square(this, t_table, i, j, i + 1, j + 1);
+    place_items(mi_dining, 70, i, j, i + 1, j + 1, false, 0);
+   }
+  }
+// Dumpster out back?
+  if (rng(18, 21) > bw) {
+   square(this, t_pavement, lw, bw + 1, rw, 24);
+   rn = rng(lw + 1, rw - 4);
+   square(this, t_dumpster, rn, 22, rn + 2, 23);
+   place_items(mi_trash,  40, rn, 22, rn + 3, 23, false, 0);
+   place_items(mi_fridge, 50, rn, 22, rn + 3, 23, false, 0);
+  }
+
+  if (terrain_type == ot_s_restaurant_east)
+   rotate(1);
+  if (terrain_type == ot_s_restaurant_south)
+   rotate(2);
+  if (terrain_type == ot_s_restaurant_west)
+   rotate(3);
+  } break;
 
  case ot_shelter:
 // Init to grass & dirt;
@@ -6279,6 +6410,41 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
  }
 }
 
+void map::post_process(game *g, unsigned zones)
+{
+ std::string junk;
+ if (zones & mfb(OMZONE_CITY)) {
+  if (!one_in(10)) { // 90% chance of smashing stuff up
+   for (int x = 0; x < 24; x++) {
+    for (int y = 0; y < 24; y++)
+     bash(x, y, 20, junk);
+   }
+  }
+  if (one_in(10)) { // 10% chance of corpses
+   int num_corpses = rng(1, 8);
+   for (int i = 0; i < num_corpses; i++) {
+    int x = rng(0, 23), y = rng(0, 23);
+    if (move_cost(x, y) > 0)
+     add_corpse(g, this, x, y);
+   }
+  }
+ } // OMZONE_CITY
+
+ if (zones & mfb(OMZONE_BOMBED)) {
+  while (one_in(4)) {
+   point center( rng(4, 19), rng(4, 19) );
+   int radius = rng(1, 4);
+   for (int x = center.x - radius; x <= center.x + radius; x++) {
+    for (int y = center.y - radius; y <= center.y + radius; y++) {
+     if (rl_dist(x, y, center.x, center.y) <= rng(1, radius))
+      destroy(g, x, y, false);
+    }
+   }
+  }
+ }
+
+}
+
 void map::place_items(items_location loc, int chance, int x1, int y1,
                       int x2, int y2, bool ongrass, int turn)
 {
@@ -6295,7 +6461,7 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
 
  int item_chance = 0;	// # of items
  for (int i = 0; i < eligible.size(); i++)
-   item_chance += (*itypes)[eligible[i]]->rarity;
+  item_chance += (*itypes)[eligible[i]]->rarity;
  int selection, randnum;
  int px, py;
  while (rng(0, 99) < chance) {
@@ -6328,6 +6494,28 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
     add_item(px, py, (*itypes)[default_ammo(tmpgun->ammo)], turn);
    }
   }
+ }
+}
+
+void map::put_items_from(items_location loc, int num, int x, int y, int turn)
+{
+ std::vector<itype_id> eligible = (*mapitems)[loc];
+ int item_chance = 0;	// # of items
+ for (int i = 0; i < eligible.size(); i++)
+  item_chance += (*itypes)[eligible[i]]->rarity;
+
+ for (int i = 0; i < num; i++) {
+  int selection, randnum;
+  randnum = rng(1, item_chance);
+  selection = -1;
+  while (randnum > 0) {
+   selection++;
+   if (selection >= eligible.size())
+    debugmsg("OOB selection (%d of %d); randnum is %d, item_chance %d",
+             selection, eligible.size(), randnum, item_chance);
+   randnum -= (*itypes)[eligible[selection]]->rarity;
+  }
+  add_item(x, y, (*itypes)[eligible[selection]], turn);
  }
 }
 
@@ -8061,4 +8249,19 @@ void rough_circle(map *m, ter_id type, int x, int y, int rad)
     m->ter(i, j) = type;
   }
  }
+}
+
+void add_corpse(game *g, map *m, int x, int y)
+{
+ item body;
+ itype_id shoes, pants, shirt, extra;
+ body.make_corpse(g->itypes[itm_corpse], g->mtypes[mon_null], 0);
+ m->add_item(x, y, body);
+ m->put_items_from(mi_shoes,  1, x, y);
+ m->put_items_from(mi_pants,  1, x, y);
+ m->put_items_from(mi_shirts, 1, x, y);
+ if (one_in(6))
+  m->put_items_from(mi_jackets, 1, x, y);
+ if (one_in(15))
+  m->put_items_from(mi_bags, 1, x, y);
 }

@@ -76,6 +76,8 @@ enum oter_id {
  ot_s_gun_north, ot_s_gun_east, ot_s_gun_south, ot_s_gun_west,
  ot_s_clothes_north, ot_s_clothes_east, ot_s_clothes_south, ot_s_clothes_west,
  ot_s_library_north, ot_s_library_east, ot_s_library_south, ot_s_library_west,
+ ot_s_restaurant_north, ot_s_restaurant_east, ot_s_restaurant_south,
+  ot_s_restaurant_west,
  ot_sub_station_north, ot_sub_station_east, ot_sub_station_south,
   ot_sub_station_west,
  ot_police_north, ot_police_east, ot_police_south, ot_police_west,
@@ -222,6 +224,10 @@ const oter_t oterlist[num_ter_types] = {
 {"library",		'>',	c_brown,	5, build_extras, false, false},
 {"library",		'v',	c_brown,	5, build_extras, false, false},
 {"library",		'<',	c_brown,	5, build_extras, false, false},
+{"restaurant",		'^',	c_pink,		5, build_extras, false, false},
+{"restaurant",		'>',	c_pink,		5, build_extras, false, false},
+{"restaurant",		'v',	c_pink,		5, build_extras, false, false},
+{"restaurant",		'<',	c_pink,		5, build_extras, false, false},
 {"subway station",	'S',	c_yellow,	5, build_extras, true, false},
 {"subway station",	'S',	c_yellow,	5, build_extras, true, false},
 {"subway station",	'S',	c_yellow,	5, build_extras, true, false},
@@ -511,11 +517,18 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 enum overmap_zone
 {
  OMZONE_NULL = 0,
+ OMZONE_CITY,		// Basic city; place corpses
  OMZONE_BOMBED,		// Terrain is heavily destroyed
- OMZONE_RADIOACTIVE,	// Lots of radioactivity
- OMZONE_CORRUPTED,	// Fabric of space is weak
- OMZONE_OVERGROWN,	// Lots of plants, etc.
- OMZONE_FUNGAL,		// Overgrown with fungus
+ OMZONE_IRRADIATED,	// Lots of radioactivity TODO
+ OMZONE_CORRUPTED,	// Fabric of space is weak TODO
+ OMZONE_OVERGROWN,	// Lots of plants, etc. TODO
+ OMZONE_FUNGAL,		// Overgrown with fungus TODO
+ OMZONE_MILITARIZED,	// _Was_ occupied by the military TODO
+ OMZONE_FLOODED,	// Flooded out TODO
+ OMZONE_TRAPPED,	// Heavily booby-trapped TODO
+ OMZONE_MUTATED,	// Home of mutation experiments - mutagen & monsters TODO
+ OMZONE_FORTIFIED,	// Boarded up windows &c TODO
+ OMZONE_BOTS,		// Home of the bots TODO
  OMZONE_MAX
 };
 

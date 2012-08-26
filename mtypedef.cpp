@@ -417,7 +417,7 @@ FLAGS(MF_NOHEAD, MF_IMMOBILE);
 
 mon("creeping vine",species_plant, 'v',	c_green,	MS_TINY,	VEGGY,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  0,  4,100,100, 75,  0,  0,  0,  0,  0,  2,  0,  0, 20, 2,
+	  0,  4,100,100, 75,  0,  0,  0,  0,  0,  2,  0,  0,  2, 2,
 	&mdeath::vine_cut,	&mattack::vine, "\
 A thorny vine.  It twists wildly as\n\
 it grows, spreading rapidly."

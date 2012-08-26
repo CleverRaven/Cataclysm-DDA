@@ -149,7 +149,7 @@ int veh_interact::cant_do (char mode)
         return cpart < 0? 1 : 
                (parts_here.size() < 2 && !veh->can_unmount(cpart)? 2 : 
                (!has_wrench || !has_hacksaw? 3 :
-               (g->u.sklevel[sk_mechanics] < 2? 4 : 0)));
+               (g->u.sklevel[sk_mechanics] < 2 ? 4 : 0)));
     default:
         return -1;
     }

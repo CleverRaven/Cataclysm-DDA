@@ -3725,9 +3725,9 @@ bool player::eat(game *g, int index)
    moves -= 250;
 // If it's poisonous... poison us.  TODO: More several poison effects
   if (eaten->poison >= rng(2, 4))
-   add_disease(DI_POISON, eaten->poison * 20, g);
+   add_disease(DI_POISON, eaten->poison * 100, g);
   if (eaten->poison > 0)
-   add_disease(DI_FOODPOISON, eaten->poison * 40, g);
+   add_disease(DI_FOODPOISON, eaten->poison * 300, g);
 
 // Descriptive text
   if (!is_npc()) {

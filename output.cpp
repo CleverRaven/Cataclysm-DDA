@@ -14,6 +14,7 @@
 #include "output.h"
 #include "rng.h"
 #include "keypress.h"
+#include "options.h"
 
 #define LINE_XOXO 4194424
 #define LINE_OXOX 4194417
@@ -51,6 +52,25 @@ nc_color hilite(nc_color c)
 
 nc_color invert_color(nc_color c)
 {
+ if (OPTIONS[OPT_NO_CBLINK]) {
+  switch (c) {
+   case c_white:
+   case c_ltgray:
+   case c_dkgray:  return i_ltgray;
+   case c_red:
+   case c_ltred:   return i_red;
+   case c_green:
+   case c_ltgreen: return i_green;
+   case c_blue:
+   case c_ltblue:  return i_blue;
+   case c_cyan:
+   case c_ltcyan:  return i_cyan;
+   case c_magenta:
+   case c_pink:    return i_magenta;
+   case c_brown:
+   case c_yellow:  return i_brown;
+  }
+ }
  switch (c) {
   case c_white:   return i_white;
   case c_ltgray:  return i_ltgray;
@@ -295,6 +315,7 @@ void debugmsg(const char *mes, ...)
 
 bool query_yn(const char *mes, ...)
 {
+ bool force_uc = OPTIONS[OPT_FORCE_YN];
  va_list ap;
  va_start(ap, mes);
  char buff[1024];
@@ -304,17 +325,18 @@ bool query_yn(const char *mes, ...)
  WINDOW* w = newwin(3, win_width, 11, 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w, 1, 1, c_ltred, "%s (Y/N - case sensitive)", buff);
+ mvwprintz(w, 1, 1, c_ltred, "%s (%s)", buff,
+           (force_uc ? "Y/N - Case Sensitive" : "y/n"));
  wrefresh(w);
  char ch;
  do
   ch = getch();
- while (ch != 'Y' && ch != 'N');
+ while (ch != 'Y' && ch != 'N' && (force_uc || (ch != 'y' && ch != 'n')));
  werase(w);
  wrefresh(w);
  delwin(w);
  refresh();
- if (ch == 'Y')
+ if (ch == 'Y' || ch == 'y')
   return true;
  return false;
 }

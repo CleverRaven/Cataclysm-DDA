@@ -7,6 +7,7 @@
 #include "computer.h"
 #include "weather_data.h"
 #include "veh_interact.h"
+#include "options.h"
 #include <fstream>
 #include <sstream>
 #include <math.h>
@@ -42,6 +43,7 @@ game::game()
  gamemode = new special_game;	// Nothing, basically.
 
  m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
+ z.reserve(1000); // Reserve some space
 
 // Set up the main UI windows.
  w_terrain = newwin(SEEY * 2 + 1, SEEX * 2 + 1, 0, 0);
@@ -79,7 +81,7 @@ game::game()
  weather = WEATHER_CLEAR; // Start with some nice weather...
  nextweather = MINUTES(STARTING_MINUTES + 30); // Weather shift in 30
  turnssincelastmon = 0; //Auto safe mode init
- autosafemode = false;
+ autosafemode = OPTIONS[OPT_AUTOSAFEMODE];
 
  turn.season = SUMMER;    // ... with winter conveniently a long ways off
 
@@ -424,7 +426,7 @@ fivedozenwhales@gmail.com.");
 void game::start_game()
 {
  turn = MINUTES(STARTING_MINUTES);// It's turn 0...
- run_mode = 1;	// run_mode is on by default...
+ run_mode = (OPTIONS[OPT_SAFEMODE] ? 1 : 0);
  mostseen = 0;	// ...and mostseen is 0, we haven't seen any monsters yet.
 
 // Init some factions.
@@ -707,6 +709,15 @@ void game::process_activity()
   if (u.activity.type == ACT_WAIT) {	// Based on time, not speed
    u.activity.moves_left -= 100;
    u.pause(this);
+  } else if (u.activity.type == ACT_REFILL_VEHICLE) {
+   vehicle *veh = m.veh_at( u.activity.placement.x, u.activity.placement.y );
+   if (!veh) {  // Vehicle must've moved or something!
+    u.activity.moves_left = 0;
+    return;
+   }
+   veh->refill (AT_GAS, 200);
+   u.pause(this);
+   u.activity.moves_left -= 100;
   } else {
    u.activity.moves_left -= u.moves;
    u.moves = 0;
@@ -1375,7 +1386,7 @@ void game::get_input()
    } else {
     turnssincelastmon = 0;
     run_mode = 0;
-    if(autosafemode)
+    if (autosafemode)
     add_msg("Safe mode OFF! (Auto safe mode still enabled!)");
     else
     add_msg("Safe mode OFF!");
@@ -1678,6 +1689,9 @@ void game::load(std::string name)
 // m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
  m.load(this, levx, levy);
  run_mode = tmprun;
+ if (OPTIONS[OPT_SAFEMODE] && run_mode == 0)
+  run_mode = 1;
+ autosafemode = OPTIONS[OPT_AUTOSAFEMODE];
  last_target = tmptar;
  weather = weather_type(tmpweather);
  temperature = tmptemp;
@@ -2376,7 +2390,10 @@ void game::draw()
   col_temp = c_cyan;
  else if (temperature >  32)
   col_temp = c_ltblue;
- wprintz(w_status, col_temp, " %dF", temperature);
+ if (OPTIONS[OPT_USE_CELSIUS])
+  wprintz(w_status, col_temp, " %dC", int((temperature - 32) / 1.8));
+ else
+  wprintz(w_status, col_temp, " %dF", temperature);
  mvwprintz(w_status, 0, 41, c_white, "%s, day %d",
            season_name[turn.season].c_str(), turn.day + 1);
  if (run_mode != 0)
@@ -2392,42 +2409,46 @@ bool game::isBetween(int test, int down, int up)
 	else return false;
 }
 
-void game::draw_ter()
+void game::draw_ter(int posx, int posy)
 {
+ if (posx == -999)
+  posx = u.posx;
+ if (posy == -999)
+  posy = u.posy;
  int t = 0;
- m.draw(this, w_terrain);
+ m.draw(this, w_terrain, point(posx, posy));
 
  // Draw monsters
  int distx, disty;
  for (int i = 0; i < z.size(); i++) {
-  disty = abs(z[i].posy - u.posy);
-  distx = abs(z[i].posx - u.posx);
+  disty = abs(z[i].posy - posy);
+  distx = abs(z[i].posx - posx);
   if (distx <= SEEX && disty <= SEEY && u_see(&(z[i]), t))
-   z[i].draw(w_terrain, u.posx, u.posy, false);
+   z[i].draw(w_terrain, posx, posy, false);
   else if (z[i].has_flag(MF_WARM) && distx <= SEEX && disty <= SEEY &&
            (u.has_active_bionic(bio_infrared) || u.has_trait(PF_INFRARED)))
-   mvwputch(w_terrain, SEEY + z[i].posy - u.posy, SEEX + z[i].posx - u.posx,
+   mvwputch(w_terrain, SEEY + z[i].posy - posy, SEEX + z[i].posx - posx,
             c_red, '?');
  }
  // Draw NPCs
  for (int i = 0; i < active_npc.size(); i++) {
-  disty = abs(active_npc[i].posy - u.posy);
-  distx = abs(active_npc[i].posx - u.posx);
+  disty = abs(active_npc[i].posy - posy);
+  distx = abs(active_npc[i].posx - posx);
   if (distx <= SEEX && disty <= SEEY &&
       u_see(active_npc[i].posx, active_npc[i].posy, t))
-   active_npc[i].draw(w_terrain, u.posx, u.posy, false);
+   active_npc[i].draw(w_terrain, posx, posy, false);
  }
  if (u.has_active_bionic(bio_scent_vision)) {
-  for (int realx = u.posx - SEEX; realx <= u.posx + SEEX; realx++) {
-   for (int realy = u.posy - SEEY; realy <= u.posy + SEEY; realy++) {
+  for (int realx = posx - SEEX; realx <= posx + SEEX; realx++) {
+   for (int realy = posy - SEEY; realy <= posy + SEEY; realy++) {
     if (scent(realx, realy) != 0) {
-     int tempx = u.posx - realx, tempy = u.posy - realy;
+     int tempx = posx - realx, tempy = posy - realy;
      if (!(isBetween(tempx, -2, 2) && isBetween(tempy, -2, 2))) {
       if (mon_at(realx, realy) != -1)
-       mvwputch(w_terrain, realy + SEEY - u.posy, realx + SEEX - u.posx,
+       mvwputch(w_terrain, realy + SEEY - posy, realx + SEEX - posx,
                 c_white, '?');
       else
-       mvwputch(w_terrain, realy + SEEY - u.posy, realx + SEEX - u.posx,
+       mvwputch(w_terrain, realy + SEEY - posy, realx + SEEX - posx,
                 c_magenta, '#');
      }
     }
@@ -3059,7 +3080,7 @@ void game::monmove()
  for (int i = 0; i < z.size(); i++) {
   if (i < 0 || i > z.size())
    debugmsg("Moving out of bounds monster! i %d, z.size() %d", i, z.size());
-  while (!z[i].can_move_to(m, z[i].posx, z[i].posy) && i < z.size()) {
+  while (!z[i].can_move_to(m, z[i].posx, z[i].posy) && !z[i].dead) {
 // If we can't move to our current position, assign us to a new one
    if (debugmon)
     debugmsg("%s can't move to its location! (%d:%d), %s", z[i].name().c_str(),
@@ -3114,9 +3135,12 @@ void game::monmove()
      u.rem_disease(DI_LYING_DOWN);
     }
    }
-// We might have stumbled out of range of the player; if so, delete us
-   if (z[i].posx < 0 - SEEX || z[i].posy < 0 - SEEY ||
-       z[i].posx > SEEX * (MAPSIZE + 1) || z[i].posy > SEEY * (MAPSIZE + 1)) {
+// We might have stumbled out of range of the player; if so, kill us
+   if (z[i].posx < 0 - (SEEX * MAPSIZE) / 6 ||
+       z[i].posy < 0 - (SEEY * MAPSIZE) / 6 ||
+       z[i].posx > (SEEX * MAPSIZE * 7) / 6 ||
+       z[i].posy > (SEEY * MAPSIZE * 7) / 6   ) {
+// Re-absorb into local group, if applicable
     int group = valid_group((mon_id)(z[i].type->id), levx, levy);
     if (group != -1) {
      cur_om.zg[group].population++;
@@ -3153,10 +3177,6 @@ void game::monmove()
    if (turns == 10) {
     add_msg("%s's brain explodes!", active_npc[i].name.c_str());
     active_npc[i].die(this);
-/*
-    active_npc.erase(active_npc.begin() + i);
-    i--;
-*/
    }
   }
  }
@@ -3705,9 +3725,11 @@ int game::mon_at(int x, int y)
   return monmap[x][y];
 */
  for (int i = 0; i < z.size(); i++) {
-  if (z[i].posx == x && z[i].posy == y && !z[i].dead) {
-   //monmap[x][y] = i;
-   return i;
+  if (z[i].posx == x && z[i].posy == y) {
+   if (z[i].dead)
+    return -1;
+   else
+    return i;
   }
  }
  //monmap[x][y] = -1;
@@ -4478,11 +4500,11 @@ point game::look_around()
   ch = input();
   if (!u_see(lx, ly, junk))
    mvwputch(w_terrain, ly - u.posy + SEEY, lx - u.posx + SEEX, c_black, ' ');
-  draw_ter();
   get_direction(this, mx, my, ch);
   if (mx != -2 && my != -2) {	// Directional key pressed
    lx += mx;
    ly += my;
+/*
    if (lx < u.posx - SEEX)
     lx = u.posx - SEEX;
    if (lx > u.posx + SEEX)
@@ -4491,7 +4513,9 @@ point game::look_around()
     ly = u.posy - SEEY;
    if (ly > u.posy + SEEY)
     ly = u.posy + SEEY;
+*/
   }
+  draw_ter(lx, ly);
   for (int i = 1; i < 12; i++) {
    for (int j = 1; j < 47; j++)
     mvwputch(w_look, i, j, c_white, ' ');
@@ -4516,14 +4540,14 @@ point game::look_around()
 
    int dex = mon_at(lx, ly);
    if (dex != -1 && u_see(&(z[dex]), junk)) {
-    z[mon_at(lx, ly)].draw(w_terrain, u.posx, u.posy, true);
+    z[mon_at(lx, ly)].draw(w_terrain, lx, ly, true);
     z[mon_at(lx, ly)].print_info(this, w_look);
     if (m.i_at(lx, ly).size() > 1)
      mvwprintw(w_look, 3, 1, "There are several items there.");
     else if (m.i_at(lx, ly).size() == 1)
      mvwprintw(w_look, 3, 1, "There is an item there.");
    } else if (npc_at(lx, ly) != -1) {
-    active_npc[npc_at(lx, ly)].draw(w_terrain, u.posx, u.posy, true);
+    active_npc[npc_at(lx, ly)].draw(w_terrain, lx, ly, true);
     active_npc[npc_at(lx, ly)].print_info(w_look);
     if (m.i_at(lx, ly).size() > 1)
      mvwprintw(w_look, 3, 1, "There are several items there.");
@@ -4532,15 +4556,15 @@ point game::look_around()
    } else if (veh) {
      mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
      veh->print_part_desc(w_look, 4, 48, veh_part);
-     m.drawsq(w_terrain, u, lx, ly, true, true);
+     m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
    } else if (m.i_at(lx, ly).size() > 0) {
     mvwprintw(w_look, 3, 1, "There is a %s there.",
               m.i_at(lx, ly)[0].tname(this).c_str());
     if (m.i_at(lx, ly).size() > 1)
      mvwprintw(w_look, 4, 1, "There are other items there as well.");
-    m.drawsq(w_terrain, u, lx, ly, true, true);
+    m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
    } else
-    m.drawsq(w_terrain, u, lx, ly, true, true);
+    m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
 
   } else if (lx == u.posx && ly == u.posy) {
    mvwputch_inv(w_terrain, SEEX, SEEY, u.color(), '@');
@@ -4548,11 +4572,11 @@ point game::look_around()
    if (veh) {
     mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
     veh->print_part_desc(w_look, 4, 48, veh_part);
-    m.drawsq(w_terrain, u, lx, ly, true, true);
+    m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
    }
 
   } else {
-   mvwputch(w_terrain, ly - u.posy + SEEY, lx - u.posx + SEEX, c_white, 'x');
+   mvwputch(w_terrain, SEEY, SEEX, c_white, 'x');
    mvwprintw(w_look, 1, 1, "Unseen.");
   }
   wrefresh(w_look);
@@ -4915,11 +4939,15 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
      add_msg ("This vehicle doesn't use %s.", veh->fuel_name(ftype).c_str());
     else if (fuel_amnt == fuel_cap)
      add_msg ("Already full.");
-    else {
+    else if (infinite && query_yn("Pump until full?")) {
+     u.assign_activity(ACT_REFILL_VEHICLE, 100 * (fuel_cap - fuel_amnt));
+     u.activity.placement = point(vx, vy);
+    } else { // Not infinite
      veh->refill (AT_GAS, liquid.charges);
      add_msg ("You refill %s with %s%s.", veh->name.c_str(),
               veh->fuel_name(ftype).c_str(),
               veh->fuel_left(ftype) >= fuel_cap? " to its maximum" : "");
+     u.moves -= 100;
      return true;
     }
    } else // if (veh)
@@ -5350,16 +5378,17 @@ void game::plfire(bool burst)
   }
  }
 
- // target() sets x and y, and returns an empty vector if we canceled (Esc)
- std::vector <point> trajectory = target(x, y, x0, y0, x1, y1, mon_targets,
-                                         passtarget, &u.weapon);
- if (trajectory.size() == 0)
-  return;
  if (u.weapon.has_flag(IF_RELOAD_AND_SHOOT)) {
   u.weapon.reload(u, reload_index);
   u.moves -= u.weapon.reload_time(u);
   refresh_all();
  }
+
+ // target() sets x and y, and returns an empty vector if we canceled (Esc)
+ std::vector <point> trajectory = target(x, y, x0, y0, x1, y1, mon_targets,
+                                         passtarget, &u.weapon);
+ if (trajectory.size() == 0)
+  return;
  if (passtarget != -1) { // We picked a real live target
   last_target = targetindices[passtarget]; // Make it our default for next time
   z[targetindices[passtarget]].add_effect(ME_HIT_BY_PLAYER, 100);
@@ -6773,9 +6802,12 @@ void game::spawn_mon(int shiftx, int shifty)
    while (long((1.0 - double(dist / rad)) * pop) > rng(0, pow(rad, 2.0)) &&
           rng(0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
     group++;
+
    cur_om.zg[i].population -= group;
+
    if (group > 0) // If we spawned some zombies, advance the timer
-    nextspawn += rng(group * 3 + z.size() * 5, group * 10 + z.size() * 10);
+    nextspawn += rng(group * 4 + z.size() * 4, group * 10 + z.size() * 10);
+
    for (int j = 0; j < group; j++) {	// For each monster in the group...
     mon_id type = valid_monster_from(moncats[cur_om.zg[i].type]);
     if (type == mon_null)
@@ -6793,13 +6825,13 @@ void game::spawn_mon(int shiftx, int shifty)
         shifty = 1 - 2 * rng(0, 1);
       }
       if (shiftx == -1)
-       monx = SEEX;
+       monx = (SEEX * MAPSIZE) / 6;
       else if (shiftx == 1)
-       monx = SEEX * (MAPSIZE - 1);
+       monx = (SEEX * MAPSIZE * 5) / 6;
       if (shifty == -1)
-       mony = 0 - SEEX * 2;
+       mony = (SEEY * MAPSIZE) / 6;
       if (shifty == 1)
-       mony = SEEY * (MAPSIZE - 1);
+       mony = (SEEY * MAPSIZE * 5) / 6;
       monx += rng(-5, 5);
       mony += rng(-5, 5);
       iter++;

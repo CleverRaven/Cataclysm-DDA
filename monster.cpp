@@ -6,6 +6,7 @@
 #include "rng.h"
 #include "item.h"
 #include <sstream>
+#include <fstream>
 #include <stdlib.h>
 
 #if (defined _WIN32 || defined WINDOWS)
@@ -33,12 +34,16 @@ monster::monster()
  spawnposy = -1;
  friendly = 0;
  anger = 0;
- morale = 0;
+ morale = 2;
  faction_id = -1;
  mission_id = -1;
  dead = false;
  made_footstep = false;
  unique_name = "";
+ std::ofstream debugout;
+ debugout.open("mons.txt", std::ios_base::app);
+ debugout << "Made\n";
+ debugout.close();
 }
 
 monster::monster(mtype *t)
@@ -65,6 +70,10 @@ monster::monster(mtype *t)
  dead = false;
  made_footstep = false;
  unique_name = "";
+ std::ofstream debugout;
+ debugout.open("mons.txt", std::ios_base::app);
+ debugout << "Made " << t->name << "\n";
+ debugout.close();
 }
 
 monster::monster(mtype *t, int x, int y)
@@ -91,6 +100,18 @@ monster::monster(mtype *t, int x, int y)
  dead = false;
  made_footstep = false;
  unique_name = "";
+ std::ofstream debugout;
+ debugout.open("mons.txt", std::ios_base::app);
+ debugout << "Made " << t->name << "\n";
+ debugout.close();
+}
+
+monster::~monster()
+{
+ std::ofstream debugout;
+ debugout.open("mons.txt", std::ios_base::app);
+ debugout << "Destroyed\n";
+ debugout.close();
 }
 
 void monster::poly(mtype *t)
@@ -109,10 +130,6 @@ void monster::spawn(int x, int y)
 {
  posx = x;
  posy = y;
-}
-
-monster::~monster()
-{
 }
 
 std::string monster::name()

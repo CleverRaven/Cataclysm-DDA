@@ -35,9 +35,10 @@ class map
  ~map();
 
 // Visual Output
- void draw(game *g, WINDOW* w);
+ void draw(game *g, WINDOW* w, point center);
  void debug();
- void drawsq(WINDOW* w, player &u, int x, int y, bool invert, bool show_items);
+ void drawsq(WINDOW* w, player &u, int x, int y, bool invert, bool show_items,
+             int cx = -1, int cy = -1);
 
 // File I/O
  virtual void save(overmap *om, unsigned int turn, int x, int y);
@@ -139,8 +140,11 @@ class map
 
 // mapgen.cpp functions
  void generate(game *g, overmap *om, int x, int y, int turn);
+ void post_process(game *g, unsigned zones);
  void place_items(items_location loc, int chance, int x1, int y1,
                   int x2, int y2, bool ongrass, int turn);
+// put_items_from puts exactly num items, based on chances
+ void put_items_from(items_location loc, int num, int x, int y, int turn = 0);
  void make_all_items_owned();
  void add_spawn(mon_id type, int count, int x, int y, bool friendly = false,
                 int faction_id = -1, int mission_id = -1,

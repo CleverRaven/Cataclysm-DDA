@@ -13,6 +13,7 @@
 #include <ctime>
 #include "game.h"
 #include "color.h"
+#include "options.h"
 
 int main(int argc, char *argv[])
 {
@@ -30,6 +31,7 @@ int main(int argc, char *argv[])
           // repetion.
  bool quit_game = false;
  game *g;
+ load_options();
  do {
   g = new game();
   while (!g->do_turn());

@@ -513,9 +513,9 @@ void dis_effect(game *g, player &p, disease &dis)
     g->add_msg("You're suddenly wracked with pain and nausea!");
    p.hurt(g, bp_torso, 0, 1);
   }
-  if ((p.has_trait(PF_WEAKSTOMACH) && one_in(350 + bonus)) ||
+  if ((p.has_trait(PF_WEAKSTOMACH) && one_in(300 + bonus)) ||
       (p.has_trait(PF_NAUSEA) && one_in(50 + bonus)) ||
-      one_in(900 + bonus)) 
+      one_in(600 + bonus)) 
    p.vomit(g);
   p.str_cur -= 3;
   p.dex_cur--;

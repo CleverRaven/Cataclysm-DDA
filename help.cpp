@@ -1,5 +1,6 @@
 #include "game.h"
 #include "keypress.h"
+#include "options.h"
 
 #ifndef LINE_XOXO
 	#define LINE_XOXO 4194424
@@ -22,8 +23,8 @@ void game::help()
   erase();
   mvprintz(0, 38, c_red, "HELP");
   mvprintz(1, 0, c_white, "\
-Please press one of the following for\n\
-help on that topic:\n\
+Please press one of the following for help on that topic:\n\
+Press q or ESC to return to the game.\n\
 \n\
 a: Introduction\n\
 b: Movement\n\
@@ -41,10 +42,11 @@ m: Unarmed Styles\n\
 n: Survival tips\n\
 \n\
 1: List of all commands (you can change key commands here)\n\
-2: List of item types and data\n\
-3: Description of map symbols\n\
-4: Description of gun types\n\
-5: Frequently Asked Questions (Some spoilers!)\n\
+2: List of all options  (you can change options here)\n\
+3: List of item types and data\n\
+4: Description of map symbols\n\
+5: Description of gun types\n\
+6: Frequently Asked Questions (Some spoilers!)\n\
 \n\
 q: Return to game");
  
@@ -459,13 +461,14 @@ easily drop unwanted items on the floor.");
      offset++;
     if (ch == '-' || ch == '+') {
      needs_refresh = true;
-     for (int i = 0; i < 25; i++) {
+     for (int i = 0; i < 25 && i + offset < NUM_ACTIONS; i++) {
       mvprintz(i, 0, c_ltblue, "%c", 'a' + i);
       mvprintz(i, 1, c_white, ":");
      }
      refresh();
      char actch = getch();
-     if (actch >= 'a' && actch <= 'a' + 24) {
+     if (actch >= 'a' && actch <= 'a' + 24 &&
+         actch - 'a' + offset < NUM_ACTIONS) {
       action_id act = action_id(actch - 'a' + offset);
       if (ch == '-' && query_yn("Clear keys for %s?",action_name(act).c_str())){
        clear_bindings(act);
@@ -486,7 +489,62 @@ easily drop unwanted items on the floor.");
     save_keymap();
    erase();
   } break;
-  case '2':
+
+  case '2': {
+   erase();
+   int offset = 1;
+   char ch = ' ';
+   bool changed_options = false;
+   bool needs_refresh = true;
+   do {
+    if (needs_refresh) {
+     erase();
+     mvprintz(0, 40, c_white, "Use the arrow keys (or movement keys)");
+     mvprintz(1, 40, c_white, "to scroll.");
+     mvprintz(2, 40, c_white, "Press ESC or q to return.            ");
+     mvprintz(3, 40, c_white, "Press + to set an option to true.    ");
+     mvprintz(4, 40, c_white, "Press - to set an option to false.    ");
+     needs_refresh = false;
+    }
+// Clear the lines
+    for (int i = 0; i < 25; i++)
+     mvprintz(i, 0, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+
+    for (int i = 0; i < 25 && offset + i < NUM_OPTION_KEYS; i++) {
+     mvprintz(i, 3, c_white, "%s: ",
+              option_name( option_key(offset + i) ).c_str());
+     bool on = OPTIONS[ option_key(offset + i) ];
+     mvprintz(i, 32, (on ? c_ltgreen : c_ltred), (on ? "True" : "False"));
+    }
+    refresh();
+    ch = input();
+    int sx = 0, sy = 0;
+    get_direction(this, sx, sy, ch);
+    if (sy == -1 && offset > 1)
+     offset--;
+    if (sy == 1 && offset + 20 < NUM_OPTION_KEYS)
+     offset++;
+    if (ch == '-' || ch == '+') {
+     needs_refresh = true;
+     for (int i = 0; i < 25 && i + offset < NUM_OPTION_KEYS; i++) {
+      mvprintz(i, 0, c_ltblue, "%c", 'a' + i);
+      mvprintz(i, 1, c_white, ":");
+     }
+     refresh();
+     char actch = getch();
+     if (actch >= 'a' && actch <= 'a' + 24 &&
+         actch - 'a' + offset < NUM_OPTION_KEYS) {
+      OPTIONS[ option_key(actch - 'a' + offset) ] = (ch == '+');
+      changed_options = true;
+     }
+    }
+   } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+   if (changed_options && query_yn("Save changes?"))
+    save_options();
+   erase();
+  } break;
+
+  case '3':
    erase();
    mvprintz(0, 0, c_white, "\
 ITEM TYPES:\n\
@@ -551,7 +609,8 @@ ITEM TYPES:\n\
    getch();
    erase();
    break;
-  case '3':
+
+  case '4':
    erase();
    mvprintz( 0, 0, c_ltgray,  "MAP SYMBOLS:");
    mvprintz( 1, 0, c_brown,   "\
@@ -607,7 +666,8 @@ O           Parking lot - Empty lot, few items.  Mostly useless.");
    getch();
    erase();
    break;
-  case '4':
+
+  case '5':
    erase();
    mvprintz(0, 0, c_white, "Gun types:");
    mvprintz(2, 0, c_ltgray, "( Handguns");
@@ -704,7 +764,8 @@ really need it.");
    getch();
    erase();
    break;
-  case '5':
+
+  case '6':
    mvprintz(0, 0, c_white, "\
 Q: What is Run Mode, and why does it prevent me from moving?\n\
 A: Run Mode is a way to guarantee that you won't die by holding a movement\n\

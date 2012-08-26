@@ -57,6 +57,7 @@ map::~map()
 
 vehicle* map::veh_at(int x, int y, int &part_num)
 {
+ return NULL;
  if (!inbounds(x, y))
   return NULL;    // Out-of-bounds - null vehicle
  int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
@@ -1053,7 +1054,7 @@ void map::destroy(game *g, int x, int y, bool makesound)
  switch (ter(x, y)) {
 
  case t_gas_pump:
-  if (one_in(3))
+  if (makesound && one_in(3))
    g->explosion(x, y, 40, 0, true);
   else {
    for (int i = x - 2; i <= x + 2; i++) {
@@ -1095,10 +1096,11 @@ void map::destroy(game *g, int x, int y, bool makesound)
   break;
 
  default:
-  if (has_flag(explodes, x, y) && one_in(2))
+  if (makesound && has_flag(explodes, x, y) && one_in(2))
    g->explosion(x, y, 40, 0, true);
   ter(x, y) = t_rubble;
  }
+
  if (makesound)
   g->sound(x, y, 40, "SMASH!!");
 }
@@ -1800,44 +1802,51 @@ void map::debug()
  getch();
 }
 
-void map::draw(game *g, WINDOW* w)
+void map::draw(game *g, WINDOW* w, point center)
 {
  int t = 0;
  int light = g->u.sight_range(g->light_level());
- for  (int realx = g->u.posx - SEEX; realx <= g->u.posx + SEEX; realx++) {
-  for (int realy = g->u.posy - SEEY; realy <= g->u.posy + SEEY; realy++) {
+ for  (int realx = center.x - SEEX; realx <= center.x + SEEX; realx++) {
+  for (int realy = center.y - SEEY; realy <= center.y + SEEY; realy++) {
    int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
    if (dist > light) {
     if (g->u.has_disease(DI_BOOMERED))
-     mvwputch(w, realx+SEEX - g->u.posx, realy+SEEY - g->u.posy, c_magenta,'#');
+     mvwputch(w, realy+SEEY - center.y, realx+SEEX - center.x, c_magenta,'#');
     else
-     mvwputch(w, realx+SEEX - g->u.posx, realy+SEEY - g->u.posy, c_dkgray, '#');
+     mvwputch(w, realy+SEEY - center.y, realx+SEEX - center.x, c_dkgray, '#');
    } else if (dist <= g->u.clairvoyance() ||
               sees(g->u.posx, g->u.posy, realx, realy, light, t))
-    drawsq(w, g->u, realx, realy, false, true);
+    drawsq(w, g->u, realx, realy, false, true, center.x, center.y);
+   else
+    mvwputch(w, realy+SEEY - center.y, realx+SEEX - center.x, c_black,'#');
   }
  }
- mvwputch(w, SEEY, SEEX, g->u.color(), '@');
+ int atx = SEEX + g->u.posx - center.x, aty = SEEY + g->u.posy - center.y;
+ if (atx >= 0 && atx < SEEX * 2 + 1 && aty >= 0 && aty < SEEY * 2 + 1)
+  mvwputch(w, aty, atx, g->u.color(), '@');
 }
 
 void map::drawsq(WINDOW* w, player &u, int x, int y, bool invert,
-                 bool show_items)
+                 bool show_items, int cx, int cy)
 {
  if (!INBOUNDS(x, y))
   return;	// Out of bounds
- int k = x + SEEX - u.posx;
- int j = y + SEEY - u.posy;
+ if (cx == -1)
+  cx = u.posx;
+ if (cy == -1)
+  cy = u.posy;
+ int k = x + SEEX - cx;
+ int j = y + SEEY - cy;
  nc_color tercol;
  long sym = terlist[ter(x, y)].sym;
  bool hi = false;
- bool normal_tercol = false;    // indicates that tile color is not changed by effects (boomered, nigh vision)
+ bool normal_tercol = false; // indicates that tile color is not changed by effects (boomered, nigh vision)
  if (u.has_disease(DI_BOOMERED))
   tercol = c_magenta;
  else if ((u.is_wearing(itm_goggles_nv) && u.has_active_item(itm_UPS_on)) ||
           u.has_active_bionic(bio_night_vision))
   tercol = c_ltgreen;
- else
- {
+ else {
   normal_tercol = true;
   tercol = terlist[ter(x, y)].color;
  }

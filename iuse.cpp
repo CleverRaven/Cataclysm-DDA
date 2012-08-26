@@ -442,7 +442,8 @@ void iuse::meth(game *g, player *p, item *it, bool t)
 
 void iuse::poison(game *g, player *p, item *it, bool t)
 {
- p->add_disease(DI_POISON, 100, g);
+ p->add_disease(DI_POISON, 600, g);
+ p->add_disease(DI_FOODPOISON, 1800, g);
 }
 
 void iuse::hallu(game *g, player *p, item *it, bool t)
@@ -1073,7 +1074,7 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
     if (spot == std::string::npos)
      spot = RADIO_PER_TURN;
     segments.push_back( message.substr(0, spot) );
-    message = message.substr(spot);
+    message = message.substr(spot + 1);
    }
    segments.push_back(message);
    int index = g->turn % (segments.size());

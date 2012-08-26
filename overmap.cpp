@@ -66,9 +66,9 @@ bool is_wall_material(oter_id ter)
 oter_id shop(int dir)
 {
  oter_id ret = ot_s_lot;
- int type = rng(0, 15);
+ int type = rng(0, 16);
  if (one_in(20))
-  type = 16;
+  type = 17;
  switch (type) {
   case  0: ret = ot_s_lot;	         break;
   case  1: ret = ot_s_gas_north;         break;
@@ -80,13 +80,14 @@ oter_id shop(int dir)
   case  7: ret = ot_s_gun_north;         break;
   case  8: ret = ot_s_clothes_north;     break;
   case  9: ret = ot_s_library_north;     break;
-  case 10: ret = ot_sub_station_north;   break;
-  case 11: ret = ot_bank_north;          break;
-  case 12: ret = ot_bar_north;           break;
-  case 13: ret = ot_s_electronics_north; break;
-  case 14: ret = ot_pawn_north;          break;
-  case 15: ret = ot_mil_surplus_north;   break;
-  case 16: ret = ot_police_north;        break;
+  case 10: ret = ot_s_restaurant_north;  break;
+  case 11: ret = ot_sub_station_north;   break;
+  case 12: ret = ot_bank_north;          break;
+  case 13: ret = ot_bar_north;           break;
+  case 14: ret = ot_s_electronics_north; break;
+  case 15: ret = ot_pawn_north;          break;
+  case 16: ret = ot_mil_surplus_north;   break;
+  case 17: ret = ot_police_north;        break;
  }
  if (ret == ot_s_lot)
   return ret;
@@ -859,7 +860,7 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
       omy += (omy < 0 ? OMAPY : 0 - OMAPY);
       cur_ter = diag.ter(omx, omy);
       see = diag.seen(omx, omy);
-      if (note_here = diag.has_note(omx, omy))
+      if ((note_here = diag.has_note(omx, omy)))
        note_text = diag.note(omx, omy);
      } else {
       cur_ter = hori.ter(omx, omy);
@@ -878,20 +879,20 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
      } else {
       cur_ter = hori.ter(omx, omy);
       see = hori.seen(omx, omy);
-      if (note_here = hori.has_note(omx, omy))
+      if ((note_here = hori.has_note(omx, omy)))
        note_text = hori.note(omx, omy);
      }
     } else if (omy < 0) {
      omy += OMAPY;
      cur_ter = vert.ter(omx, omy);
      see = vert.seen(omx, omy);
-     if (note_here = vert.has_note(omx, omy))
+     if ((note_here = vert.has_note(omx, omy)))
       note_text = vert.note(omx, omy);
     } else if (omy >= OMAPY) {
      omy -= OMAPY;
      cur_ter = vert.ter(omx, omy);
      see = vert.seen(omx, omy);
-     if (note_here = vert.has_note(omx, omy))
+     if ((note_here = vert.has_note(omx, omy)))
       note_text = vert.note(omx, omy);
     } else
      debugmsg("No data loaded! omx: %d omy: %d", omx, omy);

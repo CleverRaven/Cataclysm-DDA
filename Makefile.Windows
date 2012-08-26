@@ -5,6 +5,7 @@
 #WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-char-subscripts
 #DEBUG = -g
 #PROFILE = -pg
+OTHERS = -O3
 
 ODIR = objwin
 DDIR = .deps
@@ -16,7 +17,7 @@ CXX = i486-mingw32-g++
 LINKER = i486-mingw32-ld
 LINKERFLAGS = -Wl,-stack,12000000,-subsystem,windows
 
-CFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE)
+CFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS)
 
 LDFLAGS = -static -lgdi32
 
