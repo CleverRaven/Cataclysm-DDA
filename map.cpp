@@ -57,7 +57,6 @@ map::~map()
 
 vehicle* map::veh_at(int x, int y, int &part_num)
 {
- return NULL;
  if (!inbounds(x, y))
   return NULL;    // Out-of-bounds - null vehicle
  int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
