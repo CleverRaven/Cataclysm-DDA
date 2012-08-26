@@ -1,19 +1,13 @@
 # This message may be 16 lines long at maximum.
 # Max length of a line is 64 characters; the following line is for reference
 ################################################################
-This version introduces a new concept: unarmed styles!
+The game now has configurable options.
+You can directly edit options.txt in the data directory, or you
+can edit the options via the help menu.
 
-You can start with a style if you choose the Martial Arts
-Training trait, and NPCs will teach many more (22 styles exist!)
+If options.txt is missing, the game will create it for you.
 
-Select your style with _ and wield it with w-
+Check out the options listing by pressing ?2
 
-Each style has a variety of special moves associated with it,
-and most have some other unique effect--from special combos to
-the exotic like wall-running and damage resistance.
-
-This release also sees the return of wandering NPCs.  If you
-don't want wandering NPCs in your game, you can turn them off
-by placing a file called no_npc.txt in your data folder.
-
-Official Forums: http://whalesdev.com/forums/index.php
+As always, please visit the forums at:
+http://whalesdev.com/forums/index.php
