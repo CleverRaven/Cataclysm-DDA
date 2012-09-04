@@ -74,6 +74,8 @@ option_key lookup_option_key(std::string id)
   return OPT_SAFEMODE;
  if (id == "autosafemode")
   return OPT_AUTOSAFEMODE;
+ if (id == "autosave")
+  return OPT_AUTOSAVE;
 
  return OPT_NULL;
 }
@@ -89,6 +91,7 @@ std::string option_string(option_key key)
   case OPT_SNAP_TO_TARGET:	return "snap_to_target";
   case OPT_SAFEMODE:		return "safemode";
   case OPT_AUTOSAFEMODE:	return "autosafemode";
+  case OPT_AUTOSAVE:    	return "autosave";
   default:			return "unknown_option";
  }
  return "unknown_option";
@@ -98,13 +101,14 @@ std::string option_name(option_key key)
 {
  switch (key) {
   case OPT_USE_CELSIUS:		return "Use Celsius";
-  case OPT_USE_METRIC_SYS: return "Use Metric System";
+  case OPT_USE_METRIC_SYS:	return "Use Metric System";
   case OPT_FORCE_YN:		return "Force Y/N in prompts";
   case OPT_NO_CBLINK:		return "No Bright Backgrounds";
   case OPT_24_HOUR:		return "24 Hour Time";
   case OPT_SNAP_TO_TARGET:	return "Snap to Target";
   case OPT_SAFEMODE:		return "Safemode on by default";
   case OPT_AUTOSAFEMODE:	return "Auto-Safemode on by default";
+  case OPT_AUTOSAVE:    	return "Periodically Autosave";
   default:			return "Unknown Option (BUG)";
  }
  return "Big ol Bug";
@@ -143,6 +147,8 @@ snap_to_target F\n\
 safemode T\n\
 # If true, auto-safemode will be on after starting a new game or loading\n\
 autosafemode F\n\
+# If true, game will periodically save the map\n\
+autosave F\n\
 ";
  fout.close();
 }

@@ -102,6 +102,8 @@ public:
  bool is_other(); // Doesn't belong in other categories
  bool is_artifact();
 
+ int typeId();
+
  itype*   type;
  mtype*   corpse;
  it_ammo* curammo;
@@ -123,5 +125,7 @@ public:
 
 };
 
+std::ostream & operator<<(std::ostream &, const item &);
+std::ostream & operator<<(std::ostream &, const item *);
 
 #endif

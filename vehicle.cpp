@@ -164,7 +164,7 @@ void vehicle::init_state()
         if (part_flag(p, vpf_openable))    // doors are closed
             parts[p].open = 0;
         if (part_flag(p, vpf_seat))        // no passengers
-            parts[p].passenger = 0;
+            parts[p].remove_flag(vehicle_part::passenger_flag);
     }
 }
 
@@ -500,7 +500,8 @@ std::vector<int> vehicle::boarded_parts()
 {
     std::vector<int> res;
     for (int p = 0; p < parts.size(); p++)
-        if (part_flag (p, vpf_seat) && parts[p].passenger)
+        if (part_flag (p, vpf_seat) &&
+                parts[p].has_flag(vehicle_part::passenger_flag))
             res.push_back (p);
     return res;
 }
@@ -508,19 +509,14 @@ std::vector<int> vehicle::boarded_parts()
 player *vehicle::get_passenger (int p)
 {
     p = part_with_feature (p, vpf_seat, false);
-    if (p >= 0 && parts[p].passenger)
+    if (p >= 0 && parts[p].has_flag(vehicle_part::passenger_flag))
     {
-        int x = global_x () + parts[p].precalc_dx[0];
-        int y = global_y () + parts[p].precalc_dy[0];
-        if (g->u.posx == x && g->u.posy == y && g->u.in_vehicle)
-        {
-            return &g->u;
-        }
-        int npcdex = g->npc_at (x, y);
-        if (npcdex >= 0)
-        {
-            return &g->active_npc[npcdex];
-        }
+     const int player_id = parts[p].passenger_id;
+     if( player_id == 0 )
+      return &g->u;
+     int npcdex = g->npc_by_id (player_id);
+     if (npcdex >= 0)
+      return &g->active_npc[npcdex];
     }
     return 0;
 }
@@ -543,7 +539,7 @@ int vehicle::total_mass ()
         m += g->itypes[part_info(i).item]->weight;
         for (int j = 0; j < parts[i].items.size(); j++)
             m += parts[i].items[j].type->weight;
-        if (part_flag(i,vpf_seat) && parts[i].passenger)
+        if (part_flag(i,vpf_seat) && parts[i].has_flag(vehicle_part::passenger_flag))
             m += 520; // TODO: get real weight
     }
     return m;

@@ -3,7 +3,9 @@
 #include "rng.h"
 #include "game.h"
 #include "line.h"
+#include "debug.h"
 
+#define dbg(x) dout((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_PLAYER -2
 
 // A list of items used for escape, in order from least to most valuable
@@ -315,6 +317,7 @@ void npc::execute_action(game *g, npc_action action, int target)
  }
 
  if (oldmoves == moves) {
+  dbg(D_ERROR) << "map::veh_at: NPC didn't use its moves.";
   debugmsg("NPC didn't use its moves.  Action %d.  Turning on debug mode.", action);
   g->debugmon = true;
  }

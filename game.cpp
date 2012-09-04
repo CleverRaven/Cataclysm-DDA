@@ -15,8 +15,10 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include "debug.h"
 
 #define MAX_MONSTERS_MOVING 40 // Efficiency!
+#define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 void intro();
 nc_color sev(int a);	// Right now, ONLY used for scent debugging....
@@ -25,6 +27,8 @@ moncat_id mt_to_mc(mon_id type);	// Pick the moncat that contains type
 // This is the main game set-up process.
 game::game()
 {
+ dout() << "Game initialized.";
+
  clear();	// Clear the screen
  intro();	// Print an intro screen, make sure we're at least 80x25
 // Gee, it sure is init-y around here!
@@ -39,6 +43,7 @@ game::game()
  init_construction(); // Set up constructables            (SEE construction.cpp)
  init_mutations();
  init_vehicles();     // Set up vehicles                  (SEE veh_typedef.cpp)
+ init_autosave();     // Set up autosave
  load_keyboard_settings();
 // Set up the main UI windows.
  w_terrain = newwin(SEEY * 2 + 1, SEEX * 2 + 1, 0, 0);
@@ -155,6 +160,7 @@ fivedozenwhales@gmail.com.");
   dir = opendir("save");
  }
  if (!dir) {
+  dbg(D_ERROR) << "game:opening_screen: Unable to make save directory.";
   debugmsg("Could not make './save' directory");
   endwin();
   exit(1);
@@ -630,7 +636,11 @@ bool game::do_turn()
   cleanup_dead();
   if (!u.has_disease(DI_SLEEP) && u.activity.type == ACT_NULL)
    draw();
-  get_input();
+  if( get_input(autosave_timeout()) == IR_TIMEOUT )
+  {
+    autosave();
+    return false;
+  }
   if (is_game_over()) {
    if (uquit == QUIT_DIED)
     popup_top("Game over! Press spacebar...");
@@ -639,6 +649,7 @@ bool game::do_turn()
    return true;
   }
  }
+ ++moves_since_last_save;
  update_scent();
  m.vehmove(this);
  m.process_fields(this);
@@ -822,8 +833,12 @@ void game::process_activity()
    u.activity.type = ACT_NULL;
    if (act_veh) {
     if (u.activity.values.size() < 7)
+    {
+     dbg(D_ERROR) << "game:process_activity: invalid ACT_VEHICLE values: "
+                  << u.activity.values.size();
      debugmsg ("process_activity invalid ACT_VEHICLE values:%d",
                 u.activity.values.size());
+    }
     else {
      vehicle *veh = m.veh_at(u.activity.values[0], u.activity.values[1]);
      if (veh) {
@@ -831,7 +846,10 @@ void game::process_activity()
                          u.activity.values[2], u.activity.values[3]);
       return;
      } else
+     {
+      dbg(D_ERROR) << "game:process_activity: ACT_VEHICLE: vehicle not found";
       debugmsg ("process_activity ACT_VEHICLE: vehicle not found");
+     }
     }
    }
   }
@@ -1040,6 +1058,7 @@ bool game::mission_complete(int id, int npc_id)
 {
  mission* miss = find_mission(id);
  if (miss == NULL) {
+  dbg(D_ERROR) << "game:mission_complete: " << id << " - it's NULL!";
   debugmsg("game::mission_complete(%d) - it's NULL!", id);
   return false;
  }
@@ -1157,14 +1176,18 @@ void game::process_missions()
  }
 }
 
-void game::get_input()
+input_ret game::get_input(int timeout_ms)
 {
- char ch = input(); // See keypress.h - translates keypad and arrows to vikeys
+ char ch = KEY_ESCAPE;
+ bool success = input_wait(ch, timeout_ms); // See keypress.h - translates keypad and arrows to vikeys
+
+ if (!success)
+  return IR_TIMEOUT;
 
  if (keymap.find(ch) == keymap.end()) {
   if (ch != ' ' && ch != KEY_ESCAPE && ch != '\n')
    add_msg("Unknown command: '%c'", ch);
-  return;
+  return IR_BAD;
  }
 
  action_id act = keymap[ch];
@@ -1498,6 +1521,8 @@ void game::get_input()
  }
 
  gamemode->post_action(this, act);
+
+ return IR_GOOD;
 }
 
 int& game::scent(int x, int y)
@@ -1535,6 +1560,8 @@ void game::update_scent()
         newscent[x][y] < 10 * m.field_at(x, y).density)
      newscent[x][y] = 10 * m.field_at(x, y).density;
     if (newscent[x][y] > 10000) {
+     dbg(D_ERROR) << "game:update_scent: Wacky scent at " << x << ","
+                  << y << " (" << newscent[x][y] << ")";
      debugmsg("Wacky scent at %d, %d (%d)", x, y, newscent[x][y]);
      newscent[x][y] = 0; // Scent should never be higher
     }
@@ -1690,6 +1717,7 @@ void game::load(std::string name)
  fin.open(playerfile.str().c_str());
 // First, read in basic game state information.
  if (!fin.is_open()) {
+  dbg(D_ERROR) << "game:load: No save game exists!";
   debugmsg("No save game exists!");
   return;
  }
@@ -1862,13 +1890,10 @@ void game::decrease_nextinv()
   nextinv--;
 }
 
-void game::add_msg(const char* msg, ...)
+void game::vadd_msg(const char* msg, va_list ap)
 {
  char buff[1024];
- va_list ap;
- va_start(ap, msg);
  vsprintf(buff, msg, ap);
- va_end(ap);
  std::string s(buff);
  if (s.length() == 0)
   return;
@@ -1893,6 +1918,25 @@ void game::add_msg(const char* msg, ...)
  }
 */
  messages.push_back( game_message(turn, s) );
+}
+
+void game::add_msg(const char* msg, ...)
+{
+ va_list ap;
+ va_start(ap, msg);
+ vadd_msg(msg, ap);
+ va_end(ap);
+}
+
+void game::add_msg_if_player(player *p, const char* msg, ...)
+{
+ if (p && !p->is_npc())
+ {
+  va_list ap;
+  va_start(ap, msg);
+  vadd_msg(msg, ap);
+  va_end(ap);
+ }
 }
 
 void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
@@ -2009,8 +2053,10 @@ z.size(), events.size());
    break;
 
   case 10:
-   if (m.veh_at(u.posx, u.posy))
+   if (m.veh_at(u.posx, u.posy)) {
+    dbg(D_ERROR) << "game:load: There's already vehicle here";
     debugmsg ("There's already vehicle here");
+   }
    else {
     for (int i = 2; i < vtypes.size(); i++)
      opts.push_back (vtypes[i]->name);
@@ -2613,8 +2659,11 @@ void game::draw_minimap()
     else         omy -= OMAPY;
     cur_ter = om_vert->ter(omx, omy);
     seen    = om_vert->seen(omx, omy);
-   } else
+   } else {
+    dbg(D_ERROR) << "game:draw_minimap: No data loaded! omx: "
+                 << omx << " omy: " << omy;
     debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
+   }
    nc_color ter_color = oterlist[cur_ter].color;
    long ter_sym = oterlist[cur_ter].sym;
    if (seen) {
@@ -3126,12 +3175,22 @@ void game::monmove()
  cleanup_dead();
  for (int i = 0; i < z.size(); i++) {
   if (i < 0 || i > z.size())
+  {
+   dbg(D_ERROR) << "game:monmove: Moving out of bounds monster! i "
+                << i << ", z.size() " << z.size();
    debugmsg("Moving out of bounds monster! i %d, z.size() %d", i, z.size());
+  }
   while (!z[i].dead && !z[i].can_move_to(m, z[i].posx, z[i].posy)) {
 // If we can't move to our current position, assign us to a new one
    if (debugmon)
+   {
+    dbg(D_ERROR) << "game:monmove: " << z[i].name().c_str() 
+                 << " can't move to its location! (" << z[i].posx
+                 << ":" << z[i].posy << "), "
+                 << m.tername(z[i].posx, z[i].posy).c_str();
     debugmsg("%s can't move to its location! (%d:%d), %s", z[i].name().c_str(),
              z[i].posx, z[i].posy, m.tername(z[i].posx, z[i].posy).c_str());
+   }
    bool okay = false;
    int xdir = rng(1, 2) * 2 - 3, ydir = rng(1, 2) * 2 - 3; // -1 or 1
    int startx = z[i].posx - 3 * xdir, endx = z[i].posx + 3 * xdir;
@@ -3612,6 +3671,8 @@ void game::use_computer(int x, int y)
  computer* used = m.computer_at(x, y);
 
  if (used == NULL) {
+  dbg(D_ERROR) << "game:use_computer: Tried to use computer at (" << x
+               << ", " << y << ") - none there";
   debugmsg("Tried to use computer at (%d, %d) - none there", x, y);
   return;
  }
@@ -3759,6 +3820,15 @@ int game::npc_at(int x, int y)
  return -1;
 }
 
+int game::npc_by_id(int id)
+{
+ for (int i = 0; i < active_npc.size(); i++) {
+  if (active_npc[i].id == id)
+   return i;
+ }
+ return -1;
+}
+
 /*
 void game::build_monmap()
 {
@@ -3805,6 +3875,8 @@ bool game::is_in_sunlight(int x, int y)
 void game::kill_mon(int index, bool u_did_it)
 {
  if (index < 0 || index >= z.size()) {
+  dbg(D_ERROR) << "game:kill_mon: Tried to kill monster " << index
+               << "! (" << z.size() << " in play)";
   debugmsg("Tried to kill monster %d! (%d in play)", index, z.size());
   return;
  }
@@ -3830,6 +3902,8 @@ void game::kill_mon(int index, bool u_did_it)
 void game::explode_mon(int index)
 {
  if (index < 0 || index >= z.size()) {
+  dbg(D_ERROR) << "game:explode_mon: Tried to explode monster " << index
+               << "! (" << z.size() << " in play)";
   debugmsg("Tried to explode monster %d! (%d in play)", index, z.size());
   return;
  }
@@ -4672,6 +4746,10 @@ point game::look_around()
    for (int j = 1; j < 47; j++)
     mvwputch(w_look, i, j, c_white, ' ');
   }
+
+  // Debug helper
+  //mvwprintw(w_look, 6, 1, "Items: %d", m.i_at(lx, ly).size() );
+
   int veh_part = 0;
   vehicle *veh = m.veh_at(lx, ly, veh_part);
   if (u_see(lx, ly, junk)) {
@@ -4742,6 +4820,7 @@ point game::look_around()
 // Pick up items at (posx, posy).
 void game::pickup(int posx, int posy, int min)
 {
+ item_exchanges_since_save += 1; // Keeping this simple.
  write_msg();
  if (u.weapon.type->id == itm_bio_claws) {
   add_msg("You cannot pick up items with your claws out!");
@@ -5080,6 +5159,7 @@ void game::pickup(int posx, int posy, int min)
 bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
 {
  if (!liquid.made_of(LIQUID)) {
+  dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
   debugmsg("Tried to handle_liquid a non-liquid!");
   return false;
  }
@@ -5239,6 +5319,8 @@ void game::drop()
   return;
  }
 
+ item_exchanges_since_save += dropped.size();
+
  itype_id first = itype_id(dropped[0].type->id);
  bool same = true;
  for (int i = 1; i < dropped.size() && same; i++) {
@@ -5320,6 +5402,8 @@ void game::drop_in_direction()
   add_msg("Never mind.");
   return;
  }
+
+ item_exchanges_since_save += dropped.size();
 
  itype_id first = itype_id(dropped[0].type->id);
  bool same = true;
@@ -5950,6 +6034,7 @@ void game::pldrive(int x, int y)
  int part = -1;
  vehicle *veh = m.veh_at (u.posx, u.posy, part);
  if (!veh) {
+  dbg(D_ERROR) << "game:pldrive: can't find vehicle! Drive mode is now off.";
   debugmsg ("game::pldrive error: can't find vehicle! Drive mode is now off.");
   u.in_vehicle = false;
   return;
@@ -5994,6 +6079,9 @@ void game::plmove(int x, int y)
   x += u.posx;
   y += u.posy;
  }
+
+ dbg(D_PEDANTIC_INFO) << "game:plmove: From ("<<u.posx<<","<<u.posy<<") to ("<<x<<","<<y<<")";
+
 // Check if our movement is actually an attack on a monster
  int mondex = mon_at(x, y);
  bool displace = false;	// Are we displacing a monster?
@@ -6080,7 +6168,8 @@ void game::plmove(int x, int y)
   if (u.underwater)
    u.underwater = false;
   dpart = veh ? veh->part_with_feature (vpart, vpf_seat) : -1;
-  bool can_board = dpart >= 0 && !veh->parts[dpart].passenger;
+  bool can_board = dpart >= 0 &&
+      !veh->parts[dpart].has_flag(vehicle_part::passenger_flag);
 /*  if (veh.type != veh_null)
       add_msg ("vp=%d dp=%d can=%c", vpart, dpart, can_board? 'y' : 'n',);*/
   if (can_board && query_yn("Board vehicle?")) { // empty vehicle's seat ahead
@@ -6274,6 +6363,8 @@ void game::plswim(int x, int y)
  u.posx = x;
  u.posy = y;
  if (!m.has_flag(swimmable, x, y)) {
+  dbg(D_ERROR) << "game:plswim: Tried to swim in " 
+               << m.tername(x, y).c_str() << "!";
   debugmsg("Tried to swim in %s!", m.tername(x, y).c_str());
   return;
  }
@@ -6317,8 +6408,10 @@ void game::fling_player_or_monster(player *p, monster *zz, int dir, int flvel)
         is_player = false;
     else
     {
-        debugmsg ("game::fling neither player nor monster");
-        return;
+     dbg(D_ERROR) << "game:fling_player_or_monster: "
+                     "neither player nor monster";
+     debugmsg ("game::fling neither player nor monster");
+     return;
     }
 
     tileray tdir(dir);
@@ -6715,6 +6808,8 @@ void game::update_map(int &x, int &y)
              cur_om.npcs[i].mapx, cur_om.npcs[i].mapy);
    temp = cur_om.npcs[i];
    if (temp.posx == -1 || temp.posy == -1) {
+    dbg(D_ERROR) << "game:update_map: Static NPC with no fine location "
+                    "data (" << temp.posx << ":" << temp.posy << ").";
     debugmsg("Static NPC with no fine location data (%d:%d).",
              temp.posx, temp.posy);
     temp.posx = SEEX * 2 * (temp.mapx - levx) + rng(0 - SEEX, SEEX);
@@ -7369,6 +7464,50 @@ void game::display_scent()
  }
  wrefresh(w_terrain);
  getch();
+}
+
+void game::init_autosave()
+{
+ moves_since_last_save = 0;
+ item_exchanges_since_save = 0;
+}
+
+int game::autosave_timeout()
+{
+ if (!OPTIONS[OPT_AUTOSAVE])
+  return -1; // -1 means block instead of timeout
+
+ const double upper_limit = 60 * 1000;
+ const double lower_limit = 5 * 1000;
+ const double range = upper_limit - lower_limit;
+
+ // Items exchanged
+ const double max_changes = 20.0;
+ const double max_moves = 500.0;
+
+ double move_multiplier = 0.0;
+ double changes_multiplier = 0.0;
+
+ if( moves_since_last_save < max_moves )
+  move_multiplier = 1 - (moves_since_last_save / max_moves);
+
+ if( item_exchanges_since_save < max_changes )
+  changes_multiplier = 1 - (item_exchanges_since_save / max_changes);
+
+ double ret = lower_limit + (range * move_multiplier * changes_multiplier);
+ //add_msg("move_multiplier: %f", move_multiplier);
+ //add_msg("changes_multiplier: %f", changes_multiplier);
+ //add_msg("autosave_timeout: %f", ret);
+ return ret;
+}
+
+void game::autosave()
+{
+ if (!moves_since_last_save && !item_exchanges_since_save)
+  return;
+ MAPBUFFER.save();
+ moves_since_last_save = 0;
+ item_exchanges_since_save = 0;
 }
 
 void intro()

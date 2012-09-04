@@ -4,6 +4,7 @@
 #include "npc.h"
 #include "overmap.h"
 #include "faction.h"
+#include <iosfwd>
 
 struct settlement {
  settlement();
@@ -23,5 +24,7 @@ struct settlement {
  int size;
  //int buildings[ot_wall - ot_set_house + 1];
 };
+
+std::ostream & operator<<(std::ostream &, const settlement &);
 
 #endif

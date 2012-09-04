@@ -24,6 +24,7 @@
 #include "action.h"
 #include <vector>
 #include <map>
+#include <stdarg.h>
 
 #define LONG_RANGE 10
 #define BLINK_SPEED 300
@@ -36,6 +37,12 @@ enum tut_type {
  TUT_NULL,
  TUT_BASIC, TUT_COMBAT,
  TUT_MAX
+};
+
+enum input_ret {
+ IR_GOOD,
+ IR_BAD,
+ IR_TIMEOUT
 };
 
 enum quit_status {
@@ -82,7 +89,9 @@ class game
   void draw_ter(int posx = -999, int posy = -999);
   void advance_nextinv();	// Increment the next inventory letter
   void decrease_nextinv();	// Decrement the next inventory letter
+  void vadd_msg(const char* msg, va_list ap );
   void add_msg(const char* msg, ...);
+  void add_msg_if_player(player *p, const char* msg, ...);
   void add_event(event_type type, int on_turn, int faction_id = -1,
                  int x = -1, int y = -1);
   bool event_queued(event_type type);
@@ -104,6 +113,7 @@ class game
   void resonance_cascade(int x, int y);
   void emp_blast(int x, int y);
   int  npc_at(int x, int y);	// Index of the npc at (x, y); -1 for none
+  int  npc_by_id(int id);	// Index of the npc at (x, y); -1 for none
  // void build_monmap();		// Caches data for mon_at()
   int  mon_at(int x, int y);	// Index of the monster at (x, y); -1 for none
   bool is_empty(int x, int y);	// True if no PC, no monster, move cost > 0
@@ -239,6 +249,7 @@ class game
   void init_missions();     // Initializes mission templates
   void init_mutations();    // Initializes mutation "tech tree"
   void init_vehicles();     // Initializes vehicle types
+  void init_autosave();     // Initializes autosave parameters
 
   void load_keyboard_settings(); // Load keybindings from disk
   void save_keymap();		// Save keybindings to disk
@@ -323,7 +334,7 @@ class game
   void update_weather();   // Updates the temperature and weather patten
   void hallucinate();      // Prints hallucination junk to the screen
   void mon_info();         // Prints a list of nearby monsters (top right)
-  void get_input();        // Gets player input and calls the proper function
+  input_ret get_input(int timeout_ms);   // Gets player input and calls the proper function
   void update_scent();     // Updates the scent map
   bool is_game_over();     // Returns true if the player quit or died
   void death_screen();     // Display our stats, "GAME OVER BOO HOO"
@@ -332,6 +343,8 @@ class game
   void msg_buffer();       // Opens a window with old messages in it
   void draw_minimap();     // Draw the 5x5 minimap
   void draw_HP();          // Draws the player's HP and Power level
+  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
+  void autosave();         // Saves map
 
 // On-request draw functions
   void draw_overmap();     // Draws the overmap, allows note-taking etc.
@@ -373,6 +386,9 @@ class game
   std::vector<event> events;	        // Game events to be processed
   int kills[num_monsters];	        // Player's kill count
   std::string last_action;		// The keypresses of last turn
+
+  int moves_since_last_save;
+  int item_exchanges_since_save;
 
   special_game *gamemode;
 };
