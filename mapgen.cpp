@@ -4082,6 +4082,98 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(3);
   break;
 
+case ot_s_garage_north:
+  case ot_s_garage_south:
+  case ot_s_garage_east:
+  case ot_s_garage_west:
+       /*
+     ......................
+     ......................
+     ......................
+     ......................
+     ......................
+     ---++++++-----++++++--
+     |#6       # #       6|
+     |#        # #        |
+     |#                   |
+     |#                   |
+     |#                   |
+     |#                   |
+     |###                 |
+     |---            -----|
+     |# |            | ###|
+     |# +            + ## |
+     |# |            |    |
+     |# |############| {{{|
+     ----------------------
+     */
+  {
+        square(this, grass_or_dirt(), 0, 0, SEEX * 2, SEEY * 2);
+        int yard_wdth = 5;
+        square(this, t_floor, 0, yard_wdth, SEEX * 2 - 4, SEEY * 2 - 4);
+        line(this, t_wall_v, 0, yard_wdth, 0, SEEY*2-4);
+        line(this, t_wall_v, SEEX * 2 - 3, yard_wdth, SEEX * 2 - 3, SEEY*2-4);
+        line(this, t_wall_h, 0, SEEY*2-4, SEEX * 2 - 3, SEEY*2-4);
+        /*square(this, t_floor, 4, 4, SEEX * 2 - 4, SEEY * 2 - 4);
+        line(this, t_wall_v, 3, 4, 3, SEEY * 2 - 4);
+        line(this, t_wall_v, SEEX * 2 - 3, 4, SEEX * 2 - 3, SEEY * 2 - 4);
+        line(this, t_wall_h, 3, 3, SEEX * 2 - 3, 3);*/
+        line(this, t_wall_h, 0, yard_wdth, 2, yard_wdth);
+        line(this, t_wall_h, 8, yard_wdth, 13, yard_wdth);
+        line(this, t_wall_h, 20, yard_wdth, 21, yard_wdth);
+        line(this, t_counter, 1, yard_wdth+1, 1, yard_wdth+7);
+        line(this, t_wall_h, 1, SEEY*2-9, 3, SEEY*2-9);
+        line(this, t_wall_v, 3, SEEY*2-8, 3, SEEY*2-5);
+        ter(3, SEEY*2-7)= t_door_frame;
+        line(this, t_counter,4, SEEY*2-5, 15, SEEY*2-5);
+        //office
+        line(this, t_wall_glass_h, 16, SEEY*2-9 ,20, SEEY*2-9);
+        line(this, t_wall_glass_v, 16, SEEY*2-8, 16, SEEY*2-5);
+        ter(16, SEEY*2-7)= t_door_glass_c;
+        line(this, t_bench, SEEX*2-6, SEEY*2-8, SEEX*2-4, SEEY*2-8);
+        ter(SEEX*2-6, SEEY*2-7) = t_console_broken;
+        ter(SEEX*2-5, SEEY*2-6) = t_bench;
+        line(this, t_bookcase, SEEX*2-6, SEEY*2-5, SEEX*2-4, SEEY*2-5);
+        //gates
+        line(this, t_door_metal_locked, 3, yard_wdth, 8, yard_wdth);
+        ter(2, yard_wdth+1) = t_gates_mech_control;
+        line(this, t_door_metal_locked, 14, yard_wdth, 19, yard_wdth );
+        ter(13, yard_wdth+1) = t_gates_mech_control;
+        g->add_msg("Car repairing!");
+        //place items
+        place_items(mi_mechanics, 90, 1, yard_wdth+1, 1, yard_wdth+7, true, 0);
+        place_items(mi_mechanics, 90, 4, SEEY*2-5, 15, SEEY*2-5, true, 0);
+        //place vehicles
+        /*vhtype_id vt = (one_in(10)? veh_sandbike :
+                     (one_in(8)? veh_truck :
+                     (one_in(3)? veh_car : veh_motorcycle)));*/
+        vhtype_id vt = veh_car;
+
+        if (terrain_type == ot_s_garage_north) {
+        int vy = yard_wdth+6, vx = 5;
+        add_vehicle (g, vt, vx, vy, 90); }
+
+          if (terrain_type == ot_s_garage_east) {
+            rotate(1);
+            //int vy = yard_wdth+5, vx = 4;
+            int vy = 4, vx=yard_wdth+8;
+            add_vehicle (g, vt, vx, vy, 0);
+            }
+          if (terrain_type == ot_s_garage_south) {
+            rotate(2);
+            int vy = SEEY*2-(yard_wdth+5)-2, vx = SEEX*2-5-1;
+            add_vehicle (g, vt, vx, vy, 270);
+            }
+          if (terrain_type == ot_s_garage_west) {
+            //int vy = yard_wdth+5, vx = 4;
+            rotate(3);
+            //int vy = 4, vx=yard_wdth;
+            int vy = SEEY*2-4-1, vx=SEEX*2-yard_wdth-9;
+            add_vehicle (g, vt, vx, vy, 180);
+            }
+  }
+  break; 
+
  case ot_police_north:
  case ot_police_east:
  case ot_police_south:

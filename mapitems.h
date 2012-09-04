@@ -24,7 +24,7 @@ enum items_location {
  mi_hospital_lab, mi_hospital_samples, mi_surgery,
  mi_office, mi_vault,
  mi_art, mi_pawn, mi_mil_surplus,
- mi_shelter,
+ mi_shelter, mi_mechanics,
  mi_chemistry, mi_teleport, mi_goo, mi_cloning_vat, mi_dissection,
  mi_hydro, mi_electronics, mi_monparts, mi_bionics, mi_bionics_common,
  mi_bots, mi_launchers, mi_mil_rifles, mi_grenades, mi_mil_armor, mi_mil_food,

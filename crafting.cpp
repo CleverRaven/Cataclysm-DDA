@@ -544,6 +544,15 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
 // MISC
 
+ RECIPE(itm_carspike,     CC_MISC, sk_null, sk_null, 0, 3000);
+  TOOL(itm_hammer, -1, NULL);
+  COMP(itm_spear_knife, 1, itm_knife_combat, 1, itm_knife_steak, 2,
+       itm_steel_chunk, 3, NULL);
+
+ RECIPE(itm_carblade,     CC_MISC, sk_null, sk_null, 0, 3000);
+  TOOL(itm_hammer, -1, NULL);
+  COMP(itm_broadsword, 1, itm_machete, 1, itm_pike, 1, NULL);
+
  RECIPE(itm_superglue, CC_MISC, sk_cooking, sk_null, 2, 12000);
   TOOL(itm_hotplate, 5, itm_toolset, 3, itm_fire, -1, NULL);
   COMP(itm_water, 1, NULL);

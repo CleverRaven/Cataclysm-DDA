@@ -433,6 +433,11 @@ void game::init_mapitems()
 	itm_flashlight, itm_hotplate, itm_water_purifier, itm_radio, NULL);
 
  setvector(
+   mapitems[mi_mechanics],
+        itm_wrench, itm_frame, itm_wheel, itm_motor, itm_combustion_small,
+        itm_hacksaw, NULL);
+
+ setvector(
    mapitems[mi_chemistry],
 	itm_iodine, itm_water, itm_salt_water, itm_bleach, itm_ammonia,
 	itm_mutagen, itm_purifier, itm_royal_jelly, itm_superglue,

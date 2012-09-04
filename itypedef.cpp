@@ -988,6 +988,18 @@ MELEE("candlestick",	20,100,'/', c_yellow,	SILVER,	MNULL,
 	 1,  5, 12,  0,  1,  0, "\
 A gold candlestick.");
 
+MELEE("spike",           0, 0,';',  c_cyan,     STEEL,  MNULL,
+	 2,  2,  2, 10, -2, mfb(IF_STAB),"\
+A large and slightly misshapen spike, could do some damage\n\
+mounted on a vehicle.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+MELEE("blade",	 5, 280,'/', c_blue,	IRON,	MNULL,
+//	VOL WGT DAM CUT HIT FLAGS
+	 8, 14,  6, 10, -2, 0, "\
+A large and slightly misshapen blade, could do some damage\n\
+mounted on a vehicle.");
+
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  25, 35, ']', c_cyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
