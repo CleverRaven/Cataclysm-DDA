@@ -2168,13 +2168,19 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(3);
   } break;
 
- case ot_shelter:
+//....
+case ot_shelter: {
 // Init to grass & dirt;
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++)
     ter(i, j) = grass_or_dirt();
   }
-  square(this, t_floor, 5, 5, SEEX * 2 - 6, SEEY * 2 - 6);
+  //square(this, t_floor_l, 5, 5, SEEX * 2 - 6, SEEY * 2 - 6);
+        square(this, t_floor, 5, 5, SEEX * 2 - 6, SEEY * 2 - 6);
+        /*ter(6,6) = t_counter;
+        ter(6,7) = t_console_broken;*/
+
+
   square(this, t_stairs_down, SEEX - 1, SEEY - 1, SEEX, SEEY);
   line(this, t_wall_h, 4, 4, SEEX * 2 - 5, 4);
   line(this, t_door_c, SEEX - 1, 4, SEEX, 4);
@@ -2184,7 +2190,28 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   line(this, t_door_c, 4, SEEY - 1, 4, SEEY);
   line(this, t_wall_v, SEEX * 2 - 5, 5, SEEX * 2 - 5, SEEY * 2 - 6);
   line(this, t_door_c, SEEX * 2 - 5, SEEY - 1, SEEX * 2 - 5, SEEY);
+        ter(SEEX*2-5, SEEY-3) = t_wall_glass_v;
+        ter(SEEX*2-5, SEEY+2) = t_wall_glass_v;
+        ter(4, SEEY-3) = t_wall_glass_v;
+        ter(4, SEEY+2) = t_wall_glass_v;
+        ter(SEEX-3, 4) = t_wall_glass_h;
+        ter(SEEX+2, 4) = t_wall_glass_h;
+        line(this, t_counter, SEEX+3, 5, SEEX+3, SEEY-4);
+        ter(SEEX+6, 5) = t_console;
+        computer* evaccomp = this->add_computer(SEEX+6, 5, "Evac shelter computer", 0);
+        line(this, t_counter, SEEX+3, SEEY+3, SEEX+3, SEEY*2-6);
+        ter(SEEX+6, SEEY*2-6) = t_console_broken;
+            line(this, t_bench, 6,6, 6,SEEY-3);
+            line(this, t_bench, 8,6, 8,SEEY-3);
+            line(this, t_bench, 10,6, 10,SEEY-3);
+
+            line(this, t_bench, 6,SEEY+2, 6,SEEY*2-7);
+            line(this, t_bench, 8,SEEY+2, 8,SEEY*2-7);
+            line(this, t_bench, 10,SEEY+2, 10,SEEY*2-7);
+        }
+
   break;
+//....
 
  case ot_shelter_under:
   square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
