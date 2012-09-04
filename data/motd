@@ -1,0 +1,13 @@
+# This message may be 16 lines long at maximum.
+# Max length of a line is 64 characters; the following line is for reference
+################################################################
+The game now has configurable options.
+You can directly edit options.txt in the data directory, or you
+can edit the options via the help menu.
+
+If options.txt is missing, the game will create it for you.
+
+Check out the options listing by pressing ?2
+
+As always, please visit the forums at:
+http://whalesdev.com/forums/index.php
