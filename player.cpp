@@ -82,80 +82,98 @@ player::~player()
 {
 }
 
-player& player::operator= (player rhs)
+player& player::operator= (const player & rhs)
 {
- str_cur = rhs.str_cur;
- str_max = rhs.str_max;
- dex_cur = rhs.dex_cur;
- dex_max = rhs.dex_max;
- int_cur = rhs.int_cur;
- int_max = rhs.int_max;
- per_cur = rhs.per_cur;
- per_max = rhs.per_max;
- underwater = rhs.underwater;
- dodges_left = rhs.dodges_left;
- blocks_left = rhs.blocks_left;
- power_level = rhs.power_level;
- max_power_level = rhs.max_power_level;
- hunger = rhs.hunger;
- thirst = rhs.thirst;
- fatigue = rhs.fatigue;
- stim = rhs.stim;
- pain = rhs.pain;
- pkill = rhs.pkill;
- radiation = rhs.radiation;
- cash = rhs.cash;
- recoil = rhs.recoil;
- driving_recoil = rhs.driving_recoil;
+ id = rhs.id;
+ posx = rhs.posx;
  in_vehicle = rhs.in_vehicle;
- scent = rhs.scent;
- name = rhs.name;
- male = rhs.male;
- inv_sorted = rhs.inv_sorted;
- moves = rhs.moves;
- oxygen = rhs.oxygen;
- active_mission = rhs.active_mission;
- xp_pool = rhs.xp_pool;
- my_bionics = rhs.my_bionics;
- health = rhs.health;
- underwater = rhs.underwater;
- morale = rhs.morale;
- last_item = rhs.last_item;
- styles = rhs.styles;
- ret_null = rhs.ret_null;
- illness = rhs.illness;
- addictions = rhs.addictions;
- for (int i = 0; i < num_skill_types; i++) {
-  sklevel[i] = rhs.sklevel[i];
-  skexercise[i] = rhs.skexercise[i];
- }
- for (int i = 0; i < num_hp_parts; i++)
-  hp_cur[i] = rhs.hp_cur[i];
- for (int i = 0; i < num_hp_parts; i++)
-  hp_max[i] = rhs.hp_max[i];
- for (int i = 0; i < num_skill_types; i++)
-  sktrain[i] = rhs.sktrain[i];
- for (int i = 0; i < PF_MAX2; i++)
-  my_traits[i] = rhs.my_traits[i];
- for (int i = 0; i < PF_MAX2; i++)
-  my_mutations[i] = rhs.my_mutations[i];
- for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-  mutation_category_level[i] = rhs.mutation_category_level[i];
-
- inv.clear();
- for (int i = 0; i < rhs.inv.size(); i++)
-  inv.add_stack(rhs.inv.stack_at(i));
-
- worn.clear();
- for (int i = 0; i < rhs.worn.size(); i++)
-  worn.push_back(rhs.worn[i]);
-
- style_selected = rhs.style_selected;
- weapon = rhs.weapon;
+ activity = rhs.activity;
+ backlog = rhs.backlog;
 
  active_missions = rhs.active_missions;
  completed_missions = rhs.completed_missions;
  failed_missions = rhs.failed_missions;
+ active_mission = rhs.active_mission;
+
+ name = rhs.name;
+ male = rhs.male;
+
+ for (int i = 0; i < PF_MAX2; i++)
+  my_traits[i] = rhs.my_traits[i];
+
+ for (int i = 0; i < PF_MAX2; i++)
+  my_mutations[i] = rhs.my_mutations[i];
+
+ for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
+  mutation_category_level[i] = rhs.mutation_category_level[i];
+
+ my_bionics = rhs.my_bionics;
+
+ str_cur = rhs.str_cur;
+ dex_cur = rhs.dex_cur;
+ int_cur = rhs.int_cur;
+ per_cur = rhs.per_cur;
+
+ str_max = rhs.str_max;
+ dex_max = rhs.dex_max;
+ int_max = rhs.int_max;
+ per_max = rhs.per_max;
+
+ power_level = rhs.power_level;
+ max_power_level = rhs.max_power_level;
+
+ hunger = rhs.hunger;
+ thirst = rhs.thirst;
+ fatigue = rhs.fatigue;
+ health = rhs.health;
+
+ underwater = rhs.underwater;
+ oxygen = rhs.oxygen;
+ recoil = rhs.recoil;
+ driving_recoil = rhs.driving_recoil;
+ scent = rhs.scent;
+ dodges_left = rhs.dodges_left;
+ blocks_left = rhs.blocks_left;
+
+ stim = rhs.stim;
+ pain = rhs.pain;
+ pkill = rhs.pkill;
+ radiation = rhs.radiation;
+
+ cash = rhs.cash;
+ moves = rhs.moves;
+
+ for (int i = 0; i < num_hp_parts; i++)
+  hp_cur[i] = rhs.hp_cur[i];
+
+ for (int i = 0; i < num_hp_parts; i++)
+  hp_max[i] = rhs.hp_max[i];
+
+ morale = rhs.morale;
+ xp_pool = rhs.xp_pool;
+
+ for (int i = 0; i < num_skill_types; i++) {
+  sklevel[i]    = rhs.sklevel[i];
+  skexercise[i] = rhs.skexercise[i];
+  sktrain[i]    = rhs.sktrain[i];
+ }
+
+ inv_sorted = rhs.inv_sorted;
+
+ inv.clear();
+ for (int i = 0; i < rhs.inv.size(); i++)
+  inv.add_stack(rhs.inv.const_stack(i));
+
+ last_item = rhs.last_item;
+ worn = rhs.worn;
+ styles = rhs.styles;
+ style_selected = rhs.style_selected;
+ weapon = rhs.weapon;
+
+ ret_null = rhs.ret_null;
+
+ illness = rhs.illness;
+ addictions = rhs.addictions;
 
  return (*this);
 }
@@ -541,7 +559,7 @@ void player::load_info(game *g, std::string data)
   int item_id;
   dump >> mortmp.bonus >> mortype >> item_id;
   mortmp.type = morale_type(mortype);
-  if (item_id == 0)
+  if (item_id <= 0 || item_id >= num_all_items)
    mortmp.item_type = NULL;
   else
    mortmp.item_type = g->itypes[item_id];
@@ -3049,13 +3067,17 @@ void player::sort_inv()
 
 void player::i_add(item it, game *g)
 {
- last_item = itype_id(it.type->id);
+ int item_type_id = itm_null;
+ if( it.type ) item_type_id = it.type->id;
+
+ last_item = itype_id(item_type_id);
+
  if (it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() || 
      it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container())
   inv_sorted = false;
  if (it.is_ammo()) {	// Possibly combine with other ammo
   for (int i = 0; i < inv.size(); i++) {
-   if (inv[i].type->id == it.type->id) {
+   if (inv[i].type->id == item_type_id) {
     it_ammo* ammo = dynamic_cast<it_ammo*>(inv[i].type);
     if (inv[i].charges < ammo->count) {
      inv[i].charges += it.charges;

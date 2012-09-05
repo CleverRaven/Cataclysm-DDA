@@ -25,7 +25,17 @@ nc_color sev(int a);	// Right now, ONLY used for scent debugging....
 moncat_id mt_to_mc(mon_id type);	// Pick the moncat that contains type
 
 // This is the main game set-up process.
-game::game()
+game::game() :
+ w_terrain(NULL),
+ w_minimap(NULL),
+ w_HP(NULL),
+ w_moninfo(NULL),
+ w_messages(NULL),
+ w_status(NULL),
+ om_hori(NULL),
+ om_vert(NULL),
+ om_diag(NULL),
+ gamemode(NULL)
 {
  dout() << "Game initialized.";
 
@@ -6866,23 +6876,31 @@ void game::update_map(int &x, int &y)
   }
  }
 // Spawn static NPCs?
- npc temp;
  for (int i = 0; i < cur_om.npcs.size(); i++) {
+
   if (rl_dist(levx + int(MAPSIZE / 2), levy + int(MAPSIZE / 2),
               cur_om.npcs[i].mapx, cur_om.npcs[i].mapy) <=
               int(MAPSIZE / 2) + 1) {
+
    int dx = cur_om.npcs[i].mapx - levx, dy = cur_om.npcs[i].mapy - levy;
+
    if (debugmon)
     debugmsg("Spawning static NPC, %d:%d (%d:%d)", levx, levy,
              cur_om.npcs[i].mapx, cur_om.npcs[i].mapy);
-   temp = cur_om.npcs[i];
+
+   npc & temp = cur_om.npcs[i];
+
    if (temp.posx == -1 || temp.posy == -1) {
+
     dbg(D_ERROR) << "game:update_map: Static NPC with no fine location "
                     "data (" << temp.posx << ":" << temp.posy << ").";
+
     debugmsg("Static NPC with no fine location data (%d:%d).",
              temp.posx, temp.posy);
+
     temp.posx = SEEX * 2 * (temp.mapx - levx) + rng(0 - SEEX, SEEX);
     temp.posy = SEEY * 2 * (temp.mapy - levy) + rng(0 - SEEY, SEEY);
+
    } else {
     if (debugmon)
      debugmsg("Static NPC fine location %d:%d (%d:%d)", temp.posx, temp.posy,
@@ -6890,12 +6908,16 @@ void game::update_map(int &x, int &y)
     temp.posx += dx * SEEX;
     temp.posy += dy * SEEY;
    }
+
    if (temp.marked_for_death)
     temp.die(this, false);
    else
     active_npc.push_back(temp);
+
+   // Remove current and step back one to properly get next.
    cur_om.npcs.erase(cur_om.npcs.begin() + i);
    i--;
+
   }
  }
 // Spawn monsters if appropriate
