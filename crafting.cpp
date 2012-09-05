@@ -717,13 +717,52 @@ void game::craft()
    mvwprintz(w_data, 20, 0, c_white, "\
 Press ? to describe object.  Press <ENTER> to attempt to craft object.");
   wrefresh(w_data);
-  for (int i = 0; i < current.size() && i < 23; i++) {
-   if (i == line)
-    mvwprintz(w_data, i, 0, (available[i] ? h_white : h_dkgray),
-              itypes[current[i]->result]->name.c_str());
-   else
-    mvwprintz(w_data, i, 0, (available[i] ? c_white : c_dkgray),
-              itypes[current[i]->result]->name.c_str());
+  int recmin = 0, recmax = current.size();
+  if(recmax > MAX_DISPLAYED_RECIPES){
+   if (line <= recmin + 9) {
+    for (int i = recmin; i < recmin + MAX_DISPLAYED_RECIPES; i++) {
+     mvwprintz(w_data, i - recmin, 0, c_dkgray, "\
+                               ");	// Clear the line
+     if (i == line)
+      mvwprintz(w_data, i - recmin, 0, (available[i] ? h_white : h_dkgray),
+                itypes[current[i]->result]->name.c_str());
+     else
+      mvwprintz(w_data, i - recmin, 0, (available[i] ? c_white : c_dkgray),
+                itypes[current[i]->result]->name.c_str());
+    }
+   } else if (line >= recmax - 9) {
+    for (int i = recmax - MAX_DISPLAYED_RECIPES; i < recmax; i++) {
+     mvwprintz(w_data, 18 + i - recmax, 0, c_ltgray, "\
+                                ");	// Clear the line
+
+     if (i == line)
+       mvwprintz(w_data, 18 + i - recmax, 0, (available[i] ? h_white : h_dkgray),
+                 itypes[current[i]->result]->name.c_str());
+     else
+      mvwprintz(w_data, 18 + i - recmax, 0, (available[i] ? c_white : c_dkgray),
+                itypes[current[i]->result]->name.c_str());
+    }
+   } else {
+    for (int i = line - 9; i < line + 9; i++) {
+     mvwprintz(w_data, 9 + i - line, 0, c_ltgray, "\
+                                ");	// Clear the line
+     if (i == line)
+       mvwprintz(w_data, 9 + i - line, 0, (available[i] ? h_white : h_dkgray),
+                 itypes[current[i]->result]->name.c_str());
+     else
+      mvwprintz(w_data, 9 + i - line, 0, (available[i] ? c_white : c_dkgray),
+                itypes[current[i]->result]->name.c_str());
+    }
+   }
+  } else{
+   for (int i = 0; i < current.size() && i < 23; i++) {
+    if (i == line)
+     mvwprintz(w_data, i, 0, (available[i] ? h_white : h_dkgray),
+               itypes[current[i]->result]->name.c_str());
+    else
+     mvwprintz(w_data, i, 0, (available[i] ? c_white : c_dkgray),
+               itypes[current[i]->result]->name.c_str());
+   }
   }
   if (current.size() > 0) {
    nc_color col = (available[line] ? c_white : c_dkgray);
@@ -1005,7 +1044,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
   current.push_back(recipes[i]);
   available.push_back(false);
  }
- for (int i = 0; i < current.size() && i < 22; i++) {
+ for (int i = 0; i < current.size() && i < 51; i++) {
 //Check if we have the requisite tools and components
   for (int j = 0; j < 5; j++) {
    have_tool[j] = false;
