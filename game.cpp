@@ -4581,6 +4581,32 @@ void game::examine()
     }
     add_msg("The gate is opened!");
   }
+ } else if (m.ter(examx, examy) == t_pit && query_yn("Place a plank over the pit?")) {
+  if (u.has_amount(itm_2x4, 1)) {
+   u.use_amount(itm_2x4, 1);
+   m.ter(examx, examy) = t_pit_covered;
+   add_msg("You place a plank of wood over the pit");
+ } else {
+   add_msg("You need a plank of wood to do that");
+  }
+ } else if (m.ter(examx, examy) == t_pit_spiked && query_yn("Place a plank over the pit?")) {
+  if (u.has_amount(itm_2x4, 1)) {
+   u.use_amount(itm_2x4, 1);
+   m.ter(examx, examy) = t_pit_spiked_covered;
+   add_msg("You place a plank of wood over the pit");
+ } else {
+   add_msg("You need a plank of wood to do that");
+  }
+ } else if (m.ter(examx, examy) == t_pit_covered && query_yn("Remove that plank?")) {
+    item plank(itypes[itm_2x4], turn);
+    add_msg("You remove the plank.");
+     m.add_item(u.posx, u.posy, plank);
+     m.ter(examx, examy) = t_pit;
+ } else if (m.ter(examx, examy) == t_pit_spiked_covered && query_yn("Remove that plank?")) {
+    item plank(itypes[itm_2x4], turn);
+    add_msg("You remove the plank.");
+     m.add_item(u.posx, u.posy, plank);
+     m.ter(examx, examy) = t_pit_spiked;
  } else if (m.ter(examx, examy) == t_gas_pump && query_yn("Pump gas?")) {
   item gas(itypes[itm_gasoline], turn);
   if (one_in(10 + u.dex_cur)) {
