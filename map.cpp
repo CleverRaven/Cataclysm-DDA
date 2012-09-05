@@ -932,6 +932,39 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   }
   break;
 
+ case t_fence_post:
+  result = dice(1, 20);
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "crak";
+   ter(x, y) = t_floor;
+   int num_boards = 2;
+   for (int i = 0; i < num_boards; i++)
+    add_item(x, y, (*itypes)[itm_spear_wood], 0);
+   return true;
+  } else {
+   sound += "whump.";
+   return true;
+  }
+  break;
+  
+ case t_bench:
+ case t_counter:
+  result = dice(3, 45);
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "smash!";
+   ter(x, y) = t_floor;
+   int num_boards = rng(2, 6);
+   for (int i = 0; i < num_boards; i++)
+    add_item(x, y, (*itypes)[itm_2x4], 0);
+   return true;
+  } else {
+   sound += "whump.";
+   return true;
+  }
+  break;
+
  case t_wall_glass_h:
  case t_wall_glass_v:
  case t_wall_glass_h_alarm:

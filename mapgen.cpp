@@ -269,7 +269,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     ter(i, j) = grass_or_dirt();
     //------Jovan's-----
     if (one_in(120)) ter(i, j) = t_shrub; else
-    if (one_in(120)) ter(i,j) = t_mutpoppy;
+    if (one_in(500)) ter(i,j) = t_mutpoppy;
     //------------------
     }
   }

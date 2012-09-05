@@ -779,6 +779,10 @@ MELEE("nail board",	 5,  80,'/', c_ltred,	WOOD,	MNULL,
 A long piece of wood with several nails through one end; essentially a simple\n\
 mace.  Makes a great melee weapon.");
 
+MELEE("nail bat",	60, 160,'/', c_ltred,	WOOD,	MNULL,
+	12, 10, 28,  6,  3, mfb(IF_STAB), "\
+A baseball bat with several nails driven through it, an excellent melee weapon.");
+
 MELEE("X-Acto knife",	10,  40,';', c_dkgray,	IRON,	PLASTIC,
 	 1,  0,  0, 14, -4, mfb(IF_SPEAR), "\
 A small, very sharp knife.  Causes decent damage but is difficult to hit\n\

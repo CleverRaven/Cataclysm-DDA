@@ -4766,7 +4766,7 @@ shape, but with long, twisted, distended limbs.");
  }
  //-----Jovan's-----
  //flowers
-    else if ((m.ter(examx, examy)==t_mutpoppy)&&(query_yn("Really explore this flower?"))) {
+    else if ((m.ter(examx, examy)==t_mutpoppy)&&(query_yn("Pick the flower?"))) {
         add_msg("This flower has a heady aroma");
         if (!(u.is_wearing(itm_mask_filter)||u.is_wearing(itm_mask_gas)))  {
         add_msg("You fall asleep...");

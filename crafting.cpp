@@ -50,10 +50,15 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
        itm_knife_combat, -1, itm_machete, -1, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_bee_sting, 1,
        NULL);
-                                 
+
  RECIPE(itm_nailboard, CC_WEAPON, sk_null, sk_null, 0, 1000);
   TOOL(itm_hatchet, -1, itm_hammer, -1, itm_rock, -1, itm_toolset, -1, NULL);
-  COMP(itm_2x4, 1, itm_bat, 1, NULL);
+  COMP(itm_2x4, 1, itm_stick, 1, NULL);
+  COMP(itm_nail, 6, NULL);
+
+ RECIPE(itm_nailbat, CC_WEAPON, sk_null, sk_null, 0, 1000);
+  TOOL(itm_hatchet, -1, itm_hammer, -1, itm_rock, -1, itm_toolset, -1, NULL);
+  COMP(itm_bat, 1, NULL);
   COMP(itm_nail, 6, NULL);
 
  RECIPE(itm_molotov, CC_WEAPON, sk_null, sk_null, 0, 500);
