@@ -4580,6 +4580,60 @@ void game::examine()
    u.moves -= 300;
    handle_liquid(gas, false, true);
   }
+ } else if (m.ter(examx, examy) == t_fence_post && query_yn("Make Fence?")) {
+  int ch = menu("Fence Construction:", "Rope Fence", "Wire Fence",
+                "Barbed Wire Fence", "Cancel", NULL);
+  switch (ch){
+   case 1:{
+  if (u.has_amount(itm_rope_6, 2)) {
+   u.use_amount(itm_rope_6, 2);
+   m.ter(examx, examy) = t_fence_rope;
+   u.moves -= 200;
+  } else
+   add_msg("You need 2 lengths of rope to do that");
+  } break;
+
+   case 2:{
+  if (u.has_amount(itm_wire, 2)) {
+   u.use_amount(itm_wire, 2);
+   m.ter(examx, examy) = t_fence_wire;
+   u.moves -= 200;
+  } else
+   add_msg("You need 2 lengths of wire to do that!");
+  } break;
+
+   case 3:{
+  if (u.has_amount(itm_wire_barbed, 2)) {
+   u.use_amount(itm_wire_barbed, 2);
+   m.ter(examx, examy) = t_fence_barbed;
+   u.moves -= 200;
+  } else
+   add_msg("You need 2 lengths of barbed wire to do that!");
+  } break;
+ 
+   case 4: 
+   break;
+  }
+ } else if (m.ter(examx, examy) == t_fence_rope && query_yn("Remove fence material?")) {
+  item rope(itypes[itm_rope_6], turn);
+  m.add_item(u.posx, u.posy, rope);
+  m.add_item(u.posx, u.posy, rope);
+  m.ter(examx, examy) = t_fence_post;
+  u.moves -= 200;
+
+ } else if (m.ter(examx, examy) == t_fence_wire && query_yn("Remove fence material?")) {
+  item rope(itypes[itm_wire], turn);
+  m.add_item(u.posx, u.posy, rope);
+  m.add_item(u.posx, u.posy, rope);
+  m.ter(examx, examy) = t_fence_post;
+  u.moves -= 200;
+ } else if (m.ter(examx, examy) == t_fence_barbed && query_yn("Remove fence material?")) {
+  item rope(itypes[itm_wire_barbed], turn);
+  m.add_item(u.posx, u.posy, rope);
+  m.add_item(u.posx, u.posy, rope);
+  m.ter(examx, examy) = t_fence_post;
+  u.moves -= 200;
+
  } else if (m.ter(examx, examy) == t_slot_machine) {
   if (u.cash < 10)
    add_msg("You need $10 to play.");

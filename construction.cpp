@@ -142,6 +142,12 @@ void game::init_construction()
   STAGE(t_null, 10);
    COMP(itm_frame, 1, NULL);
 
+ CONSTRUCT("Fence Posts", 0, &construct::able_dig,
+                             &construct::done_nothing);
+  STAGE(t_fence_post, 5);
+  TOOL(itm_hammer, itm_shovel, itm_rock, NULL);
+  COMP(itm_spear_wood, 2, NULL);
+
 }
 
 void game::construction_menu()

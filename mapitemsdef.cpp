@@ -158,7 +158,8 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_hardware],
 	itm_superglue, itm_chain, itm_rope_6, itm_rope_30, itm_glass_sheet,
-	itm_pipe, itm_nail, itm_hose, itm_string_36, itm_frame, itm_metal_tank, NULL);
+	itm_pipe, itm_nail, itm_hose, itm_string_36, itm_frame, itm_metal_tank,
+        itm_wire, itm_wire_barbed, NULL);
 
  setvector(
    mapitems[mi_tools],
@@ -200,7 +201,7 @@ void game::init_mapitems()
 	itm_manual_first_aid, itm_manual_traps, itm_lighter, itm_sewing_kit,
 	itm_hammer, itm_flashlight, itm_water_purifier, itm_radio, itm_beartrap,
         itm_UPS_off, itm_string_36, itm_longbow, itm_compbow, itm_arrow_wood,
-        itm_arrow_cf, NULL);
+        itm_arrow_cf, itm_wire, NULL);
 
  setvector(
    mapitems[mi_allsporting],

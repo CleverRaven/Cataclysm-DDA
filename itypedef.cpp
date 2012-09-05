@@ -1000,6 +1000,15 @@ MELEE("blade",	 5, 280,'/', c_blue,	IRON,	MNULL,
 A large and slightly misshapen blade, could do some damage\n\
 mounted on a vehicle.");
 
+MELEE("wire",   50, 200,';', c_blue,    STEEL,  MNULL,
+         4,  2,  0,  0, -2, 0, "\
+A length of thin, relatively stiff, steel wire. Like the\n\
+the sort you find in wire fences.");
+
+MELEE("barbed wire",   20, 200,';', c_blue,    STEEL,  MNULL,
+         4,  2,  0,  0, -2, 0, "\
+A length of stiff wire, covered in sharp barbs.");
+
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  25, 35, ']', c_cyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
