@@ -12,14 +12,14 @@ DDIR = .deps
 
 TARGET = cataclysm.exe
 
-CXX = i486-mingw32-g++
+CXX = g++
 
 LINKER = i486-mingw32-ld
-LINKERFLAGS = -Wl,-stack,12000000,-subsystem,windows
+LINKERFLAGS = -Wl,-stack,12000000,-subsystem,console
 
 CFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS)
 
-LDFLAGS = -static -lgdi32
+LDFLAGS = -static 
 
 #ifeq ($(OS), Msys)
 #LDFLAGS = -static -lpdcurses

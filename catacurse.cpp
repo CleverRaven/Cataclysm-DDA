@@ -2,251 +2,276 @@
 #include "catacurse.h"
 #include <cstdlib>
 #include <fstream>
+
+#include <iostream>
+
 //***********************************
 //Globals                           *
 //***********************************
 
 WINDOW *mainwin;
-const WCHAR *szWindowClass = (L"CataCurseWindow");    //Class name :D
 HINSTANCE WindowINST;   //the instance of the window
-HWND WindowHandle;      //the handle of the window
-HDC WindowDC;           //Device Context of the window, used for backbuffer
-int WindowX;            //X pos of the actual window, not the curses window
-int WindowY;            //Y pos of the actual window, not the curses window
-int WindowWidth;        //Width of the actual window, not the curses window
-int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
 int inputdelay;         //How long getch will wait for a character to be typed
-//WINDOW *_windows;  //Probably need to change this to dynamic at some point
-//int WindowCount;        //The number of curses windows currently in use
-HDC backbuffer;         //an off-screen DC to prevent flickering, lower cpu
-HBITMAP backbit;        //the bitmap that is used in conjunction wth the above
-int fontwidth;          //the width of the font, background is always this size
-int fontheight;         //the height of the font, background is always this size
-int halfwidth;          //half of the font width, used for centering lines
-int halfheight;          //half of the font height, used for centering lines
-HFONT font;             //Handle to the font created by CreateFont
 RGBQUAD *windowsPalette;  //The coor palette, 16 colors emulates a terminal
 pairs *colorpairs;   //storage for pair'ed colored, should be dynamic, meh
 unsigned char *dcbits;  //the bits of the screen image, for direct access
+
+HANDLE consoleWin;
+HANDLE keyboardInput;
+int frameCounter;
+
 char szDirectory[MAX_PATH] = "";
 
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
 
-//Registers, creates, and shows the Window!!
 bool WinCreate()
 {
-	int success;
-	WNDCLASSEXW WindowClassType;
-	int WinBorderHeight;
-	int WinBorderWidth;
-	int WinTitleSize;
-	unsigned int WindowStyle;
 	const WCHAR *szTitle=  (L"Cataclysm");
-	WinTitleSize = GetSystemMetrics(SM_CYCAPTION);      //These lines ensure
-	WinBorderWidth = GetSystemMetrics(SM_CXDLGFRAME) * 2;  //that our window will
-	WinBorderHeight = GetSystemMetrics(SM_CYDLGFRAME) * 2; // be a perfect size
-	WindowClassType.cbSize = sizeof(WNDCLASSEXW);
-	WindowClassType.style = 0;//No point in having a custom style, no mouse, etc
-	WindowClassType.lpfnWndProc = ProcessMessages;//the procedure that gets msgs
-	WindowClassType.cbClsExtra = 0;
-	WindowClassType.cbWndExtra = 0;
-	WindowClassType.hInstance = WindowINST;// hInstance
-	WindowClassType.hIcon = LoadIcon(WindowINST, IDI_APPLICATION);//Default Icon
-	WindowClassType.hIconSm = LoadIcon(WindowINST, IDI_APPLICATION);//Default Icon
-	WindowClassType.hCursor = LoadCursor(NULL, IDC_ARROW);//Default Pointer
-	WindowClassType.lpszMenuName = NULL;
-	WindowClassType.hbrBackground = 0;//Thanks jday! Remove background brush
-	WindowClassType.lpszClassName = szWindowClass;
-	success = RegisterClassExW(&WindowClassType);
-	if ( success== 0){
-		return false;
-	}
-	WindowStyle = WS_OVERLAPPEDWINDOW & ~(WS_THICKFRAME) & ~(WS_MAXIMIZEBOX);
-	WindowHandle = CreateWindowExW(WS_EX_APPWINDOW || WS_EX_TOPMOST * 0,
-			szWindowClass , szTitle,WindowStyle, WindowX,
-			WindowY, WindowWidth + (WinBorderWidth) * 1,
-			WindowHeight + (WinBorderHeight +
-				WinTitleSize) * 1, 0, 0, WindowINST, NULL);
-	if (WindowHandle == 0){
-		return false;
-	}
-	ShowWindow(WindowHandle,5);
+
+	consoleWin = GetStdHandle(STD_OUTPUT_HANDLE);
+	keyboardInput = GetStdHandle(STD_INPUT_HANDLE);
+
+	DWORD consoleMode;
+	GetConsoleMode(keyboardInput, &consoleMode);
+	consoleMode &= ~(ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT | ENABLE_MOUSE_INPUT);
+	SetConsoleMode(keyboardInput, consoleMode);
+
+	CONSOLE_CURSOR_INFO consoleInfo = { 0 };
+	GetConsoleCursorInfo(consoleWin, &consoleInfo);
+	consoleInfo.bVisible = 0;
+	SetConsoleCursorInfo(consoleWin, &consoleInfo);
+
+	SetConsoleTitleW(szTitle);
+	Sleep(1000);
 	return true;
 };
 
-//Unregisters, releases the DC if needed, and destroys the window.
 void WinDestroy()
 {
-	if ((WindowDC > 0) && (ReleaseDC(WindowHandle, WindowDC) == 0)){
-		WindowDC = 0;
-	}
-	if ((!WindowHandle == 0) && (!(DestroyWindow(WindowHandle)))){
-		WindowHandle = 0;
-	}
-	if (!(UnregisterClassW(szWindowClass, WindowINST))){
-		WindowINST = 0;
-	}
 };
-
+/*
 //This function processes any Windows messages we get. Keyboard, OnClose, etc
 LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
                                  WPARAM wParam, LPARAM lParam)
 {
-	switch (Msg){
-		case WM_CHAR:               //This handles most key presses
-			lastchar=(int)wParam;
-			switch (lastchar){
-				case 13:            //Reroute ENTER key for compatilbity purposes
-					lastchar=10;
-					break;
-				case 8:             //Reroute BACKSPACE key for compatilbity purposes
-					lastchar=127;
-					break;
-			};
-			break;
-		case WM_KEYDOWN:                //Here we handle non-character input
-			switch (wParam){
-				case VK_LEFT:
-					lastchar = KEY_LEFT;
-					break;
-				case VK_RIGHT:
-					lastchar = KEY_RIGHT;
-					break;
-				case VK_UP:
-					lastchar = KEY_UP;
-					break;
-				case VK_DOWN:
-					lastchar = KEY_DOWN;
-					break;
-				default:
-					break;
-			};
-		case WM_ERASEBKGND:
-			return 1;               //We don't want to erase our background
-		case WM_PAINT:              //Pull from our backbuffer, onto the screen
-			BitBlt(WindowDC, 0, 0, WindowWidth, WindowHeight, backbuffer, 0, 0,SRCCOPY);
-			ValidateRect(WindowHandle,NULL);
-			break;
-		case WM_DESTROY:
-			exit(0);//A messy exit, but easy way to escape game loop
-		default://If we didnt process a message, return the default value for it
-			return DefWindowProcW(hWnd, Msg, wParam, lParam);
-	};
-	return 0;
+    switch (Msg){
+        case WM_CHAR:               //This handles most key presses
+            lastchar=(int)wParam;
+            switch (lastchar){
+                case 13:            //Reroute ENTER key for compatilbity purposes
+                    lastchar=10;
+                    break;
+                case 8:             //Reroute BACKSPACE key for compatilbity purposes
+                    lastchar=127;
+                    break;
+            };
+            break;
+        case WM_KEYDOWN:                //Here we handle non-character input
+            switch (wParam){
+                case VK_LEFT:
+                    lastchar = KEY_LEFT;
+                    break;
+                case VK_RIGHT:
+                    lastchar = KEY_RIGHT;
+                    break;
+                case VK_UP:
+                    lastchar = KEY_UP;
+                    break;
+                case VK_DOWN:
+                    lastchar = KEY_DOWN;
+                    break;
+                default:
+                    break;
+            };
+        case WM_ERASEBKGND:
+            return 1;               //We don't want to erase our background
+        case WM_PAINT:              //Pull from our backbuffer, onto the screen
+            BitBlt(WindowDC, 0, 0, WindowWidth, WindowHeight, backbuffer, 0, 0,SRCCOPY);
+            ValidateRect(WindowHandle,NULL);
+            break;
+        case WM_DESTROY:
+            exit(0);//A messy exit, but easy way to escape game loop
+        default://If we didnt process a message, return the default value for it
+            return DefWindowProcW(hWnd, Msg, wParam, lParam);
+    };
+    return 0;
 };
+*/
 
-//The following 3 methods use mem functions for fast drawing
-inline void VertLineDIB(int x, int y, int y2,int thickness, unsigned char color)
-{
-	int j;
-	for (j=y; j<y2; j++)
-		memset(&dcbits[x+j*WindowWidth],color,thickness);
-};
-inline void HorzLineDIB(int x, int y, int x2,int thickness, unsigned char color)
-{
-	int j;
-	for (j=y; j<y+thickness; j++)
-		memset(&dcbits[x+j*WindowWidth],color,x2-x);
-};
-inline void FillRectDIB(int x, int y, int width, int height, unsigned char color)
-{
-	int j;
-	for (j=y; j<y+height; j++)
-		memset(&dcbits[x+j*WindowWidth],color,width);
-};
+void copyConsole(HANDLE conOut, HANDLE conIn) {
+	SMALL_RECT rwRect;
+	CHAR_INFO buf[80*25];
+	COORD coordBufSize;
+	COORD coordBufCoord = { 0, 0 };
+
+	rwRect.Top = 0;
+	rwRect.Left = 0;
+	rwRect.Bottom = 24;
+	rwRect.Right = 79;
+
+	coordBufSize.Y = 25;
+	coordBufSize.X = 80;
+
+	SetConsoleActiveScreenBuffer(conIn);
+	ReadConsoleOutput(conIn, buf, coordBufSize, coordBufCoord, &rwRect);
+	WriteConsoleOutput(conOut, buf, coordBufSize, coordBufCoord, &rwRect);
+	SetConsoleActiveScreenBuffer(conOut);
+}
 
 void DrawWindow(WINDOW *win)
 {
 	int i,j,drawx,drawy;
 	char tmp;
+	unsigned long startTime=GetTickCount();
+
+	CHAR_INFO* screenBuffer = reinterpret_cast<CHAR_INFO*>( win->custom );
 	for (j=0; j<win->height; j++){
 		if (win->line[j].touched) {
 			for (i=0; i<win->width; i++){
+				int pos = j*win->width + i;
+
 				win->line[j].touched=false;
-				drawx=((win->x+i)*fontwidth);
-				drawy=((win->y+j)*fontheight);//-j;
-				if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)){
+
+				if (1) { //((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight))...
 					tmp = win->line[j].chars[i];
 					int FG = win->line[j].FG[i];
 					int BG = win->line[j].BG[i];
-					FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
 
+					screenBuffer[pos].Attributes = BG*16 + FG;
+					screenBuffer[pos].Char.UnicodeChar = ' ';
+
+					WCHAR wchr = 0;
 					if ( tmp > 0){
 						//if (tmp==95){//If your font doesnt draw underscores..uncomment
 						//        HorzLineDIB(drawx,drawy+fontheight-2,drawx+fontwidth,1,FG);
 						//    } else { // all the wa to here
-						int color = RGB(windowsPalette[FG].rgbRed,windowsPalette[FG].rgbGreen,windowsPalette[FG].rgbBlue);
-						SetTextColor(backbuffer,color);
-						ExtTextOut(backbuffer,drawx,drawy,0,NULL,&tmp,1,NULL);
+						wchr = tmp;
+
 						//    }     //and this line too.
 					} else if (  tmp < 0 ) {
 						switch (tmp) {
 							case -60://box bottom/top side (horizontal line)
-								HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
+								wchr = 0x2500;
 								break;
 							case -77://box left/right side (vertical line)
-								VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
+								wchr = 0x2502;
 								break;
 							case -38://box top left
-								HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
-								VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
+								wchr = 0x250c;
 								break;
 							case -65://box top right
-								HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
-								VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
+								wchr = 0x2510;
 								break;
 							case -39://box bottom right
-								HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
-								VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
+								wchr = 0x2518;
 								break;
 							case -64://box bottom left
-								HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
-								VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
+								wchr = 0x2514;
 								break;
 							case -63://box bottom north T (left, right, up)
-								HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-								VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight,2,FG);
+								wchr = 0x2534;
 								break;
 							case -61://box bottom east T (up, right, down)
-								VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-								HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
+								wchr = 0x251c;
 								break;
 							case -62://box bottom south T (left, right, down)
-								HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-								VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
+								wchr = 0x252c;
 								break;
 							case -59://box X (left down up right)
-								HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-								VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
+								wchr = 0x2534;
 								break;
 							case -76://box bottom east T (left, down, up)
-								VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-								HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
+								wchr = 0x2524;
 								break;
 							default:
-								// SetTextColor(DC,_windows[w].line[j].chars[i].color.FG);
-								// TextOut(DC,drawx,drawy,&tmp,1);
 								break;
 						}
 					};//switch (tmp)
+					if (wchr != 0) {
+						screenBuffer[pos].Char.UnicodeChar = tmp;
+					}
 				}//(tmp < 0)
 			};//for (i=0;i<_windows[w].width;i++)
-		} // if
+		}
 	};// for (j=0;j<_windows[w].height;j++)
 	win->draw=false;                //We drew the window, mark it as so
+
+
+	SMALL_RECT rwRect;
+	COORD coordBufSize;
+	COORD coordBufCoord = { 0, 0 };
+
+	rwRect.Top = win->y;
+	rwRect.Left = win->x;
+	rwRect.Bottom = win->y+win->height - 1;
+	rwRect.Right = win->x+win->width - 1;
+
+	coordBufSize.Y = win->height;
+	coordBufSize.X = win->width;
+	WriteConsoleOutput(consoleWin, screenBuffer, coordBufSize, coordBufCoord, &rwRect);
+	unsigned long t1 = GetTickCount() - startTime;
+	unsigned long t2 = 666;
+
+	/*
+	   COORD statusLine = { 0, 27 };
+	   SetConsoleCursorPosition(consoleWin, statusLine);
+	   SetConsoleTextAttribute(consoleWin, 3);
+	   std::cout << "after draw window, delay: " << inputdelay << " cnt: " << frameCounter << " time: " << t1 << " " << t2 << std::endl;
+	   */
+
+	frameCounter++;
 };
+
+int translateConsoleInput(KEY_EVENT_RECORD key)
+{
+	if (! key.bKeyDown) {
+		return 1;
+	}
+	lastchar = key.uChar.AsciiChar;
+	switch (key.wVirtualKeyCode) {
+		case VK_BACK:
+			lastchar=127;
+			break;
+		case VK_RETURN:
+			lastchar=10;
+			break;
+		case VK_LEFT:
+			lastchar = KEY_LEFT;
+			break;
+		case VK_RIGHT:
+			lastchar = KEY_RIGHT;
+			break;
+		case VK_UP:
+			lastchar = KEY_UP;
+			break;
+		case VK_DOWN:
+			lastchar = KEY_DOWN;
+			break;
+		default:
+			break;
+	}
+	return 0;
+}
 
 //Check for any window messages (keypress, paint, mousemove, etc)
 void CheckMessages()
 {
-	MSG msg;
-	while (PeekMessage(&msg, 0 , 0, 0, PM_REMOVE)){
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+	INPUT_RECORD inputData[1];
+	DWORD elementsRead = 0;
+	ReadConsoleInput(keyboardInput, inputData, 1, &elementsRead);
+	if (elementsRead && inputData[0].EventType == KEY_EVENT) {
+		translateConsoleInput(inputData[0].Event.KeyEvent);
 	}
+	/*
+	   MSG msg;
+	   while (PeekMessage(&msg, 0 , 0, 0, PM_REMOVE)){
+	   TranslateMessage(&msg);
+	   DispatchMessage(&msg);
+	   }
+	   */
 };
 
 //***********************************
@@ -257,7 +282,6 @@ void CheckMessages()
 WINDOW *initscr(void)
 {
 	// _windows = new WINDOW[20];         //initialize all of our variables
-	BITMAPINFO bmi;
 	lastchar=-1;
 	inputdelay=-1;
 	std::string typeface;
@@ -265,63 +289,14 @@ WINDOW *initscr(void)
 	std::ifstream fin;
 	fin.open("data\\FONTDATA");
 	if (!fin.is_open()){
-		MessageBox(WindowHandle, "Failed to open FONTDATA, loading defaults.",
-				NULL, NULL);
-		fontheight=16;
-		fontwidth=8;
+		std::cout << "Failed to open FONTDATA, loading defaults." << std::endl;
 	} else {
 		getline(fin, typeface);
 		typeface_c= new char [typeface.size()+1];
 		strcpy (typeface_c, typeface.c_str());
-		fin >> fontwidth;
-		fin >> fontheight;
-		if ((fontwidth <= 4) || (fontheight <=4)){
-			MessageBox(WindowHandle, "Invalid font size specified!",
-					NULL, NULL);
-			fontheight=16;
-			fontwidth=8;
-		}
 	}
-	halfwidth=fontwidth / 2;
-	halfheight=fontheight / 2;
-	WindowWidth=80*fontwidth;
-	WindowHeight=25*fontheight;
-	WindowX=(GetSystemMetrics(SM_CXSCREEN) / 2)-WindowWidth/2;    //center this
-	WindowY=(GetSystemMetrics(SM_CYSCREEN) / 2)-WindowHeight/2;   //sucker
+
 	WinCreate();    //Create the actual window, register it, etc
-	CheckMessages();    //Let the message queue handle setting up the window
-	WindowDC = GetDC(WindowHandle);
-	backbuffer = CreateCompatibleDC(WindowDC);
-	ZeroMemory(&bmi, sizeof(BITMAPINFO));
-	bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-	bmi.bmiHeader.biWidth = WindowWidth;
-	bmi.bmiHeader.biHeight = -WindowHeight;
-	bmi.bmiHeader.biPlanes = 1;
-	bmi.bmiHeader.biBitCount=8;
-	bmi.bmiHeader.biCompression = BI_RGB;   //store it in uncompressed bytes
-	bmi.bmiHeader.biSizeImage = WindowWidth * WindowHeight * 1;
-	bmi.bmiHeader.biClrUsed=16;         //the number of colors in our palette
-	bmi.bmiHeader.biClrImportant=16;    //the number of colors in our palette
-	backbit = CreateDIBSection(0, &bmi, DIB_RGB_COLORS, (void**)&dcbits, NULL, 0);
-	DeleteObject(SelectObject(backbuffer, backbit));//load the buffer into DC
-
-	int nResults = AddFontResourceExA("data\\termfont",FR_PRIVATE,NULL);
-	if (nResults>0){
-		font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
-				ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
-				PROOF_QUALITY, FF_MODERN, typeface_c);   //Create our font
-
-	} else {
-		MessageBox(WindowHandle, "Failed to load default font, using FixedSys.",
-				NULL, NULL);
-		font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
-				ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
-				PROOF_QUALITY, FF_MODERN, "FixedSys");   //Create our font
-	}
-	//FixedSys will be user-changable at some point in time??
-	SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
-	SelectObject(backbuffer, font);//Load our font into the DC
-	//    WindowCount=0;
 
 	delete typeface_c;
 	mainwin = newwin(25,80,0,0);
@@ -332,7 +307,6 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
 {
 	int i,j;
 	WINDOW *newwindow = new WINDOW;
-	//newwindow=&_windows[WindowCount];
 	newwindow->x=begin_x;
 	newwindow->y=begin_y;
 	newwindow->width=ncols;
@@ -344,6 +318,7 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
 	newwindow->cursorx=0;
 	newwindow->cursory=0;
 	newwindow->line = new curseline[nlines];
+	newwindow->custom = new CHAR_INFO[ncols * nlines];
 
 	for (j=0; j<nlines; j++)
 	{
@@ -358,7 +333,6 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
 			newwindow->line[j].BG[i]=0;
 		}
 	}
-	//WindowCount++;
 	return newwindow;
 };
 
@@ -374,7 +348,12 @@ int delwin(WINDOW *win)
 		delete win->line[j].FG;
 		delete win->line[j].BG;
 	}
-	delete win->line;
+
+	CHAR_INFO* screenBuffer = reinterpret_cast<CHAR_INFO*>( win->custom );
+	delete[] screenBuffer;
+	win->custom = 0;
+
+	delete[] win->line;
 	delete win;
 	return 1;
 };
@@ -449,8 +428,9 @@ int refresh(void)
 int getch(void)
 {
 	refresh();
-	InvalidateRect(WindowHandle,NULL,true);
+	//InvalidateRect(WindowHandle,NULL,true);
 	lastchar=ERR;//ERR=-1
+
 	if (inputdelay < 0)
 	{
 		do
@@ -610,9 +590,9 @@ int clear(void)
 //Ends the terminal, destroy everything
 int endwin(void)
 {
-	DeleteObject(font);
+	//DeleteObject(font);
 	WinDestroy();
-	RemoveFontResourceExA("data\\termfont",FR_PRIVATE,NULL);//Unload it
+	//RemoveFontResourceExA("data\\termfont",FR_PRIVATE,NULL);//Unload it
 	return 1;
 };
 
@@ -675,7 +655,7 @@ int start_color(void)
 	windowsPalette[13]= BGR(240, 0, 255);
 	windowsPalette[14]= BGR(255, 240, 0);
 	windowsPalette[15]= BGR(255, 255, 255);
-	return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
+	return 1; //SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
 };
 
 int keypad(WINDOW *faux, bool bf)
