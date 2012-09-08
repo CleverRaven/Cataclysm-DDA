@@ -41,7 +41,12 @@ int main(int argc, char *argv[])
  } while (!quit_game);
  erase(); // Clear screen
  endwin(); // End ncurses
+#if (defined _WIN32 || defined WINDOWS)
+ system("cls"); // Tell the terminal to clear itself
+ system("color 07");
+#else
  system("clear"); // Tell the terminal to clear itself
+#endif
  return 0;
 }
 
