@@ -258,6 +258,7 @@ enum vhtype_id
     veh_custom,
 
 // in-built vehicles
+    veh_bicycle,
     veh_motorcycle,
     veh_sandbike,
     veh_car,

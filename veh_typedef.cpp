@@ -39,6 +39,21 @@ void game::init_vehicles()
     if (pi < 0) debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d", veh->name.c_str(), vpart_list[id].name, veh->parts.size(), mdx, mdy); }
 
     //        name
+    VEHICLE ("bicycle");
+    //    o
+    //    #
+    //    o
+
+    //   dx, dy,    part_id
+    PART (0, 0,     vp_frame_v2);
+    PART (0, 0,     vp_seat);
+    PART (0, 0,     vp_controls);
+    PART (0, 0,     vp_engine_foot_crank);
+    PART (1, 0,     vp_wheel);
+    PART (-1, 0,    vp_wheel);
+    PART (-1, 0,    vp_cargo_box);
+
+    //        name
     VEHICLE ("motorcycle");
     //    o
     //    ^
