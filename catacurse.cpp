@@ -5,6 +5,8 @@
 
 #include <iostream>
 
+#include "debug.h"
+
 //***********************************
 //Globals                           *
 //***********************************
@@ -26,24 +28,6 @@ char szDirectory[MAX_PATH] = "";
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
-
-struct DebugLog
-{
-	DebugLog() {
-		fout.open("logg.txt", std::ios_base::app | std::ios_base::out);
-	}
-	~DebugLog() {
-		fout.close();
-	}
-
-	template <class T>
-	DebugLog& operator<<(T& t) {
-		fout << t;
-		return *this;
-	}
-private:
-	std::ofstream fout;
-};
 
 bool WinCreate()
 {
@@ -164,7 +148,7 @@ void debugPrint(size_t yPos, const char* buf)
 	DebugLog() << "after draw window, delay: " << inputdelay << " cnt: " << frameCounter << " " << buf << "\n";
 }
 
-void DrawWindow(WINDOW *win)
+unsigned long DrawWindow(WINDOW *win)
 {
 	int i,j,drawx,drawy;
 	char tmp;
@@ -258,10 +242,10 @@ void DrawWindow(WINDOW *win)
 	LockWindowUpdate(GetConsoleWindow());
 	WriteConsoleOutput(consoleWin, screenBuffer, coordBufSize, coordBufCoord, &rwRect);
 	unsigned long t1 = GetTickCount() - startTime;
-	unsigned long t2 = 666;
 	LockWindowUpdate(NULL);
 
 	frameCounter++;
+	return t1;
 };
 
 int translateConsoleInput(KEY_EVENT_RECORD key)
@@ -272,30 +256,33 @@ int translateConsoleInput(KEY_EVENT_RECORD key)
 	}
 	
 	int code = key.wVirtualKeyCode;
-	DebugLog() << " key up " << code;
-
+	DebugLog() << " key up " << code ;
+	int processed = 0;
 	switch (code) {
-		case VK_BACK:   lastchar = KEY_BACKSPACE; return 0;
-		case VK_RETURN: lastchar = 10; return 0;
-		case VK_LEFT:   lastchar = KEY_LEFT; return 0;
-		case VK_RIGHT:  lastchar = KEY_RIGHT; return 0;
-		case VK_UP:     lastchar = KEY_UP; return 0;
-		case VK_DOWN:   lastchar = KEY_DOWN; return 0;
-		case VK_ESCAPE: lastchar = 27; return 0;
-		case VK_SPACE:  lastchar = ' '; return 0;
+		case VK_BACK:   lastchar = KEY_BACKSPACE; processed = 1; break;
+		case VK_RETURN: lastchar = 10;            processed = 1; break;
+		case VK_LEFT:   lastchar = KEY_LEFT;      processed = 1; break;
+		case VK_RIGHT:  lastchar = KEY_RIGHT;     processed = 1; break;
+		case VK_UP:     lastchar = KEY_UP;        processed = 1; break;
+		case VK_DOWN:   lastchar = KEY_DOWN;      processed = 1; break;
+		case VK_ESCAPE: lastchar = 27;            processed = 1; break;
+		case VK_SPACE:  lastchar = ' ';           processed = 1; break;
 		// ignore ... ;p
-		case VK_SHIFT:
-				return 0;
+		case VK_SHIFT:                            processed = 1; break;
 		default:
 				break;
 	}
-
-	DebugLog() << "translating";
+	if (processed) {
+		DebugLog() << " proc " << lastchar;
+		return 0;
+	}
 
 	int mask = (ENHANCED_KEY|LEFT_ALT_PRESSED|LEFT_CTRL_PRESSED|RIGHT_ALT_PRESSED|RIGHT_CTRL_PRESSED);
 	if (0 == (key.dwControlKeyState & mask)) {
 		lastchar = key.uChar.AsciiChar;
 	}
+	DebugLog() << "translate" << lastchar;
+
 	return 0;
 }
 
@@ -304,12 +291,32 @@ void CheckMessages()
 {
 	INPUT_RECORD inputData[1];
 	DWORD elementsRead = 0;
+	DWORD count1 = 0;
+	DWORD count2 = 0;
+	GetNumberOfConsoleInputEvents(keyboardInput, &count1);
 	ReadConsoleInput(keyboardInput, inputData, 1, &elementsRead);
 
-
-	DebugLog() << " checkmsg()";
-	if (elementsRead && inputData[0].EventType == KEY_EVENT) {
-		translateConsoleInput(inputData[0].Event.KeyEvent);
+	GetNumberOfConsoleInputEvents(keyboardInput, &count2);
+	DebugLog() << " checkmsg()[" << elementsRead << "/" << count1 << "," << count2 <<"]";
+	if (! elementsRead) {
+		DebugLog() << "\n";
+		return;
+	}
+	switch (inputData[0].EventType) {
+		case KEY_EVENT:
+			translateConsoleInput(inputData[0].Event.KeyEvent);
+			break;
+		case MENU_EVENT:
+			DebugLog() << " : menu";
+			break;
+		case MOUSE_EVENT:
+			DebugLog() << " : hated mouse";
+			break;
+		case WINDOW_BUFFER_SIZE_EVENT:
+			DebugLog() << " : buffer size changed? what the heck?";
+			break;
+		default:
+			break;
 	}
 	DebugLog() << "\n";
 
@@ -457,9 +464,9 @@ int wrefresh(WINDOW *win)
 {
 	if (win==0) win=mainwin;
 	if (win->draw) {
-		DrawWindow(win);
+		unsigned long timeTaken = DrawWindow(win);
 		const char* temp = (win == mainwin? "\n ----- mainwin -----\n" : "\n");
-		DebugLog() << "wrefresh()" << win->y << "," << win->x << "  " << win->height << "," << win->width << temp;
+		DebugLog() << "wrefresh()" << win->y << "," << win->x << "  " << win->height << "," << win->width << "  time: " << timeTaken << temp;
 	}
 	return 1;
 };
@@ -479,6 +486,7 @@ int getch(void)
 	//InvalidateRect(WindowHandle,NULL,true);
 	lastchar=ERR;//ERR=-1
 
+	DebugLog() << __FUNCTION__ << " " << inputdelay;
 	if (inputdelay < 0)
 	{
 		do
