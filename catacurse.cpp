@@ -283,8 +283,11 @@ int translateConsoleInput(KEY_EVENT_RECORD key)
 		case VK_DOWN:   lastchar = KEY_DOWN; return 0;
 		case VK_ESCAPE: lastchar = 27; return 0;
 		case VK_SPACE:  lastchar = ' '; return 0;
+		// ignore ... ;p
+		case VK_SHIFT:
+				return 0;
 		default:
-			break;
+				break;
 	}
 
 	DebugLog() << "translating";
