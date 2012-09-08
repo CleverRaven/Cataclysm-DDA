@@ -13,8 +13,8 @@ WINDOW *mainwin;
 HINSTANCE WindowINST;   //the instance of the window
 int lastchar;          //the last character that was pressed, resets in getch
 int inputdelay;         //How long getch will wait for a character to be typed
-RGBQUAD *windowsPalette;  //The coor palette, 16 colors emulates a terminal
 pairs *colorpairs;   //storage for pair'ed colored, should be dynamic, meh
+int *colorMapping;
 unsigned char *dcbits;  //the bits of the screen image, for direct access
 
 HANDLE consoleWin;
@@ -153,8 +153,8 @@ void DrawWindow(WINDOW *win)
 
 				if (1) { //((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight))...
 					tmp = win->line[j].chars[i];
-					int FG = win->line[j].FG[i];
-					int BG = win->line[j].BG[i];
+					int FG = colorMapping[ win->line[j].FG[i] ];
+					int BG = colorMapping[ win->line[j].BG[i] ];
 
 					screenBuffer[pos].Attributes = BG*16 + FG;
 					screenBuffer[pos].Char.UnicodeChar = ' ';
@@ -660,24 +660,25 @@ inline RGBQUAD BGR(int b, int g, int r)
 int start_color(void)
 {
 	colorpairs=new pairs[50];
-	windowsPalette=new RGBQUAD[16];     //Colors in the struct are BGR!! not RGB!!
-	windowsPalette[0]= BGR(0,0,0);
-	windowsPalette[1]= BGR(0, 0, 196);
-	windowsPalette[2]= BGR(0,196,0);
-	windowsPalette[3]= BGR(30,180,196);
-	windowsPalette[4]= BGR(196, 0, 0);
-	windowsPalette[5]= BGR(180, 0, 196);
-	windowsPalette[6]= BGR(200, 170, 0);
-	windowsPalette[7]= BGR(196, 196, 196);
-	windowsPalette[8]= BGR(96, 96, 96);
-	windowsPalette[9]= BGR(64, 64, 255);
-	windowsPalette[10]= BGR(0, 240, 0);
-	windowsPalette[11]= BGR(0, 255, 255);
-	windowsPalette[12]= BGR(255, 20, 20);
-	windowsPalette[13]= BGR(240, 0, 255);
-	windowsPalette[14]= BGR(255, 240, 0);
-	windowsPalette[15]= BGR(255, 255, 255);
-	return 1; //SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
+	colorMapping=new int[16];
+	colorMapping[0] = 0;
+	colorMapping[1] = 4;
+	colorMapping[2] = 2;
+	colorMapping[3] = 6;
+	colorMapping[4] = 1;
+	colorMapping[5] = 5;
+	colorMapping[6] = 3;
+	colorMapping[7] = 7;
+
+	colorMapping[8]  = 8+0;
+	colorMapping[9]  = 8+4;
+	colorMapping[10] = 8+2;
+	colorMapping[11] = 8+6;
+	colorMapping[12] = 8+1;
+	colorMapping[13] = 8+5;
+	colorMapping[14] = 8+3;
+	colorMapping[15] = 8+7;
+	return 1;
 };
 
 int keypad(WINDOW *faux, bool bf)
