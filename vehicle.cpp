@@ -635,7 +635,8 @@ int vehicle::total_power (bool fueled)
     int cnt = 0;
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, vpf_engine) &&
-            (fuel_left (part_info(p).fuel_type, true) || !fueled) &&
+            (fuel_left (part_info(p).fuel_type, true) || !fueled ||
+             part_info(p).fuel_type == AT_MUSCLE) &&
             parts[p].hp > 0)
         {
             pwr += part_info(p).power;
@@ -671,7 +672,8 @@ int vehicle::safe_velocity (bool fueled)
     int cnt = 0;
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, vpf_engine) &&
-            (fuel_left (part_info(p).fuel_type, true) || !fueled) &&
+            (fuel_left (part_info(p).fuel_type, true) || !fueled || 
+             part_info(p).fuel_type == AT_MUSCLE) &&
             parts[p].hp > 0)
         {
             int m2c = 100;
@@ -680,6 +682,7 @@ int vehicle::safe_velocity (bool fueled)
             case AT_GAS:    m2c = 60; break;
             case AT_PLASMA: m2c = 75; break;
             case AT_BATT:   m2c = 90; break;
+            case AT_MUSCLE: m2c = 30; break;
             }
             pwrs += part_info(p).power * m2c / 100;
             cnt++;
@@ -700,7 +703,8 @@ int vehicle::noise (bool fueled, bool gas_only)
 
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, vpf_engine) &&
-            (fuel_left (part_info(p).fuel_type, true) || !fueled) &&
+            (fuel_left (part_info(p).fuel_type, true) || !fueled ||
+             part_info(p).fuel_type == AT_MUSCLE) &&
             parts[p].hp > 0)
         {
             int nc = 10;
@@ -709,6 +713,7 @@ int vehicle::noise (bool fueled, bool gas_only)
             case AT_GAS:    nc = 25; break;
             case AT_PLASMA: nc = 10; break;
             case AT_BATT:   nc = 3; break;
+            case AT_MUSCLE: nc = 5; break;
             }
             if (!gas_only || part_info(p).fuel_type == AT_GAS)
             {

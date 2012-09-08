@@ -3835,6 +3835,7 @@ std::string ammo_name(ammotype t)
   case AT_GAS:	  return "gasoline";
   case AT_BATT:   return "batteries";
   case AT_PLUT:   return "plutonium";
+  case AT_MUSCLE: return "Muscle";
   case AT_FUSION: return "fusion cell";
   case AT_12MM:   return "12mm slugs";
   case AT_PLASMA: return "hydrogen";
