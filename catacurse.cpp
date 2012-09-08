@@ -255,28 +255,24 @@ int translateConsoleInput(KEY_EVENT_RECORD key)
 	if (! key.bKeyDown) {
 		return 1;
 	}
-	lastchar = key.uChar.AsciiChar;
-	switch (key.wVirtualKeyCode) {
-		case VK_BACK:
-			lastchar=127;
-			break;
-		case VK_RETURN:
-			lastchar=10;
-			break;
-		case VK_LEFT:
-			lastchar = KEY_LEFT;
-			break;
-		case VK_RIGHT:
-			lastchar = KEY_RIGHT;
-			break;
-		case VK_UP:
-			lastchar = KEY_UP;
-			break;
-		case VK_DOWN:
-			lastchar = KEY_DOWN;
-			break;
+	
+	int code = key.wVirtualKeyCode;
+	switch (code) {
+		case VK_BACK:   lastchar = KEY_BACKSPACE; return 0;
+		case VK_RETURN: lastchar = 10; return 0;
+		case VK_LEFT:   lastchar = KEY_LEFT; return 0;
+		case VK_RIGHT:  lastchar = KEY_RIGHT; return 0;
+		case VK_UP:     lastchar = KEY_UP; return 0;
+		case VK_DOWN:   lastchar = KEY_DOWN; return 0;
+		case VK_ESCAPE: lastchar = 27; return 0;
+		case VK_SPACE:  lastchar = ' '; return 0;
 		default:
 			break;
+	}
+
+	int mask = (ENHANCED_KEY|LEFT_ALT_PRESSED|LEFT_CTRL_PRESSED|RIGHT_ALT_PRESSED|RIGHT_CTRL_PRESSED);
+	if (0 == (key.dwControlKeyState & mask)) {
+		lastchar = key.uChar.AsciiChar;
 	}
 	return 0;
 }
