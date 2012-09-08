@@ -8,6 +8,9 @@
 #include "weather_data.h"
 #include "veh_interact.h"
 #include "options.h"
+
+#include "debug.h"
+
 #include <fstream>
 #include <sstream>
 #include <math.h>
@@ -3859,6 +3862,7 @@ void game::open()
  bool didit = false;
  mvwprintw(w_terrain, 0, 0, "Open where? (hjklyubn) ");
  wrefresh(w_terrain);
+ DebugLog() << __FUNCTION__ << "calling input() \n";
  int openx, openy;
  char ch = input();
  last_action += ch;
@@ -3907,6 +3911,7 @@ void game::close()
  bool didit = false;
  mvwprintw(w_terrain, 0, 0, "Close where? (hjklyubn) ");
  wrefresh(w_terrain);
+ DebugLog() << __FUNCTION__ << "calling input() \n";
  int closex, closey;
  char ch = input();
  last_action += ch;
@@ -3943,6 +3948,7 @@ void game::smash()
  int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
  mvwprintw(w_terrain, 0, 0, "Smash what? (hjklyubn) ");
  wrefresh(w_terrain);
+ DebugLog() << __FUNCTION__ << "calling input() \n";
  char ch = input();
  last_action += ch;
  if (ch == KEY_ESCAPE) {
@@ -3998,6 +4004,7 @@ bool game::pl_choose_vehicle (int &x, int &y)
 {
  refresh_all();
  mvprintz(0, 0, c_red, "Choose a vehicle at direction:");
+ DebugLog() << __FUNCTION__ << "calling input() \n";
  int dirx, diry;
  get_direction(this, dirx, diry, input());
  if (dirx == -2) {
@@ -4204,6 +4211,7 @@ void game::examine()
  }
  mvwprintw(w_terrain, 0, 0, "Examine where? (Direction button) ");
  wrefresh(w_terrain);
+ DebugLog() << __FUNCTION__ << "calling input() \n";
  int examx, examy;
  char ch = input();
  last_action += ch;
@@ -4497,6 +4505,7 @@ point game::look_around()
  mvwprintz(w_look, 3, 1, c_white, "to a nearby square.");
  wrefresh(w_look);
  do {
+ DebugLog() << __FUNCTION__ << "calling input() \n";
   ch = input();
   if (!u_see(lx, ly, junk))
    mvwputch(w_terrain, ly - u.posy + SEEY, lx - u.posx + SEEX, c_black, ' ');
@@ -5133,6 +5142,7 @@ void game::drop_in_direction()
 {
  refresh_all();
  mvprintz(0, 0, c_red, "Choose a direction:");
+ DebugLog() << __FUNCTION__ << "calling input() \n";
  int dirx, diry;
  get_direction(this, dirx, diry, input());
  if (dirx == -2) {
@@ -7054,6 +7064,7 @@ void game::msg_buffer()
    mvwprintz(w, 24, 51, c_magenta, "vvv");
   wrefresh(w);
 
+  DebugLog() << __FUNCTION__ << "calling input() \n";
   ch = input();
   int dirx = 0, diry = 0;
    
