@@ -27,6 +27,24 @@ char szDirectory[MAX_PATH] = "";
 //Non-curses, Window functions      *
 //***********************************
 
+struct DebugLog
+{
+	DebugLog() {
+		fout.open("logg.txt", std::ios_base::app | std::ios_base::out);
+	}
+	~DebugLog() {
+		fout.close();
+	}
+
+	template <class T>
+	DebugLog& operator<<(T& t) {
+		fout << t;
+		return *this;
+	}
+private:
+	std::ofstream fout;
+};
+
 bool WinCreate()
 {
 	const WCHAR *szTitle=  (L"Cataclysm");
@@ -59,12 +77,9 @@ bool WinCreate()
 	consoleInfo.bVisible = 0;
 	SetConsoleCursorInfo(consoleWin, &consoleInfo);
 
-	std::ofstream fout;
-	fout.open("logg.txt", std::ios_base::app | std::ios_base::out);
-	fout << "===== ===== ===== ===== ===== =====\n";
-	fout << "  1) buffer size: " << bInfo.dwSize.X << "," << bInfo.dwSize.Y << "\n";
-	fout << "  1) window size: " << bInfo.srWindow.Right << "," << bInfo.srWindow.Bottom << "\n";
-	fout.close();
+	DebugLog() << "===== ===== ===== ===== ===== =====\n";
+	DebugLog() << "  1) buffer size: " << bInfo.dwSize.X << "," << bInfo.dwSize.Y << "\n";
+	DebugLog() << "  1) window size: " << bInfo.srWindow.Right << "," << bInfo.srWindow.Bottom << "\n";
 
 	return true;
 };
@@ -146,8 +161,7 @@ void debugPrint(size_t yPos, const char* buf)
 	COORD statusLine = { 0, yPos };
 	SetConsoleCursorPosition(consoleWin, statusLine);
 	SetConsoleTextAttribute(consoleWin, 3);
-	std::cout << "after draw window, delay: " << inputdelay << " cnt: " << frameCounter << " " << buf << std::endl;
-
+	DebugLog() << "after draw window, delay: " << inputdelay << " cnt: " << frameCounter << " " << buf << "\n";
 }
 
 void DrawWindow(WINDOW *win)
@@ -252,11 +266,14 @@ void DrawWindow(WINDOW *win)
 
 int translateConsoleInput(KEY_EVENT_RECORD key)
 {
+	DebugLog() << " : got event ";
 	if (! key.bKeyDown) {
 		return 1;
 	}
 	
 	int code = key.wVirtualKeyCode;
+	DebugLog() << " key up " << code;
+
 	switch (code) {
 		case VK_BACK:   lastchar = KEY_BACKSPACE; return 0;
 		case VK_RETURN: lastchar = 10; return 0;
@@ -269,6 +286,8 @@ int translateConsoleInput(KEY_EVENT_RECORD key)
 		default:
 			break;
 	}
+
+	DebugLog() << "translating";
 
 	int mask = (ENHANCED_KEY|LEFT_ALT_PRESSED|LEFT_CTRL_PRESSED|RIGHT_ALT_PRESSED|RIGHT_CTRL_PRESSED);
 	if (0 == (key.dwControlKeyState & mask)) {
@@ -283,15 +302,13 @@ void CheckMessages()
 	INPUT_RECORD inputData[1];
 	DWORD elementsRead = 0;
 	ReadConsoleInput(keyboardInput, inputData, 1, &elementsRead);
-	std::ofstream fout;
-	fout.open("logg.txt", std::ios_base::app | std::ios_base::out);
-	fout << " checkmsg()";
+
+
+	DebugLog() << " checkmsg()";
 	if (elementsRead && inputData[0].EventType == KEY_EVENT) {
 		translateConsoleInput(inputData[0].Event.KeyEvent);
-		fout << " : got event";
 	}
-	fout << std::endl;
-	fout.close();
+	DebugLog() << "\n";
 
 };
 
@@ -326,12 +343,8 @@ WINDOW *initscr(void)
 WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
 {
 	int i,j;
-	{
-		std::ofstream fout;
-		fout.open("logg.txt", std::ios_base::app | std::ios_base::out);
-		fout << "newwin()" << begin_y << "," << begin_x << "  " << nlines << "," << ncols << "\n";
-		fout.close();
-	}
+	
+	DebugLog() << "newwin()" << begin_y << "," << begin_x << "  " << nlines << "," << ncols << "\n";
 
 	WINDOW *newwindow = new WINDOW;
 	newwindow->x=begin_x;
@@ -442,14 +455,8 @@ int wrefresh(WINDOW *win)
 	if (win==0) win=mainwin;
 	if (win->draw) {
 		DrawWindow(win);
-
-		std::ofstream fout;
-		fout.open("logg.txt", std::ios_base::app | std::ios_base::out);
-		fout << "wrefresh()" << win->y << "," << win->x << "  " << win->height << "," << win->width << "\n";
-		if (win == mainwin) {
-			fout << " ----- " << std::endl;
-		}
-		fout.close();
+		const char* temp = (win == mainwin? "\n ----- mainwin -----\n" : "\n");
+		DebugLog() << "wrefresh()" << win->y << "," << win->x << "  " << win->height << "," << win->width << temp;
 	}
 	return 1;
 };
