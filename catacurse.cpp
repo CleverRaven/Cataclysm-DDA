@@ -36,13 +36,19 @@ bool WinCreate()
 
 	SetConsoleTitleW(szTitle);
 
-	COORD bufferSize = {80, 25};
-	SetConsoleScreenBufferSize(GetConsoleWindow(), bufferSize);
+	CONSOLE_SCREEN_BUFFER_INFO bInfo;
+	GetConsoleScreenBufferInfo(consoleWin, &bInfo);
+	if (bInfo.srWindow.Bottom < 24 || bInfo.srWindow.Right < 79) {
+		COORD bufferSize = {80, 40};
+		SetConsoleScreenBufferSize(consoleWin, bufferSize);
 
-	SMALL_RECT windowSize = {0, 0, bufferSize.X-1, bufferSize.Y-1};
-	SetConsoleWindowInfo(GetConsoleWindow(), TRUE, &windowSize);
-	mainwin = newwin(bufferSize.Y,bufferSize.X,0,0);
-	
+		SMALL_RECT windowSize = {0, 0, bufferSize.X-1, bufferSize.Y-1};
+		SetConsoleWindowInfo(consoleWin, TRUE, &windowSize);
+	}
+	GetConsoleScreenBufferInfo(consoleWin, &bInfo);
+	COORD winSize = { bInfo.srWindow.Right - bInfo.srWindow.Left + 1, bInfo.srWindow.Bottom - bInfo.srWindow.Top + 1 };
+	mainwin = newwin(winSize.Y,winSize.X,0,0);
+
 	DWORD consoleMode;
 	GetConsoleMode(keyboardInput, &consoleMode);
 	consoleMode &= ~(ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT | ENABLE_MOUSE_INPUT);
@@ -52,6 +58,13 @@ bool WinCreate()
 	GetConsoleCursorInfo(consoleWin, &consoleInfo);
 	consoleInfo.bVisible = 0;
 	SetConsoleCursorInfo(consoleWin, &consoleInfo);
+
+	std::ofstream fout;
+	fout.open("logg.txt", std::ios_base::app | std::ios_base::out);
+	fout << "===== ===== ===== ===== ===== =====\n";
+	fout << "  1) buffer size: " << bInfo.dwSize.X << "," << bInfo.dwSize.Y << "\n";
+	fout << "  1) window size: " << bInfo.srWindow.Right << "," << bInfo.srWindow.Bottom << "\n";
+	fout.close();
 
 	return true;
 };
@@ -274,9 +287,16 @@ void CheckMessages()
 	INPUT_RECORD inputData[1];
 	DWORD elementsRead = 0;
 	ReadConsoleInput(keyboardInput, inputData, 1, &elementsRead);
+	std::ofstream fout;
+	fout.open("logg.txt", std::ios_base::app | std::ios_base::out);
+	fout << " checkmsg()";
 	if (elementsRead && inputData[0].EventType == KEY_EVENT) {
 		translateConsoleInput(inputData[0].Event.KeyEvent);
+		fout << " : got event";
 	}
+	fout << std::endl;
+	fout.close();
+
 };
 
 //***********************************
@@ -449,7 +469,7 @@ int refresh(void)
 //but jday helped to figure most of it out
 int getch(void)
 {
-	//refresh();
+	refresh();
 	//InvalidateRect(WindowHandle,NULL,true);
 	lastchar=ERR;//ERR=-1
 
