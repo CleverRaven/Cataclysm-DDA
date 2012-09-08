@@ -34,6 +34,15 @@ bool WinCreate()
 	consoleWin = GetStdHandle(STD_OUTPUT_HANDLE);
 	keyboardInput = GetStdHandle(STD_INPUT_HANDLE);
 
+	SetConsoleTitleW(szTitle);
+
+	COORD bufferSize = {80, 25};
+	SetConsoleScreenBufferSize(GetConsoleWindow(), bufferSize);
+
+	SMALL_RECT windowSize = {0, 0, bufferSize.X-1, bufferSize.Y-1};
+	SetConsoleWindowInfo(GetConsoleWindow(), TRUE, &windowSize);
+	mainwin = newwin(bufferSize.Y,bufferSize.X,0,0);
+	
 	DWORD consoleMode;
 	GetConsoleMode(keyboardInput, &consoleMode);
 	consoleMode &= ~(ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT | ENABLE_MOUSE_INPUT);
@@ -44,8 +53,6 @@ bool WinCreate()
 	consoleInfo.bVisible = 0;
 	SetConsoleCursorInfo(consoleWin, &consoleInfo);
 
-	SetConsoleTitleW(szTitle);
-	Sleep(1000);
 	return true;
 };
 
@@ -121,11 +128,20 @@ void copyConsole(HANDLE conOut, HANDLE conIn) {
 	SetConsoleActiveScreenBuffer(conOut);
 }
 
+void debugPrint(size_t yPos, const char* buf)
+{
+	COORD statusLine = { 0, yPos };
+	SetConsoleCursorPosition(consoleWin, statusLine);
+	SetConsoleTextAttribute(consoleWin, 3);
+	std::cout << "after draw window, delay: " << inputdelay << " cnt: " << frameCounter << " " << buf << std::endl;
+
+}
+
 void DrawWindow(WINDOW *win)
 {
 	int i,j,drawx,drawy;
 	char tmp;
-	unsigned long startTime=GetTickCount();
+	unsigned long startTime=GetTickCount();	
 
 	CHAR_INFO* screenBuffer = reinterpret_cast<CHAR_INFO*>( win->custom );
 	for (j=0; j<win->height; j++){
@@ -211,16 +227,12 @@ void DrawWindow(WINDOW *win)
 
 	coordBufSize.Y = win->height;
 	coordBufSize.X = win->width;
+
+	LockWindowUpdate(GetConsoleWindow());
 	WriteConsoleOutput(consoleWin, screenBuffer, coordBufSize, coordBufCoord, &rwRect);
 	unsigned long t1 = GetTickCount() - startTime;
 	unsigned long t2 = 666;
-
-	/*
-	   COORD statusLine = { 0, 27 };
-	   SetConsoleCursorPosition(consoleWin, statusLine);
-	   SetConsoleTextAttribute(consoleWin, 3);
-	   std::cout << "after draw window, delay: " << inputdelay << " cnt: " << frameCounter << " time: " << t1 << " " << t2 << std::endl;
-	   */
+	LockWindowUpdate(NULL);
 
 	frameCounter++;
 };
@@ -265,13 +277,6 @@ void CheckMessages()
 	if (elementsRead && inputData[0].EventType == KEY_EVENT) {
 		translateConsoleInput(inputData[0].Event.KeyEvent);
 	}
-	/*
-	   MSG msg;
-	   while (PeekMessage(&msg, 0 , 0, 0, PM_REMOVE)){
-	   TranslateMessage(&msg);
-	   DispatchMessage(&msg);
-	   }
-	   */
 };
 
 //***********************************
@@ -299,13 +304,19 @@ WINDOW *initscr(void)
 	WinCreate();    //Create the actual window, register it, etc
 
 	delete typeface_c;
-	mainwin = newwin(25,80,0,0);
 	return mainwin;   //create the 'stdscr' window and return its ref
 };
 
 WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
 {
 	int i,j;
+	{
+		std::ofstream fout;
+		fout.open("logg.txt", std::ios_base::app | std::ios_base::out);
+		fout << "newwin()" << begin_y << "," << begin_x << "  " << nlines << "," << ncols << "\n";
+		fout.close();
+	}
+
 	WINDOW *newwindow = new WINDOW;
 	newwindow->x=begin_x;
 	newwindow->y=begin_y;
@@ -408,26 +419,37 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
 	return 1;
 };
 
+
 //Refreshes a window, causing it to redraw on top.
 int wrefresh(WINDOW *win)
 {
 	if (win==0) win=mainwin;
-	if (win->draw)
+	if (win->draw) {
 		DrawWindow(win);
+
+		std::ofstream fout;
+		fout.open("logg.txt", std::ios_base::app | std::ios_base::out);
+		fout << "wrefresh()" << win->y << "," << win->x << "  " << win->height << "," << win->width << "\n";
+		if (win == mainwin) {
+			fout << " ----- " << std::endl;
+		}
+		fout.close();
+	}
 	return 1;
 };
 
 //Refreshes window 0 (stdscr), causing it to redraw on top.
 int refresh(void)
 {
-	return wrefresh(mainwin);
+	int t = wrefresh(mainwin);
+	return t;
 };
 
 //Not terribly sure how this function is suppose to work,
 //but jday helped to figure most of it out
 int getch(void)
 {
-	refresh();
+	//refresh();
 	//InvalidateRect(WindowHandle,NULL,true);
 	lastchar=ERR;//ERR=-1
 
