@@ -21,6 +21,7 @@ unsigned char *dcbits;  //the bits of the screen image, for direct access
 
 HANDLE consoleWin;
 HANDLE keyboardInput;
+HANDLE backBuffer;
 int frameCounter;
 
 char szDirectory[MAX_PATH] = "";
@@ -60,6 +61,12 @@ bool WinCreate()
 	GetConsoleCursorInfo(consoleWin, &consoleInfo);
 	consoleInfo.bVisible = 0;
 	SetConsoleCursorInfo(consoleWin, &consoleInfo);
+
+	backBuffer = CreateConsoleScreenBuffer(GENERIC_READ|GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, 0);
+	GetConsoleCursorInfo(backBuffer, &consoleInfo);
+	consoleInfo.bVisible = 0;
+	SetConsoleCursorInfo(backBuffer, &consoleInfo);
+
 
 	DebugLog() << "===== ===== ===== ===== ===== =====\n";
 	DebugLog() << "  1) buffer size: " << bInfo.dwSize.X << "," << bInfo.dwSize.Y << "\n";
@@ -240,7 +247,19 @@ unsigned long DrawWindow(WINDOW *win)
 	coordBufSize.X = win->width;
 
 	LockWindowUpdate(GetConsoleWindow());
-	WriteConsoleOutput(consoleWin, screenBuffer, coordBufSize, coordBufCoord, &rwRect);
+	if (0 && win != mainwin) {
+		// crap, this way doesn't help at all
+
+		WriteConsoleOutput(backBuffer, screenBuffer, coordBufSize, coordBufCoord, &rwRect);
+
+		CHAR_INFO buf[80*25];
+		SetConsoleActiveScreenBuffer(backBuffer);
+		ReadConsoleOutput(backBuffer, buf, coordBufSize, coordBufCoord, &rwRect);
+		WriteConsoleOutput(consoleWin, buf, coordBufSize, coordBufCoord, &rwRect);
+		SetConsoleActiveScreenBuffer(consoleWin);
+	} else {
+		WriteConsoleOutput(consoleWin, screenBuffer, coordBufSize, coordBufCoord, &rwRect);
+	}
 	unsigned long t1 = GetTickCount() - startTime;
 	LockWindowUpdate(NULL);
 
