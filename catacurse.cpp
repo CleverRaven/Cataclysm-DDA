@@ -54,8 +54,13 @@ bool WinCreate()
 
 	DWORD consoleMode;
 	GetConsoleMode(keyboardInput, &consoleMode);
-	consoleMode &= ~(ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT | ENABLE_MOUSE_INPUT);
+	consoleMode &= ~(ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT);
+	consoleMode |= (ENABLE_MOUSE_INPUT | ENABLE_EXTENDED_FLAGS);
 	SetConsoleMode(keyboardInput, consoleMode);
+	GetConsoleMode(consoleWin, &consoleMode);
+	consoleMode &= ~(ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT);
+	consoleMode |= (ENABLE_MOUSE_INPUT | ENABLE_EXTENDED_FLAGS);
+	SetConsoleMode(consoleWin, consoleMode);
 
 	CONSOLE_CURSOR_INFO consoleInfo = { 0 };
 	GetConsoleCursorInfo(consoleWin, &consoleInfo);
@@ -322,14 +327,14 @@ void CheckMessages()
 		return;
 	}
 	switch (inputData[0].EventType) {
+		case MOUSE_EVENT:
+			DebugLog() << " : hated mouse";
+			break;
 		case KEY_EVENT:
 			translateConsoleInput(inputData[0].Event.KeyEvent);
 			break;
 		case MENU_EVENT:
 			DebugLog() << " : menu";
-			break;
-		case MOUSE_EVENT:
-			DebugLog() << " : hated mouse";
 			break;
 		case WINDOW_BUFFER_SIZE_EVENT:
 			DebugLog() << " : buffer size changed? what the heck?";
