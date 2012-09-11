@@ -12,11 +12,10 @@
 //***********************************
 
 WINDOW *mainwin;
-HINSTANCE WindowINST;   //the instance of the window
 int lastchar;          //the last character that was pressed, resets in getch
 int inputdelay;         //How long getch will wait for a character to be typed
 pairs *colorpairs;   //storage for pair'ed colored, should be dynamic, meh
-int *colorMapping;
+int colorMapping[16];
 unsigned char *dcbits;  //the bits of the screen image, for direct access
 
 HANDLE consoleWin;
@@ -160,6 +159,16 @@ void debugPrint(size_t yPos, const char* buf)
 	DebugLog() << "after draw window, delay: " << inputdelay << " cnt: " << frameCounter << " " << buf << "\n";
 }
 
+// variable used to actually check if we need to redraw
+bool didRedraw;
+
+// all the drawing will (except 'terrain' which is kinda special*)
+// will be done to backBuffer, that backBuffer, will be than 'synched'
+// to main console window just at the beginning of "getch" function
+//
+// we need to draw terain (also) directly onto the console to have that cool
+// bullet/explosions "animations" :)
+
 unsigned long DrawWindow(WINDOW *win)
 {
 	int i,j,drawx,drawy;
@@ -167,6 +176,8 @@ unsigned long DrawWindow(WINDOW *win)
 	unsigned long startTime=GetTickCount();	
 
 	CHAR_INFO* screenBuffer = reinterpret_cast<CHAR_INFO*>( win->custom );
+	bool isTerrainWindow = (25==win->width && 25==win->height);
+	bool haveAnimation = false;
 	for (j=0; j<win->height; j++){
 		if (win->line[j].touched) {
 			for (i=0; i<win->width; i++){
@@ -189,6 +200,11 @@ unsigned long DrawWindow(WINDOW *win)
 						//    } else { // all the wa to here
 						wchr = tmp;
 
+						if (isTerrainWindow && 4==FG && !haveAnimation &&
+							('*' == wchr || '#' == wchr || '|' == wchr ||
+							 '-' == wchr ||	'/' == wchr || '\\' == wchr)) {
+							haveAnimation = true;
+						}
 						//    }     //and this line too.
 					} else if (  tmp < 0 ) {
 						switch (tmp) {
@@ -251,22 +267,18 @@ unsigned long DrawWindow(WINDOW *win)
 	coordBufSize.Y = win->height;
 	coordBufSize.X = win->width;
 
-	LockWindowUpdate(GetConsoleWindow());
-	if (0 && win != mainwin) {
-		// crap, this way doesn't help at all
+	// draw everything to backBuffer
+	WriteConsoleOutput(backBuffer, screenBuffer, coordBufSize, coordBufCoord, &rwRect);
 
-		WriteConsoleOutput(backBuffer, screenBuffer, coordBufSize, coordBufCoord, &rwRect);
-
-		CHAR_INFO buf[80*25];
-		SetConsoleActiveScreenBuffer(backBuffer);
-		ReadConsoleOutput(backBuffer, buf, coordBufSize, coordBufCoord, &rwRect);
-		WriteConsoleOutput(consoleWin, buf, coordBufSize, coordBufCoord, &rwRect);
-		SetConsoleActiveScreenBuffer(consoleWin);
-	} else {
+	// draw terrain both to backBuffer AND directly to console...
+	// now besides that, because everything else, goes to backBuffer,
+	// we need to mark 'didRedraw', to actually redraw console later...
+	if (haveAnimation) {
 		WriteConsoleOutput(consoleWin, screenBuffer, coordBufSize, coordBufCoord, &rwRect);
+	} else {
+		didRedraw = false;
 	}
 	unsigned long t1 = GetTickCount() - startTime;
-	LockWindowUpdate(NULL);
 
 	frameCounter++;
 	return t1;
@@ -317,6 +329,14 @@ void CheckMessages()
 	DWORD elementsRead = 0;
 	DWORD count1 = 0;
 	DWORD count2 = 0;
+
+	if (! didRedraw) {
+		LockWindowUpdate(GetConsoleWindow());
+			copyConsole(consoleWin, backBuffer);
+		LockWindowUpdate(0);
+		didRedraw = true;
+	}
+
 	GetNumberOfConsoleInputEvents(keyboardInput, &count1);
 	ReadConsoleInput(keyboardInput, inputData, 1, &elementsRead);
 
@@ -407,6 +427,7 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
 			newwindow->line[j].BG[i]=0;
 		}
 	}
+
 	return newwindow;
 };
 
@@ -718,7 +739,6 @@ inline RGBQUAD BGR(int b, int g, int r)
 int start_color(void)
 {
 	colorpairs=new pairs[50];
-	colorMapping=new int[16];
 	colorMapping[0] = 0;
 	colorMapping[1] = 4;
 	colorMapping[2] = 2;
