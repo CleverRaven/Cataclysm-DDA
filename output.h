@@ -32,7 +32,13 @@ void printz(nc_color FG, const char *mes, ...);
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...);
 void draw_tabs(WINDOW *w, int active_tab, ...);
 
-void debugmsg(const char *mes, ...);
+#define STRING2(x) #x
+#define STRING(x) STRING2(x)
+
+// classy
+#define debugmsg(format...) realDebugmsg(__FILE__, STRING(__LINE__), format)
+
+void realDebugmsg(const char* name, const char* line, const char *mes, ...);
 bool query_yn(const char *mes, ...);
 int  query_int(const char *mes, ...);
 std::string string_input_popup(const char *mes, ...);

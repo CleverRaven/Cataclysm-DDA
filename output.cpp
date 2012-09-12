@@ -10,6 +10,8 @@
 #include <cstdarg>
 #include <cstring>
 #include <stdlib.h>
+#include <fstream>
+
 #include "color.h"
 #include "output.h"
 #include "rng.h"
@@ -300,7 +302,7 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
  }
 }
 
-void debugmsg(const char *mes, ...)
+void realDebugmsg(const char* filename, const char* line, const char *mes, ...)
 {
  va_list ap;
  va_start(ap, mes);
@@ -309,6 +311,10 @@ void debugmsg(const char *mes, ...)
  va_end(ap);
  attron(c_red);
  mvprintw(0, 0, "DEBUG: %s                \n  Press spacebar...", buff);
+ std::ofstream fout;
+ fout.open("debug.log", std::ios_base::app | std::ios_base::out);
+ fout << filename << "[" << line << "]: " << buff << "\n";
+ fout.close();
  while(getch() != ' ');
  attroff(c_red);
 }
