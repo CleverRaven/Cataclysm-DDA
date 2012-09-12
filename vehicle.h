@@ -122,6 +122,9 @@ public:
 // Save vehicle data to stream
     void save (std::ofstream &stout);
 
+// Operate vehicle
+    std::string use_controls();
+
 // get vpart type info for part number (part at given vector index)
     const vpart_info& part_info (int index);
 
@@ -324,6 +327,7 @@ public:
     int velocity;       // vehicle current velocity, mph * 100
     int cruise_velocity; // velocity vehicle's cruise control trying to acheive
     bool cruise_on;     // cruise control on/off
+    bool lights_on;     // lights on/off
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
     bool skidding;      // skidding mode
     int last_turn;      // amount of last turning (for calculate skidding due to handbrake)

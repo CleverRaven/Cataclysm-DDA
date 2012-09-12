@@ -1353,12 +1353,7 @@ void game::get_input()
    break;
 
   case ACTION_WAIT:
-   if (veh_ctrl) {
-    veh->turret_mode++;
-    if (veh->turret_mode > 1)
-     veh->turret_mode = 0;
-   } else
-    wait();
+   wait();
    break;
 
   case ACTION_CRAFT:
@@ -1374,8 +1369,9 @@ void game::get_input()
 
   case ACTION_SLEEP:
    if (veh_ctrl) {
-    veh->cruise_on = !veh->cruise_on;
-    add_msg("Cruise control turned %s.", veh->cruise_on? "on" : "off");
+    std::string message = veh->use_controls();
+    if (!message.empty())
+     add_msg(message.c_str());
    } else if (query_yn("Are you sure you want to sleep?")) {
     u.try_to_sleep(this);
     u.moves = 0;
@@ -2419,6 +2415,7 @@ void game::draw_ter(int posx, int posy)
  if (posy == -999)
   posy = u.posy;
  int t = 0;
+ lm.generate(this, posx, posy, natural_light_level(), u.active_light());
  m.draw(this, w_terrain, point(posx, posy));
 
  // Draw monsters
@@ -2650,6 +2647,18 @@ void game::hallucinate()
  wrefresh(w_terrain);
 }
 
+float game::natural_light_level()
+{
+ float ret = 0;
+
+ if (levz >= 0) {
+  ret = turn.sunlight();
+  ret += weather_data[weather].light_modifier;
+ }
+
+ return std::max(0.0f, ret);
+}
+
 unsigned char game::light_level()
 {
  int ret;
@@ -2748,20 +2757,32 @@ faction* game::random_evil_faction()
 
 bool game::sees_u(int x, int y, int &t)
 {
+ // TODO: [lightmap] Apply default monster vison levels here
+ //                  the light map should deal lighting from player or fires
+ int range = light_level();
+
+ // doesn't matter if this actually reduces the range as we only need to look this far
+ if (lm.at(0, 0) >= LL_LOW)
+  range = rl_dist(x, y, u.posx, u.posy);
+
  return (!u.has_active_bionic(bio_cloak) &&
          !u.has_artifact_with(AEP_INVISIBLE) && 
-         m.sees(x, y, u.posx, u.posy, light_level(), t));
+         m.sees(x, y, u.posx, u.posy, range, t));
 }
 
 bool game::u_see(int x, int y, int &t)
 {
- int range = u.sight_range(light_level());
- if (u.has_artifact_with(AEP_CLAIRVOYANCE)) {
-  int crange = (range > u.clairvoyance() ? u.clairvoyance() : range);
-  if (rl_dist(u.posx, u.posy, x, y) <= crange)
-   return true;
- }
- return m.sees(u.posx, u.posy, x, y, range, t);
+ int wanted_range = rl_dist(u.posx, u.posy, x, y);
+
+ bool can_see = false;
+ if (wanted_range < u.clairvoyance())
+  can_see = true;
+ else if (wanted_range <= u.sight_range(light_level()) ||
+          (wanted_range <= u.sight_range(DAYLIGHT_LEVEL) &&
+            lm.at(x - u.posx, y - u.posy) >= LL_LOW))
+  can_see = m.sees(u.posx, u.posy, x, y, wanted_range, t);
+
+ return can_see;
 }
 
 bool game::u_see(monster *mon, int &t)
@@ -2772,17 +2793,13 @@ bool game::u_see(monster *mon, int &t)
  if (mon->has_flag(MF_DIGS) && !u.has_active_bionic(bio_ground_sonar) &&
      dist > 1)
   return false;	// Can't see digging monsters until we're right next to them
- int range = u.sight_range(light_level());
- if (u.has_artifact_with(AEP_CLAIRVOYANCE)) {
-  int crange = (range > u.clairvoyance() ? u.clairvoyance() : range);
-  if (dist <= crange)
-   return true;
- }
- return m.sees(u.posx, u.posy, mon->posx, mon->posy, range, t);
+
+ return u_see(mon->posx, mon->posy, t);
 }
 
 bool game::pl_sees(player *p, monster *mon, int &t)
 {
+ // TODO: [lightmap] Allow npcs to use the lightmap
  if (mon->has_flag(MF_DIGS) && !p->has_active_bionic(bio_ground_sonar) &&
      rl_dist(p->posx, p->posy, mon->posx, mon->posy) > 1)
   return false;	// Can't see digging monsters until we're right next to them
@@ -4583,7 +4600,15 @@ point game::look_around()
     veh->print_part_desc(w_look, 4, 48, veh_part);
     m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
    }
-
+  } else if (u.sight_impaired() &&
+              lm.at(lx - u.posx, ly - u.posy) == LL_BRIGHT &&
+              rl_dist(u.posx, u.posy, lx, ly) < u.unimpaired_range() &&
+              m.sees(u.posx, u.posy, lx, ly, u.unimpaired_range(), junk)) {
+   if (u.has_disease(DI_BOOMERED))
+    mvwputch_inv(w_terrain, ly - u.posy + SEEY, lx - u.posx + SEEX, c_pink, '#');
+   else
+    mvwputch_inv(w_terrain, ly - u.posy + SEEY, lx - u.posx + SEEX, c_ltgray, '#');
+   mvwprintw(w_look, 1, 1, "Bright light.");
   } else {
    mvwputch(w_terrain, SEEY, SEEX, c_white, 'x');
    mvwprintw(w_look, 1, 1, "Unseen.");
@@ -5259,6 +5284,8 @@ void game::plthrow()
   return;
  }
 
+ // TODO: [lightmap] This appears to redraw the screen for throwing,
+ //                  check were lightmap needs to be shown
  int sight_range = u.sight_range(light_level());
  if (range < sight_range)
   range = sight_range;
@@ -5360,6 +5387,8 @@ void game::plfire(bool burst)
 
  int junk;
  int range = u.weapon.range(&u);
+ // TODO: [lightmap] This appears to redraw the screen for fireing,
+ //                  check were lightmap needs to be shown
  int sight_range = u.sight_range(light_level());
  if (range > sight_range)
   range = sight_range;

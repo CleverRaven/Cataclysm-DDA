@@ -1757,6 +1757,21 @@ You can not activate %s!  To read a description of \
  erase();
 }
 
+float player::active_light()
+{
+ float lumination = 0;
+
+ int flashlight = active_item_charges(itm_flashlight_on);
+ if (flashlight > 0)
+  lumination = std::min(100, flashlight * 5); // Will do for now
+ else if (has_active_bionic(bio_flashlight))
+  lumination = 60;
+ else if (has_artifact_with(AEP_GLOW))
+  lumination = 25;
+
+ return lumination;
+}
+
 int player::sight_range(int light_level)
 {
  int ret = light_level;
@@ -1785,6 +1800,16 @@ int player::sight_range(int light_level)
  return ret;
 }
 
+int player::unimpaired_range()
+{
+ int ret = 12;
+ if (has_disease(DI_IN_PIT))
+  ret = 1;
+ if (has_disease(DI_BLIND))
+  ret = 0;
+ return ret;
+}
+
 int player::overmap_sight_range(int light_level)
 {
  int sight = sight_range(light_level);
@@ -1803,6 +1828,15 @@ int player::clairvoyance()
  if (has_artifact_with(AEP_CLAIRVOYANCE))
   return 3;
  return 0;
+}
+
+bool player::sight_impaired()
+{
+ return has_disease(DI_BOOMERED) ||
+  (underwater && !has_bionic(bio_membrane) && !has_trait(PF_MEMBRANE) 
+              && !is_wearing(itm_goggles_swim)) ||
+  (has_trait(PF_MYOPIC) && !is_wearing(itm_glasses_eye) 
+                        && !is_wearing(itm_glasses_monocle));
 }
 
 bool player::has_two_arms()
@@ -4255,7 +4289,7 @@ void player::read(game *g, char ch)
   return;
  }
 // Check if reading is okay
- if (g->light_level() < 8) {
+ if (g->light_level() < 8 && LL_LIT > g->lm.at(0, 0)) {
   g->add_msg("It's too dark to read!");
   return;
  }

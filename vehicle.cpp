@@ -11,6 +11,13 @@
     #include <curses.h>
 #endif
 
+enum vehicle_controls {
+ toggle_cruise_control,
+ toggle_lights,
+ toggle_turrets,
+ control_cancel
+};
+
 vehicle::vehicle(game *ag, vhtype_id type_id): g(ag), type(type_id)
 {
     posx = 0;
@@ -23,6 +30,7 @@ vehicle::vehicle(game *ag, vhtype_id type_id): g(ag), type(type_id)
     cruise_velocity = 0;
     skidding = false;
     cruise_on = true;
+    lights_on = false;
     insides_dirty = true;
     if (type >= num_vehicles)
         type = 0;
@@ -166,6 +174,62 @@ void vehicle::init_state()
         if (part_flag(p, vpf_seat))        // no passengers
             parts[p].passenger = 0;
     }
+}
+
+std::string vehicle::use_controls()
+{
+ std::vector<vehicle_controls> options_choice;
+ std::vector<std::string> options_message;
+
+ // Alway have this option
+ options_choice.push_back(toggle_cruise_control);
+ options_message.push_back((cruise_on) ? "Disable cruise control" : "Enable cruise control");
+
+ bool has_lights = false;
+ bool has_turrets = false;
+ for (int p = 0; p < parts.size(); p++) {
+  if (part_flag(p, vpf_light))
+   has_lights = true;
+  else if (part_flag(p, vpf_turret))
+   has_turrets = true;
+ }
+
+ // Lights if they are there - Note you can turn them on even when damaged, they just don't work
+ if (has_lights) {
+  options_choice.push_back(toggle_lights);
+  options_message.push_back((lights_on) ? "Turn off headlights" : "Turn on headlights");
+ }
+
+ // Turrents: off or burst mode
+ if (has_turrets) {
+  options_choice.push_back(toggle_turrets);
+  options_message.push_back((0 == turret_mode) ? "Switch turrets to burst mode" : "Disable turrets");
+ }
+
+ options_choice.push_back(control_cancel);
+ options_message.push_back("Exit");
+
+ int select = menu_vec("Vehicle controls", options_message);
+
+ std::string message;
+ switch(options_choice[select - 1]) {
+  case toggle_cruise_control:
+   cruise_on = !cruise_on;
+   message = (cruise_on) ? "Cruise control turned on" : "Cruise control turned off";
+   break;
+  case toggle_lights:
+   lights_on = !lights_on;
+   message = (lights_on) ? "Headlights turned on" : "Headlights turned off";
+   break;
+  case toggle_turrets:
+   if (++turret_mode > 1)
+    turret_mode = 0;
+   message = (0 == turret_mode) ? "Turrets: Disabled" : "Turrets: Burst mode";
+   break;
+  case control_cancel:
+   break;
+ }
+ return message;
 }
 
 const vpart_info& vehicle::part_info (int index)

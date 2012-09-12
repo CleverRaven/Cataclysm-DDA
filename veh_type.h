@@ -70,6 +70,8 @@ enum vpart_id
     vp_spiked_plate,
     vp_hard_plate,
 
+    vp_head_light,
+
     num_vparts
 };
 
@@ -101,8 +103,9 @@ enum vpart_flags
     vpf_solar_panel,        // is solar panel
     vpf_turret,             // is turret
     vpf_armor,              // is armor plating
+    vpf_light,              // generates light arc
     vpf_func_begin  = vpf_over,
-    vpf_func_end    = vpf_armor,
+    vpf_func_end    = vpf_light,
 
     num_vpflags
 };
@@ -246,6 +249,8 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_internal) | mfb(vpf_armor) | mfb(vpf_sharp) },
     { "hard plating",      ')', c_cyan,   ')', c_cyan,   100, 2300, 0, 0, itm_hard_plate, 4,
         mfb(vpf_internal) | mfb(vpf_armor) }
+    { "head light",        '*', c_white,  '*', c_white,  10, 20, 120, 0, itm_flashlight, 1,
+       mfb(vpf_internal) | mfb(vpf_light) }
 };
 
 

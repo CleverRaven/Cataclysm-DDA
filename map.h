@@ -25,9 +25,21 @@ class player;
 class item;
 struct itype;
 
+// TODO: This should be const& but almost no functions are const
+template<typename Type>
+struct position_wrapped {
+ int x; 
+ int y;
+ Type* item;
+};
+
+typedef position_wrapped<vehicle> wrapped_vehicle;
+typedef std::vector<wrapped_vehicle> vehicle_list;
+
 class map
 {
  public:
+
 // Constructors & Initialization
  map();
  map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
@@ -38,7 +50,8 @@ class map
  void draw(game *g, WINDOW* w, point center);
  void debug();
  void drawsq(WINDOW* w, player &u, int x, int y, bool invert, bool show_items,
-             int cx = -1, int cy = -1);
+             int cx = -1, int cy = -1,
+             bool low_light = false, bool bright_level = false);
 
 // File I/O
  virtual void save(overmap *om, unsigned int turn, int x, int y);
@@ -63,6 +76,8 @@ class map
  std::vector<point> route(int Fx, int Fy, int Tx, int Ty, bool bash = true);
 
 // vehicles
+ vehicle_list get_vehicles(int sx, int sy, int ex, int ey);
+
 // checks, if tile is occupied by vehicle and by which part
  vehicle* veh_at(int x, int y, int &part_num);
  vehicle* veh_at(int x, int y);// checks, if tile is occupied by vehicle

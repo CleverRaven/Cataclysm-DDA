@@ -441,6 +441,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 {
  std::vector<point> ret;
  int tarx, tary, tart, junk;
+ // TODO: [lightmap] Enable auto targeting based on lightmap
  int sight_dist = u.sight_range(light_level());
 
 // First, decide on a target among the monsters, if there are any in range

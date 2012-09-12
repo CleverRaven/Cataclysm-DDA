@@ -1,4 +1,5 @@
 #include "map.h"
+#include "lightmap.h"
 #include "output.h"
 #include "rng.h"
 #include "game.h"
@@ -53,6 +54,35 @@ map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
 
 map::~map()
 {
+}
+
+vehicle_list map::get_vehicles(int sx, int sy, int ex, int ey)
+{
+ int chunk_sx = (sx / SEEX) - 1;
+ int chunk_ex = (ex / SEEX) + 1;
+
+ int chunk_sy = (sy / SEEY) - 1;
+ int chunk_ey = (ey / SEEY) + 1;
+
+ vehicle_list vehs;
+
+ for(int cx = chunk_sx; cx <= chunk_ex; ++cx) {
+  for(int cy = chunk_sy; cy <= chunk_ey; ++cy) {
+   int nonant = cx + cy * my_MAPSIZE;
+   if (nonant < 0 || nonant >= my_MAPSIZE * my_MAPSIZE)
+    continue; // out of grid
+
+   for(int i = 0; i < grid[nonant].vehicles.size(); ++i) {
+    wrapped_vehicle w;
+    w.item = &(grid[nonant].vehicles[i]);
+    w.x = w.item->posx + cx * SEEX;
+    w.y = w.item->posy + cy * SEEY;
+    vehs.push_back(w);
+   }
+  }
+ }
+
+ return vehs;
 }
 
 vehicle* map::veh_at(int x, int y, int &part_num)
@@ -1803,19 +1833,43 @@ void map::debug()
 
 void map::draw(game *g, WINDOW* w, point center)
 {
+ int natural_sight_range = g->u.sight_range(1);
+ int light_sight_range = g->u.sight_range(g->light_level());
+ int lowlight_sight_range = std::max(g->light_level() / 2, natural_sight_range);
+ int max_sight_range = g->u.unimpaired_range();
+
  int t = 0;
  int light = g->u.sight_range(g->light_level());
  for  (int realx = center.x - SEEX; realx <= center.x + SEEX; realx++) {
   for (int realy = center.y - SEEY; realy <= center.y + SEEY; realy++) {
    int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
-   if (dist > light) {
+   int sight_range = light_sight_range;
+
+   // While viewing indoor areas use lightmap model
+   if (!g->lm.is_outside(realx - g->u.posx, realy - g->u.posy))
+    sight_range = natural_sight_range;
+
+   bool can_see = g->lm.sees(0, 0, realx - g->u.posx, realy - g->u.posy, max_sight_range);
+   lit_level lit = g->lm.at(realx - g->u.posx, realy - g->u.posy);
+
+   if (dist > max_sight_range ||
+       (dist > light_sight_range &&
+         (lit == LL_DARK ||
+         (g->u.sight_impaired() && lit != LL_BRIGHT)))) {
     if (g->u.has_disease(DI_BOOMERED))
-     mvwputch(w, realy+SEEY - center.y, realx+SEEX - center.x, c_magenta,'#');
+   	 mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_magenta, '#');
+   	else
+   	 mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_dkgray, '#');
+   } else if (dist > light_sight_range && g->u.sight_impaired() && lit == LL_BRIGHT) {
+    if (g->u.has_disease(DI_BOOMERED))
+     mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_pink, '#');
     else
-     mvwputch(w, realy+SEEY - center.y, realx+SEEX - center.x, c_dkgray, '#');
-   } else if (dist <= g->u.clairvoyance() ||
-              sees(g->u.posx, g->u.posy, realx, realy, light, t))
-    drawsq(w, g->u, realx, realy, false, true, center.x, center.y);
+     mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_ltgray, '#');
+   } else if (dist <= g->u.clairvoyance() || can_see)
+    drawsq(w, g->u, realx, realy, false, true, center.x, center.y,
+           (dist > lowlight_sight_range && LL_LIT > lit) ||
+           (dist > sight_range && LL_LOW == lit),
+           LL_BRIGHT == lit);
    else
     mvwputch(w, realy+SEEY - center.y, realx+SEEX - center.x, c_black,'#');
   }
@@ -1826,7 +1880,8 @@ void map::draw(game *g, WINDOW* w, point center)
 }
 
 void map::drawsq(WINDOW* w, player &u, int x, int y, bool invert,
-                 bool show_items, int cx, int cy)
+                 bool show_items, int cx, int cy,
+                 bool low_light, bool bright_light)
 {
  if (!INBOUNDS(x, y))
   return;	// Out of bounds
@@ -1844,8 +1899,11 @@ void map::drawsq(WINDOW* w, player &u, int x, int y, bool invert,
   tercol = c_magenta;
  else if ((u.is_wearing(itm_goggles_nv) && u.has_active_item(itm_UPS_on)) ||
           u.has_active_bionic(bio_night_vision))
-  tercol = c_ltgreen;
- else {
+  tercol = (bright_light) ? c_white : c_ltgreen;
+ else if (low_light)
+  tercol = c_dkgray;
+ else
+ {
   normal_tercol = true;
   tercol = terlist[ter(x, y)].color;
  }

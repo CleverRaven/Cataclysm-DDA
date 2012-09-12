@@ -929,7 +929,7 @@ void iuse::light_off(game *g, player *p, item *it, bool t)
 void iuse::light_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
-// Do nothing... game::light_level() handles this
+// Do nothing... player::active_light and the lightmap::generate deal with this
  } else {	// Turning it off
   g->add_msg("The flashlight flicks off.");
   it->make(g->itypes[itm_flashlight]);

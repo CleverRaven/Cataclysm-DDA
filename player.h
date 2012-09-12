@@ -78,6 +78,7 @@ public:
  void charge_power(int amount);
  void power_bionics(game *g);
  void activate_bionic(int b, game *g);
+ float active_light();
 
  void mutate(game *g);
  void mutate_towards(game *g, pl_flag mut);
@@ -86,8 +87,10 @@ public:
  void remove_child_flag(game *g, pl_flag mut);
 
  int  sight_range(int light_level);
+ int  unimpaired_range();
  int  overmap_sight_range(int light_level);
  int  clairvoyance(); // Sight through walls &c
+ bool sight_impaired(); // vision impaired between sight_range and max_range
  bool has_two_arms();
  bool can_wear_boots();
  bool is_armed();	// True if we're wielding something; true for bionics
