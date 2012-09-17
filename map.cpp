@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <fstream>
 
+#include "debug.h"
+
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
@@ -1838,40 +1840,47 @@ void map::draw(game *g, WINDOW* w, point center)
  int lowlight_sight_range = std::max(g->light_level() / 2, natural_sight_range);
  int max_sight_range = g->u.unimpaired_range();
 
+ //DebugLog() << "natural_sight_range:" << natural_sight_range << "\n";
+ //DebugLog() << "light_sight_range:" << light_sight_range << "\n";
+ //DebugLog() << "lowlight_sight_range:" << lowlight_sight_range << "\n";
+ //DebugLog() << "max_sight_range:" << max_sight_range << "\n";
+
  int t = 0;
- int light = g->u.sight_range(g->light_level());
  for  (int realx = center.x - SEEX; realx <= center.x + SEEX; realx++) {
   for (int realy = center.y - SEEY; realy <= center.y + SEEY; realy++) {
    int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
    int sight_range = light_sight_range;
 
    // While viewing indoor areas use lightmap model
-   if (!g->lm.is_outside(realx - g->u.posx, realy - g->u.posy))
+   if (!g->lm.is_outside(realx - g->u.posx, realy - g->u.posy)) {
     sight_range = natural_sight_range;
+   }
 
-   bool can_see = g->lm.sees(0, 0, realx - g->u.posx, realy - g->u.posy, max_sight_range);
-   lit_level lit = g->lm.at(realx - g->u.posx, realy - g->u.posy);
+   int diffx = (g->u.posx - center.x), diffy = (g->u.posy - center.y);
+   bool can_see = g->lm.sees(diffx, diffy, realx - center.x, realy - center.y, light_sight_range);
+   lit_level lit = g->lm.at(realx - center.x, realy - center.y);
 
-   if (dist > max_sight_range ||
+   if (/*dist > max_sight_range ||*/
        (dist > light_sight_range &&
          (lit == LL_DARK ||
          (g->u.sight_impaired() && lit != LL_BRIGHT)))) {
     if (g->u.has_disease(DI_BOOMERED))
-   	 mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_magenta, '#');
+   	 mvwputch(w, realy+SEEY - center.y, realx+SEEX - center.x, c_magenta, '#');
    	else
-   	 mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_dkgray, '#');
+   	 mvwputch(w, realy+SEEY - center.y, realx+SEEX - center.x, c_dkgray, '#');
    } else if (dist > light_sight_range && g->u.sight_impaired() && lit == LL_BRIGHT) {
     if (g->u.has_disease(DI_BOOMERED))
-     mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_pink, '#');
+     mvwputch(w, realy+SEEY - center.y, realx+SEEX - center.x, c_pink, '#');
     else
-     mvwputch(w, realy+SEEY - g->u.posy, realx+SEEX - g->u.posx, c_ltgray, '#');
-   } else if (dist <= g->u.clairvoyance() || can_see)
+     mvwputch(w, realy+SEEY - center.y, realx+SEEX - center.x, c_ltgray, '#');
+   } else if (dist <= g->u.clairvoyance() || can_see) {
     drawsq(w, g->u, realx, realy, false, true, center.x, center.y,
            (dist > lowlight_sight_range && LL_LIT > lit) ||
            (dist > sight_range && LL_LOW == lit),
            LL_BRIGHT == lit);
-   else
+   } else {
     mvwputch(w, realy+SEEY - center.y, realx+SEEX - center.x, c_black,'#');
+   }
   }
  }
  int atx = SEEX + g->u.posx - center.x, aty = SEEY + g->u.posy - center.y;
