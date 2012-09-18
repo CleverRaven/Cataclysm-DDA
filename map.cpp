@@ -1857,10 +1857,11 @@ void map::draw(game *g, WINDOW* w, point center)
    }
 
    int diffx = (g->u.posx - center.x), diffy = (g->u.posy - center.y);
-   bool can_see = g->lm.sees(diffx, diffy, realx - center.x, realy - center.y, light_sight_range);
+   int real_max_sight_range = light_sight_range > max_sight_range ? light_sight_range : max_sight_range;
+   bool can_see = g->lm.sees(diffx, diffy, realx - center.x, realy - center.y, real_max_sight_range);
    lit_level lit = g->lm.at(realx - center.x, realy - center.y);
 
-   if (/*dist > max_sight_range ||*/
+   if (dist > real_max_sight_range ||
        (dist > light_sight_range &&
          (lit == LL_DARK ||
          (g->u.sight_impaired() && lit != LL_BRIGHT)))) {
