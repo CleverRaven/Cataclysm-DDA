@@ -4,6 +4,7 @@
 #include "rng.h"
 #include "game.h"
 #include "line.h"
+#include "options.h"
 #include <cmath>
 #include <stdlib.h>
 #include <fstream>
@@ -1846,6 +1847,14 @@ void map::draw(game *g, WINDOW* w, point center)
  //DebugLog() << "max_sight_range:" << max_sight_range << "\n";
 
  int t = 0;
+ int real_max_sight_range = light_sight_range > max_sight_range ? light_sight_range : max_sight_range;
+ int distance_to_look = real_max_sight_range;
+ if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0.) {
+  // in this case we'll be always looking at maximum distance
+  // and light level should do rest of the work....
+  distance_to_look = DAYLIGHT_LEVEL;
+ }
+ 
  for  (int realx = center.x - SEEX; realx <= center.x + SEEX; realx++) {
   for (int realy = center.y - SEEY; realy <= center.y + SEEY; realy++) {
    int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
@@ -1857,9 +1866,29 @@ void map::draw(game *g, WINDOW* w, point center)
    }
 
    int diffx = (g->u.posx - center.x), diffy = (g->u.posy - center.y);
-   int real_max_sight_range = light_sight_range > max_sight_range ? light_sight_range : max_sight_range;
-   bool can_see = g->lm.sees(diffx, diffy, realx - center.x, realy - center.y, real_max_sight_range);
+   bool can_see = g->lm.sees(diffx, diffy, realx - center.x, realy - center.y, distance_to_look);
    lit_level lit = g->lm.at(realx - center.x, realy - center.y);
+
+   if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0.) {
+    // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
+	// but at the same time changing light-level depending on distance,
+	// to create actual "gradual" stuff
+	// Also we'll try to ALWAYS show LL_BRIGHT stuff independent of where it is...
+    if (lit != LL_BRIGHT) {
+     if (dist > real_max_sight_range) {
+      int intLit = (int)lit - (dist - real_max_sight_range)/2;
+      if (intLit < 0) intLit = LL_DARK;
+      lit = (lit_level)intLit;
+     }
+    }
+	// additional case for real_max_sight_range
+	// if both light_sight_range and max_sight_range were small
+	// it means we really have limited visibility (e.g. inside a pit)
+	// and we shouldn't touch that
+	if (lit > LL_DARK && real_max_sight_range > 1) {
+     real_max_sight_range = distance_to_look;
+    }
+   }
 
    if (dist > real_max_sight_range ||
        (dist > light_sight_range &&
