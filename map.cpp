@@ -1847,14 +1847,6 @@ void map::draw(game *g, WINDOW* w, point center)
  //DebugLog() << "max_sight_range:" << max_sight_range << "\n";
 
  int t = 0;
- int real_max_sight_range = light_sight_range > max_sight_range ? light_sight_range : max_sight_range;
- int distance_to_look = real_max_sight_range;
- if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0.) {
-  // in this case we'll be always looking at maximum distance
-  // and light level should do rest of the work....
-  distance_to_look = DAYLIGHT_LEVEL;
- }
- 
  for  (int realx = center.x - SEEX; realx <= center.x + SEEX; realx++) {
   for (int realy = center.y - SEEY; realy <= center.y + SEEY; realy++) {
    int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
@@ -1865,6 +1857,16 @@ void map::draw(game *g, WINDOW* w, point center)
     sight_range = natural_sight_range;
    }
 
+   // I've moved this part above loops without even thinking that
+   // this must stay here...
+   int real_max_sight_range = light_sight_range > max_sight_range ? light_sight_range : max_sight_range;
+   int distance_to_look = real_max_sight_range;
+   if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0.) {
+    // in this case we'll be always looking at maximum distance
+    // and light level should do rest of the work....
+    distance_to_look = DAYLIGHT_LEVEL;
+   }
+ 
    int diffx = (g->u.posx - center.x), diffy = (g->u.posy - center.y);
    bool can_see = g->lm.sees(diffx, diffy, realx - center.x, realy - center.y, distance_to_look);
    lit_level lit = g->lm.at(realx - center.x, realy - center.y);
