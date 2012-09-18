@@ -103,7 +103,7 @@ std::string option_name(option_key key)
   case OPT_SNAP_TO_TARGET:	return "Snap to Target";
   case OPT_SAFEMODE:		return "Safemode on by default";
   case OPT_AUTOSAFEMODE:	return "Auto-Safemode on by default";
-  case OPT_GRADUAL_NIGHT_LIGHT: return "Gradual night light OFF by default";
+  case OPT_GRADUAL_NIGHT_LIGHT: return "Gradual night light def:OFF:";
   default:			return "Unknown Option (BUG)";
  }
  return "Big ol Bug";
