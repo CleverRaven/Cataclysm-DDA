@@ -72,7 +72,8 @@ option_key lookup_option_key(std::string id)
   return OPT_SAFEMODE;
  if (id == "autosafemode")
   return OPT_AUTOSAFEMODE;
-
+ if (id == "gradual_night_light")
+  return OPT_GRADUAL_NIGHT_LIGHT;
  return OPT_NULL;
 }
 
@@ -86,6 +87,7 @@ std::string option_string(option_key key)
   case OPT_SNAP_TO_TARGET:	return "snap_to_target";
   case OPT_SAFEMODE:		return "safemode";
   case OPT_AUTOSAFEMODE:	return "autosafemode";
+  case OPT_GRADUAL_NIGHT_LIGHT: return "gradual_night_light";
   default:			return "unknown_option";
  }
  return "unknown_option";
@@ -101,6 +103,7 @@ std::string option_name(option_key key)
   case OPT_SNAP_TO_TARGET:	return "Snap to Target";
   case OPT_SAFEMODE:		return "Safemode on by default";
   case OPT_AUTOSAFEMODE:	return "Auto-Safemode on by default";
+  case OPT_GRADUAL_NIGHT_LIGHT: return "Gradual night light OFF by default";
   default:			return "Unknown Option (BUG)";
  }
  return "Big ol Bug";
@@ -137,6 +140,8 @@ snap_to_target F\n\
 safemode T\n\
 # If true, auto-safemode will be on after starting a new game or loading\n\
 autosafemode F\n\
+# If true will add nice gradual-lighting (should only make a difference @night)\n\
+gradual_night_light F\n\
 ";
  fout.close();
 }

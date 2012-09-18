@@ -12,6 +12,7 @@ OPT_24_HOUR, // 24 hour time
 OPT_SNAP_TO_TARGET, // game::firing snaps to target
 OPT_SAFEMODE, // Safemode on by default?
 OPT_AUTOSAFEMODE, // Autosafemode on by default?
+OPT_GRADUAL_NIGHT_LIGHT, // be so cool at night :)
 NUM_OPTION_KEYS
 };
 
