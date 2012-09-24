@@ -28,6 +28,7 @@ std::string morale_data[NUM_MORALE_TYPES] = {
 
 "Moodswing",
 "Read %i",
+"Heard Disturbing Scream"
 };
 
 #endif

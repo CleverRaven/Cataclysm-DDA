@@ -150,6 +150,7 @@ class map
                 int faction_id = -1, int mission_id = -1,
                 std::string name = "NONE");
  void add_spawn(monster *mon);
+ void create_anomaly(int cx, int cy, artifact_natural_property prop);
  vehicle *add_vehicle(game *g, vhtype_id type, int x, int y, int dir);
  computer* add_computer(int x, int y, std::string name, int security);
  
@@ -181,7 +182,7 @@ protected:
  std::vector <itype_id> (*mapitems)[num_itloc];
 
 private:
- submap grid[MAPSIZE * MAPSIZE];
+ submap* grid[MAPSIZE * MAPSIZE];
 };
 
 class tinymap : public map
@@ -196,7 +197,7 @@ protected:
  virtual bool is_tiny() { return true; };
 
 private:
- submap grid[4];
+ submap* grid[4];
 };
 
 #endif

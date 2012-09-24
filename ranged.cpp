@@ -66,6 +66,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 // Bolts and arrows are silent
  if (p.weapon.curammo->type == AT_BOLT || p.weapon.curammo->type == AT_ARROW)
   is_bolt = true;
+// TODO: Move this check to game::plfire
  if ((p.weapon.has_flag(IF_STR8_DRAW)  && p.str_cur <  4) ||
      (p.weapon.has_flag(IF_STR10_DRAW) && p.str_cur <  5)   ) {
   add_msg("You're not strong enough to draw the bow!");
@@ -74,10 +75,10 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 
  int x = p.posx, y = p.posy;
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
- if (p.has_trait(PF_TRIGGERHAPPY) && one_in(40))
+ if (p.has_trait(PF_TRIGGERHAPPY) && one_in(30))
   burst = true;
  if (burst && p.weapon.burst_size() < 2)
-  burst = false;	// Can't burst fire a semi-auto
+  burst = false; // Can't burst fire a semi-auto
 
  int junk = 0;
  bool u_see_shooter = u_see(p.posx, p.posy, junk);
@@ -100,13 +101,6 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  ts.tv_sec = 0;
  ts.tv_nsec = BULLET_SPEED;
 
-// Use up some ammunition
- if (p.weapon.has_flag(IF_FIRE_100))
-  p.weapon.charges -= 100;
- else
-  p.weapon.charges -= num_shots;
- if (p.weapon.charges < 0)
-  p.weapon.charges = 0;
  bool missed = false;
  int tart;
  for (int curshot = 0; curshot < num_shots; curshot++) {
@@ -119,19 +113,27 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
         radius++) {
     for (int diff = 0 - radius; diff <= radius; diff++) {
      mondex = mon_at(tarx + diff, tary - radius);
+     if (z[mondex].hp <= 0)
+      mondex = -1;
      if (mondex != -1 && z[mondex].friendly == 0)
       new_targets.push_back( point(tarx + diff, tary - radius) );
 
      mondex = mon_at(tarx + diff, tary + radius);
+     if (z[mondex].hp <= 0)
+      mondex = -1;
      if (mondex != -1 && z[mondex].friendly == 0)
       new_targets.push_back( point(tarx + diff, tary + radius) );
 
      if (diff != 0 - radius && diff != radius) { // Corners were already checked
       mondex = mon_at(tarx - radius, tary + diff);
+      if (z[mondex].hp <= 0)
+       mondex = -1;
       if (mondex != -1 && z[mondex].friendly == 0)
        new_targets.push_back( point(tarx - radius, tary + diff) );
 
       mondex = mon_at(tarx + radius, tary + diff);
+      if (z[mondex].hp <= 0)
+       mondex = -1;
       if (mondex != -1 && z[mondex].friendly == 0)
        new_targets.push_back( point(tarx + radius, tary + diff) );
      }
@@ -145,8 +147,16 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
      trajectory = line_to(p.posx, p.posy, tarx, tary, tart);
     else
      trajectory = line_to(p.posx, p.posy, tarx, tary, 0);
-   }
+   } else if ((!p.has_trait(PF_TRIGGERHAPPY) || one_in(3)) &&
+              (p.sklevel[sk_gun] >= 7 || one_in(7 - p.sklevel[sk_gun])))
+    return; // No targets, so return
   }
+// Use up a round (or 100)
+  if (p.weapon.has_flag(IF_FIRE_100))
+   p.weapon.charges -= 100;
+  else
+   p.weapon.charges--;
+
   int trange = calculate_range(p, tarx, tary);
   double missed_by = calculate_missed_by(p, trange);
 // Calculate a penalty based on the monster's speed
@@ -191,6 +201,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
      add_msg("%s barely misses!", p.name.c_str());
    }
   }
+
   int dam = p.weapon.gun_damage();
   for (int i = 0; i < trajectory.size() &&
        (dam > 0 || (flags & IF_AMMO_FLAME)); i++) {

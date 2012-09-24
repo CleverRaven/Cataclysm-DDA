@@ -1743,14 +1743,14 @@ accuracy and range, a minor armor piercing capability, and greater recoil.",
 0);
 
 AMMO("5.7x28mm",	 3, 500,AT_57,		c_dkgray,	STEEL,
-	 3,  2, 14, 30, 12, 12,  6, 100, "\
+	 3,  2, 14, 30, 14, 12,  6, 100, "\
 The 5.7x28mm round is a proprietary round developed by FN Hestal for use in\n\
 their P90 SMG.  While it is a very small round, comparable in power to .22,\n\
 it features incredible armor-piercing capabilities and very low recoil.",
 0);
 
 AMMO("4.6x30mm",	 2, 520,AT_46,		c_dkgray,	STEEL,
-	 3,  1, 13, 35, 12, 12,  6, 100, "\
+	 3,  1, 13, 35, 14, 12,  6, 100, "\
 Designed by Heckler & Koch to compete with the 5.7x28mm round, 4.6x30mm is,\n\
 like the 5.7, designed to minimize weight and recoil while increasing\n\
 penetration of body armor.  Its low recoil makes it ideal for automatic fire.",
@@ -1759,7 +1759,7 @@ penetration of body armor.  Its low recoil makes it ideal for automatic fire.",
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("7.62x39mm M43",	 6, 500,AT_762,		c_dkgray,	STEEL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
-	 3,  7, 25,  8, 20, 19, 24,  80, "\
+	 3,  7, 25,  8, 30, 19, 24,  80, "\
 Designed during World War II by the Soviet Union, the popularity of the AK-47\n\
 and the SKS contributed to the widespread adaption of the 7.62x39mm rifle\n\
 round. However, due to its lack of yaw, this round deals less damage than most."
@@ -1767,14 +1767,14 @@ round. However, due to its lack of yaw, this round deals less damage than most."
 0);
 
 AMMO("7.62x39mm M67",	 7, 650,AT_762,		c_dkgray,	STEEL,
-	 3,  8, 28, 10, 20, 17, 25,  80, "\
+	 3,  8, 28, 10, 30, 17, 25,  80, "\
 The M67 variant of the popular 7.62x39mm rifle round was designed to improve\n\
 yaw.  This causes the round to tumble inside a target, causing significantly\n\
 more damage.  It is still outdone by shattering rounds.",
 0);
 
 AMMO(".223 Remington",	 8, 620,AT_223,		c_dkgray,	STEEL,
-	 2,  2, 36,  2, 24, 13, 30,  40, "\
+	 2,  2, 36,  2, 36, 13, 30,  40, "\
 The .223 rifle round is a civilian variant of the 5.56 NATO round.  It is\n\
 designed to tumble or fragment inside a target, dealing devastating damage.\n\
 The lower pressure of the .223 compared to the 5.56 results in lower accuracy."
@@ -1784,49 +1784,49 @@ The lower pressure of the .223 compared to the 5.56 results in lower accuracy."
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("5.56 NATO",	 6, 650,AT_223,		c_dkgray,	STEEL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
-	 2,  4, 40,  8, 25, 10, 32,  40, "\
+	 2,  4, 40,  8, 38, 10, 32,  40, "\
 This rifle round has enjoyed widespread use in NATO countries, thanks to its\n\
 very light weight and high damage.  It is designed to shatter inside a\n\
 target, inflicting massive damage.",
 0);
 
 AMMO("5.56 incendiary",	 2, 840,AT_223,		c_dkgray,	STEEL,
-	 2,  4, 28, 18, 25, 11, 32, 30, "\
+	 2,  4, 28, 18, 36, 11, 32, 30, "\
 A variant of the widely-used 5.56 NATO round, incendiary rounds are designed\n\
 to burn hotly upon impact, piercing armor and igniting flammable substances.",
 mfb(IF_AMMO_INCENDIARY));
 
 AMMO(".270 Winchester",	 8, 600,AT_3006,	c_dkgray,	STEEL,
-	 1,  7, 42,  4, 40, 12, 34,  20, "\
+	 1,  7, 42,  4, 80,  6, 34,  20, "\
 Based off the military .30-03 round, the .270 rifle round is compatible with\n\
 most guns that fire .30-06 rounds.  However, it is designed for hunting, and\n\
 is less powerful than the military rounds, with nearly no armor penetration.",
 0);
 
+//  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO(".30-06 AP",	 4, 650,AT_3006,	c_dkgray,	STEEL,
-	 1, 12, 50, 30, 40,  7, 36,  10, "\
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 1, 12, 50, 30, 90,  7, 36,  10, "\
 The .30-06 is a very powerful rifle round designed for long-range use.  Its\n\
 stupendous accuracy and armor piercing capabilities make it one of the most\n\
 deadly rounds available, offset only by its drastic recoil and noise.",
 0);
 
-//  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO(".30-06 incendiary", 1, 780,AT_3006,	c_dkgray,	STEEL,
-//	VOL WGT DMG  AP RNG ACC REC COUNT
-	  1, 12, 35, 50, 40,  8, 35,  5, "\
+	  1, 12, 35, 50, 90,  8, 35,  5, "\
 A variant of the powerful .30-06 sniper round, incendiary rounds are designed\n\
 to burn hotly upon impact, piercing armor and igniting flammable substances.",
 mfb(IF_AMMO_INCENDIARY));
 
 AMMO(".308 Winchester",	 7, 620,AT_308,		c_dkgray,	STEEL,
-	 1,  9, 36,  2, 35,  7, 33,  20, "\
+	 1,  9, 36,  2, 65,  7, 33,  20, "\
 The .308 Winchester is a rifle round, the commercial equivalent of the\n\
 military 7.62x51mm round.  Its high accuracy and phenominal damage have made\n\
 it the most poplar hunting round in the world.",
 0);
 
 AMMO("7.62x51mm",	 6, 680,AT_308,		c_dkgray,	STEEL,
-	 1,  9, 44,  8, 35,  6, 34,  20, "\
+	 1,  9, 44,  8, 75,  6, 34,  20, "\
 The 7.62x51mm largely replaced the .30-06 round as the standard military\n\
 rifle round.  It is lighter, but offers similar velocities, resulting in\n\
 greater accuracy and reduced recoil.",
@@ -1835,43 +1835,43 @@ greater accuracy and reduced recoil.",
 //  NAME		   RAR PRC TYPE		COLOR		MAT
 AMMO("7.62x51mm incendiary",6, 740,AT_308,	c_dkgray,	STEEL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
-	  1,  9, 30, 25, 32,  6, 32,  10, "\
+	  1,  9, 30, 25, 75,  6, 32,  10, "\
 A variant of the powerful 7.62x51mm round, incendiary rounds are designed\n\
 to burn hotly upon impact, piercing armor and igniting flammable substances.",
 mfb(IF_AMMO_INCENDIARY));
 
 AMMO("fusion pack",	 2, 800,AT_FUSION,	c_ltgreen,	PLASTIC,
-	 1,  2, 12, 15, 20,  4,  0,  20, "\
+	 1,  2, 12, 15, 30,  4,  0,  20, "\
 In the middle of the 21st Century, military powers began to look towards\n\
 energy based weapons.  The result was the standard fusion pack, capable of\n\
 delivering bolts of superheated gas at near light speed with no recoil.",
 mfb(IF_AMMO_INCENDIARY));
 
 AMMO("40mm concussive",     10,400,AT_40MM,	c_ltred,	STEEL,
-	  1,200,  5,  0, 20,  8, 15,  4, "\
+	  1,200,  5,  0, 40,  8, 15,  4, "\
 A 40mm grenade with a concussive explosion.",
 mfb(IF_AMMO_EXPLOSIVE));
 
 //  NAME		   RAR PRC TYPE		COLOR		MAT
 AMMO("40mm frag",           8, 450,AT_40MM,	c_ltred,	STEEL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
-	  1,220,  5,  0, 20,  8, 15,  4, "\
+	  1,220,  5,  0, 40,  8, 15,  4, "\
 A 40mm grenade with a small explosion and a high number of damaging fragments.",
 mfb(IF_AMMO_FRAG));
 
 AMMO("40mm incendiary",     6, 500,AT_40MM,	c_ltred,	STEEL,
-	  1,200,  5,  0, 20,  8, 15,  4, "\
+	  1,200,  5,  0, 40,  8, 15,  4, "\
 A 40mm grenade with a small napalm load, designed to create a burst of flame.",
 mfb(IF_AMMO_NAPALM));
 
 AMMO("40mm teargas",        5, 450,AT_40MM,	c_ltred,	STEEL,
-	  1,210,  5,  0, 20,  8, 15,  4, "\
+	  1,210,  5,  0, 40,  8, 15,  4, "\
 A 40mm grenade with a teargas load.  It will burst in a cloud of highly\n\
 incapacitating gas.",
 mfb(IF_AMMO_TEARGAS));
 
 AMMO("40mm smoke cover",    4, 350,AT_40MM,	c_ltred,	STEEL,
-	  1,210,  5,  0, 20,  8, 15,  6, "\
+	  1,210,  5,  0, 40,  8, 15,  6, "\
 A 40mm grenade with a smoke load.  It will burst in a cloud of harmless gas,\n\
 and will also leave a streak of smoke cover in its wake.",
 mfb(IF_AMMO_SMOKE)|mfb(IF_AMMO_TRAIL));
@@ -1879,19 +1879,19 @@ mfb(IF_AMMO_SMOKE)|mfb(IF_AMMO_TRAIL));
 //  NAME		   RAR PRC TYPE		COLOR		MAT
 AMMO("40mm flashbang",      8, 400,AT_40MM,	c_ltred,	STEEL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
-	  1,210,  5,  0, 20,  8, 15,  6, "\
+	  1,210,  5,  0, 40,  8, 15,  6, "\
 A 40mm grenade with a flashbang load.  It will detonate with a blast of light\n\
 and sound, designed to blind, deafen, and disorient anyone nearby.",
 mfb(IF_AMMO_FLASHBANG));
 
 AMMO("H&K 12mm",	 2, 500,AT_12MM,		c_red,	STEEL,
-	 1,  10, 25, 12, 35,  9, 7,  20, "\
+	 1,  10, 25, 12, 70,  9, 7,  20, "\
 The Heckler & Koch 12mm projectiles are used in H&K railguns. It's made of a\n\
 ferromagnetic metal, probably cobalt.",
 0);
 
 AMMO("hydrogen",	 8, 800,AT_PLASMA,	c_green,	STEEL,
-	 10,  25, 35, 14, 8,  4,  0,  25, "\
+	 10,  25, 35, 14,12,  4,  0,  25, "\
 A canister of hydrogen. With proper equipment, it could be heated to plasma.",
 mfb(IF_AMMO_INCENDIARY));
 
@@ -1899,7 +1899,7 @@ mfb(IF_AMMO_INCENDIARY));
 //  NAME		   RAR PRC TYPE		COLOR		MAT
 AMMO("charge",	     0,  0,AT_NULL,	c_red,		MNULL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
-	  0,  0,  5,  0, 12,  8,  0, 1, "\
+	  0,  0,  5,  0, 30,  8,  0, 1, "\
 A weak plasma charge.",
 0);
 
@@ -2135,14 +2135,14 @@ shotguns.",
 0);
 
 GUN("American-180",	 2,1600,c_cyan, STEEL,	MNULL,
-	sk_smg,		AT_22,  12, 23, 11,  0,  2, 20,  0,  6, 20,165, 500, "\
+	sk_smg,		AT_22,  12, 23, 11,  0,  2, 20,  0,  6, 30,165, 500, "\
 The American-180 is a submachine gun developed in the 1960s which fires .22\n\
 LR, unusual for an SMG.  Though the round is low-powered, the high rate of\n\
 fire and large magazine makes the 180 a formidable weapon.",
 0);
 
 GUN("Uzi 9mm",		 8,2080,c_cyan,	STEEL,	MNULL,
-	sk_smg,		AT_9MM,	 6, 29, 10,  1,  0, 25, -2,  7,  8, 32, 450, "\
+	sk_smg,		AT_9MM,	 6, 29, 10,  1,  0, 25, -2,  7, 12, 32, 450, "\
 The Uzi 9mm has enjoyed immense popularity, selling more units than any other\n\
 submachine gun.  It is widely used as a personal defense weapon, or as a\n\
 primary weapon by elite frontline forces.",
@@ -2151,14 +2151,14 @@ primary weapon by elite frontline forces.",
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("TEC-9",		10,1750,c_cyan,	STEEL,	MNULL,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_smg,		AT_9MM,	 5, 12,  9,  1,  3, 24,  0,  6,  6, 32, 400, "\
+	sk_smg,		AT_9MM,	 5, 12,  9,  1,  3, 24,  0,  6,  8, 32, 400, "\
 The TEC-9 is a machine pistol made of cheap polymers and machine stamped\n\
 parts.  Its rise in popularity among criminals is largely due to its\n\
 intimidating looks and low price.",
 0);
 
 GUN("Calico M960",	 6,2400,c_cyan,	STEEL,	MNULL,
-	sk_smg,		AT_9MM,	 7, 19,  9,  1, -3, 28, -4,  6, 12, 50, 500, "\
+	sk_smg,		AT_9MM,	 7, 19,  9,  1, -3, 28, -4,  6, 20, 50, 500, "\
 The Calico M960 is an automatic carbine with a unique circular magazine which\n\
 allows for high capacities and reduced recoil.",
 0);
@@ -2166,14 +2166,14 @@ allows for high capacities and reduced recoil.",
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("H&K MP5",		12,2800,c_cyan,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_smg,		AT_9MM,	12, 26, 10,  2,  1, 18, -3,  8,  4, 30, 400, "\
+	sk_smg,		AT_9MM,	12, 26, 10,  2,  1, 18, -3,  8,  8, 30, 400, "\
 The Heckler & Koch MP5 is one of the most widely-used submachine guns in the\n\
 world, and has been adopted by special police forces and militaries alike.\n\
 Its high degree of accuracy and low recoil are universally praised.",
 0);
 
 GUN("MAC-10",		14,1800,c_cyan,	STEEL,	MNULL,
-	sk_smg,		AT_45,	 4, 25,  8,  1, -4, 28,  0,  7, 20, 30, 450, "\
+	sk_smg,		AT_45,	 4, 25,  8,  1, -4, 28,  0,  7, 30, 30, 450, "\
 The MAC-10 is a popular machine pistol originally designed for military use.\n\
 For many years they were the most inexpensive automatic weapon in the US, and\n\
 enjoyed great popularity among criminals less concerned with quality firearms."
@@ -2196,7 +2196,7 @@ recoil very managable, even in the powerful .45 caliber.",
 0);
 
 GUN("FN P90",		 7,4000,c_cyan,	STEEL,	PLASTIC,
-	sk_smg,		AT_57,	14, 22, 10,  1,  0, 22, -8,  8, 15, 50, 500, "\
+	sk_smg,		AT_57,	14, 22, 10,  1,  0, 22, -8,  8, 20, 50, 500, "\
 The first in a new genre of guns, termed \"personal defense weapons.\"  FN\n\
 designed the P90 to use their proprietary 5.7x28mm ammunition.  It is made\n\
 for firing bursts managably.",
@@ -2263,14 +2263,14 @@ mfb(IF_RELOAD_ONE));
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("H&K G3",		15,5050,c_blue,	IRON,	WOOD,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_rifle,	AT_308,	16, 40, 13,  2,  8, 10,  4,  8,  7, 20, 550, "\
+	sk_rifle,	AT_308,	16, 40, 13,  2,  8, 10,  4,  8, 10, 20, 550, "\
 An early battle rifle developed after the end of WWII.  The G3 is designed to\n\
 unload large amounts of deadly ammunition, but it is less suitable over long\n\
 ranges.",
 0);
 
 GUN("H&K G36",		17,5100,c_blue,	IRON,	PLASTIC,
-	sk_rifle,	AT_223, 15, 32, 13,  2,  6,  8,  5,  8, 10, 30, 500, "\
+	sk_rifle,	AT_223, 15, 32, 13,  2,  6,  8,  5,  8, 15, 30, 500, "\
 Designed as a replacement for the early H&K G3 battle rifle, the G36 is more\n\
 accurate, and uses the much-lighter .223 round, allowing for a higher ammo\n\
 capacity.",
@@ -2279,7 +2279,7 @@ capacity.",
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("AK-47",		16,4000,c_blue,	IRON,	WOOD,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_rifle,	AT_762,	16, 38, 14,  2,  0, 11,  4,  9,  4, 30, 475, "\
+	sk_rifle,	AT_762,	16, 38, 14,  2,  0, 11,  4,  9,  8, 30, 475, "\
 One of the most recognizable assault rifles ever made, the AK-47 is renowned\n\
 for its durability even under the worst conditions.",
 0);
@@ -2301,13 +2301,13 @@ damaging and accurate, though its rate of fire is a bit slower than competing\n\
 0);
 
 GUN("AR-15",		 9,4000,c_blue,	STEEL,	PLASTIC,
-	sk_rifle,	AT_223,	19, 28, 12,  2,  0,  6,  0,  7,  5, 30, 500, "\
+	sk_rifle,	AT_223,	19, 28, 12,  2,  0,  6,  0,  7, 10, 30, 500, "\
 A widely used assault rifle and the father of popular rifles such as the M16.\n\
 It is light and accurate, but not very durable.",
 0);
 
 GUN("M4A1",		 7,4400,c_blue,	STEEL,	PLASTIC,
-	sk_rifle,	AT_223, 14, 24, 13,  2,  4,  7,  2,  6,  5, 30, 475, "\
+	sk_rifle,	AT_223, 14, 24, 13,  2,  4,  7,  2,  6, 10, 30, 475, "\
 A popular carbine, long used by the US military.  Though accurate, small, and\n\
 lightweight, it is infamous for its fragility, particularly in less-than-\n\
 ideal terrain.",
@@ -2316,21 +2316,21 @@ ideal terrain.",
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("FN SCAR-L",	 6,4800,c_blue,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_rifle,	AT_223,	15, 29, 18,  2,  1,  6, -4,  8,  6, 30, 500, "\
+	sk_rifle,	AT_223,	15, 29, 18,  2,  1,  6, -4,  8, 10, 30, 500, "\
 A modular assault rifle designed for use by US Special Ops units.  The 'L' in\n\
 its name stands for light, as it uses the lightweight .223 round.  It is very\n\
 accurate and low on recoil.",
 0);
 
 GUN("FN SCAR-H",	 5,4950,c_blue,	STEEL,	PLASTIC,
-	sk_rifle,	AT_308,	16, 32, 20,  2,  1,  8, -4,  8,  5, 20, 550, "\
+	sk_rifle,	AT_308,	16, 32, 20,  2,  1,  8, -4,  8,  8, 20, 550, "\
 A modular assault rifle designed for use by US Special Ops units.  The 'H' in\n\
 its name stands for heavy, as it uses the powerful .308 round.  It is fairly\n\
 accurate and low on recoil.",
 0);
 
 GUN("Steyr AUG",	 6,4900,c_blue, STEEL,	PLASTIC,
-	sk_rifle,	AT_223, 14, 32, 17,  1, -3,  7, -8,  8,  3, 30, 550, "\
+	sk_rifle,	AT_223, 14, 32, 17,  1, -3,  7, -8,  8,  6, 30, 550, "\
 The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is\n\
 used in the armed forces and police forces of many nations, and enjoys\n\
 low recoil and high accuracy.",
@@ -2338,7 +2338,7 @@ low recoil and high accuracy.",
 
 GUN("M249",		 1,7500,c_ltred,STEEL,	PLASTIC,
 //  SKILL       AMMO    VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
-	sk_rifle,	AT_223,	32, 68, 27, -4, -6, 20,  6,  7, 20,200, 750, "\
+	sk_rifle,	AT_223,	32, 68, 27, -4, -6, 20,  6,  7, 30,200, 750, "\
 The M249 is a mountable machine gun used by the US Military and SWAT teams.\n\
 Quite innaccurate and difficult to control, the M249 is designed to fire many\n\
 rounds very quickly."
@@ -3604,8 +3604,8 @@ STYLE("viper style", 2, "\
 One of the Five Deadly Venoms.  Viper Style has a unique three-hit combo; if\n\
 you score a critical hit, it is initiated.  The second hit uses a coned hand\n\
 to deal piercing damage, and the 3rd uses both hands in a devastating strike.",
-"", TEC_RAPID, 3,
 
+"", TEC_RAPID, 3,
 "feint at", TEC_FEINT, 3,
 "writhe free from", TEC_BREAK, 4
 );

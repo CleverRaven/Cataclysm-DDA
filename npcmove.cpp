@@ -757,7 +757,7 @@ bool npc::wont_hit_friend(game *g, int tarx, int tary, int index)
 {
  int linet = 0, dist = sight_range(g->light_level());
  int confident = confident_range(index);
- if (rl_dist(posx, posy, tarx, tary) <= int(confident * .8))
+ if (rl_dist(posx, posy, tarx, tary) == 1)
   return true; // If we're *really* sure that our aim is dead-on
 
  std::vector<point> traj;
@@ -767,8 +767,8 @@ bool npc::wont_hit_friend(game *g, int tarx, int tary, int index)
   traj = line_to(posx, posy, tarx, tary, 0);
 
  for (int i = 0; i < traj.size(); i++) {
-  int dist = rl_dist(posx, posy, tarx, tary);
-  int deviation = int(dist / confident);
+  int dist = rl_dist(posx, posy, traj[i].x, traj[i].y);
+  int deviation = 1 + int(dist / confident);
   for (int x = traj[i].x - deviation; x <= traj[i].x + deviation; x++) {
    for (int y = traj[i].y - deviation; y <= traj[i].y + deviation; y++) {
 // Hit the player?

@@ -12,7 +12,7 @@ bool map::process_fields(game *g)
  bool found_field = false;
  for (int x = 0; x < my_MAPSIZE; x++) {
   for (int y = 0; y < my_MAPSIZE; y++) {
-   if (grid[x + y * my_MAPSIZE].field_count > 0)
+   if (grid[x + y * my_MAPSIZE]->field_count > 0)
     found_field |= process_fields_in_submap(g, x + y * my_MAPSIZE);
   }
  }
@@ -26,7 +26,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
  field_id curtype;
  for (int locx = 0; locx < SEEX; locx++) {
   for (int locy = 0; locy < SEEY; locy++) {
-   cur = &(grid[gridn].fld[locx][locy]);
+   cur = &(grid[gridn]->fld[locx][locy]);
    int x = locx + SEEX * (gridn % my_MAPSIZE),
        y = locy + SEEY * int(gridn / my_MAPSIZE);
    
@@ -523,7 +523,114 @@ bool map::process_fields_in_submap(game *g, int gridn)
      g->z.push_back(creature);
     }
     break;
-   }
+
+   case fd_push_items: {
+    std::vector<item> *it = &(i_at(x, y));
+    for (int i = 0; i < it->size(); i++) {
+     if ((*it)[i].type->id != itm_rock || (*it)[i].bday >= int(g->turn) - 1)
+      i++;
+     else {
+      item tmp = (*it)[i];
+      tmp.bday = int(g->turn);
+      it->erase(it->begin() + i);
+      i--;
+      std::vector<point> valid;
+      for (int xx = x - 1; xx <= x + 1; xx++) {
+       for (int yy = y - 1; yy <= y + 1; yy++) {
+        if (field_at(xx, yy).type == fd_push_items)
+         valid.push_back( point(xx, yy) );
+       }
+      }
+      if (!valid.empty()) {
+       point newp = valid[rng(0, valid.size() - 1)];
+       add_item(newp.x, newp.y, tmp);
+       if (g->u.posx == newp.x && g->u.posy == newp.y) {
+        g->add_msg("A %s hits you!", tmp.tname().c_str());
+        g->u.hit(g, random_body_part(), rng(0, 1), 6, 0);
+       }
+       int npcdex = g->npc_at(newp.x, newp.y),
+           mondex = g->mon_at(newp.x, newp.y);
+
+       if (npcdex != -1) {
+        int junk;
+        npc *p = &(g->active_npc[npcdex]);
+        p->hit(g, random_body_part(), rng(0, 1), 6, 0);
+        if (g->u_see(newp.x, newp.y, junk))
+         g->add_msg("A %s hits %s!", tmp.tname().c_str(), p->name.c_str());
+       }
+
+       if (mondex != -1) {
+        int junk;
+        monster *mon = &(g->z[mondex]);
+        mon->hurt(6 - mon->armor_bash());
+        if (g->u_see(newp.x, newp.y, junk))
+         g->add_msg("A %s hits the %s!", tmp.tname().c_str(),
+                                         mon->name().c_str());
+       }
+      }
+     }
+    }
+   } break;
+
+   case fd_shock_vent:
+    if (cur->density > 1) {
+     if (one_in(5))
+      cur->density--;
+    } else {
+     cur->density = 3;
+     int num_bolts = rng(3, 6);
+     for (int i = 0; i < num_bolts; i++) {
+      int xdir = 0, ydir = 0;
+      while (xdir == 0 && ydir == 0) {
+       xdir = rng(-1, 1);
+       ydir = rng(-1, 1);
+      }
+      int dist = rng(4, 12);
+      int boltx = x, bolty = y;
+      for (int n = 0; n < dist; n++) {
+       boltx += xdir;
+       bolty += ydir;
+       add_field(g, boltx, bolty, fd_electricity, rng(2, 3));
+       if (one_in(4)) {
+        if (xdir == 0)
+         xdir = rng(0, 1) * 2 - 1;
+        else
+         xdir = 0;
+       }
+       if (one_in(4)) {
+        if (ydir == 0)
+         ydir = rng(0, 1) * 2 - 1;
+        else
+         ydir = 0;
+       }
+      }
+     }
+    }
+    break;
+
+   case fd_acid_vent:
+    if (cur->density > 1) {
+     if (cur->age >= 10) {
+      cur->density--;
+      cur->age = 0;
+     }
+    } else {
+     cur->density = 3;
+     for (int i = x - 5; i <= x + 5; i++) {
+      for (int j = y - 5; j <= y + 5; j++) {
+       if (field_at(i, j).type == fd_null || field_at(i, j).density == 0) {
+        int newdens = 3 - (rl_dist(x, y, i, j) / 2) + (one_in(3) ? 1 : 0);
+        if (newdens > 3)
+         newdens = 3;
+        if (newdens > 0)
+         add_field(g, i, j, fd_acid, newdens);
+       }
+      }
+     }
+    }
+    break;
+
+   } // switch (curtype)
   
    cur->age++;
    if (fieldlist[cur->type].halflife > 0) {
@@ -533,8 +640,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
      cur->density--;
     }
     if (cur->density <= 0) { // Totally dissapated.
-     grid[gridn].field_count--;
-     grid[gridn].fld[locx][locy] = field();
+     grid[gridn]->field_count--;
+     grid[gridn]->fld[locx][locy] = field();
     }
    }
   }
@@ -648,11 +755,15 @@ void map::step_in_field(int x, int y, game *g)
    break;
 
   case fd_electricity:
-   g->add_msg("You're electrocuted!");
-   g->u.hurtall(rng(1, cur->density));
-   if (one_in(8 - cur->density) && !one_in(30 - g->u.str_cur)) {
-    g->add_msg("You're paralyzed!");
-    g->u.moves -= cur->density * 150;
+   if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY))
+    g->add_msg("The electricity flows around you.");
+   else {
+    g->add_msg("You're electrocuted!");
+    g->u.hurtall(rng(1, cur->density));
+    if (one_in(8 - cur->density) && !one_in(30 - g->u.str_cur)) {
+     g->add_msg("You're paralyzed!");
+     g->u.moves -= rng(cur->density * 50, cur->density * 150);
+    }
    }
    break;
 
@@ -662,6 +773,11 @@ void map::step_in_field(int x, int y, game *g)
     g->u.hurtall(cur->density);
     g->teleport();
    }
+   break;
+
+  case fd_shock_vent:
+  case fd_acid_vent:
+   remove_field(x, y);
    break;
  }
 }
@@ -710,16 +826,16 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     dam = 12;
    if (z->made_of(PAPER) || z->made_of(LIQUID) || z->made_of(POWDER) ||
        z->made_of(WOOD)  || z->made_of(COTTON) || z->made_of(WOOL))
-    dam = 50;
+    dam = 20;
    if (z->made_of(STONE) || z->made_of(KEVLAR) || z->made_of(STEEL))
-    dam = -25;
+    dam = -20;
    if (z->has_flag(MF_FLIES))
-    dam -= 20;
+    dam -= 15;
 
    if (cur->density == 1)
-    dam += rng(0, 8);
+    dam += rng(2, 6);
    else if (cur->density == 2) {
-    dam += rng(3, 12);
+    dam += rng(6, 12);
     if (!z->has_flag(MF_FLIES)) {
      z->moves -= 20;
      if (!z->made_of(LIQUID) && !z->made_of(STONE) && !z->made_of(KEVLAR) &&
@@ -727,7 +843,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
       z->add_effect(ME_ONFIRE, rng(3, 8));
     }
    } else if (cur->density == 3) {
-    dam += rng(5, 18);
+    dam += rng(10, 20);
     if (!z->has_flag(MF_FLIES) || one_in(3)) {
      z->moves -= 40;
      if (!z->made_of(LIQUID) && !z->made_of(STONE) && !z->made_of(KEVLAR) &&
@@ -735,7 +851,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
       z->add_effect(ME_ONFIRE, rng(8, 12));
     }
    }
-   break;
+// Drop through to smoke
 
   case fd_smoke:
    if (cur->density == 3)

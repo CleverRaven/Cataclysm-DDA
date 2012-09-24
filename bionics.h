@@ -109,8 +109,7 @@ An oxygen interchange system automatically switches on while underwater,\n\
 slowly draining your energy reserves but providing oxygen."},
 {"Air Filtration System", false, false, 1, 0, "\
 Implanted in your trachea is an advanced filtration system.  If toxins find\n\
-their way into your windpipe, the filter will attempt to remove them, at the\n\
-cost of a small amount of power."},
+their way into your windpipe, the filter will attempt to remove them."},
 {"Internal Climate Control", false, false, 0, 0, "\
 Throughout your body lies a network of thermal piping which eases the effects\n\
 of high and low ambient temperatures.  It has an operating range of 0 to 140\n\

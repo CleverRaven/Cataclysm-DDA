@@ -26,8 +26,6 @@
 
 void monster::receive_moves()
 {
- if (has_effect(ME_BEARTRAP))
-  return;
  moves += speed;
 }
 
@@ -582,6 +580,10 @@ void monster::move_to(game *g, int x, int y)
 {
  int mondex = g->mon_at(x, y);
  if (mondex == -1) { //...assuming there's no monster there
+  if (has_effect(ME_BEARTRAP)) {
+   moves = 0;
+   return;
+  }
   if (plans.size() > 0)
    plans.erase(plans.begin());
   if (has_flag(MF_SWIMS) && g->m.has_flag(swimmable, x, y))

@@ -74,6 +74,7 @@ class game
  public:
   game();
   ~game();
+  void setup();
   bool game_quit(); // True if we actually quit the game - used in main.cpp
   void save();
   bool do_turn();
@@ -165,6 +166,7 @@ class game
   faction* random_evil_faction();
 
   itype* new_artifact();
+  itype* new_natural_artifact(artifact_natural_property prop = ARTPROP_NULL);
   void process_artifact(item *it, player *p, bool wielded = false);
   void add_artifact_messages(std::vector<art_effect_passive> effects);
 

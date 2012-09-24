@@ -428,6 +428,14 @@ std::string item::info(bool showtext)
            ". Requires Unarmed Skill of " << style->moves[i].level << "\n";
   }
 
+ } else if (type->techniques != 0) {
+
+  dump << "\n";
+  for (int i = 1; i < NUM_TECHNIQUES; i++) {
+   if (type->techniques & mfb(i))
+    dump << default_technique_name( technique_id(i) ) << "; ";
+  }
+
  }
 
  if (showtext) {
@@ -829,7 +837,7 @@ bool item::is_two_handed(player *u)
 {
  if (is_gun() && (dynamic_cast<it_gun*>(type))->skill_used != sk_pistol)
   return true;
- return (volume() > 10 || weight() > u->str_cur * 4);
+ return (weight() > u->str_cur * 4);
 }
 
 bool item::made_of(material mat)

@@ -5,6 +5,7 @@
 #include "game.h"
 #include "output.h"
 #include "crafting.h"
+#include "options.h"
 
 
 veh_interact::veh_interact ()
@@ -522,12 +523,22 @@ void veh_interact::display_stats ()
     bool conf = veh->valid_wheel_config();
     mvwprintz(w_stats, 0, 1, c_ltgray, "Name: ");
     mvwprintz(w_stats, 0, 7, c_ltgreen, veh->name.c_str());
-    mvwprintz(w_stats, 1, 1, c_ltgray, "Safe speed:      mph");
-    mvwprintz(w_stats, 1, 14, c_ltgreen,"%3d", veh->safe_velocity(false) / 100);
-    mvwprintz(w_stats, 2, 1, c_ltgray, "Top speed:       mph");
-    mvwprintz(w_stats, 2, 14, c_ltred, "%3d", veh->max_velocity(false) / 100);
-    mvwprintz(w_stats, 3, 1, c_ltgray, "Accel.:          mph/t");
-    mvwprintz(w_stats, 3, 14, c_ltblue,"%3d", veh->acceleration(false) / 100);
+    if(OPTIONS[OPT_USE_METRIC_SYS]) {
+     mvwprintz(w_stats, 1, 1, c_ltgray, "Safe speed:      Km/h");
+     mvwprintz(w_stats, 1, 14, c_ltgreen,"%3d", int(veh->safe_velocity(false) * 0.0161f));
+     mvwprintz(w_stats, 2, 1, c_ltgray, "Top speed:       Km/h");
+     mvwprintz(w_stats, 2, 14, c_ltred, "%3d", int(veh->max_velocity(false) * 0.0161f));
+     mvwprintz(w_stats, 3, 1, c_ltgray, "Accel.:          Kmh/t");
+     mvwprintz(w_stats, 3, 14, c_ltblue,"%3d", int(veh->acceleration(false) * 0.0161f));
+    }
+    else {
+     mvwprintz(w_stats, 1, 1, c_ltgray, "Safe speed:      mph");
+     mvwprintz(w_stats, 1, 14, c_ltgreen,"%3d", veh->safe_velocity(false) / 100);
+     mvwprintz(w_stats, 2, 1, c_ltgray, "Top speed:       mph");
+     mvwprintz(w_stats, 2, 14, c_ltred, "%3d", veh->max_velocity(false) / 100);
+     mvwprintz(w_stats, 3, 1, c_ltgray, "Accel.:          mph/t");
+     mvwprintz(w_stats, 3, 14, c_ltblue,"%3d", veh->acceleration(false) / 100);
+    }
     mvwprintz(w_stats, 4, 1, c_ltgray, "Mass:            kg");
     mvwprintz(w_stats, 4, 12, c_ltblue,"%5d", (int) (veh->total_mass() / 4 * 0.45));
     mvwprintz(w_stats, 1, 26, c_ltgray, "K dynamics:        ");

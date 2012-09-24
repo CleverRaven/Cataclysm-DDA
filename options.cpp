@@ -60,6 +60,8 @@ option_key lookup_option_key(std::string id)
 {
  if (id == "use_celsius")
   return OPT_USE_CELSIUS;
+ if (id == "use_metric_system")
+  return OPT_USE_METRIC_SYS;
  if (id == "force_capital_yn")
   return OPT_FORCE_YN;
  if (id == "no_bright_backgrounds")
@@ -80,6 +82,7 @@ std::string option_string(option_key key)
 {
  switch (key) {
   case OPT_USE_CELSIUS:		return "use_celsius";
+  case OPT_USE_METRIC_SYS: return "use_metric_system";
   case OPT_FORCE_YN:		return "force_capital_yn";
   case OPT_NO_CBLINK:		return "no_bright_backgrounds";
   case OPT_24_HOUR:		return "24_hour";
@@ -95,6 +98,7 @@ std::string option_name(option_key key)
 {
  switch (key) {
   case OPT_USE_CELSIUS:		return "Use Celsius";
+  case OPT_USE_METRIC_SYS: return "Use Metric System";
   case OPT_FORCE_YN:		return "Force Y/N in prompts";
   case OPT_NO_CBLINK:		return "No Bright Backgrounds";
   case OPT_24_HOUR:		return "24 Hour Time";
@@ -125,6 +129,8 @@ void create_default_options()
  fout << options_header() << "\n\
 # If true, use C not F\n\
 use_celsius F\n\
+# If true, use Km/h not mph\
+use_metric_system F\n\
 # If true, y/n prompts are case-sensitive, y and n are not accepted\n\
 force_capital_yn T\n\
 # If true, bright backgrounds are not used--some consoles are not compatible\n\

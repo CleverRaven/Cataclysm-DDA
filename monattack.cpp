@@ -1325,3 +1325,38 @@ void mattack::upgrade(game *g, monster *z)
  if (g->u_see(target->posx, target->posy, junk))
   g->add_msg("...a zombie becomes a %s!", target->name().c_str());
 }
+
+void mattack::breathe(game *g, monster *z)
+{
+ z->sp_timeout = z->type->sp_freq;	// Reset timer
+ z->moves -= 100;			// It takes a while
+
+ bool able = (z->type->id == mon_breather_hub);
+ if (!able) {
+  for (int x = z->posx - 3; x <= z->posx + 3 && !able; x++) {
+   for (int y = z->posy - 3; y <= z->posy + 3 && !able; y++) {
+    int mondex = g->mon_at(x, y);
+    if (mondex != -1 && g->z[mondex].type->id == mon_breather_hub)
+     able = true;
+   }
+  }
+ }
+ if (!able)
+  return;
+
+ std::vector<point> valid;
+ for (int x = z->posx - 1; x <= z->posx + 1; x++) {
+  for (int y = z->posy - 1; y <= z->posy + 1; y++) {
+   if (g->is_empty(x, y))
+    valid.push_back( point(x, y) );
+  }
+ }
+
+ if (!valid.empty()) {
+  point place = valid[ rng(0, valid.size() - 1) ];
+  monster spawned(g->mtypes[mon_breather]);
+  spawned.sp_timeout = 12;
+  spawned.spawn(place.x, place.y);
+  g->z.push_back(spawned);
+ }
+}

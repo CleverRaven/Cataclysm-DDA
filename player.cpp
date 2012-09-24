@@ -8,6 +8,7 @@
 #include "moraledata.h"
 #include "inventory.h"
 #include "artifact.h"
+#include "options.h"
 #include <sstream>
 #include <stdlib.h>
 
@@ -1483,21 +1484,17 @@ void player::disp_status(WINDOW *w, game *g)
   col_xp = c_ltgray;
  mvwprintz(w, 2, 45, col_xp, "%d", xp_pool);
 
-      if (pain - pkill >= 50)
-  mvwprintz(w, 3, 0, c_red,    "Excrutiating pain!");
+ nc_color col_pain = c_yellow;
+ if (pain - pkill >= 60)
+  col_pain = c_red;
  else if (pain - pkill >= 40)
-  mvwprintz(w, 3, 0, c_ltred,  "Extreme pain");
- else if (pain - pkill >= 30)
-  mvwprintz(w, 3, 0, c_ltred,  "Intense pain");
- else if (pain - pkill >= 20)
-  mvwprintz(w, 3, 0, c_yellow, "Heavy pain");
- else if (pain - pkill >= 10)
-  mvwprintz(w, 3, 0, c_yellow, "Moderate pain");
- else if (pain - pkill >   0)
-  mvwprintz(w, 3, 0, c_yellow, "Minor pain");
+  col_pain = c_ltred;
+ if (pain - pkill > 0)
+  mvwprintz(w, 3, 0, col_pain, "Pain: %d", pain - pkill);
 
  vehicle *veh = g->m.veh_at (posx, posy);
- int dmor = (in_vehicle && veh) ? 0 : 9;
+ int dmor = 0;
+ //int dmor = (in_vehicle && veh) ? 0 : 9;
 
  int morale_cur = morale_level ();
  nc_color col_morale = c_white;
@@ -1540,12 +1537,25 @@ void player::disp_status(WINDOW *w, game *g)
   }
 
   if (veh->cruise_on) {
-   mvwprintz(w, 3, 34, col_indf1, "{mph....>....}");
-   mvwprintz(w, 3, 38, col_vel, "%4d", veh->velocity / 100);
-   mvwprintz(w, 3, 43, c_ltgreen, "%4d", veh->cruise_velocity / 100);
+   if(OPTIONS[OPT_USE_METRIC_SYS]) {
+    mvwprintz(w, 3, 33, col_indf1, "{Km/h....>....}");
+    mvwprintz(w, 3, 38, col_vel, "%4d", int(veh->velocity * 0.0161f));
+    mvwprintz(w, 3, 43, c_ltgreen, "%4d", int(veh->cruise_velocity * 0.0161f));
+   }
+   else {
+    mvwprintz(w, 3, 34, col_indf1, "{mph....>....}");
+    mvwprintz(w, 3, 38, col_vel, "%4d", veh->velocity / 100);
+    mvwprintz(w, 3, 43, c_ltgreen, "%4d", veh->cruise_velocity / 100);
+   }
   } else {
-   mvwprintz(w, 3, 34, col_indf1, "  {mph....}  ");
-   mvwprintz(w, 3, 40, col_vel, "%4d", veh->velocity / 100);
+   if(OPTIONS[OPT_USE_METRIC_SYS]) {
+    mvwprintz(w, 3, 33, col_indf1, "  {Km/h....}  ");
+    mvwprintz(w, 3, 40, col_vel, "%4d", int(veh->velocity * 0.0161f));
+   }
+   else {
+    mvwprintz(w, 3, 34, col_indf1, "  {mph....}  ");
+    mvwprintz(w, 3, 40, col_vel, "%4d", veh->velocity / 100);
+   }
   }
 
   if (veh->velocity != 0) {
@@ -1580,11 +1590,11 @@ void player::disp_status(WINDOW *w, game *g)
   if (current_speed() > 100)
    col_spd = c_green;
 
-  mvwprintz(w, 3, 22, col_str, "Str %s%d", str_cur >= 10 ? "" : " ", str_cur);
-  mvwprintz(w, 3, 29, col_dex, "Dex %s%d", dex_cur >= 10 ? "" : " ", dex_cur);
-  mvwprintz(w, 3, 36, col_int, "Int %s%d", int_cur >= 10 ? "" : " ", int_cur);
-  mvwprintz(w, 3, 43, col_per, "Per %s%d", per_cur >= 10 ? "" : " ", per_cur);
-  mvwprintz(w, 3, 50, col_spd, "Spd %s%d", spd_cur >= 10 ? "" : " ", spd_cur);
+  mvwprintz(w, 3, 13, col_str, "Str %s%d", str_cur >= 10 ? "" : " ", str_cur);
+  mvwprintz(w, 3, 20, col_dex, "Dex %s%d", dex_cur >= 10 ? "" : " ", dex_cur);
+  mvwprintz(w, 3, 27, col_int, "Int %s%d", int_cur >= 10 ? "" : " ", int_cur);
+  mvwprintz(w, 3, 34, col_per, "Per %s%d", per_cur >= 10 ? "" : " ", per_cur);
+  mvwprintz(w, 3, 41, col_spd, "Spd %s%d", spd_cur >= 10 ? "" : " ", spd_cur);
  }
 }
 
@@ -2032,7 +2042,7 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
    g->add_msg("A snake sprouts from your body!");
   else if (snakes >= 2)
    g->add_msg("Some snakes sprout from your body!");
-  monster snake(g->mtypes[mon_sewer_snake]);
+  monster snake(g->mtypes[mon_shadow_snake]);
   for (int i = 0; i < snakes; i++) {
    int index = rng(0, valid.size() - 1);
    point sp = valid[index];
@@ -2398,6 +2408,8 @@ void player::infect(dis_type type, body_part vector, int strength,
 void player::add_disease(dis_type type, int duration, game *g,
                          int intensity, int max_intensity)
 {
+ if (duration == 0)
+  return;
  bool found = false;
  int i = 0;
  while ((i < illness.size()) && !found) {
@@ -2792,6 +2804,8 @@ void player::suffer(game *g)
   mutate(g);
  if (has_artifact_with(AEP_MUTAGENIC) && one_in(28800))
   mutate(g);
+ if (has_artifact_with(AEP_FORCE_TELEPORT) && one_in(600))
+  g->teleport(this);
 
  if (is_wearing(itm_hazmat_suit)) {
   if (radiation < int((100 * g->m.radiation(posx, posy)) / 20))
@@ -2901,6 +2915,8 @@ int player::weight_capacity(bool real_life)
   ret = int(ret * .80);
  if (has_trait(PF_HOLLOW_BONES))
   ret = int(ret * .60);
+ if (has_artifact_with(AEP_CARRY_MORE))
+  ret += 200;
  return ret;
 }
 
@@ -3015,7 +3031,7 @@ void player::sort_inv()
  inv_sorted = true;
 }
 
-void player::i_add(item it)
+void player::i_add(item it, game *g)
 {
  last_item = itype_id(it.type->id);
  if (it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() || 
@@ -3039,7 +3055,11 @@ void player::i_add(item it)
    inv.push_back(it);
   return;
  }
-  inv.push_back(it);
+ if (g != NULL && it.is_artifact() && it.is_tool()) {
+  it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(it.type);
+  g->add_artifact_messages(art->effects_carried);
+ }
+ inv.push_back(it);
 }
 
 bool player::has_active_item(itype_id id)
@@ -4196,6 +4216,14 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
               (gun->contents[i].type->id == itm_barrel_big ||
                gun->contents[i].type->id == itm_barrel_small)) {
     g->add_msg("Your %s already has a barrel replacement.",
+               gun->tname(g).c_str());
+    if (replace_item)
+     inv.add_item(copy);
+    return;
+   } else if ((mod->id == itm_clip || mod->id == itm_clip2) &&
+              (gun->contents[i].type->id == itm_clip ||
+               gun->contents[i].type->id == itm_clip2)) {
+    g->add_msg("Your %s already has its clip size extended.",
                gun->tname(g).c_str());
     if (replace_item)
      inv.add_item(copy);

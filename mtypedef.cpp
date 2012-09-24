@@ -352,7 +352,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON);
 
 mon("grabber zombie",	species_zombie,	'Z',c_green,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  6,  8,100,100, 70, 10,  1,  2,  0,  4,  0,  0, 40, 80, 0,
+	  6,  8,100,100, 70, 10,  1,  2,  0,  4,  0,  0, 40, 65, 0,
 	&mdeath::normal,	&mattack::none, "\
 This zombie seems to have slightly longer\n\
 than ordinary arms, and constantly gropes\n\
@@ -920,6 +920,44 @@ wearing only a pair of white underwear."
 );
 FLAGS(MF_SEES, MF_SMELLS, MF_HEARS, MF_WARM, MF_BASHES, MF_ANIMAL, MF_FUR);
 
+mon("shadow",	species_nether,'S',	c_dkgray,	MS_TINY,	MNULL,
+//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	  0, 14,100,100, 90,  6,  1,  2,  0,  4,  0,  0,  0, 60, 20,
+	&mdeath::melt,		&mattack::disappear, "\
+A strange dark area in the area.  It whispers\n\
+softly as it moves."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_GOODHEARING, MF_SMELLS, MF_NOHEAD, MF_HARDTOSHOOT,
+      MF_GRABS, MF_WEBWALK, MF_FLIES, MF_PLASTIC, MF_SUNDEATH, MF_ELECTRIC,
+      MF_ACIDPROOF, MF_HIT_AND_RUN);
+
+// The hub
+mon("breather",	species_nether,'O',	c_pink,		MS_MEDIUM,	MNULL,
+//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	  0,  2,  0,  0,100,  0,  0,  0,  0,  0,  0,  0,  0,100, 6,
+	&mdeath::kill_breathers,&mattack::breathe, "\
+A strange, immobile pink goo.  It seems to\n\
+be breathing slowly."
+);
+FLAGS(MF_IMMOBILE);
+
+// The branches
+mon("breather",	species_nether,'o',	c_pink,		MS_MEDIUM,	MNULL,
+//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	  0,  2,  0,  0,100,  0,  0,  0,  0,  0,  0,  0,  0,100, 6,
+	&mdeath::melt,		&mattack::breathe, "\
+A strange, immobile pink goo.  It seems to\n\
+be breathing slowly."
+);
+FLAGS(MF_IMMOBILE);
+
+mon("shadow snake",species_none, 's',	c_dkgray,	MS_SMALL,	FLESH,
+//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	  0,  6,100,100, 90, 12,  1,  4,  5,  1,  0,  0,  0, 40, 20,
+	&mdeath::melt,		&mattack::disappear, "\
+A large snake, translucent black.");
+FLAGS(MF_SEES, MF_SMELLS, MF_WARM, MF_SWIMS, MF_LEATHER, MF_PLASTIC,
+      MF_SUNDEATH);
 
 // ROBOTS
 mon("eyebot",	species_robot, 'r',	c_ltblue,	MS_SMALL,	STEEL,
