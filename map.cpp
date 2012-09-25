@@ -1800,7 +1800,8 @@ void map::draw(game *g, WINDOW* w, point center)
 {
  for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
   if (!grid[i])
-   debugmsg("grid %d (%d, %d) is null! mapbuffer size = %d", i, i % my_MAPSIZE, i / my_MAPSIZE, MAPBUFFER.size());
+   debugmsg("grid %d (%d, %d) is null! mapbuffer size = %d",
+            i, i % my_MAPSIZE, i / my_MAPSIZE, MAPBUFFER.size());
  }
  int t = 0;
  int light = g->u.sight_range(g->light_level());
@@ -1878,8 +1879,10 @@ void map::drawsq(WINDOW* w, player &u, int x, int y, bool invert,
     case 4: sym = '&'; break;
     case 5: sym = '+'; break;
    }
-  } else if (fieldlist[field_at(x, y).type].sym != '%')
+  } else if (fieldlist[field_at(x, y).type].sym != '%') {
    sym = fieldlist[field_at(x, y).type].sym;
+   drew_field = false;
+  }
  }
 // If there's items here, draw those instead
  if (show_items && i_at(x, y).size() > 0 && !drew_field) {
