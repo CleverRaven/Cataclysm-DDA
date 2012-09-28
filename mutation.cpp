@@ -4,6 +4,8 @@
 
 // mutation_effect handles things like destruction of armor, etc.
 void mutation_effect(game *g, player &p, pl_flag mut);
+// mutation_loss_effect handles what happens when you lose a mutation
+void mutation_loss_effect(game *g, player &p, pl_flag mut);
 
 void player::mutate(game *g)
 {
@@ -183,9 +185,12 @@ void player::remove_mutation(game *g, pl_flag mut)
   g->add_msg("Your %s turns into %s.", traits[mut].name.c_str(),
              traits[replacing].name.c_str());
   toggle_trait(replacing);
+  mutation_loss_effect(g, *this, mut);
   mutation_effect(g, *this, replacing);
- } else
+ } else {
   g->add_msg("You lose your %s.", traits[mut].name.c_str());
+  mutation_loss_effect(g, *this, mut);
+ }
 
 }
 
@@ -218,6 +223,7 @@ void mutation_effect(game *g, player &p, pl_flag mut)
  bool is_u = (&p == &(g->u));
  bool destroy = false, skip_cloth = false;
  std::vector<body_part> bps;
+
  switch (mut) {
 // Push off gloves
   case PF_WEBBED:
@@ -259,6 +265,58 @@ void mutation_effect(game *g, player &p, pl_flag mut)
    skip_cloth = true;
    bps.push_back(bp_head);
    break;
+
+  case PF_STR_UP:
+   p.str_max++;
+   break;
+  case PF_STR_UP_2:
+   p.str_max += 2;
+   break;
+  case PF_STR_UP_3:
+   p.str_max += 4;
+   break;
+  case PF_STR_UP_4:
+   p.str_max += 7;
+   break;
+
+  case PF_DEX_UP:
+   p.dex_max++;
+   break;
+  case PF_DEX_UP_2:
+   p.dex_max += 2;
+   break;
+  case PF_DEX_UP_3:
+   p.dex_max += 4;
+   break;
+  case PF_DEX_UP_4:
+   p.dex_max += 7;
+   break;
+
+  case PF_INT_UP:
+   p.int_max++;
+   break;
+  case PF_INT_UP_2:
+   p.int_max += 2;
+   break;
+  case PF_INT_UP_3:
+   p.int_max += 4;
+   break;
+  case PF_INT_UP_4:
+   p.int_max += 7;
+   break;
+
+  case PF_PER_UP:
+   p.per_max++;
+   break;
+  case PF_PER_UP_2:
+   p.per_max += 2;
+   break;
+  case PF_PER_UP_3:
+   p.per_max += 4;
+   break;
+  case PF_PER_UP_4:
+   p.per_max += 7;
+   break;
  }
 
  for (int i = 0; i < p.worn.size(); i++) {
@@ -276,5 +334,62 @@ void mutation_effect(game *g, player &p, pl_flag mut)
     i--;
    }
   }
+ }
+}
+
+void mutation_loss_effect(game *g, player &p, pl_flag mut)
+{
+ switch (mut) {
+  case PF_STR_UP:
+   p.str_max--;
+   break;
+  case PF_STR_UP_2:
+   p.str_max -= 2;
+   break;
+  case PF_STR_UP_3:
+   p.str_max -= 4;
+   break;
+  case PF_STR_UP_4:
+   p.str_max -= 7;
+   break;
+
+  case PF_DEX_UP:
+   p.dex_max--;
+   break;
+  case PF_DEX_UP_2:
+   p.dex_max -= 2;
+   break;
+  case PF_DEX_UP_3:
+   p.dex_max -= 4;
+   break;
+  case PF_DEX_UP_4:
+   p.dex_max -= 7;
+   break;
+
+  case PF_INT_UP:
+   p.int_max--;
+   break;
+  case PF_INT_UP_2:
+   p.int_max -= 2;
+   break;
+  case PF_INT_UP_3:
+   p.int_max -= 4;
+   break;
+  case PF_INT_UP_4:
+   p.int_max -= 7;
+   break;
+
+  case PF_PER_UP:
+   p.per_max--;
+   break;
+  case PF_PER_UP_2:
+   p.per_max -= 2;
+   break;
+  case PF_PER_UP_3:
+   p.per_max -= 4;
+   break;
+  case PF_PER_UP_4:
+   p.per_max -= 7;
+   break;
  }
 }

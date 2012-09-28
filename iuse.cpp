@@ -517,14 +517,17 @@ void iuse::blech(game *g, player *p, item *it, bool t)
 
 void iuse::mutagen(game *g, player *p, item *it, bool t)
 {
- p->mutate(g);
+ if (!one_in(3))
+  p->mutate(g);
 }
 
 void iuse::mutagen_3(game *g, player *p, item *it, bool t)
 {
  p->mutate(g);
- p->mutate(g);
- p->mutate(g);
+ if (!one_in(3))
+  p->mutate(g);
+ if (one_in(2))
+  p->mutate(g);
 }
 
 void iuse::purifier(game *g, player *p, item *it, bool t)
@@ -782,7 +785,7 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
    if (drop)
     g->m.add_item(p->posx, p->posy, string);
    else
-    p->i_add(string);
+    p->i_add(string, g);
   }
   return;
  }
@@ -822,7 +825,7 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
   if (drop)
    g->m.add_item(p->posx, p->posy, rag);
   else
-   p->i_add(rag);
+   p->i_add(rag, g);
  }
 }
 
@@ -1427,6 +1430,7 @@ void iuse::teleport(game *g, player *p, item *it, bool t)
 
 void iuse::can_goo(game *g, player *p, item *it, bool t)
 {
+ it->make(g->itypes[itm_canister_empty]);
  int tries = 0, goox, gooy, junk;
  do {
   goox = p->posx + rng(-2, 2);
@@ -2304,7 +2308,26 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
     }
    }
   } break;
-    
+
+  case AEA_TELEPORT:
+   g->teleport(p);
+   break;
+
+  case AEA_LIGHT:
+   g->add_msg("The %s glows brightly!", it->tname().c_str());
+   g->add_event(EVENT_ARTIFACT_LIGHT, int(g->turn) + 30);
+   break;
+
+  case AEA_GROWTH: {
+   monster tmptriffid(g->mtypes[0], p->posx, p->posy);
+   mattack tmpattack;
+   tmpattack.growplants(g, &tmptriffid);
+  } break;
+
+  case AEA_HURTALL:
+   for (int i = 0; i < g->z.size(); i++)
+    g->z[i].hurt(rng(0, 5));
+   break;
 
   case AEA_RADIATION:
    g->add_msg("Horrible gasses are emitted!");
@@ -2343,13 +2366,68 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
 
   case AEA_ATTENTION:
    g->add_msg("You feel like your action has attracted attention.");
-   p->add_disease(DI_ATTENTION, 600 * rng(3, 6), g);
+   p->add_disease(DI_ATTENTION, 600 * rng(1, 3), g);
    break;
 
   case AEA_TELEGLOW:
    g->add_msg("You feel unhinged.");
    p->add_disease(DI_TELEGLOW, 100 * rng(3, 12), g);
    break;
+
+  case AEA_NOISE:
+   g->add_msg("Your %s emits a deafening boom!", it->tname().c_str());
+   g->sound(p->posx, p->posy, 100, "");
+   break;
+
+  case AEA_SCREAM:
+   g->add_msg("Your %s screams disturbingly.", it->tname().c_str());
+   g->sound(p->posx, p->posy, 40, "");
+   p->add_morale(MORALE_SCREAM, -10);
+   break;
+
+  case AEA_DIM:
+   g->add_msg("The sky starts to dim.");
+   g->add_event(EVENT_DIM, int(g->turn) + 50);
+   break;
+
+  case AEA_FLASH:
+   g->add_msg("The %s flashes brightly!", it->tname().c_str());
+   g->flashbang(p->posx, p->posy);
+   break;
+
+  case AEA_VOMIT:
+   g->add_msg("A wave of nausea passes through you!");
+   p->vomit(g);
+   break;
+
+  case AEA_SHADOWS: {
+   int num_shadows = rng(4, 8);
+   monster spawned(g->mtypes[mon_shadow]);
+   int num_spawned = 0;
+   for (int i = 0; i < num_shadows; i++) {
+    int tries = 0, monx, mony, junk;
+    do {
+     if (one_in(2)) {
+      monx = rng(p->posx - 5, p->posx + 5);
+      mony = (one_in(2) ? p->posy - 5 : p->posy + 5);
+     } else {
+      monx = (one_in(2) ? p->posx - 5 : p->posx + 5);
+      mony = rng(p->posy - 5, p->posy + 5);
+     }
+    } while (tries < 5 && !g->is_empty(monx, mony) &&
+             !g->m.sees(monx, mony, p->posx, p->posy, 10, junk));
+    if (tries < 5) {
+     num_spawned++;
+     spawned.sp_timeout = rng(8, 20);
+     spawned.spawn(monx, mony);
+     g->z.push_back(spawned);
+    }
+   }
+   if (num_spawned > 1)
+    g->add_msg("Shadows form around you.");
+   else if (num_spawned == 1)
+    g->add_msg("A shadow forms nearby.");
+  } break;
 
   }
  }

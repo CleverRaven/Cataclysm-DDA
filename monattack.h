@@ -43,6 +43,7 @@ class mattack
   void ratking		(game *g, monster *z);
   void generator	(game *g, monster *z);
   void upgrade		(game *g, monster *z);
+  void breathe		(game *g, monster *z);
 };
 
 #endif

@@ -21,6 +21,9 @@ enum art_effect_passive {
  AEP_EXTINGUISH, // May extinguish nearby flames
  AEP_GLOW, // Four-tile light source
  AEP_PSYSHIELD, // Protection from stare attacks
+ AEP_RESIST_ELECTRICITY, // Protection from electricity
+ AEP_CARRY_MORE, // Increases carrying capacity by 200
+ AEP_SAP_LIFE, // Killing non-zombie monsters may heal you
 // Splits good from bad
  AEP_SPLIT,
 // Bad
@@ -38,12 +41,17 @@ enum art_effect_passive {
  AEP_INT_DOWN, // Int - 3
  AEP_ALL_DOWN, // All stats - 2
  AEP_SPEED_DOWN, // -20 speed
+ AEP_FORCE_TELEPORT, // Occasionally force a teleport
+ AEP_MOVEMENT_NOISE, // Makes noise when you move
+ AEP_BAD_WEATHER, // More likely to experience bad weather
+ AEP_SICK, // Decreases health
 
  NUM_AEPS
 };
 
 enum art_effect_active {
  AEA_NULL = 0,
+
  AEA_STORM, // Emits shock fields
  AEA_FIREBALL, // Targeted
  AEA_ADRENALINE, // Adrenaline rush
@@ -56,6 +64,10 @@ enum art_effect_active {
  AEA_CONFUSED, // Confuses all monsters in view
  AEA_ENTRANCE, // Chance to make nearby monsters friendly
  AEA_BUGS, // Chance to summon friendly insects
+ AEA_TELEPORT, // Teleports you
+ AEA_LIGHT, // Temporary light source
+ AEA_GROWTH, // Grow plants, a la triffid queen
+ AEA_HURTALL, // Hurts all monsters!
 
  AEA_SPLIT, // Split between good and bad
 
@@ -66,6 +78,13 @@ enum art_effect_active {
  AEA_FIRESTORM, // Spreads minor fire all around you
  AEA_ATTENTION, // Attention from sub-prime denizens
  AEA_TELEGLOW, // Teleglow disease
+ AEA_NOISE, // Loud noise
+ AEA_SCREAM, // Noise & morale penalty
+ AEA_DIM, // Darkens the sky slowly
+ AEA_FLASH, // Flashbang
+ AEA_VOMIT, // User vomits
+ AEA_SHADOWS, // Summon shadow creatures
+
  NUM_AEAS
 };
 
@@ -78,4 +97,51 @@ enum art_charge
  ARTC_HP,    // Drains HP to recharge
  NUM_ARTCS
 };
+
+enum artifact_natural_shape
+{
+ ARTSHAPE_NULL,
+ ARTSHAPE_SPHERE,
+ ARTSHAPE_ROD,
+ ARTSHAPE_TEARDROP,
+ ARTSHAPE_LAMP,
+ ARTSHAPE_SNAKE,
+ ARTSHAPE_DISC,
+ ARTSHAPE_BEADS,
+ ARTSHAPE_NAPKIN,
+ ARTSHAPE_URCHIN,
+ ARTSHAPE_JELLY,
+ ARTSHAPE_SPIRAL,
+ ARTSHAPE_PIN,
+ ARTSHAPE_TUBE,
+ ARTSHAPE_PYRAMID,
+ ARTSHAPE_CRYSTAL,
+ ARTSHAPE_KNOT,
+ ARTSHAPE_CRESCENT,
+ ARTSHAPE_MAX
+};
+
+enum artifact_natural_property
+{
+ ARTPROP_NULL,
+ ARTPROP_WRIGGLING, //
+ ARTPROP_GLOWING, //
+ ARTPROP_HUMMING, //
+ ARTPROP_MOVING, //
+ ARTPROP_WHISPERING, //
+ ARTPROP_BREATHING, //
+ ARTPROP_DEAD, //
+ ARTPROP_ITCHY, //
+ ARTPROP_GLITTERING, //
+ ARTPROP_ELECTRIC, //
+ ARTPROP_SLIMY, //
+ ARTPROP_ENGRAVED, //
+ ARTPROP_CRACKLING, //
+ ARTPROP_WARM, //
+ ARTPROP_RATTLING, //
+ ARTPROP_SCALED,
+ ARTPROP_FRACTAL,
+ ARTPROP_MAX
+};
+
 #endif

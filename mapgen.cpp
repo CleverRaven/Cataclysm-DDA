@@ -74,6 +74,26 @@ void add_corpse(game *g, map *m, int x, int y);
 
 void map::generate(game *g, overmap *om, int x, int y, int turn)
 {
+// First we have to create new submaps and initialize them to 0 all over
+// We create all the submaps, even if we're not a tinymap, so that map
+//  generation which overflows won't cause a crash.  At the bottom of this
+//  function, we save the upper-left 4 submaps, and delete the rest.
+ for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
+  grid[i] = new submap;
+  grid[i]->active_item_count = 0;
+  grid[i]->field_count = 0;
+  grid[i]->turn_last_touched = turn;
+  grid[i]->comp = computer();
+  for (int x = 0; x < SEEX; x++) {
+   for (int y = 0; y < SEEY; y++) {
+    grid[i]->ter[x][y] = t_null;
+    grid[i]->trp[x][y] = tr_null;
+    grid[i]->fld[x][y] = field();
+    grid[i]->rad[x][y] = 0;
+   }
+  }
+ }
+
  oter_id terrain_type, t_north, t_east, t_south, t_west, t_above;
  unsigned zones = 0;
  int overx = x / 2;
@@ -120,12 +140,6 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
    t_west = tmp.ter(overx - 1, overy);
   else
    t_west = om->ter(OMAPX - 1, overy);
-  draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g);
-  post_process(g, zones);
-  for (int i = 0; i < 2; i++) {
-   for (int j = 0; j < 2; j++)
-    saven(&tmp, turn, overx*2, overy*2, i, j);
-  }
  } else {
   if (om->posz < 0 || om->posz == 9) {	// 9 is for tutorials
    overmap tmp = overmap(g, om->posx, om->posy, om->posz + 1);
@@ -157,17 +171,23 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
    overmap tmp(g, om->posx - 1, om->posy, 0);
    t_west = tmp.ter(OMAPX - 1, overy);
   }
-  draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g);
+ draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g);
 
-  if (one_in(oterlist[terrain_type].embellishments.chance))
-   add_extra(random_map_extra(oterlist[terrain_type].embellishments), g);
+ if ( one_in( oterlist[terrain_type].embellishments.chance ))
+  add_extra( random_map_extra( oterlist[terrain_type].embellishments ), g);
 
-  post_process(g, zones);
+ post_process(g, zones);
 
-// And finally save.
-  for (int i = 0; i < 2; i++) {
-   for (int j = 0; j < 2; j++)
+ }
+
+// Okay, we know who are neighbors are.  Let's draw!
+// And finally save used submaps and delete the rest.
+ for (int i = 0; i < my_MAPSIZE; i++) {
+  for (int j = 0; j < my_MAPSIZE; j++) {
+   if (i <= 1 && j <= 1)
     saven(om, turn, x, y, i, j);
+   else
+    delete grid[i + j * my_MAPSIZE];
   }
  }
 }
@@ -188,10 +208,13 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 //  that indicates whether items may spawn on grass & dirt, and finally an
 //  integer that indicates on which turn the items were created.  This final
 //  integer should be 0, unless the items are "fresh-grown" like wild fruit.
+
  int rn, lw, rw, mw, tw, bw, cw, x, y;
  int n_fac = 0, e_fac = 0, s_fac = 0, w_fac = 0;
  computer *tmpcomp = NULL;
+
  switch (terrain_type) {
+
  case ot_null:
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -6408,6 +6431,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    } while (!done);
   }
  }
+
 }
 
 void map::post_process(game *g, unsigned zones)
@@ -6530,7 +6554,7 @@ void map::add_spawn(mon_id type, int count, int x, int y, bool friendly,
  x %= SEEX;
  y %= SEEY;
  spawn_point tmp(type, count, x, y, faction_id, mission_id, friendly, name);
- grid[nonant].spawns.push_back(tmp);
+ grid[nonant]->spawns.push_back(tmp);
 }
 
 void map::add_spawn(monster *mon)
@@ -6575,17 +6599,17 @@ vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir)
  veh.face.init(dir);
  veh.turn_dir = dir;
  veh.precalc_mounts (0, dir);
- grid[nonant].vehicles.push_back(veh);
- //debugmsg ("grid[%d].vehicles.size=%d veh.parts.size=%d", nonant, grid[nonant].vehicles.size(),veh.parts.size());
- return &grid[nonant].vehicles[grid[nonant].vehicles.size()-1];
+ grid[nonant]->vehicles.push_back(veh);
+ //debugmsg ("grid[%d]->vehicles.size=%d veh.parts.size=%d", nonant, grid[nonant]->vehicles.size(),veh.parts.size());
+ return &grid[nonant]->vehicles[grid[nonant]->vehicles.size()-1];
 }
 
 computer* map::add_computer(int x, int y, std::string name, int security)
 {
  ter(x, y) = t_console; // TODO: Turn this off?
  int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
- grid[nonant].comp = computer(name, security);
- return &(grid[nonant].comp);
+ grid[nonant]->comp = computer(name, security);
+ return &(grid[nonant]->comp);
 }
 
 void map::make_all_items_owned()
@@ -6624,8 +6648,8 @@ void map::rotate(int turns)
    for (int sy = 0; sy < 2; sy++) {
     int gridfrom = sx + sy * my_MAPSIZE;
     int gridto = sx * my_MAPSIZE + 1 - sy;
-    for (int j = 0; j < grid[gridfrom].spawns.size(); j++) {
-     spawn_point tmp = grid[gridfrom].spawns[j];
+    for (int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
+     spawn_point tmp = grid[gridfrom]->spawns[j];
      int tmpy = tmp.posy;
      tmp.posy = tmp.posx;
      tmp.posx = SEEY - 1 - tmpy;
@@ -6634,17 +6658,17 @@ void map::rotate(int turns)
    }
   }
 // Finally, computers
-  tmpcomp = grid[0].comp;
-  grid[0].comp = grid[my_MAPSIZE].comp;
-  grid[my_MAPSIZE].comp = grid[my_MAPSIZE + 1].comp;
-  grid[my_MAPSIZE + 1].comp = grid[1].comp;
-  grid[1].comp = tmpcomp;
+  tmpcomp = grid[0]->comp;
+  grid[0]->comp = grid[my_MAPSIZE]->comp;
+  grid[my_MAPSIZE]->comp = grid[my_MAPSIZE + 1]->comp;
+  grid[my_MAPSIZE + 1]->comp = grid[1]->comp;
+  grid[1]->comp = tmpcomp;
 // ...and vehicles
-  tmpveh = grid[0].vehicles;
-  grid[0].vehicles = grid[my_MAPSIZE].vehicles;
-  grid[my_MAPSIZE].vehicles = grid[my_MAPSIZE + 1].vehicles;
-  grid[my_MAPSIZE + 1].vehicles = grid[1].vehicles;
-  grid[1].vehicles = tmpveh;
+  tmpveh = grid[0]->vehicles;
+  grid[0]->vehicles = grid[my_MAPSIZE]->vehicles;
+  grid[my_MAPSIZE]->vehicles = grid[my_MAPSIZE + 1]->vehicles;
+  grid[my_MAPSIZE + 1]->vehicles = grid[1]->vehicles;
+  grid[1]->vehicles = tmpveh;
   break;
     
  case 2:
@@ -6661,8 +6685,8 @@ void map::rotate(int turns)
    for (int sy = 0; sy < 2; sy++) {
     int gridfrom = sx + sy * my_MAPSIZE;
     int gridto = (1 - sy) * my_MAPSIZE + 1 - sx;
-    for (int j = 0; j < grid[gridfrom].spawns.size(); j++) {
-     spawn_point tmp = grid[gridfrom].spawns[j];
+    for (int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
+     spawn_point tmp = grid[gridfrom]->spawns[j];
      int tmpy = tmp.posy;
      tmp.posy = SEEY - 1 - tmp.posy;
      tmp.posx = SEEX - 1 - tmp.posx;
@@ -6670,19 +6694,19 @@ void map::rotate(int turns)
     }
    }
   }
-  tmpcomp = grid[0].comp;
-  grid[0].comp = grid[my_MAPSIZE + 1].comp;
-  grid[my_MAPSIZE + 1].comp = tmpcomp;
-  tmpcomp = grid[1].comp;
-  grid[1].comp = grid[my_MAPSIZE].comp;
-  grid[my_MAPSIZE].comp = tmpcomp;
+  tmpcomp = grid[0]->comp;
+  grid[0]->comp = grid[my_MAPSIZE + 1]->comp;
+  grid[my_MAPSIZE + 1]->comp = tmpcomp;
+  tmpcomp = grid[1]->comp;
+  grid[1]->comp = grid[my_MAPSIZE]->comp;
+  grid[my_MAPSIZE]->comp = tmpcomp;
 // ...and vehicles
-  tmpveh = grid[0].vehicles;
-  grid[0].vehicles = grid[my_MAPSIZE + 1].vehicles;
-  grid[my_MAPSIZE + 1].vehicles = tmpveh;
-  tmpveh = grid[1].vehicles;
-  grid[1].vehicles = grid[my_MAPSIZE].vehicles;
-  grid[my_MAPSIZE].vehicles = tmpveh;
+  tmpveh = grid[0]->vehicles;
+  grid[0]->vehicles = grid[my_MAPSIZE + 1]->vehicles;
+  grid[my_MAPSIZE + 1]->vehicles = tmpveh;
+  tmpveh = grid[1]->vehicles;
+  grid[1]->vehicles = grid[my_MAPSIZE]->vehicles;
+  grid[my_MAPSIZE]->vehicles = tmpveh;
   break;
     
  case 3:
@@ -6699,8 +6723,8 @@ void map::rotate(int turns)
    for (int sy = 0; sy < 2; sy++) {
     int gridfrom = sx + sy * my_MAPSIZE;
     int gridto = (1 - sx) * my_MAPSIZE + sy;
-    for (int j = 0; j < grid[gridfrom].spawns.size(); j++) {
-     spawn_point tmp = grid[gridfrom].spawns[j];
+    for (int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
+     spawn_point tmp = grid[gridfrom]->spawns[j];
      int tmpy = tmp.posy;
      tmp.posy = SEEX - 1 - tmp.posx;
      tmp.posx = tmpy;
@@ -6708,17 +6732,17 @@ void map::rotate(int turns)
     }
    }
   }
-  tmpcomp = grid[0].comp;
-  grid[0].comp = grid[1].comp;
-  grid[1].comp = grid[my_MAPSIZE + 1].comp;
-  grid[my_MAPSIZE + 1].comp = grid[my_MAPSIZE].comp;
-  grid[my_MAPSIZE].comp = tmpcomp;
+  tmpcomp = grid[0]->comp;
+  grid[0]->comp = grid[1]->comp;
+  grid[1]->comp = grid[my_MAPSIZE + 1]->comp;
+  grid[my_MAPSIZE + 1]->comp = grid[my_MAPSIZE]->comp;
+  grid[my_MAPSIZE]->comp = tmpcomp;
 // ...and vehicles
-  tmpveh = grid[0].vehicles;
-  grid[0].vehicles = grid[1].vehicles;
-  grid[1].vehicles = grid[my_MAPSIZE + 1].vehicles;
-  grid[my_MAPSIZE + 1].vehicles = grid[my_MAPSIZE].vehicles;
-  grid[my_MAPSIZE].vehicles = tmpveh;
+  tmpveh = grid[0]->vehicles;
+  grid[0]->vehicles = grid[1]->vehicles;
+  grid[1]->vehicles = grid[my_MAPSIZE + 1]->vehicles;
+  grid[my_MAPSIZE + 1]->vehicles = grid[my_MAPSIZE]->vehicles;
+  grid[my_MAPSIZE]->vehicles = tmpveh;
   break;
 
  default:
@@ -6727,15 +6751,15 @@ void map::rotate(int turns)
 
 // change vehicles' directions
  for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++)
-     for (int v = 0; v < grid[i].vehicles.size(); v++)
+     for (int v = 0; v < grid[i]->vehicles.size(); v++)
          if (turns >= 1 && turns <= 3)
-            grid[i].vehicles[v].turn (turns * 90);
+            grid[i]->vehicles[v].turn (turns * 90);
 
 // Set the spawn points
- grid[0].spawns = sprot[0];
- grid[1].spawns = sprot[1];
- grid[my_MAPSIZE].spawns = sprot[my_MAPSIZE];
- grid[my_MAPSIZE + 1].spawns = sprot[my_MAPSIZE + 1];
+ grid[0]->spawns = sprot[0];
+ grid[1]->spawns = sprot[1];
+ grid[my_MAPSIZE]->spawns = sprot[my_MAPSIZE];
+ grid[my_MAPSIZE + 1]->spawns = sprot[my_MAPSIZE + 1];
  for (int i = 0; i < SEEX * 2; i++) {
   for (int j = 0; j < SEEY * 2; j++) {
    ter  (i, j) = rotated[i][j];
@@ -8221,6 +8245,130 @@ void map::add_extra(map_extra type, game *g)
   }
  }
  break;
+
+ case mx_anomaly: {
+  point center( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7) );
+  artifact_natural_property prop =
+   artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
+  create_anomaly(center.x, center.y, prop);
+  add_item(center.x, center.y, g->new_natural_artifact(prop), 0);
+ } break;
+
+ } // switch (prop)
+}
+
+void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
+{
+ rough_circle(this, t_rubble, cx, cy, 5);
+ switch (prop) {
+  case ARTPROP_WRIGGLING:
+  case ARTPROP_MOVING:
+   for (int i = cx - 5; i <= cx + 5; i++) {
+    for (int j = cy - 5; j <= cy + 5; j++) {
+     if (ter(i, j) == t_rubble) {
+      add_field(NULL, i, j, fd_push_items, 1);
+      if (one_in(3))
+       add_item(i, j, (*itypes)[itm_rock], 0);
+     }
+    }
+   }
+   break;
+
+  case ARTPROP_GLOWING:
+  case ARTPROP_GLITTERING:
+   for (int i = cx - 5; i <= cx + 5; i++) {
+    for (int j = cy - 5; j <= cy + 5; j++) {
+     if (ter(i, j) == t_rubble && one_in(2))
+      add_trap(i, j, tr_glow);
+    }
+   }
+   break;
+
+  case ARTPROP_HUMMING:
+  case ARTPROP_RATTLING:
+   for (int i = cx - 5; i <= cx + 5; i++) {
+    for (int j = cy - 5; j <= cy + 5; j++) {
+     if (ter(i, j) == t_rubble && one_in(2))
+      add_trap(i, j, tr_hum);
+    }
+   }
+   break;
+
+  case ARTPROP_WHISPERING:
+  case ARTPROP_ENGRAVED:
+   for (int i = cx - 5; i <= cx + 5; i++) {
+    for (int j = cy - 5; j <= cy + 5; j++) {
+     if (ter(i, j) == t_rubble && one_in(3))
+      add_trap(i, j, tr_shadow);
+    }
+   }
+   break;
+
+  case ARTPROP_BREATHING:
+   for (int i = cx - 1; i <= cx + 1; i++) {
+    for (int j = cy - 1; i <= cy + 1; j++)
+     if (i == cx && j == cy)
+      add_spawn(mon_breather_hub, 1, i, j);
+     else
+      add_spawn(mon_breather, 1, i, j);
+   }
+   break;
+
+  case ARTPROP_DEAD:
+   for (int i = cx - 5; i <= cx + 5; i++) {
+    for (int j = cy - 5; j <= cy + 5; j++) {
+     if (ter(i, j) == t_rubble)
+      add_trap(i, j, tr_drain);
+    }
+   }
+   break;
+
+  case ARTPROP_ITCHY:
+   for (int i = cx - 5; i <= cx + 5; i++) {
+    for (int j = cy - 5; j <= cy + 5; j++) {
+     if (ter(i, j) == t_rubble)
+      radiation(i, j) = rng(0, 10);
+    }
+   }
+   break;
+
+  case ARTPROP_ELECTRIC:
+  case ARTPROP_CRACKLING:
+   add_field(NULL, cx, cy, fd_shock_vent, 3);
+   break;
+
+  case ARTPROP_SLIMY:
+   add_field(NULL, cx, cy, fd_acid_vent, 3);
+   break;
+
+  case ARTPROP_WARM:
+   for (int i = cx - 5; i <= cx + 5; i++) {
+    for (int j = cy - 5; j <= cy + 5; j++) {
+     if (ter(i, j) == t_rubble)
+      add_field(NULL, i, j, fd_fire_vent, 1 + (rl_dist(cx, cy, i, j) % 3));
+    }
+   }
+   break;
+
+  case ARTPROP_SCALED:
+   for (int i = cx - 5; i <= cx + 5; i++) {
+    for (int j = cy - 5; j <= cy + 5; j++) {
+     if (ter(i, j) == t_rubble)
+      add_trap(i, j, tr_snake);
+    }
+   }
+   break;
+
+  case ARTPROP_FRACTAL:
+   create_anomaly(cx - 4, cy - 4,
+               artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1)));
+   create_anomaly(cx + 4, cy - 4,
+               artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1)));
+   create_anomaly(cx - 4, cy + 4,
+               artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1)));
+   create_anomaly(cx + 4, cy - 4,
+               artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1)));
+   break;
 
  }
 }

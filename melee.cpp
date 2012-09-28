@@ -218,6 +218,8 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
    dam += hit_mon(g, z, false); // False means a second grab isn't allowed
  }
 
+ if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE))
+  healall( rng(dam / 10, dam / 5) );
  return dam;
 }
 
@@ -333,6 +335,9 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  bool cutting = (cut_dam >= 10 && cut_dam >= stab_dam);
  bool stabbing = (stab_dam >= 10 && stab_dam >= cut_dam);
  melee_practice(*this, true, unarmed_attack(), bashing, cutting, stabbing);
+
+ if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE))
+  healall( rng(dam / 10, dam / 5) );
 
  if (allow_grab && technique == TEC_GRAB) {
 // Move our weapon to a temp slot, if it's not unarmed
@@ -1125,7 +1130,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
    if (mon)
     z->add_effect(ME_STUNNED, turns_stunned);
    else
-    p->add_disease(DI_STUNNED, turns_stunned / 2, g);
+    p->add_disease(DI_STUNNED, 1 + turns_stunned / 2, g);
   }
  }
 

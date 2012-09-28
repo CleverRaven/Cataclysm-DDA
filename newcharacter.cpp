@@ -48,6 +48,7 @@ void save_template(player *u);
 
 bool player::create(game *g, character_type type, std::string tempname)
 {
+ weapon = item(g->itypes[0], 0);
  WINDOW* w = newwin(25, 80, 0, 0);
  int tab = 0, points = 38;
  if (type != PLTYPE_CUSTOM) {

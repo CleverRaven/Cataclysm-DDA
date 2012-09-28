@@ -35,7 +35,8 @@ void trapfuncm::beartrap(game *g, monster *z, int x, int y)
   z->add_effect(ME_BEARTRAP, rng(8, 15));
  }
  g->m.tr_at(x, y) = tr_null;
- g->m.add_item(x, y, g->itypes[itm_beartrap], g->turn);
+ item beartrap(g->itypes[itm_beartrap], 0);
+ z->add_item(beartrap);
 }
 
 void trapfunc::board(game *g, int x, int y)
@@ -576,4 +577,130 @@ void trapfunc::temple_toggle(game *g, int x, int y)
    }
   }
  }
+}
+
+void trapfunc::glow(game *g, int x, int y)
+{
+ if (one_in(3)) {
+  g->add_msg("You're bathed in radiation!");
+  g->u.radiation += rng(10, 30);
+ } else if (one_in(4)) {
+  g->add_msg("A blinding flash strikes you!");
+  g->flashbang(g->u.posx, g->u.posy);
+ } else
+  g->add_msg("Small flashes surround you.");
+}
+
+void trapfuncm::glow(game *g, monster *z, int x, int y)
+{
+ if (one_in(3)) {
+  z->hurt( rng(5, 10) );
+  z->speed *= .9;
+ }
+}
+
+void trapfunc::hum(game *g, int x, int y)
+{
+ int volume = rng(1, 200);
+ std::string sfx;
+ if (volume <= 10)
+  sfx = "hrm";
+ else if (volume <= 50)
+  sfx = "hrmmm";
+ else if (volume <= 100)
+  sfx = "HRMMM";
+ else
+  sfx = "VRMMMMMM";
+
+ g->sound(x, y, volume, sfx);
+}
+
+void trapfuncm::hum(game *g, monster *z, int x, int y)
+{
+ int volume = rng(1, 200);
+ std::string sfx;
+ if (volume <= 10)
+  sfx = "hrm";
+ else if (volume <= 50)
+  sfx = "hrmmm";
+ else if (volume <= 100)
+  sfx = "HRMMM";
+ else
+  sfx = "VRMMMMMM";
+
+ if (volume >= 150)
+  z->add_effect(ME_DEAF, volume - 140);
+
+ g->sound(x, y, volume, sfx);
+}
+
+void trapfunc::shadow(game *g, int x, int y)
+{
+ monster spawned(g->mtypes[mon_shadow]);
+ int tries = 0, monx, mony, junk;
+ do {
+  if (one_in(2)) {
+   monx = rng(g->u.posx - 5, g->u.posx + 5);
+   mony = (one_in(2) ? g->u.posy - 5 : g->u.posy + 5);
+  } else {
+   monx = (one_in(2) ? g->u.posx - 5 : g->u.posx + 5);
+   mony = rng(g->u.posy - 5, g->u.posy + 5);
+  }
+ } while (tries < 5 && !g->is_empty(monx, mony) &&
+          !g->m.sees(monx, mony, g->u.posx, g->u.posy, 10, junk));
+
+ if (tries < 5) {
+  g->add_msg("A shadow forms nearby.");
+  spawned.sp_timeout = rng(2, 10);
+  spawned.spawn(monx, mony);
+  g->z.push_back(spawned);
+  g->m.tr_at(x, y) = tr_null;
+ }
+}
+
+void trapfunc::drain(game *g, int x, int y)
+{
+ g->add_msg("You feel your life force sapping away.");
+ g->u.hurtall(1);
+}
+
+void trapfuncm::drain(game *g, monster *z, int x, int y)
+{
+ z->hurt(1);
+}
+
+void trapfunc::snake(game *g, int x, int y)
+{
+ if (one_in(3)) {
+  monster spawned(g->mtypes[mon_shadow_snake]);
+  int tries = 0, monx, mony, junk;
+  do {
+   if (one_in(2)) {
+    monx = rng(g->u.posx - 5, g->u.posx + 5);
+    mony = (one_in(2) ? g->u.posy - 5 : g->u.posy + 5);
+   } else {
+    monx = (one_in(2) ? g->u.posx - 5 : g->u.posx + 5);
+    mony = rng(g->u.posy - 5, g->u.posy + 5);
+   }
+  } while (tries < 5 && !g->is_empty(monx, mony) &&
+           !g->m.sees(monx, mony, g->u.posx, g->u.posy, 10, junk));
+
+  if (tries < 5) {
+   g->add_msg("A shadowy snake forms nearby.");
+   spawned.spawn(monx, mony);
+   g->z.push_back(spawned);
+   g->m.tr_at(x, y) = tr_null;
+   return;
+  }
+ }
+ g->sound(x, y, 10, "ssssssss");
+ if (one_in(6))
+  g->m.tr_at(x, y) = tr_null;
+}
+
+void trapfuncm::snake(game *g, monster *z, int x, int y)
+{
+ g->sound(x, y, 10, "ssssssss");
+ if (one_in(6))
+  g->m.tr_at(x, y) = tr_null;
 }

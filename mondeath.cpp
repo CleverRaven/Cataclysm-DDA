@@ -297,3 +297,11 @@ void mdeath::gameover(game *g, monster *z)
  g->add_msg("Your %s is destroyed!  GAME OVER!", z->name().c_str());
  g->u.hp_cur[hp_torso] = 0;
 }
+
+void mdeath::kill_breathers(game *g, monster *z)
+{
+ for (int i = 0; i < g->z.size(); i++) {
+  if (g->z[i].type->id == mon_breather_hub || g->z[i].type->id == mon_breather)
+   g->z[i].dead = true;
+ }
+}

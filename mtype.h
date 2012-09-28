@@ -70,7 +70,8 @@ mon_dark_wyrm, mon_amigara_horror, mon_dog_thing, mon_headless_dog_thing,
 mon_human_snail, mon_twisted_body, mon_vortex,
 // Subspace monsters
 mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
- mon_flaming_eye, mon_kreck, mon_blank, mon_gozu,
+ mon_flaming_eye, mon_kreck, mon_blank, mon_gozu, mon_shadow, mon_breather_hub,
+ mon_breather, mon_shadow_snake,
 // Robots
 mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_copbot, mon_molebot,
  mon_tripod, mon_chickenbot, mon_tankbot, mon_turret, mon_exploder,

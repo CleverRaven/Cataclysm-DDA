@@ -787,7 +787,8 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_ATTENTION:
-  if (one_in( 100000 / dis.duration )) {
+  if (one_in( 100000 / dis.duration ) && one_in( 100000 / dis.duration ) &&
+      one_in(250)) {
    int range = g->moncats[mcat_nether].size();
    mon_id type = (g->moncats[mcat_nether])[rng(0, range - 1)];
    monster beast(g->mtypes[type]);
@@ -807,7 +808,7 @@ void dis_effect(game *g, player &p, disease &dis)
      g->cancel_activity_query("A monster appears nearby!");
      g->add_msg("A portal opens nearby, and a monster crawls through!");
     }
-    dis.duration /= 2;
+    dis.duration /= 4;
    }
   }
   break;

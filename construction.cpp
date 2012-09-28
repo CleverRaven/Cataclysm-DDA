@@ -9,7 +9,7 @@
 #include "crafting.h" // For the use_comps use_tools functions
 
 
-bool will_flood_stop(map *m, bool fill[SEEX * MAPSIZE][SEEY * MAPSIZE],
+bool will_flood_stop(map *m, bool (&fill)[SEEX * MAPSIZE][SEEY * MAPSIZE],
                      int x, int y);
 
 void game::init_construction()
@@ -564,7 +564,7 @@ bool construct::able_pit(game *g, point p)
  return (g->m.ter(p.x, p.y) == t_pit);//|| g->m.ter(p.x, p.y) == t_pit_shallow);
 }
 
-bool will_flood_stop(map *m, bool fill[SEEX * MAPSIZE][SEEY * MAPSIZE],
+bool will_flood_stop(map *m, bool (&fill)[SEEX * MAPSIZE][SEEY * MAPSIZE],
                      int x, int y)
 {
  if (x == 0 || y == 0 || x == SEEX * MAPSIZE - 1 || y == SEEY * MAPSIZE - 1)

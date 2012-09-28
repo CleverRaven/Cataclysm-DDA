@@ -269,6 +269,22 @@ enum pl_flag {
  PF_WEB_WALKER,
  PF_WEB_WEAVER,
  PF_WHISKERS,
+ PF_STR_UP,
+ PF_STR_UP_2,
+ PF_STR_UP_3,
+ PF_STR_UP_4,
+ PF_DEX_UP,
+ PF_DEX_UP_2,
+ PF_DEX_UP_3,
+ PF_DEX_UP_4,
+ PF_INT_UP,
+ PF_INT_UP_2,
+ PF_INT_UP_3,
+ PF_INT_UP_4,
+ PF_PER_UP,
+ PF_PER_UP_2,
+ PF_PER_UP_3,
+ PF_PER_UP_4,
 
  PF_HEADBUMPS,//
  PF_ANTLERS,//
@@ -704,6 +720,38 @@ leave webs in your wake."},
 You have a set of prominent rodent-like whiskers around your mouth.  These\n\
 make you more aware of vibrations in the air, and improve your ability to\n\
 dodge very slightly."},
+{"Strong", 1, 0, 0, "\
+Your muscles are a little stronger.  Strength + 1"},
+{"Very Strong", 2, 0, 0, "\
+Your muscles are stronger.  Strength + 2"},
+{"Extremely Strong", 4, 1, 0, "\
+Your muscles are much stronger.  Strength + 4"},
+{"Insanely Strong", 7, 2, 2, "\
+Your muscles are noticably bulging.  Strength + 7"},
+{"Dextrous", 1, 0, 0, "\
+You are a little nimbler.  Dexterity + 1"},
+{"Very Dextrous", 2, 0, 0, "\
+You are nimbler.  Dexterity + 2"},
+{"Extremely Dextrous", 3, 0, 0, "\
+You are nimble and quick.  Dexterity + 4"},
+{"Insanely Dextrous", 4, 0, 0, "\
+You are much nimbler than before.  Dexterity + 7"},
+{"Smart", 1, 0, 0, "\
+You are a little smarter.  Intelligence + 1"},
+{"Very Smart", 2, 0, 0, "\
+You are smarter.  Intelligence + 2"},
+{"Extremely Smart", 3, 1, 1, "\
+You are much smarter, and your skull bulges slightly.  Intelligence + 4"},
+{"Insanely Smart", 4, 3, 3, "\
+Your skull bulges noticably with your impressive brain.  Intelligence + 7"},
+{"Perceptive", 1, 0, 0, "\
+Your senses are a little keener.  Perception + 1"},
+{"Very Perceptive", 2, 0, 0, "\
+Your senses are keener.  Perception + 2"},
+{"Extremely Perceptive", 3, 0, 0, "\
+Your senses are much keener.  Perception + 4"},
+{"Insanely Perceptive", 4, 0, 0, "\
+You can sense things you never imagined.  Perception + 7"},
 
 {"Head Bumps", 0, 3, 3, "\
 You have a pair of bumps on your skull."},

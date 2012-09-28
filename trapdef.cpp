@@ -118,4 +118,29 @@ traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
 	&trapfunc::temple_toggle,	&trapfuncm::none,
 	itm_null, NULL);
 
+// Glow attack
+ TRAP("",			'^',	c_white,	99, 99, 99,
+	&trapfunc::glow,	&trapfuncm::glow,
+	itm_null, NULL);
+
+// Hum attack
+ TRAP("",			'^',	c_white,	99, 99, 99,
+	&trapfunc::hum,		&trapfuncm::hum,
+	itm_null, NULL);
+
+// Shadow spawn
+ TRAP("",			'^',	c_white,	99, 99, 99,
+	&trapfunc::shadow,	&trapfuncm::none,
+	itm_null, NULL);
+
+// Drain attack
+ TRAP("",			'^',	c_white,	99, 99, 99,
+	&trapfunc::drain,	&trapfuncm::drain,
+	itm_null, NULL);
+
+// Snake spawn / hisssss
+ TRAP("",			'^',	c_white,	99, 99, 99,
+	&trapfunc::snake,	&trapfuncm::snake,
+	itm_null, NULL);
+
 }
