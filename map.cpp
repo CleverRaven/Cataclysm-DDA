@@ -68,9 +68,9 @@ vehicle_list map::get_vehicles(int sx, int sy, int ex, int ey)
    if (nonant < 0 || nonant >= my_MAPSIZE * my_MAPSIZE)
     continue; // out of grid
 
-   for(int i = 0; i < grid[nonant].vehicles.size(); ++i) {
+   for(int i = 0; i < grid[nonant]->vehicles.size(); ++i) {
     wrapped_vehicle w;
-    w.item = &(grid[nonant].vehicles[i]);
+    w.item = &(grid[nonant]->vehicles[i]);
     w.x = w.item->posx + cx * SEEX;
     w.y = w.item->posy + cy * SEEY;
     vehs.push_back(w);
