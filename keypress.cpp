@@ -15,6 +15,39 @@ long input()
  }
 }
 
+bool input_wait(char & ret_ch, int delay_ms)
+{
+ ret_ch = KEY_ESCAPE;
+ timeout(delay_ms);
+ long ch = getch();
+ switch (ch) {
+  case KEY_UP:
+   ret_ch = 'k';
+   break;
+  case KEY_LEFT:
+   ret_ch = 'h';
+   break;
+  case KEY_RIGHT:
+   ret_ch = 'l';
+   break;
+  case KEY_DOWN:
+   ret_ch = 'j';
+   break;
+  case 459:
+   ret_ch = '\n';
+   break;
+  case ERR:
+   // Was error due to timeout?
+   break;
+  default:
+   ret_ch = ch;
+   break;
+ }
+ if( ret_ch != KEY_ESCAPE )
+  return true;
+ return false;
+}
+
 void get_direction(int &x, int &y, char ch)
 {
  x = 0;

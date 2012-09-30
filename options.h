@@ -13,6 +13,7 @@ OPT_24_HOUR, // 24 hour time
 OPT_SNAP_TO_TARGET, // game::firing snaps to target
 OPT_SAFEMODE, // Safemode on by default?
 OPT_AUTOSAFEMODE, // Autosafemode on by default?
+OPT_AUTOSAVE, // Automatically save the game on intervals.
 NUM_OPTION_KEYS
 };
 

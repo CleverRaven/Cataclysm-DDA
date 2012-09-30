@@ -39,6 +39,7 @@ game::game()
  init_construction(); // Set up constructables            (SEE construction.cpp)
  init_mutations();
  init_vehicles();     // Set up vehicles                  (SEE veh_typedef.cpp)
+ init_autosave();     // Set up autosave
  load_keyboard_settings();
 // Set up the main UI windows.
  w_terrain = newwin(SEEY * 2 + 1, SEEX * 2 + 1, 0, 0);
@@ -630,7 +631,11 @@ bool game::do_turn()
   cleanup_dead();
   if (!u.has_disease(DI_SLEEP) && u.activity.type == ACT_NULL)
    draw();
-  get_input();
+  if( get_input(autosave_timeout()) == IR_TIMEOUT )
+  {
+    autosave();
+    return false;
+  }
   if (is_game_over()) {
    if (uquit == QUIT_DIED)
     popup_top("Game over! Press spacebar...");
@@ -639,6 +644,7 @@ bool game::do_turn()
    return true;
   }
  }
+ ++moves_since_last_save;
  update_scent();
  m.vehmove(this);
  m.process_fields(this);
@@ -1157,14 +1163,18 @@ void game::process_missions()
  }
 }
 
-void game::get_input()
+input_ret game::get_input(int timeout_ms)
 {
- char ch = input(); // See keypress.h - translates keypad and arrows to vikeys
+ char ch = KEY_ESCAPE;
+ bool success = input_wait(ch, timeout_ms); // See keypress.h - translates keypad and arrows to vikeys
+
+ if (!success)
+  return IR_TIMEOUT;
 
  if (keymap.find(ch) == keymap.end()) {
   if (ch != ' ' && ch != KEY_ESCAPE && ch != '\n')
    add_msg("Unknown command: '%c'", ch);
-  return;
+  return IR_BAD;
  }
 
  action_id act = keymap[ch];
@@ -1498,6 +1508,8 @@ void game::get_input()
  }
 
  gamemode->post_action(this, act);
+
+ return IR_GOOD;
 }
 
 int& game::scent(int x, int y)
@@ -4643,6 +4655,7 @@ point game::look_around()
 // Pick up items at (posx, posy).
 void game::pickup(int posx, int posy, int min)
 {
+ item_exchanges_since_save += 1; // Keeping this simple.
  write_msg();
  if (u.weapon.type->id == itm_bio_claws) {
   add_msg("You cannot pick up items with your claws out!");
@@ -5140,6 +5153,8 @@ void game::drop()
   return;
  }
 
+ item_exchanges_since_save += dropped.size();
+
  itype_id first = itype_id(dropped[0].type->id);
  bool same = true;
  for (int i = 1; i < dropped.size() && same; i++) {
@@ -5221,6 +5236,8 @@ void game::drop_in_direction()
   add_msg("Never mind.");
   return;
  }
+
+ item_exchanges_since_save += dropped.size();
 
  itype_id first = itype_id(dropped[0].type->id);
  bool same = true;
@@ -7270,6 +7287,50 @@ void game::display_scent()
  }
  wrefresh(w_terrain);
  getch();
+}
+
+void game::init_autosave()
+{
+ moves_since_last_save = 0;
+ item_exchanges_since_save = 0;
+}
+
+int game::autosave_timeout()
+{
+ if (!OPTIONS[OPT_AUTOSAVE])
+  return -1; // -1 means block instead of timeout
+
+ const double upper_limit = 60 * 1000;
+ const double lower_limit = 5 * 1000;
+ const double range = upper_limit - lower_limit;
+
+ // Items exchanged
+ const double max_changes = 20.0;
+ const double max_moves = 500.0;
+
+ double move_multiplier = 0.0;
+ double changes_multiplier = 0.0;
+
+ if( moves_since_last_save < max_moves )
+  move_multiplier = 1 - (moves_since_last_save / max_moves);
+
+ if( item_exchanges_since_save < max_changes )
+  changes_multiplier = 1 - (item_exchanges_since_save / max_changes);
+
+ double ret = lower_limit + (range * move_multiplier * changes_multiplier);
+ //add_msg("move_multiplier: %f", move_multiplier);
+ //add_msg("changes_multiplier: %f", changes_multiplier);
+ //add_msg("autosave_timeout: %f", ret);
+ return ret;
+}
+
+void game::autosave()
+{
+ if (!moves_since_last_save && !item_exchanges_since_save)
+  return;
+ MAPBUFFER.save();
+ moves_since_last_save = 0;
+ item_exchanges_since_save = 0;
 }
 
 void intro()
