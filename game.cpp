@@ -4585,6 +4585,10 @@ point game::look_around()
    for (int j = 1; j < 47; j++)
     mvwputch(w_look, i, j, c_white, ' ');
   }
+
+  // Debug helper
+  //mvwprintw(w_look, 6, 1, "Items: %d", m.i_at(lx, ly).size() );
+
   int veh_part = 0;
   vehicle *veh = m.veh_at(lx, ly, veh_part);
   if (u_see(lx, ly, junk)) {
