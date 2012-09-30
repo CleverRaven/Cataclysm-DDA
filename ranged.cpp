@@ -113,28 +113,20 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
         radius++) {
     for (int diff = 0 - radius; diff <= radius; diff++) {
      mondex = mon_at(tarx + diff, tary - radius);
-     if (z[mondex].hp <= 0)
-      mondex = -1;
-     if (mondex != -1 && z[mondex].friendly == 0)
+     if (mondex != -1 && z[mondex].hp > 0 && z[mondex].friendly == 0)
       new_targets.push_back( point(tarx + diff, tary - radius) );
 
      mondex = mon_at(tarx + diff, tary + radius);
-     if (z[mondex].hp <= 0)
-      mondex = -1;
-     if (mondex != -1 && z[mondex].friendly == 0)
+     if (mondex != -1 && z[mondex].hp > 0 && z[mondex].friendly == 0)
       new_targets.push_back( point(tarx + diff, tary + radius) );
 
      if (diff != 0 - radius && diff != radius) { // Corners were already checked
       mondex = mon_at(tarx - radius, tary + diff);
-      if (z[mondex].hp <= 0)
-       mondex = -1;
-      if (mondex != -1 && z[mondex].friendly == 0)
+      if (mondex != -1 && z[mondex].hp > 0 && z[mondex].friendly == 0)
        new_targets.push_back( point(tarx - radius, tary + diff) );
 
       mondex = mon_at(tarx + radius, tary + diff);
-      if (z[mondex].hp <= 0)
-       mondex = -1;
-      if (mondex != -1 && z[mondex].friendly == 0)
+      if (mondex != -1 && z[mondex].hp > 0 && z[mondex].friendly == 0)
        new_targets.push_back( point(tarx + radius, tary + diff) );
      }
     }
@@ -239,7 +231,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    if (mondex != -1 && (!z[mondex].has_flag(MF_DIGS) ||
        rl_dist(p.posx, p.posy, z[mondex].posx, z[mondex].posy) <= 1) &&
        ((!missed && i == trajectory.size() - 1) ||
-        one_in((5 - int(z[mon_at(tx, ty)].type->size))))) {
+        one_in((5 - int(z[mondex].type->size))))) {
 
     double goodhit = missed_by;
     if (i < trajectory.size() - 1) // Unintentional hit
