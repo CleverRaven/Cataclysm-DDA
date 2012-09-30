@@ -17,7 +17,7 @@ long input()
 
 bool input_wait(char & ret_ch, int delay_ms)
 {
- ret_ch = KEY_ESCAPE;
+ ret_ch = '\0';
  timeout(delay_ms);
  long ch = getch();
  switch (ch) {
@@ -43,7 +43,7 @@ bool input_wait(char & ret_ch, int delay_ms)
    ret_ch = ch;
    break;
  }
- if( ret_ch != KEY_ESCAPE )
+ if( ret_ch != '\0' )
   return true;
  return false;
 }
