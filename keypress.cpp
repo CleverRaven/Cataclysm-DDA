@@ -43,6 +43,7 @@ bool input_wait(char & ret_ch, int delay_ms)
    ret_ch = ch;
    break;
  }
+ timeout(-1);
  if( ret_ch != '\0' )
   return true;
  return false;
