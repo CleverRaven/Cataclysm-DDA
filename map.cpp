@@ -2291,7 +2291,7 @@ void map::saven(overmap *om, unsigned int turn, int worldx, int worldy,
 {
  int n = gridx + gridy * my_MAPSIZE;
 
- if (grid[n]->ter[0][0] == t_null)
+ if ( !grid[n] || grid[n]->ter[0][0] == t_null)
   return;
  int abs_x = om->posx * OMAPX * 2 + worldx + gridx,
      abs_y = om->posy * OMAPY * 2 + worldy + gridy;
