@@ -4,6 +4,7 @@ Cataclysm Mod
 A Cataclysm Roguelike mod, again.
 
 To suggest things or report bugs, hit me up over on my forum thread at: http://whalesdev.com/forums/index.php?topic=1389.0 - or drop me an email at TheDarklingWolf@gmail.com
+Don't forget about uzername!
 
 Cataclysm is a post-apocalyptic roguelike, set in the countryside of New England
 after a devastating plague of monsters and zombies.
