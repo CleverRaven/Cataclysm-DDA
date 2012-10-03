@@ -253,6 +253,7 @@ public:
  std::vector<int> has_ammo(ammotype at);// Returns a list of indices of the ammo
 
 // ---------------VALUES-----------------
+ int id;	// A unique ID number, assigned by the game class
  int posx, posy;
  bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
  player_activity activity;

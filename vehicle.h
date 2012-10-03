@@ -20,6 +20,18 @@ const int k_mvel = 200;
 // Structure, describing vehicle part (ie, wheel, seat)
 struct vehicle_part
 {
+    vehicle_part() : id(vp_null), mount_dx(0), mount_dy(0), hp(0),
+    blood(0), inside(false), flags(0), passenger_id(0)
+    {
+        precalc_dx[0] = precalc_dx[1] = -1;
+        precalc_dy[0] = precalc_dy[1] = -1;
+    }
+    bool has_flag( int flag ) { return flag & flags; }
+    bool set_flag( int flag ) { flags |= flag; }
+    bool remove_flag( int flag ) { flags &= ~flag; }
+
+    static const int passenger_flag = 1;
+
     vpart_id id;            // id in list of parts (vpart_list index)
     int mount_dx;           // mount point on the forward/backward axis
     int mount_dy;           // mount point on the left/right axis
@@ -28,11 +40,12 @@ struct vehicle_part
     int hp;                 // current durability, if 0, then broken
     int blood;              // how much blood covers part (in turns). only useful for external
     bool inside;            // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
+    int flags;
     union
     {
         int amount;         // amount of fuel for tank
         int open;           // door is open
-        int passenger;      // seat has passenger
+        int passenger_id;      // seat has passenger
     };
     std::vector<item> items;// inventory
 };

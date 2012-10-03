@@ -116,13 +116,15 @@ void map::board_vehicle(game *g, int x, int y, player *p)
             veh->part_info(part).name);
   return;
  }
- if (veh->parts[seat_part].passenger) {
+ if (veh->parts[seat_part].has_flag(vehicle_part::passenger_flag)) {
   player *psg = veh->get_passenger (seat_part);
   debugmsg ("map::board_vehicle: passenger (%s) is already there",
             psg ? psg->name.c_str() : "<null>");
   return;
  }
- veh->parts[seat_part].passenger = 1;
+ veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
+ veh->parts[seat_part].passenger_id = 0; // Player is 0
+
  p->posx = x;
  p->posy = y;
  p->in_vehicle = true;
@@ -154,7 +156,7 @@ void map::unboard_vehicle(game *g, int x, int y)
  }
  psg->in_vehicle = false;
  psg->driving_recoil = 0;
- veh->parts[seat_part].passenger = 0;
+ veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
  veh->skidding = true;
 }
 

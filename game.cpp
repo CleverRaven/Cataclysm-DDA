@@ -3773,6 +3773,15 @@ int game::npc_at(int x, int y)
  return -1;
 }
 
+int game::npc_by_id(int id)
+{
+ for (int i = 0; i < active_npc.size(); i++) {
+  if (active_npc[i].id == id)
+   return i;
+ }
+ return -1;
+}
+
 /*
 void game::build_monmap()
 {
@@ -6004,7 +6013,8 @@ void game::plmove(int x, int y)
   if (u.underwater)
    u.underwater = false;
   dpart = veh ? veh->part_with_feature (vpart, vpf_seat) : -1;
-  bool can_board = dpart >= 0 && !veh->parts[dpart].passenger;
+  bool can_board = dpart >= 0 &&
+      !veh->parts[dpart].has_flag(vehicle_part::passenger_flag);
 /*  if (veh.type != veh_null)
       add_msg ("vp=%d dp=%d can=%c", vpart, dpart, can_board? 'y' : 'n',);*/
   if (can_board && query_yn("Board vehicle?")) { // empty vehicle's seat ahead

@@ -23,6 +23,7 @@ bool activity_is_suspendable(activity_type type);
 
 player::player()
 {
+ id = 0; // Player is 0. NPCs are different.
  str_cur = 8;
  str_max = 8;
  dex_cur = 8;
