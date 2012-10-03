@@ -3,6 +3,7 @@
 #include "output.h"
 #include "line.h"
 #include "rng.h"
+#include <ostream>
 
 settlement::settlement()
 {
@@ -59,4 +60,14 @@ void settlement::add_building(oter_id ter)
   return;
  buildings[ter - ot_set_house]++;
 */
+}
+
+std::ostream & operator<<(std::ostream & out, const settlement & s)
+{
+ out << "settlement(";
+ out << "faction?, posx: " << s.posx << ", ";
+ out << "posy: " << s.posy << ", ";
+ out << "pop: " << s.pop << ", ";
+ out << "size: " << s.size << ")";
+ return out;
 }

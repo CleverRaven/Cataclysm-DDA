@@ -6,6 +6,7 @@
 #DEBUG = -g
 #PROFILE = -pg
 OTHERS = -O3
+DEFINES = -DNDEBUG
 
 ODIR = obj
 DDIR = .deps
@@ -31,7 +32,7 @@ all: $(TARGET)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
-	$(CXX) -o $(TARGET) $(CFLAGS) $(OBJS) $(LDFLAGS) 
+	$(CXX) -o $(TARGET) $(DEFINES) $(CFLAGS) $(OBJS) $(LDFLAGS) 
 
 $(ODIR):
 	mkdir $(ODIR)
@@ -40,7 +41,7 @@ $(DDIR):
 	@mkdir $(DDIR)
 
 $(ODIR)/%.o: %.cpp
-	$(CXX) $(CFLAGS) -c $< -o $@
+	$(CXX) $(DEFINES) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(TARGET) $(ODIR)/*.o

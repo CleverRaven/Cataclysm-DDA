@@ -10,6 +10,7 @@
 #include "enums.h"
 #include "computer.h"
 #include "vehicle.h"
+#include <iosfwd>
 
 class game;
 class monster;
@@ -633,5 +634,8 @@ struct submap {
  std::vector<vehicle> vehicles;
  computer comp;
 };
+
+std::ostream & operator<<(std::ostream &, const submap *);
+std::ostream & operator<<(std::ostream &, const submap &);
 
 #endif

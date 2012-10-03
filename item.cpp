@@ -1327,3 +1327,22 @@ std::string default_technique_name(technique_id tech)
  }
  return "A BUG!";
 }
+
+std::ostream & operator<<(std::ostream & out, const item * it)
+{
+ out << "item(";
+ if(!it)
+ {
+  out << "NULL)";
+  return out;
+ }
+ out << it->name << ")";
+ return out;
+}
+
+std::ostream & operator<<(std::ostream & out, const item & it)
+{
+ out << (&it);
+ return out;
+}
+

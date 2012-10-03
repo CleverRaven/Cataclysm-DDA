@@ -123,5 +123,7 @@ public:
 
 };
 
+std::ostream & operator<<(std::ostream &, const item &);
+std::ostream & operator<<(std::ostream &, const item *);
 
 #endif

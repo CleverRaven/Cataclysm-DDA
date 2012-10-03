@@ -25,6 +25,8 @@ moncat_id mt_to_mc(mon_id type);	// Pick the moncat that contains type
 // This is the main game set-up process.
 game::game()
 {
+ dout() << "Game initialized.";
+
  clear();	// Clear the screen
  intro();	// Print an intro screen, make sure we're at least 80x25
 // Gee, it sure is init-y around here!

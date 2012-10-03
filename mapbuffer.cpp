@@ -3,6 +3,8 @@
 #include "output.h"
 #include <fstream>
 
+#define db(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+
 mapbuffer MAPBUFFER;
 
 bool pcomp(point lhs, point rhs)
@@ -31,6 +33,8 @@ void mapbuffer::set_game(game *g)
 
 bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
 {
+ db(D_INFO) << "mapbuffer::add_submap( x["<< x <<"], y["<< y <<"], z["<< z <<"], submap["<< sm <<"])";
+
  tripoint p(x, y, z);
  if (submaps.count(p) != 0)
   return false;
@@ -43,10 +47,14 @@ bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
 
 submap* mapbuffer::lookup_submap(int x, int y, int z)
 {
+ db(D_INFO) << "mapbuffer::lookup_submap( x["<< x <<"], y["<< y <<"], z["<< z <<"])";
+
  tripoint p(x, y, z);
 
  if (submaps.count(p) == 0)
   return NULL;
+
+ db(D_INFO) << "mapbuffer::lookup_submap success: "<< submaps[p];
 
  return submaps[p];
 }
