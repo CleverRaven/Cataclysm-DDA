@@ -4223,7 +4223,7 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
    } else if ((mod->id == itm_clip || mod->id == itm_clip2) &&
               (gun->contents[i].type->id == itm_clip ||
                gun->contents[i].type->id == itm_clip2)) {
-    g->add_msg("Your %s already has its clip size extended.",
+    g->add_msg("Your %s already has its magazine size extended.",
                gun->tname(g).c_str());
     if (replace_item)
      inv.add_item(copy);
