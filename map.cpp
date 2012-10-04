@@ -12,7 +12,7 @@
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
-#define db(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 enum astar_list {
  ASL_NONE,
@@ -29,7 +29,7 @@ map::map()
  else
   my_MAPSIZE = MAPSIZE;
 
- db(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
+ dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
 }
 
 map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
@@ -47,7 +47,7 @@ map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
  for (int n = 0; n < my_MAPSIZE * my_MAPSIZE; n++)
   grid[n] = NULL;
 
- db(D_INFO) << "map::map( itptr["<<itptr<<"], miptr["<<miptr<<"], trptr["<<trptr<<"] ): my_MAPSIZE: " << my_MAPSIZE;
+ dbg(D_INFO) << "map::map( itptr["<<itptr<<"], miptr["<<miptr<<"], trptr["<<trptr<<"] ): my_MAPSIZE: " << my_MAPSIZE;
 
 }
 
@@ -59,8 +59,6 @@ vehicle* map::veh_at(int x, int y, int &part_num)
 {
  if (!inbounds(x, y))
  {
-  db(D_ERROR) << "map::veh_at: Checked for out of bounds vehicle: (" << x
-              << "," << y << ") Part: " << part_num;
   return NULL;    // Out-of-bounds - null vehicle
  }
  int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
@@ -2302,21 +2300,21 @@ void map::shift(game *g, int wx, int wy, int sx, int sy)
 void map::saven(overmap *om, unsigned int turn, int worldx, int worldy,
                 int gridx, int gridy)
 {
- db(D_INFO) << "map::saven(om[" << (void*)om << "], turn[" << turn <<"], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
+ dbg(D_INFO) << "map::saven(om[" << (void*)om << "], turn[" << turn <<"], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
 
  int n = gridx + gridy * my_MAPSIZE;
 
- db(D_INFO) << "map::saven n: " << n;
+ dbg(D_INFO) << "map::saven n: " << n;
 
  if ( !grid[n] || grid[n]->ter[0][0] == t_null)
  {
-  db(D_ERROR) << "map::saven grid NULL!";
+  dbg(D_ERROR) << "map::saven grid NULL!";
   return;
  }
  int abs_x = om->posx * OMAPX * 2 + worldx + gridx,
      abs_y = om->posy * OMAPY * 2 + worldy + gridy;
 
- db(D_INFO) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y;
+ dbg(D_INFO) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y;
 
  MAPBUFFER.add_submap(abs_x, abs_y, om->posz, grid[n]);
 }
@@ -2328,13 +2326,13 @@ void map::saven(overmap *om, unsigned int turn, int worldx, int worldy,
 // 0,2  1,2  2,2 etc
 bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
 {
- db(D_INFO) << "map::loadn(game[" << g << "], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
+ dbg(D_INFO) << "map::loadn(game[" << g << "], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
 
  int absx = g->cur_om.posx * OMAPX * 2 + worldx + gridx,
      absy = g->cur_om.posy * OMAPY * 2 + worldy + gridy,
      gridn = gridx + gridy * my_MAPSIZE;
 
- db(D_INFO) << "map::loadn absx: " << absx << "  absy: " << absy
+ dbg(D_INFO) << "map::loadn absx: " << absx << "  absy: " << absy
             << "  gridn: " << gridn;
 
  submap *tmpsub = MAPBUFFER.lookup_submap(absx, absy, g->cur_om.posz);
@@ -2345,7 +2343,7 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
    grid[gridn]->vehicles[i].smy = gridy;
   }
  } else { // It doesn't exist; we must generate it!
-  db(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
+  dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
   map tmp_map(itypes, mapitems, traps);
 // overx, overy is where in the overmap we need to pull data from
 // Each overmap square is two nonants; to prevent overlap, generate only at

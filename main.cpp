@@ -15,9 +15,13 @@
 #include "color.h"
 #include "options.h"
 #include "mapbuffer.h"
+#include "debug.h"
 
 int main(int argc, char *argv[])
 {
+#ifdef ENABLE_LOGGING
+    setupDebug();
+#endif
  srand(time(NULL));
 
 // ncurses stuff

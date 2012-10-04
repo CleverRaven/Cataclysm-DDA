@@ -11,7 +11,7 @@
 #define sgn(x) (((x) < 0) ? -1 : 1)
 #endif
 
-#define db(x) dout((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) dout((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 ter_id grass_or_dirt()
 {
@@ -77,7 +77,7 @@ void add_corpse(game *g, map *m, int x, int y);
 
 void map::generate(game *g, overmap *om, int x, int y, int turn)
 {
- db(D_INFO) << "map::generate( g["<<g<<"], om["<<(void*)om<<"], x["<<x<<"], "
+ dbg(D_INFO) << "map::generate( g["<<g<<"], om["<<(void*)om<<"], x["<<x<<"], "
             << "y["<<y<<"], turn["<<turn<<"] )";
 
 // First we have to create new submaps and initialize them to 0 all over
@@ -105,7 +105,7 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
  int overx = x / 2;
  int overy = y / 2;
  if ( 0 && x >= OMAPX * 2 || x < 0 || y >= OMAPY * 2 || y < 0) {
-  db(D_INFO) << "map::generate: In section 1";
+  dbg(D_INFO) << "map::generate: In section 1";
 
 // This happens when we're at the very edge of the overmap, and are generating
 // terrain for the adjacent overmap.
@@ -149,7 +149,7 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
   else
    t_west = om->ter(OMAPX - 1, overy);
  } else {
-  db(D_INFO) << "map::generate: In section 2";
+  dbg(D_INFO) << "map::generate: In section 2";
 
   if (om->posz < 0 || om->posz == 9) {	// 9 is for tutorials
    overmap tmp = overmap(g, om->posx, om->posy, om->posz + 1);
@@ -195,8 +195,8 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
  for (int i = 0; i < my_MAPSIZE; i++) {
   for (int j = 0; j < my_MAPSIZE; j++) {
 
-   db(D_INFO) << "map::generate: submap ("<<i<<","<<j<<")";
-   db(D_INFO) << grid[i+j];
+   dbg(D_INFO) << "map::generate: submap ("<<i<<","<<j<<")";
+   dbg(D_INFO) << grid[i+j];
 
    if (i <= 1 && j <= 1)
     saven(om, turn, x, y, i, j);

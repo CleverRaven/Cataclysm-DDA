@@ -1,9 +1,10 @@
 #include "mapbuffer.h"
 #include "game.h"
 #include "output.h"
+#include "debug.h"
 #include <fstream>
 
-#define db(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 mapbuffer MAPBUFFER;
 
@@ -33,7 +34,7 @@ void mapbuffer::set_game(game *g)
 
 bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
 {
- db(D_INFO) << "mapbuffer::add_submap( x["<< x <<"], y["<< y <<"], z["<< z <<"], submap["<< sm <<"])";
+ dbg(D_INFO) << "mapbuffer::add_submap( x["<< x <<"], y["<< y <<"], z["<< z <<"], submap["<< sm <<"])";
 
  tripoint p(x, y, z);
  if (submaps.count(p) != 0)
@@ -47,14 +48,14 @@ bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
 
 submap* mapbuffer::lookup_submap(int x, int y, int z)
 {
- db(D_INFO) << "mapbuffer::lookup_submap( x["<< x <<"], y["<< y <<"], z["<< z <<"])";
+ dbg(D_INFO) << "mapbuffer::lookup_submap( x["<< x <<"], y["<< y <<"], z["<< z <<"])";
 
  tripoint p(x, y, z);
 
  if (submaps.count(p) == 0)
   return NULL;
 
- db(D_INFO) << "mapbuffer::lookup_submap success: "<< submaps[p];
+ dbg(D_INFO) << "mapbuffer::lookup_submap success: "<< submaps[p];
 
  return submaps[p];
 }

@@ -19,6 +19,7 @@
 #include "keypress.h"
 #include <cstring>
 #include <ostream>
+#include "debug.h"
 
 #define STREETCHANCE 2
 #define NUM_FOREST 250
