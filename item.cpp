@@ -208,7 +208,7 @@ std::string item::save_info()
  if (ammotmp < 0 || ammotmp > num_items)
   ammotmp = 0; // Saves us from some bugs
  std::stringstream dump;// (std::stringstream::in | std::stringstream::out);
- dump << " " << int(invlet) << " " << int(type->id) << " " <<  int(charges) <<
+ dump << " " << int(invlet) << " " << int(typeId()) << " " <<  int(charges) <<
          " " << int(damage) << " " << int(burnt) << " " << poison << " " <<
          ammotmp << " " << owned << " " << int(bday);
  if (active)
@@ -566,12 +566,12 @@ std::string item::tname(game *g)
  else if (burnt > 0)
   ret << "burnt ";
 
- if (type->id == itm_corpse) {
+ if (typeId() == itm_corpse) {
   ret << corpse->name << " corpse";
   if (name != "")
    ret << " of " << name;
   return ret.str();
- } else if (type->id == itm_blood) {
+ } else if (typeId() == itm_blood) {
   if (corpse == NULL || corpse->id == mon_null)
    ret << "human blood";
   else
@@ -607,7 +607,7 @@ std::string item::tname(game *g)
 
 nc_color item::color()
 {
- if (type->id == itm_corpse)
+ if (typeId() == itm_corpse)
   return corpse->color;
  return type->color;
 }
@@ -622,7 +622,7 @@ int item::price()
 
 int item::weight()
 {
- if (type->id == itm_corpse) {
+ if (typeId() == itm_corpse) {
   int ret;
   switch (corpse->size) {
    case MS_TINY:   ret =    5;	break;
@@ -649,7 +649,7 @@ int item::weight()
 
 int item::volume()
 {
- if (type->id == itm_corpse) {
+ if (typeId() == itm_corpse) {
   switch (corpse->size) {
    case MS_TINY:   return   2;
    case MS_SMALL:  return  40;
@@ -689,7 +689,7 @@ int item::damage_cut()
 {
  if (is_gun()) {
   for (int i = 0; i < contents.size(); i++) {
-   if (contents[i].type->id == itm_bayonet)
+   if (contents[i].typeId() == itm_bayonet)
     return contents[i].type->melee_cut;
   }
  }
@@ -842,7 +842,7 @@ bool item::is_two_handed(player *u)
 
 bool item::made_of(material mat)
 {
- if (type->id == itm_corpse)
+ if (typeId() == itm_corpse)
   return (corpse->mat == mat);
  return (type->m1 == mat || type->m2 == mat);
 }
@@ -896,7 +896,7 @@ bool item::is_food(player *u)
      (dynamic_cast<it_ammo*>(type))->type == AT_BATT)
   return true;
  if (u->has_bionic(bio_furnace) && is_flammable(type->m1) &&
-     is_flammable(type->m2) && type->id != itm_corpse)
+     is_flammable(type->m2) && typeId() != itm_corpse)
   return true;
  return false;
 }
@@ -1165,7 +1165,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
  }
  bool has_m203 = false;
  for (int i = 0; i < contents.size() && !has_m203; i++) {
-  if (contents[i].type->id == itm_m203)
+  if (contents[i].typeId() == itm_m203)
    has_m203 = true;
  }
 
@@ -1175,7 +1175,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
   if (charges > 0) {
    itype_id aid = itype_id(curammo->id);
    for (int i = 0; i < u.inv.size(); i++) {
-    if (u.inv[i].type->id == aid)
+    if (u.inv[i].typeId() == aid)
      am.push_back(i);
    }
   } else {
@@ -1227,7 +1227,7 @@ Choose ammo type:         Damage     Armor Pierce     Range     Accuracy");
   } else {
    int smallest = 500;
    for (int i = 0; i < am.size(); i++) {
-    //if (u.inv[am[i]].type->id == curammo->id &&
+    //if (u.inv[am[i]].typeId() == curammo->id &&
         if (u.inv[am[i]].charges < smallest) {
      smallest = u.inv[am[i]].charges;
      index = am[i];
@@ -1256,7 +1256,7 @@ bool item::reload(player &u, int index)
  }
  if (index > -1) {
 // If the gun is currently loaded with a different type of ammo, reloading fails
-  if (is_gun() && charges > 0 && curammo->id != u.inv[index].type->id)
+  if (is_gun() && charges > 0 && curammo->id != u.inv[index].typeId())
    return false;
   if (is_gun()) {
    if (!u.inv[index].is_ammo()) {
@@ -1326,4 +1326,11 @@ std::string default_technique_name(technique_id tech)
   default: return "A BUG!";
  }
  return "A BUG!";
+}
+
+int item::typeId()
+{
+    if ( type == NULL )
+        return itm_null;
+    return type->id;
 }
