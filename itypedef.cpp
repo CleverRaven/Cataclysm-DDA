@@ -43,7 +43,7 @@ void game::init_itypes ()
             "A fake item.  If you are reading this it's a bug!",
             '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0));
  int index = 3;
- 
+
 // Drinks
 // Stim should be -8 to 8.
 // quench MAY be less than zero--salt water and liquor make you thirstier.
@@ -1588,7 +1588,7 @@ A sharpened arrow carved from wood.  It's light-weight, does little damage,\n\
 and is so-so on accuracy.  Stands a good chance of remaining intact once\n\
 fired.",
 0);
-            
+
 AMMO("carbon fiber arrow",5,300,AT_ARROW,       c_green,        PLASTIC,
          2, 30, 12,  2, 15, 14,  0,   8, "\
 High-tech carbon fiber shafts and 100 grain broadheads. Very light weight,\n\
@@ -1960,7 +1960,7 @@ A bow with wheels that fires high velocity arrows.  Weaker people can use\n\
 compound bows more easily.  Arrows fired from this weapon have a good chance\n\
 of remaining intact for re-use.",
 mfb(IF_STR8_DRAW)|mfb(IF_RELOAD_AND_SHOOT));
-        
+
 GUN("longbow",           5, 800,c_yellow,       WOOD,   MNULL,
         sk_archery,     AT_ARROW,8, 4, 10,  0,  0, 12,  0,  6,  0,  1,  80, "\
 A six-foot wooden bow that fires feathered arrows.  This takes a fair amount\n\
@@ -3388,6 +3388,14 @@ MACGUFFIN("paper note", 0, '?', c_white, PAPER, MNULL, 1, 0, 0, 0, 0,
 	true, &iuse::mcg_note, "\
 A hand-written paper note.");
 
+MELEE("poppy flower",   1, 400,',', c_magenta,	VEGGY,	MNULL,
+	 1,  0, -8,  0, -3, 0, "\
+A poppy stalk with some petals.");
+
+MELEE("a poppy bud",   1, 400,',', c_magenta,	VEGGY,	MNULL,
+	 1,  0, -8,  0, -3, 0, "\
+Contains some substances commonly produced by mutated poppy flower");
+
  if (itypes.size() > num_items)
   debugmsg("%d items, %d itypes", itypes.size(), num_all_items);
 
@@ -3512,7 +3520,7 @@ against large or strong opponents.",
 
 "slap", TEC_RAPID, 2,
 "block", TEC_BLOCK, 3,
-"block", TEC_BLOCK_LEGS, 4, 
+"block", TEC_BLOCK_LEGS, 4,
 "power-kick", TEC_BRUTAL, 4,
 "counter-attack", TEC_COUNTER, 5
 );
@@ -3714,7 +3722,7 @@ attacks with no penalty.",
    } while (namepart.find("-") == std::string::npos);
    art->name = namedata.str();
    start = true;
- 
+
    std::stringstream descdata;
    do {
     fin >> namepart;
