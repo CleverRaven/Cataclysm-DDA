@@ -1922,21 +1922,21 @@ void game::vadd_msg(const char* msg, va_list ap)
 
 void game::add_msg(const char* msg, ...)
 {
-    va_list ap;
-    va_start(ap, msg);
-    vadd_msg(msg, ap);
-    va_end(ap);
+ va_list ap;
+ va_start(ap, msg);
+ vadd_msg(msg, ap);
+ va_end(ap);
 }
 
 void game::add_msg_if_player(player *p, const char* msg, ...)
 {
-    if (p && !p->is_npc())
-    {
-        va_list ap;
-        va_start(ap, msg);
-        vadd_msg(msg, ap);
-        va_end(ap);
-    }
+ if (p && !p->is_npc())
+ {
+  va_list ap;
+  va_start(ap, msg);
+  vadd_msg(msg, ap);
+  va_end(ap);
+ }
 }
 
 void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
