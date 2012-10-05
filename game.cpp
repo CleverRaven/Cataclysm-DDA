@@ -1890,13 +1890,10 @@ void game::decrease_nextinv()
   nextinv--;
 }
 
-void game::add_msg(const char* msg, ...)
+void game::vadd_msg(const char* msg, va_list ap)
 {
  char buff[1024];
- va_list ap;
- va_start(ap, msg);
  vsprintf(buff, msg, ap);
- va_end(ap);
  std::string s(buff);
  if (s.length() == 0)
   return;
@@ -1921,6 +1918,25 @@ void game::add_msg(const char* msg, ...)
  }
 */
  messages.push_back( game_message(turn, s) );
+}
+
+void game::add_msg(const char* msg, ...)
+{
+    va_list ap;
+    va_start(ap, msg);
+    vadd_msg(msg, ap);
+    va_end(ap);
+}
+
+void game::add_msg_if_player(player *p, const char* msg, ...)
+{
+    if (p && !p->is_npc())
+    {
+        va_list ap;
+        va_start(ap, msg);
+        vadd_msg(msg, ap);
+        va_end(ap);
+    }
 }
 
 void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
