@@ -24,6 +24,7 @@
 #include "action.h"
 #include <vector>
 #include <map>
+#include <stdarg.h>
 
 #define LONG_RANGE 10
 #define BLINK_SPEED 300
@@ -82,7 +83,9 @@ class game
   void draw_ter(int posx = -999, int posy = -999);
   void advance_nextinv();	// Increment the next inventory letter
   void decrease_nextinv();	// Decrement the next inventory letter
+  void vadd_msg(const char* msg, va_list ap );
   void add_msg(const char* msg, ...);
+  void add_msg_if_player(player *p, const char* msg, ...);
   void add_event(event_type type, int on_turn, int faction_id = -1,
                  int x = -1, int y = -1);
   bool event_queued(event_type type);
