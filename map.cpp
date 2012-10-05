@@ -2338,9 +2338,8 @@ void map::copy_grid(int to, int from)
 {
  grid[to] = grid[from];
  for (int i = 0; i < grid[to]->vehicles.size(); i++) {
-  int ind = grid[to]->vehicles.size() - 1;
-  grid[to]->vehicles[ind].smx = to % my_MAPSIZE;
-  grid[to]->vehicles[ind].smy = to / my_MAPSIZE;
+  grid[to]->vehicles[i].smx = to % my_MAPSIZE;
+  grid[to]->vehicles[i].smy = to / my_MAPSIZE;
  }
 }
 
