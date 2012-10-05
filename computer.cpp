@@ -441,7 +441,7 @@ void computer::activate_function(game *g, computer_action action)
     tmp_om = g->cur_om;
     g->cur_om = overmap(g, tmp_om.posx, tmp_om.posy, level);
     tinymap tmpmap(&g->itypes, &g->mapitems, &g->traps);
-    tmpmap.load(g, g->levx, g->levy);
+    tmpmap.load(g, g->levx, g->levy, false);
     tmpmap.translate(t_missile, t_hole);
     tmpmap.save(&tmp_om, g->turn, g->levx, g->levy);
    }
