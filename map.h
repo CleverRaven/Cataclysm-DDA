@@ -42,7 +42,7 @@ class map
 
 // File I/O
  virtual void save(overmap *om, unsigned int turn, int x, int y);
- virtual void load(game *g, int wx, int wy);
+ virtual void load(game *g, int wx, int wy, bool update_vehicles = true);
  void shift(game *g, int wx, int wy, int x, int y);
  void spawn_monsters(game *g);
  void clear_spawns();
@@ -158,7 +158,7 @@ class map
 
 protected:
  void saven(overmap *om, unsigned int turn, int x, int y, int gridx, int gridy);
- bool loadn(game *g, int x, int y, int gridx, int gridy);
+ bool loadn(game *g, int x, int y, int gridx, int gridy, bool update_vehicles = true);
  void copy_grid(int to, int from);
  void draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                oter_id t_south, oter_id t_west, oter_id t_above, int turn,

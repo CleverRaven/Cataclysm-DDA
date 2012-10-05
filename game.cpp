@@ -530,7 +530,7 @@ bool game::do_turn()
   for (int i = 0; i < z.size(); i++) {
    if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
     tinymap tmp(&itypes, &mapitems, &traps);
-    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
+    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
     tmp.add_spawn(&(z[i]));
     tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
    } else {	// Absorb them back into a group
@@ -6362,7 +6362,7 @@ void game::vertical_move(int movez, bool force)
  //m.save(&cur_om, turn, levx, levy);
  cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz + movez);
  map tmpmap(&itypes, &mapitems, &traps);
- tmpmap.load(this, levx, levy);
+ tmpmap.load(this, levx, levy, false);
  cur_om = overmap(this, cur_om.posx, cur_om.posy, original_z);
 // Find the corresponding staircase
  int stairx = -1, stairy = -1;
@@ -6421,12 +6421,12 @@ void game::vertical_move(int movez, bool force)
      coming_to_stairs.push_back( monster_and_count(z[i], 1 + turns) );
    } else if (z[i].spawnmapx != -1) { // Static spawn, move them back there
     tinymap tmp(&itypes, &mapitems, &traps);
-    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
+    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
     tmp.add_spawn(&(z[i]));
     tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
    } else if (z[i].friendly < 0) { // Friendly, make it into a static spawn
     tinymap tmp(&itypes, &mapitems, &traps);
-    tmp.load(this, levx, levy);
+    tmp.load(this, levx, levy, false);
     int spawnx = z[i].posx, spawny = z[i].posy;
     while (spawnx < 0)
      spawnx += SEEX;
@@ -6567,7 +6567,7 @@ void game::update_map(int &x, int &y)
 // Despawn; we're out of bounds
    if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
     map tmp(&itypes, &mapitems, &traps);
-    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
+    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
     tmp.add_spawn(&(z[i]));
     tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
    } else {	// Absorb them back into a group
@@ -7173,7 +7173,7 @@ void game::nuke(int x, int y)
   return;
  int mapx = x * 2, mapy = y * 2;
  map tmpmap(&itypes, &mapitems, &traps);
- tmpmap.load(this, mapx, mapy);
+ tmpmap.load(this, mapx, mapy, false);
  for (int i = 0; i < SEEX * 2; i++) {
   for (int j = 0; j < SEEY * 2; j++) {
    if (!one_in(10))
