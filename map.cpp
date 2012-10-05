@@ -240,7 +240,7 @@ bool map::displace_vehicle (game *g, int &x, int &y, int dx, int dy, bool test=f
   // and precalc_dx/dy[1] should contain next direction
   psg->posx += dx + veh->parts[p].precalc_dx[1] - veh->parts[p].precalc_dx[0];
   psg->posy += dy + veh->parts[p].precalc_dy[1] - veh->parts[p].precalc_dy[0];
-  if (psg == &g->u) { // if passemger is you, we need to update the map
+  if (psg == &g->u) { // if passenger is you, we need to update the map
    need_update = true;
    upd_x = psg->posx;
    upd_y = psg->posy;
