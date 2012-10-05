@@ -131,6 +131,9 @@ t_card_science, t_card_military, t_card_reader_broken, t_slot_machine,
 // Temple tiles
 t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
  t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
+// found at fields
+ t_mutpoppy, //mutated poppy flower
+
 num_terrain_types
 };
 
@@ -257,12 +260,12 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(bashable)|mfb(flammable)|mfb(noitem)},
 {"tree",	     '7', c_green,   0, tr_null,
 	mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
-{"young tree",       '1', c_green,   0, tr_null,
+{"young tree",       '1', c_green,   4, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)},
 {"underbrush",       '#', c_ltgreen, 6, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(diggable)|mfb(container)|mfb(rough)|
 	mfb(flammable)},
-{"shrub",            '#', c_green,   0, tr_null,
+{"shrub",            '#', c_green,   8, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(container)|mfb(flammable)},
 {"log",              '1', c_brown,   4, tr_null,
 	mfb(transparent)|mfb(flammable)|mfb(diggable)},
@@ -412,8 +415,9 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"purple switch",    '6', c_magenta, 0, tr_null,
 	mfb(transparent)},
 {"checkered switch", '6', c_white,   0, tr_null,
-	mfb(transparent)}
-
+	mfb(transparent)},
+{"mutated poppy flower", 'f', c_red, 3, tr_null,
+    mfb(transparent)}
 };
 
 enum map_extra {
@@ -461,7 +465,7 @@ struct map_extras {
  int chances[num_map_extras + 1];
  map_extras(unsigned int embellished, int helicopter = 0, int mili = 0,
             int sci = 0, int stash = 0, int drug = 0, int supply = 0,
-            int portal = 0, int minefield = 0, int wolves = 0, int puddle = 0, 
+            int portal = 0, int minefield = 0, int wolves = 0, int puddle = 0,
             int crater = 0, int lava = 0, int marloss = 0, int anomaly = 0)
             : chance(embellished)
  {

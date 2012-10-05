@@ -265,8 +265,13 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 
  case ot_field:
   for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
+   for (int j = 0; j < SEEY * 2; j++) {
     ter(i, j) = grass_or_dirt();
+    //------Jovan's-----
+    if (one_in(120)) ter(i, j) = t_shrub; else
+    if (one_in(120)) ter(i,j) = t_mutpoppy;
+    //------------------
+    }
   }
   place_items(mi_field, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
   break;
@@ -450,7 +455,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     }
    }
   }
-  
+
 // j and i loop through appropriate hive-cell center squares
   for (int j = 5; j < SEEY * 2 - 5; j += 6) {
    for (int i = (j == 5 || j == 17 ? 3 : 6); i < SEEX * 2 - 5; i += 6) {
@@ -834,7 +839,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(1);
   place_items(mi_road, 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
   break;
- 
+
  case ot_hiway_ns:
  case ot_hiway_ew:
   for (int i = 0; i < SEEX * 2; i++) {
@@ -1197,7 +1202,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     add_spawn(mon_wasp, 1, podx, pody);
    }
    place_items(mi_rare, 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
-    
+
   } else if (one_in(150)) { // No wasps; black widows?
    for (int i = 0; i < SEEX * 2; i++) {
     for (int j = 0; j < SEEY * 2; j++) {
@@ -1299,20 +1304,20 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    ter( 7, 13) = t_pavement_y;
    ter(14, 12) = t_pavement_y;
    ter(15, 13) = t_pavement_y;
- 
+
    line(this, t_bench,  1,  4,  1, 10);
    line(this, t_bench,  1, 12,  1, 18);
    line(this, t_bench, 22,  4, 22, 10);
    line(this, t_bench, 22, 12, 22, 18);
- 
+
    ter(11,  2) = t_backboard;
    ter(11, 20) = t_backboard;
- 
+
    line(this, t_fence_v,  0,  1,  0, 21);
    line(this, t_fence_v, 23,  1, 23, 21);
    line(this, t_fence_h,  1,  1, 22,  1);
    line(this, t_fence_h,  1, 21, 22, 21);
- 
+
    ter( 2,  1) = t_pavement;
    ter(21,  1) = t_pavement;
    ter( 2, 21) = t_pavement;
@@ -1485,7 +1490,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
       ter(i, j) = t_floor;
      else
       ter(i, j) = grass_or_dirt();
-    } else if ((j == 7 && (i == 3 || i == 4)) || 
+    } else if ((j == 7 && (i == 3 || i == 4)) ||
                ((j == 11 || j == 14) && (i == 18 || i == 19)) ||
                ((j > 9 && j < 16) && (i == 6 || i == 7 || i == 10 ||
                                       i == 11 || i == 14 || i == 15 ||
@@ -1539,7 +1544,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    for (int j = 0; j < SEEY * 2; j++) {
     if (j == 3 && ((i > 5 && i < 9) || (i > 14 && i < 18)))
      ter(i, j) = t_window;
-    else if ((j == 3 && i > 1 && i < SEEX * 2 - 2) || 
+    else if ((j == 3 && i > 1 && i < SEEX * 2 - 2) ||
              (j == 15 && i > 1 && i < 14) ||
              (j == SEEY * 2 - 3 && i > 12 && i < SEEX * 2 - 2))
      ter(i, j) = t_wall_h;
@@ -1552,7 +1557,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     else if (((i == 3 || i == 6 || i == 7 || i == 10 || i == 11) &&
                j > 8 && j < 15) ||
               (i == SEEX * 2 - 4 && j > 3 && j < SEEX * 2 - 4) ||
-              (i > 14 && i < 18 && 
+              (i > 14 && i < 18 &&
                (j == 8 || j == 9 || j == 12 || j == 13)) ||
               (j == SEEY * 2 - 4 && i > 13 && i < SEEX * 2 - 4) ||
               (i > 15 && i < 18 && j > 15 && j < 18) ||
@@ -1620,7 +1625,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    place_items(mi_mischw,	80, 10,  9, 10, 14, false, 0);
   else
    place_items(mi_hardware,	80, 10,  9, 10, 14, false, 0);
-   
+
   if (!one_in(3))
    place_items(mi_bigtools,	75, 11,  9, 11, 14, false, 0);
   else if (one_in(2))
@@ -1778,7 +1783,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   place_items(mi_sports,	82, rw - 1, tw + 1, rw - 1, cw - 4, false, 0);
   if (!one_in(4))
    place_items(mi_allsporting,	92, lw + 1, cw + 1, rw - 1, bw - 1, false, 0);
-  
+
   if (terrain_type == ot_s_sports_east)
    rotate(1);
   if (terrain_type == ot_s_sports_south)
@@ -1838,7 +1843,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   place_items(mi_behindcounter,	80, 17,  3, 19,  4, false, 0);
   place_items(mi_trash,		30,  5, 14,  7, 14, false, 0);
   place_items(mi_trash,		30, 18, 15, 18, 17, false, 0);
-  
+
   if (terrain_type == ot_s_liquor_east)
    rotate(1);
   if (terrain_type == ot_s_liquor_south)
@@ -1975,7 +1980,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     place_items(mi_jackets,	75, 20, 10, 20, 19, false, 0);
     break;
   }
-  
+
   if (terrain_type == ot_s_clothes_east)
    rotate(1);
   if (terrain_type == ot_s_clothes_south)
@@ -2064,7 +2069,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   line(this, t_wall_h, lw, bw, rw, bw);
   line(this, t_wall_v, lw, tw + 1, lw, bw - 1);
   line(this, t_wall_v, rw, tw + 1, rw, bw - 1);
-  
+
 // What's the front wall look like?
   switch (rng(1, 3)) {
   case 1: // Door to one side
@@ -2395,7 +2400,7 @@ case ot_shelter: {
      rn = rng(0, stair_points.size() - 1);
      ter(stair_points[rn].x, stair_points[rn].y) = t_stairs_down;
     }
-      
+
     break;
 
    case 2:	// tic-tac-toe # layout
@@ -2446,7 +2451,7 @@ case ot_shelter: {
     if (terrain_type == ot_lab_stairs)
      ter(SEEX - 3 + 5 * rng(0, 1), SEEY - 3 + 5 * rng(0, 1)) = t_stairs_down;
     break;
-   
+
    case 3:	// Big room
     for (int i = 0; i < SEEX * 2; i++) {
      for (int j = 0; j < SEEY * 2; j++) {
@@ -2894,7 +2899,7 @@ case ot_shelter: {
   }
 
  } break;
-    
+
  case ot_silo:
   if (t_above == ot_null) {	// We're on ground level
    for (int i = 0; i < SEEX * 2; i++) {
@@ -3484,7 +3489,7 @@ case ot_shelter: {
    laddery = rng(0, SEEY * 2 - 1);
   }
   ter(ladderx, laddery) = t_manhole_cover;
- 
+
  } break;
 
  case ot_mine_shaft: // Not intended to actually be inhabited!
@@ -3699,7 +3704,7 @@ case ot_shelter: {
     }
    }
   } // Done building a slope down
-   
+
   if (t_above == ot_mine_down) {  // Don't forget to build a slope up!
    std::vector<direction> open;
    if (n_fac == 6 && ter(SEEX, 6) != t_slope_down)
@@ -4303,7 +4308,7 @@ case ot_s_garage_north:
    for (int j = 8; j < 12; j++)
     ter(9, j) = t_counter;
   }
-  
+
   place_items(mi_kitchen,      40,  6,  8,  9, 11,    false, 0);
   place_items(mi_cop_weapons,  70, 20,  8, 22,  8,    false, 0);
   place_items(mi_cop_weapons,  70, 20,  8, 20, 11,    false, 0);
@@ -5166,7 +5171,7 @@ case ot_s_garage_north:
     }
     break;
    }
-    
+
 
 // We have walls to the north and east if they're not hospitals
    if (t_east != ot_hospital_entrance && t_east != ot_hospital)
@@ -5280,7 +5285,7 @@ case ot_s_garage_north:
    if (t_south == ot_mansion_entrance || t_south == ot_mansion)
     line(this, t_floor, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
    break;
-   
+
   case 3: // Four corners rooms
    line(this, t_wall_v, 10, tw, 10,  9);
    line(this, t_wall_v, 13, tw, 13,  9);
@@ -5631,10 +5636,10 @@ case ot_s_garage_north:
   e_fac = (t_east  == ot_slimepit || t_east  == ot_slimepit_down ? 1 : 0);
   s_fac = (t_south == ot_slimepit || t_south == ot_slimepit_down ? 1 : 0);
   w_fac = (t_west  == ot_slimepit || t_west  == ot_slimepit_down ? 1 : 0);
- 
+
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
-    if (!one_in(10) && (j < n_fac * SEEX        || i < w_fac * SEEX || 
+    if (!one_in(10) && (j < n_fac * SEEX        || i < w_fac * SEEX ||
                         j > SEEY*2 - s_fac*SEEY || i > SEEX*2 - e_fac*SEEX))
      ter(i, j) = (!one_in(10) ? t_slime : t_rock_floor);
     else if (rng(0, SEEX) > abs(i - SEEX) && rng(0, SEEY) > abs(j - SEEY))
@@ -5835,7 +5840,7 @@ case ot_s_garage_north:
    place_items(mi_home_hw, 80, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
    place_items(mi_homeguns, 10, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
    break;
-   
+
 
   case 1:	// Weapons cache
    for (int i = 2; i < SEEX * 2 - 2; i++) {
@@ -5903,7 +5908,7 @@ case ot_s_garage_north:
    break;
   }
   break;
- 
+
 // TODO: Maybe subway systems could have broken down trains in them?
  case ot_subway_station:
   if (t_north >= ot_subway_ns && t_north <= ot_subway_nesw &&
@@ -6189,7 +6194,7 @@ case ot_s_garage_north:
   if (terrain_type == ot_ants_wn)
    rotate(3);
   break;
-  
+
  case ot_ants_nes:
  case ot_ants_new:
  case ot_ants_nsw:
@@ -6637,7 +6642,7 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
    py = rng(y1, y2);
    tries++;
 // Only place on valid terrain
-  } while (((terlist[ter(px, py)].movecost == 0 && 
+  } while (((terlist[ter(px, py)].movecost == 0 &&
              !(terlist[ter(px, py)].flags & mfb(container))) ||
             (!ongrass && (ter(px, py) == t_dirt || ter(px, py) == t_grass))) &&
            tries < 20);
@@ -6645,7 +6650,7 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
    add_item(px, py, (*itypes)[eligible[selection]], turn);
 // Guns in the home and behind counters are generated with their ammo
 // TODO: Make this less of a hack
-   if ((*itypes)[eligible[selection]]->is_gun() && 
+   if ((*itypes)[eligible[selection]]->is_gun() &&
        (loc == mi_homeguns || loc == mi_behindcounter)) {
     it_gun* tmpgun = dynamic_cast<it_gun*> ((*itypes)[eligible[selection]]);
     add_item(px, py, (*itypes)[default_ammo(tmpgun->ammo)], turn);
@@ -6756,7 +6761,7 @@ void map::make_all_items_owned()
  }
 */
 }
-   
+
 void map::rotate(int turns)
 {
  ter_id rotated         [SEEX*2][SEEY*2];
@@ -6803,7 +6808,7 @@ void map::rotate(int turns)
   grid[my_MAPSIZE + 1]->vehicles = grid[1]->vehicles;
   grid[1]->vehicles = tmpveh;
   break;
-    
+
  case 2:
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -6841,7 +6846,7 @@ void map::rotate(int turns)
   grid[1]->vehicles = grid[my_MAPSIZE]->vehicles;
   grid[my_MAPSIZE]->vehicles = tmpveh;
   break;
-    
+
  case 3:
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -6940,7 +6945,7 @@ bool connects_to(oter_id there, int dir)
   if (there == ot_subway_ns  || there == ot_subway_es || there == ot_subway_sw||
       there == ot_subway_nes || there == ot_subway_nsw ||
       there == ot_subway_esw || there == ot_subway_nesw ||
-      there == ot_sewer_ns   || there == ot_sewer_es || there == ot_sewer_sw || 
+      there == ot_sewer_ns   || there == ot_sewer_es || there == ot_sewer_sw ||
       there == ot_sewer_nes  || there == ot_sewer_nsw || there == ot_sewer_esw||
       there == ot_sewer_nesw || there == ot_ants_ns || there == ot_ants_es ||
       there == ot_ants_sw    || there == ot_ants_nes ||  there == ot_ants_nsw ||
@@ -7770,7 +7775,7 @@ room_type pick_mansion_room(int x1, int y1, int x2, int y2)
 
  return valid[ rng(0, valid.size() - 1) ];
 }
- 
+
 void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2)
 {
  int dx = abs(x1 - x2), dy = abs(y1 - y2), area = dx * dy;
@@ -7847,7 +7852,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
    }
   }
   break;
-  
+
  case room_mansion_bedroom:
   if (dx > dy || (dx == dy && one_in(2))) { // horizontal
    int dressy = (one_in(2) ? cy_low - 2 : cy_low + 2);
@@ -7938,7 +7943,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
                   false, 0);
   }
   break;
-   
+
  case room_mansion_dining:
   if (dx < dy || (dx == dy && one_in(2))) { // vertically-aligned table
    line(m, t_table, cx_low, y1 + 2, cx_low, y2 - 2);
@@ -7975,7 +7980,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
   m->place_items(mi_softdrugs, 72, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
   m->place_items(mi_cleaning,  48, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
   break;
-  
+
  case room_mansion_gallery:
   for (int x = x1 + 1; x <= cx_low - 1; x += rng(2, 4)) {
    for (int y = y1 + 1; y <= cy_low - 1; y += rng(2, 4)) {
@@ -8030,7 +8035,7 @@ void map::add_extra(map_extra type, game *g)
 {
  item body;
  body.make_corpse(g->itypes[itm_corpse], g->mtypes[mon_null], g->turn);
- 
+
  switch (type) {
 
  case mx_null:
@@ -8246,7 +8251,7 @@ void map::add_extra(map_extra type, game *g)
    }
   }
  } break;
-  
+
  case mx_supplydrop: {
   int num_crates = rng(1, 5);
   for (int i = 0; i < num_crates; i++) {

@@ -73,7 +73,7 @@ itm_frame, itm_wheel, itm_big_wheel, itm_seat, itm_vehicle_controls,
  itm_steel_plate, itm_alloy_plate, itm_spiked_plate, itm_hard_plate,
 // Footwear
 itm_sneakers, itm_boots, itm_boots_steel, itm_boots_winter, itm_mocassins,
- itm_flip_flops, itm_dress_shoes, itm_heels, 
+ itm_flip_flops, itm_dress_shoes, itm_heels,
 // Legwear
 itm_jeans, itm_pants, itm_pants_leather, itm_pants_cargo, itm_pants_army,
  itm_skirt,
@@ -175,6 +175,10 @@ itm_software_useless, itm_software_hacking, itm_software_medical,
  itm_software_math, itm_software_blood_data,
 // MacGuffins!
 itm_note,
+//-----Jovan's. Flowers!-----
+itm_poppy_harmless, itm_poppy_feromone,
+//---------------------------
+
 // Static (non-random) artifacts should go here.
 num_items,
 // These shouldn't be counted among "normal" items; thus, they are outside the
@@ -309,27 +313,27 @@ struct itype
  			// Used for save files; aligns to itype_id above.
  unsigned char rarity;	// How often it's found
  unsigned int  price;	// Its value
- 
+
  std::string name;	// Proper name
  std::string description;// Flavor text
- 
+
  char sym;		// Symbol on the map
  nc_color color;	// Color on the map (color.h)
- 
+
  material m1;		// Main material
  material m2;		// Secondary material -- MNULL if made of just 1 thing
- 
+
  unsigned int volume;	// Space taken up by this item
  unsigned int weight;	// Weight in quarter-pounds; is 64 lbs max ok?
  			// Also assumes positive weight.  No helium, guys!
- 
+
  signed char melee_dam;	// Bonus for melee damage; may be a penalty
  signed char melee_cut;	// Cutting damage in melee
  signed char m_to_hit;	// To-hit bonus for melee combat; -5 to 5 is reasonable
 
  unsigned item_flags : NUM_ITEM_FLAGS;
  unsigned techniques : NUM_TECHNIQUES;
- 
+
  virtual bool is_food()          { return false; }
  virtual bool is_ammo()          { return false; }
  virtual bool is_gun()           { return false; }
@@ -361,7 +365,7 @@ struct itype
   item_flags = 0;
   techniques = 0;
  }
- 
+
  itype(int pid, unsigned char prarity, unsigned int pprice,
        std::string pname, std::string pdes,
        char psym, nc_color pcolor, material pm1, material pm2,
@@ -414,13 +418,13 @@ struct it_comest : public itype
            char psym, nc_color pcolor, material pm1,
            unsigned short pvolume, unsigned short pweight,
            signed char pmelee_dam, signed char pmelee_cut,
-           signed char pm_to_hit, unsigned pitem_flags, 
+           signed char pm_to_hit, unsigned pitem_flags,
 
            signed char pquench, unsigned char pnutr, signed char pspoils,
            signed char pstim, signed char phealthy, unsigned char paddict,
            unsigned char pcharges, signed char pfun, itype_id pcontainer,
            itype_id ptool, void (iuse::*puse)(game *, player *, item *, bool),
-           add_type padd) 
+           add_type padd)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
   quench = pquench;
@@ -629,8 +633,8 @@ struct it_book : public itype
   intel = pintel;
   time = ptime;
  }
-}; 
- 
+};
+
 enum container_flags {
  con_rigid,
  con_wtight,
@@ -705,7 +709,7 @@ struct it_tool : public itype
   use = puse;
  }
 };
-        
+
 struct it_bionic : public itype
 {
  std::vector<bionic_id> options;
@@ -737,7 +741,7 @@ struct it_macguffin : public itype
 {
  bool readable; // If true, activated with 'R'
  void (iuse::*use)(game *, player *, item *, bool);
- 
+
  virtual bool is_macguffin() { return true; }
 
  it_macguffin(int pid, unsigned char prarity, unsigned int pprice,
@@ -783,7 +787,7 @@ struct it_style : public itype
  virtual bool is_style()         { return true; }
 
  std::vector<style_move> moves;
- 
+
  it_style(int pid, unsigned char prarity, unsigned int pprice,
           std::string pname, std::string pdes,
           char psym, nc_color pcolor, material pm1, material pm2,
