@@ -4183,8 +4183,10 @@ case ot_s_garage_north:
         //gates
         line(this, t_door_metal_locked, 3, yard_wdth, 8, yard_wdth);
         ter(2, yard_wdth+1) = t_gates_mech_control;
+        ter(2, yard_wdth-1) = t_gates_mech_control;
         line(this, t_door_metal_locked, 14, yard_wdth, 19, yard_wdth );
         ter(13, yard_wdth+1) = t_gates_mech_control;
+        ter(13, yard_wdth-1) = t_gates_mech_control;
         g->add_msg("Car repairing!");
         //place items
         place_items(mi_mechanics, 90, 1, yard_wdth+1, 1, yard_wdth+7, true, 0);
