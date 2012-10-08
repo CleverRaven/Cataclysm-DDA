@@ -41,7 +41,7 @@ public:
  player(const player &rhs);
  ~player();
 
- player& operator= (player rhs);
+ player& operator= (const player & rhs);
 
 // newcharacter.cpp 
  bool create(game *g, character_type type, std::string tempname = "");

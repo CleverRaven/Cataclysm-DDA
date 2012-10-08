@@ -356,7 +356,33 @@ std::string talk_done_mugging[10] = {
 "Thanks, <name_g>!"
 };
 
-#define NUM_STATIC_TAGS 24
+std::string talk_leaving[10] = {
+"So long, <name_b>!",
+"Hasta luego, <name_g>!",
+"I'm outta here!",
+"Bye bye, <name_b>!",
+"So long, <name_b>!",
+"Hasta luego, <name_g>!",
+"I'm outta here!",
+"Bye bye, <name_b>!",
+"I'm outta here!",
+"Bye bye, <name_b>!"
+};
+
+std::string talk_catch_up[10] = {
+"You're too far away, <name_b>!",
+"Hurry up, <name_g>!",
+"I'm outta here soon!",
+"Come on molasses!",
+"What's taking so long?",
+"Get with the program laggard!",
+"Did the zombies get you?",
+"Wait up <name_b>!",
+"Did you evolve from a snail?",
+"How 'bout picking up the pace!"
+};
+
+#define NUM_STATIC_TAGS 26
 
 tag_data talk_tags[NUM_STATIC_TAGS] = {
 {"<okay>",		&talk_okay},
@@ -382,7 +408,9 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 {"<wait>",		&talk_wait},
 {"<let_me_pass>",	&talk_let_me_pass},
 {"<move>",		&talk_move},
-{"<done_mugging>",	&talk_done_mugging}
+{"<done_mugging>",	&talk_done_mugging},
+{"<catch_up>",		&talk_catch_up},
+{"<im_leaving_you>",	&talk_leaving}
 };
 
 #endif
