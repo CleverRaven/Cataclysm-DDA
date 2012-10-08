@@ -399,7 +399,6 @@ public:
  ~npc();
  virtual bool is_npc() { return true; }
 
- npc& operator= (npc &rhs);
  npc& operator= (const npc &rhs);
 
 // Generating our stats, etc.
