@@ -25,7 +25,17 @@ nc_color sev(int a);	// Right now, ONLY used for scent debugging....
 moncat_id mt_to_mc(mon_id type);	// Pick the moncat that contains type
 
 // This is the main game set-up process.
-game::game()
+game::game() :
+ w_terrain(NULL),
+ w_minimap(NULL),
+ w_HP(NULL),
+ w_moninfo(NULL),
+ w_messages(NULL),
+ w_status(NULL),
+ om_hori(NULL),
+ om_vert(NULL),
+ om_diag(NULL),
+ gamemode(NULL)
 {
  dout() << "Game initialized.";
 
