@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <vector>
 #include <string>
+#include <set>
+#include <map>
 
 #include "mapdata.h"
 #include "mapitems.h"
@@ -155,6 +157,8 @@ class map
  computer* add_computer(int x, int y, std::string name, int security);
  
  std::vector <itype*> *itypes;
+ std::set<vehicle*> vehicle_list;
+ std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
 
 protected:
  void saven(overmap *om, unsigned int turn, int x, int y, int gridx, int gridy);
