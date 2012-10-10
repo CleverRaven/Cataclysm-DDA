@@ -71,6 +71,8 @@ class map
  // put player on vehicle at x,y
  void board_vehicle(game *g, int x, int y, player *p);
  void unboard_vehicle(game *g, int x, int y);//remove player from vehicle at x,y
+ void update_vehicle_cache(vehicle *, bool keep_cache = false);
+ void reset_vehicle_cache();
 
  void destroy_vehicle (vehicle *veh);
 // Change vehicle coords and move vehicle's driver along.
@@ -184,6 +186,9 @@ protected:
 
  std::vector <trap*> *traps;
  std::vector <itype_id> (*mapitems)[num_itloc];
+
+ bool veh_visible;
+ bool cached_vehicles;
 
 private:
  submap* grid[MAPSIZE * MAPSIZE];

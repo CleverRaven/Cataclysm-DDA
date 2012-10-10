@@ -26,6 +26,7 @@ map::map()
   my_MAPSIZE = 2;
  else
   my_MAPSIZE = MAPSIZE;
+ veh_visible = false;
 }
 
 map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
@@ -42,6 +43,7 @@ map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
   my_MAPSIZE = MAPSIZE;
  for (int n = 0; n < my_MAPSIZE * my_MAPSIZE; n++)
   grid[n] = NULL;
+ veh_visible = false;
 }
 
 map::~map()
@@ -50,35 +52,18 @@ map::~map()
 
 vehicle* map::veh_at(int x, int y, int &part_num)
 {
- if (!inbounds(x, y))
+ if (!veh_visible || !inbounds(x, y))
+ {
   return NULL;    // Out-of-bounds - null vehicle
  }
 
+ // This function is called A LOT. Move as much out of here as possible.
  std::pair<int,int> point(x,y);
- if (veh_cached_parts.empty()) {
-  // Now cache all locations
-  for( std::set<vehicle*>::iterator veh = vehicle_list.begin(),
-        it_end = vehicle_list.end(); veh != it_end; ++veh ) {
-   // Get parts
-   std::vector<vehicle_part> & parts = (*veh)->parts;
-   const int gx = (*veh)->global_x();
-   const int gy = (*veh)->global_y();
-   int partid = 0;
-   for( std::vector<vehicle_part>::iterator it = parts.begin(),
-         end = parts.end(); it != end; ++it, ++partid ) {
-    const int px = gx + it->precalc_dx[0];
-    const int py = gy + it->precalc_dy[0];
-    veh_cached_parts.insert( std::make_pair( std::make_pair(px,py), std::make_pair(*veh,partid) ));
-   }
-  }
- }
- if (!veh_cached_parts.empty()) {
-  std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator it;
-  if ((it = veh_cached_parts.find(point)) != veh_cached_parts.end())
-  {
-   part_num = it->second.second;
-   return it->second.first;
-  }
+ std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator it;
+ if ((it = veh_cached_parts.find(point)) != veh_cached_parts.end())
+ {
+  part_num = it->second.second;
+  return it->second.first;
  }
 
  return NULL;
@@ -89,6 +74,48 @@ vehicle* map::veh_at(int x, int y)
  int part = 0;
  vehicle *veh = veh_at(x, y, part);
  return veh;
+}
+
+void map::reset_vehicle_cache()
+{
+  // Cache all vehicles
+  veh_cached_parts.clear();
+  int cached_vehicles = 0;
+  for( std::set<vehicle*>::iterator veh = vehicle_list.begin(),
+    it_end = vehicle_list.end(); veh != it_end; ++veh ) {
+   update_vehicle_cache(*veh, true);
+   cached_vehicles++;
+  }
+  veh_visible = true; // will reset on shift if false
+}
+
+void map::update_vehicle_cache(vehicle * veh, bool keep_cache)
+{
+ if(!keep_cache) {
+  std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator it =
+             veh_cached_parts.begin(), end = veh_cached_parts.end(),
+             tmp;
+  while( it != end ) {
+   if( it->second.first == veh ) {
+    tmp = it;
+    ++it;
+    veh_cached_parts.erase( tmp );
+   }else
+    ++it;
+  }
+ }
+ // Get parts
+ std::vector<vehicle_part> & parts = veh->parts;
+ const int gx = veh->global_x();
+ const int gy = veh->global_y();
+ int partid = 0;
+ for( std::vector<vehicle_part>::iterator it = parts.begin(),
+   end = parts.end(); it != end; ++it, ++partid ) {
+  const int px = gx + it->precalc_dx[0];
+  const int py = gy + it->precalc_dy[0];
+  veh_cached_parts.insert( std::make_pair( std::make_pair(px,py),
+                                        std::make_pair(veh,partid) ));
+ }
 }
 
 void map::board_vehicle(game *g, int x, int y, player *p)
@@ -270,6 +297,8 @@ bool map::displace_vehicle (game *g, int &x, int &y, int dx, int dy, bool test=f
  x += dx;
  y += dy;
 
+ update_vehicle_cache(veh);
+
  bool was_update = false;
  if (need_update &&
      (upd_x < SEEX * int(my_MAPSIZE / 2) || upd_y < SEEY *int(my_MAPSIZE / 2) ||
@@ -287,6 +316,7 @@ bool map::displace_vehicle (game *g, int &x, int &y, int dx, int dy, bool test=f
   g->update_map(upd_x, upd_y);
   was_update = true;
  }
+
  return (src_na != dst_na) || was_update;
 }
 
@@ -521,6 +551,7 @@ void map::vehmove(game *g)
   if (count > 10)
    break;
  } while (sm_change);
+
 }
 
 bool map::displace_water (int x, int y)
@@ -2201,8 +2232,6 @@ void map::load(game *g, int wx, int wy)
 
 void map::shift(game *g, int wx, int wy, int sx, int sy)
 {
- veh_cached_parts.clear();
-
 // Special case of 0-shift; refresh the map
  if (sx == 0 && sy == 0) {
   return; // Skip this?
@@ -2220,6 +2249,30 @@ void map::shift(game *g, int wx, int wy, int sx, int sy)
   g->u.posx -= sx * SEEX;
   g->u.posy -= sy * SEEY;
  }
+
+ // Shift vehicle cache
+ {
+  int minx = g->u.posx - DAYLIGHT_LEVEL;
+  int maxx = g->u.posx + DAYLIGHT_LEVEL;
+  int miny = g->u.posy - DAYLIGHT_LEVEL;
+  int maxy = g->u.posy + DAYLIGHT_LEVEL;
+  veh_visible = false;
+
+  std::map< std::pair<int,int>, std::pair<vehicle*,int> > vcptmp;
+  for (std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator
+        it = veh_cached_parts.begin(), end = veh_cached_parts.end();
+        it != end; ++it ) {
+   int newx = it->first.first - sx * SEEX;
+   int newy = it->first.second - sy * SEEY;
+   vcptmp.insert( std::make_pair( std::make_pair( newx, newy ),
+                                                        it->second ));
+   if( !veh_visible &&
+         newx >= minx && newx <= maxx && newy >= miny && newy <= maxy )
+     veh_visible = true;
+  }
+  veh_cached_parts.swap(vcptmp);
+ }
+
 
 // Shift the map sx submaps to the right and sy submaps down.
 // sx and sy should never be bigger than +/-1.
@@ -2319,10 +2372,14 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
  submap *tmpsub = MAPBUFFER.lookup_submap(absx, absy, g->cur_om.posz);
  if (tmpsub) {
   grid[gridn] = tmpsub;
-  for (int i = 0; i < grid[gridn]->vehicles.size(); i++) {
-   grid[gridn]->vehicles[i]->smx = gridx;
-   grid[gridn]->vehicles[i]->smy = gridy;
-   vehicle_list.insert( grid[gridn]->vehicles[i] );
+  int size = grid[gridn]->vehicles.size();
+  if( size ) {
+   for (int i = 0; i < size; i++) {
+    grid[gridn]->vehicles[i]->smx = gridx;
+    grid[gridn]->vehicles[i]->smy = gridy;
+    vehicle_list.insert( grid[gridn]->vehicles[i] );
+   }
+   reset_vehicle_cache();
   }
  } else { // It doesn't exist; we must generate it!
   map tmp_map(itypes, mapitems, traps);
