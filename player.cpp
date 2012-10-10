@@ -483,7 +483,7 @@ void player::load_info(game *g, std::string data)
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
  for (int i = 0; i < num_skill_types; i++)
-  dump >> sklevel[i] >> skexercise[i];
+  dump >> sklevel[i] >> skexercise[i] >> sklearn[i];
 
  int numstyles, typetmp;
  dump >> numstyles;
@@ -578,7 +578,7 @@ std::string player::save_info()
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
  for (int i = 0; i < num_skill_types; i++)
-  dump << int(sklevel[i]) << " " << skexercise[i] << " ";
+  dump << int(sklevel[i]) << " " << skexercise[i] << " " << sklearn[i] << " ";
 
  dump << styles.size() << " ";
  for (int i = 0; i < styles.size(); i++)
