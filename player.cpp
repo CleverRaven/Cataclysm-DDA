@@ -4686,7 +4686,7 @@ void player::practice(skill s, int amount)
    }
   }
  }
- while (amount > 0 && xp_pool >= (1 + sklevel[s])) {
+ while (sklearn[s] && amount > 0 && xp_pool >= (1 + sklevel[s])) {
   amount -= sklevel[s] + 1;
   if ((savant == sk_null || savant == s || !one_in(2)) &&
       rng(0, 100) < comprehension_percent(s)) {
