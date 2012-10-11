@@ -246,8 +246,6 @@ void mapbuffer::load()
    }
   } while (string_identifier != "----" && !fin.eof());
 
-  master_game->m.reset_vehicle_cache();
-
   submap_list.push_back(sm);
   submaps[ tripoint(locx, locy, locz) ] = sm;
  }
