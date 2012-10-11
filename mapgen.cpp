@@ -6585,7 +6585,6 @@ vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir)
   return 0;
  }
 // debugmsg("add_vehicle t=%d d=%d x=%d y=%d", type, dir, x, y);
- veh_cached_parts.clear();
 
  int smx = x / SEEX;
  int smy = y / SEEY;
@@ -6602,10 +6601,11 @@ vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir)
  veh->turn_dir = dir;
  veh->precalc_mounts (0, dir);
 
+ grid[nonant]->vehicles.push_back(veh);
+
  vehicle_list.insert(veh);
  update_vehicle_cache(veh,true);
 
- grid[nonant]->vehicles.push_back(veh);
  //debugmsg ("grid[%d]->vehicles.size=%d veh.parts.size=%d", nonant, grid[nonant]->vehicles.size(),veh.parts.size());
  return veh;
 }
