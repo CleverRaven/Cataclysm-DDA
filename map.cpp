@@ -648,9 +648,14 @@ bool map::trans(int x, int y)
   }
  } else
   tertr = terlist[ter(x, y)].flags & mfb(transparent);
- return tertr &&
-        (field_at(x, y).type == 0 ||	// Fields may obscure the view, too
-        fieldlist[field_at(x, y).type].transparent[field_at(x, y).density - 1]);
+ if( tertr )
+ {
+  field & f(field_at(x, y));
+  if(f.type == 0 || // Fields may obscure the view, too
+    fieldlist[f.type].transparent[f.density - 1]);
+  return true;
+ }
+ return false;
 }
 
 bool map::has_flag(t_flag flag, int x, int y)
