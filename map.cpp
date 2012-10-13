@@ -76,6 +76,7 @@ void map::reset_vehicle_cache()
 {
  // Cache all vehicles
  veh_cached_parts.clear();
+ veh_in_active_range = false;
  for( std::set<vehicle*>::iterator veh = vehicle_list.begin(),
    it_end = vehicle_list.end(); veh != it_end; ++veh ) {
   update_vehicle_cache(*veh, true);
@@ -84,9 +85,9 @@ void map::reset_vehicle_cache()
 
 void map::update_vehicle_cache(vehicle * veh, bool brand_new)
 {
- if(brand_new)
-  veh_in_active_range = true; // will reset on shift if false
- else { // Existing must be cleared
+ veh_in_active_range = true;
+ if(!brand_new){
+ // Existing must be cleared
   std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator it =
              veh_cached_parts.begin(), end = veh_cached_parts.end(), tmp;
   while( it != end ) {
@@ -2251,33 +2252,6 @@ void map::shift(game *g, int wx, int wy, int sx, int sy)
   g->u.posy -= sy * SEEY;
  }
 
- // Shift vehicle cache
- {
-  static const int ACTIVE_RANGE = MAPSIZE * SEEX / 2 + 1;
-  const int minx = g->u.posx - ACTIVE_RANGE;
-  const int maxx = g->u.posx + ACTIVE_RANGE;
-  const int miny = g->u.posy - ACTIVE_RANGE;
-  const int maxy = g->u.posy + ACTIVE_RANGE;
-  const int xOffset = sx * SEEX;
-  const int yOffset = sy * SEEY;
-  veh_in_active_range = false;
-
-  std::map< std::pair<int,int>, std::pair<vehicle*,int> > vcptmp;
-  for (std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator
-        it = veh_cached_parts.begin(), end = veh_cached_parts.end();
-        it != end; ++it ) {
-   int newx = it->first.first - xOffset;
-   int newy = it->first.second - yOffset;
-   vcptmp.insert( std::make_pair( std::make_pair( newx, newy ),
-                                                        it->second ));
-   if( !veh_in_active_range &&
-         newx >= minx && newx <= maxx && newy >= miny && newy <= maxy ) {
-    veh_in_active_range = true;
-   }
-  }
-  veh_cached_parts.swap(vcptmp);
- }
-
 
 // Shift the map sx submaps to the right and sy submaps down.
 // sx and sy should never be bigger than +/-1.
@@ -2343,6 +2317,7 @@ void map::shift(game *g, int wx, int wy, int sx, int sy)
    }
   }
  }
+ reset_vehicle_cache();
 }
 
 // saven saves a single nonant.  worldx and worldy are used for the file
