@@ -645,8 +645,11 @@ int map::move_cost_ter_only(int x, int y)
  return terlist[ter(x, y)].movecost;
 }
 
-bool map::trans(int x, int y)
+bool map::trans(int x, int y, int * trans_buf)
 {
+  if(trans_buf && trans_buf[x + (y * my_MAPSIZE * SEEX)] >= 0)
+    return trans_buf[x + (y + my_MAPSIZE * SEEX)];
+
  // Control statement is a problem. Normally returning false on an out-of-bounds
  // is how we stop rays from going on forever.  Instead we'll have to include
  // this check in the ray loop.
@@ -667,8 +670,10 @@ bool map::trans(int x, int y)
   field & f(field_at(x, y));
   if(f.type == 0 || // Fields may obscure the view, too
     fieldlist[f.type].transparent[f.density - 1]);
+  if(trans_buf) trans_buf[x + (y * my_MAPSIZE * SEEX)] = true;
   return true;
  }
+ if(trans_buf) trans_buf[x + (y * my_MAPSIZE * SEEX)] = false;
  return false;
 }
 
@@ -1844,6 +1849,8 @@ void map::draw(game *g, WINDOW* w, point center)
  }
  int t = 0;
  int light = g->u.sight_range(g->light_level());
+ int trans_buf[my_MAPSIZE*SEEX][my_MAPSIZE*SEEY];
+ memset(trans_buf, -1, sizeof(trans_buf));
  for  (int realx = center.x - SEEX; realx <= center.x + SEEX; realx++) {
   for (int realy = center.y - SEEY; realy <= center.y + SEEY; realy++) {
    int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
@@ -1955,7 +1962,7 @@ void map::drawsq(WINDOW* w, player &u, int x, int y, bool invert,
 map::sees based off code by Steve Register [arns@arns.freeservers.com]
 http://roguebasin.roguelikedevelopment.org/index.php?title=Simple_Line_of_Sight
 */
-bool map::sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc)
+bool map::sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc, int * trans_buf)
 {
  int dx = Tx - Fx;
  int dy = Ty - Fy;
@@ -1990,7 +1997,7 @@ bool map::sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc)
      tc *= st;
      return true;
     }
-   } while ((trans(x, y)) && (INBOUNDS(x,y)));
+   } while ((trans(x, y, trans_buf)) && (INBOUNDS(x,y)));
   }
   return false;
  } else { // Same as above, for mostly-vertical lines
@@ -2010,7 +2017,7 @@ bool map::sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc)
      tc *= st;
      return true;
     }
-   } while ((trans(x, y)) && (INBOUNDS(x,y)));
+   } while ((trans(x, y, trans_buf)) && (INBOUNDS(x,y)));
   }
   return false;
  }
