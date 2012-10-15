@@ -53,11 +53,11 @@ class map
 // Movement and LOS
  int move_cost(int x, int y); // Cost to move through; 0 = impassible
  int move_cost_ter_only(int x, int y); // same as above, but don't take vehicles into account
- bool trans(int x, int y); // Transparent?
+ bool trans(int x, int y, char * trans_buf = NULL); // Transparent?
  // (Fx, Fy) sees (Tx, Ty), within a range of (range)?
  // tc indicates the Bresenham line used to connect the two points, and may
  //  subsequently be used to form a path between them
- bool sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc);
+ bool sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc, char * trans_buf = NULL);
 // clear_path is the same idea, but uses cost_min <= move_cost <= cost_max
  bool clear_path(int Fx, int Fy, int Tx, int Ty, int range, int cost_min,
                  int cost_max, int &tc);
