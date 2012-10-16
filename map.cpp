@@ -1879,7 +1879,8 @@ void map::drawsq(WINDOW* w, player &u, int x, int y, bool invert,
     case 4: sym = '&'; break;
     case 5: sym = '+'; break;
    }
-  } else if (fieldlist[field_at(x, y).type].sym != '%') {
+  } else if (fieldlist[field_at(x, y).type].sym != '%' ||
+             i_at(x, y).size() > 0) {
    sym = fieldlist[field_at(x, y).type].sym;
    drew_field = false;
   }
