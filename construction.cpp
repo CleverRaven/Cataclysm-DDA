@@ -581,6 +581,11 @@ bool construct::able_wall_wood(game *g, point p)
  return (g->m.ter(p.x, p.y) == t_wall_wood);
 }
 
+bool construct::able_indoors(game *g, point p)
+{
+ return (g->m.ter(p.x, p.y) == t_floor);
+}                    
+
 bool construct::able_dig(game *g, point p)
 {
  return (g->m.has_flag(diggable, p.x, p.y));
