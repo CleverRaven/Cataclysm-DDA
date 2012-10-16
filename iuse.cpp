@@ -26,26 +26,31 @@ void iuse::royal_jelly(game *g, player *p, item *it, bool t)
  p->pkill += 5;
  std::string message;
  if (p->has_disease(DI_FUNGUS)) {
-  message = "You feel cleansed inside!";
+  if (!p->is_npc())
+   message = "You feel cleansed inside!";
   p->rem_disease(DI_FUNGUS);
  }
  if (p->has_disease(DI_BLIND)) {
-  message = "Your sight returns!";
+  if (!p->is_npc())
+   message = "Your sight returns!";
   p->rem_disease(DI_BLIND);
  }
  if (p->has_disease(DI_POISON) || p->has_disease(DI_FOODPOISON) ||
      p->has_disease(DI_BADPOISON)) {
-  message = "You feel much better!";
+  if (!p->is_npc())
+   message = "You feel much better!";
   p->rem_disease(DI_POISON);
   p->rem_disease(DI_BADPOISON);
   p->rem_disease(DI_FOODPOISON);
  }
  if (p->has_disease(DI_ASTHMA)) {
-  message = "Your breathing clears up!";
+  if (!p->is_npc())
+   message = "Your breathing clears up!";
   p->rem_disease(DI_ASTHMA);
  }
  if (p->has_disease(DI_COMMON_COLD) || p->has_disease(DI_FLU)) {
-  message = "You feel healther!";
+  if (!p->is_npc())
+   message = "You feel healther!";
   p->rem_disease(DI_COMMON_COLD);
   p->rem_disease(DI_FLU);
  }
@@ -538,7 +543,8 @@ void iuse::purifier(game *g, player *p, item *it, bool t)
    valid.push_back(i);
  }
  if (valid.size() == 0) {
-  g->add_msg("You feel cleansed.");
+  if (!p->is_npc())
+   g->add_msg("You feel cleansed.");
   return;
  }
  int num_cured = rng(1, valid.size());
@@ -602,10 +608,12 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
   g->add_msg("This berry is delicious, and very filling!");
   p->hunger = -100;
  } else if (effect == 8) {
-  g->add_msg("You take one bite, and immediately vomit!");
+  if (!p->is_npc())
+   g->add_msg("You take one bite, and immediately vomit!");
   p->vomit(g);
  } else if (!p->has_trait(PF_MARLOSS)) {
-  g->add_msg("You feel a strange warmth spreading throughout your body...");
+  if (!p->is_npc())
+   g->add_msg("You feel a strange warmth spreading throughout your body...");
   p->toggle_trait(PF_MARLOSS);
  }
  if (effect == 6)
@@ -632,7 +640,7 @@ void iuse::dogfood(game *g, player *p, item *it, bool t)
    g->z[mon_dex].friendly = -1;
   } else
    g->add_msg("The %s seems quit unimpressed!",g->z[mon_dex].type->name.c_str());
- } else
+ } else if (!p->is_npc())
   g->add_msg("You spill the dogfood all over the ground.");
 
 }
@@ -669,7 +677,8 @@ void iuse::sew(game *g, player *p, item *it, bool t)
  char ch = g->inv("Repair what?");
  item* fix = &(p->i_at(ch));
  if (fix == NULL || fix->is_null()) {
-  g->add_msg("You do not have that item!");
+  if (!p->is_npc())
+   g->add_msg("You do not have that item!");
   it->charges++;
   return;
  }
@@ -679,12 +688,14 @@ void iuse::sew(game *g, player *p, item *it, bool t)
   return;
  }
  if (!fix->made_of(COTTON) && !fix->made_of(WOOL)) {
-  g->add_msg("Your %s is not made of cotton or wool.", fix->tname().c_str());
+  if (!p->is_npc())
+   g->add_msg("Your %s is not made of cotton or wool.", fix->tname().c_str());
   it->charges++;
   return;
  }
  if (fix->damage < 0) {
-  g->add_msg("Your %s is already enhanced.", fix->tname().c_str());
+  if (!p->is_npc())
+   g->add_msg("Your %s is already enhanced.", fix->tname().c_str());
   it->charges++;
   return;
  } else if (fix->damage == 0) {
@@ -698,12 +709,14 @@ void iuse::sew(game *g, player *p, item *it, bool t)
   if (p->dex_cur > 16)
    rn += rng(0, p->dex_cur - 16);
   if (rn <= 4) {
-   g->add_msg("You damage your %s!", fix->tname().c_str());
+   if (!p->is_npc())
+    g->add_msg("You damage your %s!", fix->tname().c_str());
    fix->damage++;
   } else if (rn >= 12) {
-   g->add_msg("You make your %s extra-sturdy.", fix->tname().c_str());
+   if (!p->is_npc())
+    g->add_msg("You make your %s extra-sturdy.", fix->tname().c_str());
    fix->damage--;
-  } else
+  } else if (!p->is_npc())
    g->add_msg("You practice your sewing.");
  } else {
   p->moves -= 500;
@@ -718,14 +731,17 @@ void iuse::sew(game *g, player *p, item *it, bool t)
    rn += rng(0, p->dex_cur - 16);
 
   if (rn <= 4) {
-   g->add_msg("You damage your %s further!", fix->tname().c_str());
+   if (!p->is_npc())
+    g->add_msg("You damage your %s further!", fix->tname().c_str());
    fix->damage++;
    if (fix->damage >= 5) {
-    g->add_msg("You destroy it!");
+    if (!p->is_npc())
+     g->add_msg("You destroy it!");
     p->i_rem(ch);
    }
   } else if (rn <= 6) {
-   g->add_msg("You don't repair your %s, but you waste lots of thread.",
+   if (!p->is_npc())
+    g->add_msg("You don't repair your %s, but you waste lots of thread.",
               fix->tname().c_str());
    int waste = rng(1, 8);
    if (waste > it->charges)
@@ -733,7 +749,8 @@ void iuse::sew(game *g, player *p, item *it, bool t)
    else
     it->charges -= waste;
   } else if (rn <= 8) {
-   g->add_msg("You repair your %s, but waste lots of thread.",
+   if (!p->is_npc())
+    g->add_msg("You repair your %s, but waste lots of thread.",
               fix->tname().c_str());
    fix->damage--;
    int waste = rng(1, 8);
@@ -742,10 +759,12 @@ void iuse::sew(game *g, player *p, item *it, bool t)
    else
     it->charges -= waste;
   } else if (rn <= 16) {
-   g->add_msg("You repair your %s!", fix->tname().c_str());
+   if (!p->is_npc())
+    g->add_msg("You repair your %s!", fix->tname().c_str());
    fix->damage--;
   } else {
-   g->add_msg("You repair your %s completely!", fix->tname().c_str());
+   if (!p->is_npc())
+    g->add_msg("You repair your %s completely!", fix->tname().c_str());
    fix->damage = 0;
   }
  }
@@ -756,7 +775,8 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
  char ch = g->inv("Chop up what?");
  item* cut = &(p->i_at(ch));
  if (cut->type->id == 0) {
-  g->add_msg("You do not have that item!");
+  if (!p->is_npc())
+   g->add_msg("You do not have that item!");
   return;
  }
  if (cut->type->id == itm_rag) {
@@ -767,7 +787,8 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
   p->moves -= 150;
   bool is_string = (cut->type->id == itm_string_36);
   int pieces = (is_string ? 6 : 5);
-  g->add_msg("You cut the %s into %d smaller pieces.",
+  if (!p->is_npc())
+   g->add_msg("You cut the %s into %d smaller pieces.",
              (is_string ? "string" : "rope"), pieces);
   itype_id piece_id = (is_string ? itm_string_6 : itm_rope_6);
   item string(g->itypes[piece_id], int(g->turn), g->nextinv);
@@ -790,7 +811,8 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
   return;
  }
  if (!cut->made_of(COTTON)) {
-  g->add_msg("You can only slice items made of cotton.");
+  if (!p->is_npc())
+   g->add_msg("You can only slice items made of cotton.");
   return;
  }
  p->moves -= 25 * cut->volume();
@@ -803,12 +825,14 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
   count -= rng(1, 3);
 
  if (count <= 0) {
-  g->add_msg("You clumsily cut the %s into useless ribbons.",
+  if (!p->is_npc())
+   g->add_msg("You clumsily cut the %s into useless ribbons.",
              cut->tname().c_str());
   p->i_rem(ch);
   return;
  }
- g->add_msg("You slice the %s into %d rag%s.", cut->tname().c_str(), count,
+ if (!p->is_npc())
+  g->add_msg("You slice the %s into %d rag%s.", cut->tname().c_str(), count,
             (count == 1 ? "" : "s"));
  item rag(g->itypes[itm_rag], int(g->turn), g->nextinv);
  p->i_rem(ch);
@@ -921,9 +945,11 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
 void iuse::light_off(game *g, player *p, item *it, bool t)
 {
  if (it->charges == 0)
-  g->add_msg("The flashlight's batteries are dead.");
+  if (!p->is_npc())
+   g->add_msg("The flashlight's batteries are dead.");
  else {
-  g->add_msg("You turn the flashlight on.");
+  if (!p->is_npc())
+   g->add_msg("You turn the flashlight on.");
   it->make(g->itypes[itm_flashlight_on]);
   it->active = true;
  }
@@ -944,16 +970,19 @@ void iuse::water_purifier(game *g, player *p, item *it, bool t)
 {
  char ch = g->inv("Purify what?");
  if (!p->has_item(ch)) {
-  g->add_msg("You do not have that idea!");
+  if (!p->is_npc())
+   g->add_msg("You do not have that idea!");
   return;
  }
  if (p->i_at(ch).contents.size() == 0) {
-  g->add_msg("You can only purify water.");
+  if (!p->is_npc())
+   g->add_msg("You can only purify water.");
   return;
  }
  item *pure = &(p->i_at(ch).contents[0]);
  if (pure->type->id != itm_water && pure->type->id != itm_salt_water) {
-  g->add_msg("You can only purify water.");
+  if (!p->is_npc())
+   g->add_msg("You can only purify water.");
   return;
  }
  p->moves -= 150;
@@ -1041,7 +1070,8 @@ void iuse::radio_off(game *g, player *p, item *it, bool t)
  if (it->charges == 0)
   g->add_msg("It's dead.");
  else {
-  g->add_msg("You turn the radio on.");
+  if (!p->is_npc())
+   g->add_msg("You turn the radio on.");
   it->make(g->itypes[itm_radio_on]);
   it->active = true;
  }
@@ -1109,30 +1139,36 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
  ter_id type = g->m.ter(dirx, diry);
  if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm) {
   if (dice(4, 6) < dice(4, p->str_cur)) {
-   g->add_msg("You pry the door open.");
+   if (!p->is_npc())
+    g->add_msg("You pry the door open.");
    p->moves -= (150 - (p->str_cur * 5));
    g->m.ter(dirx, diry) = t_door_o;
   } else {
-   g->add_msg("You pry, but cannot open the door.");
+   if (!p->is_npc())
+    g->add_msg("You pry, but cannot open the door.");
    p->moves -= 100;
   }
  } else if (g->m.ter(dirx, diry) == t_manhole_cover) {
   if (dice(8, 8) < dice(8, p->str_cur)) {
-   g->add_msg("You lift the manhole cover.");
+   if (!p->is_npc())
+    g->add_msg("You lift the manhole cover.");
    p->moves -= (500 - (p->str_cur * 5));
    g->m.ter(dirx, diry) = t_manhole;
    g->m.add_item(p->posx, p->posy, g->itypes[itm_manhole_cover], 0);
   } else {
-   g->add_msg("You pry, but cannot lift the manhole cover.");
+   if (!p->is_npc())
+    g->add_msg("You pry, but cannot lift the manhole cover.");
    p->moves -= 100;
   }
  } else if (g->m.ter(dirx, diry) == t_crate_c) {
   if (p->str_cur >= rng(3, 30)) {
-   g->add_msg("You pop the crate open.");
+   if (!p->is_npc())
+    g->add_msg("You pop the crate open.");
    p->moves -= (150 - (p->str_cur * 5));
    g->m.ter(dirx, diry) = t_crate_o;
   } else {
-   g->add_msg("You pry, but cannot open the crate.");
+   if (!p->is_npc())
+    g->add_msg("You pry, but cannot open the crate.");
    p->moves -= 100;
   } 
  } else {
@@ -1167,16 +1203,18 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
 void iuse::makemound(game *g, player *p, item *it, bool t)
 {
  if (g->m.has_flag(diggable, p->posx, p->posy)) {
-  g->add_msg("You churn up the earth here.");
+  if (!p->is_npc())
+   g->add_msg("You churn up the earth here.");
   p->moves = -300;
   g->m.ter(p->posx, p->posy) = t_dirtmound;
- } else
-  g->add_msg("You can't churn up this ground.");
+ } else if (!p->is_npc())
+   g->add_msg("You can't churn up this ground.");
 }
 
 void iuse::dig(game *g, player *p, item *it, bool t)
 {
- g->add_msg("You can dig a pit via the construction menu--hit *");
+ if (!p->is_npc())
+  g->add_msg("You can dig a pit via the construction menu--hit *");
 /*
  int dirx, diry;
  g->draw();
@@ -1206,7 +1244,7 @@ void iuse::chainsaw_off(game *g, player *p, item *it, bool t)
            "With a roar, the chainsaw leaps to life!");
   it->make(g->itypes[itm_chainsaw_on]);
   it->active = true;
- } else
+ } else if (!p->is_npc())
   g->add_msg("You yank the cord, but nothing happens.");
 }
 
@@ -1216,7 +1254,8 @@ void iuse::chainsaw_on(game *g, player *p, item *it, bool t)
   if (one_in(15))
    g->sound(p->posx, p->posy, 12, "Your chainsaw rumbles.");
  } else {	// Toggling
-  g->add_msg("Your chainsaw dies.");
+  if (!p->is_npc())
+   g->add_msg("Your chainsaw dies.");
   it->make(g->itypes[itm_chainsaw_off]);
   it->active = false;
  }
@@ -1239,7 +1278,8 @@ void iuse::jackhammer(game *g, player *p, item *it, bool t)
   p->moves -= 500;
   g->sound(dirx, diry, 45, "TATATATATATATAT!");
  } else {
-  g->add_msg("You can't drill there.");
+  if (!p->is_npc())
+   g->add_msg("You can't drill there.");
   it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
  }
 }
@@ -1257,7 +1297,8 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
  int posx = dirx + p->posx;
  int posy = diry + p->posy;
  if (g->m.move_cost(posx, posy) != 2) {
-  g->add_msg("You can't place a %s there.", it->tname().c_str());
+  if (!p->is_npc())
+   g->add_msg("You can't place a %s there.", it->tname().c_str());
   return;
  }
 
@@ -1268,12 +1309,14 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
 
  switch (it->type->id) {
  case itm_boobytrap:
-  message << "You set the boobytrap up and activate the grenade.";
+  if (!p->is_npc())
+   message << "You set the boobytrap up and activate the grenade.";
   type = tr_boobytrap;
   practice = 4;
   break;
  case itm_bubblewrap:
-  message << "You set the bubblewrap on the ground, ready to be popped.";
+  if (!p->is_npc())
+   message << "You set the bubblewrap on the ground, ready to be popped.";
   type = tr_bubblewrap;
   practice = 2;
   break;
@@ -1282,11 +1325,13 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
             g->m.has_flag(diggable, posx, posy) &&
             query_yn("Bury the beartrap?"));
   type = (buried ? tr_beartrap_buried : tr_beartrap);
-  message << "You " << (buried ? "bury" : "set") << " the beartrap.";
+  if (!p->is_npc())
+   message << "You " << (buried ? "bury" : "set") << " the beartrap.";
   practice = (buried ? 7 : 4); 
   break;
  case itm_board_trap:
-  message << "You set the board trap on the " << g->m.tername(posx, posy) <<
+  if (!p->is_npc())
+   message << "You set the board trap on the " << g->m.tername(posx, posy) <<
              ", nails facing up.";
   type = tr_nailboard;
   practice = 2;
@@ -1301,21 +1346,25 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
        g->m.move_cost(posx + 1, posy + 1) != 2   ) ||
       (g->m.move_cost(posx + 1, posy - 1) != 2 &&
        g->m.move_cost(posx - 1, posy + 1) != 2   )) {
-   message << "You string up the tripwire.";
+   if (!p->is_npc())
+    message << "You string up the tripwire.";
    type= tr_tripwire;
    practice = 3;
   } else {
-   g->add_msg("You must place the tripwire between two solid tiles.");
+   if (!p->is_npc())
+    g->add_msg("You must place the tripwire between two solid tiles.");
    return;
   }
   break;
  case itm_crossbow_trap:
-  message << "You set the crossbow trap.";
+  if (!p->is_npc())
+   message << "You set the crossbow trap.";
   type = tr_crossbow;
   practice = 4;
   break;
  case itm_shotgun_trap:
-  message << "You set the shotgun trap.";
+  if (!p->is_npc())
+   message << "You set the shotgun trap.";
   type = tr_shotgun_2;
   practice = 5;
   break;
@@ -1331,13 +1380,15 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
     }
    }
   }
-  message << "You set the blade trap two squares away.";
+  if (!p->is_npc())
+   message << "You set the blade trap two squares away.";
   type = tr_engine;
   practice = 12;
   break;
  case itm_landmine:
   buried = true;
-  message << "You bury the landmine.";
+  if (!p->is_npc())
+   message << "You bury the landmine.";
   type = tr_landmine;
   practice = 7;
   break;
@@ -1348,10 +1399,12 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
 
  if (buried) {
   if (!p->has_amount(itm_shovel, 1)) {
-   g->add_msg("You need a shovel.");
+   if (!p->is_npc())
+    g->add_msg("You need a shovel.");
    return;
   } else if (!g->m.has_flag(diggable, posx, posy)) {
-   g->add_msg("You can't dig in that %s", g->m.tername(posx, posy).c_str());
+   if (!p->is_npc())
+    g->add_msg("You can't dig in that %s", g->m.tername(posx, posy).c_str());
    return;
   }
  }
@@ -1408,7 +1461,10 @@ void iuse::geiger(game *g, player *p, item *it, bool t)
  int ch = menu("Geiger counter:", "Scan yourself", "Scan the ground",
                toggle_text.c_str(), "Cancel", NULL);
  switch (ch) {
-  case 1: g->add_msg("Your radiation level: %d", p->radiation); break;
+  case 1:
+   if (!p->is_npc())
+    g->add_msg("Your radiation level: %d", p->radiation);
+   break;
   case 2: g->add_msg("The ground's radiation level: %d",
                      g->m.radiation(p->posx, p->posy));		break;
   case 3:
@@ -1475,11 +1531,13 @@ void iuse::can_goo(game *g, player *p, item *it, bool t)
 void iuse::pipebomb(game *g, player *p, item *it, bool t)
 {
  if (!p->has_charges(itm_lighter, 1)) {
-  g->add_msg("You need a lighter!");
+  if (!p->is_npc())
+   g->add_msg("You need a lighter!");
   return;
  }
  p->use_charges(itm_lighter, 1);
- g->add_msg("You light the fuse on the pipe bomb.");
+ if (!p->is_npc())
+     g->add_msg("You light the fuse on the pipe bomb.");
  it->make(g->itypes[itm_pipebomb_act]);
  it->charges = 3;
  it->active = true;
@@ -1503,7 +1561,8 @@ void iuse::pipebomb_act(game *g, player *p, item *it, bool t)
  
 void iuse::grenade(game *g, player *p, item *it, bool t)
 {
- g->add_msg("You pull the pin on the grenade.");
+ if (!p->is_npc())
+  g->add_msg("You pull the pin on the grenade.");
  it->make(g->itypes[itm_grenade_act]);
  it->charges = 5;
  it->active = true;
@@ -1522,7 +1581,8 @@ void iuse::grenade_act(game *g, player *p, item *it, bool t)
 
 void iuse::flashbang(game *g, player *p, item *it, bool t)
 {
- g->add_msg("You pull the pin on the flashbang.");
+ if (!p->is_npc())
+  g->add_msg("You pull the pin on the flashbang.");
  it->make(g->itypes[itm_flashbang_act]);
  it->charges = 5;
  it->active = true;
@@ -1546,7 +1606,8 @@ void iuse::c4(game *g, player *p, item *it, bool t)
   g->add_msg("Never mind.");
   return;
  }
- g->add_msg("You set the timer to %d.", time);
+ if (!p->is_npc())
+  g->add_msg("You set the timer to %d.", time);
  it->make(g->itypes[itm_c4armed]);
  it->charges = time;
  it->active = true;
@@ -1565,7 +1626,8 @@ void iuse::c4armed(game *g, player *p, item *it, bool t)
 
 void iuse::EMPbomb(game *g, player *p, item *it, bool t)
 {
- g->add_msg("You pull the pin on the EMP grenade.");
+ if (!p->is_npc())
+  g->add_msg("You pull the pin on the EMP grenade.");
  it->make(g->itypes[itm_EMPbomb_act]);
  it->charges = 3;
  it->active = true;
@@ -1588,7 +1650,8 @@ void iuse::EMPbomb_act(game *g, player *p, item *it, bool t)
 
 void iuse::gasbomb(game *g, player *p, item *it, bool t)
 {
- g->add_msg("You pull the pin on the teargas canister.");
+ if (!p->is_npc())
+  g->add_msg("You pull the pin on the teargas canister.");
  it->make(g->itypes[itm_gasbomb_act]);
  it->charges = 20;
  it->active = true;
@@ -1618,7 +1681,8 @@ void iuse::gasbomb_act(game *g, player *p, item *it, bool t)
 
 void iuse::smokebomb(game *g, player *p, item *it, bool t)
 {
- g->add_msg("You pull the pin on the smoke bomb.");
+ if (!p->is_npc())
+  g->add_msg("You pull the pin on the smoke bomb.");
  it->make(g->itypes[itm_smokebomb_act]);
  it->charges = 20;
  it->active = true;
@@ -1648,7 +1712,8 @@ void iuse::smokebomb_act(game *g, player *p, item *it, bool t)
 
 void iuse::acidbomb(game *g, player *p, item *it, bool t)
 {
- g->add_msg("You remove the divider, and the chemicals mix.");
+ if (!p->is_npc())
+  g->add_msg("You remove the divider, and the chemicals mix.");
  p->moves -= 150;
  it->make(g->itypes[itm_acidbomb_act]);
  it->charges = 1;
@@ -1673,11 +1738,13 @@ void iuse::acidbomb_act(game *g, player *p, item *it, bool t)
 void iuse::molotov(game *g, player *p, item *it, bool t)
 {
  if (!p->has_charges(itm_lighter, 1)) {
-  g->add_msg("You need a lighter!");
+  if (!p->is_npc())
+   g->add_msg("You need a lighter!");
   return;
  }
  p->use_charges(itm_lighter, 1);
- g->add_msg("You light the molotov cocktail.");
+ if (!p->is_npc())
+     g->add_msg("You light the molotov cocktail.");
  p->moves -= 150;
  it->make(g->itypes[itm_molotov_lit]);
  it->charges = 1;
@@ -1694,7 +1761,8 @@ void iuse::molotov_lit(game *g, player *p, item *it, bool t)
   g->explosion(pos.x, pos.y, 8, 0, true);
  } else if (age >= 5) { // More than 5 turns old = chance of going out
   if (rng(1, 50) < age) {
-   g->add_msg("Your lit molotov goes out.");
+   if (!p->is_npc())
+    g->add_msg("Your lit molotov goes out.");
    it->make(g->itypes[itm_molotov]);
    it->charges = 0;
    it->active = false;
@@ -1705,11 +1773,13 @@ void iuse::molotov_lit(game *g, player *p, item *it, bool t)
 void iuse::dynamite(game *g, player *p, item *it, bool t)
 {
  if (!p->has_charges(itm_lighter, 1)) {
-  g->add_msg("You need a lighter!");
+  if (!p->is_npc())
+   g->add_msg("You need a lighter!");
   return;
  }
  p->use_charges(itm_lighter, 1);
- g->add_msg("You light the dynamite.");
+ if (!p->is_npc())
+     g->add_msg("You light the dynamite.");
  it->make(g->itypes[itm_dynamite_act]);
  it->charges = 20;
  it->active = true;
@@ -1728,7 +1798,8 @@ void iuse::dynamite_act(game *g, player *p, item *it, bool t)
 
 void iuse::mininuke(game *g, player *p, item *it, bool t)
 {
- g->add_msg("You activate the mininuke.");
+ if (!p->is_npc())
+  g->add_msg("You activate the mininuke.");
  it->make(g->itypes[itm_mininuke_act]);
  it->charges = 10;
  it->active = true;
@@ -1816,7 +1887,10 @@ void iuse::manhack(game *g, player *p, item *it, bool t)
  monster manhack(g->mtypes[mon_manhack], valid[index].x, valid[index].y);
  if (rng(0, p->int_cur / 2) + p->sklevel[sk_electronics] / 2 +
      p->sklevel[sk_computer] < rng(0, 4))
-  g->add_msg("You misprogram the manhack; it's hostile!");
+ {
+  if (!p->is_npc())
+   g->add_msg("You misprogram the manhack; it's hostile!");
+ }
  else
   manhack.friendly = -1;
  g->z.push_back(manhack);
@@ -1836,14 +1910,18 @@ void iuse::turret(game *g, player *p, item *it, bool t)
  dirx += p->posx;
  diry += p->posy;
  if (!g->is_empty(dirx, diry)) {
-  g->add_msg("You cannot place a turret there.");
+  if (!p->is_npc())
+   g->add_msg("You cannot place a turret there.");
   return;
  }
  it->invlet = 0; // Remove the turret from the player's inv
  monster turret(g->mtypes[mon_turret], dirx, diry);
  if (rng(0, p->int_cur / 2) + p->sklevel[sk_electronics] / 2 +
      p->sklevel[sk_computer] < rng(0, 6))
-  g->add_msg("You misprogram the turret; it's hostile!");
+ {
+  if (!p->is_npc())
+   g->add_msg("You misprogram the turret; it's hostile!");
+ }
  else
   turret.friendly = -1;
  g->z.push_back(turret);
@@ -1854,9 +1932,13 @@ void iuse::UPS_off(game *g, player *p, item *it, bool t)
  if (it->charges == 0)
   g->add_msg("The power supply's batteries are dead.");
  else {
-  g->add_msg("You turn the power supply on.");
+  if (!p->is_npc())
+   g->add_msg("You turn the power supply on.");
   if (p->is_wearing(itm_goggles_nv))
-   g->add_msg("Your light amp goggles power on.");
+  {
+   if (!p->is_npc())
+    g->add_msg("Your light amp goggles power on.");
+  }
   it->make(g->itypes[itm_UPS_on]);
   it->active = true;
  }
@@ -1888,7 +1970,8 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
  int mondex = g->mon_at(sx, sy);
  int npcdex = g->npc_at(sx, sy);
  if (mondex == -1 && npcdex == -1) {
-  g->add_msg("Your tazer crackles in the air.");
+  if (!p->is_npc())
+   g->add_msg("Your tazer crackles in the air.");
   return;
  }
 
@@ -1905,10 +1988,12 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
   }
   int mondice = z->dodge();
   if (dice(numdice, 10) < dice(mondice, 10)) {	// A miss!
-   g->add_msg("You attempt to shock the %s, but miss.", z->name().c_str());
+   if (!p->is_npc())
+    g->add_msg("You attempt to shock the %s, but miss.", z->name().c_str());
    return;
   }
-  g->add_msg("You shock the %s!", z->name().c_str());
+  if (!p->is_npc())
+   g->add_msg("You shock the %s!", z->name().c_str());
   int shock = rng(5, 25);
   z->moves -= shock * 100;
   if (z->hurt(shock))
@@ -1925,10 +2010,12 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
   else if (foe->str_max <= 5)
    numdice--;	// Minor penalty against tiny people
   if (dice(numdice, 10) <= dice(foe->dodge(g), 6)) {
-   g->add_msg("You attempt to shock %s, but miss.", foe->name.c_str());
+   if (!p->is_npc())
+    g->add_msg("You attempt to shock %s, but miss.", foe->name.c_str());
    return;
   }
-  g->add_msg("You shock %s!", foe->name.c_str());
+  if (!p->is_npc())
+   g->add_msg("You shock %s!", foe->name.c_str());
   int shock = rng(5, 20);
   foe->moves -= shock * 100;
   foe->hurtall(shock);
@@ -1945,9 +2032,11 @@ void iuse::mp3(game *g, player *p, item *it, bool t)
  if (it->charges == 0)
   g->add_msg("The mp3 player's batteries are dead.");
  else if (p->has_active_item(itm_mp3_on))
-  g->add_msg("You are already listening to an mp3 player!");
+  if (!p->is_npc())
+   g->add_msg("You are already listening to an mp3 player!");
  else {
-  g->add_msg("You put in the earbuds and start listening to music.");
+  if (!p->is_npc())
+   g->add_msg("You put in the earbuds and start listening to music.");
   it->make(g->itypes[itm_mp3_on]);
   it->active = true;
  }
@@ -1972,7 +2061,8 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
              p->add_morale(MORALE_MUSIC, 1, 100);		break;
    }
    if (sound.length() > 0)
-    g->add_msg("You listen to %s", sound.c_str());
+    if (!p->is_npc())
+     g->add_msg("You listen to %s", sound.c_str());
   }
  } else {	// Turning it off
   g->add_msg("The mp3 player turns off.");
@@ -2172,7 +2262,8 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
   } break;
 
   case AEA_ADRENALINE:
-   g->add_msg("You're filled with a roaring energy!");
+   if (!p->is_npc())
+    g->add_msg("You're filled with a roaring energy!");
    p->add_disease(DI_ADRENALINE, rng(200, 250), g);
    break;
 
@@ -2187,7 +2278,8 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
     }
    }
    if (new_map) {
-    g->add_msg("You have a vision of the surrounding area...");
+    if (!p->is_npc())
+     g->add_msg("You have a vision of the surrounding area...");
     p->moves -= 100;
    }
   } break;
@@ -2246,7 +2338,8 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    break;
 
   case AEA_HEAL:
-   g->add_msg("You feel healed.");
+   if (!p->is_npc())
+    g->add_msg("You feel healed.");
    p->healall(2);
    break;
 
@@ -2338,7 +2431,8 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    break;
 
   case AEA_PAIN:
-   g->add_msg("You're wracked with pain!");
+   if (!p->is_npc())
+    g->add_msg("You're wracked with pain!");
    p->pain += rng(5, 15);
    break;
 
@@ -2348,7 +2442,8 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    break;
 
   case AEA_PARALYZE:
-   g->add_msg("You're paralyzed!");
+   if (!p->is_npc())
+    g->add_msg("You're paralyzed!");
    p->moves -= rng(50, 200);
    break;
 
@@ -2365,22 +2460,26 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    break;
 
   case AEA_ATTENTION:
-   g->add_msg("You feel like your action has attracted attention.");
+   if (!p->is_npc())
+    g->add_msg("You feel like your action has attracted attention.");
    p->add_disease(DI_ATTENTION, 600 * rng(1, 3), g);
    break;
 
   case AEA_TELEGLOW:
-   g->add_msg("You feel unhinged.");
+   if (!p->is_npc())
+    g->add_msg("You feel unhinged.");
    p->add_disease(DI_TELEGLOW, 100 * rng(3, 12), g);
    break;
 
   case AEA_NOISE:
-   g->add_msg("Your %s emits a deafening boom!", it->tname().c_str());
+   if (!p->is_npc())
+    g->add_msg("Your %s emits a deafening boom!", it->tname().c_str());
    g->sound(p->posx, p->posy, 100, "");
    break;
 
   case AEA_SCREAM:
-   g->add_msg("Your %s screams disturbingly.", it->tname().c_str());
+   if (!p->is_npc())
+    g->add_msg("Your %s screams disturbingly.", it->tname().c_str());
    g->sound(p->posx, p->posy, 40, "");
    p->add_morale(MORALE_SCREAM, -10);
    break;
