@@ -348,7 +348,7 @@ std::string item::info(bool showtext)
   if (mod->damage != 0)
    dump << "\n Damage: " << (mod->damage > 0 ? "+" : "") << int(mod->damage);
   if (mod->clip != 0)
-   dump << "\n Clip: " << (mod->clip > 0 ? "+" : "") << int(mod->damage) << "%";
+   dump << "\n Magazine: " << (mod->clip > 0 ? "+" : "") << int(mod->damage) << "%";
   if (mod->recoil != 0)
    dump << "\n Recoil: " << int(mod->recoil);
   if (mod->burst != 0)
