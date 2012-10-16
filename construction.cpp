@@ -162,9 +162,9 @@ void game::init_construction()
    COMP(itm_nail, 8, NULL);
    COMP(itm_2x4, 6, NULL);
 
- CONSTRUCT("Build Bed", 0, &construct::able_indoors,
+ CONSTRUCT("Build Makeshift Bed", 0, &construct::able_indoors,
                                 &construct::done_nothing);
-  STAGE(t_bed, 20);
+  STAGE(t_makeshift_bed, 20);
    TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_nail, 8, NULL);
    COMP(itm_2x4, 10, NULL);
