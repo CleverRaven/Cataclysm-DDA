@@ -453,7 +453,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
     return npc_avoid_friendly_fire;
    else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
             gun->burst > 1 &&
-            (target_HP >= weapon.curammo->damage * 3 || emergency(danger * 2)))
+            ((weapon.curammo && target_HP >= weapon.curammo->damage * 3) || emergency(danger * 2)))
     return npc_shoot_burst;
    else
     return npc_shoot;
@@ -747,7 +747,7 @@ int npc::confident_range(int index)
 
 // Using 180 for now for extra-confident NPCs.
  int ret = (max > int(180 / deviation) ? max : int(180 / deviation));
- if (ret > weapon.curammo->range)
+ if (weapon.curammo && ret > weapon.curammo->range)
   return weapon.curammo->range;
  return ret;
 }
