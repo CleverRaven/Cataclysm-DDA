@@ -24,7 +24,7 @@ item::item()
  damage = 0;
  burnt = 0;
  poison = 0;
- type = NULL;
+ type = nullitem();
  curammo = NULL;
  corpse = NULL;
  active = false;
@@ -35,7 +35,10 @@ item::item()
 
 item::item(itype* it, unsigned int turn)
 {
- type = it;
+ if(!it)
+  type = nullitem();
+ else
+  type = it;
  bday = turn;
  name = "";
  invlet = 0;
@@ -73,7 +76,10 @@ item::item(itype* it, unsigned int turn)
 
 item::item(itype *it, unsigned int turn, char let)
 {
- type = it;
+ if(!it)
+  type = nullitem();
+ else
+  type = it;
  bday = turn;
  name = "";
  damage = 0;
@@ -118,9 +124,18 @@ void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
  poison = 0;
  curammo = NULL;
  active = false;
- type = it;
+ if(!it)
+  type = nullitem();
+ else
+  type = it;
  corpse = mt;
  bday = turn;
+}
+
+itype * item::nullitem_m = new itype();
+itype * item::nullitem()
+{
+    return nullitem_m;
 }
 
 item::item(std::string itemdata, game *g)
@@ -134,7 +149,10 @@ item::~item()
 
 void item::make(itype* it)
 {
- type = it;
+ if(!it)
+  type = nullitem();
+ else
+  type = it;
  contents.clear();
 }
 

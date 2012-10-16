@@ -83,7 +83,6 @@ player::~player()
 
 player& player::operator= (const player & rhs)
 {
- id = rhs.id;
  posx = rhs.posx;
  in_vehicle = rhs.in_vehicle;
  activity = rhs.activity;
@@ -3066,13 +3065,17 @@ void player::sort_inv()
 
 void player::i_add(item it, game *g)
 {
- last_item = itype_id(it.type->id);
+ int item_type_id = itm_null;
+ if( it.type ) item_type_id = it.type->id;
+
+ last_item = itype_id(item_type_id);
+
  if (it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() || 
      it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container())
   inv_sorted = false;
  if (it.is_ammo()) {	// Possibly combine with other ammo
   for (int i = 0; i < inv.size(); i++) {
-   if (inv[i].type->id == it.type->id) {
+   if (inv[i].type->id == item_type_id) {
     it_ammo* ammo = dynamic_cast<it_ammo*>(inv[i].type);
     if (inv[i].charges < ammo->count) {
      inv[i].charges += it.charges;

@@ -123,6 +123,10 @@ public:
  int mission_id;// Refers to a mission in game's master list
  int player_id;	// Only give a mission to the right player!
 
+ static itype * nullitem();
+
+private:
+ static itype * nullitem_m;
 };
 
 
