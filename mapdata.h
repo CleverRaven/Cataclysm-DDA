@@ -314,7 +314,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"toilet",           '&', c_white,   0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(l_flammable)},
 {"makeshift bed",    '#', c_magenta, 5, tr_null,
-        mfb(transparent)|mfb(bashable)|mfb(flammable)},}
+        mfb(transparent)|mfb(bashable)|mfb(flammable)},
 {"sandbox",          '#', c_yellow,  3, tr_null,
 	mfb(transparent)},
 {"slide",            '#', c_ltcyan,  4, tr_null,
