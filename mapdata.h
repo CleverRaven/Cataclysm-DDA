@@ -104,7 +104,7 @@ t_marloss, t_fungus, t_tree_fungal,
 t_water_sh, t_water_dp, t_sewage,
 t_lava,
 // Embellishments
-t_bed, t_toilet,
+t_bed, t_toilet, t_bed_crap,
 t_sandbox, t_slide, t_monkey_bars, t_backboard,
 t_bench, t_table, t_pool_table,
 t_gas_pump, t_gas_pump_smashed,
@@ -313,6 +313,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(container)|mfb(flammable)},
 {"toilet",           '&', c_white,   0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(l_flammable)},
+{"makeshift bed",    '#', c_magenta, 5, tr_null,
+        mfb(transparent)|mfb(bashable)|mfb(flammable)},}
 {"sandbox",          '#', c_yellow,  3, tr_null,
 	mfb(transparent)},
 {"slide",            '#', c_ltcyan,  4, tr_null,
