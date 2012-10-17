@@ -1131,12 +1131,12 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
    boards = 3;
    newter = t_door_b;
    break;
-  case t_picket_fence_h:
+  case t_fence_h:
    nails = 6;
    boards = 3;
    newter = t_fence_post;
    break;
-  case t_picket_fence_v:
+  case t_fence_v:
    nails = 6;
    boards = 3;
    newter = t_fence_post;
