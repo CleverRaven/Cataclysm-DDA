@@ -378,7 +378,7 @@ Eating this would be pretty gross.  It causes you to mutate.");
 
 FOOD("ant egg",		 5, 80,	c_white,	FLESH,	itm_null,
     4,  2, 10, 100, 0,  0, -1,  0,  1, -10,	&iuse::none,	ADD_NULL, "\
-A large ant egg, the size of a softball.  Extremely nutrtious, but gross.");
+A large ant egg, the size of a softball.  Extremely nutritious, but gross.");
 
 FOOD("marloss berry",	 2,600, c_pink,		VEGGY,	itm_null,
     1,  1, 20, 40,  0,  0,-10,  0,  1, 30,	&iuse::marloss,	ADD_NULL, "\
@@ -2491,7 +2491,7 @@ Rifling a shotgun barrel is mainly done in order to improve its accuracy when\n\
 firing slugs.  The rifling makes the gun less suitable for shot, however.",
 0);
 
-GUNMOD("extended clip",	  8,  560, c_ltgray, STEEL, PLASTIC,  1,  1, -2,  0, -1,
+GUNMOD("extended magazine",	  8,  560, c_ltgray, STEEL, PLASTIC,  1,  1, -2,  0, -1,
 	-1,  0,  0, 50,  0,  0, AT_NULL,	true,	true,	true,	true,
 	0, "\
 Increases the ammunition capacity of your firearm by 50%, but the added bulk\n\
@@ -2499,7 +2499,7 @@ reduces accuracy slightly.",
 0);
 
 //	NAME      	 RAR  PRC  COLOR     MAT1   MAT2     VOL WGT DAM CUT HIT
-GUNMOD("double clip",	   4, 720, c_ltgray, STEEL, PLASTIC,  2,  2,  0,  0,  0,
+GUNMOD("double magazine",	   4, 720, c_ltgray, STEEL, PLASTIC,  2,  2,  0,  0,  0,
 //	ACC DAM NOI CLP REC BST NEWTYPE,	PISTOL	SHOT	SMG	RIFLE
 	-2,  0,  0,100,  2,  0, AT_NULL,	false,	true,	true,	true,
 	0, "\
