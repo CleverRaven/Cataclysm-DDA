@@ -62,7 +62,7 @@ void setvector(std::vector<std::string> &vec, ... )
  va_list ap;
  va_start(ap, vec);
  char *tmp;
- while (tmp = (char *)va_arg(ap, int))
+ while (tmp = va_arg(ap, char *))
   vec.push_back((std::string)(tmp));
  va_end(ap);
 }
@@ -126,7 +126,7 @@ void setvector(std::vector<style_move> &vec, ... )
  technique_id tmptech;
  int tmplevel;
 
- while (tmpname = (char *)va_arg(ap, int)) {
+ while (tmpname = va_arg(ap, char *)) {
   tmptech = (technique_id)va_arg(ap, int);
   tmplevel = (int)va_arg(ap, int);
   vec.push_back( style_move(tmpname, tmptech, tmplevel) );
