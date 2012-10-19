@@ -369,6 +369,13 @@ int vehicle::part_at(int dx, int dy)
     return -1;
 }
 
+int vehicle::global_part_at(int x, int y)
+{
+ int dx = x - global_x();
+ int dy = y - global_y();
+ return part_at(dx,dy);
+}
+
 char vehicle::part_sym (int p)
 {
     if (p < 0 || p >= parts.size())
