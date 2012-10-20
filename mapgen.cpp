@@ -171,14 +171,14 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
    overmap tmp(g, om->posx - 1, om->posy, 0);
    t_west = tmp.ter(OMAPX - 1, overy);
   }
+ }
+
  draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g);
 
  if ( one_in( oterlist[terrain_type].embellishments.chance ))
   add_extra( random_map_extra( oterlist[terrain_type].embellishments ), g);
 
  post_process(g, zones);
-
- }
 
 // Okay, we know who are neighbors are.  Let's draw!
 // And finally save used submaps and delete the rest.
