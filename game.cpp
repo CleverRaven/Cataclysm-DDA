@@ -6865,6 +6865,10 @@ void game::spawn_mon(int shiftx, int shifty)
     group++;
 
    cur_om.zg[i].population -= group;
+   // Reduce group radius proportionally to remaining
+   // population to maintain a minimal population density.
+   if (cur_om.zg[i].population / pow(cur_om.zg[i].radius, 2.0) < 1.0)
+     cur_om.zg[i].radius--;
 
    if (group > 0) // If we spawned some zombies, advance the timer
     nextspawn += rng(group * 4 + z.size() * 4, group * 10 + z.size() * 10);
