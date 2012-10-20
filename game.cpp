@@ -398,7 +398,7 @@ fivedozenwhales@gmail.com.");
     mvwprintz(w_open, 6, 12, c_red, "No templates found!");
    else {
     int tempstart = (sel1 < 6 ?  0 : sel1 - 6),
-        tempend   = (sel1 < 6 ? 14 : sel1 + 6);
+        tempend   = (sel1 < 6 ? 14 : sel1 + 8);
     for (int i = tempstart; i < tempend; i++) {
      int line = 6 + i - tempstart;
      mvwprintz(w_open, line, 29, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
@@ -420,16 +420,16 @@ fivedozenwhales@gmail.com.");
      sel1++;
     else
      sel1 = 0;
-   } else if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE) {
+   } else if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE || templates.size() == 0) {
     sel1 = 1;
     layer = 2;
-    for (int i = 0; i < templates.size() && i < 21; i++)
+    for (int i = 0; i+6 < 21; i++)
      mvwprintz(w_open, 6 + i, 12, c_black, "                                 ");
     for (int i = 22; i < 25; i++)
      mvwprintw(w_open, i, 0, "                                                 \
                                 ");
    }
-   if (ch == 'l' || ch == '\n' || ch == '>') {
+   else if (ch == 'l' || ch == '\n' || ch == '>') {
     if (!u.create(this, PLTYPE_TEMPLATE, templates[sel1])) {
      u = player();
      delwin(w_open);
