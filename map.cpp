@@ -2234,7 +2234,7 @@ void map::load(game *g, int wx, int wy, bool update_vehicle)
 {
  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
   for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-   if (!loadn(g, wx, wy, gridx, gridy))
+   if (!loadn(g, wx, wy, gridx, gridy, update_vehicle))
     loadn(g, wx, wy, gridx, gridy, update_vehicle);
   }
  }
@@ -2363,7 +2363,7 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy, bool upda
 
   // Update vehicle data
   for( std::vector<vehicle*>::iterator it = tmpsub->vehicles.begin(),
-        end = tmpsub->vehicles.end(); it != end; ++it ) {
+        end = tmpsub->vehicles.end(); update_vehicles && it != end; ++it ) {
 
    // Only add if not tracking already.
    if( vehicle_list.find( *it ) == vehicle_list.end() ) {

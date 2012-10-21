@@ -6536,6 +6536,7 @@ void game::vertical_move(int movez, bool force)
   }
  }
 
+ m.reset_vehicle_cache();
  set_adjacent_overmaps(true);
  refresh_all();
 }
