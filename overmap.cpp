@@ -1,5 +1,7 @@
 #if (defined _WIN32 || defined WINDOWS)
 	#include "catacurse.h"
+#elif (defined __CYGWIN__)
+      #include "ncurses/curses.h"
 #else
 	#include <curses.h>
 #endif

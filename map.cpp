@@ -950,7 +950,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   
  case t_bench:
  case t_counter:
-  result = dice(3, 45);
+  result = dice(3, 20);
   if (res) *res = result;
   if (str >= result) {
    sound += "smash!";
