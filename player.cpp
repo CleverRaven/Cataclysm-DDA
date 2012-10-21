@@ -61,6 +61,7 @@ player::player()
  for (int i = 0; i < num_skill_types; i++) {
   sklevel[i] = 0;
   skexercise[i] = 0;
+  sklearn[i] = true;
  }
  for (int i = 0; i < PF_MAX2; i++)
   my_traits[i] = false;
@@ -154,6 +155,7 @@ player& player::operator= (const player & rhs)
   sklevel[i]    = rhs.sklevel[i];
   skexercise[i] = rhs.skexercise[i];
   sktrain[i]    = rhs.sktrain[i];
+  sklearn[i] = rhs.sklearn[i];
  }
 
  inv_sorted = rhs.inv_sorted;
@@ -513,7 +515,7 @@ void player::load_info(game *g, std::string data)
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
  for (int i = 0; i < num_skill_types; i++)
-  dump >> sklevel[i] >> skexercise[i];
+  dump >> sklevel[i] >> skexercise[i] >> sklearn[i];
 
  int numstyles, typetmp;
  dump >> numstyles;
@@ -608,7 +610,7 @@ std::string player::save_info()
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
  for (int i = 0; i < num_skill_types; i++)
-  dump << int(sklevel[i]) << " " << skexercise[i] << " ";
+  dump << int(sklevel[i]) << " " << skexercise[i] << " " << sklearn[i] << " ";
 
  dump << styles.size() << " ";
  for (int i = 0; i < styles.size(); i++)
@@ -928,7 +930,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   if (sklevel[i] > 0) {
    skillslist.push_back(skill(i));
    if (line < 9) {
-    mvwprintz(w_skills, line, 1, c_ltblue, "%s:",
+    mvwprintz(w_skills, line, 1, sklearn[i] ? c_dkgray : c_ltblue, "%s:",
               skill_name(skill(i)).c_str());
     mvwprintz(w_skills, line,19, c_ltblue, "%d%s(%s%d%%%%)", sklevel[i],
               (sklevel[i] < 10 ? " " : ""),
@@ -1325,14 +1327,14 @@ encumb(bp_feet) * 5);
    for (int i = min; i < max; i++) {
     if (i == line) {
      if (skexercise[skillslist[i]] >= 100)
-      status = h_pink;
+      status = sklearn[skillslist[i]] ? h_pink : h_red;
      else
-      status = h_ltblue;
+      status = sklearn[skillslist[i]] ? h_ltblue : h_blue;
     } else {
      if (skexercise[skillslist[i]] < 0)
-      status = c_ltred;
+      status = sklearn[skillslist[i]] ? c_ltred : c_red;
      else
-      status = c_ltblue;
+      status = sklearn[skillslist[i]] ? c_ltblue : c_blue;
     }
     mvwprintz(w_skills, 2 + i - min, 1, c_ltgray, "                         ");
     if (skexercise[i] >= 100) {
@@ -1389,6 +1391,9 @@ encumb(bp_feet) * 5);
      wrefresh(w_skills);
      line = 0;
      curtab = 1;
+     break;
+   case ' ':
+     sklearn[skillslist[line]] = !sklearn[skillslist[line]];
      break;
     case 'q':
     case 'Q':
@@ -4717,7 +4722,7 @@ void player::practice(skill s, int amount)
    }
   }
  }
- while (amount > 0 && xp_pool >= (1 + sklevel[s])) {
+ while (sklearn[s] && amount > 0 && xp_pool >= (1 + sklevel[s])) {
   amount -= sklevel[s] + 1;
   if ((savant == sk_null || savant == s || !one_in(2)) &&
       rng(0, 100) < comprehension_percent(s)) {
