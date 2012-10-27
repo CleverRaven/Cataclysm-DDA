@@ -4171,13 +4171,14 @@ case ot_s_garage_north:
         line(this, t_wall_h, 1, SEEY*2-9, 3, SEEY*2-9);
         line(this, t_wall_v, 3, SEEY*2-8, 3, SEEY*2-5);
         ter(3, SEEY*2-7)= t_door_frame;
+        ter(21, SEEY*2-7)= t_door_c;
         line(this, t_counter,4, SEEY*2-5, 15, SEEY*2-5);
         //office
         line(this, t_wall_glass_h, 16, SEEY*2-9 ,20, SEEY*2-9);
         line(this, t_wall_glass_v, 16, SEEY*2-8, 16, SEEY*2-5);
         ter(16, SEEY*2-7)= t_door_glass_c;
         line(this, t_bench, SEEX*2-6, SEEY*2-8, SEEX*2-4, SEEY*2-8);
-        ter(SEEX*2-6, SEEY*2-7) = t_console_broken;
+        ter(SEEX*2-6, SEEY*2-6) = t_console_broken;
         ter(SEEX*2-5, SEEY*2-6) = t_bench;
         line(this, t_bookcase, SEEX*2-6, SEEY*2-5, SEEX*2-4, SEEY*2-5);
         //gates
@@ -4187,7 +4188,6 @@ case ot_s_garage_north:
         line(this, t_door_metal_locked, 14, yard_wdth, 19, yard_wdth );
         ter(13, yard_wdth+1) = t_gates_mech_control;
         ter(13, yard_wdth-1) = t_gates_mech_control;
-        g->add_msg("Car repairing!");
         //place items
         place_items(mi_mechanics, 90, 1, yard_wdth+1, 1, yard_wdth+7, true, 0);
         place_items(mi_mechanics, 90, 4, SEEY*2-5, 15, SEEY*2-5, true, 0);
@@ -4199,25 +4199,29 @@ case ot_s_garage_north:
 
         if (terrain_type == ot_s_garage_north) {
         int vy = yard_wdth+6, vx = 5;
-        add_vehicle (g, vt, vx, vy, 90); }
+        if (one_in(20))
+         add_vehicle (g, vt, vx, vy, 90); }
 
           if (terrain_type == ot_s_garage_east) {
             rotate(1);
             //int vy = yard_wdth+5, vx = 4;
             int vy = 4, vx=yard_wdth+8;
-            add_vehicle (g, vt, vx, vy, 0);
+            if (one_in(20))
+             add_vehicle (g, vt, vx, vy, 0);
             }
           if (terrain_type == ot_s_garage_south) {
             rotate(2);
             int vy = SEEY*2-(yard_wdth+5)-2, vx = SEEX*2-5-1;
-            add_vehicle (g, vt, vx, vy, 270);
+            if (one_in(20))
+             add_vehicle (g, vt, vx, vy, 270);
             }
           if (terrain_type == ot_s_garage_west) {
             //int vy = yard_wdth+5, vx = 4;
             rotate(3);
             //int vy = 4, vx=yard_wdth;
             int vy = SEEY*2-4-1, vx=SEEX*2-yard_wdth-9;
-            add_vehicle (g, vt, vx, vy, 180);
+            if (one_in(20))
+             add_vehicle (g, vt, vx, vy, 180);
             }
   }
   break; 
