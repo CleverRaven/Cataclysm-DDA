@@ -57,6 +57,7 @@ private:
     void do_repair(int reason);
     void do_refill(int reason);
     void do_remove(int reason);
+    void do_rename(int reason);
 
     void display_veh ();
     void display_stats ();

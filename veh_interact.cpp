@@ -112,6 +112,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
             case 'r': do_repair(mval);  break;
             case 'f': do_refill(mval);  break;
             case 'o': do_remove(mval);  break;
+            case 'e': do_rename(mval);  break;
             default:;
             }
             if (sel_cmd != ' ')
@@ -240,6 +241,7 @@ void veh_interact::do_install(int reason)
         }
     }
 }
+
 
 void veh_interact::do_repair(int reason)
 {
@@ -405,6 +407,16 @@ void veh_interact::do_remove(int reason)
                 pos = first;
         }
     }
+}
+
+void veh_interact::do_rename(int reason)
+{
+std::string name = string_input_popup(20, "Enter new vehicle name");
+(veh->name = name);
+    werase(w_stats);
+    werase(w_grid);
+    display_stats ();
+    display_veh   ();
 }
 
 int veh_interact::part_at (int dx, int dy)
@@ -592,6 +604,8 @@ void veh_interact::display_mode (char mode)
         mvwprintz(w_mode, 0, 23, mo? c_ltgray : c_dkgray, "remove");
         mvwputch (w_mode, 0, 26, mo? c_ltgreen : c_green, 'o');
     }
+    mvwprintz(w_mode, 0, 30, c_ltgray, "rename");
+    mvwputch (w_mode, 0, 31, c_ltgreen, 'e');
     mvwprintz(w_mode, 0, 71, c_ltgreen, "ESC");
     mvwprintz(w_mode, 0, 74, c_ltgray, "-back");
     wrefresh (w_mode);
