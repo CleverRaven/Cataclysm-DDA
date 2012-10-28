@@ -4129,8 +4129,8 @@ case ot_shelter: {
   break;
 
 case ot_s_garage_north:
-  case ot_s_garage_south:
   case ot_s_garage_east:
+  case ot_s_garage_south:
   case ot_s_garage_west:
        /*
      ......................

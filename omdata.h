@@ -80,7 +80,7 @@ enum oter_id {
   ot_s_restaurant_west,
  ot_sub_station_north, ot_sub_station_east, ot_sub_station_south,
   ot_sub_station_west,
- ot_s_garage_north, ot_s_garage_south, ot_s_garage_east, ot_s_garage_west,
+ ot_s_garage_north, ot_s_garage_east, ot_s_garage_south, ot_s_garage_west,
  ot_police_north, ot_police_east, ot_police_south, ot_police_west,
  ot_bank_north, ot_bank_east, ot_bank_south, ot_bank_west,
  ot_bar_north, ot_bar_east, ot_bar_south, ot_bar_west,
