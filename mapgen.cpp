@@ -4199,20 +4199,20 @@ case ot_s_garage_north:
 
         if (terrain_type == ot_s_garage_north) {
         int vy = yard_wdth+6, vx = 5;
-        if (one_in(20))
+        if (one_in(10))
          add_vehicle (g, vt, vx, vy, 90); }
 
           if (terrain_type == ot_s_garage_east) {
             rotate(1);
             //int vy = yard_wdth+5, vx = 4;
             int vy = 4, vx=yard_wdth+8;
-            if (one_in(20))
+            if (one_in(10))
              add_vehicle (g, vt, vx, vy, 0);
             }
           if (terrain_type == ot_s_garage_south) {
             rotate(2);
             int vy = SEEY*2-(yard_wdth+5)-2, vx = SEEX*2-5-1;
-            if (one_in(20))
+            if (one_in(10))
              add_vehicle (g, vt, vx, vy, 270);
             }
           if (terrain_type == ot_s_garage_west) {
@@ -4220,7 +4220,7 @@ case ot_s_garage_north:
             rotate(3);
             //int vy = 4, vx=yard_wdth;
             int vy = SEEY*2-4-1, vx=SEEX*2-yard_wdth-9;
-            if (one_in(20))
+            if (one_in(10))
              add_vehicle (g, vt, vx, vy, 180);
             }
   }
