@@ -38,7 +38,6 @@ game::game() :
  gamemode(NULL)
 {
  dout() << "Game initialized.";
-
  clear();	// Clear the screen
  intro();	// Print an intro screen, make sure we're at least 80x25
 // Gee, it sure is init-y around here!
@@ -404,7 +403,7 @@ fivedozenwhales@gmail.com.");
     mvwprintz(w_open, 6, 12, c_red, "No templates found!");
    else {
     int tempstart = (sel1 < 6 ?  0 : sel1 - 6),
-        tempend   = (sel1 < 6 ? 14 : sel1 + 6);
+        tempend   = (sel1 < 6 ? 14 : sel1 + 8);
     for (int i = tempstart; i < tempend; i++) {
      int line = 6 + i - tempstart;
      mvwprintz(w_open, line, 29, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
@@ -426,16 +425,16 @@ fivedozenwhales@gmail.com.");
      sel1++;
     else
      sel1 = 0;
-   } else if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE) {
+   } else if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE || templates.size() == 0) {
     sel1 = 1;
     layer = 2;
-    for (int i = 0; i < templates.size() && i < 21; i++)
+    for (int i = 0; i+6 < 21; i++)
      mvwprintz(w_open, 6 + i, 12, c_black, "                                 ");
     for (int i = 22; i < 25; i++)
      mvwprintw(w_open, i, 0, "                                                 \
                                 ");
    }
-   if (ch == 'l' || ch == '\n' || ch == '>') {
+   else if (ch == 'l' || ch == '\n' || ch == '>') {
     if (!u.create(this, PLTYPE_TEMPLATE, templates[sel1])) {
      u = player();
      delwin(w_open);
@@ -546,7 +545,7 @@ bool game::do_turn()
   for (int i = 0; i < z.size(); i++) {
    if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
     tinymap tmp(&itypes, &mapitems, &traps);
-    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
+    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
     tmp.add_spawn(&(z[i]));
     tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
    } else {	// Absorb them back into a group
@@ -6659,7 +6658,7 @@ void game::vertical_move(int movez, bool force)
  //m.save(&cur_om, turn, levx, levy);
  cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz + movez);
  map tmpmap(&itypes, &mapitems, &traps);
- tmpmap.load(this, levx, levy);
+ tmpmap.load(this, levx, levy, false);
  cur_om = overmap(this, cur_om.posx, cur_om.posy, original_z);
 // Find the corresponding staircase
  int stairx = -1, stairy = -1;
@@ -6718,12 +6717,12 @@ void game::vertical_move(int movez, bool force)
      coming_to_stairs.push_back( monster_and_count(z[i], 1 + turns) );
    } else if (z[i].spawnmapx != -1) { // Static spawn, move them back there
     tinymap tmp(&itypes, &mapitems, &traps);
-    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
+    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
     tmp.add_spawn(&(z[i]));
     tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
    } else if (z[i].friendly < 0) { // Friendly, make it into a static spawn
     tinymap tmp(&itypes, &mapitems, &traps);
-    tmp.load(this, levx, levy);
+    tmp.load(this, levx, levy, false);
     int spawnx = z[i].posx, spawny = z[i].posy;
     while (spawnx < 0)
      spawnx += SEEX;
@@ -6807,6 +6806,7 @@ void game::vertical_move(int movez, bool force)
   }
  }
 
+ m.reset_vehicle_cache();
  set_adjacent_overmaps(true);
  refresh_all();
 }
@@ -6864,7 +6864,7 @@ void game::update_map(int &x, int &y)
 // Despawn; we're out of bounds
    if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
     map tmp(&itypes, &mapitems, &traps);
-    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy);
+    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
     tmp.add_spawn(&(z[i]));
     tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
    } else {	// Absorb them back into a group
@@ -7176,6 +7176,10 @@ void game::spawn_mon(int shiftx, int shifty)
     group++;
 
    cur_om.zg[i].population -= group;
+   // Reduce group radius proportionally to remaining
+   // population to maintain a minimal population density.
+   if (cur_om.zg[i].population / pow(cur_om.zg[i].radius, 2.0) < 1.0)
+     cur_om.zg[i].radius--;
 
    if (group > 0) // If we spawned some zombies, advance the timer
     nextspawn += rng(group * 4 + z.size() * 4, group * 10 + z.size() * 10);
@@ -7484,7 +7488,7 @@ void game::nuke(int x, int y)
   return;
  int mapx = x * 2, mapy = y * 2;
  map tmpmap(&itypes, &mapitems, &traps);
- tmpmap.load(this, mapx, mapy);
+ tmpmap.load(this, mapx, mapy, false);
  for (int i = 0; i < SEEX * 2; i++) {
   for (int j = 0; j < SEEY * 2; j++) {
    if (!one_in(10))

@@ -169,6 +169,7 @@ public:
     
 // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
     int part_at (int dx, int dy);
+    int global_part_at (int x, int y);
 
 // get symbol for map
     char part_sym (int p);

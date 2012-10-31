@@ -2,7 +2,7 @@
 
 std::string faction_adj_pos[15] = {
 "Shining", "Sacred", "Golden", "Holy", "Righteous", "Devoted", "Virtuous",
-"Splendid", "Divine", "Radiant", "Noble", "Venerable", "Immaculate"
+"Splendid", "Divine", "Radiant", "Noble", "Venerable", "Immaculate",
 "Heroic", "Bright"};
 
 std::string faction_adj_neu[15] = {

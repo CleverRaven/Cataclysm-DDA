@@ -139,7 +139,7 @@ void mapbuffer::save()
  // Output the vehicles
   for (int i = 0; i < sm->vehicles.size(); i++) {
    fout << "V ";
-   sm->vehicles[i].save (fout);
+   sm->vehicles[i]->save (fout);
   }
  // Output the computer
   if (sm->comp.name != "")
@@ -243,10 +243,11 @@ void mapbuffer::load()
                     spawnname);
     sm->spawns.push_back(tmp);
    } else if (string_identifier == "V") {
-    vehicle veh(master_game);
-    veh.load (fin);
+    vehicle * veh = new vehicle(master_game);
+    veh->load (fin);
     //veh.smx = gridx;
     //veh.smy = gridy;
+    master_game->m.vehicle_list.insert(veh);
     sm->vehicles.push_back(veh);
    } else if (string_identifier == "c") {
     getline(fin, databuff);
