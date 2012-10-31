@@ -11,7 +11,7 @@ OTHERS = -O3
 ODIR = objwin
 DDIR = .deps
 
-TARGET = cataclysm.exe
+TARGET = CataclysmWin.exe
 
 CXX = g++
 

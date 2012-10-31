@@ -2195,12 +2195,12 @@ case ot_shelter: {
   line(this, t_door_c, 4, SEEY - 1, 4, SEEY);
   line(this, t_wall_v, SEEX * 2 - 5, 5, SEEX * 2 - 5, SEEY * 2 - 6);
   line(this, t_door_c, SEEX * 2 - 5, SEEY - 1, SEEX * 2 - 5, SEEY);
-        ter(SEEX*2-5, SEEY-3) = t_wall_glass_v;
-        ter(SEEX*2-5, SEEY+2) = t_wall_glass_v;
-        ter(4, SEEY-3) = t_wall_glass_v;
-        ter(4, SEEY+2) = t_wall_glass_v;
-        ter(SEEX-3, 4) = t_wall_glass_h;
-        ter(SEEX+2, 4) = t_wall_glass_h;
+        ter(SEEX*2-5, SEEY-3) = t_window;
+        ter(SEEX*2-5, SEEY+2) = t_window;
+        ter(4, SEEY-3) = t_window;
+        ter(4, SEEY+2) = t_window;
+        ter(SEEX-3, 4) = t_window;
+        ter(SEEX+2, 4) = t_window;
         line(this, t_counter, SEEX+3, 5, SEEX+3, SEEY-4);
         ter(SEEX+6, 5) = t_console;
         computer* evaccomp = this->add_computer(SEEX+6, 5, "Evac shelter computer", 0);
