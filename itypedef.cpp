@@ -1013,6 +1013,11 @@ MELEE("barbed wire",   20, 200,';', c_blue,    STEEL,  MNULL,
          4,  2,  0,  0, -2, 0, "\
 A length of stiff wire, covered in sharp barbs.");
 
+MELEE("rebar",		20,  75,'/', c_ltred,	IRON,	MNULL,
+	 6, 10, 13,  0,  2, 0, "\
+A length of rebar, makes a nice melee weapon, and could be\n\
+handy in constructing tougher walls and such.");
+
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  25, 35, ']', c_cyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS

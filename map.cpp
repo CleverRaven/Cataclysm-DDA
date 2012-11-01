@@ -850,6 +850,22 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
    return true;
   }
   break;
+ 
+ case t_rdoor_c:
+result = rng(0, 80);
+  if (res) *res = result;
+  if (str >= result && str >= rng(0, 80)) {
+   sound += "clang!";
+   ter(x, y) = t_dirt;
+   int num_rebar = rng(4, 10);
+   for (int i = 0; i < num_rebar; i++)
+    add_item(x, y, (*itypes)[itm_rebar], 0);
+   return true;
+  } else {
+   sound += "whump!";
+   return true;
+  }
+  break;
 
  case t_door_c:
  case t_door_locked:
@@ -1165,6 +1181,8 @@ void map::destroy(game *g, int x, int y, bool makesound)
      add_item(i, j, g->itypes[itm_rock], 0);
     if (move_cost(i, j) > 0 && one_in(4))
      add_item(i, j, g->itypes[itm_2x4], 0);
+    if (move_cost(i, j) > 0 && one_in(3))
+     add_item(i, j, g->itypes[itm_2x4], 0);
    }
   }
   ter(x, y) = t_rubble;
@@ -1417,6 +1435,9 @@ bool map::open_door(int x, int y, bool inside)
  if (ter(x, y) == t_door_c) {
   ter(x, y) = t_door_o;
   return true;
+ } else if (ter(x, y) == t_rdoor_c) {
+  ter(x, y) = t_rdoor_o;
+  return true;
  } else if (ter(x, y) == t_door_metal_c) {
   ter(x, y) = t_door_metal_o;
   return true;
@@ -1450,6 +1471,9 @@ bool map::close_door(int x, int y)
 {
  if (ter(x, y) == t_door_o) {
   ter(x, y) = t_door_c;
+  return true;
+ } else if (ter(x, y) == t_rdoor_o) {
+  ter(x, y) = t_rdoor_c;
   return true;
  } else if (ter(x, y) == t_door_metal_o) {
   ter(x, y) = t_door_metal_c;
