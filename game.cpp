@@ -149,10 +149,10 @@ bool game::opening_screen()
  erase();
  for (int i = 0; i < 80; i++)
   mvwputch(w_open, 21, i, c_white, LINE_OXOX);
- mvwprintz(w_open, 0, 1, c_blue, "Welcome to Cataclysm!");
+ mvwprintz(w_open, 0, 0, c_blue, "Welcome to The Darkling Wolf's Modded Cataclysm!");
  mvwprintz(w_open, 1, 0, c_red, "\
-This alpha release is highly unstable. Please report any crashes or bugs to\n\
-fivedozenwhales@gmail.com.");
+Please report bugs to TheDarklingWolf@gmail.com or post in my forum thread.\n\
+Includes work by Creidieki, Uzername, Kevingranade and HerbertJones");
  refresh();
  wrefresh(w_open);
  refresh();
