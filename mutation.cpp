@@ -267,55 +267,55 @@ void mutation_effect(game *g, player &p, pl_flag mut)
    break;
 
   case PF_STR_UP:
-   p.str_max++;
+   p.str_max ++;
    break;
   case PF_STR_UP_2:
-   p.str_max += 2;
+   p.str_max ++;
    break;
   case PF_STR_UP_3:
-   p.str_max += 4;
+   p.str_max += 2;
    break;
   case PF_STR_UP_4:
-   p.str_max += 7;
+   p.str_max += 3;
    break;
 
   case PF_DEX_UP:
-   p.dex_max++;
+   p.dex_max ++;
    break;
   case PF_DEX_UP_2:
-   p.dex_max += 2;
+   p.dex_max ++;
    break;
   case PF_DEX_UP_3:
-   p.dex_max += 4;
+   p.dex_max += 2;
    break;
   case PF_DEX_UP_4:
-   p.dex_max += 7;
+   p.dex_max += 3 ;
    break;
 
   case PF_INT_UP:
-   p.int_max++;
+   p.int_max ++;
    break;
   case PF_INT_UP_2:
-   p.int_max += 2;
+   p.int_max ++;
    break;
   case PF_INT_UP_3:
-   p.int_max += 4;
+   p.int_max += 2;
    break;
   case PF_INT_UP_4:
-   p.int_max += 7;
+   p.int_max += 3;
    break;
 
   case PF_PER_UP:
-   p.per_max++;
+   p.per_max ++;
    break;
   case PF_PER_UP_2:
-   p.per_max += 2;
+   p.per_max ++;
    break;
   case PF_PER_UP_3:
-   p.per_max += 4;
+   p.per_max += 2;
    break;
   case PF_PER_UP_4:
-   p.per_max += 7;
+   p.per_max += 3;
    break;
  }
 
