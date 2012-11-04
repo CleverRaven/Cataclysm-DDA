@@ -2697,6 +2697,10 @@ BOOK("Bon Appetit",		30,  45,c_pink,		PAPER,	MNULL,
     1,  1, -3,  1,	sk_cooking,	 1,  0,  1,  5,  8, "\
 Exciting recipes and restaurant reviews.  Full of handy tips about cooking.");
 
+BOOK("Birdhouse Monthly",       30,  45,c_pink,		PAPER,	MNULL,
+    1,  1, -3,  1,	sk_carpentry,	 1,  0,  1,  5,  8, "\
+A riveting periodical all about birdhouses and their construction.");
+
 BOOK("Guns n Ammo",		20,  48,c_pink,		PAPER,	MNULL,
     1,  1, -3,  1,	sk_gun,		 1,  0,  1,  2,  7, "\
 Reviews of firearms, and various useful tips about their use.");

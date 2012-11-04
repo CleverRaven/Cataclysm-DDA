@@ -113,7 +113,7 @@ void game::init_construction()
   STAGE(t_window, 5);
    COMP(itm_glass_sheet, 1, NULL);
 
- CONSTRUCT("Build Door", 4, &construct::able_empty,
+ CONSTRUCT("Build Door", 2, &construct::able_empty,
                               &construct::done_nothing);
   STAGE(t_door_frame, 15);
    TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);

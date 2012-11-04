@@ -119,7 +119,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_magazines],
 	itm_mag_tv, itm_mag_news, itm_mag_cars, itm_mag_cooking,
-	itm_novel_romance, itm_novel_spy, NULL);
+	itm_novel_romance, itm_novel_spy, itm_mag_carpentry, NULL);
 
  setvector(
    mapitems[mi_softdrugs],
@@ -177,7 +177,7 @@ void game::init_mapitems()
 	itm_2x4, itm_machete, itm_boots_steel, itm_hat_hard, itm_mask_filter,
 	itm_glasses_safety, itm_bb, itm_bbgun, itm_beartrap, itm_two_way_radio,
 	itm_radio, itm_hotplate, itm_extinguisher, itm_nailgun,
-	itm_manual_mechanics, itm_manual_carpentry, NULL);
+	itm_manual_mechanics, itm_manual_carpentry, itm_mag_carpentry, NULL);
 
  setvector(
    mapitems[mi_consumer_electronics],
