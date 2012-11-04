@@ -437,8 +437,7 @@ int player::run_cost(int base_cost)
   movecost = int(movecost * 1.2);
  if (has_trait(PF_PONDEROUS3))
   movecost = int(movecost * 1.3);
- movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 +
-             encumb(bp_legs) * 3;
+ movecost += encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
  if (!wearing_something_on(bp_feet) && !has_trait(PF_PADDED_FEET) &&
      !has_trait(PF_HOOVES))
   movecost += 15;
@@ -4100,7 +4099,7 @@ bool player::wear_item(game *g, item *to_wear)
   if (armor->covers & mfb(i) && encumb(i) >= 4)
    g->add_msg("Your %s %s very encumbered! %s",
               body_part_name(body_part(i), 2).c_str(),
-              (i == bp_head || i == bp_torso || i == bp_mouth ? "is" : "are"),
+              (i == bp_head || i == bp_torso ? "is" : "are"),
               encumb_text(body_part(i)).c_str());
  }
  return true;
