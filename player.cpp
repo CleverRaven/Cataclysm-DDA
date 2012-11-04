@@ -227,11 +227,11 @@ void player::reset(game *g)
   per_cur--;
  if (has_bionic(bio_armor_arms))
   dex_cur--;
- if (has_bionic(bio_metabolics) && power_level < max_power_level &&
-     hunger < 100) {
+if (has_bionic(bio_metabolics) && power_level < max_power_level &&
+     hunger < 100 && (int(g->turn) % 20 == 0)) {
   hunger += 2;
   power_level++;
- }
+}
 
 // Trait / mutation buffs
  if (has_trait(PF_THICK_SCALES))
