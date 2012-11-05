@@ -227,7 +227,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(supports_roof)},
 {"empty door frame", '.', c_brown,   2, tr_null,
 	mfb(transparent)|mfb(supports_roof)},
-{"closed cage door", '+', c_ltred,   2, tr_null,
+{"closed cage door", '+', c_ltred,   0, tr_null,
 	mfb(transparent)|mfb(supports_roof)},
 {"open cage door",   '.', c_ltred,   2, tr_null,
 	mfb(flammable)|mfb(transparent)|mfb(supports_roof)},
