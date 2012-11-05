@@ -1260,6 +1260,16 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
  int practice;
 
  switch (it->type->id) {
+  case itm_cot:
+  message << "You unfold the cot and place it on the ground.";
+  type = tr_cot;
+  practice = 0;
+  break;
+ case itm_rollmat:
+  message << "You unroll the mat and lay it on the ground.";
+  type = tr_rollmat;
+  practice = 0;
+  break;
  case itm_boobytrap:
   message << "You set the boobytrap up and activate the grenade.";
   type = tr_boobytrap;

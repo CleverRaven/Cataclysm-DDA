@@ -163,7 +163,7 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_mininuke_act, itm_pheromone, itm_portal, itm_bot_manhack, itm_bot_turret,
  itm_UPS_off, itm_UPS_on, itm_tazer, itm_mp3, itm_mp3_on, itm_vortex_stone,
  itm_dogfood, itm_boobytrap, itm_c4, itm_c4armed, itm_dog_whistle,
- itm_vacutainer, itm_welder,
+ itm_vacutainer, itm_welder, itm_cot, itm_rollmat,
 // Bionics containers
 itm_bionics_battery,       itm_bionics_power,   itm_bionics_tools,
  itm_bionics_neuro,        itm_bionics_sensory, itm_bionics_aquatic,

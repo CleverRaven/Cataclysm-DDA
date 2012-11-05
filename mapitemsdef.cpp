@@ -201,7 +201,7 @@ void game::init_mapitems()
 	itm_manual_first_aid, itm_manual_traps, itm_lighter, itm_sewing_kit,
 	itm_hammer, itm_flashlight, itm_water_purifier, itm_radio, itm_beartrap,
         itm_UPS_off, itm_string_36, itm_longbow, itm_compbow, itm_arrow_wood,
-        itm_arrow_cf, itm_wire, NULL);
+        itm_arrow_cf, itm_wire, itm_rollmat, NULL);
 
  setvector(
    mapitems[mi_allsporting],
@@ -214,7 +214,7 @@ void game::init_mapitems()
 	itm_manual_knives, itm_manual_first_aid, itm_manual_traps, itm_lighter,
 	itm_sewing_kit, itm_hammer, itm_flashlight, itm_water_purifier,
 	itm_radio, itm_beartrap, itm_extinguisher, itm_string_36, itm_longbow,
-	itm_compbow, itm_arrow_wood, itm_arrow_cf, NULL);
+	itm_compbow, itm_arrow_wood, itm_arrow_cf, itm_rollmat, NULL);
 
  setvector(
    mapitems[mi_alcohol],
@@ -410,13 +410,13 @@ void game::init_mapitems()
 	itm_novel_romance, itm_novel_spy, itm_novel_scifi, itm_novel_drama,
 	itm_SICP, itm_textbook_robots, itm_extinguisher, itm_radio,
 	itm_chainsaw_off, itm_jackhammer, itm_ring, itm_necklace, itm_usb_drive,
-	itm_broadsword, itm_morningstar, itm_helmet_plate,
+	itm_broadsword, itm_morningstar, itm_helmet_plate, itm_cot, itm_rollmat,
 	NULL);
 
  setvector(
    mapitems[mi_mil_surplus], // NOT food or armor!
 	itm_knife_combat, itm_binoculars, itm_bolt_steel, itm_crossbow,
-	itm_mag_guns, itm_manual_brawl, itm_manual_knives,
+	itm_mag_guns, itm_manual_brawl, itm_manual_knives, itm_cot,
 	itm_manual_mechanics, itm_manual_first_aid, itm_manual_traps,
 	itm_flashlight, itm_water_purifier, itm_two_way_radio, itm_radio,
 	itm_geiger_off, itm_usb_drive, NULL);
@@ -431,7 +431,7 @@ void game::init_mapitems()
 	itm_backpack, itm_battery, itm_novel_scifi, itm_novel_drama,
 	itm_manual_first_aid, itm_manual_tailor, itm_manual_carpentry,
 	itm_lighter, itm_sewing_kit, itm_hammer, itm_extinguisher,
-	itm_flashlight, itm_hotplate, itm_water_purifier, itm_radio, NULL);
+	itm_flashlight, itm_hotplate, itm_water_purifier, itm_radio, itm_rollmat, NULL);
 
  setvector(
    mapitems[mi_mechanics],

@@ -4401,8 +4401,12 @@ void player::read(game *g, char ch)
  
 void player::try_to_sleep(game *g)
 {
- if (g->m.ter(posx, posy) == t_bed || g->m.ter(posx, posy) == t_makeshift_bed)
-  g->add_msg("This bed is a comfortable place to sleep.");
+ int vpart = -1;
+ vehicle *veh = g->m.veh_at (posx, posy, vpart);
+ if (g->m.ter(posx, posy) == t_bed || g->m.ter(posx, posy) == t_makeshift_bed ||
+     g->m.tr_at(posx, posy) == tr_cot || g->m.tr_at(posx, posy) == tr_rollmat ||
+     veh && veh->part_with_feature (vpart, vpf_seat) >= 0)
+  g->add_msg("This is a comfortable place to sleep.");
  else if (g->m.ter(posx, posy) != t_floor)
   g->add_msg("It's %shard to get to sleep on this %s.",
              terlist[g->m.ter(posx, posy)].movecost <= 2 ? "a little " : "",
@@ -4420,10 +4424,11 @@ bool player::can_sleep(game *g)
 
  int vpart = -1;
  vehicle *veh = g->m.veh_at (posx, posy, vpart);
- if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0)
+ if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0 ||
+     g->m.ter(posx, posy) == t_makeshift_bed || g->m.tr_at(posx, posy) == tr_cot)
   sleepy += 4;
- else if (g->m.ter(posx, posy) == t_makeshift_bed)
-  sleepy += 4;
+ else if (g->m.tr_at(posx, posy) == tr_rollmat)
+  sleepy += 3;
  else if (g->m.ter(posx, posy) == t_bed)
   sleepy += 5;
  else if (g->m.ter(posx, posy) == t_floor)

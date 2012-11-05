@@ -14,7 +14,14 @@ traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
  TRAP("bubblewrap",		'_',	c_ltcyan,	 0,  8,  0,
 	&trapfunc::bubble,	&trapfuncm::bubble,
 	itm_bubblewrap, NULL);
-
+//      Name                    Symbol  Colour          Vis Avd Diff
+ TRAP("cot",                    '#',    c_green,         0,  0,  0,
+        &trapfunc::none,         &trapfuncm::cot,
+        itm_cot, NULL);
+//      Name                    Symbol  Colour          Vis Avd Diff
+ TRAP("roll mat",               '#',    c_blue,          0,  0,  0,
+        &trapfunc::none,     &trapfuncm::none,
+        itm_rollmat, NULL); 
 //	Name			Symbol	Color		Vis Avd Diff
  TRAP("bear trap",		'^',	c_blue,		 2,  7,  3,
 	&trapfunc::beartrap,	&trapfuncm::beartrap,

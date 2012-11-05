@@ -3285,6 +3285,17 @@ TOOL("welder",   25,900,';', c_ltred,  IRON,MNULL,
 0, "\
 A tool for welding metal pieces together.  Useful for construction.");
 
+TOOL("cot",      40,1000,';', c_green, IRON, COTTON,
+     8, 10, 6, 0, -1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::set_trap,
+0, "\
+A military style fold up cot, not quite as comfortable as a bed\n\
+but much better than slumming it on the ground.");
+
+TOOL("rollmat",  40,400,';', c_green, MNULL, MNULL,
+     4, 3,  0, 0, -1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::set_trap,
+0, "\
+A thin rollmat, better than sleeping on the ground.");
+
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated
