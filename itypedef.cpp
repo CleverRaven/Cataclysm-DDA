@@ -3291,7 +3291,7 @@ TOOL("cot",      40,1000,';', c_green, IRON, COTTON,
 A military style fold up cot, not quite as comfortable as a bed\n\
 but much better than slumming it on the ground.");
 
-TOOL("rollmat",  40,400,';', c_green, MNULL, MNULL,
+TOOL("rollmat",  40,400,';', c_blue, MNULL, MNULL,
      4, 3,  0, 0, -1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::set_trap,
 0, "\
 A thin rollmat, better than sleeping on the ground.");
