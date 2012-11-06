@@ -253,7 +253,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
  RECIPE(itm_apple_cider, CC_FOOD, sk_cooking, sk_null, 2, 7000);
   TOOL(itm_rock, -1, itm_toolset, -1, NULL);
   COMP(itm_apple, 3, NULL);
- 
+
  RECIPE(itm_jerky, CC_FOOD, sk_cooking, sk_null, 3, 30000);
   TOOL(itm_hotplate, 10, itm_toolset, 5, itm_fire, -1, NULL);
   COMP(itm_salt_water, 1, itm_salt, 4, NULL);
@@ -548,13 +548,13 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_rag, 20, itm_fur, 16, itm_leather, 12, NULL);
 
 // MISC
- RECIPE(itm_poppy_sleep,  CC_COOKING, sk_cooking, sk_survival, 2, 5000);
+ RECIPE(itm_poppy_sleep,  CC_MISC, sk_cooking, sk_survival, 2, 5000);
   TOOL(itm_pot, -1, itm_rock, -1, NULL);
   TOOL(itm_fire, -1, NULL);
   COMP(itm_poppy_bud, 2, NULL);
   COMP(itm_poppy_flower, 1, NULL);
 
- RECIPE(itm_poppy_pain,  CC_COOKING, sk_cooking, sk_survival, 2, 5000);
+ RECIPE(itm_poppy_pain,  CC_MISC, sk_cooking, sk_survival, 2, 5000);
   TOOL(itm_pot, -1, itm_rock, -1, NULL);
   TOOL(itm_fire, -1, NULL);
   COMP(itm_poppy_bud, 2, NULL);
