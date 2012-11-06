@@ -1182,7 +1182,7 @@ void map::destroy(game *g, int x, int y, bool makesound)
     if (move_cost(i, j) > 0 && one_in(4))
      add_item(i, j, g->itypes[itm_2x4], 0);
     if (move_cost(i, j) > 0 && one_in(3))
-     add_item(i, j, g->itypes[itm_2x4], 0);
+     add_item(i, j, g->itypes[itm_rebar], 0);
    }
   }
   ter(x, y) = t_rubble;
