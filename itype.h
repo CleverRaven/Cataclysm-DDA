@@ -48,7 +48,7 @@ itm_bandages, itm_1st_aid, itm_vitamins, itm_aspirin, itm_caffeine,
  itm_pills_sleep, itm_iodine, itm_dayquil, itm_nyquil, itm_inhaler, itm_codeine,
  itm_oxycodone, itm_tramadol, itm_xanax, itm_adderall, itm_thorazine,
  itm_prozac, itm_cig, itm_weed, itm_coke, itm_meth, itm_heroin, itm_cigar,
- itm_antibiotics,
+ itm_antibiotics, itm_poppy_sleep, itm_poppy_pain,
 // Do-nothing / Melee weapons
 itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
  itm_id_science, itm_id_military, itm_electrohack, itm_string_6, itm_string_36,
@@ -177,7 +177,7 @@ itm_software_useless, itm_software_hacking, itm_software_medical,
 // MacGuffins!
 itm_note,
 //-----Jovan's. Flowers!-----
-itm_poppy_harmless, itm_poppy_feromone,
+itm_poppy_flower, itm_poppy_bud,
 //---------------------------
 
 // Static (non-random) artifacts should go here.

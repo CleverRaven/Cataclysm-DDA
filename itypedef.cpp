@@ -573,6 +573,14 @@ MED("antibiotics",	25,900, c_pink,		itm_null,
 	PLASTIC,   0, -2,  0, 15,  0,&iuse::none,	ADD_NULL, "\
 Medication designed to stop the spread of, and kill, bacteria infections.");
 
+MED("Poppy Sleep",	25,900, c_pink,		itm_null,
+	PLASTIC,   0, -2,  0, 5,  0,&iuse::sleep,	ADD_NULL, "\
+Sleeping pills made by refining mutated poppy seeds.");
+
+MED("Poppy Painkillers",25,900, c_pink,		itm_null,
+	PLASTIC,   0, -2,  0, 10,  0,&iuse::pkill_2,	ADD_NULL, "\
+Painkillers made by refining mutated poppy seeds..");
+
 // MELEE WEAPONS
 // Only use secondary material if it will have a major impact.
 // dam is a somewhat rigid bonus--anything above 30, tops, is ridiculous

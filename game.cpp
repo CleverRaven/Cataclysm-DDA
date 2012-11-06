@@ -4801,8 +4801,8 @@ shape, but with long, twisted, distended limbs.");
         u.moves-=50;
         }
         m.ter(examx, examy) = t_grass;
-        m.add_item(examx, examy, this->itypes[itm_poppy_harmless],0);
-        m.add_item(examx, examy, this->itypes[itm_poppy_feromone],0);
+        m.add_item(examx, examy, this->itypes[itm_poppy_flower],0);
+        m.add_item(examx, examy, this->itypes[itm_poppy_bud],0);
     }
  //-----------------
  if (m.tr_at(examx, examy) != tr_null &&
