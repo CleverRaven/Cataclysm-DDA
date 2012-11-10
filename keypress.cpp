@@ -15,6 +15,89 @@ long input()
  }
 }
 
+bool input_wait(char & ret_ch, int delay_ms)
+{
+ for(;;)
+ {
+  ret_ch = '\0';
+  timeout(delay_ms);
+  long ch = getch();
+  switch (ch) {
+   case KEY_UP:
+    ret_ch = 'k';
+    break;
+   case KEY_LEFT:
+    ret_ch = 'h';
+    break;
+   case KEY_RIGHT:
+    ret_ch = 'l';
+    break;
+   case KEY_DOWN:
+    ret_ch = 'j';
+    break;
+   case 459:
+    ret_ch = '\n';
+    break;
+   case ERR:
+    if(errno == EINTR)
+     return input_wait(ret_ch, delay_ms);
+    break;
+   default:
+    ret_ch = ch;
+    break;
+  }
+  timeout(-1);
+  if( ret_ch != '\0' )
+   return true;
+  return false;
+ }
+}
+
+void get_direction(int &x, int &y, char ch)
+{
+ x = 0;
+ y = 0;
+ switch (ch) {
+ case 'y':
+  x = -1;
+  y = -1;
+  return;
+ case 'u':
+  x = 1;
+  y = -1;
+  return;
+ case 'h':
+  x = -1;
+  return;
+ case 'j':
+  y = 1;
+  return;
+ case 'k':
+  y = -1;
+  return;
+ case 'l':
+  x = 1;
+  return;
+ case 'b':
+  x = -1;
+  y = 1;
+  return;
+ case 'n':
+  x = 1;
+  y = 1;
+  return;
+ case '.':
+ case ',':
+ case 'g':
+  x = 0;
+  y = 0;
+  return;
+ default:
+  x = -2;
+  y = -2;
+ }
+}
+
 void get_direction(game *g, int &x, int &y, char ch)
 {
  x = 0;

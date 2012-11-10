@@ -17,6 +17,9 @@
 #include "game.h"
 #include "npc.h"
 #include "keypress.h"
+#include <cstring>
+#include <ostream>
+#include "debug.h"
 
 #define STREETCHANCE 2
 #define NUM_FOREST 250
@@ -126,6 +129,26 @@ overmap::overmap()
  posz = 999;
  if (num_ter_types > 256)
   debugmsg("More than 256 oterid!  Saving won't work!");
+}
+
+overmap::overmap(const overmap & om)
+{
+#define CP(x) x = om.x
+ CP(cities);
+ CP(roads_out);
+ CP(towns);
+ CP(zg);
+ CP(radios);
+ CP(posx);
+ CP(posy);
+ CP(posz);
+ CP(npcs);
+ CP(nullret);
+ CP(nullbool);
+ CP(notes);
+#undef CP
+ memcpy(t, om.t, sizeof(t));
+ memcpy(s, om.s, sizeof(s));
 }
 
 overmap::overmap(game *g, int x, int y, int z)
@@ -2516,4 +2539,63 @@ bool omspec_place::by_highway(overmap *om, point p)
          (east  == ot_hiway_ns || east  == ot_road_ns) ||
          (south == ot_hiway_ew || south == ot_road_ew) ||
          (west  == ot_hiway_ns || west  == ot_road_ns)   );
+}
+
+std::ostream & operator<<(std::ostream & out, const overmap * om)
+{
+ out << "overmap(";
+ if( !om )
+ {
+  out << "NULL)";
+  return out;
+ }
+
+ out << "\n\t cities: " << om->cities;
+ out << "\n\t roads_out: " << om->roads_out;
+ out << "\n\t towns: " << om->towns;
+ out << "\n\t zg: skipped";
+ out << "\n\t radios: skipped";
+
+ out << "\n\t posx: "<<om->posx << ", ";
+ out << "posy: "<<om->posy << ", ";
+ out << "posz: "<<om->posz << ", ";
+
+ out << "\n\t npcs: " << om->npcs.size();
+
+ out << "\n\t t: ";
+ for(int x=0; x<OMAPX; ++x)
+ {
+  out << "\n\t  " << x << ": ";
+  for(int y=0; y<OMAPY; ++y)
+   out << om->t[x][y] << ", ";
+ }
+
+ out << "\n\t nullret: " << om->nullret;
+
+ out << "\n\t s: ";
+ for(int x=0; x<OMAPX; ++x)
+ {
+  out << "\n\t  " << x << ": ";
+  for(int y=0; y<OMAPY; ++y)
+   out << om->s[x][y] << ", ";
+ }
+
+ out << "\n\t nullbool: " << om->nullbool;
+
+ out << "\n\t notes: " << om->notes.size();
+
+ out << "\n\t)";
+ return out;
+}
+
+std::ostream & operator<<(std::ostream & out, const overmap & om)
+{
+ out << (&om);
+ return out;
+}
+
+std::ostream & operator<<(std::ostream & out, const city & c)
+{
+ out << "city("<<c.x<<","<<c.y<<","<<c.s<<")";
+ return out;
 }

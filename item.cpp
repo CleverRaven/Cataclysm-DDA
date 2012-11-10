@@ -24,7 +24,7 @@ item::item()
  damage = 0;
  burnt = 0;
  poison = 0;
- type = NULL;
+ type = nullitem();
  curammo = NULL;
  corpse = NULL;
  active = false;
@@ -35,7 +35,10 @@ item::item()
 
 item::item(itype* it, unsigned int turn)
 {
- type = it;
+ if(!it)
+  type = nullitem();
+ else
+  type = it;
  bday = turn;
  name = "";
  invlet = 0;
@@ -73,7 +76,10 @@ item::item(itype* it, unsigned int turn)
 
 item::item(itype *it, unsigned int turn, char let)
 {
- type = it;
+ if(!it)
+  type = nullitem();
+ else
+  type = it;
  bday = turn;
  name = "";
  damage = 0;
@@ -118,9 +124,18 @@ void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
  poison = 0;
  curammo = NULL;
  active = false;
- type = it;
+ if(!it)
+  type = nullitem();
+ else
+  type = it;
  corpse = mt;
  bday = turn;
+}
+
+itype * item::nullitem_m = new itype();
+itype * item::nullitem()
+{
+    return nullitem_m;
 }
 
 item::item(std::string itemdata, game *g)
@@ -134,7 +149,10 @@ item::~item()
 
 void item::make(itype* it)
 {
- type = it;
+ if(!it)
+  type = nullitem();
+ else
+  type = it;
  contents.clear();
 }
 
@@ -208,7 +226,7 @@ std::string item::save_info()
  if (ammotmp < 0 || ammotmp > num_items)
   ammotmp = 0; // Saves us from some bugs
  std::stringstream dump;// (std::stringstream::in | std::stringstream::out);
- dump << " " << int(invlet) << " " << int(type->id) << " " <<  int(charges) <<
+ dump << " " << int(invlet) << " " << int(typeId()) << " " <<  int(charges) <<
          " " << int(damage) << " " << int(burnt) << " " << poison << " " <<
          ammotmp << " " << owned << " " << int(bday);
  if (active)
@@ -267,12 +285,15 @@ void item::load_info(std::string data, game *g)
 std::string item::info(bool showtext)
 {
  std::stringstream dump;
- dump << " Volume: " << volume() << "    Weight: " << weight() << "\n" <<
-         " Bash: " << int(type->melee_dam) <<
-         (has_flag(IF_SPEAR) ? "  Pierce: " : "  Cut: ") <<
-         int(type->melee_cut) << "  To-hit bonus: " <<
-         (type->m_to_hit > 0 ? "+" : "" ) << int(type->m_to_hit) << "\n" <<
-         " Moves per attack: " << attack_time() << "\n";
+ if( !is_null() )
+ {
+  dump << " Volume: " << volume() << "    Weight: " << weight() << "\n" <<
+          " Bash: " << int(type->melee_dam) <<
+          (has_flag(IF_SPEAR) ? "  Pierce: " : "  Cut: ") <<
+          int(type->melee_cut) << "  To-hit bonus: " <<
+          (type->m_to_hit > 0 ? "+" : "" ) << int(type->m_to_hit) << "\n" <<
+          " Moves per attack: " << attack_time() << "\n";
+ }
 
  if (is_food()) {
 
@@ -428,7 +449,7 @@ std::string item::info(bool showtext)
            ". Requires Unarmed Skill of " << style->moves[i].level << "\n";
   }
 
- } else if (type->techniques != 0) {
+ } else if (!is_null() && type->techniques != 0) {
 
   dump << "\n";
   for (int i = 1; i < NUM_TECHNIQUES; i++) {
@@ -438,7 +459,7 @@ std::string item::info(bool showtext)
 
  }
 
- if (showtext) {
+ if ( showtext && !is_null() ) {
   dump << "\n\n" << type->description << "\n";
   if (contents.size() > 0) {
    if (is_gun()) {
@@ -454,6 +475,8 @@ std::string item::info(bool showtext)
 
 char item::symbol()
 {
+ if( is_null() )
+  return ' ';
  return type->sym;
 }
 
@@ -503,7 +526,7 @@ std::string item::tname(game *g)
 {
  std::stringstream ret;
 
- if (damage != 0) {
+ if (damage != 0 && !is_null()) {
   std::string damtext;
   switch (type->m1) {
    case VEGGY:
@@ -566,12 +589,12 @@ std::string item::tname(game *g)
  else if (burnt > 0)
   ret << "burnt ";
 
- if (type->id == itm_corpse) {
+ if (typeId() == itm_corpse) {
   ret << corpse->name << " corpse";
   if (name != "")
    ret << " of " << name;
   return ret.str();
- } else if (type->id == itm_blood) {
+ } else if (typeId() == itm_blood) {
   if (corpse == NULL || corpse->id == mon_null)
    ret << "human blood";
   else
@@ -579,7 +602,7 @@ std::string item::tname(game *g)
   return ret.str();
  }
 
- if (is_gun() && contents.size() > 0) {
+ if (is_gun() && contents.size() > 0 ) {
   ret << type->name;
   for (int i = 0; i < contents.size(); i++)
    ret << "+";
@@ -596,7 +619,7 @@ std::string item::tname(game *g)
  else if (is_food_container())
   food = dynamic_cast<it_comest*>(contents[0].type);
  if (food != NULL && g != NULL && food->spoils != 0 &&
-     int(g->turn) - bday > food->spoils * 600)
+   int(g->turn) - bday > food->spoils * 600)
   ret << " (rotten)";
 
 
@@ -607,13 +630,18 @@ std::string item::tname(game *g)
 
 nc_color item::color()
 {
- if (type->id == itm_corpse)
+ if (typeId() == itm_corpse)
   return corpse->color;
+ if( is_null() )
+  return c_black;
  return type->color;
 }
 
 int item::price()
 {
+ if( is_null() )
+  return 0;
+
  int ret = type->price;
  for (int i = 0; i < contents.size(); i++)
   ret += contents[i].price();
@@ -622,7 +650,7 @@ int item::price()
 
 int item::weight()
 {
- if (type->id == itm_corpse) {
+ if (typeId() == itm_corpse) {
   int ret;
   switch (corpse->size) {
    case MS_TINY:   ret =    5;	break;
@@ -637,6 +665,10 @@ int item::weight()
    ret *= 5;
   return ret;
  }
+
+ if( is_null() )
+  return 0;
+
  int ret = type->weight;
  if (is_ammo()) { 
   ret *= charges;
@@ -649,7 +681,7 @@ int item::weight()
 
 int item::volume()
 {
- if (type->id == itm_corpse) {
+ if (typeId() == itm_corpse) {
   switch (corpse->size) {
    case MS_TINY:   return   2;
    case MS_SMALL:  return  40;
@@ -658,6 +690,10 @@ int item::volume()
    case MS_HUGE:   return 600;
   }
  }
+
+ if( is_null() )
+  return 0;
+
  int ret = type->volume;
  if (is_gun()) {
   for (int i = 0; i < contents.size(); i++)
@@ -682,6 +718,8 @@ int item::attack_time()
 
 int item::damage_bash()
 {
+ if( is_null() )
+  return 0;
  return type->melee_dam;
 }
 
@@ -689,10 +727,12 @@ int item::damage_cut()
 {
  if (is_gun()) {
   for (int i = 0; i < contents.size(); i++) {
-   if (contents[i].type->id == itm_bayonet)
+   if (contents[i].typeId() == itm_bayonet)
     return contents[i].type->melee_cut;
   }
  }
+ if( is_null() )
+  return 0;
  return type->melee_cut;
 }
 
@@ -704,6 +744,8 @@ bool item::has_flag(item_flag f)
     return true;
   }
  }
+ if( is_null() )
+  return false;
  return (type->item_flags & mfb(f));
 }
 
@@ -717,6 +759,8 @@ bool item::has_technique(technique_id tech, player *p)
     return true;
   }
  }
+ if( is_null() )
+  return false;
  return (type->techniques & mfb(tech));
 }
 
@@ -769,6 +813,9 @@ bool item::craft_has_charges()
 
 int item::weapon_value(int skills[num_skill_types])
 {
+ if( is_null() )
+  return 0;
+
  int my_value = 0;
  if (is_gun()) {
   int gun_value = 14;
@@ -798,6 +845,9 @@ int item::weapon_value(int skills[num_skill_types])
 
 int item::melee_value(int skills[num_skill_types])
 {
+ if( is_null() )
+  return 0;
+
  int my_value = 0;
  my_value += int(type->melee_dam * (1   + .3 * skills[sk_bashing] +
                                           .1 * skills[sk_melee]    ));
@@ -842,13 +892,20 @@ bool item::is_two_handed(player *u)
 
 bool item::made_of(material mat)
 {
- if (type->id == itm_corpse)
+ if( is_null() )
+  return false;
+
+ if (typeId() == itm_corpse)
   return (corpse->mat == mat);
+
  return (type->m1 == mat || type->m2 == mat);
 }
 
 bool item::conductive()
 {
+ if( is_null() )
+  return false;
+
  if ((type->m1 == IRON || type->m1 == STEEL || type->m1 == SILVER ||
       type->m1 == MNULL) &&
      (type->m2 == IRON || type->m2 == STEEL || type->m2 == SILVER ||
@@ -866,21 +923,33 @@ bool item::destroyed_at_zero_charges()
 
 bool item::is_gun()
 {
+ if( is_null() )
+  return false;
+
  return type->is_gun();
 }
 
 bool item::is_gunmod()
 {
+ if( is_null() )
+  return false;
+
  return type->is_gunmod();
 }
 
 bool item::is_bionic()
 {
+ if( is_null() )
+  return false;
+
  return type->is_bionic();
 }
 
 bool item::is_ammo()
 {
+ if( is_null() )
+  return false;
+
  return type->is_ammo();
 }
 
@@ -889,6 +958,9 @@ bool item::is_food(player *u)
  if (u == NULL)
   return is_food();
 
+ if( is_null() )
+  return false;
+
  if (type->is_food())
   return true;
 
@@ -896,7 +968,7 @@ bool item::is_food(player *u)
      (dynamic_cast<it_ammo*>(type))->type == AT_BATT)
   return true;
  if (u->has_bionic(bio_furnace) && is_flammable(type->m1) &&
-     is_flammable(type->m2) && type->id != itm_corpse)
+     is_flammable(type->m2) && typeId() != itm_corpse)
   return true;
  return false;
 }
@@ -908,6 +980,9 @@ bool item::is_food_container(player *u)
 
 bool item::is_food()
 {
+ if( is_null() )
+  return false;
+
  if (type->is_food())
   return true;
  return false;
@@ -920,11 +995,17 @@ bool item::is_food_container()
 
 bool item::is_drink()
 {
+ if( is_null() )
+  return false;
+
  return type->is_food() && type->m1 == LIQUID;
 }
 
 bool item::is_weap()
 {
+ if( is_null() )
+  return false;
+
  if (is_gun() || is_food() || is_ammo() || is_food_container() || is_armor() ||
      is_book() || is_tool())
   return false;
@@ -933,21 +1014,33 @@ bool item::is_weap()
 
 bool item::is_bashing_weapon()
 {
+ if( is_null() )
+  return false;
+
  return (type->melee_dam >= 8);
 }
 
 bool item::is_cutting_weapon()
 {
+ if( is_null() )
+  return false;
+
  return (type->melee_cut >= 8 && !has_flag(IF_SPEAR));
 }
 
 bool item::is_armor()
 {
+ if( is_null() )
+  return false;
+
  return type->is_armor();
 }
 
 bool item::is_book()
 {
+ if( is_null() )
+  return false;
+
 /*
  if (type->is_macguffin()) {
   it_macguffin* mac = dynamic_cast<it_macguffin*>(type);
@@ -959,31 +1052,49 @@ bool item::is_book()
 
 bool item::is_container()
 {
+ if( is_null() )
+  return false;
+
  return type->is_container();
 }
 
 bool item::is_tool()
 {
+ if( is_null() )
+  return false;
+
  return type->is_tool();
 }
 
 bool item::is_software()
 {
+ if( is_null() )
+  return false;
+
  return type->is_software();
 }
 
 bool item::is_macguffin()
 {
+ if( is_null() )
+  return false;
+
  return type->is_macguffin();
 }
 
 bool item::is_style()
 {
+ if( is_null() )
+  return false;
+
  return type->is_style();
 }
 
 bool item::is_other()
 {
+ if( is_null() )
+  return false;
+
  return (!is_gun() && !is_ammo() && !is_armor() && !is_food() &&
          !is_food_container() && !is_tool() && !is_gunmod() && !is_bionic() &&
          !is_book() && !is_weap());
@@ -991,6 +1102,9 @@ bool item::is_other()
 
 bool item::is_artifact()
 {
+ if( is_null() )
+  return false;
+
  return type->is_artifact();
 }
 
@@ -1159,13 +1273,16 @@ ammotype item::ammo_type()
  
 int item::pick_reload_ammo(player &u, bool interactive)
 {
+ if( is_null() )
+  return false;
+
  if (!type->is_gun() && !type->is_tool()) {
   debugmsg("RELOADING NON-GUN NON-TOOL");
   return false;
  }
  bool has_m203 = false;
  for (int i = 0; i < contents.size() && !has_m203; i++) {
-  if (contents[i].type->id == itm_m203)
+  if (contents[i].typeId() == itm_m203)
    has_m203 = true;
  }
 
@@ -1175,7 +1292,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
   if (charges > 0) {
    itype_id aid = itype_id(curammo->id);
    for (int i = 0; i < u.inv.size(); i++) {
-    if (u.inv[i].type->id == aid)
+    if (u.inv[i].typeId() == aid)
      am.push_back(i);
    }
   } else {
@@ -1227,7 +1344,7 @@ Choose ammo type:         Damage     Armor Pierce     Range     Accuracy");
   } else {
    int smallest = 500;
    for (int i = 0; i < am.size(); i++) {
-    //if (u.inv[am[i]].type->id == curammo->id &&
+    //if (u.inv[am[i]].typeId() == curammo->id &&
         if (u.inv[am[i]].charges < smallest) {
      smallest = u.inv[am[i]].charges;
      index = am[i];
@@ -1256,7 +1373,7 @@ bool item::reload(player &u, int index)
  }
  if (index > -1) {
 // If the gun is currently loaded with a different type of ammo, reloading fails
-  if (is_gun() && charges > 0 && curammo->id != u.inv[index].type->id)
+  if (is_gun() && charges > 0 && curammo->id != u.inv[index].typeId())
    return false;
   if (is_gun()) {
    if (!u.inv[index].is_ammo()) {
@@ -1327,3 +1444,29 @@ std::string default_technique_name(technique_id tech)
  }
  return "A BUG!";
 }
+
+std::ostream & operator<<(std::ostream & out, const item * it)
+{
+ out << "item(";
+ if(!it)
+ {
+  out << "NULL)";
+  return out;
+ }
+ out << it->name << ")";
+ return out;
+}
+
+std::ostream & operator<<(std::ostream & out, const item & it)
+{
+ out << (&it);
+ return out;
+}
+
+int item::typeId()
+{
+    if ( type == NULL )
+        return itm_null;
+    return type->id;
+}
+

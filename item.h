@@ -102,6 +102,8 @@ public:
  bool is_other(); // Doesn't belong in other categories
  bool is_artifact();
 
+ int typeId();
+
  itype*   type;
  mtype*   corpse;
  it_ammo* curammo;
@@ -121,7 +123,13 @@ public:
  int mission_id;// Refers to a mission in game's master list
  int player_id;	// Only give a mission to the right player!
 
+ static itype * nullitem();
+
+private:
+ static itype * nullitem_m;
 };
 
+std::ostream & operator<<(std::ostream &, const item &);
+std::ostream & operator<<(std::ostream &, const item *);
 
 #endif

@@ -399,7 +399,6 @@ public:
  ~npc();
  virtual bool is_npc() { return true; }
 
- npc& operator= (npc &rhs);
  npc& operator= (const npc &rhs);
 
 // Generating our stats, etc.
@@ -555,7 +554,6 @@ public:
 
 // #############   VALUES   ################
 
- int id;	// A unique ID number, assigned by the game class
  npc_attitude attitude;	// What we want to do to the player
  npc_class myclass; // What's our archetype?
  int wandx, wandy, wandf;	// Location of heard sound, etc.

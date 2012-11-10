@@ -7,6 +7,7 @@
 #include "settlement.h"
 #include "output.h"
 #include <vector>
+#include <iosfwd>
 
 #if (defined _WIN32 || defined WINDOWS)
 	#include "catacurse.h"
@@ -47,6 +48,7 @@ class overmap
 {
  public:
   overmap();
+  overmap(const overmap & om);
   overmap(game *g, int x, int y, int z);
   ~overmap();
   void save(std::string name);
@@ -139,5 +141,12 @@ class overmap
   void place_mongroups();
   void place_radios();
   // File I/O
+
+  friend std::ostream & operator<<(std::ostream &, const overmap *);
 };
+
+std::ostream & operator<<(std::ostream &, const overmap *);
+std::ostream & operator<<(std::ostream &, const overmap &);
+std::ostream & operator<<(std::ostream &, const city &);
+
 #endif

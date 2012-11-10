@@ -3,7 +3,9 @@
 #include "rng.h"
 #include "game.h"
 #include "line.h"
+#include "debug.h"
 
+#define dbg(x) dout((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_PLAYER -2
 
 // A list of items used for escape, in order from least to most valuable
@@ -315,6 +317,7 @@ void npc::execute_action(game *g, npc_action action, int target)
  }
 
  if (oldmoves == moves) {
+  dbg(D_ERROR) << "map::veh_at: NPC didn't use its moves.";
   debugmsg("NPC didn't use its moves.  Action %d.  Turning on debug mode.", action);
   g->debugmon = true;
  }
@@ -453,7 +456,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
     return npc_avoid_friendly_fire;
    else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
             gun->burst > 1 &&
-            (target_HP >= weapon.curammo->damage * 3 || emergency(danger * 2)))
+            ((weapon.curammo && target_HP >= weapon.curammo->damage * 3) || emergency(danger * 2)))
     return npc_shoot_burst;
    else
     return npc_shoot;
@@ -747,7 +750,7 @@ int npc::confident_range(int index)
 
 // Using 180 for now for extra-confident NPCs.
  int ret = (max > int(180 / deviation) ? max : int(180 / deviation));
- if (ret > weapon.curammo->range)
+ if (weapon.curammo && ret > weapon.curammo->range)
   return weapon.curammo->range;
  return ret;
 }
