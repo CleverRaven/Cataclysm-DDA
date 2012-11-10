@@ -63,7 +63,7 @@ void weather_effect::thunder(game *g)
 
 void weather_effect::lightning(game *g)
 {
- thunder(g);
+/* thunder(g);
  if (one_in(LIGHTNING_CHANCE)) {
   std::vector<point> strike;
   for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
@@ -79,8 +79,8 @@ void weather_effect::lightning(game *g)
    g->explosion(hit.x, hit.y, 10, 0, one_in(4));
   }
  }
+*/
 }
-
 void weather_effect::light_acid(game *g)
 {
  wet(g);

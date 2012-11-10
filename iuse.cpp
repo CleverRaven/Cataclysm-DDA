@@ -2062,6 +2062,180 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
  it->put_in(blood);
 }
  
+ void iuse::knife(game *g, player *p, item *it, bool t)
+{
+ int ch = menu(
+ "Using knife:", "Cut up fabric", "Carve wood", "Cancel", NULL);
+ switch (ch) {
+  if (ch == 3)
+  break;
+
+ case 1: {
+ char ch = g->inv("Chop up what?");
+ item* cut = &(p->i_at(ch));
+ if (cut->type->id == 0) {
+  g->add_msg("You do not have that item!");
+  return;
+ }
+ if (cut->type->id == itm_rag) {
+  g->add_msg("There's no point in cutting a rag.");
+  return;
+ }
+ if (cut->type->id == itm_string_36 || cut->type->id == itm_rope_30) {
+  bool is_string = cut->type->id == itm_string_36;
+  int num_pieces = is_string ? 6 : 5;
+  p->moves -= is_string ? 150 : 300;
+  g->add_msg("You cut the %s into %d smaller pieces.", is_string 
+             ? "string" : "rope", num_pieces);
+  item string(g->itypes[is_string ?itm_string_6 : itm_rope_6], 
+              int(g->turn), g->nextinv);
+  p->i_rem(ch);
+  bool drop = false;
+  for (int i = 0; i < num_pieces; i++) {
+   int iter = 0;
+   while (p->has_item(string.invlet)) {
+    string.invlet = g->nextinv;
+    g->advance_nextinv();
+    iter++;
+   }
+   if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+    drop = true;
+   if (drop)
+    g->m.add_item(p->posx, p->posy, string);
+   else
+    p->i_add(string);
+  }
+ return;
+ }
+ if (cut->type->id == itm_rope_6) {
+  p->moves -= 150;
+  g->add_msg("You cut the rope in half and unbraid it into 6 pieces of string.");
+  item string(g->itypes[itm_string_36], int(g->turn), g->nextinv);
+  p->i_rem(ch);
+  bool drop = false;
+  for (int i = 0; i < 6; i++) {
+   int iter = 0;
+   while (p->has_item(string.invlet)) {
+    string.invlet = g->nextinv;
+    g->advance_nextinv();
+    iter++;
+   }
+   if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+    drop = true;
+   if (drop)
+    g->m.add_item(p->posx, p->posy, string);
+   else
+    p->i_add(string);
+  }
+ return;
+ }
+ if (!cut->made_of(COTTON)) {
+  g->add_msg("You can only slice items made of cotton.");
+  return;
+ }
+ p->moves -= 25 * cut->volume();
+ int count = cut->volume();
+ if (p->sklevel[sk_tailor] == 0)
+  count = rng(0, count);
+ else if (p->sklevel[sk_tailor] == 1 && count >= 2)
+  count -= rng(0, 2);
+ if (dice(3, 3) > p->dex_cur)
+  count -= rng(1, 3);
+
+ if (count <= 0) {
+  g->add_msg("You clumsily cut the %s into useless ribbons.",
+             cut->tname().c_str());
+  p->i_rem(ch);
+  return;
+ }
+ g->add_msg("You slice the %s into %d rag%s.", cut->tname().c_str(), count,
+            (count == 1 ? "" : "s"));
+ item rag(g->itypes[itm_rag], int(g->turn), g->nextinv);
+ p->i_rem(ch);
+ bool drop = false;
+ for (int i = 0; i < count; i++) {
+  int iter = 0;
+  while (p->has_item(rag.invlet) && iter < 52) {
+   rag.invlet = g->nextinv;
+   g->advance_nextinv();
+   iter++;
+  }
+  if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+   drop = true;
+  if (drop)
+   g->m.add_item(p->posx, p->posy, rag);
+  else
+   p->i_add(rag);
+  }
+ }
+break;
+case 2:{
+char ch = g->inv("Chop up what?");
+ item* cut = &(p->i_at(ch));
+ if (cut->type->id == 0) {
+  g->add_msg("You do not have that item!");
+  return;
+ }
+ if (cut->type->id == itm_stick || cut->type->id == itm_2x4) {
+ g->add_msg("You carve several skewers from the wood.", cut->tname().c_str());
+ int count = 8;
+ it->make(g->itypes[itm_splinter]);
+ item skewer(g->itypes[itm_skewer], int(g->turn), g->nextinv);
+ p->i_rem(ch);
+ bool drop = false;
+ for (int i = 0; i < count; i++) {
+  int iter = 0;
+  while (p->has_item(skewer.invlet) && iter < 52) {
+   skewer.invlet = g->nextinv;
+   g->advance_nextinv();
+   iter++;
+  }
+  if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+   drop = true;
+  if (drop)
+   g->m.add_item(p->posx, p->posy, skewer);
+  else
+   p->i_add(skewer);
+  }
+} else { g->add_msg("You can't carve that up!");
+  }
+ }
+break;
+ }
+}
+
+void iuse::lumber(game *g, player *p, item *it, bool t)
+{
+ char ch = g->inv("Cut up what?");
+ item* cut = &(p->i_at(ch));
+ if (cut->type->id == 0) {
+  g->add_msg("You do not have that item!");
+  return;
+ }
+ if (cut->type->id == itm_log) {
+  p->moves -= 300;
+  g->add_msg("You cut the log into 5 planks.");
+  item plank(g->itypes[itm_2x4], int(g->turn), g->nextinv);
+  p->i_rem(ch);
+  bool drop = false;
+  for (int i = 0; i < 5; i++) {
+   int iter = 0;
+   while (p->has_item(plank.invlet)) {
+    plank.invlet = g->nextinv;
+    g->advance_nextinv();
+    iter++;
+   }
+   if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+    drop = true;
+   if (drop)
+    g->m.add_item(p->posx, p->posy, plank);
+   else
+    p->i_add(plank);
+  }
+  return;
+  } else { g->add_msg("You can't cut that up!");
+ } return;
+}
 
 /* MACGUFFIN FUNCTIONS
  * These functions should refer to it->associated_mission for the particulars
