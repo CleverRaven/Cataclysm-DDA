@@ -1470,10 +1470,3 @@ std::ostream & operator<<(std::ostream & out, const item & it)
  return out;
 }
 
-int item::typeId()
-{
-    if ( type == NULL )
-        return itm_null;
-    return type->id;
-}
-

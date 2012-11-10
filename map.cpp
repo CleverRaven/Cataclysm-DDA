@@ -59,7 +59,7 @@ map::~map()
 {
 }
 
-vehicle_list map::get_vehicles(int sx, int sy, int ex, int ey)
+VehicleList map::get_vehicles(int sx, int sy, int ex, int ey)
 {
  int chunk_sx = (sx / SEEX) - 1;
  int chunk_ex = (ex / SEEX) + 1;
@@ -67,7 +67,7 @@ vehicle_list map::get_vehicles(int sx, int sy, int ex, int ey)
  int chunk_sy = (sy / SEEY) - 1;
  int chunk_ey = (ey / SEEY) + 1;
 
- vehicle_list vehs;
+ VehicleList vehs;
 
  for(int cx = chunk_sx; cx <= chunk_ex; ++cx) {
   for(int cy = chunk_sy; cy <= chunk_ey; ++cy) {
@@ -77,7 +77,7 @@ vehicle_list map::get_vehicles(int sx, int sy, int ex, int ey)
 
    for(int i = 0; i < grid[nonant]->vehicles.size(); ++i) {
     wrapped_vehicle w;
-    w.item = &(grid[nonant]->vehicles[i]);
+    w.item = grid[nonant]->vehicles[i];
     w.x = w.item->posx + cx * SEEX;
     w.y = w.item->posy + cy * SEEY;
     vehs.push_back(w);

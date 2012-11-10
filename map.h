@@ -36,7 +36,7 @@ struct position_wrapped {
 };
 
 typedef position_wrapped<vehicle> wrapped_vehicle;
-typedef std::vector<wrapped_vehicle> vehicle_list;
+typedef std::vector<wrapped_vehicle> VehicleList;
 
 class map
 {
@@ -78,7 +78,7 @@ class map
  std::vector<point> route(int Fx, int Fy, int Tx, int Ty, bool bash = true);
 
 // vehicles
- vehicle_list get_vehicles(int sx, int sy, int ex, int ey);
+ VehicleList get_vehicles(int sx, int sy, int ex, int ey);
 
 // checks, if tile is occupied by vehicle and by which part
  vehicle* veh_at(int x, int y, int &part_num);
