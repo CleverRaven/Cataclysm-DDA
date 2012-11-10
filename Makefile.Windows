@@ -6,12 +6,12 @@
 DEBUG = -g -Wl,-Map=cataclysm.map
 #PROFILE = -pg
 OTHERS = -O3
-DEFINES = -DNDEBUG
+#DEFINES = -DNDEBUG
 
 ODIR = objwin
 DDIR = .deps
 
-TARGET = cataclysm.exe
+TARGET = CataclysmWin.exe
 
 CXX = g++
 

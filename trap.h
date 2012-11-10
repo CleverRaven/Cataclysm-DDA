@@ -9,6 +9,8 @@
 enum trap_id {
  tr_null,
  tr_bubblewrap,
+ tr_cot,
+ tr_rollmat,
  tr_beartrap,
  tr_beartrap_buried,
  tr_snare,
@@ -75,6 +77,7 @@ struct trapfunc {
 struct trapfuncm {
  void none	(game *g, monster *z, int x, int y) { };
  void bubble	(game *g, monster *z, int x, int y);
+ void cot	(game *g, monster *z, int x, int y);
  void beartrap	(game *g, monster *z, int x, int y);
  void board	(game *g, monster *z, int x, int y);
  void tripwire	(game *g, monster *z, int x, int y);

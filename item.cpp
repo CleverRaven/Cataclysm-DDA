@@ -7,6 +7,8 @@
 
 #if (defined _WIN32 || defined WINDOWS)
 	#include "catacurse.h"
+#elif (defined __CYGWIN__)
+      #include "ncurses/curses.h"
 #else
 	#include <curses.h>
 #endif
@@ -1445,13 +1447,6 @@ std::string default_technique_name(technique_id tech)
  return "A BUG!";
 }
 
-int item::typeId()
-{
-    if ( type == NULL )
-        return itm_null;
-    return type->id;
-}
-
 std::ostream & operator<<(std::ostream & out, const item * it)
 {
  out << "item(";
@@ -1470,3 +1465,10 @@ std::ostream & operator<<(std::ostream & out, const item & it)
  return out;
 }
 
+
+int item::typeId()
+{
+    if ( type == NULL )
+        return itm_null;
+    return type->id;
+}

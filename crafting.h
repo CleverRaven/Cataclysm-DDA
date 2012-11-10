@@ -7,6 +7,8 @@
 #include "skill.h"
 #include "rng.h"
 
+#define MAX_DISPLAYED_RECIPES 18
+
 enum craft_cat {
 CC_NULL = 0,
 CC_WEAPON,

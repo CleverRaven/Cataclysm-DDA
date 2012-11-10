@@ -14,6 +14,8 @@
 
 #if (defined _WIN32 || defined WINDOWS)
 	#include "catacurse.h"
+#elif (defined __CYGWIN__)
+    #include "ncurses/curses.h"
 #else
 	#include <curses.h>
 #endif
@@ -225,11 +227,11 @@ void player::reset(game *g)
   per_cur--;
  if (has_bionic(bio_armor_arms))
   dex_cur--;
- if (has_bionic(bio_metabolics) && power_level < max_power_level &&
-     hunger < 100) {
+if (has_bionic(bio_metabolics) && power_level < max_power_level &&
+     hunger < 100 && (int(g->turn) % 20 == 0)) {
   hunger += 2;
   power_level++;
- }
+}
 
 // Trait / mutation buffs
  if (has_trait(PF_THICK_SCALES))
@@ -435,8 +437,7 @@ int player::run_cost(int base_cost)
   movecost = int(movecost * 1.2);
  if (has_trait(PF_PONDEROUS3))
   movecost = int(movecost * 1.3);
- movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 +
-             encumb(bp_legs) * 3;
+ movecost += encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
  if (!wearing_something_on(bp_feet) && !has_trait(PF_PADDED_FEET) &&
      !has_trait(PF_HOOVES))
   movecost += 15;
@@ -4132,7 +4133,7 @@ bool player::wear_item(game *g, item *to_wear)
   if (armor->covers & mfb(i) && encumb(i) >= 4)
    g->add_msg("Your %s %s very encumbered! %s",
               body_part_name(body_part(i), 2).c_str(),
-              (i == bp_head || i == bp_torso || i == bp_mouth ? "is" : "are"),
+              (i == bp_head || i == bp_torso ? "is" : "are"),
               encumb_text(body_part(i)).c_str());
  }
  return true;
@@ -4434,8 +4435,12 @@ void player::read(game *g, char ch)
  
 void player::try_to_sleep(game *g)
 {
- if (g->m.ter(posx, posy) == t_bed)
-  g->add_msg("This bed is a comfortable place to sleep.");
+ int vpart = -1;
+ vehicle *veh = g->m.veh_at (posx, posy, vpart);
+ if (g->m.ter(posx, posy) == t_bed || g->m.ter(posx, posy) == t_makeshift_bed ||
+     g->m.tr_at(posx, posy) == tr_cot || g->m.tr_at(posx, posy) == tr_rollmat ||
+     veh && veh->part_with_feature (vpart, vpf_seat) >= 0)
+  g->add_msg("This is a comfortable place to sleep.");
  else if (g->m.ter(posx, posy) != t_floor)
   g->add_msg("It's %shard to get to sleep on this %s.",
              terlist[g->m.ter(posx, posy)].movecost <= 2 ? "a little " : "",
@@ -4453,8 +4458,11 @@ bool player::can_sleep(game *g)
 
  int vpart = -1;
  vehicle *veh = g->m.veh_at (posx, posy, vpart);
- if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0)
+ if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0 ||
+     g->m.ter(posx, posy) == t_makeshift_bed || g->m.tr_at(posx, posy) == tr_cot)
   sleepy += 4;
+ else if (g->m.tr_at(posx, posy) == tr_rollmat)
+  sleepy += 3;
  else if (g->m.ter(posx, posy) == t_bed)
   sleepy += 5;
  else if (g->m.ter(posx, posy) == t_floor)

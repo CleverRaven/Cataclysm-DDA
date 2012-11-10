@@ -2,7 +2,7 @@
 #include <time.h>
 
 
-#if !(defined _WIN32 || defined WINDOWS)
+#if !(defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
 #include <execinfo.h>
 #include <stdlib.h>
 #endif

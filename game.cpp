@@ -40,7 +40,6 @@ game::game() :
  gamemode(NULL)
 {
  dout() << "Game initialized.";
-
  clear();	// Clear the screen
  intro();	// Print an intro screen, make sure we're at least 80x25
 // Gee, it sure is init-y around here!
@@ -152,10 +151,10 @@ bool game::opening_screen()
  erase();
  for (int i = 0; i < 80; i++)
   mvwputch(w_open, 21, i, c_white, LINE_OXOX);
- mvwprintz(w_open, 0, 1, c_blue, "Welcome to Cataclysm!");
+ mvwprintz(w_open, 0, 0, c_blue, "Welcome to The Darkling Wolf's Modded Cataclysm!");
  mvwprintz(w_open, 1, 0, c_red, "\
-This alpha release is highly unstable. Please report any crashes or bugs to\n\
-fivedozenwhales@gmail.com.");
+Please report bugs to TheDarklingWolf@gmail.com or post in my forum thread.\n\
+Includes work by Creidieki, Uzername, Kevingranade and HerbertJones");
  refresh();
  wrefresh(w_open);
  refresh();
@@ -495,7 +494,7 @@ void game::start_game()
  u.per_cur = u.per_max;
  u.int_cur = u.int_max;
  u.dex_cur = u.dex_max;
- nextspawn = int(turn);	
+ nextspawn = int(turn);
  temperature = 65; // Springtime-appropriate?
 
 // Put some NPCs in there!
@@ -531,12 +530,12 @@ void game::create_starting_npcs()
  tmp.attitude = NPCATT_NULL;
  tmp.mission = NPC_MISSION_SHELTER;
  tmp.chatbin.first_topic = TALK_SHELTER;
- tmp.chatbin.missions.push_back( 
+ tmp.chatbin.missions.push_back(
      reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp.id) );
 
  active_npc.push_back(tmp);
 }
- 
+
 
 // MAIN GAME LOOP
 // Returns true if game is over (death, saved, quit, etc)
@@ -835,7 +834,7 @@ void game::process_activity()
              skill_name(u.activity.index).c_str(), u.sklevel[u.activity.index]);
     }
     break;
-    
+
    case ACT_VEHICLE:
     complete_vehicle (this);
     break;
@@ -1005,7 +1004,7 @@ void game::assign_mission(int id)
  mission *miss = find_mission(id);
  (m_s.*miss->type->start)(this, miss);
 }
- 
+
 int game::reserve_mission(mission_id type, int npc_id)
 {
  mission tmp = mission_types[type].create(this, npc_id);
@@ -1404,6 +1403,12 @@ input_ret game::get_input(int timeout_ms)
 
   case ACTION_WAIT:
    wait();
+   if (veh_ctrl) {
+    veh->turret_mode++;
+    if (veh->turret_mode > 1)
+     veh->turret_mode = 0;
+   } else
+    wait();
    break;
 
   case ACTION_CRAFT:
@@ -1712,7 +1717,7 @@ bool game::load_master()
   if (fin.peek() == '\n')
    fin.get(junk); // Chomp that pesky endline
  }
- 
+
  fin.close();
  return true;
 }
@@ -2376,7 +2381,7 @@ void game::list_missions()
   for (int i = 0; i < umissions.size(); i++) {
    mission *miss = find_mission(umissions[i]);
    nc_color col = c_white;
-   if (i == u.active_mission && tab == 0) 
+   if (i == u.active_mission && tab == 0)
     col = c_ltred;
    if (selection == i)
     mvwprintz(w_missions, 3 + i, 0, hilite(col), miss->name().c_str());
@@ -2776,7 +2781,7 @@ unsigned char game::light_level()
  int flashlight = u.active_item_charges(itm_flashlight_on);
  //int light = u.light_items();
  if (ret < 10 && flashlight > 0) {
-/* additive so that low battery flashlights still increase the light level 
+/* additive so that low battery flashlights still increase the light level
 	rather than decrease it 						*/
   ret += flashlight;
   if (ret > 10)
@@ -2871,7 +2876,7 @@ bool game::sees_u(int x, int y, int &t)
   range = rl_dist(x, y, u.posx, u.posy);
 
  return (!u.has_active_bionic(bio_cloak) &&
-         !u.has_artifact_with(AEP_INVISIBLE) && 
+         !u.has_artifact_with(AEP_INVISIBLE) &&
          m.sees(x, y, u.posx, u.posy, range, t));
 }
 
@@ -3052,9 +3057,9 @@ void game::mon_info()
 // 5 4 3	8 is used for local monsters (for when we explain them below)
  mvwprintz(w_moninfo,  0,  0, (unique_types[7].empty() ?
            c_dkgray : (dangerous[7] ? c_ltred : c_ltgray)), "NW:");
- mvwprintz(w_moninfo,  0, 15, (unique_types[0].empty() ? 
+ mvwprintz(w_moninfo,  0, 15, (unique_types[0].empty() ?
            c_dkgray : (dangerous[0] ? c_ltred : c_ltgray)), "North:");
- mvwprintz(w_moninfo,  0, 33, (unique_types[1].empty() ? 
+ mvwprintz(w_moninfo,  0, 33, (unique_types[1].empty() ?
            c_dkgray : (dangerous[1] ? c_ltred : c_ltgray)), "NE:");
  mvwprintz(w_moninfo,  1,  0, (unique_types[6].empty() ?
            c_dkgray : (dangerous[6] ? c_ltred : c_ltgray)), "West:");
@@ -3374,7 +3379,7 @@ void game::check_warmth()
   add_msg("Your body is cold.");
   u.add_disease(DI_COLD, abs(warmth), this);
  } else if (warmth >= 12) {
-  add_msg("Your body is too hot."); 
+  add_msg("Your body is too hot.");
   u.add_disease(DI_HOT, warmth * 2, this);
  }
  // HANDS
@@ -3521,7 +3526,7 @@ void game::add_footstep(int x, int y, int volume, int distance)
 void game::draw_footsteps()
 {
  for (int i = 0; i < footsteps.size(); i++) {
-  mvwputch(w_terrain, SEEY + footsteps[i].y - u.posy, 
+  mvwputch(w_terrain, SEEY + footsteps[i].y - u.posy,
            SEEX + footsteps[i].x - u.posx, c_yellow, '?');
  }
  footsteps.clear();
@@ -3705,7 +3710,7 @@ void game::use_computer(int x, int y)
   debugmsg("Tried to use computer at (%d, %d) - none there", x, y);
   return;
  }
- 
+
  used->use(this);
 
  refresh_all();
@@ -3967,7 +3972,7 @@ void game::explode_mon(int index)
    for (int i = 0; i < num_chunks; i++) {
     int tarx = posx + rng(-3, 3), tary = posy + rng(-3, 3);
     std::vector<point> traj = line_to(posx, posy, tarx, tary, 0);
- 
+
     bool done = false;
     for (int j = 0; j < traj.size() && !done; j++) {
      tarx = traj[j].x;
@@ -4506,6 +4511,131 @@ void game::examine()
    }
   }
   refresh_all();
+}
+ else if (m.ter(examx, examy) == t_gates_mech_control && query_yn("Use this winch?"))
+ {
+    add_msg("You grab the handle...");
+    u.moves -=900;
+    if (((m.ter(examx-1, examy)==t_wall_v)&&((m.ter(examx-1, examy+1)==t_floor)||(m.ter(examx-1, examy-1)==t_floor))&&(!((m.ter(examx-1, examy-1)==t_door_metal_locked)||(m.ter(examx-1, examy+1)==t_door_metal_locked))))
+        ||((m.ter(examx+1, examy)==t_wall_v)&&((m.ter(examx+1, examy+1)==t_floor)||(m.ter(examx+1, examy-1)==t_floor))&&(!((m.ter(examx+1, examy-1)==t_door_metal_locked)||(m.ter(examx+1, examy+1)==t_door_metal_locked))))) {
+            add_msg("Vertical gate closing...");
+                    //horizontal orientation of the gate
+    if ((m.ter(examx, examy-1)==t_wall_h)||(m.ter(examx, examy+1)==t_wall_h)) {
+        int x_incr=0; int y_offst=0;
+        if (m.ter(examx, examy-1)==t_wall_h) y_offst = -1;
+        if (m.ter(examx, examy+1)==t_wall_h) y_offst = 1;
+        if (m.ter(examx+1, examy+y_offst) == t_floor) x_incr = 1;
+        if (m.ter(examx-1, examy+y_offst) == t_floor) x_incr = -1;
+        int cur_x = examx+x_incr;
+        while (m.ter(cur_x, examy+y_offst)== t_floor) {
+            m.ter(cur_x, examy+y_offst) = t_door_metal_locked;
+            cur_x = cur_x+x_incr;                              }
+    } else //vertical orientation of the gate
+    if ((m.ter(examx-1, examy)==t_wall_v)||(m.ter(examx+1, examy)==t_wall_v)) {
+        int x_offst = 0; int y_incr = 0;
+        if ((m.ter(examx-1, examy)==t_wall_v)) x_offst = -1;
+        if ((m.ter(examx+1, examy)==t_wall_v)) x_offst = 1;
+        if (m.ter(examx+x_offst, examy-1)== t_floor) y_incr = -1;
+        if (m.ter(examx+x_offst, examy+1)== t_floor) y_incr = 1;
+            char * dzebugg = new char [10]();
+            sprintf(dzebugg, "%d ; %d", x_offst, y_incr);
+            add_msg(dzebugg);
+        int cur_y = examy+y_incr;
+        while (m.ter(examx+x_offst, cur_y)==t_floor) {
+            m.ter(examx+x_offst, cur_y) = t_door_metal_locked;
+            cur_y = cur_y+y_incr;
+            }
+        }
+    }
+    else
+    if (((m.ter(examx, examy-1)==t_wall_h)&&((m.ter(examx+1, examy-1)==t_floor)||(m.ter(examx-1, examy-1)==t_floor)))
+        ||((m.ter(examx, examy+1)==t_wall_h)&&((m.ter(examx+1, examy+1)==t_floor)||(m.ter(examx-1, examy+1)==t_floor))))
+        {
+
+            //horizontal orientation of the gate
+    if ((m.ter(examx, examy-1)==t_wall_h)||(m.ter(examx, examy+1)==t_wall_h)) {
+        int x_incr=0; int y_offst=0;
+        if (m.ter(examx, examy-1)==t_wall_h) y_offst = -1;
+        if (m.ter(examx, examy+1)==t_wall_h) y_offst = 1;
+        if (m.ter(examx+1, examy+y_offst) == t_floor) x_incr = 1;
+        if (m.ter(examx-1, examy+y_offst) == t_floor) x_incr = -1;
+        int cur_x = examx+x_incr;
+        while (m.ter(cur_x, examy+y_offst)== t_floor) {
+            m.ter(cur_x, examy+y_offst) = t_door_metal_locked;
+            cur_x = cur_x+x_incr;                              }
+    } else //vertical orientation of the gate
+    if ((m.ter(examx-1, examy)==t_wall_v)||(m.ter(examx+1, examy)==t_wall_v)) {
+        int x_offst = 0; int y_incr = 0;
+        if ((m.ter(examx-1, examy)==t_wall_v)) x_offst = -1;
+        if ((m.ter(examx+1, examy)==t_wall_v)) x_offst = 1;
+        if (m.ter(examx+x_offst, examy-1)== t_floor) y_incr = -1;
+        if (m.ter(examx+x_offst, examy+1)== t_floor) y_incr = 1;
+            /*char * dzebugg = new char [10]();
+            sprintf(dzebugg, "%d ; %d", x_offst, y_incr);
+            add_msg(dzebugg);*/
+        int cur_y = examy+y_incr;
+        while (m.ter(examx+x_offst, cur_y)==t_floor) {
+            m.ter(examx+x_offst, cur_y) = t_door_metal_locked;
+            cur_y = cur_y+y_incr;
+        }
+    }
+
+    //closing the gate...
+    add_msg("The gate is closed!"); }
+    else //opening the gate...
+    {
+        //horizontal orientation of the gate
+    if ((m.ter(examx, examy-1)==t_wall_h)||(m.ter(examx, examy+1)==t_wall_h)) {
+        int x_incr=0; int y_offst=0;
+        if (m.ter(examx, examy-1)==t_wall_h) y_offst = -1;
+        if (m.ter(examx, examy+1)==t_wall_h) y_offst = 1;
+        if (m.ter(examx+1, examy+y_offst) == t_door_metal_locked) x_incr = 1;
+        if (m.ter(examx-1, examy+y_offst) == t_door_metal_locked) x_incr = -1;
+        int cur_x = examx+x_incr;
+        while (m.ter(cur_x, examy+y_offst)==t_door_metal_locked) {
+            m.ter(cur_x, examy+y_offst) = t_floor;
+            cur_x = cur_x+x_incr;                              }
+    } else //vertical orientation of the gate
+    if ((m.ter(examx-1, examy)==t_wall_v)||(m.ter(examx+1, examy)==t_wall_v)) {
+        int x_offst = 0; int y_incr = 0;
+        if ((m.ter(examx-1, examy)==t_wall_v)) x_offst = -1;
+        if ((m.ter(examx+1, examy)==t_wall_v)) x_offst = 1;
+        if (m.ter(examx+x_offst, examy-1)== t_door_metal_locked) y_incr = -1;
+        if (m.ter(examx+x_offst, examy+1)== t_door_metal_locked) y_incr = 1;
+        int cur_y = examy+y_incr;
+        while (m.ter(examx+x_offst, cur_y)==t_door_metal_locked) {
+            m.ter(examx+x_offst, cur_y) = t_floor;
+            cur_y = cur_y+y_incr;
+        }
+    }
+    add_msg("The gate is opened!");
+  }
+ } else if (m.ter(examx, examy) == t_pit && query_yn("Place a plank over the pit?")) {
+  if (u.has_amount(itm_2x4, 1)) {
+   u.use_amount(itm_2x4, 1);
+   m.ter(examx, examy) = t_pit_covered;
+   add_msg("You place a plank of wood over the pit");
+ } else {
+   add_msg("You need a plank of wood to do that");
+  }
+ } else if (m.ter(examx, examy) == t_pit_spiked && query_yn("Place a plank over the pit?")) {
+  if (u.has_amount(itm_2x4, 1)) {
+   u.use_amount(itm_2x4, 1);
+   m.ter(examx, examy) = t_pit_spiked_covered;
+   add_msg("You place a plank of wood over the pit");
+ } else {
+   add_msg("You need a plank of wood to do that");
+  }
+ } else if (m.ter(examx, examy) == t_pit_covered && query_yn("Remove that plank?")) {
+    item plank(itypes[itm_2x4], turn);
+    add_msg("You remove the plank.");
+     m.add_item(u.posx, u.posy, plank);
+     m.ter(examx, examy) = t_pit;
+ } else if (m.ter(examx, examy) == t_pit_spiked_covered && query_yn("Remove that plank?")) {
+    item plank(itypes[itm_2x4], turn);
+    add_msg("You remove the plank.");
+     m.add_item(u.posx, u.posy, plank);
+     m.ter(examx, examy) = t_pit_spiked;
  } else if (m.ter(examx, examy) == t_gas_pump && query_yn("Pump gas?")) {
   item gas(itypes[itm_gasoline], turn);
   if (one_in(10 + u.dex_cur)) {
@@ -4515,6 +4645,60 @@ void game::examine()
    u.moves -= 300;
    handle_liquid(gas, false, true);
   }
+ } else if (m.ter(examx, examy) == t_fence_post && query_yn("Make Fence?")) {
+  int ch = menu("Fence Construction:", "Rope Fence", "Wire Fence",
+                "Barbed Wire Fence", "Cancel", NULL);
+  switch (ch){
+   case 1:{
+  if (u.has_amount(itm_rope_6, 2)) {
+   u.use_amount(itm_rope_6, 2);
+   m.ter(examx, examy) = t_fence_rope;
+   u.moves -= 200;
+  } else
+   add_msg("You need 2 lengths of rope to do that");
+  } break;
+
+   case 2:{
+  if (u.has_amount(itm_wire, 2)) {
+   u.use_amount(itm_wire, 2);
+   m.ter(examx, examy) = t_fence_wire;
+   u.moves -= 200;
+  } else
+   add_msg("You need 2 lengths of wire to do that!");
+  } break;
+
+   case 3:{
+  if (u.has_amount(itm_wire_barbed, 2)) {
+   u.use_amount(itm_wire_barbed, 2);
+   m.ter(examx, examy) = t_fence_barbed;
+   u.moves -= 200;
+  } else
+   add_msg("You need 2 lengths of barbed wire to do that!");
+  } break;
+ 
+   case 4: 
+   break;
+  }
+ } else if (m.ter(examx, examy) == t_fence_rope && query_yn("Remove fence material?")) {
+  item rope(itypes[itm_rope_6], turn);
+  m.add_item(u.posx, u.posy, rope);
+  m.add_item(u.posx, u.posy, rope);
+  m.ter(examx, examy) = t_fence_post;
+  u.moves -= 200;
+
+ } else if (m.ter(examx, examy) == t_fence_wire && query_yn("Remove fence material?")) {
+  item rope(itypes[itm_wire], turn);
+  m.add_item(u.posx, u.posy, rope);
+  m.add_item(u.posx, u.posy, rope);
+  m.ter(examx, examy) = t_fence_post;
+  u.moves -= 200;
+ } else if (m.ter(examx, examy) == t_fence_barbed && query_yn("Remove fence material?")) {
+  item rope(itypes[itm_wire_barbed], turn);
+  m.add_item(u.posx, u.posy, rope);
+  m.add_item(u.posx, u.posy, rope);
+  m.ter(examx, examy) = t_fence_post;
+  u.moves -= 200;
+
  } else if (m.ter(examx, examy) == t_slot_machine) {
   if (u.cash < 10)
    add_msg("You need $10 to play.");
@@ -4635,7 +4819,22 @@ shape, but with long, twisted, distended limbs.");
   add_msg("You hear the rumble of rock shifting.");
   add_event(EVENT_TEMPLE_SPAWN, turn + 3);
  }
-
+ //-----Jovan's-----
+ //flowers
+    else if ((m.ter(examx, examy)==t_mutpoppy)&&(query_yn("Pick the flower?"))) {
+        add_msg("This flower has a heady aroma");
+        if (!(u.is_wearing(itm_mask_filter)||u.is_wearing(itm_mask_gas)))  {
+        add_msg("You fall asleep...");
+        u.add_disease(DI_SLEEP, 1200, this);
+        add_msg("Your legs are covered by flower's roots!");
+        u.hurt(this,bp_legs, 0, 10);
+        u.moves-=50;
+        }
+        m.ter(examx, examy) = t_grass;
+        m.add_item(examx, examy, this->itypes[itm_poppy_flower],0);
+        m.add_item(examx, examy, this->itypes[itm_poppy_bud],0);
+    }
+ //-----------------
  if (m.tr_at(examx, examy) != tr_null &&
       traps[m.tr_at(examx, examy)]->difficulty < 99 &&
      u.per_cur-u.encumb(bp_eyes) >= traps[m.tr_at(examx, examy)]->visibility &&
@@ -6544,13 +6743,13 @@ void game::vertical_move(int movez, bool force)
    stairy = u.posy;
   }
  }
- 
+
  bool replace_monsters = false;
 // Replace the stair monsters if we just came back
  if (abs(monstairx - levx) <= 1 && abs(monstairy - levy) <= 1 &&
      monstairz == levz + movez)
   replace_monsters = true;
- 
+
  if (!force) {
   monstairx = levx;
   monstairy = levy;
@@ -6750,7 +6949,7 @@ void game::update_map(int &x, int &y)
  for (int i = 0; i < cur_om.npcs.size(); i++) {
 
   if (rl_dist(levx + int(MAPSIZE / 2), levy + int(MAPSIZE / 2),
-              cur_om.npcs[i].mapx, cur_om.npcs[i].mapy) <= 
+              cur_om.npcs[i].mapx, cur_om.npcs[i].mapy) <=
               int(MAPSIZE / 2) + 1) {
 
    int dx = cur_om.npcs[i].mapx - levx, dy = cur_om.npcs[i].mapy - levy;
@@ -7234,7 +7433,7 @@ void game::msg_buffer()
   for (i = 1; i <= 20 && line <= 23 && offset + i <= messages.size(); i++) {
    game_message *mtmp = &(messages[ messages.size() - (offset + i) ]);
    calendar timepassed = turn - mtmp->turn;
-   
+
    int tp = int(timepassed);
    nc_color col = (tp <=  2 ? c_ltred : (tp <=  7 ? c_white :
                    (tp <= 12 ? c_ltgray : c_dkgray)));
@@ -7278,7 +7477,7 @@ void game::msg_buffer()
   DebugLog() << __FUNCTION__ << "calling input() \n";
   ch = input();
   int dirx = 0, diry = 0;
-   
+
   get_direction(this, dirx, diry, ch);
   if (diry == -1 && offset > 0)
    offset--;

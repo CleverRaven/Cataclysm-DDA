@@ -10,6 +10,8 @@
 
 #if (defined _WIN32 || defined WINDOWS)
 	#include "catacurse.h"
+#elif (defined __CYGWIN__)
+      #include "ncurses/curses.h"
 #else
 	#include <curses.h>
 #endif
@@ -594,6 +596,9 @@ void monster::move_to(game *g, int x, int y)
   posx = x;
   posy = y;
   footsteps(g, x, y);
+  if (g->m.has_flag(sharp, posx, posy)) {
+     hurt(rng(3, 10));
+ }
   if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES) &&
       g->m.tr_at(posx, posy) != tr_null) { // Monster stepped on a trap!
    trap* tr = g->traps[g->m.tr_at(posx, posy)];

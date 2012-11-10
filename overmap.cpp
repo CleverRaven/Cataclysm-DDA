@@ -1,5 +1,7 @@
 #if (defined _WIN32 || defined WINDOWS)
 	#include "catacurse.h"
+#elif (defined __CYGWIN__)
+      #include "ncurses/curses.h"
 #else
 	#include <curses.h>
 #endif
@@ -69,9 +71,9 @@ bool is_wall_material(oter_id ter)
 oter_id shop(int dir)
 {
  oter_id ret = ot_s_lot;
- int type = rng(0, 16);
+ int type = rng(0, 17);
  if (one_in(20))
-  type = 17;
+  type = 18;
  switch (type) {
   case  0: ret = ot_s_lot;	         break;
   case  1: ret = ot_s_gas_north;         break;
@@ -90,7 +92,8 @@ oter_id shop(int dir)
   case 14: ret = ot_s_electronics_north; break;
   case 15: ret = ot_pawn_north;          break;
   case 16: ret = ot_mil_surplus_north;   break;
-  case 17: ret = ot_police_north;        break;
+  case 17: ret = ot_s_garage_north;      break;
+  case 18: ret = ot_police_north;        break;
  }
  if (ret == ot_s_lot)
   return ret;

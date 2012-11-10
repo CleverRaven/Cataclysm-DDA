@@ -66,7 +66,7 @@ enum ter_id {
 t_null = 0,
 t_hole,	// Real nothingness; makes you fall a z-level
 // Ground
-t_dirt, t_dirtmound, t_pit_shallow, t_pit, t_pit_spiked,
+t_dirt, t_dirtmound, t_pit_shallow, t_pit, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
 t_rock_floor, t_rubble, t_wreckage,
 t_grass,
 t_metal_floor,
@@ -83,8 +83,8 @@ t_wall_glass_v, t_wall_glass_h,
 t_wall_glass_v_alarm, t_wall_glass_h_alarm,
 t_reinforced_glass_v, t_reinforced_glass_h,
 t_bars,
-t_door_c, t_door_b, t_door_o, t_door_locked, t_door_locked_alarm, t_door_frame,
- t_door_boarded,
+t_door_c, t_door_b, t_door_o, t_door_locked, t_door_locked_alarm, t_door_frame, t_rdoor_c, t_rdoor_o,
+t_door_boarded,
 t_door_metal_c, t_door_metal_o, t_door_metal_locked,
 t_door_glass_c, t_door_glass_o,
 t_bulletin,
@@ -96,7 +96,7 @@ t_paper,
 t_tree, t_tree_young, t_underbrush, t_shrub, t_log,
 t_root_wall,
 t_wax, t_floor_wax,
-t_fence_v, t_fence_h,
+t_fence_v, t_fence_h, t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
 t_railing_v, t_railing_h,
 // Nether
 t_marloss, t_fungus, t_tree_fungal,
@@ -104,14 +104,14 @@ t_marloss, t_fungus, t_tree_fungal,
 t_water_sh, t_water_dp, t_sewage,
 t_lava,
 // Embellishments
-t_bed, t_toilet,
+t_bed, t_toilet, t_makeshift_bed,
 t_sandbox, t_slide, t_monkey_bars, t_backboard,
 t_bench, t_table, t_pool_table,
 t_gas_pump, t_gas_pump_smashed,
 t_missile, t_missile_exploded,
 t_counter,
 t_radio_tower, t_radio_controls,
-t_console_broken, t_console,
+t_console_broken, t_console, t_gates_mech_control,
 t_sewage_pipe, t_sewage_pump,
 t_centrifuge,
 t_column,
@@ -131,6 +131,9 @@ t_card_science, t_card_military, t_card_reader_broken, t_slot_machine,
 // Temple tiles
 t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
  t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
+// found at fields
+ t_mutpoppy, //mutated poppy flower
+
 num_terrain_types
 };
 
@@ -147,8 +150,12 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(diggable)},
 {"pit",              '0', c_brown,  10, tr_pit,
 	mfb(transparent)|mfb(diggable)},
+{"covered pit",       '#', c_ltred,   2, tr_null,
+	mfb(transparent)},
 {"spiked pit",       '0', c_ltred,  10, tr_spike_pit,
 	mfb(transparent)|mfb(diggable)},
+{"covered spiked pit",'#',c_ltred,   2, tr_null,
+	mfb(transparent)},
 {"rock floor",       '.', c_ltgray,  2, tr_null,
 	mfb(transparent)},
 {"pile of rubble",   '#', c_ltgray,  4, tr_null,
@@ -219,6 +226,10 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(bashable)|mfb(flammable)|mfb(alarmed)|mfb(noitem)|
         mfb(supports_roof)},
 {"empty door frame", '.', c_brown,   2, tr_null,
+	mfb(transparent)|mfb(supports_roof)},
+{"closed cage door", '+', c_ltred,   0, tr_null,
+	mfb(transparent)|mfb(supports_roof)},
+{"open cage door",   '.', c_ltred,   2, tr_null,
 	mfb(flammable)|mfb(transparent)|mfb(supports_roof)},
 {"boarded up door",  '#', c_brown,   0, tr_null,
 	mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
@@ -257,12 +268,12 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(bashable)|mfb(flammable)|mfb(noitem)},
 {"tree",	     '7', c_green,   0, tr_null,
 	mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
-{"young tree",       '1', c_green,   0, tr_null,
+{"young tree",       '1', c_green,   4, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)},
 {"underbrush",       '#', c_ltgreen, 6, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(diggable)|mfb(container)|mfb(rough)|
 	mfb(flammable)},
-{"shrub",            '#', c_green,   0, tr_null,
+{"shrub",            '#', c_green,   8, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(container)|mfb(flammable)},
 {"log",              '1', c_brown,   4, tr_null,
 	mfb(transparent)|mfb(flammable)|mfb(diggable)},
@@ -276,6 +287,14 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(diggable)|mfb(flammable)|mfb(noitem)|mfb(thin_obstacle)},
 {"picket fence",     '-', c_brown,   3, tr_null,
 	mfb(transparent)|mfb(diggable)|mfb(flammable)|mfb(noitem)|mfb(thin_obstacle)},
+{"fence post",       '#', c_brown,   2, tr_null,
+        mfb(transparent)|mfb(thin_obstacle)},
+{"wire fence",       '$', c_blue,    4, tr_null,
+        mfb(transparent)|mfb(thin_obstacle)},
+{"barbed wire fence",'$', c_blue,    4, tr_null,
+        mfb(transparent)|mfb(sharp)|mfb(thin_obstacle)},
+{"rope fence",       '$', c_brown,   3, tr_null,
+        mfb(transparent)|mfb(thin_obstacle)},
 {"railing",          '|', c_yellow,  3, tr_null,
 	mfb(transparent)|mfb(noitem)|mfb(thin_obstacle)},
 {"railing",          '-', c_yellow,  3, tr_null,
@@ -298,6 +317,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(container)|mfb(flammable)},
 {"toilet",           '&', c_white,   0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(l_flammable)},
+{"makeshift bed",    '#', c_magenta, 5, tr_null,
+        mfb(transparent)|mfb(bashable)|mfb(flammable)},
 {"sandbox",          '#', c_yellow,  3, tr_null,
 	mfb(transparent)},
 {"slide",            '#', c_ltcyan,  4, tr_null,
@@ -330,6 +351,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(noitem)},
 {"computer console", '6', c_blue,    0, tr_null,
 	mfb(transparent)|mfb(console)|mfb(noitem)},
+{"mechanical winch", '6', c_cyan_red, 0, tr_null,
+        mfb(transparent)|mfb(noitem)},
 {"sewage pipe",      '1', c_ltgray,  0, tr_null,
 	mfb(transparent)},
 {"sewage pump",      '&', c_ltgray,  0, tr_null,
@@ -410,8 +433,9 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"purple switch",    '6', c_magenta, 0, tr_null,
 	mfb(transparent)},
 {"checkered switch", '6', c_white,   0, tr_null,
-	mfb(transparent)}
-
+	mfb(transparent)},
+{"mutated poppy flower", 'f', c_red, 3, tr_null,
+    mfb(transparent)}
 };
 
 enum map_extra {
@@ -459,7 +483,7 @@ struct map_extras {
  int chances[num_map_extras + 1];
  map_extras(unsigned int embellished, int helicopter = 0, int mili = 0,
             int sci = 0, int stash = 0, int drug = 0, int supply = 0,
-            int portal = 0, int minefield = 0, int wolves = 0, int puddle = 0, 
+            int portal = 0, int minefield = 0, int wolves = 0, int puddle = 0,
             int crater = 0, int lava = 0, int marloss = 0, int anomaly = 0)
             : chance(embellished)
  {

@@ -5,8 +5,8 @@
 #WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-char-subscripts
 #DEBUG = -g -rdynamic
 #PROFILE = -pg
-OTHERS = -O3
-DEFINES = -DNDEBUG
+#OTHERS = -O3
+#DEFINES = -DNDEBUG
 
 # Disable debug. Comment this out to get logging.
 #DEFINES = -DENABLE_LOGGING

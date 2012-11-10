@@ -48,7 +48,7 @@ itm_bandages, itm_1st_aid, itm_vitamins, itm_aspirin, itm_caffeine,
  itm_pills_sleep, itm_iodine, itm_dayquil, itm_nyquil, itm_inhaler, itm_codeine,
  itm_oxycodone, itm_tramadol, itm_xanax, itm_adderall, itm_thorazine,
  itm_prozac, itm_cig, itm_weed, itm_coke, itm_meth, itm_heroin, itm_cigar,
- itm_antibiotics,
+ itm_antibiotics, itm_poppy_sleep, itm_poppy_pain,
 // Do-nothing / Melee weapons
 itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
  itm_id_science, itm_id_military, itm_electrohack, itm_string_6, itm_string_36,
@@ -56,14 +56,15 @@ itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
  itm_amplifier, itm_transponder, itm_receiver, itm_antenna, itm_steel_chunk,
  itm_steel_lump, itm_hose, itm_glass_sheet, itm_manhole_cover, itm_rock,
  itm_stick, itm_broom, itm_mop, itm_screwdriver, itm_wrench, itm_saw,
- itm_hacksaw, itm_hammer_sledge, itm_hatchet, itm_ax, itm_nailboard, itm_xacto,
- itm_scalpel, itm_pot, itm_pan, itm_knife_butter, itm_knife_steak,
+ itm_hacksaw, itm_hammer_sledge, itm_hatchet, itm_ax, itm_nailboard, itm_nailbat,
+ itm_xacto, itm_scalpel, itm_pot, itm_pan, itm_knife_butter, itm_knife_steak,
  itm_knife_butcher, itm_knife_combat, itm_2x4, itm_muffler, itm_pipe, itm_bat,
  itm_machete, itm_katana, itm_spear_wood, itm_spear_knife, itm_baton,
  itm_bee_sting, itm_wasp_sting, itm_chitin_piece, itm_biollante_bud,
  itm_canister_empty, itm_gold, itm_coal, itm_petrified_eye, itm_spiral_stone,
  itm_rapier, itm_cane, itm_binoculars, itm_usb_drive, itm_pike, itm_broadsword,
  itm_mace, itm_morningstar, itm_pool_cue, itm_pool_ball, itm_candlestick,
+ itm_carspike, itm_carblade, itm_wire, itm_wire_barbed, itm_rebar,
 // Vehicle parts
 itm_frame, itm_wheel, itm_big_wheel, itm_seat, itm_vehicle_controls,
  itm_combustion_small, itm_combustion, itm_combustion_large,
@@ -72,7 +73,7 @@ itm_frame, itm_wheel, itm_big_wheel, itm_seat, itm_vehicle_controls,
  itm_steel_plate, itm_alloy_plate, itm_spiked_plate, itm_hard_plate,
 // Footwear
 itm_sneakers, itm_boots, itm_boots_steel, itm_boots_winter, itm_mocassins,
- itm_flip_flops, itm_dress_shoes, itm_heels, 
+ itm_flip_flops, itm_dress_shoes, itm_heels,
 // Legwear
 itm_jeans, itm_pants, itm_pants_leather, itm_pants_cargo, itm_pants_army,
  itm_skirt,
@@ -136,6 +137,7 @@ itm_silencer, itm_grip, itm_barrel_big, itm_barrel_small, itm_barrel_rifled,
  itm_bayonet,
 // Books
 itm_mag_porn, itm_mag_tv, itm_mag_news, itm_mag_cars, itm_mag_cooking,
+ itm_mag_carpentry,
  itm_mag_guns, itm_novel_romance, itm_novel_spy, itm_novel_scifi,
  itm_novel_drama, itm_manual_brawl, itm_manual_knives, itm_manual_mechanics,
  itm_manual_speech, itm_manual_business, itm_manual_first_aid,
@@ -161,7 +163,7 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_mininuke_act, itm_pheromone, itm_portal, itm_bot_manhack, itm_bot_turret,
  itm_UPS_off, itm_UPS_on, itm_tazer, itm_mp3, itm_mp3_on, itm_vortex_stone,
  itm_dogfood, itm_boobytrap, itm_c4, itm_c4armed, itm_dog_whistle,
- itm_vacutainer, itm_welder,
+ itm_vacutainer, itm_welder, itm_cot, itm_rollmat,
 // Bionics containers
 itm_bionics_battery,       itm_bionics_power,   itm_bionics_tools,
  itm_bionics_neuro,        itm_bionics_sensory, itm_bionics_aquatic,
@@ -174,6 +176,10 @@ itm_software_useless, itm_software_hacking, itm_software_medical,
  itm_software_math, itm_software_blood_data,
 // MacGuffins!
 itm_note,
+//-----Jovan's. Flowers!-----
+itm_poppy_flower, itm_poppy_bud,
+//---------------------------
+
 // Static (non-random) artifacts should go here.
 num_items,
 // These shouldn't be counted among "normal" items; thus, they are outside the
@@ -308,27 +314,27 @@ struct itype
  			// Used for save files; aligns to itype_id above.
  unsigned char rarity;	// How often it's found
  unsigned int  price;	// Its value
- 
+
  std::string name;	// Proper name
  std::string description;// Flavor text
- 
+
  char sym;		// Symbol on the map
  nc_color color;	// Color on the map (color.h)
- 
+
  material m1;		// Main material
  material m2;		// Secondary material -- MNULL if made of just 1 thing
- 
+
  unsigned int volume;	// Space taken up by this item
  unsigned int weight;	// Weight in quarter-pounds; is 64 lbs max ok?
  			// Also assumes positive weight.  No helium, guys!
- 
+
  signed char melee_dam;	// Bonus for melee damage; may be a penalty
  signed char melee_cut;	// Cutting damage in melee
  signed char m_to_hit;	// To-hit bonus for melee combat; -5 to 5 is reasonable
 
  unsigned item_flags : NUM_ITEM_FLAGS;
  unsigned techniques : NUM_TECHNIQUES;
- 
+
  virtual bool is_food()          { return false; }
  virtual bool is_ammo()          { return false; }
  virtual bool is_gun()           { return false; }
@@ -360,7 +366,7 @@ struct itype
   item_flags = 0;
   techniques = 0;
  }
- 
+
  itype(int pid, unsigned char prarity, unsigned int pprice,
        std::string pname, std::string pdes,
        char psym, nc_color pcolor, material pm1, material pm2,
@@ -413,13 +419,13 @@ struct it_comest : public itype
            char psym, nc_color pcolor, material pm1,
            unsigned short pvolume, unsigned short pweight,
            signed char pmelee_dam, signed char pmelee_cut,
-           signed char pm_to_hit, unsigned pitem_flags, 
+           signed char pm_to_hit, unsigned pitem_flags,
 
            signed char pquench, unsigned char pnutr, signed char pspoils,
            signed char pstim, signed char phealthy, unsigned char paddict,
            unsigned char pcharges, signed char pfun, itype_id pcontainer,
            itype_id ptool, void (iuse::*puse)(game *, player *, item *, bool),
-           add_type padd) 
+           add_type padd)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
   quench = pquench;
@@ -628,8 +634,8 @@ struct it_book : public itype
   intel = pintel;
   time = ptime;
  }
-}; 
- 
+};
+
 enum container_flags {
  con_rigid,
  con_wtight,
@@ -704,7 +710,7 @@ struct it_tool : public itype
   use = puse;
  }
 };
-        
+
 struct it_bionic : public itype
 {
  std::vector<bionic_id> options;
@@ -736,7 +742,7 @@ struct it_macguffin : public itype
 {
  bool readable; // If true, activated with 'R'
  void (iuse::*use)(game *, player *, item *, bool);
- 
+
  virtual bool is_macguffin() { return true; }
 
  it_macguffin(int pid, unsigned char prarity, unsigned int pprice,
@@ -782,7 +788,7 @@ struct it_style : public itype
  virtual bool is_style()         { return true; }
 
  std::vector<style_move> moves;
- 
+
  it_style(int pid, unsigned char prarity, unsigned int pprice,
           std::string pname, std::string pdes,
           char psym, nc_color pcolor, material pm1, material pm2,

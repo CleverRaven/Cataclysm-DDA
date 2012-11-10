@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Cataclysm" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Release">
+				<Option output="bin\Release\Cataclysm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-Wl,-stack,12000000,-subsystem,windows" />
+					<Add option="-static -lgdi32" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="action.cpp" />
+		<Unit filename="action.h" />
+		<Unit filename="addiction.h" />
+		<Unit filename="artifact.cpp" />
+		<Unit filename="artifact.h" />
+		<Unit filename="artifactdata.h" />
+		<Unit filename="bionics.cpp" />
+		<Unit filename="bionics.h" />
+		<Unit filename="bodypart.cpp" />
+		<Unit filename="bodypart.h" />
+		<Unit filename="calendar.cpp" />
+		<Unit filename="calendar.h" />
+		<Unit filename="catacurse.cpp" />
+		<Unit filename="catacurse.h" />
+		<Unit filename="color.cpp" />
+		<Unit filename="color.h" />
+		<Unit filename="computer.cpp" />
+		<Unit filename="computer.h" />
+		<Unit filename="construction.cpp" />
+		<Unit filename="construction.h" />
+		<Unit filename="crafting.cpp" />
+		<Unit filename="crafting.h" />
+		<Unit filename="debug.cpp" />
+		<Unit filename="debug.h" />
+		<Unit filename="defense.cpp" />
+		<Unit filename="dialogue.h" />
+		<Unit filename="disease.h" />
+		<Unit filename="enums.h" />
+		<Unit filename="event.cpp" />
+		<Unit filename="event.h" />
+		<Unit filename="facdata.h" />
+		<Unit filename="faction.cpp" />
+		<Unit filename="faction.h" />
+		<Unit filename="field.cpp" />
+		<Unit filename="game.cpp" />
+		<Unit filename="game.h" />
+		<Unit filename="gamemode.cpp" />
+		<Unit filename="gamemode.h" />
+		<Unit filename="help.cpp" />
+		<Unit filename="inventory.cpp" />
+		<Unit filename="inventory.h" />
+		<Unit filename="inventory_ui.cpp" />
+		<Unit filename="item.cpp" />
+		<Unit filename="item.h" />
+		<Unit filename="itype.h" />
+		<Unit filename="itypedef.cpp" />
+		<Unit filename="iuse.cpp" />
+		<Unit filename="iuse.h" />
+		<Unit filename="keypress.cpp" />
+		<Unit filename="keypress.h" />
+		<Unit filename="line.cpp" />
+		<Unit filename="line.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="map.cpp" />
+		<Unit filename="map.h" />
+		<Unit filename="mapbuffer.cpp" />
+		<Unit filename="mapbuffer.h" />
+		<Unit filename="mapdata.cpp" />
+		<Unit filename="mapdata.h" />
+		<Unit filename="mapgen.cpp" />
+		<Unit filename="mapitems.h" />
+		<Unit filename="mapitemsdef.cpp" />
+		<Unit filename="melee.cpp" />
+		<Unit filename="mission.cpp" />
+		<Unit filename="mission.h" />
+		<Unit filename="mission_end.cpp" />
+		<Unit filename="mission_fail.cpp" />
+		<Unit filename="mission_place.cpp" />
+		<Unit filename="mission_start.cpp" />
+		<Unit filename="missiondef.cpp" />
+		<Unit filename="monattack.cpp" />
+		<Unit filename="monattack.h" />
+		<Unit filename="mondeath.cpp" />
+		<Unit filename="mondeath.h" />
+		<Unit filename="mongroup.h" />
+		<Unit filename="mongroupdef.cpp" />
+		<Unit filename="monitemsdef.cpp" />
+		<Unit filename="monmove.cpp" />
+		<Unit filename="monster.cpp" />
+		<Unit filename="monster.h" />
+		<Unit filename="morale.h" />
+		<Unit filename="moraledata.h" />
+		<Unit filename="mtype.h" />
+		<Unit filename="mtypedef.cpp" />
+		<Unit filename="mutation.cpp" />
+		<Unit filename="mutation.h" />
+		<Unit filename="mutation_data.cpp" />
+		<Unit filename="newcharacter.cpp" />
+		<Unit filename="npc.cpp" />
+		<Unit filename="npc.h" />
+		<Unit filename="npcmove.cpp" />
+		<Unit filename="npctalk.cpp" />
+		<Unit filename="omdata.h" />
+		<Unit filename="options.cpp" />
+		<Unit filename="options.h" />
+		<Unit filename="output.cpp" />
+		<Unit filename="output.h" />
+		<Unit filename="overmap.cpp" />
+		<Unit filename="overmap.h" />
+		<Unit filename="player.cpp" />
+		<Unit filename="player.h" />
+		<Unit filename="pldata.h" />
+		<Unit filename="posix_time.cpp" />
+		<Unit filename="posix_time.h" />
+		<Unit filename="ranged.cpp" />
+		<Unit filename="rng.cpp" />
+		<Unit filename="rng.h" />
+		<Unit filename="settlement.cpp" />
+		<Unit filename="settlement.h" />
+		<Unit filename="setvector.cpp" />
+		<Unit filename="setvector.h" />
+		<Unit filename="skill.cpp" />
+		<Unit filename="skill.h" />
+		<Unit filename="texthash.cpp" />
+		<Unit filename="texthash.h" />
+		<Unit filename="tileray.cpp" />
+		<Unit filename="tileray.h" />
+		<Unit filename="trap.h" />
+		<Unit filename="trapdef.cpp" />
+		<Unit filename="trapfunc.cpp" />
+		<Unit filename="tutorial.cpp" />
+		<Unit filename="tutorial.h" />
+		<Unit filename="veh_interact.cpp" />
+		<Unit filename="veh_interact.h" />
+		<Unit filename="veh_type.h" />
+		<Unit filename="veh_typedef.cpp" />
+		<Unit filename="vehicle.cpp" />
+		<Unit filename="vehicle.h" />
+		<Unit filename="weather.cpp" />
+		<Unit filename="weather.h" />
+		<Unit filename="weather_data.h" />
+		<Unit filename="wish.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

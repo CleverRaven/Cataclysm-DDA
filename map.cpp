@@ -32,8 +32,8 @@ map::map()
   my_MAPSIZE = 2;
  else
   my_MAPSIZE = MAPSIZE;
- veh_in_active_range = true;
  dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
+ veh_in_active_range = true;
 }
 
 map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
@@ -50,9 +50,8 @@ map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
   my_MAPSIZE = MAPSIZE;
  for (int n = 0; n < my_MAPSIZE * my_MAPSIZE; n++)
   grid[n] = NULL;
- veh_in_active_range = true;
  dbg(D_INFO) << "map::map( itptr["<<itptr<<"], miptr["<<miptr<<"], trptr["<<trptr<<"] ): my_MAPSIZE: " << my_MAPSIZE;
-
+ veh_in_active_range = true;
 }
 
 map::~map()
@@ -63,17 +62,14 @@ VehicleList map::get_vehicles(int sx, int sy, int ex, int ey)
 {
  int chunk_sx = (sx / SEEX) - 1;
  int chunk_ex = (ex / SEEX) + 1;
-
  int chunk_sy = (sy / SEEY) - 1;
  int chunk_ey = (ey / SEEY) + 1;
-
  VehicleList vehs;
 
  for(int cx = chunk_sx; cx <= chunk_ex; ++cx) {
   for(int cy = chunk_sy; cy <= chunk_ey; ++cy) {
    int nonant = cx + cy * my_MAPSIZE;
    if (nonant < 0 || nonant >= my_MAPSIZE * my_MAPSIZE)
-    continue; // out of grid
 
    for(int i = 0; i < grid[nonant]->vehicles.size(); ++i) {
     wrapped_vehicle w;
@@ -884,6 +880,22 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
    return true;
   }
   break;
+ 
+ case t_rdoor_c:
+result = rng(0, 80);
+  if (res) *res = result;
+  if (str >= result && str >= rng(0, 80)) {
+   sound += "clang!";
+   ter(x, y) = t_dirt;
+   int num_rebar = rng(4, 10);
+   for (int i = 0; i < num_rebar; i++)
+    add_item(x, y, (*itypes)[itm_rebar], 0);
+   return true;
+  } else {
+   sound += "whump!";
+   return true;
+  }
+  break;
 
  case t_door_c:
  case t_door_locked:
@@ -996,6 +1008,39 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
    sound += "smash!";
    ter(x, y) = t_floor;
    int num_boards = rng(4, 12);
+   for (int i = 0; i < num_boards; i++)
+    add_item(x, y, (*itypes)[itm_2x4], 0);
+   return true;
+  } else {
+   sound += "whump.";
+   return true;
+  }
+  break;
+
+ case t_fence_post:
+  result = dice(1, 20);
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "crak";
+   ter(x, y) = t_floor;
+   int num_boards = 2;
+   for (int i = 0; i < num_boards; i++)
+    add_item(x, y, (*itypes)[itm_spear_wood], 0);
+   return true;
+  } else {
+   sound += "whump.";
+   return true;
+  }
+  break;
+  
+ case t_bench:
+ case t_counter:
+  result = dice(3, 20);
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "smash!";
+   ter(x, y) = t_floor;
+   int num_boards = rng(2, 6);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
    return true;
@@ -1166,6 +1211,8 @@ void map::destroy(game *g, int x, int y, bool makesound)
      add_item(i, j, g->itypes[itm_rock], 0);
     if (move_cost(i, j) > 0 && one_in(4))
      add_item(i, j, g->itypes[itm_2x4], 0);
+    if (move_cost(i, j) > 0 && one_in(3))
+     add_item(i, j, g->itypes[itm_rebar], 0);
    }
   }
   ter(x, y) = t_rubble;
@@ -1418,6 +1465,9 @@ bool map::open_door(int x, int y, bool inside)
  if (ter(x, y) == t_door_c) {
   ter(x, y) = t_door_o;
   return true;
+ } else if (ter(x, y) == t_rdoor_c) {
+  ter(x, y) = t_rdoor_o;
+  return true;
  } else if (ter(x, y) == t_door_metal_c) {
   ter(x, y) = t_door_metal_o;
   return true;
@@ -1451,6 +1501,9 @@ bool map::close_door(int x, int y)
 {
  if (ter(x, y) == t_door_o) {
   ter(x, y) = t_door_c;
+  return true;
+ } else if (ter(x, y) == t_rdoor_o) {
+  ter(x, y) = t_rdoor_c;
   return true;
  } else if (ter(x, y) == t_door_metal_o) {
   ter(x, y) = t_door_metal_c;

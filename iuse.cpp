@@ -1131,6 +1131,17 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
    boards = 3;
    newter = t_door_b;
    break;
+  case t_fence_h:
+   nails = 6;
+   boards = 3;
+   newter = t_fence_post;
+   break;
+  case t_fence_v:
+   nails = 6;
+   boards = 3;
+   newter = t_fence_post;
+   break;
+
   default:
    g->add_msg_if_player(p,"There's nothing to pry there.");
    return;
@@ -1249,6 +1260,16 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
  int practice;
 
  switch (it->type->id) {
+  case itm_cot:
+  message << "You unfold the cot and place it on the ground.";
+  type = tr_cot;
+  practice = 0;
+  break;
+ case itm_rollmat:
+  message << "You unroll the mat and lay it on the ground.";
+  type = tr_rollmat;
+  practice = 0;
+  break;
  case itm_boobytrap:
   message << "You set the boobytrap up and activate the grenade.";
   type = tr_boobytrap;

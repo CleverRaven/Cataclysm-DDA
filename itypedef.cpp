@@ -43,7 +43,7 @@ void game::init_itypes ()
             "A fake item.  If you are reading this it's a bug!",
             '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0));
  int index = 3;
- 
+
 // Drinks
 // Stim should be -8 to 8.
 // quench MAY be less than zero--salt water and liquor make you thirstier.
@@ -573,6 +573,14 @@ MED("antibiotics",	25,900, c_pink,		itm_null,
 	PLASTIC,   0, -2,  0, 15,  0,&iuse::none,	ADD_NULL, "\
 Medication designed to stop the spread of, and kill, bacteria infections.");
 
+MED("Poppy Sleep",	25,900, c_pink,		itm_null,
+	PLASTIC,   0, -2,  0, 5,  0,&iuse::sleep,	ADD_NULL, "\
+Sleeping pills made by refining mutated poppy seeds.");
+
+MED("Poppy Painkillers",25,900, c_pink,		itm_null,
+	PLASTIC,   0, -2,  0, 10,  0,&iuse::pkill_2,	ADD_NULL, "\
+Painkillers made by refining mutated poppy seeds..");
+
 // MELEE WEAPONS
 // Only use secondary material if it will have a major impact.
 // dam is a somewhat rigid bonus--anything above 30, tops, is ridiculous
@@ -778,6 +786,10 @@ MELEE("nail board",	 5,  80,'/', c_ltred,	WOOD,	MNULL,
 	 6,  6, 16,  6,  1, mfb(IF_STAB), "\
 A long piece of wood with several nails through one end; essentially a simple\n\
 mace.  Makes a great melee weapon.");
+
+MELEE("nail bat",	60, 160,'/', c_ltred,	WOOD,	MNULL,
+	12, 10, 28,  6,  3, mfb(IF_STAB), "\
+A baseball bat with several nails driven through it, an excellent melee weapon.");
 
 MELEE("X-Acto knife",	10,  40,';', c_dkgray,	IRON,	PLASTIC,
 	 1,  0,  0, 14, -4, mfb(IF_SPEAR), "\
@@ -987,6 +999,32 @@ A colorful, hard ball.  Essentially a rock.");
 MELEE("candlestick",	20,100,'/', c_yellow,	SILVER,	MNULL,
 	 1,  5, 12,  0,  1,  0, "\
 A gold candlestick.");
+
+MELEE("spike",           0, 0,';',  c_cyan,     STEEL,  MNULL,
+	 2,  2,  2, 10, -2, mfb(IF_STAB),"\
+A large and slightly misshapen spike, could do some damage\n\
+mounted on a vehicle.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+MELEE("blade",	 5, 280,'/', c_blue,	IRON,	MNULL,
+//	VOL WGT DAM CUT HIT FLAGS
+	 8, 14,  6, 10, -2, 0, "\
+A large and slightly misshapen blade, could do some damage\n\
+mounted on a vehicle.");
+
+MELEE("wire",   50, 200,';', c_blue,    STEEL,  MNULL,
+         4,  2,  0,  0, -2, 0, "\
+A length of thin, relatively stiff, steel wire. Like the\n\
+the sort you find in wire fences.");
+
+MELEE("barbed wire",   20, 200,';', c_blue,    STEEL,  MNULL,
+         4,  2,  0,  0, -2, 0, "\
+A length of stiff wire, covered in sharp barbs.");
+
+MELEE("rebar",		20,  75,'/', c_ltred,	IRON,	MNULL,
+	 6, 10, 13,  0,  2, 0, "\
+A length of rebar, makes a nice melee weapon, and could be\n\
+handy in constructing tougher walls and such.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  25, 35, ']', c_cyan,  STEEL,   MNULL,
@@ -1504,17 +1542,17 @@ The only hat for a gentleman. Look exquisite while laughing in the face\n\
 of danger!");
 
 ARMOR("backpack",	38, 210,C_STORE,	PLASTIC,	MNULL,
-   14,  2, -4,  0,  3,  0,  0,  0,  0, 80,	mfb(bp_torso), "\
+   14,  2, -4,  0,  2,  0,  0,  0,  0, 80,	mfb(bp_torso), "\
 Provides more storage than any other piece of clothing.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("purse",		40,  75,C_STORE,	LEATHER,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   10,  3,  2,  2,  3,  0,  0,  0,  0, 20,	mfb(bp_torso), "\
+   10,  3,  2,  2,  2,  0,  0,  0,  0, 20,	mfb(bp_torso), "\
 A bit encumbersome to wear, but provides lots of storage.");
 
 ARMOR("messenger bag",	20, 110,C_STORE,	PLASTIC,	MNULL,
-    8,  2,  1,  1,  3,  0,  0,  0,  0, 30,	mfb(bp_torso), "\
+    8,  2,  1,  1,  1,  0,  0,  0,  0, 30,	mfb(bp_torso), "\
 A bit encumbersome to wear, but provides lots of storage.");
 
 ARMOR("fanny pack", 	10, 100,C_STORE,	PLASTIC,	MNULL,
@@ -1588,7 +1626,7 @@ A sharpened arrow carved from wood.  It's light-weight, does little damage,\n\
 and is so-so on accuracy.  Stands a good chance of remaining intact once\n\
 fired.",
 0);
-            
+
 AMMO("carbon fiber arrow",5,300,AT_ARROW,       c_green,        PLASTIC,
          2, 30, 12,  2, 15, 14,  0,   8, "\
 High-tech carbon fiber shafts and 100 grain broadheads. Very light weight,\n\
@@ -1960,7 +1998,7 @@ A bow with wheels that fires high velocity arrows.  Weaker people can use\n\
 compound bows more easily.  Arrows fired from this weapon have a good chance\n\
 of remaining intact for re-use.",
 mfb(IF_STR8_DRAW)|mfb(IF_RELOAD_AND_SHOOT));
-        
+
 GUN("longbow",           5, 800,c_yellow,       WOOD,   MNULL,
         sk_archery,     AT_ARROW,8, 4, 10,  0,  0, 12,  0,  6,  0,  1,  80, "\
 A six-foot wooden bow that fires feathered arrows.  This takes a fair amount\n\
@@ -2667,6 +2705,10 @@ BOOK("Bon Appetit",		30,  45,c_pink,		PAPER,	MNULL,
     1,  1, -3,  1,	sk_cooking,	 1,  0,  1,  5,  8, "\
 Exciting recipes and restaurant reviews.  Full of handy tips about cooking.");
 
+BOOK("Birdhouse Monthly",       30,  45,c_pink,		PAPER,	MNULL,
+    1,  1, -3,  1,	sk_carpentry,	 1,  0,  1,  5,  8, "\
+A riveting periodical all about birdhouses and their construction.");
+
 BOOK("Guns n Ammo",		20,  48,c_pink,		PAPER,	MNULL,
     1,  1, -3,  1,	sk_gun,		 1,  0,  1,  2,  7, "\
 Reviews of firearms, and various useful tips about their use.");
@@ -3251,6 +3293,17 @@ TOOL("welder",   25,900,';', c_ltred,  IRON,MNULL,
 0, "\
 A tool for welding metal pieces together.  Useful for construction.");
 
+TOOL("cot",      40,1000,';', c_green, IRON, COTTON,
+     8, 10, 6, 0, -1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::set_trap,
+0, "\
+A military style fold up cot, not quite as comfortable as a bed\n\
+but much better than slumming it on the ground.");
+
+TOOL("rollmat",  40,400,';', c_blue, MNULL, MNULL,
+     4, 3,  0, 0, -1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::set_trap,
+0, "\
+A thin rollmat, better than sleeping on the ground.");
+
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated
@@ -3388,6 +3441,14 @@ MACGUFFIN("paper note", 0, '?', c_white, PAPER, MNULL, 1, 0, 0, 0, 0,
 	true, &iuse::mcg_note, "\
 A hand-written paper note.");
 
+MELEE("poppy flower",   1, 400,',', c_magenta,	VEGGY,	MNULL,
+	 1,  0, -8,  0, -3, 0, "\
+A poppy stalk with some petals.");
+
+MELEE("a poppy bud",   1, 400,',', c_magenta,	VEGGY,	MNULL,
+	 1,  0, -8,  0, -3, 0, "\
+Contains some substances commonly produced by mutated poppy flower");
+
  if (itypes.size() > num_items)
   debugmsg("%d items, %d itypes", itypes.size(), num_all_items);
 
@@ -3512,7 +3573,7 @@ against large or strong opponents.",
 
 "slap", TEC_RAPID, 2,
 "block", TEC_BLOCK, 3,
-"block", TEC_BLOCK_LEGS, 4, 
+"block", TEC_BLOCK_LEGS, 4,
 "power-kick", TEC_BRUTAL, 4,
 "counter-attack", TEC_COUNTER, 5
 );
@@ -3714,7 +3775,7 @@ attacks with no penalty.",
    } while (namepart.find("-") == std::string::npos);
    art->name = namedata.str();
    start = true;
- 
+
    std::stringstream descdata;
    do {
     fin >> namepart;

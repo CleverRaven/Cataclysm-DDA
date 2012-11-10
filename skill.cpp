@@ -42,7 +42,7 @@ std::string skill_name(int sk)
  case sk_cooking:
   return "cooking";
  case sk_carpentry:
-  return "carpentry";
+  return "construction";
  case sk_survival:
   return "survival";
  case sk_traps:

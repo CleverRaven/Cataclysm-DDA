@@ -50,10 +50,15 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
        itm_knife_combat, -1, itm_machete, -1, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_bee_sting, 1,
        NULL);
-                                 
+
  RECIPE(itm_nailboard, CC_WEAPON, sk_null, sk_null, 0, 1000);
   TOOL(itm_hatchet, -1, itm_hammer, -1, itm_rock, -1, itm_toolset, -1, NULL);
-  COMP(itm_2x4, 1, itm_bat, 1, NULL);
+  COMP(itm_2x4, 1, itm_stick, 1, NULL);
+  COMP(itm_nail, 6, NULL);
+
+ RECIPE(itm_nailbat, CC_WEAPON, sk_null, sk_null, 0, 1000);
+  TOOL(itm_hatchet, -1, itm_hammer, -1, itm_rock, -1, itm_toolset, -1, NULL);
+  COMP(itm_bat, 1, NULL);
   COMP(itm_nail, 6, NULL);
 
  RECIPE(itm_molotov, CC_WEAPON, sk_null, sk_null, 0, 500);
@@ -192,7 +197,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
  RECIPE(itm_meat_cooked, CC_FOOD, sk_cooking, sk_null, 0, 5000);
   TOOL(itm_hotplate, 7, itm_toolset, 4, itm_fire, -1, NULL);
-  TOOL(itm_pan, -1, itm_pot, -1, NULL);
+  TOOL(itm_pan, -1, itm_pot, -1, itm_spear_wood, -1, NULL);
   COMP(itm_meat, 1, NULL);
 
  RECIPE(itm_dogfood, CC_FOOD, sk_cooking, sk_null, 4, 10000);
@@ -204,7 +209,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
  RECIPE(itm_veggy_cooked, CC_FOOD, sk_cooking, sk_null, 0, 4000);
   TOOL(itm_hotplate, 5, itm_toolset, 3, itm_fire, -1, NULL);
-  TOOL(itm_pan, -1, itm_pot, -1, NULL);
+  TOOL(itm_pan, -1, itm_pot, -1, itm_spear_wood, -1, NULL);
   COMP(itm_veggy, 1, NULL);
 
  RECIPE(itm_spaghetti_cooked, CC_FOOD, sk_cooking, sk_null, 0, 10000);
@@ -248,7 +253,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
  RECIPE(itm_apple_cider, CC_FOOD, sk_cooking, sk_null, 2, 7000);
   TOOL(itm_rock, -1, itm_toolset, -1, NULL);
   COMP(itm_apple, 3, NULL);
- 
+
  RECIPE(itm_jerky, CC_FOOD, sk_cooking, sk_null, 3, 30000);
   TOOL(itm_hotplate, 10, itm_toolset, 5, itm_fire, -1, NULL);
   COMP(itm_salt_water, 1, itm_salt, 4, NULL);
@@ -543,6 +548,26 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_rag, 20, itm_fur, 16, itm_leather, 12, NULL);
 
 // MISC
+ RECIPE(itm_poppy_sleep,  CC_MISC, sk_cooking, sk_survival, 2, 5000);
+  TOOL(itm_pot, -1, itm_rock, -1, NULL);
+  TOOL(itm_fire, -1, NULL);
+  COMP(itm_poppy_bud, 2, NULL);
+  COMP(itm_poppy_flower, 1, NULL);
+
+ RECIPE(itm_poppy_pain,  CC_MISC, sk_cooking, sk_survival, 2, 5000);
+  TOOL(itm_pot, -1, itm_rock, -1, NULL);
+  TOOL(itm_fire, -1, NULL);
+  COMP(itm_poppy_bud, 2, NULL);
+  COMP(itm_poppy_flower, 2, NULL);
+
+ RECIPE(itm_carspike,     CC_MISC, sk_null, sk_null, 0, 3000);
+  TOOL(itm_hammer, -1, NULL);
+  COMP(itm_spear_knife, 1, itm_knife_combat, 1, itm_knife_steak, 2,
+       itm_steel_chunk, 3, NULL);
+
+ RECIPE(itm_carblade,     CC_MISC, sk_null, sk_null, 0, 3000);
+  TOOL(itm_hammer, -1, NULL);
+  COMP(itm_broadsword, 1, itm_machete, 1, itm_pike, 1, NULL);
 
  RECIPE(itm_superglue, CC_MISC, sk_cooking, sk_null, 2, 12000);
   TOOL(itm_hotplate, 5, itm_toolset, 3, itm_fire, -1, NULL);
@@ -703,13 +728,52 @@ void game::craft()
    mvwprintz(w_data, 20, 0, c_white, "\
 Press ? to describe object.  Press <ENTER> to attempt to craft object.");
   wrefresh(w_data);
-  for (int i = 0; i < current.size() && i < 23; i++) {
-   if (i == line)
-    mvwprintz(w_data, i, 0, (available[i] ? h_white : h_dkgray),
-              itypes[current[i]->result]->name.c_str());
-   else
-    mvwprintz(w_data, i, 0, (available[i] ? c_white : c_dkgray),
-              itypes[current[i]->result]->name.c_str());
+  int recmin = 0, recmax = current.size();
+  if(recmax > MAX_DISPLAYED_RECIPES){
+   if (line <= recmin + 9) {
+    for (int i = recmin; i < recmin + MAX_DISPLAYED_RECIPES; i++) {
+     mvwprintz(w_data, i - recmin, 0, c_dkgray, "\
+                               ");	// Clear the line
+     if (i == line)
+      mvwprintz(w_data, i - recmin, 0, (available[i] ? h_white : h_dkgray),
+                itypes[current[i]->result]->name.c_str());
+     else
+      mvwprintz(w_data, i - recmin, 0, (available[i] ? c_white : c_dkgray),
+                itypes[current[i]->result]->name.c_str());
+    }
+   } else if (line >= recmax - 9) {
+    for (int i = recmax - MAX_DISPLAYED_RECIPES; i < recmax; i++) {
+     mvwprintz(w_data, 18 + i - recmax, 0, c_ltgray, "\
+                                ");	// Clear the line
+
+     if (i == line)
+       mvwprintz(w_data, 18 + i - recmax, 0, (available[i] ? h_white : h_dkgray),
+                 itypes[current[i]->result]->name.c_str());
+     else
+      mvwprintz(w_data, 18 + i - recmax, 0, (available[i] ? c_white : c_dkgray),
+                itypes[current[i]->result]->name.c_str());
+    }
+   } else {
+    for (int i = line - 9; i < line + 9; i++) {
+     mvwprintz(w_data, 9 + i - line, 0, c_ltgray, "\
+                                ");	// Clear the line
+     if (i == line)
+       mvwprintz(w_data, 9 + i - line, 0, (available[i] ? h_white : h_dkgray),
+                 itypes[current[i]->result]->name.c_str());
+     else
+      mvwprintz(w_data, 9 + i - line, 0, (available[i] ? c_white : c_dkgray),
+                itypes[current[i]->result]->name.c_str());
+    }
+   }
+  } else{
+   for (int i = 0; i < current.size() && i < 23; i++) {
+    if (i == line)
+     mvwprintz(w_data, i, 0, (available[i] ? h_white : h_dkgray),
+               itypes[current[i]->result]->name.c_str());
+    else
+     mvwprintz(w_data, i, 0, (available[i] ? c_white : c_dkgray),
+               itypes[current[i]->result]->name.c_str());
+   }
   }
   if (current.size() > 0) {
    nc_color col = (available[line] ? c_white : c_dkgray);
@@ -991,7 +1055,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
   current.push_back(recipes[i]);
   available.push_back(false);
  }
- for (int i = 0; i < current.size() && i < 22; i++) {
+ for (int i = 0; i < current.size() && i < 51; i++) {
 //Check if we have the requisite tools and components
   for (int j = 0; j < 5; j++) {
    have_tool[j] = false;
