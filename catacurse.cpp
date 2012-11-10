@@ -49,6 +49,12 @@ bool WinCreate()
 	}
 	GetConsoleScreenBufferInfo(consoleWin, &bInfo);
 	COORD winSize = { bInfo.srWindow.Right - bInfo.srWindow.Left + 1, bInfo.srWindow.Bottom - bInfo.srWindow.Top + 1 };
+
+	// if buffer is bigger then the actual console,
+	// scrollbars appear, and apparently they cause ugly
+	// flickering, so let's crop buffer size
+	SetConsoleScreenBufferSize(consoleWin, winSize);
+
 	mainwin = newwin(winSize.Y,winSize.X,0,0);
 
 	DWORD consoleMode;
