@@ -757,10 +757,6 @@ MELEE("wrench",		30, 86, ';', c_ltgray,	IRON,	MNULL,
 An adjustable wrench.  Makes a decent melee weapon, and is used in many\n\
 mechanics crafting recipes.");
 
-MELEE("wood saw",	15, 40, ';', c_cyan,	IRON,	WOOD,
-	 7,  3, -6,  1, -2, 0, "\
-A flimsy saw, useful for cutting through wood objects.");
-
 MELEE("hack saw",	17, 65, ';', c_ltcyan,	IRON,	MNULL,
 	 4,  2,  1,  1, -1, 0, "\
 A sturdy saw, useful for cutting through metal objects.");
@@ -775,12 +771,6 @@ MELEE("hatchet",	10,  95,';', c_ltgray,	IRON,	WOOD,
 	 6,  7, 12, 12,  1, 0, "\
 A one-handed hatchet.  Makes a great melee weapon, and is useful both for\n\
 cutting wood, and for use as a hammer.");
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("wood ax",	 8, 105,'/', c_ltgray,	WOOD,	IRON,
-//	VOL WGT DAM CUT HIT FLAGS
-	17, 15, 24, 18,  1, 0, "\
-A large two-handed axe.  Makes a good melee weapon, but is a bit slow.");
 
 MELEE("nail board",	 5,  80,'/', c_ltred,	WOOD,	MNULL,
 	 6,  6, 16,  6,  1, mfb(IF_STAB), "\
@@ -817,23 +807,6 @@ MELEE("butter knife",	90,  15,';', c_ltcyan,	STEEL, 	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
 	 1,  2,  2,  1, -2, 0, "\
 A dull knife, absolutely worthless in combat.");
-
-MELEE("steak knife",	85,  25,';', c_ltcyan,	STEEL,	MNULL,
-	 1,  2,  2, 10, -3, mfb(IF_STAB), "\
-A sharp knife.  Makes a poor melee weapon, but is decent at butchering\n\
-corpses.");
-
-MELEE("butcher knife",	10,  80,';', c_cyan,	STEEL,	MNULL,
-	 3,  6,  4, 18, -3, 0, "\
-A sharp, heavy knife.  Makes a good melee weapon, and is the best item for\n\
-butchering corpses.");
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("combat knife",	14, 100,';', c_blue,	STEEL,  PLASTIC,
-//	VOL WGT DAM CUT HIT FLAGS
-	 2,  2,  2, 22, -2, mfb(IF_STAB), "\
-Designed for combat, and deadly in the right hands.  Can be used to butcher\n\
-corpses.");
 
 MELEE("two by four", 	60,  80,'/', c_ltred,	WOOD,	MNULL,
 	 6,  6, 14,  0,  1, 0, "\
@@ -1025,6 +998,19 @@ MELEE("rebar",		20,  75,'/', c_ltred,	IRON,	MNULL,
 	 6, 10, 13,  0,  2, 0, "\
 A length of rebar, makes a nice melee weapon, and could be\n\
 handy in constructing tougher walls and such.");
+
+MELEE("log",                    20,  100,'/', c_brown,  WOOD,   MNULL,
+         40, 20, 10, 0, -10, 0, "\
+A large log, cut from a tree. Useful in building, or further\n\
+processing into planks.");
+
+MELEE("splintered wood", 	60,  80,'/', c_ltred,	WOOD,	MNULL,
+	 6,  6, 9,  0,  1, 0, "\
+A splintered piece of wood, useless as anything but kindling");
+
+MELEE("skewer",                 10,  10,',', c_brown,   WOOD,   MNULL,
+         0,  1, 0,  0,  -10, 0, "\
+A thin wooden skewer. Squirrel on a stick, anyone?");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  25, 35, ']', c_cyan,  STEEL,   MNULL,
@@ -3303,6 +3289,37 @@ TOOL("rollmat",  40,400,';', c_blue, MNULL, MNULL,
      4, 3,  0, 0, -1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::set_trap,
 0, "\
 A thin rollmat, better than sleeping on the ground.");
+
+TOOL("steak knife",	85,  25,';', c_ltcyan,	STEEL,	MNULL,
+     1,  2,  2, 10, -3, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
+ mfb(IF_STAB), "\
+A sharp knife.  Makes a poor melee weapon, but is decent at butchering\n\
+corpses.");
+
+TOOL("butcher knife",	10,  80,';', c_cyan,	STEEL,	MNULL,
+	 3,  6,  4, 18, -3 ,0, 0, 0, 0, AT_NULL, itm_null, &iuse::none, 0, "\
+A sharp, heavy knife.  Makes a good melee weapon, and is the best item for\n\
+butchering corpses.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+TOOL("combat knife",	14, 100,';', c_blue,	STEEL,  PLASTIC,
+//	VOL WGT DAM CUT HIT FLAGS
+	 2,  2,  2, 22, -2, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, 
+mfb(IF_STAB), "\
+Designed for combat, and deadly in the right hands.  Can be used to butcher\n\
+corpses.");
+
+TOOL("wood saw",	15, 40, ';', c_cyan,	IRON,	WOOD,
+	 7,  3, -6,  1, -2, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::lumber,
+0, "\
+A flimsy saw, useful for cutting through wood objects.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+TOOL("wood ax",	 8, 105,'/', c_ltgray,	WOOD,	IRON,
+//	VOL WGT DAM CUT HIT FLAGS
+	17, 15, 24, 18,  1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::lumber,
+0, "\
+A large two-handed axe.  Makes a good melee weapon, but is a bit slow.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

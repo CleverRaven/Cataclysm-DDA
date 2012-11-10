@@ -840,9 +840,10 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   if (str >= result && str >= rng(0, 120)) {
    sound += "crunch!";
    ter(x, y) = t_wall_wood_chipped;
-   int num_boards = rng(0, 2);
+   int num_boards = rng(0, 1);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
+    add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
   } else {
    sound += "whump!";
@@ -856,9 +857,10 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   if (str >= result && str >= rng(0, 100)) {
    sound += "crunch!";
    ter(x, y) = t_wall_wood_broken;
-   int num_boards = rng(3, 8);
+   int num_boards = rng(1, 4);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
+    add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
   } else {
    sound += "whump!";
@@ -872,9 +874,10 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   if (str >= result && str >= rng(0, 80)) {
    sound += "crash!";
    ter(x, y) = t_dirt;
-   int num_boards = rng(4, 10);
+   int num_boards = rng(2, 5);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
+    add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
   } else {
    sound += "whump!";
@@ -919,9 +922,10 @@ result = rng(0, 80);
   if (str >= result) {
    sound += "crash!";
    ter(x, y) = t_door_frame;
-   int num_boards = rng(2, 6);
+   int num_boards = rng(1, 6);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
+    add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
   } else {
    sound += "wham!";
@@ -949,9 +953,10 @@ result = rng(0, 80);
   if (str >= result) {
    sound += "crash!";
    ter(x, y) = t_door_frame;
-   int num_boards = rng(0, 2);
+   int num_boards = rng(1, 6);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
+    add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
   } else {
    sound += "wham!";
@@ -967,7 +972,7 @@ result = rng(0, 80);
    ter(x, y) = t_window_frame;
    int num_boards = rng(0, 2) * rng(0, 1);
    for (int i = 0; i < num_boards; i++)
-    add_item(x, y, (*itypes)[itm_2x4], 0);
+    add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
   } else {
    sound += "wham!";
@@ -1008,9 +1013,10 @@ result = rng(0, 80);
   if (str >= result) {
    sound += "smash!";
    ter(x, y) = t_floor;
-   int num_boards = rng(4, 12);
+   int num_boards = rng(2, 6);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
+    add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
   } else {
    sound += "whump.";
@@ -1019,7 +1025,7 @@ result = rng(0, 80);
   break;
 
  case t_fence_post:
-  result = dice(1, 20);
+  result = dice(1, 10);
   if (res) *res = result;
   if (str >= result) {
    sound += "crak";
@@ -1041,9 +1047,10 @@ result = rng(0, 80);
   if (str >= result) {
    sound += "smash!";
    ter(x, y) = t_floor;
-   int num_boards = rng(2, 6);
+   int num_boards = rng(1, 3);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
+    add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
   } else {
    sound += "whump.";
