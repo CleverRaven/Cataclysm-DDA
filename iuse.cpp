@@ -926,7 +926,7 @@ void iuse::water_purifier(game *g, player *p, item *it, bool t)
 {
  char ch = g->inv("Purify what?");
  if (!p->has_item(ch)) {
-  g->add_msg_if_player(p,"You do not have that idea!");
+  g->add_msg_if_player(p,"You do not have that item!");
   return;
  }
  if (p->i_at(ch).contents.size() == 0) {

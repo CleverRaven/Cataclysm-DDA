@@ -631,7 +631,7 @@ struct submap {
  int field_count;
  int turn_last_touched;
  std::vector<spawn_point> spawns;
- std::vector<vehicle> vehicles;
+ std::vector<vehicle*> vehicles;
  computer comp;
 };
 

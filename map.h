@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <vector>
 #include <string>
+#include <set>
+#include <map>
 
 #include "mapdata.h"
 #include "mapitems.h"
@@ -55,7 +57,7 @@ class map
 
 // File I/O
  virtual void save(overmap *om, unsigned int turn, int x, int y);
- virtual void load(game *g, int wx, int wy);
+ virtual void load(game *g, int wx, int wy, bool update_vehicles = true);
  void shift(game *g, int wx, int wy, int x, int y);
  void spawn_monsters(game *g);
  void clear_spawns();
@@ -64,11 +66,11 @@ class map
 // Movement and LOS
  int move_cost(int x, int y); // Cost to move through; 0 = impassible
  int move_cost_ter_only(int x, int y); // same as above, but don't take vehicles into account
- bool trans(int x, int y); // Transparent?
+ bool trans(int x, int y, char * trans_buf = NULL); // Transparent?
  // (Fx, Fy) sees (Tx, Ty), within a range of (range)?
  // tc indicates the Bresenham line used to connect the two points, and may
  //  subsequently be used to form a path between them
- bool sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc);
+ bool sees(int Fx, int Fy, int Tx, int Ty, int range, int &tc, char * trans_buf = NULL);
 // clear_path is the same idea, but uses cost_min <= move_cost <= cost_max
  bool clear_path(int Fx, int Fy, int Tx, int Ty, int range, int cost_min,
                  int cost_max, int &tc);
@@ -84,6 +86,8 @@ class map
  // put player on vehicle at x,y
  void board_vehicle(game *g, int x, int y, player *p);
  void unboard_vehicle(game *g, int x, int y);//remove player from vehicle at x,y
+ void update_vehicle_cache(vehicle *, bool brand_new = false);
+ void reset_vehicle_cache();
 
  void destroy_vehicle (vehicle *veh);
 // Change vehicle coords and move vehicle's driver along.
@@ -170,10 +174,12 @@ class map
  computer* add_computer(int x, int y, std::string name, int security);
  
  std::vector <itype*> *itypes;
+ std::set<vehicle*> vehicle_list;
+ std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
 
 protected:
  void saven(overmap *om, unsigned int turn, int x, int y, int gridx, int gridy);
- bool loadn(game *g, int x, int y, int gridx, int gridy);
+ bool loadn(game *g, int x, int y, int gridx, int gridy, bool update_vehicles = true);
  void copy_grid(int to, int from);
  void draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
                oter_id t_south, oter_id t_west, oter_id t_above, int turn,
@@ -195,6 +201,8 @@ protected:
 
  std::vector <trap*> *traps;
  std::vector <itype_id> (*mapitems)[num_itloc];
+
+ bool veh_in_active_range;
 
 private:
  submap* grid[MAPSIZE * MAPSIZE];

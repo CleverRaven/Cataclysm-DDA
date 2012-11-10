@@ -252,6 +252,6 @@ double price_adjustment(int barter_skill)
   case 4:  return 0.8;
   case 5:  return 0.6;
   case 6:  return 0.5;
-  default: return double(int(100 * (.3 + 1 / barter_skill)) / 100);
+  default: return 0.3 + 1.0 / barter_skill;
  }
 }
