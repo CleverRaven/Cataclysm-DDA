@@ -1190,7 +1190,7 @@ int vehicle::part_collision (int vx, int vy, int part, int x, int y)
                 g->m.ter (x, y) = t_dirt;
                 break;
             case 5:
-                g->m.ter(x, y) = t_rubble;
+                g->m.destroy(g, x, y, false);
                 snd = "crash!";
                 break;
             case 6:
