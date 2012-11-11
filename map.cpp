@@ -1212,28 +1212,34 @@ void map::destroy(game *g, int x, int y, bool makesound)
   break;
 
  case t_floor:
+ case t_counter:
+ case t_bookcase:
+ case t_rack:
+ case t_dresser:
+ case t_table:
+ case t_pool_table:
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
     if (move_cost(i, j) > 0 && one_in(5))
-     add_item(i, j, g->itypes[itm_2x4], 0);
+     add_item(i, j, g->itypes[itm_splinter], 0);
    }
   }
   ter(x, y) = t_rubble;
- if (one_in(4) && has_flag(supports_roof, x - 1, y - 1))
+ if (one_in(2) && has_flag(collapses, x - 1, y - 1))
     destroy(g, x - 1, y - 1, false); 
- if (one_in(4) && has_flag(supports_roof, x + 1, y + 1))
+ if (one_in(2) && has_flag(collapses, x + 1, y + 1))
     destroy(g, x - 1, y + 1, false);
- if (one_in(4) && has_flag(supports_roof, x - 1, y + 1))
+ if (one_in(2) && has_flag(collapses, x - 1, y + 1))
     destroy(g, x - 1, y + 1, false); 
- if (one_in(4) && has_flag(supports_roof, x + 1, y - 1))
+ if (one_in(2) && has_flag(collapses, x + 1, y - 1))
     destroy(g, x + 1, y - 1, false); 
- if (one_in(4) && has_flag(supports_roof, x    , y - 1))
+ if (one_in(2) && has_flag(collapses, x    , y - 1))
     destroy(g, x    , y - 1, false);  
- if (one_in(4) && has_flag(supports_roof, x    , y + 1))
+ if (one_in(2) && has_flag(collapses, x    , y + 1))
     destroy(g, x    , y + 1, false);
- if (one_in(4) && has_flag(supports_roof, x - 1, y    ))
+ if (one_in(2) && has_flag(collapses, x - 1, y    ))
     destroy(g, x - 1, y    , false);
- if (one_in(4) && has_flag(supports_roof, x + 1, y    ))
+ if (one_in(2) && has_flag(collapses, x + 1, y    ))
     destroy(g, x + 1, y    , false);
   break;
 
@@ -1244,7 +1250,7 @@ void map::destroy(game *g, int x, int y, bool makesound)
     if (move_cost(i, j) > 0 && one_in(5))
      add_item(i, j, g->itypes[itm_rock], 0);
     if (move_cost(i, j) > 0 && one_in(4))
-     add_item(i, j, g->itypes[itm_2x4], 0);
+     add_item(i, j, g->itypes[itm_splinter], 0);
     if (move_cost(i, j) > 0 && one_in(3))
      add_item(i, j, g->itypes[itm_rebar], 0);
    }
