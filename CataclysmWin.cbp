@@ -74,6 +74,8 @@
 		<Unit filename="iuse.h" />
 		<Unit filename="keypress.cpp" />
 		<Unit filename="keypress.h" />
+		<Unit filename="lightmap.cpp" />
+		<Unit filename="lightmap.h" />
 		<Unit filename="line.cpp" />
 		<Unit filename="line.h" />
 		<Unit filename="main.cpp" />
