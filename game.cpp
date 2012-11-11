@@ -2555,6 +2555,7 @@ void game::draw_ter(int posx, int posy)
 
 void game::refresh_all()
 {
+  m.reset_vehicle_cache();
  draw();
  draw_minimap();
  //wrefresh(w_HP);
@@ -6850,7 +6851,6 @@ void game::vertical_move(int movez, bool force)
   }
  }
 
- m.reset_vehicle_cache();
  set_adjacent_overmaps(true);
  refresh_all();
 }
