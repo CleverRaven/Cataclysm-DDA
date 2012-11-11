@@ -1211,9 +1211,34 @@ void map::destroy(game *g, int x, int y, bool makesound)
   }
   break;
 
+ case t_floor:
+  for (int i = x - 2; i <= x + 2; i++) {
+   for (int j = y - 2; j <= y + 2; j++) {
+    if (move_cost(i, j) > 0 && one_in(5))
+     add_item(i, j, g->itypes[itm_2x4], 0);
+   }
+  }
+  ter(x, y) = t_rubble;
+ if (one_in(4) && has_flag(supports_roof, x - 1, y - 1))
+    destroy(g, x - 1, y - 1, false); 
+ if (one_in(4) && has_flag(supports_roof, x + 1, y + 1))
+    destroy(g, x - 1, y + 1, false);
+ if (one_in(4) && has_flag(supports_roof, x - 1, y + 1))
+    destroy(g, x - 1, y + 1, false); 
+ if (one_in(4) && has_flag(supports_roof, x + 1, y - 1))
+    destroy(g, x + 1, y - 1, false); 
+ if (one_in(4) && has_flag(supports_roof, x    , y - 1))
+    destroy(g, x    , y - 1, false);  
+ if (one_in(4) && has_flag(supports_roof, x    , y + 1))
+    destroy(g, x    , y + 1, false);
+ if (one_in(4) && has_flag(supports_roof, x - 1, y    ))
+    destroy(g, x - 1, y    , false);
+ if (one_in(4) && has_flag(supports_roof, x + 1, y    ))
+    destroy(g, x + 1, y    , false);
+  break;
+
  case t_wall_v:
  case t_wall_h:
- case t_floor:
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
     if (move_cost(i, j) > 0 && one_in(5))
