@@ -388,7 +388,7 @@ void map::vehmove(game *g)
         g->add_msg ("Your %s sank.", veh->name.c_str());
        veh->unboard_all ();
 // destroy vehicle (sank to nowhere)
-       grid[sm]->vehicles.erase (grid[sm]->vehicles.begin() + v);
+       destroy_vehicle(veh);
        v--;
        break;
       }
