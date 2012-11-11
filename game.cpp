@@ -4611,6 +4611,15 @@ void game::examine()
     }
     add_msg("The gate is opened!");
   }
+/* } else if (m.ter(examx, examy) == t_dirt || m.ter(examx, examy) == t_grass) {
+    m.ter(examx, examy) = t_wall_wood;
+    m.ter(examx, examy) = t_shrub;
+    m.ter(examx, examy) = t_underbrush;
+    m.ter(examx, examy) = t_wall_v;
+    m.ter(examx, examy) = t_wall_h;
+    m.ter(examx, examy) = t_water_dp;
+*/ 
+//Debug for testing things
  } else if (m.ter(examx, examy) == t_pit && query_yn("Place a plank over the pit?")) {
   if (u.has_amount(itm_2x4, 1)) {
    u.use_amount(itm_2x4, 1);
