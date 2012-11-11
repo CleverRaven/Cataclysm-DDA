@@ -7181,6 +7181,8 @@ void game::teleport(player *p)
  } while (tries < 15 && !is_empty(newx, newy));
  bool can_see = (is_u || u_see(newx, newy, t));
  std::string You = (is_u ? "You" : p->name);
+ if (p->in_vehicle)
+   m.unboard_vehicle (this, p->posx, p->posy);
  p->posx = newx;
  p->posy = newy;
  if (tries == 15) {
