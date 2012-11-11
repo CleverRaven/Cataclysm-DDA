@@ -1225,21 +1225,21 @@ void map::destroy(game *g, int x, int y, bool makesound)
    }
   }
   ter(x, y) = t_rubble;
- if (one_in(2) && has_flag(collapses, x - 1, y - 1))
+ if (one_in(4) && has_flag(collapses, x - 1, y - 1))
     destroy(g, x - 1, y - 1, false); 
- if (one_in(2) && has_flag(collapses, x + 1, y + 1))
+ if (one_in(4) && has_flag(collapses, x + 1, y + 1))
     destroy(g, x - 1, y + 1, false);
- if (one_in(2) && has_flag(collapses, x - 1, y + 1))
+ if (one_in(4) && has_flag(collapses, x - 1, y + 1))
     destroy(g, x - 1, y + 1, false); 
- if (one_in(2) && has_flag(collapses, x + 1, y - 1))
+ if (one_in(4) && has_flag(collapses, x + 1, y - 1))
     destroy(g, x + 1, y - 1, false); 
- if (one_in(2) && has_flag(collapses, x    , y - 1))
+ if (one_in(4) && has_flag(collapses, x    , y - 1))
     destroy(g, x    , y - 1, false);  
- if (one_in(2) && has_flag(collapses, x    , y + 1))
+ if (one_in(4) && has_flag(collapses, x    , y + 1))
     destroy(g, x    , y + 1, false);
- if (one_in(2) && has_flag(collapses, x - 1, y    ))
+ if (one_in(4) && has_flag(collapses, x - 1, y    ))
     destroy(g, x - 1, y    , false);
- if (one_in(2) && has_flag(collapses, x + 1, y    ))
+ if (one_in(4) && has_flag(collapses, x + 1, y    ))
     destroy(g, x + 1, y    , false);
   break;
 
@@ -1256,21 +1256,21 @@ void map::destroy(game *g, int x, int y, bool makesound)
    }
   }
   ter(x, y) = t_rubble;
- if (one_in(4) && has_flag(supports_roof, x - 1, y - 1))
+ if (one_in(6) && has_flag(supports_roof, x - 1, y - 1))
     destroy(g, x - 1, y - 1, false); 
- if (one_in(4) && has_flag(supports_roof, x + 1, y + 1))
+ if (one_in(6) && has_flag(supports_roof, x + 1, y + 1))
     destroy(g, x - 1, y + 1, false);
- if (one_in(4) && has_flag(supports_roof, x - 1, y + 1))
+ if (one_in(6) && has_flag(supports_roof, x - 1, y + 1))
     destroy(g, x - 1, y + 1, false); 
- if (one_in(4) && has_flag(supports_roof, x + 1, y - 1))
+ if (one_in(6) && has_flag(supports_roof, x + 1, y - 1))
     destroy(g, x + 1, y - 1, false); 
- if (one_in(4) && has_flag(supports_roof, x    , y - 1))
+ if (one_in(6) && has_flag(supports_roof, x    , y - 1))
     destroy(g, x    , y - 1, false);  
- if (one_in(4) && has_flag(supports_roof, x    , y + 1))
+ if (one_in(6) && has_flag(supports_roof, x    , y + 1))
     destroy(g, x    , y + 1, false);
- if (one_in(4) && has_flag(supports_roof, x - 1, y    ))
+ if (one_in(6) && has_flag(supports_roof, x - 1, y    ))
     destroy(g, x - 1, y    , false);
- if (one_in(4) && has_flag(supports_roof, x + 1, y    ))
+ if (one_in(6) && has_flag(supports_roof, x + 1, y    ))
     destroy(g, x + 1, y    , false);
   break;
 
