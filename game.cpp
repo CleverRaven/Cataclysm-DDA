@@ -2521,7 +2521,7 @@ void game::draw_ter(int posx, int posy)
 
 void game::refresh_all()
 {
-  m.reset_vehicle_cache();
+ m.reset_vehicle_cache();
  draw();
  draw_minimap();
  //wrefresh(w_HP);
@@ -6498,6 +6498,8 @@ void game::vertical_move(int movez, bool force)
 
  levz += movez;
  u.moves -= 100;
+ m.veh_cached_parts.clear();
+ m.vehicle_list.clear();
  m.load(this, levx, levy);
  u.posx = stairx;
  u.posy = stairy;
