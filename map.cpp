@@ -7,7 +7,6 @@
 #include <cmath>
 #include <stdlib.h>
 #include <fstream>
-#include <algorithm>
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define INBOUNDS(x, y) \
@@ -60,16 +59,8 @@ vehicle* map::veh_at(int x, int y, int &part_num)
  std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator it;
  if ((it = veh_cached_parts.find(point)) != veh_cached_parts.end())
  {
-   // Sanity check that the vehicle is where we think it is.
-  int na = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-  if( std::find(grid[na]->vehicles.begin(),
-		grid[na]->vehicles.end(),
-		it->second.first) !=
-      grid[na]->vehicles.end() )
-  {
-   part_num = it->second.second;
-   return it->second.first;
-  }
+  part_num = it->second.second;
+  return it->second.first;
  }
  return NULL;
 }
