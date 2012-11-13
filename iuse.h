@@ -100,6 +100,7 @@ class iuse
   void vacutainer	(game *g, player *p, item *it, bool t);
   void knife    	(game *g, player *p, item *it, bool t);
   void lumber    	(game *g, player *p, item *it, bool t);
+  void hacksaw          (game *g, player *p, item *it, bool t);
 // MACGUFFINS
   void mcg_note		(game *g, player *p, item *it, bool t);
 // ARTIFACTS

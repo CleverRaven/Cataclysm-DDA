@@ -757,10 +757,6 @@ MELEE("wrench",		30, 86, ';', c_ltgray,	IRON,	MNULL,
 An adjustable wrench.  Makes a decent melee weapon, and is used in many\n\
 mechanics crafting recipes.");
 
-MELEE("hack saw",	17, 65, ';', c_ltcyan,	IRON,	MNULL,
-	 4,  2,  1,  1, -1, 0, "\
-A sturdy saw, useful for cutting through metal objects.");
-
 MELEE("sledge hammer",	 6, 120,'/', c_brown,	WOOD,	IRON,
 	18, 38, 40,  0,  0, 0, "\
 A large, heavy hammer.  Makes a good melee weapon for the very strong, but is\n\
@@ -3320,6 +3316,11 @@ TOOL("wood ax",	 8, 105,'/', c_ltgray,	WOOD,	IRON,
 	17, 15, 24, 18,  1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::lumber,
 0, "\
 A large two-handed axe.  Makes a good melee weapon, but is a bit slow.");
+
+TOOL("hack saw",	17, 65, ';', c_ltcyan,	IRON,	MNULL,
+	 4,  2,  1,  1, -1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::hacksaw,
+0, "\
+A sturdy saw, useful for cutting through metal objects.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

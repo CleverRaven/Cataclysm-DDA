@@ -2237,6 +2237,40 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
  } return;
 }
 
+
+void iuse::hacksaw(game *g, player *p, item *it, bool t)
+{
+ int dirx, diry;
+ g->draw();
+ mvprintw(0, 0, "Cut up bars where?");
+ get_direction(g, dirx, diry, input());
+ if (dirx == -2) {
+  g->add_msg_if_player(p,"Invalid direction.");
+  return;
+ }
+ dirx += p->posx;
+ diry += p->posy;
+ if (g->m.ter(dirx, diry) == t_bars && g->m.ter(p->posx, p->posy) != t_sewage) {
+  g->m.ter(dirx, diry) = t_rock_floor;
+  p->moves -= 1000;
+  g->sound(dirx, diry, 15,"grnd grnd grnd");
+ int pipes = 3;
+ item pipe(g->itypes[itm_pipe], 0, g->nextinv);
+ for (int i = 0; i < pipes; i++)
+  g->m.add_item(p->posx, p->posy, pipe);
+ } else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(p->posx, p->posy) == t_sewage) {
+  g->m.ter(dirx, diry) = t_sewage;
+  p->moves -= 1000;
+  g->sound(dirx, diry, 15,"grnd grnd grnd");
+ int pipes = 3;
+ item pipe(g->itypes[itm_pipe], 0, g->nextinv);
+ for (int i = 0; i < pipes; i++)
+  g->m.add_item(p->posx, p->posy, pipe);	
+ } else {
+  g->add_msg("You can't cut that.");
+ }
+}
+
 /* MACGUFFIN FUNCTIONS
  * These functions should refer to it->associated_mission for the particulars
  */

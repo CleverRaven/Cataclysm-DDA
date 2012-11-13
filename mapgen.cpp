@@ -2220,7 +2220,7 @@ case ot_shelter: {
 
  case ot_shelter_under:
   square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
-  square(this, t_floor, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9);
+  square(this, t_underfloor, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9);
   line(this, t_stairs_up, SEEX - 1, SEEY * 2 - 8, SEEX, SEEY * 2 - 8);
   place_items(mi_shelter, 80, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9, false, 0);
   break;
@@ -2318,7 +2318,7 @@ case ot_shelter: {
                ((i < SEEX - 1 || i > SEEX) && (j == SEEY - 2 || j == SEEY + 1)))
        ter(i, j) = t_wall_h;
       else
-       ter(i, j) = t_floor;
+       ter(i, j) = t_underfloor;
      }
     }
     if (t_above == ot_lab_stairs)
@@ -3251,7 +3251,7 @@ case ot_shelter: {
   break;
 
  case ot_sewage_treatment_hub: // Stairs up, center of 3x3 of treatment_below
-  square(this, t_floor, 0,  0, 23, 23);
+  square(this, t_underfloor, 0,  0, 23, 23);
 // Top & left walls; right & bottom are handled by adjacent terrain
   line(this, t_wall_h,  0,  0, 23,  0);
   line(this, t_wall_v,  0,  1,  0, 23);
@@ -5935,7 +5935,7 @@ case ot_s_garage_north:
         (j < 4 && (n_fac == 0 || i < 4 || i > SEEX * 2 - 5)) ||
         (i > SEEX * 2 - 5 && (e_fac == 0 || j < 4 || j > SEEY * 2 - 5)) ||
         (j > SEEY * 2 - 5 && (s_fac == 0 || i < 4 || i > SEEX * 2 - 5)))
-     ter(i, j) = t_floor;
+     ter(i, j) = t_underfloor;
     else
      ter(i, j) = t_rock_floor;
    }
