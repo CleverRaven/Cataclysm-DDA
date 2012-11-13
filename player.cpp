@@ -930,7 +930,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  std::vector <skill> skillslist;
  mvwprintz(w_skills, 0, 11, c_ltgray, "SKILLS");
  for (int i = 1; i < num_skill_types; i++) {
-  if (sklevel[i] > 0) {
+  if (sklevel[i] >= 0) {
    skillslist.push_back(skill(i));
    if (line < 9) {
     mvwprintz(w_skills, line, 1, sklearn[i] ? c_dkgray : c_ltblue, "%s:",
