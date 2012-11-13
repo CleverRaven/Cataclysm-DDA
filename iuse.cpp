@@ -1227,7 +1227,8 @@ void iuse::jackhammer(game *g, player *p, item *it, bool t)
  }
  dirx += p->posx;
  diry += p->posy;
- if (g->m.is_destructable(dirx, diry)) {
+ if (g->m.is_destructable(dirx, diry) && g->m.has_flag(supports_roof, dirx, diry) &&
+     g->m.ter(dirx, diry) != t_tree) {
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
   g->sound(dirx, diry, 45, "TATATATATATATAT!");
