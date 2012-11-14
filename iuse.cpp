@@ -2246,7 +2246,7 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
  mvprintw(0, 0, "Cut up bars where?");
  get_direction(g, dirx, diry, input());
  if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
+  g->add_msg("Invalid direction.");
   return;
  }
  dirx += p->posx;
@@ -2272,6 +2272,19 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::tent(game *g, player *p, item *it, bool t)
+{
+/*
+ int dirx, diry;
+ g->draw();
+ mvprintw(0, 0, "Put up tent where?");
+ get_direction(g, dirx, diry, input());
+ if (dirx == -2) {
+  g->add_msg_if_player(p,"Invalid direction.");
+  return;
+ }
+*/
+}
 /* MACGUFFIN FUNCTIONS
  * These functions should refer to it->associated_mission for the particulars
  */

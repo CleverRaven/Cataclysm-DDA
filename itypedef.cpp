@@ -3322,6 +3322,11 @@ TOOL("hack saw",	17, 65, ';', c_ltcyan,	IRON,	MNULL,
 0, "\
 A sturdy saw, useful for cutting through metal objects.");
 
+TOOL("tent",	17, 65, ';', c_ltcyan,	IRON,	MNULL,
+	 10,  20,  4,  0, -3, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::tent,
+0, "\
+A small tent, just big enough to fit a person comfortably.");
+
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated

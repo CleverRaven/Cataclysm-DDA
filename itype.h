@@ -166,6 +166,7 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_dogfood, itm_boobytrap, itm_c4, itm_c4armed, itm_dog_whistle,
  itm_vacutainer, itm_welder, itm_cot, itm_rollmat, itm_knife_steak,
  itm_knife_butcher, itm_knife_combat, itm_saw, itm_ax, itm_hacksaw,
+ itm_tent,
 // Bionics containers
 itm_bionics_battery,       itm_bionics_power,   itm_bionics_tools,
  itm_bionics_neuro,        itm_bionics_sensory, itm_bionics_aquatic,
