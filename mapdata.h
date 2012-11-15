@@ -77,7 +77,7 @@ t_grate,
 t_slime,
 t_bridge,
 // Lighting related
-t_skylight, t_emergency_light, t_light,
+t_skylight, t_emergency_light, t_emergency_light_flicker,
 // Walls & doors
 t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
 t_wall_v, t_wall_h,
