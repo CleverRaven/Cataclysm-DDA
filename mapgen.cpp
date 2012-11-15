@@ -2221,6 +2221,7 @@ case ot_shelter: {
  case ot_shelter_under:
   square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
   square(this, t_underfloor, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9);
+  square(this, t_emergency_light_flicker, 1, 1, SEEX * 2 - 9, SEEY * 2 - 9);
   line(this, t_stairs_up, SEEX - 1, SEEY * 2 - 8, SEEX, SEEY * 2 - 8);
   place_items(mi_shelter, 80, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9, false, 0);
   break;

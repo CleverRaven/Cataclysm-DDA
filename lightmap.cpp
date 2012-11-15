@@ -1,4 +1,3 @@
-
 #include "mapdata.h"
 #include "map.h"
 #include "game.h"
@@ -74,9 +73,15 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
    if (g->m.i_at(sx, sy).size() == 1 &&
        g->m.i_at(sx, sy)[0].type->id == itm_flashlight_on)
     apply_light_source(sx, sy, x, y, 20);
-
+   
    if(g->m.ter(sx, sy) == t_lava)
     apply_light_source(sx, sy, x, y, 50);
+
+   if(g->m.ter(sx, sy) == t_emergency_light)
+    apply_light_source(sx, sy, x, y, 10);
+
+   if(g->m.ter(sx, sy) == t_emergency_light_flicker && int(g->turn) % rng(2,7) == 150)
+    apply_light_source(sx, sy, x, y, 10);
 
    // TODO: [lightmap] Attach light brightness to fields
    switch(g->m.field_at(sx, sy).type) {

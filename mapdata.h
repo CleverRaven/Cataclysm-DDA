@@ -78,6 +78,8 @@ t_slime,
 t_bridge,
 // Walls & doors
 t_canvas, t_door_canvas, t_door_canvas_o, t_groundsheet,
+// Lighting related
+t_skylight, t_emergency_light, t_emergency_light_flicker,
 t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
 t_wall_v, t_wall_h,
 t_wall_metal_v, t_wall_metal_h,
@@ -192,6 +194,12 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(transparent)},
 {"groundsheet",      ';', c_green,   2, tr_null,
         mfb(transparent)},
+{"floor",	     '.', c_ltcyan,    2, tr_null,
+	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)}, // Skylight
+{"floor",	     '.', c_white,    2, tr_null,
+	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)}, // Emergency Light
+{"floor",	     '.', c_white,    2, tr_null,
+	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)}, // Regular Light
 {"half-built wall",  '#', c_ltred,   4, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)},
 {"wooden wall",      '#', c_ltred,   0, tr_null,
