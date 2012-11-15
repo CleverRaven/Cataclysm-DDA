@@ -1059,7 +1059,7 @@ MELEE("plasma engine",  1, 900, ':', c_ltcyan,  STEEL,   MNULL,
 High technology engine, working on hydrgen fuel.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("foot crank",  30, 90, ':', c_ltgray,  IRON,   MNULL,
+MELEE("foot crank",  10, 90, ':', c_ltgray,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     2,  10,  10,  0,  -1, 0, "\
 The petal and gear assembly from a bicycle.");
