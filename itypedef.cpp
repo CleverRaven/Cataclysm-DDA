@@ -3330,11 +3330,17 @@ TOOL("hack saw",	17, 65, ';', c_ltcyan,	IRON,	MNULL,
 0, "\
 A sturdy saw, useful for cutting through metal objects.");
 
-TOOL("tent",	17, 65, ';', c_ltcyan,	IRON,	MNULL,
+TOOL("tent",	17, 65, ';', c_green,	IRON,	MNULL,
 	 10,  20,  4,  0, -3, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::tent,
 0, "\
 A small tent, just big enough to fit a person comfortably.");
 
+TOOL("duct tape",60, 20, ;, c_ltgray, PLASTIC, PAPER,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL     REVERT    FUNCTION
+    2,  2,  0,  0, -3, 200,200, 0,  0, AT_NULL, itm_null, &iuse::none,
+0, "\
+A roll of incredibly strong tape, it's uses are innumerable.");
+ 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated
