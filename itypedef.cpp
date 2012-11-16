@@ -216,6 +216,14 @@ FOOD("potato chips",	65, 12,	c_magenta,	VEGGY,	itm_bag_plastic,
     2,  1, -2,  8,  0,  0,  0,  0,  3,  6,	&iuse::none, ADD_NULL, "\
 Betcha can't eat just one.");
 
+FOOD("potato chips",	65, 12,	c_magenta,	VEGGY,	itm_bag_plastic,
+    2,  1, -2,  8,  0,  0,  0,  0,  3,  3,	&iuse::none, ADD_NULL, "\
+A bag of cheap, own-brand chips.");
+
+FOOD("potato chips",	65, 12,	c_magenta,	VEGGY,	itm_bag_plastic,
+    2,  1, -2,  8,  0,  0,  0,  0,  3,  12,	&iuse::none, ADD_NULL, "\
+Oh man, you love these chips! Score!");
+
 FOOD("pretzels",	55, 13,	c_brown,	VEGGY,	itm_bag_plastic,
     2,  1, -2,  9,  0,  0,  0,  0,  3,  2,	&iuse::none, ADD_NULL, "\
 A salty treat of a snack.");

@@ -102,7 +102,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_snacks],
 	itm_chips, itm_pretzels, itm_chocolate, itm_jerky, itm_candy,
-	itm_tea_raw, itm_coffee_raw, NULL);
+	itm_tea_raw, itm_coffee_raw, itm_chips2, itm_chips3, NULL);
 
  setvector(
    mapitems[mi_fridgesnacks],
