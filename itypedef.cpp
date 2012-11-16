@@ -3335,7 +3335,7 @@ TOOL("tent",	17, 65, ';', c_green,	IRON,	MNULL,
 0, "\
 A small tent, just big enough to fit a person comfortably.");
 
-TOOL("duct tape",60, 20, ;, c_ltgray, PLASTIC, PAPER,
+TOOL("duct tape",60, 20, ';', c_ltgray, PLASTIC, PAPER,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL     REVERT    FUNCTION
     2,  2,  0,  0, -3, 200,200, 0,  0, AT_NULL, itm_null, &iuse::none,
 0, "\
