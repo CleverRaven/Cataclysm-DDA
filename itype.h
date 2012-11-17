@@ -22,7 +22,7 @@ enum itype_id {
 itm_null = 0,
 itm_corpse,
 // Special pseudoitems
-itm_fire, itm_toolset,
+itm_fire, itm_toolset, itm_apparatus,
 // Drinks
 itm_water, itm_sewage, itm_salt_water, itm_oj, itm_apple_cider,
  itm_energy_drink, itm_cola, itm_rootbeer, itm_milk, itm_V8, itm_broth,
@@ -49,7 +49,7 @@ itm_bandages, itm_1st_aid, itm_vitamins, itm_aspirin, itm_caffeine,
  itm_pills_sleep, itm_iodine, itm_dayquil, itm_nyquil, itm_inhaler, itm_codeine,
  itm_oxycodone, itm_tramadol, itm_xanax, itm_adderall, itm_thorazine,
  itm_prozac, itm_cig, itm_weed, itm_coke, itm_meth, itm_heroin, itm_cigar,
- itm_antibiotics, itm_poppy_sleep, itm_poppy_pain,
+ itm_antibiotics, itm_poppy_sleep, itm_poppy_pain, itm_crack,
 // Do-nothing / Melee weapons
 itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
  itm_id_science, itm_id_military, itm_electrohack, itm_string_6, itm_string_36,
@@ -66,7 +66,7 @@ itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
  itm_rapier, itm_cane, itm_binoculars, itm_usb_drive, itm_pike, itm_broadsword,
  itm_mace, itm_morningstar, itm_pool_cue, itm_pool_ball, itm_candlestick,
  itm_carspike, itm_carblade, itm_wire, itm_wire_barbed, itm_rebar, itm_log,
- itm_splinter, itm_skewer,
+ itm_splinter, itm_skewer, itm_crackpipe,
 // Vehicle parts
 itm_frame, itm_wheel, itm_big_wheel, itm_seat, itm_vehicle_controls,
  itm_combustion_small, itm_combustion, itm_combustion_large,

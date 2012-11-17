@@ -140,6 +140,21 @@ void addict_effect(game *g, addiction &add)
    g->u.stim -= 3;
   }
   break;
+ case ADD_CRACK:
+  g->u.int_cur--;
+  g->u.per_cur--;
+  if (in >= 30 || one_in((900 - 30 * in))) {
+   g->add_msg("You're shivering, you need some crack.");
+   g->cancel_activity_query("You have a craving for crack.");
+   g->u.add_morale(MORALE_CRAVING_CRACK, -80, -250);
+  }
+  if (dice(2, 80) <= in) {
+   g->add_msg("You're shivering, you need some crack.");
+   g->cancel_activity_query("You have a craving for crack.");
+   g->u.add_morale(MORALE_CRAVING_CRACK, -80, -250);
+   g->u.stim -= 3;
+  }
+  break;
  }
 }
 
@@ -153,6 +168,7 @@ std::string addiction_name(addiction cur)
   case ADD_PKILLER:	return "Opiate Withdrawal";
   case ADD_SPEED:	return "Amphetamine Withdrawal";
   case ADD_COKE:	return "Cocaine Withdrawal";
+  case ADD_CRACK:       return "Crack Cocaine Withdrawal";
   default:		return "Erroneous addiction";
  }
 }
@@ -189,6 +205,8 @@ Movement rate reduction.  Depression.  Weak immune system.  Frequent cravings.";
  case ADD_COKE:
   return "Perception - 1;   Intelligence - 1;  Frequent cravings.";
 
+ case ADD_CRACK:
+  return "Perception - 2;   Intelligence - 2;  Frequent cravings.";
  default:
   return "";
  }

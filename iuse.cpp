@@ -414,10 +414,22 @@ void iuse::coke(game *g, player *p, item *it, bool t)
  p->add_disease(DI_HIGH, duration, g);
 }
 
+void iuse::crack(game *g, player *p, item *it, bool t)
+{
+  g->add_msg_if_player(p,"You smoke some rocks.");
+ int duration = 10;
+ if (p->has_trait(PF_LIGHTWEIGHT))
+ p->use_charges(itm_lighter, 1);
+  duration += 10;
+ p->hunger -= 8;
+ p->add_disease(DI_HIGH, duration, g);
+}
+
 void iuse::meth(game *g, player *p, item *it, bool t)
 {
  int duration = 10 * (40 - p->str_cur);
- if (p->has_charges(itm_lighter, 1)) {
+ if (p->has_charges(itm_lighter, 1) && p->has_amount(itm_can_drink, 1) ||
+     p->has_amount(itm_crackpipe, 1)) {
   g->add_msg_if_player(p,"You smoke some crystals.");
   duration *= 1.5;
  } else

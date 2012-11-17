@@ -130,6 +130,7 @@ void game::init_mapitems()
    mapitems[mi_harddrugs],
 	itm_inhaler, itm_codeine, itm_oxycodone, itm_tramadol, itm_xanax,
 	itm_adderall, itm_thorazine, itm_prozac, itm_antibiotics, itm_syringe,
+        itm_crackpipe,
 	NULL);
 
  setvector(
@@ -736,7 +737,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_stash_drugs],
 	itm_pills_sleep, itm_oxycodone, itm_xanax, itm_adderall, itm_weed,
-	itm_coke, itm_meth, itm_heroin, NULL);
+	itm_coke, itm_meth, itm_heroin, itm_crack, itm_crackpipe, NULL);
 
  setvector(
    mapitems[mi_drugdealer],
@@ -748,7 +749,7 @@ void game::init_mapitems()
 	itm_shot_00, itm_9mm, itm_45_acp, itm_glock_19, itm_shotgun_sawn,
 	itm_uzi, itm_tec9, itm_mac_10, itm_silencer, itm_clip2, itm_autofire,
 	itm_mag_porn, itm_lighter, itm_crowbar, itm_pipebomb, itm_grenade,
-	itm_mininuke, NULL);
+	itm_mininuke, itm_crack, itm_crackpipe, NULL);
 
  setvector(
    mapitems[mi_wreckage],

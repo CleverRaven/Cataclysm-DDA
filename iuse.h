@@ -25,6 +25,7 @@ class iuse
   void cig		(game *g, player *p, item *it, bool t);
   void weed		(game *g, player *p, item *it, bool t);
   void coke		(game *g, player *p, item *it, bool t);
+  void crack		(game *g, player *p, item *it, bool t);
   void meth		(game *g, player *p, item *it, bool t);
   void poison		(game *g, player *p, item *it, bool t);
   void hallu		(game *g, player *p, item *it, bool t);

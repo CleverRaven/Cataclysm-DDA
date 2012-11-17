@@ -42,7 +42,12 @@ void game::init_itypes ()
   new itype(3, 0, 0, "integrated toolset",
             "A fake item.  If you are reading this it's a bug!",
             '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0));
- int index = 3;
+// For smoking crack or meth
+ itypes.push_back(
+  new itype(4, 0, 0, "smoking apparatus",
+            "A fake item.  If you are reading this it's a bug!",
+            '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0));
+ int index = 4;
 
 // Drinks
 // Stim should be -8 to 8.
@@ -589,6 +594,10 @@ MED("Poppy Painkillers",25,900, c_pink,		itm_null,
 	PLASTIC,   0, -2,  0, 10,  0,&iuse::pkill_2,	ADD_NULL, "\
 Painkillers made by refining mutated poppy seeds..");
 
+MED("crack",		 8,420,	c_white,	itm_apparatus,
+	POWDER,  40, -2, 80,  4, 50,&iuse::crack,	ADD_CRACK, "\
+Refined cocaine, incredibly addictive.");
+
 // MELEE WEAPONS
 // Only use secondary material if it will have a major impact.
 // dam is a somewhat rigid bonus--anything above 30, tops, is ridiculous
@@ -1015,6 +1024,11 @@ A splintered piece of wood, useless as anything but kindling");
 MELEE("skewer",                 10,  10,',', c_brown,   WOOD,   MNULL,
          0,  1, 0,  0,  -10, 0, "\
 A thin wooden skewer. Squirrel on a stick, anyone?");
+
+MELEE("crack pipe",             37,  35, ',',c_ltcyan,  GLASS,  MNULL,
+         1,  1, 0,  0,  -10, 0, "\
+A fine glass pipe, with a bulb on the end, used for partaking of\n\
+certain illicit substances.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  25, 35, ']', c_cyan,  STEEL,   MNULL,

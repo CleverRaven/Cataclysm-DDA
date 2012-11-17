@@ -3576,13 +3576,17 @@ bool player::has_amount(itype_id it, int quantity)
 {
  if (it == itm_toolset)
   return has_bionic(bio_tools);
- return (amount_of(it) >= quantity);
+ return (amount_of(it) >= quantity); 
 }
 
 int player::amount_of(itype_id it)
 {
  if (it == itm_toolset && has_bionic(bio_tools))
   return 1;
+ if (it == itm_apparatus) {
+ if (has_amount(itm_crackpipe, 1) && has_amount(itm_lighter, 1))
+  return 1;
+}
  int quantity = 0;
  if (weapon.type->id == it)
   quantity++;
