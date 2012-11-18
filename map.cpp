@@ -1225,22 +1225,23 @@ void map::destroy(game *g, int x, int y, bool makesound)
    }
   }
   ter(x, y) = t_rubble;
- if (one_in(4) && has_flag(collapses, x - 1, y - 1))
-    destroy(g, x - 1, y - 1, false); 
- if (one_in(4) && has_flag(collapses, x + 1, y + 1))
-    destroy(g, x - 1, y + 1, false);
- if (one_in(4) && has_flag(collapses, x - 1, y + 1))
-    destroy(g, x - 1, y + 1, false); 
- if (one_in(4) && has_flag(collapses, x + 1, y - 1))
-    destroy(g, x + 1, y - 1, false); 
- if (one_in(4) && has_flag(collapses, x    , y - 1))
-    destroy(g, x    , y - 1, false);  
- if (one_in(4) && has_flag(collapses, x    , y + 1))
-    destroy(g, x    , y + 1, false);
- if (one_in(4) && has_flag(collapses, x - 1, y    ))
-    destroy(g, x - 1, y    , false);
- if (one_in(4) && has_flag(collapses, x + 1, y    ))
-    destroy(g, x + 1, y    , false);
+  for (int i = x - 1; i <= x + 1; i++)
+   for (int j = y - 1; j <= y + 1; j++) {
+     if (i == x && j == y || !has_flag(collapses, i, j))
+      continue;
+     int num_supports = -1;
+     for (int k = i - 1; k <= i + 1; k++)
+       for (int l = j - 1; l <= j + 1; l++) {
+       if (k == i && l == j)
+        continue;
+       if (has_flag(collapses, k, l))
+        num_supports++;
+       else if (has_flag(supports_roof, k, l))
+        num_supports += 2;
+       }
+     if (one_in(num_supports))
+      destroy (g, i, j, false);
+   }
   break;
 
  case t_wall_v:
@@ -1256,22 +1257,27 @@ void map::destroy(game *g, int x, int y, bool makesound)
    }
   }
   ter(x, y) = t_rubble;
- if (one_in(6) && has_flag(supports_roof, x - 1, y - 1))
-    destroy(g, x - 1, y - 1, false); 
- if (one_in(6) && has_flag(supports_roof, x + 1, y + 1))
-    destroy(g, x - 1, y + 1, false);
- if (one_in(6) && has_flag(supports_roof, x - 1, y + 1))
-    destroy(g, x - 1, y + 1, false); 
- if (one_in(6) && has_flag(supports_roof, x + 1, y - 1))
-    destroy(g, x + 1, y - 1, false); 
- if (one_in(6) && has_flag(supports_roof, x    , y - 1))
-    destroy(g, x    , y - 1, false);  
- if (one_in(6) && has_flag(supports_roof, x    , y + 1))
-    destroy(g, x    , y + 1, false);
- if (one_in(6) && has_flag(supports_roof, x - 1, y    ))
-    destroy(g, x - 1, y    , false);
- if (one_in(6) && has_flag(supports_roof, x + 1, y    ))
-    destroy(g, x + 1, y    , false);
+  for (int i = x - 1; i <= x + 1; i++)
+   for (int j = y - 1; j <= y + 1; j++) {
+     if (i == x && j == y || !has_flag(supports_roof, i, j))
+      continue;
+     int num_supports = 0;
+     for (int k = i - 1; k <= i + 1; k++)
+      for (int l = j - 1; l <= j + 1; l++) {
+       if (k == i && l == j)
+        continue;
+       if (has_flag(collapses, i, j)) {
+        if (has_flag(collapses, k, l))
+         num_supports++;
+        else if (has_flag(supports_roof, k, l))
+         num_supports += 2;
+       } else if (has_flag(supports_roof, i, j))
+        if (has_flag(supports_roof, k, l) && !has_flag(collapses, k, l))
+         num_supports += 3;
+      }
+     if (one_in(num_supports))
+      destroy (g, i, j, false);
+   }
   break;
 
  default:

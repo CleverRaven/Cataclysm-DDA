@@ -49,8 +49,9 @@ enum t_flag {
  console,      // Used as a computer
  alarmed,      // Sets off an alarm if smashed
  supports_roof,// Used as a boundary for roof construction
+               // can also knock down adjacent supports_roof and collapses tiles when destroyed
  thin_obstacle,// passable by player and monsters, but not by vehicles
- collapses,    // falls down with adjacent tiles
+ collapses,    // Tiles that have a roof over them (which can collapse)
  num_t_flags   // MUST be last
 };
 
@@ -203,56 +204,56 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"half-built wall",  '#', c_ltred,   4, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)},
 {"wooden wall",      '#', c_ltred,   0, tr_null,
-	mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
+        mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
 {"chipped wood wall",'#', c_ltred,   0, tr_null,
-	mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
+        mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
 {"broken wood wall", '&', c_ltred,   0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
-	mfb(supports_roof)},
+        mfb(supports_roof)},
 {"wall",             '|', c_ltgray,  0, tr_null,
-	mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(collapses)},
+ mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
 {"wall",             '-', c_ltgray,  0, tr_null,
-	mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(collapses)},
+ mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
 {"metal wall",       '|', c_cyan,    0, tr_null,
-	mfb(noitem)|mfb(noitem)|mfb(supports_roof)|mfb(collapses)},
+ mfb(noitem)|mfb(noitem)|mfb(supports_roof)},
 {"metal wall",       '-', c_cyan,    0, tr_null,
-	mfb(noitem)|mfb(noitem)|mfb(supports_roof)|mfb(collapses)},
+ mfb(noitem)|mfb(noitem)|mfb(supports_roof)},
 {"glass wall",       '|', c_ltcyan,  0, tr_null,
-	mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
+ mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
 {"glass wall",       '-', c_ltcyan,  0, tr_null,
-	mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
+ mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
 {"glass wall",       '|', c_ltcyan,  0, tr_null, // Alarmed
 	mfb(transparent)|mfb(bashable)|mfb(alarmed)|mfb(noitem)|
-        mfb(supports_roof)},
+ mfb(supports_roof)},
 {"glass wall",       '-', c_ltcyan,  0, tr_null, // Alarmed
 	mfb(transparent)|mfb(bashable)|mfb(alarmed)|mfb(noitem)|
-        mfb(supports_roof)},
+ mfb(supports_roof)},
 {"reinforced glass", '|', c_ltcyan,  0, tr_null,
-	mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
+ mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
 {"reinforced glass", '-', c_ltcyan,  0, tr_null,
-	mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
+ mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
 {"metal bars",       '"', c_ltgray,  0, tr_null,
 	mfb(transparent)|mfb(noitem)},
 {"closed wood door", '+', c_brown,   0, tr_null,
-	mfb(bashable)|mfb(flammable)|mfb(door)|mfb(noitem)|mfb(supports_roof)|mfb(collapses)},
+ mfb(bashable)|mfb(flammable)|mfb(door)|mfb(noitem)|mfb(supports_roof)},
 {"damaged wood door",'&', c_brown,   0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
-        mfb(supports_roof)|mfb(collapses)},
+ mfb(supports_roof)},
 {"open wood door",  '\'', c_brown,   2, tr_null,
-	mfb(flammable)|mfb(transparent)|mfb(supports_roof)|mfb(collapses)},
+ mfb(flammable)|mfb(transparent)|mfb(supports_roof)},
 {"closed wood door", '+', c_brown,   0, tr_null,	// Actually locked
-	mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(collapses)},
+ mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
 {"closed wood door", '+', c_brown,   0, tr_null, // Locked and alarmed
 	mfb(bashable)|mfb(flammable)|mfb(alarmed)|mfb(noitem)|
-        mfb(supports_roof)|mfb(collapses)},
+ mfb(supports_roof)},
 {"empty door frame", '.', c_brown,   2, tr_null,
-	mfb(transparent)|mfb(supports_roof)|mfb(collapses)},
+ mfb(transparent)|mfb(supports_roof)},
 {"closed cage door", '+', c_ltred,   0, tr_null,
-	mfb(transparent)|mfb(supports_roof)|mfb(collapses)},
+ mfb(transparent)|mfb(supports_roof)},
 {"open cage door",   '.', c_ltred,   2, tr_null,
-	mfb(flammable)|mfb(transparent)|mfb(supports_roof)|mfb(collapses)},
+ mfb(flammable)|mfb(transparent)|mfb(supports_roof)},
 {"boarded up door",  '#', c_brown,   0, tr_null,
-	mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(collapses)},
+	mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
 {"closed metal door",'+', c_cyan,    0, tr_null,
 	mfb(noitem)|mfb(supports_roof)},
 {"open metal door", '\'', c_cyan,    2, tr_null,
@@ -269,17 +270,17 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(noitem)},
 {"window",	     '"', c_ltcyan,  0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
-        mfb(supports_roof)|mfb(collapses)},
+        mfb(supports_roof)},
 {"window",	     '"', c_ltcyan,  0, tr_null, // Actually alarmed
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(alarmed)|mfb(noitem)|
-        mfb(supports_roof)|mfb(collapses)},
+        mfb(supports_roof)},
 {"empty window",     '0', c_yellow,  8, tr_null,
-	mfb(transparent)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(collapses)},
+	mfb(transparent)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
 {"window frame",     '0', c_ltcyan,  8, tr_null,
 	mfb(transparent)|mfb(sharp)|mfb(flammable)|mfb(noitem)|
-        mfb(supports_roof)|mfb(collapses)},
+        mfb(supports_roof)},
 {"boarded up window",'#', c_brown,   0, tr_null,
-	mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(collapses)},
+	mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
 {"solid rock",       '#', c_white,   0, tr_null,
 	mfb(noitem)|mfb(supports_roof)},
 {"odd fault",        '#', c_magenta, 0, tr_null,
