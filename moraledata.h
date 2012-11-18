@@ -17,6 +17,7 @@ std::string morale_data[NUM_MORALE_TYPES] = {
 "Opiate Craving",
 "Speed Craving",
 "Cocaine Craving",
+"Crack Cocaine Craving",
 
 "Disliked %i",
 "Ate Meat",

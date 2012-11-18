@@ -1029,7 +1029,7 @@ result = rng(0, 80);
   if (res) *res = result;
   if (str >= result) {
    sound += "crak";
-   ter(x, y) = t_floor;
+   ter(x, y) = t_dirt;
    int num_boards = 2;
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_spear_wood], 0);

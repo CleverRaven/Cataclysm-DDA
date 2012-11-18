@@ -4620,6 +4620,25 @@ void game::examine()
     m.ter(examx, examy) = t_water_dp;
 */ 
 //Debug for testing things
+ } else if (m.ter(examx, examy) == t_rubble && query_yn("Clear up that rubble?")) {
+  if (u.has_amount(itm_shovel, 1)) {
+  if (m.ter(u.posx, u.posy) == t_rock_floor || m.ter(u.posx, u.posy) == t_underfloor) {
+   u.moves -= 200;
+   m.ter(examx, examy) = t_rock_floor;
+   item rock(itypes[itm_rock], turn);
+   m.add_item(u.posx, u.posy, rock);
+   m.add_item(u.posx, u.posy, rock);
+   add_msg("You clear the rubble up");
+ } else {
+   u.moves -= 200;
+   m.ter(examx, examy) = t_dirt;
+   item rock(itypes[itm_rock], turn);
+   m.add_item(u.posx, u.posy, rock);
+   m.add_item(u.posx, u.posy, rock);
+   add_msg("You clear the rubble up");
+ }} else {
+   add_msg("You need a shovel to do that!");
+  }
  } else if (m.ter(examx, examy) == t_pit && query_yn("Place a plank over the pit?")) {
   if (u.has_amount(itm_2x4, 1)) {
    u.use_amount(itm_2x4, 1);

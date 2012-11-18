@@ -930,7 +930,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  std::vector <skill> skillslist;
  mvwprintz(w_skills, 0, 11, c_ltgray, "SKILLS");
  for (int i = 1; i < num_skill_types; i++) {
-  if (sklevel[i] > 0) {
+  if (sklevel[i] >= 0) {
    skillslist.push_back(skill(i));
    if (line < 9) {
     mvwprintz(w_skills, line, 1, sklearn[i] ? c_dkgray : c_ltblue, "%s:",
@@ -3576,13 +3576,17 @@ bool player::has_amount(itype_id it, int quantity)
 {
  if (it == itm_toolset)
   return has_bionic(bio_tools);
- return (amount_of(it) >= quantity);
+ return (amount_of(it) >= quantity); 
 }
 
 int player::amount_of(itype_id it)
 {
  if (it == itm_toolset && has_bionic(bio_tools))
   return 1;
+ if (it == itm_apparatus) {
+ if (has_amount(itm_crackpipe, 1) && has_amount(itm_lighter, 1))
+  return 1;
+}
  int quantity = 0;
  if (weapon.type->id == it)
   quantity++;
