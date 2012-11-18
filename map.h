@@ -122,6 +122,7 @@ class map
  void shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags);
  bool hit_with_acid(game *g, int x, int y);
  void marlossify(int x, int y);
+ bool has_adjacent_furniture(int x, int y);
 
 // Radiation
  int& radiation(int x, int y);	// Amount of radiation at (x, y);
