@@ -57,11 +57,14 @@ struct construct // Construction functions.
  bool able_tree(game *, point); // Able on trees
  bool able_log(game *, point); // Able on logs
 
+ bool able_furniture(game *, point);
+
 // Does anything special happen when we're finished?
  void done_nothing(game *, point) { }
  void done_window_pane(game *, point);
  void done_vehicle(game *, point);
  void done_tree(game *, point);
  void done_log(game *, point);
+ void done_furniture(game *, point);
 
 };

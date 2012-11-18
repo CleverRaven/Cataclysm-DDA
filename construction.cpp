@@ -64,6 +64,9 @@ void game::init_construction()
   STAGE(t_dirt, 20);
    TOOL(itm_ax, itm_chainsaw_on, NULL);
 
+ CONSTRUCT("Move Furniture", 0, &construct::able_furniture, &construct::done_furniture);
+  STAGE(t_null, 1);
+
  CONSTRUCT("Clean Broken Window", 0, &construct::able_broken_window,
                                      &construct::done_nothing);
   STAGE(t_window_empty, 5);
@@ -552,6 +555,29 @@ bool construct::able_log(game *g, point p)
  return (g->m.ter(p.x, p.y) == t_log);
 }
 
+bool construct::able_furniture(game *g, point p)
+{
+ int required_str = 0;
+
+ switch(g->m.ter(p.x, p.y)){
+  case t_fridge:
+  case t_dresser:
+  case t_rack:
+  case t_bookcase:
+   required_str = 8;
+   break;
+  default:
+   //Not a furniture we can move
+   return false;
+ }
+
+ if( g->u.str_cur < required_str ) {
+  return false;
+ }
+
+ return true;
+}
+
 bool construct::able_window(game *g, point p)
 {
  return (g->m.ter(p.x, p.y) == t_window_frame ||
@@ -622,6 +648,30 @@ bool construct::able_between_walls(game *g, point p)
 void construct::done_window_pane(game *g, point p)
 {
  g->m.add_item(g->u.posx, g->u.posy, g->itypes[itm_glass_sheet], 0);
+}
+
+void construct::done_furniture(game *g, point p)
+{
+ mvprintz(0, 0, c_red, "Press a direction for the furniture to move (. to cancel):");
+ int x = 0, y = 0;
+ //Keep looping until we get a valid direction or a cancel.
+ while(true){
+  do
+   get_direction(g, x, y, input());
+  while (x == -2 || y == -2);
+  if(x == 0 && y == 0)
+   return;
+  x += p.x;
+  y += p.y;
+  if(g->m.ter(x, y) != t_floor || !g->is_empty(x, y)) {
+   mvprintz(0, 0, c_red, "Can't move furniture there! Choose a direction with open floor.");
+   continue;
+  }
+  break;
+ }
+
+ g->m.ter(x, y) = g->m.ter(p.x, p.y);
+ g->m.ter(p.x, p.y) = t_floor;
 }
 
 void construct::done_tree(game *g, point p)
