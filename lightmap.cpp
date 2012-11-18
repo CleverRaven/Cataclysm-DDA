@@ -439,11 +439,15 @@ void light_map::build_light_cache(game* g, int cx, int cy)
     if (c[x][y].veh->part_flag(c[x][y].veh_part, vpf_opaque) &&
         c[x][y].veh->parts[c[x][y].veh_part].hp > 0) {
      int dpart = c[x][y].veh->part_with_feature(c[x][y].veh_part, vpf_openable);
-     if (dpart < 0 || !c[x][y].veh->parts[dpart].open)
+     if (dpart < 0 || !c[x][y].veh->parts[dpart].open) {
       c[x][y].transparency = LIGHT_TRANSPARENCY_SOLID;
+      continue;
+     }
     }
-   } else if (!(terlist[g->m.ter(sx, sy)].flags & mfb(transparent)))
+   } else if (!(terlist[g->m.ter(sx, sy)].flags & mfb(transparent))) {
     c[x][y].transparency = LIGHT_TRANSPARENCY_SOLID;
+    continue;
+   }
 
    field& f = g->m.field_at(sx, sy);
    if(f.type > 0) {
