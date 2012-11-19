@@ -1464,14 +1464,17 @@ input_ret game::get_input(int timeout_ms)
    }
    break;
 
-  case ACTION_SAVE:
+  case ACTION_SAVE: 
+  if (!u.in_vehicle) {
    if (query_yn("Save and quit?")) {
     save();
     u.moves = 0;
     uquit = QUIT_SAVED;
    }
    break;
-
+  } else {
+  add_msg("Saving in vehicles is buggy, stop and get out of the vehicle first");
+ } break;
   case ACTION_QUIT:
    if (query_yn("Commit suicide?")) {
     u.moves = 0;
@@ -6383,14 +6386,15 @@ void game::plmove(int x, int y)
    else
     add_msg("Moving past this %s is slow!", m.tername(x, y).c_str());
   }
-  if (m.has_flag(rough, x, y)) {
+  if (m.has_flag(rough, x, y) && (!u.in_vehicle)) {
    if (one_in(5) && u.armor_bash(bp_feet) < rng(1, 5)) {
     add_msg("You hurt your feet on the %s!", m.tername(x, y).c_str());
     u.hit(this, bp_feet, 0, 0, 1);
     u.hit(this, bp_feet, 1, 0, 1);
    }
   }
-  if (m.has_flag(sharp, x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur/2))) {
+  if (m.has_flag(sharp, x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur/2))
+      && (!u.in_vehicle)) {
    if (!u.has_trait(PF_PARKOUR) || one_in(4)) {
     add_msg("You cut yourself on the %s!", m.tername(x, y).c_str());
     u.hit(this, bp_torso, 0, 0, rng(1, 4));
