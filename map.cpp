@@ -983,7 +983,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   break;
 
  case t_window_boarded:
-  result = dice(3, 30);
+  result = rng(3, 30);
   if (res) *res = result;
   if (str >= result) {
    sound += "crash!";
@@ -1012,12 +1012,18 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   break;
 
  case t_locker:
-  result = dice(6, 30);
+ case t_rack:
+ case t_fridge:
+  result = rng(6, 30);
   if (res) *res = result;
   if (str >= result) {
    sound += "metal screeching!";
    ter(x, y) = t_wreckage;
    return true;
+   int num_boards = rng(0, 3);
+   for (int i = 0; i < num_boards; i++)
+    add_item(x, y, (*itypes)[itm_steel_chunk], 0);
+    add_item(x, y, (*itypes)[itm_pipe], 0);
   } else {
    sound += "clang!";
    return true;
@@ -1039,7 +1045,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
 
  case t_dresser:
  case t_bookcase:
-  result = dice(3, 45);
+  result = rng(3, 45);
   if (res) *res = result;
   if (str >= result) {
    sound += "smash!";
@@ -1056,7 +1062,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   break;
 
  case t_fence_post:
-  result = dice(1, 10);
+  result = rng(1, 10);
   if (res) *res = result;
   if (str >= result) {
    sound += "crak";
@@ -1073,7 +1079,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   
  case t_bench:
  case t_counter:
-  result = dice(3, 20);
+  result = rng(3, 20);
   if (res) *res = result;
   if (str >= result) {
    sound += "smash!";

@@ -4642,6 +4642,29 @@ void game::examine()
  }} else {
    add_msg("You need a shovel to do that!");
   }
+ } else if (m.ter(examx, examy) == t_wreckage && query_yn("Clear up that wreckage?")) {
+  if (u.has_amount(itm_shovel, 1)) {
+  if (m.ter(u.posx, u.posy) == t_floor) {
+   u.moves -= 200;
+   m.ter(examx, examy) = t_floor;
+   item chunk(itypes[itm_steel_chunk], turn);
+   item pipe(itypes[itm_pipe], turn);
+   m.add_item(u.posx, u.posy, chunk);
+  if (one_in(5)) {
+   m.add_item(u.posx, u.posy, pipe); }
+   add_msg("You clear the wreckage up");
+ } else {
+   u.moves -= 200;
+   m.ter(examx, examy) = t_dirt;
+   item chunk(itypes[itm_steel_chunk], turn);
+   item pipe(itypes[itm_pipe], turn);
+   m.add_item(u.posx, u.posy, chunk);
+  if (one_in(5)) {
+   m.add_item(u.posx, u.posy, pipe); }
+   add_msg("You clear the wreckage up");
+ }} else {
+   add_msg("You need a shovel to do that!");
+  }
  } else if (m.ter(examx, examy) == t_pit && query_yn("Place a plank over the pit?")) {
   if (u.has_amount(itm_2x4, 1)) {
    u.use_amount(itm_2x4, 1);

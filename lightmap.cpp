@@ -76,12 +76,12 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
    
    if(g->m.ter(sx, sy) == t_lava)
     apply_light_source(sx, sy, x, y, 50);
+   
+   if(g->m.ter(sx, sy) == t_console)
+    apply_light_source(sx, sy, x, y, 3);
 
    if(g->m.ter(sx, sy) == t_emergency_light)
-    apply_light_source(sx, sy, x, y, 10);
-
-   if(g->m.ter(sx, sy) == t_emergency_light_flicker && int(g->turn) % rng(2,7) == 150)
-    apply_light_source(sx, sy, x, y, 10);
+    apply_light_source(sx, sy, x, y, 3);
 
    // TODO: [lightmap] Attach light brightness to fields
    switch(g->m.field_at(sx, sy).type) {
