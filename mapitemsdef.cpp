@@ -438,7 +438,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_mechanics],
         itm_wrench, itm_frame, itm_wheel, itm_motor, itm_combustion_small,
-        itm_hacksaw, NULL);
+        itm_hacksaw, itm_welder, NULL);
 
  setvector(
    mapitems[mi_chemistry],
