@@ -652,6 +652,16 @@ bool map::process_fields_in_submap(game *g, int gridn)
 void map::step_in_field(int x, int y, game *g)
 {
  field *cur = &field_at(x, y);
+ int veh_part;
+ vehicle *veh = NULL;
+ bool inside = false;
+ int adjusted_intensity;
+
+ if (g->u.in_vehicle) {
+  veh = g->m.veh_at(x, y, veh_part);
+  inside = (veh && veh->is_inside(veh_part));
+ }
+
  switch (cur->type) {
   case fd_null:
   case fd_blood:	// It doesn't actually do anything
@@ -659,7 +669,7 @@ void map::step_in_field(int x, int y, game *g)
    return;
 
   case fd_web: {
-   if (!g->u.has_trait(PF_WEB_WALKER)) {
+   if (!g->u.has_trait(PF_WEB_WALKER) && !g->u.in_vehicle) {
     int web = cur->density * 5 - g->u.disease_level(DI_WEBBED);
     if (web > 0)
      g->u.add_disease(DI_WEBBED, web, g);
@@ -668,7 +678,7 @@ void map::step_in_field(int x, int y, game *g)
   } break;
 
   case fd_acid:
-   if (cur->density == 3) {
+   if (cur->density == 3 && !inside) {
     g->add_msg("The acid burns your legs and feet!");
     g->u.hit(g, bp_feet, 0, 0, rng(4, 10));
     g->u.hit(g, bp_feet, 1, 0, rng(4, 10));
@@ -682,6 +692,7 @@ void map::step_in_field(int x, int y, game *g)
    break;
 
  case fd_sap:
+  if( g->u.in_vehicle ) break;
   g->add_msg("The sap sticks to you!");
   g->u.add_disease(DI_SAP, cur->density * 2, g);
   if (cur->density == 1)
@@ -691,48 +702,54 @@ void map::step_in_field(int x, int y, game *g)
   break;
 
   case fd_fire:
+   adjusted_intensity = cur->density;
+   if( g->u.in_vehicle )
+     if( inside )
+       adjusted_intensity -= 2;
+     else
+       adjusted_intensity -= 1;
    if (!g->u.has_active_bionic(bio_heatsink)) {
-    if (cur->density == 1) {
+    if (adjusted_intensity == 1) {
      g->add_msg("You burn your legs and feet!");
      g->u.hit(g, bp_feet, 0, 0, rng(2, 6));
      g->u.hit(g, bp_feet, 1, 0, rng(2, 6));
      g->u.hit(g, bp_legs, 0, 0, rng(1, 4));
      g->u.hit(g, bp_legs, 1, 0, rng(1, 4));
-    } else if (cur->density == 2) {
+    } else if (adjusted_intensity == 2) {
      g->add_msg("You're burning up!");
      g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
      g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
      g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
-    } else if (cur->density == 3) {
+    } else if (adjusted_intensity == 3) {
      g->add_msg("You're set ablaze!");
      g->u.hit(g, bp_legs, 0, 0, rng(2, 6));
      g->u.hit(g, bp_legs, 1, 0, rng(2, 6));
      g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
      g->u.add_disease(DI_ONFIRE, 5, g);
     }
-    if (cur->density == 2)
+    if (adjusted_intensity == 2)
      g->u.infect(DI_SMOKE, bp_mouth, 5, 20, g);
-    else if (cur->density == 3)
+    else if (adjusted_intensity == 3)
      g->u.infect(DI_SMOKE, bp_mouth, 7, 30, g);
    }
    break;
 
   case fd_smoke:
-   if (cur->density == 3)
+   if (cur->density == 3 && !inside)
     g->u.infect(DI_SMOKE, bp_mouth, 4, 15, g);
    break;
 
   case fd_tear_gas:
-   if (cur->density > 1 || !one_in(3))
+   if ((cur->density > 1 || !one_in(3)) && !inside || inside && one_in(3))
     g->u.infect(DI_TEARGAS, bp_mouth, 5, 20, g);
-   if (cur->density > 1)
+   if (cur->density > 1 && !inside || inside && one_in(3))
     g->u.infect(DI_BLIND, bp_eyes, cur->density * 2, 10, g);
    break;
 
   case fd_toxic_gas:
-   if (cur->density == 2)
+   if (cur->density == 2 && !inside || cur->density == 3 && inside )
     g->u.infect(DI_POISON, bp_mouth, 5, 30, g);
-   else if (cur->density == 3)
+   else if (cur->density == 3 && !inside)
     g->u.infect(DI_BADPOISON, bp_mouth, 5, 30, g);
    break;
 
@@ -745,6 +762,7 @@ void map::step_in_field(int x, int y, game *g)
    break;
 
   case fd_flame_burst:
+   if (inside) break;
    if (!g->u.has_active_bionic(bio_heatsink)) {
     g->add_msg("You're torched by flames!");
     g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
