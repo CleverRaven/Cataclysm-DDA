@@ -2189,6 +2189,8 @@ case ot_shelter: {
   square(this, t_stairs_down, SEEX - 1, SEEY - 1, SEEX, SEEY);
   line(this, t_wall_h, 4, 4, SEEX * 2 - 5, 4);
   line(this, t_door_c, SEEX - 1, 4, SEEX, 4);
+  line(this, t_locker, SEEX - 7, 5, SEEX, 5);
+  line(this, t_floor,  SEEX - 3, 5, SEEX, 5);
   line(this, t_wall_h, 4, SEEY * 2 - 5, SEEX * 2 - 5, SEEY * 2 - 5);
   line(this, t_door_c, SEEX - 1, SEEY * 2 - 5, SEEX, SEEY * 2 - 5);
   line(this, t_wall_v, 4, 5, 4, SEEY * 2 - 6);

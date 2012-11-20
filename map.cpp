@@ -810,6 +810,7 @@ bool map::has_adjacent_furniture(int x, int y)
     case t_dresser:
     case t_rack:
     case t_bookcase:
+    case t_locker:
      return true; true;
      break;
     default:
@@ -1006,6 +1007,19 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
    return true;
   } else {
    sound += "slap!";
+   return true;
+  }
+  break;
+
+ case t_locker:
+  result = dice(6, 30);
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "metal screeching!";
+   ter(x, y) = t_wreckage;
+   return true;
+  } else {
+   sound += "clang!";
    return true;
   }
   break;
