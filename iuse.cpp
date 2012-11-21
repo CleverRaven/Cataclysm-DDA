@@ -951,7 +951,7 @@ void iuse::water_purifier(game *g, player *p, item *it, bool t)
   return;
  }
  p->moves -= 150;
- pure->make(g->itypes[itm_water]);
+ pure->make(g->itypes[itm_water_clean]);
  pure->poison = 0;
 }
 
