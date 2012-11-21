@@ -1320,6 +1320,10 @@ input_ret game::get_input(int timeout_ms)
    look_around();
    break;
 
+  case ACTION_PEEK:
+   peek();
+   break;
+
   case ACTION_INVENTORY: {
    bool has = false;
    do {
@@ -4896,6 +4900,27 @@ shape, but with long, twisted, distended limbs.");
      query_yn("There is a %s there.  Disarm?",
               traps[m.tr_at(examx, examy)]->name.c_str()))
   m.disarm_trap(this, examx, examy);
+}
+
+//Shift player by one tile, look_around(), then restore previous position.
+//represents carfully peeking around a corner, hence the large move cost.
+void game::peek()
+{
+ int mx, my;
+ char ch;
+
+ mvprintz(0, 0, c_white, "Use directional keys to chose an adjacent square to peek from.");
+ ch = input();
+ get_direction(this, mx, my, ch);
+ if (mx != -2 && my != -2 &&
+     m.move_cost(u.posx + mx, u.posy + my) > 0) {
+  u.moves -= 200;
+  u.posx += mx;
+  u.posy += my;
+  look_around();
+  u.posx -= mx;
+  u.posy -= my;
+ }
 }
 
 point game::look_around()
