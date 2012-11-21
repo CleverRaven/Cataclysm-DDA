@@ -908,6 +908,10 @@ void game::cancel_activity_query(const char* message, ...)
    if (query_yn("%s Stop construction?", s.c_str()))
     doit = true;
    break;
+  case ACT_REFILL_VEHICLE:
+   if (query_yn("%s Stop pumping gas?", s.c_str()))
+    doit = true;
+   break;
   case ACT_TRAIN:
    if (query_yn("%s Stop training?", s.c_str()))
     doit = true;
@@ -3040,6 +3044,9 @@ void game::mon_info()
  }
 
  if (newseen > mostseen) {
+  if (u.activity.type == ACT_REFILL_VEHICLE)
+   cancel_activity_query("Monster Spotted!");
+
   cancel_activity_query("Monster spotted!");
   turnssincelastmon = 0;
   if (run_mode == 1)
@@ -5375,7 +5382,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
     else if (fuel_amnt == fuel_cap)
      add_msg ("Already full.");
     else if (infinite && query_yn("Pump until full?")) {
-     u.assign_activity(ACT_REFILL_VEHICLE, 100 * (fuel_cap - fuel_amnt));
+     u.assign_activity(ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
      u.activity.placement = point(vx, vy);
     } else { // Not infinite
      veh->refill (AT_GAS, liquid.charges);
