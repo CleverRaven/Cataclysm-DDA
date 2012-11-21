@@ -154,7 +154,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
 
  RECIPE(itm_smokebomb, CC_WEAPON, sk_cooking, sk_mechanics, 3, 7500);
   TOOL(itm_screwdriver, -1, itm_wrench, -1, itm_toolset, -1, NULL);
-  COMP(itm_water, 1, itm_salt_water, 1, NULL);
+  COMP(itm_water, 1, itm_water_clean, 1, itm_salt_water, 1, NULL);
   COMP(itm_candy, 1, itm_cola, 1, NULL);
   COMP(itm_vitamins, 10, itm_aspirin, 8, NULL);
   COMP(itm_canister_empty, 1, itm_can_food, 1, NULL);
@@ -216,7 +216,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_hotplate, 4, itm_toolset, 2, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_spaghetti_raw, 1, NULL);
-  COMP(itm_water, 1, NULL);
+  COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
  RECIPE(itm_cooked_dinner, CC_FOOD, sk_cooking, sk_null, 0, 5000);
   TOOL(itm_hotplate, 3, itm_toolset, 2, itm_fire, -1, NULL);
@@ -226,7 +226,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_hotplate, 4, itm_toolset, 2, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_macaroni_raw, 1, NULL);
-  COMP(itm_water, 1, NULL);
+  COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
  RECIPE(itm_potato_baked, CC_FOOD, sk_cooking, sk_null, 1, 15000);
   TOOL(itm_hotplate, 3, itm_toolset, 2, itm_fire, -1, NULL);
@@ -237,18 +237,18 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_hotplate, 2, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_tea_raw, 1, NULL);
-  COMP(itm_water, 1, NULL);
+  COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
  RECIPE(itm_coffee, CC_FOOD, sk_cooking, sk_null, 0, 4000);
   TOOL(itm_hotplate, 2, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_coffee_raw, 1, NULL);
-  COMP(itm_water, 1, NULL);
+  COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
  RECIPE(itm_oj, CC_FOOD, sk_cooking, sk_null, 1, 5000);
   TOOL(itm_rock, -1, itm_toolset, -1, NULL);
   COMP(itm_orange, 2, NULL);
-  COMP(itm_water, 1, NULL);
+  COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
  RECIPE(itm_apple_cider, CC_FOOD, sk_cooking, sk_null, 2, 7000);
   TOOL(itm_rock, -1, itm_toolset, -1, NULL);
@@ -267,7 +267,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
  RECIPE(itm_broth, CC_FOOD, sk_cooking, sk_null, 2, 10000);
   TOOL(itm_hotplate, 5, itm_toolset, 3, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
-  COMP(itm_water, 1, NULL);
+  COMP(itm_water, 1, itm_water_clean, 1, NULL);
   COMP(itm_broccoli, 1, itm_zucchini, 1, itm_veggy, 1, NULL);
 
  RECIPE(itm_soup, CC_FOOD, sk_cooking, sk_null, 2, 10000);
@@ -281,7 +281,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_hotplate, 8, itm_toolset, 4, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_flour, 3, NULL);
-  COMP(itm_water, 2, NULL);
+  COMP(itm_water, 2, itm_water_clean, 2, NULL);
 
  RECIPE(itm_pie, CC_FOOD, sk_cooking, sk_null, 3, 25000);
   TOOL(itm_hotplate, 6, itm_toolset, 3, itm_fire, -1, NULL);
@@ -289,7 +289,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_flour, 2, NULL);
   COMP(itm_strawberries, 2, itm_apple, 2, itm_blueberries, 2, NULL);
   COMP(itm_sugar, 2, NULL);
-  COMP(itm_water, 1, NULL);
+  COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
  RECIPE(itm_pizza, CC_FOOD, sk_cooking, sk_null, 3, 20000);
   TOOL(itm_hotplate, 8, itm_toolset, 4, itm_fire, -1, NULL);
@@ -297,7 +297,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_flour, 2, NULL);
   COMP(itm_veggy, 1, itm_tomato, 2, itm_broccoli, 1, NULL);
   COMP(itm_sauce_pesto, 1, itm_sauce_red, 1, NULL);
-  COMP(itm_water, 1, NULL);
+  COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
  RECIPE(itm_meth, CC_FOOD, sk_cooking, sk_null, 5, 20000);
   TOOL(itm_hotplate, 15, itm_toolset, 8, itm_fire, -1, NULL);
@@ -552,7 +552,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
  RECIPE(itm_crack,        CC_MISC, sk_cooking, sk_null,     4, 30000);
   TOOL(itm_pot, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 8, NULL);
-  COMP(itm_water, 1, NULL);
+  COMP(itm_water, 1, itm_water_clean, 1, NULL);
   COMP(itm_coke, 12, NULL);
   COMP(itm_ammonia, 1, NULL);
 
@@ -579,7 +579,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
  RECIPE(itm_superglue, CC_MISC, sk_cooking, sk_null, 2, 12000);
   TOOL(itm_hotplate, 5, itm_toolset, 3, itm_fire, -1, NULL);
-  COMP(itm_water, 1, NULL);
+  COMP(itm_water, 1, itm_water_clean, 1, NULL);
   COMP(itm_bleach, 1, itm_ant_egg, 1, NULL);
 
  RECIPE(itm_2x4, CC_MISC, sk_null, sk_null, 0, 8000);
