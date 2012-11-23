@@ -1342,6 +1342,11 @@ ARMOR("utility vest",	15, 200,C_TORSO,	COTTON,		MNULL,
     4,  3, -3,  0,  0,  0,  1,  0,  1, 14,	mfb(bp_torso), "\
 A light vest covered in pockets and straps for storage.");
 
+ARMOR("belt rig",	10, 200,C_TORSO,	COTTON,		MNULL,
+    4,  4, -3,  0,  0,  0,  1,  0,  1, 18,	mfb(bp_torso), "\
+A light vest covered in webbing, pockets and straps.\n\
+This variety is favoured by the military.");
+
 ARMOR("lab coat",	20, 155,C_TORSO,	COTTON,		MNULL,
    11,  7, -3, -2,  1,  1,  2,  0,  1, 14,	mfb(bp_torso), "\
 A long white coat with several large pockets.");
@@ -2678,6 +2683,14 @@ A bayonet is a stabbing weapon which can be attached to the front of a\n\
 shotgun, sub-machinegun or rifle, allowing a melee attack to deal\n\
 piercing damage.  The added length increases recoil slightly.",
 mfb(IF_STAB));
+
+GUNMOD("Underslung Shotgun", 2,650,  c_ltred, STEEL, MNULL,        2,  1,  2,  0, -1,
+        -2,  0,  0,  0,  0, 0, AT_NULL,         false,  false,  false,  true,
+        0, "\
+A miniaturized shotgun with 2 barrels, which can be mounted under the\n\
+barrel of many rifles, weapons with this mod installed may load\n\
+their normal ammo, or 2 rounds of shotgun ammo.",
+0);
 
 // BOOKS
 // Try to keep colors consistant among types of books.

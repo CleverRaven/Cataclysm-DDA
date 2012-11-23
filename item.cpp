@@ -1140,6 +1140,8 @@ int item::clip_size()
  int ret = gun->clip;
  if (gun->ammo != AT_40MM && charges > 0 && curammo->type == AT_40MM)
   return 1; // M203 mod in use
+ if (gun->ammo != AT_SHOT && charges > 0 && curammo->type == AT_SHOT)
+  return 1; // Or Shotgun
  for (int i = 0; i < contents.size(); i++) {
   if (contents[i].is_gunmod()) {
    int bonus = (ret * (dynamic_cast<it_gunmod*>(contents[i].type))->clip) / 100;
@@ -1287,6 +1289,11 @@ int item::pick_reload_ammo(player &u, bool interactive)
   if (contents[i].typeId() == itm_m203)
    has_m203 = true;
  }
+ bool has_shotgun = false;
+ for (int i = 0; i < contents.size() && !has_shotgun; i++) {
+  if (contents[i].typeId() == itm_u_shotgun)
+   has_shotgun = true;
+ }
 
  std::vector<int> am;	// List of indicies of valid ammo
 
@@ -1304,6 +1311,10 @@ int item::pick_reload_ammo(player &u, bool interactive)
     std::vector<int> grenades = u.has_ammo(AT_40MM);
     for (int i = 0; i < grenades.size(); i++)
      am.push_back(grenades[i]);
+ } if (has_shotgun) {
+    std::vector<int> shells = u.has_ammo(AT_SHOT);
+    for (int i = 0; i < shells.size(); i++)
+     am.push_back(shells[i]);
    }
   }
  } else {
@@ -1366,6 +1377,8 @@ bool item::reload(player &u, int index)
   single_load = has_flag(IF_RELOAD_ONE);
   if (u.inv[index].ammo_type() == AT_40MM && ammo_type() != AT_40MM)
    max_load = 1;
+  else if (u.inv[index].ammo_type() == AT_SHOT && ammo_type() != AT_SHOT)
+   max_load = 2;
   else
    max_load = clip_size();
  } else if (is_tool()) {
