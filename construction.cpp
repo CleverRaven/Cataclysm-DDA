@@ -242,9 +242,11 @@ void game::construction_menu()
    int current = i + offset;
    nc_color col = (player_can_build(u, total_inv, constructions[current], 0) ?
                    c_white : c_dkgray);
+   // Map menu items to hotkey letters, skipping j, k, l, and q.
+   char hotkey = current + ((current < 9) ? 97 : ((current < 13) ? 100 : 101));
    if (current == select)
     col = hilite(col);
-   mvwprintz(w_con, 1 + i, 1, col, constructions[current]->name.c_str());
+   mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey, constructions[current]->name.c_str());
   }
 
   if (update_info) {
@@ -379,6 +381,24 @@ void game::construction_menu()
      update_info = true;
     }
     break;
+  case 'q':
+  case 'Q':
+  case KEY_ESCAPE:
+   break;
+  default:
+   if (ch < 96 && ch > constructions.size() + 101) break;
+   // Map menu items to hotkey letters, skipping j, k, l, and q.
+   char hotkey = ch - ((ch < 105) ? 97 : ((ch < 112) ? 100 : 101));
+   if (player_can_build(u, total_inv, constructions[hotkey], 0)) {
+    place_construction(constructions[hotkey]);
+    ch = 'q';
+   } else {
+    popup("You can't build that!");
+    for (int i = 1; i < 24; i++)
+     mvwputch(w_con, i, 30, c_white, LINE_XOXO);
+    update_info = true;
+   }
+   break;
   }
  } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
  refresh_all();
