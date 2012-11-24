@@ -438,7 +438,8 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_mechanics],
         itm_wrench, itm_frame, itm_wheel, itm_motor, itm_combustion_small,
-        itm_hacksaw, itm_welder, NULL);
+        itm_hacksaw, itm_welder, itm_motor, itm_motor_large, 
+        itm_storage_battery, itm_solar_panel,  NULL);
 
  setvector(
    mapitems[mi_chemistry],
@@ -477,11 +478,11 @@ void game::init_mapitems()
    mapitems[mi_electronics],
 	itm_superglue, itm_electrohack, itm_processor, itm_RAM,
 	itm_power_supply, itm_amplifier, itm_transponder, itm_receiver,
-	itm_antenna, itm_motor, itm_motor_large, itm_storage_battery,
+	itm_antenna,
 	itm_screwdriver, itm_mask_dust, itm_glasses_safety, itm_goggles_welding,
 	itm_battery, itm_plut_cell, itm_manual_electronics,
 	itm_textbook_electronics, itm_soldering_iron, itm_hotplate, itm_UPS_off,
-	itm_usb_drive, itm_software_useless, itm_solar_panel, NULL);
+	itm_usb_drive, itm_software_useless, NULL);
 
  setvector(
    mapitems[mi_monparts],
