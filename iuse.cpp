@@ -951,7 +951,7 @@ void iuse::water_purifier(game *g, player *p, item *it, bool t)
   return;
  }
  p->moves -= 150;
- pure->make(g->itypes[itm_water]);
+ pure->make(g->itypes[itm_water_clean]);
  pure->poison = 0;
 }
 
@@ -2263,15 +2263,8 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
  }
  dirx += p->posx;
  diry += p->posy;
- if (g->m.ter(dirx, diry) == t_bars && g->m.ter(p->posx, p->posy) != t_sewage) {
-  g->m.ter(dirx, diry) = t_rock_floor;
-  p->moves -= 1000;
-  g->sound(dirx, diry, 15,"grnd grnd grnd");
- int pipes = 3;
- item pipe(g->itypes[itm_pipe], 0, g->nextinv);
- for (int i = 0; i < pipes; i++)
-  g->m.add_item(p->posx, p->posy, pipe);
- } else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(p->posx, p->posy) == t_sewage) {
+ if (g->m.ter(dirx, diry) == t_bars && g->m.ter(dirx + 1, diry) == t_sewage ||
+                                              g->m.ter(dirx, diry + 1) == t_sewage) {
   g->m.ter(dirx, diry) = t_sewage;
   p->moves -= 1000;
   g->sound(dirx, diry, 15,"grnd grnd grnd");
@@ -2279,6 +2272,14 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
  item pipe(g->itypes[itm_pipe], 0, g->nextinv);
  for (int i = 0; i < pipes; i++)
   g->m.add_item(p->posx, p->posy, pipe);	
+ } else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(p->posx, p->posy)) {
+  g->m.ter(dirx, diry) = t_floor;
+  p->moves -= 1000;
+  g->sound(dirx, diry, 15,"grnd grnd grnd");
+ int pipes = 3;
+ item pipe(g->itypes[itm_pipe], 0, g->nextinv);
+ for (int i = 0; i < pipes; i++)
+  g->m.add_item(p->posx, p->posy, pipe);
  } else {
   g->add_msg("You can't cut that.");
  }

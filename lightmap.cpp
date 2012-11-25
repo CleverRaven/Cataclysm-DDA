@@ -87,11 +87,11 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
    switch(g->m.field_at(sx, sy).type) {
     case fd_fire:
      if (3 == g->m.field_at(sx, sy).density)
-      apply_light_source(sx, sy, x, y, 50);
+      apply_light_source(sx, sy, x, y, 160);
      else if (2 == g->m.field_at(sx, sy).density)
-      apply_light_source(sx, sy, x, y, 20);
+      apply_light_source(sx, sy, x, y, 60);
      else
-      apply_light_source(sx, sy, x, y, 8);
+      apply_light_source(sx, sy, x, y, 16);
      break;
     case fd_fire_vent:
     case fd_flame_burst:

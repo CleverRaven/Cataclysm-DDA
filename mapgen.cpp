@@ -4150,8 +4150,8 @@ case ot_s_garage_north:
      |###                 |
      |---            -----|
      |# |            | ###|
-     |# +            + ## |
-     |# |            |    |
+     |# +            + #6 |
+     |# |            |    +
      |# |############| {{{|
      ----------------------
      */
@@ -4162,6 +4162,8 @@ case ot_s_garage_north:
         line(this, t_wall_v, 0, yard_wdth, 0, SEEY*2-4);
         line(this, t_wall_v, SEEX * 2 - 3, yard_wdth, SEEX * 2 - 3, SEEY*2-4);
         line(this, t_wall_h, 0, SEEY*2-4, SEEX * 2 - 3, SEEY*2-4);
+        line(this, t_window, 0, SEEY*2-4, SEEX * 2 - 14, SEEY*2-4);
+        line(this, t_wall_h, 0, SEEY*2-4, SEEX * 2 - 20, SEEY*2-4);
         /*square(this, t_floor, 4, 4, SEEX * 2 - 4, SEEY * 2 - 4);
         line(this, t_wall_v, 3, 4, 3, SEEY * 2 - 4);
         line(this, t_wall_v, SEEX * 2 - 3, 4, SEEX * 2 - 3, SEEY * 2 - 4);
@@ -4182,7 +4184,7 @@ case ot_s_garage_north:
         line(this, t_bench, SEEX*2-6, SEEY*2-8, SEEX*2-4, SEEY*2-8);
         ter(SEEX*2-6, SEEY*2-6) = t_console_broken;
         ter(SEEX*2-5, SEEY*2-6) = t_bench;
-        line(this, t_bookcase, SEEX*2-6, SEEY*2-5, SEEX*2-4, SEEY*2-5);
+        line(this, t_locker, SEEX*2-6, SEEY*2-5, SEEX*2-4, SEEY*2-5);
         //gates
         line(this, t_door_metal_locked, 3, yard_wdth, 8, yard_wdth);
         ter(2, yard_wdth+1) = t_gates_mech_control;
@@ -4253,7 +4255,7 @@ case ot_s_garage_north:
      ter(i, j) = t_counter;
     else if ((i == 20 && j > 7 && j < 12) || (j == 8 && i > 19 && i < 23) ||
              (j == 15 && i > 0 && i < 5))
-     ter(i, j) = t_rack;
+     ter(i, j) = t_locker;
     else if (j < 7)
      ter(i, j) = t_pavement;
     else if (j > 20)
