@@ -1472,17 +1472,17 @@ void player::disp_morale()
 
 void player::disp_status(WINDOW *w, game *g)
 {
- mvwprintz(w, 1, 0, c_ltgray, "Weapon: %s", weapname().c_str());
+ mvwprintz(w, 0, 0, c_ltgray, "Weapon: %s", weapname().c_str());
  if (weapon.is_gun()) {
    int adj_recoil = recoil + driving_recoil;
        if (adj_recoil >= 36)
-   mvwprintz(w, 1, 30, c_red,    "Recoil");
+   mvwprintz(w, 0, 30, c_red,    "Recoil");
   else if (adj_recoil >= 20)
-   mvwprintz(w, 1, 30, c_ltred,  "Recoil");
+   mvwprintz(w, 0, 30, c_ltred,  "Recoil");
   else if (adj_recoil >= 4)
-   mvwprintz(w, 1, 30, c_yellow, "Recoil");
+   mvwprintz(w, 0, 30, c_yellow, "Recoil");
   else if (adj_recoil > 0)
-   mvwprintz(w, 1, 30, c_ltgray, "Recoil");
+   mvwprintz(w, 0, 30, c_ltgray, "Recoil");
  }
 
       if (hunger > 2800)

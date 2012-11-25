@@ -231,6 +231,7 @@ class game
   WINDOW *w_HP;
   WINDOW *w_moninfo;
   WINDOW *w_messages;
+  WINDOW *w_location;
   WINDOW *w_status;
 
  private:

@@ -33,6 +33,7 @@ game::game() :
  w_HP(NULL),
  w_moninfo(NULL),
  w_messages(NULL),
+ w_location(NULL),
  w_status(NULL),
  om_hori(NULL),
  om_vert(NULL),
@@ -65,8 +66,10 @@ game::game() :
  werase(w_HP);
  w_moninfo = newwin(12, 48, 0, SEEX * 2 + 8);
  werase(w_moninfo);
- w_messages = newwin(9, 48, 12, SEEX * 2 + 8);
+ w_messages = newwin(8, 48, 12, SEEX * 2 + 8);
  werase(w_messages);
+ w_location = newwin(1, 48, 20, SEEX * 2 + 8);
+ werase(w_location);
  w_status = newwin(4, 55, 21, SEEX * 2 + 1);
  werase(w_status);
 
@@ -85,6 +88,7 @@ game::~game()
  delwin(w_HP);
  delwin(w_moninfo);
  delwin(w_messages);
+ delwin(w_location);
  delwin(w_status);
 }
 
@@ -2475,12 +2479,13 @@ void game::draw()
  std::string tername = oterlist[cur_ter].name;
  if (tername.length() > 14)
   tername = tername.substr(0, 14);
- mvwprintz(w_status, 0,  0, oterlist[cur_ter].color, tername.c_str());
+ werase(w_location);
+ mvwprintz(w_location, 0,  0, oterlist[cur_ter].color, tername.c_str());
  if (levz < 0)
-  mvwprintz(w_status, 0, 18, c_ltgray, "Underground");
+  mvwprintz(w_location, 0, 18, c_ltgray, "Underground");
  else
-  mvwprintz(w_status, 0, 18, weather_data[weather].color,
-                             weather_data[weather].name.c_str());
+  mvwprintz(w_location, 0, 18, weather_data[weather].color,
+                               weather_data[weather].name.c_str());
  nc_color col_temp = c_blue;
  if (temperature >= 90)
   col_temp = c_red;
@@ -2493,9 +2498,11 @@ void game::draw()
  else if (temperature >  32)
   col_temp = c_ltblue;
  if (OPTIONS[OPT_USE_CELSIUS])
-  wprintz(w_status, col_temp, " %dC", int((temperature - 32) / 1.8));
+  wprintz(w_location, col_temp, " %dC", int((temperature - 32) / 1.8));
  else
-  wprintz(w_status, col_temp, " %dF", temperature);
+  wprintz(w_location, col_temp, " %dF", temperature);
+ wrefresh(w_location);
+
  mvwprintz(w_status, 0, 41, c_white, "%s, day %d",
            season_name[turn.season].c_str(), turn.day + 1);
  if (run_mode != 0)
@@ -7462,8 +7469,8 @@ void game::write_msg()
 {
  werase(w_messages);
  int maxlength = 80 - (SEEX * 2 + 10);	// Matches size of w_messages
- int line = 8;
- for (int i = messages.size() - 1; i >= 0 && line < 9; i--) {
+ int line = 7;
+ for (int i = messages.size() - 1; i >= 0 && line < 8; i--) {
   std::string mes = messages[i].message;
   if (messages[i].count > 1) {
    std::stringstream mesSS;
