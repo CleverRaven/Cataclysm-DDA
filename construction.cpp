@@ -64,7 +64,7 @@ void game::init_construction()
   STAGE(t_dirt, 20);
    TOOL(itm_ax, itm_chainsaw_on, NULL);
 
- CONSTRUCT("Move Furniture", 0, &construct::able_furniture, &construct::done_furniture);
+ CONSTRUCT("Move Furniture", -1, &construct::able_furniture, &construct::done_furniture);
   STAGE(t_null, 1);
 
  CONSTRUCT("Clean Broken Window", 0, &construct::able_broken_window,
@@ -253,7 +253,8 @@ void game::construction_menu()
    update_info = false;
    constructable* current_con = constructions[select];
 // Print difficulty
-   int pskill = u.sklevel[sk_carpentry], diff = current_con->difficulty;
+   int pskill = u.sklevel[sk_carpentry];
+   int diff = current_con->difficulty > 0 ? current_con->difficulty : 0;
    mvwprintz(w_con, 1, 43, (pskill >= diff ? c_white : c_red),
              "%d   ", diff);
 // Clear out lines for tools & materials
@@ -533,7 +534,7 @@ void game::complete_construction()
  std::vector<component> map_use;
 
  u.practice(sk_carpentry, built->difficulty * 10);
- if (built->difficulty < 1)
+ if (built->difficulty == 0)
   u.practice(sk_carpentry, 10);
  for (int i = 0; i < 3; i++) {
   if (!stage.components[i].empty())
