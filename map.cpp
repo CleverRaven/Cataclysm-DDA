@@ -861,7 +861,8 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
    int num_boards = rng(0, 1);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
-    add_item(x, y, (*itypes)[itm_splinter], 0);
+   add_item(x, y, (*itypes)[itm_nail], 0, 2);
+   add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
   } else {
    sound += "whump!";
@@ -878,7 +879,8 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
    int num_boards = rng(1, 4);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
-    add_item(x, y, (*itypes)[itm_splinter], 0);
+   add_item(x, y, (*itypes)[itm_nail], 0, rng(1, 3));
+   add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
   } else {
    sound += "whump!";
@@ -895,7 +897,8 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
    int num_boards = rng(2, 5);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
-    add_item(x, y, (*itypes)[itm_splinter], 0);
+   add_item(x, y, (*itypes)[itm_nail], 0, rng(4, 10));
+   add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
   } else {
    sound += "whump!";
@@ -943,7 +946,8 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
    int num_boards = rng(1, 6);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
-    add_item(x, y, (*itypes)[itm_splinter], 0);
+   add_item(x, y, (*itypes)[itm_nail], 0, rng(2, 12));
+   add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
   } else {
    sound += "wham!";
@@ -974,7 +978,8 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
    int num_boards = rng(1, 6);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
-    add_item(x, y, (*itypes)[itm_splinter], 0);
+   add_item(x, y, (*itypes)[itm_nail], 0, rng(2, 12));
+   add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
   } else {
    sound += "wham!";
@@ -1022,7 +1027,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
    int num_boards = rng(0, 3);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_steel_chunk], 0);
-    add_item(x, y, (*itypes)[itm_pipe], 0);
+   add_item(x, y, (*itypes)[itm_pipe], 0);
    return true;
   } else {
    sound += "clang!";
@@ -1053,7 +1058,8 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
    int num_boards = rng(2, 6);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
-    add_item(x, y, (*itypes)[itm_splinter], 0);
+   add_item(x, y, (*itypes)[itm_nail], 0, rng(4, 12));
+   add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
   } else {
    sound += "whump.";
@@ -1087,7 +1093,8 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
    int num_boards = rng(1, 3);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
-    add_item(x, y, (*itypes)[itm_splinter], 0);
+   add_item(x, y, (*itypes)[itm_nail], 0, rng(2, 6));
+   add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
   } else {
    sound += "whump.";
@@ -1200,6 +1207,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
    int num_boards = rng(1, 5);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_2x4], 0);
+   add_item(x, y, (*itypes)[itm_nail], 0, rng(2, 10));
    return true;
   } else {
    sound += "wham!";
@@ -1244,6 +1252,8 @@ void map::destroy(game *g, int x, int y, bool makesound)
    for (int j = y - 2; j <= y + 2; j++) {
     if (move_cost(i, j) > 0 && one_in(6))
      add_item(i, j, g->itypes[itm_2x4], 0);
+    if (move_cost(i, j) > 0 && one_in(6))
+      add_item(i, j, g->itypes[itm_nail], 0, 3);
    }
   }
   break;
@@ -1259,6 +1269,8 @@ void map::destroy(game *g, int x, int y, bool makesound)
    for (int j = y - 2; j <= y + 2; j++) {
     if (move_cost(i, j) > 0 && one_in(5))
      add_item(i, j, g->itypes[itm_splinter], 0);
+    if (move_cost(i, j) > 0 && one_in(6))
+      add_item(i, j, g->itypes[itm_nail], 0, 3);
    }
   }
   ter(x, y) = t_rubble;
@@ -1291,6 +1303,8 @@ void map::destroy(game *g, int x, int y, bool makesound)
      add_item(i, j, g->itypes[itm_splinter], 0);
     if (move_cost(i, j) > 0 && one_in(3))
      add_item(i, j, g->itypes[itm_rebar], 0);
+    if (move_cost(i, j) > 0 && one_in(6))
+      add_item(i, j, g->itypes[itm_nail], 0, 3);
    }
   }
   ter(x, y) = t_rubble;
