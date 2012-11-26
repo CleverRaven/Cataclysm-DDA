@@ -1691,11 +1691,13 @@ point map::find_item(item *it)
  return ret;
 }
 
-void map::add_item(int x, int y, itype* type, int birthday)
+void map::add_item(int x, int y, itype* type, int birthday, int quantity)
 {
  if (type->is_style())
   return;
  item tmp(type, birthday);
+ if (quantity)
+  tmp.charges = quantity;
  tmp = tmp.in_its_container(itypes);
  if (tmp.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
