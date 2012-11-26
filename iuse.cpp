@@ -903,9 +903,7 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
   return;
  }
  p->moves -= 500;
- item it_nails(g->itypes[itm_nail], 0, g->nextinv);
- it_nails.charges = nails;
- g->m.add_item(p->posx, p->posy, it_nails);
+ g->m.add_item(p->posx, p->posy, g->itypes[itm_nail], 0, nails);
  item board(g->itypes[itm_2x4], 0, g->nextinv);
  for (int i = 0; i < boards; i++)
   g->m.add_item(p->posx, p->posy, board);
@@ -1159,9 +1157,7 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
    return;
   }
   p->moves -= 500;
-  item it_nails(g->itypes[itm_nail], 0, g->nextinv);
-  it_nails.charges = nails;
-  g->m.add_item(p->posx, p->posy, it_nails);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_nail], 0, nails);
   item board(g->itypes[itm_2x4], 0, g->nextinv);
   for (int i = 0; i < boards; i++)
    g->m.add_item(p->posx, p->posy, board);
