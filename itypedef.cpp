@@ -372,8 +372,13 @@ FOOD("cat food",	20,  8,	c_cyan,		FLESH,	itm_can_food,
 Blech, so gross.  Save it for when you're about to die of starvation.");
 
 FOOD("honey comb",	10, 35,	c_yellow,	VEGGY,	itm_null,
-    1,  1,  0, 20,  0,  0, -2,  0,  1,  9,	&iuse::none, ADD_NULL, "\
+    1,  1,  0, 20,  0,  0, -2,  0,  1,  9,	&iuse::honeycomb, ADD_NULL, "\
 A large chunk of wax, filled with honey.  Very tasty.");
+
+FOOD("wax",     	10, 35,	c_yellow,	VEGGY,	itm_null,
+    1,  1,  0, 4,  0,  0, -2,  0,  1,  -5,	&iuse::none, ADD_NULL, "\
+A large chunk of beeswax.\n\
+Not very tasty or nourishing, but ok in an emergency.");
 
 FOOD("royal jelly",	 8,200,	c_magenta,	VEGGY,	itm_null,
     1,  1,  0, 10,  0,  0,  3,  0,  1,  7,	&iuse::royal_jelly, ADD_NULL, "\
@@ -1155,6 +1160,11 @@ MELEE("hard plating",  30, 160, ']', c_ltcyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     12,  1800,  6,  0,  -1, 0, "\
 A piece of very thick armor plating made of steel.");
+
+MELEE("burnt out torch",	95,  0, '/', c_brown,	WOOD,	MNULL,
+	 6, 10, 12,  0,  3, 0, "\
+A torch which has consumed all its fuel, can be recrafted\n\
+into another torch");
 
 // ARMOR
 #define ARMOR(name,rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
@@ -3373,7 +3383,35 @@ TOOL("duct tape",60, 20, ';', c_ltgray, PLASTIC, PAPER,
     2,  2,  0,  0, -3, 200,200, 0,  0, AT_NULL, itm_null, &iuse::none,
 0, "\
 A roll of incredibly strong tape, it's uses are innumerable.");
- 
+
+TOOL("torch",    95,  0, '/', c_brown,   WOOD,   MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL     REVERT    FUNCTION 
+    6, 10, 12,  0,  3, 25, 25,  0, 0, AT_NULL, itm_null, &iuse::torch,
+0,"\
+A large stick, wrapped in gasoline soaked rags. When lit, produces\n\
+a fair amount of light");
+
+TOOL("torch (lit)",    95,  0, '/', c_brown,   WOOD,   MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL     REVERT    FUNCTION 
+    6, 10, 12,  0,  3, 25, 25,  1, 15, AT_NULL, itm_torch_done, &iuse::torch_lit,
+0,"\
+A large stick, wrapped in gasoline soaked rags. This is burning,\n\
+producing plenty of light");
+
+//    NAME              RAR PRC SYM COLOR       MAT1    MAT2
+TOOL("candle",           40,  0, ',', c_white,  VEGGY,  MNULL,
+    1,  1,  0,  0, -2, 100, 100, 0, 0, AT_NULL, itm_can_food, &iuse::candle,
+0, "\
+A thick candle, doesn't provide very much light, but it can burn for\n\
+quite a long time.");
+
+//    NAME              RAR PRC SYM COLOR       MAT1    MAT2
+TOOL("candle (lit)",           40,  0, ',', c_white,  VEGGY,  MNULL,
+    1,  1,  0,  0, -2, 100, 100, 1, 50, AT_NULL, itm_null, &iuse::candle_lit,
+0, "\
+A thick candle, doesn't provide very much light, but it can burn for\n\
+quite a long time. This candle is lit.");
+
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated

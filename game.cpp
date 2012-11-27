@@ -2803,8 +2803,12 @@ unsigned char game::light_level()
   ret = 8;
  if (ret < 8 && event_queued(EVENT_ARTIFACT_LIGHT))
   ret = 8;
+ if (ret < 6 && u.has_amount(itm_torch_lit, 1))
+  ret = 6;
  if (ret < 4 && u.has_artifact_with(AEP_GLOW))
   ret = 4;
+ if (ret < 3 && u.has_amount(itm_candle_lit, 1))
+  ret = 3;
  if (ret < 1)
   ret = 1;
 // The EVENT_DIM event slowly dims the sky, then relights it

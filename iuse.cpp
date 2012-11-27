@@ -19,7 +19,11 @@ void iuse::sewage(game *g, player *p, item *it, bool t)
  if (one_in(4))
   p->mutate(g);
 }
-
+void iuse::honeycomb(game *g, player *p, item *it, bool t)
+{
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_wax],0, 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_wax],0, 0);
+}
 void iuse::royal_jelly(game *g, player *p, item *it, bool t)
 {
 // TODO: Add other diseases here; royal jelly is a cure-all!
@@ -428,8 +432,8 @@ void iuse::crack(game *g, player *p, item *it, bool t)
 void iuse::meth(game *g, player *p, item *it, bool t)
 {
  int duration = 10 * (40 - p->str_cur);
- if (p->has_charges(itm_lighter, 1) && p->has_amount(itm_can_drink, 1) ||
-     p->has_amount(itm_crackpipe, 1)) {
+ if (p->has_amount(itm_apparatus, 1)) {
+  p->use_charges(itm_lighter, 1);
   g->add_msg_if_player(p,"You smoke some crystals.");
   duration *= 1.5;
  } else
@@ -2294,6 +2298,55 @@ void iuse::tent(game *g, player *p, item *it, bool t)
  }
 */
 }
+
+void iuse::torch(game *g, player *p, item *it, bool t)
+{
+  if (!p->has_charges(itm_lighter, 1)) 
+  g->add_msg_if_player(p,"You need a lighter or fire to light this.");
+else {
+ p->use_charges(itm_lighter, 1);
+  g->add_msg_if_player(p,"You light the torch.");
+  it->make(g->itypes[itm_torch_lit]);
+  it->active = true;
+ }
+}
+ 
+void iuse::torch_lit(game *g, player *p, item *it, bool t)
+{
+ if (t) {	// Normal use
+// Do nothing... player::active_light and the lightmap::generate deal with this
+ } else {	// Turning it off
+  g->add_msg_if_player(p,"The torch is extinguished");
+  it->charges -= 1;
+  it->make(g->itypes[itm_torch]);
+  it->active = false;
+ }
+}
+
+
+void iuse::candle(game *g, player *p, item *it, bool t)
+{
+  if (!p->has_charges(itm_lighter, 1)) 
+  g->add_msg_if_player(p,"You need a lighter to light this.");
+else {
+  p->use_charges(itm_lighter, 1);
+  g->add_msg_if_player(p,"You light the candle.");
+  it->make(g->itypes[itm_candle_lit]);
+  it->active = true;
+ }
+}
+ 
+void iuse::candle_lit(game *g, player *p, item *it, bool t)
+{
+ if (t) {	// Normal use
+// Do nothing... player::active_light and the lightmap::generate deal with this
+ } else {	// Turning it off
+  g->add_msg_if_player(p,"The candle flickers out");
+  it->make(g->itypes[itm_candle]);
+  it->active = false;
+ }
+}
+
 /* MACGUFFIN FUNCTIONS
  * These functions should refer to it->associated_mission for the particulars
  */
