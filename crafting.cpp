@@ -551,9 +551,9 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
  RECIPE(itm_torch,        CC_MISC, sk_null,    sk_null,     0, 2000);
   COMP(itm_stick, 1, itm_2x4, 1, itm_splinter, 1, itm_torch_done, 1, NULL);
-  COMP(itm_gasoline, 1, itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, NULL);
+  COMP(itm_gasoline, 1, itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, NULL);
   COMP(itm_rag, 1, NULL);
- 
+
  RECIPE(itm_candle,       CC_MISC, sk_null,    sk_null,     0, 5000);
   TOOL(itm_lighter, 5, itm_fire, -1, NULL);
   COMP(itm_can_food, -1, NULL);
@@ -665,8 +665,14 @@ RECIPE(itm_boobytrap, CC_MISC, sk_mechanics, sk_traps,3,5000);
      itm_grenade, 1, NULL);
 
  RECIPE(itm_bandages, CC_MISC, sk_firstaid, sk_null, 1, 500);
-  COMP(itm_rag, 1, NULL);
+  COMP(itm_rag, 3, NULL);
   COMP(itm_superglue, 1, NULL);
+  COMP(itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, 1, NULL);
+
+RECIPE(itm_bandages, CC_MISC, sk_firstaid, sk_null, 1, 1000);
+  TOOL(itm_duct_tape, 10, NULL);
+  COMP(itm_rag, 3, NULL);
+  COMP(itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, 1, NULL);
 
  RECIPE(itm_silencer, CC_MISC, sk_mechanics, sk_null, 1, 650);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
