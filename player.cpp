@@ -3584,7 +3584,8 @@ int player::amount_of(itype_id it)
  if (it == itm_toolset && has_bionic(bio_tools))
   return 1;
  if (it == itm_apparatus) {
- if (has_amount(itm_crackpipe, 1) && has_amount(itm_lighter, 1))
+ if (has_amount(itm_crackpipe, 1) && has_amount(itm_lighter, 1) ||
+    (has_amount(itm_can_drink, 1) && has_amount(itm_lighter, 1)))
   return 1;
 }
  int quantity = 0;

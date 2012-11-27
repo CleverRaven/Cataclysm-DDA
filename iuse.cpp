@@ -417,9 +417,9 @@ void iuse::coke(game *g, player *p, item *it, bool t)
 void iuse::crack(game *g, player *p, item *it, bool t)
 {
   g->add_msg_if_player(p,"You smoke some rocks.");
+ p->use_charges(itm_lighter, 1);
  int duration = 10;
  if (p->has_trait(PF_LIGHTWEIGHT))
- p->use_charges(itm_lighter, 1);
   duration += 10;
  p->hunger -= 8;
  p->add_disease(DI_HIGH, duration, g);

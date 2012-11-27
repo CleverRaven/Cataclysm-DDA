@@ -44,7 +44,7 @@ void game::init_itypes ()
             '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0));
 // For smoking crack or meth
  itypes.push_back(
-  new itype(4, 0, 0, "smoking apparatus",
+  new itype(4, 0, 0, "something to smoke that from, and a lighter",
             "A fake item.  If you are reading this it's a bug!",
             '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0));
  int index = 4;
@@ -572,7 +572,7 @@ MED("cocaine",		 8,420,	c_white,	itm_null,
 	POWDER,  20, -2, 30,  8, 25,&iuse::coke,	ADD_COKE, "\
 A strong, illegal stimulant.  Highly addictive.");
 
-MED("methamphetamine",	 2,800, c_ltcyan,	itm_null,
+MED("methamphetamine",	 2,800, c_ltcyan,	itm_apparatus,
 	POWDER,  10, -4, 50,  6, 30,&iuse::meth,	ADD_SPEED, "\
 A very strong illegal stimulant.  Extremely addictive and bad for you, but\n\
 also extremely effective in boosting your alertness.");
