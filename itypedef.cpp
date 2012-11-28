@@ -609,6 +609,13 @@ MED("crack",		 8,420,	c_white,	itm_apparatus,
 	POWDER,  40, -2, 80,  4, 50,&iuse::crack,	ADD_CRACK, "\
 Refined cocaine, incredibly addictive.");
 
+MED("Grack Cocaine",      8,420, c_white,        itm_apparatus,
+        POWDER,  200, -2, 80,  4, 50,&iuse::grack,       ADD_CRACK, "\
+Grack Cocaine, the strongest substance known to the multiverse\n\
+this potent substance is refined from the sweat of the legendary\n\
+gracken");
+
+
 // MELEE WEAPONS
 // Only use secondary material if it will have a major impact.
 // dam is a somewhat rigid bonus--anything above 30, tops, is ridiculous
@@ -3411,6 +3418,14 @@ TOOL("candle (lit)",           40,  0, ',', c_white,  VEGGY,  MNULL,
 0, "\
 A thick candle, doesn't provide very much light, but it can burn for\n\
 quite a long time. This candle is lit.");
+
+//  NAME        RAR PRC SYM  COLOR  MAT1    MAT
+TOOL("brazier",  50,900,';', c_ltred,  IRON,MNULL,
+// VOL WGT DAM CUT HIT   MAX DEF  USE SEC   FUEL    REVERT    FUNCTION
+     6, 5,  11,  0, 1,    0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap,
+0, "\
+A large stand, with a shallow bowl on top. Used for old school\n\
+fire sconces.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

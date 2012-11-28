@@ -27,6 +27,7 @@ class iuse
   void weed		(game *g, player *p, item *it, bool t);
   void coke		(game *g, player *p, item *it, bool t);
   void crack		(game *g, player *p, item *it, bool t);
+  void grack		(game *g, player *p, item *it, bool t);
   void meth		(game *g, player *p, item *it, bool t);
   void poison		(game *g, player *p, item *it, bool t);
   void hallu		(game *g, player *p, item *it, bool t);
@@ -106,8 +107,8 @@ class iuse
   void tent             (game *g, player *p, item *it, bool t);
   void torch            (game *g, player *p, item *it, bool t);
   void torch_lit        (game *g, player *p, item *it, bool t);
-  void candle            (game *g, player *p, item *it, bool t);
-  void candle_lit        (game *g, player *p, item *it, bool t);
+  void candle           (game *g, player *p, item *it, bool t);
+  void candle_lit       (game *g, player *p, item *it, bool t);
 // MACGUFFINS
   void mcg_note		(game *g, player *p, item *it, bool t);
 // ARTIFACTS

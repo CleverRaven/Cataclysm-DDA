@@ -81,7 +81,8 @@ t_bridge,
 // Walls & doors
 t_canvas, t_door_canvas, t_door_canvas_o, t_groundsheet,
 // Lighting related
-t_skylight, t_emergency_light, t_emergency_light_flicker,
+t_skylight, t_emergency_light_flicker, t_emergency_light,
+// Walls
 t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
 t_wall_v, t_wall_h,
 t_wall_metal_v, t_wall_metal_h,

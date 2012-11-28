@@ -551,7 +551,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
  RECIPE(itm_torch,        CC_MISC, sk_null,    sk_null,     0, 2000);
   COMP(itm_stick, 1, itm_2x4, 1, itm_splinter, 1, itm_torch_done, 1, NULL);
-  COMP(itm_gasoline, 1, itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, NULL);
+  COMP(itm_gasoline, 1, itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, 1, NULL);
   COMP(itm_rag, 1, NULL);
 
  RECIPE(itm_candle,       CC_MISC, sk_null,    sk_null,     0, 5000);

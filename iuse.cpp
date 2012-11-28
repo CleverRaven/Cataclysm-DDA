@@ -429,6 +429,18 @@ void iuse::crack(game *g, player *p, item *it, bool t)
  p->add_disease(DI_HIGH, duration, g);
 }
 
+void iuse::grack(game *g, player *p, item *it, bool t)
+{
+  g->add_msg_if_player(p,"You smoke some Grack Cocaine, time seems to stop.");
+ p->use_charges(itm_lighter, 1);
+ int duration = 1000;
+ if (p->has_trait(PF_LIGHTWEIGHT))
+  duration += 10;
+ p->hunger -= 8;
+ p->add_disease(DI_GRACK, duration, g);
+}
+
+
 void iuse::meth(game *g, player *p, item *it, bool t)
 {
  int duration = 10 * (40 - p->str_cur);
@@ -1281,6 +1293,11 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
  case itm_rollmat:
   message << "You unroll the mat and lay it on the ground.";
   type = tr_rollmat;
+  practice = 0;
+  break;
+ case itm_brazier:
+  message << "You place the brazier securely.";
+  type = tr_brazier;
   practice = 0;
   break;
  case itm_boobytrap:
