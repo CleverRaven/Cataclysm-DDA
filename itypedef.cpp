@@ -1048,6 +1048,11 @@ MELEE("crack pipe",             37,  35, ',',c_ltcyan,  GLASS,  MNULL,
 A fine glass pipe, with a bulb on the end, used for partaking of\n\
 certain illicit substances.");
 
+MELEE("burnt out torch",	95,  0, '/', c_brown,	WOOD,	MNULL,
+	 6, 10, 12,  0,  3, 0, "\
+A torch which has consumed all its fuel, can be recrafted\n\
+into another torch");
+
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  25, 35, ']', c_cyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
@@ -1167,11 +1172,6 @@ MELEE("hard plating",  30, 160, ']', c_ltcyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     12,  1800,  6,  0,  -1, 0, "\
 A piece of very thick armor plating made of steel.");
-
-MELEE("burnt out torch",	95,  0, '/', c_brown,	WOOD,	MNULL,
-	 6, 10, 12,  0,  3, 0, "\
-A torch which has consumed all its fuel, can be recrafted\n\
-into another torch");
 
 // ARMOR
 #define ARMOR(name,rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\

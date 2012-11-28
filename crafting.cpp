@@ -549,20 +549,29 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
 // MISC
 
+ RECIPE(itm_vehicle_controls, CC_MISC, sk_mechanics, sk_null, 4, 30000);
+  TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
+  TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
+  TOOL(itm_welder, 50, itm_toolset, 5, NULL);
+  TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
+  COMP(itm_pipe, 10, NULL);
+  COMP(itm_steel_chunk, 12, NULL);
+  COMP(itm_wire, 3, NULL);
+ 
  RECIPE(itm_torch,        CC_MISC, sk_null,    sk_null,     0, 2000);
   COMP(itm_stick, 1, itm_2x4, 1, itm_splinter, 1, itm_torch_done, 1, NULL);
   COMP(itm_gasoline, 1, itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, 1, NULL);
   COMP(itm_rag, 1, NULL);
 
  RECIPE(itm_candle,       CC_MISC, sk_null,    sk_null,     0, 5000);
-  TOOL(itm_lighter, 5, itm_fire, -1, NULL);
+  TOOL(itm_lighter, 5, itm_fire, -1, itm_toolset, 1, NULL);
   COMP(itm_can_food, -1, NULL);
   COMP(itm_wax, 2, NULL);
   COMP(itm_string_6, 1, NULL);
 
  RECIPE(itm_crack,        CC_MISC, sk_cooking, sk_null,     4, 30000);
   TOOL(itm_pot, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 8, NULL);
+  TOOL(itm_fire, -1, itm_hotplate, 8, itm_toolset, 2, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
   COMP(itm_coke, 12, NULL);
   COMP(itm_ammonia, 1, NULL);
@@ -580,16 +589,16 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_poppy_flower, 2, NULL);
 
  RECIPE(itm_carspike,     CC_MISC, sk_null, sk_null, 0, 3000);
-  TOOL(itm_hammer, -1, NULL);
+  TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
   COMP(itm_spear_knife, 1, itm_knife_combat, 1, itm_knife_steak, 2,
        itm_steel_chunk, 3, NULL);
 
  RECIPE(itm_carblade,     CC_MISC, sk_null, sk_null, 0, 3000);
-  TOOL(itm_hammer, -1, NULL);
+  TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
   COMP(itm_broadsword, 1, itm_machete, 1, itm_pike, 1, NULL);
 
  RECIPE(itm_superglue, CC_MISC, sk_cooking, sk_null, 2, 12000);
-  TOOL(itm_hotplate, 5, itm_toolset, 3, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
   COMP(itm_bleach, 1, itm_ant_egg, 1, NULL);
 
