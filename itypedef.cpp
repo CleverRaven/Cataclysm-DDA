@@ -1183,7 +1183,7 @@ env,warmth,storage))
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("sneakers",	80, 100,C_SHOES,	LEATHER,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    5,  4, -2,  0, -1,  0,  2,  0,  2,  0,	mfb(bp_feet), "\
+    5,  4, -2,  0,  0,  0,  2,  0,  2,  0,	mfb(bp_feet), "\
 Guaranteed to make you run faster and jump higher!");
 
 ARMOR("boots",		70, 120,C_SHOES,	LEATHER,	MNULL,
@@ -1216,34 +1216,87 @@ ARMOR("heels",		50,  50,C_SHOES,	LEATHER,	MNULL,
     4,  2,  6, -2,  4,  0,  0,  0,  0,  0,	mfb(bp_feet), "\
 A pair of high heels.  Difficult to even walk in.");
 
+//     NAME		RAR PRC	COLOR		MAT1		MAT2
+ARMOR("sneakers",	10, 100,C_SHOES,	LEATHER,	MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    5,  4, -2,  0, -2,  0,  2,  0,  2,  0,	mfb(bp_feet), "\
+Guaranteed to make you run faster and jump higher!\n\
+These sneakers are a perfect fit for you.");
+
+ARMOR("boots",		5, 120,C_SHOES,	LEATHER,	MNULL,
+    7,  6,  1, -1,  0,  1,  4,  2,  4,  0,	mfb(bp_feet), "\
+Tough leather boots, very durable.\n\
+These boots are a perfect fit for you.");
+
+ARMOR("steeltoed boots",5, 135,C_SHOES,	LEATHER,	STEEL,
+    7,  9,  4, -1,  0,  4,  4,  3,  2,  0,	mfb(bp_feet), "\
+Leather boots with a steel toe.  Extremely durable.\n\
+These boots are a perfect fit for you.");
+
+ARMOR("winter boots",   5, 140,C_SHOES,	PLASTIC,	WOOL,
+    8,  7,  0, -1,  1,  0,  2,  1,  7,  0,	mfb(bp_feet), "\
+Cumbersome boots designed for warmth.\n\
+These boots are a perfect fit for you.");
+
+ARMOR("dress shoes",	5,  45,C_SHOES,	LEATHER,	MNULL,
+    5,  3,  1,  1,  0,  0,  3,  0,  1,  0,	mfb(bp_feet), "\
+Fancy patent leather shoes.  Not designed for running in.\n\
+These shoes are a perfect fit for you");
+
+ARMOR("heels",		1,  50,C_SHOES,	LEATHER,	MNULL,
+    4,  2,  6, -2,  2,  0,  0,  0,  0,  0,	mfb(bp_feet), "\
+A pair of high heels.  Difficult to even walk in.\n\
+These high heels are a perfect fit for you");
 
 ARMOR("jeans",		90, 180,C_PANTS,	COTTON,		MNULL,
-    5,  4, -4,  1,  0,  0,  1,  0,  1,  4,	mfb(bp_legs), "\
+    5,  4, -4,  1,  1,  0,  1,  0,  1,  2,	mfb(bp_legs), "\
 A pair of blue jeans with two deep pockets.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("pants",		75, 185,C_PANTS,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    5,  5, -4,  1,  0,  0,  1,  0,  2,  4,	mfb(bp_legs), "\
+    5,  5, -4,  1,  1,  0,  1,  0,  2,  4,	mfb(bp_legs), "\
 A pair of khaki pants.  Slightly warmer than jeans.");
 
 ARMOR("leather pants",	60, 210,C_PANTS,	LEATHER,	MNULL,
-    6,  8, -2,  1,  1,  1,  7,  0,  5,  2,	mfb(bp_legs), "\
+    6,  8, -2,  1,  2,  1,  7,  0,  5,  2,	mfb(bp_legs), "\
 A pair of black leather pants.  Very tough, but encumbersome and without much\n\
 storage.");
 
 ARMOR("cargo pants",	70, 280,C_PANTS,	COTTON,		MNULL,
-    6,  6, -3,  0,  1,  0,  2,  0,  3, 12,	mfb(bp_legs), "\
+    6,  6, -3,  0,  2,  0,  2,  0,  3, 12,	mfb(bp_legs), "\
 A pair of pants lined with pockets, offering lots of storage.");
 
 ARMOR("army pants",	30, 315,C_PANTS,	COTTON,		MNULL,
-    6,  7, -2,  0,  1,  0,  3,  0,  4, 14,	mfb(bp_legs), "\
+    6,  7, -2,  0,  2,  0,  3,  0,  4, 14,	mfb(bp_legs), "\
 A tough pair of pants lined with pockets.  Favored by the military.");
 
 ARMOR("skirt",		75, 120,C_PANTS,	COTTON,		MNULL,
     2,  2, -5,  0, -1,  0,  0,  0,  0,  1,	mfb(bp_legs), "\
 A short, breezy cotton skirt.  Easy to move in, but only has a single small\n\
 pocket.");
+
+ARMOR("jeans",          20, 180, C_PANTS,       COTTON,         MNULL,
+    5,  4, -4,  1, -1,  0,  1,  0,  1,  2,      mfb(bp_legs), "\
+A pair of blue jeans with two deep pockets.\n\
+These jeans are a perfect fit for you.");
+
+//     NAME		RAR PRC	COLOR		MAT1		MAT2
+ARMOR("pants",		20, 185,C_PANTS,	COTTON,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    5,  5, -4,  1,  -1,  0,  1,  0,  2,  4,	mfb(bp_legs), "\
+A pair of khaki pants.  Slightly warmer than jeans.\n\
+These pants are a perfect fit for you.");
+
+ARMOR("cargo pants",	20, 280,C_PANTS,	COTTON,		MNULL,
+    6,  6, -3,  0,   0,  0,  2,  0,  3, 14,	mfb(bp_legs), "\
+A pair of pants lined with pockets, offering lots of storage.\n\
+These cargo pants are a perfect fit for you.");
+
+ARMOR("army pants",	10, 315,C_PANTS,	COTTON,		MNULL,
+    6,  7, -2,  0,   0,  0,  3,  0,  4, 16,	mfb(bp_legs), "\
+A tough pair of pants lined with pockets.  Favored by the military.\n\
+These army pants are a perfect fit for you.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("jumpsuit",	20, 200,C_BODY,		COTTON,		PLASTIC,

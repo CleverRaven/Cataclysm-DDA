@@ -225,11 +225,11 @@ End of cheatery */
  else
   weapon   = item(g->itypes[0], 0);
 // Nice to start out less than naked.
- item tmp(g->itypes[itm_jeans], 0, 'a');
+ item tmp(g->itypes[itm_jeans_fit], 0, 'a');
  worn.push_back(tmp);
  tmp = item(g->itypes[itm_tshirt], 0, 'b');
  worn.push_back(tmp);
- tmp = item(g->itypes[itm_sneakers], 0, 'c');
+ tmp = item(g->itypes[itm_sneakers_fit], 0, 'c');
  worn.push_back(tmp);
 // The near-sighted get to start with glasses.
  if (has_trait(PF_MYOPIC)) {
