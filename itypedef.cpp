@@ -1386,14 +1386,14 @@ ARMOR("rain coat",	50, 100,C_TORSO,	PLASTIC,	COTTON,
 A plastic coat with two very large pockets.  Provides protection from rain.");
 
 ARMOR("wool poncho",	15, 120,C_TORSO,	WOOL,		MNULL,
-    7,  3, -5, -1,  0,  1,  2,  1,  2,  0,	mfb(bp_torso), "\
+    7,  3, -5, -1,  0,  1,  2,  1,  3,  0,	mfb(bp_torso), "\
 A simple wool garment worn over the torso.  Provides a bit of protection.");
 
 //     NAME		RARE	COLOR		MAT1		MAT2
 ARMOR("trenchcoat",	25, 225,C_TORSO,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
    10,  6, -5, -1,  1,  0,  1,  1,  3, 24,	mfb(bp_torso), "\
-A long coat lines with pockets.  Great for storage.");
+A long coat lined with pockets.  Great for storage.");
 
 ARMOR("winter coat",	50, 160,C_TORSO,	COTTON,		MNULL,
    12,  6, -5, -2,  3,  3,  1,  1,  8, 12,	mfb(bp_torso), "\
@@ -1419,6 +1419,31 @@ This variety is favoured by the military.");
 ARMOR("lab coat",	20, 155,C_TORSO,	COTTON,		MNULL,
    11,  7, -3, -2,  1,  1,  2,  0,  1, 14,	mfb(bp_torso), "\
 A long white coat with several large pockets.");
+
+//     NAME		RAR PRC	COLOR		MAT1		MAT2
+ARMOR("t shirt",	20,  80,C_TORSO,	COTTON,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    3,  2, -5,  0,  -1,  0,  0,  0,  1,  0,	mfb(bp_torso), "\
+A short-sleeved cotton shirt.\n\
+This t-shirt is a perfect fit for you.");
+
+ARMOR("hoodie",		10, 130,C_TORSO,	COTTON,		MNULL,
+   10,  5, -5,  0,  0,  1,  2,  0,  3,  9,	mfb(bp_torso), "\
+A sweatshirt with a hood and a \"kangaroo pocket\" in front for storage.\n\
+This hoodie is a perfect fit for you.");
+
+ARMOR("leather jacket", 5, 150,C_TORSO,        LEATHER,        MNULL,
+   14, 14, -2,  1,  1,  1,  9,  1,  4,  4,      mfb(bp_torso), "\
+A jacket made from thick leather.  Encumbersome, but offers excellent\n\
+protection from cuts.\n\
+This jacket is a perfect fit for you.");
+
+//     NAME		RARE	COLOR		MAT1		MAT2
+ARMOR("trenchcoat",	25, 225,C_TORSO,	COTTON,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   10,  6, -5, -1,  0,  0,  1,  1,  3, 24,	mfb(bp_torso), "\
+A long coat lines with pockets.  Great for storage.\n\
+This trenchcoat is a perfect fit for you.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("light gloves",	35,  65,C_GLOVES,	COTTON,		MNULL,

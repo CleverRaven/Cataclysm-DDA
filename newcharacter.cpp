@@ -227,7 +227,7 @@ End of cheatery */
 // Nice to start out less than naked.
  item tmp(g->itypes[itm_jeans_fit], 0, 'a');
  worn.push_back(tmp);
- tmp = item(g->itypes[itm_tshirt], 0, 'b');
+ tmp = item(g->itypes[itm_tshirt_fit], 0, 'b');
  worn.push_back(tmp);
  tmp = item(g->itypes[itm_sneakers_fit], 0, 'c');
  worn.push_back(tmp);

@@ -4893,14 +4893,15 @@ shape, but with long, twisted, distended limbs.");
  //flowers
     else if ((m.ter(examx, examy)==t_mutpoppy)&&(query_yn("Pick the flower?"))) {
         add_msg("This flower has a heady aroma");
-        if (!(u.is_wearing(itm_mask_filter)||u.is_wearing(itm_mask_gas)))  {
+        if (!(u.is_wearing(itm_mask_filter)||u.is_wearing(itm_mask_gas) ||
+            one_in(3)))  {
         add_msg("You fall asleep...");
         u.add_disease(DI_SLEEP, 1200, this);
         add_msg("Your legs are covered by flower's roots!");
-        u.hurt(this,bp_legs, 0, 10);
+        u.hurt(this,bp_legs, 0, 4);
         u.moves-=50;
         }
-        m.ter(examx, examy) = t_grass;
+        m.ter(examx, examy) = t_dirt;
         m.add_item(examx, examy, this->itypes[itm_poppy_flower],0);
         m.add_item(examx, examy, this->itypes[itm_poppy_bud],0);
     }

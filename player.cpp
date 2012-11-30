@@ -4625,7 +4625,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
 //  their T shirt, for example.  TODO: don't assume! ASS out of U & ME, etc.
  for (int i = worn.size() - 1; i >= 0; i--) {
   tmp = dynamic_cast<it_armor*>(worn[i].type);
-  if ((tmp->covers & mfb(bp)) && tmp->storage < 20) {
+  if ((tmp->covers & mfb(bp)) && tmp->storage < 20 && dam > 0) {
    arm_bash = tmp->dmg_resist;
    arm_cut  = tmp->cut_resist;
    switch (worn[i].damage) {
