@@ -81,7 +81,7 @@ void game::init_mapitems()
 	itm_glock_19, itm_usp_9mm, itm_sw_619, itm_taurus_38, itm_sig_40,
 	itm_sw_610, itm_ruger_redhawk, itm_deagle_44, itm_usp_45, itm_m1911,
 	itm_fn57, itm_mac_10, itm_shotgun_sawn, itm_silencer, itm_grip,
-	itm_clip, itm_grenade, itm_EMPbomb, itm_gasbomb, itm_tazer,
+	itm_clip, itm_spare_mag, itm_grenade, itm_EMPbomb, itm_gasbomb, itm_tazer,
 	itm_longbow, itm_compbow, itm_arrow_wood, itm_arrow_cf, itm_u_shotgun, NULL);
 
  setvector(
@@ -285,7 +285,7 @@ void game::init_mapitems()
    mapitems[mi_gunxtras],
 	itm_glasses_safety, itm_goggles_nv, itm_holster, itm_bootstrap,
 	itm_mag_guns, itm_flashlight, itm_UPS_off, itm_silencer, itm_grip,
-	itm_barrel_big, itm_barrel_small, itm_barrel_rifled, itm_clip,
+	itm_barrel_big, itm_barrel_small, itm_barrel_rifled, itm_clip, itm_spare_mag,
 	itm_clip2, itm_stablizer, itm_blowback, itm_autofire, itm_retool_45,
 	itm_retool_9mm, itm_retool_22, itm_retool_57, itm_retool_46,
 	itm_retool_308, itm_retool_223, itm_tazer, NULL);
@@ -517,7 +517,8 @@ void game::init_mapitems()
 	itm_556, itm_556_incendiary, itm_762_51, itm_762_51_incendiary,
 	itm_laser_pack, itm_12mm, itm_plasma, itm_m4a1, itm_scar_l, itm_scar_h,
 	itm_m249, itm_ftk93, itm_nx17, itm_hk_g80, itm_plasma_rifle,
-	itm_silencer, itm_clip, itm_m203, itm_UPS_off, itm_u_shotgun, NULL);
+	itm_silencer, itm_clip, itm_spare_mag, itm_m203, itm_UPS_off, itm_u_shotgun,
+	NULL);
 
  setvector(
    mapitems[mi_grenades],
@@ -696,7 +697,7 @@ void game::init_mapitems()
 	itm_silencer, itm_clip, itm_lighter, itm_flashlight, itm_two_way_radio,
 	itm_landmine, itm_grenade, itm_flashbang, itm_EMPbomb, itm_gasbomb,
 	itm_smokebomb, itm_UPS_off, itm_tazer, itm_c4, itm_hk_g80, itm_12mm,
-	itm_binoculars, itm_u_shotgun, itm_beltrig, NULL);
+	itm_binoculars, itm_u_shotgun, itm_beltrig, itm_spare_mag, NULL);
 
  setvector(
    mapitems[mi_science],
@@ -750,7 +751,7 @@ void game::init_mapitems()
 	itm_shot_00, itm_9mm, itm_45_acp, itm_glock_19, itm_shotgun_sawn,
 	itm_uzi, itm_tec9, itm_mac_10, itm_silencer, itm_clip2, itm_autofire,
 	itm_mag_porn, itm_lighter, itm_crowbar, itm_pipebomb, itm_grenade,
-	itm_mininuke, itm_crack, itm_crackpipe, NULL);
+	itm_mininuke, itm_crack, itm_crackpipe, itm_spare_mag, NULL);
 
  setvector(
    mapitems[mi_wreckage],
