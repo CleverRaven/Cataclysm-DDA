@@ -1311,7 +1311,8 @@ int item::pick_reload_ammo(player &u, bool interactive)
     std::vector<int> grenades = u.has_ammo(AT_40MM);
     for (int i = 0; i < grenades.size(); i++)
      am.push_back(grenades[i]);
- } if (has_shotgun) {
+   }
+   if (has_shotgun) {
     std::vector<int> shells = u.has_ammo(AT_SHOT);
     for (int i = 0; i < shells.size(); i++)
      am.push_back(shells[i]);
