@@ -4638,8 +4638,8 @@ void game::examine()
     m.ter(examx, examy) = t_water_dp;
 */ 
 //Debug for testing things
- } else if (m.ter(examx, examy) == t_rubble && query_yn("Clear up that rubble?")) {
-  if (u.has_amount(itm_shovel, 1)) {
+ } else if (m.ter(examx, examy) == t_rubble && u.has_amount(itm_shovel, 1)) {
+  if (query_yn("Clear up that rubble?")) {
   if (m.ter(u.posx, u.posy) == t_rock_floor || m.ter(u.posx, u.posy) == t_underfloor) {
    u.moves -= 200;
    m.ter(examx, examy) = t_rock_floor;
@@ -4657,8 +4657,8 @@ void game::examine()
  }} else {
    add_msg("You need a shovel to do that!");
   }
- } else if (m.ter(examx, examy) == t_wreckage && query_yn("Clear up that wreckage?")) {
-  if (u.has_amount(itm_shovel, 1)) {
+ } else if (m.ter(examx, examy) == t_wreckage && u.has_amount(itm_shovel, 1)) {
+  if (query_yn("Clear up that wreckage?")) {
   if (m.ter(u.posx, u.posy) == t_floor) {
    u.moves -= 200;
    m.ter(examx, examy) = t_floor;
@@ -4680,16 +4680,16 @@ void game::examine()
  }} else {
    add_msg("You need a shovel to do that!");
   }
- } else if (m.ter(examx, examy) == t_pit && query_yn("Place a plank over the pit?")) {
-  if (u.has_amount(itm_2x4, 1)) {
+ } else if (m.ter(examx, examy) == t_pit && u.has_amount(itm_2x4, 1)) {
+  if (query_yn("Place a plank over the pit?")) {
    u.use_amount(itm_2x4, 1);
    m.ter(examx, examy) = t_pit_covered;
    add_msg("You place a plank of wood over the pit");
  } else {
    add_msg("You need a plank of wood to do that");
   }
- } else if (m.ter(examx, examy) == t_pit_spiked && query_yn("Place a plank over the pit?")) {
-  if (u.has_amount(itm_2x4, 1)) {
+ } else if (m.ter(examx, examy) == t_pit_spiked && u.has_amount(itm_2x4, 1)) {
+  if (query_yn("Place a plank over the pit?")) {
    u.use_amount(itm_2x4, 1);
    m.ter(examx, examy) = t_pit_spiked_covered;
    add_msg("You place a plank of wood over the pit");
