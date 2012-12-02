@@ -1476,13 +1476,13 @@ void player::disp_status(WINDOW *w, game *g)
  if (weapon.is_gun()) {
    int adj_recoil = recoil + driving_recoil;
        if (adj_recoil >= 36)
-   mvwprintz(w, 1, 30, c_red,    "Recoil");
+   mvwprintz(w, 1, 34, c_red,    "Recoil");
   else if (adj_recoil >= 20)
-   mvwprintz(w, 1, 30, c_ltred,  "Recoil");
+   mvwprintz(w, 1, 34, c_ltred,  "Recoil");
   else if (adj_recoil >= 4)
-   mvwprintz(w, 1, 30, c_yellow, "Recoil");
+   mvwprintz(w, 1, 34, c_yellow, "Recoil");
   else if (adj_recoil > 0)
-   mvwprintz(w, 1, 30, c_ltgray, "Recoil");
+   mvwprintz(w, 1, 34, c_ltgray, "Recoil");
  }
 
       if (hunger > 2800)
