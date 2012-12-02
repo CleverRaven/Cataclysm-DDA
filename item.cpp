@@ -766,6 +766,16 @@ bool item::has_technique(technique_id tech, player *p)
  return (type->techniques & mfb(tech));
 }
 
+int item::has_gunmod(int type)
+{
+ if (!is_gun())
+  return -1;
+ for (int i = 0; i < contents.size(); i++)
+  if (contents[i].is_gunmod() && contents[i].typeId() == type)
+   return i;
+ return -1;
+}
+
 std::vector<technique_id> item::techniques()
 {
  std::vector<technique_id> ret;
