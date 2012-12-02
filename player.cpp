@@ -4836,7 +4836,11 @@ std::string player::weapname(bool charges)
        dynamic_cast<it_tool*>(weapon.type)->max_charges <= 0) &&
      weapon.charges >= 0 && charges) {
   std::stringstream dump;
-  dump << weapon.tname().c_str() << " (" << weapon.charges << ")";
+  int spare_mag = weapon.has_gunmod(itm_spare_mag);
+  dump << weapon.tname().c_str() << " (" << weapon.charges;
+  if( -1 != spare_mag )
+   dump << "+" << weapon.contents[spare_mag].charges;
+  dump << ")";
   return dump.str();
  } else if (weapon.is_null())
   return "fists";
