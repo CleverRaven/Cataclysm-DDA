@@ -4273,8 +4273,16 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
     inv.add_item(copy);
    return;
   }
-  if ((mod->id == itm_clip || mod->id == itm_clip2) && gun->clip_size() <= 2) {
+  if ((mod->id == itm_clip || mod->id == itm_clip2 || mod->id == itm_spare_mag) &&
+      gun->clip_size() <= 2) {
    g->add_msg("You can not extend the ammo capacity of your %s.",
+              gun->tname(g).c_str());
+   if (replace_item)
+    inv.add_item(copy);
+   return;
+  }
+  if (mod->id == itm_spare_mag && gun->has_flag(IF_RELOAD_ONE)) {
+   g->add_msg("You can not use a spare magazine with your %s.",
               gun->tname(g).c_str());
    if (replace_item)
     inv.add_item(copy);
