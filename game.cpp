@@ -6063,8 +6063,16 @@ single action.", u.weapon.tname().c_str());
    return;
   }
   if (u.weapon.charges == u.weapon.clip_size()) {
-   add_msg("Your %s is fully loaded!", u.weapon.tname(this).c_str());
-   return;
+   int spare_mag = -1;
+   for (int i = 0; i < u.weapon.contents.size(); i++) {
+    if (u.weapon.contents[i].is_gunmod() && u.weapon.contents[i].typeId() == itm_spare_mag &&
+        u.weapon.contents[i].charges != (dynamic_cast<it_gun*>(u.weapon.type))->clip )
+     spare_mag = i;
+   }
+   if(spare_mag == -1) {
+    add_msg("Your %s is fully loaded!", u.weapon.tname(this).c_str());
+    return;
+   }
   }
   int index = u.weapon.pick_reload_ammo(u, true);
   if (index == -1) {
@@ -6100,7 +6108,13 @@ void game::unload()
      (!u.weapon.is_tool() || u.weapon.ammo_type() == AT_NULL)) {
   add_msg("You can't unload a %s!", u.weapon.tname(this).c_str());
   return;
- } else if (u.weapon.is_container() || u.weapon.charges == 0) {
+ }
+ int spare_mag = -1;
+ if (u.weapon.is_gun())
+  spare_mag = u.weapon.has_gunmod (itm_spare_mag);
+ if (u.weapon.is_container() ||
+     (u.weapon.charges == 0 &&
+      (spare_mag == -1 || u.weapon.contents[spare_mag].charges <= 0))) {
   if (u.weapon.contents.size() == 0) {
    if (u.weapon.is_gun())
     add_msg("Your %s isn't loaded, and is not modified.",
@@ -6145,6 +6159,9 @@ void game::unload()
  item* weapon = &u.weapon;
  it_ammo* tmpammo;
  if (weapon->is_gun()) {	// Gun ammo is combined with existing items
+  // If there's an attached spare clip, unload it first.
+  if (spare_mag != -1 && weapon->contents[spare_mag].charges > 0)
+   weapon = &weapon->contents[spare_mag];
   for (int i = 0; i < u.inv.size() && weapon->charges > 0; i++) {
    if (u.inv[i].is_ammo()) {
     tmpammo = dynamic_cast<it_ammo*>(u.inv[i].type);

@@ -1131,6 +1131,11 @@ int item::reload_time(player &u)
  if (is_gun()) {
   it_gun* reloading = dynamic_cast<it_gun*>(type);
   ret = reloading->reload_time;
+  if (charges == 0) {
+   int spare_mag = has_gunmod(itm_spare_mag);
+   if (spare_mag != -1 && contents[spare_mag].charges > 0)
+    ret -= double(ret) * 0.9;
+  }
   double skill_bonus = double(u.sklevel[reloading->skill_used]) * .075;
   if (skill_bonus > .75)
    skill_bonus = .75;
@@ -1300,6 +1305,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
  }
  bool has_m203 = -1 != has_gunmod (itm_m203);
  bool has_shotgun = -1 != has_gunmod (itm_u_shotgun);
+ int has_spare_mag = has_gunmod (itm_spare_mag);
 
  std::vector<int> am;	// List of indicies of valid ammo
 
@@ -1310,6 +1316,9 @@ int item::pick_reload_ammo(player &u, bool interactive)
     if (u.inv[i].typeId() == aid)
      am.push_back(i);
    }
+  } else if(has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
+    // Special return to use magazine for reloading.
+    return -2;
   } else {
   it_gun* tmp = dynamic_cast<it_gun*>(type);
    am = u.has_ammo(ammo_type());
@@ -1380,6 +1389,18 @@ bool item::reload(player &u, int index)
 {
  bool single_load = false;
  int max_load = 1;
+ // Reload using a spare magazine
+ for (int i = 0; i < u.weapon.contents.size(); i++) {
+  if (charges <= 0 && u.weapon.contents[i].is_gunmod() &&
+      u.weapon.contents[i].typeId() == itm_spare_mag &&
+      u.weapon.contents[i].charges > 0) {
+   charges = u.weapon.contents[i].charges;
+   curammo = u.weapon.contents[i].curammo;
+   u.weapon.contents[i].charges = 0;
+   u.weapon.contents[i].curammo = NULL;
+   return true;
+  }
+ }
  if (is_gun()) {
   single_load = has_flag(IF_RELOAD_ONE);
   if (u.inv[index].ammo_type() == AT_40MM && ammo_type() != AT_40MM)
@@ -1394,6 +1415,21 @@ bool item::reload(player &u, int index)
   max_load = tool->max_charges;
  }
  if (index > -1) {
+  int spare_mag = -1;
+  for (int i = 0; i < contents.size(); i++)
+   if (contents[i].is_gunmod() && contents[i].typeId() == itm_spare_mag &&
+       charges == clip_size() && contents[i].charges != (dynamic_cast<it_gun*>(type))->clip) {
+    contents[i].charges += u.inv[index].charges;
+    contents[i].curammo = dynamic_cast<it_ammo*>((u.inv[index].type));
+    u.inv[index].charges = 0;
+    if( contents[i].charges > (dynamic_cast<it_gun*>(type))->clip ) {
+      u.inv[index].charges += contents[i].charges - (dynamic_cast<it_gun*>(type))->clip;
+      contents[i].charges = (dynamic_cast<it_gun*>(type))->clip;
+    }
+    if (u.inv[index].charges == 0)
+     u.i_remn(index);
+    return true;
+   }
 // If the gun is currently loaded with a different type of ammo, reloading fails
   if (is_gun() && charges > 0 && curammo->id != u.inv[index].typeId())
    return false;
