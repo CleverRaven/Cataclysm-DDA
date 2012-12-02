@@ -6142,29 +6142,30 @@ void game::unload()
  }
 // Unloading a gun or tool!
  u.moves -= int(u.weapon.reload_time(u) / 2);
+ item* weapon = &u.weapon;
  it_ammo* tmpammo;
- if (u.weapon.is_gun()) {	// Gun ammo is combined with existing items
-  for (int i = 0; i < u.inv.size() && u.weapon.charges > 0; i++) {
+ if (weapon->is_gun()) {	// Gun ammo is combined with existing items
+  for (int i = 0; i < u.inv.size() && weapon->charges > 0; i++) {
    if (u.inv[i].is_ammo()) {
     tmpammo = dynamic_cast<it_ammo*>(u.inv[i].type);
-    if (tmpammo->id == u.weapon.curammo->id &&
+    if (tmpammo->id == weapon->curammo->id &&
         u.inv[i].charges < tmpammo->count) {
-     u.weapon.charges -= (tmpammo->count - u.inv[i].charges);
+     weapon->charges -= (tmpammo->count - u.inv[i].charges);
      u.inv[i].charges = tmpammo->count;
-     if (u.weapon.charges < 0) {
-      u.inv[i].charges += u.weapon.charges;
-      u.weapon.charges = 0;
+     if (weapon->charges < 0) {
+      u.inv[i].charges += weapon->charges;
+      weapon->charges = 0;
      }
     }
    }
   }
  }
  item newam;
- if (u.weapon.is_gun() && u.weapon.curammo != NULL)
-  newam = item(u.weapon.curammo, turn);
+ if ((weapon->is_gun() || weapon->is_gunmod()) && weapon->curammo != NULL)
+  newam = item(weapon->curammo, turn);
  else
-  newam = item(itypes[default_ammo(u.weapon.ammo_type())], turn);
- while (u.weapon.charges > 0) {
+  newam = item(itypes[default_ammo(weapon->ammo_type())], turn);
+ while (weapon->charges > 0) {
   int iter = 0;
   while ((newam.invlet == 0 || u.has_item(newam.invlet)) && iter < 52) {
    newam.invlet = nextinv;
@@ -6172,23 +6173,23 @@ void game::unload()
    iter++;
   }
   if (newam.made_of(LIQUID))
-   newam.charges = u.weapon.charges;
-  u.weapon.charges -= newam.charges;
-  if (u.weapon.charges < 0) {
-   newam.charges += u.weapon.charges;
-   u.weapon.charges = 0;
+   newam.charges = weapon->charges;
+  weapon->charges -= newam.charges;
+  if (weapon->charges < 0) {
+   newam.charges += weapon->charges;
+   weapon->charges = 0;
   }
   if (u.weight_carried() + newam.weight() < u.weight_capacity() &&
       u.volume_carried() + newam.volume() < u.volume_capacity() && iter < 52) {
    if (newam.made_of(LIQUID)) {
     if (!handle_liquid(newam, false, false))
-     u.weapon.charges += newam.charges;	// Put it back in
+     weapon->charges += newam.charges;	// Put it back in
    } else
     u.i_add(newam, this);
   } else
    m.add_item(u.posx, u.posy, newam);
  }
- u.weapon.curammo = NULL;
+ weapon->curammo = NULL;
 }
 
 void game::wield()
