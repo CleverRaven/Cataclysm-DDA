@@ -10,6 +10,7 @@ enum trap_id {
  tr_null,
  tr_bubblewrap,
  tr_cot,
+ tr_brazier,
  tr_rollmat,
  tr_beartrap,
  tr_beartrap_buried,

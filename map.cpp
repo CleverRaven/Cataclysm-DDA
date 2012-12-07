@@ -1271,6 +1271,7 @@ void map::destroy(game *g, int x, int y, bool makesound)
      add_item(i, j, g->itypes[itm_splinter], 0);
     if (move_cost(i, j) > 0 && one_in(6))
       add_item(i, j, g->itypes[itm_nail], 0, 3);
+      g->sound(x, y, 40, "SMASH!!");
    }
   }
   ter(x, y) = t_rubble;
@@ -1305,6 +1306,7 @@ void map::destroy(game *g, int x, int y, bool makesound)
      add_item(i, j, g->itypes[itm_rebar], 0);
     if (move_cost(i, j) > 0 && one_in(6))
       add_item(i, j, g->itypes[itm_nail], 0, 3);
+      g->sound(x, y, 40, "SMASH!!");
    }
   }
   ter(x, y) = t_rubble;

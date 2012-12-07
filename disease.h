@@ -682,6 +682,13 @@ void dis_effect(game *g, player &p, disease &dis)
   p.dex_cur -= 3;
   break;
 
+ case DI_GRACK:
+   p.str_cur += 500;
+   p.dex_cur += 500;
+   p.int_cur += 500;
+   p.per_cur += 500;
+  break;
+
  case DI_METH:
   if (dis.duration > 600) {
    p.str_cur += 2;
@@ -868,6 +875,7 @@ int disease_speed_boost(disease dis)
  case DI_WEBBED:	return -25;
  case DI_ADRENALINE:	return (dis.duration > 150 ? 40 : -10);
  case DI_ASTHMA:	return 0 - int(dis.duration / 5);
+ case DI_GRACK:         return +20000;
  case DI_METH:		return (dis.duration > 600 ? 50 : -40);
  default:		return 0;
  }
@@ -925,6 +933,8 @@ std::string dis_name(disease dis)
  case DI_ASTHMA:
   if (dis.duration > 800) return "Heavy Asthma";
                           return "Asthma";
+
+ case DI_GRACK:         return "UNLEASH THE GRACKEN!!!!";
 
  case DI_METH:
   if (dis.duration > 600) return "High on Meth";
@@ -1153,6 +1163,10 @@ Strength - 2;     Dexterity - 1;     Intelligence - 1;     Perception - 1";
   stream<< "Speed - " << int(dis.duration / 5) << "%;     Strength - 2;     " <<
            "Dexterity - 3";
   return stream.str();
+
+ case DI_GRACK:
+  return "\
+Unleashed the Gracken";
 
  case DI_METH:
   if (dis.duration > 600)

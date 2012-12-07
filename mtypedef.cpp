@@ -898,6 +898,18 @@ grunting."
 );
 FLAGS(MF_SEES, MF_SMELLS, MF_HEARS, MF_WARM, MF_BASHES, MF_HIT_AND_RUN);
 
+mon("gracken",species_nether, 'G',      c_white,        MS_MEDIUM,      FLESH,
+//      frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+          3,  5,  0,100, 180,  9,  1,  4,  0,  1,  0,  0,  0,100, 10,
+        &mdeath::normal,        &mattack::none, "\
+An eldritch creature, shuffling\n\
+along, its hands twitching so\n\
+fast they appear as nothing but\n\
+blurs."
+);
+FLAGS(MF_SMELLS, MF_HEARS, MF_WARM, MF_ANIMAL);
+
+
 mon("blank body",species_nether, 'h',	c_white,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	  3,  5,  0,100, 80,  9,  1,  4,  0,  1,  0,  0,  0,100, 10,

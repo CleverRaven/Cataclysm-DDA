@@ -130,8 +130,7 @@ void game::init_mapitems()
    mapitems[mi_harddrugs],
 	itm_inhaler, itm_codeine, itm_oxycodone, itm_tramadol, itm_xanax,
 	itm_adderall, itm_thorazine, itm_prozac, itm_antibiotics, itm_syringe,
-	itm_crackpipe,
-	NULL);
+	itm_crackpipe, NULL);
 
  setvector(
    mapitems[mi_cannedfood],
@@ -774,5 +773,6 @@ void game::init_mapitems()
 	itm_chainsaw_on, itm_pipebomb_act, itm_grenade_act, itm_flashbang_act,
 	itm_EMPbomb_act, itm_gasbomb_act, itm_smokebomb_act, itm_molotov_lit,
 	itm_dynamite_act, itm_mininuke_act, itm_UPS_on, itm_mp3_on, itm_c4armed,
+        itm_apparatus, itm_grack, itm_brazier,
 	NULL);
 }

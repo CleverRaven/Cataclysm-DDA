@@ -80,6 +80,10 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
    if(g->m.ter(sx, sy) == t_console)
     apply_light_source(sx, sy, x, y, 3);
 
+   if (g->m.i_at(sx, sy).size() == 1 &&
+       g->m.i_at(sx, sy)[0].type->id == itm_candle_lit)
+    apply_light_source(sx, sy, x, y, 4);
+
    if(g->m.ter(sx, sy) == t_emergency_light)
     apply_light_source(sx, sy, x, y, 3);
 
