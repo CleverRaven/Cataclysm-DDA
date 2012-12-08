@@ -70,7 +70,7 @@ t_null = 0,
 t_hole,	// Real nothingness; makes you fall a z-level
 // Ground
 t_dirt, t_dirtmound, t_pit_shallow, t_pit, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
-t_rock_floor, t_rubble, t_ash, t_wreckage,
+t_rock_floor, t_rubble, t_ash, t_metal, t_wreckage,
 t_grass,
 t_metal_floor,
 t_pavement, t_pavement_y, t_sidewalk,
@@ -96,7 +96,8 @@ t_door_metal_c, t_door_metal_o, t_door_metal_locked,
 t_door_glass_c, t_door_glass_o,
 t_bulletin,
 t_portcullis,
-t_window, t_window_alarm, t_window_empty, t_window_frame, t_window_boarded,
+t_window, t_curtains, t_curtains_broken,
+t_window_alarm, t_window_empty, t_window_frame, t_window_boarded,
 t_rock, t_fault,
 t_paper,
 // Tree
@@ -169,6 +170,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(rough)|mfb(diggable)},
 {"pile of ash",   '#', c_ltgray,  2, tr_null,
 	mfb(transparent)|mfb(diggable)},
+{"twisted metal",    '#', c_cyan,    5, tr_null,
+	mfb(transparent)|mfb(rough)|mfb(sharp)|mfb(container)},
 {"metal wreckage",   '#', c_cyan,    5, tr_null,
 	mfb(transparent)|mfb(rough)|mfb(sharp)|mfb(container)},
 {"grass",	     '.', c_green,   2, tr_null,
@@ -274,6 +277,12 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(noitem)},
 {"window",	     '"', c_ltcyan,  0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
+        mfb(supports_roof)},
+{"closed curtains",  '#', c_blue,    0, tr_null,
+	mfb(bashable)|mfb(flammable)|mfb(noitem)|
+        mfb(supports_roof)},
+{"closed curtains",  '#', c_blue,    8, tr_null,
+	mfb(sharp)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)},
 {"window",	     '"', c_ltcyan,  0, tr_null, // Actually alarmed
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(alarmed)|mfb(noitem)|

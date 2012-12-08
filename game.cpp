@@ -4110,8 +4110,11 @@ void game::close()
            m.i_at(closex, closey)[0].tname(this).c_str() : "some stuff");
   else if (closex == u.posx && closey == u.posy)
    add_msg("There's some buffoon in the way!");
-  else
-   didit = m.close_door(closex, closey);
+  else if (m.ter(closex, closey) == t_curtains && m.ter(u.posx, u.posy) != t_floor) {
+   add_msg("You phase through the glass, close the curtains, then phase back out");
+   add_msg("Wait, no you don't. Never mind.");
+ } else
+   didit = m.close_door(closex, closey, true);
  } else
   add_msg("Invalid direction.");
  if (didit)
@@ -4659,7 +4662,6 @@ void game::examine()
   }
  } else if (m.ter(examx, examy) == t_wreckage && u.has_amount(itm_shovel, 1)) {
   if (query_yn("Clear up that wreckage?")) {
-  if (m.ter(u.posx, u.posy) == t_floor) {
    u.moves -= 200;
    m.ter(examx, examy) = t_floor;
    item chunk(itypes[itm_steel_chunk], turn);
@@ -4669,6 +4671,10 @@ void game::examine()
    m.add_item(u.posx, u.posy, pipe); }
    add_msg("You clear the wreckage up");
  } else {
+   add_msg("You need a shovel to do that!");
+  }
+ } else if (m.ter(examx, examy) == t_metal && u.has_amount(itm_shovel, 1)) {
+  if (query_yn("Clear up that wreckage?")) {
    u.moves -= 200;
    m.ter(examx, examy) = t_dirt;
    item chunk(itypes[itm_steel_chunk], turn);
@@ -4677,7 +4683,7 @@ void game::examine()
   if (one_in(5)) {
    m.add_item(u.posx, u.posy, pipe); }
    add_msg("You clear the wreckage up");
- }} else {
+ } else {
    add_msg("You need a shovel to do that!");
   }
  } else if (m.ter(examx, examy) == t_pit && u.has_amount(itm_2x4, 1)) {
@@ -4725,7 +4731,7 @@ void game::examine()
    m.ter(examx, examy) = t_fence_rope;
    u.moves -= 200;
   } else
-   add_msg("You need 2 lengths of rope to do that");
+   add_msg("You need 2 six-foot lengths of rope to do that");
   } break;
 
    case 2:{

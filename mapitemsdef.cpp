@@ -175,7 +175,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_bigtools],
 	itm_broom, itm_mop, itm_hoe, itm_shovel, itm_chainsaw_off,
-	itm_hammer_sledge, itm_jackhammer, itm_welder, NULL);
+	itm_hammer_sledge, itm_jackhammer, itm_jacqueshammer, itm_welder, NULL);
 
  setvector(
    mapitems[mi_mischw],
@@ -418,7 +418,7 @@ void game::init_mapitems()
 	itm_remington_870, itm_browning_blr, itm_remington_700, itm_sks,
 	itm_novel_romance, itm_novel_spy, itm_novel_scifi, itm_novel_drama,
 	itm_SICP, itm_textbook_robots, itm_extinguisher, itm_radio,
-	itm_chainsaw_off, itm_jackhammer, itm_ring, itm_necklace, itm_usb_drive,
+	itm_chainsaw_off, itm_jackhammer, itm_jacqueshammer, itm_ring, itm_necklace, itm_usb_drive,
 	itm_broadsword, itm_morningstar, itm_helmet_plate, itm_cot, itm_rollmat,
 	itm_boots_fit, itm_boots_steel_fit, itm_boots_winter_fit,
         itm_dress_shoes_fit, 
@@ -598,7 +598,7 @@ void game::init_mapitems()
 	itm_jumpsuit, itm_gloves_leather, itm_mask_filter, itm_mask_gas,
 	itm_glasses_safety, itm_goggles_welding, itm_goggles_nv, itm_hat_hard,
 	itm_backpack, itm_battery, itm_flashlight, itm_two_way_radio,
-	itm_jackhammer, itm_dynamite, itm_UPS_off, itm_bionics_tools,
+	itm_jackhammer, itm_jacqueshammer, itm_dynamite, itm_UPS_off, itm_bionics_tools,
 	itm_bionics_construction, NULL);
 
  setvector(
@@ -632,7 +632,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_cavern],
-	itm_rock, itm_jackhammer, itm_flashlight, itm_dynamite, NULL);
+	itm_rock, itm_jackhammer, itm_jacqueshammer, itm_flashlight, itm_dynamite, NULL);
 
  setvector(
    mapitems[mi_spider],

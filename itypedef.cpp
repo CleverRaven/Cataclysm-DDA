@@ -3120,6 +3120,12 @@ TOOL("jackhammer",	 2, 890,';', c_magenta,	IRON,	MNULL,
 This jackhammer runs on gasoline.  Use it (if loaded) to blast a hole in\n\
 adjacent solid terrain.");
 
+TOOL("jacqueshammer",     2, 890,  ';', c_magenta, IRON,   MNULL,
+   13, 54, 20,  6, -4, 120,  0,10,  0, AT_GAS,  itm_null, &iuse::jacqueshammer,0,"\
+Ce marteau-piqueur fonctionne a l'essence.\n\
+Utilisez-le (si charge) pour faire sauter un troudans\n\
+adjacente terrain solide.");
+
 TOOL("bubblewrap",	50,  40,';', c_ltcyan,	PLASTIC,MNULL,
     2,  0, -8,  0,  0,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap,0,"\
 A sheet of plastic covered with air-filled bubbles.  Use it to set it on the\n\

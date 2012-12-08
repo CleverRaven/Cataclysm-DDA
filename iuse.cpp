@@ -1262,6 +1262,29 @@ void iuse::jackhammer(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::jacqueshammer(game *g, player *p, item *it, bool t)
+{
+ int dirx, diry;
+ g->draw();
+ mvprintw(0, 0, "Percer dans quelle direction?");
+ get_direction(g, dirx, diry, input());
+ if (dirx == -2) {
+  g->add_msg_if_player(p,"Direction invalide");
+  return;
+ }
+ dirx += p->posx;
+ diry += p->posy;
+ if (g->m.is_destructable(dirx, diry) && g->m.has_flag(supports_roof, dirx, diry) &&
+     g->m.ter(dirx, diry) != t_tree) {
+  g->m.destroy(g, dirx, diry, false);
+  p->moves -= 500;
+  g->sound(dirx, diry, 45, "Ohohohohohohohoho!");
+ } else {
+  g->add_msg_if_player(p,"Vous ne pouvez pas percer la-bas..");
+  it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
+ }
+}
+
 void iuse::set_trap(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
