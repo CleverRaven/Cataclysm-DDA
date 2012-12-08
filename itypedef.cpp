@@ -2655,6 +2655,13 @@ Completely doubles the ammunition capacity of your firmarm, but the added\n\
 bulk reduces accuracy and increases recoil.",
 0);
 
+GUNMOD("spare magazine",	   15, 200, c_ltgray, STEEL, PLASTIC,  1,  1,  0,  0,  0,
+	0,  0,  0,  0,  0,  0, AT_NULL,	true,	true,	true,	true,
+	0, "\
+A spare magazine you can keep on hand to make reloads faster, but must itself\n\
+ be reloaded before it can be used again.",
+0);
+
 GUNMOD("gyroscopic stablizer",4,680,c_blue,  STEEL, PLASTIC,  3,  2,  0,  0, -3,
 	 2, -2,  0,-10, -8,  0, AT_NULL,	false,	false,	true,	true,
 	0, "\
