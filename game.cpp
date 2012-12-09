@@ -3561,10 +3561,12 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
  int radius = sqrt(double(power / 4));
  int dam;
  std::string junk;
+ int noise = power * fire ? 2 : 10;
+
  if (power >= 30)
-  sound(x, y, power * 10, "a huge explosion!");
+  sound(x, y, noise, "a huge explosion!");
  else
-  sound(x, y, power * 10, "an explosion!");
+  sound(x, y, noise, "an explosion!");
  for (int i = x - radius; i <= x + radius; i++) {
   for (int j = y - radius; j <= y + radius; j++) {
    if (i == x && j == y)

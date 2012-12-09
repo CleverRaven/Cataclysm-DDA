@@ -2060,7 +2060,7 @@ A weak plasma charge.",
 color,LIQUID,1,1,0,0,0,flags,ammo_type,dmg,AP,accuracy,recoil,range,count))
 FUEL("gasoline",	0,  50,   AT_GAS,	c_ltred,
 //	DMG  AP RNG ACC REC COUNT
-	 0,  0,  4,  0,  0,  200, "\
+	 5,  5,  4,  0,  0,  200, "\
 Gasoline is a highly flammable liquid.  When under pressure, it has the\n\
 potential for violent explosion.",
 mfb(IF_AMMO_FLAME)|mfb(IF_AMMO_STREAM));
