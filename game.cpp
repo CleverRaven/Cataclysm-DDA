@@ -5871,8 +5871,11 @@ void game::plfire(bool burst)
  std::vector <point> trajectory = target(x, y, x0, y0, x1, y1, mon_targets,
                                          passtarget, &u.weapon);
  draw_ter(); // Recenter our view
- if (trajectory.size() == 0)
+ if (trajectory.size() == 0) {
+  if(u.weapon.has_flag(IF_RELOAD_AND_SHOOT))
+   unload();
   return;
+ }
  if (passtarget != -1) { // We picked a real live target
   last_target = targetindices[passtarget]; // Make it our default for next time
   z[targetindices[passtarget]].add_effect(ME_HIT_BY_PLAYER, 100);
