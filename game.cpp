@@ -5787,7 +5787,7 @@ void game::plfire(bool burst)
   return;
  vehicle *veh = m.veh_at(u.posx, u.posy);
  if (veh && veh->player_in_control(&u) && u.weapon.is_two_handed(&u)) {
-  add_msg ("You need free arm to drive!");
+  add_msg ("You need a free arm to drive!");
   return;
  }
  if (u.weapon.has_flag(IF_CHARGE) && !u.weapon.active) {
