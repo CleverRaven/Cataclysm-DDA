@@ -44,7 +44,7 @@ void game::init_itypes ()
             '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0));
 // For smoking crack or meth
  itypes.push_back(
-  new itype(4, 0, 0, "smoking apparatus",
+  new itype(4, 0, 0, "something to smoke that from, and a lighter",
             "A fake item.  If you are reading this it's a bug!",
             '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0));
  int index = 4;
@@ -67,11 +67,10 @@ DRINK("water",		90, 50,	c_ltcyan, itm_bottle_plastic,
 Water, the stuff of life, the best thirst-quencher available.");
 
 //     NAME		RAR PRC	COLOR     CONTAINER
-DRINK("cleaned water",	90, 50,	c_ltcyan, itm_bottle_plastic,
+DRINK("clean water",	90, 50,	c_ltcyan, itm_bottle_plastic,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
 	50,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
-Water, the stuff of life, the best thirst-quencher available.\n\
-This water is definitely clean");
+Fresh clean water, truly the best thing to quench your thirst.");
 
 DRINK("sewage sample",	 5,  5, c_ltgreen, itm_bottle_plastic,
 	 5,  0,  0,  0,-10,  0,  1,-20,&iuse::sewage,	ADD_NULL, "\
@@ -373,8 +372,13 @@ FOOD("cat food",	20,  8,	c_cyan,		FLESH,	itm_can_food,
 Blech, so gross.  Save it for when you're about to die of starvation.");
 
 FOOD("honey comb",	10, 35,	c_yellow,	VEGGY,	itm_null,
-    1,  1,  0, 20,  0,  0, -2,  0,  1,  9,	&iuse::none, ADD_NULL, "\
+    1,  1,  0, 20,  0,  0, -2,  0,  1,  9,	&iuse::honeycomb, ADD_NULL, "\
 A large chunk of wax, filled with honey.  Very tasty.");
+
+FOOD("wax",     	10, 35,	c_yellow,	VEGGY,	itm_null,
+    1,  1,  0, 4,  0,  0, -2,  0,  1,  -5,	&iuse::none, ADD_NULL, "\
+A large chunk of beeswax.\n\
+Not very tasty or nourishing, but ok in an emergency.");
 
 FOOD("royal jelly",	 8,200,	c_magenta,	VEGGY,	itm_null,
     1,  1,  0, 10,  0,  0,  3,  0,  1,  7,	&iuse::royal_jelly, ADD_NULL, "\
@@ -573,7 +577,7 @@ MED("cocaine",		 8,420,	c_white,	itm_null,
 	POWDER,  20, -2, 30,  8, 25,&iuse::coke,	ADD_COKE, "\
 A strong, illegal stimulant.  Highly addictive.");
 
-MED("methamphetamine",	 2,800, c_ltcyan,	itm_null,
+MED("methamphetamine",	 2,800, c_ltcyan,	itm_apparatus,
 	POWDER,  10, -4, 50,  6, 30,&iuse::meth,	ADD_SPEED, "\
 A very strong illegal stimulant.  Extremely addictive and bad for you, but\n\
 also extremely effective in boosting your alertness.");
@@ -604,6 +608,13 @@ Painkillers made by refining mutated poppy seeds..");
 MED("crack",		 8,420,	c_white,	itm_apparatus,
 	POWDER,  40, -2, 80,  4, 50,&iuse::crack,	ADD_CRACK, "\
 Refined cocaine, incredibly addictive.");
+
+MED("Grack Cocaine",      8,420, c_white,        itm_apparatus,
+        POWDER,  200, -2, 80,  4, 50,&iuse::grack,       ADD_CRACK, "\
+Grack Cocaine, the strongest substance known to the multiverse\n\
+this potent substance is refined from the sweat of the legendary\n\
+gracken");
+
 
 // MELEE WEAPONS
 // Only use secondary material if it will have a major impact.
@@ -1037,6 +1048,11 @@ MELEE("crack pipe",             37,  35, ',',c_ltcyan,  GLASS,  MNULL,
 A fine glass pipe, with a bulb on the end, used for partaking of\n\
 certain illicit substances.");
 
+MELEE("burnt out torch",	95,  0, '/', c_brown,	WOOD,	MNULL,
+	 6, 10, 12,  0,  3, 0, "\
+A torch which has consumed all its fuel, can be recrafted\n\
+into another torch");
+
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  25, 35, ']', c_cyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
@@ -1167,7 +1183,7 @@ env,warmth,storage))
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("sneakers",	80, 100,C_SHOES,	LEATHER,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    5,  4, -2,  0, -1,  0,  2,  0,  2,  0,	mfb(bp_feet), "\
+    5,  4, -2,  0,  0,  0,  2,  0,  2,  0,	mfb(bp_feet), "\
 Guaranteed to make you run faster and jump higher!");
 
 ARMOR("boots",		70, 120,C_SHOES,	LEATHER,	MNULL,
@@ -1200,34 +1216,87 @@ ARMOR("heels",		50,  50,C_SHOES,	LEATHER,	MNULL,
     4,  2,  6, -2,  4,  0,  0,  0,  0,  0,	mfb(bp_feet), "\
 A pair of high heels.  Difficult to even walk in.");
 
+//     NAME		RAR PRC	COLOR		MAT1		MAT2
+ARMOR("sneakers",	10, 100,C_SHOES,	LEATHER,	MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    5,  4, -2,  0, -2,  0,  2,  0,  2,  0,	mfb(bp_feet), "\
+Guaranteed to make you run faster and jump higher!\n\
+These sneakers are a perfect fit for you.");
+
+ARMOR("boots",		5, 120,C_SHOES,	LEATHER,	MNULL,
+    7,  6,  1, -1,  0,  1,  4,  2,  4,  0,	mfb(bp_feet), "\
+Tough leather boots, very durable.\n\
+These boots are a perfect fit for you.");
+
+ARMOR("steeltoed boots",5, 135,C_SHOES,	LEATHER,	STEEL,
+    7,  9,  4, -1,  0,  4,  4,  3,  2,  0,	mfb(bp_feet), "\
+Leather boots with a steel toe.  Extremely durable.\n\
+These boots are a perfect fit for you.");
+
+ARMOR("winter boots",   5, 140,C_SHOES,	PLASTIC,	WOOL,
+    8,  7,  0, -1,  1,  0,  2,  1,  7,  0,	mfb(bp_feet), "\
+Cumbersome boots designed for warmth.\n\
+These boots are a perfect fit for you.");
+
+ARMOR("dress shoes",	5,  45,C_SHOES,	LEATHER,	MNULL,
+    5,  3,  1,  1,  0,  0,  3,  0,  1,  0,	mfb(bp_feet), "\
+Fancy patent leather shoes.  Not designed for running in.\n\
+These shoes are a perfect fit for you");
+
+ARMOR("heels",		1,  50,C_SHOES,	LEATHER,	MNULL,
+    4,  2,  6, -2,  2,  0,  0,  0,  0,  0,	mfb(bp_feet), "\
+A pair of high heels.  Difficult to even walk in.\n\
+These high heels are a perfect fit for you");
 
 ARMOR("jeans",		90, 180,C_PANTS,	COTTON,		MNULL,
-    5,  4, -4,  1,  0,  0,  1,  0,  1,  4,	mfb(bp_legs), "\
+    5,  4, -4,  1,  1,  0,  1,  0,  1,  2,	mfb(bp_legs), "\
 A pair of blue jeans with two deep pockets.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("pants",		75, 185,C_PANTS,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    5,  5, -4,  1,  0,  0,  1,  0,  2,  4,	mfb(bp_legs), "\
+    5,  5, -4,  1,  1,  0,  1,  0,  2,  4,	mfb(bp_legs), "\
 A pair of khaki pants.  Slightly warmer than jeans.");
 
 ARMOR("leather pants",	60, 210,C_PANTS,	LEATHER,	MNULL,
-    6,  8, -2,  1,  1,  1,  7,  0,  5,  2,	mfb(bp_legs), "\
+    6,  8, -2,  1,  2,  1,  7,  0,  5,  2,	mfb(bp_legs), "\
 A pair of black leather pants.  Very tough, but encumbersome and without much\n\
 storage.");
 
 ARMOR("cargo pants",	70, 280,C_PANTS,	COTTON,		MNULL,
-    6,  6, -3,  0,  1,  0,  2,  0,  3, 12,	mfb(bp_legs), "\
+    6,  6, -3,  0,  2,  0,  2,  0,  3, 12,	mfb(bp_legs), "\
 A pair of pants lined with pockets, offering lots of storage.");
 
 ARMOR("army pants",	30, 315,C_PANTS,	COTTON,		MNULL,
-    6,  7, -2,  0,  1,  0,  3,  0,  4, 14,	mfb(bp_legs), "\
+    6,  7, -2,  0,  2,  0,  3,  0,  4, 14,	mfb(bp_legs), "\
 A tough pair of pants lined with pockets.  Favored by the military.");
 
 ARMOR("skirt",		75, 120,C_PANTS,	COTTON,		MNULL,
     2,  2, -5,  0, -1,  0,  0,  0,  0,  1,	mfb(bp_legs), "\
 A short, breezy cotton skirt.  Easy to move in, but only has a single small\n\
 pocket.");
+
+ARMOR("jeans",          20, 180, C_PANTS,       COTTON,         MNULL,
+    5,  4, -4,  1, -1,  0,  1,  0,  1,  2,      mfb(bp_legs), "\
+A pair of blue jeans with two deep pockets.\n\
+These jeans are a perfect fit for you.");
+
+//     NAME		RAR PRC	COLOR		MAT1		MAT2
+ARMOR("pants",		20, 185,C_PANTS,	COTTON,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    5,  5, -4,  1,  -1,  0,  1,  0,  2,  4,	mfb(bp_legs), "\
+A pair of khaki pants.  Slightly warmer than jeans.\n\
+These pants are a perfect fit for you.");
+
+ARMOR("cargo pants",	20, 280,C_PANTS,	COTTON,		MNULL,
+    6,  6, -3,  0,   0,  0,  2,  0,  3, 14,	mfb(bp_legs), "\
+A pair of pants lined with pockets, offering lots of storage.\n\
+These cargo pants are a perfect fit for you.");
+
+ARMOR("army pants",	10, 315,C_PANTS,	COTTON,		MNULL,
+    6,  7, -2,  0,   0,  0,  3,  0,  4, 16,	mfb(bp_legs), "\
+A tough pair of pants lined with pockets.  Favored by the military.\n\
+These army pants are a perfect fit for you.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("jumpsuit",	20, 200,C_BODY,		COTTON,		PLASTIC,
@@ -1317,14 +1386,14 @@ ARMOR("rain coat",	50, 100,C_TORSO,	PLASTIC,	COTTON,
 A plastic coat with two very large pockets.  Provides protection from rain.");
 
 ARMOR("wool poncho",	15, 120,C_TORSO,	WOOL,		MNULL,
-    7,  3, -5, -1,  0,  1,  2,  1,  2,  0,	mfb(bp_torso), "\
+    7,  3, -5, -1,  0,  1,  2,  1,  3,  0,	mfb(bp_torso), "\
 A simple wool garment worn over the torso.  Provides a bit of protection.");
 
 //     NAME		RARE	COLOR		MAT1		MAT2
 ARMOR("trenchcoat",	25, 225,C_TORSO,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
    10,  6, -5, -1,  1,  0,  1,  1,  3, 24,	mfb(bp_torso), "\
-A long coat lines with pockets.  Great for storage.");
+A long coat lined with pockets.  Great for storage.");
 
 ARMOR("winter coat",	50, 160,C_TORSO,	COTTON,		MNULL,
    12,  6, -5, -2,  3,  3,  1,  1,  8, 12,	mfb(bp_torso), "\
@@ -1350,6 +1419,31 @@ This variety is favoured by the military.");
 ARMOR("lab coat",	20, 155,C_TORSO,	COTTON,		MNULL,
    11,  7, -3, -2,  1,  1,  2,  0,  1, 14,	mfb(bp_torso), "\
 A long white coat with several large pockets.");
+
+//     NAME		RAR PRC	COLOR		MAT1		MAT2
+ARMOR("t shirt",	20,  80,C_TORSO,	COTTON,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    3,  2, -5,  0,  -1,  0,  0,  0,  1,  0,	mfb(bp_torso), "\
+A short-sleeved cotton shirt.\n\
+This t-shirt is a perfect fit for you.");
+
+ARMOR("hoodie",		10, 130,C_TORSO,	COTTON,		MNULL,
+   10,  5, -5,  0,  0,  1,  2,  0,  3,  9,	mfb(bp_torso), "\
+A sweatshirt with a hood and a \"kangaroo pocket\" in front for storage.\n\
+This hoodie is a perfect fit for you.");
+
+ARMOR("leather jacket", 5, 150,C_TORSO,        LEATHER,        MNULL,
+   14, 14, -2,  1,  1,  1,  9,  1,  4,  4,      mfb(bp_torso), "\
+A jacket made from thick leather.  Encumbersome, but offers excellent\n\
+protection from cuts.\n\
+This jacket is a perfect fit for you.");
+
+//     NAME		RARE	COLOR		MAT1		MAT2
+ARMOR("trenchcoat",	25, 225,C_TORSO,	COTTON,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   10,  6, -5, -1,  0,  0,  1,  1,  3, 24,	mfb(bp_torso), "\
+A long coat lines with pockets.  Great for storage.\n\
+This trenchcoat is a perfect fit for you.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("light gloves",	35,  65,C_GLOVES,	COTTON,		MNULL,
@@ -1966,7 +2060,7 @@ A weak plasma charge.",
 color,LIQUID,1,1,0,0,0,flags,ammo_type,dmg,AP,accuracy,recoil,range,count))
 FUEL("gasoline",	0,  50,   AT_GAS,	c_ltred,
 //	DMG  AP RNG ACC REC COUNT
-	 0,  0,  4,  0,  0,  200, "\
+	 5,  5,  4,  0,  0,  200, "\
 Gasoline is a highly flammable liquid.  When under pressure, it has the\n\
 potential for violent explosion.",
 mfb(IF_AMMO_FLAME)|mfb(IF_AMMO_STREAM));
@@ -2561,6 +2655,13 @@ Completely doubles the ammunition capacity of your firmarm, but the added\n\
 bulk reduces accuracy and increases recoil.",
 0);
 
+GUNMOD("spare magazine",	   15, 200, c_ltgray, STEEL, PLASTIC,  1,  1,  0,  0,  0,
+	0,  0,  0,  0,  0,  0, AT_NULL,	true,	true,	true,	true,
+	0, "\
+A spare magazine you can keep on hand to make reloads faster, but must itself\n\
+ be reloaded before it can be used again.",
+0);
+
 GUNMOD("gyroscopic stablizer",4,680,c_blue,  STEEL, PLASTIC,  3,  2,  0,  0, -3,
 	 2, -2,  0,-10, -8,  0, AT_NULL,	false,	false,	true,	true,
 	0, "\
@@ -3019,6 +3120,12 @@ TOOL("jackhammer",	 2, 890,';', c_magenta,	IRON,	MNULL,
 This jackhammer runs on gasoline.  Use it (if loaded) to blast a hole in\n\
 adjacent solid terrain.");
 
+TOOL("jacqueshammer",     2, 890,  ';', c_magenta, IRON,   MNULL,
+   13, 54, 20,  6, -4, 120,  0,10,  0, AT_GAS,  itm_null, &iuse::jacqueshammer,0,"\
+Ce marteau-piqueur fonctionne a l'essence.\n\
+Utilisez-le (si charge) pour faire sauter un troudans\n\
+adjacente terrain solide.");
+
 TOOL("bubblewrap",	50,  40,';', c_ltcyan,	PLASTIC,MNULL,
     2,  0, -8,  0,  0,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap,0,"\
 A sheet of plastic covered with air-filled bubbles.  Use it to set it on the\n\
@@ -3374,7 +3481,43 @@ TOOL("duct tape",60, 20, ';', c_ltgray, PLASTIC, PAPER,
     2,  2,  0,  0, -3, 200,200, 0,  0, AT_NULL, itm_null, &iuse::none,
 0, "\
 A roll of incredibly strong tape, it's uses are innumerable.");
- 
+
+TOOL("torch",    95,  0, '/', c_brown,   WOOD,   MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL     REVERT    FUNCTION 
+    6, 10, 12,  0,  3, 25, 25,  0, 0, AT_NULL, itm_null, &iuse::torch,
+0,"\
+A large stick, wrapped in gasoline soaked rags. When lit, produces\n\
+a fair amount of light");
+
+TOOL("torch (lit)",    95,  0, '/', c_brown,   WOOD,   MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL     REVERT    FUNCTION 
+    6, 10, 12,  0,  3, 25, 25,  1, 15, AT_NULL, itm_torch_done, &iuse::torch_lit,
+0,"\
+A large stick, wrapped in gasoline soaked rags. This is burning,\n\
+producing plenty of light");
+
+//    NAME              RAR PRC SYM COLOR       MAT1    MAT2
+TOOL("candle",           40,  0, ',', c_white,  VEGGY,  MNULL,
+    1,  1,  0,  0, -2, 100, 100, 0, 0, AT_NULL, itm_can_food, &iuse::candle,
+0, "\
+A thick candle, doesn't provide very much light, but it can burn for\n\
+quite a long time.");
+
+//    NAME              RAR PRC SYM COLOR       MAT1    MAT2
+TOOL("candle (lit)",           40,  0, ',', c_white,  VEGGY,  MNULL,
+    1,  1,  0,  0, -2, 100, 100, 1, 50, AT_NULL, itm_null, &iuse::candle_lit,
+0, "\
+A thick candle, doesn't provide very much light, but it can burn for\n\
+quite a long time. This candle is lit.");
+
+//  NAME        RAR PRC SYM  COLOR  MAT1    MAT
+TOOL("brazier",  50,900,';', c_ltred,  IRON,MNULL,
+// VOL WGT DAM CUT HIT   MAX DEF  USE SEC   FUEL    REVERT    FUNCTION
+     6, 5,  11,  0, 1,    0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap,
+0, "\
+A large stand, with a shallow bowl on top. Used for old school\n\
+fire sconces.");
+
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated

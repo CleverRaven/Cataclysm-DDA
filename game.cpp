@@ -155,8 +155,8 @@ bool game::opening_screen()
  erase();
  for (int i = 0; i < 80; i++)
   mvwputch(w_open, 21, i, c_white, LINE_OXOX);
- mvwprintz(w_open, 0, 0, c_blue, "Welcome to The Darkling Wolf's Modded Cataclysm!");
- mvwprintz(w_open, 1, 0, c_red, "\
+   mvwprintz(w_open, 0, 0, c_blue, "Welcome to The Darkling Wolf's Modded Cataclysm!");
+   mvwprintz(w_open, 1, 0, c_red, "\
 Please report bugs to TheDarklingWolf@gmail.com or post in my forum thread.\n\
 Includes work by Creidieki, Uzername, Kevingranade, HerbertJones, Gim and Shades.");
  refresh();
@@ -2810,8 +2810,12 @@ unsigned char game::light_level()
   ret = 8;
  if (ret < 8 && event_queued(EVENT_ARTIFACT_LIGHT))
   ret = 8;
+ if (ret < 6 && u.has_amount(itm_torch_lit, 1))
+  ret = 6;
  if (ret < 4 && u.has_artifact_with(AEP_GLOW))
   ret = 4;
+ if (ret < 3 && u.has_amount(itm_candle_lit, 1))
+  ret = 3;
  if (ret < 1)
   ret = 1;
 // The EVENT_DIM event slowly dims the sky, then relights it
@@ -3564,10 +3568,12 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
  int radius = sqrt(double(power / 4));
  int dam;
  std::string junk;
+ int noise = power * fire ? 2 : 10;
+
  if (power >= 30)
-  sound(x, y, power * 10, "a huge explosion!");
+  sound(x, y, noise, "a huge explosion!");
  else
-  sound(x, y, power * 10, "an explosion!");
+  sound(x, y, noise, "an explosion!");
  for (int i = x - radius; i <= x + radius; i++) {
   for (int j = y - radius; j <= y + radius; j++) {
    if (i == x && j == y)
@@ -4113,8 +4119,11 @@ void game::close()
            m.i_at(closex, closey)[0].tname(this).c_str() : "some stuff");
   else if (closex == u.posx && closey == u.posy)
    add_msg("There's some buffoon in the way!");
-  else
-   didit = m.close_door(closex, closey);
+  else if (m.ter(closex, closey) == t_curtains && m.ter(u.posx, u.posy) != t_floor) {
+   add_msg("You phase through the glass, close the curtains, then phase back out");
+   add_msg("Wait, no you don't. Never mind.");
+ } else
+   didit = m.close_door(closex, closey, true);
  } else
   add_msg("Invalid direction.");
  if (didit)
@@ -4641,8 +4650,8 @@ void game::examine()
     m.ter(examx, examy) = t_water_dp;
 */ 
 //Debug for testing things
- } else if (m.ter(examx, examy) == t_rubble && query_yn("Clear up that rubble?")) {
-  if (u.has_amount(itm_shovel, 1)) {
+ } else if (m.ter(examx, examy) == t_rubble && u.has_amount(itm_shovel, 1)) {
+  if (query_yn("Clear up that rubble?")) {
   if (m.ter(u.posx, u.posy) == t_rock_floor || m.ter(u.posx, u.posy) == t_underfloor) {
    u.moves -= 200;
    m.ter(examx, examy) = t_rock_floor;
@@ -4660,9 +4669,8 @@ void game::examine()
  }} else {
    add_msg("You need a shovel to do that!");
   }
- } else if (m.ter(examx, examy) == t_wreckage && query_yn("Clear up that wreckage?")) {
-  if (u.has_amount(itm_shovel, 1)) {
-  if (m.ter(u.posx, u.posy) == t_floor) {
+ } else if (m.ter(examx, examy) == t_wreckage && u.has_amount(itm_shovel, 1)) {
+  if (query_yn("Clear up that wreckage?")) {
    u.moves -= 200;
    m.ter(examx, examy) = t_floor;
    item chunk(itypes[itm_steel_chunk], turn);
@@ -4672,6 +4680,10 @@ void game::examine()
    m.add_item(u.posx, u.posy, pipe); }
    add_msg("You clear the wreckage up");
  } else {
+   add_msg("You need a shovel to do that!");
+  }
+ } else if (m.ter(examx, examy) == t_metal && u.has_amount(itm_shovel, 1)) {
+  if (query_yn("Clear up that wreckage?")) {
    u.moves -= 200;
    m.ter(examx, examy) = t_dirt;
    item chunk(itypes[itm_steel_chunk], turn);
@@ -4680,19 +4692,19 @@ void game::examine()
   if (one_in(5)) {
    m.add_item(u.posx, u.posy, pipe); }
    add_msg("You clear the wreckage up");
- }} else {
+ } else {
    add_msg("You need a shovel to do that!");
   }
- } else if (m.ter(examx, examy) == t_pit && query_yn("Place a plank over the pit?")) {
-  if (u.has_amount(itm_2x4, 1)) {
+ } else if (m.ter(examx, examy) == t_pit && u.has_amount(itm_2x4, 1)) {
+  if (query_yn("Place a plank over the pit?")) {
    u.use_amount(itm_2x4, 1);
    m.ter(examx, examy) = t_pit_covered;
    add_msg("You place a plank of wood over the pit");
  } else {
    add_msg("You need a plank of wood to do that");
   }
- } else if (m.ter(examx, examy) == t_pit_spiked && query_yn("Place a plank over the pit?")) {
-  if (u.has_amount(itm_2x4, 1)) {
+ } else if (m.ter(examx, examy) == t_pit_spiked && u.has_amount(itm_2x4, 1)) {
+  if (query_yn("Place a plank over the pit?")) {
    u.use_amount(itm_2x4, 1);
    m.ter(examx, examy) = t_pit_spiked_covered;
    add_msg("You place a plank of wood over the pit");
@@ -4728,7 +4740,7 @@ void game::examine()
    m.ter(examx, examy) = t_fence_rope;
    u.moves -= 200;
   } else
-   add_msg("You need 2 lengths of rope to do that");
+   add_msg("You need 2 six-foot lengths of rope to do that");
   } break;
 
    case 2:{
@@ -4896,14 +4908,15 @@ shape, but with long, twisted, distended limbs.");
  //flowers
     else if ((m.ter(examx, examy)==t_mutpoppy)&&(query_yn("Pick the flower?"))) {
         add_msg("This flower has a heady aroma");
-        if (!(u.is_wearing(itm_mask_filter)||u.is_wearing(itm_mask_gas)))  {
+        if (!(u.is_wearing(itm_mask_filter)||u.is_wearing(itm_mask_gas) ||
+            one_in(3)))  {
         add_msg("You fall asleep...");
         u.add_disease(DI_SLEEP, 1200, this);
         add_msg("Your legs are covered by flower's roots!");
-        u.hurt(this,bp_legs, 0, 10);
+        u.hurt(this,bp_legs, 0, 4);
         u.moves-=50;
         }
-        m.ter(examx, examy) = t_grass;
+        m.ter(examx, examy) = t_dirt;
         m.add_item(examx, examy, this->itypes[itm_poppy_flower],0);
         m.add_item(examx, examy, this->itypes[itm_poppy_bud],0);
     }
@@ -6073,8 +6086,16 @@ single action.", u.weapon.tname().c_str());
    return;
   }
   if (u.weapon.charges == u.weapon.clip_size()) {
-   add_msg("Your %s is fully loaded!", u.weapon.tname(this).c_str());
-   return;
+   int spare_mag = -1;
+   for (int i = 0; i < u.weapon.contents.size(); i++) {
+    if (u.weapon.contents[i].is_gunmod() && u.weapon.contents[i].typeId() == itm_spare_mag &&
+        u.weapon.contents[i].charges != (dynamic_cast<it_gun*>(u.weapon.type))->clip )
+     spare_mag = i;
+   }
+   if(spare_mag == -1) {
+    add_msg("Your %s is fully loaded!", u.weapon.tname(this).c_str());
+    return;
+   }
   }
   int index = u.weapon.pick_reload_ammo(u, true);
   if (index == -1) {
@@ -6110,7 +6131,13 @@ void game::unload()
      (!u.weapon.is_tool() || u.weapon.ammo_type() == AT_NULL)) {
   add_msg("You can't unload a %s!", u.weapon.tname(this).c_str());
   return;
- } else if (u.weapon.is_container() || u.weapon.charges == 0) {
+ }
+ int spare_mag = -1;
+ if (u.weapon.is_gun())
+  spare_mag = u.weapon.has_gunmod (itm_spare_mag);
+ if (u.weapon.is_container() ||
+     (u.weapon.charges == 0 &&
+      (spare_mag == -1 || u.weapon.contents[spare_mag].charges <= 0))) {
   if (u.weapon.contents.size() == 0) {
    if (u.weapon.is_gun())
     add_msg("Your %s isn't loaded, and is not modified.",
@@ -6152,29 +6179,33 @@ void game::unload()
  }
 // Unloading a gun or tool!
  u.moves -= int(u.weapon.reload_time(u) / 2);
+ item* weapon = &u.weapon;
  it_ammo* tmpammo;
- if (u.weapon.is_gun()) {	// Gun ammo is combined with existing items
-  for (int i = 0; i < u.inv.size() && u.weapon.charges > 0; i++) {
+ if (weapon->is_gun()) {	// Gun ammo is combined with existing items
+  // If there's an attached spare clip, unload it first.
+  if (spare_mag != -1 && weapon->contents[spare_mag].charges > 0)
+   weapon = &weapon->contents[spare_mag];
+  for (int i = 0; i < u.inv.size() && weapon->charges > 0; i++) {
    if (u.inv[i].is_ammo()) {
     tmpammo = dynamic_cast<it_ammo*>(u.inv[i].type);
-    if (tmpammo->id == u.weapon.curammo->id &&
+    if (tmpammo->id == weapon->curammo->id &&
         u.inv[i].charges < tmpammo->count) {
-     u.weapon.charges -= (tmpammo->count - u.inv[i].charges);
+     weapon->charges -= (tmpammo->count - u.inv[i].charges);
      u.inv[i].charges = tmpammo->count;
-     if (u.weapon.charges < 0) {
-      u.inv[i].charges += u.weapon.charges;
-      u.weapon.charges = 0;
+     if (weapon->charges < 0) {
+      u.inv[i].charges += weapon->charges;
+      weapon->charges = 0;
      }
     }
    }
   }
  }
  item newam;
- if (u.weapon.is_gun() && u.weapon.curammo != NULL)
-  newam = item(u.weapon.curammo, turn);
+ if ((weapon->is_gun() || weapon->is_gunmod()) && weapon->curammo != NULL)
+  newam = item(weapon->curammo, turn);
  else
-  newam = item(itypes[default_ammo(u.weapon.ammo_type())], turn);
- while (u.weapon.charges > 0) {
+  newam = item(itypes[default_ammo(weapon->ammo_type())], turn);
+ while (weapon->charges > 0) {
   int iter = 0;
   while ((newam.invlet == 0 || u.has_item(newam.invlet)) && iter < 52) {
    newam.invlet = nextinv;
@@ -6182,23 +6213,23 @@ void game::unload()
    iter++;
   }
   if (newam.made_of(LIQUID))
-   newam.charges = u.weapon.charges;
-  u.weapon.charges -= newam.charges;
-  if (u.weapon.charges < 0) {
-   newam.charges += u.weapon.charges;
-   u.weapon.charges = 0;
+   newam.charges = weapon->charges;
+  weapon->charges -= newam.charges;
+  if (weapon->charges < 0) {
+   newam.charges += weapon->charges;
+   weapon->charges = 0;
   }
   if (u.weight_carried() + newam.weight() < u.weight_capacity() &&
       u.volume_carried() + newam.volume() < u.volume_capacity() && iter < 52) {
    if (newam.made_of(LIQUID)) {
     if (!handle_liquid(newam, false, false))
-     u.weapon.charges += newam.charges;	// Put it back in
+     weapon->charges += newam.charges;	// Put it back in
    } else
     u.i_add(newam, this);
   } else
    m.add_item(u.posx, u.posy, newam);
  }
- u.weapon.curammo = NULL;
+ weapon->curammo = NULL;
 }
 
 void game::wield()

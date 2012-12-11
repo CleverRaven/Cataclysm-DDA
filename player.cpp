@@ -1476,13 +1476,13 @@ void player::disp_status(WINDOW *w, game *g)
  if (weapon.is_gun()) {
    int adj_recoil = recoil + driving_recoil;
        if (adj_recoil >= 36)
-   mvwprintz(w, 0, 30, c_red,    "Recoil");
+   mvwprintz(w, 0, 34, c_red,    "Recoil");
   else if (adj_recoil >= 20)
-   mvwprintz(w, 0, 30, c_ltred,  "Recoil");
+   mvwprintz(w, 0, 34, c_ltred,  "Recoil");
   else if (adj_recoil >= 4)
-   mvwprintz(w, 0, 30, c_yellow, "Recoil");
+   mvwprintz(w, 0, 34, c_yellow, "Recoil");
   else if (adj_recoil > 0)
-   mvwprintz(w, 0, 30, c_ltgray, "Recoil");
+   mvwprintz(w, 0, 34, c_ltgray, "Recoil");
  }
 
       if (hunger > 2800)
@@ -3584,7 +3584,8 @@ int player::amount_of(itype_id it)
  if (it == itm_toolset && has_bionic(bio_tools))
   return 1;
  if (it == itm_apparatus) {
- if (has_amount(itm_crackpipe, 1) && has_amount(itm_lighter, 1))
+ if (has_amount(itm_crackpipe, 1) && has_amount(itm_lighter, 1) ||
+    (has_amount(itm_can_drink, 1) && has_amount(itm_lighter, 1)))
   return 1;
 }
  int quantity = 0;
@@ -4273,8 +4274,16 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
     inv.add_item(copy);
    return;
   }
-  if ((mod->id == itm_clip || mod->id == itm_clip2) && gun->clip_size() <= 2) {
+  if ((mod->id == itm_clip || mod->id == itm_clip2 || mod->id == itm_spare_mag) &&
+      gun->clip_size() <= 2) {
    g->add_msg("You can not extend the ammo capacity of your %s.",
+              gun->tname(g).c_str());
+   if (replace_item)
+    inv.add_item(copy);
+   return;
+  }
+  if (mod->id == itm_spare_mag && gun->has_flag(IF_RELOAD_ONE)) {
+   g->add_msg("You can not use a spare magazine with your %s.",
               gun->tname(g).c_str());
    if (replace_item)
     inv.add_item(copy);
@@ -4624,7 +4633,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
 //  their T shirt, for example.  TODO: don't assume! ASS out of U & ME, etc.
  for (int i = worn.size() - 1; i >= 0; i--) {
   tmp = dynamic_cast<it_armor*>(worn[i].type);
-  if ((tmp->covers & mfb(bp)) && tmp->storage < 20) {
+  if ((tmp->covers & mfb(bp)) && tmp->storage < 20 && dam > 0) {
    arm_bash = tmp->dmg_resist;
    arm_cut  = tmp->cut_resist;
    switch (worn[i].damage) {
@@ -4828,7 +4837,11 @@ std::string player::weapname(bool charges)
        dynamic_cast<it_tool*>(weapon.type)->max_charges <= 0) &&
      weapon.charges >= 0 && charges) {
   std::stringstream dump;
-  dump << weapon.tname().c_str() << " (" << weapon.charges << ")";
+  int spare_mag = weapon.has_gunmod(itm_spare_mag);
+  dump << weapon.tname().c_str() << " (" << weapon.charges;
+  if( -1 != spare_mag )
+   dump << "+" << weapon.contents[spare_mag].charges;
+  dump << ")";
   return dump.str();
  } else if (weapon.is_null())
   return "fists";

@@ -62,6 +62,7 @@ public:
  int damage_cut();
  bool has_flag(item_flag f);
  bool has_technique(technique_id t, player *p = NULL);
+ int has_gunmod(int type);
  std::vector<technique_id> techniques();
  bool goes_bad();
  bool count_by_charges();

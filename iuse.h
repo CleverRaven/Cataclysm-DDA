@@ -11,6 +11,7 @@ class iuse
   void none		(game *g, player *p, item *it, bool t) { };
 // FOOD AND DRUGS (ADMINISTRATION)
   void sewage		(game *g, player *p, item *it, bool t);
+  void honeycomb        (game *g, player *p, item *it, bool t);
   void royal_jelly	(game *g, player *p, item *it, bool t);
   void bandage		(game *g, player *p, item *it, bool t);
   void firstaid		(game *g, player *p, item *it, bool t);
@@ -26,6 +27,7 @@ class iuse
   void weed		(game *g, player *p, item *it, bool t);
   void coke		(game *g, player *p, item *it, bool t);
   void crack		(game *g, player *p, item *it, bool t);
+  void grack		(game *g, player *p, item *it, bool t);
   void meth		(game *g, player *p, item *it, bool t);
   void poison		(game *g, player *p, item *it, bool t);
   void hallu		(game *g, player *p, item *it, bool t);
@@ -61,6 +63,7 @@ class iuse
   void chainsaw_off	(game *g, player *p, item *it, bool t);
   void chainsaw_on	(game *g, player *p, item *it, bool t);
   void jackhammer	(game *g, player *p, item *it, bool t);
+  void jacqueshammer	(game *g, player *p, item *it, bool t);
   void set_trap		(game *g, player *p, item *it, bool t);
   void geiger		(game *g, player *p, item *it, bool t);
   void teleport		(game *g, player *p, item *it, bool t);
@@ -103,6 +106,10 @@ class iuse
   void lumber    	(game *g, player *p, item *it, bool t);
   void hacksaw          (game *g, player *p, item *it, bool t);
   void tent             (game *g, player *p, item *it, bool t);
+  void torch            (game *g, player *p, item *it, bool t);
+  void torch_lit        (game *g, player *p, item *it, bool t);
+  void candle           (game *g, player *p, item *it, bool t);
+  void candle_lit       (game *g, player *p, item *it, bool t);
 // MACGUFFINS
   void mcg_note		(game *g, player *p, item *it, bool t);
 // ARTIFACTS
