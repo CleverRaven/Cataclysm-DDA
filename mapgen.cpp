@@ -1578,6 +1578,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   if (rn == 2) {
    if (one_in(5))
     ter(rng(4, 10), 16) = t_gas_pump;
+      else ter(rng(4, 10), 16) = t_recycler;
    if (one_in(3)) {	// Place a dumpster
     int startx = rng(2, 11), starty = rng(18, 19);
     if (startx == 11)

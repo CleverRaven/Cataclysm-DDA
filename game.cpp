@@ -4922,6 +4922,36 @@ shape, but with long, twisted, distended limbs.");
   m.disarm_trap(this, examx, examy);
 }
 
+//-----Recycling machine-----
+   else if ((m.ter(examx, examy)==t_recycler)&&(query_yn("Use the recycler?"))) {
+        if (m.i_at(examx, examy).size() > 0)
+        {
+          sound(examx, examy, 80, "Ka-klunk!");
+          int num_metal = 0;
+          for (int i = 0; i < m.i_at(examx, examy).size(); i++)
+          {
+            item *it = &(m.i_at(examx, examy)[i]);
+            if (it->made_of(STEEL)
+            num_metal++;
+            m.i_at(examx, examy).erase(m.i_at(examx, examy).begin() + i);
+            i--;
+          }
+          if (num_metal > 0)
+          {
+            while (num_metal > 9)
+            {
+              m.add_item(u.posx, u.posy, this->itypes[itm_steel_lump], 0);
+              num_metal -= 10;
+            }
+            do
+            {
+              m.add_item(u.posx, u.posy, this->itypes[itm_steel_chunk], 0);
+              num_metal -= 3;
+            } while (num_metal > 2);
+          }
+        }
+        else add_msg("The recycler is empty.");
+    }
 //Shift player by one tile, look_around(), then restore previous position.
 //represents carfully peeking around a corner, hence the large move cost.
 void game::peek()
