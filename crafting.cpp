@@ -195,6 +195,11 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
 // FOOD
 
+ RECIPE(itm_water_clean, CC_FOOD, sk_cooking, sk_null, 0, 5000);
+  TOOL(itm_hotplate, 3, itm_toolset, 1, itm_fire, -1, NULL);
+  TOOL(itm_pan, -1, itm_pot, -1, NULL);
+  COMP(itm_water, 1, NULL);
+
  RECIPE(itm_meat_cooked, CC_FOOD, sk_cooking, sk_null, 0, 5000);
   TOOL(itm_hotplate, 7, itm_toolset, 4, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, itm_spear_wood, -1, NULL);
