@@ -860,6 +860,12 @@ MELEE("baseball bat",	60, 160,'/', c_ltred,	WOOD,	MNULL,
 A sturdy wood bat.  Makes a great melee weapon.");
 TECH( mfb(TEC_WBLOCK_1) );
 
+MELEE("aluminium bat",	60, 160,'/', c_ltred,	STEEL,	MNULL,
+	10, 6, 24,  0,  3, 0, "\
+An aluminium baseball bat, smaller and lighter than a wooden bat\n\
+but a little less damaging as a result.");
+TECH( mfb(TEC_WBLOCK_1) );
+
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("machete",	 5, 280,'/', c_blue,	IRON,	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
@@ -1053,6 +1059,11 @@ MELEE("burnt out torch",	95,  0, '/', c_brown,	WOOD,	MNULL,
 A torch which has consumed all its fuel, can be recrafted\n\
 into another torch");
 
+MELEE("nanomaterial",            0,  0, ';', c_ltcyan,  MNULL,  MNULL,
+         1, 0,   0,  0,  0, 0, "\
+A vaguely cogent gel, the mass fabricator can convert this\n\
+into.. well, anything.");
+
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  25, 35, ']', c_cyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
@@ -1085,6 +1096,12 @@ MELEE("vehicle controls",  3, 400, '$', c_ltcyan,  PLASTIC,   STEEL,
 //  VOL WGT DAM CUT HIT FLAGS
     12,  30,  2,  0,  -4, 0, "\
 A set of various vehicle controls.  Useful for crafting.");
+
+//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
+MELEE("100CC combustion engine",  4, 100, ':', c_ltcyan,  IRON,   MNULL,
+//  VOL WGT DAM CUT HIT FLAGS
+    6,  70,  4,  0,  -1, 0, "\
+A small go kart combustion engine.  Useful for crafting.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("1L combustion engine",  5, 150, ':', c_ltcyan,  IRON,   MNULL,
@@ -3471,6 +3488,7 @@ TOOL("hack saw",	17, 65, ';', c_ltcyan,	IRON,	MNULL,
 0, "\
 A sturdy saw, useful for cutting through metal objects.");
 
+//  NAME        RAR PRC SYM  COLOR  MAT1    MAT
 TOOL("tent",	17, 65, ';', c_green,	IRON,	MNULL,
 	 10,  20,  4,  0, -3, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::tent,
 0, "\
@@ -3517,6 +3535,14 @@ TOOL("brazier",  50,900,';', c_ltred,  IRON,MNULL,
 0, "\
 A large stand, with a shallow bowl on top. Used for old school\n\
 fire sconces.");
+
+//  NAME        RAR PRC SYM  COLOR  MAT1    MAT
+TOOL("mass fabricator",  1,900,';', c_ltred,  IRON,MNULL,
+// VOL WGT DAM CUT HIT   MAX DEF  USE SEC   FUEL    REVERT    FUNCTION
+     6, 5,  11,  0, 1,   100,100, 100,  0, AT_PLUT, itm_null, &iuse::massfab,
+0, "\
+This device seems capable of rendering items down\n\
+into nanomaterial, and reformatting this into other items.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

@@ -33,6 +33,7 @@ enum vpart_id
     vp_board_b,
     vp_roof,
     vp_door,
+    vp_door_o,
     vp_window,
     vp_blade_h,
     vp_blade_v,
@@ -41,6 +42,7 @@ enum vpart_id
     vp_wheel_large,
     vp_wheel,
 
+    vp_engine_gas_tiny,
     vp_engine_gas_small,
     vp_engine_gas_med,
     vp_engine_gas_large,
@@ -183,6 +185,8 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_internal) | mfb(vpf_roof) },
     { "door",       '+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, itm_frame, 2,
         mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_openable) },
+    { "opaque door",'+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, itm_frame, 2,
+        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_openable) },
     { "windshield", '"', c_ltcyan,  '0', c_ltgray,  70,  50, 0, 0, itm_glass_sheet, 1,
         mfb(vpf_over) | mfb(vpf_obstacle) | mfb(vpf_no_reinforce) },
     { "blade",      '-', c_white,   'x', c_white,   250, 100, 0, 0, itm_carblade, 2,
@@ -197,7 +201,9 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) },
     { "wheel",      'o', c_dkgray,  'x', c_ltgray,  50,  200, 10, 0, itm_wheel, 2,
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) },
-//                                                                         power type
+//     
+    { "100CC combustion engine",    '*', c_ltred,  '#', c_red,     80, 150, 40, AT_GAS, itm_combustion_tiny, 2, 
+        mfb(vpf_internal) | mfb(vpf_engine) },
     { "1L combustion engine",       '*', c_ltred,  '#', c_red,     80, 200, 120, AT_GAS, itm_combustion_small, 2,
         mfb(vpf_internal) | mfb(vpf_engine) },
     { "2.5L combustion engine",     '*', c_ltred,  '#', c_red,     80, 300, 300, AT_GAS, itm_combustion, 3,
@@ -264,6 +270,13 @@ enum vhtype_id
     veh_sandbike,
     veh_car,
     veh_truck,
+    veh_semi,  //6L Semitruck. 10 wheels. Sleeper cab.
+    veh_trucktrailer,  //Just a trailer with 8 wheels.
+    veh_bug,  //Old VW Bug.
+    veh_bubblecar,  //360 degree view glass circular vehicle. Underpowered plutonium.
+    veh_golfcart,  //Yamaha golf cart.
+    veh_scooter,  //Vespa S50 scooter.
+    veh_armytruck,  //Army M35A2 6L gas and/or hydrogen engine if commented parts uncommented.
 
     num_vehicles
 };

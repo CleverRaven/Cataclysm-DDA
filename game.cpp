@@ -4913,15 +4913,6 @@ shape, but with long, twisted, distended limbs.");
         m.add_item(examx, examy, this->itypes[itm_poppy_flower],0);
         m.add_item(examx, examy, this->itypes[itm_poppy_bud],0);
     }
- //-----------------
- if (m.tr_at(examx, examy) != tr_null &&
-      traps[m.tr_at(examx, examy)]->difficulty < 99 &&
-     u.per_cur-u.encumb(bp_eyes) >= traps[m.tr_at(examx, examy)]->visibility &&
-     query_yn("There is a %s there.  Disarm?",
-              traps[m.tr_at(examx, examy)]->name.c_str()))
-  m.disarm_trap(this, examx, examy);
-}
-
 //-----Recycling machine-----
    else if ((m.ter(examx, examy)==t_recycler)&&(query_yn("Use the recycler?"))) {
         if (m.i_at(examx, examy).size() > 0)
@@ -4931,7 +4922,7 @@ shape, but with long, twisted, distended limbs.");
           for (int i = 0; i < m.i_at(examx, examy).size(); i++)
           {
             item *it = &(m.i_at(examx, examy)[i]);
-            if (it->made_of(STEEL)
+            if (it->made_of(STEEL))
             num_metal++;
             m.i_at(examx, examy).erase(m.i_at(examx, examy).begin() + i);
             i--;
@@ -4952,6 +4943,17 @@ shape, but with long, twisted, distended limbs.");
         }
         else add_msg("The recycler is empty.");
     }
+
+ //-----------------
+ if (m.tr_at(examx, examy) != tr_null &&
+      traps[m.tr_at(examx, examy)]->difficulty < 99 &&
+     u.per_cur-u.encumb(bp_eyes) >= traps[m.tr_at(examx, examy)]->visibility &&
+     query_yn("There is a %s there.  Disarm?",
+              traps[m.tr_at(examx, examy)]->name.c_str()))
+  m.disarm_trap(this, examx, examy);
+}
+
+
 //Shift player by one tile, look_around(), then restore previous position.
 //represents carfully peeking around a corner, hence the large move cost.
 void game::peek()

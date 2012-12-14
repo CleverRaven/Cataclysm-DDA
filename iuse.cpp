@@ -2267,11 +2267,18 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
  }
  if (cut->type->id == itm_log) {
   p->moves -= 300;
-  g->add_msg("You cut the log into 5 planks.");
+  g->add_msg("You cut the log into planks.");
   item plank(g->itypes[itm_2x4], int(g->turn), g->nextinv);
+  item scrap(g->itypes[itm_splinter], int(g->turn), g->nextinv);
   p->i_rem(ch);
   bool drop = false;
-  for (int i = 0; i < 5; i++) {
+  int planks = (rng(1, 3) + (p->sklevel[sk_carpentry] * 2));
+  int scraps = 12 - planks;
+   if (planks >= 12)
+    planks = 12;
+  if (scraps >= planks)
+   g->add_msg("You waste a lot of the wood.");
+  for (int i = 0; i < planks; i++) {
    int iter = 0;
    while (p->has_item(plank.invlet)) {
     plank.invlet = g->nextinv;
@@ -2284,6 +2291,20 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
     g->m.add_item(p->posx, p->posy, plank);
    else
     p->i_add(plank);
+  }
+ for (int i = 0; i < scraps; i++) {
+   int iter = 0;
+   while (p->has_item(scrap.invlet)) {
+    scrap.invlet = g->nextinv;
+    g->advance_nextinv();
+    iter++;
+   }
+   if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+    drop = true;
+   if (drop)
+    g->m.add_item(p->posx, p->posy, scrap);
+   else
+    p->i_add(scrap);
   }
   return;
   } else { g->add_msg("You can't cut that up!");
@@ -2303,7 +2324,18 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
  }
  dirx += p->posx;
  diry += p->posy;
- if (g->m.ter(dirx, diry) == t_bars && g->m.ter(dirx + 1, diry) == t_sewage ||
+
+ if (g->m.ter(dirx, diry) == t_rack) {
+  p->moves -= 500;
+  g->m.ter(dirx, diry) = t_floor;
+  g->sound(dirx, diry, 15,"grnd grnd grnd");
+  int pipes = rng(1, 3);
+  item pipe(g->itypes[itm_pipe], 0, g->nextinv);
+  item chunk(g->itypes[itm_steel_chunk], 0, g->nextinv);
+ for (int i = 0; i < pipes; i++)
+  g->m.add_item(p->posx, p->posy, pipe);
+  g->m.add_item(p->posx, p->posy, chunk);
+ }else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(dirx + 1, diry) == t_sewage ||
                                               g->m.ter(dirx, diry + 1) == t_sewage) {
   g->m.ter(dirx, diry) = t_sewage;
   p->moves -= 1000;
@@ -2314,7 +2346,7 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
   g->m.add_item(p->posx, p->posy, pipe);	
  } else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(p->posx, p->posy)) {
   g->m.ter(dirx, diry) = t_floor;
-  p->moves -= 1000;
+  p->moves -= 500;
   g->sound(dirx, diry, 15,"grnd grnd grnd");
  int pipes = 3;
  item pipe(g->itypes[itm_pipe], 0, g->nextinv);
@@ -2387,6 +2419,23 @@ void iuse::candle_lit(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::massfab(game *g, player *p, item *it, bool t)
+{
+ int ch = menu(
+ "Using mass fabricator:", "Break down item", "Reformat", "Cancel", NULL);
+ switch (ch) {
+  if (ch == 3)
+  break;
+
+case 1:{
+break;
+}
+
+case 2:{
+break;
+  }
+ }
+}
 /* MACGUFFIN FUNCTIONS
  * These functions should refer to it->associated_mission for the particulars
  */
