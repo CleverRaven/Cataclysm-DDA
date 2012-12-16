@@ -587,7 +587,7 @@ FEARS(MTRIG_HURT);
 
 mon("sewer snake",species_none, 's',	c_yellow,	MS_SMALL,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 15,  2, 20, 40, 60, 12,  1,  2,  5,  1,  0,  0,  0, 40, 0,
+	 15,  2, 20, 40, 60, 12,  1,  2,  5,  1,  0,  0,  0, 10, 0,
 	&mdeath::normal,	&mattack::none,	"\
 A large snake, turned pale yellow from its\n\
 underground life."
@@ -597,7 +597,7 @@ FEARS(MTRIG_HURT);
 
 mon("sewer rat",species_mammal, 's',	c_dkgray,	MS_SMALL,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 18,  3, 20, 40,105, 10,  1,  2,  1,  2,  0,  0,  0, 30, 0,
+	 18,  3, 20, 40,105, 10,  1,  2,  1,  2,  0,  0,  0, 10, 0,
 	&mdeath::normal,	&mattack::none, "\
 A large, mangey rat with red eyes.  It\n\
 scampers quickly across the ground, squeaking\n\
