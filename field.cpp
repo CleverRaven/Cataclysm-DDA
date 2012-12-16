@@ -225,7 +225,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
       for (int j = 0; j < 3 && cur->age < 0; j++) {
        int fx = x + ((i + starti) % 3) - 1, fy = y + ((j + startj) % 3) - 1;
        if (field_at(fx, fy).type == fd_fire && field_at(fx, fy).density < 3 &&
-           (!in_pit || ter(fx, fy) == t_pit)) {
+           (in_pit == (ter(fx, fy) == t_pit))) {
         field_at(fx, fy).density++; 
         field_at(fx, fy).age = 0;
         cur->age = 0;
@@ -248,7 +248,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
         ter(fx, fy) = ter_id(int(ter(fx, fy)) + 1);
         g->explosion(fx, fy, 40, 0, true);
        } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
-                  (!in_pit || ter(fx, fy) == t_pit) &&
+                  (in_pit == (ter(fx, fy) == t_pit)) &&
                   ((cur->density == 3 &&
                     (has_flag(flammable, fx, fy) || one_in(20))) ||
                    (cur->density == 3 &&
