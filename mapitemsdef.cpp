@@ -85,7 +85,12 @@ void game::init_mapitems()
 	itm_sw_610, itm_ruger_redhawk, itm_deagle_44, itm_usp_45, itm_m1911,
 	itm_fn57, itm_mac_10, itm_shotgun_sawn, itm_silencer, itm_grip,
 	itm_clip, itm_spare_mag, itm_grenade, itm_EMPbomb, itm_gasbomb, itm_tazer,
-	itm_longbow, itm_compbow, itm_arrow_wood, itm_arrow_cf, itm_u_shotgun, NULL);
+	itm_longbow, itm_compbow, itm_arrow_wood, itm_arrow_cf, itm_u_shotgun, itm_shot_hull,
+        itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing,
+        itm_57mm_casing, itm_46mm_casing, itm_762_casing, itm_223_casing,
+        itm_3006_casing, itm_308_casing, itm_pistol_powder, itm_rifle_powder,
+        itm_shotgun_primer, itm_smpistol_primer, itm_lgpistol_primer,
+        itm_smrifle_primer, itm_lgrifle_primer, itm_lead, NULL);
 
  setvector(
    mapitems[mi_dresser],
@@ -170,7 +175,7 @@ void game::init_mapitems()
    mapitems[mi_tools],
 	itm_screwdriver, itm_hammer, itm_wrench, itm_saw, itm_hacksaw,
 	itm_hammer_sledge, itm_xacto, itm_flashlight, itm_crowbar, itm_nailgun,
-	NULL);
+	itm_press, itm_puller, NULL);
 
  setvector(
    mapitems[mi_bigtools],
@@ -194,7 +199,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_sports],
-	itm_bandages, itm_aspirin, itm_bat, itm_sneakers, itm_tshirt,
+	itm_bandages, itm_aspirin, itm_bat, itm_bat_metal, itm_sneakers, itm_tshirt,
 	itm_tank_top, itm_gloves_fingerless, itm_glasses_safety,
 	itm_goggles_swim, itm_goggles_ski, itm_hat_ball, itm_helmet_bike,
 	itm_helmet_ball, itm_manual_brawl, NULL);
@@ -211,7 +216,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_allsporting],
-	itm_aspirin, itm_bat, itm_sneakers, itm_tshirt, itm_tank_top,
+	itm_aspirin, itm_bat, itm_bat_metal, itm_sneakers, itm_tshirt, itm_tank_top,
 	itm_gloves_fingerless, itm_glasses_safety, itm_goggles_swim,
 	itm_goggles_ski, itm_hat_ball, itm_helmet_bike, itm_helmet_ball,
 	itm_manual_brawl, itm_rope_30, itm_hatchet, itm_pot, itm_pan,
@@ -292,7 +297,12 @@ void game::init_mapitems()
 	itm_barrel_big, itm_barrel_small, itm_barrel_rifled, itm_clip, itm_spare_mag,
 	itm_clip2, itm_stablizer, itm_blowback, itm_autofire, itm_retool_45,
 	itm_retool_9mm, itm_retool_22, itm_retool_57, itm_retool_46,
-	itm_retool_308, itm_retool_223, itm_tazer, NULL);
+	itm_retool_308, itm_retool_223, itm_tazer,itm_shot_hull,
+        itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing,
+        itm_57mm_casing, itm_46mm_casing, itm_762_casing, itm_223_casing,
+        itm_3006_casing, itm_308_casing, itm_pistol_powder, itm_rifle_powder,
+        itm_shotgun_primer, itm_smpistol_primer, itm_lgpistol_primer,
+        itm_smrifle_primer, itm_lgrifle_primer, itm_lead, itm_press, itm_puller, NULL);
 
  setvector(
    mapitems[mi_shoes],
@@ -421,7 +431,7 @@ void game::init_mapitems()
 	itm_chainsaw_off, itm_jackhammer, itm_jacqueshammer, itm_ring, itm_necklace, itm_usb_drive,
 	itm_broadsword, itm_morningstar, itm_helmet_plate, itm_cot, itm_rollmat,
 	itm_boots_fit, itm_boots_steel_fit, itm_boots_winter_fit,
-        itm_dress_shoes_fit, 
+        itm_dress_shoes_fit, itm_bat_metal,
         itm_jeans_fit, itm_pants_army_fit,NULL);
 
  setvector(
@@ -561,7 +571,7 @@ void game::init_mapitems()
    mapitems[mi_weapons],
 	itm_chain, itm_hammer, itm_wrench, itm_hammer_sledge, itm_hatchet,
 	itm_ax, itm_knife_combat, itm_pipe, itm_bat, itm_machete, itm_katana,
-	itm_baton, itm_tazer, itm_rapier, NULL);
+	itm_baton, itm_tazer, itm_rapier, itm_bat_metal, NULL);
 
  setvector(
    mapitems[mi_survival_armor],
@@ -786,6 +796,6 @@ void game::init_mapitems()
 	itm_chainsaw_on, itm_pipebomb_act, itm_grenade_act, itm_flashbang_act,
 	itm_EMPbomb_act, itm_gasbomb_act, itm_smokebomb_act, itm_molotov_lit,
 	itm_dynamite_act, itm_mininuke_act, itm_UPS_on, itm_mp3_on, itm_c4armed,
-        itm_apparatus, itm_grack, itm_brazier,
+        itm_apparatus, itm_grack, itm_brazier, itm_massfab, itm_nanogel,
 	NULL);
 }

@@ -41,6 +41,7 @@ enum t_flag {
  liquid,       // Blocks movement but isn't a wall, e.g. lava or water
  swimmable,    // You (and monsters) swim here
  sharp,	       // May do minor damage to players/monsters passing it
+ painful,      // May cause a small amount of pain
  rough,        // May hurt the player's feet
  sealed,       // Can't 'e' to retrieve items here
  noitem,       // Items "fall off" this space
@@ -307,10 +308,11 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"young tree",       '1', c_green,   4, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)},
 {"underbrush",       '#', c_ltgreen, 6, tr_null,
-	mfb(transparent)|mfb(bashable)|mfb(diggable)|mfb(container)|mfb(rough)|
+	mfb(transparent)|mfb(bashable)|mfb(diggable)|mfb(container)|mfb(painful)|
 	mfb(flammable2)|mfb(thin_obstacle)},
 {"shrub",            '#', c_green,   8, tr_null,
-	mfb(transparent)|mfb(bashable)|mfb(container)|mfb(flammable2)|mfb(thin_obstacle)},
+	mfb(transparent)|mfb(bashable)|mfb(container)|mfb(flammable2)|mfb(thin_obstacle)|
+        mfb(painful)},
 {"log",              '1', c_brown,   4, tr_null,
 	mfb(transparent)|mfb(flammable2)|mfb(diggable)},
 {"root wall",        '#', c_brown,   0, tr_null,

@@ -101,6 +101,65 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  ts.tv_sec = 0;
  ts.tv_nsec = BULLET_SPEED;
 
+ // Use up some ammunition
+ p.weapon.charges -= num_shots;
+ if (p.weapon.curammo->type == AT_SHOT || p.weapon.curammo->type == AT_9MM || 
+     p.weapon.curammo->type == AT_38 || p.weapon.curammo->type == AT_40 || 
+     p.weapon.curammo->type == AT_44 || p.weapon.curammo->type == AT_45 || 
+     p.weapon.curammo->type == AT_57 || p.weapon.curammo->type == AT_46 || 
+     p.weapon.curammo->type == AT_762 || p.weapon.curammo->type == AT_223 || 
+     p.weapon.curammo->type == AT_3006 || p.weapon.curammo->type == AT_308) {
+    item casing;
+    if (p.weapon.curammo->type == AT_SHOT)
+    casing.make(itypes[itm_shot_hull]);
+    else if (p.weapon.curammo->type == AT_9MM)
+    casing.make(itypes[itm_9mm_casing]);
+    else if (p.weapon.curammo->type == AT_38)
+    casing.make(itypes[itm_38_casing]);
+    else if (p.weapon.curammo->type == AT_40)
+    casing.make(itypes[itm_40_casing]);
+    else if (p.weapon.curammo->type == AT_44)
+    casing.make(itypes[itm_44_casing]);
+    else if (p.weapon.curammo->type == AT_45)
+    casing.make(itypes[itm_45_casing]);
+    else if (p.weapon.curammo->type == AT_57)
+    casing.make(itypes[itm_57mm_casing]);
+    else if (p.weapon.curammo->type == AT_46)
+    casing.make(itypes[itm_46mm_casing]);
+    else if (p.weapon.curammo->type == AT_762)
+    casing.make(itypes[itm_762_casing]);
+    else if (p.weapon.curammo->type == AT_223)
+    casing.make(itypes[itm_223_casing]);
+    else if (p.weapon.curammo->type == AT_3006)
+    casing.make(itypes[itm_3006_casing]);
+    else if (p.weapon.curammo->type == AT_308)
+    casing.make(itypes[itm_308_casing]);
+    casing.charges = num_shots;
+    int iter = 0;
+    while ((casing.invlet == 0 || p.has_item(casing.invlet)) && iter < 52) {
+    casing.invlet = nextinv;
+    advance_nextinv();
+    iter++;}
+    if (p.weight_carried() + casing.weight() < p.weight_capacity() &&
+      p.volume_carried() + casing.volume() < p.volume_capacity() && iter < 52) {
+    p.i_add(casing);}
+    else
+   m.add_item(p.posx, p.posy, casing);}
+ double deviation;
+ double missed_by;
+ int trange = trig_dist(p.posx, p.posy, tarx, tary);
+ if (trange < int(firing->volume / 3) && firing->ammo != AT_SHOT)
+  trange = int(firing->volume / 3);
+ else if (p.has_bionic(bio_targeting)) {
+  if (trange > LONG_RANGE)
+   trange = int(trange * .65);
+  else
+   trange = int(trange * .8);
+ }
+ if (firing->skill_used == sk_rifle && trange > LONG_RANGE)
+  trange = LONG_RANGE + .6 * (trange - LONG_RANGE);
+ std::string message = "";
+ 
  bool missed = false;
  int tart;
  for (int curshot = 0; curshot < num_shots; curshot++) {

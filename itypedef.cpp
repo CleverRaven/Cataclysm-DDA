@@ -2068,6 +2068,115 @@ AMMO("charge",	     0,  0,AT_NULL,	c_red,		MNULL,
 A weak plasma charge.",
 0);
 
+AMMO("shotgun hull",		 10, 80,AT_NULL,	c_red,		PLASTIC,
+	 0, 0, 0,  0,  0, 0,  0, 200, "\
+An empty hull from a shotgun round.",
+0);
+
+AMMO("9mm casing",		 10, 30,AT_NULL,		c_ltblue,	STEEL,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 0,  0, 0,  0, 0, 0, 0, 200, "\
+An empty casing from a 9mm round.",
+0);
+
+AMMO(".38 casing",	 10, 40,AT_NULL,		c_ltblue,	STEEL,
+	 0, 0, 0,  0, 0, 0, 0, 200, "\
+An empty casing from a .38 round.",
+0);
+
+AMMO(".40 casing",		 10, 45,AT_NULL,		c_blue,		STEEL,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 0, 0, 0,  0, 0, 0, 0, 200, "\
+An empty casing from a .40 round.",
+0);
+
+AMMO(".44 casing",	 10, 58,AT_NULL,		c_blue,		STEEL,
+	 0, 0, 0,  0, 0, 0, 0, 200, "\
+An empty casing from a .44 round.",
+0);
+
+AMMO(".45 casing",		 10, 47,AT_NULL,		c_blue,		STEEL,
+	 0, 0, 0,  0, 0, 0, 0, 200, "\
+An empty casing from a .45 round.",
+0);
+
+AMMO("5.7x28mm casing",	 10, 50,AT_NULL,		c_dkgray,	STEEL,
+	 0, 0, 0, 0, 0,  0, 0, 200, "\
+An empty casing from a 5.7x28mm round.",
+0);
+
+AMMO("4.6x30mm casing",	 10, 52,AT_NULL,		c_dkgray,	STEEL,
+	 0, 0, 0, 0, 0,  0, 0, 200, "\
+An empty casing from a 4.6x30mm round.",
+0);
+
+AMMO("7.62x39mm casing",	 10, 50,AT_NULL,		c_dkgray,	STEEL,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 0, 0, 0, 0, 0, 0, 0, 200, "\
+An empty casing from a 7.62x39mm round.",
+0);
+
+AMMO(".223 casing",	 10, 72,AT_NULL,		c_dkgray,	STEEL,
+	 0,  0, 0,  0, 0, 0, 0, 200, "\
+An empty casing from a .223 round.",
+0);
+
+AMMO(".30-06 casing",	 10, 90,AT_NULL,	c_dkgray,	STEEL,
+	 0,  0, 0, 0, 0, 0, 0, 200, "\
+An empty casing from a .30-06 round.",
+0);
+
+AMMO(".308 casing",	 10, 92,AT_NULL,		c_dkgray,	STEEL,
+	 0,  0, 0,  0,  0, 0, 0, 200, "\
+An empty casing from a .308 round.",
+0);
+
+AMMO("pistol powder",	 10, 30,AT_NULL,		c_dkgray,	STEEL,
+	 0,  0, 0,  0,  0, 0, 0, 200, "\
+Powder from a shotgun shell or pistol round.",
+0);
+
+AMMO("rifle powder",	 10, 40,AT_NULL,		c_dkgray,	STEEL,
+	 0,  0, 0,  0,  0, 0, 0, 200, "\
+Powder from a rifle round.",
+0);
+
+AMMO("shotgun primer",	 10, 30,AT_NULL,		c_dkgray,	STEEL,
+	 0,  0, 0, 0,  0, 0, 0, 200, "\
+Primer from a shotgun round.",
+0);
+
+AMMO("small pistol primer",	 15, 40,AT_NULL,		c_dkgray,	STEEL,
+	 0,  0, 0, 0,  0, 0, 0, 200, "\
+Primer from a small caliber pistol round.",
+0);
+
+AMMO("large pistol primer",	 15, 60,AT_NULL,		c_dkgray,	STEEL,
+	 0,  0, 0,  0,  0, 0, 0, 200, "\
+Primer from a large caliber pistol round.",
+0);
+
+AMMO("small rifle primer",	 10, 60,AT_NULL,		c_dkgray,	STEEL,
+	 0,  0,  0, 0,  0, 0, 0, 200, "\
+Primer from a small caliber rifle round.",
+0);
+
+AMMO("large rifle primer",	 10, 80,AT_NULL,		c_dkgray,	STEEL,
+	 0,  0,  0, 0,  0, 0, 0, 200, "\
+Primer from a large caliber rifle round.",
+0);
+
+AMMO("lead",	 10, 50,AT_NULL,		c_dkgray,	STEEL,
+	 0,  0,  0, 0,  0, 0, 0, 200, "\
+Assorted bullet materials, useful in constructing a variety of ammunition.",
+0);
+
+AMMO("incendiary",	 0, 100,AT_NULL,		c_dkgray,	STEEL,
+	 0,  0,  0, 0,  0, 0, 0, 200, "\
+Material from an incendiary round, useful in constructing incendiary\n\
+ammunition.",
+0);
+
 
 // FUEL
 // Fuel is just a special type of ammo; liquid
@@ -3263,6 +3372,19 @@ TOOL("active EMP grenade",0,  0,'*', c_cyan,	STEEL,	PLASTIC,
 "This EMP grenade is active, and will shortly detonate, creating a large EMP\n\
 field which damages robots and drains bionic energy.");
 
+//	NAME		RAR VAL	SYM  COLOR	MAT1	MAT
+TOOL("scrambler grenade",	 2, 600,'*', c_cyan,	STEEL,	PLASTIC,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    1,  1,  8,  0, -1,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::scrambler,0,"\
+This is a highly modified EMP grenade, designed to scramble robots' control\n\
+chips, rather than destroy them. This converts the robot to your side for a \n\
+short time, before the backup systems kick in.");
+
+TOOL("active scrambler grenade",0,  0,'*', c_cyan,	STEEL,	PLASTIC,
+    1,  1,  8,  0, -1,  3,  3,  0,  1, AT_NULL,	itm_null, &iuse::scrambler_act,0,
+"This scrambler grenade is active, and will soon detonate, releasing a control\n\
+wave that temporarily converts robots to your side.");
+
 TOOL("teargas canister",3,  600,'*', c_yellow,	STEEL, MNULL,
     1,  1,  6,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::gasbomb,0,"\
 Use this item to pull the pin.  Five turns after you do that, it will begin\n\
@@ -3543,6 +3665,15 @@ TOOL("mass fabricator",  1,900,';', c_ltred,  IRON,MNULL,
 0, "\
 This device seems capable of rendering items down\n\
 into nanomaterial, and reformatting this into other items.");
+
+TOOL("kinetic bullet puller",		5, 100, ';', c_blue,	STEEL,	PLASTIC,
+    2,  4, 10,  0,  0,   0,  0, 0,  0, AT_NULL, itm_null, &iuse::bullet_puller, 0, "\
+A tool used for disassembling firearm ammunition.");
+
+TOOL("hand press & die set",		5, 100, ';', c_blue,	STEEL,	PLASTIC,
+    2,  4, 8,  0,  -2,   0,  0, 0,  0, AT_NULL, itm_null, &iuse::none, 0, "\
+A small hand press for hand loading firearm ammunition. Comes with everything \n\
+you need to start hand loading.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

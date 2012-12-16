@@ -3807,6 +3807,15 @@ void game::resonance_cascade(int x, int y)
  }
 }
 
+void game::scrambler_blast(int x, int y)
+{
+ int mondex = mon_at(x, y);
+ if (mondex != -1) {
+  if (z[mondex].has_flag(MF_ELECTRONIC)) 
+    z[mondex].make_friendly();
+   add_msg("The %s sparks and begins searching for a target!", z[mondex].name().c_str());
+ }
+}
 void game::emp_blast(int x, int y)
 {
  int rn;
@@ -6509,6 +6518,13 @@ void game::plmove(int x, int y)
     add_msg("You hurt your feet on the %s!", m.tername(x, y).c_str());
     u.hit(this, bp_feet, 0, 0, 1);
     u.hit(this, bp_feet, 1, 0, 1);
+   }
+  }
+  if (m.has_flag(painful, x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur/2))
+      && (!u.in_vehicle)) {
+   if (!u.has_trait(PF_PARKOUR) || one_in(4)) {
+    add_msg("You hurt yourself on the %s!", m.tername(x, y).c_str());
+    u.pain += 1;
    }
   }
   if (m.has_flag(sharp, x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur/2))
