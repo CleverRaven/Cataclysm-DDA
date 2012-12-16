@@ -468,7 +468,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
        ter(i + k, j + l) = t_floor_wax;
      }
      add_spawn(mon_bee, 2, i, j);
-     add_spawn(mon_beekeeper, 2, i, j);
+     add_spawn(mon_beekeeper, 1, i, j);
      ter(i    , j - 3) = t_floor_wax;
      ter(i    , j + 3) = t_floor_wax;
      ter(i - 1, j - 2) = t_floor_wax;
