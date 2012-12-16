@@ -179,45 +179,47 @@ bool map::process_fields_in_submap(game *g, int gridn)
     veh = veh_at(x, y, part);
     if (veh)
      veh->damage (part, cur->density * 10, false);
-// Consume the terrain we're on
-    if (has_flag(explodes, x, y)) {
-     ter(x, y) = ter_id(int(ter(x, y)) + 1);
-     cur->age = 0;
-     cur->density = 3;
-     g->explosion(x, y, 40, 0, true);
+    // If the flames are in a brazier, they're fully contained, so skip consuming terrain
+    if(tr_brazier != tr_at(x, y)) {
+     // Consume the terrain we're on
+     if (has_flag(explodes, x, y)) {
+      ter(x, y) = ter_id(int(ter(x, y)) + 1);
+      cur->age = 0;
+      cur->density = 3;
+      g->explosion(x, y, 40, 0, true);
 
-    } else if (has_flag(flammable, x, y) && one_in(32 - cur->density * 10)) {
-     cur->age -= cur->density * cur->density * 40;
-     smoke += 15;
-     if (cur->density == 3)
-      g->m.destroy(g, x, y, false);
+     } else if (has_flag(flammable, x, y) && one_in(32 - cur->density * 10)) {
+      cur->age -= cur->density * cur->density * 40;
+      smoke += 15;
+      if (cur->density == 3)
+       g->m.destroy(g, x, y, false);
 
+     } else if (has_flag(flammable2, x, y) && one_in(32 - cur->density * 10)) {
+      cur->age -= cur->density * cur->density * 40;
+      smoke += 15;
+      if (cur->density == 3)
+       ter(x, y) = t_ash;
 
-    } else if (has_flag(flammable2, x, y) && one_in(32 - cur->density * 10)) {
-     cur->age -= cur->density * cur->density * 40;
-     smoke += 15;
-     if (cur->density == 3)
-      ter(x, y) = t_ash;
+     } else if (has_flag(l_flammable, x, y) && one_in(62 - cur->density * 10)) {
+      cur->age -= cur->density * cur->density * 30;
+      smoke += 10;
+      if (cur->density == 3)
+       g->m.destroy(g, x, y, false);
 
-    } else if (has_flag(l_flammable, x, y) && one_in(62 - cur->density * 10)) {
-     cur->age -= cur->density * cur->density * 30;
-     smoke += 10;
-     if (cur->density == 3)
-        g->m.destroy(g, x, y, false);
-
-
-    } else if (terlist[ter(x, y)].flags & mfb(swimmable))
-     cur->age += 800;	// Flames die quickly on water
+     } else if (terlist[ter(x, y)].flags & mfb(swimmable))
+      cur->age += 800;	// Flames die quickly on water
+    }
 
 // If we consumed a lot, the flames grow higher
     while (cur->density < 3 && cur->age < 0) {
      cur->age += 300;
      cur->density++;
     }
+
 // If the flames are in a pit, it can't spread to non-pit
     bool in_pit = (ter(x, y) == t_pit);
 // If the flames are REALLY big, they contribute to adjacent flames
-    if (cur->density == 3 && cur->age < 0) {
+    if (cur->density == 3 && cur->age < 0 && tr_brazier != tr_at(x, y)) {
 // Randomly offset our x/y shifts by 0-2, to randomly pick a square to spread to
      int starti = rng(0, 2);
      int startj = rng(0, 2);
@@ -244,10 +246,12 @@ bool map::process_fields_in_submap(game *g, int gridn)
        int spread_chance = 20 * (cur->density - 1) + 10 * smoke;
        if (field_at(fx, fy).type == fd_web)
         spread_chance = 50 + spread_chance / 2;
-       if (has_flag(explodes, fx, fy) && one_in(8 - cur->density)) {
+       if (has_flag(explodes, fx, fy) && one_in(8 - cur->density) &&
+	   tr_brazier != tr_at(x, y)) {
         ter(fx, fy) = ter_id(int(ter(fx, fy)) + 1);
         g->explosion(fx, fy, 40, 0, true);
        } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
+                  tr_brazier != tr_at(x, y) &&
                   (in_pit == (ter(fx, fy) == t_pit)) &&
                   ((cur->density == 3 &&
                     (has_flag(flammable, fx, fy) || one_in(20))) ||
