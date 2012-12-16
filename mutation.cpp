@@ -347,10 +347,10 @@ void mutation_loss_effect(game *g, player &p, pl_flag mut)
    p.str_max -= 2;
    break;
   case PF_STR_UP_3:
-   p.str_max -= 4;
+   p.str_max -= 3;
    break;
   case PF_STR_UP_4:
-   p.str_max -= 7;
+   p.str_max -= 4;
    break;
 
   case PF_DEX_UP:
@@ -360,10 +360,10 @@ void mutation_loss_effect(game *g, player &p, pl_flag mut)
    p.dex_max -= 2;
    break;
   case PF_DEX_UP_3:
-   p.dex_max -= 4;
+   p.dex_max -= 3;
    break;
   case PF_DEX_UP_4:
-   p.dex_max -= 7;
+   p.dex_max -= 4;
    break;
 
   case PF_INT_UP:
@@ -373,10 +373,10 @@ void mutation_loss_effect(game *g, player &p, pl_flag mut)
    p.int_max -= 2;
    break;
   case PF_INT_UP_3:
-   p.int_max -= 4;
+   p.int_max -= 3;
    break;
   case PF_INT_UP_4:
-   p.int_max -= 7;
+   p.int_max -= 4;
    break;
 
   case PF_PER_UP:
@@ -386,10 +386,10 @@ void mutation_loss_effect(game *g, player &p, pl_flag mut)
    p.per_max -= 2;
    break;
   case PF_PER_UP_3:
-   p.per_max -= 4;
+   p.per_max -= 3;
    break;
   case PF_PER_UP_4:
-   p.per_max -= 7;
+   p.per_max -= 4;
    break;
  }
 }

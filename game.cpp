@@ -3807,6 +3807,15 @@ void game::resonance_cascade(int x, int y)
  }
 }
 
+void game::scrambler_blast(int x, int y)
+{
+ int mondex = mon_at(x, y);
+ if (mondex != -1) {
+  if (z[mondex].has_flag(MF_ELECTRONIC)) 
+    z[mondex].make_friendly();
+   add_msg("The %s sparks and begins searching for a target!", z[mondex].name().c_str());
+ }
+}
 void game::emp_blast(int x, int y)
 {
  int rn;
@@ -4112,8 +4121,11 @@ void game::close()
            m.i_at(closex, closey)[0].tname(this).c_str() : "some stuff");
   else if (closex == u.posx && closey == u.posy)
    add_msg("There's some buffoon in the way!");
-  else
-   didit = m.close_door(closex, closey);
+  else if (m.ter(closex, closey) == t_curtains && m.ter(u.posx, u.posy) != t_floor) {
+   add_msg("You phase through the glass, close the curtains, then phase back out");
+   add_msg("Wait, no you don't. Never mind.");
+ } else
+   didit = m.close_door(closex, closey, true);
  } else
   add_msg("Invalid direction.");
  if (didit)
@@ -4661,7 +4673,6 @@ void game::examine()
   }
  } else if (m.ter(examx, examy) == t_wreckage && u.has_amount(itm_shovel, 1)) {
   if (query_yn("Clear up that wreckage?")) {
-  if (m.ter(u.posx, u.posy) == t_floor) {
    u.moves -= 200;
    m.ter(examx, examy) = t_floor;
    item chunk(itypes[itm_steel_chunk], turn);
@@ -4671,6 +4682,10 @@ void game::examine()
    m.add_item(u.posx, u.posy, pipe); }
    add_msg("You clear the wreckage up");
  } else {
+   add_msg("You need a shovel to do that!");
+  }
+ } else if (m.ter(examx, examy) == t_metal && u.has_amount(itm_shovel, 1)) {
+  if (query_yn("Clear up that wreckage?")) {
    u.moves -= 200;
    m.ter(examx, examy) = t_dirt;
    item chunk(itypes[itm_steel_chunk], turn);
@@ -4679,7 +4694,7 @@ void game::examine()
   if (one_in(5)) {
    m.add_item(u.posx, u.posy, pipe); }
    add_msg("You clear the wreckage up");
- }} else {
+ } else {
    add_msg("You need a shovel to do that!");
   }
  } else if (m.ter(examx, examy) == t_pit && u.has_amount(itm_2x4, 1)) {
@@ -4727,7 +4742,7 @@ void game::examine()
    m.ter(examx, examy) = t_fence_rope;
    u.moves -= 200;
   } else
-   add_msg("You need 2 lengths of rope to do that");
+   add_msg("You need 2 six-foot lengths of rope to do that");
   } break;
 
    case 2:{
@@ -4895,17 +4910,49 @@ shape, but with long, twisted, distended limbs.");
  //flowers
     else if ((m.ter(examx, examy)==t_mutpoppy)&&(query_yn("Pick the flower?"))) {
         add_msg("This flower has a heady aroma");
-        if (!(u.is_wearing(itm_mask_filter)||u.is_wearing(itm_mask_gas)))  {
+        if (!(u.is_wearing(itm_mask_filter)||u.is_wearing(itm_mask_gas) ||
+            one_in(3)))  {
         add_msg("You fall asleep...");
         u.add_disease(DI_SLEEP, 1200, this);
         add_msg("Your legs are covered by flower's roots!");
-        u.hurt(this,bp_legs, 0, 10);
+        u.hurt(this,bp_legs, 0, 4);
         u.moves-=50;
         }
-        m.ter(examx, examy) = t_grass;
+        m.ter(examx, examy) = t_dirt;
         m.add_item(examx, examy, this->itypes[itm_poppy_flower],0);
         m.add_item(examx, examy, this->itypes[itm_poppy_bud],0);
     }
+//-----Recycling machine-----
+   else if ((m.ter(examx, examy)==t_recycler)&&(query_yn("Use the recycler?"))) {
+        if (m.i_at(examx, examy).size() > 0)
+        {
+          sound(examx, examy, 80, "Ka-klunk!");
+          int num_metal = 0;
+          for (int i = 0; i < m.i_at(examx, examy).size(); i++)
+          {
+            item *it = &(m.i_at(examx, examy)[i]);
+            if (it->made_of(STEEL))
+            num_metal++;
+            m.i_at(examx, examy).erase(m.i_at(examx, examy).begin() + i);
+            i--;
+          }
+          if (num_metal > 0)
+          {
+            while (num_metal > 9)
+            {
+              m.add_item(u.posx, u.posy, this->itypes[itm_steel_lump], 0);
+              num_metal -= 10;
+            }
+            do
+            {
+              m.add_item(u.posx, u.posy, this->itypes[itm_steel_chunk], 0);
+              num_metal -= 3;
+            } while (num_metal > 2);
+          }
+        }
+        else add_msg("The recycler is empty.");
+    }
+
  //-----------------
  if (m.tr_at(examx, examy) != tr_null &&
       traps[m.tr_at(examx, examy)]->difficulty < 99 &&
@@ -4914,6 +4961,7 @@ shape, but with long, twisted, distended limbs.");
               traps[m.tr_at(examx, examy)]->name.c_str()))
   m.disarm_trap(this, examx, examy);
 }
+
 
 //Shift player by one tile, look_around(), then restore previous position.
 //represents carfully peeking around a corner, hence the large move cost.
@@ -6470,6 +6518,13 @@ void game::plmove(int x, int y)
     add_msg("You hurt your feet on the %s!", m.tername(x, y).c_str());
     u.hit(this, bp_feet, 0, 0, 1);
     u.hit(this, bp_feet, 1, 0, 1);
+   }
+  }
+  if (m.has_flag(painful, x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur/2))
+      && (!u.in_vehicle)) {
+   if (!u.has_trait(PF_PARKOUR) || one_in(4)) {
+    add_msg("You hurt yourself on the %s!", m.tername(x, y).c_str());
+    u.pain += 1;
    }
   }
   if (m.has_flag(sharp, x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur/2))

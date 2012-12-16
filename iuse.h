@@ -63,6 +63,7 @@ class iuse
   void chainsaw_off	(game *g, player *p, item *it, bool t);
   void chainsaw_on	(game *g, player *p, item *it, bool t);
   void jackhammer	(game *g, player *p, item *it, bool t);
+  void jacqueshammer	(game *g, player *p, item *it, bool t);
   void set_trap		(game *g, player *p, item *it, bool t);
   void geiger		(game *g, player *p, item *it, bool t);
   void teleport		(game *g, player *p, item *it, bool t);
@@ -77,6 +78,8 @@ class iuse
   void c4armed  	(game *g, player *p, item *it, bool t);
   void EMPbomb		(game *g, player *p, item *it, bool t);
   void EMPbomb_act	(game *g, player *p, item *it, bool t);
+  void scrambler	(game *g, player *p, item *it, bool t);
+  void scrambler_act	(game *g, player *p, item *it, bool t);
   void gasbomb		(game *g, player *p, item *it, bool t);
   void gasbomb_act	(game *g, player *p, item *it, bool t);
   void smokebomb	(game *g, player *p, item *it, bool t);
@@ -109,6 +112,8 @@ class iuse
   void torch_lit        (game *g, player *p, item *it, bool t);
   void candle           (game *g, player *p, item *it, bool t);
   void candle_lit       (game *g, player *p, item *it, bool t);
+  void massfab          (game *g, player *p, item *it, bool t);
+  void bullet_puller	(game *g, player *p, item *it, bool t);
 // MACGUFFINS
   void mcg_note		(game *g, player *p, item *it, bool t);
 // ARTIFACTS

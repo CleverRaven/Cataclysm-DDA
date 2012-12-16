@@ -372,6 +372,17 @@ a better grasp of movement than most..."
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON);
 ANGER(MTRIG_HURT, MTRIG_PLAYER_WEAK);
 
+mon("zombie",	species_zombie, 'Z',	c_yellow,	MS_MEDIUM,	FLESH,
+//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	 90,  3,100,100, 40,  8,  1,  5,  0,  1, 12, 8, 20, 60,  0,
+	&mdeath::normal,	&mattack::none, "\
+Hundreds of bee stings have given this zombie\n\ 
+a thick covering of scar tissue, it will be\n\
+much harder to damage than an ordinary zombie\n\
+but moves a bit slower"
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
+
 // PLANTS & FUNGI
 mon("triffid",	species_plant, 'F',	c_ltgreen,	MS_MEDIUM,	VEGGY,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -587,7 +598,7 @@ FEARS(MTRIG_HURT);
 
 mon("sewer snake",species_none, 's',	c_yellow,	MS_SMALL,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 15,  2, 20, 40, 60, 12,  1,  2,  5,  1,  0,  0,  0, 40, 0,
+	 15,  2, 20, 40, 60, 12,  1,  2,  5,  1,  0,  0,  0, 10, 0,
 	&mdeath::normal,	&mattack::none,	"\
 A large snake, turned pale yellow from its\n\
 underground life."
@@ -597,7 +608,7 @@ FEARS(MTRIG_HURT);
 
 mon("sewer rat",species_mammal, 's',	c_dkgray,	MS_SMALL,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 18,  3, 20, 40,105, 10,  1,  2,  1,  2,  0,  0,  0, 30, 0,
+	 18,  3, 20, 40,105, 10,  1,  2,  1,  2,  0,  0,  0, 10, 0,
 	&mdeath::normal,	&mattack::none, "\
 A large, mangey rat with red eyes.  It\n\
 scampers quickly across the ground, squeaking\n\

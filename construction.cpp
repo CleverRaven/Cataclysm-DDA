@@ -107,7 +107,7 @@ void game::init_construction()
    COMP(itm_2x4, 10, NULL);
    COMP(itm_nail, 20, NULL);
 
- CONSTRUCT("Build Window", 3, &construct::able_empty,
+ CONSTRUCT("Build Window", 2, &construct::able_empty,
                               &construct::done_nothing);
   STAGE(t_window_empty, 10);
    TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
@@ -127,7 +127,7 @@ void game::init_construction()
    COMP(itm_2x4, 4, NULL);
    COMP(itm_nail, 12, NULL);
 
- CONSTRUCT("Build Rebar Door", 4, &construct::able_empty,
+ CONSTRUCT("Build Rebar Door", 3, &construct::able_empty,
                                  &construct::done_nothing);
   STAGE(t_door_frame, 15);
    TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
@@ -146,7 +146,7 @@ void game::init_construction()
    COMP(itm_2x4, 5, itm_nail, 8, NULL);
 */
 
- CONSTRUCT("Build Roof", 4, &construct::able_between_walls,
+ CONSTRUCT("Build Roof", 3, &construct::able_between_walls,
                             &construct::done_nothing);
   STAGE(t_floor, 40);
    TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);

@@ -468,6 +468,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
        ter(i + k, j + l) = t_floor_wax;
      }
      add_spawn(mon_bee, 2, i, j);
+     add_spawn(mon_beekeeper, 1, i, j);
      ter(i    , j - 3) = t_floor_wax;
      ter(i    , j + 3) = t_floor_wax;
      ter(i - 1, j - 2) = t_floor_wax;
@@ -1248,9 +1249,43 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   {
       int vx = rng (0, 3) * 4 + 5;
       int vy = 4;
-      vhtype_id vt = (one_in(10)? veh_sandbike :
-                     (one_in(8)? veh_truck :
-                     (one_in(3)? veh_car : veh_motorcycle)));
+		vhtype_id vt = veh_null;
+		int r = rng(1, 100);
+		if (r <= 10)//specials
+     		{
+			int ra = rng(1, 100);
+				if (ra <= 3)
+					vt = veh_armytruck;
+				else if (ra <= 10)
+					vt = veh_bubblecar;
+				else
+					vt = veh_sandbike;
+			}
+		else if (r <= 30)//commercial
+			{
+			int rb = rng(1, 100);
+				if (rb <= 15)
+					vt = veh_trucktrailer;
+				else if (rb <= 25)
+					vt = veh_semi;
+				else
+					vt = veh_truck;
+			}
+		else//commons
+			{
+			int rc = rng(1, 100);
+				if (rc <= 4)
+					vt = veh_golfcart;
+				else if (rc <= 11)
+					vt = veh_scooter;
+				else if (rc <= 21)
+					vt = veh_bug;
+				else if (rc <= 50)
+					vt = veh_car;
+				else 
+					vt = veh_motorcycle;
+			}
+			
       add_vehicle (g, vt, vx, vy, one_in(2)? 90 : 270);
   }
   place_items(mi_road, 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
@@ -1578,6 +1613,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   if (rn == 2) {
    if (one_in(5))
     ter(rng(4, 10), 16) = t_gas_pump;
+      else ter(rng(4, 10), 16) = t_recycler;
    if (one_in(3)) {	// Place a dumpster
     int startx = rng(2, 11), starty = rng(18, 19);
     if (startx == 11)
