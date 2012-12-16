@@ -44,7 +44,7 @@ mon_zombie, mon_zombie_shrieker, mon_zombie_spitter, mon_zombie_electric,
  mon_zombie_fast, mon_zombie_brute, mon_zombie_hulk, mon_zombie_fungus,
  mon_boomer, mon_boomer_fungus, mon_skeleton, mon_zombie_necro,
  mon_zombie_scientist, mon_zombie_soldier, mon_zombie_grabber,
- mon_zombie_master,
+ mon_zombie_master,  mon_beekeeper,
 // Triffids
 mon_triffid, mon_triffid_young, mon_triffid_queen, mon_creeper_hub,
  mon_creeper_vine, mon_biollante, mon_vinebeast, mon_triffid_heart,

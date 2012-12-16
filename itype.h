@@ -99,7 +99,7 @@ itm_gloves_light, itm_mittens, itm_gloves_wool, itm_gloves_winter,
 itm_mask_dust, itm_bandana, itm_scarf, itm_mask_filter, itm_mask_gas,
 // Eyewear
 itm_glasses_eye, itm_glasses_reading, itm_glasses_safety, itm_goggles_swim,
- itm_goggles_ski, itm_goggles_welding, itm_goggles_nv, itm_glasses_monocle,
+ itm_goggles_ski, itm_goggles_welding, itm_goggles_nv, itm_glasses_monocle, itm_sunglasses,
 // Headwear
 itm_hat_ball, itm_hat_boonie, itm_hat_cotton, itm_hat_knit, itm_hat_hunting,
  itm_hat_fur, itm_hat_hard, itm_helmet_bike, itm_helmet_skid, itm_helmet_ball,
@@ -123,7 +123,7 @@ itm_battery, itm_plut_cell, itm_nail, itm_bb, itm_arrow_wood, itm_arrow_cf,
  itm_shot_hull,
  itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing, 
  itm_57mm_casing, itm_46mm_casing, itm_762_casing, itm_223_casing,
- itm_3006_casing, itm_308_casing, itm_pistol_powder, itm_rifle_powder, 
+ itm_3006_casing, itm_308_casing, itm_powder, 
  itm_shotgun_primer, itm_smpistol_primer, itm_lgpistol_primer,
  itm_smrifle_primer, itm_lgrifle_primer, itm_lead, itm_incendiary, itm_gasoline,
 // Guns

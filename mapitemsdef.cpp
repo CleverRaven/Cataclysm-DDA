@@ -68,7 +68,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_bedroom],
 	itm_inhaler, itm_cig, itm_cigar, itm_weed, itm_coke, itm_meth,
-	itm_heroin, itm_sneakers, itm_mocassins, itm_bandana, itm_glasses_eye,
+	itm_heroin, itm_sneakers, itm_mocassins, itm_bandana, itm_glasses_eye, itm_sunglasses,
 	itm_glasses_reading, itm_hat_ball, itm_backpack, itm_purse, itm_mbag,
 	itm_fanny, itm_battery, itm_bb, itm_bbgun, itm_mag_porn, itm_mag_tv,
 	itm_mag_news, itm_novel_romance, itm_novel_drama, itm_manual_mechanics,
@@ -88,7 +88,7 @@ void game::init_mapitems()
 	itm_longbow, itm_compbow, itm_arrow_wood, itm_arrow_cf, itm_u_shotgun, itm_shot_hull,
         itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing,
         itm_57mm_casing, itm_46mm_casing, itm_762_casing, itm_223_casing,
-        itm_3006_casing, itm_308_casing, itm_pistol_powder, itm_rifle_powder,
+        itm_3006_casing, itm_308_casing, itm_powder,
         itm_shotgun_primer, itm_smpistol_primer, itm_lgpistol_primer,
         itm_smrifle_primer, itm_lgrifle_primer, itm_lead, NULL);
 
@@ -300,7 +300,7 @@ void game::init_mapitems()
 	itm_retool_308, itm_retool_223, itm_tazer,itm_shot_hull,
         itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing,
         itm_57mm_casing, itm_46mm_casing, itm_762_casing, itm_223_casing,
-        itm_3006_casing, itm_308_casing, itm_pistol_powder, itm_rifle_powder,
+        itm_3006_casing, itm_308_casing, itm_powder,
         itm_shotgun_primer, itm_smpistol_primer, itm_lgpistol_primer,
         itm_smrifle_primer, itm_lgrifle_primer, itm_lead, itm_press, itm_puller, NULL);
 
@@ -395,7 +395,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_office],
-	itm_cola, itm_aspirin, itm_cigar, itm_glasses_eye, itm_glasses_reading,
+	itm_cola, itm_aspirin, itm_cigar, itm_glasses_eye, itm_sunglasses, itm_glasses_reading,
 	itm_purse, itm_mbag, itm_battery, itm_mag_news, itm_manual_business,
 	itm_textbook_business, itm_lighter, itm_extinguisher, itm_flashlight,
 	itm_radio, itm_bubblewrap, itm_coffee_raw, itm_usb_drive,
@@ -726,7 +726,7 @@ void game::init_mapitems()
 	itm_water_clean, itm_bleach, itm_ammonia, itm_mutagen, itm_purifier,
 	itm_iodine, itm_inhaler, itm_adderall, itm_id_science, itm_electrohack,
 	itm_RAM, itm_screwdriver, itm_canister_empty, itm_coat_lab,
-	itm_gloves_medical, itm_mask_dust, itm_mask_filter, itm_glasses_eye,
+	itm_gloves_medical, itm_mask_dust, itm_mask_filter, itm_glasses_eye, itm_sunglasses,
 	itm_glasses_safety, itm_textbook_computers, itm_textbook_electronics,
 	itm_textbook_chemistry, itm_SICP, itm_textbook_robots,
 	itm_soldering_iron, itm_geiger_off, itm_teleporter, itm_canister_goo,

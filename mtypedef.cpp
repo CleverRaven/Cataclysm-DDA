@@ -372,6 +372,17 @@ a better grasp of movement than most..."
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON);
 ANGER(MTRIG_HURT, MTRIG_PLAYER_WEAK);
 
+mon("zombie",	species_zombie, 'Z',	c_yellow,	MS_MEDIUM,	FLESH,
+//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	 90,  3,100,100, 40,  8,  1,  5,  0,  1, 20, 20, 20, 60,  0,
+	&mdeath::normal,	&mattack::none, "\
+Hundreds of bee stings have given this zombie\n\ 
+a thick covering of scar tissue, it will be\n\
+much harder to damage than an ordinary zombie\n\
+but moves a bit slower"
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
+
 // PLANTS & FUNGI
 mon("triffid",	species_plant, 'F',	c_ltgreen,	MS_MEDIUM,	VEGGY,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq

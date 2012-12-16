@@ -1575,6 +1575,12 @@ ARMOR("monocle",	 2, 200,C_EYES,		GLASS,		PLASTIC,
     1,  0, -3, -2,  0,  0,  1,  1,  0,  0,	mfb(bp_eyes), "\
 An essential article of the gentleman's apparel. Also negates near-sight.");
 
+//     NAME		RAR PRC	COLOR		MAT1		MAT2
+ARMOR("sunglasses",	90, 150,C_EYES,		GLASS,		PLASTIC,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    1,  0, -3, -2,  0,  0,  1,  1,  0,  0,	mfb(bp_eyes), "\
+A pair of sunglasses, good for keeping the glare out of your eyes.");
+
 // Headwear encumberment should ONLY be 0 if it's ok to wear with another
 // Headwear environmental protection (ENV) drops through to eyes
 
@@ -2131,14 +2137,9 @@ AMMO(".308 casing",	 10, 92,AT_NULL,		c_dkgray,	STEEL,
 An empty casing from a .308 round.",
 0);
 
-AMMO("pistol powder",	 10, 30,AT_NULL,		c_dkgray,	STEEL,
+AMMO("gunpowder",	 10, 30,AT_NULL,		c_dkgray,	POWDER,
 	 0,  0, 0,  0,  0, 0, 0, 200, "\
-Powder from a shotgun shell or pistol round.",
-0);
-
-AMMO("rifle powder",	 10, 40,AT_NULL,		c_dkgray,	STEEL,
-	 0,  0, 0,  0,  0, 0, 0, 200, "\
-Powder from a rifle round.",
+Firearm quality gunpowder.",
 0);
 
 AMMO("shotgun primer",	 10, 30,AT_NULL,		c_dkgray,	STEEL,

@@ -135,16 +135,8 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     else if (p.weapon.curammo->type == AT_308)
     casing.make(itypes[itm_308_casing]);
     casing.charges = num_shots;
-    int iter = 0;
-    while ((casing.invlet == 0 || p.has_item(casing.invlet)) && iter < 52) {
-    casing.invlet = nextinv;
-    advance_nextinv();
-    iter++;}
-    if (p.weight_carried() + casing.weight() < p.weight_capacity() &&
-      p.volume_carried() + casing.volume() < p.volume_capacity() && iter < 52) {
-    p.i_add(casing);}
-    else
-   m.add_item(p.posx, p.posy, casing);}
+   m.add_item(p.posx, p.posy, casing);
+}
  double deviation;
  double missed_by;
  int trange = trig_dist(p.posx, p.posy, tarx, tary);
