@@ -3180,7 +3180,7 @@ mfb(IF_LIGHT_8),
 provides light during the night or while underground.  Use it to turn it off.");
 
 TOOL("hotplate",	10, 250,';', c_green,	IRON,	PLASTIC,
-    5,  6,  8,  0, -1, 40, 20,  0,  0, AT_BATT, itm_null, &iuse::none,0,"\
+    5,  6,  8,  0, -1, 200, 100,  0,  0, AT_BATT, itm_null, &iuse::none,0,"\
 A small heating element.  Indispensable for cooking and chemistry.");
 
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
@@ -3672,7 +3672,7 @@ TOOL("kinetic bullet puller",		5, 100, ';', c_blue,	STEEL,	PLASTIC,
 A tool used for disassembling firearm ammunition.");
 
 TOOL("hand press & die set",		5, 100, ';', c_blue,	STEEL,	PLASTIC,
-    2,  4, 8,  0,  -2,   0,  0, 0,  0, AT_NULL, itm_null, &iuse::none, 0, "\
+    2,  4, 8,  0,  -2,   100, 100, 0,  0, AT_BATT, itm_null, &iuse::none, 0, "\
 A small hand press for hand loading firearm ammunition. Comes with everything \n\
 you need to start hand loading.");
 

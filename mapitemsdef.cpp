@@ -88,7 +88,7 @@ void game::init_mapitems()
 	itm_longbow, itm_compbow, itm_arrow_wood, itm_arrow_cf, itm_u_shotgun, itm_shot_hull,
         itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing,
         itm_57mm_casing, itm_46mm_casing, itm_762_casing, itm_223_casing,
-        itm_3006_casing, itm_308_casing, itm_powder,
+        itm_3006_casing, itm_308_casing, itm_gunpowder,
         itm_shotgun_primer, itm_smpistol_primer, itm_lgpistol_primer,
         itm_smrifle_primer, itm_lgrifle_primer, itm_lead, NULL);
 
@@ -300,7 +300,7 @@ void game::init_mapitems()
 	itm_retool_308, itm_retool_223, itm_tazer,itm_shot_hull,
         itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing,
         itm_57mm_casing, itm_46mm_casing, itm_762_casing, itm_223_casing,
-        itm_3006_casing, itm_308_casing, itm_powder,
+        itm_3006_casing, itm_308_casing, itm_gunpowder,
         itm_shotgun_primer, itm_smpistol_primer, itm_lgpistol_primer,
         itm_smrifle_primer, itm_lgrifle_primer, itm_lead, itm_press, itm_puller, NULL);
 
