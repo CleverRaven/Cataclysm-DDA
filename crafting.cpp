@@ -677,11 +677,11 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_sewing_kit,  5, NULL);
   COMP(itm_fur, 2, NULL);
 
- RECIPE(itm_boots, CC_ARMOR, sk_tailor, sk_null, 2, 35000);
+ RECIPE(itm_boots_fit, CC_ARMOR, sk_tailor, sk_null, 2, 35000);
   TOOL(itm_sewing_kit, 10, NULL);
   COMP(itm_leather, 2, NULL);
 
- RECIPE(itm_jeans, CC_ARMOR, sk_tailor, sk_null, 2, 45000);
+ RECIPE(itm_jeans_fit, CC_ARMOR, sk_tailor, sk_null, 2, 45000);
   TOOL(itm_sewing_kit, 10, NULL);
   COMP(itm_rag, 6, NULL);
 
@@ -697,11 +697,11 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_sewing_kit, 4, NULL);
   COMP(itm_rag, 4, NULL);
 
- RECIPE(itm_hoodie, CC_ARMOR, sk_tailor, sk_null, 3, 40000);
+ RECIPE(itm_hoodie_fit, CC_ARMOR, sk_tailor, sk_null, 3, 40000);
   TOOL(itm_sewing_kit, 14, NULL);
   COMP(itm_rag, 12, NULL);
 
- RECIPE(itm_trenchcoat, CC_ARMOR, sk_tailor, sk_null, 3, 42000);
+ RECIPE(itm_trenchcoat_fit, CC_ARMOR, sk_tailor, sk_null, 3, 42000);
   TOOL(itm_sewing_kit, 24, NULL);
   COMP(itm_rag, 11, NULL);
 
@@ -709,7 +709,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_sewing_kit, 20, NULL);
   COMP(itm_fur, 10, NULL);
 
- RECIPE(itm_jacket_leather, CC_ARMOR, sk_tailor, sk_null, 5, 150000);
+ RECIPE(itm_jacket_leather_fit, CC_ARMOR, sk_tailor, sk_null, 5, 150000);
   TOOL(itm_sewing_kit, 30, NULL);
   COMP(itm_leather, 8, NULL);
 
@@ -717,9 +717,9 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_sewing_kit, 2, NULL);
   COMP(itm_rag, 2, NULL);
 
- RECIPE(itm_gloves_fingerless, CC_ARMOR, sk_tailor, sk_null, 3, 16000);
-  TOOL(itm_sewing_kit, 6, NULL);
-  COMP(itm_leather, 2, NULL);
+ RECIPE(itm_gloves_fingerless, CC_ARMOR, sk_tailor, sk_null, 0, 16000);
+  TOOL(itm_scissors, -1, itm_knife_combat, -1, itm_knife_steak, -1, NULL);
+  COMP(itm_gloves_leather, 1, NULL);
 
  RECIPE(itm_mask_filter, CC_ARMOR, sk_mechanics, sk_tailor, 1, 5000);
   COMP(itm_bottle_plastic, 1, itm_bag_plastic, 2, NULL);
