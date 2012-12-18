@@ -1155,6 +1155,65 @@ int item::reload_time(player &u)
  return ret;
 }
 
+int item::active_gunmod()
+{
+ if( mode == IF_MODE_AUX )
+  for (int i = 0; i < contents.size(); i++)
+   if (contents[i].is_gunmod() && contents[i].mode == IF_MODE_AUX)
+    return i;
+ return -1;
+}
+
+void item::next_mode()
+{
+ switch(mode) {
+ case IF_NULL:
+  if( has_flag(IF_MODE_BURST) )
+   mode = IF_MODE_BURST;
+  else if( has_flag(IF_MODE_AUX) ) {
+   mode = IF_MODE_AUX;
+   // Enable the first mod with an AUX firing mode.
+   for (int i = 0; i < contents.size(); i++)
+    if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX)) {
+     contents[i].mode = IF_MODE_AUX;
+     break;
+    }
+  }
+  // Doesn't have another mode, just return.
+  break;
+  case IF_MODE_BURST:
+  if( has_flag(IF_MODE_AUX) ) {
+   mode = IF_MODE_AUX;
+   // Enable the first mod with an AUX firing mode.
+   for (int i = 0; i < contents.size(); i++)
+    if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX)) {
+     contents[i].mode = IF_MODE_AUX;
+     break;
+    }
+  }
+  mode = IF_NULL;
+  break;
+ case IF_MODE_AUX:
+  {
+   int i = 0;
+   // Advance to next aux mode, or if there isn't one, normal mode
+   for (; i < contents.size(); i++)
+    if (contents[i].is_gunmod() && contents[i].mode == IF_MODE_AUX) {
+     contents[i].mode = IF_NULL;
+     break;
+    }
+   for (i++; i < contents.size(); i++)
+    if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX)) {
+     contents[i].mode = IF_NULL;
+     break;
+    }
+   if (i == contents.size())
+    mode = IF_NULL;
+   break;
+  }
+ }
+}
+
 int item::clip_size()
 {
  if (!is_gun())

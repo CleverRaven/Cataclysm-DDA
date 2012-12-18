@@ -42,6 +42,7 @@ public:
  ammotype ammo_type();
  int pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, int index);
+ void next_mode();
 
  std::string save_info();	// Formatted for save files
  void load_info(std::string data, game *g);
@@ -129,6 +130,7 @@ public:
 
 private:
  static itype * nullitem_m;
+ int active_gunmod();
 };
 
 std::ostream & operator<<(std::ostream &, const item &);
