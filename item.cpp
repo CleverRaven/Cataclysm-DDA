@@ -1216,16 +1216,15 @@ void item::next_mode()
 
 int item::clip_size()
 {
+  if(is_gunmod() && has_flag(IF_MODE_AUX))
+   return (dynamic_cast<it_gunmod*>(type))->clip;
  if (!is_gun())
   return 0;
+
  it_gun* gun = dynamic_cast<it_gun*>(type);
  int ret = gun->clip;
- if (gun->ammo != AT_40MM && charges > 0 && curammo->type == AT_40MM)
-  return 1; // M203 mod in use
- if (gun->ammo != AT_SHOT && charges > 0 && curammo->type == AT_SHOT)
-  return 1; // Or Shotgun
  for (int i = 0; i < contents.size(); i++) {
-  if (contents[i].is_gunmod()) {
+  if (contents[i].is_gunmod() && !contents[i].has_flag(IF_MODE_AUX)) {
    int bonus = (ret * (dynamic_cast<it_gunmod*>(contents[i].type))->clip) / 100;
    ret = int(ret + bonus);
   }
@@ -1340,7 +1339,7 @@ ammotype item::ammo_type()
   it_gun* gun = dynamic_cast<it_gun*>(type);
   ammotype ret = gun->ammo;
   for (int i = 0; i < contents.size(); i++) {
-   if (contents[i].is_gunmod()) {
+    if (contents[i].is_gunmod() && !contents[i].has_flag(IF_MODE_AUX)) {
     it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[i].type);
     if (mod->newtype != AT_NULL)
      ret = mod->newtype;
@@ -1353,6 +1352,9 @@ ammotype item::ammo_type()
  } else if (is_ammo()) {
   it_ammo* amm = dynamic_cast<it_ammo*>(type);
   return amm->type;
+ } else if (is_gunmod()) {
+  it_gunmod* mod = dynamic_cast<it_gunmod*>(type);
+  return mod->newtype;
  }
  return AT_NULL;
 }

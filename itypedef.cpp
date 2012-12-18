@@ -2767,7 +2767,7 @@ capabilities, but also increases accuracy and damage.",
 0);
 
 GUNMOD("M203",		2,650,	c_ltred, STEEL,	MNULL,        2,  1,  2,  0, -1,
-	-2,  0,  0,  0,  0, 0, AT_NULL,		false,	false,	false,	true,
+	-2,  0,  0,  1,  0, 0, AT_40MM,		false,	false,	false,	true,
 	0, "\
 The M203 was originally designed for use with M16 variants but today can be\n\
 attached to almost any rifle.  A gun with this attached may be loaded with\n\
@@ -2785,7 +2785,7 @@ piercing damage.  The added length increases recoil slightly.",
 mfb(IF_STAB));
 
 GUNMOD("Underslung Shotgun", 2,650,  c_ltred, STEEL, MNULL,        2,  1,  2,  0, -1,
-        -2,  0,  0,  0,  0, 0, AT_NULL,         false,  false,  false,  true,
+        -2,  0,  0,  2,  0, 0, AT_SHOT,         false,  false,  false,  true,
         0, "\
 A miniaturized shotgun with 2 barrels, which can be mounted under the\n\
 barrel of many rifles, weapons with this mod installed may load\n\
