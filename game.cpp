@@ -1400,6 +1400,10 @@ input_ret game::get_input(int timeout_ms)
    plfire(true);
    break;
 
+  case ACTION_SELECT_FIRE_MODE:
+   u.weapon.next_mode();
+   break;
+
   case ACTION_DROP:
    drop();
    break;
