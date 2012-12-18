@@ -6090,13 +6090,16 @@ single action.", u.weapon.tname().c_str());
    return;
   }
   if (u.weapon.charges == u.weapon.clip_size()) {
-   int spare_mag = -1;
+   int alternate_magazine = -1;
    for (int i = 0; i < u.weapon.contents.size(); i++) {
-    if (u.weapon.contents[i].is_gunmod() && u.weapon.contents[i].typeId() == itm_spare_mag &&
-        u.weapon.contents[i].charges != (dynamic_cast<it_gun*>(u.weapon.type))->clip )
-     spare_mag = i;
+     if (u.weapon.contents[i].is_gunmod() &&
+         (u.weapon.contents[i].typeId() == itm_spare_mag &&
+          u.weapon.contents[i].charges < (dynamic_cast<it_gun*>(u.weapon.type))->clip) ||
+         (u.weapon.contents[i].has_flag(IF_MODE_AUX) &&
+          u.weapon.contents[i].charges < u.weapon.contents[i].clip_size()))
+      alternate_magazine = i;
    }
-   if(spare_mag == -1) {
+   if(alternate_magazine == -1) {
     add_msg("Your %s is fully loaded!", u.weapon.tname(this).c_str());
     return;
    }
