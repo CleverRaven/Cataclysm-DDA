@@ -120,6 +120,7 @@ public:
  unsigned int bday;     // The turn on which it was created
  int owned;		// UID of NPC owner; 0 = player, -1 = unowned
  int poison;		// How badly poisoned is it?
+ int mode;              // Mode of operation, can be changed by the player.
 
  int mission_id;// Refers to a mission in game's master list
  int player_id;	// Only give a mission to the right player!
