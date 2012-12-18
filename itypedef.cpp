@@ -2085,7 +2085,7 @@ GUN("nail gun",		12, 100,c_ltblue,	IRON,	MNULL,
 	sk_pistol,	AT_NAIL, 4, 22, 12,  1,  0, 20,  0,  8,  5, 100, 450, "\
 A tool used to drive nails into wood or other material.  It could also be\n\
 used as a ad-hoc weapon, or to practice your handgun skill up to level 1.",
-0);
+mfb(IF_MODE_BURST));
 
 GUN("BB gun",		10, 100,c_ltblue,	IRON,	WOOD,
 	sk_rifle,	AT_BB,	 8, 16,  9,  2,  0,  6, -5,  7,  0, 20, 500, "\
@@ -2134,13 +2134,13 @@ GUN("pipe SMG: 9mm",	0, 1050,c_ltblue,	IRON,	WOOD,
 	sk_smg,		AT_9MM,  5,  8,  6, -1,  0, 30,  6,  5,  4, 10, 400, "\
 A home-made machine pistol.  It features a rudimentary blowback system, which\n\
 allows for small bursts.",
-0);
+mfb(IF_MODE_BURST));
 
 GUN("pipe SMG: .45",	0, 1150,c_ltblue,	IRON,	WOOD,
 	sk_smg,		AT_45,	 6,  9,  7, -1,  0, 30,  6,  5,  3,  8, 400, "\
 A home-made machine pistol.  It features a rudimentary blowback system, which\n\
 allows for small bursts.",
-0);
+mfb(IF_MODE_BURST));
 
 GUN("SIG Mosquito",	 5,1200,c_dkgray,	STEEL,	PLASTIC,
 	sk_pistol,	AT_22,	 1,  6,  9,  1,  1, 28,  4,  8,  0, 10, 350, "\
@@ -2258,20 +2258,20 @@ GUN("double barrel shotgun",2,1050,c_red,IRON,	WOOD,
 	sk_shotgun,	AT_SHOT,12, 26, 15,  3,  0,  7,  4,  7,  2,  2, 100, "\
 An old shotgun, possibly antique.  It is little more than a pair of barrels,\n\
 a wood stock, and a hammer to strike the cartridge.",
-mfb(IF_RELOAD_ONE));
+mfb(IF_RELOAD_ONE)|mfb(IF_MODE_BURST));
 
 GUN("Remington 870",	 9,2200,c_red,	STEEL,	PLASTIC,
 	sk_shotgun,	AT_SHOT,16, 30, 17,  3,  5, 10,  0,  8,  3,  6, 100, "\
 One of the most popular shotguns on the market, the Remington 870 is used by\n\
 hunters and law enforcement agencies alike thanks to its high accuracy and\n\
 muzzle velocity.",
-mfb(IF_RELOAD_ONE));
+mfb(IF_RELOAD_ONE)|mfb(IF_MODE_BURST));
 
 GUN("Mossberg 500",	 5,2250,c_red,	STEEL,	PLASTIC,
 	sk_shotgun,	AT_SHOT,15, 30, 17,  3,  0, 13, -2,  9,  3,  8, 80, "\
 The Mossberg 500 is a popular series of pump-action shotguns, often acquired\n\
 for military use.  It is noted for its high durability and low recoil.",
-mfb(IF_RELOAD_ONE));
+mfb(IF_RELOAD_ONE)|mfb(IF_MODE_BURST));
 
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("Saiga-12",		 3,2300,c_red,	STEEL,	PLASTIC,
@@ -2280,21 +2280,21 @@ GUN("Saiga-12",		 3,2300,c_red,	STEEL,	PLASTIC,
 The Saiga-12 shotgun is designed on the same Kalishnikov pattern as the AK47\n\
 rifle.  It reloads with a magazine, rather than one shell at a time like most\n\
 shotguns.",
-0);
+mfb(IF_MODE_BURST));
 
 GUN("American-180",	 2,1600,c_cyan, STEEL,	MNULL,
 	sk_smg,		AT_22,  12, 23, 11,  0,  2, 20,  0,  6, 30,165, 500, "\
 The American-180 is a submachine gun developed in the 1960s which fires .22\n\
 LR, unusual for an SMG.  Though the round is low-powered, the high rate of\n\
 fire and large magazine makes the 180 a formidable weapon.",
-0);
+mfb(IF_MODE_BURST));
 
 GUN("Uzi 9mm",		 8,2080,c_cyan,	STEEL,	MNULL,
 	sk_smg,		AT_9MM,	 6, 29, 10,  1,  0, 25, -2,  7, 12, 32, 450, "\
 The Uzi 9mm has enjoyed immense popularity, selling more units than any other\n\
 submachine gun.  It is widely used as a personal defense weapon, or as a\n\
 primary weapon by elite frontline forces.",
-0);
+mfb(IF_MODE_BURST));
 
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("TEC-9",		10,1750,c_cyan,	STEEL,	MNULL,
@@ -2303,13 +2303,13 @@ GUN("TEC-9",		10,1750,c_cyan,	STEEL,	MNULL,
 The TEC-9 is a machine pistol made of cheap polymers and machine stamped\n\
 parts.  Its rise in popularity among criminals is largely due to its\n\
 intimidating looks and low price.",
-0);
+mfb(IF_MODE_BURST));
 
 GUN("Calico M960",	 6,2400,c_cyan,	STEEL,	MNULL,
 	sk_smg,		AT_9MM,	 7, 19,  9,  1, -3, 28, -4,  6, 20, 50, 500, "\
 The Calico M960 is an automatic carbine with a unique circular magazine which\n\
 allows for high capacities and reduced recoil.",
-0);
+mfb(IF_MODE_BURST));
 
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("H&K MP5",		12,2800,c_cyan,	STEEL,	PLASTIC,
@@ -2318,7 +2318,7 @@ GUN("H&K MP5",		12,2800,c_cyan,	STEEL,	PLASTIC,
 The Heckler & Koch MP5 is one of the most widely-used submachine guns in the\n\
 world, and has been adopted by special police forces and militaries alike.\n\
 Its high degree of accuracy and low recoil are universally praised.",
-0);
+mfb(IF_MODE_BURST));
 
 GUN("MAC-10",		14,1800,c_cyan,	STEEL,	MNULL,
 	sk_smg,		AT_45,	 4, 25,  8,  1, -4, 28,  0,  7, 30, 30, 450, "\
@@ -2326,14 +2326,14 @@ The MAC-10 is a popular machine pistol originally designed for military use.\n\
 For many years they were the most inexpensive automatic weapon in the US, and\n\
 enjoyed great popularity among criminals less concerned with quality firearms."
 ,
-0);
+mfb(IF_MODE_BURST));
 
 GUN("H&K UMP45",	12,3000,c_cyan,	STEEL,	PLASTIC,
 	sk_smg,		AT_45,	13, 20, 11,  1,  0, 13, -3,  8,  4, 25, 450, "\
 Developed as a successor to the MP5 submachine gun, the UMP45 retains the\n\
 earlier model's supreme accuracy and low recoil, but in the higher .45 caliber."
 ,
-0);
+mfb(IF_MODE_BURST));
 
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("TDI Vector",	 4,4200,c_cyan,	STEEL,	PLASTIC,
@@ -2341,21 +2341,21 @@ GUN("TDI Vector",	 4,4200,c_cyan,	STEEL,	PLASTIC,
 	sk_smg,		AT_45,	13, 20,  9,  0, -2, 15,-14,  7,  8, 30, 450, "\
 The TDI Vector is a submachine gun with a unique in-line design which makes\n\
 recoil very managable, even in the powerful .45 caliber.",
-0);
+mfb(IF_MODE_BURST));
 
 GUN("FN P90",		 7,4000,c_cyan,	STEEL,	PLASTIC,
 	sk_smg,		AT_57,	14, 22, 10,  1,  0, 22, -8,  8, 20, 50, 500, "\
 The first in a new genre of guns, termed \"personal defense weapons.\"  FN\n\
 designed the P90 to use their proprietary 5.7x28mm ammunition.  It is made\n\
 for firing bursts managably.",
-0);
+mfb(IF_MODE_BURST));
 
 GUN("H&K MP7",		 5,3400,c_cyan,	STEEL,	PLASTIC,
 	sk_smg,		AT_46,	 7, 17,	 7,  1,  0, 21,-10,  8, 20, 20, 450, "\
 Designed by Heckler & Koch as a competitor to the FN P90, as well as a\n\
 successor to the extremely popular H&K MP5.  Using H&K's proprietary 4.6x30mm\n\
 ammunition, it is designed for burst fire.",
-0);
+mfb(IF_MODE_BURST));
 
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("Marlin 39A",	14,1600,c_brown,IRON,	WOOD,
@@ -2415,14 +2415,14 @@ GUN("H&K G3",		15,5050,c_blue,	IRON,	WOOD,
 An early battle rifle developed after the end of WWII.  The G3 is designed to\n\
 unload large amounts of deadly ammunition, but it is less suitable over long\n\
 ranges.",
-0);
+mfb(IF_MODE_BURST));
 
 GUN("H&K G36",		17,5100,c_blue,	IRON,	PLASTIC,
 	sk_rifle,	AT_223, 15, 32, 13,  2,  6,  8,  5,  8, 15, 30, 500, "\
 Designed as a replacement for the early H&K G3 battle rifle, the G36 is more\n\
 accurate, and uses the much-lighter .223 round, allowing for a higher ammo\n\
 capacity.",
-0);
+mfb(IF_MODE_BURST));
 
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("AK-47",		16,4000,c_blue,	IRON,	WOOD,
@@ -2430,14 +2430,14 @@ GUN("AK-47",		16,4000,c_blue,	IRON,	WOOD,
 	sk_rifle,	AT_762,	16, 38, 14,  2,  0, 11,  4,  9,  8, 30, 475, "\
 One of the most recognizable assault rifles ever made, the AK-47 is renowned\n\
 for its durability even under the worst conditions.",
-0);
+mfb(IF_MODE_BURST));
 
 GUN("FN FAL",		16,4500,c_blue,	IRON,	WOOD,
 	sk_rifle,	AT_308,	19, 36, 14,  2,  7, 13, -2,  8, 10, 20, 550, "\
 A Belgian-designed battle rifle, the FN FAL is not very accurate for a rifle,\n\
 but its high fire rate and powerful .308 ammunition have made it one of the\n\
 most widely-used battle rifles in the world.",
-0);
+mfb(IF_MODE_BURST));
 
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("Bushmaster ACR",	 4,4200,c_blue,	STEEL,	PLASTIC,
@@ -2446,20 +2446,20 @@ GUN("Bushmaster ACR",	 4,4200,c_blue,	STEEL,	PLASTIC,
 This carbine was developed for military use in the early 21st century.  It is\n\
 damaging and accurate, though its rate of fire is a bit slower than competing\n\
 .223 carbines.",
-0);
+mfb(IF_MODE_BURST));
 
 GUN("AR-15",		 9,4000,c_blue,	STEEL,	PLASTIC,
 	sk_rifle,	AT_223,	19, 28, 12,  2,  0,  6,  0,  7, 10, 30, 500, "\
 A widely used assault rifle and the father of popular rifles such as the M16.\n\
 It is light and accurate, but not very durable.",
-0);
+mfb(IF_MODE_BURST));
 
 GUN("M4A1",		 7,4400,c_blue,	STEEL,	PLASTIC,
 	sk_rifle,	AT_223, 14, 24, 13,  2,  4,  7,  2,  6, 10, 30, 475, "\
 A popular carbine, long used by the US military.  Though accurate, small, and\n\
 lightweight, it is infamous for its fragility, particularly in less-than-\n\
 ideal terrain.",
-0);
+mfb(IF_MODE_BURST));
 
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("FN SCAR-L",	 6,4800,c_blue,	STEEL,	PLASTIC,
@@ -2468,30 +2468,29 @@ GUN("FN SCAR-L",	 6,4800,c_blue,	STEEL,	PLASTIC,
 A modular assault rifle designed for use by US Special Ops units.  The 'L' in\n\
 its name stands for light, as it uses the lightweight .223 round.  It is very\n\
 accurate and low on recoil.",
-0);
+mfb(IF_MODE_BURST));
 
 GUN("FN SCAR-H",	 5,4950,c_blue,	STEEL,	PLASTIC,
 	sk_rifle,	AT_308,	16, 32, 20,  2,  1,  8, -4,  8,  8, 20, 550, "\
 A modular assault rifle designed for use by US Special Ops units.  The 'H' in\n\
 its name stands for heavy, as it uses the powerful .308 round.  It is fairly\n\
 accurate and low on recoil.",
-0);
+mfb(IF_MODE_BURST));
 
 GUN("Steyr AUG",	 6,4900,c_blue, STEEL,	PLASTIC,
 	sk_rifle,	AT_223, 14, 32, 17,  1, -3,  7, -8,  8,  6, 30, 550, "\
 The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is\n\
 used in the armed forces and police forces of many nations, and enjoys\n\
 low recoil and high accuracy.",
-0);
+mfb(IF_MODE_BURST));
 
 GUN("M249",		 1,7500,c_ltred,STEEL,	PLASTIC,
 //  SKILL       AMMO    VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
 	sk_rifle,	AT_223,	32, 68, 27, -4, -6, 20,  6,  7, 30,200, 750, "\
 The M249 is a mountable machine gun used by the US Military and SWAT teams.\n\
 Quite innaccurate and difficult to control, the M249 is designed to fire many\n\
-rounds very quickly."
-,
-0);
+rounds very quickly.",
+mfb(IF_MODE_BURST));
 
 //  NAME		RAR PRC COLOR	 MAT1	MAT2
 GUN("V29 laser pistol",	 1,7200,c_magenta,STEEL,PLASTIC,
@@ -2557,7 +2556,7 @@ GUN("Milkor MGL",	 6,10400,c_ltred,STEEL,	MNULL,
 The Milkor Multi-Grenade Launcher is designed to compensate for the drawback\n\
 of single-shot grenade launchers by allowing sustained heavy firepower.\n\
 However, it is still slow to reload and must be used with careful planning.",
-mfb(IF_RELOAD_ONE));
+mfb(IF_RELOAD_ONE)|mfb(IF_MODE_BURST));
 
 //  NAME		    RAR PRC COLOR		MAT1	MAT2
 GUN("coilgun",		1, 200,c_ltblue,	IRON,	MNULL,
@@ -2579,7 +2578,7 @@ GUN("Boeing XM-P Plasma Rifle",		1,13000,c_ltblue,STEEL,	MNULL,
 Boeing developed the focused plasma weaponry together with DARPA. It heats\n\
 hydrogen to create plasma and envelops it with polymers to reduce blooming.\n\
 While powerful, it suffers from short range. Powered by UPS.",
-mfb(IF_USE_UPS));
+mfb(IF_USE_UPS)|mfb(IF_MODE_BURST));
 
 // GUN MODS
 // Accuracy is inverted from guns; high values are a bonus, low values a penalty
@@ -2773,7 +2772,7 @@ GUNMOD("M203",		2,650,	c_ltred, STEEL,	MNULL,        2,  1,  2,  0, -1,
 The M203 was originally designed for use with M16 variants but today can be\n\
 attached to almost any rifle.  A gun with this attached may be loaded with\n\
 its normal rounds, or with a single 40MM round.",
-0);
+mfb(IF_MODE_AUX));
 
 //	NAME      	RAR  PRC  COLOR     MAT1   MAT2      VOL WGT DAM CUT HIT
 GUNMOD("bayonet",	 6, 400, c_ltcyan, STEEL, MNULL,       2,  2,  0, 16, -3,
@@ -2791,7 +2790,7 @@ GUNMOD("Underslung Shotgun", 2,650,  c_ltred, STEEL, MNULL,        2,  1,  2,  0
 A miniaturized shotgun with 2 barrels, which can be mounted under the\n\
 barrel of many rifles, weapons with this mod installed may load\n\
 their normal ammo, or 2 rounds of shotgun ammo.",
-0);
+mfb(IF_MODE_AUX));
 
 // BOOKS
 // Try to keep colors consistant among types of books.
