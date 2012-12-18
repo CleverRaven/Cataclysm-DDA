@@ -1250,6 +1250,8 @@ int item::gun_damage(bool with_ammo)
 {
  if (!is_gun())
   return 0;
+ if(mode == IF_MODE_AUX)
+   return contents[active_gunmod()].curammo->damage;
  it_gun* gun = dynamic_cast<it_gun*>(type);
  int ret = gun->dmg_bonus;
  if (with_ammo && curammo != NULL)
@@ -1267,10 +1269,15 @@ int item::noise()
  if (!is_gun())
   return 0;
  int ret = 0;
- if (curammo != NULL)
-  ret = curammo->damage * .8;
+ if(mode == IF_MODE_AUX)
+  ret = contents[active_gunmod()].curammo->damage;
+ else if (curammo != NULL)
+  ret = curammo->damage;
+ ret *= .8;
  if (ret >= 5)
   ret += 20;
+ if(mode == IF_MODE_AUX)
+  return ret;
  for (int i = 0; i < contents.size(); i++) {
   if (contents[i].is_gunmod())
    ret += (dynamic_cast<it_gunmod*>(contents[i].type))->loudness;
@@ -1281,6 +1288,9 @@ int item::noise()
 int item::burst_size()
 {
  if (!is_gun())
+  return 0;
+ // No burst fire for gunmods right now.
+ if(mode == IF_MODE_AUX)
   return 0;
  it_gun* gun = dynamic_cast<it_gun*>(type);
  int ret = gun->burst;
@@ -1297,6 +1307,9 @@ int item::recoil(bool with_ammo)
 {
  if (!is_gun())
   return 0;
+ // Just use the raw ammo recoil for now.
+ if(mode == IF_MODE_AUX)
+   return contents[active_gunmod()].curammo->recoil;
  it_gun* gun = dynamic_cast<it_gun*>(type);
  int ret = gun->recoil;
  if (with_ammo && curammo != NULL)
@@ -1312,6 +1325,9 @@ int item::range(player *p)
 {
  if (!is_gun())
   return 0;
+ // Just use the raw ammo range for now.
+ if(mode == IF_MODE_AUX)
+   return contents[active_gunmod()].curammo->range;
  it_gun* gun = dynamic_cast<it_gun*>(type);
  int ret = 0;
  if (curammo != NULL)
