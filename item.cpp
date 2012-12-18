@@ -1453,17 +1453,16 @@ bool item::reload(player &u, int index)
  bool single_load = false;
  int max_load = 1;
  // Reload using a spare magazine
- for (int i = 0; i < u.weapon.contents.size(); i++) {
-  if (charges <= 0 && u.weapon.contents[i].is_gunmod() &&
-      u.weapon.contents[i].typeId() == itm_spare_mag &&
-      u.weapon.contents[i].charges > 0) {
-   charges = u.weapon.contents[i].charges;
-   curammo = u.weapon.contents[i].curammo;
-   u.weapon.contents[i].charges = 0;
-   u.weapon.contents[i].curammo = NULL;
-   return true;
-  }
+ int spare_mag = has_gunmod(itm_spare_mag);
+ if (charges <= 0 && spare_mag != -1 &&
+     u.weapon.contents[spare_mag].charges > 0) {
+  charges = u.weapon.contents[spare_mag].charges;
+  curammo = u.weapon.contents[spare_mag].curammo;
+  u.weapon.contents[spare_mag].charges = 0;
+  u.weapon.contents[spare_mag].curammo = NULL;
+  return true;
  }
+
  if (is_gun()) {
   single_load = has_flag(IF_RELOAD_ONE);
   if (u.inv[index].ammo_type() == AT_40MM && ammo_type() != AT_40MM)
