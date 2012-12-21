@@ -1484,11 +1484,12 @@ bool item::reload(player &u, int index)
 			    contents[gunmod_index].ammo_type() == u.inv[index].typeId())) {
   reload_target = &contents[active_gunmod()];
  // Then prefer the gun itself
- } else if (charges < clip_size() && curammo->id == u.inv[index].typeId()) {
+ } else if (charges < clip_size() &&
+	    (charges <= 0 || curammo->id == u.inv[index].typeId())) {
   reload_target = this;
  // Then prefer a spare mag if present
  } else if (spare_mag != -1 && contents[spare_mag].charges != (dynamic_cast<it_gun*>(type))->clip &&
-	    curammo->id == u.inv[index].typeId()) {
+	    (charges <0 || curammo->id == u.inv[index].typeId())) {
    reload_target = &contents[spare_mag];
   // Finally consider other gunmods
  } else {
@@ -1496,7 +1497,7 @@ bool item::reload(player &u, int index)
     if (i != gunmod_index && i != spare_mag && contents[i].is_gunmod() &&
         contents[i].has_flag(IF_MODE_AUX) &&
         (contents[i].charges <= (dynamic_cast<it_gunmod*>(contents[i].type))->clip ||
-         contents[i].curammo->id == u.inv[index].typeId())) {
+         (contents[i].charges <= 0 ||  contents[i].curammo->id == u.inv[index].typeId()))) {
       reload_target = &contents[i];
       break;
    }
