@@ -1397,13 +1397,14 @@ int item::pick_reload_ammo(player &u, bool interactive)
   } else {
    // This could definitely be more generic.
    it_gun* tmp = dynamic_cast<it_gun*>(type);
-   am = u.has_ammo(ammo_type());
-   if (has_m203 != -1 && contents[has_m203].charges <= 0) {
+   if (charges < clip_size())
+    am = u.has_ammo(ammo_type());
+   if (has_m203 != -1 && contents[has_m203].charges < (dynamic_cast<it_gunmod*>(contents[has_m203].type))->clip) {
     std::vector<int> grenades = u.has_ammo(AT_40MM);
     for (int i = 0; i < grenades.size(); i++)
      am.push_back(grenades[i]);
    }
-   if (has_shotgun != -1 && contents[has_shotgun].charges <= 0) {
+   if (has_shotgun != -1 && contents[has_shotgun].charges < (dynamic_cast<it_gunmod*>(contents[has_m203].type))->clip) {
     std::vector<int> shells = u.has_ammo(AT_SHOT);
     for (int i = 0; i < shells.size(); i++)
      am.push_back(shells[i]);
