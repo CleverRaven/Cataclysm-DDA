@@ -26,7 +26,7 @@ item::item()
  damage = 0;
  burnt = 0;
  poison = 0;
- mode = 0;
+ mode = IF_NULL;
  type = nullitem();
  curammo = NULL;
  corpse = NULL;
@@ -48,7 +48,7 @@ item::item(itype* it, unsigned int turn)
  damage = 0;
  burnt = 0;
  poison = 0;
- mode = 0;
+ mode = IF_NULL;
  active = false;
  curammo = NULL;
  corpse = NULL;
@@ -91,7 +91,7 @@ item::item(itype *it, unsigned int turn, char let)
  damage = 0;
  burnt = 0;
  poison = 0;
- mode = 0;
+ mode = IF_NULL;
  active = false;
  if (it->is_gun()) {
   charges = 0;
@@ -131,7 +131,7 @@ void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
  damage = 0;
  burnt = 0;
  poison = 0;
- mode = 0;
+ mode = IF_NULL;
  curammo = NULL;
  active = false;
  if(!it)
@@ -284,6 +284,7 @@ void item::load_info(std::string data, game *g)
  damage = damtmp;
  burnt = burntmp;
  active = false;
+ mode = IF_NULL;
  if (acttmp == 1)
   active = true;
  if (ammotmp > 0)
