@@ -4307,8 +4307,9 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
     if (replace_item)
      inv.add_item(copy);
     return;
-   } else if (mod->newtype != AT_NULL &&
-        (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != AT_NULL) {
+   } else if (!mod->item_flags & mfb(IF_MODE_AUX) && mod->newtype != AT_NULL &&
+	      !gun->contents[i].has_flag(IF_MODE_AUX) &&
+	      (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != AT_NULL) {
     g->add_msg("Your %s's caliber has already been modified.",
                gun->tname(g).c_str());
     if (replace_item)
