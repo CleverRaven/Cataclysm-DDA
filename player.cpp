@@ -1485,7 +1485,18 @@ void player::disp_status(WINDOW *w, game *g)
    mvwprintz(w, 0, 34, c_ltgray, "Recoil");
  }
 
-      if (hunger > 2800)
+ // Print the current weapon mode
+ if (weapon.mode == IF_NULL)
+  mvwprintz(w, 1, 0, c_red,    "Normal");
+ else if (weapon.mode == IF_MODE_BURST)
+  mvwprintz(w, 1, 0, c_red,    "Burst");
+ else {
+  int gunmod_index = weapon.active_gunmod();
+  if (gunmod_index != -1)
+   mvwprintz(w, 1, 0, c_red, weapon.contents[gunmod_index].type->name.c_str());
+ }
+
+ if (hunger > 2800)
   mvwprintz(w, 2, 0, c_red,    "Starving!");
  else if (hunger > 1400)
   mvwprintz(w, 2, 0, c_ltred,  "Near starving");
