@@ -1510,6 +1510,7 @@ bool item::reload(player &u, int index)
   max_load = reload_target->clip_size();
  } else if (is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(type);
+  reload_target = this;
   single_load = false;
   max_load = tool->max_charges;
  }
