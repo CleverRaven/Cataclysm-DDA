@@ -1546,7 +1546,7 @@ bool item::reload(player &u, int index)
    reload_target->charges += u.inv[index].charges;
    u.inv[index].charges = 0;
    if (reload_target->charges > max_load) {
-  // More rounds than the clip holds, put some back
+    // More rounds than the clip holds, put some back
     u.inv[index].charges += reload_target->charges - max_load;
     reload_target->charges = max_load;
    }
