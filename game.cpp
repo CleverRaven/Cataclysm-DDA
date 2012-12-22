@@ -6132,6 +6132,8 @@ single action.", u.weapon.tname().c_str());
  refresh_all();
 }
 
+// Unload a containter, gun, or tool
+// If it's a gun, some gunmods can also be loaded
 void game::unload()
 {
  if (!u.weapon.is_gun() && u.weapon.contents.size() == 0 &&
@@ -6140,11 +6142,17 @@ void game::unload()
   return;
  }
  int spare_mag = -1;
- if (u.weapon.is_gun())
+ int has_m203 = -1;
+ int has_shotgun = -1;
+ if (u.weapon.is_gun()) {
   spare_mag = u.weapon.has_gunmod (itm_spare_mag);
- if (u.weapon.is_container() ||
-     (u.weapon.charges == 0 &&
-      (spare_mag == -1 || u.weapon.contents[spare_mag].charges <= 0))) {
+  has_m203 = u.weapon.has_gunmod (itm_m203);
+  has_shotgun = u.weapon.has_gunmod (itm_u_shotgun);
+ }
+ if (u.weapon.is_container() || u.weapon.charges == 0 &&
+     (spare_mag == -1 || u.weapon.contents[spare_mag].charges <= 0) &&
+     (has_m203 == -1 || u.weapon.contents[has_m203].charges <= 0) &&
+     (has_shotgun == -1 || u.weapon.contents[has_shotgun].charges <= 0)) {
   if (u.weapon.contents.size() == 0) {
    if (u.weapon.is_gun())
     add_msg("Your %s isn't loaded, and is not modified.",
@@ -6186,12 +6194,23 @@ void game::unload()
  }
 // Unloading a gun or tool!
  u.moves -= int(u.weapon.reload_time(u) / 2);
+ // Default to unloading the gun, but then try other alternatives.
  item* weapon = &u.weapon;
  it_ammo* tmpammo;
  if (weapon->is_gun()) {	// Gun ammo is combined with existing items
-  // If there's an attached spare clip, unload it first.
-  if (spare_mag != -1 && weapon->contents[spare_mag].charges > 0)
+  // If there's an active gunmod, unload it first.
+  int gunmod_index = weapon->active_gunmod();
+  if (gunmod_index != -1 && weapon->contents[gunmod_index].charges > 0)
+   weapon = &weapon->contents[gunmod_index];
+  // Then try and unload a spare magazine if there is one.
+  else if (spare_mag != -1 && weapon->contents[spare_mag].charges > 0)
    weapon = &weapon->contents[spare_mag];
+  // Then try the grenade launcher
+  else if (has_m203 != -1 && weapon->contents[has_m203].charges > 0)
+   weapon = &weapon->contents[has_m203];
+  // Then try an underslung shotgun
+  else if (has_shotgun != -1 && weapon->contents[has_shotgun].charges > 0)
+   weapon = &weapon->contents[has_shotgun];
   for (int i = 0; i < u.inv.size() && weapon->charges > 0; i++) {
    if (u.inv[i].is_ammo()) {
     tmpammo = dynamic_cast<it_ammo*>(u.inv[i].type);
