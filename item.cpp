@@ -1478,7 +1478,7 @@ bool item::reload(player &u, int index)
  }
 
  // Determine what we're reloading, the gun, a spare magazine, or another gunmod.
- item *reload_target = this;
+ item *reload_target = NULL;
  // Prefer the active gunmod if there is one
  int gunmod_index = active_gunmod();
  if (gunmod_index != -1 && (contents[gunmod_index].charges <= 0 ||
@@ -1513,6 +1513,9 @@ bool item::reload(player &u, int index)
   single_load = false;
   max_load = tool->max_charges;
  }
+
+ if (reload_target == NULL)
+  return false;
 
  if (index > -1) {
   // If the gun is currently loaded with a different type of ammo, reloading fails
