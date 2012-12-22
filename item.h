@@ -64,6 +64,7 @@ public:
  bool has_flag(item_flag f);
  bool has_technique(technique_id t, player *p = NULL);
  int has_gunmod(int type);
+ int active_gunmod();
  std::vector<technique_id> techniques();
  bool goes_bad();
  bool count_by_charges();
@@ -130,7 +131,6 @@ public:
 
 private:
  static itype * nullitem_m;
- int active_gunmod();
 };
 
 std::ostream & operator<<(std::ostream &, const item &);
