@@ -1216,8 +1216,8 @@ void item::next_mode()
 
 int item::clip_size()
 {
-  if(is_gunmod() && has_flag(IF_MODE_AUX))
-   return (dynamic_cast<it_gunmod*>(type))->clip;
+ if(is_gunmod() && has_flag(IF_MODE_AUX))
+  return (dynamic_cast<it_gunmod*>(type))->clip;
  if (!is_gun())
   return 0;
 
@@ -1355,7 +1355,7 @@ ammotype item::ammo_type()
   it_gun* gun = dynamic_cast<it_gun*>(type);
   ammotype ret = gun->ammo;
   for (int i = 0; i < contents.size(); i++) {
-    if (contents[i].is_gunmod() && !contents[i].has_flag(IF_MODE_AUX)) {
+   if (contents[i].is_gunmod() && !contents[i].has_flag(IF_MODE_AUX)) {
     it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[i].type);
     if (mod->newtype != AT_NULL)
      ret = mod->newtype;
@@ -1515,7 +1515,8 @@ bool item::reload(player &u, int index)
 
  if (index > -1) {
   // If the gun is currently loaded with a different type of ammo, reloading fails
-  if ((reload_target->is_gun() || reload_target->is_gunmod()) && reload_target->charges > 0 &&
+  if ((reload_target->is_gun() || reload_target->is_gunmod()) &&
+      reload_target->charges > 0 &&
       reload_target->curammo->id != u.inv[index].typeId())
    return false;
   if (reload_target->is_gun() || reload_target->is_gunmod()) {
