@@ -1171,28 +1171,26 @@ void item::next_mode()
  case IF_NULL:
   if( has_flag(IF_MODE_BURST) )
    mode = IF_MODE_BURST;
-  else if( has_flag(IF_MODE_AUX) ) {
-   mode = IF_MODE_AUX;
+  else
    // Enable the first mod with an AUX firing mode.
    for (int i = 0; i < contents.size(); i++)
     if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX)) {
+     mode = IF_MODE_AUX;
      contents[i].mode = IF_MODE_AUX;
      break;
     }
-  }
   // Doesn't have another mode, just return.
   break;
-  case IF_MODE_BURST:
-  if( has_flag(IF_MODE_AUX) ) {
-   mode = IF_MODE_AUX;
-   // Enable the first mod with an AUX firing mode.
-   for (int i = 0; i < contents.size(); i++)
-    if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX)) {
-     contents[i].mode = IF_MODE_AUX;
-     break;
-    }
-  }
-  mode = IF_NULL;
+ case IF_MODE_BURST:
+  // Enable the first mod with an AUX firing mode.
+  for (int i = 0; i < contents.size(); i++)
+   if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX)) {
+    mode = IF_MODE_AUX;
+    contents[i].mode = IF_MODE_AUX;
+    break;
+   }
+  if (mode == IF_MODE_BURST)
+   mode = IF_NULL;
   break;
  case IF_MODE_AUX:
   {
@@ -1205,7 +1203,7 @@ void item::next_mode()
     }
    for (i++; i < contents.size(); i++)
     if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX)) {
-     contents[i].mode = IF_NULL;
+     contents[i].mode = IF_MODE_AUX;
      break;
     }
    if (i == contents.size())
