@@ -1489,8 +1489,9 @@ bool item::reload(player &u, int index)
 	    (charges <= 0 || curammo->id == u.inv[index].typeId())) {
   reload_target = this;
  // Then prefer a spare mag if present
- } else if (spare_mag != -1 && contents[spare_mag].charges != (dynamic_cast<it_gun*>(type))->clip && ammo_type() == u.inv[index].ammo_type() &&
-	    (charges <0 || curammo->id == u.inv[index].typeId())) {
+ } else if (spare_mag != -1 && ammo_type() == u.inv[index].ammo_type() &&
+	    contents[spare_mag].charges != (dynamic_cast<it_gun*>(type))->clip &&
+	    (charges <= 0 || curammo->id == u.inv[index].typeId())) {
    reload_target = &contents[spare_mag];
   // Finally consider other gunmods
  } else {
