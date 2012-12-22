@@ -1482,25 +1482,25 @@ bool item::reload(player &u, int index)
  // Prefer the active gunmod if there is one
  int gunmod_index = active_gunmod();
  if (gunmod_index != -1 && (contents[gunmod_index].charges <= 0 ||
-			    contents[gunmod_index].ammo_type() == u.inv[index].typeId())) {
-  reload_target = &contents[active_gunmod()];
+			    contents[gunmod_index].ammo_type() == u.inv[index].ammo_type())) {
+  reload_target = &contents[gunmod_index];
  // Then prefer the gun itself
- } else if (charges < clip_size() &&
+ } else if (charges < clip_size() && ammo_type() == u.inv[index].ammo_type() &&
 	    (charges <= 0 || curammo->id == u.inv[index].typeId())) {
   reload_target = this;
  // Then prefer a spare mag if present
- } else if (spare_mag != -1 && contents[spare_mag].charges != (dynamic_cast<it_gun*>(type))->clip &&
+ } else if (spare_mag != -1 && contents[spare_mag].charges != (dynamic_cast<it_gun*>(type))->clip && ammo_type() == u.inv[index].ammo_type() &&
 	    (charges <0 || curammo->id == u.inv[index].typeId())) {
    reload_target = &contents[spare_mag];
   // Finally consider other gunmods
  } else {
   for (int i = 0; i < contents.size(); i++) {
-    if (i != gunmod_index && i != spare_mag && contents[i].is_gunmod() &&
-        contents[i].has_flag(IF_MODE_AUX) &&
-        (contents[i].charges <= (dynamic_cast<it_gunmod*>(contents[i].type))->clip ||
-         (contents[i].charges <= 0 ||  contents[i].curammo->id == u.inv[index].typeId()))) {
-      reload_target = &contents[i];
-      break;
+   if (i != gunmod_index && i != spare_mag && contents[i].is_gunmod() &&
+       contents[i].has_flag(IF_MODE_AUX) && contents[i].ammo_type() == u.inv[index].ammo_type() &&
+       (contents[i].charges <= (dynamic_cast<it_gunmod*>(contents[i].type))->clip ||
+        (contents[i].charges <= 0 ||  contents[i].curammo->id == u.inv[index].typeId()))) {
+    reload_target = &contents[i];
+    break;
    }
   }
  }
