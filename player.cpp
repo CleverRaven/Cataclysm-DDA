@@ -4838,9 +4838,15 @@ std::string player::weapname(bool charges)
      weapon.charges >= 0 && charges) {
   std::stringstream dump;
   int spare_mag = weapon.has_gunmod(itm_spare_mag);
+  int has_m203 = weapon.has_gunmod(itm_m203);
+  int has_shotgun = weapon.has_gunmod(itm_u_shotgun);
   dump << weapon.tname().c_str() << " (" << weapon.charges;
   if( -1 != spare_mag )
    dump << "+" << weapon.contents[spare_mag].charges;
+  if( -1 != has_m203 )
+   dump << "+" << weapon.contents[has_m203].charges;
+  if( -1 != has_shotgun )
+   dump << "+" << weapon.contents[has_shotgun].charges;
   dump << ")";
   return dump.str();
  } else if (weapon.is_null())
