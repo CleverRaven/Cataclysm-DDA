@@ -4865,8 +4865,21 @@ void player::practice(skill s, int amount)
    }
   }
  }
+<<<<<<< HEAD
  while (sklearn[s] && amount > 0 && xp_pool >= (1 + sklevel[s])) {
   amount -= sklevel[s] + 1;
+=======
+
+while (sklearn[s] && amount > 0) {
+  amount -= sklevel[s] + 1;    
+  
+  int morale_bonus = 1 + int(morale_level() / 25);
+  if (morale_bonus < 0)
+   morale_bonus = 0;
+  else if (morale_bonus > 5)
+   morale_bonus = 5;  
+  
+>>>>>>> 7ba8d96... Add option to change skill rust behaviour
   if ((savant == sk_null || savant == s || !one_in(2)) &&
       rng(0, 100) < comprehension_percent(s)) {
    xp_pool -= (1 + sklevel[s]);

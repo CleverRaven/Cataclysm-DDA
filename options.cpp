@@ -78,6 +78,8 @@ option_key lookup_option_key(std::string id)
   return OPT_AUTOSAVE;
  if (id == "gradual_night_light")
   return OPT_GRADUAL_NIGHT_LIGHT;
+ if (id == "skill_rust")
+  return OPT_SKILL_RUST;  
  return OPT_NULL;
 }
 
@@ -94,6 +96,7 @@ std::string option_string(option_key key)
   case OPT_AUTOSAFEMODE:	return "autosafemode";
   case OPT_AUTOSAVE:    	return "autosave";
   case OPT_GRADUAL_NIGHT_LIGHT: return "gradual_night_light";
+  case OPT_SKILL_RUST: return "skill_rust";
   default:			return "unknown_option";
  }
  return "unknown_option";
@@ -112,6 +115,7 @@ std::string option_name(option_key key)
   case OPT_AUTOSAFEMODE:	return "Auto-Safemode on by default";
   case OPT_AUTOSAVE:    	return "Periodically Autosave";
   case OPT_GRADUAL_NIGHT_LIGHT: return "Gradual night light def:OFF:";
+  case OPT_SKILL_RUST: return "Skill Rust";
   default:			return "Unknown Option (BUG)";
  }
  return "Big ol Bug";
@@ -120,6 +124,9 @@ std::string option_name(option_key key)
 bool option_is_bool(option_key id)
 {
  switch (id) {
+  case OPT_SKILL_RUST:
+    return false;
+    break;
   default:
    return true;
  }
@@ -154,6 +161,10 @@ autosafemode F\n\
 autosave F\n\
 # If true will add nice gradual-lighting (should only make a difference @night)\n\
 gradual_night_light F\n\
+# \n\
+# GAMEPLAY OPTIONS: CHANGING THESE OPTIONS WILL AFFECT GAMEPLAY DIFFICULTY! \n\
+# Level of skill rust: 0 - vanilla Cataclysm, 1 - capped at skill levels, 2 - none at all\n\
+skill_rust 0\n\
 ";
  fout.close();
 }
