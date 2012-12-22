@@ -1507,8 +1507,14 @@ bool item::reload(player &u, int index)
  }
 
  if (reload_target->is_gun() || reload_target->is_gunmod()) {
-  single_load = reload_target->has_flag(IF_RELOAD_ONE);
-  max_load = reload_target->clip_size();
+  if (reload_target->is_gunmod() && reload_target->typeId() == itm_spare_mag) {
+   // Use gun numbers instead of the mod if it's a spare magazine
+   max_load = (dynamic_cast<it_gun*>(type))->clip;
+   single_load = has_flag(IF_RELOAD_ONE);
+  } else {
+   single_load = reload_target->has_flag(IF_RELOAD_ONE);
+   max_load = reload_target->clip_size();
+  }
  } else if (is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(type);
   reload_target = this;
