@@ -751,9 +751,9 @@ bool item::has_flag(item_flag f)
 {
  if (is_gun()) {
   if (mode == IF_MODE_AUX) {
-   int gunmod_index = active_gunmod();
-   if( gunmod_index != -1 )
-    return contents[gunmod_index].has_flag(f);
+   item* gunmod = active_gunmod();
+   if( gunmod != NULL )
+    return gunmod->has_flag(f);
   } else {
    for (int i = 0; i < contents.size(); i++) {
      // Don't report flags from active gunmods for the gun.
@@ -843,9 +843,9 @@ int item::num_charges()
 {
  if (is_gun()) {
   if (mode == IF_MODE_AUX) {
-   int gunmod_index = active_gunmod();
-   if (gunmod_index != -1)
-    return contents[gunmod_index].charges;
+   item* gunmod = active_gunmod();
+   if (gunmod != NULL)
+    return gunmod->charges;
   } else {
    return charges;
   }
@@ -1179,13 +1179,13 @@ int item::reload_time(player &u)
  return ret;
 }
 
-int item::active_gunmod()
+item* item::active_gunmod()
 {
  if( mode == IF_MODE_AUX )
   for (int i = 0; i < contents.size(); i++)
    if (contents[i].is_gunmod() && contents[i].mode == IF_MODE_AUX)
-    return i;
- return -1;
+    return &contents[i];
+ return NULL;
 }
 
 void item::next_mode()
@@ -1273,9 +1273,9 @@ int item::gun_damage(bool with_ammo)
  if (!is_gun())
   return 0;
  if(mode == IF_MODE_AUX) {
-  int gunmod_index = active_gunmod();
-  if(contents[gunmod_index].curammo != NULL)
-   return contents[active_gunmod()].curammo->damage;
+  item* gunmod = active_gunmod();
+  if(gunmod != NULL && gunmod->curammo != NULL)
+   return gunmod->curammo->damage;
   else
    return 0;
  }
@@ -1297,9 +1297,9 @@ int item::noise()
   return 0;
  int ret = 0;
  if(mode == IF_MODE_AUX) {
-  int gunmod_index = active_gunmod();
-  if (contents[gunmod_index].curammo != NULL)
-   ret = contents[active_gunmod()].curammo->damage;
+  item* gunmod = active_gunmod();
+  if (gunmod != NULL && gunmod->curammo != NULL)
+   ret = gunmod->curammo->damage;
  } else if (curammo != NULL)
   ret = curammo->damage;
  ret *= .8;
@@ -1338,9 +1338,9 @@ int item::recoil(bool with_ammo)
   return 0;
  // Just use the raw ammo recoil for now.
  if(mode == IF_MODE_AUX) {
-  int gunmod_index = active_gunmod();
-  if (contents[gunmod_index].curammo != NULL)
-   return contents[gunmod_index].curammo->recoil;
+  item* gunmod = active_gunmod();
+  if (gunmod != NULL && gunmod->curammo != NULL)
+   return gunmod->curammo->recoil;
   else
    return 0;
  }
@@ -1361,9 +1361,9 @@ int item::range(player *p)
   return 0;
  // Just use the raw ammo range for now.
  if(mode == IF_MODE_AUX) {
-  int gunmod_index = active_gunmod();
-  if(contents[gunmod_index].curammo != NULL)
-   return contents[gunmod_index].curammo->range;
+  item* gunmod = active_gunmod();
+  if(gunmod != NULL && gunmod->curammo != NULL)
+   return gunmod->curammo->range;
   else
    return 0;
  }
@@ -1520,10 +1520,10 @@ bool item::reload(player &u, int index)
  // Determine what we're reloading, the gun, a spare magazine, or another gunmod.
  item *reload_target = NULL;
  // Prefer the active gunmod if there is one
- int gunmod_index = active_gunmod();
- if (gunmod_index != -1 && (contents[gunmod_index].charges <= 0 ||
-			    contents[gunmod_index].ammo_type() == u.inv[index].ammo_type())) {
-  reload_target = &contents[gunmod_index];
+ item* gunmod = active_gunmod();
+ if (gunmod != NULL && (gunmod->charges <= 0 ||
+			gunmod->ammo_type() == u.inv[index].ammo_type())) {
+  reload_target = gunmod;
  // Then prefer the gun itself
  } else if (charges < clip_size() && ammo_type() == u.inv[index].ammo_type() &&
 	    (charges <= 0 || curammo->id == u.inv[index].typeId())) {
@@ -1536,7 +1536,7 @@ bool item::reload(player &u, int index)
   // Finally consider other gunmods
  } else {
   for (int i = 0; i < contents.size(); i++) {
-   if (i != gunmod_index && i != spare_mag && contents[i].is_gunmod() &&
+   if (&contents[i] != gunmod && i != spare_mag && contents[i].is_gunmod() &&
        contents[i].has_flag(IF_MODE_AUX) && contents[i].ammo_type() == u.inv[index].ammo_type() &&
        (contents[i].charges <= (dynamic_cast<it_gunmod*>(contents[i].type))->clip ||
         (contents[i].charges <= 0 ||  contents[i].curammo->id == u.inv[index].typeId()))) {

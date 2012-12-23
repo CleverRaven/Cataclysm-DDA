@@ -6202,9 +6202,9 @@ void game::unload()
  it_ammo* tmpammo;
  if (weapon->is_gun()) {	// Gun ammo is combined with existing items
   // If there's an active gunmod, unload it first.
-  int gunmod_index = weapon->active_gunmod();
-  if (gunmod_index != -1 && weapon->contents[gunmod_index].charges > 0)
-   weapon = &weapon->contents[gunmod_index];
+  item* active_gunmod = weapon->active_gunmod();
+  if (active_gunmod != NULL && active_gunmod->charges > 0)
+   weapon = active_gunmod;
   // Then try and unload a spare magazine if there is one.
   else if (spare_mag != -1 && weapon->contents[spare_mag].charges > 0)
    weapon = &weapon->contents[spare_mag];

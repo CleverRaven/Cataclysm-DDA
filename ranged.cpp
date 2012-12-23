@@ -26,7 +26,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
                 bool burst)
 {
  item ammotmp;
- int gunmod_index = p.weapon.active_gunmod();
+ item* gunmod = p.weapon.active_gunmod();
  it_ammo *curammo = NULL;
  item *weapon = NULL;
 
@@ -53,16 +53,16 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   else if (charges >= 4)
    tmpammo->item_flags |= mfb(IF_AMMO_INCENDIARY);
 
-  if (gunmod_index != -1) {
-   weapon = &p.weapon.contents[gunmod_index];
+  if (gunmod != NULL) {
+   weapon = gunmod;
   } else {
    weapon = &p.weapon;
   }
   weapon->curammo = tmpammo;
   weapon->active = false;
   weapon->charges = 0;
- } else if (gunmod_index != -1) {
-  weapon = &p.weapon.contents[gunmod_index];
+ } else if (gunmod != NULL) {
+  weapon = gunmod;
   curammo = weapon->curammo;
  } else {// Just a normal gun. If we're here, we know curammo is valid.
   curammo = p.weapon.curammo;
