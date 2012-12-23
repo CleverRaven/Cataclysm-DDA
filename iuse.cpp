@@ -1256,10 +1256,14 @@ void iuse::jackhammer(game *g, player *p, item *it, bool t)
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
   g->sound(dirx, diry, 45, "TATATATATATATAT!");
- } else if (g->m.move_cost(dirx, diry) == 2) {
-  g->m.ter(dirx, diry) = t_stairs_down;
+ } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 && 
+            g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
+  g->m.ter(dirx, diry) = t_dirt;
   p->moves -= 500;
   g->sound(dirx, diry, 45, "TATATATATATATAT!");
+ int rocks = rng(1, 3);
+  for (int i = 0; i < rocks; i++)
+  g->m.add_item(dirx, diry, g->itypes[itm_rock], 0, rocks);
  } else {
   g->add_msg_if_player(p,"You can't drill there.");
   it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
@@ -1282,7 +1286,15 @@ void iuse::jacqueshammer(game *g, player *p, item *it, bool t)
      g->m.ter(dirx, diry) != t_tree) {
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
-  g->sound(dirx, diry, 45, "Ohohohohohohohoho!");
+  g->sound(dirx, diry, 45, "OHOHOHOHOHOHOHOHO!");
+ } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 && 
+            g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
+  g->m.ter(dirx, diry) = t_dirt;
+  p->moves -= 500;
+  g->sound(dirx, diry, 45, "OHOHOHOHOHOHOHOHO!");
+ int rocks = rng(1, 3);
+  for (int i = 0; i < rocks; i++)
+  g->m.add_item(dirx, diry, g->itypes[itm_rock], 0, rocks);
  } else {
   g->add_msg_if_player(p,"Vous ne pouvez pas percer la-bas..");
   it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
