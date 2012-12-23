@@ -26,6 +26,7 @@ item::item()
  damage = 0;
  burnt = 0;
  poison = 0;
+ mode = IF_NULL;
  type = nullitem();
  curammo = NULL;
  corpse = NULL;
@@ -47,6 +48,7 @@ item::item(itype* it, unsigned int turn)
  damage = 0;
  burnt = 0;
  poison = 0;
+ mode = IF_NULL;
  active = false;
  curammo = NULL;
  corpse = NULL;
@@ -89,6 +91,7 @@ item::item(itype *it, unsigned int turn, char let)
  damage = 0;
  burnt = 0;
  poison = 0;
+ mode = IF_NULL;
  active = false;
  if (it->is_gun()) {
   charges = 0;
@@ -128,6 +131,7 @@ void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
  damage = 0;
  burnt = 0;
  poison = 0;
+ mode = IF_NULL;
  curammo = NULL;
  active = false;
  if(!it)
@@ -280,6 +284,7 @@ void item::load_info(std::string data, game *g)
  damage = damtmp;
  burnt = burntmp;
  active = false;
+ mode = IF_NULL;
  if (acttmp == 1)
   active = true;
  if (ammotmp > 0)
@@ -745,9 +750,16 @@ int item::damage_cut()
 bool item::has_flag(item_flag f)
 {
  if (is_gun()) {
-  for (int i = 0; i < contents.size(); i++) {
-   if (contents[i].has_flag(f))
-    return true;
+  if (mode == IF_MODE_AUX) {
+   item* gunmod = active_gunmod();
+   if( gunmod != NULL )
+    return gunmod->has_flag(f);
+  } else {
+   for (int i = 0; i < contents.size(); i++) {
+     // Don't report flags from active gunmods for the gun.
+    if (contents[i].has_flag(f) && contents[i].has_flag(IF_MODE_AUX))
+     return true;
+   }
   }
  }
  if( is_null() )
@@ -825,6 +837,22 @@ bool item::craft_has_charges()
   return true;
 
  return false;
+}
+
+int item::num_charges()
+{
+ if (is_gun()) {
+  if (mode == IF_MODE_AUX) {
+   item* gunmod = active_gunmod();
+   if (gunmod != NULL)
+    return gunmod->charges;
+  } else {
+   return charges;
+  }
+ }
+ if (is_gunmod() && mode == IF_MODE_AUX) 
+  return charges;
+ return 0;
 }
 
 int item::weapon_value(int skills[num_skill_types])
@@ -1151,18 +1179,74 @@ int item::reload_time(player &u)
  return ret;
 }
 
+item* item::active_gunmod()
+{
+ if( mode == IF_MODE_AUX )
+  for (int i = 0; i < contents.size(); i++)
+   if (contents[i].is_gunmod() && contents[i].mode == IF_MODE_AUX)
+    return &contents[i];
+ return NULL;
+}
+
+void item::next_mode()
+{
+ switch(mode) {
+ case IF_NULL:
+  if( has_flag(IF_MODE_BURST) )
+   mode = IF_MODE_BURST;
+  else
+   // Enable the first mod with an AUX firing mode.
+   for (int i = 0; i < contents.size(); i++)
+    if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX)) {
+     mode = IF_MODE_AUX;
+     contents[i].mode = IF_MODE_AUX;
+     break;
+    }
+  // Doesn't have another mode, just return.
+  break;
+ case IF_MODE_BURST:
+  // Enable the first mod with an AUX firing mode.
+  for (int i = 0; i < contents.size(); i++)
+   if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX)) {
+    mode = IF_MODE_AUX;
+    contents[i].mode = IF_MODE_AUX;
+    break;
+   }
+  if (mode == IF_MODE_BURST)
+   mode = IF_NULL;
+  break;
+ case IF_MODE_AUX:
+  {
+   int i = 0;
+   // Advance to next aux mode, or if there isn't one, normal mode
+   for (; i < contents.size(); i++)
+    if (contents[i].is_gunmod() && contents[i].mode == IF_MODE_AUX) {
+     contents[i].mode = IF_NULL;
+     break;
+    }
+   for (i++; i < contents.size(); i++)
+    if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX)) {
+     contents[i].mode = IF_MODE_AUX;
+     break;
+    }
+   if (i == contents.size())
+    mode = IF_NULL;
+   break;
+  }
+ }
+}
+
 int item::clip_size()
 {
+ if(is_gunmod() && has_flag(IF_MODE_AUX))
+  return (dynamic_cast<it_gunmod*>(type))->clip;
  if (!is_gun())
   return 0;
+
  it_gun* gun = dynamic_cast<it_gun*>(type);
  int ret = gun->clip;
- if (gun->ammo != AT_40MM && charges > 0 && curammo->type == AT_40MM)
-  return 1; // M203 mod in use
- if (gun->ammo != AT_SHOT && charges > 0 && curammo->type == AT_SHOT)
-  return 1; // Or Shotgun
  for (int i = 0; i < contents.size(); i++) {
-  if (contents[i].is_gunmod()) {
+  if (contents[i].is_gunmod() && !contents[i].has_flag(IF_MODE_AUX)) {
    int bonus = (ret * (dynamic_cast<it_gunmod*>(contents[i].type))->clip) / 100;
    ret = int(ret + bonus);
   }
@@ -1188,6 +1272,13 @@ int item::gun_damage(bool with_ammo)
 {
  if (!is_gun())
   return 0;
+ if(mode == IF_MODE_AUX) {
+  item* gunmod = active_gunmod();
+  if(gunmod != NULL && gunmod->curammo != NULL)
+   return gunmod->curammo->damage;
+  else
+   return 0;
+ }
  it_gun* gun = dynamic_cast<it_gun*>(type);
  int ret = gun->dmg_bonus;
  if (with_ammo && curammo != NULL)
@@ -1205,10 +1296,17 @@ int item::noise()
  if (!is_gun())
   return 0;
  int ret = 0;
- if (curammo != NULL)
-  ret = curammo->damage * .8;
+ if(mode == IF_MODE_AUX) {
+  item* gunmod = active_gunmod();
+  if (gunmod != NULL && gunmod->curammo != NULL)
+   ret = gunmod->curammo->damage;
+ } else if (curammo != NULL)
+  ret = curammo->damage;
+ ret *= .8;
  if (ret >= 5)
   ret += 20;
+ if(mode == IF_MODE_AUX)
+  return ret;
  for (int i = 0; i < contents.size(); i++) {
   if (contents[i].is_gunmod())
    ret += (dynamic_cast<it_gunmod*>(contents[i].type))->loudness;
@@ -1220,6 +1318,9 @@ int item::burst_size()
 {
  if (!is_gun())
   return 0;
+ // No burst fire for gunmods right now.
+ if(mode == IF_MODE_AUX)
+  return 1;
  it_gun* gun = dynamic_cast<it_gun*>(type);
  int ret = gun->burst;
  for (int i = 0; i < contents.size(); i++) {
@@ -1235,6 +1336,14 @@ int item::recoil(bool with_ammo)
 {
  if (!is_gun())
   return 0;
+ // Just use the raw ammo recoil for now.
+ if(mode == IF_MODE_AUX) {
+  item* gunmod = active_gunmod();
+  if (gunmod != NULL && gunmod->curammo != NULL)
+   return gunmod->curammo->recoil;
+  else
+   return 0;
+ }
  it_gun* gun = dynamic_cast<it_gun*>(type);
  int ret = gun->recoil;
  if (with_ammo && curammo != NULL)
@@ -1250,6 +1359,14 @@ int item::range(player *p)
 {
  if (!is_gun())
   return 0;
+ // Just use the raw ammo range for now.
+ if(mode == IF_MODE_AUX) {
+  item* gunmod = active_gunmod();
+  if(gunmod != NULL && gunmod->curammo != NULL)
+   return gunmod->curammo->range;
+  else
+   return 0;
+ }
  it_gun* gun = dynamic_cast<it_gun*>(type);
  int ret = 0;
  if (curammo != NULL)
@@ -1277,7 +1394,7 @@ ammotype item::ammo_type()
   it_gun* gun = dynamic_cast<it_gun*>(type);
   ammotype ret = gun->ammo;
   for (int i = 0; i < contents.size(); i++) {
-   if (contents[i].is_gunmod()) {
+   if (contents[i].is_gunmod() && !contents[i].has_flag(IF_MODE_AUX)) {
     it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[i].type);
     if (mod->newtype != AT_NULL)
      ret = mod->newtype;
@@ -1290,6 +1407,9 @@ ammotype item::ammo_type()
  } else if (is_ammo()) {
   it_ammo* amm = dynamic_cast<it_ammo*>(type);
   return amm->type;
+ } else if (is_gunmod()) {
+  it_gunmod* mod = dynamic_cast<it_gunmod*>(type);
+  return mod->newtype;
  }
  return AT_NULL;
 }
@@ -1303,31 +1423,28 @@ int item::pick_reload_ammo(player &u, bool interactive)
   debugmsg("RELOADING NON-GUN NON-TOOL");
   return false;
  }
- bool has_m203 = -1 != has_gunmod (itm_m203);
- bool has_shotgun = -1 != has_gunmod (itm_u_shotgun);
+ int has_m203 = has_gunmod (itm_m203);
+ int has_shotgun = has_gunmod (itm_u_shotgun);
  int has_spare_mag = has_gunmod (itm_spare_mag);
 
  std::vector<int> am;	// List of indicies of valid ammo
 
  if (type->is_gun()) {
-  if (charges > 0) {
-   itype_id aid = itype_id(curammo->id);
-   for (int i = 0; i < u.inv.size(); i++) {
-    if (u.inv[i].typeId() == aid)
-     am.push_back(i);
-   }
-  } else if(has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
+  if(charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
     // Special return to use magazine for reloading.
     return -2;
   } else {
-  it_gun* tmp = dynamic_cast<it_gun*>(type);
-   am = u.has_ammo(ammo_type());
-   if (has_m203) {
+   // This could definitely be more generic.
+   it_gun* tmp = dynamic_cast<it_gun*>(type);
+   if (charges < clip_size() ||
+       (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip))
+    am = u.has_ammo(ammo_type());
+   if (has_m203 != -1 && contents[has_m203].charges < (dynamic_cast<it_gunmod*>(contents[has_m203].type))->clip) {
     std::vector<int> grenades = u.has_ammo(AT_40MM);
     for (int i = 0; i < grenades.size(); i++)
      am.push_back(grenades[i]);
    }
-   if (has_shotgun) {
+   if (has_shotgun != -1 && contents[has_shotgun].charges < (dynamic_cast<it_gunmod*>(contents[has_m203].type))->clip) {
     std::vector<int> shells = u.has_ammo(AT_SHOT);
     for (int i = 0; i < shells.size(); i++)
      am.push_back(shells[i]);
@@ -1390,67 +1507,88 @@ bool item::reload(player &u, int index)
  bool single_load = false;
  int max_load = 1;
  // Reload using a spare magazine
- for (int i = 0; i < u.weapon.contents.size(); i++) {
-  if (charges <= 0 && u.weapon.contents[i].is_gunmod() &&
-      u.weapon.contents[i].typeId() == itm_spare_mag &&
-      u.weapon.contents[i].charges > 0) {
-   charges = u.weapon.contents[i].charges;
-   curammo = u.weapon.contents[i].curammo;
-   u.weapon.contents[i].charges = 0;
-   u.weapon.contents[i].curammo = NULL;
-   return true;
+ int spare_mag = has_gunmod(itm_spare_mag);
+ if (charges <= 0 && spare_mag != -1 &&
+     u.weapon.contents[spare_mag].charges > 0) {
+  charges = u.weapon.contents[spare_mag].charges;
+  curammo = u.weapon.contents[spare_mag].curammo;
+  u.weapon.contents[spare_mag].charges = 0;
+  u.weapon.contents[spare_mag].curammo = NULL;
+  return true;
+ }
+
+ // Determine what we're reloading, the gun, a spare magazine, or another gunmod.
+ item *reload_target = NULL;
+ // Prefer the active gunmod if there is one
+ item* gunmod = active_gunmod();
+ if (gunmod != NULL && (gunmod->charges <= 0 ||
+			gunmod->ammo_type() == u.inv[index].ammo_type())) {
+  reload_target = gunmod;
+ // Then prefer the gun itself
+ } else if (charges < clip_size() && ammo_type() == u.inv[index].ammo_type() &&
+	    (charges <= 0 || curammo->id == u.inv[index].typeId())) {
+  reload_target = this;
+ // Then prefer a spare mag if present
+ } else if (spare_mag != -1 && ammo_type() == u.inv[index].ammo_type() &&
+	    contents[spare_mag].charges != (dynamic_cast<it_gun*>(type))->clip &&
+	    (charges <= 0 || curammo->id == u.inv[index].typeId())) {
+   reload_target = &contents[spare_mag];
+  // Finally consider other gunmods
+ } else {
+  for (int i = 0; i < contents.size(); i++) {
+   if (&contents[i] != gunmod && i != spare_mag && contents[i].is_gunmod() &&
+       contents[i].has_flag(IF_MODE_AUX) && contents[i].ammo_type() == u.inv[index].ammo_type() &&
+       (contents[i].charges <= (dynamic_cast<it_gunmod*>(contents[i].type))->clip ||
+        (contents[i].charges <= 0 ||  contents[i].curammo->id == u.inv[index].typeId()))) {
+    reload_target = &contents[i];
+    break;
+   }
   }
  }
- if (is_gun()) {
-  single_load = has_flag(IF_RELOAD_ONE);
-  if (u.inv[index].ammo_type() == AT_40MM && ammo_type() != AT_40MM)
-   max_load = 1;
-  else if (u.inv[index].ammo_type() == AT_SHOT && ammo_type() != AT_SHOT)
-   max_load = 2;
-  else
-   max_load = clip_size();
+
+ if (reload_target->is_gun() || reload_target->is_gunmod()) {
+  if (reload_target->is_gunmod() && reload_target->typeId() == itm_spare_mag) {
+   // Use gun numbers instead of the mod if it's a spare magazine
+   max_load = (dynamic_cast<it_gun*>(type))->clip;
+   single_load = has_flag(IF_RELOAD_ONE);
+  } else {
+   single_load = reload_target->has_flag(IF_RELOAD_ONE);
+   max_load = reload_target->clip_size();
+  }
  } else if (is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(type);
+  reload_target = this;
   single_load = false;
   max_load = tool->max_charges;
  }
+
+ if (reload_target == NULL)
+  return false;
+
  if (index > -1) {
-  int spare_mag = -1;
-  for (int i = 0; i < contents.size(); i++)
-   if (contents[i].is_gunmod() && contents[i].typeId() == itm_spare_mag &&
-       charges == clip_size() && contents[i].charges != (dynamic_cast<it_gun*>(type))->clip) {
-    contents[i].charges += u.inv[index].charges;
-    contents[i].curammo = dynamic_cast<it_ammo*>((u.inv[index].type));
-    u.inv[index].charges = 0;
-    if( contents[i].charges > (dynamic_cast<it_gun*>(type))->clip ) {
-      u.inv[index].charges += contents[i].charges - (dynamic_cast<it_gun*>(type))->clip;
-      contents[i].charges = (dynamic_cast<it_gun*>(type))->clip;
-    }
-    if (u.inv[index].charges == 0)
-     u.i_remn(index);
-    return true;
-   }
-// If the gun is currently loaded with a different type of ammo, reloading fails
-  if (is_gun() && charges > 0 && curammo->id != u.inv[index].typeId())
+  // If the gun is currently loaded with a different type of ammo, reloading fails
+  if ((reload_target->is_gun() || reload_target->is_gunmod()) &&
+      reload_target->charges > 0 &&
+      reload_target->curammo->id != u.inv[index].typeId())
    return false;
-  if (is_gun()) {
+  if (reload_target->is_gun() || reload_target->is_gunmod()) {
    if (!u.inv[index].is_ammo()) {
     debugmsg("Tried to reload %s with %s!", tname().c_str(),
              u.inv[index].tname().c_str());
     return false;
    }
-   curammo = dynamic_cast<it_ammo*>((u.inv[index].type));
+   reload_target->curammo = dynamic_cast<it_ammo*>((u.inv[index].type));
   }
   if (single_load || max_load == 1) {	// Only insert one cartridge!
-   charges++;
+   reload_target->charges++;
    u.inv[index].charges--;
   } else {
-   charges += u.inv[index].charges;
+   reload_target->charges += u.inv[index].charges;
    u.inv[index].charges = 0;
-   if (charges > max_load) {
- // More bullets than the clip holds, put some back
-    u.inv[index].charges += charges - max_load;
-    charges = max_load;
+   if (reload_target->charges > max_load) {
+    // More rounds than the clip holds, put some back
+    u.inv[index].charges += reload_target->charges - max_load;
+    reload_target->charges = max_load;
    }
   }
   if (u.inv[index].charges == 0)

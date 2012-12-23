@@ -1472,20 +1472,31 @@ void player::disp_morale()
 
 void player::disp_status(WINDOW *w, game *g)
 {
- mvwprintz(w, 1, 0, c_ltgray, "Weapon: %s", weapname().c_str());
+ mvwprintz(w, 0, 0, c_ltgray, "Weapon: %s", weapname().c_str());
  if (weapon.is_gun()) {
    int adj_recoil = recoil + driving_recoil;
        if (adj_recoil >= 36)
-   mvwprintz(w, 1, 34, c_red,    "Recoil");
+   mvwprintz(w, 0, 34, c_red,    "Recoil");
   else if (adj_recoil >= 20)
-   mvwprintz(w, 1, 34, c_ltred,  "Recoil");
+   mvwprintz(w, 0, 34, c_ltred,  "Recoil");
   else if (adj_recoil >= 4)
-   mvwprintz(w, 1, 34, c_yellow, "Recoil");
+   mvwprintz(w, 0, 34, c_yellow, "Recoil");
   else if (adj_recoil > 0)
-   mvwprintz(w, 1, 34, c_ltgray, "Recoil");
+   mvwprintz(w, 0, 34, c_ltgray, "Recoil");
  }
 
-      if (hunger > 2800)
+ // Print the current weapon mode
+ if (weapon.mode == IF_NULL)
+  mvwprintz(w, 1, 0, c_red,    "Normal");
+ else if (weapon.mode == IF_MODE_BURST)
+  mvwprintz(w, 1, 0, c_red,    "Burst");
+ else {
+  item* gunmod = weapon.active_gunmod();
+  if (gunmod != NULL)
+   mvwprintz(w, 1, 0, c_red, gunmod->type->name.c_str());
+ }
+
+ if (hunger > 2800)
   mvwprintz(w, 2, 0, c_red,    "Starving!");
  else if (hunger > 1400)
   mvwprintz(w, 2, 0, c_ltred,  "Near starving");
@@ -4296,8 +4307,9 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
     if (replace_item)
      inv.add_item(copy);
     return;
-   } else if (mod->newtype != AT_NULL &&
-        (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != AT_NULL) {
+   } else if (!mod->item_flags & mfb(IF_MODE_AUX) && mod->newtype != AT_NULL &&
+	      !gun->contents[i].has_flag(IF_MODE_AUX) &&
+	      (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != AT_NULL) {
     g->add_msg("Your %s's caliber has already been modified.",
                gun->tname(g).c_str());
     if (replace_item)
@@ -4838,9 +4850,15 @@ std::string player::weapname(bool charges)
      weapon.charges >= 0 && charges) {
   std::stringstream dump;
   int spare_mag = weapon.has_gunmod(itm_spare_mag);
+  int has_m203 = weapon.has_gunmod(itm_m203);
+  int has_shotgun = weapon.has_gunmod(itm_u_shotgun);
   dump << weapon.tname().c_str() << " (" << weapon.charges;
   if( -1 != spare_mag )
    dump << "+" << weapon.contents[spare_mag].charges;
+  if( -1 != has_m203 )
+   dump << "+" << weapon.contents[has_m203].charges;
+  if( -1 != has_shotgun )
+   dump << "+" << weapon.contents[has_shotgun].charges;
   dump << ")";
   return dump.str();
  } else if (weapon.is_null())

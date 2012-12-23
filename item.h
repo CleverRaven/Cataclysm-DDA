@@ -42,6 +42,7 @@ public:
  ammotype ammo_type();
  int pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, int index);
+ void next_mode();
 
  std::string save_info();	// Formatted for save files
  void load_info(std::string data, game *g);
@@ -63,10 +64,12 @@ public:
  bool has_flag(item_flag f);
  bool has_technique(technique_id t, player *p = NULL);
  int has_gunmod(int type);
+ item* active_gunmod();
  std::vector<technique_id> techniques();
  bool goes_bad();
  bool count_by_charges();
  bool craft_has_charges();
+ int num_charges();
  bool rotten(game *g);
 
 // Our value as a weapon, given particular skills
@@ -120,6 +123,7 @@ public:
  unsigned int bday;     // The turn on which it was created
  int owned;		// UID of NPC owner; 0 = player, -1 = unowned
  int poison;		// How badly poisoned is it?
+ int mode;              // Mode of operation, can be changed by the player.
 
  int mission_id;// Refers to a mission in game's master list
  int player_id;	// Only give a mission to the right player!

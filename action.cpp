@@ -157,6 +157,8 @@ std::string action_ident(action_id act)
    return "fire";
   case ACTION_FIRE_BURST:
    return "fire_burst";
+  case ACTION_SELECT_FIRE_MODE:
+   return "select_fire_mode";
   case ACTION_DROP:
    return "drop";
   case ACTION_DIR_DROP:
@@ -287,6 +289,8 @@ std::string action_name(action_id act)
    return "Fire Wielded Item";
   case ACTION_FIRE_BURST:
    return "Burst-Fire Wielded Item";
+  case ACTION_SELECT_FIRE_MODE:
+   return "Toggle attack mode of Wielded Item";
   case ACTION_DROP:
    return "Drop Item";
   case ACTION_DIR_DROP:

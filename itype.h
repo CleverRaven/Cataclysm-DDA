@@ -271,6 +271,11 @@ IF_AMMO_SMOKE,  	// Smoke burst
 IF_AMMO_TRAIL,		// Leaves a trail of smoke
 IF_AMMO_FLASHBANG,	// Disorients and blinds
 IF_AMMO_STREAM,		// Doesn't stop once it hits a monster
+
+// Weapon mode flags
+IF_MODE_AUX, // A gunmod with a firing mode
+IF_MODE_BURST, // A burst of attacks
+
 NUM_ITEM_FLAGS
 };
 
