@@ -214,6 +214,10 @@ FOOD("human flesh",	50, 50,	c_red,		FLESH,  itm_null,
     1,  2,  0, 20, 24,  0, -1,  0,  1,-30,	&iuse::none, ADD_NULL, "\
 Freshly butchered from a human body.");
 
+FOOD("wild vegetables",	30, 60,	c_green,	VEGGY,	itm_null,
+    1,  2,  0, 20, 80,  0,  1,  0,  1,  -10,	&iuse::none, ADD_NULL, "\
+An assortment of edible-looking wild plants.  Most are quite bitter-tasting.");
+
 FOOD("tainted meat",	60,  4,	c_red,		FLESH,	itm_null,
     1,  2,  0, 20,  4,  0,  0,  0,  1,-10,	&iuse::poison, ADD_NULL, "\
 Meat that's obviously unhealthy. You could eat it, but it will poison you.");
@@ -229,6 +233,10 @@ Freshly cooked meat. Very nutritious.");
 FOOD("cooked veggy",	 0, 70, c_green,	VEGGY,	itm_null,
     1,  2,  0, 40, 50,  0,  1,  0,  1,  0,	&iuse::none,	ADD_NULL, "\
 Freshly cooked vegetables. Very nutritious.");
+
+FOOD("cooked wild vegetables",	0, 70,	c_green,	VEGGY,	itm_null,
+    1,  2,  0, 40, 50,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
+Cooked wild edible plants.  An interesting mix of flavours.");
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("apple",		70, 16,	c_red,		VEGGY,  itm_null,
