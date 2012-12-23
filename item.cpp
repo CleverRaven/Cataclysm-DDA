@@ -1320,7 +1320,7 @@ int item::burst_size()
   return 0;
  // No burst fire for gunmods right now.
  if(mode == IF_MODE_AUX)
-  return 0;
+  return 1;
  it_gun* gun = dynamic_cast<it_gun*>(type);
  int ret = gun->burst;
  for (int i = 0; i < contents.size(); i++) {
