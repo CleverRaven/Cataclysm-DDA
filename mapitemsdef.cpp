@@ -88,7 +88,7 @@ void game::init_mapitems()
 	itm_longbow, itm_compbow, itm_arrow_wood, itm_arrow_cf, itm_u_shotgun, itm_shot_hull,
         itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing,
         itm_57mm_casing, itm_46mm_casing, itm_762_casing, itm_223_casing,
-        itm_3006_casing, itm_308_casing, itm_powder,
+        itm_3006_casing, itm_308_casing, itm_gunpowder,
         itm_shotgun_primer, itm_smpistol_primer, itm_lgpistol_primer,
         itm_smrifle_primer, itm_lgrifle_primer, itm_lead, NULL);
 
@@ -102,6 +102,9 @@ void game::init_mapitems()
 	itm_sewing_kit, itm_flashlight, itm_suit, itm_tophat,
 	itm_glasses_monocle, itm_duct_tape, 
         itm_jeans_fit, itm_pants_fit, itm_pants_cargo_fit,
+        itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
+        itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit,
+
         NULL);
 
  setvector(
@@ -200,7 +203,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_sports],
 	itm_bandages, itm_aspirin, itm_bat, itm_bat_metal, itm_sneakers, itm_tshirt,
-	itm_tank_top, itm_gloves_fingerless, itm_glasses_safety,
+	itm_tank_top, itm_gloves_fingerless, itm_glasses_safety, itm_tshirt_fit,
 	itm_goggles_swim, itm_goggles_ski, itm_hat_ball, itm_helmet_bike,
 	itm_helmet_ball, itm_manual_brawl, NULL);
 
@@ -225,7 +228,7 @@ void game::init_mapitems()
 	itm_manual_knives, itm_manual_first_aid, itm_manual_traps, itm_lighter,
 	itm_sewing_kit, itm_hammer, itm_flashlight, itm_water_purifier,
 	itm_radio, itm_beartrap, itm_extinguisher, itm_string_36, itm_longbow,
-	itm_compbow, itm_arrow_wood, itm_arrow_cf, itm_rollmat, NULL);
+	itm_compbow, itm_arrow_wood, itm_arrow_cf, itm_rollmat, itm_tshirt_fit, NULL);
 
  setvector(
    mapitems[mi_alcohol],
@@ -300,7 +303,7 @@ void game::init_mapitems()
 	itm_retool_308, itm_retool_223, itm_tazer,itm_shot_hull,
         itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing,
         itm_57mm_casing, itm_46mm_casing, itm_762_casing, itm_223_casing,
-        itm_3006_casing, itm_308_casing, itm_powder,
+        itm_3006_casing, itm_308_casing, itm_gunpowder,
         itm_shotgun_primer, itm_smpistol_primer, itm_lgpistol_primer,
         itm_smrifle_primer, itm_lgrifle_primer, itm_lead, itm_press, itm_puller, NULL);
 
@@ -319,12 +322,15 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_shirts],
 	itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top,
-	itm_sweatshirt, itm_sweater, itm_hoodie, NULL);
+	itm_sweatshirt, itm_sweater, itm_hoodie, 
+        itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
+        itm_tshirt_fit, NULL);
 
  setvector(
    mapitems[mi_jackets],
 	itm_jacket_light, itm_jacket_jean, itm_blazer, itm_jacket_leather,
-	itm_coat_rain, itm_trenchcoat, NULL);
+	itm_coat_rain, itm_trenchcoat, itm_trenchcoat_fit, itm_jacket_light_fit,
+        itm_jacket_leather_fit, NULL);
 
  setvector(
    mapitems[mi_winter],
@@ -346,7 +352,9 @@ void game::init_mapitems()
 	itm_gloves_light, itm_mittens, itm_gloves_wool, itm_gloves_winter,
 	itm_gloves_leather, itm_scarf, itm_hat_cotton, itm_hat_knit,
 	itm_hat_fur, itm_UPS_off, itm_jeans_fit, itm_pants_fit, 
-        itm_pants_cargo_fit, NULL);
+        itm_pants_cargo_fit, itm_polo_shirt_fit, itm_sweatshirt_fit, 
+        itm_sweater_fit,
+        itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit,NULL);
 
  setvector(
    mapitems[mi_novels],
@@ -431,8 +439,9 @@ void game::init_mapitems()
 	itm_chainsaw_off, itm_jackhammer, itm_jacqueshammer, itm_ring, itm_necklace, itm_usb_drive,
 	itm_broadsword, itm_morningstar, itm_helmet_plate, itm_cot, itm_rollmat,
 	itm_boots_fit, itm_boots_steel_fit, itm_boots_winter_fit,
-        itm_dress_shoes_fit, itm_bat_metal,
-        itm_jeans_fit, itm_pants_army_fit,NULL);
+        itm_dress_shoes_fit, itm_bat_metal, itm_jeans_fit, itm_pants_army_fit, 
+        itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
+        itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit,NULL);
 
  setvector(
    mapitems[mi_mil_surplus], // NOT food or armor!

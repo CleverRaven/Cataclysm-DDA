@@ -1256,6 +1256,10 @@ void iuse::jackhammer(game *g, player *p, item *it, bool t)
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
   g->sound(dirx, diry, 45, "TATATATATATATAT!");
+ } else if (g->m.move_cost(dirx, diry) == 2) {
+  g->m.ter(dirx, diry) = t_stairs_down;
+  p->moves -= 500;
+  g->sound(dirx, diry, 45, "TATATATATATATAT!");
  } else {
   g->add_msg_if_player(p,"You can't drill there.");
   it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
@@ -2381,8 +2385,7 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
 }
 
 void iuse::tent(game *g, player *p, item *it, bool t)
-{
-/*
+{/*
  int dirx, diry;
  g->draw();
  mvprintw(0, 0, "Put up tent where?");
@@ -2477,7 +2480,7 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
  multiply = 20;
  item casing;
  item primer;
- item powder;
+ item gunpowder;
  item lead;
  if (pull->type->id == itm_556_incendiary || pull->type->id == itm_3006_incendiary ||
      pull->type->id == itm_762_51_incendiary)
@@ -2487,176 +2490,176 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
  if (pull->type->id == itm_shot_bird) {
  casing.make(g->itypes[itm_shot_hull]);
  primer.make(g->itypes[itm_shotgun_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 12*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 12*multiply;
  lead.charges = 16*multiply;
  }
  else if (pull->type->id == itm_shot_00 || pull->type->id == itm_shot_slug) {
  casing.make(g->itypes[itm_shot_hull]);
  primer.make(g->itypes[itm_shotgun_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 20*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 20*multiply;
  lead.charges = 16*multiply;
  }
  else if (pull->type->id == itm_22_lr || pull->type->id == itm_22_ratshot) {
  casing.make(g->itypes[itm_null]);
  primer.make(g->itypes[itm_null]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 2*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 2*multiply;
  lead.charges = 2*multiply;
  }
  else if (pull->type->id == itm_22_cb) {
  casing.make(g->itypes[itm_null]);
  primer.make(g->itypes[itm_null]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 1*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 1*multiply;
  lead.charges = 2*multiply;
  }
  else if (pull->type->id == itm_9mm) {
  casing.make(g->itypes[itm_9mm_casing]);
  primer.make(g->itypes[itm_smpistol_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 4*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 4*multiply;
  lead.charges = 4*multiply;
  }
  else if (pull->type->id == itm_9mmP) {
  casing.make(g->itypes[itm_9mm_casing]);
  primer.make(g->itypes[itm_smpistol_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 5*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 5*multiply;
  lead.charges = 4*multiply;
  }
  else if (pull->type->id == itm_9mmP2) {
  casing.make(g->itypes[itm_9mm_casing]);
  primer.make(g->itypes[itm_smpistol_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 6*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 6*multiply;
  lead.charges = 4*multiply;
  }
  else if (pull->type->id == itm_38_special) {
  casing.make(g->itypes[itm_38_casing]);
  primer.make(g->itypes[itm_smpistol_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 5*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 5*multiply;
  lead.charges = 5*multiply;
  }
  else if (pull->type->id == itm_38_super) {
  casing.make(g->itypes[itm_38_casing]);
  primer.make(g->itypes[itm_smpistol_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 7*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 7*multiply;
  lead.charges = 5*multiply;
  }
  else if (pull->type->id == itm_10mm) {
  casing.make(g->itypes[itm_40_casing]);
  primer.make(g->itypes[itm_lgpistol_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 8*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 8*multiply;
  lead.charges = 8*multiply;
  }
  else if (pull->type->id == itm_40sw) {
  casing.make(g->itypes[itm_40_casing]);
  primer.make(g->itypes[itm_smpistol_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 6*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 6*multiply;
  lead.charges = 6*multiply;
  }
  else if (pull->type->id == itm_44magnum) {
  casing.make(g->itypes[itm_44_casing]);
  primer.make(g->itypes[itm_lgpistol_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 10*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 10*multiply;
  lead.charges = 10*multiply;
  }
  else if (pull->type->id == itm_45_acp || pull->type->id == itm_45_jhp) {
  casing.make(g->itypes[itm_45_casing]);
  primer.make(g->itypes[itm_lgpistol_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 10*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 10*multiply;
  lead.charges = 8*multiply;
  }
 // else if (pull->type->id == itm_45_jhp) {
 // casing.make(g->itypes[itm_45_casing]);
 // primer.make(g->itypes[itm_lgpistol_primer]);
-// powder.make(g->itypes[itm_powder]);
-// powder.charges = 10*multiply;
+// gunpowder.make(g->itypes[itm_gunpowder]);
+// gunpowder.charges = 10*multiply;
 // lead.charges = 8*multiply;
 // }
  else if (pull->type->id == itm_45_super) {
  casing.make(g->itypes[itm_45_casing]);
  primer.make(g->itypes[itm_lgpistol_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 12*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 12*multiply;
  lead.charges = 10*multiply;
  }
  else if (pull->type->id == itm_57mm) {
  casing.make(g->itypes[itm_57mm_casing]);
  primer.make(g->itypes[itm_smrifle_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 4*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 4*multiply;
  lead.charges = 2*multiply;
  }
  else if (pull->type->id == itm_46mm) {
  casing.make(g->itypes[itm_46mm_casing]);
  primer.make(g->itypes[itm_smpistol_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 4*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 4*multiply;
  lead.charges = 2*multiply;
  }
  else if (pull->type->id == itm_762_m43) {
  casing.make(g->itypes[itm_762_casing]);
  primer.make(g->itypes[itm_lgrifle_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 7*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 7*multiply;
  lead.charges = 5*multiply;
  }
  else if (pull->type->id == itm_762_m87) {
  casing.make(g->itypes[itm_762_casing]);
  primer.make(g->itypes[itm_lgrifle_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 8*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 8*multiply;
  lead.charges = 5*multiply;
  }
  else if (pull->type->id == itm_223) {
  casing.make(g->itypes[itm_223_casing]);
  primer.make(g->itypes[itm_smrifle_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 4*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 4*multiply;
  lead.charges = 2*multiply;
  }
  else if (pull->type->id == itm_556 || pull->type->id == itm_556_incendiary) {
  casing.make(g->itypes[itm_223_casing]);
  primer.make(g->itypes[itm_smrifle_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 6*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 6*multiply;
  lead.charges = 2*multiply;
  }
  else if (pull->type->id == itm_270) {
  casing.make(g->itypes[itm_3006_casing]);
  primer.make(g->itypes[itm_lgrifle_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 10*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 10*multiply;
  lead.charges = 5*multiply;
  }
  else if (pull->type->id == itm_3006 || pull->type->id == itm_3006_incendiary) {
  casing.make(g->itypes[itm_3006_casing]);
  primer.make(g->itypes[itm_lgrifle_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 8*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 8*multiply;
  lead.charges = 6*multiply;
  }
  else if (pull->type->id == itm_308) {
  casing.make(g->itypes[itm_308_casing]);
  primer.make(g->itypes[itm_lgrifle_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 10*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 10*multiply;
  lead.charges = 6*multiply;
  }
  else if (pull->type->id == itm_762_51 || pull->type->id == itm_762_51_incendiary) {
  casing.make(g->itypes[itm_308_casing]);
  primer.make(g->itypes[itm_lgrifle_primer]);
- powder.make(g->itypes[itm_powder]);
- powder.charges = 10*multiply;
+ gunpowder.make(g->itypes[itm_gunpowder]);
+ gunpowder.charges = 10*multiply;
  lead.charges = 6*multiply;
  }
  else {
@@ -2693,15 +2696,15 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
     else
    g->m.add_item(p->posx, p->posy, primer);}
  int iter = 0;
-   while ((powder.invlet == 0 || p->has_item(powder.invlet)) && iter < 52) {
-    powder.invlet = g->nextinv;
+   while ((gunpowder.invlet == 0 || p->has_item(gunpowder.invlet)) && iter < 52) {
+    gunpowder.invlet = g->nextinv;
     g->advance_nextinv();
     iter++;}
-    if (p->weight_carried() + powder.weight() < p->weight_capacity() &&
-      p->volume_carried() + powder.volume() < p->volume_capacity() && iter < 52) {
-    p->i_add(powder);}
+    if (p->weight_carried() + gunpowder.weight() < p->weight_capacity() &&
+      p->volume_carried() + gunpowder.volume() < p->volume_capacity() && iter < 52) {
+    p->i_add(gunpowder);}
     else
-   g->m.add_item(p->posx, p->posy, powder);
+   g->m.add_item(p->posx, p->posy, gunpowder);
  iter = 0;
    while ((lead.invlet == 0 || p->has_item(lead.invlet)) && iter < 52) {
     lead.invlet = g->nextinv;

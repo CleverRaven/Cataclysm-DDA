@@ -184,210 +184,210 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
 
   RECIPE(itm_9mm, CC_AMMO, sk_gun, sk_mechanics, 2, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_9mm_casing, 50, NULL);
   COMP(itm_smpistol_primer, 50, NULL);
-  COMP(itm_powder, 200, NULL);
+  COMP(itm_gunpowder, 200, NULL);
   COMP(itm_lead, 200, NULL);
 
  RECIPE(itm_9mmP, CC_AMMO, sk_gun, sk_mechanics, 4, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_9mm_casing, 25, NULL);
   COMP(itm_smpistol_primer, 25, NULL);
-  COMP(itm_powder, 125, NULL);
+  COMP(itm_gunpowder, 125, NULL);
   COMP(itm_lead, 100, NULL);
   
  RECIPE(itm_9mmP2, CC_AMMO, sk_gun, sk_mechanics, 6, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_9mm_casing, 10, NULL);
   COMP(itm_smpistol_primer, 10, NULL);
-  COMP(itm_powder, 60, NULL);
+  COMP(itm_gunpowder, 60, NULL);
   COMP(itm_lead, 40, NULL);
   
  RECIPE(itm_38_special, CC_AMMO, sk_gun, sk_mechanics, 2, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_38_casing, 50, NULL);
   COMP(itm_smpistol_primer, 50, NULL);
-  COMP(itm_powder, 250, NULL);
+  COMP(itm_gunpowder, 250, NULL);
   COMP(itm_lead, 250, NULL);
   
  RECIPE(itm_38_super, CC_AMMO, sk_gun, sk_mechanics, 4, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_38_casing, 25, NULL);
   COMP(itm_smpistol_primer, 25, NULL);
-  COMP(itm_powder, 175, NULL);
+  COMP(itm_gunpowder, 175, NULL);
   COMP(itm_lead, 125, NULL);
  
  RECIPE(itm_40sw, CC_AMMO, sk_gun, sk_mechanics, 3, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_40_casing, 50, NULL);
   COMP(itm_smpistol_primer, 50, NULL);
-  COMP(itm_powder, 300, NULL);
+  COMP(itm_gunpowder, 300, NULL);
   COMP(itm_lead, 300, NULL);
   
  RECIPE(itm_10mm, CC_AMMO, sk_gun, sk_mechanics, 5, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_40_casing, 50, NULL);
   COMP(itm_lgpistol_primer, 50, NULL);
-  COMP(itm_powder, 400, NULL);
+  COMP(itm_gunpowder, 400, NULL);
   COMP(itm_lead, 400, NULL);
   
  RECIPE(itm_44magnum, CC_AMMO, sk_gun, sk_mechanics, 4, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_44_casing, 50, NULL);
   COMP(itm_lgpistol_primer, 50, NULL);
-  COMP(itm_powder, 500, NULL);
+  COMP(itm_gunpowder, 500, NULL);
   COMP(itm_lead, 500, NULL);
   
  RECIPE(itm_45_acp, CC_AMMO, sk_gun, sk_mechanics, 3, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_45_casing, 50, NULL);
   COMP(itm_lgpistol_primer, 50, NULL);
-  COMP(itm_powder, 500, NULL);
+  COMP(itm_gunpowder, 500, NULL);
   COMP(itm_lead, 400, NULL);
   
  RECIPE(itm_45_super, CC_AMMO, sk_gun, sk_mechanics, 6, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_45_casing, 10, NULL);
   COMP(itm_lgpistol_primer, 10, NULL);
-  COMP(itm_powder, 120, NULL);
+  COMP(itm_gunpowder, 120, NULL);
   COMP(itm_lead, 100, NULL);
   
  RECIPE(itm_57mm, CC_AMMO, sk_gun, sk_mechanics, 4, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_57mm_casing, 100, NULL);
   COMP(itm_smrifle_primer, 100, NULL);
-  COMP(itm_powder, 400, NULL);
+  COMP(itm_gunpowder, 400, NULL);
   COMP(itm_lead, 200, NULL);
   
  RECIPE(itm_46mm, CC_AMMO, sk_gun, sk_mechanics, 4, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_46mm_casing, 100, NULL);
   COMP(itm_smpistol_primer, 100, NULL);
-  COMP(itm_powder, 400, NULL);
+  COMP(itm_gunpowder, 400, NULL);
   COMP(itm_lead, 200, NULL);
   
  RECIPE(itm_762_m43, CC_AMMO, sk_gun, sk_mechanics, 3, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_762_casing, 80, NULL);
   COMP(itm_lgrifle_primer, 80, NULL);
-  COMP(itm_powder, 560, NULL);
+  COMP(itm_gunpowder, 560, NULL);
   COMP(itm_lead, 400, NULL);
   
  RECIPE(itm_762_m87, CC_AMMO, sk_gun, sk_mechanics, 5, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_762_casing, 80, NULL);
   COMP(itm_lgrifle_primer, 80, NULL);
-  COMP(itm_powder, 640, NULL);
+  COMP(itm_gunpowder, 640, NULL);
   COMP(itm_lead, 400, NULL);
   
  RECIPE(itm_223, CC_AMMO, sk_gun, sk_mechanics, 3, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_223_casing, 40, NULL);
   COMP(itm_smrifle_primer, 40, NULL);
-  COMP(itm_powder, 160, NULL);
+  COMP(itm_gunpowder, 160, NULL);
   COMP(itm_lead, 80, NULL);
   
  RECIPE(itm_556, CC_AMMO, sk_gun, sk_mechanics, 5, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_223_casing, 40, NULL);
   COMP(itm_smrifle_primer, 40, NULL);
-  COMP(itm_powder, 240, NULL);
+  COMP(itm_gunpowder, 240, NULL);
   COMP(itm_lead, 80, NULL);
   
  RECIPE(itm_556_incendiary, CC_AMMO, sk_gun, sk_mechanics, 6, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_223_casing, 30, NULL);
   COMP(itm_smrifle_primer, 30, NULL);
-  COMP(itm_powder, 180, NULL);
+  COMP(itm_gunpowder, 180, NULL);
   COMP(itm_incendiary, 60, NULL);
   
  RECIPE(itm_270, CC_AMMO, sk_gun, sk_mechanics, 3, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_3006_casing, 20, NULL);
   COMP(itm_lgrifle_primer, 20, NULL);
-  COMP(itm_powder, 200, NULL);
+  COMP(itm_gunpowder, 200, NULL);
   COMP(itm_lead, 100, NULL);
   
  RECIPE(itm_3006, CC_AMMO, sk_gun, sk_mechanics, 5, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_3006_casing, 10, NULL);
   COMP(itm_lgrifle_primer, 10, NULL);
-  COMP(itm_powder, 120, NULL);
+  COMP(itm_gunpowder, 120, NULL);
   COMP(itm_lead, 80, NULL);
   
  RECIPE(itm_3006_incendiary, CC_AMMO, sk_gun, sk_mechanics, 7, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_3006_casing, 5, NULL);
   COMP(itm_lgrifle_primer, 5, NULL);
-  COMP(itm_powder, 60, NULL);
+  COMP(itm_gunpowder, 60, NULL);
   COMP(itm_incendiary, 40, NULL);
   
  RECIPE(itm_308, CC_AMMO, sk_gun, sk_mechanics, 3, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_308_casing, 20, NULL);
   COMP(itm_lgrifle_primer, 20, NULL);
-  COMP(itm_powder, 160, NULL);
+  COMP(itm_gunpowder, 160, NULL);
   COMP(itm_lead, 120, NULL);
   
  RECIPE(itm_762_51, CC_AMMO, sk_gun, sk_mechanics, 5, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_308_casing, 20, NULL);
   COMP(itm_lgrifle_primer, 20, NULL);
-  COMP(itm_powder, 200, NULL);
+  COMP(itm_gunpowder, 200, NULL);
   COMP(itm_lead, 120, NULL);
   
  RECIPE(itm_762_51_incendiary, CC_AMMO, sk_gun, sk_mechanics, 6, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_308_casing, 10, NULL);
   COMP(itm_lgrifle_primer, 10, NULL);
-  COMP(itm_powder, 100, NULL);
+  COMP(itm_gunpowder, 100, NULL);
   COMP(itm_incendiary, 60, NULL);
  
  RECIPE(itm_shot_bird, CC_AMMO, sk_gun, sk_mechanics, 2, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_shot_hull, 25, NULL);
   COMP(itm_shotgun_primer, 25, NULL);
-  COMP(itm_powder, 300, NULL);
+  COMP(itm_gunpowder, 300, NULL);
   COMP(itm_lead, 400, NULL);
  
  RECIPE(itm_shot_00, CC_AMMO, sk_gun, sk_mechanics, 3, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_shot_hull, 25, NULL);
   COMP(itm_shotgun_primer, 25, NULL);
-  COMP(itm_powder, 600, NULL);
+  COMP(itm_gunpowder, 600, NULL);
   COMP(itm_lead, 400, NULL);
  
  RECIPE(itm_shot_slug, CC_AMMO, sk_gun, sk_mechanics, 3, 30000);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2);
+  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_shot_hull, 25, NULL);
   COMP(itm_shotgun_primer, 25, NULL);
-  COMP(itm_powder, 600, NULL);
+  COMP(itm_gunpowder, 600, NULL);
   COMP(itm_lead, 400, NULL);
 /*
  * We need a some Chemicals which arn't implemented to realistically craft this!
@@ -677,11 +677,11 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_sewing_kit,  5, NULL);
   COMP(itm_fur, 2, NULL);
 
- RECIPE(itm_boots, CC_ARMOR, sk_tailor, sk_null, 2, 35000);
+ RECIPE(itm_boots_fit, CC_ARMOR, sk_tailor, sk_null, 2, 35000);
   TOOL(itm_sewing_kit, 10, NULL);
   COMP(itm_leather, 2, NULL);
 
- RECIPE(itm_jeans, CC_ARMOR, sk_tailor, sk_null, 2, 45000);
+ RECIPE(itm_jeans_fit, CC_ARMOR, sk_tailor, sk_null, 2, 45000);
   TOOL(itm_sewing_kit, 10, NULL);
   COMP(itm_rag, 6, NULL);
 
@@ -697,11 +697,11 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_sewing_kit, 4, NULL);
   COMP(itm_rag, 4, NULL);
 
- RECIPE(itm_hoodie, CC_ARMOR, sk_tailor, sk_null, 3, 40000);
+ RECIPE(itm_hoodie_fit, CC_ARMOR, sk_tailor, sk_null, 3, 40000);
   TOOL(itm_sewing_kit, 14, NULL);
   COMP(itm_rag, 12, NULL);
 
- RECIPE(itm_trenchcoat, CC_ARMOR, sk_tailor, sk_null, 3, 42000);
+ RECIPE(itm_trenchcoat_fit, CC_ARMOR, sk_tailor, sk_null, 3, 42000);
   TOOL(itm_sewing_kit, 24, NULL);
   COMP(itm_rag, 11, NULL);
 
@@ -709,7 +709,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_sewing_kit, 20, NULL);
   COMP(itm_fur, 10, NULL);
 
- RECIPE(itm_jacket_leather, CC_ARMOR, sk_tailor, sk_null, 5, 150000);
+ RECIPE(itm_jacket_leather_fit, CC_ARMOR, sk_tailor, sk_null, 5, 150000);
   TOOL(itm_sewing_kit, 30, NULL);
   COMP(itm_leather, 8, NULL);
 
@@ -717,9 +717,9 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_sewing_kit, 2, NULL);
   COMP(itm_rag, 2, NULL);
 
- RECIPE(itm_gloves_fingerless, CC_ARMOR, sk_tailor, sk_null, 3, 16000);
-  TOOL(itm_sewing_kit, 6, NULL);
-  COMP(itm_leather, 2, NULL);
+ RECIPE(itm_gloves_fingerless, CC_ARMOR, sk_tailor, sk_null, 0, 16000);
+  TOOL(itm_scissors, -1, itm_knife_combat, -1, itm_knife_steak, -1, NULL);
+  COMP(itm_gloves_leather, 1, NULL);
 
  RECIPE(itm_mask_filter, CC_ARMOR, sk_mechanics, sk_tailor, 1, 5000);
   COMP(itm_bottle_plastic, 1, itm_bag_plastic, 2, NULL);

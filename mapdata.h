@@ -80,7 +80,7 @@ t_grate,
 t_slime,
 t_bridge,
 // Walls & doors
-t_canvas, t_door_canvas, t_door_canvas_o, t_groundsheet,
+t_canvas_wall, t_door_canvas, t_door_canvas_o, t_groundsheet,
 // Lighting related
 t_skylight, t_emergency_light_flicker, t_emergency_light,
 // Walls
