@@ -191,6 +191,7 @@ bool item::invlet_is_okay()
 
 bool item::stacks_with(item rhs)
 {
+
  bool stacks = (type   == rhs.type   && damage  == rhs.damage  &&
                 active == rhs.active && charges == rhs.charges &&
                 contents.size() == rhs.contents.size() &&
@@ -676,10 +677,12 @@ int item::weight()
   return 0;
 
  int ret = type->weight;
- if (is_ammo()) { 
-  ret *= charges;
-  ret /= 100;
+
+ if (count_by_charges()) {
+ ret *= charges;
+ ret /= 100;
  }
+ 
  for (int i = 0; i < contents.size(); i++)
   ret += contents[i].weight();
  return ret;
@@ -701,11 +704,17 @@ int item::volume()
   return 0;
 
  int ret = type->volume;
+ 
+ if (count_by_charges()) {
+ ret *= charges;
+ ret /= 100;
+ } 
+ 
  if (is_gun()) {
   for (int i = 0; i < contents.size(); i++)
    ret += contents[i].volume();
  }
- return type->volume;
+   return ret;
 }
 
 int item::volume_contained()

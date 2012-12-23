@@ -262,20 +262,32 @@ std::vector<item> game::multidrop()
       print_inv_statics(this, w_inv, "Multidrop:", weapon_and_armor);
      }
     }
-   } else {
-    if (count == 0) {
-     if (dropping[index] == 0)
-      dropping[index] = u.inv.stack_at(index).size();
-     else
-      dropping[index] = 0;
-    } else if (count >= u.inv.stack_at(index).size())
-     dropping[index] = u.inv.stack_at(index).size();
+   } else {   
+    if (count == 0) {  
+    if (u.inv.stack_at(index)[0].count_by_charges())
+      {  
+       if (dropping[index] == 0)
+        dropping[index] = -1;
+       else
+        dropping[index] = 0;
+      } 
     else
-     dropping[index] = count;
-   }
+      {  
+       if (dropping[index] == 0)
+        dropping[index] = u.inv.stack_at(index).size();
+       else
+        dropping[index] = 0;
+      }
+    }
+
+    else if (count >= u.inv.stack_at(index).size() && !u.inv.stack_at(index)[0].count_by_charges())
+       dropping[index] = u.inv.stack_at(index).size();                 
+    else
+      dropping[index] = count;
+
    count = 0;
   }
-   
+  } 
  } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
  werase(w_inv);
  delwin(w_inv);
@@ -290,14 +302,41 @@ std::vector<item> game::multidrop()
  int current_stack = 0;
  int max_size = u.inv.size();
  for (int i = 0; i < max_size; i++) {
-  for (int j = 0; j < dropping[i]; j++) {
-   if (current_stack >= 0) {
-    if (u.inv.stack_at(current_stack).size() == 1) {
-     ret.push_back(u.inv.remove_item(current_stack));
-     current_stack--;
-    } else
-     ret.push_back(u.inv.remove_item(current_stack));
-   }
+
+  if (dropping[i] == -1)  // drop whole stack of charges
+  {
+    ret.push_back(u.inv.remove_item(current_stack));
+    current_stack--;  
+  } 
+ 
+    for (int j = 0; j < dropping[i]; j++) {    
+
+    if (u.inv.stack_at(current_stack)[0].count_by_charges())      // dropping parts of stacks
+    {
+        int tmpcount = dropping[i];
+        
+        if (tmpcount >= u.inv.stack_at(current_stack)[0].charges)
+        {
+          ret.push_back(u.inv.remove_item(current_stack));
+          current_stack--;
+        }
+        else
+        {
+          u.inv.stack_at(current_stack)[0].charges -= tmpcount;
+          ret.push_back(u.inv.remove_item_by_quantity(current_stack, tmpcount));
+        }      
+          j = dropping[i];
+    }
+  else
+    {
+      if (current_stack >= 0) {
+      if (u.inv.stack_at(current_stack).size() == 1) {
+       ret.push_back(u.inv.remove_item(current_stack));
+       current_stack--;
+      } else
+       ret.push_back(u.inv.remove_item(current_stack));
+      }
+    }  
   }
   current_stack++;
  }

@@ -242,12 +242,10 @@ item inventory::remove_item(int index)
            index, items.size());
   return nullitem;
  }
-
  item ret = items[index][0];
  items[index].erase(items[index].begin());
  if (items[index].empty())
   items.erase(items.begin() + index);
-
  return ret;
 }
 
@@ -282,6 +280,23 @@ item inventory::remove_item_by_letter(char ch)
  }
 
  return nullitem;
+}
+
+item inventory::remove_item_by_quantity(int index, int quantity)
+{
+// using this assumes the item has charges
+
+ if (index < 0 || index >= items.size()) {
+  debugmsg("Quantity: Tried to remove_item(%d) from an inventory (size %d)",
+           index, items.size());
+  return nullitem;
+ }
+
+ item ret = items[index][0];
+ ret.charges = quantity;
+
+ return ret;
+
 }
 
 item& inventory::item_by_letter(char ch)

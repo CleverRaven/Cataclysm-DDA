@@ -48,6 +48,7 @@ class inventory
   item  remove_item(int index);
   item  remove_item(int stack, int index);
   item  remove_item_by_letter(char ch);
+  item  remove_item_by_quantity(int index, int quantity);
   item& item_by_letter(char ch);
   int   index_by_letter(char ch);
 
