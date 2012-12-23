@@ -5913,8 +5913,8 @@ void game::plfire(bool burst)
  int num_shots = 1;
  if (burst)
   num_shots = u.weapon.burst_size();
- if (num_shots > u.weapon.charges)
-  num_shots = u.weapon.charges;
+ if (num_shots > u.weapon.num_charges())
+   num_shots = u.weapon.num_charges();
  if (u.sklevel[firing->skill_used] == 0 ||
      (firing->ammo != AT_BB && firing->ammo != AT_NAIL))
   u.practice(firing->skill_used, 4 + (num_shots / 2));
