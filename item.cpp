@@ -1423,8 +1423,6 @@ int item::pick_reload_ammo(player &u, bool interactive)
   debugmsg("RELOADING NON-GUN NON-TOOL");
   return false;
  }
- int has_m203 = has_gunmod (itm_m203);
- int has_shotgun = has_gunmod (itm_u_shotgun);
  int has_spare_mag = has_gunmod (itm_spare_mag);
 
  std::vector<int> am;	// List of indicies of valid ammo
@@ -1434,21 +1432,17 @@ int item::pick_reload_ammo(player &u, bool interactive)
     // Special return to use magazine for reloading.
     return -2;
   } else {
-   // This could definitely be more generic.
    it_gun* tmp = dynamic_cast<it_gun*>(type);
    if (charges < clip_size() ||
        (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip))
     am = u.has_ammo(ammo_type());
-   if (has_m203 != -1 && contents[has_m203].charges < (dynamic_cast<it_gunmod*>(contents[has_m203].type))->clip) {
-    std::vector<int> grenades = u.has_ammo(AT_40MM);
-    for (int i = 0; i < grenades.size(); i++)
-     am.push_back(grenades[i]);
-   }
-   if (has_shotgun != -1 && contents[has_shotgun].charges < (dynamic_cast<it_gunmod*>(contents[has_m203].type))->clip) {
-    std::vector<int> shells = u.has_ammo(AT_SHOT);
-    for (int i = 0; i < shells.size(); i++)
-     am.push_back(shells[i]);
-   }
+   for (int i = 0; i < contents.size(); i++)
+     if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX) &&
+         contents[i].charges < (dynamic_cast<it_gunmod*>(contents[i].type))->clip) {
+      std::vector<int> tmpammo = u.has_ammo((dynamic_cast<it_gunmod*>(contents[i].type))->newtype);
+      for(int j = 0; j < tmpammo.size(); j++)
+       am.push_back(tmpammo[j]);
+     }
   }
  } else {
   it_tool* tmp = dynamic_cast<it_tool*>(type);
