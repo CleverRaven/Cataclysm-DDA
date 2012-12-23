@@ -118,7 +118,9 @@ struct trap {
  void (trapfunc::*act)(game *, int x, int y);
 // Monster stepped on it
  void (trapfuncm::*actm)(game *, monster *, int x, int y);
- 
+// Type of trap
+ bool is_benign(); 
+   
  trap(int pid, char psym, nc_color pcolor, std::string pname,
       int pvisibility, int pavoidance, int pdifficulty, 
       void (trapfunc::*pact)(game *, int x, int y),

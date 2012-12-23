@@ -710,3 +710,8 @@ void trapfuncm::snake(game *g, monster *z, int x, int y)
  if (one_in(6))
   g->m.tr_at(x, y) = tr_null;
 }
+
+bool trap::is_benign()
+{
+  return (components[0] == itm_rollmat || components[0] == itm_cot);
+}

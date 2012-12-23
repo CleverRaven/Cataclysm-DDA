@@ -6488,10 +6488,22 @@ void game::plmove(int x, int y)
   if (m.field_at(x, y).is_dangerous() &&
       !query_yn("Really step into that %s?", m.field_at(x, y).name().c_str()))
    return;
+
+// no need to query if stepping into 'benign' traps
+/*
   if (m.tr_at(x, y) != tr_null &&
       u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(x, y)]->visibility &&
       !query_yn("Really step onto that %s?",traps[m.tr_at(x, y)]->name.c_str()))
    return;
+*/
+
+  if (m.tr_at(x, y) != tr_null &&
+      u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(x, y)]->visibility)
+      {
+        if (!traps[m.tr_at(x, y)]->is_benign())
+                  if (!query_yn("Really step onto that %s?",traps[m.tr_at(x, y)]->name.c_str()))
+             return;
+      }
 
 // Calculate cost of moving
   u.moves -= u.run_cost(m.move_cost(x, y) * 50);
