@@ -2897,8 +2897,8 @@ GUNMOD("M203",		2,650,	c_ltred, STEEL,	MNULL,        2,  1,  2,  0, -1,
 	-2,  0,  0,  1,  0, 0, AT_40MM,		false,	false,	false,	true,
 	0, "\
 The M203 was originally designed for use with M16 variants but today can be\n\
-attached to almost any rifle.  A gun with this attached may be loaded with\n\
-its normal rounds, or with a single 40MM round.",
+attached to almost any rifle.  It allows a single 40mm grenade to be loaded\n\
+and fired.",
 mfb(IF_MODE_AUX));
 
 //	NAME      	RAR  PRC  COLOR     MAT1   MAT2      VOL WGT DAM CUT HIT
@@ -2915,8 +2915,7 @@ GUNMOD("Underslung Shotgun", 2,650,  c_ltred, STEEL, MNULL,        2,  1,  2,  0
         -2,  0,  0,  2,  0, 0, AT_SHOT,         false,  false,  false,  true,
         0, "\
 A miniaturized shotgun with 2 barrels, which can be mounted under the\n\
-barrel of many rifles, weapons with this mod installed may load\n\
-their normal ammo, or 2 rounds of shotgun ammo.",
+barrel of many rifles.  It allows two shotgun shells to be loaded and fired.",
 mfb(IF_MODE_AUX));
 
 // BOOKS
