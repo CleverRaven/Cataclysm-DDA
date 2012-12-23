@@ -832,6 +832,22 @@ bool item::craft_has_charges()
  return false;
 }
 
+int item::num_charges()
+{
+ if (is_gun()) {
+  if (mode == IF_MODE_AUX) {
+   int gunmod_index = active_gunmod();
+   if (gunmod_index != -1)
+    return contents[gunmod_index].charges;
+  } else {
+   return charges;
+  }
+ }
+ if (is_gunmod() && mode == IF_MODE_AUX) 
+  return charges;
+ return 0;
+}
+
 int item::weapon_value(int skills[num_skill_types])
 {
  if( is_null() )

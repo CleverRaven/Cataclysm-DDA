@@ -69,6 +69,7 @@ public:
  bool goes_bad();
  bool count_by_charges();
  bool craft_has_charges();
+ int num_charges();
  bool rotten(game *g);
 
 // Our value as a weapon, given particular skills
