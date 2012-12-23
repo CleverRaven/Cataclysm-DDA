@@ -750,9 +750,16 @@ int item::damage_cut()
 bool item::has_flag(item_flag f)
 {
  if (is_gun()) {
-  for (int i = 0; i < contents.size(); i++) {
-   if (contents[i].has_flag(f))
-    return true;
+  if (mode == IF_MODE_AUX) {
+   int gunmod_index = active_gunmod();
+   if( gunmod_index != -1 )
+    return contents[gunmod_index].has_flag(f);
+  } else {
+   for (int i = 0; i < contents.size(); i++) {
+     // Don't report flags from active gunmods for the gun.
+    if (contents[i].has_flag(f) && contents[i].has_flag(IF_MODE_AUX))
+     return true;
+   }
   }
  }
  if( is_null() )
