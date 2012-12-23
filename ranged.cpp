@@ -26,58 +26,76 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
                 bool burst)
 {
  item ammotmp;
+ item* gunmod = p.weapon.active_gunmod();
+ it_ammo *curammo = NULL;
+ item *weapon = NULL;
+
  if (p.weapon.has_flag(IF_CHARGE)) { // It's a charger gun, so make up a type
 // Charges maxes out at 8.
+  int charges = p.weapon.num_charges();
   it_ammo *tmpammo = dynamic_cast<it_ammo*>(itypes[itm_charge_shot]);
-  tmpammo->damage = p.weapon.charges * p.weapon.charges;
-  tmpammo->pierce = (p.weapon.charges >= 4 ? (p.weapon.charges - 3) * 2.5 : 0);
-  tmpammo->range = 5 + p.weapon.charges * 5;
-  if (p.weapon.charges <= 4)
-   tmpammo->accuracy = 14 - p.weapon.charges * 2;
+
+  tmpammo->damage = charges * charges;
+  tmpammo->pierce = (charges >= 4 ? (charges - 3) * 2.5 : 0);
+  tmpammo->range = 5 + charges * 5;
+  if (charges <= 4)
+   tmpammo->accuracy = 14 - charges * 2;
   else // 5, 12, 21, 32
-   tmpammo->accuracy = p.weapon.charges * (p.weapon.charges - 4);
+   tmpammo->accuracy = charges * (charges - 4);
   tmpammo->recoil = tmpammo->accuracy * .8;
   tmpammo->item_flags = 0;
-  if (p.weapon.charges == 8)
+  if (charges == 8)
    tmpammo->item_flags |= mfb(IF_AMMO_EXPLOSIVE_BIG);
-  else if (p.weapon.charges >= 6)
+  else if (charges >= 6)
    tmpammo->item_flags |= mfb(IF_AMMO_EXPLOSIVE);
-  if (p.weapon.charges >= 5)
+  if (charges >= 5)
    tmpammo->item_flags |= mfb(IF_AMMO_FLAME);
-  else if (p.weapon.charges >= 4)
+  else if (charges >= 4)
    tmpammo->item_flags |= mfb(IF_AMMO_INCENDIARY);
 
-  ammotmp = item(tmpammo, 0);
-  p.weapon.curammo = tmpammo;
-  p.weapon.active = false;
-  p.weapon.charges = 0;
+  if (gunmod != NULL) {
+   weapon = gunmod;
+  } else {
+   weapon = &p.weapon;
+  }
+  weapon->curammo = tmpammo;
+  weapon->active = false;
+  weapon->charges = 0;
+ } else if (gunmod != NULL) {
+  weapon = gunmod;
+  curammo = weapon->curammo;
+ } else {// Just a normal gun. If we're here, we know curammo is valid.
+  curammo = p.weapon.curammo;
+  weapon = &p.weapon;
+ }
 
- } else // Just a normal gun. If we're here, we know curammo is valid.
-  ammotmp = item(p.weapon.curammo, 0);
-
+ ammotmp = item(curammo, 0);
  ammotmp.charges = 1;
- if (!p.weapon.is_gun()) {
+
+ if (!weapon->is_gun() && !weapon->is_gunmod()) {
   debugmsg("%s tried to fire a non-gun (%s).", p.name.c_str(),
-                                               p.weapon.tname().c_str());
+                                               weapon->tname().c_str());
   return;
  }
+
  bool is_bolt = false;
- unsigned int flags = p.weapon.curammo->item_flags;
+ unsigned int flags = curammo->item_flags;
 // Bolts and arrows are silent
- if (p.weapon.curammo->type == AT_BOLT || p.weapon.curammo->type == AT_ARROW)
+ if (curammo->type == AT_BOLT || curammo->type == AT_ARROW)
   is_bolt = true;
 // TODO: Move this check to game::plfire
- if ((p.weapon.has_flag(IF_STR8_DRAW)  && p.str_cur <  4) ||
-     (p.weapon.has_flag(IF_STR10_DRAW) && p.str_cur <  5)   ) {
+ if ((weapon->has_flag(IF_STR8_DRAW)  && p.str_cur <  4) ||
+     (weapon->has_flag(IF_STR10_DRAW) && p.str_cur <  5)   ) {
   add_msg("You're not strong enough to draw the bow!");
   return;
  }
 
  int x = p.posx, y = p.posy;
+ // Have to use the gun, gunmods don't have a type
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
  if (p.has_trait(PF_TRIGGERHAPPY) && one_in(30))
   burst = true;
- if (burst && p.weapon.burst_size() < 2)
+ if (burst && weapon->burst_size() < 2)
   burst = false; // Can't burst fire a semi-auto
 
  int junk = 0;
@@ -87,9 +105,9 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 // Decide how many shots to fire
  int num_shots = 1;
  if (burst)
-  num_shots = p.weapon.burst_size();
- if (num_shots > p.weapon.charges && !p.weapon.has_flag(IF_CHARGE))
-  num_shots = p.weapon.charges;
+  num_shots = weapon->burst_size();
+ if (num_shots > weapon->num_charges() && !weapon->has_flag(IF_CHARGE))
+  num_shots = weapon->num_charges();
 
  if (num_shots == 0)
   debugmsg("game::fire() - num_shots = 0!");
@@ -196,9 +214,9 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   }
 // Use up a round (or 100)
   if (p.weapon.has_flag(IF_FIRE_100))
-   p.weapon.charges -= 100;
+   weapon->charges -= 100;
   else
-   p.weapon.charges--;
+   weapon->charges--;
 
   int trange = calculate_range(p, tarx, tary);
   double missed_by = calculate_missed_by(p, trange);
@@ -245,7 +263,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    }
   }
 
-  int dam = p.weapon.gun_damage();
+  int dam = weapon->gun_damage();
   for (int i = 0; i < trajectory.size() &&
        (dam > 0 || (flags & IF_AMMO_FLAME)); i++) {
    if (i > 0)
@@ -266,11 +284,11 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    if (dam <= 0) { // Ran out of momentum.
     ammo_effects(this, trajectory[i].x, trajectory[i].y, flags);
     if (is_bolt &&
-        ((p.weapon.curammo->m1 == WOOD && !one_in(4)) ||
-         (p.weapon.curammo->m1 != WOOD && !one_in(15))))
+        ((curammo->m1 == WOOD && !one_in(4)) ||
+         (curammo->m1 != WOOD && !one_in(15))))
      m.add_item(trajectory[i].x, trajectory[i].y, ammotmp);
-    if (p.weapon.charges == 0)
-     p.weapon.curammo = NULL;
+    if (weapon->num_charges() == 0)
+     weapon->curammo = NULL;
     return;
    }
 
@@ -326,13 +344,13 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    lasty = trajectory[trajectory.size() - 2].y;
   }
   if (is_bolt &&
-      ((p.weapon.curammo->m1 == WOOD && !one_in(5)) ||
-       (p.weapon.curammo->m1 != WOOD && !one_in(15))  ))
+      ((curammo->m1 == WOOD && !one_in(5)) ||
+       (curammo->m1 != WOOD && !one_in(15))  ))
     m.add_item(lastx, lasty, ammotmp);
  }
 
- if (p.weapon.charges == 0)
-  p.weapon.curammo = NULL;
+ if (weapon->num_charges() == 0)
+  weapon->curammo = NULL;
 }
 
 

@@ -146,7 +146,7 @@ itm_silencer, itm_grip, itm_barrel_big, itm_barrel_small, itm_barrel_rifled,
  itm_clip, itm_clip2, itm_spare_mag, itm_stablizer, itm_blowback, itm_autofire,
  itm_retool_45, itm_retool_9mm, itm_retool_22, itm_retool_57, itm_retool_46,
  itm_retool_308, itm_retool_223, itm_conversion_battle, itm_conversion_sniper,
- itm_m203, itm_bayonet, itm_u_shotgun,
+ itm_m203, itm_bayonet, itm_u_shotgun, itm_gun_crossbow,
 // Books
 itm_mag_porn, itm_mag_tv, itm_mag_news, itm_mag_cars, itm_mag_cooking,
  itm_mag_carpentry,
@@ -272,6 +272,11 @@ IF_AMMO_SMOKE,  	// Smoke burst
 IF_AMMO_TRAIL,		// Leaves a trail of smoke
 IF_AMMO_FLASHBANG,	// Disorients and blinds
 IF_AMMO_STREAM,		// Doesn't stop once it hits a monster
+
+// Weapon mode flags
+IF_MODE_AUX, // A gunmod with a firing mode
+IF_MODE_BURST, // A burst of attacks
+
 NUM_ITEM_FLAGS
 };
 

@@ -33,6 +33,7 @@ game::game() :
  w_HP(NULL),
  w_moninfo(NULL),
  w_messages(NULL),
+ w_location(NULL),
  w_status(NULL),
  om_hori(NULL),
  om_vert(NULL),
@@ -65,8 +66,10 @@ game::game() :
  werase(w_HP);
  w_moninfo = newwin(12, 48, 0, SEEX * 2 + 8);
  werase(w_moninfo);
- w_messages = newwin(9, 48, 12, SEEX * 2 + 8);
+ w_messages = newwin(8, 48, 12, SEEX * 2 + 8);
  werase(w_messages);
+ w_location = newwin(1, 48, 20, SEEX * 2 + 8);
+ werase(w_location);
  w_status = newwin(4, 55, 21, SEEX * 2 + 1);
  werase(w_status);
 
@@ -85,6 +88,7 @@ game::~game()
  delwin(w_HP);
  delwin(w_moninfo);
  delwin(w_messages);
+ delwin(w_location);
  delwin(w_status);
 }
 
@@ -1396,6 +1400,10 @@ input_ret game::get_input(int timeout_ms)
    plfire(true);
    break;
 
+  case ACTION_SELECT_FIRE_MODE:
+   u.weapon.next_mode();
+   break;
+
   case ACTION_DROP:
    drop();
    break;
@@ -2475,12 +2483,13 @@ void game::draw()
  std::string tername = oterlist[cur_ter].name;
  if (tername.length() > 14)
   tername = tername.substr(0, 14);
- mvwprintz(w_status, 0,  0, oterlist[cur_ter].color, tername.c_str());
+ werase(w_location);
+ mvwprintz(w_location, 0,  0, oterlist[cur_ter].color, tername.c_str());
  if (levz < 0)
-  mvwprintz(w_status, 0, 18, c_ltgray, "Underground");
+  mvwprintz(w_location, 0, 18, c_ltgray, "Underground");
  else
-  mvwprintz(w_status, 0, 18, weather_data[weather].color,
-                             weather_data[weather].name.c_str());
+  mvwprintz(w_location, 0, 18, weather_data[weather].color,
+                               weather_data[weather].name.c_str());
  nc_color col_temp = c_blue;
  if (temperature >= 90)
   col_temp = c_red;
@@ -2493,9 +2502,11 @@ void game::draw()
  else if (temperature >  32)
   col_temp = c_ltblue;
  if (OPTIONS[OPT_USE_CELSIUS])
-  wprintz(w_status, col_temp, " %dC", int((temperature - 32) / 1.8));
+  wprintz(w_location, col_temp, " %dC", int((temperature - 32) / 1.8));
  else
-  wprintz(w_status, col_temp, " %dF", temperature);
+  wprintz(w_location, col_temp, " %dF", temperature);
+ wrefresh(w_location);
+
  mvwprintz(w_status, 0, 41, c_white, "%s, day %d",
            season_name[turn.season].c_str(), turn.day + 1);
  if (run_mode != 0)
@@ -5834,7 +5845,7 @@ void game::plfire(bool burst)
   return;
  vehicle *veh = m.veh_at(u.posx, u.posy);
  if (veh && veh->player_in_control(&u) && u.weapon.is_two_handed(&u)) {
-  add_msg ("You need free arm to drive!");
+  add_msg ("You need a free arm to drive!");
   return;
  }
  if (u.weapon.has_flag(IF_CHARGE) && !u.weapon.active) {
@@ -5918,8 +5929,11 @@ void game::plfire(bool burst)
  std::vector <point> trajectory = target(x, y, x0, y0, x1, y1, mon_targets,
                                          passtarget, &u.weapon);
  draw_ter(); // Recenter our view
- if (trajectory.size() == 0)
+ if (trajectory.size() == 0) {
+  if(u.weapon.has_flag(IF_RELOAD_AND_SHOOT))
+   unload();
   return;
+ }
  if (passtarget != -1) { // We picked a real live target
   last_target = targetindices[passtarget]; // Make it our default for next time
   z[targetindices[passtarget]].add_effect(ME_HIT_BY_PLAYER, 100);
@@ -5932,13 +5946,16 @@ void game::plfire(bool burst)
    u.use_charges(itm_UPS_on, 5);
  }
 
+ if (u.weapon.mode == IF_MODE_BURST)
+  burst = true;
+
 // Train up our skill
  it_gun* firing = dynamic_cast<it_gun*>(u.weapon.type);
  int num_shots = 1;
  if (burst)
   num_shots = u.weapon.burst_size();
- if (num_shots > u.weapon.charges)
-  num_shots = u.weapon.charges;
+ if (num_shots > u.weapon.num_charges())
+   num_shots = u.weapon.num_charges();
  if (u.sklevel[firing->skill_used] == 0 ||
      (firing->ammo != AT_BB && firing->ammo != AT_NAIL))
   u.practice(firing->skill_used, 4 + (num_shots / 2));
@@ -6117,13 +6134,16 @@ single action.", u.weapon.tname().c_str());
    return;
   }
   if (u.weapon.charges == u.weapon.clip_size()) {
-   int spare_mag = -1;
+   int alternate_magazine = -1;
    for (int i = 0; i < u.weapon.contents.size(); i++) {
-    if (u.weapon.contents[i].is_gunmod() && u.weapon.contents[i].typeId() == itm_spare_mag &&
-        u.weapon.contents[i].charges != (dynamic_cast<it_gun*>(u.weapon.type))->clip )
-     spare_mag = i;
+     if (u.weapon.contents[i].is_gunmod() &&
+         (u.weapon.contents[i].typeId() == itm_spare_mag &&
+          u.weapon.contents[i].charges < (dynamic_cast<it_gun*>(u.weapon.type))->clip) ||
+         (u.weapon.contents[i].has_flag(IF_MODE_AUX) &&
+          u.weapon.contents[i].charges < u.weapon.contents[i].clip_size()))
+      alternate_magazine = i;
    }
-   if(spare_mag == -1) {
+   if(alternate_magazine == -1) {
     add_msg("Your %s is fully loaded!", u.weapon.tname(this).c_str());
     return;
    }
@@ -6156,6 +6176,8 @@ single action.", u.weapon.tname().c_str());
  refresh_all();
 }
 
+// Unload a containter, gun, or tool
+// If it's a gun, some gunmods can also be loaded
 void game::unload()
 {
  if (!u.weapon.is_gun() && u.weapon.contents.size() == 0 &&
@@ -6164,11 +6186,17 @@ void game::unload()
   return;
  }
  int spare_mag = -1;
- if (u.weapon.is_gun())
+ int has_m203 = -1;
+ int has_shotgun = -1;
+ if (u.weapon.is_gun()) {
   spare_mag = u.weapon.has_gunmod (itm_spare_mag);
- if (u.weapon.is_container() ||
-     (u.weapon.charges == 0 &&
-      (spare_mag == -1 || u.weapon.contents[spare_mag].charges <= 0))) {
+  has_m203 = u.weapon.has_gunmod (itm_m203);
+  has_shotgun = u.weapon.has_gunmod (itm_u_shotgun);
+ }
+ if (u.weapon.is_container() || u.weapon.charges == 0 &&
+     (spare_mag == -1 || u.weapon.contents[spare_mag].charges <= 0) &&
+     (has_m203 == -1 || u.weapon.contents[has_m203].charges <= 0) &&
+     (has_shotgun == -1 || u.weapon.contents[has_shotgun].charges <= 0)) {
   if (u.weapon.contents.size() == 0) {
    if (u.weapon.is_gun())
     add_msg("Your %s isn't loaded, and is not modified.",
@@ -6210,12 +6238,23 @@ void game::unload()
  }
 // Unloading a gun or tool!
  u.moves -= int(u.weapon.reload_time(u) / 2);
+ // Default to unloading the gun, but then try other alternatives.
  item* weapon = &u.weapon;
  it_ammo* tmpammo;
  if (weapon->is_gun()) {	// Gun ammo is combined with existing items
-  // If there's an attached spare clip, unload it first.
-  if (spare_mag != -1 && weapon->contents[spare_mag].charges > 0)
+  // If there's an active gunmod, unload it first.
+  item* active_gunmod = weapon->active_gunmod();
+  if (active_gunmod != NULL && active_gunmod->charges > 0)
+   weapon = active_gunmod;
+  // Then try and unload a spare magazine if there is one.
+  else if (spare_mag != -1 && weapon->contents[spare_mag].charges > 0)
    weapon = &weapon->contents[spare_mag];
+  // Then try the grenade launcher
+  else if (has_m203 != -1 && weapon->contents[has_m203].charges > 0)
+   weapon = &weapon->contents[has_m203];
+  // Then try an underslung shotgun
+  else if (has_shotgun != -1 && weapon->contents[has_shotgun].charges > 0)
+   weapon = &weapon->contents[has_shotgun];
   for (int i = 0; i < u.inv.size() && weapon->charges > 0; i++) {
    if (u.inv[i].is_ammo()) {
     tmpammo = dynamic_cast<it_ammo*>(u.inv[i].type);
@@ -7553,8 +7592,8 @@ void game::write_msg()
 {
  werase(w_messages);
  int maxlength = 80 - (SEEX * 2 + 10);	// Matches size of w_messages
- int line = 8;
- for (int i = messages.size() - 1; i >= 0 && line < 9; i--) {
+ int line = 7;
+ for (int i = messages.size() - 1; i >= 0 && line < 8; i--) {
   std::string mes = messages[i].message;
   if (messages[i].count > 1) {
    std::stringstream mesSS;
