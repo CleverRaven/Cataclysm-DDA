@@ -5905,6 +5905,9 @@ void game::plfire(bool burst)
    u.use_charges(itm_UPS_on, 5);
  }
 
+ if (u.weapon.mode == IF_MODE_BURST)
+  burst = true;
+
 // Train up our skill
  it_gun* firing = dynamic_cast<it_gun*>(u.weapon.type);
  int num_shots = 1;
