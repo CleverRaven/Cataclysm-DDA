@@ -2918,6 +2918,13 @@ A miniaturized shotgun with 2 barrels, which can be mounted under the\n\
 barrel of many rifles.  It allows two shotgun shells to be loaded and fired.",
 mfb(IF_MODE_AUX));
 
+GUNMOD("Gun-mounted Crossbow", 2, 500,  c_ltred, STEEL, WOOD,      2,  1,  2,  0, -1,
+        0,  0,  0,  1,  0, 0, AT_BOLT,         false,  true,  false,  true,
+        0, "\
+A kit to attach a pair of crossbow arms and a firing rail to\n\
+the barrel of a long firearm.  It allows crossbow bolts to be fired.",
+mfb(IF_MODE_AUX)|mfb(IF_STR_RELOAD));
+
 // BOOKS
 // Try to keep colors consistant among types of books.
 // TYPE is the skill type required to read, or trained via reading; see skill.h
