@@ -120,42 +120,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  ts.tv_nsec = BULLET_SPEED;
 
  // Use up some ammunition
- p.weapon.charges -= num_shots;
- if (p.weapon.curammo->type == AT_SHOT || p.weapon.curammo->type == AT_9MM || 
-     p.weapon.curammo->type == AT_38 || p.weapon.curammo->type == AT_40 || 
-     p.weapon.curammo->type == AT_44 || p.weapon.curammo->type == AT_45 || 
-     p.weapon.curammo->type == AT_57 || p.weapon.curammo->type == AT_46 || 
-     p.weapon.curammo->type == AT_762 || p.weapon.curammo->type == AT_223 || 
-     p.weapon.curammo->type == AT_3006 || p.weapon.curammo->type == AT_308) {
-    item casing;
-    if (p.weapon.curammo->type == AT_SHOT)
-    casing.make(itypes[itm_shot_hull]);
-    else if (p.weapon.curammo->type == AT_9MM)
-    casing.make(itypes[itm_9mm_casing]);
-    else if (p.weapon.curammo->type == AT_38)
-    casing.make(itypes[itm_38_casing]);
-    else if (p.weapon.curammo->type == AT_40)
-    casing.make(itypes[itm_40_casing]);
-    else if (p.weapon.curammo->type == AT_44)
-    casing.make(itypes[itm_44_casing]);
-    else if (p.weapon.curammo->type == AT_45)
-    casing.make(itypes[itm_45_casing]);
-    else if (p.weapon.curammo->type == AT_57)
-    casing.make(itypes[itm_57mm_casing]);
-    else if (p.weapon.curammo->type == AT_46)
-    casing.make(itypes[itm_46mm_casing]);
-    else if (p.weapon.curammo->type == AT_762)
-    casing.make(itypes[itm_762_casing]);
-    else if (p.weapon.curammo->type == AT_223)
-    casing.make(itypes[itm_223_casing]);
-    else if (p.weapon.curammo->type == AT_3006)
-    casing.make(itypes[itm_3006_casing]);
-    else if (p.weapon.curammo->type == AT_308)
-    casing.make(itypes[itm_308_casing]);
-    casing.charges = num_shots;
-   m.add_item(p.posx, p.posy, casing);
-}
- double deviation;
+  double deviation;
  double missed_by;
  int trange = trig_dist(p.posx, p.posy, tarx, tary);
  if (trange < int(firing->volume / 3) && firing->ammo != AT_SHOT)
@@ -213,6 +178,39 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     return; // No targets, so return
   }
 // Use up a round (or 100)
+if (p.weapon.curammo->type == AT_SHOT || p.weapon.curammo->type == AT_9MM || 
+     p.weapon.curammo->type == AT_38 || p.weapon.curammo->type == AT_40 || 
+     p.weapon.curammo->type == AT_44 || p.weapon.curammo->type == AT_45 || 
+     p.weapon.curammo->type == AT_57 || p.weapon.curammo->type == AT_46 || 
+     p.weapon.curammo->type == AT_762 || p.weapon.curammo->type == AT_223 || 
+     p.weapon.curammo->type == AT_3006 || p.weapon.curammo->type == AT_308) {
+    item casing;
+    if (p.weapon.curammo->type == AT_SHOT)
+    casing.make(itypes[itm_shot_hull]);
+    else if (p.weapon.curammo->type == AT_9MM)
+    casing.make(itypes[itm_9mm_casing]);
+    else if (p.weapon.curammo->type == AT_38)
+    casing.make(itypes[itm_38_casing]);
+    else if (p.weapon.curammo->type == AT_40)
+    casing.make(itypes[itm_40_casing]);
+    else if (p.weapon.curammo->type == AT_44)
+    casing.make(itypes[itm_44_casing]);
+    else if (p.weapon.curammo->type == AT_45)
+    casing.make(itypes[itm_45_casing]);
+    else if (p.weapon.curammo->type == AT_57)
+    casing.make(itypes[itm_57mm_casing]);
+    else if (p.weapon.curammo->type == AT_46)
+    casing.make(itypes[itm_46mm_casing]);
+    else if (p.weapon.curammo->type == AT_762)
+    casing.make(itypes[itm_762_casing]);
+    else if (p.weapon.curammo->type == AT_223)
+    casing.make(itypes[itm_223_casing]);
+    else if (p.weapon.curammo->type == AT_3006)
+    casing.make(itypes[itm_3006_casing]);
+    else if (p.weapon.curammo->type == AT_308)
+    casing.make(itypes[itm_308_casing]);
+   m.add_item(p.posx, p.posy, casing);
+}
   if (p.weapon.has_flag(IF_FIRE_100))
    weapon->charges -= 100;
   else

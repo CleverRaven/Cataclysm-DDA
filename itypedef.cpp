@@ -2933,14 +2933,14 @@ shotgun, sub-machinegun or rifle, allowing a melee attack to deal\n\
 piercing damage.  The added length increases recoil slightly.",
 mfb(IF_STAB));
 
-GUNMOD("Underslung Shotgun", 2,650,  c_ltred, STEEL, MNULL,        2,  1,  2,  0, -1,
+GUNMOD("underslung shotgun", 2,650,  c_ltred, STEEL, MNULL,        2,  1,  2,  0, -1,
         -2,  0,  0,  2,  0, 0, AT_SHOT,         false,  false,  false,  true,
         0, "\
 A miniaturized shotgun with 2 barrels, which can be mounted under the\n\
 barrel of many rifles.  It allows two shotgun shells to be loaded and fired.",
 mfb(IF_MODE_AUX));
 
-GUNMOD("Gun-mounted Crossbow", 2, 500,  c_ltred, STEEL, WOOD,      2,  1,  2,  0, -1,
+GUNMOD("rail-mounted crossbow", 2, 500,  c_ltred, STEEL, WOOD,      2,  1,  2,  0, -1,
         0,  0,  0,  1,  0, 0, AT_BOLT,         false,  true,  false,  true,
         0, "\
 A kit to attach a pair of crossbow arms and a firing rail to\n\
