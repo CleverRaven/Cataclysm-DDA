@@ -177,40 +177,31 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
               (p.sklevel[sk_gun] >= 7 || one_in(7 - p.sklevel[sk_gun])))
     return; // No targets, so return
   }
-// Use up a round (or 100)
-if (curammo->type == AT_SHOT || curammo->type == AT_9MM || 
-     curammo->type == AT_38 || curammo->type == AT_40 || 
-     curammo->type == AT_44 || curammo->type == AT_45 || 
-     curammo->type == AT_57 || curammo->type == AT_46 || 
-     curammo->type == AT_762 || curammo->type == AT_223 || 
-     curammo->type == AT_3006 || curammo->type == AT_308) {
-    item casing;
-    if (curammo->type == AT_SHOT)
-    casing.make(itypes[itm_shot_hull]);
-    else if (curammo->type == AT_9MM)
-    casing.make(itypes[itm_9mm_casing]);
-    else if (curammo->type == AT_38)
-    casing.make(itypes[itm_38_casing]);
-    else if (curammo->type == AT_40)
-    casing.make(itypes[itm_40_casing]);
-    else if (curammo->type == AT_44)
-    casing.make(itypes[itm_44_casing]);
-    else if (curammo->type == AT_45)
-    casing.make(itypes[itm_45_casing]);
-    else if (curammo->type == AT_57)
-    casing.make(itypes[itm_57mm_casing]);
-    else if (curammo->type == AT_46)
-    casing.make(itypes[itm_46mm_casing]);
-    else if (curammo->type == AT_762)
-    casing.make(itypes[itm_762_casing]);
-    else if (curammo->type == AT_223)
-    casing.make(itypes[itm_223_casing]);
-    else if (curammo->type == AT_3006)
-    casing.make(itypes[itm_3006_casing]);
-    else if (curammo->type == AT_308)
-    casing.make(itypes[itm_308_casing]);
+
+  // Drop a shell casing if appropriate.
+  itype_id casing_type = itm_null;
+  switch(curammo->type) {
+  case AT_SHOT: casing_type = itm_shot_hull; break;
+  case AT_9MM: casing_type = itm_9mm_casing; break;
+  case AT_38: casing_type = itm_38_casing; break;
+  case AT_40: casing_type = itm_40_casing; break;
+  case AT_44: casing_type = itm_44_casing; break;
+  case AT_45: casing_type = itm_45_casing; break;
+  case AT_57: casing_type = itm_57mm_casing; break;
+  case AT_46: casing_type = itm_46mm_casing; break;
+  case AT_762: casing_type = itm_762_casing; break;
+  case AT_223: casing_type = itm_223_casing; break;
+  case AT_3006: casing_type = itm_3006_casing; break;
+  case AT_308: casing_type = itm_308_casing; break;
+  default: /*No casing for other ammo types.*/ break;
+  }
+  if (casing_type != itm_null) {
+   item casing;
+   casing.make(itypes[casing_type]);
    m.add_item(p.posx, p.posy, casing);
-}
+  }
+
+  // Use up a round (or 100)
   if (p.weapon.has_flag(IF_FIRE_100))
    weapon->charges -= 100;
   else
