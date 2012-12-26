@@ -1,6 +1,9 @@
 # This message may be 16 lines long at maximum.
 # Max length of a line is 64 characters; the following line is for reference
 ################################################################
+This mod contains much work by Creidieki, Uzername, 
+Kevingranade, HerbertJones, Gim, Shades and Origamiwolf.
+
 The game now has configurable options.
 You can directly edit options.txt in the data directory, or you
 can edit the options via the help menu.

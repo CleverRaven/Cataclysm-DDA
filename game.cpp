@@ -157,8 +157,7 @@ bool game::opening_screen()
   mvwputch(w_open, 21, i, c_white, LINE_OXOX);
    mvwprintz(w_open, 0, 0, c_blue, "Welcome to The Darkling Wolf's Modded Cataclysm!");
    mvwprintz(w_open, 1, 0, c_red, "\
-Please report bugs to TheDarklingWolf@gmail.com or post in my forum thread.\n\
-Includes work by Creidieki, Uzername, Kevingranade, HerbertJones, Gim and Shades.");
+Please report bugs to TheDarklingWolf@gmail.com or post in my forum thread."
  refresh();
  wrefresh(w_open);
  refresh();
