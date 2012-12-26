@@ -11,7 +11,7 @@
 
 int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
-void make_gun_sound_effect(game *g, player &p, bool burst);
+void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon);
 int calculate_range(player &p, int tarx, int tary);
 double calculate_missed_by(player &p, int trange);
 void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit);
@@ -113,7 +113,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   debugmsg("game::fire() - num_shots = 0!");
  
  // Make a sound at our location - Zombies will chase it
- make_gun_sound_effect(this, p, burst);
+ make_gun_sound_effect(this, p, burst, weapon);
 // Set up a timespec for use in the nanosleep function below
  timespec ts;
  ts.tv_sec = 0;
@@ -750,9 +750,10 @@ int time_to_fire(player &p, it_gun* firing)
  return time;
 }
 
-void make_gun_sound_effect(game *g, player &p, bool burst)
+void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
 {
  std::string gunsound;
+ // noise() doesn't suport gunmods, but it does return the right value
  int noise = p.weapon.noise();
  if (noise < 5) {
   if (burst)
@@ -775,15 +776,15 @@ void make_gun_sound_effect(game *g, player &p, bool burst)
   else
    gunsound = "kerblam!";
  }
- if (p.weapon.curammo->type == AT_FUSION || p.weapon.curammo->type == AT_BATT ||
-     p.weapon.curammo->type == AT_PLUT)
+ if (weapon->curammo->type == AT_FUSION || weapon->curammo->type == AT_BATT ||
+     weapon->curammo->type == AT_PLUT)
   g->sound(p.posx, p.posy, 8, "Fzzt!");
- else if (p.weapon.curammo->type == AT_40MM)
+ else if (weapon->curammo->type == AT_40MM)
   g->sound(p.posx, p.posy, 8, "Thunk!");
- else if (p.weapon.curammo->type == AT_GAS)
+ else if (weapon->curammo->type == AT_GAS)
   g->sound(p.posx, p.posy, 4, "Fwoosh!");
- else if (p.weapon.curammo->type != AT_BOLT &&
-          p.weapon.curammo->type != AT_ARROW)
+ else if (weapon->curammo->type != AT_BOLT &&
+          weapon->curammo->type != AT_ARROW)
   g->sound(p.posx, p.posy, noise, gunsound);
 }
 
