@@ -172,11 +172,7 @@ void game::init_mapitems()
    mapitems[mi_hardware],
 	itm_superglue, itm_chain, itm_rope_6, itm_rope_30, itm_glass_sheet,
 	itm_pipe, itm_nail, itm_hose, itm_string_36, itm_frame, itm_metal_tank,
-<<<<<<< HEAD
-	itm_wire, itm_wire_barbed, itm_duct_tape, NULL);
-=======
         itm_wire, itm_wire_barbed, itm_duct_tape, itm_jerrycan, NULL);
->>>>>>> fdf3fee... handle_liquid modified to allow for larger capacity containers
 
  setvector(
    mapitems[mi_tools],
@@ -218,13 +214,9 @@ void game::init_mapitems()
 	itm_bb, itm_bolt_steel, itm_bbgun, itm_crossbow, itm_manual_knives,
 	itm_manual_first_aid, itm_manual_traps, itm_lighter, itm_sewing_kit,
 	itm_hammer, itm_flashlight, itm_water_purifier, itm_radio, itm_beartrap,
-<<<<<<< HEAD
-	itm_UPS_off, itm_string_36, itm_longbow, itm_compbow, itm_arrow_wood,
-	itm_arrow_cf, itm_wire, itm_rollmat, NULL);
-=======
         itm_UPS_off, itm_string_36, itm_longbow, itm_compbow, itm_arrow_wood,
         itm_arrow_cf, itm_wire, itm_rollmat, itm_canteen, NULL);
->>>>>>> fdf3fee... handle_liquid modified to allow for larger capacity containers
+
 
  setvector(
    mapitems[mi_allsporting],
@@ -475,15 +467,9 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_mechanics],
-<<<<<<< HEAD
-	itm_wrench, itm_frame, itm_wheel, itm_motor, itm_combustion_small,
-	itm_hacksaw, itm_welder, itm_motor, itm_motor_large, 
-	itm_storage_battery, itm_solar_panel, itm_combustion_tiny, NULL);
-=======
         itm_wrench, itm_frame, itm_wheel, itm_motor, itm_combustion_small,
         itm_hacksaw, itm_welder, itm_motor, itm_motor_large, 
-        itm_storage_battery, itm_solar_panel, itm_jerrycan, NULL);
->>>>>>> fdf3fee... handle_liquid modified to allow for larger capacity containers
+        itm_storage_battery, itm_solar_panel, itm_combustion_tiny, itm_jerrycan, NULL);
 
  setvector(
    mapitems[mi_chemistry],
@@ -633,13 +619,9 @@ void game::init_mapitems()
 	itm_jumpsuit, itm_gloves_leather, itm_mask_filter, itm_mask_gas,
 	itm_glasses_safety, itm_goggles_welding, itm_goggles_nv, itm_hat_hard,
 	itm_backpack, itm_battery, itm_flashlight, itm_two_way_radio,
-<<<<<<< HEAD
 	itm_jackhammer, itm_jacqueshammer, itm_dynamite, itm_UPS_off, itm_bionics_tools,
-	itm_bionics_construction, NULL);
-=======
-	itm_jackhammer, itm_dynamite, itm_UPS_off, itm_bionics_tools,
 	itm_bionics_construction, itm_jerrycan, NULL);
->>>>>>> fdf3fee... handle_liquid modified to allow for larger capacity containers
+
 
  setvector(
    mapitems[mi_spiral],
@@ -749,11 +731,9 @@ void game::init_mapitems()
 	itm_silencer, itm_clip, itm_lighter, itm_flashlight, itm_two_way_radio,
 	itm_landmine, itm_grenade, itm_flashbang, itm_EMPbomb, itm_gasbomb,
 	itm_smokebomb, itm_UPS_off, itm_tazer, itm_c4, itm_hk_g80, itm_12mm,
-<<<<<<< HEAD
-	itm_binoculars, itm_u_shotgun, itm_beltrig, itm_pants_army_fit, itm_spare_mag, NULL);
-=======
-	itm_binoculars, itm_u_shotgun, itm_beltrig, itm_canteen, itm_jerrycan, NULL);
->>>>>>> fdf3fee... handle_liquid modified to allow for larger capacity containers
+	itm_binoculars, itm_u_shotgun, itm_beltrig, itm_pants_army_fit, 
+        itm_spare_mag, itm_canteen, itm_jerrycan, NULL);
+
 
  setvector(
    mapitems[mi_science],
