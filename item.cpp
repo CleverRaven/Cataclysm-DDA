@@ -64,8 +64,8 @@ item::item(itype* it, unsigned int turn)
   charges = ammo->count;
  } else if (it->is_food()) {
   it_comest* comest = dynamic_cast<it_comest*>(it);
-  if (comest->charges == 1)
-   charges = -1;
+  if (comest->charges == 1 && !made_of(LIQUID))
+  charges = -1;
   else
    charges = comest->charges;
  } else if (it->is_tool()) {
@@ -100,8 +100,8 @@ item::item(itype *it, unsigned int turn, char let)
   charges = ammo->count;
  } else if (it->is_food()) {
   it_comest* comest = dynamic_cast<it_comest*>(it);
-  if (comest->charges == 1)
-   charges = -1;
+  if (comest->charges == 1 && !made_of(LIQUID))
+    charges = -1;
   else
    charges = comest->charges;
  } else if (it->is_tool()) {
@@ -315,9 +315,12 @@ std::string item::info(bool showtext)
 
  } else if (is_food_container()) {
 
+ // added charge display for debugging
+ 
   it_comest* food = dynamic_cast<it_comest*>(contents[0].type);
   dump << " Nutrition: " << int(food->nutr) << "\n Quench: " <<
-          int(food->quench) << "\n Enjoyability: " << int(food->fun);
+          int(food->quench) << "\n Enjoyability: " << int(food->fun)
+          << "\n Charges: " << int(contents[0].charges);
 
  } else if (is_ammo()) {
 
@@ -689,6 +692,22 @@ int item::weight()
  }
  
  for (int i = 0; i < contents.size(); i++)
+  if (contents[i].made_of(LIQUID))
+  {
+    if (contents[i].type->is_food()) 
+      {
+        it_comest* tmp_comest = dynamic_cast<it_comest*>(contents[i].type);
+        ret += contents[i].weight() * contents[i].charges / tmp_comest->charges;
+      }    
+      else if (contents[i].type->is_ammo())
+      {
+        it_ammo* tmp_ammo = dynamic_cast<it_ammo*>(contents[i].type);
+        ret += contents[i].weight() * contents[i].charges / tmp_ammo->count;    
+      }
+      else
+        ret += contents[i].weight();
+  }
+  else
   ret += contents[i].weight();
  return ret;
 }

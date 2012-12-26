@@ -3122,12 +3122,12 @@ CONT("plastic bag",	50,  1,	c_ltgray,	PLASTIC,MNULL,
 A small, open plastic bag.  Essentially trash.");
 
 CONT("plastic bottle",	70,  8,	c_ltcyan,	PLASTIC,MNULL,
-    2,  0, -8,  1,	 2,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+    2,  0, -8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A plastic bottle with a resealable top.  Useful for refilling with water;\n\
 stand in shallow water, and press ',' or 'g' to pick some up.");
 
 CONT("glass bottle",	70, 12,	c_cyan,		GLASS,	MNULL,
-    2,  1,  8,  1,	 2,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+    2,  1,  8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A glass bottle with a resealable  top.  Useful for refilling with water; just\n\
 stand in shallow water, and press ',' or 'g' to pick some up.");
 
@@ -3142,6 +3142,15 @@ A tin can, like what beans come in.");
 CONT("sm. cardboard box",50, 0,	c_brown,	PAPER,	MNULL,
     4,  0, -5,  1,	 4,	mfb(con_rigid), "\
 A small cardboard box.  No bigger than a foot in any dimension.");
+
+CONT("canteen",	20,  1000,	c_ltcyan,	PLASTIC,MNULL,
+    20,  2, -8,  1,	 5,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+A large military-style water canteen.");
+
+CONT("jerrycan",	10,  2500,	c_ltcyan,	PLASTIC,MNULL,
+    60,  4, -2,  -2,	 20,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+A bulky plastic jerrycan, meant to carry fuel, but can carry other liquids\n\
+in a pinch.");
 
 /* TOOLS
  * MAX is the maximum number of charges help.

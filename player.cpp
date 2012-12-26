@@ -3687,6 +3687,39 @@ bool player::has_watertight_container()
  return false;
 }
 
+bool player::has_matching_liquid(int it)
+{
+ for (int i = 0; i < inv.size(); i++) 
+ {
+  if (inv[i].is_container() && !inv[i].contents.empty()) 
+  {  
+    if (inv[i].contents[0].type->id == it)  // liquid matches
+    {
+      it_container* container = dynamic_cast<it_container*>(inv[i].type);
+      int holding_container_charges;
+      
+      if (inv[i].contents[0].type->is_food()) 
+      {
+        it_comest* tmp_comest = dynamic_cast<it_comest*>(inv[i].contents[0].type);
+            
+        if (tmp_comest->add == ADD_ALCOHOL) // 1 contains = 20 alcohol charges
+          holding_container_charges = container->contains * 20;
+        else
+          holding_container_charges = container->contains; 
+      }       
+      else if (inv[i].contents[0].type->is_ammo())
+        holding_container_charges = container->contains * 200;    
+      else
+        holding_container_charges = container->contains;    
+    
+    if (inv[i].contents[0].charges < holding_container_charges)
+    return true;
+    }
+  }
+ }
+ return false;
+}
+
 bool player::has_weapon_or_armor(char let)
 {
  if (weapon.invlet == let)

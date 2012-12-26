@@ -160,6 +160,7 @@ itm_mag_porn, itm_mag_tv, itm_mag_news, itm_mag_cars, itm_mag_cooking,
 // Containers
 itm_bag_plastic, itm_bottle_plastic, itm_bottle_glass,
  itm_can_drink, itm_can_food, itm_box_small,
+ itm_canteen, itm_jerrycan,
 // Tools
 itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_flashlight, itm_flashlight_on, itm_hotplate, itm_soldering_iron,
@@ -429,7 +430,7 @@ struct it_comest : public itype
  itype_id tool;		// Tool needed to consume (e.g. lighter for cigarettes)
 
  virtual bool is_food() { return true; }
- virtual bool count_by_charges() { return charges > 1; }
+ virtual bool count_by_charges() { return charges >= 1; }
 
  void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
  add_type add;				// Effects of addiction
