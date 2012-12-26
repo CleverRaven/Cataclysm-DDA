@@ -950,6 +950,7 @@ void iuse::light_on(game *g, player *p, item *it, bool t)
 
 void iuse::water_purifier(game *g, player *p, item *it, bool t)
 {
+  it->charges++;
  char ch = g->inv("Purify what?");
  if (!p->has_item(ch)) {
   g->add_msg_if_player(p,"You do not have that item!");
@@ -964,6 +965,12 @@ void iuse::water_purifier(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You can only purify water.");
   return;
  }
+ if (pure->charges > it->charges)
+ {
+  g->add_msg_if_player(p,"You don't have enough battery power to purify all the water.");
+  return;
+ }
+ it->charges -= pure->charges;
  p->moves -= 150;
  pure->make(g->itypes[itm_water_clean]);
  pure->poison = 0;
