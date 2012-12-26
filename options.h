@@ -15,6 +15,7 @@ OPT_SAFEMODE, // Safemode on by default?
 OPT_AUTOSAFEMODE, // Autosafemode on by default?
 OPT_AUTOSAVE, // Automatically save the game on intervals.
 OPT_GRADUAL_NIGHT_LIGHT, // be so cool at night :)
+OPT_DROP_EMPTY, // auto drop empty containers after use
 OPT_SKILL_RUST, // level of skill rust
 NUM_OPTION_KEYS
 };
