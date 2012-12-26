@@ -1151,9 +1151,20 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
   case '\n':
    if (!available[line])
     popup("You can't do that!");
-   else if (itypes[current[line]->result]->m1 == LIQUID &&
-            !u.has_watertight_container())
-    popup("You don't have anything to store that liquid in!");
+   else 
+   // is player making a liquid? Then need to check for valid container
+   if (itypes[current[line]->result]->m1 == LIQUID)
+   {
+    if (u.has_watertight_container() || 
+        u.has_matching_liquid(itypes[current[line]->result]->id))
+        {
+            make_craft(current[line]);
+            done = true;
+            break;
+        } 
+     else
+       popup("You don't have anything to store that liquid in!");
+   }  
    else {
     make_craft(current[line]);
     done = true;

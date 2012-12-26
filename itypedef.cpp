@@ -63,13 +63,13 @@ fun,container,itm_null,use_func,addict_func));
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("water",		90, 50,	c_ltcyan, itm_bottle_plastic,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
-	50,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
+	25,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
 Water, the stuff of life, the best thirst-quencher available.");
 
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("clean water",	90, 50,	c_ltcyan, itm_bottle_plastic,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
-	50,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
+	25,  0,  0,  0,  0,  0,  2,  0,&iuse::none,	ADD_NULL, "\
 Fresh clean water, truly the best thing to quench your thirst.");
 
 DRINK("sewage sample",	 5,  5, c_ltgreen, itm_bottle_plastic,
@@ -2209,7 +2209,7 @@ ammunition.",
 color,LIQUID,1,1,0,0,0,flags,ammo_type,dmg,AP,accuracy,recoil,range,count))
 FUEL("gasoline",	0,  50,   AT_GAS,	c_ltred,
 //	DMG  AP RNG ACC REC COUNT
-	 5,  5,  4,  0,  0,  200, "\
+	 5,  5,  4,  0,  0,  100, "\
 Gasoline is a highly flammable liquid.  When under pressure, it has the\n\
 potential for violent explosion.",
 mfb(IF_AMMO_FLAME)|mfb(IF_AMMO_STREAM));
@@ -3123,13 +3123,11 @@ A small, open plastic bag.  Essentially trash.");
 
 CONT("plastic bottle",	70,  8,	c_ltcyan,	PLASTIC,MNULL,
     2,  0, -8,  1,	 2,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A plastic bottle with a resealable top.  Useful for refilling with water;\n\
-stand in shallow water, and press ',' or 'g' to pick some up.");
+A resealable plastic bottle, holds 500mls of liquid.");
 
 CONT("glass bottle",	70, 12,	c_cyan,		GLASS,	MNULL,
     2,  1,  8,  1,	 2,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A glass bottle with a resealable  top.  Useful for refilling with water; just\n\
-stand in shallow water, and press ',' or 'g' to pick some up.");
+A resealable glass bottle, holds 500mls of liquid.");
 
 CONT("aluminum can",	70,  1,	c_ltblue,	STEEL,	MNULL,
     1,  0,  0,  0,	 1,	mfb(con_rigid)|mfb(con_wtight), "\
@@ -3142,6 +3140,15 @@ A tin can, like what beans come in.");
 CONT("sm. cardboard box",50, 0,	c_brown,	PAPER,	MNULL,
     4,  0, -5,  1,	 4,	mfb(con_rigid), "\
 A small cardboard box.  No bigger than a foot in any dimension.");
+
+CONT("canteen",	20,  1000,	c_ltcyan,	PLASTIC,MNULL,
+    20,  2, -8,  1,	 6,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+A large military-style water canteen. Holds 1.5 litres of liquid.");
+
+CONT("jerrycan",	10,  2500,	c_ltcyan,	PLASTIC,MNULL,
+    80, 10, -2, -2, 100, mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+A 5 gallon jerrycan, holds a large quantity of liquid, but is not suited\n\
+for carrying around on a daily basis.");
 
 /* TOOLS
  * MAX is the maximum number of charges help.
