@@ -1298,6 +1298,8 @@ int item::accuracy()
 
 int item::gun_damage(bool with_ammo)
 {
+ if (is_gunmod() && mode == IF_MODE_AUX)
+  return curammo->damage;
  if (!is_gun())
   return 0;
  if(mode == IF_MODE_AUX) {
