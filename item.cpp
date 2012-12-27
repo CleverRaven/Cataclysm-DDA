@@ -173,19 +173,29 @@ bool item::is_null()
 
 item item::in_its_container(std::vector<itype*> *itypes)
 {
+
  if (is_software()) {
   item ret( (*itypes)[itm_usb_drive], 0);
   ret.contents.push_back(*this);
   ret.invlet = invlet;
   return ret;
  }
- if (!is_food() || (dynamic_cast<it_comest*>(type))->container == itm_null)
+
+  if (!is_food() || (dynamic_cast<it_comest*>(type))->container == itm_null)
   return *this;
- it_comest *food = dynamic_cast<it_comest*>(type);
- item ret((*itypes)[food->container], bday);
- ret.contents.push_back(*this);
- ret.invlet = invlet;
- return ret;
+  
+    it_comest *food = dynamic_cast<it_comest*>(type);
+    item ret((*itypes)[food->container], bday);
+
+    if (made_of(LIQUID))
+    {
+     it_container* container = dynamic_cast<it_container*>(ret.type);
+      charges = container->contains * food->charges;
+    }
+    ret.contents.push_back(*this);
+    ret.invlet = invlet;
+    return ret;  
+    
 }
 
 bool item::invlet_is_okay()
