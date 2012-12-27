@@ -4664,7 +4664,7 @@ void game::examine()
 //Debug for testing things
  } else if (m.ter(examx, examy) == t_rubble && u.has_amount(itm_shovel, 1)) {
   if (query_yn("Clear up that rubble?")) {
-  if (m.ter(u.posx, u.posy) == t_rock_floor || m.ter(u.posx, u.posy) == t_underfloor) {
+  if (levz = -1) {
    u.moves -= 200;
    m.ter(examx, examy) = t_rock_floor;
    item rock(itypes[itm_rock], turn);
@@ -4684,7 +4684,7 @@ void game::examine()
  } else if (m.ter(examx, examy) == t_wreckage && u.has_amount(itm_shovel, 1)) {
   if (query_yn("Clear up that wreckage?")) {
    u.moves -= 200;
-   m.ter(examx, examy) = t_floor;
+   m.ter(examx, examy) = t_dirt;
    item chunk(itypes[itm_steel_chunk], turn);
    item pipe(itypes[itm_pipe], turn);
    m.add_item(u.posx, u.posy, chunk);
@@ -4697,7 +4697,7 @@ void game::examine()
  } else if (m.ter(examx, examy) == t_metal && u.has_amount(itm_shovel, 1)) {
   if (query_yn("Clear up that wreckage?")) {
    u.moves -= 200;
-   m.ter(examx, examy) = t_dirt;
+   m.ter(examx, examy) = t_floor;
    item chunk(itypes[itm_steel_chunk], turn);
    item pipe(itypes[itm_pipe], turn);
    m.add_item(u.posx, u.posy, chunk);
