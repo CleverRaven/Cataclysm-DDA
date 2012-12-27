@@ -197,8 +197,11 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   }
   if (casing_type != itm_null) {
    item casing;
+   // This should be safe since player location will always be centered.
+   int x = p.posx - 1 + rng(0, 2);
+   int y = p.posy - 1 + rng(0, 2);
    casing.make(itypes[casing_type]);
-   m.add_item(p.posx, p.posy, casing);
+   m.add_item(x, y, casing);
   }
 
   // Use up a round (or 100)
