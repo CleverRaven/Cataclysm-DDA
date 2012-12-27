@@ -1295,6 +1295,8 @@ void map::destroy(game *g, int x, int y, bool makesound)
    }
   break;
 
+ case t_concrete_v:
+ case t_concrete_h:
  case t_wall_v:
  case t_wall_h:
   for (int i = x - 2; i <= x + 2; i++) {
