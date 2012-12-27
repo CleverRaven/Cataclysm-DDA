@@ -673,6 +673,10 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
 // ARMOR
 
+ RECIPE(itm_thread, CC_ARMOR, sk_tailor, sk_null, 1, 3000);
+  TOOL(itm_knife_combat, -1, itm_knife_steak, -1, itm_scissors, -1, NULL);
+  COMP(itm_string_6, 1, NULL);
+
  RECIPE(itm_mocassins, CC_ARMOR, sk_tailor, sk_null, 1, 30000);
   TOOL(itm_sewing_kit,  5, NULL);
   COMP(itm_fur, 2, NULL);
@@ -770,7 +774,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_steel_chunk, 12, NULL);
   COMP(itm_wire, 3, NULL);
  
- RECIPE(itm_string_36, sk_null, sk_null, 0, 5000);
+ RECIPE(itm_string_36, CC_MISC, sk_null, sk_null, 0, 5000);
   COMP(itm_string_6, 6, NULL);
  
  RECIPE(itm_rope_6, CC_MISC, sk_tailor, sk_null, 2, 5000);
@@ -780,7 +784,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_rope_6, 5, NULL);
 
  RECIPE(itm_torch,        CC_MISC, sk_null,    sk_null,     0, 2000);
-  COMP(itm_stick, 1, itm_2x4, 1, itm_splinter, 1, itm_cue_pool, 1, itm_torch_done, 1, NULL);
+  COMP(itm_stick, 1, itm_2x4, 1, itm_splinter, 1, itm_pool_cue, 1, itm_torch_done, 1, NULL);
   COMP(itm_gasoline, 1, itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, 1, NULL);
   COMP(itm_rag, 1, NULL);
 

@@ -1758,6 +1758,11 @@ AMMO("batteries",	50, 120,AT_BATT,	c_magenta,	IRON,
 A set of universal batteries.  Used to charge almost any electronic device.",
 0);
 
+AMMO("thread",          40, 50, AT_THREAD,      c_magenta,      COTTON,
+         1,  1,  0,  0,  0,  0,  0, 50, "\
+A small quantity of thread, could be used to refill a sewing kit.",
+0);
+
 AMMO("plutonium cell",	10,1500,AT_PLUT,	c_ltgreen,	STEEL,
 	 1,  1,  0,  0,  0,  0,  0, 5, "\
 A nuclear-powered battery.  Used to charge advanced and rare electronics.",
@@ -3189,7 +3194,7 @@ things like molotov cocktails.  You can also use a lighter to light nearby\n\
 items on fire.");
 
 TOOL("sewing kit",	30,120, ',', c_red,	PLASTIC,IRON,
-    2,  0, -3,  0, -1,  50, 50, 1,  0, AT_NULL, itm_null, &iuse::sew, 0, "\
+    2,  0, -3,  0, -1,  200, 50, 1,  0, AT_THREAD, itm_null, &iuse::sew, 0, "\
 Use a sewing kit on an article of clothing to attempt to repair or reinforce\n\
 that clothing.  This uses your tailoring skill.");
 
