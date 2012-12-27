@@ -1024,7 +1024,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   if (res) *res = result;
   if (str >= result) {
    sound += "metal screeching!";
-   ter(x, y) = t_wreckage;
+   ter(x, y) = t_metal;
    int num_boards = rng(0, 3);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_steel_chunk], 0);
