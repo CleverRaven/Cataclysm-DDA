@@ -34,7 +34,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
 	itm_knife_combat, -1, itm_machete, -1, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_pool_cue, 1, NULL);
 
- RECIPE(itm_spear_knife, CC_WEAPON, sk_stabbing, sk_null, 1, 600);
+ RECIPE(itm_spear_knife, CC_WEAPON, sk_stabbing, sk_null, 0, 600);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_pool_cue, 1, NULL);
   COMP(itm_knife_steak, 2, itm_knife_combat, 1, NULL);
   COMP(itm_string_36, 1, itm_wire, 1, itm_string_6, 6, NULL);
@@ -1437,12 +1437,7 @@ void game::complete_craft()
 
   // Set up the new item, and pick an inventory letter
  int iter = 0;
-
  item newit(itypes[making->result], turn, nextinv);
-
- if (newit.is_food())
-  newit.bday = turn / 3600;
-
  if (!newit.craft_has_charges())
   newit.charges = 0;
  do {

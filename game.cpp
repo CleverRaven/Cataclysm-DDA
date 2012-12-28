@@ -5133,7 +5133,7 @@ void game::pickup(int posx, int posy, int min)
  }
 // Picking up water?
  if ((!from_veh) && m.i_at(posx, posy).size() == 0) {
-  if (m.has_flag(swimmable, posx, posy) || m.ter(posx, posy) == t_toilet) {
+  if (m.has_flag(swimmable, posx, posy) || m.ter(posx, posy) == t_toilet || m.ter(posx, posy) == t_water_sh) {
    item water = m.water_from(posx, posy);
    if (query_yn("Drink from your hands?")) {
     u.inv.push_back(water);
