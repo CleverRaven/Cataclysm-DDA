@@ -430,7 +430,15 @@ struct it_comest : public itype
  itype_id tool;		// Tool needed to consume (e.g. lighter for cigarettes)
 
  virtual bool is_food() { return true; }
- virtual bool count_by_charges() { return charges >= 1; }
+// virtual bool count_by_charges() { return charges >= 1 ; }
+
+ virtual bool count_by_charges() 
+ { 
+  if (m1 == LIQUID) return true;
+  else
+  return charges > 1 ; 
+ }
+
 
  void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
  add_type add;				// Effects of addiction

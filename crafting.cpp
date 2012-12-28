@@ -1483,8 +1483,9 @@ void consume_items(game *g, std::vector<component> components)
   int count = abs(components[i].count);
   bool pl = false, mp = false;
 
-  if (g->itypes[type]->count_by_charges() && count > 0) {
 
+  if (g->itypes[type]->count_by_charges() && count > 0) 
+  {
    if (g->u.has_charges(type, count)) {
     player_has.push_back(components[i]);
     pl = true;
@@ -1496,7 +1497,9 @@ void consume_items(game *g, std::vector<component> components)
    if (!pl && !mp && g->u.charges_of(type) + map_inv.charges_of(type) >= count)
     mixed.push_back(components[i]);
 
-  } else { // Counting by units, not charges
+  }   
+  
+  else { // Counting by units, not charges
 
    if (g->u.has_amount(type, count)) {
     player_has.push_back(components[i]);
