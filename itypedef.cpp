@@ -121,42 +121,42 @@ DRINK("soup",		15, 60, c_red,    itm_can_food,
 A nutritious and delicious hearty vegetable soup.");
 
 DRINK("whiskey",	16, 85,	c_brown,  itm_bottle_glass,
-	-12, 4,  0,-12, -2,  5, 20, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
+	-12, 4,  0,-12, -2,  5, 7, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
 Made from, by, and for real Southern colonels!");
 
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("vodka",		20, 78,	c_ltcyan, itm_bottle_glass,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
-	-10, 2,  0,-12, -2,  5, 20, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
+	-10, 2,  0,-12, -2,  5, 7, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
 In Soviet Russia, vodka drinks you!");
 
 DRINK("rum",		14, 85,	c_ltcyan, itm_bottle_glass,
-	-12, 2,  0,-10, -2,  5, 20, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
+	-12, 2,  0,-10, -2,  5, 7, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
 Drinking this might make you feel like a pirate.  Or not.");
 
 DRINK("tequila",	12, 88,	c_brown,  itm_bottle_glass,
-	-12, 2,  0,-12, -2,  6, 20, 18,&iuse::alcohol,	ADD_ALCOHOL, "\
+	-12, 2,  0,-12, -2,  6, 7, 18,&iuse::alcohol,	ADD_ALCOHOL, "\
 Don't eat the worm!  Wait, there's no worm in this bottle.");
 
-DRINK("beer",           60, 35, c_brown,  itm_bottle_glass,
+DRINK("beer",           60, 35, c_brown,  itm_can_drink,
          16, 4,  0, -4, -1,  2,  1, 10, &iuse::alcohol,   ADD_ALCOHOL, "\
 Best served cold, in a glass, and with a lime - but you're not that lucky.");
 
-DRINK("bleach",		20, 18,	c_white,  itm_bottle_plastic,
+DRINK("bleach",		20, 18,	c_white,  itm_carboy_plastic,
 	-96, 0,  0,  0, -8,  0,  1,-30,&iuse::blech,	ADD_NULL, "\
 Don't drink it.  Mixing it with ammonia produces toxic gas.");
 
 //     NAME		RAR PRC	COLOR     CONTAINER
-DRINK("ammonia",	24, 30,	c_yellow, itm_bottle_plastic,
+DRINK("ammonia",	24, 30,	c_yellow, itm_carboy_plastic,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
 	-96, 0,  0,  0, -2,  0,  1,-30,&iuse::blech,	ADD_NULL, "\
 Don't drink it.  Mixing it with bleach produces toxic gas.");
 
-DRINK("mutagen",	 8,1000,c_magenta,itm_bottle_glass,
+DRINK("mutagen",	 8,1000,c_magenta,itm_flask_glass,
 	  0, 0,  0,  0, -2,  0,  1,  0,&iuse::mutagen_3,ADD_NULL, "\
 A rare substance of uncertain origins.  Causes you to mutate.");
 
-DRINK("purifier",	12, 6000,c_pink,  itm_bottle_glass,
+DRINK("purifier",	12, 6000,c_pink,  itm_flask_glass,
 	  0, 0,  0,  0,  1,  0,  1,  0,&iuse::purifier,	ADD_NULL, "\
 A rare stem-cell treatment, which causes mutations and other genetic defects\n\
 to fade away.");
@@ -1758,6 +1758,11 @@ AMMO("batteries",	50, 120,AT_BATT,	c_magenta,	IRON,
 A set of universal batteries.  Used to charge almost any electronic device.",
 0);
 
+AMMO("thread",          40, 50, AT_THREAD,      c_magenta,      COTTON,
+         1,  1,  0,  0,  0,  0,  0, 50, "\
+A small quantity of thread, could be used to refill a sewing kit.",
+0);
+
 AMMO("plutonium cell",	10,1500,AT_PLUT,	c_ltgreen,	STEEL,
 	 1,  1,  0,  0,  0,  0,  0, 5, "\
 A nuclear-powered battery.  Used to charge advanced and rare electronics.",
@@ -3126,8 +3131,8 @@ CONT("plastic bottle",	70,  8,	c_ltcyan,	PLASTIC,MNULL,
 A resealable plastic bottle, holds 500mls of liquid.");
 
 CONT("glass bottle",	70, 12,	c_cyan,		GLASS,	MNULL,
-    2,  1,  8,  1,	 2,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A resealable glass bottle, holds 500mls of liquid.");
+    2,  1,  8,  1,	 3,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+A resealable glass bottle, holds 750mls of liquid.");
 
 CONT("aluminum can",	70,  1,	c_ltblue,	STEEL,	MNULL,
     1,  0,  0,  0,	 1,	mfb(con_rigid)|mfb(con_wtight), "\
@@ -3141,14 +3146,22 @@ CONT("sm. cardboard box",50, 0,	c_brown,	PAPER,	MNULL,
     4,  0, -5,  1,	 4,	mfb(con_rigid), "\
 A small cardboard box.  No bigger than a foot in any dimension.");
 
-CONT("canteen",	20,  1000,	c_ltcyan,	PLASTIC,MNULL,
+CONT("plastic canteen",	20,  1000,	c_green,	PLASTIC,MNULL,
     20,  2, -8,  1,	 6,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A large military-style water canteen. Holds 1.5 litres of liquid.");
+A large military-style water canteen, with a 1.5 litre capacity");
 
-CONT("jerrycan",	10,  2500,	c_ltcyan,	PLASTIC,MNULL,
-    80, 10, -2, -2, 100, mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A 5 gallon jerrycan, holds a large quantity of liquid, but is not suited\n\
-for carrying around on a daily basis.");
+CONT("plastic jerrycan",	10,  2500,	c_green,	PLASTIC,MNULL,
+    60,  4, -2,  -2,	 40,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+A bulky plastic jerrycan, meant to carry fuel, but can carry other liquids\n\
+in a pinch.  It has a capacity of 10 litres.");
+
+CONT("plastic carboy",	10,  2500,	c_ltcyan,	PLASTIC,MNULL,
+    22,  2, -8,  1,	 10,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+A 2.5 litre plastic carboy for household cleaning chemicals.");
+
+CONT("glass flask",	10,  2500,	c_ltcyan,	GLASS,MNULL,
+    1,  0, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+A 250 ml laboratory conical flask, with a rubber bung.");
 
 /* TOOLS
  * MAX is the maximum number of charges help.
@@ -3181,7 +3194,7 @@ things like molotov cocktails.  You can also use a lighter to light nearby\n\
 items on fire.");
 
 TOOL("sewing kit",	30,120, ',', c_red,	PLASTIC,IRON,
-    2,  0, -3,  0, -1,  50, 50, 1,  0, AT_NULL, itm_null, &iuse::sew, 0, "\
+    2,  0, -3,  0, -1,  200, 50, 1,  0, AT_THREAD, itm_null, &iuse::sew, 0, "\
 Use a sewing kit on an article of clothing to attempt to repair or reinforce\n\
 that clothing.  This uses your tailoring skill.");
 

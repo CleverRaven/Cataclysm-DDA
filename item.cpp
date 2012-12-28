@@ -173,19 +173,29 @@ bool item::is_null()
 
 item item::in_its_container(std::vector<itype*> *itypes)
 {
+
  if (is_software()) {
   item ret( (*itypes)[itm_usb_drive], 0);
   ret.contents.push_back(*this);
   ret.invlet = invlet;
   return ret;
  }
- if (!is_food() || (dynamic_cast<it_comest*>(type))->container == itm_null)
+
+  if (!is_food() || (dynamic_cast<it_comest*>(type))->container == itm_null)
   return *this;
- it_comest *food = dynamic_cast<it_comest*>(type);
- item ret((*itypes)[food->container], bday);
- ret.contents.push_back(*this);
- ret.invlet = invlet;
- return ret;
+  
+    it_comest *food = dynamic_cast<it_comest*>(type);
+    item ret((*itypes)[food->container], bday);
+
+    if (made_of(LIQUID))
+    {
+     it_container* container = dynamic_cast<it_container*>(ret.type);
+      charges = container->contains * food->charges;
+    }
+    ret.contents.push_back(*this);
+    ret.invlet = invlet;
+    return ret;  
+    
 }
 
 bool item::invlet_is_okay()
@@ -323,13 +333,25 @@ std::string item::info(bool showtext)
           << "\n Charges: " << int(contents[0].charges);
 
  } else if (is_ammo()) {
+ 
+  // added charge display for debugging
 
   it_ammo* ammo = dynamic_cast<it_ammo*>(type);
   dump << " Type: " << ammo_name(ammo->type) << "\n Damage: " <<
            int(ammo->damage) << "\n Armor-pierce: " << int(ammo->pierce) <<
            "\n Range: " << int(ammo->range) << "\n Accuracy: " <<
-           int(100 - ammo->accuracy) << "\n Recoil: " << int(ammo->recoil);
+           int(100 - ammo->accuracy) << "\n Recoil: " << int(ammo->recoil)
+           << "\n Count: " << int(ammo->count);
 
+ } else if (is_ammo_container()) {
+
+  it_ammo* ammo = dynamic_cast<it_ammo*>(contents[0].type);
+  dump << " Type: " << ammo_name(ammo->type) << "\n Damage: " <<
+           int(ammo->damage) << "\n Armor-pierce: " << int(ammo->pierce) <<
+           "\n Range: " << int(ammo->range) << "\n Accuracy: " <<
+           int(100 - ammo->accuracy) << "\n Recoil: " << int(ammo->recoil)
+           << "\n Count: " << int(contents[0].charges); 
+           
  } else if (is_gun()) {
 
   it_gun* gun = dynamic_cast<it_gun*>(type);
@@ -686,29 +708,30 @@ int item::weight()
 
  int ret = type->weight;
 
- if (count_by_charges()) {
+ if (count_by_charges() && !made_of(LIQUID)) {
  ret *= charges;
  ret /= 100;
  }
- 
+
  for (int i = 0; i < contents.size(); i++)
   if (contents[i].made_of(LIQUID))
   {
     if (contents[i].type->is_food()) 
       {
         it_comest* tmp_comest = dynamic_cast<it_comest*>(contents[i].type);
-        ret += contents[i].weight() * contents[i].charges / tmp_comest->charges;
+        ret += contents[i].weight() * (contents[i].charges / tmp_comest->charges);
       }    
       else if (contents[i].type->is_ammo())
       {
         it_ammo* tmp_ammo = dynamic_cast<it_ammo*>(contents[i].type);
-        ret += contents[i].weight() * contents[i].charges / tmp_ammo->count;    
+        ret += contents[i].weight() * (contents[i].charges / tmp_ammo->count);    
       }
       else
         ret += contents[i].weight();
   }
   else
   ret += contents[i].weight();
+  
  return ret;
 }
 
@@ -1063,6 +1086,11 @@ bool item::is_food()
 bool item::is_food_container()
 {
  return (contents.size() >= 1 && contents[0].is_food());
+}
+
+bool item::is_ammo_container()
+{
+ return (contents.size() >= 1 && contents[0].is_ammo());
 }
 
 bool item::is_drink()

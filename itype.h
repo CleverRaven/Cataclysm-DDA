@@ -111,7 +111,7 @@ itm_backpack, itm_purse, itm_mbag, itm_fanny, itm_holster, itm_bootstrap,
 // Decorative
 itm_ring, itm_necklace,
 // Ammunition
-itm_battery, itm_plut_cell, itm_nail, itm_bb, itm_arrow_wood, itm_arrow_cf,
+itm_battery, itm_thread, itm_plut_cell, itm_nail, itm_bb, itm_arrow_wood, itm_arrow_cf,
  itm_bolt_wood, itm_bolt_steel, itm_shot_bird, itm_shot_00, itm_shot_slug,
  itm_shot_he, itm_22_lr, itm_22_cb, itm_22_ratshot, itm_9mm, itm_9mmP,
  itm_9mmP2, itm_38_special, itm_38_super, itm_10mm, itm_40sw, itm_44magnum,
@@ -160,7 +160,7 @@ itm_mag_porn, itm_mag_tv, itm_mag_news, itm_mag_cars, itm_mag_cooking,
 // Containers
 itm_bag_plastic, itm_bottle_plastic, itm_bottle_glass,
  itm_can_drink, itm_can_food, itm_box_small,
- itm_canteen, itm_jerrycan,
+ itm_canteen, itm_jerrycan, itm_carboy_plastic, itm_flask_glass,
 // Tools
 itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_flashlight, itm_flashlight_on, itm_hotplate, itm_soldering_iron,
@@ -214,7 +214,7 @@ num_all_items
 // IMPORTANT: If adding a new AT_*** ammotype, add it to the ammo_name function
 //  at the end of itypedef.cpp
 enum ammotype {
-AT_NULL,
+AT_NULL, AT_THREAD,
 AT_BATT, AT_PLUT,
 AT_NAIL, AT_BB, AT_BOLT, AT_ARROW,
 AT_SHOT,
@@ -430,7 +430,15 @@ struct it_comest : public itype
  itype_id tool;		// Tool needed to consume (e.g. lighter for cigarettes)
 
  virtual bool is_food() { return true; }
- virtual bool count_by_charges() { return charges >= 1; }
+// virtual bool count_by_charges() { return charges >= 1 ; }
+
+ virtual bool count_by_charges() 
+ { 
+  if (m1 == LIQUID) return true;
+  else
+  return charges > 1 ; 
+ }
+
 
  void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
  add_type add;				// Effects of addiction

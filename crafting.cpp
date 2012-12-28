@@ -32,12 +32,12 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
  RECIPE(itm_spear_wood, CC_WEAPON, sk_null, sk_null, 0, 800);
   TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
 	itm_knife_combat, -1, itm_machete, -1, itm_toolset, -1, NULL);
-  COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, NULL);
+  COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_pool_cue, 1, NULL);
 
- RECIPE(itm_spear_knife, CC_WEAPON, sk_stabbing, sk_null, 1, 600);
-  COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, NULL);
+ RECIPE(itm_spear_knife, CC_WEAPON, sk_stabbing, sk_null, 0, 600);
+  COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_pool_cue, 1, NULL);
   COMP(itm_knife_steak, 2, itm_knife_combat, 1, NULL);
-  COMP(itm_string_36, 1, NULL);
+  COMP(itm_string_36, 1, itm_wire, 1, itm_string_6, 6, NULL);
 
  RECIPE(itm_longbow, CC_WEAPON, sk_archery, sk_survival, 2, 15000);
   TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
@@ -673,6 +673,10 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
 // ARMOR
 
+ RECIPE(itm_thread, CC_ARMOR, sk_tailor, sk_null, 1, 3000);
+  TOOL(itm_knife_combat, -1, itm_knife_steak, -1, itm_scissors, -1, NULL);
+  COMP(itm_string_6, 1, NULL);
+
  RECIPE(itm_mocassins, CC_ARMOR, sk_tailor, sk_null, 1, 30000);
   TOOL(itm_sewing_kit,  5, NULL);
   COMP(itm_fur, 2, NULL);
@@ -761,7 +765,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
 // MISC
 
- RECIPE(itm_vehicle_controls, CC_MISC, sk_mechanics, sk_null, 4, 30000);
+ RECIPE(itm_vehicle_controls, CC_MISC, sk_mechanics, sk_null, 3, 30000);
   TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
   TOOL(itm_welder, 50, itm_toolset, 5, NULL);
@@ -770,8 +774,17 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_steel_chunk, 12, NULL);
   COMP(itm_wire, 3, NULL);
  
+ RECIPE(itm_string_36, CC_MISC, sk_null, sk_null, 0, 5000);
+  COMP(itm_string_6, 6, NULL);
+ 
+ RECIPE(itm_rope_6, CC_MISC, sk_tailor, sk_null, 2, 5000);
+  COMP(itm_string_36, 6, NULL);
+
+ RECIPE(itm_rope_30, CC_MISC, sk_tailor, sk_null, 2, 5000);
+  COMP(itm_rope_6, 5, NULL);
+
  RECIPE(itm_torch,        CC_MISC, sk_null,    sk_null,     0, 2000);
-  COMP(itm_stick, 1, itm_2x4, 1, itm_splinter, 1, itm_torch_done, 1, NULL);
+  COMP(itm_stick, 1, itm_2x4, 1, itm_splinter, 1, itm_pool_cue, 1, itm_torch_done, 1, NULL);
   COMP(itm_gasoline, 1, itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, 1, NULL);
   COMP(itm_rag, 1, NULL);
 
@@ -813,10 +826,6 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
   COMP(itm_bleach, 1, itm_ant_egg, 1, NULL);
-
- RECIPE(itm_2x4, CC_MISC, sk_null, sk_null, 0, 8000);
-  TOOL(itm_saw, -1, NULL);
-  COMP(itm_stick, 1, NULL);
 
  RECIPE(itm_frame, CC_MISC, sk_mechanics, sk_null, 1, 8000);
   TOOL(itm_welder, 50, NULL);
@@ -1428,11 +1437,10 @@ void game::complete_craft()
 
   // Set up the new item, and pick an inventory letter
  int iter = 0;
-
  item newit(itypes[making->result], turn, nextinv);
 
  if (newit.is_food())
-  newit.bday = turn / 3600;
+ newit.bday = turn / 3600;
 
  if (!newit.craft_has_charges())
   newit.charges = 0;
@@ -1479,8 +1487,9 @@ void consume_items(game *g, std::vector<component> components)
   int count = abs(components[i].count);
   bool pl = false, mp = false;
 
-  if (g->itypes[type]->count_by_charges() && count > 0) {
 
+  if (g->itypes[type]->count_by_charges() && count > 0) 
+  {
    if (g->u.has_charges(type, count)) {
     player_has.push_back(components[i]);
     pl = true;
@@ -1492,7 +1501,9 @@ void consume_items(game *g, std::vector<component> components)
    if (!pl && !mp && g->u.charges_of(type) + map_inv.charges_of(type) >= count)
     mixed.push_back(components[i]);
 
-  } else { // Counting by units, not charges
+  }   
+  
+  else { // Counting by units, not charges
 
    if (g->u.has_amount(type, count)) {
     player_has.push_back(components[i]);

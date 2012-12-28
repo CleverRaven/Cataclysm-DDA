@@ -88,6 +88,7 @@ public:
  bool is_food_container(player *u);  // Ditto
  bool is_food();                // Ignoring the ability to eat batteries, etc.
  bool is_food_container();      // Ignoring the ability to eat batteries, etc.
+ bool is_ammo_container();      
  bool is_drink();
  bool is_weap();
  bool is_bashing_weapon();

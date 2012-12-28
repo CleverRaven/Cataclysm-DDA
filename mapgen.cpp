@@ -2258,7 +2258,7 @@ case ot_shelter: {
 
  case ot_shelter_under:
   square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
-  square(this, t_underfloor, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9);
+  square(this, t_rock_floor, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9);
   line(this, t_stairs_up, SEEX - 1, SEEY * 2 - 8, SEEX, SEEY * 2 - 8);
   place_items(mi_shelter, 80, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9, false, 0);
   break;
@@ -2284,9 +2284,9 @@ case ot_shelter: {
     for (int j = 0; j < SEEY * 2; j++) {
      if (i <= 1 || i >= SEEX * 2 - 2 ||
          (j > 1 && j < SEEY * 2 - 2 && (i == SEEX - 2 || i == SEEX + 1)))
-      ter(i, j) = t_wall_metal_v;
+      ter(i, j) = t_wall_v;
      else if (j <= 1 || j >= SEEY * 2 - 2)
-      ter(i, j) = t_wall_metal_h;
+      ter(i, j) = t_wall_h;
      else
       ter(i, j) = t_floor;
     }
@@ -2316,7 +2316,7 @@ case ot_shelter: {
   } else if (tw != 0 || rw != 0 || lw != 0 || bw != 0) {	// Sewers!
    for (int i = 0; i < SEEX * 2; i++) {
     for (int j = 0; j < SEEY * 2; j++) {
-     ter(i, j) = t_floor;
+     ter(i, j) = t_rock_floor;
      if (((i < lw || i > SEEX * 2 - 1 - rw) && j > SEEY - 3 && j < SEEY + 2) ||
          ((j < tw || j > SEEY * 2 - 1 - bw) && i > SEEX - 3 && i < SEEX + 2))
       ter(i, j) = t_sewage;
@@ -2327,7 +2327,7 @@ case ot_shelter: {
       else if (j == SEEY - 1 || j == SEEY)
        ter(i, j) = t_door_metal_c;
       else
-       ter(i, j) = t_wall_v;
+       ter(i, j) = t_concrete_v;
      } else if ((j == 0 && t_north >= ot_lab && t_north <= ot_lab_core) ||
                 j == SEEY * 2 - 1) {
       if (ter(i, j) == t_sewage)
@@ -2335,7 +2335,7 @@ case ot_shelter: {
       else if (i == SEEX - 1 || i == SEEX)
        ter(i, j) = t_door_metal_c;
       else
-       ter(i, j) = t_wall_h;
+       ter(i, j) = t_concrete_h;
      }
     }
    }
@@ -2351,12 +2351,12 @@ case ot_shelter: {
      for (int j = 0; j < SEEY * 2; j++) {
       if ((i < lw || i > SEEX * 2 - 1 - rw) ||
           ((j < SEEY - 1 || j > SEEY) && (i == SEEX - 2 || i == SEEX + 1)))
-       ter(i, j) = t_wall_v;
+       ter(i, j) = t_concrete_v;
       else if ((j < tw || j > SEEY * 2 - 1 - bw) ||
                ((i < SEEX - 1 || i > SEEX) && (j == SEEY - 2 || j == SEEY + 1)))
-       ter(i, j) = t_wall_h;
+       ter(i, j) = t_concrete_h;
       else
-       ter(i, j) = t_underfloor;
+       ter(i, j) = t_rock_floor;
      }
     }
     if (t_above == ot_lab_stairs)
@@ -2445,11 +2445,11 @@ case ot_shelter: {
     for (int i = 0; i < SEEX * 2; i++) {
      for (int j = 0; j < SEEY * 2; j++) {
       if (i < lw || i > SEEX * 2 - 1 - rw || i == SEEX - 4 || i == SEEX + 3)
-       ter(i, j) = t_wall_v;
+       ter(i, j) = t_concrete_v;
       else if (j < lw || j > SEEY*2 - 1 - bw || j == SEEY - 4 || j == SEEY + 3)
-       ter(i, j) = t_wall_h;
+       ter(i, j) = t_concrete_h;
       else
-       ter(i, j) = t_floor;
+       ter(i, j) = t_rock_floor;
      }
     }
     if (t_above == ot_lab_stairs) {
@@ -2494,11 +2494,11 @@ case ot_shelter: {
     for (int i = 0; i < SEEX * 2; i++) {
      for (int j = 0; j < SEEY * 2; j++) {
       if (i < lw || i >= SEEX * 2 - 1 - rw)
-       ter(i, j) = t_wall_v;
+       ter(i, j) = t_concrete_v;
       else if (j < tw || j >= SEEY * 2 - 1 - bw)
-       ter(i, j) = t_wall_h;
+       ter(i, j) = t_concrete_h;
       else
-       ter(i, j) = t_floor;
+       ter(i, j) = t_rock_floor;
      }
     }
     science_room(this, lw, tw, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, rng(0, 3));
@@ -2507,7 +2507,7 @@ case ot_shelter: {
      do {
       sx = rng(lw, SEEX * 2 - 1 - rw);
       sy = rng(tw, SEEY * 2 - 1 - bw);
-     } while (ter(sx, sy) != t_floor);
+     } while (ter(sx, sy) != t_rock_floor);
      ter(sx, sy) = t_stairs_up;
     }
     if (rw == 1) {
@@ -2523,7 +2523,7 @@ case ot_shelter: {
      do {
       sx = rng(lw, SEEX * 2 - 1 - rw);
       sy = rng(tw, SEEY * 2 - 1 - bw);
-     } while (ter(sx, sy) != t_floor);
+     } while (ter(sx, sy) != t_rock_floor);
      ter(sx, sy) = t_stairs_down;
     }
     break;
@@ -2588,9 +2588,9 @@ case ot_shelter: {
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     if (i < lw || i > SEEX * 2 - 1 - rw)
-     ter(i, j) = t_wall_v;
+     ter(i, j) = t_concrete_v;
     else if (j < tw || j > SEEY * 2 - 1 - bw)
-     ter(i, j) = t_wall_h;
+     ter(i, j) = t_concrete_h;
     else
      ter(i, j) = t_floor;
    }
@@ -2654,13 +2654,13 @@ case ot_shelter: {
      for (int j = tw; j <= bw; j++) {
       if (j == tw || j == bw) {
        if ((i - lw) % 2 == 0)
-        ter(i, j) = t_wall_h;
+        ter(i, j) = t_concrete_h;
        else
         ter(i, j) = t_reinforced_glass_h;
       } else if ((i - lw) % 2 == 0)
-       ter(i, j) = t_wall_v;
+       ter(i, j) = t_concrete_v;
       else if (j == tw + 2)
-       ter(i, j) = t_wall_h;
+       ter(i, j) = t_concrete_h;
       else {	// Empty space holds monsters!
        mon_id type = mon_id(rng(mon_flying_polyp, mon_gozu));
        add_spawn(type, 1, i, j);
@@ -3289,7 +3289,7 @@ case ot_shelter: {
   break;
 
  case ot_sewage_treatment_hub: // Stairs up, center of 3x3 of treatment_below
-  square(this, t_underfloor, 0,  0, 23, 23);
+  square(this, t_rock_floor, 0,  0, 23, 23);
 // Top & left walls; right & bottom are handled by adjacent terrain
   line(this, t_wall_h,  0,  0, 23,  0);
   line(this, t_wall_v,  0,  1,  0, 23);
@@ -5975,7 +5975,7 @@ case ot_s_garage_north:
         (j < 4 && (n_fac == 0 || i < 4 || i > SEEX * 2 - 5)) ||
         (i > SEEX * 2 - 5 && (e_fac == 0 || j < 4 || j > SEEY * 2 - 5)) ||
         (j > SEEY * 2 - 5 && (s_fac == 0 || i < 4 || i > SEEX * 2 - 5)))
-     ter(i, j) = t_underfloor;
+     ter(i, j) = t_rock_floor;
     else
      ter(i, j) = t_rock_floor;
    }
@@ -7170,7 +7170,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
  }
  for (int i = x1; i <= x2; i++) {
   for (int j = y1; j <= y2; j++)
-   m->ter(i, j) = t_floor;
+   m->ter(i, j) = t_rock_floor;
  }
  int area = height * width;
  std::vector<room_type> valid_rooms;
