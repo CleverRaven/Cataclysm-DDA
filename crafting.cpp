@@ -1438,6 +1438,10 @@ void game::complete_craft()
   // Set up the new item, and pick an inventory letter
  int iter = 0;
  item newit(itypes[making->result], turn, nextinv);
+
+ if (newit.is_food())
+ newit.bday = turn / 3600;
+
  if (!newit.craft_has_charges())
   newit.charges = 0;
  do {
