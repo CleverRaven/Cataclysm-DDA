@@ -777,18 +777,20 @@ void game::process_activity()
    switch (u.activity.type) {
 
    case ACT_RELOAD:
-    u.weapon.reload(u, u.activity.index);
-    if (u.weapon.is_gun() && u.weapon.has_flag(IF_RELOAD_ONE)) {
-     add_msg("You insert a cartridge into your %s.",
-             u.weapon.tname(this).c_str());
-     if (u.recoil < 8)
-      u.recoil = 8;
-     if (u.recoil > 8)
-      u.recoil = (8 + u.recoil) / 2;
-    } else {
-     add_msg("You reload your %s.", u.weapon.tname(this).c_str());
-     u.recoil = 6;
-    }
+    if (u.weapon.reload(u, u.activity.index))
+     if (u.weapon.is_gun() && u.weapon.has_flag(IF_RELOAD_ONE)) {
+      add_msg("You insert a cartridge into your %s.",
+              u.weapon.tname(this).c_str());
+      if (u.recoil < 8)
+       u.recoil = 8;
+      if (u.recoil > 8)
+       u.recoil = (8 + u.recoil) / 2;
+     } else {
+      add_msg("You reload your %s.", u.weapon.tname(this).c_str());
+      u.recoil = 6;
+     }
+    else
+     add_msg("Can't reload your %s.", u.weapon.tname(this).c_str());
     break;
 
    case ACT_READ:
