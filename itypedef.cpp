@@ -2164,6 +2164,11 @@ AMMO(".308 casing",	 10, 92,AT_NULL,		c_dkgray,	STEEL,
 An empty casing from a .308 round.",
 0);
 
+AMMO("40mm canister",	 10, 92,AT_NULL,		c_dkgray,	STEEL,
+	 0,  0, 0,  0,  0, 0, 0, 20, "\
+A large canister from a spent 40mm grenade.",
+0);
+
 AMMO("gunpowder",	 10, 30,AT_NULL,		c_dkgray,	POWDER,
 	 0,  0, 0,  0,  0, 0, 0, 200, "\
 Firearm quality gunpowder.",
@@ -4313,6 +4318,7 @@ std::string ammo_name(ammotype t)
   case AT_308:	  return ".308";
   case AT_40MM:   return "40mm grenade";
   case AT_GAS:	  return "gasoline";
+  case AT_THREAD: return "thread";
   case AT_BATT:   return "batteries";
   case AT_PLUT:   return "plutonium";
   case AT_FUSION: return "fusion cell";
@@ -4349,6 +4355,7 @@ itype_id default_ammo(ammotype guntype)
  case AT_PLASMA:return itm_plasma;
  case AT_PLUT:	return itm_plut_cell;
  case AT_GAS:	return itm_gasoline;
+ case AT_THREAD:return itm_thread;
  }
  return itm_null;
 }

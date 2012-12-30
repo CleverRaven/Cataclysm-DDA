@@ -3996,8 +3996,38 @@ bool player::eat(game *g, int index)
    which -= inv.size();
    inv[which].contents.erase(inv[which].contents.begin());
    if (!is_npc())
-    g->add_msg("%c - an empty %s", inv[which].invlet,
-                                   inv[which].tname(g).c_str());
+   {
+    switch ((int)OPTIONS[OPT_DROP_EMPTY])
+    {
+      case 0:
+        g->add_msg("%c - an empty %s", inv[which].invlet,
+                                     inv[which].tname(g).c_str());
+        break;
+      case 1:
+        if (inv[which].is_container())
+        {
+           it_container* cont = dynamic_cast<it_container*>(inv[which].type);
+           if (!(cont->flags & mfb(con_wtight) && cont->flags & mfb(con_seals))) 
+           {       
+              g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
+              g->m.add_item(posx, posy, inv.remove_item(which)); 
+           }
+           else
+              g->add_msg("%c - an empty %s", inv[which].invlet,
+                                          inv[which].tname(g).c_str());  
+        }
+        if (inv[which].type->id == itm_wrapper) // hack because wrappers aren't containers
+        {
+            g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
+            g->m.add_item(posx, posy, inv.remove_item(which)); 
+        }
+      break;
+      case 2:
+        g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
+        g->m.add_item(posx, posy, inv.remove_item(which));
+      break;
+    }
+   }
    if (inv.stack_at(which).size() > 0)
     inv.restack(this);
    inv_sorted = false;
@@ -4867,13 +4897,8 @@ void player::practice(skill s, int amount)
  }
  while (sklearn[s] && amount > 0 && xp_pool >= (1 + sklevel[s])) {
   amount -= sklevel[s] + 1;
-  if ((savant == sk_null || savant == s || !one_in(2)) &&
-      rng(0, 100) < comprehension_percent(s)) {
-   xp_pool -= (1 + sklevel[s]);
-   skexercise[s]++;
   }
  }
-}
 
 void player::assign_activity(activity_type type, int moves, int index)
 {
