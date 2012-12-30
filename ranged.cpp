@@ -13,8 +13,8 @@ int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
 void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon);
 int calculate_range(player &p, int tarx, int tary);
-double calculate_missed_by(player &p, int trange);
-void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit);
+double calculate_missed_by(player &p, int trange, item* weapon);
+void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, item* weapon);
 void shoot_player(game *g, player &p, player *h, int &dam, double goodhit);
 
 void splatter(game *g, std::vector<point> trajectory, int dam,
@@ -197,19 +197,32 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   default: /*No casing for other ammo types.*/ break;
   }
   if (casing_type != itm_null) {
-   item casing;
-   casing.make(itypes[casing_type]);
-   m.add_item(p.posx, p.posy, casing);
+   // This should be safe since player location will always be centered.
+   int x = p.posx - 1 + rng(0, 2);
+   int y = p.posy - 1 + rng(0, 2);
+   std::vector<item>& items = m.i_at(x, y);
+   int i;
+   for (i = 0; i < items.size(); i++)
+    if (items[i].typeId() == casing_type &&
+        items[i].charges < (dynamic_cast<it_ammo*>(items[i].type))->count) {
+     items[i].charges++;
+     break;
+    }
+   if (i == items.size()) {
+    item casing;
+    casing.make(itypes[casing_type]);
+    m.add_item(x, y, casing);
+   }
   }
 
   // Use up a round (or 100)
-  if (p.weapon.has_flag(IF_FIRE_100))
+  if (weapon->has_flag(IF_FIRE_100))
    weapon->charges -= 100;
   else
    weapon->charges--;
 
   int trange = calculate_range(p, tarx, tary);
-  double missed_by = calculate_missed_by(p, trange);
+  double missed_by = calculate_missed_by(p, trange, weapon);
 // Calculate a penalty based on the monster's speed
   double monster_speed_penalty = 1.;
   int target_index = mon_at(tarx, tary);
@@ -303,7 +316,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     std::vector<point> blood_traj = trajectory;
     blood_traj.insert(blood_traj.begin(), point(p.posx, p.posy));
     splatter(this, blood_traj, dam, &z[mondex]);
-    shoot_monster(this, p, z[mondex], dam, goodhit);
+    shoot_monster(this, p, z[mondex], dam, goodhit, weapon);
 
    } else if ((!missed || one_in(3)) &&
               (npc_at(tx, ty) != -1 || (u.posx == tx && u.posy == ty)))  {
@@ -808,8 +821,9 @@ int calculate_range(player &p, int tarx, int tary)
  return trange;
 }
 
-double calculate_missed_by(player &p, int trange)
+double calculate_missed_by(player &p, int trange, item* weapon)
 {
+ // No type for gunmods,so use player weapon.
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
 // Calculate deviation from intended target (assuming we shoot for the head)
   double deviation = 0.; // Measured in quarter-degrees
@@ -829,7 +843,8 @@ double calculate_missed_by(player &p, int trange)
 
   deviation += rng(0, 2 * p.encumb(bp_arms)) + rng(0, 4 * p.encumb(bp_eyes));
 
-  deviation += rng(0, p.weapon.curammo->accuracy);
+  deviation += rng(0, weapon->curammo->accuracy);
+  // item::accuracy() doesn't support gunmods.
   deviation += rng(0, p.weapon.accuracy());
   int adj_recoil = p.recoil + p.driving_recoil;
   deviation += rng(int(adj_recoil / 4), adj_recoil);
@@ -843,7 +858,9 @@ double calculate_missed_by(player &p, int trange)
 
 int recoil_add(player &p)
 {
+ // Gunmods don't have atype,so use guns.
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
+ // item::recoil() doesn't suport gunmods, so call it on player gun.
  int ret = p.weapon.recoil();
  ret -= rng(p.str_cur / 2, p.str_cur);
  ret -= rng(0, p.sklevel[firing->skill_used] / 2);
@@ -852,15 +869,16 @@ int recoil_add(player &p)
  return 0;
 }
 
-void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit)
+void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, item* weapon)
 {
+ // Gunmods don't have a type, so use the player weapon type.
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
  std::string message;
  int junk;
  bool u_see_mon = g->u_see(&(mon), junk);
  if (mon.has_flag(MF_HARDTOSHOOT) && !one_in(4) &&
-     !p.weapon.curammo->m1 == LIQUID && 
-     p.weapon.curammo->accuracy >= 4) { // Buckshot hits anyway
+     !weapon->curammo->m1 == LIQUID && 
+     weapon->curammo->accuracy >= 4) { // Buckshot hits anyway
   if (u_see_mon)
    g->add_msg("The shot passes through the %s without hitting.",
            mon.name().c_str());
@@ -868,10 +886,10 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit)
  } else { // Not HARDTOSHOOT
 // Armor blocks BEFORE any critical effects.
   int zarm = mon.armor_cut();
-  zarm -= p.weapon.curammo->pierce;
-  if (p.weapon.curammo->m1 == LIQUID)
+  zarm -= weapon->curammo->pierce;
+  if (weapon->curammo->m1 == LIQUID)
    zarm = 0;
-  else if (p.weapon.curammo->accuracy < 4) // Shot doesn't penetrate armor well
+  else if (weapon->curammo->accuracy < 4) // Shot doesn't penetrate armor well
    zarm *= rng(2, 4);
   if (zarm > 0)
    dam -= zarm;
@@ -909,8 +927,8 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit)
             mon.name().c_str());
    if (mon.hurt(dam))
     g->kill_mon(g->mon_at(mon.posx, mon.posy), (&p == &(g->u)));
-   else if (p.weapon.curammo->item_flags != 0)
-    g->hit_monster_with_flags(mon, p.weapon.curammo->item_flags);
+   else if (weapon->curammo->item_flags != 0)
+    g->hit_monster_with_flags(mon, weapon->curammo->item_flags);
    dam = 0;
   }
  }
@@ -918,6 +936,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit)
 
 void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
 {
+ // Gunmods don't have a type, so use the player gun type.
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
  body_part hit;
  int side = rng(0, 1), junk;

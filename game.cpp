@@ -5947,11 +5947,11 @@ void game::plfire(bool burst)
   refresh_all();
  }
 
- if (u.weapon.charges == 0 && !u.weapon.has_flag(IF_RELOAD_AND_SHOOT)) {
+ if (u.weapon.num_charges() == 0 && !u.weapon.has_flag(IF_RELOAD_AND_SHOOT)) {
   add_msg("You need to reload!");
   return;
  }
- if (u.weapon.has_flag(IF_FIRE_100) && u.weapon.charges < 100) {
+ if (u.weapon.has_flag(IF_FIRE_100) && u.weapon.num_charges() < 100) {
   add_msg("Your %s needs 100 charges to fire!", u.weapon.tname().c_str());
   return;
  }

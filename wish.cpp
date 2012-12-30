@@ -140,6 +140,11 @@ void game::wish()
    tmp.charges = dynamic_cast<it_tool*>(tmp.type)->max_charges;
   else if (tmp.is_ammo())
    tmp.charges = 100;
+  else if (tmp.is_gun())
+   tmp.charges = 0;
+  else if (tmp.is_gunmod() && (tmp.has_flag(IF_MODE_AUX) ||
+			       tmp.typeId() == itm_spare_mag))
+   tmp.charges = 0;
   else
    tmp.charges = -1;
   info = tmp.info(true);
