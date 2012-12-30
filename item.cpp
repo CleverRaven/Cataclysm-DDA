@@ -1600,6 +1600,9 @@ bool item::reload(player &u, int index)
      }
    }
 
+   if (reload_target == NULL)
+    return false;
+
    if (reload_target->is_gun() || reload_target->is_gunmod()) {
      if (reload_target->is_gunmod() && reload_target->typeId() == itm_spare_mag) {
        // Use gun numbers instead of the mod if it's a spare magazine
@@ -1615,9 +1618,7 @@ bool item::reload(player &u, int index)
   reload_target = this;
   single_load = false;
   max_load = tool->max_charges;
- }
-
- if (reload_target == NULL)
+ } else
   return false;
 
  if (index > -1) {
