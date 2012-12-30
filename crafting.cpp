@@ -29,6 +29,15 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
 
 // WEAPONS
 
+ RECIPE(itm_lawnmower_machete, CC_WEAPON, sk_null, sk_null, 0, 5000);
+  TOOL(itm_duct_tape, 50, NULL);
+  COMP(itm_lawnmower_blade, 1, NULL);
+
+ RECIPE(itm_lawnmower_halberd, CC_WEAPON, sk_null, sk_null, 0, 5000);
+  TOOL(itm_duct_tape, 100, NULL);
+  COMP(itm_lawnmower_blade, 1, NULL);
+  COMP(itm_stick, 1, itm_mop, 1, NULL);
+
  RECIPE(itm_spear_wood, CC_WEAPON, sk_null, sk_null, 0, 800);
   TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
 	itm_knife_combat, -1, itm_machete, -1, itm_toolset, -1, NULL);

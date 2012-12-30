@@ -2458,29 +2458,12 @@ void iuse::candle_lit(game *g, player *p, item *it, bool t)
  if (t) {	// Normal use
 // Do nothing... player::active_light and the lightmap::generate deal with this
  } else {	// Turning it off
-  g->add_msg_if_player(p,"The candle flickers out");
+  g->add_msg_if_player(p,"The candle winks out");
   it->make(g->itypes[itm_candle]);
   it->active = false;
  }
 }
 
-void iuse::massfab(game *g, player *p, item *it, bool t)
-{
- int ch = menu(
- "Using mass fabricator:", "Break down item", "Reformat", "Cancel", NULL);
- switch (ch) {
-  if (ch == 3)
-  break;
-
-case 1:{
-break;
-}
-
-case 2:{
-break;
-  }
- }
-}
 
 void iuse::bullet_puller(game *g, player *p, item *it, bool t)
 {
@@ -2735,6 +2718,85 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
     else
    g->m.add_item(p->posx, p->posy, lead);
  }
+ 
+ 
+ void iuse::screwdriver(game *g, player *p, item *it, bool t)
+{
+ char ch = g->inv("Disassemble what?");
+ item* screw = &(p->i_at(ch));
+ if (screw->type->id == 0) {
+  g->add_msg("You do not have that item!");
+  return;
+ }
+ if (screw->type->id == itm_radio) {
+  p->moves -= 150;
+  p->i_rem(ch);
+  g->add_msg("You disassemble the radio, placing the parts at your feet");
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_antenna], 1, 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_receiver], 1, 0);
+  return;
+ } else if (screw->type->id == itm_two_way_radio) {
+  p->moves -= 150;
+  p->i_rem(ch);
+  g->add_msg("You disassemble the radio, placing the parts at your feet");;
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_antenna], 1, 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_receiver], 1, 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_transponder], 1, 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_amplifier], 1, 0);
+  return;
+ } else if (screw->type->id == itm_goggles_nv) {
+  p->moves -= 150;
+  p->i_rem(ch);
+  g->add_msg("You disassemble the goggles, placing the parts at your feet");;
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_amplifier], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_amplifier], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_amplifier], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_power_supply], 0);
+ } else if (screw->type->id == itm_geiger_off) {
+  p->moves -= 150;
+  p->i_rem(ch);
+  g->add_msg("You disassemble the geiger counter, placing the parts at your feet");;
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_amplifier], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_amplifier], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_power_supply], 0);
+ } else {
+  g->add_msg("You can't disassemble that with a screwdriver");
+ } return;
+}
+
+void iuse::wrench(game *g, player *p, item *it, bool t)
+{
+ char ch = g->inv("Disassemble what?");
+ item* wrench = &(p->i_at(ch));
+ if (wrench->type->id == 0) {
+  g->add_msg("You do not have that item!");
+  return;
+ }
+ if (wrench->type->id == itm_lawnmower) {
+  p->moves -= 150;
+  p->i_rem(ch);
+  g->add_msg("You disassemble the lawnmower, wrenching the blades out");
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_lawnmower_blade], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_lawnmower_blade], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_combustion_tiny], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_pipe], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_pipe], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_pipe], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_scrap], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_scrap], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_scrap], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_scrap], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_scrap], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_scrap], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_scrap], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_scrap], 0);
+  return;
+ }
+}
+
+ 
+ 
+ 
  
 /* MACGUFFIN FUNCTIONS
  * These functions should refer to it->associated_mission for the particulars

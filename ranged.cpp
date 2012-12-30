@@ -202,7 +202,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    int x = p.posx - 1 + rng(0, 2);
    int y = p.posy - 1 + rng(0, 2);
    casing.make(itypes[casing_type]);
-   m.add_item(x, y, casing);
+   m.add_item(p.posx, p.posy, casing);
   }
 
   // Use up a round (or 100)
