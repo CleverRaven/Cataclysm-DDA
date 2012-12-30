@@ -8378,9 +8378,9 @@ void map::add_extra(map_extra type, game *g)
   add_spawn(mon_wolf, rng(3, 6), SEEX, SEEY);
   break;
 
- case mx_puddle:
+/* case mx_puddle:
  {
-  int x = rng(6, SEEX * 2 - 7), y = rng(6, SEEY * 2 - 7);
+  int x = rng(6, SEEX * 2 - 2), y = rng(6, SEEY * 2 - 2);
   for (int dist = 0; dist < 6; dist++) {
    for (int px = x - dist; px <= x + dist; px++) {
     for (int py = y - dist; py <= y + dist; py++) {
@@ -8391,7 +8391,7 @@ void map::add_extra(map_extra type, game *g)
   }
  }
  break;
-
+*/
  case mx_crater:
  {
   int size = rng(2, 6);

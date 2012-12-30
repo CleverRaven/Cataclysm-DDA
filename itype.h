@@ -124,7 +124,7 @@ itm_battery, itm_thread, itm_plut_cell, itm_nail, itm_bb, itm_arrow_wood, itm_ar
  itm_shot_hull,
  itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing, 
  itm_57mm_casing, itm_46mm_casing, itm_762_casing, itm_223_casing,
- itm_3006_casing, itm_308_casing, itm_gunpowder, 
+ itm_3006_casing, itm_308_casing, itm_40mm_casing, itm_gunpowder, 
  itm_shotgun_primer, itm_smpistol_primer, itm_lgpistol_primer,
  itm_smrifle_primer, itm_lgrifle_primer, itm_lead, itm_incendiary, itm_gasoline,
 // Guns

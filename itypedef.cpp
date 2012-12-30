@@ -2164,6 +2164,11 @@ AMMO(".308 casing",	 10, 92,AT_NULL,		c_dkgray,	STEEL,
 An empty casing from a .308 round.",
 0);
 
+AMMO("40mm canister",	 10, 92,AT_NULL,		c_dkgray,	STEEL,
+	 0,  0, 0,  0,  0, 0, 0, 20, "\
+A large canister from a spent 40mm grenade.",
+0);
+
 AMMO("gunpowder",	 10, 30,AT_NULL,		c_dkgray,	POWDER,
 	 0,  0, 0,  0,  0, 0, 0, 200, "\
 Firearm quality gunpowder.",

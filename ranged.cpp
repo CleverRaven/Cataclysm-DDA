@@ -193,6 +193,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   case AT_223: casing_type = itm_223_casing; break;
   case AT_3006: casing_type = itm_3006_casing; break;
   case AT_308: casing_type = itm_308_casing; break;
+  case AT_40MM: casing_type = itm_40mm_casing; break;
   default: /*No casing for other ammo types.*/ break;
   }
   if (casing_type != itm_null) {
