@@ -32,9 +32,12 @@ struct option_table
 
 extern option_table OPTIONS;
 
+bool option_is_bool(option_key id);
+char option_max_options(option_key id);
 void load_options();
 void save_options();
 std::string option_string(option_key key);
 std::string option_name(option_key key);
+std::string option_desc(option_key key);
 
 #endif

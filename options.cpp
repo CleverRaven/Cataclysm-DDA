@@ -105,6 +105,26 @@ std::string option_string(option_key key)
  return "unknown_option";
 }
 
+std::string option_desc(option_key key)
+{
+ switch (key) {
+  case OPT_USE_CELSIUS:		return "If true, use C not F";
+  case OPT_USE_METRIC_SYS:	return "If true, use Km/h not mph";
+  case OPT_FORCE_YN:		return "If true, y/n prompts are case-sensitive\nand y and n are not accepted";
+  case OPT_NO_CBLINK:		return "If true, bright backgrounds are not\nused--some consoles are not compatible";
+  case OPT_24_HOUR:		return "If true, use military time, not AM/PM";
+  case OPT_SNAP_TO_TARGET:	return "If true, automatically follow the\ncrosshair when firing/throwing";
+  case OPT_SAFEMODE:		return "If true, safemode will be on after\nstarting a new game or loading";
+  case OPT_AUTOSAFEMODE:	return "If true, auto-safemode will be on\nafter starting a new game or loading";
+  case OPT_AUTOSAVE:    	return "If true, game will periodically\nsave the map";
+  case OPT_GRADUAL_NIGHT_LIGHT: return "If true will add nice gradual-lighting\n(should only make a difference @night)";
+  case OPT_DROP_EMPTY: return "Set to drop empty containers after use\n0 - don't drop any\n1 - all except watertight containers\n2 - all containers";  
+  case OPT_SKILL_RUST: return "Set the level of skill rust\n0 - vanilla Cataclysm\n1 - capped at skill levels\n2 - none at all";
+  default:			return " ";
+ }
+ return "Big ol Bug";
+}
+
 std::string option_name(option_key key)
 {
  switch (key) {
@@ -117,8 +137,8 @@ std::string option_name(option_key key)
   case OPT_SAFEMODE:		return "Safemode on by default";
   case OPT_AUTOSAFEMODE:	return "Auto-Safemode on by default";
   case OPT_AUTOSAVE:    	return "Periodically Autosave";
-  case OPT_GRADUAL_NIGHT_LIGHT: return "Gradual night light def:OFF:";
-  case OPT_DROP_EMPTY: return "Drop empty containers after use def:OFF:";  
+  case OPT_GRADUAL_NIGHT_LIGHT: return "Gradual night light";
+  case OPT_DROP_EMPTY: return "Drop empty containers";  
   case OPT_SKILL_RUST: return "Skill Rust";
   default:			return "Unknown Option (BUG)";
  }
@@ -136,6 +156,27 @@ bool option_is_bool(option_key id)
    return true;
  }
  return true;
+}
+
+char option_max_options(option_key id)
+{
+  char ret;
+  if (option_is_bool(id)) 
+    ret = 2;
+  else
+    switch (id)
+    {
+      case OPT_SKILL_RUST:
+        ret = 3;
+        break;
+      case OPT_DROP_EMPTY:
+        ret = 3;
+        break;
+      default:
+        ret = 2;
+        break;
+    }
+  return ret;
 }
 
 void create_default_options()
@@ -166,7 +207,7 @@ autosafemode F\n\
 autosave F\n\
 # If true will add nice gradual-lighting (should only make a difference @night)\n\
 gradual_night_light F\n\
-# If true, player will automatically drop empty containers after use\n\
+# Player will automatically drop empty containers after use\n\
 # 0 - don't drop any, 1 - drop all except watertight containers, 2 - drop all containers\n\
 drop_empty 0\n\
 # \n\

@@ -493,52 +493,104 @@ easily drop unwanted items on the floor.");
   case '2': {
    erase();
    int offset = 1;
+   int line = 0;
    char ch = ' ';
    bool changed_options = false;
    bool needs_refresh = true;
    do {
+// TODO: change instructions
     if (needs_refresh) {
-     erase();
-     mvprintz(0, 40, c_white, "Use the arrow keys (or movement keys)");
-     mvprintz(1, 40, c_white, "to scroll.");
-     mvprintz(2, 40, c_white, "Press ESC or q to return.            ");
-     mvprintz(3, 40, c_white, "Press + to set an option to true.    ");
-     mvprintz(4, 40, c_white, "Press - to set an option to false.    ");
+      erase();
+      mvprintz(0, 40, c_white, "Use up/down keys to scroll through");
+      mvprintz(1, 40, c_white, "available options.");
+      mvprintz(2, 40, c_white, "Use left/right keys to toggle.");      
+      mvprintz(3, 40, c_white, "Press ESC or q to return.             ");
+// highlight options for option descriptions 
+      std::string tmp = option_desc(option_key(offset + line));
+      std::string out;
+      size_t pos;     
+      int displayline = 5;
+      do {
+        pos = tmp.find_first_of('\n');
+        out = tmp.substr(0, pos);
+        mvprintz(displayline, 40, c_white, out.c_str());     
+        tmp = tmp.substr(pos + 1);
+        displayline++;
+      } while (pos != std::string::npos && displayline < 12); 
      needs_refresh = false;
     }
+
 // Clear the lines
     for (int i = 0; i < 25; i++)
      mvprintz(i, 0, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    int valid_option_count = 0;
 
-    for (int i = 0; i < 25 && offset + i < NUM_OPTION_KEYS; i++) {
-     mvprintz(i, 3, c_white, "%s: ",
-              option_name( option_key(offset + i) ).c_str());
-     bool on = OPTIONS[ option_key(offset + i) ];
-     mvprintz(i, 32, (on ? c_ltgreen : c_ltred), (on ? "True" : "False"));
+// display options    
+    for (int i = 0; i < 25 && offset + i < NUM_OPTION_KEYS; i++) 
+    {
+         valid_option_count++; 
+         mvprintz(i, 0, c_white, "%s: ",
+                  option_name( option_key(offset + i) ).c_str());
+
+        if (option_is_bool(option_key(offset + i)))
+        {
+          bool on = OPTIONS[ option_key(offset + i) ];
+          if (i == line)
+            mvprintz(i, 30, hilite(c_ltcyan), (on ? "True" : "False")); 
+          else
+            mvprintz(i, 30, (on ? c_ltgreen : c_ltred), (on ? "True" : "False"));          
+        } else
+        {
+          char option_val = OPTIONS[ option_key(offset + i) ]; 
+          if (i == line)
+            mvprintz(i, 30, hilite(c_ltcyan), "%d", option_val );
+          else
+            mvprintz(i, 30, c_ltgreen, "%d", option_val );
+        }    
     }
-    refresh();
-    ch = input();
-    int sx = 0, sy = 0;
-    get_direction(this, sx, sy, ch);
-    if (sy == -1 && offset > 1)
-     offset--;
-    if (sy == 1 && offset + 20 < NUM_OPTION_KEYS)
-     offset++;
-    if (ch == '-' || ch == '+') {
-     needs_refresh = true;
-     for (int i = 0; i < 25 && i + offset < NUM_OPTION_KEYS; i++) {
-      mvprintz(i, 0, c_ltblue, "%c", 'a' + i);
-      mvprintz(i, 1, c_white, ":");
-     }
      refresh();
-     char actch = getch();
-     if (actch >= 'a' && actch <= 'a' + 24 &&
-         actch - 'a' + offset < NUM_OPTION_KEYS) {
-      OPTIONS[ option_key(actch - 'a' + offset) ] = (ch == '+');
-      changed_options = true;
-     }
-    }
+     ch = input();
+     needs_refresh = true;  
+     refresh();
+
+   switch (ch) {
+// move up and down
+    case 'j':
+     line++;
+     if (line == NUM_OPTION_KEYS - 1)
+      line = 0;
+     break;
+    case 'k':
+     line--;
+     if (line < 0)
+      line = NUM_OPTION_KEYS - 2;
+     break;
+// toggle options with left/right keys
+    case 'h':
+        if (option_is_bool(option_key(offset + line)))
+          OPTIONS[ option_key(offset + line) ] = !(OPTIONS[ option_key(offset + line) ]);
+        else
+        {
+          OPTIONS[ option_key(offset + line) ]--;
+          if ((OPTIONS[ option_key(offset + line) ]) < 0 )
+            OPTIONS[ option_key(offset + line) ] = option_max_options(option_key(offset + line)) - 1; 
+        }
+        changed_options = true;    
+    break;
+    case 'l':
+      if (option_is_bool(option_key(offset + line)))
+        OPTIONS[ option_key(offset + line) ] = !(OPTIONS[ option_key(offset + line) ]);
+      else
+      {
+        OPTIONS[ option_key(offset + line) ]++;
+        if ((OPTIONS[ option_key(offset + line) ]) >= option_max_options(option_key(offset + line)))
+          OPTIONS[ option_key(offset + line) ] = 0; 
+      }
+      changed_options = true;    
+    break;  
+    }    
    } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+
    if (changed_options && query_yn("Save changes?"))
     save_options();
    erase();
