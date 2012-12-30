@@ -1575,10 +1575,10 @@ bool item::reload(player &u, int index)
    // Determine what we're reloading, the gun, a spare magazine, or another gunmod.
    // Prefer the active gunmod if there is one
    item* gunmod = active_gunmod();
-   if (gunmod != NULL && (gunmod->charges <= 0 ||
-			  gunmod->ammo_type() == u.inv[index].ammo_type())) {
+   if (gunmod != NULL && gunmod->ammo_type() == u.inv[index].ammo_type() &&
+       (gunmod->charges <= 0 || gunmod->curammo->id == u.inv[index].typeId())) {
      reload_target = gunmod;
-     // Then prefer the gun itself
+   // Then prefer the gun itself
    } else if (charges < clip_size() && ammo_type() == u.inv[index].ammo_type() &&
 	      (charges <= 0 || curammo->id == u.inv[index].typeId())) {
      reload_target = this;
