@@ -5509,11 +5509,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
   char ch = inv(text.str().c_str());
   if (!u.has_item(ch))
    return false;
-  if (ch == u.weapon.invlet)
-  {
-    add_msg("Never mind.");
-    return false;
-  } 
+ 
   item *cont = &(u.i_at(ch));
   if (cont == NULL || cont->is_null()) {
    add_msg("Never mind.");
@@ -5617,22 +5613,36 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
         }  
 
         // case 2: container is half full
-        add_msg("You pour %s into your %s.", liquid.tname(this).c_str(),
-                                        cont->tname(this).c_str());
+
         if (infinite)
+        { 
           cont->contents[0].charges = holding_container_charges;
+          add_msg("You pour %s into your %s.", liquid.tname(this).c_str(),
+                                        cont->tname(this).c_str());
+        }
         else 
-        {  
-          cont->contents[0].charges += liquid.charges;
-          if (cont->contents[0].charges > holding_container_charges) 
+        { 
+        // if same inventory letter
+          if (ch == u.weapon.invlet)
           {
-            int extra = cont->contents[0].charges - holding_container_charges;
-            cont->contents[0].charges = holding_container_charges;
-            liquid.charges = extra;
-            add_msg("There's some left over!");
-            return false;
+            add_msg("Never mind.");
+            return false;         
           }
-          return true;
+          else
+          {                 
+            add_msg("You pour %s into your %s.", liquid.tname(this).c_str(),
+                      cont->tname(this).c_str());
+            cont->contents[0].charges += liquid.charges;
+            if (cont->contents[0].charges > holding_container_charges) 
+            {
+              int extra = cont->contents[0].charges - holding_container_charges;
+              cont->contents[0].charges = holding_container_charges;
+              liquid.charges = extra;
+              add_msg("There's some left over!");
+              return false;
+            }
+            return true;
+          }
         }
       }
       else  // pouring into an empty container
