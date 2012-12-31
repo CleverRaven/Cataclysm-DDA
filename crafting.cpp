@@ -1458,9 +1458,19 @@ void game::complete_craft()
  int iter = 0;
  item newit(itypes[making->result], turn, nextinv);
 
+ // for food stacking
+ 
  if (newit.is_food())
+<<<<<<< HEAD
  newit.bday = turn / 3600;
 
+=======
+  {
+    int bday_tmp = turn % 3600;    
+    newit.bday = int(turn) + 3600 - bday_tmp;  
+  }   
+ 
+>>>>>>> 363106a... Bugfix for cooked food coming out rotten before actual spoilage time
  if (!newit.craft_has_charges())
   newit.charges = 0;
  do {

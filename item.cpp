@@ -656,11 +656,10 @@ std::string item::tname(game *g)
  if (is_food())
   food = dynamic_cast<it_comest*>(type);
  else if (is_food_container())
-  food = dynamic_cast<it_comest*>(contents[0].type);
+  food = dynamic_cast<it_comest*>(contents[0].type);  
  if (food != NULL && g != NULL && food->spoils != 0 &&
-   int(g->turn) - bday > food->spoils * 600)
+   int(g->turn) - (int)bday > food->spoils * 600)
   ret << " (rotten)";
-
 
  if (owned > 0)
   ret << " (owned)";
@@ -860,7 +859,7 @@ bool item::rotten(game *g)
  if (!is_food() || g == NULL)
   return false;
  it_comest* food = dynamic_cast<it_comest*>(type);
- return (food->spoils != 0 && int(g->turn) - bday > food->spoils * 600);
+ return (food->spoils != 0 && int(g->turn) - (int)bday > food->spoils * 600);
 }
 
 bool item::goes_bad()
