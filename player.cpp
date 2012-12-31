@@ -4897,9 +4897,13 @@ void player::practice(skill s, int amount)
  }
  while (sklearn[s] && amount > 0 && xp_pool >= (1 + sklevel[s])) {
   amount -= sklevel[s] + 1;
+  if ((savant == sk_null || savant == s || !one_in(2)) &&
+       rng(0, 100) < comprehension_percent(s)) {
+   xp_pool -= (1 + sklevel[s]);
+   skexercise[s]++;
   }
  }
-
+}
 void player::assign_activity(activity_type type, int moves, int index)
 {
  if (backlog.type == type && backlog.index == index &&
