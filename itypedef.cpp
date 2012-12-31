@@ -1080,7 +1080,7 @@ MELEE("lawnmower halberd", 0, 100, '/', c_ltgray, IRON, MNULL,
 A lawnmower blade affixed to a long stick, in the right\n\
 hands, this thing could do some massive damage.");
 
-MELEE("curtain",           0, 100, ';', c_blue, COTTON, MNULL,
+MELEE("curtain",           0, 100, ';', c_dkgray, COTTON, MNULL,
          20, 2, 0, 0,    -1, 0, "\
 A large fabric curtain, could be attached to a window or\n\
 cut up for plenty of rags.");

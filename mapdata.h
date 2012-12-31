@@ -97,7 +97,7 @@ t_door_metal_c, t_door_metal_o, t_door_metal_locked,
 t_door_glass_c, t_door_glass_o,
 t_bulletin,
 t_portcullis,
-t_recycler, t_window, t_window_domestic, t_curtains, t_curtains_broken,
+t_recycler, t_window, t_window_domestic, t_curtains,
 t_window_alarm, t_window_empty, t_window_frame, t_window_boarded,
 t_rock, t_fault,
 t_paper,
@@ -288,11 +288,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"window",	     '"', c_ltcyan,  0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)},
-{"closed curtains",  '#', c_blue,    0, tr_null,
+{"closed curtains",  '"', c_dkgray,    0, tr_null,
 	mfb(bashable)|mfb(flammable)|mfb(noitem)|
-        mfb(supports_roof)},
-{"closed curtains",  '#', c_blue,    8, tr_null,
-	mfb(sharp)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)},
 {"window",	     '"', c_ltcyan,  0, tr_null, // Actually alarmed
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(alarmed)|mfb(noitem)|
