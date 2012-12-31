@@ -116,6 +116,14 @@ void game::init_construction()
   STAGE(t_window, 5);
    COMP(itm_glass_sheet, 1, NULL);
 
+ CONSTRUCT("Attach Curtains", 0, &construct::able_window_pane,
+                                 &construct::done_nothing);
+  STAGE(t_window_domestic, 10);
+   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   COMP(itm_stick, 1, itm_spear_wood, 1, NULL);
+   COMP(itm_nail, 4, NULL);
+   COMP(itm_curtain, 2, NULL);
+
  CONSTRUCT("Build Door", 2, &construct::able_empty,
                               &construct::done_nothing);
   STAGE(t_door_frame, 15);
@@ -604,6 +612,7 @@ bool construct::able_window(game *g, point p)
 {
  return (g->m.ter(p.x, p.y) == t_window_frame ||
          g->m.ter(p.x, p.y) == t_window_empty ||
+         g->m.ter(p.x, p.y) == t_window_domestic ||
          g->m.ter(p.x, p.y) == t_window);
 }
 

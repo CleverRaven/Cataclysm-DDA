@@ -955,9 +955,25 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   }
   break;
 
+ case t_window_domestic:
+ case t_curtains:
+  result = rng(0, 6);
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "glass breaking!";
+   ter(x, y) = t_window_frame;
+  add_item(x, y, (*itypes)[itm_curtain], 0);
+  add_item(x, y, (*itypes)[itm_curtain], 0);
+  add_item(x, y, (*itypes)[itm_stick], 0);
+   return true;
+  } else {
+   sound += "whack!";
+   return true;
+  }
+  break;
+
  case t_window:
  case t_window_alarm:
- case t_curtains:
   result = rng(0, 6);
   if (res) *res = result;
   if (str >= result) {
@@ -1584,10 +1600,7 @@ bool map::open_door(int x, int y, bool inside)
   ter(x, y) = t_door_o;
   return true;
  } else if (inside && ter(x, y) == t_curtains) {
-  ter(x, y) = t_window;
-  return true;
- } else if (inside && ter(x, y) == t_curtains_broken) {
-  ter(x, y) = t_window_frame;
+  ter(x, y) = t_window_domestic;
   return true;
  } else if (ter(x, y) == t_rdoor_c) {
   ter(x, y) = t_rdoor_o;
@@ -1626,11 +1639,8 @@ bool map::close_door(int x, int y, bool inside)
  if (ter(x, y) == t_door_o) {
   ter(x, y) = t_door_c;
   return true;
- } else if (inside && ter(x, y) == t_window) {
+ } else if (inside && ter(x, y) == t_window_domestic) {
   ter(x, y) = t_curtains;
-  return true;
- } else if (inside && ter(x, y) == t_window_frame) {
-  ter(x, y) = t_curtains_broken;
   return true;
  } else if (ter(x, y) == t_rdoor_o) {
   ter(x, y) = t_rdoor_c;

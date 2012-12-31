@@ -783,6 +783,10 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
 // MISC
 
+ RECIPE(itm_curtain, CC_MISC, sk_null, sk_null, 0, 10000);
+  TOOL(itm_sewing_kit, 50, NULL);
+  COMP(itm_rag, 20, NULL);
+
  RECIPE(itm_vehicle_controls, CC_MISC, sk_mechanics, sk_null, 3, 30000);
   TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);

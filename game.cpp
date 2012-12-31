@@ -4141,7 +4141,7 @@ void game::close()
            m.i_at(closex, closey)[0].tname(this).c_str() : "some stuff");
   else if (closex == u.posx && closey == u.posy)
    add_msg("There's some buffoon in the way!");
-  else if (m.ter(closex, closey) == t_curtains && m.ter(u.posx, u.posy) != t_floor) {
+  else if (m.ter(closex, closey) == t_window_domestic && m.is_outside(u.posx, u.posy))  {
    add_msg("You phase through the glass, close the curtains, then phase back out");
    add_msg("Wait, no you don't. Never mind.");
  } else

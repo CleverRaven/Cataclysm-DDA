@@ -963,11 +963,11 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    house_room(this, room_kitchen,	lw, tw, mw, cw);
    ter(mw, rng(tw + 2, cw - 2)) = (one_in(3) ? t_door_c : t_floor);
    rn = rng(lw + 1, cw - 2);
-   ter(rn    , tw) = t_window;
-   ter(rn + 1, tw) = t_window;
+   ter(rn    , tw) = t_window_domestic;
+   ter(rn + 1, tw) = t_window_domestic;
    rn = rng(cw + 1, rw - 2);
-   ter(rn    , tw) = t_window;
-   ter(rn + 1, tw) = t_window;
+   ter(rn    , tw) = t_window_domestic;
+   ter(rn + 1, tw) = t_window_domestic;
    mw = rng(lw + 3, rw - 3);
    if (mw <= lw + 5) {	// Bedroom on right, bathroom on left
     rn = rng(cw + 2, rw - 2);
@@ -1002,17 +1002,17 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     house_room(this, room_bedroom, lw, cw, mw, bw);
     ter(mw, rng(bw - 4, bw - 1)) = t_door_c;
    }
-   ter(rn    , bw) = t_window;
-   ter(rn + 1, bw) = t_window;
+   ter(rn    , bw) = t_window_domestic;
+   ter(rn + 1, bw) = t_window_domestic;
    if (!one_in(3)) {	// Potential side windows
     rn = rng(tw + 2, bw - 5);
-    ter(rw, rn    ) = t_window;
-    ter(rw, rn + 4) = t_window;
+    ter(rw, rn    ) = t_window_domestic;
+    ter(rw, rn + 4) = t_window_domestic;
    }
    if (!one_in(3)) {	// Potential side windows
     rn = rng(tw + 2, bw - 5);
-    ter(lw, rn    ) = t_window;
-    ter(lw, rn + 4) = t_window;
+    ter(lw, rn    ) = t_window_domestic;
+    ter(lw, rn + 4) = t_window_domestic;
    }
    ter(rng(lw + 1, lw + 2), cw) = t_door_c;
    if (one_in(4))
@@ -1044,21 +1044,21 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    ter(rn + 1, cw) = t_floor;
 // Front windows
    rn = rng(2, 5);
-   ter(lw + rn    , tw) = t_window;
-   ter(lw + rn + 1, tw) = t_window;
-   ter(rw - rn    , tw) = t_window;
-   ter(rw - rn + 1, tw) = t_window;
+   ter(lw + rn    , tw) = t_window_domestic;
+   ter(lw + rn + 1, tw) = t_window_domestic;
+   ter(rw - rn    , tw) = t_window_domestic;
+   ter(rw - rn + 1, tw) = t_window_domestic;
 // Front door
    ter(rng(lw + 4, rw - 4), tw) = (one_in(6) ? t_door_c : t_door_locked);
    if (one_in(3)) {	// Kitchen windows
     rn = rng(cw + 1, bw - 5);
-    ter(rw, rn    ) = t_window;
-    ter(rw, rn + 1) = t_window;
+    ter(rw, rn    ) = t_window_domestic;
+    ter(rw, rn + 1) = t_window_domestic;
    }
    if (one_in(3)) {	// Bedroom windows
     rn = rng(cw + 1, bw - 2);
-    ter(lw, rn    ) = t_window;
-    ter(lw, rn + 1) = t_window;
+    ter(lw, rn    ) = t_window_domestic;
+    ter(lw, rn + 1) = t_window_domestic;
    }
 // Door to bedroom
    if (one_in(4))
@@ -1072,10 +1072,10 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     ter(rng(mw + 2, rw - 2), bw - 3) = t_door_c;
 // Back windows
    rn = rng(lw + 1, mw - 2);
-   ter(rn    , bw) = t_window;
-   ter(rn + 1, bw) = t_window;
+   ter(rn    , bw) = t_window_domestic;
+   ter(rn + 1, bw) = t_window_domestic;
    rn = rng(mw + 1, rw - 1);
-   ter(rn, bw) = t_window;
+   ter(rn, bw) = t_window_domestic;
    break;
 
   case 3:	// Long center hallway
@@ -1084,8 +1084,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 // Hallway doors and windows
    ter(mw    , tw) = (one_in(6) ? t_door_c : t_door_locked);
    if (one_in(4)) {
-    ter(mw - 1, tw) = t_window;
-    ter(mw + 1, tw) = t_window;
+    ter(mw - 1, tw) = t_window_domestic;
+    ter(mw + 1, tw) = t_window_domestic;
    }
    for (int i = tw + 1; i < cw; i++) {	// Hallway walls
     ter(mw - 2, i) = t_wall_v;
@@ -1100,20 +1100,20 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    }
 // Front windows
    rn = rng(lw + 1, mw - 4);
-   ter(rn    , tw) = t_window;
-   ter(rn + 1, tw) = t_window;
+   ter(rn    , tw) = t_window_domestic;
+   ter(rn + 1, tw) = t_window_domestic;
    rn = rng(mw + 3, rw - 2);
-   ter(rn    , tw) = t_window;
-   ter(rn + 1, tw) = t_window;
+   ter(rn    , tw) = t_window_domestic;
+   ter(rn + 1, tw) = t_window_domestic;
    if (one_in(4)) {	// Side windows?
     rn = rng(tw + 1, cw - 2);
-    ter(lw, rn    ) = t_window;
-    ter(lw, rn + 1) = t_window;
+    ter(lw, rn    ) = t_window_domestic;
+    ter(lw, rn + 1) = t_window_domestic;
    }
    if (one_in(4)) {	// Side windows?
     rn = rng(tw + 1, cw - 2);
-    ter(rw, rn    ) = t_window;
-    ter(rw, rn + 1) = t_window;
+    ter(rw, rn    ) = t_window_domestic;
+    ter(rw, rn + 1) = t_window_domestic;
    }
    if (one_in(2)) {	// Bottom rooms are bedroom or bathroom
     house_room(this, room_bedroom, lw, cw, rw - 3, bw);
@@ -1124,10 +1124,10 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     else
      ter(rw - 3, rng(cw + 2, bw - 2)) = t_door_c;
     rn = rng(lw + 1, rw - 5);
-    ter(rn    , bw) = t_window;
-    ter(rn + 1, bw) = t_window;
+    ter(rn    , bw) = t_window_domestic;
+    ter(rn + 1, bw) = t_window_domestic;
     if (one_in(4))
-     ter(rng(rw - 2, rw - 1), bw) = t_window;
+     ter(rng(rw - 2, rw - 1), bw) = t_window_domestic;
     else
      ter(rw, rng(cw + 1, bw - 1));
    } else {
@@ -1138,10 +1138,10 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     else
      ter(lw + 3, rng(cw + 2, bw - 2)) = t_door_c;
     rn = rng(lw + 4, rw - 2);
-    ter(rn    , bw) = t_window;
-    ter(rn + 1, bw) = t_window;
+    ter(rn    , bw) = t_window_domestic;
+    ter(rn + 1, bw) = t_window_domestic;
     if (one_in(4))
-     ter(rng(lw + 1, lw + 2), bw) = t_window;
+     ter(rng(lw + 1, lw + 2), bw) = t_window_domestic;
     else
      ter(lw, rng(cw + 1, bw - 1));
    }
@@ -1180,7 +1180,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     for (int j = 0; j < SEEY * 2; j++) {
      if (ter(i, j) == t_door_c || ter(i, j) == t_door_locked)
       ter(i, j) = t_door_frame;
-     if (ter(i, j) == t_window && !one_in(3))
+     if (ter(i, j) == t_window_domestic && !one_in(3))
       ter(i, j) = t_window_frame;
      if ((ter(i, j) == t_wall_h || ter(i, j) == t_wall_v) && one_in(8))
       ter(i, j) = t_paper;
@@ -2233,12 +2233,12 @@ case ot_shelter: {
   line(this, t_door_c, 4, SEEY - 1, 4, SEEY);
   line(this, t_wall_v, SEEX * 2 - 5, 5, SEEX * 2 - 5, SEEY * 2 - 6);
   line(this, t_door_c, SEEX * 2 - 5, SEEY - 1, SEEX * 2 - 5, SEEY);
-        ter(SEEX*2-5, SEEY-3) = t_window;
-        ter(SEEX*2-5, SEEY+2) = t_window;
-        ter(4, SEEY-3) = t_window;
-        ter(4, SEEY+2) = t_window;
-        ter(SEEX-3, 4) = t_window;
-        ter(SEEX+2, 4) = t_window;
+        ter(SEEX*2-5, SEEY-3) = t_window_domestic;
+        ter(SEEX*2-5, SEEY+2) = t_window_domestic;
+        ter(4, SEEY-3) = t_window_domestic;
+        ter(4, SEEY+2) = t_window_domestic;
+        ter(SEEX-3, 4) = t_window_domestic;
+        ter(SEEX+2, 4) = t_window_domestic;
         line(this, t_counter, SEEX+3, 5, SEEX+3, SEEY-4);
         ter(SEEX+6, 5) = t_console;
         computer* evaccomp = this->add_computer(SEEX+6, 5, "Evac shelter computer", 0);
