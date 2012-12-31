@@ -63,7 +63,7 @@ void game::init_mapitems()
 	itm_hacksaw, itm_xacto, itm_gloves_leather, itm_mask_dust,
 	itm_glasses_safety, itm_battery, itm_nail, itm_nailgun,
 	itm_manual_mechanics, itm_hammer, itm_flashlight, itm_soldering_iron,
-	itm_bubblewrap, itm_binoculars, itm_duct_tape,NULL);
+	itm_bubblewrap, itm_binoculars, itm_duct_tape, itm_lawnmower, NULL);
 
  setvector(
    mapitems[mi_bedroom],
@@ -172,7 +172,7 @@ void game::init_mapitems()
    mapitems[mi_hardware],
 	itm_superglue, itm_chain, itm_rope_6, itm_rope_30, itm_glass_sheet,
 	itm_pipe, itm_nail, itm_hose, itm_string_36, itm_frame, itm_metal_tank,
-        itm_wire, itm_wire_barbed, itm_duct_tape, itm_jerrycan, NULL);
+        itm_wire, itm_wire_barbed, itm_duct_tape, itm_jerrycan, itm_lawnmower, NULL);
 
  setvector(
    mapitems[mi_tools],
@@ -191,7 +191,7 @@ void game::init_mapitems()
 	itm_glasses_safety, itm_bb, itm_bbgun, itm_beartrap, itm_two_way_radio,
 	itm_radio, itm_hotplate, itm_extinguisher, itm_nailgun,
 	itm_manual_mechanics, itm_manual_carpentry, itm_mag_carpentry,
-	itm_duct_tape, NULL);
+	itm_duct_tape, itm_lawnmower, NULL);
 
  setvector(
    mapitems[mi_consumer_electronics],
@@ -245,7 +245,7 @@ void game::init_mapitems()
 	itm_glass_sheet, itm_stick, itm_muffler, itm_pipe, itm_bag_plastic,
 	itm_bottle_plastic, itm_bottle_glass, itm_can_drink, itm_can_food,
 	itm_box_small, itm_bubblewrap, itm_lighter, itm_syringe, itm_rag,
-	itm_software_hacking, NULL);
+	itm_software_hacking, itm_carboy_plastic, NULL);
 
  setvector(
    mapitems[mi_ammo],
@@ -442,7 +442,8 @@ void game::init_mapitems()
 	itm_boots_fit, itm_boots_steel_fit, itm_boots_winter_fit,
         itm_dress_shoes_fit, itm_bat_metal, itm_jeans_fit, itm_pants_army_fit, 
         itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
-        itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit,NULL);
+        itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit, itm_lawnmower,
+        itm_lawnmower_machete, NULL);
 
  setvector(
    mapitems[mi_mil_surplus], // NOT food or armor!
