@@ -435,6 +435,8 @@ std::string item::info(bool showtext)
    dump << "The mouth. ";
   if (armor->covers & mfb(bp_torso))
    dump << "The torso. ";
+  if (armor->covers & mfb(bp_arms))
+   dump << "The arms. ";   
   if (armor->covers & mfb(bp_hands))
    dump << "The hands. ";
   if (armor->covers & mfb(bp_legs))

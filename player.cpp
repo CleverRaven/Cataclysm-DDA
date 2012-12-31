@@ -872,18 +872,21 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
 
 // Next, draw encumberment.
  mvwprintz(w_encumb, 0, 6, c_ltgray, "ENCUMBERANCE");
- mvwprintz(w_encumb, 2, 2, c_ltgray, "Head................");
- mvwprintz(w_encumb, 2,(encumb(bp_head) >= 0 && encumb(bp_head) < 10 ? 21 : 20),
+ mvwprintz(w_encumb, 1, 2, c_ltgray, "Head................");
+ mvwprintz(w_encumb, 1,(encumb(bp_head) >= 0 && encumb(bp_head) < 10 ? 21 : 20),
            encumb_color(encumb(bp_head)), "%d", encumb(bp_head));
- mvwprintz(w_encumb, 3, 2, c_ltgray, "Eyes................");
- mvwprintz(w_encumb, 3,(encumb(bp_eyes) >= 0 && encumb(bp_eyes) < 10 ? 21 : 20),
+ mvwprintz(w_encumb, 2, 2, c_ltgray, "Eyes................");
+ mvwprintz(w_encumb, 2,(encumb(bp_eyes) >= 0 && encumb(bp_eyes) < 10 ? 21 : 20),
            encumb_color(encumb(bp_eyes)), "%d", encumb(bp_eyes));
- mvwprintz(w_encumb, 4, 2, c_ltgray, "Mouth...............");
- mvwprintz(w_encumb, 4,(encumb(bp_mouth)>=0 && encumb(bp_mouth) < 10 ? 21 : 20),
+ mvwprintz(w_encumb, 3, 2, c_ltgray, "Mouth...............");
+ mvwprintz(w_encumb, 3,(encumb(bp_mouth)>=0 && encumb(bp_mouth) < 10 ? 21 : 20),
            encumb_color(encumb(bp_mouth)), "%d", encumb(bp_mouth));
- mvwprintz(w_encumb, 5, 2, c_ltgray, "Torso...............");
- mvwprintz(w_encumb, 5,(encumb(bp_torso)>=0 && encumb(bp_torso) < 10 ? 21 : 20),
+ mvwprintz(w_encumb, 4, 2, c_ltgray, "Torso...............");
+ mvwprintz(w_encumb, 4,(encumb(bp_torso)>=0 && encumb(bp_torso) < 10 ? 21 : 20),
            encumb_color(encumb(bp_torso)), "%d", encumb(bp_torso));
+ mvwprintz(w_encumb, 5, 2, c_ltgray, "Arms...............");
+ mvwprintz(w_encumb, 5,(encumb(bp_arms)>=0 && encumb(bp_arms) < 10 ? 21 : 20),
+           encumb_color(encumb(bp_arms)), "%d", encumb(bp_arms));          
  mvwprintz(w_encumb, 6, 2, c_ltgray, "Hands...............");
  mvwprintz(w_encumb, 6,(encumb(bp_hands)>=0 && encumb(bp_hands) < 10 ? 21 : 20),
            encumb_color(encumb(bp_hands)), "%d", encumb(bp_hands));
@@ -1121,32 +1124,38 @@ detecting traps and other things of interest.");
   case 2:	// Encumberment tab
    mvwprintz(w_encumb, 0, 0, h_ltgray, "      ENCUMBERANCE        ");
    if (line == 0) {
-    mvwprintz(w_encumb, 2, 2, h_ltgray, "Head");
+    mvwprintz(w_encumb, 1, 2, h_ltgray, "Head");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Head encumberance has no effect; it simply limits how much you can put on.");
    } else if (line == 1) {
-    mvwprintz(w_encumb, 3, 2, h_ltgray, "Eyes");
+    mvwprintz(w_encumb, 2, 2, h_ltgray, "Eyes");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Perception -%d when checking traps or firing ranged weapons;\n\
 Perception -%.1f when throwing items", encumb(bp_eyes),
 double(double(encumb(bp_eyes)) / 2));
    } else if (line == 2) {
-    mvwprintz(w_encumb, 4, 2, h_ltgray, "Mouth");
+    mvwprintz(w_encumb, 3, 2, h_ltgray, "Mouth");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Running costs +%d movement points", encumb(bp_mouth) * 5);
    } else if (line == 3) {
-    mvwprintz(w_encumb, 5, 2, h_ltgray, "Torso");
+    mvwprintz(w_encumb, 4, 2, h_ltgray, "Torso");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Melee skill -%d;      Dodge skill -%d;\n\
 Swimming costs +%d movement points;\n\
 Melee attacks cost +%d movement points", encumb(bp_torso), encumb(bp_torso),
 encumb(bp_torso) * (80 - sklevel[sk_swimming] * 3), encumb(bp_torso) * 20);
-   } else if (line == 4) {
+   } else if (line == 4) 
+  {
+    mvwprintz(w_encumb, 5, 2, h_ltgray, "Arms");
+    mvwprintz(w_info, 0, 0, c_magenta, "\
+Arm encumbrance affects your accuracy with ranged weapons.");
+   } else if (line == 5)    
+   {
     mvwprintz(w_encumb, 6, 2, h_ltgray, "Hands");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Reloading costs +%d movement points;\n\
 Dexterity -%d when throwing items", encumb(bp_hands) * 30, encumb(bp_hands));
-   } else if (line == 5) {
+   } else if (line == 6) {
     mvwprintz(w_encumb, 7, 2, h_ltgray, "Legs");
     std::string sign = (encumb(bp_legs) >= 0 ? "+" : "");
     std::string osign = (encumb(bp_legs) < 0 ? "+" : "-");
@@ -1155,7 +1164,7 @@ Running costs %s%d movement points;  Swimming costs %s%d movement points;\n\
 Dodge skill %s%.1f", sign.c_str(), encumb(bp_legs) * 3,
                      sign.c_str(), encumb(bp_legs) *(50 - sklevel[sk_swimming]),
                      osign.c_str(), double(double(encumb(bp_legs)) / 2));
-   } else if (line == 6) {
+   } else if (line == 7) {
     mvwprintz(w_encumb, 8, 2, h_ltgray, "Feet");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Running costs %s%d movement points", (encumb(bp_feet) >= 0 ? "+" : ""),
@@ -1166,13 +1175,13 @@ encumb(bp_feet) * 5);
    switch (input()) {
     case 'j':
      line++;
-     if (line == 7)
+     if (line == 8)
       line = 0;
      break;
     case 'k':
      line--;
      if (line == -1)
-      line = 6;
+      line = 7;
      break;
     case '\t':
      mvwprintz(w_encumb, 0, 0, c_ltgray, "      ENCUMBERANCE        ");
@@ -1184,10 +1193,11 @@ encumb(bp_feet) * 5);
     case KEY_ESCAPE:
      done = true;
    }
-   mvwprintz(w_encumb, 2, 2, c_ltgray, "Head");
-   mvwprintz(w_encumb, 3, 2, c_ltgray, "Eyes");
-   mvwprintz(w_encumb, 4, 2, c_ltgray, "Mouth");
-   mvwprintz(w_encumb, 5, 2, c_ltgray, "Torso");
+   mvwprintz(w_encumb, 1, 2, c_ltgray, "Head");
+   mvwprintz(w_encumb, 2, 2, c_ltgray, "Eyes");
+   mvwprintz(w_encumb, 3, 2, c_ltgray, "Mouth");
+   mvwprintz(w_encumb, 4, 2, c_ltgray, "Torso");
+   mvwprintz(w_encumb, 5, 2, c_ltgray, "Arms");
    mvwprintz(w_encumb, 6, 2, c_ltgray, "Hands");
    mvwprintz(w_encumb, 7, 2, c_ltgray, "Legs");
    mvwprintz(w_encumb, 8, 2, c_ltgray, "Feet");
@@ -4629,8 +4639,9 @@ int player::encumb(body_part bp)
    debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
             i, worn[i].tname().c_str());
   armor = dynamic_cast<it_armor*>(worn[i].type);
-  if (armor->covers & mfb(bp) ||
-      (bp == bp_torso && (armor->covers & mfb(bp_arms)))) {
+
+  if (armor->covers & mfb(bp)) {
+      
    ret += armor->encumber;
    if (armor->encumber >= 0 || bp != bp_torso)
     layers++;

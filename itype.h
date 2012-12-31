@@ -94,6 +94,8 @@ itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top, itm_sweatshirt,
  itm_coat_winter, itm_coat_fur, itm_peacoat, itm_vest, itm_beltrig, itm_coat_lab,
  itm_tshirt_fit, itm_polo_shirt_fit, itm_hoodie_fit, itm_sweatshirt_fit, itm_sweater_fit,
  itm_jacket_light_fit, itm_jacket_leather_fit, itm_trenchcoat_fit,
+// Arm clothing
+itm_armguard_soft, itm_armguard_hard, itm_armguard_chitin, itm_armguard_metal,
 // Gloves
 itm_gloves_light, itm_mittens, itm_gloves_wool, itm_gloves_winter,
  itm_gloves_leather, itm_gloves_fingerless, itm_gloves_rubber,

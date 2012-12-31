@@ -35,6 +35,7 @@ void game::init_mapitems()
 	itm_coke, itm_meth, itm_sneakers, itm_boots, itm_boots_winter,
 	itm_flip_flops, itm_dress_shoes, itm_heels, itm_coat_rain, itm_poncho,
 	itm_gloves_light, itm_mittens, itm_gloves_light, itm_mittens,
+	itm_armguard_soft, itm_armguard_hard,
 	itm_gloves_wool, itm_gloves_winter, itm_gloves_leather,
 	itm_gloves_fingerless, itm_bandana, itm_scarf, itm_hat_cotton,
 	itm_hat_knit, itm_hat_fur, itm_helmet_bike, itm_helmet_motor,
@@ -204,6 +205,7 @@ void game::init_mapitems()
    mapitems[mi_sports],
 	itm_bandages, itm_aspirin, itm_bat, itm_bat_metal, itm_sneakers, itm_tshirt,
 	itm_tank_top, itm_gloves_fingerless, itm_glasses_safety, itm_tshirt_fit,
+	itm_armguard_soft, itm_armguard_hard,
 	itm_goggles_swim, itm_goggles_ski, itm_hat_ball, itm_helmet_bike,
 	itm_helmet_ball, itm_manual_brawl, NULL);
 
@@ -222,6 +224,7 @@ void game::init_mapitems()
    mapitems[mi_allsporting],
 	itm_aspirin, itm_bat, itm_bat_metal, itm_sneakers, itm_tshirt, itm_tank_top,
 	itm_gloves_fingerless, itm_glasses_safety, itm_goggles_swim,
+	itm_armguard_soft, itm_armguard_hard,
 	itm_goggles_ski, itm_hat_ball, itm_helmet_bike, itm_helmet_ball,
 	itm_manual_brawl, itm_rope_30, itm_hatchet, itm_pot, itm_pan,
 	itm_binoculars, itm_hotplate, itm_knife_combat, itm_machete, itm_vest,
@@ -379,6 +382,7 @@ void game::init_mapitems()
    mapitems[mi_cop_weapons],
 	itm_baton, itm_kevlar, itm_vest, itm_gloves_leather, itm_mask_gas,
 	itm_goggles_nv, itm_helmet_riot, itm_holster, itm_bootstrap,
+	itm_armguard_hard,
 	itm_shot_00, itm_9mm, itm_usp_9mm, itm_remington_870, itm_two_way_radio,
 	itm_UPS_off, itm_tazer, NULL);
 
@@ -560,7 +564,8 @@ void game::init_mapitems()
    mapitems[mi_mil_armor],
 	itm_pants_army, itm_kevlar, itm_vest, itm_mask_gas, itm_goggles_nv,
 	itm_helmet_army, itm_backpack, itm_UPS_off, itm_beltrig,
-        itm_boots, itm_boots_fit, itm_pants_army_fit,NULL);
+        itm_boots, itm_boots_fit, itm_pants_army_fit, itm_armguard_hard,
+	itm_helmet_army, itm_backpack, itm_UPS_off, itm_beltrig, NULL);
 
  setvector(
    mapitems[mi_mil_food],
@@ -590,6 +595,7 @@ void game::init_mapitems()
 	itm_boots_steel, itm_pants_cargo, itm_pants_army, itm_jumpsuit,
 	itm_jacket_leather, itm_kevlar, itm_vest, itm_gloves_fingerless,
 	itm_mask_filter, itm_mask_gas, itm_goggles_ski, itm_helmet_skid,
+  itm_armguard_hard,
 	itm_helmet_ball, itm_helmet_riot, itm_helmet_motor, itm_holster,
 	itm_bootstrap, itm_UPS_off, itm_beltrig, 
         itm_pants_cargo_fit, itm_pants_army_fit,NULL);
@@ -723,6 +729,7 @@ void game::init_mapitems()
 	itm_iodine, itm_codeine, itm_cig, itm_knife_combat, itm_boots_steel,
 	itm_pants_army, itm_kevlar, itm_vest, itm_gloves_fingerless,
 	itm_mask_gas, itm_glasses_safety, itm_goggles_nv, itm_hat_boonie,
+	itm_armguard_hard,
 	itm_helmet_army, itm_backpack, itm_holster, itm_bootstrap, itm_9mm,
 	itm_45_acp, itm_556, itm_556_incendiary, itm_762_51,
 	itm_762_51_incendiary, itm_laser_pack, itm_40mm_concussive,
@@ -785,6 +792,7 @@ void game::init_mapitems()
 	itm_heroin, itm_syringe, itm_electrohack, itm_hatchet, itm_nailboard,
 	itm_knife_combat, itm_bat, itm_machete, itm_katana, itm_pants_cargo,
 	itm_hoodie, itm_gloves_fingerless, itm_backpack, itm_holster,
+	itm_armguard_soft, itm_armguard_hard,
 	itm_shot_00, itm_9mm, itm_45_acp, itm_glock_19, itm_shotgun_sawn,
 	itm_uzi, itm_tec9, itm_mac_10, itm_silencer, itm_clip2, itm_autofire,
 	itm_mag_porn, itm_lighter, itm_crowbar, itm_pipebomb, itm_grenade,
