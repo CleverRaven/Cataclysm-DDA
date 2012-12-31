@@ -1447,6 +1447,13 @@ input_ret game::get_input(int timeout_ms)
     construction_menu();
    break;
 
+  case ACTION_DISASSEMBLE:
+   if (u.in_vehicle)
+    add_msg("You can't disassemble items while in vehicle.");
+   else
+    disassemble();
+   break;
+
   case ACTION_SLEEP:
    if (veh_ctrl) {
     std::string message = veh->use_controls();

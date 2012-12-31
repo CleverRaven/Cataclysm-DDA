@@ -229,6 +229,7 @@ bionics p\n\
 wait ^\n\
 craft &\n\
 construct *\n\
+disassemble (\n\
 sleep $\n\
 safemode !\n\
 autosafe \"\n\

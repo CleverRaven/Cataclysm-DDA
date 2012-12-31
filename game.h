@@ -277,6 +277,7 @@ class game
   void close();	// Close a door			'c'
   void smash();	// Smash terrain
   void craft();                    // See crafting.cpp
+  void disassemble();              // See crafting.cpp
   void make_craft(recipe *making); // See crafting.cpp
   void complete_craft();           // See crafting.cpp
   void pick_recipes(std::vector<recipe*> &current,

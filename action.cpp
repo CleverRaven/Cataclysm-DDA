@@ -171,6 +171,8 @@ std::string action_ident(action_id act)
    return "craft";
   case ACTION_CONSTRUCT:
    return "construct";
+  case ACTION_DISASSEMBLE:
+   return "disassemble";   
   case ACTION_SLEEP:
    return "sleep";
   case ACTION_TOGGLE_SAFEMODE:
@@ -303,6 +305,8 @@ std::string action_name(action_id act)
    return "Craft Items";
   case ACTION_CONSTRUCT:
    return "Construct Terrain";
+  case ACTION_DISASSEMBLE:
+   return "Disassemble items";   
   case ACTION_SLEEP:
    return "Sleep";
   case ACTION_TOGGLE_SAFEMODE:

@@ -1677,3 +1677,18 @@ void consume_tools(game *g, std::vector<component> tools)
   }
  }
 }
+
+void game::disassemble()
+{
+  char ch = inv("Disassemble item:");
+  if (ch == KEY_ESCAPE) 
+  {
+    add_msg("Never mind.");
+    return;
+  }
+  if (!u.has_item(ch)) {
+    add_msg("You don't have item '%c'!", ch);
+  return;
+ }
+   add_msg("Item disassembly in progress...");  
+}

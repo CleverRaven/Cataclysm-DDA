@@ -2335,8 +2335,10 @@ if (cut->made_of(COTTON)) {
   else
    p->i_add(rag, g);
   }
+break;
  }
 }
+
 break;
 case 2:{
 char ch = g->inv("Chop up what?");
