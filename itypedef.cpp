@@ -1432,8 +1432,15 @@ A simple wool garment worn over the torso.  Provides a bit of protection.");
 //     NAME		RARE	COLOR		MAT1		MAT2
 ARMOR("trenchcoat",	25, 225,C_TORSO,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   10,  6, -5, -1,  1,  0,  1,  1,  3, 24,	mfb(bp_torso)|mfb(bp_arms), "\
-A long coat lines with pockets.  Great for storage.");
+   10,  6, -5, -1,  1,  0,  1,  1,  2, 24,	mfb(bp_torso)|mfb(bp_arms), "\
+A thin cotton trenchcoat, lined with pockets.  Great for storage.");
+
+//     NAME		RARE	COLOR		MAT1		MAT2
+ARMOR("leather trenchcoat",	25, 225,C_TORSO,	LEATHER,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   10,  10, -5, -1,  2,  1,  9,  1,  3, 24,	mfb(bp_torso)|mfb(bp_arms), "\
+A thick leather trenchcoat, lined with pockets.  Great for storage.");
+
 
 ARMOR("winter coat",	50, 160,C_TORSO,	COTTON,		MNULL,
    12,  6, -5, -2,  3,  3,  1,  1,  8, 12,	mfb(bp_torso)|mfb(bp_arms), "\
@@ -1509,6 +1516,12 @@ ARMOR("trenchcoat",	25, 225,C_TORSO,	COTTON,		MNULL,
 A long coat lines with pockets.  Great for storage.\n\
 This trenchcoat is a perfect fit for you.");
 
+//     NAME		RARE	COLOR			MAT1		MAT2
+ARMOR("leather trenchcoat",	25, 225,C_TORSO,        LEATHER, 	MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   10,  10, -5, -1,  1,  1,  9,  1,  3, 24,	mfb(bp_torso)|mfb(bp_arms), "\
+A thick leather trenchcoat, lined with pockets.  Great for storage.\n\
+This trenchcoat is a perfect fit for you");
 
 // arm guards
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
@@ -2154,7 +2167,7 @@ An empty hull from a shotgun round.",
 
 AMMO("9mm casing",		 10, 30,AT_NULL,		c_ltblue,	STEEL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
-	 0,  0, 0,  0, 0, 0, 0, 200, "\
+	 0,  0,  0,  0, 0,  0,  0,  100, "\
 An empty casing from a 9mm round.",
 0);
 

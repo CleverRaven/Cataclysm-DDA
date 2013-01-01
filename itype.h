@@ -90,10 +90,10 @@ itm_jumpsuit, itm_dress, itm_armor_chitin, itm_suit, itm_hazmat_suit,
 // Torso clothing
 itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top, itm_sweatshirt,
  itm_sweater, itm_hoodie, itm_jacket_light, itm_jacket_jean, itm_blazer,
- itm_jacket_leather, itm_kevlar, itm_coat_rain, itm_poncho, itm_trenchcoat,
+ itm_jacket_leather, itm_kevlar, itm_coat_rain, itm_poncho, itm_trenchcoat, itm_trenchcoat_leather,
  itm_coat_winter, itm_coat_fur, itm_peacoat, itm_vest, itm_beltrig, itm_coat_lab,
  itm_tshirt_fit, itm_polo_shirt_fit, itm_hoodie_fit, itm_sweatshirt_fit, itm_sweater_fit,
- itm_jacket_light_fit, itm_jacket_leather_fit, itm_trenchcoat_fit,
+ itm_jacket_light_fit, itm_jacket_leather_fit, itm_trenchcoat_fit, itm_trenchcoat_leather_fit,
 // Arm clothing
 itm_armguard_soft, itm_armguard_hard, itm_armguard_chitin, itm_armguard_metal,
 // Gloves

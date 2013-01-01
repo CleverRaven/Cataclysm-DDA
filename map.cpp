@@ -1275,6 +1275,18 @@ void map::destroy(game *g, int x, int y, bool makesound)
   }
   break;
 
+ case t_pavement:
+ case t_pavement_y:
+ case t_sidewalk:
+  for (int i = x - 2; i <= x + 2; i++) {
+   for (int j = y - 2; j <= y + 2; j++) {
+    if (move_cost(i, j) > 0 && one_in(5))
+     add_item(i, j, g->itypes[itm_rock], 0);
+    ter(x, y) = t_rubble;
+ }
+}
+break;
+
  case t_floor:
  case t_counter:
  case t_bookcase:
@@ -1288,7 +1300,7 @@ void map::destroy(game *g, int x, int y, bool makesound)
      add_item(i, j, g->itypes[itm_splinter], 0);
     if (move_cost(i, j) > 0 && one_in(6))
       add_item(i, j, g->itypes[itm_nail], 0, 3);
-      g->sound(x, y, 40, "SMASH!!");
+      g->sound(x, y, 20, "SMASH!!");
    }
   }
   ter(x, y) = t_rubble;
@@ -1325,7 +1337,7 @@ void map::destroy(game *g, int x, int y, bool makesound)
      add_item(i, j, g->itypes[itm_rebar], 0);
     if (move_cost(i, j) > 0 && one_in(6))
       add_item(i, j, g->itypes[itm_nail], 0, 3);
-      g->sound(x, y, 40, "SMASH!!");
+      g->sound(x, y, 20, "SMASH!!");
    }
   }
   ter(x, y) = t_rubble;

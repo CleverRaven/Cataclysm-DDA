@@ -3136,8 +3136,7 @@ void player::i_add(item it, game *g)
  if (it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() || 
      it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container())
   inv_sorted = false;
-/*
- if (it.is_ammo()) {	// Possibly combine with other ammo
+/* if (it.is_ammo()) {	// Possibly combine with other ammo
   for (int i = 0; i < inv.size(); i++) {
    if (inv[i].type->id == item_type_id) {
     it_ammo* ammo = dynamic_cast<it_ammo*>(inv[i].type);
