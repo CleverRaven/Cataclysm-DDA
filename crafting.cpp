@@ -1690,5 +1690,99 @@ void game::disassemble()
     add_msg("You don't have item '%c'!", ch);
   return;
  }
-   add_msg("Item disassembly in progress...");  
+
+  item* dis_item = &u.i_at(ch);
+
+// check that the item can be disassembled
+// food or ammo items cannot be disassembled
+  if (dis_item->is_food() || dis_item->is_ammo())
+  {
+    add_msg("You can't disassemble that!");
+    return;
+  }
+// item is not food, now check that there is a valid recipe  
+  else 
+  {
+    for (int i = 0; i < recipes.size(); i++) 
+    {
+      if (dis_item->type == itypes[recipes[i]->result])
+      // ok, a recipe exists for the item
+      {
+        // loop over the tools and see what's required
+        // any item requiring hotplates or fires can't be disassembled
+        
+        inventory crafting_inv;
+        crafting_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
+        crafting_inv += u.inv;
+        crafting_inv += u.weapon;
+        if (u.has_bionic(bio_tools)) 
+        {
+          item tools(itypes[itm_toolset], turn);
+          tools.charges = u.power_level;
+          crafting_inv += tools;
+        }
+
+        bool have_tool[5];
+        for (int j = 0; j < 5; j++) 
+        {
+          have_tool[j] = false;
+          if (recipes[i]->tools[j].size() == 0) // no tools required, may change this
+            have_tool[j] = true;
+          else 
+          {
+            for (int k = 0; k < recipes[i]->tools[j].size(); k++) 
+            {
+              itype_id type = recipes[i]->tools[j][k].type;
+              int req = recipes[i]->tools[j][k].count;	// -1 => 1
+              if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
+                (req >  0 && crafting_inv.has_charges(type, req))   ) 
+              {
+                have_tool[j] = true;
+                k = recipes[i]->tools[j].size();
+              }
+            }
+          }
+        }  
+        if (have_tool[0] && have_tool[1] && have_tool[2] && have_tool[3] &&
+        have_tool[4])
+        {
+          // item can be disassembled, and player has tools.
+          add_msg("You disassemble the item into its components.");
+          u.i_rem(ch);  // remove the item
+          
+          // add the components to the map
+          // if the item can be made from a range of components, pick a random one
+          for (int j = 0; j < 5; j++)
+          {
+            if (recipes[i]->components[j].size() != 0)
+            {
+              int compcount = recipes[i]->components[j][0].count;
+              do
+              {
+                item newit(itypes[recipes[i]->components[j][0].type], turn);
+                if (newit.count_by_charges())
+                {
+                  m.add_item(u.posx, u.posy, itypes[recipes[i]->components[j][0].type], 0, compcount);
+                  compcount = 0;
+                } else
+                {
+                  m.add_item(u.posx, u.posy, newit);
+                  compcount--; 
+                }
+              } while (compcount > 0);            
+            }
+          }          
+          return;
+        }
+        else
+        {
+          add_msg("This item can be disassembled, but you don't have the proper tools.");
+          return;
+        }
+      }
+    }
+  }
+  // no recipe exists
+  add_msg("This item cannot be disassembled!");
+  return; 
 }
