@@ -82,10 +82,13 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
        NULL);
   COMP(itm_string_36, 1, itm_string_6, 1, NULL);
 
- RECIPE(itm_shotgun_sawn, CC_WEAPON, sk_gun, sk_null, 1, 500);
+ RECIPE(itm_shotgun_sawn, CC_WEAPON, sk_gun, sk_null, 1, 2000);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
-  COMP(itm_shotgun_d, 1, itm_remington_870, 1, itm_mossberg_500, 1,
-     itm_saiga_12, 1, NULL);
+  COMP(itm_shotgun_d, 1, itm_remington_870, 1, itm_mossberg_500, NULL);
+
+ RECIPE(itm_saiga_sawn, CC_WEAPON, sk_gun, sk_null, 1, 2000);
+  TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
+  COMP(itm_saiga_12, 1, NULL);
 
  RECIPE(itm_bolt_wood, CC_WEAPON, sk_mechanics, sk_archery, 1, 5000);
   TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,

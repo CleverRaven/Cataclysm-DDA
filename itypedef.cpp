@@ -1339,8 +1339,10 @@ These army pants are a perfect fit for you.");
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("jumpsuit",	20, 200,C_BODY,		COTTON,		PLASTIC,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    6,  6, -3, -3,  1,  0,  1,  0,  3, 16,	mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms), "\
-A full-body jumpsuit with many pockets.");
+    6,  6, -3, -3,  0,  0,  1,  0,  1, 8,	mfb(bp_legs)|mfb(bp_torso), "\
+A thin, short-sleeved jumpsuit; similar to those\n\
+worn my prisoners. Provides decent storage and is\n\
+not very encumbering.");
 
 ARMOR("dress",		70, 180,C_BODY,		COTTON,		MNULL,
     8,  6, -5, -5,  3,  0,  1,  0,  2,  0,	mfb(bp_legs)|mfb(bp_torso), "\
@@ -2447,6 +2449,14 @@ GUN("sawn-off shotgun",	 1, 700,c_red,	IRON,	WOOD,
 The barrels of shotguns are often sawed in half to make it more maneuverable\n\
 and concealable.  This has the added effect of reducing accuracy greatly.",
 mfb(IF_RELOAD_ONE));
+
+GUN("sawn-off Saiga 12",	 1, 700,c_red,	IRON,	WOOD,
+	sk_shotgun,	AT_SHOT, 6, 10, 14,  2,  4, 40, 15,  4,  0,  10, 100, "\
+The Saiga-12 shotgun is designed on the same Kalishnikov pattern as the AK47\n\
+rifle.  It reloads with a magazine, rather than one shell at a time like most\n\
+shotguns. This one has had the barrel cut short, vastly reducing accuracy\n\
+but making it more portable",
+mfb(IF_MODE_BURST));
 
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("single barrel shotgun",1,600,c_red,IRON,	WOOD,
