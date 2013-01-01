@@ -799,10 +799,11 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
   }
   return;
  }
- if (!cut->made_of(COTTON)) {
-  g->add_msg_if_player(p,"You can only slice items made of cotton.");
+ if (!cut->made_of(COTTON) && !cut->made_of(LEATHER)) {
+  g->add_msg_if_player(p,"You can only slice items made of cotton or leather.");
   return;
  }
+ if (cut->made_of(COTTON)) {
  p->moves -= 25 * cut->volume();
  int count = cut->volume();
  if (p->sklevel[sk_tailor] == 0)
@@ -836,6 +837,43 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
    g->m.add_item(p->posx, p->posy, rag);
   else
    p->i_add(rag, g);
+  }
+ }
+ if (cut->made_of(LEATHER)) {
+ p->moves -= 25 * cut->volume();
+ int count = cut->volume();
+ if (p->sklevel[sk_tailor] == 0)
+  count = rng(0, count);
+ else if (p->sklevel[sk_tailor] == 1 && count >= 2)
+  count -= rng(0, 2);
+ if (dice(3, 3) > p->dex_cur)
+  count -= rng(1, 3);
+
+ if (count <= 0) {
+  g->add_msg_if_player(p,"You clumsily cut the %s into useless scraps.",
+             cut->tname().c_str());
+  p->i_rem(ch);
+  return;
+ }
+ g->add_msg_if_player(p,"You slice the %s into %d piece%s of leather.", cut->tname().c_str(), count,
+            (count == 1 ? "" : "s"));
+ item rag(g->itypes[itm_leather], int(g->turn), g->nextinv);
+ p->i_rem(ch);
+ bool drop = false;
+ for (int i = 0; i < count; i++) {
+  int iter = 0;
+  while (p->has_item(rag.invlet) && iter < 52) {
+   rag.invlet = g->nextinv;
+   g->advance_nextinv();
+   iter++;
+  }
+  if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+   drop = true;
+  if (drop)
+   g->m.add_item(p->posx, p->posy, rag);
+  else
+   p->i_add(rag, g);
+  }
  }
 }
 
@@ -2222,10 +2260,11 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
   }
  return;
  }
- if (!cut->made_of(COTTON)) {
+ if (!cut->made_of(COTTON) && !cut->made_of(LEATHER)) {
   g->add_msg("You can only slice items made of cotton.");
   return;
  }
+if (cut->made_of(COTTON)) {
  p->moves -= 25 * cut->volume();
  int count = cut->volume();
  if (p->sklevel[sk_tailor] == 0)
@@ -2261,6 +2300,43 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
    p->i_add(rag);
   }
  }
+ if (cut->made_of(LEATHER)) {
+ p->moves -= 25 * cut->volume();
+ int count = cut->volume();
+ if (p->sklevel[sk_tailor] == 0)
+  count = rng(0, count);
+ else if (p->sklevel[sk_tailor] == 1 && count >= 2)
+  count -= rng(0, 2);
+ if (dice(3, 3) > p->dex_cur)
+  count -= rng(1, 3);
+
+ if (count <= 0) {
+  g->add_msg_if_player(p,"You clumsily cut the %s into useless scraps.",
+             cut->tname().c_str());
+  p->i_rem(ch);
+  return;
+ }
+ g->add_msg_if_player(p,"You slice the %s into %d piece%s of leather.", cut->tname().c_str(), count,
+            (count == 1 ? "" : "s"));
+ item rag(g->itypes[itm_leather], int(g->turn), g->nextinv);
+ p->i_rem(ch);
+ bool drop = false;
+ for (int i = 0; i < count; i++) {
+  int iter = 0;
+  while (p->has_item(rag.invlet) && iter < 52) {
+   rag.invlet = g->nextinv;
+   g->advance_nextinv();
+   iter++;
+  }
+  if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+   drop = true;
+  if (drop)
+   g->m.add_item(p->posx, p->posy, rag);
+  else
+   p->i_add(rag, g);
+  }
+ }
+}
 break;
 case 2:{
 char ch = g->inv("Chop up what?");

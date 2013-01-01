@@ -647,9 +647,9 @@ MELEE("fur pelt",	 0, 10, ',', c_brown,	WOOL,	FLESH,
 	 1,  1, -8,  0,  0, 0, "\
 A small bolt of fur from an animal.  Can be made into warm clothing.");
 
-MELEE("leather pelt",	 0, 20, ',', c_red,	LEATHER,FLESH,
-	 1,  1, -2,  0, -1, 0, "\
-A small piece of thick animal hide.  Can be made into tough clothing.");
+MELEE("leather patch",	 0, 20, ',', c_red,	LEATHER,FLESH,
+	 2,  1, -2,  0, -1, 0, "\
+A smallish patch of leather, could be used to make tough clothing.");
 
 //    NAME		RAR PRC SYM  COLOR	MAT1	MAT2
 MELEE("superglue",	30, 18, ',', c_white,	PLASTIC,MNULL,
@@ -1438,7 +1438,7 @@ A thin cotton trenchcoat, lined with pockets.  Great for storage.");
 //     NAME		RARE	COLOR		MAT1		MAT2
 ARMOR("leather trenchcoat",	25, 225,C_TORSO,	LEATHER,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   10,  10, -5, -1,  2,  1,  9,  1,  3, 24,	mfb(bp_torso)|mfb(bp_arms), "\
+   16,  10, -5, -1,  2,  1,  9,  1,  3, 24,	mfb(bp_torso)|mfb(bp_arms), "\
 A thick leather trenchcoat, lined with pockets.  Great for storage.");
 
 
@@ -1519,7 +1519,7 @@ This trenchcoat is a perfect fit for you.");
 //     NAME		RARE	COLOR			MAT1		MAT2
 ARMOR("leather trenchcoat",	25, 225,C_TORSO,        LEATHER, 	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   10,  10, -5, -1,  1,  1,  9,  1,  3, 24,	mfb(bp_torso)|mfb(bp_arms), "\
+   16,  10, -5, -1,  1,  1,  9,  1,  3, 24,	mfb(bp_torso)|mfb(bp_arms), "\
 A thick leather trenchcoat, lined with pockets.  Great for storage.\n\
 This trenchcoat is a perfect fit for you");
 
