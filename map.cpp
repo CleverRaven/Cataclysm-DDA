@@ -754,6 +754,11 @@ bool map::is_outside(int x, int y)
          ter(x    , y - 1) != t_floor && ter(x    , y    ) != t_floor &&
          ter(x    , y + 1) != t_floor && ter(x + 1, y - 1) != t_floor &&
          ter(x + 1, y    ) != t_floor && ter(x + 1, y + 1) != t_floor &&
+         ter(x    , y    ) != t_rock_floor && ter(x - 1, y - 1) != t_rock_floor &&
+         ter(x - 1, y    ) != t_rock_floor && ter(x - 1, y + 1) != t_rock_floor &&
+         ter(x    , y - 1) != t_rock_floor && ter(x    , y    ) != t_rock_floor &&
+         ter(x    , y + 1) != t_rock_floor && ter(x + 1, y - 1) != t_rock_floor &&
+         ter(x + 1, y    ) != t_rock_floor && ter(x + 1, y + 1) != t_rock_floor &&
          ter(x    , y    ) != t_floor_wax &&
          ter(x - 1, y - 1) != t_floor_wax &&
          ter(x - 1, y    ) != t_floor_wax &&

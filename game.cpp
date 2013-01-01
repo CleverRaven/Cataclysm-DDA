@@ -4674,7 +4674,7 @@ void game::examine()
 //Debug for testing things
  } else if (m.ter(examx, examy) == t_rubble && u.has_amount(itm_shovel, 1)) {
   if (query_yn("Clear up that rubble?")) {
-  if (levz = -1) {
+  if (levz == -1) {
    u.moves -= 200;
    m.ter(examx, examy) = t_rock_floor;
    item rock(itypes[itm_rock], turn);
@@ -4688,6 +4688,19 @@ void game::examine()
    m.add_item(u.posx, u.posy, rock);
    m.add_item(u.posx, u.posy, rock);
    add_msg("You clear the rubble up");
+ }} else {
+   add_msg("You need a shovel to do that!");
+  }
+ } else if (m.ter(examx, examy) == t_ash && u.has_amount(itm_shovel, 1)) {
+  if (query_yn("Clear up that rubble?")) {
+  if (levz == -1) {
+   u.moves -= 200;
+   m.ter(examx, examy) = t_rock_floor;
+   add_msg("You clear the ash up");
+ } else {
+   u.moves -= 200;
+   m.ter(examx, examy) = t_dirt;
+   add_msg("You clear the ash up");
  }} else {
    add_msg("You need a shovel to do that!");
   }
