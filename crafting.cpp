@@ -766,7 +766,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
  RECIPE(itm_armguard_metal, CC_ARMOR, sk_tailor, sk_null, 4,  30000);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
   COMP(itm_string_36, 1, itm_string_6, 4, NULL);
-  COMP(itm_steel_chunk, 2, NULL);    
+  COMP(itm_steel_chunk, 2, itm_scrap_8, NULL);    
  
  RECIPE(itm_armguard_chitin, CC_ARMOR, sk_tailor, sk_null, 3,  30000);
   COMP(itm_string_36, 1, itm_string_6, 4, NULL);
@@ -789,6 +789,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
  RECIPE(itm_curtain, CC_MISC, sk_null, sk_null, 0, 10000);
   TOOL(itm_sewing_kit, 50, NULL);
   COMP(itm_rag, 20, NULL);
+  COMP(itm_stick, 1, itm_pool_cue, 1, itm_spear_wood, 1, itm_2x4, 1, NULL);
 
  RECIPE(itm_vehicle_controls, CC_MISC, sk_mechanics, sk_null, 3, 30000);
   TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
@@ -864,7 +865,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
  RECIPE(itm_spiked_plate, CC_MISC, sk_mechanics, sk_null, 4, 12000);
   TOOL(itm_welder, 120, NULL);
   COMP(itm_steel_lump, 8, NULL);
-  COMP(itm_steel_chunk, 4, NULL);
+  COMP(itm_steel_chunk, 4, itm_scrap, 12, NULL);
 
  RECIPE(itm_hard_plate, CC_MISC, sk_mechanics, sk_null, 4, 12000);
   TOOL(itm_welder, 300, NULL);
@@ -916,7 +917,7 @@ RECIPE(itm_boobytrap, CC_MISC, sk_mechanics, sk_traps,3,5000);
  RECIPE(itm_landmine, CC_WEAPON, sk_traps, sk_mechanics, 5, 10000);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   COMP(itm_superglue, 1, NULL);
-  COMP(itm_can_food, 1, itm_steel_chunk, 1, itm_canister_empty, 1, NULL);
+  COMP(itm_can_food, 1, itm_steel_chunk, 1, itm_canister_empty, 1, itm_scrap, 4, NULL);
   COMP(itm_nail, 100, itm_bb, 200, NULL);
   COMP(itm_shot_bird, 30, itm_shot_00, 15, itm_shot_slug, 12, itm_gasoline, 3,
      itm_grenade, 1, itm_gunpowder, 72, NULL);
