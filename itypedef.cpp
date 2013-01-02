@@ -3219,16 +3219,16 @@ CONT("sm. cardboard box",50, 0,	c_brown,	PAPER,	MNULL,
 A small cardboard box.  No bigger than a foot in any dimension.");
 
 CONT("plastic canteen",	20,  1000,	c_green,	PLASTIC,MNULL,
-    20,  2, -8,  1,	 6,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+    6,  2, -8,  1,	 6,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A large military-style water canteen, with a 1.5 litre capacity");
 
 CONT("plastic jerrycan",	10,  2500,	c_green,	PLASTIC,MNULL,
-    60,  4, -2,  -2,	 40,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+    40,  4, -2,  -2,	 40,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A bulky plastic jerrycan, meant to carry fuel, but can carry other liquids\n\
 in a pinch.  It has a capacity of 10 litres.");
 
 CONT("plastic carboy",	10,  2500,	c_ltcyan,	PLASTIC,MNULL,
-    22,  2, -8,  1,	 10,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+    10,  2, -8,  1,	 10,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A 2.5 litre plastic carboy for household cleaning chemicals.");
 
 CONT("glass flask",	10,  2500,	c_ltcyan,	GLASS,MNULL,
