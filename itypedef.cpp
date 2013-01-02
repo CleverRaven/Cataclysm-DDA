@@ -748,9 +748,9 @@ A misshapen heavy piece of steel.  Useful for some crafting recipes.");
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("scrap metal", 30, 10, ',', c_ltblue,	STEEL,	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
-	 2,  6,  0,  0, -2, 0, "\
-An assortment of various bits of scrap metal, useful in all kinds\n\
-of crafting.");
+	 1,  1,  0,  0, -2, 0, "\
+An assortment of small bits of metal and scrap\n\
+useful in all kinds of crafting");
 
 MELEE("rubber hose",	15, 80, ',', c_green,	PLASTIC,MNULL,
 	 3,  2,  4,  0,  3, mfb(IF_WRAP), "\

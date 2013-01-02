@@ -4709,10 +4709,14 @@ void game::examine()
    u.moves -= 200;
    m.ter(examx, examy) = t_dirt;
    item chunk(itypes[itm_steel_chunk], turn);
+   item scrap(itypes[itm_scrap], turn);
    item pipe(itypes[itm_pipe], turn);
-   m.add_item(u.posx, u.posy, chunk);
+   item wire(itypes[itm_wire], turn);
+   m.add_item(examx, examy, chunk);
+   m.add_item(examx, examy, scrap);
   if (one_in(5)) {
-   m.add_item(u.posx, u.posy, pipe); }
+   m.add_item(examx, examy, pipe);
+   m.add_item(examx, examy, wire); }
    add_msg("You clear the wreckage up");
  } else {
    add_msg("You need a shovel to do that!");
@@ -4722,10 +4726,12 @@ void game::examine()
    u.moves -= 200;
    m.ter(examx, examy) = t_floor;
    item chunk(itypes[itm_steel_chunk], turn);
+   item scrap(itypes[itm_scrap], turn);
    item pipe(itypes[itm_pipe], turn);
-   m.add_item(u.posx, u.posy, chunk);
+   m.add_item(examx, examy, chunk);
+   m.add_item(examx, examy, scrap);
   if (one_in(5)) {
-   m.add_item(u.posx, u.posy, pipe); }
+   m.add_item(examx, examy, pipe);}
    add_msg("You clear the wreckage up");
  } else {
    add_msg("You need a shovel to do that!");
