@@ -889,7 +889,8 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
  RECIPE(itm_beartrap, CC_MISC, sk_mechanics, sk_traps, 2, 3000);
   TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
-  COMP(itm_steel_chunk, 2, NULL);
+  COMP(itm_scrap, 3, NULL);
+  COMP(itm_spring, 1, NULL);
 
  RECIPE(itm_crossbow_trap, CC_MISC, sk_mechanics, sk_traps, 3, 4500);
   COMP(itm_crossbow, 1, NULL);
@@ -918,7 +919,7 @@ RECIPE(itm_boobytrap, CC_MISC, sk_mechanics, sk_traps,3,5000);
   COMP(itm_can_food, 1, itm_steel_chunk, 1, itm_canister_empty, 1, NULL);
   COMP(itm_nail, 100, itm_bb, 200, NULL);
   COMP(itm_shot_bird, 30, itm_shot_00, 15, itm_shot_slug, 12, itm_gasoline, 3,
-     itm_grenade, 1, NULL);
+     itm_grenade, 1, itm_gunpowder, 72, NULL);
 
  RECIPE(itm_bandages, CC_MISC, sk_firstaid, sk_null, 1, 500);
   COMP(itm_rag, 3, NULL);

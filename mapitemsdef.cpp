@@ -431,7 +431,7 @@ void game::init_mapitems()
 	itm_mask_gas, itm_goggles_welding, itm_goggles_nv, itm_glasses_monocle,
 	itm_tophat, itm_ruger_redhawk, itm_deagle_44, itm_m1911, itm_geiger_off,
 	itm_UPS_off, itm_tazer, itm_mp3, itm_fur, itm_leather, itm_string_36,
-	itm_chain, itm_steel_chunk, itm_steel_lump, itm_manhole_cover, itm_rock,
+	itm_chain, itm_steel_chunk, itm_spring, itm_steel_lump, itm_manhole_cover, itm_rock,
 	itm_hammer_sledge, itm_ax, itm_knife_butcher, itm_knife_combat,
 	itm_bat, itm_petrified_eye, itm_binoculars, itm_boots, itm_mocassins,
 	itm_dress_shoes, itm_heels, itm_pants, itm_pants_army, itm_skirt,
@@ -709,12 +709,12 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_robots],
 	itm_processor, itm_RAM, itm_power_supply, itm_amplifier,
-	itm_transponder, itm_receiver, itm_antenna, itm_steel_chunk,
+	itm_transponder, itm_receiver, itm_antenna, itm_steel_chunk, itm_spring,
 	itm_steel_lump, itm_motor, itm_battery, itm_plut_cell, NULL);
 
  setvector(
    mapitems[mi_helicopter],
-	itm_chain, itm_power_supply, itm_antenna, itm_steel_chunk,
+	itm_chain, itm_power_supply, itm_antenna, itm_steel_chunk, itm_spring,
 	itm_steel_lump, itm_frame, itm_steel_plate, itm_spiked_plate,
 	itm_hard_plate, itm_motor, itm_motor_large, itm_hose, itm_pants_army,
 	itm_jumpsuit, itm_kevlar, itm_mask_gas, itm_helmet_army, itm_battery,
@@ -800,7 +800,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_wreckage],
-	itm_chain, itm_steel_chunk, itm_steel_lump, itm_frame, itm_rock, NULL);
+	itm_chain, itm_steel_chunk, itm_spring, itm_steel_lump, itm_frame, itm_rock, NULL);
 
  setvector(
    mapitems[mi_npc_hacker],

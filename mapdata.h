@@ -97,7 +97,7 @@ t_door_metal_c, t_door_metal_o, t_door_metal_locked,
 t_door_glass_c, t_door_glass_o,
 t_bulletin,
 t_portcullis,
-t_recycler, t_window, t_window_domestic, t_curtains,
+t_recycler, t_window, t_window_domestic, t_window_open, t_curtains,
 t_window_alarm, t_window_empty, t_window_frame, t_window_boarded,
 t_rock, t_fault,
 t_paper,
@@ -203,7 +203,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(transparent)},
 {"groundsheet",      ';', c_green,   2, tr_null,
         mfb(transparent)},
-{"floor",	     '.', c_ltcyan,    2, tr_null,
+{"floor",	     '.', c_white,    2, tr_null,
 	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)}, // Skylight
 {"floor",	     '.', c_white,    2, tr_null,
 	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)}, // Emergency Light
@@ -287,7 +287,10 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(supports_roof)},
 {"window",	     '"', c_ltcyan,  0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
-        mfb(supports_roof)},
+        mfb(supports_roof)}, //has curtains
+{"open window",      '\'', c_ltcyan, 4, tr_null,
+	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
+        mfb(supports_roof)}, //has curtains
 {"closed curtains",  '"', c_dkgray,    0, tr_null,
 	mfb(bashable)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)},

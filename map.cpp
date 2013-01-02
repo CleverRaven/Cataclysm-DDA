@@ -1619,6 +1619,9 @@ bool map::open_door(int x, int y, bool inside)
  } else if (inside && ter(x, y) == t_curtains) {
   ter(x, y) = t_window_domestic;
   return true;
+ } else if (inside && ter(x, y) == t_window_domestic) {
+  ter(x, y) = t_window_open;
+  return true;
  } else if (ter(x, y) == t_rdoor_c) {
   ter(x, y) = t_rdoor_o;
   return true;
@@ -1658,6 +1661,9 @@ bool map::close_door(int x, int y, bool inside)
   return true;
  } else if (inside && ter(x, y) == t_window_domestic) {
   ter(x, y) = t_curtains;
+  return true;
+ } else if (inside && ter(x, y) == t_window_open) {
+  ter(x, y) = t_window_domestic;
   return true;
  } else if (ter(x, y) == t_rdoor_o) {
   ter(x, y) = t_rdoor_c;

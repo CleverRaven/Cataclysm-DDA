@@ -2845,7 +2845,7 @@ void iuse::wrench(game *g, player *p, item *it, bool t)
  if (wrench->type->id == itm_lawnmower) {
   p->moves -= 150;
   p->i_rem(ch);
-  g->add_msg("You disassemble the lawnmower, wrenching the blades out");
+  g->add_msg("You disassemble the lawnmower, placing the parts at your feet");
   g->m.add_item(p->posx, p->posy, g->itypes[itm_lawnmower_blade], 0);
   g->m.add_item(p->posx, p->posy, g->itypes[itm_lawnmower_blade], 0);
   g->m.add_item(p->posx, p->posy, g->itypes[itm_combustion_tiny], 0);
@@ -2860,6 +2860,8 @@ void iuse::wrench(game *g, player *p, item *it, bool t)
   g->m.add_item(p->posx, p->posy, g->itypes[itm_scrap], 0);
   g->m.add_item(p->posx, p->posy, g->itypes[itm_scrap], 0);
   g->m.add_item(p->posx, p->posy, g->itypes[itm_scrap], 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_spring],0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_spring],0);
   return;
  }
 }
