@@ -594,7 +594,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   COMP(itm_ammonia, 1, itm_lemon, 1, NULL);
   COMP(itm_steel_chunk, 1, itm_knife_butter, 1, itm_knife_steak, 1,
-     itm_bolt_steel, 1, NULL);
+     itm_bolt_steel, 1, itm_scrap, 1, NULL);
   COMP(itm_can_drink, 1, itm_can_food, 1, NULL);
 
  RECIPE(itm_coilgun, CC_WEAPON, sk_electronics, sk_null, 3, 25000);
@@ -695,7 +695,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
  RECIPE(itm_boots_fit, CC_ARMOR, sk_tailor, sk_null, 2, 35000);
   TOOL(itm_sewing_kit, 10, NULL);
-  COMP(itm_leather, 2, NULL);
+  COMP(itm_leather, 4, NULL);
 
  RECIPE(itm_jeans_fit, CC_ARMOR, sk_tailor, sk_null, 2, 45000);
   TOOL(itm_sewing_kit, 10, NULL);
@@ -707,7 +707,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
  RECIPE(itm_pants_leather, CC_ARMOR, sk_tailor, sk_null, 4, 50000);
   TOOL(itm_sewing_kit, 10, NULL);
-  COMP(itm_leather, 6, NULL);
+  COMP(itm_leather, 10, NULL);
 
  RECIPE(itm_tank_top, CC_ARMOR, sk_tailor, sk_null, 2, 38000);
   TOOL(itm_sewing_kit, 4, NULL);
@@ -727,7 +727,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
  RECIPE(itm_jacket_leather_fit, CC_ARMOR, sk_tailor, sk_null, 5, 150000);
   TOOL(itm_sewing_kit, 30, NULL);
-  COMP(itm_leather, 8, NULL);
+  COMP(itm_leather, 16, NULL);
 
  RECIPE(itm_gloves_light, CC_ARMOR, sk_tailor, sk_null, 1, 10000);
   TOOL(itm_sewing_kit, 2, NULL);
@@ -841,11 +841,12 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
  RECIPE(itm_carspike,     CC_MISC, sk_null, sk_null, 0, 3000);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
   COMP(itm_spear_knife, 1, itm_knife_combat, 1, itm_knife_steak, 2,
-       itm_steel_chunk, 3, NULL);
+       itm_steel_chunk, 3, itm_scrap, 10, NULL);
 
  RECIPE(itm_carblade,     CC_MISC, sk_null, sk_null, 0, 3000);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
-  COMP(itm_broadsword, 1, itm_machete, 1, itm_pike, 1, NULL);
+  COMP(itm_broadsword, 1, itm_machete, 1, itm_pike, 1,
+       itm_lawnmower_blade, 1, NULL);
 
  RECIPE(itm_superglue, CC_MISC, sk_cooking, sk_null, 2, 12000);
   TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
