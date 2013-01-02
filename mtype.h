@@ -188,7 +188,6 @@ struct mtype {
  signed char item_chance;	// Higher # means higher chance of loot
 				// Negative # means one item gen'd, tops
  int hp;
-
  unsigned char sp_freq;			// How long sp_attack takes to charge
  void (mdeath::*dies)(game *, monster *); // What happens when this monster dies
  void (mattack::*sp_attack)(game *, monster *); // This monster's special attack
