@@ -766,7 +766,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
  RECIPE(itm_armguard_metal, CC_ARMOR, sk_tailor, sk_null, 4,  30000);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
   COMP(itm_string_36, 1, itm_string_6, 4, NULL);
-  COMP(itm_steel_chunk, 2, itm_scrap_8, NULL);    
+  COMP(itm_steel_chunk, 2, itm_scrap, 8, NULL);    
  
  RECIPE(itm_armguard_chitin, CC_ARMOR, sk_tailor, sk_null, 3,  30000);
   COMP(itm_string_36, 1, itm_string_6, 4, NULL);
