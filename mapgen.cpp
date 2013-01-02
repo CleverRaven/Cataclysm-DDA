@@ -2033,7 +2033,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    for (int j = 0; j < SEEY * 2; j++) {
     if (j == 2) {
      if (i == 5 || i == 6 || i == 17 || i == 18)
-      ter(i, j) = t_window;
+      ter(i, j) = t_window_domestic;
      else if (i == 11 || i == 12)
       ter(i, j) = t_door_c;
      else if (i > 1 && i < SEEX * 2 - 2)
@@ -2044,14 +2044,14 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
       ter(i, j) = t_wall_h;
     else if (i == 2) {
      if (j == 6 || j == 7 || j == 10 || j == 11 || j == 14 || j == 15)
-      ter(i, j) = t_window;
+      ter(i, j) = t_window_domestic;
      else if (j > 1 && j < 17)
       ter(i, j) = t_wall_v;
      else
       ter(i, j) = grass_or_dirt();
     } else if (i == SEEX * 2 - 3) {
      if (j == 6 || j == 7)
-      ter(i, j) = t_window;
+      ter(i, j) = t_window_domestic;
      else if (j > 1 && j < 17)
       ter(i, j) = t_wall_v;
      else
