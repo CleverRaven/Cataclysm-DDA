@@ -70,7 +70,7 @@ Water, the stuff of life, the best thirst-quencher available.");
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("clean water",	90, 50,	c_ltcyan, itm_bottle_plastic,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
-	25,  0,  0,  0,  0,  0,  2,  0,&iuse::none,	ADD_NULL, "\
+	25,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
 Fresh clean water, truly the best thing to quench your thirst.");
 
 DRINK("sewage sample",	 5,  5, c_ltgreen, itm_bottle_plastic,
