@@ -32,7 +32,7 @@ void game::init_itypes ()
 // Corpse - a special item
  itypes.push_back(
   new itype(1, 0, 0, "corpse", "A dead body.", '%', c_white, MNULL, MNULL, 0, 0,
-            0, 0, 0, 0));
+            0, 0, 1, 0));
 // Fire - only appears in crafting recipes
  itypes.push_back(
   new itype(2, 0, 0, "nearby fire",
