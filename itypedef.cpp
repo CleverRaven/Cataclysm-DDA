@@ -172,7 +172,7 @@ DRINK("coffee",		1, 50,	c_brown, itm_bottle_plastic,
 Coffee. The morning ritual of the pre-apocalypse world.");
 
 //     NAME		RAR PRC	COLOR     CONTAINER
-DRINK("blood",		 20,  0, c_red, itm_vacutainer,
+DRINK("blood",		 20,  0, c_red, itm_flask_glass,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
 	  5,  5,  0,  0, -8,  0,  1,-50,&iuse::none,	ADD_NULL, "\
 Blood, possibly that of a human.  Disgusting!");
@@ -3708,7 +3708,7 @@ butchering corpses.");
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 TOOL("combat knife",	14, 100,';', c_blue,	STEEL,  PLASTIC,
 //	VOL WGT DAM CUT HIT FLAGS
-	 2,  2,  2, 22, -2, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, 
+	 2,  2,  2, 22, -2, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
 mfb(IF_STAB), "\
 Designed for combat, and deadly in the right hands.  Can be used to butcher\n\
 corpses.");
@@ -3743,14 +3743,14 @@ TOOL("duct tape",60, 20, ';', c_ltgray, PLASTIC, PAPER,
 A roll of incredibly strong tape, it's uses are innumerable.");
 
 TOOL("torch",    95,  0, '/', c_brown,   WOOD,   MNULL,
-// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL     REVERT    FUNCTION 
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL     REVERT    FUNCTION
     6, 10, 12,  0,  3, 25, 25,  0, 0, AT_NULL, itm_null, &iuse::torch,
 0,"\
 A large stick, wrapped in gasoline soaked rags. When lit, produces\n\
 a fair amount of light");
 
 TOOL("torch (lit)",    95,  0, '/', c_brown,   WOOD,   MNULL,
-// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL     REVERT    FUNCTION 
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL     REVERT    FUNCTION
     6, 10, 12,  0,  3, 25, 25,  1, 15, AT_NULL, itm_torch_done, &iuse::torch_lit,
 0,"\
 A large stick, wrapped in gasoline soaked rags. This is burning,\n\

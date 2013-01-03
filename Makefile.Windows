@@ -3,7 +3,7 @@
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
 # PROFILE is for use with gprof or a similar program -- don't bother generally
 #WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-char-subscripts
-#DEBUG = -g
+DEBUG = -g
 #PROFILE = -pg
 OTHERS = -O3
 
@@ -12,7 +12,7 @@ DDIR = .deps
 
 TARGET = cataclysm.exe
 
-CXX = i486-mingw32-g++
+CXX = g++
 
 LINKER = i486-mingw32-ld
 LINKERFLAGS = -Wl,-stack,12000000,-subsystem,windows

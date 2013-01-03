@@ -358,7 +358,8 @@ void game::init_mapitems()
 	itm_hat_fur, itm_UPS_off, itm_jeans_fit, itm_pants_fit, 
         itm_pants_cargo_fit, itm_polo_shirt_fit, itm_sweatshirt_fit, 
         itm_sweater_fit,
-        itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit,NULL);
+        itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit,
+        itm_trenchcoat_leather, itm_trenchcoat_leather_fit, NULL);
 
  setvector(
    mapitems[mi_novels],

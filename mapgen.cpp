@@ -4901,6 +4901,7 @@ case ot_s_garage_north:
   line(this, t_wall_v, 23,  0, 23, 10);
   line(this, t_wall_v, 23, 13, 23, 23);
 
+/*
 // Generate bodies / zombies
   rn = rng(10, 15);
   for (int i = 0; i < rn; i++) {
@@ -4918,7 +4919,7 @@ case ot_s_garage_north:
     add_spawn(zom, 1, zx, zy);
    }
   }
-
+*/
 // Rotate to face the road
   if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
    rotate(1);
