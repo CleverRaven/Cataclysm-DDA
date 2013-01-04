@@ -182,7 +182,7 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_dogfood, itm_boobytrap, itm_c4, itm_c4armed, itm_dog_whistle,
  itm_vacutainer, itm_welder, itm_cot, itm_rollmat, itm_knife_steak,
  itm_knife_butcher, itm_knife_combat, itm_saw, itm_ax, itm_hacksaw,
- itm_tent, itm_duct_tape, itm_torch, itm_torch_lit, itm_candle, itm_candle_lit,
+ itm_tent_kit, itm_duct_tape, itm_torch, itm_torch_lit, itm_candle, itm_candle_lit,
  itm_brazier, itm_puller, itm_press, itm_screwdriver, itm_wrench,
 // Bionics containers
 itm_bionics_battery,       itm_bionics_power,   itm_bionics_tools,

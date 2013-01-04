@@ -768,7 +768,8 @@ bool map::is_outside(int x, int y)
          ter(x    , y + 1) != t_floor_wax &&
          ter(x + 1, y - 1) != t_floor_wax &&
          ter(x + 1, y    ) != t_floor_wax &&
-         ter(x + 1, y + 1) != t_floor_wax   );
+         ter(x + 1, y + 1) != t_floor_wax &&
+         ter(x, y) != t_groundsheet);
  if (out) {
   int vpart;
   vehicle *veh = veh_at (x, y, vpart);
@@ -1619,6 +1620,8 @@ bool map::open_door(int x, int y, bool inside)
  if (ter(x, y) == t_door_c) {
   ter(x, y) = t_door_o;
   return true;
+ } else if (ter(x, y) == t_canvas_door) {
+  ter(x, y) = t_canvas_door_o;
  } else if (inside && ter(x, y) == t_curtains) {
   ter(x, y) = t_window_domestic;
   return true;
@@ -1665,6 +1668,8 @@ bool map::close_door(int x, int y, bool inside)
  } else if (inside && ter(x, y) == t_window_domestic) {
   ter(x, y) = t_curtains;
   return true;
+ } else if (ter(x, y) == t_canvas_door_o) {
+  ter(x, y) = t_canvas_door;
  } else if (inside && ter(x, y) == t_window_open) {
   ter(x, y) = t_window_domestic;
   return true;

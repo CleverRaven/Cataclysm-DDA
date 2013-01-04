@@ -4704,6 +4704,20 @@ void game::examine()
  }} else {
    add_msg("You need a shovel to do that!");
   }
+ } else if (m.ter(examx, examy) == t_groundsheet && query_yn("Take down tent?")) {
+   u.moves -= 200;
+   m.ter(examx    , examy    ) = t_dirt;
+   m.ter(examx - 1, examy - 1) = t_dirt;
+   m.ter(examx - 1, examy    ) = t_dirt;
+   m.ter(examx - 1, examy + 1) = t_dirt;
+   m.ter(examx    , examy - 1) = t_dirt;
+   m.ter(examx    , examy + 1) = t_dirt;
+   m.ter(examx + 1, examy - 1) = t_dirt;
+   m.ter(examx + 1, examy    ) = t_dirt;
+   m.ter(examx + 1, examy + 1) = t_dirt;
+  add_msg("You take down the tent");
+  item tent(itypes[itm_tent_kit], turn);
+  m.add_item(examx, examy, tent);
  } else if (m.ter(examx, examy) == t_wreckage && u.has_amount(itm_shovel, 1)) {
   if (query_yn("Clear up that wreckage?")) {
    u.moves -= 200;

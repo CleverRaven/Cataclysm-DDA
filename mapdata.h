@@ -38,6 +38,7 @@ enum t_flag {
  l_flammable,  // Harder to light on fire, but still possible
  explodes,     // Explodes when on fire
  diggable,     // Digging monsters, seeding monsters, digging w/ shovel, etc.
+ tentable,     // I'm lazy, this is just diggable with a few more tacked on.
  liquid,       // Blocks movement but isn't a wall, e.g. lava or water
  swimmable,    // You (and monsters) swim here
  sharp,	       // May do minor damage to players/monsters passing it
@@ -80,7 +81,7 @@ t_grate,
 t_slime,
 t_bridge,
 // Tent Walls & doors
-t_canvas_wall, t_door_canvas, t_door_canvas_o, t_groundsheet,
+t_canvas_wall, t_canvas_door, t_canvas_door_o, t_groundsheet,
 // Lighting related
 t_skylight, t_emergency_light_flicker, t_emergency_light,
 // Walls
@@ -152,7 +153,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"empty space",      '#', c_black,   2, tr_ledge,
 	mfb(transparent)},
 {"dirt",	     '.', c_brown,   2, tr_null,
-	mfb(transparent)|mfb(diggable)},
+	mfb(transparent)|mfb(diggable)|mfb(tentable)},
 {"mound of dirt",    '#', c_brown,   3, tr_null,
 	mfb(transparent)|mfb(diggable)},
 {"shallow pit",	     '0', c_yellow,  8, tr_null,
@@ -178,7 +179,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"metal wreckage",   '#', c_cyan,    5, tr_null,
 	mfb(transparent)|mfb(rough)|mfb(sharp)|mfb(container)},
 {"grass",	     '.', c_green,   2, tr_null,
-	mfb(transparent)|mfb(diggable)},
+	mfb(transparent)|mfb(diggable)|mfb(tentable)},
 {"metal floor",      '.', c_ltcyan,  2, tr_null,
 	mfb(transparent)},
 {"pavement",	     '.', c_dkgray,  2, tr_null,
@@ -196,13 +197,13 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"walkway",          '#', c_yellow,  2, tr_null,
 	mfb(transparent)},
 {"canvas wall",      '#', c_green,   0, tr_null,
-        mfb(l_flammable)|mfb(bashable)|mfb(noitem)},
+        mfb(l_flammable)|mfb(bashable)|mfb(noitem)|mfb(tentable)},
 {"canvas flap",      '+', c_green,   0, tr_null,
-        mfb(l_flammable)|mfb(bashable)|mfb(noitem)},
+        mfb(l_flammable)|mfb(bashable)|mfb(noitem)|mfb(tentable)},
 {"open canvas flap", '.', c_green,   2, tr_null,
         mfb(transparent)},
 {"groundsheet",      ';', c_green,   2, tr_null,
-        mfb(transparent)},
+        mfb(transparent)|mfb(tentable)},
 {"floor",	     '.', c_white,    2, tr_null,
 	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)}, // Skylight
 {"floor",	     '.', c_white,    2, tr_null,
