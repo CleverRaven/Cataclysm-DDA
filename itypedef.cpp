@@ -1085,6 +1085,12 @@ MELEE("curtain",           0, 100, ';', c_dkgray, COTTON, MNULL,
 A large fabric curtain, could be attached to a window or\n\
 cut up for plenty of rags.");
 
+//  NAME        RAR PRC SYM  COLOR  MAT1    MAT
+MELEE("damaged",17, 65, ';', c_green,	IRON,	MNULL,
+	 10,  20,  4,  0, -3, 0, "\
+A small tent, just big enough to fit a person comfortably.\n\
+This tent is broken and cannot be deployed");
+
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  25, 35, ']', c_cyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
