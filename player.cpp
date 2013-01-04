@@ -5086,7 +5086,7 @@ nc_color encumb_color(int level)
 
 bool activity_is_suspendable(activity_type type)
 {
- if (type == ACT_NULL || type == ACT_RELOAD)
+ if (type == ACT_NULL || type == ACT_RELOAD || type == ACT_DISASSEMBLE)
   return false;
  return true;
 }

@@ -277,11 +277,13 @@ class game
   void close();	// Close a door			'c'
   void smash();	// Smash terrain
   void craft();                    // See crafting.cpp
-  void disassemble();              // See crafting.cpp
   void make_craft(recipe *making); // See crafting.cpp
   void complete_craft();           // See crafting.cpp
   void pick_recipes(std::vector<recipe*> &current,
                     std::vector<bool> &available, craft_cat tab);// crafting.cpp
+  void disassemble();              // See crafting.cpp
+  void disassemble_item(recipe *dis);              // See crafting.cpp  
+  void complete_disassemble();              // See crafting.cpp                      
   void construction_menu();                   // See construction.cpp
   bool player_can_build(player &p, inventory inv, constructable* con,
                         int level = -1, bool cont = false);

@@ -78,6 +78,8 @@ option_key lookup_option_key(std::string id)
   return OPT_AUTOSAVE;
  if (id == "gradual_night_light")
   return OPT_GRADUAL_NIGHT_LIGHT;
+ if (id == "query_disassemble")
+  return OPT_QUERY_DISASSEMBLE;  
  if (id == "drop_empty")
   return OPT_DROP_EMPTY;  
  if (id == "skill_rust")
@@ -98,6 +100,7 @@ std::string option_string(option_key key)
   case OPT_AUTOSAFEMODE:	return "autosafemode";
   case OPT_AUTOSAVE:    	return "autosave";
   case OPT_GRADUAL_NIGHT_LIGHT: return "gradual_night_light";
+  case OPT_QUERY_DISASSEMBLE: return "query_disassemble";
   case OPT_DROP_EMPTY: return "drop_empty";
   case OPT_SKILL_RUST: return "skill_rust";
   default:			return "unknown_option";
@@ -118,6 +121,7 @@ std::string option_desc(option_key key)
   case OPT_AUTOSAFEMODE:	return "If true, auto-safemode will be on\nafter starting a new game or loading";
   case OPT_AUTOSAVE:    	return "If true, game will periodically\nsave the map";
   case OPT_GRADUAL_NIGHT_LIGHT: return "If true will add nice gradual-lighting\n(should only make a difference @night)";
+  case OPT_QUERY_DISASSEMBLE: return "If true, will query before disassembling\nitems";
   case OPT_DROP_EMPTY: return "Set to drop empty containers after use\n0 - don't drop any\n1 - all except watertight containers\n2 - all containers";  
   case OPT_SKILL_RUST: return "Set the level of skill rust\n0 - vanilla Cataclysm\n1 - capped at skill levels\n2 - none at all";
   default:			return " ";
@@ -138,6 +142,7 @@ std::string option_name(option_key key)
   case OPT_AUTOSAFEMODE:	return "Auto-Safemode on by default";
   case OPT_AUTOSAVE:    	return "Periodically Autosave";
   case OPT_GRADUAL_NIGHT_LIGHT: return "Gradual night light";
+  case OPT_QUERY_DISASSEMBLE: return "Query on disassembly";
   case OPT_DROP_EMPTY: return "Drop empty containers";  
   case OPT_SKILL_RUST: return "Skill Rust";
   default:			return "Unknown Option (BUG)";
@@ -207,6 +212,8 @@ autosafemode F\n\
 autosave F\n\
 # If true will add nice gradual-lighting (should only make a difference @night)\n\
 gradual_night_light F\n\
+# If true, will query beefore disassembling items\n\
+query_disassemble T\n\
 # Player will automatically drop empty containers after use\n\
 # 0 - don't drop any, 1 - drop all except watertight containers, 2 - drop all containers\n\
 drop_empty 0\n\

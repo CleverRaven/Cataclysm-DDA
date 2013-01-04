@@ -829,6 +829,10 @@ void game::process_activity()
     complete_craft();
     break;
 
+   case ACT_DISASSEMBLE:
+    complete_disassemble();
+    break;
+
    case ACT_BUTCHER:
     complete_butcher(u.activity.index);
     break;
@@ -912,6 +916,10 @@ void game::cancel_activity_query(const char* message, ...)
    if (query_yn("%s Stop crafting?", s.c_str()))
     doit = true;
    break;
+  case ACT_DISASSEMBLE:
+   if (query_yn("%s Stop disassembly?", s.c_str()))
+    doit = true;
+   break;   
   case ACT_BUTCHER:
    if (query_yn("%s Stop butchering?", s.c_str()))
     doit = true;
@@ -1440,18 +1448,18 @@ input_ret game::get_input(int timeout_ms)
    craft();
    break;
 
-  case ACTION_CONSTRUCT:
-   if (u.in_vehicle)
-    add_msg("You can't construct while in vehicle.");
-   else
-    construction_menu();
-   break;
-
   case ACTION_DISASSEMBLE:
    if (u.in_vehicle)
     add_msg("You can't disassemble items while in vehicle.");
    else
     disassemble();
+   break;   
+
+  case ACTION_CONSTRUCT:
+   if (u.in_vehicle)
+    add_msg("You can't construct while in vehicle.");
+   else
+    construction_menu();
    break;
 
   case ACTION_SLEEP:
