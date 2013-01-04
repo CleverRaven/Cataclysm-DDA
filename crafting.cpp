@@ -84,7 +84,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
 
  RECIPE(itm_shotgun_sawn, CC_WEAPON, sk_gun, sk_null, 1, 2000);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
-  COMP(itm_shotgun_d, 1, itm_remington_870, 1, itm_mossberg_500, NULL);
+  COMP(itm_shotgun_d, 1, itm_remington_870, 1, itm_mossberg_500, 1, NULL);
 
  RECIPE(itm_saiga_sawn, CC_WEAPON, sk_gun, sk_null, 1, 2000);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
@@ -1260,7 +1260,7 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
  mvwputch(w, 2, 74, c_ltgray, LINE_XXOX);
 
  mvwprintz(w, 1, 0, c_ltgray, "\
-      WEAPONS         FOOD         ELECTRONICS         ARMOR         MISC");
+     WEP/AMMO         FOOD         ELECTRONICS         ARMOR         MISC");
  mvwputch(w, 1,  4, c_ltgray, LINE_XOXO);
  mvwputch(w, 1, 20, c_ltgray, LINE_XOXO);
  mvwputch(w, 1, 33, c_ltgray, LINE_XOXO);

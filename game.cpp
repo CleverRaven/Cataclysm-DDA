@@ -4704,6 +4704,16 @@ void game::examine()
  }} else {
    add_msg("You need a shovel to do that!");
   }
+ } else if (m.ter(examx, examy) == t_chainfence_v && query_yn("Climb fence?") ||
+            m.ter(examx, examy) == t_chainfence_h && query_yn("Climb fence?")) {
+   u.moves -= 400;
+  if (one_in(u.dex_cur)) { 
+   add_msg("You slip whilst climbing and fall down again");
+ } else {
+   u.moves += u.dex_cur * 10;
+   u.posx = examx;
+   u.posy = examy;
+  }
  } else if (m.ter(examx, examy) == t_groundsheet && query_yn("Take down tent?")) {
    u.moves -= 200;
    m.ter(examx    , examy    ) = t_dirt;

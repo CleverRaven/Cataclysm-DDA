@@ -1348,10 +1348,10 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    ter(11,  2) = t_backboard;
    ter(11, 20) = t_backboard;
 
-   line(this, t_fence_v,  0,  1,  0, 21);
-   line(this, t_fence_v, 23,  1, 23, 21);
-   line(this, t_fence_h,  1,  1, 22,  1);
-   line(this, t_fence_h,  1, 21, 22, 21);
+   line(this, t_chainfence_v,  0,  1,  0, 21);
+   line(this, t_chainfence_v, 23,  1, 23, 21);
+   line(this, t_chainfence_h,  1,  1, 22,  1);
+   line(this, t_chainfence_h,  1, 21, 22, 21);
 
    ter( 2,  1) = t_pavement;
    ter(21,  1) = t_pavement;
