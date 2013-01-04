@@ -250,6 +250,7 @@ IF_NULL,
 IF_LIGHT_4,	// Provides 4 tiles of light
 IF_LIGHT_8,	// Provides 8 tiles of light
 
+IF_FIRE,        // Chance to set fire to tiles/enemies
 IF_SPEAR,	// Cutting damage is actually a piercing attack
 IF_STAB,	// This weapon *can* pierce, but also has normal cutting
 IF_WRAP,	// Can wrap around your target, costing you and them movement

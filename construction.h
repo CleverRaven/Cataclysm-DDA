@@ -57,6 +57,8 @@ struct construct // Construction functions.
 
  bool able_tree(game *, point); // Able on trees
  bool able_log(game *, point); // Able on logs
+ 
+ bool able_furniture(game *, point); // Able on furniture
 
  bool able_furniture(game *, point);
 
@@ -67,5 +69,6 @@ struct construct // Construction functions.
  void done_tree(game *, point);
  void done_log(game *, point);
  void done_furniture(game *, point);
+ void done_deconstruct(game *, point);
 
 };

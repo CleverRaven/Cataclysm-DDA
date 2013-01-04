@@ -3776,7 +3776,7 @@ a fair amount of light");
 TOOL("torch (lit)",    95,  0, '/', c_brown,   WOOD,   MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL     REVERT    FUNCTION
     6, 10, 12,  0,  3, 25, 25,  1, 15, AT_NULL, itm_torch_done, &iuse::torch_lit,
-0,"\
+mfb(IF_FIRE),"\
 A large stick, wrapped in gasoline soaked rags. This is burning,\n\
 producing plenty of light");
 
