@@ -72,6 +72,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN);
 ANGER(MTRIG_TIME, MTRIG_PLAYER_WEAK, MTRIG_HURT);
 PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
+
 mon("bear",	species_mammal, 'B',	c_dkgray,	MS_LARGE,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	  2, 10,-10, 40,140, 10,  3,  4,  6,  3,  2,  0,  0, 90, 0,

@@ -31,11 +31,11 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
 // WEAPONS
 
  RECIPE(itm_lawnmower_machete, CC_WEAPON, sk_null, sk_null, 0, 5000, true);
-  TOOL(itm_duct_tape, 50, NULL);
+  COMP(itm_duct_tape, 50, NULL);
   COMP(itm_lawnmower_blade, 1, NULL);
 
  RECIPE(itm_lawnmower_halberd, CC_WEAPON, sk_null, sk_null, 0, 5000, true);
-  TOOL(itm_duct_tape, 100, NULL);
+  COMP(itm_duct_tape, 100, NULL);
   COMP(itm_lawnmower_blade, 1, NULL);
   COMP(itm_stick, 1, itm_mop, 1, NULL);
 
@@ -941,12 +941,7 @@ RECIPE(itm_boobytrap, CC_MISC, sk_mechanics, sk_traps,3,5000, false);
 
  RECIPE(itm_bandages, CC_MISC, sk_firstaid, sk_null, 1, 500, false);
   COMP(itm_rag, 3, NULL);
-  COMP(itm_superglue, 1, NULL);
-  COMP(itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, 1, NULL);
-
-RECIPE(itm_bandages, CC_MISC, sk_firstaid, sk_null, 1, 1000, false);
-  TOOL(itm_duct_tape, 10, NULL);
-  COMP(itm_rag, 3, NULL);
+  COMP(itm_superglue, 1, itm_duct_tape, 5, NULL);
   COMP(itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, 1, NULL);
 
  RECIPE(itm_silencer, CC_MISC, sk_mechanics, sk_null, 1, 650, false);
@@ -1756,15 +1751,6 @@ void game::disassemble()
               k = recipes[i]->tools[j].size();
             }
             // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
-            if (type == itm_sewing_kit)
-            { if (crafting_inv.has_amount(itm_knife_steak, 1) ||
-                  crafting_inv.has_amount(itm_knife_combat, 1)||
-                  crafting_inv.has_amount(itm_scissors, 1) ||
-                  crafting_inv.has_amount(itm_toolset, 1))
-                 have_tool[j] = true;
-                else
-                 have_tool[j] = false;
-            }
             if (type == itm_welder)
             {
               if (crafting_inv.has_amount(itm_hacksaw, 1) ||
@@ -1882,7 +1868,7 @@ void game::complete_disassemble()
       {
         item newit(itypes[dis->components[j][0].type], turn);
         // skip item addition if component is a consumable like superglue
-        if (dis->components[j][0].type == itm_superglue)
+        if (dis->components[j][0].type == itm_superglue || dis->components[j][0].type == itm_duct_tape)
           compcount--;
         else
         {

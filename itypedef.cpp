@@ -1828,6 +1828,11 @@ AMMO("thread",          40, 50, AT_THREAD,      c_magenta,      COTTON,
 A small quantity of thread, could be used to refill a sewing kit.",
 0);
 
+AMMO("duct tape",       60, 20, AT_DUCTTAPE,    c_ltgray,       PLASTIC,
+         2,  2,  0,  0,  0,  0,  0, 200, "\
+A roll of incredibly strong tape, it's uses are innumerable.",
+0);
+
 AMMO("plutonium cell",	10,1500,AT_PLUT,	c_ltgreen,	STEEL,
 	 1,  1,  0,  0,  0,  0,  0, 5, "\
 A nuclear-powered battery.  Used to charge advanced and rare electronics.",
@@ -3742,12 +3747,6 @@ TOOL("tent",	17, 65, ';', c_green,	IRON,	MNULL,
 0, "\
 A small tent, just big enough to fit a person comfortably.");
 
-TOOL("duct tape",60, 20, ';', c_ltgray, PLASTIC, PAPER,
-// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL     REVERT    FUNCTION
-    2,  2,  0,  0, -3, 200,200, 0,  0, AT_NULL, itm_null, &iuse::none,
-0, "\
-A roll of incredibly strong tape, it's uses are innumerable.");
-
 TOOL("torch",    95,  0, '/', c_brown,   WOOD,   MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL     REVERT    FUNCTION
     6, 10, 12,  0,  3, 25, 25,  0, 0, AT_NULL, itm_null, &iuse::torch,
@@ -4396,6 +4395,7 @@ std::string ammo_name(ammotype t)
   case AT_40MM:   return "40mm grenade";
   case AT_GAS:	  return "gasoline";
   case AT_THREAD: return "thread";
+  case AT_DUCTTAPE: return "duct tape";
   case AT_BATT:   return "batteries";
   case AT_PLUT:   return "plutonium";
   case AT_FUSION: return "fusion cell";
@@ -4433,6 +4433,7 @@ itype_id default_ammo(ammotype guntype)
  case AT_PLUT:	return itm_plut_cell;
  case AT_GAS:	return itm_gasoline;
  case AT_THREAD:return itm_thread;
+ case AT_DUCTTAPE: return itm_duct_tape;
  }
  return itm_null;
 }
