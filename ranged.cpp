@@ -212,6 +212,8 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  if (i == items.size()) {
   item casing;
   casing.make(itypes[casing_type]);
+  // Casing needs a charges of 1 to stack properly with other casings.
+  casing.charges = 1;
   m.add_item(x, y, casing);
  }
 //   casing.make(itypes[casing_type]);
