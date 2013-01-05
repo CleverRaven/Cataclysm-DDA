@@ -858,6 +858,22 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
  }
 
  switch (ter(x, y)) {
+ 
+ case t_chainfence_v:
+ case t_chainfence_h:
+  result = rng(0, 50);
+  if (res) *res = result;
+  if (str >= result && str >= rng(0, 50)) {
+   sound += "clang!";
+   ter(x, y) = t_chainfence_posts;
+   int num_boards = rng(0, 1);
+   return true;
+  } else {
+   sound += "clang!";
+   return true;
+  }
+  break;
+
  case t_wall_wood:
   result = rng(0, 120);
   if (res) *res = result;
