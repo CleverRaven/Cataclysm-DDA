@@ -361,7 +361,7 @@ void game::construction_menu()
    }
    wrefresh(w_con);
   } // Finished updating
- 
+
   ch = input();
   switch (ch) {
    case 'j':
@@ -548,7 +548,7 @@ void game::complete_construction()
   if (!stage.components[i].empty())
    consume_items(this, stage.components[i]);
  }
- 
+
 // Make the terrain change
  int terx = u.activity.placement.x, tery = u.activity.placement.y;
  if (stage.terrain != t_null)
@@ -623,7 +623,7 @@ bool construct::able_empty_window(game *g, point p)
 
 bool construct::able_window_pane(game *g, point p)
 {
- return (g->m.ter(p.x, p.y) == t_window);
+ return (g->m.ter(p.x, p.y) == t_window || g->m.ter(p.x, p.y) == t_window_domestic);
 }
 
 bool construct::able_broken_window(game *g, point p)
@@ -658,7 +658,7 @@ bool construct::able_wall_wood(game *g, point p)
 bool construct::able_indoors(game *g, point p)
 {
  return (g->m.ter(p.x, p.y) == t_floor);
-}                    
+}
 
 bool construct::able_dig(game *g, point p)
 {
