@@ -4956,7 +4956,7 @@ std::vector<int> player::has_ammo(ammotype at)
    }
    if (newtype)
     ret.push_back(a);
-  }
+  }        
  }
  return ret;
 }

@@ -166,6 +166,76 @@ char game::inv(std::string title)
  return ch;
 }
 
+char game::inv_food(std::string title)
+{
+ WINDOW* w_inv = newwin(25, 80, 0, 0);
+ const int maxitems = 20;	// Number of items to show at one time.
+ char ch = '.';
+ int start = 0, cur_it;
+ u.sort_inv();
+ u.inv.restack(&u);
+ std::vector<char> null_vector;
+ print_inv_statics(this, w_inv, title, null_vector);
+// Gun, ammo, weapon, armor, food, tool, book, other
+ std::vector<int> firsts = find_firsts(u.inv);
+
+ do {
+  if (ch == '<' && start > 0) { // Clear lines and shift
+   for (int i = 1; i < 25; i++)
+    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+   start -= maxitems;
+   if (start < 0)
+    start = 0;
+   mvwprintw(w_inv, maxitems + 2, 0, "         ");
+  }
+  if (ch == '>' && cur_it < u.inv.size()) { // Clear lines and shift
+   start = cur_it;
+   mvwprintw(w_inv, maxitems + 2, 12, "            ");
+   for (int i = 1; i < 25; i++)
+    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+  }
+  int cur_line = 2;
+  for (cur_it = start; cur_it < start + maxitems && cur_line < 23; cur_it++) {
+// Clear the current line;
+   mvwprintw(w_inv, cur_line, 0, "                                    ");
+// Print category header
+   for (int i = 0; i < 8; i++) {
+    if (cur_it == firsts[i] && u.inv[cur_it].is_food()) {
+     mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
+     cur_line++;
+    }
+   }
+   if (cur_it < u.inv.size() && (u.inv[cur_it].is_food() || 
+   u.inv[cur_it].is_food_container()))
+   {
+    mvwputch (w_inv, cur_line, 0, c_white, u.inv[cur_it].invlet);
+    mvwprintz(w_inv, cur_line, 1, u.inv[cur_it].color_in_inventory(&u), " %s",
+              u.inv[cur_it].tname(this).c_str());
+    if (u.inv.stack_at(cur_it).size() > 1)
+     wprintw(w_inv, " [%d]", u.inv.stack_at(cur_it).size());
+    if (u.inv[cur_it].charges > 0)
+     wprintw(w_inv, " (%d)", u.inv[cur_it].charges);
+    else if (u.inv[cur_it].contents.size() == 1 &&
+             u.inv[cur_it].contents[0].charges > 0)
+     wprintw(w_inv, " (%d)", u.inv[cur_it].contents[0].charges);
+   cur_line++;
+   }
+//   cur_line++;
+  }
+  if (start > 0)
+   mvwprintw(w_inv, maxitems + 4, 0, "< Go Back");
+  if (cur_it < u.inv.size())
+   mvwprintw(w_inv, maxitems + 4, 12, "> More items");
+  wrefresh(w_inv);
+  ch = getch();
+ } while (ch == '<' || ch == '>');
+ werase(w_inv);
+ delwin(w_inv);
+ erase();
+ refresh_all();
+ return ch;
+}
+
 std::vector<item> game::multidrop()
 {
  u.sort_inv();

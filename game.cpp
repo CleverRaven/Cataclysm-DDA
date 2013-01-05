@@ -6235,7 +6235,7 @@ void game::eat()
   add_msg("You eat the underbrush.");
   return;
  }
- char ch = inv("Consume item:");
+ char ch = inv_food("Consume item:");
  if (ch == KEY_ESCAPE) {
   add_msg("Never mind.");
   return;
