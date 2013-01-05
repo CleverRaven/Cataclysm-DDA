@@ -197,25 +197,23 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   default: /*No casing for other ammo types.*/ break;
   }
   if (casing_type != itm_null) {
-//   item casing;
-   // This should be safe since player location will always be centered.
-   // int x = p.posx - 1 + rng(0, 2);
-   // int y = p.posy - 1 + rng(0, 2);
- std::vector<item>& items = m.i_at(x, y);
- int i;
- for (i = 0; i < items.size(); i++)
-  if (items[i].typeId() == casing_type &&
-      items[i].charges < (dynamic_cast<it_ammo*>(items[i].type))->count) {
-  items[i].charges++;
-  break;
-  }
- if (i == items.size()) {
-  item casing;
-  casing.make(itypes[casing_type]);
-  m.add_item(x, y, casing);
- }
-//   casing.make(itypes[casing_type]);
-//   m.add_item(p.posx, p.posy, casing);
+   int x = p.posx - 1 + rng(0, 2);
+   int y = p.posy - 1 + rng(0, 2);
+   std::vector<item>& items = m.i_at(x, y);
+   int i;
+   for (i = 0; i < items.size(); i++)
+    if (items[i].typeId() == casing_type &&
+        items[i].charges < (dynamic_cast<it_ammo*>(items[i].type))->count) {
+     items[i].charges++;
+     break;
+    }
+   if (i == items.size()) {
+    item casing;
+    casing.make(itypes[casing_type]);
+    // Casing needs a charges of 1 to stack properly with other casings.
+    casing.charges = 1;
+    m.add_item(x, y, casing);
+   }
   }
 
   // Use up a round (or 100)
