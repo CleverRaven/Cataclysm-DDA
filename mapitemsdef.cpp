@@ -48,7 +48,7 @@ void game::init_mapitems()
 	itm_pot, itm_pan, itm_knife_butter, itm_knife_steak, itm_knife_butcher,
 	itm_cookbook, itm_rag, itm_hotplate, itm_flashlight, itm_extinguisher,
 	itm_whiskey, itm_bleach, itm_ammonia, itm_flour, itm_sugar, itm_salt,
-	itm_tea_raw, itm_coffee_raw,
+	itm_tea_raw, itm_coffee_raw, 
 	NULL);
 
  setvector(
@@ -133,7 +133,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_magazines],
 	itm_mag_tv, itm_mag_news, itm_mag_cars, itm_mag_cooking,
-	itm_novel_romance, itm_novel_spy, itm_mag_carpentry, NULL);
+	itm_novel_romance, itm_novel_spy, itm_mag_carpentry, itm_mag_survival, NULL);
 
  setvector(
    mapitems[mi_softdrugs],
@@ -192,14 +192,15 @@ void game::init_mapitems()
 	itm_glasses_safety, itm_bb, itm_bbgun, itm_beartrap, itm_two_way_radio,
 	itm_radio, itm_hotplate, itm_extinguisher, itm_nailgun,
 	itm_manual_mechanics, itm_manual_carpentry, itm_mag_carpentry,
-	itm_duct_tape, itm_lawnmower, NULL);
+	itm_duct_tape, itm_lawnmower, itm_cable, itm_textbook_mechanics,
+        NULL);
 
  setvector(
    mapitems[mi_consumer_electronics],
 	itm_amplifier, itm_antenna, itm_battery, itm_soldering_iron,
 	itm_screwdriver, itm_processor, itm_RAM, itm_mp3, itm_flashlight,
 	itm_radio, itm_hotplate, itm_receiver, itm_transponder, itm_tazer,
-	itm_two_way_radio, itm_usb_drive, itm_manual_electronics, NULL);
+	itm_two_way_radio, itm_usb_drive, itm_manual_electronics, itm_cable, NULL);
 
  setvector(
    mapitems[mi_sports],
@@ -207,7 +208,7 @@ void game::init_mapitems()
 	itm_tank_top, itm_gloves_fingerless, itm_glasses_safety, itm_tshirt_fit,
 	itm_armguard_soft, itm_armguard_hard,
 	itm_goggles_swim, itm_goggles_ski, itm_hat_ball, itm_helmet_bike,
-	itm_helmet_ball, itm_manual_brawl, NULL);
+	itm_helmet_ball, itm_manual_brawl, itm_mag_survival, NULL);
 
  setvector(
    mapitems[mi_camping],
