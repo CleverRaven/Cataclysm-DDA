@@ -3085,11 +3085,6 @@ BOOK("Birdhouse Monthly",       30,  45,c_pink,		PAPER,	MNULL,
     1,  1, -3,  1,	sk_carpentry,	 1,  0,  1,  5,  8, "\
 A riveting periodical all about birdhouses and their construction.");
 
-BOOK("Pitching a Tent",20,200,c_green,  PAPER,  MNULL,
-// VOL WGT DAM HIT      TYPE            LEV REQ FUN INT TIME
-    3,  1,  -3, 0,      sk_survival,    3,   0,  0,  4,  18,"\
-A guide detailing the basics of woodsmanship and outdoor survival.");
-
 BOOK("Guns n Ammo",		20,  48,c_pink,		PAPER,	MNULL,
     1,  1, -3,  1,	sk_gun,		 1,  0,  1,  2,  7, "\
 Reviews of firearms, and various useful tips about their use.");
@@ -3127,10 +3122,10 @@ BOOK("Under the Hood",		35, 190,c_green,	PAPER,	MNULL,
     3,  1, -3,  0,	sk_mechanics,	 3,  0,  0,  5, 18, "\
 An advanced mechanics manual, covering all sorts of topics.");
 
-BOOK("Mechanical Mastery",12,495,c_blue,PAPER,MNULL,
-    6,  3,  4,  1,      sk_mechanics,   6,   3, -1,  6,  30,"\
-An advanced guide on mechanics and welding, covering topics like\n\
-\"Grinding off rust\" and \"Making cursive E\'s\".");
+BOOK("Pitching a Tent",20,200,c_green,  PAPER,  MNULL,
+// VOL WGT DAM HIT      TYPE            LEV REQ FUN INT TIME
+    3,  1,  -3, 0,      sk_survival,    3,   0,  0,  4,  18,"\
+A guide detailing the basics of woodsmanship and outdoor survival.");
 
 BOOK("Self-Esteem for Dummies",	50, 160,c_green,	PAPER,	MNULL,
     3,  1, -3,  0,	sk_speech,	 3,  0,  0,  5, 20, "\
@@ -3184,6 +3179,11 @@ A college textbook on circuit design.");
 BOOK("Advanced Economics",	12, 480,c_blue,		PAPER,	MNULL,
     7,  4,  5,  1,	sk_barter,	 5,  3, -1,  9, 30, "\
 A college textbook on economics.");
+
+BOOK("Mechanical Mastery",12,495,c_blue,PAPER,MNULL,
+    6,  3,  4,  1,      sk_mechanics,   6,   3, -1,  6,  30,"\
+An advanced guide on mechanics and welding, covering topics like\n\
+\"Grinding off rust\" and \"Making cursive E\'s\".");
 
 //	NAME			RAR PRC	COLOR		MAT1	MAT2
 BOOK("Chemistry Textbook",	11, 495,c_blue,		PAPER,	MNULL,
