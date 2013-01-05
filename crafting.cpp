@@ -39,8 +39,6 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP(itm_lawnmower_blade, 1, NULL);
   COMP(itm_stick, 1, itm_mop, 1, NULL);
 
- RECIPE(itm_spear_wood, CC_WEAPON, sk_null, sk_null, 0, 800);
-
 // NON-CRAFTABLE BUT CAN BE DISASSEMBLED (set category to CC_NONCRAFT)
 /* EXAMPLE
 RECIPE(itm_katana, CC_NONCRAFT, sk_cutting, sk_null, 3, 800, true);
@@ -50,7 +48,7 @@ RECIPE(itm_katana, CC_NONCRAFT, sk_cutting, sk_null, 3, 800, true);
 
 // CRAFTABLE
 
- RECIPE(itm_spear_wood, CC_WEAPON, sk_null, sk_null, 0, 800, true);
+ RECIPE(itm_spear_wood, CC_WEAPON, sk_null, sk_null, 0, 800, false);
   TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
 	itm_knife_combat, -1, itm_machete, -1, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_pool_cue, 1, NULL);
@@ -632,8 +630,8 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
  RECIPE(itm_hotplate, CC_ELECTRONIC, sk_electronics, sk_null, 3, 30000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
-  COMP(itm_soldering_iron, 1, itm_amplifier, 1, NULL);
-  COMP(itm_pan, 1, itm_pot, 1, itm_knife_butcher, 2, itm_knife_steak, 6,
+  COMP(itm_amplifier, 1, itm_soldering_iron, 1, NULL);
+  COMP(itm_scrap, 2, itm_pan, 1, itm_pot, 1, itm_knife_butcher, 2, itm_knife_steak, 6,
      itm_knife_butter, 6, itm_muffler, 1, NULL);
 
  RECIPE(itm_tazer, CC_ELECTRONIC, sk_electronics, sk_null, 3, 25000, true);
@@ -704,47 +702,47 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_knife_combat, -1, itm_knife_steak, -1, itm_scissors, -1, NULL);
   COMP(itm_string_6, 1, NULL);
 
- RECIPE(itm_mocassins, CC_ARMOR, sk_tailor, sk_null, 1, 30000, true);
+ RECIPE(itm_mocassins, CC_ARMOR, sk_tailor, sk_null, 1, 30000, false);
   TOOL(itm_sewing_kit,  5, NULL);
   COMP(itm_fur, 2, NULL);
 
- RECIPE(itm_boots_fit, CC_ARMOR, sk_tailor, sk_null, 2, 35000, true);
+ RECIPE(itm_boots_fit, CC_ARMOR, sk_tailor, sk_null, 2, 35000, false);
   TOOL(itm_sewing_kit, 10, NULL);
   COMP(itm_leather, 4, NULL);
 
- RECIPE(itm_jeans_fit, CC_ARMOR, sk_tailor, sk_null, 2, 45000, true);
+ RECIPE(itm_jeans_fit, CC_ARMOR, sk_tailor, sk_null, 2, 45000, false);
   TOOL(itm_sewing_kit, 10, NULL);
   COMP(itm_rag, 6, NULL);
 
- RECIPE(itm_pants_cargo_fit, CC_ARMOR, sk_tailor, sk_null, 3, 48000, true);
+ RECIPE(itm_pants_cargo_fit, CC_ARMOR, sk_tailor, sk_null, 3, 48000, false);
   TOOL(itm_sewing_kit, 16, NULL);
   COMP(itm_rag, 8, NULL);
 
- RECIPE(itm_pants_leather_fit, CC_ARMOR, sk_tailor, sk_null, 4, 50000, true);
+ RECIPE(itm_pants_leather, CC_ARMOR, sk_tailor, sk_null, 4, 50000, false);
   TOOL(itm_sewing_kit, 10, NULL);
   COMP(itm_leather, 10, NULL);
 
- RECIPE(itm_tank_top, CC_ARMOR, sk_tailor, sk_null, 2, 38000, true);
+ RECIPE(itm_tank_top, CC_ARMOR, sk_tailor, sk_null, 2, 38000, false);
   TOOL(itm_sewing_kit, 4, NULL);
   COMP(itm_rag, 4, NULL);
 
- RECIPE(itm_hoodie_fit, CC_ARMOR, sk_tailor, sk_null, 3, 40000, true);
+ RECIPE(itm_hoodie_fit, CC_ARMOR, sk_tailor, sk_null, 3, 40000, false);
   TOOL(itm_sewing_kit, 14, NULL);
   COMP(itm_rag, 12, NULL);
 
- RECIPE(itm_trenchcoat_fit, CC_ARMOR, sk_tailor, sk_null, 3, 42000, true);
+ RECIPE(itm_trenchcoat_fit, CC_ARMOR, sk_tailor, sk_null, 3, 42000, false);
   TOOL(itm_sewing_kit, 24, NULL);
   COMP(itm_rag, 11, NULL);
 
- RECIPE(itm_coat_fur, CC_ARMOR, sk_tailor, sk_null, 4, 100000, true);
+ RECIPE(itm_coat_fur, CC_ARMOR, sk_tailor, sk_null, 4, 100000, false);
   TOOL(itm_sewing_kit, 20, NULL);
   COMP(itm_fur, 10, NULL);
 
- RECIPE(itm_jacket_leather_fit, CC_ARMOR, sk_tailor, sk_null, 5, 150000, true);
+ RECIPE(itm_jacket_leather_fit, CC_ARMOR, sk_tailor, sk_null, 5, 150000, false);
   TOOL(itm_sewing_kit, 30, NULL);
   COMP(itm_leather, 16, NULL);
 
- RECIPE(itm_gloves_light, CC_ARMOR, sk_tailor, sk_null, 1, 10000, true);
+ RECIPE(itm_gloves_light, CC_ARMOR, sk_tailor, sk_null, 1, 10000, false);
   TOOL(itm_sewing_kit, 2, NULL);
   COMP(itm_rag, 2, NULL);
 
@@ -778,7 +776,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_power_supply, 1, NULL);
   COMP(itm_amplifier, 3, NULL);
 
- RECIPE(itm_hat_fur, CC_ARMOR, sk_tailor, sk_null, 2, 40000, true);
+ RECIPE(itm_hat_fur, CC_ARMOR, sk_tailor, sk_null, 2, 40000, false);
   TOOL(itm_sewing_kit, 8, NULL);
   COMP(itm_fur, 3, NULL);
   
@@ -799,7 +797,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_string_36, 2, itm_string_6, 12, NULL);
   COMP(itm_chitin_piece, 15, NULL);
 
- RECIPE(itm_backpack, CC_ARMOR, sk_tailor, sk_null, 3, 50000, true);
+ RECIPE(itm_backpack, CC_ARMOR, sk_tailor, sk_null, 3, 50000, false);
   TOOL(itm_sewing_kit, 20, NULL);
   COMP(itm_rag, 20, itm_fur, 16, itm_leather, 12, NULL);
 
@@ -1279,7 +1277,7 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
  mvwputch(w, 2, 74, c_ltgray, LINE_XXOX);
 
  mvwprintz(w, 1, 0, c_ltgray, "\
-     WEP/AMMO         FOOD         ELECTRONICS         ARMOR         MISC");
+      OFFENSE         FOOD         ELECTRONICS         ARMOR         MISC");
  mvwputch(w, 1,  4, c_ltgray, LINE_XOXO);
  mvwputch(w, 1, 20, c_ltgray, LINE_XOXO);
  mvwputch(w, 1, 33, c_ltgray, LINE_XOXO);
@@ -1304,7 +1302,7 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
  case CC_AMMO:
   for (int i = 5; i < 14; i++)
    mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 6, h_ltgray, "AMMO   ");
+  mvwprintz(w, 1, 6, h_ltgray, "BULLETS");
   mvwputch(w, 2,  4, c_ltgray, LINE_XOOX);
   mvwputch(w, 2, 14, c_ltgray, LINE_XXOO);
   mvwputch(w, 1,  2, h_ltgray, '<');
@@ -1758,10 +1756,19 @@ void game::disassemble()
               k = recipes[i]->tools[j].size();
             }
             // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
+            if (type == itm_sewing_kit)
+            { if (crafting_inv.has_amount(itm_knife_steak, 1) ||
+                  crafting_inv.has_amount(itm_knife_combat, 1)||
+                  crafting_inv.has_amount(itm_scissors, 1) ||
+                  crafting_inv.has_amount(itm_toolset, 1))
+                 have_tool[j] = true;
+                else
+                 have_tool[j] = false;
+            }
             if (type == itm_welder)
             {
-              if (crafting_inv.has_amount(itm_hacksaw, 1) || 
-                  crafting_inv.has_amount(itm_toolkit_super, 1))
+              if (crafting_inv.has_amount(itm_hacksaw, 1) ||
+                  crafting_inv.has_amount(itm_toolset, 1))
                 have_tool[j] = true;
               else
                 have_tool[j] = false;
