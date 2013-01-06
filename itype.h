@@ -18,6 +18,19 @@
 #define mfb(n) long(1 << (n))
 #endif
 
+// for use in category specific inventory lists
+enum item_cat
+{
+  IC_NULL = 0,
+  IC_COMESTIBLE,
+  IC_AMMO,
+  IC_ARMOR,
+  IC_GUN,
+  IC_BOOK,
+  IC_TOOL,
+  IC_CONTAINER 
+};
+
 enum itype_id {
 itm_null = 0,
 itm_corpse,

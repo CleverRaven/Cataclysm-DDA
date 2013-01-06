@@ -166,8 +166,11 @@ char game::inv(std::string title)
  return ch;
 }
 
-char game::inv_food(std::string title)
+char game::inv_type(std::string title, int inv_item_type)
 {
+// this function lists inventory objects by type
+// refer to enum item_cat in itype.h for list of categories
+ 
  WINDOW* w_inv = newwin(25, 80, 0, 0);
  const int maxitems = 20;	// Number of items to show at one time.
  char ch = '.';
@@ -198,15 +201,51 @@ char game::inv_food(std::string title)
   for (cur_it = start; cur_it < start + maxitems && cur_line < 23; cur_it++) {
 // Clear the current line;
    mvwprintw(w_inv, cur_line, 0, "                                    ");
+
+// check that item type matches 
+  bool item_type_match = false;
+
+  if (cur_it < u.inv.size())
+  {
+    switch (inv_item_type)
+    {
+      case IC_COMESTIBLE: // food
+        item_type_match = (u.inv[cur_it].is_food(&u) || u.inv[cur_it].is_food_container(&u));
+        break;
+      case IC_AMMO: // ammo
+        item_type_match = (u.inv[cur_it].is_ammo() || u.inv[cur_it].is_ammo_container());
+        break;
+      case IC_ARMOR: // armour
+        item_type_match = (u.inv[cur_it].is_armor());
+        break; 
+      case IC_BOOK: // books
+        item_type_match = (u.inv[cur_it].is_book());
+        break;
+      case IC_TOOL: // tools
+        item_type_match = (u.inv[cur_it].is_tool());
+        break;
+      case IC_CONTAINER: // containers for liquid handling
+        if (u.inv[cur_it].is_tool() || u.inv[cur_it].is_gun())
+          item_type_match = (u.inv[cur_it].ammo_type() == AT_GAS);
+        else
+          item_type_match = (u.inv[cur_it].is_container());
+        break;        
+      default:
+        item_type_match = true;
+        break;                   
+    }
+  }
 // Print category header
+// TODO: fix so that category headers show up correctly
+
    for (int i = 0; i < 8; i++) {
-    if (cur_it == firsts[i] && u.inv[cur_it].is_food()) {
+    if (cur_it == firsts[i] && item_type_match) {
      mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
      cur_line++;
     }
    }
-   if (cur_it < u.inv.size() && (u.inv[cur_it].is_food() || 
-   u.inv[cur_it].is_food_container()))
+   
+   if (cur_it < u.inv.size() && item_type_match)
    {
     mvwputch (w_inv, cur_line, 0, c_white, u.inv[cur_it].invlet);
     mvwprintz(w_inv, cur_line, 1, u.inv[cur_it].color_in_inventory(&u), " %s",

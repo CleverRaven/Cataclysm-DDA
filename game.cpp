@@ -5564,7 +5564,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
 
   std::stringstream text;
   text << "Container for " << liquid.tname(this);
-  char ch = inv(text.str().c_str());
+  char ch = inv_type(text.str().c_str(), IC_CONTAINER);
   if (!u.has_item(ch))
    return false;
  
@@ -6235,7 +6235,7 @@ void game::eat()
   add_msg("You eat the underbrush.");
   return;
  }
- char ch = inv_food("Consume item:");
+ char ch = inv_type("Consume item:", IC_COMESTIBLE);
  if (ch == KEY_ESCAPE) {
   add_msg("Never mind.");
   return;
@@ -6249,7 +6249,7 @@ void game::eat()
 
 void game::wear()
 {
- char ch = inv("Wear item:");
+ char ch = inv_type("Wear item:", IC_ARMOR);
  if (ch == KEY_ESCAPE) {
   add_msg("Never mind.");
   return;
@@ -6259,7 +6259,7 @@ void game::wear()
 
 void game::takeoff()
 {
- if (u.takeoff(this, inv("Take off item:")))
+ if (u.takeoff(this, inv_type("Take off item:", IC_ARMOR)))
   u.moves -= 250; // TODO: Make this variable
  else
   add_msg("Invalid selection.");
@@ -6470,7 +6470,7 @@ void game::wield()
 
 void game::read()
 {
- char ch = inv("Read:");
+ char ch = inv_type("Read:", IC_BOOK);
  u.read(this, ch);
 }
 
