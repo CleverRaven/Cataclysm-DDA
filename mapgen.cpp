@@ -1258,6 +1258,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 					vt = veh_armytruck;
 				else if (ra <= 10)
 					vt = veh_bubblecar;
+				else if (ra <= 20)
+					vt = veh_schoolbus;
 				else
 					vt = veh_sandbike;
 			}
