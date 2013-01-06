@@ -220,7 +220,8 @@ reload r\n\
 unload U\n\
 throw t\n\
 fire f\n\
-fire_burst F\n\
+#fire_burst F\n\
+select_Fire F\n\
 drop d\n\
 drop_adj D\n\
 bionics p\n\

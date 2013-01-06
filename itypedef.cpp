@@ -1086,10 +1086,14 @@ A large fabric curtain, could be attached to a window or\n\
 cut up for plenty of rags.");
 
 //  NAME        RAR PRC SYM  COLOR  MAT1    MAT
-MELEE("damaged",17, 65, ';', c_green,	IRON,	MNULL,
+MELEE("damaged tent",17, 65, ';', c_green,	IRON,	MNULL,
 	 10,  20,  4,  0, -3, 0, "\
 A small tent, just big enough to fit a person comfortably.\n\
 This tent is broken and cannot be deployed");
+
+MELEE("Heating element", 20, 10, ',', c_cyan,   IRON,   MNULL,
+         0,   1,   0,  0,  0, 0, "\
+A heating element, like the ones used in hotplates or kettles.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  25, 35, ']', c_cyan,  STEEL,   MNULL,
@@ -1834,9 +1838,14 @@ AMMO("thread",          40, 50, AT_THREAD,      c_magenta,      COTTON,
 A small quantity of thread, could be used to refill a sewing kit.",
 0);
 
-AMMO("duct tape",       60, 20, AT_DUCTTAPE,    c_ltgray,       PLASTIC,
+AMMO("duct tape",       60, 20, AT_NULL,    c_ltgray,       PLASTIC,
          2,  2,  0,  0,  0,  0,  0, 200, "\
 A roll of incredibly strong tape, it's uses are innumerable.",
+0);
+
+AMMO("copper wire",       60, 20, AT_NULL,    c_ltgray,       PLASTIC,
+         2,  2,  0,  0,  0,  0,  0, 200, "\
+Plastic jacketed copper cable, of the type used in small electronics.",
 0);
 
 AMMO("plutonium cell",	10,1500,AT_PLUT,	c_ltgreen,	STEEL,
@@ -3119,6 +3128,11 @@ BOOK("Under the Hood",		35, 190,c_green,	PAPER,	MNULL,
     3,  1, -3,  0,	sk_mechanics,	 3,  0,  0,  5, 18, "\
 An advanced mechanics manual, covering all sorts of topics.");
 
+BOOK("Pitching a Tent",20,200,c_green,  PAPER,  MNULL,
+// VOL WGT DAM HIT      TYPE            LEV REQ FUN INT TIME
+    3,  1,  -3, 0,      sk_survival,    3,   0,  0,  4,  18,"\
+A guide detailing the basics of woodsmanship and outdoor survival.");
+
 BOOK("Self-Esteem for Dummies",	50, 160,c_green,	PAPER,	MNULL,
     3,  1, -3,  0,	sk_speech,	 3,  0,  0,  5, 20, "\
 Full of useful tips for showing confidence in your speech.");
@@ -3171,6 +3185,11 @@ A college textbook on circuit design.");
 BOOK("Advanced Economics",	12, 480,c_blue,		PAPER,	MNULL,
     7,  4,  5,  1,	sk_barter,	 5,  3, -1,  9, 30, "\
 A college textbook on economics.");
+
+BOOK("Mechanical Mastery",12,495,c_blue,PAPER,MNULL,
+    6,  3,  4,  1,      sk_mechanics,   6,   3, -1,  6,  30,"\
+An advanced guide on mechanics and welding, covering topics like\n\
+\"Grinding off rust\" and \"Making cursive E\'s\".");
 
 //	NAME			RAR PRC	COLOR		MAT1	MAT2
 BOOK("Chemistry Textbook",	11, 495,c_blue,		PAPER,	MNULL,
@@ -3763,7 +3782,7 @@ a fair amount of light");
 TOOL("torch (lit)",    95,  0, '/', c_brown,   WOOD,   MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL     REVERT    FUNCTION
     6, 10, 12,  0,  3, 25, 25,  1, 15, AT_NULL, itm_torch_done, &iuse::torch_lit,
-0,"\
+mfb(IF_FIRE),"\
 A large stick, wrapped in gasoline soaked rags. This is burning,\n\
 producing plenty of light");
 
@@ -3799,14 +3818,14 @@ A small hand press for hand loading firearm ammunition. Comes with everything \n
 you need to start hand loading.");
 
 TOOL("screwdriver",	40, 65, ';', c_ltcyan,	IRON,	PLASTIC,
-	 1,  1,  2,  8,  1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::screwdriver, mfb(IF_SPEAR), "\
+	 1,  1,  2,  8,  1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::none, mfb(IF_SPEAR), "\
 A Philips-head screwdriver, important for almost all electronics crafting and\n\
 most mechanics crafting.");
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 TOOL("wrench",		30, 86, ';', c_ltgray,	IRON,	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
-	 2,  5, 15,  0,  2, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::wrench, 0, "\
+	 2,  5, 15,  0,  2, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::none, 0, "\
 An adjustable wrench.  Makes a decent melee weapon, and is used in many\n\
 mechanics crafting recipes.");
 
@@ -4401,7 +4420,6 @@ std::string ammo_name(ammotype t)
   case AT_40MM:   return "40mm grenade";
   case AT_GAS:	  return "gasoline";
   case AT_THREAD: return "thread";
-  case AT_DUCTTAPE: return "duct tape";
   case AT_BATT:   return "batteries";
   case AT_PLUT:   return "plutonium";
   case AT_MUSCLE: return "Muscle";
@@ -4440,7 +4458,6 @@ itype_id default_ammo(ammotype guntype)
  case AT_PLUT:	return itm_plut_cell;
  case AT_GAS:	return itm_gasoline;
  case AT_THREAD:return itm_thread;
- case AT_DUCTTAPE: return itm_duct_tape;
  }
  return itm_null;
 }

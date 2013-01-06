@@ -450,7 +450,7 @@ std::string item::info(bool showtext)
           "\n Warmth: "				<< int(armor->warmth) <<
           "\n Storage: "			<< int(armor->storage);
 
- } else if (is_book()) {
+} else if (is_book()) {
 
   it_book* book = dynamic_cast<it_book*>(type);
   if (book->type == sk_null)
@@ -464,7 +464,7 @@ std::string item::info(bool showtext)
     dump << " Requires " << skill_name(book->type) << " level " <<
             int(book->req) << " to understand.\n";
   }
-  dump << " Requires intelligence of " << int(book->intel) << std::endl;
+  dump << " Requires intelligence of " << int(book->intel) << " to easily read." << std::endl;
   if (book->fun != 0)
    dump << " Reading this book affects your morale by " <<
            (book->fun > 0 ? "+" : "") << int(book->fun) << std::endl;
@@ -1486,10 +1486,26 @@ int item::pick_reload_ammo(player &u, bool interactive)
 
  std::vector<int> am;	// List of indicies of valid ammo
 
+/*
+     if (u.inv[i].is_container() && !u.inv[i].contents.empty()) // for liquid ammo
+    {
+      if (u.inv[i].contents[0].type->id == aid)
+        am.push_back(i);      
+    } else
+*/
+
+
  if (type->is_gun()) {
   if(charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
     // Special return to use magazine for reloading.
     return -2;
+  }
+  if (charges > 0) {
+   itype_id aid = itype_id(curammo->id);
+   for (int i = 0; i < u.inv.size(); i++) {
+      if (u.inv[i].typeId() == aid)
+      am.push_back(i);
+   }
   } else {
    it_gun* tmp = dynamic_cast<it_gun*>(type);
    if (charges < clip_size() ||

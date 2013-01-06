@@ -28,6 +28,19 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
  * is still not great; a good 25% improvement over the difficulty is important
  */
 
+// NON-CRAFTABLE BUT CAN BE DISASSEMBLED (set category to CC_NONCRAFT)
+
+RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
+ TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
+ COMP(itm_scrap, 8, NULL);
+ COMP(itm_spring, 2, NULL);
+ COMP(itm_lawnmower_blade, 2, NULL);
+ COMP(itm_combustion_tiny, 1, NULL);
+ COMP(itm_pipe, 3, NULL);
+
+
+// CRAFTABLE
+
 // WEAPONS
 
  RECIPE(itm_lawnmower_machete, CC_WEAPON, sk_null, sk_null, 0, 5000, true);
@@ -38,15 +51,6 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP(itm_duct_tape, 100, NULL);
   COMP(itm_lawnmower_blade, 1, NULL);
   COMP(itm_stick, 1, itm_mop, 1, NULL);
-
-// NON-CRAFTABLE BUT CAN BE DISASSEMBLED (set category to CC_NONCRAFT)
-/* EXAMPLE
-RECIPE(itm_katana, CC_NONCRAFT, sk_cutting, sk_null, 3, 800, true);
- TOOL(itm_hacksaw, -1, itm_toolset, -1, itm_toolkit_super, -1, NULL);
- COMP(itm_steel_chunk, 1, NULL);
-*/
-
-// CRAFTABLE
 
  RECIPE(itm_spear_wood, CC_WEAPON, sk_null, sk_null, 0, 800, false);
   TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
@@ -80,15 +84,17 @@ RECIPE(itm_katana, CC_NONCRAFT, sk_cutting, sk_null, 3, 800, true);
   COMP(itm_bat, 1, NULL);
   COMP(itm_nail, 6, NULL);
 
+// molotovs use 250ml of flammable liquids
  RECIPE(itm_molotov, CC_WEAPON, sk_null, sk_null, 0, 500, false);
   COMP(itm_rag, 1, NULL);
-  COMP(itm_whiskey, -1, itm_vodka, -1, itm_rum, -1, itm_tequila, -1,
-       itm_gasoline, -1, NULL);
+  COMP(itm_bottle_glass, 1, itm_flask_glass, 1, NULL);
+  COMP(itm_whiskey, 7, itm_vodka, 7, itm_rum, 7, itm_tequila, 7,
+       itm_gasoline, 200, NULL);
 
  RECIPE(itm_pipebomb, CC_WEAPON, sk_mechanics, sk_null, 1, 750, false);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
   COMP(itm_pipe, 1, NULL);
-  COMP(itm_gasoline, 1, itm_shot_bird, 6, itm_shot_00, 2, itm_shot_slug, 2,
+  COMP(itm_gasoline, 200, itm_shot_bird, 6, itm_shot_00, 2, itm_shot_slug, 2,
        NULL);
   COMP(itm_string_36, 1, itm_string_6, 1, NULL);
 
@@ -158,7 +164,7 @@ RECIPE(itm_katana, CC_NONCRAFT, sk_cutting, sk_null, 3, 800, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   COMP(itm_superglue, 1, NULL);
   COMP(itm_shot_slug, 4, NULL);
-  COMP(itm_gasoline, 1, NULL);
+  COMP(itm_gasoline, 200, NULL);
 
  RECIPE(itm_grenade, CC_WEAPON, sk_mechanics, sk_null, 2, 5000, false);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
@@ -166,7 +172,7 @@ RECIPE(itm_katana, CC_NONCRAFT, sk_cutting, sk_null, 3, 800, true);
   COMP(itm_can_food, 1, itm_can_drink, 1, itm_canister_empty, 1, NULL);
   COMP(itm_nail, 30, itm_bb, 100, NULL);
   COMP(itm_shot_bird, 6, itm_shot_00, 3, itm_shot_slug, 2,
-     itm_gasoline, 1, itm_gunpowder, 72,  NULL);
+     itm_gasoline, 200, itm_gunpowder, 72,  NULL);
 
  RECIPE(itm_chainsaw_off, CC_WEAPON, sk_mechanics, sk_null, 4, 20000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
@@ -569,38 +575,40 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
  RECIPE(itm_antenna, CC_ELECTRONIC, sk_null, sk_null, 0, 3000, false);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
-  COMP(itm_radio, 1, itm_two_way_radio, 1, itm_motor, 1, itm_knife_butter, 2,
-       NULL);
+  COMP(itm_knife_butter, 2, NULL);
 
  RECIPE(itm_amplifier, CC_ELECTRONIC, sk_electronics, sk_null, 1, 4000, false);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
-  COMP(itm_flashlight, 1, itm_radio, 1, itm_two_way_radio, 1, itm_geiger_off, 1,
-       itm_goggles_nv, 1, itm_transponder, 2, NULL);
+  COMP(itm_transponder, 2, NULL);
 
  RECIPE(itm_power_supply, CC_ELECTRONIC, sk_electronics, sk_null, 1, 6500, false);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 3, itm_toolset, 3, NULL);
-  COMP(itm_amplifier, 2, itm_soldering_iron, 1, itm_electrohack, 1,
-     itm_battery, 800, itm_geiger_off, 1, NULL);
+  COMP(itm_amplifier, 2, NULL);
+  COMP(itm_cable, 20, NULL);
 
  RECIPE(itm_receiver, CC_ELECTRONIC, sk_electronics, sk_null, 2, 12000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 4, itm_toolset, 4, NULL);
-  COMP(itm_amplifier, 2, itm_radio, 1, itm_two_way_radio, 1, NULL);
+  COMP(itm_amplifier, 2, NULL);
+  COMP(itm_cable, 10, NULL);
 
  RECIPE(itm_transponder, CC_ELECTRONIC, sk_electronics, sk_null, 2, 14000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 7, itm_toolset, 7, NULL);
-  COMP(itm_receiver, 3, itm_two_way_radio, 1, NULL);
+  COMP(itm_receiver, 3, NULL);
+  COMP(itm_wire, 5, NULL);
 
  RECIPE(itm_flashlight, CC_ELECTRONIC, sk_electronics, sk_null, 1, 10000, true);
   COMP(itm_amplifier, 1, NULL);
-  COMP(itm_can_drink, 1, itm_bottle_glass, 1, itm_bottle_plastic, 1, NULL);
+  COMP(itm_scrap, 4, itm_can_drink, 1, itm_bottle_glass, 1, itm_bottle_plastic, 1, NULL);
+  COMP(itm_wire, 10, NULL);
 
  RECIPE(itm_soldering_iron, CC_ELECTRONIC, sk_electronics, sk_null, 1, 20000, true);
   COMP(itm_antenna, 1, itm_screwdriver, 1, itm_xacto, 1, itm_knife_butter, 1,
        NULL);
   COMP(itm_power_supply, 1, NULL);
+  COMP(itm_scrap, 2, NULL);
 
  RECIPE(itm_battery, CC_ELECTRONIC, sk_electronics, sk_mechanics, 2, 5000, false);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
@@ -615,30 +623,39 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_pipe, 1, NULL);
   COMP(itm_power_supply, 1, NULL);
   COMP(itm_amplifier, 1, NULL);
+  COMP(itm_scrap, 6, NULL);
+  COMP(itm_cable, 20, NULL);
 
  RECIPE(itm_radio, CC_ELECTRONIC, sk_electronics, sk_null, 2, 25000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 10, itm_toolset, 10, NULL);
   COMP(itm_receiver, 1, NULL);
   COMP(itm_antenna, 1, NULL);
+  COMP(itm_scrap, 5, NULL);
+  COMP(itm_cable, 7, NULL);
 
  RECIPE(itm_water_purifier, CC_ELECTRONIC, sk_mechanics,sk_electronics,3,25000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
-  COMP(itm_hotplate, 2, NULL);
+  COMP(itm_element, 2, NULL);
   COMP(itm_bottle_glass, 2, itm_bottle_plastic, 5, NULL);
   COMP(itm_hose, 1, NULL);
+  COMP(itm_scrap, 3, NULL);
+  COMP(itm_cable, 5, NULL);
 
  RECIPE(itm_hotplate, CC_ELECTRONIC, sk_electronics, sk_null, 3, 30000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
-  COMP(itm_amplifier, 1, itm_soldering_iron, 1, NULL);
+  COMP(itm_element, 1, NULL);
+  COMP(itm_amplifier, 1, NULL);
   COMP(itm_scrap, 2, itm_pan, 1, itm_pot, 1, itm_knife_butcher, 2, itm_knife_steak, 6,
      itm_knife_butter, 6, itm_muffler, 1, NULL);
+  COMP(itm_cable, 10, NULL);
 
  RECIPE(itm_tazer, CC_ELECTRONIC, sk_electronics, sk_null, 3, 25000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 10, itm_toolset, 10, NULL);
   COMP(itm_amplifier, 1, NULL);
   COMP(itm_power_supply, 1, NULL);
+  COMP(itm_scrap, 2, NULL);
 
  RECIPE(itm_two_way_radio, CC_ELECTRONIC, sk_electronics, sk_null, 4, 30000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
@@ -647,20 +664,24 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_transponder, 1, NULL);
   COMP(itm_receiver, 1, NULL);
   COMP(itm_antenna, 1, NULL);
-
+  COMP(itm_scrap, 5, NULL);
+  COMP(itm_cable, 10, NULL);
 
  RECIPE(itm_electrohack, CC_ELECTRONIC, sk_electronics, sk_computer, 4, 35000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 10, itm_toolset, 10, NULL);
   COMP(itm_processor, 1, NULL);
   COMP(itm_RAM, 1, NULL);
+  COMP(itm_scrap, 4, NULL);
+  COMP(itm_cable, 10, NULL);
 
  RECIPE(itm_EMPbomb, CC_ELECTRONIC, sk_electronics, sk_null, 4, 32000, false);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 6, itm_toolset, 6, NULL);
   COMP(itm_superglue, 1, itm_string_36, 1, NULL);
-  COMP(itm_can_food, 1, itm_can_drink, 1, itm_canister_empty, 1, NULL);
+  COMP(itm_scrap, 3, itm_can_food, 1, itm_can_drink, 1, itm_canister_empty, 1, NULL);
   COMP(itm_power_supply, 1, itm_amplifier, 1, NULL);
+  COMP(itm_cable, 5, NULL);
 
  RECIPE(itm_mp3, CC_ELECTRONIC, sk_electronics, sk_computer, 5, 40000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
@@ -668,18 +689,23 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_superglue, 1, NULL);
   COMP(itm_antenna, 1, NULL);
   COMP(itm_amplifier, 1, NULL);
+  COMP(itm_cable, 2, NULL);
 
  RECIPE(itm_geiger_off, CC_ELECTRONIC, sk_electronics, sk_null, 5, 35000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 14, itm_toolset, 14, NULL);
   COMP(itm_power_supply, 1, NULL);
   COMP(itm_amplifier, 2, NULL);
+  COMP(itm_scrap, 6, NULL);
+  COMP(itm_cable, 10, NULL);
 
  RECIPE(itm_UPS_off, CC_ELECTRONIC, sk_electronics, sk_null, 5, 45000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 24, itm_toolset, 24, NULL);
   COMP(itm_power_supply, 4, NULL);
   COMP(itm_amplifier, 3, NULL);
+  COMP(itm_scrap, 4, NULL);
+  COMP(itm_cable, 10, NULL);
 
  RECIPE(itm_bionics_battery, CC_ELECTRONIC, sk_electronics, sk_null, 6, 50000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
@@ -695,6 +721,8 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_power_supply, 3, itm_plut_cell, 5, NULL);
   COMP(itm_amplifier, 3, NULL);
   COMP(itm_transponder, 3, NULL);
+  COMP(itm_scrap, 10, NULL);
+  COMP(itm_cable, 20, NULL);
 
 // ARMOR
 
@@ -755,13 +783,13 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_leather, 2, NULL);
 
  RECIPE(itm_mask_filter, CC_ARMOR, sk_mechanics, sk_tailor, 1, 5000, true);
-  COMP(itm_bottle_plastic, 1, itm_bag_plastic, 2, NULL);
+  COMP(/*itm_filter, 1, */itm_bag_plastic, 2, itm_bottle_plastic, 1, NULL);
   COMP(itm_rag, 2, itm_muffler, 1, itm_bandana, 2, itm_wrapper, 4, NULL);
 
  RECIPE(itm_mask_gas, CC_ARMOR, sk_tailor, sk_null, 3, 20000, true);
   TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
-  COMP(itm_goggles_swim, 2, itm_goggles_ski, 1, NULL);
-  COMP(itm_mask_filter, 3, itm_muffler, 1, NULL);
+  COMP(itm_goggles_ski, 1, itm_goggles_swim, 2, NULL);
+  COMP(/*itm_filter, 3, */itm_mask_filter, 3, itm_muffler, 1, NULL);
   COMP(itm_hose, 1, NULL);
 
  RECIPE(itm_glasses_safety, CC_ARMOR, sk_tailor, sk_null, 1, 8000, false);
@@ -775,25 +803,26 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_goggles_ski, 1, itm_goggles_welding, 1, itm_mask_gas, 1, NULL);
   COMP(itm_power_supply, 1, NULL);
   COMP(itm_amplifier, 3, NULL);
+  COMP(itm_scrap, 5, NULL);
 
  RECIPE(itm_hat_fur, CC_ARMOR, sk_tailor, sk_null, 2, 40000, false);
   TOOL(itm_sewing_kit, 8, NULL);
   COMP(itm_fur, 3, NULL);
   
- RECIPE(itm_armguard_metal, CC_ARMOR, sk_tailor, sk_null, 4,  30000, true);
+ RECIPE(itm_armguard_metal, CC_ARMOR, sk_tailor, sk_null, 4,  30000, false);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
   COMP(itm_string_36, 1, itm_string_6, 4, NULL);
-  COMP(itm_steel_chunk, 2, itm_scrap, 4, NULL);    
+  COMP(itm_steel_chunk, 2, NULL);    
  
- RECIPE(itm_armguard_chitin, CC_ARMOR, sk_tailor, sk_null, 3,  30000, true);
+ RECIPE(itm_armguard_chitin, CC_ARMOR, sk_tailor, sk_null, 3,  30000, false);
   COMP(itm_string_36, 1, itm_string_6, 4, NULL);
   COMP(itm_chitin_piece, 2, NULL);  
 
- RECIPE(itm_helmet_chitin, CC_ARMOR, sk_tailor, sk_null, 6,  60000, true);
+ RECIPE(itm_helmet_chitin, CC_ARMOR, sk_tailor, sk_null, 6,  60000, false);
   COMP(itm_string_36, 1, itm_string_6, 5, NULL);
   COMP(itm_chitin_piece, 5, NULL);
 
- RECIPE(itm_armor_chitin, CC_ARMOR, sk_tailor, sk_null,  7, 100000, true);
+ RECIPE(itm_armor_chitin, CC_ARMOR, sk_tailor, sk_null,  7, 100000, false);
   COMP(itm_string_36, 2, itm_string_6, 12, NULL);
   COMP(itm_chitin_piece, 15, NULL);
 
@@ -817,13 +846,13 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_steel_chunk, 12, NULL);
   COMP(itm_wire, 3, NULL);
  
- RECIPE(itm_string_36, CC_MISC, sk_null, sk_null, 0, 5000, true);
+ RECIPE(itm_string_36, CC_MISC, sk_null, sk_null, 0, 5000, false);
   COMP(itm_string_6, 6, NULL);
  
- RECIPE(itm_rope_6, CC_MISC, sk_tailor, sk_null, 2, 5000, true);
+ RECIPE(itm_rope_6, CC_MISC, sk_tailor, sk_null, 2, 5000, false);
   COMP(itm_string_36, 6, NULL);
 
- RECIPE(itm_rope_30, CC_MISC, sk_tailor, sk_null, 2, 5000, true);
+ RECIPE(itm_rope_30, CC_MISC, sk_tailor, sk_null, 2, 5000, false);
   COMP(itm_rope_6, 5, NULL);
 
  RECIPE(itm_torch,        CC_MISC, sk_null,    sk_null,     0, 2000, false);
@@ -858,7 +887,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
  RECIPE(itm_carspike,     CC_MISC, sk_null, sk_null, 0, 3000, false);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
-  COMP(itm_spear_knife, 1, itm_knife_combat, 1, itm_knife_steak, 2,
+  COMP(itm_spear_knife, 1, itm_knife_combat, 1, itm_knife_steak, 3,
        itm_steel_chunk, 3, itm_scrap, 9, NULL);
 
  RECIPE(itm_carblade,     CC_MISC, sk_null, sk_null, 0, 3000, false);
@@ -870,6 +899,10 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
   COMP(itm_bleach, 1, itm_ant_egg, 1, NULL);
+
+ RECIPE(itm_steel_lump, CC_MISC, sk_mechanics, sk_null, 0, 5000, true);
+  TOOL(itm_welder, 20, NULL);
+  COMP(itm_steel_chunk, 4, NULL);
 
  RECIPE(itm_frame, CC_MISC, sk_mechanics, sk_null, 1, 8000, true);
   TOOL(itm_welder, 50, NULL);
@@ -893,7 +926,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_pipe, 1, NULL);
 
  RECIPE(itm_bayonet, CC_MISC, sk_gun, sk_null, 1, 500, true);
-  COMP(itm_knife_steak, 3, itm_knife_combat, 1, NULL);
+  COMP(itm_carspike, 1, NULL);
   COMP(itm_string_36, 1, NULL);
 
  RECIPE(itm_tripwire, CC_MISC, sk_traps, sk_null, 1, 500, false);
@@ -913,7 +946,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
  RECIPE(itm_crossbow_trap, CC_MISC, sk_mechanics, sk_traps, 3, 4500, true);
   COMP(itm_crossbow, 1, NULL);
   COMP(itm_bolt_steel, 1, itm_bolt_wood, 4, NULL);
-  COMP(itm_string_36, 1, itm_string_6, 2, NULL);
+  COMP(itm_string_6, 2, itm_string_36, 1, NULL);
 
  RECIPE(itm_shotgun_trap, CC_MISC, sk_mechanics, sk_traps, 3, 5000, true);
   COMP(itm_shotgun_sawn, 1, NULL);
@@ -936,7 +969,7 @@ RECIPE(itm_boobytrap, CC_MISC, sk_mechanics, sk_traps,3,5000, false);
   COMP(itm_superglue, 1, NULL);
   COMP(itm_can_food, 1, itm_steel_chunk, 1, itm_canister_empty, 1, itm_scrap, 4, NULL);
   COMP(itm_nail, 100, itm_bb, 200, NULL);
-  COMP(itm_shot_bird, 30, itm_shot_00, 15, itm_shot_slug, 12, itm_gasoline, 3,
+  COMP(itm_shot_bird, 30, itm_shot_00, 15, itm_shot_slug, 12, itm_gasoline, 600,
      itm_grenade, 1, itm_gunpowder, 72, NULL);
 
  RECIPE(itm_bandages, CC_MISC, sk_firstaid, sk_null, 1, 500, false);
@@ -962,11 +995,12 @@ RECIPE(itm_boobytrap, CC_MISC, sk_mechanics, sk_traps,3,5000, false);
  RECIPE(itm_bot_manhack, CC_MISC, sk_electronics, sk_computer, 6, 8000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 10, itm_toolset, 10, NULL);
-  COMP(itm_knife_steak, 4, itm_knife_combat, 2, NULL);
+  COMP(itm_carspike, 2, NULL);
   COMP(itm_processor, 1, NULL);
   COMP(itm_RAM, 1, NULL);
   COMP(itm_power_supply, 1, NULL);
-  COMP(itm_battery, 400, itm_plut_cell, 1, NULL);
+//  COMP(itm_battery, 400, itm_plut_cell, 1, NULL);
+//  COMP(itm_scrap, 15, NULL);
 
  RECIPE(itm_bot_turret, CC_MISC, sk_electronics, sk_computer, 7, 9000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
@@ -976,8 +1010,8 @@ RECIPE(itm_boobytrap, CC_MISC, sk_mechanics, sk_traps,3,5000, false);
   COMP(itm_processor, 2, NULL);
   COMP(itm_RAM, 2, NULL);
   COMP(itm_power_supply, 1, NULL);
-  COMP(itm_battery, 500, itm_plut_cell, 1, NULL);
-
+//  COMP(itm_battery, 500, itm_plut_cell, 1, NULL);
+//  COMP(itm_scrap, 30, NULL);
 }
 
 void game::craft()

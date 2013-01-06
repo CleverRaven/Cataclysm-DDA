@@ -191,7 +191,13 @@ void game::init_construction()
    TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_nail, 8, NULL);
    COMP(itm_2x4, 10, NULL);
-   COMP(itm_rag, 10, NULL);
+   COMP(itm_rag, 10, NULL);  
+
+ CONSTRUCT("Deconstruct Furniture", 0, &construct::able_deconstruct,
+                                &construct::done_deconstruct);
+  STAGE(t_null, 20);
+   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_screwdriver, itm_toolset, NULL);        
 
  CONSTRUCT("Start vehicle construction", 0, &construct::able_empty, &construct::done_vehicle);
   STAGE(t_null, 10);
@@ -361,7 +367,7 @@ void game::construction_menu()
    }
    wrefresh(w_con);
   } // Finished updating
- 
+
   ch = input();
   switch (ch) {
    case 'j':
@@ -548,7 +554,7 @@ void game::complete_construction()
   if (!stage.components[i].empty())
    consume_items(this, stage.components[i]);
  }
- 
+
 // Make the terrain change
  int terx = u.activity.placement.x, tery = u.activity.placement.y;
  if (stage.terrain != t_null)
@@ -623,7 +629,7 @@ bool construct::able_empty_window(game *g, point p)
 
 bool construct::able_window_pane(game *g, point p)
 {
- return (g->m.ter(p.x, p.y) == t_window);
+ return (g->m.ter(p.x, p.y) == t_window || g->m.ter(p.x, p.y) == t_window_domestic);
 }
 
 bool construct::able_broken_window(game *g, point p)
@@ -658,7 +664,7 @@ bool construct::able_wall_wood(game *g, point p)
 bool construct::able_indoors(game *g, point p)
 {
  return (g->m.ter(p.x, p.y) == t_floor);
-}                    
+}
 
 bool construct::able_dig(game *g, point p)
 {
@@ -680,6 +686,10 @@ bool construct::able_between_walls(game *g, point p)
          g->m.has_flag(supports_roof, p.x, p.y -1) && g->m.has_flag(supports_roof, p.x, p.y +1));
 }
 
+bool construct::able_deconstruct(game *g, point p)
+{
+  return (g->m.has_flag(deconstruct, p.x, p.y));
+}
 
 void construct::done_window_pane(game *g, point p)
 {
@@ -745,4 +755,56 @@ void construct::done_vehicle(game *g, point p)
     }
     veh->name = name;
     veh->install_part (0, 0, vp_frame_v2);
+}
+
+void construct::done_deconstruct(game *g, point p)
+{
+  g->add_msg("You disassemble the %s.", g->m.tername(p.x, p.y).c_str());
+  switch (g->m.ter(p.x, p.y))
+  {
+    case t_makeshift_bed:
+    case t_bed:
+      g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 10);
+      g->m.add_item(p.x, p.y, g->itypes[itm_rag], 0, 10);
+      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,8));          
+    break;
+
+    case t_backboard:
+    case t_sandbox:
+    case t_bench:
+    case t_crate_o:
+    case t_crate_c:
+      g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 4);
+      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,10));     
+    break;
+
+    case t_slide:
+      g->m.add_item(p.x, p.y, g->itypes[itm_steel_plate], 0);
+      g->m.add_item(p.x, p.y, g->itypes[itm_pipe], 0, rng(4,8));       
+    break;
+
+    case t_rack:
+    case t_monkey_bars:
+      g->m.add_item(p.x, p.y, g->itypes[itm_pipe], 0, rng(6,12));  
+    break;
+
+    case t_counter:
+    case t_dresser:
+    case t_table:
+      g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 6);
+      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,8));  
+    break;
+    
+    case t_pool_table:
+      g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 4);
+      g->m.add_item(p.x, p.y, g->itypes[itm_rag], 0, 4);
+      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,10));     
+    break;
+    
+    case t_bookcase:
+      g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 12);
+      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(12,16));       
+    break;                     
+  }
+  g->m.ter(p.x, p.y) = t_floor;  
 }

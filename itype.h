@@ -18,6 +18,19 @@
 #define mfb(n) long(1 << (n))
 #endif
 
+// for use in category specific inventory lists
+enum item_cat
+{
+  IC_NULL = 0,
+  IC_COMESTIBLE,
+  IC_AMMO,
+  IC_ARMOR,
+  IC_GUN,
+  IC_BOOK,
+  IC_TOOL,
+  IC_CONTAINER 
+};
+
 enum itype_id {
 itm_null = 0,
 itm_corpse,
@@ -68,7 +81,7 @@ itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
  itm_carspike, itm_carblade, itm_wire, itm_wire_barbed, itm_rebar, itm_log,
  itm_splinter, itm_skewer, itm_crackpipe, itm_torch_done,
  itm_spring, itm_lawnmower, itm_lawnmower_blade, itm_lawnmower_machete,
- itm_lawnmower_halberd, itm_curtain, itm_broketent,
+ itm_lawnmower_halberd, itm_curtain, itm_broketent, itm_element,
 // Vehicle parts
 itm_frame, itm_wheel, itm_big_wheel, itm_seat, itm_vehicle_controls,
  itm_combustion_tiny, itm_combustion_small, itm_combustion, itm_combustion_large,
@@ -115,7 +128,8 @@ itm_backpack, itm_purse, itm_mbag, itm_fanny, itm_holster, itm_bootstrap,
 // Decorative
 itm_ring, itm_necklace,
 // Ammunition
-itm_battery, itm_thread,  itm_duct_tape, itm_plut_cell, itm_nail, itm_bb, itm_arrow_wood, itm_arrow_cf,
+ itm_battery, itm_thread,  itm_duct_tape, itm_cable, itm_plut_cell, 
+ itm_nail, itm_bb, itm_arrow_wood, itm_arrow_cf,
  itm_bolt_wood, itm_bolt_steel, itm_shot_bird, itm_shot_00, itm_shot_slug,
  itm_shot_he, itm_22_lr, itm_22_cb, itm_22_ratshot, itm_9mm, itm_9mmP,
  itm_9mmP2, itm_38_special, itm_38_super, itm_10mm, itm_40sw, itm_44magnum,
@@ -153,13 +167,13 @@ itm_silencer, itm_grip, itm_barrel_big, itm_barrel_small, itm_barrel_rifled,
  itm_m203, itm_bayonet, itm_u_shotgun, itm_gun_crossbow,
 // Books
 itm_mag_porn, itm_mag_tv, itm_mag_news, itm_mag_cars, itm_mag_cooking,
- itm_mag_carpentry,
+ itm_mag_carpentry, 
  itm_mag_guns, itm_novel_romance, itm_novel_spy, itm_novel_scifi,
- itm_novel_drama, itm_manual_brawl, itm_manual_knives, itm_manual_mechanics,
+ itm_novel_drama, itm_manual_brawl, itm_manual_knives, itm_manual_mechanics, itm_manual_survival,
  itm_manual_speech, itm_manual_business, itm_manual_first_aid,
  itm_manual_computers, itm_cookbook, itm_manual_electronics,
  itm_manual_tailor, itm_manual_traps, itm_manual_carpentry,
- itm_textbook_computers, itm_textbook_electronics, itm_textbook_business,
+ itm_textbook_computers, itm_textbook_electronics, itm_textbook_business, itm_textbook_mechanics,
  itm_textbook_chemistry, itm_textbook_carpentry, itm_SICP, itm_textbook_robots,
 // Containers
 itm_bag_plastic, itm_bottle_plastic, itm_bottle_glass,
@@ -218,7 +232,7 @@ num_all_items
 // IMPORTANT: If adding a new AT_*** ammotype, add it to the ammo_name function
 //  at the end of itypedef.cpp
 enum ammotype {
-AT_NULL, AT_THREAD, AT_DUCTTAPE,
+AT_NULL, AT_THREAD,
 AT_BATT, AT_PLUT,
 AT_NAIL, AT_BB, AT_BOLT, AT_ARROW,
 AT_SHOT,
@@ -250,6 +264,7 @@ IF_NULL,
 IF_LIGHT_4,	// Provides 4 tiles of light
 IF_LIGHT_8,	// Provides 8 tiles of light
 
+IF_FIRE,        // Chance to set fire to tiles/enemies
 IF_SPEAR,	// Cutting damage is actually a piercing attack
 IF_STAB,	// This weapon *can* pierce, but also has normal cutting
 IF_WRAP,	// Can wrap around your target, costing you and them movement
@@ -488,7 +503,8 @@ struct it_ammo : public itype
  unsigned char count;	// Default charges
 
  virtual bool is_ammo() { return true; }
- virtual bool count_by_charges() { return id != itm_gasoline; }
+// virtual bool count_by_charges() { return id != itm_gasoline; }
+ virtual bool count_by_charges() { return true; }
 
  it_ammo(int pid, unsigned char prarity, unsigned int pprice,
         std::string pname, std::string pdes,
