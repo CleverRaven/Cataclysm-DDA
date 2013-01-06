@@ -176,7 +176,7 @@ void game::init_vehicles()
     PART (1, -1,    vp_head_light);
     PART (1, 1,     vp_frame_h);
     PART (1, 1,     vp_window);
-    PART (1, -1,    vp_head_light);
+    PART (1, 1,    vp_head_light);
     PART (1, -2,    vp_frame_v);
     PART (1, 2,     vp_frame_v);
 
