@@ -166,6 +166,11 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_shot_slug, 4, NULL);
   COMP(itm_gasoline, 200, NULL);
 
+ RECIPE(itm_acidomb, CC_WEAPON, sk_cooking, sk_null, 1, 10000, false);
+  TOOL(itm_hotplate, 5, itm_toolset, 1, NULL);
+  COMP(itm_bottle_glass, 1, itm_flask_glass, 1, NULL);
+  COMP(itm_battery, 500, NULL);
+
  RECIPE(itm_grenade, CC_WEAPON, sk_mechanics, sk_null, 2, 5000, false);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   COMP(itm_superglue, 1, itm_string_36, 1, NULL);
