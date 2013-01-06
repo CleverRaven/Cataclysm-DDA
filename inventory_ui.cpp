@@ -180,7 +180,56 @@ char game::inv_type(std::string title, int inv_item_type)
  std::vector<char> null_vector;
  print_inv_statics(this, w_inv, title, null_vector);
 // Gun, ammo, weapon, armor, food, tool, book, other
- std::vector<int> firsts = find_firsts(u.inv);
+
+// Create the reduced inventory
+  inventory reduced_inv = u.inv;
+  reduced_inv.clear();
+  int inv_index = 0;
+  
+  if (u.inv.size() > 0)
+  {
+    do
+    {
+      switch (inv_item_type)
+      {
+        case IC_COMESTIBLE: // food
+          if (u.inv[inv_index].is_food(&u) || u.inv[inv_index].is_food_container(&u))
+            reduced_inv += u.inv[inv_index];
+          break;
+        case IC_AMMO: // ammo
+          if (u.inv[inv_index].is_ammo() || u.inv[inv_index].is_ammo_container())
+            reduced_inv += u.inv[inv_index];
+          break;
+        case IC_ARMOR: // armour
+          if (u.inv[inv_index].is_armor())
+            reduced_inv += u.inv[inv_index];
+          break;
+        case IC_BOOK: // books
+          if (u.inv[inv_index].is_book())
+            reduced_inv += u.inv[inv_index];
+          break;         
+        case IC_TOOL: // tools
+          if (u.inv[inv_index].is_tool())
+            reduced_inv += u.inv[inv_index];
+          break;
+        case IC_CONTAINER: // containers for liquid handling
+          if (u.inv[inv_index].is_tool() || u.inv[inv_index].is_gun())
+          {
+            if (u.inv[inv_index].ammo_type() == AT_GAS)
+              reduced_inv += u.inv[inv_index];
+          }
+          else
+          {
+            if (u.inv[inv_index].is_container())
+              reduced_inv += u.inv[inv_index];
+          }
+          break;                         
+      }
+      inv_index++;  
+    } while (inv_index < u.inv.size());
+  }    
+
+ std::vector<int> firsts = find_firsts(reduced_inv);
 
  do {
   if (ch == '<' && start > 0) { // Clear lines and shift
@@ -191,7 +240,7 @@ char game::inv_type(std::string title, int inv_item_type)
     start = 0;
    mvwprintw(w_inv, maxitems + 2, 0, "         ");
   }
-  if (ch == '>' && cur_it < u.inv.size()) { // Clear lines and shift
+  if (ch == '>' && cur_it < reduced_inv.size()) { // Clear lines and shift
    start = cur_it;
    mvwprintw(w_inv, maxitems + 2, 12, "            ");
    for (int i = 1; i < 25; i++)
@@ -202,68 +251,32 @@ char game::inv_type(std::string title, int inv_item_type)
 // Clear the current line;
    mvwprintw(w_inv, cur_line, 0, "                                    ");
 
-// check that item type matches 
-  bool item_type_match = false;
-
-  if (cur_it < u.inv.size())
-  {
-    switch (inv_item_type)
-    {
-      case IC_COMESTIBLE: // food
-        item_type_match = (u.inv[cur_it].is_food(&u) || u.inv[cur_it].is_food_container(&u));
-        break;
-      case IC_AMMO: // ammo
-        item_type_match = (u.inv[cur_it].is_ammo() || u.inv[cur_it].is_ammo_container());
-        break;
-      case IC_ARMOR: // armour
-        item_type_match = (u.inv[cur_it].is_armor());
-        break; 
-      case IC_BOOK: // books
-        item_type_match = (u.inv[cur_it].is_book());
-        break;
-      case IC_TOOL: // tools
-        item_type_match = (u.inv[cur_it].is_tool());
-        break;
-      case IC_CONTAINER: // containers for liquid handling
-        if (u.inv[cur_it].is_tool() || u.inv[cur_it].is_gun())
-          item_type_match = (u.inv[cur_it].ammo_type() == AT_GAS);
-        else
-          item_type_match = (u.inv[cur_it].is_container());
-        break;        
-      default:
-        item_type_match = true;
-        break;                   
-    }
-  }
-// Print category header
-// TODO: fix so that category headers show up correctly
-
    for (int i = 0; i < 8; i++) {
-    if (cur_it == firsts[i] && item_type_match) {
+    if (cur_it == firsts[i]) {
      mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
      cur_line++;
     }
    }
    
-   if (cur_it < u.inv.size() && item_type_match)
+   if (cur_it < reduced_inv.size())
    {
-    mvwputch (w_inv, cur_line, 0, c_white, u.inv[cur_it].invlet);
-    mvwprintz(w_inv, cur_line, 1, u.inv[cur_it].color_in_inventory(&u), " %s",
-              u.inv[cur_it].tname(this).c_str());
-    if (u.inv.stack_at(cur_it).size() > 1)
-     wprintw(w_inv, " [%d]", u.inv.stack_at(cur_it).size());
-    if (u.inv[cur_it].charges > 0)
-     wprintw(w_inv, " (%d)", u.inv[cur_it].charges);
-    else if (u.inv[cur_it].contents.size() == 1 &&
-             u.inv[cur_it].contents[0].charges > 0)
-     wprintw(w_inv, " (%d)", u.inv[cur_it].contents[0].charges);
+    mvwputch (w_inv, cur_line, 0, c_white, reduced_inv[cur_it].invlet);
+    mvwprintz(w_inv, cur_line, 1, reduced_inv[cur_it].color_in_inventory(&u), " %s",
+              reduced_inv[cur_it].tname(this).c_str());
+    if (reduced_inv.stack_at(cur_it).size() > 1)
+     wprintw(w_inv, " [%d]", reduced_inv.stack_at(cur_it).size());
+    if (reduced_inv[cur_it].charges > 0)
+     wprintw(w_inv, " (%d)", reduced_inv[cur_it].charges);
+    else if (reduced_inv[cur_it].contents.size() == 1 &&
+             reduced_inv[cur_it].contents[0].charges > 0)
+     wprintw(w_inv, " (%d)", reduced_inv[cur_it].contents[0].charges);
    cur_line++;
    }
 //   cur_line++;
   }
   if (start > 0)
    mvwprintw(w_inv, maxitems + 4, 0, "< Go Back");
-  if (cur_it < u.inv.size())
+  if (cur_it < reduced_inv.size())
    mvwprintw(w_inv, maxitems + 4, 12, "> More items");
   wrefresh(w_inv);
   ch = getch();

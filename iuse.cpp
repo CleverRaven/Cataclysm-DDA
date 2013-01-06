@@ -676,7 +676,7 @@ void iuse::lighter(game *g, player *p, item *it, bool t)
 
 void iuse::sew(game *g, player *p, item *it, bool t)
 {
- char ch = g->inv("Repair what?");
+ char ch = g->inv_type("Repair what?", IC_ARMOR);
  item* fix = &(p->i_at(ch));
  if (fix == NULL || fix->is_null()) {
   g->add_msg_if_player(p,"You do not have that item!");
@@ -989,7 +989,7 @@ void iuse::light_on(game *g, player *p, item *it, bool t)
 void iuse::water_purifier(game *g, player *p, item *it, bool t)
 {
   it->charges++;
- char ch = g->inv("Purify what?");
+ char ch = g->inv_type("Purify what?", IC_COMESTIBLE);
  if (!p->has_item(ch)) {
   g->add_msg_if_player(p,"You do not have that item!");
   return;
