@@ -4544,29 +4544,34 @@ void player::read(game *g, char ch)
            (index == -2 ? weapon.tname(g).c_str() : inv[index].tname(g).c_str()));
   return;
  }
-
  it_book* tmp;
  if (index == -2)
   tmp = dynamic_cast<it_book*>(weapon.type);
  else
   tmp = dynamic_cast<it_book*>(inv[index].type);
+int time; //Declare this here so that we can change the time depending on whats needed
  if (tmp->intel > 0 && has_trait(PF_ILLITERATE)) {
   g->add_msg("You're illiterate!");
   return;
- } else if (tmp->intel > int_cur) {
-  g->add_msg("This book is way too complex for you to understand.");
-  return;
- } else if (tmp->req > sklevel[tmp->type]) {
+ }
+ else if (tmp->req > sklevel[tmp->type]) {
   g->add_msg("The %s-related jargon flies over your head!",
              skill_name(tmp->type).c_str());
   return;
- } else if (tmp->level <= sklevel[tmp->type] && tmp->fun <= 0 &&
+ } else if (tmp->intel > int_cur) {
+  g->add_msg("This book is too complex for you to easily understand. It will take longer to read.");
+  time = tmp->time * (read_speed() + ((tmp->intel - int_cur) * 100)); // Lower int characters can read, at a speed penalty
+  activity = player_activity(ACT_READ, time, index);
+  moves = 0;
+  return;
+ }
+  else if (tmp->level <= sklevel[tmp->type] && tmp->fun <= 0 &&
             !query_yn("Your %s skill won't be improved.  Read anyway?",
                       skill_name(tmp->type).c_str()))
   return;
 
 // Base read_speed() is 1000 move points (1 minute per tmp->time)
- int time = tmp->time * read_speed();
+ time = tmp->time * read_speed();
  activity = player_activity(ACT_READ, time, index);
  moves = 0;
 }

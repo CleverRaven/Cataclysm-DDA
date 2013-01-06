@@ -450,7 +450,7 @@ std::string item::info(bool showtext)
           "\n Warmth: "				<< int(armor->warmth) <<
           "\n Storage: "			<< int(armor->storage);
 
- } else if (is_book()) {
+} else if (is_book()) {
 
   it_book* book = dynamic_cast<it_book*>(type);
   if (book->type == sk_null)
@@ -464,7 +464,7 @@ std::string item::info(bool showtext)
     dump << " Requires " << skill_name(book->type) << " level " <<
             int(book->req) << " to understand.\n";
   }
-  dump << " Requires intelligence of " << int(book->intel) << std::endl;
+  dump << " Requires intelligence of " << int(book->intel) << " to easily read." << std::endl;
   if (book->fun != 0)
    dump << " Reading this book affects your morale by " <<
            (book->fun > 0 ? "+" : "") << int(book->fun) << std::endl;
