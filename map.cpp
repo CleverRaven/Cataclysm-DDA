@@ -1042,6 +1042,41 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   }
   break;
 
+ case t_canvas_wall:
+ case t_canvas_door:
+ case t_canvas_door_o:
+ case t_groundsheet:
+  result = rng(0, 6);
+  if (res) *res = result;
+  if (str >= result)
+  {
+   // Special code to collapse the tent if destroyed
+   int tentx, tenty = -1;
+   // Find the center of the tent
+   for (int i = -1; i <= 1; i++)
+    for (int j = -1; j <= 1; j++)
+     if (ter(x + i, y + j) == t_groundsheet) {
+       tentx = x + i;
+       tenty = y + j;
+       break;
+     }
+   // Never found tent center, bail out
+   if (tentx == -1 && tenty == -1)
+    break;
+   // Take the tent down
+   for (int i = -1; i <= 1; i++)
+    for (int j = -1; j <= 1; j++) {
+     if (ter(tentx + i, tenty + j) == t_groundsheet)
+      add_item(tentx + i, tenty + j, (*itypes)[itm_broketent], 0);
+     ter(tentx + i, tenty + j) = t_dirt;
+    }
+   return true;
+  } else {
+   sound += "slap!";
+   return true;
+  }
+  break;
+
  case t_paper:
   result = dice(1, 6) - 2;
   if (res) *res = result;
