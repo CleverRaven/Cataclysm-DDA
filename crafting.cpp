@@ -618,7 +618,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_power_supply, 1, NULL);
   COMP(itm_amplifier, 1, NULL);
   COMP(itm_scrap, 6, NULL);
-  COMP(itm_cable, 20, NULL);
+//  COMP(itm_cable, 20, NULL);
 
  RECIPE(itm_radio, CC_ELECTRONIC, sk_electronics, sk_null, 2, 25000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
@@ -658,8 +658,8 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_transponder, 1, NULL);
   COMP(itm_receiver, 1, NULL);
   COMP(itm_antenna, 1, NULL);
-  COMP(itm_scrap, 5, NULL);
-  COMP(itm_cable, 10, NULL);
+//  COMP(itm_scrap, 5, NULL);
+//  COMP(itm_cable, 10, NULL);
 
  RECIPE(itm_electrohack, CC_ELECTRONIC, sk_electronics, sk_computer, 4, 35000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
@@ -715,8 +715,8 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_power_supply, 3, itm_plut_cell, 5, NULL);
   COMP(itm_amplifier, 3, NULL);
   COMP(itm_transponder, 3, NULL);
-  COMP(itm_scrap, 10, NULL);
-  COMP(itm_cable, 20, NULL);
+//  COMP(itm_scrap, 10, NULL);
+//  COMP(itm_cable, 20, NULL);
 
 // ARMOR
 
@@ -993,8 +993,8 @@ RECIPE(itm_boobytrap, CC_MISC, sk_mechanics, sk_traps,3,5000, false);
   COMP(itm_processor, 1, NULL);
   COMP(itm_RAM, 1, NULL);
   COMP(itm_power_supply, 1, NULL);
-  COMP(itm_battery, 400, itm_plut_cell, 1, NULL);
-  COMP(itm_scrap, 15, NULL);
+//  COMP(itm_battery, 400, itm_plut_cell, 1, NULL);
+//  COMP(itm_scrap, 15, NULL);
 
  RECIPE(itm_bot_turret, CC_MISC, sk_electronics, sk_computer, 7, 9000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
@@ -1004,8 +1004,8 @@ RECIPE(itm_boobytrap, CC_MISC, sk_mechanics, sk_traps,3,5000, false);
   COMP(itm_processor, 2, NULL);
   COMP(itm_RAM, 2, NULL);
   COMP(itm_power_supply, 1, NULL);
-  COMP(itm_battery, 500, itm_plut_cell, 1, NULL);
-  COMP(itm_scrap, 30, NULL);
+//  COMP(itm_battery, 500, itm_plut_cell, 1, NULL);
+//  COMP(itm_scrap, 30, NULL);
 }
 
 void game::craft()
