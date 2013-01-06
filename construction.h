@@ -60,7 +60,7 @@ struct construct // Construction functions.
  
  bool able_furniture(game *, point); // Able on furniture
 
- bool able_furniture(game *, point);
+ bool able_deconstruct(game *, point); 
 
 // Does anything special happen when we're finished?
  void done_nothing(game *, point) { }

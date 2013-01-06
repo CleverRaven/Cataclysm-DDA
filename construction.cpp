@@ -193,13 +193,11 @@ void game::init_construction()
    COMP(itm_2x4, 10, NULL);
    COMP(itm_rag, 10, NULL);  
 
- CONSTRUCT("Deconstruct Furniture", 0, &construct::able_furniture,
+ CONSTRUCT("Deconstruct Furniture", 0, &construct::able_deconstruct,
                                 &construct::done_deconstruct);
   STAGE(t_null, 20);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, itm_toolkit_basic, 
-        itm_toolkit_super, NULL);
-   TOOL(itm_screwdriver, itm_toolset,itm_toolkit_basic, 
-        itm_toolkit_super, NULL);        
+   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_screwdriver, itm_toolset, NULL);        
 
  CONSTRUCT("Start vehicle construction", 0, &construct::able_empty, &construct::done_vehicle);
   STAGE(t_null, 10);
@@ -688,7 +686,7 @@ bool construct::able_between_walls(game *g, point p)
          g->m.has_flag(supports_roof, p.x, p.y -1) && g->m.has_flag(supports_roof, p.x, p.y +1));
 }
 
-bool construct::able_furniture(game *g, point p)
+bool construct::able_deconstruct(game *g, point p)
 {
   return (g->m.has_flag(deconstruct, p.x, p.y));
 }
