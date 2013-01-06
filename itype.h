@@ -502,7 +502,8 @@ struct it_ammo : public itype
  unsigned char count;	// Default charges
 
  virtual bool is_ammo() { return true; }
- virtual bool count_by_charges() { return id != itm_gasoline; }
+// virtual bool count_by_charges() { return id != itm_gasoline; }
+ virtual bool count_by_charges() { return true; }
 
  it_ammo(int pid, unsigned char prarity, unsigned int pprice,
         std::string pname, std::string pdes,

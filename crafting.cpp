@@ -84,15 +84,17 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_bat, 1, NULL);
   COMP(itm_nail, 6, NULL);
 
+// molotovs use 250ml of flammable liquids
  RECIPE(itm_molotov, CC_WEAPON, sk_null, sk_null, 0, 500, false);
   COMP(itm_rag, 1, NULL);
-  COMP(itm_whiskey, -1, itm_vodka, -1, itm_rum, -1, itm_tequila, -1,
-       itm_gasoline, -1, NULL);
+  COMP(itm_bottle_glass, 1, itm_flask_glass, 1, NULL);
+  COMP(itm_whiskey, 7, itm_vodka, 7, itm_rum, 7, itm_tequila, 7,
+       itm_gasoline, 200, NULL);
 
  RECIPE(itm_pipebomb, CC_WEAPON, sk_mechanics, sk_null, 1, 750, false);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
   COMP(itm_pipe, 1, NULL);
-  COMP(itm_gasoline, 1, itm_shot_bird, 6, itm_shot_00, 2, itm_shot_slug, 2,
+  COMP(itm_gasoline, 200, itm_shot_bird, 6, itm_shot_00, 2, itm_shot_slug, 2,
        NULL);
   COMP(itm_string_36, 1, itm_string_6, 1, NULL);
 
@@ -162,7 +164,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   COMP(itm_superglue, 1, NULL);
   COMP(itm_shot_slug, 4, NULL);
-  COMP(itm_gasoline, 1, NULL);
+  COMP(itm_gasoline, 200, NULL);
 
  RECIPE(itm_grenade, CC_WEAPON, sk_mechanics, sk_null, 2, 5000, false);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
@@ -170,7 +172,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_can_food, 1, itm_can_drink, 1, itm_canister_empty, 1, NULL);
   COMP(itm_nail, 30, itm_bb, 100, NULL);
   COMP(itm_shot_bird, 6, itm_shot_00, 3, itm_shot_slug, 2,
-     itm_gasoline, 1, itm_gunpowder, 72,  NULL);
+     itm_gasoline, 200, itm_gunpowder, 72,  NULL);
 
  RECIPE(itm_chainsaw_off, CC_WEAPON, sk_mechanics, sk_null, 4, 20000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
@@ -967,7 +969,7 @@ RECIPE(itm_boobytrap, CC_MISC, sk_mechanics, sk_traps,3,5000, false);
   COMP(itm_superglue, 1, NULL);
   COMP(itm_can_food, 1, itm_steel_chunk, 1, itm_canister_empty, 1, itm_scrap, 4, NULL);
   COMP(itm_nail, 100, itm_bb, 200, NULL);
-  COMP(itm_shot_bird, 30, itm_shot_00, 15, itm_shot_slug, 12, itm_gasoline, 3,
+  COMP(itm_shot_bird, 30, itm_shot_00, 15, itm_shot_slug, 12, itm_gasoline, 600,
      itm_grenade, 1, itm_gunpowder, 72, NULL);
 
  RECIPE(itm_bandages, CC_MISC, sk_firstaid, sk_null, 1, 500, false);

@@ -325,7 +325,14 @@ int inventory::amount_of(itype_id it)
  for (int i = 0; i < items.size(); i++) {
   for (int j = 0; j < items[i].size(); j++) {
    if (items[i][j].type->id == it)
-    count++;
+   {
+    // check if it's a container, if so, it should be empty
+    if (items[i][j].type->is_container())
+    {
+      if (items[i][j].contents.empty())
+        count++;
+    } else count++;
+  }
    for (int k = 0; k < items[i][j].contents.size(); k++) {
     if (items[i][j].contents[k].type->id == it)
      count++;
