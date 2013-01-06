@@ -1168,6 +1168,12 @@ MELEE("plasma engine",  1, 900, ':', c_ltcyan,  STEEL,   MNULL,
 High technology engine, working on hydrgen fuel.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
+MELEE("foot crank",  10, 90, ':', c_ltgray,  IRON,   MNULL,
+//  VOL WGT DAM CUT HIT FLAGS
+    2,  10,  10,  0,  -1, 0, "\
+The petal and gear assembly from a bicycle.");
+
+//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("metal tank",  10, 40, '}', c_ltcyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     18,  25,  3,  0,  -2, 0, "\
@@ -4398,6 +4404,7 @@ std::string ammo_name(ammotype t)
   case AT_DUCTTAPE: return "duct tape";
   case AT_BATT:   return "batteries";
   case AT_PLUT:   return "plutonium";
+  case AT_MUSCLE: return "Muscle";
   case AT_FUSION: return "fusion cell";
   case AT_12MM:   return "12mm slugs";
   case AT_PLASMA: return "hydrogen";

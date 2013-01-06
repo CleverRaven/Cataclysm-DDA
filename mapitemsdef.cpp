@@ -27,7 +27,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_road],
 	itm_muffler, itm_pipe, itm_motor, itm_wheel, itm_big_wheel, itm_seat, 
-        itm_combustion_tiny, itm_combustion_small, itm_combustion, NULL);
+        itm_combustion_tiny, itm_combustion_small, itm_combustion, itm_foot_crank, NULL);
 
  setvector(
    mapitems[mi_livingroom],
@@ -64,7 +64,7 @@ void game::init_mapitems()
 	itm_hacksaw, itm_xacto, itm_gloves_leather, itm_mask_dust,
 	itm_glasses_safety, itm_battery, itm_nail, itm_nailgun,
 	itm_manual_mechanics, itm_hammer, itm_flashlight, itm_soldering_iron,
-	itm_bubblewrap, itm_binoculars, itm_duct_tape, itm_lawnmower, NULL);
+	itm_bubblewrap, itm_binoculars, itm_duct_tape, itm_lawnmower, itm_foot_crank, NULL);
 
  setvector(
    mapitems[mi_bedroom],
@@ -173,7 +173,8 @@ void game::init_mapitems()
    mapitems[mi_hardware],
 	itm_superglue, itm_chain, itm_rope_6, itm_rope_30, itm_glass_sheet,
 	itm_pipe, itm_nail, itm_hose, itm_string_36, itm_frame, itm_metal_tank,
-        itm_wire, itm_wire_barbed, itm_duct_tape, itm_jerrycan, itm_lawnmower, NULL);
+	itm_wire, itm_wire_barbed, itm_duct_tape, itm_jerrycan, itm_lawnmower, itm_foot_crank,
+	NULL);
 
  setvector(
    mapitems[mi_tools],
@@ -192,7 +193,7 @@ void game::init_mapitems()
 	itm_glasses_safety, itm_bb, itm_bbgun, itm_beartrap, itm_two_way_radio,
 	itm_radio, itm_hotplate, itm_extinguisher, itm_nailgun,
 	itm_manual_mechanics, itm_manual_carpentry, itm_mag_carpentry,
-	itm_duct_tape, itm_lawnmower, NULL);
+	itm_duct_tape, itm_lawnmower, itm_foot_crank, NULL);
 
  setvector(
    mapitems[mi_consumer_electronics],
@@ -207,7 +208,7 @@ void game::init_mapitems()
 	itm_tank_top, itm_gloves_fingerless, itm_glasses_safety, itm_tshirt_fit,
 	itm_armguard_soft, itm_armguard_hard,
 	itm_goggles_swim, itm_goggles_ski, itm_hat_ball, itm_helmet_bike,
-	itm_helmet_ball, itm_manual_brawl, NULL);
+	itm_helmet_ball, itm_manual_brawl, itm_foot_crank, NULL);
 
  setvector(
    mapitems[mi_camping],
@@ -232,7 +233,8 @@ void game::init_mapitems()
 	itm_manual_knives, itm_manual_first_aid, itm_manual_traps, itm_lighter,
 	itm_sewing_kit, itm_thread, itm_hammer, itm_flashlight, itm_water_purifier,
 	itm_radio, itm_beartrap, itm_extinguisher, itm_string_36, itm_longbow,
-	itm_compbow, itm_arrow_wood, itm_arrow_cf, itm_rollmat, itm_tent_kit, itm_tshirt_fit, NULL);
+	itm_compbow, itm_arrow_wood, itm_arrow_cf, itm_rollmat, itm_tent_kit,
+	itm_tshirt_fit, itm_foot_crank, NULL);
 
  setvector(
    mapitems[mi_alcohol],

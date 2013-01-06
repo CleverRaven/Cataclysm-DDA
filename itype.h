@@ -72,7 +72,7 @@ itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
 // Vehicle parts
 itm_frame, itm_wheel, itm_big_wheel, itm_seat, itm_vehicle_controls,
  itm_combustion_tiny, itm_combustion_small, itm_combustion, itm_combustion_large,
- itm_motor, itm_motor_large, itm_plasma_engine,
+ itm_motor, itm_motor_large, itm_plasma_engine, itm_foot_crank,
  itm_metal_tank, itm_storage_battery, itm_minireactor, itm_solar_panel,
  itm_steel_plate, itm_alloy_plate, itm_spiked_plate, itm_hard_plate,
 // Footwear
@@ -228,6 +228,7 @@ AT_762, AT_223, AT_3006, AT_308,
 AT_40MM,
 AT_GAS,
 AT_FUSION,
+AT_MUSCLE,
 AT_12MM,
 AT_PLASMA,
 NUM_AMMO_TYPES

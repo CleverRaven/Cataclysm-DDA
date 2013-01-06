@@ -49,6 +49,7 @@ enum vpart_id
     vp_engine_motor,
     vp_engine_motor_large,
     vp_engine_plasma,
+    vp_engine_foot_crank,
     vp_fuel_tank_gas,
     vp_fuel_tank_batt,
     vp_fuel_tank_plut,
@@ -216,6 +217,8 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_internal) | mfb(vpf_engine) },
     { "plasma engine",              '*', c_ltblue,  '#', c_red,    80, 250, 400, AT_PLASMA, itm_plasma_engine, 6,
         mfb(vpf_internal) | mfb(vpf_engine) },
+    { "Foot pedals",                '*', c_ltgray,  '#', c_red,     50, 50, 50, AT_MUSCLE, itm_foot_crank, 1,
+        mfb(vpf_internal) | mfb(vpf_engine) },
 //                                                                         capacity type
     { "gasoline tank",              'O', c_ltred,  '#', c_red,     80, 150, 3000, AT_GAS, itm_metal_tank, 1,
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },
@@ -266,6 +269,7 @@ enum vhtype_id
     veh_custom,
 
 // in-built vehicles
+    veh_bicycle,
     veh_motorcycle,
     veh_sandbike,
     veh_car,
