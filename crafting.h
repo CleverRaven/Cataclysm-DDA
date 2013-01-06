@@ -41,7 +41,7 @@ struct recipe
  bool reversible; // can the item be disassembled?
 
  std::vector<component> tools[5];
- std::vector<component> components[5];
+ std::vector<component> components[10];
 
  recipe() { id = 0; result = itm_null; category = CC_NULL; sk_primary = sk_null;
             sk_secondary = sk_null; difficulty = 0; time = 0; reversible = false; }

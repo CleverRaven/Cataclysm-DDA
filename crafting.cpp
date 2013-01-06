@@ -28,6 +28,19 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
  * is still not great; a good 25% improvement over the difficulty is important
  */
 
+// NON-CRAFTABLE BUT CAN BE DISASSEMBLED (set category to CC_NONCRAFT)
+
+RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
+ TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
+ COMP(itm_scrap, 8, NULL);
+ COMP(itm_spring, 2, NULL);
+ COMP(itm_lawnmower_blade, 2, NULL);
+ COMP(itm_combustion_tiny, 1, NULL);
+ COMP(itm_pipe, 3, NULL);
+
+
+// CRAFTABLE
+
 // WEAPONS
 
  RECIPE(itm_lawnmower_machete, CC_WEAPON, sk_null, sk_null, 0, 5000, true);
@@ -38,15 +51,6 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP(itm_duct_tape, 100, NULL);
   COMP(itm_lawnmower_blade, 1, NULL);
   COMP(itm_stick, 1, itm_mop, 1, NULL);
-
-// NON-CRAFTABLE BUT CAN BE DISASSEMBLED (set category to CC_NONCRAFT)
-/* EXAMPLE
-RECIPE(itm_katana, CC_NONCRAFT, sk_cutting, sk_null, 3, 800, true);
- TOOL(itm_hacksaw, -1, itm_toolset, -1, itm_toolkit_super, -1, NULL);
- COMP(itm_steel_chunk, 1, NULL);
-*/
-
-// CRAFTABLE
 
  RECIPE(itm_spear_wood, CC_WEAPON, sk_null, sk_null, 0, 800, false);
   TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
@@ -618,7 +622,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_power_supply, 1, NULL);
   COMP(itm_amplifier, 1, NULL);
   COMP(itm_scrap, 6, NULL);
-//  COMP(itm_cable, 20, NULL);
+  COMP(itm_cable, 20, NULL);
 
  RECIPE(itm_radio, CC_ELECTRONIC, sk_electronics, sk_null, 2, 25000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
@@ -658,8 +662,8 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_transponder, 1, NULL);
   COMP(itm_receiver, 1, NULL);
   COMP(itm_antenna, 1, NULL);
-//  COMP(itm_scrap, 5, NULL);
-//  COMP(itm_cable, 10, NULL);
+  COMP(itm_scrap, 5, NULL);
+  COMP(itm_cable, 10, NULL);
 
  RECIPE(itm_electrohack, CC_ELECTRONIC, sk_electronics, sk_computer, 4, 35000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
@@ -715,8 +719,8 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_power_supply, 3, itm_plut_cell, 5, NULL);
   COMP(itm_amplifier, 3, NULL);
   COMP(itm_transponder, 3, NULL);
-//  COMP(itm_scrap, 10, NULL);
-//  COMP(itm_cable, 20, NULL);
+  COMP(itm_scrap, 10, NULL);
+  COMP(itm_cable, 20, NULL);
 
 // ARMOR
 
