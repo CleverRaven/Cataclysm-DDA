@@ -1284,7 +1284,9 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 					vt = veh_bug;
 				else if (rc <= 50)
 					vt = veh_car;
-				else 
+				else if (rc <= 75)
+					vt = veh_bicycle;
+				else
 					vt = veh_motorcycle;
 			}
 			
