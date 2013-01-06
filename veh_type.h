@@ -277,6 +277,7 @@ enum vhtype_id
     veh_golfcart,  //Yamaha golf cart.
     veh_scooter,  //Vespa S50 scooter.
     veh_armytruck,  //Army M35A2 6L gas and/or hydrogen engine if commented parts uncommented.
+    veh_schoolbus,  //Standard schoolbus
 
     num_vehicles
 };
