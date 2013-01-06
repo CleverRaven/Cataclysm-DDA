@@ -712,7 +712,7 @@ void game::init_vehicles()
 	PART ( 2, -1, vp_frame_h2);
 	PART ( 2, -1, vp_head_light);
 	PART ( 2, 0, vp_frame_cover);
-	PART ( 2, 0, vp_engine_gas_large);
+	PART ( 2, 0, vp_engine_gas_med);
 	PART ( 2, 1, vp_frame_h2);
 	PART ( 2, 1, vp_head_light);
 	PART ( 2, 2, vp_wheel_large);
