@@ -166,7 +166,7 @@ itm_silencer, itm_grip, itm_barrel_big, itm_barrel_small, itm_barrel_rifled,
  itm_retool_308, itm_retool_223, itm_conversion_battle, itm_conversion_sniper,
  itm_m203, itm_bayonet, itm_u_shotgun, itm_gun_crossbow,
 // Books
-itm_mag_porn, itm_mag_tv, itm_mag_news, itm_mag_cars, itm_mag_cooking,
+ itm_mag_porn, itm_mag_tv, itm_mag_news, itm_mag_cars, itm_mag_cooking,
  itm_mag_carpentry, 
  itm_mag_guns, itm_novel_romance, itm_novel_spy, itm_novel_scifi,
  itm_novel_drama, itm_manual_brawl, itm_manual_knives, itm_manual_mechanics, itm_manual_survival,
