@@ -3085,10 +3085,6 @@ BOOK("Birdhouse Monthly",       30,  45,c_pink,		PAPER,	MNULL,
     1,  1, -3,  1,	sk_carpentry,	 1,  0,  1,  5,  8, "\
 A riveting periodical all about birdhouses and their construction.");
 
-BOOK("Pitching a Tent",20,200,c_green,  PAPER,  MNULL,
-    3,  1,  -3, 0,      sk_survival,    3,   0,  0,  4,  18,"\
-A guide detailing the basics of woodsmanship and outdoor survival.");    
-
 BOOK("Guns n Ammo",		20,  48,c_pink,		PAPER,	MNULL,
     1,  1, -3,  1,	sk_gun,		 1,  0,  1,  2,  7, "\
 Reviews of firearms, and various useful tips about their use.");
