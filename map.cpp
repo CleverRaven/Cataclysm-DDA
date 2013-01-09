@@ -1820,7 +1820,12 @@ void map::add_item(int x, int y, itype* type, int birthday, int quantity)
   return;
  item tmp(type, birthday);
  if (quantity)
-  tmp.charges = quantity;
+  if(tmp.charges > 0)
+   tmp.charges = quantity;
+  else
+   // If the item doesn't have charges, recurse and create the requested number of seperate items.
+   for(int i = 0; i < quantity; i++)
+    add_item(x, y, type, birthday);
  tmp = tmp.in_its_container(itypes);
  if (tmp.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
