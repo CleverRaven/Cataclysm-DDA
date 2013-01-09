@@ -527,7 +527,7 @@ FLAGS(MF_NOHEAD, MF_POISON, MF_IMMOBILE, MF_QUEEN);
 
 mon("fungal wall",species_fungus, 'F',	c_dkgray,	MS_HUGE,	VEGGY,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  0,  5,100,100,100,  0,  0,  0,  0,  0, 10, 10,  0, 60, 8,
+	  0,  5,100,100,100,  0,  0,  0,  0,  0, 10, 10,  0, 10, 8,
 	&mdeath::disintegrate,	&mattack::fungus, "\
 A veritable wall of fungus, grown as a\n\
 natural defense by the fungal spire. It\n\

@@ -34,9 +34,11 @@ void trapfunc::beartrap(game *g, int x, int y)
 void trapfuncm::beartrap(game *g, monster *z, int x, int y)
 {
  g->sound(x, y, 8, "SNAP!");
- if (z->hurt(35))
+ if (z->hurt(35)) {
   g->kill_mon(g->mon_at(x, y));
- else {
+ g->m.add_item(x, y, g->itypes[itm_beartrap], 0);
+
+ } else {
   z->moves = 0;
   z->add_effect(ME_BEARTRAP, rng(8, 15));
  }

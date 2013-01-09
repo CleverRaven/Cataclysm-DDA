@@ -187,6 +187,9 @@ item item::in_its_container(std::vector<itype*> *itypes)
     it_comest *food = dynamic_cast<it_comest*>(type);
     item ret((*itypes)[food->container], bday);
 
+  if (dynamic_cast<it_comest*>(type)->container == itm_can_food)
+   food->spoils = 0;
+
     if (made_of(LIQUID))
     {
      it_container* container = dynamic_cast<it_container*>(ret.type);
@@ -656,7 +659,10 @@ std::string item::tname(game *g)
  if (is_food())
   food = dynamic_cast<it_comest*>(type);
  else if (is_food_container())
-  food = dynamic_cast<it_comest*>(contents[0].type);  
+  food = dynamic_cast<it_comest*>(contents[0].type);
+ if (food != NULL && g != NULL && food->spoils != 0 &&
+   int(g->turn) < (int)bday + 100)
+  ret << " (hot)";  
  if (food != NULL && g != NULL && food->spoils != 0 &&
    int(g->turn) - (int)bday > food->spoils * 600)
   ret << " (rotten)";
