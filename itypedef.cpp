@@ -1822,9 +1822,9 @@ any effects.");
 // IMPORTANT: If adding a new AT_*** ammotype, add it to the ammo_name function
 //   at the end of this file.
 #define AMMO(name,rarity,price,ammo_type,color,mat,volume,wgt,dmg,AP,range,\
-accuracy,recoil,count,des,flags) \
+accuracy,recoil,count,des,effects) \
 	index++;itypes.push_back(new it_ammo(index,rarity,price,name,des,'=',\
-color,mat,volume,wgt,1,0,0,flags,ammo_type,dmg,AP,accuracy,recoil,range,count))
+color,mat,volume,wgt,1,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count))
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("batteries",	50, 120,AT_BATT,	c_magenta,	IRON,
@@ -1918,7 +1918,7 @@ AMMO("explosive slug",   0,1200,AT_SHOT,	c_red,		PLASTIC,
 	 2, 30, 10,  0, 12, 12, 20,   5, "\
 A shotgun slug loaded with concussive explosives.  While the slug itself will\n\
 not do much damage to its target, it will explode on contact.",
-mfb(IF_AMMO_EXPLOSIVE));
+mfb(AMMO_EXPLOSIVE));
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO(".22 LR",		 9, 250,AT_22,		c_ltblue,	STEEL,
@@ -2077,7 +2077,7 @@ AMMO("5.56 incendiary",	 2, 840,AT_223,		c_dkgray,	STEEL,
 	 2,  4, 28, 18, 36, 11, 32, 30, "\
 A variant of the widely-used 5.56 NATO round, incendiary rounds are designed\n\
 to burn hotly upon impact, piercing armor and igniting flammable substances.",
-mfb(IF_AMMO_INCENDIARY));
+mfb(AMMO_INCENDIARY));
 
 AMMO(".270 Winchester",	 8, 600,AT_3006,	c_dkgray,	STEEL,
 	 1,  7, 42,  4, 80,  6, 34,  20, "\
@@ -2099,7 +2099,7 @@ AMMO(".30-06 incendiary", 1, 780,AT_3006,	c_dkgray,	STEEL,
 	  1, 12, 35, 50, 90,  8, 35,  5, "\
 A variant of the powerful .30-06 sniper round, incendiary rounds are designed\n\
 to burn hotly upon impact, piercing armor and igniting flammable substances.",
-mfb(IF_AMMO_INCENDIARY));
+mfb(AMMO_INCENDIARY));
 
 AMMO(".308 Winchester",	 7, 620,AT_308,		c_dkgray,	STEEL,
 	 1,  9, 36,  2, 65,  7, 33,  20, "\
@@ -2121,43 +2121,43 @@ AMMO("7.62x51mm incendiary",6, 740,AT_308,	c_dkgray,	STEEL,
 	  1,  9, 30, 25, 75,  6, 32,  10, "\
 A variant of the powerful 7.62x51mm round, incendiary rounds are designed\n\
 to burn hotly upon impact, piercing armor and igniting flammable substances.",
-mfb(IF_AMMO_INCENDIARY));
+mfb(AMMO_INCENDIARY));
 
 AMMO("fusion pack",	 2, 800,AT_FUSION,	c_ltgreen,	PLASTIC,
 	 1,  2, 12, 15, 30,  4,  0,  20, "\
 In the middle of the 21st Century, military powers began to look towards\n\
 energy based weapons.  The result was the standard fusion pack, capable of\n\
 delivering bolts of superheated gas at near light speed with no recoil.",
-mfb(IF_AMMO_INCENDIARY));
+mfb(AMMO_INCENDIARY));
 
 AMMO("40mm concussive",     10,400,AT_40MM,	c_ltred,	STEEL,
 	  1,200,  5,  0, 40,  8, 15,  4, "\
 A 40mm grenade with a concussive explosion.",
-mfb(IF_AMMO_EXPLOSIVE));
+mfb(AMMO_EXPLOSIVE));
 
 //  NAME		   RAR PRC TYPE		COLOR		MAT
 AMMO("40mm frag",           8, 450,AT_40MM,	c_ltred,	STEEL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
 	  1,220,  5,  0, 40,  8, 15,  4, "\
 A 40mm grenade with a small explosion and a high number of damaging fragments.",
-mfb(IF_AMMO_FRAG));
+mfb(AMMO_FRAG));
 
 AMMO("40mm incendiary",     6, 500,AT_40MM,	c_ltred,	STEEL,
 	  1,200,  5,  0, 40,  8, 15,  4, "\
 A 40mm grenade with a small napalm load, designed to create a burst of flame.",
-mfb(IF_AMMO_NAPALM));
+mfb(AMMO_NAPALM));
 
 AMMO("40mm teargas",        5, 450,AT_40MM,	c_ltred,	STEEL,
 	  1,210,  5,  0, 40,  8, 15,  4, "\
 A 40mm grenade with a teargas load.  It will burst in a cloud of highly\n\
 incapacitating gas.",
-mfb(IF_AMMO_TEARGAS));
+mfb(AMMO_TEARGAS));
 
 AMMO("40mm smoke cover",    4, 350,AT_40MM,	c_ltred,	STEEL,
 	  1,210,  5,  0, 40,  8, 15,  6, "\
 A 40mm grenade with a smoke load.  It will burst in a cloud of harmless gas,\n\
 and will also leave a streak of smoke cover in its wake.",
-mfb(IF_AMMO_SMOKE)|mfb(IF_AMMO_TRAIL));
+mfb(AMMO_SMOKE)|mfb(AMMO_TRAIL));
 
 //  NAME		   RAR PRC TYPE		COLOR		MAT
 AMMO("40mm flashbang",      8, 400,AT_40MM,	c_ltred,	STEEL,
@@ -2165,7 +2165,7 @@ AMMO("40mm flashbang",      8, 400,AT_40MM,	c_ltred,	STEEL,
 	  1,210,  5,  0, 40,  8, 15,  6, "\
 A 40mm grenade with a flashbang load.  It will detonate with a blast of light\n\
 and sound, designed to blind, deafen, and disorient anyone nearby.",
-mfb(IF_AMMO_FLASHBANG));
+mfb(AMMO_FLASHBANG));
 
 AMMO("H&K 12mm",	 2, 500,AT_12MM,		c_red,	STEEL,
 	 1,  10, 25, 12, 70,  9, 7,  20, "\
@@ -2176,7 +2176,7 @@ ferromagnetic metal, probably cobalt.",
 AMMO("hydrogen",	 8, 800,AT_PLASMA,	c_green,	STEEL,
 	 10,  25, 35, 14,12,  4,  0,  25, "\
 A canister of hydrogen. With proper equipment, it could be heated to plasma.",
-mfb(IF_AMMO_INCENDIARY));
+mfb(AMMO_INCENDIARY));
 
 // The following ammo type is charger rounds and subject to change wildly
 //  NAME		   RAR PRC TYPE		COLOR		MAT
@@ -2299,15 +2299,15 @@ ammunition.",
 // FUEL
 // Fuel is just a special type of ammo; liquid
 #define FUEL(name,rarity,price,ammo_type,color,dmg,AP,range,accuracy,recoil,\
-             count,des,flags) \
+             count,des,effects) \
 	index++;itypes.push_back(new it_ammo(index,rarity,price,name,des,'~',\
-color,LIQUID,1,1,0,0,0,flags,ammo_type,dmg,AP,accuracy,recoil,range,count))
+color,LIQUID,1,1,0,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count))
 FUEL("gasoline",	0,  50,   AT_GAS,	c_ltred,
 //	DMG  AP RNG ACC REC COUNT
 	 5,  5,  4,  0,  0,  100, "\
 Gasoline is a highly flammable liquid.  When under pressure, it has the\n\
 potential for violent explosion.",
-mfb(IF_AMMO_FLAME)|mfb(IF_AMMO_STREAM));
+mfb(AMMO_FLAME)|mfb(AMMO_STREAM));
 
 // GUNS
 // ammo_type matches one of the ammo_types above.
@@ -3995,7 +3995,7 @@ Short and sharp claws made from a high-tech metal.");
 //  NAME		RARE  TYPE	COLOR		MAT
 AMMO("Fusion blast",	 0,0, AT_FUSION,c_dkgray,	MNULL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
-	 0,  0, 40,  0, 10,  1,  0,  5, "", mfb(IF_AMMO_INCENDIARY));
+	 0,  0, 40,  0, 10,  1,  0,  5, "", mfb(AMMO_INCENDIARY));
 
 //  NAME		RARE	COLOR		MAT1	MAT2
 GUN("fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,

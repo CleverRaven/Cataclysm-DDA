@@ -282,24 +282,28 @@ IF_CHARGE,	// For guns; charges up slowly
 IF_UNARMED_WEAPON, // Counts as an unarmed weapon
 IF_NO_UNWIELD, // Impossible to unwield, e.g. bionic claws
 
-IF_AMMO_FLAME,		// Sets fire to terrain and monsters
-IF_AMMO_INCENDIARY,	// Sparks explosive terrain
-IF_AMMO_EXPLOSIVE,	// Small explosion
-IF_AMMO_FRAG,		// Frag explosion
-IF_AMMO_NAPALM,		// Firey explosion
-IF_AMMO_EXPLOSIVE_BIG,	// Big explosion!
-IF_AMMO_TEARGAS,	// Teargas burst
-IF_AMMO_SMOKE,  	// Smoke burst
-IF_AMMO_TRAIL,		// Leaves a trail of smoke
-IF_AMMO_FLASHBANG,	// Disorients and blinds
-IF_AMMO_STREAM,		// Doesn't stop once it hits a monster
-
 // Weapon mode flags
 IF_MODE_AUX, // A gunmod with a firing mode
 IF_MODE_BURST, // A burst of attacks
 
 NUM_ITEM_FLAGS
 };
+
+enum ammo_effect {
+AMMO_FLAME,		// Sets fire to terrain and monsters
+AMMO_INCENDIARY,	// Sparks explosive terrain
+AMMO_EXPLOSIVE,		// Small explosion
+AMMO_FRAG,		// Frag explosion
+AMMO_NAPALM,		// Firey explosion
+AMMO_EXPLOSIVE_BIG,	// Big explosion!
+AMMO_TEARGAS,		// Teargas burst
+AMMO_SMOKE,  		// Smoke burst
+AMMO_TRAIL,		// Leaves a trail of smoke
+AMMO_FLASHBANG,		// Disorients and blinds
+AMMO_STREAM,		// Doesn't stop once it hits a monster
+NUM_AMMO_EFFECTS
+};
+
 
 enum technique_id {
 TEC_NULL,
@@ -502,6 +506,8 @@ struct it_ammo : public itype
  unsigned char recoil;	// Recoil; modified by strength
  unsigned char count;	// Default charges
 
+ unsigned ammo_effects : NUM_AMMO_EFFECTS;
+
  virtual bool is_ammo() { return true; }
 // virtual bool count_by_charges() { return id != itm_gasoline; }
  virtual bool count_by_charges() { return true; }
@@ -511,13 +517,13 @@ struct it_ammo : public itype
         char psym, nc_color pcolor, material pm1,
         unsigned short pvolume, unsigned short pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-        unsigned pitem_flags,
+        unsigned effects,
 
         ammotype ptype, unsigned char pdamage, unsigned char ppierce,
 	signed char paccuracy, unsigned char precoil, unsigned char prange,
         unsigned char pcount)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0) {
   type = ptype;
   damage = pdamage;
   pierce = ppierce;
@@ -525,6 +531,7 @@ struct it_ammo : public itype
   accuracy = paccuracy;
   recoil = precoil;
   count = pcount;
+  ammo_effects = effects;
  }
 };
 

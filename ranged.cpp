@@ -43,15 +43,15 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   else // 5, 12, 21, 32
    tmpammo->accuracy = charges * (charges - 4);
   tmpammo->recoil = tmpammo->accuracy * .8;
-  tmpammo->item_flags = 0;
+  tmpammo->ammo_effects = 0;
   if (charges == 8)
-   tmpammo->item_flags |= mfb(IF_AMMO_EXPLOSIVE_BIG);
+   tmpammo->ammo_effects |= mfb(AMMO_EXPLOSIVE_BIG);
   else if (charges >= 6)
-   tmpammo->item_flags |= mfb(IF_AMMO_EXPLOSIVE);
+   tmpammo->ammo_effects |= mfb(AMMO_EXPLOSIVE);
   if (charges >= 5)
-   tmpammo->item_flags |= mfb(IF_AMMO_FLAME);
+   tmpammo->ammo_effects |= mfb(AMMO_FLAME);
   else if (charges >= 4)
-   tmpammo->item_flags |= mfb(IF_AMMO_INCENDIARY);
+   tmpammo->ammo_effects |= mfb(AMMO_INCENDIARY);
 
   if (gunmod != NULL) {
    weapon = gunmod;
@@ -79,7 +79,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  }
 
  bool is_bolt = false;
- unsigned int flags = curammo->item_flags;
+ unsigned int effects = curammo->ammo_effects;
 // Bolts and arrows are silent
  if (curammo->type == AT_BOLT || curammo->type == AT_ARROW)
   is_bolt = true;
@@ -269,14 +269,14 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 
   int dam = weapon->gun_damage();
   for (int i = 0; i < trajectory.size() &&
-       (dam > 0 || (flags & IF_AMMO_FLAME)); i++) {
+       (dam > 0 || (effects & AMMO_FLAME)); i++) {
    if (i > 0)
     m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, false, true);
 // Drawing the bullet uses player u, and not player p, because it's drawn
 // relative to YOUR position, which may not be the gunman's position.
    if (u_see(trajectory[i].x, trajectory[i].y, junk)) {
     char bullet = '*';
-    if (flags & mfb(IF_AMMO_FLAME))
+    if (effects & mfb(AMMO_FLAME))
      bullet = '#';
     mvwputch(w_terrain, trajectory[i].y + SEEY - u.posy,
                         trajectory[i].x + SEEX - u.posx, c_red, bullet);
@@ -286,7 +286,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    }
    
    if (dam <= 0) { // Ran out of momentum.
-    ammo_effects(this, trajectory[i].x, trajectory[i].y, flags);
+    ammo_effects(this, trajectory[i].x, trajectory[i].y, effects);
     if (is_bolt &&
         ((curammo->m1 == WOOD && !one_in(4)) ||
          (curammo->m1 != WOOD && !one_in(15))))
@@ -336,12 +336,12 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     shoot_player(this, p, h, dam, goodhit);
 
    } else
-    m.shoot(this, tx, ty, dam, i == trajectory.size() - 1, flags);
+    m.shoot(this, tx, ty, dam, i == trajectory.size() - 1, effects);
   } // Done with the trajectory!
 
   int lastx = trajectory[trajectory.size() - 1].x;
   int lasty = trajectory[trajectory.size() - 1].y;
-  ammo_effects(this, lastx, lasty, flags);
+  ammo_effects(this, lastx, lasty, effects);
 
   if (m.move_cost(lastx, lasty) == 0) {
    lastx = trajectory[trajectory.size() - 2].x;
@@ -688,9 +688,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  } while (true);
 }
 
-void game::hit_monster_with_flags(monster &z, unsigned int flags)
+void game::hit_monster_with_flags(monster &z, unsigned int effects)
 {
- if (flags & mfb(IF_AMMO_FLAME)) {
+ if (effects & mfb(AMMO_FLAME)) {
 
   if (z.made_of(VEGGY) || z.made_of(COTTON) || z.made_of(WOOL) ||
       z.made_of(PAPER) || z.made_of(WOOD))
@@ -698,7 +698,7 @@ void game::hit_monster_with_flags(monster &z, unsigned int flags)
   else if (z.made_of(FLESH))
    z.add_effect(ME_ONFIRE, rng(5, 10));
   
- } else if (flags & mfb(IF_AMMO_INCENDIARY)) {
+ } else if (effects & mfb(AMMO_INCENDIARY)) {
 
   if (z.made_of(VEGGY) || z.made_of(COTTON) || z.made_of(WOOL) ||
       z.made_of(PAPER) || z.made_of(WOOD))
@@ -928,8 +928,8 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
             mon.name().c_str());
    if (mon.hurt(dam))
     g->kill_mon(g->mon_at(mon.posx, mon.posy), (&p == &(g->u)));
-   else if (weapon->curammo->item_flags != 0)
-    g->hit_monster_with_flags(mon, weapon->curammo->item_flags);
+   else if (weapon->curammo->ammo_effects != 0)
+    g->hit_monster_with_flags(mon, weapon->curammo->ammo_effects);
    dam = 0;
   }
  }
@@ -1034,38 +1034,38 @@ void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)
  }
 }
 
-void ammo_effects(game *g, int x, int y, long flags)
+void ammo_effects(game *g, int x, int y, long effects)
 {
- if (flags & mfb(IF_AMMO_EXPLOSIVE))
+ if (effects & mfb(AMMO_EXPLOSIVE))
   g->explosion(x, y, 24, 0, false);
 
- if (flags & mfb(IF_AMMO_FRAG))
+ if (effects & mfb(AMMO_FRAG))
   g->explosion(x, y, 12, 28, false);
 
- if (flags & mfb(IF_AMMO_NAPALM))
+ if (effects & mfb(AMMO_NAPALM))
   g->explosion(x, y, 18, 0, true);
 
- if (flags & mfb(IF_AMMO_EXPLOSIVE_BIG))
+ if (effects & mfb(AMMO_EXPLOSIVE_BIG))
   g->explosion(x, y, 40, 0, false);
 
- if (flags & mfb(IF_AMMO_TEARGAS)) {
+ if (effects & mfb(AMMO_TEARGAS)) {
   for (int i = -2; i <= 2; i++) {
    for (int j = -2; j <= 2; j++)
     g->m.add_field(g, x + i, y + j, fd_tear_gas, 3);
   }
  }
  
- if (flags & mfb(IF_AMMO_SMOKE)) {
+ if (effects & mfb(AMMO_SMOKE)) {
   for (int i = -1; i <= 1; i++) {
    for (int j = -1; j <= 1; j++)
     g->m.add_field(g, x + i, y + j, fd_smoke, 3);
   }
  }
 
- if (flags & mfb(IF_AMMO_FLASHBANG))
+ if (effects & mfb(AMMO_FLASHBANG))
   g->flashbang(x, y);
 
- if (flags & mfb(IF_AMMO_FLAME))
+ if (effects & mfb(AMMO_FLAME))
   g->explosion(x, y, 4, 0, true);
 
 }

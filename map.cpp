@@ -1434,7 +1434,7 @@ break;
   g->sound(x, y, 40, "SMASH!!");
 }
 
-void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
+void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned effects)
 {
  if (dam < 0)
   return;
@@ -1447,7 +1447,7 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
  int vpart;
  vehicle *veh = veh_at(x, y, vpart);
  if (veh) {
-  bool inc = (flags & mfb(IF_AMMO_INCENDIARY) || flags & mfb(IF_AMMO_FLAME));
+  bool inc = (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME));
   dam = veh->damage (vpart, dam, inc? 2 : 0, hit_items);
  }
 
@@ -1502,14 +1502,14 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
   dam -= rng(4, 16);
   if (dam > 0)
    ter(x, y) = t_dirt;
-  if (flags & mfb(IF_AMMO_INCENDIARY))
+  if (effects & mfb(AMMO_INCENDIARY))
    add_field(g, x, y, fd_fire, 1);
   break;
 
  case t_gas_pump:
   if (hit_items || one_in(3)) {
    if (dam > 15) {
-    if (flags & mfb(IF_AMMO_INCENDIARY) || flags & mfb(IF_AMMO_FLAME))
+    if (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME))
      g->explosion(x, y, 40, 0, true);
     else {
      for (int i = x - 2; i <= x + 2; i++) {
@@ -1540,7 +1540,7 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
    dam -= (rng(0, 1) * rng(0, 1) * rng(0, 1));
  }
 
- if (flags & mfb(IF_AMMO_TRAIL) && !one_in(4))
+ if (effects & mfb(AMMO_TRAIL) && !one_in(4))
   add_field(g, x, y, fd_smoke, rng(1, 2));
 
 // Set damage to 0 if it's less
@@ -1551,7 +1551,7 @@ void map::shoot(game *g, int x, int y, int &dam, bool hit_items, unsigned flags)
  field *fieldhit = &(field_at(x, y));
  switch (fieldhit->type) {
   case fd_web:
-   if (flags & mfb(IF_AMMO_INCENDIARY) || flags & mfb(IF_AMMO_FLAME))
+   if (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME))
     add_field(g, x, y, fd_fire, fieldhit->density - 1);
    else if (dam > 5 + fieldhit->density * 5 && one_in(5 - fieldhit->density)) {
     dam -= rng(1, 2 + fieldhit->density * 2);
