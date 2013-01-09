@@ -738,9 +738,7 @@ void construct::done_tree(game *g, point p)
 
 void construct::done_log(game *g, point p)
 {
- int num_logs = rng(5, 15);
- for (int i = 0; i < num_logs; i++)
-  g->m.add_item(p.x, p.y, g->itypes[itm_log], int(g->turn));
+ g->m.add_item(p.x, p.y, g->itypes[itm_log], int(g->turn), rng(5, 15));
 }
 
 

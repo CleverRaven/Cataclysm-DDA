@@ -8275,8 +8275,7 @@ void map::add_extra(map_extra type, game *g)
       drugs_placed = num_drugs;
       num_drugs = 0;
      }
-     for (int n = 0; n < drugs_placed; n++)
-      add_item(x, y, drugtype, 0);
+     add_item(x, y, drugtype, 0, drugs_placed);
     }
    }
   }
@@ -8302,8 +8301,7 @@ void map::add_extra(map_extra type, game *g)
       drugs_placed = num_drugs;
       num_drugs = 0;
      }
-     for (int n = 0; n < drugs_placed; n++)
-      add_item(x, y, drugtype, 0);
+     add_item(x, y, drugtype, 0, drugs_placed);
     }
    }
   }

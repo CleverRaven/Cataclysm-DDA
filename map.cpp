@@ -880,8 +880,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   if (str >= result && str >= rng(0, 120)) {
    sound += "crunch!";
    ter(x, y) = t_wall_wood_chipped;
-   int num_boards = rng(0, 1);
-   for (int i = 0; i < num_boards; i++)
+   if(one_in(2))
     add_item(x, y, (*itypes)[itm_2x4], 0);
    add_item(x, y, (*itypes)[itm_nail], 0, 2);
    add_item(x, y, (*itypes)[itm_splinter], 0);
@@ -898,9 +897,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   if (str >= result && str >= rng(0, 100)) {
    sound += "crunch!";
    ter(x, y) = t_wall_wood_broken;
-   int num_boards = rng(1, 4);
-   for (int i = 0; i < num_boards; i++)
-    add_item(x, y, (*itypes)[itm_2x4], 0);
+   add_item(x, y, (*itypes)[itm_2x4], 0, rng(1, 4));
    add_item(x, y, (*itypes)[itm_nail], 0, rng(1, 3));
    add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
@@ -916,9 +913,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   if (str >= result && str >= rng(0, 80)) {
    sound += "crash!";
    ter(x, y) = t_dirt;
-   int num_boards = rng(2, 5);
-   for (int i = 0; i < num_boards; i++)
-    add_item(x, y, (*itypes)[itm_2x4], 0);
+   add_item(x, y, (*itypes)[itm_2x4], 0, rng(2, 5));
    add_item(x, y, (*itypes)[itm_nail], 0, rng(4, 10));
    add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
@@ -934,9 +929,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   if (str >= result && str >= rng(0, 80)) {
    sound += "clang!";
    ter(x, y) = t_dirt;
-   int num_rebar = rng(4, 10);
-   for (int i = 0; i < num_rebar; i++)
-    add_item(x, y, (*itypes)[itm_rebar], 0);
+   add_item(x, y, (*itypes)[itm_rebar], 0, rng(4, 10));
    return true;
   } else {
    sound += "whump!";
@@ -965,9 +958,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   if (str >= result) {
    sound += "crash!";
    ter(x, y) = t_door_frame;
-   int num_boards = rng(1, 6);
-   for (int i = 0; i < num_boards; i++)
-    add_item(x, y, (*itypes)[itm_2x4], 0);
+   add_item(x, y, (*itypes)[itm_2x4], 0, rng(1, 6));
    add_item(x, y, (*itypes)[itm_nail], 0, rng(2, 12));
    add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
@@ -1014,9 +1005,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   if (str >= result) {
    sound += "crash!";
    ter(x, y) = t_door_frame;
-   int num_boards = rng(1, 6);
-   for (int i = 0; i < num_boards; i++)
-    add_item(x, y, (*itypes)[itm_2x4], 0);
+   add_item(x, y, (*itypes)[itm_2x4], 0, rng(1, 6));
    add_item(x, y, (*itypes)[itm_nail], 0, rng(2, 12));
    add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
@@ -1098,9 +1087,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   if (str >= result) {
    sound += "metal screeching!";
    ter(x, y) = t_metal;
-   int num_scrap = rng(2, 8);
-    for (int i = 0; i < num_scrap; i++)
-    add_item(x, y, (*itypes)[itm_scrap], 0);
+   add_item(x, y, (*itypes)[itm_scrap], 0, rng(2, 8));
    int num_boards = rng(0, 3);
    for (int i = 0; i < num_boards; i++)
     add_item(x, y, (*itypes)[itm_steel_chunk], 0);
@@ -1132,9 +1119,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   if (str >= result) {
    sound += "smash!";
    ter(x, y) = t_floor;
-   int num_boards = rng(2, 6);
-   for (int i = 0; i < num_boards; i++)
-    add_item(x, y, (*itypes)[itm_2x4], 0);
+   add_item(x, y, (*itypes)[itm_2x4], 0, rng(2, 6));
    add_item(x, y, (*itypes)[itm_nail], 0, rng(4, 12));
    add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
@@ -1150,9 +1135,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   if (str >= result) {
    sound += "crak";
    ter(x, y) = t_dirt;
-   int num_boards = 2;
-   for (int i = 0; i < num_boards; i++)
-    add_item(x, y, (*itypes)[itm_spear_wood], 0);
+   add_item(x, y, (*itypes)[itm_spear_wood], 0, 2);
    return true;
   } else {
    sound += "whump.";
@@ -1167,9 +1150,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   if (str >= result) {
    sound += "smash!";
    ter(x, y) = t_floor;
-   int num_boards = rng(1, 3);
-   for (int i = 0; i < num_boards; i++)
-    add_item(x, y, (*itypes)[itm_2x4], 0);
+   add_item(x, y, (*itypes)[itm_2x4], 0, rng(1, 3));
    add_item(x, y, (*itypes)[itm_nail], 0, rng(2, 6));
    add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
@@ -1281,9 +1262,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   if (str >= result) {
    sound += "smash";
    ter(x, y) = t_dirt;
-   int num_boards = rng(1, 5);
-   for (int i = 0; i < num_boards; i++)
-    add_item(x, y, (*itypes)[itm_2x4], 0);
+   add_item(x, y, (*itypes)[itm_2x4], 0, rng(1, 5));
    add_item(x, y, (*itypes)[itm_nail], 0, rng(2, 10));
    return true;
   } else {

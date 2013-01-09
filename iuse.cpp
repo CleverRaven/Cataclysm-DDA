@@ -21,8 +21,7 @@ void iuse::sewage(game *g, player *p, item *it, bool t)
 }
 void iuse::honeycomb(game *g, player *p, item *it, bool t)
 {
-  g->m.add_item(p->posx, p->posy, g->itypes[itm_wax],0, 0);
-  g->m.add_item(p->posx, p->posy, g->itypes[itm_wax],0, 0);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_wax],0, 2);
 }
 void iuse::royal_jelly(game *g, player *p, item *it, bool t)
 {
@@ -958,9 +957,7 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
  }
  p->moves -= 500;
  g->m.add_item(p->posx, p->posy, g->itypes[itm_nail], 0, nails);
- item board(g->itypes[itm_2x4], 0, g->nextinv);
- for (int i = 0; i < boards; i++)
-  g->m.add_item(p->posx, p->posy, board);
+ g->m.add_item(p->posx, p->posy, g->itypes[itm_2x4], 0, boards);
  g->m.ter(dirx, diry) = newter;
 }
  
@@ -1219,9 +1216,7 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
   }
   p->moves -= 500;
   g->m.add_item(p->posx, p->posy, g->itypes[itm_nail], 0, nails);
-  item board(g->itypes[itm_2x4], 0, g->nextinv);
-  for (int i = 0; i < boards; i++)
-   g->m.add_item(p->posx, p->posy, board);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_2x4], 0, boards);
   g->m.ter(dirx, diry) = newter;
  }
 }
@@ -2446,29 +2441,19 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
   p->moves -= 500;
   g->m.ter(dirx, diry) = t_floor;
   g->sound(dirx, diry, 15,"grnd grnd grnd");
-  int pipes = rng(1, 3);
-  item pipe(g->itypes[itm_pipe], 0, g->nextinv);
-  item chunk(g->itypes[itm_steel_chunk], 0, g->nextinv);
- for (int i = 0; i < pipes; i++)
-  g->m.add_item(p->posx, p->posy, pipe);
-  g->m.add_item(p->posx, p->posy, chunk);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_pipe], 0, rng(1, 3));
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_steel_chunk], 0);
  }else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(dirx + 1, diry) == t_sewage ||
                                               g->m.ter(dirx, diry + 1) == t_sewage) {
   g->m.ter(dirx, diry) = t_sewage;
   p->moves -= 1000;
   g->sound(dirx, diry, 15,"grnd grnd grnd");
- int pipes = 3;
- item pipe(g->itypes[itm_pipe], 0, g->nextinv);
- for (int i = 0; i < pipes; i++)
-  g->m.add_item(p->posx, p->posy, pipe);	
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_pipe], 0, 3);	
  } else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(p->posx, p->posy)) {
   g->m.ter(dirx, diry) = t_floor;
   p->moves -= 500;
   g->sound(dirx, diry, 15,"grnd grnd grnd");
- int pipes = 3;
- item pipe(g->itypes[itm_pipe], 0, g->nextinv);
- for (int i = 0; i < pipes; i++)
-  g->m.add_item(p->posx, p->posy, pipe);
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_pipe], 0, 3);
  } else {
   g->add_msg("You can't cut that.");
  }
