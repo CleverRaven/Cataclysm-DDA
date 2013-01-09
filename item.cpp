@@ -1500,25 +1500,17 @@ int item::pick_reload_ammo(player &u, bool interactive)
     // Special return to use magazine for reloading.
     return -2;
   }
-  if (charges > 0) {
-   itype_id aid = itype_id(curammo->id);
-   for (int i = 0; i < u.inv.size(); i++) {
-      if (u.inv[i].typeId() == aid)
-      am.push_back(i);
+  it_gun* tmp = dynamic_cast<it_gun*>(type);
+  if (charges < clip_size() ||
+      (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip))
+   am = u.has_ammo(ammo_type());
+  for (int i = 0; i < contents.size(); i++)
+   if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX) &&
+       contents[i].charges < (dynamic_cast<it_gunmod*>(contents[i].type))->clip) {
+    std::vector<int> tmpammo = u.has_ammo((dynamic_cast<it_gunmod*>(contents[i].type))->newtype);
+    for(int j = 0; j < tmpammo.size(); j++)
+     am.push_back(tmpammo[j]);
    }
-  } else {
-   it_gun* tmp = dynamic_cast<it_gun*>(type);
-   if (charges < clip_size() ||
-       (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip))
-    am = u.has_ammo(ammo_type());
-   for (int i = 0; i < contents.size(); i++)
-     if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX) &&
-         contents[i].charges < (dynamic_cast<it_gunmod*>(contents[i].type))->clip) {
-      std::vector<int> tmpammo = u.has_ammo((dynamic_cast<it_gunmod*>(contents[i].type))->newtype);
-      for(int j = 0; j < tmpammo.size(); j++)
-       am.push_back(tmpammo[j]);
-     }
-  }
  } else {
   it_tool* tmp = dynamic_cast<it_tool*>(type);
   am = u.has_ammo(ammo_type());
