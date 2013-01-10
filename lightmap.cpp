@@ -132,6 +132,9 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
      case mon_zombie_electric:
       apply_light_source(sx, sy, x, y, 1);
       break;
+     case mon_turret:
+      apply_light_source(sx, sy, x, y, 2);
+      break;
      case mon_flaming_eye:
       apply_light_source(sx, sy, x, y, LIGHT_SOURCE_BRIGHT);
       break;

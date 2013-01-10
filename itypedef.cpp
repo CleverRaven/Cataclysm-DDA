@@ -2304,7 +2304,7 @@ ammunition.",
 color,LIQUID,1,1,0,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count))
 FUEL("gasoline",	0,  50,   AT_GAS,	c_ltred,
 //	DMG  AP RNG ACC REC COUNT
-	 5,  5,  4,  0,  0,  100, "\
+	 5,  5,  4,  0,  0,  200, "\
 Gasoline is a highly flammable liquid.  When under pressure, it has the\n\
 potential for violent explosion.",
 mfb(AMMO_FLAME)|mfb(AMMO_STREAM));

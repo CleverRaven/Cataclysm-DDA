@@ -221,7 +221,7 @@ unload U\n\
 throw t\n\
 fire f\n\
 #fire_burst F\n\
-select_Fire F\n\
+select_fire_mode F\n\
 drop d\n\
 drop_adj D\n\
 bionics p\n\
