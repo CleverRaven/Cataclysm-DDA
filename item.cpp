@@ -1571,6 +1571,11 @@ bool item::reload(player &u, int index)
  bool single_load = false;
  int max_load = 1;
  item *reload_target = NULL;
+ item *ammo_to_use = &u.inv[index];
+
+ // Handle ammo in containers, currently only gasoline
+ if(ammo_to_use->is_container())
+   ammo_to_use = &ammo_to_use->contents[0];
 
  if (is_gun()) {
   // Reload using a spare magazine
@@ -1587,27 +1592,27 @@ bool item::reload(player &u, int index)
   // Determine what we're reloading, the gun, a spare magazine, or another gunmod.
   // Prefer the active gunmod if there is one
   item* gunmod = active_gunmod();
-  if (gunmod != NULL && gunmod->ammo_type() == u.inv[index].ammo_type() &&
-      (gunmod->charges <= 0 || gunmod->curammo->id == u.inv[index].typeId())) {
+  if (gunmod != NULL && gunmod->ammo_type() == ammo_to_use->ammo_type() &&
+      (gunmod->charges <= 0 || gunmod->curammo->id == ammo_to_use->typeId())) {
    reload_target = gunmod;
   // Then prefer the gun itself
   } else if (charges < clip_size() && 
-             ammo_type() == u.inv[index].ammo_type() &&
-             (charges <= 0 || curammo->id == u.inv[index].typeId())) {
+             ammo_type() == ammo_to_use->ammo_type() &&
+             (charges <= 0 || curammo->id == ammo_to_use->typeId())) {
    reload_target = this;
   // Then prefer a spare mag if present
   } else if (spare_mag != -1 && 
-             ammo_type() == u.inv[index].ammo_type() &&
+             ammo_type() == ammo_to_use->ammo_type() &&
              contents[spare_mag].charges != (dynamic_cast<it_gun*>(type))->clip &&
-             (charges <= 0 || curammo->id == u.inv[index].typeId())) {
+             (charges <= 0 || curammo->id == ammo_to_use->typeId())) {
    reload_target = &contents[spare_mag];
   // Finally consider other gunmods
   } else {
    for (int i = 0; i < contents.size(); i++) {
     if (&contents[i] != gunmod && i != spare_mag && contents[i].is_gunmod() &&
-        contents[i].has_flag(IF_MODE_AUX) && contents[i].ammo_type() == u.inv[index].ammo_type() && 
+        contents[i].has_flag(IF_MODE_AUX) && contents[i].ammo_type() == ammo_to_use->ammo_type() && 
         (contents[i].charges <= (dynamic_cast<it_gunmod*>(contents[i].type))->clip ||
-        (contents[i].charges <= 0 ||  contents[i].curammo->id == u.inv[index].typeId()))) {
+        (contents[i].charges <= 0 ||  contents[i].curammo->id == ammo_to_use->typeId()))) {
      reload_target = &contents[i];
      break;
     }
@@ -1639,30 +1644,33 @@ bool item::reload(player &u, int index)
   // If the gun is currently loaded with a different type of ammo, reloading fails
   if ((reload_target->is_gun() || reload_target->is_gunmod()) &&
       reload_target->charges > 0 &&
-      reload_target->curammo->id != u.inv[index].typeId())
+      reload_target->curammo->id != ammo_to_use->typeId())
    return false;
   if (reload_target->is_gun() || reload_target->is_gunmod()) {
-   if (!u.inv[index].is_ammo()) {
+   if (!ammo_to_use->is_ammo()) {
     debugmsg("Tried to reload %s with %s!", tname().c_str(),
-             u.inv[index].tname().c_str());
+             ammo_to_use->tname().c_str());
     return false;
    }
-   reload_target->curammo = dynamic_cast<it_ammo*>((u.inv[index].type));
+   reload_target->curammo = dynamic_cast<it_ammo*>((ammo_to_use->type));
   }
   if (single_load || max_load == 1) {	// Only insert one cartridge!
    reload_target->charges++;
-   u.inv[index].charges--;
+   ammo_to_use->charges--;
   } else {
-   reload_target->charges += u.inv[index].charges;
-   u.inv[index].charges = 0;
+   reload_target->charges += ammo_to_use->charges;
+   ammo_to_use->charges = 0;
    if (reload_target->charges > max_load) {
     // More rounds than the clip holds, put some back
-    u.inv[index].charges += reload_target->charges - max_load;
+    ammo_to_use->charges += reload_target->charges - max_load;
     reload_target->charges = max_load;
    }
   }
-  if (u.inv[index].charges == 0)
-   u.i_remn(index);
+  if (ammo_to_use->charges == 0)
+   if (u.inv[index].is_container())
+     u.inv[index].contents.erase(u.inv[index].contents.begin());
+   else
+    u.i_remn(index);
   return true;
  } else
   return false;
