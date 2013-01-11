@@ -1492,41 +1492,51 @@ int item::pick_reload_ammo(player &u, bool interactive)
 
  std::vector<int> am;	// List of indicies of valid ammo
 
-/*
-     if (u.inv[i].is_container() && !u.inv[i].contents.empty()) // for liquid ammo
-    {
-      if (u.inv[i].contents[0].type->id == aid)
-        am.push_back(i);      
-    } else
-*/
-
-
  if (type->is_gun()) {
   if(charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
-    // Special return to use magazine for reloading.
-    return -2;
+   // Special return to use magazine for reloading.
+   return -2;
   }
   it_gun* tmp = dynamic_cast<it_gun*>(type);
   if (charges < clip_size() ||
-      (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip))
+     (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip))
    am = u.has_ammo(ammo_type());
-  for (int i = 0; i < contents.size(); i++)
+  //if weapon is currently partially loaded, you can only fill it with more
+  // of the same type.
+  // filter out other ammos of the same sort.
+  if(charges > 0 && charges < tmp->clip) {
+   int i=0;
+   while(i < am.size()){
+    if(u.inv[am[i]].typeId() != curammo->id){
+     am.erase(am.begin()+i);
+    }
+    else {
+     i++;
+    }
+   }
+  }
+  // ammo for gun attachments (shotgun attachments, grenade attachments, etc.)
+  // for each attachment, find its associated ammo & append it to the ammo vector
+  for (int i = 0; i < contents.size(); i++){
    if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX) &&
        contents[i].charges < (dynamic_cast<it_gunmod*>(contents[i].type))->clip) {
     std::vector<int> tmpammo = u.has_ammo((dynamic_cast<it_gunmod*>(contents[i].type))->newtype);
     for(int j = 0; j < tmpammo.size(); j++)
      am.push_back(tmpammo[j]);
-   }
- } else {
+    }
+  }
+ } else { //non-gun.
   it_tool* tmp = dynamic_cast<it_tool*>(type);
   am = u.has_ammo(ammo_type());
  }
 
  int index = -1;
 
+ if (am.size() == 1)
+  return am[0];
+
  if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
-  WINDOW* w_ammo = newwin(am.size() + 1, 80, 0, 0);
-  if (charges == 0) {
+   WINDOW* w_ammo = newwin(am.size() + 1, 80, 0, 0);
    char ch;
    clear();
    it_ammo* ammo_type;
@@ -1554,18 +1564,11 @@ Choose ammo type:         Damage     Armor Pierce     Range     Accuracy");
     index = -1;
    else
     index = am[ch - 'a'];
-  } else {
-   int smallest = 500;
-   for (int i = 0; i < am.size(); i++) {
-    //if (u.inv[am[i]].typeId() == curammo->id &&
-        if (u.inv[am[i]].charges < smallest) {
-     smallest = u.inv[am[i]].charges;
-     index = am[i];
-    }
-   }
-  }
- } else if (am.size() == 1 || !interactive)
-  index = am[0];
+ }
+ // More than one option; for NPCs? Pick the 1st, I guess?
+ else if (am.size() > 1 && !interactive) {
+  index = 0;
+ }
  return index;
 }
 
@@ -1576,58 +1579,60 @@ bool item::reload(player &u, int index)
  item *reload_target = NULL;
 
  if (is_gun()) {
-   // Reload using a spare magazine
-   int spare_mag = has_gunmod(itm_spare_mag);
-   if (charges <= 0 && spare_mag != -1 &&
-       u.weapon.contents[spare_mag].charges > 0) {
-     charges = u.weapon.contents[spare_mag].charges;
-     curammo = u.weapon.contents[spare_mag].curammo;
-     u.weapon.contents[spare_mag].charges = 0;
-     u.weapon.contents[spare_mag].curammo = NULL;
-     return true;
-   }
+  // Reload using a spare magazine
+  int spare_mag = has_gunmod(itm_spare_mag);
+  if (charges <= 0 && spare_mag != -1 &&
+      u.weapon.contents[spare_mag].charges > 0) {
+   charges = u.weapon.contents[spare_mag].charges;
+   curammo = u.weapon.contents[spare_mag].curammo;
+   u.weapon.contents[spare_mag].charges = 0;
+   u.weapon.contents[spare_mag].curammo = NULL;
+   return true;
+  }
 
-   // Determine what we're reloading, the gun, a spare magazine, or another gunmod.
-   // Prefer the active gunmod if there is one
-   item* gunmod = active_gunmod();
-   if (gunmod != NULL && gunmod->ammo_type() == u.inv[index].ammo_type() &&
-       (gunmod->charges <= 0 || gunmod->curammo->id == u.inv[index].typeId())) {
-     reload_target = gunmod;
-   // Then prefer the gun itself
-   } else if (charges < clip_size() && ammo_type() == u.inv[index].ammo_type() &&
-	      (charges <= 0 || curammo->id == u.inv[index].typeId())) {
-     reload_target = this;
-     // Then prefer a spare mag if present
-   } else if (spare_mag != -1 && ammo_type() == u.inv[index].ammo_type() &&
-	      contents[spare_mag].charges != (dynamic_cast<it_gun*>(type))->clip &&
-	      (charges <= 0 || curammo->id == u.inv[index].typeId())) {
-     reload_target = &contents[spare_mag];
-     // Finally consider other gunmods
+  // Determine what we're reloading, the gun, a spare magazine, or another gunmod.
+  // Prefer the active gunmod if there is one
+  item* gunmod = active_gunmod();
+  if (gunmod != NULL && gunmod->ammo_type() == u.inv[index].ammo_type() &&
+      (gunmod->charges <= 0 || gunmod->curammo->id == u.inv[index].typeId())) {
+   reload_target = gunmod;
+  // Then prefer the gun itself
+  } else if (charges < clip_size() && 
+             ammo_type() == u.inv[index].ammo_type() &&
+             (charges <= 0 || curammo->id == u.inv[index].typeId())) {
+   reload_target = this;
+  // Then prefer a spare mag if present
+  } else if (spare_mag != -1 && 
+             ammo_type() == u.inv[index].ammo_type() &&
+             contents[spare_mag].charges != (dynamic_cast<it_gun*>(type))->clip &&
+             (charges <= 0 || curammo->id == u.inv[index].typeId())) {
+   reload_target = &contents[spare_mag];
+  // Finally consider other gunmods
+  } else {
+   for (int i = 0; i < contents.size(); i++) {
+    if (&contents[i] != gunmod && i != spare_mag && contents[i].is_gunmod() &&
+        contents[i].has_flag(IF_MODE_AUX) && contents[i].ammo_type() == u.inv[index].ammo_type() && 
+        (contents[i].charges <= (dynamic_cast<it_gunmod*>(contents[i].type))->clip ||
+        (contents[i].charges <= 0 ||  contents[i].curammo->id == u.inv[index].typeId()))) {
+     reload_target = &contents[i];
+     break;
+    }
+   }
+  }
+
+  if (reload_target == NULL)
+   return false;
+
+  if (reload_target->is_gun() || reload_target->is_gunmod()) {
+   if (reload_target->is_gunmod() && reload_target->typeId() == itm_spare_mag) {
+    // Use gun numbers instead of the mod if it's a spare magazine
+    max_load = (dynamic_cast<it_gun*>(type))->clip;
+    single_load = has_flag(IF_RELOAD_ONE);
    } else {
-     for (int i = 0; i < contents.size(); i++) {
-       if (&contents[i] != gunmod && i != spare_mag && contents[i].is_gunmod() &&
-	   contents[i].has_flag(IF_MODE_AUX) && contents[i].ammo_type() == u.inv[index].ammo_type() &&
-	   (contents[i].charges <= (dynamic_cast<it_gunmod*>(contents[i].type))->clip ||
-	    (contents[i].charges <= 0 ||  contents[i].curammo->id == u.inv[index].typeId()))) {
-	 reload_target = &contents[i];
-	 break;
-       }
-     }
+    single_load = reload_target->has_flag(IF_RELOAD_ONE);
+    max_load = reload_target->clip_size();
    }
-
-   if (reload_target == NULL)
-    return false;
-
-   if (reload_target->is_gun() || reload_target->is_gunmod()) {
-     if (reload_target->is_gunmod() && reload_target->typeId() == itm_spare_mag) {
-       // Use gun numbers instead of the mod if it's a spare magazine
-       max_load = (dynamic_cast<it_gun*>(type))->clip;
-       single_load = has_flag(IF_RELOAD_ONE);
-     } else {
-       single_load = reload_target->has_flag(IF_RELOAD_ONE);
-       max_load = reload_target->clip_size();
-     }
-   }
+  }
  } else if (is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(type);
   reload_target = this;
