@@ -110,7 +110,7 @@ struct player_activity
   placement = point(-1, -1);
  }
 
- player_activity(player_activity &copy)
+ player_activity(const player_activity &copy)
  {
   type = copy.type;
   moves_left = copy.moves_left;
