@@ -1,0 +1,6 @@
+cataclysm
+data/*.template
+save/
+obj/
+debug.log
+logg.txt
