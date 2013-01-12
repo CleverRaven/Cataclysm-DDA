@@ -167,7 +167,6 @@ class map
                   int x2, int y2, bool ongrass, int turn);
 // put_items_from puts exactly num items, based on chances
  void put_items_from(items_location loc, int num, int x, int y, int turn = 0);
- void make_all_items_owned();
  void add_spawn(mon_id type, int count, int x, int y, bool friendly = false,
                 int faction_id = -1, int mission_id = -1,
                 std::string name = "NONE");

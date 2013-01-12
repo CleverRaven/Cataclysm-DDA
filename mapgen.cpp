@@ -6807,18 +6807,6 @@ computer* map::add_computer(int x, int y, std::string name, int security)
  return &(grid[nonant]->comp);
 }
 
-void map::make_all_items_owned()
-{
-/*
- for (int i = 0; i < SEEX * 2; i++) {
-  for (int j = 0; j < SEEY * 2; j++) {
-   for (int n = 0; n < i_at(i, j).size(); n++)
-    i_at(i, j)[n].owned = true;
-  }
- }
-*/
-}
-
 void map::rotate(int turns)
 {
  ter_id rotated         [SEEX*2][SEEY*2];
