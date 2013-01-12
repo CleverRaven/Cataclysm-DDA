@@ -404,7 +404,6 @@ public:
 // Generating our stats, etc.
  void randomize(game *g, npc_class type = NC_NONE);
  void randomize_from_faction(game *g, faction *fac);
- void make_shopkeep(game *g, oter_id type);
  void spawn_at(overmap *o, int posx, int posy);
  skill best_skill();
  void starting_weapon(game *g);
