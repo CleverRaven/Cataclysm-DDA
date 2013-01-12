@@ -336,8 +336,6 @@ class game
 // Routine loop functions, approximately in order of execution
   void cleanup_dead();     // Delete any dead NPCs/monsters
   void monmove();          // Monster movement
-  void om_npcs_move();     // Movement of NPCs on the overmap (non-local)
-  void check_warmth();     // Checks the player's warmth (applying clothing)
   void update_skills();    // Degrades practice levels, checks & upgrades skills
   void process_events();   // Processes and enacts long-term events
   void process_activity(); // Processes and enacts the player's activity

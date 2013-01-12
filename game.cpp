@@ -688,7 +688,6 @@ bool game::do_turn()
 
  monmove();
  update_stair_monsters();
- om_npcs_move();
  u.reset(this);
  u.process_active_items(this);
  u.suffer(this);
@@ -696,7 +695,6 @@ bool game::do_turn()
  if (levz >= 0) {
   weather_effect weffect;
   (weffect.*(weather_data[weather].effect))(this);
-  check_warmth();
  }
 
  if (u.has_disease(DI_SLEEP) && int(turn) % 300 == 0) {
@@ -3390,98 +3388,6 @@ void game::monmove()
   }
  }
  cleanup_dead();
-}
-
-void game::om_npcs_move()
-{
-/*
- for (int i = 0; i < cur_om.npcs.size(); i++) {
-  cur_om.npcs[i].perform_mission(this);
-  if (abs(cur_om.npcs[i].mapx - levx) <= 1 &&
-      abs(cur_om.npcs[i].mapy - levy) <= 1   ) {
-   cur_om.npcs[i].posx = u.posx + SEEX * 2 * (cur_om.npcs[i].mapx - levx);
-   cur_om.npcs[i].posy = u.posy + SEEY * 2 * (cur_om.npcs[i].mapy - levy);
-   active_npc.push_back(cur_om.npcs[i]);
-   cur_om.npcs.erase(cur_om.npcs.begin() + i);
-   i--;
-  }
- }
-*/
-}
-
-void game::check_warmth()
-{
-/*
- // HEAD
- int warmth = u.warmth(bp_head) + int((temperature - 65) / 10);
- if (warmth <= -6) {
-  add_msg("Your head is freezing!");
-  u.add_disease(DI_COLD, abs(warmth * 2), this);// Heat loss via head is bad
-  u.hurt(this, bp_head, 0, rng(0, abs(warmth / 3)));
- } else if (warmth <= -3) {
-  add_msg("Your head is cold.");
-  u.add_disease(DI_COLD, abs(warmth * 2), this);
- } else if (warmth >= 8) {
-  add_msg("Your head is overheating!");
-  u.add_disease(DI_HOT, warmth * 1.5, this);
- }
- // FACE -- Mouth and eyes
- warmth = u.warmth(bp_eyes) + u.warmth(bp_mouth) + int((temperature - 65) / 10);
- if (warmth <= -6) {
-  add_msg("Your face is freezing!");
-  u.add_disease(DI_COLD_FACE, abs(warmth), this);
-  u.hurt(this, bp_head, 0, rng(0, abs(warmth / 3)));
- } else if (warmth <= -4) {
-  add_msg("Your face is cold.");
-  u.add_disease(DI_COLD_FACE, abs(warmth), this);
- } else if (warmth >= 12) {
-  add_msg("Your face is overheating!");
-  u.add_disease(DI_HOT, warmth, this);
- }
- // TORSO
- warmth = u.warmth(bp_torso) + int((temperature - 65) / 10);
- if (warmth <= -8) {
-  add_msg("Your body is freezing!");
-  u.add_disease(DI_COLD, abs(warmth), this);
-  u.hurt(this, bp_torso, 0, rng(0, abs(warmth / 4)));
- } else if (warmth <= -2) {
-  add_msg("Your body is cold.");
-  u.add_disease(DI_COLD, abs(warmth), this);
- } else if (warmth >= 12) {
-  add_msg("Your body is too hot.");
-  u.add_disease(DI_HOT, warmth * 2, this);
- }
- // HANDS
- warmth = u.warmth(bp_hands) + int((temperature - 65) / 10);
- if (warmth <= -4) {
-  add_msg("Your hands are freezing!");
-  u.add_disease(DI_COLD_HANDS, abs(warmth), this);
- } else if (warmth >= 8) {
-  add_msg("Your hands are overheating!");
-  u.add_disease(DI_HOT, rng(0, warmth / 2), this);
- }
- // LEGS
- warmth = u.warmth(bp_legs) + int((temperature - 65) / 10);
- if (warmth <= -6) {
-  add_msg("Your legs are freezing!");
-  u.add_disease(DI_COLD_LEGS, abs(warmth), this);
- } else if (warmth <= -3) {
-  add_msg("Your legs are very cold.");
-  u.add_disease(DI_COLD_LEGS, abs(warmth), this);
- } else if (warmth >= 8) {
-  add_msg("Your legs are overheating!");
-  u.add_disease(DI_HOT, rng(0, warmth), this);
- }
- // FEET
- warmth = u.warmth(bp_feet) + int((temperature - 65) / 10);
- if (warmth <= -3) {
-  add_msg("Your feet are freezing!");
-  u.add_disease(DI_COLD_FEET, warmth, this);
- } else if (warmth >= 12) {
-  add_msg("Your feet are overheating!");
-  u.add_disease(DI_HOT, rng(0, warmth), this);
- }
-*/
 }
 
 void game::sound(int x, int y, int vol, std::string description)
