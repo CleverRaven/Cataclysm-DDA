@@ -1478,7 +1478,7 @@ ammotype item::ammo_type()
  }
  return AT_NULL;
 }
- 
+
 int item::pick_reload_ammo(player &u, bool interactive)
 {
  if( is_null() )
@@ -1498,42 +1498,36 @@ int item::pick_reload_ammo(player &u, bool interactive)
    return -2;
   }
   it_gun* tmp = dynamic_cast<it_gun*>(type);
+
+  // If there's room to load more ammo into the gun or a spare mag, stash the ammo.
+  // If the gun is partially loaded make sure the ammo matches.
+  // If the gun is empty, either the spre mag is empty too and anything goes,
+  // or the spare mag is loaded and we're doing a tactical reload.
   if (charges < clip_size() ||
-     (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip))
-   am = u.has_ammo(ammo_type());
-  //if weapon is currently partially loaded, you can only fill it with more
-  // of the same type.
-  // filter out other ammos of the same sort.
-  if(charges > 0 && charges < tmp->clip) {
-   int i=0;
-   while(i < am.size()){
-    if(u.inv[am[i]].typeId() != curammo->id){
-     am.erase(am.begin()+i);
-    }
-    else {
-     i++;
-    }
-   }
+      (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip)) {
+   std::vector<int> tmpammo = u.has_ammo(ammo_type());
+   for (int i = 0; i < tmpammo.size(); i++)
+    if (charges >= 0 || u.inv[tmpammo[i]].typeId() == curammo->id)
+      am.push_back(tmpammo[i]);
   }
+
   // ammo for gun attachments (shotgun attachments, grenade attachments, etc.)
   // for each attachment, find its associated ammo & append it to the ammo vector
-  for (int i = 0; i < contents.size(); i++){
+  for (int i = 0; i < contents.size(); i++)
    if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX) &&
        contents[i].charges < (dynamic_cast<it_gunmod*>(contents[i].type))->clip) {
     std::vector<int> tmpammo = u.has_ammo((dynamic_cast<it_gunmod*>(contents[i].type))->newtype);
     for(int j = 0; j < tmpammo.size(); j++)
-     am.push_back(tmpammo[j]);
-    }
-  }
+     if (contents[i].charges >= 0 ||
+         u.inv[tmpammo[j]].typeId() == contents[i].curammo->id)
+      am.push_back(tmpammo[j]);
+   }
  } else { //non-gun.
   it_tool* tmp = dynamic_cast<it_tool*>(type);
   am = u.has_ammo(ammo_type());
  }
 
  int index = -1;
-
- if (am.size() == 1)
-  return am[0];
 
  if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
    WINDOW* w_ammo = newwin(am.size() + 1, 80, 0, 0);
@@ -1565,9 +1559,9 @@ Choose ammo type:         Damage     Armor Pierce     Range     Accuracy");
    else
     index = am[ch - 'a'];
  }
- // More than one option; for NPCs? Pick the 1st, I guess?
- else if (am.size() > 1 && !interactive) {
-  index = 0;
+ // Either only one valid choice or chosing for a NPC, just return the first.
+ else if (am.size() > 0){
+  index = am[0];
  }
  return index;
 }
