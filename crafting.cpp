@@ -501,6 +501,14 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_rock, -1, itm_toolset, -1, NULL);
   COMP(itm_apple, 3, NULL);
 
+ RECIPE(itm_long_island, CC_FOOD, sk_cooking, sk_null, 1, 7000, false);
+  COMP(itm_cola, 1, NULL);
+  COMP(itm_vodka, 1, NULL);
+  COMP(itm_gin, 1, NULL);
+  COMP(itm_rum, 1, NULL);
+  COMP(itm_tequila, 1, NULL);
+  COMP(itm_triple_sec, 1, NULL);
+
  RECIPE(itm_jerky, CC_FOOD, sk_cooking, sk_null, 3, 30000, false);
   TOOL(itm_hotplate, 10, itm_toolset, 5, itm_fire, -1, NULL);
   COMP(itm_salt_water, 1, itm_salt, 4, NULL);
