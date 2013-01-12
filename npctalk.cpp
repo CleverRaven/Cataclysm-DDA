@@ -1294,7 +1294,6 @@ void talk_function::give_equipment(game *g, npc *p)
  int chosen = -1;
  if (giving.empty()) {
   for (int i = 0; i < p->inv.size(); i++) {
-   int val = p->value(p->inv[i]) - p->inv[i].price() / 50;
    giving.push_back(i);
    prices.push_back(p->inv[i].price());
   }

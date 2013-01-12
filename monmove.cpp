@@ -570,7 +570,6 @@ void monster::hit_player(game *g, player &p, bool can_grab)
    morale_adjust -= 15;
  }
  if (anger_adjust != 0 && morale_adjust != 0) {
-  int light = g->light_level();
   for (int i = 0; i < g->z.size(); i++) {
    g->z[i].morale += morale_adjust;
    g->z[i].anger += anger_adjust;

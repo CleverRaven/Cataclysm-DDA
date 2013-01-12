@@ -27,8 +27,8 @@ struct vehicle_part
         precalc_dy[0] = precalc_dy[1] = -1;
     }
     bool has_flag( int flag ) { return flag & flags; }
-    bool set_flag( int flag ) { flags |= flag; }
-    bool remove_flag( int flag ) { flags &= ~flag; }
+    int set_flag( int flag ) { return flags |= flag; }
+    int remove_flag( int flag ) { return flags &= ~flag; }
 
     static const int passenger_flag = 1;
 

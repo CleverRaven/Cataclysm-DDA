@@ -76,6 +76,8 @@ std::ostream & operator<<(std::ostream & out, const std::vector<C,A> & elm)
    out << ",";
   out << *it;
  }
+
+ return out;
 }
 
 struct DebugLog

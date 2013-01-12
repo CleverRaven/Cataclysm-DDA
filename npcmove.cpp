@@ -420,8 +420,8 @@ npc_action npc::method_of_fleeing(game *g, int enemy)
 npc_action npc::method_of_attack(game *g, int target, int danger)
 {
  int tarx = posx, tary = posy;
- bool can_use_gun =      (!is_following() || combat_rules.use_guns),
-      can_use_grenades = (!is_following() || combat_rules.use_grenades);
+ bool can_use_gun = (!is_following() || combat_rules.use_guns);
+
  if (target == TARGET_PLAYER) {
   tarx = g->u.posx;
   tary = g->u.posy;
@@ -894,7 +894,7 @@ void npc::move_to(game *g, int x, int y)
  if (x == posx && y == posy)	// We're just pausing!
   moves -= 100;
  else if (g->mon_at(x, y) != -1) {	// Shouldn't happen, but it might.
-  monster *m = &(g->z[g->mon_at(x, y)]);
+  //monster *m = &(g->z[g->mon_at(x, y)]);
   //debugmsg("Bumped into a monster, %d, a %s",g->mon_at(x, y),m->name().c_str());
   melee_monster(g, g->mon_at(x, y));
  } else if (g->u.posx == x && g->u.posy == y) {

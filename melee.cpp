@@ -129,8 +129,6 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  bool is_u = (this == &(g->u));	// Affects how we'll display messages
  if (is_u)
   z->add_effect(ME_HIT_BY_PLAYER, 100); // Flag as attacked by us
- int j;
- bool can_see = (is_u || g->u_see(posx, posy, j));
 
  std::string You  = (is_u ? "You"  : name);
  std::string Your = (is_u ? "Your" : name + "'s");
@@ -227,9 +225,8 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
 void player::hit_player(game *g, player &p, bool allow_grab)
 {
- int j;
  bool is_u = (this == &(g->u));	// Affects how we'll display messages
- bool can_see = (is_u || g->u_see(posx, posy, j));
+
  if (is_u && p.is_npc()) {
   npc* npcPtr = dynamic_cast<npc*>(&p);
   npcPtr->make_angry();
@@ -379,7 +376,6 @@ int stumble(player &u)
 
 bool player::scored_crit(int target_dodge)
 {
- bool to_hit_crit = false, dex_crit = false, skill_crit = false;
  int num_crits = 0;
 
 // Weapon to-hit roll
@@ -700,25 +696,24 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
   return TEC_NULL;
 
  std::vector<technique_id> possible;
- bool downed = ((z != NULL && !z->has_effect(ME_DOWNED)) ||
-                (p != NULL && !p->has_disease(DI_DOWNED))  );
- bool plastic = (z == NULL || !z->has_flag(MF_PLASTIC));
- bool mon = (z != NULL);
+ bool downed = ((z && !z->has_effect(ME_DOWNED)) ||
+                (p && !p->has_disease(DI_DOWNED))  );
  int base_str_req = 0;
- if (z != NULL)
+
+ if (z)
   base_str_req = z->type->size;
- else if (p != NULL)
+ else if (p)
   base_str_req = 1 + (2 + p->str_cur) / 4;
 
  if (allowgrab) { // Check if grabs AREN'T REALLY ALLOWED
-  if (mon && z->has_flag(MF_PLASTIC))
+  if (z && z->has_flag(MF_PLASTIC))
    allowgrab = false;
  }
 
  if (crit) { // Some are crit-only
 
   if (weapon.has_technique(TEC_SWEEP, this) &&
-      (z == NULL || !z->has_flag(MF_FLIES)) && !downed)
+      (!z || !z->has_flag(MF_FLIES)) && !downed)
    possible.push_back(TEC_SWEEP);
 
   if (weapon.has_technique(TEC_PRECISE, this))
@@ -732,7 +727,7 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
 
  if (possible.empty()) { // Use non-crits only if any crit-onlies aren't used
 
-  if (weapon.has_technique(TEC_DISARM, this) && !mon &&
+  if (weapon.has_technique(TEC_DISARM, this) && !z &&
       p->weapon.typeId() != 0 && !p->weapon.has_flag(IF_UNARMED_WEAPON) &&
       dice(   dex_cur +    sklevel[sk_unarmed],  8) >
       dice(p->dex_cur + p->sklevel[sk_melee],   10))
@@ -774,7 +769,7 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
   }
 
  } // if (possible.empty())
-  
+
  if (possible.empty())
   return TEC_NULL;
 

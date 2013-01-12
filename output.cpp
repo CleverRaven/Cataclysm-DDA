@@ -92,6 +92,8 @@ nc_color invert_color(nc_color c)
   case c_ltcyan:  return i_ltcyan;
   case c_pink:    return i_pink;
  }
+
+ return c_pink;
 }
 
 nc_color red_background(nc_color c)
@@ -246,7 +248,7 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
  va_list ap;
  va_start(ap, active_tab);
  char *tmp;
- while (tmp = va_arg(ap, char *))
+ while ((tmp = va_arg(ap, char *)))
   labels.push_back((std::string)(tmp));
  va_end(ap);
 
@@ -317,7 +319,8 @@ void realDebugmsg(const char* filename, const char* line, const char *mes, ...)
  fout.open("debug.log", std::ios_base::app | std::ios_base::out);
  fout << filename << "[" << line << "]: " << buff << "\n";
  fout.close();
- while(getch() != ' ');
+ while(getch() != ' ') ;
+;
  attroff(c_red);
 }
 

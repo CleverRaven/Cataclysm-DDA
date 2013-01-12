@@ -179,14 +179,14 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
   endwin();
   exit(1);
  }
- while (dp = readdir(dir)) {
+ while ((dp = readdir(dir))) {
   tmp = dp->d_name;
   if (tmp.find(".sav") != std::string::npos)
    savegames.push_back(tmp.substr(0, tmp.find(".sav")));
  }
  closedir(dir);
  dir = opendir("data");
- while (dp = readdir(dir)) {
+ while ((dp = readdir(dir))) {
   tmp = dp->d_name;
   if (tmp.find(".template") != std::string::npos)
    templates.push_back(tmp.substr(0, tmp.find(".template")));
@@ -3118,7 +3118,6 @@ void game::mon_info()
 
 
  mostseen = newseen;
- int line = 0;
  nc_color tmpcol;
 // Print the direction headings
 // Reminder:
@@ -4386,6 +4385,7 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
                 u.inv.remove_item (i_itm);
         }
     }
+    return true;
 }
 
 void game::handbrake ()
@@ -5725,8 +5725,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
         {
           add_msg("That %s isn't water-tight.", cont->tname(this).c_str());
           return false;
-        } 
-        else if (!(container->flags & mfb(con_seals))) 
+        }
+        else if (!(container->flags & mfb(con_seals)))
         {
           add_msg("You can't seal that %s!", cont->tname(this).c_str());
           return false;
@@ -5734,20 +5734,20 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
         // pouring into a valid empty container
         int default_charges = 1;
 
-        if (liquid.is_food()) 
+        if (liquid.is_food())
         {
           it_comest* comest = dynamic_cast<it_comest*>(liquid.type);
           default_charges = comest->charges;
-        } 
-        else if (liquid.is_ammo()) 
+        }
+        else if (liquid.is_ammo())
         {
           it_ammo* ammo = dynamic_cast<it_ammo*>(liquid.type);
           default_charges = ammo->count;
-        } 
-        
+        }
+
         if (infinite) // if filling from infinite source, top it to max
-          liquid.charges = container->contains * default_charges;      
-        else if (liquid.charges > container->contains * default_charges) 
+          liquid.charges = container->contains * default_charges;
+        else if (liquid.charges > container->contains * default_charges)
         {
           add_msg("You fill your %s with some of the %s.", cont->tname(this).c_str(),
                                                     liquid.tname(this).c_str());
@@ -5760,10 +5760,11 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
         }
         cont->put_in(liquid);
         return true;
-      } 
+      }
     }
     return false;
   }
+ return true;
 }
 
 void game::drop()
@@ -6606,8 +6607,6 @@ void game::plmove(int x, int y)
   if (!active_npc[npcdex].is_enemy() &&
       !query_yn("Really attack %s?", active_npc[npcdex].name.c_str()))
    return;	// Cancel the attack
-  body_part bphit;
-  int hitdam = 0, hitcut = 0;
   u.hit_player(this, active_npc[npcdex]);
   active_npc[npcdex].make_angry();
   if (active_npc[npcdex].hp_cur[hp_head]  <= 0 ||
@@ -6945,7 +6944,6 @@ void game::fling_player_or_monster(player *p, monster *zz, int dir, int flvel)
     else
         sname = zz->name() + " is";
     int range = flvel / 10;
-    int vel1 = flvel;
     int x = (is_player? p->posx : zz->posx);
     int y = (is_player? p->posy : zz->posy);
     while (range > 0)

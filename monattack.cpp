@@ -442,7 +442,6 @@ void mattack::grow_vine(game *g, monster *z)
 
 void mattack::vine(game *g, monster *z)
 {
- bool hit_u = false;
  std::vector<point> grow;
  int vine_neighbors = 0;
  z->sp_timeout = z->type->sp_freq;

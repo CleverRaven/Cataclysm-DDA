@@ -280,7 +280,7 @@ bool vehicle::can_mount (int dx, int dy, vpart_id id)
         int res = vpart_list[id].flags & mfb(vpf_external);
 //         if (!res)
 //             debugmsg ("can_mount: not first or external");
-        return vpart_list[id].flags & mfb(vpf_external); // can be mounted if first and external
+        return res; // can be mounted if first and external
     }
 
     int flags1 = part_info(parts_here[0]).flags;
@@ -559,7 +559,6 @@ void vehicle::precalc_mounts (int idir, int dir)
 {
     if (idir < 0 || idir > 1)
         idir = 0;
-    int ps = parts.size();
     for (int p = 0; p < parts.size(); p++)
     {
         int dx, dy;
@@ -818,7 +817,6 @@ int vehicle::wheels_area (int *cnt)
 
 float vehicle::k_dynamics ()
 {
-    int count;
     const int max_obst = 13;
     int obst[max_obst];
     for (int o = 0; o < max_obst; o++)
@@ -1094,8 +1092,6 @@ int vehicle::part_collision (int vx, int vy, int part, int x, int y)
     bool veh_collision = oveh && (oveh->posx != posx || oveh->posy != posy);
     bool body_collision = (g->u.posx == x && g->u.posy == y && !g->u.in_vehicle) ||
                            mondex >= 0 || npcind >= 0;
-    int dummy;
-    bool can_see = g->u_see(x, y, dummy);
 
     // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
     // 3 - thin_obstacle, 4 - bashable, 5 - destructible, 6 - other
@@ -1802,7 +1798,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     int x = global_x() + parts[p].precalc_dx[0];
     int y = global_y() + parts[p].precalc_dy[0];
     // code copied form mattack::smg, mattack::flamethrower
-    int t, j, fire_t;
+    int t, fire_t;
     monster *target = 0;
     int range = ammo.type == AT_GAS? 5 : 12;
     int closest = range + 1;
@@ -1846,5 +1842,6 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
         for (int i = 0; i < traj.size(); i++)
             g->m.add_field(g, traj[i].x, traj[i].y, fd_fire, 1);
     }
-}
 
+    return true;
+}

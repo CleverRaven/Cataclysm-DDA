@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
  load_options();
  do {
   g->setup();
-  while (!g->do_turn());
+  while (!g->do_turn()) ;
   if (g->game_quit())
    quit_game = true;
  } while (!quit_game);

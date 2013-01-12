@@ -1432,10 +1432,8 @@ int item::range(player *p)
   else
    return 0;
  }
- it_gun* gun = dynamic_cast<it_gun*>(type);
- int ret = 0;
- if (curammo != NULL)
-  ret += curammo->range;
+
+ int ret = (curammo?curammo->range:0);
 
  if (has_flag(IF_STR8_DRAW) && p != NULL) {
   if (p->str_cur < 4)
@@ -1523,7 +1521,6 @@ int item::pick_reload_ammo(player &u, bool interactive)
       am.push_back(tmpammo[j]);
    }
  } else { //non-gun.
-  it_tool* tmp = dynamic_cast<it_tool*>(type);
   am = u.has_ammo(ammo_type());
  }
 

@@ -776,7 +776,6 @@ std::string defense_location_description(defense_location location)
 
 void defense_game::caravan(game *g)
 {
- caravan_category tab = CARAVAN_MELEE;
  std::vector<itype_id> items[NUM_CARAVAN_CATEGORIES];
  std::vector<int> item_count[NUM_CARAVAN_CATEGORIES];
 

@@ -196,8 +196,6 @@ bool light_map::sees(int fx, int fy, int tx, int ty, int max_range)
  int x = fx;
  int y = fy;
 
- float transparency = LIGHT_TRANSPARENCY_CLEAR;
-
  // TODO: [lightmap] Pull out the common code here rather than duplication
  if (ax > ay) {
   int t = ay - (ax >> 1);

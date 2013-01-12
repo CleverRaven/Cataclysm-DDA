@@ -232,8 +232,6 @@ void map::destroy_vehicle (vehicle *veh)
 
 bool map::displace_vehicle (game *g, int &x, int &y, int dx, int dy, bool test=false)
 {
- char ss[256];
-
  int x2 = x + dx;
  int y2 = y + dy;
  int srcx = x;
@@ -703,10 +701,9 @@ bool map::trans(int x, int y, char * trans_buf)
  } else
   tertr = terlist[ter(x, y)].flags & mfb(transparent);
  if( tertr )
- {
-  field & f(field_at(x, y));
-  if(f.type == 0 || // Fields may obscure the view, too
-    fieldlist[f.type].transparent[f.density - 1]);
+ { // Fields may obscure the view, too
+  // field & f(field_at(x, y));
+  // if(f.type == 0 || fieldlist[f.type].transparent[f.density - 1]); // TODO: Clarify function
   if(trans_buf) trans_buf[x + (y * my_MAPSIZE * SEEX)] = 1;
   return true;
  }
@@ -817,10 +814,7 @@ bool map::has_adjacent_furniture(int x, int y)
     case t_rack:
     case t_bookcase:
     case t_locker:
-     return true; true;
-     break;
-    default:
-     break;
+     return true;
    }
  return false;
 }
@@ -2160,7 +2154,6 @@ void map::draw(game *g, WINDOW* w, point center)
  //DebugLog() << "lowlight_sight_range:" << lowlight_sight_range << "\n";
  //DebugLog() << "max_sight_range:" << max_sight_range << "\n";
 
- int t = 0;
  char trans_buf[my_MAPSIZE*SEEX][my_MAPSIZE*SEEY];
  memset(trans_buf, -1, sizeof(trans_buf));
  for  (int realx = center.x - SEEX; realx <= center.x + SEEX; realx++) {

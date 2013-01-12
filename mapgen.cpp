@@ -2245,7 +2245,7 @@ case ot_shelter: {
         ter(SEEX+2, 4) = t_window_domestic;
         line(this, t_counter, SEEX+3, 5, SEEX+3, SEEY-4);
         ter(SEEX+6, 5) = t_console;
-        computer* evaccomp = this->add_computer(SEEX+6, 5, "Evac shelter computer", 0);
+        this->add_computer(SEEX+6, 5, "Evac shelter computer", 0);
         line(this, t_counter, SEEX+3, SEEY+3, SEEX+3, SEEY*2-6);
         ter(SEEX+6, SEEY*2-6) = t_console_broken;
             line(this, t_bench, 6,6, 6,SEEY-3);
@@ -6882,7 +6882,6 @@ void map::rotate(int turns)
     int gridto = (1 - sy) * my_MAPSIZE + 1 - sx;
     for (int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
      spawn_point tmp = grid[gridfrom]->spawns[j];
-     int tmpy = tmp.posy;
      tmp.posy = SEEY - 1 - tmp.posy;
      tmp.posx = SEEX - 1 - tmp.posx;
      sprot[gridto].push_back(tmp);
@@ -7835,7 +7834,7 @@ room_type pick_mansion_room(int x1, int y1, int x2, int y2)
 
 void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2)
 {
- int dx = abs(x1 - x2), dy = abs(y1 - y2), area = dx * dy;
+ int dx = abs(x1 - x2), dy = abs(y1 - y2);
  int cx_low = (x1 + x2) / 2, cx_hi = (x1 + x2 + 1) / 2,
      cy_low = (y1 + y2) / 2, cy_hi = (y1 + y2 + 1) / 2;
 
@@ -7845,8 +7844,7 @@ x: %d - %d, dx: %d cx: %d/%d\n\
 x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
                                y1, y2, dy, cy_low, cy_hi);
 */
- bool walled_west = (x1 <= 1),            walled_north = (y1 == 0),
-      walled_east = (x2 == SEEX * 2 - 1), walled_south = (y2 >= SEEY * 2 - 2);
+ bool walled_south = (y2 >= SEEY * 2 - 2);
 
  switch (type) {
 
@@ -8595,7 +8593,6 @@ void rough_circle(map *m, ter_id type, int x, int y, int rad)
 void add_corpse(game *g, map *m, int x, int y)
 {
  item body;
- itype_id shoes, pants, shirt, extra;
  body.make_corpse(g->itypes[itm_corpse], g->mtypes[mon_null], 0);
  m->add_item(x, y, body);
  m->put_items_from(mi_shoes,  1, x, y);
