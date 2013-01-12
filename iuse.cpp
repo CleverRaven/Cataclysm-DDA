@@ -2473,20 +2473,20 @@ void iuse::tent(game *g, player *p, item *it, bool t)
  int posy = diry + p->posy;
  posx += dirx;
  posy += diry;
- for (int i = -1; i <= 1; i++) {
-  for (int j = -1; j <= 1; j++) {
+ for (int i = -1; i <= 1; i++)
+  for (int j = -1; j <= 1; j++)
    if (!g->m.has_flag(tentable, posx + i, posy + j)) { 
     g->add_msg("You need a 3x3 diggable space to place a tent");
     return;
-   } else {
-    g->m.ter(posx + i, posy + j) = t_canvas_wall;
    }
-  }
-  g->m.ter(posx, posy) = t_groundsheet;
-  g->m.ter(posx - dirx, posy - diry) = t_canvas_door; 
-  it->invlet = 0;
- }
+ for (int i = -1; i <= 1; i++)
+  for (int j = -1; j <= 1; j++)
+    g->m.ter(posx + i, posy + j) = t_canvas_wall;
+ g->m.ter(posx, posy) = t_groundsheet;
+ g->m.ter(posx - dirx, posy - diry) = t_canvas_door;
+ it->invlet = 0;
 }
+
 void iuse::torch(game *g, player *p, item *it, bool t)
 {
   if (!p->has_charges(itm_lighter, 1)) 
