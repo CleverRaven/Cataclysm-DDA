@@ -1095,6 +1095,16 @@ MELEE("Heating element", 20, 10, ',', c_cyan,   IRON,   MNULL,
          0,   1,   0,  0,  0, 0, "\
 A heating element, like the ones used in hotplates or kettles.");
 
+MELEE("Television",      40, 0,  ';', c_gray,   PLASTIC, GLASS,
+        10,  12,  5, 0, -5, 0, "\
+A large cathode ray tube television, full of delicious\n\
+electronics.");
+
+MELEE("Pilot light", 20, 10, ',', c_cyan,   IRON,   PLASTIC,
+         0,   1,   0,  0,  0, 0, "\
+A pilot light from a gas-burning device, this particular one\n\
+is a simple piezo electric igniter.");
+
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  25, 35, ']', c_cyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS

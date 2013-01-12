@@ -82,6 +82,8 @@ itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
  itm_splinter, itm_skewer, itm_crackpipe, itm_torch_done,
  itm_spring, itm_lawnmower, itm_lawnmower_blade, itm_lawnmower_machete,
  itm_lawnmower_halberd, itm_curtain, itm_broketent, itm_element,
+ itm_television, itm_pilot_light,
+
 // Vehicle parts
 itm_frame, itm_wheel, itm_big_wheel, itm_seat, itm_vehicle_controls,
  itm_combustion_tiny, itm_combustion_small, itm_combustion, itm_combustion_large,
