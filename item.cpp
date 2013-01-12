@@ -1507,7 +1507,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
       (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip)) {
    std::vector<int> tmpammo = u.has_ammo(ammo_type());
    for (int i = 0; i < tmpammo.size(); i++)
-    if (charges >= 0 || u.inv[tmpammo[i]].typeId() == curammo->id)
+    if (charges <= 0 || u.inv[tmpammo[i]].typeId() == curammo->id)
       am.push_back(tmpammo[i]);
   }
 
@@ -1518,7 +1518,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
        contents[i].charges < (dynamic_cast<it_gunmod*>(contents[i].type))->clip) {
     std::vector<int> tmpammo = u.has_ammo((dynamic_cast<it_gunmod*>(contents[i].type))->newtype);
     for(int j = 0; j < tmpammo.size(); j++)
-     if (contents[i].charges >= 0 ||
+     if (contents[i].charges <= 0 ||
          u.inv[tmpammo[j]].typeId() == contents[i].curammo->id)
       am.push_back(tmpammo[j]);
    }
