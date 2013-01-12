@@ -29,13 +29,13 @@ class Skill {
   std::string _name;
   std::string _description;
 
-  static Skill skill(size_t id);
   static size_t skill_id(std::string ident);
 
  public:
   static std::vector<Skill> skills;
   static std::vector<Skill> loadSkills();
   static Skill skill(std::string ident);
+  static Skill skill(size_t id);
 
   Skill();
   Skill(size_t id, std::string ident, std::string name, std::string description);
@@ -46,7 +46,7 @@ class Skill {
 
 std::string skill_name(int);
 std::string skill_description(int);
-std::string skill_long_name(skill sk, int level);
+
 double price_adjustment(int);
 
 #endif
