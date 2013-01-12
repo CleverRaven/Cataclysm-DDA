@@ -4232,43 +4232,38 @@ case ot_s_garage_north:
         line(this, t_door_metal_locked, 14, yard_wdth, 19, yard_wdth );
         ter(13, yard_wdth+1) = t_gates_mech_control;
         ter(13, yard_wdth-1) = t_gates_mech_control;
+
         //place items
         place_items(mi_mechanics, 90, 1, yard_wdth+1, 1, yard_wdth+7, true, 0);
         place_items(mi_mechanics, 90, 4, SEEY*2-5, 15, SEEY*2-5, true, 0);
-        //place vehicles
-        /*vhtype_id vt = (one_in(10)? veh_sandbike :
-                     (one_in(8)? veh_truck :
-                     (one_in(3)? veh_car : veh_motorcycle)));*/
+
+        // rotate garage and place vehicles
         vhtype_id vt = veh_car;
 
-        if (terrain_type == ot_s_garage_north) {
-        int vy = yard_wdth+6, vx = 5;
-        if (one_in(10))
-         add_vehicle (g, vt, vx, vy, 90); }
+        int vy = 0, vx = 0, theta = 0;
 
-          if (terrain_type == ot_s_garage_east) {
-            rotate(1);
-            //int vy = yard_wdth+5, vx = 4;
-            int vy = 4, vx=yard_wdth+8;
-            if (one_in(10))
-             add_vehicle (g, vt, vx, vy, 0);
-            }
-          if (terrain_type == ot_s_garage_south) {
-            rotate(2);
-            int vy = SEEY*2-(yard_wdth+5)-2, vx = SEEX*2-5-1;
-            if (one_in(10))
-             add_vehicle (g, vt, vx, vy, 270);
-            }
-          if (terrain_type == ot_s_garage_west) {
-            //int vy = yard_wdth+5, vx = 4;
-            rotate(3);
-            //int vy = 4, vx=yard_wdth;
-            int vy = SEEY*2-4-1, vx=SEEX*2-yard_wdth-9;
-            if (one_in(10))
-             add_vehicle (g, vt, vx, vy, 180);
-            }
+        if (terrain_type == ot_s_garage_north) {
+          vx = 5, vy = yard_wdth + 6;
+          theta = 90;
+        } else if (terrain_type == ot_s_garage_east) {
+          rotate(1);
+          vx = yard_wdth + 8, vy = 4;
+          theta = 0;
+        } else if (terrain_type == ot_s_garage_south) {
+          rotate(2);
+          vx = SEEX * 2 - 6, vy = SEEY * 2 - (yard_wdth + 3);
+          theta = 270;
+        } else if (terrain_type == ot_s_garage_west) {
+          rotate(3);
+          vx = SEEX * 2 - yard_wdth - 9, vy = SEEY * 2 - 5;
+          theta = 180;
+        }
+
+        if (one_in(10)) {
+          add_vehicle (g, vt, vx, vy, theta);
+        }
   }
-  break; 
+  break;
 
  case ot_police_north:
  case ot_police_east:
