@@ -6443,8 +6443,14 @@ void game::plmove(int x, int y)
  int npcdex = npc_at(x, y);
  if (npcdex != -1) {
   if (!active_npc[npcdex].is_enemy() &&
-      !query_yn("Really attack %s?", active_npc[npcdex].name.c_str()))
+      !query_yn("Really attack %s?", active_npc[npcdex].name.c_str())) {
+   if (active_npc[npcdex].is_friend()) {
+    add_msg("%s moves out of the way.", active_npc[npcdex].name.c_str());
+    active_npc[npcdex].move_away_from(this, u.posx, u.posy);
+   }
+
    return;	// Cancel the attack
+  }
   u.hit_player(this, active_npc[npcdex]);
   active_npc[npcdex].make_angry();
   if (active_npc[npcdex].hp_cur[hp_head]  <= 0 ||
