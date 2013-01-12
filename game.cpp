@@ -215,9 +215,10 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
    mvwprintz(w_open, 4, 1, (sel1 == 0 ? h_white : c_white), "MOTD");
    mvwprintz(w_open, 5, 1, (sel1 == 1 ? h_white : c_white), "New Game");
    mvwprintz(w_open, 6, 1, (sel1 == 2 ? h_white : c_white), "Load Game");
-   mvwprintz(w_open, 7, 1, (sel1 == 3 ? h_white : c_white), "Special...");
-   mvwprintz(w_open, 8, 1, (sel1 == 4 ? h_white : c_white), "Help");
-   mvwprintz(w_open, 9, 1, (sel1 == 5 ? h_white : c_white), "Quit");
+   mvwprintz(w_open, 7, 1, (sel1 == 3 ? h_white : c_white), "New World");
+   mvwprintz(w_open, 8, 1, (sel1 == 4 ? h_white : c_white), "Special...");
+   mvwprintz(w_open, 9, 1, (sel1 == 5 ? h_white : c_white), "Help");
+   mvwprintz(w_open, 10, 1, (sel1 == 6 ? h_white : c_white), "Quit");
 
    if (sel1 == 0) {	// Print the MOTD.
     for (int i = 0; i < motd.size() && i < 16; i++)
@@ -236,17 +237,17 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
     if (sel1 > 0)
      sel1--;
     else
-     sel1 = 5;
+     sel1 = 6;
    } else if (ch == 'j') {
-    if (sel1 < 5)
+    if (sel1 < 6)
      sel1++;
     else
      sel1 = 0;
    } else if ((ch == 'l' || ch == '\n' || ch == '>') && sel1 > 0) {
-    if (sel1 == 5) {
+    if (sel1 == 6) {
      uquit = QUIT_MENU;
      return false;
-    } else if (sel1 == 4) {
+    } else if (sel1 == 5) {
      help();
      clear();
      mvwprintz(w_open, 0, 1, c_blue, "Welcome to Cataclysm!");
@@ -263,9 +264,10 @@ fivedozenwhales@gmail.com.");
     mvwprintz(w_open, 4, 1, (sel1 == 0 ? c_white : c_dkgray), "MOTD");
     mvwprintz(w_open, 5, 1, (sel1 == 1 ? c_white : c_dkgray), "New Game");
     mvwprintz(w_open, 6, 1, (sel1 == 2 ? c_white : c_dkgray), "Load Game");
-    mvwprintz(w_open, 7, 1, (sel1 == 3 ? c_white : c_dkgray), "Special...");
-    mvwprintz(w_open, 8, 1, (sel1 == 4 ? c_white : c_dkgray), "Help");
-    mvwprintz(w_open, 9, 1, (sel1 == 5 ? c_white : c_dkgray), "Quit");
+    mvwprintz(w_open, 7, 1, (sel1 == 3 ? c_white : c_dkgray), "New World");
+    mvwprintz(w_open, 8, 1, (sel1 == 4 ? c_white : c_dkgray), "Special...");
+    mvwprintz(w_open, 9, 1, (sel1 == 5 ? c_white : c_dkgray), "Help");
+    mvwprintz(w_open, 10, 1, (sel1 == 6 ? c_white : c_dkgray), "Quit");
    }
   } else if (layer == 2) {
    if (sel1 == 1) {	// New Character
@@ -363,7 +365,21 @@ fivedozenwhales@gmail.com.");
       ch = 0;
      }
     }
-   } else if (sel1 == 3) {	// Special game
+   } else if (sel1 == 3) {  // Delete world
+    if (query_yn("Delete the world and all saves?")) {
+     if (remove("save/") != 0) {
+#if (defined _WIN32 || defined __WIN32__)
+      system("DEL /Q save/");
+#else
+      system("rm -rf save/*");
+#endif
+
+      savegames.clear();
+     }
+    }
+
+    layer = 1;
+   } else if (sel1 == 4) {	// Special game
     for (int i = 1; i < NUM_SPECIAL_GAMES; i++) {
      mvwprintz(w_open, 6 + i, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
      mvwprintz(w_open, 6 + i, 12, (sel2 == i ? h_white : c_white),
