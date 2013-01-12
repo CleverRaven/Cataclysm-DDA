@@ -453,9 +453,9 @@ You never learned to read!  Books and computers are off-limits to you."},
 Your hearing is poor, and you may not hear quiet or far-off noises."},
 {"Insomniac", -2, 0, 0, "\
 You have a hard time falling asleep, even under the best circumstances!"},
-{"Vegetarian", -3, 0, 0, "\
-You have moral objections to eating meat.  You may consume it, but doing so\n\
-will hurt your morale."},
+{"Meat Allergy", -3, 0, 0, "\
+You have problems with eating meat, it's possible for you to eat it but\n\
+you will suffer morale penalties due to nausea."},
 {"Glass Jaw", -3, 0, 0, "\
 Your head can't take much abuse.  Its maximum HP is 15%% lower than usual."},
 {"Forgetful", -3, 0, 0, "\
