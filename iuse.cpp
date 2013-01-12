@@ -2465,7 +2465,7 @@ void iuse::tent(game *g, player *p, item *it, bool t)
  g->draw();
  mvprintw(0, 0, "Put up tent where?");
  get_direction(g, dirx, diry, input());
- if (dirx == -2) {
+ if (dirx == -2 || (dirx == 0 && diry == 0)) {
   g->add_msg_if_player(p,"Invalid direction.");
   return;
  }
