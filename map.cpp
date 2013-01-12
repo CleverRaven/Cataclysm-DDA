@@ -1059,6 +1059,8 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
       add_item(tentx + i, tenty + j, (*itypes)[itm_broketent], 0);
      ter(tentx + i, tenty + j) = t_dirt;
     }
+
+   sound += "rrrrip!";
    return true;
   } else {
    sound += "slap!";
