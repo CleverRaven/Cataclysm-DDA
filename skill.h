@@ -37,6 +37,8 @@ class Skill {
   static Skill skill(std::string ident);
   static Skill skill(size_t id);
 
+  static size_t skill_count();
+
   Skill();
   Skill(size_t id, std::string ident, std::string name, std::string description);
 

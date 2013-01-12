@@ -73,6 +73,10 @@ Skill Skill::skill(size_t id) {
   return Skill::skills[id];
 }
 
+size_t Skill::skill_count() {
+  return Skill::skills.size();
+}
+
 std::string skill_name(int sk) {
   return Skill::skill(sk).name();
 }
