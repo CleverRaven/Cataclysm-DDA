@@ -201,7 +201,7 @@ void player::pick_name()
  ss << random_first_name(male) << " " << random_last_name();
  name = ss.str();
 }
- 
+
 void player::reset(game *g)
 {
 // Reset our stats to normal levels
@@ -268,7 +268,7 @@ if (has_bionic(bio_metabolics) && power_level < max_power_level &&
  dex_cur += int(stim / 10);
  per_cur += int(stim /  7);
  int_cur += int(stim /  6);
- if (stim >= 30) { 
+ if (stim >= 30) {
   dex_cur -= int(abs(stim - 15) /  8);
   per_cur -= int(abs(stim - 15) / 12);
   int_cur -= int(abs(stim - 15) / 14);
@@ -298,7 +298,7 @@ if (has_bionic(bio_metabolics) && power_level < max_power_level &&
   per_cur = 0;
  if (int_cur < 0)
   int_cur = 0;
- 
+
  int mor = morale_level();
  int xp_frequency = 10 - int(mor / 20);
  if (xp_frequency < 1)
@@ -444,7 +444,6 @@ int player::run_cost(int base_cost)
 
  return movecost;
 }
- 
 
 int player::swim_speed()
 {
@@ -586,7 +585,6 @@ void player::load_info(game *g, std::string data)
   dump >> mistmp;
   failed_missions.push_back(mistmp);
  }
- 
 }
 
 std::string player::save_info()
@@ -717,12 +715,12 @@ void player::disp_info(game *g)
   int dexbonus = int(stim / 10);
   int perbonus = int(stim /  7);
   int intbonus = int(stim /  6);
-  if (abs(stim) >= 30) { 
+  if (abs(stim) >= 30) {
    dexbonus -= int(abs(stim - 15) /  8);
    perbonus -= int(abs(stim - 15) / 12);
    intbonus -= int(abs(stim - 15) / 14);
   }
-  
+
   if (dexbonus < 0)
    effect_name.push_back("Stimulant Overdose");
   else
@@ -886,7 +884,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
            encumb_color(encumb(bp_torso)), "%d", encumb(bp_torso));
  mvwprintz(w_encumb, 5, 2, c_ltgray, "Arms...............");
  mvwprintz(w_encumb, 5,(encumb(bp_arms)>=0 && encumb(bp_arms) < 10 ? 21 : 20),
-           encumb_color(encumb(bp_arms)), "%d", encumb(bp_arms));          
+           encumb_color(encumb(bp_arms)), "%d", encumb(bp_arms));
  mvwprintz(w_encumb, 6, 2, c_ltgray, "Hands...............");
  mvwprintz(w_encumb, 6,(encumb(bp_hands)>=0 && encumb(bp_hands) < 10 ? 21 : 20),
            encumb_color(encumb(bp_hands)), "%d", encumb(bp_hands));
@@ -1362,7 +1360,7 @@ encumb(bp_feet) * 5);
     } else {
      mvwprintz(w_skills, 2 + i - min, 1, status, "%s:",
                skill_name(skillslist[i]).c_str());
-     mvwprintz(w_skills, 2 + i - min,19, status, "%d (%s%d%%%%)", 
+     mvwprintz(w_skills, 2 + i - min,19, status, "%d (%s%d%%%%)",
                sklevel[skillslist[i]],
                (skexercise[skillslist[i]] < 10 &&
                 skexercise[skillslist[i]] >= 0 ? " " : ""),
@@ -1415,7 +1413,7 @@ encumb(bp_feet) * 5);
    }
   }
  } while (!done);
- 
+
  werase(w_info);
  werase(w_grid);
  werase(w_stats);
@@ -1478,7 +1476,6 @@ void player::disp_morale()
  werase(w);
  delwin(w);
 }
- 
 
 void player::disp_status(WINDOW *w, game *g)
 {
@@ -1555,7 +1552,6 @@ void player::disp_status(WINDOW *w, game *g)
 
  vehicle *veh = g->m.veh_at (posx, posy);
  int dmor = 0;
- //int dmor = (in_vehicle && veh) ? 0 : 9;
 
  int morale_cur = morale_level ();
  nc_color col_morale = c_white;
@@ -1570,7 +1566,7 @@ void player::disp_status(WINDOW *w, game *g)
  else if (morale_cur > -10)
   mvwprintz(w, 3, 10 + dmor, col_morale, ":|");
  else if (morale_cur > -100)
-  mvwprintz(w, 3, 10 + dmor, col_morale, ":(");
+  mvwprintz(w, 3, 10 + dmor, col_morale, "):");
  else
   mvwprintz(w, 3, 10 + dmor, col_morale, "D:");
 
@@ -1977,7 +1973,7 @@ int player::throw_range(int index)
   return str_cur * 1.5 + sklevel[sk_throw];
  return ret;
 }
- 
+
 int player::ranged_dex_mod(bool real_life)
 {
  int dex = (real_life ? dex_cur : dex_max);
@@ -2031,7 +2027,7 @@ int player::throw_dex_mod(bool real_life)
   return 0;
  if (dex >= 10)
   return (real_life ? 0 - rng(0, dex - 9) : 9 - dex);
- 
+
  int deviation = 0;
  if (dex < 4)
   deviation = 4 * (8 - dex);
@@ -2118,7 +2114,6 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  if (dam >= 6)
   rem_disease(DI_ARMOR_BOOST);
 
-
  if (!is_npc())
   g->cancel_activity_query("You were hurt!");
 
@@ -2147,7 +2142,7 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
    g->z.push_back(snake);
   }
  }
-  
+
  if (has_trait(PF_PAINRESIST))
   painadd = (sqrt(double(cut)) + dam + cut) / (rng(4, 6));
  else
@@ -2168,7 +2163,7 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
   }
 
  case bp_mouth: // Fall through to head damage
- case bp_head: 
+ case bp_head:
   pain++;
   hp_cur[hp_head] -= dam;
   if (hp_cur[hp_head] < 0)
@@ -2517,7 +2512,7 @@ void player::add_disease(dis_type type, int duration, game *g,
   }
   i++;
  }
- if (!found) {   
+ if (!found) {
   if (!is_npc())
    dis_msg(g, type);
   disease tmp(type, duration, intensity);
@@ -3093,7 +3088,7 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
   morale.push_back(tmp);
  }
 }
- 
+
 void player::sort_inv()
 {
  // guns ammo weaps armor food tools books other
@@ -3133,67 +3128,27 @@ void player::i_add(item it, game *g)
 
  last_item = itype_id(item_type_id);
 
- if (it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() || 
+ if (it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() ||
      it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container())
   inv_sorted = false;
-/* if (it.is_ammo()) {	// Possibly combine with other ammo
+
+ if (it.count_by_charges()) {
   for (int i = 0; i < inv.size(); i++) {
    if (inv[i].type->id == item_type_id) {
-    it_ammo* ammo = dynamic_cast<it_ammo*>(inv[i].type);
-    if (inv[i].charges < ammo->count) {
+
+     // does it stack?
+    if (inv[i].charges > 0) {
      inv[i].charges += it.charges;
-     if (inv[i].charges > ammo->count) {
-      it.charges = inv[i].charges - ammo->count;
-      inv[i].charges = ammo->count;
-     } else
       it.charges = 0;
+      return;
     }
    }
   }
-  if (it.charges > 0)
-   inv.push_back(it);
+
+  inv.push_back(it);
   return;
  }
-*/
 
-/*
-if (it.is_food()) {	
-  for (int i = 0; i < inv.size(); i++) {
-   if (inv[i].type->id == item_type_id) {
-    it_comest* comest = dynamic_cast<it_comest*>(inv[i].type);
-
-// does it stack? 
-    if (inv[i].charges > 0) {
-     inv[i].charges += it.charges;
-      it.charges = 0;
-      return;
-    }
-   }
-  }
-//   if (it.charges > 0)
-   inv.push_back(it);
-  return;
- } 
-*/
-
-if (it.count_by_charges()) {	
-  for (int i = 0; i < inv.size(); i++) {
-   if (inv[i].type->id == item_type_id) {
-
-// does it stack? 
-    if (inv[i].charges > 0) {
-     inv[i].charges += it.charges;
-      it.charges = 0;
-      return;
-    }
-   }
-  }
-//   if (it.charges > 0)
-   inv.push_back(it);
-  return;
- } 
-
- 
  if (g != NULL && it.is_artifact() && it.is_tool()) {
   it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(it.type);
   g->add_artifact_messages(art->effects_carried);
@@ -3278,7 +3233,6 @@ void player::process_active_items(game *g)
    return;
   } // if (weapon.has_flag(IF_CHARGE))
 
-     
   if (!weapon.is_tool()) {
    debugmsg("%s is active, but it is not a tool.", weapon.tname().c_str());
    return;
@@ -3520,7 +3474,7 @@ void player::use_charges(itype_id it, int quantity)
    }
   }
  }
-  
+
  if (weapon.type->id == it) {
   if (weapon.charges > 0 && weapon.charges <= quantity) {
    quantity -= weapon.charges;
@@ -3631,13 +3585,12 @@ bool player::has_artifact_with(art_effect_passive effect)
  }
  return false;
 }
-   
 
 bool player::has_amount(itype_id it, int quantity)
 {
  if (it == itm_toolset)
   return has_bionic(bio_tools);
- return (amount_of(it) >= quantity); 
+ return (amount_of(it) >= quantity);
 }
 
 int player::amount_of(itype_id it)
@@ -3698,31 +3651,27 @@ bool player::has_watertight_container()
 
 bool player::has_matching_liquid(int it)
 {
- for (int i = 0; i < inv.size(); i++) 
- {
-  if (inv[i].is_container() && !inv[i].contents.empty()) 
-  {  
-    if (inv[i].contents[0].type->id == it)  // liquid matches
-    {
+ for (int i = 0; i < inv.size(); i++) {
+  if (inv[i].is_container() && !inv[i].contents.empty()) {
+    if (inv[i].contents[0].type->id == it) { // liquid matches
       it_container* container = dynamic_cast<it_container*>(inv[i].type);
       int holding_container_charges;
-      
-      if (inv[i].contents[0].type->is_food()) 
-      {
+
+      if (inv[i].contents[0].type->is_food()) {
         it_comest* tmp_comest = dynamic_cast<it_comest*>(inv[i].contents[0].type);
-            
+
         if (tmp_comest->add == ADD_ALCOHOL) // 1 contains = 20 alcohol charges
           holding_container_charges = container->contains * 20;
         else
-          holding_container_charges = container->contains; 
-      }       
+          holding_container_charges = container->contains;
+      }
       else if (inv[i].contents[0].type->is_ammo())
-        holding_container_charges = container->contains * 200;    
+        holding_container_charges = container->contains * 200;
       else
-        holding_container_charges = container->contains;    
-    
+        holding_container_charges = container->contains;
+
     if (inv[i].contents[0].charges < holding_container_charges)
-    return true;
+      return true;
     }
   }
  }
@@ -3917,7 +3866,7 @@ bool player::eat(game *g, int index)
   }
 // At this point, we've definitely eaten the item, so use up some turns.
   if (has_trait(PF_GOURMAND))
-   moves -= 150; 
+   moves -= 150;
   else
    moves -= 250;
 // If it's poisonous... poison us.  TODO: More several poison effects
@@ -3945,7 +3894,7 @@ bool player::eat(game *g, int index)
    } else if (comest->stim >= 10 && stim < comest->stim * 3)
     stim += comest->stim;
   }
- 
+
   iuse use;
   (use.*comest->use)(g, this, eaten, false);
   add_addiction(comest->add, comest->addict);
@@ -3990,7 +3939,7 @@ bool player::eat(game *g, int index)
     thirst = -20;
   }
  }
- 
+
  eaten->charges--;
  if (eaten->charges <= 0) {
   if (which == -1)
@@ -4016,19 +3965,19 @@ bool player::eat(game *g, int index)
         if (inv[which].is_container())
         {
            it_container* cont = dynamic_cast<it_container*>(inv[which].type);
-           if (!(cont->flags & mfb(con_wtight) && cont->flags & mfb(con_seals))) 
-           {       
+           if (!(cont->flags & mfb(con_wtight) && cont->flags & mfb(con_seals)))
+           {
               g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
-              g->m.add_item(posx, posy, inv.remove_item(which)); 
+              g->m.add_item(posx, posy, inv.remove_item(which));
            }
            else
               g->add_msg("%c - an empty %s", inv[which].invlet,
-                                          inv[which].tname(g).c_str());  
+                                          inv[which].tname(g).c_str());
         }
         if (inv[which].type->id == itm_wrapper) // hack because wrappers aren't containers
         {
             g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
-            g->m.add_item(posx, posy, inv.remove_item(which)); 
+            g->m.add_item(posx, posy, inv.remove_item(which));
         }
       break;
       case 2:
@@ -4302,7 +4251,7 @@ void player::use(game *g, char let)
   used = &copy;
   replace_item = true;
  }
- 
+
  if (used->is_null()) {
   g->add_msg("You do not have that item.");
   return;
@@ -4339,7 +4288,6 @@ void player::use(game *g, char let)
    return;
   }
   char gunlet = g->inv("Select gun to modify:");
-  //it_gunmod *mod = dynamic_cast<it_gunmod*>(used->type);
   it_gunmod *mod = static_cast<it_gunmod*>(used->type);
   item* gun = &(i_at(gunlet));
   if (gun->is_null()) {
@@ -4575,7 +4523,7 @@ int time; //Declare this here so that we can change the time depending on whats 
  activity = player_activity(ACT_READ, time, index);
  moves = 0;
 }
- 
+
 void player::try_to_sleep(game *g)
 {
  int vpart = -1;
@@ -4645,7 +4593,6 @@ int player::encumb(body_part bp)
   armor = dynamic_cast<it_armor*>(worn[i].type);
 
   if (armor->covers & mfb(bp)) {
-      
    ret += armor->encumber;
    if (armor->encumber >= 0 || bp != bp_torso)
     layers++;
@@ -4864,7 +4811,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
  if (cut < 0)
   cut = 0;
 }
-  
+
 int player::resist(body_part bp)
 {
  int ret = 0;
@@ -4956,7 +4903,7 @@ std::vector<int> player::has_ammo(ammotype at)
    }
    if (newtype)
     ret.push_back(a);
-  }        
+  }
  }
  return ret;
 }
@@ -5135,4 +5082,3 @@ std::string random_last_name()
  fin.close();
  return lastname;
 }
-

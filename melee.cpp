@@ -521,7 +521,7 @@ int player::roll_bash_damage(monster *z, bool crit)
  int skill = sklevel[sk_bashing]; // Which skill determines damage?
  if (unarmed_attack())
   skill = sklevel[sk_unarmed];
- 
+
  switch (weapon.typeId()) { // Some martial arts change which stat
   case itm_style_crane:
    stat = (dex_cur * 2 + str_cur) / 3;
@@ -570,7 +570,7 @@ int player::roll_bash_damage(monster *z, bool crit)
  int bash_min = bash_dam / 4;
 
  bash_dam = rng(bash_min, bash_dam);
- 
+
  if (bash_dam < skill + int(stat / 2))
   bash_dam = rng(bash_dam, skill + int(stat / 2));
 
@@ -767,7 +767,6 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
     possible.push_back(TEC_WIDE);
    }
   }
-
  } // if (possible.empty())
 
  if (possible.empty())
@@ -922,7 +921,7 @@ technique_id player::pick_defensive_technique(game *g, monster *z, player *p)
  if (weapon.has_technique(TEC_WBLOCK_2) &&
      dice(dex_cur + sklevel[sk_melee], 6) > dice(foe_melee_skill, 10))
   return TEC_WBLOCK_2;
- 
+
  if (weapon.has_technique(TEC_WBLOCK_1) &&
      dice(dex_cur + sklevel[sk_melee], 3) > dice(foe_melee_skill, 10))
   return TEC_WBLOCK_1;
@@ -934,7 +933,7 @@ technique_id player::pick_defensive_technique(game *g, monster *z, player *p)
      dice(p->dex_cur + p->sklevel[sk_melee],  10))
   return TEC_DEF_DISARM;
 
- if (weapon.has_technique(TEC_DEF_THROW, this) && 
+ if (weapon.has_technique(TEC_DEF_THROW, this) &&
      str_cur + sklevel[sk_melee] >= foe_size + rng(-4, 4) &&
      hit_roll() > rng(1, 5) + foe_dodge && !one_in(3))
   return TEC_DEF_THROW;
@@ -1191,7 +1190,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  }
 
  bool conductive = !wearing_something_on(bp_hands) && weapon.conductive();
-                   
+
  if (mon && z->has_flag(MF_ELECTRIC) && conductive) {
   hurtall(rng(0, 1));
   moves -= rng(0, 50);
@@ -1383,7 +1382,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   tmp.stab = 15;
   ret.push_back(tmp);
  }
-  
+
  if (has_trait(PF_HOOVES) && one_in(25 - dex_cur - 2 * sklevel[sk_unarmed])) {
   special_attack tmp;
   text << You << " kick" << (is_u ? " " : "s ") << target << " with " <<
@@ -1545,7 +1544,6 @@ std::string melee_verb(technique_id tech, std::string your, player &p,
 
  return ret.str();
 }
- 
 
 void hit_message(game *g, std::string subject, std::string verb,
                           std::string target, int dam, bool crit)

@@ -52,15 +52,9 @@ npc::npc()
   sklevel[i] = 0;
 }
 
-npc::npc(const npc &rhs)
-{
- *this = rhs;
-}
+npc::npc(const npc &rhs) { *this = rhs; }
 
-npc::~npc()
-{
-
-}
+npc::~npc() { }
 
 npc& npc::operator= (const npc & rhs)
 {
@@ -137,7 +131,6 @@ npc& npc::operator= (const npc & rhs)
  for (int i = 0; i < rhs.styles.size(); i++)
   styles.push_back(rhs.styles[i]);
 
- 
  return *this;
 }
 
@@ -194,7 +187,7 @@ std::string npc::save_info()
          chatbin.save_info() << " ";
 
  dump << combat_rules.save_info();
- 
+
 // Inventory size, plus armor size, plus 1 for the weapon
  dump << std::endl << inv.num_items() + worn.size() + 1 << std::endl;
  for (int i = 0; i < inv.size(); i++) {
@@ -625,7 +618,7 @@ void npc::randomize_from_faction(game *g, faction *fac)
    case 4: sklevel[sk_tailor] += dice(2,  4);		break;
   }
  }
-   
+
  if (fac->has_value(FACVAL_CHARITABLE)) {
   personality.aggression -= rng(2, 5);
   personality.bravery += rng(0, 4);
@@ -962,7 +955,7 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
    }
   }
  }
- 
+
  return ret;
 }
 
@@ -1332,12 +1325,6 @@ void npc::make_angry()
 
 bool npc::wants_to_travel_with(player *p)
 {
-/*
- int target = 8 + personality.bravery * 3 - personality.altruism * 2 -
-              personality.collector * .5;
- int total = op_of_u.value * 3 + p->convince_score();
- return (total >= target);
-*/
  return true;
 }
 
@@ -1684,14 +1671,14 @@ int npc::danger_assessment(game *g)
   if (rl_dist(posx, posy, g->u.posx, g->u.posy) < 10) {
    if (g->u.weapon.is_gun())
     ret += 10;
-   else 
+   else
     ret += 10 - rl_dist(posx, posy, g->u.posx, g->u.posy);
   }
  } else if (is_friend()) {
   if (rl_dist(posx, posy, g->u.posx, g->u.posy) < 8) {
    if (g->u.weapon.is_gun())
     ret -= 8;
-   else 
+   else
     ret -= 8 - rl_dist(posx, posy, g->u.posx, g->u.posy);
   }
  }
@@ -1772,7 +1759,7 @@ void npc::told_to_wait(game *g)
   say(g, "No way, man!");
  }
 }
- 
+
 void npc::told_to_leave(game *g)
 {
  if (!is_following()) {
@@ -1985,7 +1972,6 @@ void npc::die(game *g, bool your_fault)
   if (g->active_missions[i].npc_id == id)
    g->fail_mission( g->active_missions[i].uid );
  }
-  
 }
 
 std::string npc_attitude_name(npc_attitude att)

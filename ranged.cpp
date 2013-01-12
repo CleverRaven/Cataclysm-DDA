@@ -111,7 +111,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 
  if (num_shots == 0)
   debugmsg("game::fire() - num_shots = 0!");
- 
+
  // Make a sound at our location - Zombies will chase it
  make_gun_sound_effect(this, p, burst, weapon);
 // Set up a timespec for use in the nanosleep function below
@@ -132,7 +132,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  if (firing->skill_used == sk_rifle && trange > LONG_RANGE)
   trange = LONG_RANGE + .6 * (trange - LONG_RANGE);
  std::string message = "";
- 
+
  bool missed = false;
  int tart;
  for (int curshot = 0; curshot < num_shots; curshot++) {
@@ -282,7 +282,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     if (&p == &u)
      nanosleep(&ts, NULL);
    }
-   
+
    if (dam <= 0) { // Ran out of momentum.
     ammo_effects(this, trajectory[i].x, trajectory[i].y, effects);
     if (is_bolt &&
@@ -311,7 +311,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 // Penalize for the monster's speed
     if (z[mondex].speed > 80)
      goodhit *= double( double(z[mondex].speed) / 80.);
-    
+
     std::vector<point> blood_traj = trajectory;
     blood_traj.insert(blood_traj.begin(), point(p.posx, p.posy));
     splatter(this, blood_traj, dam, &z[mondex]);
@@ -555,7 +555,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  if (relevent) {
   mvwprintz(w_target, 3, 1, c_white,
             "'<' '>' Cycle targets; 'f' or '.' to fire.");
-  mvwprintz(w_target, 4, 1, c_white, 
+  mvwprintz(w_target, 4, 1, c_white,
             "'0' target self; '*' toggle snap-to-target");
  }
 
@@ -695,7 +695,6 @@ void game::hit_monster_with_flags(monster &z, unsigned int effects)
    z.add_effect(ME_ONFIRE, rng(8, 20));
   else if (z.made_of(FLESH))
    z.add_effect(ME_ONFIRE, rng(5, 10));
-  
  } else if (effects & mfb(AMMO_INCENDIARY)) {
 
   if (z.made_of(VEGGY) || z.made_of(COTTON) || z.made_of(WOOL) ||
@@ -876,7 +875,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
  int junk;
  bool u_see_mon = g->u_see(&(mon), junk);
  if (mon.has_flag(MF_HARDTOSHOOT) && !one_in(4) &&
-     !weapon->curammo->m1 == LIQUID && 
+     !weapon->curammo->m1 == LIQUID &&
      weapon->curammo->accuracy >= 4) { // Buckshot hits anyway
   if (u_see_mon)
    g->add_msg("The shot passes through the %s without hitting.",
@@ -1052,7 +1051,7 @@ void ammo_effects(game *g, int x, int y, long effects)
     g->m.add_field(g, x + i, y + j, fd_tear_gas, 3);
   }
  }
- 
+
  if (effects & mfb(AMMO_SMOKE)) {
   for (int i = -1; i <= 1; i++) {
    for (int j = -1; j <= 1; j++)

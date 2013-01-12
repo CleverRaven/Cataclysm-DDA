@@ -97,7 +97,7 @@ void dis_msg(game *g, dis_type type)
   break;
  }
 }
-  
+
 void dis_effect(game *g, player &p, disease &dis)
 {
  int bonus;
@@ -143,7 +143,7 @@ void dis_effect(game *g, player &p, disease &dis)
    p.add_disease(DI_HEATSTROKE, 2, g);
   p.int_cur -= 1;
   break;
-   
+
  case DI_HEATSTROKE:
   p.str_cur -=  2;
   p.per_cur -=  1;
@@ -515,7 +515,7 @@ void dis_effect(game *g, player &p, disease &dis)
   }
   if ((p.has_trait(PF_WEAKSTOMACH) && one_in(300 + bonus)) ||
       (p.has_trait(PF_NAUSEA) && one_in(50 + bonus)) ||
-      one_in(600 + bonus)) 
+      one_in(600 + bonus))
    p.vomit(g);
   p.str_cur -= 3;
   p.dex_cur--;
@@ -1133,7 +1133,7 @@ Strength - 1;     Dexterity - 4;    Speed - 25";
    stream << "Intelligence - " << intpen << ";    ";
   if (perpen > 0)
    stream << "Perception - " << perpen;
-  
+
   return stream.str();
 
  case DI_CIG:

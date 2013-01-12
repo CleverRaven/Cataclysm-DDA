@@ -1289,7 +1289,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 				else
 					vt = veh_motorcycle;
 			}
-			
+
       add_vehicle (g, vt, vx, vy, one_in(2)? 90 : 270);
   }
   place_items(mi_road, 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
@@ -1697,31 +1697,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
  case ot_s_electronics_east:
  case ot_s_electronics_south:
  case ot_s_electronics_west:
-     /*
-     -------""-+--"""------
-     |{{{{{           #   |
-     |{               #   |
-     |{               #   |
-     |{               ### |
-     |{                   |
-     |{     {{            "
-     |{     {{            "
-     |{                   "
-     |{                   |
-     |{                   |
-     |{  {{     {{        "
-     |{  {{     {{        "
-     |{                   "
-     |{                   |
-     |#     {      {     #|
-     |#     {      {     #|
-     |#     {      {     #|
-     |#     {      {     #|
-     |####################|
-     ----------------------
-
-     */
-
   square(this, grass_or_dirt(), 0, 0, SEEX * 2, SEEY * 2);
   square(this, t_floor, 4, 4, SEEX * 2 - 4, SEEY * 2 - 4);
   line(this, t_wall_v, 3, 4, 3, SEEY * 2 - 4);
@@ -4174,27 +4149,6 @@ case ot_s_garage_north:
   case ot_s_garage_east:
   case ot_s_garage_south:
   case ot_s_garage_west:
-       /*
-     ......................
-     ......................
-     ......................
-     ......................
-     ......................
-     ---++++++-----++++++--
-     |#6       # #       6|
-     |#        # #        |
-     |#                   |
-     |#                   |
-     |#                   |
-     |#                   |
-     |###                 |
-     |---            -----|
-     |# |            | ###|
-     |# +            + #6 |
-     |# |            |    +
-     |# |############| {{{|
-     ----------------------
-     */
   {
         square(this, grass_or_dirt(), 0, 0, SEEX * 2, SEEY * 2);
         int yard_wdth = 5;
@@ -4204,10 +4158,6 @@ case ot_s_garage_north:
         line(this, t_wall_h, 0, SEEY*2-4, SEEX * 2 - 3, SEEY*2-4);
         line(this, t_window, 0, SEEY*2-4, SEEX * 2 - 14, SEEY*2-4);
         line(this, t_wall_h, 0, SEEY*2-4, SEEX * 2 - 20, SEEY*2-4);
-        /*square(this, t_floor, 4, 4, SEEX * 2 - 4, SEEY * 2 - 4);
-        line(this, t_wall_v, 3, 4, 3, SEEY * 2 - 4);
-        line(this, t_wall_v, SEEX * 2 - 3, 4, SEEX * 2 - 3, SEEY * 2 - 4);
-        line(this, t_wall_h, 3, 3, SEEX * 2 - 3, 3);*/
         line(this, t_wall_h, 0, yard_wdth, 2, yard_wdth);
         line(this, t_wall_h, 8, yard_wdth, 13, yard_wdth);
         line(this, t_wall_h, 20, yard_wdth, 21, yard_wdth);
@@ -7784,7 +7734,6 @@ map_extra random_map_extra(map_extras embellishments)
  return map_extra(choice);
 }
 
-
 room_type pick_mansion_room(int x1, int y1, int x2, int y2)
 {
  int dx = abs(x1 - x2), dy = abs(y1 - y2), area = dx * dy;
@@ -8063,7 +8012,6 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
    }
   }
   break;
-
  }
 }
 
@@ -8366,20 +8314,6 @@ void map::add_extra(map_extra type, game *g)
   add_spawn(mon_wolf, rng(3, 6), SEEX, SEEY);
   break;
 
-/* case mx_puddle:
- {
-  int x = rng(6, SEEX * 2 - 2), y = rng(6, SEEY * 2 - 2);
-  for (int dist = 0; dist < 6; dist++) {
-   for (int px = x - dist; px <= x + dist; px++) {
-    for (int py = y - dist; py <= y + dist; py++) {
-     if (rng(0, 8) > dist)
-      ter(px, py) = t_water_sh;
-    }
-   }
-  }
- }
- break;
-*/
  case mx_crater:
  {
   int size = rng(2, 6);

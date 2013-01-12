@@ -504,7 +504,6 @@ void game::start_game()
  levy = levy * 2 - 1;
  set_adjacent_overmaps(true);
 // Init the starting map at this location.
- //MAPBUFFER.load();
  m.load(this, levx, levy);
 // Start us off somewhere in the shelter.
  u.posx = SEEX * int(MAPSIZE / 2) + 5;
@@ -585,7 +584,6 @@ bool game::do_turn()
   return true;
  }
 // Actual stuff
- //build_monmap();
  gamemode->per_turn(this);
  turn.increment();
  process_events();
@@ -720,13 +718,13 @@ void game::update_skills()
 //	7+	  64
  for (int i = 0; i < num_skill_types; i++) {
   int tmp = u.sklevel[i] > 7 ? 7 : u.sklevel[i];
-  
+
   if (OPTIONS[OPT_SKILL_RUST] == 0 || OPTIONS[OPT_SKILL_RUST] == 1)
   {
     if (u.sklevel[i] > 0 && turn % (8192 / int(pow(2, double(tmp - 1)))) == 0 &&
         (( u.has_trait(PF_FORGETFUL) && one_in(3)) ||
          (!u.has_trait(PF_FORGETFUL) && one_in(4))   )) {
-   
+
      if (u.has_bionic(bio_memory) && u.power_level > 0) {
           if (one_in(5))
            u.power_level--;
@@ -735,7 +733,7 @@ void game::update_skills()
           u.skexercise[i]--;
         }
       if (OPTIONS[OPT_SKILL_RUST] == 1 && u.skexercise[i] < 0)
-      u.skexercise[i] = 0;    
+      u.skexercise[i] = 0;
   }
   if (u.skexercise[i] < -100) {
      u.sklevel[i]--;
@@ -933,7 +931,7 @@ void game::cancel_activity_query(const char* message, ...)
   case ACT_DISASSEMBLE:
    if (query_yn("%s Stop disassembly?", s.c_str()))
     doit = true;
-   break;   
+   break;
   case ACT_BUTCHER:
    if (query_yn("%s Stop butchering?", s.c_str()))
     doit = true;
@@ -1467,7 +1465,7 @@ input_ret game::get_input(int timeout_ms)
     add_msg("You can't disassemble items while in vehicle.");
    else
     disassemble();
-   break;   
+   break;
 
   case ACTION_CONSTRUCT:
    if (u.in_vehicle)
@@ -1518,7 +1516,7 @@ input_ret game::get_input(int timeout_ms)
    }
    break;
 
-  case ACTION_SAVE: 
+  case ACTION_SAVE:
   if (!u.in_vehicle) {
    if (query_yn("Save and quit?")) {
     save();
@@ -1539,8 +1537,6 @@ input_ret game::get_input(int timeout_ms)
     m.add_item(u.posx, u.posy, your_body);
     for (int i = 0; i < tmp.size(); i++)
      m.add_item(u.posx, u.posy, tmp[i]);
-    //m.save(&cur_om, turn, levx, levy);
-    //MAPBUFFER.save();
     uquit = QUIT_SUICIDE;
    }
    break;
@@ -1976,17 +1972,6 @@ void game::vadd_msg(const char* msg, va_list ap)
 
  if (messages.size() == 256)
   messages.erase(messages.begin());
-/*
- size_t split;
- while (s.length() > maxlength) {
-  split = s.find_last_of(' ', maxlength);
-  if (split > maxlength)
-   split = maxlength;
-  messages.push_back(s.substr(0, split));
-  curmes++;
-  s = s.substr(split);
- }
-*/
  messages.push_back( game_message(turn, s) );
 }
 
@@ -2058,7 +2043,6 @@ void game::debug()
    point tmp = cur_om.choose_point(this);
    if (tmp.x != -1) {
     z.clear();
-    //m.save(&cur_om, turn, levx, levy);
     levx = tmp.x * 2 - int(MAPSIZE / 2);
     levy = tmp.y * 2 - int(MAPSIZE / 2);
     m.load(this, levx, levy);
@@ -2189,7 +2173,6 @@ z.size(), events.size());
     artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
    m.create_anomaly(center.x, center.y, prop);
    m.add_item(center.x, center.y, new_natural_artifact(prop), 0);
-   //m.add_item(u.posx, u.posy, new_natural_artifact(), 0);
    break;
  }
  erase();
@@ -2618,7 +2601,6 @@ void game::refresh_all()
  m.reset_vehicle_cache();
  draw();
  draw_minimap();
- //wrefresh(w_HP);
  draw_HP();
  wrefresh(w_moninfo);
  wrefresh(w_messages);
@@ -3285,7 +3267,7 @@ void game::monmove()
 // If we can't move to our current position, assign us to a new one
    if (debugmon)
    {
-    dbg(D_ERROR) << "game:monmove: " << z[i].name().c_str() 
+    dbg(D_ERROR) << "game:monmove: " << z[i].name().c_str()
                  << " can't move to its location! (" << z[i].posx
                  << ":" << z[i].posy << "), "
                  << m.tername(z[i].posx, z[i].posy).c_str();
@@ -3307,7 +3289,6 @@ void game::monmove()
    }
    if (!okay)
     z[i].dead = true;
-    //build_monmap();
   }
 
   if (!z[i].dead) {
@@ -3322,7 +3303,6 @@ void game::monmove()
    z[i].made_footstep = false;
    z[i].plan(this);	// Formulate a path to follow
    z[i].move(this);	// Move one square, possibly hit u
-   //build_monmap();
    z[i].process_triggers(this);
    m.mon_in_field(z[i].posx, z[i].posy, this, &(z[i]));
    if (z[i].hurt(0)) {	// Maybe we died...
@@ -3358,9 +3338,6 @@ void game::monmove()
                                   levx, levy, 1, 1));
     }
     z[i].dead = true;
-    //z.erase(z.begin()+i);
-    //build_monmap();
-    //i--;
    } else
     z[i].receive_moves();
   }
@@ -3767,7 +3744,7 @@ void game::scrambler_blast(int x, int y)
 {
  int mondex = mon_at(x, y);
  if (mondex != -1) {
-  if (z[mondex].has_flag(MF_ELECTRONIC)) 
+  if (z[mondex].has_flag(MF_ELECTRONIC))
     z[mondex].make_friendly();
    add_msg("The %s sparks and begins searching for a target!", z[mondex].name().c_str());
  }
@@ -3849,24 +3826,8 @@ int game::npc_by_id(int id)
  return -1;
 }
 
-/*
-void game::build_monmap()
-{
- for (int x = 0; x < SEEX * MAPSIZE; x++) {
-  for (int y = 0; y < SEEY * MAPSIZE; y++)
-   monmap[x][y] = -1;
- }
- for (int i = 0; i < z.size(); i++)
-  monmap[ z[i].posx ][ z[i].posy ] = i;
-}
-*/
-
 int game::mon_at(int x, int y)
 {
-/*
- if (monmap[x][y] != -2)
-  return monmap[x][y];
-*/
  for (int i = 0; i < z.size(); i++) {
   if (z[i].posx == x && z[i].posy == y) {
    if (z[i].dead)
@@ -3875,7 +3836,6 @@ int game::mon_at(int x, int y)
     return i;
   }
  }
- //monmap[x][y] = -1;
  return -1;
 }
 
@@ -3914,9 +3874,6 @@ void game::kill_mon(int index, bool u_did_it)
    m.add_item(z[index].posx, z[index].posy, z[index].inv[i]);
   z[index].die(this);
  }
-/*
- z.erase(z.begin()+index);
-*/
 }
 
 void game::explode_mon(int index)
@@ -4161,29 +4118,6 @@ bool game::pl_choose_vehicle (int &x, int &y)
  x += dirx;
  y += diry;
  return true;
-/*
-int junk;
- int range = 3;
- int x0 = x - range;
- int y0 = y - range;
- int x1 = x + range;
- int y1 = y + range;
- for (int j = x - SEEX; j <= x + SEEX; j++) {
-  for (int k = y - SEEY; k <= y + SEEY; k++) {
-   if (u_see(j, k, junk)) {
-    if (k >= y0 && k <= y1 && j >= x0 && j <= x1)
-     m.drawsq(w_terrain, u, j, k, false, true);
-    else
-     mvwputch(w_terrain, k + SEEY - y, j + SEEX - x, c_dkgray, '#');
-   }
-  }
- }
-
- // target() sets x and y, and returns an empty vector if we canceled (Esc)
- std::vector <point> trajectory =
-    target(x, y, x0, y0, x1, y1, std::vector<monster> (), junk, 0);
- return trajectory.size() > 0;
-*/
 }
 
 bool game::vehicle_near ()
@@ -4607,7 +4541,7 @@ void game::examine()
     m.ter(examx, examy) = t_wall_v;
     m.ter(examx, examy) = t_wall_h;
     m.ter(examx, examy) = t_water_dp;
-*/ 
+*/
 //Debug for testing things
  } else if (m.ter(examx, examy) == t_rubble && u.has_amount(itm_shovel, 1)) {
   if (query_yn("Clear up that rubble?")) {
@@ -4644,7 +4578,7 @@ void game::examine()
  } else if (m.ter(examx, examy) == t_chainfence_v && query_yn("Climb fence?") ||
             m.ter(examx, examy) == t_chainfence_h && query_yn("Climb fence?")) {
    u.moves -= 400;
-  if (one_in(u.dex_cur)) { 
+  if (one_in(u.dex_cur)) {
    add_msg("You slip whilst climbing and fall down again");
  } else {
    u.moves += u.dex_cur * 10;
@@ -4762,8 +4696,8 @@ void game::examine()
   } else
    add_msg("You need 2 lengths of barbed wire to do that!");
   } break;
- 
-   case 4: 
+
+   case 4:
    break;
   }
  } else if (m.ter(examx, examy) == t_fence_rope && query_yn("Remove fence material?")) {
@@ -5006,16 +4940,6 @@ point game::look_around()
   if (mx != -2 && my != -2) {	// Directional key pressed
    lx += mx;
    ly += my;
-/*
-   if (lx < u.posx - SEEX)
-    lx = u.posx - SEEX;
-   if (lx > u.posx + SEEX)
-    lx = u.posx + SEEX;
-   if (ly < u.posy - SEEY)
-    ly = u.posy - SEEY;
-   if (ly > u.posy + SEEY)
-    ly = u.posy + SEEY;
-*/
   }
   draw_ter(lx, ly);
   for (int i = 1; i < 12; i++) {
@@ -5489,7 +5413,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
   char ch = inv_type(text.str().c_str(), IC_CONTAINER);
   if (!u.has_item(ch))
    return false;
- 
+
   item *cont = &(u.i_at(ch));
   if (cont == NULL || cont->is_null()) {
    add_msg("Never mind.");
@@ -5499,7 +5423,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
 // for filling up chainsaws, jackhammers and flamethrowers
    ammotype ammo = AT_NULL;
    int max = 0;
-   
+
    if (cont->is_tool()) {
     it_tool* tool = dynamic_cast<it_tool*>(cont->type);
     ammo = tool->ammo;
@@ -5552,68 +5476,68 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    return false;
   } else        // filling up normal containers
     {
-      // first, check if liquid types are compatible   
+      // first, check if liquid types are compatible
       if (!cont->contents.empty())
       {
-        if  (cont->contents[0].type->id != liquid.type->id) 
+        if  (cont->contents[0].type->id != liquid.type->id)
         {
           add_msg("You can't mix loads in your %s.", cont->tname(this).c_str());
           return false;
         }
       }
-      
+
       // ok, liquids are compatible.  Now check what the type of liquid is
       // this will determine how much the holding container can hold
 
       it_container* container = dynamic_cast<it_container*>(cont->type);
       int holding_container_charges;
-       
-      if (liquid.type->is_food()) 
+
+      if (liquid.type->is_food())
       {
         it_comest* tmp_comest = dynamic_cast<it_comest*>(liquid.type);
         holding_container_charges = container->contains * tmp_comest->charges;
-      }                         
+      }
       else if (liquid.type->is_ammo())
       {
         it_ammo* tmp_ammo = dynamic_cast<it_ammo*>(liquid.type);
-        holding_container_charges = container->contains * tmp_ammo->count;    
+        holding_container_charges = container->contains * tmp_ammo->count;
       }
       else
-        holding_container_charges = container->contains;  
-            
+        holding_container_charges = container->contains;
+
       // if the holding container is NOT empty
-      if (!cont->contents.empty()) 
+      if (!cont->contents.empty())
       {
         // case 1: container is completely full
-        if (cont->contents[0].charges == holding_container_charges) 
-        { 
+        if (cont->contents[0].charges == holding_container_charges)
+        {
           add_msg("Your %s can't hold any more %s.", cont->tname(this).c_str(),
                                                    liquid.tname(this).c_str());
           return false;
-        }  
+        }
 
         // case 2: container is half full
 
         if (infinite)
-        { 
+        {
           cont->contents[0].charges = holding_container_charges;
           add_msg("You pour %s into your %s.", liquid.tname(this).c_str(),
                                         cont->tname(this).c_str());
         }
-        else 
-        { 
+        else
+        {
         // if same inventory letter
           if (ch == u.weapon.invlet)
           {
             add_msg("Never mind.");
-            return false;         
+            return false;
           }
           else
-          {                 
+          {
             add_msg("You pour %s into your %s.", liquid.tname(this).c_str(),
                       cont->tname(this).c_str());
             cont->contents[0].charges += liquid.charges;
-            if (cont->contents[0].charges > holding_container_charges) 
+            if (cont->contents[0].charges > holding_container_charges)
             {
               int extra = cont->contents[0].charges - holding_container_charges;
               cont->contents[0].charges = holding_container_charges;
@@ -6787,7 +6711,7 @@ void game::plswim(int x, int y)
  u.posx = x;
  u.posy = y;
  if (!m.has_flag(swimmable, x, y)) {
-  dbg(D_ERROR) << "game:plswim: Tried to swim in " 
+  dbg(D_ERROR) << "game:plswim: Tried to swim in "
                << m.tername(x, y).c_str() << "!";
   debugmsg("Tried to swim in %s!", m.tername(x, y).c_str());
   return;
@@ -7939,9 +7863,6 @@ int game::autosave_timeout()
   changes_multiplier = 1 - (item_exchanges_since_save / max_changes);
 
  double ret = lower_limit + (range * move_multiplier * changes_multiplier);
- //add_msg("move_multiplier: %f", move_multiplier);
- //add_msg("changes_multiplier: %f", changes_multiplier);
- //add_msg("autosave_timeout: %f", ret);
  return ret;
 }
 

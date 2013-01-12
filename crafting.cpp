@@ -38,7 +38,6 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
  COMP(itm_combustion_tiny, 1, NULL);
  COMP(itm_pipe, 3, NULL);
 
-
 // CRAFTABLE
 
 // WEAPONS
@@ -232,7 +231,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_smpistol_primer, 25, NULL);
   COMP(itm_gunpowder, 125, NULL);
   COMP(itm_lead, 100, NULL);
-  
+
  RECIPE(itm_9mmP2, CC_AMMO, sk_gun, sk_mechanics, 6, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -240,7 +239,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_smpistol_primer, 10, NULL);
   COMP(itm_gunpowder, 60, NULL);
   COMP(itm_lead, 40, NULL);
-  
+
  RECIPE(itm_38_special, CC_AMMO, sk_gun, sk_mechanics, 2, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -248,7 +247,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_smpistol_primer, 50, NULL);
   COMP(itm_gunpowder, 250, NULL);
   COMP(itm_lead, 250, NULL);
-  
+
  RECIPE(itm_38_super, CC_AMMO, sk_gun, sk_mechanics, 4, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -256,7 +255,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_smpistol_primer, 25, NULL);
   COMP(itm_gunpowder, 175, NULL);
   COMP(itm_lead, 125, NULL);
- 
+
  RECIPE(itm_40sw, CC_AMMO, sk_gun, sk_mechanics, 3, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -264,7 +263,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_smpistol_primer, 50, NULL);
   COMP(itm_gunpowder, 300, NULL);
   COMP(itm_lead, 300, NULL);
-  
+
  RECIPE(itm_10mm, CC_AMMO, sk_gun, sk_mechanics, 5, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -272,7 +271,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_lgpistol_primer, 50, NULL);
   COMP(itm_gunpowder, 400, NULL);
   COMP(itm_lead, 400, NULL);
-  
+
  RECIPE(itm_44magnum, CC_AMMO, sk_gun, sk_mechanics, 4, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -280,7 +279,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_lgpistol_primer, 50, NULL);
   COMP(itm_gunpowder, 500, NULL);
   COMP(itm_lead, 500, NULL);
-  
+
  RECIPE(itm_45_acp, CC_AMMO, sk_gun, sk_mechanics, 3, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -288,7 +287,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_lgpistol_primer, 50, NULL);
   COMP(itm_gunpowder, 500, NULL);
   COMP(itm_lead, 400, NULL);
-  
+
  RECIPE(itm_45_super, CC_AMMO, sk_gun, sk_mechanics, 6, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -296,7 +295,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_lgpistol_primer, 10, NULL);
   COMP(itm_gunpowder, 120, NULL);
   COMP(itm_lead, 100, NULL);
-  
+
  RECIPE(itm_57mm, CC_AMMO, sk_gun, sk_mechanics, 4, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -304,7 +303,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_smrifle_primer, 100, NULL);
   COMP(itm_gunpowder, 400, NULL);
   COMP(itm_lead, 200, NULL);
-  
+
  RECIPE(itm_46mm, CC_AMMO, sk_gun, sk_mechanics, 4, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -312,7 +311,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_smpistol_primer, 100, NULL);
   COMP(itm_gunpowder, 400, NULL);
   COMP(itm_lead, 200, NULL);
-  
+
  RECIPE(itm_762_m43, CC_AMMO, sk_gun, sk_mechanics, 3, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -320,7 +319,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_lgrifle_primer, 80, NULL);
   COMP(itm_gunpowder, 560, NULL);
   COMP(itm_lead, 400, NULL);
-  
+
  RECIPE(itm_762_m87, CC_AMMO, sk_gun, sk_mechanics, 5, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -328,7 +327,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_lgrifle_primer, 80, NULL);
   COMP(itm_gunpowder, 640, NULL);
   COMP(itm_lead, 400, NULL);
-  
+
  RECIPE(itm_223, CC_AMMO, sk_gun, sk_mechanics, 3, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -336,7 +335,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_smrifle_primer, 40, NULL);
   COMP(itm_gunpowder, 160, NULL);
   COMP(itm_lead, 80, NULL);
-  
+
  RECIPE(itm_556, CC_AMMO, sk_gun, sk_mechanics, 5, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -344,7 +343,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_smrifle_primer, 40, NULL);
   COMP(itm_gunpowder, 240, NULL);
   COMP(itm_lead, 80, NULL);
-  
+
  RECIPE(itm_556_incendiary, CC_AMMO, sk_gun, sk_mechanics, 6, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -352,7 +351,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_smrifle_primer, 30, NULL);
   COMP(itm_gunpowder, 180, NULL);
   COMP(itm_incendiary, 60, NULL);
-  
+
  RECIPE(itm_270, CC_AMMO, sk_gun, sk_mechanics, 3, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -360,7 +359,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_lgrifle_primer, 20, NULL);
   COMP(itm_gunpowder, 200, NULL);
   COMP(itm_lead, 100, NULL);
-  
+
  RECIPE(itm_3006, CC_AMMO, sk_gun, sk_mechanics, 5, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -368,7 +367,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_lgrifle_primer, 10, NULL);
   COMP(itm_gunpowder, 120, NULL);
   COMP(itm_lead, 80, NULL);
-  
+
  RECIPE(itm_3006_incendiary, CC_AMMO, sk_gun, sk_mechanics, 7, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -376,7 +375,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_lgrifle_primer, 5, NULL);
   COMP(itm_gunpowder, 60, NULL);
   COMP(itm_incendiary, 40, NULL);
-  
+
  RECIPE(itm_308, CC_AMMO, sk_gun, sk_mechanics, 3, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -384,7 +383,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_lgrifle_primer, 20, NULL);
   COMP(itm_gunpowder, 160, NULL);
   COMP(itm_lead, 120, NULL);
-  
+
  RECIPE(itm_762_51, CC_AMMO, sk_gun, sk_mechanics, 5, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -392,7 +391,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_lgrifle_primer, 20, NULL);
   COMP(itm_gunpowder, 200, NULL);
   COMP(itm_lead, 120, NULL);
-  
+
  RECIPE(itm_762_51_incendiary, CC_AMMO, sk_gun, sk_mechanics, 6, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -400,7 +399,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_lgrifle_primer, 10, NULL);
   COMP(itm_gunpowder, 100, NULL);
   COMP(itm_incendiary, 60, NULL);
- 
+
  RECIPE(itm_shot_bird, CC_AMMO, sk_gun, sk_mechanics, 2, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -408,7 +407,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_shotgun_primer, 25, NULL);
   COMP(itm_gunpowder, 300, NULL);
   COMP(itm_lead, 400, NULL);
- 
+
  RECIPE(itm_shot_00, CC_AMMO, sk_gun, sk_mechanics, 3, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -416,7 +415,7 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, sk_null, sk_null, 0, 1000, true);
   COMP(itm_shotgun_primer, 25, NULL);
   COMP(itm_gunpowder, 600, NULL);
   COMP(itm_lead, 400, NULL);
- 
+
  RECIPE(itm_shot_slug, CC_AMMO, sk_gun, sk_mechanics, 3, 30000, false);
   TOOL(itm_press, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
@@ -813,15 +812,15 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
  RECIPE(itm_hat_fur, CC_ARMOR, sk_tailor, sk_null, 2, 40000, false);
   TOOL(itm_sewing_kit, 8, NULL);
   COMP(itm_fur, 3, NULL);
-  
+
  RECIPE(itm_armguard_metal, CC_ARMOR, sk_tailor, sk_null, 4,  30000, false);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
   COMP(itm_string_36, 1, itm_string_6, 4, NULL);
-  COMP(itm_steel_chunk, 2, NULL);    
- 
+  COMP(itm_steel_chunk, 2, NULL);
+
  RECIPE(itm_armguard_chitin, CC_ARMOR, sk_tailor, sk_null, 3,  30000, false);
   COMP(itm_string_36, 1, itm_string_6, 4, NULL);
-  COMP(itm_chitin_piece, 2, NULL);  
+  COMP(itm_chitin_piece, 2, NULL);
 
  RECIPE(itm_helmet_chitin, CC_ARMOR, sk_tailor, sk_null, 6,  60000, false);
   COMP(itm_string_36, 1, itm_string_6, 5, NULL);
@@ -850,10 +849,10 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_pipe, 10, NULL);
   COMP(itm_steel_chunk, 12, NULL);
   COMP(itm_wire, 3, NULL);
- 
+
  RECIPE(itm_string_36, CC_MISC, sk_null, sk_null, 0, 5000, false);
   COMP(itm_string_6, 6, NULL);
- 
+
  RECIPE(itm_rope_6, CC_MISC, sk_tailor, sk_null, 2, 5000, false);
   COMP(itm_string_36, 6, NULL);
 
@@ -1239,20 +1238,18 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
   case '\n':
    if (!available[line])
     popup("You can't do that!");
-   else 
+   else
    // is player making a liquid? Then need to check for valid container
    if (itypes[current[line]->result]->m1 == LIQUID)
    {
-    if (u.has_watertight_container() || 
-        u.has_matching_liquid(itypes[current[line]->result]->id))
-        {
+    if (u.has_watertight_container() || u.has_matching_liquid(itypes[current[line]->result]->id)) {
             make_craft(current[line]);
             done = true;
             break;
-        } 
-     else
-       popup("You don't have anything to store that liquid in!");
-   }  
+    } else {
+      popup("You don't have anything to store that liquid in!");
+    }
+   }
    else {
     make_craft(current[line]);
     done = true;
@@ -1286,7 +1283,6 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
       (i > 53 && i < 61) || (i > 67 && i < 74))
    mvwputch(w, 0, i, c_ltgray, LINE_OXOX);
  }
-
 
  mvwputch(w, 0,  4, c_ltgray, LINE_OXXO);
  mvwputch(w, 0, 20, c_ltgray, LINE_OXXO);
@@ -1522,12 +1518,11 @@ void game::complete_craft()
  item newit(itypes[making->result], turn, nextinv);
 
  // for food stacking
- 
  if (newit.is_food())
   {
-    int bday_tmp = turn % 3600;    
-    newit.bday = int(turn) + 3600 - bday_tmp;  
-  }   
+    int bday_tmp = turn % 3600;
+    newit.bday = int(turn) + 3600 - bday_tmp;
+  }
  if (!newit.craft_has_charges())
   newit.charges = 0;
  do {
@@ -1574,7 +1569,7 @@ void consume_items(game *g, std::vector<component> components)
   bool pl = false, mp = false;
 
 
-  if (g->itypes[type]->count_by_charges() && count > 0) 
+  if (g->itypes[type]->count_by_charges() && count > 0)
   {
    if (g->u.has_charges(type, count)) {
     player_has.push_back(components[i]);
@@ -1587,8 +1582,8 @@ void consume_items(game *g, std::vector<component> components)
    if (!pl && !mp && g->u.charges_of(type) + map_inv.charges_of(type) >= count)
     mixed.push_back(components[i]);
 
-  }   
-  
+  }
+
   else { // Counting by units, not charges
 
    if (g->u.has_amount(type, count)) {
@@ -1735,56 +1730,52 @@ void consume_tools(game *g, std::vector<component> tools)
 void game::disassemble()
 {
   char ch = inv("Disassemble item:");
-  if (ch == KEY_ESCAPE) 
-  {
+  if (ch == KEY_ESCAPE) {
     add_msg("Never mind.");
     return;
   }
-  if (!u.has_item(ch)) 
-  {
+  if (!u.has_item(ch)) {
     add_msg("You don't have item '%c'!", ch);
-  return;
+    return;
   }
 
   item* dis_item = &u.i_at(ch);
 
-  if (OPTIONS[OPT_QUERY_DISASSEMBLE] && 
-  !(query_yn("Really disassemble your %s?", dis_item->tname(this).c_str())))
+  if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Really disassemble your %s?", dis_item->tname(this).c_str())))
     return;
 
-  for (int i = 0; i < recipes.size(); i++) 
-  {
+  for (int i = 0; i < recipes.size(); i++) {
     if (dis_item->type == itypes[recipes[i]->result] && recipes[i]->reversible)
     // ok, a valid recipe exists for the item, and it is reversible
     // assign the activity
     {
       // check tools are available
-      // loop over the tools and see what's required...again  
+      // loop over the tools and see what's required...again
       inventory crafting_inv;
       crafting_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
       crafting_inv += u.inv;
       crafting_inv += u.weapon;
-      if (u.has_bionic(bio_tools)) 
+      if (u.has_bionic(bio_tools))
       {
         item tools(itypes[itm_toolset], turn);
         tools.charges = u.power_level;
         crafting_inv += tools;
       }
       bool have_tool[5];
-      for (int j = 0; j < 5; j++) 
+      for (int j = 0; j < 5; j++)
       {
         have_tool[j] = false;
         if (recipes[i]->tools[j].size() == 0) // no tools required, may change this
           have_tool[j] = true;
-        else 
+        else
         {
-          for (int k = 0; k < recipes[i]->tools[j].size(); k++) 
+          for (int k = 0; k < recipes[i]->tools[j].size(); k++)
           {
             itype_id type = recipes[i]->tools[j][k].type;
             int req = recipes[i]->tools[j][k].count;	// -1 => 1
-    
+
             if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
-              (req >  0 && crafting_inv.has_charges(type, req))) 
+              (req >  0 && crafting_inv.has_charges(type, req)))
             {
               have_tool[j] = true;
               k = recipes[i]->tools[j].size();
@@ -1799,29 +1790,29 @@ void game::disassemble()
                 have_tool[j] = false;
             }
           }
-    
+
           if (!have_tool[j])
           {
             int req = recipes[i]->tools[j][0].count;
             if (recipes[i]->tools[j][0].type == itm_welder)
-                add_msg("You need a hack saw to disassemble this.");          
+                add_msg("You need a hack saw to disassemble this.");
             else
             {
               if (req <= 0)
               {
-                add_msg("You need a %s to disassemble this.", 
+                add_msg("You need a %s to disassemble this.",
                 itypes[recipes[i]->tools[j][0].type]->name.c_str());
               }
               else
               {
-                add_msg("You need a %s with %d charges to disassemble this.", 
+                add_msg("You need a %s with %d charges to disassemble this.",
                 itypes[recipes[i]->tools[j][0].type]->name.c_str(), req);
               }
-            }  
-          } 
+            }
+          }
         }
-      } 
-      // all tools present, so assign the activity 
+      }
+      // all tools present, so assign the activity
       if (have_tool[0] && have_tool[1] && have_tool[2] && have_tool[3] &&
       have_tool[4])
       {
@@ -1829,21 +1820,21 @@ void game::disassemble()
         u.moves = 0;
         std::vector<int> dis_items;
         dis_items.push_back(ch);
-        u.activity.values = dis_items;        
+        u.activity.values = dis_items;
       }
-      return; // recipe exists, but no tools, so do not start disassembly    
-    }   
+      return; // recipe exists, but no tools, so do not start disassembly
+    }
   }
   // no recipe exists, or the item cannot be disassembled
-  add_msg("This item cannot be disassembled!"); 
-}    
+  add_msg("This item cannot be disassembled!");
+}
 
 void game::complete_disassemble()
 {
   // which recipe was it?
   recipe* dis = recipes[u.activity.index]; // Which recipe is it?
   item* dis_item = &u.i_at(u.activity.values[0]);
-    
+
   add_msg("You disassemble the item into its components.");
   // remove any batteries or ammo first
     if (dis_item->is_gun() && dis_item->curammo != NULL)
@@ -1853,9 +1844,9 @@ void game::complete_disassemble()
       ammodrop.charges = dis_item->charges;
       if (ammodrop.made_of(LIQUID))
         handle_liquid(ammodrop, false, false);
-      else  
-        m.add_item(u.posx, u.posy, ammodrop); 
-    } 
+      else
+        m.add_item(u.posx, u.posy, ammodrop);
+    }
     if (dis_item->is_tool() && dis_item->charges > 0)
     {
       item ammodrop;
@@ -1863,18 +1854,18 @@ void game::complete_disassemble()
       ammodrop.charges = dis_item->charges;
       if (ammodrop.made_of(LIQUID))
         handle_liquid(ammodrop, false, false);
-      else  
-        m.add_item(u.posx, u.posy, ammodrop);  
-    }        
-    u.i_rem(u.activity.values[0]);  // remove the item        
-        
+      else
+        m.add_item(u.posx, u.posy, ammodrop);
+    }
+    u.i_rem(u.activity.values[0]);  // remove the item
+
   // consume tool charges
   for (int j = 0; j < 5; j++)
   {
     if (dis->tools[j].size() > 0)
-    consume_tools(this, dis->tools[j]); 
+    consume_tools(this, dis->tools[j]);
   }
-                    
+
   // add the components to the map
   // Player skills should determine how many components are returned
 
@@ -1884,14 +1875,14 @@ void game::complete_disassemble()
    if (dis->sk_secondary == sk_null)
     skill_dice += u.sklevel[dis->sk_primary];
    else
-    skill_dice += u.sklevel[dis->sk_secondary]; 
+    skill_dice += u.sklevel[dis->sk_secondary];
   // Sides on dice is 16 plus your current intelligence
    int skill_sides = 16 + u.int_cur;
-  
-   int diff_dice = dis->difficulty; 
+
+   int diff_dice = dis->difficulty;
    int diff_sides = 24;	// 16 + 8 (default intelligence)
-  
-   // disassembly only nets a bit of practice  
+
+   // disassembly only nets a bit of practice
    if (dis->sk_primary != sk_null)
     u.practice(dis->sk_primary, (dis->difficulty) * 2);
    if (dis->sk_secondary != sk_null)
@@ -1912,7 +1903,7 @@ void game::complete_disassemble()
         else
         {
           if (newit.count_by_charges())
-          {         
+          {
             if (dis->difficulty == 0 || comp_success)
               m.add_item(u.posx, u.posy, itypes[dis->components[j][0].type], 0, compcount);
             else
@@ -1923,11 +1914,11 @@ void game::complete_disassemble()
             if (dis->difficulty == 0 || comp_success)
               m.add_item(u.posx, u.posy, newit);
             else
-              add_msg("You fail to recover a component.");  
-            compcount--; 
+              add_msg("You fail to recover a component.");
+            compcount--;
           }
         }
-      } while (compcount > 0);            
+      } while (compcount > 0);
     }
-  }          
+  }
 }
