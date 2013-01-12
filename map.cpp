@@ -866,7 +866,7 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   if (str >= result && str >= rng(0, 50)) {
    sound += "clang!";
    ter(x, y) = t_chainfence_posts;
-   int num_boards = rng(0, 1);
+   add_item(x, y, (*itypes)[itm_wire], 0, rng(4, 10));
    return true;
   } else {
    sound += "clang!";

@@ -2437,13 +2437,19 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
  }
  dirx += p->posx;
  diry += p->posy;
- if (g->m.ter(dirx, diry) == t_rack) {
+ if (g->m.ter(dirx, diry) == t_chainfence_v || g->m.ter(dirx, diry) == t_chainfence_h) {
+  p->moves -= 500;
+  g->m.ter(dirx, diry) = t_pavement;
+  g->sound(dirx, diry, 15,"grnd grnd grnd");
+  g->m.add_item(dirx, diry, g->itypes[itm_pipe], 0, 4);
+  g->m.add_item(dirx, diry, g->itypes[itm_wire], 0, 10);
+ } else if (g->m.ter(dirx, diry) == t_rack) {
   p->moves -= 500;
   g->m.ter(dirx, diry) = t_floor;
   g->sound(dirx, diry, 15,"grnd grnd grnd");
   g->m.add_item(p->posx, p->posy, g->itypes[itm_pipe], 0, rng(1, 3));
   g->m.add_item(p->posx, p->posy, g->itypes[itm_steel_chunk], 0);
- }else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(dirx + 1, diry) == t_sewage ||
+ } else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(dirx + 1, diry) == t_sewage ||
                                               g->m.ter(dirx, diry + 1) == t_sewage) {
   g->m.ter(dirx, diry) = t_sewage;
   p->moves -= 1000;

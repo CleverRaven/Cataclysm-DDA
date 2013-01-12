@@ -762,6 +762,7 @@ void construct::done_deconstruct(game *g, point p)
   {
     case t_makeshift_bed:
     case t_bed:
+    case t_armchair:
       g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 10);
       g->m.add_item(p.x, p.y, g->itypes[itm_rag], 0, 10);
       g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,8));          
@@ -772,6 +773,9 @@ void construct::done_deconstruct(game *g, point p)
     case t_bench:
     case t_crate_o:
     case t_crate_c:
+    case t_chair:
+    case t_cupboard:
+    case t_desk:
       g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 4);
       g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,10));     
     break;
