@@ -1938,8 +1938,8 @@ void game::save()
  }
 // aaaand the overmap, and the local map.
  cur_om.save(u.name);
- //m.save(&cur_om, turn, levx, levy);
- //MAPBUFFER.save();
+ m.save(&cur_om, turn, levx, levy);
+ MAPBUFFER.save();
 }
 
 void game::advance_nextinv()
