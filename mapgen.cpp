@@ -6971,6 +6971,10 @@ void map::rotate(int turns)
      ter(i, j) = t_fence_h;
     else if (ter(i, j) == t_fence_h)
      ter(i, j) = t_fence_v;
+    else if (ter(i,j) == t_chainfence_h)
+     ter(i, j) = t_chainfence_v;
+    else if (ter(i, j) == t_chainfence_v)
+     ter(i, j) = t_chainfence_h;
    }
   }
  }
