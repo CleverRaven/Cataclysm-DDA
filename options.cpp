@@ -83,7 +83,9 @@ option_key lookup_option_key(std::string id)
  if (id == "drop_empty")
   return OPT_DROP_EMPTY;  
  if (id == "skill_rust")
-  return OPT_SKILL_RUST;  
+  return OPT_SKILL_RUST;
+ if (id == "delete_world")
+  return OPT_DELETE_WORLD;      
  return OPT_NULL;
 }
 
@@ -103,6 +105,7 @@ std::string option_string(option_key key)
   case OPT_QUERY_DISASSEMBLE: return "query_disassemble";
   case OPT_DROP_EMPTY: return "drop_empty";
   case OPT_SKILL_RUST: return "skill_rust";
+  case OPT_DELETE_WORLD: return "delete_world";  
   default:			return "unknown_option";
  }
  return "unknown_option";
@@ -124,6 +127,7 @@ std::string option_desc(option_key key)
   case OPT_QUERY_DISASSEMBLE: return "If true, will query before disassembling\nitems";
   case OPT_DROP_EMPTY: return "Set to drop empty containers after use\n0 - don't drop any\n1 - all except watertight containers\n2 - all containers";  
   case OPT_SKILL_RUST: return "Set the level of skill rust\n0 - vanilla Cataclysm\n1 - capped at skill levels\n2 - none at all";
+  case OPT_DELETE_WORLD: return "Delete saves upon player death\n0 - no\n1 - yes\n2 - query";
   default:			return " ";
  }
  return "Big ol Bug";
@@ -145,6 +149,7 @@ std::string option_name(option_key key)
   case OPT_QUERY_DISASSEMBLE: return "Query on disassembly";
   case OPT_DROP_EMPTY: return "Drop empty containers";  
   case OPT_SKILL_RUST: return "Skill Rust";
+  case OPT_DELETE_WORLD: return "Delete World";  
   default:			return "Unknown Option (BUG)";
  }
  return "Big ol Bug";
@@ -155,6 +160,7 @@ bool option_is_bool(option_key id)
  switch (id) {
   case OPT_SKILL_RUST:
   case OPT_DROP_EMPTY:
+  case OPT_DELETE_WORLD:
     return false;
     break;
   default:
@@ -171,10 +177,9 @@ char option_max_options(option_key id)
   else
     switch (id)
     {
-      case OPT_SKILL_RUST:
-        ret = 3;
-        break;
+      case OPT_DELETE_WORLD:
       case OPT_DROP_EMPTY:
+      case OPT_SKILL_RUST:
         ret = 3;
         break;
       default:
@@ -221,6 +226,8 @@ drop_empty 0\n\
 # GAMEPLAY OPTIONS: CHANGING THESE OPTIONS WILL AFFECT GAMEPLAY DIFFICULTY! \n\
 # Level of skill rust: 0 - vanilla Cataclysm, 1 - capped at skill levels, 2 - none at all\n\
 skill_rust 0\n\
+# Delete world after player death: 0 - no, 1 - yes, 2 - query\n\
+delete_world 0\n\
 ";
  fout.close();
 }

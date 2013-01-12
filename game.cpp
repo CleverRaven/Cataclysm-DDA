@@ -674,6 +674,14 @@ bool game::do_turn()
     popup_top("Game over! Press spacebar...");
    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
     death_screen();
+    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
+    {
+      if (OPTIONS[OPT_DELETE_WORLD] == 1)
+          uquit = QUIT_DELETE_WORLD;        
+      else if (OPTIONS[OPT_DELETE_WORLD] == 2)
+        if (query_yn("Delete the world and all saves?"))
+          uquit = QUIT_DELETE_WORLD;
+    }
    return true;
   }
  }
