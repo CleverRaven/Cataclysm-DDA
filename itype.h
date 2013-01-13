@@ -39,7 +39,8 @@ itm_fire, itm_toolset, itm_apparatus,
 // Drinks
 itm_water, itm_water_clean, itm_sewage, itm_salt_water, itm_oj, itm_apple_cider,
  itm_energy_drink, itm_cola, itm_rootbeer, itm_milk, itm_V8, itm_broth,
- itm_soup, itm_whiskey, itm_vodka, itm_rum, itm_tequila, itm_beer, itm_bleach,
+ itm_soup, itm_whiskey, itm_vodka, itm_gin, itm_rum, itm_tequila, itm_triple_sec,
+ itm_long_island, itm_beer, itm_bleach,
  itm_ammonia, itm_mutagen, itm_purifier, itm_tea, itm_coffee, itm_blood,
 // Monster Meats
 itm_meat, itm_veggy, itm_meat_tainted, itm_veggy_tainted, itm_meat_cooked,
@@ -82,6 +83,8 @@ itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
  itm_splinter, itm_skewer, itm_crackpipe, itm_torch_done,
  itm_spring, itm_lawnmower, itm_lawnmower_blade, itm_lawnmower_machete,
  itm_lawnmower_halberd, itm_curtain, itm_broketent, itm_element,
+ itm_television, itm_pilot_light,
+
 // Vehicle parts
 itm_frame, itm_wheel, itm_big_wheel, itm_seat, itm_vehicle_controls,
  itm_combustion_tiny, itm_combustion_small, itm_combustion, itm_combustion_large,
@@ -198,6 +201,7 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_knife_butcher, itm_knife_combat, itm_saw, itm_ax, itm_hacksaw,
  itm_tent_kit, itm_torch, itm_torch_lit, itm_candle, itm_candle_lit,
  itm_brazier, itm_puller, itm_press, itm_screwdriver, itm_wrench,
+ itm_boltcutters,
 // Bionics containers
 itm_bionics_battery,       itm_bionics_power,   itm_bionics_tools,
  itm_bionics_neuro,        itm_bionics_sensory, itm_bionics_aquatic,

@@ -18,6 +18,8 @@
 #include "options.h"
 #include "mapbuffer.h"
 #include "debug.h"
+//#include <sys/stat.h>
+
 
 int main(int argc, char *argv[])
 {
@@ -37,17 +39,30 @@ int main(int argc, char *argv[])
  rand();  // For some reason a call to rand() seems to be necessary to avoid
           // repetion.
  bool quit_game = false;
+ bool delete_world = false;
  game *g = new game;
  MAPBUFFER = mapbuffer(g);
  MAPBUFFER.load();
  load_options();
  do {
   g->setup();
-  while (!g->do_turn()) ;
+  while (!g->do_turn());
+  if (g->uquit == QUIT_DELETE_WORLD)
+    delete_world = true;
   if (g->game_quit())
    quit_game = true;
- } while (!quit_game);
+ } while (!quit_game); 
  MAPBUFFER.save();
+
+  if (delete_world && (remove("save/") != 0))
+  {
+    #if (defined _WIN32 || defined __WIN32__)
+      system("rmdir /s /q save");
+    #else
+      system("rm -rf save/*");
+    #endif 
+  }
+ 
  erase(); // Clear screen
  endwin(); // End ncurses
 #if (defined _WIN32 || defined WINDOWS)

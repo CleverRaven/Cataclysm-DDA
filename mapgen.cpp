@@ -1357,10 +1357,10 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    line(this, t_chainfence_h,  1,  1, 22,  1);
    line(this, t_chainfence_h,  1, 21, 22, 21);
 
-   ter( 2,  1) = t_pavement;
-   ter(21,  1) = t_pavement;
-   ter( 2, 21) = t_pavement;
-   ter(21, 21) = t_pavement;
+   ter( 2,  1) = t_chaingate_l;
+   ter(21,  1) = t_chaingate_l;
+   ter( 2, 21) = t_chaingate_l;
+   ter(21, 21) = t_chaingate_l;
 
    rotate(rng(0, 3));
   }
@@ -2767,14 +2767,18 @@ case ot_shelter: {
     ter(i, j) = grass_or_dirt();
   }
   square(this, t_dirt, 3, 3, 20, 20);
-  line(this, t_wall_metal_h,  2,  2, 10,  2);
-  line(this, t_wall_metal_h, 13,  2, 21,  2);
-  line(this, t_wall_metal_h,  2, 21, 10, 21);
-  line(this, t_wall_metal_h, 13, 21, 21, 21);
-  line(this, t_wall_metal_v,  2,  3,  2, 10);
-  line(this, t_wall_metal_v, 21,  3, 21, 10);
-  line(this, t_wall_metal_v,  2, 13,  2, 20);
-  line(this, t_wall_metal_v, 21, 13, 21, 20);
+  line(this, t_chainfence_h,  2,  2, 10,  2);
+  line(this, t_chainfence_h, 13,  2, 21,  2);
+  line(this, t_chaingate_l,      11,  2, 12,  2);
+  line(this, t_chainfence_h,  2, 21, 10, 21);
+  line(this, t_chainfence_h, 13, 21, 21, 21);
+  line(this, t_chaingate_l,      11, 21, 12, 21);
+  line(this, t_chainfence_v,  2,  3,  2, 10);
+  line(this, t_chainfence_v, 21,  3, 21, 10);
+  line(this, t_chaingate_l,       2, 11,  2, 12);
+  line(this, t_chainfence_v,  2, 13,  2, 20);
+  line(this, t_chainfence_v, 21, 13, 21, 20);
+  line(this, t_chaingate_l,      21, 11, 21, 12);
 // Place some random buildings
 
   bool okay = true;
@@ -2789,10 +2793,10 @@ case ot_shelter: {
     int bx1 = buildx - buildwidth, bx2 = buildx + buildwidth,
         by1 = buildy - buildheight, by2 = buildy + buildheight;
     square(this, t_floor, bx1, by1, bx2, by2);
-    line(this, t_wall_metal_h, bx1, by1, bx2, by1);
-    line(this, t_wall_metal_h, bx1, by2, bx2, by2);
-    line(this, t_wall_metal_v, bx1, by1, bx1, by2);
-    line(this, t_wall_metal_v, bx2, by1, bx2, by2);
+    line(this, t_concrete_h, bx1, by1, bx2, by1);
+    line(this, t_concrete_h, bx1, by2, bx2, by2);
+    line(this, t_concrete_v, bx1, by1, bx1, by2);
+    line(this, t_concrete_v, bx2, by1, bx2, by2);
     switch (rng(1, 3)) {  // What type of building?
     case 1: // Barracks
      for (int i = by1 + 1; i <= by2 - 1; i += 2) {
@@ -2858,24 +2862,24 @@ case ot_shelter: {
   }
 // Seal up the entrances if there's walls there
   if (ter(11,  3) != t_dirt)
-   ter(11,  2) = t_wall_metal_h;
+   ter(11,  2) = t_concrete_h;
   if (ter(12,  3) != t_dirt)
-   ter(12,  2) = t_wall_metal_h;
+   ter(12,  2) = t_concrete_h;
 
   if (ter(11, 20) != t_dirt)
-   ter(11,  2) = t_wall_metal_h;
+   ter(11,  2) = t_concrete_h;
   if (ter(12, 20) != t_dirt)
-   ter(12,  2) = t_wall_metal_h;
+   ter(12,  2) = t_concrete_h;
 
   if (ter( 3, 11) != t_dirt)
-   ter( 2, 11) = t_wall_metal_v;
+   ter( 2, 11) = t_concrete_v;
   if (ter( 3, 12) != t_dirt)
-   ter( 2, 12) = t_wall_metal_v;
+   ter( 2, 12) = t_concrete_v;
 
   if (ter( 3, 11) != t_dirt)
-   ter( 2, 11) = t_wall_metal_v;
+   ter( 2, 11) = t_concrete_v;
   if (ter( 3, 12) != t_dirt)
-   ter( 2, 12) = t_wall_metal_v;
+   ter( 2, 12) = t_concrete_v;
 
 // Place turrets by (possible) entrances
   add_spawn(mon_turret, 1,  3, 11);
@@ -4249,8 +4253,8 @@ case ot_s_garage_north:
      ter(i, j) = t_floor;
    }
   }
-  ter(17, 7) = t_door_locked_alarm;
-  ter(18, 7) = t_door_locked_alarm;
+  ter(17, 7) = t_door_locked;
+  ter(18, 7) = t_door_locked;
   ter(rng( 1,  4), 12) = t_door_c;
   ter(rng( 6,  9), 12) = t_door_c;
   ter(rng(11, 15), 12) = t_door_c;
@@ -4272,25 +4276,25 @@ case ot_s_garage_north:
   tmpcomp->add_failure(COMPFAIL_MANHACKS);
   ter(17, 18) = t_door_c;
   for (int i = 18; i < SEEX * 2 - 1; i++)
-   ter(i, 20) = t_window_alarm;
+   ter(i, 20) = t_window;
   if (one_in(3)) {
    for (int j = 16; j < 20; j++)
-    ter(SEEX * 2 - 1, j) = t_window_alarm;
+    ter(SEEX * 2 - 1, j) = t_window;
   }
   rn = rng(18, 21);
   if (one_in(4)) {
    ter(rn    , 20) = t_door_c;
    ter(rn + 1, 20) = t_door_c;
   } else {
-   ter(rn    , 20) = t_door_locked_alarm;
-   ter(rn + 1, 20) = t_door_locked_alarm;
+   ter(rn    , 20) = t_door_locked;
+   ter(rn + 1, 20) = t_door_locked;
   }
   rn = rng(1, 5);
-  ter(rn, 20) = t_window_alarm;
-  ter(rn + 1, 20) = t_window_alarm;
+  ter(rn, 20) = t_window;
+  ter(rn + 1, 20) = t_window;
   rn = rng(10, 14);
-  ter(rn, 20) = t_window_alarm;
-  ter(rn + 1, 20) = t_window_alarm;
+  ter(rn, 20) = t_window;
+  ter(rn + 1, 20) = t_window;
   if (one_in(2)) {
    for (int i = 6; i < 10; i++)
     ter(i, 8) = t_counter;

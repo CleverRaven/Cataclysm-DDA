@@ -674,6 +674,14 @@ bool game::do_turn()
     popup_top("Game over! Press spacebar...");
    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
     death_screen();
+    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
+    {
+      if (OPTIONS[OPT_DELETE_WORLD] == 1)
+          uquit = QUIT_DELETE_WORLD;        
+      else if (OPTIONS[OPT_DELETE_WORLD] == 2)
+        if (query_yn("Delete the world and all saves?"))
+          uquit = QUIT_DELETE_WORLD;
+    }
    return true;
   }
  }
@@ -6438,8 +6446,14 @@ void game::plmove(int x, int y)
  int npcdex = npc_at(x, y);
  if (npcdex != -1) {
   if (!active_npc[npcdex].is_enemy() &&
-      !query_yn("Really attack %s?", active_npc[npcdex].name.c_str()))
+      !query_yn("Really attack %s?", active_npc[npcdex].name.c_str())) {
+   if (active_npc[npcdex].is_friend()) {
+    add_msg("%s moves out of the way.", active_npc[npcdex].name.c_str());
+    active_npc[npcdex].move_away_from(this, u.posx, u.posy);
+   }
+
    return;	// Cancel the attack
+  }
   u.hit_player(this, active_npc[npcdex]);
   active_npc[npcdex].make_angry();
   if (active_npc[npcdex].hp_cur[hp_head]  <= 0 ||

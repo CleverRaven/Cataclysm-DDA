@@ -64,7 +64,8 @@ void game::init_mapitems()
 	itm_hacksaw, itm_xacto, itm_gloves_leather, itm_mask_dust,
 	itm_glasses_safety, itm_battery, itm_nail, itm_nailgun,
 	itm_manual_mechanics, itm_hammer, itm_flashlight, itm_soldering_iron,
-	itm_bubblewrap, itm_binoculars, itm_duct_tape, itm_lawnmower, itm_foot_crank, NULL);
+	itm_bubblewrap, itm_binoculars, itm_duct_tape, itm_lawnmower, itm_foot_crank,
+        itm_boltcutters, NULL);
 
  setvector(
    mapitems[mi_bedroom],
@@ -180,7 +181,7 @@ void game::init_mapitems()
    mapitems[mi_tools],
 	itm_screwdriver, itm_hammer, itm_wrench, itm_saw, itm_hacksaw,
 	itm_hammer_sledge, itm_xacto, itm_flashlight, itm_crowbar, itm_nailgun,
-	itm_press, itm_puller, NULL);
+	itm_press, itm_puller, itm_boltcutters, NULL);
 
  setvector(
    mapitems[mi_bigtools],
@@ -193,7 +194,7 @@ void game::init_mapitems()
 	itm_glasses_safety, itm_bb, itm_bbgun, itm_beartrap, itm_two_way_radio,
 	itm_radio, itm_hotplate, itm_extinguisher, itm_nailgun,
 	itm_manual_mechanics, itm_manual_carpentry, itm_mag_carpentry,
-	itm_duct_tape, itm_lawnmower,
+	itm_duct_tape, itm_lawnmower, itm_boltcutters,
 	itm_foot_crank, itm_cable, itm_textbook_mechanics, NULL);
 
  setvector(
@@ -239,7 +240,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_alcohol],
-	itm_whiskey, itm_vodka, itm_rum, itm_tequila, NULL);
+	itm_whiskey, itm_vodka, itm_gin, itm_rum, itm_tequila, itm_triple_sec, NULL);
 
  setvector(
    mapitems[mi_pool_table],

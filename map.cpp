@@ -766,6 +766,7 @@ bool map::is_outside(int x, int y)
          ter(x + 1, y - 1) != t_floor_wax &&
          ter(x + 1, y    ) != t_floor_wax &&
          ter(x + 1, y + 1) != t_floor_wax &&
+         ter(x,     y    ) != t_bed &&
          ter(x, y) != t_groundsheet);
  if (out) {
   int vpart;
@@ -917,13 +918,14 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   }
   break;
  
- case t_rdoor_c:
+ case t_chaingate_c:
   result = rng(0, has_adjacent_furniture(x, y) ? 80 : 100);
   if (res) *res = result;
   if (str >= result && str >= rng(0, 80)) {
    sound += "clang!";
    ter(x, y) = t_dirt;
-   add_item(x, y, (*itypes)[itm_rebar], 0, rng(4, 10));
+   add_item(x, y, (*itypes)[itm_wire], 0, rng(8, 20));
+   add_item(x, y, (*itypes)[itm_scrap], 0, rng(0, 12));
    return true;
   } else {
    sound += "whump!";
@@ -1654,8 +1656,8 @@ bool map::open_door(int x, int y, bool inside)
  } else if (inside && ter(x, y) == t_window_domestic) {
   ter(x, y) = t_window_open;
   return true;
- } else if (ter(x, y) == t_rdoor_c) {
-  ter(x, y) = t_rdoor_o;
+ } else if (ter(x, y) == t_chaingate_c) {
+  ter(x, y) = t_chaingate_o;
   return true;
  } else if (ter(x, y) == t_door_metal_c) {
   ter(x, y) = t_door_metal_o;
@@ -1699,8 +1701,8 @@ bool map::close_door(int x, int y, bool inside)
  } else if (inside && ter(x, y) == t_window_open) {
   ter(x, y) = t_window_domestic;
   return true;
- } else if (ter(x, y) == t_rdoor_o) {
-  ter(x, y) = t_rdoor_c;
+ } else if (ter(x, y) == t_chaingate_o) {
+  ter(x, y) = t_chaingate_c;
   return true;
  } else if (ter(x, y) == t_door_metal_o) {
   ter(x, y) = t_door_metal_c;

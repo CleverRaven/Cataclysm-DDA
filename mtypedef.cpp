@@ -219,6 +219,16 @@ rage."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
 
+mon("zombie",	species_zombie, 'Z',	c_blue,	MS_MEDIUM,	FLESH,
+//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	 2,  3,100,100, 70,  8,  1,  5,  0,  1,  0,  0, 40, 50,  0,
+	&mdeath::normal,	&mattack::none, "\
+A human body, encapsulated in tough riot\n\
+armour, this zombie was clearly a cop gearing\n\
+up to fight the infection."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
+
 mon("shrieker zombie",species_zombie, 'Z',c_magenta,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	  4, 10,100,100, 95,  9,  1,  2,  0,  4,  0,  0, 45, 50, 10,
@@ -386,6 +396,17 @@ much harder to damage than an ordinary zombie\n\
 but moves a bit slower"
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
+
+mon("Actual Cannibal Shia LaBeouf",	species_zombie, '@',	c_white,	MS_MEDIUM,	FLESH,
+//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	 1,  3,100,100, 70,  8,  1,  5,  0,  1,  0,  0, 40, 50,  0,
+	&mdeath::normal,	&mattack::none, "\
+Living in the woods! (Quiet, quiet)\n\
+Killing for sport! (Quiet, quiet)\n\
+Eating  all the bodies!\n\
+Actual cannibal Shia LaBeouf!");
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
+
 
 // PLANTS & FUNGI
 mon("triffid",	species_plant, 'F',	c_ltgreen,	MS_MEDIUM,	VEGGY,

@@ -135,17 +135,26 @@ void game::init_construction()
    COMP(itm_2x4, 4, NULL);
    COMP(itm_nail, 12, NULL);
 
- CONSTRUCT("Build Rebar Door", 3, &construct::able_empty,
+ CONSTRUCT("Build Wire Fence",3, &construct::able_dig,
                                  &construct::done_nothing);
-  STAGE(t_door_frame, 15);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_2x4, 12, NULL);
-   COMP(itm_nail, 24, NULL);
-  STAGE(t_rdoor_c, 15);
-   TOOL(itm_welder, NULL);
-   COMP(itm_battery, 300, NULL);
-   COMP(itm_rebar, 10, NULL);
-   COMP(itm_steel_chunk, 3, NULL);
+  STAGE(t_chainfence_posts, 20);
+   TOOL(itm_hammer, itm_hatchet, itm_rock, NULL);
+   COMP(itm_pipe, 6, NULL);
+   COMP(itm_scrap, 8, NULL);
+  STAGE(t_chainfence_v, 20);
+   COMP(itm_wire, 15, NULL);
+
+ CONSTRUCT("Realign Fence",   0, &construct::able_chainlink,
+                                 &construct::done_nothing);
+  STAGE(t_chainfence_h, 0);
+  STAGE(t_chainfence_v, 0);
+
+ CONSTRUCT("Build Wire Gate", 3, &construct::able_between_walls,
+                                 &construct::done_nothing);
+  STAGE(t_chaingate_c, 15);
+   COMP(itm_wire, 20, NULL);
+   COMP(itm_steel_chunk, 3, itm_scrap, 12, NULL);
+   COMP(itm_pipe, 6, NULL);
 
 /*  Removed until we have some way of auto-aligning fences!
  CONSTRUCT("Build Fence", 1, 15, &construct::able_empty);
@@ -669,6 +678,11 @@ bool construct::able_indoors(game *g, point p)
 bool construct::able_dig(game *g, point p)
 {
  return (g->m.has_flag(diggable, p.x, p.y));
+}
+
+bool construct::able_chainlink(game *g, point p)
+{
+ return (g->m.ter(p.x, p.y) == t_chainfence_v || g->m.ter(p.x, p.y) == t_chainfence_h);
 }
 
 bool construct::able_pit(game *g, point p)

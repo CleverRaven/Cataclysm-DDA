@@ -4956,6 +4956,12 @@ std::vector<int> player::has_ammo(ammotype at)
    }
    if (newtype)
     ret.push_back(a);
+  // Handle gasoline nested in containers
+  } else if (at == AT_GAS && inv[a].is_container() &&
+	     !inv[a].contents.empty() && inv[a].contents[0].is_ammo() &&
+	     dynamic_cast<it_ammo*>(inv[a].contents[0].type)->type == at) {
+   ret.push_back(a);
+   return ret;
   }
  }
  return ret;

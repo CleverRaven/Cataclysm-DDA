@@ -27,7 +27,10 @@ void game::init_monitems()
  monitems[mon_zombie_master]	= monitems[mon_zombie];
 
  setvector(monitems[mon_beekeeper],
-        mi_hive, NULL);
+        mi_hive, 80, NULL);
+ 
+ setvector(monitems[mon_zombie_cop],
+        mi_cop_weapons, 20, NULL);        
 
  setvector(monitems[mon_zombie_scientist],
 	mi_dresser,	10,mi_harddrugs,	 6,mi_chemistry,	10,

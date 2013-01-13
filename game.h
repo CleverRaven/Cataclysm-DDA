@@ -51,7 +51,8 @@ enum quit_status {
  QUIT_MENU,    // Quit at the menu
  QUIT_SUICIDE, // Quit with 'Q'
  QUIT_SAVED,   // Saved and quit
- QUIT_DIED     // Actual death
+ QUIT_DIED,     // Actual death
+ QUIT_DELETE_WORLD  // Quit and delete world 
 };
 
 struct monster_and_count
@@ -84,6 +85,7 @@ class game
   ~game();
   void setup();
   bool game_quit(); // True if we actually quit the game - used in main.cpp
+  quit_status uquit;    // used in main.cpp to determine what type of quit
   void save();
   bool do_turn();
   void draw();
@@ -380,7 +382,7 @@ class game
   int mostseen;	 // # of mons seen last turn; if this increases, run_mode++
   bool autosafemode; // is autosafemode enabled?
   int turnssincelastmon; // needed for auto run mode
-  quit_status uquit;    // Set to true if the player quits ('Q')
+//  quit_status uquit;    // Set to true if the player quits ('Q')
 
   calendar nextspawn; // The turn on which monsters will spawn next.
   calendar nextweather; // The turn on which weather will shift next.
