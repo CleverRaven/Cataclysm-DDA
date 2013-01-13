@@ -98,9 +98,9 @@ uint32_t SkillLevel::comprehension(uint32_t intellect, bool fastLearner) {
   uint32_t base_comprehension;
 
   if (intellect <= 8) {
-    base_comprehension = intellect * 5;
+    base_comprehension = intellect * 10;
   } else {
-    base_comprehension = 40 + (intellect - 8) * 3;
+    base_comprehension = 80 + (intellect - 8) * 8;
   }
 
   if (fastLearner) {
