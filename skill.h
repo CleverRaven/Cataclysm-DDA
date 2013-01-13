@@ -66,7 +66,9 @@ class SkillLevel {
   uint32_t level() { return _level; }
   uint32_t level(uint32_t level) { _level = level; return level; }
 
-  int32_t train(uint32_t amount, uint32_t &level);
+  uint32_t comprehension(uint32_t intellect, bool fastLearner = false);
+
+  int32_t train(uint32_t &level);
   int32_t rust(uint32_t &level);
 
   bool operator==(const SkillLevel& b) const { return this->_level == b._level; }

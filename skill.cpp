@@ -91,12 +91,44 @@ SkillLevel::SkillLevel(uint32_t minLevel, uint32_t maxLevel, int32_t minExercise
   _isTraining = isTraining;
 }
 
-int32_t SkillLevel::train(uint32_t amount, uint32_t &level) {
-  _exercise += amount;
+uint32_t SkillLevel::comprehension(uint32_t intellect, bool fastLearner) {
+  if (intellect == 0)
+    return 0;
 
-  if (_exercise >= 100) {
-    _exercise -= 100;
-    _exercise /= 2;
+  uint32_t base_comprehension;
+
+  if (intellect <= 8) {
+    base_comprehension = intellect * 5;
+  } else {
+    base_comprehension = 40 + (intellect - 8) * 3;
+  }
+
+  if (fastLearner) {
+    base_comprehension = base_comprehension / 2 * 3;
+  }
+
+  uint32_t skill_penalty;
+
+  if (_level <= intellect / 2) {
+    skill_penalty = 0;
+  } else if (_level <= intellect) {
+    skill_penalty = _level;
+  } else {
+    skill_penalty = _level * 2;
+  }
+
+  if (skill_penalty >= base_comprehension) {
+    return 1;
+  } else {
+    return base_comprehension - skill_penalty;
+  }
+}
+
+int32_t SkillLevel::train(uint32_t &level) {
+  ++_exercise;
+
+  if (_exercise == 100) {
+    _exercise = 0;
     ++_level;
   }
 
