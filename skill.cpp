@@ -5,6 +5,8 @@
 #include "skill.h"
 #include "rng.h"
 
+#include "picojson.h"
+
 Skill::Skill() {
   _ident = std::string("null");
 
@@ -25,32 +27,32 @@ std::vector<Skill> Skill::skills(Skill::loadSkills());
 std::vector<Skill> Skill::loadSkills() {
   std::vector<Skill> allSkills;
 
-  std::ifstream skills_file;
+  picojson::value skillsRaw;
 
-  skills_file.open("data/raw/SKILLS");
+  std::ifstream skillsFile;
 
-  while (!skills_file.eof()) {
-    std::string ident, name;
-    std::ostringstream description;
+  skillsFile.open("data/raw/skills.json");
 
-    getline(skills_file, ident);
-    getline(skills_file, name);
+  skillsFile >> skillsRaw;
 
-    std::string tmp;
+  if (skillsRaw.is<picojson::array>()) {
+    const picojson::array& skills = skillsRaw.get<picojson::array>();
+    for (picojson::array::const_iterator aSkill = skills.begin(); aSkill != skills.end(); ++aSkill) {
+      const picojson::array& fields = aSkill->get<picojson::array>();
+      picojson::array::const_iterator aField = fields.begin();
 
-    while (1) {
-      getline(skills_file, tmp);
+      std::string ident, name, description;
 
-      if (tmp == "") {
-        description << '\b';
+      ident = aField++->get<std::string>();
+      name = aField++->get<std::string>();
+      description = aField++->get<std::string>();
 
-        Skill aSkill(allSkills.size(), ident, name, description.str());
-        allSkills.push_back(aSkill);
-        break;
-      } else {
-        description << tmp << '\n';
-      }
+      Skill newSkill(allSkills.size(), ident, name, description);
+      allSkills.push_back(newSkill);
     }
+  } else {
+    std::cout << skillsRaw << std::endl;
+    exit(1);
   }
 
   return allSkills;
