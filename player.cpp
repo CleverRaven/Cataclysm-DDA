@@ -1355,7 +1355,7 @@ encumb(bp_feet) * 5);
    Skill selectedSkill;
 
    for (int i = min; i < max; i++) {
-     Skill aSkill = Skill::skill(i);
+     Skill aSkill = Skill::skill(skillslist[i]);
      SkillLevel level = skillLevel(aSkill);
 
      bool isLearning = level.isTraining();
