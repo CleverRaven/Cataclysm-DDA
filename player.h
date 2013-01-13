@@ -13,6 +13,7 @@
 #include "mutation.h"
 #include <vector>
 #include <string>
+#include <map>
 
 class monster;
 class game;
@@ -36,6 +37,8 @@ std::string random_first_name(bool male);
 std::string random_last_name();
 
 class player {
+  std::map<Skill,SkillLevel> _skills;
+
 public:
  player();
  player(const player &rhs);
@@ -298,7 +301,9 @@ public:
  int skexercise[num_skill_types];
  int sktrain[num_skill_types];
  bool sklearn[num_skill_types];
- 
+
+ SkillLevel& skillLevel(std::string ident);
+
  bool inv_sorted;
  //std::vector <item> inv;
  inventory inv;

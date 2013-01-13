@@ -162,6 +162,8 @@ player& player::operator= (const player & rhs)
   sklearn[i] = rhs.sklearn[i];
  }
 
+ _skills = rhs._skills;
+
  inv_sorted = rhs.inv_sorted;
 
  inv.clear();
@@ -5081,4 +5083,8 @@ std::string random_last_name()
  lastname = buff;
  fin.close();
  return lastname;
+}
+
+SkillLevel& player::skillLevel(std::string ident) {
+  return _skills[Skill::skill(ident)];
 }
