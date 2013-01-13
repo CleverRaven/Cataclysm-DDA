@@ -831,7 +831,7 @@ bool item::has_technique(technique_id tech, player *p)
   it_style *style = dynamic_cast<it_style*>(type);
   for (int i = 0; i < style->moves.size(); i++) {
    if (style->moves[i].tech == tech &&
-       (p == NULL || p->sklevel[sk_unarmed] >= style->moves[i].level))
+       (p == NULL || p->skillLevel(Skill::skill("unarmed")) >= style->moves[i].level))
     return true;
   }
  }
