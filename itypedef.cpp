@@ -131,6 +131,10 @@ DRINK("vodka",		20, 78,	c_ltcyan, itm_bottle_glass,
 	-10, 2,  0,-12, -2,  5, 7, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
 In Soviet Russia, vodka drinks you!");
 
+DRINK("gin",		20, 78,	c_ltcyan, itm_bottle_glass,
+	-10, 2,  0,-12, -2,  5, 7, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
+Smells faintly of elderberries, but mostly booze.");
+
 DRINK("rum",		14, 85,	c_ltcyan, itm_bottle_glass,
 	-12, 2,  0,-10, -2,  5, 7, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
 Drinking this might make you feel like a pirate. Or not.");
@@ -138,6 +142,15 @@ Drinking this might make you feel like a pirate. Or not.");
 DRINK("tequila",	12, 88,	c_brown,  itm_bottle_glass,
 	-12, 2,  0,-12, -2,  6, 7, 18,&iuse::alcohol,	ADD_ALCOHOL, "\
 Don't eat the worm! Wait, there's no worm in this bottle.");
+
+DRINK("triple sec",	12, 55,	c_brown,  itm_bottle_glass,
+	-8, 2,  0,-10, -2,  4, 7, 10,&iuse::alcohol,	ADD_ALCOHOL, "\
+An orange flavored liquor used in many mixed drinks.");
+
+DRINK("long island iced tea",	8, 100,	c_brown,  itm_bottle_glass,
+	-10, 2,  0,-10, -2,  5, 6, 20,&iuse::alcohol,	ADD_ALCOHOL, "\
+A blend of incredibly strong-flavored liquors that somehow tastes\n\
+like none of them.");
 
 DRINK("beer",           60, 35, c_brown,  itm_can_drink,
          16, 4,  0, -4, -1,  2,  1, 10, &iuse::alcohol,   ADD_ALCOHOL, "\
