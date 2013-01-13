@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "skill.h"
+#include "rng.h"
 
 Skill::Skill() {
   _ident = std::string("null");
@@ -56,7 +57,7 @@ std::vector<Skill> Skill::loadSkills() {
 }
 
 size_t Skill::skill_id(std::string ident) {
-  for (std::vector<Skill>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+  for (EACH_SKILL) {
     if (aSkill->_ident == ident) {
       return aSkill->_id;
     }
@@ -76,6 +77,47 @@ Skill Skill::skill(size_t id) {
 size_t Skill::skill_count() {
   return Skill::skills.size();
 }
+
+
+SkillLevel::SkillLevel(uint32_t level, int32_t exercise, bool isTraining) {
+  _level = level;
+  _exercise = exercise;
+  _isTraining = isTraining;
+}
+
+SkillLevel::SkillLevel(uint32_t minLevel, uint32_t maxLevel, int32_t minExercise, int32_t maxExercise, bool isTraining) {
+  _level = rng(minLevel, maxLevel);
+  _exercise = rng(minExercise, maxExercise);
+  _isTraining = isTraining;
+}
+
+int32_t SkillLevel::train(uint32_t amount, uint32_t &level) {
+  _exercise += amount;
+
+  if (_exercise >= 100) {
+    _exercise -= 100;
+    _exercise /= 2;
+    ++_level;
+  }
+
+  level = _level;
+
+  return _exercise;
+}
+
+int32_t SkillLevel::rust(uint32_t &level) {
+  --_exercise;
+
+  if (_exercise == 100) {
+    _exercise = 0;
+    --_level;
+  }
+
+  level = _level;
+
+  return _exercise;
+}
+
 
 std::string skill_name(int sk) {
   return Skill::skill(sk).name();
