@@ -923,7 +923,8 @@ bool map::bash(int x, int y, int str, std::string &sound, int *res)
   if (str >= result && str >= rng(0, 80)) {
    sound += "clang!";
    ter(x, y) = t_dirt;
-   add_item(x, y, (*itypes)[itm_rebar], 0, rng(4, 10));
+   add_item(x, y, (*itypes)[itm_wire], 0, rng(8, 20));
+   add_item(x, y, (*itypes)[itm_scrap], 0, rng(0, 12));
    return true;
   } else {
    sound += "whump!";

@@ -135,7 +135,7 @@ void game::init_construction()
    COMP(itm_2x4, 4, NULL);
    COMP(itm_nail, 12, NULL);
 
- CONSTRUCT("Build Rebar Door", 3, &construct::able_empty,
+ CONSTRUCT("Build Wire Door", 3, &construct::able_empty,
                                  &construct::done_nothing);
   STAGE(t_door_frame, 15);
    TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
@@ -144,8 +144,8 @@ void game::init_construction()
   STAGE(t_rdoor_c, 15);
    TOOL(itm_welder, NULL);
    COMP(itm_battery, 300, NULL);
-   COMP(itm_rebar, 10, NULL);
-   COMP(itm_steel_chunk, 3, NULL);
+   COMP(itm_wire, 20, NULL);
+   COMP(itm_steel_chunk, 3, itm_scrap, 12, NULL);
 
 /*  Removed until we have some way of auto-aligning fences!
  CONSTRUCT("Build Fence", 1, 15, &construct::able_empty);

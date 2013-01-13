@@ -311,16 +311,6 @@ from its mouth."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
 
-mon("Actual Cannibal Shia LaBeouf",	species_zombie, '@',	c_white,	MS_MEDIUM,	FLESH,
-//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 90,  3,100,100, 70,  8,  1,  5,  0,  1,  0,  0, 40, 50,  0,
-	&mdeath::normal,	&mattack::none, "\
-Living in the woods! (Quiet, quiet)\n\
-Killing for sport! (Quiet, quiet)\n\
-Eating  all the bodies!\n\
-Actual cannibal Shia LaBeouf!");
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
-
 mon("fungal boomer",species_fungus, 'B',c_ltgray,	MS_LARGE,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	  1,  7,100,100, 40,  5,  2,  6,  0,  0,  3,  0, 20, 20, 30,
@@ -406,6 +396,17 @@ much harder to damage than an ordinary zombie\n\
 but moves a bit slower"
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
+
+mon("Actual Cannibal Shia LaBeouf",	species_zombie, '@',	c_white,	MS_MEDIUM,	FLESH,
+//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	 1,  3,100,100, 70,  8,  1,  5,  0,  1,  0,  0, 40, 50,  0,
+	&mdeath::normal,	&mattack::none, "\
+Living in the woods! (Quiet, quiet)\n\
+Killing for sport! (Quiet, quiet)\n\
+Eating  all the bodies!\n\
+Actual cannibal Shia LaBeouf!");
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
+
 
 // PLANTS & FUNGI
 mon("triffid",	species_plant, 'F',	c_ltgreen,	MS_MEDIUM,	VEGGY,

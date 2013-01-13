@@ -4298,7 +4298,6 @@ case ot_s_garage_north:
   if (one_in(3)) {
    for (int j = 8; j < 12; j++)
     ter(6, j) = t_counter;
-    add_mon(6, j, mon_zombie_cop);
   }
   if (one_in(3)) {
    for (int j = 8; j < 12; j++)
