@@ -53,6 +53,7 @@ struct construct // Construction functions.
  bool able_between_walls(game *, point); // Flood-fill contained by walls
 
  bool able_dig(game *, point); // Able if diggable terrain
+ bool able_chainlink(game *, point); // Able on chain link fences
  bool able_pit(game *, point); // Able only on pits
 
  bool able_tree(game *, point); // Able on trees

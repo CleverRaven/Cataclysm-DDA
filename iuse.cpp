@@ -2429,7 +2429,7 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
  g->draw();
- mvprintw(0, 0, "Cut up bars where?");
+ mvprintw(0, 0, "Cut up metal where?");
  get_direction(g, dirx, diry, input());
  if (dirx == -2) {
   g->add_msg("Invalid direction.");
@@ -2441,8 +2441,8 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
   p->moves -= 500;
   g->m.ter(dirx, diry) = t_pavement;
   g->sound(dirx, diry, 15,"grnd grnd grnd");
-  g->m.add_item(dirx, diry, g->itypes[itm_pipe], 0, 4);
-  g->m.add_item(dirx, diry, g->itypes[itm_wire], 0, 10);
+  g->m.add_item(dirx, diry, g->itypes[itm_pipe], 0, 6);
+  g->m.add_item(dirx, diry, g->itypes[itm_wire], 0, 20);
  } else if (g->m.ter(dirx, diry) == t_rack) {
   p->moves -= 500;
   g->m.ter(dirx, diry) = t_floor;
