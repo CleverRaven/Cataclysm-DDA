@@ -296,7 +296,7 @@ bool map::displace_vehicle (game *g, int &x, int &y, int dx, int dy, bool test=f
                       g->u.posx, g->u.posy);
    continue;
   }
-  int trec = rec - psgs[i]->sklevel[sk_driving];
+  int trec = rec -psgs[i]->skillLevel(Skill::skill("driving")).level();
   if (trec < 0) trec = 0;
   // add recoil
   psg->driving_recoil = rec;
@@ -410,7 +410,7 @@ void map::vehmove(game *g)
       if (veh->skidding && one_in(4)) // might turn uncontrollably while skidding
        veh->move.init (veh->move.dir() +
                        (one_in(2) ? -15 * rng(1, 3) : 15 * rng(1, 3)));
-      else if (pl_ctrl && rng(0, 4) > g->u.sklevel[sk_driving] && one_in(20)) {
+      else if (pl_ctrl && rng(0, 4) > g->u.skillLevel(Skill::skill("driving")).level() && one_in(20)) {
        g->add_msg("You fumble with the %s's controls.", veh->name.c_str());
        veh->turn (one_in(2) ? -15 : 15);
       }
@@ -487,7 +487,7 @@ void map::vehmove(game *g)
                                      vel2/100 - sb_bonus));
         } else if (veh->part_with_feature (ppl[ps], vpf_controls) >= 0) {
          int lose_ctrl_roll = rng (0, imp);
-         if (lose_ctrl_roll > psg->dex_cur * 2 + psg->sklevel[sk_driving] * 3) {
+         if (lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel(Skill::skill("driving")).level() * 3) {
           if (psgname.length())
            g->add_msg ("%s lose%s control of the %s.", psgname.c_str(),
                        (psg == &g->u ? "" : "s"), veh->name.c_str());
@@ -2023,8 +2023,10 @@ void map::disarm_trap(game *g, int x, int y)
   debugmsg("Tried to disarm a trap where there was none (%d %d)", x, y);
   return;
  }
+ uint32_t tSkillLevel = g->u.skillLevel(Skill::skill("traps")).level();
+
  int diff = g->traps[tr_at(x, y)]->difficulty;
- int roll = rng(g->u.sklevel[sk_traps], 4 * g->u.sklevel[sk_traps]);
+ int roll = rng(tSkillLevel, 4 * tSkillLevel);
  while ((rng(5, 20) < g->u.per_cur || rng(1, 20) < g->u.dex_cur) && roll < 50)
   roll++;
  if (roll >= diff) {
