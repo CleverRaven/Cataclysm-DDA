@@ -276,7 +276,7 @@ void game::construction_menu()
    update_info = false;
    constructable* current_con = constructions[select];
 // Print difficulty
-   int pskill = u.sklevel[sk_carpentry];
+   uint32_t pskill = u.skillLevel(Skill::skill("carpentry")).level();
    int diff = current_con->difficulty > 0 ? current_con->difficulty : 0;
    mvwprintz(w_con, 1, 43, (pskill >= diff ? c_white : c_red),
              "%d   ", diff);
@@ -431,7 +431,7 @@ void game::construction_menu()
 bool game::player_can_build(player &p, inventory inv, constructable* con,
                             int level, bool cont)
 {
- if (p.sklevel[sk_carpentry] < con->difficulty)
+  if (p.skillLevel(Skill::skill("carpentry")) < con->difficulty)
   return false;
 
  if (level < 0)

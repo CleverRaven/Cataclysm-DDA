@@ -1184,11 +1184,12 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
  wrefresh(w);
 }
 
-int caravan_price(player &u, int price)
-{
- if (u.sklevel[sk_barter] > 10)
+int caravan_price(player &u, int price) {
+  Skill barterSkill = Skill::skill("barter");
+
+  if (u.skillLevel(barterSkill) > 10)
   return int( double(price) * .5);
- return int( double(price) * (1.0 - double(u.sklevel[sk_barter]) * .05));
+  return int( double(price) * (1.0 - double(u.skillLevel(barterSkill).level()) * .05));
 }
 
 void defense_game::spawn_wave(game *g)

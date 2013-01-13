@@ -4085,8 +4085,8 @@ void game::smash()
    add_msg(extra.c_str());
   sound(u.posx, u.posy, 18, bashsound);
   u.moves -= 80;
-  if (u.sklevel[sk_melee] == 0)
-   u.practice(sk_melee, rng(0, 1) * rng(0, 1));
+  if (u.skillLevel(Skill::skill("melee")) == 0)
+   u.practice(Skill::skill("melee"), rng(0, 1) * rng(0, 1));
   if (u.weapon.made_of(GLASS) &&
       rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
    add_msg("Your %s shatters!", u.weapon.tname(this).c_str());
@@ -4389,9 +4389,11 @@ void game::examine()
                            u.power_level > 0 &&
                            query_yn("Use fingerhack on the reader?"));
   if (using_electrohack || using_fingerhack) {
+    Skill computerSkill = Skill::skill("computer");
+
    u.moves -= 500;
-   u.practice(sk_computer, 20);
-   int success = rng(u.sklevel[sk_computer]/4 - 2, u.sklevel[sk_computer] * 2);
+   u.practice(computerSkill, 20);
+   int success = rng(u.skillLevel(computerSkill).level() / 4 - 2, u.skillLevel(computerSkill).level() * 2);
    success += rng(-3, 3);
    if (using_fingerhack)
     success++;
@@ -5833,7 +5835,7 @@ void game::plthrow()
 
  u.i_rem(ch);
  u.moves -= 125;
- u.practice(sk_throw, 10);
+ u.practice(Skill::skill("throw"), 10);
 
  throw_item(u, x, y, thrown, trajectory);
 }
@@ -6016,6 +6018,10 @@ void game::complete_butcher(int index)
  int factor = u.butcher_factor();
  int pieces, pelts;
  double skill_shift = 0.;
+
+ Skill survivalSkill = Skill::skill("survival");
+ uint32_t sSkillLevel = u.skillLevel(survivalSkill).level();
+
  switch (corpse->size) {
   case MS_TINY:   pieces =  1; pelts =  1; break;
   case MS_SMALL:  pieces =  2; pelts =  3; break;
@@ -6023,10 +6029,10 @@ void game::complete_butcher(int index)
   case MS_LARGE:  pieces =  8; pelts = 10; break;
   case MS_HUGE:   pieces = 16; pelts = 18; break;
  }
- if (u.sklevel[sk_survival] < 3)
-  skill_shift -= rng(0, 8 - u.sklevel[sk_survival]);
+ if (sSkillLevel < 3)
+  skill_shift -= rng(0, 8 - sSkillLevel);
  else
-  skill_shift += rng(0, u.sklevel[sk_survival]);
+  skill_shift += rng(0, sSkillLevel);
  if (u.dex_cur < 8)
   skill_shift -= rng(0, 8 - u.dex_cur) / 4;
  else
@@ -6039,7 +6045,7 @@ void game::complete_butcher(int index)
  int practice = 4 + pieces;
  if (practice > 20)
   practice = 20;
- u.practice(sk_survival, practice);
+ u.practice(survivalSkill, practice);
 
  pieces += int(skill_shift);
  if (skill_shift < 5)	// Lose some pelts
@@ -6372,8 +6378,9 @@ void game::chat()
  u.moves -= 100;
 }
 
-void game::pldrive(int x, int y)
-{
+void game::pldrive(int x, int y) {
+  Skill drivingSkill = Skill::skill("driving");
+
  if (run_mode == 2) { // Monsters around and we don't wanna run
   add_msg("Monster spotted--run mode is on! "
           "(Press '!' to turn it off or ' to ignore monster.)");
@@ -6401,7 +6408,7 @@ void game::pldrive(int x, int y)
  }
  veh->turn (15 * x);
  if (veh->skidding && veh->valid_wheel_config()) {
-  if (rng (0, 40) < u.dex_cur + u.sklevel[sk_driving] * 2) {
+   if (rng (0, 40) < u.dex_cur + u.skillLevel(drivingSkill).level() * 2) {
    add_msg ("You regain control of the %s.", veh->name.c_str());
    veh->skidding = false;
    veh->move.init (veh->turn_dir);
@@ -6410,7 +6417,7 @@ void game::pldrive(int x, int y)
 
  u.moves = 0;
  if (x != 0 && veh->velocity != 0 && one_in(4))
-  u.practice(sk_driving, 1);
+   u.practice(drivingSkill, 1);
 }
 
 void game::plmove(int x, int y)
@@ -6555,10 +6562,12 @@ void game::plmove(int x, int y)
 
 // Adjust recoil down
   if (u.recoil > 0) {
-   if (int(u.str_cur / 2) + u.sklevel[sk_gun] >= u.recoil)
+    Skill gunSkill = Skill::skill("gun");
+
+    if (int(u.str_cur / 2) + u.skillLevel(gunSkill).level() >= u.recoil)
     u.recoil = 0;
    else {
-    u.recoil -= int(u.str_cur / 2) + u.sklevel[sk_gun];
+     u.recoil -= int(u.str_cur / 2) + u.skillLevel(gunSkill).level();
     u.recoil = int(u.recoil / 2);
    }
   }
@@ -6738,7 +6747,7 @@ void game::plswim(int x, int y)
   u.rem_disease(DI_ONFIRE);
  }
  int movecost = u.swim_speed();
- u.practice(sk_swimming, 1);
+ u.practice(Skill::skill("swimming"), 1);
  if (movecost >= 500) {
   if (!u.underwater) {
    add_msg("You sink%s!", (movecost >= 400 ? " like a rock" : ""));
