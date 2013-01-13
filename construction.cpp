@@ -151,7 +151,7 @@ void game::init_construction()
 
  CONSTRUCT("Build Wire Gate", 3, &construct::able_between_walls,
                                  &construct::done_nothing);
-  STAGE(t_rdoor_c, 15);
+  STAGE(t_chaingate_c, 15);
    COMP(itm_wire, 20, NULL);
    COMP(itm_steel_chunk, 3, itm_scrap, 12, NULL);
    COMP(itm_pipe, 6, NULL);

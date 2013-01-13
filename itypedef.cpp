@@ -3839,6 +3839,11 @@ TOOL("wrench",		30, 86, ';', c_ltgray,	IRON,	MNULL,
 An adjustable wrench. Makes a decent melee weapon, and is used in many\n\
 mechanics crafting recipes.");
 
+TOOL("bolt cutters",		5, 100, ';', c_blue,	STEEL,	PLASTIC,
+    5,  4, 10,  4,  1,   0,  0, 0,  0, AT_NULL, itm_null, &iuse::boltcutters, 0, "\
+A large pair of bolt cutters, you could use them to cut padlocks or heavy\n\
+gauge wire.");
+
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated

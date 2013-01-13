@@ -116,6 +116,7 @@ class iuse
   void bullet_puller	(game *g, player *p, item *it, bool t);
   void screwdriver      (game *g, player *p, item *it, bool t);
   void wrench           (game *g, player *p, item *it, bool t);
+  void boltcutters      (game *g, player *p, item *it, bool t);
 // MACGUFFINS
   void mcg_note		(game *g, player *p, item *it, bool t);
 // ARTIFACTS

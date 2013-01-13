@@ -1357,10 +1357,10 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    line(this, t_chainfence_h,  1,  1, 22,  1);
    line(this, t_chainfence_h,  1, 21, 22, 21);
 
-   ter( 2,  1) = t_rdoor_c;
-   ter(21,  1) = t_rdoor_c;
-   ter( 2, 21) = t_rdoor_c;
-   ter(21, 21) = t_rdoor_c;
+   ter( 2,  1) = t_chaingate_l;
+   ter(21,  1) = t_chaingate_l;
+   ter( 2, 21) = t_chaingate_l;
+   ter(21, 21) = t_chaingate_l;
 
    rotate(rng(0, 3));
   }
@@ -2769,16 +2769,16 @@ case ot_shelter: {
   square(this, t_dirt, 3, 3, 20, 20);
   line(this, t_chainfence_h,  2,  2, 10,  2);
   line(this, t_chainfence_h, 13,  2, 21,  2);
-  line(this, t_rdoor_c,      11,  2, 12,  2);
+  line(this, t_chaingate_l,      11,  2, 12,  2);
   line(this, t_chainfence_h,  2, 21, 10, 21);
   line(this, t_chainfence_h, 13, 21, 21, 21);
-  line(this, t_rdoor_c,      11, 21, 12, 21);
+  line(this, t_chaingate_l,      11, 21, 12, 21);
   line(this, t_chainfence_v,  2,  3,  2, 10);
   line(this, t_chainfence_v, 21,  3, 21, 10);
-  line(this, t_rdoor_c,       2, 11,  2, 12);
+  line(this, t_chaingate_l,       2, 11,  2, 12);
   line(this, t_chainfence_v,  2, 13,  2, 20);
   line(this, t_chainfence_v, 21, 13, 21, 20);
-  line(this, t_rdoor_c,      21, 11, 21, 12);
+  line(this, t_chaingate_l,      21, 11, 21, 12);
 // Place some random buildings
 
   bool okay = true;

@@ -2796,7 +2796,32 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
    g->m.add_item(p->posx, p->posy, lead);
  }
 
- 
+void iuse::boltcutters(game *g, player *p, item *it, bool t)
+{
+ int dirx, diry;
+ g->draw();
+ mvprintw(0, 0, "Cut up metal where?");
+ get_direction(g, dirx, diry, input());
+ if (dirx == -2) {
+  g->add_msg("Invalid direction.");
+  return;
+ }
+ dirx += p->posx;
+ diry += p->posy;
+ if (g->m.ter(dirx, diry) == t_chaingate_l) {
+  p->moves -= 100;
+  g->m.ter(dirx, diry) = t_chaingate_c;
+  g->sound(dirx, diry, 5, "Gachunk!");
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_scrap], 0, 3);
+ } else if (g->m.ter(dirx, diry) == t_chainfence_v || g->m.ter(dirx, diry) == t_chainfence_h) {
+  p->moves -= 500;
+  g->m.ter(dirx, diry) = t_chainfence_posts;
+  g->sound(dirx, diry, 5,"Snick, snick, gachunk!");
+  g->m.add_item(dirx, diry, g->itypes[itm_wire], 0, 20);
+ } else {
+  g->add_msg("You can't cut that.");
+ }
+} 
  
  
  
