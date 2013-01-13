@@ -27,7 +27,7 @@ std::vector<Skill> Skill::loadSkills() {
 
   std::ifstream skills_file;
 
-  skills_file.open("data/SKILLS");
+  skills_file.open("data/raw/SKILLS");
 
   while (!skills_file.eof()) {
     std::string ident, name;
