@@ -150,6 +150,22 @@ int32_t SkillLevel::rust(uint32_t &level) {
   return _exercise;
 }
 
+std::istream& operator>>(std::istream& is, SkillLevel& obj) {
+  uint32_t level; int32_t exercise; bool isTraining;
+
+  is >> level >> exercise >> isTraining;
+
+  obj = SkillLevel(level, exercise, isTraining);
+
+  return is;
+}
+
+std::ostream& operator<<(std::ostream& os, const SkillLevel& obj) {
+  os << obj.level() << " " << obj.exercise() << " " << obj.isTraining() << " ";
+
+  return os;
+}
+
 
 std::string skill_name(int sk) {
   return Skill::skill(sk).name();

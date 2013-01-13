@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
+
 
 enum skill {
  sk_null = 0,
@@ -22,7 +24,8 @@ enum skill {
  num_skill_types	// MUST be last!
 };
 
-#define EACH_SKILL std::vector<Skill>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill
+#define EVERY_SKILL std::vector<Skill>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill
+#define EACH_SKILL std::vector<Skill>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill
 
 class Skill {
   size_t _id;
@@ -44,6 +47,10 @@ class Skill {
   Skill();
   Skill(size_t id, std::string ident, std::string name, std::string description);
 
+  //DEBUG
+  size_t id() { return _id; }
+
+  std::string ident() { return _ident; }
   std::string name() { return _name; }
   std::string description() { return _description; }
 
@@ -60,13 +67,13 @@ class SkillLevel {
   SkillLevel(uint32_t level = 0, int32_t exercise = 0, bool isTraining = true);
   SkillLevel(uint32_t minLevel, uint32_t maxLevel, int32_t minExercise, int32_t maxExercise, bool isTraining = true);
 
-  bool isTraining() { return _isTraining; }
+  bool isTraining() const { return _isTraining; }
   bool toggleTraining() { _isTraining = !_isTraining; return _isTraining; }
 
-  uint32_t level() { return _level; }
+  uint32_t level() const { return _level; }
   uint32_t level(uint32_t level) { _level = level; return level; }
 
-  int32_t exercise() { return _exercise; }
+  int32_t exercise() const { return _exercise; }
 
   uint32_t comprehension(uint32_t intellect, bool fastLearner = false);
 
@@ -89,6 +96,9 @@ class SkillLevel {
   bool operator<=(const uint32_t& b) const { return !(*this >  b); }
   bool operator>=(const uint32_t& b) const { return !(*this <  b); }
 };
+
+std::istream& operator>>(std::istream& is, SkillLevel& obj);
+std::ostream& operator<<(std::ostream& os, const SkillLevel& obj);
 
 std::string skill_name(int);
 std::string skill_description(int);

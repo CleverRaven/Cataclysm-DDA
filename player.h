@@ -302,6 +302,7 @@ public:
  int sktrain[num_skill_types];
  bool sklearn[num_skill_types];
 
+ SkillLevel& skillLevel(const Skill& _skill);
  SkillLevel& skillLevel(std::string ident);
 
  bool inv_sorted;

@@ -74,6 +74,10 @@ player::player()
  mutation_category_level[0] = 5; // Weigh us towards no category for a bit
  for (int i = 1; i < NUM_MUTATION_CATEGORIES; i++)
   mutation_category_level[i] = 0;
+
+ for (EACH_SKILL) {
+   skillLevel(*aSkill).level(0);
+ }
 }
 
 player::player(const player &rhs)
@@ -518,6 +522,11 @@ void player::load_info(game *g, std::string data)
 
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
+
+ for (EVERY_SKILL) {
+   dump >> skillLevel(*aSkill);
+ }
+
  for (int i = 0; i < num_skill_types; i++)
   dump >> sklevel[i] >> skexercise[i] >> sklearn[i];
 
@@ -612,8 +621,11 @@ std::string player::save_info()
   dump << mutation_category_level[i] << " ";
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
- for (int i = 0; i < num_skill_types; i++)
-  dump << int(sklevel[i]) << " " << skexercise[i] << " " << sklearn[i] << " ";
+
+ for (EVERY_SKILL) {
+   SkillLevel level = skillLevel(*aSkill);
+   dump << level;
+ }
 
  dump << styles.size() << " ";
  for (int i = 0; i < styles.size(); i++)
@@ -932,18 +944,23 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  line = 2;
  std::vector <skill> skillslist;
  mvwprintz(w_skills, 0, 11, c_ltgray, "SKILLS");
- for (int i = 1; i < num_skill_types; i++) {
+ for (EACH_SKILL) {
+   int i = aSkill->id();
+
+   SkillLevel level = skillLevel(*aSkill);
+
+   if (i == 0)
+     continue;
+
   if (sklevel[i] >= 0) {
    skillslist.push_back(skill(i));
    if (line < 9) {
-    mvwprintz(w_skills, line, 1, sklearn[i] ? c_dkgray : c_ltblue, "%s:",
-              skill_name(skill(i)).c_str());
-    mvwprintz(w_skills, line,19, c_ltblue, "%d%s(%s%d%%%%)", sklevel[i],
-              (sklevel[i] < 10 ? " " : ""),
-              (skexercise[i] < 10 && skexercise[i] >= 0 ? " " : ""),
-              (skexercise[i] <  0 ? 0 : skexercise[i]));
+     mvwprintz(w_skills, line, 1, skillLevel(*aSkill).isTraining() ? c_dkgray : c_ltblue, "%-17s",
+               (aSkill->name() + ":").c_str());
+     mvwprintz(w_skills, line,19, c_ltblue, "%-2d(%2d%%%%)", level.level(),
+              (level.exercise() <  0 ? 0 : level.exercise()));
     line++;
-   }
+    }
   }
  }
  wrefresh(w_skills);
@@ -1337,43 +1354,48 @@ encumb(bp_feet) * 5);
     if (min < 0)
      min = 0;
    }
+
+   Skill selectedSkill;
+
    for (int i = min; i < max; i++) {
+     Skill aSkill = Skill::skill(i);
+     SkillLevel level = skillLevel(aSkill);
+
+     bool isLearning = level.isTraining();
+     int32_t exercise = level.exercise();
+
     if (i == line) {
-     if (skexercise[skillslist[i]] >= 100)
-      status = sklearn[skillslist[i]] ? h_pink : h_red;
+      selectedSkill = aSkill;
+     if (exercise >= 100)
+      status = isLearning ? h_pink : h_red;
      else
-      status = sklearn[skillslist[i]] ? h_ltblue : h_blue;
+      status = isLearning ? h_ltblue : h_blue;
     } else {
-     if (skexercise[skillslist[i]] < 0)
-      status = sklearn[skillslist[i]] ? c_ltred : c_red;
+     if (exercise < 0)
+      status = isLearning ? c_ltred : c_red;
      else
-      status = sklearn[skillslist[i]] ? c_ltblue : c_blue;
+      status = isLearning ? c_ltblue : c_blue;
     }
     mvwprintz(w_skills, 2 + i - min, 1, c_ltgray, "                         ");
-    if (skexercise[i] >= 100) {
+    if (exercise >= 100) {
      mvwprintz(w_skills, 2 + i - min, 1, status, "%s:",
-               skill_name(skillslist[i]).c_str());
-     mvwprintz(w_skills, 2 + i - min,19, status, "%d (%s%d%%%%)",
-               sklevel[skillslist[i]],
-               (skexercise[skillslist[i]] < 10 &&
-                skexercise[skillslist[i]] >= 0 ? " " : ""),
-               (skexercise[skillslist[i]] <  0 ? 0 :
-                skexercise[skillslist[i]]));
+               aSkill.name().c_str());
+     mvwprintz(w_skills, 2 + i - min,19, status, "%-2d(%2d%%%%)",
+               level.level(),
+               (exercise <  0 ? 0 : exercise));
     } else {
-     mvwprintz(w_skills, 2 + i - min, 1, status, "%s:",
-               skill_name(skillslist[i]).c_str());
-     mvwprintz(w_skills, 2 + i - min,19, status, "%d (%s%d%%%%)",
-               sklevel[skillslist[i]],
-               (skexercise[skillslist[i]] < 10 &&
-                skexercise[skillslist[i]] >= 0 ? " " : ""),
-               (skexercise[skillslist[i]] <  0 ? 0 :
-                skexercise[skillslist[i]]));
+     mvwprintz(w_skills, 2 + i - min, 1, status, "%-17s",
+               (aSkill.name() + ":").c_str());
+     mvwprintz(w_skills, 2 + i - min,19, status, "%-2d(%2d%%%%)",
+               level.level(),
+               (exercise <  0 ? 0 :
+                exercise));
     }
    }
    werase(w_info);
    if (line >= 0 && line < skillslist.size())
     mvwprintz(w_info, 0, 0, c_magenta,
-              skill_description(skillslist[line]).c_str());
+              selectedSkill.description().c_str());
    wrefresh(w_skills);
    wrefresh(w_info);
    switch (input()) {
@@ -1386,6 +1408,7 @@ encumb(bp_feet) * 5);
       line--;
      break;
     case '\t':
+      werase(w_skills);
      mvwprintz(w_skills, 0, 0, c_ltgray, "           SKILLS         ");
      for (int i = 0; i < skillslist.size() && i < 7; i++) {
       if (skexercise[skillslist[i]] < 0)
@@ -1394,10 +1417,8 @@ encumb(bp_feet) * 5);
        status = c_ltblue;
       mvwprintz(w_skills, i + 2,  1, status, "%s:",
                 skill_name(skillslist[i]).c_str());
-      mvwprintz(w_skills, i + 2, 19, status, "%d (%s%d%%%%)",
+      mvwprintz(w_skills, i + 2, 19, status, "%d (%2d%%%%)",
                 sklevel[skillslist[i]],
-                (skexercise[skillslist[i]] < 10 &&
-                 skexercise[skillslist[i]] >= 0 ? " " : ""),
                 (skexercise[skillslist[i]] <  0 ? 0 :
                  skexercise[skillslist[i]]));
      }
@@ -1406,7 +1427,7 @@ encumb(bp_feet) * 5);
      curtab = 1;
      break;
    case ' ':
-     sklearn[skillslist[line]] = !sklearn[skillslist[line]];
+     skillLevel(selectedSkill).toggleTraining();
      break;
     case 'q':
     case 'Q':
@@ -5087,4 +5108,8 @@ std::string random_last_name()
 
 SkillLevel& player::skillLevel(std::string ident) {
   return _skills[Skill::skill(ident)];
+}
+
+SkillLevel& player::skillLevel(const Skill& _skill) {
+  return _skills[_skill];
 }
