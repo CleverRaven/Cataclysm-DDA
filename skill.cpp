@@ -66,13 +66,13 @@ size_t Skill::skill_id(std::string ident) {
   }
 }
 
-Skill Skill::skill(std::string ident) {
+Skill& Skill::skill(std::string ident) {
   size_t skillID = Skill::skill_id(ident);
 
   return Skill::skill(skillID);
 }
 
-Skill Skill::skill(size_t id) {
+Skill& Skill::skill(size_t id) {
   return Skill::skills[id];
 }
 

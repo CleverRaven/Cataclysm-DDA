@@ -39,8 +39,8 @@ class Skill {
  public:
   static std::vector<Skill> skills;
   static std::vector<Skill> loadSkills();
-  static Skill skill(std::string ident);
-  static Skill skill(size_t id);
+  static Skill& skill(std::string ident);
+  static Skill& skill(size_t id);
 
   static size_t skill_count();
 
