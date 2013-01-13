@@ -4249,8 +4249,8 @@ case ot_s_garage_north:
      ter(i, j) = t_floor;
    }
   }
-  ter(17, 7) = t_door_locked_alarm;
-  ter(18, 7) = t_door_locked_alarm;
+  ter(17, 7) = t_door_locked;
+  ter(18, 7) = t_door_locked;
   ter(rng( 1,  4), 12) = t_door_c;
   ter(rng( 6,  9), 12) = t_door_c;
   ter(rng(11, 15), 12) = t_door_c;
@@ -4272,25 +4272,25 @@ case ot_s_garage_north:
   tmpcomp->add_failure(COMPFAIL_MANHACKS);
   ter(17, 18) = t_door_c;
   for (int i = 18; i < SEEX * 2 - 1; i++)
-   ter(i, 20) = t_window_alarm;
+   ter(i, 20) = t_window;
   if (one_in(3)) {
    for (int j = 16; j < 20; j++)
-    ter(SEEX * 2 - 1, j) = t_window_alarm;
+    ter(SEEX * 2 - 1, j) = t_window;
   }
   rn = rng(18, 21);
   if (one_in(4)) {
    ter(rn    , 20) = t_door_c;
    ter(rn + 1, 20) = t_door_c;
   } else {
-   ter(rn    , 20) = t_door_locked_alarm;
-   ter(rn + 1, 20) = t_door_locked_alarm;
+   ter(rn    , 20) = t_door_locked;
+   ter(rn + 1, 20) = t_door_locked;
   }
   rn = rng(1, 5);
-  ter(rn, 20) = t_window_alarm;
-  ter(rn + 1, 20) = t_window_alarm;
+  ter(rn, 20) = t_window;
+  ter(rn + 1, 20) = t_window;
   rn = rng(10, 14);
-  ter(rn, 20) = t_window_alarm;
-  ter(rn + 1, 20) = t_window_alarm;
+  ter(rn, 20) = t_window;
+  ter(rn + 1, 20) = t_window;
   if (one_in(2)) {
    for (int i = 6; i < 10; i++)
     ter(i, 8) = t_counter;
@@ -4298,6 +4298,7 @@ case ot_s_garage_north:
   if (one_in(3)) {
    for (int j = 8; j < 12; j++)
     ter(6, j) = t_counter;
+    add_mon(6, j, mon_zombie_cop);
   }
   if (one_in(3)) {
    for (int j = 8; j < 12; j++)

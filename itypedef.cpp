@@ -1095,7 +1095,7 @@ MELEE("Heating element", 20, 10, ',', c_cyan,   IRON,   MNULL,
          0,   1,   0,  0,  0, 0, "\
 A heating element, like the ones used in hotplates or kettles.");
 
-MELEE("Television",      40, 0,  ';', c_gray,   PLASTIC, GLASS,
+MELEE("Television",      40, 0,  ';', c_dkgray,   PLASTIC, GLASS,
         10,  12,  5, 0, -5, 0, "\
 A large cathode ray tube television, full of delicious\n\
 electronics.");
