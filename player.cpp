@@ -4903,15 +4903,25 @@ void player::practice (Skill s, int amount) {
     }
   }
 
-  if (has_trait(PF_SAVANT)) {
-    // …
+  bool isSavant = has_trait(PF_SAVANT);
+
+  Skill savantSkill = Skill();
+  SkillLevel savantSkillLevel = SkillLevel();
+
+  if (isSavant) {
+    for (EACH_SKILL) {
+      if (skillLevel(*aSkill) > savantSkillLevel) {
+        savantSkill = *aSkill;
+        savantSkillLevel = skillLevel(*aSkill);
+      }
+    }
   }
 
   uint32_t newLevel;
 
   while (level.isTraining() && amount > 0 && xp_pool >= (1 + level.level())) {
     amount -= level.level() + 1;
-    if (rng(0, 100) < level.comprehension(int_cur, has_trait(PF_FASTLEARNER))) {
+    if ((!isSavant || s == savantSkill || one_in(2)) && rng(0, 100) < level.comprehension(int_cur, has_trait(PF_FASTLEARNER))) {
       xp_pool -= (1 + level.level());
 
       skillLevel(s).train(newLevel);
