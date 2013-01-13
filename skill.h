@@ -71,9 +71,9 @@ class SkillLevel {
   int32_t train(uint32_t &level);
   int32_t rust(uint32_t &level);
 
-  bool operator==(const SkillLevel& b) const { return this->_level == b._level; }
-  bool operator< (const SkillLevel& b) const { return this->_level <  b._level; }
-  bool operator> (const SkillLevel& b) const { return this->_level >  b._level; }
+  bool operator==(const SkillLevel& b) const { return this->_level == b._level && this->_exercise == b._exercise; }
+  bool operator< (const SkillLevel& b) const { return this->_level <  b._level || (this->_level == b._level && this->_exercise < b._exercise); }
+  bool operator> (const SkillLevel& b) const { return this->_level >  b._level || (this->_level == b._level && this->_exercise > b._exercise); }
 
   bool operator==(const uint32_t& b) const { return this->_level == b; }
   bool operator< (const uint32_t& b) const { return this->_level <  b; }
