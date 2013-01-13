@@ -1411,16 +1411,18 @@ encumb(bp_feet) * 5);
       werase(w_skills);
      mvwprintz(w_skills, 0, 0, c_ltgray, "           SKILLS         ");
      for (int i = 0; i < skillslist.size() && i < 7; i++) {
-      if (skexercise[skillslist[i]] < 0)
+       Skill thisSkill = Skill::skill(i);
+       SkillLevel thisLevel = skillLevel(thisSkill);
+       if (thisLevel.exercise() < 0)
        status = c_ltred;
       else
        status = c_ltblue;
       mvwprintz(w_skills, i + 2,  1, status, "%s:",
-                skill_name(skillslist[i]).c_str());
+                thisSkill.name().c_str());
       mvwprintz(w_skills, i + 2, 19, status, "%d (%2d%%%%)",
-                sklevel[skillslist[i]],
-                (skexercise[skillslist[i]] <  0 ? 0 :
-                 skexercise[skillslist[i]]));
+                thisLevel.level(),
+                (thisLevel.exercise() <  0 ? 0 :
+                 thisLevel.exercise()));
      }
      wrefresh(w_skills);
      line = 0;
