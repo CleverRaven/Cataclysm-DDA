@@ -56,6 +56,8 @@ class Skill {
 
   bool operator==(const Skill& b) const { return this->_ident == b._ident; }
   bool operator< (const Skill& b) const { return this->_ident <  b._ident; } // Only here for the benefit of std::map<Skill,T>
+
+  bool operator!=(const Skill& b) const { return !(*this == b); }
 };
 
 class SkillLevel {
@@ -79,6 +81,8 @@ class SkillLevel {
 
   int32_t train(uint32_t &level);
   int32_t rust(uint32_t &level);
+
+  int32_t readBook(uint32_t minimumGain, uint32_t maximumGain, uint32_t maximumLevel = 0xFFFFFFFF);
 
   bool operator==(const SkillLevel& b) const { return this->_level == b._level && this->_exercise == b._exercise; }
   bool operator< (const SkillLevel& b) const { return this->_level <  b._level || (this->_level == b._level && this->_exercise < b._exercise); }

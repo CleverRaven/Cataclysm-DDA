@@ -150,6 +150,22 @@ int32_t SkillLevel::rust(uint32_t &level) {
   return _exercise;
 }
 
+int32_t SkillLevel::readBook(uint32_t minimumGain, uint32_t maximumGain, uint32_t maximumLevel) {
+  uint32_t gain = rng(minimumGain, maximumGain);
+
+  uint32_t level;
+
+  for (uint32_t i = 0; i < gain; ++i) {
+    train(level);
+
+    if (level >= maximumLevel)
+      break;
+  }
+
+  return _exercise;
+}
+
+
 std::istream& operator>>(std::istream& is, SkillLevel& obj) {
   uint32_t level; int32_t exercise; bool isTraining;
 

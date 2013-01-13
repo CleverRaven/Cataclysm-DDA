@@ -129,7 +129,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   else
    trange = int(trange * .8);
  }
- if (firing->skill_used == sk_rifle && trange > LONG_RANGE)
+ if (firing->skill_used == Skill::skill("rifle") && trange > LONG_RANGE)
   trange = LONG_RANGE + .6 * (trange - LONG_RANGE);
  std::string message = "";
 
@@ -141,7 +141,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
       (mon_at(tarx, tary) == -1 || z[mon_at(tarx, tary)].hp <= 0)) {
    std::vector<point> new_targets;
    int mondex;
-   for (int radius = 1; radius <= 2 + p.sklevel[sk_gun] && new_targets.empty();
+   for (int radius = 1; radius <= 2 + p.skillLevel(Skill::skill("gun")).level() && new_targets.empty();
         radius++) {
     for (int diff = 0 - radius; diff <= radius; diff++) {
      mondex = mon_at(tarx + diff, tary - radius);
@@ -172,7 +172,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     else
      trajectory = line_to(p.posx, p.posy, tarx, tary, 0);
    } else if ((!p.has_trait(PF_TRIGGERHAPPY) || one_in(3)) &&
-              (p.sklevel[sk_gun] >= 7 || one_in(7 - p.sklevel[sk_gun])))
+              (p.skillLevel(Skill::skill("gun")) >= 7 || one_in(7 - p.skillLevel(Skill::skill("gun")).level())))
     return; // No targets, so return
   }
 
@@ -363,13 +363,15 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
  int trange = 1.5 * rl_dist(p.posx, p.posy, tarx, tary);
 
 // Throwing attempts below "Basic Competency" level are extra-bad
- if (p.sklevel[sk_throw] < 3)
-  deviation += rng(0, 8 - p.sklevel[sk_throw]);
+ uint32_t skillLevel = p.skillLevel(Skill::skill("throw")).level();
 
- if (p.sklevel[sk_throw] < 8)
-  deviation += rng(0, 8 - p.sklevel[sk_throw]);
+ if (skillLevel < 3)
+  deviation += rng(0, 8 - skillLevel);
+
+ if (skillLevel < 8)
+  deviation += rng(0, 8 - skillLevel);
  else
-  deviation -= p.sklevel[sk_throw] - 6;
+  deviation -= skillLevel - 6;
 
  deviation += p.throw_dex_mod();
 
@@ -427,7 +429,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
 //  OR it's not the monster we were aiming at and we were lucky enough to hit it
   if (mon_at(tx, ty) != -1 &&
       (!missed || one_in(7 - int(z[mon_at(tx, ty)].type->size)))) {
-   if (rng(0, 100) < 20 + p.sklevel[sk_throw] * 12 &&
+   if (rng(0, 100) < 20 + skillLevel * 12 &&
        thrown.type->melee_cut > 0) {
     if (!p.is_npc()) {
      message += " You cut the ";
@@ -454,11 +456,11 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
    if (goodhit < .1 && !z[mon_at(tx, ty)].has_flag(MF_NOHEAD)) {
     message = "Headshot!";
     dam = rng(dam, dam * 3);
-    p.practice(sk_throw, 5);
+    p.practice(Skill::skill("throw"), 5);
    } else if (goodhit < .2) {
     message = "Critical!";
     dam = rng(dam, dam * 2);
-    p.practice(sk_throw, 2);
+    p.practice(Skill::skill("throw"), 2);
    } else if (goodhit < .4)
     dam = rng(int(dam / 2), int(dam * 1.5));
    else if (goodhit < .5) {
@@ -709,54 +711,39 @@ void game::hit_monster_with_flags(monster &z, unsigned int effects)
 int time_to_fire(player &p, it_gun* firing)
 {
  int time = 0;
- switch (firing->skill_used) {
-
- case sk_pistol:
-  if (p.sklevel[sk_pistol] > 6)
-   time = 10;
-  else
-   time = (80 - 10 * p.sklevel[sk_pistol]);
-  break;
-
- case sk_shotgun:
-  if (p.sklevel[sk_shotgun] > 3)
-   time = 70;
-  else
-   time = (150 - 25 * p.sklevel[sk_shotgun]);
-  break;
-
- case sk_smg:
-  if (p.sklevel[sk_smg] > 5)
-   time = 20;
-  else
-   time = (80 - 10 * p.sklevel[sk_smg]);
-  break;
-
- case sk_rifle:
-  if (p.sklevel[sk_rifle] > 8)
-   time = 30;
-  else
-   time = (150 - 15 * p.sklevel[sk_rifle]);
-  break;
-
- case sk_archery:
-  if (p.sklevel[sk_archery] > 8)
-   time = 20;
-  else
-   time = (220 - 25 * p.sklevel[sk_archery]);
-  break;
-
- case sk_launcher:
-  if (p.sklevel[sk_launcher] > 8)
-   time = 30;
-  else
-   time = (200 - 20 * p.sklevel[sk_launcher]);
-  break;
-
- default:
-  debugmsg("Why is shooting %s using %s skill?", (firing->name).c_str(),
-		skill_name(firing->skill_used).c_str());
-  time =  0;
+ if (firing->skill_used == Skill::skill("pistol")) {
+   if (p.skillLevel(Skill::skill("pistol")) > 6)
+     time = 10;
+   else
+     time = (80 - 10 * p.skillLevel(Skill::skill("pistol")).level());
+ } else if (firing->skill_used == Skill::skill("shotgun")) {
+   if (p.skillLevel(Skill::skill("shotgun")) > 3)
+     time = 70;
+   else
+     time = (150 - 25 * p.skillLevel(Skill::skill("shotgun")).level());
+ } else if (firing->skill_used == Skill::skill("smg")) {
+   if (p.skillLevel(Skill::skill("smg")) > 5)
+     time = 20;
+   else
+     time = (80 - 10 * p.skillLevel(Skill::skill("smg")).level());
+ } else if (firing->skill_used == Skill::skill("rifle")) {
+   if (p.skillLevel(Skill::skill("rifle")) > 8)
+     time = 30;
+   else
+     time = (150 - 15 * p.skillLevel(Skill::skill("rifle")).level());
+ } else if (firing->skill_used == Skill::skill("archery")) {
+   if (p.skillLevel(Skill::skill("archery")) > 8)
+     time = 20;
+   else
+     time = (220 - 25 * p.skillLevel(Skill::skill("archery")).level());
+ } else if (firing->skill_used == Skill::skill("launcher")) {
+   if (p.skillLevel(Skill::skill("launcher")) > 8)
+     time = 30;
+   else
+     time = (200 - 20 * p.skillLevel(Skill::skill("launcher")).level());
+ } else {
+   debugmsg("Why is shooting %s using %s skill?", (firing->name).c_str(), firing->skill_used.name().c_str());
+   time =  0;
  }
 
  return time;
@@ -813,7 +800,7 @@ int calculate_range(player &p, int tarx, int tary)
    trange = int(trange * .8);
  }
 
- if (firing->skill_used == sk_rifle && trange > LONG_RANGE)
+ if (firing->skill_used == Skill::skill("rifle") && trange > LONG_RANGE)
   trange = LONG_RANGE + .6 * (trange - LONG_RANGE);
 
  return trange;
@@ -826,15 +813,15 @@ double calculate_missed_by(player &p, int trange, item* weapon)
 // Calculate deviation from intended target (assuming we shoot for the head)
   double deviation = 0.; // Measured in quarter-degrees
 // Up to 1.5 degrees for each skill point < 4; up to 1.25 for each point > 4
-  if (p.sklevel[firing->skill_used] < 4)
-   deviation += rng(0, 6 * (4 - p.sklevel[firing->skill_used]));
-  else if (p.sklevel[firing->skill_used] > 4)
-   deviation -= rng(0, 5 * (p.sklevel[firing->skill_used] - 4));
+  if (p.skillLevel(firing->skill_used) < 4)
+    deviation += rng(0, 6 * (4 - p.skillLevel(firing->skill_used).level()));
+  else if (p.skillLevel(firing->skill_used) > 4)
+    deviation -= rng(0, 5 * (p.skillLevel(firing->skill_used).level() - 4));
 
-  if (p.sklevel[sk_gun] < 3)
-   deviation += rng(0, 3 * (3 - p.sklevel[sk_gun]));
+  if (p.skillLevel(Skill::skill("gun")) < 3)
+    deviation += rng(0, 3 * (3 - p.skillLevel(Skill::skill("gun")).level()));
   else
-   deviation -= rng(0, 2 * (p.sklevel[sk_gun] - 3));
+    deviation -= rng(0, 2 * (p.skillLevel(Skill::skill("gun")).level() - 3));
 
   deviation += p.ranged_dex_mod();
   deviation += p.ranged_per_mod();
@@ -861,7 +848,7 @@ int recoil_add(player &p)
  // item::recoil() doesn't suport gunmods, so call it on player gun.
  int ret = p.weapon.recoil();
  ret -= rng(p.str_cur / 2, p.str_cur);
- ret -= rng(0, p.sklevel[firing->skill_used] / 2);
+ ret -= rng(0, p.skillLevel(firing->skill_used).level() / 2);
  if (ret > 0)
   return ret;
  return 0;

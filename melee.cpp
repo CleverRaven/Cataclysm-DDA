@@ -1560,25 +1560,25 @@ void melee_practice(player &u, bool hit, bool unarmed, bool bashing,
                                bool cutting, bool stabbing)
 {
  if (!hit) {
-  u.practice(sk_melee, rng(2, 5));
+   u.practice(Skill::skill("melee"), rng(2, 5));
   if (unarmed)
-   u.practice(sk_unarmed, 2);
+    u.practice(Skill::skill("unarmed"), 2);
   if (bashing)
-   u.practice(sk_bashing, 2);
+    u.practice(Skill::skill("bashing"), 2);
   if (cutting)
-   u.practice(sk_cutting, 2);
+    u.practice(Skill::skill("cutting"), 2);
   if (stabbing)
-   u.practice(sk_stabbing, 2);
+    u.practice(Skill::skill("stabbing"), 2);
  } else {
-  u.practice(sk_melee, rng(5, 10));
+   u.practice(Skill::skill("melee"), rng(5, 10));
   if (unarmed)
-   u.practice(sk_unarmed, rng(5, 10));
+    u.practice(Skill::skill("unarmed"), rng(5, 10));
   if (bashing)
-   u.practice(sk_bashing, rng(5, 10));
+    u.practice(Skill::skill("bashing"), rng(5, 10));
   if (cutting)
-   u.practice(sk_cutting, rng(5, 10));
+    u.practice(Skill::skill("cutting"), rng(5, 10));
   if (stabbing)
-   u.practice(sk_stabbing, rng(5, 10));
+    u.practice(Skill::skill("stabbing"), rng(5, 10));
  }
 }
 

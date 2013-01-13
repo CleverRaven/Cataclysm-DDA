@@ -453,7 +453,7 @@ int player::run_cost(int base_cost)
 
 int player::swim_speed()
 {
- int ret = 440 + 2 * weight_carried() - 50 * sklevel[sk_swimming];
+  int ret = 440 + 2 * weight_carried() - 50 * skillLevel(Skill::skill("swimming")).level();
  if (has_trait(PF_WEBBED))
   ret -= 60 + str_cur * 5;
  if (has_trait(PF_TAIL_FIN))
@@ -462,11 +462,11 @@ int player::swim_speed()
   ret -= 100;
  if (has_trait(PF_LEG_TENTACLES))
   ret -= 60;
- ret += (50 - sklevel[sk_swimming] * 2) * abs(encumb(bp_legs));
- ret += (80 - sklevel[sk_swimming] * 3) * abs(encumb(bp_torso));
- if (sklevel[sk_swimming] < 10) {
+ ret += (50 - skillLevel(Skill::skill("swimming")).level() * 2) * abs(encumb(bp_legs));
+ ret += (80 - skillLevel(Skill::skill("swimming")).level() * 3) * abs(encumb(bp_torso));
+ if (skillLevel(Skill::skill("swimming")) < 10) {
   for (int i = 0; i < worn.size(); i++)
-   ret += (worn[i].volume() * (10 - sklevel[sk_swimming])) / 2;
+    ret += (worn[i].volume() * (10 - skillLevel(Skill::skill("swimming")).level())) / 2;
  }
  ret -= str_cur * 6 + dex_cur * 4;
 // If (ret > 500), we can not swim; so do not apply the underwater bonus.
@@ -1160,7 +1160,7 @@ Running costs +%d movement points", encumb(bp_mouth) * 5);
 Melee skill -%d;      Dodge skill -%d;\n\
 Swimming costs +%d movement points;\n\
 Melee attacks cost +%d movement points", encumb(bp_torso), encumb(bp_torso),
-encumb(bp_torso) * (80 - sklevel[sk_swimming] * 3), encumb(bp_torso) * 20);
+              encumb(bp_torso) * (80 - skillLevel(Skill::skill("swimming")).level() * 3), encumb(bp_torso) * 20);
    } else if (line == 4) 
   {
     mvwprintz(w_encumb, 5, 2, h_ltgray, "Arms");
@@ -1179,7 +1179,7 @@ Dexterity -%d when throwing items", encumb(bp_hands) * 30, encumb(bp_hands));
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Running costs %s%d movement points;  Swimming costs %s%d movement points;\n\
 Dodge skill %s%.1f", sign.c_str(), encumb(bp_legs) * 3,
-                     sign.c_str(), encumb(bp_legs) *(50 - sklevel[sk_swimming]),
+              sign.c_str(), encumb(bp_legs) *(50 - skillLevel(Skill::skill("swimming")).level()),
                      osign.c_str(), double(double(encumb(bp_legs)) / 2));
    } else if (line == 7) {
     mvwprintz(w_encumb, 8, 2, h_ltgray, "Feet");
@@ -1940,7 +1940,7 @@ bool player::has_two_arms()
 
 bool player::avoid_trap(trap* tr)
 {
- int myroll = dice(3, dex_cur + sklevel[sk_dodge] * 1.5);
+  int myroll = dice(3, dex_cur + skillLevel(Skill::skill("dodge")).level() * 1.5);
  int traproll;
  if (per_cur - encumb(bp_eyes) >= tr->visibility)
   traproll = dice(3, tr->avoidance);
@@ -1957,10 +1957,10 @@ void player::pause(game *g)
 {
  moves = 0;
  if (recoil > 0) {
-  if (str_cur + 2 * sklevel[sk_gun] >= recoil)
+   if (str_cur + 2 * skillLevel(Skill::skill("gun")).level() >= recoil)
    recoil = 0;
   else {
-   recoil -= str_cur + 2 * sklevel[sk_gun];
+    recoil -= str_cur + 2 * skillLevel(Skill::skill("gun")).level();
    recoil = int(recoil / 2);
   }
  }
@@ -1994,8 +1994,8 @@ int player::throw_range(int index)
  if (ret < 1)
   return 1;
 // Cap at double our strength + skill
- if (ret > str_cur * 1.5 + sklevel[sk_throw])
-  return str_cur * 1.5 + sklevel[sk_throw];
+ if (ret > str_cur * 1.5 + skillLevel(Skill::skill("throw")).level())
+   return str_cur * 1.5 + skillLevel(Skill::skill("throw")).level();
  return ret;
 }
 
@@ -2094,7 +2094,7 @@ int player::read_speed(bool real_life)
 
 int player::talk_skill()
 {
- int ret = int_cur + per_cur + sklevel[sk_speech] * 3;
+  int ret = int_cur + per_cur + skillLevel(Skill::skill("speech")).level() * 3;
  if (has_trait(PF_DEFORMED))
   ret -= 4;
  else if (has_trait(PF_DEFORMED2))
@@ -4305,7 +4305,7 @@ void player::use(game *g, char let)
 
  } else if (used->is_gunmod()) {
 
-  if (sklevel[sk_gun] == 0) {
+   if (skillLevel(Skill::skill("gun")) == 0) {
    g->add_msg("You need to be at least level 1 in the firearms skill before you\
  can modify guns.");
    if (replace_item)
@@ -4327,31 +4327,31 @@ void player::use(game *g, char let)
    return;
   }
   it_gun* guntype = dynamic_cast<it_gun*>(gun->type);
-  if (guntype->skill_used == sk_archery || guntype->skill_used == sk_launcher) {
+  if (guntype->skill_used == Skill::skill("archery") || guntype->skill_used == Skill::skill("launcher")) {
    g->add_msg("You cannot mod your %s.", gun->tname(g).c_str());
    if (replace_item)
     inv.add_item(copy);
    return;
   }
-  if (guntype->skill_used == sk_pistol && !mod->used_on_pistol) {
+  if (guntype->skill_used == Skill::skill("pistol") && !mod->used_on_pistol) {
    g->add_msg("That %s cannot be attached to a handgun.",
               used->tname(g).c_str());
    if (replace_item)
     inv.add_item(copy);
    return;
-  } else if (guntype->skill_used == sk_shotgun && !mod->used_on_shotgun) {
+  } else if (guntype->skill_used == Skill::skill("shotgun") && !mod->used_on_shotgun) {
    g->add_msg("That %s cannot be attached to a shotgun.",
               used->tname(g).c_str());
    if (replace_item)
     inv.add_item(copy);
    return;
-  } else if (guntype->skill_used == sk_smg && !mod->used_on_smg) {
+  } else if (guntype->skill_used == Skill::skill("smg") && !mod->used_on_smg) {
    g->add_msg("That %s cannot be attached to a submachine gun.",
               used->tname(g).c_str());
    if (replace_item)
     inv.add_item(copy);
    return;
-  } else if (guntype->skill_used == sk_rifle && !mod->used_on_rifle) {
+  } else if (guntype->skill_used == Skill::skill("rifle") && !mod->used_on_rifle) {
    g->add_msg("That %s cannot be attached to a rifle.",
               used->tname(g).c_str());
    if (replace_item)
@@ -4527,9 +4527,9 @@ int time; //Declare this here so that we can change the time depending on whats 
   g->add_msg("You're illiterate!");
   return;
  }
- else if (tmp->req > sklevel[tmp->type]) {
+ else if (skillLevel(tmp->type) < tmp->req) {
   g->add_msg("The %s-related jargon flies over your head!",
-             skill_name(tmp->type).c_str());
+             tmp->type.name().c_str());
   return;
  } else if (tmp->intel > int_cur) {
   g->add_msg("This book is too complex for you to easily understand. It will take longer to read.");
@@ -4538,9 +4538,9 @@ int time; //Declare this here so that we can change the time depending on whats 
   moves = 0;
   return;
  }
-  else if (tmp->level <= sklevel[tmp->type] && tmp->fun <= 0 &&
+ else if (skillLevel(tmp->type) >= tmp->level && tmp->fun <= 0 &&
             !query_yn("Your %s skill won't be improved.  Read anyway?",
-                      skill_name(tmp->type).c_str()))
+                      tmp->type.name().c_str()))
   return;
 
 // Base read_speed() is 1000 move points (1 minute per tmp->time)
@@ -4865,7 +4865,7 @@ bool player::wearing_something_on(body_part bp)
 
 void player::practice(skill s, int amount)
 {
- skill savant = sk_null;
+  skill savant = sk_null;
  int savant_level = 0, savant_exercise = 0;
  if (skexercise[s] < 0)
   amount += (amount >= -1 * skexercise[s] ? -1 * skexercise[s] : amount);
@@ -4891,6 +4891,34 @@ void player::practice(skill s, int amount)
   }
  }
 }
+
+void player::practice (Skill s, int amount) {
+  SkillLevel& level = skillLevel(s);
+
+  if (level.exercise() < 0) {
+    if (amount >= -level.exercise()) {
+      amount -= level.exercise();
+    } else {
+      amount += amount;
+    }
+  }
+
+  if (has_trait(PF_SAVANT)) {
+    // …
+  }
+
+  uint32_t newLevel;
+
+  while (level.isTraining() && amount > 0 && xp_pool >= (1 + level.level())) {
+    amount -= level.level() + 1;
+    if (rng(0, 100) < level.comprehension(int_cur, has_trait(PF_FASTLEARNER))) {
+      xp_pool -= (1 + level.level());
+
+      skillLevel(s).train(newLevel);
+    }
+  }
+}
+
 void player::assign_activity(activity_type type, int moves, int index)
 {
  if (backlog.type == type && backlog.index == index &&

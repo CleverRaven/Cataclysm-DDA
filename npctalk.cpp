@@ -1440,9 +1440,9 @@ void talk_function::start_training(game *g, npc *p)
   style = itype_id(0 - p->chatbin.tempvalue);
   time = 30000;
  } else {
-  sk_used = skill(p->chatbin.tempvalue);
-  cost = -200 * (1 + g->u.sklevel[sk_used]);
-  time = 10000 + 5000 * g->u.sklevel[sk_used];
+   sk_used = skill(p->chatbin.tempvalue);
+   cost = -200 * (1 + g->u.skillLevel(Skill::skill(sk_used)).level());
+   time = 10000 + 5000 * g->u.skillLevel(Skill::skill(sk_used)).level();
  }
 
 // Pay for it

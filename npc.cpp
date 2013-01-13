@@ -1561,7 +1561,7 @@ int npc::value(item &it)
   it_book* book = dynamic_cast<it_book*>(it.type);
   if (book->intel <= int_cur) {
    ret += book->fun;
-   if (sklevel[book->type] < book->level && sklevel[book->type] >= book->req)
+   if (skillLevel(book->type) < book->level && skillLevel(book->type) >= book->req)
     ret += book->level * 3;
   }
  }

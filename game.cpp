@@ -816,19 +816,20 @@ void game::process_activity()
      u.add_morale(MORALE_BOOK, reading->fun * 5, reading->fun * 15, reading);
     }
 
-    if (u.sklevel[reading->type] < reading->level) {
-     add_msg("You learn a little about %s!", skill_name(reading->type).c_str());
+    if (u.skillLevel(reading->type) < reading->level) {
+      add_msg("You learn a little about %s!", reading->type.name().c_str());
      int min_ex = reading->time / 10 + u.int_cur / 4,
-         max_ex = reading->time /  5 + u.int_cur / 2 - u.sklevel[reading->type];
+       max_ex = reading->time /  5 + u.int_cur / 2 - u.skillLevel(reading->type).level();
      if (min_ex < 1)
       min_ex = 1;
      if (max_ex < 2)
       max_ex = 2;
      if (max_ex > 10)
       max_ex = 10;
-     u.skexercise[reading->type] += rng(min_ex, max_ex);
-     if (u.sklevel[reading->type] +
-        (u.skexercise[reading->type] >= 100 ? 1 : 0) >= reading->level)
+
+     u.skillLevel(reading->type).readBook(min_ex, max_ex, reading->level);
+
+     if (u.skillLevel(reading->type) == reading->level)
       add_msg("You can no longer learn from this %s.", reading->name.c_str());
     }
     break;
@@ -5941,18 +5942,20 @@ void game::plfire(bool burst)
   burst = true;
 
 // Train up our skill
+ Skill gunSkill = Skill::skill("gun");
+
  it_gun* firing = dynamic_cast<it_gun*>(u.weapon.type);
  int num_shots = 1;
  if (burst)
   num_shots = u.weapon.burst_size();
  if (num_shots > u.weapon.num_charges())
    num_shots = u.weapon.num_charges();
- if (u.sklevel[firing->skill_used] == 0 ||
+ if (u.skillLevel(firing->skill_used) == 0 ||
      (firing->ammo != AT_BB && firing->ammo != AT_NAIL))
   u.practice(firing->skill_used, 4 + (num_shots / 2));
- if (u.sklevel[sk_gun] == 0 ||
+ if (u.skillLevel(gunSkill) == 0 ||
      (firing->ammo != AT_BB && firing->ammo != AT_NAIL))
-  u.practice(sk_gun, 5);
+   u.practice(gunSkill, 5);
 
  fire(u, x, y, trajectory, burst);
 }
