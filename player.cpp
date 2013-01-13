@@ -527,9 +527,6 @@ void player::load_info(game *g, std::string data)
    dump >> skillLevel(*aSkill);
  }
 
- for (int i = 0; i < num_skill_types; i++)
-  dump >> sklevel[i] >> skexercise[i] >> sklearn[i];
-
  int numstyles, typetmp;
  dump >> numstyles;
  for (int i = 0; i < numstyles; i++) {
@@ -4861,35 +4858,6 @@ bool player::wearing_something_on(body_part bp)
     return true;
  }
  return false;
-}
-
-void player::practice(skill s, int amount)
-{
-  skill savant = sk_null;
- int savant_level = 0, savant_exercise = 0;
- if (skexercise[s] < 0)
-  amount += (amount >= -1 * skexercise[s] ? -1 * skexercise[s] : amount);
- if (has_trait(PF_SAVANT)) {
-// Find our best skill
-  for (int i = 1; i < num_skill_types; i++) {
-   if (sklevel[i] >= savant_level) {
-    savant = skill(i);
-    savant_level = sklevel[i];
-    savant_exercise = skexercise[i];
-   } else if (sklevel[i] == savant_level && skexercise[i] > savant_exercise) {
-    savant = skill(i);
-    savant_exercise = skexercise[i];
-   }
-  }
- }
- while (sklearn[s] && amount > 0 && xp_pool >= (1 + sklevel[s])) {
-  amount -= sklevel[s] + 1;
-  if ((savant == sk_null || savant == s || !one_in(2)) &&
-       rng(0, 100) < comprehension_percent(s)) {
-   xp_pool -= (1 + sklevel[s]);
-   skexercise[s]++;
-  }
- }
 }
 
 void player::practice (Skill s, int amount) {

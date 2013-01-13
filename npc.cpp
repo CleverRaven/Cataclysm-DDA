@@ -1342,7 +1342,7 @@ std::vector<skill> npc::skills_offered_to(player *p)
  if (p == NULL)
   return ret;
  for (int i = 0; i < num_skill_types; i++) {
-  if (sklevel[i] > p->sklevel[i])
+   if (p->skillLevel(Skill::skill(i)) < sklevel[i])
    ret.push_back( skill(i) );
  }
  return ret;

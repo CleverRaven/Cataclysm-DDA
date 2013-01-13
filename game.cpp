@@ -708,53 +708,38 @@ bool game::do_turn()
   refresh();
  }
 
- update_skills();
+ rustCheck();
  if (turn % 10 == 0)
   u.update_morale();
  return false;
 }
 
-void game::update_skills()
-{
-//    SKILL   TURNS/--
-//	1	4096
-//	2	2048
-//	3	1024
-//	4	 512
-//	5	 256
-//	6	 128
-//	7+	  64
- for (int i = 0; i < num_skill_types; i++) {
-  int tmp = u.sklevel[i] > 7 ? 7 : u.sklevel[i];
+void game::rustCheck() {
+  if (OPTIONS[OPT_SKILL_RUST] == 2)
+    return;
 
-  if (OPTIONS[OPT_SKILL_RUST] == 0 || OPTIONS[OPT_SKILL_RUST] == 1)
-  {
-    if (u.sklevel[i] > 0 && turn % (8192 / int(pow(2, double(tmp - 1)))) == 0 &&
-        (( u.has_trait(PF_FORGETFUL) && one_in(3)) ||
-         (!u.has_trait(PF_FORGETFUL) && one_in(4))   )) {
+  for (EACH_SKILL) {
+    uint32_t skillLevel = u.skillLevel(*aSkill).level();
+    uint32_t forgetCap = skillLevel > 7 ? 7 : skillLevel;
 
-     if (u.has_bionic(bio_memory) && u.power_level > 0) {
+    if (skillLevel > 0 && turn % (8192 / int(pow(2, double(forgetCap - 1))))) {
+      if (rng(1,12) % (u.has_trait(PF_FORGETFUL) ? 3 : 4)) {
+        if (u.has_bionic(bio_memory) && u.power_level > 0) {
           if (one_in(5))
-           u.power_level--;
+            u.power_level--;
+        } else {
+          if (OPTIONS[OPT_SKILL_RUST] == 0 || u.skillLevel(*aSkill).exercise() > 0) {
+            uint32_t newLevel;
+            u.skillLevel(*aSkill).rust(newLevel);
+
+            if (newLevel < skillLevel) {
+              add_msg("Your skill in %s has reduced to %d!", aSkill->name().c_str(), newLevel);
+            }
+          }
         }
-          else
-          u.skexercise[i]--;
-        }
-      if (OPTIONS[OPT_SKILL_RUST] == 1 && u.skexercise[i] < 0)
-      u.skexercise[i] = 0;
+      }
+    }
   }
-  if (u.skexercise[i] < -100) {
-     u.sklevel[i]--;
-     add_msg("Your skill in %s has reduced to %d!",
-             skill_name(skill(i)).c_str(), u.sklevel[i]);
-   u.skexercise[i] = 0;
-  } else if (u.skexercise[i] >= 100) {
-   u.sklevel[i]++;
-   add_msg("Your skill in %s has increased to %d!",
-           skill_name(skill(i)).c_str() ,u.sklevel[i]);
-   u.skexercise[i] = 0;
-  }
- }
 }
 
 void game::process_events()
@@ -2131,8 +2116,8 @@ z.size(), events.size());
    break;
 
   case 11:
-   for (int i = 0; i < num_skill_types; i++)
-    u.sklevel[i] += 3;
+    for (EACH_SKILL)
+      u.skillLevel(*aSkill).level(u.skillLevel(*aSkill).level() + 3);
    break;
 
   case 12:
@@ -2164,12 +2149,8 @@ z.size(), events.size());
             int(p->personality.bravery) << " Collector: " <<
             int(p->personality.collector) << " Altruism: " <<
             int(p->personality.altruism) << std::endl;
-    for (int i = 0; i < num_skill_types; i++) {
-     data << skill_name( skill(i) ) << ": " << p->sklevel[i];
-     if (i % 2 == 1)
-      data << std::endl;
-     else
-      data << "\t";
+    for (EACH_SKILL) {
+      data << aSkill->name() << ": " << p->skillLevel(*aSkill) << std::endl;
     }
 
     full_screen_popup(data.str().c_str());
