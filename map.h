@@ -111,6 +111,7 @@ class map
  bool is_destructable_ter_only(int x, int y);       // only checks terrain
  bool is_outside(int x, int y);
  bool flammable_items_at(int x, int y);
+ bool moppable_items_at(int x, int y);
  point random_outdoor_tile();
 
  void translate(ter_id from, ter_id to); // Change all instances of $from->$to
@@ -123,6 +124,7 @@ class map
  bool hit_with_acid(game *g, int x, int y);
  void marlossify(int x, int y);
  bool has_adjacent_furniture(int x, int y);
+ void mop_spills(int x, int y);
 
 // Radiation
  int& radiation(int x, int y);	// Amount of radiation at (x, y);
