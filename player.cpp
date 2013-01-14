@@ -12,6 +12,8 @@
 #include <sstream>
 #include <stdlib.h>
 
+#include "name.h"
+
 #if (defined _WIN32 || defined WINDOWS)
 	#include "catacurse.h"
 #elif (defined __CYGWIN__)
@@ -201,11 +203,8 @@ void player::normalize(game *g)
  }
 }
 
-void player::pick_name()
-{
- std::stringstream ss;
- ss << random_first_name(male) << " " << random_last_name();
- name = ss.str();
+void player::pick_name() {
+  name = Name::generate(male);
 }
 
 void player::reset(game *g)
@@ -5078,46 +5077,6 @@ bool activity_is_suspendable(activity_type type)
  if (type == ACT_NULL || type == ACT_RELOAD || type == ACT_DISASSEMBLE)
   return false;
  return true;
-}
-
-std::string random_first_name(bool male)
-{
- std::ifstream fin;
- std::string name;
- char buff[256];
- if (male)
-  fin.open("data/NAMES_MALE");
- else
-  fin.open("data/NAMES_FEMALE");
- if (!fin.is_open()) {
-  debugmsg("Could not open npc first names list (%s)",
-           (male ? "NAMES_MALE" : "NAMES_FEMALE"));
-  return "";
- }
- int line = rng(1, NUM_FIRST_NAMES);
- for (int i = 0; i < line; i++)
-  fin.getline(buff, 256);
- name = buff;
- fin.close();
- return name;
-}
-
-std::string random_last_name()
-{
- std::string lastname;
- std::ifstream fin;
- fin.open("data/NAMES_LAST");
- if (!fin.is_open()) {
-  debugmsg("Could not open npc last names list (NAMES_LAST)");
-  return "";
- }
- int line = rng(1, NUM_LAST_NAMES);
- char buff[256];
- for (int i = 0; i < line; i++)
-  fin.getline(buff, 256);
- lastname = buff;
- fin.close();
- return lastname;
 }
 
 SkillLevel& player::skillLevel(std::string ident) {

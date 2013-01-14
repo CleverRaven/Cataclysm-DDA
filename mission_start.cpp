@@ -1,5 +1,6 @@
 #include "mission.h"
 #include "game.h"
+#include "name.h"
 #include <sstream>
 
 /* These functions are responsible for making changes to the game at the moment
@@ -66,8 +67,7 @@ void mission_start::place_zombie_mom(game *g, mission *miss)
 
  tinymap zomhouse(&(g->itypes), &(g->mapitems), &(g->traps));
  zomhouse.load(g, house.x * 2, house.y * 2, false);
- zomhouse.add_spawn(mon_zombie, 1, SEEX, SEEY, false, -1, miss->uid,
-                    random_first_name(false));
+ zomhouse.add_spawn(mon_zombie, 1, SEEX, SEEY, false, -1, miss->uid, Name::get(nameIsFemaleName | nameIsGivenName));
  zomhouse.save(&(g->cur_om), int(g->turn), house.x * 2, house.y * 2);
 }
 

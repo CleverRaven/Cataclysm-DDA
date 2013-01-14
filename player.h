@@ -30,12 +30,6 @@ struct special_attack
  special_attack() { bash = 0; cut = 0; stab = 0; };
 };
 
-#define NUM_FIRST_NAMES 100
-#define NUM_LAST_NAMES  100
-
-std::string random_first_name(bool male);
-std::string random_last_name();
-
 class player {
   std::map<Skill,SkillLevel> _skills;
 
