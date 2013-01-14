@@ -3,6 +3,7 @@
 #include "rng.h"
 #include "keypress.h"
 #include "game.h"
+#include "options.h"
 #include <unistd.h>
 #include <fstream>
 #include <sstream>
@@ -143,7 +144,7 @@ bool player::create(game *g, character_type type, std::string tempname)
   }
   tab = 3;
  } else
-  points = 6;
+  points = OPTIONS[OPT_INITIAL_POINTS];
 
  do {
   werase(w);
