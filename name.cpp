@@ -51,26 +51,27 @@ NameGenerator::NameGenerator() {
   }
 }
 
+std::vector<std::string> NameGenerator::filteredNames(uint32_t searchFlags) {
+  std::vector<std::string> retval;
+
+  for (std::vector<Name>::const_iterator aName = names.begin(); aName != names.end(); ++aName) {
+    if ((aName->flags() & searchFlags) == searchFlags)
+      retval.push_back(aName->value());
+  }
+
+  return retval;
+}
+
+std::string NameGenerator::getName(uint32_t searchFlags) {
+  std::vector<std::string> theseNames = filteredNames(searchFlags);
+
+  return theseNames[std::rand() % theseNames.size()];
+}
+
 std::string NameGenerator::generateName(bool male) {
   uint32_t baseSearchFlags = male ? nameIsMaleName : nameIsFemaleName;
 
-  std::vector<std::string> givenNames;
-
-  uint32_t searchFlags = baseSearchFlags | nameIsGivenName;
-  for (std::vector<Name>::const_iterator aName = names.begin(); aName != names.end(); ++aName) {
-    if ((aName->flags() & searchFlags) == searchFlags)
-      givenNames.push_back(aName->value());
-  }
-
-  std::vector<std::string> familyNames;
-
-  searchFlags = baseSearchFlags | nameIsFamilyName;
-  for (std::vector<Name>::const_iterator aName = names.begin(); aName != names.end(); ++aName) {
-    if ((aName->flags() & searchFlags) == searchFlags)
-      familyNames.push_back(aName->value());
-  }
-
-  return givenNames[std::rand() % givenNames.size()] + " " + familyNames[std::rand() % familyNames.size()];
+  return getName(baseSearchFlags | nameIsGivenName) + " " + getName(baseSearchFlags | nameIsFamilyName);
 }
 
 
@@ -80,6 +81,10 @@ NameGenerator& Name::generator() {
 
 std::string Name::generate(bool male) {
   return NameGenerator::generator().generateName(male);
+}
+
+std::string Name::get(uint32_t searchFlags) {
+  return NameGenerator::generator().getName(searchFlags);
 }
 
 Name::Name() {

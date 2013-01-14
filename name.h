@@ -22,6 +22,8 @@ class Name {
   static NameGenerator& generator();
   static std::string generate(bool male);
 
+  static std::string get(uint32_t searchFlags);
+
   std::string value() const { return _value; }
   uint32_t flags() const { return _flags; }
 
@@ -44,6 +46,10 @@ class NameGenerator {
   }
 
   std::string generateName(bool male);
+
+  std::vector<std::string> filteredNames(uint32_t searchFlags);
+  std::string getName(uint32_t searchFlags);
+
  private:
   NameGenerator();
 
