@@ -796,11 +796,6 @@ MELEE("broom",		30, 24, '/', c_blue,	PLASTIC,MNULL,
 A long-handled broom. Makes a terrible weapon unless you're chasing cats.");
 TECH( mfb(TEC_WBLOCK_1) );
 
-MELEE("mop",		20, 28, '/', c_ltblue,	PLASTIC,MNULL,
-	11, 12,  5,  0, -2, 0, "\
-An unwieldy mop. Essentially useless.");
-TECH( mfb(TEC_WBLOCK_1) );
-
 MELEE("sledge hammer",	 6, 120,'/', c_brown,	WOOD,	IRON,
 	18, 38, 40,  0,  0, 0, "\
 A large, heavy hammer. Makes a good melee weapon for the very strong, but is\n\
@@ -3389,6 +3384,11 @@ TOOL("radio (on)",	 0, 420,';', c_yellow,	PLASTIC, IRON,
     4,  2,  4,  0, -1, 100,100, 0,  8, AT_BATT, itm_radio,&iuse::radio_on, 0,"\
 This radio is turned on, and continually draining its batteries. It is\n\
 playing the broadcast being sent from any nearby radio towers.");
+
+TOOL("mop",		30, 24, '/', c_blue, PLASTIC, MNULL,
+   10, 8,   6,  0,  1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::mop, 0, "\
+An unwieldy mop. Good for cleaning up spills.");
+TECH( mfb(TEC_WBLOCK_1) );
 
 TOOL("crowbar",		18, 130,';', c_ltblue,	IRON,	MNULL,
     4,  9, 16,  3,  2,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::crowbar, 0,"\
