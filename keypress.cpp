@@ -210,6 +210,7 @@ peek L X\n\
 inventory i\n\
 organize =\n\
 apply a\n\
+apply_wielded A\n\
 wear W\n\
 take_off T\n\
 eat E\n\

@@ -1388,6 +1388,10 @@ input_ret game::get_input(int timeout_ms)
    use_item();
    break;
 
+  case ACTION_USE_WIELDED:
+   use_wielded_item();
+   break;
+
   case ACTION_WEAR:
    wear();
    break;
@@ -4110,6 +4114,11 @@ void game::use_item()
  }
  last_action += ch;
  u.use(this, ch);
+}
+
+void game::use_wielded_item()
+{
+  u.use_wielded(this);
 }
 
 bool game::pl_choose_vehicle (int &x, int &y)
