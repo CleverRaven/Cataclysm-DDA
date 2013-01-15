@@ -90,7 +90,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, sk_null, sk_null, 0, 100, true);
  RECIPE(itm_molotov, CC_WEAPON, sk_null, sk_null, 0, 500, false);
   COMP(itm_rag, 1, NULL);
   COMP(itm_bottle_glass, 1, itm_flask_glass, 1, NULL);
-  COMP(itm_whiskey, 7, itm_vodka, 7, itm_rum, 7, itm_tequila, 7,
+  COMP(itm_whiskey, 21, itm_vodka, 21, itm_rum, 21, itm_tequila, 21,
        itm_gasoline, 200, NULL);
 
  RECIPE(itm_pipebomb, CC_WEAPON, sk_mechanics, sk_null, 1, 750, false);

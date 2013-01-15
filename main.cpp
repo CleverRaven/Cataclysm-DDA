@@ -18,7 +18,8 @@
 #include "options.h"
 #include "mapbuffer.h"
 #include "debug.h"
-//#include <sys/stat.h>
+#include <sys/stat.h>
+#include <cstdlib>
 
 int main(int argc, char *argv[])
 {
