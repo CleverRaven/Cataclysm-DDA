@@ -79,13 +79,15 @@ option_key lookup_option_key(std::string id)
  if (id == "gradual_night_light")
   return OPT_GRADUAL_NIGHT_LIGHT;
  if (id == "query_disassemble")
-  return OPT_QUERY_DISASSEMBLE;  
+  return OPT_QUERY_DISASSEMBLE;
  if (id == "drop_empty")
-  return OPT_DROP_EMPTY;  
+  return OPT_DROP_EMPTY;
  if (id == "skill_rust")
   return OPT_SKILL_RUST;
  if (id == "delete_world")
-  return OPT_DELETE_WORLD;      
+  return OPT_DELETE_WORLD;
+ if (id == "initial_points")
+  return OPT_INITIAL_POINTS;
  return OPT_NULL;
 }
 
@@ -105,7 +107,8 @@ std::string option_string(option_key key)
   case OPT_QUERY_DISASSEMBLE: return "query_disassemble";
   case OPT_DROP_EMPTY: return "drop_empty";
   case OPT_SKILL_RUST: return "skill_rust";
-  case OPT_DELETE_WORLD: return "delete_world";  
+  case OPT_DELETE_WORLD: return "delete_world";
+  case OPT_INITIAL_POINTS: return "inital_points";
   default:			return "unknown_option";
  }
  return "unknown_option";
@@ -125,9 +128,10 @@ std::string option_desc(option_key key)
   case OPT_AUTOSAVE:    	return "If true, game will periodically\nsave the map";
   case OPT_GRADUAL_NIGHT_LIGHT: return "If true will add nice gradual-lighting\n(should only make a difference @night)";
   case OPT_QUERY_DISASSEMBLE: return "If true, will query before disassembling\nitems";
-  case OPT_DROP_EMPTY: return "Set to drop empty containers after use\n0 - don't drop any\n1 - all except watertight containers\n2 - all containers";  
+  case OPT_DROP_EMPTY: return "Set to drop empty containers after use\n0 - don't drop any\n1 - all except watertight containers\n2 - all containers";
   case OPT_SKILL_RUST: return "Set the level of skill rust\n0 - vanilla Cataclysm\n1 - capped at skill levels\n2 - none at all";
   case OPT_DELETE_WORLD: return "Delete saves upon player death\n0 - no\n1 - yes\n2 - query";
+  case OPT_INITIAL_POINTS: return "Initial points available on character generation.\nDefault is 6";
   default:			return " ";
  }
  return "Big ol Bug";
@@ -147,9 +151,10 @@ std::string option_name(option_key key)
   case OPT_AUTOSAVE:    	return "Periodically Autosave";
   case OPT_GRADUAL_NIGHT_LIGHT: return "Gradual night light";
   case OPT_QUERY_DISASSEMBLE: return "Query on disassembly";
-  case OPT_DROP_EMPTY: return "Drop empty containers";  
+  case OPT_DROP_EMPTY: return "Drop empty containers";
   case OPT_SKILL_RUST: return "Skill Rust";
-  case OPT_DELETE_WORLD: return "Delete World";  
+  case OPT_DELETE_WORLD: return "Delete World";
+  case OPT_INITIAL_POINTS: return "Intial points";
   default:			return "Unknown Option (BUG)";
  }
  return "Big ol Bug";
@@ -161,6 +166,7 @@ bool option_is_bool(option_key id)
   case OPT_SKILL_RUST:
   case OPT_DROP_EMPTY:
   case OPT_DELETE_WORLD:
+  case OPT_INITIAL_POINTS:
     return false;
     break;
   default:
@@ -172,11 +178,14 @@ bool option_is_bool(option_key id)
 char option_max_options(option_key id)
 {
   char ret;
-  if (option_is_bool(id)) 
+  if (option_is_bool(id))
     ret = 2;
   else
     switch (id)
     {
+      case OPT_INITIAL_POINTS:
+        ret = 25;
+        break;
       case OPT_DELETE_WORLD:
       case OPT_DROP_EMPTY:
       case OPT_SKILL_RUST:
@@ -228,6 +237,8 @@ drop_empty 0\n\
 skill_rust 0\n\
 # Delete world after player death: 0 - no, 1 - yes, 2 - query\n\
 delete_world 0\n\
+# Initial points available in character generation\n\
+initial_points 6\n\
 ";
  fout.close();
 }
