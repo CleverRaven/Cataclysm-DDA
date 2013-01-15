@@ -2839,6 +2839,7 @@ void iuse::mop(game *g, player *p, item *it, bool t)
  diry += p->posy;
  if (g->m.moppable_items_at(dirx, diry)) {
    g->m.mop_spills(dirx, diry);
+   g->add_msg("You mop up the spill");
  } else {
   g->add_msg_if_player(p,"There's nothing to mop there.");
  }

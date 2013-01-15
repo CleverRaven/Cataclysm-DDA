@@ -3385,11 +3385,6 @@ TOOL("radio (on)",	 0, 420,';', c_yellow,	PLASTIC, IRON,
 This radio is turned on, and continually draining its batteries. It is\n\
 playing the broadcast being sent from any nearby radio towers.");
 
-TOOL("mop",		30, 24, '/', c_blue, PLASTIC, MNULL,
-   10, 8,   6,  0,  1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::mop, 0, "\
-An unwieldy mop. Good for cleaning up spills.");
-TECH( mfb(TEC_WBLOCK_1) );
-
 TOOL("crowbar",		18, 130,';', c_ltblue,	IRON,	MNULL,
     4,  9, 16,  3,  2,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::crowbar, 0,"\
 A prying tool. Use it to open locked doors without destroying them, or to\n\
@@ -3738,7 +3733,7 @@ you are standing on.");
 //  NAME        RAR PRC SYM  COLOR  MAT1    MAT
 TOOL("welder",   25,900,';', c_ltred,  IRON,MNULL,
 // VOL WGT DAM CUT HIT   MAX DEF  USE SEC   FUEL    REVERT    FUNCTION
-     6, 24,  7,  0, -1, 1000,  0,  50,  0, AT_BATT, itm_null, &iuse::none,
+     6, 24,  7,  0, -1, 500,  0,  50,  0, AT_BATT, itm_null, &iuse::none,
 0, "\
 A tool for welding metal pieces together. Useful for construction.");
 
@@ -3856,6 +3851,11 @@ TOOL("bolt cutters",		5, 100, ';', c_blue,	STEEL,	PLASTIC,
     5,  4, 10,  4,  1,   0,  0, 0,  0, AT_NULL, itm_null, &iuse::boltcutters, 0, "\
 A large pair of bolt cutters, you could use them to cut padlocks or heavy\n\
 gauge wire.");
+
+TOOL("mop",		30, 24, '/', c_blue, PLASTIC, MNULL,
+   10, 8,   6,  0,  1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::mop, 0, "\
+An unwieldy mop. Good for cleaning up spills.");
+TECH( mfb(TEC_WBLOCK_1) );
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

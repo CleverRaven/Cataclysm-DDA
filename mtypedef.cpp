@@ -219,7 +219,7 @@ rage."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
 
-mon("zombie",	species_zombie, 'Z',	c_blue,	MS_MEDIUM,	FLESH,
+mon("zombie cop",	species_zombie, 'Z',	c_blue,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 2,  3,100,100, 70,  8,  1,  5,  0,  1,  0,  0, 40, 50,  0,
 	&mdeath::normal,	&mattack::none, "\
@@ -386,7 +386,7 @@ a better grasp of movement than most..."
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON);
 ANGER(MTRIG_HURT, MTRIG_PLAYER_WEAK);
 
-mon("zombie",	species_zombie, 'Z',	c_yellow,	MS_MEDIUM,	FLESH,
+mon("scarred zombie",	species_zombie, 'Z',	c_yellow,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 90,  3,100,100, 40,  8,  1,  5,  0,  1, 12, 8, 20, 60,  0,
 	&mdeath::normal,	&mattack::none, "\

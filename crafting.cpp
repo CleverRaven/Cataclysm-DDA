@@ -52,7 +52,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, sk_null, sk_null, 0, 100, true);
  RECIPE(itm_lawnmower_halberd, CC_WEAPON, sk_null, sk_null, 0, 5000, true);
   COMP(itm_duct_tape, 100, NULL);
   COMP(itm_lawnmower_blade, 1, NULL);
-  COMP(itm_stick, 1, itm_mop, 1, NULL);
+  COMP(itm_stick, 1, itm_mop, 1, itm_broom, 1, NULL);
 
  RECIPE(itm_spear_wood, CC_WEAPON, sk_null, sk_null, 0, 800, false);
   TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
