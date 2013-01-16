@@ -665,28 +665,12 @@ bool game::do_turn()
   cleanup_dead();
   if (!u.has_disease(DI_SLEEP) && u.activity.type == ACT_NULL)
    draw();
-  if( get_input(autosave_timeout()) == IR_TIMEOUT)
-  {
-    autosave();
-    return false;
-  }
-  if (is_game_over()) {
-   if (uquit == QUIT_DIED)
-    popup_top("Game over! Press spacebar...");
-   if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
-    death_screen();
-    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
-    {
-      if (OPTIONS[OPT_DELETE_WORLD] == 1)
-          uquit = QUIT_DELETE_WORLD;        
-      else if (OPTIONS[OPT_DELETE_WORLD] == 2)
-        if (query_yn("Delete the world and all saves?"))
-          uquit = QUIT_DELETE_WORLD;
-    }
-   return true;
-  }
+
+  if (get_input(autosave_timeout()) == IR_GOOD)
+    ++moves_since_last_save;
+
+  return false;
  }
- ++moves_since_last_save;
  update_scent();
  m.vehmove(this);
  m.process_fields(this);
