@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <stdint.h>
 
 typedef enum {
   nameIsMaleName = 1,
