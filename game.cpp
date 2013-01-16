@@ -7892,7 +7892,7 @@ int game::autosave_timeout()
 
 void game::autosave()
 {
-  if (!moves_since_last_save && !item_exchanges_since_save && !u.in_vehicle)
+  if (u.in_vehicle || !moves_since_last_save && !item_exchanges_since_save)
     return;
 
   save();
