@@ -647,7 +647,7 @@ bool game::do_turn()
   u.get_sick(this);
 // Auto-save on the half-hour if autosave is enabled
   if (OPTIONS[OPT_AUTOSAVE])
-    save();
+    autosave();
  }
 // Update the weather, if it's time.
  if (turn >= nextweather)
@@ -666,28 +666,12 @@ bool game::do_turn()
   cleanup_dead();
   if (!u.has_disease(DI_SLEEP) && u.activity.type == ACT_NULL)
    draw();
-  if( get_input(autosave_timeout()) == IR_TIMEOUT && !u.in_vehicle)
-  {
-    autosave();
-    return false;
-  }
-  if (is_game_over()) {
-   if (uquit == QUIT_DIED)
-    popup_top("Game over! Press spacebar...");
-   if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
-    death_screen();
-    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
-    {
-      if (OPTIONS[OPT_DELETE_WORLD] == 1)
-          uquit = QUIT_DELETE_WORLD;        
-      else if (OPTIONS[OPT_DELETE_WORLD] == 2)
-        if (query_yn("Delete the world and all saves?"))
-          uquit = QUIT_DELETE_WORLD;
-    }
-   return true;
-  }
+
+  if (get_input(autosave_timeout()) == IR_GOOD)
+    ++moves_since_last_save;
+
+  return false;
  }
- ++moves_since_last_save;
  update_scent();
  m.vehmove(this);
  m.process_fields(this);
@@ -7900,11 +7884,13 @@ int game::autosave_timeout()
 
 void game::autosave()
 {
- if (!moves_since_last_save && !item_exchanges_since_save)
-  return;
- MAPBUFFER.save();
- moves_since_last_save = 0;
- item_exchanges_since_save = 0;
+  if (u.in_vehicle || !moves_since_last_save && !item_exchanges_since_save)
+    return;
+
+  save();
+
+  moves_since_last_save = 0;
+  item_exchanges_since_save = 0;
 }
 
 void intro()
