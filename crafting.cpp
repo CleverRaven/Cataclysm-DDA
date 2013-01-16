@@ -441,7 +441,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
 // FOOD
 
- RECIPE(itm_water_clean, CC_FOOD, sk_cooking, sk_null, 0, 5000, false);
+ RECIPE(itm_water_clean, CC_DRINK, sk_cooking, sk_null, 0, 5000, false);
   TOOL(itm_hotplate, 3, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, NULL);
   COMP(itm_water, 1, NULL);
@@ -484,28 +484,28 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   TOOL(itm_pan, -1, itm_pot, -1, NULL);
   COMP(itm_potato_raw, 1, NULL);
 
- RECIPE(itm_tea, CC_FOOD, sk_cooking, sk_null, 0, 4000, false);
+ RECIPE(itm_tea, CC_DRINK, sk_cooking, sk_null, 0, 4000, false);
   TOOL(itm_hotplate, 2, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_tea_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
- RECIPE(itm_coffee, CC_FOOD, sk_cooking, sk_null, 0, 4000, false);
+ RECIPE(itm_coffee, CC_DRINK, sk_cooking, sk_null, 0, 4000, false);
   TOOL(itm_hotplate, 2, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_coffee_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
- RECIPE(itm_oj, CC_FOOD, sk_cooking, sk_null, 1, 5000, false);
+ RECIPE(itm_oj, CC_DRINK, sk_cooking, sk_null, 1, 5000, false);
   TOOL(itm_rock, -1, itm_toolset, -1, NULL);
   COMP(itm_orange, 2, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
- RECIPE(itm_apple_cider, CC_FOOD, sk_cooking, sk_null, 2, 7000, false);
+ RECIPE(itm_apple_cider, CC_DRINK, sk_cooking, sk_null, 2, 7000, false);
   TOOL(itm_rock, -1, itm_toolset, -1, NULL);
   COMP(itm_apple, 3, NULL);
 
- RECIPE(itm_long_island, CC_FOOD, sk_cooking, sk_null, 1, 7000, false);
+ RECIPE(itm_long_island, CC_DRINK, sk_cooking, sk_null, 1, 7000, false);
   COMP(itm_cola, 1, NULL);
   COMP(itm_vodka, 1, NULL);
   COMP(itm_gin, 1, NULL);
@@ -558,31 +558,31 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
   COMP(itm_sauce_pesto, 1, itm_sauce_red, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
- RECIPE(itm_meth, CC_FOOD, sk_cooking, sk_null, 5, 20000, false);
+ RECIPE(itm_meth, CC_CHEM, sk_cooking, sk_null, 5, 20000, false);
   TOOL(itm_hotplate, 15, itm_toolset, 8, itm_fire, -1, NULL);
   TOOL(itm_bottle_glass, -1, itm_hose, -1, NULL);
   COMP(itm_dayquil, 2, itm_royal_jelly, 1, NULL);
   COMP(itm_aspirin, 40, NULL);
   COMP(itm_caffeine, 20, itm_adderall, 5, itm_energy_drink, 2, NULL);
 
- RECIPE(itm_royal_jelly, CC_FOOD, sk_cooking, sk_null, 5, 5000, false);
+ RECIPE(itm_royal_jelly, CC_CHEM, sk_cooking, sk_null, 5, 5000, false);
   COMP(itm_honeycomb, 1, NULL);
   COMP(itm_bleach, 2, itm_purifier, 1, NULL);
 
- RECIPE(itm_heroin, CC_FOOD, sk_cooking, sk_null, 6, 2000, false);
+ RECIPE(itm_heroin, CC_CHEM, sk_cooking, sk_null, 6, 2000, false);
   TOOL(itm_hotplate, 3, itm_toolset, 2, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, NULL);
   COMP(itm_salt_water, 1, itm_salt, 4, NULL);
   COMP(itm_oxycodone, 40, NULL);
 
- RECIPE(itm_mutagen, CC_FOOD, sk_cooking, sk_firstaid, 8, 10000, false);
+ RECIPE(itm_mutagen, CC_CHEM, sk_cooking, sk_firstaid, 8, 10000, false);
   TOOL(itm_hotplate, 25, itm_toolset, 12, itm_fire, -1, NULL);
   COMP(itm_meat_tainted, 3, itm_veggy_tainted, 5, itm_fetus, 1, itm_arm, 2,
        itm_leg, 2, NULL);
   COMP(itm_bleach, 2, NULL);
   COMP(itm_ammonia, 1, NULL);
 
- RECIPE(itm_purifier, CC_FOOD, sk_cooking, sk_firstaid, 9, 10000, false);
+ RECIPE(itm_purifier, CC_CHEM, sk_cooking, sk_firstaid, 9, 10000, false);
   TOOL(itm_hotplate, 25, itm_toolset, 12, itm_fire, -1, NULL);
   COMP(itm_royal_jelly, 4, itm_mutagen, 2, NULL);
   COMP(itm_bleach, 3, NULL);
@@ -1320,7 +1320,7 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
  mvwputch(w, 2, 74, c_ltgray, LINE_XXOX);
 
  mvwprintz(w, 1, 0, c_ltgray, "\
-      OFFENSE         FOOD         ELECTRONICS         ARMOR         MISC");
+      OFFENSE        COMEST        ELECTRONICS         ARMOR         MISC");
  mvwputch(w, 1,  4, c_ltgray, LINE_XOXO);
  mvwputch(w, 1, 20, c_ltgray, LINE_XOXO);
  mvwputch(w, 1, 33, c_ltgray, LINE_XOXO);
@@ -1354,7 +1354,25 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
  case CC_FOOD:
   for (int i = 21; i < 27; i++)
    mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 22, h_ltgray, "FOOD");
+  mvwprintz(w, 1, 21, h_ltgray, " FOOD ");
+  mvwputch(w, 2, 20, c_ltgray, LINE_XOOX);
+  mvwputch(w, 2, 27, c_ltgray, LINE_XXOO);
+  mvwputch(w, 1, 18, h_ltgray, '<');
+  mvwputch(w, 1, 29, h_ltgray, '>');
+  break;
+   case CC_DRINK:
+  for (int i = 21; i < 27; i++)
+   mvwputch(w, 2, i, c_black, ' ');
+  mvwprintz(w, 1, 21, h_ltgray, "DRINKS");
+  mvwputch(w, 2, 20, c_ltgray, LINE_XOOX);
+  mvwputch(w, 2, 27, c_ltgray, LINE_XXOO);
+  mvwputch(w, 1, 18, h_ltgray, '<');
+  mvwputch(w, 1, 29, h_ltgray, '>');
+  break;
+   case CC_CHEM:
+  for (int i = 21; i < 27; i++)
+   mvwputch(w, 2, i, c_black, ' ');
+  mvwprintz(w, 1, 21, h_ltgray, " CHEMS");
   mvwputch(w, 2, 20, c_ltgray, LINE_XOOX);
   mvwputch(w, 2, 27, c_ltgray, LINE_XXOO);
   mvwputch(w, 1, 18, h_ltgray, '<');

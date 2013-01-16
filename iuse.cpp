@@ -969,6 +969,7 @@ void iuse::light_off(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You turn the flashlight on.");
   it->make(g->itypes[itm_flashlight_on]);
   it->active = true;
+  it->charges --;
  }
 }
  
