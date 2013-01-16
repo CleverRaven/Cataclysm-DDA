@@ -646,7 +646,7 @@ bool game::do_turn()
   u.get_sick(this);
 // Auto-save on the half-hour if autosave is enabled
   if (OPTIONS[OPT_AUTOSAVE])
-    save();
+    autosave();
  }
 // Update the weather, if it's time.
  if (turn >= nextweather)
@@ -7894,7 +7894,7 @@ void game::autosave()
 {
  if (!moves_since_last_save && !item_exchanges_since_save)
   return;
- MAPBUFFER.save();
+ save();
  moves_since_last_save = 0;
  item_exchanges_since_save = 0;
 }
