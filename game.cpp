@@ -644,8 +644,9 @@ bool game::do_turn()
   if (u.radiation > 1 && one_in(3))
    u.radiation--;
   u.get_sick(this);
-// Auto-save on the half-hour
-  save();
+// Auto-save on the half-hour if autosave is enabled
+  if (OPTIONS[OPT_AUTOSAVE])
+    save();
  }
 // Update the weather, if it's time.
  if (turn >= nextweather)

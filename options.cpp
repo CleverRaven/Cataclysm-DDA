@@ -108,7 +108,7 @@ std::string option_string(option_key key)
   case OPT_DROP_EMPTY: return "drop_empty";
   case OPT_SKILL_RUST: return "skill_rust";
   case OPT_DELETE_WORLD: return "delete_world";
-  case OPT_INITIAL_POINTS: return "inital_points";
+  case OPT_INITIAL_POINTS: return "initial_points";
   default:			return "unknown_option";
  }
  return "unknown_option";
@@ -154,7 +154,7 @@ std::string option_name(option_key key)
   case OPT_DROP_EMPTY: return "Drop empty containers";
   case OPT_SKILL_RUST: return "Skill Rust";
   case OPT_DELETE_WORLD: return "Delete World";
-  case OPT_INITIAL_POINTS: return "Intial points";
+  case OPT_INITIAL_POINTS: return "Initial points";
   default:			return "Unknown Option (BUG)";
  }
  return "Big ol Bug";
