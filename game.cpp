@@ -665,7 +665,7 @@ bool game::do_turn()
   cleanup_dead();
   if (!u.has_disease(DI_SLEEP) && u.activity.type == ACT_NULL)
    draw();
-  if( get_input(autosave_timeout()) == IR_TIMEOUT && !u.in_vehicle)
+  if( get_input(autosave_timeout()) == IR_TIMEOUT)
   {
     autosave();
     return false;
@@ -7892,11 +7892,13 @@ int game::autosave_timeout()
 
 void game::autosave()
 {
- if (!moves_since_last_save && !item_exchanges_since_save)
-  return;
- save();
- moves_since_last_save = 0;
- item_exchanges_since_save = 0;
+  if (!moves_since_last_save && !item_exchanges_since_save && !u.in_vehicle)
+    return;
+
+  save();
+
+  moves_since_last_save = 0;
+  item_exchanges_since_save = 0;
 }
 
 void intro()
