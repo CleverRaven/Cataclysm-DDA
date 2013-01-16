@@ -2280,15 +2280,19 @@ void overmap::place_mongroups()
  zg.push_back(
 	mongroup(mcat_forest, 0, OMAPY, OMAPY,
                  rng(2000, 12000)));
+ zg.back().diffuse = true;
  zg.push_back(
 	mongroup(mcat_forest, 0, OMAPY * 2 - 1, OMAPY,
                  rng(2000, 12000)));
+ zg.back().diffuse = true;
  zg.push_back(
 	mongroup(mcat_forest, OMAPX, 0, OMAPX,
                  rng(2000, 12000)));
+ zg.back().diffuse = true;
  zg.push_back(
 	mongroup(mcat_forest, OMAPX * 2 - 1, 0, OMAPX,
                  rng(2000, 12000)));
+ zg.back().diffuse = true;
 }
 
 void overmap::place_radios()
@@ -2336,7 +2340,8 @@ void overmap::save(std::string name, int x, int y, int z)
  fout << std::endl;
  for (int i = 0; i < zg.size(); i++)
   fout << "Z " << zg[i].type << " " << zg[i].posx << " " << zg[i].posy << " " <<
-          int(zg[i].radius) << " " << zg[i].population << std::endl;
+    int(zg[i].radius) << " " << zg[i].population << " " << zg[i].diffuse <<
+    std::endl;
  for (int i = 0; i < cities.size(); i++)
   fout << "t " << cities[i].x << " " << cities[i].y << " " << cities[i].s <<
           std::endl;
@@ -2358,7 +2363,7 @@ void overmap::open(game *g, int x, int y, int z)
  std::stringstream plrfilename, terfilename;
  std::ifstream fin;
  char datatype;
- int ct, cx, cy, cs, cp;
+ int ct, cx, cy, cs, cp, cd;
  city tmp;
  std::vector<item> npc_inventory;
 
@@ -2381,9 +2386,10 @@ void overmap::open(game *g, int x, int y, int z)
    }
   }
   while (fin >> datatype) {
-          if (datatype == 'Z') {	// Monster group
-    fin >> ct >> cx >> cy >> cs >> cp;
+   if (datatype == 'Z') {	// Monster group
+    fin >> ct >> cx >> cy >> cs >> cp >> cd;
     zg.push_back(mongroup(moncat_id(ct), cx, cy, cs, cp));
+    zg.back().diffuse = cd;
     nummg++;
    } else if (datatype == 't') {	// City
     fin >> cx >> cy >> cs;
