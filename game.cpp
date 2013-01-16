@@ -664,7 +664,7 @@ bool game::do_turn()
   cleanup_dead();
   if (!u.has_disease(DI_SLEEP) && u.activity.type == ACT_NULL)
    draw();
-  if( get_input(autosave_timeout()) == IR_TIMEOUT )
+  if( get_input(autosave_timeout()) == IR_TIMEOUT && !u.in_vehicle)
   {
     autosave();
     return false;
