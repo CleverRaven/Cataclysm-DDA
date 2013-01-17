@@ -308,6 +308,7 @@ class game
   void complete_butcher(int index);	// Finish the butchering process
   void eat();	  // Eat food or fuel		'E' (or 'a')
   void use_item();// Use item; also tries E,R,W	'a'
+  void use_wielded_item();
   void wear();	  // Wear armor			'W' (or 'a')
   void takeoff(); // Remove armor		'T'
   void reload();  // Reload a wielded gun/tool	'r'

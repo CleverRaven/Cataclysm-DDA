@@ -572,7 +572,8 @@ bool game::do_turn()
     int group = valid_group((mon_id)(z[i].type->id), levx, levy);
     if (group != -1) {
      cur_om.zg[group].population++;
-     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5)
+     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
+         !cur_om.zg[group].diffuse)
       cur_om.zg[group].radius++;
     }
    }
@@ -644,8 +645,9 @@ bool game::do_turn()
   if (u.radiation > 1 && one_in(3))
    u.radiation--;
   u.get_sick(this);
-// Auto-save on the half-hour
-  save();
+// Auto-save on the half-hour if autosave is enabled
+  if (OPTIONS[OPT_AUTOSAVE])
+    autosave();
  }
 // Update the weather, if it's time.
  if (turn >= nextweather)
@@ -664,28 +666,10 @@ bool game::do_turn()
   cleanup_dead();
   if (!u.has_disease(DI_SLEEP) && u.activity.type == ACT_NULL)
    draw();
-  if( get_input(autosave_timeout()) == IR_TIMEOUT )
-  {
-    autosave();
-    return false;
-  }
-  if (is_game_over()) {
-   if (uquit == QUIT_DIED)
-    popup_top("Game over! Press spacebar...");
-   if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
-    death_screen();
-    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
-    {
-      if (OPTIONS[OPT_DELETE_WORLD] == 1)
-          uquit = QUIT_DELETE_WORLD;        
-      else if (OPTIONS[OPT_DELETE_WORLD] == 2)
-        if (query_yn("Delete the world and all saves?"))
-          uquit = QUIT_DELETE_WORLD;
-    }
-   return true;
-  }
+
+  if (get_input(autosave_timeout()) == IR_GOOD)
+    ++moves_since_last_save;
  }
- ++moves_since_last_save;
  update_scent();
  m.vehmove(this);
  m.process_fields(this);
@@ -1372,6 +1356,10 @@ input_ret game::get_input(int timeout_ms)
 
   case ACTION_USE:
    use_item();
+   break;
+
+  case ACTION_USE_WIELDED:
+   use_wielded_item();
    break;
 
   case ACTION_WEAR:
@@ -3321,7 +3309,8 @@ void game::monmove()
     int group = valid_group((mon_id)(z[i].type->id), levx, levy);
     if (group != -1) {
      cur_om.zg[group].population++;
-     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5)
+     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
+         !cur_om.zg[group].diffuse )
       cur_om.zg[group].radius++;
     } else if (mt_to_mc((mon_id)(z[i].type->id)) != mcat_null) {
      cur_om.zg.push_back(mongroup(mt_to_mc((mon_id)(z[i].type->id)),
@@ -4092,6 +4081,11 @@ void game::use_item()
  }
  last_action += ch;
  u.use(this, ch);
+}
+
+void game::use_wielded_item()
+{
+  u.use_wielded(this);
 }
 
 bool game::pl_choose_vehicle (int &x, int &y)
@@ -7122,7 +7116,8 @@ void game::update_map(int &x, int &y)
     group = valid_group((mon_id)(z[i].type->id), levx + shiftx, levy + shifty);
     if (group != -1) {
      cur_om.zg[group].population++;
-     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5)
+     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
+         !cur_om.zg[group].diffuse)
       cur_om.zg[group].radius++;
     }
 /*  Removing adding new groups for now.  Haha!
@@ -7422,14 +7417,18 @@ void game::spawn_mon(int shiftx, int shifty)
   if (dist <= rad) {
 // (The area of the group's territory) in (population/square at this range)
 // chance of adding one monster; cap at the population OR 16
-   while (long((1.0 - double(dist / rad)) * pop) > rng(0, pow(rad, 2.0)) &&
+   while ( (cur_om.zg[i].diffuse ? 
+            long( pop) : 
+            long((1.0 - double(dist / rad)) * pop) )
+	  > rng(0, pow(rad, 2.0)) &&
           rng(0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
     group++;
 
    cur_om.zg[i].population -= group;
    // Reduce group radius proportionally to remaining
    // population to maintain a minimal population density.
-   if (cur_om.zg[i].population / pow(cur_om.zg[i].radius, 2.0) < 1.0)
+   if (cur_om.zg[i].population / pow(cur_om.zg[i].radius, 2.0) < 1.0 &&
+       !cur_om.zg[i].diffuse)
      cur_om.zg[i].radius--;
 
    if (group > 0) // If we spawned some zombies, advance the timer
@@ -7535,7 +7534,8 @@ int game::valid_group(mon_id type, int x, int y)
 // If there's a group that's ALMOST big enough, expand that group's radius
 // by one and absorb into that group.
    int semi = rng(0, semi_valid.size() - 1);
-   cur_om.zg[semi_valid[semi]].radius++;
+   if (!cur_om.zg[semi_valid[semi]].diffuse)
+    cur_om.zg[semi_valid[semi]].radius++;
    return semi_valid[semi];
   }
  }
@@ -7875,11 +7875,13 @@ int game::autosave_timeout()
 
 void game::autosave()
 {
- if (!moves_since_last_save && !item_exchanges_since_save)
-  return;
- MAPBUFFER.save();
- moves_since_last_save = 0;
- item_exchanges_since_save = 0;
+  if (u.in_vehicle || !moves_since_last_save && !item_exchanges_since_save)
+    return;
+
+  save();
+
+  moves_since_last_save = 0;
+  item_exchanges_since_save = 0;
 }
 
 void intro()

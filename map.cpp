@@ -790,6 +790,16 @@ bool map::flammable_items_at(int x, int y)
  return false;
 }
 
+bool map::moppable_items_at(int x, int y)
+{
+ for (int i = 0; i < i_at(x, y).size(); i++) {
+  item *it = &(i_at(x, y)[i]);
+  if (it->made_of(LIQUID))
+   return true;
+ }
+ return false;
+}
+
 point map::random_outdoor_tile()
 {
  std::vector<point> options;
@@ -818,6 +828,16 @@ bool map::has_adjacent_furniture(int x, int y)
      return true;
    }
  return false;
+}
+
+void map::mop_spills(int x, int y) {
+ for (int i = 0; i < i_at(x, y).size(); i++) {
+  item *it = &(i_at(x, y)[i]);
+  if (it->made_of(LIQUID)) {
+    i_rem(x, y, i);
+    i--;
+  }
+ }
 }
 
 bool map::bash(int x, int y, int str, std::string &sound, int *res)

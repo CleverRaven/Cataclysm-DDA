@@ -135,6 +135,8 @@ std::string action_ident(action_id act)
    return "organize";
   case ACTION_USE:
    return "apply";
+  case ACTION_USE_WIELDED:
+   return "apply_wielded";
   case ACTION_WEAR:
    return "wear";
   case ACTION_TAKE_OFF:
@@ -172,7 +174,7 @@ std::string action_ident(action_id act)
   case ACTION_CONSTRUCT:
    return "construct";
   case ACTION_DISASSEMBLE:
-   return "disassemble";   
+   return "disassemble";
   case ACTION_SLEEP:
    return "sleep";
   case ACTION_TOGGLE_SAFEMODE:
@@ -269,6 +271,8 @@ std::string action_name(action_id act)
    return "Swap Inventory Letters";
   case ACTION_USE:
    return "Apply or Use Item";
+  case ACTION_USE_WIELDED:
+   return "Apply or Use Wielded Item";
   case ACTION_WEAR:
    return "Wear Item";
   case ACTION_TAKE_OFF:

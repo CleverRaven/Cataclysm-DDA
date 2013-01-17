@@ -4261,6 +4261,10 @@ bool player::takeoff(game *g, char let)
  return false;
 }
 
+void player::use_wielded(game *g) {
+  use(g, weapon.invlet);
+}
+
 void player::use(game *g, char let)
 {
  item* used = &i_at(let);

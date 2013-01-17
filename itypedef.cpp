@@ -796,11 +796,6 @@ MELEE("broom",		30, 24, '/', c_blue,	PLASTIC,MNULL,
 A long-handled broom. Makes a terrible weapon unless you're chasing cats.");
 TECH( mfb(TEC_WBLOCK_1) );
 
-MELEE("mop",		20, 28, '/', c_ltblue,	PLASTIC,MNULL,
-	11, 12,  5,  0, -2, 0, "\
-An unwieldy mop. Essentially useless.");
-TECH( mfb(TEC_WBLOCK_1) );
-
 MELEE("sledge hammer",	 6, 120,'/', c_brown,	WOOD,	IRON,
 	18, 38, 40,  0,  0, 0, "\
 A large, heavy hammer. Makes a good melee weapon for the very strong, but is\n\
@@ -3738,7 +3733,7 @@ you are standing on.");
 //  NAME        RAR PRC SYM  COLOR  MAT1    MAT
 TOOL("welder",   25,900,';', c_ltred,  IRON,MNULL,
 // VOL WGT DAM CUT HIT   MAX DEF  USE SEC   FUEL    REVERT    FUNCTION
-     6, 24,  7,  0, -1, 1000,  0,  50,  0, AT_BATT, itm_null, &iuse::none,
+     6, 24,  7,  0, -1, 500,  0,  50,  0, AT_BATT, itm_null, &iuse::none,
 0, "\
 A tool for welding metal pieces together. Useful for construction.");
 
@@ -3856,6 +3851,11 @@ TOOL("bolt cutters",		5, 100, ';', c_blue,	STEEL,	PLASTIC,
     5,  4, 10,  4,  1,   0,  0, 0,  0, AT_NULL, itm_null, &iuse::boltcutters, 0, "\
 A large pair of bolt cutters, you could use them to cut padlocks or heavy\n\
 gauge wire.");
+
+TOOL("mop",		30, 24, '/', c_blue, PLASTIC, MNULL,
+   10, 8,   6,  0,  1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::mop, 0, "\
+An unwieldy mop. Good for cleaning up spills.");
+TECH( mfb(TEC_WBLOCK_1) );
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

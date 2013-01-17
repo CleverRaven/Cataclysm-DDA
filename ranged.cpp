@@ -921,6 +921,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
 
 void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
 {
+ int npcdex = g->npc_at(h->posx, h->posy);
  // Gunmods don't have a type, so use the player gun type.
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
  body_part hit;
@@ -966,10 +967,11 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
    g->add_msg("%s shoots your %s for %d damage!", p.name.c_str(),
               body_part_name(hit, side).c_str(), dam);
   else {
-   if (&p == &(g->u))
+   if (&p == &(g->u)) {
     g->add_msg("You shoot %s's %s.", h->name.c_str(),
                body_part_name(hit, side).c_str());
-   else if (g->u_see(h->posx, h->posy, junk))
+                g->active_npc[npcdex].make_angry();
+ } else if (g->u_see(h->posx, h->posy, junk))
     g->add_msg("%s shoots %s's %s.",
                (g->u_see(p.posx, p.posy, junk) ? p.name.c_str() : "Someone"),
                h->name.c_str(), body_part_name(hit, side).c_str());

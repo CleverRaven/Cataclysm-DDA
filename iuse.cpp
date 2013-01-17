@@ -969,6 +969,7 @@ void iuse::light_off(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You turn the flashlight on.");
   it->make(g->itypes[itm_flashlight_on]);
   it->active = true;
+  it->charges --;
  }
 }
  
@@ -1577,6 +1578,7 @@ void iuse::can_goo(game *g, player *p, item *it, bool t)
   }
  }
 }
+
 
 void iuse::pipebomb(game *g, player *p, item *it, bool t)
 {
@@ -2823,7 +2825,27 @@ void iuse::boltcutters(game *g, player *p, item *it, bool t)
  }
 } 
  
- 
+void iuse::mop(game *g, player *p, item *it, bool t)
+{
+ int dirx, diry;
+ g->draw();
+ mvprintw(0, 0, "Mop where?");
+ get_direction(g, dirx, diry, input());
+ if (dirx == -2) {
+  g->add_msg_if_player(p,"Invalid direction.");
+  return;
+ }
+ p->moves -= 15;
+ dirx += p->posx;
+ diry += p->posy;
+ if (g->m.moppable_items_at(dirx, diry)) {
+   g->m.mop_spills(dirx, diry);
+   g->add_msg("You mop up the spill");
+ } else {
+  g->add_msg_if_player(p,"There's nothing to mop there.");
+ }
+}
+
  
 /* MACGUFFIN FUNCTIONS
  * These functions should refer to it->associated_mission for the particulars

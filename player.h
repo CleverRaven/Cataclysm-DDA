@@ -191,6 +191,7 @@ public:
  bool wear_item(game *g, item *to_wear);
  bool takeoff(game *g, char let);// Take off item; returns false on fail
  void use(game *g, char let);	// Use a tool
+ void use_wielded(game *g);
  bool install_bionics(game *g, it_bionic* type);	// Install bionics
  void read(game *g, char let);	// Read a book
  void try_to_sleep(game *g);	// '$' command; adds DIS_LYING_DOWN
