@@ -273,7 +273,7 @@ void game::init_vehicles()
 	PART (-1, 1, vp_board_h);
 	PART (-1, -1, vp_board_h);
 	PART (-1, -2, vp_board_h);
-	PART (-1, 2, vp_board_b);
+	PART (-1, 2, vp_board_n);
 	PART (-1, -3, vp_board_b);
 	
 	PART (2, -1, vp_frame_h);
