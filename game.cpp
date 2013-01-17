@@ -669,8 +669,6 @@ bool game::do_turn()
 
   if (get_input(autosave_timeout()) == IR_GOOD)
     ++moves_since_last_save;
-
-  return false;
  }
  update_scent();
  m.vehmove(this);
