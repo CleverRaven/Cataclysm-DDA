@@ -191,7 +191,7 @@ const vpart_info vpart_list[num_vparts] =
     { "door",       '+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, itm_frame, 2,
         mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_openable) },
     { "opaque door",'+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, itm_frame, 2,
-        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_openable) },
+        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_opaque) | mfb(vpf_openable) },
     { "windshield", '"', c_ltcyan,  '0', c_ltgray,  70,  50, 0, 0, itm_glass_sheet, 1,
         mfb(vpf_over) | mfb(vpf_obstacle) | mfb(vpf_no_reinforce) },
     { "blade",      '-', c_white,   'x', c_white,   250, 100, 0, 0, itm_carblade, 2,
