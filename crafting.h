@@ -35,8 +35,8 @@ struct recipe {
   int id;
   itype_id result;
   craft_cat category;
-  Skill sk_primary;
-  Skill sk_secondary;
+  Skill *sk_primary;
+  Skill *sk_secondary;
   int difficulty;
   int time;
   bool reversible; // can the item be disassembled?
@@ -48,14 +48,14 @@ struct recipe {
     id = 0;
     result = itm_null;
     category = CC_NULL;
-    sk_primary = Skill::skill("null");
-    sk_secondary = Skill::skill("null");
+    sk_primary = NULL;
+    sk_secondary = NULL;
     difficulty = 0;
     time = 0;
     reversible = false;
   }
 
-recipe(int pid, itype_id pres, craft_cat cat, Skill p1, Skill p2, int pdiff,
+recipe(int pid, itype_id pres, craft_cat cat, Skill *p1, Skill *p2, int pdiff,
         int ptime, bool preversible) :
   id (pid), result (pres), category (cat), sk_primary (p1), sk_secondary (p2),
   difficulty (pdiff), time (ptime), reversible (preversible) {}

@@ -3086,7 +3086,7 @@ color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,0,type,level,req,fun,intel,time))
 
 BOOK("Playboy",			20,  30,c_pink,		PAPER,	MNULL,
 // VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
-    1,  1, -3,  1,	Skill::skill("null"),	 0,  0,  1,  0,  10, "\
+    1,  1, -3,  1,	NULL,	 0,  0,  1,  0,  10, "\
 You can read it for the articles. Or not.");
 
 BOOK("US Weekly",		40,  40,c_pink,		PAPER,	MNULL,
@@ -3094,7 +3094,7 @@ BOOK("US Weekly",		40,  40,c_pink,		PAPER,	MNULL,
 Weekly news about a bunch of famous people who're all (un)dead now.");
 
 BOOK("TIME magazine",		35,  40,c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	Skill::skill("null"),	 0,  0,  2,  7,  10, "\
+    1,  1, -3,  1,	NULL,	 0,  0,  2,  7,  10, "\
 Current events concerning a bunch of people who're all (un)dead now.");
 
 BOOK("Top Gear magazine",	40,  45,c_pink,		PAPER,	MNULL,
@@ -3114,21 +3114,21 @@ BOOK("Guns n Ammo",		20,  48,c_pink,		PAPER,	MNULL,
 Reviews of firearms, and various useful tips about their use.");
 
 BOOK("romance novel",		30,  55,c_ltblue,	PAPER,	MNULL,
-    4,  1, -2,  0,	Skill::skill("null"),	 0,  0,  2,  4, 15, "\
+    4,  1, -2,  0,	NULL,	 0,  0,  2,  4, 15, "\
 Drama and mild smut.");
 
 BOOK("spy novel",		28,  55,c_ltblue,	PAPER,	MNULL,
-    4,  1, -2,  0,	Skill::skill("null"),	 0,  0,  3,  5, 18, "\
+    4,  1, -2,  0,	NULL,	 0,  0,  3,  5, 18, "\
 A tale of intrigue and espionage amongst Nazis, no, Commies, no, Iraqis!");
 
 //	NAME			RAR PRC	COLOR		MAT1	MAT2
 BOOK("scifi novel",		20,  55,c_ltblue,	PAPER,	MNULL,
 // VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
-    3,  1, -3,  0,	Skill::skill("null"),	 0,  0,  3,  6, 20, "\
+    3,  1, -3,  0,	NULL,	 0,  0,  3,  6, 20, "\
 Aliens, ray guns, and space ships.");
 
 BOOK("drama novel",		40,  55,c_ltblue,	PAPER,	MNULL,
-    4,  1, -2,  0,	Skill::skill("null"),	 0,  0,  4,  7, 25, "\
+    4,  1, -2,  0,	NULL,	 0,  0,  4,  7, 25, "\
 A real book for real adults.");
 
 BOOK("101 Wrestling Moves",	30, 180,c_green,	PAPER,	MNULL,

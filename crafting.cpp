@@ -30,7 +30,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
 
 // NON-CRAFTABLE BUT CAN BE DISASSEMBLED (set category to CC_NONCRAFT)
 
-RECIPE(itm_lawnmower, CC_NONCRAFT, Skill::skill("null"), Skill::skill("null"), 0, 1000, true);
+RECIPE(itm_lawnmower, CC_NONCRAFT, NULL, NULL, 0, 1000, true);
  TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
  COMP(itm_scrap, 8, NULL);
  COMP(itm_spring, 2, NULL);
@@ -38,28 +38,28 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, Skill::skill("null"), Skill::skill("null"), 0
  COMP(itm_combustion_tiny, 1, NULL);
  COMP(itm_pipe, 3, NULL);
 
-RECIPE(itm_lighter, CC_NONCRAFT, Skill::skill("null"), Skill::skill("null"), 0, 100, true);
+RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
  COMP(itm_pilot_light, 1, NULL);
 
 // CRAFTABLE
 
 // WEAPONS
 
- RECIPE(itm_lawnmower_machete, CC_WEAPON, Skill::skill("null"), Skill::skill("null"), 0, 5000, true);
+ RECIPE(itm_lawnmower_machete, CC_WEAPON, NULL, NULL, 0, 5000, true);
   COMP(itm_duct_tape, 50, NULL);
   COMP(itm_lawnmower_blade, 1, NULL);
 
- RECIPE(itm_lawnmower_halberd, CC_WEAPON, Skill::skill("null"), Skill::skill("null"), 0, 5000, true);
+ RECIPE(itm_lawnmower_halberd, CC_WEAPON, NULL, NULL, 0, 5000, true);
   COMP(itm_duct_tape, 100, NULL);
   COMP(itm_lawnmower_blade, 1, NULL);
   COMP(itm_stick, 1, itm_mop, 1, itm_broom, 1, NULL);
 
- RECIPE(itm_spear_wood, CC_WEAPON, Skill::skill("null"), Skill::skill("null"), 0, 800, false);
+ RECIPE(itm_spear_wood, CC_WEAPON, NULL, NULL, 0, 800, false);
   TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
 	itm_knife_combat, -1, itm_machete, -1, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_pool_cue, 1, NULL);
 
- RECIPE(itm_spear_knife, CC_WEAPON, Skill::skill("stabbing"), Skill::skill("null"), 0, 600, true);
+ RECIPE(itm_spear_knife, CC_WEAPON, Skill::skill("stabbing"), NULL, 0, 600, true);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, NULL);
   COMP(itm_knife_steak, 2, itm_knife_combat, 1, NULL);
   COMP(itm_string_6, 6, itm_string_36, 1, NULL);
@@ -76,35 +76,35 @@ RECIPE(itm_lighter, CC_NONCRAFT, Skill::skill("null"), Skill::skill("null"), 0, 
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_bee_sting, 1,
        NULL);
 
- RECIPE(itm_nailboard, CC_WEAPON, Skill::skill("null"), Skill::skill("null"), 0, 1000, true);
+ RECIPE(itm_nailboard, CC_WEAPON, NULL, NULL, 0, 1000, true);
   TOOL(itm_hatchet, -1, itm_hammer, -1, itm_rock, -1, itm_toolset, -1, NULL);
   COMP(itm_2x4, 1, itm_stick, 1, NULL);
   COMP(itm_nail, 6, NULL);
 
- RECIPE(itm_nailbat, CC_WEAPON, Skill::skill("null"), Skill::skill("null"), 0, 1000, true);
+ RECIPE(itm_nailbat, CC_WEAPON, NULL, NULL, 0, 1000, true);
   TOOL(itm_hatchet, -1, itm_hammer, -1, itm_rock, -1, itm_toolset, -1, NULL);
   COMP(itm_bat, 1, NULL);
   COMP(itm_nail, 6, NULL);
 
 // molotovs use 250ml of flammable liquids
- RECIPE(itm_molotov, CC_WEAPON, Skill::skill("null"), Skill::skill("null"), 0, 500, false);
+ RECIPE(itm_molotov, CC_WEAPON, NULL, NULL, 0, 500, false);
   COMP(itm_rag, 1, NULL);
   COMP(itm_bottle_glass, 1, itm_flask_glass, 1, NULL);
   COMP(itm_whiskey, 21, itm_vodka, 21, itm_rum, 21, itm_tequila, 21,
        itm_gasoline, 200, NULL);
 
- RECIPE(itm_pipebomb, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("null"), 1, 750, false);
+ RECIPE(itm_pipebomb, CC_WEAPON, Skill::skill("mechanics"), NULL, 1, 750, false);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
   COMP(itm_pipe, 1, NULL);
   COMP(itm_gasoline, 200, itm_shot_bird, 6, itm_shot_00, 2, itm_shot_slug, 2,
        NULL);
   COMP(itm_string_36, 1, itm_string_6, 1, NULL);
 
- RECIPE(itm_shotgun_sawn, CC_WEAPON, Skill::skill("gun"), Skill::skill("null"), 1, 2000, false);
+ RECIPE(itm_shotgun_sawn, CC_WEAPON, Skill::skill("gun"), NULL, 1, 2000, false);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
   COMP(itm_shotgun_d, 1, itm_remington_870, 1, itm_mossberg_500, 1, NULL);
 
- RECIPE(itm_saiga_sawn, CC_WEAPON, Skill::skill("gun"), Skill::skill("null"), 1, 2000, false);
+ RECIPE(itm_saiga_sawn, CC_WEAPON, Skill::skill("gun"), NULL, 1, 2000, false);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
   COMP(itm_saiga_12, 1, NULL);
 
@@ -169,12 +169,12 @@ RECIPE(itm_lighter, CC_NONCRAFT, Skill::skill("null"), Skill::skill("null"), 0, 
   COMP(itm_shot_slug, 4, NULL);
   COMP(itm_gasoline, 200, NULL);
 
- RECIPE(itm_acidbomb, CC_WEAPON, Skill::skill("cooking"), Skill::skill("null"), 1, 10000, false);
+ RECIPE(itm_acidbomb, CC_WEAPON, Skill::skill("cooking"), NULL, 1, 10000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 1, NULL);
   COMP(itm_bottle_glass, 1, itm_flask_glass, 1, NULL);
   COMP(itm_battery, 500, NULL);
 
- RECIPE(itm_grenade, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("null"), 2, 5000, false);
+ RECIPE(itm_grenade, CC_WEAPON, Skill::skill("mechanics"), NULL, 2, 5000, false);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   COMP(itm_pilot_light, 1, NULL);
   COMP(itm_superglue, 1, itm_string_36, 1, NULL);
@@ -183,7 +183,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, Skill::skill("null"), Skill::skill("null"), 0, 
   COMP(itm_shot_bird, 6, itm_shot_00, 3, itm_shot_slug, 2,
      itm_gasoline, 200, itm_gunpowder, 72,  NULL);
 
- RECIPE(itm_chainsaw_off, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("null"), 4, 20000, true);
+ RECIPE(itm_chainsaw_off, CC_WEAPON, Skill::skill("mechanics"), NULL, 4, 20000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_hammer, -1, itm_hatchet, -1, NULL);
   TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
@@ -441,71 +441,71 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
 
 // FOOD
 
- RECIPE(itm_water_clean, CC_DRINK, Skill::skill("cooking"), Skill::skill("null"), 0, 5000, false);
+ RECIPE(itm_water_clean, CC_DRINK, Skill::skill("cooking"), NULL, 0, 5000, false);
   TOOL(itm_hotplate, 3, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, NULL);
   COMP(itm_water, 1, NULL);
 
- RECIPE(itm_meat_cooked, CC_FOOD, Skill::skill("cooking"), Skill::skill("null"), 0, 5000, false);
+ RECIPE(itm_meat_cooked, CC_FOOD, Skill::skill("cooking"), NULL, 0, 5000, false);
   TOOL(itm_hotplate, 7, itm_toolset, 4, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, itm_spear_wood, -1, NULL);
   COMP(itm_meat, 1, NULL);
 
- RECIPE(itm_dogfood, CC_FOOD, Skill::skill("cooking"), Skill::skill("null"), 4, 10000, false);
+ RECIPE(itm_dogfood, CC_FOOD, Skill::skill("cooking"), NULL, 4, 10000, false);
   TOOL(itm_hotplate, 6, itm_toolset, 3, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_meat, 1, NULL);
   COMP(itm_veggy,1, NULL);
   COMP(itm_water,1, NULL);
 
- RECIPE(itm_veggy_cooked, CC_FOOD, Skill::skill("cooking"), Skill::skill("null"), 0, 4000, false);
+ RECIPE(itm_veggy_cooked, CC_FOOD, Skill::skill("cooking"), NULL, 0, 4000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 3, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, itm_spear_wood, -1, NULL);
   COMP(itm_veggy, 1, NULL);
 
- RECIPE(itm_spaghetti_cooked, CC_FOOD, Skill::skill("cooking"), Skill::skill("null"), 0, 10000, false);
+ RECIPE(itm_spaghetti_cooked, CC_FOOD, Skill::skill("cooking"), NULL, 0, 10000, false);
   TOOL(itm_hotplate, 4, itm_toolset, 2, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_spaghetti_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
- RECIPE(itm_cooked_dinner, CC_FOOD, Skill::skill("cooking"), Skill::skill("null"), 0, 5000, false);
+ RECIPE(itm_cooked_dinner, CC_FOOD, Skill::skill("cooking"), NULL, 0, 5000, false);
   TOOL(itm_hotplate, 3, itm_toolset, 2, itm_fire, -1, NULL);
   COMP(itm_frozen_dinner, 1, NULL);
 
- RECIPE(itm_macaroni_cooked, CC_FOOD, Skill::skill("cooking"), Skill::skill("null"), 1, 10000, false);
+ RECIPE(itm_macaroni_cooked, CC_FOOD, Skill::skill("cooking"), NULL, 1, 10000, false);
   TOOL(itm_hotplate, 4, itm_toolset, 2, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_macaroni_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
- RECIPE(itm_potato_baked, CC_FOOD, Skill::skill("cooking"), Skill::skill("null"), 1, 15000, false);
+ RECIPE(itm_potato_baked, CC_FOOD, Skill::skill("cooking"), NULL, 1, 15000, false);
   TOOL(itm_hotplate, 3, itm_toolset, 2, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, NULL);
   COMP(itm_potato_raw, 1, NULL);
 
- RECIPE(itm_tea, CC_DRINK, Skill::skill("cooking"), Skill::skill("null"), 0, 4000, false);
+ RECIPE(itm_tea, CC_DRINK, Skill::skill("cooking"), NULL, 0, 4000, false);
   TOOL(itm_hotplate, 2, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_tea_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
- RECIPE(itm_coffee, CC_DRINK, Skill::skill("cooking"), Skill::skill("null"), 0, 4000, false);
+ RECIPE(itm_coffee, CC_DRINK, Skill::skill("cooking"), NULL, 0, 4000, false);
   TOOL(itm_hotplate, 2, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_coffee_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
- RECIPE(itm_oj, CC_DRINK, Skill::skill("cooking"), Skill::skill("null"), 1, 5000, false);
+ RECIPE(itm_oj, CC_DRINK, Skill::skill("cooking"), NULL, 1, 5000, false);
   TOOL(itm_rock, -1, itm_toolset, -1, NULL);
   COMP(itm_orange, 2, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
- RECIPE(itm_apple_cider, CC_DRINK, Skill::skill("cooking"), Skill::skill("null"), 2, 7000, false);
+ RECIPE(itm_apple_cider, CC_DRINK, Skill::skill("cooking"), NULL, 2, 7000, false);
   TOOL(itm_rock, -1, itm_toolset, -1, NULL);
   COMP(itm_apple, 3, NULL);
 
- RECIPE(itm_long_island, CC_DRINK, Skill::skill("cooking"), Skill::skill("null"), 1, 7000, false);
+ RECIPE(itm_long_island, CC_DRINK, Skill::skill("cooking"), NULL, 1, 7000, false);
   COMP(itm_cola, 1, NULL);
   COMP(itm_vodka, 1, NULL);
   COMP(itm_gin, 1, NULL);
@@ -513,36 +513,36 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
   COMP(itm_tequila, 1, NULL);
   COMP(itm_triple_sec, 1, NULL);
 
- RECIPE(itm_jerky, CC_FOOD, Skill::skill("cooking"), Skill::skill("null"), 3, 30000, false);
+ RECIPE(itm_jerky, CC_FOOD, Skill::skill("cooking"), NULL, 3, 30000, false);
   TOOL(itm_hotplate, 10, itm_toolset, 5, itm_fire, -1, NULL);
   COMP(itm_salt_water, 1, itm_salt, 4, NULL);
   COMP(itm_meat, 1, NULL);
 
- RECIPE(itm_V8, CC_FOOD, Skill::skill("cooking"), Skill::skill("null"), 2, 5000, false);
+ RECIPE(itm_V8, CC_FOOD, Skill::skill("cooking"), NULL, 2, 5000, false);
   COMP(itm_tomato, 1, NULL);
   COMP(itm_broccoli, 1, NULL);
   COMP(itm_zucchini, 1, NULL);
 
- RECIPE(itm_broth, CC_FOOD, Skill::skill("cooking"), Skill::skill("null"), 2, 10000, false);
+ RECIPE(itm_broth, CC_FOOD, Skill::skill("cooking"), NULL, 2, 10000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 3, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
   COMP(itm_broccoli, 1, itm_zucchini, 1, itm_veggy, 1, NULL);
 
- RECIPE(itm_soup, CC_FOOD, Skill::skill("cooking"), Skill::skill("null"), 2, 10000, false);
+ RECIPE(itm_soup, CC_FOOD, Skill::skill("cooking"), NULL, 2, 10000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 3, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_broth, 2, NULL);
   COMP(itm_macaroni_raw, 1, itm_potato_raw, 1, NULL);
   COMP(itm_tomato, 2, itm_broccoli, 2, itm_zucchini, 2, itm_veggy, 2, NULL);
 
- RECIPE(itm_bread, CC_FOOD, Skill::skill("cooking"), Skill::skill("null"), 4, 20000, false);
+ RECIPE(itm_bread, CC_FOOD, Skill::skill("cooking"), NULL, 4, 20000, false);
   TOOL(itm_hotplate, 8, itm_toolset, 4, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_flour, 3, NULL);
   COMP(itm_water, 2, itm_water_clean, 2, NULL);
 
- RECIPE(itm_pie, CC_FOOD, Skill::skill("cooking"), Skill::skill("null"), 3, 25000, false);
+ RECIPE(itm_pie, CC_FOOD, Skill::skill("cooking"), NULL, 3, 25000, false);
   TOOL(itm_hotplate, 6, itm_toolset, 3, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, NULL);
   COMP(itm_flour, 2, NULL);
@@ -550,7 +550,7 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
   COMP(itm_sugar, 2, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
- RECIPE(itm_pizza, CC_FOOD, Skill::skill("cooking"), Skill::skill("null"), 3, 20000, false);
+ RECIPE(itm_pizza, CC_FOOD, Skill::skill("cooking"), NULL, 3, 20000, false);
   TOOL(itm_hotplate, 8, itm_toolset, 4, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, NULL);
   COMP(itm_flour, 2, NULL);
@@ -558,18 +558,18 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
   COMP(itm_sauce_pesto, 1, itm_sauce_red, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
- RECIPE(itm_meth, CC_CHEM, Skill::skill("cooking"), Skill::skill("null"), 5, 20000, false);
+ RECIPE(itm_meth, CC_CHEM, Skill::skill("cooking"), NULL, 5, 20000, false);
   TOOL(itm_hotplate, 15, itm_toolset, 8, itm_fire, -1, NULL);
   TOOL(itm_bottle_glass, -1, itm_hose, -1, NULL);
   COMP(itm_dayquil, 2, itm_royal_jelly, 1, NULL);
   COMP(itm_aspirin, 40, NULL);
   COMP(itm_caffeine, 20, itm_adderall, 5, itm_energy_drink, 2, NULL);
 
- RECIPE(itm_royal_jelly, CC_CHEM, Skill::skill("cooking"), Skill::skill("null"), 5, 5000, false);
+ RECIPE(itm_royal_jelly, CC_CHEM, Skill::skill("cooking"), NULL, 5, 5000, false);
   COMP(itm_honeycomb, 1, NULL);
   COMP(itm_bleach, 2, itm_purifier, 1, NULL);
 
- RECIPE(itm_heroin, CC_CHEM, Skill::skill("cooking"), Skill::skill("null"), 6, 2000, false);
+ RECIPE(itm_heroin, CC_CHEM, Skill::skill("cooking"), NULL, 6, 2000, false);
   TOOL(itm_hotplate, 3, itm_toolset, 2, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, NULL);
   COMP(itm_salt_water, 1, itm_salt, 4, NULL);
@@ -590,38 +590,38 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
 
 // ELECTRONICS
 
- RECIPE(itm_antenna, CC_ELECTRONIC, Skill::skill("null"), Skill::skill("null"), 0, 3000, false);
+ RECIPE(itm_antenna, CC_ELECTRONIC, NULL, NULL, 0, 3000, false);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
   COMP(itm_knife_butter, 2, NULL);
 
- RECIPE(itm_amplifier, CC_ELECTRONIC, Skill::skill("electronics"), Skill::skill("null"), 1, 4000, false);
+ RECIPE(itm_amplifier, CC_ELECTRONIC, Skill::skill("electronics"), NULL, 1, 4000, false);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   COMP(itm_transponder, 2, NULL);
 
- RECIPE(itm_power_supply, CC_ELECTRONIC, Skill::skill("electronics"), Skill::skill("null"), 1, 6500, false);
+ RECIPE(itm_power_supply, CC_ELECTRONIC, Skill::skill("electronics"), NULL, 1, 6500, false);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 3, itm_toolset, 3, NULL);
   COMP(itm_amplifier, 2, NULL);
   COMP(itm_cable, 20, NULL);
 
- RECIPE(itm_receiver, CC_ELECTRONIC, Skill::skill("electronics"), Skill::skill("null"), 2, 12000, true);
+ RECIPE(itm_receiver, CC_ELECTRONIC, Skill::skill("electronics"), NULL, 2, 12000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 4, itm_toolset, 4, NULL);
   COMP(itm_amplifier, 2, NULL);
   COMP(itm_cable, 10, NULL);
 
- RECIPE(itm_transponder, CC_ELECTRONIC, Skill::skill("electronics"), Skill::skill("null"), 2, 14000, true);
+ RECIPE(itm_transponder, CC_ELECTRONIC, Skill::skill("electronics"), NULL, 2, 14000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 7, itm_toolset, 7, NULL);
   COMP(itm_receiver, 3, NULL);
   COMP(itm_cable, 5, NULL);
 
- RECIPE(itm_flashlight, CC_ELECTRONIC, Skill::skill("electronics"), Skill::skill("null"), 1, 10000, true);
+ RECIPE(itm_flashlight, CC_ELECTRONIC, Skill::skill("electronics"), NULL, 1, 10000, true);
   COMP(itm_amplifier, 1, NULL);
   COMP(itm_scrap, 4, itm_can_drink, 1, itm_bottle_glass, 1, itm_bottle_plastic, 1, NULL);
   COMP(itm_cable, 10, NULL);
 
- RECIPE(itm_soldering_iron, CC_ELECTRONIC, Skill::skill("electronics"), Skill::skill("null"), 1, 20000, true);
+ RECIPE(itm_soldering_iron, CC_ELECTRONIC, Skill::skill("electronics"), NULL, 1, 20000, true);
   COMP(itm_antenna, 1, itm_screwdriver, 1, itm_xacto, 1, itm_knife_butter, 1,
        NULL);
   COMP(itm_power_supply, 1, NULL);
@@ -634,7 +634,7 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
      itm_bolt_steel, 1, itm_scrap, 1, NULL);
   COMP(itm_can_drink, 1, itm_can_food, 1, NULL);
 
- RECIPE(itm_coilgun, CC_WEAPON, Skill::skill("electronics"), Skill::skill("null"), 3, 25000, true);
+ RECIPE(itm_coilgun, CC_WEAPON, Skill::skill("electronics"), NULL, 3, 25000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 10, itm_toolset, 10, NULL);
   COMP(itm_pipe, 1, NULL);
@@ -643,7 +643,7 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
   COMP(itm_scrap, 6, NULL);
   COMP(itm_cable, 20, NULL);
 
- RECIPE(itm_radio, CC_ELECTRONIC, Skill::skill("electronics"), Skill::skill("null"), 2, 25000, true);
+ RECIPE(itm_radio, CC_ELECTRONIC, Skill::skill("electronics"), NULL, 2, 25000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 10, itm_toolset, 10, NULL);
   COMP(itm_receiver, 1, NULL);
@@ -659,7 +659,7 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
   COMP(itm_scrap, 3, NULL);
   COMP(itm_cable, 5, NULL);
 
- RECIPE(itm_hotplate, CC_ELECTRONIC, Skill::skill("electronics"), Skill::skill("null"), 3, 30000, true);
+ RECIPE(itm_hotplate, CC_ELECTRONIC, Skill::skill("electronics"), NULL, 3, 30000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   COMP(itm_element, 1, NULL);
   COMP(itm_amplifier, 1, NULL);
@@ -667,14 +667,14 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
      itm_knife_butter, 6, itm_muffler, 1, NULL);
   COMP(itm_cable, 10, NULL);
 
- RECIPE(itm_tazer, CC_ELECTRONIC, Skill::skill("electronics"), Skill::skill("null"), 3, 25000, true);
+ RECIPE(itm_tazer, CC_ELECTRONIC, Skill::skill("electronics"), NULL, 3, 25000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 10, itm_toolset, 10, NULL);
   COMP(itm_amplifier, 1, NULL);
   COMP(itm_power_supply, 1, NULL);
   COMP(itm_scrap, 2, NULL);
 
- RECIPE(itm_two_way_radio, CC_ELECTRONIC, Skill::skill("electronics"), Skill::skill("null"), 4, 30000, true);
+ RECIPE(itm_two_way_radio, CC_ELECTRONIC, Skill::skill("electronics"), NULL, 4, 30000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 14, itm_toolset, 14, NULL);
   COMP(itm_amplifier, 1, NULL);
@@ -692,7 +692,7 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
   COMP(itm_scrap, 4, NULL);
   COMP(itm_cable, 10, NULL);
 
- RECIPE(itm_EMPbomb, CC_ELECTRONIC, Skill::skill("electronics"), Skill::skill("null"), 4, 32000, false);
+ RECIPE(itm_EMPbomb, CC_ELECTRONIC, Skill::skill("electronics"), NULL, 4, 32000, false);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 6, itm_toolset, 6, NULL);
   COMP(itm_superglue, 1, itm_string_36, 1, NULL);
@@ -708,7 +708,7 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
   COMP(itm_amplifier, 1, NULL);
   COMP(itm_cable, 2, NULL);
 
- RECIPE(itm_geiger_off, CC_ELECTRONIC, Skill::skill("electronics"), Skill::skill("null"), 5, 35000, true);
+ RECIPE(itm_geiger_off, CC_ELECTRONIC, Skill::skill("electronics"), NULL, 5, 35000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 14, itm_toolset, 14, NULL);
   COMP(itm_power_supply, 1, NULL);
@@ -716,7 +716,7 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
   COMP(itm_scrap, 6, NULL);
   COMP(itm_cable, 10, NULL);
 
- RECIPE(itm_UPS_off, CC_ELECTRONIC, Skill::skill("electronics"), Skill::skill("null"), 5, 45000, true);
+ RECIPE(itm_UPS_off, CC_ELECTRONIC, Skill::skill("electronics"), NULL, 5, 45000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 24, itm_toolset, 24, NULL);
   COMP(itm_power_supply, 4, NULL);
@@ -724,14 +724,14 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
   COMP(itm_scrap, 4, NULL);
   COMP(itm_cable, 10, NULL);
 
- RECIPE(itm_bionics_battery, CC_ELECTRONIC, Skill::skill("electronics"), Skill::skill("null"), 6, 50000, true);
+ RECIPE(itm_bionics_battery, CC_ELECTRONIC, Skill::skill("electronics"), NULL, 6, 50000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 20, itm_toolset, 20, NULL);
   COMP(itm_power_supply, 6, itm_UPS_off, 1, NULL);
   COMP(itm_amplifier, 4, NULL);
   COMP(itm_plut_cell, 1, NULL);
 
- RECIPE(itm_teleporter, CC_ELECTRONIC, Skill::skill("electronics"), Skill::skill("null"), 8, 50000, true);
+ RECIPE(itm_teleporter, CC_ELECTRONIC, Skill::skill("electronics"), NULL, 8, 50000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 16, itm_toolset, 16, NULL);
@@ -743,59 +743,59 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
 
 // ARMOR
 
- RECIPE(itm_thread, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 1, 3000, false);
+ RECIPE(itm_thread, CC_ARMOR, Skill::skill("tailor"), NULL, 1, 3000, false);
   TOOL(itm_knife_combat, -1, itm_knife_steak, -1, itm_scissors, -1, NULL);
   COMP(itm_string_6, 1, NULL);
 
- RECIPE(itm_mocassins, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 1, 30000, false);
+ RECIPE(itm_mocassins, CC_ARMOR, Skill::skill("tailor"), NULL, 1, 30000, false);
   TOOL(itm_sewing_kit,  5, NULL);
   COMP(itm_fur, 2, NULL);
 
- RECIPE(itm_boots_fit, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 2, 35000, false);
+ RECIPE(itm_boots_fit, CC_ARMOR, Skill::skill("tailor"), NULL, 2, 35000, false);
   TOOL(itm_sewing_kit, 10, NULL);
   COMP(itm_leather, 4, NULL);
 
- RECIPE(itm_jeans_fit, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 2, 45000, false);
+ RECIPE(itm_jeans_fit, CC_ARMOR, Skill::skill("tailor"), NULL, 2, 45000, false);
   TOOL(itm_sewing_kit, 10, NULL);
   COMP(itm_rag, 6, NULL);
 
- RECIPE(itm_pants_cargo_fit, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 3, 48000, false);
+ RECIPE(itm_pants_cargo_fit, CC_ARMOR, Skill::skill("tailor"), NULL, 3, 48000, false);
   TOOL(itm_sewing_kit, 16, NULL);
   COMP(itm_rag, 8, NULL);
 
- RECIPE(itm_pants_leather, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 4, 50000, false);
+ RECIPE(itm_pants_leather, CC_ARMOR, Skill::skill("tailor"), NULL, 4, 50000, false);
   TOOL(itm_sewing_kit, 10, NULL);
   COMP(itm_leather, 10, NULL);
 
- RECIPE(itm_tank_top, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 2, 38000, false);
+ RECIPE(itm_tank_top, CC_ARMOR, Skill::skill("tailor"), NULL, 2, 38000, false);
   TOOL(itm_sewing_kit, 4, NULL);
   COMP(itm_rag, 4, NULL);
 
- RECIPE(itm_hoodie_fit, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 3, 40000, false);
+ RECIPE(itm_hoodie_fit, CC_ARMOR, Skill::skill("tailor"), NULL, 3, 40000, false);
   TOOL(itm_sewing_kit, 14, NULL);
   COMP(itm_rag, 12, NULL);
 
- RECIPE(itm_trenchcoat_fit, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 3, 42000, false);
+ RECIPE(itm_trenchcoat_fit, CC_ARMOR, Skill::skill("tailor"), NULL, 3, 42000, false);
   TOOL(itm_sewing_kit, 24, NULL);
   COMP(itm_rag, 11, NULL);
 
- RECIPE(itm_coat_fur, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 4, 100000, false);
+ RECIPE(itm_coat_fur, CC_ARMOR, Skill::skill("tailor"), NULL, 4, 100000, false);
   TOOL(itm_sewing_kit, 20, NULL);
   COMP(itm_fur, 10, NULL);
 
- RECIPE(itm_jacket_leather_fit, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 5, 150000, false);
+ RECIPE(itm_jacket_leather_fit, CC_ARMOR, Skill::skill("tailor"), NULL, 5, 150000, false);
   TOOL(itm_sewing_kit, 30, NULL);
   COMP(itm_leather, 16, NULL);
 
- RECIPE(itm_gloves_light, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 1, 10000, false);
+ RECIPE(itm_gloves_light, CC_ARMOR, Skill::skill("tailor"), NULL, 1, 10000, false);
   TOOL(itm_sewing_kit, 2, NULL);
   COMP(itm_rag, 2, NULL);
 
- RECIPE(itm_gloves_fingerless, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 0, 16000, false);
+ RECIPE(itm_gloves_fingerless, CC_ARMOR, Skill::skill("tailor"), NULL, 0, 16000, false);
   TOOL(itm_scissors, -1, itm_knife_combat, -1, itm_knife_steak, -1, NULL);
   COMP(itm_gloves_leather, 1, NULL);
 
- RECIPE(itm_gloves_leather, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 2, 16000, false);
+ RECIPE(itm_gloves_leather, CC_ARMOR, Skill::skill("tailor"), NULL, 2, 16000, false);
   TOOL(itm_sewing_kit, 6, NULL);
   COMP(itm_leather, 2, NULL);
 
@@ -803,13 +803,13 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
   COMP(/*itm_filter, 1, */itm_bag_plastic, 2, itm_bottle_plastic, 1, NULL);
   COMP(itm_rag, 2, itm_muffler, 1, itm_bandana, 2, itm_wrapper, 4, NULL);
 
- RECIPE(itm_mask_gas, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 3, 20000, true);
+ RECIPE(itm_mask_gas, CC_ARMOR, Skill::skill("tailor"), NULL, 3, 20000, true);
   TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
   COMP(itm_goggles_ski, 1, itm_goggles_swim, 2, NULL);
   COMP(/*itm_filter, 3, */itm_mask_filter, 3, itm_muffler, 1, NULL);
   COMP(itm_hose, 1, NULL);
 
- RECIPE(itm_glasses_safety, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 1, 8000, false);
+ RECIPE(itm_glasses_safety, CC_ARMOR, Skill::skill("tailor"), NULL, 1, 8000, false);
   TOOL(itm_scissors, -1, itm_xacto, -1, itm_knife_steak, -1,
        itm_knife_combat, -1, itm_toolset, -1, NULL);
   COMP(itm_string_36, 1, itm_string_6, 2, NULL);
@@ -822,39 +822,39 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
   COMP(itm_amplifier, 3, NULL);
   COMP(itm_scrap, 5, NULL);
 
- RECIPE(itm_hat_fur, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 2, 40000, false);
+ RECIPE(itm_hat_fur, CC_ARMOR, Skill::skill("tailor"), NULL, 2, 40000, false);
   TOOL(itm_sewing_kit, 8, NULL);
   COMP(itm_fur, 3, NULL);
 
- RECIPE(itm_armguard_metal, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 4,  30000, false);
+ RECIPE(itm_armguard_metal, CC_ARMOR, Skill::skill("tailor"), NULL, 4,  30000, false);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
   COMP(itm_string_36, 1, itm_string_6, 4, NULL);
   COMP(itm_steel_chunk, 2, NULL);
 
- RECIPE(itm_armguard_chitin, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 3,  30000, false);
+ RECIPE(itm_armguard_chitin, CC_ARMOR, Skill::skill("tailor"), NULL, 3,  30000, false);
   COMP(itm_string_36, 1, itm_string_6, 4, NULL);
   COMP(itm_chitin_piece, 2, NULL);
 
- RECIPE(itm_helmet_chitin, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 6,  60000, false);
+ RECIPE(itm_helmet_chitin, CC_ARMOR, Skill::skill("tailor"), NULL, 6,  60000, false);
   COMP(itm_string_36, 1, itm_string_6, 5, NULL);
   COMP(itm_chitin_piece, 5, NULL);
 
- RECIPE(itm_armor_chitin, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"),  7, 100000, false);
+ RECIPE(itm_armor_chitin, CC_ARMOR, Skill::skill("tailor"), NULL,  7, 100000, false);
   COMP(itm_string_36, 2, itm_string_6, 12, NULL);
   COMP(itm_chitin_piece, 15, NULL);
 
- RECIPE(itm_backpack, CC_ARMOR, Skill::skill("tailor"), Skill::skill("null"), 3, 50000, false);
+ RECIPE(itm_backpack, CC_ARMOR, Skill::skill("tailor"), NULL, 3, 50000, false);
   TOOL(itm_sewing_kit, 20, NULL);
   COMP(itm_rag, 20, itm_fur, 16, itm_leather, 12, NULL);
 
 // MISC
 
- RECIPE(itm_curtain, CC_MISC, Skill::skill("null"), Skill::skill("null"), 0, 10000, false);
+ RECIPE(itm_curtain, CC_MISC, NULL, NULL, 0, 10000, false);
   TOOL(itm_sewing_kit, 50, NULL);
   COMP(itm_rag, 20, NULL);
   COMP(itm_stick, 1, itm_pool_cue, 1, itm_spear_wood, 1, itm_2x4, 1, NULL);
 
- RECIPE(itm_vehicle_controls, CC_MISC, Skill::skill("mechanics"), Skill::skill("null"), 3, 30000, true);
+ RECIPE(itm_vehicle_controls, CC_MISC, Skill::skill("mechanics"), NULL, 3, 30000, true);
   TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
   TOOL(itm_welder, 50, itm_toolset, 5, NULL);
@@ -863,27 +863,27 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
   COMP(itm_steel_chunk, 12, NULL);
   COMP(itm_wire, 3, NULL);
 
- RECIPE(itm_string_36, CC_MISC, Skill::skill("null"), Skill::skill("null"), 0, 5000, false);
+ RECIPE(itm_string_36, CC_MISC, NULL, NULL, 0, 5000, false);
   COMP(itm_string_6, 6, NULL);
 
- RECIPE(itm_rope_6, CC_MISC, Skill::skill("tailor"), Skill::skill("null"), 2, 5000, false);
+ RECIPE(itm_rope_6, CC_MISC, Skill::skill("tailor"), NULL, 2, 5000, false);
   COMP(itm_string_36, 6, NULL);
 
- RECIPE(itm_rope_30, CC_MISC, Skill::skill("tailor"), Skill::skill("null"), 2, 5000, false);
+ RECIPE(itm_rope_30, CC_MISC, Skill::skill("tailor"), NULL, 2, 5000, false);
   COMP(itm_rope_6, 5, NULL);
 
- RECIPE(itm_torch,        CC_MISC, Skill::skill("null"),    Skill::skill("null"),     0, 2000, false);
+ RECIPE(itm_torch,        CC_MISC, NULL,    NULL,     0, 2000, false);
   COMP(itm_stick, 1, itm_2x4, 1, itm_splinter, 1, itm_pool_cue, 1, itm_torch_done, 1, NULL);
   COMP(itm_gasoline, 1, itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, 1, NULL);
   COMP(itm_rag, 1, NULL);
 
- RECIPE(itm_candle,       CC_MISC, Skill::skill("null"),    Skill::skill("null"),     0, 5000, false);
+ RECIPE(itm_candle,       CC_MISC, NULL,    NULL,     0, 5000, false);
   TOOL(itm_lighter, 5, itm_fire, -1, itm_toolset, 1, NULL);
   COMP(itm_can_food, -1, NULL);
   COMP(itm_wax, 2, NULL);
   COMP(itm_string_6, 1, NULL);
 
- RECIPE(itm_crack,        CC_MISC, Skill::skill("cooking"), Skill::skill("null"),     4, 30000,false);
+ RECIPE(itm_crack,        CC_MISC, Skill::skill("cooking"), NULL,     4, 30000,false);
   TOOL(itm_pot, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 8, itm_toolset, 2, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
@@ -902,55 +902,55 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
   COMP(itm_poppy_bud, 2, NULL);
   COMP(itm_poppy_flower, 2, NULL);
 
- RECIPE(itm_carspike,     CC_MISC, Skill::skill("null"), Skill::skill("null"), 0, 3000, false);
+ RECIPE(itm_carspike,     CC_MISC, NULL, NULL, 0, 3000, false);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
   COMP(itm_spear_knife, 1, itm_knife_combat, 1, itm_knife_steak, 3,
        itm_steel_chunk, 3, itm_scrap, 9, NULL);
 
- RECIPE(itm_carblade,     CC_MISC, Skill::skill("null"), Skill::skill("null"), 0, 3000, false);
+ RECIPE(itm_carblade,     CC_MISC, NULL, NULL, 0, 3000, false);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
   COMP(itm_broadsword, 1, itm_machete, 1, itm_pike, 1,
        itm_lawnmower_blade, 1, NULL);
 
- RECIPE(itm_superglue, CC_MISC, Skill::skill("cooking"), Skill::skill("null"), 2, 12000, false);
+ RECIPE(itm_superglue, CC_MISC, Skill::skill("cooking"), NULL, 2, 12000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
   COMP(itm_bleach, 1, itm_ant_egg, 1, NULL);
 
- RECIPE(itm_steel_lump, CC_MISC, Skill::skill("mechanics"), Skill::skill("null"), 0, 5000, true);
+ RECIPE(itm_steel_lump, CC_MISC, Skill::skill("mechanics"), NULL, 0, 5000, true);
   TOOL(itm_welder, 20, NULL);
   COMP(itm_steel_chunk, 4, NULL);
 
- RECIPE(itm_frame, CC_MISC, Skill::skill("mechanics"), Skill::skill("null"), 1, 8000, true);
+ RECIPE(itm_frame, CC_MISC, Skill::skill("mechanics"), NULL, 1, 8000, true);
   TOOL(itm_welder, 50, NULL);
   COMP(itm_steel_lump, 3, NULL);
 
- RECIPE(itm_steel_plate, CC_MISC, Skill::skill("mechanics"), Skill::skill("null"),4, 12000, true);
+ RECIPE(itm_steel_plate, CC_MISC, Skill::skill("mechanics"), NULL,4, 12000, true);
   TOOL(itm_welder, 100, NULL);
   COMP(itm_steel_lump, 8, NULL);
 
- RECIPE(itm_spiked_plate, CC_MISC, Skill::skill("mechanics"), Skill::skill("null"), 4, 12000, true);
+ RECIPE(itm_spiked_plate, CC_MISC, Skill::skill("mechanics"), NULL, 4, 12000, true);
   TOOL(itm_welder, 120, NULL);
   COMP(itm_steel_lump, 8, NULL);
   COMP(itm_steel_chunk, 4, itm_scrap, 8, NULL);
 
- RECIPE(itm_hard_plate, CC_MISC, Skill::skill("mechanics"), Skill::skill("null"), 4, 12000, true);
+ RECIPE(itm_hard_plate, CC_MISC, Skill::skill("mechanics"), NULL, 4, 12000, true);
   TOOL(itm_welder, 300, NULL);
   COMP(itm_steel_lump, 24, NULL);
 
- RECIPE(itm_crowbar, CC_MISC, Skill::skill("mechanics"), Skill::skill("null"), 1, 1000, false);
+ RECIPE(itm_crowbar, CC_MISC, Skill::skill("mechanics"), NULL, 1, 1000, false);
   TOOL(itm_hatchet, -1, itm_hammer, -1, itm_rock, -1, itm_toolset, -1, NULL);
   COMP(itm_pipe, 1, NULL);
 
- RECIPE(itm_bayonet, CC_MISC, Skill::skill("gun"), Skill::skill("null"), 1, 500, true);
+ RECIPE(itm_bayonet, CC_MISC, Skill::skill("gun"), NULL, 1, 500, true);
   COMP(itm_carspike, 1, NULL);
   COMP(itm_string_36, 1, NULL);
 
- RECIPE(itm_tripwire, CC_MISC, Skill::skill("traps"), Skill::skill("null"), 1, 500, false);
+ RECIPE(itm_tripwire, CC_MISC, Skill::skill("traps"), NULL, 1, 500, false);
   COMP(itm_string_36, 1, NULL);
   COMP(itm_superglue, 1, NULL);
 
- RECIPE(itm_board_trap, CC_MISC, Skill::skill("traps"), Skill::skill("null"), 2, 2500, true);
+ RECIPE(itm_board_trap, CC_MISC, Skill::skill("traps"), NULL, 2, 2500, true);
   TOOL(itm_hatchet, -1, itm_hammer, -1, itm_rock, -1, itm_toolset, -1, NULL);
   COMP(itm_2x4, 3, NULL);
   COMP(itm_nail, 20, NULL);
@@ -989,22 +989,22 @@ RECIPE(itm_boobytrap, CC_MISC, Skill::skill("mechanics"), Skill::skill("traps"),
   COMP(itm_shot_bird, 30, itm_shot_00, 15, itm_shot_slug, 12, itm_gasoline, 600,
      itm_grenade, 1, itm_gunpowder, 72, NULL);
 
- RECIPE(itm_bandages, CC_MISC, Skill::skill("firstaid"), Skill::skill("null"), 1, 500, false);
+ RECIPE(itm_bandages, CC_MISC, Skill::skill("firstaid"), NULL, 1, 500, false);
   COMP(itm_rag, 3, NULL);
   COMP(itm_superglue, 1, itm_duct_tape, 5, NULL);
   COMP(itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, 1, NULL);
 
- RECIPE(itm_silencer, CC_MISC, Skill::skill("mechanics"), Skill::skill("null"), 1, 650, false);
+ RECIPE(itm_silencer, CC_MISC, Skill::skill("mechanics"), NULL, 1, 650, false);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
   COMP(itm_muffler, 1, itm_rag, 4, NULL);
   COMP(itm_pipe, 1, NULL);
 
- RECIPE(itm_pheromone, CC_MISC, Skill::skill("cooking"), Skill::skill("null"), 3, 1200, false);
+ RECIPE(itm_pheromone, CC_MISC, Skill::skill("cooking"), NULL, 3, 1200, false);
   TOOL(itm_hotplate, 18, itm_toolset, 9, itm_fire, -1, NULL);
   COMP(itm_meat_tainted, 1, NULL);
   COMP(itm_ammonia, 1, NULL);
 
- RECIPE(itm_laser_pack, CC_MISC, Skill::skill("electronics"), Skill::skill("null"), 5, 10000, true);
+ RECIPE(itm_laser_pack, CC_MISC, Skill::skill("electronics"), NULL, 5, 10000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   COMP(itm_superglue, 1, NULL);
   COMP(itm_plut_cell, 1, NULL);
@@ -1124,13 +1124,13 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
   if (current.size() > 0) {
    nc_color col = (available[line] ? c_white : c_dkgray);
    mvwprintz(w_data, 0, 30, col, "Primary skill: %s",
-             (current[line]->sk_primary == Skill::skill("null") ? "N/A" :
-              current[line]->sk_primary.name().c_str()));
+             (current[line]->sk_primary == NULL ? "N/A" :
+              current[line]->sk_primary->name().c_str()));
    mvwprintz(w_data, 1, 30, col, "Secondary skill: %s",
-             (current[line]->sk_secondary == Skill::skill("null") ? "N/A" :
-              current[line]->sk_secondary.name().c_str()));
+             (current[line]->sk_secondary == NULL ? "N/A" :
+              current[line]->sk_secondary->name().c_str()));
    mvwprintz(w_data, 2, 30, col, "Difficulty: %d", current[line]->difficulty);
-   if (current[line]->sk_primary == Skill::skill("null"))
+   if (current[line]->sk_primary == NULL)
     mvwprintz(w_data, 3, 30, col, "Your skill level: N/A");
    else
     mvwprintz(w_data, 3, 30, col, "Your skill level: %d",
@@ -1429,9 +1429,9 @@ void game::pick_recipes(std::vector<recipe*> &current,
  for (int i = 0; i < recipes.size(); i++) {
 // Check if the category matches the tab, and we have the requisite skills
   if (recipes[i]->category == tab &&
-      (recipes[i]->sk_primary == Skill::skill("null") ||
+      (recipes[i]->sk_primary == NULL ||
        u.skillLevel(recipes[i]->sk_primary) >= recipes[i]->difficulty) &&
-      (recipes[i]->sk_secondary == Skill::skill("null") ||
+      (recipes[i]->sk_secondary == NULL ||
        u.skillLevel(recipes[i]->sk_secondary) > 0))
   {
     if (recipes[i]->difficulty >= 0)
@@ -1494,7 +1494,7 @@ void game::complete_craft()
 
 // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
  int skill_dice = u.skillLevel(making->sk_primary).level() * 3;
- if (making->sk_secondary == Skill::skill("null"))
+ if (making->sk_secondary == NULL)
    skill_dice += u.skillLevel(making->sk_primary).level();
  else
    skill_dice += u.skillLevel(making->sk_secondary).level();
@@ -1507,9 +1507,9 @@ void game::complete_craft()
  int skill_roll = dice(skill_dice, skill_sides);
  int diff_roll  = dice(diff_dice,  diff_sides);
 
- if (making->sk_primary != Skill::skill("null"))
+ if (making->sk_primary)
   u.practice(making->sk_primary, making->difficulty * 5 + 20);
- if (making->sk_secondary != Skill::skill("null"))
+ if (making->sk_secondary)
   u.practice(making->sk_secondary, 5);
 
 // Messed up badly; waste some components.
@@ -1903,7 +1903,7 @@ void game::complete_disassemble()
   // adapting original crafting formula to check if disassembly was successful
   // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
   int skill_dice = 2 + u.skillLevel(dis->sk_primary).level() * 3;
-   if (dis->sk_secondary == Skill::skill("null"))
+   if (dis->sk_secondary == NULL)
      skill_dice += u.skillLevel(dis->sk_primary).level();
    else
      skill_dice += u.skillLevel(dis->sk_secondary).level();
@@ -1914,9 +1914,9 @@ void game::complete_disassemble()
    int diff_sides = 24;	// 16 + 8 (default intelligence)
 
    // disassembly only nets a bit of practice
-   if (dis->sk_primary != Skill::skill("null"))
+   if (dis->sk_primary)
     u.practice(dis->sk_primary, (dis->difficulty) * 2);
-   if (dis->sk_secondary != Skill::skill("null"))
+   if (dis->sk_secondary)
     u.practice(dis->sk_secondary, 2);
 
   for (int j = 0; j < 5; j++)

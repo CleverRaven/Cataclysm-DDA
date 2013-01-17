@@ -475,7 +475,7 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
 }
 
 int monster::hit(game *g, player &p, body_part &bp_hit) {
-  Skill dodgeSkill = Skill::skill("dodge");
+  Skill *dodgeSkill = Skill::skill("dodge");
 
  int numdice = type->melee_skill;
  if (dice(numdice, 10) <= dice(p.dodge(g), 10) && !one_in(20)) {

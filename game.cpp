@@ -717,7 +717,7 @@ void game::rustCheck() {
             u.skillLevel(*aSkill).rust(newLevel);
 
             if (newLevel < skillLevel) {
-              add_msg("Your skill in %s has reduced to %d!", aSkill->name().c_str(), newLevel);
+              add_msg("Your skill in %s has reduced to %d!", (*aSkill)->name().c_str(), newLevel);
             }
           }
         }
@@ -794,7 +794,7 @@ void game::process_activity()
     }
 
     if (u.skillLevel(reading->type) < reading->level) {
-      add_msg("You learn a little about %s!", reading->type.name().c_str());
+      add_msg("You learn a little about %s!", reading->type->name().c_str());
      int min_ex = reading->time / 10 + u.int_cur / 4,
        max_ex = reading->time /  5 + u.int_cur / 2 - u.skillLevel(reading->type).level();
      if (min_ex < 1)
@@ -2138,7 +2138,7 @@ z.size(), events.size());
             int(p->personality.collector) << " Altruism: " <<
             int(p->personality.altruism) << std::endl;
     for (EACH_SKILL) {
-      data << aSkill->name() << ": " << p->skillLevel(*aSkill) << std::endl;
+      data << (*aSkill)->name() << ": " << p->skillLevel(*aSkill) << std::endl;
     }
 
     full_screen_popup(data.str().c_str());
@@ -4364,7 +4364,7 @@ void game::examine()
                            u.power_level > 0 &&
                            query_yn("Use fingerhack on the reader?"));
   if (using_electrohack || using_fingerhack) {
-    Skill computerSkill = Skill::skill("computer");
+    Skill *computerSkill = Skill::skill("computer");
 
    u.moves -= 500;
    u.practice(computerSkill, 20);
@@ -5927,7 +5927,7 @@ void game::plfire(bool burst)
   burst = true;
 
 // Train up our skill
- Skill gunSkill = Skill::skill("gun");
+ Skill *gunSkill = Skill::skill("gun");
 
  it_gun* firing = dynamic_cast<it_gun*>(u.weapon.type);
  int num_shots = 1;
@@ -5994,7 +5994,7 @@ void game::complete_butcher(int index)
  int pieces, pelts;
  double skill_shift = 0.;
 
- Skill survivalSkill = Skill::skill("survival");
+ Skill *survivalSkill = Skill::skill("survival");
  uint32_t sSkillLevel = u.skillLevel(survivalSkill).level();
 
  switch (corpse->size) {
@@ -6354,7 +6354,7 @@ void game::chat()
 }
 
 void game::pldrive(int x, int y) {
-  Skill drivingSkill = Skill::skill("driving");
+  Skill *drivingSkill = Skill::skill("driving");
 
  if (run_mode == 2) { // Monsters around and we don't wanna run
   add_msg("Monster spotted--run mode is on! "
@@ -6537,7 +6537,7 @@ void game::plmove(int x, int y)
 
 // Adjust recoil down
   if (u.recoil > 0) {
-    Skill gunSkill = Skill::skill("gun");
+    Skill *gunSkill = Skill::skill("gun");
 
     if (int(u.str_cur / 2) + u.skillLevel(gunSkill).level() >= u.recoil)
     u.recoil = 0;

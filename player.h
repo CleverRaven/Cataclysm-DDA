@@ -31,7 +31,7 @@ struct special_attack
 };
 
 class player {
-  std::map<Skill,SkillLevel> _skills;
+  std::map<Skill*,SkillLevel> _skills;
 
 public:
  player();
@@ -204,7 +204,7 @@ public:
  int resist(body_part bp);	// Infection &c resistance
  bool wearing_something_on(body_part bp); // True if wearing something on bp
 
- void practice(Skill s, int amount);
+ void practice(Skill *s, int amount);
 
  void assign_activity(activity_type type, int moves, int index = -1);
  void cancel_activity();
@@ -297,7 +297,7 @@ public:
  int sktrain[num_skill_types];
  bool sklearn[num_skill_types];
 
- SkillLevel& skillLevel(const Skill& _skill);
+ SkillLevel& skillLevel(Skill* _skill);
  SkillLevel& skillLevel(std::string ident);
 
  bool inv_sorted;

@@ -2036,7 +2036,7 @@ void map::add_trap(int x, int y, trap_id t)
 
 void map::disarm_trap(game *g, int x, int y)
 {
-  Skill trapsSkill = Skill::skill("traps");
+  Skill *trapsSkill = Skill::skill("traps");
   uint32_t skillLevel = g->u.skillLevel(trapsSkill).level();
 
  if (tr_at(x, y) == tr_null) {

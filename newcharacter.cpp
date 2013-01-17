@@ -120,7 +120,7 @@ bool player::create(game *g, character_type type, std::string tempname)
      case 9:
       rn = random_skill();
 
-      Skill aSkill = Skill::skill(rn);
+      Skill *aSkill = Skill::skill(rn);
       uint32_t level = skillLevel(aSkill).level();
 
       if (level < points) {
@@ -710,7 +710,7 @@ int set_skills(WINDOW* w, player *u, int &points)
  mvwprintz(w,1,40, h_ltgray, "  SKILLS  ");
 
  int cur_sk = 1;
- Skill currentSkill = Skill::skill(cur_sk);
+ Skill *currentSkill = Skill::skill(cur_sk);
 
  do {
   mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
@@ -727,17 +727,17 @@ int set_skills(WINDOW* w, player *u, int &points)
   else
    mvwprintz(w,  3, 30, c_ltred, "Upgrading %s costs %d points         ",
              skill_name(cur_sk).c_str(), u->skillLevel(currentSkill).level() + 1);
-  mvwprintz(w, 22, 0, COL_SKILL_USED, currentSkill.description().c_str());
+  mvwprintz(w, 22, 0, COL_SKILL_USED, currentSkill->description().c_str());
 
   if (cur_sk <= 7) {
    for (int i = 1; i < 17; i++) {
-     Skill thisSkill = Skill::skill(i);
+     Skill *thisSkill = Skill::skill(i);
 
     mvwprintz(w, 4 + i, 0, c_ltgray, "\
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 4 + i, 0, (i == cur_sk ? h_ltgray : c_ltgray),
-               thisSkill.name().c_str());
+               thisSkill->name().c_str());
     } else {
      mvwprintz(w, 4 + i, 0,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
@@ -748,32 +748,32 @@ int set_skills(WINDOW* w, player *u, int &points)
    }
   } else if (cur_sk >= Skill::skills.size() - 9) {
    for (int i = num_skill_types - 16; i < num_skill_types; i++) {
-     Skill thisSkill = Skill::skill(i);
+     Skill *thisSkill = Skill::skill(i);
     mvwprintz(w, 21 + i - num_skill_types, 0, c_ltgray, "\
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 21 + i - num_skill_types, 0,
-               (i == cur_sk ? h_ltgray : c_ltgray), thisSkill.name().c_str());
+               (i == cur_sk ? h_ltgray : c_ltgray), thisSkill->name().c_str());
     } else {
      mvwprintz(w, 21 + i - num_skill_types, 0,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "%s ",
-               thisSkill.name().c_str());
+               thisSkill->name().c_str());
      for (int j = 0; j < u->skillLevel(thisSkill).level(); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
    }
   } else {
    for (int i = cur_sk - 7; i < cur_sk + 9; i++) {
-     Skill thisSkill = Skill::skill(i);
+     Skill *thisSkill = Skill::skill(i);
     mvwprintz(w, 12 + i - cur_sk, 0, c_ltgray, "\
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 12 + i - cur_sk, 0, (i == cur_sk ? h_ltgray : c_ltgray),
-               thisSkill.name().c_str());
+               thisSkill->name().c_str());
     } else {
      mvwprintz(w, 12 + i - cur_sk, 0,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-               "%s ", thisSkill.name().c_str());
+               "%s ", thisSkill->name().c_str());
      for (int j = 0; j < u->skillLevel(thisSkill).level(); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }

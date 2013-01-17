@@ -742,7 +742,7 @@ int time_to_fire(player &p, it_gun* firing)
    else
      time = (200 - 20 * p.skillLevel(Skill::skill("launcher")).level());
  } else {
-   debugmsg("Why is shooting %s using %s skill?", (firing->name).c_str(), firing->skill_used.name().c_str());
+   debugmsg("Why is shooting %s using %s skill?", (firing->name).c_str(), firing->skill_used->name().c_str());
    time =  0;
  }
 

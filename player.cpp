@@ -941,7 +941,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  std::vector <skill> skillslist;
  mvwprintz(w_skills, 0, 11, c_ltgray, "SKILLS");
  for (EACH_SKILL) {
-   int i = aSkill->id();
+   int i = (*aSkill)->id();
 
    SkillLevel level = skillLevel(*aSkill);
 
@@ -952,7 +952,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
    skillslist.push_back(skill(i));
    if (line < 9) {
      mvwprintz(w_skills, line, 1, skillLevel(*aSkill).isTraining() ? c_dkgray : c_ltblue, "%-17s",
-               (aSkill->name() + ":").c_str());
+               ((*aSkill)->name() + ":").c_str());
      mvwprintz(w_skills, line,19, c_ltblue, "%-2d(%2d%%%%)", level.level(),
               (level.exercise() <  0 ? 0 : level.exercise()));
     line++;
@@ -1351,10 +1351,10 @@ encumb(bp_feet) * 5);
      min = 0;
    }
 
-   Skill selectedSkill;
+   Skill *selectedSkill;
 
    for (int i = min; i < max; i++) {
-     Skill aSkill = Skill::skill(skillslist[i]);
+     Skill *aSkill = Skill::skill(skillslist[i]);
      SkillLevel level = skillLevel(aSkill);
 
      bool isLearning = level.isTraining();
@@ -1375,13 +1375,13 @@ encumb(bp_feet) * 5);
     mvwprintz(w_skills, 2 + i - min, 1, c_ltgray, "                         ");
     if (exercise >= 100) {
      mvwprintz(w_skills, 2 + i - min, 1, status, "%s:",
-               aSkill.name().c_str());
+               aSkill->name().c_str());
      mvwprintz(w_skills, 2 + i - min,19, status, "%-2d(%2d%%%%)",
                level.level(),
                (exercise <  0 ? 0 : exercise));
     } else {
      mvwprintz(w_skills, 2 + i - min, 1, status, "%-17s",
-               (aSkill.name() + ":").c_str());
+               (aSkill->name() + ":").c_str());
      mvwprintz(w_skills, 2 + i - min,19, status, "%-2d(%2d%%%%)",
                level.level(),
                (exercise <  0 ? 0 :
@@ -1391,7 +1391,7 @@ encumb(bp_feet) * 5);
    werase(w_info);
    if (line >= 0 && line < skillslist.size())
     mvwprintz(w_info, 0, 0, c_magenta,
-              selectedSkill.description().c_str());
+              selectedSkill->description().c_str());
    wrefresh(w_skills);
    wrefresh(w_info);
    switch (input()) {
@@ -1407,14 +1407,14 @@ encumb(bp_feet) * 5);
       werase(w_skills);
      mvwprintz(w_skills, 0, 0, c_ltgray, "           SKILLS         ");
      for (int i = 0; i < skillslist.size() && i < 7; i++) {
-       Skill thisSkill = Skill::skill(i);
+       Skill *thisSkill = Skill::skill(i);
        SkillLevel thisLevel = skillLevel(thisSkill);
        if (thisLevel.exercise() < 0)
        status = c_ltred;
       else
        status = c_ltblue;
       mvwprintz(w_skills, i + 2,  1, status, "%s:",
-                thisSkill.name().c_str());
+                thisSkill->name().c_str());
       mvwprintz(w_skills, i + 2, 19, status, "%d (%2d%%%%)",
                 thisLevel.level(),
                 (thisLevel.exercise() <  0 ? 0 :
@@ -4529,7 +4529,7 @@ int time; //Declare this here so that we can change the time depending on whats 
  }
  else if (skillLevel(tmp->type) < tmp->req) {
   g->add_msg("The %s-related jargon flies over your head!",
-             tmp->type.name().c_str());
+             tmp->type->name().c_str());
   return;
  } else if (tmp->intel > int_cur) {
   g->add_msg("This book is too complex for you to easily understand. It will take longer to read.");
@@ -4540,7 +4540,7 @@ int time; //Declare this here so that we can change the time depending on whats 
  }
  else if (skillLevel(tmp->type) >= tmp->level && tmp->fun <= 0 &&
             !query_yn("Your %s skill won't be improved.  Read anyway?",
-                      tmp->type.name().c_str()))
+                      tmp->type->name().c_str()))
   return;
 
 // Base read_speed() is 1000 move points (1 minute per tmp->time)
@@ -4863,7 +4863,7 @@ bool player::wearing_something_on(body_part bp)
  return false;
 }
 
-void player::practice (Skill s, int amount) {
+void player::practice (Skill *s, int amount) {
   SkillLevel& level = skillLevel(s);
 
   if (level.exercise() < 0) {
@@ -4876,7 +4876,7 @@ void player::practice (Skill s, int amount) {
 
   bool isSavant = has_trait(PF_SAVANT);
 
-  Skill savantSkill = Skill();
+  Skill *savantSkill = NULL;
   SkillLevel savantSkillLevel = SkillLevel();
 
   if (isSavant) {
@@ -5087,6 +5087,6 @@ SkillLevel& player::skillLevel(std::string ident) {
   return _skills[Skill::skill(ident)];
 }
 
-SkillLevel& player::skillLevel(const Skill& _skill) {
+SkillLevel& player::skillLevel(Skill *_skill) {
   return _skills[_skill];
 }

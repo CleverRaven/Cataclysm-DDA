@@ -1185,7 +1185,7 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
 }
 
 int caravan_price(player &u, int price) {
-  Skill barterSkill = Skill::skill("barter");
+  Skill *barterSkill = Skill::skill("barter");
 
   if (u.skillLevel(barterSkill) > 10)
   return int( double(price) * .5);

@@ -22,10 +22,10 @@ Skill::Skill(size_t id, std::string ident, std::string name, std::string descrip
   _description = description;
 }
 
-std::vector<Skill> Skill::skills(Skill::loadSkills());
+std::vector<Skill*> Skill::skills(Skill::loadSkills());
 
-std::vector<Skill> Skill::loadSkills() {
-  std::vector<Skill> allSkills;
+std::vector<Skill*> Skill::loadSkills() {
+  std::vector<Skill*> allSkills;
 
   picojson::value skillsRaw;
 
@@ -47,7 +47,7 @@ std::vector<Skill> Skill::loadSkills() {
       name = aField++->get<std::string>();
       description = aField++->get<std::string>();
 
-      Skill newSkill(allSkills.size(), ident, name, description);
+      Skill *newSkill = new Skill(allSkills.size(), ident, name, description);
       allSkills.push_back(newSkill);
     }
   } else {
@@ -60,19 +60,19 @@ std::vector<Skill> Skill::loadSkills() {
 
 size_t Skill::skill_id(std::string ident) {
   for (EACH_SKILL) {
-    if (aSkill->_ident == ident) {
-      return aSkill->_id;
+    if ((*aSkill)->_ident == ident) {
+      return (*aSkill)->_id;
     }
   }
 }
 
-Skill& Skill::skill(std::string ident) {
+Skill* Skill::skill(std::string ident) {
   size_t skillID = Skill::skill_id(ident);
 
   return Skill::skill(skillID);
 }
 
-Skill& Skill::skill(size_t id) {
+Skill* Skill::skill(size_t id) {
   return Skill::skills[id];
 }
 
@@ -186,11 +186,11 @@ std::ostream& operator<<(std::ostream& os, const SkillLevel& obj) {
 
 
 std::string skill_name(int sk) {
-  return Skill::skill(sk).name();
+  return Skill::skill(sk)->name();
 }
 
 std::string skill_description(int sk) {
-  return Skill::skill(sk).description();
+  return Skill::skill(sk)->description();
 }
 
 double price_adjustment(int barter_skill) {

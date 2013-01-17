@@ -24,8 +24,8 @@ enum skill {
  num_skill_types	// MUST be last!
 };
 
-#define EVERY_SKILL std::vector<Skill>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill
-#define EACH_SKILL std::vector<Skill>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill
+#define EVERY_SKILL std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill
+#define EACH_SKILL std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill
 
 class Skill {
   size_t _id;
@@ -37,10 +37,10 @@ class Skill {
   static size_t skill_id(std::string ident);
 
  public:
-  static std::vector<Skill> skills;
-  static std::vector<Skill> loadSkills();
-  static Skill& skill(std::string ident);
-  static Skill& skill(size_t id);
+  static std::vector<Skill*> skills;
+  static std::vector<Skill*> loadSkills();
+  static Skill* skill(std::string ident);
+  static Skill* skill(size_t id);
 
   static size_t skill_count();
 
