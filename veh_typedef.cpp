@@ -260,7 +260,7 @@ void game::init_vehicles()
 	PART (0, -3, vp_board_v);
 	PART (0, -3, vp_fuel_tank_gas);
 	
-	PART (1, 0, vp_door_o);
+	PART (1, 0, vp_door_i);
 	PART (1, -1, vp_board_h);
 	PART (1, 1, vp_board_h);
 	PART (1, -2, vp_board_h);
