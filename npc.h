@@ -90,9 +90,9 @@ enum npc_action {
  npc_escape_item, npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
   npc_heal, npc_use_painkiller, npc_eat, npc_drop_items, // 5 - 12
  npc_flee, npc_melee, npc_shoot, npc_shoot_burst, npc_alt_attack, // 13 - 17
- npc_look_for_player, npc_heal_player, npc_follow_player, npc_talk_to_player,
-  npc_mug_player, // 18 - 22
- npc_goto_destination, npc_avoid_friendly_fire, // 23, 24
+ npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
+ npc_talk_to_player, npc_mug_player, // 18 - 23
+ npc_goto_destination, npc_avoid_friendly_fire, // 24, 25
  num_npc_actions
 };
 
