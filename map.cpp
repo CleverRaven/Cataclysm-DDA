@@ -2163,7 +2163,7 @@ void map::draw(game *g, WINDOW* w, point center)
 {
  int natural_sight_range = g->u.sight_range(1);
  int light_sight_range = g->u.sight_range(g->light_level());
- int lowlight_sight_range = std::max(g->light_level() / 2, natural_sight_range);
+ int lowlight_sight_range = std::max((int)g->light_level(), natural_sight_range);
  int max_sight_range = g->u.unimpaired_range();
 
  for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
