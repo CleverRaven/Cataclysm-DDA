@@ -86,10 +86,11 @@ void npc::move(game *g)
     find_item(g);
    if (g->debugmon)
     debugmsg("find_item %s", npc_action_name(action).c_str());
-   if (fetching_item)		// Set to true if find_item() found something
-    action = npc_pickup;
-   else if (is_following() && g->u.in_vehicle)
+   // check if in vehicle before rushing off to fetch things
+   if (is_following() && g->u.in_vehicle)
     action = npc_follow_embarked;
+   else if (fetching_item)		// Set to true if find_item() found something
+    action = npc_pickup;
    else if (is_following())	// No items, so follow the player?
     action = npc_follow_player;
    else				// Do our long-term action
@@ -490,11 +491,16 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
    if (dist > confident_range()) {
     if (can_reload() && enough_time_to_reload(g, target, weapon))
      return npc_reload;
+    else if (in_vehicle && dist > 1)
+     return npc_pause; // TODO: check weapon switching
     else
      return npc_melee;
    }
    if (!wont_hit_friend(g, tarx, tary))
-    return npc_avoid_friendly_fire;
+    if (in_vehicle)
+     return npc_pause; // wait for clear shot
+    else
+     return npc_avoid_friendly_fire;
    else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
             gun->burst > 1 &&
             ((weapon.curammo && target_HP >= weapon.curammo->damage * 3) || emergency(danger * 2)))
@@ -532,6 +538,8 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
  else if (has_better_melee)
   return npc_wield_melee;
 
+ if (in_vehicle && dist > 1)
+  return npc_pause; // TODO: check weapon switching
  return npc_melee;
 }
 
@@ -903,9 +911,10 @@ bool npc::can_move_to(game *g, int x, int y)
 
 void npc::move_to(game *g, int x, int y)
 {
- // TODO: handle this nicely and then debug message this - npcs should not jump from moving vehicles
- if (in_vehicle)
+ if (in_vehicle) {
+  // TODO: handle this nicely - npcs should not jump from moving vehicles
   g->m.unboard_vehicle(g, posx, posy);
+ }
 
  if (has_disease(DI_DOWNED)) {
   moves -= 100;
