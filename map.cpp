@@ -2229,8 +2229,8 @@ void map::draw(game *g, WINDOW* w, point center)
          (g->u.sight_impaired() && lit != LL_BRIGHT)))) {
     if (g->u.has_disease(DI_BOOMERED))
    	 mvwputch(w, realy+SEEY - center.y, realx+SEEX - center.x, c_magenta, '#');
-   	else
-   	 mvwputch(w, realy+SEEY - center.y, realx+SEEX - center.x, c_dkgray, '#');
+    else
+         mvwputch(w, realy+SEEY - center.y, realx+SEEX - center.x, c_dkgray, '#');
    } else if (dist > light_sight_range && g->u.sight_impaired() && lit == LL_BRIGHT) {
     if (g->u.has_disease(DI_BOOMERED))
      mvwputch(w, realy+SEEY - center.y, realx+SEEX - center.x, c_pink, '#');
