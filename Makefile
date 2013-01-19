@@ -1,10 +1,23 @@
 # Platforms:
-# Linux
+# Linux native
 #   (don't need to do anything)
+# Linux 64-bit
+#   make NATIVE=linux64
+# Linux 32-bit
+#   make NATIVE=linux32
+#   (need libc6-dev-i386 )
 # Linux cross-compile to Win32
-#   With MXE installed, run: make CROSS=i686-pc-mingw32-
+#   make CROSS=i686-pc-mingw32-
+#   (need a cross-compiling environment such as MXE installed)
 # Win32
 #   Run: make NATIVE=win32
+
+# Build types: 
+# Debug (no optimizations)
+#  Default
+# Release (turn on optimizations)
+#  make RELEASE=1
+
 
 # comment these to toggle them as one sees fit.
 # WARNINGS will spam hundreds of warnings, mostly safe, if turned on
@@ -13,7 +26,7 @@
 #WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-char-subscripts
 DEBUG = -g
 #PROFILE = -pg
-OTHERS = -O3
+#OTHERS = -O3
 #DEFINES = -DNDEBUG
 
 # Disable debug. Comment this out to get logging.
@@ -41,27 +54,42 @@ W32TARGET = cataclysm.exe
 OS  = $(shell uname -o)
 CXX = $(CROSS)g++
 
-CFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS)
+# enable optimizations. slow to build
+ifdef ($(RELEASE))
+  OTHERS += -O3
+  DEBUG =
+endif
+
+CXXFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS)
 
 # is this mingw check even being used anymore?
 ifeq ($(OS), Msys)
-LDFLAGS = -static -lpdcurses
+  LDFLAGS = -static -lpdcurses
 else 
-LDFLAGS = -lncurses
+  LDFLAGS = -lncurses
 endif
 
 # Win32 (mingw32?)
 ifeq ($(NATIVE), win32)
-TARGET = $(W32TARGET)
-W32LDFLAGS = -Wl,-stack,12000000,-subsystem,windows
-LDFLAGS = -static -lgdi32 
-ODIR = $(W32ODIR)
+  TARGET = $(W32TARGET)
+  W32LDFLAGS = -Wl,-stack,12000000,-subsystem,windows
+  LDFLAGS = -static -lgdi32 
+  ODIR = $(W32ODIR)
+endif
+# Linux 64-bit
+ifeq ($(NATIVE), linux64)
+  CXXFLAGS += -m64
+else
+  # Linux 32-bit
+  ifeq ($(NATIVE), linux32)
+    CXXFLAGS += -m32
+  endif
 endif
 # MXE cross-compile to win32
 ifeq ($(CROSS), i686-pc-mingw32-)
-TARGET = $(W32TARGET)
-LDFLAGS = -lgdi32
-ODIR = $(W32ODIR)
+  TARGET = $(W32TARGET)
+  LDFLAGS = -lgdi32
+  ODIR = $(W32ODIR)
 endif
 
 SOURCES = $(wildcard *.cpp)
@@ -72,7 +100,8 @@ all: $(TARGET)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
-	$(CXX) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CFLAGS) $(OBJS) $(LDFLAGS) 
+	$(CXX) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
+          $(OBJS) $(LDFLAGS) 
 
 $(ODIR):
 	mkdir $(ODIR)
@@ -81,9 +110,9 @@ $(DDIR):
 	@mkdir $(DDIR)
 
 $(ODIR)/%.o: %.cpp
-	$(CXX) $(DEFINES) $(CFLAGS) -c $< -o $@
+	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(TARGET) $(W32TARGET) $(ODIR)/*.o
+	rm -f $(TARGET) $(W32TARGET) $(ODIR)/*.o $(W32ODIR)/*.o
 
 -include $(SOURCES:%.cpp=$(DEPDIR)/%.P)
