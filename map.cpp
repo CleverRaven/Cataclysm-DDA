@@ -2163,7 +2163,7 @@ void map::draw(game *g, WINDOW* w, point center)
 {
  int natural_sight_range = g->u.sight_range(1);
  int light_sight_range = g->u.sight_range(g->light_level());
- int lowlight_sight_range = std::max((int)g->light_level(), natural_sight_range);
+ int lowlight_sight_range = std::max((int)g->light_level() / 2, natural_sight_range);
  int max_sight_range = g->u.unimpaired_range();
 
  for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
@@ -2186,6 +2186,9 @@ void map::draw(game *g, WINDOW* w, point center)
    // While viewing indoor areas use lightmap model
    if (!g->lm.is_outside(realx - g->u.posx, realy - g->u.posy)) {
     sight_range = natural_sight_range;
+   // Don't display area as shadowy if it's outside and illuminated by natural light
+   } else if (dist <= g->u.sight_range(g->natural_light_level())) {
+    lowlight_sight_range = std::max((int)g->light_level(), natural_sight_range);
    }
 
    // I've moved this part above loops without even thinking that
@@ -2239,7 +2242,7 @@ void map::draw(game *g, WINDOW* w, point center)
    } else if (dist <= g->u.clairvoyance() || can_see) {
     drawsq(w, g->u, realx, realy, false, true, center.x, center.y,
            (dist > lowlight_sight_range && LL_LIT > lit) ||
-           (dist > sight_range && LL_LOW == lit),
+	   (dist > sight_range && LL_LOW == lit),
            LL_BRIGHT == lit);
    } else {
     mvwputch(w, realy+SEEY - center.y, realx+SEEX - center.x, c_black,'#');
