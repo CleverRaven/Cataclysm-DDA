@@ -33,7 +33,6 @@ enum lit_level {
 };
 
 struct light_map_cache {
- bool is_outside;
  float transparency;
  vehicle* veh;
  int veh_part;
@@ -58,6 +57,7 @@ class light_map
   typedef light_map_cache light_cache[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
   float lm[LIGHTMAP_X][LIGHTMAP_Y];
   float sm[LIGHTMAP_X][LIGHTMAP_Y];
+  bool outside_cache[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
   light_cache c;
 
   void apply_light_source(int x, int y, int cx, int cy, float luminance);

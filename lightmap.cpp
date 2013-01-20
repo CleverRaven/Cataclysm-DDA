@@ -41,7 +41,7 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
   for(int sx = x - SEEX; sx <= x + SEEX; ++sx) {
    for(int sy = y - SEEY; sy <= y + SEEY; ++sy) {
     // In bright light indoor light exists to some degree
-    if (!c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].is_outside)
+    if (!outside_cache[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y])
      lm[sx - x + SEEX][sy - y + SEEY] = LIGHT_AMBIENT_LOW;
    }
   }
@@ -55,12 +55,12 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
   for(int sy = y - LIGHTMAP_RANGE_Y; sy <= y + LIGHTMAP_RANGE_Y; ++sy) {
    // When underground natural_light is 0, if this changes we need to revisit
    if (natural_light > LIGHT_AMBIENT_LOW) {
-    if (!c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].is_outside) {
+    if (!outside_cache[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y]) {
      // Apply light sources for external/internal divide
      for(int i = 0; i < 4; ++i) {
       if (INBOUNDS_LARGE(sx - x + dir_x[i], sy - y + dir_y[i]) &&
-          c[sx - x + LIGHTMAP_RANGE_X + dir_x[i]][sy - y + LIGHTMAP_RANGE_Y + dir_y[i]].is_outside) {
-       if (INBOUNDS(sx - x, sy - y) && c[LIGHTMAP_RANGE_X][LIGHTMAP_RANGE_Y].is_outside)
+          outside_cache[sx - x + LIGHTMAP_RANGE_X + dir_x[i]][sy - y + LIGHTMAP_RANGE_Y + dir_y[i]]) {
+       if (INBOUNDS(sx - x, sy - y) && outside_cache[LIGHTMAP_RANGE_X][LIGHTMAP_RANGE_Y])
         lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
        
        if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].transparency > LIGHT_TRANSPARENCY_SOLID)
@@ -178,7 +178,7 @@ bool light_map::is_outside(int dx, int dy)
  if (!INBOUNDS_LARGE(dx, dy))
   return true;
 
- return c[dx + LIGHTMAP_RANGE_X][dy + LIGHTMAP_RANGE_Y].is_outside;
+ return outside_cache[dx + LIGHTMAP_RANGE_X][dy + LIGHTMAP_RANGE_Y];
 }
 
 bool light_map::sees(int fx, int fy, int tx, int ty, int max_range)
@@ -396,7 +396,7 @@ void light_map::build_light_cache(game* g, int cx, int cy)
    int x = sx - cx + LIGHTMAP_RANGE_X;
    int y = sy - cy + LIGHTMAP_RANGE_Y;
 
-   c[x][y].is_outside = g->m.is_outside(sx, sy);
+   outside_cache[x][y] = g->m.is_outside(sx, sy);
    c[x][y].transparency = LIGHT_TRANSPARENCY_CLEAR;
    c[x][y].veh = NULL;
    c[x][y].veh_part = 0;
