@@ -66,7 +66,7 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
        if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].transparency > LIGHT_TRANSPARENCY_SOLID)
        	apply_light_arc(sx, sy, dir_d[i], x, y, natural_light);
       }
-	    }
+     }
     }
    }
 
