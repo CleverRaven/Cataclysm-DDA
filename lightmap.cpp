@@ -49,7 +49,7 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
 
  // Apply player light sources
  if (luminance > LIGHT_AMBIENT_LOW)
-  apply_light_source(x, y, x, y, luminance);
+  apply_light_source(g->u.posx, g->u.posy, x, y, luminance);
 
  for(int sx = x - LIGHTMAP_RANGE_X; sx <= x + LIGHTMAP_RANGE_X; ++sx) {
   for(int sy = y - LIGHTMAP_RANGE_Y; sy <= y + LIGHTMAP_RANGE_Y; ++sy) {
