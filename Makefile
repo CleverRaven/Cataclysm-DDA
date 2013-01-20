@@ -5,10 +5,8 @@
 #   make NATIVE=linux64
 # Linux 32-bit
 #   make NATIVE=linux32
-#   (need libc6-dev-i386 )
 # Linux cross-compile to Win32
 #   make CROSS=i686-pc-mingw32-
-#   (need a cross-compiling environment such as MXE installed)
 # Win32
 #   Run: make NATIVE=win32
 
