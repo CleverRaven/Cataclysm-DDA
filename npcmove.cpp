@@ -489,16 +489,20 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
   if (weapon.is_gun() && weapon.charges > 0) {
    it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
    if (dist > confident_range()) {
-    if (can_reload() && enough_time_to_reload(g, target, weapon))
+    if (can_reload() && 
+		(enough_time_to_reload(g, target, weapon) || in_vehicle)
      return npc_reload;
     else if (in_vehicle && dist > 1)
-     return npc_pause; // TODO: check weapon switching
+     return npc_pause;
     else
      return npc_melee;
    }
    if (!wont_hit_friend(g, tarx, tary))
     if (in_vehicle)
-     return npc_pause; // wait for clear shot
+     if (can_reload())
+      return npc_reload;
+     else
+      return npc_pause; // wait for clear shot
     else
      return npc_avoid_friendly_fire;
    else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
@@ -539,7 +543,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
   return npc_wield_melee;
 
  if (in_vehicle && dist > 1)
-  return npc_pause; // TODO: check weapon switching
+  return npc_pause;
  return npc_melee;
 }
 
