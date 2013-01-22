@@ -29,6 +29,8 @@ itype_id ALT_ATTACK_ITEMS[NUM_ALT_ATTACK_ITEMS] = {
 };
 #endif
 
+const int avoidance_vehicles_radius = 5;
+
 std::string npc_action_name(npc_action action);
 bool thrown_item(item *used);
 
@@ -52,20 +54,37 @@ void npc::move(game *g)
   debugmsg("NPC %s: target = %d, danger = %d, range = %d",
            name.c_str(), target, danger, confident_range(-1));
 
+ avoidance_t avoidance = avoid_none;
+ int avoid_target = target;
+
  if (is_enemy()) {
   int pl_danger = player_danger( &(g->u) );
   if (pl_danger > danger || target == -1) {
-   target = TARGET_PLAYER;
+   avoid_target = target = TARGET_PLAYER;
    danger = pl_danger;
    if (g->debugmon)
     debugmsg("NPC %s: Set target to PLAYER, danger = %d", name.c_str(), danger);
+   if (attitude == NPCATT_FLEE)
+   	avoidance = avoid_player;
   }
  }
 // TODO: Place player-aiding actions here, with a weight
 
- //if (!bravery_check(danger) || !bravery_check(total_danger) || 
- if (target == TARGET_PLAYER && attitude == NPCATT_FLEE)
-  action = method_of_fleeing(g, target);
+ /* NPCs are fairly suicidal so at this point we will do a quick check to see if
+  * something nasty is going to happen.
+  */
+ int vehicle = vehicle_danger(g, avoidance_vehicles_radius);
+ if (vehicle) {
+ 	avoidance = avoid_vehicle;
+ 	avoid_target = vehicle;
+ }
+
+ // TODO: morale breaking when surrounded by hostiles
+ //if (!bravery_check(danger) || !bravery_check(total_danger) ||
+ // TODO: near by active explosives spotted
+
+ if (avoidance != avoid_none)
+  action = method_of_fleeing(g, avoidance, avoid_target);
  else if (danger > 0 || (target == TARGET_PLAYER && attitude == NPCATT_KILL))
   action = method_of_attack(g, target, danger);
 
@@ -442,19 +461,30 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
  }
 }
 
-npc_action npc::method_of_fleeing(game *g, int enemy)
+npc_action npc::method_of_fleeing(game *g, avoidance_t type, int target)
 {
- int speed = (enemy == TARGET_PLAYER ? g->u.current_speed(g) :
-                                       g->z[enemy].speed);
- point enemy_loc = (enemy == TARGET_PLAYER ? point(g->u.posx, g->u.posy) :
-                    point(g->z[enemy].posx, g->z[enemy].posy));
- int distance = rl_dist(posx, posy, enemy_loc.x, enemy_loc.y);
-
  if (choose_escape_item() >= 0) // We have an escape item!
   return npc_escape_item;
 
- if (speed > 0 && (100 * distance) / speed <= 4 && speed > current_speed(g))
-  return method_of_attack(g, enemy, -1); // Can't outrun, so attack
+	if (type == avoid_player || type == avoid_creature) {
+		int speed = 0;
+		point enemy_loc;
+
+		if (type = avoid_player) {
+			speed = g->u.current_speed(g);
+			enemy_loc = point(g->u.posx, g->u.posy);
+		} else {
+			speed = g->z[target].speed;
+			enemy_loc =  point(g->z[target].posx, g->z[target].posy);
+		}
+
+		int distance = rl_dist(posx, posy, enemy_loc.x, enemy_loc.y);
+
+		if (speed > 0 && (100 * distance) / speed <= 4 && speed > current_speed(g))
+			return method_of_attack(g, target, -1); // Can't outrun, so attack
+	} else if (type == avoid_vehicle) {
+		// TODO think about how to do this
+	}
 
  return npc_flee;
 }

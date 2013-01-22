@@ -345,6 +345,13 @@ enum talk_topic {
  NUM_TALK_TOPICS
 };
 
+enum avoidance_t {
+	avoid_none,
+	avoid_player,
+	avoid_creature,
+	avoid_vehicle
+};
+
 struct npc_chatbin
 {
  std::vector<int> missions;
@@ -433,6 +440,7 @@ public:
  void form_opinion(player *u);
  talk_topic pick_talk_topic(player *u);
  int  player_danger(player *u); // Comparable to monsters
+ int vehicle_danger(game *g, int radius);
  bool turned_hostile(); // True if our anger is at least equal to...
  int hostile_anger_level(); // ... this value!
  void make_angry(); // Called if the player attacks us
@@ -499,7 +507,7 @@ public:
 // Functions which choose an action for a particular goal
  void choose_monster_target(game *g, int &enemy, int &danger,
                             int &total_danger);
- npc_action method_of_fleeing	(game *g, int enemy);
+ npc_action method_of_fleeing	(game *g, avoidance_t type, int target);
  npc_action method_of_attack	(game *g, int enemy, int danger);
  npc_action address_needs	(game *g, int danger);
  npc_action address_player	(game *g);
