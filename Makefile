@@ -42,12 +42,15 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
+VERSION = 0.1
+
 ODIR = obj
 W32ODIR = objwin
 DDIR = .deps
 
 TARGET = cataclysm
 W32TARGET = cataclysm.exe
+BINDIST_DIR = Cataclysm
 
 OS  = $(shell uname -o)
 CXX = $(CROSS)g++
@@ -60,20 +63,20 @@ endif
 
 CXXFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS)
 
-# is this mingw check even being used anymore?
-ifeq ($(OS), Msys)
-  LDFLAGS = -static -lpdcurses
-else 
-  LDFLAGS = -lncurses
-endif
+BINDIST_EXTRAS = README data/
+BINDIST    = cataclysmdda-$(VERSION).tar.gz
+W32BINDIST = cataclysmdda-$(VERSION).zip
+BINDIST_CMD    = tar -czvf $(BINDIST) $(BINDIST_DIR)
+W32BINDIST_CMD = zip -r $(W32BINDIST) $(BINDIST_DIR)
 
-# Win32 (mingw32?)
-ifeq ($(NATIVE), win32)
-  TARGET = $(W32TARGET)
-  W32LDFLAGS = -Wl,-stack,12000000,-subsystem,windows
-  LDFLAGS = -static -lgdi32 
-  ODIR = $(W32ODIR)
-endif
+# is this section even being used anymore?
+# SOMEBODY PLEASE CHECK
+#ifeq ($(OS), Msys)
+#  LDFLAGS = -static -lpdcurses
+#else 
+#  LDFLAGS = -lncurses
+#endif
+
 # Linux 64-bit
 ifeq ($(NATIVE), linux64)
   CXXFLAGS += -m64
@@ -83,11 +86,22 @@ else
     CXXFLAGS += -m32
   endif
 endif
+# Win32 (mingw32?)
+ifeq ($(NATIVE), win32)
+  TARGET = $(W32TARGET)
+  BINDIST = $(W32BINDIST)
+  BINDIST_CMD = $(W32BINDIST_CMD)
+  ODIR = $(W32ODIR)
+  W32LDFLAGS = -Wl,-stack,12000000,-subsystem,windows
+  LDFLAGS = -static -lgdi32 
+endif
 # MXE cross-compile to win32
 ifeq ($(CROSS), i686-pc-mingw32-)
   TARGET = $(W32TARGET)
-  LDFLAGS = -lgdi32
+  BINDIST = $(W32BINDIST)
+  BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
+  LDFLAGS = -lgdi32
 endif
 
 SOURCES = $(wildcard *.cpp)
@@ -111,6 +125,16 @@ $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(TARGET) $(W32TARGET) $(ODIR)/*.o $(W32ODIR)/*.o
+	rm -f $(TARGET) $(W32TARGET) $(ODIR)/*.o $(W32ODIR)/*.o $(W32BINDIST) \
+	$(BINDIST)
+	rm -rf $(BINDIST_DIR)
+
+bindist: $(BINDIST)
+
+$(BINDIST): $(TARGET) $(BINDIST_EXTRAS)
+	rm -rf $(BINDIST_DIR)
+	mkdir -p $(BINDIST_DIR)
+	cp -R $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
+	$(BINDIST_CMD)
 
 -include $(SOURCES:%.cpp=$(DEPDIR)/%.P)
