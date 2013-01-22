@@ -382,7 +382,7 @@ void light_map::build_outside_cache(map *m, const int x, const int y, const int 
   for( int dx = -1; dx <=1; dx++ ) {
    for( int dy = -1; dy <=1; dy++ ) {
     if( INBOUNDS(x + dx, x + dy) ) {
-     outside_cache[x + dx][x + dy] = false;
+     outside_cache[x + dx][y + dy] = false;
     }
    }
   }
