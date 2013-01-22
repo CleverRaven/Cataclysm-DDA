@@ -489,8 +489,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
   if (weapon.is_gun() && weapon.charges > 0) {
    it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
    if (dist > confident_range()) {
-    if (can_reload() && 
-		(enough_time_to_reload(g, target, weapon) || in_vehicle)
+    if (can_reload() && (enough_time_to_reload(g, target, weapon) || in_vehicle))
      return npc_reload;
     else if (in_vehicle && dist > 1)
      return npc_pause;
