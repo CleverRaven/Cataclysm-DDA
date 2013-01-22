@@ -44,19 +44,19 @@ DEBUG = -g
 
 VERSION = 0.1
 
-ODIR = obj
-W32ODIR = objwin
-DDIR = .deps
-
 TARGET = cataclysm
 W32TARGET = cataclysm.exe
 BINDIST_DIR = Cataclysm
+
+ODIR = obj
+W32ODIR = objwin
+DDIR = .deps
 
 OS  = $(shell uname -o)
 CXX = $(CROSS)g++
 
 # enable optimizations. slow to build
-ifdef ($(RELEASE))
+ifdef RELEASE
   OTHERS += -O3
   DEBUG =
 endif
@@ -74,7 +74,7 @@ W32BINDIST_CMD = zip -r $(W32BINDIST) $(BINDIST_DIR)
 #ifeq ($(OS), Msys)
 #  LDFLAGS = -static -lpdcurses
 #else 
-#  LDFLAGS = -lncurses
+  LDFLAGS = -lncurses
 #endif
 
 # Linux 64-bit
@@ -93,7 +93,7 @@ ifeq ($(NATIVE), win32)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
   W32LDFLAGS = -Wl,-stack,12000000,-subsystem,windows
-  LDFLAGS = -static -lgdi32 
+  LDFLAGS += -static -lgdi32 
 endif
 # MXE cross-compile to win32
 ifeq ($(CROSS), i686-pc-mingw32-)
@@ -101,7 +101,7 @@ ifeq ($(CROSS), i686-pc-mingw32-)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS = -lgdi32
+  LDFLAGS += -lgdi32
 endif
 
 SOURCES = $(wildcard *.cpp)

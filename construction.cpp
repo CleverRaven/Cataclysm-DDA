@@ -263,7 +263,7 @@ void game::construction_menu()
 // Print the constructions between offset and max (or how many will fit)
   for (int i = 0; i < 22 && i + offset < constructions.size(); i++) {
    int current = i + offset;
-   nc_color col = (player_can_build(u, total_inv, constructions[current], 0) ?
+   nc_color col = (player_can_build(u, total_inv, constructions[current], -1) ?
                    c_white : c_dkgray);
    // Map menu items to hotkey letters, skipping j, k, l, and q.
    char hotkey = current + ((current < 9) ? 97 : ((current < 13) ? 100 : 101));
@@ -395,7 +395,7 @@ void game::construction_menu()
     break;
    case '\n':
    case 'l':
-    if (player_can_build(u, total_inv, constructions[select], 0)) {
+    if (player_can_build(u, total_inv, constructions[select], -1)) {
      place_construction(constructions[select]);
      ch = 'q';
     } else {
@@ -413,7 +413,7 @@ void game::construction_menu()
    if (ch < 96 || ch > constructions.size() + 101) break;
    // Map menu items to hotkey letters, skipping j, k, l, and q.
    char hotkey = ch - ((ch < 105) ? 97 : ((ch < 112) ? 100 : 101));
-   if (player_can_build(u, total_inv, constructions[hotkey], 0)) {
+   if (player_can_build(u, total_inv, constructions[hotkey], -1)) {
     place_construction(constructions[hotkey]);
     ch = 'q';
    } else {
@@ -440,20 +440,24 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
  int start = 0;
  if (cont)
   start = level;
+
+ bool can_build_any = false;
  for (int i = start; i < con->stages.size() && i <= level; i++) {
   construction_stage stage = con->stages[i];
+  bool has_tool = false;
+  bool has_component = false;
   for (int j = 0; j < 3; j++) {
    if (stage.tools[j].size() > 0) {
-    bool has_tool = false;
+
     for (int k = 0; k < stage.tools[j].size() && !has_tool; k++) {
      if (inv.has_amount(stage.tools[j][k], 1))
       has_tool = true;
     }
-    if (!has_tool)
-     return false;
+    if (!has_tool)  // missing one of the tools for this stage
+     break;
    }
    if (stage.components[j].size() > 0) {
-    bool has_component = false;
+
     for (int k = 0; k < stage.components[j].size() && !has_component; k++) {
      if (( itypes[stage.components[j][k].type]->is_ammo() &&
           inv.has_charges(stage.components[j][k].type,
@@ -463,12 +467,14 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
                           stage.components[j][k].count)    ))
       has_component = true;
     }
-    if (!has_component)
-     return false;
+    if (!has_component)  // missing one of the comps for this stage
+     break;
    }
-  }
- }
- return true;
+
+  }  // j in [0,2]
+  can_build_any = has_component && has_tool;
+ }  // stage[i]
+ return can_build_any;
 }
 
 void game::place_construction(constructable *con)
