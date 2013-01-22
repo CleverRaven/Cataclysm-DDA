@@ -31,7 +31,7 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
   for(int sx = x - SEEX; sx <= x + SEEX; ++sx) {
    for(int sy = y - SEEY; sy <= y + SEEY; ++sy) {
     // In bright light indoor light exists to some degree
-    if (!outside_cache[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y])
+    if (!is_outside(sx - x + LIGHTMAP_RANGE_X, sy - y + LIGHTMAP_RANGE_Y))
      lm[sx - x + SEEX][sy - y + SEEY] = LIGHT_AMBIENT_LOW;
    }
   }
@@ -45,12 +45,12 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
   for(int sy = y - LIGHTMAP_RANGE_Y; sy <= y + LIGHTMAP_RANGE_Y; ++sy) {
    // When underground natural_light is 0, if this changes we need to revisit
    if (natural_light > LIGHT_AMBIENT_LOW) {
-    if (!outside_cache[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y]) {
+    if (!is_outside(sx - x + LIGHTMAP_RANGE_X, sy - y + LIGHTMAP_RANGE_Y)) {
      // Apply light sources for external/internal divide
      for(int i = 0; i < 4; ++i) {
       if (INBOUNDS_LARGE(sx - x + dir_x[i], sy - y + dir_y[i]) &&
-          outside_cache[sx - x + LIGHTMAP_RANGE_X + dir_x[i]][sy - y + LIGHTMAP_RANGE_Y + dir_y[i]]) {
-       if (INBOUNDS(sx - x, sy - y) && outside_cache[LIGHTMAP_RANGE_X][LIGHTMAP_RANGE_Y])
+          is_outside(sx - x + LIGHTMAP_RANGE_X + dir_x[i], sy - y + LIGHTMAP_RANGE_Y + dir_y[i])) {
+       if (INBOUNDS(sx - x, sy - y) && is_outside(LIGHTMAP_RANGE_X, LIGHTMAP_RANGE_Y))
         lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
        
        if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].transparency > LIGHT_TRANSPARENCY_SOLID)
