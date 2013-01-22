@@ -2300,9 +2300,13 @@ void overmap::place_radios()
  for (int i = 0; i < OMAPX; i++) {
   for (int j = 0; j < OMAPY; j++) {
    if (ter(i, j) == ot_radio_tower)
-    radios.push_back(radio_tower(i*2, j*2, rng(80, 200),
-   "This is the emergency broadcast system.  Please proceed quickly and calmly \
+    if(one_in(2))
+     radios.push_back(radio_tower(i*2, j*2, rng(80, 200),
+    "This is the emergency broadcast system.  Please proceed quickly and calmly \
 to your designated evacuation point."));
+    else
+     radios.push_back(radio_tower(i*2, j*2, rng(80, 200),
+				  "Head West.  All survivors, head West.  Help is waiting."));
   }
  }
 }
