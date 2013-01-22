@@ -463,6 +463,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
 {
  int tarx = posx, tary = posy;
  bool can_use_gun = (!is_following() || combat_rules.use_guns);
+ bool use_silent = (is_following() && combat_rules.use_silent);
 
  if (target == TARGET_PLAYER) {
   tarx = g->u.posx;
@@ -486,7 +487,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
    return npc_reload;
   if (emergency(danger_assessment(g)) && alt_attack_available(g))
    return npc_alt_attack;
-  if (weapon.is_gun() && weapon.charges > 0) {
+  if (weapon.is_gun() && (!use_silent || weapon.is_silent()) && weapon.charges > 0) {
    it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
    if (dist > confident_range()) {
     if (can_reload() && (enough_time_to_reload(g, target, weapon) || in_vehicle))
@@ -517,10 +518,10 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
  bool has_empty_gun = false, has_better_melee = false;
  std::vector<int> empty_guns;
  for (int i = 0; i < inv.size(); i++) {
-  if (can_use_gun && inv[i].is_gun() && inv[i].charges > 0)
+  bool allowed = can_use_gun && inv[i].is_gun() && (!use_silent || weapon.is_silent());
+  if (allowed && inv[i].charges > 0)
    return npc_wield_loaded_gun;
-  else if (can_use_gun && inv[i].is_gun() &&
-           enough_time_to_reload(g, target, inv[i])) {
+  else if (allowed && enough_time_to_reload(g, target, inv[i])) {
    has_empty_gun = true;
    empty_guns.push_back(i);
   } else if (inv[i].melee_value(sklevel) > weapon.melee_value(sklevel) * 1.1)
@@ -1374,15 +1375,17 @@ void npc::drop_items(game *g, int weight, int volume)
 
 npc_action npc::scan_new_items(game *g, int target)
 {
- bool can_use_gun =      (!is_following() || combat_rules.use_guns);
+ bool can_use_gun = (!is_following() || combat_rules.use_guns);
+ bool use_silent = (is_following() && combat_rules.use_silent);
+
 // Check if there's something better to wield
  bool has_empty_gun = false, has_better_melee = false;
  std::vector<int> empty_guns;
  for (int i = 0; i < inv.size(); i++) {
-  if (can_use_gun && inv[i].is_gun() && inv[i].charges > 0)
+  bool allowed = can_use_gun && inv[i].is_gun() && (!use_silent || inv[i].is_silent());
+  if (allowed && inv[i].charges > 0)
    return npc_wield_loaded_gun;
-  else if (can_use_gun && inv[i].is_gun() &&
-           enough_time_to_reload(g, target, inv[i])) {
+  else if (allowed && enough_time_to_reload(g, target, inv[i])) {
    has_empty_gun = true;
    empty_guns.push_back(i);
   } else if (inv[i].melee_value(sklevel) > weapon.melee_value(sklevel) * 1.1)

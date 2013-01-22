@@ -255,25 +255,27 @@ struct npc_combat_rules
  combat_engagement engagement;
  bool use_guns;
  bool use_grenades;
+ bool use_silent;
 
  npc_combat_rules()
  {
   engagement = ENGAGE_ALL;
   use_guns = true;
   use_grenades = true;
+  use_silent = false;
  };
 
  std::string save_info()
  {
   std::stringstream dump;
-  dump << engagement << " " << use_guns << " " << use_grenades << " ";
+  dump << engagement << " " << use_guns << " " << use_grenades << " " << use_silent;
   return dump.str();
  }
 
  void load_info(std::istream &data)
  {
   int tmpen;
-  data >> tmpen >> use_guns >> use_grenades;
+  data >> tmpen >> use_guns >> use_grenades >> use_silent;
   engagement = combat_engagement(tmpen);
  }
 };

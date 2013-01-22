@@ -297,7 +297,8 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   case ENGAGE_ALL:   status << "engaging all enemies.";         break;
   }
   status << " " << (p->male ? "He" : "She") << " will " <<
-            (p->combat_rules.use_guns ? "" : "not ") << "use firearms.";
+            (p->combat_rules.use_guns ? (p->combat_rules.use_silent ? "use silenced" : "use")
+              : "not use") << " firearms";
   status << " " << (p->male ? "He" : "She") << " will " <<
             (p->combat_rules.use_grenades ? "" : "not ") << "use grenades.";
 
@@ -943,6 +944,15 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
     SUCCESS(TALK_COMBAT_COMMANDS);
     SUCCESS_ACTION(&talk_function::toggle_use_guns);
   }
+  if (p->combat_rules.use_silent) {
+   RESPONSE("Don't worry about noise.");
+    SUCCESS(TALK_COMBAT_COMMANDS);
+    SUCCESS_ACTION(&talk_function::toggle_use_silent);
+  } else {
+   RESPONSE("Use only silent weapons.");
+    SUCCESS(TALK_COMBAT_COMMANDS);
+    SUCCESS_ACTION(&talk_function::toggle_use_silent);
+  }
   if (p->combat_rules.use_grenades) {
    RESPONSE("Don't use grenades anymore.");
     SUCCESS(TALK_COMBAT_COMMANDS);
@@ -1398,6 +1408,11 @@ void talk_function::lead_to_safety(game *g, npc *p)
 void talk_function::toggle_use_guns(game *g, npc *p)
 {
  p->combat_rules.use_guns = !p->combat_rules.use_guns;
+}
+
+void talk_function::toggle_use_silent(game *g, npc *p)
+{
+ p->combat_rules.use_silent = !p->combat_rules.use_silent;
 }
 
 void talk_function::toggle_use_grenades(game *g, npc *p)
