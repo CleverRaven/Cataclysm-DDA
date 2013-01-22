@@ -7,29 +7,19 @@
 #define INBOUNDS_LARGE(x, y) (x >= -LIGHTMAP_RANGE_X && x <= LIGHTMAP_RANGE_X &&\
                                y >= -LIGHTMAP_RANGE_Y && y <= LIGHTMAP_RANGE_Y)
 
-template <typename T, size_t X, size_t Y>
-void fill(T (&array)[X][Y], T const& value)
-{
- for(size_t x = 0; x < X; ++x) {
-  for(size_t y = 0; y < Y; ++y) {
-   array[x][y] = value;
-  }
- }
-}
-
 light_map::light_map()
  : lm()
  , sm()
 {
- fill(lm, 0.0f);
- fill(sm, 0.0f);
+ memset(lm, 0, sizeof(lm));
+ memset(sm, 0, sizeof(sm));
 }
 
 void light_map::generate(game* g, int x, int y, float natural_light, float luminance)
 {
  build_light_cache(g, x, y);
- fill(lm, 0.0f);
- fill(sm, 0.0f);
+ memset(lm, 0, sizeof(lm));
+ memset(sm, 0, sizeof(sm));
 
  int dir_x[] = { 1, 0 , -1,  0 };
  int dir_y[] = { 0, 1 ,  0, -1 };
@@ -235,7 +225,7 @@ bool light_map::sees(int fx, int fy, int tx, int ty, int max_range)
 void light_map::apply_light_source(int x, int y, int cx, int cy, float luminance)
 {
  bool lit[LIGHTMAP_X][LIGHTMAP_Y];
- fill(lit, false);
+ memset(lit, 0, sizeof(lit));
 
  if (INBOUNDS(x - cx, y - cy)) {
   lit[x - cx + SEEX][y - cy + SEEY] = true;
@@ -267,7 +257,7 @@ void light_map::apply_light_arc(int x, int y, int angle, int cx, int cy, float l
   return;
 
  bool lit[LIGHTMAP_X][LIGHTMAP_Y];
- fill(lit, false);
+ memset(lit, 0, sizeof(lit));
 
  int range = LIGHT_RANGE(luminance);
  apply_light_source(x, y, cx, cy, LIGHT_SOURCE_LOCAL);
