@@ -66,6 +66,7 @@ class light_map
   void apply_light_ray(bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy,
                        int ex, int ey, int cx, int cy, float luminance);
 
+  void build_outside_cache(map *m, const int x, const int y, const int sx, const int sy);
   void build_light_cache(game* g, int x, int y);
 };
 
