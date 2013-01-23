@@ -378,7 +378,9 @@ void light_map::apply_light_ray(bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy
 
 void light_map::build_outside_cache(map *m, const int x, const int y, const int sx, const int sy)
 {
- if( m->ter(sx, sy) == t_floor || m->ter(sx, sy) == t_rock_floor || m->ter(sx, sy) == t_floor_wax) {
+ const ter_id terrain = m->ter(sx, sy);
+
+ if( terrain == t_floor || terrain == t_rock_floor || terrain == t_floor_wax) {
   for( int dx = -1; dx <=1; dx++ ) {
    for( int dy = -1; dy <=1; dy++ ) {
     if( INBOUNDS(x + dx, x + dy) ) {
@@ -386,7 +388,7 @@ void light_map::build_outside_cache(map *m, const int x, const int y, const int 
     }
    }
   }
- } else if(m->ter(sx, sy) == t_bed || m->ter(sx, sy) == t_groundsheet) {
+ } else if(terrain == t_bed || terrain == t_groundsheet) {
   outside_cache[x][y] = false;
  }
 }
