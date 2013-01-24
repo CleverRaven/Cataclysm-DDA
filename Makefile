@@ -46,7 +46,7 @@ VERSION = 0.1
 
 TARGET = cataclysm
 W32TARGET = cataclysm.exe
-BINDIST_DIR = Cataclysm
+BINDIST_DIR = bindist
 
 ODIR = obj
 W32ODIR = objwin
@@ -63,7 +63,7 @@ endif
 
 CXXFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS)
 
-BINDIST_EXTRAS = README data/
+BINDIST_EXTRAS = README data
 BINDIST    = cataclysmdda-$(VERSION).tar.gz
 W32BINDIST = cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar -czvf $(BINDIST) $(BINDIST_DIR)
