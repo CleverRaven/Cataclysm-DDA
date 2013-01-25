@@ -745,29 +745,14 @@ bool map::is_destructable_ter_only(int x, int y)
 
 bool map::is_outside(int x, int y)
 {
- bool out = (
-         ter(x    , y    ) != t_floor && ter(x - 1, y - 1) != t_floor &&
-         ter(x - 1, y    ) != t_floor && ter(x - 1, y + 1) != t_floor &&
-         ter(x    , y - 1) != t_floor && ter(x    , y    ) != t_floor &&
-         ter(x    , y + 1) != t_floor && ter(x + 1, y - 1) != t_floor &&
-         ter(x + 1, y    ) != t_floor && ter(x + 1, y + 1) != t_floor &&
-         ter(x    , y    ) != t_rock_floor && ter(x - 1, y - 1) != t_rock_floor &&
-         ter(x - 1, y    ) != t_rock_floor && ter(x - 1, y + 1) != t_rock_floor &&
-         ter(x    , y - 1) != t_rock_floor && ter(x    , y    ) != t_rock_floor &&
-         ter(x    , y + 1) != t_rock_floor && ter(x + 1, y - 1) != t_rock_floor &&
-         ter(x + 1, y    ) != t_rock_floor && ter(x + 1, y + 1) != t_rock_floor &&
-         ter(x    , y    ) != t_floor_wax &&
-         ter(x - 1, y - 1) != t_floor_wax &&
-         ter(x - 1, y    ) != t_floor_wax &&
-         ter(x - 1, y + 1) != t_floor_wax &&
-         ter(x    , y - 1) != t_floor_wax &&
-         ter(x    , y    ) != t_floor_wax &&
-         ter(x    , y + 1) != t_floor_wax &&
-         ter(x + 1, y - 1) != t_floor_wax &&
-         ter(x + 1, y    ) != t_floor_wax &&
-         ter(x + 1, y + 1) != t_floor_wax &&
-         ter(x,     y    ) != t_bed &&
-         ter(x, y) != t_groundsheet);
+  ter_id terrain;
+  bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet);
+
+ for(int i = -1; out && i <= 1; i++)
+   for(int j = -1; out && j <= 1; j++) {
+    terrain = ter( x + i, y + j );
+    out = (terrain != t_floor && terrain != t_rock_floor && terrain != t_floor_wax);
+   }
  if (out) {
   int vpart;
   vehicle *veh = veh_at (x, y, vpart);
