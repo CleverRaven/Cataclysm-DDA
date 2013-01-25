@@ -252,13 +252,12 @@ void game::construction_menu()
     mvwputch(w_con, i, j, c_black, 'x');
   }
 // Determine where in the master list to start printing
-  int offset = select - 11;
-  if (offset > constructions.size() - 22)
-   offset = constructions.size() - 22;
-  if (offset < 0)
-   offset = 0;
+  //int offset = select - 11;
+  int offset = 0;
+  if (select >= 22)
+   offset = select - 22;
 // Print the constructions between offset and max (or how many will fit)
-  for (int i = 0; i < 22 && i + offset < constructions.size(); i++) {
+  for (int i = 0; i <= 22 && (i + offset) < constructions.size(); i++) {
    int current = i + offset;
    nc_color col = (player_can_build(u, total_inv, constructions[current], -1) ?
                    c_white : c_dkgray);
@@ -266,7 +265,8 @@ void game::construction_menu()
    char hotkey = current + ((current < 9) ? 97 : ((current < 13) ? 100 : 101));
    if (current == select)
     col = hilite(col);
-   mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey, constructions[current]->name.c_str());
+   mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey,
+	     constructions[current]->name.c_str());
   }
 
   if (update_info) {
@@ -446,9 +446,12 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
   construction_stage stage = con->stages[i];
   bool has_tool = false;
   bool has_component = false;
+  bool tools_required = false;
+  bool components_required = false;
+
   for (int j = 0; j < 3; j++) {
    if (stage.tools[j].size() > 0) {
-
+    tools_required = true;
     for (int k = 0; k < stage.tools[j].size() && !has_tool; k++) {
      if (inv.has_amount(stage.tools[j][k], 1))
       has_tool = true;
@@ -457,7 +460,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
      break;
    }
    if (stage.components[j].size() > 0) {
-
+    components_required = true;
     for (int k = 0; k < stage.components[j].size() && !has_component; k++) {
      if (( itypes[stage.components[j][k].type]->is_ammo() &&
           inv.has_charges(stage.components[j][k].type,
@@ -472,7 +475,8 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
    }
 
   }  // j in [0,2]
-  can_build_any = has_component && has_tool;
+  can_build_any = (has_component || !components_required) && 
+    (has_tool || !tools_required);
   if (exact_level && (i == level) && (!has_component || !has_tool))
     return false;
  }  // stage[i]
