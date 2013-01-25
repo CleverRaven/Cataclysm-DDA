@@ -115,14 +115,11 @@ void game::init_construction()
    COMP(itm_nail, 30, NULL);
   STAGE(t_window, 5);
    COMP(itm_glass_sheet, 1, NULL);
-
- CONSTRUCT("Build Openable Window", 1, &construct::able_empty_window,
-                                 &construct::done_nothing);
-  STAGE(t_window_domestic, 10);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+  STAGE(t_window_domestic, 5);
+   TOOL(itm_saw, NULL);
    COMP(itm_nail, 4, NULL);
    COMP(itm_curtain, 2, NULL);
-   COMP(itm_glass_sheet, 1, NULL);
+
 
  CONSTRUCT("Build Door", 2, &construct::able_empty,
                               &construct::done_nothing);
