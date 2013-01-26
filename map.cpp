@@ -2784,11 +2784,28 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy, bool upda
 //  squares divisible by 2.
   int newmapx = worldx + gridx - ((worldx + gridx) % 2);
   int newmapy = worldy + gridy - ((worldy + gridy) % 2);
+  overmap* this_om = &(g->cur_om);
+
+  // slightly out of bounds? to the east, south, or both?
+  // cur_om is the one containing the upper-left corner of the map
+  if (newmapx >= OMAPX*2){
+     newmapx -= OMAPX*2;
+     this_om = g->om_hori;
+     if (newmapy >= OMAPY*2){
+        newmapy -= OMAPY*2;
+        this_om = g->om_diag;
+     }
+  }
+  else if (newmapy >= OMAPY*2){
+     newmapy -= OMAPY*2;
+     this_om = g->om_vert;
+  }
+
   if (worldx + gridx < 0)
    newmapx = worldx + gridx;
   if (worldy + gridy < 0)
    newmapy = worldy + gridy;
-  tmp_map.generate(g, &(g->cur_om), newmapx, newmapy, int(g->turn));
+  tmp_map.generate(g, this_om, newmapx, newmapy, int(g->turn));
   return false;
  }
  return true;
