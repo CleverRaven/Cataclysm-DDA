@@ -8422,7 +8422,7 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
 
   case ARTPROP_BREATHING:
    for (int i = cx - 1; i <= cx + 1; i++) {
-    for (int j = cy - 1; i <= cy + 1; j++)
+    for (int j = cy - 1; j <= cy + 1; j++)
      if (i == cx && j == cy)
       add_spawn(mon_breather_hub, 1, i, j);
      else
