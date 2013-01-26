@@ -2041,6 +2041,7 @@ void game::debug()
     z.clear();
     levx = tmp.x * 2 - int(MAPSIZE / 2);
     levy = tmp.y * 2 - int(MAPSIZE / 2);
+    set_adjacent_overmaps(true);
     m.load(this, levx, levy);
    }
   } break;
@@ -4426,6 +4427,7 @@ void game::examine()
   //m.save(&cur_om, turn, levx, levy);
   overmap(this, cur_om.posx, cur_om.posy, -1);
   cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz + movez);
+  set_adjacent_overmaps(true);
   m.load(this, levx, levy);
   update_map(u.posx, u.posy);
   for (int x = 0; x < SEEX * MAPSIZE; x++) {
@@ -6908,6 +6910,7 @@ void game::vertical_move(int movez, bool force)
  cur_om.save(u.name);
  //m.save(&cur_om, turn, levx, levy);
  cur_om = overmap(this, cur_om.posx, cur_om.posy, cur_om.posz + movez);
+ set_adjacent_overmaps(true);
  map tmpmap(&itypes, &mapitems, &traps);
  tmpmap.load(this, levx, levy, false);
  cur_om = overmap(this, cur_om.posx, cur_om.posy, original_z);
