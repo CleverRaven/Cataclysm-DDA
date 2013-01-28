@@ -118,7 +118,7 @@ void map::reset_vehicle_cache()
  }
 }
 
-void map::update_vehicle_cache(vehicle * veh, bool brand_new)
+void map::update_vehicle_cache(vehicle * veh, const bool brand_new)
 {
  veh_in_active_range = true;
  if(!brand_new){
@@ -622,7 +622,7 @@ bool map::displace_water (const int x, const int y)
     return false;
 }
 
-ter_id& map::ter(int x, int y)
+ter_id& map::ter(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
   nulter = t_null;
@@ -634,9 +634,9 @@ ter_id& map::ter(int x, int y)
 */
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
- x %= SEEX;
- y %= SEEY;
- return grid[nonant]->ter[x][y];
+ const int lx = x % SEEX;
+ const int ly = y % SEEY;
+ return grid[nonant]->ter[lx][ly];
 }
 
 std::string map::tername(const int x, const int y)
@@ -711,7 +711,7 @@ bool map::trans(const int x, const int y, char * trans_buf)
  return false;
 }
 
-bool map::has_flag(t_flag flag, const int x, const int y)
+bool map::has_flag(const t_flag flag, const int x, const int y)
 {
  if (flag == bashable) {
   int vpart;
@@ -726,7 +726,7 @@ bool map::has_flag(t_flag flag, const int x, const int y)
  return terlist[ter(x, y)].flags & mfb(flag);
 }
 
-bool map::has_flag_ter_only(t_flag flag, const int x, const int y)
+bool map::has_flag_ter_only(const t_flag flag, const int x, const int y)
 {
  return terlist[ter(x, y)].flags & mfb(flag);
 }
@@ -745,14 +745,13 @@ bool map::is_destructable_ter_only(const int x, const int y)
 
 bool map::is_outside(const int x, const int y)
 {
-  ter_id terrain;
-  bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet);
+ bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet);
 
  for(int i = -1; out && i <= 1; i++)
-   for(int j = -1; out && j <= 1; j++) {
-    terrain = ter( x + i, y + j );
-    out = (terrain != t_floor && terrain != t_rock_floor && terrain != t_floor_wax);
-   }
+  for(int j = -1; out && j <= 1; j++) {
+   const ter_id terrain = ter( x + i, y + j );
+   out = (terrain != t_floor && terrain != t_rock_floor && terrain != t_floor_wax);
+  }
  if (out) {
   int vpart;
   vehicle *veh = veh_at (x, y, vpart);
@@ -1282,7 +1281,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 }
 
 // map::destroy is only called (?) if the terrain is NOT bashable.
-void map::destroy(game *g, const int x, const int y, bool makesound)
+void map::destroy(game *g, const int x, const int y, const bool makesound)
 {
  switch (ter(x, y)) {
 
@@ -1325,9 +1324,9 @@ void map::destroy(game *g, const int x, const int y, bool makesound)
     if (move_cost(i, j) > 0 && one_in(5))
      add_item(i, j, g->itypes[itm_rock], 0);
     ter(x, y) = t_rubble;
- }
-}
-break;
+   }
+  }
+  break;
 
  case t_floor:
  case t_counter:
@@ -1416,7 +1415,8 @@ break;
   g->sound(x, y, 40, "SMASH!!");
 }
 
-void map::shoot(game *g, const int x, const int y, int &dam, bool hit_items, unsigned effects)
+void map::shoot(game *g, const int x, const int y, int &dam,
+                const bool hit_items, const unsigned effects)
 {
  if (dam < 0)
   return;
@@ -1429,7 +1429,7 @@ void map::shoot(game *g, const int x, const int y, int &dam, bool hit_items, uns
  int vpart;
  vehicle *veh = veh_at(x, y, vpart);
  if (veh) {
-  bool inc = (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME));
+  const bool inc = (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME));
   dam = veh->damage (vpart, dam, inc? 2 : 0, hit_items);
  }
 
@@ -1547,9 +1547,8 @@ void map::shoot(game *g, const int x, const int y, int &dam, bool hit_items, uns
  if ((move_cost(x, y) == 2 && !hit_items) || !INBOUNDS(x, y))
   return;	// Items on floor-type spaces won't be shot up.
 
- bool destroyed;
  for (int i = 0; i < i_at(x, y).size(); i++) {
-  destroyed = false;
+  bool destroyed = false;
   switch (i_at(x, y)[i].type->m1) {
    case GLASS:
    case PAPER:
@@ -1648,7 +1647,7 @@ void map::marlossify(const int x, const int y)
  }
 }
 
-bool map::open_door(const int x, const int y, bool inside)
+bool map::open_door(const int x, const int y, const bool inside)
 {
  if (ter(x, y) == t_door_c) {
   ter(x, y) = t_door_o;
@@ -1678,7 +1677,7 @@ bool map::open_door(const int x, const int y, bool inside)
  return false;
 }
 
-void map::translate(ter_id from, ter_id to)
+void map::translate(const ter_id from, const ter_id to)
 {
  if (from == to) {
   debugmsg("map::translate %s => %s", terlist[from].name.c_str(),
@@ -1693,7 +1692,7 @@ void map::translate(ter_id from, ter_id to)
  }
 }
 
-bool map::close_door(const int x, const int y, bool inside)
+bool map::close_door(const int x, const int y, const bool inside)
 {
  if (ter(x, y) == t_door_o) {
   ter(x, y) = t_door_c;
@@ -1719,7 +1718,7 @@ bool map::close_door(const int x, const int y, bool inside)
  return false;
 }
 
-int& map::radiation(int x, int y)
+int& map::radiation(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
   nulrad = 0;
@@ -1731,12 +1730,12 @@ int& map::radiation(int x, int y)
 */
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
- x %= SEEX;
- y %= SEEY;
- return grid[nonant]->rad[x][y];
+ const int lx = x % SEEX;
+ const int ly = y % SEEY;
+ return grid[nonant]->rad[lx][ly];
 }
 
-std::vector<item>& map::i_at(int x, int y)
+std::vector<item>& map::i_at(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
   nulitems.clear();
@@ -1748,9 +1747,9 @@ std::vector<item>& map::i_at(int x, int y)
 */
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
- x %= SEEX;
- y %= SEEY;
- return grid[nonant]->itm[x][y];
+ const int lx = x % SEEX;
+ const int ly = y % SEEY;
+ return grid[nonant]->itm[lx][ly];
 }
 
 item map::water_from(const int x, const int y)
@@ -1768,7 +1767,7 @@ item map::water_from(const int x, const int y)
  return ret;
 }
 
-void map::i_rem(const int x, const int y, int index)
+void map::i_rem(const int x, const int y, const int index)
 {
  if (index > i_at(x, y).size() - 1)
   return;
@@ -1780,7 +1779,7 @@ void map::i_clear(const int x, const int y)
  i_at(x, y).clear();
 }
 
-point map::find_item(item *it)
+point map::find_item(const item *it)
 {
  point ret;
  for (ret.x = 0; ret.x < SEEX * my_MAPSIZE; ret.x++) {
@@ -1814,7 +1813,7 @@ void map::add_item(const int x, const int y, itype* type, const int birthday, co
  add_item(x, y, tmp);
 }
 
-void map::add_item(int x, int y, item new_item)
+void map::add_item(const int x, const int y, item new_item)
 {
  if (new_item.is_style())
   return;
@@ -1852,9 +1851,9 @@ void map::add_item(int x, int y, item new_item)
 */
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
- x %= SEEX;
- y %= SEEY;
- grid[nonant]->itm[x][y].push_back(new_item);
+ const int lx = x % SEEX;
+ const int ly = y % SEEY;
+ grid[nonant]->itm[lx][ly].push_back(new_item);
  if (new_item.active)
   grid[nonant]->active_item_count++;
 }
@@ -1902,9 +1901,10 @@ void map::process_active_items_in_submap(game *g, const int nonant)
  }
 }
 
-void map::use_amount(point origin, const int range, itype_id type, int quantity,
-                     bool use_container)
+void map::use_amount(const point origin, const int range, const itype_id type, const int amount,
+                     const bool use_container)
 {
+ int quantity = amount;
  for (int radius = 0; radius <= range && quantity > 0; radius++) {
   for (int x = origin.x - radius; x <= origin.x + radius; x++) {
    for (int y = origin.y - radius; y <= origin.y + radius; y++) {
@@ -1935,8 +1935,9 @@ void map::use_amount(point origin, const int range, itype_id type, int quantity,
  }
 }
 
-void map::use_charges(point origin, const int range, itype_id type, int quantity)
+void map::use_charges(const point origin, const int range, const itype_id type, const int amount)
 {
+ int quantity = amount;
  for (int radius = 0; radius <= range && quantity > 0; radius++) {
   for (int x = origin.x - radius; x <= origin.x + radius; x++) {
    for (int y = origin.y - radius; y <= origin.y + radius; y++) {
@@ -1980,7 +1981,7 @@ void map::use_charges(point origin, const int range, itype_id type, int quantity
  }
 }
  
-trap_id& map::tr_at(int x, int y)
+trap_id& map::tr_at(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
   nultrap = tr_null;
@@ -1992,34 +1993,34 @@ trap_id& map::tr_at(int x, int y)
 */
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
- x %= SEEX;
- y %= SEEY;
- if (x < 0 || x >= SEEX || y < 0 || y >= SEEY) {
-  debugmsg("tr_at contained bad x:y %d:%d", x, y);
+ const int lx = x % SEEX;
+ const int ly = y % SEEY;
+ if (lx < 0 || lx >= SEEX || ly < 0 || ly >= SEEY) {
+  debugmsg("tr_at contained bad x:y %d:%d", lx, ly);
   nultrap = tr_null;
   return nultrap;	// Out-of-bounds, return our null trap
  }
 
- if (terlist[ grid[nonant]->ter[x][y] ].trap != tr_null) {
-  nultrap = terlist[ grid[nonant]->ter[x][y] ].trap;
+ if (terlist[ grid[nonant]->ter[lx][ly] ].trap != tr_null) {
+  nultrap = terlist[ grid[nonant]->ter[lx][ly] ].trap;
   return nultrap;
  }
  
- return grid[nonant]->trp[x][y];
+ return grid[nonant]->trp[lx][ly];
 }
 
-void map::add_trap(int x, int y, trap_id t)
+void map::add_trap(const int x, const int y, const trap_id t)
 {
  if (!INBOUNDS(x, y))
   return;
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
- x %= SEEX;
- y %= SEEY;
- grid[nonant]->trp[x][y] = t;
+ const int lx = x % SEEX;
+ const int ly = y % SEEY;
+ grid[nonant]->trp[lx][ly] = t;
 }
 
-void map::disarm_trap(game *g, int x, int y)
+void map::disarm_trap(game *g, const int x, const int y)
 {
  if (tr_at(x, y) == tr_null) {
   debugmsg("Tried to disarm a trap where there was none (%d %d)", x, y);
@@ -2056,7 +2057,7 @@ void map::disarm_trap(game *g, int x, int y)
  }
 }
  
-field& map::field_at(int x, int y)
+field& map::field_at(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
   nulfield = field();
@@ -2068,13 +2069,16 @@ field& map::field_at(int x, int y)
 */
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
- x %= SEEX;
- y %= SEEY;
- return grid[nonant]->fld[x][y];
+ const int lx = x % SEEX;
+ const int ly = y % SEEY;
+ return grid[nonant]->fld[lx][ly];
 }
 
-bool map::add_field(game *g, int x, int y, field_id t, unsigned char density)
+bool map::add_field(game *g, const int x, const int y,
+                    const field_id t, const unsigned char new_density)
 {
+ unsigned int density = new_density;
+
  if (!INBOUNDS(x, y))
   return false;
  if (field_at(x, y).type == fd_web && t == fd_fire)
@@ -2086,32 +2090,34 @@ bool map::add_field(game *g, int x, int y, field_id t, unsigned char density)
  if (density <= 0)
   return false;
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
- x %= SEEX;
- y %= SEEY;
- if (grid[nonant]->fld[x][y].type == fd_null)
+
+ const int lx = x % SEEX;
+ const int ly = y % SEEY;
+ if (grid[nonant]->fld[lx][ly].type == fd_null)
   grid[nonant]->field_count++;
- grid[nonant]->fld[x][y] = field(t, density, 0);
- if (g != NULL && x == g->u.posx && y == g->u.posy &&
-     grid[nonant]->fld[x][y].is_dangerous()) {
+ grid[nonant]->fld[lx][ly] = field(t, density, 0);
+ if (g != NULL && lx == g->u.posx && ly == g->u.posy &&
+     grid[nonant]->fld[lx][ly].is_dangerous()) {
   g->cancel_activity_query("You're in a %s!",
                            fieldlist[t].name[density - 1].c_str());
  }
  return true;
 }
 
-void map::remove_field(int x, int y)
+void map::remove_field(const int x, const int y)
 {
  if (!INBOUNDS(x, y))
   return;
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
- x %= SEEX;
- y %= SEEY;
- if (grid[nonant]->fld[x][y].type != fd_null)
+
+ const int lx = x % SEEX;
+ const int ly = y % SEEY;
+ if (grid[nonant]->fld[lx][ly].type != fd_null)
   grid[nonant]->field_count--;
- grid[nonant]->fld[x][y] = field();
+ grid[nonant]->fld[lx][ly] = field();
 }
 
-computer* map::computer_at(int x, int y)
+computer* map::computer_at(const int x, const int y)
 {
  if (!INBOUNDS(x, y))
   return NULL;
@@ -2121,8 +2127,8 @@ computer* map::computer_at(int x, int y)
 */
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
- x %= SEEX;
- y %= SEEY;
+ const int lx = x % SEEX;
+ const int ly = y % SEEY;
  if (grid[nonant]->comp.name == "")
   return NULL;
  return &(grid[nonant]->comp);
@@ -2144,7 +2150,7 @@ void map::debug()
  getch();
 }
 
-void map::draw(game *g, WINDOW* w, point center)
+void map::draw(game *g, WINDOW* w, const point center)
 {
  const int natural_sight_range = g->u.sight_range(1);
  const int light_sight_range = g->u.sight_range(g->light_level());
@@ -2239,10 +2245,14 @@ void map::draw(game *g, WINDOW* w, point center)
   mvwputch(w, aty, atx, g->u.color(), '@');
 }
 
-void map::drawsq(WINDOW* w, player &u, const int x, const int y, bool invert,
-                 bool show_items, int cx, int cy,
-                 bool low_light, bool bright_light)
+void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert_arg,
+                 const bool show_items_arg, const int cx_arg, const int cy_arg,
+                 const bool low_light, const bool bright_light)
 {
+ bool invert = invert_arg;
+ bool show_items = show_items_arg;
+ int cx = cx_arg;
+ int cy = cy_arg;
  if (!INBOUNDS(x, y))
   return;	// Out of bounds
  if (cx == -1)
@@ -2335,7 +2345,8 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, bool invert,
 map::sees based off code by Steve Register [arns@arns.freeservers.com]
 http://roguebasin.roguelikedevelopment.org/index.php?title=Simple_Line_of_Sight
 */
-bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty, const int range, int &tc, char * trans_buf)
+bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
+               const int range, int &tc, char * trans_buf)
 {
  const int dx = Tx - Fx;
  const int dy = Ty - Fy;
@@ -2397,8 +2408,8 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty, const int
  return false; // Shouldn't ever be reached, but there it is.
 }
 
-bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty, const int range, const int cost_min,
-                     int cost_max, int &tc)
+bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
+                     const int range, const int cost_min, const int cost_max, int &tc)
 {
  const int dx = Tx - Fx;
  const int dy = Ty - Fy;
@@ -2463,7 +2474,7 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty, con
 }
 
 // Bash defaults to true.
-std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const int Ty, bool bash)
+std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const int Ty, const bool bash)
 {
 /* TODO: If the origin or destination is out of bound, figure out the closest
  * in-bounds point and go to that, then to the real origin/destination.
@@ -2602,7 +2613,7 @@ void map::save(overmap *om, unsigned const int turn, const int x, const int y)
  }
 }
 
-void map::load(game *g, const int wx, const int wy, bool update_vehicle)
+void map::load(game *g, const int wx, const int wy, const bool update_vehicle)
 {
  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
   for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
@@ -2733,7 +2744,8 @@ void map::saven(overmap *om, unsigned const int turn, const int worldx, const in
 // 0,0  1,0  2,0
 // 0,1  1,1  2,1
 // 0,2  1,2  2,2 etc
-bool map::loadn(game *g, const int worldx, const int worldy, const int gridx, const int gridy, bool update_vehicles)
+bool map::loadn(game *g, const int worldx, const int worldy, const int gridx, const int gridy,
+                const bool update_vehicles)
 {
  dbg(D_INFO) << "map::loadn(game[" << g << "], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
 
