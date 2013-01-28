@@ -280,10 +280,15 @@ if (has_bionic(bio_metabolics) && power_level < max_power_level &&
  if (has_trait(PF_SMELLY2))
   norm_scent = 1200;
 
- if (scent < norm_scent)
-  scent = int((scent + norm_scent) / 2) + 1;
+ // Scent increases fast at first, and slows down as it approaches normal levels.
+ // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
+ // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
+ if (scent < rng(0, norm_scent))
+   scent++;
+
+ // Unusually high scent decreases steadily until it reaches normal levels.
  if (scent > norm_scent)
-  scent = int((scent + norm_scent) / 2) - 1;
+  scent--;
 
 // Give us our movement points for the turn.
  moves += current_speed(g);

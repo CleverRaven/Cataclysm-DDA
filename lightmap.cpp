@@ -44,6 +44,8 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
  for(int sx = x - LIGHTMAP_RANGE_X; sx <= x + LIGHTMAP_RANGE_X; ++sx) {
   for(int sy = y - LIGHTMAP_RANGE_Y; sy <= y + LIGHTMAP_RANGE_Y; ++sy) {
    const ter_id terrain = g->m.ter(sx, sy);
+   const std::vector<item> items = g->m.i_at(sx, sy);
+   const field current_field = g->m.field_at(sx, sy);
    // When underground natural_light is 0, if this changes we need to revisit
    if (natural_light > LIGHT_AMBIENT_LOW) {
     if (!is_outside(sx - x + LIGHTMAP_RANGE_X, sy - y + LIGHTMAP_RANGE_Y)) {
@@ -61,8 +63,8 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
     }
    }
 
-   if (g->m.i_at(sx, sy).size() == 1 &&
-       g->m.i_at(sx, sy)[0].type->id == itm_flashlight_on)
+   if (items.size() == 1 &&
+       items[0].type->id == itm_flashlight_on)
     apply_light_source(sx, sy, x, y, 20);
    
    if(terrain == t_lava)
@@ -71,19 +73,19 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
    if(terrain == t_console)
     apply_light_source(sx, sy, x, y, 3);
 
-   if (g->m.i_at(sx, sy).size() == 1 &&
-       g->m.i_at(sx, sy)[0].type->id == itm_candle_lit)
+   if (items.size() == 1 &&
+       items[0].type->id == itm_candle_lit)
     apply_light_source(sx, sy, x, y, 4);
 
    if(terrain == t_emergency_light)
     apply_light_source(sx, sy, x, y, 3);
 
    // TODO: [lightmap] Attach light brightness to fields
-   switch(g->m.field_at(sx, sy).type) {
+   switch(current_field.type) {
     case fd_fire:
-     if (3 == g->m.field_at(sx, sy).density)
+     if (3 == current_field.density)
       apply_light_source(sx, sy, x, y, 160);
-     else if (2 == g->m.field_at(sx, sy).density)
+     else if (2 == current_field.density)
       apply_light_source(sx, sy, x, y, 60);
      else
       apply_light_source(sx, sy, x, y, 16);
@@ -93,9 +95,9 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
      apply_light_source(sx, sy, x, y, 8);
      break;
     case fd_electricity:
-     if (3 == g->m.field_at(sx, sy).density)
+     if (3 == current_field.density)
       apply_light_source(sx, sy, x, y, 8);
-     else if (2 == g->m.field_at(sx, sy).density)
+     else if (2 == current_field.density)
       apply_light_source(sx, sy, x, y, 1);
      else
       apply_light_source(sx, sy, x, y, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
