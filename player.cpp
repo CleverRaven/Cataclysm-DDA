@@ -2869,7 +2869,8 @@ void player::suffer(game *g)
  }
 
  if (has_trait(PF_WEB_WEAVER) && one_in(3)) {
-  if (g->m.field_at(posx, posy).type == fd_null)
+  if (g->m.field_at(posx, posy).type == fd_null ||
+      g->m.field_at(posx, posy).type == fd_slime)
    g->m.add_field(g, posx, posy, fd_web, 1);
   else if (g->m.field_at(posx, posy).type == fd_web &&
            g->m.field_at(posx, posy).density < 3)
