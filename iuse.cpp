@@ -1145,6 +1145,29 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::picklock(game *g, player *p, item *it, bool t)
+{
+ int dirx, diry;
+ g->draw();
+ mvprintw(0, 0, "Pry where?");
+ get_direction(g, dirx, diry, input());
+ if (dirx == -2) {
+  g->add_msg_if_player(p,"Invalid direction.");
+  return;
+ }
+ dirx += p->posx;
+ diry += p->posy;
+ ter_id type = g->m.ter(dirx, diry);
+ if (type == t_door_locked || type == t_door_locked_alarm) {
+  if (dice(4, 6) < dice(4, p->dex_cur)) {
+   g->add_msg_if_player(p,"You pick the lock and the door swings open.");
+   p->moves -= (150 - (p->dex_cur * 5));
+   g->m.ter(dirx, diry) = t_door_o;
+  }
+ } else {
+  g->add_msg("That cannot be picked.");
+ }
+}
 void iuse::crowbar(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
@@ -1163,6 +1186,8 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
    g->add_msg_if_player(p,"You pry the door open.");
    p->moves -= (150 - (p->str_cur * 5));
    g->m.ter(dirx, diry) = t_door_o;
+      g->sound(dirx, diry, 8, "crunch!");
+
   } else {
    g->add_msg_if_player(p,"You pry, but cannot open the door.");
    p->moves -= 100;

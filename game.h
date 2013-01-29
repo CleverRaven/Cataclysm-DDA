@@ -237,6 +237,7 @@ class game
   WINDOW *w_messages;
   WINDOW *w_location;
   WINDOW *w_status;
+  overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
  private:
 // Game-start procedures
@@ -388,7 +389,6 @@ class game
 
   calendar nextspawn; // The turn on which monsters will spawn next.
   calendar nextweather; // The turn on which weather will shift next.
-  overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
   int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
   std::vector <game_message> messages;   // Messages to be printed
   int curmes;	  // The last-seen message.
