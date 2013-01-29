@@ -388,7 +388,7 @@ ANGER(MTRIG_HURT, MTRIG_PLAYER_WEAK);
 
 mon("scarred zombie",	species_zombie, 'Z',	c_yellow,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 90,  3,100,100, 40,  8,  1,  5,  0,  1, 12, 8, 20, 25,  0,
+	 15,  3,100,100, 40,  8,  1,  5,  0,  1, 12, 8, 20, 25,  0,
 	&mdeath::normal,	&mattack::none, "\
 Hundreds of bee stings have given this zombie\n\
 a thick covering of scar tissue, it will be\n\

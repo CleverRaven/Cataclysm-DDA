@@ -464,10 +464,12 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
     if (check_fire) {
      if (g->m.field_at(x, y).type == fd_fire)
       ret += 5 * g->m.field_at(x, y).density;
-     if (g->u.has_amount(itm_torch_lit, 1))
-      ret += 1;
     }
    }
+  }
+  if (check_fire) {
+   if (g->u.has_amount(itm_torch_lit, 1))
+    ret += 49;
   }
  }
 

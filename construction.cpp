@@ -115,14 +115,11 @@ void game::init_construction()
    COMP(itm_nail, 30, NULL);
   STAGE(t_window, 5);
    COMP(itm_glass_sheet, 1, NULL);
-
- CONSTRUCT("Build Openable Window", 1, &construct::able_empty_window,
-                                 &construct::done_nothing);
-  STAGE(t_window_domestic, 10);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+  STAGE(t_window_domestic, 5);
+   TOOL(itm_saw, NULL);
    COMP(itm_nail, 4, NULL);
    COMP(itm_curtain, 2, NULL);
-   COMP(itm_glass_sheet, 1, NULL);
+
 
  CONSTRUCT("Build Door", 2, &construct::able_empty,
                               &construct::done_nothing);
@@ -255,21 +252,21 @@ void game::construction_menu()
     mvwputch(w_con, i, j, c_black, 'x');
   }
 // Determine where in the master list to start printing
-  int offset = select - 11;
-  if (offset > constructions.size() - 22)
-   offset = constructions.size() - 22;
-  if (offset < 0)
-   offset = 0;
+  //int offset = select - 11;
+  int offset = 0;
+  if (select >= 22)
+   offset = select - 22;
 // Print the constructions between offset and max (or how many will fit)
-  for (int i = 0; i < 22 && i + offset < constructions.size(); i++) {
+  for (int i = 0; i <= 22 && (i + offset) < constructions.size(); i++) {
    int current = i + offset;
-   nc_color col = (player_can_build(u, total_inv, constructions[current], 0) ?
+   nc_color col = (player_can_build(u, total_inv, constructions[current], -1) ?
                    c_white : c_dkgray);
    // Map menu items to hotkey letters, skipping j, k, l, and q.
    char hotkey = current + ((current < 9) ? 97 : ((current < 13) ? 100 : 101));
    if (current == select)
     col = hilite(col);
-   mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey, constructions[current]->name.c_str());
+   mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey,
+	     constructions[current]->name.c_str());
   }
 
   if (update_info) {
@@ -289,7 +286,8 @@ void game::construction_menu()
 // Print stages and their requirements
    int posx = 33, posy = 2;
    for (int n = 0; n < current_con->stages.size(); n++) {
-    nc_color color_stage = (player_can_build(u, total_inv, current_con, n) ?
+     nc_color color_stage = (player_can_build(u, total_inv, current_con, n,
+					      false, true) ?
                             c_white : c_dkgray);
     mvwprintz(w_con, posy, 31, color_stage, "Stage %d: %s", n + 1,
               current_con->stages[n].terrain == t_null? "" : terlist[current_con->stages[n].terrain].name.c_str());
@@ -395,7 +393,7 @@ void game::construction_menu()
     break;
    case '\n':
    case 'l':
-    if (player_can_build(u, total_inv, constructions[select], 0)) {
+    if (player_can_build(u, total_inv, constructions[select], -1)) {
      place_construction(constructions[select]);
      ch = 'q';
     } else {
@@ -412,8 +410,8 @@ void game::construction_menu()
   default:
    if (ch < 96 || ch > constructions.size() + 101) break;
    // Map menu items to hotkey letters, skipping j, k, l, and q.
-   char hotkey = ch - ((ch < 105) ? 97 : ((ch < 112) ? 100 : 101));
-   if (player_can_build(u, total_inv, constructions[hotkey], 0)) {
+   char hotkey = ch - ((ch < 106) ? 97 : ((ch < 112) ? 100 : 101));
+   if (player_can_build(u, total_inv, constructions[hotkey], -1)) {
     place_construction(constructions[hotkey]);
     ch = 'q';
    } else {
@@ -429,8 +427,10 @@ void game::construction_menu()
 }
 
 bool game::player_can_build(player &p, inventory inv, constructable* con,
-                            int level, bool cont)
+                            int level, bool cont, bool exact_level)
 {
+ // default behavior: return true if any of the stages up to L can be constr'd
+ // if exact_level, require that this level be constructable
  if (p.sklevel[sk_carpentry] < con->difficulty)
   return false;
 
@@ -440,20 +440,27 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
  int start = 0;
  if (cont)
   start = level;
+
+ bool can_build_any = false;
  for (int i = start; i < con->stages.size() && i <= level; i++) {
   construction_stage stage = con->stages[i];
+  bool has_tool = false;
+  bool has_component = false;
+  bool tools_required = false;
+  bool components_required = false;
+
   for (int j = 0; j < 3; j++) {
    if (stage.tools[j].size() > 0) {
-    bool has_tool = false;
+    tools_required = true;
     for (int k = 0; k < stage.tools[j].size() && !has_tool; k++) {
      if (inv.has_amount(stage.tools[j][k], 1))
       has_tool = true;
     }
-    if (!has_tool)
-     return false;
+    if (!has_tool)  // missing one of the tools for this stage
+     break;
    }
    if (stage.components[j].size() > 0) {
-    bool has_component = false;
+    components_required = true;
     for (int k = 0; k < stage.components[j].size() && !has_component; k++) {
      if (( itypes[stage.components[j][k].type]->is_ammo() &&
           inv.has_charges(stage.components[j][k].type,
@@ -463,12 +470,19 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
                           stage.components[j][k].count)    ))
       has_component = true;
     }
-    if (!has_component)
-     return false;
+    if (!has_component)  // missing one of the comps for this stage
+     break;
    }
+
+  }  // j in [0,2]
+  can_build_any = (has_component || !components_required) && 
+    (has_tool || !tools_required);
+  if (exact_level && (i == level)) {
+      return ((has_component || !components_required) && 
+	      (has_tool || !tools_required));
   }
- }
- return true;
+ }  // stage[i]
+ return can_build_any;
 }
 
 void game::place_construction(constructable *con)
@@ -492,14 +506,17 @@ void game::place_construction(constructable *con)
 
    if (place_okay) {
 // Make sure we're not trying to continue a construction that we can't finish
-    int starting_stage = 0, max_stage = 0;
+    int starting_stage = 0, max_stage = -1;
     for (int i = 0; i < con->stages.size(); i++) {
      if (m.ter(x, y) == con->stages[i].terrain)
       starting_stage = i + 1;
-     if (player_can_build(u, total_inv, con, i, true))
-      max_stage = i;
     }
-
+    for(int i = starting_stage; i < con->stages.size(); i++) {
+     if (player_can_build(u, total_inv, con, i, true, true))
+       max_stage = i; 
+     else
+       break;
+    }  
     if (max_stage >= starting_stage) {
      valid.push_back(point(x, y));
      m.drawsq(w_terrain, u, x, y, true, false);

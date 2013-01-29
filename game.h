@@ -237,6 +237,7 @@ class game
   WINDOW *w_messages;
   WINDOW *w_location;
   WINDOW *w_status;
+  overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
  private:
 // Game-start procedures
@@ -289,7 +290,8 @@ class game
   void complete_disassemble();              // See crafting.cpp                      
   void construction_menu();                   // See construction.cpp
   bool player_can_build(player &p, inventory inv, constructable* con,
-                        int level = -1, bool cont = false);
+                        int level = -1, bool cont = false,
+			bool exact_level=false);
   void place_construction(constructable *con); // See construction.cpp
   void complete_construction();               // See construction.cpp
   bool pl_choose_vehicle (int &x, int &y);
@@ -387,7 +389,6 @@ class game
 
   calendar nextspawn; // The turn on which monsters will spawn next.
   calendar nextweather; // The turn on which weather will shift next.
-  overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
   int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
   std::vector <game_message> messages;   // Messages to be printed
   int curmes;	  // The last-seen message.
