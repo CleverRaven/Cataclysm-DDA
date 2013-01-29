@@ -922,7 +922,8 @@ void npc::move_to(game *g, int x, int y)
 void npc::move_to_next(game *g)
 {
  if (path.empty()) {
-  debugmsg("npc::move_to_next() called with an empty path!");
+ if (g->debugmon)
+   debugmsg("npc::move_to_next() called with an empty path!");
   move_pause();
   return;
  }
