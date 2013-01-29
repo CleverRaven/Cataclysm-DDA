@@ -127,13 +127,13 @@ struct npc_favor
  npc_favor_type type;
  int value;
  itype_id item_id;
- skill skill_id;
+ Skill *skill;
 
  npc_favor() {
   type = FAVOR_NULL;
   value = 0;
   item_id = itm_null;
-  skill_id = sk_null;
+  skill = NULL;
  };
 
 };
@@ -222,7 +222,7 @@ struct npc_opinion
          " " << favors.size();
   for (int i = 0; i < favors.size(); i++)
     ret << " " << int(favors[i].type) << " " << favors[i].value << " " <<
-           favors[i].item_id << " " << favors[i].skill_id;
+      favors[i].item_id << " " << favors[i].skill->id();
   return ret.str();
  }
 
@@ -236,7 +236,7 @@ struct npc_opinion
    info >> tmptype >> tmpfavor.value >> tmpitem >> tmpskill;
    tmpfavor.type = npc_favor_type(tmptype);
    tmpfavor.item_id = itype_id(tmpitem);
-   tmpfavor.skill_id = skill(tmpskill);
+   tmpfavor.skill = Skill::skill(tmpskill);
    favors.push_back(tmpfavor);
   }
  }

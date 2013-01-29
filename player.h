@@ -13,6 +13,7 @@
 #include "mutation.h"
 #include <vector>
 #include <string>
+#include <map>
 
 class monster;
 class game;
@@ -30,6 +31,8 @@ struct special_attack
 };
 
 class player {
+  std::map<Skill*,SkillLevel> _skills;
+
 public:
  player();
  player(const player &rhs);
@@ -201,7 +204,7 @@ public:
  int resist(body_part bp);	// Infection &c resistance
  bool wearing_something_on(body_part bp); // True if wearing something on bp
 
- void practice(skill s, int amount);	// Practice a skill
+ void practice(Skill *s, int amount);
 
  void assign_activity(activity_type type, int moves, int index = -1);
  void cancel_activity();
@@ -293,7 +296,10 @@ public:
  int skexercise[num_skill_types];
  int sktrain[num_skill_types];
  bool sklearn[num_skill_types];
- 
+
+ SkillLevel& skillLevel(Skill* _skill);
+ SkillLevel& skillLevel(std::string ident);
+
  bool inv_sorted;
  //std::vector <item> inv;
  inventory inv;
