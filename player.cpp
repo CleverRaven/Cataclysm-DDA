@@ -4538,7 +4538,8 @@ void player::try_to_sleep(game *g)
  vehicle *veh = g->m.veh_at (posx, posy, vpart);
  if (g->m.ter(posx, posy) == t_bed || g->m.ter(posx, posy) == t_makeshift_bed ||
      g->m.tr_at(posx, posy) == tr_cot || g->m.tr_at(posx, posy) == tr_rollmat ||
-     veh && veh->part_with_feature (vpart, vpf_seat) >= 0)
+     veh && veh->part_with_feature (vpart, vpf_seat) >= 0 ||
+     veh && veh->part_with_feature (vpart, vpf_bed) >= 0)
   g->add_msg("This is a comfortable place to sleep.");
  else if (g->m.ter(posx, posy) != t_floor)
   g->add_msg("It's %shard to get to sleep on this %s.",

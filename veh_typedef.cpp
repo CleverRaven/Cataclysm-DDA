@@ -247,7 +247,7 @@ void game::init_vehicles()
 	PART (0, 0, vp_cargo_box);
 	PART (0, 0, vp_roof);
 	PART (0, 1, vp_frame_v2);
-	PART (0, 1, vp_seat);
+	PART (0, 1, vp_bed);
 	PART (0, 1, vp_roof);
 	PART (0, -1, vp_frame_v2);
 	PART (0, -1, vp_cargo_box);
@@ -255,12 +255,12 @@ void game::init_vehicles()
 	PART (0, 2, vp_board_v);
 	PART (0, 2, vp_fuel_tank_gas);
 	PART (0, -2, vp_frame_v2);
-	PART (0, -2, vp_seat);
+	PART (0, -2, vp_bed);
 	PART (0, -2, vp_roof);
 	PART (0, -3, vp_board_v);
 	PART (0, -3, vp_fuel_tank_gas);
 	
-	PART (1, 0, vp_door_o);
+	PART (1, 0, vp_door_i);
 	PART (1, -1, vp_board_h);
 	PART (1, 1, vp_board_h);
 	PART (1, -2, vp_board_h);
@@ -273,7 +273,7 @@ void game::init_vehicles()
 	PART (-1, 1, vp_board_h);
 	PART (-1, -1, vp_board_h);
 	PART (-1, -2, vp_board_h);
-	PART (-1, 2, vp_board_b);
+	PART (-1, 2, vp_board_n);
 	PART (-1, -3, vp_board_b);
 	
 	PART (2, -1, vp_frame_h);
