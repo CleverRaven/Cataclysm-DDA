@@ -14,6 +14,7 @@ enum vpart_id
 
 // external parts
     vp_seat,
+    vp_bed,
     vp_frame_h,
     vp_frame_v,
     vp_frame_c,
@@ -34,6 +35,7 @@ enum vpart_id
     vp_roof,
     vp_door,
     vp_door_o,
+    vp_door_i,
     vp_window,
     vp_blade_h,
     vp_blade_v,
@@ -97,6 +99,7 @@ enum vpart_flags
     vpf_roof,               // is a roof (cover)
     vpf_wheel,              // this part touches ground (trigger traps)
     vpf_seat,               // is seat
+    vpf_bed,                // is bed (like seat, but can't be boarded)
     vpf_engine,             // is engine
     vpf_fuel_tank,          // is fuel tank
     vpf_cargo,              // is cargo
@@ -148,6 +151,8 @@ const vpart_info vpart_list[num_vparts] =
         0 },
     { "seat",       '#', c_red,     '*', c_red,     60,  300, 0, 0, itm_seat, 1,
         mfb(vpf_over) | mfb(vpf_seat) | mfb(vpf_no_reinforce) },
+    { "bed",        '#', c_magenta, '*', c_magenta, 60,  300, 0, 0, itm_seat, 1,
+        mfb(vpf_over) | mfb(vpf_bed) | mfb(vpf_no_reinforce) },
     { "frame",      'h', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
         mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) },
     { "frame",      'j', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
@@ -187,7 +192,9 @@ const vpart_info vpart_list[num_vparts] =
     { "door",       '+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, itm_frame, 2,
         mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_openable) },
     { "opaque door",'+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, itm_frame, 2,
-        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_openable) },
+        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_opaque) | mfb(vpf_openable) },
+    { "internal door", '+', c_cyan, '&', c_cyan,    75,  75, 0, 0, itm_frame, 2,
+        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_opaque) | mfb(vpf_openable) | mfb(vpf_roof) | mfb(vpf_no_reinforce) },
     { "windshield", '"', c_ltcyan,  '0', c_ltgray,  70,  50, 0, 0, itm_glass_sheet, 1,
         mfb(vpf_over) | mfb(vpf_obstacle) | mfb(vpf_no_reinforce) },
     { "blade",      '-', c_white,   'x', c_white,   250, 100, 0, 0, itm_carblade, 2,

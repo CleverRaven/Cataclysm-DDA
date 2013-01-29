@@ -3857,6 +3857,10 @@ TOOL("mop",		30, 24, '/', c_blue, PLASTIC, MNULL,
 An unwieldy mop. Good for cleaning up spills.");
 TECH( mfb(TEC_WBLOCK_1) );
 
+TOOL("picklock kit",    20, 0,  ';', c_blue, STEEL,   MNULL,
+   0,  0,   0,  0,  0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::picklock, 0, "\
+A set of sturdy steel picklocks, essential for silently opening locks.");
+
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated

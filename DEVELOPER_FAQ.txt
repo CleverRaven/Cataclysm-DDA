@@ -1,0 +1,18 @@
+Q: What the heck is up with the map objects?
+
+A: The pertinent map objects are submap, mapbuffer, map, and overmap.
+The submap contains the actual map data, in SEEXxSEEY chunks.
+   Vehicles and Spawns are stored in vectors because they're relatively sparse.
+Submaps live in the single global mapbuffer, MAPBUFFER.
+Map encapsulates the area around the player that is currently active.
+   It contains an array of MAPSIZE * MAPSIZE submap pointers called grid.
+      This is a 2D array, but is mapped to a 1D array for (questionable) indexing purposes.
+   When the player moves from one submap to another, map::shift() is called.
+      It moves the pointers in grid to keep the player centered.
+      The leading edge of grid is populated by map::load()
+         If the submap has been visited before, it's loaded from MAPBUFFER
+         Otherwise a 2x2 chunk of submaps is generated based on the corresponding overmap square type.
+An overmap encapsulates the large-scale structure of a map
+   Such as location and layout of cities, forests, rivers, roads, etc...
+   There are an arbitrary number of overmaps
+   Additional overmaps are generated as the player enters new areas.

@@ -1575,7 +1575,7 @@ void vehicle::refresh_insides ()
                 else
                 if (part_flag(pn, vpf_obstacle))
                 { // found an obstacle, like board or windshield or door
-                    if (part_flag(pn, vpf_openable) && parts[pn].open)
+                    if (parts[pn].inside || part_flag(pn, vpf_openable) && parts[pn].open)
                         continue; // door and it's open -- can't cover
                     cover = true;
                     break;

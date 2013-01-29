@@ -286,10 +286,15 @@ if (has_bionic(bio_metabolics) && power_level < max_power_level &&
  if (has_trait(PF_SMELLY2))
   norm_scent = 1200;
 
- if (scent < norm_scent)
-  scent = int((scent + norm_scent) / 2) + 1;
+ // Scent increases fast at first, and slows down as it approaches normal levels.
+ // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
+ // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
+ if (scent < rng(0, norm_scent))
+   scent++;
+
+ // Unusually high scent decreases steadily until it reaches normal levels.
  if (scent > norm_scent)
-  scent = int((scent + norm_scent) / 2) - 1;
+  scent--;
 
 // Give us our movement points for the turn.
  moves += current_speed(g);
@@ -4555,7 +4560,8 @@ void player::try_to_sleep(game *g)
  vehicle *veh = g->m.veh_at (posx, posy, vpart);
  if (g->m.ter(posx, posy) == t_bed || g->m.ter(posx, posy) == t_makeshift_bed ||
      g->m.tr_at(posx, posy) == tr_cot || g->m.tr_at(posx, posy) == tr_rollmat ||
-     veh && veh->part_with_feature (vpart, vpf_seat) >= 0)
+     veh && veh->part_with_feature (vpart, vpf_seat) >= 0 ||
+     veh && veh->part_with_feature (vpart, vpf_bed) >= 0)
   g->add_msg("This is a comfortable place to sleep.");
  else if (g->m.ter(posx, posy) != t_floor)
   g->add_msg("It's %shard to get to sleep on this %s.",

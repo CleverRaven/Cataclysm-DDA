@@ -64,14 +64,14 @@ void mapbuffer::save()
  fout.open("save/maps.txt");
 
  fout << submap_list.size() << std::endl;
- int percent = 0;
+ int num_saved_submaps = 0;
+ int num_total_submaps = submap_list.size();
 
  for (it = submaps.begin(); it != submaps.end(); it++) {
-  percent++;
-  if (percent % 100 == 0)
-   popup_nowait("Please wait as the map saves [%s%d/%d]",
-                (percent < 100 ?  percent < 10 ? "  " : " " : ""), percent,
-                submap_list.size());
+  if (num_saved_submaps % 100 == 0)
+   popup_nowait("Please wait as the map saves [%d/%d]",
+                num_saved_submaps, num_total_submaps);
+
   fout << it->first.x << " " << it->first.y << " " << it->first.z << std::endl;
   submap *sm = it->second;
   fout << sm->turn_last_touched << std::endl;
@@ -142,6 +142,7 @@ void mapbuffer::save()
   if (sm->comp.name != "")
    fout << "c " << sm->comp.save_data() << std::endl;
   fout << "----" << std::endl;
+  num_saved_submaps++;
  }
  // Close the file; that's all we need.
  fout.close();
@@ -159,18 +160,16 @@ void mapbuffer::load()
  if (!fin.is_open())
   return;
 
- int itx, ity, t, d, a, num_submaps;
+ int itx, ity, t, d, a, num_submaps, num_loaded=0;
  bool fields_here = false;
  item it_tmp;
  std::string databuff;
  fin >> num_submaps;
 
  while (!fin.eof()) {
-  int percent = submap_list.size();
-  if (percent % 100 == 0)
-   popup_nowait("Please wait as the map loads [%s%d/%d]",
-                (percent < 100 ?  percent < 10 ? "  " : " " : ""), percent,
-                num_submaps);
+  if (num_loaded % 100 == 0)
+   popup_nowait("Please wait as the map loads [%d/%d]",
+                num_loaded, num_submaps);
   int locx, locy, locz, turn;
   submap* sm = new submap;
   fin >> locx >> locy >> locz >> turn;
@@ -252,6 +251,7 @@ void mapbuffer::load()
 
   submap_list.push_back(sm);
   submaps[ tripoint(locx, locy, locz) ] = sm;
+  num_loaded++;
  }
  fin.close();
 }

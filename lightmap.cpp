@@ -7,29 +7,19 @@
 #define INBOUNDS_LARGE(x, y) (x >= -LIGHTMAP_RANGE_X && x <= LIGHTMAP_RANGE_X &&\
                                y >= -LIGHTMAP_RANGE_Y && y <= LIGHTMAP_RANGE_Y)
 
-template <typename T, size_t X, size_t Y>
-void fill(T (&array)[X][Y], T const& value)
-{
- for(size_t x = 0; x < X; ++x) {
-  for(size_t y = 0; y < Y; ++y) {
-   array[x][y] = value;
-  }
- }
-}
-
 light_map::light_map()
  : lm()
  , sm()
 {
- fill(lm, 0.0f);
- fill(sm, 0.0f);
+ memset(lm, 0, sizeof(lm));
+ memset(sm, 0, sizeof(sm));
 }
 
 void light_map::generate(game* g, int x, int y, float natural_light, float luminance)
 {
  build_light_cache(g, x, y);
- fill(lm, 0.0f);
- fill(sm, 0.0f);
+ memset(lm, 0, sizeof(lm));
+ memset(sm, 0, sizeof(sm));
 
  int dir_x[] = { 1, 0 , -1,  0 };
  int dir_y[] = { 0, 1 ,  0, -1 };
@@ -41,7 +31,7 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
   for(int sx = x - SEEX; sx <= x + SEEX; ++sx) {
    for(int sy = y - SEEY; sy <= y + SEEY; ++sy) {
     // In bright light indoor light exists to some degree
-    if (!c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].is_outside)
+    if (!is_outside(sx - x + LIGHTMAP_RANGE_X, sy - y + LIGHTMAP_RANGE_Y))
      lm[sx - x + SEEX][sy - y + SEEY] = LIGHT_AMBIENT_LOW;
    }
   }
@@ -49,50 +39,53 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
 
  // Apply player light sources
  if (luminance > LIGHT_AMBIENT_LOW)
-  apply_light_source(x, y, x, y, luminance);
+  apply_light_source(g->u.posx, g->u.posy, x, y, luminance);
 
  for(int sx = x - LIGHTMAP_RANGE_X; sx <= x + LIGHTMAP_RANGE_X; ++sx) {
   for(int sy = y - LIGHTMAP_RANGE_Y; sy <= y + LIGHTMAP_RANGE_Y; ++sy) {
+   const ter_id terrain = g->m.ter(sx, sy);
+   const std::vector<item> items = g->m.i_at(sx, sy);
+   const field current_field = g->m.field_at(sx, sy);
    // When underground natural_light is 0, if this changes we need to revisit
    if (natural_light > LIGHT_AMBIENT_LOW) {
-    if (!c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].is_outside) {
+    if (!is_outside(sx - x + LIGHTMAP_RANGE_X, sy - y + LIGHTMAP_RANGE_Y)) {
      // Apply light sources for external/internal divide
      for(int i = 0; i < 4; ++i) {
       if (INBOUNDS_LARGE(sx - x + dir_x[i], sy - y + dir_y[i]) &&
-          c[sx - x + LIGHTMAP_RANGE_X + dir_x[i]][sy - y + LIGHTMAP_RANGE_Y + dir_y[i]].is_outside) {
-       if (INBOUNDS(sx - x, sy - y) && c[LIGHTMAP_RANGE_X][LIGHTMAP_RANGE_Y].is_outside)
+          is_outside(sx - x + LIGHTMAP_RANGE_X + dir_x[i], sy - y + LIGHTMAP_RANGE_Y + dir_y[i])) {
+       if (INBOUNDS(sx - x, sy - y) && is_outside(LIGHTMAP_RANGE_X, LIGHTMAP_RANGE_Y))
         lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
        
        if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].transparency > LIGHT_TRANSPARENCY_SOLID)
        	apply_light_arc(sx, sy, dir_d[i], x, y, natural_light);
       }
-	    }
+     }
     }
    }
 
-   if (g->m.i_at(sx, sy).size() == 1 &&
-       g->m.i_at(sx, sy)[0].type->id == itm_flashlight_on)
+   if (items.size() == 1 &&
+       items[0].type->id == itm_flashlight_on)
     apply_light_source(sx, sy, x, y, 20);
    
-   if(g->m.ter(sx, sy) == t_lava)
+   if(terrain == t_lava)
     apply_light_source(sx, sy, x, y, 50);
    
-   if(g->m.ter(sx, sy) == t_console)
+   if(terrain == t_console)
     apply_light_source(sx, sy, x, y, 3);
 
-   if (g->m.i_at(sx, sy).size() == 1 &&
-       g->m.i_at(sx, sy)[0].type->id == itm_candle_lit)
+   if (items.size() == 1 &&
+       items[0].type->id == itm_candle_lit)
     apply_light_source(sx, sy, x, y, 4);
 
-   if(g->m.ter(sx, sy) == t_emergency_light)
+   if(terrain == t_emergency_light)
     apply_light_source(sx, sy, x, y, 3);
 
    // TODO: [lightmap] Attach light brightness to fields
-   switch(g->m.field_at(sx, sy).type) {
+   switch(current_field.type) {
     case fd_fire:
-     if (3 == g->m.field_at(sx, sy).density)
+     if (3 == current_field.density)
       apply_light_source(sx, sy, x, y, 160);
-     else if (2 == g->m.field_at(sx, sy).density)
+     else if (2 == current_field.density)
       apply_light_source(sx, sy, x, y, 60);
      else
       apply_light_source(sx, sy, x, y, 16);
@@ -102,9 +95,9 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
      apply_light_source(sx, sy, x, y, 8);
      break;
     case fd_electricity:
-     if (3 == g->m.field_at(sx, sy).density)
+     if (3 == current_field.density)
       apply_light_source(sx, sy, x, y, 8);
-     else if (2 == g->m.field_at(sx, sy).density)
+     else if (2 == current_field.density)
       apply_light_source(sx, sy, x, y, 1);
      else
       apply_light_source(sx, sy, x, y, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
@@ -178,7 +171,7 @@ bool light_map::is_outside(int dx, int dy)
  if (!INBOUNDS_LARGE(dx, dy))
   return true;
 
- return c[dx + LIGHTMAP_RANGE_X][dy + LIGHTMAP_RANGE_Y].is_outside;
+ return outside_cache[dx + LIGHTMAP_RANGE_X][dy + LIGHTMAP_RANGE_Y];
 }
 
 bool light_map::sees(int fx, int fy, int tx, int ty, int max_range)
@@ -235,7 +228,7 @@ bool light_map::sees(int fx, int fy, int tx, int ty, int max_range)
 void light_map::apply_light_source(int x, int y, int cx, int cy, float luminance)
 {
  bool lit[LIGHTMAP_X][LIGHTMAP_Y];
- fill(lit, false);
+ memset(lit, 0, sizeof(lit));
 
  if (INBOUNDS(x - cx, y - cy)) {
   lit[x - cx + SEEX][y - cy + SEEY] = true;
@@ -267,7 +260,7 @@ void light_map::apply_light_arc(int x, int y, int angle, int cx, int cy, float l
   return;
 
  bool lit[LIGHTMAP_X][LIGHTMAP_Y];
- fill(lit, false);
+ memset(lit, 0, sizeof(lit));
 
  int range = LIGHT_RANGE(luminance);
  apply_light_source(x, y, cx, cy, LIGHT_SOURCE_LOCAL);
@@ -386,17 +379,36 @@ void light_map::apply_light_ray(bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy
  }
 }
 
+void light_map::build_outside_cache(map *m, const int x, const int y, const int sx, const int sy)
+{
+ const ter_id terrain = m->ter(sx, sy);
+
+ if( terrain == t_floor || terrain == t_rock_floor || terrain == t_floor_wax) {
+  for( int dx = -1; dx <=1; dx++ ) {
+   for( int dy = -1; dy <=1; dy++ ) {
+    if( INBOUNDS(x + dx, x + dy) ) {
+     outside_cache[x + dx][y + dy] = false;
+    }
+   }
+  }
+ } else if(terrain == t_bed || terrain == t_groundsheet) {
+  outside_cache[x][y] = false;
+ }
+}
+
 // We only do this once now so we don't make 100k calls to is_outside for each
 // generation. As well as close to that for the veh_at function.
 void light_map::build_light_cache(game* g, int cx, int cy)
 {
  // Clear cache
+ // Initialize cache of outside tiles
+ memset(outside_cache, true, sizeof(outside_cache));
  for(int sx = cx - LIGHTMAP_RANGE_X; sx <= cx + LIGHTMAP_RANGE_X; ++sx) {
   for(int sy = cy - LIGHTMAP_RANGE_Y; sy <= cy + LIGHTMAP_RANGE_Y; ++sy) {
    int x = sx - cx + LIGHTMAP_RANGE_X;
    int y = sy - cy + LIGHTMAP_RANGE_Y;
 
-   c[x][y].is_outside = g->m.is_outside(sx, sy);
+   build_outside_cache(&g->m, x, y, sx, sy);
    c[x][y].transparency = LIGHT_TRANSPARENCY_CLEAR;
    c[x][y].veh = NULL;
    c[x][y].veh_part = 0;
@@ -421,6 +433,8 @@ void light_map::build_light_cache(game* g, int cx, int cy)
     px += LIGHTMAP_RANGE_X;
     py += LIGHTMAP_RANGE_Y;
 
+    if (vehs[v].item->is_inside(p))
+     outside_cache[px][py] = true;
     // External part appears to always be the first?
     if (!c[px][py].veh) {
      c[px][py].veh = vehs[v].item;

@@ -1,0 +1,20 @@
+Instructions for compiling on a Debian-based system. The package names here are for Ubuntu 12.10
+
+Dependencies: libncurses
+
+# Native build on current platform
+sudo apt-get install libncurses5-dev
+make
+
+# Cross-compile to linux 32-bit from linux 64-bit
+sudo apt-get install libc6-dev-i386 lib32ncurses5-dev lib32stdc++-dev g++-multilib
+make NATIVE=linux32
+
+# Cross-compile for Windows
+sudo apt-get install autoconf bison flex cmake git automake intltool libtool scons yasm
+mkdir -p ~/src
+git clone -b stable https://github.com/mxe/mxe.git ~/src
+cd ~/src/mxe
+make gcc
+PATH=${PATH}:~/src/mxe/usr/bin
+make CROSS=win32

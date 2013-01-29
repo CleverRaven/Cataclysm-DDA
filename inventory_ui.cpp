@@ -31,6 +31,14 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
   wprintz(w_inv, c_ltgray, "%d", g->u.volume_carried());
  wprintw(w_inv, "/%d", g->u.volume_capacity() - 2);
 
+// Print items carried
+ int n_items = 0;
+ for(int ch='a'; ch <= 'z'; ++ch)
+   n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
+ for(int ch='A'; ch <= 'Z'; ++ch)
+   n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
+ mvwprintw(w_inv, 1, 60, "Items:  %d/52 ", n_items);
+
 // Print our weapon
  mvwprintz(w_inv, 2, 40, c_magenta, "WEAPON:");
  int dropping_weapon = false;

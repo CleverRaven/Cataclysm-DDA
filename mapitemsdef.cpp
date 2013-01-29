@@ -78,7 +78,7 @@ void game::init_mapitems()
 	itm_lighter, itm_sewing_kit, itm_thread, itm_scissors, itm_soldering_iron,
 	itm_radio, itm_syringe, itm_mp3, itm_usb_drive,
         itm_sneakers_fit, itm_boots_fit, itm_boots_steel_fit, itm_boots_winter_fit,
-        itm_dress_shoes_fit, itm_heels_fit, NULL);
+        itm_dress_shoes_fit, itm_heels_fit, itm_chips, itm_cola, itm_picklocks, NULL);
 
  setvector(
    mapitems[mi_homeguns],
@@ -453,7 +453,7 @@ void game::init_mapitems()
         itm_dress_shoes_fit, itm_bat_metal, itm_jeans_fit, itm_pants_army_fit, 
         itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
         itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit, itm_lawnmower,
-        itm_lawnmower_machete, NULL);
+        itm_lawnmower_machete, itm_picklocks, NULL);
 
  setvector(
    mapitems[mi_mil_surplus], // NOT food or armor!
