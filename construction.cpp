@@ -477,8 +477,10 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
   }  // j in [0,2]
   can_build_any = (has_component || !components_required) && 
     (has_tool || !tools_required);
-  if (exact_level && (i == level) && (!has_component || !has_tool))
-    return false;
+  if (exact_level && (i == level)) {
+      return ((has_component || !components_required) && 
+	      (has_tool || !tools_required));
+  }
  }  // stage[i]
  return can_build_any;
 }
