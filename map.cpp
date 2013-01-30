@@ -52,6 +52,7 @@ map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
   grid[n] = NULL;
  dbg(D_INFO) << "map::map( itptr["<<itptr<<"], miptr["<<miptr<<"], trptr["<<trptr<<"] ): my_MAPSIZE: " << my_MAPSIZE;
  veh_in_active_range = true;
+ memset(veh_exists_at, 0, sizeof(veh_exists_at));
 }
 
 map::~map()
@@ -90,6 +91,8 @@ vehicle* map::veh_at(const int x, const int y, int &part_num)
  // This function is called A LOT. Move as much out of here as possible.
  if (!veh_in_active_range || !inbounds(x, y))
   return NULL;    // Out-of-bounds - null vehicle
+ if(!veh_exists_at[x][y])
+  return NULL;    // cache cache indicates no vehicle. This should optimize a great deal.
  std::pair<int,int> point(x,y);
  std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator it;
  if ((it = veh_cached_parts.find(point)) != veh_cached_parts.end())
@@ -97,6 +100,7 @@ vehicle* map::veh_at(const int x, const int y, int &part_num)
   part_num = it->second.second;
   return it->second.first;
  }
+ debugmsg ("vehicle part cache cache indacated vehicle not found :/");
  return NULL;
 }
 
@@ -109,8 +113,8 @@ vehicle* map::veh_at(const int x, const int y)
 
 void map::reset_vehicle_cache()
 {
+ clear_vehicle_cache();
  // Cache all vehicles
- veh_cached_parts.clear();
  veh_in_active_range = false;
  for( std::set<vehicle*>::iterator veh = vehicle_list.begin(),
    it_end = vehicle_list.end(); veh != it_end; ++veh ) {
@@ -127,6 +131,9 @@ void map::update_vehicle_cache(vehicle * veh, const bool brand_new)
              veh_cached_parts.begin(), end = veh_cached_parts.end(), tmp;
   while( it != end ) {
    if( it->second.first == veh ) {
+    int x = it->first.first;
+    int y = it->first.second;
+    veh_exists_at[x][y] = false;
     tmp = it;
     ++it;
     veh_cached_parts.erase( tmp );
@@ -145,8 +152,21 @@ void map::update_vehicle_cache(vehicle * veh, const bool brand_new)
   const int py = gy + it->precalc_dy[0];
   veh_cached_parts.insert( std::make_pair( std::make_pair(px,py),
                                         std::make_pair(veh,partid) ));
+  veh_exists_at[px][py] = true;
  }
 }
+
+void map::clear_vehicle_cache()
+{
+ std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator part;
+ while( veh_cached_parts.size() ) {
+  part = veh_cached_parts.begin();
+  int x = part->first.first;
+  int y = part->first.second;
+  veh_exists_at[x][y] = false;
+  veh_cached_parts.erase(part);
+ }
+} 
 
 void map::board_vehicle(game *g, int x, int y, player *p)
 {
