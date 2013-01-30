@@ -119,9 +119,13 @@ bool player::create(game *g, character_type type, std::string tempname)
      case 8:
      case 9:
       rn = random_skill();
-      if (points >= sklevel[rn] + 1) {
-       points -= sklevel[rn] + 1;
-       sklevel[rn] += 2;
+
+      Skill *aSkill = Skill::skill(rn);
+      uint32_t level = skillLevel(aSkill).level();
+
+      if (level < points) {
+        points -= level + 1;
+        skillLevel(aSkill).level(level + 2);
       }
       break;
      }
@@ -376,7 +380,7 @@ int set_stats(WINDOW* w, player *u, int &points)
    mvwprintz(w, 8,  2, COL_STAT_ACT, "Intelligence: %d  ", u->int_max);
    mvwprintz(w, 9,  2, c_ltgray,     "Perception:   %d  ", u->per_max);
    mvwprintz(w, 6, 33, COL_STAT_ACT, "Skill comprehension: %d%%%%                     ",
-             u->comprehension_percent(sk_null, false));
+             u->skillLevel("melee").comprehension(u->int_max));
    mvwprintz(w, 7, 33, COL_STAT_ACT, "Read times: %d%%%%                              ",
              u->read_speed(false));
    mvwprintz(w, 8, 33, COL_STAT_ACT, "  Intelligence is also used when crafting,  ");
@@ -706,6 +710,7 @@ int set_skills(WINDOW* w, player *u, int &points)
  mvwprintz(w,1,40, h_ltgray, "  SKILLS  ");
 
  int cur_sk = 1;
+ Skill *currentSkill = Skill::skill(cur_sk);
 
  do {
   mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
@@ -716,56 +721,60 @@ int set_skills(WINDOW* w, player *u, int &points)
                                                                              ");
   mvwprintz(w, 24, 0, c_ltgray, "\
                                                                              ");
-  if (points >= u->sklevel[cur_sk] + 1)
+  if (points >= u->skillLevel(currentSkill).level() + 1)
    mvwprintz(w,  3, 30, COL_SKILL_USED, "Upgrading %s costs %d points         ",
-             skill_name(cur_sk).c_str(), u->sklevel[cur_sk] + 1);
+             skill_name(cur_sk).c_str(), u->skillLevel(currentSkill).level() + 1);
   else
    mvwprintz(w,  3, 30, c_ltred, "Upgrading %s costs %d points         ",
-             skill_name(cur_sk).c_str(), u->sklevel[cur_sk] + 1);
-  mvwprintz(w, 22, 0, COL_SKILL_USED, skill_description(cur_sk).c_str());
+             skill_name(cur_sk).c_str(), u->skillLevel(currentSkill).level() + 1);
+  mvwprintz(w, 22, 0, COL_SKILL_USED, currentSkill->description().c_str());
 
   if (cur_sk <= 7) {
    for (int i = 1; i < 17; i++) {
+     Skill *thisSkill = Skill::skill(i);
+
     mvwprintz(w, 4 + i, 0, c_ltgray, "\
                                              ");	// Clear the line
-    if (u->sklevel[i] == 0) {
+    if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 4 + i, 0, (i == cur_sk ? h_ltgray : c_ltgray),
-               skill_name(i).c_str());
+               thisSkill->name().c_str());
     } else {
      mvwprintz(w, 4 + i, 0,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
                "%s ", skill_name(i).c_str());
-     for (int j = 0; j < u->sklevel[i]; j++)
+     for (int j = 0; j < u->skillLevel(thisSkill).level(); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
    }
-  } else if (cur_sk >= num_skill_types - 9) {
+  } else if (cur_sk >= Skill::skills.size() - 9) {
    for (int i = num_skill_types - 16; i < num_skill_types; i++) {
+     Skill *thisSkill = Skill::skill(i);
     mvwprintz(w, 21 + i - num_skill_types, 0, c_ltgray, "\
                                              ");	// Clear the line
-    if (u->sklevel[i] == 0) {
+    if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 21 + i - num_skill_types, 0,
-               (i == cur_sk ? h_ltgray : c_ltgray), skill_name(i).c_str());
+               (i == cur_sk ? h_ltgray : c_ltgray), thisSkill->name().c_str());
     } else {
      mvwprintz(w, 21 + i - num_skill_types, 0,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "%s ",
-               skill_name(i).c_str());
-     for (int j = 0; j < u->sklevel[i]; j++)
+               thisSkill->name().c_str());
+     for (int j = 0; j < u->skillLevel(thisSkill).level(); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
    }
   } else {
    for (int i = cur_sk - 7; i < cur_sk + 9; i++) {
+     Skill *thisSkill = Skill::skill(i);
     mvwprintz(w, 12 + i - cur_sk, 0, c_ltgray, "\
                                              ");	// Clear the line
-    if (u->sklevel[i] == 0) {
+    if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 12 + i - cur_sk, 0, (i == cur_sk ? h_ltgray : c_ltgray),
-               skill_name(i).c_str());
+               thisSkill->name().c_str());
     } else {
      mvwprintz(w, 12 + i - cur_sk, 0,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-               "%s ", skill_name(i).c_str());
-     for (int j = 0; j < u->sklevel[i]; j++)
+               "%s ", thisSkill->name().c_str());
+     for (int j = 0; j < u->skillLevel(thisSkill).level(); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
    }
@@ -774,23 +783,25 @@ int set_skills(WINDOW* w, player *u, int &points)
   wrefresh(w);
   switch (input()) {
    case 'j':
-    if (cur_sk < num_skill_types - 1)
-     cur_sk++;
+     if (cur_sk < Skill::skills.size() - 1)
+      cur_sk++;
+    currentSkill = Skill::skill(cur_sk);
     break;
    case 'k':
     if (cur_sk > 1)
      cur_sk--;
+    currentSkill = Skill::skill(cur_sk);
     break;
    case 'h':
-    if (u->sklevel[cur_sk] > 0) {
-     points += u->sklevel[cur_sk] - 1;
-     u->sklevel[cur_sk] -= 2;
+     if (u->skillLevel(currentSkill).level()) {
+      u->skillLevel(currentSkill).level(u->skillLevel(currentSkill).level() - 2);
+      points += u->skillLevel(currentSkill).level() + 1;
     }
     break;
    case 'l':
-    if (points >= u->sklevel[cur_sk] + 1) {
-     points -= u->sklevel[cur_sk] + 1;
-     u->sklevel[cur_sk] += 2;
+     if (points >= u->skillLevel(currentSkill).level() + 1) {
+       points -= u->skillLevel(currentSkill).level() + 1;
+       u->skillLevel(currentSkill).level(u->skillLevel(currentSkill).level() + 2);
     }
     break;
    case '<':
@@ -937,7 +948,7 @@ int player::random_bad_trait()
 
 int random_skill()
 {
- return rng(1, num_skill_types - 1);
+  return rng(1, Skill::skills.size() - 1);
 }
 
 int calc_HP(int strength, bool tough)

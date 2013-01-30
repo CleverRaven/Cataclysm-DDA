@@ -341,7 +341,7 @@ class game
 // Routine loop functions, approximately in order of execution
   void cleanup_dead();     // Delete any dead NPCs/monsters
   void monmove();          // Monster movement
-  void update_skills();    // Degrades practice levels, checks & upgrades skills
+  void rustCheck();        // Degrades practice levels
   void process_events();   // Processes and enacts long-term events
   void process_activity(); // Processes and enacts the player's activity
   void update_weather();   // Updates the temperature and weather patten

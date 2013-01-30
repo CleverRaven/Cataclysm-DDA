@@ -354,7 +354,6 @@ std::string item::info(bool showtext)
            "\n Range: " << int(ammo->range) << "\n Accuracy: " <<
            int(100 - ammo->accuracy) << "\n Recoil: " << int(ammo->recoil)
            << "\n Count: " << int(contents[0].charges); 
-           
  } else if (is_gun()) {
 
   it_gun* gun = dynamic_cast<it_gun*>(type);
@@ -364,8 +363,8 @@ std::string item::info(bool showtext)
    ammo_dam = curammo->damage;
    ammo_recoil = curammo->recoil;
   }
-   
-  dump << " Skill used: " << skill_name(gun->skill_used) << "\n Ammunition: " <<
+
+  dump << " Skill used: " << gun->skill_used->name() << "\n Ammunition: " <<
           clip_size() << " rounds of " << ammo_name(ammo_type());
 
   dump << "\n Damage: ";
@@ -389,7 +388,7 @@ std::string item::info(bool showtext)
    dump << " per round";
 
   if (burst_size() == 0) {
-   if (gun->skill_used == sk_pistol && has_flag(IF_RELOAD_ONE))
+    if (gun->skill_used == Skill::skill("pistol") && has_flag(IF_RELOAD_ONE))
     dump << "\n Revolver.";
    else
     dump << "\n Semi-automatic.";
@@ -456,15 +455,15 @@ std::string item::info(bool showtext)
 } else if (is_book()) {
 
   it_book* book = dynamic_cast<it_book*>(type);
-  if (book->type == sk_null)
+  if (!book->type)
    dump << " Just for fun.\n";
   else {
-   dump << " Can bring your " << skill_name(book->type) << " skill to " <<
+    dump << " Can bring your " << book->type->name() << " skill to " <<
            int(book->level) << std::endl;
    if (book->req == 0)
     dump << " It can be understood by beginners.\n";
    else
-    dump << " Requires " << skill_name(book->type) << " level " <<
+     dump << " Requires " << book->type->name() << " level " <<
             int(book->req) << " to understand.\n";
   }
   dump << " Requires intelligence of " << int(book->intel) << " to easily read." << std::endl;
@@ -546,9 +545,10 @@ nc_color item::color(player *u)
   }
  } else if (is_book()) {
   it_book* tmp = dynamic_cast<it_book*>(type);
-  if (tmp->type !=sk_null && tmp->intel <= u->int_cur + u->sklevel[tmp->type] &&
+  if (tmp->type && tmp->intel <= u->int_cur + u->skillLevel(tmp->type).level() &&
       (tmp->intel == 0 || !u->has_trait(PF_ILLITERATE)) &&
-      tmp->req <= u->sklevel[tmp->type] && tmp->level > u->sklevel[tmp->type])
+      (u->skillLevel(tmp->type) >= tmp->req) &&
+      (u->skillLevel(tmp->type) < tmp->level))
    ret = c_ltblue;
  }
  return ret;
@@ -831,7 +831,7 @@ bool item::has_technique(technique_id tech, player *p)
   it_style *style = dynamic_cast<it_style*>(type);
   for (int i = 0; i < style->moves.size(); i++) {
    if (style->moves[i].tech == tech &&
-       (p == NULL || p->sklevel[sk_unarmed] >= style->moves[i].level))
+       (!p || p->skillLevel(Skill::skill("unarmed")) >= style->moves[i].level))
     return true;
   }
  }
@@ -927,7 +927,7 @@ int item::weapon_value(int skills[num_skill_types])
   gun_value += int(gun->clip / 3);
   gun_value -= int(gun->accuracy / 5);
   gun_value *= (.5 + (.3 * skills[sk_gun]));
-  gun_value *= (.3 + (.7 * skills[gun->skill_used]));
+  gun_value *= (.3 + (.7 * skills[gun->skill_used->id()])); /// TODO: FIXME
   my_value += gun_value;
  }
 
@@ -987,9 +987,9 @@ style_move item::style_data(technique_id tech)
  
 bool item::is_two_handed(player *u)
 {
- if (is_gun() && (dynamic_cast<it_gun*>(type))->skill_used != sk_pistol)
-  return true;
- return (weight() > u->str_cur * 4);
+  if (is_gun() && (dynamic_cast<it_gun*>(type))->skill_used != Skill::skill("pistol"))
+    return true;
+  return (weight() > u->str_cur * 4);
 }
 
 bool item::made_of(material mat)
@@ -1057,7 +1057,7 @@ bool item::is_ammo()
 
 bool item::is_food(player *u)
 {
- if (u == NULL)
+ if (!u)
   return is_food();
 
  if( is_null() )
@@ -1227,7 +1227,7 @@ int item::reload_time(player &u)
    if (spare_mag != -1 && contents[spare_mag].charges > 0)
     ret -= double(ret) * 0.9;
   }
-  double skill_bonus = double(u.sklevel[reloading->skill_used]) * .075;
+  double skill_bonus = double(u.skillLevel(reloading->skill_used).level()) * .075;
   if (skill_bonus > .75)
    skill_bonus = .75;
   ret -= double(ret) * skill_bonus;
@@ -1363,9 +1363,9 @@ int item::noise()
  int ret = 0;
  if(mode == IF_MODE_AUX) {
   item* gunmod = active_gunmod();
-  if (gunmod != NULL && gunmod->curammo != NULL)
+  if (gunmod && gunmod->curammo)
    ret = gunmod->curammo->damage;
- } else if (curammo != NULL)
+ } else if (curammo)
   ret = curammo->damage;
  ret *= .8;
  if (ret >= 5)
@@ -1404,14 +1404,14 @@ int item::recoil(bool with_ammo)
  // Just use the raw ammo recoil for now.
  if(mode == IF_MODE_AUX) {
   item* gunmod = active_gunmod();
-  if (gunmod != NULL && gunmod->curammo != NULL)
+  if (gunmod && gunmod->curammo)
    return gunmod->curammo->recoil;
   else
    return 0;
  }
  it_gun* gun = dynamic_cast<it_gun*>(type);
  int ret = gun->recoil;
- if (with_ammo && curammo != NULL)
+ if (with_ammo && curammo)
   ret += curammo->recoil;
  for (int i = 0; i < contents.size(); i++) {
   if (contents[i].is_gunmod())
@@ -1427,7 +1427,7 @@ int item::range(player *p)
  // Just use the raw ammo range for now.
  if(mode == IF_MODE_AUX) {
   item* gunmod = active_gunmod();
-  if(gunmod != NULL && gunmod->curammo != NULL)
+  if(gunmod && gunmod->curammo)
    return gunmod->curammo->range;
   else
    return 0;
@@ -1435,12 +1435,12 @@ int item::range(player *p)
 
  int ret = (curammo?curammo->range:0);
 
- if (has_flag(IF_STR8_DRAW) && p != NULL) {
+ if (has_flag(IF_STR8_DRAW) && p) {
   if (p->str_cur < 4)
    return 0;
   else if (p->str_cur < 8)
    ret -= 2 * (8 - p->str_cur);
- } else if (has_flag(IF_STR10_DRAW) && p != NULL) {
+ } else if (has_flag(IF_STR10_DRAW) && p) {
   if (p->str_cur < 5)
    return 0;
   else if (p->str_cur < 10)
@@ -1589,7 +1589,7 @@ bool item::reload(player &u, int index)
   // Determine what we're reloading, the gun, a spare magazine, or another gunmod.
   // Prefer the active gunmod if there is one
   item* gunmod = active_gunmod();
-  if (gunmod != NULL && gunmod->ammo_type() == ammo_to_use->ammo_type() &&
+  if (gunmod && gunmod->ammo_type() == ammo_to_use->ammo_type() &&
       (gunmod->charges <= 0 || gunmod->curammo->id == ammo_to_use->typeId())) {
    reload_target = gunmod;
   // Then prefer the gun itself
@@ -1737,7 +1737,7 @@ std::ostream & operator<<(std::ostream & out, const item & it)
 
 int item::typeId()
 {
-    if ( type == NULL )
+    if (!type)
         return itm_null;
     return type->id;
 }
