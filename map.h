@@ -92,6 +92,7 @@ class map
  void unboard_vehicle(game *g, const int x, const int y);//remove player from vehicle at x,y
  void update_vehicle_cache(vehicle *, const bool brand_new = false);
  void reset_vehicle_cache();
+ void clear_vehicle_cache();
 
  void destroy_vehicle (vehicle *veh);
 // Change vehicle coords and move vehicle's driver along.
@@ -182,6 +183,7 @@ class map
  std::vector <itype*> *itypes;
  std::set<vehicle*> vehicle_list;
  std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
+ bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
 
 protected:
  void saven(overmap *om, unsigned const int turn, const int x, const int y,

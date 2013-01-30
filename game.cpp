@@ -7014,7 +7014,7 @@ void game::vertical_move(int movez, bool force)
 
  levz += movez;
  u.moves -= 100;
- m.veh_cached_parts.clear();
+ m.clear_vehicle_cache();
  m.vehicle_list.clear();
  m.load(this, levx, levy);
  u.posx = stairx;
