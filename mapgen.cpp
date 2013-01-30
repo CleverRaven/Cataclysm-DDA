@@ -6689,6 +6689,11 @@ void map::add_spawn(mon_id type, int count, int x, int y, bool friendly,
   return;
  }
  int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+ if(!grid[nonant]){
+  debugmsg("centadodecamonant doesn't exist in grid; within add_spawn(%d, %d, %d, %d)",
+            type, count, x, y);
+  return;
+ }
  x %= SEEX;
  y %= SEEY;
  spawn_point tmp(type, count, x, y, faction_id, mission_id, friendly, name);
