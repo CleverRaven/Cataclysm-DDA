@@ -52,6 +52,7 @@ map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
   grid[n] = NULL;
  dbg(D_INFO) << "map::map( itptr["<<itptr<<"], miptr["<<miptr<<"], trptr["<<trptr<<"] ): my_MAPSIZE: " << my_MAPSIZE;
  veh_in_active_range = true;
+ memset(veh_exists_at, 0, sizeof(veh_exists_at));
 }
 
 map::~map()
@@ -90,6 +91,8 @@ vehicle* map::veh_at(const int x, const int y, int &part_num)
  // This function is called A LOT. Move as much out of here as possible.
  if (!veh_in_active_range || !inbounds(x, y))
   return NULL;    // Out-of-bounds - null vehicle
+ if(!veh_exists_at[x][y])
+  return NULL;    // cache cache indicates no vehicle. This should optimize a great deal.
  std::pair<int,int> point(x,y);
  std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator it;
  if ((it = veh_cached_parts.find(point)) != veh_cached_parts.end())
@@ -97,6 +100,7 @@ vehicle* map::veh_at(const int x, const int y, int &part_num)
   part_num = it->second.second;
   return it->second.first;
  }
+ debugmsg ("vehicle part cache cache indacated vehicle not found :/");
  return NULL;
 }
 
@@ -109,8 +113,8 @@ vehicle* map::veh_at(const int x, const int y)
 
 void map::reset_vehicle_cache()
 {
+ clear_vehicle_cache();
  // Cache all vehicles
- veh_cached_parts.clear();
  veh_in_active_range = false;
  for( std::set<vehicle*>::iterator veh = vehicle_list.begin(),
    it_end = vehicle_list.end(); veh != it_end; ++veh ) {
@@ -127,6 +131,9 @@ void map::update_vehicle_cache(vehicle * veh, const bool brand_new)
              veh_cached_parts.begin(), end = veh_cached_parts.end(), tmp;
   while( it != end ) {
    if( it->second.first == veh ) {
+    int x = it->first.first;
+    int y = it->first.second;
+    veh_exists_at[x][y] = false;
     tmp = it;
     ++it;
     veh_cached_parts.erase( tmp );
@@ -145,8 +152,21 @@ void map::update_vehicle_cache(vehicle * veh, const bool brand_new)
   const int py = gy + it->precalc_dy[0];
   veh_cached_parts.insert( std::make_pair( std::make_pair(px,py),
                                         std::make_pair(veh,partid) ));
+  veh_exists_at[px][py] = true;
  }
 }
+
+void map::clear_vehicle_cache()
+{
+ std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator part;
+ while( veh_cached_parts.size() ) {
+  part = veh_cached_parts.begin();
+  int x = part->first.first;
+  int y = part->first.second;
+  veh_exists_at[x][y] = false;
+  veh_cached_parts.erase(part);
+ }
+} 
 
 void map::board_vehicle(game *g, int x, int y, player *p)
 {
@@ -296,7 +316,7 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
                       g->u.posx, g->u.posy);
    continue;
   }
-  int trec = rec - psgs[i]->sklevel[sk_driving];
+  int trec = rec -psgs[i]->skillLevel(Skill::skill("driving")).level();
   if (trec < 0) trec = 0;
   // add recoil
   psg->driving_recoil = rec;
@@ -410,7 +430,7 @@ void map::vehmove(game *g)
       if (veh->skidding && one_in(4)) // might turn uncontrollably while skidding
        veh->move.init (veh->move.dir() +
                        (one_in(2) ? -15 * rng(1, 3) : 15 * rng(1, 3)));
-      else if (pl_ctrl && rng(0, 4) > g->u.sklevel[sk_driving] && one_in(20)) {
+      else if (pl_ctrl && rng(0, 4) > g->u.skillLevel(Skill::skill("driving")).level() && one_in(20)) {
        g->add_msg("You fumble with the %s's controls.", veh->name.c_str());
        veh->turn (one_in(2) ? -15 : 15);
       }
@@ -486,8 +506,9 @@ void map::vehmove(game *g)
                                     (vel2/100 - sb_bonus < 10 ? 10 :
                                      vel2/100 - sb_bonus));
         } else if (veh->part_with_feature (ppl[ps], vpf_controls) >= 0) {
+
          const int lose_ctrl_roll = rng (0, imp);
-         if (lose_ctrl_roll > psg->dex_cur * 2 + psg->sklevel[sk_driving] * 3) {
+         if (lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel(Skill::skill("driving")).level() * 3) {
           if (psgname.length())
            g->add_msg ("%s lose%s control of the %s.", psgname.c_str(),
                        (psg == &g->u ? "" : "s"), veh->name.c_str());
@@ -2022,12 +2043,18 @@ void map::add_trap(const int x, const int y, const trap_id t)
 
 void map::disarm_trap(game *g, const int x, const int y)
 {
+  Skill *trapsSkill = Skill::skill("traps");
+  uint32_t skillLevel = g->u.skillLevel(trapsSkill).level();
+
  if (tr_at(x, y) == tr_null) {
   debugmsg("Tried to disarm a trap where there was none (%d %d)", x, y);
   return;
  }
+
+ const uint32_t tSkillLevel = g->u.skillLevel(Skill::skill("traps")).level();
  const int diff = g->traps[tr_at(x, y)]->difficulty;
- int roll = rng(g->u.sklevel[sk_traps], 4 * g->u.sklevel[sk_traps]);
+ int roll = rng(tSkillLevel, 4 * tSkillLevel);
+
  while ((rng(5, 20) < g->u.per_cur || rng(1, 20) < g->u.dex_cur) && roll < 50)
   roll++;
  if (roll >= diff) {
@@ -2038,12 +2065,12 @@ void map::disarm_trap(game *g, const int x, const int y)
     add_item(x, y, g->itypes[comp[i]], 0);
   }
   tr_at(x, y) = tr_null;
-  if(diff > 1.25*g->u.sklevel[sk_traps]) // failure might have set off trap
-   g->u.practice(sk_traps, 1.5*(diff - g->u.sklevel[sk_traps]));
+  if(diff > 1.25 * skillLevel) // failure might have set off trap
+    g->u.practice(trapsSkill, 1.5*(diff - skillLevel));
  } else if (roll >= diff * .8) {
   g->add_msg("You fail to disarm the trap.");
-  if(diff > 1.25*g->u.sklevel[sk_traps])
-   g->u.practice(sk_traps, 1.5*(diff - g->u.sklevel[sk_traps]));
+  if(diff > 1.25 * skillLevel)
+    g->u.practice(trapsSkill, 1.5*(diff - skillLevel));
  }
  else {
   g->add_msg("You fail to disarm the trap, and you set it off!");
@@ -2053,7 +2080,7 @@ void map::disarm_trap(game *g, const int x, const int y)
   if(diff - roll <= 6)
    // Give xp for failing, but not if we failed terribly (in which
    // case the trap may not be disarmable).
-   g->u.practice(sk_traps, 2*diff);
+   g->u.practice(trapsSkill, 2*diff);
  }
 }
  

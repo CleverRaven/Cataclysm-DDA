@@ -76,6 +76,10 @@ player::player()
  mutation_category_level[0] = 5; // Weigh us towards no category for a bit
  for (int i = 1; i < NUM_MUTATION_CATEGORIES; i++)
   mutation_category_level[i] = 0;
+
+ for (EACH_SKILL) {
+   skillLevel(*aSkill).level(0);
+ }
 }
 
 player::player(const player &rhs)
@@ -163,6 +167,8 @@ player& player::operator= (const player & rhs)
   sktrain[i]    = rhs.sktrain[i];
   sklearn[i] = rhs.sklearn[i];
  }
+
+ _skills = rhs._skills;
 
  inv_sorted = rhs.inv_sorted;
 
@@ -451,7 +457,7 @@ int player::run_cost(int base_cost)
 
 int player::swim_speed()
 {
- int ret = 440 + 2 * weight_carried() - 50 * sklevel[sk_swimming];
+  int ret = 440 + 2 * weight_carried() - 50 * skillLevel(Skill::skill("swimming")).level();
  if (has_trait(PF_WEBBED))
   ret -= 60 + str_cur * 5;
  if (has_trait(PF_TAIL_FIN))
@@ -460,11 +466,11 @@ int player::swim_speed()
   ret -= 100;
  if (has_trait(PF_LEG_TENTACLES))
   ret -= 60;
- ret += (50 - sklevel[sk_swimming] * 2) * abs(encumb(bp_legs));
- ret += (80 - sklevel[sk_swimming] * 3) * abs(encumb(bp_torso));
- if (sklevel[sk_swimming] < 10) {
+ ret += (50 - skillLevel(Skill::skill("swimming")).level() * 2) * abs(encumb(bp_legs));
+ ret += (80 - skillLevel(Skill::skill("swimming")).level() * 3) * abs(encumb(bp_torso));
+ if (skillLevel(Skill::skill("swimming")) < 10) {
   for (int i = 0; i < worn.size(); i++)
-   ret += (worn[i].volume() * (10 - sklevel[sk_swimming])) / 2;
+    ret += (worn[i].volume() * (10 - skillLevel(Skill::skill("swimming")).level())) / 2;
  }
  ret -= str_cur * 6 + dex_cur * 4;
 // If (ret > 500), we can not swim; so do not apply the underwater bonus.
@@ -520,8 +526,10 @@ void player::load_info(game *g, std::string data)
 
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
- for (int i = 0; i < num_skill_types; i++)
-  dump >> sklevel[i] >> skexercise[i] >> sklearn[i];
+
+ for (EVERY_SKILL) {
+   dump >> skillLevel(*aSkill);
+ }
 
  int numstyles, typetmp;
  dump >> numstyles;
@@ -614,8 +622,11 @@ std::string player::save_info()
   dump << mutation_category_level[i] << " ";
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
- for (int i = 0; i < num_skill_types; i++)
-  dump << int(sklevel[i]) << " " << skexercise[i] << " " << sklearn[i] << " ";
+
+ for (EVERY_SKILL) {
+   SkillLevel level = skillLevel(*aSkill);
+   dump << level;
+ }
 
  dump << styles.size() << " ";
  for (int i = 0; i < styles.size(); i++)
@@ -934,18 +945,23 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  line = 2;
  std::vector <skill> skillslist;
  mvwprintz(w_skills, 0, 11, c_ltgray, "SKILLS");
- for (int i = 1; i < num_skill_types; i++) {
+ for (EACH_SKILL) {
+   int i = (*aSkill)->id();
+
+   SkillLevel level = skillLevel(*aSkill);
+
+   if (i == 0)
+     continue;
+
   if (sklevel[i] >= 0) {
    skillslist.push_back(skill(i));
    if (line < 9) {
-    mvwprintz(w_skills, line, 1, sklearn[i] ? c_dkgray : c_ltblue, "%s:",
-              skill_name(skill(i)).c_str());
-    mvwprintz(w_skills, line,19, c_ltblue, "%d%s(%s%d%%%%)", sklevel[i],
-              (sklevel[i] < 10 ? " " : ""),
-              (skexercise[i] < 10 && skexercise[i] >= 0 ? " " : ""),
-              (skexercise[i] <  0 ? 0 : skexercise[i]));
+     mvwprintz(w_skills, line, 1, skillLevel(*aSkill).isTraining() ? c_dkgray : c_ltblue, "%-17s",
+               ((*aSkill)->name() + ":").c_str());
+     mvwprintz(w_skills, line,19, c_ltblue, "%-2d(%2d%%%%)", level.level(),
+              (level.exercise() <  0 ? 0 : level.exercise()));
     line++;
-   }
+    }
   }
  }
  wrefresh(w_skills);
@@ -1145,7 +1161,7 @@ Running costs +%d movement points", encumb(bp_mouth) * 5);
 Melee skill -%d;      Dodge skill -%d;\n\
 Swimming costs +%d movement points;\n\
 Melee attacks cost +%d movement points", encumb(bp_torso), encumb(bp_torso),
-encumb(bp_torso) * (80 - sklevel[sk_swimming] * 3), encumb(bp_torso) * 20);
+              encumb(bp_torso) * (80 - skillLevel(Skill::skill("swimming")).level() * 3), encumb(bp_torso) * 20);
    } else if (line == 4) 
   {
     mvwprintz(w_encumb, 5, 2, h_ltgray, "Arms");
@@ -1164,7 +1180,7 @@ Dexterity -%d when throwing items", encumb(bp_hands) * 30, encumb(bp_hands));
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Running costs %s%d movement points;  Swimming costs %s%d movement points;\n\
 Dodge skill %s%.1f", sign.c_str(), encumb(bp_legs) * 3,
-                     sign.c_str(), encumb(bp_legs) *(50 - sklevel[sk_swimming]),
+              sign.c_str(), encumb(bp_legs) *(50 - skillLevel(Skill::skill("swimming")).level()),
                      osign.c_str(), double(double(encumb(bp_legs)) / 2));
    } else if (line == 7) {
     mvwprintz(w_encumb, 8, 2, h_ltgray, "Feet");
@@ -1339,43 +1355,48 @@ encumb(bp_feet) * 5);
     if (min < 0)
      min = 0;
    }
+
+   Skill *selectedSkill;
+
    for (int i = min; i < max; i++) {
+     Skill *aSkill = Skill::skill(skillslist[i]);
+     SkillLevel level = skillLevel(aSkill);
+
+     bool isLearning = level.isTraining();
+     int32_t exercise = level.exercise();
+
     if (i == line) {
-     if (skexercise[skillslist[i]] >= 100)
-      status = sklearn[skillslist[i]] ? h_pink : h_red;
+      selectedSkill = aSkill;
+     if (exercise >= 100)
+      status = isLearning ? h_pink : h_red;
      else
-      status = sklearn[skillslist[i]] ? h_ltblue : h_blue;
+      status = isLearning ? h_ltblue : h_blue;
     } else {
-     if (skexercise[skillslist[i]] < 0)
-      status = sklearn[skillslist[i]] ? c_ltred : c_red;
+     if (exercise < 0)
+      status = isLearning ? c_ltred : c_red;
      else
-      status = sklearn[skillslist[i]] ? c_ltblue : c_blue;
+      status = isLearning ? c_ltblue : c_blue;
     }
     mvwprintz(w_skills, 2 + i - min, 1, c_ltgray, "                         ");
-    if (skexercise[i] >= 100) {
+    if (exercise >= 100) {
      mvwprintz(w_skills, 2 + i - min, 1, status, "%s:",
-               skill_name(skillslist[i]).c_str());
-     mvwprintz(w_skills, 2 + i - min,19, status, "%d (%s%d%%%%)",
-               sklevel[skillslist[i]],
-               (skexercise[skillslist[i]] < 10 &&
-                skexercise[skillslist[i]] >= 0 ? " " : ""),
-               (skexercise[skillslist[i]] <  0 ? 0 :
-                skexercise[skillslist[i]]));
+               aSkill->name().c_str());
+     mvwprintz(w_skills, 2 + i - min,19, status, "%-2d(%2d%%%%)",
+               level.level(),
+               (exercise <  0 ? 0 : exercise));
     } else {
-     mvwprintz(w_skills, 2 + i - min, 1, status, "%s:",
-               skill_name(skillslist[i]).c_str());
-     mvwprintz(w_skills, 2 + i - min,19, status, "%d (%s%d%%%%)",
-               sklevel[skillslist[i]],
-               (skexercise[skillslist[i]] < 10 &&
-                skexercise[skillslist[i]] >= 0 ? " " : ""),
-               (skexercise[skillslist[i]] <  0 ? 0 :
-                skexercise[skillslist[i]]));
+     mvwprintz(w_skills, 2 + i - min, 1, status, "%-17s",
+               (aSkill->name() + ":").c_str());
+     mvwprintz(w_skills, 2 + i - min,19, status, "%-2d(%2d%%%%)",
+               level.level(),
+               (exercise <  0 ? 0 :
+                exercise));
     }
    }
    werase(w_info);
    if (line >= 0 && line < skillslist.size())
     mvwprintz(w_info, 0, 0, c_magenta,
-              skill_description(skillslist[line]).c_str());
+              selectedSkill->description().c_str());
    wrefresh(w_skills);
    wrefresh(w_info);
    switch (input()) {
@@ -1388,27 +1409,28 @@ encumb(bp_feet) * 5);
       line--;
      break;
     case '\t':
+      werase(w_skills);
      mvwprintz(w_skills, 0, 0, c_ltgray, "           SKILLS         ");
      for (int i = 0; i < skillslist.size() && i < 7; i++) {
-      if (skexercise[skillslist[i]] < 0)
+       Skill *thisSkill = Skill::skill(i);
+       SkillLevel thisLevel = skillLevel(thisSkill);
+       if (thisLevel.exercise() < 0)
        status = c_ltred;
       else
        status = c_ltblue;
       mvwprintz(w_skills, i + 2,  1, status, "%s:",
-                skill_name(skillslist[i]).c_str());
-      mvwprintz(w_skills, i + 2, 19, status, "%d (%s%d%%%%)",
-                sklevel[skillslist[i]],
-                (skexercise[skillslist[i]] < 10 &&
-                 skexercise[skillslist[i]] >= 0 ? " " : ""),
-                (skexercise[skillslist[i]] <  0 ? 0 :
-                 skexercise[skillslist[i]]));
+                thisSkill->name().c_str());
+      mvwprintz(w_skills, i + 2, 19, status, "%d (%2d%%%%)",
+                thisLevel.level(),
+                (thisLevel.exercise() <  0 ? 0 :
+                 thisLevel.exercise()));
      }
      wrefresh(w_skills);
      line = 0;
      curtab = 1;
      break;
    case ' ':
-     sklearn[skillslist[line]] = !sklearn[skillslist[line]];
+     skillLevel(selectedSkill).toggleTraining();
      break;
     case 'q':
     case 'Q':
@@ -1919,7 +1941,7 @@ bool player::has_two_arms()
 
 bool player::avoid_trap(trap* tr)
 {
- int myroll = dice(3, dex_cur + sklevel[sk_dodge] * 1.5);
+  int myroll = dice(3, dex_cur + skillLevel(Skill::skill("dodge")).level() * 1.5);
  int traproll;
  if (per_cur - encumb(bp_eyes) >= tr->visibility)
   traproll = dice(3, tr->avoidance);
@@ -1936,10 +1958,10 @@ void player::pause(game *g)
 {
  moves = 0;
  if (recoil > 0) {
-  if (str_cur + 2 * sklevel[sk_gun] >= recoil)
+   if (str_cur + 2 * skillLevel(Skill::skill("gun")).level() >= recoil)
    recoil = 0;
   else {
-   recoil -= str_cur + 2 * sklevel[sk_gun];
+    recoil -= str_cur + 2 * skillLevel(Skill::skill("gun")).level();
    recoil = int(recoil / 2);
   }
  }
@@ -1973,8 +1995,8 @@ int player::throw_range(int index)
  if (ret < 1)
   return 1;
 // Cap at double our strength + skill
- if (ret > str_cur * 1.5 + sklevel[sk_throw])
-  return str_cur * 1.5 + sklevel[sk_throw];
+ if (ret > str_cur * 1.5 + skillLevel(Skill::skill("throw")).level())
+   return str_cur * 1.5 + skillLevel(Skill::skill("throw")).level();
  return ret;
 }
 
@@ -2073,7 +2095,7 @@ int player::read_speed(bool real_life)
 
 int player::talk_skill()
 {
- int ret = int_cur + per_cur + sklevel[sk_speech] * 3;
+  int ret = int_cur + per_cur + skillLevel(Skill::skill("speech")).level() * 3;
  if (has_trait(PF_DEFORMED))
   ret -= 4;
  else if (has_trait(PF_DEFORMED2))
@@ -4289,7 +4311,7 @@ void player::use(game *g, char let)
 
  } else if (used->is_gunmod()) {
 
-  if (sklevel[sk_gun] == 0) {
+   if (skillLevel(Skill::skill("gun")) == 0) {
    g->add_msg("You need to be at least level 1 in the firearms skill before you\
  can modify guns.");
    if (replace_item)
@@ -4311,31 +4333,31 @@ void player::use(game *g, char let)
    return;
   }
   it_gun* guntype = dynamic_cast<it_gun*>(gun->type);
-  if (guntype->skill_used == sk_archery || guntype->skill_used == sk_launcher) {
+  if (guntype->skill_used == Skill::skill("archery") || guntype->skill_used == Skill::skill("launcher")) {
    g->add_msg("You cannot mod your %s.", gun->tname(g).c_str());
    if (replace_item)
     inv.add_item(copy);
    return;
   }
-  if (guntype->skill_used == sk_pistol && !mod->used_on_pistol) {
+  if (guntype->skill_used == Skill::skill("pistol") && !mod->used_on_pistol) {
    g->add_msg("That %s cannot be attached to a handgun.",
               used->tname(g).c_str());
    if (replace_item)
     inv.add_item(copy);
    return;
-  } else if (guntype->skill_used == sk_shotgun && !mod->used_on_shotgun) {
+  } else if (guntype->skill_used == Skill::skill("shotgun") && !mod->used_on_shotgun) {
    g->add_msg("That %s cannot be attached to a shotgun.",
               used->tname(g).c_str());
    if (replace_item)
     inv.add_item(copy);
    return;
-  } else if (guntype->skill_used == sk_smg && !mod->used_on_smg) {
+  } else if (guntype->skill_used == Skill::skill("smg") && !mod->used_on_smg) {
    g->add_msg("That %s cannot be attached to a submachine gun.",
               used->tname(g).c_str());
    if (replace_item)
     inv.add_item(copy);
    return;
-  } else if (guntype->skill_used == sk_rifle && !mod->used_on_rifle) {
+  } else if (guntype->skill_used == Skill::skill("rifle") && !mod->used_on_rifle) {
    g->add_msg("That %s cannot be attached to a rifle.",
               used->tname(g).c_str());
    if (replace_item)
@@ -4511,9 +4533,9 @@ int time; //Declare this here so that we can change the time depending on whats 
   g->add_msg("You're illiterate!");
   return;
  }
- else if (tmp->req > sklevel[tmp->type]) {
+ else if (skillLevel(tmp->type) < tmp->req) {
   g->add_msg("The %s-related jargon flies over your head!",
-             skill_name(tmp->type).c_str());
+             tmp->type->name().c_str());
   return;
  } else if (tmp->intel > int_cur) {
   g->add_msg("This book is too complex for you to easily understand. It will take longer to read.");
@@ -4522,9 +4544,9 @@ int time; //Declare this here so that we can change the time depending on whats 
   moves = 0;
   return;
  }
-  else if (tmp->level <= sklevel[tmp->type] && tmp->fun <= 0 &&
+ else if (skillLevel(tmp->type) >= tmp->level && tmp->fun <= 0 &&
             !query_yn("Your %s skill won't be improved.  Read anyway?",
-                      skill_name(tmp->type).c_str()))
+                      tmp->type->name().c_str()))
   return;
 
 // Base read_speed() is 1000 move points (1 minute per tmp->time)
@@ -4848,34 +4870,43 @@ bool player::wearing_something_on(body_part bp)
  return false;
 }
 
-void player::practice(skill s, int amount)
-{
- skill savant = sk_null;
- int savant_level = 0, savant_exercise = 0;
- if (skexercise[s] < 0)
-  amount += (amount >= -1 * skexercise[s] ? -1 * skexercise[s] : amount);
- if (has_trait(PF_SAVANT)) {
-// Find our best skill
-  for (int i = 1; i < num_skill_types; i++) {
-   if (sklevel[i] >= savant_level) {
-    savant = skill(i);
-    savant_level = sklevel[i];
-    savant_exercise = skexercise[i];
-   } else if (sklevel[i] == savant_level && skexercise[i] > savant_exercise) {
-    savant = skill(i);
-    savant_exercise = skexercise[i];
-   }
+void player::practice (Skill *s, int amount) {
+  SkillLevel& level = skillLevel(s);
+
+  if (level.exercise() < 0) {
+    if (amount >= -level.exercise()) {
+      amount -= level.exercise();
+    } else {
+      amount += amount;
+    }
   }
- }
- while (sklearn[s] && amount > 0 && xp_pool >= (1 + sklevel[s])) {
-  amount -= sklevel[s] + 1;
-  if ((savant == sk_null || savant == s || !one_in(2)) &&
-       rng(0, 100) < comprehension_percent(s)) {
-   xp_pool -= (1 + sklevel[s]);
-   skexercise[s]++;
+
+  bool isSavant = has_trait(PF_SAVANT);
+
+  Skill *savantSkill = NULL;
+  SkillLevel savantSkillLevel = SkillLevel();
+
+  if (isSavant) {
+    for (EACH_SKILL) {
+      if (skillLevel(*aSkill) > savantSkillLevel) {
+        savantSkill = *aSkill;
+        savantSkillLevel = skillLevel(*aSkill);
+      }
+    }
   }
- }
+
+  uint32_t newLevel;
+
+  while (level.isTraining() && amount > 0 && xp_pool >= (1 + level.level())) {
+    amount -= level.level() + 1;
+    if ((!isSavant || s == savantSkill || one_in(2)) && rng(0, 100) < level.comprehension(int_cur, has_trait(PF_FASTLEARNER))) {
+      xp_pool -= (1 + level.level());
+
+      skillLevel(s).train(newLevel);
+    }
+  }
 }
+
 void player::assign_activity(activity_type type, int moves, int index)
 {
  if (backlog.type == type && backlog.index == index &&
@@ -5057,4 +5088,12 @@ bool activity_is_suspendable(activity_type type)
  if (type == ACT_NULL || type == ACT_RELOAD || type == ACT_DISASSEMBLE)
   return false;
  return true;
+}
+
+SkillLevel& player::skillLevel(std::string ident) {
+  return _skills[Skill::skill(ident)];
+}
+
+SkillLevel& player::skillLevel(Skill *_skill) {
+  return _skills[_skill];
 }

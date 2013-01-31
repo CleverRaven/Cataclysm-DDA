@@ -692,53 +692,38 @@ bool game::do_turn()
   refresh();
  }
 
- update_skills();
+ rustCheck();
  if (turn % 10 == 0)
   u.update_morale();
  return false;
 }
 
-void game::update_skills()
-{
-//    SKILL   TURNS/--
-//	1	4096
-//	2	2048
-//	3	1024
-//	4	 512
-//	5	 256
-//	6	 128
-//	7+	  64
- for (int i = 0; i < num_skill_types; i++) {
-  int tmp = u.sklevel[i] > 7 ? 7 : u.sklevel[i];
+void game::rustCheck() {
+  if (OPTIONS[OPT_SKILL_RUST] == 2)
+    return;
 
-  if (OPTIONS[OPT_SKILL_RUST] == 0 || OPTIONS[OPT_SKILL_RUST] == 1)
-  {
-    if (u.sklevel[i] > 0 && turn % (8192 / int(pow(2, double(tmp - 1)))) == 0 &&
-        (( u.has_trait(PF_FORGETFUL) && one_in(3)) ||
-         (!u.has_trait(PF_FORGETFUL) && one_in(4))   )) {
+  for (EACH_SKILL) {
+    uint32_t skillLevel = u.skillLevel(*aSkill).level();
+    uint32_t forgetCap = skillLevel > 7 ? 7 : skillLevel;
 
-     if (u.has_bionic(bio_memory) && u.power_level > 0) {
+    if (skillLevel > 0 && turn % (8192 / int(pow(2, double(forgetCap - 1))))) {
+      if (rng(1,12) % (u.has_trait(PF_FORGETFUL) ? 3 : 4)) {
+        if (u.has_bionic(bio_memory) && u.power_level > 0) {
           if (one_in(5))
-           u.power_level--;
+            u.power_level--;
+        } else {
+          if (OPTIONS[OPT_SKILL_RUST] == 0 || u.skillLevel(*aSkill).exercise() > 0) {
+            uint32_t newLevel;
+            u.skillLevel(*aSkill).rust(newLevel);
+
+            if (newLevel < skillLevel) {
+              add_msg("Your skill in %s has reduced to %d!", (*aSkill)->name().c_str(), newLevel);
+            }
+          }
         }
-          else
-          u.skexercise[i]--;
-        }
-      if (OPTIONS[OPT_SKILL_RUST] == 1 && u.skexercise[i] < 0)
-      u.skexercise[i] = 0;
+      }
+    }
   }
-  if (u.skexercise[i] < -100) {
-     u.sklevel[i]--;
-     add_msg("Your skill in %s has reduced to %d!",
-             skill_name(skill(i)).c_str(), u.sklevel[i]);
-   u.skexercise[i] = 0;
-  } else if (u.skexercise[i] >= 100) {
-   u.sklevel[i]++;
-   add_msg("Your skill in %s has increased to %d!",
-           skill_name(skill(i)).c_str() ,u.sklevel[i]);
-   u.skexercise[i] = 0;
-  }
- }
 }
 
 void game::process_events()
@@ -808,19 +793,20 @@ void game::process_activity()
      u.add_morale(MORALE_BOOK, reading->fun * 5, reading->fun * 15, reading);
     }
 
-    if (u.sklevel[reading->type] < reading->level) {
-     add_msg("You learn a little about %s!", skill_name(reading->type).c_str());
+    if (u.skillLevel(reading->type) < reading->level) {
+      add_msg("You learn a little about %s!", reading->type->name().c_str());
      int min_ex = reading->time / 10 + u.int_cur / 4,
-         max_ex = reading->time /  5 + u.int_cur / 2 - u.sklevel[reading->type];
+       max_ex = reading->time /  5 + u.int_cur / 2 - u.skillLevel(reading->type).level();
      if (min_ex < 1)
       min_ex = 1;
      if (max_ex < 2)
       max_ex = 2;
      if (max_ex > 10)
       max_ex = 10;
-     u.skexercise[reading->type] += rng(min_ex, max_ex);
-     if (u.sklevel[reading->type] +
-        (u.skexercise[reading->type] >= 100 ? 1 : 0) >= reading->level)
+
+     u.skillLevel(reading->type).readBook(min_ex, max_ex, reading->level);
+
+     if (u.skillLevel(reading->type) == reading->level)
       add_msg("You can no longer learn from this %s.", reading->name.c_str());
     }
     break;
@@ -2119,8 +2105,8 @@ z.size(), events.size());
    break;
 
   case 11:
-   for (int i = 0; i < num_skill_types; i++)
-    u.sklevel[i] += 3;
+    for (EACH_SKILL)
+      u.skillLevel(*aSkill).level(u.skillLevel(*aSkill).level() + 3);
    break;
 
   case 12:
@@ -2152,12 +2138,8 @@ z.size(), events.size());
             int(p->personality.bravery) << " Collector: " <<
             int(p->personality.collector) << " Altruism: " <<
             int(p->personality.altruism) << std::endl;
-    for (int i = 0; i < num_skill_types; i++) {
-     data << skill_name( skill(i) ) << ": " << p->sklevel[i];
-     if (i % 2 == 1)
-      data << std::endl;
-     else
-      data << "\t";
+    for (EACH_SKILL) {
+      data << (*aSkill)->name() << ": " << p->skillLevel(*aSkill) << std::endl;
     }
 
     full_screen_popup(data.str().c_str());
@@ -4074,8 +4056,8 @@ void game::smash()
    add_msg(extra.c_str());
   sound(u.posx, u.posy, 18, bashsound);
   u.moves -= 80;
-  if (u.sklevel[sk_melee] == 0)
-   u.practice(sk_melee, rng(0, 1) * rng(0, 1));
+  if (u.skillLevel(Skill::skill("melee")) == 0)
+   u.practice(Skill::skill("melee"), rng(0, 1) * rng(0, 1));
   if (u.weapon.made_of(GLASS) &&
       rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
    add_msg("Your %s shatters!", u.weapon.tname(this).c_str());
@@ -4383,9 +4365,11 @@ void game::examine()
                            u.power_level > 0 &&
                            query_yn("Use fingerhack on the reader?"));
   if (using_electrohack || using_fingerhack) {
+    Skill *computerSkill = Skill::skill("computer");
+
    u.moves -= 500;
-   u.practice(sk_computer, 20);
-   int success = rng(u.sklevel[sk_computer]/4 - 2, u.sklevel[sk_computer] * 2);
+   u.practice(computerSkill, 20);
+   int success = rng(u.skillLevel(computerSkill).level() / 4 - 2, u.skillLevel(computerSkill).level() * 2);
    success += rng(-3, 3);
    if (using_fingerhack)
     success++;
@@ -5828,7 +5812,7 @@ void game::plthrow()
 
  u.i_rem(ch);
  u.moves -= 125;
- u.practice(sk_throw, 10);
+ u.practice(Skill::skill("throw"), 10);
 
  throw_item(u, x, y, thrown, trajectory);
 }
@@ -5945,18 +5929,20 @@ void game::plfire(bool burst)
   burst = true;
 
 // Train up our skill
+ Skill *gunSkill = Skill::skill("gun");
+
  it_gun* firing = dynamic_cast<it_gun*>(u.weapon.type);
  int num_shots = 1;
  if (burst)
   num_shots = u.weapon.burst_size();
  if (num_shots > u.weapon.num_charges())
    num_shots = u.weapon.num_charges();
- if (u.sklevel[firing->skill_used] == 0 ||
+ if (u.skillLevel(firing->skill_used) == 0 ||
      (firing->ammo != AT_BB && firing->ammo != AT_NAIL))
   u.practice(firing->skill_used, 4 + (num_shots / 2));
- if (u.sklevel[sk_gun] == 0 ||
+ if (u.skillLevel(gunSkill) == 0 ||
      (firing->ammo != AT_BB && firing->ammo != AT_NAIL))
-  u.practice(sk_gun, 5);
+   u.practice(gunSkill, 5);
 
  fire(u, x, y, trajectory, burst);
 }
@@ -6009,6 +5995,10 @@ void game::complete_butcher(int index)
  int factor = u.butcher_factor();
  int pieces, pelts;
  double skill_shift = 0.;
+
+ Skill *survivalSkill = Skill::skill("survival");
+ uint32_t sSkillLevel = u.skillLevel(survivalSkill).level();
+
  switch (corpse->size) {
   case MS_TINY:   pieces =  1; pelts =  1; break;
   case MS_SMALL:  pieces =  2; pelts =  3; break;
@@ -6016,10 +6006,10 @@ void game::complete_butcher(int index)
   case MS_LARGE:  pieces =  8; pelts = 10; break;
   case MS_HUGE:   pieces = 16; pelts = 18; break;
  }
- if (u.sklevel[sk_survival] < 3)
-  skill_shift -= rng(0, 8 - u.sklevel[sk_survival]);
+ if (sSkillLevel < 3)
+  skill_shift -= rng(0, 8 - sSkillLevel);
  else
-  skill_shift += rng(0, u.sklevel[sk_survival]);
+  skill_shift += rng(0, sSkillLevel);
  if (u.dex_cur < 8)
   skill_shift -= rng(0, 8 - u.dex_cur) / 4;
  else
@@ -6032,7 +6022,7 @@ void game::complete_butcher(int index)
  int practice = 4 + pieces;
  if (practice > 20)
   practice = 20;
- u.practice(sk_survival, practice);
+ u.practice(survivalSkill, practice);
 
  pieces += int(skill_shift);
  if (skill_shift < 5)	// Lose some pelts
@@ -6365,8 +6355,9 @@ void game::chat()
  u.moves -= 100;
 }
 
-void game::pldrive(int x, int y)
-{
+void game::pldrive(int x, int y) {
+  Skill *drivingSkill = Skill::skill("driving");
+
  if (run_mode == 2) { // Monsters around and we don't wanna run
   add_msg("Monster spotted--run mode is on! "
           "(Press '!' to turn it off or ' to ignore monster.)");
@@ -6394,7 +6385,7 @@ void game::pldrive(int x, int y)
  }
  veh->turn (15 * x);
  if (veh->skidding && veh->valid_wheel_config()) {
-  if (rng (0, 40) < u.dex_cur + u.sklevel[sk_driving] * 2) {
+   if (rng (0, 40) < u.dex_cur + u.skillLevel(drivingSkill).level() * 2) {
    add_msg ("You regain control of the %s.", veh->name.c_str());
    veh->skidding = false;
    veh->move.init (veh->turn_dir);
@@ -6403,7 +6394,7 @@ void game::pldrive(int x, int y)
 
  u.moves = 0;
  if (x != 0 && veh->velocity != 0 && one_in(4))
-  u.practice(sk_driving, 1);
+   u.practice(drivingSkill, 1);
 }
 
 void game::plmove(int x, int y)
@@ -6548,10 +6539,12 @@ void game::plmove(int x, int y)
 
 // Adjust recoil down
   if (u.recoil > 0) {
-   if (int(u.str_cur / 2) + u.sklevel[sk_gun] >= u.recoil)
+    Skill *gunSkill = Skill::skill("gun");
+
+    if (int(u.str_cur / 2) + u.skillLevel(gunSkill).level() >= u.recoil)
     u.recoil = 0;
    else {
-    u.recoil -= int(u.str_cur / 2) + u.sklevel[sk_gun];
+     u.recoil -= int(u.str_cur / 2) + u.skillLevel(gunSkill).level();
     u.recoil = int(u.recoil / 2);
    }
   }
@@ -6731,7 +6724,7 @@ void game::plswim(int x, int y)
   u.rem_disease(DI_ONFIRE);
  }
  int movecost = u.swim_speed();
- u.practice(sk_swimming, 1);
+ u.practice(Skill::skill("swimming"), 1);
  if (movecost >= 500) {
   if (!u.underwater) {
    add_msg("You sink%s!", (movecost >= 400 ? " like a rock" : ""));
@@ -7021,7 +7014,7 @@ void game::vertical_move(int movez, bool force)
 
  levz += movez;
  u.moves -= 100;
- m.veh_cached_parts.clear();
+ m.clear_vehicle_cache();
  m.vehicle_list.clear();
  m.load(this, levx, levy);
  u.posx = stairx;

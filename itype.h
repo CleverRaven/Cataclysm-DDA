@@ -542,7 +542,7 @@ struct it_ammo : public itype
 struct it_gun : public itype
 {
  ammotype ammo;
- skill skill_used;
+ Skill *skill_used;
  signed char dmg_bonus;
  signed char accuracy;
  signed char recoil;
@@ -560,7 +560,7 @@ struct it_gun : public itype
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
         unsigned pitem_flags,
 
-	skill pskill_used, ammotype pammo, signed char pdmg_bonus,
+	Skill *pskill_used, ammotype pammo, signed char pdmg_bonus,
 	signed char paccuracy, signed char precoil, unsigned char pdurability,
         unsigned char pburst, int pclip, int preload_time)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
@@ -669,7 +669,7 @@ struct it_armor : public itype
 
 struct it_book : public itype
 {
- skill type;		// Which skill it upgrades
+ Skill *type;		// Which skill it upgrades
  unsigned char level;	// The value it takes the skill to
  unsigned char req;	// The skill level required to understand it
  signed char fun;	// How fun reading this is
@@ -684,7 +684,7 @@ struct it_book : public itype
          signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
          unsigned pitem_flags,
 
-	 skill ptype, unsigned char plevel, unsigned char preq,
+	 Skill *ptype, unsigned char plevel, unsigned char preq,
 	 signed char pfun, unsigned char pintel, unsigned char ptime)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {

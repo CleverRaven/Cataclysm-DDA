@@ -1440,9 +1440,9 @@ void talk_function::start_training(game *g, npc *p)
   style = itype_id(0 - p->chatbin.tempvalue);
   time = 30000;
  } else {
-  sk_used = skill(p->chatbin.tempvalue);
-  cost = -200 * (1 + g->u.sklevel[sk_used]);
-  time = 10000 + 5000 * g->u.sklevel[sk_used];
+   sk_used = skill(p->chatbin.tempvalue);
+   cost = -200 * (1 + g->u.skillLevel(Skill::skill(sk_used)).level());
+   time = 10000 + 5000 * g->u.skillLevel(Skill::skill(sk_used)).level();
  }
 
 // Pay for it
@@ -1638,7 +1638,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  if (chosen.trial == TALK_TRIAL_NONE ||
      rng(0, 99) < trial_chance(chosen, alpha, beta)) {
   if (chosen.trial != TALK_TRIAL_NONE)
-   alpha->practice(sk_speech, (100 - trial_chance(chosen, alpha, beta)) / 10);
+    alpha->practice(Skill::skill("speech"), (100 - trial_chance(chosen, alpha, beta)) / 10);
   (effect.*chosen.effect_success)(g, beta);
   beta->op_of_u += chosen.opinion_success;
   if (beta->turned_hostile()) {
@@ -1647,7 +1647,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
   }
   return chosen.success;
  } else {
-  alpha->practice(sk_speech, (100 - trial_chance(chosen, alpha, beta)) / 7);
+   alpha->practice(Skill::skill("speech"), (100 - trial_chance(chosen, alpha, beta)) / 7);
   (effect.*chosen.effect_failure)(g, beta);
   beta->op_of_u += chosen.opinion_failure;
   if (beta->turned_hostile()) {
@@ -1894,7 +1894,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    } else
     newinv.push_back(tmp);
   }
-  g->u.practice(sk_barter, practice / 2);
+  g->u.practice(Skill::skill("barter"), practice / 2);
   p->inv = newinv;
   g->u.cash += cash;
   p->cash   -= cash;
