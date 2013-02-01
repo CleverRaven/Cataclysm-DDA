@@ -1882,6 +1882,15 @@ void npc::set_destination(game *g)
  * Also, NPCs should be able to assign themselves missions like "break into that
  *  lab" or "map that river bank."
  */
+
+ // all of the following luxuries are at ground level.
+ // so please wallow in hunger & fear if below ground.
+ if(g->cur_om.posz != 0){
+  goalx = -1;
+  goaly = -1;
+  return;
+ }
+
  decide_needs();
  if (needs.empty()) // We don't need anything in particular.
   needs.push_back(need_none);
