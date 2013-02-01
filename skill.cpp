@@ -59,7 +59,7 @@ std::vector<Skill*> Skill::loadSkills() {
 }
 
 size_t Skill::skill_id(std::string ident) {
-  for (EACH_SKILL) {
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
     if ((*aSkill)->_ident == ident) {
       return (*aSkill)->_id;
     }

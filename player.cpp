@@ -77,7 +77,7 @@ player::player()
  for (int i = 1; i < NUM_MUTATION_CATEGORIES; i++)
   mutation_category_level[i] = 0;
 
- for (EACH_SKILL) {
+ for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
    skillLevel(*aSkill).level(0);
  }
 }
@@ -527,7 +527,7 @@ void player::load_info(game *g, std::string data)
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
 
- for (EVERY_SKILL) {
+ for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    dump >> skillLevel(*aSkill);
  }
 
@@ -623,7 +623,7 @@ std::string player::save_info()
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
 
- for (EVERY_SKILL) {
+ for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    SkillLevel level = skillLevel(*aSkill);
    dump << level;
  }
@@ -945,7 +945,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  line = 2;
  std::vector <skill> skillslist;
  mvwprintz(w_skills, 0, 11, c_ltgray, "SKILLS");
- for (EACH_SKILL) {
+ for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
    int i = (*aSkill)->id();
 
    SkillLevel level = skillLevel(*aSkill);
@@ -4887,7 +4887,7 @@ void player::practice (Skill *s, int amount) {
   SkillLevel savantSkillLevel = SkillLevel();
 
   if (isSavant) {
-    for (EACH_SKILL) {
+    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
       if (skillLevel(*aSkill) > savantSkillLevel) {
         savantSkill = *aSkill;
         savantSkillLevel = skillLevel(*aSkill);

@@ -702,7 +702,7 @@ void game::rustCheck() {
   if (OPTIONS[OPT_SKILL_RUST] == 2)
     return;
 
-  for (EACH_SKILL) {
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
     uint32_t skillLevel = u.skillLevel(*aSkill).level();
     uint32_t forgetCap = skillLevel > 7 ? 7 : skillLevel;
 
@@ -2105,7 +2105,7 @@ z.size(), events.size());
    break;
 
   case 11:
-    for (EACH_SKILL)
+    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill)
       u.skillLevel(*aSkill).level(u.skillLevel(*aSkill).level() + 3);
    break;
 
@@ -2138,7 +2138,7 @@ z.size(), events.size());
             int(p->personality.bravery) << " Collector: " <<
             int(p->personality.collector) << " Altruism: " <<
             int(p->personality.altruism) << std::endl;
-    for (EACH_SKILL) {
+    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
       data << (*aSkill)->name() << ": " << p->skillLevel(*aSkill) << std::endl;
     }
 
