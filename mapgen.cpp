@@ -104,7 +104,7 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
  unsigned zones = 0;
  int overx = x / 2;
  int overy = y / 2;
- if ( 0 && x >= OMAPX * 2 || x < 0 || y >= OMAPY * 2 || y < 0) {
+ if ( x >= OMAPX * 2 || x < 0 || y >= OMAPY * 2 || y < 0) {
   dbg(D_INFO) << "map::generate: In section 1";
 
 // This happens when we're at the very edge of the overmap, and are generating
