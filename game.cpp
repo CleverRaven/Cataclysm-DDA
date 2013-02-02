@@ -517,7 +517,7 @@ void game::start_game()
 
 // Put some NPCs in there!
  create_starting_npcs();
-
+ MAPBUFFER.set_dirty();
 }
 
 void game::create_factions()
@@ -1504,6 +1504,7 @@ input_ret game::get_input(int timeout_ms)
     save();
     u.moves = 0;
     uquit = QUIT_SAVED;
+    MAPBUFFER.make_volatile();
    }
    break;
   } else {
@@ -1643,8 +1644,6 @@ bool game::is_game_over()
    m.add_item(u.posx, u.posy, your_body);
    for (int i = 0; i < tmp.size(); i++)
     m.add_item(u.posx, u.posy, tmp[i]);
-   //m.save(&cur_om, turn, levx, levy);
-   //MAPBUFFER.save();
    std::stringstream playerfile;
    playerfile << "save/" << u.name << ".sav";
    unlink(playerfile.str().c_str());
@@ -1785,10 +1784,10 @@ void game::load(std::string name)
  turn = tmpturn;
  nextspawn = tmpspawn;
  nextweather = tmpnextweather;
+ 
  cur_om = overmap(this, comx, comy, levz);
-// m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
- //MAPBUFFER.load();
  m.load(this, levx, levy);
+
  run_mode = tmprun;
  if (OPTIONS[OPT_SAFEMODE] && run_mode == 0)
   run_mode = 1;
@@ -1855,6 +1854,7 @@ void game::load(std::string name)
 // Now load up the master game data; factions (and more?)
  load_master();
  set_adjacent_overmaps(true);
+ MAPBUFFER.set_dirty();
  draw();
 }
 
