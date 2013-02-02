@@ -753,7 +753,7 @@ RECIPE(itm_c4, CC_WEAPON, Skill::skill("mechanics"), Skill::skill("electronics")
 
  RECIPE(itm_boots_fit, CC_ARMOR, Skill::skill("tailor"), NULL, 2, 35000, false);
   TOOL(itm_sewing_kit, 10, NULL);
-  COMP(itm_leather, 4, NULL);
+  COMP(itm_leather, 7, NULL);
 
  RECIPE(itm_jeans_fit, CC_ARMOR, Skill::skill("tailor"), NULL, 2, 45000, false);
   TOOL(itm_sewing_kit, 10, NULL);
