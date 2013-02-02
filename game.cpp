@@ -2831,6 +2831,12 @@ unsigned char game::light_level()
  return ret;
 }
 
+void game::reset_light_level()
+{
+ latest_lightlevel = 0;
+ latest_lightlevel_turn = 0;
+}
+
 int game::assign_npc_id()
 {
  int ret = next_npc_id;
