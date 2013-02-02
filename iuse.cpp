@@ -970,6 +970,7 @@ void iuse::light_off(game *g, player *p, item *it, bool t)
   it->make(g->itypes[itm_flashlight_on]);
   it->active = true;
   it->charges --;
+  g->reset_light_level();
  }
 }
  
@@ -981,6 +982,7 @@ void iuse::light_on(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"The flashlight flicks off.");
   it->make(g->itypes[itm_flashlight]);
   it->active = false;
+  g->reset_light_level();
  }
 }
 
@@ -2558,6 +2560,7 @@ else {
   g->add_msg_if_player(p,"You light the torch.");
   it->make(g->itypes[itm_torch_lit]);
   it->active = true;
+  g->reset_light_level();
  }
 }
  
@@ -2570,6 +2573,7 @@ void iuse::torch_lit(game *g, player *p, item *it, bool t)
   it->charges -= 1;
   it->make(g->itypes[itm_torch]);
   it->active = false;
+  g->reset_light_level();
  }
 }
 
@@ -2583,6 +2587,7 @@ else {
   g->add_msg_if_player(p,"You light the candle.");
   it->make(g->itypes[itm_candle_lit]);
   it->active = true;
+  g->reset_light_level();
  }
 }
  
@@ -2594,6 +2599,7 @@ void iuse::candle_lit(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"The candle winks out");
   it->make(g->itypes[itm_candle]);
   it->active = false;
+  g->reset_light_level();
  }
 }
 
@@ -3155,6 +3161,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
   case AEA_LIGHT:
    g->add_msg_if_player(p,"The %s glows brightly!", it->tname().c_str());
    g->add_event(EVENT_ARTIFACT_LIGHT, int(g->turn) + 30);
+   g->reset_light_level();
    break;
 
   case AEA_GROWTH: {

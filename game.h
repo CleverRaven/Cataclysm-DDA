@@ -165,6 +165,7 @@ class game
   int& scent(int x, int y);
   float natural_light_level();
   unsigned char light_level();
+  void reset_light_level();
   int assign_npc_id();
   int assign_faction_id();
   faction* faction_by_id(int it);
