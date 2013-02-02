@@ -706,7 +706,7 @@ void game::rustCheck() {
     uint32_t skillLevel = u.skillLevel(*aSkill).level();
     uint32_t forgetCap = skillLevel > 7 ? 7 : skillLevel;
 
-    if (skillLevel > 0 && turn % (8192 / int(pow(2, double(forgetCap - 1))))) {
+    if (skillLevel > 0 && turn % (8192 / int(pow(2, double(forgetCap - 1)))) == 0) {
       if (rng(1,12) % (u.has_trait(PF_FORGETFUL) ? 3 : 4)) {
         if (u.has_bionic(bio_memory) && u.power_level > 0) {
           if (one_in(5))

@@ -133,7 +133,11 @@ void map::update_vehicle_cache(vehicle * veh, const bool brand_new)
    if( it->second.first == veh ) {
     int x = it->first.first;
     int y = it->first.second;
-    veh_exists_at[x][y] = false;
+    if ((x > 0) && (y > 0) &&
+         x < SEEX*MAPSIZE &&
+         y < SEEY*MAPSIZE){
+     veh_exists_at[x][y] = false;
+    }
     tmp = it;
     ++it;
     veh_cached_parts.erase( tmp );
@@ -152,7 +156,11 @@ void map::update_vehicle_cache(vehicle * veh, const bool brand_new)
   const int py = gy + it->precalc_dy[0];
   veh_cached_parts.insert( std::make_pair( std::make_pair(px,py),
                                         std::make_pair(veh,partid) ));
-  veh_exists_at[px][py] = true;
+  if ((px > 0) && (py > 0) &&
+       px < SEEX*MAPSIZE &&
+       py < SEEY*MAPSIZE){
+   veh_exists_at[px][py] = true;
+  }
  }
 }
 
@@ -163,7 +171,11 @@ void map::clear_vehicle_cache()
   part = veh_cached_parts.begin();
   int x = part->first.first;
   int y = part->first.second;
-  veh_exists_at[x][y] = false;
+  if ((x > 0) && (y > 0) &&
+       x < SEEX*MAPSIZE &&
+       y < SEEY*MAPSIZE){
+   veh_exists_at[x][y] = false;
+  }
   veh_cached_parts.erase(part);
  }
 } 
