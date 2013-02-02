@@ -93,10 +93,6 @@ void player::activate_bionic(int b, game *g)
    add_disease(DI_TELEGLOW, rng(50, 400), g);
   break;
 
- case bio_flashlight:
-  g->reset_light_level();
-  break;
-
  case bio_teleport:
   g->teleport();
   add_disease(DI_TELEGLOW, 300, g);
