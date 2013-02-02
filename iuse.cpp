@@ -2558,6 +2558,7 @@ else {
   g->add_msg_if_player(p,"You light the candle.");
   it->make(g->itypes[itm_candle_lit]);
   it->active = true;
+  g->reset_light_level();
  }
 }
  
@@ -2569,6 +2570,7 @@ void iuse::candle_lit(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"The candle winks out");
   it->make(g->itypes[itm_candle]);
   it->active = false;
+  g->reset_light_level();
  }
 }
 
