@@ -1434,8 +1434,7 @@ input_ret game::get_input(int timeout_ms)
     veh->turret_mode++;
     if (veh->turret_mode > 1)
      veh->turret_mode = 0;
-   } else
-    wait();
+   }
    break;
 
   case ACTION_CRAFT:
