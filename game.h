@@ -401,6 +401,8 @@ class game
 
   int moves_since_last_save;
   int item_exchanges_since_save;
+  unsigned char latest_lightlevel;
+  calendar latest_lightlevel_turn;
 
   special_game *gamemode;
 };
