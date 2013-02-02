@@ -2201,13 +2201,11 @@ void map::draw(game *g, WINDOW* w, const point center)
    debugmsg("grid %d (%d, %d) is null! mapbuffer size = %d",
             i, i % my_MAPSIZE, i / my_MAPSIZE, MAPBUFFER.size());
  }
- //DebugLog() << "natural_sight_range:" << natural_sight_range << "\n";
- //DebugLog() << "light_sight_range:" << light_sight_range << "\n";
- //DebugLog() << "lowlight_sight_range:" << lowlight_sight_range << "\n";
- //DebugLog() << "max_sight_range:" << max_sight_range << "\n";
+
  bool u_is_boomered = g->u.has_disease(DI_BOOMERED);
  int  u_clairvoyance = g->u.clairvoyance();
  bool u_sight_impaired = g->u.sight_impaired();
+ int  g_light_level = (int)g->light_level();
 
  char trans_buf[my_MAPSIZE*SEEX][my_MAPSIZE*SEEY];
  memset(trans_buf, -1, sizeof(trans_buf));
@@ -2221,7 +2219,7 @@ void map::draw(game *g, WINDOW* w, const point center)
     sight_range = natural_sight_range;
    // Don't display area as shadowy if it's outside and illuminated by natural light
    } else if (dist <= g->u.sight_range(g->natural_light_level())) {
-    lowlight_sight_range = std::max((int)g->light_level(), natural_sight_range);
+    lowlight_sight_range = std::max(g_light_level, natural_sight_range);
    }
 
    // I've moved this part above loops without even thinking that
