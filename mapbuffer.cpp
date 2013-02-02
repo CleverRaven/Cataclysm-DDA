@@ -9,9 +9,9 @@
 mapbuffer MAPBUFFER;
 
 // g defaults to NULL
-mapbuffer::mapbuffer(game *g)
+mapbuffer::mapbuffer()
 {
- master_game = g;
+ dirty = false;
 }
 
 mapbuffer::~mapbuffer()
@@ -22,9 +22,22 @@ mapbuffer::~mapbuffer()
   delete *it;
 }
 
+// game g's existance does not imply that it has been identified, started, or loaded.
 void mapbuffer::set_game(game *g)
 {
  master_game = g;
+}
+
+// set to dirty right before the game starts & the player starts changing stuff.
+void mapbuffer::set_dirty()
+{
+ dirty = true;
+}
+// initial state; no need to synchronize.
+// make volatile after game has ended.
+void mapbuffer::make_volatile()
+{
+ dirty = false;
 }
 
 bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
@@ -55,6 +68,12 @@ submap* mapbuffer::lookup_submap(int x, int y, int z)
  dbg(D_INFO) << "mapbuffer::lookup_submap success: "<< submaps[p];
 
  return submaps[p];
+}
+
+void mapbuffer::save_if_dirty()
+{
+ if(dirty)
+  save();
 }
 
 void mapbuffer::save()

@@ -22,13 +22,18 @@ struct pointcomp
 class mapbuffer
 {
  public:
-  mapbuffer(game *g = NULL);
+  mapbuffer();
   ~mapbuffer();
 
   void set_game(game *g);
 
+  //help save_if_dirty() know to save as many times as it's supposed to.
+  void set_dirty();
+  void make_volatile();
+
   void load();
   void save();
+  void save_if_dirty();
 
   bool add_submap(int x, int y, int z, submap *sm);
   submap* lookup_submap(int x, int y, int z);
@@ -39,6 +44,7 @@ class mapbuffer
   std::map<tripoint, submap*, pointcomp> submaps;
   std::list<submap*> submap_list;
   game *master_game;
+  bool dirty;
 };
   
 extern mapbuffer MAPBUFFER;
