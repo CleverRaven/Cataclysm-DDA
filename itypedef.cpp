@@ -623,12 +623,12 @@ MED("crack",		 8,420,	c_white,	itm_apparatus,
 	POWDER,  40, -2, 80,  4, 50,&iuse::crack,	ADD_CRACK, "\
 Refined cocaine, incredibly addictive.");
 
-MED("Grack Cocaine",      8,420, c_white,        itm_apparatus,
+/*MED("Grack Cocaine",      8,420, c_white,        itm_apparatus,
         POWDER,  200, -2, 80,  4, 50,&iuse::grack,       ADD_CRACK, "\
 Grack Cocaine, the strongest substance known to the multiverse\n\
 this potent substance is refined from the sweat of the legendary\n\
 gracken");
-
+*/
 
 // MELEE WEAPONS
 // Only use secondary material if it will have a major impact.
@@ -3860,6 +3860,10 @@ TECH( mfb(TEC_WBLOCK_1) );
 TOOL("picklock kit",    20, 0,  ';', c_blue, STEEL,   MNULL,
    0,  0,   0,  0,  0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::picklock, 0, "\
 A set of sturdy steel picklocks, essential for silently opening locks.");
+
+TOOL("pickaxe",	60, 160,'/', c_ltred,	WOOD,	MNULL,
+   12, 11, 12,  0,  -1, 0,  0,  0,  0, AT_NULL, itm_null, &iuse::pickaxe, 0, "\
+A large steel pickaxe, strike the earth!");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

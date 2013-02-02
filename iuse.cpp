@@ -1361,6 +1361,35 @@ void iuse::jacqueshammer(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::pickaxe(game *g, player *p, item *it, bool t)
+{
+/* int dirx, diry;
+ g->draw();
+ mvprintw(0, 0, "Drill in which direction?");
+ get_direction(g, dirx, diry, input());
+ if (dirx == -2) {
+  g->add_msg_if_player(p,"Invalid direction.");
+  return;
+ }
+ dirx += p->posx;
+ diry += p->posy;
+ if (g->m.is_destructable(dirx, diry) && g->m.has_flag(supports_roof, dirx, diry) &&
+     g->m.ter(dirx, diry) != t_tree) {
+  g->m.destroy(g, dirx, diry, false);
+  p->moves -= 500;
+  g->sound(dirx, diry, 12, "CHNK! CHNK! CHNK!");
+ } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 && 
+            g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
+  g->m.destroy(g, dirx, diry, false);
+  p->moves -= 500;
+  g->sound(dirx, diry, 12, CHNK! CHNK! CHNK!");
+ } else {
+  g->add_msg_if_player(p,"You can't mine there.");
+*/
+  g->add_msg_if_player(p,"Whoa buddy! You can't go cheating in items and");
+  g->add_msg_if_player(p,"just expect them to work! Now put the pickaxe");
+  g->add_msg_if_player(p,"down and go play the game.);
+}
 void iuse::set_trap(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;

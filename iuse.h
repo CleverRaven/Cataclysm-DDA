@@ -66,6 +66,7 @@ class iuse
   void chainsaw_on	(game *g, player *p, item *it, bool t);
   void jackhammer	(game *g, player *p, item *it, bool t);
   void jacqueshammer	(game *g, player *p, item *it, bool t);
+  void pickaxe          (game *g, player *p, item *it, bool t);
   void set_trap		(game *g, player *p, item *it, bool t);
   void geiger		(game *g, player *p, item *it, bool t);
   void teleport		(game *g, player *p, item *it, bool t);

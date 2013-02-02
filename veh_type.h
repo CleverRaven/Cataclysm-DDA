@@ -283,6 +283,7 @@ enum vhtype_id
     veh_truck,
     veh_semi,  //6L Semitruck. 10 wheels. Sleeper cab.
     veh_trucktrailer,  //Just a trailer with 8 wheels.
+    veh_wagon, // Dwarf Fortress Wagon
     veh_bug,  //Old VW Bug.
     veh_bubblecar,  //360 degree view glass circular vehicle. Underpowered plutonium.
     veh_golfcart,  //Yamaha golf cart.
