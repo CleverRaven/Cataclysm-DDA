@@ -151,7 +151,7 @@ calendar& calendar::operator +=(int rhs)
 
 bool calendar::operator ==(int rhs)
 {
- return int(this) == rhs;
+ return int(*this) == rhs;
 }
 bool calendar::operator ==(calendar &rhs)
 {
