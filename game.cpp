@@ -1618,7 +1618,11 @@ void game::update_scent()
  }
  for (int x = u.posx - 18; x <= u.posx + 18; x++) {
   for (int y = u.posy - 18; y <= u.posy + 18; y++)
-   grscent[x][y] = newscent[x][y];
+   if(m.move_cost(x, y) == 0)
+    //Greatly reduce scent for bashable barriers
+    grscent[x][y] = newscent[x][y] / 4;
+   else
+    grscent[x][y] = newscent[x][y];
  }
  if (!u.has_active_bionic(bio_scent_mask))
   grscent[u.posx][u.posy] = u.scent;
