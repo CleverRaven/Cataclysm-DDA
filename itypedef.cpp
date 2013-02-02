@@ -3312,7 +3312,7 @@ color,mat1,mat2,volume,wgt,melee_dam,melee_cut,to_hit,flags,max_charge,\
 def_charge,charge_per_use,charge_per_sec,fuel,revert,func))
 
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
-TOOL("lighter",		60,  35,',', c_blue,	PLASTIC,IRON,
+TOOL("cheap lighter",		60,  35,',', c_blue,	PLASTIC,IRON,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
     0,  0,  0,  0,  0, 100,100, 1,  0, AT_NULL,	itm_null, &iuse::lighter, 0, "\
 A lighter must be carried to use various drugs, like cigarettes, or to light\n\
