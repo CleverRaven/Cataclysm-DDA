@@ -149,6 +149,20 @@ calendar& calendar::operator +=(int rhs)
  return *this;
 }
 
+bool calendar::operator ==(int rhs)
+{
+ return int(this) == rhs;
+}
+bool calendar::operator ==(calendar &rhs)
+{
+ return (second == rhs.second &&
+         minute == rhs.minute &&
+         hour   == rhs.hour &&
+         day    == rhs.day &&
+         season == rhs.season &&
+         year   == rhs.year);
+}
+
 /*
 calendar& calendar::operator ++()
 {

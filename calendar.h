@@ -62,6 +62,8 @@ class calendar
   calendar  operator - (int rhs);
   calendar  operator + (calendar &rhs);
   calendar  operator + (int rhs);
+  bool      operator ==(int rhs);
+  bool      operator ==(calendar &rhs);
 
   void increment();   // Add one turn / 6 seconds
 

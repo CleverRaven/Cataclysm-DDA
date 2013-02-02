@@ -2782,11 +2782,11 @@ float game::natural_light_level()
 
 unsigned char game::light_level()
 {
+ //already found the light level for now?
+ if(turn == latest_lightlevel_turn)
+  return latest_lightlevel;
+
  int ret;
-/*
- debugmsg("mins: %d hour: %d past midnight: %d", turn.minute, turn.hour,
-          turn.minutes_past_midnight());
-*/
  if (levz < 0)	// Underground!
   ret = 1;
  else {
@@ -2794,6 +2794,8 @@ unsigned char game::light_level()
   ret -= weather_data[weather].sight_penalty;
  }
  for (int i = 0; i < events.size(); i++) {
+  // The EVENT_DIM event slowly dims the sky, then relights it
+  // EVENT_DIM has an occurance date of turn + 50, so the first 25 dim it
   if (events[i].type == EVENT_DIM) {
    int turns_left = events[i].turn - int(turn);
    i = events.size();
@@ -2804,7 +2806,6 @@ unsigned char game::light_level()
   }
  }
  int flashlight = u.active_item_charges(itm_flashlight_on);
- //int light = u.light_items();
  if (ret < 10 && flashlight > 0) {
 /* additive so that low battery flashlights still increase the light level
 	rather than decrease it 						*/
@@ -2824,8 +2825,9 @@ unsigned char game::light_level()
   ret = 3;
  if (ret < 1)
   ret = 1;
-// The EVENT_DIM event slowly dims the sky, then relights it
-// EVENT_DIM has an occurance date of turn + 50, so the first 25 dim it
+
+ latest_lightlevel = ret;
+ latest_lightlevel_turn = turn;
  return ret;
 }
 
