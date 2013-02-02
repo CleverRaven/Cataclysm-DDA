@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
  bool quit_game = false;
  bool delete_world = false;
  game *g = new game;
- MAPBUFFER = mapbuffer(g);
+ MAPBUFFER.set_game(g);
  MAPBUFFER.load();
  load_options();
  do {
@@ -50,16 +50,17 @@ int main(int argc, char *argv[])
   if (g->game_quit())
    quit_game = true;
  } while (!quit_game);
- MAPBUFFER.save();
 
-  if (delete_world && (remove("save/") != 0))
-  {
-    #if (defined _WIN32 || defined __WIN32__)
-      system("rmdir /s /q save");
-    #else
-      system("rm -rf save/*");
-    #endif
-  }
+ if (delete_world && (remove("save/") != 0))
+ {
+  #if (defined _WIN32 || defined __WIN32__)
+   system("rmdir /s /q save");
+  #else
+   system("rm -rf save/*");
+  #endif
+ } else {
+  MAPBUFFER.save_if_dirty();
+ }
 
  erase(); // Clear screen
  endwin(); // End ncurses
