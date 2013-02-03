@@ -717,7 +717,7 @@ void mattack::dermatik(game *g, monster *z)
 
 // Can we swat the bug away?
  int dodge_roll = z->dodge_roll();
- int swat_skill = (g->u.skillLevel(Skill::skill("melee")).level() + g->u.skillLevel(Skill::skill("unarmed")).level() * 2) / 3;
+ int swat_skill = (g->u.skillLevel("melee").level() + g->u.skillLevel("unarmed").level() * 2) / 3;
  int player_swat = dice(swat_skill, 10);
  if (player_swat > dodge_roll) {
   g->add_msg("The %s lands on you, but you swat it off.", z->name().c_str());
@@ -1145,8 +1145,8 @@ void mattack::smg(game *g, monster *z)
   player tmp;
   tmp.name = "The " + z->name();
 
-  tmp.skillLevel(Skill::skill("smg")).level(1);
-  tmp.skillLevel(Skill::skill("gun")).level(0);
+  tmp.skillLevel("smg").level(1);
+  tmp.skillLevel("gun").level(0);
 
   tmp.recoil = 0;
   tmp.posx = z->posx;
@@ -1184,8 +1184,8 @@ void mattack::smg(game *g, monster *z)
  player tmp;
  tmp.name = "The " + z->name();
 
- tmp.skillLevel(Skill::skill("smg")).level(1);
- tmp.skillLevel(Skill::skill("gun")).level(0);
+ tmp.skillLevel("smg").level(1);
+ tmp.skillLevel("gun").level(0);
 
  tmp.recoil = 0;
  tmp.posx = z->posx;

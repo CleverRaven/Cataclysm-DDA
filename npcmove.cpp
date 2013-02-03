@@ -696,9 +696,9 @@ int npc::confident_range(int index)
   else
     deviation -= 2.5 * (skillLevel(firing->skill_used).level() - 5);
   if (sklevel[sk_gun] < 3)
-    deviation += 1.5 * (3 - skillLevel(Skill::skill("gun")).level());
+    deviation += 1.5 * (3 - skillLevel("gun").level());
   else
-    deviation -= .5 * (skillLevel(Skill::skill("gun")).level() - 3);
+    deviation -= .5 * (skillLevel("gun").level() - 3);
 
   if (per_cur < 8)
    deviation += 2 * (9 - per_cur);

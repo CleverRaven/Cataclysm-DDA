@@ -457,7 +457,7 @@ int player::run_cost(int base_cost)
 
 int player::swim_speed()
 {
-  int ret = 440 + 2 * weight_carried() - 50 * skillLevel(Skill::skill("swimming")).level();
+  int ret = 440 + 2 * weight_carried() - 50 * skillLevel("swimming").level();
  if (has_trait(PF_WEBBED))
   ret -= 60 + str_cur * 5;
  if (has_trait(PF_TAIL_FIN))
@@ -466,11 +466,11 @@ int player::swim_speed()
   ret -= 100;
  if (has_trait(PF_LEG_TENTACLES))
   ret -= 60;
- ret += (50 - skillLevel(Skill::skill("swimming")).level() * 2) * abs(encumb(bp_legs));
- ret += (80 - skillLevel(Skill::skill("swimming")).level() * 3) * abs(encumb(bp_torso));
- if (skillLevel(Skill::skill("swimming")) < 10) {
+ ret += (50 - skillLevel("swimming").level() * 2) * abs(encumb(bp_legs));
+ ret += (80 - skillLevel("swimming").level() * 3) * abs(encumb(bp_torso));
+ if (skillLevel("swimming") < 10) {
   for (int i = 0; i < worn.size(); i++)
-    ret += (worn[i].volume() * (10 - skillLevel(Skill::skill("swimming")).level())) / 2;
+    ret += (worn[i].volume() * (10 - skillLevel("swimming").level())) / 2;
  }
  ret -= str_cur * 6 + dex_cur * 4;
 // If (ret > 500), we can not swim; so do not apply the underwater bonus.
@@ -1161,7 +1161,7 @@ Running costs +%d movement points", encumb(bp_mouth) * 5);
 Melee skill -%d;      Dodge skill -%d;\n\
 Swimming costs +%d movement points;\n\
 Melee attacks cost +%d movement points", encumb(bp_torso), encumb(bp_torso),
-              encumb(bp_torso) * (80 - skillLevel(Skill::skill("swimming")).level() * 3), encumb(bp_torso) * 20);
+              encumb(bp_torso) * (80 - skillLevel("swimming").level() * 3), encumb(bp_torso) * 20);
    } else if (line == 4) 
   {
     mvwprintz(w_encumb, 5, 2, h_ltgray, "Arms");
@@ -1180,7 +1180,7 @@ Dexterity -%d when throwing items", encumb(bp_hands) * 30, encumb(bp_hands));
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Running costs %s%d movement points;  Swimming costs %s%d movement points;\n\
 Dodge skill %s%.1f", sign.c_str(), encumb(bp_legs) * 3,
-              sign.c_str(), encumb(bp_legs) *(50 - skillLevel(Skill::skill("swimming")).level()),
+              sign.c_str(), encumb(bp_legs) *(50 - skillLevel("swimming").level()),
                      osign.c_str(), double(double(encumb(bp_legs)) / 2));
    } else if (line == 7) {
     mvwprintz(w_encumb, 8, 2, h_ltgray, "Feet");
@@ -1941,7 +1941,7 @@ bool player::has_two_arms()
 
 bool player::avoid_trap(trap* tr)
 {
-  int myroll = dice(3, dex_cur + skillLevel(Skill::skill("dodge")).level() * 1.5);
+  int myroll = dice(3, dex_cur + skillLevel("dodge").level() * 1.5);
  int traproll;
  if (per_cur - encumb(bp_eyes) >= tr->visibility)
   traproll = dice(3, tr->avoidance);
@@ -1958,10 +1958,10 @@ void player::pause(game *g)
 {
  moves = 0;
  if (recoil > 0) {
-   if (str_cur + 2 * skillLevel(Skill::skill("gun")).level() >= recoil)
+   if (str_cur + 2 * skillLevel("gun").level() >= recoil)
    recoil = 0;
   else {
-    recoil -= str_cur + 2 * skillLevel(Skill::skill("gun")).level();
+    recoil -= str_cur + 2 * skillLevel("gun").level();
    recoil = int(recoil / 2);
   }
  }
@@ -1995,8 +1995,8 @@ int player::throw_range(int index)
  if (ret < 1)
   return 1;
 // Cap at double our strength + skill
- if (ret > str_cur * 1.5 + skillLevel(Skill::skill("throw")).level())
-   return str_cur * 1.5 + skillLevel(Skill::skill("throw")).level();
+ if (ret > str_cur * 1.5 + skillLevel("throw").level())
+   return str_cur * 1.5 + skillLevel("throw").level();
  return ret;
 }
 
@@ -2095,7 +2095,7 @@ int player::read_speed(bool real_life)
 
 int player::talk_skill()
 {
-  int ret = int_cur + per_cur + skillLevel(Skill::skill("speech")).level() * 3;
+  int ret = int_cur + per_cur + skillLevel("speech").level() * 3;
  if (has_trait(PF_DEFORMED))
   ret -= 4;
  else if (has_trait(PF_DEFORMED2))
@@ -4311,7 +4311,7 @@ void player::use(game *g, char let)
 
  } else if (used->is_gunmod()) {
 
-   if (skillLevel(Skill::skill("gun")) == 0) {
+   if (skillLevel("gun") == 0) {
    g->add_msg("You need to be at least level 1 in the firearms skill before you\
  can modify guns.");
    if (replace_item)
@@ -4872,7 +4872,6 @@ bool player::wearing_something_on(body_part bp)
 
 void player::practice (Skill *s, int amount) {
   SkillLevel& level = skillLevel(s);
-
   if (level.exercise() < 0) {
     if (amount >= -level.exercise()) {
       amount -= level.exercise();
@@ -4905,6 +4904,11 @@ void player::practice (Skill *s, int amount) {
       skillLevel(s).train(newLevel);
     }
   }
+}
+
+void player::practice (std::string s, int amount) {
+  Skill *aSkill = Skill::skill(s);
+  practice(aSkill, amount);
 }
 
 void player::assign_activity(activity_type type, int moves, int index)

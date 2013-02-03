@@ -151,7 +151,7 @@ int veh_interact::cant_do (char mode)
         return cpart < 0? 1 : 
                (parts_here.size() < 2 && !veh->can_unmount(cpart)? 2 : 
                (!has_wrench || !has_hacksaw? 3 :
-               (g->u.skillLevel(Skill::skill("mechanics")) < 2 ? 4 : 0)));
+               (g->u.skillLevel("mechanics") < 2 ? 4 : 0)));
     default:
         return -1;
     }
@@ -197,7 +197,7 @@ void veh_interact::do_install(int reason)
         display_list (pos);
         itype_id itm = vpart_list[sel_part].item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
-        bool has_skill = g->u.skillLevel(Skill::skill("mechanics")) >= vpart_list[sel_part].difficulty;
+        bool has_skill = g->u.skillLevel("mechanics") >= vpart_list[sel_part].difficulty;
         werase (w_msg);
         int slen = g->itypes[itm]->name.length();
         mvwprintz(w_msg, 0, 1, c_ltgray, "Needs %s and level %d skill in mechanics.", 
@@ -205,7 +205,7 @@ void veh_interact::do_install(int reason)
         mvwprintz(w_msg, 0, 7, has_comps? c_ltgreen : c_red, g->itypes[itm]->name.c_str());
         mvwprintz(w_msg, 0, 18+slen, has_skill? c_ltgreen : c_red, "%d", vpart_list[sel_part].difficulty);
         bool eng = vpart_list[sel_part].flags & mfb (vpf_engine);
-        bool has_skill2 = !eng || (g->u.skillLevel(Skill::skill("mechanics")) >= dif_eng);
+        bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
         if (engines && eng) // already has engine
         {
             mvwprintz(w_msg, 1, 1, c_ltgray, 
@@ -277,7 +277,7 @@ void veh_interact::do_repair(int reason)
         werase (w_msg);
         bool has_comps = true;
         int dif = veh->part_info(sel_part).difficulty + (veh->parts[sel_part].hp <= 0? 0 : 2);
-        bool has_skill = g->u.skillLevel(Skill::skill("mechanics")).level() >= dif;
+        bool has_skill = g->u.skillLevel("mechanics").level() >= dif;
         mvwprintz(w_msg, 0, 1, c_ltgray, "You need level %d skill in mechanics.", dif);
         mvwprintz(w_msg, 0, 16, has_skill? c_ltgreen : c_red, "%d", dif);
         if (veh->parts[sel_part].hp <= 0)
@@ -620,7 +620,7 @@ void veh_interact::display_list (int pos)
         int y = i - page * page_size;
         itype_id itm = vpart_list[can_mount[i]].item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
-        bool has_skill = g->u.skillLevel(Skill::skill("mechanics")) >= vpart_list[can_mount[i]].difficulty;
+        bool has_skill = g->u.skillLevel("mechanics") >= vpart_list[can_mount[i]].difficulty;
         nc_color col = has_comps && has_skill? c_white : c_dkgray;
         mvwprintz(w_list, y, 3, pos == i? hilite (col) : col, vpart_list[can_mount[i]].name);
         mvwputch (w_list, y, 1, 
@@ -665,7 +665,7 @@ void complete_vehicle (game *g)
         consume_tools(g, tools);
         g->add_msg ("You install a %s into the %s.",
                    vpart_list[part].name, veh->name.c_str());
-        g->u.practice (Skill::skill("mechanics"), vpart_list[part].difficulty * 5 + 20);
+        g->u.practice ("mechanics", vpart_list[part].difficulty * 5 + 20);
         break;
     case 'r':
         if (veh->parts[part].hp <= 0)
@@ -684,7 +684,7 @@ void complete_vehicle (game *g)
         veh->parts[part].hp = veh->part_info(part).durability;
         g->add_msg ("You repair the %s's %s.",
                     veh->name.c_str(), veh->part_info(part).name);
-        g->u.practice (Skill::skill("mechanics"), (vpart_list[part].difficulty + dd) * 5 + 20);
+        g->u.practice ("mechanics", (vpart_list[part].difficulty + dd) * 5 + 20);
         break;
     case 'f':
         if (!g->pl_refill_vehicle(*veh, part, true))
@@ -711,7 +711,7 @@ void complete_vehicle (game *g)
         }
         if (!broken)
             g->m.add_item (g->u.posx, g->u.posy, g->itypes[itm], g->turn);
-        g->u.practice (Skill::skill("mechanics"), 2 * 5 + 20);
+        g->u.practice ("mechanics", 2 * 5 + 20);
         break;
     default:;
     }

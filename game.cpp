@@ -4061,8 +4061,8 @@ void game::smash()
    add_msg(extra.c_str());
   sound(u.posx, u.posy, 18, bashsound);
   u.moves -= 80;
-  if (u.skillLevel(Skill::skill("melee")) == 0)
-   u.practice(Skill::skill("melee"), rng(0, 1) * rng(0, 1));
+  if (u.skillLevel("melee") == 0)
+   u.practice("melee", rng(0, 1) * rng(0, 1));
   if (u.weapon.made_of(GLASS) &&
       rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
    add_msg("Your %s shatters!", u.weapon.tname(this).c_str());
@@ -5817,7 +5817,7 @@ void game::plthrow()
 
  u.i_rem(ch);
  u.moves -= 125;
- u.practice(Skill::skill("throw"), 10);
+ u.practice("throw", 10);
 
  throw_item(u, x, y, thrown, trajectory);
 }
@@ -6729,7 +6729,7 @@ void game::plswim(int x, int y)
   u.rem_disease(DI_ONFIRE);
  }
  int movecost = u.swim_speed();
- u.practice(Skill::skill("swimming"), 1);
+ u.practice("swimming", 1);
  if (movecost >= 500) {
   if (!u.underwater) {
    add_msg("You sink%s!", (movecost >= 400 ? " like a rock" : ""));
