@@ -2831,6 +2831,12 @@ unsigned char game::light_level()
  return ret;
 }
 
+void game::reset_light_level()
+{
+ latest_lightlevel = 0;
+ latest_lightlevel_turn = 0;
+}
+
 int game::assign_npc_id()
 {
  int ret = next_npc_id;
@@ -7208,43 +7214,34 @@ void game::update_map(int &x, int &y)
 // Update what parts of the world map we can see
  update_overmap_seen();
  draw_minimap();
- //save(); // We autosave every time the map gets updated.
 }
 
 void game::set_adjacent_overmaps(bool from_scratch)
 {
- if (levx == OMAPX - 1 || levx == 0 || (from_scratch && levx <= OMAPX)) {
-  delete om_hori;
-  om_hori = new overmap(this, cur_om.posx - 1, cur_om.posy, cur_om.posz);
-  if (levy == OMAPY - 1 || levy == 0 || (from_scratch && levy <= OMAPY)) {
-   delete om_diag;
-   om_diag = new overmap(this, cur_om.posx - 1, cur_om.posy - 1, cur_om.posz);
-  } else if (levy == OMAPY || levy == OMAPY * 2 - 1 ||
-             (from_scratch && levy > OMAPY)) {
-   delete om_diag;
-   om_diag = new overmap(this, cur_om.posx - 1, cur_om.posy + 1, cur_om.posz);
-  }
- } else if (levx == OMAPX || levx == OMAPX * 2 - 1 ||
-            (from_scratch && levx > OMAPX)) {
-  delete om_hori;
-  om_hori = new overmap(this, cur_om.posx + 1, cur_om.posy, cur_om.posz);
-  if (levy == OMAPY - 1 || levy == 0 || (from_scratch && levy <= OMAPY)) {
-   delete om_diag;
-   om_diag = new overmap(this, cur_om.posx + 1, cur_om.posy - 1, cur_om.posz);
-  } else if (levy == OMAPY || levy == OMAPY * 2 - 1 ||
-             (from_scratch && levy > OMAPY)) {
-   delete om_diag;
-   om_diag = new overmap(this, cur_om.posx + 1, cur_om.posy + 1, cur_om.posz);
-  }
- }
+ bool do_h = false, do_v = false, do_d = false;
+ int hori_disp = (levx > OMAPX) ? 1 : -1;
+ int vert_disp = (levy > OMAPY) ? 1 : -1;
+ int diag_posx = cur_om.posx + hori_disp;
+ int diag_posy = cur_om.posy + vert_disp;
 
- if (levy == OMAPY - 1 || levy == 0 || (from_scratch && levy <= OMAPY)) {
+ if(!om_hori || om_hori->posx != diag_posx || om_hori->posy != cur_om.posy || from_scratch)
+  do_h = true;
+ if(!om_vert || om_vert->posx != cur_om.posx || om_vert->posy != diag_posy || from_scratch)
+  do_v = true;
+ if(!om_diag || om_diag->posx != diag_posx || om_diag->posy != diag_posy || from_scratch)
+  do_d = true;
+
+ if(do_h){
+  delete om_hori;
+  om_hori = new overmap(this, diag_posx, cur_om.posy, cur_om.posz);
+ }
+ if(do_v){
   delete om_vert;
-  om_vert = new overmap(this, cur_om.posx    , cur_om.posy - 1, cur_om.posz);
- } else if (levy == OMAPY || levy == OMAPY * 2 - 1 ||
-            (from_scratch && levy > OMAPY)) {
-  delete om_vert;
-  om_vert = new overmap(this, cur_om.posx    , cur_om.posy + 1, cur_om.posz);
+  om_vert = new overmap(this, cur_om.posx, diag_posy, cur_om.posz);
+ }
+ if(do_d){
+  delete om_diag;
+  om_diag = new overmap(this, diag_posx, diag_posy, cur_om.posz);
  }
 }
 

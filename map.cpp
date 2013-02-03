@@ -2190,6 +2190,7 @@ void map::debug()
 
 void map::draw(game *g, WINDOW* w, const point center)
 {
+ g->reset_light_level();
  const int natural_sight_range = g->u.sight_range(1);
  const int light_sight_range = g->u.sight_range(g->light_level());
  int lowlight_sight_range = std::max((int)g->light_level() / 2, natural_sight_range);

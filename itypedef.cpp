@@ -623,12 +623,12 @@ MED("crack",		 8,420,	c_white,	itm_apparatus,
 	POWDER,  40, -2, 80,  4, 50,&iuse::crack,	ADD_CRACK, "\
 Refined cocaine, incredibly addictive.");
 
-MED("Grack Cocaine",      8,420, c_white,        itm_apparatus,
+/*MED("Grack Cocaine",      8,420, c_white,        itm_apparatus,
         POWDER,  200, -2, 80,  4, 50,&iuse::grack,       ADD_CRACK, "\
 Grack Cocaine, the strongest substance known to the multiverse\n\
 this potent substance is refined from the sweat of the legendary\n\
 gracken");
-
+*/
 
 // MELEE WEAPONS
 // Only use secondary material if it will have a major impact.
@@ -1042,8 +1042,8 @@ handy in constructing tougher walls and such.");
 
 MELEE("log",                    20,  100,'/', c_brown,  WOOD,   MNULL,
          40, 20, 10, 0, -10, 0, "\
-A large log, cut from a tree. Useful in building, or further\n\
-processing into planks.");
+A large log, cut from a tree. (a)ctivate a wood ax or wood\n\
+saw to cut it into planks");
 
 MELEE("splintered wood", 	60,  80,'/', c_ltred,	WOOD,	MNULL,
 	 6,  6, 9,  0,  1, 0, "\
@@ -3312,7 +3312,7 @@ color,mat1,mat2,volume,wgt,melee_dam,melee_cut,to_hit,flags,max_charge,\
 def_charge,charge_per_use,charge_per_sec,fuel,revert,func))
 
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
-TOOL("lighter",		60,  35,',', c_blue,	PLASTIC,IRON,
+TOOL("cheap lighter",		60,  35,',', c_blue,	PLASTIC,IRON,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
     0,  0,  0,  0,  0, 100,100, 1,  0, AT_NULL,	itm_null, &iuse::lighter, 0, "\
 A lighter must be carried to use various drugs, like cigarettes, or to light\n\
@@ -3860,6 +3860,10 @@ TECH( mfb(TEC_WBLOCK_1) );
 TOOL("picklock kit",    20, 0,  ';', c_blue, STEEL,   MNULL,
    0,  0,   0,  0,  0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::picklock, 0, "\
 A set of sturdy steel picklocks, essential for silently opening locks.");
+
+TOOL("pickaxe",	60, 160,'/', c_ltred,	WOOD,	MNULL,
+   12, 11, 12,  0,  -1, 0,  0,  0,  0, AT_NULL, itm_null, &iuse::pickaxe, 0, "\
+A large steel pickaxe, strike the earth!");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

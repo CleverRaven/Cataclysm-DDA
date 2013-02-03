@@ -427,6 +427,21 @@ void game::init_vehicles()
 	PART (5, 2, vp_board_u);
 	PART (5, -3, vp_board_y);
 	
+        VEHICLE ("Wagon");
+    // HHH
+    // HHH
+    // HHH
+        
+        PART (0, 0, vp_frame_v2);
+        PART (0, 1, vp_frame_v2);
+        PART (0, -1, vp_frame_v2);
+        PART (1, 0, vp_frame_v2);
+        PART (1, 1, vp_frame_v2);
+        PART (1, -1, vp_frame_v2);
+	PART (-1, 0, vp_frame_v2);
+        PART (-1, 1, vp_frame_v2);
+        PART (-1, -1, vp_frame_v2);
+
 	VEHICLE ("Beetle");
 	// vwbug
     // oHHo

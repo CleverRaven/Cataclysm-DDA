@@ -63,7 +63,7 @@ itm_bandages, itm_1st_aid, itm_vitamins, itm_aspirin, itm_caffeine,
  itm_pills_sleep, itm_iodine, itm_dayquil, itm_nyquil, itm_inhaler, itm_codeine,
  itm_oxycodone, itm_tramadol, itm_xanax, itm_adderall, itm_thorazine,
  itm_prozac, itm_cig, itm_weed, itm_coke, itm_meth, itm_heroin, itm_cigar,
- itm_antibiotics, itm_poppy_sleep, itm_poppy_pain, itm_crack, itm_grack,
+ itm_antibiotics, itm_poppy_sleep, itm_poppy_pain, itm_crack, /*itm_grack,*/
 // Do-nothing / Melee weapons
 itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
  itm_id_science, itm_id_military, itm_electrohack, itm_string_6, itm_string_36,
@@ -201,7 +201,7 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_knife_butcher, itm_knife_combat, itm_saw, itm_ax, itm_hacksaw,
  itm_tent_kit, itm_torch, itm_torch_lit, itm_candle, itm_candle_lit,
  itm_brazier, itm_puller, itm_press, itm_screwdriver, itm_wrench,
- itm_boltcutters, itm_mop, itm_picklocks,
+ itm_boltcutters, itm_mop, itm_picklocks, itm_pickaxe,
 // Bionics containers
 itm_bionics_battery,       itm_bionics_power,   itm_bionics_tools,
  itm_bionics_neuro,        itm_bionics_sensory, itm_bionics_aquatic,
