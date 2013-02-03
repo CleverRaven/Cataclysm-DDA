@@ -405,7 +405,7 @@ Living in the woods! (Quiet, quiet)\n\
 Killing for sport! (Quiet, quiet)\n\
 Eating  all the bodies!\n\
 Actual cannibal Shia LaBeouf!");
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
+ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_HUMAN);
 
 
 // PLANTS & FUNGI
@@ -587,7 +587,7 @@ Cannibalistic Humanoid Underground Dweller.\n\
 A human, turned pale and mad from years in\n\
 the subways."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_WARM, MF_BASHES);
+FLAGS(MF_SEES, MF_HEARS, MF_WARM, MF_BASHES, MF_HUMAN);
 FEARS(MTRIG_HURT, MTRIG_FIRE);
 
 mon("one-eyed mutant",species_none, 'S',c_ltred,	MS_MEDIUM,	FLESH,
@@ -597,7 +597,7 @@ mon("one-eyed mutant",species_none, 'S',c_ltred,	MS_MEDIUM,	FLESH,
 A relatively humanoid mutant with purple\n\
 hair and a grapefruit-sized bloodshot eye."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_WARM, MF_BASHES);
+FLAGS(MF_SEES, MF_HEARS, MF_WARM, MF_BASHES, MF_HUMAN);
 FEARS(MTRIG_HURT, MTRIG_FIRE);
 
 mon("crawler mutant",species_none, 'S',	c_red,		MS_LARGE,	FLESH,
@@ -608,7 +608,7 @@ Two or three humans fused together somehow,\n\
 slowly dragging their thick-hided, hideous\n\
 body across the ground."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON, MF_HUMAN);
 FEARS(MTRIG_HURT, MTRIG_FIRE);
 
 mon("sewer fish",species_none, 's',	c_ltgreen,	MS_SMALL,	FLESH,
@@ -845,7 +845,7 @@ mon("twisted body",species_none, 'h',	c_pink,		MS_MEDIUM,	FLESH,
 A human body, but with its limbs, neck, and\n\
 hair impossibly twisted."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_GOODHEARING, MF_POISON);
+FLAGS(MF_SEES, MF_HEARS, MF_GOODHEARING, MF_POISON, MF_HUMAN);
 
 mon("vortex",	species_none, 'v',	c_white,	MS_SMALL,	POWDER,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -955,7 +955,7 @@ flesh is snow-white and its face has no\n\
 features save for a perfectly round\n\
 mouth."
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_WARM, MF_ANIMAL, MF_SUNDEATH);
+FLAGS(MF_SMELLS, MF_HEARS, MF_WARM, MF_ANIMAL, MF_SUNDEATH, MF_HUMAN);
 
 mon("Gozu",	species_nether, 'G',	c_white,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
