@@ -93,6 +93,7 @@ class map
  void update_vehicle_cache(vehicle *, const bool brand_new = false);
  void reset_vehicle_cache();
  void clear_vehicle_cache();
+ void update_vehicle_list(const int to);
 
  void destroy_vehicle (vehicle *veh);
 // Change vehicle coords and move vehicle's driver along.
