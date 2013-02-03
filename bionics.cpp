@@ -433,9 +433,9 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
    ch = getch();
   while (ch != 'q' && ch != '\n' && ch != KEY_ESCAPE);
   if (ch == '\n') {
-    practice("electronics", (100 - chance_of_success) * 1.5);
-    practice("firstaid", (100 - chance_of_success) * 1.0);
-    practice("mechanics", (100 - chance_of_success) * 0.5);
+   practice("electronics", (100 - chance_of_success) * 1.5);
+   practice("firstaid", (100 - chance_of_success) * 1.0);
+   practice("mechanics", (100 - chance_of_success) * 0.5);
    int success = chance_of_success - rng(1, 100);
    if (success > 0) {
     g->add_msg("Successfully installed batteries.");
