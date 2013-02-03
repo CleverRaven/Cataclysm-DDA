@@ -6062,7 +6062,10 @@ void game::complete_butcher(int index)
      meat = itypes[itm_veggy_tainted];
   } else {
    if (corpse->mat == FLESH)
-    meat = itypes[itm_meat];
+    if(corpse->has_flag(MF_HUMAN))
+     meat = itypes[itm_human_flesh];
+    else
+     meat = itypes[itm_meat];
    else
     meat = itypes[itm_veggy];
   }
