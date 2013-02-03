@@ -628,12 +628,12 @@ MED("crack",		 8,420,	c_white,	itm_apparatus,
 	POWDER,  40, -2, 80,  4, 50,&iuse::crack,	ADD_CRACK, "\
 Refined cocaine, incredibly addictive.");
 
-/*MED("Grack Cocaine",      8,420, c_white,        itm_apparatus,
-        POWDER,  200, -2, 80,  4, 50,&iuse::grack,       ADD_CRACK, "\
-Grack Cocaine, the strongest substance known to the multiverse\n\
-this potent substance is refined from the sweat of the legendary\n\
-gracken");
-*/
+//MED("Grack Cocaine",      8,420, c_white,        itm_apparatus,
+//        POWDER,  200, -2, 80,  4, 50,&iuse::grack,       ADD_CRACK, "\
+//Grack Cocaine, the strongest substance known to the multiverse\n\
+//this potent substance is refined from the sweat of the legendary\n\
+//gracken");
+
 
 // MELEE WEAPONS
 // Only use secondary material if it will have a major impact.
@@ -1104,19 +1104,77 @@ MELEE("damaged tent",17, 65, ';', c_green,	IRON,	MNULL,
 A small tent, just big enough to fit a person comfortably.\n\
 This tent is broken and cannot be deployed");
 
-MELEE("Heating element", 20, 10, ',', c_cyan,   IRON,   MNULL,
+MELEE("heating element", 20, 10, ',', c_cyan,   IRON,   MNULL,
          0,   1,   0,  0,  0, 0, "\
 A heating element, like the ones used in hotplates or kettles.");
 
-MELEE("Television",      40, 0,  ';', c_dkgray,   PLASTIC, GLASS,
+MELEE("television",      40, 0,  ';', c_dkgray,   PLASTIC, GLASS,
         10,  12,  5, 0, -5, 0, "\
 A large cathode ray tube television, full of delicious\n\
 electronics.");
 
-MELEE("Pilot light", 20, 10, ',', c_cyan,   IRON,   PLASTIC,
+MELEE("pilot light", 20, 10, ',', c_cyan,   IRON,   PLASTIC,
          0,   1,   0,  0,  0, 0, "\
 A pilot light from a gas-burning device, this particular one\n\
 is a simple piezo electric igniter.");
+
+MELEE("toaster", 50, 10, ',', c_cyan, IRON, PLASTIC,
+         2,   1,   0,  0,  0, 0, "\
+A small two slice toaster, not much use as anything but spare parts");
+
+MELEE("microwave", 50, 10, ',', c_cyan, IRON, PLASTIC,
+         8,   5,   0,  0,  0, 0, "\
+A home microwave, has probably seen its share of baked beans.\n\
+Good for scrap parts.");
+
+MELEE("laptop computer", 50, 10, ',', c_cyan, IRON, PLASTIC,
+         3,   2,   0,  0,  0, 0, "\
+A broken laptop, basically a paperweight now");
+
+MELEE("desk fan", 50, 10, ',', c_cyan, IRON, PLASTIC,
+         4,   1,   0,  0,  0, 0, "\
+A small fan, used to propel air around a room.");
+
+MELEE("ceramic plate", 50, 10, ',', c_cyan, GLASS, MNULL,
+         1,   1,   1,  0,  0, 0, "\
+A ceramic dinner plate, you could probably play frisbee with it");
+
+MELEE("ceramic bowl", 50, 10, ',', c_cyan, GLASS, MNULL,
+         1,   1,   1,  0,  0, 0, "\
+A shallow dessert bowl, not a lot of use for it really.");
+
+MELEE("ceramic cup", 50, 10, ',', c_cyan, GLASS, MNULL,
+         1,   1,   1,  0,  0, 0, "\
+A ceramic teacup, pinky out!");
+
+MELEE("glass plate", 50, 10, ',', c_cyan, GLASS, MNULL,
+         1,   1,   1,  0,  0, 0, "\
+A glass dinner plate, you could probably play frisbee with it");
+
+MELEE("glass bowl", 50, 10, ',', c_cyan, GLASS, MNULL,
+         1,   1,   1,  0,  0, 0, "\
+A glass dessert bowl, not a lot of use for it really.");
+
+MELEE("glass", 50, 10, ',', c_cyan, GLASS, MNULL,
+         1,   1,   1,  0,  0, 0, "\
+A tall glass, just begging for a frosty one!");
+
+MELEE("tin plate", 50, 10, ',', c_cyan, STEEL, MNULL,
+         1,   0,   0,  0,  0, 0, "\
+A tin dinner plate, you could probably play frisbee with it");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+MELEE("fork",	90,  15,';', c_ltcyan,	STEEL, 	MNULL,
+//	VOL WGT DAM CUT HIT FLAGS
+	 1,  2,  2,  1, -2, 0, "\
+A fork, if you stab something with it you eat it right away\n\
+Wait.. nevermind.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+MELEE("spork",	90,  15,';', c_ltcyan,	STEEL, 	MNULL,
+//	VOL WGT DAM CUT HIT FLAGS
+	 1,  2,  2,  1, -2, 0, "\
+Foons are for scrubs, real men use sporks.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  25, 35, ']', c_cyan,  STEEL,   MNULL,
