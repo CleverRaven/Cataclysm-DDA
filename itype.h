@@ -560,12 +560,12 @@ struct it_gun : public itype
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
         unsigned pitem_flags,
 
-	Skill *pskill_used, ammotype pammo, signed char pdmg_bonus,
+	const char *pskill_used, ammotype pammo, signed char pdmg_bonus,
 	signed char paccuracy, signed char precoil, unsigned char pdurability,
         unsigned char pburst, int pclip, int preload_time)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
-  skill_used = pskill_used;
+  skill_used = pskill_used?Skill::skill(pskill_used):NULL;
   ammo = pammo;
   dmg_bonus = pdmg_bonus;
   accuracy = paccuracy;
@@ -684,11 +684,11 @@ struct it_book : public itype
          signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
          unsigned pitem_flags,
 
-	 Skill *ptype, unsigned char plevel, unsigned char preq,
+	 const char *ptype, unsigned char plevel, unsigned char preq,
 	 signed char pfun, unsigned char pintel, unsigned char ptime)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
-  type = ptype;
+  type = ptype?Skill::skill(ptype):NULL;
   level = plevel;
   req = preq;
   fun = pfun;
