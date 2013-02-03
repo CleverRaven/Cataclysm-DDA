@@ -4192,7 +4192,15 @@ case ot_s_garage_north:
         place_items(mi_mechanics, 90, 4, SEEY*2-5, 15, SEEY*2-5, true, 0);
 
         // rotate garage and place vehicles
+        vhtype_id vt = veh_motorcycle_chassis;
+
+        if (one_in(10))
         vhtype_id vt = veh_car;
+        else if(one_in(5))
+        vhtype_id vt = veh_car_chassis;
+        else if (one_in(2))
+        vhtype_id vt = veh_sandbike_chassis;
+        else vhtype_id vt = veh_motorcycle_chassis;
 
         int vy = 0, vx = 0, theta = 0;
 

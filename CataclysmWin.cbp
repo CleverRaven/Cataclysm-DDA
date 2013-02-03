@@ -7,8 +7,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Release">
-				<Option output="bin\Release\Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Release\" />
+				<Option output="bin/Release/Cataclysm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -21,9 +21,6 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Compiler>
-			<Add option="-Wall" />
-		</Compiler>
 		<Unit filename="action.cpp" />
 		<Unit filename="action.h" />
 		<Unit filename="addiction.h" />
@@ -113,6 +110,8 @@
 		<Unit filename="mutation.cpp" />
 		<Unit filename="mutation.h" />
 		<Unit filename="mutation_data.cpp" />
+		<Unit filename="name.cpp" />
+		<Unit filename="name.h" />
 		<Unit filename="newcharacter.cpp" />
 		<Unit filename="npc.cpp" />
 		<Unit filename="npc.h" />
@@ -125,6 +124,7 @@
 		<Unit filename="output.h" />
 		<Unit filename="overmap.cpp" />
 		<Unit filename="overmap.h" />
+		<Unit filename="picojson.h" />
 		<Unit filename="player.cpp" />
 		<Unit filename="player.h" />
 		<Unit filename="pldata.h" />
@@ -161,6 +161,7 @@
 		<Extensions>
 			<code_completion />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

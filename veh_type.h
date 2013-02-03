@@ -142,7 +142,7 @@ struct vpart_info
     unsigned long flags;    // flags
 };
 
-// following symbols will be translated: 
+// following symbols will be translated:
 // y, u, n, b to NW, NE, SE, SW lines correspondingly
 // h, j, c to horizontal, vertical, cross correspondingly
 const vpart_info vpart_list[num_vparts] =
@@ -209,8 +209,8 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) },
     { "wheel",      'o', c_dkgray,  'x', c_ltgray,  50,  200, 10, 0, itm_wheel, 2,
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) },
-//     
-    { "100CC combustion engine",    '*', c_ltred,  '#', c_red,     80, 150, 40, AT_GAS, itm_combustion_tiny, 2, 
+//
+    { "100CC combustion engine",    '*', c_ltred,  '#', c_red,     80, 150, 40, AT_GAS, itm_combustion_tiny, 2,
         mfb(vpf_internal) | mfb(vpf_engine) },
     { "1L combustion engine",       '*', c_ltred,  '#', c_red,     80, 200, 120, AT_GAS, itm_combustion_small, 2,
         mfb(vpf_internal) | mfb(vpf_engine) },
@@ -278,8 +278,11 @@ enum vhtype_id
 // in-built vehicles
     veh_bicycle,
     veh_motorcycle,
+    veh_motorcycle_chassis,
     veh_sandbike,
+    veh_sandbike_chassis,
     veh_car,
+    veh_car_chassis,
     veh_truck,
     veh_semi,  //6L Semitruck. 10 wheels. Sleeper cab.
     veh_trucktrailer,  //Just a trailer with 8 wheels.
