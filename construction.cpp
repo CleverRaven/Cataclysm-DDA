@@ -273,7 +273,7 @@ void game::construction_menu()
    update_info = false;
    constructable* current_con = constructions[select];
 // Print difficulty
-   uint32_t pskill = u.skillLevel(Skill::skill("carpentry")).level();
+   uint32_t pskill = u.skillLevel("carpentry").level();
    int diff = current_con->difficulty > 0 ? current_con->difficulty : 0;
    mvwprintz(w_con, 1, 43, (pskill >= diff ? c_white : c_red),
              "%d   ", diff);
@@ -431,7 +431,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
 {
  // default behavior: return true if any of the stages up to L can be constr'd
  // if exact_level, require that this level be constructable
- if (p.skillLevel(Skill::skill("carpentry")) < con->difficulty)
+ if (p.skillLevel("carpentry") < con->difficulty)
   return false;
 
  if (level < 0)
@@ -573,9 +573,9 @@ void game::complete_construction()
  std::vector<component> player_use;
  std::vector<component> map_use;
 
- u.practice(Skill::skill("carpentry"), built->difficulty * 10);
+ u.practice("carpentry", built->difficulty * 10);
  if (built->difficulty == 0)
-   u.practice(Skill::skill("carpentry"), 10);
+   u.practice("carpentry", 10);
  for (int i = 0; i < 3; i++) {
   if (!stage.components[i].empty())
    consume_items(this, stage.components[i]);

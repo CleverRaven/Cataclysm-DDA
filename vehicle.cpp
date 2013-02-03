@@ -1825,7 +1825,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     player tmp;
     tmp.name = std::string("The ") + part_info(p).name;
     tmp.skillLevel(gun.skill_used).level(1);
-    tmp.skillLevel(Skill::skill("gun")).level(0);
+    tmp.skillLevel("gun").level(0);
     tmp.recoil = abs(velocity) / 100 / 4;
     tmp.posx = x;
     tmp.posy = y;

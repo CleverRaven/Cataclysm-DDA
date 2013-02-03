@@ -180,6 +180,14 @@ void map::clear_vehicle_cache()
  }
 } 
 
+void map::update_vehicle_list(const int to) {
+ // Update vehicle data
+ for( std::vector<vehicle*>::iterator it = grid[to]->vehicles.begin(),
+      end = grid[to]->vehicles.end(); it != end; ++it ) {
+   vehicle_list.insert(*it);
+ }
+}
+
 void map::board_vehicle(game *g, int x, int y, player *p)
 {
  if (!p) {
@@ -328,7 +336,7 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
                       g->u.posx, g->u.posy);
    continue;
   }
-  int trec = rec -psgs[i]->skillLevel(Skill::skill("driving")).level();
+  int trec = rec -psgs[i]->skillLevel("driving").level();
   if (trec < 0) trec = 0;
   // add recoil
   psg->driving_recoil = rec;
@@ -442,7 +450,7 @@ void map::vehmove(game *g)
       if (veh->skidding && one_in(4)) // might turn uncontrollably while skidding
        veh->move.init (veh->move.dir() +
                        (one_in(2) ? -15 * rng(1, 3) : 15 * rng(1, 3)));
-      else if (pl_ctrl && rng(0, 4) > g->u.skillLevel(Skill::skill("driving")).level() && one_in(20)) {
+      else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving").level() && one_in(20)) {
        g->add_msg("You fumble with the %s's controls.", veh->name.c_str());
        veh->turn (one_in(2) ? -15 : 15);
       }
@@ -520,7 +528,7 @@ void map::vehmove(game *g)
         } else if (veh->part_with_feature (ppl[ps], vpf_controls) >= 0) {
 
          const int lose_ctrl_roll = rng (0, imp);
-         if (lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel(Skill::skill("driving")).level() * 3) {
+         if (lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving").level() * 3) {
           if (psgname.length())
            g->add_msg ("%s lose%s control of the %s.", psgname.c_str(),
                        (psg == &g->u ? "" : "s"), veh->name.c_str());
@@ -2055,15 +2063,14 @@ void map::add_trap(const int x, const int y, const trap_id t)
 
 void map::disarm_trap(game *g, const int x, const int y)
 {
-  Skill *trapsSkill = Skill::skill("traps");
-  uint32_t skillLevel = g->u.skillLevel(trapsSkill).level();
+  uint32_t skillLevel = g->u.skillLevel("traps").level();
 
  if (tr_at(x, y) == tr_null) {
   debugmsg("Tried to disarm a trap where there was none (%d %d)", x, y);
   return;
  }
 
- const uint32_t tSkillLevel = g->u.skillLevel(Skill::skill("traps")).level();
+ const uint32_t tSkillLevel = g->u.skillLevel("traps").level();
  const int diff = g->traps[tr_at(x, y)]->difficulty;
  int roll = rng(tSkillLevel, 4 * tSkillLevel);
 
@@ -2078,11 +2085,11 @@ void map::disarm_trap(game *g, const int x, const int y)
   }
   tr_at(x, y) = tr_null;
   if(diff > 1.25 * skillLevel) // failure might have set off trap
-    g->u.practice(trapsSkill, 1.5*(diff - skillLevel));
+    g->u.practice("traps", 1.5*(diff - skillLevel));
  } else if (roll >= diff * .8) {
   g->add_msg("You fail to disarm the trap.");
   if(diff > 1.25 * skillLevel)
-    g->u.practice(trapsSkill, 1.5*(diff - skillLevel));
+    g->u.practice("traps", 1.5*(diff - skillLevel));
  }
  else {
   g->add_msg("You fail to disarm the trap, and you set it off!");
@@ -2092,7 +2099,7 @@ void map::disarm_trap(game *g, const int x, const int y)
   if(diff - roll <= 6)
    // Give xp for failing, but not if we failed terribly (in which
    // case the trap may not be disarmable).
-   g->u.practice(trapsSkill, 2*diff);
+   g->u.practice("traps", 2*diff);
  }
 }
  
@@ -2191,6 +2198,7 @@ void map::debug()
 
 void map::draw(game *g, WINDOW* w, const point center)
 {
+ g->reset_light_level();
  const int natural_sight_range = g->u.sight_range(1);
  const int light_sight_range = g->u.sight_range(g->light_level());
  int lowlight_sight_range = std::max((int)g->light_level() / 2, natural_sight_range);
@@ -2683,7 +2691,9 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
   g->u.posy -= sy * SEEY;
  }
 
-
+ // Clear vehicle list and rebuild after shift
+ clear_vehicle_cache();
+ vehicle_list.clear();
 // Shift the map sx submaps to the right and sy submaps down.
 // sx and sy should never be bigger than +/-1.
 // wx and wy are our position in the world, for saving/loading purposes.
@@ -2696,10 +2706,11 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
       saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
      }
 */
-     if (gridx + sx < my_MAPSIZE && gridy + sy < my_MAPSIZE)
+     if (gridx + sx < my_MAPSIZE && gridy + sy < my_MAPSIZE) {
       copy_grid(gridx + gridy * my_MAPSIZE,
                 gridx + sx + (gridy + sy) * my_MAPSIZE);
-     else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
+      update_vehicle_list(gridx + gridy * my_MAPSIZE);
+     } else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
       loadn(g, wx + sx, wy + sy, gridx, gridy);
     }
    } else { // sy < 0; work through it backwards
@@ -2709,10 +2720,11 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
       saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
      }
 */
-     if (gridx + sx < my_MAPSIZE && gridy + sy >= 0)
+     if (gridx + sx < my_MAPSIZE && gridy + sy >= 0) {
       copy_grid(gridx + gridy * my_MAPSIZE,
                 gridx + sx + (gridy + sy) * my_MAPSIZE);
-     else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
+      update_vehicle_list(gridx + gridy * my_MAPSIZE);
+     } else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
       loadn(g, wx + sx, wy + sy, gridx, gridy);
     }
    }
@@ -2726,10 +2738,11 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
       saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
      }
 */
-     if (gridx + sx >= 0 && gridy + sy < my_MAPSIZE)
+     if (gridx + sx >= 0 && gridy + sy < my_MAPSIZE) {
       copy_grid(gridx + gridy * my_MAPSIZE,
                 gridx + sx + (gridy + sy) * my_MAPSIZE);
-     else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
+      update_vehicle_list(gridx + gridy * my_MAPSIZE);
+     } else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
       loadn(g, wx + sx, wy + sy, gridx, gridy);
     }
    } else { // sy < 0; work through it backwards
@@ -2739,10 +2752,11 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
       saven(&(g->cur_om), g->turn, wx, wy, gridx, gridy);
      }
 */
-     if (gridx + sx >= 0 && gridy + sy >= 0)
+     if (gridx + sx >= 0 && gridy + sy >= 0) {
       copy_grid(gridx + gridy * my_MAPSIZE,
                 gridx + sx + (gridy + sy) * my_MAPSIZE);
-     else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
+      update_vehicle_list(gridx + gridy * my_MAPSIZE);
+     } else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
       loadn(g, wx + sx, wy + sy, gridx, gridy);
     }
    }

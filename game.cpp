@@ -4067,8 +4067,8 @@ void game::smash()
    add_msg(extra.c_str());
   sound(u.posx, u.posy, 18, bashsound);
   u.moves -= 80;
-  if (u.skillLevel(Skill::skill("melee")) == 0)
-   u.practice(Skill::skill("melee"), rng(0, 1) * rng(0, 1));
+  if (u.skillLevel("melee") == 0)
+   u.practice("melee", rng(0, 1) * rng(0, 1));
   if (u.weapon.made_of(GLASS) &&
       rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
    add_msg("Your %s shatters!", u.weapon.tname(this).c_str());
@@ -4376,11 +4376,9 @@ void game::examine()
                            u.power_level > 0 &&
                            query_yn("Use fingerhack on the reader?"));
   if (using_electrohack || using_fingerhack) {
-    Skill *computerSkill = Skill::skill("computer");
-
    u.moves -= 500;
-   u.practice(computerSkill, 20);
-   int success = rng(u.skillLevel(computerSkill).level() / 4 - 2, u.skillLevel(computerSkill).level() * 2);
+   u.practice("computer", 20);
+   int success = rng(u.skillLevel("computer").level() / 4 - 2, u.skillLevel("computer").level() * 2);
    success += rng(-3, 3);
    if (using_fingerhack)
     success++;
@@ -5823,7 +5821,7 @@ void game::plthrow()
 
  u.i_rem(ch);
  u.moves -= 125;
- u.practice(Skill::skill("throw"), 10);
+ u.practice("throw", 10);
 
  throw_item(u, x, y, thrown, trajectory);
 }
@@ -5940,8 +5938,6 @@ void game::plfire(bool burst)
   burst = true;
 
 // Train up our skill
- Skill *gunSkill = Skill::skill("gun");
-
  it_gun* firing = dynamic_cast<it_gun*>(u.weapon.type);
  int num_shots = 1;
  if (burst)
@@ -5951,9 +5947,9 @@ void game::plfire(bool burst)
  if (u.skillLevel(firing->skill_used) == 0 ||
      (firing->ammo != AT_BB && firing->ammo != AT_NAIL))
   u.practice(firing->skill_used, 4 + (num_shots / 2));
- if (u.skillLevel(gunSkill) == 0 ||
+ if (u.skillLevel("gun") == 0 ||
      (firing->ammo != AT_BB && firing->ammo != AT_NAIL))
-   u.practice(gunSkill, 5);
+   u.practice("gun", 5);
 
  fire(u, x, y, trajectory, burst);
 }
@@ -6007,8 +6003,7 @@ void game::complete_butcher(int index)
  int pieces, pelts;
  double skill_shift = 0.;
 
- Skill *survivalSkill = Skill::skill("survival");
- uint32_t sSkillLevel = u.skillLevel(survivalSkill).level();
+ uint32_t sSkillLevel = u.skillLevel("survival").level();
 
  switch (corpse->size) {
   case MS_TINY:   pieces =  1; pelts =  1; break;
@@ -6033,7 +6028,7 @@ void game::complete_butcher(int index)
  int practice = 4 + pieces;
  if (practice > 20)
   practice = 20;
- u.practice(survivalSkill, practice);
+ u.practice("survival", practice);
 
  pieces += int(skill_shift);
  if (skill_shift < 5)	// Lose some pelts
@@ -6367,8 +6362,6 @@ void game::chat()
 }
 
 void game::pldrive(int x, int y) {
-  Skill *drivingSkill = Skill::skill("driving");
-
  if (run_mode == 2) { // Monsters around and we don't wanna run
   add_msg("Monster spotted--run mode is on! "
           "(Press '!' to turn it off or ' to ignore monster.)");
@@ -6396,7 +6389,7 @@ void game::pldrive(int x, int y) {
  }
  veh->turn (15 * x);
  if (veh->skidding && veh->valid_wheel_config()) {
-   if (rng (0, 40) < u.dex_cur + u.skillLevel(drivingSkill).level() * 2) {
+   if (rng (0, 40) < u.dex_cur + u.skillLevel("driving").level() * 2) {
    add_msg ("You regain control of the %s.", veh->name.c_str());
    veh->skidding = false;
    veh->move.init (veh->turn_dir);
@@ -6405,7 +6398,7 @@ void game::pldrive(int x, int y) {
 
  u.moves = 0;
  if (x != 0 && veh->velocity != 0 && one_in(4))
-   u.practice(drivingSkill, 1);
+   u.practice("driving", 1);
 }
 
 void game::plmove(int x, int y)
@@ -6550,12 +6543,10 @@ void game::plmove(int x, int y)
 
 // Adjust recoil down
   if (u.recoil > 0) {
-    Skill *gunSkill = Skill::skill("gun");
-
-    if (int(u.str_cur / 2) + u.skillLevel(gunSkill).level() >= u.recoil)
+    if (int(u.str_cur / 2) + u.skillLevel("gun").level() >= u.recoil)
     u.recoil = 0;
    else {
-     u.recoil -= int(u.str_cur / 2) + u.skillLevel(gunSkill).level();
+     u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun").level();
     u.recoil = int(u.recoil / 2);
    }
   }
@@ -6735,7 +6726,7 @@ void game::plswim(int x, int y)
   u.rem_disease(DI_ONFIRE);
  }
  int movecost = u.swim_speed();
- u.practice(Skill::skill("swimming"), 1);
+ u.practice("swimming", 1);
  if (movecost >= 500) {
   if (!u.underwater) {
    add_msg("You sink%s!", (movecost >= 400 ? " like a rock" : ""));
@@ -7223,43 +7214,34 @@ void game::update_map(int &x, int &y)
 // Update what parts of the world map we can see
  update_overmap_seen();
  draw_minimap();
- //save(); // We autosave every time the map gets updated.
 }
 
 void game::set_adjacent_overmaps(bool from_scratch)
 {
- if (levx == OMAPX - 1 || levx == 0 || (from_scratch && levx <= OMAPX)) {
-  delete om_hori;
-  om_hori = new overmap(this, cur_om.posx - 1, cur_om.posy, cur_om.posz);
-  if (levy == OMAPY - 1 || levy == 0 || (from_scratch && levy <= OMAPY)) {
-   delete om_diag;
-   om_diag = new overmap(this, cur_om.posx - 1, cur_om.posy - 1, cur_om.posz);
-  } else if (levy == OMAPY || levy == OMAPY * 2 - 1 ||
-             (from_scratch && levy > OMAPY)) {
-   delete om_diag;
-   om_diag = new overmap(this, cur_om.posx - 1, cur_om.posy + 1, cur_om.posz);
-  }
- } else if (levx == OMAPX || levx == OMAPX * 2 - 1 ||
-            (from_scratch && levx > OMAPX)) {
-  delete om_hori;
-  om_hori = new overmap(this, cur_om.posx + 1, cur_om.posy, cur_om.posz);
-  if (levy == OMAPY - 1 || levy == 0 || (from_scratch && levy <= OMAPY)) {
-   delete om_diag;
-   om_diag = new overmap(this, cur_om.posx + 1, cur_om.posy - 1, cur_om.posz);
-  } else if (levy == OMAPY || levy == OMAPY * 2 - 1 ||
-             (from_scratch && levy > OMAPY)) {
-   delete om_diag;
-   om_diag = new overmap(this, cur_om.posx + 1, cur_om.posy + 1, cur_om.posz);
-  }
- }
+ bool do_h = false, do_v = false, do_d = false;
+ int hori_disp = (levx > OMAPX) ? 1 : -1;
+ int vert_disp = (levy > OMAPY) ? 1 : -1;
+ int diag_posx = cur_om.posx + hori_disp;
+ int diag_posy = cur_om.posy + vert_disp;
 
- if (levy == OMAPY - 1 || levy == 0 || (from_scratch && levy <= OMAPY)) {
+ if(!om_hori || om_hori->posx != diag_posx || om_hori->posy != cur_om.posy || from_scratch)
+  do_h = true;
+ if(!om_vert || om_vert->posx != cur_om.posx || om_vert->posy != diag_posy || from_scratch)
+  do_v = true;
+ if(!om_diag || om_diag->posx != diag_posx || om_diag->posy != diag_posy || from_scratch)
+  do_d = true;
+
+ if(do_h){
+  delete om_hori;
+  om_hori = new overmap(this, diag_posx, cur_om.posy, cur_om.posz);
+ }
+ if(do_v){
   delete om_vert;
-  om_vert = new overmap(this, cur_om.posx    , cur_om.posy - 1, cur_om.posz);
- } else if (levy == OMAPY || levy == OMAPY * 2 - 1 ||
-            (from_scratch && levy > OMAPY)) {
-  delete om_vert;
-  om_vert = new overmap(this, cur_om.posx    , cur_om.posy + 1, cur_om.posz);
+  om_vert = new overmap(this, cur_om.posx, diag_posy, cur_om.posz);
+ }
+ if(do_d){
+  delete om_diag;
+  om_diag = new overmap(this, diag_posx, diag_posy, cur_om.posz);
  }
 }
 

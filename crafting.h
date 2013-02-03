@@ -55,10 +55,13 @@ struct recipe {
     reversible = false;
   }
 
-recipe(int pid, itype_id pres, craft_cat cat, Skill *p1, Skill *p2, int pdiff,
-        int ptime, bool preversible) :
-  id (pid), result (pres), category (cat), sk_primary (p1), sk_secondary (p2),
-  difficulty (pdiff), time (ptime), reversible (preversible) {}
+recipe(int pid, itype_id pres, craft_cat cat, const char *p1, const char *p2,
+       int pdiff, int ptime, bool preversible) :
+  id (pid), result (pres), category (cat),  difficulty (pdiff), time (ptime), reversible (preversible)
+  {
+    sk_primary = p1?Skill::skill(p1):(Skill*)"";
+    sk_secondary = p2?Skill::skill(p2):(Skill*)"";
+  }
 };
 
 void consume_items(game *g, std::vector<component> components);

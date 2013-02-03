@@ -141,7 +141,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
       (mon_at(tarx, tary) == -1 || z[mon_at(tarx, tary)].hp <= 0)) {
    std::vector<point> new_targets;
    int mondex;
-   for (int radius = 1; radius <= 2 + p.skillLevel(Skill::skill("gun")).level() && new_targets.empty();
+   for (int radius = 1; radius <= 2 + p.skillLevel("gun").level() && new_targets.empty();
         radius++) {
     for (int diff = 0 - radius; diff <= radius; diff++) {
      mondex = mon_at(tarx + diff, tary - radius);
@@ -172,7 +172,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     else
      trajectory = line_to(p.posx, p.posy, tarx, tary, 0);
    } else if ((!p.has_trait(PF_TRIGGERHAPPY) || one_in(3)) &&
-              (p.skillLevel(Skill::skill("gun")) >= 7 || one_in(7 - p.skillLevel(Skill::skill("gun")).level())))
+              (p.skillLevel("gun") >= 7 || one_in(7 - p.skillLevel("gun").level())))
     return; // No targets, so return
   }
 
@@ -363,7 +363,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
  int trange = 1.5 * rl_dist(p.posx, p.posy, tarx, tary);
 
 // Throwing attempts below "Basic Competency" level are extra-bad
- uint32_t skillLevel = p.skillLevel(Skill::skill("throw")).level();
+ uint32_t skillLevel = p.skillLevel("throw").level();
 
  if (skillLevel < 3)
   deviation += rng(0, 8 - skillLevel);
@@ -456,11 +456,11 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
    if (goodhit < .1 && !z[mon_at(tx, ty)].has_flag(MF_NOHEAD)) {
     message = "Headshot!";
     dam = rng(dam, dam * 3);
-    p.practice(Skill::skill("throw"), 5);
+    p.practice("throw", 5);
    } else if (goodhit < .2) {
     message = "Critical!";
     dam = rng(dam, dam * 2);
-    p.practice(Skill::skill("throw"), 2);
+    p.practice("throw", 2);
    } else if (goodhit < .4)
     dam = rng(int(dam / 2), int(dam * 1.5));
    else if (goodhit < .5) {
@@ -712,35 +712,35 @@ int time_to_fire(player &p, it_gun* firing)
 {
  int time = 0;
  if (firing->skill_used == Skill::skill("pistol")) {
-   if (p.skillLevel(Skill::skill("pistol")) > 6)
+   if (p.skillLevel("pistol") > 6)
      time = 10;
    else
-     time = (80 - 10 * p.skillLevel(Skill::skill("pistol")).level());
+     time = (80 - 10 * p.skillLevel("pistol").level());
  } else if (firing->skill_used == Skill::skill("shotgun")) {
-   if (p.skillLevel(Skill::skill("shotgun")) > 3)
+   if (p.skillLevel("shotgun") > 3)
      time = 70;
    else
-     time = (150 - 25 * p.skillLevel(Skill::skill("shotgun")).level());
+     time = (150 - 25 * p.skillLevel("shotgun").level());
  } else if (firing->skill_used == Skill::skill("smg")) {
-   if (p.skillLevel(Skill::skill("smg")) > 5)
+   if (p.skillLevel("smg") > 5)
      time = 20;
    else
-     time = (80 - 10 * p.skillLevel(Skill::skill("smg")).level());
+     time = (80 - 10 * p.skillLevel("smg").level());
  } else if (firing->skill_used == Skill::skill("rifle")) {
-   if (p.skillLevel(Skill::skill("rifle")) > 8)
+   if (p.skillLevel("rifle") > 8)
      time = 30;
    else
-     time = (150 - 15 * p.skillLevel(Skill::skill("rifle")).level());
+     time = (150 - 15 * p.skillLevel("rifle").level());
  } else if (firing->skill_used == Skill::skill("archery")) {
-   if (p.skillLevel(Skill::skill("archery")) > 8)
+   if (p.skillLevel("archery") > 8)
      time = 20;
    else
-     time = (220 - 25 * p.skillLevel(Skill::skill("archery")).level());
+     time = (220 - 25 * p.skillLevel("archery").level());
  } else if (firing->skill_used == Skill::skill("launcher")) {
-   if (p.skillLevel(Skill::skill("launcher")) > 8)
+   if (p.skillLevel("launcher") > 8)
      time = 30;
    else
-     time = (200 - 20 * p.skillLevel(Skill::skill("launcher")).level());
+     time = (200 - 20 * p.skillLevel("launcher").level());
  } else {
    debugmsg("Why is shooting %s using %s skill?", (firing->name).c_str(), firing->skill_used->name().c_str());
    time =  0;
@@ -818,10 +818,10 @@ double calculate_missed_by(player &p, int trange, item* weapon)
   else if (p.skillLevel(firing->skill_used) > 4)
     deviation -= rng(0, 5 * (p.skillLevel(firing->skill_used).level() - 4));
 
-  if (p.skillLevel(Skill::skill("gun")) < 3)
-    deviation += rng(0, 3 * (3 - p.skillLevel(Skill::skill("gun")).level()));
+  if (p.skillLevel("gun") < 3)
+    deviation += rng(0, 3 * (3 - p.skillLevel("gun").level()));
   else
-    deviation -= rng(0, 2 * (p.skillLevel(Skill::skill("gun")).level() - 3));
+    deviation -= rng(0, 2 * (p.skillLevel("gun").level() - 3));
 
   deviation += p.ranged_dex_mod();
   deviation += p.ranged_per_mod();

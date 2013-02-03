@@ -57,7 +57,7 @@ void iuse::royal_jelly(game *g, player *p, item *it, bool t)
 
 void iuse::bandage(game *g, player *p, item *it, bool t)
 {
- int bonus = p->skillLevel(Skill::skill("firstaid")).level();
+ int bonus = p->skillLevel("firstaid").level();
  hp_part healed;
 
  if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
@@ -171,7 +171,7 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
   refresh();
  }
 
- p->practice(Skill::skill("firstaid"), 8);
+ p->practice("firstaid", 8);
  int dam = 0;
  if (healed == hp_head)
   dam = 1 + bonus * .8;
@@ -184,7 +184,7 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
 
 void iuse::firstaid(game *g, player *p, item *it, bool t)
 {
- int bonus = p->skillLevel(Skill::skill("firstaid")).level();
+ int bonus = p->skillLevel("firstaid").level();
  hp_part healed;
 
  if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
@@ -298,7 +298,7 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
   refresh();
  }
 
- p->practice(Skill::skill("firstaid"), 8);
+ p->practice("firstaid", 8);
  int dam = 0;
  if (healed == hp_head)
   dam = 10 + bonus * .8;
@@ -698,8 +698,8 @@ void iuse::sew(game *g, player *p, item *it, bool t)
   return;
  } else if (fix->damage == 0) {
   p->moves -= 500;
-  p->practice(Skill::skill("tailor"), 10);
-  int rn = dice(4, 2 + p->skillLevel(Skill::skill("tailor")).level());
+  p->practice("tailor", 10);
+  int rn = dice(4, 2 + p->skillLevel("tailor").level());
   if (p->dex_cur < 8 && one_in(p->dex_cur))
    rn -= rng(2, 6);
   if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur)))
@@ -716,8 +716,8 @@ void iuse::sew(game *g, player *p, item *it, bool t)
    g->add_msg_if_player(p,"You practice your sewing.");
  } else {
   p->moves -= 500;
-  p->practice(Skill::skill("tailor"), 8);
-  int rn = dice(4, 2 + p->skillLevel(Skill::skill("tailor")).level());
+  p->practice("tailor", 8);
+  int rn = dice(4, 2 + p->skillLevel("tailor").level());
   rn -= rng(fix->damage, fix->damage * 2);
   if (p->dex_cur < 8 && one_in(p->dex_cur))
    rn -= rng(2, 6);
@@ -805,9 +805,9 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
  if (cut->made_of(COTTON)) {
  p->moves -= 25 * cut->volume();
  int count = cut->volume();
- if (p->skillLevel(Skill::skill("tailor")) == 0)
+ if (p->skillLevel("tailor") == 0)
   count = rng(0, count);
- else if (p->skillLevel(Skill::skill("tailor")) == 1 && count >= 2)
+ else if (p->skillLevel("tailor") == 1 && count >= 2)
   count -= rng(0, 2);
  if (dice(3, 3) > p->dex_cur)
   count -= rng(1, 3);
@@ -841,9 +841,9 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
  if (cut->made_of(LEATHER)) {
  p->moves -= 25 * cut->volume();
  int count = cut->volume();
- if (p->skillLevel(Skill::skill("tailor")) == 0)
+ if (p->skillLevel("tailor") == 0)
   count = rng(0, count);
- else if (p->skillLevel(Skill::skill("tailor")) == 1 && count >= 2)
+ else if (p->skillLevel("tailor") == 1 && count >= 2)
   count -= rng(0, 2);
  if (dice(3, 3) > p->dex_cur)
   count -= rng(1, 3);
@@ -970,7 +970,6 @@ void iuse::light_off(game *g, player *p, item *it, bool t)
   it->make(g->itypes[itm_flashlight_on]);
   it->active = true;
   it->charges --;
-  g->reset_light_level();
  }
 }
 
@@ -982,7 +981,6 @@ void iuse::light_on(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"The flashlight flicks off.");
   it->make(g->itypes[itm_flashlight]);
   it->active = false;
-  g->reset_light_level();
  }
 }
 
@@ -1296,7 +1294,7 @@ void iuse::dig(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You dig a pit.");
   g->m.ter     (p->posx + dirx, p->posy + diry) = t_pit;
   g->m.add_trap(p->posx + dirx, p->posy + diry, tr_pit);
-  p->practice(Skill::skill("traps"), 1);
+  p->practice("traps", 1);
  } else
   g->add_msg_if_player(p,"You can't dig through %s!",
              g->m.tername(p->posx + dirx, p->posy + diry).c_str());
@@ -1540,7 +1538,7 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
  }
 
  g->add_msg_if_player(p,message.str().c_str());
- p->practice(Skill::skill("traps"), practice);
+ p->practice("traps", practice);
  g->m.add_trap(posx, posy, type);
  p->moves -= 100 + practice * 25;
  if (type == tr_engine) {
@@ -2021,8 +2019,8 @@ void iuse::manhack(game *g, player *p, item *it, bool t)
  p->moves -= 60;
  it->invlet = 0; // Remove the manhack from the player's inv
  monster manhack(g->mtypes[mon_manhack], valid[index].x, valid[index].y);
- if (rng(0, p->int_cur / 2) + p->skillLevel(Skill::skill("electronics")).level() / 2 +
-     p->skillLevel(Skill::skill("computer")).level() < rng(0, 4))
+ if (rng(0, p->int_cur / 2) + p->skillLevel("electronics").level() / 2 +
+     p->skillLevel("computer").level() < rng(0, 4))
   g->add_msg_if_player(p,"You misprogram the manhack; it's hostile!");
  else
   manhack.friendly = -1;
@@ -2048,8 +2046,8 @@ void iuse::turret(game *g, player *p, item *it, bool t)
  }
  it->invlet = 0; // Remove the turret from the player's inv
  monster turret(g->mtypes[mon_turret], dirx, diry);
- if (rng(0, p->int_cur / 2) + p->skillLevel(Skill::skill("electronics")).level() / 2 +
-     p->skillLevel(Skill::skill("computer")).level() < rng(0, 6))
+ if (rng(0, p->int_cur / 2) + p->skillLevel("electronics").level() / 2 +
+     p->skillLevel("computer").level() < rng(0, 6))
   g->add_msg_if_player(p,"You misprogram the turret; it's hostile!");
  else
   turret.friendly = -1;
@@ -2099,7 +2097,7 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
   return;
  }
 
- int numdice = 3 + (p->dex_cur / 2.5) + p->skillLevel(Skill::skill("melee")).level() * 2;
+ int numdice = 3 + (p->dex_cur / 2.5) + p->skillLevel("melee").level() * 2;
  p->moves -= 100;
 
  if (mondex != -1) {
@@ -2340,9 +2338,9 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
 if (cut->made_of(COTTON)) {
  p->moves -= 25 * cut->volume();
  int count = cut->volume();
- if (p->skillLevel(Skill::skill("tailor")) == 0)
+ if (p->skillLevel("tailor") == 0)
   count = rng(0, count);
- else if (p->skillLevel(Skill::skill("tailor")) == 1 && count >= 2)
+ else if (p->skillLevel("tailor") == 1 && count >= 2)
   count -= rng(0, 2);
  if (dice(3, 3) > p->dex_cur)
   count -= rng(1, 3);
@@ -2376,9 +2374,9 @@ if (cut->made_of(COTTON)) {
  if (cut->made_of(LEATHER)) {
  p->moves -= 25 * cut->volume();
  int count = cut->volume();
- if (p->skillLevel(Skill::skill("tailor")) == 0)
+ if (p->skillLevel("tailor") == 0)
   count = rng(0, count);
- else if (p->skillLevel(Skill::skill("tailor")) == 1 && count >= 2)
+ else if (p->skillLevel("tailor") == 1 && count >= 2)
   count -= rng(0, 2);
  if (dice(3, 3) > p->dex_cur)
   count -= rng(1, 3);
@@ -2463,7 +2461,7 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
   item scrap(g->itypes[itm_splinter], int(g->turn), g->nextinv);
   p->i_rem(ch);
   bool drop = false;
-  int planks = (rng(1, 3) + (p->skillLevel(Skill::skill("carpentry")).level() * 2));
+  int planks = (rng(1, 3) + (p->skillLevel("carpentry").level() * 2));
   int scraps = 12 - planks;
    if (planks >= 12)
     planks = 12;
@@ -2580,7 +2578,6 @@ else {
   g->add_msg_if_player(p,"You light the torch.");
   it->make(g->itypes[itm_torch_lit]);
   it->active = true;
-  g->reset_light_level();
  }
 }
 
@@ -2593,7 +2590,6 @@ void iuse::torch_lit(game *g, player *p, item *it, bool t)
   it->charges -= 1;
   it->make(g->itypes[itm_torch]);
   it->active = false;
-  g->reset_light_level();
  }
 }
 
@@ -2607,7 +2603,6 @@ else {
   g->add_msg_if_player(p,"You light the candle.");
   it->make(g->itypes[itm_candle_lit]);
   it->active = true;
-  g->reset_light_level();
  }
 }
 
@@ -2619,7 +2614,6 @@ void iuse::candle_lit(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"The candle winks out");
   it->make(g->itypes[itm_candle]);
   it->active = false;
-  g->reset_light_level();
  }
 }
 
@@ -2632,7 +2626,7 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
   g->add_msg("You do not have that item!");
   return;
  }
- if (p->skillLevel(Skill::skill("gun")) < 2) {
+ if (p->skillLevel("gun") < 2) {
   g->add_msg("You need to be at least level 2 in the firearms skill before you\
   can disassemble ammunition.");
   return;}
@@ -3181,7 +3175,6 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
   case AEA_LIGHT:
    g->add_msg_if_player(p,"The %s glows brightly!", it->tname().c_str());
    g->add_event(EVENT_ARTIFACT_LIGHT, int(g->turn) + 30);
-   g->reset_light_level();
    break;
 
   case AEA_GROWTH: {

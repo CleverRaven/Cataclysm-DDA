@@ -58,18 +58,14 @@ std::vector<Skill*> Skill::loadSkills() {
   return allSkills;
 }
 
-size_t Skill::skill_id(std::string ident) {
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
-    if ((*aSkill)->_ident == ident) {
-      return (*aSkill)->_id;
-    }
-  }
-}
-
 Skill* Skill::skill(std::string ident) {
-  size_t skillID = Skill::skill_id(ident);
-
-  return Skill::skill(skillID);
+ for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++;
+      aSkill != Skill::skills.end(); ++aSkill) {
+  if ((*aSkill)->_ident == ident) {
+   return *aSkill;
+  }
+ }
+ return NULL;
 }
 
 Skill* Skill::skill(size_t id) {

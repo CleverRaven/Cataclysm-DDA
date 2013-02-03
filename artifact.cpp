@@ -554,10 +554,6 @@ void game::process_artifact(item *it, player *p, bool wielded)
    p->int_cur -= 2;
    break;
 
-  case AEP_GLOW:
-   reset_light_level();
-   break; 
-
   case AEP_SPEED_DOWN:
    break; // Handled in player::current_speed()
   }

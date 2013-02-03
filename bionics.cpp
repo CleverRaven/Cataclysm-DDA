@@ -93,10 +93,6 @@ void player::activate_bionic(int b, game *g)
    add_disease(DI_TELEGLOW, rng(50, 400), g);
   break;
 
- case bio_flashlight:
-  g->reset_light_level();
-  break;
-
  case bio_teleport:
   g->teleport();
   add_disease(DI_TELEGLOW, 300, g);
@@ -370,9 +366,9 @@ bool player::install_bionics(game *g, it_bionic* type)
  WINDOW* w = newwin(25, 80, 0, 0);
 
  int pl_skill = int_cur +
-   skillLevel(Skill::skill("electronics")).level() * 4 +
-   skillLevel(Skill::skill("firstaid")).level()    * 3 +
-   skillLevel(Skill::skill("mechanics")).level()   * 2;
+   skillLevel("electronics").level() * 4 +
+   skillLevel("firstaid").level()    * 3 +
+   skillLevel("mechanics").level()   * 2;
 
  int skint = int(pl_skill / 4);
  int skdec = int((pl_skill * 10) / 4) % 10;
@@ -437,9 +433,9 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
    ch = getch();
   while (ch != 'q' && ch != '\n' && ch != KEY_ESCAPE);
   if (ch == '\n') {
-    practice(Skill::skill("electronics"), (100 - chance_of_success) * 1.5);
-    practice(Skill::skill("firstaid"), (100 - chance_of_success) * 1.0);
-    practice(Skill::skill("mechanics"), (100 - chance_of_success) * 0.5);
+   practice("electronics", (100 - chance_of_success) * 1.5);
+   practice("firstaid", (100 - chance_of_success) * 1.0);
+   practice("mechanics", (100 - chance_of_success) * 0.5);
    int success = chance_of_success - rng(1, 100);
    if (success > 0) {
     g->add_msg("Successfully installed batteries.");
@@ -504,9 +500,9 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
  } while (ch != '\n' && ch != 'q' && ch != KEY_ESCAPE);
 
  if (ch == '\n') {
-   practice(Skill::skill("electronics"), (100 - chance_of_success) * 1.5);
-   practice(Skill::skill("firstaid"), (100 - chance_of_success) * 1.0);
-   practice(Skill::skill("mechanics"), (100 - chance_of_success) * 0.5);
+   practice("electronics", (100 - chance_of_success) * 1.5);
+   practice("firstaid", (100 - chance_of_success) * 1.0);
+   practice("mechanics", (100 - chance_of_success) * 0.5);
   bionic_id id = type->options[selection];
   int success = chance_of_success - rng(1, 100);
   if (success > 0) {

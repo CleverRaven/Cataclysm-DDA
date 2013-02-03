@@ -205,6 +205,7 @@ public:
  bool wearing_something_on(body_part bp); // True if wearing something on bp
 
  void practice(Skill *s, int amount);
+ void practice(std::string s, int amount);
 
  void assign_activity(activity_type type, int moves, int index = -1);
  void cancel_activity();

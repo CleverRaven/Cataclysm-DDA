@@ -31,8 +31,8 @@ bool tutorial_game::init(game *g)
  g->cur_om.make_tutorial();
  g->u.toggle_trait(PF_QUICK);
  g->u.inv.push_back(item(g->itypes[itm_lighter], 0, 'e'));
- g->u.skillLevel(Skill::skill("gun")).level(5);
- g->u.skillLevel(Skill::skill("melee")).level(5);
+ g->u.skillLevel("gun").level(5);
+ g->u.skillLevel("melee").level(5);
 // Init the starting map at g location.
  for (int i = 0; i <= MAPSIZE; i += 2) {
   for (int j = 0; j <= MAPSIZE; j += 2) {
