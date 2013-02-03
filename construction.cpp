@@ -197,13 +197,13 @@ void game::init_construction()
    TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_nail, 8, NULL);
    COMP(itm_2x4, 10, NULL);
-   COMP(itm_rag, 10, NULL);  
+   COMP(itm_rag, 10, NULL);
 
  CONSTRUCT("Deconstruct Furniture", 0, &construct::able_deconstruct,
                                 &construct::done_deconstruct);
   STAGE(t_null, 20);
    TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
-   TOOL(itm_screwdriver, itm_toolset, NULL);        
+   TOOL(itm_screwdriver, itm_toolset, NULL);
 
  CONSTRUCT("Start vehicle construction", 0, &construct::able_empty, &construct::done_vehicle);
   STAGE(t_null, 10);
@@ -475,10 +475,10 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
    }
 
   }  // j in [0,2]
-  can_build_any = (has_component || !components_required) && 
+  can_build_any = (has_component || !components_required) &&
     (has_tool || !tools_required);
   if (exact_level && (i == level)) {
-      return ((has_component || !components_required) && 
+      return ((has_component || !components_required) &&
 	      (has_tool || !tools_required));
   }
  }  // stage[i]
@@ -513,10 +513,10 @@ void game::place_construction(constructable *con)
     }
     for(int i = starting_stage; i < con->stages.size(); i++) {
      if (player_can_build(u, total_inv, con, i, true, true))
-       max_stage = i; 
+       max_stage = i;
      else
        break;
-    }  
+    }
     if (max_stage >= starting_stage) {
      valid.push_back(point(x, y));
      m.drawsq(w_terrain, u, x, y, true, false);
@@ -796,48 +796,72 @@ void construct::done_deconstruct(game *g, point p)
     case t_armchair:
       g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 10);
       g->m.add_item(p.x, p.y, g->itypes[itm_rag], 0, 10);
-      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,8));          
+      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,8));
+      g->m.ter(p.x, p.y) = t_floor;
+    break;
+
+    case t_window_domestic:
+      g->m.add_item(p.x, p.y, g->itypes[itm_stick], 0, 1);
+      g->m.add_item(p.x, p.y, g->itypes[itm_curtain], 0, 2);
+      g->m.add_item(p.x, p.y, g->itypes[itm_glass_sheet], 0, 1);
+      g->m.ter(p.x, p.y) = t_window_empty;
     break;
 
     case t_backboard:
+      g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 4);
+      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,10));
+      g->m.ter(p.x, p.y) = t_pavement;
+    break;
+
     case t_sandbox:
     case t_bench:
     case t_crate_o:
     case t_crate_c:
+      g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 4);
+      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,10));
+      g->m.ter(p.x, p.y) = t_floor;
+    break;
+
     case t_chair:
     case t_cupboard:
     case t_desk:
       g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 4);
-      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,10));     
+      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,10));
+      g->m.ter(p.x, p.y) = t_floor;
     break;
 
     case t_slide:
       g->m.add_item(p.x, p.y, g->itypes[itm_steel_plate], 0);
-      g->m.add_item(p.x, p.y, g->itypes[itm_pipe], 0, rng(4,8));       
+      g->m.add_item(p.x, p.y, g->itypes[itm_pipe], 0, rng(4,8));
+      g->m.ter(p.x, p.y) = t_grass;
     break;
 
     case t_rack:
     case t_monkey_bars:
-      g->m.add_item(p.x, p.y, g->itypes[itm_pipe], 0, rng(6,12));  
+      g->m.add_item(p.x, p.y, g->itypes[itm_pipe], 0, rng(6,12));
+      g->m.ter(p.x, p.y) = t_grass;
     break;
 
     case t_counter:
     case t_dresser:
     case t_table:
       g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 6);
-      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,8));  
+      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,8));
+      g->m.ter(p.x, p.y) = t_floor;
     break;
-    
+
     case t_pool_table:
       g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 4);
       g->m.add_item(p.x, p.y, g->itypes[itm_rag], 0, 4);
-      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,10));     
+      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,10));
+      g->m.ter(p.x, p.y) = t_floor;
     break;
-    
+
     case t_bookcase:
       g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 12);
-      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(12,16));       
-    break;                     
+      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(12,16));
+      g->m.ter(p.x, p.y) = t_floor;
+    break;
   }
-  g->m.ter(p.x, p.y) = t_floor;  
+
 }

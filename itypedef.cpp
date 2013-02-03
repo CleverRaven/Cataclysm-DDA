@@ -1113,48 +1113,48 @@ MELEE("pilot light", 20, 10, ',', c_cyan,   IRON,   PLASTIC,
 A pilot light from a gas-burning device, this particular one\n\
 is a simple piezo electric igniter.");
 
-MELEE("toaster", 50, 10, ',' c_cyan, IRON, PLASTIC,
+MELEE("toaster", 50, 10, ',', c_cyan, IRON, PLASTIC,
          2,   1,   0,  0,  0, 0, "\
 A small two slice toaster, not much use as anything but spare parts");
 
-MELEE("microwave", 50, 10, ',' c_cyan, IRON, PLASTIC,
+MELEE("microwave", 50, 10, ',', c_cyan, IRON, PLASTIC,
          8,   5,   0,  0,  0, 0, "\
 A home microwave, has probably seen its share of baked beans.\n\
 Good for scrap parts.");
 
-MELEE("laptop computer", 50, 10, ',' c_cyan, IRON, PLASTIC,
+MELEE("laptop computer", 50, 10, ',', c_cyan, IRON, PLASTIC,
          3,   2,   0,  0,  0, 0, "\
 A broken laptop, basically a paperweight now");
 
-MELEE("desk fan", 50, 10, ',' c_cyan, IRON, PLASTIC,
+MELEE("desk fan", 50, 10, ',', c_cyan, IRON, PLASTIC,
          4,   1,   0,  0,  0, 0, "\
 A small fan, used to propel air around a room.");
 
-MELEE("ceramic plate", 50, 10, ',' c_cyan, GLASS, MNULL,
+MELEE("ceramic plate", 50, 10, ',', c_cyan, GLASS, MNULL,
          1,   1,   1,  0,  0, 0, "\
 A ceramic dinner plate, you could probably play frisbee with it");
 
-MELEE("ceramic bowl", 50, 10, ',' c_cyan, GLASS, MNULL,
+MELEE("ceramic bowl", 50, 10, ',', c_cyan, GLASS, MNULL,
          1,   1,   1,  0,  0, 0, "\
 A shallow dessert bowl, not a lot of use for it really.");
 
-MELEE("ceramic cup", 50, 10, ',' c_cyan, GLASS, MNULL,
+MELEE("ceramic cup", 50, 10, ',', c_cyan, GLASS, MNULL,
          1,   1,   1,  0,  0, 0, "\
 A ceramic teacup, pinky out!");
 
-MELEE("glass plate", 50, 10, ',' c_cyan, GLASS, MNULL,
+MELEE("glass plate", 50, 10, ',', c_cyan, GLASS, MNULL,
          1,   1,   1,  0,  0, 0, "\
 A glass dinner plate, you could probably play frisbee with it");
 
-MELEE("glass bowl", 50, 10, ',' c_cyan, GLASS, MNULL,
+MELEE("glass bowl", 50, 10, ',', c_cyan, GLASS, MNULL,
          1,   1,   1,  0,  0, 0, "\
 A glass dessert bowl, not a lot of use for it really.");
 
-MELEE("glass", 50, 10, ',' c_cyan, GLASS, MNULL,
+MELEE("glass", 50, 10, ',', c_cyan, GLASS, MNULL,
          1,   1,   1,  0,  0, 0, "\
 A tall glass, just begging for a frosty one!");
 
-MELEE("tin plate", 50, 10, ',' c_cyan, STEEL, MNULL,
+MELEE("tin plate", 50, 10, ',', c_cyan, STEEL, MNULL,
          1,   0,   0,  0,  0, 0, "\
 A tin dinner plate, you could probably play frisbee with it");
 
