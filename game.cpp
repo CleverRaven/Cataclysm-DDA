@@ -4370,11 +4370,9 @@ void game::examine()
                            u.power_level > 0 &&
                            query_yn("Use fingerhack on the reader?"));
   if (using_electrohack || using_fingerhack) {
-    Skill *computerSkill = Skill::skill("computer");
-
    u.moves -= 500;
-   u.practice(computerSkill, 20);
-   int success = rng(u.skillLevel(computerSkill).level() / 4 - 2, u.skillLevel(computerSkill).level() * 2);
+   u.practice("computer", 20);
+   int success = rng(u.skillLevel("computer").level() / 4 - 2, u.skillLevel("computer").level() * 2);
    success += rng(-3, 3);
    if (using_fingerhack)
     success++;
@@ -5934,8 +5932,6 @@ void game::plfire(bool burst)
   burst = true;
 
 // Train up our skill
- Skill *gunSkill = Skill::skill("gun");
-
  it_gun* firing = dynamic_cast<it_gun*>(u.weapon.type);
  int num_shots = 1;
  if (burst)
@@ -5945,9 +5941,9 @@ void game::plfire(bool burst)
  if (u.skillLevel(firing->skill_used) == 0 ||
      (firing->ammo != AT_BB && firing->ammo != AT_NAIL))
   u.practice(firing->skill_used, 4 + (num_shots / 2));
- if (u.skillLevel(gunSkill) == 0 ||
+ if (u.skillLevel("gun") == 0 ||
      (firing->ammo != AT_BB && firing->ammo != AT_NAIL))
-   u.practice(gunSkill, 5);
+   u.practice("gun", 5);
 
  fire(u, x, y, trajectory, burst);
 }
@@ -6001,8 +5997,7 @@ void game::complete_butcher(int index)
  int pieces, pelts;
  double skill_shift = 0.;
 
- Skill *survivalSkill = Skill::skill("survival");
- uint32_t sSkillLevel = u.skillLevel(survivalSkill).level();
+ uint32_t sSkillLevel = u.skillLevel("survival").level();
 
  switch (corpse->size) {
   case MS_TINY:   pieces =  1; pelts =  1; break;
@@ -6027,7 +6022,7 @@ void game::complete_butcher(int index)
  int practice = 4 + pieces;
  if (practice > 20)
   practice = 20;
- u.practice(survivalSkill, practice);
+ u.practice("survival", practice);
 
  pieces += int(skill_shift);
  if (skill_shift < 5)	// Lose some pelts
@@ -6361,8 +6356,6 @@ void game::chat()
 }
 
 void game::pldrive(int x, int y) {
-  Skill *drivingSkill = Skill::skill("driving");
-
  if (run_mode == 2) { // Monsters around and we don't wanna run
   add_msg("Monster spotted--run mode is on! "
           "(Press '!' to turn it off or ' to ignore monster.)");
@@ -6390,7 +6383,7 @@ void game::pldrive(int x, int y) {
  }
  veh->turn (15 * x);
  if (veh->skidding && veh->valid_wheel_config()) {
-   if (rng (0, 40) < u.dex_cur + u.skillLevel(drivingSkill).level() * 2) {
+   if (rng (0, 40) < u.dex_cur + u.skillLevel("driving").level() * 2) {
    add_msg ("You regain control of the %s.", veh->name.c_str());
    veh->skidding = false;
    veh->move.init (veh->turn_dir);
@@ -6399,7 +6392,7 @@ void game::pldrive(int x, int y) {
 
  u.moves = 0;
  if (x != 0 && veh->velocity != 0 && one_in(4))
-   u.practice(drivingSkill, 1);
+   u.practice("driving", 1);
 }
 
 void game::plmove(int x, int y)
@@ -6544,12 +6537,10 @@ void game::plmove(int x, int y)
 
 // Adjust recoil down
   if (u.recoil > 0) {
-    Skill *gunSkill = Skill::skill("gun");
-
-    if (int(u.str_cur / 2) + u.skillLevel(gunSkill).level() >= u.recoil)
+    if (int(u.str_cur / 2) + u.skillLevel("gun").level() >= u.recoil)
     u.recoil = 0;
    else {
-     u.recoil -= int(u.str_cur / 2) + u.skillLevel(gunSkill).level();
+     u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun").level();
     u.recoil = int(u.recoil / 2);
    }
   }

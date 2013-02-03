@@ -2055,8 +2055,7 @@ void map::add_trap(const int x, const int y, const trap_id t)
 
 void map::disarm_trap(game *g, const int x, const int y)
 {
-  Skill *trapsSkill = Skill::skill("traps");
-  uint32_t skillLevel = g->u.skillLevel(trapsSkill).level();
+  uint32_t skillLevel = g->u.skillLevel("traps").level();
 
  if (tr_at(x, y) == tr_null) {
   debugmsg("Tried to disarm a trap where there was none (%d %d)", x, y);
@@ -2078,11 +2077,11 @@ void map::disarm_trap(game *g, const int x, const int y)
   }
   tr_at(x, y) = tr_null;
   if(diff > 1.25 * skillLevel) // failure might have set off trap
-    g->u.practice(trapsSkill, 1.5*(diff - skillLevel));
+    g->u.practice("traps", 1.5*(diff - skillLevel));
  } else if (roll >= diff * .8) {
   g->add_msg("You fail to disarm the trap.");
   if(diff > 1.25 * skillLevel)
-    g->u.practice(trapsSkill, 1.5*(diff - skillLevel));
+    g->u.practice("traps", 1.5*(diff - skillLevel));
  }
  else {
   g->add_msg("You fail to disarm the trap, and you set it off!");
@@ -2092,7 +2091,7 @@ void map::disarm_trap(game *g, const int x, const int y)
   if(diff - roll <= 6)
    // Give xp for failing, but not if we failed terribly (in which
    // case the trap may not be disarmable).
-   g->u.practice(trapsSkill, 2*diff);
+   g->u.practice("traps", 2*diff);
  }
 }
  
