@@ -1568,10 +1568,10 @@ bool item::reload(player &u, int index)
  bool single_load = false;
  int max_load = 1;
  item *reload_target = NULL;
- item *ammo_to_use = &u.inv[index];
+ item *ammo_to_use = index != -2 ? &u.inv[index] : NULL;
 
  // Handle ammo in containers, currently only gasoline
- if(ammo_to_use->is_container())
+ if(ammo_to_use && ammo_to_use->is_container())
    ammo_to_use = &ammo_to_use->contents[0];
 
  if (is_gun()) {
