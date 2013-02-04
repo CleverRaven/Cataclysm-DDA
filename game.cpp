@@ -6845,7 +6845,7 @@ void game::fling_player_or_monster(player *p, monster *zz, int dir, int flvel)
         steps++;
         timespec ts;   // Timespec for the animation
         ts.tv_sec = 0;
-        ts.tv_nsec = 50000000;
+        ts.tv_nsec = BILLION / 20;
         nanosleep (&ts, 0);
     }
 

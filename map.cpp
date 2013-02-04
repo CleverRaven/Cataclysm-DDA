@@ -580,11 +580,15 @@ void map::vehmove(game *g)
       if (abs(veh->velocity) < 100)
        veh->stop();
 
-      if (pl_ctrl) {
+      if (pl_ctrl && veh->velocity) {
 // a bit of delay for animation
+// total delay is roughly one third of a second.
+       int ns_per_frame = abs ( (BILLION/3) / ( (float)veh->velocity / 1000) );
+       if (ns_per_frame > BILLION/10)
+        ns_per_frame = BILLION/10;
        timespec ts;   // Timespec for the animation
        ts.tv_sec = 0;
-       ts.tv_nsec = 50000000;
+       ts.tv_nsec = ns_per_frame;
        nanosleep (&ts, 0);
       }
 
