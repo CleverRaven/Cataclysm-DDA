@@ -723,19 +723,59 @@ void overmap::make_tutorial()
  zg.clear();
 }
 
+// checks whether ter(x,y) is defined 'close to' the given type.
+// for finding, say, houses, with any orientation.
+bool overmap::ter_in_type_range(int x, int y, oter_id type, int type_range)
+{
+   if (ter(x, y) >= type && ter(x, y) < type + type_range)
+      return true;
+   return false;
+}
+
 point overmap::find_closest(point origin, oter_id type, int type_range,
                             int &dist, bool must_be_seen)
 {
- int max = (dist == 0 ? OMAPX / 2 : dist);
+ //does origin qualify?
+ if (ter_in_type_range(origin.x, origin.y, type, type_range))
+  if (!must_be_seen || seen(origin.x, origin.y))
+   return point(origin.x, origin.y);
+
+ int max = (dist == 0 ? OMAPX : dist);
+ // expanding box
  for (dist = 0; dist <= max; dist++) {
-  for (int x = origin.x - dist; x <= origin.x + dist; x++) {
-   for (int y = origin.y - dist; y <= origin.y + dist; y++) {
-    if (ter(x, y) >= type && ter(x, y) < type + type_range &&
-        (!must_be_seen || seen(x, y)))
+  // each edge length is 2*dist-2, because corners belong to one edge
+  // south is +y, north is -y
+  for (int i = 0; i < dist*2-1; i++) {
+   //start at northwest, scan north edge
+   int x = origin.x - dist + i;
+   int y = origin.y - dist;
+   if (ter_in_type_range(x, y, type, type_range))
+    if (!must_be_seen || seen(x, y))
      return point(x, y);
-   }
+
+   //start at southeast, scan south 
+   x = origin.x + dist - i;
+   y = origin.y + dist;
+   if (ter_in_type_range(x, y, type, type_range))
+    if (!must_be_seen || seen(x, y))
+     return point(x, y);
+
+   //start at southwest, scan west
+   x = origin.x - dist;
+   y = origin.y + dist - i;
+   if (ter_in_type_range(x, y, type, type_range))
+    if (!must_be_seen || seen(x, y))
+     return point(x, y);
+
+   //start at northeast, scan east
+   x = origin.x + dist;
+   y = origin.y - dist + i;
+   if (ter_in_type_range(x, y, type, type_range))
+    if (!must_be_seen || seen(x, y))
+     return point(x, y);
   }
  }
+ dist=-1;
  return point(-1, -1);
 }
 

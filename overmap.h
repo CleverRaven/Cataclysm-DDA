@@ -83,6 +83,7 @@ class overmap
 // Interactive point choosing; used as the map screen
   point choose_point(game *g);
 
+  bool ter_in_type_range(int x, int y, oter_id type, int type_range);
   oter_id& ter(int x, int y);
   unsigned zones(int x, int y);
   std::vector<mongroup*> monsters_at(int x, int y);
