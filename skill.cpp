@@ -77,23 +77,23 @@ size_t Skill::skill_count() {
 }
 
 
-SkillLevel::SkillLevel(uint32_t level, int32_t exercise, bool isTraining) {
+SkillLevel::SkillLevel(int level, int exercise, bool isTraining) {
   _level = level;
   _exercise = exercise;
   _isTraining = isTraining;
 }
 
-SkillLevel::SkillLevel(uint32_t minLevel, uint32_t maxLevel, int32_t minExercise, int32_t maxExercise, bool isTraining) {
+SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExercise, bool isTraining) {
   _level = rng(minLevel, maxLevel);
   _exercise = rng(minExercise, maxExercise);
   _isTraining = isTraining;
 }
 
-uint32_t SkillLevel::comprehension(uint32_t intellect, bool fastLearner) {
+int SkillLevel::comprehension(int intellect, bool fastLearner) {
   if (intellect == 0)
     return 0;
 
-  uint32_t base_comprehension;
+  int base_comprehension;
 
   if (intellect <= 8) {
     base_comprehension = intellect * 10;
@@ -105,7 +105,7 @@ uint32_t SkillLevel::comprehension(uint32_t intellect, bool fastLearner) {
     base_comprehension = base_comprehension / 2 * 3;
   }
 
-  uint32_t skill_penalty;
+  int skill_penalty;
 
   if (_level <= intellect / 2) {
     skill_penalty = 0;
@@ -122,7 +122,7 @@ uint32_t SkillLevel::comprehension(uint32_t intellect, bool fastLearner) {
   }
 }
 
-int32_t SkillLevel::train(uint32_t &level) {
+int SkillLevel::train(int &level) {
   ++_exercise;
 
   if (_exercise == 100) {
@@ -135,7 +135,7 @@ int32_t SkillLevel::train(uint32_t &level) {
   return _exercise;
 }
 
-int32_t SkillLevel::rust(uint32_t &level) {
+int SkillLevel::rust(int &level) {
   --_exercise;
 
   if (_exercise == 100) {
@@ -148,12 +148,12 @@ int32_t SkillLevel::rust(uint32_t &level) {
   return _exercise;
 }
 
-int32_t SkillLevel::readBook(uint32_t minimumGain, uint32_t maximumGain, uint32_t maximumLevel) {
-  uint32_t gain = rng(minimumGain, maximumGain);
+int SkillLevel::readBook(int minimumGain, int maximumGain, int maximumLevel) {
+  int gain = rng(minimumGain, maximumGain);
 
-  uint32_t level;
+  int level;
 
-  for (uint32_t i = 0; i < gain; ++i) {
+  for (int i = 0; i < gain; ++i) {
     train(level);
 
     if (level >= maximumLevel)
@@ -165,7 +165,7 @@ int32_t SkillLevel::readBook(uint32_t minimumGain, uint32_t maximumGain, uint32_
 
 
 std::istream& operator>>(std::istream& is, SkillLevel& obj) {
-  uint32_t level; int32_t exercise; bool isTraining;
+  int level; int exercise; bool isTraining;
 
   is >> level >> exercise >> isTraining;
 

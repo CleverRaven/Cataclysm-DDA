@@ -363,7 +363,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
  int trange = 1.5 * rl_dist(p.posx, p.posy, tarx, tary);
 
 // Throwing attempts below "Basic Competency" level are extra-bad
- uint32_t skillLevel = p.skillLevel("throw").level();
+ int skillLevel = p.skillLevel("throw").level();
 
  if (skillLevel < 3)
   deviation += rng(0, 8 - skillLevel);

@@ -57,44 +57,44 @@ class Skill {
 };
 
 class SkillLevel {
-  uint32_t _level;
-  int32_t _exercise;
+  int _level;
+  int _exercise;
   bool _isTraining;
 
  public:
-  SkillLevel(uint32_t level = 0, int32_t exercise = 0, bool isTraining = true);
-  SkillLevel(uint32_t minLevel, uint32_t maxLevel, int32_t minExercise, int32_t maxExercise, bool isTraining = true);
+  SkillLevel(int level = 0, int exercise = 0, bool isTraining = true);
+  SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExercise, bool isTraining = true);
 
   bool isTraining() const { return _isTraining; }
   bool toggleTraining() { _isTraining = !_isTraining; return _isTraining; }
 
-  uint32_t level() const { return _level; }
-  uint32_t level(uint32_t level) { _level = level; return level; }
+  int level() const { return _level; }
+  int level(int level) { _level = level; return level; }
 
-  int32_t exercise() const { return _exercise; }
+  int exercise() const { return _exercise; }
 
-  uint32_t comprehension(uint32_t intellect, bool fastLearner = false);
+  int comprehension(int intellect, bool fastLearner = false);
 
-  int32_t train(uint32_t &level);
-  int32_t rust(uint32_t &level);
+  int train(int &level);
+  int rust(int &level);
 
-  int32_t readBook(uint32_t minimumGain, uint32_t maximumGain, uint32_t maximumLevel = 0xFFFFFFFF);
+  int readBook(int minimumGain, int maximumGain, int maximumLevel = 0xFFFFFFFF);
 
   bool operator==(const SkillLevel& b) const { return this->_level == b._level && this->_exercise == b._exercise; }
   bool operator< (const SkillLevel& b) const { return this->_level <  b._level || (this->_level == b._level && this->_exercise < b._exercise); }
   bool operator> (const SkillLevel& b) const { return this->_level >  b._level || (this->_level == b._level && this->_exercise > b._exercise); }
 
-  bool operator==(const uint32_t& b) const { return this->_level == b; }
-  bool operator< (const uint32_t& b) const { return this->_level <  b; }
-  bool operator> (const uint32_t& b) const { return this->_level >  b; }
+  bool operator==(const int& b) const { return this->_level == b; }
+  bool operator< (const int& b) const { return this->_level <  b; }
+  bool operator> (const int& b) const { return this->_level >  b; }
 
   bool operator!=(const SkillLevel& b) const { return !(*this == b); }
   bool operator<=(const SkillLevel& b) const { return !(*this >  b); }
   bool operator>=(const SkillLevel& b) const { return !(*this <  b); }
 
-  bool operator!=(const uint32_t& b) const { return !(*this == b); }
-  bool operator<=(const uint32_t& b) const { return !(*this >  b); }
-  bool operator>=(const uint32_t& b) const { return !(*this <  b); }
+  bool operator!=(const int& b) const { return !(*this == b); }
+  bool operator<=(const int& b) const { return !(*this >  b); }
+  bool operator>=(const int& b) const { return !(*this <  b); }
 };
 
 std::istream& operator>>(std::istream& is, SkillLevel& obj);

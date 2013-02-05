@@ -1363,7 +1363,7 @@ encumb(bp_feet) * 5);
      SkillLevel level = skillLevel(aSkill);
 
      bool isLearning = level.isTraining();
-     int32_t exercise = level.exercise();
+     int exercise = level.exercise();
 
     if (i == line) {
       selectedSkill = aSkill;
@@ -4894,7 +4894,7 @@ void player::practice (Skill *s, int amount) {
     }
   }
 
-  uint32_t newLevel;
+  int newLevel;
 
   while (level.isTraining() && amount > 0 && xp_pool >= (1 + level.level())) {
     amount -= level.level() + 1;
