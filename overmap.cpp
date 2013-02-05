@@ -1742,7 +1742,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, oter_id base)
       if (x2 > x)
        xdir = 1;
       tmp = x;
-      while (is_river(ter(tmp, y))) {
+      while (tmp < OMAPX && is_river(ter(tmp, y))) {
        if (is_road(base, tmp, y))
         bridge_is_okay = false;	// Collides with another bridge!
        tmp += xdir;
@@ -1763,7 +1763,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, oter_id base)
       if (y2 > y)
        ydir = 1;
       tmp = y;
-      while (is_river(ter(x, tmp))) {
+      while (tmp < OMAPY && is_river(ter(x, tmp))) {
        if (is_road(base, x, tmp))
         bridge_is_okay = false;	// Collides with another bridge!
        tmp += ydir;
