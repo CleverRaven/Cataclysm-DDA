@@ -10,6 +10,26 @@
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
+static void add_or_drop_item(game *g, player *p, item *it)
+{
+  item replacement(g->itypes[it->type->id], int(g->turn), g->nextinv);
+  bool drop = false;
+  int iter = 0;
+  // Should this vary based on how many charges get consumed by default?
+  replacement.charges = 1;
+  while (p->has_item(replacement.invlet)) {
+    replacement.invlet = g->nextinv;
+    g->advance_nextinv();
+    iter++;
+  }
+  if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+    drop = true;
+  if (drop)
+    g->m.add_item(p->posx, p->posy, replacement);
+  else
+    p->i_add(replacement, g);
+}
+
 /* To mark an item as "removed from inventory", set its invlet to 0
    This is useful for traps (placed on ground), inactive bots, etc
  */
@@ -161,7 +181,7 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
      healed = hp_leg_r;
    } else if (ch == '7') {
     g->add_msg_if_player(p,"Never mind.");
-    it->charges++;
+    add_or_drop_item(g, p, it);
     return;
    }
   } while (ch < '1' || ch > '7');
@@ -288,7 +308,7 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
      healed = hp_leg_r;
    } else if (ch == '7') {
     g->add_msg_if_player(p,"Never mind.");
-    it->charges++;
+    add_or_drop_item(g, p, it);
     return;
    }
   } while (ch < '1' || ch > '7');
