@@ -487,7 +487,17 @@ void dis_effect(game *g, player &p, disease &dis)
   if (!p.has_trait(PF_POISRESIST))
    p.str_cur -= 2;
   break;
-
+  
+  case DI_BLEED: //Oddzball-Bleeding took out chance for now...
+	if (!p.is_npc() && one_in(2)) {
+		g->add_msg("You lose some blood.");
+		p.pain++;
+		p.hurt(g, bp_torso, 0, 1);
+		p.per_cur--;
+		p.str_cur --;
+		}
+	break;
+	
  case DI_BADPOISON:
   if ((!p.has_trait(PF_POISRESIST) && one_in(100)) ||
       ( p.has_trait(PF_POISRESIST) && one_in(500))   ) {
@@ -910,6 +920,7 @@ std::string dis_name(disease dis)
  case DI_STUNNED:	return "Stunned";
  case DI_DOWNED:	return "Downed";
  case DI_POISON:	return "Poisoned";
+ case DI_BLEED:		return "Bleeding";
  case DI_BADPOISON:	return "Badly Poisoned";
  case DI_FOODPOISON:	return "Food Poisoning";
  case DI_SHAKES:	return "Shakes";
@@ -1084,6 +1095,9 @@ You're knocked to the ground.  You have to get up before you can move.";
  case DI_POISON:	return "\
 Perception - 1;    Dexterity - 1;   Strength - 2 IF not resistant\n\
 Occasional pain and/or damage.";
+
+ case DI_BLEED:	return "\
+ You are slowly losing blood."; //Oddzball-Bleeding Description
 
  case DI_BADPOISON:	return "\
 Perception - 2;    Dexterity - 2;\n\

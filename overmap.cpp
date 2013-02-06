@@ -26,7 +26,7 @@
 #define STREETCHANCE 2
 #define NUM_FOREST 250
 #define TOP_HIWAY_DIST 140
-#define MIN_ANT_SIZE 8
+#define MIN_ANT_SIZE 8 //Oddzball- Edit to change chance of stuff on map?
 #define MAX_ANT_SIZE 20
 #define MIN_GOO_SIZE 1
 #define MAX_GOO_SIZE 2
@@ -1374,8 +1374,8 @@ void overmap::put_buildings(int x, int y, int dir, city town)
  int ychange = dir % 2, xchange = (dir + 1) % 2;
  for (int i = -1; i <= 1; i += 2) {
   if ((ter(x+i*xchange, y+i*ychange) == ot_field) && !one_in(STREETCHANCE)) {
-   if (rng(0, 99) > 80 * dist(x,y,town.x,town.y) / town.s)
-    ter(x+i*xchange, y+i*ychange) = shop(((dir%2)-i)%4);
+   if (rng(0, 99) > 80 * dist(x,y,town.x,town.y) / town.s)//Oddzball-Shop generation chance smaller is better
+    ter(x+i*xchange, y+i*ychange) = shop(((dir%2)-i)%4); 
    else {
     if (rng(0, 99) > 130 * dist(x, y, town.x, town.y) / town.s)
      ter(x+i*xchange, y+i*ychange) = ot_park;

@@ -13,8 +13,8 @@ typedef unsigned int u_int32_t;
 #define __NORMAL	0x00000000	/* Added characters are normal. */          //<---------not used
 #define __STANDOUT	0x00000100	/* Added characters are standout. */        //<---------not used
 #define __UNDERSCORE	0x00000200	/* Added characters are underscored. */ //<---------not used
-#define __REVERSE	0x00000400	/* Added characters are reverse             //<---------not used
-					   video. */
+#define __REVERSE	0x00000400	/* Added characters are reverse video. */          //<---------not used
+					   
 #define __BLINK		0x00000800	/* Added characters are blinking. */
 #define __DIM		0x00001000	/* Added characters are dim. */             //<---------not used
 #define __BOLD		0x00002000	/* Added characters are bold. */

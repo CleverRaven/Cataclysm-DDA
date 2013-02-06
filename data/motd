@@ -2,16 +2,10 @@
 # Max length of a line is 64 characters; the following line is for reference
 ################################################################
 This branch contains much work by Creidieki, Uzername,
-Kevingranade, HerbertJones, Gim, Shades and Origamiwolf.
+Kevingranade, HerbertJones, Gim, Shades,Origamiwolf
+and Darkling WOlf, and Kevingranade
 
 The game now has configurable options.
 You can directly edit options.txt in the data directory, or you
-can edit the options via the help menu.
 
-For latest discussions on Cataclysm and its mods, please visit:
-http://www.cataclysm.glyphgryph.com/smf/index.php
 
-Check out the options listing by pressing ?2
-
-As always, please visit the forums at:
-http://www.cataclysm.glyphgryph.com/smf/index.php

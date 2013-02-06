@@ -15,7 +15,7 @@
 
 ter_id grass_or_dirt()
 {
- if (one_in(4))
+ if (one_in(3))
   return t_grass;
  return t_dirt;
 }
@@ -1175,7 +1175,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    while (ter(rn, bw - 1) != t_floor);
    ter(rn, bw - 1) = t_stairs_down;
   }
-  if (one_in(100)) { // Houses have a 1 in 100 chance of wasps!
+  if (one_in(20)) { // Houses have a 1 in 100 chance of wasps! //Oddzball-Spawn Zombie! 1 in 20
    for (int i = 0; i < SEEX * 2; i++) {
     for (int j = 0; j < SEEY * 2; j++) {
      if (ter(i, j) == t_door_c || ter(i, j) == t_door_locked)
@@ -1200,16 +1200,16 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
        ter(podx + x, pody + y) = t_paper;
      }
     }
-    add_spawn(mon_wasp, 1, podx, pody);
+    add_spawn(mon_zombie, 1, podx, pody);
    }
    place_items(mi_rare, 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
 
-  } else if (one_in(150)) { // No wasps; black widows?
+  } else if (one_in(100)) { // No wasps; black widows? //Oddzball-Rats! DO I need to worry about pods or webs?
    for (int i = 0; i < SEEX * 2; i++) {
     for (int j = 0; j < SEEY * 2; j++) {
      if (ter(i, j) == t_floor) {
       if (one_in(15)) {
-       add_spawn(mon_spider_widow, rng(1, 2), i, j);
+       add_spawn(mon_sewer_rat, rng(1, 2), i, j);
        for (int x = i - 1; x <= i + 1; x++) {
         for (int y = j - 1; y <= j + 1; y++) {
          if (ter(x, y) == t_floor)
@@ -1365,7 +1365,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(rng(0, 3));
   }
  } break;
-
+//Oddzball-Copy this and make Grocery Store?
  case ot_s_gas_north:
  case ot_s_gas_east:
  case ot_s_gas_south:
@@ -1431,7 +1431,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   if (terrain_type == ot_s_gas_west)
    rotate(3);
   break;
-
+//Oddzball-End of possible copy Grovery(Remove pumps and would be Parking lot...)
  case ot_s_pharm_north:
  case ot_s_pharm_east:
  case ot_s_pharm_south:
@@ -6590,7 +6590,7 @@ void map::post_process(game *g, unsigned zones)
      bash(x, y, 20, junk);
    }
   }
-  if (one_in(10)) { // 10% chance of corpses
+  if (one_in(5)) { // 10% chance of corpses //Oddzball-20% of finding corpses
    int num_corpses = rng(1, 8);
    for (int i = 0; i < num_corpses; i++) {
     int x = rng(0, 23), y = rng(0, 23);

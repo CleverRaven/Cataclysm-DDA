@@ -5,7 +5,7 @@ void game::init_moncats()
 {
  setvector(
    moncats[mcat_forest],
-	mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_spider_wolf,
+	mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_cougar, mon_spider_wolf,
 	mon_spider_jumping, mon_dog, mon_shia, NULL);
  setvector(
    moncats[mcat_ant],
@@ -18,10 +18,8 @@ void game::init_moncats()
 	mon_graboid, mon_worm, mon_halfworm, NULL);
  setvector(
    moncats[mcat_zombie],
-	mon_zombie, mon_zombie_cop, mon_zombie_shrieker, mon_zombie_spitter, mon_zombie_fast,
-	mon_zombie_electric, mon_zombie_brute, mon_zombie_hulk,
-	mon_zombie_necro, mon_boomer, mon_skeleton, mon_zombie_grabber,
-	mon_zombie_master, NULL);
+	mon_dog, mon_cat, mon_zombie, mon_zombie_cop, mon_zombie_fast,
+	mon_zombie_brute, mon_skeleton, mon_zombie_grabber,	NULL); //Oddzball-No goofy Zombie types spawning
  setvector(
    moncats[mcat_triffid],
 	mon_triffid, mon_triffid_young, mon_vinebeast, mon_triffid_queen, NULL);

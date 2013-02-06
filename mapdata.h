@@ -72,7 +72,7 @@ enum ter_id {
 t_null = 0,
 t_hole,	// Real nothingness; makes you fall a z-level
 // Ground
-t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
+t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit, 
 t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
 t_rock_floor, t_rubble, t_ash, t_metal, t_wreckage,
 t_grass,
@@ -94,7 +94,7 @@ t_wall_glass_v, t_wall_glass_h,
 t_wall_glass_v_alarm, t_wall_glass_h_alarm,
 t_reinforced_glass_v, t_reinforced_glass_h,
 t_bars,
-t_door_c, t_door_b, t_door_o, t_door_locked, t_door_locked_alarm, t_door_frame,
+t_door_c, t_door_b, t_door_o, t_door_locked, t_door_locked_alarm, t_door_frame, 
 t_chaingate_l, t_chaingate_c, t_chaingate_o, t_door_boarded,
 t_door_metal_c, t_door_metal_o, t_door_metal_locked,
 t_door_glass_c, t_door_glass_o,
@@ -117,9 +117,9 @@ t_marloss, t_fungus, t_tree_fungal,
 t_water_sh, t_water_dp, t_sewage,
 t_lava,
 // Embellishments
-t_bed, t_toilet, t_makeshift_bed,
+t_bed, t_toilet, t_makeshift_bed, 
 // More embellishments than you can shake a stick at.
-t_sink, t_oven, t_bathtub, t_chair, t_armchair, t_cupboard, t_trashcan, t_desk,
+t_sink, t_oven, t_bathtub, t_chair, t_armchair, t_cupboard, t_trashcan, t_desk, 
 t_sandbox, t_slide, t_monkey_bars, t_backboard,
 t_bench, t_table, t_pool_table,
 t_gas_pump, t_gas_pump_smashed,
@@ -195,7 +195,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)},
 {"sidewalk",         '.', c_ltgray,  2, tr_null,
 	mfb(transparent)},
-{"floor",	     '.', c_cyan,    2, tr_null,
+{"floor",	     '.', c_ltgray,    2, tr_null,  //Oddzball-Changed back to c_ltgray
 	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)},
 {"metal grate",      '#', c_dkgray,  2, tr_null,
 	mfb(transparent)},
@@ -226,26 +226,26 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"broken wood wall", '&', c_ltred,   0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)|
         mfb(supports_roof)},
-{"wall",             '|', c_ltgray,  0, tr_null,
+{"wall",             '|', i_ltgray,  0, tr_null, //Oddzball-Changed Wall Graphics c_* to i_* should give us nicer walls
  mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
-{"wall",             '-', c_ltgray,  0, tr_null,
+{"wall",             '-', i_ltgray,  0, tr_null,
  mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
-{"concrete wall",    '|', c_dkgray,  0, tr_null,
+{"concrete wall",    '|', i_dkgray,  0, tr_null,
  mfb(noitem)|mfb(supports_roof)},
-{"concrete wall",    '-', c_dkgray,  0, tr_null,
+{"concrete wall",    '-', i_dkgray,  0, tr_null,
  mfb(noitem)|mfb(supports_roof)},
-{"metal wall",       '|', c_cyan,    0, tr_null,
+{"metal wall",       '|', i_cyan,    0, tr_null,
  mfb(noitem)|mfb(noitem)|mfb(supports_roof)},
-{"metal wall",       '-', c_cyan,    0, tr_null,
+{"metal wall",       '-', i_cyan,    0, tr_null,
  mfb(noitem)|mfb(noitem)|mfb(supports_roof)},
-{"glass wall",       '|', c_ltcyan,  0, tr_null,
+{"glass wall",       '|', i_ltcyan,  0, tr_null,
  mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
-{"glass wall",       '-', c_ltcyan,  0, tr_null,
+{"glass wall",       '-', i_ltcyan,  0, tr_null,
  mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
-{"glass wall",       '|', c_ltcyan,  0, tr_null, // Alarmed
+{"glass wall",       '|', i_ltcyan,  0, tr_null, // Alarmed
 	mfb(transparent)|mfb(bashable)|mfb(alarmed)|mfb(noitem)|
  mfb(supports_roof)},
-{"glass wall",       '-', c_ltcyan,  0, tr_null, // Alarmed
+{"glass wall",       '-', i_ltcyan,  0, tr_null, // Alarmed
 	mfb(transparent)|mfb(bashable)|mfb(alarmed)|mfb(noitem)|
  mfb(supports_roof)},
 {"reinforced glass", '|', c_ltcyan,  0, tr_null,
@@ -292,16 +292,16 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(noitem)},
 {"steel compactor",      '&', c_green, 0, tr_null,
         mfb(transparent)},
-{"window",	     '"', c_ltcyan,  0, tr_null,
+{"window",	     '#', c_ltcyan,  0, tr_null, //Oddzball-Window Bold Test h_* and symbol change EDIT: trying c_* and dif symbol
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)},
-{"window",	     '"', c_ltcyan,  0, tr_null,
+{"window",	     '#', c_ltcyan,  0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)|mfb(deconstruct)}, //has curtains
 {"open window",      '\'', c_ltcyan, 4, tr_null,
 	mfb(transparent)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)},
-{"closed curtains",  '"', c_dkgray,    0, tr_null,
+{"closed curtains",  '-', i_dkgray,    0, tr_null,
 	mfb(bashable)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)},
 {"window",	     '"', c_ltcyan,  0, tr_null, // Actually alarmed

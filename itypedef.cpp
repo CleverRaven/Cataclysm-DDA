@@ -656,10 +656,10 @@ MELEE("syringe",	 8, 25, ',', c_ltcyan,	PLASTIC,MNULL,
 	 1,  0, -4,  6, -2, mfb(IF_SPEAR), "\
 A medical syringe. Used for administering heroin and other drugs.");
 
-MELEE("rag",		72, 10, ';', c_dkgray,	COTTON,	MNULL,
+/*MELEE("rag",		72, 10, ';', c_dkgray,	COTTON,	MNULL, //Oddzball-How do we make you a tool?
 	 1,  1,-10,  0,  0, 0, "\
 A small piece of cloth. Useful for making molotov cocktails and not much else."
-);
+);*/
 
 MELEE("fur pelt",	 0, 10, ',', c_brown,	WOOL,	FLESH,
 	 1,  1, -8,  0,  0, 0, "\
@@ -1853,13 +1853,17 @@ The only hat for a gentleman. Look exquisite while laughing in the face\n\
 of danger!");
 
 ARMOR("backpack",	38, 210,C_STORE,	PLASTIC,	MNULL,
-   14,  2, -4,  0,  2,  0,  0,  0,  0, 80,	mfb(bp_torso), "\
-Provides more storage than any other piece of clothing.");
+   10,  2, -4,  0,  1,  0,  0,  0,  0, 40,	mfb(bp_torso), "\
+A small backpack, good storage for a little encumbrance .");
+
+ARMOR("military rucksack",	20, 210,C_STORE,	PLASTIC,	MNULL, //Oddzball-Added Rucksack
+   14,  3, -4,  0,  2,  0,  0,  0,  0, 80,	mfb(bp_torso), "\
+A huge military rucksack, provides a lot of storage.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("purse",		40,  75,C_STORE,	LEATHER,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   10,  3,  2,  2,  2,  0,  0,  0,  0, 20,	mfb(bp_torso), "\
+   10,  3,  2,  2,  1,  0,  0,  0,  0, 20,	mfb(bp_torso), "\
 A bit encumbersome to wear, but provides lots of storage.");
 
 ARMOR("messenger bag",	20, 110,C_STORE,	PLASTIC,	MNULL,
@@ -3927,6 +3931,10 @@ A set of sturdy steel picklocks, essential for silently opening locks.");
 TOOL("pickaxe",	60, 160,'/', c_ltred,	WOOD,	MNULL,
    12, 11, 12,  0,  -1, 0,  0,  0,  0, AT_NULL, itm_null, &iuse::pickaxe, 0, "\
 A large steel pickaxe, strike the earth!");
+
+TOOL("rag",    1, 0,  ',', c_white, COTTON,   MNULL, //Oddzball-Made rag a tool
+   0,  0,   0,  0,  0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::rag, 0, "\
+Rag, useful in crafting and possibly stopping bleeding");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

@@ -526,7 +526,6 @@ void map::vehmove(game *g)
                                     (vel2/100 - sb_bonus < 10 ? 10 :
                                      vel2/100 - sb_bonus));
         } else if (veh->part_with_feature (ppl[ps], vpf_controls) >= 0) {
-
          const int lose_ctrl_roll = rng (0, imp);
          if (lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving").level() * 3) {
           if (psgname.length())
@@ -1806,7 +1805,7 @@ item map::water_from(const int x, const int y)
   ret.poison = rng(1, 4);
  else if (ter(x, y) == t_sewage)
   ret.poison = rng(1, 7);
- else if (ter(x, y) == t_toilet && !one_in(3))
+ else if (ter(x, y) == t_toilet && one_in(4)) //Oddzball- Not so many pison toilets..
   ret.poison = rng(1, 3);
 
  return ret;
@@ -2698,6 +2697,8 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
  // Clear vehicle list and rebuild after shift
  clear_vehicle_cache();
  vehicle_list.clear();
+
+
 // Shift the map sx submaps to the right and sy submaps down.
 // sx and sy should never be bigger than +/-1.
 // wx and wy are our position in the world, for saving/loading purposes.
