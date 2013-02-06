@@ -1348,7 +1348,17 @@ void overmap::place_river(point pa, point pb)
  } while (pb.x != x || pb.y != y);
 }
 
-void overmap::place_cities(std::vector<city> &cities, int min)
+/*: the root is overmap:lace_cities()
+20:50	<kevingranade>: which is at overmap.cpp:1355 or so
+20:51	<kevingranade>: the key is cs = rng(4, 17), setting the "size" of the city
+20:51	<kevingranade>: which is roughly it's radius in overmap tiles
+20:52	<kevingranade>: then later overmap:lace_mongroups() is called
+20:52	<kevingranade>: which creates a mongroup with radius city_size * 2.5 and population city_size * 80
+20:53	<kevingranade>: tadaa 
+
+spawns happen at... <cue Clue music>
+20:56	<kevingranade>: game:pawn_mon() in game.cpp:7380*/
+void overmap::place_cities(std::vector<city> &cities, int min) //Oddzball-Population control? 
 {
  int NUM_CITIES = dice(2, 7) + rng(min, min + 4);
  int cx, cy, cs;
