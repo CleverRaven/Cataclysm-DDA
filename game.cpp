@@ -837,8 +837,11 @@ void game::process_activity()
      u.styles.push_back( itype_id(0 - u.activity.index) );
     } else {
      u.sklevel[ u.activity.index ]++;
+
+     int skillLevel = u.skillLevel(u.activity.index).level();
      add_msg("You finish training %s to level %d.",
-             skill_name(u.activity.index).c_str(), u.sklevel[u.activity.index]);
+             skill_name(u.activity.index).c_str(),
+             u.skillLevel(u.activity.index).level(skillLevel + 1));
     }
     break;
 
