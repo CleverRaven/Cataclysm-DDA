@@ -5098,6 +5098,10 @@ SkillLevel& player::skillLevel(std::string ident) {
   return _skills[Skill::skill(ident)];
 }
 
+SkillLevel& player::skillLevel(size_t id) {
+  return _skills[Skill::skill(id)];
+}
+
 SkillLevel& player::skillLevel(Skill *_skill) {
   return _skills[_skill];
 }
