@@ -4,3 +4,5 @@ save/
 obj/
 debug.log
 logg.txt
+bindist/
+cataclysmdda-*
