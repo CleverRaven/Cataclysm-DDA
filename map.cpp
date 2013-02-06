@@ -2067,14 +2067,14 @@ void map::add_trap(const int x, const int y, const trap_id t)
 
 void map::disarm_trap(game *g, const int x, const int y)
 {
-  uint32_t skillLevel = g->u.skillLevel("traps").level();
+  int skillLevel = g->u.skillLevel("traps").level();
 
  if (tr_at(x, y) == tr_null) {
   debugmsg("Tried to disarm a trap where there was none (%d %d)", x, y);
   return;
  }
 
- const uint32_t tSkillLevel = g->u.skillLevel("traps").level();
+ const int tSkillLevel = g->u.skillLevel("traps").level();
  const int diff = g->traps[tr_at(x, y)]->difficulty;
  int roll = rng(tSkillLevel, 4 * tSkillLevel);
 

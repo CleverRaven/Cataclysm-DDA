@@ -703,8 +703,8 @@ void game::rustCheck() {
     return;
 
   for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
-    uint32_t skillLevel = u.skillLevel(*aSkill).level();
-    uint32_t forgetCap = skillLevel > 7 ? 7 : skillLevel;
+    int skillLevel = u.skillLevel(*aSkill).level();
+    int forgetCap = skillLevel > 7 ? 7 : skillLevel;
 
     if (skillLevel > 0 && turn % (8192 / int(pow(2, double(forgetCap - 1)))) == 0) {
       if (rng(1,12) % (u.has_trait(PF_FORGETFUL) ? 3 : 4)) {
@@ -713,7 +713,7 @@ void game::rustCheck() {
             u.power_level--;
         } else {
           if (OPTIONS[OPT_SKILL_RUST] == 0 || u.skillLevel(*aSkill).exercise() > 0) {
-            uint32_t newLevel;
+            int newLevel;
             u.skillLevel(*aSkill).rust(newLevel);
 
             if (newLevel < skillLevel) {
@@ -6003,7 +6003,7 @@ void game::complete_butcher(int index)
  int pieces, pelts;
  double skill_shift = 0.;
 
- uint32_t sSkillLevel = u.skillLevel("survival").level();
+ int sSkillLevel = u.skillLevel("survival").level();
 
  switch (corpse->size) {
   case MS_TINY:   pieces =  1; pelts =  1; break;

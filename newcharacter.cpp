@@ -121,7 +121,7 @@ bool player::create(game *g, character_type type, std::string tempname)
       rn = random_skill();
 
       Skill *aSkill = Skill::skill(rn);
-      uint32_t level = skillLevel(aSkill).level();
+      int level = skillLevel(aSkill).level();
 
       if (level < points) {
         points -= level + 1;
