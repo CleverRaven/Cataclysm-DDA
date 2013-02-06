@@ -565,6 +565,25 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_aspirin, 40, NULL);
   COMP(itm_caffeine, 20, itm_adderall, 5, itm_energy_drink, 2, NULL);
 
+ RECIPE(itm_crack,        CC_CHEM, "cooking", NULL,     4, 30000,false);
+  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_fire, -1, itm_hotplate, 8, itm_toolset, 2, NULL);
+  COMP(itm_water, 1, itm_water_clean, 1, NULL);
+  COMP(itm_coke, 12, NULL);
+  COMP(itm_ammonia, 1, NULL);
+
+ RECIPE(itm_poppy_sleep,  CC_CHEM, "cooking", "survival", 2, 5000, false);
+  TOOL(itm_pot, -1, itm_rock, -1, NULL);
+  TOOL(itm_fire, -1, NULL);
+  COMP(itm_poppy_bud, 2, NULL);
+  COMP(itm_poppy_flower, 1, NULL);
+
+ RECIPE(itm_poppy_pain,  CC_CHEM, "cooking", "survival", 2, 5000, false);
+  TOOL(itm_pot, -1, itm_rock, -1, NULL);
+  TOOL(itm_fire, -1, NULL);
+  COMP(itm_poppy_bud, 2, NULL);
+  COMP(itm_poppy_flower, 2, NULL);
+
  RECIPE(itm_royal_jelly, CC_CHEM, "cooking", NULL, 5, 5000, false);
   COMP(itm_honeycomb, 1, NULL);
   COMP(itm_bleach, 2, itm_purifier, 1, NULL);
@@ -882,25 +901,6 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_can_food, -1, NULL);
   COMP(itm_wax, 2, NULL);
   COMP(itm_string_6, 1, NULL);
-
- RECIPE(itm_crack,        CC_MISC, "cooking", NULL,     4, 30000,false);
-  TOOL(itm_pot, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 8, itm_toolset, 2, NULL);
-  COMP(itm_water, 1, itm_water_clean, 1, NULL);
-  COMP(itm_coke, 12, NULL);
-  COMP(itm_ammonia, 1, NULL);
-
- RECIPE(itm_poppy_sleep,  CC_MISC, "cooking", "survival", 2, 5000, false);
-  TOOL(itm_pot, -1, itm_rock, -1, NULL);
-  TOOL(itm_fire, -1, NULL);
-  COMP(itm_poppy_bud, 2, NULL);
-  COMP(itm_poppy_flower, 1, NULL);
-
- RECIPE(itm_poppy_pain,  CC_MISC, "cooking", "survival", 2, 5000, false);
-  TOOL(itm_pot, -1, itm_rock, -1, NULL);
-  TOOL(itm_fire, -1, NULL);
-  COMP(itm_poppy_bud, 2, NULL);
-  COMP(itm_poppy_flower, 2, NULL);
 
  RECIPE(itm_carspike,     CC_MISC, NULL, NULL, 0, 3000, false);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);

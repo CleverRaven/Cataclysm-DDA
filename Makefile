@@ -63,7 +63,7 @@ endif
 
 CXXFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS)
 
-BINDIST_EXTRAS = README data
+BINDIST_EXTRAS = README data cataclysm-launcher
 BINDIST    = cataclysmdda-$(VERSION).tar.gz
 W32BINDIST = cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar -czvf $(BINDIST) $(BINDIST_DIR)
