@@ -30,9 +30,9 @@ num_species
 enum mon_id {
 mon_null = 0,
 // Wildlife
-mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear,
+mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_cougar, //Oddzball-Cougar and cats..
 // Friendly animals
-mon_dog,
+mon_dog, mon_cat,
 // Ants
 mon_ant_larva, mon_ant, mon_ant_soldier, mon_ant_queen, mon_ant_fungus,
 // Bees
@@ -123,6 +123,7 @@ MF_SEES,	// It can see you (and will run/follow)
 MF_HEARS,	// It can hear you
 MF_GOODHEARING,	// Pursues sounds more than most monsters
 MF_SMELLS,	// It can smell you
+MF_KEENNOSE, //Keen sense of smell
 MF_STUMBLES,	// Stumbles in its movement
 MF_WARM,	// Warm blooded
 MF_NOHEAD,	// Headshots not allowed!
@@ -133,6 +134,7 @@ MF_DESTROYS,	// Bashes down walls and more
 MF_POISON,	// Poisonous to eat
 MF_VENOM,	// Attack may poison the player
 MF_BADVENOM,	// Attack may SEVERELY poison the player
+MF_BLEED, //Oddzball-Causes player to bleed
 MF_WEBWALK,	// Doesn't destroy webs
 MF_DIGS,	// Digs through the ground
 MF_FLIES,	// Can fly (over water, etc)

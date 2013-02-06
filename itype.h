@@ -28,7 +28,7 @@ enum item_cat
   IC_GUN,
   IC_BOOK,
   IC_TOOL,
-  IC_CONTAINER
+  IC_CONTAINER 
 };
 
 enum itype_id {
@@ -65,7 +65,7 @@ itm_bandages, itm_1st_aid, itm_vitamins, itm_aspirin, itm_caffeine,
  itm_prozac, itm_cig, itm_weed, itm_coke, itm_meth, itm_heroin, itm_cigar,
  itm_antibiotics, itm_poppy_sleep, itm_poppy_pain, itm_crack, /*itm_grack,*/
 // Do-nothing / Melee weapons
-itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
+itm_wrapper, itm_syringe, itm_fur, itm_leather, itm_superglue,
  itm_id_science, itm_id_military, itm_electrohack, itm_string_6, itm_string_36,
  itm_rope_6, itm_rope_30, itm_chain, itm_processor, itm_RAM, itm_power_supply,
  itm_amplifier, itm_transponder, itm_receiver, itm_antenna, itm_steel_chunk,
@@ -129,11 +129,11 @@ itm_hat_ball, itm_hat_boonie, itm_hat_cotton, itm_hat_knit, itm_hat_hunting,
  itm_helmet_army, itm_helmet_riot, itm_helmet_motor, itm_helmet_chitin,
  itm_helmet_plate, itm_tophat,
 // High-storage
-itm_backpack, itm_purse, itm_mbag, itm_fanny, itm_holster, itm_bootstrap,
+itm_backpack, itm_rucksack, itm_purse, itm_mbag, itm_fanny, itm_holster, itm_bootstrap, //Oddzball-Added Rucksack
 // Decorative
 itm_ring, itm_necklace,
 // Ammunition
- itm_battery, itm_thread,  itm_duct_tape, itm_cable, itm_plut_cell,
+ itm_battery, itm_thread,  itm_duct_tape, itm_cable, itm_plut_cell, 
  itm_nail, itm_bb, itm_arrow_wood, itm_arrow_cf,
  itm_bolt_wood, itm_bolt_steel, itm_shot_bird, itm_shot_00, itm_shot_slug,
  itm_shot_he, itm_22_lr, itm_22_cb, itm_22_ratshot, itm_9mm, itm_9mmP,
@@ -145,9 +145,9 @@ itm_ring, itm_necklace,
  itm_40mm_teargas, itm_40mm_smoke, itm_40mm_flashbang, itm_12mm, itm_plasma,
  itm_charge_shot,
  itm_shot_hull,
- itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing,
+ itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing, 
  itm_57mm_casing, itm_46mm_casing, itm_762_casing, itm_223_casing,
- itm_3006_casing, itm_308_casing, itm_40mm_casing, itm_gunpowder,
+ itm_3006_casing, itm_308_casing, itm_40mm_casing, itm_gunpowder, 
  itm_shotgun_primer, itm_smpistol_primer, itm_lgpistol_primer,
  itm_smrifle_primer, itm_lgrifle_primer, itm_lead, itm_incendiary, itm_gasoline,
 // Guns
@@ -172,7 +172,7 @@ itm_silencer, itm_grip, itm_barrel_big, itm_barrel_small, itm_barrel_rifled,
  itm_m203, itm_bayonet, itm_u_shotgun, itm_gun_crossbow,
 // Books
  itm_mag_porn, itm_mag_tv, itm_mag_news, itm_mag_cars, itm_mag_cooking,
- itm_mag_carpentry,
+ itm_mag_carpentry, 
  itm_mag_guns, itm_novel_romance, itm_novel_spy, itm_novel_scifi,
  itm_novel_drama, itm_manual_brawl, itm_manual_knives, itm_manual_mechanics, itm_manual_survival,
  itm_manual_speech, itm_manual_business, itm_manual_first_aid,
@@ -203,7 +203,7 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_knife_butcher, itm_knife_combat, itm_saw, itm_ax, itm_hacksaw,
  itm_tent_kit, itm_torch, itm_torch_lit, itm_candle, itm_candle_lit,
  itm_brazier, itm_puller, itm_press, itm_screwdriver, itm_wrench,
- itm_boltcutters, itm_mop, itm_picklocks, itm_pickaxe,
+ itm_boltcutters, itm_mop, itm_picklocks, itm_pickaxe, itm_rag,  //Oddzball-Added rag to tools
 // Bionics containers
 itm_bionics_battery,       itm_bionics_power,   itm_bionics_tools,
  itm_bionics_neuro,        itm_bionics_sensory, itm_bionics_aquatic,
@@ -462,11 +462,11 @@ struct it_comest : public itype
  virtual bool is_food() { return true; }
 // virtual bool count_by_charges() { return charges >= 1 ; }
 
- virtual bool count_by_charges()
- {
+ virtual bool count_by_charges() 
+ { 
   if (m1 == LIQUID) return true;
   else
-  return charges > 1 ;
+  return charges > 1 ; 
  }
 
 

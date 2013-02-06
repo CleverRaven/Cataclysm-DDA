@@ -1,0 +1,1 @@
+Install this Font package and copy FONTDATA to your Cataclysm Data folder for a better resolution and improved font package.

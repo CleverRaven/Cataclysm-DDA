@@ -11,7 +11,7 @@
 
 int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
-void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon);
+void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon); //Oddzball-Dont make noise till gun is actually fired!
 int calculate_range(player &p, int tarx, int tary);
 double calculate_missed_by(player &p, int trange, item* weapon);
 void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, item* weapon);
@@ -113,7 +113,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   debugmsg("game::fire() - num_shots = 0!");
 
  // Make a sound at our location - Zombies will chase it
- make_gun_sound_effect(this, p, burst, weapon);
+ /*make_gun_sound_effect(this, p, burst, weapon);*/ //Oddzball-Oops, wrong one.
 // Set up a timespec for use in the nanosleep function below
  timespec ts;
  ts.tv_sec = 0;
@@ -135,7 +135,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 
  bool missed = false;
  int tart;
- for (int curshot = 0; curshot < num_shots; curshot++) {
+ for (int curshot = 0; curshot < num_shots; curshot++) { //Oddzball-Need to close this **********************
 // Burst-fire weapons allow us to pick a new target after killing the first
   if (curshot > 0 &&
       (mon_at(tarx, tary) == -1 || z[mon_at(tarx, tary)].hp <= 0)) {
@@ -219,7 +219,11 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    weapon->charges -= 100;
   else
    weapon->charges--;
-
+if (one_in(100)) {
+	add_msg("Your weapon misfired!");} //Oddzball-Misfire!
+	
+else {
+  make_gun_sound_effect(this, p, burst, weapon);
   int trange = calculate_range(p, tarx, tary);
   double missed_by = calculate_missed_by(p, trange, weapon);
 // Calculate a penalty based on the monster's speed
@@ -230,7 +234,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    if (monster_speed_penalty < 1.)
     monster_speed_penalty = 1.;
   }
-
+	
   if (curshot > 0) {
    if (recoil_add(p) % 2 == 1)
     p.recoil++;
@@ -239,7 +243,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    p.recoil += recoil_add(p);
 
   if (missed_by >= 1.) {
-// We missed D:
+// We missed D: 
 // Shoot a random nearby space?
    tarx += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
    tary += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
@@ -350,6 +354,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
        (curammo->m1 != WOOD && !one_in(15))  ))
     m.add_item(lastx, lasty, ammotmp);
  }
+ } //Oddzball-Inside close
 
  if (weapon->num_charges() == 0)
   weapon->curammo = NULL;
@@ -713,37 +718,37 @@ int time_to_fire(player &p, it_gun* firing)
  int time = 0;
  if (firing->skill_used == Skill::skill("pistol")) {
    if (p.skillLevel("pistol") > 6)
-     time = 10;
-   else
+   time = 10;
+  else
      time = (80 - 10 * p.skillLevel("pistol").level());
  } else if (firing->skill_used == Skill::skill("shotgun")) {
    if (p.skillLevel("shotgun") > 3)
-     time = 70;
-   else
+   time = 70;
+  else
      time = (150 - 25 * p.skillLevel("shotgun").level());
  } else if (firing->skill_used == Skill::skill("smg")) {
    if (p.skillLevel("smg") > 5)
-     time = 20;
-   else
+   time = 20;
+  else
      time = (80 - 10 * p.skillLevel("smg").level());
  } else if (firing->skill_used == Skill::skill("rifle")) {
    if (p.skillLevel("rifle") > 8)
-     time = 30;
-   else
+   time = 30;
+  else
      time = (150 - 15 * p.skillLevel("rifle").level());
  } else if (firing->skill_used == Skill::skill("archery")) {
    if (p.skillLevel("archery") > 8)
-     time = 20;
-   else
+   time = 20;
+  else
      time = (220 - 25 * p.skillLevel("archery").level());
  } else if (firing->skill_used == Skill::skill("launcher")) {
    if (p.skillLevel("launcher") > 8)
-     time = 30;
-   else
+   time = 30;
+  else
      time = (200 - 20 * p.skillLevel("launcher").level());
  } else {
    debugmsg("Why is shooting %s using %s skill?", (firing->name).c_str(), firing->skill_used->name().c_str());
-   time =  0;
+  time =  0;
  }
 
  return time;
@@ -768,7 +773,7 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
   if (burst)
    gunsound = "P-p-p-pow!";
   else
-   gunsound = "blam!";
+   gunsound = "blam!";  //Oddzball-Gunshsot noise before actually firing? WTF...*sigh*
  } else {
   if (burst)
    gunsound = "Kaboom!!";

@@ -120,6 +120,8 @@ class iuse
   void wrench           (game *g, player *p, item *it, bool t);
   void boltcutters      (game *g, player *p, item *it, bool t);
   void mop              (game *g, player *p, item *it, bool t);
+  void rag              (game *g, player *p, item *it, bool t); //Oddzball-Use rags to stop bleeding too?
+  
 // MACGUFFINS
   void mcg_note		(game *g, player *p, item *it, bool t);
 // ARTIFACTS

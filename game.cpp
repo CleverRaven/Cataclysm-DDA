@@ -155,9 +155,8 @@ bool game::opening_screen()
  erase();
  for (int i = 0; i < 80; i++)
   mvwputch(w_open, 21, i, c_white, LINE_OXOX);
-   mvwprintz(w_open, 0, 0, c_blue, "Welcome to The Darkling Wolf's Modded Cataclysm!");
-   mvwprintz(w_open, 1, 0, c_red, "\
-Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
+   mvwprintz(w_open, 0, 0, c_blue, "Cataclysm Classic Zombie"); //Oddzball
+   mvwprintz(w_open, 1, 0, c_red, "Build3-2"); //Oddzball
  refresh();
  wrefresh(w_open);
  refresh();
@@ -518,6 +517,7 @@ void game::start_game()
 // Put some NPCs in there!
  create_starting_npcs();
  MAPBUFFER.set_dirty();
+
 }
 
 void game::create_factions()
@@ -708,9 +708,10 @@ void game::rustCheck() {
 
     if (skillLevel > 0 && turn % (8192 / int(pow(2, double(forgetCap - 1)))) == 0) {
       if (rng(1,12) % (u.has_trait(PF_FORGETFUL) ? 3 : 4)) {
-        if (u.has_bionic(bio_memory) && u.power_level > 0) {
+
+     if (u.has_bionic(bio_memory) && u.power_level > 0) {
           if (one_in(5))
-            u.power_level--;
+           u.power_level--;
         } else {
           if (OPTIONS[OPT_SKILL_RUST] == 0 || u.skillLevel(*aSkill).exercise() > 0) {
             int newLevel;
@@ -718,12 +719,12 @@ void game::rustCheck() {
 
             if (newLevel < skillLevel) {
               add_msg("Your skill in %s has reduced to %d!", (*aSkill)->name().c_str(), newLevel);
-            }
+        }
           }
         }
-      }
-    }
   }
+  }
+ }
 }
 
 void game::process_events()
@@ -1622,7 +1623,7 @@ void game::update_scent()
     //Greatly reduce scent for bashable barriers
     grscent[x][y] = newscent[x][y] / 4;
    else
-    grscent[x][y] = newscent[x][y];
+   grscent[x][y] = newscent[x][y];
  }
  if (!u.has_active_bionic(bio_scent_mask))
   grscent[u.posx][u.posy] = u.scent;
@@ -1783,10 +1784,8 @@ void game::load(std::string name)
  turn = tmpturn;
  nextspawn = tmpspawn;
  nextweather = tmpnextweather;
- 
  cur_om = overmap(this, comx, comy, levz);
  m.load(this, levx, levy);
-
  run_mode = tmprun;
  if (OPTIONS[OPT_SAFEMODE] && run_mode == 0)
   run_mode = 1;
@@ -3360,7 +3359,7 @@ void game::monmove()
 
 void game::sound(int x, int y, int vol, std::string description)
 {
- vol *= 1.5; // Scale it a little
+ vol *= 1; // Scale it a little //Oddzball-Why did everything have same sound sense as Canine Ears? Bug? Changed to 1
 // First, alert all monsters (that can hear) to the sound
  for (int i = 0; i < z.size(); i++) {
   if (z[i].can_hear()) {
@@ -6065,7 +6064,7 @@ void game::complete_butcher(int index)
     if(corpse->has_flag(MF_HUMAN))
      meat = itypes[itm_human_flesh];
     else
-     meat = itypes[itm_meat];
+    meat = itypes[itm_meat];
    else
     meat = itypes[itm_veggy];
   }
@@ -6579,7 +6578,7 @@ void game::plmove(int x, int y)
    if (u.has_trait(PF_LIGHTSTEP))
     sound(x, y, 2, "");	// Sound of footsteps may awaken nearby monsters
    else
-    sound(x, y, 6, "");	// Sound of footsteps may awaken nearby monsters
+    sound(x, y, 4, "");	// Sound of footsteps may awaken nearby monsters //Oddzball-Made Footsteps slightly less loud, we arent a damn elephant.
   }
   if (one_in(20) && u.has_artifact_with(AEP_MOVEMENT_NOISE))
    sound(x, y, 40, "You emit a rattling sound.");
