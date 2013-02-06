@@ -432,7 +432,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    for (int i = 0; i < SEEX * 2; i++) {
     for (int j = 0; j < SEEX * 2; j++) {
      if ((ter(i, j) == t_dirt || ter(i, j) == t_underbrush) && !one_in(3))
-      field_at(i, j) = field(fd_web, rng(1, 3), 0);
+      add_field(NULL, i, j, fd_web, rng(1, 3));
     }
    }
    add_spawn(mon_spider_web, rng(1, 2), SEEX, SEEY);
@@ -632,7 +632,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    }
    for (int x1 = x - 3; x1 <= x + 3; x1++) {
     for (int y1 = y - 3; y1 <= y + 3; y1++) {
-     field_at(x1, y1) = field(fd_web, rng(2, 3), 0);
+     add_field(NULL, x1, y1, fd_web, rng(2, 3));
      if (ter(x1, y1) != t_slope_down)
       ter(x1, y1) = t_dirt;
     }
@@ -1213,11 +1213,11 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
        for (int x = i - 1; x <= i + 1; x++) {
         for (int y = j - 1; y <= j + 1; y++) {
          if (ter(x, y) == t_floor)
-          field_at(x, y) = field(fd_web, rng(2, 3), 0);
+          add_field(NULL, x, y, fd_web, rng(2, 3));
         }
        }
       } else if (move_cost(i, j) > 0 && field_at(i, j).is_null() && one_in(5))
-       field_at(i, j) = field(fd_web, 1, 0);
+       add_field(NULL, x, y, fd_web, 1);
      }
     }
    }
@@ -5438,7 +5438,7 @@ case ot_s_garage_north:
         one_in(4)) {
      ter(i, j) = t_rock_floor;
      if (!one_in(3))
-      field_at(i, j) = field(fd_web, rng(1, 3), 0);
+      add_field(NULL, x, y, fd_web, rng(1, 3));
     } else
      ter(i, j) = t_rock;
    }
