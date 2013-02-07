@@ -78,9 +78,9 @@ item::item(itype* it, unsigned int turn)
   charges = 0;
  } else
   charges = -1;
- if(it->is_veh_part()){
-  it_veh_part* engine = dynamic_cast<it_veh_part*>(it);
-  bigness= rng( engine->min_bigness, engine->max_bigness);
+ if(it->is_var_veh_part()){
+  it_var_veh_part* varcarpart = dynamic_cast<it_var_veh_part*>(it);
+  bigness= rng( varcarpart->min_bigness, varcarpart->max_bigness);
  }
 }
 
@@ -119,8 +119,8 @@ item::item(itype *it, unsigned int turn, char let)
  } else {
   charges = -1;
  }
- if(it->is_veh_part()){
-  it_veh_part* engine = dynamic_cast<it_veh_part*>(it);
+ if(it->is_var_veh_part()){
+  it_var_veh_part* engine = dynamic_cast<it_var_veh_part*>(it);
   bigness= rng( engine->min_bigness, engine->max_bigness);
  }
  curammo = NULL;
@@ -233,7 +233,7 @@ bool item::stacks_with(item rhs)
  if (contents.size() != rhs.contents.size())
   return false;
 
- if(is_veh_part())
+ if(is_var_veh_part())
   if(bigness != rhs.bigness)
    return false;
 
@@ -638,10 +638,11 @@ std::string item::tname(game *g)
   ret << damtext;
  }
 
- if (is_veh_part()){
+ if (is_var_veh_part()){
   //if(is_engine()){
-   ret << bigness << "CC ";
- // }
+   ret.precision(4);
+   ret << (float)bigness/100 << "-Liter ";
+  //}
  }
 
  if (volume() >= 4 && burnt >= volume() * 2)
@@ -1041,12 +1042,12 @@ bool item::destroyed_at_zero_charges()
  return (is_ammo() || is_food());
 }
 
-bool item::is_veh_part()
+bool item::is_var_veh_part()
 {
  if( is_null() )
   return false;
 
- return type->is_veh_part();
+ return type->is_var_veh_part();
 }
 
 bool item::is_gun()

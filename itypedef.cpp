@@ -1210,40 +1210,39 @@ MELEE("vehicle controls",  3, 400, '$', c_ltcyan,  PLASTIC,   STEEL,
 A set of various vehicle controls. Useful for crafting.");
 
 
-#define COMBUSTION_ENGINE(name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
+#define VAR_VEH_PART(name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
               flags, bigmin, bigmax, des)\
-	index++;itypes.push_back(new it_veh_part(index,rarity,price,name,des,sym,\
+	index++;itypes.push_back(new it_var_veh_part(index,rarity,price,name,des,sym,\
 color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags, bigmin, bigmax))
 //                                 NAME           RAR PRC SYM COLOR        MAT1    MAT2
-COMBUSTION_ENGINE("1-cylinder combustion engine",  3, 100, ':', c_ltcyan,  IRON,   MNULL,
+VAR_VEH_PART("1-cylinder engine",  3, 100, ':', c_ltcyan,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
     6,  70,  4,  0,  -1, 0,       28,         75, "\
 A single-cylinder 4-stroke combustion engine.");
 
 //                              NAME           RAR PRC SYM COLOR        MAT1    MAT2
-COMBUSTION_ENGINE("V-twin combustion engine",  2, 100, ':', c_ltcyan,  IRON,   MNULL,
+VAR_VEH_PART("V-twin engine",  2, 100, ':', c_ltcyan,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
     6,  70,  4,  0,  -1, 0,       65,        260, "\
-A single-cylinder 4-stroke combustion engine.");
+A 2-cylinder 4-stroke combustion engine.");
 
 //                                NAME           RAR PRC SYM COLOR        MAT1    MAT2
-COMBUSTION_ENGINE("Inline-4 combustion engine",  6, 150, ':', c_ltcyan,  IRON,   MNULL,
+VAR_VEH_PART("Inline-4 engine",  6, 150, ':', c_ltcyan,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
     6,  160,  8,  0,  -2, 0,       220,       350, "\
-A small, yet powerful 2-cylinder combustion engine. Useful for crafting.");
+A small, yet powerful 4-cylinder combustion engine.");
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
-COMBUSTION_ENGINE("V6 combustion engine",  3, 180, ':', c_ltcyan,  IRON,   MNULL,
+VAR_VEH_PART("V6 engine",  3, 180, ':', c_ltcyan,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
     14,  400,  12,  0,  -3, 0,    280,        470, "\
-A powerful 4-cylinder combustion engine. Useful for crafting.");
+A powerful 6-cylinder combustion engine.");
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
-COMBUSTION_ENGINE("V8 combustion engine",  2, 250, ':', c_ltcyan,  IRON,   MNULL,
+VAR_VEH_PART("V8 engine",  2, 250, ':', c_ltcyan,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
     25,  600,  15,  0,  -5, 0,    400,         600, "\
-A large and very powerful 8-cylinder combustion engine. Useful for\n\
-crafting.");
+A large and very powerful 8-cylinder combustion engine.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("electric motor",  2,120, ',', c_ltcyan,  IRON,   MNULL,

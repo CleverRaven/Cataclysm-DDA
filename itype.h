@@ -402,8 +402,7 @@ struct itype
  virtual bool is_macguffin()     { return false; }
  virtual bool is_style()         { return false; }
  virtual bool is_artifact()      { return false; }
- virtual bool is_veh_part()      { return false; }
- virtual bool is_variable()      { return false; }
+ virtual bool is_var_veh_part()  { return false; }
  virtual bool count_by_charges() { return false; }
  virtual std::string save_data() { return std::string(); }
 
@@ -508,13 +507,13 @@ struct it_comest : public itype
 };
 
 // v6, v8, wankel, etc.
-struct it_veh_part: public itype
+struct it_var_veh_part: public itype
 {
  // TODO? geometric mean: nth root of product
  unsigned int min_bigness; //CC's
  unsigned int max_bigness;
 
- it_veh_part(int pid, unsigned char prarity, unsigned int pprice,
+ it_var_veh_part(int pid, unsigned char prarity, unsigned int pprice,
         std::string pname, std::string pdes,
         char psym, nc_color pcolor, material pm1, material pm2,
         unsigned short pvolume, unsigned short pweight,
@@ -528,8 +527,7 @@ struct it_veh_part: public itype
   min_bigness = big_min;
   max_bigness = big_max;
  }
- virtual bool is_veh_part(){return true;}
- virtual bool is_variable(){return true;}
+ virtual bool is_var_veh_part(){return true;}
 };
 
 

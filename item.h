@@ -105,7 +105,7 @@ public:
  bool is_macguffin();
  bool is_style();
  bool is_other(); // Doesn't belong in other categories
- bool is_veh_part();
+ bool is_var_veh_part();
  bool is_artifact();
 
  int typeId();
