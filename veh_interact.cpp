@@ -709,7 +709,7 @@ void complete_vehicle (game *g)
         }
         if (!broken){
             itype* parttype = g->itypes[itm];
-            if(parttype->is_veh_part()){
+            if(parttype->is_var_veh_part()){
                // has bigness.
                item tmp(parttype, g->turn);
                tmp.bigness = bigness;
