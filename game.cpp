@@ -804,7 +804,13 @@ void game::process_activity()
      if (max_ex > 10)
       max_ex = 10;
 
+     int originalSkillLevel = u.skillLevel(reading->type).level();
      u.skillLevel(reading->type).readBook(min_ex, max_ex, reading->level);
+
+     if (u.skillLevel(reading->type) > originalSkillLevel)
+      add_msg("You increase %s to level %d.",
+              reading->type->name().c_str(),
+              u.skillLevel(reading->type).level());
 
      if (u.skillLevel(reading->type) == reading->level)
       add_msg("You can no longer learn from this %s.", reading->name.c_str());
