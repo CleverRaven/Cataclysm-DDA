@@ -516,7 +516,8 @@ void vehicle::print_part_desc (void *w, int y1, int width, int p, int hl)
         //part name. with bigness, if any.
         std::stringstream nom;
         if(parts[pl[i]].bigness){
-           nom << parts[pl[i]].bigness << "CC ";
+           nom.precision(4);
+           nom << (float)(parts[pl[i]].bigness) / 100 << "-Liter ";
         }
         nom << part_info(pl[i]).name;
         std::string partname = nom.str();
