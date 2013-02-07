@@ -80,7 +80,7 @@ enum oter_id {
   ot_s_restaurant_west,
  ot_sub_station_north, ot_sub_station_east, ot_sub_station_south,
   ot_sub_station_west,
- ot_s_garage_north, ot_s_garage_east, ot_s_garage_south, ot_s_garage_west,
+ ot_s_garage_north, ot_s_garage_east, ot_s_garage_south, ot_s_garage_west, ot_barn, //Oddzball-Barn
  ot_police_north, ot_police_east, ot_police_south, ot_police_west,
  ot_bank_north, ot_bank_east, ot_bank_south, ot_bank_west,
  ot_bar_north, ot_bar_east, ot_bar_south, ot_bar_west,
@@ -404,6 +404,7 @@ enum omspec_id
  OMSPEC_HOUSE,
  OMSPEC_GAS,
  OMSPEC_CABIN,
+ OMSPEC_BARN,
  OMSPEC_TEMPLE,
  OMSPEC_LAB,
  OMSPEC_BUNKER,
@@ -442,11 +443,14 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_house_north,   0,100,  0, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD)},
 
-{ot_s_gas_north,   0,100,  0, -1, mcat_null, 0, 0, 0, 0,
+{ot_s_gas_north,   0,100,  20, -1, mcat_null, 0, 0, 0, 0, //Oddzball-Gas station out in the boonies?
  &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD)},
 
 {ot_house_north,   0, 50, 20, -1, mcat_null, 0, 0, 0, 0,  // Woods cabin
  &omspec_place::forest, mfb(OMS_FLAG_ROTATE_RANDOM)|mfb(OMS_FLAG_ROTATE_ROAD)},
+ 
+ {ot_barn,   5, 20, 20, -1, mcat_null, 0, 0, 0, 0,  // Oddzball-Barn
+ &omspec_place::land, mfb(OMS_FLAG_ROTATE_RANDOM)|mfb(OMS_FLAG_ROTATE_ROAD)},
 
 {ot_temple_stairs, 0,  0, 20, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::never, 0},
