@@ -92,7 +92,7 @@ void game::init_mapitems()
         itm_57mm_casing, itm_46mm_casing, itm_762_casing, itm_223_casing,
         itm_3006_casing, itm_308_casing, itm_gunpowder,
         itm_shotgun_primer, itm_smpistol_primer, itm_lgpistol_primer,
-        itm_smrifle_primer, itm_lgrifle_primer, itm_lead, NULL);
+        itm_smrifle_primer, itm_lgrifle_primer, itm_lead, itm_puller, itm_press, NULL);
 
  setvector(
    mapitems[mi_dresser],
@@ -453,7 +453,7 @@ void game::init_mapitems()
         itm_dress_shoes_fit, itm_bat_metal, itm_jeans_fit, itm_pants_army_fit,
         itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
         itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit, itm_lawnmower,
-        itm_lawnmower_machete, itm_picklocks, NULL);
+        itm_lawnmower_machete, itm_picklocks, itm_puller, itm_press, NULL);
 
  setvector(
    mapitems[mi_mil_surplus], // NOT food or armor!
@@ -480,7 +480,7 @@ void game::init_mapitems()
    mapitems[mi_mechanics],
         itm_wrench, itm_frame, itm_wheel, itm_motor, itm_combustion_small,
         itm_hacksaw, itm_welder, itm_motor, itm_motor_large,
-        itm_storage_battery, itm_solar_panel, itm_combustion_tiny, itm_jerrycan, NULL);
+        itm_storage_battery, itm_solar_panel, itm_combustion_tiny, itm_jerrycan, itm_vehicle_controls, itm_combustion, NULL);
 
  setvector(
    mapitems[mi_chemistry],
@@ -780,7 +780,7 @@ void game::init_mapitems()
    mapitems[mi_stash_ammo],
 	itm_bolt_steel, itm_shot_00, itm_shot_slug, itm_22_lr, itm_9mm,
 	itm_38_super, itm_10mm, itm_44magnum, itm_45_acp, itm_57mm, itm_46mm,
-	itm_762_m87, itm_556, itm_3006, itm_762_51, itm_arrow_cf, NULL);
+	itm_762_m87, itm_556, itm_3006, itm_762_51, itm_arrow_cf, itm_press, itm_puller, NULL);
 
  setvector(
    mapitems[mi_stash_wood],
