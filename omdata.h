@@ -237,6 +237,7 @@ const oter_t oterlist[num_ter_types] = {
 {"garage",              'G',    i_ltgray,       5, build_extras, false, false},
 {"garage",              'G',    i_ltgray,       5, build_extras, false, false},
 {"garage",              'G',    i_ltgray,       5, build_extras, false, false},
+{"barn",              '^',    i_brown,       5, build_extras, false, false}, //Oddzball-Barn
 {"police station",	'P',	h_yellow,	5, build_extras, false, false},
 {"police station",	'P',	h_yellow,	5, build_extras, false, false},
 {"police station",	'P',	h_yellow,	5, build_extras, false, false},
