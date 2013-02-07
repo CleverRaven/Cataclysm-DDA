@@ -1348,11 +1348,11 @@ void overmap::place_river(point pa, point pb)
  } while (pb.x != x || pb.y != y);
 }
 
-/*: the root is overmap:lace_cities()
+/*: the root is overmap::place_cities()
 20:50	<kevingranade>: which is at overmap.cpp:1355 or so
 20:51	<kevingranade>: the key is cs = rng(4, 17), setting the "size" of the city
 20:51	<kevingranade>: which is roughly it's radius in overmap tiles
-20:52	<kevingranade>: then later overmap:lace_mongroups() is called
+20:52	<kevingranade>: then later overmap::place_mongroups() is called
 20:52	<kevingranade>: which creates a mongroup with radius city_size * 2.5 and population city_size * 80
 20:53	<kevingranade>: tadaa 
 
@@ -2297,7 +2297,7 @@ void overmap::place_mongroups()
   if (!one_in(16) || cities[i].s > 5)
    zg.push_back(
 	mongroup(mcat_zombie, (cities[i].x * 2), (cities[i].y * 2),
-	         int(cities[i].s * 2.5), cities[i].s * 80));
+	         int(cities[i].s * 2.5), cities[i].s * 200)); //Oddzball-Increased spawn test
  }
 
 // Figure out where swamps are, and place swamp monsters
