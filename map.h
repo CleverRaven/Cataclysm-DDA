@@ -22,6 +22,7 @@
 #include "monster.h"
 #include "npc.h"
 #include "vehicle.h"
+#include "graffiti.h"
 
 #define MAPSIZE 11
 
@@ -165,6 +166,10 @@ class map
 
 // Computers
  computer* computer_at(const int x, const int y);
+
+// Graffiti
+ graffiti graffiti_at(int x, int y);
+ bool add_graffiti(game *g, int x, int y, std::string contents);
 
 // mapgen.cpp functions
  void generate(game *g, overmap *om, const int x, const int y, const int turn);

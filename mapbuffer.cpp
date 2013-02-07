@@ -160,6 +160,15 @@ void mapbuffer::save()
  // Output the computer
   if (sm->comp.name != "")
    fout << "c " << sm->comp.save_data() << std::endl;
+  
+ // Output the graffiti
+ for (int j = 0; j < SEEY; j++) {
+  for (int i = 0; i < SEEX; i++) {
+   if (sm->graf[i][j].contents)
+    fout << "G " << i << " " << j << *sm->graf[i][j].contents << std::endl;
+  }
+ }
+
   fout << "----" << std::endl;
   num_saved_submaps++;
  }
@@ -205,6 +214,7 @@ void mapbuffer::load()
     sm->itm[i][j].clear();
     sm->trp[i][j] = tr_null;
     sm->fld[i][j] = field();
+    sm->graf[i][j] = graffiti();
    }
   }
 // Load irradiation
@@ -265,6 +275,13 @@ void mapbuffer::load()
    } else if (string_identifier == "c") {
     getline(fin, databuff);
     sm->comp.load_data(databuff);
+   } else if (string_identifier == "G") {
+     std::string s;
+    int j;
+    int i;
+    fin >> j >> i;
+    getline(fin,s);
+    sm->graf[j][i] = graffiti(s);
    }
   } while (string_identifier != "----" && !fin.eof());
 

@@ -3928,6 +3928,10 @@ TOOL("pickaxe",	60, 160,'/', c_ltred,	WOOD,	MNULL,
    12, 11, 12,  0,  -1, 0,  0,  0,  0, AT_NULL, itm_null, &iuse::pickaxe, 0, "\
 A large steel pickaxe, strike the earth!");
 
+TOOL("spray can", 50, 10, ';', c_ltblue, PLASTIC, MNULL,
+1, 1, 0, 0, 0, 10, 10, 1, 0, AT_NULL, itm_null, &iuse::spray_can, 0, "\
+A spray can, filled with paint. Use this tool to make graffiti on the floor.");
+
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated
