@@ -3372,10 +3372,10 @@ void game::sound(int x, int y, int vol, std::string description)
    z[i].process_trigger(MTRIG_SOUND, volume);
   }
  }
-// Loud sounds make the next spawn sooner!
+// Loud sounds make the next spawn sooner!//Oddzball-fixed accelerrated spawn
  int spawn_range = int(MAPSIZE / 2) * SEEX;
- if (vol >= spawn_range) {
-  int max = (vol - spawn_range);
+ if ((vol*1.5) >= spawn_range) { 
+  int max = ((vol*1.5) - spawn_range);
   int min = int(max / 6);
   if (max > spawn_range * 4)
    max = spawn_range * 4;
@@ -4056,9 +4056,9 @@ void game::smash()
  get_direction(this, smashx, smashy, ch);
 // TODO: Move this elsewhere.
  if (m.has_flag(alarmed, u.posx + smashx, u.posy + smashy) &&
-     !event_queued(EVENT_WANTED)) {
+     !event_queued(EVENT_ALARM)) {      //Oddzball-Alarm attracts zombies..
   sound(u.posx, u.posy, 30, "An alarm sounds!");
-  add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
+  add_event(EVENT_ALARM, int(turn) + 300, 0, levx, levy);
  }
  if (smashx != -2 && smashy != -2)
   didit = m.bash(u.posx + smashx, u.posy + smashy, smashskill, bashsound);

@@ -8365,7 +8365,7 @@ void map::add_extra(map_extra type, game *g)
      if (ter(i, j) == t_marloss)
       add_item(x, y, (*itypes)[itm_marloss_berry], g->turn);
      if (one_in(15)) {
-      monster creature(g->mtypes[mon_id(rng(mon_gelatin, mon_blank))]);
+      monster creature(g->mtypes[mon_id(rng(mon_gelatin, mon_blank))]); //Oddzball-Spawns from portal? Science?
       creature.spawn(i, j);
       g->z.push_back(creature);
      }
