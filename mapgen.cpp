@@ -96,6 +96,7 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
     grid[i]->trp[x][y] = tr_null;
     grid[i]->fld[x][y] = field();
     grid[i]->rad[x][y] = 0;
+    grid[i]->graf[x][y] = graffiti();
    }
   }
  }

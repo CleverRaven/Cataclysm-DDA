@@ -10,6 +10,7 @@
 #include "enums.h"
 #include "computer.h"
 #include "vehicle.h"
+#include "graffiti.h"
 #include <iosfwd>
 
 class game;
@@ -729,6 +730,7 @@ struct submap {
  trap_id		trp[SEEX][SEEY]; // Trap on each square
  field			fld[SEEX][SEEY]; // Field on each square
  int			rad[SEEX][SEEY]; // Irradiation of each square
+ graffiti graf[SEEX][SEEY]; // Graffiti on each square
  int active_item_count;
  int field_count;
  int turn_last_touched;
