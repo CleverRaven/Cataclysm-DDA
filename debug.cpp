@@ -6,7 +6,7 @@
 #include <execinfo.h>
 #include <stdlib.h>
 #endif
-// Test
+
 // Static defines                                                   {{{1
 // ---------------------------------------------------------------------
 
