@@ -526,7 +526,7 @@ enum map_extra {
  mx_supplydrop,
  mx_portal,
  mx_minefield,
- mx_wolfpack,
+ mx_wolfpack,  //Oddzball-Need to add in cougar chance...
  mx_puddle,
  mx_crater,
  mx_fumarole,
