@@ -300,6 +300,7 @@ public:
 
  SkillLevel& skillLevel(Skill* _skill);
  SkillLevel& skillLevel(std::string ident);
+ SkillLevel& skillLevel(size_t id);
 
  bool inv_sorted;
  //std::vector <item> inv;
