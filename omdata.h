@@ -450,7 +450,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_house_north,   0, 50, 20, -1, mcat_null, 0, 0, 0, 0,  // Woods cabin
  &omspec_place::forest, mfb(OMS_FLAG_ROTATE_RANDOM)|mfb(OMS_FLAG_ROTATE_ROAD)},
  
- {ot_barn,   5, 20, 20, -1, mcat_null, 0, 0, 0, 0,  // Oddzball-Barn
+ {ot_barn,   0, 20, 20, -1, mcat_null, 0, 0, 0, 0,  // Oddzball-Barn
  &omspec_place::land, mfb(OMS_FLAG_ROTATE_RANDOM)|mfb(OMS_FLAG_ROTATE_ROAD)},
 
 {ot_temple_stairs, 0,  0, 20, -1, mcat_null, 0, 0, 0, 0,

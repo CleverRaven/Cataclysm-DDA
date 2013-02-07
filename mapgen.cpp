@@ -4228,10 +4228,13 @@ case ot_s_garage_north:
   break;
  //Oddzball-End of garage
  //Oddzball-Barn
- case ot_barn:
+ case ot_barn_n:
+ case ot_barn_e:
+ case ot_barn_s:
+ case ot_barn_w:
   {
         square(this, grass_or_dirt(), 0, 0, SEEX * 2, SEEY * 2);
-        int yard_wdth = 10;
+        int yard_wdth = 5;
         square(this, t_floor, 0, yard_wdth, SEEX * 2 - 4, SEEY * 2 - 4);
         line(this, t_wall_v, 0, yard_wdth, 0, SEEY*2-4);
         line(this, t_wall_v, SEEX * 2 - 3, yard_wdth, SEEX * 2 - 3, SEEY*2-4);
@@ -4280,18 +4283,18 @@ case ot_s_garage_north:
 
         int vy = 0, vx = 0, theta = 0;
 
-        if (terrain_type == ot_s_garage_north) {
+        if (terrain_type == ot_barn_n) {
           vx = 5, vy = yard_wdth + 6;
           theta = 90;
-        } else if (terrain_type == ot_s_garage_east) {
+        } else if (terrain_type == ot_barn_e) {
           rotate(1);
           vx = yard_wdth + 8, vy = 4;
           theta = 0;
-        } else if (terrain_type == ot_s_garage_south) {
+        } else if (terrain_type == ot_barn_s) {
           rotate(2);
           vx = SEEX * 2 - 6, vy = SEEY * 2 - (yard_wdth + 3);
           theta = 270;
-        } else if (terrain_type == ot_s_garage_west) {
+        } else if (terrain_type == ot_barn_w) {
           rotate(3);
           vx = SEEX * 2 - yard_wdth - 9, vy = SEEY * 2 - 5;
           theta = 180;
