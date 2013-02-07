@@ -268,8 +268,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    for (int j = 0; j < SEEY * 2; j++) {
     ter(i, j) = grass_or_dirt();
     //------Jovan's-----
-    if (one_in(120)) ter(i, j) = t_shrub;/* else
-    if (one_in(500)) ter(i,j) = t_mutpoppy;*/ No poppy
+    if (one_in(120)) ter(i, j) = t_shrub; else
+    if (one_in(99999)) ter(i,j) = t_mutpoppy; //Oddzball-No poppy, or very little anyway
     //------------------
     }
   }
