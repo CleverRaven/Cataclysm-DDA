@@ -1367,7 +1367,7 @@ void overmap::place_cities(std::vector<city> &cities, int min) //Oddzball-Popula
  for (int i = 0; i < NUM_CITIES; i++) {
   cx = rng(20, OMAPX - 41);
   cy = rng(20, OMAPY - 41);
-  cs = rng(4, 17);
+  cs = rng(4, 10); //Oddzball-Smaller cities test
   if (ter(cx, cy) == ot_field) {
    ter(cx, cy) = ot_road_nesw;
    city tmp; tmp.x = cx; tmp.y = cy; tmp.s = cs;
