@@ -43,7 +43,7 @@ void game::init_moncats()
 	mon_dermatik_larva, mon_dermatik, NULL);
  setvector(
    moncats[mcat_lab],
-	mon_zombie_scientist, mon_skeleton, /*mon_blob_small, mon_manhack, mon_skitterbot,*/ //Oddzball-No weird zombies
+	mon_zombie_scientist, mon_skeleton, /*mon_blob_small, mon_manhack, mon_skitterbot,*/ //Oddzball-No weird zombies hopefully
 	NULL);
  setvector(
    moncats[mcat_nether],
