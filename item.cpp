@@ -78,6 +78,10 @@ item::item(itype* it, unsigned int turn)
   charges = 0;
  } else
   charges = -1;
+ if(it->is_veh_part()){
+  it_veh_part* engine = dynamic_cast<it_veh_part*>(it);
+  bigness= rng( engine->min_bigness, engine->max_bigness);
+ }
 }
 
 item::item(itype *it, unsigned int turn, char let)
@@ -114,6 +118,10 @@ item::item(itype *it, unsigned int turn, char let)
   charges = 0;
  } else {
   charges = -1;
+ }
+ if(it->is_veh_part()){
+  it_veh_part* engine = dynamic_cast<it_veh_part*>(it);
+  bigness= rng( engine->min_bigness, engine->max_bigness);
  }
  curammo = NULL;
  corpse = NULL;
@@ -224,6 +232,10 @@ bool item::stacks_with(item rhs)
   
  if (contents.size() != rhs.contents.size())
   return false;
+
+ if(is_veh_part())
+  if(bigness != rhs.bigness)
+   return false;
 
  for (int i = 0; i < contents.size() && stacks; i++)
    stacks &= contents[i].stacks_with(rhs.contents[i]);
@@ -626,6 +638,12 @@ std::string item::tname(game *g)
   ret << damtext;
  }
 
+ if (is_veh_part()){
+  //if(is_engine()){
+   ret << bigness << "CC ";
+ // }
+ }
+
  if (volume() >= 4 && burnt >= volume() * 2)
   ret << "badly burnt ";
  else if (burnt > 0)
@@ -1021,6 +1039,14 @@ bool item::conductive()
 bool item::destroyed_at_zero_charges()
 {
  return (is_ammo() || is_food());
+}
+
+bool item::is_veh_part()
+{
+ if( is_null() )
+  return false;
+
+ return type->is_veh_part();
 }
 
 bool item::is_gun()

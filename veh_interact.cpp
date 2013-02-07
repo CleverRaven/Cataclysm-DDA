@@ -310,11 +310,7 @@ void veh_interact::do_repair(int reason)
         if (dy == -1 || dy == 1)
         {
             pos += dy;
-            if (pos < 0)
-                pos = need_repair.size()-1;
-            else
-            if (pos >= need_repair.size())
-                pos = 0;
+            pos %= need_repair.size();
         }
     }
 }
@@ -651,6 +647,7 @@ void complete_vehicle (game *g)
     int welder_charges = ((it_tool *) g->itypes[itm_welder])->charges_per_use;
     itype_id itm;
     bool broken;
+    int bigness;
 
     int dd = 2;
     switch (cmd)
@@ -659,10 +656,10 @@ void complete_vehicle (game *g)
         if (veh->install_part (dx, dy, (vpart_id) part) < 0)
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part);
         comps.push_back(component(vpart_list[part].item, 1));
-        consume_items(g, comps);
+        g->consume_items(comps);
         tools.push_back(component(itm_welder, welder_charges));
         tools.push_back(component(itm_toolset, welder_charges/5));
-        consume_tools(g, tools);
+        g->consume_tools(tools);
         g->add_msg ("You install a %s into the %s.",
                    vpart_list[part].name, veh->name.c_str());
         g->u.practice ("mechanics", vpart_list[part].difficulty * 5 + 20);
@@ -671,16 +668,16 @@ void complete_vehicle (game *g)
         if (veh->parts[part].hp <= 0)
         {
             comps.push_back(component(veh->part_info(part).item, 1));
-            consume_items(g, comps);
+            g->consume_items(comps);
             tools.push_back(component(itm_wrench, 1));
-            consume_tools(g, tools);
+            g->consume_tools(tools);
             tools.clear();
             dd = 0;
             veh->insides_dirty = true;
         }
         tools.push_back(component(itm_welder, welder_charges));
         tools.push_back(component(itm_toolset, welder_charges/5));
-        consume_tools(g, tools);
+        g->consume_tools(tools);
         veh->parts[part].hp = veh->part_info(part).durability;
         g->add_msg ("You repair the %s's %s.",
                     veh->name.c_str(), veh->part_info(part).name);
@@ -697,6 +694,7 @@ void complete_vehicle (game *g)
         veh->parts[part].items.clear();
         itm = veh->part_info(part).item;
         broken = veh->parts[part].hp <= 0;
+        bigness = veh->parts[part].bigness;
         if (veh->parts.size() < 2)
         {
             g->add_msg ("You completely dismantle %s.", veh->name.c_str());
@@ -709,10 +707,19 @@ void complete_vehicle (game *g)
                         veh->part_info(part).name, veh->name.c_str());
             veh->remove_part (part);
         }
-        if (!broken)
-            g->m.add_item (g->u.posx, g->u.posy, g->itypes[itm], g->turn);
-        g->u.practice ("mechanics", 2 * 5 + 20);
-        break;
+        if (!broken){
+            itype* parttype = g->itypes[itm];
+            if(parttype->is_veh_part()){
+               // has bigness.
+               item tmp(parttype, g->turn);
+               tmp.bigness = bigness;
+               g->m.add_item(g->u.posx, g->u.posy, tmp);
+            } else {
+               g->m.add_item (g->u.posx, g->u.posy, g->itypes[itm], g->turn);
+            }
+            g->u.practice ("mechanics", 2 * 5 + 20);
+        }
+        //break;
     default:;
     }
 }

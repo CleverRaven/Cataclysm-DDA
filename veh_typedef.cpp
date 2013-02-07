@@ -77,7 +77,7 @@ void game::init_vehicles()
     PART (0, 0,     vp_frame_v2);
     PART (0, 0,     vp_seat);
     PART (0, 0,     vp_controls);
-    PART (0, 0,     vp_engine_gas_small);
+    PART (0, 0,     vp_engine_gas_v2);
     PART (1, 0,     vp_frame_handle);
     PART (1, 0,     vp_head_light);
     PART (1, 0,     vp_fuel_tank_gas);
@@ -97,7 +97,7 @@ void game::init_vehicles()
     PART (0, 0,     vp_controls);
     PART (0, 0,     vp_seatbelt);
     PART (1, 0,     vp_frame_cover);
-    PART (1, 0,     vp_engine_gas_med);
+    PART (1, 0,     vp_engine_gas_v2);
     PART (1, 0,     vp_head_light);
     PART (1, 0,     vp_fuel_tank_gas);
     PART (1, 0,     vp_steel_plate);
@@ -164,7 +164,7 @@ void game::init_vehicles()
     PART (1, -1,    vp_frame_v);
     PART (1, 2,     vp_frame_v);
     PART (2, 0,     vp_frame_h);
-    PART (2, 0,     vp_engine_gas_med);
+    PART (2, 0,     vp_engine_gas_v6);
     PART (2, 1,     vp_frame_h);
     PART (2, -1,    vp_wheel);
     PART (2, 2,     vp_wheel);
@@ -251,7 +251,7 @@ void game::init_vehicles()
 
     PART (2, -1,    vp_frame_h);
     PART (2, 0,     vp_frame_cover);
-    PART (2, 0,     vp_engine_gas_med);
+    PART (2, 0,     vp_engine_gas_v6);
     PART (2, 1,     vp_frame_h);
     PART (2, -2,    vp_wheel_large);
     PART (2,  2,    vp_wheel_large);
@@ -376,7 +376,7 @@ void game::init_vehicles()
 
 	PART (4, 0, vp_frame_v2);
 	PART (4, -1, vp_frame_v2);
-	PART (4, -1, vp_engine_gas_large);
+	PART (4, -1, vp_engine_gas_v8);
 	PART (4, 1, vp_frame_h);
 	PART (4, -2, vp_frame_h);
 	PART (4, 2, vp_wheel_large);
@@ -527,7 +527,7 @@ void game::init_vehicles()
 	PART (1, 2, vp_board_v);
 
 	PART (-1, 0, vp_frame_u);
-	PART (-1, 0, vp_engine_gas_small);
+	PART (-1, 0, vp_engine_gas_i4);
 	PART (-1, 1, vp_board_y);
 	PART (-1, -1, vp_wheel);
 	PART (-1, 2, vp_wheel);
@@ -638,7 +638,7 @@ void game::init_vehicles()
     // dx, dy, part_id
 	PART (0, 0, vp_frame_handle);
 	PART (0, 0, vp_seat);
-	PART (0, 0, vp_engine_gas_tiny);
+	PART (0, 0, vp_engine_gas_1cyl);
 	PART (0, 0, vp_fuel_tank_gas);
 	PART (0, 0, vp_controls);
 
@@ -723,7 +723,7 @@ void game::init_vehicles()
 	PART (3, 0, vp_frame_v2);
 	PART (3, -1, vp_frame_h);
 	PART (3, 1, vp_frame_h);
-	PART (3, 0, vp_engine_gas_large);
+	PART (3, 0, vp_engine_gas_v8);
 	PART (3, 0, vp_steel_plate);
 //	switch for hydrogen fuel or use both and change (3,0) to (3,1) and (3,-1)
 //	PART (3, 0, vp_engine_plasma);
@@ -805,7 +805,7 @@ void game::init_vehicles()
 	PART ( 2, -1, vp_frame_h2);
 	PART ( 2, -1, vp_head_light);
 	PART ( 2, 0, vp_frame_cover);
-	PART ( 2, 0, vp_engine_gas_med);
+	PART ( 2, 0, vp_engine_gas_v8);
 	PART ( 2, 1, vp_frame_h2);
 	PART ( 2, 1, vp_head_light);
 	PART ( 2, 2, vp_wheel_large);

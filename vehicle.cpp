@@ -91,8 +91,8 @@ void vehicle::load (std::ifstream &stin)
     int itms = 0;
     for (int p = 0; p < prts; p++)
     {
-        int pid, pdx, pdy, php, pam, pbld, pnit;
-        stin >> pid >> pdx >> pdy >> php >> pam >> pbld >> pnit;
+        int pid, pdx, pdy, php, pam, pbld, pbig, pnit;
+        stin >> pid >> pdx >> pdy >> php >> pam >> pbld >> pbig >> pnit;
         getline(stin, databuff); // Clear EoL
         vehicle_part new_part;
         new_part.id = (vpart_id) pid;
@@ -100,6 +100,7 @@ void vehicle::load (std::ifstream &stin)
         new_part.mount_dy = pdy;
         new_part.hp = php;
         new_part.blood = pbld;
+        new_part.bigness = pbig;
         new_part.amount = pam;
         for (int j = 0; j < pnit; j++)
         {
@@ -154,6 +155,7 @@ void vehicle::save (std::ofstream &stout)
             parts[p].hp << " " <<
             parts[p].amount << " " <<
             parts[p].blood << " " <<
+            parts[p].bigness<< " " <<
             parts[p].items.size() << std::endl;
             for (int i = 0; i < parts[p].items.size(); i++)
             {
@@ -370,7 +372,10 @@ int vehicle::install_part (int dx, int dy, vpart_id id, int hp, bool force)
     new_part.hp = hp < 0? vpart_list[id].durability : hp;
     new_part.amount = 0;
     new_part.blood = 0;
+    item tmp(g->itypes[vpart_list[id].item], 0);
+    new_part.bigness = tmp.bigness;
     parts.push_back (new_part);
+
     find_exhaust ();
     precalc_mounts (0, face.dir());
     insides_dirty = true;
@@ -508,10 +513,18 @@ void vehicle::print_part_desc (void *w, int y1, int width, int p, int hl)
         if (parts[pl[i]].hp > 0)
             col_cond = c_red;
 
+        //part name. with bigness, if any.
+        std::stringstream nom;
+        if(parts[pl[i]].bigness){
+           nom << parts[pl[i]].bigness << "CC ";
+        }
+        nom << part_info(pl[i]).name;
+        std::string partname = nom.str();
+
         bool armor = part_flag(pl[i], vpf_armor);
-        mvwprintz(win, y, 2, i == hl? hilite(col_cond) : col_cond, part_info(pl[i]).name);
+        mvwprintz(win, y, 2, i == hl? hilite(col_cond) : col_cond, partname.c_str());
         mvwprintz(win, y, 1, i == hl? hilite(c_ltgray) : c_ltgray, armor? "(" : (i? "-" : "["));
-        mvwprintz(win, y, 2 + strlen(part_info(pl[i]).name), i == hl? hilite(c_ltgray) : c_ltgray, armor? ")" : (i? "-" : "]"));
+        mvwprintz(win, y, 2 + partname.size(), i == hl? hilite(c_ltgray) : c_ltgray, armor? ")" : (i? "-" : "]"));
 //         mvwprintz(win, y, 3 + strlen(part_info(pl[i]).name), c_ltred, "%d", parts[pl[i]].blood);
 
         if (i == 0)

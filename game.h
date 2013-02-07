@@ -195,6 +195,9 @@ class game
   point find_item(item *it);
   void remove_item(item *it);
 
+  void consume_items(std::vector<component> components);
+  void consume_tools(std::vector<component> tools);
+
   std::vector <itype*> itypes;
   std::vector <mtype*> mtypes;
   std::vector <vehicle*> vtypes;

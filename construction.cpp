@@ -578,7 +578,7 @@ void game::complete_construction()
    u.practice("carpentry", 10);
  for (int i = 0; i < 3; i++) {
   if (!stage.components[i].empty())
-   consume_items(this, stage.components[i]);
+   consume_items(stage.components[i]);
  }
 
 // Make the terrain change

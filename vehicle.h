@@ -21,7 +21,7 @@ const int k_mvel = 200;
 struct vehicle_part
 {
     vehicle_part() : id(vp_null), mount_dx(0), mount_dy(0), hp(0),
-    blood(0), inside(false), flags(0), passenger_id(0)
+    blood(0), inside(false), flags(0), passenger_id(0), bigness(0)
     {
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
@@ -39,15 +39,17 @@ struct vehicle_part
     int precalc_dy[2];      // mount_dy translated to face.dir [0] and turn_dir [1]
     int hp;                 // current durability, if 0, then broken
     int blood;              // how much blood covers part (in turns). only useful for external
+    int bigness;            // size of engine, wheel radius, translates to item properties.
     bool inside;            // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     int flags;
     union
     {
         int amount;         // amount of fuel for tank
         int open;           // door is open
-        int passenger_id;      // seat has passenger
+        int passenger_id;   // seat has passenger
     };
     std::vector<item> items;// inventory
+    
 };
 
 // Facts you need to know about implementation:

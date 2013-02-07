@@ -117,12 +117,6 @@ inventory inventory::operator+ (const item &rhs)
 
 void inventory::clear()
 {
-/*
- for (int i = 0; i < items.size(); i++) {
-  for (int j = 0; j < items[j].size(); j++)
-   delete items[i][j];
- }
-*/
  items.clear();
 }
 
@@ -146,11 +140,6 @@ void inventory::add_item(item newit, bool keep_invlet)
   return; // Styles never belong in our inventory.
  for (int i = 0; i < items.size(); i++) {
   if (items[i][0].stacks_with(newit)) {
-/*
-   if (keep_invlet)
-    items[i][0].invlet = newit.invlet;
-   else
-*/
     newit.invlet = items[i][0].invlet;
    items[i].push_back(newit);
    return;
@@ -184,13 +173,6 @@ void inventory::restack(player *p)
  }
  clear();
  if (p) {
-// Doing it backwards will preserve older items' invlet
-/*
-  for (int i = tmp.size() - 1; i >= 0; i--) {
-   if (p->has_weapon_or_armor(tmp[i].invlet)) 
-    tmp.assign_empty_invlet(tmp[i], p);
-  }
-*/
   for (int i = 0; i < tmp.size(); i++) {
    if (!tmp[i].invlet_is_okay() || p->has_weapon_or_armor(tmp[i].invlet)) {
     //debugmsg("Restacking item %d (invlet %c)", i, tmp[i].invlet);

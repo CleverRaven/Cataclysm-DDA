@@ -27,7 +27,8 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_road],
 	itm_muffler, itm_pipe, itm_motor, itm_wheel, itm_big_wheel, itm_seat,
-        itm_combustion_tiny, itm_combustion_small, itm_combustion, itm_foot_crank, NULL);
+   itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion, itm_v6_combustion, 
+   itm_v8_combustion, itm_foot_crank, NULL);
 
  setvector(
    mapitems[mi_livingroom],
@@ -478,9 +479,10 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_mechanics],
-        itm_wrench, itm_frame, itm_wheel, itm_motor, itm_combustion_small,
-        itm_hacksaw, itm_welder, itm_motor, itm_motor_large,
-        itm_storage_battery, itm_solar_panel, itm_combustion_tiny, itm_jerrycan, NULL);
+        itm_wrench, itm_frame, itm_wheel, itm_motor,
+        itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion, itm_v6_combustion, 
+        itm_v8_combustion, itm_hacksaw, itm_welder, itm_motor, itm_motor_large,
+        itm_storage_battery, itm_solar_panel, itm_jerrycan, NULL);
 
  setvector(
    mapitems[mi_chemistry],
@@ -724,7 +726,7 @@ void game::init_mapitems()
 	itm_steel_lump, itm_frame, itm_steel_plate, itm_spiked_plate,
 	itm_hard_plate, itm_motor, itm_motor_large, itm_hose, itm_pants_army,
 	itm_jumpsuit, itm_kevlar, itm_mask_gas, itm_helmet_army, itm_battery,
-	itm_plut_cell, itm_m249, itm_combustion_large, itm_extinguisher,
+	itm_plut_cell, itm_m249, itm_v8_combustion, itm_extinguisher,
 	itm_two_way_radio, itm_radio, itm_UPS_off, itm_beltrig,
         itm_pants_army_fit, itm_boots_fit, NULL);
 
