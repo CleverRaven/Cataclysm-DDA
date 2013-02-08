@@ -918,24 +918,24 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_bleach, 1, itm_ant_egg, 1, NULL);
 
  RECIPE(itm_steel_lump, CC_MISC, "mechanics", NULL, 0, 5000, true);
-  TOOL(itm_welder, 20, NULL);
+  TOOL(itm_welder, 20, itm_toolset, 1, NULL);
   COMP(itm_steel_chunk, 4, NULL);
 
  RECIPE(itm_frame, CC_MISC, "mechanics", NULL, 1, 8000, true);
-  TOOL(itm_welder, 50, NULL);
+  TOOL(itm_welder, 50, itm_toolset, 2, NULL);
   COMP(itm_steel_lump, 3, NULL);
 
  RECIPE(itm_steel_plate, CC_MISC, "mechanics", NULL,4, 12000, true);
-  TOOL(itm_welder, 100, NULL);
+  TOOL(itm_welder, 100, itm_toolset, 4, NULL);
   COMP(itm_steel_lump, 8, NULL);
 
  RECIPE(itm_spiked_plate, CC_MISC, "mechanics", NULL, 4, 12000, true);
-  TOOL(itm_welder, 120, NULL);
+  TOOL(itm_welder, 120, itm_toolset, 5, NULL);
   COMP(itm_steel_lump, 8, NULL);
   COMP(itm_steel_chunk, 4, itm_scrap, 8, NULL);
 
  RECIPE(itm_hard_plate, CC_MISC, "mechanics", NULL, 4, 12000, true);
-  TOOL(itm_welder, 300, NULL);
+  TOOL(itm_welder, 300, itm_toolset, 12, NULL);
   COMP(itm_steel_lump, 24, NULL);
 
  RECIPE(itm_crowbar, CC_MISC, "mechanics", NULL, 1, 1000, false);
