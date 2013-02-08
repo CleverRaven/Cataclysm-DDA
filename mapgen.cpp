@@ -4312,7 +4312,7 @@ case ot_s_garage_north:
 		{
 		square(this, t_grass, 0, 0, 23, 23); //Oddzball basic lot
 		square(this, t_fence_barbed, 1, 1, 22, 22);
-		square(dirt_or_pile(), 2, 2, 21, 21);
+		square(this, dirt_or_pile(), 2, 2, 21, 21);
 		ter(1, 1) = t_fence_post;
 		ter(22, 1) = t_fence_post;
 		ter(1, 22) = t_fence_post;
