@@ -4232,7 +4232,75 @@ case ot_s_garage_north:
  case ot_barn_e:
  case ot_barn_s:
  case ot_barn_w:
-  {
+  { for (int i = 0; i < SEEX * 2; i++) {
+    for (int j = 0; j < SEEY * 2; j++)
+     ter(i, j) = t_grass;
+
+		square(this, t_floor, 0, 0, 14, 9);  //Oddzball-house floor #1
+		square(this, t_wall_wood, 16, 0, 23, 9); //Oddzball-Barn exterior #2
+		square(this, t_fence_barbed, 0, 13, 23, 23); //Oddzball-field exterior #3
+		line(this, t_wall_h, 0, 0, 14, 0); //Oddzball-House north wall #4
+		line(this, t_wall_h, 0, 9, 14, 9); //Oddzball-House south wall #5
+		line(this, t_wall_h, 1, 5, 8, 5); //Oddzball-House interior wall 1 horizontal #6
+		line(this, t_wall_h, 10, 4, 13, 4); //Oddzball-House interior wall 2 horizontal #7
+		line(this, t_wall_v, 0, 1, 0, 8); //Oddzball-House west wall #8
+		line(this, t_wall_v, 14, 1, 14, 8);//Oddzball-House east wall #9
+		line(this, t_wall_v, 9, 4, 9, 5);//Oddzball-House interior wall 3 vertical #10
+		line(this, t_wall_v, 10, 1, 10, 3);//Oddzball-House interior wall 4 Vertical #11
+		square(this, t_dirt, 17, 1, 22, 8); //Oddzball-Barn Floor #None
+		square(this, t_dirt, 1, 14, 22, 22); //Oddzball-Field dirt #12
+		ter( 5,  0) = t_window_domestic; //Oddzball-Begin placing items left-right, top-down
+		ter( 12,  0) = t_window_domestic;//House window
+		ter( 19,  0) = t_door_c;//Barn door N1
+		ter( 20,  0) = t_door_c;//Barn door N2
+		ter( 1,  1) = t_dresser;//Bedroom dresser 1
+		square(this, t_bed, 2, 1, 3, 2); //Big old bed in bedroom
+		ter( 4,  1) = t_dresser;//Bedroom dresser 2
+		ter( 11,  1) = t_toilet;//Toilet in bathroom
+		ter( 12,  1) = t_sink;//Sink in bathroom
+		ter( 17,  1) = t_locker;//Locker in barn
+		ter( 18,  1) = t_locker;//Locker in barn
+		ter( 10,  2) = t_door_c;//bedroom to bathroom door
+		ter( 13,  2) = t_bathtub;//Bathtub
+		ter( 0,  3) = t_window_domestic;//West bedroom window
+		ter( 18,  3) = t_column; //Barn pillar 1
+		ter( 21,  3) = t_column; //Barn pillar 2
+		ter( 7,  4) = t_chair; //Chair in bedroom
+		ter( 8,  4) = t_desk; //Desk in bedroom
+		ter( 12,  4) = t_door_c; //Kitchen to bathroom door
+		ter( 5,  5) = t_door_c; //Living room to bedroom door
+		ter( 13,  5) = t_cupboard; //Bleck so many cupboards
+		ter( 2,  6) = t_armchair; //Armchair in living room
+		ter( 13,  6) = t_cupboard; //cupboard....
+		ter( 18,  6) = t_column; //Barn pillar 3
+		ter( 21,  3) = t_column; //Barn pillar 4
+		ter( 13,  7) = t_oven; //oven
+		ter( 22,  7) = t_dirtmound; //oven
+		line(this, t_cupboard, 8, 8, 13, 8); //Row of cupboards
+		ter( 10,  8) = t_fridge; //Refridgerator
+		ter( 12,  8) = t_sink; //Kitchen sink
+		line(this, t_dirtmound, 21, 8, 22, 8); //Dirt corner of barn
+		ter( 2,  9) = t_window_domestic;//House window living room
+		ter( 7,  9) = t_door_c; //House entrance
+		ter( 12,  9) = t_window_domestic;//House window kitchen
+		ter( 19,  9) = t_door_c;//Barn door S1
+		ter( 20,  9) = t_door_c;//Barn door S2
+		line(this, t_shrub, 1, 10, 3, 10); //Bushes 1
+		line(this, t_shrub, 11, 10, 13, 10); //Bushes 2
+		ter( 0,  13) = t_fence_post;//Fence post 1
+		ter( 23,  13) = t_fence_post;//Fence post 2
+		line(this, t_dirtmound, 2, 15, 21, 15); //Crop row 1
+		line(this, t_dirtmound, 2, 17, 21, 17); //Crop row 2
+		line(this, t_dirtmound, 2, 19, 21, 19); //Crop row 3
+		line(this, t_dirtmound, 2, 21, 21, 21); //Crop row 1
+		ter( 0,  23) = t_fence_post;//Fence post 3
+		ter( 23,  23) = t_fence_post;//Fence post 4
+
+  
+  
+  
+  
+  /*
         square(this, grass_or_dirt(), 0, 0, SEEX * 2, SEEY * 2);
         int yard_wdth = 5;
         square(this, t_floor, 0, yard_wdth, SEEX * 2 - 4, SEEY * 2 - 4);
@@ -4302,7 +4370,7 @@ case ot_s_garage_north:
 
         if (one_in(10)) {
           add_vehicle (g, vt, vx, vy, theta);
-        }
+        } */ //Oddzball-Barn test code.
   }
   break;
   
