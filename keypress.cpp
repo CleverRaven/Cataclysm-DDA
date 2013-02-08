@@ -204,7 +204,7 @@ pickup , g\n\
 butcher B\n\
 chat C\n\
 look ; x\n\
-peek L X\n\
+peek X\n\
 \n\
 # INVENTORY & QUASI-INVENTORY INTERACTION\n\
 inventory i\n\
