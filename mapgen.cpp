@@ -4318,7 +4318,16 @@ case ot_s_garage_north:
 		ter(1, 1) = t_fence_post;
 		ter(22, 1) = t_fence_post;
 		ter(1, 22) = t_fence_post;
-		ter(22, 22) = t_fence_post;		
+		ter(22, 22) = t_fence_post;
+		line(this, t_dirtmound, 3, 3, 20, 3); //Crop rows
+		line(this, t_dirtmound, 3, 5, 20, 5);
+		line(this, t_dirtmound, 3, 7, 20, 7);
+		line(this, t_dirtmound, 3, 9, 20, 9);
+		line(this, t_dirtmound, 3, 11, 20, 11);
+		line(this, t_dirtmound, 3, 13, 20, 13);
+		line(this, t_dirtmound, 3, 15, 20, 15);
+		line(this, t_dirtmound, 3, 17, 20, 17);
+		line(this, t_dirtmound, 3, 19, 20, 19);
 		}
 		break;
 		//Oddzball-End Farm field
