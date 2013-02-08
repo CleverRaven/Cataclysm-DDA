@@ -4298,12 +4298,12 @@ case ot_s_garage_north:
 		ter( 0,  23) = t_fence_post;//Fence post 3
 		ter( 23,  23) = t_fence_post;//Fence post 4
 		
-			/*if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
-			rotate(1);
+			if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
+			rotate(3);
 			if (t_south >= ot_road_null && t_south <= ot_bridge_ew)
 			rotate(2);
 			if (t_west >= ot_road_null && t_west <= ot_bridge_ew)
-			rotate(3);*/
+			rotate(1);
 		
 		}
 		break;
