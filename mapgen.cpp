@@ -4231,11 +4231,8 @@ case ot_s_garage_north:
  case ot_barn_n:
  case ot_barn_e:
  case ot_barn_s:
- case ot_barn_w:
-  { for (int i = 0; i < SEEX * 2; i++) {
-    for (int j = 0; j < SEEY * 2; j++)
-     ter(i, j) = t_grass;
-
+ case ot_barn_w: {
+		square(this, t_grass, 0, 0, 23, 23); //Oddzball basic lot
 		square(this, t_floor, 0, 0, 14, 9);  //Oddzball-house floor #1
 		square(this, t_wall_wood, 16, 0, 23, 9); //Oddzball-Barn exterior #2
 		square(this, t_fence_barbed, 0, 13, 23, 23); //Oddzball-field exterior #3
@@ -4295,6 +4292,8 @@ case ot_s_garage_north:
 		line(this, t_dirtmound, 2, 21, 21, 21); //Crop row 1
 		ter( 0,  23) = t_fence_post;//Fence post 3
 		ter( 23,  23) = t_fence_post;//Fence post 4
+		
+		}
 
   
   
@@ -4370,9 +4369,9 @@ case ot_s_garage_north:
 
         if (one_in(10)) {
           add_vehicle (g, vt, vx, vy, theta);
-        } */ //Oddzball-Barn test code.
+        } 
   }
-  break;
+  break;*/ //Oddzball-Barn test code.
   
   //Oddzball-Barn
  case ot_police_north:
