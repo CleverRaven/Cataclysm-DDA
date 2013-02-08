@@ -20,6 +20,13 @@ ter_id grass_or_dirt()
  return t_dirt;
 }
 
+ter_id dirt_or_pile()
+{
+ if (one_in(4))
+  return t_dirtmound;
+ return t_dirt;
+}
+
 enum room_type {
  room_null,
  room_closet,
@@ -4291,8 +4298,28 @@ case ot_s_garage_north:
 		ter( 0,  23) = t_fence_post;//Fence post 3
 		ter( 23,  23) = t_fence_post;//Fence post 4
 		
+			if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
+			rotate(1);
+			if (t_south >= ot_road_null && t_south <= ot_bridge_ew)
+			rotate(2);
+			if (t_west >= ot_road_null && t_west <= ot_bridge_ew)
+			rotate(3);
+		
 		}
 		break;
+		//Oddzball-Farm Field
+		case ot_farm_field:
+		{
+		square(this, t_grass, 0, 0, 23, 23); //Oddzball basic lot
+		square(this, t_fenced_barbed, 1, 1, 22, 22);
+		square(dirt_or_pile(), 2, 2, 21, 21);
+		ter(1, 1) = t_fence_post;
+		ter(22, 1) = t_fence_post;
+		ter(1, 22) = t_fence_post;
+		ter(22, 22) = t_fence_post;		
+		}
+		break;
+		//Oddzball-End Farm field
   
   
   
