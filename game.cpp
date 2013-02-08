@@ -1309,6 +1309,47 @@ input_ret game::get_input(int timeout_ms)
     vertical_move( 1, false);
    break;
 
+  case ACTION_CENTER:
+   u.view_offset_x = 0;
+   u.view_offset_y = 0;
+   break;
+
+  case ACTION_SHIFT_N:
+   u.view_offset_y += -1;
+   break;
+
+  case ACTION_SHIFT_NE:
+   u.view_offset_x += 1;
+   u.view_offset_y += -1;
+   break;
+
+  case ACTION_SHIFT_E:
+   u.view_offset_x += 1;
+   break;
+
+  case ACTION_SHIFT_SE:
+   u.view_offset_x += 1;
+   u.view_offset_y += 1;
+   break;
+
+  case ACTION_SHIFT_S:
+   u.view_offset_y += 1;
+   break;
+
+  case ACTION_SHIFT_SW:
+   u.view_offset_x += -1;
+   u.view_offset_y += 1;
+   break;
+
+  case ACTION_SHIFT_W:
+   u.view_offset_x += -1;
+   break;
+
+  case ACTION_SHIFT_NW:
+   u.view_offset_x += -1;
+   u.view_offset_y += -1;
+   break;
+
   case ACTION_OPEN:
    open();
    break;
