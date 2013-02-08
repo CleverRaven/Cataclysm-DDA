@@ -7517,7 +7517,7 @@ void silo_rooms(map *m)
    x = rng(0, 4);
    y = rng(0, SEEY * 2 - 6);
    if (one_in(2))
-    x = SEEX * 2 - 2 - x;	// Right side of the screen, not the left
+    x = SEEX * 2 - 3 - x;	// Right side of the screen, not the left
    width  = 2;
    height = rng(2, 5);
    if (y + height >= SEEY * 2 - 1)

@@ -4,4 +4,6 @@
 long rng(long low, long high);
 bool one_in(int chance);
 int dice(int number, int sides);
+
+int djb2_hash(unsigned char *input);
 #endif

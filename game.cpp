@@ -804,7 +804,13 @@ void game::process_activity()
      if (max_ex > 10)
       max_ex = 10;
 
+     int originalSkillLevel = u.skillLevel(reading->type).level();
      u.skillLevel(reading->type).readBook(min_ex, max_ex, reading->level);
+
+     if (u.skillLevel(reading->type) > originalSkillLevel)
+      add_msg("You increase %s to level %d.",
+              reading->type->name().c_str(),
+              u.skillLevel(reading->type).level());
 
      if (u.skillLevel(reading->type) == reading->level)
       add_msg("You can no longer learn from this %s.", reading->name.c_str());
@@ -1301,6 +1307,47 @@ input_ret game::get_input(int timeout_ms)
   case ACTION_MOVE_UP:
    if (!u.in_vehicle)
     vertical_move( 1, false);
+   break;
+
+  case ACTION_CENTER:
+   u.view_offset_x = 0;
+   u.view_offset_y = 0;
+   break;
+
+  case ACTION_SHIFT_N:
+   u.view_offset_y += -1;
+   break;
+
+  case ACTION_SHIFT_NE:
+   u.view_offset_x += 1;
+   u.view_offset_y += -1;
+   break;
+
+  case ACTION_SHIFT_E:
+   u.view_offset_x += 1;
+   break;
+
+  case ACTION_SHIFT_SE:
+   u.view_offset_x += 1;
+   u.view_offset_y += 1;
+   break;
+
+  case ACTION_SHIFT_S:
+   u.view_offset_y += 1;
+   break;
+
+  case ACTION_SHIFT_SW:
+   u.view_offset_x += -1;
+   u.view_offset_y += 1;
+   break;
+
+  case ACTION_SHIFT_W:
+   u.view_offset_x += -1;
+   break;
+
+  case ACTION_SHIFT_NW:
+   u.view_offset_x += -1;
+   u.view_offset_y += -1;
    break;
 
   case ACTION_OPEN:
@@ -2532,9 +2579,9 @@ void game::draw_ter(int posx, int posy)
 {
 // posx/posy default to -999
  if (posx == -999)
-  posx = u.posx;
+  posx = u.posx + u.view_offset_x;
  if (posy == -999)
-  posy = u.posy;
+  posy = u.posy + u.view_offset_y;
  int t = 0;
  lm.generate(this, posx, posy, natural_light_level(), u.active_light());
  m.draw(this, w_terrain, point(posx, posy));
@@ -4921,7 +4968,7 @@ void game::peek()
 point game::look_around()
 {
  draw_ter();
- int lx = u.posx, ly = u.posy;
+ int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
  int mx, my, junk;
  char ch;
  WINDOW* w_look = newwin(13, 48, 12, SEEX * 2 + 8);

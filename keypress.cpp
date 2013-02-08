@@ -195,6 +195,13 @@ move_nw   y 7\n\
 move_down >\n\
 move_up   <\n\
 \n\
+# MOVEMENT:\n\
+center     G\n\
+shift_n    K\n\
+shift_e    L\n\
+shift_s    J\n\
+shift_w    H\n\
+\n\
 # ENVIRONMENT INTERACTION\n\
 open  o\n\
 close c\n\
@@ -204,7 +211,7 @@ pickup , g\n\
 butcher B\n\
 chat C\n\
 look ; x\n\
-peek L X\n\
+peek X\n\
 \n\
 # INVENTORY & QUASI-INVENTORY INTERACTION\n\
 inventory i\n\
