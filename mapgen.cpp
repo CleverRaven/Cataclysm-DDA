@@ -4268,7 +4268,7 @@ case ot_s_garage_north:
 		ter( 2,  6) = t_armchair; //Armchair in living room
 		ter( 13,  6) = t_cupboard; //cupboard....
 		ter( 18,  6) = t_column; //Barn pillar 3
-		ter( 21,  3) = t_column; //Barn pillar 4
+		ter( 21,  6) = t_column; //Barn pillar 4
 		ter( 13,  7) = t_oven; //oven
 		ter( 22,  7) = t_dirtmound; //oven
 		line(this, t_cupboard, 8, 8, 13, 8); //Row of cupboards
@@ -4290,7 +4290,6 @@ case ot_s_garage_north:
 		line(this, t_dirtmound, 2, 21, 21, 21); //Crop row 1
 		ter( 0,  23) = t_fence_post;//Fence post 3
 		ter( 23,  23) = t_fence_post;//Fence post 4
-		rotate(rng(0, 3));
 		
 		}
 		break;
