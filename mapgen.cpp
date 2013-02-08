@@ -4298,12 +4298,12 @@ case ot_s_garage_north:
 		ter( 0,  23) = t_fence_post;//Fence post 3
 		ter( 23,  23) = t_fence_post;//Fence post 4
 		
-			if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
+			/*if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
 			rotate(1);
 			if (t_south >= ot_road_null && t_south <= ot_bridge_ew)
 			rotate(2);
 			if (t_west >= ot_road_null && t_west <= ot_bridge_ew)
-			rotate(3);
+			rotate(3);*/
 		
 		}
 		break;
@@ -4312,7 +4312,7 @@ case ot_s_garage_north:
 		{
 		square(this, t_grass, 0, 0, 23, 23); //Oddzball basic lot
 		square(this, t_fence_barbed, 1, 1, 22, 22);
-		square(this, dirt_or_pile(), 2, 2, 21, 21);
+		square(this, t_dirt, 2, 2, 21, 21);
 		ter(1, 1) = t_fence_post;
 		ter(22, 1) = t_fence_post;
 		ter(1, 22) = t_fence_post;
