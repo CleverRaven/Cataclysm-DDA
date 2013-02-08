@@ -111,6 +111,7 @@ enum vpart_flags
     vpf_turret,             // is turret
     vpf_armor,              // is armor plating
     vpf_light,              // generates light arc
+    vpf_variable_size,      // has 'bigness' for power, wheel radius, etc.
     vpf_func_begin  = vpf_over,
     vpf_func_end    = vpf_light,
 
@@ -212,15 +213,15 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) },
 //
     { "1-cylinder engine",    '*', c_ltred,  '#', c_red,     80, 150, 40, AT_GAS, itm_1cyl_combustion, 2,
-        mfb(vpf_internal) | mfb(vpf_engine) },
+        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size) },
     { "V-twin engine",       '*', c_ltred,  '#', c_red,     80, 200, 120, AT_GAS, itm_v2_combustion, 2,
-        mfb(vpf_internal) | mfb(vpf_engine) },
+        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size) },
     { "Inline-4 engine",     '*', c_ltred,  '#', c_red,     80, 300, 300, AT_GAS, itm_i4_combustion, 3,
-        mfb(vpf_internal) | mfb(vpf_engine) },
+        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size) },
     { "V6 engine",       '*', c_ltred,  '#', c_red,     80, 400, 800, AT_GAS, itm_v6_combustion, 4,
-        mfb(vpf_internal) | mfb(vpf_engine) },
+        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size) },
     { "V8 engine",       '*', c_ltred,  '#', c_red,     80, 400, 800, AT_GAS, itm_v8_combustion, 4,
-        mfb(vpf_internal) | mfb(vpf_engine) },
+        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size) },
     { "electric motor",             '*', c_yellow,  '#', c_red,    80, 200, 70, AT_BATT, itm_motor, 3,
         mfb(vpf_internal) | mfb(vpf_engine) },
     { "large electric motor",       '*', c_yellow,  '#', c_red,    80, 400, 350, AT_BATT, itm_motor_large, 4,

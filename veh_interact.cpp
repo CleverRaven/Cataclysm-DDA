@@ -219,6 +219,7 @@ void veh_interact::do_install(int reason)
         get_direction (g, dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && has_comps && has_skill && has_skill2)
         {
+            //if(itm.is_var_veh_part() && crafting_inv.has_amount(itm, 2);
             sel_cmd = 'i';
             return;
         }
@@ -233,11 +234,7 @@ void veh_interact::do_install(int reason)
         if (dy == -1 || dy == 1)
         {
             pos += dy;
-            if (pos < 0)
-                pos = can_mount.size()-1;
-            else
-            if (pos >= can_mount.size())
-                pos = 0;
+            pos %= can_mount.size();
         }
     }
 }
@@ -625,6 +622,76 @@ void veh_interact::display_list (int pos)
     wrefresh (w_list);
 }
 
+struct candidate_vpart {
+   bool in_inventory;
+   int mapx;
+   int mapy;
+   int index;
+   item vpart_item;
+   candidate_vpart(int x, int y, int i, item vpitem):
+      in_inventory(false),mapx(x),mapy(y),index(i), vpart_item(vpitem) { vpart_item = vpitem; }
+   candidate_vpart(int i, item vpitem):
+      in_inventory(true),mapx(-1),mapy(-1),index(i), vpart_item(vpitem) {}
+};
+
+// given vpart type, give a choice from inventory items & nearby items.
+// not using consume_items in crafting.cpp
+// because it got into weird cases, & it doesn't consider 
+// characteristics like item hp & bigness.
+item consume_vpart_item (game *g, vpart_id vpid){
+    std::vector<candidate_vpart> candidates;
+    //if (veh->part_flag (p, vpf_variable_size))
+    //inventory map_inv;
+    //map_inv.form_from_map(g->u.posx, g->u.posy, PICKUP_RANGE);
+    const itype_id itid = vpart_list[vpid].item;
+    for (int x = g->u.posx - PICKUP_RANGE; x <= g->u.posx + PICKUP_RANGE; x++)
+       for (int y = g->u.posy - PICKUP_RANGE; y <= g->u.posy + PICKUP_RANGE; y++)
+          for(int i=0; i < g->m.i_at(x,y).size(); i++){
+             item* ith_item = &(g->m.i_at(x,y)[i]);
+             if (ith_item->type->id == itid)
+                candidates.push_back (candidate_vpart(x,y,i,*ith_item));
+          }
+
+    for (int i=0; i<g->u.inv.size(); i++){
+       item* ith_item = &(g->u.inv[i]);
+       if (ith_item->type->id  == itid)
+          candidates.push_back (candidate_vpart(i,*ith_item));
+    }
+
+    // bug?
+    if(candidates.size() == 0) return item();
+
+    int selection;
+    // no choice?
+    if(candidates.size() == 1) {
+       selection = 0;
+    } else {
+       // popup menu!?
+       std::vector<std::string> options;
+       for(int i=0;i<candidates.size(); i++){
+          if(candidates[i].in_inventory){
+             options.push_back(candidates[i].vpart_item.tname());
+          }
+          else { //nearby.
+             options.push_back(candidates[i].vpart_item.tname() + " (nearby)");
+          }
+       }
+       selection = menu_vec("Use which gizmo?", options);
+       selection -= 1;
+    }
+    //remove item from inventory. or map.
+    if(candidates[selection].in_inventory){
+       g->u.inv.remove_item (candidates[selection].index);
+    } else { //map.
+       int x = candidates[selection].mapx;
+       int y = candidates[selection].mapy;
+       int i = candidates[selection].index;
+       g->m.i_rem(x,y,i);
+    }
+    item ret (candidates[selection].vpart_item);
+    return ret;
+}
+
 void complete_vehicle (game *g)
 {
     if (g->u.activity.values.size() < 7)
@@ -642,10 +709,10 @@ void complete_vehicle (game *g)
     int dx = g->u.activity.values[4];
     int dy = g->u.activity.values[5];
     int part = g->u.activity.values[6];
-    std::vector<component> comps;
     std::vector<component> tools;
     int welder_charges = ((it_tool *) g->itypes[itm_welder])->charges_per_use;
     itype_id itm;
+    item used_item;
     bool broken;
     int bigness;
 
@@ -655,8 +722,8 @@ void complete_vehicle (game *g)
     case 'i':
         if (veh->install_part (dx, dy, (vpart_id) part) < 0)
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part);
-        comps.push_back(component(vpart_list[part].item, 1));
-        g->consume_items(comps);
+        //comps.push_back(component(vpart_list[part].item, 1));
+        used_item = consume_vpart_item (g, (vpart_id) part);
         tools.push_back(component(itm_welder, welder_charges));
         tools.push_back(component(itm_toolset, welder_charges/5));
         g->consume_tools(tools);
@@ -667,8 +734,9 @@ void complete_vehicle (game *g)
     case 'r':
         if (veh->parts[part].hp <= 0)
         {
-            comps.push_back(component(veh->part_info(part).item, 1));
-            g->consume_items(comps);
+            //comps.push_back(component(veh->part_info(part).item, 1));
+            //g->consume_items(comps);
+            used_item = consume_vpart_item (g, (vpart_id) part);
             tools.push_back(component(itm_wrench, 1));
             g->consume_tools(tools);
             tools.clear();
