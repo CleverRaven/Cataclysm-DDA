@@ -26,6 +26,22 @@ int main(int argc, char *argv[])
 #ifdef ENABLE_LOGGING
   setupDebug();
 #endif
+ int seed = time(NULL);
+
+//args: world seeding only.
+ argc--; argv++;
+ while (argc){
+  if(std::string(argv[0]) == "--seed"){
+   argc--; argv++;
+   if(argc){
+    seed = djb2_hash((unsigned char*)argv[0]);
+    argc--; argv++;
+   }
+  }
+  else // ignore unknown args.
+   argc--; argv++;
+ }
+
 // ncurses stuff
  initscr(); // Initialize ncurses
  noecho();  // Don't echo keypresses
@@ -34,7 +50,7 @@ int main(int argc, char *argv[])
  init_colors(); // See color.cpp
  curs_set(0); // Invisible cursor
 
- std::srand(time(NULL));
+ std::srand(seed);
 
  bool quit_game = false;
  bool delete_world = false;
