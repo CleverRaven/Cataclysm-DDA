@@ -248,6 +248,18 @@ const vpart_info& vehicle::part_info (int index)
     return vpart_list[id];
 }
 
+int vehicle::part_power (int index){
+   if (!part_flag(index, vpf_engine))
+      return 0; //not an engine.
+   if(parts[index].hp <= 0)
+      return 0; //broken.
+   if(part_flag (index, vpf_variable_size)){ // example: 2.42-L V-twin engine
+      return parts[index].bigness;
+   }
+   else // example: foot crank 
+      return part_info(index).power;
+}
+
 bool vehicle::can_mount (int dx, int dy, vpart_id id)
 {
     if (id <= 0 || id >= num_vparts)
@@ -723,7 +735,7 @@ int vehicle::basic_consumption (int ftype)
             ftype == part_info(p).fuel_type &&
             parts[p].hp > 0)
         {
-            fcon += part_info(p).power;
+            fcon += part_power(p); 
             cnt++;
         }
     if (fcon < 100 && cnt > 0)
@@ -741,7 +753,7 @@ int vehicle::total_power (bool fueled)
              part_info(p).fuel_type == AT_MUSCLE) &&
             parts[p].hp > 0)
         {
-            pwr += part_info(p).power;
+            pwr += part_power(p);
             cnt++;
         }
     if (cnt > 1)
@@ -754,7 +766,7 @@ int vehicle::solar_power ()
     int pwr = 0;
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, vpf_solar_panel) && parts[p].hp > 0)
-            pwr += part_info(p).power;
+            pwr += part_power(p);
     return pwr;
 }
 
@@ -784,9 +796,9 @@ int vehicle::safe_velocity (bool fueled)
             case AT_GAS:    m2c = 60; break;
             case AT_PLASMA: m2c = 75; break;
             case AT_BATT:   m2c = 90; break;
-            case AT_MUSCLE: m2c = 30; break;
+            case AT_MUSCLE: m2c = 45; break;
             }
-            pwrs += part_info(p).power * m2c / 100;
+            pwrs += part_power(p) * m2c / 100;
             cnt++;
         }
     if (cnt > 0)
@@ -819,7 +831,7 @@ int vehicle::noise (bool fueled, bool gas_only)
             }
             if (!gas_only || part_info(p).fuel_type == AT_GAS)
             {
-                int pwr = part_info(p).power * nc / 100;
+                int pwr = part_power(p) * nc / 100;
                 if (muffle < 100 && (part_info(p).fuel_type == AT_GAS ||
                     part_info(p).fuel_type == AT_PLASMA))
                     pwr = pwr * muffle / 100;

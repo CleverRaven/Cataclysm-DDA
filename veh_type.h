@@ -228,7 +228,7 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_internal) | mfb(vpf_engine) },
     { "plasma engine",              '*', c_ltblue,  '#', c_red,    80, 250, 400, AT_PLASMA, itm_plasma_engine, 6,
         mfb(vpf_internal) | mfb(vpf_engine) },
-    { "Foot pedals",                '*', c_ltgray,  '#', c_red,     50, 50, 50, AT_MUSCLE, itm_foot_crank, 1,
+    { "Foot pedals",                '*', c_ltgray,  '#', c_red,     50, 50, 70, AT_MUSCLE, itm_foot_crank, 1,
         mfb(vpf_internal) | mfb(vpf_engine) },
 //                                                                         capacity type
     { "gasoline tank",              'O', c_ltred,  '#', c_red,     80, 150, 3000, AT_GAS, itm_metal_tank, 1,
