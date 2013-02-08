@@ -195,6 +195,13 @@ move_nw   y 7\n\
 move_down >\n\
 move_up   <\n\
 \n\
+# MOVEMENT:\n\
+center     G\n\
+shift_n    K\n\
+shift_e    L\n\
+shift_s    J\n\
+shift_w    H\n\
+\n\
 # ENVIRONMENT INTERACTION\n\
 open  o\n\
 close c\n\
