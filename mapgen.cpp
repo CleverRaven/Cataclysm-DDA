@@ -4293,7 +4293,7 @@ case ot_s_garage_north:
 		rotate(rng(0, 3));
 		
 		}
-
+		break;
   
   
   
