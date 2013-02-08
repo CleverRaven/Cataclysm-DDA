@@ -718,6 +718,7 @@ void complete_vehicle (game *g)
     std::vector<component> tools;
     int welder_charges = ((it_tool *) g->itypes[itm_welder])->charges_per_use;
     itype_id itm;
+    int partnum;
     item used_item;
     bool broken;
     int bigness;
@@ -726,10 +727,11 @@ void complete_vehicle (game *g)
     switch (cmd)
     {
     case 'i':
-        if (veh->install_part (dx, dy, (vpart_id) part) < 0)
+        partnum = veh->install_part (dx, dy, (vpart_id) part);
+        if(partnum < 0)
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part);
-        //comps.push_back(component(vpart_list[part].item, 1));
         used_item = consume_vpart_item (g, (vpart_id) part);
+        veh->get_part_hp_from_item(partnum, used_item);
         tools.push_back(component(itm_welder, welder_charges));
         tools.push_back(component(itm_toolset, welder_charges/5));
         g->consume_tools(tools);
@@ -740,8 +742,6 @@ void complete_vehicle (game *g)
     case 'r':
         if (veh->parts[part].hp <= 0)
         {
-            //comps.push_back(component(veh->part_info(part).item, 1));
-            //g->consume_items(comps);
             used_item = consume_vpart_item (g, (vpart_id) part);
             tools.push_back(component(itm_wrench, 1));
             g->consume_tools(tools);
@@ -769,6 +769,20 @@ void complete_vehicle (game *g)
         itm = veh->part_info(part).item;
         broken = veh->parts[part].hp <= 0;
         bigness = veh->parts[part].bigness;
+        if (!broken){
+            itype* parttype = g->itypes[itm];
+            item tmp(parttype, g->turn);
+            veh->give_part_hp_to_item(part, tmp);
+            if(parttype->is_var_veh_part()){
+               // has bigness.
+               tmp.bigness = bigness;
+            } 
+            g->m.add_item(g->u.posx, g->u.posy, tmp);
+            //else {
+            //   g->m.add_item (g->u.posx, g->u.posy, g->itypes[itm], g->turn);
+            //}
+            g->u.practice ("mechanics", 2 * 5 + 20);
+        }
         if (veh->parts.size() < 2)
         {
             g->add_msg ("You completely dismantle %s.", veh->name.c_str());
@@ -780,18 +794,6 @@ void complete_vehicle (game *g)
             g->add_msg ("You remove %s%s from %s.", broken? "broken " : "",
                         veh->part_info(part).name, veh->name.c_str());
             veh->remove_part (part);
-        }
-        if (!broken){
-            itype* parttype = g->itypes[itm];
-            if(parttype->is_var_veh_part()){
-               // has bigness.
-               item tmp(parttype, g->turn);
-               tmp.bigness = bigness;
-               g->m.add_item(g->u.posx, g->u.posy, tmp);
-            } else {
-               g->m.add_item (g->u.posx, g->u.posy, g->itypes[itm], g->turn);
-            }
-            g->u.practice ("mechanics", 2 * 5 + 20);
         }
         //break;
     default:;

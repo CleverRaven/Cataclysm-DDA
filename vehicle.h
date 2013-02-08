@@ -154,6 +154,11 @@ public:
     
     void remove_part (int p);
 
+// translate item health to part health
+    void get_part_hp_from_item (int partnum, item& i);
+// translate part health to item health (very lossy.)
+    void give_part_hp_to_item (int partnum, item& i);
+
 // returns the list of indeces of parts at certain position (not accounting frame direction)
     std::vector<int> parts_at_relative (int dx, int dy);
 

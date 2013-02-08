@@ -382,6 +382,26 @@ int vehicle::install_part (int dx, int dy, vpart_id id, int hp, bool force)
     return parts.size() - 1;
 }
 
+// item damage is 0,1,2,3, or 4. part hp is 1..durability.
+// assuming it rusts. other item materials disentigrate at different rates...
+void vehicle::get_part_hp_from_item(int partnum, item& i){
+    int health = 5 - i.damage;
+    health *= part_info(partnum).durability; //[0,dur]
+    health /= 5;
+    parts[partnum].hp = health;
+}
+// translate part damage to item damage.
+// max damage is 4, min damage 0.
+// this is very lossy.
+void vehicle::give_part_hp_to_item(int partnum, item& i){
+    int dam;
+    float hpofdur = (float)parts[partnum].hp / part_info(partnum).durability;
+    dam = (hpofdur * 5);
+    if (dam > 4) dam = 4;
+    if (dam < 0) dam = 0;
+    i.damage = dam;
+}
+
 void vehicle::remove_part (int p)
 {
     parts.erase(parts.begin() + p);
