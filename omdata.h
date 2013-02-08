@@ -80,7 +80,7 @@ enum oter_id {
   ot_s_restaurant_west,
  ot_sub_station_north, ot_sub_station_east, ot_sub_station_south,
   ot_sub_station_west,
- ot_s_garage_north, ot_s_garage_east, ot_s_garage_south, ot_s_garage_west, ot_barn_n, ot_barn_e, ot_barn_s, ot_barn_w, //Oddzball-Barn
+ ot_s_garage_north, ot_s_garage_east, ot_s_garage_south, ot_s_garage_west, ot_farm, //Oddzball-Farm
  ot_police_north, ot_police_east, ot_police_south, ot_police_west,
  ot_bank_north, ot_bank_east, ot_bank_south, ot_bank_west,
  ot_bar_north, ot_bar_east, ot_bar_south, ot_bar_west,
@@ -237,10 +237,7 @@ const oter_t oterlist[num_ter_types] = {
 {"garage",              'G',    i_ltgray,       5, build_extras, false, false},
 {"garage",              'G',    i_ltgray,       5, build_extras, false, false},
 {"garage",              'G',    i_ltgray,       5, build_extras, false, false},
-{"barn",              '^',    i_brown,       5, build_extras, false, false}, //Oddzball-Barn
-{"barn",              '^',    i_brown,       5, build_extras, false, false}, //Oddzball-Barn
-{"barn",              '^',    i_brown,       5, build_extras, false, false}, //Oddzball-Barn
-{"barn",              '^',    i_brown,       5, build_extras, false, false}, //Oddzball-Barn
+{"farm",              '^',    i_brown,       5, build_extras, false, false}, //Oddzball-Farm
 {"police station",	'P',	h_yellow,	5, build_extras, false, false},
 {"police station",	'P',	h_yellow,	5, build_extras, false, false},
 {"police station",	'P',	h_yellow,	5, build_extras, false, false},
@@ -408,7 +405,7 @@ enum omspec_id
  OMSPEC_HOUSE,
  OMSPEC_GAS,
  OMSPEC_CABIN,
- OMSPEC_BARN,
+ OMSPEC_FARM,
  OMSPEC_TEMPLE,
  OMSPEC_LAB,
  OMSPEC_BUNKER,
@@ -453,8 +450,8 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_house_north,   0, 50, 20, -1, mcat_null, 0, 0, 0, 0,  // Woods cabin
  &omspec_place::forest, mfb(OMS_FLAG_ROTATE_RANDOM)|mfb(OMS_FLAG_ROTATE_ROAD)},
  
- {ot_barn_n,   0, 20, 20, -1, mcat_null, 0, 0, 0, 0,  // Oddzball-Barn
- &omspec_place::land, mfb(OMS_FLAG_ROAD)},
+ {ot_farm,   0, 20, 20, -1, mcat_null, 0, 0, 0, 0,  // Oddzball-farm
+ &omspec_place::land, mfb(OMS_FLAG_ROTATE_ROAD)},
 
 {ot_temple_stairs, 0,  0, 20, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::never, 0},

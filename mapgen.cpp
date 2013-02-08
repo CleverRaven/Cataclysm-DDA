@@ -4227,11 +4227,9 @@ case ot_s_garage_north:
   }
   break;
  //Oddzball-End of garage
- //Oddzball-Barn
- case ot_barn_n:
- case ot_barn_e:
- case ot_barn_s:
- case ot_barn_w: {
+ //Oddzball-Farm
+ case ot_farm:
+		{
 		square(this, t_grass, 0, 0, 23, 23); //Oddzball basic lot
 		square(this, t_floor, 0, 0, 14, 9);  //Oddzball-house floor #1
 		square(this, t_wall_wood, 16, 0, 23, 9); //Oddzball-Barn exterior #2
@@ -4292,6 +4290,7 @@ case ot_s_garage_north:
 		line(this, t_dirtmound, 2, 21, 21, 21); //Crop row 1
 		ter( 0,  23) = t_fence_post;//Fence post 3
 		ter( 23,  23) = t_fence_post;//Fence post 4
+		rotate(rng(0, 3));
 		
 		}
 
@@ -4373,7 +4372,7 @@ case ot_s_garage_north:
   }
   break;*/ //Oddzball-Barn test code.
   
-  //Oddzball-Barn
+  //Oddzball-Farm
  case ot_police_north:
  case ot_police_east:
  case ot_police_south:
