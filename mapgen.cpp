@@ -4302,7 +4302,7 @@ case ot_s_garage_north:
 		
 			if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
 			rotate(3);
-			if (t_north >= ot_road_null && t_south <= ot_bridge_ew)
+			if (t_north >= ot_road_null && t_north <= ot_bridge_ew)
 			rotate(2);
 			if (t_west >= ot_road_null && t_west <= ot_bridge_ew)
 			rotate(1);
