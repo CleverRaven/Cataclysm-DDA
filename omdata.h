@@ -452,7 +452,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::forest, mfb(OMS_FLAG_ROTATE_RANDOM)|mfb(OMS_FLAG_ROTATE_ROAD)},
  
  {ot_farm,   0, 20, 20, -1, mcat_null, 0, 0, 0, 0,  // Oddzball-farm
- &omspec_place::land, mfb(OMS_FLAG_ROAD) |mfb(OMS_FLAG_3X3_SECOND) |mfb(OMS_FLAG_ROTATE_ROAD)},
+ &omspec_place::land, mfb(OMS_FLAG_3X3_SECOND) |mfb(OMS_FLAG_ROTATE_ROAD)},
 
 {ot_temple_stairs, 0,  0, 20, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::never, 0},
