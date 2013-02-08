@@ -234,7 +234,10 @@ void veh_interact::do_install(int reason)
         if (dy == -1 || dy == 1)
         {
             pos += dy;
-            pos %= can_mount.size();
+            if (pos < 0)
+               pos = can_mount.size()-1;
+            else if (pos >= can_mount.size())
+               pos = 0;
         }
     }
 }
@@ -307,7 +310,10 @@ void veh_interact::do_repair(int reason)
         if (dy == -1 || dy == 1)
         {
             pos += dy;
-            pos %= need_repair.size();
+            if(pos >= need_repair.size())
+               pos = 0;
+            else if(pos < 0)
+               pos = need_repair.size() - 1;
         }
     }
 }
