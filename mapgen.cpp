@@ -4312,6 +4312,19 @@ case ot_s_garage_north:
 			rotate(2);
 			if (t_west >= ot_road_null && t_west <= ot_bridge_ew)
 			rotate(1);*/
+			
+			place_items(mi_fridge, 65, 10, 8, 10, 8, false, 0);
+			place_items(mi_kitchen, 70, 10, 5, 12, 7, false, 0);
+			place_items(mi_livingroom, 65, 1, 6, 6, 8, false, 0);
+			place_items(mi_dresser, 80, 1, 1, 1, 1, false, 0);
+			place_items(mi_dresser, 80, 4, 1, 4, 1, false, 0);
+			place_items(mi_bedroom, 65, 5, 1, 9, 3, false, 0);
+			place_items(mi_bathroom, 70, 11, 2, 12, 3, false, 0);
+			place_items(mi_bigtools, 50, 17, 1, 22, 8, true, 0);
+			place_items(mi_homeguns, 20, 17, 1, 22, 8, true, 0);
+			
+			
+			
 			rotate(2);
 		
 		}
@@ -4327,6 +4340,14 @@ case ot_s_garage_north:
 		line(this, t_door_metal_locked, 8, 20, 15, 20);
 				ter(16, 19) = t_barndoor;
 				ter(16, 21) = t_barndoor;
+		line(this, t_door_metal_locked, 8, 3, 15, 3);
+				ter(16, 2) = t_barndoor;
+				ter(16, 4) = t_barndoor;
+				
+		place_items(mi_bigtools, 50, 4, 4, 7, 19, true, 0);
+		place_items(mi_bigtools, 50, 16, 5, 19, 19, true, 0);
+		place_items(mi_mechanics, 30, 8, 4, 15, 19, true, 0);
+		
 				
 		}
 		else
