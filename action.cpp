@@ -149,6 +149,8 @@ std::string action_ident(action_id act)
    return "peek";
   case ACTION_INVENTORY:
    return "inventory";
+  case ACTION_COMPARE:
+   return "compare";
   case ACTION_ORGANIZE:
    return "organize";
   case ACTION_USE:
@@ -303,6 +305,8 @@ std::string action_name(action_id act)
    return "Peek Around Corners";
   case ACTION_INVENTORY:
    return "Open Inventory";
+  case ACTION_COMPARE:
+   return "Compare two Items";
   case ACTION_ORGANIZE:
    return "Swap Inventory Letters";
   case ACTION_USE:

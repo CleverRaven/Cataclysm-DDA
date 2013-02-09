@@ -37,6 +37,7 @@ ACTION_LOOK,
 ACTION_PEEK,
 // Inventory Interaction (including quasi-inventories like bionics)
 ACTION_INVENTORY,
+ACTION_COMPARE,
 ACTION_ORGANIZE,
 ACTION_USE,
 ACTION_USE_WIELDED,
