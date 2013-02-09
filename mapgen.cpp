@@ -4319,7 +4319,7 @@ case ot_s_garage_north:
 			place_items(mi_dresser, 80, 1, 1, 1, 1, false, 0);
 			place_items(mi_dresser, 80, 4, 1, 4, 1, false, 0);
 			place_items(mi_bedroom, 65, 5, 1, 9, 3, false, 0);
-			place_items(mi_bathroom, 70, 11, 2, 12, 3, false, 0);
+			place_items(mi_softdrugs, 70, 11, 2, 12, 3, false, 0);
 			place_items(mi_bigtools, 50, 17, 1, 22, 8, true, 0);
 			place_items(mi_homeguns, 20, 17, 1, 22, 8, true, 0);
 			
