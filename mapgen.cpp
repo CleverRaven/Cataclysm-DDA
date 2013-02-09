@@ -4255,7 +4255,7 @@ case ot_s_garage_north:
 		line(this, t_wall_v, 14, 1, 14, 8);//Oddzball-House east wall #9
 		line(this, t_wall_v, 9, 4, 9, 5);//Oddzball-House interior wall 3 vertical #10
 		line(this, t_wall_v, 10, 1, 10, 3);//Oddzball-House interior wall 4 Vertical #11
-		square(this, t_dirt, 17, 1, 22, 8); //Oddzball-Barn Floor #None
+		square(this, t_dirtfloor, 17, 1, 22, 8); //Oddzball-Barn Floor #None
 		/*square(this, t_dirt, 1, 14, 22, 22); //Oddzball-Field dirt #12 */
 		ter( 5,  0) = t_window_domestic; //Oddzball-Begin placing items left-right, top-down
 		ter( 12,  0) = t_window_domestic;//House window
@@ -4317,6 +4317,17 @@ case ot_s_garage_north:
 		break;
 		//Oddzball-Farm Field
 		case ot_farm_field:
+		if(one_in(4))
+		{
+		
+		square(this, grass_or_dirt(), 0, 0, SEEX * 2, SEEY * 2);
+		square(this, t_wall_wood, 3, 3, 20, 20);
+		square(this, t_dirt, 4, 4, 19, 19);
+		line(this, t_door_metal_locked, 8, 20, 15, 20);
+				ter(16, 19) = t_gates_mech_control;
+				ter(16, 21) = t_gates_mech_control;
+		}
+		else
 		{
 		square(this, t_grass, 0, 0, 23, 23); //Oddzball basic lot
 		square(this, t_fence_barbed, 1, 1, 22, 22);

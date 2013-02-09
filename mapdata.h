@@ -79,6 +79,7 @@ t_grass,
 t_metal_floor,
 t_pavement, t_pavement_y, t_sidewalk,
 t_floor,
+t_dirtfloor //Oddzball-Dirt floor(Has roof) 
 t_grate,
 t_slime,
 t_bridge,
@@ -197,6 +198,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)},
 {"floor",	     '.', c_ltgray,    2, tr_null,  //Oddzball-Changed back to c_ltgray
 	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)},
+{"dirt floor",	     '.', c_brown,    2, tr_null,  //Oddzball-Dirt Floor, must have roofs!
+	mfb(transparent)|mfb(diggable)|mfb(supports_roof)|mfb(collapses)},
 {"metal grate",      '#', c_dkgray,  2, tr_null,
 	mfb(transparent)},
 {"slime",            '~', c_green,   6, tr_null,
