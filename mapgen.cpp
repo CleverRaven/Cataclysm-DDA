@@ -4326,6 +4326,8 @@ case ot_s_garage_north:
 			
 			
 			rotate(2);
+			
+			add_spawn(mon_zombie, rng(3, 6), 20, 4);
 		
 		}
 		break;
@@ -8559,7 +8561,7 @@ void map::add_extra(map_extra type, game *g)
   }
  }
  break;
-
+//Oddzball-Need to add cougar chance...
  case mx_wolfpack:
   add_spawn(mon_wolf, rng(3, 6), SEEX, SEEY);
   break;
