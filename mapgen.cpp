@@ -4324,10 +4324,10 @@ case ot_s_garage_north:
 			place_items(mi_homeguns, 20, 17, 1, 22, 8, true, 0);
 			
 			
-			
+			add_spawn(mon_zombie, rng(3, 6), 20, 4);
 			rotate(2);
 			
-			add_spawn(mon_zombie, rng(3, 6), 20, 4);
+			
 		
 		}
 		break;
@@ -4345,10 +4345,24 @@ case ot_s_garage_north:
 		line(this, t_door_metal_locked, 8, 3, 15, 3);
 				ter(16, 2) = t_barndoor;
 				ter(16, 4) = t_barndoor;
+		square(this, t_hay, 4, 4, 6, 6);
+		line(this, t_fence_h, 4, 8, 6, 8);
+		line(this, t_fence_v, 6, 9, 6, 14);
+		line(this, t_fence_h, 4, 15, 6, 15);
+		line(this, t_door_c, 6, 11, 6, 12);
+		
+		line(this, t_fence_h, 17, 8, 19, 8);
+		line(this, t_fence_v, 17, 9, 17, 14);
+		line(this, t_fence_h, 17, 15, 19, 15);
+		line(this, t_door_c, 17, 11, 17, 12);
+		line(this, t_locker, 4, 19, 7, 19);
+		
 				
 		place_items(mi_bigtools, 60, 4, 4, 7, 19, true, 0);
 		place_items(mi_bigtools, 60, 16, 5, 19, 19, true, 0);
 		place_items(mi_mechanics, 40, 8, 4, 15, 19, true, 0);
+		place_items(mi_home_hw, 50, 4, 19, 7, 19, true, 0);
+		place_items(mi_tools, 50, 4, 19, 7, 19, true, 0);
 		
 				
 		}
