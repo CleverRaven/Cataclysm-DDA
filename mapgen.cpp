@@ -4304,14 +4304,15 @@ case ot_s_garage_north:
 		ter( 0,  23) = t_fence_post;//Fence post 3
 		ter( 23,  23) = t_fence_post;//Fence post 4*/
 		
-		std::vector<direction> faces_road; //Oddzball Test rotation
+		/*std::vector<direction> faces_road; //Oddzball Test rotation
 		
 			if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
 			rotate(3);
 			if (t_north >= ot_road_null && t_north <= ot_bridge_ew)
 			rotate(2);
 			if (t_west >= ot_road_null && t_west <= ot_bridge_ew)
-			rotate(1);
+			rotate(1);*/
+			rotate(2);
 		
 		}
 		break;
