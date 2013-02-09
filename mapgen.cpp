@@ -4317,12 +4317,12 @@ case ot_s_garage_north:
 		break;
 		//Oddzball-Farm Field
 		case ot_farm_field:
-		if(one_in(4))
+		if(one_in(5))
 		{
 		
 		square(this, grass_or_dirt(), 0, 0, SEEX * 2, SEEY * 2);
 		square(this, t_wall_wood, 3, 3, 20, 20);
-		square(this, t_dirt, 4, 4, 19, 19);
+		square(this, t_floor, 4, 4, 19, 19);
 		line(this, t_door_metal_locked, 8, 20, 15, 20);
 				ter(16, 19) = t_gates_mech_control;
 				ter(16, 21) = t_gates_mech_control;
