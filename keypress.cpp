@@ -215,6 +215,7 @@ peek X\n\
 \n\
 # INVENTORY & QUASI-INVENTORY INTERACTION\n\
 inventory i\n\
+compare I\n\
 organize =\n\
 apply a\n\
 apply_wielded A\n\
