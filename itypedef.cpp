@@ -314,6 +314,10 @@ FOOD("zucchini",	 7, 30,	c_ltgreen,	VEGGY,	itm_null,
     2,  1,  0, 20,120,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 A tasty summer squash.");
 
+FOOD("corn",	 7, 30,	c_ltgreen,	VEGGY,	itm_null,
+    2,  1,  0, 20,120,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
+Delicious golden kernels.");
+
 FOOD("frozen dinner",	50, 80,	c_magenta,	FLESH,	itm_box_small,
     5,  4, -2, 60, 60,  0, -2,  0,  1, -3,	&iuse::none, ADD_NULL, "\
 Now with ONE POUND of meat and ONE POUND of carbs! Not as appetizing or\n\
@@ -651,6 +655,12 @@ MELEE("paper wrapper",	50,  1, ',', c_ltgray,	PAPER,	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
 	 1,  0, -8,  0, -2, 0, "\
 Just a piece of butcher's paper. Good for starting fires.");
+
+//    NAME		RAR PRC SYM  COLOR	MAT1	MAT2
+MELEE("withered plant",	70,  1, 't', c_ltgray,	PAPER,	MNULL,
+//	VOL WGT DAM CUT HIT FLAGS
+	 1,  0, -8,  0, -2, 0, "\
+A dead plant. Good for starting fires.");
 
 MELEE("syringe",	 8, 25, ',', c_ltcyan,	PLASTIC,MNULL,
 	 1,  0, -4,  6, -2, mfb(IF_SPEAR), "\

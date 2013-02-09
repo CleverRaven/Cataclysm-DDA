@@ -4344,9 +4344,9 @@ case ot_s_garage_north:
 				ter(16, 2) = t_barndoor;
 				ter(16, 4) = t_barndoor;
 				
-		place_items(mi_bigtools, 50, 4, 4, 7, 19, true, 0);
-		place_items(mi_bigtools, 50, 16, 5, 19, 19, true, 0);
-		place_items(mi_mechanics, 30, 8, 4, 15, 19, true, 0);
+		place_items(mi_bigtools, 60, 4, 4, 7, 19, true, 0);
+		place_items(mi_bigtools, 60, 16, 5, 19, 19, true, 0);
+		place_items(mi_mechanics, 40, 8, 4, 15, 19, true, 0);
 		
 				
 		}
@@ -4368,6 +4368,16 @@ case ot_s_garage_north:
 		line(this, t_dirtmound, 3, 15, 20, 15);
 		line(this, t_dirtmound, 3, 17, 20, 17);
 		line(this, t_dirtmound, 3, 19, 20, 19);
+		
+		place_items(mi_hydro, 70, 3, 3, 20, 3, true, turn); //Spawn crops
+		place_items(mi_hydro, 70, 3, 5, 20, 5, true, turn);
+		place_items(mi_hydro, 70, 3, 7, 20, 7, true, turn);
+		place_items(mi_hydro, 70, 3, 9, 20, 9, true, turn);
+		place_items(mi_hydro, 70, 3, 11, 20, 11, true, turn);
+		place_items(mi_hydro, 70, 3, 13, 20, 13, true, turn);
+		place_items(mi_hydro, 70, 3, 15, 20, 15, true, turn);
+		place_items(mi_hydro, 70, 3, 17, 20, 17, true, turn);
+		place_items(mi_hydro, 70 3, 19, 20, 19, true, turn);
 		}
 		break;
 		//Oddzball-End Farm field

@@ -513,7 +513,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_hydro],
 	itm_blueberries, itm_strawberries, itm_tomato, itm_broccoli,
-	itm_zucchini, itm_potato_raw, NULL);
+	itm_zucchini, itm_potato_raw, itm_corn, itm_withered, NULL);
 
  setvector(
    mapitems[mi_electronics],
