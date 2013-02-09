@@ -476,17 +476,16 @@ void game::init_mapitems()
 	itm_backpack, itm_battery, itm_novel_scifi, itm_novel_drama,
 	itm_manual_first_aid, itm_manual_tailor, itm_manual_carpentry,
 	itm_lighter, itm_sewing_kit, itm_thread, itm_hammer, itm_extinguisher,
-	itm_flashlight, itm_hotplate, itm_water_purifier, itm_radio, itm_rollmat, itm_tent_kit,
-  itm_canteen, itm_spray_can, NULL);
+	itm_flashlight, itm_hotplate, itm_water_purifier, itm_radio, itm_rollmat,
+        itm_tent_kit, itm_canteen, itm_spray_can, itm_ax, NULL);
 
  setvector(
    mapitems[mi_mechanics],
         itm_wrench, itm_frame, itm_motor,
         itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
         itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion, itm_v6_combustion,
-        itm_vehicle_controls,
-        itm_v8_combustion, itm_hacksaw, itm_welder, itm_motor, itm_motor_large,
-        itm_storage_battery, itm_solar_panel, itm_jerrycan, NULL);
+        itm_vehicle_controls, itm_v8_combustion, itm_hacksaw, itm_welder, itm_motor,
+        itm_motor_large, itm_storage_battery, itm_solar_panel, itm_jerrycan, NULL);
 
  setvector(
    mapitems[mi_chemistry],
