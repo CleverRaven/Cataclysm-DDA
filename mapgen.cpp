@@ -4318,7 +4318,6 @@ case ot_s_garage_north:
 		//Oddzball-Farm Field
 		case ot_farm_field:
 		int barn;
-		barn=(1);
 		if(barn = (1))
 		{
 		
@@ -4348,6 +4347,7 @@ case ot_s_garage_north:
 		line(this, t_dirtmound, 3, 15, 20, 15);
 		line(this, t_dirtmound, 3, 17, 20, 17);
 		line(this, t_dirtmound, 3, 19, 20, 19);
+		barn ++;
 		}
 		break;
 		//Oddzball-End Farm field
