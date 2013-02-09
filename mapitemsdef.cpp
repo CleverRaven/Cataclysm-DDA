@@ -27,8 +27,8 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_road],
 	itm_muffler, itm_pipe, itm_motor, itm_seat,
-   itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small, 
-   itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion, itm_v6_combustion, 
+   itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
+   itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion, itm_v6_combustion,
    itm_v8_combustion, itm_foot_crank, NULL);
 
  setvector(
@@ -350,7 +350,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_bags],
-	itm_backpack, itm_purse, itm_mbag, NULL);
+	itm_backpack, itm_purse, itm_mbag, itm_rucksack, NULL);
 
  setvector(
    mapitems[mi_allclothes],
@@ -455,7 +455,7 @@ void game::init_mapitems()
         itm_dress_shoes_fit, itm_bat_metal, itm_jeans_fit, itm_pants_army_fit,
         itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
         itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit, itm_lawnmower,
-        itm_lawnmower_machete, itm_picklocks, itm_puller, itm_press, NULL);
+        itm_lawnmower_machete, itm_picklocks, itm_rucksack, itm_puller, itm_press, NULL);
 
  setvector(
    mapitems[mi_mil_surplus], // NOT food or armor!
@@ -481,9 +481,9 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_mechanics],
         itm_wrench, itm_frame, itm_motor,
-        itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small, 
-        itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion, itm_v6_combustion, 
-        itm_vehicle_controls, 
+        itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
+        itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion, itm_v6_combustion,
+        itm_vehicle_controls,
         itm_v8_combustion, itm_hacksaw, itm_welder, itm_motor, itm_motor_large,
         itm_storage_battery, itm_solar_panel, itm_jerrycan, NULL);
 
@@ -609,7 +609,7 @@ void game::init_mapitems()
   itm_armguard_hard,
 	itm_helmet_ball, itm_helmet_riot, itm_helmet_motor, itm_holster,
 	itm_bootstrap, itm_UPS_off, itm_beltrig,
-        itm_pants_cargo_fit, itm_pants_army_fit,NULL);
+        itm_pants_cargo_fit, itm_pants_army_fit, itm_rucksack, NULL);
 
  setvector(
    mapitems[mi_survival_tools],
@@ -731,7 +731,7 @@ void game::init_mapitems()
 	itm_jumpsuit, itm_kevlar, itm_mask_gas, itm_helmet_army, itm_battery,
 	itm_plut_cell, itm_m249, itm_v8_combustion, itm_extinguisher,
 	itm_two_way_radio, itm_radio, itm_UPS_off, itm_beltrig,
-        itm_pants_army_fit, itm_boots_fit, NULL);
+        itm_pants_army_fit, itm_boots_fit, itm_rucksack, NULL);
 
 // TODO: Replace kevlar with the ceramic plate armor
  setvector(
@@ -751,7 +751,7 @@ void game::init_mapitems()
 	itm_landmine, itm_grenade, itm_flashbang, itm_EMPbomb, itm_gasbomb,
 	itm_smokebomb, itm_UPS_off, itm_tazer, itm_c4, itm_hk_g80, itm_12mm,
 	itm_binoculars, itm_u_shotgun, itm_beltrig, itm_pants_army_fit,
-        itm_spare_mag, itm_canteen, itm_jerrycan, NULL);
+        itm_spare_mag, itm_canteen, itm_jerrycan, itm_rucksack, NULL);
 
 
  setvector(
