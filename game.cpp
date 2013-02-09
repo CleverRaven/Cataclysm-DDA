@@ -1399,6 +1399,10 @@ input_ret game::get_input(int timeout_ms)
    } while (has);
    refresh_all();
   } break;
+  
+  case ACTION_COMPARE:
+   compare();
+   break;
 
   case ACTION_ORGANIZE:
    reassign_item();

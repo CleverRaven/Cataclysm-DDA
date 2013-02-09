@@ -2,6 +2,7 @@
 #include "inventory.h"
 #include "game.h"
 #include "keypress.h"
+#include "mapdata.h"
 
 item& inventory::operator[] (int i)
 {
@@ -194,11 +195,17 @@ void inventory::form_from_map(game *g, point origin, int range)
    for (int i = 0; i < g->m.i_at(x, y).size(); i++)
     if (!g->m.i_at(x, y)[i].made_of(LIQUID))
      add_item(g->m.i_at(x, y)[i]);
-// Kludge for now!
+// Kludges for now!
    if (g->m.field_at(x, y).type == fd_fire) {
     item fire(g->itypes[itm_fire], 0);
     fire.charges = 1;
     add_item(fire);
+   }
+   ter_id terrain_id = g->m.ter(x, y);
+   if (terrain_id == t_toilet || terrain_id == t_sink || terrain_id == t_water_sh || terrain_id == t_water_dp || terrain_id == t_sewage) {
+    item water(g->itypes[itm_water], 0);
+    water.charges = 50;
+    add_item(water);
    }
   }
  }
