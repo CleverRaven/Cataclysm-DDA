@@ -223,7 +223,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
   RECIPE(itm_9mm, CC_AMMO, "gun", "mechanics", 2, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_9mm_casing, 50, NULL);
   COMP(itm_smpistol_primer, 50, NULL);
   COMP(itm_gunpowder, 200, NULL);
@@ -231,7 +231,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_9mmP, CC_AMMO, "gun", "mechanics", 4, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_9mm_casing, 25, NULL);
   COMP(itm_smpistol_primer, 25, NULL);
   COMP(itm_gunpowder, 125, NULL);
@@ -239,7 +239,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_9mmP2, CC_AMMO, "gun", "mechanics", 6, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_9mm_casing, 10, NULL);
   COMP(itm_smpistol_primer, 10, NULL);
   COMP(itm_gunpowder, 60, NULL);
@@ -247,7 +247,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_38_special, CC_AMMO, "gun", "mechanics", 2, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_38_casing, 50, NULL);
   COMP(itm_smpistol_primer, 50, NULL);
   COMP(itm_gunpowder, 250, NULL);
@@ -255,7 +255,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_38_super, CC_AMMO, "gun", "mechanics", 4, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_38_casing, 25, NULL);
   COMP(itm_smpistol_primer, 25, NULL);
   COMP(itm_gunpowder, 175, NULL);
@@ -263,7 +263,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_40sw, CC_AMMO, "gun", "mechanics", 3, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_40_casing, 50, NULL);
   COMP(itm_smpistol_primer, 50, NULL);
   COMP(itm_gunpowder, 300, NULL);
@@ -271,7 +271,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_10mm, CC_AMMO, "gun", "mechanics", 5, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_40_casing, 50, NULL);
   COMP(itm_lgpistol_primer, 50, NULL);
   COMP(itm_gunpowder, 400, NULL);
@@ -279,7 +279,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_44magnum, CC_AMMO, "gun", "mechanics", 4, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+ TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_44_casing, 50, NULL);
   COMP(itm_lgpistol_primer, 50, NULL);
   COMP(itm_gunpowder, 500, NULL);
@@ -287,7 +287,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_45_acp, CC_AMMO, "gun", "mechanics", 3, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_45_casing, 50, NULL);
   COMP(itm_lgpistol_primer, 50, NULL);
   COMP(itm_gunpowder, 500, NULL);
@@ -295,7 +295,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_45_super, CC_AMMO, "gun", "mechanics", 6, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_45_casing, 10, NULL);
   COMP(itm_lgpistol_primer, 10, NULL);
   COMP(itm_gunpowder, 120, NULL);
@@ -303,7 +303,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_57mm, CC_AMMO, "gun", "mechanics", 4, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_57mm_casing, 100, NULL);
   COMP(itm_smrifle_primer, 100, NULL);
   COMP(itm_gunpowder, 400, NULL);
@@ -311,7 +311,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_46mm, CC_AMMO, "gun", "mechanics", 4, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_46mm_casing, 100, NULL);
   COMP(itm_smpistol_primer, 100, NULL);
   COMP(itm_gunpowder, 400, NULL);
@@ -327,7 +327,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_762_m87, CC_AMMO, "gun", "mechanics", 5, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_762_casing, 80, NULL);
   COMP(itm_lgrifle_primer, 80, NULL);
   COMP(itm_gunpowder, 640, NULL);
@@ -335,7 +335,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_223, CC_AMMO, "gun", "mechanics", 3, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_223_casing, 40, NULL);
   COMP(itm_smrifle_primer, 40, NULL);
   COMP(itm_gunpowder, 160, NULL);
@@ -343,7 +343,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_556, CC_AMMO, "gun", "mechanics", 5, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_223_casing, 40, NULL);
   COMP(itm_smrifle_primer, 40, NULL);
   COMP(itm_gunpowder, 240, NULL);
@@ -351,7 +351,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_556_incendiary, CC_AMMO, "gun", "mechanics", 6, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_223_casing, 30, NULL);
   COMP(itm_smrifle_primer, 30, NULL);
   COMP(itm_gunpowder, 180, NULL);
@@ -359,7 +359,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_270, CC_AMMO, "gun", "mechanics", 3, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_3006_casing, 20, NULL);
   COMP(itm_lgrifle_primer, 20, NULL);
   COMP(itm_gunpowder, 200, NULL);
@@ -367,7 +367,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_3006, CC_AMMO, "gun", "mechanics", 5, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_3006_casing, 10, NULL);
   COMP(itm_lgrifle_primer, 10, NULL);
   COMP(itm_gunpowder, 120, NULL);
@@ -375,7 +375,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_3006_incendiary, CC_AMMO, "gun", "mechanics", 7, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_3006_casing, 5, NULL);
   COMP(itm_lgrifle_primer, 5, NULL);
   COMP(itm_gunpowder, 60, NULL);
@@ -383,7 +383,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_308, CC_AMMO, "gun", "mechanics", 3, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_308_casing, 20, NULL);
   COMP(itm_lgrifle_primer, 20, NULL);
   COMP(itm_gunpowder, 160, NULL);
@@ -391,7 +391,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_762_51, CC_AMMO, "gun", "mechanics", 5, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_308_casing, 20, NULL);
   COMP(itm_lgrifle_primer, 20, NULL);
   COMP(itm_gunpowder, 200, NULL);
@@ -399,7 +399,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_762_51_incendiary, CC_AMMO, "gun", "mechanics", 6, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_308_casing, 10, NULL);
   COMP(itm_lgrifle_primer, 10, NULL);
   COMP(itm_gunpowder, 100, NULL);
@@ -407,7 +407,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_shot_bird, CC_AMMO, "gun", "mechanics", 2, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_shot_hull, 25, NULL);
   COMP(itm_shotgun_primer, 25, NULL);
   COMP(itm_gunpowder, 300, NULL);
@@ -415,7 +415,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_shot_00, CC_AMMO, "gun", "mechanics", 3, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_shot_hull, 25, NULL);
   COMP(itm_shotgun_primer, 25, NULL);
   COMP(itm_gunpowder, 600, NULL);
@@ -423,7 +423,7 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
  RECIPE(itm_shot_slug, CC_AMMO, "gun", "mechanics", 3, 30000, false);
   TOOL(itm_press, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 4, itm_press, 2, NULL);
+  TOOL(itm_fire, -1, itm_toolset, 1, itm_hotplate, 4, itm_press, 2, NULL);
   COMP(itm_shot_hull, 25, NULL);
   COMP(itm_shotgun_primer, 25, NULL);
   COMP(itm_gunpowder, 600, NULL);
@@ -447,40 +447,40 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_water, 1, NULL);
 
  RECIPE(itm_meat_cooked, CC_FOOD, "cooking", NULL, 0, 5000, false);
-  TOOL(itm_hotplate, 7, itm_toolset, 4, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 7, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, itm_spear_wood, -1, NULL);
   COMP(itm_meat, 1, NULL);
 
  RECIPE(itm_dogfood, CC_FOOD, "cooking", NULL, 4, 10000, false);
-  TOOL(itm_hotplate, 6, itm_toolset, 3, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 6, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_meat, 1, NULL);
   COMP(itm_veggy,1, NULL);
   COMP(itm_water,1, NULL);
 
  RECIPE(itm_veggy_cooked, CC_FOOD, "cooking", NULL, 0, 4000, false);
-  TOOL(itm_hotplate, 5, itm_toolset, 3, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, itm_spear_wood, -1, NULL);
   COMP(itm_veggy, 1, NULL);
 
  RECIPE(itm_spaghetti_cooked, CC_FOOD, "cooking", NULL, 0, 10000, false);
-  TOOL(itm_hotplate, 4, itm_toolset, 2, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 4, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_spaghetti_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
  RECIPE(itm_cooked_dinner, CC_FOOD, "cooking", NULL, 0, 5000, false);
-  TOOL(itm_hotplate, 3, itm_toolset, 2, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 3, itm_toolset, 1, itm_fire, -1, NULL);
   COMP(itm_frozen_dinner, 1, NULL);
 
  RECIPE(itm_macaroni_cooked, CC_FOOD, "cooking", NULL, 1, 10000, false);
-  TOOL(itm_hotplate, 4, itm_toolset, 2, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 4, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_macaroni_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
  RECIPE(itm_potato_baked, CC_FOOD, "cooking", NULL, 1, 15000, false);
-  TOOL(itm_hotplate, 3, itm_toolset, 2, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 3, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, NULL);
   COMP(itm_potato_raw, 1, NULL);
 
@@ -502,7 +502,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
  RECIPE(itm_apple_cider, CC_DRINK, "cooking", NULL, 2, 7000, false);
-  TOOL(itm_rock, -1, itm_toolset, -1, NULL);
+  TOOL(itm_rock, -1, itm_toolset, 1, NULL);
   COMP(itm_apple, 3, NULL);
 
  RECIPE(itm_long_island, CC_DRINK, "cooking", NULL, 1, 7000, false);
@@ -514,7 +514,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_triple_sec, 1, NULL);
 
  RECIPE(itm_jerky, CC_FOOD, "cooking", NULL, 3, 30000, false);
-  TOOL(itm_hotplate, 10, itm_toolset, 5, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 10, itm_toolset, 1, itm_fire, -1, NULL);
   COMP(itm_salt_water, 1, itm_salt, 4, NULL);
   COMP(itm_meat, 1, NULL);
 
@@ -524,26 +524,26 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_zucchini, 1, NULL);
 
  RECIPE(itm_broth, CC_FOOD, "cooking", NULL, 2, 10000, false);
-  TOOL(itm_hotplate, 5, itm_toolset, 3, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
   COMP(itm_broccoli, 1, itm_zucchini, 1, itm_veggy, 1, NULL);
 
  RECIPE(itm_soup, CC_FOOD, "cooking", NULL, 2, 10000, false);
-  TOOL(itm_hotplate, 5, itm_toolset, 3, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_broth, 2, NULL);
   COMP(itm_macaroni_raw, 1, itm_potato_raw, 1, NULL);
   COMP(itm_tomato, 2, itm_broccoli, 2, itm_zucchini, 2, itm_veggy, 2, NULL);
 
  RECIPE(itm_bread, CC_FOOD, "cooking", NULL, 4, 20000, false);
-  TOOL(itm_hotplate, 8, itm_toolset, 4, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 8, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_flour, 3, NULL);
   COMP(itm_water, 2, itm_water_clean, 2, NULL);
 
  RECIPE(itm_pie, CC_FOOD, "cooking", NULL, 3, 25000, false);
-  TOOL(itm_hotplate, 6, itm_toolset, 3, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 6, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, NULL);
   COMP(itm_flour, 2, NULL);
   COMP(itm_strawberries, 2, itm_apple, 2, itm_blueberries, 2, NULL);
@@ -551,7 +551,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
  RECIPE(itm_pizza, CC_FOOD, "cooking", NULL, 3, 20000, false);
-  TOOL(itm_hotplate, 8, itm_toolset, 4, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 8, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, NULL);
   COMP(itm_flour, 2, NULL);
   COMP(itm_veggy, 1, itm_tomato, 2, itm_broccoli, 1, NULL);
@@ -559,7 +559,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
  RECIPE(itm_meth, CC_CHEM, "cooking", NULL, 5, 20000, false);
-  TOOL(itm_hotplate, 15, itm_toolset, 8, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 15, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_bottle_glass, -1, itm_hose, -1, NULL);
   COMP(itm_dayquil, 2, itm_royal_jelly, 1, NULL);
   COMP(itm_aspirin, 40, NULL);
@@ -567,7 +567,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
 
  RECIPE(itm_crack,        CC_CHEM, "cooking", NULL,     4, 30000,false);
   TOOL(itm_pot, -1, NULL);
-  TOOL(itm_fire, -1, itm_hotplate, 8, itm_toolset, 2, NULL);
+  TOOL(itm_fire, -1, itm_hotplate, 8, itm_toolset, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
   COMP(itm_coke, 12, NULL);
   COMP(itm_ammonia, 1, NULL);
@@ -589,20 +589,20 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_bleach, 2, itm_purifier, 1, NULL);
 
  RECIPE(itm_heroin, CC_CHEM, "cooking", NULL, 6, 2000, false);
-  TOOL(itm_hotplate, 3, itm_toolset, 2, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 3, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, NULL);
   COMP(itm_salt_water, 1, itm_salt, 4, NULL);
   COMP(itm_oxycodone, 40, NULL);
 
  RECIPE(itm_mutagen, CC_CHEM, "cooking", "firstaid", 8, 10000, false);
-  TOOL(itm_hotplate, 25, itm_toolset, 12, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 25, itm_toolset, 2, itm_fire, -1, NULL);
   COMP(itm_meat_tainted, 3, itm_veggy_tainted, 5, itm_fetus, 1, itm_arm, 2,
        itm_leg, 2, NULL);
   COMP(itm_bleach, 2, NULL);
   COMP(itm_ammonia, 1, NULL);
 
  RECIPE(itm_purifier, CC_CHEM, "cooking", "firstaid", 9, 10000, false);
-  TOOL(itm_hotplate, 25, itm_toolset, 12, itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 25, itm_toolset, 2, itm_fire, -1, NULL);
   COMP(itm_royal_jelly, 4, itm_mutagen, 2, NULL);
   COMP(itm_bleach, 3, NULL);
   COMP(itm_ammonia, 2, NULL);
@@ -918,24 +918,24 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_bleach, 1, itm_ant_egg, 1, NULL);
 
  RECIPE(itm_steel_lump, CC_MISC, "mechanics", NULL, 0, 5000, true);
-  TOOL(itm_welder, 20, NULL);
+  TOOL(itm_welder, 20, itm_toolset, 1, NULL);
   COMP(itm_steel_chunk, 4, NULL);
 
  RECIPE(itm_frame, CC_MISC, "mechanics", NULL, 1, 8000, true);
-  TOOL(itm_welder, 50, NULL);
+  TOOL(itm_welder, 50, itm_toolset, 2, NULL);
   COMP(itm_steel_lump, 3, NULL);
 
  RECIPE(itm_steel_plate, CC_MISC, "mechanics", NULL,4, 12000, true);
-  TOOL(itm_welder, 100, NULL);
+  TOOL(itm_welder, 100, itm_toolset, 4, NULL);
   COMP(itm_steel_lump, 8, NULL);
 
  RECIPE(itm_spiked_plate, CC_MISC, "mechanics", NULL, 4, 12000, true);
-  TOOL(itm_welder, 120, NULL);
+  TOOL(itm_welder, 120, itm_toolset, 5, NULL);
   COMP(itm_steel_lump, 8, NULL);
   COMP(itm_steel_chunk, 4, itm_scrap, 8, NULL);
 
  RECIPE(itm_hard_plate, CC_MISC, "mechanics", NULL, 4, 12000, true);
-  TOOL(itm_welder, 300, NULL);
+  TOOL(itm_welder, 300, itm_toolset, 12, NULL);
   COMP(itm_steel_lump, 24, NULL);
 
  RECIPE(itm_crowbar, CC_MISC, "mechanics", NULL, 1, 1000, false);
