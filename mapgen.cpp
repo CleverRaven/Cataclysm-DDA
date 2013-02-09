@@ -4348,13 +4348,13 @@ case ot_s_garage_north:
 		square(this, t_hay, 4, 4, 6, 6);
 		line(this, t_fence_h, 4, 8, 6, 8);
 		line(this, t_fence_v, 6, 9, 6, 14);
-		line(this, t_fence_h, 4, 15, 6, 15);
+		line(this, t_fence_gate, 4, 15, 6, 15);
 		line(this, t_door_c, 6, 11, 6, 12);
 		
 		line(this, t_fence_h, 17, 8, 19, 8);
 		line(this, t_fence_v, 17, 9, 17, 14);
 		line(this, t_fence_h, 17, 15, 19, 15);
-		line(this, t_door_c, 17, 11, 17, 12);
+		line(this, t_fence_gate, 17, 11, 17, 12);
 		line(this, t_locker, 4, 19, 7, 19);
 		
 				
