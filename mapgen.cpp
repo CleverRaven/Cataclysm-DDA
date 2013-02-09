@@ -4240,7 +4240,13 @@ case ot_s_garage_north:
 		square(this, t_grass, 0, 0, 23, 23); //Oddzball basic lot
 		square(this, t_floor, 0, 0, 14, 9);  //Oddzball-house floor #1
 		square(this, t_wall_wood, 16, 0, 23, 9); //Oddzball-Barn exterior #2
-		square(this, t_fence_barbed, 0, 13, 23, 23); //Oddzball-field exterior #3
+		
+		for (int i = 0; i < SEEX * 2; i++) {
+		for (int j = 13; j < SEEY * 2; j++)
+		ter(i, j) = grass_or_dirt();
+		}
+		
+		/*square(this, grass_or_dirt(), 0, 13, 23, 23); //Oddzball-field exterior #3 */
 		line(this, t_wall_h, 0, 0, 14, 0); //Oddzball-House north wall #4
 		line(this, t_wall_h, 0, 9, 14, 9); //Oddzball-House south wall #5
 		line(this, t_wall_h, 1, 5, 8, 5); //Oddzball-House interior wall 1 horizontal #6
@@ -4250,7 +4256,7 @@ case ot_s_garage_north:
 		line(this, t_wall_v, 9, 4, 9, 5);//Oddzball-House interior wall 3 vertical #10
 		line(this, t_wall_v, 10, 1, 10, 3);//Oddzball-House interior wall 4 Vertical #11
 		square(this, t_dirt, 17, 1, 22, 8); //Oddzball-Barn Floor #None
-		square(this, t_dirt, 1, 14, 22, 22); //Oddzball-Field dirt #12
+		/*square(this, t_dirt, 1, 14, 22, 22); //Oddzball-Field dirt #12 */
 		ter( 5,  0) = t_window_domestic; //Oddzball-Begin placing items left-right, top-down
 		ter( 12,  0) = t_window_domestic;//House window
 		ter( 19,  0) = t_door_c;//Barn door N1
@@ -4289,14 +4295,14 @@ case ot_s_garage_north:
 		ter( 20,  9) = t_door_c;//Barn door S2
 		line(this, t_shrub, 1, 10, 3, 10); //Bushes 1
 		line(this, t_shrub, 11, 10, 13, 10); //Bushes 2
-		ter( 0,  13) = t_fence_post;//Fence post 1
+		/*ter( 0,  13) = t_fence_post;//Fence post 1
 		ter( 23,  13) = t_fence_post;//Fence post 2
 		line(this, t_dirtmound, 2, 15, 21, 15); //Crop row 1
 		line(this, t_dirtmound, 2, 17, 21, 17); //Crop row 2
 		line(this, t_dirtmound, 2, 19, 21, 19); //Crop row 3
 		line(this, t_dirtmound, 2, 21, 21, 21); //Crop row 1
 		ter( 0,  23) = t_fence_post;//Fence post 3
-		ter( 23,  23) = t_fence_post;//Fence post 4
+		ter( 23,  23) = t_fence_post;//Fence post 4*/
 		
 		std::vector<direction> faces_road; //Oddzball Test rotation
 		
