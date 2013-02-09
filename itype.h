@@ -133,7 +133,7 @@ itm_hat_ball, itm_hat_boonie, itm_hat_cotton, itm_hat_knit, itm_hat_hunting,
  itm_helmet_army, itm_helmet_riot, itm_helmet_motor, itm_helmet_chitin,
  itm_helmet_plate, itm_tophat,
 // High-storage
-itm_backpack, itm_purse, itm_mbag, itm_fanny, itm_holster, itm_bootstrap,
+itm_backpack, itm_rucksack, itm_purse, itm_mbag, itm_fanny, itm_holster, itm_bootstrap,
 // Decorative
 itm_ring, itm_necklace,
 // Ammunition
