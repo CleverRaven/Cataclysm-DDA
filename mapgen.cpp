@@ -4317,7 +4317,9 @@ case ot_s_garage_north:
 		break;
 		//Oddzball-Farm Field
 		case ot_farm_field:
-		if(one_in(5))
+		int barn;
+		barn=(1);
+		if(barn = (1))
 		{
 		
 		square(this, grass_or_dirt(), 0, 0, SEEX * 2, SEEY * 2);
@@ -4326,6 +4328,7 @@ case ot_s_garage_north:
 		line(this, t_door_metal_locked, 8, 20, 15, 20);
 				ter(16, 19) = t_barndoor;
 				ter(16, 21) = t_barndoor;
+		barn ++;
 		}
 		else
 		{

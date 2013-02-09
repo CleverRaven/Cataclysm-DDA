@@ -4544,7 +4544,7 @@ void game::examine()
 //Debug for testing things
  }
  
- else if (m.ter(examx, examy) == t_barndoor && query_yn("Open barn doors?"))
+ else if (m.ter(examx, examy) == t_barndoor && query_yn("Pull the rope?"))
  {
     add_msg("You begin opening the doors...");
     u.moves -=900;
