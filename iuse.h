@@ -121,6 +121,8 @@ class iuse
   void boltcutters      (game *g, player *p, item *it, bool t);
   void mop              (game *g, player *p, item *it, bool t);
   void spray_can        (game *g, player *p, item *it, bool t);
+  void rag              (game *g, player *p, item *it, bool t);
+  
 // MACGUFFINS
   void mcg_note		(game *g, player *p, item *it, bool t);
 // ARTIFACTS
