@@ -89,8 +89,9 @@ itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
  itm_glass_plate, itm_glass_bowl, itm_glass, itm_tin_plate, itm_fork, itm_spork,
 
 // Vehicle parts
-itm_frame, itm_wheel, itm_big_wheel, itm_seat, itm_vehicle_controls,
- //itm_combustion_tiny, itm_combustion_small, itm_combustion, itm_combustion_large,
+ itm_frame,
+ itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small, 
+ itm_seat, itm_vehicle_controls,
  itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion,
  itm_v6_combustion, itm_v8_combustion,
  itm_motor, itm_motor_large, itm_plasma_engine, itm_foot_crank,

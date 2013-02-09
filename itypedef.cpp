@@ -1177,12 +1177,45 @@ MELEE("spork",	90,  15,';', c_ltcyan,	STEEL, 	MNULL,
 Foons are for scrubs, real men use sporks.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("steel frame",  25, 35, ']', c_cyan,  STEEL,   MNULL,
+MELEE("steel frame",  20, 55, ']', c_cyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     60,  240,  20,  0,  -5, 0, "\
 A large frame made of steel. Useful for crafting.");
-TECH( mfb(TEC_WBLOCK_3) );
+TECH( mfb(TEC_DEF_DISARM) );
 
+#define VAR_VEH_PART(name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
+              flags, bigmin, bigmax, des)\
+	index++;itypes.push_back(new it_var_veh_part(index,rarity,price,name,des,sym,\
+color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags, bigmin, bigmax))
+
+//itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small, 
+//           NAME     RAR PRC  SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("wheel", 10, 100, ']', c_dkgray,  STEEL,   PLASTIC,
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
+    40,  140, 12,  0,  -1, 0,       13,         20, "\
+A car wheel");
+//           NAME         RAR PRC  SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("wide wheel", 4, 340, ']', c_dkgray,  STEEL,   PLASTIC,
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
+    70,  260, 17,  0,  -1, 0,       17,         36, "\
+A wide wheel. \\o/ This wide.");
+//           NAME            RAR  PRC  SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("bicycle wheel", 18, 40,  ']', c_dkgray,  STEEL,   PLASTIC,
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
+    28,  45,  8,  0,  -1, 0,       9,         18, "\
+A bicycle wheel");
+//           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("motorbike wheel", 13, 140,  ']', c_dkgray,  STEEL,   PLASTIC,
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
+    33,  85,  10,  0,  -1, 0,       9,         14, "\
+A motorbike wheel");
+//           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("small wheel",    5, 140,  ']', c_dkgray,  STEEL,   PLASTIC,
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
+    9,  42,  10,  0,  -1, 0,       6,         14, "\
+A pretty small wheel. Probably from one of those segway things.\
+It is not very menacing.");
+/*
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("wheel",  15, 50, ']', c_dkgray,  STEEL,   PLASTIC,
 //  VOL WGT DAM CUT HIT FLAGS
@@ -1195,7 +1228,7 @@ MELEE("large wheel",  6, 80, ']', c_dkgray,  STEEL,   PLASTIC,
 //  VOL WGT DAM CUT HIT FLAGS
     20,  200,  12,  0,  -5, 0, "\
 A large wheel, from some big car.");
-TECH( mfb(TEC_WBLOCK_3) );
+TECH( mfb(TEC_WBLOCK_3) );*/
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("seat",  8, 250, '0', c_red,  PLASTIC,   MNULL,
@@ -1209,11 +1242,6 @@ MELEE("vehicle controls",  3, 400, '$', c_ltcyan,  PLASTIC,   STEEL,
     12,  30,  2,  0,  -4, 0, "\
 A set of various vehicle controls. Useful for crafting.");
 
-
-#define VAR_VEH_PART(name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
-              flags, bigmin, bigmax, des)\
-	index++;itypes.push_back(new it_var_veh_part(index,rarity,price,name,des,sym,\
-color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags, bigmin, bigmax))
 //                                 NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("1-cylinder engine",  3, 100, ':', c_ltcyan,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX

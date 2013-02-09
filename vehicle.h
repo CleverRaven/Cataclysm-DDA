@@ -251,7 +251,7 @@ public:
     int noise (bool fueled = true, bool gas_only = false);
 
 // Calculate area covered by wheels and, optionally count number of wheels
-    int wheels_area (int *cnt = 0);
+    float wheels_area (int *cnt = 0);
 
 // Combined coefficient of aerodynamic and wheel friction resistance of vehicle, 0-1.0.
 // 1.0 means it's ideal form and have no resistance at all. 0 -- it won't move

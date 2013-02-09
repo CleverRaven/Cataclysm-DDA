@@ -640,9 +640,13 @@ std::string item::tname(game *g)
 
  if (is_var_veh_part()){
   //if(is_engine()){
+  if(typeId() > itm_wheel_small){ //todo, gooder.
    ret.precision(4);
    ret << (float)bigness/100 << "-Liter ";
-  //}
+  }
+  else{ //inches, e.g. "20" wheel"
+   ret << bigness << "\" ";
+  }
  }
 
  if (volume() >= 4 && burnt >= volume() * 2)

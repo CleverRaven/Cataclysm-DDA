@@ -104,10 +104,10 @@ void game::init_vehicles()
     PART (-1,0,     vp_frame_h);
     PART (-1,0,     vp_cargo_trunk);
     PART (-1,0,     vp_steel_plate);
-    PART (1, -1,    vp_wheel_large);
-    PART (1,  1,    vp_wheel_large);
-    PART (-1,-1,    vp_wheel_large);
-    PART (-1, 1,    vp_wheel_large);
+    PART (1, -1,    vp_wheel_motorbike);
+    PART (1,  1,    vp_wheel_motorbike);
+    PART (-1,-1,    vp_wheel_motorbike);
+    PART (-1, 1,    vp_wheel_motorbike);
 
         //        name
     VEHICLE ("Quad Bike Chassis");
@@ -120,9 +120,9 @@ void game::init_vehicles()
     PART (0, 0,     vp_seat);
     PART (1, 0,     vp_frame_cover);
     PART (-1,0,     vp_frame_h);
-    PART (1, -1,    vp_wheel_large);
-    PART (-1,-1,    vp_wheel_large);
-    PART (-1, 1,    vp_wheel_large);
+    PART (1, -1,    vp_wheel_motorbike);
+    PART (-1,-1,    vp_wheel_motorbike);
+    PART (-1, 1,    vp_wheel_motorbike);
 
     //        name
     VEHICLE ("Car");
@@ -253,8 +253,8 @@ void game::init_vehicles()
     PART (2, 0,     vp_frame_cover);
     PART (2, 0,     vp_engine_gas_v6);
     PART (2, 1,     vp_frame_h);
-    PART (2, -2,    vp_wheel_large);
-    PART (2,  2,    vp_wheel_large);
+    PART (2, -2,    vp_wheel_wide);
+    PART (2,  2,    vp_wheel_wide);
 
     PART (-1, -1,   vp_board_h);
     PART (-1, 0,    vp_board_h);
@@ -279,8 +279,8 @@ void game::init_vehicles()
     PART (-3, 0,    vp_cargo_trunk);
     PART (-3, 1,    vp_frame_h);
     PART (-3, 1,    vp_cargo_trunk);
-    PART (-3, -2,   vp_wheel_large);
-    PART (-3, 2,    vp_wheel_large);
+    PART (-3, -2,   vp_wheel_wide);
+    PART (-3, 2,    vp_wheel_wide);
 
 	VEHICLE ("Semi Truck");
 	// semitrucksleeper
@@ -369,25 +369,25 @@ void game::init_vehicles()
 
 	PART (-3, 0, vp_frame_c);
 	PART (-3, -1, vp_frame_c);
-	PART (-3, 1, vp_wheel_large);
-	PART (-3, -2, vp_wheel_large);
-	PART (-3, 2, vp_wheel_large);
-	PART (-3, -3, vp_wheel_large);
+	PART (-3, 1, vp_wheel_wide);
+	PART (-3, -2, vp_wheel_wide);
+	PART (-3, 2, vp_wheel_wide);
+	PART (-3, -3, vp_wheel_wide);
 
 	PART (4, 0, vp_frame_v2);
 	PART (4, -1, vp_frame_v2);
 	PART (4, -1, vp_engine_gas_v8);
 	PART (4, 1, vp_frame_h);
 	PART (4, -2, vp_frame_h);
-	PART (4, 2, vp_wheel_large);
-	PART (4, -3, vp_wheel_large);
+	PART (4, 2, vp_wheel_wide);
+	PART (4, -3, vp_wheel_wide);
 
 	PART (-4, 0, vp_frame_c);
 	PART (-4, -1, vp_frame_c);
-	PART (-4, 1, vp_wheel_large);
-	PART (-4, -2, vp_wheel_large);
-	PART (-4, 2, vp_wheel_large);
-	PART (-4, -3, vp_wheel_large);
+	PART (-4, 1, vp_wheel_wide);
+	PART (-4, -2, vp_wheel_wide);
+	PART (-4, 2, vp_wheel_wide);
+	PART (-4, -3, vp_wheel_wide);
 
 	PART (5, 0, vp_frame_cover);
 	PART (5, -1, vp_frame_cover);
@@ -427,10 +427,10 @@ void game::init_vehicles()
 
 	PART (-1, 0, vp_frame_c);
 	PART (-1, -1, vp_frame_c);
-	PART (-1, 1, vp_wheel_large);
-	PART (-1, -2, vp_wheel_large);
-	PART (-1, 2, vp_wheel_large);
-	PART (-1, -3, vp_wheel_large);
+	PART (-1, 1, vp_wheel_wide);
+	PART (-1, -2, vp_wheel_wide);
+	PART (-1, 2, vp_wheel_wide);
+	PART (-1, -3, vp_wheel_wide);
 
 	PART (2, 0, vp_frame_h);
 	PART (2, -1, vp_frame_h);
@@ -441,10 +441,10 @@ void game::init_vehicles()
 
 	PART (-2, 0, vp_frame_c);
 	PART (-2, -1, vp_frame_c);
-	PART (-2, 1, vp_wheel_large);
-	PART (-2, -2, vp_wheel_large);
-	PART (-2, 2, vp_wheel_large);
-	PART (-2, -3, vp_wheel_large);
+	PART (-2, 1, vp_wheel_wide);
+	PART (-2, -2, vp_wheel_wide);
+	PART (-2, 2, vp_wheel_wide);
+	PART (-2, -3, vp_wheel_wide);
 
 	PART (3, 0, vp_frame_h);
 	PART (3, -1, vp_frame_h);
@@ -709,15 +709,15 @@ void game::init_vehicles()
 	PART (2, 2, vp_frame_v);
 
 	PART (-2, 0, vp_frame_h);
-	PART (-2, -1, vp_wheel_large);
+	PART (-2, -1, vp_wheel_wide);
 	PART (-2, -1, vp_seat);
 	PART (-2, -1, vp_steel_plate);
-	PART (-2, 1, vp_wheel_large);
+	PART (-2, 1, vp_wheel_wide);
 	PART (-2, 1, vp_seat);
 	PART (-2, 1, vp_steel_plate);
-	PART (-2, -2, vp_wheel_large);
+	PART (-2, -2, vp_wheel_wide);
 	PART (-2, -2, vp_steel_plate);
-	PART (-2, 2, vp_wheel_large);
+	PART (-2, 2, vp_wheel_wide);
 	PART (-2, 2, vp_steel_plate);
 
 	PART (3, 0, vp_frame_v2);
@@ -727,21 +727,21 @@ void game::init_vehicles()
 	PART (3, 0, vp_steel_plate);
 //	switch for hydrogen fuel or use both and change (3,0) to (3,1) and (3,-1)
 //	PART (3, 0, vp_engine_plasma);
-	PART (3, -2, vp_wheel_large);
+	PART (3, -2, vp_wheel_wide);
 	PART (3, -2, vp_steel_plate);
-	PART (3, 2, vp_wheel_large);
+	PART (3, 2, vp_wheel_wide);
 	PART (3, 2, vp_steel_plate);
 
 	PART (-3, 0, vp_frame_h);
-	PART (-3, -1, vp_wheel_large);
+	PART (-3, -1, vp_wheel_wide);
 	PART (-3, -1, vp_seat);
 	PART (-3, -1, vp_steel_plate);
-	PART (-3, 1, vp_wheel_large);
+	PART (-3, 1, vp_wheel_wide);
 	PART (-3, 1, vp_seat);
 	PART (-3, 1, vp_steel_plate);
-	PART (-3, -2, vp_wheel_large);
+	PART (-3, -2, vp_wheel_wide);
 	PART (-3, -2, vp_steel_plate);
-	PART (-3, 2, vp_wheel_large);
+	PART (-3, 2, vp_wheel_wide);
 	PART (-3, 2, vp_steel_plate);
 
 	PART (4, 0, vp_frame_h2);
@@ -801,14 +801,14 @@ void game::init_vehicles()
 	PART ( 1, 2, vp_frame_h);
 	PART ( 1, 2, vp_window);
 
-	PART ( 2, -2, vp_wheel_large);
+	PART ( 2, -2, vp_wheel_wide);
 	PART ( 2, -1, vp_frame_h2);
 	PART ( 2, -1, vp_head_light);
 	PART ( 2, 0, vp_frame_cover);
 	PART ( 2, 0, vp_engine_gas_v8);
 	PART ( 2, 1, vp_frame_h2);
 	PART ( 2, 1, vp_head_light);
-	PART ( 2, 2, vp_wheel_large);
+	PART ( 2, 2, vp_wheel_wide);
 
 	PART ( -1, -2, vp_frame_v);
 	PART ( -1, -2, vp_window);
@@ -877,7 +877,7 @@ void game::init_vehicles()
 	PART ( -5, 2, vp_frame_v);
 	PART ( -5, 2, vp_window);
 
-	PART ( -6, -2, vp_wheel_large);
+	PART ( -6, -2, vp_wheel_wide);
 	//	PART ( -6, -2, vp_window);
 	PART ( -6, -1, vp_frame_h2);
 	PART ( -6, -1, vp_seat);
@@ -887,7 +887,7 @@ void game::init_vehicles()
 	PART ( -6, 1, vp_frame_h2);
 	PART ( -6, 1, vp_seat);
 	PART ( -6, 1, vp_roof);
-	PART ( -6, 2, vp_wheel_large);
+	PART ( -6, 2, vp_wheel_wide);
 	//	PART ( -6, 2, vp_window);
 
 	PART ( -7, -2, vp_frame_v);

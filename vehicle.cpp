@@ -547,9 +547,12 @@ void vehicle::print_part_desc (void *w, int y1, int width, int p, int hl)
 
         //part name. with bigness, if any.
         std::stringstream nom;
-        if(parts[pl[i]].bigness){
+        if (part_flag(pl[i], vpf_engine)){ //bigness == liters
            nom.precision(4);
            nom << (float)(parts[pl[i]].bigness) / 100 << "-Liter ";
+        }
+        else if (part_flag(pl[i], vpf_wheel)){ //bigness == inches
+           nom << (parts[pl[i]].bigness) << "\" ";
         }
         nom << part_info(pl[i]).name;
         std::string partname = nom.str();
@@ -842,23 +845,26 @@ int vehicle::noise (bool fueled, bool gas_only)
     return pwrs;
 }
 
-int vehicle::wheels_area (int *cnt)
+float vehicle::wheels_area (int *cnt)
 {
     int count = 0;
-    int size = 0;
+    int total_area = 0;
     for (int i = 0; i < external_parts.size(); i++)
     {
         int p = external_parts[i];
         if (part_flag(p, vpf_wheel) &&
             parts[p].hp > 0)
         {
-            size += part_info(p).size;
+            int width = part_info(p).wheel_width;
+            int bigness = parts[p].bigness;
+            // 9 inches, for reference, is about normal for cars.
+            total_area += ((float)width/9) * bigness;
             count++;
         }
     }
     if (cnt)
         *cnt = count;
-    return size;
+    return total_area;
 }
 
 float vehicle::k_dynamics ()
@@ -884,7 +890,7 @@ float vehicle::k_dynamics ()
         frame_obst += obst[o];
     float ae0 = 200.0;
     float fr0 = 1000.0;
-    int wa = wheels_area();
+    float wa = wheels_area();
 
     // calculate aerodynamic coefficient
     float ka = ae0 / (ae0 + frame_obst);
@@ -897,11 +903,14 @@ float vehicle::k_dynamics ()
 
 float vehicle::k_mass ()
 {
-    int wa = wheels_area();
+    float wa = wheels_area();
+    if (wa <= 0)
+       return 0;
+
     float ma0 = 50.0;
 
     // calculate safe speed reduction due to mass
-    float km = wa > 0? ma0 / (ma0 + total_mass() / 8 / (float) wa) : 0;
+    float km = ma0 / (ma0 + total_mass() / (8 * (float) wa));
 
     return km;
 }
