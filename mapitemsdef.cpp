@@ -47,7 +47,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_kitchen],
-	itm_pot, itm_pan, itm_knife_butter, itm_knife_steak, itm_knife_butcher,
+	itm_chips, itm_pot, itm_pan, itm_knife_butter, itm_knife_steak, itm_knife_butcher,
 	itm_cookbook, itm_rag, itm_hotplate, itm_flashlight, itm_extinguisher,
 	itm_whiskey, itm_bleach, itm_ammonia, itm_flour, itm_sugar, itm_salt,
 	itm_tea_raw, itm_coffee_raw,
@@ -176,19 +176,20 @@ void game::init_mapitems()
    mapitems[mi_hardware],
 	itm_superglue, itm_chain, itm_rope_6, itm_rope_30, itm_glass_sheet,
 	itm_pipe, itm_nail, itm_hose, itm_string_36, itm_frame, itm_metal_tank,
-	itm_wire, itm_wire_barbed, itm_duct_tape, itm_jerrycan, itm_lawnmower, itm_foot_crank, itm_spray_can,
+	itm_wire, itm_wire_barbed, itm_duct_tape, itm_jerrycan, itm_lawnmower,
+	itm_foot_crank, itm_spray_can, itm_ax,
 	NULL);
 
  setvector(
    mapitems[mi_tools],
 	itm_screwdriver, itm_hammer, itm_wrench, itm_saw, itm_hacksaw,
 	itm_hammer_sledge, itm_xacto, itm_flashlight, itm_crowbar, itm_nailgun,
-	itm_press, itm_puller, itm_boltcutters, NULL);
+	itm_press, itm_puller, itm_boltcutters, itm_ax, NULL);
 
  setvector(
    mapitems[mi_bigtools],
 	itm_broom, itm_mop, itm_hoe, itm_shovel, itm_chainsaw_off,
-	itm_hammer_sledge, itm_jackhammer, itm_jacqueshammer, itm_welder, NULL);
+	itm_hammer_sledge, itm_jackhammer, itm_jacqueshammer, itm_welder, itm_ax, NULL);
 
  setvector(
    mapitems[mi_mischw],
@@ -222,7 +223,7 @@ void game::init_mapitems()
 	itm_manual_first_aid, itm_manual_traps, itm_lighter, itm_sewing_kit, itm_thread,
 	itm_hammer, itm_flashlight, itm_water_purifier, itm_radio, itm_beartrap,
         itm_UPS_off, itm_string_36, itm_longbow, itm_compbow, itm_arrow_wood,
-        itm_arrow_cf, itm_wire, itm_rollmat, itm_tent_kit, itm_canteen, NULL);
+        itm_arrow_cf, itm_wire, itm_rollmat, itm_tent_kit, itm_canteen, itm_ax, NULL);
 
 
  setvector(
