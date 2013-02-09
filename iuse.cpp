@@ -105,7 +105,8 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
   mvwprintz(w, 5, 1, c_ltgray, "4: Right Arm");
   mvwprintz(w, 6, 1, c_ltgray, "5: Left Leg");
   mvwprintz(w, 7, 1, c_ltgray, "6: Right Leg");
-  mvwprintz(w, 8, 1, c_ltgray, "7: Exit");
+  mvwprintz(w, 8, 1, c_ltgray, "7: Stop Bleeding");
+  mvwprintz(w, 9, 1, c_ltgray, "8: Exit");
   nc_color col;
   int curhp;
   for (int i = 0; i < num_hp_parts; i++) {
@@ -179,12 +180,17 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
      return;
     } else
      healed = hp_leg_r;
+   } else if (ch == '8') {
+	g->add_msg_if_player(p,"Never mind.");
+ 	add_or_drop_item(g, p, it);
+    return;
+	
    } else if (ch == '7') {
-    g->add_msg_if_player(p,"Never mind.");
-    add_or_drop_item(g, p, it);
+    g->add_msg_if_player(p,"You stopped the bleeding.");
+    p->rem_disease(DI_BLEED);
     return;
    }
-  } while (ch < '1' || ch > '7');
+  } while (ch < '1' || ch > '8');
   werase(w);
   wrefresh(w);
   delwin(w);
@@ -2939,7 +2945,7 @@ void iuse::mop(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"There's nothing to mop there.");
  }
 }
-void iuse::rag(game *g, player *p, item *it, bool t)  //Oddzball-Use rags to possibly stop bleeding.
+void iuse::rag(game *g, player *p, item *it, bool t)
 {
 if (p->has_disease(DI_BLEED)){
 
