@@ -79,7 +79,7 @@ t_grass,
 t_metal_floor,
 t_pavement, t_pavement_y, t_sidewalk,
 t_floor,
-t_dirtfloor //Oddzball-Dirt floor(Has roof) 
+t_dirtfloor, //Oddzball-Dirt floor(Has roof) 
 t_grate,
 t_slime,
 t_bridge,
