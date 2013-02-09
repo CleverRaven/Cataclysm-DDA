@@ -123,6 +123,7 @@ MF_SEES,	// It can see you (and will run/follow)
 MF_HEARS,	// It can hear you
 MF_GOODHEARING,	// Pursues sounds more than most monsters
 MF_SMELLS,	// It can smell you
+MF_KEENNOSE, //Keen sense of smell
 MF_STUMBLES,	// Stumbles in its movement
 MF_WARM,	// Warm blooded
 MF_NOHEAD,	// Headshots not allowed!
