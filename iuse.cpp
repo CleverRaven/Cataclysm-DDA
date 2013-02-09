@@ -154,28 +154,28 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
    else if (ch == '3') {
     if (p->hp_cur[hp_arm_l] == 0) {
      g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
-     it->charges++;
+     add_or_drop_item(g, p, it);
      return;
     } else
      healed = hp_arm_l;
    } else if (ch == '4') {
     if (p->hp_cur[hp_arm_r] == 0) {
      g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
-     it->charges++;
+     add_or_drop_item(g, p, it);
      return;
     } else
      healed = hp_arm_r;
    } else if (ch == '5') {
     if (p->hp_cur[hp_leg_l] == 0) {
      g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
-     it->charges++;
+     add_or_drop_item(g, p, it);
      return;
     } else
      healed = hp_leg_l;
    } else if (ch == '6') {
     if (p->hp_cur[hp_leg_r] == 0) {
      g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
-     it->charges++;
+     add_or_drop_item(g, p, it);
      return;
     } else
      healed = hp_leg_r;
@@ -281,28 +281,28 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
    else if (ch == '3') {
     if (p->hp_cur[hp_arm_l] == 0) {
      g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
-     it->charges++;
+     add_or_drop_item(g, p, it);
      return;
     } else
      healed = hp_arm_l;
    } else if (ch == '4') {
     if (p->hp_cur[hp_arm_r] == 0) {
      g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
-     it->charges++;
+     add_or_drop_item(g, p, it);
      return;
     } else
      healed = hp_arm_r;
    } else if (ch == '5') {
     if (p->hp_cur[hp_leg_l] == 0) {
      g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
-     it->charges++;
+     add_or_drop_item(g, p, it);
      return;
     } else
      healed = hp_leg_l;
    } else if (ch == '6') {
     if (p->hp_cur[hp_leg_r] == 0) {
      g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
-     it->charges++;
+     add_or_drop_item(g, p, it);
      return;
     } else
      healed = hp_leg_r;
