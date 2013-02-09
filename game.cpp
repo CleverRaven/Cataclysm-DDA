@@ -4439,65 +4439,65 @@ void game::examine()
  {
     add_msg("You grab the handle...");
     u.moves -=900;
-    if (((m.ter(examx-1, examy)==t_wall_v)&&((m.ter(examx-1, examy+1)==t_floor)||(m.ter(examx-1, examy-1)==t_floor))&&(!((m.ter(examx-1, examy-1)==t_door_metal_locked)||(m.ter(examx-1, examy+1)==t_door_metal_locked))))
-        ||((m.ter(examx+1, examy)==t_wall_v)&&((m.ter(examx+1, examy+1)==t_floor)||(m.ter(examx+1, examy-1)==t_floor))&&(!((m.ter(examx+1, examy-1)==t_door_metal_locked)||(m.ter(examx+1, examy+1)==t_door_metal_locked))))) {
+    if (((m.ter(examx-1, examy)==t_wall_v || t_wall_wood)&&((m.ter(examx-1, examy+1)==t_floor || t_dirtfloor)||(m.ter(examx-1, examy-1)==t_floor || t_dirtfloor))&&(!((m.ter(examx-1, examy-1)==t_door_metal_locked)||(m.ter(examx-1, examy+1)==t_door_metal_locked))))
+        ||((m.ter(examx+1, examy)==t_wall_v || t_wall_wood)&&((m.ter(examx+1, examy+1)==t_floor || t_dirtfloor)||(m.ter(examx+1, examy-1)==t_floor || t_dirtfloor))&&(!((m.ter(examx+1, examy-1)==t_door_metal_locked)||(m.ter(examx+1, examy+1)==t_door_metal_locked))))) {
             add_msg("Vertical gate closing...");
                     //horizontal orientation of the gate
-    if ((m.ter(examx, examy-1)==t_wall_h)||(m.ter(examx, examy+1)==t_wall_h)) {
+    if ((m.ter(examx, examy-1)==t_wall_h || t_wall_wood)||(m.ter(examx, examy+1)==t_wall_h || t_wall_wood)) {
         int x_incr=0; int y_offst=0;
-        if (m.ter(examx, examy-1)==t_wall_h) y_offst = -1;
-        if (m.ter(examx, examy+1)==t_wall_h) y_offst = 1;
-        if (m.ter(examx+1, examy+y_offst) == t_floor) x_incr = 1;
-        if (m.ter(examx-1, examy+y_offst) == t_floor) x_incr = -1;
+        if (m.ter(examx, examy-1)==t_wall_h || t_wall_wood) y_offst = -1;
+        if (m.ter(examx, examy+1)==t_wall_h || t_wall_wood) y_offst = 1;
+        if (m.ter(examx+1, examy+y_offst) == t_floor || t_dirtfloor) x_incr = 1;
+        if (m.ter(examx-1, examy+y_offst) == t_floor || t_dirtfloor) x_incr = -1;
         int cur_x = examx+x_incr;
-        while (m.ter(cur_x, examy+y_offst)== t_floor) {
+        while (m.ter(cur_x, examy+y_offst)== t_floor || t_dirtfloor) {
             m.ter(cur_x, examy+y_offst) = t_door_metal_locked;
             cur_x = cur_x+x_incr;                              }
     } else //vertical orientation of the gate
-    if ((m.ter(examx-1, examy)==t_wall_v)||(m.ter(examx+1, examy)==t_wall_v)) {
+    if ((m.ter(examx-1, examy)==t_wall_v || t_wall_wood)||(m.ter(examx+1, examy)==t_wall_v || t_wall_wood)) {
         int x_offst = 0; int y_incr = 0;
-        if ((m.ter(examx-1, examy)==t_wall_v)) x_offst = -1;
-        if ((m.ter(examx+1, examy)==t_wall_v)) x_offst = 1;
-        if (m.ter(examx+x_offst, examy-1)== t_floor) y_incr = -1;
-        if (m.ter(examx+x_offst, examy+1)== t_floor) y_incr = 1;
+        if ((m.ter(examx-1, examy)==t_wall_v || t_wall_wood)) x_offst = -1;
+        if ((m.ter(examx+1, examy)==t_wall_v || t_wall_wood)) x_offst = 1;
+        if (m.ter(examx+x_offst, examy-1)== t_floor || t_dirtfloor) y_incr = -1;
+        if (m.ter(examx+x_offst, examy+1)== t_floor || t_dirtfloor) y_incr = 1;
             char * dzebugg = new char [10]();
             sprintf(dzebugg, "%d ; %d", x_offst, y_incr);
             add_msg(dzebugg);
         int cur_y = examy+y_incr;
-        while (m.ter(examx+x_offst, cur_y)==t_floor) {
+        while (m.ter(examx+x_offst, cur_y)==t_floor || t_dirtfloor) {
             m.ter(examx+x_offst, cur_y) = t_door_metal_locked;
             cur_y = cur_y+y_incr;
             }
         }
     }
     else
-    if (((m.ter(examx, examy-1)==t_wall_h)&&((m.ter(examx+1, examy-1)==t_floor)||(m.ter(examx-1, examy-1)==t_floor)))
-        ||((m.ter(examx, examy+1)==t_wall_h)&&((m.ter(examx+1, examy+1)==t_floor)||(m.ter(examx-1, examy+1)==t_floor))))
+    if (((m.ter(examx, examy-1)==t_wall_h || t_wall_wood)&&((m.ter(examx+1, examy-1)==t_floor || t_dirtfloor)||(m.ter(examx-1, examy-1)==t_floor || t_dirtfloor)))
+        ||((m.ter(examx, examy+1)==t_wall_h || t_wall_wood)&&((m.ter(examx+1, examy+1)==t_floor || t_dirtfloor)||(m.ter(examx-1, examy+1)==t_floor || t_dirtfloor))))
         {
 
             //horizontal orientation of the gate
-    if ((m.ter(examx, examy-1)==t_wall_h)||(m.ter(examx, examy+1)==t_wall_h)) {
+    if ((m.ter(examx, examy-1)==t_wall_h || t_wall_wood)||(m.ter(examx, examy+1)==t_wall_h || t_wall_wood)) {
         int x_incr=0; int y_offst=0;
-        if (m.ter(examx, examy-1)==t_wall_h) y_offst = -1;
-        if (m.ter(examx, examy+1)==t_wall_h) y_offst = 1;
-        if (m.ter(examx+1, examy+y_offst) == t_floor) x_incr = 1;
-        if (m.ter(examx-1, examy+y_offst) == t_floor) x_incr = -1;
+        if (m.ter(examx, examy-1)==t_wall_h || t_wall_wood) y_offst = -1;
+        if (m.ter(examx, examy+1)==t_wall_h || t_wall_wood) y_offst = 1;
+        if (m.ter(examx+1, examy+y_offst) == t_floor || t_dirtfloor) x_incr = 1;
+        if (m.ter(examx-1, examy+y_offst) == t_floor || t_dirtfloor) x_incr = -1;
         int cur_x = examx+x_incr;
-        while (m.ter(cur_x, examy+y_offst)== t_floor) {
+        while (m.ter(cur_x, examy+y_offst)== t_floor || t_dirtfloor) {
             m.ter(cur_x, examy+y_offst) = t_door_metal_locked;
             cur_x = cur_x+x_incr;                              }
     } else //vertical orientation of the gate
-    if ((m.ter(examx-1, examy)==t_wall_v)||(m.ter(examx+1, examy)==t_wall_v)) {
+    if ((m.ter(examx-1, examy)==t_wall_v || t_wall_wood)||(m.ter(examx+1, examy)==t_wall_v || t_wall_wood)) {
         int x_offst = 0; int y_incr = 0;
-        if ((m.ter(examx-1, examy)==t_wall_v)) x_offst = -1;
-        if ((m.ter(examx+1, examy)==t_wall_v)) x_offst = 1;
-        if (m.ter(examx+x_offst, examy-1)== t_floor) y_incr = -1;
-        if (m.ter(examx+x_offst, examy+1)== t_floor) y_incr = 1;
+        if ((m.ter(examx-1, examy)==t_wall_v || t_wall_wood)) x_offst = -1;
+        if ((m.ter(examx+1, examy)==t_wall_v || t_wall_wood)) x_offst = 1;
+        if (m.ter(examx+x_offst, examy-1)== t_floor || t_dirtfloor) y_incr = -1;
+        if (m.ter(examx+x_offst, examy+1)== t_floor || t_dirtfloor) y_incr = 1;
             /*char * dzebugg = new char [10]();
             sprintf(dzebugg, "%d ; %d", x_offst, y_incr);
             add_msg(dzebugg);*/
         int cur_y = examy+y_incr;
-        while (m.ter(examx+x_offst, cur_y)==t_floor) {
+        while (m.ter(examx+x_offst, cur_y)==t_floor || t_dirtfloor) {
             m.ter(examx+x_offst, cur_y) = t_door_metal_locked;
             cur_y = cur_y+y_incr;
         }
@@ -4508,26 +4508,26 @@ void game::examine()
     else //opening the gate...
     {
         //horizontal orientation of the gate
-    if ((m.ter(examx, examy-1)==t_wall_h)||(m.ter(examx, examy+1)==t_wall_h)) {
+    if ((m.ter(examx, examy-1)==t_wall_h || t_wall_wood)||(m.ter(examx, examy+1)==t_wall_h || t_wall_wood)) {
         int x_incr=0; int y_offst=0;
-        if (m.ter(examx, examy-1)==t_wall_h) y_offst = -1;
-        if (m.ter(examx, examy+1)==t_wall_h) y_offst = 1;
+        if (m.ter(examx, examy-1)==t_wall_h || t_wall_wood) y_offst = -1;
+        if (m.ter(examx, examy+1)==t_wall_h || t_wall_wood) y_offst = 1;
         if (m.ter(examx+1, examy+y_offst) == t_door_metal_locked) x_incr = 1;
         if (m.ter(examx-1, examy+y_offst) == t_door_metal_locked) x_incr = -1;
         int cur_x = examx+x_incr;
         while (m.ter(cur_x, examy+y_offst)==t_door_metal_locked) {
-            m.ter(cur_x, examy+y_offst) = t_floor;
+            m.ter(cur_x, examy+y_offst) = t_floor || t_dirtfloor;
             cur_x = cur_x+x_incr;                              }
     } else //vertical orientation of the gate
-    if ((m.ter(examx-1, examy)==t_wall_v)||(m.ter(examx+1, examy)==t_wall_v)) {
+    if ((m.ter(examx-1, examy)==t_wall_v || t_wall_wood)||(m.ter(examx+1, examy)==t_wall_v || t_wall_wood)) {
         int x_offst = 0; int y_incr = 0;
-        if ((m.ter(examx-1, examy)==t_wall_v)) x_offst = -1;
-        if ((m.ter(examx+1, examy)==t_wall_v)) x_offst = 1;
+        if ((m.ter(examx-1, examy)==t_wall_v || t_wall_wood)) x_offst = -1;
+        if ((m.ter(examx+1, examy)==t_wall_v || t_wall_wood)) x_offst = 1;
         if (m.ter(examx+x_offst, examy-1)== t_door_metal_locked) y_incr = -1;
         if (m.ter(examx+x_offst, examy+1)== t_door_metal_locked) y_incr = 1;
         int cur_y = examy+y_incr;
         while (m.ter(examx+x_offst, cur_y)==t_door_metal_locked) {
-            m.ter(examx+x_offst, cur_y) = t_floor;
+            m.ter(examx+x_offst, cur_y) = t_floor || t_dirtfloor;
             cur_y = cur_y+y_incr;
         }
     }
