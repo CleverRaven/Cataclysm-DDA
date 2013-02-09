@@ -68,7 +68,7 @@ mon("wolf",	species_mammal, 'w',	c_dkgray,	MS_MEDIUM,	FLESH,
 	&mdeath::normal,	&mattack::none, "\
 A vicious and fast pack hunter."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, MF_BLEED);
 ANGER(MTRIG_TIME, MTRIG_PLAYER_WEAK, MTRIG_HURT);
 PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
@@ -217,7 +217,7 @@ A human body, stumbling slowly forward on\n\
 uncertain legs, possessed with an unstoppable\n\
 rage."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED);
 
 mon("zombie cop",	species_zombie, 'Z',	c_blue,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -227,7 +227,7 @@ A human body, encapsulated in tough riot\n\
 armour, this zombie was clearly a cop gearing\n\
 up to fight the infection."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED);
 
 mon("shrieker zombie",species_zombie, 'Z',c_magenta,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -329,7 +329,7 @@ A skeleton picked clean of all but a few\n\
 rotten scraps of flesh, somehow still in\n\
 motion."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_HARDTOSHOOT);
+FLAGS(MF_SEES, MF_HEARS, MF_BLEED, MF_HARDTOSHOOT);
 
 mon("zombie necromancer",species_zombie, 'Z',c_dkgray,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -350,7 +350,7 @@ A zombie wearing a tattered lab coat and\n\
 some sort of utility belt.  It looks weaker\n\
 than most zombies, but more resourceful too."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED,
       MF_ACIDPROOF);
 
 mon("zombie soldier",	species_zombie,	'Z',c_ltblue,	MS_MEDIUM,	FLESH,
@@ -362,7 +362,7 @@ Its tattered armor gives it strong defense,\n\
 and it is much more physically fit than\n\
 most zombies."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED);
 
 mon("grabber zombie",	species_zombie,	'Z',c_green,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -372,7 +372,7 @@ This zombie seems to have slightly longer\n\
 than ordinary arms, and constantly gropes\n\
 at its surroundings as it moves."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED,
       MF_GRABS);
 
 mon("master zombie",	species_zombie, 'M',c_yellow,	MS_MEDIUM,	FLESH,

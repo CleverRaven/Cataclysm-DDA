@@ -133,6 +133,7 @@ MF_DESTROYS,	// Bashes down walls and more
 MF_POISON,	// Poisonous to eat
 MF_VENOM,	// Attack may poison the player
 MF_BADVENOM,	// Attack may SEVERELY poison the player
+MF_BLEED,       // Causes player to bleed
 MF_WEBWALK,	// Doesn't destroy webs
 MF_DIGS,	// Digs through the ground
 MF_FLIES,	// Can fly (over water, etc)

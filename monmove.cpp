@@ -528,6 +528,11 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     g->add_msg("You feel poison flood your body, wracking you with pain...");
    p.add_disease(DI_BADPOISON, 40, g);
   }
+  if (has_flag(MF_BLEED) && one_in(5)) {
+   if (!is_npc)
+    g->add_msg("You're Bleeding!");
+   p.add_disease(DI_BLEED, 30, g);
+  }
   if (can_grab && has_flag(MF_GRABS) &&
       dice(type->melee_dice, 10) > dice(p.dodge(g), 10)) {
    if (!is_npc)
