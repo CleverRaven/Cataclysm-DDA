@@ -4377,7 +4377,7 @@ case ot_s_garage_north:
 		place_items(mi_hydro, 70, 3, 13, 20, 13, true, turn);
 		place_items(mi_hydro, 70, 3, 15, 20, 15, true, turn);
 		place_items(mi_hydro, 70, 3, 17, 20, 17, true, turn);
-		place_items(mi_hydro, 70 3, 19, 20, 19, true, turn);
+		place_items(mi_hydro, 70, 3, 19, 20, 19, true, turn);
 		}
 		break;
 		//Oddzball-End Farm field
