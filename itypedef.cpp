@@ -656,11 +656,6 @@ MELEE("syringe",	 8, 25, ',', c_ltcyan,	PLASTIC,MNULL,
 	 1,  0, -4,  6, -2, mfb(IF_SPEAR), "\
 A medical syringe. Used for administering heroin and other drugs.");
 
-MELEE("rag",		72, 10, ';', c_dkgray,	COTTON,	MNULL,
-	 1,  1,-10,  0,  0, 0, "\
-A small piece of cloth. Useful for making molotov cocktails and not much else."
-);
-
 MELEE("fur pelt",	 0, 10, ',', c_brown,	WOOL,	FLESH,
 	 1,  1, -8,  0,  0, 0, "\
 A small bolt of fur from an animal. Can be made into warm clothing.");
@@ -3969,6 +3964,11 @@ A large steel pickaxe, strike the earth!");
 TOOL("spray can", 50, 10, ';', c_ltblue, PLASTIC, MNULL,
 1, 1, 0, 0, 0, 10, 10, 1, 0, AT_NULL, itm_null, &iuse::spray_can, 0, "\
 A spray can, filled with paint. Use this tool to make graffiti on the floor.");
+
+TOOL("rag",    1, 0,  ',', c_white, COTTON,   MNULL,
+   0,  0,   0,  0,  0,  0,  0,  0,  0, AT_NULL, itm_null, NULL, 0, "\
+Rag, useful in crafting and possibly stopping bleeding");
+
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
