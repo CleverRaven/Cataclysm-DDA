@@ -921,6 +921,10 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   TOOL(itm_welder, 20, itm_toolset, 1, NULL);
   COMP(itm_steel_chunk, 4, NULL);
 
+ RECIPE(itm_2x4, CC_MISC, NULL, NULL, 0, 8000, false);
+  TOOL(itm_saw, -1, NULL);
+  COMP(itm_stick, 1, NULL);
+
  RECIPE(itm_frame, CC_MISC, "mechanics", NULL, 1, 8000, true);
   TOOL(itm_welder, 50, itm_toolset, 2, NULL);
   COMP(itm_steel_lump, 3, NULL);
