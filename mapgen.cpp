@@ -286,8 +286,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     ter(i, j) = t_dirt;
-    if (one_in(120)) ter(i, j) = t_rock; else //Oddzball-Random rocks
-    if (one_in(250)) ter(i,j) = t_grass; //Oddzball-some random grass
+    if (one_in(120)) ter(i, j) = t_pit_shallow; else //Oddzball-Random Potholes
+    if (one_in(50)) ter(i,j) = t_grass; //Oddzball-some random grass
     }
   }
     if (one_in(4))
@@ -4336,8 +4336,11 @@ case ot_s_garage_north:
 			place_items(mi_bigtools, 50, 17, 1, 22, 8, true, 0);
 			place_items(mi_homeguns, 20, 17, 1, 22, 8, true, 0);
 			
-			
-			add_spawn(mon_zombie, rng(3, 6), 20, 4);
+			if(one_in(2){
+			add_spawn(mon_zombie, rng(1, 6), 20, 4);}
+			else {
+			add_spawn(mon_zombie, rng(1, 6), 6, 3);
+			}
 			rotate(2);
 			
 			
@@ -4369,6 +4372,20 @@ case ot_s_garage_north:
 		line(this, t_fence_h, 17, 15, 19, 15);
 		line(this, t_fencegate_c, 17, 11, 17, 12);
 		line(this, t_locker, 4, 19, 7, 19);
+		ter(7, 7) = t_column;
+		ter(16, 7) = t_column;
+		ter(7, 16) = t_column;
+		ter(16, 16) = t_column;
+		ter(5, 3) = t_window_boarded;
+		ter(18, 3) = t_window_boarded;
+		line(this, t_window_boarded, 3, 5, 3, 6);
+		line(this, t_window_boarded, 3, 11, 3, 12);
+		line(this, t_window_boarded, 3, 17, 3, 18);
+		line(this, t_window_boarded, 20, 5, 20, 6);
+		line(this, t_window_boarded, 20, 11, 20, 12);
+		line(this, t_window_boarded, 20, 17, 20, 18);
+		ter(5, 20) = t_window_boarded;
+		ter(18, 20) = t_window_boarded;
 		
 				
 		place_items(mi_bigtools, 60, 4, 4, 7, 19, true, 0);
@@ -4376,6 +4393,10 @@ case ot_s_garage_north:
 		place_items(mi_mechanics, 40, 8, 4, 15, 19, true, 0);
 		place_items(mi_home_hw, 50, 4, 19, 7, 19, true, 0);
 		place_items(mi_tools, 50, 4, 19, 7, 19, true, 0);
+		
+		if(one_in(10){
+			add_spawn(mon_zombie, rng(1, 6), 12, 12);
+			}
 		
 				
 		}
