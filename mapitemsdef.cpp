@@ -413,7 +413,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_surgery],
 	itm_blood, itm_iodine, itm_bandages, itm_scalpel, itm_syringe,
-	itm_gloves_medical, itm_mask_dust, itm_vacutainer, NULL);
+	itm_gloves_medical, itm_mask_dust, itm_vacutainer, itm_rag_bloody, NULL);
 
  setvector(
    mapitems[mi_office],
@@ -513,7 +513,7 @@ void game::init_mapitems()
    mapitems[mi_dissection],
 	itm_iodine, itm_bleach, itm_bandages, itm_string_6, itm_hacksaw,
 	itm_xacto, itm_knife_butcher, itm_machete, itm_gloves_rubber,
-	itm_bag_plastic, itm_syringe, itm_rag, itm_scissors, NULL);
+	itm_bag_plastic, itm_syringe, itm_rag, itm_scissors, itm_rag_bloody, NULL);
 
  setvector(
    mapitems[mi_hydro],
@@ -789,7 +789,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_stash_wood],
-	itm_stick, itm_ax, itm_saw, itm_2x4, NULL);
+	itm_stick, itm_ax, itm_saw, itm_2x4, itm_log, NULL);
 
  setvector(
    mapitems[mi_stash_drugs],
@@ -830,6 +830,6 @@ void game::init_mapitems()
 	itm_chainsaw_on, itm_pipebomb_act, itm_grenade_act, itm_flashbang_act,
 	itm_EMPbomb_act, itm_gasbomb_act, itm_smokebomb_act, itm_molotov_lit,
 	itm_dynamite_act, itm_mininuke_act, itm_UPS_on, itm_mp3_on, itm_c4armed,
-        itm_apparatus, itm_brazier,
+        itm_apparatus, itm_brazier, itm_rag_bloody, 
 	NULL);
 }

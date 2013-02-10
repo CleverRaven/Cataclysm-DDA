@@ -87,7 +87,7 @@ itm_wrapper, itm_syringe, itm_fur, itm_leather, itm_superglue,
  itm_television, itm_pilot_light, itm_toaster, itm_microwave, itm_laptop,
  itm_fan, itm_ceramic_plate, itm_ceramic_bowl, itm_ceramic_cup,
  itm_glass_plate, itm_glass_bowl, itm_glass, itm_tin_plate, itm_fork, itm_spork,
-
+ itm_foon, itm_rag_bloody,
 // Vehicle parts
  itm_frame,
  itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,

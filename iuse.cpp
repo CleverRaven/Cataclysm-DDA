@@ -2952,7 +2952,7 @@ if (p->has_disease(DI_BLEED)){
   if (one_in(2)){
   g->add_msg_if_player(p,"You managed to stop the bleeding.");
   p->rem_disease(DI_BLEED);
-  p->use_charges(itm_rag, 1);
+  it->make(g->itypes[itm_rag_bloody]);
   }
 else {
   g->add_msg_if_player(p,"You couldnt stop the bleeding.");
