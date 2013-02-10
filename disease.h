@@ -494,6 +494,7 @@ void dis_effect(game *g, player &p, disease &dis)
 		p.hurt(g, bp_torso, 0, 1);
 		p.per_cur--;
 		p.str_cur --;
+		g->m.add_field(g, p.posx, p.posy, fd_blood, 1);  //Oddzball-Bllod Trails! Thanks Kevin!
 		}
 	break;
 	
