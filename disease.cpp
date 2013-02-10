@@ -4,10 +4,6 @@
 #include "disease.h"
 #include <sstream>
 
-#define MIN_DISEASE_AGE (-43200) // Permanent disease capped @ 3 days
-
-struct game;
-
 void dis_msg(game *g, dis_type type)
 {
  switch (type) {
@@ -107,9 +103,9 @@ void dis_effect(game *g, player &p, disease &dis)
  
  case DI_COLD_TORSO:
   switch (dis.intensity) {
-   case 3 : p.dex_cur -= 3;
-   case 2 :	p.dex_cur -= 2;
-   case 1 : ;
+   case 3 : p.dex_cur -= 2;
+   case 2 :	p.dex_cur -= 1;
+   case 1 : p.dex_cur -= 1;
   }
   break;
 
@@ -117,7 +113,6 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 : p.dex_cur -= 2;
    case 2 :	p.dex_cur--;
-   case 1 : ;
   }
   break;
  
@@ -125,7 +120,6 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 :	p.dex_cur -= 2;
    case 2 :	p.dex_cur -= 2;
-   case 1 : ;
   }
   break;
  
@@ -133,7 +127,6 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 :	p.str_cur--;
    case 2 :	p.str_cur--;
-   case 1 : ;
   }
   break;
  
@@ -141,13 +134,13 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 : p.str_cur--;
    case 2 : p.str_cur--;
-   case 1 : ;
   }
   break;
  
  case DI_FROSTBITE_HANDS:
  case DI_BLISTERS_HANDS:
   p.dex_cur--;
+  if (p.pain < 35) p.pain++;
   if (one_in(2)) p.hp_max[hp_arm_r]--;
   else p.hp_max[hp_arm_l]--;
   break;
@@ -155,6 +148,7 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_FROSTBITE_FEET:
  case DI_BLISTERS_FEET:
   p.str_cur--;
+  if (p.pain < 35) p.pain++;
   if (one_in(2)) p.hp_max[hp_leg_r]--;
   else p.hp_max[hp_leg_l]--;
   break;
@@ -163,53 +157,59 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_BLISTERS_MOUTH:
   p.per_cur--;
   p.hp_max[hp_head]--;
+  if (p.pain < 35) p.pain++;
   break;
 
  case DI_HOT_HEAD:
   switch (dis.intensity) {
-   case 3 : p.thirst--;
-   case 2 : p.thirst--; if (one_in(1500 - p.temp_cur[bp_head])) p.vomit(g); // Hallucinations handled in game.cpp
-   case 1 : ;
+   case 3 : 
+    p.thirst--;
+	if (p.pain < 50) p.pain++;
+   case 2 : 
+    p.thirst--; 
+    if (one_in(1500 - p.temp_cur[bp_head])) p.vomit(g); // Hallucinations handled in game.cpp
+	if (p.pain < 20) p.pain++;
   }
   break;
  
  case DI_HOT_TORSO:
   switch (dis.intensity) {
-   case 3 : p.thirst--;
-   case 2 : p.thirst--;
-   case 1 : ;
+   case 3 : 
+    p.thirst--;
+    p.str_cur--;
+   case 2 : 
+    p.thirst--;
+	p.str_cur--;
   }
   break;
 
  case DI_HOT_ARMS:
   switch (dis.intensity) {
    case 3 : p.thirst--;
+   if (p.pain < 50) p.pain++;
    case 2 : p.thirst--;
-   case 1 : ;
   }
   break;
  
  case DI_HOT_HANDS:
   switch (dis.intensity) {
-   case 3 : p.thirst--;
-   case 2 : p.thirst--;
-   case 1 : ;
+   case 3 : p.dex_cur--;
+   case 2 : p.dex_cur--;
   }
   break;
  
  case DI_HOT_LEGS:
   switch (dis.intensity) {
    case 3 : p.thirst--;
+   if (p.pain < 50) p.pain++;
    case 2 : p.thirst--;
-   case 1 : ;
   }
   break;
  
  case DI_HOT_FEET:
   switch (dis.intensity) {
-   case 3 : p.thirst--;
-   case 2 : p.thirst--;
-   case 1 : ;
+   case 3 : if (p.pain < 50) p.pain++;
+   case 2 : if (p.pain < 30) p.pain++;
   }
   break;
     
@@ -1163,42 +1163,55 @@ std::string dis_description(disease dis)
    case 1: return "Your feet are exposed to the cold.";
    case 2: return "Your feet are very exposed to the cold. Your strength is sapped.";
    case 3: return "Your feet is dangerously cold. Your strength is sapped.";}
-   
+ 
+ case DI_FROSTBITE_MOUTH: return "\
+ Your face is frostbitten from prolonged exposure to the cold. It is extremely painful.";
+ case DI_FROSTBITE_TORSO: return "\
+ Your torso is frostbitten from prolonged exposure to the cold. It is extremely painful.";
+ case DI_FROSTBITE_ARMS: return "\
+ Your arms are frostbitten from prolonged exposure to the cold. It is extremely painful.";
+ case DI_FROSTBITE_HANDS: return "\
+ Your hands are frostbitten from prolonged exposure to the cold. It is extremely painful.";
+ case DI_FROSTBITE_LEGS: return "\
+ Your legs are frostbitten from prolonged exposure to the cold. It is extremely painful.";
+ case DI_FROSTBITE_FEET: return "\
+ Your feet are frostbitten from prolonged exposure to the cold. It is extremely painful.";
+ 
  case DI_HOT_HEAD:		
   switch (dis.intensity) {
-   case 1: return "hot head";
-   case 2: return "Very hot head";
-   case 3: return "Disgustingly hot head!";}	
+   case 1: return "Your head feels warm".;
+   case 2: return "Your head is sweating from the heat. You feel nauseated. You have a headache.";
+   case 3: return "Your head is sweating profusely. You feel very nauseated. You have a headache.";}	
    
  case DI_HOT_TORSO:		
   switch (dis.intensity) {
-   case 1: return "Hot torso";
-   case 2: return "Very hot torso";
-   case 3: return "Disgustingly hot torso!";}	
+   case 1: return "Your torso feels warm.";
+   case 2: return "Your torso is sweating from the heat. You feel weak.";
+   case 3: return "Your torso is sweating profusely. You feel very weak.";}	
    
  case DI_HOT_ARMS:		
   switch (dis.intensity) {
-   case 1: return "Hot arms";
-   case 2: return "Very hot arms";
-   case 3: return "Disgustingly hot arms!";}	
+   case 1: return "Your arms feel warm.";
+   case 2: return "Your arms are sweating from the heat.";
+   case 3: return "Your arms are sweating profusely. Your muscles are in pain due to cramps.";}	
    
  case DI_HOT_HANDS:		
   switch (dis.intensity) {
-   case 1: return "Hot hands";
-   case 2: return "Very hot hands";
-   case 3: return "Disgustingly hot hands!";}	
+   case 1: return "Your hands feel warm.";
+   case 2: return "Your hands feel hot and incoordinated.";
+   case 3: return "Your hands feel disgustinly hot and are very incoordinated.";}	
    
  case DI_HOT_LEGS:		
   switch (dis.intensity) {
-   case 1: return "Hot legs";
-   case 2: return "Very hot legs";
-   case 3: return "Disgustingly hot legs!";}	
+   case 1: return "Your legs feel warm.";
+   case 2: return "Your legs are sweating from the heat.";
+   case 3: return "Your legs are sweating profusely. Your muscles are in pain due to cramps.";}	
    
  case DI_HOT_FEET:		
   switch (dis.intensity) {
-   case 1: return "Hot feet";
-   case 2: return "Very hot feet";
-   case 3: return "Disgustingly hot feet!";}	
+   case 1: return "Your feet feel hot.";
+   case 2: return "Your feet are painfully swollen due to the heat.";
+   case 3: return "Your feet are painfully swollen due to the heat.";}	
  
  case DI_BLISTERS_MOUTH: return "\
  Your face is blistering from the intense heat. It is extremely painful.";
@@ -1206,8 +1219,12 @@ std::string dis_description(disease dis)
  Your torso is blistering from the intense heat. It is extremely painful.";
  case DI_BLISTERS_ARMS: return "\
  Your arms are blistering from the intense heat. It is extremely painful.";
+ case DI_BLISTERS_HANDS: return "\
+ Your hands are blistering from the intense heat. It is extremely painful.";
  case DI_BLISTERS_LEGS: return "\
  Your legs are blistering from the intense heat. It is extremely painful.";
+ case DI_BLISTERS_FEET: return "\
+ Your feet are blistering from the intense heat. It is extremely painful.";
  
  case DI_COMMON_COLD:	return "\
 Increased thirst;  Frequent coughing\n\
