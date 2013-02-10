@@ -41,7 +41,7 @@ vehicle::vehicle(game *ag, vhtype_id type_id): g(ag), type(type_id)
         if (type < g->vtypes.size())
         {
             *this = *(g->vtypes[type]);
-            init_state();
+            init_state(ag);
         }
     }
     precalc_mounts(0, face.dir());
@@ -167,16 +167,38 @@ void vehicle::save (std::ofstream &stout)
     }
 }
 
-void vehicle::init_state()
-{
+void vehicle::init_state(game* g)
+{   
+    int consistent_bignesses[num_vparts]; 
+    memset (consistent_bignesses, 0, sizeof(consistent_bignesses));
     for (int p = 0; p < parts.size(); p++)
     {
+        if (part_flag(p, vpf_variable_size)){ // generate its bigness attribute.?
+            if(!consistent_bignesses[parts[p].id]){
+                //generate an item for this type, & cache its bigness
+                item tmp (g->itypes[part_info(p).item], 0);
+                consistent_bignesses[parts[p].id] = tmp.bigness;
+            }
+            parts[p].bigness = consistent_bignesses[parts[p].id];
+        }
         if (part_flag(p, vpf_fuel_tank))   // 10% to 75% fuel for tank
             parts[p].amount = rng (part_info(p).size / 10, part_info(p).size * 3 / 4);
         if (part_flag(p, vpf_openable))    // doors are closed
             parts[p].open = 0;
         if (part_flag(p, vpf_seat))        // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
+        //a bit of initial damage :)
+        //clamp 4d8 to the range of [8,20]. 8=broken, 20=undamaged. 
+        int broken = 8, unhurt = 20;
+        int roll = dice(4,8);
+        if(roll < unhurt){
+           if (roll <= broken)
+              parts[p].hp= 0;
+           else
+              parts[p].hp= ((float)(roll-broken) / (unhurt-broken)) * part_info(p).durability;
+        }
+        else // new.
+           parts[p].hp= part_info(p).durability;
     }
 }
 

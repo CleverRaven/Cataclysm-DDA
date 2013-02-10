@@ -129,7 +129,7 @@ public:
     bool player_in_control (player *p);
 
 // init parts state for randomly generated vehicle
-    void init_state();
+    void init_state(game* g);
 
 // load and init vehicle data from stream. This implies valid save data!
     void load (std::ifstream &stin);
