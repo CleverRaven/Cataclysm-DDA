@@ -81,7 +81,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
 std::vector<int> find_firsts(inventory &inv)
 {
  std::vector<int> firsts;
- for (int i = 0; i < 8; i++)
+ for (int i = 0; i < 9; i++)
   firsts.push_back(-1);
 
  for (int i = 0; i < inv.size(); i++) {
@@ -522,7 +522,7 @@ void game::compare()
   compare[i] = 0;
  std::vector<char> weapon_and_armor; // Always single, not counted
  std::stringstream debug;
- debug << groundsize;
+ //debug << groundsize << " ";
  print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);
 // Gun, ammo, weapon, armor, food, tool, book, other
  std::vector<int> first = find_firsts(u.inv);
@@ -530,8 +530,9 @@ void game::compare()
  if (groundsize > 0) {
   firsts.push_back(0);
  }
- for (int i = 0; i < first.size(); i++)
-  firsts.push_back(first[i]+groundsize);
+ for (int i = 0; i < first.size(); i++) {
+  firsts.push_back((first[i] >= 0) ? first[i]+groundsize : -1);
+ }
  ch = '.';
  int start = 0, cur_it;
  do {
@@ -597,7 +598,6 @@ void game::compare()
    int index = u.inv.index_by_letter(ch);
    if (index == -1) { // Not from inventory
     int found = false;
-    //print_inv_statics(this, w_inv, "Weapon: " + debug.str(), weapon_and_armor);
     for (int i = 0; i < weapon_and_armor.size() && !found; i++) {
      if (weapon_and_armor[i] == ch) {
       weapon_and_armor.erase(weapon_and_armor.begin() + i);
