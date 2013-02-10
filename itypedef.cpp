@@ -1179,51 +1179,39 @@ A large frame made of steel. Useful for crafting.");
 TECH( mfb(TEC_DEF_DISARM) );
 
 #define VAR_VEH_PART(name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
-              flags, bigmin, bigmax, des)\
+              flags, bigmin, bigmax, bigaspect, des)\
 	index++;itypes.push_back(new it_var_veh_part(index,rarity,price,name,des,sym,\
-color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags, bigmin, bigmax))
+color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags, bigmin, bigmax, bigaspect))
 
 //itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small, 
 //           NAME     RAR PRC  SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("wheel", 10, 100, ']', c_dkgray,  STEEL,   PLASTIC,
-//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
-    40,  140, 12,  0,  -1, 0,       13,         20, "\
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
+    40,  140, 12,  0,  -1, 0,       13,         20,  BIGNESS_WHEEL_DIAMETER,  "\
 A car wheel");
 //           NAME         RAR PRC  SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("wide wheel", 4, 340, ']', c_dkgray,  STEEL,   PLASTIC,
-//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
-    70,  260, 17,  0,  -1, 0,       17,         36, "\
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX   ASPECT
+    70,  260, 17,  0,  -1, 0,       17,         36,  BIGNESS_WHEEL_DIAMETER,  "\
 A wide wheel. \\o/ This wide.");
 //           NAME            RAR  PRC  SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("bicycle wheel", 18, 40,  ']', c_dkgray,  STEEL,   PLASTIC,
-//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
-    28,  45,  8,  0,  -1, 0,       9,         18, "\
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
+    28,  45,  8,  0,  -1, 0,       9,         18,  BIGNESS_WHEEL_DIAMETER,  "\
 A bicycle wheel");
 //           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("motorbike wheel", 13, 140,  ']', c_dkgray,  STEEL,   PLASTIC,
-//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
-    33,  85,  10,  0,  -1, 0,       9,         14, "\
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
+    33,  85,  10,  0,  -1, 0,       9,         14,  BIGNESS_WHEEL_DIAMETER,  "\
 A motorbike wheel");
 //           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("small wheel",    5, 140,  ']', c_dkgray,  STEEL,   PLASTIC,
-//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
-    9,  42,  10,  0,  -1, 0,       6,         14, "\
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
+    9,  42,  10,  0,  -1, 0,       6,         14,   BIGNESS_WHEEL_DIAMETER,  "\
 A pretty small wheel. Probably from one of those segway things.\
 It is not very menacing.");
-/*
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("wheel",  15, 50, ']', c_dkgray,  STEEL,   PLASTIC,
-//  VOL WGT DAM CUT HIT FLAGS
-    10,  80,  8,  0,  -4, 0, "\
-A wheel, perhaps from some car.");
-TECH( mfb(TEC_WBLOCK_3) );
 
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("large wheel",  6, 80, ']', c_dkgray,  STEEL,   PLASTIC,
-//  VOL WGT DAM CUT HIT FLAGS
-    20,  200,  12,  0,  -5, 0, "\
-A large wheel, from some big car.");
-TECH( mfb(TEC_WBLOCK_3) );*/
+
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("seat",  8, 250, '0', c_red,  PLASTIC,   MNULL,
@@ -1239,32 +1227,32 @@ A set of various vehicle controls. Useful for crafting.");
 
 //                                 NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("1-cylinder engine",  3, 100, ':', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
-    6,  70,  4,  0,  -1, 0,       28,         75, "\
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX   ASPECT
+    6,  70,  4,  0,  -1, 0,       28,         75,   BIGNESS_ENGINE_DISPLACEMENT, "\
 A single-cylinder 4-stroke combustion engine.");
 
 //                              NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("V-twin engine",  2, 100, ':', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
-    6,  70,  4,  0,  -1, 0,       65,        260, "\
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
+    6,  70,  4,  0,  -1, 0,       65,        260, BIGNESS_ENGINE_DISPLACEMENT, "\
 A 2-cylinder 4-stroke combustion engine.");
 
 //                                NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("Inline-4 engine",  6, 150, ':', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
-    6,  160,  8,  0,  -2, 0,       220,       350, "\
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
+    6,  160,  8,  0,  -2, 0,       220,       350, BIGNESS_ENGINE_DISPLACEMENT, "\
 A small, yet powerful 4-cylinder combustion engine.");
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("V6 engine",  3, 180, ':', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
-    14,  400,  12,  0,  -3, 0,    280,        470, "\
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
+    14,  400,  12,  0,  -3, 0,    250,        520, BIGNESS_ENGINE_DISPLACEMENT, "\
 A powerful 6-cylinder combustion engine.");
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("V8 engine",  2, 250, ':', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
-    25,  600,  15,  0,  -5, 0,    400,         600, "\
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
+    25,  600,  15,  0,  -5, 0,    380,     700, BIGNESS_ENGINE_DISPLACEMENT, "\
 A large and very powerful 8-cylinder combustion engine.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2

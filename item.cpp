@@ -633,18 +633,22 @@ std::string item::tname(game *g)
     if (damage ==  4) damtext = "thoroughly rusted ";
     break;
    default:
-    damtext = "damaged ";
+    //damtext = "damaged ";
+    if (damage ==  1) damtext = "lightly damaged ";
+    if (damage ==  2) damtext = "damaged ";
+    if (damage ==  3) damtext = "very damaged ";
+    if (damage ==  4) damtext = "thoroughly damaged ";
   }
   ret << damtext;
  }
 
  if (is_var_veh_part()){
   //if(is_engine()){
-  if(typeId() > itm_wheel_small){ //todo, gooder.
+  if(type->bigness_aspect == BIGNESS_ENGINE_DISPLACEMENT){ //liters, e.g. "3.21-Liter V8 engine"
    ret.precision(4);
    ret << (float)bigness/100 << "-Liter ";
   }
-  else{ //inches, e.g. "20" wheel"
+  else if(type->bigness_aspect == BIGNESS_WHEEL_DIAMETER) { //inches, e.g. "20" wheel"
    ret << bigness << "\" ";
   }
  }

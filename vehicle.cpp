@@ -408,7 +408,7 @@ void vehicle::get_part_hp_from_item(int partnum, item& i){
 void vehicle::give_part_hp_to_item(int partnum, item& i){
     int dam;
     float hpofdur = (float)parts[partnum].hp / part_info(partnum).durability;
-    dam = (hpofdur * 5);
+    dam = (1 - hpofdur) * 5;
     if (dam > 4) dam = 4;
     if (dam < 0) dam = 0;
     i.damage = dam;

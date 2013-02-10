@@ -341,6 +341,15 @@ TEC_DEF_DISARM, // Disarm an enemy
 NUM_TECHNIQUES
 };
 
+enum bigness_property_aspect {
+BIGNESS_ENGINE_NULL,         // like a cookie-cutter-cut cookie, this type has no bigness aspect.
+BIGNESS_ENGINE_DISPLACEMENT, // combustion engine CC displacement
+BIGNESS_KILOWATTS,           // electric motor power
+BIGNESS_WHEEL_DIAMETER,      // wheel size in inches, including tire
+//BIGNESS_PLATING_THICKNESS, // 
+NUM_BIGNESS_ASPECTS,
+};
+
 struct style_move
 {
  std::string name;
@@ -382,6 +391,7 @@ struct itype
  unsigned int volume;	// Space taken up by this item
  unsigned int weight;	// Weight in quarter-pounds; is 64 lbs max ok?
  			// Also assumes positive weight.  No helium, guys!
+ bigness_property_aspect bigness_aspect;
 
  signed char melee_dam;	// Bonus for melee damage; may be a penalty
  signed char melee_cut;	// Cutting damage in melee
@@ -404,6 +414,8 @@ struct itype
  virtual bool is_style()         { return false; }
  virtual bool is_artifact()      { return false; }
  virtual bool is_var_veh_part()  { return false; }
+ virtual bool is_engine()         { return false; }
+ virtual bool is_wheel()          { return false; }
  virtual bool count_by_charges() { return false; }
  virtual std::string save_data() { return std::string(); }
 
@@ -522,13 +534,21 @@ struct it_var_veh_part: public itype
         unsigned effects,
 
         unsigned int big_min,
-        unsigned int big_max)
+        unsigned int big_max,
+        bigness_property_aspect big_aspect)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0) {
   min_bigness = big_min;
   max_bigness = big_max;
+  bigness_aspect = big_aspect;
  }
  virtual bool is_var_veh_part(){return true;}
+ virtual bool is_wheel()          { return false; }
+ virtual bool is_engine() { 
+  if (id < itm_1cyl_combustion) return false; 
+  if (id > itm_v8_combustion) return false; 
+  return true;
+ }
 };
 
 
