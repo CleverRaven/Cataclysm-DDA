@@ -4395,7 +4395,7 @@ case ot_s_garage_north:
 		place_items(mi_tools, 50, 4, 19, 7, 19, true, 0);
 		
 		if(one_in(10)){
-			add_spawn(mon_zombie, rng(1, 6), 12, 12);
+			add_spawn(mon_zombie, rng(3, 6), 12, 12);
 			}
 		
 				
