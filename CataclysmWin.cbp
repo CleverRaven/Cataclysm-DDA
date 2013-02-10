@@ -122,7 +122,6 @@
 		<Unit filename="npc.h" />
 		<Unit filename="npcmove.cpp" />
 		<Unit filename="npctalk.cpp" />
-		<Unit filename="obj/Release/icon.res" />
 		<Unit filename="omdata.h" />
 		<Unit filename="options.cpp" />
 		<Unit filename="options.h" />
@@ -137,6 +136,9 @@
 		<Unit filename="posix_time.cpp" />
 		<Unit filename="posix_time.h" />
 		<Unit filename="ranged.cpp" />
+		<Unit filename="resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Unit filename="rng.cpp" />
 		<Unit filename="rng.h" />
 		<Unit filename="settlement.cpp" />
