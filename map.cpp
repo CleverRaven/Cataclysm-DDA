@@ -1723,7 +1723,7 @@ bool map::open_door(const int x, const int y, const bool inside)
  } else if (ter(x, y) == t_chaingate_c) {
   ter(x, y) = t_chaingate_o;
   return true;
-  else if (ter(x, y) == t_fencegate_c) { //Oddzball-Added wooden gates to open door function
+ } else if (ter(x, y) == t_fencegate_c) { //Oddzball-Added wooden gates to open door function
   ter(x, y) = t_fencegate_o;
   return true;
  } else if (ter(x, y) == t_door_metal_c) {
