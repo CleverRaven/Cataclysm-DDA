@@ -1399,7 +1399,7 @@ input_ret game::get_input(int timeout_ms)
    } while (has);
    refresh_all();
   } break;
-  
+
   case ACTION_COMPARE:
    compare();
    break;
@@ -1837,7 +1837,7 @@ void game::load(std::string name)
  turn = tmpturn;
  nextspawn = tmpspawn;
  nextweather = tmpnextweather;
- 
+
  cur_om = overmap(this, comx, comy, levz);
  m.load(this, levx, levy);
 
@@ -2871,7 +2871,7 @@ unsigned char game::light_level()
   ret = 8;
  if (ret < 8 && event_queued(EVENT_ARTIFACT_LIGHT))
   ret = 8;
- if (ret < 6 && u.has_amount(itm_torch_lit, 1))
+ if (ret < 6 && u.has_amount(itm_torch_lit, 1) || ret < 6 && u.has_amount(itm_pda_flashlight, 1))
   ret = 6;
  if (ret < 4 && u.has_artifact_with(AEP_GLOW))
   ret = 4;
@@ -7472,8 +7472,8 @@ void game::spawn_mon(int shiftx, int shifty)
   if (dist <= rad) {
 // (The area of the group's territory) in (population/square at this range)
 // chance of adding one monster; cap at the population OR 16
-   while ( (cur_om.zg[i].diffuse ? 
-            long( pop) : 
+   while ( (cur_om.zg[i].diffuse ?
+            long( pop) :
             long((1.0 - double(dist / rad)) * pop) )
 	  > rng(0, pow(rad, 2.0)) &&
           rng(0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)

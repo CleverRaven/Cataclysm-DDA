@@ -1183,7 +1183,7 @@ TECH( mfb(TEC_DEF_DISARM) );
 	index++;itypes.push_back(new it_var_veh_part(index,rarity,price,name,des,sym,\
 color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags, bigmin, bigmax, bigaspect))
 
-//itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small, 
+//itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
 //           NAME     RAR PRC  SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("wheel", 10, 100, ']', c_dkgray,  STEEL,   PLASTIC,
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
@@ -3960,6 +3960,20 @@ A spray can, filled with paint. Use this tool to make graffiti on the floor.");
 TOOL("rag",    1, 0,  ',', c_white, COTTON,   MNULL,
    0,  0,   0,  0,  0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::rag, 0, "\
 Rag, useful in crafting and possibly stopping bleeding");
+
+//	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
+TOOL("PDA",		60,  35,',', c_blue,	PLASTIC,IRON,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    1,  1,  0,  0,  0, 100,100, 1,  0, AT_NULL,	itm_null, &iuse::pda, 0, "\
+A small multipurpose electronic device. Can be loaded with a variety\n\
+of apps, providing all kinds of functionality.");
+
+//	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
+TOOL("PDA - Flashlight",		60,  35,',', c_blue,	PLASTIC,IRON,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    1,  1,  0,  0,  0, 100,100, 1,  0, AT_NULL,	itm_null, &iuse::pda_flashlight, 0, "\
+A small multipurpose electronic device. This PDA has its flashlight\n\
+app on, and is providing light.");
 
 
 // BIONICS

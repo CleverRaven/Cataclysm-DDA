@@ -184,7 +184,7 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
 	g->add_msg_if_player(p,"Never mind.");
  	add_or_drop_item(g, p, it);
     return;
-	
+
    } else if (ch == '7') {
     g->add_msg_if_player(p,"You stopped the bleeding.");
     p->rem_disease(DI_BLEED);
@@ -2949,7 +2949,7 @@ void iuse::rag(game *g, player *p, item *it, bool t)
 {
 if (p->has_disease(DI_BLEED)){
 
-  if (one_in(2)){ 
+  if (one_in(2)){
   g->add_msg_if_player(p,"You managed to stop the bleeding.");
   p->rem_disease(DI_BLEED);
   p->use_charges(itm_rag, 1);
@@ -2961,10 +2961,32 @@ else {
  else {
  g->add_msg_if_player(p,"Nothing to use the rag for.");
  }
- 
+
 }
 
- 
+void iuse::pda(game *g, player *p, item *it, bool t)
+{
+ if (it->charges == 0)
+  g->add_msg_if_player(p,"The PDA's batteries are dead.");
+ else {
+  g->add_msg_if_player(p,"You activate the flashlight app.");
+  it->make(g->itypes[itm_pda_flashlight]);
+  it->active = true;
+  it->charges --;
+ }
+}
+
+void iuse::pda_flashlight(game *g, player *p, item *it, bool t)
+{
+ if (t) {	// Normal use
+// Do nothing... player::active_light and the lightmap::generate deal with this
+ } else {	// Turning it off
+  g->add_msg_if_player(p,"The PDA screen goes blank.");
+  it->make(g->itypes[itm_pda]);
+  it->active = false;
+ }
+}
+
 /* MACGUFFIN FUNCTIONS
  * These functions should refer to it->associated_mission for the particulars
  */

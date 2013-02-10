@@ -90,7 +90,7 @@ itm_wrapper, itm_syringe, itm_fur, itm_leather, itm_superglue,
 
 // Vehicle parts
  itm_frame,
- itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small, 
+ itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
  itm_seat, itm_vehicle_controls,
  itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion,
  itm_v6_combustion, itm_v8_combustion,
@@ -208,6 +208,7 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_tent_kit, itm_torch, itm_torch_lit, itm_candle, itm_candle_lit,
  itm_brazier, itm_puller, itm_press, itm_screwdriver, itm_wrench,
  itm_boltcutters, itm_mop, itm_picklocks, itm_pickaxe, itm_spray_can, itm_rag,
+ itm_pda, itm_pda_flashlight,
 // Bionics containers
 itm_bionics_battery,       itm_bionics_power,   itm_bionics_tools,
  itm_bionics_neuro,        itm_bionics_sensory, itm_bionics_aquatic,
@@ -346,7 +347,7 @@ BIGNESS_ENGINE_NULL,         // like a cookie-cutter-cut cookie, this type has n
 BIGNESS_ENGINE_DISPLACEMENT, // combustion engine CC displacement
 BIGNESS_KILOWATTS,           // electric motor power
 BIGNESS_WHEEL_DIAMETER,      // wheel size in inches, including tire
-//BIGNESS_PLATING_THICKNESS, // 
+//BIGNESS_PLATING_THICKNESS, //
 NUM_BIGNESS_ASPECTS,
 };
 
@@ -544,9 +545,9 @@ struct it_var_veh_part: public itype
  }
  virtual bool is_var_veh_part(){return true;}
  virtual bool is_wheel()          { return false; }
- virtual bool is_engine() { 
-  if (id < itm_1cyl_combustion) return false; 
-  if (id > itm_v8_combustion) return false; 
+ virtual bool is_engine() {
+  if (id < itm_1cyl_combustion) return false;
+  if (id > itm_v8_combustion) return false;
   return true;
  }
 };
