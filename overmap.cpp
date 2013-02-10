@@ -2271,6 +2271,20 @@ void overmap::place_special(overmap_special special, point p)
   ter(p.x, p.y - 1) = ot_s_lot;
   make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, ot_road_null);
  }
+ //Oddzball-Adding in "dirt parking lot (ot_dirtlot)"
+  if (special.flags & mfb(OMS_FLAG_DIRT_LOT)) {
+  int closest = -1, distance = 999;
+  for (int i = 0; i < cities.size(); i++) {
+   int dist = rl_dist(p.x, p.y, cities[i].x, cities[i].y);
+   if (dist < distance) {
+    closest = i;
+    distance = dist;
+   }
+  }
+  ter(p.x, p.y - 1) = ot_dirtlot;
+  make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, ot_road_null);
+ }
+//Oddzball-End of OMS_FLAG_DIRT_LOT
 
 // Finally, place monsters if applicable
  if (special.monsters != mcat_null) {

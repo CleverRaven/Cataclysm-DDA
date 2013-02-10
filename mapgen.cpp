@@ -269,8 +269,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   }
   place_items(mi_wreckage, 83, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
   break;
-
- case ot_field:
+  case ot_field:
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     ter(i, j) = grass_or_dirt();
@@ -282,7 +281,18 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   }
   place_items(mi_field, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
   break;
-
+  //Oddzball-Dirt lot OT
+ case ot_dirtlot:
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++) {
+    ter(i, j) = t_dirt();
+    if (one_in(120)) ter(i, j) = t_rock; else //Oddzball-Random rocks
+    if (one_in(250)) ter(i,j) = t_grass; //Oddzball-some random grass
+    }
+  }
+  place_items(mi_field, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
+  break;
+  //Oddzball-Dirt lot OT
  case ot_forest:
  case ot_forest_thick:
  case ot_forest_water:

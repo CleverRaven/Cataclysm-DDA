@@ -45,7 +45,7 @@ enum oter_id {
  ot_null = 0,
  ot_crater,
 // Wild terrain
- ot_field, ot_forest, ot_forest_thick, ot_forest_water, ot_hive, ot_spider_pit,
+ ot_field, ot_dirtlot, ot_forest, ot_forest_thick, ot_forest_water, ot_hive, ot_spider_pit,
   ot_fungal_bloom,
 // Roads
  ot_hiway_ns, ot_hiway_ew,
@@ -138,6 +138,7 @@ const oter_t oterlist[num_ter_types] = {
 {"nothing",		'%',	c_white,	0, no_extras, false, false},
 {"crater",		'O',	c_red,		2, field_extras, false, false},
 {"field",		'.',	c_brown,	2, field_extras, false, false},
+{"dirt lot",		'.',	i_brown,	1, build_extras, false, false}, //Oddzball-Dirt lot graphic for Overmap
 {"forest",		'F',	c_green,	3, field_extras, false, false},
 {"forest",		'F',	c_green,	4, field_extras, false, false},
 {"swamp",		'F',	c_cyan,		4, field_extras, false, false},
@@ -366,6 +367,7 @@ OMS_FLAG_3X3_SECOND,	// 3x3 square, made of the tile AFTER the main one
 OMS_FLAG_BIG,		// As big as possible
 OMS_FLAG_ROAD,		// Add a road_point here; connect to towns etc.
 OMS_FLAG_PARKING_LOT,	// Add a road_point to the north of here
+OMS_FLAG_DIRT_LOT, //Oddzball-Dirt lot flag for specials
 NUM_OMS_FLAGS
 };
 
@@ -452,7 +454,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::forest, mfb(OMS_FLAG_ROTATE_RANDOM)|mfb(OMS_FLAG_ROTATE_ROAD)},
  
  {ot_farm,   0, 20, 20, -1, mcat_null, 0, 0, 0, 0,  // Oddzball-farm
- &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) |mfb(OMS_FLAG_PARKING_LOT)},
+ &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) |mfb(OMS_FLAG_DIRT_LOT)},
 
 {ot_temple_stairs, 0,  0, 20, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::never, 0},
