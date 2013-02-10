@@ -156,7 +156,7 @@ bool game::opening_screen()
  for (int i = 0; i < 80; i++)
   mvwputch(w_open, 21, i, c_white, LINE_OXOX);
    mvwprintz(w_open, 0, 0, c_blue, "Cataclysm Classic Zombie"); //Oddzball
-   mvwprintz(w_open, 1, 0, c_red, "Build3-2"); //Oddzball
+   mvwprintz(w_open, 1, 0, c_red, "Build4"); //Oddzball
  refresh();
  wrefresh(w_open);
  refresh();

@@ -2,8 +2,8 @@
 # Max length of a line is 64 characters; the following line is for reference
 ################################################################
 This branch contains much work by Creidieki, Uzername,
-Kevingranade, HerbertJones, Gim, Shades,Origamiwolf
-and Darkling Wolf.
+Kevingranade, HerbertJones, Gim, Shades, Origamiwolf,
+ Darkling Wolf, zpmorgan, Voker57, OZoneH3, and RWJMurphy.
 
 The game now has configurable options.
 You can directly edit options.txt in the data directory, or you
