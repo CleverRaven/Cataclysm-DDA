@@ -279,7 +279,7 @@ public:
 // Maximum--i.e. unmodified by disease
  int str_max, dex_max, int_max, per_max;
  int power_level, max_power_level;
- int hunger, thirst, fatigue, health;
+ int hunger, thirst, fatigue, health, bodywetness;
  bool underwater;
  int oxygen;
  unsigned int recoil;
@@ -290,6 +290,8 @@ public:
  int cash;
  int moves;
  int hp_cur[num_hp_parts], hp_max[num_hp_parts];
+ signed int temp_cur[num_bp], temp_conv[num_bp], frostbite_timer[num_bp];
+ void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
 
  std::vector<morale_point> morale;
 

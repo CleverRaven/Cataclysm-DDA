@@ -343,6 +343,7 @@ class game
   void cleanup_dead();     // Delete any dead NPCs/monsters
   void monmove();          // Monster movement
   void rustCheck();        // Degrades practice levels
+  void update_bodytemp();  // Maintains body temperature
   void process_events();   // Processes and enacts long-term events
   void process_activity(); // Processes and enacts the player's activity
   void update_weather();   // Updates the temperature and weather patten
