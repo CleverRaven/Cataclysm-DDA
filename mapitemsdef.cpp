@@ -176,7 +176,7 @@ void game::init_mapitems()
    mapitems[mi_hardware],
 	itm_superglue, itm_chain, itm_rope_6, itm_rope_30, itm_glass_sheet,
 	itm_pipe, itm_nail, itm_hose, itm_string_36, itm_frame, itm_metal_tank,
-	itm_wire, itm_wire_barbed, itm_duct_tape, itm_jerrycan, itm_lawnmower, itm_foot_crank, itm_ax, itm_spray_can
+	itm_wire, itm_wire_barbed, itm_duct_tape, itm_jerrycan, itm_lawnmower, itm_foot_crank, itm_ax, itm_spray_can,
 	NULL);
 
  setvector(
