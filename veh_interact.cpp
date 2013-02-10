@@ -731,7 +731,7 @@ void complete_vehicle (game *g)
         if(partnum < 0)
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part);
         used_item = consume_vpart_item (g, (vpart_id) part);
-        veh->get_part_hp_from_item(partnum, used_item);
+        veh->get_part_properties_from_item(g, partnum, used_item); //transfer damage, etc.
         tools.push_back(component(itm_welder, welder_charges));
         tools.push_back(component(itm_toolset, welder_charges/5));
         g->consume_tools(tools);
@@ -772,7 +772,7 @@ void complete_vehicle (game *g)
         if (!broken){
             itype* parttype = g->itypes[itm];
             item tmp(parttype, g->turn);
-            veh->give_part_hp_to_item(part, tmp);
+            veh->give_part_properties_to_item(g, part, tmp); //transfer damage, etc.
             if(parttype->is_var_veh_part()){
                // has bigness.
                tmp.bigness = bigness;

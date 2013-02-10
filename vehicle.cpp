@@ -394,18 +394,31 @@ int vehicle::install_part (int dx, int dy, vpart_id id, int hp, bool force)
     return parts.size() - 1;
 }
 
-// item damage is 0,1,2,3, or 4. part hp is 1..durability.
-// assuming it rusts. other item materials disentigrate at different rates...
-void vehicle::get_part_hp_from_item(int partnum, item& i){
+// share damage & bigness betwixt veh_parts & items.
+void vehicle::get_part_properties_from_item(game* g, int partnum, item& i){
+    //transfer bigness if relevant.
+    itype_id  pitmid = part_info(partnum).item;
+    itype* itemtype = g->itypes[pitmid];
+    if(itemtype->is_var_veh_part())
+       parts[partnum].bigness = i.bigness;
+
+    // item damage is 0,1,2,3, or 4. part hp is 1..durability.
+    // assuming it rusts. other item materials disentigrate at different rates...
     int health = 5 - i.damage;
     health *= part_info(partnum).durability; //[0,dur]
     health /= 5;
     parts[partnum].hp = health;
 }
-// translate part damage to item damage.
-// max damage is 4, min damage 0.
-// this is very lossy.
-void vehicle::give_part_hp_to_item(int partnum, item& i){
+void vehicle::give_part_properties_to_item(game* g, int partnum, item& i){
+    //transfer bigness if relevant.
+    itype_id  pitmid = part_info(partnum).item;
+    itype* itemtype = g->itypes[pitmid];
+    if(itemtype->is_var_veh_part())
+       i.bigness = parts[partnum].bigness;
+
+    // translate part damage to item damage.
+    // max damage is 4, min damage 0.
+    // this is very lossy.
     int dam;
     float hpofdur = (float)parts[partnum].hp / part_info(partnum).durability;
     dam = (1 - hpofdur) * 5;
