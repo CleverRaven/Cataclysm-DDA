@@ -980,6 +980,22 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
    return true;
   }
   break;
+  
+  case t_fencegate_c:
+  result = rng(0, has_adjacent_furniture(x, y) ? 30 : 40);
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "crash!";
+   ter(x, y) = t_dirtfloor;
+   add_item(x, y, (*itypes)[itm_2x4], 0, rng(1, 4));
+   add_item(x, y, (*itypes)[itm_nail], 0, rng(2, 12));
+   add_item(x, y, (*itypes)[itm_splinter], 0);
+   return true;
+  } else {
+   sound += "wham!";
+   return true;
+  }
+  break;
 
  case t_door_c:
  case t_door_locked:
@@ -1706,6 +1722,9 @@ bool map::open_door(const int x, const int y, const bool inside)
   return true;
  } else if (ter(x, y) == t_chaingate_c) {
   ter(x, y) = t_chaingate_o;
+  return true;
+  else if (ter(x, y) == t_fencegate_c) { //Oddzball-Added wooden gates to open door function
+  ter(x, y) = t_fencegate_o;
   return true;
  } else if (ter(x, y) == t_door_metal_c) {
   ter(x, y) = t_door_metal_o;
