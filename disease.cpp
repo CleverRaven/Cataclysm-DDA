@@ -1179,7 +1179,7 @@ std::string dis_description(disease dis)
  
  case DI_HOT_HEAD:		
   switch (dis.intensity) {
-   case 1: return "Your head feels warm".;
+   case 1: return "Your head feels warm";
    case 2: return "Your head is sweating from the heat. You feel nauseated. You have a headache.";
    case 3: return "Your head is sweating profusely. You feel very nauseated. You have a headache.";}	
    
