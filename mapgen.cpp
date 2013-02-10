@@ -292,7 +292,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   }
     if (one_in(4))
   {
-      add_vehicle (this, veh_truck, 12, 12, 90);
+      add_vehicle (g, veh_truck, 12, 12, 90);
 	  }
   break;
   //Oddzball-Dirt lot OT
