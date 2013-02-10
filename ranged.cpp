@@ -112,8 +112,6 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  if (num_shots == 0)
   debugmsg("game::fire() - num_shots = 0!");
 
- // Make a sound at our location - Zombies will chase it
- make_gun_sound_effect(this, p, burst, weapon);
 // Set up a timespec for use in the nanosleep function below
  timespec ts;
  ts.tv_sec = 0;
@@ -220,6 +218,12 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   else
    weapon->charges--;
 
+  if (one_in(100)) {
+   add_msg("Your weapon misfired!");
+   return;
+  }
+
+  make_gun_sound_effect(this, p, burst, weapon);
   int trange = calculate_range(p, tarx, tary);
   double missed_by = calculate_missed_by(p, trange, weapon);
 // Calculate a penalty based on the monster's speed
