@@ -1576,9 +1576,9 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
  case ot_s_hardware_south:
  case ot_s_hardware_west:
   rn = 0;	// No back door
-  if (!one_in(3))
-   rn = 1;	// Old-style back door
-  else if (one_in(3))
+//  if (!one_in(3))
+//   rn = 1;	// Old-style back door
+  if (!one_in(6))
    rn = 2;	// Paved back area
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
