@@ -10,6 +10,8 @@
 #include "options.h"
 #include "mapbuffer.h"
 #include "debug.h"
+#include "bodypart.h"
+#include "map.h"
 
 #include <fstream>
 #include <sstream>
@@ -692,10 +694,93 @@ bool game::do_turn()
   refresh();
  }
 
+ if (turn % 10 == 0) update_bodytemp();
+ 
  rustCheck();
  if (turn % 10 == 0)
   u.update_morale();
  return false;
+}
+
+void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet) can affect body temp.
+{
+ // Bodytemp is measured on a scale of 0u to 1000u, where 1u = 0.02C and 500u is 37C
+ int Ctemperature = 10*(temperature - 32) * 5/9; // Converts temperature to Celsius/10!(Wito plans on using degrees Kelvin later)
+ const int freezing = 50, very_cold = 200, cold = 350, 
+           hot = 650, very_hot = 800, scorching = 950; // Temperature thresholds
+ const int body_norm = 500, ambient_norm = 220; // Temperature norms
+ int morale_cold = 0, morale_hot = 0; // Creative thinking for clean morale penalties
+ int adjusted_temp = 2*(Ctemperature - ambient_norm); // This adjusts the temperature scale to match the bodytemp scale
+ // Fetch the morale value of wetness for bodywetness 
+ for (int i = 0; u.bodywetness == 0 && i < u.morale.size(); i++)
+  if( u.morale[i].type == MORALE_WET ) {
+   u.bodywetness = u.morale[i].bonus;
+  }
+ // Current temperature and converging temperature calculations
+ for (int i = 0 ; i < num_bp ; i++){
+  float homeostasis_adjustement = (u.temp_cur[i] > body_norm ? 1.0 : 3.0); // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
+  int clothing_warmth_adjustement = homeostasis_adjustement * (float)u.warmth(body_part(i)) /  (1.0 + (float)u.bodywetness / 50.0); // TODO : Did this float stuff actually work?
+  int blister_pen = dis_type(DI_BLISTERS) + 1 + i, hot_pen  = dis_type(DI_HOT) + 1 + i, // Disease name shorthand
+      cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;  //
+  u.temp_conv[i] = body_norm + adjusted_temp + clothing_warmth_adjustement; // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness. 20C is normal
+  // Fatigue also affects convergeant temperature
+  if (!u.has_disease(DI_SLEEP)) u.temp_conv[i] -= u.fatigue/6;    
+  else { 
+   int vpart = -1;
+   vehicle *veh = m.veh_at (u.posx, u.posy, vpart); 
+		if (m.ter(u.posx, u.posy) == t_bed) 		                  u.temp_conv[i] += 100;
+   else if (m.ter(u.posx, u.posy) == t_makeshift_bed)                 u.temp_conv[i] +=  50;
+   else if (m.tr_at(u.posx, u.posy) == tr_cot)                        u.temp_conv[i] -=  50;
+   else if (m.tr_at(u.posx, u.posy) == tr_rollmat)                    u.temp_conv[i] -= 100;
+   else if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0)     u.temp_conv[i] +=  30;
+   else	u.temp_conv[i] -= 200;          
+  }
+  // Fire : generates body heat, helps fight frostbite TODO : add lava checks. TODO : cleanup like I did with temp_conv calculation
+  int blister_count = 0; // If the counter is high, your skin starts to burn
+  for (int j = -6 ; j <= 6 ; j++){
+   for (int k = -6 ; k <= 6 ; k++){
+    if (m.field_at(u.posx + j, u.posy + k).type == fd_fire) {
+     int fire_dist = sqrt(j*j + k*k);
+	 int fire_density = m.field_at(u.posx + j, u.posy + k).density;
+	 if (u.frostbite_timer[i] > 0) u.frostbite_timer[i] -= fire_density - fire_dist/2;
+	 u.temp_conv[i] += 300*fire_density/(fire_dist*fire_dist); // How do I square things 
+	 blister_count += fire_density/(fire_dist*fire_dist);
+    }
+   }
+  }
+  // Skin gets blisters from intense heat exposure. TODO : add penalties in disease.cpp
+  if (blister_count - u.resist(body_part(i)) > 20) u.add_disease(dis_type(blister_pen), 1, this, i, num_bp);
+  // Increments current body temperature towards convergant
+  int temp_difference = u.temp_cur[i] - u.temp_conv[i];
+  int temp_before = u.temp_cur[i];
+  if (u.temp_cur[i] != u.temp_conv[i]) u.temp_cur[i] = temp_difference*exp(-0.1) + u.temp_conv[i];
+  int temp_after = u.temp_cur[i];
+  // Penalties
+  if      (u.temp_cur[i] < freezing)  {u.add_disease(dis_type(cold_pen), 10, this, 3, 3); morale_cold += 3; u.frostbite_timer[i] += 3;}
+  else if (u.temp_cur[i] < very_cold) {u.add_disease(dis_type(cold_pen), 10, this, 2, 3); morale_cold += 2; u.frostbite_timer[i] += 2;}
+  else if (u.temp_cur[i] < cold)      {u.add_disease(dis_type(cold_pen), 10, this, 1, 3); morale_cold += 1; u.frostbite_timer[i] += 1;} // Frostbite timer does not go down if you are still cold.
+  else if (u.temp_cur[i] > scorching) {u.add_disease(dis_type(hot_pen),  10, this, 3, 3); morale_hot += 3;} // If body temp rises over 1500, disease.cpp (DI_HOT_HEAD) acts weird and the player will die
+  else if (u.temp_cur[i] > very_hot)  {u.add_disease(dis_type(hot_pen),  10, this, 2, 3); morale_hot += 2;}
+  else if (u.temp_cur[i] > hot)       {u.add_disease(dis_type(hot_pen),  10, this, 1, 3); morale_hot += 1;}
+  // Frostbite
+  if (u.frostbite_timer[i] > 0)  u.frostbite_timer[i]--;
+  if (u.frostbite_timer[i] > 11) u.add_disease(dis_type(frost_pen), 1, this, i, num_bp);
+  // Warn the player if condition worsens
+  if      (temp_before > freezing && temp_after < freezing) add_msg("You feel your %s beginning to go numb from the cold!", body_part_name(body_part(i), -1).c_str());
+  else if (temp_before > very_cold && temp_after < very_cold) add_msg("You feel your %s getting very cold.", body_part_name(body_part(i), -1).c_str());
+  else if (temp_before > cold && temp_after < cold) add_msg("You feel your %s getting cold.", body_part_name(body_part(i), -1).c_str());
+  else if (temp_before < scorching && temp_after > scorching) add_msg("You feel your %s getting red hot from the heat!", body_part_name(body_part(i), -1).c_str());
+  else if (temp_before < very_hot && temp_after > very_hot) add_msg("You feel your %s getting very hot.", body_part_name(body_part(i), -1).c_str());
+  else if (temp_before < hot && temp_after > hot) add_msg("You feel your %s getting hot.", body_part_name(body_part(i), -1).c_str()); 
+ } 
+ // Morale penalties TODO only updates every 10 ticks
+ if (morale_cold > 0) u.add_morale(MORALE_COLD, -1*morale_cold, -10*morale_cold);
+ if (morale_hot > 0) u.add_morale(MORALE_HOT, -1*morale_hot, -10*morale_hot);
+ // Bodytemp equalization code
+ u.temp_equalizer(bp_torso, bp_arms); u.temp_equalizer(bp_torso, bp_legs); u.temp_equalizer(bp_torso, bp_head);
+ u.temp_equalizer(bp_head, bp_eyes); u.temp_equalizer(bp_head, bp_mouth);
+ u.temp_equalizer(bp_arms, bp_hands);
+ u.temp_equalizer(bp_legs, bp_feet);
 }
 
 void game::rustCheck() {
@@ -2628,7 +2713,7 @@ void game::draw_ter(int posx, int posy)
   }
  }
  wrefresh(w_terrain);
- if (u.has_disease(DI_VISUALS))
+ if (u.has_disease(DI_VISUALS) || (u.has_disease(DI_HOT_HEAD) && u.disease_intensity(DI_HOT_HEAD) != 1))
   hallucinate();
 }
 
