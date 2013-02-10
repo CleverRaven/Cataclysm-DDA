@@ -4432,83 +4432,6 @@ case ot_s_garage_north:
 		break;
 		//Oddzball-End Farm field
   
-  
-  
-  
-  /*
-        square(this, grass_or_dirt(), 0, 0, SEEX * 2, SEEY * 2);
-        int yard_wdth = 5;
-        square(this, t_floor, 0, yard_wdth, SEEX * 2 - 4, SEEY * 2 - 4);
-        line(this, t_wall_v, 0, yard_wdth, 0, SEEY*2-4);
-        line(this, t_wall_v, SEEX * 2 - 3, yard_wdth, SEEX * 2 - 3, SEEY*2-4);
-        line(this, t_wall_h, 0, SEEY*2-4, SEEX * 2 - 3, SEEY*2-4);
-        line(this, t_window, 0, SEEY*2-4, SEEX * 2 - 14, SEEY*2-4);
-        line(this, t_wall_h, 0, SEEY*2-4, SEEX * 2 - 20, SEEY*2-4);
-        line(this, t_wall_h, 0, yard_wdth, 2, yard_wdth);
-        line(this, t_wall_h, 8, yard_wdth, 13, yard_wdth);
-        line(this, t_wall_h, 20, yard_wdth, 21, yard_wdth);
-        line(this, t_counter, 1, yard_wdth+1, 1, yard_wdth+7);
-        line(this, t_wall_h, 1, SEEY*2-9, 3, SEEY*2-9);
-        line(this, t_wall_v, 3, SEEY*2-8, 3, SEEY*2-5);
-        ter(3, SEEY*2-7)= t_door_frame;
-        ter(21, SEEY*2-7)= t_door_c;
-        line(this, t_counter,4, SEEY*2-5, 15, SEEY*2-5);
-        //office
-        line(this, t_wall_glass_h, 16, SEEY*2-9 ,20, SEEY*2-9);
-        line(this, t_wall_glass_v, 16, SEEY*2-8, 16, SEEY*2-5);
-        ter(16, SEEY*2-7)= t_door_glass_c;
-        line(this, t_bench, SEEX*2-6, SEEY*2-8, SEEX*2-4, SEEY*2-8);
-        ter(SEEX*2-6, SEEY*2-6) = t_console_broken;
-        ter(SEEX*2-5, SEEY*2-6) = t_bench;
-        line(this, t_locker, SEEX*2-6, SEEY*2-5, SEEX*2-4, SEEY*2-5);
-        //gates
-        line(this, t_door_metal_locked, 3, yard_wdth, 8, yard_wdth);
-        ter(2, yard_wdth+1) = t_gates_mech_control;
-        ter(2, yard_wdth-1) = t_gates_mech_control;
-        line(this, t_door_metal_locked, 14, yard_wdth, 19, yard_wdth );
-        ter(13, yard_wdth+1) = t_gates_mech_control;
-        ter(13, yard_wdth-1) = t_gates_mech_control;
-
-        //place items
-        place_items(mi_mechanics, 90, 1, yard_wdth+1, 1, yard_wdth+7, true, 0);
-        place_items(mi_mechanics, 90, 4, SEEY*2-5, 15, SEEY*2-5, true, 0);
-
-        // rotate garage and place vehicles
-        vhtype_id vt = veh_motorcycle_chassis;
-
-        if (one_in(10))
-        vhtype_id vt = veh_car;
-        else if(one_in(5))
-        vhtype_id vt = veh_car_chassis;
-        else if (one_in(2))
-        vhtype_id vt = veh_sandbike_chassis;
-        else vhtype_id vt = veh_motorcycle_chassis;
-
-        int vy = 0, vx = 0, theta = 0;
-
-        if (terrain_type == ot_barn_n) {
-          vx = 5, vy = yard_wdth + 6;
-          theta = 90;
-        } else if (terrain_type == ot_barn_e) {
-          rotate(1);
-          vx = yard_wdth + 8, vy = 4;
-          theta = 0;
-        } else if (terrain_type == ot_barn_s) {
-          rotate(2);
-          vx = SEEX * 2 - 6, vy = SEEY * 2 - (yard_wdth + 3);
-          theta = 270;
-        } else if (terrain_type == ot_barn_w) {
-          rotate(3);
-          vx = SEEX * 2 - yard_wdth - 9, vy = SEEY * 2 - 5;
-          theta = 180;
-        }
-
-        if (one_in(10)) {
-          add_vehicle (g, vt, vx, vy, theta);
-        } 
-  }
-  break;*/ //Oddzball-Barn test code.
-  
   //Oddzball-Farm
  case ot_police_north:
  case ot_police_east:
@@ -8612,6 +8535,10 @@ void map::add_extra(map_extra type, game *g)
 //Oddzball-Need to add cougar chance...
  case mx_wolfpack:
   add_spawn(mon_wolf, rng(3, 6), SEEX, SEEY);
+  break;
+  
+  case mx_cougar:
+  add_spawn(mon_cougar, 1, SEEX, SEEY);
   break;
 
  case mx_crater:

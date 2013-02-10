@@ -538,7 +538,8 @@ enum map_extra {
  mx_supplydrop,
  mx_portal,
  mx_minefield,
- mx_wolfpack,  //Oddzball-Need to add in cougar chance...
+ mx_wolfpack,
+ mx_cougar, //Oddzball-Need to add in cougar chance...
  mx_puddle,
  mx_crater,
  mx_fumarole,
@@ -560,6 +561,7 @@ const int map_extra_chance[num_map_extras + 1] = {
   5,	// Portal
  70,	// Minefield
  30,	// Wolf pack
+ 40,    // Cougar //Oddzball-Cougar map extras
 250,	// Puddle
  10,	// Crater
   8,	// Fumarole
@@ -573,7 +575,7 @@ struct map_extras {
  int chances[num_map_extras + 1];
  map_extras(unsigned int embellished, int helicopter = 0, int mili = 0,
             int sci = 0, int stash = 0, int drug = 0, int supply = 0,
-            int portal = 0, int minefield = 0, int wolves = 0, int puddle = 0,
+            int portal = 0, int minefield = 0, int wolves = 0, int cougar = 0, int puddle = 0, //Oddzball-Cougar chance
             int crater = 0, int lava = 0, int marloss = 0, int anomaly = 0)
             : chance(embellished)
  {
@@ -587,12 +589,13 @@ struct map_extras {
   chances[ 7] = portal;
   chances[ 8] = minefield;
   chances[ 9] = wolves;
-  chances[10] = puddle;
-  chances[11] = crater;
-  chances[12] = lava;
-  chances[13] = marloss;
-  chances[14] = anomaly;
-  chances[15] = 0;
+  chances[10] = cougar;
+  chances[11] = puddle;
+  chances[12] = crater;
+  chances[13] = lava;
+  chances[14] = marloss;
+  chances[15] = anomaly;
+  chances[16] = 0;
  }
 };
 
