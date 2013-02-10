@@ -64,7 +64,5 @@ recipe(int pid, itype_id pres, craft_cat cat, const char *p1, const char *p2,
   }
 };
 
-void consume_items(game *g, std::vector<component> components);
-void consume_tools(game *g, std::vector<component> tools);
 
 #endif

@@ -91,8 +91,8 @@ void vehicle::load (std::ifstream &stin)
     int itms = 0;
     for (int p = 0; p < prts; p++)
     {
-        int pid, pdx, pdy, php, pam, pbld, pnit;
-        stin >> pid >> pdx >> pdy >> php >> pam >> pbld >> pnit;
+        int pid, pdx, pdy, php, pam, pbld, pbig, pnit;
+        stin >> pid >> pdx >> pdy >> php >> pam >> pbld >> pbig >> pnit;
         getline(stin, databuff); // Clear EoL
         vehicle_part new_part;
         new_part.id = (vpart_id) pid;
@@ -100,6 +100,7 @@ void vehicle::load (std::ifstream &stin)
         new_part.mount_dy = pdy;
         new_part.hp = php;
         new_part.blood = pbld;
+        new_part.bigness = pbig;
         new_part.amount = pam;
         for (int j = 0; j < pnit; j++)
         {
@@ -154,6 +155,7 @@ void vehicle::save (std::ofstream &stout)
             parts[p].hp << " " <<
             parts[p].amount << " " <<
             parts[p].blood << " " <<
+            parts[p].bigness<< " " <<
             parts[p].items.size() << std::endl;
             for (int i = 0; i < parts[p].items.size(); i++)
             {
@@ -244,6 +246,18 @@ const vpart_info& vehicle::part_info (int index)
     if (id < vp_null || id >= num_vparts)
         id = vp_null;
     return vpart_list[id];
+}
+
+int vehicle::part_power (int index){
+   if (!part_flag(index, vpf_engine))
+      return 0; //not an engine.
+   if(parts[index].hp <= 0)
+      return 0; //broken.
+   if(part_flag (index, vpf_variable_size)){ // example: 2.42-L V-twin engine
+      return parts[index].bigness;
+   }
+   else // example: foot crank 
+      return part_info(index).power;
 }
 
 bool vehicle::can_mount (int dx, int dy, vpart_id id)
@@ -370,11 +384,33 @@ int vehicle::install_part (int dx, int dy, vpart_id id, int hp, bool force)
     new_part.hp = hp < 0? vpart_list[id].durability : hp;
     new_part.amount = 0;
     new_part.blood = 0;
+    item tmp(g->itypes[vpart_list[id].item], 0);
+    new_part.bigness = tmp.bigness;
     parts.push_back (new_part);
     find_exhaust ();
     precalc_mounts (0, face.dir());
     insides_dirty = true;
     return parts.size() - 1;
+}
+
+// item damage is 0,1,2,3, or 4. part hp is 1..durability.
+// assuming it rusts. other item materials disentigrate at different rates...
+void vehicle::get_part_hp_from_item(int partnum, item& i){
+    int health = 5 - i.damage;
+    health *= part_info(partnum).durability; //[0,dur]
+    health /= 5;
+    parts[partnum].hp = health;
+}
+// translate part damage to item damage.
+// max damage is 4, min damage 0.
+// this is very lossy.
+void vehicle::give_part_hp_to_item(int partnum, item& i){
+    int dam;
+    float hpofdur = (float)parts[partnum].hp / part_info(partnum).durability;
+    dam = (hpofdur * 5);
+    if (dam > 4) dam = 4;
+    if (dam < 0) dam = 0;
+    i.damage = dam;
 }
 
 void vehicle::remove_part (int p)
@@ -508,10 +544,22 @@ void vehicle::print_part_desc (void *w, int y1, int width, int p, int hl)
         if (parts[pl[i]].hp > 0)
             col_cond = c_red;
 
+        //part name. with bigness, if any.
+        std::stringstream nom;
+        if (part_flag(pl[i], vpf_engine)){ //bigness == liters
+           nom.precision(4);
+           nom << (float)(parts[pl[i]].bigness) / 100 << "-Liter ";
+        }
+        else if (part_flag(pl[i], vpf_wheel)){ //bigness == inches
+           nom << (parts[pl[i]].bigness) << "\" ";
+        }
+        nom << part_info(pl[i]).name;
+        std::string partname = nom.str();
+
         bool armor = part_flag(pl[i], vpf_armor);
-        mvwprintz(win, y, 2, i == hl? hilite(col_cond) : col_cond, part_info(pl[i]).name);
+        mvwprintz(win, y, 2, i == hl? hilite(col_cond) : col_cond, partname.c_str());
         mvwprintz(win, y, 1, i == hl? hilite(c_ltgray) : c_ltgray, armor? "(" : (i? "-" : "["));
-        mvwprintz(win, y, 2 + strlen(part_info(pl[i]).name), i == hl? hilite(c_ltgray) : c_ltgray, armor? ")" : (i? "-" : "]"));
+        mvwprintz(win, y, 2 + partname.size(), i == hl? hilite(c_ltgray) : c_ltgray, armor? ")" : (i? "-" : "]"));
 //         mvwprintz(win, y, 3 + strlen(part_info(pl[i]).name), c_ltred, "%d", parts[pl[i]].blood);
 
         if (i == 0)
@@ -689,7 +737,7 @@ int vehicle::basic_consumption (int ftype)
             ftype == part_info(p).fuel_type &&
             parts[p].hp > 0)
         {
-            fcon += part_info(p).power;
+            fcon += part_power(p); 
             cnt++;
         }
     if (fcon < 100 && cnt > 0)
@@ -707,7 +755,7 @@ int vehicle::total_power (bool fueled)
              part_info(p).fuel_type == AT_MUSCLE) &&
             parts[p].hp > 0)
         {
-            pwr += part_info(p).power;
+            pwr += part_power(p);
             cnt++;
         }
     if (cnt > 1)
@@ -720,7 +768,7 @@ int vehicle::solar_power ()
     int pwr = 0;
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, vpf_solar_panel) && parts[p].hp > 0)
-            pwr += part_info(p).power;
+            pwr += part_power(p);
     return pwr;
 }
 
@@ -750,9 +798,9 @@ int vehicle::safe_velocity (bool fueled)
             case AT_GAS:    m2c = 60; break;
             case AT_PLASMA: m2c = 75; break;
             case AT_BATT:   m2c = 90; break;
-            case AT_MUSCLE: m2c = 30; break;
+            case AT_MUSCLE: m2c = 45; break;
             }
-            pwrs += part_info(p).power * m2c / 100;
+            pwrs += part_power(p) * m2c / 100;
             cnt++;
         }
     if (cnt > 0)
@@ -785,7 +833,7 @@ int vehicle::noise (bool fueled, bool gas_only)
             }
             if (!gas_only || part_info(p).fuel_type == AT_GAS)
             {
-                int pwr = part_info(p).power * nc / 100;
+                int pwr = part_power(p) * nc / 100;
                 if (muffle < 100 && (part_info(p).fuel_type == AT_GAS ||
                     part_info(p).fuel_type == AT_PLASMA))
                     pwr = pwr * muffle / 100;
@@ -796,23 +844,26 @@ int vehicle::noise (bool fueled, bool gas_only)
     return pwrs;
 }
 
-int vehicle::wheels_area (int *cnt)
+float vehicle::wheels_area (int *cnt)
 {
     int count = 0;
-    int size = 0;
+    int total_area = 0;
     for (int i = 0; i < external_parts.size(); i++)
     {
         int p = external_parts[i];
         if (part_flag(p, vpf_wheel) &&
             parts[p].hp > 0)
         {
-            size += part_info(p).size;
+            int width = part_info(p).wheel_width;
+            int bigness = parts[p].bigness;
+            // 9 inches, for reference, is about normal for cars.
+            total_area += ((float)width/9) * bigness;
             count++;
         }
     }
     if (cnt)
         *cnt = count;
-    return size;
+    return total_area;
 }
 
 float vehicle::k_dynamics ()
@@ -838,7 +889,7 @@ float vehicle::k_dynamics ()
         frame_obst += obst[o];
     float ae0 = 200.0;
     float fr0 = 1000.0;
-    int wa = wheels_area();
+    float wa = wheels_area();
 
     // calculate aerodynamic coefficient
     float ka = ae0 / (ae0 + frame_obst);
@@ -851,11 +902,14 @@ float vehicle::k_dynamics ()
 
 float vehicle::k_mass ()
 {
-    int wa = wheels_area();
+    float wa = wheels_area();
+    if (wa <= 0)
+       return 0;
+
     float ma0 = 50.0;
 
     // calculate safe speed reduction due to mass
-    float km = wa > 0? ma0 / (ma0 + total_mass() / 8 / (float) wa) : 0;
+    float km = ma0 / (ma0 + total_mass() / (8 * (float) wa));
 
     return km;
 }

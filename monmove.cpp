@@ -634,6 +634,14 @@ void monster::move_to(game *g, int x, int y)
  */
 void monster::stumble(game *g, bool moved)
 {
+ // don't stumble every turn. every 3rd turn, or 8th when walking.
+ if(moved)
+  if(!one_in(8))
+   return;
+ else
+  if(!one_in(3))
+   return;
+
  std::vector <point> valid_stumbles;
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
@@ -645,29 +653,25 @@ void monster::stumble(game *g, bool moved)
    }
   }
  }
- if (valid_stumbles.size() > 0 && (one_in(8) || (!moved && one_in(3)))) {
+ if (valid_stumbles.size() == 0) //nowhere to stumble?
+  return;
+
   int choice = rng(0, valid_stumbles.size() - 1);
   posx = valid_stumbles[choice].x;
   posy = valid_stumbles[choice].y;
   if (!has_flag(MF_DIGS) || !has_flag(MF_FLIES))
    moves -= (g->m.move_cost(posx, posy) - 2) * 50;
-// Here we have to fix our plans[] list, trying to get back to the last point
-// Otherwise the stumble will basically have no effect!
-  if (plans.size() > 0) {
+ // Here we have to fix our plans[] list,
+ // acquiring a new path to the previous target.
+ // target == either end of current plan, or the player.
    int tc;
-   if (g->m.sees(posx, posy, plans[0].x, plans[0].y, -1, tc)) {
-// Copy out old plans...
-    std::vector <point> plans2;
-    for (int i = 0; i < plans.size(); i++)
-     plans2.push_back(plans[i]);
-// Set plans to a route between where we are now, and where we were
-    set_dest(plans[0].x, plans[0].y, tc);
-// Append old plans to the new plans
-    for (int index = 0; index < plans2.size(); index++)
-     plans.push_back(plans2[index]);
-   } else
+ if (plans.size() > 0) {
+  if (g->m.sees(posx, posy, plans.back().x, plans.back().y, -1, tc))
+   set_dest(plans.back().x, plans.back().y, tc);
+  else if (g->sees_u(posx, posy, tc))
+   set_dest(g->u.posx, g->u.posy, tc);
+  else //durr, i'm suddenly calm. what was i doing?
     plans.clear();
-  }
  }
 }
 

@@ -258,6 +258,7 @@ public:
 // ---------------VALUES-----------------
  int id;	// A unique ID number, assigned by the game class
  int posx, posy;
+ int view_offset_x, view_offset_y;
  bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
  player_activity activity;
  player_activity backlog;

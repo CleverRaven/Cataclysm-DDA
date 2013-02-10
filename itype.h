@@ -88,8 +88,11 @@ itm_wrapper, itm_withered, itm_syringe, itm_fur, itm_leather, itm_superglue,
  itm_glass_plate, itm_glass_bowl, itm_glass, itm_tin_plate, itm_fork, itm_spork,
 
 // Vehicle parts
-itm_frame, itm_wheel, itm_big_wheel, itm_seat, itm_vehicle_controls,
- itm_combustion_tiny, itm_combustion_small, itm_combustion, itm_combustion_large,
+ itm_frame,
+ itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small, 
+ itm_seat, itm_vehicle_controls,
+ itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion,
+ itm_v6_combustion, itm_v8_combustion,
  itm_motor, itm_motor_large, itm_plasma_engine, itm_foot_crank,
  itm_metal_tank, itm_storage_battery, itm_minireactor, itm_solar_panel,
  itm_steel_plate, itm_alloy_plate, itm_spiked_plate, itm_hard_plate,
@@ -203,7 +206,7 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_knife_butcher, itm_knife_combat, itm_saw, itm_ax, itm_hacksaw,
  itm_tent_kit, itm_torch, itm_torch_lit, itm_candle, itm_candle_lit,
  itm_brazier, itm_puller, itm_press, itm_screwdriver, itm_wrench,
- itm_boltcutters, itm_mop, itm_picklocks, itm_pickaxe, itm_rag,  //Oddzball-Added rag to tools
+ itm_boltcutters, itm_mop, itm_picklocks, itm_pickaxe, itm_rag, itm_spray_can, //Oddzball-Added rag to tools
 // Bionics containers
 itm_bionics_battery,       itm_bionics_power,   itm_bionics_tools,
  itm_bionics_neuro,        itm_bionics_sensory, itm_bionics_aquatic,
@@ -399,6 +402,7 @@ struct itype
  virtual bool is_macguffin()     { return false; }
  virtual bool is_style()         { return false; }
  virtual bool is_artifact()      { return false; }
+ virtual bool is_var_veh_part()  { return false; }
  virtual bool count_by_charges() { return false; }
  virtual std::string save_data() { return std::string(); }
 
@@ -500,6 +504,30 @@ struct it_comest : public itype
   use = puse;
   add = padd;
  }
+};
+
+// v6, v8, wankel, etc.
+struct it_var_veh_part: public itype
+{
+ // TODO? geometric mean: nth root of product
+ unsigned int min_bigness; //CC's
+ unsigned int max_bigness;
+
+ it_var_veh_part(int pid, unsigned char prarity, unsigned int pprice,
+        std::string pname, std::string pdes,
+        char psym, nc_color pcolor, material pm1, material pm2,
+        unsigned short pvolume, unsigned short pweight,
+        signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
+        unsigned effects,
+
+        unsigned int big_min,
+        unsigned int big_max)
+:itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0) {
+  min_bigness = big_min;
+  max_bigness = big_max;
+ }
+ virtual bool is_var_veh_part(){return true;}
 };
 
 struct it_ammo : public itype

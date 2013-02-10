@@ -21,7 +21,7 @@ const int k_mvel = 200;
 struct vehicle_part
 {
     vehicle_part() : id(vp_null), mount_dx(0), mount_dy(0), hp(0),
-    blood(0), inside(false), flags(0), passenger_id(0)
+    blood(0), inside(false), flags(0), passenger_id(0), bigness(0)
     {
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
@@ -39,6 +39,7 @@ struct vehicle_part
     int precalc_dy[2];      // mount_dy translated to face.dir [0] and turn_dir [1]
     int hp;                 // current durability, if 0, then broken
     int blood;              // how much blood covers part (in turns). only useful for external
+    int bigness;            // size of engine, wheel radius, translates to item properties.
     bool inside;            // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     int flags;
     union
@@ -141,6 +142,9 @@ public:
 // get vpart type info for part number (part at given vector index)
     const vpart_info& part_info (int index);
 
+// get vpart powerinfo for part number, accounting for variable-sized parts.
+    int part_power (int index);
+
 // check if certain part can be mounted at certain position (not accounting frame direction)
     bool can_mount (int dx, int dy, vpart_id id);
 
@@ -151,6 +155,11 @@ public:
     int install_part (int dx, int dy, vpart_id id, int hp = -1, bool force = false);
     
     void remove_part (int p);
+
+// translate item health to part health
+    void get_part_hp_from_item (int partnum, item& i);
+// translate part health to item health (very lossy.)
+    void give_part_hp_to_item (int partnum, item& i);
 
 // returns the list of indeces of parts at certain position (not accounting frame direction)
     std::vector<int> parts_at_relative (int dx, int dy);
@@ -241,7 +250,7 @@ public:
     int noise (bool fueled = true, bool gas_only = false);
 
 // Calculate area covered by wheels and, optionally count number of wheels
-    int wheels_area (int *cnt = 0);
+    float wheels_area (int *cnt = 0);
 
 // Combined coefficient of aerodynamic and wheel friction resistance of vehicle, 0-1.0.
 // 1.0 means it's ideal form and have no resistance at all. 0 -- it won't move

@@ -195,6 +195,9 @@ class game
   point find_item(item *it);
   void remove_item(item *it);
 
+  void consume_items(std::vector<component> components);
+  void consume_tools(std::vector<component> tools);
+
   std::vector <itype*> itypes;
   std::vector <mtype*> mtypes;
   std::vector <vehicle*> vtypes;
@@ -304,6 +307,7 @@ class game
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
 // Pick where to put liquid; false if it's left where it was
   bool handle_liquid(item &liquid, bool from_ground, bool infinite);
+  void compare(); // Compare two Items	'I'
   void drop();	  // Drop an item		'd'
   void drop_in_direction(); // Drop w/ direction 'D'
   void reassign_item(); // Reassign the letter of an item   '='

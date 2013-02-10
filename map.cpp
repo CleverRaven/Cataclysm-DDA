@@ -2336,6 +2336,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  nc_color tercol;
  long sym = terlist[ter(x, y)].sym;
  bool hi = false;
+ bool graf = false;
  bool normal_tercol = false, drew_field = false; 
  if (u.has_disease(DI_BOOMERED))
   tercol = c_magenta;
@@ -2404,11 +2405,16 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
   if (normal_tercol)
    tercol = veh->part_color(veh_part);
  }
+ // If there's graffiti here, change background color
+ if(graffiti_at(x,y).contents)
+  graf = true;
 
  if (invert)
   mvwputch_inv(w, j, k, tercol, sym);
  else if (hi)
   mvwputch_hi (w, j, k, tercol, sym);
+ else if (graf)
+  mvwputch    (w, j, k, red_background(tercol), sym);
  else
   mvwputch    (w, j, k, tercol, sym);
 }
@@ -2963,6 +2969,32 @@ void map::clear_traps()
 bool map::inbounds(const int x, const int y)
 {
  return (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE);
+}
+
+bool map::add_graffiti(game *g, int x, int y, std::string contents)
+{
+  int nx = x;
+  int ny = y;
+  int nonant = int(nx / SEEX) + int(ny / SEEY) * my_MAPSIZE;
+  nx %= SEEX;
+  ny %= SEEY;
+  grid[nonant]->graf[nx][ny] = graffiti(contents);
+  return true;
+}
+
+graffiti map::graffiti_at(int x, int y)
+{
+ if (!inbounds(x, y))
+  return graffiti();
+/*
+ int nonant;
+ cast_to_nonant(x, y, nonant);
+*/
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+
+ x %= SEEX;
+ y %= SEEY;
+ return grid[nonant]->graf[x][y];
 }
 
 tinymap::tinymap()

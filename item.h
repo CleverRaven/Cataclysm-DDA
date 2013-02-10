@@ -105,6 +105,7 @@ public:
  bool is_macguffin();
  bool is_style();
  bool is_other(); // Doesn't belong in other categories
+ bool is_var_veh_part();
  bool is_artifact();
 
  int typeId();
@@ -123,7 +124,10 @@ public:
  char burnt;		// How badly we're burnt
  unsigned int bday;     // The turn on which it was created
  int owned;		// UID of NPC owner; 0 = player, -1 = unowned
+ union{
  int poison;		// How badly poisoned is it?
+   int bigness;         // engine power, wheel size
+ };
  int mode;              // Mode of operation, can be changed by the player.
 
  int mission_id;// Refers to a mission in game's master list

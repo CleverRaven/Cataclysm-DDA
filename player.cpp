@@ -28,6 +28,8 @@ bool activity_is_suspendable(activity_type type);
 player::player()
 {
  id = 0; // Player is 0. NPCs are different.
+ view_offset_x = 0;
+ view_offset_y = 0;
  str_cur = 8;
  str_max = 8;
  dex_cur = 8;
@@ -95,6 +97,10 @@ player& player::operator= (const player & rhs)
 {
  id = rhs.id;
  posx = rhs.posx;
+ posy = rhs.posy;
+ view_offset_x = rhs.view_offset_x;
+ view_offset_y = rhs.view_offset_y;
+
  in_vehicle = rhs.in_vehicle;
  activity = rhs.activity;
  backlog = rhs.backlog;
@@ -3523,6 +3529,8 @@ void player::use_charges(itype_id it, int quantity)
 int player::butcher_factor()
 {
  int lowest_factor = 999;
+ if (has_bionic(bio_tools))
+ 	lowest_factor=100;
  for (int i = 0; i < inv.size(); i++) {
   for (int j = 0; j < inv.stack_at(i).size(); j++) {
    item *cur_item = &(inv.stack_at(i)[j]);

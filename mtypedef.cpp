@@ -350,7 +350,7 @@ mon("Decayed Zombie",	species_zombie, 'Z',	c_white,	MS_MEDIUM,	STONE,
 A zombie in a highly advanced state\n\
 of decay."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_BLEED, MF_HARDTOSHOOT);
+FLAGS(MF_SEES, MF_HEARS, MF_BLEED);
 
 mon("zombie necromancer",species_zombie, 'Z',c_dkgray,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq

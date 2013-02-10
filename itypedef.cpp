@@ -1187,12 +1187,46 @@ MELEE("spork",	90,  15,';', c_ltcyan,	STEEL, 	MNULL,
 Foons are for scrubs, real men use sporks.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("steel frame",  25, 35, ']', c_cyan,  STEEL,   MNULL,
+MELEE("steel frame",  20, 55, ']', c_cyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     60,  240,  20,  0,  -5, 0, "\
 A large frame made of steel. Useful for crafting.");
-TECH( mfb(TEC_WBLOCK_3) );
+TECH( mfb(TEC_DEF_DISARM) );
 
+#define VAR_VEH_PART(name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
+              flags, bigmin, bigmax, des)\
+	index++;itypes.push_back(new it_var_veh_part(index,rarity,price,name,des,sym,\
+color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags, bigmin, bigmax))
+
+//itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small, 
+//           NAME     RAR PRC  SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("wheel", 10, 100, ']', c_dkgray,  STEEL,   PLASTIC,
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
+    40,  140, 12,  0,  -1, 0,       13,         20, "\
+A car wheel");
+//           NAME         RAR PRC  SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("wide wheel", 4, 340, ']', c_dkgray,  STEEL,   PLASTIC,
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
+    70,  260, 17,  0,  -1, 0,       17,         36, "\
+A wide wheel. \\o/ This wide.");
+//           NAME            RAR  PRC  SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("bicycle wheel", 18, 40,  ']', c_dkgray,  STEEL,   PLASTIC,
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
+    28,  45,  8,  0,  -1, 0,       9,         18, "\
+A bicycle wheel");
+
+//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("motorbike wheel", 13, 140,  ']', c_dkgray,  STEEL,   PLASTIC,
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
+    33,  85,  10,  0,  -1, 0,       9,         14, "\
+A motorbike wheel");
+//           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("small wheel",    5, 140,  ']', c_dkgray,  STEEL,   PLASTIC,
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
+    9,  42,  10,  0,  -1, 0,       6,         14, "\
+A pretty small wheel. Probably from one of those segway things.\
+It is not very menacing.");
+/*
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("wheel",  15, 50, ']', c_dkgray,  STEEL,   PLASTIC,
 //  VOL WGT DAM CUT HIT FLAGS
@@ -1205,7 +1239,7 @@ MELEE("large wheel",  6, 80, ']', c_dkgray,  STEEL,   PLASTIC,
 //  VOL WGT DAM CUT HIT FLAGS
     20,  200,  12,  0,  -5, 0, "\
 A large wheel, from some big car.");
-TECH( mfb(TEC_WBLOCK_3) );
+TECH( mfb(TEC_WBLOCK_3) );*/
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("seat",  8, 250, '0', c_red,  PLASTIC,   MNULL,
@@ -1220,29 +1254,34 @@ MELEE("vehicle controls",  3, 400, '$', c_ltcyan,  PLASTIC,   STEEL,
 A set of various vehicle controls. Useful for crafting.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("100CC combustion engine",  4, 100, ':', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    6,  70,  4,  0,  -1, 0, "\
-A small go kart combustion engine. Useful for crafting.");
+VAR_VEH_PART("1-cylinder engine",  3, 100, ':', c_ltcyan,  IRON,   MNULL,
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
+    6,  70,  4,  0,  -1, 0,       28,         75, "\
+A single-cylinder 4-stroke combustion engine.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("1L combustion engine",  5, 150, ':', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    6,  160,  8,  0,  -2, 0, "\
-A small, yet powerful 2-cylinder combustion engine. Useful for crafting.");
+VAR_VEH_PART("V-twin engine",  2, 100, ':', c_ltcyan,  IRON,   MNULL,
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
+    6,  70,  4,  0,  -1, 0,       65,        260, "\
+A 2-cylinder 4-stroke combustion engine.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("2.5L combustion engine",  4, 180, ':', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    14,  400,  12,  0,  -3, 0, "\
-A powerful 4-cylinder combustion engine. Useful for crafting.");
+VAR_VEH_PART("Inline-4 engine",  6, 150, ':', c_ltcyan,  IRON,   MNULL,
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
+    6,  160,  8,  0,  -2, 0,       220,       350, "\
+A small, yet powerful 4-cylinder combustion engine.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("6L combustion engine",  2, 250, ':', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    25,  1100,  15,  0,  -5, 0, "\
-A large and very powerful 8-cylinder combustion engine. Useful for\n\
-crafting.");
+VAR_VEH_PART("V6 engine",  3, 180, ':', c_ltcyan,  IRON,   MNULL,
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
+    14,  400,  12,  0,  -3, 0,    280,        470, "\
+A powerful 6-cylinder combustion engine.");
+
+//                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("V8 engine",  2, 250, ':', c_ltcyan,  IRON,   MNULL,
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX
+    25,  600,  15,  0,  -5, 0,    400,         600, "\
+A large and very powerful 8-cylinder combustion engine.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("electric motor",  2,120, ',', c_ltcyan,  IRON,   MNULL,
@@ -3946,6 +3985,9 @@ TOOL("rag",    1, 0,  ',', c_white, COTTON,   MNULL, //Oddzball-Made rag a tool
    0,  0,   0,  0,  0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::rag, 0, "\
 Rag, useful in crafting and possibly stopping bleeding");
 
+TOOL("spray can", 50, 10, ';', c_ltblue, PLASTIC, MNULL,
+1, 1, 0, 0, 0, 10, 10, 1, 0, AT_NULL, itm_null, &iuse::spray_can, 0, "\
+A spray can, filled with paint. Use this tool to make graffiti on the floor.");
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated

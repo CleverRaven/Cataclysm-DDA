@@ -24,7 +24,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
                                     g->u.weight_capacity());
 
 // Print volume
- mvwprintw(w_inv, 0, 60, "Volume: ");
+ mvwprintw(w_inv, 0, 62, "Volume: ");
  if (g->u.volume_carried() > g->u.volume_capacity() - 2)
   wprintz(w_inv, c_red, "%d", g->u.volume_carried());
  else
@@ -37,7 +37,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
    n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
  for(int ch='A'; ch <= 'Z'; ++ch)
    n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
- mvwprintw(w_inv, 1, 60, "Items:  %d/52 ", n_items);
+ mvwprintw(w_inv, 1, 62, "Items:  %d/52 ", n_items);
 
 // Print our weapon
  mvwprintz(w_inv, 2, 40, c_magenta, "WEAPON:");
@@ -475,5 +475,135 @@ std::vector<item> game::multidrop()
   ret.push_back(u.i_rem(weapon_and_armor[i]));
 
  return ret;
+}
+
+void game::compare()
+{
+ u.sort_inv();
+ u.inv.restack(&u);
+ WINDOW* w_inv = newwin(25, 80, 0, 0);
+ const int maxitems = 20;    // Number of items to show at one time.
+ int compare[u.inv.size()]; // Count of how many we'll drop from each stack
+ bool bFirst = false; // First Item selected
+ bool bShowCompare = false;
+ char cLastCh;
+ for (int i = 0; i < u.inv.size(); i++)
+  compare[i] = -1;
+ std::vector<char> weapon_and_armor; // Always single, not counted
+ print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);
+// Gun, ammo, weapon, armor, food, tool, book, other
+ std::vector<int> firsts = find_firsts(u.inv);
+
+ char ch = '.';
+ int start = 0, cur_it;
+ do {
+  if (ch == '<' && start > 0) {
+   for (int i = 1; i < 25; i++)
+    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+   start -= maxitems;
+   if (start < 0)
+    start = 0;
+   mvwprintw(w_inv, maxitems + 2, 0, "         ");
+  }
+  if (ch == '>' && cur_it < u.inv.size()) {
+   start = cur_it;
+   mvwprintw(w_inv, maxitems + 2, 12, "            ");
+   for (int i = 1; i < 25; i++)
+    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+  }
+  int cur_line = 2;
+  for (cur_it = start; cur_it < start + maxitems && cur_line < 23; cur_it++) {
+// Clear the current line;
+   mvwprintw(w_inv, cur_line, 0, "                                    ");
+// Print category header
+   for (int i = 0; i < 8; i++) {
+    if (cur_it == firsts[i]) {
+     mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
+     cur_line++;
+    }
+   }
+   if (cur_it < u.inv.size()) {
+    mvwputch (w_inv, cur_line, 0, c_white, u.inv[cur_it].invlet);
+    char icon = '-';
+    if (compare[cur_it] == 0)
+     icon = '+';
+    nc_color col = (compare[cur_it] == -1 ? c_ltgray : c_white);
+    mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
+              u.inv[cur_it].tname(this).c_str());
+    if (u.inv.stack_at(cur_it).size() > 1)
+     wprintz(w_inv, col, " [%d]", u.inv.stack_at(cur_it).size());
+    if (u.inv[cur_it].charges > 0)
+     wprintz(w_inv, col, " (%d)", u.inv[cur_it].charges);
+    else if (u.inv[cur_it].contents.size() == 1 &&
+             u.inv[cur_it].contents[0].charges > 0)
+     wprintw(w_inv, " (%d)", u.inv[cur_it].contents[0].charges);
+   }
+   cur_line++;
+  }
+  if (start > 0)
+   mvwprintw(w_inv, maxitems + 4, 0, "< Go Back");
+  if (cur_it < u.inv.size())
+   mvwprintw(w_inv, maxitems + 4, 12, "> More items");
+  wrefresh(w_inv);
+  ch = getch();
+  if (u.has_item(ch)) {
+   int index = u.inv.index_by_letter(ch);
+   if (index == -1) { // Not from inventory
+    int found = false;
+    for (int i = 0; i < weapon_and_armor.size() && !found; i++) {
+     if (weapon_and_armor[i] == ch) {
+      weapon_and_armor.erase(weapon_and_armor.begin() + i);
+      found = true;
+      bFirst = false;
+      print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);
+     }
+    }
+    if (!found) {
+     if (ch == u.weapon.invlet && u.weapon.type->id > num_items &&
+         u.weapon.type->id < num_all_items) {
+      //Do Bionic stuff here?!
+     } else {
+      if (!bFirst)
+      {
+       weapon_and_armor.push_back(ch);
+       print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);
+       bFirst = true;
+       cLastCh = ch;
+      } else {
+       bShowCompare = true;
+      }
+     }
+    }
+   } else {
+    if (compare[index] == 0)
+    {
+     compare[index] = -1;
+     bFirst = false;
+    } else {
+     if (!bFirst)
+     {
+      compare[index] = 0;
+      bFirst = true;
+      cLastCh = ch;
+     } else {
+      bShowCompare = true;
+     }
+    }
+   }
+   if (bShowCompare) {
+    split_screen_popup(true, u.i_at(cLastCh).tname(this).c_str(), u.i_at(cLastCh).info(true).c_str());
+    split_screen_popup(false, u.i_at(ch).tname(this).c_str(), u.i_at(ch).info(true).c_str());
+    wclear(w_inv);
+    print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);
+    bShowCompare = false;
+   }
+  } 
+ } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
+ werase(w_inv);
+ delwin(w_inv);
+ erase();
+ refresh_all();
+
+ std::vector<item> ret;
 }
 

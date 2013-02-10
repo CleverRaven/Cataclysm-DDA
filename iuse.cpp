@@ -93,11 +93,9 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
     healed = hp_part(i);
    }
   }
- } 
- 
- else { // Player--present a menu
-   
-  WINDOW* w = newwin(15, 20, 9, 1);
+ } else { // Player--present a menu
+
+  WINDOW* w = newwin(10, 20, 8, 1);
   wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
   mvwprintz(w, 1, 1, c_ltred,  "Bandage where?");
@@ -157,28 +155,28 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
    else if (ch == '3') {
     if (p->hp_cur[hp_arm_l] == 0) {
      g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
-     it->charges++;
+     add_or_drop_item(g, p, it);
      return;
     } else
      healed = hp_arm_l;
    } else if (ch == '4') {
     if (p->hp_cur[hp_arm_r] == 0) {
      g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
-     it->charges++;
+     add_or_drop_item(g, p, it);
      return;
     } else
      healed = hp_arm_r;
    } else if (ch == '5') {
     if (p->hp_cur[hp_leg_l] == 0) {
      g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
-     it->charges++;
+     add_or_drop_item(g, p, it);
      return;
     } else
      healed = hp_leg_l;
    } else if (ch == '6') {
     if (p->hp_cur[hp_leg_r] == 0) {
      g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
-     it->charges++;
+     add_or_drop_item(g, p, it);
      return;
     } else
      healed = hp_leg_r;
@@ -289,28 +287,28 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
    else if (ch == '3') {
     if (p->hp_cur[hp_arm_l] == 0) {
      g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
-     it->charges++;
+     add_or_drop_item(g, p, it);
      return;
     } else
      healed = hp_arm_l;
    } else if (ch == '4') {
     if (p->hp_cur[hp_arm_r] == 0) {
      g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
-     it->charges++;
+     add_or_drop_item(g, p, it);
      return;
     } else
      healed = hp_arm_r;
    } else if (ch == '5') {
     if (p->hp_cur[hp_leg_l] == 0) {
      g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
-     it->charges++;
+     add_or_drop_item(g, p, it);
      return;
     } else
      healed = hp_leg_l;
    } else if (ch == '6') {
     if (p->hp_cur[hp_leg_r] == 0) {
      g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
-     it->charges++;
+     add_or_drop_item(g, p, it);
      return;
     } else
      healed = hp_leg_r;
@@ -3337,4 +3335,13 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
 
   }
  }
+}
+
+void iuse::spray_can(game *g, player *p, item *it, bool t)
+{
+ std::string message = string_input_popup("Spray what?");
+ if(g->m.add_graffiti(g, p->posx, p->posy, message))
+  g->add_msg("You spray a message on the ground.");
+ else
+  g->add_msg("You fail to spray a message here.");
 }

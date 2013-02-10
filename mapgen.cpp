@@ -103,6 +103,7 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
     grid[i]->trp[x][y] = tr_null;
     grid[i]->fld[x][y] = field();
     grid[i]->rad[x][y] = 0;
+    grid[i]->graf[x][y] = graffiti();
    }
   }
  }
@@ -1385,7 +1386,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(rng(0, 3));
   }
  } break;
-//Oddzball-Copy this and make Grocery Store?
  case ot_s_gas_north:
  case ot_s_gas_east:
  case ot_s_gas_south:
@@ -1451,7 +1451,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   if (terrain_type == ot_s_gas_west)
    rotate(3);
   break;
-//Oddzball-End of possible copy Grovery(Remove pumps and would be Parking lot...)
  case ot_s_pharm_north:
  case ot_s_pharm_east:
  case ot_s_pharm_south:
@@ -4168,7 +4167,6 @@ case ot_shelter: {
   if (terrain_type == ot_sub_station_west)
    rotate(3);
   break;
-//Oddzball-Begining of garage
 case ot_s_garage_north:
   case ot_s_garage_east:
   case ot_s_garage_south:
@@ -7722,7 +7720,7 @@ void silo_rooms(map *m)
    x = rng(0, 4);
    y = rng(0, SEEY * 2 - 6);
    if (one_in(2))
-    x = SEEX * 2 - 2 - x;	// Right side of the screen, not the left
+    x = SEEX * 2 - 3 - x;	// Right side of the screen, not the left
    width  = 2;
    height = rng(2, 5);
    if (y + height >= SEEY * 2 - 1)

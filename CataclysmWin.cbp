@@ -59,6 +59,8 @@
 		<Unit filename="game.h" />
 		<Unit filename="gamemode.cpp" />
 		<Unit filename="gamemode.h" />
+		<Unit filename="graffiti.cpp" />
+		<Unit filename="graffiti.h" />
 		<Unit filename="help.cpp" />
 		<Unit filename="icon.rc">
 			<Option compilerVar="WINDRES" />
@@ -120,6 +122,7 @@
 		<Unit filename="npc.h" />
 		<Unit filename="npcmove.cpp" />
 		<Unit filename="npctalk.cpp" />
+		<Unit filename="obj/Release/icon.res" />
 		<Unit filename="omdata.h" />
 		<Unit filename="options.cpp" />
 		<Unit filename="options.h" />
