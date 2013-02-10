@@ -23,7 +23,7 @@
 #include <ostream>
 #include "debug.h"
 
-#define STREETCHANCE 2
+#define STREETCHANCE 1 //Oddzball Changed form 2 to 1
 #define NUM_FOREST 250
 #define TOP_HIWAY_DIST 140
 #define MIN_ANT_SIZE 8 //Oddzball- Edit to change chance of stuff on map?
