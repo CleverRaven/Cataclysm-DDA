@@ -103,6 +103,7 @@ mon("dog",	species_mammal, 'd',	c_white,	MS_SMALL,	FLESH,
 A medium-sized domesticated dog, gone feral."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, MF_KEENNOSE, MF_BLEED);
+ANGER(MTRIG_HURT);
 PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE);
 
