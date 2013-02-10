@@ -138,7 +138,7 @@ const oter_t oterlist[num_ter_types] = {
 {"nothing",		'%',	c_white,	0, no_extras, false, false},
 {"crater",		'O',	c_red,		2, field_extras, false, false},
 {"field",		'.',	c_brown,	2, field_extras, false, false},
-{"dirt lot",		'.',	i_brown,	1, build_extras, false, false}, //Oddzball-Dirt lot graphic for Overmap
+{"dirt lot",		'.',	i_brown,	1, field_extras, false, false}, //Oddzball-Dirt lot graphic for Overmap
 {"forest",		'F',	c_green,	3, field_extras, false, false},
 {"forest",		'F',	c_green,	4, field_extras, false, false},
 {"swamp",		'F',	c_cyan,		4, field_extras, false, false},
@@ -239,7 +239,7 @@ const oter_t oterlist[num_ter_types] = {
 {"garage",              'G',    i_ltgray,       5, build_extras, false, false},
 {"garage",              'G',    i_ltgray,       5, build_extras, false, false},
 {"farm",              '^',    i_brown,       5, build_extras, false, false}, //Oddzball-Farm
-{"farm field",              '#',    i_brown,       5, build_extras, false, false}, //Oddzball-Farm
+{"farm field",              '#',    i_brown,       5, field_extras, false, false}, //Oddzball-Farm
 {"police station",	'P',	h_yellow,	5, build_extras, false, false},
 {"police station",	'P',	h_yellow,	5, build_extras, false, false},
 {"police station",	'P',	h_yellow,	5, build_extras, false, false},
