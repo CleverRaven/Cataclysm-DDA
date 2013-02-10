@@ -1771,6 +1771,8 @@ bool map::close_door(const int x, const int y, const bool inside)
  } else if (ter(x, y) == t_chaingate_o) {
   ter(x, y) = t_chaingate_c;
   return true;
+  } else if (ter(x, y) == t_fencegate_o) { //Oddzball-Gotta be able to close wooden gate.
+  ter(x, y) = t_fencegate_c;
  } else if (ter(x, y) == t_door_metal_o) {
   ter(x, y) = t_door_metal_c;
   return true;
