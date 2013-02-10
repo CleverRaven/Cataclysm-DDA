@@ -146,8 +146,8 @@ const oter_t oterlist[num_ter_types] = {
 {"forest",		'F',	c_green,	3, field_extras, false, false},
 /* The tile above is a spider pit. */
 {"fungal bloom",	'T',	c_ltgray,	2, field_extras, false, false},
-{"highway",		LINE_XOXO,	c_dkgray,	2, road_extras, false, false},
-{"highway",		LINE_OXOX,	c_dkgray,	2, road_extras, false, false},
+{"highway",		LINE_XOXO,	i_dkgray,	2, road_extras, false, false},
+{"highway",		LINE_OXOX,	i_dkgray,	2, road_extras, false, false},
 {"BUG",			'%',	c_magenta,	0, no_extras, false, false},
 {"road",          LINE_XOXO,	c_dkgray,	2, road_extras, false, false},
 {"road",          LINE_OXOX,	c_dkgray,	2, road_extras, false, false},
