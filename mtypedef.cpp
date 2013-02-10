@@ -106,6 +106,17 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, 
 PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE);
 
+mon("cat",	species_mammal, 'c',	c_white,	MS_TINY,	FLESH,
+//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	 5,   0,  -40, 15,150, 12,  1,  3,  2,  0,  0,  0,  0, 10,  0,
+	&mdeath::normal,	&mattack::none, "\
+A small domesticated cat, gone feral."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN);
+ANGER(MTRIG_HURT);
+PLACATE(MTRIG_MEAT);
+FEARS(MTRIG_FIRE, MTRIG_SOUND);
+
 // INSECTOIDS
 mon("ant larva",species_insect, 'a',	c_white,	MS_SMALL,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq

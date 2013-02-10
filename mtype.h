@@ -32,7 +32,7 @@ mon_null = 0,
 // Wildlife
 mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_cougar,
 // Friendly animals
-mon_dog,
+mon_dog, mon_cat,
 // Ants
 mon_ant_larva, mon_ant, mon_ant_soldier, mon_ant_queen, mon_ant_fungus,
 // Bees
