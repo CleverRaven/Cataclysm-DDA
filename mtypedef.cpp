@@ -79,7 +79,7 @@ mon("bear",	species_mammal, 'B',	c_dkgray,	MS_LARGE,	FLESH,
 	&mdeath::normal,	&mattack::none, "\
 Remember, only YOU can prevent forest fires."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_BLEED);
 ANGER(MTRIG_PLAYER_CLOSE);
 PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE);
@@ -102,7 +102,7 @@ mon("dog",	species_mammal, 'd',	c_white,	MS_SMALL,	FLESH,
 	&mdeath::normal,	&mattack::none, "\
 A medium-sized domesticated dog, gone feral."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, MF_KEENNOSE);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, MF_KEENNOSE, MF_BLEED);
 PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE);
 
