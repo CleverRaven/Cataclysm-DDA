@@ -290,26 +290,10 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     if (one_in(250)) ter(i,j) = t_grass; //Oddzball-some random grass
     }
   }
-    if (one_in(3))
+    if (one_in(4))
   {
-      int vx = rng (0, 3) * 4 + 5;
-      int vy = 4;
-		vhtype_id vt = veh_null;
-		int r = rng(1, 100);
-		if (r <= 10)//specials
-     		{
-					vt = veh_truck;
-			}
-		else if (r <= 30)//commercial
-			{
-					vt = veh_wagon;
-			}
-		else//commons
-			{
-					vt = veh_trucktrailer;
-			}
-
-      add_vehicle (g, vt, vx, vy, one_in(2)? 90 : 270);
+      add_vehicle (this, veh_truck, 12, 12, 90);
+	  }
   break;
   //Oddzball-Dirt lot OT
  case ot_forest:
