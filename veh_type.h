@@ -212,15 +212,15 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_external) | mfb(vpf_unmount_on_damage) | mfb(vpf_sharp) | mfb(vpf_no_reinforce) },
 
 //                                                           wheel_width(inches) 
-    { "wheel",      'O',    c_dkgray,  'x', c_ltgray,  50,  200, 9, 0, itm_wheel, 2,
+    { "wheel",      '0',    c_dkgray,  'x', c_ltgray,  50,  200, 9, 0, itm_wheel, 4,
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) },
-    { "wide wheel", 'O',     c_dkgray,   'x', c_ltgray,  50,  300, 14, 0, itm_wheel_wide, 3,
+    { "wide wheel", 'O',     c_dkgray,   'x', c_ltgray,  50,  400, 14, 0, itm_wheel_wide, 5,
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) },
-    { "bicycle wheel",'Q',  c_dkgray, 'x', c_ltgray,  50,  300, 2, 0, itm_wheel_bicycle, 3,
+    { "bicycle wheel",'|',  c_dkgray, 'x', c_ltgray,  50,  40, 2, 0, itm_wheel_bicycle, 1,
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) },
-    { "motorbike wheel",'q',c_dkgray, 'x', c_ltgray,  50,  300, 4, 0, itm_wheel_motorbike, 3,
+    { "motorbike wheel",'o',c_dkgray, 'x', c_ltgray,  50,  90, 4, 0, itm_wheel_motorbike, 2,
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) },
-    { "small wheel",    'o',c_dkgray, 'x', c_ltgray,  50,  300, 6, 0, itm_wheel_small, 3,
+    { "small wheel",    'o',c_dkgray, 'x', c_ltgray,  50,  70, 6, 0, itm_wheel_small, 2,
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) },
 //
     { "1-cylinder engine",    '*', c_ltred,  '#', c_red,     80, 150, 40, AT_GAS, itm_1cyl_combustion, 2,

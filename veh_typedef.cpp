@@ -49,8 +49,8 @@ void game::init_vehicles()
     PART (0, 0,     vp_seat);
     PART (0, 0,     vp_controls);
     PART (0, 0,     vp_engine_foot_crank);
-    PART (1, 0,     vp_wheel);
-    PART (-1, 0,    vp_wheel);
+    PART (1, 0,     vp_wheel_bicycle);
+    PART (-1, 0,    vp_wheel_bicycle);
     PART (-1, 0,    vp_cargo_box);
 
     //        name
