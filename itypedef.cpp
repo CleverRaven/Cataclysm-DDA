@@ -1177,7 +1177,7 @@ MELEE("foon",	90,  15,';', c_ltcyan,	STEEL, 	MNULL,
 	 1,  2,  2,  1, -2, 0, "\
 Clearly the superior instrument. Sporks are just imitators.");
 
-MELEE("blood soaked rag",    1, 0,  ',', c_white, COTTON,   MNULL,
+MELEE("blood soaked rag",    1, 0,  ',', c_red, COTTON,   MNULL,
          0, 0, 0, 0, 0, 0, "\
 A large rag, drenched in blood. It could be cleaned with\n\
 boiling water.");
