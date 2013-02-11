@@ -25,7 +25,7 @@
 
 #define STREETCHANCE 2
 #define NUM_FOREST 250
-#define TOP_HIWAY_DIST 140
+#define TOP_HIWAY_DIST 999
 #define MIN_ANT_SIZE 8
 #define MAX_ANT_SIZE 20
 #define MIN_GOO_SIZE 1
@@ -475,10 +475,7 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
     
 // Cities, forests, and settlements come next.
 // These're agnostic of adjacent maps, so it's very simple.
- int mincit = 0;
- if (north == NULL && east == NULL && west == NULL && south == NULL)
-  mincit = 1;	// The first map MUST have a city, for the player to start in!
- place_cities(cities, mincit);
+ place_cities();
  place_forest();
 
 // Ideally we should have at least two exit points for roads, on different sides
@@ -1348,16 +1345,16 @@ void overmap::place_river(point pa, point pb)
  } while (pb.x != x || pb.y != y);
 }
 
-void overmap::place_cities(std::vector<city> &cities, int min)
+void overmap::place_cities()
 {
- int NUM_CITIES = dice(2, 7) + rng(min, min + 4);
+ int NUM_CITIES = dice(3, 4);
  int cx, cy, cs;
  int start_dir;
 
- for (int i = 0; i < NUM_CITIES; i++) {
-  cx = rng(20, OMAPX - 41);
-  cy = rng(20, OMAPY - 41);
-  cs = rng(4, 17);
+ while (cities.size() < NUM_CITIES) {
+  cx = rng(12, OMAPX - 12);
+  cy = rng(12, OMAPY - 12);
+  cs = dice(3, 4) ;
   if (ter(cx, cy) == ot_field) {
    ter(cx, cy) = ot_road_nesw;
    city tmp; tmp.x = cx; tmp.y = cy; tmp.s = cs;

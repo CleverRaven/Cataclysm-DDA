@@ -118,7 +118,7 @@ class overmap
   void place_river(point pa, point pb);
   void place_forest();
   // City Building
-  void place_cities(std::vector<city> &cities, int min);
+  void place_cities();
   void put_buildings(int x, int y, int dir, city town);
   void make_road(int cx, int cy, int cs, int dir, city town);
   void build_lab(int x, int y, int s);
