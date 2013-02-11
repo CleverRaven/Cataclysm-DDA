@@ -1365,14 +1365,14 @@ void overmap::place_cities(std::vector<city> &cities, int min) //Oddzball-Popula
  int start_dir;
 
  for (int i = 0; i < NUM_CITIES; i++) {
-  cx = rng(11, OMAPX - 11);
-  cy = rng(11, OMAPY - 11);
-  cs = rng(6, 10);
+  cx = rng(15, OMAPX - 15);
+  cy = rng(15, OMAPY - 15);
+  cs = rng(5, 9);
   if (ter(cx, cy) == ot_field) {
    ter(cx, cy) = ot_road_nesw;
    city tmp; tmp.x = cx; tmp.y = cy; tmp.s = cs;
    cities.push_back(tmp);
-   start_dir = rng(5, 10);
+   start_dir = rng(7, 10); //Oddzball-Was 5-10 worked nice...
    for (int j = 0; j < 4; j++)
     make_road(cx, cy, cs, (start_dir + j) % 4, tmp);
   }
