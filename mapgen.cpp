@@ -4217,11 +4217,11 @@ case ot_s_garage_north:
         if (one_in(3)) {
           vhtype_id vt;
           if (one_in(3))
-            vhtype_id vt = one_in(2) ? veh_car : veh_car_chassis;
+            vt = one_in(2) ? veh_car : veh_car_chassis;
           else if(one_in(2))
-            vhtype_id vt = one_in(2) ? veh_sandbike : veh_sandbike_chassis;
+            vt = one_in(2) ? veh_sandbike : veh_sandbike_chassis;
           else 
-            vhtype_id vt = one_in(2) ? veh_motorcycle : veh_motorcycle_chassis;
+            vt = one_in(2) ? veh_motorcycle : veh_motorcycle_chassis;
           add_vehicle (g, vt, vx, vy, theta);
         }
   }
