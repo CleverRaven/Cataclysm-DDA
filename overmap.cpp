@@ -1372,7 +1372,7 @@ void overmap::place_cities(std::vector<city> &cities, int min) //Oddzball-Popula
    ter(cx, cy) = ot_road_nesw;
    city tmp; tmp.x = cx; tmp.y = cy; tmp.s = cs;
    cities.push_back(tmp);
-   start_dir = rng(10, 15); //Oddzball-Was 5-10 worked nice...
+   start_dir = rng(0, 3); //Oddzball-Was 5-10 worked nice...
    for (int j = 0; j < 4; j++)
     make_road(cx, cy, cs, (start_dir + j) % 4, tmp);
   }
