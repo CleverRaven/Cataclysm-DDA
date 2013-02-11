@@ -2947,19 +2947,17 @@ void iuse::mop(game *g, player *p, item *it, bool t)
 }
 void iuse::rag(game *g, player *p, item *it, bool t)
 {
-if (p->has_disease(DI_BLEED)){
-
+ if (p->has_disease(DI_BLEED)){
   if (one_in(2)){
-  g->add_msg_if_player(p,"You managed to stop the bleeding.");
-  p->rem_disease(DI_BLEED);
-  it->make(g->itypes[itm_rag_bloody]);
+   g->add_msg_if_player(p,"You managed to stop the bleeding.");
+   p->rem_disease(DI_BLEED);
+  } else {
+   g->add_msg_if_player(p,"You couldnt stop the bleeding.");
   }
-else {
-  g->add_msg_if_player(p,"You couldnt stop the bleeding.");
   p->use_charges(itm_rag, 1);
- }}
- else {
- g->add_msg_if_player(p,"Nothing to use the rag for.");
+  it->make(g->itypes[itm_rag_bloody]);
+ } else {
+  g->add_msg_if_player(p,"Nothing to use the rag for.");
  }
 
 }
