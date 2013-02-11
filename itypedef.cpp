@@ -1547,7 +1547,7 @@ A jacket made from thick leather. Encumbersome, but offers excellent\n\
 protection from cuts.");
 
 ARMOR("kevlar vest",	30, 800,C_TORSO,	KEVLAR,		MNULL,
-   24, 24,  6, -3,  2,  4, 22,  0,  40,  4,	mfb(bp_torso), "\
+   24, 24,  6, -3,  2,  4, 22,  0,  20,  4,	mfb(bp_torso), "\
 A heavy bulletproof vest. The best protection from cuts and bullets.");
 
 ARMOR("rain coat",	50, 100,C_TORSO,	PLASTIC,	COTTON,
@@ -1567,7 +1567,7 @@ A thin cotton trenchcoat, lined with pockets. Great for storage.");
 //     NAME		RARE	COLOR		MAT1		MAT2
 ARMOR("leather trenchcoat",	25, 225,C_TORSO,	LEATHER,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   16,  10, -5, -1,  2,  1,  9,  1,  35, 24,	mfb(bp_torso)|mfb(bp_arms), "\
+   16,  10, -5, -1,  2,  1,  9,  1,  40, 24,	mfb(bp_torso)|mfb(bp_arms), "\
 A thick leather trenchcoat, lined with pockets. Great for storage.");
 
 
