@@ -1360,14 +1360,14 @@ spawns happen at... <cue Clue music>
 20:56	<kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities(std::vector<city> &cities, int min) //Oddzball-Population control? 
 {
- int NUM_CITIES = (4) /*+ rng(min, min + 4)*/;
+ int NUM_CITIES = rng(4, 6) /*+ rng(min, min + 4)*/;
  int cx, cy, cs;
  int start_dir;
 
  for (int i = 0; i < NUM_CITIES; i++) {
-  cx = rng(20, OMAPX - 41);
-  cy = rng(20, OMAPY - 41);
-  cs = rng(4, 6);
+  cx = rng(11, OMAPX - 11);
+  cy = rng(11, OMAPY - 11);
+  cs = rng(6, 10);
   if (ter(cx, cy) == ot_field) {
    ter(cx, cy) = ot_road_nesw;
    city tmp; tmp.x = cx; tmp.y = cy; tmp.s = cs;
