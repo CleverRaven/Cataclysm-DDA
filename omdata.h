@@ -509,11 +509,11 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_triffid_grove, 0,  0,  0, -1, mcat_triffid, 800, 1300, 12, 20, //Oddzball-No Triffids
  &omspec_place::never, 0},
 
-{ot_river_center,  0, 10, 15, -1, mcat_null, 0, 0, 0, 0,
+{ot_river_center,  0, 7, 15, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::always, mfb(OMS_FLAG_BLOB)},
 
 // Terrain	 MIN MAX DISTANCE
-{ot_shelter,       5, 10,  5, 10, mcat_null, 0, 0, 0, 0,
+{ot_shelter,       5, 7,  5, 10, mcat_null, 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
 
 {ot_cave,	   0, 20,  0, -1, mcat_null, 0, 0, 0, 0,
