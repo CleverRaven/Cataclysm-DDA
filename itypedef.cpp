@@ -55,6 +55,8 @@ void game::init_itypes ()
 // quench MAY be less than zero--salt water and liquor make you thirstier.
 // Thirst goes up by 1 every 5 minutes; so a quench of 12 lasts for 1 hour
 
+// Any foods with a nutrition of lower than 5 will never prompt a 'You are full, force yourself to eat that?' message
+
 #define DRINK(name,rarity,price,color,container,quench,nutr,spoils,stim,\
 healthy,addict,charges,fun,use_func,addict_func,des) \
 	index++;itypes.push_back(new it_comest(index,rarity,price,name,des,'~',\
@@ -86,7 +88,7 @@ DRINK("orange juice",	50, 38,	c_yellow, itm_bottle_plastic,
 Fresh squeezed from real oranges! Tasty and nutritious.");
 
 DRINK("apple cider",	50, 38, c_brown,  itm_bottle_plastic,
-	35,  6,144,  0,  3,  0,  1,  2,&iuse::none,	ADD_NULL, "\
+	35,  4,144,  0,  3,  0,  1,  2,&iuse::none,	ADD_NULL, "\
 Pressed from fresh apples. Tasty and nutritious.");
 
 DRINK("energy drink",	55, 45,	c_magenta,itm_can_drink,
