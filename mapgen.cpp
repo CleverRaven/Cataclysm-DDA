@@ -1246,7 +1246,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      ter(i, j) = grass_or_dirt();
    }
   }
-  if (one_in(3))
+  if (x_in_y(2,3))
   {
       int vx = rng (0, 3) * 4 + 5;
       int vy = 4;
@@ -1267,9 +1267,9 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 		else if (r <= 30)//commercial
 			{
 			int rb = rng(1, 100);
-				if (rb <= 15)
+				if (rb <= 25)
 					vt = veh_trucktrailer;
-				else if (rb <= 25)
+				else if (rb <= 35)
 					vt = veh_semi;
 				else
 					vt = veh_truck;
@@ -4192,16 +4192,7 @@ case ot_s_garage_north:
         place_items(mi_mechanics, 90, 1, yard_wdth+1, 1, yard_wdth+7, true, 0);
         place_items(mi_mechanics, 90, 4, SEEY*2-5, 15, SEEY*2-5, true, 0);
 
-        // rotate garage and place vehicles
-        vhtype_id vt = veh_motorcycle_chassis;
-
-        if (one_in(10))
-        vhtype_id vt = veh_car;
-        else if(one_in(5))
-        vhtype_id vt = veh_car_chassis;
-        else if (one_in(2))
-        vhtype_id vt = veh_sandbike_chassis;
-        else vhtype_id vt = veh_motorcycle_chassis;
+        // rotate garage
 
         int vy = 0, vx = 0, theta = 0;
 
@@ -4222,7 +4213,15 @@ case ot_s_garage_north:
           theta = 180;
         }
 
-        if (one_in(10)) {
+        // place vehicle, if any
+        if (one_in(3)) {
+          vhtype_id vt;
+          if (one_in(3))
+            vhtype_id vt = one_in(2) ? veh_car : veh_car_chassis;
+          else if(one_in(2))
+            vhtype_id vt = one_in(2) ? veh_sandbike : veh_sandbike_chassis;
+          else 
+            vhtype_id vt = one_in(2) ? veh_motorcycle : veh_motorcycle_chassis;
           add_vehicle (g, vt, vx, vy, theta);
         }
   }

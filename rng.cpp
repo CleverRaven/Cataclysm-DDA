@@ -12,6 +12,12 @@ bool one_in(int chance)
   return true;
  return false;
 }
+bool x_in_y(double x, double y)
+{
+ if( ((double)rand() / RAND_MAX) <= ((double)x/y) )
+  return true;
+ return false;
+}
 
 int dice(int number, int sides)
 {
