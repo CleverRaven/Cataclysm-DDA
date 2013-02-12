@@ -4312,6 +4312,9 @@ case ot_s_garage_north:
 	ter(16, 4) = t_dresser;
 	ter(19, 4) = t_dresser;
 	ter(13, 6) = t_door_c;
+	ter(9, 4) = t_toilet;
+	line(this, t_bathtub, 8, 7, 9, 7);
+	ter(8, 5) = t_sink;
 	place_items(mi_fridge, 65, 4, 15, 4, 15, false, 0);
 	place_items(mi_homeguns, 30, 7, 9, 7, 9, false, 0);
 	place_items(mi_home_hw, 60, 7, 9, 7, 9, false, 0);
@@ -4320,13 +4323,13 @@ case ot_s_garage_north:
 	place_items(mi_dining, 60, 3, 11, 4, 12, false, 0);
 	place_items(mi_trash, 60, 0, 0, 23, 23, false, 0);
 	place_items(mi_survival_tools, 30, 3, 4, 3, 9, false, 0);
-	place_items(mi_cannedfood, 30, 3, 4, 3, 9, false, 0);
+	place_items(mi_cannedfood, 50, 3, 4, 3, 9, false, 0);
 	place_items(mi_camping, 50, 4, 4, 6, 9, false, 0);
 	place_items(mi_magazines, 60, 14, 9, 17, 9, false, 0);
 	place_items(mi_manuals, 30, 14, 9, 17, 9, false, 0);
 	place_items(mi_dresser, 50, 16, 4, 16, 4, false, 0);
 	place_items(mi_dresser, 50, 19, 4, 19, 4, false, 0);
-	place_items(mi_softdrugs, 50, 8, 4, 9, 7, false, 0);
+	place_items(mi_softdrugs, 60, 8, 4, 9, 7, false, 0);
 	place_items(mi_livingroom, 50, 14, 12, 17, 15, false, 0);
 
 }
