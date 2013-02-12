@@ -11,8 +11,10 @@
 #include "mapbuffer.h"
 #include "debug.h"
 #include "bodypart.h"
-#include "map.h"
 
+#include <map>
+#include <algorithm>
+#include <string>
 #include <fstream>
 #include <sstream>
 #include <math.h>
@@ -695,7 +697,7 @@ bool game::do_turn()
  }
 
  if (turn % 10 == 0) update_bodytemp();
- 
+
  rustCheck();
  if (turn % 10 == 0)
   u.update_morale();
@@ -706,16 +708,16 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
 {
  // NOTE : Bodytemp is measured on a scale of 0u to 1000u, where 1u = 0.02C and 500u is 37C
  // Converts temperature to Celsius/10!(Wito plans on using degrees Kelvin later)
- int Ctemperature = 10*(temperature - 32) * 5/9; 
+ int Ctemperature = 10*(temperature - 32) * 5/9;
  // Temperature thresholds
- const int freezing = 50, very_cold = 200, cold = 350, hot = 650, very_hot = 800, scorching = 950; 
+ const int freezing = 50, very_cold = 200, cold = 350, hot = 650, very_hot = 800, scorching = 950;
  // Temperature norms
  const int body_norm = 500, ambient_norm = 220;
  // Creative thinking for clean morale penalties
- int morale_cold = 0, morale_hot = 0; 
+ int morale_cold = 0, morale_hot = 0;
  // This adjusts the temperature scale to match the bodytemp scale
- int adjusted_temp = 2*(Ctemperature - ambient_norm); 
- // Fetch the morale value of wetness for bodywetness 
+ int adjusted_temp = 2*(Ctemperature - ambient_norm);
+ // Fetch the morale value of wetness for bodywetness
  int bodywetness = 0;
  for (int i = 0; bodywetness == 0 && i < u.morale.size(); i++)
   if( u.morale[i].type == MORALE_WET ) {
@@ -725,23 +727,23 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
  // Current temperature and converging temperature calculations
  for (int i = 0 ; i < num_bp ; i++){
   // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
-  float homeostasis_adjustement = (u.temp_cur[i] > body_norm ? 1.0 : 3.0); 
+  float homeostasis_adjustement = (u.temp_cur[i] > body_norm ? 1.0 : 3.0);
   int clothing_warmth_adjustement = homeostasis_adjustement * (float)u.warmth(body_part(i)) /  (1.0 + (float)bodywetness / 50.0);
   // Disease name shorthand
   int blister_pen = dis_type(DI_BLISTERS) + 1 + i, hot_pen  = dis_type(DI_HOT) + 1 + i;
-  int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;  
+  int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;
   signed int temp_conv = body_norm + adjusted_temp + clothing_warmth_adjustement; // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness. 20C is normal
   // Fatigue also affects convergeant temperature
-  if (!u.has_disease(DI_SLEEP)) temp_conv -= u.fatigue/6;    
-  else { 
+  if (!u.has_disease(DI_SLEEP)) temp_conv -= u.fatigue/6;
+  else {
    int vpart = -1;
-   vehicle *veh = m.veh_at (u.posx, u.posy, vpart); 
+   vehicle *veh = m.veh_at (u.posx, u.posy, vpart);
    if      (m.ter(u.posx, u.posy) == t_bed) 		              temp_conv += 100;
    else if (m.ter(u.posx, u.posy) == t_makeshift_bed)             temp_conv +=  50;
    else if (m.tr_at(u.posx, u.posy) == tr_cot)                    temp_conv -=  50;
    else if (m.tr_at(u.posx, u.posy) == tr_rollmat)                temp_conv -= 100;
    else if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0) temp_conv +=  30;
-   else	temp_conv -= 200;          
+   else	temp_conv -= 200;
   }
   // Fire : generates body heat, helps fight frostbite TODO : add lava checks. TODO : cleanup like I did with temp_conv calculation
   int blister_count = 0; // If the counter is high, your skin starts to burn
@@ -752,7 +754,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
      int fire_dist = std::max(1, std::max(j, k));;
 	 int fire_density = m.field_at(u.posx + j, u.posy + k).density;
 	 if (u.frostbite_timer[i] > 0) u.frostbite_timer[i] -= fire_density - fire_dist/2;
-	 temp_conv += 300*fire_density/(fire_dist*fire_dist); // How do I square things 
+	 temp_conv += 300*fire_density/(fire_dist*fire_dist); // How do I square things
 	 blister_count += fire_density/(fire_dist*fire_dist);
     }
    }
@@ -780,8 +782,8 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   else if (temp_before > cold && temp_after < cold) add_msg("You feel your %s getting cold.", body_part_name(body_part(i), -1).c_str());
   else if (temp_before < scorching && temp_after > scorching) add_msg("You feel your %s getting red hot from the heat!", body_part_name(body_part(i), -1).c_str());
   else if (temp_before < very_hot && temp_after > very_hot) add_msg("You feel your %s getting very hot.", body_part_name(body_part(i), -1).c_str());
-  else if (temp_before < hot && temp_after > hot) add_msg("You feel your %s getting hot.", body_part_name(body_part(i), -1).c_str()); 
- } 
+  else if (temp_before < hot && temp_after > hot) add_msg("You feel your %s getting hot.", body_part_name(body_part(i), -1).c_str());
+ }
  // Morale penalties TODO only updates every 10 ticks
  if (morale_cold > 0) u.add_morale(MORALE_COLD, -1*morale_cold, -10*morale_cold);
  if (morale_hot > 0) u.add_morale(MORALE_HOT, -1*morale_hot, -10*morale_hot);
@@ -1481,6 +1483,10 @@ input_ret game::get_input(int timeout_ms)
 
   case ACTION_PEEK:
    peek();
+   break;
+
+  case ACTION_LIST_ITEMS:
+   list_items();
    break;
 
   case ACTION_INVENTORY: {
@@ -5170,6 +5176,108 @@ point game::look_around()
  if (ch == '\n')
   return point(lx, ly);
  return point(-1, -1);
+}
+
+void game::list_items()
+{
+ WINDOW* w_items = newwin(15, 55, 0, 25);
+ WINDOW* w_item_info = newwin(10, 55, 15, 25);
+
+ wborder(w_items, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+ std::vector <item> here;
+ std::vector <item> grounditems;
+ std::vector <int> itemposx;
+ std::vector <int> itemposy;
+
+ //Area to search +- of players position
+ int iSearchX = 12;
+ int iSearchY = 12;
+
+ int iTile;
+ for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
+  for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
+   if (u_see(u.posx + iCol, u.posy + iRow, iTile)) {
+    here.clear();
+    here = m.i_at(u.posx + iCol, u.posy + iRow);
+    for (int i = 0; i < here.size(); i++) {
+     grounditems.push_back(here[i]);
+     itemposx.push_back(iCol);
+     itemposy.push_back(iRow);
+    }
+   }
+  }
+ }
+
+ int iActive = 0;
+ int iMaxRows = 13;
+ int iStartPos = 0;
+ int iItemNum = grounditems.size();
+ long ch = '.';
+
+ do {
+  if (iItemNum > 0) {
+   switch(ch) {
+    case KEY_UP:
+     iActive--;
+     if (iActive < 0)
+      iActive = 0;
+     break;
+    case KEY_DOWN:
+     iActive++;
+     if (iActive >= iItemNum)
+      iActive = iItemNum-1;
+     break;
+   }
+
+   if (iItemNum > iMaxRows) {
+    iStartPos = iActive - (iMaxRows - 1) / 2;
+
+    if (iStartPos < 0)
+     iStartPos = 0;
+    else if (iStartPos + iMaxRows > iItemNum)
+     iStartPos = iItemNum - iMaxRows;
+   }
+
+   for (int i = 0; i < iMaxRows; i++)
+    mvwprintz(w_items, 1 + i , 1, c_black, "%s", "                                                     ");
+
+   for (int i = iStartPos; i < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows); i++)
+    mvwprintz(w_items, 1 + i - iStartPos, 2, ((i == iActive) ? c_ltgreen : c_white), "%s", grounditems[i].tname(this).c_str());
+
+   wclear(w_item_info);
+   mvwprintz(w_item_info, 0, 2, c_white, "%s", grounditems[iActive].info().c_str());
+   wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                        LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+   draw_ter();
+   std::vector<point> trajectory = line_to(u.posx, u.posy, u.posx + itemposx[iActive], u.posy + itemposy[iActive], 0);
+   int junk;
+   for (int i = 0; i < trajectory.size(); i++) {
+    if (i > 0)
+     m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, true, true);
+
+    if (u_see(trajectory[i].x, trajectory[i].y, junk)) {
+     char bullet = '*';
+     mvwputch(w_terrain, trajectory[i].y + SEEY - u.posy,
+                         trajectory[i].x + SEEX - u.posx, c_red, bullet);
+    }
+   }
+
+   wrefresh(w_terrain);
+  } else {
+   mvwprintz(w_items, 8, 6, c_ltred, "%s", "No Items around!");
+  }
+
+  wrefresh(w_items);
+  wrefresh(w_item_info);
+  ch = getch();
+ } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
+ werase(w_items);
+ delwin(w_items);
+ erase();
+ refresh_all();
 }
 
 // Pick up items at (posx, posy).

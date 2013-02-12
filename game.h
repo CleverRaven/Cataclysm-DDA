@@ -52,7 +52,7 @@ enum quit_status {
  QUIT_SUICIDE, // Quit with 'Q'
  QUIT_SAVED,   // Saved and quit
  QUIT_DIED,     // Actual death
- QUIT_DELETE_WORLD  // Quit and delete world 
+ QUIT_DELETE_WORLD  // Quit and delete world
 };
 
 struct monster_and_count
@@ -188,8 +188,9 @@ class game
 
   void peek();
   point look_around();// Look at nearby terrain	';'
+  void list_items(); //List all items around the player
   char inv(std::string title = "Inventory:");
-  char inv_type(std::string title = "Inventory:", int inv_item_type = 0);  
+  char inv_type(std::string title = "Inventory:", int inv_item_type = 0);
   std::vector<item> multidrop();
   faction* list_factions(std::string title = "FACTIONS:");
   point find_item(item *it);
@@ -231,7 +232,7 @@ class game
   ter_id dragging;
   std::vector<item> items_dragged;
   int weight_dragged; // Computed once, when you start dragging
-  bool debugmon; 
+  bool debugmon;
   bool no_npc;
 // Display data... TODO: Make this more portable?
   WINDOW *w_terrain;
@@ -290,8 +291,8 @@ class game
   void pick_recipes(std::vector<recipe*> &current,
                     std::vector<bool> &available, craft_cat tab);// crafting.cpp
   void disassemble();              // See crafting.cpp
-  void disassemble_item(recipe *dis);              // See crafting.cpp  
-  void complete_disassemble();              // See crafting.cpp                      
+  void disassemble_item(recipe *dis);              // See crafting.cpp
+  void complete_disassemble();              // See crafting.cpp
   void construction_menu();                   // See construction.cpp
   bool player_can_build(player &p, inventory inv, constructable* con,
                         int level = -1, bool cont = false,
