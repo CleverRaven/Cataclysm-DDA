@@ -28,6 +28,7 @@ vehicle::vehicle(game *ag, vhtype_id type_id): g(ag), type(type_id)
     turn_dir = 0;
     last_turn = 0;
     moves = 0;
+    of_turn = 0;
     turret_mode = 0;
     cruise_velocity = 0;
     skidding = false;
@@ -79,6 +80,7 @@ void vehicle::load (std::ifstream &stin)
         turret_mode >>
         skd >>
         moves >>
+        of_turn >>
         prts;
     type = (vhtype_id) t;
     face.init (fdir);
@@ -143,6 +145,7 @@ void vehicle::save (std::ofstream &stout)
         turret_mode << " " <<
         (skidding? 1 : 0) << " " <<
         moves << " " <<
+        of_turn << " " <<
         parts.size() << std::endl;
     stout << name << std::endl;
 
@@ -1051,6 +1054,7 @@ void vehicle::thrust (int thd)
         last_turn = 0;
         move = face;
         moves = 0;
+        of_turn = 0;
         last_turn = 0;
         skidding = false;
     }
@@ -1170,6 +1174,7 @@ void vehicle::stop ()
     move = face;
     last_turn = 0;
     moves = 0;
+    of_turn = 0;
 }
 
 int vehicle::part_collision (int vx, int vy, int part, int x, int y)
@@ -1545,6 +1550,8 @@ void vehicle::remove_item (int part, int itemdex)
 void vehicle::gain_moves (int mp)
 {
     moves += mp;
+    of_turn += 1;
+
     // cruise control TODO: enable for NPC?
     if (player_in_control(&g->u))
     {
