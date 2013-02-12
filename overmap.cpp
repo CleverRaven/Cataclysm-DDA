@@ -1745,7 +1745,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, oter_id base)
        tmp += xdir;
       }
       if (bridge_is_okay) {
-       while(y < OMAPX && is_river(ter(x, y))) {
+       while(x < OMAPX && is_river(ter(x, y))) {
         ter(x, y) = ot_bridge_ew;
         x += xdir;
        }

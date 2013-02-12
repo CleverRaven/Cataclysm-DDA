@@ -660,15 +660,19 @@ void game::compare()
    }
   }
   if (bShowCompare) {
+   std::vector<iteminfo> vItemLastCh, vItemCh;
+   std::string sItemLastCh, sItemCh;
    if (cLastCh >= '0' && cLastCh <= '9') {
     int iZero = 0;
     if (cLastCh == '0') {
      iZero = 10;
     }
 
-    split_screen_popup(true, grounditems[cLastCh-'1'+iZero].tname(this).c_str(), grounditems[cLastCh-'1'+iZero].info(true).c_str());
+    grounditems[cLastCh-'1'+iZero].info(true, &vItemLastCh);
+    sItemLastCh = grounditems[cLastCh-'1'+iZero].tname(this);
    } else {
-    split_screen_popup(true, u.i_at(cLastCh).tname(this).c_str(), u.i_at(cLastCh).info(true).c_str());
+    u.i_at(cLastCh).info(true, &vItemLastCh);
+    sItemLastCh = u.i_at(cLastCh).tname(this);
    }
 
    if (ch >= '0' && ch <= '9') {
@@ -677,10 +681,16 @@ void game::compare()
      iZero = 10;
     }
 
-    split_screen_popup(false, grounditems[ch-'1'+iZero].tname(this).c_str(), grounditems[ch-'1'+iZero].info(true).c_str());
+    grounditems[ch-'1'+iZero].info(true, &vItemCh);
+    sItemCh = grounditems[ch-'1'+iZero].tname(this);
    } else {
-    split_screen_popup(false, u.i_at(ch).tname(this).c_str(), u.i_at(ch).info(true).c_str());
+    u.i_at(ch).info(true, &vItemCh);
+    sItemCh = u.i_at(ch).tname(this);
    }
+
+   compare_split_screen_popup(true, sItemLastCh, vItemLastCh, vItemCh);
+   compare_split_screen_popup(false, sItemCh, vItemCh, vItemLastCh);
+
    wclear(w_inv);
    print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);
    bShowCompare = false;
