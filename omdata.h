@@ -238,7 +238,7 @@ const oter_t oterlist[num_ter_types] = {
 {"garage",              'G',    i_ltgray,       5, build_extras, false, false},
 {"garage",              'G',    i_ltgray,       5, build_extras, false, false},
 {"garage",              'G',    i_ltgray,       5, build_extras, false, false},
-{"farm",              'C',    i_green,       5, build_extras, false, false},
+{"cabin",              'C',    i_green,       5, build_extras, false, false},
 {"farm",              '^',    i_brown,       5, build_extras, false, false}, //Oddzball-Farm
 {"farm field",              '#',    i_brown,       5, field_extras, false, false}, //Oddzball-Farm
 {"police station",	'P',	h_yellow,	5, build_extras, false, false},
@@ -452,7 +452,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD)},
 
 {ot_cabin,   0, 50, 20, -1, mcat_null, 0, 0, 0, 0,  // Woods cabin
- &omspec_place::forest, mfb(OMS_FLAG_ROTATE_RANDOM)|mfb(OMS_FLAG_ROTATE_ROAD)},
+ &omspec_place::forest, 0},
  
  {ot_farm,   5, 10, 20, -1, mcat_null, 0, 0, 0, 0,  // Oddzball-farm
  &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) |mfb(OMS_FLAG_DIRT_LOT)},
