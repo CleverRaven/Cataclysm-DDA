@@ -804,12 +804,12 @@ void construct::done_deconstruct(game *g, point p)
     case t_window_domestic:
       g->m.add_item(p.x, p.y, g->itypes[itm_stick], 0);
       g->m.add_item(p.x, p.y, g->itypes[itm_curtain], 0, 1);
-      g->m.add_item(p.x, p.y, g->itypes[itm_glass_sheet], 0;
+      g->m.add_item(p.x, p.y, g->itypes[itm_glass_sheet], 0);
       g->m.ter(p.x, p.y) = t_window_empty;
     break;
 
     case t_window:
-      g->m.add_item(p.x, p.y g->itypes[itm_glass_sheet], 0);
+      g->m.add_item(p.x, p.y, g->itypes[itm_glass_sheet], 0);
       g->m.ter(p.x, p.y) = t_window_empty;
     break;
 
