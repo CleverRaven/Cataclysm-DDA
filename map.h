@@ -31,14 +31,12 @@ class item;
 struct itype;
 
 // TODO: This should be const& but almost no functions are const
-template<typename Type>
-struct position_wrapped {
+struct wrapped_vehicle{
  int x; 
  int y;
- Type* item;
+ vehicle* v;
 };
 
-typedef position_wrapped<vehicle> wrapped_vehicle;
 typedef std::vector<wrapped_vehicle> VehicleList;
 
 class map

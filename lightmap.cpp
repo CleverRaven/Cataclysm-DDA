@@ -425,26 +425,26 @@ void light_map::build_light_cache(game* g, int cx, int cy)
  // Check for vehicles and cache
  VehicleList vehs = g->m.get_vehicles(cx - LIGHTMAP_RANGE_X, cy - LIGHTMAP_RANGE_Y, cx + LIGHTMAP_RANGE_X, cy + LIGHTMAP_RANGE_Y);
  for(int v = 0; v < vehs.size(); ++v) {
-  for(int p = 0; p < vehs[v].item->parts.size(); ++p) {
-   int px = vehs[v].x + vehs[v].item->parts[p].precalc_dx[0] - cx;
-   int py = vehs[v].y + vehs[v].item->parts[p].precalc_dy[0] - cy;
+  for(int p = 0; p < vehs[v].v->parts.size(); ++p) {
+   int px = vehs[v].x + vehs[v].v->parts[p].precalc_dx[0] - cx;
+   int py = vehs[v].y + vehs[v].v->parts[p].precalc_dy[0] - cy;
       
    if (INBOUNDS(px, py)) {
     px += LIGHTMAP_RANGE_X;
     py += LIGHTMAP_RANGE_Y;
 
-    if (vehs[v].item->is_inside(p))
+    if (vehs[v].v->is_inside(p))
      outside_cache[px][py] = true;
     // External part appears to always be the first?
     if (!c[px][py].veh) {
-     c[px][py].veh = vehs[v].item;
+     c[px][py].veh = vehs[v].v;
      c[px][py].veh_part = p;
     }
 
-    if (vehs[v].item->lights_on &&
-        vehs[v].item->part_flag(p, vpf_light) &&
-        vehs[v].item->parts[p].hp > 0)
-     c[px][py].veh_light = vehs[v].item->part_info(p).power;
+    if (vehs[v].v->lights_on &&
+        vehs[v].v->part_flag(p, vpf_light) &&
+        vehs[v].v->parts[p].hp > 0)
+     c[px][py].veh_light = vehs[v].v->part_info(p).power;
    }
   }
  }
