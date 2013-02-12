@@ -35,6 +35,7 @@ ACTION_BUTCHER,
 ACTION_CHAT,
 ACTION_LOOK,
 ACTION_PEEK,
+ACTION_LIST_ITEMS,
 // Inventory Interaction (including quasi-inventories like bionics)
 ACTION_INVENTORY,
 ACTION_COMPARE,
