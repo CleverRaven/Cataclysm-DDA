@@ -34,6 +34,8 @@ struct itype;
 struct wrapped_vehicle{
  int x; 
  int y;
+ int i; // submap col
+ int j; // submap row
  vehicle* v;
 };
 
