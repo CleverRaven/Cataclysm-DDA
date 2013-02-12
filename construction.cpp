@@ -71,11 +71,12 @@ void game::init_construction()
                                      &construct::done_nothing);
   STAGE(t_window_empty, 5);
 
- CONSTRUCT("Remove Window Pane",  1, &construct::able_window_pane,
+/* CONSTRUCT("Remove Window Pane",  1, &construct::able_window_pane,
                                      &construct::done_window_pane);
   STAGE(t_window_empty, 10);
    TOOL(itm_hammer, itm_rock, itm_hatchet, NULL);
    TOOL(itm_screwdriver, itm_knife_butter, itm_toolset, NULL);
+*/
 
  CONSTRUCT("Repair Door", 1, &construct::able_door_broken,
                              &construct::done_nothing);
@@ -794,16 +795,21 @@ void construct::done_deconstruct(game *g, point p)
     case t_makeshift_bed:
     case t_bed:
     case t_armchair:
-      g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 10);
-      g->m.add_item(p.x, p.y, g->itypes[itm_rag], 0, 10);
+      g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 9);
+      g->m.add_item(p.x, p.y, g->itypes[itm_rag], 0, 9);
       g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,8));
       g->m.ter(p.x, p.y) = t_floor;
     break;
 
     case t_window_domestic:
-      g->m.add_item(p.x, p.y, g->itypes[itm_stick], 0, 1);
-      g->m.add_item(p.x, p.y, g->itypes[itm_curtain], 0, 2);
-      g->m.add_item(p.x, p.y, g->itypes[itm_glass_sheet], 0, 1);
+      g->m.add_item(p.x, p.y, g->itypes[itm_stick], 0);
+      g->m.add_item(p.x, p.y, g->itypes[itm_curtain], 0, 1);
+      g->m.add_item(p.x, p.y, g->itypes[itm_glass_sheet], 0;
+      g->m.ter(p.x, p.y) = t_window_empty;
+    break;
+
+    case t_window:
+      g->m.add_item(p.x, p.y g->itypes[itm_glass_sheet], 0);
       g->m.ter(p.x, p.y) = t_window_empty;
     break;
 

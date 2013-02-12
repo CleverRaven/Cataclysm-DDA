@@ -178,7 +178,7 @@ void map::clear_vehicle_cache()
   }
   veh_cached_parts.erase(part);
  }
-} 
+}
 
 void map::update_vehicle_list(const int to) {
  // Update vehicle data
@@ -330,7 +330,7 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
   player *psg = psgs[i];
   const int p = psg_parts[i];
   if (!psg) {
-   debugmsg ("empty passenger part %d pcoord=%d,%d u=%d,%d?", p, 
+   debugmsg ("empty passenger part %d pcoord=%d,%d u=%d,%d?", p,
              veh->global_x() + veh->parts[p].precalc_dx[0],
              veh->global_y() + veh->parts[p].precalc_dy[0],
                       g->u.posx, g->u.posy);
@@ -671,7 +671,7 @@ ter_id& map::ter(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
   nulter = t_null;
-  return nulter;	// Out-of-bounds - null terrain 
+  return nulter;	// Out-of-bounds - null terrain
  }
 /*
  int nonant;
@@ -902,7 +902,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
  }
 
  switch (ter(x, y)) {
- 
+
  case t_chainfence_v:
  case t_chainfence_h:
   result = rng(0, 50);
@@ -966,7 +966,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
    return true;
   }
   break;
- 
+
  case t_chaingate_c:
   result = rng(0, has_adjacent_furniture(x, y) ? 80 : 100);
   if (res) *res = result;
@@ -1182,14 +1182,14 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   if (str >= result) {
    sound += "crak";
    ter(x, y) = t_dirt;
-   add_item(x, y, (*itypes)[itm_spear_wood], 0, 2);
+   add_item(x, y, (*itypes)[itm_spear_wood], 0, 1);
    return true;
   } else {
    sound += "whump.";
    return true;
   }
   break;
-  
+
  case t_bench:
  case t_counter:
   result = rng(0, 30);
@@ -1912,7 +1912,7 @@ void map::process_active_items(game *g)
   }
  }
 }
-     
+
 void map::process_active_items_in_submap(game *g, const int nonant)
 {
  it_tool* tmp;
@@ -1925,7 +1925,7 @@ void map::process_active_items_in_submap(game *g, const int nonant)
      if (!(*items)[n].is_tool()) { // It's probably a charger gun
       (*items)[n].active = false;
       (*items)[n].charges = 0;
-     } else { 
+     } else {
       tmp = dynamic_cast<it_tool*>((*items)[n].type);
       (use.*tmp->use)(g, &(g->u), &((*items)[n]), true);
       if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge ==0)
@@ -2025,7 +2025,7 @@ void map::use_charges(const point origin, const int range, const itype_id type, 
   }
  }
 }
- 
+
 trap_id& map::tr_at(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
@@ -2050,7 +2050,7 @@ trap_id& map::tr_at(const int x, const int y)
   nultrap = terlist[ grid[nonant]->ter[lx][ly] ].trap;
   return nultrap;
  }
- 
+
  return grid[nonant]->trp[lx][ly];
 }
 
@@ -2106,7 +2106,7 @@ void map::disarm_trap(game *g, const int x, const int y)
    g->u.practice("traps", 2*diff);
  }
 }
- 
+
 field& map::field_at(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
@@ -2243,7 +2243,7 @@ void map::draw(game *g, WINDOW* w, const point center)
     // and light level should do rest of the work....
     distance_to_look = DAYLIGHT_LEVEL;
    }
- 
+
    int diffx = (g->u.posx - center.x), diffy = (g->u.posy - center.y);
    bool can_see = g->lm.sees(diffx, diffy, realx - center.x, realy - center.y, distance_to_look);
    lit_level lit = g->lm.at(realx - center.x, realy - center.y);
@@ -2317,7 +2317,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  long sym = terlist[ter(x, y)].sym;
  bool hi = false;
  bool graf = false;
- bool normal_tercol = false, drew_field = false; 
+ bool normal_tercol = false, drew_field = false;
  if (u.has_disease(DI_BOOMERED))
   tercol = c_magenta;
  else if ((u.is_wearing(itm_goggles_nv) && u.has_active_item(itm_UPS_on)) ||
@@ -2388,7 +2388,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  // If there's graffiti here, change background color
  if(graffiti_at(x,y).contents)
   graf = true;
- 
+
  if (invert)
   mvwputch_inv(w, j, k, tercol, sym);
  else if (hi)
@@ -2416,7 +2416,7 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
  int y = Fy;
  int t = 0;
  int st;
- 
+
  if (range >= 0 && (abs(dx) > range || abs(dy) > range))
   return false;	// Out of range!
  if (ax > ay) { // Mostly-horizontal line
@@ -2479,7 +2479,7 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
  int y = Fy;
  int t = 0;
  int st;
- 
+
  if (range >= 0 && (abs(dx) > range || abs(dy) > range))
   return false;	// Out of range!
  if (ax > ay) { // Mostly-horizontal line
@@ -2902,7 +2902,7 @@ void map::spawn_monsters(game *g)
       tmp.friendly = -1;
      int fx = mx + gx * SEEX, fy = my + gy * SEEY;
 
-     while ((!g->is_empty(fx, fy) || !tmp.can_move_to(g->m, fx, fy)) && 
+     while ((!g->is_empty(fx, fy) || !tmp.can_move_to(g->m, fx, fy)) &&
             tries < 10) {
       mx = (grid[n]->spawns[i].posx + rng(-3, 3)) % SEEX;
       my = (grid[n]->spawns[i].posy + rng(-3, 3)) % SEEY;
