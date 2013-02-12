@@ -4274,8 +4274,8 @@ case ot_s_garage_north:
 	square(this, t_floor, 11, 4, 12, 15);
 	square(this, t_floor, 14, 4, 20, 9);
 	square(this, t_floor, 14, 11, 20, 15);
-	line(this, t_wood_wall, 7, 4, 7, 8);
-	square(this, t_wood_wall, 8, 8, 9, 9);
+	line(this, t_wall_wood, 7, 4, 7, 8);
+	square(this, t_wall_wood, 8, 8, 9, 9);
 	line(this, t_rack, 3, 4, 3, 9); //Oddzball-Pantry Racks
 	line(this, t_curtains, 2, 6, 2, 7); //Oddzball-Windows start
 	line(this, t_curtains, 2, 12, 2, 13);
