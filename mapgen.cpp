@@ -4244,8 +4244,8 @@ case ot_s_garage_north:
         }
   }
   break;
- //Oddzball-End of garage
- //Oddzball-Cabins
+
+ //Oddzball-Cabin
  case ot_cabin:
 	{
 	square(this, t_grass, 0, 0, 23, 23);
@@ -4292,6 +4292,7 @@ case ot_s_garage_north:
 	ter(6, 5) = t_chair;
 	ter(7, 9) = t_locker;
 	ter(6, 10) = t_door_c;
+	ter(10, 6) = t_door_c;
 	square(this, t_table, 3, 11, 4, 12);
 	line(this, t_bench, 5, 11, 5, 12);
 	line(this, t_bench, 3, 13, 4, 13);
@@ -4304,7 +4305,7 @@ case ot_s_garage_north:
 	ter(14, 11) = t_armchair;
 	line(this, t_sofa, 16, 11, 18, 11);
 	square(this, t_rock_floor, 18, 13, 20, 15);
-	ter(19, 14) = t_fireplace;
+	ter(19, 14) = t_woodstove;
 	ter(19, 10) = t_door_c;
 	line(this, t_bookcase, 14, 9, 17, 9);
 	square(this, t_bed, 17, 4, 18, 5);
