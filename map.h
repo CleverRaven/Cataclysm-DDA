@@ -81,6 +81,7 @@ class map
                           const bool bash = true);
 
 // vehicles
+ VehicleList get_vehicles();
  VehicleList get_vehicles(const int sx, const int sy, const int ex, const int ey);
 
 // checks, if tile is occupied by vehicle and by which part

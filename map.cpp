@@ -59,6 +59,10 @@ map::~map()
 {
 }
 
+VehicleList map::get_vehicles(){
+   return get_vehicles(0,0,SEEX*my_MAPSIZE, SEEY*my_MAPSIZE);
+}
+
 VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const int ey)
 {
  const int chunk_sx = (sx / SEEX) - 1;
@@ -75,9 +79,9 @@ VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const in
 
    for(int i = 0; i < grid[nonant]->vehicles.size(); ++i) {
     wrapped_vehicle w;
-    w.item = grid[nonant]->vehicles[i];
-    w.x = w.item->posx + cx * SEEX;
-    w.y = w.item->posy + cy * SEEY;
+    w.v = grid[nonant]->vehicles[i];
+    w.x = w.v->posx + cx * SEEX;
+    w.y = w.v->posy + cy * SEEY;
     vehs.push_back(w);
    }
   }
@@ -392,9 +396,41 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
  return (src_na != dst_na) || was_update;
 }
 
+
+/*/std::vector<map_veh> map::find_vehs(){
+
+   std::vector<map_veh> ret;
+   for (int i = 0; i < my_MAPSIZE; i++) {
+      for (int j = 0; j < my_MAPSIZE; j++) {
+         const int sm = i + j * my_MAPSIZE;
+         for (int v = 0; v < grid[sm]->vehicles.size(); v++) {
+            vehicle *veh = grid[sm]->vehicles[v];
+            ret.push_back({x,y,v});
+         }
+      }
+   }
+   return ret;
+}*/
+/*
+void map::vehmoveFOO(game *g){
+   //std::vector<map_veh> vehs = find_vehs();
+   //std::vector<map_veh>::iterator vim;
+   VehicleList vehs = g->m.get_vehicles(cx - LIGHTMAP_RANGE_X, cy - LIGHTMAP_RANGE_Y, cx + LIGHTMAP_RANGE_X, cy + LIGHTMAP_RANGE_Y);
+   for(int v = 0; v < vehs.size(); ++v) {
+   //for (vim = vehs.begin(); vim < vehs.end(); vim++)
+      vim->veh->gain_moves();
+}*/
 void map::vehmove(game *g)
 {
    // give vehicles movement points
+   //vector<map_veh> vehs = find_vehs();
+   //vector<map_veh>::iterator vim;
+   VehicleList vehs = g->m.get_vehicles();
+   for(int v = 0; v < vehs.size(); ++v) {
+      vehicle* veh = vehs[v].v;
+      veh->gain_moves (abs (veh->velocity));
+   }
+   /*
    for (int i = 0; i < my_MAPSIZE; i++) {
       for (int j = 0; j < my_MAPSIZE; j++) {
          const int sm = i + j * my_MAPSIZE;
@@ -404,7 +440,7 @@ void map::vehmove(game *g)
             veh->gain_moves (abs (veh->velocity));
          }
       }
-   }
+   }*/
    // move vehicles
    bool sm_change;
    int count = 0;
