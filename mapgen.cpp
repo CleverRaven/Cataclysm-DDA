@@ -4245,6 +4245,91 @@ case ot_s_garage_north:
   }
   break;
  //Oddzball-End of garage
+ //Oddzball-Cabins
+ case ot_cabin:
+	{
+	square(this, t_grass, 0, 0, 23, 23);
+	square(this, t_wall_wood, 2, 3, 21, 20);
+
+
+	//Oddzball-Cabin design 1 Quad
+	square(this, t_floor, 2, 17, 21, 20);//Oddzball-Front porch
+	line(this, t_fence_v, 2, 17, 2, 20);
+	line(this, t_fence_v, 21, 17, 21, 20);
+	line(this, t_fence_h, 2, 20, 21, 20);
+	ter(2, 17) = t_column;
+	ter(2, 20) = t_column;
+	ter(21, 17) = t_column;
+	ter(21, 20) = t_column;
+	ter(10, 20) = t_column;
+	ter(13, 20) = t_column;
+	line(this, t_fencegate_c, 11, 20, 12, 20);
+	line(this, t_bench, 4, 17, 7, 17);
+	square(this, t_rubble, 19, 18, 20, 19);
+	ter(20, 17) = t_rubble;
+	ter(18, 19) = t_rubble; //Oddzball-Porch done
+	line(this, t_door_c, 11, 16, 12, 16);//Oddzball-Interior
+	square(this, t_floor, 3, 4, 9, 9);
+	square(this, t_floor, 3, 11, 9, 15);
+	square(this, t_floor, 11, 4, 12, 15);
+	square(this, t_floor, 14, 4, 20, 9);
+	square(this, t_floor, 14, 11, 20, 15);
+	line(this, t_wood_wall, 7, 4, 7, 8);
+	square(this, t_wood_wall, 8, 8, 9, 9);
+	line(this, t_rack, 3, 4, 3, 9); //Oddzball-Pantry Racks
+	line(this, t_curtains, 2, 6, 2, 7); //Oddzball-Windows start
+	line(this, t_curtains, 2, 12, 2, 13);
+	line(this, t_window_domestic, 5, 16, 6, 16);
+	line(this, t_window_domestic, 17, 16, 18, 16);
+	line(this, t_curtains, 21, 12, 21, 13);
+	line(this, t_window_empty, 21, 6, 21, 7);
+	ter(8, 3) = t_curtains;//Oddzball-Windows End
+	line(this, t_door_c, 11, 3, 12, 3);//Oddzball-Rear Doors
+	square(this, t_rubble, 20, 3, 21, 4);
+	ter(19, 3) = t_rubble;
+	ter(21, 5) = t_rubble;
+	ter(6, 4) = t_desk;
+	ter(6, 5) = t_chair;
+	ter(7, 9) = t_locker;
+	ter(6, 10) = t_door_c;
+	square(this, t_table, 3, 11, 4, 12);
+	line(this, t_bench, 5, 11, 5, 12);
+	line(this, t_bench, 3, 13, 4, 13);
+	line(this, t_cupboard, 3, 15, 7, 15);
+	ter(4, 15) = t_fridge;
+	ter(5, 15) = t_sink;
+	ter(6, 15) = t_oven;
+	ter(10, 13) = t_door_c;
+	ter(13, 13) = t_door_c;
+	ter(14, 11) = t_armchair;
+	line(this, t_sofa, 16, 11, 18, 11);
+	square(this, t_rock_floor, 18, 13, 20, 15);
+	ter(19, 14) = t_fireplace;
+	ter(19, 10) = t_door_c;
+	line(this, t_bookcase, 14, 9, 17, 9);
+	square(this, t_bed, 17, 4, 18, 5);
+	ter(16, 4) = t_dresser;
+	ter(19, 4) = t_dresser;
+	ter(13, 6) = t_door_c;
+	place_items(mi_fridge, 65, 4, 15, 4, 15, false, 0);
+	place_items(mi_homeguns, 30, 7, 9, 7, 9, false, 0);
+	place_items(mi_home_hw, 60, 7, 9, 7, 9, false, 0);
+	place_items(mi_kitchen, 60, 3, 15, 3, 15, false, 0);
+	place_items(mi_kitchen, 60, 7, 15, 7, 15, false, 0);
+	place_items(mi_dining, 60, 3, 11, 4, 12, false, 0);
+	place_items(mi_trash, 60, 0, 0, 23, 23, false, 0);
+	place_items(mi_survival_tools, 30, 3, 4, 3, 9, false, 0);
+	place_items(mi_cannedfood, 30, 3, 4, 3, 9, false, 0);
+	place_items(mi_camping, 50, 4, 4, 6, 9, false, 0);
+	place_items(mi_magazines, 60, 14, 9, 17, 9, false, 0);
+	place_items(mi_manuals, 30, 14, 9, 17, 9, false, 0);
+	place_items(mi_dresser, 50, 16, 4, 16, 4, false, 0);
+	place_items(mi_dresser, 50, 19, 4, 19, 4, false, 0);
+	place_items(mi_softdrugs, 50, 8, 4, 9, 7, false, 0);
+	place_items(mi_livingroom, 50, 14, 12, 17, 15, false, 0);
+
+}
+//Oddzball-Cabin
  //Oddzball-Farm
  case ot_farm:
 		{
