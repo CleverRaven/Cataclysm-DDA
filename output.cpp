@@ -13,6 +13,8 @@
 #include <cstring>
 #include <stdlib.h>
 #include <fstream>
+#include <sstream>
+#include <algorithm>
 
 #include "color.h"
 #include "output.h"
@@ -511,7 +513,7 @@ char popup_getkey(const char *mes, ...)
  }
  line_num++;
  mvwprintz(w, line_num, 1, c_white, tmp.c_str());
- 
+
  wrefresh(w);
  char ch = getch();;
  werase(w);
@@ -622,7 +624,7 @@ void popup_top(const char *mes, ...)
  }
  line_num++;
  mvwprintz(w, line_num, 1, c_white, tmp.c_str());
- 
+
  wrefresh(w);
  char ch;
  do
@@ -673,7 +675,7 @@ void popup(const char *mes, ...)
  }
  line_num++;
  mvwprintz(w, line_num, 1, c_white, tmp.c_str());
- 
+
  wrefresh(w);
  char ch;
  do
@@ -724,7 +726,6 @@ void popup_nowait(const char *mes, ...)
  }
  line_num++;
  mvwprintz(w, line_num, 1, c_white, tmp.c_str());
- 
  wrefresh(w);
  delwin(w);
  refresh();
@@ -763,13 +764,102 @@ void full_screen_popup(const char* mes, ...)
  refresh();
 }
 
-void split_screen_popup(bool bLeft, std::string sItemName, const char* mes, ...)
+void compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare)
 {
- va_list ap;
- va_start(ap, mes);
- char buff[8192];
- vsprintf(buff, mes, ap);
- va_end(ap);
+ WINDOW* w = newwin(25, 40, 0, (bLeft) ? 0 : 40);
+ wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+ mvwprintz(w, 1, 2, c_white, sItemName.c_str());
+ int line_num = 3;
+
+ std::string sPlus;
+ bool bStartNewLine = true;
+ for (int i = 0; i < vItemDisplay.size(); i++) {
+  if (vItemDisplay[i].sType == "DESCRIPTION") {
+   std::string sText = vItemDisplay[i].sName;
+   std::replace(sText.begin(), sText.end(), '\n', ' ');
+   int iPos;
+   while (1) {
+     line_num++;
+     if (sText.size() > 36) {
+      int iPos = sText.find_last_of(' ', 36);
+      mvwprintz(w, line_num, 2, c_white, (sText.substr(0, iPos)).c_str());
+      sText = sText.substr(iPos+1, sText.size());
+     } else {
+      mvwprintz(w, line_num, 2, c_white, (sText).c_str());
+      break;
+     }
+   }
+  } else {
+   if (bStartNewLine) {
+    mvwprintz(w, line_num, 2, c_white, "%s", (vItemDisplay[i].sName).c_str());
+    bStartNewLine = false;
+   } else {
+    wprintz(w, c_white, "%s", (vItemDisplay[i].sName).c_str());
+   }
+
+   sPlus = "";
+   std::string sPre = vItemDisplay[i].sPre;
+   if (sPre.size() > 1 && sPre.substr(sPre.size()-1, 1) == "+") {
+     wprintz(w, c_white, "%s", (sPre.substr(0, sPre.size()-1)).c_str());
+     sPlus = "+";
+   } else if (sPre != "+")
+     wprintz(w, c_white, "%s", sPre.c_str());
+   else if (sPre == "+")
+    sPlus = "+";
+
+   if (vItemDisplay[i].iValue != -999) {
+    nc_color thisColor = c_white;
+    for (int k = 0; k < vItemCompare.size(); k++) {
+     if (vItemCompare[k].iValue != -999) {
+      if (vItemDisplay[i].sName == vItemCompare[k].sName) {
+       if (vItemDisplay[i].iValue == vItemCompare[k].iValue) {
+         thisColor = c_white;
+       } else if (vItemDisplay[i].iValue > vItemCompare[k].iValue) {
+        if (vItemDisplay[i].bLowerIsBetter) {
+         thisColor = c_ltred;
+        } else {
+         thisColor = c_ltgreen;
+        }
+       } else if (vItemDisplay[i].iValue < vItemCompare[k].iValue) {
+        if (vItemDisplay[i].bLowerIsBetter) {
+         thisColor = c_ltgreen;
+        } else {
+         thisColor = c_ltred;
+        }
+       }
+       break;
+      }
+     }
+    }
+
+    if (sPlus == "+" )
+     wprintz(w, thisColor, "%s", (sPlus).c_str());
+    wprintz(w, thisColor, "%d", vItemDisplay[i].iValue);
+   }
+   wprintz(w, c_white, (vItemDisplay[i].sPost).c_str());
+
+   if (vItemDisplay[i].bNewLine) {
+    line_num++;
+    bStartNewLine = true;
+   }
+  }
+ }
+
+ wrefresh(w);
+ if (!bLeft)
+ {
+  char ch;
+  do
+   ch = getch();
+  while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+  werase(w);
+  wrefresh(w);
+  delwin(w);
+  refresh();
+ }
+ /*
  std::string tmp = buff;
  WINDOW* w = newwin(25, 40, 0, (bLeft) ? 0 : 40);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -822,6 +912,7 @@ void split_screen_popup(bool bLeft, std::string sItemName, const char* mes, ...)
   delwin(w);
   refresh();
  }
+ */
 }
 
 char rand_char()
@@ -842,7 +933,7 @@ char rand_char()
 }
 
 // this translates symbol y, u, n, b to NW, NE, SE, SW lines correspondingly
-// h, j, c to horizontal, vertical, cross correspondingly 
+// h, j, c to horizontal, vertical, cross correspondingly
 long special_symbol (char sym)
 {
     switch (sym)
