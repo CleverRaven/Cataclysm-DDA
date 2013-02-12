@@ -1177,7 +1177,7 @@ void vehicle::stop ()
     of_turn = 0;
 }
 
-int vehicle::part_collision (int vx, int vy, int part, int x, int y)
+veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
 {
     bool pl_ctrl = player_in_control (&g->u);
     int mondex = g->mon_at(x, y);
@@ -1186,13 +1186,22 @@ int vehicle::part_collision (int vx, int vy, int part, int x, int y)
     monster *z = mondex >= 0? &g->z[mondex] : 0;
     player *ph = (npcind >= 0? &g->active_npc[npcind] : (u_here? &g->u : 0));
     vehicle *oveh = g->m.veh_at (x, y);
-    bool veh_collision = oveh && (oveh->posx != posx || oveh->posy != posy);
-    bool body_collision = (g->u.posx == x && g->u.posy == y && !g->u.in_vehicle) ||
+    bool is_veh_collision = oveh && (oveh->posx != posx || oveh->posy != posy);
+    bool is_body_collision = (g->u.posx == x && g->u.posy == y && !g->u.in_vehicle) ||
                            mondex >= 0 || npcind >= 0;
 
     // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
     // 3 - thin_obstacle, 4 - bashable, 5 - destructible, 6 - other
-    int collision_type = 0;
+    /*
+    veh_coll_nothing = 0,
+    veh_coll_body,
+    veh_coll_veh,
+    veh_coll_thin_obstacle, //3
+    veh_coll_bashable,
+    veh_coll_destructable,
+    veh_coll_other, //6
+    */
+    veh_coll_type collision_type = veh_coll_nothing;
     std::string obs_name = g->m.tername(x, y).c_str();
 
     int parm = part_with_feature (part, vpf_armor);
@@ -1202,17 +1211,17 @@ int vehicle::part_collision (int vx, int vy, int part, int x, int y)
     // let's calculate type of collision & mass of object we hit
     int mass = total_mass() / 8;
     int mass2;
-    if (veh_collision)
+    if (is_veh_collision)
     { // first, check if we collide with another vehicle (there shouldn't be impassable terrain below)
-        collision_type = 2; // vehicle
+        collision_type = veh_coll_veh;
         mass2 = oveh->total_mass() / 8;
-        body_collision = false;
+        is_body_collision = false;
         obs_name = oveh->name.c_str();
     }
     else
-    if (body_collision)
+    if (is_body_collision)
     { // then, check any monster/NPC/player on the way
-        collision_type = 1; // body
+        collision_type = veh_coll_body; // body
         if (z)
             switch (z->type->size)
             {
@@ -1239,38 +1248,40 @@ int vehicle::part_collision (int vx, int vy, int part, int x, int y)
     else // if all above fails, go for terrain which might obstruct moving
     if (g->m.has_flag_ter_only (thin_obstacle, x, y))
     {
-        collision_type = 3; // some fence
+        collision_type = veh_coll_thin_obstacle; // some fence
         mass2 = 20;
     }
     else
     if (g->m.has_flag_ter_only(bashable, x, y))
     {
-        collision_type = 4; // bashable (door, window)
+        collision_type = veh_coll_bashable; // (door, window)
         mass2 = 50;    // special case: instead of calculating absorb based on mass of obstacle later, we let
                        // map::bash function deside, how much absorb is
     }
     else
     if (g->m.move_cost_ter_only(x, y) == 0 && g->m.is_destructable_ter_only(x, y))
     {
-        collision_type = 5; // destructible (wall)
+        collision_type = veh_coll_destructable; // destructible (wall)
         mass2 = 200;
     }
     else
     if (g->m.move_cost_ter_only(x, y) == 0 && !g->m.has_flag_ter_only(swimmable, x, y))
     {
-        collision_type = 6; // not destructible
+        collision_type = veh_coll_other; // not destructible
         mass2 = 1000;
     }
-    if (!collision_type)  // hit nothing
-        return 0;
+    if (collision_type == veh_coll_nothing){  // hit nothing
+       veh_collision ret(veh_coll_nothing, 0);
+       return ret;
+    }
 
     int degree = rng (70, 100);
     int imp = abs(velocity) * mass / k_mvel / 100 ;
     int imp2 = imp * mass2 / (mass + mass2) * degree / 100;
     bool smashed = true;
     std::string snd;
-    if (collision_type == 4 || collision_type == 2) // something bashable -- use map::bash to determine outcome
-    {
+    if (collision_type == veh_coll_bashable || collision_type == veh_coll_veh) 
+    { // something bashable -- use map::bash to determine outcome
         int absorb = -1;
         g->m.bash(x, y, imp * dmg_mod / 100, snd, &absorb);
         if (absorb != -1)
@@ -1278,27 +1289,27 @@ int vehicle::part_collision (int vx, int vy, int part, int x, int y)
         smashed = imp * dmg_mod / 100 > absorb;
     }
     else
-    if (collision_type >= 3) // some other terrain
+    if (collision_type >= veh_coll_thin_obstacle) // some other terrain
     {
         smashed = imp * rng (80, 120) / 100 > mass2;
         if (smashed)
             switch (collision_type) // destroy obstacle
             {
-            case 3:
+            case veh_coll_thin_obstacle:
                 g->m.ter (x, y) = t_dirt;
                 break;
-            case 5:
+            case veh_coll_destructable:
                 g->m.destroy(g, x, y, false);
                 snd = "crash!";
                 break;
-            case 6:
+            case veh_coll_other:
                 smashed = false;
                 break;
             default:;
             }
         g->sound (x, y, smashed? 80 : 50, "");
     }
-    if (!body_collision)
+    if (!is_body_collision)
     {
         if (pl_ctrl)
         {
@@ -1320,7 +1331,7 @@ int vehicle::part_collision (int vx, int vy, int part, int x, int y)
 //     g->add_msg ("Col t=%s i=%d i1=%d i2=%d v=%d v1=%d v2=%d m1=%d m2=%d",
 //                 obs_name.c_str(), imp, imp1, imp2, abs(velocity), vel1, vel2, mass, mass2);
 //
-    if (collision_type == 1)
+    if (collision_type == veh_coll_body)
     {
         int dam = imp1 * dmg_mod / 100;
 //        g->add_msg("dam=%d imp=%d dm=%d", dam, imp, parts[part].dmg_mod);
@@ -1387,7 +1398,7 @@ int vehicle::part_collision (int vx, int vy, int part, int x, int y)
             g->sound (x, y, 20, "");
     }
 
-    if (!smashed || collision_type == 2) // vehicles shouldn't intersect
+    if (!smashed || collision_type == veh_coll_veh) // vehicles shouldn't intersect
     {
         cruise_on = false;
         stop();
@@ -1422,7 +1433,9 @@ int vehicle::part_collision (int vx, int vy, int part, int x, int y)
 
     }
     damage (parm, imp2, 1);
-    return imp2;
+
+    veh_collision ret(collision_type, imp2);
+    return ret;
 }
 
 void vehicle::handle_trap (int x, int y, int part)

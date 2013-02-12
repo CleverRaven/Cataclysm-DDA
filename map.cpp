@@ -501,23 +501,26 @@ bool map::vehproceed(game* g){
    veh->precalc_mounts(1, veh->skidding ? veh->turn_dir : mdir.dir());
 
    int imp = 0;
+
+   if (veh->velocity == 0)
+      can_move = false;
    // find collisions
-   for (int ep = 0; ep < veh->external_parts.size(); ep++) {
+   for (int ep = 0; ep < veh->external_parts.size() && can_move; ep++) {
       const int p = veh->external_parts[ep];
       // coords of where part will go due to movement (dx/dy)
       // and turning (precalc_dx/dy [1])
       const int dsx = x + dx + veh->parts[p].precalc_dx[1];
       const int dsy = y + dy + veh->parts[p].precalc_dy[1];
+      veh_collision coll = veh->part_collision (x, y, p, dsx, dsy);
+      //if(coll.type != veh_coll_nothing) //collision?
       if (can_move)
-         imp += veh->part_collision (x, y, p, dsx, dsy);
+         imp += coll.imp2;
       if (veh->velocity == 0)
          can_move = false;
-      if (!can_move)
-         break;
    }
 
    int coll_turn = 0;
-   if (imp > 0) {
+   if (imp > 0) { // imp == impedance?
       // debugmsg ("collision imp=%d dam=%d-%d", imp, imp/10, imp/6);
       if (imp > 100)
          veh->damage_all(imp / 20, imp / 10, 1);// shake veh because of collision
