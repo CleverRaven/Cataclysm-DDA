@@ -4329,6 +4329,7 @@ case ot_s_garage_north:
 	place_items(mi_livingroom, 50, 14, 12, 17, 15, false, 0);
 
 }
+break;
 //Oddzball-Cabin
  //Oddzball-Farm
  case ot_farm:
