@@ -878,7 +878,7 @@ Q: The game just told me to quit, and other weird stuff is happening.\n\
 A: You have the Schizophrenic trait, which might make the game seem buggy.\n\
 \n\
 Q: I have a question that's not addressed here.  How can I get an answer?\n\
-A: Email your question to fivedozenwhales@gmail.com.  I'll answer it for you,\n\
+A: Email your question to TheDarklingWolf@Gmail.com.  I'll answer it for you,\n\
    and possibly include it on this list.");
    getch();
    erase();
