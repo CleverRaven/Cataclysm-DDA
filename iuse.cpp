@@ -68,7 +68,7 @@ void iuse::royal_jelly(game *g, player *p, item *it, bool t)
   p->rem_disease(DI_ASTHMA);
  }
  if (p->has_disease(DI_COMMON_COLD) || p->has_disease(DI_FLU)) {
-  message = "You feel healther!";
+  message = "You feel healthier!";
   p->rem_disease(DI_COMMON_COLD);
   p->rem_disease(DI_FLU);
  }
