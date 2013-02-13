@@ -1067,8 +1067,11 @@ void vehicle::thrust (int thd)
         return;
     }
 
-    int sgn = velocity < 0? -1 : 1;
-    bool thrusting = sgn == thd;
+    bool thrusting = true;
+    if(velocity){ //brake?
+       int sgn = velocity < 0? -1 : 1;
+       bool thrusting = sgn == thd;
+    }
 
     if (thrusting)
     {
@@ -1121,6 +1124,8 @@ void vehicle::thrust (int thd)
     if (brk < 10 * 100)
         brk = 10 * 100;
     int vel_inc = (thrusting? accel : brk) * thd;
+    if(thd == -1) // nerf reverse accel.
+       vel_inc = .6 * vel_inc;
     if ((velocity > 0 && velocity + vel_inc < 0) ||
         (velocity < 0 && velocity + vel_inc > 0))
         stop ();
@@ -1176,7 +1181,8 @@ void vehicle::stop ()
  * returns: {
  *    veh_coll_type type,
  *    int imp,             // impedance?
- *    vehicle* other_vehicle, //planned
+ *    void* target, // veh
+ *    void* subtarget, // veh
  * }
   veh_coll_type: 
     veh_coll_nothing = 0,
@@ -1561,7 +1567,8 @@ void vehicle::remove_item (int part, int itemdex)
 
 void vehicle::gain_moves (int mp)
 {
-    of_turn = 1 + of_turn_carry;
+    if (velocity)
+        of_turn = 1 + of_turn_carry;
     of_turn_carry = 0;;
 
     // cruise control TODO: enable for NPC?

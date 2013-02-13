@@ -381,7 +381,7 @@ public:
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
     bool skidding;      // skidding mode
     int last_turn;      // amount of last turning (for calculate skidding due to handbrake)
-    int moves;
+    //int moves;
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
     int turret_mode;    // turret firing mode: 0 = off, 1 = burst fire

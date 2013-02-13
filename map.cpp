@@ -446,7 +446,7 @@ bool map::vehproceed(game* g){
       veh->velocity += slowdown;
    else
       veh->velocity -= slowdown;
-   if (abs(veh->velocity) < 100)
+   if (abs(veh->velocity) < 20) //low enough for bicycles to go in reverse.
       veh->stop();
 
    if(veh->velocity == 0) {
