@@ -436,16 +436,24 @@ bool map::vehproceed(game* g){
    if(!veh)
       return false;
 
-//   int i = vehs[v].i;
-  // int j = vehs[v].j;
    bool pl_ctrl = veh->player_in_control(&g->u);
+
+   // k slowdown first.
+   int slowdown = veh->skidding? 200 : 20; // mph lost per tile when coasting
+   float kslw = (0.1 + veh->k_dynamics()) / ((0.1) + veh->k_mass());
+   slowdown = (int) (slowdown * kslw);
+   if (veh->velocity < 0)
+      veh->velocity += slowdown;
+   else
+      veh->velocity -= slowdown;
+   if (abs(veh->velocity) < 100)
+      veh->stop();
 
    if(veh->velocity == 0) {
       veh->of_turn -= .321;
       return true;
    }
-   //   int x = veh->posx + i * SEEX;
-   //   int y = veh->posy + j * SEEY;
+
    if (has_flag(swimmable, x, y) &&
          move_cost_ter_only(x, y) == 0) { // deep water
       if (pl_ctrl)
@@ -459,9 +467,16 @@ bool map::vehproceed(game* g){
    //  terrain cost is 1000 on roads.
    // This is stupid btw, it makes veh magically seem 
    //  to accelerate when exiting rubble areas.
-   const int mpcost = 500 * move_cost_ter_only (x,y);
-   //veh->moves -= mpcost;
-   veh->of_turn -= (float)mpcost / abs(veh->velocity);
+   float ter_turn_cost = 500.0 * move_cost_ter_only (x,y) / abs(veh->velocity);
+
+   //can't afford it this turn?
+   if(ter_turn_cost >= veh->of_turn){
+      veh->of_turn_carry = veh->of_turn;
+      veh->of_turn = 0;
+      return true;
+   }
+      
+   veh->of_turn -= ter_turn_cost;
 
    // if not enough wheels, mess up the ground a bit.
    if (!veh->valid_wheel_config()) { 
@@ -602,15 +617,6 @@ bool map::vehproceed(game* g){
       if (veh->last_turn < last_turn_dec)
          veh->last_turn = 0;
    }
-   int slowdown = veh->skidding? 200 : 20; // mph lost per tile when coasting
-   float kslw = (0.1 + veh->k_dynamics()) / ((0.1) + veh->k_mass());
-   slowdown = (int) (slowdown * kslw);
-   if (veh->velocity < 0)
-      veh->velocity += slowdown;
-   else
-      veh->velocity -= slowdown;
-   if (abs(veh->velocity) < 100)
-      veh->stop();
 
    if (pl_ctrl && veh->velocity) {
       // a bit of delay for animation
