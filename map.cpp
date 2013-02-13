@@ -1197,7 +1197,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   if (str >= result) {
    sound += "crak";
    ter(x, y) = t_dirt;
-   add_item(x, y, (*itypes)[itm_spear_wood], 0, 2);
+   add_item(x, y, (*itypes)[itm_spear_wood], 0, 1);
    return true;
   } else {
    sound += "whump.";

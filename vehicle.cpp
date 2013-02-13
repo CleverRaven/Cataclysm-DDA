@@ -41,7 +41,7 @@ vehicle::vehicle(game *ag, vhtype_id type_id): g(ag), type(type_id)
         if (type < g->vtypes.size())
         {
             *this = *(g->vtypes[type]);
-            init_state();
+            init_state(ag);
         }
     }
     precalc_mounts(0, face.dir());
@@ -167,16 +167,38 @@ void vehicle::save (std::ofstream &stout)
     }
 }
 
-void vehicle::init_state()
-{
+void vehicle::init_state(game* g)
+{   
+    int consistent_bignesses[num_vparts]; 
+    memset (consistent_bignesses, 0, sizeof(consistent_bignesses));
     for (int p = 0; p < parts.size(); p++)
     {
+        if (part_flag(p, vpf_variable_size)){ // generate its bigness attribute.?
+            if(!consistent_bignesses[parts[p].id]){
+                //generate an item for this type, & cache its bigness
+                item tmp (g->itypes[part_info(p).item], 0);
+                consistent_bignesses[parts[p].id] = tmp.bigness;
+            }
+            parts[p].bigness = consistent_bignesses[parts[p].id];
+        }
         if (part_flag(p, vpf_fuel_tank))   // 10% to 75% fuel for tank
             parts[p].amount = rng (part_info(p).size / 10, part_info(p).size * 3 / 4);
         if (part_flag(p, vpf_openable))    // doors are closed
             parts[p].open = 0;
         if (part_flag(p, vpf_seat))        // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
+        //a bit of initial damage :)
+        //clamp 4d8 to the range of [8,20]. 8=broken, 20=undamaged. 
+        int broken = 8, unhurt = 20;
+        int roll = dice(4,8);
+        if(roll < unhurt){
+           if (roll <= broken)
+              parts[p].hp= 0;
+           else
+              parts[p].hp= ((float)(roll-broken) / (unhurt-broken)) * part_info(p).durability;
+        }
+        else // new.
+           parts[p].hp= part_info(p).durability;
     }
 }
 
@@ -387,27 +409,41 @@ int vehicle::install_part (int dx, int dy, vpart_id id, int hp, bool force)
     item tmp(g->itypes[vpart_list[id].item], 0);
     new_part.bigness = tmp.bigness;
     parts.push_back (new_part);
+
     find_exhaust ();
     precalc_mounts (0, face.dir());
     insides_dirty = true;
     return parts.size() - 1;
 }
 
-// item damage is 0,1,2,3, or 4. part hp is 1..durability.
-// assuming it rusts. other item materials disentigrate at different rates...
-void vehicle::get_part_hp_from_item(int partnum, item& i){
+// share damage & bigness betwixt veh_parts & items.
+void vehicle::get_part_properties_from_item(game* g, int partnum, item& i){
+    //transfer bigness if relevant.
+    itype_id  pitmid = part_info(partnum).item;
+    itype* itemtype = g->itypes[pitmid];
+    if(itemtype->is_var_veh_part())
+       parts[partnum].bigness = i.bigness;
+
+    // item damage is 0,1,2,3, or 4. part hp is 1..durability.
+    // assuming it rusts. other item materials disentigrate at different rates...
     int health = 5 - i.damage;
     health *= part_info(partnum).durability; //[0,dur]
     health /= 5;
     parts[partnum].hp = health;
 }
-// translate part damage to item damage.
-// max damage is 4, min damage 0.
-// this is very lossy.
-void vehicle::give_part_hp_to_item(int partnum, item& i){
+void vehicle::give_part_properties_to_item(game* g, int partnum, item& i){
+    //transfer bigness if relevant.
+    itype_id  pitmid = part_info(partnum).item;
+    itype* itemtype = g->itypes[pitmid];
+    if(itemtype->is_var_veh_part())
+       i.bigness = parts[partnum].bigness;
+
+    // translate part damage to item damage.
+    // max damage is 4, min damage 0.
+    // this is very lossy.
     int dam;
     float hpofdur = (float)parts[partnum].hp / part_info(partnum).durability;
-    dam = (hpofdur * 5);
+    dam = (1 - hpofdur) * 5;
     if (dam > 4) dam = 4;
     if (dam < 0) dam = 0;
     i.damage = dam;

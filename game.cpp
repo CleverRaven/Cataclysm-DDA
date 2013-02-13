@@ -10,6 +10,13 @@
 #include "options.h"
 #include "mapbuffer.h"
 #include "debug.h"
+#include "bodypart.h"
+#include "map.h"
+#include "weather.h"
+
+#include <map>
+#include <algorithm>
+#include <string>
 
 #include <fstream>
 #include <sstream>
@@ -155,8 +162,9 @@ bool game::opening_screen()
  erase();
  for (int i = 0; i < 80; i++)
   mvwputch(w_open, 21, i, c_white, LINE_OXOX);
-   mvwprintz(w_open, 0, 0, c_blue, "Cataclysm Classic Zombie"); //Oddzball
-   mvwprintz(w_open, 1, 0, c_red, "Build4"); //Oddzball
+   mvwprintz(w_open, 0, 0, c_blue, "Welcome to Cataclysm: Dark Days Ahead!");
+   mvwprintz(w_open, 1, 0, c_red, "\
+Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
  refresh();
  wrefresh(w_open);
  refresh();
@@ -692,10 +700,113 @@ bool game::do_turn()
   refresh();
  }
 
+ if (turn % 10 == 0) update_bodytemp();
+
  rustCheck();
  if (turn % 10 == 0)
   u.update_morale();
  return false;
+}
+
+void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet) can affect body temp.
+{
+ // NOTE : Bodytemp is measured on a scale of 0u to 1000u, where 1u = 0.02C and 500u is 37C
+ // Converts temperature to Celsius/10!(Wito plans on using degrees Kelvin later)
+ int Ctemperature = 10*(temperature - 32) * 5/9;
+ // Temperature norms
+ const int ambient_norm = 220;
+ // Creative thinking for clean morale penalties
+ int morale_pen = 0; 
+ // This adjusts the temperature scale to match the bodytemp scale
+ int adjusted_temp = 1.7*(Ctemperature - ambient_norm); 
+ // Fetch the morale value of wetness for bodywetness 
+ int bodywetness = 0;
+ for (int i = 0; bodywetness == 0 && i < u.morale.size(); i++)
+  if( u.morale[i].type == MORALE_WET ) {
+   bodywetness = u.morale[i].bonus;
+   break;
+  }
+ // Current temperature and converging temperature calculations
+ for (int i = 0 ; i < num_bp ; i++){
+  if (i == bp_eyes) continue; // Skip eyes
+  // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
+  float homeostasis_adjustement = (u.temp_cur[i] > BODYTEMP_NORM ? 1.0 : 8.0); 
+  int clothing_warmth_adjustement = homeostasis_adjustement * (float)u.warmth(body_part(i)) * (1.0 + (float)bodywetness / 100.0);
+  // Disease name shorthand
+  int blister_pen = dis_type(DI_BLISTERS) + 1 + i, hot_pen  = dis_type(DI_HOT) + 1 + i;
+  int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;  
+  signed int temp_conv = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement; // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness. 20C is normal
+  // Fatigue also affects convergeant temperature
+  if (!u.has_disease(DI_SLEEP)) temp_conv -= u.fatigue/6;
+  else {
+   int vpart = -1;
+   vehicle *veh = m.veh_at (u.posx, u.posy, vpart);
+   if      (m.ter(u.posx, u.posy) == t_bed) 		              temp_conv += 100;
+   else if (m.ter(u.posx, u.posy) == t_makeshift_bed)             temp_conv +=  50;
+   else if (m.tr_at(u.posx, u.posy) == tr_cot)                    temp_conv -=  50;
+   else if (m.tr_at(u.posx, u.posy) == tr_rollmat)                temp_conv -= 100;
+   else if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0) temp_conv +=  30;
+   else	temp_conv -= 200;
+  }
+  // Fire : generates body heat, helps fight frostbite TODO : add lava checks. TODO : cleanup like I did with temp_conv calculation
+  int blister_count = 0; // If the counter is high, your skin starts to burn
+  for (int j = -6 ; j <= 6 ; j++){
+   for (int k = -6 ; k <= 6 ; k++){
+    if (m.field_at(u.posx + j, u.posy + k).type == fd_fire) {
+	 // Ensure fire_dist >=1 to avoid divide-by-zero errors.
+     int fire_dist = std::max(1, std::max(j, k));;
+	 int fire_density = m.field_at(u.posx + j, u.posy + k).density;
+	 if (u.frostbite_timer[i] > 0) u.frostbite_timer[i] -= fire_density - fire_dist/2;
+	 temp_conv += 300*fire_density/(fire_dist*fire_dist); // How do I square things
+	 blister_count += fire_density/(fire_dist*fire_dist);
+    }
+   }
+  }
+  // Skin gets blisters from intense heat exposure. TODO : add penalties in disease.cpp
+  if (blister_count - u.resist(body_part(i)) > 20) u.add_disease(dis_type(blister_pen), 1, this, i, num_bp);
+  // Increments current body temperature towards convergant
+  int temp_difference = u.temp_cur[i] - temp_conv;
+  int temp_before = u.temp_cur[i];
+  if (u.temp_cur[i] != temp_conv) u.temp_cur[i] = temp_difference*exp(-0.1) + temp_conv;
+  int temp_after = u.temp_cur[i];
+  // Penalties
+  if      (u.temp_cur[i] < BODYTEMP_FREEZING)  {u.add_disease(dis_type(cold_pen), 10, this, 3, 3); u.frostbite_timer[i] += 3;}
+  else if (u.temp_cur[i] < BODYTEMP_VERY_COLD) {u.add_disease(dis_type(cold_pen), 10, this, 2, 3); u.frostbite_timer[i] += 2;}
+  else if (u.temp_cur[i] < BODYTEMP_COLD)      {u.add_disease(dis_type(cold_pen), 10, this, 1, 3); u.frostbite_timer[i] += 1;} // Frostbite timer does not go down if you are still cold.
+  else if (u.temp_cur[i] > BODYTEMP_SCORCHING) {u.add_disease(dis_type(hot_pen),  10, this, 3, 3); } // If body temp rises over 1500, disease.cpp (DI_HOT_HEAD) acts weird and the player will die
+  else if (u.temp_cur[i] > BODYTEMP_VERY_HOT)  {u.add_disease(dis_type(hot_pen),  10, this, 2, 3); }
+  else if (u.temp_cur[i] > BODYTEMP_HOT)       {u.add_disease(dis_type(hot_pen),  10, this, 1, 3); }
+  // Morale penalties : a negative morale_pen means the player is cold
+  if (u.has_disease(dis_type(cold_pen)) || u.has_disease(dis_type(hot_pen))) {
+   switch (i) {
+    case bp_head :
+    case bp_torso :
+    case bp_mouth : morale_pen += 2*(-u.disease_intensity(dis_type(cold_pen)) + u.disease_intensity(dis_type(hot_pen)));
+    case bp_arms :
+    case bp_legs : morale_pen += 1*(-u.disease_intensity(dis_type(cold_pen)) + u.disease_intensity(dis_type(hot_pen)));
+    case bp_hands:
+    case bp_feet : morale_pen += 1*(-u.disease_intensity(dis_type(cold_pen)) + u.disease_intensity(dis_type(hot_pen)));
+   }
+  }
+  // Frostbite
+  if (u.frostbite_timer[i] > 0)  u.frostbite_timer[i]--;
+  if (u.frostbite_timer[i] > 11) u.add_disease(dis_type(frost_pen), 1, this);
+  // Warn the player if condition worsens
+  if      (temp_before > BODYTEMP_FREEZING && temp_after < BODYTEMP_FREEZING) add_msg("You feel your %s beginning to go numb from the cold!", body_part_name(body_part(i), -1).c_str());
+  else if (temp_before > BODYTEMP_VERY_COLD && temp_after < BODYTEMP_VERY_COLD) add_msg("You feel your %s getting very cold.", body_part_name(body_part(i), -1).c_str());
+  else if (temp_before > BODYTEMP_COLD && temp_after < BODYTEMP_COLD) add_msg("You feel your %s getting cold.", body_part_name(body_part(i), -1).c_str());
+  else if (temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING) add_msg("You feel your %s getting red hot from the heat!", body_part_name(body_part(i), -1).c_str());
+  else if (temp_before < BODYTEMP_VERY_HOT && temp_after > BODYTEMP_VERY_HOT) add_msg("You feel your %s getting very hot.", body_part_name(body_part(i), -1).c_str());
+  else if (temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT) add_msg("You feel your %s getting hot.", body_part_name(body_part(i), -1).c_str()); 
+ } 
+ // Morale penalties TODO only updates every 10 ticks
+ if (morale_pen < 0) u.add_morale(MORALE_COLD, -1*abs(morale_pen), -10*abs(morale_pen));
+ if (morale_pen > 0) u.add_morale(MORALE_HOT,  -1*abs(morale_pen), -10*abs(morale_pen));
+ // Bodytemp equalization code
+ u.temp_equalizer(bp_torso, bp_arms); u.temp_equalizer(bp_torso, bp_legs); u.temp_equalizer(bp_torso, bp_head);
+ u.temp_equalizer(bp_head, bp_eyes); u.temp_equalizer(bp_head, bp_mouth);
+ u.temp_equalizer(bp_arms, bp_hands);
+ u.temp_equalizer(bp_legs, bp_feet);
 }
 
 void game::rustCheck() {
@@ -1389,6 +1500,10 @@ input_ret game::get_input(int timeout_ms)
 
   case ACTION_PEEK:
    peek();
+   break;
+
+  case ACTION_LIST_ITEMS:
+   list_items();
    break;
 
   case ACTION_INVENTORY: {
@@ -2628,7 +2743,7 @@ void game::draw_ter(int posx, int posy)
   }
  }
  wrefresh(w_terrain);
- if (u.has_disease(DI_VISUALS))
+ if (u.has_disease(DI_VISUALS) || (u.has_disease(DI_HOT_HEAD) && u.disease_intensity(DI_HOT_HEAD) != 1))
   hallucinate();
 }
 
@@ -2871,7 +2986,7 @@ unsigned char game::light_level()
   ret = 8;
  if (ret < 8 && event_queued(EVENT_ARTIFACT_LIGHT))
   ret = 8;
- if (ret < 6 && u.has_amount(itm_torch_lit, 1))
+ if (ret < 6 && u.has_amount(itm_torch_lit, 1) || ret < 6 && u.has_amount(itm_pda_flashlight, 1))
   ret = 6;
  if (ret < 4 && u.has_artifact_with(AEP_GLOW))
   ret = 4;
@@ -5180,6 +5295,108 @@ point game::look_around()
  if (ch == '\n')
   return point(lx, ly);
  return point(-1, -1);
+}
+
+void game::list_items()
+{
+ WINDOW* w_items = newwin(15, 55, 0, 25);
+ WINDOW* w_item_info = newwin(10, 55, 15, 25);
+
+ wborder(w_items, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+ std::vector <item> here;
+ std::vector <item> grounditems;
+ std::vector <int> itemposx;
+ std::vector <int> itemposy;
+
+ //Area to search +- of players position
+ int iSearchX = 12;
+ int iSearchY = 12;
+
+ int iTile;
+ for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
+  for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
+   if (u_see(u.posx + iCol, u.posy + iRow, iTile)) {
+    here.clear();
+    here = m.i_at(u.posx + iCol, u.posy + iRow);
+    for (int i = 0; i < here.size(); i++) {
+     grounditems.push_back(here[i]);
+     itemposx.push_back(iCol);
+     itemposy.push_back(iRow);
+    }
+   }
+  }
+ }
+
+ int iActive = 0;
+ int iMaxRows = 13;
+ int iStartPos = 0;
+ int iItemNum = grounditems.size();
+ long ch = '.';
+
+ do {
+  if (iItemNum > 0) {
+   switch(ch) {
+    case KEY_UP:
+     iActive--;
+     if (iActive < 0)
+      iActive = 0;
+     break;
+    case KEY_DOWN:
+     iActive++;
+     if (iActive >= iItemNum)
+      iActive = iItemNum-1;
+     break;
+   }
+
+   if (iItemNum > iMaxRows) {
+    iStartPos = iActive - (iMaxRows - 1) / 2;
+
+    if (iStartPos < 0)
+     iStartPos = 0;
+    else if (iStartPos + iMaxRows > iItemNum)
+     iStartPos = iItemNum - iMaxRows;
+   }
+
+   for (int i = 0; i < iMaxRows; i++)
+    mvwprintz(w_items, 1 + i , 1, c_black, "%s", "                                                     ");
+
+   for (int i = iStartPos; i < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows); i++)
+    mvwprintz(w_items, 1 + i - iStartPos, 2, ((i == iActive) ? c_ltgreen : c_white), "%s", grounditems[i].tname(this).c_str());
+
+   wclear(w_item_info);
+   mvwprintz(w_item_info, 0, 2, c_white, "%s", grounditems[iActive].info().c_str());
+   wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                        LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+   draw_ter();
+   std::vector<point> trajectory = line_to(u.posx, u.posy, u.posx + itemposx[iActive], u.posy + itemposy[iActive], 0);
+   int junk;
+   for (int i = 0; i < trajectory.size(); i++) {
+    if (i > 0)
+     m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, true, true);
+
+    if (u_see(trajectory[i].x, trajectory[i].y, junk)) {
+     char bullet = '*';
+     mvwputch(w_terrain, trajectory[i].y + SEEY - u.posy,
+                         trajectory[i].x + SEEX - u.posx, c_red, bullet);
+    }
+   }
+
+   wrefresh(w_terrain);
+  } else {
+   mvwprintz(w_items, 8, 6, c_ltred, "%s", "No Items around!");
+  }
+
+  wrefresh(w_items);
+  wrefresh(w_item_info);
+  ch = getch();
+ } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
+ werase(w_items);
+ delwin(w_items);
+ erase();
+ refresh_all();
 }
 
 // Pick up items at (posx, posy).

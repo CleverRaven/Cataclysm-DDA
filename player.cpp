@@ -82,6 +82,10 @@ player::player()
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
    skillLevel(*aSkill).level(0);
  }
+
+ for (int i = 0; i < num_bp; i++) {
+  temp_cur[i] = 500; ; frostbite_timer[i] = 0;
+}
 }
 
 player::player(const player &rhs)
@@ -163,6 +167,12 @@ player& player::operator= (const player & rhs)
 
  for (int i = 0; i < num_hp_parts; i++)
   hp_max[i] = rhs.hp_max[i];
+
+ for (int i = 0; i < num_bp; i++)
+  temp_cur[i] = rhs.temp_cur[i];
+
+ for (int i = 0; i < num_bp; i++)
+  frostbite_timer[i] = rhs.frostbite_timer[i];
 
  morale = rhs.morale;
  xp_pool = rhs.xp_pool;
@@ -338,6 +348,26 @@ void player::update_morale()
    morale.erase(morale.begin() + i);
    i--;
   }
+ }
+}
+
+
+void player::temp_equalizer(body_part bp1, body_part bp2)
+{
+ int temp_diff = temp_cur[bp1] - temp_cur[bp2];  // Positive if bp1 is warmer
+ switch (bp1){
+  case bp_torso:
+   temp_cur[bp1] -= temp_diff*0.05/3;
+   temp_cur[bp2] += temp_diff*0.05;
+  case bp_head:
+   temp_cur[bp1] -= temp_diff*0.05/2;
+   temp_cur[bp2] += temp_diff*0.05;
+  case bp_arms:
+   temp_cur[bp1] -= temp_diff*0.05;
+   temp_cur[bp2] += temp_diff*0.05;
+  case bp_legs:
+   temp_cur[bp1] -= temp_diff*0.05;
+   temp_cur[bp2] += temp_diff*0.05;
  }
 }
 
@@ -532,6 +562,8 @@ void player::load_info(game *g, std::string data)
 
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
+ for (int i = 0; i < num_bp; i++)
+  dump >> temp_cur[i] >> frostbite_timer[i];
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    dump >> skillLevel(*aSkill);
@@ -617,8 +649,8 @@ std::string player::save_info()
          (in_vehicle? 1 : 0) << " " << scent << " " << moves << " " <<
          underwater << " " << dodges_left << " " << blocks_left << " " <<
          oxygen << " " << active_mission << " " << xp_pool << " " << male <<
-         " " << health << " " << style_selected << " " <<
-         activity.save_info() << " " << backlog.save_info() << " ";
+         " " << health << " " << style_selected << " " << activity.save_info() <<
+		 " " << backlog.save_info() << " ";
 
  for (int i = 0; i < PF_MAX2; i++)
   dump << my_traits[i] << " ";
@@ -628,6 +660,8 @@ std::string player::save_info()
   dump << mutation_category_level[i] << " ";
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
+ for (int i = 0; i < num_bp; i++)
+  dump << temp_cur[i] << " " << frostbite_timer[i] << " ";
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    SkillLevel level = skillLevel(*aSkill);
@@ -3854,7 +3888,7 @@ bool player::eat(game *g, int index)
    }
   }
   bool overeating = (!has_trait(PF_GOURMAND) && hunger < 0 &&
-                     comest->nutr >= 15);
+                     comest->nutr >= 5);
   bool spoiled = eaten->rotten(g);
 
   last_item = itype_id(eaten->type->id);

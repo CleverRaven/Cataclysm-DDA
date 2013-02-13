@@ -212,6 +212,7 @@ butcher B\n\
 chat C\n\
 look ; x\n\
 peek X\n\
+listitems V\n\
 \n\
 # INVENTORY & QUASI-INVENTORY INTERACTION\n\
 inventory i\n\

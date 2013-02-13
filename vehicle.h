@@ -46,9 +46,10 @@ struct vehicle_part
     {
         int amount;         // amount of fuel for tank
         int open;           // door is open
-        int passenger_id;      // seat has passenger
+        int passenger_id;   // seat has passenger
     };
     std::vector<item> items;// inventory
+    
 };
 
 // Facts you need to know about implementation:
@@ -128,7 +129,7 @@ public:
     bool player_in_control (player *p);
 
 // init parts state for randomly generated vehicle
-    void init_state();
+    void init_state(game* g);
 
 // load and init vehicle data from stream. This implies valid save data!
     void load (std::ifstream &stin);
@@ -157,9 +158,9 @@ public:
     void remove_part (int p);
 
 // translate item health to part health
-    void get_part_hp_from_item (int partnum, item& i);
+    void get_part_properties_from_item (game* g, int partnum, item& i);
 // translate part health to item health (very lossy.)
-    void give_part_hp_to_item (int partnum, item& i);
+    void give_part_properties_to_item (game* g, int partnum, item& i);
 
 // returns the list of indeces of parts at certain position (not accounting frame direction)
     std::vector<int> parts_at_relative (int dx, int dy);

@@ -475,10 +475,7 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
     
 // Cities, forests, and settlements come next.
 // These're agnostic of adjacent maps, so it's very simple.
- int mincit = 0;
- if (north == NULL && east == NULL && west == NULL && south == NULL)
-  mincit = 1;	// The first map MUST have a city, for the player to start in!
- place_cities(cities, mincit);
+ place_cities();
  place_forest();
 
 // Ideally we should have at least two exit points for roads, on different sides
@@ -1348,31 +1345,21 @@ void overmap::place_river(point pa, point pb)
  } while (pb.x != x || pb.y != y);
 }
 
-/*: the root is overmap::place_cities()
-20:50	<kevingranade>: which is at overmap.cpp:1355 or so
-20:51	<kevingranade>: the key is cs = rng(4, 17), setting the "size" of the city
-20:51	<kevingranade>: which is roughly it's radius in overmap tiles
-20:52	<kevingranade>: then later overmap::place_mongroups() is called
-20:52	<kevingranade>: which creates a mongroup with radius city_size * 2.5 and population city_size * 80
-20:53	<kevingranade>: tadaa 
-
-spawns happen at... <cue Clue music>
-20:56	<kevingranade>: game:pawn_mon() in game.cpp:7380*/
-void overmap::place_cities(std::vector<city> &cities, int min) //Oddzball-Population control? 
+void overmap::place_cities()
 {
- int NUM_CITIES = rng(5, 7) /*+ rng(min, min + 4)*/;
+ int NUM_CITIES = dice(3, 4);
  int cx, cy, cs;
  int start_dir;
 
- for (int i = 0; i < NUM_CITIES; i++) {
+ while (cities.size() < NUM_CITIES) {
   cx = rng(12, OMAPX - 12);
   cy = rng(12, OMAPY - 12);
-  cs = rng(6, 9);
+  cs = dice(3, 4) ;
   if (ter(cx, cy) == ot_field) {
    ter(cx, cy) = ot_road_nesw;
    city tmp; tmp.x = cx; tmp.y = cy; tmp.s = cs;
    cities.push_back(tmp);
-   start_dir = rng(0, 3); //Oddzball-Was 5-10 worked nice...
+   start_dir = rng(0, 3);
    for (int j = 0; j < 4; j++)
     make_road(cx, cy, cs, (start_dir + j) % 4, tmp);
   }
@@ -1752,13 +1739,13 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, oter_id base)
       if (x2 > x)
        xdir = 1;
       tmp = x;
-      while (tmp < OMAPX && is_river(ter(tmp, y))) {
+      while (tmp >= 0 && tmp < OMAPX && is_river(ter(tmp, y))) {
        if (is_road(base, tmp, y))
         bridge_is_okay = false;	// Collides with another bridge!
        tmp += xdir;
       }
       if (bridge_is_okay) {
-       while(y < OMAPX && is_river(ter(x, y))) {
+       while(tmp >= 0 && x < OMAPX && is_river(ter(x, y))) {
         ter(x, y) = ot_bridge_ew;
         x += xdir;
        }
@@ -1773,13 +1760,13 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, oter_id base)
       if (y2 > y)
        ydir = 1;
       tmp = y;
-      while (tmp < OMAPY && is_river(ter(x, tmp))) {
+      while (tmp >= 0 && tmp < OMAPY && is_river(ter(x, tmp))) {
        if (is_road(base, x, tmp))
         bridge_is_okay = false;	// Collides with another bridge!
        tmp += ydir;
       }
       if (bridge_is_okay) {
-       while (y < OMAPY && is_river(ter(x, y))) {
+       while (tmp >= 0 && y < OMAPY && is_river(ter(x, y))) {
         ter(x, y) = ot_bridge_ns;
         y += ydir;
        }
