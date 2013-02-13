@@ -1201,13 +1201,27 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
     bool u_here = x == g->u.posx && y == g->u.posy && !g->u.in_vehicle;
     monster *z = mondex >= 0? &g->z[mondex] : 0;
     player *ph = (npcind >= 0? &g->active_npc[npcind] : (u_here? &g->u : 0));
-    vehicle *oveh = g->m.veh_at (x, y);
+    int target_part = -1;
+    vehicle *oveh = g->m.veh_at (x, y, target_part);
     bool is_veh_collision = oveh && (oveh->posx != posx || oveh->posy != posy);
     bool is_body_collision = (g->u.posx == x && g->u.posy == y && !g->u.in_vehicle) ||
                            mondex >= 0 || npcind >= 0;
 
     veh_coll_type collision_type = veh_coll_nothing;
     std::string obs_name = g->m.tername(x, y).c_str();
+
+    // vehicle collisions are a special case. just return the collision.
+    // the map takes care of the dynamic stuff.
+    if (is_veh_collision){
+       veh_collision ret;
+       ret.type = veh_coll_veh;
+       //"imp" is too simplistic for veh-veh collisions
+       ret.part = part;
+       ret.target = oveh;
+       ret.target_part = target_part;
+       ret.target_name = oveh->name.c_str();
+       return ret;
+    }
 
     int parm = part_with_feature (part, vpf_armor);
     if (parm < 0)
@@ -1216,7 +1230,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
     // let's calculate type of collision & mass of object we hit
     int mass = total_mass() / 8;
     int mass2;
-    if (is_veh_collision)
+    if (0 && is_veh_collision)
     { // first, check if we collide with another vehicle (there shouldn't be impassable terrain below)
         collision_type = veh_coll_veh;
         mass2 = oveh->total_mass() / 8;
@@ -1276,7 +1290,8 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
         mass2 = 1000;
     }
     if (collision_type == veh_coll_nothing){  // hit nothing
-       veh_collision ret(veh_coll_nothing, 0);
+       veh_collision ret;
+       ret.type = veh_coll_nothing;
        return ret;
     }
 
@@ -1285,7 +1300,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
     int imp2 = imp * mass2 / (mass + mass2) * degree / 100;
     bool smashed = true;
     std::string snd;
-    if (collision_type == veh_coll_bashable || collision_type == veh_coll_veh) 
+    if (collision_type == veh_coll_bashable)
     { // something bashable -- use map::bash to determine outcome
         int absorb = -1;
         g->m.bash(x, y, imp * dmg_mod / 100, snd, &absorb);
@@ -1403,7 +1418,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
             g->sound (x, y, 20, "");
     }
 
-    if (!smashed || collision_type == veh_coll_veh) // vehicles shouldn't intersect
+    if (!smashed) // tree, wall, or bear sometimes wins
     {
         cruise_on = false;
         stop();
@@ -1439,7 +1454,9 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
     }
     damage (parm, imp2, 1);
 
-    veh_collision ret(collision_type, imp2);
+    veh_collision ret;
+    ret.type = collision_type;
+    ret.imp = imp2;
     return ret;
 }
 

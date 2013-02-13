@@ -489,7 +489,7 @@ bool map::vehproceed(game* g){
          if (pter == t_dirt || pter == t_grass)
             pter = t_dirtmound;
       }
-   } // !veh->valid_wheel_config()
+   }
 
    if (veh->skidding && one_in(4)) // might turn uncontrollably while skidding
       veh->move.init (veh->move.dir() +
@@ -517,6 +517,8 @@ bool map::vehproceed(game* g){
 
    int imp = 0;
 
+   std::vector<veh_collision> veh_veh_colls;
+
    if (veh->velocity == 0)
       can_move = false;
    // find collisions
@@ -527,11 +529,27 @@ bool map::vehproceed(game* g){
       const int dsx = x + dx + veh->parts[p].precalc_dx[1];
       const int dsy = y + dy + veh->parts[p].precalc_dy[1];
       veh_collision coll = veh->part_collision (x, y, p, dsx, dsy);
-      //if(coll.type != veh_coll_nothing) //collision?
-      if (can_move)
-         imp += coll.imp2;
-      if (veh->velocity == 0)
-         can_move = false;
+      if(coll.type == veh_coll_veh)
+         veh_veh_colls.push_back(coll);
+      else if (coll.type != veh_coll_nothing){ //run over someone?
+         if (can_move)
+            imp += coll.imp;
+         if (veh->velocity == 0)
+            can_move = false;
+      }
+   }
+
+   if(veh_veh_colls.size()){ // we have dynamic crap!
+      // effects of colliding with another vehicle:
+      // collision targets are pushed, this car loses time without moving,
+      // the other veh gains time, parts are damaged/broken on both sides.,
+      veh_collision c = veh_veh_colls[0];
+      vehicle* v2 = (vehicle*) c.target;
+      v2->velocity += veh->velocity * .35;
+      veh->velocity -= veh->velocity * .45;
+      v2->of_turn += .121;
+      veh->of_turn -= .221;
+      return true;
    }
 
    int coll_turn = 0;
@@ -550,11 +568,8 @@ bool map::vehproceed(game* g){
          const int throw_roll = rng (vel2/100, vel2/100 * 2);
          const int psblt = veh->part_with_feature (ppl[ps], vpf_seatbelt);
          const int sb_bonus = psblt >= 0? veh->part_info(psblt).bonus : 0;
-         bool throw_it = throw_roll > (psg->str_cur + sb_bonus) * 3;
-         /*
-            debugmsg ("throw vel2=%d roll=%d bonus=%d", vel2, throw_roll,
-            (psg->str_cur + sb_bonus) * 3);
-            */
+         bool throw_from_seat = throw_roll > (psg->str_cur + sb_bonus) * 3;
+
          std::string psgname, psgverb;
          if (psg == &g->u) {
             psgname = "You";
@@ -563,7 +578,7 @@ bool map::vehproceed(game* g){
             psgname = psg->name;
             psgverb = "was";
          }
-         if (throw_it) {
+         if (throw_from_seat) {
             if (psgname.length())
                g->add_msg("%s %s hurled from the %s's seat by the power of impact!",
                      psgname.c_str(), psgverb.c_str(), veh->name.c_str());

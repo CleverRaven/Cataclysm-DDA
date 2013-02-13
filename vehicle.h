@@ -32,14 +32,16 @@ enum veh_coll_type {
 };
 
 struct veh_collision {
+ //int veh?
+ int part;
  veh_coll_type type;
- int imp2;
+ int imp; //impedance? resistance? what unit?
 
  void* target;  //vehicle
- void* subtarget; //veh part
+ int target_part; //veh partnum
+ std::string target_name;
 
- veh_collision(veh_coll_type t, int i) : 
-   imp2(i), type(t) {}
+ veh_collision(){};
 };
  
 
