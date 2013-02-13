@@ -2369,7 +2369,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
   }
  }
 // If there's items here, draw those instead
- if (show_items && i_at(x, y).size() > 0 && !drew_field) {
+ if (show_items && !has_flag(container, x, y) && i_at(x, y).size() > 0 && !drew_field) {
   if ((terlist[ter(x, y)].sym != '.'))
    hi = true;
   else {
