@@ -460,7 +460,7 @@ bool map::vehproceed(game* g){
    // This is stupid btw, it makes veh magically seem 
    //  to accelerate when exiting rubble areas.
    const int mpcost = 500 * move_cost_ter_only (x,y);
-   veh->moves -= mpcost;
+   //veh->moves -= mpcost;
    veh->of_turn -= (float)mpcost / abs(veh->velocity);
 
    // if not enough wheels, mess up the ground a bit.
