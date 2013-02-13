@@ -468,7 +468,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"stairs down",      '>', c_yellow,  2, tr_null,
         mfb(transparent)|mfb(goes_down)|mfb(place_item)},
 {"stairs up",        '<', c_yellow,  2, tr_null,
-        mfb(transparent)|mfb(goes_up)||mfb(place_item)},
+        mfb(transparent)|mfb(goes_up)|mfb(place_item)},
 {"manhole",          '>', c_dkgray,  2, tr_null,
         mfb(transparent)|mfb(goes_down)|mfb(place_item)},
 {"ladder",           '<', c_dkgray,  2, tr_null,
