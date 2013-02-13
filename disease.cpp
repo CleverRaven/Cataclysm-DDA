@@ -2,6 +2,7 @@
 #include "game.h"
 #include "bodypart.h"
 #include "disease.h"
+#include "weather.h"
 #include <sstream>
 
 void dis_msg(game *g, dis_type type)
@@ -138,6 +139,26 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
  
  case DI_FROSTBITE_HANDS:
+  switch (dis.intensity) {
+   case 2 : p.dex_cur -= 3;
+   case 1 : if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++; 
+  }
+ break;
+ 
+ case DI_FROSTBITE_FEET:
+  switch (dis.intensity) {
+   case 2 : // TODO add a slow penalty
+   case 1 : if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++; 
+  }
+ break;
+ 
+ case DI_FROSTBITE_MOUTH: 
+  switch (dis.intensity) {
+   case 2 : p.per_cur -= 3; 
+   case 1 : if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
+  }
+ break;
+ 
  case DI_BLISTERS_HANDS:
   p.dex_cur--;
   if (p.pain < 35) p.pain++;
@@ -145,7 +166,7 @@ void dis_effect(game *g, player &p, disease &dis)
   else p.hp_max[hp_arm_l]--;
   break;
   
- case DI_FROSTBITE_FEET:
+ 
  case DI_BLISTERS_FEET:
   p.str_cur--;
   if (p.pain < 35) p.pain++;
@@ -153,7 +174,7 @@ void dis_effect(game *g, player &p, disease &dis)
   else p.hp_max[hp_leg_l]--;
   break;
   
- case DI_FROSTBITE_MOUTH: // Close enough to the face..
+ 
  case DI_BLISTERS_MOUTH:
   p.per_cur--;
   p.hp_max[hp_head]--;
@@ -447,7 +468,9 @@ void dis_effect(game *g, player &p, disease &dis)
    dis.duration = 1;
   }
   // Cold may wake you up.
-  if (p.temp_cur[bp_torso] < 200 - p.fatigue/2 || (one_in(p.temp_cur[bp_torso]) && p.temp_cur[bp_torso] < 500 - p.fatigue/2)){ // Player gets desperate fro sleep
+  // Player gets desperate for sleep
+  if (p.temp_cur[bp_torso] < BODYTEMP_VERY_COLD - p.fatigue/2 || 
+  (one_in(p.temp_cur[bp_torso]) && p.temp_cur[bp_torso] < BODYTEMP_NORM - p.fatigue/2)){ 
    g->add_msg("The cold wakes you up.");
    dis.duration = 1;
   }
