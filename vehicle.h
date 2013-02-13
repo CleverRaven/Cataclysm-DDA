@@ -34,6 +34,10 @@ enum veh_coll_type {
 struct veh_collision {
  veh_coll_type type;
  int imp2;
+
+ void* target;  //vehicle
+ void* subtarget; //veh part
+
  veh_collision(veh_coll_type t, int i) : 
    imp2(i), type(t) {}
 };

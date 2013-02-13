@@ -1177,6 +1177,21 @@ void vehicle::stop ()
     of_turn = 0;
 }
 
+/*
+ * returns: {
+ *    veh_coll_type type,
+ *    int imp,             // impedance?
+ *    vehicle* other_vehicle, //planned
+ * }
+  veh_coll_type: 
+    veh_coll_nothing = 0,
+    veh_coll_body,
+    veh_coll_veh,
+    veh_coll_thin_obstacle, //3
+    veh_coll_bashable,
+    veh_coll_destructable,
+    veh_coll_other, //6
+*/
 veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
 {
     bool pl_ctrl = player_in_control (&g->u);
@@ -1190,17 +1205,6 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
     bool is_body_collision = (g->u.posx == x && g->u.posy == y && !g->u.in_vehicle) ||
                            mondex >= 0 || npcind >= 0;
 
-    // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
-    // 3 - thin_obstacle, 4 - bashable, 5 - destructible, 6 - other
-    /*
-    veh_coll_nothing = 0,
-    veh_coll_body,
-    veh_coll_veh,
-    veh_coll_thin_obstacle, //3
-    veh_coll_bashable,
-    veh_coll_destructable,
-    veh_coll_other, //6
-    */
     veh_coll_type collision_type = veh_coll_nothing;
     std::string obs_name = g->m.tername(x, y).c_str();
 
