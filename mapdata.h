@@ -443,7 +443,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"column",           '1', c_ltgray,  0, tr_null,
 	mfb(flammable)},
 {"refrigerator",     '{', c_ltcyan,  0, tr_null,
-	mfb(container)|mfb(collapses)|mfb(bashable)},
+	mfb(container)|mfb(collapses)|mfb(bashable)|mfb(place_item)},
 {"glass door fridge",'{', c_ltcyan,  0, tr_null,
         mfb(collapses)|mfb(bashable)|mfb(place_item)},
 {"dresser",          '{', c_brown,   0, tr_null,
