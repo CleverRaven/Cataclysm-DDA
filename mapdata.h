@@ -133,7 +133,7 @@ t_sewage_pipe, t_sewage_pump,
 t_centrifuge,
 t_column,
 // Containers
-t_fridge, t_dresser, t_locker,
+t_fridge, t_glass_fridge, t_dresser, t_locker,
 t_rack, t_bookcase,
 t_dumpster,
 t_vat, t_crate_c, t_crate_o,
@@ -444,6 +444,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(flammable)},
 {"refrigerator",     '{', c_ltcyan,  0, tr_null,
 	mfb(container)|mfb(collapses)|mfb(bashable)},
+{"glass door fridge",'{', c_ltcyan,  0, tr_null,
+        mfb(collapses)|mfb(bashable)|mfb(place_item)},
 {"dresser",          '{', c_brown,   0, tr_null,
         mfb(transparent)|mfb(container)|mfb(flammable)|mfb(collapses)|
         mfb(bashable)|mfb(deconstruct)|mfb(place_item)},

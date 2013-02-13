@@ -1396,7 +1396,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
              (j > mw && j < bw && (i == cw || i == rw - 2)))
      ter(i, j) = t_wall_v;
     else if (i == lw + 1 && j > tw && j < bw)
-     ter(i, j) = t_fridge;
+     ter(i, j) = t_glass_fridge;
     else if (i > lw + 2 && i < lw + 12 && i < cw && i % 2 == 1 &&
              j > tw + 1 && j < mw - 1)
      ter(i, j) = t_rack;
@@ -1462,7 +1462,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      ter(i, j) = t_rack;
     else if ((i == lw + 1 && j > tw + 8 && j < mw - 1) ||
              (j == mw - 1 && i > cw + 1 && i < rw))
-     ter(i, j) = t_fridge;
+     ter(i, j) = t_glass_fridge;
     else if ((j == mw     && i > lw + 1 && i < cw) ||
              (j == tw + 6 && i > lw + 1 && i < lw + 6) ||
              (i == lw + 5 && j > tw     && j < tw + 7))
@@ -1540,7 +1540,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      ter(i, j) = t_counter;
     else if ((i == 3 && j > 9 && j < 16) ||
              (j == 20 && ((i > 7 && i < 15) || (i > 18 && i < 21))))
-     ter(i, j) = t_fridge;
+     ter(i, j) = t_glass_fridge;
     else if (i > 2 && i < SEEX * 2 - 3 && j > 2 && j < SEEY * 2 - 3)
      ter(i, j) = t_floor;
     else
@@ -1823,7 +1823,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
              (i == 7 && j > 9 && j < 12))
      ter(i, j) = t_wall_v;
     else if ((i == 19 && j > 6 && j < 12) || (j == 11 && i > 16 && i < 19))
-     ter(i, j) = t_fridge;
+     ter(i, j) = t_glass_fridge;
     else if (((i == 4 || i == 7 || i == 8) && j > 2 && j < 8) ||
              (j == 3 && i > 8 && i < 12) ||
              (i > 10 && i < 13 && j > 4 && j < 7) ||
@@ -4702,7 +4702,7 @@ case ot_s_garage_north:
      if (one_in(3))
       fridge = !fridge;
      if (fridge) {
-      line(this, t_fridge, x, y, x, y + SEEY - 4);
+      line(this, t_glass_fridge, x, y, x, y + SEEY - 4);
       if (one_in(3))
        place_items(mi_fridgesnacks, 80, x, y, x, y + SEEY - 4, false, 0);
       else
