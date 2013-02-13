@@ -459,7 +459,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"dumpster",	     '{', c_green,   0, tr_null,
         mfb(container)|mfb(bashable)|mfb(place_item)},
 {"cloning vat",      '0', c_ltcyan,  0, tr_null,
-        mfb(transparent)|mfb(bashable)|mfb(container)|mfb(sealed)|mfb(place_item)},
+        mfb(transparent)|mfb(bashable)|mfb(sealed)|mfb(place_item)},
 {"crate",            '{', c_brown,   0, tr_null,
         mfb(transparent)|mfb(bashable)|mfb(container)|mfb(sealed)|
         mfb(flammable)|mfb(deconstruct)|mfb(place_item)},
