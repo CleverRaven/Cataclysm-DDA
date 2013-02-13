@@ -5136,22 +5136,24 @@ point game::look_around()
    if (dex != -1 && u_see(&(z[dex]), junk)) {
     z[mon_at(lx, ly)].draw(w_terrain, lx, ly, true);
     z[mon_at(lx, ly)].print_info(this, w_look);
-    if (m.i_at(lx, ly).size() > 1)
-     mvwprintw(w_look, 3, 1, "There are several items there.");
-    else if (m.i_at(lx, ly).size() == 1)
-     mvwprintw(w_look, 3, 1, "There is an item there.");
+    if (!m.has_flag(container, lx, ly))
+     if (m.i_at(lx, ly).size() > 1)
+      mvwprintw(w_look, 3, 1, "There are several items there.");
+     else if (m.i_at(lx, ly).size() == 1)
+      mvwprintw(w_look, 3, 1, "There is an item there.");
    } else if (npc_at(lx, ly) != -1) {
     active_npc[npc_at(lx, ly)].draw(w_terrain, lx, ly, true);
     active_npc[npc_at(lx, ly)].print_info(w_look);
-    if (m.i_at(lx, ly).size() > 1)
-     mvwprintw(w_look, 3, 1, "There are several items there.");
-    else if (m.i_at(lx, ly).size() == 1)
-     mvwprintw(w_look, 3, 1, "There is an item there.");
+    if (!m.has_flag(container, lx, ly))
+     if (m.i_at(lx, ly).size() > 1)
+      mvwprintw(w_look, 3, 1, "There are several items there.");
+     else if (m.i_at(lx, ly).size() == 1)
+      mvwprintw(w_look, 3, 1, "There is an item there.");
    } else if (veh) {
      mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
      veh->print_part_desc(w_look, 4, 48, veh_part);
      m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-   } else if (m.i_at(lx, ly).size() > 0) {
+   } else if (!m.has_flag(container, lx, ly) && m.i_at(lx, ly).size() > 0) {
     mvwprintw(w_look, 3, 1, "There is a %s there.",
               m.i_at(lx, ly)[0].tname(this).c_str());
     if (m.i_at(lx, ly).size() > 1)
