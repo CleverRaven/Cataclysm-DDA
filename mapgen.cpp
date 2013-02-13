@@ -6651,7 +6651,7 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
    tries++;
 // Only place on valid terrain
   } while (((terlist[ter(px, py)].movecost == 0 &&
-             !(terlist[ter(px, py)].flags & mfb(container))) ||
+             !(terlist[ter(px, py)].flags & mfb(place_item))) ||
             (!ongrass && (ter(px, py) == t_dirt || ter(px, py) == t_grass))) &&
            tries < 20);
   if (tries < 20) {
