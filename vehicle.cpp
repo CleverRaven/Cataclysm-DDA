@@ -580,14 +580,16 @@ void vehicle::print_part_desc (void *w, int y1, int width, int p, int hl)
         if (parts[pl[i]].hp > 0)
             col_cond = c_red;
 
-        //part name. with bigness, if any.
-        std::stringstream nom;
-        if (part_flag(pl[i], vpf_engine)){ //bigness == liters
-           nom.precision(4);
-           nom << (float)(parts[pl[i]].bigness) / 100 << "-Liter ";
-        }
-        else if (part_flag(pl[i], vpf_wheel)){ //bigness == inches
-           nom << (parts[pl[i]].bigness) << "\" ";
+        std::stringstream nom; //part name
+        // part bigness, if that's relevant.
+        if (part_flag(pl[i], vpf_variable_size)){
+           if (part_flag(pl[i], vpf_engine)){ //bigness == liters
+              nom.precision(4);
+              nom << (float)(parts[pl[i]].bigness) / 100 << "-Liter ";
+           }
+           else if (part_flag(pl[i], vpf_wheel)){ //bigness == inches
+              nom << (parts[pl[i]].bigness) << "\" ";
+           }
         }
         nom << part_info(pl[i]).name;
         std::string partname = nom.str();
