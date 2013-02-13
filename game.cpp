@@ -5211,7 +5211,8 @@ void game::list_items()
  int iTile;
  for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
   for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
-   if (u_see(u.posx + iCol, u.posy + iRow, iTile)) {
+    if (!m.has_flag(container, u.posx + iCol, u.posy + iRow) &&
+       u_see(u.posx + iCol, u.posy + iRow, iTile)) {
     here.clear();
     here = m.i_at(u.posx + iCol, u.posy + iRow);
     for (int i = 0; i < here.size(); i++) {
