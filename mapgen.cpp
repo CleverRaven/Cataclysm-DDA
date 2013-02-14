@@ -5744,9 +5744,6 @@ break;
   line(this, t_wall_h,  0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
   line(this, t_door_c, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
 
-  build_mansion_room(this, room_mansion_courtyard, 1, 0, SEEX * 2 - 1, 9);
-  square(this, t_floor, 1, 11, SEEX * 2 - 1, SEEY * 2 - 2);
-  build_mansion_room(this, room_mansion_entry, 1, 11, SEEX * 2 - 1, SEEY*2 - 2);
 // Rotate to face the road
   if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
    rotate(1);
