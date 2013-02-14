@@ -5732,7 +5732,7 @@ break;
 // Bottom wall
   line(this, t_chainfence_h,  0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
 // Rotate to face the road
-  rotate rng(0,3);
+  rotate (rng(0,3));
  } break;
 
  case ot_fema:
