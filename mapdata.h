@@ -390,18 +390,29 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(deconstruct)|mfb(place_item)},
 {"toilet",           '&', c_white,   4, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(l_flammable)|mfb(collapses)},
+
 {"makeshift bed",    '#', c_magenta, 5, tr_null,
         mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)},
+
 {"sink",             '&', c_white,   4, tr_null,
         mfb(transparent)|mfb(bashable)|mfb(l_flammable)|mfb(collapses)|mfb(container)|mfb(place_item)},
+
 {"oven",             '#', c_white,   4, tr_null,
         mfb(transparent)|mfb(bashable)|mfb(l_flammable)|mfb(collapses)|mfb(container)|mfb(place_item)},
+
+{"wood stove",             '#', i_red,   4, tr_null,
+        mfb(transparent)|mfb(bashable)|mfb(l_flammable)|mfb(collapses)|mfb(container)|mfb(place_item)},
+
+
 {"bathtub",          '~', c_white,   4, tr_null,
         mfb(transparent)|mfb(bashable)|mfb(l_flammable)|mfb(collapses)|mfb(container)|mfb(place_item)},
+
 {"chair",            '#', c_brown,   2, tr_null,
 	mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)},
+
 {"arm chair",            'H', i_ltred,   3, tr_null,
 	mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)},
+
 {"sofa",            'H', i_ltred,   3, tr_null,
 	mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)},
 {"cupboard",         '#', c_blue,    3, tr_null,
@@ -461,13 +472,11 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"glass door fridge",'{', c_ltcyan,  0, tr_null,
         mfb(collapses)|mfb(bashable)|mfb(place_item)},
 {"dresser",          '{', c_brown,   0, tr_null,
-        mfb(transparent)|mfb(container)|mfb(flammable)|mfb(collapses)|
-        mfb(bashable)|mfb(deconstruct)|mfb(place_item)},
+        mfb(transparent)|mfb(container)|mfb(flammable)|mfb(collapses)|mfb(bashable)|mfb(deconstruct)|mfb(place_item)},
 {"locker",           '{', c_ltgray,  0, tr_null,
         mfb(container)|mfb(collapses)|mfb(bashable)|mfb(place_item)},
 {"display rack",     '{', c_ltgray,  0, tr_null,
-        mfb(transparent)|mfb(l_flammable)|mfb(collapses)|mfb(bashable)|
-        mfb(deconstruct)|mfb(place_item)},
+        mfb(transparent)|mfb(l_flammable)|mfb(collapses)|mfb(bashable)|mfb(deconstruct)|mfb(place_item)},
 {"book case",        '{', c_brown,   0, tr_null,
         mfb(flammable)|mfb(collapses)|mfb(bashable)|mfb(deconstruct)|mfb(place_item)},
 {"dumpster",	     '{', c_green,   0, tr_null,
