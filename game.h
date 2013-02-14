@@ -308,7 +308,7 @@ class game
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
 // Pick where to put liquid; false if it's left where it was
   bool handle_liquid(item &liquid, bool from_ground, bool infinite);
-  void compare(); // Compare two Items	'I'
+  void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items	'I'
   void drop();	  // Drop an item		'd'
   void drop_in_direction(); // Drop w/ direction 'D'
   void reassign_item(); // Reassign the letter of an item   '='
