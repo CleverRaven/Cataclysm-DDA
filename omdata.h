@@ -462,8 +462,8 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_temple_stairs, 0,  0, 20, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::never, 0},
 
-{ot_lab_stairs,	   0, 10,  8, -1, mcat_null, 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_ROAD)},
+{ot_fema_entrance,	   0, 10,  8, -1, mcat_null, 0, 0, 0, 0,
+ &omspec_place::land, mfb(OMS_FLAG_3X3_SECOND)}, //Oddzball-Fema test
 
 // Terrain	 MIN MAX DISTANCE
 {ot_bunker,	   2, 10,  4, -1, mcat_null, 0, 0, 0, 0,
