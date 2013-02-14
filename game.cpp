@@ -5336,7 +5336,7 @@ void game::list_items()
 
  werase(w_items);
  delwin(w_items);
- erase();direction_name
+ erase();
  refresh_all();
 }
 
