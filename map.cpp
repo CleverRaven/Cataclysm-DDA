@@ -555,22 +555,39 @@ bool map::vehproceed(game* g){
       // for reference, a cargo truck weighs ~25300, a bicycle 690, 
       //  and 38mph is 3800 'velocity'
       // Also, not sure trig is the way to go in this game, but it ought to work.
-      velo_veh1[0] = cos(veh->move.dir() * M_PI/180) * veh->velocity;
-      velo_veh1[1] = sin(veh->move.dir() * M_PI/180) * veh->velocity;
+      { //find veh's velocity
+         velo_veh1[0] = cos(veh->move.dir() * M_PI/180);
+         velo_veh1[1] = sin(veh->move.dir() * M_PI/180);
+         // rl-normalize by making max unit distance == 1
+         // that makes so much sense :)
+         float rl_scale_by = 1 / (abs(velo_veh1[0]) > abs(velo_veh1[1]) ? abs(velo_veh1[0]) : abs(velo_veh1[1]));
+         velo_veh1[0] *= rl_scale_by * veh->velocity;
+         velo_veh1[1] *= rl_scale_by * veh->velocity;
+      }
+      { //find veh2 velocity
+         velo_veh2[0] = cos(veh2->move.dir() * M_PI/180);
+         velo_veh2[1] = sin(veh2->move.dir() * M_PI/180);
+         float rl_scale_by = 1 / (abs(velo_veh2[0]) > abs(velo_veh2[1]) ? abs(velo_veh2[0]) : abs(velo_veh2[1]));
+         velo_veh2[0] *= rl_scale_by * veh->velocity;
+         velo_veh2[1] *= rl_scale_by * veh->velocity;
+      }
       velo_veh2[0] = cos(veh2->move.dir() * M_PI/180) * veh2->velocity;
       velo_veh2[1] = sin(veh2->move.dir() * M_PI/180) * veh2->velocity;
       velo_veh1_rel[0] = velo_veh1[0] - velo_veh2[0];
       velo_veh1_rel[1] = velo_veh1[1] - velo_veh2[1];
-      float rel_velocity = sqrt( pow(velo_veh1_rel[0],2) + pow(velo_veh1_rel[1],2));
+      //float rel_velocity = sqrt( pow(velo_veh1_rel[0],2) + pow(velo_veh1_rel[1],2));
+      int rel_velocity = rl_dist( velo_veh1_rel[0], velo_veh1_rel[1]);
       float energy = (rel_velocity * (veh->total_mass() + veh2->total_mass()));
       // add part of relative velocity to v2's move vector thing.
-      velo_veh2_result[0] = velo_veh2[0] + velo_veh1_rel[0]*.35;
-      velo_veh2_result[1] = velo_veh2[1] + velo_veh1_rel[1]*.35;
+      float mass_ratio = (float)veh->total_mass() / (float)veh2->total_mass();
+      velo_veh2_result[0] = velo_veh2[0] + velo_veh1_rel[0] * mass_ratio;
+      velo_veh2_result[1] = velo_veh2[1] + velo_veh1_rel[1] * mass_ratio;
       veh2->move.init(velo_veh2_result[0], velo_veh2_result[1]);
-      veh2->velocity = sqrt( pow(velo_veh2_result[0],2) + pow(velo_veh2_result[1],2));
+      //veh2->velocity = sqrt( pow(velo_veh2_result[0],2) + pow(velo_veh2_result[1],2));
+      veh2->velocity = rl_dist(velo_veh2_result[0], velo_veh2_result[1]) *2;
 
       //veh2->velocity += veh->velocity * .35;
-      veh->velocity -= veh->velocity * .45;
+      veh->velocity *= .4;
       veh2->of_turn += .121;
       veh->of_turn -= .221;
       veh2->skidding = 1;
