@@ -1070,7 +1070,7 @@ void vehicle::thrust (int thd)
     bool thrusting = true;
     if(velocity){ //brake?
        int sgn = velocity < 0? -1 : 1;
-       bool thrusting = sgn == thd;
+       thrusting = sgn == thd;
     }
 
     if (thrusting)
@@ -1124,7 +1124,7 @@ void vehicle::thrust (int thd)
     if (brk < 10 * 100)
         brk = 10 * 100;
     int vel_inc = (thrusting? accel : brk) * thd;
-    if(thd == -1) // nerf reverse accel.
+    if(thd == -1 && thrusting) // reverse accel.
        vel_inc = .6 * vel_inc;
     if ((velocity > 0 && velocity + vel_inc < 0) ||
         (velocity < 0 && velocity + vel_inc > 0))
