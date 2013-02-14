@@ -47,6 +47,7 @@
 		<Unit filename="debug.h" />
 		<Unit filename="defense.cpp" />
 		<Unit filename="dialogue.h" />
+		<Unit filename="disease.cpp" />
 		<Unit filename="disease.h" />
 		<Unit filename="enums.h" />
 		<Unit filename="event.cpp" />
