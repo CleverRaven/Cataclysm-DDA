@@ -89,7 +89,7 @@ enum oter_id {
   ot_mil_surplus_west,
  ot_megastore_entrance, ot_megastore,
  ot_hospital_entrance, ot_hospital,
- ot_mansion_entrance, ot_mansion,
+ ot_mansion_entrance, ot_mansion, ot_fema_entrance, ot_fema,
 // Goodies/dungeons
  ot_shelter, ot_shelter_under,
  ot_lab, ot_lab_stairs, ot_lab_core, ot_lab_finale,
@@ -267,6 +267,8 @@ const oter_t oterlist[num_ter_types] = {
 {"hospital",		'H',	c_red,		5, build_extras, false, false},
 {"mansion",		'+',	c_ltgreen,	5, build_extras, false, false},
 {"mansion",		'M',	c_green,	5, build_extras, false, false},
+{"fema camp",		'+',	c_blue,	5, build_extras, false, false},
+{"fema camp",		'F',	i_blue,	5, build_extras, false, false}, //Oddzball- Added fema graphic
 {"evac shelter",	'+',	c_white,	2, no_extras, true, false},
 {"evac shelter",	'+',	c_white,	2, no_extras, false, true},
 {"science lab",		'L',	c_ltblue,	5, no_extras, false, false},

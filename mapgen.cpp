@@ -5723,6 +5723,61 @@ break;
    }
   }
   break;
+  //Oddzball-Fema camp test 1
+  case ot_fema_entrance: {
+// Left wall
+  line(this, t_wall_v,  0,  0,  0, SEEY * 2 - 2);
+  line(this, t_door_c,  0, SEEY - 1, 0, SEEY);
+// Front wall
+  line(this, t_wall_h,  1, 10,  SEEX * 2 - 1, 10);
+  line(this, t_door_locked, SEEX - 1, 10, SEEX, 10);
+  int winx1 = rng(2, 4);
+  int winx2 = rng(4, 6);
+  line(this, t_window, winx1, 10, winx2, 10);
+  line(this, t_window, SEEX * 2 - 1 - winx1, 10, SEEX * 2 - 1 - winx2, 10);
+  winx1 = rng(7, 10);
+  winx2 = rng(10, 11);
+  line(this, t_window, winx1, 10, winx2, 10);
+  line(this, t_window, SEEX * 2 - 1 - winx1, 10, SEEX * 2 - 1 - winx2, 10);
+  line(this, t_door_c, SEEX - 1, 10, SEEX, 10);
+// Bottom wall
+  line(this, t_wall_h,  0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
+  line(this, t_door_c, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
+
+  build_mansion_room(this, room_mansion_courtyard, 1, 0, SEEX * 2 - 1, 9);
+  square(this, t_floor, 1, 11, SEEX * 2 - 1, SEEY * 2 - 2);
+  build_mansion_room(this, room_mansion_entry, 1, 11, SEEX * 2 - 1, SEEY*2 - 2);
+// Rotate to face the road
+  if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
+   rotate(1);
+  if (t_south >= ot_road_null && t_south <= ot_bridge_ew)
+   rotate(2);
+  if (t_west >= ot_road_null && t_west <= ot_bridge_ew)
+   rotate(3);
+ } break;
+
+ case ot_fema:
+// Start with floors all over
+  square(this, t_floor, 1, 0, SEEX * 2 - 1, SEEY * 2 - 2);
+// We always have a left and bottom wall
+  line(this, t_wall_v, 0, 0, 0, SEEY * 2 - 2);
+  line(this, t_wall_h, 0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
+// tw and rw are the boundaries of the rooms inside...
+  tw = 0;
+  rw = SEEX * 2 - 1;
+// ...if we need outside walls, adjust tw & rw and build them
+// We build windows below.
+  if (t_north != ot_mansion_entrance && t_north != ot_mansion) {
+   tw = 1;
+   line(this, t_wall_h, 0, 0, SEEX * 2 - 1, 0);
+  }
+  if (t_east != ot_mansion_entrance && t_east != ot_mansion) {
+   rw = SEEX * 2 - 2;
+   line(this, t_wall_v, SEEX * 2 - 1, 0, SEEX * 2 - 1, SEEX * 2 - 1);
+  }
+
+  break;
+  //Oddzball-FEMA Camp End
 
  case ot_spider_pit_under:
   for (int i = 0; i < SEEX * 2; i++) {
