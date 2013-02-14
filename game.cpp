@@ -5236,12 +5236,21 @@ void game::list_items()
  int iActive = 0;
  int iMaxRows = 25-iInfoHeight-2;
  int iStartPos = 0;
+ int iActiveX = 0;
+ int iActiveY = 0;
  long ch = '.';
 
  do {
   if (iItemNum > 0) {
    u.view_offset_x = 0;
    u.view_offset_y = 0;
+
+   if (ch == 'I') {
+    compare(iActiveX, iActiveY);
+    ch = '.';
+    wborder(w_items, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                     LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+   }
 
    switch(ch) {
     case KEY_UP:
@@ -5272,8 +5281,8 @@ void game::list_items()
    wprintz(w_items, c_white, " / %*d ", ((iItemNum > 9) ? 2 : 1), iItemNum);
 
    int iNum = 0;
-   int iActiveX = 0;
-   int iActiveY = 0;
+   iActiveX = 0;
+   iActiveY = 0;
    std::string sActiveItemName;
    std::stringstream sText;
    for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
