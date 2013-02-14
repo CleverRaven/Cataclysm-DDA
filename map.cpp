@@ -279,7 +279,7 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
  int dstx = x2;
  int dsty = y2;
 
- if (!inbounds(srcx, srcy)) {
+ if (!inbounds(srcx, srcy) || !inbounds(dstx, dsty)){
   debugmsg ("map::displace_vehicle: coords out of bounds %d,%d->%d,%d",
             srcx, srcy, dstx, dsty);
   return false;
