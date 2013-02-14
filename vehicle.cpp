@@ -1177,22 +1177,6 @@ void vehicle::stop ()
     of_turn_carry = 0;
 }
 
-/*
- * returns: {
- *    veh_coll_type type,
- *    int imp,             // impedance?
- *    void* target, // veh
- *    void* subtarget, // veh
- * }
-  veh_coll_type: 
-    veh_coll_nothing = 0,
-    veh_coll_body,
-    veh_coll_veh,
-    veh_coll_thin_obstacle, //3
-    veh_coll_bashable,
-    veh_coll_destructable,
-    veh_coll_other, //6
-*/
 veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
 {
     bool pl_ctrl = player_in_control (&g->u);
@@ -1230,14 +1214,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
     // let's calculate type of collision & mass of object we hit
     int mass = total_mass() / 8;
     int mass2;
-    if (0 && is_veh_collision)
-    { // first, check if we collide with another vehicle (there shouldn't be impassable terrain below)
-        collision_type = veh_coll_veh;
-        mass2 = oveh->total_mass() / 8;
-        is_body_collision = false;
-        obs_name = oveh->name.c_str();
-    }
-    else
+
     if (is_body_collision)
     { // then, check any monster/NPC/player on the way
         collision_type = veh_coll_body; // body
@@ -1348,13 +1325,9 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
     int vel1 = imp1 * k_mvel * 100 / mass;
     int vel2 = imp2 * k_mvel * 100 / mass2;
 
-//     g->add_msg ("Col t=%s i=%d i1=%d i2=%d v=%d v1=%d v2=%d m1=%d m2=%d",
-//                 obs_name.c_str(), imp, imp1, imp2, abs(velocity), vel1, vel2, mass, mass2);
-//
     if (collision_type == veh_coll_body)
     {
         int dam = imp1 * dmg_mod / 100;
-//        g->add_msg("dam=%d imp=%d dm=%d", dam, imp, parts[part].dmg_mod);
         if (z)
         {
             int z_armor = part_flag(part, vpf_sharp)? z->type->armor_cut : z->type->armor_bash;
