@@ -5242,6 +5242,7 @@ point game::look_around()
    if (dex != -1 && u_see(&(z[dex]), junk)) {
     z[mon_at(lx, ly)].draw(w_terrain, lx, ly, true);
     z[mon_at(lx, ly)].print_info(this, w_look);
+    if (!m.has_flag(container, lx, ly))
     if (m.i_at(lx, ly).size() > 1)
      mvwprintw(w_look, 3, 1, "There are several items there.");
     else if (m.i_at(lx, ly).size() == 1)
@@ -5249,6 +5250,7 @@ point game::look_around()
    } else if (npc_at(lx, ly) != -1) {
     active_npc[npc_at(lx, ly)].draw(w_terrain, lx, ly, true);
     active_npc[npc_at(lx, ly)].print_info(w_look);
+    if (!m.has_flag(container, lx, ly))
     if (m.i_at(lx, ly).size() > 1)
      mvwprintw(w_look, 3, 1, "There are several items there.");
     else if (m.i_at(lx, ly).size() == 1)
@@ -5257,7 +5259,7 @@ point game::look_around()
      mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
      veh->print_part_desc(w_look, 4, 48, veh_part);
      m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-   } else if (m.i_at(lx, ly).size() > 0) {
+   } else if (!m.has_flag(container, lx, ly) && m.i_at(lx, ly).size() > 0) {
     mvwprintw(w_look, 3, 1, "There is a %s there.",
               m.i_at(lx, ly)[0].tname(this).c_str());
     if (m.i_at(lx, ly).size() > 1)
@@ -5317,7 +5319,8 @@ void game::list_items()
  int iTile;
  for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
   for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
-   if (u_see(u.posx + iCol, u.posy + iRow, iTile)) {
+    if (!m.has_flag(container, u.posx + iCol, u.posy + iRow) &&
+       u_see(u.posx + iCol, u.posy + iRow, iTile)) {
     here.clear();
     here = m.i_at(u.posx + iCol, u.posy + iRow);
     for (int i = 0; i < here.size(); i++) {
@@ -6888,7 +6891,7 @@ void game::plmove(int x, int y)
   if (u.underwater)
    u.underwater = false;
   dpart = veh ? veh->part_with_feature (vpart, vpf_seat) : -1;
-  bool can_board = dpart >= 0 &&
+  bool can_board = dpart >= 0 && veh->parts[dpart].items.size() == 0 &&
       !veh->parts[dpart].has_flag(vehicle_part::passenger_flag);
 /*  if (veh.type != veh_null)
       add_msg ("vp=%d dp=%d can=%c", vpart, dpart, can_board? 'y' : 'n',);*/

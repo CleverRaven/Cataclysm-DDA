@@ -849,6 +849,7 @@ bool map::has_adjacent_furniture(const int x, const int y)
   for (int j = -1; j <= 1; j += 2)
    switch( ter(i, j) ) {
     case t_fridge:
+    case t_glass_fridge:
     case t_dresser:
     case t_rack:
     case t_bookcase:
@@ -1144,6 +1145,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
  case t_locker:
  case t_rack:
  case t_fridge:
+ case t_glass_fridge:
   result = rng(0, 30);
   if (res) *res = result;
   if (str >= result) {
@@ -2387,7 +2389,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
   }
  }
 // If there's items here, draw those instead
- if (show_items && i_at(x, y).size() > 0 && !drew_field) {
+ if (show_items && !has_flag(container, x, y) && i_at(x, y).size() > 0 && !drew_field) {
   if ((terlist[ter(x, y)].sym != '.'))
    hi = true;
   else {
