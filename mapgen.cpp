@@ -5725,6 +5725,7 @@ break;
   break;
   //Oddzball-Fema camp test 1
   case ot_fema_entrance: {
+  square(this, t_floor, 0, 0, 23, 23);
 // Left wall
   line(this, t_chainfence_v,  0,  0,  0, SEEY * 2 - 2);
 // Front wall
