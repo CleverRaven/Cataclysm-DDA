@@ -544,11 +544,36 @@ bool map::vehproceed(game* g){
       // collision targets are pushed, this car loses time without moving,
       // the other veh gains time, parts are damaged/broken on both sides.,
       veh_collision c = veh_veh_colls[0];
-      vehicle* v2 = (vehicle*) c.target;
-      v2->velocity += veh->velocity * .35;
+      vehicle* veh2 = (vehicle*) c.target;
+      //find mass & velocity of the collision.
+      // using veh->move.dir() & veh->velocity & veh->total_mass()
+      //or dot product
+      float velo_veh1[2];
+      float velo_veh2[2];
+      float velo_veh1_rel[2];
+      float velo_veh2_result[2];
+      // for reference, a cargo truck weighs ~25300, a bicycle 690, 
+      //  and 38mph is 3800 'velocity'
+      // Also, not sure trig is the way to go in this game, but it ought to work.
+      velo_veh1[0] = cos(veh->move.dir() * M_PI/180) * veh->velocity;
+      velo_veh1[1] = sin(veh->move.dir() * M_PI/180) * veh->velocity;
+      velo_veh2[0] = cos(veh2->move.dir() * M_PI/180) * veh2->velocity;
+      velo_veh2[1] = sin(veh2->move.dir() * M_PI/180) * veh2->velocity;
+      velo_veh1_rel[0] = velo_veh1[0] - velo_veh2[0];
+      velo_veh1_rel[1] = velo_veh1[1] - velo_veh2[1];
+      float rel_velocity = sqrt( pow(velo_veh1_rel[0],2) + pow(velo_veh1_rel[1],2));
+      float energy = (rel_velocity * (veh->total_mass() + veh2->total_mass()));
+      // add part of relative velocity to v2's move vector thing.
+      velo_veh2_result[0] = velo_veh2[0] + velo_veh1_rel[0]*.35;
+      velo_veh2_result[1] = velo_veh2[1] + velo_veh1_rel[1]*.35;
+      veh2->move.init(velo_veh2_result[0], velo_veh2_result[1]);
+      veh2->velocity = sqrt( pow(velo_veh2_result[0],2) + pow(velo_veh2_result[1],2));
+
+      //veh2->velocity += veh->velocity * .35;
       veh->velocity -= veh->velocity * .45;
-      v2->of_turn += .121;
+      veh2->of_turn += .121;
       veh->of_turn -= .221;
+      veh2->skidding = 1;
       return true;
    }
 
