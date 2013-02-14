@@ -714,10 +714,10 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
  // Temperature norms
  const int ambient_norm = 220;
  // Creative thinking for clean morale penalties
- int morale_pen = 0; 
+ int morale_pen = 0;
  // This adjusts the temperature scale to match the bodytemp scale
- int adjusted_temp = 1.7*(Ctemperature - ambient_norm); 
- // Fetch the morale value of wetness for bodywetness 
+ int adjusted_temp = 1.7*(Ctemperature - ambient_norm);
+ // Fetch the morale value of wetness for bodywetness
  int bodywetness = 0;
  for (int i = 0; bodywetness == 0 && i < u.morale.size(); i++)
   if( u.morale[i].type == MORALE_WET ) {
@@ -728,11 +728,11 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
  for (int i = 0 ; i < num_bp ; i++){
   if (i == bp_eyes) continue; // Skip eyes
   // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
-  float homeostasis_adjustement = (u.temp_cur[i] > BODYTEMP_NORM ? 1.0 : 8.0); 
+  float homeostasis_adjustement = (u.temp_cur[i] > BODYTEMP_NORM ? 1.0 : 8.0);
   int clothing_warmth_adjustement = homeostasis_adjustement * (float)u.warmth(body_part(i)) * (1.0 + (float)bodywetness / 100.0);
   // Disease name shorthand
   int blister_pen = dis_type(DI_BLISTERS) + 1 + i, hot_pen  = dis_type(DI_HOT) + 1 + i;
-  int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;  
+  int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;
   signed int temp_conv = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement; // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness. 20C is normal
   // Fatigue also affects convergeant temperature
   if (!u.has_disease(DI_SLEEP)) temp_conv -= u.fatigue/6;
@@ -795,8 +795,8 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   else if (temp_before > BODYTEMP_COLD && temp_after < BODYTEMP_COLD) add_msg("You feel your %s getting cold.", body_part_name(body_part(i), -1).c_str());
   else if (temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING) add_msg("You feel your %s getting red hot from the heat!", body_part_name(body_part(i), -1).c_str());
   else if (temp_before < BODYTEMP_VERY_HOT && temp_after > BODYTEMP_VERY_HOT) add_msg("You feel your %s getting very hot.", body_part_name(body_part(i), -1).c_str());
-  else if (temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT) add_msg("You feel your %s getting hot.", body_part_name(body_part(i), -1).c_str()); 
- } 
+  else if (temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT) add_msg("You feel your %s getting hot.", body_part_name(body_part(i), -1).c_str());
+ }
  // Morale penalties TODO only updates every 10 ticks
  if (morale_pen < 0) u.add_morale(MORALE_COLD, -1*abs(morale_pen), -10*abs(morale_pen));
  if (morale_pen > 0) u.add_morale(MORALE_HOT,  -1*abs(morale_pen), -10*abs(morale_pen));
@@ -5195,45 +5195,54 @@ point game::look_around()
 
 void game::list_items()
 {
- WINDOW* w_items = newwin(15, 55, 0, 25);
- WINDOW* w_item_info = newwin(10, 55, 15, 25);
+ int iInfoHeight = 12;
+ WINDOW* w_items = newwin(25-iInfoHeight, 55, 0, 25);
+ WINDOW* w_item_info = newwin(iInfoHeight, 55, 25-iInfoHeight, 25);
 
  wborder(w_items, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                   LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
  std::vector <item> here;
- std::vector <item> grounditems;
- std::vector <int> itemposx;
- std::vector <int> itemposy;
+ std::map<int, std::map<int, std::map<std::string, int> > > grounditems;
+ std::map<std::string, item> iteminfo;
 
  //Area to search +- of players position
  int iSearchX = 12;
  int iSearchY = 12;
+ int iItemNum = 0;
 
  int iTile;
- for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
-  for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
+ for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
+  for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
     if (!m.has_flag(container, u.posx + iCol, u.posy + iRow) &&
        u_see(u.posx + iCol, u.posy + iRow, iTile)) {
     here.clear();
     here = m.i_at(u.posx + iCol, u.posy + iRow);
+
     for (int i = 0; i < here.size(); i++) {
-     grounditems.push_back(here[i]);
-     itemposx.push_back(iCol);
-     itemposy.push_back(iRow);
+     grounditems[iCol][iRow][here[i].tname(this)]++;
+     if (grounditems[iCol][iRow][here[i].tname(this)] == 1) {
+      iteminfo[here[i].tname(this)] = here[i];
+      iItemNum++;
+     }
     }
    }
   }
  }
 
+ int iStoreViewOffsetX = u.view_offset_x;
+ int iStoreViewOffsetY = u.view_offset_y;
+
  int iActive = 0;
- int iMaxRows = 13;
+ int iMaxRows = 25-iInfoHeight-2;
  int iStartPos = 0;
- int iItemNum = grounditems.size();
  long ch = '.';
 
  do {
   if (iItemNum > 0) {
+   u.view_offset_x = 0;
+   u.view_offset_y = 0;
+
    switch(ch) {
     case KEY_UP:
      iActive--;
@@ -5259,40 +5268,75 @@ void game::list_items()
    for (int i = 0; i < iMaxRows; i++)
     mvwprintz(w_items, 1 + i , 1, c_black, "%s", "                                                     ");
 
-   for (int i = iStartPos; i < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows); i++)
-    mvwprintz(w_items, 1 + i - iStartPos, 2, ((i == iActive) ? c_ltgreen : c_white), "%s", grounditems[i].tname(this).c_str());
+   mvwprintz(w_items, 0, 23 + ((iItemNum > 9) ? 0 : 1), c_ltgreen, " %*d", ((iItemNum > 9) ? 2 : 1), iActive+1);
+   wprintz(w_items, c_white, " / %*d ", ((iItemNum > 9) ? 2 : 1), iItemNum);
+
+   int iNum = 0;
+   int iActiveX = 0;
+   int iActiveY = 0;
+   std::string sActiveItemName;
+   std::stringstream sText;
+   for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
+    for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
+      for (std::map< std::string, int>::iterator iter=grounditems[iCol][iRow].begin(); iter!=grounditems[iCol][iRow].end(); ++iter) {
+       if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) ) {
+        if (iNum == iActive) {
+         iActiveX = iCol;
+         iActiveY = iRow;
+         sActiveItemName = iter->first;
+        }
+        sText.str("");
+        sText << iter->first;
+        if (iter->second > 1)
+         sText << " " << "[" << iter->second << "]";
+        mvwprintz(w_items, 1 + iNum - iStartPos, 2, ((iNum == iActive) ? c_ltgreen : c_white), "%s", (sText.str()).c_str());
+        mvwprintz(w_items, 1 + iNum - iStartPos, 48, ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
+                  ((iItemNum > 9) ? 2 : 1),
+                  trig_dist(0, 0, iCol, iRow),
+                  direction_name_short(direction_from(0, 0, iCol, iRow)).c_str()
+                 );
+       }
+
+       iNum++;
+      }
+    }
+   }
 
    wclear(w_item_info);
-   mvwprintz(w_item_info, 0, 2, c_white, "%s", grounditems[iActive].info().c_str());
+   mvwprintz(w_item_info, 0, 2, c_white, "%s", iteminfo[sActiveItemName].info().c_str());
    wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                         LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
    draw_ter();
-   std::vector<point> trajectory = line_to(u.posx, u.posy, u.posx + itemposx[iActive], u.posy + itemposy[iActive], 0);
+   std::vector<point> trajectory = line_to(u.posx, u.posy, u.posx + iActiveX, u.posy + iActiveY, 0);
    int junk;
    for (int i = 0; i < trajectory.size(); i++) {
     if (i > 0)
      m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, true, true);
 
     if (u_see(trajectory[i].x, trajectory[i].y, junk)) {
-     char bullet = '*';
+     char bullet = 'X';
      mvwputch(w_terrain, trajectory[i].y + SEEY - u.posy,
-                         trajectory[i].x + SEEX - u.posx, c_red, bullet);
+                         trajectory[i].x + SEEX - u.posx, c_white, bullet);
     }
    }
 
    wrefresh(w_terrain);
+   wrefresh(w_items);
+   wrefresh(w_item_info);
+   ch = getch();
   } else {
-   mvwprintz(w_items, 8, 6, c_ltred, "%s", "No Items around!");
+   add_msg("You dont see any items around you!");
+   ch = ' ';
   }
-
-  wrefresh(w_items);
-  wrefresh(w_item_info);
-  ch = getch();
  } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
+
+ u.view_offset_x = iStoreViewOffsetX;
+ u.view_offset_y = iStoreViewOffsetY;
+
  werase(w_items);
  delwin(w_items);
- erase();
+ erase();direction_name
  refresh_all();
 }
 
