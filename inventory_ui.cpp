@@ -479,19 +479,29 @@ std::vector<item> game::multidrop()
  return ret;
 }
 
-void game::compare()
+void game::compare(int iCompareX, int iCompareY)
 {
- mvwprintw(w_terrain, 0, 0, "Compare where? (Direction button)");
- wrefresh(w_terrain);
  int examx, examy;
- char ch = input();
- last_action += ch;
- if (ch == KEY_ESCAPE || ch == 'I' || ch == 'q')
-  return;
- get_direction(this, examx, examy, ch);
- if (examx == -2 || examy == -2) {
-  add_msg("Invalid direction.");
-  return;
+ char ch = '.';
+
+ if (iCompareX != -999 && iCompareX != -999) {
+  examx = iCompareX;
+  examy = iCompareY;
+ } else {
+  mvwprintw(w_terrain, 0, 0, "Compare where? (Direction button)");
+  wrefresh(w_terrain);
+
+  ch = input();
+  last_action += ch;
+  if (ch == KEY_ESCAPE || ch == 'q')
+   return;
+  if (ch == '\n' || ch == 'I')
+   ch = '.';
+  get_direction(this, examx, examy, ch);
+  if (examx == -2 || examy == -2) {
+   add_msg("Invalid direction.");
+   return;
+  }
  }
  examx += u.posx;
  examy += u.posy;

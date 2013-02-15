@@ -31,14 +31,14 @@ class item;
 struct itype;
 
 // TODO: This should be const& but almost no functions are const
-template<typename Type>
-struct position_wrapped {
+struct wrapped_vehicle{
  int x; 
  int y;
- Type* item;
+ int i; // submap col
+ int j; // submap row
+ vehicle* v;
 };
 
-typedef position_wrapped<vehicle> wrapped_vehicle;
 typedef std::vector<wrapped_vehicle> VehicleList;
 
 class map
@@ -83,6 +83,7 @@ class map
                           const bool bash = true);
 
 // vehicles
+ VehicleList get_vehicles();
  VehicleList get_vehicles(const int sx, const int sy, const int ex, const int ey);
 
 // checks, if tile is occupied by vehicle and by which part
@@ -103,6 +104,7 @@ class map
 // WARNING: not checking collisions!
  bool displace_vehicle (game *g, int &x, int &y, const int dx, const int dy, bool test);
  void vehmove(game* g);          // Vehicle movement
+ bool vehproceed(game* g);
 // move water under wheels. true if moved
  bool displace_water (const int x, const int y);
 

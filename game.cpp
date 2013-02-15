@@ -739,7 +739,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   else {
    int vpart = -1;
    vehicle *veh = m.veh_at (u.posx, u.posy, vpart);
-   if      (m.ter(u.posx, u.posy) == t_bed) 		              temp_conv += 100;
+   if      (m.ter(u.posx, u.posy) == t_bed)                       temp_conv += 100;
    else if (m.ter(u.posx, u.posy) == t_makeshift_bed)             temp_conv +=  50;
    else if (m.tr_at(u.posx, u.posy) == tr_cot)                    temp_conv -=  50;
    else if (m.tr_at(u.posx, u.posy) == tr_rollmat)                temp_conv -= 100;
@@ -751,14 +751,20 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   for (int j = -6 ; j <= 6 ; j++){
    for (int k = -6 ; k <= 6 ; k++){
     if (m.field_at(u.posx + j, u.posy + k).type == fd_fire) {
-	 // Ensure fire_dist >=1 to avoid divide-by-zero errors.
+ // Ensure fire_dist >=1 to avoid divide-by-zero errors.
      int fire_dist = std::max(1, std::max(j, k));;
-	 int fire_density = m.field_at(u.posx + j, u.posy + k).density;
-	 if (u.frostbite_timer[i] > 0) u.frostbite_timer[i] -= fire_density - fire_dist/2;
-	 temp_conv += 300*fire_density/(fire_dist*fire_dist); // How do I square things
-	 blister_count += fire_density/(fire_dist*fire_dist);
+     int fire_density = m.field_at(u.posx + j, u.posy + k).density;
+     if (u.frostbite_timer[i] > 0) u.frostbite_timer[i] -= fire_density - fire_dist/2;
+     temp_conv += 300*fire_density/(fire_dist*fire_dist); // How do I square things
+     blister_count += fire_density/(fire_dist*fire_dist);
     }
    }
+  }
+  // bionic says it is effective from 0F to 140F, these are the corresponding bodytemp values
+  if( u.has_bionic(bio_climate) && temp_conv > -461 && temp_conv < 1150) {
+    // Might want something slightly more nuanced than this
+    temp_conv = BODYTEMP_NORM;
+    blister_count = 0;
   }
   // Skin gets blisters from intense heat exposure. TODO : add penalties in disease.cpp
   if (blister_count - u.resist(body_part(i)) > 20) u.add_disease(dis_type(blister_pen), 1, this, i, num_bp);
@@ -5236,12 +5242,21 @@ void game::list_items()
  int iActive = 0;
  int iMaxRows = 25-iInfoHeight-2;
  int iStartPos = 0;
+ int iActiveX = 0;
+ int iActiveY = 0;
  long ch = '.';
 
  do {
   if (iItemNum > 0) {
    u.view_offset_x = 0;
    u.view_offset_y = 0;
+
+   if (ch == 'I') {
+    compare(iActiveX, iActiveY);
+    ch = '.';
+    wborder(w_items, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                     LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+   }
 
    switch(ch) {
     case KEY_UP:
@@ -5272,8 +5287,8 @@ void game::list_items()
    wprintz(w_items, c_white, " / %*d ", ((iItemNum > 9) ? 2 : 1), iItemNum);
 
    int iNum = 0;
-   int iActiveX = 0;
-   int iActiveY = 0;
+   iActiveX = 0;
+   iActiveY = 0;
    std::string sActiveItemName;
    std::stringstream sText;
    for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
