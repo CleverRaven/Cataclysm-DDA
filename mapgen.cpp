@@ -5859,32 +5859,45 @@ break;
    line(this, t_chainfence_v, 23, 0, 23, 23);
   }
    if (t_south == ot_fema) {
-   line(this, t_floor, 1, 22, 22, 23);
+   line(this, t_dirtfloor, 1, 22, 22, 23);
    }
    if (t_west == ot_fema) {
-   line(this, t_floor, 1, 1, 0, 22);
+   line(this, t_dirtfloor, 1, 1, 0, 22);
   }
-  
+  if(one_in(8)){
+  square(this, t_dirtfloor, 1, 1, 22, 22);
+  line(this, t_wall_h, 10, 2, 10, 16);
+  line(this, t_wall_h, 10, 16, 18, 16);
+  }
+  else{
   switch (rng(1, 4)) {
 
   case 1:
   square(this, t_dirtfloor, 1, 1, 22, 22);
+  square(this, t_wall_h, 8, 7, 15, 15);
+  square(this, t_dirtfloor, 11, 7, 12, 9);
+  square(this, t_dirtfloor, 11, 12, 12, 15);
+  
    break;
 
   case 2:
   square(this, t_dirtfloor, 1, 1, 22, 22);
+  ter(11, 10) = t_oven;
    break;
 
   case 3:
   square(this, t_dirtfloor, 1, 1, 22, 22);
+  ter(11, 10) = t_crate;
    break;
 
   case 4:
   square(this, t_dirtfloor, 1, 1, 22, 22);
+  ter(11, 10) = t_pit_corpsed;
    break;
   } // switch (rng(1, 4))
   }
-
+  }
+	
   break;
   //Oddzball-FEMA Camp End
 
