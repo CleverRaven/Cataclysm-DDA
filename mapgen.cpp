@@ -5887,7 +5887,7 @@ break;
 
   case 3:
   square(this, t_dirtfloor, 1, 1, 22, 22);
-  ter(11, 10) = t_crate;
+  ter(11, 10) = t_crate_o;
    break;
 
   case 4:
