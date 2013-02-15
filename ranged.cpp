@@ -112,8 +112,6 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  if (num_shots == 0)
   debugmsg("game::fire() - num_shots = 0!");
 
- // Make a sound at our location - Zombies will chase it
- /*make_gun_sound_effect(this, p, burst, weapon);*/ //Oddzball-Oops, wrong one.
 // Set up a timespec for use in the nanosleep function below
  timespec ts;
  ts.tv_sec = 0;
@@ -219,10 +217,14 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    weapon->charges -= 100;
   else
    weapon->charges--;
-if (one_in(100)) {
-	add_msg("Your weapon misfired!");} //Oddzball-Misfire!
-	
-else {
+
+  // Current guns have a durability between 5 and 9.
+  // Misfire chance is between 1/64 and 1/1024.
+  if (one_in(2 << firing->durability)) {
+   add_msg("Your weapon misfired!");
+   return;
+  }
+
   make_gun_sound_effect(this, p, burst, weapon);
   int trange = calculate_range(p, tarx, tary);
   double missed_by = calculate_missed_by(p, trange, weapon);
@@ -354,7 +356,6 @@ else {
        (curammo->m1 != WOOD && !one_in(15))  ))
     m.add_item(lastx, lasty, ammotmp);
  }
- } //Oddzball-Inside close
 
  if (weapon->num_charges() == 0)
   weapon->curammo = NULL;
@@ -773,7 +774,7 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
   if (burst)
    gunsound = "P-p-p-pow!";
   else
-   gunsound = "blam!";  //Oddzball-Gunshsot noise before actually firing? WTF...*sigh*
+   gunsound = "blam!";
  } else {
   if (burst)
    gunsound = "Kaboom!!";

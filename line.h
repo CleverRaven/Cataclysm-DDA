@@ -29,6 +29,7 @@ double slope_of(std::vector<point> line);
 std::vector<point> continue_line(std::vector<point> line, int distance);
 direction direction_from(int x1, int y1, int x2, int y2);
 std::string direction_name(direction dir);
+std::string direction_name_short(direction dir);
 
 
 #endif

@@ -88,7 +88,7 @@ mon("cougar",	species_mammal, 'C',	c_dkgray,	MS_MEDIUM,	FLESH, //Oddzball-Cougar
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	  3, 12,  0, 20,180, 14,  2,  3,  4,  4,  1,  0,  0, 15,  5,
 	&mdeath::normal,	&mattack::leap, "\
-A vicious and fast pack hunter."
+A vicious and fast hunter."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, MF_KEENNOSE, MF_BLEED);
 ANGER(MTRIG_TIME, MTRIG_PLAYER_WEAK, MTRIG_HURT);

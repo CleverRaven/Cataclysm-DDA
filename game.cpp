@@ -5301,45 +5301,62 @@ point game::look_around()
 
 void game::list_items()
 {
- WINDOW* w_items = newwin(15, 55, 0, 25);
- WINDOW* w_item_info = newwin(10, 55, 15, 25);
+ int iInfoHeight = 12;
+ WINDOW* w_items = newwin(25-iInfoHeight, 55, 0, 25);
+ WINDOW* w_item_info = newwin(iInfoHeight, 55, 25-iInfoHeight, 25);
 
  wborder(w_items, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                   LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
  std::vector <item> here;
- std::vector <item> grounditems;
- std::vector <int> itemposx;
- std::vector <int> itemposy;
+ std::map<int, std::map<int, std::map<std::string, int> > > grounditems;
+ std::map<std::string, item> iteminfo;
 
  //Area to search +- of players position
  int iSearchX = 12;
  int iSearchY = 12;
+ int iItemNum = 0;
 
  int iTile;
- for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
   for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
+  for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
     if (!m.has_flag(container, u.posx + iCol, u.posy + iRow) &&
        u_see(u.posx + iCol, u.posy + iRow, iTile)) {
     here.clear();
     here = m.i_at(u.posx + iCol, u.posy + iRow);
     for (int i = 0; i < here.size(); i++) {
-     grounditems.push_back(here[i]);
-     itemposx.push_back(iCol);
-     itemposy.push_back(iRow);
+     grounditems[iCol][iRow][here[i].tname(this)]++;
+     if (grounditems[iCol][iRow][here[i].tname(this)] == 1) {
+      iteminfo[here[i].tname(this)] = here[i];
+      iItemNum++;
+     }
     }
    }
   }
  }
 
+ int iStoreViewOffsetX = u.view_offset_x;
+ int iStoreViewOffsetY = u.view_offset_y;
+
  int iActive = 0;
- int iMaxRows = 13;
+ int iMaxRows = 25-iInfoHeight-2;
  int iStartPos = 0;
- int iItemNum = grounditems.size();
+ int iActiveX = 0;
+ int iActiveY = 0;
  long ch = '.';
 
  do {
   if (iItemNum > 0) {
+   u.view_offset_x = 0;
+   u.view_offset_y = 0;
+
+   if (ch == 'I') {
+    compare(iActiveX, iActiveY);
+    ch = '.';
+    wborder(w_items, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                     LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+   }
+
    switch(ch) {
     case KEY_UP:
      iActive--;
@@ -5365,37 +5382,73 @@ void game::list_items()
    for (int i = 0; i < iMaxRows; i++)
     mvwprintz(w_items, 1 + i , 1, c_black, "%s", "                                                     ");
 
-   for (int i = iStartPos; i < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows); i++)
-    mvwprintz(w_items, 1 + i - iStartPos, 2, ((i == iActive) ? c_ltgreen : c_white), "%s", grounditems[i].tname(this).c_str());
+   mvwprintz(w_items, 0, 23 + ((iItemNum > 9) ? 0 : 1), c_ltgreen, " %*d", ((iItemNum > 9) ? 2 : 1), iActive+1);
+   wprintz(w_items, c_white, " / %*d ", ((iItemNum > 9) ? 2 : 1), iItemNum);
+
+   int iNum = 0;
+   iActiveX = 0;
+   iActiveY = 0;
+   std::string sActiveItemName;
+   std::stringstream sText;
+   for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
+    for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
+      for (std::map< std::string, int>::iterator iter=grounditems[iCol][iRow].begin(); iter!=grounditems[iCol][iRow].end(); ++iter) {
+       if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) ) {
+        if (iNum == iActive) {
+         iActiveX = iCol;
+         iActiveY = iRow;
+         sActiveItemName = iter->first;
+        }
+        sText.str("");
+        sText << iter->first;
+        if (iter->second > 1)
+         sText << " " << "[" << iter->second << "]";
+        mvwprintz(w_items, 1 + iNum - iStartPos, 2, ((iNum == iActive) ? c_ltgreen : c_white), "%s", (sText.str()).c_str());
+        mvwprintz(w_items, 1 + iNum - iStartPos, 48, ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
+                  ((iItemNum > 9) ? 2 : 1),
+                  trig_dist(0, 0, iCol, iRow),
+                  direction_name_short(direction_from(0, 0, iCol, iRow)).c_str()
+                 );
+       }
+
+       iNum++;
+      }
+    }
+   }
 
    wclear(w_item_info);
-   mvwprintz(w_item_info, 0, 2, c_white, "%s", grounditems[iActive].info().c_str());
+   mvwprintz(w_item_info, 0, 2, c_white, "%s", iteminfo[sActiveItemName].info().c_str());
    wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                         LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
    draw_ter();
-   std::vector<point> trajectory = line_to(u.posx, u.posy, u.posx + itemposx[iActive], u.posy + itemposy[iActive], 0);
+   std::vector<point> trajectory = line_to(u.posx, u.posy, u.posx + iActiveX, u.posy + iActiveY, 0);
    int junk;
    for (int i = 0; i < trajectory.size(); i++) {
     if (i > 0)
      m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, true, true);
 
     if (u_see(trajectory[i].x, trajectory[i].y, junk)) {
-     char bullet = '*';
+     char bullet = 'X';
      mvwputch(w_terrain, trajectory[i].y + SEEY - u.posy,
-                         trajectory[i].x + SEEX - u.posx, c_red, bullet);
+                         trajectory[i].x + SEEX - u.posx, c_white, bullet);
     }
    }
 
    wrefresh(w_terrain);
-  } else {
-   mvwprintz(w_items, 8, 6, c_ltred, "%s", "No Items around!");
-  }
 
   wrefresh(w_items);
   wrefresh(w_item_info);
   ch = getch();
+  } else {
+   add_msg("You dont see any items around you!");
+   ch = ' ';
+  }
  } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
+
+ u.view_offset_x = iStoreViewOffsetX;
+ u.view_offset_y = iStoreViewOffsetY;
+
  werase(w_items);
  delwin(w_items);
  erase();
