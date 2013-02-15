@@ -5844,8 +5844,6 @@ break;
    rotate(3);
  } break;
 
- } break;
-
  case ot_fema: {
 // Start with floors all over
   square(this, t_floor, 1, 0, SEEX * 2 - 1, SEEY * 2 - 2);
