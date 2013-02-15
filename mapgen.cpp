@@ -2305,22 +2305,44 @@ case ot_lmoe: {
   line(this, t_wall_metal_h, 3, 12, 20, 12);
   line(this, t_wall_metal_v, 10, 12, 10, 20);
   line(this, t_wall_metal_v, 13, 12, 13, 20);
-  line(this, t_wall_metal_v, 8, 3, 8, 11);
+  line(this, t_chainfence_v, 7, 3, 7, 6);
+  line(this, t_chainfence_h, 3, 6, 6, 6);
   line(this, t_wall_metal_v, 15, 3, 15, 10);
   line(this, t_wall_metal_h, 15, 9, 20, 9);
   line(this, t_wall_metal_v, 17, 10, 17, 11);
   ter(10, 16) = t_door_metal_c;
   ter(13, 16) = t_door_metal_c;
+  ter(5, 6) = t_chaingate_c;
   line(this, t_door_metal_c, 11, 12, 12, 12);
   ter(17, 11) = t_door_metal_c;
-  ter(8, 6) = t_door_metal_c;
   ter(15, 6) = t_door_metal_c;
   square(this, t_rubble, 18, 18, 20, 20);
   line(this, t_rubble, 16, 20, 20, 16);
+  line(this, t_rubble, 17, 20, 20, 17);
   line(this, t_water_sh, 15, 20, 20, 15);
-  ter(11, 3) = t_emergency_light_flicker;
+  square(this, t_emergency_light_flicker, 11, 13, 12, 19);
+  ter(17, 16) = t_woodstove;
+  ter(14, 13) = t_chair;
+  ter(14, 13) = t_chair;
+  square(this, t_crate_c, 18, 13, 20, 14);
+  line(this, t_crate_c, 17, 13, 19, 15);
+  line(this, t_counter, 3, 13, 3, 20);
+  line(this, t_counter, 3, 20, 9, 20);
+  line(this, t_bookshelf, 5, 13, 8, 13);
+  square(this, t_table, 5, 15, 6, 17);
+  ter(7, 16) = t_chair;
+  line(this, t_rack, 3, 11, 7, 11);
+  line(this, t_rack, 3, 9, 7, 9);
+  line(this, t_rack, 3, 3, 6, 3);
+  ter(10, 7) = t_column;
+  ter(13, 7) = t_column;
+  line(this, t_bookshelf, 16, 3, 16, 5);
+  square(this, t_bed, 19, 3, 20, 4);
+  ter(19, 7) = t_chair;
+  ter(20, 7) = t_desk;
   
-  place_items(mi_shelter, 80, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9, false, 0);
+  
+  //place_items(mi_shelter, 80, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9, false, 0);
   break;
 
  case ot_lab:
