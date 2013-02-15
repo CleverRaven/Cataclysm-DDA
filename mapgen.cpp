@@ -2328,7 +2328,7 @@ case ot_lmoe: {
   line(this, t_crate_c, 17, 13, 19, 15);
   line(this, t_counter, 3, 13, 3, 20);
   line(this, t_counter, 3, 20, 9, 20);
-  line(this, t_bookshelf, 5, 13, 8, 13);
+  line(this, t_bookcase, 5, 13, 8, 13);
   square(this, t_table, 5, 15, 6, 17);
   ter(7, 16) = t_chair;
   line(this, t_rack, 3, 11, 7, 11);
@@ -2336,7 +2336,7 @@ case ot_lmoe: {
   line(this, t_rack, 3, 3, 6, 3);
   ter(10, 7) = t_column;
   ter(13, 7) = t_column;
-  line(this, t_bookshelf, 16, 3, 16, 5);
+  line(this, t_bookcase, 16, 3, 16, 5);
   square(this, t_bed, 19, 3, 20, 4);
   ter(19, 7) = t_chair;
   ter(20, 7) = t_desk;
