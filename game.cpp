@@ -760,6 +760,12 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
     }
    }
   }
+  // bionic says it is effective from 0F to 140F, these are the corresponding bodytemp values
+  if( u.has_bionic(bio_climate) && temp_conv > -461 && temp_conv < 1150) {
+    // Might want something slightly more nuanced than this
+    temp_conv = BODYTEMP_NORM;
+    blister_count = 0;
+  }
   // Skin gets blisters from intense heat exposure. TODO : add penalties in disease.cpp
   if (blister_count - u.resist(body_part(i)) > 20) u.add_disease(dis_type(blister_pen), 1, this, i, num_bp);
   // Increments current body temperature towards convergant
