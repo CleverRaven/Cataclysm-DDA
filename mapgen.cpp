@@ -5834,6 +5834,15 @@ break;
   line(this, t_chainfence_h,  1, 10,  SEEX * 2 - 1, 10);
 // Bottom wall
   line(this, t_chainfence_h,  0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
+  
+  // Rotate to face the road
+  if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
+   rotate(1);
+  if (t_south >= ot_road_null && t_south <= ot_bridge_ew)
+   rotate(2);
+  if (t_west >= ot_road_null && t_west <= ot_bridge_ew)
+   rotate(3);
+ } break;
 
  } break;
 
@@ -5852,11 +5861,30 @@ break;
    line(this, t_chainfence_v, 23, 0, 23, 23);
   }
    if (t_south == ot_fema) {
-   line(this, t_floor, 0, 23, 22, 23);
+   line(this, t_floor, 1, 22, 22, 23);
    }
    if (t_west == ot_fema) {
-   line(this, t_floor, 0, 0, 0, 22);
+   line(this, t_floor, 1, 1, 0, 22);
   }
+  
+  switch (rng(1, 4)) {
+
+  case 1:
+  square(this, t_dirtfloor, 1, 1, 22, 22);
+   break;
+
+  case 2:
+  square(this, t_dirtfloor, 1, 1, 22, 22);
+   break;
+
+  case 3:
+  square(this, t_dirtfloor, 1, 1, 22, 22);
+   break;
+
+  case 4:
+  square(this, t_dirtfloor, 1, 1, 22, 22);
+   break;
+  } // switch (rng(1, 4))
   }
 
   break;
