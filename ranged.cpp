@@ -58,7 +58,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   } else {
    weapon = &p.weapon;
   }
-  weapon->curammo = tmpammo;
+  curammo = tmpammo;
   weapon->active = false;
   weapon->charges = 0;
  } else if (gunmod != NULL) {
