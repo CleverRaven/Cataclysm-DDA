@@ -2345,16 +2345,16 @@ case ot_lmoe: {
   ter(20, 11) = t_toilet;
   place_items(mi_allguns, 80, 3, 3, 6, 3, false, 0);
   place_items(mi_ammo, 80, 3, 3, 6, 3, false, 0);
-  place_items(mi_cannedfood, 80, 3, 9, 7, 9, false, 0);
+  place_items(mi_cannedfood, 90, 3, 9, 7, 9, false, 0);
   place_items(mi_survival_tools, 80, 3, 11, 7, 11, false, 0);
   place_items(mi_bags, 50, 3, 11, 7, 11, false, 0);
   place_items(mi_softdrugs, 50, 3, 11, 7, 11, false, 0);
   place_items(mi_manuals, 60, 5, 13, 8, 13, false, 0);
   place_items(mi_textbooks, 60, 5, 13, 8, 13, false, 0);
-  place_items(mi_tools, 70, 5, 15, 6, 17, false, 0);
+  place_items(mi_tools, 90, 5, 15, 6, 17, false, 0);
   place_items(mi_hardware, 70, 3, 13, 3, 20, false, 0);
   place_items(mi_stash_wood, 70, 3, 20, 9, 20, false, 0);
-  place_items(mi_shelter, 60, 18, 13, 20, 14, false, 0);
+  place_items(mi_shelter, 70, 18, 13, 20, 14, false, 0);
   place_items(mi_novels, 70, 16, 3, 16, 5, false, 0);
   place_items(mi_office, 50, 20, 7, 20, 7, false, 0);
   
