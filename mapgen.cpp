@@ -2320,7 +2320,7 @@ case ot_lmoe: {
   line(this, t_rubble, 16, 20, 20, 16);
   line(this, t_rubble, 17, 20, 20, 17);
   line(this, t_water_sh, 15, 20, 20, 15);
-  square(this, t_emergency_light_flicker, 11, 13, 12, 19);
+  //square(this, t_emergency_light_flicker, 11, 13, 12, 19);
   ter(17, 16) = t_woodstove;
   ter(14, 13) = t_chair;
   ter(14, 18) = t_chair;
@@ -5841,20 +5841,20 @@ break;
 // Start with floors all over
   square(this, t_floor, 1, 0, SEEX * 2 - 1, SEEY * 2 - 2);
 // We always have a left and bottom wall
-  line(this, t_chainfence_v, 0, 0, 0, SEEY * 2 - 2);
-  line(this, t_chainfence_h, 0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
-// tw and rw are the boundaries of the rooms inside...
-  tw = 0;
-  rw = SEEX * 2 - 1;
+  line(this, t_chainfence_v, 0, 0, 0, 23);
+  line(this, t_chainfence_h, 0, 23, 23, 23);
 // ...if we need outside walls, adjust tw & rw and build them
 // We build windows below.
   if (t_north != ot_fema_entrance && t_north != ot_fema) {
-   tw = 1;
-   line(this, t_chainfence_h, 0, 0, SEEX * 2 - 1, 0);
+   line(this, t_chainfence_h, 0, 0, 23, 0);
   }
   if (t_east != ot_fema_entrance && t_east != ot_fema) {
-   rw = SEEX * 2 - 2;
-   line(this, t_chainfence_v, SEEX * 2 - 1, 0, SEEX * 2 - 1, SEEX * 2 - 1);
+   line(this, t_chainfence_v, 23, 0, 23, 23);
+  }
+    if (t_south = ot_fema) {
+   line(this, t_floor, 0, 23, 23, 23);
+   if (t_west = ot_fema) {
+   line(this, t_floor, 0, 0, 0, 23);
   }
 
   break;
