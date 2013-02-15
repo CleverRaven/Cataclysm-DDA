@@ -2260,6 +2260,29 @@ case ot_shelter: {
   line(this, t_stairs_up, SEEX - 1, SEEY * 2 - 8, SEEX, SEEY * 2 - 8);
   place_items(mi_shelter, 80, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9, false, 0);
   break;
+  
+  //....
+case ot_lmoe: {
+// Init to grass & dirt;
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++)
+    ter(i, j) = grass_or_dirt();
+  }
+	square(this, t_rock, 10, 9, 13, 12);
+	square(this, t_rock_floor, 11, 10, 12, 11);
+	line(this, t_stairs_down, 11, 10, 12, 10);
+	ter(11, 12) = t_door_metal_c;
+        }
+
+  break;
+//....
+
+ case ot_lmoe_under:
+  square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
+  square(this, t_rock_floor, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9);
+  line(this, t_stairs_up, SEEX - 1, SEEY * 2 - 8, SEEX, SEEY * 2 - 8);
+  place_items(mi_shelter, 80, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9, false, 0);
+  break;
 
  case ot_lab:
  case ot_lab_stairs:

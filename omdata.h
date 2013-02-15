@@ -91,7 +91,7 @@ enum oter_id {
  ot_hospital_entrance, ot_hospital,
  ot_mansion_entrance, ot_mansion, ot_fema_entrance, ot_fema,
 // Goodies/dungeons
- ot_shelter, ot_shelter_under,
+ ot_shelter, ot_shelter_under, ot_lmoe, ot_lmoe_under,
  ot_lab, ot_lab_stairs, ot_lab_core, ot_lab_finale,
  ot_nuke_plant_entrance, ot_nuke_plant, // TODO
  ot_bunker, ot_outpost,
@@ -271,6 +271,8 @@ const oter_t oterlist[num_ter_types] = {
 {"fema camp",		'F',	i_blue,	5, build_extras, false, false}, //Oddzball- Added fema graphic
 {"evac shelter",	'+',	c_white,	2, no_extras, true, false},
 {"evac shelter",	'+',	c_white,	2, no_extras, false, true},
+{"LMOE shelter",	'+',	c_red,	2, no_extras, true, false},
+{"LMOE shelter",	'+',	c_red,	2, no_extras, false, true},
 {"science lab",		'L',	c_ltblue,	5, no_extras, false, false},
 {"science lab",		'L',	c_blue,		5, no_extras, true, false},
 {"science lab",		'L',	c_ltblue,	5, no_extras, false, false},
@@ -411,6 +413,7 @@ enum omspec_id
  OMSPEC_HOUSE,
  OMSPEC_GAS,
  OMSPEC_CABIN,
+ OMSPEC_LMOE,
  OMSPEC_FARM,
  OMSPEC_TEMPLE,
  OMSPEC_LAB,
@@ -455,6 +458,9 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 
 {ot_cabin,   0, 50, 20, -1, mcat_null, 0, 0, 0, 0,  // Woods cabin
  &omspec_place::forest, 0},
+ 
+ {ot_lmoe,   0, 50, 20, -1, mcat_null, 0, 0, 0, 0,  //Oddzball- LMOE Test
+ &omspec_place::land, 0},
  
  {ot_farm,   5, 10, 20, -1, mcat_null, 0, 0, 0, 0,  // Oddzball-farm
  &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) |mfb(OMS_FLAG_DIRT_LOT)},
