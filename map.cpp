@@ -460,14 +460,27 @@ bool map::vehproceed(game* g){
       return true;
    }
 
-   if (has_flag(swimmable, x, y) &&
-         move_cost_ter_only(x, y) == 0) { // deep water
-      if (pl_ctrl)
+   { // sink in water?
+      int num_wheels = 0, submerged_wheels = 0;
+      for (int ep = 0; ep < veh->external_parts.size(); ep++) {
+         const int p = veh->external_parts[ep];
+         if (veh->part_flag(p, vpf_wheel)){
+            num_wheels++;
+            const int px = x + veh->parts[p].precalc_dx[0];
+            const int py = y + veh->parts[p].precalc_dy[0];
+            if(move_cost_ter_only(px, py) == 0) // deep water
+               submerged_wheels++;
+         }
+      }
+      // submerged wheels threshold is 2/3.
+      if (num_wheels &&  (float)submerged_wheels / num_wheels > .666){
          g->add_msg ("Your %s sank.", veh->name.c_str());
-      veh->unboard_all ();
-      // destroy vehicle (sank to nowhere)
-      destroy_vehicle(veh);
-      return true;
+         if (pl_ctrl)
+            veh->unboard_all ();
+         // destroy vehicle (sank to nowhere)
+         destroy_vehicle(veh);
+         return true;
+      }
    }
    // One-tile step take some of movement
    //  terrain cost is 1000 on roads.
