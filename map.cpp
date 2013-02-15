@@ -318,8 +318,11 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
  // move the vehicle
  vehicle *veh = grid[src_na]->vehicles[our_i];
  // don't let it go off grid
- if (!inbounds(x2, y2))
+ if (!inbounds(x2, y2)){
   veh->stop();
+  debugmsg ("stopping vehicle, displaced dx=%d, dy=%d", dx,dy);
+  return false;
+ }
 
     // record every passenger inside
  std::vector<int> psg_parts = veh->boarded_parts();
@@ -441,12 +444,15 @@ bool map::vehproceed(game* g){
    // k slowdown first.
    int slowdown = veh->skidding? 200 : 20; // mph lost per tile when coasting
    float kslw = (0.1 + veh->k_dynamics()) / ((0.1) + veh->k_mass());
-   slowdown = (int) (slowdown * kslw);
-   if (veh->velocity < 0)
+   slowdown = (int) ceil(kslw * slowdown);
+   if (abs(slowdown) > abs(veh->velocity))
+      veh->stop();
+   else if (veh->velocity < 0)
       veh->velocity += slowdown;
    else
       veh->velocity -= slowdown;
-   if (abs(veh->velocity) < 20) //low enough for bicycles to go in reverse.
+
+   if (veh->velocity && abs(veh->velocity) < 20) //low enough for bicycles to go in reverse.
       veh->stop();
 
    if(veh->velocity == 0) {
@@ -560,14 +566,14 @@ bool map::vehproceed(game* g){
          velo_veh1[1] = sin(veh->move.dir() * M_PI/180);
          // rl-normalize by making max unit distance == 1
          // that makes so much sense :)
-         float rl_scale_by = 1 / (abs(velo_veh1[0]) > abs(velo_veh1[1]) ? abs(velo_veh1[0]) : abs(velo_veh1[1]));
+         float rl_scale_by = 1 / (fabs(velo_veh1[0]) > fabs(velo_veh1[1]) ? fabs(velo_veh1[0]) : fabs(velo_veh1[1]));
          velo_veh1[0] *= rl_scale_by * veh->velocity;
          velo_veh1[1] *= rl_scale_by * veh->velocity;
       }
       { //find veh2 velocity
          velo_veh2[0] = cos(veh2->move.dir() * M_PI/180);
          velo_veh2[1] = sin(veh2->move.dir() * M_PI/180);
-         float rl_scale_by = 1 / (abs(velo_veh2[0]) > abs(velo_veh2[1]) ? abs(velo_veh2[0]) : abs(velo_veh2[1]));
+         float rl_scale_by = 1 / (fabs(velo_veh2[0]) > fabs(velo_veh2[1]) ? fabs(velo_veh2[0]) : fabs(velo_veh2[1]));
          velo_veh2[0] *= rl_scale_by * veh->velocity;
          velo_veh2[1] *= rl_scale_by * veh->velocity;
       }
