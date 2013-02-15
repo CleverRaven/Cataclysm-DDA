@@ -2323,7 +2323,7 @@ case ot_lmoe: {
   square(this, t_emergency_light_flicker, 11, 13, 12, 19);
   ter(17, 16) = t_woodstove;
   ter(14, 13) = t_chair;
-  ter(14, 13) = t_chair;
+  ter(14, 18) = t_chair;
   square(this, t_crate_c, 18, 13, 20, 14);
   line(this, t_crate_c, 17, 13, 19, 15);
   line(this, t_counter, 3, 13, 3, 20);
@@ -2340,9 +2340,27 @@ case ot_lmoe: {
   square(this, t_bed, 19, 3, 20, 4);
   ter(19, 7) = t_chair;
   ter(20, 7) = t_desk;
+  line(this, t_rubble, 15, 10, 16, 10);
+  ter(19, 10) = t_sink;
+  ter(20, 11) = t_toilet;
+  place_items(mi_allguns, 80, 3, 3, 6, 3, false, 0);
+  place_items(mi_ammo, 80, 3, 3, 6, 3, false, 0);
+  place_items(mi_cannedfood, 80, 3, 9, 7, 9, false, 0);
+  place_items(mi_survival_tools, 80, 3, 11, 7, 11, false, 0);
+  place_items(mi_bags, 50, 3, 11, 7, 11, false, 0);
+  place_items(mi_softdrugs, 50, 3, 11, 7, 11, false, 0);
+  place_items(mi_manuals, 60, 5, 13, 8, 13, false, 0);
+  place_items(mi_textbooks, 60, 5, 13, 8, 13, false, 0);
+  place_items(mi_tools, 70, 5, 15, 6, 17, false, 0);
+  place_items(mi_hardware, 70, 3, 13, 3, 20, false, 0);
+  place_items(mi_stash_wood, 70, 3, 20, 9, 20, false, 0);
+  place_items(mi_shelter, 60, 18, 13, 20, 14, false, 0);
+  place_items(mi_novels, 70, 16, 3, 16, 5, false, 0);
+  place_items(mi_office, 50, 20, 7, 20, 7, false, 0);
   
   
-  //place_items(mi_shelter, 80, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9, false, 0);
+  
+  //place_items(whatever, 80, 0, 0, 0, 0, false, 0);
   break;
 
  case ot_lab:

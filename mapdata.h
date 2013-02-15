@@ -420,7 +420,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(container)|mfb(place_item)},
 {"trash can",        '&', c_ltcyan,  3, tr_null,
         mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(container)|mfb(place_item)},
-{"desk",             '#', c_brown,   3, tr_null,
+{"desk",             '#', c_ltred,   3, tr_null,
         mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)|
         mfb(container)|mfb(place_item)},
 {"sandbox", '#', c_yellow, 3, tr_null,
@@ -483,10 +483,10 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(container)|mfb(bashable)|mfb(place_item)},
 {"cloning vat",      '0', c_ltcyan,  0, tr_null,
         mfb(transparent)|mfb(bashable)|mfb(sealed)|mfb(place_item)},
-{"crate",            '{', c_brown,   0, tr_null,
+{"crate",            'X', i_brown,   0, tr_null,
         mfb(transparent)|mfb(bashable)|mfb(container)|mfb(sealed)|
         mfb(flammable)|mfb(deconstruct)|mfb(place_item)},
-{"open crate",       '{', c_brown,   0, tr_null,
+{"open crate",       'O', i_brown,   0, tr_null,
         mfb(transparent)|mfb(bashable)|mfb(container)|mfb(flammable)|mfb(place_item)},
 {"stairs down",      '>', c_yellow,  2, tr_null,
         mfb(transparent)|mfb(goes_down)|mfb(place_item)},
