@@ -168,8 +168,8 @@ void vehicle::save (std::ofstream &stout)
 }
 
 void vehicle::init_state(game* g)
-{   
-    int consistent_bignesses[num_vparts]; 
+{
+    int consistent_bignesses[num_vparts];
     memset (consistent_bignesses, 0, sizeof(consistent_bignesses));
     for (int p = 0; p < parts.size(); p++)
     {
@@ -188,7 +188,7 @@ void vehicle::init_state(game* g)
         if (part_flag(p, vpf_seat))        // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
         //a bit of initial damage :)
-        //clamp 4d8 to the range of [8,20]. 8=broken, 20=undamaged. 
+        //clamp 4d8 to the range of [8,20]. 8=broken, 20=undamaged.
         int broken = 8, unhurt = 20;
         int roll = dice(4,8);
         if(roll < unhurt){
@@ -278,7 +278,7 @@ int vehicle::part_power (int index){
    if(part_flag (index, vpf_variable_size)){ // example: 2.42-L V-twin engine
       return parts[index].bigness;
    }
-   else // example: foot crank 
+   else // example: foot crank
       return part_info(index).power;
 }
 
@@ -454,7 +454,7 @@ void vehicle::remove_part (int p)
     parts.erase(parts.begin() + p);
     find_external_parts ();
     find_exhaust ();
-    precalc_mounts (0, face.dir());    
+    precalc_mounts (0, face.dir());
     insides_dirty = true;
 }
 
@@ -538,7 +538,7 @@ nc_color vehicle::part_color (int p)
     else
     if (parts[p].blood > 0)
         return c_ltred;
-    
+
     if (parts[pd].hp <= 0)
         return part_info(pd).color_broken;
 
@@ -775,7 +775,7 @@ int vehicle::basic_consumption (int ftype)
             ftype == part_info(p).fuel_type &&
             parts[p].hp > 0)
         {
-            fcon += part_power(p); 
+            fcon += part_power(p);
             cnt++;
         }
     if (fcon < 100 && cnt > 0)
@@ -826,7 +826,7 @@ int vehicle::safe_velocity (bool fueled)
     int cnt = 0;
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, vpf_engine) &&
-            (fuel_left (part_info(p).fuel_type, true) || !fueled || 
+            (fuel_left (part_info(p).fuel_type, true) || !fueled ||
              part_info(p).fuel_type == AT_MUSCLE) &&
             parts[p].hp > 0)
         {
@@ -1063,7 +1063,7 @@ void vehicle::thrust (int thd)
     if (!valid_wheel_config() && velocity == 0)
     {
         if (pl_ctrl)
-            g->add_msg ("The %s don't have enough wheels to move!", name.c_str());
+            g->add_msg ("The %s doesn't have enough wheels to move!", name.c_str());
         return;
     }
 
@@ -1077,9 +1077,9 @@ void vehicle::thrust (int thd)
             if (pl_ctrl)
             {
                 if (total_power (false) < 1)
-                    g->add_msg ("The %s don't have engine!", name.c_str());
+                    g->add_msg ("The %s doesn't have an engine!", name.c_str());
                 else
-                    g->add_msg ("The %s's engine emits sneezing sound.", name.c_str());
+                    g->add_msg ("The %s's engine emits a sneezing sound.", name.c_str());
             }
             cruise_velocity = 0;
             return;
@@ -1096,8 +1096,11 @@ void vehicle::thrust (int thd)
             {
                 int dmg = rng (strn * 2, strn * 4);
                 damage_direct (p, dmg, 0);
+                if(one_in(2))
+                 g->add_msg("Your engine emits a high pitched whine.");
+                else
+                 g->add_msg("Your engine emits a loud grinding sound.");
             }
-
         // add sound and smoke
         int smk = noise (true, true);
         if (smk > 0)
@@ -1298,9 +1301,9 @@ int vehicle::part_collision (int vx, int vy, int part, int x, int y)
         if (pl_ctrl)
         {
             if (snd.length() > 0)
-                g->add_msg ("Your %s's %s rams into %s with a %s", name.c_str(), part_info(part).name, obs_name.c_str(), snd.c_str());
+                g->add_msg ("Your %s's %s rams into a %s with a %s", name.c_str(), part_info(part).name, obs_name.c_str(), snd.c_str());
             else
-                g->add_msg ("Your %s's %s rams into %s.", name.c_str(), part_info(part).name, obs_name.c_str());
+                g->add_msg ("Your %s's %s rams into a %s.", name.c_str(), part_info(part).name, obs_name.c_str());
         }
         else
         if (snd.length() > 0)
@@ -1790,8 +1793,8 @@ int vehicle::damage_direct (int p, int dmg, int type)
         else
         if (parts[p].hp <= 0 && part_flag(p, vpf_unmount_on_damage))
         {
-            g->m.add_item (global_x() + parts[p].precalc_dx[0], 
-                           global_y() + parts[p].precalc_dy[0], 
+            g->m.add_item (global_x() + parts[p].precalc_dx[0],
+                           global_y() + parts[p].precalc_dy[0],
                            g->itypes[part_info(p).item], g->turn);
             remove_part (p);
         }
@@ -1809,7 +1812,7 @@ void vehicle::leak_fuel (int p)
     if (ft == AT_GAS)
     {
         int x = global_x();
-        int y = global_y(); 
+        int y = global_y();
         for (int i = x - 2; i <= x + 2; i++)
             for (int j = y - 2; j <= y + 2; j++)
                 if (g->m.move_cost(i, j) > 0 && one_in(2))
