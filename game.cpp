@@ -739,7 +739,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   else {
    int vpart = -1;
    vehicle *veh = m.veh_at (u.posx, u.posy, vpart);
-   if      (m.ter(u.posx, u.posy) == t_bed) 		              temp_conv += 100;
+   if      (m.ter(u.posx, u.posy) == t_bed)                       temp_conv += 100;
    else if (m.ter(u.posx, u.posy) == t_makeshift_bed)             temp_conv +=  50;
    else if (m.tr_at(u.posx, u.posy) == tr_cot)                    temp_conv -=  50;
    else if (m.tr_at(u.posx, u.posy) == tr_rollmat)                temp_conv -= 100;
@@ -751,12 +751,12 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   for (int j = -6 ; j <= 6 ; j++){
    for (int k = -6 ; k <= 6 ; k++){
     if (m.field_at(u.posx + j, u.posy + k).type == fd_fire) {
-	 // Ensure fire_dist >=1 to avoid divide-by-zero errors.
+ // Ensure fire_dist >=1 to avoid divide-by-zero errors.
      int fire_dist = std::max(1, std::max(j, k));;
-	 int fire_density = m.field_at(u.posx + j, u.posy + k).density;
-	 if (u.frostbite_timer[i] > 0) u.frostbite_timer[i] -= fire_density - fire_dist/2;
-	 temp_conv += 300*fire_density/(fire_dist*fire_dist); // How do I square things
-	 blister_count += fire_density/(fire_dist*fire_dist);
+     int fire_density = m.field_at(u.posx + j, u.posy + k).density;
+     if (u.frostbite_timer[i] > 0) u.frostbite_timer[i] -= fire_density - fire_dist/2;
+     temp_conv += 300*fire_density/(fire_dist*fire_dist); // How do I square things
+     blister_count += fire_density/(fire_dist*fire_dist);
     }
    }
   }
