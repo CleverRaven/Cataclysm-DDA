@@ -3352,6 +3352,10 @@ void player::process_active_items(game *g)
 
 item player::remove_weapon()
 {
+ if (weapon.has_flag(IF_CHARGE) && weapon.active) { //unwield a charged charge rifle.
+  weapon.charges = 0;
+  weapon.active = false;
+ }
  item tmp = weapon;
  weapon = ret_null;
 // We need to remove any boosts related to our style
@@ -4070,17 +4074,6 @@ bool player::wield(game *g, int index)
   g->add_msg("You cannot unwield your %s!  Withdraw them with 'p'.",
              weapon.tname().c_str());
   return false;
- }
- if (weapon.has_flag(IF_CHARGE) && weapon.active) { //unwield a charged charge rifle.
-  if (one_in(9 - weapon.charges)) {
-   g->add_msg("Your %s discharges!", weapon.tname().c_str());
-   point target(posx + rng(-12, 12), posy + rng(-12, 12));
-   std::vector<point> traj = line_to(posx, posy, target.x, target.y, 0);
-   g->fire(*this, target.x, target.y, traj, false);
-  } else
-   g->add_msg("Your %s spins down.", weapon.tname().c_str());
-  weapon.charges = 0;
-  weapon.active = false;
  }
  if (index == -3) {
   bool pickstyle = (!styles.empty());
