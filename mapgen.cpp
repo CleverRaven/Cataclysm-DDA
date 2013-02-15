@@ -5851,12 +5851,12 @@ break;
   if (t_east != ot_fema_entrance && t_east != ot_fema) {
    line(this, t_chainfence_v, 23, 0, 23, 23);
   }
-    if (t_south = ot_fema) {
+   /* if (t_south = ot_fema) {
    line(this, t_floor, 0, 23, 23, 23);
    }
    if (t_west = ot_fema) {
    line(this, t_floor, 0, 0, 0, 23);
-  }
+  }*/
   }
 
   break;
