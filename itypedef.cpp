@@ -1354,19 +1354,19 @@ ARMOR("sneakers",	80, 100,C_SHOES,	LEATHER,	MNULL,
 Guaranteed to make you run faster and jump higher!");
 
 ARMOR("boots",		70, 120,C_SHOES,	LEATHER,	MNULL,
-    7,  6,  1, -1,  1,  1,  4,  2,  40,  0,	mfb(bp_feet), "\
+    7,  6,  1, -1,  1,  1,  4,  2,  50,  0,	mfb(bp_feet), "\
 Tough leather boots. Very durable.");
 
 ARMOR("steeltoed boots",50, 135,C_SHOES,	LEATHER,	STEEL,
-    7,  9,  4, -1,  1,  4,  4,  3,  25,  0,	mfb(bp_feet), "\
+    7,  9,  4, -1,  1,  4,  4,  3,  30,  0,	mfb(bp_feet), "\
 Leather boots with a steel toe. Extremely durable.");
 
 ARMOR("winter boots",	60, 140,C_SHOES,	PLASTIC,	WOOL,
-    8,  7,  0, -1,  2,  0,  2,  1,  75,  0,	mfb(bp_feet), "\
+    8,  7,  0, -1,  2,  0,  2,  1,  85,  0,	mfb(bp_feet), "\
 Cumbersome boots designed for warmth.");
 
 ARMOR("mocassins",	 5,  80,C_SHOES,	LEATHER,	WOOL,
-    2,  1, -3,  0,  0,  0,  1,  0,  30,  0,	mfb(bp_feet), "\
+    2,  1, -3,  0,  0,  0,  1,  0,  40,  0,	mfb(bp_feet), "\
 Simple shoes made from animal pelts.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
@@ -1391,17 +1391,17 @@ Guaranteed to make you run faster and jump higher!\n\
 These sneakers are a perfect fit for you.");
 
 ARMOR("boots",		5, 120,C_SHOES,	LEATHER,	MNULL,
-    7,  6,  1, -1,  0,  1,  4,  2,  45,  0,	mfb(bp_feet), "\
+    7,  6,  1, -1,  0,  1,  4,  2,  60,  0,	mfb(bp_feet), "\
 Tough leather boots. Very durable.\n\
 These boots are a perfect fit for you.");
 
 ARMOR("steeltoed boots",5, 135,C_SHOES,	LEATHER,	STEEL,
-    7,  9,  4, -1,  0,  4,  4,  3,  30,  0,	mfb(bp_feet), "\
+    7,  9,  4, -1,  0,  4,  4,  3,  40,  0,	mfb(bp_feet), "\
 Leather boots with a steel toe. Extremely durable.\n\
 These boots are a perfect fit for you.");
 
 ARMOR("winter boots",   5, 140,C_SHOES,	PLASTIC,	WOOL,
-    8,  7,  0, -1,  1,  0,  2,  1,  90,  0,	mfb(bp_feet), "\
+    8,  7,  0, -1,  1,  0,  2,  1,  100,  0,	mfb(bp_feet), "\
 Cumbersome boots designed for warmth.\n\
 These boots are a perfect fit for you.");
 
