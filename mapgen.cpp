@@ -5841,6 +5841,7 @@ break;
 // Start with floors all over
   square(this, t_floor, 1, 0, SEEX * 2 - 1, SEEY * 2 - 2);
 // We always have a left and bottom wall
+if(t_west 
   line(this, t_chainfence_v, 0, 0, 0, 23);
   line(this, t_chainfence_h, 0, 23, 23, 23);
 // ...if we need outside walls, adjust tw & rw and build them
@@ -5851,12 +5852,12 @@ break;
   if (t_east != ot_fema_entrance && t_east != ot_fema) {
    line(this, t_chainfence_v, 23, 0, 23, 23);
   }
-   /* if (t_south = ot_fema) {
-   line(this, t_floor, 0, 23, 23, 23);
+   if (t_south == ot_fema) {
+   line(this, t_floor, 0, 23, 22, 23);
    }
-   if (t_west = ot_fema) {
-   line(this, t_floor, 0, 0, 0, 23);
-  }*/
+   if (t_west == ot_fema) {
+   line(this, t_floor, 0, 0, 0, 22);
+  }
   }
 
   break;
