@@ -5846,7 +5846,7 @@ break;
 
  case ot_fema: {
 // Start with floors all over
-  square(this, t_floor, 1, 0, SEEX * 2 - 1, SEEY * 2 - 2);
+  square(this, t_dirtfloor, 0, 0, 23, 23);
 // We always have a left and bottom wall 
   line(this, t_chainfence_v, 0, 0, 0, 23);
   line(this, t_chainfence_h, 0, 23, 23, 23);
@@ -5859,10 +5859,10 @@ break;
    line(this, t_chainfence_v, 23, 0, 23, 23);
   }
    if (t_south == ot_fema) {
-   line(this, t_dirtfloor, 1, 22, 22, 23);
+   line(this, t_dirtfloor, 0, 23, 23, 23);
    }
    if (t_west == ot_fema) {
-   line(this, t_dirtfloor, 1, 1, 0, 22);
+   line(this, t_dirtfloor, 0, 0, 0, 23);
   }
   if(one_in(8)){
   square(this, t_dirtfloor, 1, 1, 22, 22);
