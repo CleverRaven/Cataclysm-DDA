@@ -2268,10 +2268,31 @@ case ot_lmoe: {
    for (int j = 0; j < SEEY * 2; j++)
     ter(i, j) = grass_or_dirt();
   }
+	square(this, t_shrub, 7, 6, 16, 12);
 	square(this, t_rock, 10, 9, 13, 12);
 	square(this, t_rock_floor, 11, 10, 12, 11);
 	line(this, t_stairs_down, 11, 10, 12, 10);
 	ter(11, 12) = t_door_metal_c;
+	line(this, t_tree, 9, 8, 14, 8);
+	line(this, t_tree, 9, 8, 9, 12);
+	line(this, t_tree, 14, 8, 14, 12);
+	square(this, t_shrub, 13, 13, 15, 14);
+	square(this, t_shrub, 8, 13, 10, 14);
+	ter(10, 6) = t_tree_young;
+	ter(14, 6) = t_tree_young;
+	line(this, t_tree_young, 9, 7, 10, 7);
+	ter(12, 7) = t_tree_young;
+	ter(14, 7) = t_tree_young;
+	ter(8, 9) = t_tree_young;
+	line(this, t_tree_young, 7, 11, 8, 11);
+	line(this, t_tree_young, 15, 10, 15, 11);
+	ter(16, 12) = t_tree_young;
+	ter(9, 13) = t_tree_young;
+	ter(12, 13) = t_tree_young;
+	ter(16, 12) = t_tree_young;
+	line(this, t_tree_young, 14, 13, 15, 13);
+	ter(10, 14) = t_tree_young;
+	ter(13, 14) = t_tree_young;
         }
 
   break;
@@ -2279,8 +2300,26 @@ case ot_lmoe: {
 
  case ot_lmoe_under:
   square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
-  square(this, t_rock_floor, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9);
-  line(this, t_stairs_up, SEEX - 1, SEEY * 2 - 8, SEEX, SEEY * 2 - 8);
+  square(this, t_rock_floor, 3, 3, 20, 20);
+  line(this, t_stairs_up, 11, 20, 12, 20);
+  line(this, t_wall_metal_h, 3, 12, 20, 12);
+  line(this, t_wall_metal_v, 10, 12, 10, 20);
+  line(this, t_wall_metal_v, 13, 12, 13, 20);
+  line(this, t_wall_metal_v, 8, 3, 8, 11);
+  line(this, t_wall_metal_v, 15, 3, 15, 10);
+  line(this, t_wall_metal_h, 15, 9, 20, 9);
+  line(this, t_wall_metal_v, 17, 10, 17, 11);
+  ter(10, 16) = t_door_metal_c;
+  ter(13, 16) = t_door_metal_c;
+  line(this, t_door_metal_c, 11, 12, 12, 12);
+  ter(17, 11) = t_door_metal_c;
+  ter(8, 6) = t_door_metal_c;
+  ter(15, 6) = t_door_metal_c;
+  square(this, t_rubble, 18, 18, 20, 20);
+  line(this, t_rubble, 16, 20, 20, 16);
+  line(this, t_water_sh, 15, 20, 20, 15);
+  ter(11, 3) = t_emergency_light_flicker;
+  
   place_items(mi_shelter, 80, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9, false, 0);
   break;
 
