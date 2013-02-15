@@ -549,6 +549,7 @@ void overmap::generate_sub(overmap* above)
  std::vector<city> mine_points;
  std::vector<point> bunker_points;
  std::vector<point> shelter_points;
+ std::vector<point> lmoe_points; //Oddzball-LMOE submap
  std::vector<point> triffid_points;
  std::vector<point> temple_points;
  for (int i = 0; i < OMAPX; i++) {
@@ -621,6 +622,9 @@ void overmap::generate_sub(overmap* above)
 
    else if (above->ter(i, j) == ot_shelter)
     shelter_points.push_back( point(i, j) );
+	
+   else if (above->ter(i, j) == ot_lmoe)
+    lmoe_points.push_back( point(i, j) );
 
    else if (above->ter(i, j) == ot_mine_entrance)
     shaft_points.push_back( point(i, j) );
@@ -691,6 +695,9 @@ void overmap::generate_sub(overmap* above)
 
  for (int i = 0; i < shelter_points.size(); i++)
   ter(shelter_points[i].x, shelter_points[i].y) = ot_shelter_under;
+  
+ for (int i = 0; i < lmoe_points.size(); i++)
+  ter(lmoe_points[i].x, lmoe_points[i].y) = ot_lmoe_under;
 
  for (int i = 0; i < triffid_points.size(); i++) {
   if (posz == -1)
