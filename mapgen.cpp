@@ -5837,7 +5837,7 @@ break;
 
  } break;
 
- case ot_fema:
+ case ot_fema: {
 // Start with floors all over
   square(this, t_floor, 1, 0, SEEX * 2 - 1, SEEY * 2 - 2);
 // We always have a left and bottom wall
@@ -5853,8 +5853,10 @@ break;
   }
     if (t_south = ot_fema) {
    line(this, t_floor, 0, 23, 23, 23);
+   }
    if (t_west = ot_fema) {
    line(this, t_floor, 0, 0, 0, 23);
+  }
   }
 
   break;
