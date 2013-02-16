@@ -5845,13 +5845,9 @@ break;
  } break;
 
  case ot_fema: {
-// Start with floors all over
   square(this, t_dirtfloor, 0, 0, 23, 23);
-// We always have a left and bottom wall 
   line(this, t_chainfence_v, 0, 0, 0, 23);
   line(this, t_chainfence_h, 0, 23, 23, 23);
-// ...if we need outside walls, adjust tw & rw and build them
-// We build windows below.
   if (t_north != ot_fema_entrance && t_north != ot_fema) {
    line(this, t_chainfence_h, 0, 0, 23, 0);
   }
@@ -5884,6 +5880,7 @@ break;
   line(this, t_makeshift_bed, 8, 6, 8, 17);
   line(this, t_makeshift_bed, 10, 6, 10, 17);
   line(this, t_makeshift_bed, 13, 6, 13, 17);
+  line(this, t_makeshift_bed, 15, 6, 15, 17);
   line(this, t_makeshift_bed, 17, 6, 17, 17);
   line(this, t_groundsheet, 6, 8, 17, 8);
   line(this, t_groundsheet, 6, 8, 17, 8);
@@ -5898,6 +5895,7 @@ break;
   square(this, t_groundsheet, 11, 5, 12, 18);
   line(this, t_groundsheet, 14, 5, 14, 18);
   line(this, t_groundsheet, 16, 5, 16, 18);
+  place_items(mi_livingroom, 80, 5, 5, 18, 18, false, 0);
   
   
  
@@ -5910,7 +5908,40 @@ break;
   square(this, t_groundsheet, 5, 5, 18, 18);
   line(this, t_canvas_door, 11, 4, 12, 4);
   line(this, t_canvas_door, 11, 19, 12, 19);
-  ter(11, 10) = t_oven;
+  line(this, t_crate_c, 5, 5, 5, 6);
+  square(this, t_counter, 6, 6, 10, 8);
+  square(this, t_rock_floor, 6, 5, 9, 7);
+  ter(7, 6) = t_woodstove;
+  line(this, t_bench, 13, 6, 17, 6);
+  line(this, t_table, 13, 7, 17, 7);
+  line(this, t_bench, 13, 8, 17, 8);
+  
+  line(this, t_bench, 13, 11, 17, 11);
+  line(this, t_table, 13, 12, 17, 12);
+  line(this, t_bench, 13, 13, 17, 13);
+  
+  line(this, t_bench, 13, 15, 17, 15);
+  line(this, t_table, 13, 16, 17, 16);
+  line(this, t_bench, 13, 17, 17, 17);
+  
+  line(this, t_bench, 6, 11, 10, 11);
+  line(this, t_table, 6, 12, 10, 12);
+  line(this, t_bench, 6, 13, 10, 13);
+  
+  line(this, t_bench, 6, 15, 10, 15);
+  line(this, t_table, 6, 16, 10, 16);
+  line(this, t_bench, 6, 17, 10, 17);
+  
+  place_items(mi_cannedfood, 99, 5, 5, 5, 6, false, 0);
+  place_items(mi_snacks, 80, 5, 5, 18, 18, false, 0);
+  place_items(mi_kitchen, 70, 6, 5, 10, 8, false, 0);
+  place_items(mi_dining, 80, 13, 7, 17, 7, false, 0);
+  place_items(mi_dining, 80, 13, 12, 17, 12, false, 0);
+  place_items(mi_dining, 80, 13, 16, 17, 16, false, 0);
+  place_items(mi_dining, 80, 6, 12, 10, 12, false, 0);
+  place_items(mi_dining, 80, 6, 16, 10, 16, false, 0);
+  
+
    break;
 
   case 5:
