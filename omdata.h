@@ -456,7 +456,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_s_gas_north,   0,100,  20, -1, mcat_null, 0, 0, 0, 0, //Oddzball-Gas station out in the boonies?
  &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD)},
 
-{ot_cabin,   0, 50, 20, -1, mcat_null, 0, 0, 0, 0,  // Woods cabin
+{ot_cabin,   0, 50, 20, -1, mcat_vanilla_zombie, 0, 0, 0, 0,  // Woods cabin
  &omspec_place::forest, 0},
  
  {ot_lmoe,   0, 50, 20, -1, mcat_null, 0, 0, 0, 0,  //Oddzball- LMOE Test
@@ -468,7 +468,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_temple_stairs, 0,  0, 20, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::never, 0},
 
-{ot_fema_entrance,	   0, 10,  8, -1, mcat_null, 0, 0, 0, 0,
+{ot_fema_entrance,	   0, 10,  8, -1, mcat_vanilla_zombie, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_3X3_SECOND)}, //Oddzball-Fema test
 
 // Terrain	 MIN MAX DISTANCE

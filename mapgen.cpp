@@ -5846,6 +5846,7 @@ break;
   line(this, t_chair, 7, 16, 7, 18);
   place_items(mi_office, 80, 3, 16, 3, 18, false, 0);
   place_items(mi_office, 80, 6, 16, 6, 18, false, 0);
+  add_spawn(mon_zombie_soldier, rng(1, 6), 4, 17);
   
   // Rotate to face the road
   if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
@@ -5896,7 +5897,15 @@ break;
   line(this, t_reinforced_glass_h, 13, 14, 18, 14);
   line(this, t_reinforced_glass_v, 13, 14, 13, 18);
   ter(15, 14) = t_door_metal_locked;
-  
+  place_items(mi_dissection, 90, 10, 8, 10, 17, false, 0);
+  place_items(mi_hospital_lab, 70, 5, 5, 18, 18, false, 0);
+  place_items(mi_harddrugs, 50, 6, 5, 9, 5, false, 0);
+  place_items(mi_harddrugs, 50, 14, 5, 17, 5, false, 0);
+  place_items(mi_hospital_samples, 50, 6, 5, 9, 5, false, 0);
+  place_items(mi_hospital_samples, 50, 14, 5, 17, 5, false, 0);
+  add_spawn(mon_zombie_scientist, rng(1, 6), 11, 12);
+  if(one_in(2))
+  add_spawn(mon_zombie_brute, 1, 16, 17);
   }
   else if (t_west == ot_fema_entrance) {
   
@@ -5929,6 +5938,7 @@ break;
   place_items(mi_hardware, 90, 5, 16, 7, 17, false, 0);
   place_items(mi_mil_rifles, 90, 18, 9, 18, 14, false, 0);
   place_items(mi_office, 80, 10, 11, 13, 12, false, 0);
+  add_spawn(mon_zombie_soldier, rng(1, 6), 12, 14);
   
    }
   
