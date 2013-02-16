@@ -4432,6 +4432,7 @@ case ot_s_garage_north:
 	place_items(mi_dresser, 50, 19, 4, 19, 4, false, 0);
 	place_items(mi_softdrugs, 60, 8, 4, 9, 7, false, 0);
 	place_items(mi_livingroom, 50, 14, 12, 17, 15, false, 0);
+	add_spawn(mon_zombie, rng(1, 5), 11, 12);
 
 }
 break;
@@ -5974,6 +5975,7 @@ break;
   line(this, t_groundsheet, 14, 5, 14, 18);
   line(this, t_groundsheet, 16, 5, 16, 18);
   place_items(mi_livingroom, 80, 5, 5, 18, 18, false, 0);
+  add_spawn(mon_zombie, rng(1, 5), 11, 12);
   
   
  
@@ -6018,6 +6020,7 @@ break;
   place_items(mi_dining, 80, 13, 16, 17, 16, false, 0);
   place_items(mi_dining, 80, 6, 12, 10, 12, false, 0);
   place_items(mi_dining, 80, 6, 16, 10, 16, false, 0);
+  add_spawn(mon_zombie, rng(1, 5), 11, 12);
   
 
    break;
@@ -6027,6 +6030,7 @@ break;
   square(this, t_fence_barbed, 4, 4, 19, 19);
   square(this, t_dirt, 5, 5, 18, 18);
   square(this, t_pit_corpsed, 6, 6, 17, 17);
+  add_spawn(mon_zombie, rng(5, 20), 11, 12);
   
    break;
    
