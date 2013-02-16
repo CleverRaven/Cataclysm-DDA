@@ -1191,11 +1191,10 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  if (dirx == -2) {
   g->add_msg_if_player(p,"Invalid direction.");
   return;
- }
-  else if (dirx == 0 && diry == 0) {
+ } else if (dirx == 0 && diry == 0) {
   g->add_msg_if_player(p, "You pick your nose and your sinuses swing open.");
- return;
-}
+  return;
+ }
  dirx += p->posx;
  diry += p->posy;
  ter_id type = g->m.ter(dirx, diry);
