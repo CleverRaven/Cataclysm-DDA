@@ -5827,13 +5827,25 @@ break;
   break;
   //Oddzball-Fema camp test 1
   case ot_fema_entrance: {
-  square(this, t_floor, 0, 0, 23, 23);
+  square(this, t_dirt, 0, 0, 23, 23);
 // Left wall
   line(this, t_chainfence_v,  0,  0,  0, SEEY * 2 - 2);
-// Front wall
-  line(this, t_chainfence_h,  1, 10,  SEEX * 2 - 1, 10);
-// Bottom wall
-  line(this, t_chainfence_h,  0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
+  line(this, t_fence_barbed, 1, 4, 9, 12);
+  line(this, t_fence_barbed, 1, 5, 8, 12);
+  line(this, t_fence_barbed, 23, 4, 15, 12);
+  line(this, t_fence_barbed, 23, 5, 16, 12);
+  square(this, t_wall_wood, 2, 13, 9, 21);
+  square(this, t_floor, 3, 14, 8, 20);
+  line(this, t_reinforced_glass_h, 5, 13, 6, 13);
+  line(this, t_reinforced_glass_h, 5, 21, 6, 21);
+  line(this, t_reinforced_glass_v, 9, 15, 9, 18);
+  line(this, t_door_c, 9, 16, 9, 17);
+  line(this, t_locker, 3, 16, 3, 18);
+  line(this, t_chair, 5, 16, 5, 18);
+  line(this, t_desk, 6, 16, 6, 18);
+  line(this, t_chair, 7, 16, 7, 18);
+  place_items(mi_office, 80, 3, 16, 3, 18, false, 0);
+  place_items(mi_office, 80, 6, 16, 6, 18, false, 0);
   
   // Rotate to face the road
   if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
@@ -5845,7 +5857,7 @@ break;
  } break;
 
  case ot_fema: {
-  square(this, t_dirtfloor, 0, 0, 23, 23);
+  square(this, t_dirt, 0, 0, 23, 23);
   line(this, t_chainfence_v, 0, 0, 0, 23);
   line(this, t_chainfence_h, 0, 23, 23, 23);
   if (t_north != ot_fema_entrance && t_north != ot_fema) {
@@ -5855,19 +5867,19 @@ break;
    line(this, t_chainfence_v, 23, 0, 23, 23);
   }
    if (t_south == ot_fema) {
-   line(this, t_dirtfloor, 0, 23, 23, 23);
+   line(this, t_dirt, 0, 23, 23, 23);
    }
    if (t_west == ot_fema) {
-   line(this, t_dirtfloor, 0, 0, 0, 23);
+   line(this, t_dirt, 0, 0, 0, 23);
   }
   if(t_west == ot_fema && t_east == ot_fema && t_south != ot_fema){ //lab bottom side
-  square(this, t_dirtfloor, 1, 1, 22, 22);
+  square(this, t_dirt, 1, 1, 22, 22);
   line(this, t_wall_h, 10, 2, 10, 16);
   line(this, t_wall_h, 10, 16, 18, 16);
   }
   else if (t_west == ot_fema_entrance) {
   
-  square(this, t_dirtfloor, 1, 1, 22, 22);
+  square(this, t_dirt, 1, 1, 22, 22);
   square(this, t_canvas_wall, 4, 4, 19, 19); //Supply tent
   square(this, t_groundsheet, 5, 5, 18, 18);
   line(this, t_canvas_door, 11, 4, 12, 4);
@@ -5891,10 +5903,11 @@ break;
   line(this, t_chainfence_v, 15, 9, 15, 14);
   line(this, t_chaingate_c, 15, 11, 15, 12);
   line(this, t_locker, 18, 9, 18, 14);
-  place_items(mi_allclothes, 80, 5, 6, 7, 7, false, 0);
-  place_items(mi_softdrugs, 80, 5, 11, 7, 12, false, 0);
-  place_items(mi_hardware, 80, 5, 16, 7, 17, false, 0);
-  place_items(mi_mil_rifles, 80, 18, 9, 18, 14, false, 0);
+  place_items(mi_allclothes, 90, 5, 6, 7, 7, false, 0);
+  place_items(mi_softdrugs, 90, 5, 11, 7, 12, false, 0);
+  place_items(mi_hardware, 90, 5, 16, 7, 17, false, 0);
+  place_items(mi_mil_rifles, 90, 18, 9, 18, 14, false, 0);
+  place_items(mi_office, 80, 10, 11, 13, 12, false, 0);
   
    }
   
@@ -5905,7 +5918,7 @@ break;
   case 1:
   case 2:
   case 3:
-  square(this, t_dirtfloor, 1, 1, 22, 22);
+  square(this, t_dirt, 1, 1, 22, 22);
   square(this, t_canvas_wall, 4, 4, 19, 19); //Lodging
   square(this, t_groundsheet, 5, 5, 18, 18);
   line(this, t_canvas_door, 11, 4, 12, 4);
@@ -5937,7 +5950,7 @@ break;
    break;
 
   case 4:
-  square(this, t_dirtfloor, 1, 1, 22, 22);
+  square(this, t_dirt, 1, 1, 22, 22);
   square(this, t_canvas_wall, 4, 4, 19, 19); //Mess hall/tent
   square(this, t_groundsheet, 5, 5, 18, 18);
   line(this, t_canvas_door, 11, 4, 12, 4);
@@ -5980,7 +5993,10 @@ break;
 
   case 5:
   square(this, t_dirtfloor, 1, 1, 22, 22);
-  ter(11, 10) = t_pit_corpsed;
+  square(this, t_fence_barbed, 4, 4, 19, 19);
+  square(this, t_dirt, 5, 5, 18, 18);
+  square(this, t_pit_corpsed, 6, 6, 17, 17);
+  
    break;
    
   }
