@@ -4716,7 +4716,109 @@ void game::examine()
     m.ter(examx, examy) = t_water_dp;
 */
 //Debug for testing things
- } else if (m.ter(examx, examy) == t_rubble && u.has_amount(itm_shovel, 1)) {
+ }
+ 
+ else if (m.ter(examx, examy) == t_barndoor && query_yn("Pull the rope?"))
+ {
+    add_msg("You begin opening the doors...");
+    u.moves -=900;
+    if (((m.ter(examx-1, examy)==t_wall_wood)&&((m.ter(examx-1, examy+1)==t_dirtfloor)||(m.ter(examx-1, examy-1)==t_dirtfloor))&&(!((m.ter(examx-1, examy-1)==t_door_metal_locked)||(m.ter(examx-1, examy+1)==t_door_metal_locked))))
+        ||((m.ter(examx+1, examy)==t_wall_wood)&&((m.ter(examx+1, examy+1)==t_dirtfloor)||(m.ter(examx+1, examy-1)==t_dirtfloor))&&(!((m.ter(examx+1, examy-1)==t_door_metal_locked)||(m.ter(examx+1, examy+1)==t_door_metal_locked))))) {
+            add_msg("Vertical gate closing...");
+                    //horizontal orientation of the gate
+    if ((m.ter(examx, examy-1)==t_wall_wood)||(m.ter(examx, examy+1)==t_wall_wood)) {
+        int x_incr=0; int y_offst=0;
+        if (m.ter(examx, examy-1)==t_wall_wood) y_offst = -1;
+        if (m.ter(examx, examy+1)==t_wall_wood) y_offst = 1;
+        if (m.ter(examx+1, examy+y_offst) == t_dirtfloor) x_incr = 1;
+        if (m.ter(examx-1, examy+y_offst) == t_dirtfloor) x_incr = -1;
+        int cur_x = examx+x_incr;
+        while (m.ter(cur_x, examy+y_offst)== t_dirtfloor) {
+            m.ter(cur_x, examy+y_offst) = t_door_metal_locked;
+            cur_x = cur_x+x_incr;                              }
+    } else //vertical orientation of the gate
+    if ((m.ter(examx-1, examy)==t_wall_wood)||(m.ter(examx+1, examy)==t_wall_wood)) {
+        int x_offst = 0; int y_incr = 0;
+        if ((m.ter(examx-1, examy)==t_wall_wood)) x_offst = -1;
+        if ((m.ter(examx+1, examy)==t_wall_wood)) x_offst = 1;
+        if (m.ter(examx+x_offst, examy-1)== t_dirtfloor) y_incr = -1;
+        if (m.ter(examx+x_offst, examy+1)== t_dirtfloor) y_incr = 1;
+            char * dzebugg = new char [10]();
+            sprintf(dzebugg, "%d ; %d", x_offst, y_incr);
+            add_msg(dzebugg);
+        int cur_y = examy+y_incr;
+        while (m.ter(examx+x_offst, cur_y)==t_dirtfloor) {
+            m.ter(examx+x_offst, cur_y) = t_door_metal_locked;
+            cur_y = cur_y+y_incr;
+            }
+        }
+    }
+    else
+    if (((m.ter(examx, examy-1)==t_wall_wood)&&((m.ter(examx+1, examy-1)==t_dirtfloor)||(m.ter(examx-1, examy-1)==t_dirtfloor)))
+        ||((m.ter(examx, examy+1)==t_wall_wood)&&((m.ter(examx+1, examy+1)==t_dirtfloor)||(m.ter(examx-1, examy+1)==t_dirtfloor))))
+        {
+
+            //horizontal orientation of the gate
+    if ((m.ter(examx, examy-1)==t_wall_wood)||(m.ter(examx, examy+1)==t_wall_wood)) {
+        int x_incr=0; int y_offst=0;
+        if (m.ter(examx, examy-1)==t_wall_wood) y_offst = -1;
+        if (m.ter(examx, examy+1)==t_wall_wood) y_offst = 1;
+        if (m.ter(examx+1, examy+y_offst) == t_dirtfloor) x_incr = 1;
+        if (m.ter(examx-1, examy+y_offst) == t_dirtfloor) x_incr = -1;
+        int cur_x = examx+x_incr;
+        while (m.ter(cur_x, examy+y_offst)== t_dirtfloor) {
+            m.ter(cur_x, examy+y_offst) = t_door_metal_locked;
+            cur_x = cur_x+x_incr;                              }
+    } else //vertical orientation of the gate
+    if ((m.ter(examx-1, examy)==t_wall_wood)||(m.ter(examx+1, examy)==t_wall_wood)) {
+        int x_offst = 0; int y_incr = 0;
+        if ((m.ter(examx-1, examy)==t_wall_wood)) x_offst = -1;
+        if ((m.ter(examx+1, examy)==t_wall_wood)) x_offst = 1;
+        if (m.ter(examx+x_offst, examy-1)== t_dirtfloor) y_incr = -1;
+        if (m.ter(examx+x_offst, examy+1)== t_dirtfloor) y_incr = 1;
+            /*char * dzebugg = new char [10]();
+            sprintf(dzebugg, "%d ; %d", x_offst, y_incr);
+            add_msg(dzebugg);*/
+        int cur_y = examy+y_incr;
+        while (m.ter(examx+x_offst, cur_y)==t_dirtfloor) {
+            m.ter(examx+x_offst, cur_y) = t_door_metal_locked;
+            cur_y = cur_y+y_incr;
+        }
+    }
+
+    //closing the gate...
+    add_msg("You close the barn doors!"); }
+    else //opening the gate...
+    {
+        //horizontal orientation of the gate
+    if ((m.ter(examx, examy-1)==t_wall_wood)||(m.ter(examx, examy+1)==t_wall_wood)) {
+        int x_incr=0; int y_offst=0;
+        if (m.ter(examx, examy-1)==t_wall_wood) y_offst = -1;
+        if (m.ter(examx, examy+1)==t_wall_wood) y_offst = 1;
+        if (m.ter(examx+1, examy+y_offst) == t_door_metal_locked) x_incr = 1;
+        if (m.ter(examx-1, examy+y_offst) == t_door_metal_locked) x_incr = -1;
+        int cur_x = examx+x_incr;
+        while (m.ter(cur_x, examy+y_offst)==t_door_metal_locked) {
+            m.ter(cur_x, examy+y_offst) = t_dirtfloor;
+            cur_x = cur_x+x_incr;                              }
+    } else //vertical orientation of the gate
+    if ((m.ter(examx-1, examy)==t_wall_wood)||(m.ter(examx+1, examy)==t_wall_wood)) {
+        int x_offst = 0; int y_incr = 0;
+        if ((m.ter(examx-1, examy)==t_wall_wood)) x_offst = -1;
+        if ((m.ter(examx+1, examy)==t_wall_wood)) x_offst = 1;
+        if (m.ter(examx+x_offst, examy-1)== t_door_metal_locked) y_incr = -1;
+        if (m.ter(examx+x_offst, examy+1)== t_door_metal_locked) y_incr = 1;
+        int cur_y = examy+y_incr;
+        while (m.ter(examx+x_offst, cur_y)==t_door_metal_locked) {
+            m.ter(examx+x_offst, cur_y) = t_dirtfloor;
+            cur_y = cur_y+y_incr;
+        }
+    }
+    add_msg("The barn doors opened!");
+  }
+ }
+
+ else if (m.ter(examx, examy) == t_rubble && u.has_amount(itm_shovel, 1)) {
   if (query_yn("Clear up that rubble?")) {
   if (levz == -1) {
    u.moves -= 200;
