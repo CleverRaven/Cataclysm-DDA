@@ -5874,8 +5874,29 @@ break;
   }
   if(t_west == ot_fema && t_east == ot_fema && t_south != ot_fema){ //lab bottom side
   square(this, t_dirt, 1, 1, 22, 22);
-  line(this, t_wall_h, 10, 2, 10, 16);
-  line(this, t_wall_h, 10, 16, 18, 16);
+  square(this, t_pavement, 4, 4, 19, 19);
+  line(this, t_concrete_h, 4, 4, 19, 4);
+  line(this, t_concrete_h, 4, 19, 19, 19);
+  line(this, t_concrete_v, 4, 5, 4, 18);
+  line(this, t_concrete_v, 19, 5, 19, 18);
+  line(this, t_metal_door_c, 11, 4, 12, 4);
+  line(this, t_glass_fridge, 6, 5, 9, 5);
+  line(this, t_glass_fridge, 14, 5, 17, 5);
+  square(this, t_grate, 6, 8, 8, 9);
+  line(this, t_table, 7, 8, 7, 9);
+  square(this, t_grate, 6, 12, 8, 13);
+  line(this, t_table, 7, 12, 7, 13);
+  square(this, t_grate, 6, 16, 8, 17);
+  line(this, t_table, 7, 16, 7, 17);
+  line(this, t_counter, 10, 8, 10, 17);
+  square(this, t_chair, 14, 8, 17, 10);
+  square(this, t_console_broken, 15, 8, 16, 10);
+  line(this, t_desk, 15, 11, 16, 11);
+  line(this, t_chair, 15, 12, 16, 12);
+  line(this, t_reinforced_glass_h, 13, 14, 18, 14);
+  line(this, t_reinforced_glass_v, 13, 14, 13, 18);
+  ter(15, 14) = t_metal_door_l;
+  
   }
   else if (t_west == ot_fema_entrance) {
   
