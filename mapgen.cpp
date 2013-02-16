@@ -4350,10 +4350,12 @@ case ot_s_garage_north:
  case ot_cabin:
 	{
 	square(this, t_grass, 0, 0, 23, 23);
-	square(this, t_wall_wood, 2, 3, 21, 20);
+	
 
 
 	//Oddzball-Cabin design 1 Quad
+	if(one_in(2)){
+	square(this, t_wall_wood, 2, 3, 21, 20);
 	square(this, t_floor, 2, 17, 21, 20);//Oddzball-Front porch
 	line(this, t_fence_v, 2, 17, 2, 20);
 	line(this, t_fence_v, 21, 17, 21, 20);
@@ -4433,7 +4435,46 @@ case ot_s_garage_north:
 	place_items(mi_softdrugs, 60, 8, 4, 9, 7, false, 0);
 	place_items(mi_livingroom, 50, 14, 12, 17, 15, false, 0);
 	add_spawn(mon_zombie, rng(1, 5), 11, 12);
-
+	}
+	else {
+	
+	square(this, t_wall_wood, 4, 2, 10, 6);
+	square(this, t_floor, 5, 3, 9, 5);
+	square(this, t_wall_wood, 3, 9, 20, 20);
+	square(this, t_floor, 4, 10, 19, 19);
+	line(this, t_fence_h, 0, 0, 23, 0);
+	line(this, t_fence_v, 0, 0, 0, 22);
+	line(this, t_fence_v, 23, 0, 23, 22);
+	line(this, t_fence_h, 0, 23, 23, 23);
+	line(this, t_fencegate_c, 11, 23, 12, 23);
+	line(this, t_locker, 5, 3, 9, 3);
+	line(this, t_counter, 6, 3, 8, 3);
+	ter(4, 4) = t_window_boarded;
+	ter(10, 4) = t_window_boarded;
+	ter(7, 6) = t_door_c;
+	ter(9, 9) = t_door_c;
+	line(this, t_window_domestic, 13, 9, 14, 9);
+	square(this, t_rock, 5, 10, 7, 11);
+	line(this, t_rock_floor, 5, 12, 7, 12);
+	ter(6, 11) = t_woodstove;
+	line(this, t_dresser, 16, 10, 19, 10);
+	square(this, t_bed, 17, 10, 18, 11);
+	line(this, t_window_domestic, 3, 14, 3, 15);
+	line(this, t_sofa, 5, 16, 7, 16);
+	square(this, t_chair, 10, 14, 13, 15);
+	square(this, t_table, 11, 14, 12, 15);
+	line(this, t_window_domestic, 20, 14, 20, 15);
+	line(this, t_window_domestic, 7, 20, 8, 20);
+	line(this, t_window_domestic, 16, 20, 17, 20);
+	ter(12, 20) = t_door_c;
+	place_items(mi_livingroom, 60, 4, 13, 8, 18, false, 0);
+	place_items(mi_dining, 60, 11, 14, 12, 15, false, 0);
+	place_items(mi_camping, 70, 19, 16, 19, 19, false, 0);
+	place_items(mi_dresser, 70, 16, 10, 16, 10, false, 0);
+	place_items(mi_dresser, 70, 19, 10, 19, 10, false, 0);
+	place_items(mi_tools, 70, 5, 3, 9, 3, false, 0);
+	add_spawn(mon_zombie, rng(1, 5), 7, 4);
+	}
 }
 break;
 //Oddzball-Cabin
