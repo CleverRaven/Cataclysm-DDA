@@ -750,8 +750,11 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   int blister_count = 0; // If the counter is high, your skin starts to burn
   for (int j = -6 ; j <= 6 ; j++){
    for (int k = -6 ; k <= 6 ; k++){
-    if (m.field_at(u.posx + j, u.posy + k).type == fd_fire) {
- // Ensure fire_dist >=1 to avoid divide-by-zero errors.
+     // Bizarre workaround for u_see() and friends not taking const arguments.
+    int l = std::max(j, k);
+    if (m.field_at(u.posx + j, u.posy + k).type == fd_fire &&
+        u_see(u.posx + j, u.posy + k, l)) {
+      // Ensure fire_dist >=1 to avoid divide-by-zero errors.
      int fire_dist = std::max(1, std::max(j, k));;
      int fire_density = m.field_at(u.posx + j, u.posy + k).density;
      if (u.frostbite_timer[i] > 0) u.frostbite_timer[i] -= fire_density - fire_dist/2;
