@@ -5879,7 +5879,7 @@ break;
   line(this, t_concrete_h, 4, 19, 19, 19);
   line(this, t_concrete_v, 4, 5, 4, 18);
   line(this, t_concrete_v, 19, 5, 19, 18);
-  line(this, t_metal_door_c, 11, 4, 12, 4);
+  line(this, t_door_metal_c, 11, 4, 12, 4);
   line(this, t_glass_fridge, 6, 5, 9, 5);
   line(this, t_glass_fridge, 14, 5, 17, 5);
   square(this, t_grate, 6, 8, 8, 9);
@@ -5895,7 +5895,7 @@ break;
   line(this, t_chair, 15, 12, 16, 12);
   line(this, t_reinforced_glass_h, 13, 14, 18, 14);
   line(this, t_reinforced_glass_v, 13, 14, 13, 18);
-  ter(15, 14) = t_metal_door_l;
+  ter(15, 14) = t_door_metal_l;
   
   }
   else if (t_west == ot_fema_entrance) {
