@@ -1191,8 +1191,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  if (dirx == -2) {
   g->add_msg_if_player(p,"Invalid direction.");
   return;
- }
-else if (dirx == 0 && diry == 0) {
+ } else if (dirx == 0 && diry == 0) {
   g->add_msg_if_player(p, "You pick your nose and your sinuses swing open.");
  return;
 }
@@ -2998,7 +2997,7 @@ void iuse::mop(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"There's nothing to mop there.");
  }
 }
-void iuse::rag(game *g, player *p, item *it, bool t)  //Oddzball-Use rags to possibly stop bleeding.
+void iuse::rag(game *g, player *p, item *it, bool t)
 {
 if (p->has_disease(DI_BLEED)){
 

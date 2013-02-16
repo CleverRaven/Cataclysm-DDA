@@ -752,7 +752,10 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   int blister_count = 0; // If the counter is high, your skin starts to burn
   for (int j = -6 ; j <= 6 ; j++){
    for (int k = -6 ; k <= 6 ; k++){
-    if (m.field_at(u.posx + j, u.posy + k).type == fd_fire) {
+     // Bizarre workaround for u_see() and friends not taking const arguments.
+    int l = std::max(j, k);
+    if (m.field_at(u.posx + j, u.posy + k).type == fd_fire &&
+        u_see(u.posx + j, u.posy + k, l)) {
 	 // Ensure fire_dist >=1 to avoid divide-by-zero errors.
      int fire_dist = std::max(1, std::max(j, k));;
 	 int fire_density = m.field_at(u.posx + j, u.posy + k).density;
@@ -761,6 +764,12 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
 	 blister_count += fire_density/(fire_dist*fire_dist);
     }
    }
+  }
+  // bionic says it is effective from 0F to 140F, these are the corresponding bodytemp values
+  if( u.has_bionic(bio_climate) && temp_conv > -461 && temp_conv < 1150) {
+    // Might want something slightly more nuanced than this
+    temp_conv = BODYTEMP_NORM;
+    blister_count = 0;
   }
   // Skin gets blisters from intense heat exposure. TODO : add penalties in disease.cpp
   if (blister_count - u.resist(body_part(i)) > 20) u.add_disease(dis_type(blister_pen), 1, this, i, num_bp);

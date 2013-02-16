@@ -11,7 +11,7 @@
 
 int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
-void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon); //Oddzball-Dont make noise till gun is actually fired!
+void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon);
 int calculate_range(player &p, int tarx, int tary);
 double calculate_missed_by(player &p, int trange, item* weapon);
 void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, item* weapon);
@@ -58,6 +58,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   } else {
    weapon = &p.weapon;
   }
+  curammo = tmpammo;
   weapon->curammo = tmpammo;
   weapon->active = false;
   weapon->charges = 0;
@@ -133,7 +134,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 
  bool missed = false;
  int tart;
- for (int curshot = 0; curshot < num_shots; curshot++) { //Oddzball-Need to close this **********************
+ for (int curshot = 0; curshot < num_shots; curshot++) {
 // Burst-fire weapons allow us to pick a new target after killing the first
   if (curshot > 0 &&
       (mon_at(tarx, tary) == -1 || z[mon_at(tarx, tary)].hp <= 0)) {

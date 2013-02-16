@@ -3351,6 +3351,10 @@ void player::process_active_items(game *g)
 
 item player::remove_weapon()
 {
+ if (weapon.has_flag(IF_CHARGE) && weapon.active) { //unwield a charged charge rifle.
+  weapon.charges = 0;
+  weapon.active = false;
+ }
  item tmp = weapon;
  weapon = ret_null;
 // We need to remove any boosts related to our style
