@@ -5880,6 +5880,26 @@ break;
   square(this, t_groundsheet, 5, 5, 18, 18);
   line(this, t_canvas_door, 11, 4, 12, 4);
   line(this, t_canvas_door, 11, 19, 12, 19);
+  line(this, t_makeshift_bed, 6, 6, 6, 17);
+  line(this, t_makeshift_bed, 8, 6, 8, 17);
+  line(this, t_makeshift_bed, 10, 6, 10, 17);
+  line(this, t_makeshift_bed, 13, 6, 13, 17);
+  line(this, t_makeshift_bed, 17, 6, 17, 17);
+  line(this, t_groundsheet, 6, 8, 17, 8);
+  line(this, t_groundsheet, 6, 8, 17, 8);
+  square(this, t_groundsheet, 6, 11, 17, 12);
+  line(this, t_groundsheet, 6, 15, 17, 15);
+  line(this, t_crate_o, 6, 7, 17, 7);
+  line(this, t_crate_o, 6, 10, 17, 10);
+  line(this, t_crate_o, 6, 14, 17, 14);
+  line(this, t_crate_o, 6, 17, 17, 17);
+  line(this, t_groundsheet, 7, 5, 7, 18);
+  line(this, t_groundsheet, 9, 5, 9, 18);
+  square(this, t_groundsheet, 11, 5, 12, 18);
+  line(this, t_groundsheet, 14, 5, 14, 18);
+  line(this, t_groundsheet, 16, 5, 16, 18);
+  
+  
  
   
    break;
