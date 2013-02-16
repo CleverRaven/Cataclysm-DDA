@@ -5932,7 +5932,7 @@ break;
   line(this, t_table, 6, 16, 10, 16);
   line(this, t_bench, 6, 17, 10, 17);
   
-  place_items(mi_cannedfood, 99, 5, 5, 5, 6, false, 0);
+  place_items(mi_cannedfood, 80, 5, 5, 5, 6, false, 0);
   place_items(mi_snacks, 80, 5, 5, 18, 18, false, 0);
   place_items(mi_kitchen, 70, 6, 5, 10, 8, false, 0);
   place_items(mi_dining, 80, 13, 7, 17, 7, false, 0);
@@ -5950,7 +5950,26 @@ break;
   square(this, t_groundsheet, 5, 5, 18, 18);
   line(this, t_canvas_door, 11, 4, 12, 4);
   line(this, t_canvas_door, 11, 19, 12, 19);
-  ter(11, 10) = t_crate_o;
+  square(this, t_crate_c, 5, 5, 7, 7);
+  square(this, t_crate_c, 5, 10, 7, 12);
+  square(this, t_crate_c, 5, 16, 7, 18);
+  line(this, t_chainfence_h, 9, 6, 14, 6);
+  line(this, t_chainfence_h, 9, 17, 14, 17);
+  ter(9, 5) = t_chaingate_c;
+  ter(14, 18) = t_chaingate_c;
+  ter(14, 5) = t_chainfence_h;
+  ter(9, 18) = t_chainfence_h;
+  ter(12, 17) = t_counter;
+  ter(11, 6) = t_counter;
+  line(this, t_chair, 10, 10, 13, 10);
+  square(this, t_desk, 10, 11, 13, 12);
+  line(this, t_chair, 10, 14, 13, 14);
+  line(this, t_chainfence_h, 15, 8, 18, 8);
+  line(this, t_chainfence_h, 15, 15, 18, 15);
+  line(this, t_chainfence_v, 15, 9, 15, 14);
+  line(this, t_chaingate_c, 15, 11, 15, 12);
+  line(this, t_locker, 18, 9, 18, 14);
+  
    break;
 
   case 6:
