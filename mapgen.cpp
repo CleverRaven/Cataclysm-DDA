@@ -5864,25 +5864,19 @@ break;
    if (t_west == ot_fema) {
    line(this, t_dirtfloor, 0, 0, 0, 23);
   }
-  if(t_west == ot_fema && t_east == ot_fema && t_south != ot_fema){ //lab bottom side
+  if(one_in(8)){
   square(this, t_dirtfloor, 1, 1, 22, 22);
   line(this, t_wall_h, 10, 2, 10, 16);
   line(this, t_wall_h, 10, 16, 18, 16);
   }
-  else if(one_in(2){
+  else{
+  switch (rng(1, 4)) {
+
+  case 1:
   square(this, t_dirtfloor, 1, 1, 22, 22);
   square(this, t_wall_h, 8, 7, 15, 15);
   square(this, t_dirtfloor, 11, 7, 12, 9);
   square(this, t_dirtfloor, 11, 12, 12, 15);
-  }
-  else{
-  switch (rng(1, 6)) {
-
-  case 1:
-  square(this, t_dirtfloor, 1, 1, 22, 22); //Lodging
-  square(this, t_wall_h, 8, 7, 15, 15);
-  square(this, t_dirtfloor, 11, 7, 12, 9);
-  square(this, t_dirtfloor, 11, 12, 12, 15); 
   
    break;
 
@@ -5900,23 +5894,6 @@ break;
   square(this, t_dirtfloor, 1, 1, 22, 22);
   ter(11, 10) = t_pit_corpsed;
    break;
-   
-  case 5:
-  square(this, t_dirtfloor, 1, 1, 22, 22); //Lodging
-  square(this, t_wall_h, 8, 7, 15, 15);
-  square(this, t_dirtfloor, 11, 7, 12, 9);
-  square(this, t_dirtfloor, 11, 12, 12, 15);
-  
-   break;
-   
-  case 6:
-  square(this, t_dirtfloor, 1, 1, 22, 22); //Lodging
-  square(this, t_wall_h, 8, 7, 15, 15);
-  square(this, t_dirtfloor, 11, 7, 12, 9);
-  square(this, t_dirtfloor, 11, 12, 12, 15);
-  
-   break;
-   
   } // switch (rng(1, 4))
   }
   }
