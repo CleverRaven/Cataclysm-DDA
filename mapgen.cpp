@@ -5875,20 +5875,30 @@ break;
   case 1:
   case 2:
   case 3:
-  square(this, t_dirtfloor, 1, 1, 22, 22); //Lodging
-  square(this, t_wall_h, 8, 7, 15, 15);
-  square(this, t_dirtfloor, 11, 7, 12, 9);
-  square(this, t_dirtfloor, 11, 12, 12, 15); 
+  square(this, t_dirtfloor, 1, 1, 22, 22);
+  square(this, t_canvas_wall, 4, 4, 19, 19); //Lodging
+  square(this, t_groundsheet, 5, 5, 18, 18);
+  line(this, t_canvas_door, 11, 4, 12, 4);
+  line(this, t_canvas_door, 11, 19, 12, 19);
+ 
   
    break;
 
   case 4:
   square(this, t_dirtfloor, 1, 1, 22, 22);
+  square(this, t_canvas_wall, 4, 4, 19, 19); //Mess hall/tent
+  square(this, t_groundsheet, 5, 5, 18, 18);
+  line(this, t_canvas_door, 11, 4, 12, 4);
+  line(this, t_canvas_door, 11, 19, 12, 19);
   ter(11, 10) = t_oven;
    break;
 
   case 5:
   square(this, t_dirtfloor, 1, 1, 22, 22);
+  square(this, t_canvas_wall, 4, 4, 19, 19); //Supply tent
+  square(this, t_groundsheet, 5, 5, 18, 18);
+  line(this, t_canvas_door, 11, 4, 12, 4);
+  line(this, t_canvas_door, 11, 19, 12, 19);
   ter(11, 10) = t_crate_o;
    break;
 
