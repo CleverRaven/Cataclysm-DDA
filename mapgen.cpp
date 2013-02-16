@@ -4245,7 +4245,165 @@ case ot_s_garage_north:
         }
   }
   break;
-
+ case ot_farm:
+		{
+		square(this, t_grass, 0, 0, 23, 23); //basic lot
+		square(this, t_floor, 0, 0, 14, 9);  //house floor #1
+		square(this, t_wall_wood, 16, 0, 23, 9); //Barn exterior #2
+		
+		for (int i = 0; i < SEEX * 2; i++) {
+		for (int j = 13; j < SEEY * 2; j++)
+		ter(i, j) = grass_or_dirt();
+		}
+		
+		line(this, t_wall_h, 0, 0, 14, 0); // House north wall #4
+		line(this, t_wall_h, 0, 9, 14, 9); // House south wall #5
+		line(this, t_wall_h, 1, 5, 8, 5); // House interior wall 1 horizontal #6
+		line(this, t_wall_h, 10, 4, 13, 4); // House interior wall 2 horizontal #7
+		line(this, t_wall_v, 0, 1, 0, 8); // House west wall #8
+		line(this, t_wall_v, 14, 1, 14, 8);// House east wall #9
+		line(this, t_wall_v, 9, 4, 9, 5);// House interior wall 3 vertical #10
+		line(this, t_wall_v, 10, 1, 10, 3);// House interior wall 4 Vertical #11
+		square(this, t_dirtfloor, 17, 1, 22, 8); // Barn Floor #None
+		ter( 5,  0) = t_window_domestic; // Begin placing items left-right, top-down
+		ter( 12,  0) = t_window_domestic;//House window
+		ter( 19,  0) = t_door_c;//Barn door N1
+		ter( 20,  0) = t_door_c;//Barn door N2
+		ter( 1,  1) = t_dresser;//Bedroom dresser 1
+		square(this, t_bed, 2, 1, 3, 2); //Big old bed in bedroom
+		ter( 4,  1) = t_dresser;//Bedroom dresser 2
+		ter( 11,  1) = t_toilet;//Toilet in bathroom
+		ter( 12,  1) = t_sink;//Sink in bathroom
+		ter( 17,  1) = t_locker;//Locker in barn
+		ter( 18,  1) = t_locker;//Locker in barn
+		ter( 10,  2) = t_door_c;//bedroom to bathroom door
+		ter( 13,  2) = t_bathtub;//Bathtub
+		ter( 0,  3) = t_window_domestic;//West bedroom window
+		ter( 18,  3) = t_column; //Barn pillar 1
+		ter( 21,  3) = t_column; //Barn pillar 2
+		ter( 7,  4) = t_chair; //Chair in bedroom
+		ter( 8,  4) = t_desk; //Desk in bedroom
+		ter( 12,  4) = t_door_c; //Kitchen to bathroom door
+		ter( 5,  5) = t_door_c; //Living room to bedroom door
+		ter( 13,  5) = t_cupboard; //Bleck so many cupboards
+		ter( 2,  6) = t_armchair; //Armchair in living room
+		ter( 13,  6) = t_cupboard; //cupboard....
+		ter( 18,  6) = t_column; //Barn pillar 3
+		ter( 21,  6) = t_column; //Barn pillar 4
+		ter( 13,  7) = t_oven; //oven
+		ter( 22,  7) = t_dirtmound; //oven
+		line(this, t_cupboard, 8, 8, 13, 8); //Row of cupboards
+		ter( 10,  8) = t_fridge; //Refridgerator
+		ter( 12,  8) = t_sink; //Kitchen sink
+		line(this, t_dirtmound, 21, 8, 22, 8); //Dirt corner of barn
+		ter( 2,  9) = t_window_domestic;//House window living room
+		ter( 7,  9) = t_door_c; //House entrance
+		ter( 12,  9) = t_window_domestic;//House window kitchen
+		ter( 19,  9) = t_door_c;//Barn door S1
+		ter( 20,  9) = t_door_c;//Barn door S2
+		line(this, t_shrub, 1, 10, 3, 10); //Bushes 1
+		line(this, t_shrub, 11, 10, 13, 10); //Bushes 2
+	        place_items(mi_fridge, 65, 10, 8, 10, 8, false, 0);
+		place_items(mi_kitchen, 70, 10, 5, 12, 7, false, 0);
+		place_items(mi_livingroom, 65, 1, 6, 6, 8, false, 0);
+		place_items(mi_dresser, 80, 1, 1, 1, 1, false, 0);
+		place_items(mi_dresser, 80, 4, 1, 4, 1, false, 0);
+		place_items(mi_bedroom, 65, 5, 1, 9, 3, false, 0);
+		place_items(mi_softdrugs, 70, 11, 2, 12, 3, false, 0);
+		place_items(mi_bigtools, 50, 17, 1, 22, 8, true, 0);
+		place_items(mi_homeguns, 20, 17, 1, 22, 8, true, 0);
+			
+		if(one_in(2)){
+		add_spawn(mon_zombie, rng(1, 6), 20, 4);}
+		else {
+		add_spawn(mon_zombie, rng(1, 6), 6, 3);
+		}
+		rotate(2);
+		}
+		break;
+		case ot_farm_field:
+		if(t_east == ot_farm)
+		{
+		
+		square(this, grass_or_dirt(), 0, 0, SEEX * 2, SEEY * 2);
+		square(this, t_wall_wood, 3, 3, 20, 20);
+		square(this, t_dirtfloor, 4, 4, 19, 19);
+		line(this, t_door_metal_locked, 8, 20, 15, 20);
+				ter(16, 19) = t_barndoor;
+				ter(16, 21) = t_barndoor;
+		line(this, t_door_metal_locked, 8, 3, 15, 3);
+				ter(16, 2) = t_barndoor;
+				ter(16, 4) = t_barndoor;
+		square(this, t_hay, 4, 4, 6, 6);
+		line(this, t_fence_h, 4, 8, 6, 8);
+		line(this, t_fence_v, 6, 9, 6, 14);
+		line(this, t_fence_h, 4, 15, 6, 15);
+		line(this, t_fencegate_c, 6, 11, 6, 12);
+		
+		line(this, t_fence_h, 17, 8, 19, 8);
+		line(this, t_fence_v, 17, 9, 17, 14);
+		line(this, t_fence_h, 17, 15, 19, 15);
+		line(this, t_fencegate_c, 17, 11, 17, 12);
+		line(this, t_locker, 4, 19, 7, 19);
+		ter(7, 7) = t_column;
+		ter(16, 7) = t_column;
+		ter(7, 16) = t_column;
+		ter(16, 16) = t_column;
+		ter(5, 3) = t_window_boarded;
+		ter(18, 3) = t_window_boarded;
+		line(this, t_window_boarded, 3, 5, 3, 6);
+		line(this, t_window_boarded, 3, 11, 3, 12);
+		line(this, t_window_boarded, 3, 17, 3, 18);
+		line(this, t_window_boarded, 20, 5, 20, 6);
+		line(this, t_window_boarded, 20, 11, 20, 12);
+		line(this, t_window_boarded, 20, 17, 20, 18);
+		ter(5, 20) = t_window_boarded;
+		ter(18, 20) = t_window_boarded;
+		
+				
+		place_items(mi_bigtools, 60, 4, 4, 7, 19, true, 0);
+		place_items(mi_bigtools, 60, 16, 5, 19, 19, true, 0);
+		place_items(mi_mechanics, 40, 8, 4, 15, 19, true, 0);
+		place_items(mi_home_hw, 50, 4, 19, 7, 19, true, 0);
+		place_items(mi_tools, 50, 4, 19, 7, 19, true, 0);
+		
+		if(one_in(10)){
+			add_spawn(mon_zombie, rng(3, 6), 12, 12);
+			}
+		
+				
+		}
+		else
+		{
+		square(this, t_grass, 0, 0, 23, 23); // basic lot
+		square(this, t_fence_barbed, 1, 1, 22, 22);
+		square(this, t_dirt, 2, 2, 21, 21);
+		ter(1, 1) = t_fence_post;
+		ter(22, 1) = t_fence_post;
+		ter(1, 22) = t_fence_post;
+		ter(22, 22) = t_fence_post;
+		line(this, t_dirtmound, 3, 3, 20, 3); //Crop rows
+		line(this, t_dirtmound, 3, 5, 20, 5);
+		line(this, t_dirtmound, 3, 7, 20, 7);
+		line(this, t_dirtmound, 3, 9, 20, 9);
+		line(this, t_dirtmound, 3, 11, 20, 11);
+		line(this, t_dirtmound, 3, 13, 20, 13);
+		line(this, t_dirtmound, 3, 15, 20, 15);
+		line(this, t_dirtmound, 3, 17, 20, 17);
+		line(this, t_dirtmound, 3, 19, 20, 19);
+		
+		place_items(mi_hydro, 70, 3, 3, 20, 3, true, turn); //Spawn crops
+		place_items(mi_hydro, 70, 3, 5, 20, 5, true, turn);
+		place_items(mi_hydro, 70, 3, 7, 20, 7, true, turn);
+		place_items(mi_hydro, 70, 3, 9, 20, 9, true, turn);
+		place_items(mi_hydro, 70, 3, 11, 20, 11, true, turn);
+		place_items(mi_hydro, 70, 3, 13, 20, 13, true, turn);
+		place_items(mi_hydro, 70, 3, 15, 20, 15, true, turn);
+		place_items(mi_hydro, 70, 3, 17, 20, 17, true, turn);
+		place_items(mi_hydro, 70, 3, 19, 20, 19, true, turn);
+		}
+		break;
+  
  case ot_police_north:
  case ot_police_east:
  case ot_police_south:
