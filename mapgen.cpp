@@ -5880,7 +5880,6 @@ break;
   square(this, t_groundsheet, 5, 5, 18, 18);
   line(this, t_canvas_door, 11, 4, 12, 4);
   line(this, t_canvas_door, 11, 19, 12, 19);
-  rotate(rng(0, 3));
  
   
    break;
@@ -5892,7 +5891,6 @@ break;
   line(this, t_canvas_door, 11, 4, 12, 4);
   line(this, t_canvas_door, 11, 19, 12, 19);
   ter(11, 10) = t_oven;
-  rotate(rng(0, 3));
    break;
 
   case 5:
@@ -5902,13 +5900,11 @@ break;
   line(this, t_canvas_door, 11, 4, 12, 4);
   line(this, t_canvas_door, 11, 19, 12, 19);
   ter(11, 10) = t_crate_o;
-  rotate(rng(0, 3));
    break;
 
   case 6:
   square(this, t_dirtfloor, 1, 1, 22, 22);
   ter(11, 10) = t_pit_corpsed;
-  rotate(rng(0, 3));
    break;
    
   }
