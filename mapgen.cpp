@@ -5895,7 +5895,7 @@ break;
   line(this, t_chair, 15, 12, 16, 12);
   line(this, t_reinforced_glass_h, 13, 14, 18, 14);
   line(this, t_reinforced_glass_v, 13, 14, 13, 18);
-  ter(15, 14) = t_door_metal_l;
+  ter(15, 14) = t_door_metal_locked;
   
   }
   else if (t_west == ot_fema_entrance) {
