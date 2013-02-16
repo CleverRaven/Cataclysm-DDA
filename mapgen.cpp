@@ -20,6 +20,13 @@ ter_id grass_or_dirt()
  return t_dirt;
 }
 
+ter_id dirt_or_pile()
+{
+ if (one_in(4))
+  return t_dirtmound;
+ return t_dirt;
+}
+
 enum room_type {
  room_null,
  room_closet,
@@ -276,7 +283,19 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   }
   place_items(mi_field, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
   break;
-
+ case ot_dirtlot:
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++) {
+    ter(i, j) = t_dirt;
+    if (one_in(120)) ter(i, j) = t_pit_shallow; else
+    if (one_in(50)) ter(i,j) = t_grass;
+    }
+  }
+    if (one_in(4))
+  {
+      add_vehicle (g, veh_truck, 12, 12, 90);
+	  }
+  break;
  case ot_forest:
  case ot_forest_thick:
  case ot_forest_water:
