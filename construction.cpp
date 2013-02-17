@@ -453,6 +453,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
   for (int j = 0; j < 3; j++) {
    if (stage.tools[j].size() > 0) {
     tools_required = true;
+    has_tool = false;
     for (int k = 0; k < stage.tools[j].size() && !has_tool; k++) {
      if (inv.has_amount(stage.tools[j][k], 1))
       has_tool = true;
@@ -462,6 +463,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
    }
    if (stage.components[j].size() > 0) {
     components_required = true;
+    has_component = false;
     for (int k = 0; k < stage.components[j].size() && !has_component; k++) {
      if (( itypes[stage.components[j][k].type]->is_ammo() &&
           inv.has_charges(stage.components[j][k].type,
