@@ -3981,7 +3981,7 @@ TOOL("spray can", 50, 10, ';', c_ltblue, PLASTIC, MNULL,
 A spray can, filled with paint. Use this tool to make graffiti on the floor.");
 
 TOOL("rag",    1, 0,  ',', c_white, COTTON,   MNULL,
-   0,  0,   0,  0,  0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::rag, 0, "\
+   1,  1,   0,  0,  0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::rag, 0, "\
 Rag, useful in crafting and possibly stopping bleeding");
 
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
