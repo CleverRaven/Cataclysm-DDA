@@ -564,6 +564,9 @@ bool map::vehproceed(game* g){
       // the other veh gains time, parts are damaged/broken on both sides.,
       veh_collision c = veh_veh_colls[0];
       vehicle* veh2 = (vehicle*) c.target;
+      g->add_msg("The %s's %s collides with the %s's %s",
+                 veh->name.c_str(),  veh->part_info(c.part).name,
+                veh2->name.c_str(), veh2->part_info(c.target_part).name);
       //find mass & velocity of the collision.
       // using veh->move.dir() & veh->velocity & veh->total_mass()
       //or dot product
@@ -614,7 +617,7 @@ bool map::vehproceed(game* g){
    }
 
    int coll_turn = 0;
-   if (imp > 0) { // imp == impedance?
+   if (imp > 0) { // imp == impulse from collisions
       // debugmsg ("collision imp=%d dam=%d-%d", imp, imp/10, imp/6);
       if (imp > 100)
          veh->damage_all(imp / 20, imp / 10, 1);// shake veh because of collision

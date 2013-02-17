@@ -35,12 +35,11 @@ struct veh_collision {
  //int veh?
  int part;
  veh_coll_type type;
- int imp; //impedance? resistance? what unit?
+ int imp; // impulse
 
  void* target;  //vehicle
  int target_part; //veh partnum
  std::string target_name;
-
  veh_collision(){};
 };
  
