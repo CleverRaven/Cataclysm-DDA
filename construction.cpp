@@ -260,7 +260,7 @@ void game::construction_menu()
 // Print the constructions between offset and max (or how many will fit)
   for (int i = 0; i <= 22 && (i + offset) < constructions.size(); i++) {
    int current = i + offset;
-   nc_color col = (player_can_build(u, total_inv, constructions[current], -1) ?
+   nc_color col = (player_can_build(u, total_inv, constructions[current]) ?
                    c_white : c_dkgray);
    // Map menu items to hotkey letters, skipping j, k, l, and q.
    char hotkey = current + ((current < 9) ? 97 : ((current < 13) ? 100 : 101));
@@ -394,7 +394,7 @@ void game::construction_menu()
     break;
    case '\n':
    case 'l':
-    if (player_can_build(u, total_inv, constructions[select], -1)) {
+    if (player_can_build(u, total_inv, constructions[select])) {
      place_construction(constructions[select]);
      ch = 'q';
     } else {
@@ -412,7 +412,7 @@ void game::construction_menu()
    if (ch < 96 || ch > constructions.size() + 101) break;
    // Map menu items to hotkey letters, skipping j, k, l, and q.
    char hotkey = ch - ((ch < 106) ? 97 : ((ch < 112) ? 100 : 101));
-   if (player_can_build(u, total_inv, constructions[hotkey], -1)) {
+   if (player_can_build(u, total_inv, constructions[hotkey])) {
     place_construction(constructions[hotkey]);
     ch = 'q';
    } else {
@@ -428,22 +428,24 @@ void game::construction_menu()
 }
 
 bool game::player_can_build(player &p, inventory inv, constructable* con,
-                            int level, bool cont, bool exact_level)
+                            const int level, bool cont, bool exact_level)
 {
+ int last_level = level;
+
  // default behavior: return true if any of the stages up to L can be constr'd
  // if exact_level, require that this level be constructable
  if (p.skillLevel("carpentry") < con->difficulty)
   return false;
 
  if (level < 0)
-  level = con->stages.size();
+  last_level = con->stages.size();
 
  int start = 0;
  if (cont)
   start = level;
 
  bool can_build_any = false;
- for (int i = start; i < con->stages.size() && i <= level; i++) {
+ for (int i = start; i < con->stages.size() && i <= last_level; i++) {
   construction_stage stage = con->stages[i];
   bool has_tool = false;
   bool has_component = false;
@@ -466,8 +468,8 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
     has_component = false;
     for (int k = 0; k < stage.components[j].size() && !has_component; k++) {
      if (( itypes[stage.components[j][k].type]->is_ammo() &&
-          inv.has_charges(stage.components[j][k].type,
-                          stage.components[j][k].count)    ) ||
+	   inv.has_charges(stage.components[j][k].type,
+			   stage.components[j][k].count)    ) ||
          (!itypes[stage.components[j][k].type]->is_ammo() &&
           inv.has_amount (stage.components[j][k].type,
                           stage.components[j][k].count)    ))
@@ -478,7 +480,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
    }
 
   }  // j in [0,2]
-  can_build_any = (has_component || !components_required) &&
+  can_build_any |= (has_component || !components_required) &&
     (has_tool || !tools_required);
   if (exact_level && (i == level)) {
       return ((has_component || !components_required) &&
