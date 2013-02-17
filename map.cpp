@@ -977,7 +977,8 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
  }
 
  for (int i = 0; i < i_at(x, y).size(); i++) {	// Destroy glass items (maybe)
-  if (i_at(x, y)[i].made_of(GLASS) && one_in(2)) {
+   // the check for active supresses molotovs smashing themselves with their own explosion
+   if (i_at(x, y)[i].made_of(GLASS) && !i_at(x, y)[i].active && one_in(2)) {
    if (sound == "")
     sound = "A " + i_at(x, y)[i].tname() + " shatters!  ";
    else
