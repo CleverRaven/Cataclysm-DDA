@@ -1438,6 +1438,14 @@ ARMOR("army pants",	30, 315,C_PANTS,	COTTON,		MNULL,
     6,  7, -2,  0,  1,  0,  3,  0,  45, 14,	mfb(bp_legs), "\
 A tough pair of pants lined with pockets. Favored by the military.");
 
+ARMOR("ski pants",	60, 300,C_PANTS,	COTTON,		MNULL,
+    10,  6, -3,  0,  1,  2,  0,  3,  80, 4,	mfb(bp_legs), "\
+A pair of pants meant for alpine skiing.");
+
+ARMOR("long underwear",	40, 200,C_PANTS,	COTTON,		MNULL,
+    4,  2, -3,  0,  0,  0,  0,  0,  30, 12,	mfb(bp_legs), "\
+A pair of long underwear that help to maintain body temperature.");
+
 ARMOR("skirt",		75, 120,C_PANTS,	COTTON,		MNULL,
     2,  2, -5,  0, -1,  0,  0,  0,  0,  1,	mfb(bp_legs), "\
 A short, breezy cotton skirt. Easy to move in, but only has a single small\n\
@@ -1526,6 +1534,10 @@ A wool shirt. Provides warmth.");
 ARMOR("hoodie",		65, 130,C_TORSO,	COTTON,		MNULL,
    10,  5, -5,  0,  1,  1,  2,  0,  30,  9,	mfb(bp_torso)|mfb(bp_arms), "\
 A sweatshirt with a hood and a \"kangaroo pocket\" in front for storage.");
+
+ARMOR("under armor", 20, 200,C_TORSO,	COTTON,		MNULL,
+   2,  2, -5,  0, 0,  0,  0,  0,  20,  0,	mfb(bp_torso), "\
+Sports wear that clings to your chest to maintain body temperature.");
 
 ARMOR("light jacket",	50, 105,C_TORSO,	COTTON,		MNULL,
     6,  4, -5,  0,  1,  0,  2,  0,  20,  4,	mfb(bp_torso)|mfb(bp_arms), "\
@@ -1819,6 +1831,10 @@ A red plaid hunting cap with ear flaps. Notably warm.");
 ARMOR("fur hat",	15, 120,C_HAT,		WOOL,		MNULL,
     4,  2, -5,  0,  1,  2,  2,  0,  80,  0,	mfb(bp_head), "\
 A hat made from the pelts of animals. Extremely warm.");
+
+ARMOR("balclava",	15, 100,C_HAT,		COTTON,		MNULL,
+    4,  2, -5,  0,  0,  0,  0,  0,  30,  0,	mfb(bp_head)|mfb(bp_mouth), "\
+A warm covering that protects the head and face from cold.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("hard hat",	50, 125,C_HAT,		PLASTIC,	MNULL,

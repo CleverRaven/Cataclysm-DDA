@@ -96,17 +96,20 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_COLD_HEAD:
   switch (dis.intensity) {
-   case 3 : p.int_cur -= 3;
+   case 3 : p.int_cur -= 3; if (one_in(200)) g->add_msg("Your thoughts are unclear.");
    case 2 : p.int_cur--;
-   case 1 : ;
+   case 1 : if (one_in(600)) g->add_msg("Brr.");
   }
   break;
  
  case DI_COLD_TORSO:
   switch (dis.intensity) {
-   case 3 : p.dex_cur -= 2;
+   case 3 : p.dex_cur -= 2; if (one_in(200)) g->add_msg("Your torso is burning up. You should remove some layers.");
+   // Speed -20
    case 2 :	p.dex_cur -= 1;
-   case 1 : p.dex_cur -= 1;
+   // Speed -5
+   case 1 : p.dex_cur -= 1; if (one_in(600)) g->add_msg("Brr.");
+   // Speed -2
   }
   break;
 
@@ -114,6 +117,7 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 : p.dex_cur -= 2;
    case 2 :	p.dex_cur--;
+   case 1 : if (one_in(600)) g->add_msg("Your arms are shivering.");
   }
   break;
  
@@ -121,13 +125,18 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 :	p.dex_cur -= 2;
    case 2 :	p.dex_cur -= 2;
+   case 1 : if (one_in(600)) g->add_msg("Brr.");
   }
   break;
  
  case DI_COLD_LEGS:
   switch (dis.intensity) {
-   case 3 :	p.str_cur--;
+   case 3 :	p.str_cur--; if (one_in(200)) g->add_msg("Your legs are seizing from the incredible cold.");
+   // Speed -20
    case 2 :	p.str_cur--;
+   // Speed -5
+   case 1 : if (one_in(600)) g->add_msg("Your legs feel sluggish from the cold.");
+   // Speed -2
   }
   break;
  
@@ -135,27 +144,34 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 : p.str_cur--;
    case 2 : p.str_cur--;
+   case 1 : if (one_in(600)) g->add_msg("Brr.");
   }
   break;
  
  case DI_FROSTBITE_HANDS:
   switch (dis.intensity) {
    case 2 : p.dex_cur -= 3;
-   case 1 : if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++; 
+   case 1 : 
+    if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
+    if (one_in(600)) g->add_msg("Your hands feel numb.");
   }
  break;
  
  case DI_FROSTBITE_FEET:
   switch (dis.intensity) {
    case 2 : // -4 speed
-   case 1 : if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++; 
+   case 1 : 
+    if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++; 
+	if (one_in(600)) g->add_msg("Your feet feel numb.");
   }
  break;
  
  case DI_FROSTBITE_MOUTH: 
   switch (dis.intensity) {
    case 2 : p.per_cur -= 3; 
-   case 1 : if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
+   case 1 : 
+    if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
+	if (one_in(600)) g->add_msg("Your face feels numb.");
   }
  break;
  
@@ -166,7 +182,6 @@ void dis_effect(game *g, player &p, disease &dis)
   else p.hp_max[hp_arm_l]--;
   break;
   
- 
  case DI_BLISTERS_FEET:
   p.str_cur--;
   if (p.pain < 35) p.pain++;
@@ -174,7 +189,6 @@ void dis_effect(game *g, player &p, disease &dis)
   else p.hp_max[hp_leg_l]--;
   break;
   
- 
  case DI_BLISTERS_MOUTH:
   p.per_cur--;
   p.hp_max[hp_head]--;

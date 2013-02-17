@@ -726,7 +726,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   if (i == bp_eyes) continue; // Skip eyes
   // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
   float homeostasis_adjustement = (u.temp_cur[i] > BODYTEMP_NORM ? 4.0 : 8.0); 
-  int clothing_warmth_adjustement = homeostasis_adjustement * (float)u.warmth(body_part(i)) * (1.0 + (float)bodywetness / 100.0);
+  int clothing_warmth_adjustement = homeostasis_adjustement * (float)u.warmth(body_part(i)) * (1.0 - (float)bodywetness / 100.0);
   // Disease name shorthand
   int blister_pen = dis_type(DI_BLISTERS) + 1 + i, hot_pen  = dis_type(DI_HOT) + 1 + i;
   int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;  
@@ -752,13 +752,13 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
      int fire_dist = std::max(1, std::max(j, k));;
 	 int fire_density = m.field_at(u.posx + j, u.posy + k).density;
 	 if (u.frostbite_timer[i] > 0) u.frostbite_timer[i] -= fire_density - fire_dist/2;
-	 temp_conv += 300*fire_density/(fire_dist*fire_dist); // How do I square things 
-	 blister_count += fire_density/(fire_dist*fire_dist);
+	 temp_conv += 50*fire_density*fire_density/(fire_dist*fire_dist); // How do I square things 
+	 blister_count += fire_density*fire_density/(fire_dist*fire_dist);
     }
    }
   }
   // Skin gets blisters from intense heat exposure. TODO : add penalties in disease.cpp
-  if (blister_count - u.resist(body_part(i)) > 20) u.add_disease(dis_type(blister_pen), 1, this, i, num_bp);
+  if (blister_count - u.resist(body_part(i))*3 > 30) u.add_disease(dis_type(blister_pen), 1, this, i, num_bp);
   // Increments current body temperature towards convergant
   int temp_difference = u.temp_cur[i] - temp_conv;
   int temp_before = u.temp_cur[i];
@@ -788,7 +788,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   // Frostbite (level 1 after 2 hours, level 2 after 4 hours)
   if      (u.frostbite_timer[i] >   0) u.frostbite_timer[i]--;
   if      (u.frostbite_timer[i] >= 24) {
-   if (u.disease_intensity(dis_type(frost_pen)) < 2) add_msg("Youe %s hardens from the frostbite!", body_part_name(body_part(i), -1).c_str());
+   if (u.disease_intensity(dis_type(frost_pen)) < 2) add_msg("Youe %s hardens from the frostbite!", body_part_name(body_part(i), -1).c_str()); // TODO doesn't make sense for hands/feet. Find code that would fix this...
    u.add_disease(dis_type(frost_pen), 10, this, 2, 2);}
   else if (u.frostbite_timer[i] >= 12) {
    if (!u.has_disease(dis_type(frost_pen))) add_msg("You lose sensation in your %s.", body_part_name(body_part(i), -1).c_str());
@@ -800,21 +800,6 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   else if (temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING) add_msg("You feel your %s getting red hot from the heat!", body_part_name(body_part(i), -1).c_str());
   else if (temp_before < BODYTEMP_VERY_HOT && temp_after > BODYTEMP_VERY_HOT) add_msg("You feel your %s getting very hot.", body_part_name(body_part(i), -1).c_str());
   else if (temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT) add_msg("You feel your %s getting hot.", body_part_name(body_part(i), -1).c_str()); 
-  // Player complains about the temperature
-  if (u.has_disease(dis_type(cold_pen))) {
-   switch (u.disease_intensity(dis_type(cold_pen))) {
-    case 1: if (one_in(200)) add_msg("Brr."); 
-	case 2: if (one_in(200)) add_msg("You are shivering.");
-	case 3: if (one_in(200)) add_msg("You are burning up. You should remove some layers.");
-   } 
-  }
-  else if (u.has_disease(dis_type(hot_pen))) {
-   switch (u.disease_intensity(dis_type(hot_pen))) {
-    case 1: if (one_in(200)) add_msg("Whew, it's getting warm."); 
-	case 2: if (one_in(200)) add_msg("You are sweating quite profusley.");
-	case 3: if (one_in(200)) {add_msg("Laying down sounds like a good idea."); u.fatigue++;}
-   } 
-  }
  }
  // Morale penalties
  if (morale_pen < 0) u.add_morale(MORALE_COLD, -1, -abs(morale_pen));
