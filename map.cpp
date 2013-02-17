@@ -598,7 +598,7 @@ bool map::vehproceed(game* g){
       velo_veh1_rel[0] = velo_veh1[0] - velo_veh2[0];
       velo_veh1_rel[1] = velo_veh1[1] - velo_veh2[1];
       //float rel_velocity = sqrt( pow(velo_veh1_rel[0],2) + pow(velo_veh1_rel[1],2));
-      int rel_velocity = rl_dist( velo_veh1_rel[0], velo_veh1_rel[1]);
+      int rel_velocity = rl_dist(0,0, velo_veh1_rel[0], velo_veh1_rel[1]);
       float energy = (rel_velocity * (veh->total_mass() + veh2->total_mass()));
       // add part of relative velocity to v2's move vector thing.
       float mass_ratio = (float)veh->total_mass() / (float)veh2->total_mass();
@@ -606,7 +606,7 @@ bool map::vehproceed(game* g){
       velo_veh2_result[1] = velo_veh2[1] + velo_veh1_rel[1] * mass_ratio;
       veh2->move.init(velo_veh2_result[0], velo_veh2_result[1]);
       //veh2->velocity = sqrt( pow(velo_veh2_result[0],2) + pow(velo_veh2_result[1],2));
-      veh2->velocity = rl_dist(velo_veh2_result[0], velo_veh2_result[1]) *2;
+      veh2->velocity = rl_dist (0,0, velo_veh2_result[0], velo_veh2_result[1]);
 
       //veh2->velocity += veh->velocity * .35;
       veh->velocity *= .4;
