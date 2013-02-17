@@ -81,7 +81,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
 std::vector<int> find_firsts(inventory &inv)
 {
  std::vector<int> firsts;
- for (int i = 0; i < 8; i++)
+ for (int i = 0; i < 9; i++)
   firsts.push_back(-1);
 
  for (int i = 0; i < inv.size(); i++) {
@@ -479,19 +479,29 @@ std::vector<item> game::multidrop()
  return ret;
 }
 
-void game::compare()
+void game::compare(int iCompareX, int iCompareY)
 {
- mvwprintw(w_terrain, 0, 0, "Compare where? (Direction button)");
- wrefresh(w_terrain);
  int examx, examy;
- char ch = input();
- last_action += ch;
- if (ch == KEY_ESCAPE || ch == 'I' || ch == 'q')
-  return;
- get_direction(this, examx, examy, ch);
- if (examx == -2 || examy == -2) {
-  add_msg("Invalid direction.");
-  return;
+ char ch = '.';
+
+ if (iCompareX != -999 && iCompareX != -999) {
+  examx = iCompareX;
+  examy = iCompareY;
+ } else {
+  mvwprintw(w_terrain, 0, 0, "Compare where? (Direction button)");
+  wrefresh(w_terrain);
+
+  ch = input();
+  last_action += ch;
+  if (ch == KEY_ESCAPE || ch == 'q')
+   return;
+  if (ch == '\n' || ch == 'I')
+   ch = '.';
+  get_direction(this, examx, examy, ch);
+  if (examx == -2 || examy == -2) {
+   add_msg("Invalid direction.");
+   return;
+  }
  }
  examx += u.posx;
  examy += u.posy;
@@ -522,7 +532,7 @@ void game::compare()
   compare[i] = 0;
  std::vector<char> weapon_and_armor; // Always single, not counted
  std::stringstream debug;
- debug << groundsize;
+ //debug << groundsize << " ";
  print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);
 // Gun, ammo, weapon, armor, food, tool, book, other
  std::vector<int> first = find_firsts(u.inv);
@@ -530,8 +540,9 @@ void game::compare()
  if (groundsize > 0) {
   firsts.push_back(0);
  }
- for (int i = 0; i < first.size(); i++)
-  firsts.push_back(first[i]+groundsize);
+ for (int i = 0; i < first.size(); i++) {
+  firsts.push_back((first[i] >= 0) ? first[i]+groundsize : -1);
+ }
  ch = '.';
  int start = 0, cur_it;
  do {
@@ -597,7 +608,6 @@ void game::compare()
    int index = u.inv.index_by_letter(ch);
    if (index == -1) { // Not from inventory
     int found = false;
-    //print_inv_statics(this, w_inv, "Weapon: " + debug.str(), weapon_and_armor);
     for (int i = 0; i < weapon_and_armor.size() && !found; i++) {
      if (weapon_and_armor[i] == ch) {
       weapon_and_armor.erase(weapon_and_armor.begin() + i);
@@ -660,15 +670,19 @@ void game::compare()
    }
   }
   if (bShowCompare) {
+   std::vector<iteminfo> vItemLastCh, vItemCh;
+   std::string sItemLastCh, sItemCh;
    if (cLastCh >= '0' && cLastCh <= '9') {
     int iZero = 0;
     if (cLastCh == '0') {
      iZero = 10;
     }
 
-    split_screen_popup(true, grounditems[cLastCh-'1'+iZero].tname(this).c_str(), grounditems[cLastCh-'1'+iZero].info(true).c_str());
+    grounditems[cLastCh-'1'+iZero].info(true, &vItemLastCh);
+    sItemLastCh = grounditems[cLastCh-'1'+iZero].tname(this);
    } else {
-    split_screen_popup(true, u.i_at(cLastCh).tname(this).c_str(), u.i_at(cLastCh).info(true).c_str());
+    u.i_at(cLastCh).info(true, &vItemLastCh);
+    sItemLastCh = u.i_at(cLastCh).tname(this);
    }
 
    if (ch >= '0' && ch <= '9') {
@@ -677,10 +691,16 @@ void game::compare()
      iZero = 10;
     }
 
-    split_screen_popup(false, grounditems[ch-'1'+iZero].tname(this).c_str(), grounditems[ch-'1'+iZero].info(true).c_str());
+    grounditems[ch-'1'+iZero].info(true, &vItemCh);
+    sItemCh = grounditems[ch-'1'+iZero].tname(this);
    } else {
-    split_screen_popup(false, u.i_at(ch).tname(this).c_str(), u.i_at(ch).info(true).c_str());
+    u.i_at(ch).info(true, &vItemCh);
+    sItemCh = u.i_at(ch).tname(this);
    }
+
+   compare_split_screen_popup(true, sItemLastCh, vItemLastCh, vItemCh);
+   compare_split_screen_popup(false, sItemCh, vItemCh, vItemLastCh);
+
    wclear(w_inv);
    print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);
    bShowCompare = false;

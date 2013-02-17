@@ -45,7 +45,7 @@ enum oter_id {
  ot_null = 0,
  ot_crater,
 // Wild terrain
- ot_field, ot_forest, ot_forest_thick, ot_forest_water, ot_hive, ot_spider_pit,
+ ot_field, ot_dirtlot, ot_forest, ot_forest_thick, ot_forest_water, ot_hive, ot_spider_pit,
   ot_fungal_bloom,
 // Roads
  ot_hiway_ns, ot_hiway_ew,
@@ -80,7 +80,7 @@ enum oter_id {
   ot_s_restaurant_west,
  ot_sub_station_north, ot_sub_station_east, ot_sub_station_south,
   ot_sub_station_west,
- ot_s_garage_north, ot_s_garage_east, ot_s_garage_south, ot_s_garage_west,
+ ot_s_garage_north, ot_s_garage_east, ot_s_garage_south, ot_s_garage_west, ot_farm, ot_farm_field,
  ot_police_north, ot_police_east, ot_police_south, ot_police_west,
  ot_bank_north, ot_bank_east, ot_bank_south, ot_bank_west,
  ot_bar_north, ot_bar_east, ot_bar_south, ot_bar_west,
@@ -138,6 +138,7 @@ const oter_t oterlist[num_ter_types] = {
 {"nothing",		'%',	c_white,	0, no_extras, false, false},
 {"crater",		'O',	c_red,		2, field_extras, false, false},
 {"field",		'.',	c_brown,	2, field_extras, false, false},
+{"dirt lot",		'.',	i_brown,	1, build_extras, false, false},
 {"forest",		'F',	c_green,	3, field_extras, false, false},
 {"forest",		'F',	c_green,	4, field_extras, false, false},
 {"swamp",		'F',	c_cyan,		4, field_extras, false, false},
@@ -233,26 +234,28 @@ const oter_t oterlist[num_ter_types] = {
 {"subway station",	'S',	c_yellow,	5, build_extras, true, false},
 {"subway station",	'S',	c_yellow,	5, build_extras, true, false},
 {"subway station",	'S',	c_yellow,	5, build_extras, true, false},
-{"garage",              '^',    c_ltgray,       5, build_extras, false, false},
-{"garage",              '>',    c_ltgray,       5, build_extras, false, false},
-{"garage",              'v',    c_ltgray,       5, build_extras, false, false},
-{"garage",              '<',    c_ltgray,       5, build_extras, false, false},
+{"garage",              'O',    c_white,       5, build_extras, false, false},
+{"garage",              'O',    c_white,       5, build_extras, false, false},
+{"garage",              'O',    c_white,       5, build_extras, false, false},
+{"garage",              'O',    c_white,       5, build_extras, false, false},
+{"farm",                '^',    i_brown,       5, build_extras, false, false},
+{"farm field",          '#',    i_brown,       5, field_extras, false, false},
 {"police station",	'^',	c_dkgray,	5, build_extras, false, false},
 {"police station",	'>',	c_dkgray,	5, build_extras, false, false},
 {"police station",	'v',	c_dkgray,	5, build_extras, false, false},
 {"police station",	'<',	c_dkgray,	5, build_extras, false, false},
-{"bank",		'^',	c_ltgray,	5, no_extras, false, false},
-{"bank",		'>',	c_ltgray,	5, no_extras, false, false},
-{"bank",		'v',	c_ltgray,	5, no_extras, false, false},
-{"bank",		'<',	c_ltgray,	5, no_extras, false, false},
+{"bank",		'$',	c_ltgray,	5, no_extras, false, false},
+{"bank",		'$',	c_ltgray,	5, no_extras, false, false},
+{"bank",		'$',	c_ltgray,	5, no_extras, false, false},
+{"bank",		'$',	c_ltgray,	5, no_extras, false, false},
 {"bar",			'^',	c_pink,		5, build_extras, false, false},
 {"bar",			'>',	c_pink,		5, build_extras, false, false},
 {"bar",			'v',	c_pink,		5, build_extras, false, false},
 {"bar",			'<',	c_pink,		5, build_extras, false, false},
-{"pawn shop",		'^',	c_white,	5, build_extras, false, false},
-{"pawn shop",		'>',	c_white,	5, build_extras, false, false},
-{"pawn shop",		'v',	c_white,	5, build_extras, false, false},
-{"pawn shop",		'<',	c_white,	5, build_extras, false, false},
+{"pawn shop",		'^',	c_ltgray,	5, build_extras, false, false},
+{"pawn shop",		'>',	c_ltgray,	5, build_extras, false, false},
+{"pawn shop",		'v',	c_ltgray,	5, build_extras, false, false},
+{"pawn shop",		'<',	c_ltgray,	5, build_extras, false, false},
 {"mil. surplus",	'^',	c_white,	5, build_extras, false, false},
 {"mil. surplus",	'>',	c_white,	5, build_extras, false, false},
 {"mil. surplus",	'v',	c_white,	5, build_extras, false, false},
@@ -364,6 +367,7 @@ OMS_FLAG_3X3_SECOND,	// 3x3 square, made of the tile AFTER the main one
 OMS_FLAG_BIG,		// As big as possible
 OMS_FLAG_ROAD,		// Add a road_point here; connect to towns etc.
 OMS_FLAG_PARKING_LOT,	// Add a road_point to the north of here
+OMS_FLAG_DIRT_LOT,      // Dirt lot flag for specials
 NUM_OMS_FLAGS
 };
 
@@ -404,6 +408,7 @@ enum omspec_id
  OMSPEC_HOUSE,
  OMSPEC_GAS,
  OMSPEC_CABIN,
+ OMSPEC_FARM,
  OMSPEC_TEMPLE,
  OMSPEC_LAB,
  OMSPEC_BUNKER,
@@ -447,6 +452,9 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 
 {ot_house_north,   0, 50, 20, -1, mcat_null, 0, 0, 0, 0,  // Woods cabin
  &omspec_place::forest, mfb(OMS_FLAG_ROTATE_RANDOM)|mfb(OMS_FLAG_ROTATE_ROAD)},
+ 
+ {ot_farm,   0, 20, 20, -1, mcat_null, 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) |mfb(OMS_FLAG_DIRT_LOT)},
 
 {ot_temple_stairs, 0,  3, 20, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::forest, 0},

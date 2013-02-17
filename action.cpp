@@ -147,6 +147,8 @@ std::string action_ident(action_id act)
    return "look";
   case ACTION_PEEK:
    return "peek";
+  case ACTION_LIST_ITEMS:
+   return "listitems";
   case ACTION_INVENTORY:
    return "inventory";
   case ACTION_COMPARE:
@@ -303,6 +305,8 @@ std::string action_name(action_id act)
    return "Look Around";
   case ACTION_PEEK:
    return "Peek Around Corners";
+  case ACTION_LIST_ITEMS:
+   return "List all items around the player";
   case ACTION_INVENTORY:
    return "Open Inventory";
   case ACTION_COMPARE:
@@ -350,7 +354,7 @@ std::string action_name(action_id act)
   case ACTION_CONSTRUCT:
    return "Construct Terrain";
   case ACTION_DISASSEMBLE:
-   return "Disassemble items";   
+   return "Disassemble items";
   case ACTION_SLEEP:
    return "Sleep";
   case ACTION_TOGGLE_SAFEMODE:

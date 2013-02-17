@@ -24,10 +24,10 @@
 // Colors used in this file: (Most else defaults to c_ltgray)
 #define COL_STAT_ACT		c_ltred    // Selected stat
 #define COL_TR_GOOD		c_green    // Good trait descriptive text
-#define COL_TR_GOOD_OFF		c_ltgreen  // A toggled-off good trait
+#define COL_TR_GOOD_OFF		c_ltgray  // A toggled-off good trait
 #define COL_TR_GOOD_ON		c_green    // A toggled-on good trait
 #define COL_TR_BAD		c_red      // Bad trait descriptive text
-#define COL_TR_BAD_OFF		c_ltred    // A toggled-off bad trait
+#define COL_TR_BAD_OFF		c_ltgray    // A toggled-off bad trait
 #define COL_TR_BAD_ON		c_red      // A toggled-on bad trait
 #define COL_SKILL_USED		c_green    // A skill with at least one point
 

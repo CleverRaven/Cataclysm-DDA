@@ -17,6 +17,34 @@ const int num_fuel_types = 4;
 const int fuel_types[num_fuel_types] = { AT_GAS, AT_BATT, AT_PLUT, AT_PLASMA };
 const int k_mvel = 200;
 
+// 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
+// 3 - thin_obstacle, 4 - bashable, 5 - destructible, 6 - other
+enum veh_coll_type {
+ veh_coll_nothing = 0,
+ veh_coll_body,
+ veh_coll_veh,
+ veh_coll_thin_obstacle,
+ veh_coll_bashable,
+ veh_coll_destructable,
+ veh_coll_other,
+ 
+ num_veh_coll_types
+};
+
+struct veh_collision {
+ //int veh?
+ int part;
+ veh_coll_type type;
+ int imp; //impedance? resistance? what unit?
+
+ void* target;  //vehicle
+ int target_part; //veh partnum
+ std::string target_name;
+
+ veh_collision(){};
+};
+ 
+
 // Structure, describing vehicle part (ie, wheel, seat)
 struct vehicle_part
 {
@@ -129,7 +157,7 @@ public:
     bool player_in_control (player *p);
 
 // init parts state for randomly generated vehicle
-    void init_state();
+    void init_state(game* g);
 
 // load and init vehicle data from stream. This implies valid save data!
     void load (std::ifstream &stin);
@@ -278,7 +306,7 @@ public:
 
 // handle given part collision with vehicle, monster/NPC/player or terrain obstacle
 // return impulse (damage) applied on vehicle for that collision
-    int part_collision (int vx, int vy, int part, int x, int y);
+    veh_collision part_collision (int vx, int vy, int part, int x, int y);
 
 // Process the trap beneath
     void handle_trap (int x, int y, int part);
@@ -355,7 +383,9 @@ public:
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
     bool skidding;      // skidding mode
     int last_turn;      // amount of last turning (for calculate skidding due to handbrake)
-    int moves;
+    //int moves;
+    float of_turn;      // goes from ~1 to ~0 while proceeding every turn
+    float of_turn_carry;// leftover from prev. turn
     int turret_mode;    // turret firing mode: 0 = off, 1 = burst fire
 };
 

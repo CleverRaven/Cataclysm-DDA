@@ -330,8 +330,7 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_ONFIRE:
   p.hurtall(3);
   for (int i = 0; i < p.worn.size(); i++) {
-   if (p.worn[i].made_of(VEGGY) || p.worn[i].made_of(PAPER) ||
-       p.worn[i].made_of(PAPER)) {
+   if (p.worn[i].made_of(VEGGY) || p.worn[i].made_of(PAPER)) {
     p.worn.erase(p.worn.begin() + i);
     i--;
    } else if ((p.worn[i].made_of(COTTON) || p.worn[i].made_of(WOOL)) &&
@@ -580,6 +579,17 @@ void dis_effect(game *g, player &p, disease &dis)
   p.dex_cur--;
   if (!p.has_trait(PF_POISRESIST))
    p.str_cur -= 2;
+  break;
+
+ case DI_BLEED:
+  if (!p.is_npc() && one_in(2)) {
+   g->add_msg("You lose some blood.");
+   p.pain++;
+   p.hurt(g, bp_torso, 0, 1);
+   p.per_cur--;
+   p.str_cur --;
+   g->m.add_field(g, p.posx, p.posy, fd_blood, 1);
+  }
   break;
 
  case DI_BADPOISON:
@@ -1079,7 +1089,6 @@ std::string dis_name(disease dis)
  case DI_BLISTERS_HANDS: return "Blisters - hands";
  case DI_BLISTERS_LEGS: return "Blisters - legs";
  case DI_BLISTERS_FEET: return "Blisters - feet";
-
  case DI_COMMON_COLD:	return "Common Cold";
  case DI_FLU:		return "Influenza";
  case DI_SMOKE:		return "Smoke";
@@ -1094,6 +1103,7 @@ std::string dis_name(disease dis)
  case DI_STUNNED:	return "Stunned";
  case DI_DOWNED:	return "Downed";
  case DI_POISON:	return "Poisoned";
+ case DI_BLEED:	        return "Bleeding";
  case DI_BADPOISON:	return "Badly Poisoned";
  case DI_FOODPOISON:	return "Food Poisoning";
  case DI_SHAKES:	return "Shakes";
@@ -1331,6 +1341,9 @@ You're knocked to the ground.  You have to get up before you can move.";
  case DI_POISON:	return "\
 Perception - 1;    Dexterity - 1;   Strength - 2 IF not resistant\n\
 Occasional pain and/or damage.";
+
+ case DI_BLEED:	return "\
+ You are slowly losing blood.";
 
  case DI_BADPOISON:	return "\
 Perception - 2;    Dexterity - 2;\n\

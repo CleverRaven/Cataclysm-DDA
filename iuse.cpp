@@ -68,7 +68,7 @@ void iuse::royal_jelly(game *g, player *p, item *it, bool t)
   p->rem_disease(DI_ASTHMA);
  }
  if (p->has_disease(DI_COMMON_COLD) || p->has_disease(DI_FLU)) {
-  message = "You feel healther!";
+  message = "You feel healthier!";
   p->rem_disease(DI_COMMON_COLD);
   p->rem_disease(DI_FLU);
  }
@@ -687,6 +687,12 @@ void iuse::lighter(game *g, player *p, item *it, bool t)
   it->charges++;
   return;
  }
+ if (dirx == 0 && diry == 0) {
+  g->add_msg_if_player(p, "You would set yourself on fire.");
+  g->add_msg_if_player(p, "But you're already smokin' hot.");
+  it->charges++;
+  return;
+ }
  p->moves -= 15;
  dirx += p->posx;
  diry += p->posy;
@@ -961,6 +967,11 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"Invalid direction!");
   return;
  }
+ if (dirx == 0 && diry == 0) {
+  g->add_msg_if_player(p, "You try to hit yourself with the hammer.");
+  g->add_msg_if_player(p, "But you can't touch this.");
+  return;
+ }
  dirx += p->posx;
  diry += p->posy;
  int nails = 0, boards = 0;
@@ -1175,16 +1186,15 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
  g->draw();
- mvprintw(0, 0, "Pry where?");
+ mvprintw(0, 0, "Pick which lock?");
  get_direction(g, dirx, diry, input());
  if (dirx == -2) {
   g->add_msg_if_player(p,"Invalid direction.");
   return;
- }
-else if (dirx == 0 && diry == 0) {
+ } else if (dirx == 0 && diry == 0) {
   g->add_msg_if_player(p, "You pick your nose and your sinuses swing open.");
- return;
-}
+  return;
+ }
  dirx += p->posx;
  diry += p->posy;
  ter_id type = g->m.ter(dirx, diry);
@@ -1223,6 +1233,11 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
  if (dirx == -2) {
   g->add_msg_if_player(p,"Invalid direction.");
   return;
+ }
+if (dirx == 0 && diry == 0) {
+   g->add_msg_if_player(p, "You attempt to pry open your wallet");
+   g->add_msg_if_player(p, "but alas. You are just too miserly.");
+   return;
  }
  dirx += p->posx;
  diry += p->posy;
@@ -1361,6 +1376,11 @@ void iuse::jackhammer(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"Invalid direction.");
   return;
  }
+ if (dirx == 0 && diry == 0) {
+  g->add_msg_if_player(p,"My god! Let's talk it over OK?");
+  g->add_msg_if_player(p,"Don't do anything rash..");
+  return;
+ }
  dirx += p->posx;
  diry += p->posy;
  if (g->m.is_destructable(dirx, diry) && g->m.has_flag(supports_roof, dirx, diry) &&
@@ -1387,6 +1407,11 @@ void iuse::jacqueshammer(game *g, player *p, item *it, bool t)
  get_direction(g, dirx, diry, input());
  if (dirx == -2) {
   g->add_msg_if_player(p,"Direction invalide");
+  return;
+ }
+ if (dirx == 0 && diry == 0) {
+  g->add_msg_if_player(p,"Mon dieu! Nous allons en parler OK?");
+  g->add_msg_if_player(p,"Ne pas faire eruption rien..");
   return;
  }
  dirx += p->posx;
@@ -1446,12 +1471,18 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"Invalid direction.");
   return;
  }
+ if (dirx == 0 && diry == 0) {
+  g->add_msg_if_player(p,"Yeah. Place the %s at your feet.", it->tname().c_str());
+  g->add_msg_if_player(p,"Real damn smart move.");
+  return;
+ }
  int posx = dirx + p->posx;
  int posy = diry + p->posy;
  if (g->m.move_cost(posx, posy) != 2) {
   g->add_msg_if_player(p,"You can't place a %s there.", it->tname().c_str());
   return;
  }
+
 
  trap_id type = tr_null;
  bool buried = false;
@@ -2115,6 +2146,11 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
   it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
   return;
  }
+ else if (dirx == 0 && diry == 0) {
+  g->add_msg_if_player(p,"Umm. No.");
+  it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
+  return;
+ }
  int sx = dirx + p->posx, sy = diry + p->posy;
  int mondex = g->mon_at(sx, sy);
  int npcdex = g->npc_at(sx, sy);
@@ -2537,6 +2573,11 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
   g->add_msg("Invalid direction.");
   return;
  }
+if (dirx == 0 && diry == 0) {
+  g->add_msg("Why would you do that?");
+  g->add_msg("You're not even chained to a boiler.");
+  return;
+ }
  dirx += p->posx;
  diry += p->posy;
  if (g->m.ter(dirx, diry) == t_chainfence_v || g->m.ter(dirx, diry) == t_chainfence_h) {
@@ -2908,8 +2949,15 @@ void iuse::boltcutters(game *g, player *p, item *it, bool t)
   g->add_msg("Invalid direction.");
   return;
  }
+if (dirx == 0 && diry == 0) {
+  g->add_msg_if_player(p, "You neatly sever all of the veins");
+  g->add_msg_if_player(p, "and arteries in your body. Oh wait,");
+  g->add_msg_if_player(p, "Never mind.");
+  return;
+}
  dirx += p->posx;
  diry += p->posy;
+
  if (g->m.ter(dirx, diry) == t_chaingate_l) {
   p->moves -= 100;
   g->m.ter(dirx, diry) = t_chaingate_c;
@@ -2935,10 +2983,15 @@ void iuse::mop(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"Invalid direction.");
   return;
  }
+ if (dirx == 0 && diry == 0) {
+   g->add_msg_if_player(p,"You mop yourself up.");
+   g->add_msg_if_player(p,"The universe implodes and reforms around you.");
+   return;
+}
  p->moves -= 15;
  dirx += p->posx;
  diry += p->posy;
- if (g->m.moppable_items_at(dirx, diry)) {
+  if (g->m.moppable_items_at(dirx, diry)) {
    g->m.mop_spills(dirx, diry);
    g->add_msg("You mop up the spill");
  } else {
@@ -2947,19 +3000,17 @@ void iuse::mop(game *g, player *p, item *it, bool t)
 }
 void iuse::rag(game *g, player *p, item *it, bool t)
 {
-if (p->has_disease(DI_BLEED)){
-
+ if (p->has_disease(DI_BLEED)){
   if (one_in(2)){
-  g->add_msg_if_player(p,"You managed to stop the bleeding.");
-  p->rem_disease(DI_BLEED);
-  it->make(g->itypes[itm_rag_bloody]);
+   g->add_msg_if_player(p,"You managed to stop the bleeding.");
+   p->rem_disease(DI_BLEED);
+  } else {
+   g->add_msg_if_player(p,"You couldnt stop the bleeding.");
   }
-else {
-  g->add_msg_if_player(p,"You couldnt stop the bleeding.");
   p->use_charges(itm_rag, 1);
- }}
- else {
- g->add_msg_if_player(p,"Nothing to use the rag for.");
+  it->make(g->itypes[itm_rag_bloody]);
+ } else {
+  g->add_msg_if_player(p,"Nothing to use the rag for.");
  }
 
 }

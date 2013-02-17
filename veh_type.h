@@ -157,9 +157,9 @@ const vpart_info vpart_list[num_vparts] =
     { "null part",  '?', c_red,     '?', c_red,     100, 100, 0, 0, itm_null, 0,
         0 },
     { "seat",       '#', c_red,     '*', c_red,     60,  300, 0, 0, itm_seat, 1,
-        mfb(vpf_over) | mfb(vpf_seat) | mfb(vpf_no_reinforce) },
+        mfb(vpf_over) | mfb(vpf_seat) | mfb(vpf_cargo) | mfb(vpf_no_reinforce) },
     { "bed",        '#', c_magenta, '*', c_magenta, 60,  300, 0, 0, itm_seat, 1,
-        mfb(vpf_over) | mfb(vpf_bed) | mfb(vpf_no_reinforce) },
+        mfb(vpf_over) | mfb(vpf_bed) | mfb(vpf_cargo) | mfb(vpf_no_reinforce) },
     { "frame",      'h', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
         mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) },
     { "frame",      'j', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
@@ -213,15 +213,15 @@ const vpart_info vpart_list[num_vparts] =
 
 //                                                           wheel_width(inches) 
     { "wheel",      '0',    c_dkgray,  'x', c_ltgray,  50,  200, 9, 0, itm_wheel, 4,
-        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) },
+        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
     { "wide wheel", 'O',     c_dkgray,   'x', c_ltgray,  50,  400, 14, 0, itm_wheel_wide, 5,
-        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) },
+        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
     { "bicycle wheel",'|',  c_dkgray, 'x', c_ltgray,  50,  40, 2, 0, itm_wheel_bicycle, 1,
-        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) },
+        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
     { "motorbike wheel",'o',c_dkgray, 'x', c_ltgray,  50,  90, 4, 0, itm_wheel_motorbike, 2,
-        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) },
+        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
     { "small wheel",    'o',c_dkgray, 'x', c_ltgray,  50,  70, 6, 0, itm_wheel_small, 2,
-        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) },
+        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
 //
     { "1-cylinder engine",    '*', c_ltred,  '#', c_red,     80, 150, 40, AT_GAS, itm_1cyl_combustion, 2,
         mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size) },
@@ -292,8 +292,8 @@ enum vhtype_id
 
 // in-built vehicles
     veh_bicycle,
-    veh_motorcycle,
     veh_motorcycle_chassis,
+    veh_motorcycle,
     veh_sandbike,
     veh_sandbike_chassis,
     veh_car,

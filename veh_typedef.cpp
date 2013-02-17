@@ -95,7 +95,6 @@ void game::init_vehicles()
     PART (0, 0,     vp_frame_v2);
     PART (0, 0,     vp_seat);
     PART (0, 0,     vp_controls);
-    PART (0, 0,     vp_seatbelt);
     PART (1, 0,     vp_frame_cover);
     PART (1, 0,     vp_engine_gas_v2);
     PART (1, 0,     vp_head_light);

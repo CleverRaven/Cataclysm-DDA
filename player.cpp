@@ -565,7 +565,6 @@ void player::load_info(game *g, std::string data)
  for (int i = 0; i < num_bp; i++)
   dump >> temp_cur[i] >> frostbite_timer[i]; 
   
-  
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    dump >> skillLevel(*aSkill);
  }
@@ -1138,7 +1137,7 @@ which require brute force.");
     mvwprintz(w_stats, 3, 2, h_ltgray, "Dexterity:");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Dexterity affects your chance to hit in melee combat, helps you steady your\n\
-gun for ranged combat, and enhances many actions that require finesse."); 
+gun for ranged combat, and enhances many actions that require finesse.");
    } else if (line == 2) {
     mvwprintz(w_stats, 4, 2, h_ltgray, "Intelligence:");
     mvwprintz(w_info, 0, 0, c_magenta, "\
@@ -1203,12 +1202,12 @@ Melee skill -%d;      Dodge skill -%d;\n\
 Swimming costs +%d movement points;\n\
 Melee attacks cost +%d movement points", encumb(bp_torso), encumb(bp_torso),
               encumb(bp_torso) * (80 - skillLevel("swimming").level() * 3), encumb(bp_torso) * 20);
-   } else if (line == 4) 
+   } else if (line == 4)
   {
     mvwprintz(w_encumb, 5, 2, h_ltgray, "Arms");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Arm encumbrance affects your accuracy with ranged weapons.");
-   } else if (line == 5)    
+   } else if (line == 5)
    {
     mvwprintz(w_encumb, 6, 2, h_ltgray, "Hands");
     mvwprintz(w_info, 0, 0, c_magenta, "\
@@ -1967,9 +1966,9 @@ int player::clairvoyance()
 bool player::sight_impaired()
 {
  return has_disease(DI_BOOMERED) ||
-  (underwater && !has_bionic(bio_membrane) && !has_trait(PF_MEMBRANE) 
+  (underwater && !has_bionic(bio_membrane) && !has_trait(PF_MEMBRANE)
               && !is_wearing(itm_goggles_swim)) ||
-  (has_trait(PF_MYOPIC) && !is_wearing(itm_glasses_eye) 
+  (has_trait(PF_MYOPIC) && !is_wearing(itm_glasses_eye)
                         && !is_wearing(itm_glasses_monocle));
 }
 
@@ -3352,6 +3351,10 @@ void player::process_active_items(game *g)
 
 item player::remove_weapon()
 {
+ if (weapon.has_flag(IF_CHARGE) && weapon.active) { //unwield a charged charge rifle.
+  weapon.charges = 0;
+  weapon.active = false;
+ }
  item tmp = weapon;
  weapon = ret_null;
 // We need to remove any boosts related to our style
@@ -3889,7 +3892,7 @@ bool player::eat(game *g, int index)
    }
   }
   bool overeating = (!has_trait(PF_GOURMAND) && hunger < 0 &&
-                     comest->nutr >= 15);
+                     comest->nutr >= 5);
   bool spoiled = eaten->rotten(g);
 
   last_item = itype_id(eaten->type->id);
