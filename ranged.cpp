@@ -933,14 +933,14 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
  body_part hit;
  int side = rng(0, 1), junk;
- if (goodhit < .05) {
+ if (goodhit < .003) {
   hit = bp_eyes;
   dam = rng(3 * dam, 5 * dam);
   p.practice(firing->skill_used, 5);
- } else if (goodhit < .1) {
-  if (one_in(6))
+ } else if (goodhit < .066) {
+  if (one_in(25))
    hit = bp_eyes;
-  else if (one_in(4))
+  else if (one_in(15))
    hit = bp_mouth;
   else
    hit = bp_head;
