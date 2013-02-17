@@ -3645,8 +3645,8 @@ void game::add_footstep(int x, int y, int volume, int distance)
 void game::draw_footsteps()
 {
  for (int i = 0; i < footsteps.size(); i++) {
-  mvwputch(w_terrain, SEEY + footsteps[i].y - u.posy,
-           SEEX + footsteps[i].x - u.posx, c_yellow, '?');
+  mvwputch(w_terrain, SEEY + footsteps[i].y - u.posy - u.view_offset_y,
+                      SEEX + footsteps[i].x - u.posx - u.view_offset_x, c_yellow, '?');
  }
  footsteps.clear();
  wrefresh(w_terrain);
@@ -3725,15 +3725,23 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
  }
 // Draw the explosion
  for (int i = 1; i <= radius; i++) {
-  mvwputch(w_terrain, y - i + SEEY - u.posy, x - i + SEEX - u.posx, c_red, '/');
-  mvwputch(w_terrain, y - i + SEEY - u.posy, x + i + SEEX - u.posx, c_red,'\\');
-  mvwputch(w_terrain, y + i + SEEY - u.posy, x - i + SEEX - u.posx, c_red,'\\');
-  mvwputch(w_terrain, y + i + SEEY - u.posy, x + i + SEEX - u.posx, c_red, '/');
+  mvwputch(w_terrain, y - i + SEEY - u.posy - u.view_offset_y,
+                      x - i + SEEX - u.posx - u.view_offset_x, c_red, '/');
+  mvwputch(w_terrain, y - i + SEEY - u.posy - u.view_offset_y,
+                      x + i + SEEX - u.posx - u.view_offset_x, c_red,'\\');
+  mvwputch(w_terrain, y + i + SEEY - u.posy - u.view_offset_y,
+                      x - i + SEEX - u.posx - u.view_offset_x, c_red,'\\');
+  mvwputch(w_terrain, y + i + SEEY - u.posy - u.view_offset_y,
+                      x + i + SEEX - u.posx - u.view_offset_x, c_red, '/');
   for (int j = 1 - i; j < 0 + i; j++) {
-   mvwputch(w_terrain, y - i + SEEY - u.posy, x + j + SEEX - u.posx, c_red,'-');
-   mvwputch(w_terrain, y + i + SEEY - u.posy, x + j + SEEX - u.posx, c_red,'-');
-   mvwputch(w_terrain, y + j + SEEY - u.posy, x - i + SEEX - u.posx, c_red,'|');
-   mvwputch(w_terrain, y + j + SEEY - u.posy, x + i + SEEX - u.posx, c_red,'|');
+   mvwputch(w_terrain, y - i + SEEY - u.posy - u.view_offset_y,
+                       x + j + SEEX - u.posx - u.view_offset_x, c_red,'-');
+   mvwputch(w_terrain, y + i + SEEY - u.posy - u.view_offset_y,
+                       x + j + SEEX - u.posx - u.view_offset_x, c_red,'-');
+   mvwputch(w_terrain, y + j + SEEY - u.posy - u.view_offset_y,
+                       x - i + SEEX - u.posx - u.view_offset_x, c_red,'|');
+   mvwputch(w_terrain, y + j + SEEY - u.posy - u.view_offset_y,
+                       x + i + SEEX - u.posx - u.view_offset_x, c_red,'|');
   }
   wrefresh(w_terrain);
   nanosleep(&ts, NULL);
@@ -3758,8 +3766,8 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
    if (j > 0 && u_see(traj[j - 1].x, traj[j - 1].y, ijunk))
     m.drawsq(w_terrain, u, traj[j - 1].x, traj[j - 1].y, false, true);
    if (u_see(traj[j].x, traj[j].y, ijunk)) {
-    mvwputch(w_terrain, traj[j].y + SEEY - u.posy,
-                        traj[j].x + SEEX - u.posx, c_red, '`');
+    mvwputch(w_terrain, traj[j].y + SEEY - u.posy - u.view_offset_y,
+                        traj[j].x + SEEX - u.posx - u.view_offset_x, c_red, '`');
     wrefresh(w_terrain);
     nanosleep(&ts, NULL);
    }
@@ -5404,8 +5412,8 @@ void game::list_items()
 
     if (u_see(trajectory[i].x, trajectory[i].y, junk)) {
      char bullet = 'X';
-     mvwputch(w_terrain, trajectory[i].y + SEEY - u.posy,
-                         trajectory[i].x + SEEX - u.posx, c_white, bullet);
+     mvwputch(w_terrain, trajectory[i].y + SEEY - u.posy - u.view_offset_y,
+                         trajectory[i].x + SEEX - u.posx - u.view_offset_x, c_white, bullet);
     }
    }
 
@@ -6198,7 +6206,8 @@ void game::plthrow()
     if (k >= y0 && k <= y1 && j >= x0 && j <= x1)
      m.drawsq(w_terrain, u, j, k, false, true);
     else
-     mvwputch(w_terrain, k + SEEY - u.posy, j + SEEX - u.posx, c_dkgray, '#');
+     mvwputch(w_terrain, k + SEEY - u.posy - u.view_offset_y,
+                         j + SEEX - u.posx - u.view_offset_x, c_dkgray, '#');
    }
   }
  }
