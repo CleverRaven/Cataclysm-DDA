@@ -352,7 +352,7 @@ class game
   void process_events();   // Processes and enacts long-term events
   void process_activity(); // Processes and enacts the player's activity
   void update_weather();   // Updates the temperature and weather patten
-  void hallucinate();      // Prints hallucination junk to the screen
+  void hallucinate(const int x, const int y); // Prints hallucination junk to the screen
   void mon_info();         // Prints a list of nearby monsters (top right)
   input_ret get_input(int timeout_ms);   // Gets player input and calls the proper function
   void update_scent();     // Updates the scent map

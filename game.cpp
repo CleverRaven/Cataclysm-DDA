@@ -2751,7 +2751,7 @@ void game::draw_ter(int posx, int posy)
  }
  wrefresh(w_terrain);
  if (u.has_disease(DI_VISUALS) || (u.has_disease(DI_HOT_HEAD) && u.disease_intensity(DI_HOT_HEAD) != 1))
-  hallucinate();
+   hallucinate(posx, posy);
 }
 
 void game::refresh_all()
@@ -2930,13 +2930,13 @@ void game::draw_minimap()
  wrefresh(w_minimap);
 }
 
-void game::hallucinate()
+void game::hallucinate(const int x, const int y)
 {
  for (int i = 0; i <= SEEX * 2 + 1; i++) {
   for (int j = 0; j <= SEEY * 2 + 1; j++) {
    if (one_in(10)) {
-    char ter_sym = terlist[m.ter(i + rng(-2, 2), j + rng(-2, 2))].sym;
-    nc_color ter_col = terlist[m.ter(i + rng(-2, 2), j + rng(-2, 2))].color;
+    char ter_sym = terlist[m.ter(i + x - SEEX + rng(-2, 2), j + y - SEEY + rng(-2, 2))].sym;
+    nc_color ter_col = terlist[m.ter(i + x - SEEX + rng(-2, 2), j + y - SEEY+ rng(-2, 2))].color;
     mvwputch(w_terrain, j, i, ter_col, ter_sym);
    }
   }
