@@ -617,8 +617,11 @@ bool map::vehproceed(game* g){
 
       //veh2->velocity += veh->velocity * .35;
       veh->velocity *= .4;
-      veh2->of_turn += .121;
-      veh->of_turn -= .221;
+
+      //give veh2 the initiative to proceed next before veh1
+      float avg_of_turn = (veh2->of_turn + veh->of_turn) / 2;
+      veh->of_turn = avg_of_turn * .9;
+      veh2->of_turn = avg_of_turn * 1.1;
       veh2->skidding = 1;
       return true;
    }
