@@ -439,6 +439,13 @@ bool map::vehproceed(game* g){
    if(!veh)
       return false;
 
+   if (!inbounds(x, y)){
+      debugmsg ("stopping out-of-map vehicle. (x,y)=(%d,%d)",x,y);
+      veh->stop();
+      veh->of_turn = 0;
+      return true;
+   }
+
    bool pl_ctrl = veh->player_in_control(&g->u);
 
    // k slowdown first.
