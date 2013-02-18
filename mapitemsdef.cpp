@@ -333,7 +333,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_shirts],
 	itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top,
-	itm_sweatshirt, itm_sweater, itm_hoodie,
+	itm_sweatshirt, itm_sweater, itm_hoodie, itm_under_armor,
         itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
         itm_tshirt_fit, NULL);
 
@@ -345,9 +345,10 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_winter],
-	itm_coat_winter, itm_peacoat, itm_gloves_light, itm_mittens,
+	itm_coat_winter, itm_peacoat, itm_gloves_light, itm_mittens, 
 	itm_gloves_wool, itm_gloves_winter, itm_gloves_leather, itm_scarf,
-	itm_hat_cotton, itm_hat_knit, itm_hat_fur, NULL);
+	itm_hat_cotton, itm_hat_knit, itm_hat_fur, itm_pants_ski, itm_long_underpants,
+    itm_balclava, NULL);
 
  setvector(
    mapitems[mi_bags],
@@ -363,6 +364,7 @@ void game::init_mapitems()
 	itm_gloves_light, itm_mittens, itm_gloves_wool, itm_gloves_winter,
 	itm_gloves_leather, itm_scarf, itm_hat_cotton, itm_hat_knit,
 	itm_hat_fur, itm_UPS_off, itm_jeans_fit, itm_pants_fit,
+    itm_under_armor, itm_balclava, itm_pants_ski, itm_long_underpants,
         itm_pants_cargo_fit, itm_polo_shirt_fit, itm_sweatshirt_fit,
         itm_sweater_fit,
         itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit,
@@ -574,7 +576,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_mil_armor],
 	itm_pants_army, itm_kevlar, itm_vest, itm_mask_gas, itm_goggles_nv,
-	itm_helmet_army, itm_backpack, itm_UPS_off, itm_beltrig,
+	itm_helmet_army, itm_backpack, itm_UPS_off, itm_beltrig, itm_under_armor,
         itm_boots, itm_boots_fit, itm_pants_army_fit, itm_armguard_hard,
 	itm_helmet_army, itm_backpack, itm_UPS_off, itm_beltrig, NULL);
 
@@ -606,7 +608,7 @@ void game::init_mapitems()
 	itm_boots_steel, itm_pants_cargo, itm_pants_army, itm_jumpsuit,
 	itm_jacket_leather, itm_kevlar, itm_vest, itm_gloves_fingerless,
 	itm_mask_filter, itm_mask_gas, itm_goggles_ski, itm_helmet_skid,
-  itm_armguard_hard,
+  itm_armguard_hard, itm_under_armor, itm_long_underpants,
 	itm_helmet_ball, itm_helmet_riot, itm_helmet_motor, itm_holster,
 	itm_bootstrap, itm_UPS_off, itm_beltrig,
         itm_pants_cargo_fit, itm_pants_army_fit, itm_rucksack, NULL);
