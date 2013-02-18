@@ -771,9 +771,15 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   }
   // Skin gets blisters from intense heat exposure. TODO : add penalties in disease.cpp
   if (blister_count - u.resist(body_part(i)) > 20) u.add_disease(dis_type(blister_pen), 1, this, i, num_bp);
-  // Increments current body temperature towards convergant
+  // Increments current body temperature towards convergant.
   int temp_difference = u.temp_cur[i] - temp_conv;
   int temp_before = u.temp_cur[i];
+  // Bodytemp equalization code start
+  if      (i == bp_torso){u.temp_equalizer(bp_torso, bp_arms); u.temp_equalizer(bp_torso, bp_legs); u.temp_equalizer(bp_torso, bp_head);}
+  else if (i == bp_head) {u.temp_equalizer(bp_head, bp_eyes); u.temp_equalizer(bp_head, bp_mouth);}
+  else if (i == bp_arms)  u.temp_equalizer(bp_arms, bp_hands);
+  else if (i == bp_legs)  u.temp_equalizer(bp_legs, bp_feet);
+  // Bodytemp equalization code end
   if (u.temp_cur[i] != temp_conv) u.temp_cur[i] = temp_difference*exp(-0.1) + temp_conv;
   int temp_after = u.temp_cur[i];
   // Penalties
@@ -816,11 +822,6 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
  // Morale penalties
  if (morale_pen < 0) u.add_morale(MORALE_COLD, -1, -abs(morale_pen));
  if (morale_pen > 0) u.add_morale(MORALE_HOT,  -1, -abs(morale_pen));
- // Bodytemp equalization code
- u.temp_equalizer(bp_torso, bp_arms); u.temp_equalizer(bp_torso, bp_legs); u.temp_equalizer(bp_torso, bp_head);
- u.temp_equalizer(bp_head, bp_eyes); u.temp_equalizer(bp_head, bp_mouth);
- u.temp_equalizer(bp_arms, bp_hands);
- u.temp_equalizer(bp_legs, bp_feet);
 }
 
 void game::rustCheck() {
