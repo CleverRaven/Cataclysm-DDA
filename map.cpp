@@ -567,53 +567,50 @@ bool map::vehproceed(game* g){
 
    if(veh_veh_colls.size()){ // we have dynamic crap!
       // effects of colliding with another vehicle:
-      // collision targets are pushed, this car loses time without moving,
-      // the other veh gains time, parts are damaged/broken on both sides.,
+      // transfers of momentum, skidding, 
+      // parts are damaged/broken on both sides,
+      // remaining times are normalized,
       veh_collision c = veh_veh_colls[0];
       vehicle* veh2 = (vehicle*) c.target;
       g->add_msg("The %s's %s collides with the %s's %s",
                  veh->name.c_str(),  veh->part_info(c.part).name,
                 veh2->name.c_str(), veh2->part_info(c.target_part).name);
-      //find mass & velocity of the collision.
-      // using veh->move.dir() & veh->velocity & veh->total_mass()
-      //or dot product
-      rl_vec2d  velo_veh1, velo_veh2;
 
       // for reference, a cargo truck weighs ~25300, a bicycle 690, 
       //  and 38mph is 3800 'velocity'
-      // Also, not sure trig is the way to go in this game, but it ought to work.
-      velo_veh1 = veh->velo_vec();
-      velo_veh2 = veh2->velo_vec();
-      // add part of relative velocity to v2's move vector thing.
-      // float mass_ratio = (float)veh->total_mass() / (float)veh2->total_mass();
+      rl_vec2d velo_veh1 = veh->velo_vec();
+      rl_vec2d velo_veh2 = veh2->velo_vec();
       float m1 = veh->total_mass();
       float m2 = veh2->total_mass();
-      float mtot = m1 + m2;
 
-      float elasticity = .3;
-
-      //set up an axis of collision & an impulse vector or two.
       rl_vec2d collision_axis = (velo_veh1 - velo_veh2).normalized();
-      //rl_vec2d collision_axis = velo_veh1 - velo_veh2;
-      rl_vec2d imp1 = collision_axis.dot_product(velo_veh1) * m1;
-      rl_vec2d imp2 = (collision_axis*-1).dot_product (velo_veh2) * m2;
+      // impulse vectors
+      rl_vec2d imp1 = collision_axis   *    collision_axis.dot_product (velo_veh1) * m1;
+      rl_vec2d imp2 = (collision_axis) * (-collision_axis).dot_product (velo_veh2) * m2;
 
       // finally, changes in veh velocity
-      rl_vec2d delta1 = imp2 / m1;
-      rl_vec2d delta2 = imp1 / m2;
-      rl_vec2d final1 = velo_veh1 + delta1;
-      rl_vec2d final2 = velo_veh2 + delta2;
+      // 30% is absorbed as bashing damage??
+      rl_vec2d delta1 = imp2 * .7 / m1;
+      rl_vec2d delta2 = imp1 * .7 / m2;
 
+      rl_vec2d final1 = velo_veh1 + delta1;
       veh->move.init (final1.x, final1.y);
+      veh->velocity = final1.norm();
+      // shrug it off if the change is less than 8mph.
+      if(delta1.norm() > 800) {
+         veh->skidding = 1;
+      }
+      rl_vec2d final2 = velo_veh2 + delta2;
       veh2->move.init(final2.x, final2.y);
       veh2->velocity = final2.norm();
-      veh->velocity = final1.norm();
+      if(delta2.norm() > 800) {
+         veh2->skidding = 1;
+      }
 
       //give veh2 the initiative to proceed next before veh1
       float avg_of_turn = (veh2->of_turn + veh->of_turn) / 2;
       veh->of_turn = avg_of_turn * .9;
       veh2->of_turn = avg_of_turn * 1.1;
-      veh2->skidding = 1;
       return true;
    }
 

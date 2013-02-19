@@ -305,7 +305,7 @@ public:
     void turn (int deg);
 
 // handle given part collision with vehicle, monster/NPC/player or terrain obstacle
-// return impulse (damage) applied on vehicle for that collision
+// return collision, which has type, impulse, part, & target.
     veh_collision part_collision (int vx, int vy, int part, int x, int y);
 
 // Process the trap beneath
