@@ -234,6 +234,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
  int rn, lw, rw, mw, tw, bw, cw, x, y;
  int n_fac = 0, e_fac = 0, s_fac = 0, w_fac = 0;
  computer *tmpcomp = NULL;
+       int SEEX_oth=SEEX;
+       int SEEY_oth=SEEY-5;
 
  switch (terrain_type) {
 
@@ -957,6 +959,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
  case ot_house_east:
  case ot_house_south:
  case ot_house_west:
+
   lw = rng(0, 4);		// West external wall
   mw = lw + rng(7, 10);		// Middle wall between bedroom & kitchen/bath
   rw = SEEX * 2 - rng(1, 5);	// East external wall
@@ -4239,7 +4242,7 @@ case ot_s_garage_north:
             vt = one_in(2) ? veh_car : veh_car_chassis;
           else if(one_in(2))
             vt = one_in(2) ? veh_sandbike : veh_sandbike_chassis;
-          else 
+          else
             vt = one_in(2) ? veh_motorcycle : veh_motorcycle_chassis;
           add_vehicle (g, vt, vx, vy, theta);
         }
@@ -4250,12 +4253,12 @@ case ot_s_garage_north:
 		square(this, t_grass, 0, 0, 23, 23); //basic lot
 		square(this, t_floor, 0, 0, 14, 9);  //house floor #1
 		square(this, t_wall_wood, 16, 0, 23, 9); //Barn exterior #2
-		
+
 		for (int i = 0; i < SEEX * 2; i++) {
 		for (int j = 13; j < SEEY * 2; j++)
 		ter(i, j) = grass_or_dirt();
 		}
-		
+
 		line(this, t_wall_h, 0, 0, 14, 0); // House north wall #4
 		line(this, t_wall_h, 0, 9, 14, 9); // House south wall #5
 		line(this, t_wall_h, 1, 5, 8, 5); // House interior wall 1 horizontal #6
@@ -4312,7 +4315,7 @@ case ot_s_garage_north:
 		place_items(mi_softdrugs, 70, 11, 2, 12, 3, false, 0);
 		place_items(mi_bigtools, 50, 17, 1, 22, 8, true, 0);
 		place_items(mi_homeguns, 20, 17, 1, 22, 8, true, 0);
-			
+
 		if(one_in(2)){
 		add_spawn(mon_zombie, rng(1, 6), 20, 4);}
 		else {
@@ -4324,7 +4327,7 @@ case ot_s_garage_north:
 		case ot_farm_field:
 		if(t_east == ot_farm)
 		{
-		
+
 		square(this, grass_or_dirt(), 0, 0, SEEX * 2, SEEY * 2);
 		square(this, t_wall_wood, 3, 3, 20, 20);
 		square(this, t_dirtfloor, 4, 4, 19, 19);
@@ -4339,7 +4342,7 @@ case ot_s_garage_north:
 		line(this, t_fence_v, 6, 9, 6, 14);
 		line(this, t_fence_h, 4, 15, 6, 15);
 		line(this, t_fencegate_c, 6, 11, 6, 12);
-		
+
 		line(this, t_fence_h, 17, 8, 19, 8);
 		line(this, t_fence_v, 17, 9, 17, 14);
 		line(this, t_fence_h, 17, 15, 19, 15);
@@ -4359,19 +4362,19 @@ case ot_s_garage_north:
 		line(this, t_window_boarded, 20, 17, 20, 18);
 		ter(5, 20) = t_window_boarded;
 		ter(18, 20) = t_window_boarded;
-		
-				
+
+
 		place_items(mi_bigtools, 60, 4, 4, 7, 19, true, 0);
 		place_items(mi_bigtools, 60, 16, 5, 19, 19, true, 0);
 		place_items(mi_mechanics, 40, 8, 4, 15, 19, true, 0);
 		place_items(mi_home_hw, 50, 4, 19, 7, 19, true, 0);
 		place_items(mi_tools, 50, 4, 19, 7, 19, true, 0);
-		
+
 		if(one_in(10)){
 			add_spawn(mon_zombie, rng(3, 6), 12, 12);
 			}
-		
-				
+
+
 		}
 		else
 		{
@@ -4391,7 +4394,7 @@ case ot_s_garage_north:
 		line(this, t_dirtmound, 3, 15, 20, 15);
 		line(this, t_dirtmound, 3, 17, 20, 17);
 		line(this, t_dirtmound, 3, 19, 20, 19);
-		
+
 		place_items(mi_hydro, 70, 3, 3, 20, 3, true, turn); //Spawn crops
 		place_items(mi_hydro, 70, 3, 5, 20, 5, true, turn);
 		place_items(mi_hydro, 70, 3, 7, 20, 7, true, turn);
@@ -4403,7 +4406,7 @@ case ot_s_garage_north:
 		place_items(mi_hydro, 70, 3, 19, 20, 19, true, turn);
 		}
 		break;
-  
+
  case ot_police_north:
  case ot_police_east:
  case ot_police_south:
@@ -7230,6 +7233,9 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
    m->place_items(mi_fridge, 82, x2 - 2, y2 - 1, x2 - 2, y2 - 1, false, 0);
    break;
   }
+    if (one_in(2)) { //dining table in the kitchen
+    square(m, t_table, int((x1+x2) / 2)-1, int((y1+y2) / 2)-1, int((x1+x2) / 2), int((y1+y2) / 2) ); }
+
   break;
  case room_bedroom:
   placed = mi_bedroom;
@@ -7289,6 +7295,9 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
   m->place_items(mi_cleaning,  48, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
   placed = mi_softdrugs;
   chance = 72;
+        m->ter(x2-1, y2-2) = t_bathtub;
+        if ((m->ter(x2-3, y2-2)!=t_wall_v)||(m->ter(x2-3, y2-2)!=t_wall_h)) {
+        m->ter(x2-3, y2-2) = t_sink; }
   break;
  }
  m->place_items(placed, chance, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
