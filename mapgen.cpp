@@ -7268,7 +7268,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
       pos_x1-=2;
       }
       break;
-        m->ter(rnd(x1+2, x2-2), rnd(y1+1, y2-1)) = t_armchair;
+        m->ter(rng(x1+2, x2-2), rnd(y1+1, y2-1)) = t_armchair;
   }
 
 
