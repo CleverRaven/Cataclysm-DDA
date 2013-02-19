@@ -7183,6 +7183,7 @@ bool connects_to(oter_id there, int dir)
 
 void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
 {
+    int pos_x1=0; int pos_x2=0; int pos_y1=0; int pos_y2=0;
  for (int i = x1; i <= x2; i++) {
   for (int j = y1; j <= y2; j++) {
    if (m->ter(i, j) == t_grass || m->ter(i, j) == t_dirt ||
@@ -7209,32 +7210,111 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
  case room_living:
   placed = mi_livingroom;
   chance = 83;
+  //choose random wall
+  switch (rng(1,4)) { //some bookshelves
+    case 1:
+      pos_x1=x1+2;
+      pos_y1=y1+1;
+      m->ter(x1+2, y2-1) = t_desk;
+      while (pos_x1<x2) {
+      pos_x1+=1;
+        if ((m->ter(pos_x1,pos_y1)==t_wall_h)||(m->ter(pos_x1,pos_y1)==t_wall_v)) break;
+        m->ter(pos_x1,pos_y1)=t_bookcase;
+      pos_x1+=1;
+        if ((m->ter(pos_x1,pos_y1)==t_wall_h)||(m->ter(pos_x1,pos_y1)==t_wall_v)) break;
+        m->ter(pos_x1,pos_y1)=t_bookcase;
+        pos_x1+=2;
+      }
+      break;
+    case 2:
+      pos_x1=x2-2;
+      pos_y1=y1+1;
+      m->ter(x1+2, y2-1) = t_desk;
+      while (pos_x1>x1) {
+      pos_x1-=1;
+        if ((m->ter(pos_x1,pos_y1)==t_wall_h)||(m->ter(pos_x1,pos_y1)==t_wall_v)) break;
+        m->ter(pos_x1,pos_y1)=t_bookcase;
+      pos_x1-=1;
+        if ((m->ter(pos_x1,pos_y1)==t_wall_h)||(m->ter(pos_x1,pos_y1)==t_wall_v)) break;
+        m->ter(pos_x1,pos_y1)=t_bookcase;
+      pos_x1-=2;
+      }
+      break;
+    case 3:
+      pos_x1=x1+2;
+      pos_y1=y2-1;
+      m->ter(x1-2, y2-1) = t_desk;
+      while (pos_x1<x2) {
+      pos_x1+=1;
+        if ((m->ter(pos_x1,pos_y1)==t_wall_h)||(m->ter(pos_x1,pos_y1)==t_wall_v)) break;
+        m->ter(pos_x1,pos_y1)=t_bookcase;
+      pos_x1+=1;
+        if ((m->ter(pos_x1,pos_y1)==t_wall_h)||(m->ter(pos_x1,pos_y1)==t_wall_v)) break;
+        m->ter(pos_x1,pos_y1)=t_bookcase;
+        pos_x1+=2;
+      }
+      break;
+    case 4:
+      pos_x1=x2-2;
+      pos_y1=y2-1;
+      m->ter(x1+2, y2-1) = t_desk;
+      while (pos_x1>x1) {
+      pos_x1-=1;
+        if ((m->ter(pos_x1,pos_y1)==t_wall_h)||(m->ter(pos_x1,pos_y1)==t_wall_v)) break;
+        m->ter(pos_x1,pos_y1)=t_bookcase;
+      pos_x1-=1;
+        if ((m->ter(pos_x1,pos_y1)==t_wall_h)||(m->ter(pos_x1,pos_y1)==t_wall_v)) break;
+        m->ter(pos_x1,pos_y1)=t_bookcase;
+      pos_x1-=2;
+      }
+      break;
+        m->ter(rnd(x1+2, x2-2), rnd(y1+1, y2-1)) = t_armchair;
+  }
+
+
   break;
  case room_kitchen:
   placed = mi_kitchen;
   chance = 75;
   m->place_items(mi_cleaning,  58, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
   m->place_items(mi_home_hw,   40, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
-  switch (rng(1, 4)) {
+  switch (rng(1, 4)) { //fridge, sink, oven and some cupboards near them
   case 1:
    m->ter(x1 + 2, y1 + 1) = t_fridge;
    m->place_items(mi_fridge, 82, x1 + 2, y1 + 1, x1 + 2, y1 + 1, false, 0);
+   m->ter(x1+1, y1+1) = t_sink;
+   if (x1+4<x2) { m->ter(x1+3,y1+1) = t_oven;  m->ter(x1+4,y1+1) = t_cupboard;}
+
    break;
   case 2:
    m->ter(x2 - 2, y1 + 1) = t_fridge;
    m->place_items(mi_fridge, 82, x2 - 2, y1 + 1, x2 - 2, y1 + 1, false, 0);
+   m->ter(x2-1, y1+1) = t_sink;
+   if (x2-4>x1) { m->ter(x2-3,y1+1) = t_oven;  m->ter(x2-4,y1+1) = t_cupboard;}
+
    break;
   case 3:
    m->ter(x1 + 2, y2 - 1) = t_fridge;
    m->place_items(mi_fridge, 82, x1 + 2, y2 - 1, x1 + 2, y2 - 1, false, 0);
+      m->ter(x1+1, y2-1) = t_sink;
+      if (x1+4<x2) { m->ter(x1+3,y2-1) = t_oven;  m->ter(x1+4,y2-1) = t_cupboard;}
    break;
   case 4:
    m->ter(x2 - 2, y2 - 1) = t_fridge;
    m->place_items(mi_fridge, 82, x2 - 2, y2 - 1, x2 - 2, y2 - 1, false, 0);
+      m->ter(x2-1, y2-1) = t_sink;
+      if (x2-4>x1) { m->ter(x2-3,y2-1) = t_oven;  m->ter(x2-4,y2-1) = t_cupboard;}
    break;
   }
     if (one_in(2)) { //dining table in the kitchen
     square(m, t_table, int((x1+x2) / 2)-1, int((y1+y2) / 2)-1, int((x1+x2) / 2), int((y1+y2) / 2) ); }
+    if (one_in(2)) {
+    for (int i=0; i<=2; i++) {
+        pos_x1=rng(x1+2,x2-2); pos_y1=rng(y1+1,y2-1);
+        if (m->ter(pos_x1, pos_y1)==t_floor) {
+            m->ter(pos_x1, pos_y1)=t_chair;
+        }
+    }              }
 
   break;
  case room_bedroom:
@@ -7296,7 +7376,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
   placed = mi_softdrugs;
   chance = 72;
         m->ter(x2-1, y2-2) = t_bathtub;
-        if ((m->ter(x2-3, y2-2)!=t_wall_v)||(m->ter(x2-3, y2-2)!=t_wall_h)) {
+        if (!((m->ter(x2-3, y2-2)==t_wall_v)||(m->ter(x2-3, y2-2)==t_wall_h))) {
         m->ter(x2-3, y2-2) = t_sink; }
   break;
  }
