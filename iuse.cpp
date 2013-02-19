@@ -2483,7 +2483,7 @@ char ch = g->inv("Chop up what?");
  if (cut->type->id == itm_stick || cut->type->id == itm_2x4) {
  g->add_msg("You carve several skewers from the wood.", cut->tname().c_str());
  int count = 8;
- g->m.add_item(p.posx, p.posy, g->itypes[itm_splinter], 0);
+ g->m.add_item(p->posx, p->posy, g->itypes[itm_splinter], 0);
  item skewer(g->itypes[itm_skewer], int(g->turn), g->nextinv);
  p->i_rem(ch);
  bool drop = false;
