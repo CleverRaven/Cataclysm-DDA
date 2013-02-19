@@ -1956,3 +1956,21 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
 
     return true;
 }
+
+rl_vec2d vehicle::velo_vec(){
+    float dx,dy;
+    if(skidding){
+       float dx = cos (move.dir() * M_PI/180);
+       float dy = sin (move.dir() * M_PI/180);
+    } else {
+       float dx = cos (face.dir() * M_PI/180);
+       float dy = sin (face.dir() * M_PI/180);
+    }
+    rl_vec2d ret(dx,dy);
+    ret = ret.normalized();
+    ret = ret * velocity;
+    return ret;
+}
+//todO: face_vec()...
+
+

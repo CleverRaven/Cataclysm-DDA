@@ -4,6 +4,7 @@
 #include "tileray.h"
 #include "color.h"
 #include "item.h"
+#include "line.h"
 #include "veh_type.h"
 #include <vector>
 #include <string>
@@ -358,6 +359,9 @@ public:
 
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
+
+    // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
+    rl_vec2d velo_vec();
 
     // config values
     std::string name;   // vehicle name

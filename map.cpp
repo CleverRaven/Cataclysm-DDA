@@ -577,46 +577,37 @@ bool map::vehproceed(game* g){
       //find mass & velocity of the collision.
       // using veh->move.dir() & veh->velocity & veh->total_mass()
       //or dot product
-      float velo_veh1[2];
-      float velo_veh2[2];
-      float velo_veh1_rel[2];
-      float velo_veh2_result[2];
+      rl_vec2d  velo_veh1, velo_veh2;
+
       // for reference, a cargo truck weighs ~25300, a bicycle 690, 
       //  and 38mph is 3800 'velocity'
       // Also, not sure trig is the way to go in this game, but it ought to work.
-      { //find veh's velocity
-         velo_veh1[0] = cos(veh->move.dir() * M_PI/180);
-         velo_veh1[1] = sin(veh->move.dir() * M_PI/180);
-         // rl-normalize by making max unit distance == 1
-         // that makes so much sense :)
-         float rl_scale_by = 1 / (fabs(velo_veh1[0]) > fabs(velo_veh1[1]) ? fabs(velo_veh1[0]) : fabs(velo_veh1[1]));
-         velo_veh1[0] *= rl_scale_by * veh->velocity;
-         velo_veh1[1] *= rl_scale_by * veh->velocity;
-      }
-      { //find veh2 velocity
-         velo_veh2[0] = cos(veh2->move.dir() * M_PI/180);
-         velo_veh2[1] = sin(veh2->move.dir() * M_PI/180);
-         float rl_scale_by = 1 / (fabs(velo_veh2[0]) > fabs(velo_veh2[1]) ? fabs(velo_veh2[0]) : fabs(velo_veh2[1]));
-         velo_veh2[0] *= rl_scale_by * veh->velocity;
-         velo_veh2[1] *= rl_scale_by * veh->velocity;
-      }
-      velo_veh2[0] = cos(veh2->move.dir() * M_PI/180) * veh2->velocity;
-      velo_veh2[1] = sin(veh2->move.dir() * M_PI/180) * veh2->velocity;
-      velo_veh1_rel[0] = velo_veh1[0] - velo_veh2[0];
-      velo_veh1_rel[1] = velo_veh1[1] - velo_veh2[1];
-      //float rel_velocity = sqrt( pow(velo_veh1_rel[0],2) + pow(velo_veh1_rel[1],2));
-      int rel_velocity = rl_dist(0,0, velo_veh1_rel[0], velo_veh1_rel[1]);
-      float energy = (rel_velocity * (veh->total_mass() + veh2->total_mass()));
+      velo_veh1 = veh->velo_vec();
+      velo_veh2 = veh2->velo_vec();
       // add part of relative velocity to v2's move vector thing.
-      float mass_ratio = (float)veh->total_mass() / (float)veh2->total_mass();
-      velo_veh2_result[0] = velo_veh2[0] + velo_veh1_rel[0] * mass_ratio;
-      velo_veh2_result[1] = velo_veh2[1] + velo_veh1_rel[1] * mass_ratio;
-      veh2->move.init(velo_veh2_result[0], velo_veh2_result[1]);
-      //veh2->velocity = sqrt( pow(velo_veh2_result[0],2) + pow(velo_veh2_result[1],2));
-      veh2->velocity = rl_dist (0,0, velo_veh2_result[0], velo_veh2_result[1]);
+      // float mass_ratio = (float)veh->total_mass() / (float)veh2->total_mass();
+      float m1 = veh->total_mass();
+      float m2 = veh2->total_mass();
+      float mtot = m1 + m2;
 
-      //veh2->velocity += veh->velocity * .35;
-      veh->velocity *= .4;
+      float elasticity = .3;
+
+      //set up an axis of collision & an impulse vector or two.
+      rl_vec2d collision_axis = (velo_veh1 - velo_veh2).normalized();
+      //rl_vec2d collision_axis = velo_veh1 - velo_veh2;
+      rl_vec2d imp1 = collision_axis.dot_product(velo_veh1) * m1;
+      rl_vec2d imp2 = (collision_axis*-1).dot_product (velo_veh2) * m2;
+
+      // finally, changes in veh velocity
+      rl_vec2d delta1 = imp2 / m1;
+      rl_vec2d delta2 = imp1 / m2;
+      rl_vec2d final1 = velo_veh1 + delta1;
+      rl_vec2d final2 = velo_veh2 + delta2;
+
+      veh->move.init (final1.x, final1.y);
+      veh2->move.init(final2.x, final2.y);
+      veh2->velocity = final2.norm();
+      veh->velocity = final1.norm();
 
       //give veh2 the initiative to proceed next before veh1
       float avg_of_turn = (veh2->of_turn + veh->of_turn) / 2;
