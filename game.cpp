@@ -388,9 +388,9 @@ fivedozenwhales@gmail.com.");
       hFind = FindFirstFile("*", &FindFileData);
       if(INVALID_HANDLE_VALUE != hFind) {
        do {
-        DeleteFile(FileData.cFileName);
+        DeleteFile(FindFileData.cFileName);
        } while(FindNextFile(hFind, &FindFileData) != 0);
-       FindClose(FindFileData);
+       FindClose(hFind);
       }
       SetCurrentDirectory(Buffer);
 #else
