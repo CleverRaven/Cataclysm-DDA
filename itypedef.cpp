@@ -1370,7 +1370,7 @@ ARMOR("boots",		70, 120,C_SHOES,	LEATHER,	MNULL,
 Tough leather boots. Very durable.");
 
 ARMOR("steeltoed boots",50, 135,C_SHOES,	LEATHER,	STEEL,
-    7,  9,  4, -1,  1,  4,  4,  3,  30,  0,	mfb(bp_feet), "\
+    7,  9,  4, -1,  1,  4,  4,  3,  50,  0,	mfb(bp_feet), "\
 Leather boots with a steel toe. Extremely durable.");
 
 ARMOR("winter boots",	60, 140,C_SHOES,	PLASTIC,	WOOL,
@@ -1408,7 +1408,7 @@ Tough leather boots. Very durable.\n\
 These boots are a perfect fit for you.");
 
 ARMOR("steeltoed boots",5, 135,C_SHOES,	LEATHER,	STEEL,
-    7,  9,  4, -1,  0,  4,  4,  3,  40,  0,	mfb(bp_feet), "\
+    7,  9,  4, -1,  0,  4,  4,  3,  60,  0,	mfb(bp_feet), "\
 Leather boots with a steel toe. Extremely durable.\n\
 These boots are a perfect fit for you.");
 

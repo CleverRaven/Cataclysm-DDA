@@ -733,7 +733,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   // Disease name shorthand
   int blister_pen = dis_type(DI_BLISTERS) + 1 + i, hot_pen  = dis_type(DI_HOT) + 1 + i;
   int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;  
-  signed int temp_conv = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement; // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness. 20C is normal
+  signed int temp_conv = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement; // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
   // Fatigue also affects convergeant temperature
   if (!u.has_disease(DI_SLEEP)) temp_conv -= u.fatigue/6;    
   else { 
@@ -758,7 +758,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
      int fire_dist = std::max(1, std::max(j, k));;
      int fire_density = m.field_at(u.posx + j, u.posy + k).density;
      if (u.frostbite_timer[i] > 0) u.frostbite_timer[i] -= fire_density - fire_dist/2;
-     temp_conv += 300*fire_density/(fire_dist*fire_dist); // How do I square things
+     temp_conv += 50*fire_density/(fire_dist*fire_dist); // How do I square things
      blister_count += fire_density/(fire_dist*fire_dist);
     }
    }
