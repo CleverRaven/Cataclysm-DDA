@@ -25,6 +25,11 @@
 #include <sys/stat.h>
 #include "debug.h"
 
+#if (defined _WIN32 || defined __WIN32__)
+#include <windows.h>
+#include <tchar.h>
+#endif
+
 #define MAX_MONSTERS_MOVING 40 // Efficiency!
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -374,9 +379,20 @@ fivedozenwhales@gmail.com.");
    } else if (sel1 == 3) {  // Delete world
     if (query_yn("Delete the world and all saves?")) {
 #if (defined _WIN32 || defined __WIN32__)
-     if (remove("save/") != 0) {
-      system("DEL /Q save/");
-     }
+      WIN32_FIND_DATA FindFileData;
+      HANDLE hFind;
+      TCHAR Buffer[MAX_PATH];
+
+      GetCurrentDirectory(MAX_PATH, Buffer);
+      SetCurrentDirectory("save");
+      hFind = FindFirstFile("*", &FindFileData);
+      if(INVALID_HANDLE_VALUE != hFind) {
+       do {
+        DeleteFile(FileData.cFileName);
+       } while(FindNextFile(hFind, &FindFileData) != 0);
+       FindClose(FindFileData);
+      }
+      SetCurrentDirectory(Buffer);
 #else
      DIR *save_dir = opendir("save");
      struct dirent *save_dirent = NULL;
