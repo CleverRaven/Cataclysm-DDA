@@ -706,17 +706,39 @@ bool game::do_turn()
  return false;
 }
 
+/* Here lies the intended effects of body temperature
+
+Assumption 1 : a naked person is comfortable at 31C/87.8F.
+Assumption 2 : a "lightly clothed" person is comfortable at 25C/77F.
+
+Here is a list of warmth values and the corresponding temperatures in which the player is comfortable, and in which the player is very cold.
+
+Warmth  Temperature (Comfortable)    Temperature (Very cold)    Notes
+0        31C /  87.8F                 1C /  33.8F               * Naked
+10       25C /  77.0F                -5C /  23.0F               * Lightly clothed
+20       19C /  66.2F               -11C /  12.2F
+30       13C /  55.4F               -17C /   1.4F
+40        7C /  44.6F               -23C /  -9.4F
+50        1C /  33.8F               -29C / -20.2F
+60       -5C /  23.0F               -35C / -31.0F
+70      -11C /  12.2F               -41C / -41.8F
+80      -17C /   1.4F               -47C / -52.6F
+90      -23C /  -9.4F               -53C / -63.4F
+100     -29C / -20.2F               -59C / -74.2F
+
+*/
+
 void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet) can affect body temp.
 {
  // NOTE : Bodytemp is measured on a scale of 0u to 1000u, where 1u = 0.02C and 500u is 37C
  // Converts temperature to Celsius/10!(Wito plans on using degrees Kelvin later)
  int Ctemperature = 10*(temperature - 32) * 5/9; 
  // Temperature norms
- const int ambient_norm = 220;
+ const int ambient_norm = 310;
  // Creative thinking for clean morale penalties: this gets incremented in the for loop and applied after the loop
  int morale_pen = 0; 
  // This adjusts the temperature scale to match the bodytemp scale
- int adjusted_temp = 1.7*(Ctemperature - ambient_norm); 
+ int adjusted_temp = 1*(Ctemperature - ambient_norm); 
  // Fetch the morale value of wetness for bodywetness 
  int bodywetness = 0;
  for (int i = 0; bodywetness == 0 && i < u.morale.size(); i++)
@@ -728,7 +750,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
  for (int i = 0 ; i < num_bp ; i++){
   if (i == bp_eyes) continue; // Skip eyes
   // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
-  float homeostasis_adjustement = (u.temp_cur[i] > BODYTEMP_NORM ? 4.0 : 8.0); 
+  float homeostasis_adjustement = (u.temp_cur[i] > BODYTEMP_NORM ? 4.0 : 6.0); 
   int clothing_warmth_adjustement = homeostasis_adjustement * (float)u.warmth(body_part(i)) * (1.0 - (float)bodywetness / 100.0);
   // Disease name shorthand
   int blister_pen = dis_type(DI_BLISTERS) + 1 + i, hot_pen  = dis_type(DI_HOT) + 1 + i;
