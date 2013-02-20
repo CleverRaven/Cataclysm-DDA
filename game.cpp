@@ -378,33 +378,8 @@ fivedozenwhales@gmail.com.");
     }
    } else if (sel1 == 3) {  // Delete world
     if (query_yn("Delete the world and all saves?")) {
-#if (defined _WIN32 || defined __WIN32__)
-      WIN32_FIND_DATA FindFileData;
-      HANDLE hFind;
-      TCHAR Buffer[MAX_PATH];
-
-      GetCurrentDirectory(MAX_PATH, Buffer);
-      SetCurrentDirectory("save");
-      hFind = FindFirstFile("*", &FindFileData);
-      if(INVALID_HANDLE_VALUE != hFind) {
-       do {
-        DeleteFile(FindFileData.cFileName);
-       } while(FindNextFile(hFind, &FindFileData) != 0);
-       FindClose(hFind);
-      }
-      SetCurrentDirectory(Buffer);
-#else
-     DIR *save_dir = opendir("save");
-     struct dirent *save_dirent = NULL;
-     if(save_dir != NULL && 0 == chdir("save"))
-     {
-      while ((save_dirent = readdir(save_dir)) != NULL)
-       (void)unlink(save_dirent->d_name);
-      (void)chdir("..");
-      (void)closedir(save_dir);
-     }
-#endif
-      savegames.clear();
+     delete_save();
+     savegames.clear();
     }
 
     layer = 1;
@@ -2118,6 +2093,36 @@ void game::save()
  cur_om.save(u.name);
  m.save(&cur_om, turn, levx, levy);
  MAPBUFFER.save();
+}
+
+void game::delete_save()
+{
+#if (defined _WIN32 || defined __WIN32__)
+      WIN32_FIND_DATA FindFileData;
+      HANDLE hFind;
+      TCHAR Buffer[MAX_PATH];
+
+      GetCurrentDirectory(MAX_PATH, Buffer);
+      SetCurrentDirectory("save");
+      hFind = FindFirstFile("*", &FindFileData);
+      if(INVALID_HANDLE_VALUE != hFind) {
+       do {
+        DeleteFile(FindFileData.cFileName);
+       } while(FindNextFile(hFind, &FindFileData) != 0);
+       FindClose(hFind);
+      }
+      SetCurrentDirectory(Buffer);
+#else
+     DIR *save_dir = opendir("save");
+     struct dirent *save_dirent = NULL;
+     if(save_dir != NULL && 0 == chdir("save"))
+     {
+      while ((save_dirent = readdir(save_dir)) != NULL)
+       (void)unlink(save_dirent->d_name);
+      (void)chdir("..");
+      (void)closedir(save_dir);
+     }
+#endif
 }
 
 void game::advance_nextinv()

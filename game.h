@@ -87,6 +87,7 @@ class game
   bool game_quit(); // True if we actually quit the game - used in main.cpp
   quit_status uquit;    // used in main.cpp to determine what type of quit
   void save();
+  void delete_save();
   bool do_turn();
   void draw();
   void draw_ter(int posx = -999, int posy = -999);
