@@ -806,6 +806,12 @@ void construct::done_deconstruct(game *g, point p)
       g->m.ter(p.x, p.y) = t_floor;
     break;
 
+    case t_door_c:
+    case t_door_o:
+      g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 3);
+      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,12));
+      g->m.ter(p.x, p.y) = t_door_frame;
+    break;
     case t_window_domestic:
       g->m.add_item(p.x, p.y, g->itypes[itm_stick], 0);
       g->m.add_item(p.x, p.y, g->itypes[itm_curtain], 0, 1);
@@ -851,6 +857,12 @@ void construct::done_deconstruct(game *g, point p)
     case t_monkey_bars:
       g->m.add_item(p.x, p.y, g->itypes[itm_pipe], 0, rng(6,12));
       g->m.ter(p.x, p.y) = t_grass;
+    break;
+
+    case t_fridge:
+      g->m.add_item(p.x, p.y, g->itypes[itm_scrap], 0, rng(2,6));
+      g->m.add_item(p.x, p.y, g->itypes[itm_steel_chunk], 0, rng(2,3));
+      g->m.ter(p.x, p.y) = t_floor;
     break;
 
     case t_counter:
