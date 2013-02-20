@@ -373,15 +373,22 @@ fivedozenwhales@gmail.com.");
     }
    } else if (sel1 == 3) {  // Delete world
     if (query_yn("Delete the world and all saves?")) {
-     if (remove("save/") != 0) {
 #if (defined _WIN32 || defined __WIN32__)
+     if (remove("save/") != 0) {
       system("DEL /Q save/");
-#else
-      system("rm -rf save/*");
-#endif
-
-      savegames.clear();
      }
+#else
+     DIR *save_dir = opendir("save");
+     struct dirent *save_dirent = NULL;
+     if(save_dir != NULL && 0 == chdir("save"))
+     {
+      while ((save_dirent = readdir(save_dir)) != NULL)
+       (void)unlink(save_dirent->d_name);
+      (void)chdir("..");
+      (void)closedir(save_dir);
+     }
+#endif
+      savegames.clear();
     }
 
     layer = 1;
