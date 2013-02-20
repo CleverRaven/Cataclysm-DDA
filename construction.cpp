@@ -119,7 +119,7 @@ void game::init_construction()
   STAGE(t_window_domestic, 5);
    TOOL(itm_saw, NULL);
    COMP(itm_nail, 4, NULL);
-   COMP(itm_curtain, 2, NULL);
+   COMP(itm_sheet, 2, NULL);
 
 
  CONSTRUCT("Build Door", 2, &construct::able_empty,
@@ -198,7 +198,7 @@ void game::init_construction()
    TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_nail, 8, NULL);
    COMP(itm_2x4, 10, NULL);
-   COMP(itm_rag, 10, NULL);
+   COMP(itm_sheet, 1, NULL);
 
  CONSTRUCT("Deconstruct Furniture", 0, &construct::able_deconstruct,
                                 &construct::done_deconstruct);
@@ -814,7 +814,7 @@ void construct::done_deconstruct(game *g, point p)
     break;
     case t_window_domestic:
       g->m.add_item(p.x, p.y, g->itypes[itm_stick], 0);
-      g->m.add_item(p.x, p.y, g->itypes[itm_curtain], 0, 1);
+      g->m.add_item(p.x, p.y, g->itypes[itm_sheet], 0, 1);
       g->m.add_item(p.x, p.y, g->itypes[itm_glass_sheet], 0);
       g->m.ter(p.x, p.y) = t_window_empty;
     break;

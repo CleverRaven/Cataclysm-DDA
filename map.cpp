@@ -421,7 +421,7 @@ void map::vehmove(game *g)
 }
 
 // find veh with the most amt of turn remaining, and move it a bit.
-// proposal: 
+// proposal:
 //  move it at most, a tenth of a turn, and at least one square.
 bool map::vehproceed(game* g){
    VehicleList vehs = g->m.get_vehicles();
@@ -491,7 +491,7 @@ bool map::vehproceed(game* g){
    }
    // One-tile step take some of movement
    //  terrain cost is 1000 on roads.
-   // This is stupid btw, it makes veh magically seem 
+   // This is stupid btw, it makes veh magically seem
    //  to accelerate when exiting rubble areas.
    float ter_turn_cost = 500.0 * move_cost_ter_only (x,y) / abs(veh->velocity);
 
@@ -501,11 +501,11 @@ bool map::vehproceed(game* g){
       veh->of_turn = 0;
       return true;
    }
-      
+
    veh->of_turn -= ter_turn_cost;
 
    // if not enough wheels, mess up the ground a bit.
-   if (!veh->valid_wheel_config()) { 
+   if (!veh->valid_wheel_config()) {
       veh->velocity += veh->velocity < 0 ? 2000 : -2000;
       for (int ep = 0; ep < veh->external_parts.size(); ep++) {
          const int p = veh->external_parts[ep];
@@ -567,7 +567,7 @@ bool map::vehproceed(game* g){
 
    if(veh_veh_colls.size()){ // we have dynamic crap!
       // effects of colliding with another vehicle:
-      // transfers of momentum, skidding, 
+      // transfers of momentum, skidding,
       // parts are damaged/broken on both sides,
       // remaining times are normalized,
       veh_collision c = veh_veh_colls[0];
@@ -576,7 +576,7 @@ bool map::vehproceed(game* g){
                  veh->name.c_str(),  veh->part_info(c.part).name,
                 veh2->name.c_str(), veh2->part_info(c.target_part).name);
 
-      // for reference, a cargo truck weighs ~25300, a bicycle 690, 
+      // for reference, a cargo truck weighs ~25300, a bicycle 690,
       //  and 38mph is 3800 'velocity'
       rl_vec2d velo_veh1 = veh->velo_vec();
       rl_vec2d velo_veh2 = veh2->velo_vec();
@@ -1081,7 +1081,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
    return true;
   }
   break;
-  
+
   case t_fencegate_c:
   result = rng(0, has_adjacent_furniture(x, y) ? 30 : 40);
   if (res) *res = result;
@@ -1136,8 +1136,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   if (str >= result) {
    sound += "glass breaking!";
    ter(x, y) = t_window_frame;
-  add_item(x, y, (*itypes)[itm_curtain], 0);
-  add_item(x, y, (*itypes)[itm_curtain], 0);
+  add_item(x, y, (*itypes)[itm_sheet], 0, 1);
   add_item(x, y, (*itypes)[itm_stick], 0);
    return true;
   } else {
