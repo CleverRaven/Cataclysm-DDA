@@ -814,7 +814,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   // Morale penalties : a negative morale_pen means the player is cold
   // Intensity multiplier is negative for cold, positive for hot
   int intensity_mult = -u.disease_intensity(dis_type(cold_pen)) + u.disease_intensity(dis_type(hot_pen));
-  if (u.has_disease(dis_type(cold_pen)) || u.has_disease(dis_type(hot_pen))) {
+  if (u.has_disease(dis_type(cold_pen)) > 0 || u.has_disease(dis_type(hot_pen)) > 0) {
    switch (i) {
     case bp_head :
     case bp_torso :
@@ -842,8 +842,8 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   else if (temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT) add_msg("You feel your %s getting hot.", body_part_name(body_part(i), -1).c_str()); 
  }
  // Morale penalties
- if (morale_pen < 0) u.add_morale(MORALE_COLD, -1, -abs(morale_pen));
- if (morale_pen > 0) u.add_morale(MORALE_HOT,  -1, -abs(morale_pen));
+ if (morale_pen < 0) u.add_morale(MORALE_COLD, -2, -abs(morale_pen));
+ if (morale_pen > 0) u.add_morale(MORALE_HOT,  -2, -abs(morale_pen));
 }
 
 void game::rustCheck() {

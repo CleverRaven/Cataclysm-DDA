@@ -1467,7 +1467,7 @@ ARMOR("army pants",	30, 315,C_PANTS,	COTTON,		MNULL,
 A tough pair of pants lined with pockets. Favored by the military.");
 
 ARMOR("ski pants",	60, 300,C_PANTS,	COTTON,		MNULL,
-    10,  6, -3,  0,  1,  2,  0,  3,  80, 4,	mfb(bp_legs), "\
+    10,  6, -3,  0,  2,  2,  0,  3,  80, 4,	mfb(bp_legs), "\
 A pair of pants meant for alpine skiing.");
 
 ARMOR("long underwear",	40, 200,C_PANTS,	COTTON,		MNULL,
