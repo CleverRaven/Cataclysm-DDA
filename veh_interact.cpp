@@ -635,9 +635,9 @@ struct candidate_vpart {
    int index;
    item vpart_item;
    candidate_vpart(int x, int y, int i, item vpitem):
-      in_inventory(false),mapx(x),mapy(y),index(i), vpart_item(vpitem) { vpart_item = vpitem; }
+      in_inventory(false),mapx(x),mapy(y),index(i) { vpart_item = vpitem; }
    candidate_vpart(int i, item vpitem):
-      in_inventory(true),mapx(-1),mapy(-1),index(i), vpart_item(vpitem) {}
+      in_inventory(true),mapx(-1),mapy(-1),index(i) { vpart_item = vpitem; }
 };
 
 // given vpart type, give a choice from inventory items & nearby items.
