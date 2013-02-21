@@ -1312,7 +1312,6 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   break;
 
  case t_bench:
- case t_rack:
  case t_chair:
  case t_desk:
  case t_cupboard:

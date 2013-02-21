@@ -755,6 +755,15 @@ void construct::done_furniture(game *g, point p)
 
  g->m.ter(x, y) = g->m.ter(p.x, p.y);
  g->m.ter(p.x, p.y) = t_floor;
+
+ //Move all Items within a container
+ if (g->m.has_flag(container, x, y)) {
+  std::vector <item> vItemMove = g->m.i_at(p.x, p.y);
+  for (int i=0; i < vItemMove.size(); i++)
+   g->m.add_item(x, y, vItemMove[i]);
+
+  g->m.i_clear(p.x, p.y);
+ }
 }
 
 void construct::done_tree(game *g, point p)
