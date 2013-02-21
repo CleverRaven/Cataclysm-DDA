@@ -737,7 +737,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
  int morale_pen = 0; 
  // This adjusts the temperature scale to match the bodytemp scale
  int adjusted_temp = 1*(Ctemperature - ambient_norm); 
- // Fetch the morale value of wetness for bodywetness 
+ // Fetch the morale value of wetness for bodywetness (which is negative)
  int bodywetness = 0;
  for (int i = 0; bodywetness == 0 && i < u.morale.size(); i++)
   if( u.morale[i].type == MORALE_WET ) {
@@ -749,7 +749,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   if (i == bp_eyes) continue; // Skip eyes
   // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
   float homeostasis_adjustement = (u.temp_cur[i] > BODYTEMP_NORM ? 4.0 : 6.0); 
-  int clothing_warmth_adjustement = homeostasis_adjustement * (float)u.warmth(body_part(i)) * (1.0 - (float)bodywetness / 100.0);
+  int clothing_warmth_adjustement = homeostasis_adjustement * (float)u.warmth(body_part(i)) * (1.0 + (float)bodywetness / 100.0);
   // Disease name shorthand
   int blister_pen = dis_type(DI_BLISTERS) + 1 + i, hot_pen  = dis_type(DI_HOT) + 1 + i;
   int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;  
