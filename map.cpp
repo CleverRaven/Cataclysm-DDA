@@ -782,6 +782,27 @@ ter_id& map::ter(const int x, const int y)
  return grid[nonant]->ter[lx][ly];
 }
 
+bool map::is_indoor(const int x, const int y)
+{
+ if (!INBOUNDS(x, y))
+  return false;
+
+ int iNumFloor = 0;
+ for (int iRow = -1; iRow <= 1; iRow++) {
+  for (int iCol = -1; iCol <= 1; iCol++) {
+   if (terlist[ter(iRow+x, iCol+y)].name == "floor" &&
+       terlist[ter(iRow+x, iCol+y)].flags & mfb(supports_roof)) {
+    iNumFloor++;
+   }
+  }
+ }
+
+ if (iNumFloor > 0)
+  return true;
+
+ return false;
+}
+
 std::string map::tername(const int x, const int y)
 {
  return terlist[ter(x, y)].name;
@@ -1262,6 +1283,8 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   }
   break;
 
+ case t_sink:
+ case t_bathtub:
  case t_toilet:
   result = dice(8, 4) - 8;
   if (res) *res = result;
@@ -1277,6 +1300,9 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
  case t_dresser:
  case t_bookcase:
+ case t_pool_table:
+ case t_counter:
+ case t_table:
   result = rng(0, 45);
   if (res) *res = result;
   if (str >= result) {
@@ -1307,7 +1333,9 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   break;
 
  case t_bench:
- case t_counter:
+ case t_chair:
+ case t_desk:
+ case t_cupboard:
   result = rng(0, 30);
   if (res) *res = result;
   if (str >= result) {
@@ -1490,12 +1518,6 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   break;
 
  case t_floor:
- case t_counter:
- case t_bookcase:
- case t_rack:
- case t_dresser:
- case t_table:
- case t_pool_table:
  g->sound(x, y, 20, "SMASH!!");
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
@@ -1779,6 +1801,8 @@ bool map::hit_with_acid(game *g, const int x, const int y)
    break;
 
   case t_toilet:
+  case t_sink:
+  case t_bathtub:
   case t_gas_pump:
   case t_gas_pump_smashed:
    return false;
