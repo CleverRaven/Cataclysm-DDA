@@ -4186,7 +4186,7 @@ void game::open()
    return;
   }
 
-  if (m.ter(u.posx, u.posy) == t_floor)
+  if (m.is_indoor(u.posx, u.posy))
    didit = m.open_door(u.posx + openx, u.posy + openy, true);
   else
    didit = m.open_door(u.posx + openx, u.posy + openy, false);
@@ -7145,7 +7145,7 @@ void game::plmove(int x, int y)
 // Only lose movement if we're blind
    add_msg("You bump into a %s!", m.tername(x, y).c_str());
    u.moves -= 100;
-  } else if (m.open_door(x, y, m.ter(u.posx, u.posy) == t_floor))
+  } else if (m.open_door(x, y, m.is_indoor(u.posx, u.posy)))
    u.moves -= 100;
   else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_alarm) {
    u.moves -= 100;

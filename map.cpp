@@ -782,6 +782,27 @@ ter_id& map::ter(const int x, const int y)
  return grid[nonant]->ter[lx][ly];
 }
 
+bool map::is_indoor(const int x, const int y)
+{
+ if (!INBOUNDS(x, y))
+  return false;
+
+ int iNumFloor = 0;
+ for (int iRow = -1; iRow <= 1; iRow++) {
+  for (int iCol = -1; iCol <= 1; iCol++) {
+   if (terlist[ter(iRow+x, iCol+y)].name == "floor" &&
+       terlist[ter(iRow+x, iCol+y)].flags & mfb(supports_roof)) {
+    iNumFloor++;
+   }
+  }
+ }
+
+ if (iNumFloor > 0)
+  return true;
+
+ return false;
+}
+
 std::string map::tername(const int x, const int y)
 {
  return terlist[ter(x, y)].name;

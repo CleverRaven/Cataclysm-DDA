@@ -32,7 +32,7 @@ struct itype;
 
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
- int x; 
+ int x;
  int y;
  int i; // submap col
  int j; // submap row
@@ -110,6 +110,7 @@ class map
 
 // Terrain
  ter_id& ter(const int x, const int y); // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+ bool is_indoor(const int x, const int y); // Check if current ter is indoors
  std::string tername(const int x, const int y); // Name of terrain at (x, y)
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
  bool has_flag(const t_flag flag, const int x, const int y);  // checks terrain and vehicles
@@ -187,7 +188,7 @@ class map
  void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
  vehicle *add_vehicle(game *g, vhtype_id type, const int x, const int y, const int dir);
  computer* add_computer(const int x, const int y, std::string name, const int security);
- 
+
  std::vector <itype*> *itypes;
  std::set<vehicle*> vehicle_list;
  std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
