@@ -98,11 +98,13 @@ itm_wrapper, itm_withered, itm_syringe, itm_fur, itm_leather, itm_superglue,
  itm_metal_tank, itm_storage_battery, itm_minireactor, itm_solar_panel,
  itm_steel_plate, itm_alloy_plate, itm_spiked_plate, itm_hard_plate,
 // Footwear
+ itm_socks, itm_socks_wool,
  itm_sneakers, itm_boots, itm_boots_steel, itm_boots_winter, itm_mocassins,
  itm_flip_flops, itm_dress_shoes, itm_heels,
  itm_sneakers_fit, itm_boots_fit, itm_boots_steel_fit, itm_boots_winter_fit,
  itm_dress_shoes_fit, itm_heels_fit,
 // Legwear
+ itm_shorts, _itm_shorts_cargo,
  itm_jeans, itm_pants, itm_pants_leather, itm_pants_cargo, itm_pants_army, itm_pants_ski,
  itm_long_underpants, itm_skirt,
  itm_jeans_fit, itm_pants_fit, itm_pants_cargo_fit, itm_pants_army_fit,
@@ -119,7 +121,7 @@ itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top, itm_sweatshirt,
 // Arm clothing
 itm_armguard_soft, itm_armguard_hard, itm_armguard_chitin, itm_armguard_metal,
 // Gloves
-itm_gloves_light, itm_mittens, itm_gloves_wool, itm_gloves_winter,
+itm_gloves_liner, itm_gloves_light, itm_mittens, itm_gloves_wool, itm_gloves_winter,
  itm_gloves_leather, itm_gloves_fingerless, itm_gloves_rubber,
  itm_gloves_medical, itm_fire_gauntlets,
 // Masks

@@ -1360,8 +1360,16 @@ color,mat1,mat2,volume,wgt,dam,0,to_hit,0,covers,encumber,dmg_resist,cut_resist,
 env,warmth,storage))
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
-ARMOR("sneakers",	80, 100,C_SHOES,	LEATHER,	MNULL,
+ARMOR("socks",	70, 100,C_SHOES,	COTTON,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    1,  1, -5,  0,  0,  0,  0,  0,  10,  0,	mfb(bp_feet), "\
+Socks. Put 'em on your feet.");
+
+ARMOR("wool socks",		30, 120,C_SHOES,	WOOL,	MNULL,
+    2,  1, -5,  0,  0,  0,  0,  0,  20,  0,	mfb(bp_feet), "\
+Warm socks made of wool.");
+
+ARMOR("sneakers",	80, 100,C_SHOES,	LEATHER,	MNULL,
     5,  4, -2,  0,  0,  0,  2,  0,  20,  0,	mfb(bp_feet), "\
 Guaranteed to make you run faster and jump higher!");
 
@@ -1374,7 +1382,7 @@ ARMOR("steeltoed boots",50, 135,C_SHOES,	LEATHER,	STEEL,
 Leather boots with a steel toe. Extremely durable.");
 
 ARMOR("winter boots",	60, 140,C_SHOES,	PLASTIC,	WOOL,
-    8,  7,  0, -1,  2,  0,  2,  1,  85,  0,	mfb(bp_feet), "\
+    8,  7,  0, -1,  2,  0,  2,  1,  80,  0,	mfb(bp_feet), "\
 Cumbersome boots designed for warmth.");
 
 ARMOR("mocassins",	 5,  80,C_SHOES,	LEATHER,	WOOL,
@@ -1388,7 +1396,7 @@ ARMOR("flip-flops",	35,  25,C_SHOES,	PLASTIC,	MNULL,
 Simple sandals. Very difficult to run in.");
 
 ARMOR("dress shoes",	50,  45,C_SHOES,	LEATHER,	MNULL,
-    5,  3,  1,  1,  1,  0,  3,  0,  15,  0,	mfb(bp_feet), "\
+    5,  3,  1,  1,  1,  0,  3,  0,  10,  0,	mfb(bp_feet), "\
 Fancy patent leather shoes. Not designed for running in.");
 
 ARMOR("heels",		50,  50,C_SHOES,	LEATHER,	MNULL,
@@ -1403,22 +1411,22 @@ Guaranteed to make you run faster and jump higher!\n\
 These sneakers are a perfect fit for you.");
 
 ARMOR("boots",		5, 120,C_SHOES,	LEATHER,	MNULL,
-    7,  6,  1, -1,  0,  1,  4,  2,  60,  0,	mfb(bp_feet), "\
+    7,  6,  1, -1,  0,  1,  4,  2,  55,  0,	mfb(bp_feet), "\
 Tough leather boots. Very durable.\n\
 These boots are a perfect fit for you.");
 
 ARMOR("steeltoed boots",5, 135,C_SHOES,	LEATHER,	STEEL,
-    7,  9,  4, -1,  0,  4,  4,  3,  60,  0,	mfb(bp_feet), "\
+    7,  9,  4, -1,  0,  4,  4,  3,  55,  0,	mfb(bp_feet), "\
 Leather boots with a steel toe. Extremely durable.\n\
 These boots are a perfect fit for you.");
 
 ARMOR("winter boots",   5, 140,C_SHOES,	PLASTIC,	WOOL,
-    8,  7,  0, -1,  1,  0,  2,  1,  100,  0,	mfb(bp_feet), "\
+    8,  7,  0, -1,  1,  0,  2,  1,  85,  0,	mfb(bp_feet), "\
 Cumbersome boots designed for warmth.\n\
 These boots are a perfect fit for you.");
 
 ARMOR("dress shoes",	5,  45,C_SHOES,	LEATHER,	MNULL,
-    5,  3,  1,  1,  0,  0,  3,  0,  20,  0,	mfb(bp_feet), "\
+    5,  3,  1,  1,  0,  0,  3,  0,  15,  0,	mfb(bp_feet), "\
 Fancy patent leather shoes. Not designed for running in.\n\
 These shoes are a perfect fit for you.");
 
@@ -1427,14 +1435,22 @@ ARMOR("heels",		1,  50,C_SHOES,	LEATHER,	MNULL,
 A pair of high heels. Difficult to even walk in.\n\
 These high heels are a perfect fit for you.");
 
+ARMOR("shorts",		70, 180,C_PANTS,	COTTON,		MNULL,
+    4,  2, -4,  1,  0,  0,  1,  0,  0,  4,	mfb(bp_legs), "\
+A pair of khaki shorts.");
+
+ARMOR("cargo shorts",		50, 180,C_PANTS,	COTTON,		MNULL,
+    4,  2, -4,  1,  0,  0,  1,  0,  0,  8,	mfb(bp_legs), "\
+A pair of shorts lined with pockets, offering decent storage.");
+
 ARMOR("jeans",		90, 180,C_PANTS,	COTTON,		MNULL,
-    5,  4, -4,  1,  1,  0,  1,  0,  15,  2,	mfb(bp_legs), "\
+    5,  4, -4,  1,  1,  0,  1,  0,  10,  2,	mfb(bp_legs), "\
 A pair of blue jeans with two deep pockets.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("pants",		75, 185,C_PANTS,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    5,  5, -4,  1,  1,  0,  1,  0,  25,  4,	mfb(bp_legs), "\
+    5,  5, -4,  1,  1,  0,  1,  0,  20,  4,	mfb(bp_legs), "\
 A pair of khaki pants. Slightly warmer than jeans.");
 
 ARMOR("leather pants",	60, 210,C_PANTS,	LEATHER,	MNULL,
@@ -1443,11 +1459,11 @@ A pair of black leather pants. Very tough, but encumbersome and without much\n\
 storage.");
 
 ARMOR("cargo pants",	70, 280,C_PANTS,	COTTON,		MNULL,
-    6,  6, -3,  0,  1,  0,  2,  0,  30, 12,	mfb(bp_legs), "\
+    6,  6, -3,  0,  1,  0,  2,  0,  20, 12,	mfb(bp_legs), "\
 A pair of pants lined with pockets, offering lots of storage.");
 
 ARMOR("army pants",	30, 315,C_PANTS,	COTTON,		MNULL,
-    6,  7, -2,  0,  1,  0,  3,  0,  45, 14,	mfb(bp_legs), "\
+    6,  7, -2,  0,  1,  0,  3,  0,  40, 14,	mfb(bp_legs), "\
 A tough pair of pants lined with pockets. Favored by the military.");
 
 ARMOR("ski pants",	60, 300,C_PANTS,	COTTON,		MNULL,
@@ -1464,19 +1480,19 @@ A short, breezy cotton skirt. Easy to move in, but only has a single small\n\
 pocket.");
 
 ARMOR("jeans",          20, 180, C_PANTS,       COTTON,         MNULL,
-    5,  4, -4,  1, -1,  0,  1,  0,  20,  2,      mfb(bp_legs), "\
+    5,  4, -4,  1, -1,  0,  1,  0,  15,  2,      mfb(bp_legs), "\
 A pair of blue jeans with two deep pockets.\n\
 These jeans are a perfect fit for you.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("pants",		20, 185,C_PANTS,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    5,  5, -4,  1,  -1,  0,  1,  0,  30,  4,	mfb(bp_legs), "\
+    5,  5, -4,  1,  -1,  0,  1,  0,  25,  4,	mfb(bp_legs), "\
 A pair of khaki pants.  Slightly warmer than jeans.\n\
 These pants are a perfect fit for you.");
 
 ARMOR("cargo pants",	20, 280,C_PANTS,	COTTON,		MNULL,
-    6,  6, -3,  0,   0,  0,  2,  0,  35, 14,	mfb(bp_legs), "\
+    6,  6, -3,  0,   0,  0,  2,  0,  25, 14,	mfb(bp_legs), "\
 A pair of pants lined with pockets, offering lots of storage.\n\
 These cargo pants are a perfect fit for you.");
 
@@ -1522,7 +1538,7 @@ ARMOR("t shirt",	80,  80,C_TORSO,	COTTON,		MNULL,
 A short-sleeved cotton shirt.");
 
 ARMOR("polo shirt",	65,  95,C_TORSO,	COTTON,		MNULL,
-    3,  2, -5,  0,  1,  0,  1,  0,  15,  0,	mfb(bp_torso), "\
+    3,  2, -5,  0,  1,  0,  1,  0,  20,  0,	mfb(bp_torso), "\
 A short-sleeved cotton shirt, slightly thicker than a t-shirt.");
 
 ARMOR("dress shirt",	60, 115,C_TORSO,	COTTON,		MNULL,
@@ -1534,17 +1550,17 @@ ARMOR("tank top",	50,  75,C_TORSO,	COTTON,		MNULL,
 A sleeveless cotton shirt. Very easy to move in.");
 
 ARMOR("sweatshirt",	75, 110,C_TORSO,	COTTON,		MNULL,
-    9,  5, -5,  0,  1,  1,  1,  0,  30,  0,	mfb(bp_torso)|mfb(bp_arms), "\
+    9,  5, -5,  0,  1,  1,  2,  0,  30,  0,	mfb(bp_torso)|mfb(bp_arms), "\
 A thick cotton shirt. Provides warmth and a bit of padding.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("sweater",	75, 105,C_TORSO,	WOOL,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    8,  5, -5,  0,  1,  1,  0,  0,  35,  0,	mfb(bp_torso)|mfb(bp_arms), "\
+    8,  5, -5,  0,  1,  1,  0,  0,  40,  0,	mfb(bp_torso)|mfb(bp_arms), "\
 A wool shirt. Provides warmth.");
 
 ARMOR("hoodie",		65, 130,C_TORSO,	COTTON,		MNULL,
-   10,  5, -5,  0,  1,  1,  2,  0,  30,  9,	mfb(bp_torso)|mfb(bp_arms), "\
+   10,  5, -5,  0,  1,  1,  1,  0,  30,  9,	mfb(bp_torso)|mfb(bp_arms), "\
 A sweatshirt with a hood and a \"kangaroo pocket\" in front for storage.");
 
 ARMOR("under armor", 20, 200,C_TORSO,	COTTON,		MNULL,
@@ -1571,7 +1587,7 @@ A jacket made from thick leather. Encumbersome, but offers excellent\n\
 protection from cuts.");
 
 ARMOR("kevlar vest",	30, 800,C_TORSO,	KEVLAR,		MNULL,
-   24, 24,  6, -3,  2,  4, 22,  0,  40,  4,	mfb(bp_torso), "\
+   24, 24,  6, -3,  2,  4, 22,  0,  20,  4,	mfb(bp_torso), "\
 A heavy bulletproof vest. The best protection from cuts and bullets.");
 
 ARMOR("rain coat",	50, 100,C_TORSO,	PLASTIC,	COTTON,
@@ -1585,22 +1601,22 @@ A simple wool garment worn over the torso. Provides a bit of protection.");
 //     NAME		RARE	COLOR		MAT1		MAT2
 ARMOR("trenchcoat",	25, 225,C_TORSO,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   10,  6, -5, -1,  1,  0,  1,  1,  25, 24,	mfb(bp_torso)|mfb(bp_arms), "\
+   10,  6, -5, -1,  1,  0,  1,  1,  20, 24,	mfb(bp_torso)|mfb(bp_arms), "\
 A thin cotton trenchcoat, lined with pockets. Great for storage.");
 
 //     NAME		RARE	COLOR		MAT1		MAT2
 ARMOR("leather trenchcoat",	25, 225,C_TORSO,	LEATHER,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   16,  10, -5, -1,  2,  1,  9,  1,  35, 24,	mfb(bp_torso)|mfb(bp_arms), "\
+   16,  10, -5, -1,  2,  1,  9,  1,  50, 24,	mfb(bp_torso)|mfb(bp_arms), "\
 A thick leather trenchcoat, lined with pockets. Great for storage.");
 
 
 ARMOR("winter coat",	50, 160,C_TORSO,	COTTON,		MNULL,
-   12,  6, -5, -2,  3,  3,  1,  1,  85, 12,	mfb(bp_torso)|mfb(bp_arms), "\
+   12,  6, -5, -2,  3,  3,  1,  1,  70, 12,	mfb(bp_torso)|mfb(bp_arms), "\
 A padded coat with deep pockets. Very warm.");
 
 ARMOR("fur coat",	 5, 550,C_TORSO,	WOOL,		FLESH,
-   18, 12, -5, -5,  2,  4,  2,  2, 100,  4,	mfb(bp_torso)|mfb(bp_arms), "\
+   18, 12, -5, -5,  2,  4,  2,  2, 80,  4,	mfb(bp_torso)|mfb(bp_arms), "\
 A fur coat with a couple small pockets. Extremely warm.");
 
 ARMOR("peacoat",	30, 180,C_TORSO,	COTTON,		MNULL,
@@ -1630,7 +1646,7 @@ A short-sleeved cotton shirt.\n\
 This t-shirt is a perfect fit for you.");
 
 ARMOR("polo shirt",	65,  95,C_TORSO,	COTTON,		MNULL,
-    3,  2, -5,  0,  0,  0,  1,  0,  20,  0,	mfb(bp_torso), "\
+    3,  2, -5,  0,  0,  0,  1,  0,  25,  0,	mfb(bp_torso), "\
 A short-sleeved cotton shirt, slightly thicker than a t-shirt.\n\
 This polo shirt is a perfect fit for you.");
 
@@ -1640,7 +1656,7 @@ A sweatshirt with a hood and a \"kangaroo pocket\" in front for storage.\n\
 This hoodie is a perfect fit for you.");
 
 ARMOR("sweatshirt",	75, 110,C_TORSO,	COTTON,		MNULL,
-    9,  5, -5,  0,  0,  1,  1,  0,  40,  0,	mfb(bp_torso)|mfb(bp_arms), "\
+    9,  5, -5,  0,  0,  1,  1,  0,  35,  0,	mfb(bp_torso)|mfb(bp_arms), "\
 A thick cotton shirt. Provides warmth and a bit of padding.\n\
 This sweatshirt is a perfect fit for you.");
 
@@ -1665,14 +1681,14 @@ This jacket is a perfect fit for you.");
 //     NAME		RARE	COLOR		MAT1		MAT2
 ARMOR("trenchcoat",	25, 225,C_TORSO,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   10,  6, -5, -1,  0,  0,  1,  1,  35, 24,	mfb(bp_torso)|mfb(bp_arms), "\
+   10,  6, -5, -1,  0,  0,  1,  1,  25, 24,	mfb(bp_torso)|mfb(bp_arms), "\
 A long coat lines with pockets. Great for storage.\n\
 This trenchcoat is a perfect fit for you.");
 
 //     NAME		RARE	COLOR			MAT1		MAT2
 ARMOR("leather trenchcoat",	25, 225,C_TORSO,        LEATHER, 	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   16,  10, -5, -1,  1,  1,  9,  1,  45, 24,	mfb(bp_torso)|mfb(bp_arms), "\
+   16,  10, -5, -1,  1,  1,  9,  1,  50, 24,	mfb(bp_torso)|mfb(bp_arms), "\
 A thick leather trenchcoat, lined with pockets. Great for storage.\n\
 This trenchcoat is a perfect fit for you");
 
@@ -1695,33 +1711,36 @@ ARMOR("metal arm guards",	10,  400,C_ARMS,	IRON,		MNULL,
     1,  1, -5,  1,  1,  4,  4,  1,  0,  0,	mfb(bp_arms), "\
 A pair of arm guards hammered out from metal. Very stylish.");
 
-
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
-ARMOR("light gloves",	35,  65,C_GLOVES,	COTTON,		MNULL,
+ARMOR("glove liners",	25,  100,C_GLOVES,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    0,  0, -5,  1,  1,  0,  0,  0,  15,  0,	mfb(bp_hands), "\
+    0,  0, -5,  1,  0,  0,  0,  0,  10,  0,	mfb(bp_hands), "\
 A pair of thin cotton gloves. Often used as a liner beneath other gloves.");
 
+ARMOR("light gloves",	35,  65,C_GLOVES,	COTTON,		MNULL,
+    0,  0, -5,  1,  1,  0,  0,  0,  30,  0,	mfb(bp_hands), "\
+A pair of cotton gloves.");
+
 ARMOR("mittens",	30,  40,C_GLOVES,	WOOL,		MNULL,
-    0,  0, -5,  1,  8,  0,  1,  0,  85,  0,	mfb(bp_hands), "\
+    0,  0, -5,  1,  8,  0,  1,  0,  90,  0,	mfb(bp_hands), "\
 A pair of warm mittens. They are extremely encumbersome.");
 
 ARMOR("wool gloves",	33,  50,C_GLOVES,	WOOL,		MNULL,
-    1,  0, -5,  1,  3,  0,  1,  0,  50,  0,	mfb(bp_hands), "\
+    1,  0, -5,  1,  3,  0,  1,  0,  60,  0,	mfb(bp_hands), "\
 A thick pair of wool gloves. Encumbersome but warm.");
 
 ARMOR("winter gloves",	40,  65,C_GLOVES,	COTTON,		MNULL,
-    1,  0, -5,  1,  5,  1,  1,  0,  65,  0,	mfb(bp_hands), "\
+    1,  0, -5,  1,  5,  1,  1,  0,  70,  0,	mfb(bp_hands), "\
 A pair of padded gloves. Encumbersome but warm.");
 
 ARMOR("leather gloves",	45,  85,C_GLOVES,	LEATHER,	MNULL,
-    1,  1, -3,  2,  1,  0,  3,  0,  20,  0,	mfb(bp_hands), "\
+    1,  1, -3,  2,  1,  0,  3,  0,  40,  0,	mfb(bp_hands), "\
 A thin pair of leather gloves. Good for doing manual labor.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("fingerless gloves",20,90,C_GLOVES,	LEATHER,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    1,  1, -3,  2,  0,  0,  2,  0,  10,  0,	mfb(bp_hands), "\
+    1,  1, -3,  2,  0,  0,  2,  0,  5,  0,	mfb(bp_hands), "\
 A pair of leather gloves with no fingers, allowing greater manual dexterity.");
 
 ARMOR("rubber gloves",	20,  30,C_GLOVES,	PLASTIC,	MNULL,
