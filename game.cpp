@@ -910,7 +910,7 @@ void game::process_activity()
     }
 
     if (u.skillLevel(reading->type) < reading->level) {
-      add_msg("You learn a little about %s!", reading->type->name().c_str());
+      add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(), u.skillLevel(reading->type).exercise());
      int min_ex = reading->time / 10 + u.int_cur / 4,
        max_ex = reading->time /  5 + u.int_cur / 2 - u.skillLevel(reading->type).level();
      if (min_ex < 1)
@@ -4816,7 +4816,7 @@ void game::examine()
 */
 //Debug for testing things
  }
- 
+
  else if (m.ter(examx, examy) == t_barndoor && query_yn("Pull the rope?"))
  {
    open_gate( this, examx, examy, t_barndoor );
