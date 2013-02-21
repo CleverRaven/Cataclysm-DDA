@@ -4519,10 +4519,6 @@ void player::read(game *g, char ch)
   g->add_msg("It's bad idea to read while driving.");
   return;
  }
- if (morale_level() < MIN_MORALE_READ) {	// See morale.h
-  g->add_msg("What's the point of reading?  (Your morale is too low!)");
-  return;
- }
 // Check if reading is okay
  if (g->light_level() < 8 && LL_LIT > g->lm.at(0, 0)) {
   g->add_msg("It's too dark to read!");
@@ -4589,8 +4585,10 @@ int time; //Declare this here so that we can change the time depending on whats 
   activity = player_activity(ACT_READ, time, index);
   moves = 0;
   return;
- }
- else if (skillLevel(tmp->type) >= tmp->level && tmp->fun <= 0 &&
+ } else if (morale_level() < MIN_MORALE_READ &&  tmp->fun <= 0) {	// See morale.h
+  g->add_msg("What's the point of reading?  (Your morale is too low!)");
+  return;
+ } else if (skillLevel(tmp->type) >= tmp->level && tmp->fun <= 0 &&
             !query_yn("Your %s skill won't be improved.  Read anyway?",
                       tmp->type->name().c_str()))
   return;

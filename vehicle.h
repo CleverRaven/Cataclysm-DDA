@@ -4,6 +4,7 @@
 #include "tileray.h"
 #include "color.h"
 #include "item.h"
+#include "line.h"
 #include "veh_type.h"
 #include <vector>
 #include <string>
@@ -35,12 +36,11 @@ struct veh_collision {
  //int veh?
  int part;
  veh_coll_type type;
- int imp; //impedance? resistance? what unit?
+ int imp; // impulse
 
  void* target;  //vehicle
  int target_part; //veh partnum
  std::string target_name;
-
  veh_collision(){};
 };
  
@@ -305,7 +305,7 @@ public:
     void turn (int deg);
 
 // handle given part collision with vehicle, monster/NPC/player or terrain obstacle
-// return impulse (damage) applied on vehicle for that collision
+// return collision, which has type, impulse, part, & target.
     veh_collision part_collision (int vx, int vy, int part, int x, int y);
 
 // Process the trap beneath
@@ -359,6 +359,9 @@ public:
 
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
+
+    // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
+    rl_vec2d velo_vec();
 
     // config values
     std::string name;   // vehicle name
