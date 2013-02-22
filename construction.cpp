@@ -632,6 +632,8 @@ bool construct::able_furniture(game *g, point p)
   case t_rack:
   case t_bookcase:
   case t_locker:
+  case t_chair:
+  case t_armchair:
    required_str = 8;
    break;
   default:
