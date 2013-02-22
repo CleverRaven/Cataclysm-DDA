@@ -695,7 +695,7 @@ bool construct::able_wall_wood(game *g, point p)
 
 bool construct::able_indoors(game *g, point p)
 {
- return (g->m.ter(p.x, p.y) == t_floor);
+ return (g->m.is_indoor(p.x, p.y));
 }
 
 bool construct::able_dig(game *g, point p)
@@ -746,7 +746,7 @@ void construct::done_furniture(game *g, point p)
    return;
   x += p.x;
   y += p.y;
-  if(g->m.ter(x, y) != t_floor || !g->is_empty(x, y)) {
+  if(!g->m.is_indoor(x, y) || !g->is_empty(x, y)) {
    mvprintz(0, 0, c_red, "Can't move furniture there! Choose a direction with open floor.");
    continue;
   }
@@ -755,6 +755,13 @@ void construct::done_furniture(game *g, point p)
 
  g->m.ter(x, y) = g->m.ter(p.x, p.y);
  g->m.ter(p.x, p.y) = t_floor;
+
+ //Move all Items within a container
+ std::vector <item> vItemMove = g->m.i_at(p.x, p.y);
+ for (int i=0; i < vItemMove.size(); i++)
+  g->m.add_item(x, y, vItemMove[i]);
+
+ g->m.i_clear(p.x, p.y);
 }
 
 void construct::done_tree(game *g, point p)

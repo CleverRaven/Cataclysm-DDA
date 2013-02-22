@@ -20,6 +20,9 @@
 #include "debug.h"
 #include <sys/stat.h>
 #include <cstdlib>
+#include <signal.h>
+
+void exit_handler(int s);
 
 int main(int argc, char *argv[])
 {
@@ -58,6 +61,15 @@ int main(int argc, char *argv[])
  MAPBUFFER.set_game(g);
  MAPBUFFER.load();
  load_options();
+
+ #if (!(defined _WIN32 || defined WINDOWS))
+  struct sigaction sigIntHandler;
+  sigIntHandler.sa_handler = exit_handler;
+  sigemptyset(&sigIntHandler.sa_mask);
+  sigIntHandler.sa_flags = 0;
+  sigaction(SIGINT, &sigIntHandler, NULL);
+ #endif
+
  do {
   g->setup();
   while (!g->do_turn()) ;
@@ -74,13 +86,35 @@ int main(int argc, char *argv[])
   MAPBUFFER.save_if_dirty();
  }
 
- erase(); // Clear screen
- endwin(); // End ncurses
-#if (defined _WIN32 || defined WINDOWS)
- system("cls"); // Tell the terminal to clear itself
- system("color 07");
-#else
- system("clear"); // Tell the terminal to clear itself
-#endif
+ exit_handler(-999);
+
  return 0;
+}
+
+void exit_handler(int s) {
+ bool bExit = false;
+
+ if (s == 2) {
+  if (query_yn("Really Quit without saving?")) {
+   bExit = true;
+  }
+ } else if (s == -999) {
+  bExit = true;
+ } else {
+  //query_yn("Signal received: %d", s);
+  bExit = true;
+ }
+
+ if (bExit) {
+  erase(); // Clear screen
+  endwin(); // End ncurses
+  #if (defined _WIN32 || defined WINDOWS)
+   system("cls"); // Tell the terminal to clear itself
+   system("color 07");
+  #else
+   system("clear"); // Tell the terminal to clear itself
+  #endif
+
+  exit(1);
+ }
 }

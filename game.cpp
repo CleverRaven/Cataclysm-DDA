@@ -910,7 +910,7 @@ void game::process_activity()
     }
 
     if (u.skillLevel(reading->type) < reading->level) {
-      add_msg("You learn a little about %s!", reading->type->name().c_str());
+      add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(), u.skillLevel(reading->type).exercise());
      int min_ex = reading->time / 10 + u.int_cur / 4,
        max_ex = reading->time /  5 + u.int_cur / 2 - u.skillLevel(reading->type).level();
      if (min_ex < 1)
@@ -4186,7 +4186,7 @@ void game::open()
    return;
   }
 
-  if (m.ter(u.posx, u.posy) == t_floor)
+  if (m.is_indoor(u.posx, u.posy))
    didit = m.open_door(u.posx + openx, u.posy + openy, true);
   else
    didit = m.open_door(u.posx + openx, u.posy + openy, false);
@@ -4816,7 +4816,7 @@ void game::examine()
 */
 //Debug for testing things
  }
- 
+
  else if (m.ter(examx, examy) == t_barndoor && query_yn("Pull the rope?"))
  {
    open_gate( this, examx, examy, t_barndoor );
@@ -7145,7 +7145,7 @@ void game::plmove(int x, int y)
 // Only lose movement if we're blind
    add_msg("You bump into a %s!", m.tername(x, y).c_str());
    u.moves -= 100;
-  } else if (m.open_door(x, y, m.ter(u.posx, u.posy) == t_floor))
+  } else if (m.open_door(x, y, m.is_indoor(u.posx, u.posy)))
    u.moves -= 100;
   else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_alarm) {
    u.moves -= 100;
