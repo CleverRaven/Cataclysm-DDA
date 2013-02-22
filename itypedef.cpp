@@ -4064,22 +4064,33 @@ BIO("CBM: Utilities",		20, 2000,	c_ltgray,	 2, "\
 Compact Bionics Module containing a variety of utilities. Popular among\n\
 civilians, especially specialist laborers like mechanics.",
     bio_tools, bio_storage, bio_flashlight, bio_lighter, bio_magnet, NULL);*/
-BIO_SINGLE(bio_tools, 3, 2000, c_ltgray, 2);
-BIO_SINGLE(bio_storage, 3, 2000, c_ltgray, 2);
-BIO_SINGLE(bio_flashlight, 8, 2000, c_ltgray, 2);
-BIO_SINGLE(bio_lighter, 6, 2000, c_ltgray, 2);
+BIO_SINGLE(bio_tools, 3, 8000, c_ltgray, 6);
+BIO_SINGLE(bio_storage, 3, 4000, c_ltgray, 7);
+BIO_SINGLE(bio_flashlight, 8, 200, c_ltgray, 2);
+BIO_SINGLE(bio_lighter, 6, 1300, c_ltgray, 4);
 BIO_SINGLE(bio_magnet, 5, 2000, c_ltgray, 2);
 
+BIO_SINGLE(bio_memory, 2, 10000, c_pink, 9);
+BIO_SINGLE(bio_painkiller, 4, 2000, c_pink, 4);
+BIO_SINGLE(bio_alarm, 7, 250, c_pink, 1);
+/*
 BIO("CBM: Neurological",	 8, 6000,	c_pink,		 8, "\
 Compact Bionics Module containing a few upgrades to one's central nervous\n\
 system or brain. Due to the difficulty associated with what is essentially\n\
 brain surgery, these are best installed by a highly skill professional.",
     bio_memory, bio_painkiller, bio_alarm, NULL);
+    */
 
+BIO_SINGLE(bio_ears, 2, 5000, c_ltblue, 6);
+BIO_SINGLE(bio_eye_enhancer, 2, 8000, c_ltblue, 11);
+BIO_SINGLE(bio_night_vision, 2, 9000, c_ltblue, 11);
+BIO_SINGLE(bio_infrared, 4, 4500, c_ltblue, 6);
+BIO_SINGLE(bio_scent_vision, 4, 4500, c_ltblue, 8);
+/*
 BIO("CBM: Sensory",		10, 4500,	c_ltblue,	 5, "\
 Compact Bionics Module containing a few upgrades to one's sensory systems,\n\
 particularly sight. Fairly difficult to install.",
-    bio_ears, bio_eye_enhancer, bio_night_vision, bio_infrared, bio_scent_vision, NULL);
+    bio_ears, bio_eye_enhancer, bio_night_vision, bio_infrared, bio_scent_vision, NULL);*/
 
 BIO("CBM: Aquatic",		 5, 3000,	c_blue,		 3, "\
 Compact Bionics Module with a couple of upgrades designed with those who are\n\

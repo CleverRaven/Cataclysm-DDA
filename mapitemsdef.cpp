@@ -543,8 +543,10 @@ void game::init_mapitems()
    itm_bionics_ethanol, itm_bionics_furnace,
    itm_bionics_toolset,      itm_bionics_storage,  itm_bionics_flashlight,
    itm_bionics_lighter,      itm_bionics_magnet,
-   itm_bionics_neuro,
-	itm_bionics_sensory, itm_bionics_aquatic, itm_bionics_combat_aug,
+   itm_bionics_memory,  itm_bionics_painkiller, itm_bionics_alarm,
+   itm_bionics_ears, itm_bionics_eye_enhancer, itm_bionics_night_vision,
+   itm_bionics_infrared, itm_bionics_scent_vision,
+	itm_bionics_aquatic, itm_bionics_combat_aug,
 	itm_bionics_hazmat, itm_bionics_nutritional, itm_bionics_desert,
 	itm_bionics_melee, itm_bionics_armor, itm_bionics_espionage,
 	itm_bionics_defense, itm_bionics_medical, itm_bionics_construction,
@@ -554,7 +556,7 @@ void game::init_mapitems()
    mapitems[mi_bionics_common],
 	itm_bionics_battery,
    itm_bionics_toolset,      itm_bionics_storage,  itm_bionics_flashlight,
-   itm_bionics_lighter,      itm_bionics_magnet,
+   itm_bionics_lighter,      itm_bionics_magnet,   itm_bionics_alarm,
    itm_bionics_solar, itm_bionics_batteries, itm_bionics_metabolics,
    itm_bionics_ethanol, itm_bionics_furnace, NULL);
 
@@ -600,9 +602,11 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_bionics_mil],
-	itm_bionics_battery, itm_bionics_solar, itm_bionics_sensory,
+	itm_bionics_battery, itm_bionics_solar,
    itm_bionics_solar, itm_bionics_batteries, itm_bionics_metabolics,
    itm_bionics_ethanol, itm_bionics_furnace,
+   itm_bionics_ears, itm_bionics_eye_enhancer, itm_bionics_night_vision,
+   itm_bionics_infrared, itm_bionics_scent_vision,
 	itm_bionics_combat_aug, itm_bionics_desert, itm_bionics_armor,
 	itm_bionics_espionage, itm_bionics_defense, itm_bionics_medical,
 	itm_bionics_super, itm_bionics_ranged, NULL);
