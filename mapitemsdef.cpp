@@ -546,8 +546,10 @@ void game::init_mapitems()
    itm_bionics_memory,  itm_bionics_painkiller, itm_bionics_alarm,
    itm_bionics_ears, itm_bionics_eye_enhancer, itm_bionics_night_vision,
    itm_bionics_infrared, itm_bionics_scent_vision,
-	itm_bionics_aquatic, itm_bionics_combat_aug,
-	itm_bionics_hazmat, itm_bionics_nutritional, itm_bionics_desert,
+   itm_bionics_targeting, itm_bionics_ground_sonar,
+   itm_bionics_membrane, itm_bionics_gills,
+   itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter,
+	itm_bionics_nutritional, itm_bionics_desert,
 	itm_bionics_melee, itm_bionics_armor, itm_bionics_espionage,
 	itm_bionics_defense, itm_bionics_medical, itm_bionics_construction,
 	itm_bionics_super, itm_bionics_ranged, NULL);
@@ -607,7 +609,8 @@ void game::init_mapitems()
    itm_bionics_ethanol, itm_bionics_furnace,
    itm_bionics_ears, itm_bionics_eye_enhancer, itm_bionics_night_vision,
    itm_bionics_infrared, itm_bionics_scent_vision,
-	itm_bionics_combat_aug, itm_bionics_desert, itm_bionics_armor,
+	itm_bionics_desert, itm_bionics_armor,
+   itm_bionics_targeting, itm_bionics_ground_sonar,
 	itm_bionics_espionage, itm_bionics_defense, itm_bionics_medical,
 	itm_bionics_super, itm_bionics_ranged, NULL);
 
@@ -644,7 +647,7 @@ void game::init_mapitems()
 	itm_flashlight, itm_water_purifier, itm_two_way_radio,
    itm_bionics_toolset,      itm_bionics_storage,  itm_bionics_flashlight,
    itm_bionics_lighter,      itm_bionics_magnet,
-	itm_bionics_hazmat, NULL);
+   itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter, NULL);
 
  setvector(
    mapitems[mi_mine_storage],
@@ -678,7 +681,7 @@ void game::init_mapitems()
 	itm_1st_aid, itm_iodine, itm_canister_empty, itm_boots_steel,
 	itm_hazmat_suit, itm_mask_gas, itm_hat_hard, itm_textbook_carpentry,
 	itm_extinguisher, itm_radio, itm_geiger_off, itm_UPS_off,
-	itm_bionics_hazmat, NULL);
+   itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter, NULL);
 
  setvector(
    mapitems[mi_subway],
@@ -786,7 +789,8 @@ void game::init_mapitems()
 	itm_textbook_chemistry, itm_SICP, itm_textbook_robots,
 	itm_soldering_iron, itm_geiger_off, itm_teleporter, itm_canister_goo,
 	itm_EMPbomb, itm_pheromone, itm_portal, itm_bot_manhack, itm_UPS_off,
-	itm_tazer, itm_bionics_hazmat, itm_plasma, itm_usb_drive,
+	itm_tazer, itm_plasma, itm_usb_drive,
+   itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter,
 	itm_software_useless, itm_canteen, NULL);
 
  setvector(

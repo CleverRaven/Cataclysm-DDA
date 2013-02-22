@@ -218,8 +218,15 @@ itm_bionics_battery,       itm_bionics_solar,   itm_bionics_batteries,
  itm_bionics_memory,       itm_bionics_painkiller,itm_bionics_alarm,
  itm_bionics_ears,          itm_bionics_eye_enhancer, itm_bionics_night_vision,
  itm_bionics_infrared,      itm_bionics_scent_vision,
- itm_bionics_aquatic,
- itm_bionics_combat_aug,   itm_bionics_hazmat,  itm_bionics_nutritional,
+ // cbm: aquatic
+ itm_bionics_membrane, itm_bionics_gills,
+ // cbm: combat augs
+ itm_bionics_targeting, itm_bionics_ground_sonar,
+ // cbm: hazmat
+ itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter,
+// itm_bionics_aquatic,
+// itm_bionics_combat_aug,   itm_bionics_hazmat, 
+ itm_bionics_nutritional,
  itm_bionics_desert,       itm_bionics_melee,   itm_bionics_armor,
  itm_bionics_espionage,    itm_bionics_defense, itm_bionics_medical,
  itm_bionics_construction, itm_bionics_super,   itm_bionics_ranged,

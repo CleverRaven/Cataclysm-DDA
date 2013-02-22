@@ -4091,7 +4091,7 @@ BIO("CBM: Sensory",		10, 4500,	c_ltblue,	 5, "\
 Compact Bionics Module containing a few upgrades to one's sensory systems,\n\
 particularly sight. Fairly difficult to install.",
     bio_ears, bio_eye_enhancer, bio_night_vision, bio_infrared, bio_scent_vision, NULL);*/
-
+/*
 BIO("CBM: Aquatic",		 5, 3000,	c_blue,		 3, "\
 Compact Bionics Module with a couple of upgrades designed with those who are\n\
 often underwater; popular among diving enthusiasts and Navy SEAL teams.",
@@ -4107,6 +4107,19 @@ BIO("CBM: Hazmat",		12, 4800,	c_ltgreen,	 3, "\
 Compact Bionics Module that allows you to install various augmentations\n\
 designed to protect the user in the event of exposure to hazardous materials.",
     bio_purifier, bio_climate, bio_heatsink, bio_blood_filter, NULL);
+*/
+// cbm: aquatic
+BIO_SINGLE(bio_membrane, 3, 4500, c_blue, 6);
+BIO_SINGLE(bio_gills, 3, 4500, c_blue, 6);
+// cbm: combat augs
+BIO_SINGLE(bio_targeting, 2, 6500, c_red, 5);
+BIO_SINGLE(bio_ground_sonar, 3, 4500, c_red, 5);
+
+// cbm: hazmat
+BIO_SINGLE(bio_purifier, 3, 4500, c_ltgreen, 4);
+BIO_SINGLE(bio_climate, 4, 3500, c_ltgreen, 3);
+BIO_SINGLE(bio_heatsink, 4, 3500, c_ltgreen, 3);
+BIO_SINGLE(bio_blood_filter, 4, 3500, c_ltgreen, 3);
 
 BIO("CBM: Nutritional",		 7, 3200,	c_green,	 4, "\
 Compact Bionics Module with several upgrades to one's digestive system, aimed\n\
