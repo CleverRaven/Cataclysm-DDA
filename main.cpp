@@ -67,13 +67,9 @@ int main(int argc, char *argv[])
    quit_game = true;
  } while (!quit_game);
 
- if (delete_world && (remove("save/") != 0))
+ if (delete_world)
  {
-  #if (defined _WIN32 || defined __WIN32__)
-   system("rmdir /s /q save");
-  #else
-   system("rm -rf save/*");
-  #endif
+   g->delete_save();
  } else {
   MAPBUFFER.save_if_dirty();
  }

@@ -172,3 +172,61 @@ std::string direction_name_short(direction dir)
  }
  return "WEIRD DIRECTION_NAME() BUG";
 }
+
+
+float rl_vec2d::norm(){
+ if (fabs(x) > fabs(y))
+  return fabs(x);
+ return fabs(y);
+}
+
+rl_vec2d rl_vec2d::normalized(){
+ rl_vec2d ret;
+ if (is_null()){ // shouldn't happen?
+  ret.x = ret.y = 1;
+  return ret;
+ }
+ float n = norm();
+ ret.x = x/n;
+ ret.y = y/n;
+ return ret;
+}
+float rl_vec2d::dot_product (rl_vec2d &v){
+ return x*v.x + y*v.y;
+}
+bool rl_vec2d::is_null(){
+ return !(x || y);
+}
+// scale.
+rl_vec2d rl_vec2d::operator* (const float rhs){
+ rl_vec2d ret;
+ ret.x = x * rhs;
+ ret.y = y * rhs;
+ return ret;
+}
+// subtract
+rl_vec2d rl_vec2d::operator- (const rl_vec2d &rhs){
+ rl_vec2d ret;
+ ret.x = x - rhs.x;
+ ret.y = y - rhs.y;
+ return ret;
+}
+// unary negation
+rl_vec2d rl_vec2d::operator- (){
+ rl_vec2d ret;
+ ret.x = -x;
+ ret.y = -y;
+ return ret;
+}
+rl_vec2d rl_vec2d::operator+ (const rl_vec2d &rhs){
+ rl_vec2d ret;
+ ret.x = x + rhs.x;
+ ret.y = y + rhs.y;
+ return ret;
+}
+rl_vec2d rl_vec2d::operator/ (const float rhs){
+ rl_vec2d ret;
+ ret.x = x / rhs;
+ ret.y = y / rhs;
+ return ret;
+}

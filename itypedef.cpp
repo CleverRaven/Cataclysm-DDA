@@ -1100,10 +1100,10 @@ MELEE("lawnmower halberd", 0, 100, '/', c_ltgray, IRON, MNULL,
 A lawnmower blade affixed to a long stick, in the right\n\
 hands, this thing could do some massive damage.");
 
-MELEE("curtain",           0, 100, ';', c_dkgray, COTTON, MNULL,
+MELEE("sheet",           0, 100, ';', c_dkgray, COTTON, MNULL,
          20, 2, 0, 0,    -1, 0, "\
-A large fabric curtain, could be attached to a window or\n\
-cut up for plenty of rags.");
+A large fabric sheet, could be used as a curtain or bedsheets;\n\
+or cut up for a bunch of rags.");
 
 //  NAME        RAR PRC SYM  COLOR  MAT1    MAT
 MELEE("damaged tent",17, 65, ';', c_green,	IRON,	MNULL,
@@ -1467,7 +1467,7 @@ ARMOR("army pants",	30, 315,C_PANTS,	COTTON,		MNULL,
 A tough pair of pants lined with pockets. Favored by the military.");
 
 ARMOR("ski pants",	60, 300,C_PANTS,	COTTON,		MNULL,
-    10,  6, -3,  0,  1,  2,  0,  3,  80, 4,	mfb(bp_legs), "\
+    10,  6, -3,  0,  2,  2,  0,  3,  80, 4,	mfb(bp_legs), "\
 A pair of pants meant for alpine skiing.");
 
 ARMOR("long underwear",	40, 200,C_PANTS,	COTTON,		MNULL,
@@ -4016,7 +4016,7 @@ TOOL("spray can", 50, 10, ';', c_ltblue, PLASTIC, MNULL,
 A spray can, filled with paint. Use this tool to make graffiti on the floor.");
 
 TOOL("rag",    1, 0,  ',', c_white, COTTON,   MNULL,
-   0,  0,   0,  0,  0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::rag, 0, "\
+   1,  1,   0,  0,  0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::rag, 0, "\
 Rag, useful in crafting and possibly stopping bleeding");
 
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT

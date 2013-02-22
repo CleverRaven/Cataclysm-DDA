@@ -867,16 +867,15 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_rag, 20, itm_fur, 16, itm_leather, 12, NULL);
 
 // MISC
- 
+
  RECIPE(itm_rag, CC_MISC, NULL, NULL, 0, 3000, false);
   TOOL(itm_fire, -1, itm_hotplate, 3, itm_toolset, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
   COMP(itm_rag_bloody, 1, NULL);
 
- RECIPE(itm_curtain, CC_MISC, NULL, NULL, 0, 10000, false);
+ RECIPE(itm_sheet, CC_MISC, NULL, NULL, 0, 10000, false);
   TOOL(itm_sewing_kit, 50, NULL);
   COMP(itm_rag, 20, NULL);
-  COMP(itm_stick, 1, itm_pool_cue, 1, itm_spear_wood, 1, itm_2x4, 1, NULL);
 
  RECIPE(itm_vehicle_controls, CC_MISC, "mechanics", NULL, 3, 30000, true);
   TOOL(itm_wrench, -1, itm_toolset, -1, NULL);

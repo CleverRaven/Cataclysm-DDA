@@ -236,7 +236,7 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_HOT_LEGS:
   switch (dis.intensity) {
    case 3 : p.thirst--;
-   if (p.pain < 50) p.pain++;
+    if (p.pain < 50) p.pain++;
    case 2 : p.thirst--;
   }
   break;

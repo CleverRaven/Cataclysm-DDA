@@ -4268,10 +4268,17 @@ bool player::wear_item(game *g, item *to_wear)
               (has_trait(PF_ANTENNAE) ? "antennae" : "antlers")));
   return false;
  }
- if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet)) {
-  g->add_msg("You're already wearing footwear!");
-  return false;
+ // Checks to see if the player is wearing not cotton or not wool, ie leather/plastic shoes
+ if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(to_wear->made_of(WOOL) || to_wear->made_of(COTTON))) {
+ for (int i = 0; i < worn.size(); i++) {
+  item *worn_item = &worn[i]; 
+  it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
+  if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of(WOOL) || worn_item->made_of(COTTON))) {
+   g->add_msg("You're already wearing footwear!");
+   return false;
+  }
  }
+}
  g->add_msg("You put on your %s.", to_wear->tname(g).c_str());
  if (to_wear->is_artifact()) {
   it_artifact_armor *art = dynamic_cast<it_artifact_armor*>(to_wear->type);
@@ -4519,10 +4526,6 @@ void player::read(game *g, char ch)
   g->add_msg("It's bad idea to read while driving.");
   return;
  }
- if (morale_level() < MIN_MORALE_READ) {	// See morale.h
-  g->add_msg("What's the point of reading?  (Your morale is too low!)");
-  return;
- }
 // Check if reading is okay
  if (g->light_level() < 8 && LL_LIT > g->lm.at(0, 0)) {
   g->add_msg("It's too dark to read!");
@@ -4589,8 +4592,10 @@ int time; //Declare this here so that we can change the time depending on whats 
   activity = player_activity(ACT_READ, time, index);
   moves = 0;
   return;
- }
- else if (skillLevel(tmp->type) >= tmp->level && tmp->fun <= 0 &&
+ } else if (morale_level() < MIN_MORALE_READ &&  tmp->fun <= 0) {	// See morale.h
+  g->add_msg("What's the point of reading?  (Your morale is too low!)");
+  return;
+ } else if (skillLevel(tmp->type) >= tmp->level && tmp->fun <= 0 &&
             !query_yn("Your %s skill won't be improved.  Read anyway?",
                       tmp->type->name().c_str()))
   return;

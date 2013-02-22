@@ -25,6 +25,11 @@
 #include <sys/stat.h>
 #include "debug.h"
 
+#if (defined _WIN32 || defined __WIN32__)
+#include <windows.h>
+#include <tchar.h>
+#endif
+
 #define MAX_MONSTERS_MOVING 40 // Efficiency!
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -373,15 +378,8 @@ fivedozenwhales@gmail.com.");
     }
    } else if (sel1 == 3) {  // Delete world
     if (query_yn("Delete the world and all saves?")) {
-     if (remove("save/") != 0) {
-#if (defined _WIN32 || defined __WIN32__)
-      system("DEL /Q save/");
-#else
-      system("rm -rf save/*");
-#endif
-
-      savegames.clear();
-     }
+     delete_save();
+     savegames.clear();
     }
 
     layer = 1;
@@ -739,7 +737,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
  int morale_pen = 0; 
  // This adjusts the temperature scale to match the bodytemp scale
  int adjusted_temp = 1*(Ctemperature - ambient_norm); 
- // Fetch the morale value of wetness for bodywetness 
+ // Fetch the morale value of wetness for bodywetness (which is negative)
  int bodywetness = 0;
  for (int i = 0; bodywetness == 0 && i < u.morale.size(); i++)
   if( u.morale[i].type == MORALE_WET ) {
@@ -751,7 +749,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   if (i == bp_eyes) continue; // Skip eyes
   // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
   float homeostasis_adjustement = (u.temp_cur[i] > BODYTEMP_NORM ? 4.0 : 6.0); 
-  int clothing_warmth_adjustement = homeostasis_adjustement * (float)u.warmth(body_part(i)) * (1.0 - (float)bodywetness / 100.0);
+  int clothing_warmth_adjustement = homeostasis_adjustement * (float)u.warmth(body_part(i)) * (1.0 + (float)bodywetness / 100.0);
   // Disease name shorthand
   int blister_pen = dis_type(DI_BLISTERS) + 1 + i, hot_pen  = dis_type(DI_HOT) + 1 + i;
   int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;  
@@ -814,7 +812,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   // Morale penalties : a negative morale_pen means the player is cold
   // Intensity multiplier is negative for cold, positive for hot
   int intensity_mult = -u.disease_intensity(dis_type(cold_pen)) + u.disease_intensity(dis_type(hot_pen));
-  if (u.has_disease(dis_type(cold_pen)) || u.has_disease(dis_type(hot_pen))) {
+  if (u.has_disease(dis_type(cold_pen)) > 0 || u.has_disease(dis_type(hot_pen)) > 0) {
    switch (i) {
     case bp_head :
     case bp_torso :
@@ -842,8 +840,8 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   else if (temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT) add_msg("You feel your %s getting hot.", body_part_name(body_part(i), -1).c_str()); 
  }
  // Morale penalties
- if (morale_pen < 0) u.add_morale(MORALE_COLD, -1, -abs(morale_pen));
- if (morale_pen > 0) u.add_morale(MORALE_HOT,  -1, -abs(morale_pen));
+ if (morale_pen < 0) u.add_morale(MORALE_COLD, -2, -abs(morale_pen));
+ if (morale_pen > 0) u.add_morale(MORALE_HOT,  -2, -abs(morale_pen));
 }
 
 void game::rustCheck() {
@@ -2127,6 +2125,36 @@ void game::save()
  MAPBUFFER.save();
 }
 
+void game::delete_save()
+{
+#if (defined _WIN32 || defined __WIN32__)
+      WIN32_FIND_DATA FindFileData;
+      HANDLE hFind;
+      TCHAR Buffer[MAX_PATH];
+
+      GetCurrentDirectory(MAX_PATH, Buffer);
+      SetCurrentDirectory("save");
+      hFind = FindFirstFile("*", &FindFileData);
+      if(INVALID_HANDLE_VALUE != hFind) {
+       do {
+        DeleteFile(FindFileData.cFileName);
+       } while(FindNextFile(hFind, &FindFileData) != 0);
+       FindClose(hFind);
+      }
+      SetCurrentDirectory(Buffer);
+#else
+     DIR *save_dir = opendir("save");
+     struct dirent *save_dirent = NULL;
+     if(save_dir != NULL && 0 == chdir("save"))
+     {
+      while ((save_dirent = readdir(save_dir)) != NULL)
+       (void)unlink(save_dirent->d_name);
+      (void)chdir("..");
+      (void)closedir(save_dir);
+     }
+#endif
+}
+
 void game::advance_nextinv()
 {
  if (nextinv == 'z')
@@ -2781,7 +2809,7 @@ void game::draw_ter(int posx, int posy)
  }
  wrefresh(w_terrain);
  if (u.has_disease(DI_VISUALS) || (u.has_disease(DI_HOT_HEAD) && u.disease_intensity(DI_HOT_HEAD) != 1))
-  hallucinate();
+   hallucinate(posx, posy);
 }
 
 void game::refresh_all()
@@ -2960,13 +2988,13 @@ void game::draw_minimap()
  wrefresh(w_minimap);
 }
 
-void game::hallucinate()
+void game::hallucinate(const int x, const int y)
 {
  for (int i = 0; i <= SEEX * 2 + 1; i++) {
   for (int j = 0; j <= SEEY * 2 + 1; j++) {
    if (one_in(10)) {
-    char ter_sym = terlist[m.ter(i + rng(-2, 2), j + rng(-2, 2))].sym;
-    nc_color ter_col = terlist[m.ter(i + rng(-2, 2), j + rng(-2, 2))].color;
+    char ter_sym = terlist[m.ter(i + x - SEEX + rng(-2, 2), j + y - SEEY + rng(-2, 2))].sym;
+    nc_color ter_col = terlist[m.ter(i + x - SEEX + rng(-2, 2), j + y - SEEY+ rng(-2, 2))].color;
     mvwputch(w_terrain, j, i, ter_col, ter_sym);
    }
   }
@@ -3675,8 +3703,8 @@ void game::add_footstep(int x, int y, int volume, int distance)
 void game::draw_footsteps()
 {
  for (int i = 0; i < footsteps.size(); i++) {
-  mvwputch(w_terrain, SEEY + footsteps[i].y - u.posy,
-           SEEX + footsteps[i].x - u.posx, c_yellow, '?');
+  mvwputch(w_terrain, SEEY + footsteps[i].y - u.posy - u.view_offset_y,
+                      SEEX + footsteps[i].x - u.posx - u.view_offset_x, c_yellow, '?');
  }
  footsteps.clear();
  wrefresh(w_terrain);
@@ -3755,15 +3783,23 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
  }
 // Draw the explosion
  for (int i = 1; i <= radius; i++) {
-  mvwputch(w_terrain, y - i + SEEY - u.posy, x - i + SEEX - u.posx, c_red, '/');
-  mvwputch(w_terrain, y - i + SEEY - u.posy, x + i + SEEX - u.posx, c_red,'\\');
-  mvwputch(w_terrain, y + i + SEEY - u.posy, x - i + SEEX - u.posx, c_red,'\\');
-  mvwputch(w_terrain, y + i + SEEY - u.posy, x + i + SEEX - u.posx, c_red, '/');
+  mvwputch(w_terrain, y - i + SEEY - u.posy - u.view_offset_y,
+                      x - i + SEEX - u.posx - u.view_offset_x, c_red, '/');
+  mvwputch(w_terrain, y - i + SEEY - u.posy - u.view_offset_y,
+                      x + i + SEEX - u.posx - u.view_offset_x, c_red,'\\');
+  mvwputch(w_terrain, y + i + SEEY - u.posy - u.view_offset_y,
+                      x - i + SEEX - u.posx - u.view_offset_x, c_red,'\\');
+  mvwputch(w_terrain, y + i + SEEY - u.posy - u.view_offset_y,
+                      x + i + SEEX - u.posx - u.view_offset_x, c_red, '/');
   for (int j = 1 - i; j < 0 + i; j++) {
-   mvwputch(w_terrain, y - i + SEEY - u.posy, x + j + SEEX - u.posx, c_red,'-');
-   mvwputch(w_terrain, y + i + SEEY - u.posy, x + j + SEEX - u.posx, c_red,'-');
-   mvwputch(w_terrain, y + j + SEEY - u.posy, x - i + SEEX - u.posx, c_red,'|');
-   mvwputch(w_terrain, y + j + SEEY - u.posy, x + i + SEEX - u.posx, c_red,'|');
+   mvwputch(w_terrain, y - i + SEEY - u.posy - u.view_offset_y,
+                       x + j + SEEX - u.posx - u.view_offset_x, c_red,'-');
+   mvwputch(w_terrain, y + i + SEEY - u.posy - u.view_offset_y,
+                       x + j + SEEX - u.posx - u.view_offset_x, c_red,'-');
+   mvwputch(w_terrain, y + j + SEEY - u.posy - u.view_offset_y,
+                       x - i + SEEX - u.posx - u.view_offset_x, c_red,'|');
+   mvwputch(w_terrain, y + j + SEEY - u.posy - u.view_offset_y,
+                       x + i + SEEX - u.posx - u.view_offset_x, c_red,'|');
   }
   wrefresh(w_terrain);
   nanosleep(&ts, NULL);
@@ -3788,8 +3824,8 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
    if (j > 0 && u_see(traj[j - 1].x, traj[j - 1].y, ijunk))
     m.drawsq(w_terrain, u, traj[j - 1].x, traj[j - 1].y, false, true);
    if (u_see(traj[j].x, traj[j].y, ijunk)) {
-    mvwputch(w_terrain, traj[j].y + SEEY - u.posy,
-                        traj[j].x + SEEX - u.posx, c_red, '`');
+    mvwputch(w_terrain, traj[j].y + SEEY - u.posy - u.view_offset_y,
+                        traj[j].x + SEEX - u.posx - u.view_offset_x, c_red, '`');
     wrefresh(w_terrain);
     nanosleep(&ts, NULL);
    }
@@ -5434,8 +5470,8 @@ void game::list_items()
 
     if (u_see(trajectory[i].x, trajectory[i].y, junk)) {
      char bullet = 'X';
-     mvwputch(w_terrain, trajectory[i].y + SEEY - u.posy,
-                         trajectory[i].x + SEEX - u.posx, c_white, bullet);
+     mvwputch(w_terrain, trajectory[i].y + SEEY - u.posy - u.view_offset_y,
+                         trajectory[i].x + SEEX - u.posx - u.view_offset_x, c_white, bullet);
     }
    }
 
@@ -6228,7 +6264,8 @@ void game::plthrow()
     if (k >= y0 && k <= y1 && j >= x0 && j <= x1)
      m.drawsq(w_terrain, u, j, k, false, true);
     else
-     mvwputch(w_terrain, k + SEEY - u.posy, j + SEEX - u.posx, c_dkgray, '#');
+     mvwputch(w_terrain, k + SEEY - u.posy - u.view_offset_y,
+                         j + SEEX - u.posx - u.view_offset_x, c_dkgray, '#');
    }
   }
  }
