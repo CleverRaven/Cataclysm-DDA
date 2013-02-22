@@ -1863,7 +1863,7 @@ ARMOR("fur hat",	15, 120,C_HAT,		WOOL,		MNULL,
     4,  2, -5,  0,  1,  2,  2,  0,  80,  0,	mfb(bp_head), "\
 A hat made from the pelts of animals. Extremely warm.");
 
-ARMOR("balclava",	15, 100,C_HAT,		COTTON,		MNULL,
+ARMOR("balaclava",	15, 100,C_HAT,		COTTON,		MNULL,
     4,  2, -5,  0,  0,  0,  0,  0,  30,  0,	mfb(bp_head)|mfb(bp_mouth), "\
 A warm covering that protects the head and face from cold.");
 
