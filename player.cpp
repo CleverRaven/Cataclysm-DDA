@@ -4681,7 +4681,7 @@ int player::encumb(body_part bp)
     layers++;
   }
  }
- if (layers > 1)
+ if (layers > 1 && !(is_wearing(itm_socks) || is_wearing(itm_socks_wool) || is_wearing(itm_long_underpants) || is_wearing(itm_under_armor) || is_wearing(itm_gloves_liner)))
   ret += (layers - 1) * (bp == bp_torso ? .5 : 2);// Easier to layer on torso
  if (volume_carried() > volume_capacity() - 2 && bp != bp_head)
   ret += 3;
