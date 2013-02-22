@@ -5452,10 +5452,18 @@ void game::list_items()
    iActiveY = 0;
    std::string sActiveItemName;
    std::stringstream sText;
+   std::string sFilterPre = "";
+   std::string sFilterTemp = sFilter;
+   if (sFilterTemp != "" && sFilter.substr(0, 1) == "-") {
+    sFilterPre = "-";
+    sFilterTemp = sFilterTemp.substr(1, sFilterTemp.size()-1);
+   }
+
    for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
     for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
      for (std::map< std::string, int>::iterator iter=grounditems[iCol][iRow].begin(); iter!=grounditems[iCol][iRow].end(); ++iter) {
-      if (sFilter == "" || (sFilter != "" && iter->first.find(sFilter) != std::string::npos)) {
+      if (sFilterTemp == "" || (sFilterTemp != "" && ((sFilterPre != "-" && iter->first.find(sFilterTemp) != std::string::npos) ||
+                                             (sFilterPre == "-" && iter->first.find(sFilterTemp) == std::string::npos)))) {
        if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) ) {
         if (iNum == iActive) {
          iActiveX = iCol;
