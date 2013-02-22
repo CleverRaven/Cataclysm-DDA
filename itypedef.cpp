@@ -1718,11 +1718,11 @@ ARMOR("glove liners",	25,  100,C_GLOVES,	COTTON,		MNULL,
 A pair of thin cotton gloves. Often used as a liner beneath other gloves.");
 
 ARMOR("light gloves",	35,  65,C_GLOVES,	COTTON,		MNULL,
-    0,  0, -5,  1,  1,  0,  0,  0,  30,  0,	mfb(bp_hands), "\
+    1,  0, -5,  1,  1,  0,  0,  0,  30,  0,	mfb(bp_hands), "\
 A pair of cotton gloves.");
 
 ARMOR("mittens",	30,  40,C_GLOVES,	WOOL,		MNULL,
-    0,  0, -5,  1,  8,  0,  1,  0,  90,  0,	mfb(bp_hands), "\
+    2,  0, -5,  1,  8,  0,  1,  0,  90,  0,	mfb(bp_hands), "\
 A pair of warm mittens. They are extremely encumbersome.");
 
 ARMOR("wool gloves",	33,  50,C_GLOVES,	WOOL,		MNULL,
@@ -1730,7 +1730,7 @@ ARMOR("wool gloves",	33,  50,C_GLOVES,	WOOL,		MNULL,
 A thick pair of wool gloves. Encumbersome but warm.");
 
 ARMOR("winter gloves",	40,  65,C_GLOVES,	COTTON,		MNULL,
-    1,  0, -5,  1,  5,  1,  1,  0,  70,  0,	mfb(bp_hands), "\
+    2,  0, -5,  1,  5,  1,  1,  0,  70,  0,	mfb(bp_hands), "\
 A pair of padded gloves. Encumbersome but warm.");
 
 ARMOR("leather gloves",	45,  85,C_GLOVES,	LEATHER,	MNULL,
@@ -1740,7 +1740,7 @@ A thin pair of leather gloves. Good for doing manual labor.");
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("fingerless gloves",20,90,C_GLOVES,	LEATHER,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    1,  1, -3,  2,  0,  0,  2,  0,  5,  0,	mfb(bp_hands), "\
+    1,  0, -3,  2,  0,  0,  2,  0,  5,  0,	mfb(bp_hands), "\
 A pair of leather gloves with no fingers, allowing greater manual dexterity.");
 
 ARMOR("rubber gloves",	20,  30,C_GLOVES,	PLASTIC,	MNULL,

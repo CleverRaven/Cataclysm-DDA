@@ -4681,7 +4681,14 @@ int player::encumb(body_part bp)
     layers++;
   }
  }
- if (layers > 1 && !(is_wearing(itm_socks) || is_wearing(itm_socks_wool) || is_wearing(itm_long_underpants) || is_wearing(itm_under_armor) || is_wearing(itm_gloves_liner)))
+ // Following items undo their layering. Once. Bodypart has to be taken into account, hence the switch.
+ switch (bp){
+  case bp_feet  : if (!(is_wearing(itm_socks) || is_wearing(itm_socks_wool))) break; else layers--;
+  case bp_legs  : if (!is_wearing(itm_long_underpants)) break; else layers--;
+  case bp_hands : if (!is_wearing(itm_gloves_liner)) break; else layers--;
+  case bp_torso : if (!is_wearing(itm_under_armor)) break; else layers--;
+ }
+ if (layers > 1)
   ret += (layers - 1) * (bp == bp_torso ? .5 : 2);// Easier to layer on torso
  if (volume_carried() > volume_capacity() - 2 && bp != bp_head)
   ret += 3;
