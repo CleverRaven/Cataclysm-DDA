@@ -4059,10 +4059,16 @@ BIO_SINGLE(bio_metabolics, 4, 700, c_yellow, 4);
 BIO_SINGLE(bio_furnace, 2, 4500, c_yellow, 4);
 BIO_SINGLE(bio_ethanol, 6, 1200, c_yellow, 4);
 
+/*
 BIO("CBM: Utilities",		20, 2000,	c_ltgray,	 2, "\
 Compact Bionics Module containing a variety of utilities. Popular among\n\
 civilians, especially specialist laborers like mechanics.",
-    bio_tools, bio_storage, bio_flashlight, bio_lighter, bio_magnet, NULL);
+    bio_tools, bio_storage, bio_flashlight, bio_lighter, bio_magnet, NULL);*/
+BIO_SINGLE(bio_tools, 3, 2000, c_ltgray, 2);
+BIO_SINGLE(bio_storage, 3, 2000, c_ltgray, 2);
+BIO_SINGLE(bio_flashlight, 8, 2000, c_ltgray, 2);
+BIO_SINGLE(bio_lighter, 6, 2000, c_ltgray, 2);
+BIO_SINGLE(bio_magnet, 5, 2000, c_ltgray, 2);
 
 BIO("CBM: Neurological",	 8, 6000,	c_pink,		 8, "\
 Compact Bionics Module containing a few upgrades to one's central nervous\n\
