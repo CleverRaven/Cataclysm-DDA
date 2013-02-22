@@ -82,10 +82,10 @@ player::player()
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
    skillLevel(*aSkill).level(0);
  }
-
+ 
  for (int i = 0; i < num_bp; i++) {
   temp_cur[i] = 500; ; frostbite_timer[i] = 0;
- }
+ } 
 }
 
 player::player(const player &rhs)
@@ -169,11 +169,11 @@ player& player::operator= (const player & rhs)
   hp_max[i] = rhs.hp_max[i];
 
  for (int i = 0; i < num_bp; i++)
-  temp_cur[i] = rhs.temp_cur[i];
-
+  temp_cur[i] = rhs.temp_cur[i]; 
+ 
  for (int i = 0; i < num_bp; i++)
-  frostbite_timer[i] = rhs.frostbite_timer[i];
-
+  frostbite_timer[i] = rhs.frostbite_timer[i]; 
+  
  morale = rhs.morale;
  xp_pool = rhs.xp_pool;
 
@@ -358,10 +358,10 @@ void player::temp_equalizer(body_part bp1, body_part bp2)
  switch (bp1){
   case bp_torso:
    temp_cur[bp1] -= temp_diff*0.05/3;
-   temp_cur[bp2] += temp_diff*0.05;
+   temp_cur[bp2] += temp_diff*0.05; 
   case bp_head:
    temp_cur[bp1] -= temp_diff*0.05/2;
-   temp_cur[bp2] += temp_diff*0.05;
+   temp_cur[bp2] += temp_diff*0.05; 
   case bp_arms:
    temp_cur[bp1] -= temp_diff*0.05;
    temp_cur[bp2] += temp_diff*0.05;
@@ -563,9 +563,8 @@ void player::load_info(game *g, std::string data)
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
  for (int i = 0; i < num_bp; i++)
-  dump >> temp_cur[i] >> frostbite_timer[i];
-
-
+  dump >> temp_cur[i] >> frostbite_timer[i]; 
+  
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    dump >> skillLevel(*aSkill);
  }
@@ -650,7 +649,7 @@ std::string player::save_info()
          (in_vehicle? 1 : 0) << " " << scent << " " << moves << " " <<
          underwater << " " << dodges_left << " " << blocks_left << " " <<
          oxygen << " " << active_mission << " " << xp_pool << " " << male <<
-         " " << health << " " << style_selected << " " << activity.save_info() <<
+         " " << health << " " << style_selected << " " << activity.save_info() << 
 		 " " << backlog.save_info() << " ";
 
  for (int i = 0; i < PF_MAX2; i++)
@@ -662,8 +661,8 @@ std::string player::save_info()
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
  for (int i = 0; i < num_bp; i++)
-  dump << temp_cur[i] << " " << frostbite_timer[i] << " ";
-
+  dump << temp_cur[i] << " " << frostbite_timer[i] << " ";  
+  
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    SkillLevel level = skillLevel(*aSkill);
    dump << level;
@@ -4269,10 +4268,17 @@ bool player::wear_item(game *g, item *to_wear)
               (has_trait(PF_ANTENNAE) ? "antennae" : "antlers")));
   return false;
  }
- if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet)) {
-  g->add_msg("You're already wearing footwear!");
-  return false;
+ // Checks to see if the player is wearing not cotton or not wool, ie leather/plastic shoes
+ if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(to_wear->made_of(WOOL) || to_wear->made_of(COTTON))) {
+ for (int i = 0; i < worn.size(); i++) {
+  item *worn_item = &worn[i]; 
+  it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
+  if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of(WOOL) || worn_item->made_of(COTTON))) {
+   g->add_msg("You're already wearing footwear!");
+   return false;
+  }
  }
+}
  g->add_msg("You put on your %s.", to_wear->tname(g).c_str());
  if (to_wear->is_artifact()) {
   it_artifact_armor *art = dynamic_cast<it_artifact_armor*>(to_wear->type);
@@ -4674,6 +4680,13 @@ int player::encumb(body_part bp)
    if (armor->encumber >= 0 || bp != bp_torso)
     layers++;
   }
+ }
+ // Following items undo their layering. Once. Bodypart has to be taken into account, hence the switch.
+ switch (bp){
+  case bp_feet  : if (!(is_wearing(itm_socks) || is_wearing(itm_socks_wool))) break; else layers--;
+  case bp_legs  : if (!is_wearing(itm_long_underpants)) break; else layers--;
+  case bp_hands : if (!is_wearing(itm_gloves_liner)) break; else layers--;
+  case bp_torso : if (!is_wearing(itm_under_armor)) break; else layers--;
  }
  if (layers > 1)
   ret += (layers - 1) * (bp == bp_torso ? .5 : 2);// Easier to layer on torso

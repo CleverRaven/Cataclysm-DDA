@@ -96,17 +96,20 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_COLD_HEAD:
   switch (dis.intensity) {
-   case 3 : p.int_cur -= 3;
+   case 3 : p.int_cur -= 3; if (one_in(200)) g->add_msg("Your thoughts are unclear.");
    case 2 : p.int_cur--;
-   case 1 : ;
+   case 1 : if (one_in(600)) g->add_msg("Brr.");
   }
   break;
  
  case DI_COLD_TORSO:
   switch (dis.intensity) {
-   case 3 : p.dex_cur -= 2;
+   case 3 : p.dex_cur -= 2; if (one_in(200)) g->add_msg("Your torso is burning up. You should remove some layers.");
+   // Speed -20
    case 2 :	p.dex_cur -= 1;
-   case 1 : p.dex_cur -= 1;
+   // Speed -5
+   case 1 : p.dex_cur -= 1; if (one_in(600)) g->add_msg("Brr.");
+   // Speed -2
   }
   break;
 
@@ -114,6 +117,7 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 : p.dex_cur -= 2;
    case 2 :	p.dex_cur--;
+   case 1 : if (one_in(600)) g->add_msg("Your arms are shivering.");
   }
   break;
  
@@ -121,13 +125,18 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 :	p.dex_cur -= 2;
    case 2 :	p.dex_cur -= 2;
+   case 1 : if (one_in(600)) g->add_msg("Brr.");
   }
   break;
  
  case DI_COLD_LEGS:
   switch (dis.intensity) {
-   case 3 :	p.str_cur--;
+   case 3 :	p.str_cur--; if (one_in(200)) g->add_msg("Your legs are seizing from the incredible cold.");
+   // Speed -20
    case 2 :	p.str_cur--;
+   // Speed -5
+   case 1 : if (one_in(600)) g->add_msg("Your legs feel sluggish from the cold.");
+   // Speed -2
   }
   break;
  
@@ -135,27 +144,34 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 : p.str_cur--;
    case 2 : p.str_cur--;
+   case 1 : if (one_in(600)) g->add_msg("Brr.");
   }
   break;
  
  case DI_FROSTBITE_HANDS:
   switch (dis.intensity) {
    case 2 : p.dex_cur -= 3;
-   case 1 : if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++; 
+   case 1 : 
+    if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
+    if (one_in(600)) g->add_msg("Your hands feel numb.");
   }
  break;
  
  case DI_FROSTBITE_FEET:
   switch (dis.intensity) {
-   case 2 : // TODO add a slow penalty
-   case 1 : if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++; 
+   case 2 : // -4 speed
+   case 1 : 
+    if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++; 
+	if (one_in(600)) g->add_msg("Your feet feel numb.");
   }
  break;
  
  case DI_FROSTBITE_MOUTH: 
   switch (dis.intensity) {
    case 2 : p.per_cur -= 3; 
-   case 1 : if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
+   case 1 : 
+    if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
+	if (one_in(600)) g->add_msg("Your face feels numb.");
   }
  break;
  
@@ -166,7 +182,6 @@ void dis_effect(game *g, player &p, disease &dis)
   else p.hp_max[hp_arm_l]--;
   break;
   
- 
  case DI_BLISTERS_FEET:
   p.str_cur--;
   if (p.pain < 35) p.pain++;
@@ -174,7 +189,6 @@ void dis_effect(game *g, player &p, disease &dis)
   else p.hp_max[hp_leg_l]--;
   break;
   
- 
  case DI_BLISTERS_MOUTH:
   p.per_cur--;
   p.hp_max[hp_head]--;
@@ -222,7 +236,7 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_HOT_LEGS:
   switch (dis.intensity) {
    case 3 : p.thirst--;
-   if (p.pain < 50) p.pain++;
+    if (p.pain < 50) p.pain++;
    case 2 : p.thirst--;
   }
   break;
@@ -577,7 +591,7 @@ void dis_effect(game *g, player &p, disease &dis)
    g->m.add_field(g, p.posx, p.posy, fd_blood, 1);
   }
   break;
-	
+
  case DI_BADPOISON:
   if ((!p.has_trait(PF_POISRESIST) && one_in(100)) ||
       ( p.has_trait(PF_POISRESIST) && one_in(500))   ) {
@@ -964,6 +978,9 @@ int disease_speed_boost(disease dis)
    case 1 : return  -2;
    case 2 : return  -5;
    case 3 : return -20;}
+ case DI_FROSTBITE_FEET:
+  switch (dis.intensity) {
+   case 2 : return -4;}
  case DI_HOT_HEAD:
   switch (dis.intensity) {
    case 1 : return  -2;
@@ -1023,7 +1040,19 @@ std::string dis_name(disease dis)
   switch (dis.intensity) {
    case 1: return "Cold feet";
    case 2: return "Cold feet!";
-   case 3: return "Freezing feet!!";}	
+   case 3: return "Freezing feet!!";}
+ case DI_FROSTBITE_HANDS:
+  switch (dis.intensity) {
+   case 1: return "Frostnip - hands";
+   case 2: return "Frostbite - hands";}
+ case DI_FROSTBITE_FEET: 
+  switch (dis.intensity) {
+   case 1: return "Frostnip - feet";
+   case 2: return "Frostbite - feet";}
+ case DI_FROSTBITE_MOUTH:
+  switch (dis.intensity) {
+   case 1: return "Frostnip - face";
+   case 2: return "Frostbite - face";}
  case DI_HOT_HEAD:		
   switch (dis.intensity) {
    case 1: return "Hot head";
@@ -1060,9 +1089,6 @@ std::string dis_name(disease dis)
  case DI_BLISTERS_HANDS: return "Blisters - hands";
  case DI_BLISTERS_LEGS: return "Blisters - legs";
  case DI_BLISTERS_FEET: return "Blisters - feet";
- case DI_FROSTBITE_HANDS : 	return "Frostbite - hands";
- case DI_FROSTBITE_FEET : 	return "Frostbite - feet";
- case DI_FROSTBITE_MOUTH : 	return "Frostbite - face";
  case DI_COMMON_COLD:	return "Common Cold";
  case DI_FLU:		return "Influenza";
  case DI_SMOKE:		return "Smoke";
@@ -1187,22 +1213,35 @@ std::string dis_description(disease dis)
    case 2: return "Your feet are very exposed to the cold. Your strength is sapped.";
    case 3: return "Your feet is dangerously cold. Your strength is sapped.";}
  
- case DI_FROSTBITE_MOUTH: return "\
- Your face is frostbitten from prolonged exposure to the cold. It is extremely painful.";
+ case DI_FROSTBITE_HANDS:
+  switch (dis.intensity) {
+   case 1: return "\
+   Your hands are frostnipped from the prolonged exposure to the cold and have gone numb. When the blood begins to flow, it will be painful.";
+   case 2: return "\
+   Your hands are frostbitten from the prolonged exposure to the cold. The tissues in your hands are frozen.";}
+ case DI_FROSTBITE_FEET: 
+  switch (dis.intensity) {
+   case 1: return "\
+   Your feet are frostnipped from the prolonged exposure to the cold and have gone numb. When the blood begins to flow, it will be painful.";
+   case 2: return "\
+   Your feet are frostbitten from the prolonged exposure to the cold. The tissues in your feet are frozen.";}
+ case DI_FROSTBITE_MOUTH:
+  switch (dis.intensity) {
+   case 1: return "\
+   Your face is frostnipped from the prolonged exposure to the cold and has gone numb. When the blood begins to flow, it will be painful.";
+   case 2: return "\
+   Your face is frostbitten from the prolonged exposure to the cold. The tissues in your face are frozen.";}
+ 
  case DI_FROSTBITE_TORSO: return "\
  Your torso is frostbitten from prolonged exposure to the cold. It is extremely painful.";
  case DI_FROSTBITE_ARMS: return "\
  Your arms are frostbitten from prolonged exposure to the cold. It is extremely painful.";
- case DI_FROSTBITE_HANDS: return "\
- Your hands are frostbitten from prolonged exposure to the cold. It is extremely painful.";
  case DI_FROSTBITE_LEGS: return "\
  Your legs are frostbitten from prolonged exposure to the cold. It is extremely painful.";
- case DI_FROSTBITE_FEET: return "\
- Your feet are frostbitten from prolonged exposure to the cold. It is extremely painful.";
  
  case DI_HOT_HEAD:		
   switch (dis.intensity) {
-   case 1: return "Your head feels warm";
+   case 1: return "Your head feels warm.";
    case 2: return "Your head is sweating from the heat. You feel nauseated. You have a headache.";
    case 3: return "Your head is sweating profusely. You feel very nauseated. You have a headache.";}	
    
