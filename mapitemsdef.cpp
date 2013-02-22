@@ -428,7 +428,8 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_vault],
 	itm_purifier, itm_plut_cell, itm_ftk93, itm_nx17, itm_canister_goo,
-	itm_UPS_off, itm_gold, itm_bionics_super, itm_plasma_engine,
+	itm_UPS_off, itm_gold, itm_plasma_engine,
+   itm_bionics_time_freeze, itm_bionics_teleport,
 	itm_minireactor, itm_alloy_plate, NULL);
 
  setvector(
@@ -554,8 +555,12 @@ void game::init_mapitems()
    itm_bionics_carbon, itm_bionics_armor_head, itm_bionics_armor_torso,
    itm_bionics_armor_arms, itm_bionics_armor_legs,
    itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws, 
-	itm_bionics_defense, itm_bionics_medical, itm_bionics_construction,
-	itm_bionics_super, itm_bionics_ranged, NULL);
+   itm_bionics_nanobots, itm_bionics_blood_anal,
+   itm_bionics_ads, itm_bionics_ods,
+   itm_bionics_resonator, itm_bionics_hydraulics,
+   itm_bionics_time_freeze, itm_bionics_teleport,
+   itm_bionics_blaster, itm_bionics_laser, itm_bionics_emp,
+	NULL);
 
  setvector(
    mapitems[mi_bionics_common],
@@ -617,8 +622,11 @@ void game::init_mapitems()
    itm_bionics_armor_arms, itm_bionics_armor_legs,
    itm_bionics_targeting, itm_bionics_ground_sonar,
    itm_bionics_face_mask, itm_bionics_scent_mask, itm_bionics_cloak, itm_bionics_fingerhack,
-	itm_bionics_defense, itm_bionics_medical,
-	itm_bionics_super, itm_bionics_ranged, NULL);
+   itm_bionics_nanobots, itm_bionics_blood_anal,
+   itm_bionics_ads, itm_bionics_ods,
+   itm_bionics_blaster, itm_bionics_laser, itm_bionics_emp,
+   itm_bionics_time_freeze, itm_bionics_teleport,
+	NULL);
 
  setvector(
    mapitems[mi_weapons],
@@ -667,7 +675,8 @@ void game::init_mapitems()
 	itm_backpack, itm_battery, itm_flashlight, itm_two_way_radio,
 	itm_jackhammer, itm_jacqueshammer, itm_dynamite, itm_UPS_off,
    itm_bionics_toolset, itm_bionics_flashlight, itm_bionics_lighter, itm_bionics_magnet,
-	itm_bionics_construction, itm_jerrycan, NULL);
+   itm_bionics_resonator, itm_bionics_hydraulics,
+	itm_jerrycan, NULL);
 
 
  setvector(
@@ -718,7 +727,7 @@ void game::init_mapitems()
 	itm_teleporter, itm_canister_goo, itm_dynamite, itm_mininuke,
 	itm_bot_manhack, itm_UPS_off, itm_bionics_battery,
    itm_bionics_flashlight, itm_bionics_lighter, 
-	itm_arrow_cf, itm_spray_can, NULL);
+	itm_arrow_cf, itm_spray_can, itm_bionics_blaster, NULL);
 
  setvector(
    mapitems[mi_ant_food],
@@ -726,7 +735,7 @@ void game::init_mapitems()
 	itm_orange, itm_mushroom, itm_blueberries, itm_strawberries,
 	itm_tomato, itm_broccoli, itm_zucchini, itm_potato_raw, itm_honeycomb,
 	itm_royal_jelly, itm_arm, itm_leg, itm_rock, itm_stick,
-   itm_bionics_metabolics,  NULL);
+   itm_bionics_metabolics, itm_bionics_blaster, NULL);
 
  setvector(
    mapitems[mi_ant_egg],
@@ -839,7 +848,7 @@ void game::init_mapitems()
 	itm_shot_00, itm_9mm, itm_45_acp, itm_glock_19, itm_shotgun_sawn,
 	itm_uzi, itm_tec9, itm_mac_10, itm_silencer, itm_clip2, itm_autofire,
 	itm_mag_porn, itm_lighter, itm_crowbar, itm_pipebomb, itm_grenade,
-	itm_mininuke, itm_crack, itm_crackpipe, itm_pants_cargo_fit, itm_spare_mag, NULL);
+	itm_mininuke, itm_crack, itm_crackpipe, itm_pants_cargo_fit, itm_spare_mag, itm_bionics_blaster, NULL);
 
  setvector(
    mapitems[mi_wreckage],
