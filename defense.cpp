@@ -459,7 +459,7 @@ void defense_game::setup()
     selection--;
    refresh_setup(w, selection);
   } else if (ch == '!') {
-   std::string name = string_input_popup(20, "Template Name:");
+   std::string name = string_input_popup("Template Name:", 20);
    refresh_setup(w, selection);
   } else if (ch == 'S')
    return;
