@@ -11,7 +11,7 @@
  5) Some items, like tools or food, also take an iuse::function reference.
     Edit iuse.h and include the function in the class declaration; then edit
     iuse.cpp and define your function.  Functions may be shared among different
-    item types.  
+    item types.
 
 1.2 Adding a monster
  1) Edit mtype.h.  Change the enum mon_id and insert a unique identifier for
@@ -37,29 +37,29 @@
     they die.  This works the same as attacks, but the relevent files are
     mondeath.h and mondeath.cpp.
 1.3 Adding structures to the map
-  Most "regular" buildings are spawned in cities (large clusters of buildings which are located rather close to each other). 
-  In file omdata.h in the enum oter_id structure define names (code identifiers) for your building. 
-  If you want your building to be displayed at overmap in different orientations, you should add 4 identifiers for each orientation (south, east, west and north correspondingly). 
-  In the same file in structure const oter_t oterlist[num_ter_types] 
+  Most "regular" buildings are spawned in cities (large clusters of buildings which are located rather close to each other).
+  In file omdata.h in the enum oter_id structure define names (code identifiers) for your building.
+  If you want your building to be displayed at overmap in different orientations, you should add 4 identifiers for each orientation (south, east, west and north correspondingly).
+  In the same file in structure const oter_t oterlist[num_ter_types]
   we should define how these buildings will be displayed, how much they obscure vision and which extras set they have. For example:
       {"mil. surplus",  '^',	c_white,	5, build_extras, false, false},
       {"mil. surplus",  '>',	c_white,	5, build_extras, false, false},
       {"mil. surplus",  'v',	c_white,	5, build_extras, false, false},
       {"mil. surplus",  '<',	c_white,	5, build_extras, false, false}
   Comments at the beginning of this structure are rather useful.
-  In the file mapgen.cpp find the subroutine called draw_map(...); 
-    there you should find a huge variant operator ("switch") 
+  In the file mapgen.cpp find the subroutine called draw_map(...);
+    there you should find a huge variant operator ("switch")
     where you should put your code defining the new building by adding new case-statement.
   This should be mentioned that most buildings are built on the square SEEX*2 x SEEY*2 tiles.
-  If you want your building to be spawned not only in city limits 
-     you should refer to structures in file omdata.h 
-     (starting from the line #define OMSPEC_FREQ 7). 
-     These structures are commented in source code. Add new identifier in enum omspec_id structure before 
+  If you want your building to be spawned not only in city limits
+     you should refer to structures in file omdata.h
+     (starting from the line #define OMSPEC_FREQ 7).
+     These structures are commented in source code. Add new identifier in enum omspec_id structure before
      NUM_OMSPECS and then add a record in const overmap_special overmap_specials[NUM_OMSPECS] array. For example:
          {ot_toxic_dump,	   0,  5, 15, -1, mcat_null, 0, 0, 0, 0, &omspec_place::wilderness,0}
-  The comments given in source code to structure struct overmap_special explains the meaning of these constants in the example above. 
+  The comments given in source code to structure struct overmap_special explains the meaning of these constants in the example above.
 
-	
+
 	FAQ
 Q: What the heck is up with the map objects?
 

@@ -555,7 +555,7 @@ void bionics_install_failure(game *g, player *u, int success)
   fail_text += ", causing great pain.";
   u->pain += rng(failure_level * 3, failure_level * 6);
   break;
- 
+
  case 2:
   fail_text += " and your body is damaged.";
   u->hurtall(rng(failure_level, failure_level * 2));

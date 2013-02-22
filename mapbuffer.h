@@ -46,5 +46,5 @@ class mapbuffer
   game *master_game;
   bool dirty;
 };
-  
+
 extern mapbuffer MAPBUFFER;

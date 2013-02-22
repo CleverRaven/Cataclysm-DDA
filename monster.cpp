@@ -269,7 +269,7 @@ bool monster::made_of(material m)
   return true;
  return false;
 }
- 
+
 void monster::load_info(std::string data, std::vector <mtype*> *mtypes)
 {
  std::stringstream dump;
@@ -534,7 +534,7 @@ void monster::hit_monster(game *g, int i)
 {
  int junk;
  monster* target = &(g->z[i]);
- 
+
  int numdice = type->melee_skill;
  int dodgedice = target->dodge() * 2;
  switch (target->type->size) {
@@ -555,7 +555,7 @@ void monster::hit_monster(game *g, int i)
  if (target->hurt(damage))
   g->kill_mon(i, (friendly != 0));
 }
- 
+
 
 bool monster::hurt(int dam)
 {
@@ -593,7 +593,7 @@ int monster::dodge()
 int monster::dodge_roll()
 {
  int numdice = dodge();
- 
+
  switch (type->size) {
   case MS_TINY:  numdice += 6; break;
   case MS_SMALL: numdice += 3; break;

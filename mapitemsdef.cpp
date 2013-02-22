@@ -345,7 +345,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_winter],
-	itm_coat_winter, itm_peacoat, itm_gloves_light, itm_mittens, 
+	itm_coat_winter, itm_peacoat, itm_gloves_light, itm_mittens,
 	itm_gloves_wool, itm_gloves_winter, itm_gloves_liner, itm_gloves_leather, itm_scarf,
 	itm_hat_cotton, itm_hat_knit, itm_hat_fur, itm_pants_ski, itm_long_underpants,
     itm_balclava, NULL);
@@ -832,6 +832,6 @@ void game::init_mapitems()
 	itm_chainsaw_on, itm_pipebomb_act, itm_grenade_act, itm_flashbang_act,
 	itm_EMPbomb_act, itm_gasbomb_act, itm_smokebomb_act, itm_molotov_lit,
 	itm_dynamite_act, itm_mininuke_act, itm_UPS_on, itm_mp3_on, itm_c4armed,
-        itm_apparatus, itm_brazier, itm_rag_bloody, 
+        itm_apparatus, itm_brazier, itm_rag_bloody,
 	NULL);
 }

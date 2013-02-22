@@ -67,7 +67,7 @@ bool is_wall_material(oter_id ter)
   return true;
  return false;
 }
- 
+
 oter_id shop(int dir)
 {
  oter_id ret = ot_s_lot;
@@ -309,11 +309,11 @@ point overmap::display_notes()
   if (start > 0)
    mvwprintw(w_notes, maxitems + 4, 0, "< Go Back");
   if (cur_it < notes.size())
-   mvwprintw(w_notes, maxitems + 4, 12, "> More notes"); 
+   mvwprintw(w_notes, maxitems + 4, 12, "> More notes");
   if(ch >= 'a' && ch <= 't'){
    int chosen_line = (int)(ch % (int)'a');
    if(chosen_line < last_line)
-    return point(notes[start + chosen_line].x, notes[start + chosen_line].y); 
+    return point(notes[start + chosen_line].x, notes[start + chosen_line].y);
   }
   mvwprintz(w_notes, 0, 40, c_white, "Press letter to center on note");
   mvwprintz(w_notes, 24, 40, c_white, "Spacebar - Return to map  ");
@@ -472,18 +472,18 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
   for (int i = 0; i < river_start.size(); i++)
    place_river(river_start[i], river_end[i]);
  }
-    
+
 // Cities, forests, and settlements come next.
 // These're agnostic of adjacent maps, so it's very simple.
  place_cities();
  place_forest();
 
 // Ideally we should have at least two exit points for roads, on different sides
- if (roads_out.size() < 2) { 
+ if (roads_out.size() < 2) {
   std::vector<city> viable_roads;
   int tmp;
 // Populate viable_roads with one point for each neighborless side.
-// Make sure these points don't conflict with rivers. 
+// Make sure these points don't conflict with rivers.
 // TODO: In theory this is a potential infinte loop...
   if (north == NULL) {
    do
@@ -750,7 +750,7 @@ point overmap::find_closest(point origin, oter_id type, int type_range,
     if (!must_be_seen || seen(x, y))
      return point(x, y);
 
-   //start at southeast, scan south 
+   //start at southeast, scan south
    x = origin.x + dist - i;
    y = origin.y + dist;
    if (ter_in_type_range(x, y, type, type_range))
@@ -855,12 +855,12 @@ int overmap::dist_from_city(point p)
  return distance;
 }
 
-void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy, 
+void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
                    int &origx, int &origy, char &ch, bool blink)
 {
  bool legend = true, note_here = false, npc_here = false;
  std::string note_text, npc_name;
- 
+
  int omx, omy;
  overmap hori, vert, diag; // Adjacent maps
  point target(-1, -1);
@@ -1065,8 +1065,8 @@ point overmap::choose_point(game *g)
  int origx = cursx, origy = cursy;
  char ch = 0;
  point ret(-1, -1);
- 
- do {  
+
+ do {
   draw(w_map, g, cursx, cursy, origx, origy, ch, blink);
   ch = input();
   int dirx, diry;
@@ -1141,11 +1141,11 @@ point overmap::choose_point(game *g)
         i = terlist.size() - 1;
       }
       cursx = terlist[i].x;
-      cursy = terlist[i].y;       
+      cursy = terlist[i].y;
       draw(w_map, g, cursx, cursy, origx, origy, ch, blink);
       wrefresh(w_search);
       timeout(BLINK_SPEED);
-     } while(ch != '\n' && ch != ' ' && ch != 'q'); 
+     } while(ch != '\n' && ch != ' ' && ch != 'q');
      //If q is hit, return to the last position
      if(ch == 'q'){
       cursx = tmpx;
@@ -1206,7 +1206,7 @@ void overmap::process_mongroups()
   }
  }
 }
-  
+
 void overmap::place_forest()
 {
  int x, y;
@@ -1228,7 +1228,7 @@ void overmap::place_forest()
     fors = rng(15, 40);
     j = 0;
    }
-  } 
+  }
   int swamps = SWAMPINESS;	// How big the swamp may be...
   x = forx;
   y = fory;
@@ -1240,7 +1240,7 @@ void overmap::place_forest()
      if (ter(x + k, y + l) == ot_forest_water ||
          (ter(x+k, y+l) >= ot_river_center && ter(x+k, y+l) <= ot_river_nw))
       swamp_chance += 5;
-    }  
+    }
    }
    bool swampy = false;
    if (swamps > 0 && swamp_chance > 0 && !one_in(swamp_chance) &&
@@ -1715,7 +1715,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, oter_id base)
     if (dist(x, y, x1, y1) > dist(x, y, x2, y2))
      return;
     next.clear();
-   } 
+   }
   }
   if (!next.empty()) { // Assuming we DIDN'T take an existing road...
    if (next[0].x == -1) { // X is correct, so we're taking the y-change
@@ -1850,7 +1850,7 @@ void overmap::place_hiways(std::vector<city> cities, oter_id base)
   for (int j = i + 1; j < cities.size(); j++) {
    distance = dist(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
    if (distance < closest || closest < 0) {
-    closest = distance; 
+    closest = distance;
     best = cities[j];
    }
    if (distance < TOP_HIWAY_DIST) {
@@ -1979,7 +1979,7 @@ void overmap::good_road(oter_id base, int x, int y)
 {
  int d = ot_road_ns;
  if (is_road(base, x, y-1)) {
-  if (is_road(base, x+1, y)) { 
+  if (is_road(base, x+1, y)) {
    if (is_road(base, x, y+1)) {
     if (is_road(base, x-1, y))
      ter(x, y) = oter_id(base + ot_road_nesw - d);
@@ -1990,7 +1990,7 @@ void overmap::good_road(oter_id base, int x, int y)
      ter(x, y) = oter_id(base + ot_road_new - d);
     else
      ter(x, y) = oter_id(base + ot_road_ne - d);
-   } 
+   }
   } else {
    if (is_road(base, x, y+1)) {
     if (is_road(base, x-1, y))
@@ -2002,10 +2002,10 @@ void overmap::good_road(oter_id base, int x, int y)
      ter(x, y) = oter_id(base + ot_road_wn - d);
     else
      ter(x, y) = oter_id(base + ot_road_ns - d);
-   } 
+   }
   }
  } else {
-  if (is_road(base, x+1, y)) { 
+  if (is_road(base, x+1, y)) {
    if (is_road(base, x, y+1)) {
     if (is_road(base, x-1, y))
      ter(x, y) = oter_id(base + ot_road_esw - d);
@@ -2025,7 +2025,7 @@ void overmap::good_road(oter_id base, int x, int y)
     else {// No adjoining roads/etc. Happens occasionally, esp. with sewers.
      ter(x, y) = oter_id(base + ot_road_nesw - d);
     }
-   } 
+   }
   }
  }
  if (ter(x, y) == ot_road_nesw && one_in(4))
@@ -2181,7 +2181,7 @@ void overmap::place_special(overmap_special special, point p)
 
  if (!rotated && special.flags & mfb(OMS_FLAG_ROTATE_RANDOM))
   ter(p.x, p.y) = oter_id( int(ter(p.x, p.y)) + rng(0, 3) );
-  
+
  if (special.flags & mfb(OMS_FLAG_3X3)) {
   for (int x = -1; x <= 1; x++) {
    for (int y = -1; y <= 1; y++) {
@@ -2291,7 +2291,7 @@ void overmap::place_special(overmap_special special, point p)
             special.monster_rad_max);
    return;
   }
-       
+
   int population = rng(special.monster_pop_min, special.monster_pop_max);
   int radius     = rng(special.monster_rad_min, special.monster_rad_max);
   zg.push_back(

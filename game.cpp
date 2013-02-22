@@ -730,13 +730,13 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
 {
  // NOTE : Bodytemp is measured on a scale of 0u to 1000u, where 1u = 0.02C and 500u is 37C
  // Converts temperature to Celsius/10!(Wito plans on using degrees Kelvin later)
- int Ctemperature = 10*(temperature - 32) * 5/9; 
+ int Ctemperature = 10*(temperature - 32) * 5/9;
  // Temperature norms
  const int ambient_norm = 310;
  // Creative thinking for clean morale penalties: this gets incremented in the for loop and applied after the loop
- int morale_pen = 0; 
+ int morale_pen = 0;
  // This adjusts the temperature scale to match the bodytemp scale
- int adjusted_temp = 1*(Ctemperature - ambient_norm); 
+ int adjusted_temp = 1*(Ctemperature - ambient_norm);
  // Fetch the morale value of wetness for bodywetness
  int bodywetness = 0;
  for (int i = 0; bodywetness == 0 && i < u.morale.size(); i++)
@@ -748,17 +748,17 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
  for (int i = 0 ; i < num_bp ; i++){
   if (i == bp_eyes) continue; // Skip eyes
   // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
-  float homeostasis_adjustement = (u.temp_cur[i] > BODYTEMP_NORM ? 4.0 : 6.0); 
+  float homeostasis_adjustement = (u.temp_cur[i] > BODYTEMP_NORM ? 4.0 : 6.0);
   int clothing_warmth_adjustement = homeostasis_adjustement * (float)u.warmth(body_part(i)) * (1.0 - (float)bodywetness / 100.0);
   // Disease name shorthand
   int blister_pen = dis_type(DI_BLISTERS) + 1 + i, hot_pen  = dis_type(DI_HOT) + 1 + i;
-  int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;  
+  int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;
   signed int temp_conv = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement; // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
   // Fatigue also affects convergeant temperature
-  if (!u.has_disease(DI_SLEEP)) temp_conv -= u.fatigue/6;    
-  else { 
+  if (!u.has_disease(DI_SLEEP)) temp_conv -= u.fatigue/6;
+  else {
    int vpart = -1;
-   vehicle *veh = m.veh_at (u.posx, u.posy, vpart); 
+   vehicle *veh = m.veh_at (u.posx, u.posy, vpart);
    if      (m.ter(u.posx, u.posy) == t_bed) 		              temp_conv += 100;
    else if (m.ter(u.posx, u.posy) == t_makeshift_bed)             temp_conv +=  50;
    else if (m.tr_at(u.posx, u.posy) == tr_cot)                    temp_conv -=  50;
@@ -837,7 +837,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   else if (temp_before > BODYTEMP_COLD && temp_after < BODYTEMP_COLD) add_msg("You feel your %s getting cold.", body_part_name(body_part(i), -1).c_str());
   else if (temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING) add_msg("You feel your %s getting red hot from the heat!", body_part_name(body_part(i), -1).c_str());
   else if (temp_before < BODYTEMP_VERY_HOT && temp_after > BODYTEMP_VERY_HOT) add_msg("You feel your %s getting very hot.", body_part_name(body_part(i), -1).c_str());
-  else if (temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT) add_msg("You feel your %s getting hot.", body_part_name(body_part(i), -1).c_str()); 
+  else if (temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT) add_msg("You feel your %s getting hot.", body_part_name(body_part(i), -1).c_str());
  }
  // Morale penalties
  if (morale_pen < 0) u.add_morale(MORALE_COLD, -2, -abs(morale_pen));

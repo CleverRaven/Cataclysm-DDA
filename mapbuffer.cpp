@@ -102,11 +102,11 @@ void mapbuffer::save()
   }
  // Dump the radiation
   for (int j = 0; j < SEEY; j++) {
-   for (int i = 0; i < SEEX; i++) 
+   for (int i = 0; i < SEEX; i++)
     fout << sm->rad[i][j] << " ";
   }
   fout << std::endl;
- 
+
  // Items section; designate it with an I.  Then check itm[][] for each square
  //   in the grid and print the coords and the item's details.
  // Designate it with a C if it's contained in the prior item.
@@ -132,7 +132,7 @@ void mapbuffer::save()
      std::endl;
    }
   }
- 
+
  // Output the fields
   field tmpf;
   for (int j = 0; j < SEEY; j++) {
@@ -160,7 +160,7 @@ void mapbuffer::save()
  // Output the computer
   if (sm->comp.name != "")
    fout << "c " << sm->comp.save_data() << std::endl;
-  
+
  // Output the graffiti
  for (int j = 0; j < SEEY; j++) {
   for (int i = 0; i < SEEX; i++) {

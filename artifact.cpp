@@ -61,7 +61,7 @@ It may have unknown powers; use 'a' to activate them.";
   int num_good = 0, num_bad = 0, value = 0;
   std::vector<art_effect_passive> good_effects = fill_good_passive();
   std::vector<art_effect_passive> bad_effects = fill_bad_passive();
-  
+
 // Wielded effects first
   while (!good_effects.empty() && !bad_effects.empty() &&
          num_good < 3 && num_bad < 3 &&
@@ -167,7 +167,7 @@ It may have unknown powers; use 'a' to activate them.";
   art->cut_resist = info->cut_resist;
   art->env_resist = info->env_resist;
   art->warmth = info->warmth;
-  art->storage = info->storage; 
+  art->storage = info->storage;
   std::stringstream description;
   description << "This is the " << art->name << ".\n" <<
                  (info->plural ? "They are the only ones of their kind." :
@@ -188,7 +188,7 @@ It may have unknown powers; use 'a' to activate them.";
      art->weight += modinfo->weight;
     else
      art->weight = 1;
- 
+
     art->encumber += modinfo->encumb;
 
     if (modinfo->dmg_resist > 0 || art->dmg_resist > abs(modinfo->dmg_resist))
@@ -522,7 +522,7 @@ void game::process_artifact(item *it, player *p, bool wielded)
              (it->is_armor() ? "wear" : "wield"), it->tname().c_str());
    }
    break;
-  
+
   case AEP_SCHIZO:
    break; // Handled in player::suffer()
 

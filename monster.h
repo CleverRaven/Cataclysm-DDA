@@ -65,7 +65,7 @@ class monster {
  bool can_see();		// MF_SEES and no ME_BLIND
  bool can_hear();		// MF_HEARS and no ME_DEAF
  bool made_of(material m);	// Returns true if it's made of m
- 
+
  void load_info(std::string data, std::vector<mtype*> *mtypes);
  std::string save_info();	// String of all data, for save files
  void debug(player &u); 	// Gives debug info

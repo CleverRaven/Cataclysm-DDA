@@ -96,7 +96,7 @@ class overmap
   point find_note(point origin, std::string text);
   void delete_note(int x, int y);
   point display_notes();
-  
+
   std::vector<city> cities;
   std::vector<city> roads_out;
   std::vector<settlement> towns;
@@ -112,7 +112,7 @@ class overmap
   bool nullbool;
   std::vector<om_note> notes;
   //Drawing
-  void draw(WINDOW *w, game *g, int &cursx, int &cursy, 
+  void draw(WINDOW *w, game *g, int &cursx, int &cursy,
                    int &origx, int &origy, char &ch, bool blink);
   // Overall terrain
   void place_river(point pa, point pb);

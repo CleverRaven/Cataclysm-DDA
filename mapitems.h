@@ -61,4 +61,4 @@ struct items_location_and_chance
   chance = c;
  };
 };
-#endif 
+#endif

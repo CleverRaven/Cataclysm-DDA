@@ -553,6 +553,6 @@ std::string fac_respect_text(int val)
   return "Leech";
  if (val <= -10)
   return "Laughingstock";
- 
+
  return "Neutral";
 }

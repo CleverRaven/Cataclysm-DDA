@@ -49,7 +49,7 @@ n: Survival tips\n\
 6: Frequently Asked Questions (Some spoilers!)\n\
 \n\
 q: Return to game");
- 
+
   ch = getch();
   switch (ch) {
   case 'a':
@@ -70,7 +70,7 @@ setting makes some tasks easier. Firearms, medications, and a wide variety of\n\
 tools are all available to help you survive.");
    getch();
    break;
- 
+
   case 'b':
   case 'B':
    erase();
@@ -503,20 +503,20 @@ easily drop unwanted items on the floor.");
       erase();
       mvprintz(0, 40, c_white, "Use up/down keys to scroll through");
       mvprintz(1, 40, c_white, "available options.");
-      mvprintz(2, 40, c_white, "Use left/right keys to toggle.");      
+      mvprintz(2, 40, c_white, "Use left/right keys to toggle.");
       mvprintz(3, 40, c_white, "Press ESC or q to return.             ");
-// highlight options for option descriptions 
+// highlight options for option descriptions
       std::string tmp = option_desc(option_key(offset + line));
       std::string out;
-      size_t pos;     
+      size_t pos;
       int displayline = 5;
       do {
         pos = tmp.find_first_of('\n');
         out = tmp.substr(0, pos);
-        mvprintz(displayline, 40, c_white, out.c_str());     
+        mvprintz(displayline, 40, c_white, out.c_str());
         tmp = tmp.substr(pos + 1);
         displayline++;
-      } while (pos != std::string::npos && displayline < 12); 
+      } while (pos != std::string::npos && displayline < 12);
      needs_refresh = false;
     }
 
@@ -525,10 +525,10 @@ easily drop unwanted items on the floor.");
      mvprintz(i, 0, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     int valid_option_count = 0;
 
-// display options    
-    for (int i = 0; i < 25 && offset + i < NUM_OPTION_KEYS; i++) 
+// display options
+    for (int i = 0; i < 25 && offset + i < NUM_OPTION_KEYS; i++)
     {
-         valid_option_count++; 
+         valid_option_count++;
          mvprintz(i, 0, c_white, "%s: ",
                   option_name( option_key(offset + i) ).c_str());
 
@@ -536,21 +536,21 @@ easily drop unwanted items on the floor.");
         {
           bool on = OPTIONS[ option_key(offset + i) ];
           if (i == line)
-            mvprintz(i, 30, hilite(c_ltcyan), (on ? "True" : "False")); 
+            mvprintz(i, 30, hilite(c_ltcyan), (on ? "True" : "False"));
           else
-            mvprintz(i, 30, (on ? c_ltgreen : c_ltred), (on ? "True" : "False"));          
+            mvprintz(i, 30, (on ? c_ltgreen : c_ltred), (on ? "True" : "False"));
         } else
         {
-          char option_val = OPTIONS[ option_key(offset + i) ]; 
+          char option_val = OPTIONS[ option_key(offset + i) ];
           if (i == line)
             mvprintz(i, 30, hilite(c_ltcyan), "%d", option_val );
           else
             mvprintz(i, 30, c_ltgreen, "%d", option_val );
-        }    
+        }
     }
      refresh();
      ch = input();
-     needs_refresh = true;  
+     needs_refresh = true;
      refresh();
 
    switch (ch) {
@@ -573,9 +573,9 @@ easily drop unwanted items on the floor.");
         {
           OPTIONS[ option_key(offset + line) ]--;
           if ((OPTIONS[ option_key(offset + line) ]) < 0 )
-            OPTIONS[ option_key(offset + line) ] = option_max_options(option_key(offset + line)) - 1; 
+            OPTIONS[ option_key(offset + line) ] = option_max_options(option_key(offset + line)) - 1;
         }
-        changed_options = true;    
+        changed_options = true;
     break;
     case 'l':
       if (option_is_bool(option_key(offset + line)))
@@ -584,11 +584,11 @@ easily drop unwanted items on the floor.");
       {
         OPTIONS[ option_key(offset + line) ]++;
         if ((OPTIONS[ option_key(offset + line) ]) >= option_max_options(option_key(offset + line)))
-          OPTIONS[ option_key(offset + line) ] = 0; 
+          OPTIONS[ option_key(offset + line) ] = 0;
       }
-      changed_options = true;    
-    break;  
-    }    
+      changed_options = true;
+    break;
+    }
    } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
    if (changed_options && query_yn("Save changes?"))
@@ -680,7 +680,7 @@ F           Forest - May be dense or sparse.  Slow moving; foragable food.");
    mvputch(3,  8, c_dkgray, LINE_XOXX);
    mvputch(3,  9, c_dkgray, LINE_OXXX);
    mvputch(3, 10, c_dkgray, LINE_XXXX);
- 
+
    mvprintz( 3, 12, c_dkgray,  "\
 Road - Safe from burrowing animals.");
    mvprintz( 4, 0, c_dkgray,  "\

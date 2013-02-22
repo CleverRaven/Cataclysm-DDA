@@ -13,7 +13,7 @@ ADDITIONS
  5) Some items, like tools or food, also take an iuse::function reference.
     Edit iuse.h and include the function in the class declaration; then edit
     iuse.cpp and define your function.  Functions may be shared among different
-    item types.  
+    item types.
 
 1.2 Adding a monster
  1) Edit mtype.h.  Change the enum mon_id and insert a unique identifier for

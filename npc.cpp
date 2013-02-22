@@ -1087,7 +1087,7 @@ bool npc::wear_if_wanted(item it)
   }
  }
  return false;
-} 
+}
 
 bool npc::wield(game *g, int index)
 {

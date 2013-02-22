@@ -84,7 +84,7 @@ void game::wish()
   } else {	// Not searching; scroll by keys
    if (ch == 'j') a++;
    if (ch == 'k') a--;
-   if (ch == '/') { 
+   if (ch == '/') {
     search = true;
     pattern =  "";
     found = false;
@@ -240,7 +240,7 @@ void game::monster_wish()
    if (ch == 'j') a++;
    if (ch == 'k') a--;
    if (ch == 'f') friendly = !friendly;
-   if (ch == '/') { 
+   if (ch == '/') {
     search = true;
     pattern =  "";
     found = false;
@@ -389,7 +389,7 @@ void game::mutation_wish()
   } else {	// Not searching; scroll by keys
    if (ch == 'j') a++;
    if (ch == 'k') a--;
-   if (ch == '/') { 
+   if (ch == '/') {
     search = true;
     pattern =  "";
     found = false;

@@ -130,8 +130,8 @@ itm_mask_dust, itm_bandana, itm_scarf, itm_mask_filter, itm_mask_gas,
 itm_glasses_eye, itm_glasses_reading, itm_glasses_safety, itm_goggles_swim,
  itm_goggles_ski, itm_goggles_welding, itm_goggles_nv, itm_glasses_monocle, itm_sunglasses,
 // Headwear
-itm_hat_ball, itm_hat_boonie, itm_hat_cotton, itm_hat_knit, itm_hat_hunting, itm_hat_fur, itm_balclava, itm_hat_hard, 
- itm_helmet_bike, itm_helmet_skid, itm_helmet_ball, itm_helmet_army, itm_helmet_riot, 
+itm_hat_ball, itm_hat_boonie, itm_hat_cotton, itm_hat_knit, itm_hat_hunting, itm_hat_fur, itm_balclava, itm_hat_hard,
+ itm_helmet_bike, itm_helmet_skid, itm_helmet_ball, itm_helmet_army, itm_helmet_riot,
  itm_helmet_motor, itm_helmet_chitin, itm_helmet_plate, itm_tophat,
 // High-storage
 itm_backpack, itm_rucksack, itm_purse, itm_mbag, itm_fanny, itm_holster, itm_bootstrap,

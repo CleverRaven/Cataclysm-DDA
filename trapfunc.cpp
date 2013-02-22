@@ -125,7 +125,7 @@ void trapfunc::crossbow(game *g, int x, int y)
  if (add_bolt)
   g->m.add_item(x, y, g->itypes[itm_bolt_steel], 0);
 }
-  
+
 void trapfuncm::crossbow(game *g, monster *z, int x, int y)
 {
  int t;
@@ -178,7 +178,7 @@ void trapfunc::shotgun(game *g, int x, int y)
  } else
   g->m.tr_at(x, y) = tr_shotgun_1;
 }
- 
+
 void trapfuncm::shotgun(game *g, monster *z, int x, int y)
 {
  int t;
@@ -470,7 +470,7 @@ void trapfuncm::lava(game *g, monster *z, int x, int y)
 
  z->hurt(dam);
 }
- 
+
 
 void trapfunc::sinkhole(game *g, int x, int y)
 {
@@ -717,7 +717,7 @@ bool trap::is_benign()
 {
   if (id == tr_rollmat || id == itm_cot)
     return true;
-  else      
+  else
   return false;
 
 }

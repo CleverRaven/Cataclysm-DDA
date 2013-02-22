@@ -63,5 +63,5 @@ struct morale_point
   return ret;
  }
 };
- 
+
 #endif

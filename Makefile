@@ -10,7 +10,7 @@
 # Win32
 #   Run: make NATIVE=win32
 
-# Build types: 
+# Build types:
 # Debug (no optimizations)
 #  Default
 # Release (turn on optimizations)
@@ -73,7 +73,7 @@ W32BINDIST_CMD = zip -r $(W32BINDIST) $(BINDIST_DIR)
 # SOMEBODY PLEASE CHECK
 #ifeq ($(OS), Msys)
 #  LDFLAGS = -static -lpdcurses
-#else 
+#else
   LDFLAGS = -lncurses
 #endif
 
@@ -93,7 +93,7 @@ ifeq ($(NATIVE), win32)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
   W32LDFLAGS = -Wl,-stack,12000000,-subsystem,windows
-  LDFLAGS += -static -lgdi32 
+  LDFLAGS += -static -lgdi32
 endif
 # MXE cross-compile to win32
 ifeq ($(CROSS), i686-pc-mingw32-)
@@ -113,7 +113,7 @@ all: $(TARGET)
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
 	$(CXX) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
-          $(OBJS) $(LDFLAGS) 
+          $(OBJS) $(LDFLAGS)
 
 $(ODIR):
 	mkdir $(ODIR)

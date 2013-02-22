@@ -39,7 +39,7 @@ const map_extras subway_extras(
 // %%% HEL MIL SCI STA DRG SUP PRT MIN WLF PUD CRT FUM 1WY ART
     75,  0,  5, 12,  5,  5,  0,  7,  0,  0,120,  0, 20,  1,  3);
 const map_extras build_extras(
-    90,  0,  5, 12,  0, 10,  0,  5,  5,  0,  0, 60,  8,  1,  3); 
+    90,  0,  5, 12,  0, 10,  0,  5,  5,  0,  0, 60,  8,  1,  3);
 
 enum oter_id {
  ot_null = 0,
@@ -452,7 +452,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 
 {ot_house_north,   0, 50, 20, -1, mcat_null, 0, 0, 0, 0,  // Woods cabin
  &omspec_place::forest, mfb(OMS_FLAG_ROTATE_RANDOM)|mfb(OMS_FLAG_ROTATE_ROAD)},
- 
+
  {ot_farm,   0, 20, 20, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) |mfb(OMS_FLAG_DIRT_LOT)},
 
@@ -523,7 +523,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::wilderness,0}
 
 };
- 
+
 // Overmap "Zones"
 // Areas which have special post-generation processing attached to them
 
