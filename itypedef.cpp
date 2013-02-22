@@ -4043,41 +4043,21 @@ app on, and is providing light.");
 color, STEEL, PLASTIC, 10, 18, 8, 0, 0, 0, difficulty, __VA_ARGS__))
 //  Name			RAR PRICE	COLOR		DIFFICULTY
 
+#define BIO_SINGLE(bionic,rarity,price,color,difficulty) \
+     BIO(std::string("CBM: ")+bionics[bionic].name,rarity,price,color,difficulty, bionics[bionic].description, bionic, NULL) \
+
+
 BIO("CBM: Internal Battery",	24, 3800,	c_green,	 1, "\
 Compact Bionics Module which upgrades your power capacity by 4 units. Having\n\
 at least one of these is a prerequisite to using powered bionics. You will\n\
 also need a power supply, found in another CBM.",
     NULL); // This is a special case, which increases power capacity by 4
 
-/*BIO("CBM: Power Sources",	18, 5000,	c_yellow,	 4, "\
-Compact Bionics Module containing the materials necessary to install any one\n\
-of several power sources. Having a power source is necessary to use powered\n\
-bionics.",
-    bio_batteries, bio_metabolics, bio_furnace, bio_ethanol, NULL);*/
-
-BIO("CBM: Solar Power", 2, 3500, c_yellow, 4, "\
-Compact Bionics Module containing solar panels. In direct sunlight, you will\n\
-slowly recharge your power level, Mr. Kent.",
-    bio_solar, NULL);
-
-BIO("CBM: Battery Consumer", 5, 800, c_yellow, 4, "\
-Compact Bionics Module which contains a battery draining attachment\n\
-and a voltage converter.",
-    bio_batteries, NULL);
-
-BIO("CBM: Metabolic Interchange", 2, 700, c_yellow, 4, "\
-Compact Bionics Module which interconnects your digestive system with\n\
-your internal batteries.",
-    bio_metabolics, NULL);
-
-BIO("CBM: Internal Furnace", 2, 4500, c_yellow, 4, "\
-Compact Bionics Module which allows you to consume nearly any organic\n\
-material as fuel.",
-    bio_furnace, NULL);
-
-BIO("CBM: Ethanol Burner", 5, 500, c_yellow, 4, "\
-Compact Bionics Module which allows you to consume alcohol as fuel.",
-    bio_ethanol, NULL);
+BIO_SINGLE(bio_solar, 2, 3500, c_yellow, 4);
+BIO_SINGLE(bio_batteries, 5, 800, c_yellow, 4);
+BIO_SINGLE(bio_metabolics, 4, 700, c_yellow, 4);
+BIO_SINGLE(bio_furnace, 2, 4500, c_yellow, 4);
+BIO_SINGLE(bio_ethanol, 6, 1200, c_yellow, 4);
 
 BIO("CBM: Utilities",		20, 2000,	c_ltgray,	 2, "\
 Compact Bionics Module containing a variety of utilities. Popular among\n\

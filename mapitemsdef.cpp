@@ -550,9 +550,9 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_bionics_common],
-	itm_bionics_battery, itm_bionics_solar, itm_bionics_tools, NULL);
+	itm_bionics_battery, itm_bionics_tools,
    itm_bionics_solar, itm_bionics_batteries, itm_bionics_metabolics,
-   itm_bionics_ethanol, itm_bionics_furnace,
+   itm_bionics_ethanol, itm_bionics_furnace, NULL);
 
  setvector(
    mapitems[mi_bots],
