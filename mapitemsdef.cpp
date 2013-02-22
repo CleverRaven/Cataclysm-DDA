@@ -549,8 +549,11 @@ void game::init_mapitems()
    itm_bionics_targeting, itm_bionics_ground_sonar,
    itm_bionics_membrane, itm_bionics_gills,
    itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter,
-	itm_bionics_nutritional, itm_bionics_desert,
-	itm_bionics_melee, itm_bionics_armor, itm_bionics_espionage,
+   itm_bionics_recycler, itm_bionics_digestion, itm_bionics_evap, itm_bionics_water_extractor,
+   itm_bionics_face_mask, itm_bionics_scent_mask, itm_bionics_cloak, itm_bionics_fingerhack,
+   itm_bionics_carbon, itm_bionics_armor_head, itm_bionics_armor_torso,
+   itm_bionics_armor_arms, itm_bionics_armor_legs,
+   itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws, 
 	itm_bionics_defense, itm_bionics_medical, itm_bionics_construction,
 	itm_bionics_super, itm_bionics_ranged, NULL);
 
@@ -609,9 +612,12 @@ void game::init_mapitems()
    itm_bionics_ethanol, itm_bionics_furnace,
    itm_bionics_ears, itm_bionics_eye_enhancer, itm_bionics_night_vision,
    itm_bionics_infrared, itm_bionics_scent_vision,
-	itm_bionics_desert, itm_bionics_armor,
+   itm_bionics_recycler, itm_bionics_digestion, itm_bionics_evap, itm_bionics_water_extractor,
+   itm_bionics_carbon, itm_bionics_armor_head, itm_bionics_armor_torso,
+   itm_bionics_armor_arms, itm_bionics_armor_legs,
    itm_bionics_targeting, itm_bionics_ground_sonar,
-	itm_bionics_espionage, itm_bionics_defense, itm_bionics_medical,
+   itm_bionics_face_mask, itm_bionics_scent_mask, itm_bionics_cloak, itm_bionics_fingerhack,
+	itm_bionics_defense, itm_bionics_medical,
 	itm_bionics_super, itm_bionics_ranged, NULL);
 
  setvector(

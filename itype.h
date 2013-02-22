@@ -224,11 +224,22 @@ itm_bionics_battery,       itm_bionics_solar,   itm_bionics_batteries,
  itm_bionics_targeting, itm_bionics_ground_sonar,
  // cbm: hazmat
  itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter,
-// itm_bionics_aquatic,
-// itm_bionics_combat_aug,   itm_bionics_hazmat, 
- itm_bionics_nutritional,
- itm_bionics_desert,       itm_bionics_melee,   itm_bionics_armor,
- itm_bionics_espionage,    itm_bionics_defense, itm_bionics_medical,
+ // itm_bionics_aquatic,
+ // itm_bionics_combat_aug,   itm_bionics_hazmat, 
+ // nutritional
+ itm_bionics_recycler, itm_bionics_digestion, itm_bionics_evap, itm_bionics_water_extractor,
+ // desert survival
+ // dupe bio_climate, bio_recycler, bio_evap, bio_water_extractor
+ // melee:
+ itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws, 
+ // armor:
+ itm_bionics_carbon, itm_bionics_armor_head, itm_bionics_armor_torso,
+ itm_bionics_armor_arms, itm_bionics_armor_legs,
+
+ // espionage
+ itm_bionics_face_mask, itm_bionics_scent_mask, itm_bionics_cloak, itm_bionics_fingerhack,
+
+ itm_bionics_defense, itm_bionics_medical,
  itm_bionics_construction, itm_bionics_super,   itm_bionics_ranged,
 // Software
 itm_software_useless, itm_software_hacking, itm_software_medical,

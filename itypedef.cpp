@@ -4120,7 +4120,7 @@ BIO_SINGLE(bio_purifier, 3, 4500, c_ltgreen, 4);
 BIO_SINGLE(bio_climate, 4, 3500, c_ltgreen, 3);
 BIO_SINGLE(bio_heatsink, 4, 3500, c_ltgreen, 3);
 BIO_SINGLE(bio_blood_filter, 4, 3500, c_ltgreen, 3);
-
+/*
 BIO("CBM: Nutritional",		 7, 3200,	c_green,	 4, "\
 Compact Bionics Module with several upgrades to one's digestive system, aimed\n\
 at making the consumption of food a lower priority.",
@@ -4147,6 +4147,30 @@ Compact Bionics Module often used by high-tech spies. Its contents are\n\
 geared towards avoiding detection and bypassing security.",
     bio_face_mask, bio_scent_mask, bio_cloak, bio_alarm, bio_fingerhack,
     bio_lockpick, NULL);
+*/
+// nutritional
+BIO_SINGLE(bio_recycler, 2, 8500, c_green, 6);
+BIO_SINGLE(bio_digestion, 3, 5500, c_green, 6);
+BIO_SINGLE(bio_evap, 3, 5500, c_green, 4);
+BIO_SINGLE(bio_water_extractor, 3, 5500, c_green, 5);
+// desert survival
+// dupe bio_climate, bio_recycler, bio_evap, bio_water_extractor
+// melee:
+BIO_SINGLE(bio_shock, 2, 5500, c_red, 5);
+BIO_SINGLE(bio_heat_absorb, 2, 5500, c_red, 5);
+BIO_SINGLE(bio_claws, 2, 5500, c_red, 5);
+// armor:
+BIO_SINGLE(bio_carbon, 3, 7500, c_cyan, 9);
+BIO_SINGLE(bio_armor_head, 3, 3500, c_cyan, 5);
+BIO_SINGLE(bio_armor_torso, 3, 3500, c_cyan, 4);
+BIO_SINGLE(bio_armor_arms, 3, 3500, c_cyan, 3);
+BIO_SINGLE(bio_armor_legs, 3, 3500, c_cyan, 3);
+
+// espionage
+BIO_SINGLE(bio_face_mask, 1, 8500, c_magenta, 5);
+BIO_SINGLE(bio_scent_mask, 1, 8500, c_magenta, 5);
+BIO_SINGLE(bio_cloak, 1, 8500, c_magenta, 5);
+BIO_SINGLE(bio_fingerhack, 1, 3500, c_magenta, 2);
 
 BIO("CBM: Defensive Systems",	 9, 8000,	c_ltblue,	 5, "\
 Compact Bionics Module containing a few augmentations designed to defend the\n\
