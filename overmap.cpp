@@ -1085,7 +1085,7 @@ point overmap::choose_point(game *g)
    ret = point(-1, -1);
   else if (ch == 'N') {
    timeout(-1);
-   add_note(cursx, cursy, string_input_popup(49, "Enter note")); // 49 char max
+   add_note(cursx, cursy, string_input_popup("Enter note", 49)); // 49 char max
    timeout(BLINK_SPEED);
   } else if(ch == 'D'){
    timeout(-1);
