@@ -586,6 +586,10 @@ bool game::do_turn()
    popup_top("Game over! Press spacebar...");
   if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
    death_screen();
+  if(gamemode){
+   delete gamemode;
+   gamemode = new special_game;	// null gamemode or something..
+  }
   return true;
  }
 // Actual stuff
