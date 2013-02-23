@@ -60,6 +60,10 @@ typedef struct {
   int cursorx;//x location of the cursor
   int cursory;//y location of the cursor
   curseline *line;
+
+  //Threw these in here to fix a problem with ncurses compatibility
+  int _maxx;
+  int _maxy;
 } WINDOW;
 
 #define	A_NORMAL	__NORMAL

@@ -336,6 +336,8 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
     newwindow->y=begin_y;
     newwindow->width=ncols;
     newwindow->height=nlines;
+	newwindow->_maxx=width;
+	newwindow->_maxy=height;
     newwindow->inuse=true;
     newwindow->draw=false;
     newwindow->BG=0;
