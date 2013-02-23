@@ -20,6 +20,8 @@ OPT_DROP_EMPTY, // auto drop empty containers after use
 OPT_SKILL_RUST, // level of skill rust
 OPT_DELETE_WORLD,
 OPT_INITIAL_POINTS,
+OPT_VIEWPORT_X,
+OPT_VIEWPORT_Y,
 NUM_OPTION_KEYS
 };
 

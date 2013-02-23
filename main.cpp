@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
  }
 
 // ncurses stuff
+ load_options(); // For getting size options
  initscr(); // Initialize ncurses
  noecho();  // Don't echo keypresses
  cbreak();  // C-style breaks (e.g. ^C to SIGINT)
@@ -60,7 +61,6 @@ int main(int argc, char *argv[])
  game *g = new game;
  MAPBUFFER.set_game(g);
  MAPBUFFER.load();
- load_options();
 
  #if (!(defined _WIN32 || defined WINDOWS))
   struct sigaction sigIntHandler;

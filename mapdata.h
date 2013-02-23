@@ -25,17 +25,6 @@ class monster;
 #endif	        // Nuts to 80x24 terms. Mostly exists in graphical clients, and
 	        // those fatcats can resize.
 
-#ifndef VIEWX	// This sets the size of the game viewport.
-#define VIEWX 12
-#endif
-
-#ifndef VIEWY
-#define VIEWY 12
-#endif
-
-const int TERRAIN_WINDOW_WIDTH = (VIEWX * 2) + 1;
-const int TERRAIN_WINDOW_HEIGHT = (VIEWY * 2) + 1;
-
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
 #define mfb(n) long(1 << (n))

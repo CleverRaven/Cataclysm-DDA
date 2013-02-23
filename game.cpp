@@ -68,6 +68,11 @@ game::game() :
  init_vehicles();     // Set up vehicles                  (SEE veh_typedef.cpp)
  init_autosave();     // Set up autosave
  load_keyboard_settings();
+
+ VIEWX = OPTIONS[OPT_VIEWPORT_X] + 1;
+ VIEWY = OPTIONS[OPT_VIEWPORT_Y] + 1;
+ TERRAIN_WINDOW_WIDTH = (VIEWX * 2) + 1;
+ TERRAIN_WINDOW_HEIGHT = (VIEWY * 2) + 1;
 // Set up the main UI windows.
  w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, 0, 0);
  werase(w_terrain);

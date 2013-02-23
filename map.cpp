@@ -11,8 +11,6 @@
 #include <fstream>
 #include "debug.h"
 
-#include "debug.h"
-
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
@@ -2366,8 +2364,8 @@ void map::draw(game *g, WINDOW* w, const point center)
 
  char trans_buf[my_MAPSIZE*SEEX][my_MAPSIZE*SEEY];
  memset(trans_buf, -1, sizeof(trans_buf));
- for  (int realx = center.x - VIEWX; realx <= center.x + VIEWX; realx++) {
-  for (int realy = center.y - VIEWY; realy <= center.y + VIEWY; realy++) {
+ for  (int realx = center.x - w->_maxx/2; realx <= center.x + g->VIEWX; realx++) {
+  for (int realy = center.y - w->_maxy/2; realy <= center.y + w->_maxy/2; realy++) {
    const int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
    int sight_range = light_sight_range;
 
@@ -2419,26 +2417,26 @@ void map::draw(game *g, WINDOW* w, const point center)
          (lit == LL_DARK ||
          (u_sight_impaired && lit != LL_BRIGHT)))) {
     if (u_is_boomered)
-   	 mvwputch(w, realy+VIEWY - center.y, realx+VIEWX - center.x, c_magenta, '#');
+   	 mvwputch(w, realy+w->_maxy/2 - center.y, realx+w->_maxx/2 - center.x, c_magenta, '#');
     else
-         mvwputch(w, realy+VIEWY - center.y, realx+VIEWX - center.x, c_dkgray, '#');
+         mvwputch(w, realy+w->_maxy/2 - center.y, realx+w->_maxx/2 - center.x, c_dkgray, '#');
    } else if (dist > light_sight_range && u_sight_impaired && lit == LL_BRIGHT) {
     if (u_is_boomered)
-     mvwputch(w, realy+VIEWY - center.y, realx+VIEWX - center.x, c_pink, '#');
+     mvwputch(w, realy+w->_maxy/2 - center.y, realx+w->_maxx/2 - center.x, c_pink, '#');
     else
-     mvwputch(w, realy+VIEWY - center.y, realx+VIEWX - center.x, c_ltgray, '#');
+     mvwputch(w, realy+w->_maxy/2 - center.y, realx+w->_maxx/2 - center.x, c_ltgray, '#');
    } else if (dist <= u_clairvoyance || can_see) {
     drawsq(w, g->u, realx, realy, false, true, center.x, center.y,
            (dist > lowlight_sight_range && LL_LIT > lit) ||
 	   (dist > sight_range && LL_LOW == lit),
            LL_BRIGHT == lit);
    } else {
-    mvwputch(w, realy+VIEWY - center.y, realx+VIEWX - center.x, c_black,'#');
+    mvwputch(w, realy+w->_maxy/2 - center.y, realx+w->_maxx/2 - center.x, c_black,'#');
    }
   }
  }
- int atx = VIEWX + g->u.posx - center.x, aty = VIEWY + g->u.posy - center.y;
- if (atx >= 0 && atx < TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < TERRAIN_WINDOW_HEIGHT)
+ int atx = w->_maxx/2 + g->u.posx - center.x, aty = w->_maxy/2 + g->u.posy - center.y;
+ if (atx >= 0 && atx < g->TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < g->TERRAIN_WINDOW_HEIGHT)
   mvwputch(w, aty, atx, g->u.color(), '@');
 }
 
@@ -2456,8 +2454,8 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
   cx = u.posx;
  if (cy == -1)
   cy = u.posy;
- const int k = x + VIEWX - cx;
- const int j = y + VIEWY - cy;
+ const int k = x + w->_maxx/2 - cx;
+ const int j = y + w->_maxy/2 - cy;
  nc_color tercol;
  long sym = terlist[ter(x, y)].sym;
  bool hi = false;

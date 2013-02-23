@@ -221,8 +221,8 @@ char monster::symbol()
 
 void monster::draw(WINDOW *w, int plx, int ply, bool inv)
 {
- int x = VIEWX + posx - plx;
- int y = VIEWY + posy - ply;
+ int x = w->_maxx/2 + posx - plx;
+ int y = w->_maxy/2 + posy - ply;
  nc_color color = type->color;
  if (friendly != 0 && !inv)
   mvwputch_hi(w, y, x, color, type->sym);
