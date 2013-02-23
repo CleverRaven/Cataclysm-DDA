@@ -2363,19 +2363,25 @@ void overmap::place_mongroups()
 
 void overmap::place_radios()
 {
+ char message[200];
  for (int i = 0; i < OMAPX; i++) {
   for (int j = 0; j < OMAPY; j++) {
    if (ter(i, j) == ot_radio_tower)
     if(one_in(2))
-     radios.push_back(radio_tower(i*2, j*2, rng(80, 200),
-    "This is the emergency broadcast system.  Please proceed quickly and calmly \
-to your designated evacuation point."));
-    else
+    {
+     snprintf( message, sizeof(message), "This is emergency broadcast station %d%d.\
+  Please proceed quickly and calmly to your designated evacuation point.", i, j);
+     radios.push_back(radio_tower(i*2, j*2, rng(80, 200), message));
+    } else {
      radios.push_back(radio_tower(i*2, j*2, rng(80, 200),
 				  "Head West.  All survivors, head West.  Help is waiting."));
+    }
    if (ter(i, j) == ot_lmoe)
-     radios.push_back(radio_tower(i*2, j*2, rng(40, 100),
-				  "This is an automated emergency shelter beacon.  Supplies, amenities and shelter are stocked."));
+   {
+    snprintf( message, sizeof(message), "This is automated emergency shelter beacon %d%d.\
+  Supplies, amenities and shelter are stocked.", i, j);
+    radios.push_back(radio_tower(i*2, j*2, rng(40, 100), message));
+   }
   }
  }
 }
