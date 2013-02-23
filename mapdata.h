@@ -203,7 +203,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)},
 {"dirt floor",	     '.', c_brown,    2, tr_null,  //Dirt Floor, must have roofs!
 	mfb(transparent)|mfb(diggable)|mfb(supports_roof)|mfb(collapses)},
-{"hay",              '#', i_yellow, 5, tr_null,
+{"hay",              '#', i_brown, 5, tr_null,
 	mfb(transparent)|mfb(container)|mfb(flammable2)|mfb(collapses)},
 {"metal grate",      '#', c_dkgray,  2, tr_null,
 	mfb(transparent)},
@@ -410,7 +410,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"arm chair",            'H', c_green,   3, tr_null,
 	mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)},
 
-{"sofa",            'H', i_ltred,   3, tr_null,
+{"sofa",            'H', i_red,   3, tr_null,
 	mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)},
 {"cupboard",         '#', c_blue,    3, tr_null,
         mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)|
@@ -454,7 +454,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(console)|mfb(noitem)|mfb(collapses)},
 {"mechanical winch", '6', c_cyan_red, 0, tr_null,
         mfb(transparent)|mfb(noitem)|mfb(collapses)},
-{"rope and pulley", '|', i_yellow, 0, tr_null,
+{"rope and pulley", '|', i_brown, 0, tr_null,
         mfb(transparent)|mfb(noitem)|mfb(collapses)},
 {"sewage pipe",      '1', c_ltgray,  0, tr_null,
 	mfb(transparent)},
