@@ -4041,105 +4041,87 @@ app on, and is providing light.");
 #define BIO(name, rarity, price, color, difficulty, des, ...) \
 	index++;itypes.push_back(new it_bionic(index,rarity,price,name,des,':',\
 color, STEEL, PLASTIC, 10, 18, 8, 0, 0, 0, difficulty, __VA_ARGS__))
-//  Name			RAR PRICE	COLOR		DIFFICULTY
 
+#define BIO_SINGLE(bionic,rarity,price,color,difficulty) \
+     BIO(std::string("CBM: ")+bionics[bionic].name,rarity,price,color,difficulty, bionics[bionic].description, bionic, NULL) \
+
+//  Name                     RAR PRICE    COLOR   DIFFICULTY
 BIO("CBM: Internal Battery",	24, 3800,	c_green,	 1, "\
 Compact Bionics Module which upgrades your power capacity by 4 units. Having\n\
 at least one of these is a prerequisite to using powered bionics. You will\n\
 also need a power supply, found in another CBM.",
     NULL); // This is a special case, which increases power capacity by 4
 
-BIO("CBM: Power Sources",	18, 5000,	c_yellow,	 4, "\
-Compact Bionics Module containing the materials necessary to install any one\n\
-of several power sources. Having a power source is necessary to use powered\n\
-bionics.",
-    bio_batteries, bio_metabolics, bio_solar, bio_furnace, bio_ethanol, NULL);
-
-BIO("CBM: Utilities",		20, 2000,	c_ltgray,	 2, "\
-Compact Bionics Module containing a variety of utilities. Popular among\n\
-civilians, especially specialist laborers like mechanics.",
-    bio_tools, bio_storage, bio_flashlight, bio_lighter, bio_magnet, NULL);
-
-BIO("CBM: Neurological",	 8, 6000,	c_pink,		 8, "\
-Compact Bionics Module containing a few upgrades to one's central nervous\n\
-system or brain. Due to the difficulty associated with what is essentially\n\
-brain surgery, these are best installed by a highly skill professional.",
-    bio_memory, bio_painkiller, bio_alarm, NULL);
-
-BIO("CBM: Sensory",		10, 4500,	c_ltblue,	 5, "\
-Compact Bionics Module containing a few upgrades to one's sensory systems,\n\
-particularly sight. Fairly difficult to install.",
-    bio_ears, bio_eye_enhancer, bio_night_vision, bio_infrared, bio_scent_vision, NULL);
-
-BIO("CBM: Aquatic",		 5, 3000,	c_blue,		 3, "\
-Compact Bionics Module with a couple of upgrades designed with those who are\n\
-often underwater; popular among diving enthusiasts and Navy SEAL teams.",
-    bio_membrane, bio_gills, NULL);
-
-BIO("CBM: Combat Augs",		10, 4500,	c_red,		 3, "\
-Compact Bionics Module containing several augmentations designed to aid in\n\
-combat. While none of these are weapons, all are very useful for improving\n\
-one's battle awareness.",
-    bio_targeting, bio_night_vision, bio_infrared, bio_ground_sonar, NULL);
-
-BIO("CBM: Hazmat",		12, 4800,	c_ltgreen,	 3, "\
-Compact Bionics Module that allows you to install various augmentations\n\
-designed to protect the user in the event of exposure to hazardous materials.",
-    bio_purifier, bio_climate, bio_heatsink, bio_blood_filter, NULL);
-
-BIO("CBM: Nutritional",		 7, 3200,	c_green,	 4, "\
-Compact Bionics Module with several upgrades to one's digestive system, aimed\n\
-at making the consumption of food a lower priority.",
-    bio_recycler, bio_digestion, bio_evap, bio_water_extractor, NULL);
-
-BIO("CBM: Desert Survival",	 4, 4000,	c_brown,	 3, "\
-Compact Bionics Module designed for those who will spend  significant time in\n\
-dry, hot areas like a desert. Geared towards providing a source of water.",
-    bio_climate, bio_recycler, bio_evap, bio_water_extractor, NULL);
-
-BIO("CBM: Melee Combat",	 6, 5800,	c_red,		 3, "\
-Compact Bionics Module containing a few upgrades designed for melee combat.\n\
-Useful for those who like up-close combat.",
-    bio_shock, bio_heat_absorb, bio_claws, NULL);
-
-BIO("CBM: Armor",		12, 6800,	c_cyan,		 5, "\
-Compact Bionics Module containing the supplies necessary to install one of\n\
-several high-strength armors. Very popular.",
-    bio_carbon, bio_armor_head, bio_armor_torso, bio_armor_arms, bio_armor_legs,
-    NULL);
-
-BIO("CBM: Espionage",		 5, 7500,	c_magenta,	 4, "\
-Compact Bionics Module often used by high-tech spies. Its contents are\n\
-geared towards avoiding detection and bypassing security.",
-    bio_face_mask, bio_scent_mask, bio_cloak, bio_alarm, bio_fingerhack,
-    bio_lockpick, NULL);
-
-BIO("CBM: Defensive Systems",	 9, 8000,	c_ltblue,	 5, "\
-Compact Bionics Module containing a few augmentations designed to defend the\n\
-user in case of attack.",
-    bio_carbon, bio_ads, bio_ods, NULL);
-
-BIO("CBM: Medical",		12, 8200,	c_ltred,	 6, "\
-Compact Bionics Module containing several upgrades designed to provide the\n\
-user with medical attention in the field.",
-    bio_painkiller, bio_nanobots, bio_blood_anal, bio_blood_filter, NULL);
-
-BIO("CBM: Construction",	10, 3500,	c_dkgray,	 3, "\
-Compact Bionics Module which is very popular among construction workers.  It\n\
-contains several upgrades designed to make the user a living tool.",
-    bio_tools, bio_resonator, bio_hydraulics, bio_magnet, NULL);
-
-BIO("CBM: Super-Soldier",	 1,14000,	c_white,	10, "\
-A very rare Compact Bionics Module, designed by the military to create a kind\n\
-of super-soldier. Due to the highly advanced technology used, this module is\n\
-very difficult to install.",
-    bio_time_freeze, bio_teleport, NULL);
-
-BIO("CBM: Ranged Combat",	 7, 9200,	c_red,		 6, "\
-Compact Bionics Module containing a few devices designed for ranged combat.\n\
-Good for those who want a gun on occasion, but do not wish to carry lots of\n\
-heavy ammunition and weapons.",
-    bio_blaster, bio_laser, bio_emp, NULL);
+// power sources
+BIO_SINGLE(bio_solar, 2, 3500, c_yellow, 4);
+BIO_SINGLE(bio_batteries, 5, 800, c_yellow, 4);
+BIO_SINGLE(bio_metabolics, 4, 700, c_yellow, 4);
+BIO_SINGLE(bio_furnace, 2, 4500, c_yellow, 4);
+BIO_SINGLE(bio_ethanol, 6, 1200, c_yellow, 4);
+// utilities
+BIO_SINGLE(bio_tools, 3, 8000, c_ltgray, 6);
+BIO_SINGLE(bio_storage, 3, 4000, c_ltgray, 7);
+BIO_SINGLE(bio_flashlight, 8, 200, c_ltgray, 2);
+BIO_SINGLE(bio_lighter, 6, 1300, c_ltgray, 4);
+BIO_SINGLE(bio_magnet, 5, 2000, c_ltgray, 2);
+// neurological
+BIO_SINGLE(bio_memory, 2, 10000, c_pink, 9);
+BIO_SINGLE(bio_painkiller, 4, 2000, c_pink, 4);
+BIO_SINGLE(bio_alarm, 7, 250, c_pink, 1);
+// sensory
+BIO_SINGLE(bio_ears, 2, 5000, c_ltblue, 6);
+BIO_SINGLE(bio_eye_enhancer, 2, 8000, c_ltblue, 11);
+BIO_SINGLE(bio_night_vision, 2, 9000, c_ltblue, 11);
+BIO_SINGLE(bio_infrared, 4, 4500, c_ltblue, 6);
+BIO_SINGLE(bio_scent_vision, 4, 4500, c_ltblue, 8);
+// aquatic
+BIO_SINGLE(bio_membrane, 3, 4500, c_blue, 6);
+BIO_SINGLE(bio_gills, 3, 4500, c_blue, 6);
+// combat augs
+BIO_SINGLE(bio_targeting, 2, 6500, c_red, 5);
+BIO_SINGLE(bio_ground_sonar, 3, 4500, c_red, 5);
+// hazmat
+BIO_SINGLE(bio_purifier, 3, 4500, c_ltgreen, 4);
+BIO_SINGLE(bio_climate, 4, 3500, c_ltgreen, 3);
+BIO_SINGLE(bio_heatsink, 4, 3500, c_ltgreen, 3);
+BIO_SINGLE(bio_blood_filter, 4, 3500, c_ltgreen, 3);
+// nutritional
+BIO_SINGLE(bio_recycler, 2, 8500, c_green, 6);
+BIO_SINGLE(bio_digestion, 3, 5500, c_green, 6);
+BIO_SINGLE(bio_evap, 3, 5500, c_green, 4);
+BIO_SINGLE(bio_water_extractor, 3, 5500, c_green, 5);
+// was: desert survival (all dupes)
+// melee:
+BIO_SINGLE(bio_shock, 2, 5500, c_red, 5);
+BIO_SINGLE(bio_heat_absorb, 2, 5500, c_red, 5);
+BIO_SINGLE(bio_claws, 2, 5500, c_red, 5);
+// armor:
+BIO_SINGLE(bio_carbon, 3, 7500, c_cyan, 9);
+BIO_SINGLE(bio_armor_head, 3, 3500, c_cyan, 5);
+BIO_SINGLE(bio_armor_torso, 3, 3500, c_cyan, 4);
+BIO_SINGLE(bio_armor_arms, 3, 3500, c_cyan, 3);
+BIO_SINGLE(bio_armor_legs, 3, 3500, c_cyan, 3);
+// espionage
+BIO_SINGLE(bio_face_mask, 1, 8500, c_magenta, 5);
+BIO_SINGLE(bio_scent_mask, 1, 8500, c_magenta, 5);
+BIO_SINGLE(bio_cloak, 1, 8500, c_magenta, 5);
+BIO_SINGLE(bio_fingerhack, 1, 3500, c_magenta, 2);
+// defensive
+BIO_SINGLE(bio_ads, 1, 9500, c_ltblue, 7);
+BIO_SINGLE(bio_ods, 1, 9500, c_ltblue, 7);
+// medical
+BIO_SINGLE(bio_nanobots, 3, 9500, c_ltred, 6);
+BIO_SINGLE(bio_blood_anal, 3, 3200, c_ltred, 2);
+// construction
+BIO_SINGLE(bio_resonator, 2, 12000, c_dkgray, 11);
+BIO_SINGLE(bio_hydraulics, 3, 4000, c_dkgray, 6);
+// super soldier
+BIO_SINGLE(bio_time_freeze, 1, 14000, c_white, 11);
+BIO_SINGLE(bio_teleport, 1, 7000, c_white, 7);
+// ranged combat
+BIO_SINGLE(bio_blaster, 138, 1200, c_red, 2);
+BIO_SINGLE(bio_laser, 2, 7200, c_red, 5);
+BIO_SINGLE(bio_emp, 2, 7200, c_red, 5);
 
 // SOFTWARE
 
