@@ -8396,7 +8396,7 @@ void game::autosave()
 {
   if (u.in_vehicle || !moves_since_last_save && !item_exchanges_since_save)
     return;
-
+  add_msg("Saving game, this may take a while");
   save();
 
   moves_since_last_save = 0;
