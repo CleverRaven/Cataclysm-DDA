@@ -2264,6 +2264,108 @@ case ot_shelter: {
   line(this, t_stairs_up, SEEX - 1, SEEY * 2 - 8, SEEX, SEEY * 2 - 8);
   place_items(mi_shelter, 80, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9, false, 0);
   break;
+  
+  //....
+case ot_lmoe: {
+// Init to grass & dirt;
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++)
+    ter(i, j) = grass_or_dirt();
+  }
+	square(this, t_shrub, 7, 6, 16, 12);
+	square(this, t_rock, 10, 9, 13, 12);
+	square(this, t_rock_floor, 11, 10, 12, 11);
+	line(this, t_stairs_down, 11, 10, 12, 10);
+	ter(11, 12) = t_door_metal_c;
+	line(this, t_tree, 9, 8, 14, 8);
+	line(this, t_tree, 9, 8, 9, 12);
+	line(this, t_tree, 14, 8, 14, 12);
+	square(this, t_shrub, 13, 13, 15, 14);
+	square(this, t_shrub, 8, 13, 10, 14);
+	ter(10, 6) = t_tree_young;
+	ter(14, 6) = t_tree_young;
+	line(this, t_tree_young, 9, 7, 10, 7);
+	ter(12, 7) = t_tree_young;
+	ter(14, 7) = t_tree_young;
+	ter(8, 9) = t_tree_young;
+	line(this, t_tree_young, 7, 11, 8, 11);
+	line(this, t_tree_young, 15, 10, 15, 11);
+	ter(16, 12) = t_tree_young;
+	ter(9, 13) = t_tree_young;
+	ter(12, 13) = t_tree_young;
+	ter(16, 12) = t_tree_young;
+	line(this, t_tree_young, 14, 13, 15, 13);
+	ter(10, 14) = t_tree_young;
+	ter(13, 14) = t_tree_young;
+        }
+
+  break;
+//....
+
+ case ot_lmoe_under:
+  square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
+  square(this, t_rock_floor, 3, 3, 20, 20);
+  line(this, t_stairs_up, 11, 20, 12, 20);
+  line(this, t_wall_metal_h, 3, 12, 20, 12);
+  line(this, t_wall_metal_v, 10, 12, 10, 20);
+  line(this, t_wall_metal_v, 13, 12, 13, 20);
+  line(this, t_chainfence_v, 7, 3, 7, 6);
+  line(this, t_chainfence_h, 3, 6, 6, 6);
+  line(this, t_wall_metal_v, 15, 3, 15, 10);
+  line(this, t_wall_metal_h, 15, 9, 20, 9);
+  line(this, t_wall_metal_v, 17, 10, 17, 11);
+  ter(10, 16) = t_door_metal_c;
+  ter(13, 16) = t_door_metal_c;
+  ter(5, 6) = t_chaingate_c;
+  line(this, t_door_metal_c, 11, 12, 12, 12);
+  ter(17, 11) = t_door_metal_c;
+  ter(15, 6) = t_door_metal_c;
+  square(this, t_rubble, 18, 18, 20, 20);
+  line(this, t_rubble, 16, 20, 20, 16);
+  line(this, t_rubble, 17, 20, 20, 17);
+  line(this, t_water_sh, 15, 20, 20, 15);
+  //square(this, t_emergency_light_flicker, 11, 13, 12, 19);
+  ter(17, 16) = t_woodstove;
+  ter(14, 13) = t_chair;
+  ter(14, 18) = t_chair;
+  square(this, t_crate_c, 18, 13, 20, 14);
+  line(this, t_crate_c, 17, 13, 19, 15);
+  line(this, t_counter, 3, 13, 3, 20);
+  line(this, t_counter, 3, 20, 9, 20);
+  line(this, t_bookcase, 5, 13, 8, 13);
+  square(this, t_table, 5, 15, 6, 17);
+  ter(7, 16) = t_chair;
+  line(this, t_rack, 3, 11, 7, 11);
+  line(this, t_rack, 3, 9, 7, 9);
+  line(this, t_rack, 3, 3, 6, 3);
+  ter(10, 7) = t_column;
+  ter(13, 7) = t_column;
+  line(this, t_bookcase, 16, 3, 16, 5);
+  square(this, t_bed, 19, 3, 20, 4);
+  ter(19, 7) = t_chair;
+  ter(20, 7) = t_desk;
+  line(this, t_rubble, 15, 10, 16, 10);
+  ter(19, 10) = t_sink;
+  ter(20, 11) = t_toilet;
+  place_items(mi_allguns, 80, 3, 3, 6, 3, false, 0);
+  place_items(mi_ammo, 80, 3, 3, 6, 3, false, 0);
+  place_items(mi_cannedfood, 90, 3, 9, 7, 9, false, 0);
+  place_items(mi_survival_tools, 80, 3, 11, 7, 11, false, 0);
+  place_items(mi_bags, 50, 3, 11, 7, 11, false, 0);
+  place_items(mi_softdrugs, 50, 3, 11, 7, 11, false, 0);
+  place_items(mi_manuals, 60, 5, 13, 8, 13, false, 0);
+  place_items(mi_textbooks, 60, 5, 13, 8, 13, false, 0);
+  place_items(mi_tools, 90, 5, 15, 6, 17, false, 0);
+  place_items(mi_hardware, 70, 3, 13, 3, 20, false, 0);
+  place_items(mi_stash_wood, 70, 3, 20, 9, 20, false, 0);
+  place_items(mi_shelter, 70, 18, 13, 20, 14, false, 0);
+  place_items(mi_novels, 70, 16, 3, 16, 5, false, 0);
+  place_items(mi_office, 50, 20, 7, 20, 7, false, 0);
+  
+  
+  
+  //place_items(whatever, 80, 0, 0, 0, 0, false, 0);
+  break;
 
  case ot_lab:
  case ot_lab_stairs:
@@ -4248,6 +4350,136 @@ case ot_s_garage_north:
         }
   }
   break;
+
+ case ot_cabin:
+	{
+	square(this, t_grass, 0, 0, 23, 23);
+
+	//Cabin design 1 Quad
+	if(one_in(2)){
+	square(this, t_wall_wood, 2, 3, 21, 20);
+	square(this, t_floor, 2, 17, 21, 20);//Front porch
+	line(this, t_fence_v, 2, 17, 2, 20);
+	line(this, t_fence_v, 21, 17, 21, 20);
+	line(this, t_fence_h, 2, 20, 21, 20);
+	ter(2, 17) = t_column;
+	ter(2, 20) = t_column;
+	ter(21, 17) = t_column;
+	ter(21, 20) = t_column;
+	ter(10, 20) = t_column;
+	ter(13, 20) = t_column;
+	line(this, t_fencegate_c, 11, 20, 12, 20);
+	line(this, t_bench, 4, 17, 7, 17);
+	square(this, t_rubble, 19, 18, 20, 19);
+	ter(20, 17) = t_rubble;
+	ter(18, 19) = t_rubble; //Porch done
+	line(this, t_door_c, 11, 16, 12, 16);//Interior
+	square(this, t_floor, 3, 4, 9, 9);
+	square(this, t_floor, 3, 11, 9, 15);
+	square(this, t_floor, 11, 4, 12, 15);
+	square(this, t_floor, 14, 4, 20, 9);
+	square(this, t_floor, 14, 11, 20, 15);
+	line(this, t_wall_wood, 7, 4, 7, 8);
+	square(this, t_wall_wood, 8, 8, 9, 9);
+	line(this, t_rack, 3, 4, 3, 9); //Pantry Racks
+	line(this, t_curtains, 2, 6, 2, 7); //Windows start
+	line(this, t_curtains, 2, 12, 2, 13);
+	line(this, t_window_domestic, 5, 16, 6, 16);
+	line(this, t_window_domestic, 17, 16, 18, 16);
+	line(this, t_curtains, 21, 12, 21, 13);
+	line(this, t_window_empty, 21, 6, 21, 7);
+	ter(8, 3) = t_curtains;//Windows End
+	line(this, t_door_c, 11, 3, 12, 3);//Rear Doors
+	square(this, t_rubble, 20, 3, 21, 4);
+	ter(19, 3) = t_rubble;
+	ter(21, 5) = t_rubble;
+	ter(6, 4) = t_desk;
+	ter(6, 5) = t_chair;
+	ter(7, 9) = t_locker;
+	ter(6, 10) = t_door_c;
+	ter(10, 6) = t_door_c;
+	square(this, t_table, 3, 11, 4, 12);
+	line(this, t_bench, 5, 11, 5, 12);
+	line(this, t_bench, 3, 13, 4, 13);
+	line(this, t_cupboard, 3, 15, 7, 15);
+	ter(4, 15) = t_fridge;
+	ter(5, 15) = t_sink;
+	ter(6, 15) = t_oven;
+	ter(10, 13) = t_door_c;
+	ter(13, 13) = t_door_c;
+	ter(14, 11) = t_armchair;
+	line(this, t_sofa, 16, 11, 18, 11);
+	square(this, t_rock_floor, 18, 13, 20, 15);
+	ter(19, 14) = t_woodstove;
+	ter(19, 10) = t_door_c;
+	line(this, t_bookcase, 14, 9, 17, 9);
+	square(this, t_bed, 17, 4, 18, 5);
+	ter(16, 4) = t_dresser;
+	ter(19, 4) = t_dresser;
+	ter(13, 6) = t_door_c;
+	ter(9, 4) = t_toilet;
+	line(this, t_bathtub, 8, 7, 9, 7);
+	ter(8, 5) = t_sink;
+	place_items(mi_fridge, 65, 4, 15, 4, 15, false, 0);
+	place_items(mi_homeguns, 30, 7, 9, 7, 9, false, 0);
+	place_items(mi_home_hw, 60, 7, 9, 7, 9, false, 0);
+	place_items(mi_kitchen, 60, 3, 15, 3, 15, false, 0);
+	place_items(mi_kitchen, 60, 7, 15, 7, 15, false, 0);
+	place_items(mi_dining, 60, 3, 11, 4, 12, false, 0);
+	place_items(mi_trash, 60, 0, 0, 23, 23, false, 0);
+	place_items(mi_survival_tools, 30, 3, 4, 3, 9, false, 0);
+	place_items(mi_cannedfood, 50, 3, 4, 3, 9, false, 0);
+	place_items(mi_camping, 50, 4, 4, 6, 9, false, 0);
+	place_items(mi_magazines, 60, 14, 9, 17, 9, false, 0);
+	place_items(mi_manuals, 30, 14, 9, 17, 9, false, 0);
+	place_items(mi_dresser, 50, 16, 4, 16, 4, false, 0);
+	place_items(mi_dresser, 50, 19, 4, 19, 4, false, 0);
+	place_items(mi_softdrugs, 60, 8, 4, 9, 7, false, 0);
+	place_items(mi_livingroom, 50, 14, 12, 17, 15, false, 0);
+	add_spawn(mon_zombie, rng(1, 5), 11, 12);
+	}
+	else {
+	
+	square(this, t_wall_wood, 4, 2, 10, 6);
+	square(this, t_floor, 5, 3, 9, 5);
+	square(this, t_wall_wood, 3, 9, 20, 20);
+	square(this, t_floor, 4, 10, 19, 19);
+	line(this, t_fence_h, 0, 0, 23, 0);
+	line(this, t_fence_v, 0, 0, 0, 22);
+	line(this, t_fence_v, 23, 0, 23, 22);
+	line(this, t_fence_h, 0, 23, 23, 23);
+	line(this, t_fencegate_c, 11, 23, 12, 23);
+	line(this, t_locker, 5, 3, 9, 3);
+	line(this, t_counter, 6, 3, 8, 3);
+	ter(4, 4) = t_window_boarded;
+	ter(10, 4) = t_window_boarded;
+	ter(7, 6) = t_door_c;
+	ter(9, 9) = t_door_c;
+	line(this, t_window_domestic, 13, 9, 14, 9);
+	square(this, t_rock, 5, 10, 7, 11);
+	line(this, t_rock_floor, 5, 12, 7, 12);
+	ter(6, 11) = t_woodstove;
+	line(this, t_dresser, 16, 10, 19, 10);
+	square(this, t_bed, 17, 10, 18, 11);
+	line(this, t_window_domestic, 3, 14, 3, 15);
+	line(this, t_sofa, 5, 16, 7, 16);
+	square(this, t_chair, 10, 14, 13, 15);
+	square(this, t_table, 11, 14, 12, 15);
+	line(this, t_window_domestic, 20, 14, 20, 15);
+	line(this, t_window_domestic, 7, 20, 8, 20);
+	line(this, t_window_domestic, 16, 20, 17, 20);
+	ter(12, 20) = t_door_c;
+	place_items(mi_livingroom, 60, 4, 13, 8, 18, false, 0);
+	place_items(mi_dining, 60, 11, 14, 12, 15, false, 0);
+	place_items(mi_camping, 70, 19, 16, 19, 19, false, 0);
+	place_items(mi_dresser, 70, 16, 10, 16, 10, false, 0);
+	place_items(mi_dresser, 70, 19, 10, 19, 10, false, 0);
+	place_items(mi_tools, 70, 5, 3, 9, 3, false, 0);
+	add_spawn(mon_zombie, rng(1, 5), 7, 4);
+	}
+}
+break;
+
  case ot_farm:
 		{
 		square(this, t_grass, 0, 0, 23, 23); //basic lot
@@ -4306,7 +4538,7 @@ case ot_s_garage_north:
 		ter( 20,  9) = t_door_c;//Barn door S2
 		line(this, t_shrub, 1, 10, 3, 10); //Bushes 1
 		line(this, t_shrub, 11, 10, 13, 10); //Bushes 2
-	        place_items(mi_fridge, 65, 10, 8, 10, 8, false, 0);
+        place_items(mi_fridge, 65, 10, 8, 10, 8, false, 0);
 		place_items(mi_kitchen, 70, 10, 5, 12, 7, false, 0);
 		place_items(mi_livingroom, 65, 1, 6, 6, 8, false, 0);
 		place_items(mi_dresser, 80, 1, 1, 1, 1, false, 0);
@@ -5609,6 +5841,219 @@ case ot_s_garage_north:
      consecutive = 0;
    }
   }
+  break;
+  
+   case ot_fema_entrance: {
+  square(this, t_dirt, 0, 0, 23, 23);
+// Left wall
+  line(this, t_chainfence_v,  0,  0,  0, SEEY * 2 - 2);
+  line(this, t_fence_barbed, 1, 4, 9, 12);
+  line(this, t_fence_barbed, 1, 5, 8, 12);
+  line(this, t_fence_barbed, 23, 4, 15, 12);
+  line(this, t_fence_barbed, 23, 5, 16, 12);
+  square(this, t_wall_wood, 2, 13, 9, 21);
+  square(this, t_floor, 3, 14, 8, 20);
+  line(this, t_reinforced_glass_h, 5, 13, 6, 13);
+  line(this, t_reinforced_glass_h, 5, 21, 6, 21);
+  line(this, t_reinforced_glass_v, 9, 15, 9, 18);
+  line(this, t_door_c, 9, 16, 9, 17);
+  line(this, t_locker, 3, 16, 3, 18);
+  line(this, t_chair, 5, 16, 5, 18);
+  line(this, t_desk, 6, 16, 6, 18);
+  line(this, t_chair, 7, 16, 7, 18);
+  place_items(mi_office, 80, 3, 16, 3, 18, false, 0);
+  place_items(mi_office, 80, 6, 16, 6, 18, false, 0);
+  add_spawn(mon_zombie_soldier, rng(1, 6), 4, 17);
+  
+  // Rotate to face the road
+  if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
+   rotate(1);
+  if (t_south >= ot_road_null && t_south <= ot_bridge_ew)
+   rotate(2);
+  if (t_west >= ot_road_null && t_west <= ot_bridge_ew)
+   rotate(3);
+ } break;
+
+ case ot_fema: {
+  square(this, t_dirt, 0, 0, 23, 23);
+  line(this, t_chainfence_v, 0, 0, 0, 23);
+  line(this, t_chainfence_h, 0, 23, 23, 23);
+  if (t_north != ot_fema_entrance && t_north != ot_fema) {
+   line(this, t_chainfence_h, 0, 0, 23, 0);
+  }
+  if (t_east != ot_fema_entrance && t_east != ot_fema) {
+   line(this, t_chainfence_v, 23, 0, 23, 23);
+  }
+   if (t_south == ot_fema) {
+   line(this, t_dirt, 0, 23, 23, 23);
+   }
+   if (t_west == ot_fema) {
+   line(this, t_dirt, 0, 0, 0, 23);
+  }
+  if(t_west == ot_fema && t_east == ot_fema && t_south != ot_fema){ //lab bottom side
+  square(this, t_dirt, 1, 1, 22, 22);
+  square(this, t_pavement, 4, 4, 19, 19);
+  line(this, t_concrete_h, 4, 4, 19, 4);
+  line(this, t_concrete_h, 4, 19, 19, 19);
+  line(this, t_concrete_v, 4, 5, 4, 18);
+  line(this, t_concrete_v, 19, 5, 19, 18);
+  line(this, t_door_metal_c, 11, 4, 12, 4);
+  line(this, t_glass_fridge, 6, 5, 9, 5);
+  line(this, t_glass_fridge, 14, 5, 17, 5);
+  square(this, t_grate, 6, 8, 8, 9);
+  line(this, t_table, 7, 8, 7, 9);
+  square(this, t_grate, 6, 12, 8, 13);
+  line(this, t_table, 7, 12, 7, 13);
+  square(this, t_grate, 6, 16, 8, 17);
+  line(this, t_table, 7, 16, 7, 17);
+  line(this, t_counter, 10, 8, 10, 17);
+  square(this, t_chair, 14, 8, 17, 10);
+  square(this, t_console_broken, 15, 8, 16, 10);
+  line(this, t_desk, 15, 11, 16, 11);
+  line(this, t_chair, 15, 12, 16, 12);
+  line(this, t_reinforced_glass_h, 13, 14, 18, 14);
+  line(this, t_reinforced_glass_v, 13, 14, 13, 18);
+  ter(15, 14) = t_door_metal_locked;
+  place_items(mi_dissection, 90, 10, 8, 10, 17, false, 0);
+  place_items(mi_hospital_lab, 70, 5, 5, 18, 18, false, 0);
+  place_items(mi_harddrugs, 50, 6, 5, 9, 5, false, 0);
+  place_items(mi_harddrugs, 50, 14, 5, 17, 5, false, 0);
+  place_items(mi_hospital_samples, 50, 6, 5, 9, 5, false, 0);
+  place_items(mi_hospital_samples, 50, 14, 5, 17, 5, false, 0);
+  add_spawn(mon_zombie_scientist, rng(1, 6), 11, 12);
+  if(one_in(2))
+  add_spawn(mon_zombie_brute, 1, 16, 17);
+  }
+  else if (t_west == ot_fema_entrance) {
+  
+  square(this, t_dirt, 1, 1, 22, 22);
+  square(this, t_canvas_wall, 4, 4, 19, 19); //Supply tent
+  square(this, t_groundsheet, 5, 5, 18, 18);
+  line(this, t_canvas_door, 11, 4, 12, 4);
+  line(this, t_canvas_door, 11, 19, 12, 19);
+  square(this, t_crate_c, 5, 6, 7, 7);
+  square(this, t_crate_c, 5, 11, 7, 12);
+  square(this, t_crate_c, 5, 16, 7, 17);
+  line(this, t_chainfence_h, 9, 6, 14, 6);
+  line(this, t_chainfence_h, 9, 17, 14, 17);
+  ter(9, 5) = t_chaingate_c;
+  ter(14, 18) = t_chaingate_c;
+  ter(14, 5) = t_chainfence_h;
+  ter(9, 18) = t_chainfence_h;
+  ter(12, 17) = t_counter;
+  ter(11, 6) = t_counter;
+  line(this, t_chair, 10, 10, 13, 10);
+  square(this, t_desk, 10, 11, 13, 12);
+  line(this, t_chair, 10, 13, 13, 13);
+  line(this, t_chainfence_h, 15, 8, 18, 8);
+  line(this, t_chainfence_h, 15, 15, 18, 15);
+  line(this, t_chainfence_v, 15, 9, 15, 14);
+  line(this, t_chaingate_c, 15, 11, 15, 12);
+  line(this, t_locker, 18, 9, 18, 14);
+  place_items(mi_allclothes, 90, 5, 6, 7, 7, false, 0);
+  place_items(mi_softdrugs, 90, 5, 11, 7, 12, false, 0);
+  place_items(mi_hardware, 90, 5, 16, 7, 17, false, 0);
+  place_items(mi_mil_rifles, 90, 18, 9, 18, 14, false, 0);
+  place_items(mi_office, 80, 10, 11, 13, 12, false, 0);
+  add_spawn(mon_zombie_soldier, rng(1, 6), 12, 14);
+  
+   }
+  
+  
+  else{
+  switch (rng(1, 5)) {
+
+  case 1:
+  case 2:
+  case 3:
+  square(this, t_dirt, 1, 1, 22, 22);
+  square(this, t_canvas_wall, 4, 4, 19, 19); //Lodging
+  square(this, t_groundsheet, 5, 5, 18, 18);
+  line(this, t_canvas_door, 11, 4, 12, 4);
+  line(this, t_canvas_door, 11, 19, 12, 19);
+  line(this, t_makeshift_bed, 6, 6, 6, 17);
+  line(this, t_makeshift_bed, 8, 6, 8, 17);
+  line(this, t_makeshift_bed, 10, 6, 10, 17);
+  line(this, t_makeshift_bed, 13, 6, 13, 17);
+  line(this, t_makeshift_bed, 15, 6, 15, 17);
+  line(this, t_makeshift_bed, 17, 6, 17, 17);
+  line(this, t_groundsheet, 6, 8, 17, 8);
+  line(this, t_groundsheet, 6, 8, 17, 8);
+  square(this, t_groundsheet, 6, 11, 17, 12);
+  line(this, t_groundsheet, 6, 15, 17, 15);
+  line(this, t_crate_o, 6, 7, 17, 7);
+  line(this, t_crate_o, 6, 10, 17, 10);
+  line(this, t_crate_o, 6, 14, 17, 14);
+  line(this, t_crate_o, 6, 17, 17, 17);
+  line(this, t_groundsheet, 7, 5, 7, 18);
+  line(this, t_groundsheet, 9, 5, 9, 18);
+  square(this, t_groundsheet, 11, 5, 12, 18);
+  line(this, t_groundsheet, 14, 5, 14, 18);
+  line(this, t_groundsheet, 16, 5, 16, 18);
+  place_items(mi_livingroom, 80, 5, 5, 18, 18, false, 0);
+  add_spawn(mon_zombie, rng(1, 5), 11, 12);
+  
+  
+ 
+  
+   break;
+
+  case 4:
+  square(this, t_dirt, 1, 1, 22, 22);
+  square(this, t_canvas_wall, 4, 4, 19, 19); //Mess hall/tent
+  square(this, t_groundsheet, 5, 5, 18, 18);
+  line(this, t_canvas_door, 11, 4, 12, 4);
+  line(this, t_canvas_door, 11, 19, 12, 19);
+  line(this, t_crate_c, 5, 5, 5, 6);
+  square(this, t_counter, 6, 6, 10, 8);
+  square(this, t_rock_floor, 6, 5, 9, 7);
+  ter(7, 6) = t_woodstove;
+  line(this, t_bench, 13, 6, 17, 6);
+  line(this, t_table, 13, 7, 17, 7);
+  line(this, t_bench, 13, 8, 17, 8);
+  
+  line(this, t_bench, 13, 11, 17, 11);
+  line(this, t_table, 13, 12, 17, 12);
+  line(this, t_bench, 13, 13, 17, 13);
+  
+  line(this, t_bench, 13, 15, 17, 15);
+  line(this, t_table, 13, 16, 17, 16);
+  line(this, t_bench, 13, 17, 17, 17);
+  
+  line(this, t_bench, 6, 11, 10, 11);
+  line(this, t_table, 6, 12, 10, 12);
+  line(this, t_bench, 6, 13, 10, 13);
+  
+  line(this, t_bench, 6, 15, 10, 15);
+  line(this, t_table, 6, 16, 10, 16);
+  line(this, t_bench, 6, 17, 10, 17);
+  
+  place_items(mi_mil_food_nodrugs, 80, 5, 5, 5, 6, false, 0);
+  place_items(mi_snacks, 80, 5, 5, 18, 18, false, 0);
+  place_items(mi_kitchen, 70, 6, 5, 10, 8, false, 0);
+  place_items(mi_dining, 80, 13, 7, 17, 7, false, 0);
+  place_items(mi_dining, 80, 13, 12, 17, 12, false, 0);
+  place_items(mi_dining, 80, 13, 16, 17, 16, false, 0);
+  place_items(mi_dining, 80, 6, 12, 10, 12, false, 0);
+  place_items(mi_dining, 80, 6, 16, 10, 16, false, 0);
+  add_spawn(mon_zombie, rng(1, 5), 11, 12);
+  
+
+   break;
+
+  case 5:
+  square(this, t_dirtfloor, 1, 1, 22, 22);
+  square(this, t_fence_barbed, 4, 4, 19, 19);
+  square(this, t_dirt, 5, 5, 18, 18);
+  square(this, t_pit_corpsed, 6, 6, 17, 17);
+  add_spawn(mon_zombie, rng(5, 20), 11, 12);
+  
+   break;
+   
+  }
+  }
+  }
+	
   break;
 
  case ot_spider_pit_under:
@@ -8595,6 +9040,10 @@ void map::add_extra(map_extra type, game *g)
 
  case mx_wolfpack:
   add_spawn(mon_wolf, rng(3, 6), SEEX, SEEY);
+  break;
+  
+  case mx_cougar:
+  add_spawn(mon_cougar, 1, SEEX, SEEY);
   break;
 
  case mx_crater:

@@ -549,6 +549,7 @@ void overmap::generate_sub(overmap* above)
  std::vector<city> mine_points;
  std::vector<point> bunker_points;
  std::vector<point> shelter_points;
+ std::vector<point> lmoe_points;
  std::vector<point> triffid_points;
  std::vector<point> temple_points;
  for (int i = 0; i < OMAPX; i++) {
@@ -621,6 +622,9 @@ void overmap::generate_sub(overmap* above)
 
    else if (above->ter(i, j) == ot_shelter)
     shelter_points.push_back( point(i, j) );
+	
+   else if (above->ter(i, j) == ot_lmoe)
+    lmoe_points.push_back( point(i, j) );
 
    else if (above->ter(i, j) == ot_mine_entrance)
     shaft_points.push_back( point(i, j) );
@@ -691,6 +695,9 @@ void overmap::generate_sub(overmap* above)
 
  for (int i = 0; i < shelter_points.size(); i++)
   ter(shelter_points[i].x, shelter_points[i].y) = ot_shelter_under;
+  
+ for (int i = 0; i < lmoe_points.size(); i++)
+  ter(lmoe_points[i].x, lmoe_points[i].y) = ot_lmoe_under;
 
  for (int i = 0; i < triffid_points.size(); i++) {
   if (posz == -1)
@@ -2356,16 +2363,34 @@ void overmap::place_mongroups()
 
 void overmap::place_radios()
 {
+ char message[200];
  for (int i = 0; i < OMAPX; i++) {
   for (int j = 0; j < OMAPY; j++) {
-   if (ter(i, j) == ot_radio_tower)
+   switch(ter(i, j))
+   {
+   case ot_radio_tower:
     if(one_in(2))
-     radios.push_back(radio_tower(i*2, j*2, rng(80, 200),
-    "This is the emergency broadcast system.  Please proceed quickly and calmly \
-to your designated evacuation point."));
-    else
+    {
+     snprintf( message, sizeof(message), "This is emergency broadcast station %d%d.\
+  Please proceed quickly and calmly to your designated evacuation point.", i, j);
+     radios.push_back(radio_tower(i*2, j*2, rng(80, 200), message));
+    } else {
      radios.push_back(radio_tower(i*2, j*2, rng(80, 200),
 				  "Head West.  All survivors, head West.  Help is waiting."));
+    }
+    break;
+   case ot_lmoe:
+    snprintf( message, sizeof(message), "This is automated emergency shelter beacon %d%d.\
+  Supplies, amenities and shelter are stocked.", i, j);
+    radios.push_back(radio_tower(i*2, j*2, rng(40, 100), message));
+    break;
+   case ot_fema_entrance:
+    snprintf( message, sizeof(message), "This is FEMA camp %d%d.\
+  Supplies are limited, please bring supplimental food, water, and bedding.\
+  This is FEMA camp %d%d.  A desginated long-term emergency shelter.", i, j, i, j);
+    radios.push_back(radio_tower(i*2, j*2, rng(80, 200), message));
+     break;
+   }
   }
  }
 }
