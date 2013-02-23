@@ -5423,11 +5423,13 @@ void game::list_items()
 
    switch(ch) {
     case KEY_UP:
+	case 'k':
      iActive--;
      if (iActive < 0)
       iActive = 0;
      break;
     case KEY_DOWN:
+	case 'j':
      iActive++;
      if (iActive >= iItemNum - iFilter)
       iActive = iItemNum - iFilter-1;
