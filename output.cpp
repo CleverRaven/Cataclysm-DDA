@@ -950,4 +950,43 @@ long special_symbol (char sym)
     }
 }
 
+// crawl through string, probing each word while treating spaces & newlines the same.
+std::string word_rewrap (const std::string &in, int width){
+    std::ostringstream o;
+    int i_ok = 0; // pos in string of next char probe
+    int x_ok = 0; // ditto for column pos
+    while (i_ok <= in.size()){
+        bool fit = false;
+        int j=0; // j = word probe counter.
+        while(x_ok + j <= width){
+           if (i_ok + j >= in.size()){
+              fit = true;
+              break;
+           }
+           char c = in[i_ok+j];
+           if (c == '\n' || c == ' '){ //whitespace detected. copy word.
+              fit = true;
+              break;
+           }
+           j++;
+        }
+        if(fit == false){
+           o << '\n';
+           x_ok = 0;
+        }
+        else {
+           o << ' ';
+           for (int k=i_ok; k < i_ok+j; k++){
+              o << in[k];
+           }
+           i_ok += j+1;
+           x_ok += j+1;
+        }
+    }
+    return o.str();
+}
+
+
+
+
 

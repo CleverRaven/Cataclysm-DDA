@@ -4043,7 +4043,8 @@ app on, and is providing light.");
 color, STEEL, PLASTIC, 10, 18, 8, 0, 0, 0, difficulty, __VA_ARGS__))
 
 #define BIO_SINGLE(bionic,rarity,price,color,difficulty) \
-     BIO(std::string("CBM: ")+bionics[bionic].name,rarity,price,color,difficulty, bionics[bionic].description, bionic, NULL) \
+     BIO(std::string("CBM: ")+bionics[bionic].name,rarity,price,color,difficulty, \
+           word_rewrap(bionics[bionic].description, 50), bionic, NULL) \
 
 //  Name                     RAR PRICE    COLOR   DIFFICULTY
 BIO("CBM: Internal Battery",	24, 3800,	c_green,	 1, "\
