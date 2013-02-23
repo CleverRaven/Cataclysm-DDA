@@ -138,8 +138,8 @@ std::string option_desc(option_key key)
   case OPT_SKILL_RUST: return "Set the level of skill rust\n0 - vanilla Cataclysm\n1 - capped at skill levels\n2 - none at all";
   case OPT_DELETE_WORLD: return "Delete saves upon player death\n0 - no\n1 - yes\n2 - query";
   case OPT_INITIAL_POINTS: return "Initial points available on character generation.\nDefault is 6";
-  case OPT_VIEWPORT_X: return "Set the expansion of the viewport along the x axis\nDefault is 11\nMust restart for changes totake effect.";
-  case OPT_VIEWPORT_Y: return "Same as last, but y axis.";
+  case OPT_VIEWPORT_X: return "Set the expansion of the viewport along the X axis\nMust restart for changes to take effect\nDefault is 11";
+  case OPT_VIEWPORT_Y: return "Set the expansion of the viewport along the Y axis\nMust restart for changes to take effect\nDefault is 11";
   default:			return " ";
  }
  return "Big ol Bug";
