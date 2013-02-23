@@ -200,10 +200,17 @@ void dis_effect(game *g, player &p, disease &dis)
    case 3 :
     p.thirst--;
 	if (p.pain < 50) p.pain++;
+    if (one_in(400)) g->add_msg("Your head is pounding from the heat.");
+    // Speed -20
    case 2 :
     p.thirst--;
     if (one_in(1500 - p.temp_cur[bp_head])) p.vomit(g); // Hallucinations handled in game.cpp
 	if (p.pain < 20) p.pain++;
+    if (one_in(400)) g->add_msg("The heat is making you see things.");
+    // Speed -5
+   case 1 : 
+    if (one_in(600)) g->add_msg("Phew, it's hot out.");
+    // Speed -2
   }
   break;
 
@@ -212,17 +219,24 @@ void dis_effect(game *g, player &p, disease &dis)
    case 3 :
     p.thirst--;
     p.str_cur--;
+    if (one_in(200)) g->add_msg("You are sweating profusely.");
+    // Speed -20
    case 2 :
     p.thirst--;
 	p.str_cur--;
+    // Speed -5
+   case 1 : 
+    if (one_in(600)) g->add_msg("Phew, it's hot out.");
+    // Speed -2
   }
   break;
 
  case DI_HOT_ARMS:
   switch (dis.intensity) {
    case 3 : p.thirst--;
-   if (p.pain < 50) p.pain++;
+    if (p.pain < 50) p.pain++;
    case 2 : p.thirst--;
+   case 1 : if (one_in(600)) g->add_msg("Phew, it's hot out.");
   }
   break;
 
@@ -230,6 +244,7 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 : p.dex_cur--;
    case 2 : p.dex_cur--;
+   case 1 : if (one_in(600)) g->add_msg("Phew, it's hot out.");
   }
   break;
 
@@ -237,14 +252,19 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 : p.thirst--;
     if (p.pain < 50) p.pain++;
+    if (one_in(200)) g->add_msg("Your legs are cramping up.");
    case 2 : p.thirst--;
+   case 1 : if (one_in(600)) g->add_msg("Phew, it's hot out.");
   }
   break;
 
  case DI_HOT_FEET:
   switch (dis.intensity) {
    case 3 : if (p.pain < 50) p.pain++;
-   case 2 : if (p.pain < 30) p.pain++;
+   case 2 : 
+    if (p.pain < 30) p.pain++;
+    if (one_in(200)) g->add_msg("Your feet are swelling in the heat.");
+   case 1 : if (one_in(600)) g->add_msg("Phew, it's hot out.");
   }
   break;
 
