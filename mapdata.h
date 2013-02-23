@@ -122,8 +122,8 @@ t_water_sh, t_water_dp, t_sewage,
 t_lava,
 // Embellishments
 t_bed, t_toilet, t_makeshift_bed,
-// More embellishments than you can shake an itm_stick at.
-t_sink, t_oven, t_bathtub, t_chair, t_armchair, t_cupboard, t_trashcan, t_desk,
+// More embellishments than you can shake a stick at.
+t_sink, t_oven, t_woodstove, t_bathtub, t_chair, t_armchair, t_sofa, t_cupboard, t_trashcan, t_desk, 
 t_sandbox, t_slide, t_monkey_bars, t_backboard,
 t_bench, t_table, t_pool_table,
 t_gas_pump, t_gas_pump_smashed,
@@ -181,7 +181,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)},
 {"rock floor",       '.', c_ltgray,  2, tr_null,
 	mfb(transparent)},
-{"pile of rubble",   '#', c_ltgray,  4, tr_null,
+{"pile of rubble",   '^', c_ltgray,  4, tr_null,
 	mfb(transparent)|mfb(rough)|mfb(diggable)},
 {"pile of ash",   '#', c_ltgray,  2, tr_null,
 	mfb(transparent)|mfb(diggable)},
@@ -396,18 +396,28 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(transparent)|mfb(bashable)|mfb(l_flammable)|mfb(collapses)|mfb(container)|mfb(place_item)},
 {"oven",             '#', c_dkgray,   4, tr_null,
         mfb(transparent)|mfb(bashable)|mfb(l_flammable)|mfb(collapses)|mfb(container)|mfb(place_item)},
+
+{"wood stove",             '#', i_red,   4, tr_null,
+        mfb(transparent)|mfb(container)|mfb(place_item)},
+
+
 {"bathtub",          '~', c_white,   4, tr_null,
         mfb(transparent)|mfb(bashable)|mfb(l_flammable)|mfb(collapses)|mfb(container)|mfb(place_item)},
-{"chair",            '#', c_brown,   2, tr_null, //Dining chair
+
+{"chair",            '#', c_brown,   2, tr_null,
 	mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)},
-{"chair",            '#', c_green,   3, tr_null, //Armchair
+
+{"arm chair",            'H', c_green,   3, tr_null,
+	mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)},
+
+{"sofa",            'H', i_ltred,   3, tr_null,
 	mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)},
 {"cupboard",         '#', c_blue,    3, tr_null,
         mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)|
         mfb(container)|mfb(place_item)},
 {"trash can",        '&', c_ltcyan,  3, tr_null,
         mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(container)|mfb(place_item)},
-{"desk",             '#', c_brown,   3, tr_null,
+{"desk",             '#', c_ltred,   3, tr_null,
         mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)|
         mfb(container)|mfb(place_item)},
 {"sandbox", '#', c_yellow, 3, tr_null,
@@ -472,10 +482,10 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(container)|mfb(bashable)|mfb(place_item)},
 {"cloning vat",      '0', c_ltcyan,  0, tr_null,
         mfb(transparent)|mfb(bashable)|mfb(sealed)|mfb(place_item)},
-{"crate",            '{', c_brown,   0, tr_null,
+{"crate",            'X', i_brown,   0, tr_null,
         mfb(transparent)|mfb(bashable)|mfb(container)|mfb(sealed)|
         mfb(flammable)|mfb(deconstruct)|mfb(place_item)},
-{"open crate",       '{', c_brown,   0, tr_null,
+{"open crate",       'O', i_brown,   0, tr_null,
         mfb(transparent)|mfb(bashable)|mfb(container)|mfb(flammable)|mfb(place_item)},
 {"stairs down",      '>', c_yellow,  2, tr_null,
         mfb(transparent)|mfb(goes_down)|mfb(place_item)},
