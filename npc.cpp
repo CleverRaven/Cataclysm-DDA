@@ -1795,8 +1795,8 @@ int npc::speed_estimate(int speed)
 
 void npc::draw(WINDOW* w, int ux, int uy, bool inv)
 {
- int x = w->_maxx/2 + posx - ux;
- int y = w->_maxy/2 + posy - uy;
+ int x = getmaxx(w)/2 + posx - ux;
+ int y = getmaxy(w)/2 + posy - uy;
  nc_color col = c_pink;
  if (attitude == NPCATT_KILL)
   col = c_red;
