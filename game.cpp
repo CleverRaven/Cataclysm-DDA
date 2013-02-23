@@ -776,14 +776,17 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
    for (int k = -6 ; k <= 6 ; k++){
      // Bizarre workaround for u_see() and friends not taking const arguments.
     int l = std::max(j, k);
-    if (m.field_at(u.posx + j, u.posy + k).type == fd_fire &&
-        u_see(u.posx + j, u.posy + k, l)) {
+    int heat_intensity = 0;
+    if(m.field_at(u.posx + j, u.posy + k).type == fd_fire)
+     heat_intensity = m.field_at(u.posx + j, u.posy + k).density;
+    else if (m.tr_at(u.posx + j, u.posy + k) == tr_lava )
+      heat_intensity = 3;
+    if (heat_intensity > 0 && u_see(u.posx + j, u.posy + k, l)) {
       // Ensure fire_dist >=1 to avoid divide-by-zero errors.
-     int fire_dist = std::max(1, std::max(j, k));;
-     int fire_density = m.field_at(u.posx + j, u.posy + k).density;
-     if (u.frostbite_timer[i] > 0) u.frostbite_timer[i] -= fire_density - fire_dist/2;
-     temp_conv += 50*fire_density/(fire_dist*fire_dist); // How do I square things
-     blister_count += fire_density/(fire_dist*fire_dist);
+     int fire_dist = std::max(1, std::max(j, k));
+     if (u.frostbite_timer[i] > 0) u.frostbite_timer[i] -= heat_intensity - fire_dist / 2;
+     temp_conv += 50 * heat_intensity / (fire_dist * fire_dist); // How do I square things
+     blister_count += heat_intensity / (fire_dist * fire_dist);
     }
    }
   }
