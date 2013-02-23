@@ -231,14 +231,12 @@ to store energy for them.  Your current amount of energy is displayed below\n\
 your health.  Replenishing energy can be done in a variety of ways, but all\n\
 require the installation of a special bionic just for fuel consumption.\n\
 \n\
-Bionics come in ready-to-install canisters, most of which contain supplies\n\
-for several different modules.  Installing a bionic will consume the entire\n\
-canister, so choose your upgrade carefully.  Installation of a bionic is best\n\
-left to a trained professional; however, you may attempt to perform a self-\n\
-installation.  Performing such a task requires high levels of first aid,\n\
-mechanics, and/or electronics, and failure may cripple you!  Bionics canisters\n\
-are difficult to find, but they may be purchased from certain NPCs for a very\n\
-high price.");
+Bionics come in ready-to-install canisters. Installation of a bionic is best\n\
+left to a trained professional. However, you may attempt to perform a self-\n\
+installation.  Performing such a task requires high levels of intelligence,\n\
+first aid, mechanics, and/or electronics, and failure may cripple you!\n\
+Many bionics canisters are difficult to find, but may be purchased from\n\
+certain wandering vagabonds for a very high price.");
    getch();
    break;
 
@@ -366,7 +364,8 @@ escape tactic.");
    mvprintz(0, 0, c_white, "\
 For the unarmed fighter, a variety of fighting styles are available.  You can\n\
 start with your choice of a single, commonly-taught style by starting with\n\
-the Martial Arts Training trait.  Many, many more can be taught by NPCs.\n\
+the Martial Arts Training trait.  Many, many more can be taught by wandering\n\
+masters.\n\
 \n\
 To select a fighting style, press _ (underscore).  If you are already unarmed\n\
 this will make you start using the style.  Otherwise, it will be locked in as\n\
