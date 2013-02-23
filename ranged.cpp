@@ -283,8 +283,8 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     char bullet = '*';
     if (effects & mfb(AMMO_FLAME))
      bullet = '#';
-    mvwputch(w_terrain, trajectory[i].y + SEEY - u.posy,
-                        trajectory[i].x + SEEX - u.posx, c_red, bullet);
+    mvwputch(w_terrain, trajectory[i].y + VIEWY - u.posy,
+                        trajectory[i].x + VIEWX - u.posx, c_red, bullet);
     wrefresh(w_terrain);
     if (&p == &u)
      nanosleep(&ts, NULL);
@@ -547,7 +547,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  } else
   target = -1;	// No monsters in range, don't use target, reset to -1
 
- WINDOW* w_target = newwin(13, 48, 12, SEEX * 2 + 8);
+ WINDOW* w_target = newwin(13, 48, 12, TERRAIN_WINDOW_WIDTH + 7);
  wborder(w_target, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  if (!relevent) // currently targetting vehicle to refill with fuel
@@ -602,8 +602,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     m.drawsq(w_terrain, u, ret[i].x, ret[i].y, false, true, center.x, center.y);
 */
 // Draw the player
-   int atx = SEEX + u.posx - center.x, aty = SEEY + u.posy - center.y;
-   if (atx >= 0 && atx < SEEX * 2 + 1 && aty >= 0 && aty < SEEY * 2 + 1)
+   int atx = VIEWX + u.posx - center.x, aty = VIEWY + u.posy - center.y;
+   if (atx >= 0 && atx < TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < TERRAIN_WINDOW_HEIGHT)
     mvwputch(w_terrain, aty, atx, u.color(), '@');
 
    if (m.sees(u.posx, u.posy, x, y, -1, tart)) {// Selects a valid line-of-sight
@@ -635,9 +635,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    if (mon_at(x, y) == -1) {
     mvwprintw(w_status, 0, 9, "                             ");
     if (snap_to_target)
-     mvwputch(w_terrain, SEEY, SEEX, c_red, '*');
+     mvwputch(w_terrain, VIEWY, VIEWX, c_red, '*');
     else
-     mvwputch(w_terrain, y + SEEY - u.posy, x + SEEX - u.posx, c_red, '*');
+     mvwputch(w_terrain, y + VIEWY - u.posy, x + VIEWX - u.posx, c_red, '*');
    } else if (u_see(&(z[mon_at(x, y)]), tart))
     z[mon_at(x, y)].print_info(this, w_target);
   }
@@ -656,7 +656,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    else if (m.sees(u.posx, u.posy, x, y, -1, junk))
     m.drawsq(w_terrain, u, x, y, false, true, center.x, center.y);
    else
-    mvwputch(w_terrain, SEEY, SEEX, c_black, 'X');
+    mvwputch(w_terrain, VIEWY, VIEWX, c_black, 'X');
    x += tarx;
    y += tary;
    if (x < lowx)

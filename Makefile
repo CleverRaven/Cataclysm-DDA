@@ -42,6 +42,11 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
+# Set the size of the ingame viewport. Uncomment and set to desired size.
+# Game defaults are 12,12
+#DEFINES += -DVIEWX=20
+#DEFINES += -DVIEWY=12
+
 VERSION = 0.1
 
 TARGET = cataclysm

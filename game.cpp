@@ -69,19 +69,19 @@ game::game() :
  init_autosave();     // Set up autosave
  load_keyboard_settings();
 // Set up the main UI windows.
- w_terrain = newwin(SEEY * 2 + 1, SEEX * 2 + 1, 0, 0);
+ w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, 0, 0);
  werase(w_terrain);
- w_minimap = newwin(7, 7, 0, SEEX * 2 + 1);
+ w_minimap = newwin(7, 7, 0, TERRAIN_WINDOW_WIDTH);
  werase(w_minimap);
- w_HP = newwin(14, 7, 7, SEEX * 2 + 1);
+ w_HP = newwin(14, 7, 7, TERRAIN_WINDOW_WIDTH);
  werase(w_HP);
- w_moninfo = newwin(12, 48, 0, SEEX * 2 + 8);
+ w_moninfo = newwin(12, 48, 0, VIEWX * 2 + 8);
  werase(w_moninfo);
- w_messages = newwin(8, 48, 12, SEEX * 2 + 8);
+ w_messages = newwin(8, 48, 12, VIEWX * 2 + 8);
  werase(w_messages);
- w_location = newwin(1, 48, 20, SEEX * 2 + 8);
+ w_location = newwin(1, 48, 20, VIEWX * 2 + 8);
  werase(w_location);
- w_status = newwin(4, 55, 21, SEEX * 2 + 1);
+ w_status = newwin(4, 55, 21, TERRAIN_WINDOW_WIDTH);
  werase(w_status);
 
  gamemode = new special_game;	// Nothing, basically.
@@ -2775,32 +2775,32 @@ void game::draw_ter(int posx, int posy)
  for (int i = 0; i < z.size(); i++) {
   disty = abs(z[i].posy - posy);
   distx = abs(z[i].posx - posx);
-  if (distx <= SEEX && disty <= SEEY && u_see(&(z[i]), t))
+  if (distx <= VIEWX && disty <= VIEWY && u_see(&(z[i]), t))
    z[i].draw(w_terrain, posx, posy, false);
-  else if (z[i].has_flag(MF_WARM) && distx <= SEEX && disty <= SEEY &&
+  else if (z[i].has_flag(MF_WARM) && distx <= VIEWX && disty <= VIEWY &&
            (u.has_active_bionic(bio_infrared) || u.has_trait(PF_INFRARED)))
-   mvwputch(w_terrain, SEEY + z[i].posy - posy, SEEX + z[i].posx - posx,
+   mvwputch(w_terrain, VIEWY + z[i].posy - posy, VIEWX + z[i].posx - posx,
             c_red, '?');
  }
  // Draw NPCs
  for (int i = 0; i < active_npc.size(); i++) {
   disty = abs(active_npc[i].posy - posy);
   distx = abs(active_npc[i].posx - posx);
-  if (distx <= SEEX && disty <= SEEY &&
+  if (distx <= VIEWX && disty <= VIEWY &&
       u_see(active_npc[i].posx, active_npc[i].posy, t))
    active_npc[i].draw(w_terrain, posx, posy, false);
  }
  if (u.has_active_bionic(bio_scent_vision)) {
-  for (int realx = posx - SEEX; realx <= posx + SEEX; realx++) {
-   for (int realy = posy - SEEY; realy <= posy + SEEY; realy++) {
+  for (int realx = posx - VIEWX; realx <= posx + VIEWX; realx++) {
+   for (int realy = posy - VIEWY; realy <= posy + VIEWY; realy++) {
     if (scent(realx, realy) != 0) {
      int tempx = posx - realx, tempy = posy - realy;
      if (!(isBetween(tempx, -2, 2) && isBetween(tempy, -2, 2))) {
       if (mon_at(realx, realy) != -1)
-       mvwputch(w_terrain, realy + SEEY - posy, realx + SEEX - posx,
+       mvwputch(w_terrain, realy + VIEWY - posy, realx + VIEWX - posx,
                 c_white, '?');
       else
-       mvwputch(w_terrain, realy + SEEY - posy, realx + SEEX - posx,
+       mvwputch(w_terrain, realy + VIEWY - posy, realx + VIEWX - posx,
                 c_magenta, '#');
      }
     }
@@ -2990,11 +2990,11 @@ void game::draw_minimap()
 
 void game::hallucinate(const int x, const int y)
 {
- for (int i = 0; i <= SEEX * 2 + 1; i++) {
-  for (int j = 0; j <= SEEY * 2 + 1; j++) {
+ for (int i = 0; i <= TERRAIN_WINDOW_WIDTH; i++) {
+  for (int j = 0; j <= TERRAIN_WINDOW_HEIGHT; j++) {
    if (one_in(10)) {
-    char ter_sym = terlist[m.ter(i + x - SEEX + rng(-2, 2), j + y - SEEY + rng(-2, 2))].sym;
-    nc_color ter_col = terlist[m.ter(i + x - SEEX + rng(-2, 2), j + y - SEEY+ rng(-2, 2))].color;
+    char ter_sym = terlist[m.ter(i + x - VIEWX + rng(-2, 2), j + y - VIEWY + rng(-2, 2))].sym;
+    nc_color ter_col = terlist[m.ter(i + x - VIEWX + rng(-2, 2), j + y - VIEWY+ rng(-2, 2))].color;
     mvwputch(w_terrain, j, i, ter_col, ter_sym);
    }
   }
@@ -3285,7 +3285,7 @@ void game::mon_info()
    }
 
    dir_to_mon = direction_from(u.posx, u.posy, z[i].posx, z[i].posy);
-   int index = (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= SEEX ?
+   int index = (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= VIEWX ?
                 8 : dir_to_mon);
    if (mon_dangerous && index < 8)
     dangerous[index] = true;
@@ -3300,7 +3300,7 @@ void game::mon_info()
     newseen++;
    point npcp(active_npc[i].posx, active_npc[i].posy);
    dir_to_npc = direction_from ( u.posx, u.posy, npcp.x, npcp.y );
-   int index = (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= SEEX ?
+   int index = (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= VIEWX ?
                 8 : dir_to_npc);
    unique_types[index].push_back(-1 - i);
   }
@@ -3703,8 +3703,8 @@ void game::add_footstep(int x, int y, int volume, int distance)
 void game::draw_footsteps()
 {
  for (int i = 0; i < footsteps.size(); i++) {
-  mvwputch(w_terrain, SEEY + footsteps[i].y - u.posy - u.view_offset_y,
-                      SEEX + footsteps[i].x - u.posx - u.view_offset_x, c_yellow, '?');
+  mvwputch(w_terrain, VIEWY + footsteps[i].y - u.posy - u.view_offset_y,
+                      VIEWX + footsteps[i].x - u.posx - u.view_offset_x, c_yellow, '?');
  }
  footsteps.clear();
  wrefresh(w_terrain);
@@ -3783,23 +3783,23 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
  }
 // Draw the explosion
  for (int i = 1; i <= radius; i++) {
-  mvwputch(w_terrain, y - i + SEEY - u.posy - u.view_offset_y,
-                      x - i + SEEX - u.posx - u.view_offset_x, c_red, '/');
-  mvwputch(w_terrain, y - i + SEEY - u.posy - u.view_offset_y,
-                      x + i + SEEX - u.posx - u.view_offset_x, c_red,'\\');
-  mvwputch(w_terrain, y + i + SEEY - u.posy - u.view_offset_y,
-                      x - i + SEEX - u.posx - u.view_offset_x, c_red,'\\');
-  mvwputch(w_terrain, y + i + SEEY - u.posy - u.view_offset_y,
-                      x + i + SEEX - u.posx - u.view_offset_x, c_red, '/');
+  mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                      x - i + VIEWX - u.posx - u.view_offset_x, c_red, '/');
+  mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                      x + i + VIEWX - u.posx - u.view_offset_x, c_red,'\\');
+  mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                      x - i + VIEWX - u.posx - u.view_offset_x, c_red,'\\');
+  mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                      x + i + VIEWX - u.posx - u.view_offset_x, c_red, '/');
   for (int j = 1 - i; j < 0 + i; j++) {
-   mvwputch(w_terrain, y - i + SEEY - u.posy - u.view_offset_y,
-                       x + j + SEEX - u.posx - u.view_offset_x, c_red,'-');
-   mvwputch(w_terrain, y + i + SEEY - u.posy - u.view_offset_y,
-                       x + j + SEEX - u.posx - u.view_offset_x, c_red,'-');
-   mvwputch(w_terrain, y + j + SEEY - u.posy - u.view_offset_y,
-                       x - i + SEEX - u.posx - u.view_offset_x, c_red,'|');
-   mvwputch(w_terrain, y + j + SEEY - u.posy - u.view_offset_y,
-                       x + i + SEEX - u.posx - u.view_offset_x, c_red,'|');
+   mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                       x + j + VIEWX - u.posx - u.view_offset_x, c_red,'-');
+   mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                       x + j + VIEWX - u.posx - u.view_offset_x, c_red,'-');
+   mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
+                       x - i + VIEWX - u.posx - u.view_offset_x, c_red,'|');
+   mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
+                       x + i + VIEWX - u.posx - u.view_offset_x, c_red,'|');
   }
   wrefresh(w_terrain);
   nanosleep(&ts, NULL);
@@ -3824,8 +3824,8 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
    if (j > 0 && u_see(traj[j - 1].x, traj[j - 1].y, ijunk))
     m.drawsq(w_terrain, u, traj[j - 1].x, traj[j - 1].y, false, true);
    if (u_see(traj[j].x, traj[j].y, ijunk)) {
-    mvwputch(w_terrain, traj[j].y + SEEY - u.posy - u.view_offset_y,
-                        traj[j].x + SEEX - u.posx - u.view_offset_x, c_red, '`');
+    mvwputch(w_terrain, traj[j].y + VIEWY - u.posy - u.view_offset_y,
+                        traj[j].x + VIEWX - u.posx - u.view_offset_x, c_red, '`');
     wrefresh(w_terrain);
     nanosleep(&ts, NULL);
    }
@@ -3913,8 +3913,8 @@ void game::resonance_cascade(int x, int y)
   minglow = 0;
  if (maxglow > 0)
   u.add_disease(DI_TELEGLOW, rng(minglow, maxglow) * 100, this);
- int startx = (x < 8 ? 0 : x - 8), endx = (x+8 >= SEEX*3 ? SEEX*3 - 1 : x + 8);
- int starty = (y < 8 ? 0 : y - 8), endy = (y+8 >= SEEY*3 ? SEEY*3 - 1 : y + 8);
+ int startx = (x < 8 ? 0 : x - 8), endx = (x+8 >= VIEWX*3 ? VIEWX*3 - 1 : x + 8);
+ int starty = (y < 8 ? 0 : y - 8), endy = (y+8 >= VIEWY*3 ? VIEWY*3 - 1 : y + 8);
  for (int i = startx; i <= endx; i++) {
   for (int j = starty; j <= endy; j++) {
    switch (rng(1, 80)) {
@@ -5233,7 +5233,7 @@ point game::look_around()
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
  int mx, my, junk;
  char ch;
- WINDOW* w_look = newwin(13, 48, 12, SEEX * 2 + 8);
+ WINDOW* w_look = newwin(13, 48, 12, VIEWX * 2 + 8);
  wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w_look, 1, 1, c_white, "Looking Around");
@@ -5244,7 +5244,7 @@ point game::look_around()
  DebugLog() << __FUNCTION__ << "calling input() \n";
   ch = input();
   if (!u_see(lx, ly, junk))
-   mvwputch(w_terrain, ly - u.posy + SEEY, lx - u.posx + SEEX, c_black, ' ');
+   mvwputch(w_terrain, ly - u.posy + VIEWY, lx - u.posx + VIEWX, c_black, ' ');
   get_direction(this, mx, my, ch);
   if (mx != -2 && my != -2) {	// Directional key pressed
    lx += mx;
@@ -5308,7 +5308,7 @@ point game::look_around()
     m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
 
   } else if (lx == u.posx && ly == u.posy) {
-   mvwputch_inv(w_terrain, SEEX, SEEY, u.color(), '@');
+   mvwputch_inv(w_terrain, VIEWX, VIEWY, u.color(), '@');
    mvwprintw(w_look, 1, 1, "You (%s)", u.name.c_str());
    if (veh) {
     mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
@@ -5320,12 +5320,12 @@ point game::look_around()
               rl_dist(u.posx, u.posy, lx, ly) < u.unimpaired_range() &&
               m.sees(u.posx, u.posy, lx, ly, u.unimpaired_range(), junk)) {
    if (u.has_disease(DI_BOOMERED))
-    mvwputch_inv(w_terrain, ly - u.posy + SEEY, lx - u.posx + SEEX, c_pink, '#');
+    mvwputch_inv(w_terrain, ly - u.posy + VIEWY, lx - u.posx + VIEWX, c_pink, '#');
    else
-    mvwputch_inv(w_terrain, ly - u.posy + SEEY, lx - u.posx + SEEX, c_ltgray, '#');
+    mvwputch_inv(w_terrain, ly - u.posy + VIEWY, lx - u.posx + VIEWX, c_ltgray, '#');
    mvwprintw(w_look, 1, 1, "Bright light.");
   } else {
-   mvwputch(w_terrain, SEEY, SEEX, c_white, 'x');
+   mvwputch(w_terrain, VIEWY, VIEWX, c_white, 'x');
    mvwprintw(w_look, 1, 1, "Unseen.");
   }
   if (m.graffiti_at(lx, ly).contents)
@@ -5517,8 +5517,8 @@ void game::list_items()
 
     if (u_see(trajectory[i].x, trajectory[i].y, junk)) {
      char bullet = 'X';
-     mvwputch(w_terrain, trajectory[i].y + SEEY - u.posy - u.view_offset_y,
-                         trajectory[i].x + SEEX - u.posx - u.view_offset_x, c_white, bullet);
+     mvwputch(w_terrain, trajectory[i].y + VIEWY - u.posy - u.view_offset_y,
+                         trajectory[i].x + VIEWX - u.posx - u.view_offset_x, c_white, bullet);
     }
    }
 
@@ -5667,8 +5667,8 @@ void game::pickup(int posx, int posy, int min)
   return;
  }
 // Otherwise, we have 2 or more items and should list them, etc.
- WINDOW* w_pickup = newwin(12, 48, 0, SEEX * 2 + 8);
- WINDOW* w_item_info = newwin(12, 48, 12, SEEX * 2 + 8);
+ WINDOW* w_pickup = newwin(12, 48, 0, VIEWX * 2 + 8);
+ WINDOW* w_item_info = newwin(12, 48, 12, VIEWX * 2 + 8);
  int maxitems = 9;	 // Number of items to show at one time.
  std::vector <item> here = from_veh? veh->parts[veh_part].items : m.i_at(posx, posy);
  bool getitem[here.size()];
@@ -6305,14 +6305,14 @@ void game::plthrow()
  int y1 = y + range;
  int junk;
 
- for (int j = u.posx - SEEX; j <= u.posx + SEEX; j++) {
-  for (int k = u.posy - SEEY; k <= u.posy + SEEY; k++) {
+ for (int j = u.posx - VIEWX; j <= u.posx + VIEWX; j++) {
+  for (int k = u.posy - VIEWY; k <= u.posy + VIEWY; k++) {
    if (u_see(j, k, junk)) {
     if (k >= y0 && k <= y1 && j >= x0 && j <= x1)
      m.drawsq(w_terrain, u, j, k, false, true);
     else
-     mvwputch(w_terrain, k + SEEY - u.posy - u.view_offset_y,
-                         j + SEEX - u.posx - u.view_offset_x, c_dkgray, '#');
+     mvwputch(w_terrain, k + VIEWY - u.posy - u.view_offset_y,
+                         j + VIEWX - u.posx - u.view_offset_x, c_dkgray, '#');
    }
   }
  }
@@ -6407,13 +6407,13 @@ void game::plfire(bool burst)
  int y0 = y - range;
  int x1 = x + range;
  int y1 = y + range;
- for (int j = x - SEEX; j <= x + SEEX; j++) {
-  for (int k = y - SEEY; k <= y + SEEY; k++) {
+ for (int j = x - VIEWX; j <= x + VIEWX; j++) {
+  for (int k = y - VIEWY; k <= y + VIEWY; k++) {
    if (u_see(j, k, junk)) {
     if (k >= y0 && k <= y1 && j >= x0 && j <= x1)
      m.drawsq(w_terrain, u, j, k, false, true);
     else
-     mvwputch(w_terrain, k + SEEY - y, j + SEEX - x, c_dkgray, '#');
+     mvwputch(w_terrain, k + VIEWY - y, j + VIEWX - x, c_dkgray, '#');
    }
   }
  }
