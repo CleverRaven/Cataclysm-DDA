@@ -2366,7 +2366,9 @@ void overmap::place_radios()
  char message[200];
  for (int i = 0; i < OMAPX; i++) {
   for (int j = 0; j < OMAPY; j++) {
-   if (ter(i, j) == ot_radio_tower)
+   switch(ter(i, j))
+   {
+   case ot_radio_tower:
     if(one_in(2))
     {
      snprintf( message, sizeof(message), "This is emergency broadcast station %d%d.\
@@ -2376,11 +2378,12 @@ void overmap::place_radios()
      radios.push_back(radio_tower(i*2, j*2, rng(80, 200),
 				  "Head West.  All survivors, head West.  Help is waiting."));
     }
-   if (ter(i, j) == ot_lmoe)
-   {
+    break;
+   case ot_lmoe:
     snprintf( message, sizeof(message), "This is automated emergency shelter beacon %d%d.\
   Supplies, amenities and shelter are stocked.", i, j);
     radios.push_back(radio_tower(i*2, j*2, rng(40, 100), message));
+    break;
    }
   }
  }
