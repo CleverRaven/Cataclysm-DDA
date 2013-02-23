@@ -89,7 +89,7 @@ enum oter_id {
   ot_mil_surplus_west,
  ot_megastore_entrance, ot_megastore,
  ot_hospital_entrance, ot_hospital,
- ot_mansion_entrance, ot_mansion,
+ ot_mansion_entrance, ot_mansion, ot_fema_entrance, ot_fema,
 // Goodies/dungeons
  ot_shelter, ot_shelter_under, ot_lmoe, ot_lmoe_under,
  ot_lab, ot_lab_stairs, ot_lab_core, ot_lab_finale,
@@ -267,6 +267,8 @@ const oter_t oterlist[num_ter_types] = {
 {"hospital",		'H',	c_red,		5, build_extras, false, false},
 {"mansion",		'M',	c_ltgreen,	5, build_extras, false, false},
 {"mansion",		'M',	c_green,	5, build_extras, false, false},
+{"fema camp",		'+',	c_blue,	5, build_extras, false, false},
+{"fema camp",		'F',	i_blue,	5, build_extras, false, false}, //Oddzball- Added fema graphic
 {"evac shelter",	'+',	c_white,	2, no_extras, true, false},
 {"evac shelter",	'+',	c_white,	2, no_extras, false, true},
 {"LMOE shelter",	'+',	c_red,	2, no_extras, true, false},
@@ -415,6 +417,7 @@ enum omspec_id
  OMSPEC_FARM,
  OMSPEC_TEMPLE,
  OMSPEC_LAB,
+ OMSPEC_FEMA,
  OMSPEC_BUNKER,
  OMSPEC_OUTPOST,
  OMSPEC_SILO,
@@ -468,6 +471,9 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 
 {ot_lab_stairs,	   0, 30,  8, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_ROAD)},
+ 
+{ot_fema_entrance,	   0, 5,  8, -1, mcat_null, 0, 0, 0, 0,
+ &omspec_place::land, mfb(OMS_FLAG_3X3_SECOND)}, //Oddzball-Fema test
 
 // Terrain	 MIN MAX DISTANCE
 {ot_bunker,	   2, 10,  4, -1, mcat_null, 0, 0, 0, 0,
