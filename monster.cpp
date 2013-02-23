@@ -8,14 +8,7 @@
 #include <sstream>
 #include <fstream>
 #include <stdlib.h>
-
-#if (defined _WIN32 || defined WINDOWS)
-	#include "catacurse.h"
-#elif (defined __CYGWIN__)
-      #include "ncurses/curses.h"
-#else
-	#include <curses.h>
-#endif
+#include "cursesdef.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
