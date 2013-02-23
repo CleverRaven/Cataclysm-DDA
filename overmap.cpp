@@ -1092,7 +1092,7 @@ point overmap::choose_point(game *g)
    ret = point(-1, -1);
   else if (ch == 'N') {
    timeout(-1);
-   add_note(cursx, cursy, string_input_popup(49, "Enter note")); // 49 char max
+   add_note(cursx, cursy, string_input_popup("Enter note", 49)); // 49 char max
    timeout(BLINK_SPEED);
   } else if(ch == 'D'){
    timeout(-1);
@@ -1389,7 +1389,7 @@ void overmap::put_buildings(int x, int y, int dir, city town)
  int ychange = dir % 2, xchange = (dir + 1) % 2;
  for (int i = -1; i <= 1; i += 2) {
   if ((ter(x+i*xchange, y+i*ychange) == ot_field) && !one_in(STREETCHANCE)) {
-   if (rng(0, 99) > 80 * dist(x,y,town.x,town.y) / town.s)//Oddzball-Shop generation chance smaller is better
+   if (rng(0, 99) > 80 * dist(x,y,town.x,town.y) / town.s)
     ter(x+i*xchange, y+i*ychange) = shop(((dir%2)-i)%4); 
    else {
     if (rng(0, 99) > 130 * dist(x, y, town.x, town.y) / town.s)
@@ -2276,7 +2276,6 @@ void overmap::place_special(overmap_special special, point p)
   ter(p.x, p.y - 1) = ot_s_lot;
   make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, ot_road_null);
  }
- //Oddzball-Adding in "dirt parking lot (ot_dirtlot)"
   if (special.flags & mfb(OMS_FLAG_DIRT_LOT)) {
   int closest = -1, distance = 999;
   for (int i = 0; i < cities.size(); i++) {
@@ -2289,7 +2288,6 @@ void overmap::place_special(overmap_special special, point p)
   ter(p.x, p.y - 1) = ot_dirtlot;
   make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, ot_road_null);
  }
-//Oddzball-End of OMS_FLAG_DIRT_LOT
 
 // Finally, place monsters if applicable
  if (special.monsters != mcat_null) {
@@ -2316,7 +2314,7 @@ void overmap::place_mongroups()
   if (!one_in(16) || cities[i].s > 5)
    zg.push_back(
 	mongroup(mcat_zombie, (cities[i].x * 2), (cities[i].y * 2),
-	         int(cities[i].s * 2.5), cities[i].s * 200)); //Oddzball-Increased spawn test
+	         int(cities[i].s * 2.5), cities[i].s * 80));
  }
 
 // Figure out where swamps are, and place swamp monsters

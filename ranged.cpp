@@ -237,7 +237,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    if (monster_speed_penalty < 1.)
     monster_speed_penalty = 1.;
   }
-	
+
   if (curshot > 0) {
    if (recoil_add(p) % 2 == 1)
     p.recoil++;
@@ -246,7 +246,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    p.recoil += recoil_add(p);
 
   if (missed_by >= 1.) {
-// We missed D: 
+// We missed D:
 // Shoot a random nearby space?
    tarx += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
    tary += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
@@ -720,37 +720,37 @@ int time_to_fire(player &p, it_gun* firing)
  int time = 0;
  if (firing->skill_used == Skill::skill("pistol")) {
    if (p.skillLevel("pistol") > 6)
-   time = 10;
-  else
+     time = 10;
+   else
      time = (80 - 10 * p.skillLevel("pistol").level());
  } else if (firing->skill_used == Skill::skill("shotgun")) {
    if (p.skillLevel("shotgun") > 3)
-   time = 70;
-  else
+     time = 70;
+   else
      time = (150 - 25 * p.skillLevel("shotgun").level());
  } else if (firing->skill_used == Skill::skill("smg")) {
    if (p.skillLevel("smg") > 5)
-   time = 20;
-  else
+     time = 20;
+   else
      time = (80 - 10 * p.skillLevel("smg").level());
  } else if (firing->skill_used == Skill::skill("rifle")) {
    if (p.skillLevel("rifle") > 8)
-   time = 30;
-  else
+     time = 30;
+   else
      time = (150 - 15 * p.skillLevel("rifle").level());
  } else if (firing->skill_used == Skill::skill("archery")) {
    if (p.skillLevel("archery") > 8)
-   time = 20;
-  else
+     time = 20;
+   else
      time = (220 - 25 * p.skillLevel("archery").level());
  } else if (firing->skill_used == Skill::skill("launcher")) {
    if (p.skillLevel("launcher") > 8)
-   time = 30;
-  else
+     time = 30;
+   else
      time = (200 - 20 * p.skillLevel("launcher").level());
  } else {
    debugmsg("Why is shooting %s using %s skill?", (firing->name).c_str(), firing->skill_used->name().c_str());
-  time =  0;
+   time =  0;
  }
 
  return time;
@@ -933,14 +933,14 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
  body_part hit;
  int side = rng(0, 1), junk;
- if (goodhit < .05) {
+ if (goodhit < .003) {
   hit = bp_eyes;
   dam = rng(3 * dam, 5 * dam);
   p.practice(firing->skill_used, 5);
- } else if (goodhit < .1) {
-  if (one_in(6))
+ } else if (goodhit < .066) {
+  if (one_in(25))
    hit = bp_eyes;
-  else if (one_in(4))
+  else if (one_in(15))
    hit = bp_mouth;
   else
    hit = bp_head;

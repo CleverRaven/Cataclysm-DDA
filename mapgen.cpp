@@ -15,7 +15,7 @@
 
 ter_id grass_or_dirt()
 {
- if (one_in(3))
+ if (one_in(4))
   return t_grass;
  return t_dirt;
 }
@@ -234,6 +234,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
  int rn, lw, rw, mw, tw, bw, cw, x, y;
  int n_fac = 0, e_fac = 0, s_fac = 0, w_fac = 0;
  computer *tmpcomp = NULL;
+       int SEEX_oth=SEEX;
+       int SEEY_oth=SEEY-5;
 
  switch (terrain_type) {
 
@@ -276,19 +278,18 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     ter(i, j) = grass_or_dirt();
     //------Jovan's-----
     if (one_in(120)) ter(i, j) = t_shrub; else
-    if (one_in(99999)) ter(i,j) = t_mutpoppy; //Oddzball-No poppy, or very little anyway
+    if (one_in(500)) ter(i,j) = t_mutpoppy;
     //------------------
     }
   }
   place_items(mi_field, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
   break;
-  //Oddzball-Dirt lot OT
  case ot_dirtlot:
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     ter(i, j) = t_dirt;
-    if (one_in(120)) ter(i, j) = t_pit_shallow; else //Oddzball-Random Potholes
-    if (one_in(50)) ter(i,j) = t_grass; //Oddzball-some random grass
+    if (one_in(120)) ter(i, j) = t_pit_shallow; else
+    if (one_in(50)) ter(i,j) = t_grass;
     }
   }
     if (one_in(4))
@@ -296,7 +297,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
       add_vehicle (g, veh_truck, 12, 12, 90);
 	  }
   break;
-  //Oddzball-Dirt lot OT
  case ot_forest:
  case ot_forest_thick:
  case ot_forest_water:
@@ -449,7 +449,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    }
   }
 
-  if (one_in(1000)) { // One in 100 forests has a spider living in it :o //Oddzball-Less spiders
+  if (one_in(100)) { // One in 100 forests has a spider living in it :o
    for (int i = 0; i < SEEX * 2; i++) {
     for (int j = 0; j < SEEX * 2; j++) {
      if ((ter(i, j) == t_dirt || ter(i, j) == t_underbrush) && !one_in(3))
@@ -1196,7 +1196,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    while (ter(rn, bw - 1) != t_floor);
    ter(rn, bw - 1) = t_stairs_down;
   }
-  if (one_in(20)) { // Houses have a 1 in 100 chance of wasps! //Oddzball-Spawn Zombie! 1 in 20
+  if (one_in(100)) { // Houses have a 1 in 100 chance of wasps!
    for (int i = 0; i < SEEX * 2; i++) {
     for (int j = 0; j < SEEY * 2; j++) {
      if (ter(i, j) == t_door_c || ter(i, j) == t_door_locked)
@@ -1221,16 +1221,16 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
        ter(podx + x, pody + y) = t_paper;
      }
     }
-    add_spawn(mon_zombie, 1, podx, pody);
+    add_spawn(mon_wasp, 1, podx, pody);
    }
    place_items(mi_rare, 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
 
-  } else if (one_in(100)) { // No wasps; black widows? //Oddzball-Rats! DO I need to worry about pods or webs?
+  } else if (one_in(150)) { // No wasps; black widows?
    for (int i = 0; i < SEEX * 2; i++) {
     for (int j = 0; j < SEEY * 2; j++) {
      if (ter(i, j) == t_floor) {
       if (one_in(15)) {
-       add_spawn(mon_sewer_rat, rng(1, 2), i, j);
+       add_spawn(mon_spider_widow, rng(1, 2), i, j);
        for (int x = i - 1; x <= i + 1; x++) {
         for (int y = j - 1; y <= j + 1; y++) {
          if (ter(x, y) == t_floor)
@@ -4481,27 +4481,25 @@ break;
  //Oddzball-Farm
  case ot_farm:
 		{
-		square(this, t_grass, 0, 0, 23, 23); //Oddzball basic lot
-		square(this, t_floor, 0, 0, 14, 9);  //Oddzball-house floor #1
-		square(this, t_wall_wood, 16, 0, 23, 9); //Oddzball-Barn exterior #2
+		square(this, t_grass, 0, 0, 23, 23); //basic lot
+		square(this, t_floor, 0, 0, 14, 9);  //house floor #1
+		square(this, t_wall_wood, 16, 0, 23, 9); //Barn exterior #2
 		
 		for (int i = 0; i < SEEX * 2; i++) {
 		for (int j = 13; j < SEEY * 2; j++)
 		ter(i, j) = grass_or_dirt();
 		}
 		
-		/*square(this, grass_or_dirt(), 0, 13, 23, 23); //Oddzball-field exterior #3 */
-		line(this, t_wall_h, 0, 0, 14, 0); //Oddzball-House north wall #4
-		line(this, t_wall_h, 0, 9, 14, 9); //Oddzball-House south wall #5
-		line(this, t_wall_h, 1, 5, 8, 5); //Oddzball-House interior wall 1 horizontal #6
-		line(this, t_wall_h, 10, 4, 13, 4); //Oddzball-House interior wall 2 horizontal #7
-		line(this, t_wall_v, 0, 1, 0, 8); //Oddzball-House west wall #8
-		line(this, t_wall_v, 14, 1, 14, 8);//Oddzball-House east wall #9
-		line(this, t_wall_v, 9, 4, 9, 5);//Oddzball-House interior wall 3 vertical #10
-		line(this, t_wall_v, 10, 1, 10, 3);//Oddzball-House interior wall 4 Vertical #11
-		square(this, t_dirtfloor, 17, 1, 22, 8); //Oddzball-Barn Floor #None
-		/*square(this, t_dirt, 1, 14, 22, 22); //Oddzball-Field dirt #12 */
-		ter( 5,  0) = t_window_domestic; //Oddzball-Begin placing items left-right, top-down
+		line(this, t_wall_h, 0, 0, 14, 0); // House north wall #4
+		line(this, t_wall_h, 0, 9, 14, 9); // House south wall #5
+		line(this, t_wall_h, 1, 5, 8, 5); // House interior wall 1 horizontal #6
+		line(this, t_wall_h, 10, 4, 13, 4); // House interior wall 2 horizontal #7
+		line(this, t_wall_v, 0, 1, 0, 8); // House west wall #8
+		line(this, t_wall_v, 14, 1, 14, 8);// House east wall #9
+		line(this, t_wall_v, 9, 4, 9, 5);// House interior wall 3 vertical #10
+		line(this, t_wall_v, 10, 1, 10, 3);// House interior wall 4 Vertical #11
+		square(this, t_dirtfloor, 17, 1, 22, 8); // Barn Floor #None
+		ter( 5,  0) = t_window_domestic; // Begin placing items left-right, top-down
 		ter( 12,  0) = t_window_domestic;//House window
 		ter( 19,  0) = t_door_c;//Barn door N1
 		ter( 20,  0) = t_door_c;//Barn door N2
@@ -4539,23 +4537,6 @@ break;
 		ter( 20,  9) = t_door_c;//Barn door S2
 		line(this, t_shrub, 1, 10, 3, 10); //Bushes 1
 		line(this, t_shrub, 11, 10, 13, 10); //Bushes 2
-		/*ter( 0,  13) = t_fence_post;//Fence post 1
-		ter( 23,  13) = t_fence_post;//Fence post 2
-		line(this, t_dirtmound, 2, 15, 21, 15); //Crop row 1
-		line(this, t_dirtmound, 2, 17, 21, 17); //Crop row 2
-		line(this, t_dirtmound, 2, 19, 21, 19); //Crop row 3
-		line(this, t_dirtmound, 2, 21, 21, 21); //Crop row 1
-		ter( 0,  23) = t_fence_post;//Fence post 3
-		ter( 23,  23) = t_fence_post;//Fence post 4*/
-		
-		/*std::vector<direction> faces_road; //Oddzball Test rotation
-		
-			if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
-			rotate(3);
-			if (t_north >= ot_road_null && t_north <= ot_bridge_ew)
-			rotate(2);
-			if (t_west >= ot_road_null && t_west <= ot_bridge_ew)
-			rotate(1);*/
 			
 			place_items(mi_fridge, 65, 10, 8, 10, 8, false, 0);
 			place_items(mi_kitchen, 70, 10, 5, 12, 7, false, 0);
@@ -4578,7 +4559,6 @@ break;
 		
 		}
 		break;
-		//Oddzball-Farm Field
 		case ot_farm_field:
 		if(t_east == ot_farm)
 		{
@@ -4633,7 +4613,7 @@ break;
 		}
 		else
 		{
-		square(this, t_grass, 0, 0, 23, 23); //Oddzball basic lot
+		square(this, t_grass, 0, 0, 23, 23); // basic lot
 		square(this, t_fence_barbed, 1, 1, 22, 22);
 		square(this, t_dirt, 2, 2, 21, 21);
 		ter(1, 1) = t_fence_post;
@@ -4661,9 +4641,6 @@ break;
 		place_items(mi_hydro, 70, 3, 19, 20, 19, true, turn);
 		}
 		break;
-		//Oddzball-End Farm field
-  
-  //Oddzball-Farm
  case ot_police_north:
  case ot_police_east:
  case ot_police_south:
@@ -7241,7 +7218,7 @@ void map::post_process(game *g, unsigned zones)
      bash(x, y, 20, junk);
    }
   }
-  if (one_in(5)) { // 10% chance of corpses //Oddzball-20% of finding corpses
+  if (one_in(10)) { // 10% chance of corpses
    int num_corpses = rng(1, 8);
    for (int i = 0; i < num_corpses; i++) {
     int x = rng(0, 23), y = rng(0, 23);
@@ -7654,6 +7631,7 @@ bool connects_to(oter_id there, int dir)
 
 void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
 {
+    int pos_x1=0; int pos_x2=0; int pos_y1=0; int pos_y2=0;
  for (int i = x1; i <= x2; i++) {
   for (int j = y1; j <= y2; j++) {
    if (m->ter(i, j) == t_grass || m->ter(i, j) == t_dirt ||
@@ -7680,30 +7658,112 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
  case room_living:
   placed = mi_livingroom;
   chance = 83;
+  //choose random wall
+  switch (rng(1,4)) { //some bookshelves
+    case 1:
+      pos_x1=x1+2;
+      pos_y1=y1+1;
+      m->ter(x1+2, y2-1) = t_desk;
+      while (pos_x1<x2) {
+      pos_x1+=1;
+        if ((m->ter(pos_x1,pos_y1)==t_wall_h)||(m->ter(pos_x1,pos_y1)==t_wall_v)) break;
+        m->ter(pos_x1,pos_y1)=t_bookcase;
+      pos_x1+=1;
+        if ((m->ter(pos_x1,pos_y1)==t_wall_h)||(m->ter(pos_x1,pos_y1)==t_wall_v)) break;
+        m->ter(pos_x1,pos_y1)=t_bookcase;
+        pos_x1+=2;
+      }
+  break;
+    case 2:
+      pos_x1=x2-2;
+      pos_y1=y1+1;
+      m->ter(x1+2, y2-1) = t_desk;
+      while (pos_x1>x1) {
+      pos_x1-=1;
+        if ((m->ter(pos_x1,pos_y1)==t_wall_h)||(m->ter(pos_x1,pos_y1)==t_wall_v)) break;
+        m->ter(pos_x1,pos_y1)=t_bookcase;
+      pos_x1-=1;
+        if ((m->ter(pos_x1,pos_y1)==t_wall_h)||(m->ter(pos_x1,pos_y1)==t_wall_v)) break;
+        m->ter(pos_x1,pos_y1)=t_bookcase;
+      pos_x1-=2;
+      }
+      break;
+    case 3:
+      pos_x1=x1+2;
+      pos_y1=y2-1;
+      m->ter(x1-2, y2-1) = t_desk;
+      while (pos_x1<x2) {
+      pos_x1+=1;
+        if ((m->ter(pos_x1,pos_y1)==t_wall_h)||(m->ter(pos_x1,pos_y1)==t_wall_v)) break;
+        m->ter(pos_x1,pos_y1)=t_bookcase;
+      pos_x1+=1;
+        if ((m->ter(pos_x1,pos_y1)==t_wall_h)||(m->ter(pos_x1,pos_y1)==t_wall_v)) break;
+        m->ter(pos_x1,pos_y1)=t_bookcase;
+        pos_x1+=2;
+      }
+      break;
+    case 4:
+      pos_x1=x2-2;
+      pos_y1=y2-1;
+      m->ter(x1+2, y2-1) = t_desk;
+      while (pos_x1>x1) {
+      pos_x1-=1;
+        if ((m->ter(pos_x1,pos_y1)==t_wall_h)||(m->ter(pos_x1,pos_y1)==t_wall_v)) break;
+        m->ter(pos_x1,pos_y1)=t_bookcase;
+      pos_x1-=1;
+        if ((m->ter(pos_x1,pos_y1)==t_wall_h)||(m->ter(pos_x1,pos_y1)==t_wall_v)) break;
+        m->ter(pos_x1,pos_y1)=t_bookcase;
+      pos_x1-=2;
+      }
+      break;
+        m->ter(rng(x1+2, x2-2), rng(y1+1, y2-1)) = t_armchair;
+  }
+
+
   break;
  case room_kitchen:
   placed = mi_kitchen;
   chance = 75;
   m->place_items(mi_cleaning,  58, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
   m->place_items(mi_home_hw,   40, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
-  switch (rng(1, 4)) {
+  switch (rng(1, 4)) { //fridge, sink, oven and some cupboards near them
   case 1:
    m->ter(x1 + 2, y1 + 1) = t_fridge;
    m->place_items(mi_fridge, 82, x1 + 2, y1 + 1, x1 + 2, y1 + 1, false, 0);
+   m->ter(x1+1, y1+1) = t_sink;
+   if (x1+4<x2) { m->ter(x1+3,y1+1) = t_oven;  m->ter(x1+4,y1+1) = t_cupboard;}
+
    break;
   case 2:
    m->ter(x2 - 2, y1 + 1) = t_fridge;
    m->place_items(mi_fridge, 82, x2 - 2, y1 + 1, x2 - 2, y1 + 1, false, 0);
+   m->ter(x2-1, y1+1) = t_sink;
+   if (x2-4>x1) { m->ter(x2-3,y1+1) = t_oven;  m->ter(x2-4,y1+1) = t_cupboard;}
+
    break;
   case 3:
    m->ter(x1 + 2, y2 - 1) = t_fridge;
    m->place_items(mi_fridge, 82, x1 + 2, y2 - 1, x1 + 2, y2 - 1, false, 0);
+      m->ter(x1+1, y2-1) = t_sink;
+      if (x1+4<x2) { m->ter(x1+3,y2-1) = t_oven;  m->ter(x1+4,y2-1) = t_cupboard;}
    break;
   case 4:
    m->ter(x2 - 2, y2 - 1) = t_fridge;
    m->place_items(mi_fridge, 82, x2 - 2, y2 - 1, x2 - 2, y2 - 1, false, 0);
+      m->ter(x2-1, y2-1) = t_sink;
+      if (x2-4>x1) { m->ter(x2-3,y2-1) = t_oven;  m->ter(x2-4,y2-1) = t_cupboard;}
    break;
   }
+    if (one_in(2)) { //dining table in the kitchen
+    square(m, t_table, int((x1+x2) / 2)-1, int((y1+y2) / 2)-1, int((x1+x2) / 2), int((y1+y2) / 2) ); }
+    if (one_in(2)) {
+    for (int i=0; i<=2; i++) {
+        pos_x1=rng(x1+2,x2-2); pos_y1=rng(y1+1,y2-1);
+        if (m->ter(pos_x1, pos_y1)==t_floor) {
+            m->ter(pos_x1, pos_y1)=t_chair;
+        }
+    }              }
+
   break;
  case room_bedroom:
   placed = mi_bedroom;
@@ -7763,6 +7823,9 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
   m->place_items(mi_cleaning,  48, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
   placed = mi_softdrugs;
   chance = 72;
+        m->ter(x2-1, y2-2) = t_bathtub;
+        if (!((m->ter(x2-3, y2-2)==t_wall_v)||(m->ter(x2-3, y2-2)==t_wall_h))) {
+        m->ter(x2-3, y2-2) = t_sink; }
   break;
  }
  m->place_items(placed, chance, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
@@ -8977,14 +9040,10 @@ void map::add_extra(map_extra type, game *g)
   }
  }
  break;
-//Oddzball-Need to add cougar chance...
  case mx_wolfpack:
   add_spawn(mon_wolf, rng(3, 6), SEEX, SEEY);
   break;
   
-  case mx_cougar:
-  add_spawn(mon_cougar, 1, SEEX, SEEY);
-  break;
 
  case mx_crater:
  {
@@ -9020,7 +9079,7 @@ void map::add_extra(map_extra type, game *g)
      if (ter(i, j) == t_marloss)
       add_item(x, y, (*itypes)[itm_marloss_berry], g->turn);
      if (one_in(15)) {
-      monster creature(g->mtypes[mon_id(rng(mon_gelatin, mon_blank))]); //Oddzball-Spawns from portal? Science?
+      monster creature(g->mtypes[mon_id(rng(mon_gelatin, mon_blank))]);
       creature.spawn(i, j);
       g->z.push_back(creature);
      }

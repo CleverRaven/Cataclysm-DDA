@@ -1370,7 +1370,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
         if (z)
         {
             z->hurt(dam);
-            if (vel2 > rng (5, 30))
+            if (vel2 / 100 > rng (5, 30))
                 g->fling_player_or_monster (0, z, move.dir() + angle, vel2 / 100);
             if (z->hp < 1)
                 g->kill_mon (mondex, pl_ctrl);
@@ -1378,7 +1378,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
         else
         {
             ph->hitall (g, dam, 40);
-            if (vel2 > rng (5, 30))
+            if (vel2 / 100 > rng (5, 30))
                 g->fling_player_or_monster (ph, 0, move.dir() + angle, vel2 / 100);
         }
 
@@ -1956,3 +1956,21 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
 
     return true;
 }
+
+rl_vec2d vehicle::velo_vec(){
+    float vx,vy;
+    if(skidding){
+       vx = cos (move.dir() * M_PI/180);
+       vy = sin (move.dir() * M_PI/180);
+    } else {
+       vx = cos (face.dir() * M_PI/180);
+       vy = sin (face.dir() * M_PI/180);
+    }
+    rl_vec2d ret(vx,vy);
+    ret = ret.normalized();
+    ret = ret * velocity;
+    return ret;
+}
+//todO: face_vec()...
+
+

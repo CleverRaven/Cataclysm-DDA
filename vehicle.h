@@ -4,6 +4,7 @@
 #include "tileray.h"
 #include "color.h"
 #include "item.h"
+#include "line.h"
 #include "veh_type.h"
 #include <vector>
 #include <string>
@@ -27,7 +28,7 @@ enum veh_coll_type {
  veh_coll_bashable,
  veh_coll_destructable,
  veh_coll_other,
- 
+
  num_veh_coll_types
 };
 
@@ -35,15 +36,14 @@ struct veh_collision {
  //int veh?
  int part;
  veh_coll_type type;
- int imp; //impedance? resistance? what unit?
+ int imp; // impulse
 
  void* target;  //vehicle
  int target_part; //veh partnum
  std::string target_name;
-
  veh_collision(){};
 };
- 
+
 
 // Structure, describing vehicle part (ie, wheel, seat)
 struct vehicle_part
@@ -77,7 +77,7 @@ struct vehicle_part
         int passenger_id;   // seat has passenger
     };
     std::vector<item> items;// inventory
-    
+
 };
 
 // Facts you need to know about implementation:
@@ -182,7 +182,7 @@ public:
 
 // install a new part to vehicle (force to skip possibility check)
     int install_part (int dx, int dy, vpart_id id, int hp = -1, bool force = false);
-    
+
     void remove_part (int p);
 
 // translate item health to part health
@@ -207,7 +207,7 @@ public:
 
 // Translate seat-relative mount coords into tile coords using given face direction
     void coord_translate (int dir, int reldx, int reldy, int &dx, int &dy);
-    
+
 // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
     int part_at (int dx, int dy);
     int global_part_at (int x, int y);
@@ -263,7 +263,7 @@ public:
 
 // Get combined power of solar panels
     int solar_power ();
-    
+
 // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
 // vehicle have fuel for are accounted
     int acceleration (bool fueled = true);
@@ -305,7 +305,7 @@ public:
     void turn (int deg);
 
 // handle given part collision with vehicle, monster/NPC/player or terrain obstacle
-// return impulse (damage) applied on vehicle for that collision
+// return collision, which has type, impulse, part, & target.
     veh_collision part_collision (int vx, int vy, int part, int x, int y);
 
 // Process the trap beneath
@@ -359,6 +359,9 @@ public:
 
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
+
+    // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
+    rl_vec2d velo_vec();
 
     // config values
     std::string name;   // vehicle name

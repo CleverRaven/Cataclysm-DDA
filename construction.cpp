@@ -119,7 +119,7 @@ void game::init_construction()
   STAGE(t_window_domestic, 5);
    TOOL(itm_saw, NULL);
    COMP(itm_nail, 4, NULL);
-   COMP(itm_curtain, 2, NULL);
+   COMP(itm_sheet, 2, NULL);
 
 
  CONSTRUCT("Build Door", 2, &construct::able_empty,
@@ -198,7 +198,7 @@ void game::init_construction()
    TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_nail, 8, NULL);
    COMP(itm_2x4, 10, NULL);
-   COMP(itm_rag, 10, NULL);
+   COMP(itm_sheet, 1, NULL);
 
  CONSTRUCT("Deconstruct Furniture", 0, &construct::able_deconstruct,
                                 &construct::done_deconstruct);
@@ -260,7 +260,7 @@ void game::construction_menu()
 // Print the constructions between offset and max (or how many will fit)
   for (int i = 0; i <= 22 && (i + offset) < constructions.size(); i++) {
    int current = i + offset;
-   nc_color col = (player_can_build(u, total_inv, constructions[current], -1) ?
+   nc_color col = (player_can_build(u, total_inv, constructions[current]) ?
                    c_white : c_dkgray);
    // Map menu items to hotkey letters, skipping j, k, l, and q.
    char hotkey = current + ((current < 9) ? 97 : ((current < 13) ? 100 : 101));
@@ -394,7 +394,7 @@ void game::construction_menu()
     break;
    case '\n':
    case 'l':
-    if (player_can_build(u, total_inv, constructions[select], -1)) {
+    if (player_can_build(u, total_inv, constructions[select])) {
      place_construction(constructions[select]);
      ch = 'q';
     } else {
@@ -412,7 +412,7 @@ void game::construction_menu()
    if (ch < 96 || ch > constructions.size() + 101) break;
    // Map menu items to hotkey letters, skipping j, k, l, and q.
    char hotkey = ch - ((ch < 106) ? 97 : ((ch < 112) ? 100 : 101));
-   if (player_can_build(u, total_inv, constructions[hotkey], -1)) {
+   if (player_can_build(u, total_inv, constructions[hotkey])) {
     place_construction(constructions[hotkey]);
     ch = 'q';
    } else {
@@ -428,22 +428,24 @@ void game::construction_menu()
 }
 
 bool game::player_can_build(player &p, inventory inv, constructable* con,
-                            int level, bool cont, bool exact_level)
+                            const int level, bool cont, bool exact_level)
 {
+ int last_level = level;
+
  // default behavior: return true if any of the stages up to L can be constr'd
  // if exact_level, require that this level be constructable
  if (p.skillLevel("carpentry") < con->difficulty)
   return false;
 
  if (level < 0)
-  level = con->stages.size();
+  last_level = con->stages.size();
 
  int start = 0;
  if (cont)
   start = level;
 
  bool can_build_any = false;
- for (int i = start; i < con->stages.size() && i <= level; i++) {
+ for (int i = start; i < con->stages.size() && i <= last_level; i++) {
   construction_stage stage = con->stages[i];
   bool has_tool = false;
   bool has_component = false;
@@ -453,6 +455,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
   for (int j = 0; j < 3; j++) {
    if (stage.tools[j].size() > 0) {
     tools_required = true;
+    has_tool = false;
     for (int k = 0; k < stage.tools[j].size() && !has_tool; k++) {
      if (inv.has_amount(stage.tools[j][k], 1))
       has_tool = true;
@@ -462,10 +465,11 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
    }
    if (stage.components[j].size() > 0) {
     components_required = true;
+    has_component = false;
     for (int k = 0; k < stage.components[j].size() && !has_component; k++) {
      if (( itypes[stage.components[j][k].type]->is_ammo() &&
-          inv.has_charges(stage.components[j][k].type,
-                          stage.components[j][k].count)    ) ||
+	   inv.has_charges(stage.components[j][k].type,
+			   stage.components[j][k].count)    ) ||
          (!itypes[stage.components[j][k].type]->is_ammo() &&
           inv.has_amount (stage.components[j][k].type,
                           stage.components[j][k].count)    ))
@@ -476,7 +480,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
    }
 
   }  // j in [0,2]
-  can_build_any = (has_component || !components_required) &&
+  can_build_any |= (has_component || !components_required) &&
     (has_tool || !tools_required);
   if (exact_level && (i == level)) {
       return ((has_component || !components_required) &&
@@ -628,6 +632,8 @@ bool construct::able_furniture(game *g, point p)
   case t_rack:
   case t_bookcase:
   case t_locker:
+  case t_chair:
+  case t_armchair:
    required_str = 8;
    break;
   default:
@@ -691,7 +697,7 @@ bool construct::able_wall_wood(game *g, point p)
 
 bool construct::able_indoors(game *g, point p)
 {
- return (g->m.ter(p.x, p.y) == t_floor);
+ return (g->m.is_indoor(p.x, p.y));
 }
 
 bool construct::able_dig(game *g, point p)
@@ -742,7 +748,7 @@ void construct::done_furniture(game *g, point p)
    return;
   x += p.x;
   y += p.y;
-  if(g->m.ter(x, y) != t_floor || !g->is_empty(x, y)) {
+  if(!g->m.is_indoor(x, y) || !g->is_empty(x, y)) {
    mvprintz(0, 0, c_red, "Can't move furniture there! Choose a direction with open floor.");
    continue;
   }
@@ -751,6 +757,13 @@ void construct::done_furniture(game *g, point p)
 
  g->m.ter(x, y) = g->m.ter(p.x, p.y);
  g->m.ter(p.x, p.y) = t_floor;
+
+ //Move all Items within a container
+ std::vector <item> vItemMove = g->m.i_at(p.x, p.y);
+ for (int i=0; i < vItemMove.size(); i++)
+  g->m.add_item(x, y, vItemMove[i]);
+
+ g->m.i_clear(p.x, p.y);
 }
 
 void construct::done_tree(game *g, point p)
@@ -777,7 +790,7 @@ void construct::done_log(game *g, point p)
 
 void construct::done_vehicle(game *g, point p)
 {
-    std::string name = string_input_popup(20, "Enter new vehicle name");
+    std::string name = string_input_popup("Enter new vehicle name", 20);
     vehicle *veh = g->m.add_vehicle (g, veh_custom, p.x, p.y, 270);
     if (!veh)
     {
@@ -802,9 +815,15 @@ void construct::done_deconstruct(game *g, point p)
       g->m.ter(p.x, p.y) = t_floor;
     break;
 
+    case t_door_c:
+    case t_door_o:
+      g->m.add_item(p.x, p.y, g->itypes[itm_2x4], 0, 3);
+      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,12));
+      g->m.ter(p.x, p.y) = t_door_frame;
+    break;
     case t_window_domestic:
       g->m.add_item(p.x, p.y, g->itypes[itm_stick], 0);
-      g->m.add_item(p.x, p.y, g->itypes[itm_curtain], 0, 1);
+      g->m.add_item(p.x, p.y, g->itypes[itm_sheet], 0, 1);
       g->m.add_item(p.x, p.y, g->itypes[itm_glass_sheet], 0);
       g->m.ter(p.x, p.y) = t_window_empty;
     break;
@@ -847,6 +866,12 @@ void construct::done_deconstruct(game *g, point p)
     case t_monkey_bars:
       g->m.add_item(p.x, p.y, g->itypes[itm_pipe], 0, rng(6,12));
       g->m.ter(p.x, p.y) = t_grass;
+    break;
+
+    case t_fridge:
+      g->m.add_item(p.x, p.y, g->itypes[itm_scrap], 0, rng(2,6));
+      g->m.add_item(p.x, p.y, g->itypes[itm_steel_chunk], 0, rng(2,3));
+      g->m.ter(p.x, p.y) = t_floor;
     break;
 
     case t_counter:

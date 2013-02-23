@@ -380,22 +380,23 @@ int query_int(const char *mes, ...)
  return temp-48;
 }
 
-std::string string_input_popup(const char *mes, ...)
+std::string string_input_popup(std::string title, int max_length, std::string input)
 {
- std::string ret;
- va_list ap;
- va_start(ap, mes);
- char buff[1024];
- vsprintf(buff, mes, ap);
- va_end(ap);
- int startx = strlen(buff) + 2;
+ std::string ret = input;
+
+ int startx = title.size() + 2;
  WINDOW* w = newwin(3, 80, 11, 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w, 1, 1, c_ltred, "%s", buff);
  for (int i = startx + 1; i < 79; i++)
   mvwputch(w, 1, i, c_ltgray, '_');
- int posx = startx;
+
+ mvwprintz(w, 1, 1, c_ltred, "%s", title.c_str());
+
+ if (input != "")
+  mvwprintz(w, 1, startx, c_magenta, "%s", input.c_str());
+
+ int posx = startx + input.size();
  mvwputch(w, 1, posx, h_ltgray, '_');
  do {
   wrefresh(w);
@@ -418,7 +419,7 @@ std::string string_input_popup(const char *mes, ...)
    mvwputch(w, 1, posx, c_ltgray, '_');
    posx--;
    mvwputch(w, 1, posx, h_ltgray, '_');
-  } else {
+  } else if(ret.size() < max_length || max_length == 0) {
    ret += ch;
    mvwputch(w, 1, posx, c_magenta, ch);
    posx++;

@@ -664,9 +664,9 @@ void computer::activate_failure(game *g, computer_failure fail)
    break;
 
   case COMPFAIL_ALARM:
-   g->sound(g->u.posx, g->u.posy, 60, "An alarm sounds!"); //Oddzball-Alarm that attracts zombies..
-   if (g->levz > 0 && !g->event_queued(EVENT_ALARM))
-    g->add_event(EVENT_ALARM, int(g->turn) + 300, 0, g->levx, g->levy);
+   g->sound(g->u.posx, g->u.posy, 60, "An alarm sounds!");
+   if (g->levz > 0 && !g->event_queued(EVENT_WANTED))
+    g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
    break;
 
   case COMPFAIL_MANHACKS: {

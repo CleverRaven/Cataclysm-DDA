@@ -438,6 +438,13 @@ bool map::vehproceed(game* g){
    if(!veh)
       return false;
 
+   if (!inbounds(x, y)){
+      debugmsg ("stopping out-of-map vehicle. (x,y)=(%d,%d)",x,y);
+      veh->stop();
+      veh->of_turn = 0;
+      return true;
+   }
+
      bool pl_ctrl = veh->player_in_control(&g->u);
 
    // k slowdown first.
@@ -559,61 +566,55 @@ bool map::vehproceed(game* g){
 
    if(veh_veh_colls.size()){ // we have dynamic crap!
       // effects of colliding with another vehicle:
-      // collision targets are pushed, this car loses time without moving,
-      // the other veh gains time, parts are damaged/broken on both sides.,
+      // transfers of momentum, skidding,
+      // parts are damaged/broken on both sides,
+      // remaining times are normalized,
       veh_collision c = veh_veh_colls[0];
       vehicle* veh2 = (vehicle*) c.target;
-      //find mass & velocity of the collision.
-      // using veh->move.dir() & veh->velocity & veh->total_mass()
-      //or dot product
-      float velo_veh1[2];
-      float velo_veh2[2];
-      float velo_veh1_rel[2];
-      float velo_veh2_result[2];
+      g->add_msg("The %s's %s collides with the %s's %s",
+                 veh->name.c_str(),  veh->part_info(c.part).name,
+                veh2->name.c_str(), veh2->part_info(c.target_part).name);
+
       // for reference, a cargo truck weighs ~25300, a bicycle 690, 
       //  and 38mph is 3800 'velocity'
-      // Also, not sure trig is the way to go in this game, but it ought to work.
-      { //find veh's velocity
-         velo_veh1[0] = cos(veh->move.dir() * M_PI/180);
-         velo_veh1[1] = sin(veh->move.dir() * M_PI/180);
-         // rl-normalize by making max unit distance == 1
-         // that makes so much sense :)
-         float rl_scale_by = 1 / (fabs(velo_veh1[0]) > fabs(velo_veh1[1]) ? fabs(velo_veh1[0]) : fabs(velo_veh1[1]));
-         velo_veh1[0] *= rl_scale_by * veh->velocity;
-         velo_veh1[1] *= rl_scale_by * veh->velocity;
-      }
-      { //find veh2 velocity
-         velo_veh2[0] = cos(veh2->move.dir() * M_PI/180);
-         velo_veh2[1] = sin(veh2->move.dir() * M_PI/180);
-         float rl_scale_by = 1 / (fabs(velo_veh2[0]) > fabs(velo_veh2[1]) ? fabs(velo_veh2[0]) : fabs(velo_veh2[1]));
-         velo_veh2[0] *= rl_scale_by * veh->velocity;
-         velo_veh2[1] *= rl_scale_by * veh->velocity;
-      }
-      velo_veh2[0] = cos(veh2->move.dir() * M_PI/180) * veh2->velocity;
-      velo_veh2[1] = sin(veh2->move.dir() * M_PI/180) * veh2->velocity;
-      velo_veh1_rel[0] = velo_veh1[0] - velo_veh2[0];
-      velo_veh1_rel[1] = velo_veh1[1] - velo_veh2[1];
-      //float rel_velocity = sqrt( pow(velo_veh1_rel[0],2) + pow(velo_veh1_rel[1],2));
-      int rel_velocity = rl_dist( velo_veh1_rel[0], velo_veh1_rel[1]);
-      float energy = (rel_velocity * (veh->total_mass() + veh2->total_mass()));
-      // add part of relative velocity to v2's move vector thing.
-      float mass_ratio = (float)veh->total_mass() / (float)veh2->total_mass();
-      velo_veh2_result[0] = velo_veh2[0] + velo_veh1_rel[0] * mass_ratio;
-      velo_veh2_result[1] = velo_veh2[1] + velo_veh1_rel[1] * mass_ratio;
-      veh2->move.init(velo_veh2_result[0], velo_veh2_result[1]);
-      //veh2->velocity = sqrt( pow(velo_veh2_result[0],2) + pow(velo_veh2_result[1],2));
-      veh2->velocity = rl_dist(velo_veh2_result[0], velo_veh2_result[1]) *2;
+      rl_vec2d velo_veh1 = veh->velo_vec();
+      rl_vec2d velo_veh2 = veh2->velo_vec();
+      float m1 = veh->total_mass();
+      float m2 = veh2->total_mass();
 
-      //veh2->velocity += veh->velocity * .35;
-      veh->velocity *= .4;
-      veh2->of_turn += .121;
-      veh->of_turn -= .221;
+      rl_vec2d collision_axis = (velo_veh1 - velo_veh2).normalized();
+      // impulse vectors
+      rl_vec2d imp1 = collision_axis   *    collision_axis.dot_product (velo_veh1) * m1;
+      rl_vec2d imp2 = (collision_axis) * (-collision_axis).dot_product (velo_veh2) * m2;
+
+      // finally, changes in veh velocity
+      // 30% is absorbed as bashing damage??
+      rl_vec2d delta1 = imp2 * .7 / m1;
+      rl_vec2d delta2 = imp1 * .7 / m2;
+
+      rl_vec2d final1 = velo_veh1 + delta1;
+      veh->move.init (final1.x, final1.y);
+      veh->velocity = final1.norm();
+      // shrug it off if the change is less than 8mph.
+      if(delta1.norm() > 800) {
+         veh->skidding = 1;
+      }
+      rl_vec2d final2 = velo_veh2 + delta2;
+      veh2->move.init(final2.x, final2.y);
+      veh2->velocity = final2.norm();
+      if(delta2.norm() > 800) {
       veh2->skidding = 1;
+      }
+
+      //give veh2 the initiative to proceed next before veh1
+      float avg_of_turn = (veh2->of_turn + veh->of_turn) / 2;
+      veh->of_turn = avg_of_turn * .9;
+      veh2->of_turn = avg_of_turn * 1.1;
       return true;
    }
 
       int coll_turn = 0;
-   if (imp > 0) { // imp == impedance?
+   if (imp > 0) { // imp == impulse from collisions
 // debugmsg ("collision imp=%d dam=%d-%d", imp, imp/10, imp/6);
        if (imp > 100)
         veh->damage_all(imp / 20, imp / 10, 1);// shake veh because of collision
@@ -778,6 +779,27 @@ ter_id& map::ter(const int x, const int y)
  const int lx = x % SEEX;
  const int ly = y % SEEY;
  return grid[nonant]->ter[lx][ly];
+}
+
+bool map::is_indoor(const int x, const int y)
+{
+ if (!INBOUNDS(x, y))
+  return false;
+
+ int iNumFloor = 0;
+ for (int iRow = -1; iRow <= 1; iRow++) {
+  for (int iCol = -1; iCol <= 1; iCol++) {
+   if (terlist[ter(iRow+x, iCol+y)].name == "floor" &&
+       terlist[ter(iRow+x, iCol+y)].flags & mfb(supports_roof)) {
+    iNumFloor++;
+   }
+  }
+ }
+
+ if (iNumFloor > 0)
+  return true;
+
+ return false;
 }
 
 std::string map::tername(const int x, const int y)
@@ -976,7 +998,8 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
  }
 
  for (int i = 0; i < i_at(x, y).size(); i++) {	// Destroy glass items (maybe)
-  if (i_at(x, y)[i].made_of(GLASS) && one_in(2)) {
+   // the check for active supresses molotovs smashing themselves with their own explosion
+   if (i_at(x, y)[i].made_of(GLASS) && !i_at(x, y)[i].active && one_in(2)) {
    if (sound == "")
     sound = "A " + i_at(x, y)[i].tname() + " shatters!  ";
    else
@@ -1133,8 +1156,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   if (str >= result) {
    sound += "glass breaking!";
    ter(x, y) = t_window_frame;
-  add_item(x, y, (*itypes)[itm_curtain], 0);
-  add_item(x, y, (*itypes)[itm_curtain], 0);
+  add_item(x, y, (*itypes)[itm_sheet], 0, 1);
   add_item(x, y, (*itypes)[itm_stick], 0);
    return true;
   } else {
@@ -1260,6 +1282,9 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   }
   break;
 
+ case t_sink:
+ case t_bathtub:
+
  case t_toilet:
   result = dice(8, 4) - 8;
   if (res) *res = result;
@@ -1275,6 +1300,9 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
  case t_dresser:
  case t_bookcase:
+ case t_pool_table:
+ case t_counter:
+ case t_table:
   result = rng(0, 45);
   if (res) *res = result;
   if (str >= result) {
@@ -1305,7 +1333,9 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   break;
   
  case t_bench:
- case t_counter:
+ case t_chair:
+ case t_desk:
+ case t_cupboard:
   result = rng(0, 30);
   if (res) *res = result;
   if (str >= result) {
@@ -1488,12 +1518,6 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   break;
 
  case t_floor:
- case t_counter:
- case t_bookcase:
- case t_rack:
- case t_dresser:
- case t_table:
- case t_pool_table:
  g->sound(x, y, 20, "SMASH!!");
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
@@ -1580,9 +1604,9 @@ void map::shoot(game *g, const int x, const int y, int &dam,
  if (dam < 0)
   return;
 
- if (has_flag(alarmed, x, y) && !g->event_queued(EVENT_ALARM)) {  //Oddzball-Alarm attracts zombies..
+ if (has_flag(alarmed, x, y) && !g->event_queued(EVENT_WANTED)) {
   g->sound(g->u.posx, g->u.posy, 30, "An alarm sounds!");
-  g->add_event(EVENT_ALARM, int(g->turn) + 300, 0, g->levx, g->levy);
+  g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
  }
 
  int vpart;
@@ -1777,6 +1801,8 @@ bool map::hit_with_acid(game *g, const int x, const int y)
    break;
 
   case t_toilet:
+  case t_sink:
+  case t_bathtub:
   case t_gas_pump:
   case t_gas_pump_smashed:
    return false;

@@ -110,6 +110,7 @@ class map
 
 // Terrain
  ter_id& ter(const int x, const int y); // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+ bool is_indoor(const int x, const int y); // Check if current ter is indoors
  std::string tername(const int x, const int y); // Name of terrain at (x, y)
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
  bool has_flag(const t_flag flag, const int x, const int y);  // checks terrain and vehicles

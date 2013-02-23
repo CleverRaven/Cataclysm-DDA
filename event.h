@@ -19,7 +19,6 @@ enum event_type {
  EVENT_TEMPLE_SPAWN,
  EVENT_DIM,
  EVENT_ARTIFACT_LIGHT,
- EVENT_ALARM, //Oddzball-Zombie Alarm.
  NUM_EVENT_TYPES
 };
 

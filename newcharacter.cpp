@@ -21,7 +21,7 @@
 #define LINE_OXXX 4194423
 #define LINE_XXXX 4194414
 
-// Colors used in this file: (Most else defaults to c_ltgray) //Oddzball-Made traits easier to see the On/Off
+// Colors used in this file: (Most else defaults to c_ltgray)
 #define COL_STAT_ACT		c_ltred    // Selected stat
 #define COL_TR_GOOD		c_green    // Good trait descriptive text
 #define COL_TR_GOOD_OFF		c_ltgray  // A toggled-off good trait
@@ -784,7 +784,7 @@ int set_skills(WINDOW* w, player *u, int &points)
   switch (input()) {
    case 'j':
      if (cur_sk < Skill::skills.size() - 1)
-     cur_sk++;
+      cur_sk++;
     currentSkill = Skill::skill(cur_sk);
     break;
    case 'k':
@@ -953,7 +953,7 @@ int random_skill()
 
 int calc_HP(int strength, bool tough)
 {
- return (30 + 3 * strength) * (tough ? 1.2 : 1); //Oddzball- Less starting HP.
+ return (60 + 3 * strength) * (tough ? 1.2 : 1);
 }
 
 void save_template(player *u)

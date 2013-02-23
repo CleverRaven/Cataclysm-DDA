@@ -20,6 +20,9 @@
 #include "debug.h"
 #include <sys/stat.h>
 #include <cstdlib>
+#include <signal.h>
+
+void exit_handler(int s);
 
 int main(int argc, char *argv[])
 {
@@ -58,6 +61,15 @@ int main(int argc, char *argv[])
  MAPBUFFER.set_game(g);
  MAPBUFFER.load();
  load_options();
+
+ #if (!(defined _WIN32 || defined WINDOWS))
+  struct sigaction sigIntHandler;
+  sigIntHandler.sa_handler = exit_handler;
+  sigemptyset(&sigIntHandler.sa_mask);
+  sigIntHandler.sa_flags = 0;
+  sigaction(SIGINT, &sigIntHandler, NULL);
+ #endif
+
  do {
   g->setup();
   while (!g->do_turn()) ;
@@ -67,16 +79,33 @@ int main(int argc, char *argv[])
    quit_game = true;
  } while (!quit_game);
 
- if (delete_world && (remove("save/") != 0))
+ if (delete_world)
  {
-  #if (defined _WIN32 || defined __WIN32__)
-   system("rmdir /s /q save");
-  #else
-   system("rm -rf save/*");
-  #endif
+   g->delete_save();
  } else {
   MAPBUFFER.save_if_dirty();
  }
+
+ exit_handler(-999);
+
+ return 0;
+}
+
+void exit_handler(int s) {
+ bool bExit = false;
+
+ if (s == 2) {
+  if (query_yn("Really Quit without saving?")) {
+   bExit = true;
+  }
+ } else if (s == -999) {
+  bExit = true;
+ } else {
+  //query_yn("Signal received: %d", s);
+  bExit = true;
+ }
+
+ if (bExit) {
 
  erase(); // Clear screen
  endwin(); // End ncurses
@@ -86,5 +115,7 @@ int main(int argc, char *argv[])
 #else
  system("clear"); // Tell the terminal to clear itself
 #endif
- return 0;
+
+  exit(1);
+ }
 }

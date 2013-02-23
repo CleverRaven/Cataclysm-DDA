@@ -30,7 +30,7 @@ num_species
 enum mon_id {
 mon_null = 0,
 // Wildlife
-mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_cougar, //Oddzball-Cougar and cats..
+mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_cougar,
 // Friendly animals
 mon_dog, mon_cat,
 // Ants
@@ -134,7 +134,7 @@ MF_DESTROYS,	// Bashes down walls and more
 MF_POISON,	// Poisonous to eat
 MF_VENOM,	// Attack may poison the player
 MF_BADVENOM,	// Attack may SEVERELY poison the player
-MF_BLEED, //Oddzball-Causes player to bleed
+MF_BLEED,       // Causes player to bleed
 MF_WEBWALK,	// Doesn't destroy webs
 MF_DIGS,	// Digs through the ground
 MF_FLIES,	// Can fly (over water, etc)
@@ -194,7 +194,7 @@ struct mtype {
  unsigned char sp_freq;			// How long sp_attack takes to charge
  void (mdeath::*dies)(game *, monster *); // What happens when this monster dies
  void (mattack::*sp_attack)(game *, monster *); // This monster's special attack
- 
+
 
  // Default constructor
  mtype () {
@@ -236,9 +236,9 @@ struct mtype {
         unsigned char psp_freq,
         void (mdeath::*pdies)      (game *, monster *),
         void (mattack::*psp_attack)(game *, monster *),
-        std::string pdescription ) { 
-  id = pid; 
-  name = pname; 
+        std::string pdescription ) {
+  id = pid;
+  name = pname;
   species = pspecies;
   sym = psym;
   color = pcolor;

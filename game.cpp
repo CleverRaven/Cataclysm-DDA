@@ -26,6 +26,11 @@
 #include <sys/stat.h>
 #include "debug.h"
 
+#if (defined _WIN32 || defined __WIN32__)
+#include <windows.h>
+#include <tchar.h>
+#endif
+
 #define MAX_MONSTERS_MOVING 40 // Efficiency!
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -162,9 +167,9 @@ bool game::opening_screen()
  erase();
  for (int i = 0; i < 80; i++)
   mvwputch(w_open, 21, i, c_white, LINE_OXOX);
-   mvwprintz(w_open, 0, 0, c_blue, "Cataclysm CZS Build 5 -Oddzball");
+   mvwprintz(w_open, 0, 0, c_blue, "Welcome to Cataclysm: Dark Days Ahead!");
    mvwprintz(w_open, 1, 0, c_red, "\
-Please report bugs to the CZS thread on the Cataclysm DDA Forums");
+Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
  refresh();
  wrefresh(w_open);
  refresh();
@@ -374,16 +379,10 @@ fivedozenwhales@gmail.com.");
     }
    } else if (sel1 == 3) {  // Delete world
     if (query_yn("Delete the world and all saves?")) {
-     if (remove("save/") != 0) {
-#if (defined _WIN32 || defined __WIN32__)
-      system("DEL /Q save/");
-#else
-      system("rm -rf save/*");
-#endif
+     delete_save();
 
       savegames.clear();
      }
-    }
 
     layer = 1;
    } else if (sel1 == 4) {	// Special game
@@ -708,34 +707,56 @@ bool game::do_turn()
  return false;
 }
 
+/* Here lies the intended effects of body temperature
+
+Assumption 1 : a naked person is comfortable at 31C/87.8F.
+Assumption 2 : a "lightly clothed" person is comfortable at 25C/77F.
+
+Here is a list of warmth values and the corresponding temperatures in which the player is comfortable, and in which the player is very cold.
+
+Warmth  Temperature (Comfortable)    Temperature (Very cold)    Notes
+0        31C /  87.8F                 1C /  33.8F               * Naked
+10       25C /  77.0F                -5C /  23.0F               * Lightly clothed
+20       19C /  66.2F               -11C /  12.2F
+30       13C /  55.4F               -17C /   1.4F
+40        7C /  44.6F               -23C /  -9.4F
+50        1C /  33.8F               -29C / -20.2F
+60       -5C /  23.0F               -35C / -31.0F
+70      -11C /  12.2F               -41C / -41.8F
+80      -17C /   1.4F               -47C / -52.6F
+90      -23C /  -9.4F               -53C / -63.4F
+100     -29C / -20.2F               -59C / -74.2F
+
+*/
+
 void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet) can affect body temp.
 {
  // NOTE : Bodytemp is measured on a scale of 0u to 1000u, where 1u = 0.02C and 500u is 37C
  // Converts temperature to Celsius/10!(Wito plans on using degrees Kelvin later)
  int Ctemperature = 10*(temperature - 32) * 5/9;
  // Temperature norms
- const int ambient_norm = 220;
- // Creative thinking for clean morale penalties
+ const int ambient_norm = 310;
+ // Creative thinking for clean morale penalties: this gets incremented in the for loop and applied after the loop
  int morale_pen = 0; 
  // This adjusts the temperature scale to match the bodytemp scale
- int adjusted_temp = 1.7*(Ctemperature - ambient_norm); 
+ int adjusted_temp = 1*(Ctemperature - ambient_norm);
  // Fetch the morale value of wetness for bodywetness 
  int bodywetness = 0;
  for (int i = 0; bodywetness == 0 && i < u.morale.size(); i++)
   if( u.morale[i].type == MORALE_WET ) {
-   bodywetness = u.morale[i].bonus;
+   bodywetness = abs(u.morale[i].bonus); // Make it positive, less confusing
    break;
   }
  // Current temperature and converging temperature calculations
  for (int i = 0 ; i < num_bp ; i++){
   if (i == bp_eyes) continue; // Skip eyes
   // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
-  float homeostasis_adjustement = (u.temp_cur[i] > BODYTEMP_NORM ? 1.0 : 8.0); 
-  int clothing_warmth_adjustement = homeostasis_adjustement * (float)u.warmth(body_part(i)) * (1.0 + (float)bodywetness / 100.0);
+  float homeostasis_adjustement = (u.temp_cur[i] > BODYTEMP_NORM ? 4.0 : 6.0);
+  int clothing_warmth_adjustement = homeostasis_adjustement * (float)u.warmth(body_part(i)) * (1.0 - (float)bodywetness / 100.0);
   // Disease name shorthand
   int blister_pen = dis_type(DI_BLISTERS) + 1 + i, hot_pen  = dis_type(DI_HOT) + 1 + i;
   int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;  
-  signed int temp_conv = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement; // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness. 20C is normal
+  signed int temp_conv = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement; // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
   // Fatigue also affects convergeant temperature
   if (!u.has_disease(DI_SLEEP)) temp_conv -= u.fatigue/6;
   else {
@@ -760,7 +781,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
      int fire_dist = std::max(1, std::max(j, k));;
 	 int fire_density = m.field_at(u.posx + j, u.posy + k).density;
 	 if (u.frostbite_timer[i] > 0) u.frostbite_timer[i] -= fire_density - fire_dist/2;
-	 temp_conv += 300*fire_density/(fire_dist*fire_dist); // How do I square things
+     temp_conv += 50*fire_density/(fire_dist*fire_dist); // How do I square things
 	 blister_count += fire_density/(fire_dist*fire_dist);
     }
    }
@@ -773,9 +794,15 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   }
   // Skin gets blisters from intense heat exposure. TODO : add penalties in disease.cpp
   if (blister_count - u.resist(body_part(i)) > 20) u.add_disease(dis_type(blister_pen), 1, this, i, num_bp);
-  // Increments current body temperature towards convergant
+  // Increments current body temperature towards convergant.
   int temp_difference = u.temp_cur[i] - temp_conv;
   int temp_before = u.temp_cur[i];
+  // Bodytemp equalization code start
+  if      (i == bp_torso){u.temp_equalizer(bp_torso, bp_arms); u.temp_equalizer(bp_torso, bp_legs); u.temp_equalizer(bp_torso, bp_head);}
+  else if (i == bp_head) {u.temp_equalizer(bp_head, bp_eyes); u.temp_equalizer(bp_head, bp_mouth);}
+  else if (i == bp_arms)  u.temp_equalizer(bp_arms, bp_hands);
+  else if (i == bp_legs)  u.temp_equalizer(bp_legs, bp_feet);
+  // Bodytemp equalization code end
   if (u.temp_cur[i] != temp_conv) u.temp_cur[i] = temp_difference*exp(-0.1) + temp_conv;
   int temp_after = u.temp_cur[i];
   // Penalties
@@ -786,20 +813,27 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   else if (u.temp_cur[i] > BODYTEMP_VERY_HOT)  {u.add_disease(dis_type(hot_pen),  10, this, 2, 3); }
   else if (u.temp_cur[i] > BODYTEMP_HOT)       {u.add_disease(dis_type(hot_pen),  10, this, 1, 3); }
   // Morale penalties : a negative morale_pen means the player is cold
-  if (u.has_disease(dis_type(cold_pen)) || u.has_disease(dis_type(hot_pen))) {
+  // Intensity multiplier is negative for cold, positive for hot
+  int intensity_mult = -u.disease_intensity(dis_type(cold_pen)) + u.disease_intensity(dis_type(hot_pen));
+  if (u.has_disease(dis_type(cold_pen)) > 0 || u.has_disease(dis_type(hot_pen)) > 0) {
    switch (i) {
     case bp_head :
     case bp_torso :
-    case bp_mouth : morale_pen += 2*(-u.disease_intensity(dis_type(cold_pen)) + u.disease_intensity(dis_type(hot_pen)));
+    case bp_mouth : morale_pen += 2*intensity_mult;
     case bp_arms :
-    case bp_legs : morale_pen += 1*(-u.disease_intensity(dis_type(cold_pen)) + u.disease_intensity(dis_type(hot_pen)));
+    case bp_legs : morale_pen += 1*intensity_mult;
     case bp_hands:
-    case bp_feet : morale_pen += 1*(-u.disease_intensity(dis_type(cold_pen)) + u.disease_intensity(dis_type(hot_pen)));
+    case bp_feet : morale_pen += 1*intensity_mult;
    }
   }
-  // Frostbite
+  // Frostbite (level 1 after 2 hours, level 2 after 4 hours)
   if (u.frostbite_timer[i] > 0)  u.frostbite_timer[i]--;
-  if (u.frostbite_timer[i] > 11) u.add_disease(dis_type(frost_pen), 1, this);
+  if      (u.frostbite_timer[i] >= 24) {
+   if (u.disease_intensity(dis_type(frost_pen)) < 2) add_msg("Youe %s hardens from the frostbite!", body_part_name(body_part(i), -1).c_str()); // TODO doesn't make sense for hands/feet. Find code that would fix this...
+   u.add_disease(dis_type(frost_pen), 10, this, 2, 2);}
+  else if (u.frostbite_timer[i] >= 12) {
+   if (!u.has_disease(dis_type(frost_pen))) add_msg("You lose sensation in your %s.", body_part_name(body_part(i), -1).c_str());
+   u.add_disease(dis_type(frost_pen), 10, this, 1, 2);}
   // Warn the player if condition worsens
   if      (temp_before > BODYTEMP_FREEZING && temp_after < BODYTEMP_FREEZING) add_msg("You feel your %s beginning to go numb from the cold!", body_part_name(body_part(i), -1).c_str());
   else if (temp_before > BODYTEMP_VERY_COLD && temp_after < BODYTEMP_VERY_COLD) add_msg("You feel your %s getting very cold.", body_part_name(body_part(i), -1).c_str());
@@ -808,14 +842,9 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   else if (temp_before < BODYTEMP_VERY_HOT && temp_after > BODYTEMP_VERY_HOT) add_msg("You feel your %s getting very hot.", body_part_name(body_part(i), -1).c_str());
   else if (temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT) add_msg("You feel your %s getting hot.", body_part_name(body_part(i), -1).c_str()); 
  } 
- // Morale penalties TODO only updates every 10 ticks
- if (morale_pen < 0) u.add_morale(MORALE_COLD, -1*abs(morale_pen), -10*abs(morale_pen));
- if (morale_pen > 0) u.add_morale(MORALE_HOT,  -1*abs(morale_pen), -10*abs(morale_pen));
- // Bodytemp equalization code
- u.temp_equalizer(bp_torso, bp_arms); u.temp_equalizer(bp_torso, bp_legs); u.temp_equalizer(bp_torso, bp_head);
- u.temp_equalizer(bp_head, bp_eyes); u.temp_equalizer(bp_head, bp_mouth);
- u.temp_equalizer(bp_arms, bp_hands);
- u.temp_equalizer(bp_legs, bp_feet);
+ // Morale penalties
+ if (morale_pen < 0) u.add_morale(MORALE_COLD, -2, -abs(morale_pen));
+ if (morale_pen > 0) u.add_morale(MORALE_HOT,  -2, -abs(morale_pen));
 }
 
 void game::rustCheck() {
@@ -915,7 +944,7 @@ void game::process_activity()
     }
 
     if (u.skillLevel(reading->type) < reading->level) {
-      add_msg("You learn a little about %s!", reading->type->name().c_str());
+      add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(), u.skillLevel(reading->type).exercise());
      int min_ex = reading->time / 10 + u.int_cur / 4,
        max_ex = reading->time /  5 + u.int_cur / 2 - u.skillLevel(reading->type).level();
      if (min_ex < 1)
@@ -2099,6 +2128,36 @@ void game::save()
  MAPBUFFER.save();
 }
 
+void game::delete_save()
+{
+#if (defined _WIN32 || defined __WIN32__)
+      WIN32_FIND_DATA FindFileData;
+      HANDLE hFind;
+      TCHAR Buffer[MAX_PATH];
+
+      GetCurrentDirectory(MAX_PATH, Buffer);
+      SetCurrentDirectory("save");
+      hFind = FindFirstFile("*", &FindFileData);
+      if(INVALID_HANDLE_VALUE != hFind) {
+       do {
+        DeleteFile(FindFileData.cFileName);
+       } while(FindNextFile(hFind, &FindFileData) != 0);
+       FindClose(hFind);
+      }
+      SetCurrentDirectory(Buffer);
+#else
+     DIR *save_dir = opendir("save");
+     struct dirent *save_dirent = NULL;
+     if(save_dir != NULL && 0 == chdir("save"))
+     {
+      while ((save_dirent = readdir(save_dir)) != NULL)
+       (void)unlink(save_dirent->d_name);
+      (void)chdir("..");
+      (void)closedir(save_dir);
+     }
+#endif
+}
+
 void game::advance_nextinv()
 {
  if (nextinv == 'z')
@@ -2753,7 +2812,7 @@ void game::draw_ter(int posx, int posy)
  }
  wrefresh(w_terrain);
  if (u.has_disease(DI_VISUALS) || (u.has_disease(DI_HOT_HEAD) && u.disease_intensity(DI_HOT_HEAD) != 1))
-  hallucinate();
+   hallucinate(posx, posy);
 }
 
 void game::refresh_all()
@@ -2932,13 +2991,13 @@ void game::draw_minimap()
  wrefresh(w_minimap);
 }
 
-void game::hallucinate()
+void game::hallucinate(const int x, const int y)
 {
  for (int i = 0; i <= SEEX * 2 + 1; i++) {
   for (int j = 0; j <= SEEY * 2 + 1; j++) {
    if (one_in(10)) {
-    char ter_sym = terlist[m.ter(i + rng(-2, 2), j + rng(-2, 2))].sym;
-    nc_color ter_col = terlist[m.ter(i + rng(-2, 2), j + rng(-2, 2))].color;
+    char ter_sym = terlist[m.ter(i + x - SEEX + rng(-2, 2), j + y - SEEY + rng(-2, 2))].sym;
+    nc_color ter_col = terlist[m.ter(i + x - SEEX + rng(-2, 2), j + y - SEEY+ rng(-2, 2))].color;
     mvwputch(w_terrain, j, i, ter_col, ter_sym);
    }
   }
@@ -3538,7 +3597,7 @@ void game::monmove()
 
 void game::sound(int x, int y, int vol, std::string description)
 {
- vol *= 1; // Scale it a little //Oddzball-Why did everything have same sound sense as Canine Ears? Bug? Changed to 1
+ vol *= 1.5; // Scale it a little
 // First, alert all monsters (that can hear) to the sound
  for (int i = 0; i < z.size(); i++) {
   if (z[i].can_hear()) {
@@ -3548,10 +3607,10 @@ void game::sound(int x, int y, int vol, std::string description)
    z[i].process_trigger(MTRIG_SOUND, volume);
   }
  }
-// Loud sounds make the next spawn sooner!//Oddzball-fixed accelerrated spawn
+// Loud sounds make the next spawn sooner!
  int spawn_range = int(MAPSIZE / 2) * SEEX;
- if ((vol*1.5) >= spawn_range) { 
-  int max = ((vol*1.5) - spawn_range);
+ if (vol >= spawn_range) {
+  int max = (vol - spawn_range);
   int min = int(max / 6);
   if (max > spawn_range * 4)
    max = spawn_range * 4;
@@ -3647,8 +3706,8 @@ void game::add_footstep(int x, int y, int volume, int distance)
 void game::draw_footsteps()
 {
  for (int i = 0; i < footsteps.size(); i++) {
-  mvwputch(w_terrain, SEEY + footsteps[i].y - u.posy,
-           SEEX + footsteps[i].x - u.posx, c_yellow, '?');
+  mvwputch(w_terrain, SEEY + footsteps[i].y - u.posy - u.view_offset_y,
+                      SEEX + footsteps[i].x - u.posx - u.view_offset_x, c_yellow, '?');
  }
  footsteps.clear();
  wrefresh(w_terrain);
@@ -3727,15 +3786,23 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
  }
 // Draw the explosion
  for (int i = 1; i <= radius; i++) {
-  mvwputch(w_terrain, y - i + SEEY - u.posy, x - i + SEEX - u.posx, c_red, '/');
-  mvwputch(w_terrain, y - i + SEEY - u.posy, x + i + SEEX - u.posx, c_red,'\\');
-  mvwputch(w_terrain, y + i + SEEY - u.posy, x - i + SEEX - u.posx, c_red,'\\');
-  mvwputch(w_terrain, y + i + SEEY - u.posy, x + i + SEEX - u.posx, c_red, '/');
+  mvwputch(w_terrain, y - i + SEEY - u.posy - u.view_offset_y,
+                      x - i + SEEX - u.posx - u.view_offset_x, c_red, '/');
+  mvwputch(w_terrain, y - i + SEEY - u.posy - u.view_offset_y,
+                      x + i + SEEX - u.posx - u.view_offset_x, c_red,'\\');
+  mvwputch(w_terrain, y + i + SEEY - u.posy - u.view_offset_y,
+                      x - i + SEEX - u.posx - u.view_offset_x, c_red,'\\');
+  mvwputch(w_terrain, y + i + SEEY - u.posy - u.view_offset_y,
+                      x + i + SEEX - u.posx - u.view_offset_x, c_red, '/');
   for (int j = 1 - i; j < 0 + i; j++) {
-   mvwputch(w_terrain, y - i + SEEY - u.posy, x + j + SEEX - u.posx, c_red,'-');
-   mvwputch(w_terrain, y + i + SEEY - u.posy, x + j + SEEX - u.posx, c_red,'-');
-   mvwputch(w_terrain, y + j + SEEY - u.posy, x - i + SEEX - u.posx, c_red,'|');
-   mvwputch(w_terrain, y + j + SEEY - u.posy, x + i + SEEX - u.posx, c_red,'|');
+   mvwputch(w_terrain, y - i + SEEY - u.posy - u.view_offset_y,
+                       x + j + SEEX - u.posx - u.view_offset_x, c_red,'-');
+   mvwputch(w_terrain, y + i + SEEY - u.posy - u.view_offset_y,
+                       x + j + SEEX - u.posx - u.view_offset_x, c_red,'-');
+   mvwputch(w_terrain, y + j + SEEY - u.posy - u.view_offset_y,
+                       x - i + SEEX - u.posx - u.view_offset_x, c_red,'|');
+   mvwputch(w_terrain, y + j + SEEY - u.posy - u.view_offset_y,
+                       x + i + SEEX - u.posx - u.view_offset_x, c_red,'|');
   }
   wrefresh(w_terrain);
   nanosleep(&ts, NULL);
@@ -3760,8 +3827,8 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
    if (j > 0 && u_see(traj[j - 1].x, traj[j - 1].y, ijunk))
     m.drawsq(w_terrain, u, traj[j - 1].x, traj[j - 1].y, false, true);
    if (u_see(traj[j].x, traj[j].y, ijunk)) {
-    mvwputch(w_terrain, traj[j].y + SEEY - u.posy,
-                        traj[j].x + SEEX - u.posx, c_red, '`');
+    mvwputch(w_terrain, traj[j].y + SEEY - u.posy - u.view_offset_y,
+                        traj[j].x + SEEX - u.posx - u.view_offset_x, c_red, '`');
     wrefresh(w_terrain);
     nanosleep(&ts, NULL);
    }
@@ -4152,7 +4219,7 @@ void game::open()
    return;
   }
 
-  if (m.ter(u.posx, u.posy) == t_floor)
+  if (m.is_indoor(u.posx, u.posy))
    didit = m.open_door(u.posx + openx, u.posy + openy, true);
   else
    didit = m.open_door(u.posx + openx, u.posy + openy, false);
@@ -4232,9 +4299,9 @@ void game::smash()
  get_direction(this, smashx, smashy, ch);
 // TODO: Move this elsewhere.
  if (m.has_flag(alarmed, u.posx + smashx, u.posy + smashy) &&
-     !event_queued(EVENT_ALARM)) {      //Oddzball-Alarm attracts zombies..
+     !event_queued(EVENT_WANTED)) {
   sound(u.posx, u.posy, 30, "An alarm sounds!");
-  add_event(EVENT_ALARM, int(turn) + 300, 0, levx, levy);
+  add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
  }
  if (smashx != -2 && smashy != -2)
   didit = m.bash(u.posx + smashx, u.posy + smashy, smashskill, bashsound);
@@ -4447,6 +4514,164 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
     refresh_all();
 }
 
+// A gate handle is adjacent to a wall section, and next to that wall section on one side or
+// another is the gate.  There may be a handle on the other side, but this is optional.
+// The gate continues until it reaches a non-floor tile, so they can be arbitrary length.
+//
+//   |  !|!        !  !
+//   +   +   --++++-  -++++++++++++
+//   +   +   !     !
+//   +   +
+//   +   |!
+//  !|
+//
+// The terrain type of the handle is passed in, and that is used to determine the type of
+// the wall and gate.
+static void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type ) {
+
+ enum ter_id v_wall_type;
+ enum ter_id h_wall_type;
+ enum ter_id door_type;
+ enum ter_id floor_type;
+ const char *pull_message;
+ const char *open_message;
+ const char *close_message;
+
+ switch(handle_type) {
+ case t_gates_mech_control:
+  v_wall_type = t_wall_v;
+  h_wall_type = t_wall_h;
+  door_type   = t_door_metal_locked;
+  floor_type  = t_floor;
+  pull_message = "You turn the handle...";
+  open_message = "The gate is opened!";
+  close_message = "The gate is closed!";
+  break;
+
+ case t_barndoor:
+  v_wall_type = t_wall_wood;
+  h_wall_type = t_wall_wood;
+  door_type   = t_door_metal_locked;
+  floor_type  = t_dirtfloor;
+  pull_message = "You pull the rope...";
+  open_message = "The barn doors opened!";
+  close_message = "The barn doors closed!";
+  break;
+
+  default: return; // No matching gate type
+ }
+
+ g->add_msg(pull_message);
+ g->u.moves -= 900;
+ if (((g->m.ter(examx-1, examy)==v_wall_type)&&
+      ((g->m.ter(examx-1, examy+1)==floor_type)||
+       (g->m.ter(examx-1, examy-1)==floor_type))&&
+      (!((g->m.ter(examx-1, examy-1)==door_type)||
+	 (g->m.ter(examx-1, examy+1)==door_type))))||
+     ((g->m.ter(examx+1, examy)==v_wall_type)&&
+      ((g->m.ter(examx+1, examy+1)==floor_type)||
+       (g->m.ter(examx+1, examy-1)==floor_type))&&
+      (!((g->m.ter(examx+1, examy-1)==door_type)||
+	 (g->m.ter(examx+1, examy+1)==door_type))))) {
+   //horizontal orientation of the gate
+   if ((g->m.ter(examx, examy-1)==h_wall_type)||
+       (g->m.ter(examx, examy+1)==h_wall_type)) {
+     int x_incr=0; int y_offst=0;
+     if (g->m.ter(examx, examy-1)==h_wall_type) y_offst = -1;
+     if (g->m.ter(examx, examy+1)==h_wall_type) y_offst = 1;
+     if (g->m.ter(examx+1, examy+y_offst) == floor_type) x_incr = 1;
+     if (g->m.ter(examx-1, examy+y_offst) == floor_type) x_incr = -1;
+     int cur_x = examx+x_incr;
+     while (g->m.ter(cur_x, examy+y_offst)== floor_type) {
+       g->m.ter(cur_x, examy+y_offst) = door_type;
+       cur_x = cur_x+x_incr;
+     }
+     //vertical orientation of the gate
+   } else if ((g->m.ter(examx-1, examy)==v_wall_type)||
+	      (g->m.ter(examx+1, examy)==v_wall_type)) {
+     int x_offst = 0; int y_incr = 0;
+     if ((g->m.ter(examx-1, examy)==v_wall_type)) x_offst = -1;
+     if ((g->m.ter(examx+1, examy)==v_wall_type)) x_offst = 1;
+     if (g->m.ter(examx+x_offst, examy-1)== floor_type) y_incr = -1;
+     if (g->m.ter(examx+x_offst, examy+1)== floor_type) y_incr = 1;
+     int cur_y = examy+y_incr;
+     while (g->m.ter(examx+x_offst, cur_y)==floor_type) {
+       g->m.ter(examx+x_offst, cur_y) = door_type;
+       cur_y = cur_y+y_incr;
+     }
+   }
+   g->add_msg(close_message);
+ } else if (((g->m.ter(examx, examy-1)==h_wall_type)&&
+	   ((g->m.ter(examx+1, examy-1)==floor_type)||
+	    (g->m.ter(examx-1, examy-1)==floor_type)))||
+	  ((g->m.ter(examx, examy+1)==h_wall_type)&&
+	   ((g->m.ter(examx+1, examy+1)==floor_type)||
+	    (g->m.ter(examx-1, examy+1)==floor_type))))
+ {
+   //horizontal orientation of the gate
+   if ((g->m.ter(examx, examy-1)==h_wall_type)||
+       (g->m.ter(examx, examy+1)==h_wall_type)) {
+     int x_incr=0; int y_offst=0;
+     if (g->m.ter(examx, examy-1)==h_wall_type) y_offst = -1;
+     if (g->m.ter(examx, examy+1)==h_wall_type) y_offst = 1;
+     if (g->m.ter(examx+1, examy+y_offst) == floor_type) x_incr = 1;
+     if (g->m.ter(examx-1, examy+y_offst) == floor_type) x_incr = -1;
+     int cur_x = examx+x_incr;
+     while (g->m.ter(cur_x, examy+y_offst)== floor_type) {
+       g->m.ter(cur_x, examy+y_offst) = door_type;
+       cur_x = cur_x+x_incr;
+     }
+ //vertical orientation of the gate
+   } else if ((g->m.ter(examx-1, examy)==v_wall_type)||
+	      (g->m.ter(examx+1, examy)==v_wall_type)) {
+     int x_offst = 0; int y_incr = 0;
+     if ((g->m.ter(examx-1, examy)==v_wall_type)) x_offst = -1;
+     if ((g->m.ter(examx+1, examy)==v_wall_type)) x_offst = 1;
+     if (g->m.ter(examx+x_offst, examy-1)== floor_type) y_incr = -1;
+     if (g->m.ter(examx+x_offst, examy+1)== floor_type) y_incr = 1;
+     int cur_y = examy+y_incr;
+     while (g->m.ter(examx+x_offst, cur_y)==floor_type) {
+       g->m.ter(examx+x_offst, cur_y) = door_type;
+       cur_y = cur_y+y_incr;
+     }
+   }
+
+   //closing the gate...
+   g->add_msg(close_message);
+ }
+ else //opening the gate...
+ {
+   //horizontal orientation of the gate
+   if ((g->m.ter(examx, examy-1)==h_wall_type)||
+       (g->m.ter(examx, examy+1)==h_wall_type)) {
+     int x_incr=0; int y_offst=0;
+     if (g->m.ter(examx, examy-1)==h_wall_type) y_offst = -1;
+     if (g->m.ter(examx, examy+1)==h_wall_type) y_offst = 1;
+     if (g->m.ter(examx+1, examy+y_offst) == door_type) x_incr = 1;
+     if (g->m.ter(examx-1, examy+y_offst) == door_type) x_incr = -1;
+     int cur_x = examx+x_incr;
+     while (g->m.ter(cur_x, examy+y_offst)==door_type) {
+       g->m.ter(cur_x, examy+y_offst) = floor_type;
+       cur_x = cur_x+x_incr;
+     }
+     //vertical orientation of the gate
+   } else if ((g->m.ter(examx-1, examy)==v_wall_type)||
+              (g->m.ter(examx+1, examy)==v_wall_type)) {
+     int x_offst = 0; int y_incr = 0;
+     if ((g->m.ter(examx-1, examy)==v_wall_type)) x_offst = -1;
+     if ((g->m.ter(examx+1, examy)==v_wall_type)) x_offst = 1;
+     if (g->m.ter(examx+x_offst, examy-1)== door_type) y_incr = -1;
+     if (g->m.ter(examx+x_offst, examy+1)== door_type) y_incr = 1;
+     int cur_y = examy+y_incr;
+     while (g->m.ter(examx+x_offst, cur_y)==door_type) {
+       g->m.ter(examx+x_offst, cur_y) = floor_type;
+       cur_y = cur_y+y_incr;
+     }
+   }
+   g->add_msg(open_message);
+ }
+}
+
 void game::examine()
 {
  if (u.in_vehicle) {
@@ -4613,102 +4838,7 @@ void game::examine()
 }
  else if (m.ter(examx, examy) == t_gates_mech_control && query_yn("Use this winch?"))
  {
-    add_msg("You grab the handle...");
-    u.moves -=900;
-    if (((m.ter(examx-1, examy)==t_wall_v)&&((m.ter(examx-1, examy+1)==t_floor)||(m.ter(examx-1, examy-1)==t_floor))&&(!((m.ter(examx-1, examy-1)==t_door_metal_locked)||(m.ter(examx-1, examy+1)==t_door_metal_locked))))
-        ||((m.ter(examx+1, examy)==t_wall_v)&&((m.ter(examx+1, examy+1)==t_floor)||(m.ter(examx+1, examy-1)==t_floor))&&(!((m.ter(examx+1, examy-1)==t_door_metal_locked)||(m.ter(examx+1, examy+1)==t_door_metal_locked))))) {
-            add_msg("Vertical gate closing...");
-                    //horizontal orientation of the gate
-    if ((m.ter(examx, examy-1)==t_wall_h)||(m.ter(examx, examy+1)==t_wall_h)) {
-        int x_incr=0; int y_offst=0;
-        if (m.ter(examx, examy-1)==t_wall_h) y_offst = -1;
-        if (m.ter(examx, examy+1)==t_wall_h) y_offst = 1;
-        if (m.ter(examx+1, examy+y_offst) == t_floor) x_incr = 1;
-        if (m.ter(examx-1, examy+y_offst) == t_floor) x_incr = -1;
-        int cur_x = examx+x_incr;
-        while (m.ter(cur_x, examy+y_offst)== t_floor) {
-            m.ter(cur_x, examy+y_offst) = t_door_metal_locked;
-            cur_x = cur_x+x_incr;                              }
-    } else //vertical orientation of the gate
-    if ((m.ter(examx-1, examy)==t_wall_v)||(m.ter(examx+1, examy)==t_wall_v)) {
-        int x_offst = 0; int y_incr = 0;
-        if ((m.ter(examx-1, examy)==t_wall_v)) x_offst = -1;
-        if ((m.ter(examx+1, examy)==t_wall_v)) x_offst = 1;
-        if (m.ter(examx+x_offst, examy-1)== t_floor) y_incr = -1;
-        if (m.ter(examx+x_offst, examy+1)== t_floor) y_incr = 1;
-            char * dzebugg = new char [10]();
-            sprintf(dzebugg, "%d ; %d", x_offst, y_incr);
-            add_msg(dzebugg);
-        int cur_y = examy+y_incr;
-        while (m.ter(examx+x_offst, cur_y)==t_floor) {
-            m.ter(examx+x_offst, cur_y) = t_door_metal_locked;
-            cur_y = cur_y+y_incr;
-            }
-        }
-    }
-    else
-    if (((m.ter(examx, examy-1)==t_wall_h)&&((m.ter(examx+1, examy-1)==t_floor)||(m.ter(examx-1, examy-1)==t_floor)))
-        ||((m.ter(examx, examy+1)==t_wall_h)&&((m.ter(examx+1, examy+1)==t_floor)||(m.ter(examx-1, examy+1)==t_floor))))
-        {
-
-            //horizontal orientation of the gate
-    if ((m.ter(examx, examy-1)==t_wall_h)||(m.ter(examx, examy+1)==t_wall_h)) {
-        int x_incr=0; int y_offst=0;
-        if (m.ter(examx, examy-1)==t_wall_h) y_offst = -1;
-        if (m.ter(examx, examy+1)==t_wall_h) y_offst = 1;
-        if (m.ter(examx+1, examy+y_offst) == t_floor) x_incr = 1;
-        if (m.ter(examx-1, examy+y_offst) == t_floor) x_incr = -1;
-        int cur_x = examx+x_incr;
-        while (m.ter(cur_x, examy+y_offst)== t_floor) {
-            m.ter(cur_x, examy+y_offst) = t_door_metal_locked;
-            cur_x = cur_x+x_incr;                              }
-    } else //vertical orientation of the gate
-    if ((m.ter(examx-1, examy)==t_wall_v)||(m.ter(examx+1, examy)==t_wall_v)) {
-        int x_offst = 0; int y_incr = 0;
-        if ((m.ter(examx-1, examy)==t_wall_v)) x_offst = -1;
-        if ((m.ter(examx+1, examy)==t_wall_v)) x_offst = 1;
-        if (m.ter(examx+x_offst, examy-1)== t_floor) y_incr = -1;
-        if (m.ter(examx+x_offst, examy+1)== t_floor) y_incr = 1;
-            /*char * dzebugg = new char [10]();
-            sprintf(dzebugg, "%d ; %d", x_offst, y_incr);
-            add_msg(dzebugg);*/
-        int cur_y = examy+y_incr;
-        while (m.ter(examx+x_offst, cur_y)==t_floor) {
-            m.ter(examx+x_offst, cur_y) = t_door_metal_locked;
-            cur_y = cur_y+y_incr;
-        }
-    }
-
-    //closing the gate...
-    add_msg("The gate is closed!"); }
-    else //opening the gate...
-    {
-        //horizontal orientation of the gate
-    if ((m.ter(examx, examy-1)==t_wall_h)||(m.ter(examx, examy+1)==t_wall_h)) {
-        int x_incr=0; int y_offst=0;
-        if (m.ter(examx, examy-1)==t_wall_h) y_offst = -1;
-        if (m.ter(examx, examy+1)==t_wall_h) y_offst = 1;
-        if (m.ter(examx+1, examy+y_offst) == t_door_metal_locked) x_incr = 1;
-        if (m.ter(examx-1, examy+y_offst) == t_door_metal_locked) x_incr = -1;
-        int cur_x = examx+x_incr;
-        while (m.ter(cur_x, examy+y_offst)==t_door_metal_locked) {
-            m.ter(cur_x, examy+y_offst) = t_floor;
-            cur_x = cur_x+x_incr;                              }
-    } else //vertical orientation of the gate
-    if ((m.ter(examx-1, examy)==t_wall_v)||(m.ter(examx+1, examy)==t_wall_v)) {
-        int x_offst = 0; int y_incr = 0;
-        if ((m.ter(examx-1, examy)==t_wall_v)) x_offst = -1;
-        if ((m.ter(examx+1, examy)==t_wall_v)) x_offst = 1;
-        if (m.ter(examx+x_offst, examy-1)== t_door_metal_locked) y_incr = -1;
-        if (m.ter(examx+x_offst, examy+1)== t_door_metal_locked) y_incr = 1;
-        int cur_y = examy+y_incr;
-        while (m.ter(examx+x_offst, cur_y)==t_door_metal_locked) {
-            m.ter(examx+x_offst, cur_y) = t_floor;
-            cur_y = cur_y+y_incr;
-        }
-    }
-    add_msg("The gate is opened!");
-  }
+   open_gate( this, examx, examy, t_gates_mech_control );
 /* } else if (m.ter(examx, examy) == t_dirt || m.ter(examx, examy) == t_grass) {
     m.ter(examx, examy) = t_wall_wood;
     m.ter(examx, examy) = t_shrub;
@@ -4722,103 +4852,8 @@ void game::examine()
  
  else if (m.ter(examx, examy) == t_barndoor && query_yn("Pull the rope?"))
  {
-    add_msg("You begin opening the doors...");
-    u.moves -=900;
-    if (((m.ter(examx-1, examy)==t_wall_wood)&&((m.ter(examx-1, examy+1)==t_dirtfloor)||(m.ter(examx-1, examy-1)==t_dirtfloor))&&(!((m.ter(examx-1, examy-1)==t_door_metal_locked)||(m.ter(examx-1, examy+1)==t_door_metal_locked))))
-        ||((m.ter(examx+1, examy)==t_wall_wood)&&((m.ter(examx+1, examy+1)==t_dirtfloor)||(m.ter(examx+1, examy-1)==t_dirtfloor))&&(!((m.ter(examx+1, examy-1)==t_door_metal_locked)||(m.ter(examx+1, examy+1)==t_door_metal_locked))))) {
-            add_msg("Vertical gate closing...");
-                    //horizontal orientation of the gate
-    if ((m.ter(examx, examy-1)==t_wall_wood)||(m.ter(examx, examy+1)==t_wall_wood)) {
-        int x_incr=0; int y_offst=0;
-        if (m.ter(examx, examy-1)==t_wall_wood) y_offst = -1;
-        if (m.ter(examx, examy+1)==t_wall_wood) y_offst = 1;
-        if (m.ter(examx+1, examy+y_offst) == t_dirtfloor) x_incr = 1;
-        if (m.ter(examx-1, examy+y_offst) == t_dirtfloor) x_incr = -1;
-        int cur_x = examx+x_incr;
-        while (m.ter(cur_x, examy+y_offst)== t_dirtfloor) {
-            m.ter(cur_x, examy+y_offst) = t_door_metal_locked;
-            cur_x = cur_x+x_incr;                              }
-    } else //vertical orientation of the gate
-    if ((m.ter(examx-1, examy)==t_wall_wood)||(m.ter(examx+1, examy)==t_wall_wood)) {
-        int x_offst = 0; int y_incr = 0;
-        if ((m.ter(examx-1, examy)==t_wall_wood)) x_offst = -1;
-        if ((m.ter(examx+1, examy)==t_wall_wood)) x_offst = 1;
-        if (m.ter(examx+x_offst, examy-1)== t_dirtfloor) y_incr = -1;
-        if (m.ter(examx+x_offst, examy+1)== t_dirtfloor) y_incr = 1;
-            char * dzebugg = new char [10]();
-            sprintf(dzebugg, "%d ; %d", x_offst, y_incr);
-            add_msg(dzebugg);
-        int cur_y = examy+y_incr;
-        while (m.ter(examx+x_offst, cur_y)==t_dirtfloor) {
-            m.ter(examx+x_offst, cur_y) = t_door_metal_locked;
-            cur_y = cur_y+y_incr;
-            }
+   open_gate( this, examx, examy, t_barndoor );
         }
-    }
-    else
-    if (((m.ter(examx, examy-1)==t_wall_wood)&&((m.ter(examx+1, examy-1)==t_dirtfloor)||(m.ter(examx-1, examy-1)==t_dirtfloor)))
-        ||((m.ter(examx, examy+1)==t_wall_wood)&&((m.ter(examx+1, examy+1)==t_dirtfloor)||(m.ter(examx-1, examy+1)==t_dirtfloor))))
-        {
-
-            //horizontal orientation of the gate
-    if ((m.ter(examx, examy-1)==t_wall_wood)||(m.ter(examx, examy+1)==t_wall_wood)) {
-        int x_incr=0; int y_offst=0;
-        if (m.ter(examx, examy-1)==t_wall_wood) y_offst = -1;
-        if (m.ter(examx, examy+1)==t_wall_wood) y_offst = 1;
-        if (m.ter(examx+1, examy+y_offst) == t_dirtfloor) x_incr = 1;
-        if (m.ter(examx-1, examy+y_offst) == t_dirtfloor) x_incr = -1;
-        int cur_x = examx+x_incr;
-        while (m.ter(cur_x, examy+y_offst)== t_dirtfloor) {
-            m.ter(cur_x, examy+y_offst) = t_door_metal_locked;
-            cur_x = cur_x+x_incr;                              }
-    } else //vertical orientation of the gate
-    if ((m.ter(examx-1, examy)==t_wall_wood)||(m.ter(examx+1, examy)==t_wall_wood)) {
-        int x_offst = 0; int y_incr = 0;
-        if ((m.ter(examx-1, examy)==t_wall_wood)) x_offst = -1;
-        if ((m.ter(examx+1, examy)==t_wall_wood)) x_offst = 1;
-        if (m.ter(examx+x_offst, examy-1)== t_dirtfloor) y_incr = -1;
-        if (m.ter(examx+x_offst, examy+1)== t_dirtfloor) y_incr = 1;
-            /*char * dzebugg = new char [10]();
-            sprintf(dzebugg, "%d ; %d", x_offst, y_incr);
-            add_msg(dzebugg);*/
-        int cur_y = examy+y_incr;
-        while (m.ter(examx+x_offst, cur_y)==t_dirtfloor) {
-            m.ter(examx+x_offst, cur_y) = t_door_metal_locked;
-            cur_y = cur_y+y_incr;
-        }
-    }
-
-    //closing the gate...
-    add_msg("You close the barn doors!"); }
-    else //opening the gate...
-    {
-        //horizontal orientation of the gate
-    if ((m.ter(examx, examy-1)==t_wall_wood)||(m.ter(examx, examy+1)==t_wall_wood)) {
-        int x_incr=0; int y_offst=0;
-        if (m.ter(examx, examy-1)==t_wall_wood) y_offst = -1;
-        if (m.ter(examx, examy+1)==t_wall_wood) y_offst = 1;
-        if (m.ter(examx+1, examy+y_offst) == t_door_metal_locked) x_incr = 1;
-        if (m.ter(examx-1, examy+y_offst) == t_door_metal_locked) x_incr = -1;
-        int cur_x = examx+x_incr;
-        while (m.ter(cur_x, examy+y_offst)==t_door_metal_locked) {
-            m.ter(cur_x, examy+y_offst) = t_dirtfloor;
-            cur_x = cur_x+x_incr;                              }
-    } else //vertical orientation of the gate
-    if ((m.ter(examx-1, examy)==t_wall_wood)||(m.ter(examx+1, examy)==t_wall_wood)) {
-        int x_offst = 0; int y_incr = 0;
-        if ((m.ter(examx-1, examy)==t_wall_wood)) x_offst = -1;
-        if ((m.ter(examx+1, examy)==t_wall_wood)) x_offst = 1;
-        if (m.ter(examx+x_offst, examy-1)== t_door_metal_locked) y_incr = -1;
-        if (m.ter(examx+x_offst, examy+1)== t_door_metal_locked) y_incr = 1;
-        int cur_y = examy+y_incr;
-        while (m.ter(examx+x_offst, cur_y)==t_door_metal_locked) {
-            m.ter(examx+x_offst, cur_y) = t_dirtfloor;
-            cur_y = cur_y+y_incr;
-        }
-    }
-    add_msg("The barn doors opened!");
-  }
- }
  
  
  
@@ -5310,12 +5345,10 @@ point game::look_around()
 
 void game::list_items()
 {
- int iInfoHeight = 12;
+ int iInfoHeight = 10;
  WINDOW* w_items = newwin(25-iInfoHeight, 55, 0, 25);
  WINDOW* w_item_info = newwin(iInfoHeight, 55, 25-iInfoHeight, 25);
 
- wborder(w_items, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
  std::vector <item> here;
  std::map<int, std::map<int, std::map<std::string, int> > > grounditems;
@@ -5353,17 +5386,44 @@ void game::list_items()
  int iActiveX = 0;
  int iActiveY = 0;
  long ch = '.';
+ std::string sFilter = "";
+ int iFilter = 0;
 
  do {
   if (iItemNum > 0) {
    u.view_offset_x = 0;
    u.view_offset_y = 0;
 
-   if (ch == 'I') {
+   if (ch == 'I' || ch == 'c' || ch == 'C') {
     compare(iActiveX, iActiveY);
     ch = '.';
+
+   } else if (ch == 'f' || ch == 'F') {
+    sFilter = string_input_popup("Filter:", 15, sFilter);
+    iActive = 0;
+    ch = '.';
+
+   } else if (ch == 'r' || ch == 'R') {
+    sFilter = "";
+    ch = '.';
+   }
+
+   if (ch == '.') {
     wborder(w_items, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                     LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+                     LINE_OXXO, LINE_OOXX, LINE_XXXO, LINE_XOXX );
+
+    int iTempStart = 19;
+    if (sFilter != "") {
+     iTempStart = 15;
+     mvwprintz(w_items, 25-iInfoHeight-1, iTempStart + 19, c_ltgreen, " %s", "R");
+     wprintz(w_items, c_white, "%s", "eset ");
+   }
+
+    mvwprintz(w_items, 25-iInfoHeight-1, iTempStart, c_ltgreen, " %s", "C");
+    wprintz(w_items, c_white, "%s", "ompare ");
+
+    mvwprintz(w_items, 25-iInfoHeight-1, iTempStart + 10, c_ltgreen, " %s", "F");
+    wprintz(w_items, c_white, "%s", "ilter ");
    }
 
    switch(ch) {
@@ -5374,34 +5434,42 @@ void game::list_items()
      break;
     case KEY_DOWN:
      iActive++;
-     if (iActive >= iItemNum)
-      iActive = iItemNum-1;
+     if (iActive >= iItemNum - iFilter)
+      iActive = iItemNum - iFilter-1;
      break;
    }
 
-   if (iItemNum > iMaxRows) {
+   if (iItemNum - iFilter > iMaxRows) {
     iStartPos = iActive - (iMaxRows - 1) / 2;
 
     if (iStartPos < 0)
      iStartPos = 0;
-    else if (iStartPos + iMaxRows > iItemNum)
-     iStartPos = iItemNum - iMaxRows;
+    else if (iStartPos + iMaxRows > iItemNum - iFilter)
+     iStartPos = iItemNum - iFilter - iMaxRows;
    }
 
    for (int i = 0; i < iMaxRows; i++)
     mvwprintz(w_items, 1 + i , 1, c_black, "%s", "                                                     ");
 
-   mvwprintz(w_items, 0, 23 + ((iItemNum > 9) ? 0 : 1), c_ltgreen, " %*d", ((iItemNum > 9) ? 2 : 1), iActive+1);
-   wprintz(w_items, c_white, " / %*d ", ((iItemNum > 9) ? 2 : 1), iItemNum);
 
    int iNum = 0;
+   iFilter = 0;
    iActiveX = 0;
    iActiveY = 0;
    std::string sActiveItemName;
    std::stringstream sText;
+   std::string sFilterPre = "";
+   std::string sFilterTemp = sFilter;
+   if (sFilterTemp != "" && sFilter.substr(0, 1) == "-") {
+    sFilterPre = "-";
+    sFilterTemp = sFilterTemp.substr(1, sFilterTemp.size()-1);
+   }
+
    for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
     for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
       for (std::map< std::string, int>::iterator iter=grounditems[iCol][iRow].begin(); iter!=grounditems[iCol][iRow].end(); ++iter) {
+      if (sFilterTemp == "" || (sFilterTemp != "" && ((sFilterPre != "-" && iter->first.find(sFilterTemp) != std::string::npos) ||
+                                             (sFilterPre == "-" && iter->first.find(sFilterTemp) == std::string::npos)))) {
        if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) ) {
         if (iNum == iActive) {
          iActiveX = iCol;
@@ -5421,14 +5489,30 @@ void game::list_items()
        }
 
        iNum++;
+      } else {
+       iFilter++;
+      }
       }
     }
    }
 
+   mvwprintz(w_items, 0, 23 + ((iItemNum - iFilter > 9) ? 0 : 1), c_ltgreen, " %*d", ((iItemNum - iFilter > 9) ? 2 : 1), iActive+1);
+   wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
+
    wclear(w_item_info);
-   mvwprintz(w_item_info, 0, 2, c_white, "%s", iteminfo[sActiveItemName].info().c_str());
-   wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                        LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+   mvwprintz(w_item_info, 0, 0, c_white, "%s", iteminfo[sActiveItemName].info().c_str());
+
+   for (int j=0; j < iInfoHeight-1; j++)
+    mvwputch(w_item_info, j, 0, c_ltgray, LINE_XOXO);
+
+   for (int j=0; j < iInfoHeight-1; j++)
+    mvwputch(w_item_info, j, 54, c_ltgray, LINE_XOXO);
+
+   for (int j=0; j < 54; j++)
+    mvwputch(w_item_info, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
+
+   mvwputch(w_item_info, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
+   mvwputch(w_item_info, iInfoHeight-1, 54, c_ltgray, LINE_XOOX);
 
    draw_ter();
    std::vector<point> trajectory = line_to(u.posx, u.posy, u.posx + iActiveX, u.posy + iActiveY, 0);
@@ -5439,8 +5523,8 @@ void game::list_items()
 
     if (u_see(trajectory[i].x, trajectory[i].y, junk)) {
      char bullet = 'X';
-     mvwputch(w_terrain, trajectory[i].y + SEEY - u.posy,
-                         trajectory[i].x + SEEX - u.posx, c_white, bullet);
+     mvwputch(w_terrain, trajectory[i].y + SEEY - u.posy - u.view_offset_y,
+                         trajectory[i].x + SEEX - u.posx - u.view_offset_x, c_white, bullet);
     }
    }
 
@@ -6234,7 +6318,8 @@ void game::plthrow()
     if (k >= y0 && k <= y1 && j >= x0 && j <= x1)
      m.drawsq(w_terrain, u, j, k, false, true);
     else
-     mvwputch(w_terrain, k + SEEY - u.posy, j + SEEX - u.posx, c_dkgray, '#');
+     mvwputch(w_terrain, k + SEEY - u.posy - u.view_offset_y,
+                         j + SEEX - u.posx - u.view_offset_x, c_dkgray, '#');
    }
   }
  }
@@ -7021,7 +7106,7 @@ void game::plmove(int x, int y)
    if (u.has_trait(PF_LIGHTSTEP))
     sound(x, y, 2, "");	// Sound of footsteps may awaken nearby monsters
    else
-    sound(x, y, 4, "");	// Sound of footsteps may awaken nearby monsters //Oddzball-Made Footsteps slightly less loud, we arent a damn elephant.
+    sound(x, y, 6, "");	// Sound of footsteps may awaken nearby monsters
   }
   if (one_in(20) && u.has_artifact_with(AEP_MOVEMENT_NOISE))
    sound(x, y, 40, "You emit a rattling sound.");
@@ -7144,7 +7229,7 @@ void game::plmove(int x, int y)
 // Only lose movement if we're blind
    add_msg("You bump into a %s!", m.tername(x, y).c_str());
    u.moves -= 100;
-  } else if (m.open_door(x, y, m.ter(u.posx, u.posy) == t_floor))
+  } else if (m.open_door(x, y, m.is_indoor(u.posx, u.posy)))
    u.moves -= 100;
   else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_alarm) {
    u.moves -= 100;
