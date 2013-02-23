@@ -2384,6 +2384,12 @@ void overmap::place_radios()
   Supplies, amenities and shelter are stocked.", i, j);
     radios.push_back(radio_tower(i*2, j*2, rng(40, 100), message));
     break;
+   case ot_fema_entrance:
+    snprintf( message, sizeof(message), "This is FEMA camp %d%d.\
+  Supplies are limited, please bring supplimental food, water, and bedding.\
+  This is FEMA camp %d%d.  A desginated long-term emergency shelter.", i, j, i, j);
+    radios.push_back(radio_tower(i*2, j*2, rng(80, 200), message));
+     break;
    }
   }
  }
