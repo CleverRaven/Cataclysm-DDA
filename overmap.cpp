@@ -549,7 +549,7 @@ void overmap::generate_sub(overmap* above)
  std::vector<city> mine_points;
  std::vector<point> bunker_points;
  std::vector<point> shelter_points;
- std::vector<point> lmoe_points; //Oddzball-LMOE submap
+ std::vector<point> lmoe_points;
  std::vector<point> triffid_points;
  std::vector<point> temple_points;
  for (int i = 0; i < OMAPX; i++) {

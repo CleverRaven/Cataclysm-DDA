@@ -80,7 +80,7 @@ enum oter_id {
   ot_s_restaurant_west,
  ot_sub_station_north, ot_sub_station_east, ot_sub_station_south,
   ot_sub_station_west,
- ot_s_garage_north, ot_s_garage_east, ot_s_garage_south, ot_s_garage_west, ot_cabin, ot_farm, ot_farm_field, //Oddzball-Farm
+ ot_s_garage_north, ot_s_garage_east, ot_s_garage_south, ot_s_garage_west, ot_cabin, ot_farm, ot_farm_field,
  ot_police_north, ot_police_east, ot_police_south, ot_police_west,
  ot_bank_north, ot_bank_east, ot_bank_south, ot_bank_west,
  ot_bar_north, ot_bar_east, ot_bar_south, ot_bar_west,
@@ -138,7 +138,7 @@ const oter_t oterlist[num_ter_types] = {
 {"nothing",		'%',	c_white,	0, no_extras, false, false},
 {"crater",		'O',	c_red,		2, field_extras, false, false},
 {"field",		'.',	c_brown,	2, field_extras, false, false},
-{"dirt lot",		'O',	c_brown,	1, field_extras, false, false}, //Oddzball-Dirt lot graphic for Overmap
+{"dirt lot",		'O',	c_brown,	1, field_extras, false, false},
 {"forest",		'F',	c_green,	3, field_extras, false, false},
 {"forest",		'F',	c_green,	4, field_extras, false, false},
 {"swamp",		'F',	c_cyan,		4, field_extras, false, false},
@@ -239,8 +239,8 @@ const oter_t oterlist[num_ter_types] = {
 {"garage",              'O',    c_white,       5, build_extras, false, false},
 {"garage",              'O',    c_white,       5, build_extras, false, false},
 {"cabin",              'C',    i_green,       5, build_extras, false, false},
-{"farm",              '^',    i_brown,       5, build_extras, false, false}, //Oddzball-Farm
-{"farm field",              '#',    i_brown,       5, field_extras, false, false}, //Oddzball-Farm
+{"farm",              '^',    i_brown,       5, build_extras, false, false},
+{"farm field",              '#',    i_brown,       5, field_extras, false, false},
 {"police station",	'^',	h_yellow,	5, build_extras, false, false},
 {"police station",	'>',	h_yellow,	5, build_extras, false, false},
 {"police station",	'v',	h_yellow,	5, build_extras, false, false},
@@ -457,7 +457,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_cabin,   0, 30, 20, -1, mcat_null, 0, 0, 0, 0,  // Woods cabin
  &omspec_place::forest, 0},
 
- {ot_lmoe,   0, 3, 20, -1, mcat_null, 0, 0, 0, 0,  //Oddzball- LMOE Test
+ {ot_lmoe,   0, 3, 20, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, 0},
 
  {ot_farm,   0, 20, 20, -1, mcat_null, 0, 0, 0, 0,

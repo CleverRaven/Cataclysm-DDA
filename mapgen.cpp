@@ -4351,17 +4351,14 @@ case ot_s_garage_north:
   }
   break;
 
- //Oddzball-Cabin
  case ot_cabin:
 	{
 	square(this, t_grass, 0, 0, 23, 23);
-	
 
-
-	//Oddzball-Cabin design 1 Quad
+	//Cabin design 1 Quad
 	if(one_in(2)){
 	square(this, t_wall_wood, 2, 3, 21, 20);
-	square(this, t_floor, 2, 17, 21, 20);//Oddzball-Front porch
+	square(this, t_floor, 2, 17, 21, 20);//Front porch
 	line(this, t_fence_v, 2, 17, 2, 20);
 	line(this, t_fence_v, 21, 17, 21, 20);
 	line(this, t_fence_h, 2, 20, 21, 20);
@@ -4375,8 +4372,8 @@ case ot_s_garage_north:
 	line(this, t_bench, 4, 17, 7, 17);
 	square(this, t_rubble, 19, 18, 20, 19);
 	ter(20, 17) = t_rubble;
-	ter(18, 19) = t_rubble; //Oddzball-Porch done
-	line(this, t_door_c, 11, 16, 12, 16);//Oddzball-Interior
+	ter(18, 19) = t_rubble; //Porch done
+	line(this, t_door_c, 11, 16, 12, 16);//Interior
 	square(this, t_floor, 3, 4, 9, 9);
 	square(this, t_floor, 3, 11, 9, 15);
 	square(this, t_floor, 11, 4, 12, 15);
@@ -4384,15 +4381,15 @@ case ot_s_garage_north:
 	square(this, t_floor, 14, 11, 20, 15);
 	line(this, t_wall_wood, 7, 4, 7, 8);
 	square(this, t_wall_wood, 8, 8, 9, 9);
-	line(this, t_rack, 3, 4, 3, 9); //Oddzball-Pantry Racks
-	line(this, t_curtains, 2, 6, 2, 7); //Oddzball-Windows start
+	line(this, t_rack, 3, 4, 3, 9); //Pantry Racks
+	line(this, t_curtains, 2, 6, 2, 7); //Windows start
 	line(this, t_curtains, 2, 12, 2, 13);
 	line(this, t_window_domestic, 5, 16, 6, 16);
 	line(this, t_window_domestic, 17, 16, 18, 16);
 	line(this, t_curtains, 21, 12, 21, 13);
 	line(this, t_window_empty, 21, 6, 21, 7);
-	ter(8, 3) = t_curtains;//Oddzball-Windows End
-	line(this, t_door_c, 11, 3, 12, 3);//Oddzball-Rear Doors
+	ter(8, 3) = t_curtains;//Windows End
+	line(this, t_door_c, 11, 3, 12, 3);//Rear Doors
 	square(this, t_rubble, 20, 3, 21, 4);
 	ter(19, 3) = t_rubble;
 	ter(21, 5) = t_rubble;
@@ -4482,8 +4479,7 @@ case ot_s_garage_north:
 	}
 }
 break;
-//Oddzball-Cabin
- //Oddzball-Farm
+
  case ot_farm:
 		{
 		square(this, t_grass, 0, 0, 23, 23); //basic lot
