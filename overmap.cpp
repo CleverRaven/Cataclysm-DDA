@@ -2373,6 +2373,9 @@ to your designated evacuation point."));
     else
      radios.push_back(radio_tower(i*2, j*2, rng(80, 200),
 				  "Head West.  All survivors, head West.  Help is waiting."));
+   if (ter(i, j) == ot_lmoe)
+     radios.push_back(radio_tower(i*2, j*2, rng(40, 100),
+				  "This is an automated emergency shelter beacon.  Supplies, amenities and shelter are stocked."));
   }
  }
 }
