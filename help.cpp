@@ -322,6 +322,11 @@ same square. Some items are found inside a container, drawn as a { with a\n\
 blue background. Pressing 'e', then a direction, will allow you to examine\n\
 these containers and loot their contents.\n\
 \n\
+Pressing 'I' opens a comparison menu, where you can see two items\n\
+side-by-side with their attributes highlighted to indicate which is surperior.\n\
+You can also access the item comparison menu by pressing 'C' when the 'V'iew\n\
+nearby items menu is open and an item is selected.\n\
+\n\
 All items may be used as a melee weapon, though some are better than others.\n\
 You can check the melee attributes of an item you're carrying by hitting 'i'\n\
 to enter your inventory, then pressing the letter of the item.  There are 3\n\
