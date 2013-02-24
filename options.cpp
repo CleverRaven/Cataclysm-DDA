@@ -205,7 +205,7 @@ char option_max_options(option_key id)
         break;
       case OPT_VIEWPORT_X:
       case OPT_VIEWPORT_Y:
-		ret = 60;
+		ret = 61; // TODO Set up min/max values so weird numbers don't have to be used.
 		break;
       default:
         ret = 2;

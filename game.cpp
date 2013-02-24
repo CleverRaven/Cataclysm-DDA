@@ -69,8 +69,14 @@ game::game() :
  init_autosave();     // Set up autosave
  load_keyboard_settings();
 
- VIEWX = OPTIONS[OPT_VIEWPORT_X] + 1;
- VIEWY = OPTIONS[OPT_VIEWPORT_Y] + 1;
+ VIEWX = OPTIONS[OPT_VIEWPORT_X];
+ VIEWY = OPTIONS[OPT_VIEWPORT_Y];
+ if (VIEWX <= 0) {
+  VIEWX = 1;
+ }
+ if (VIEWY <= 0) {
+  VIEWY = 1;
+ }
  TERRAIN_WINDOW_WIDTH = (VIEWX * 2) + 1;
  TERRAIN_WINDOW_HEIGHT = (VIEWY * 2) + 1;
 // Set up the main UI windows.
