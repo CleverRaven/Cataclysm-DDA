@@ -3302,9 +3302,10 @@ void game::mon_info()
     newseen++;
    }
 
-   dir_to_mon = direction_from(u.posx, u.posy, z[i].posx, z[i].posy);
-   int index = (abs(u.posx - z[i].posx) <= VIEWX &&
-                abs(u.posy - z[i].posy) <= VIEWY) ?
+   dir_to_mon = direction_from(u.posx + u.view_offset_x, u.posy + u.view_offset_y,
+                               z[i].posx, z[i].posy);
+   int index = (abs(u.posx + u.view_offset_x - z[i].posx) <= VIEWX &&
+                abs(u.posy + u.view_offset_y - z[i].posy) <= VIEWY) ?
                 8 : dir_to_mon;
    if (mon_dangerous && index < 8)
     dangerous[index] = true;
@@ -3318,9 +3319,10 @@ void game::mon_info()
    if (active_npc[i].attitude == NPCATT_KILL)
     newseen++;
    point npcp(active_npc[i].posx, active_npc[i].posy);
-   dir_to_npc = direction_from ( u.posx, u.posy, npcp.x, npcp.y );
-   int index = (abs(u.posx - npcp.x) <= VIEWX &&
-                abs(u.posy - npcp.y) <= VIEWY) ?
+   dir_to_npc = direction_from ( u.posx + u.view_offset_x, u.posy + u.view_offset_y,
+                                 npcp.x, npcp.y );
+   int index = (abs(u.posx + u.view_offset_x - npcp.x) <= VIEWX &&
+                abs(u.posy + u.view_offset_y - npcp.y) <= VIEWY) ?
                 8 : dir_to_npc;
    unique_types[index].push_back(-1 - i);
   }
