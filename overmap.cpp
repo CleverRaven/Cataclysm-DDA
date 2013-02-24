@@ -2318,7 +2318,7 @@ void overmap::place_mongroups()
   if (!one_in(16) || cities[i].s > 5)
    zg.push_back(
 	mongroup(mcat_zombie, (cities[i].x * 2), (cities[i].y * 2),
-	         int(cities[i].s * 2.5), cities[i].s * 200)); //Oddzball-Increased spawn test
+	         int(cities[i].s * 2.5), cities[i].s * 160)); //Oddzball-Increased spawn test
  }
 
 // Figure out where swamps are, and place swamp monsters
