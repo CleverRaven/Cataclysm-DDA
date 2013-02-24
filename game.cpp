@@ -391,6 +391,8 @@ fivedozenwhales@gmail.com.");
     if (query_yn("Delete the world and all saves?")) {
      delete_save();
      savegames.clear();
+     MAPBUFFER.reset();
+     MAPBUFFER.make_volatile();
     }
 
     layer = 1;

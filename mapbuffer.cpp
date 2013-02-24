@@ -16,8 +16,13 @@ mapbuffer::mapbuffer()
 
 mapbuffer::~mapbuffer()
 {
- std::list<submap*>::iterator it;
+ reset();
+}
 
+void mapbuffer::reset(){
+ submaps.clear();;
+
+ std::list<submap*>::iterator it;
  for (it = submap_list.begin(); it != submap_list.end(); it++)
   delete *it;
 }

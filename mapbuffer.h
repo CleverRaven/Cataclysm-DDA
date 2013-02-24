@@ -34,6 +34,7 @@ class mapbuffer
   void load();
   void save();
   void save_if_dirty();
+  void reset();
 
   bool add_submap(int x, int y, int z, submap *sm);
   submap* lookup_submap(int x, int y, int z);
