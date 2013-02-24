@@ -325,7 +325,7 @@ fin.open("data\\FONTDATA");
 //    WindowCount=0;
 
     delete typeface_c;
-    mainwin = newwin((14 OPTIONS[OPT_VIEWPORT_Y]),(69+ OPTIONS[OPT_VIEWPORT_X]),0,0);
+    mainwin = newwin((14 + OPTIONS[OPT_VIEWPORT_Y]),(69 + OPTIONS[OPT_VIEWPORT_X]),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 };
 
