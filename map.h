@@ -1,13 +1,7 @@
 #ifndef _MAP_H_
 #define _MAP_H_
 
-#if (defined _WIN32 || defined WINDOWS)
-	#include "catacurse.h"
-#elif (defined __CYGWIN__)
-      #include "ncurses/curses.h"
-#else
-	#include <curses.h>
-#endif
+#include "cursesdef.h"
 
 #include <stdlib.h>
 #include <vector>
