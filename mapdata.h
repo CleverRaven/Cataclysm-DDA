@@ -203,7 +203,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)},
 {"dirt floor",	     '.', c_brown,    2, tr_null,  //Dirt Floor, must have roofs!
 	mfb(transparent)|mfb(diggable)|mfb(supports_roof)|mfb(collapses)},
-{"hay",              '#', i_yellow, 5, tr_null,
+{"hay",              '#', i_brown, 5, tr_null,
 	mfb(transparent)|mfb(container)|mfb(flammable2)|mfb(collapses)},
 {"metal grate",      '#', c_dkgray,  2, tr_null,
 	mfb(transparent)},
@@ -410,7 +410,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"arm chair",            'H', c_green,   3, tr_null,
 	mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)},
 
-{"sofa",            'H', i_ltred,   3, tr_null,
+{"sofa",            'H', i_red,   3, tr_null,
 	mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)},
 {"cupboard",         '#', c_blue,    3, tr_null,
         mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)|
@@ -454,7 +454,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(console)|mfb(noitem)|mfb(collapses)},
 {"mechanical winch", '6', c_cyan_red, 0, tr_null,
         mfb(transparent)|mfb(noitem)|mfb(collapses)},
-{"rope and pulley", '|', i_yellow, 0, tr_null,
+{"rope and pulley", '|', i_brown, 0, tr_null,
         mfb(transparent)|mfb(noitem)|mfb(collapses)},
 {"sewage pipe",      '1', c_ltgray,  0, tr_null,
 	mfb(transparent)},
@@ -558,6 +558,7 @@ enum map_extra {
  mx_portal,
  mx_minefield,
  mx_wolfpack,
+ mx_cougar,
  mx_puddle,
  mx_crater,
  mx_fumarole,
@@ -575,16 +576,17 @@ const int map_extra_chance[num_map_extras + 1] = {
 120,	// Science
 200,	// Stash
  20,	// Drug deal
- 10,    // Supply drop
+ 10, // Supply drop
   5,	// Portal
  70,	// Minefield
  30,	// Wolf pack
+ 40, // Cougar
 250,	// Puddle
  10,	// Crater
   8,	// Fumarole
   7,	// One-way portal into this world
  10,	// Anomaly
-  0	// Just a cap value; leave this as the last one
+  0	 // Just a cap value; leave this as the last one
 };
 
 struct map_extras {
@@ -592,7 +594,7 @@ struct map_extras {
  int chances[num_map_extras + 1];
  map_extras(unsigned int embellished, int helicopter = 0, int mili = 0,
             int sci = 0, int stash = 0, int drug = 0, int supply = 0,
-            int portal = 0, int minefield = 0, int wolves = 0, int puddle = 0,
+            int portal = 0, int minefield = 0, int wolves = 0, int cougar = 0, int puddle = 0,
             int crater = 0, int lava = 0, int marloss = 0, int anomaly = 0)
             : chance(embellished)
  {
@@ -606,12 +608,13 @@ struct map_extras {
   chances[ 7] = portal;
   chances[ 8] = minefield;
   chances[ 9] = wolves;
-  chances[10] = puddle;
-  chances[11] = crater;
-  chances[12] = lava;
-  chances[13] = marloss;
-  chances[14] = anomaly;
-  chances[15] = 0;
+  chances[10] = cougar;
+  chances[11] = puddle;
+  chances[12] = crater;
+  chances[13] = lava;
+  chances[14] = marloss;
+  chances[15] = anomaly;
+  chances[16] = 0;
  }
 };
 
