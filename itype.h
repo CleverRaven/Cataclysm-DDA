@@ -211,12 +211,45 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_boltcutters, itm_mop, itm_picklocks, itm_pickaxe, itm_spray_can, itm_rag,
  itm_pda, itm_pda_flashlight,
 // Bionics containers
-itm_bionics_battery,       itm_bionics_power,   itm_bionics_tools,
- itm_bionics_neuro,        itm_bionics_sensory, itm_bionics_aquatic,
- itm_bionics_combat_aug,   itm_bionics_hazmat,  itm_bionics_nutritional,
- itm_bionics_desert,       itm_bionics_melee,   itm_bionics_armor,
- itm_bionics_espionage,    itm_bionics_defense, itm_bionics_medical,
- itm_bionics_construction, itm_bionics_super,   itm_bionics_ranged,
+itm_bionics_battery,       
+ //power sources
+ itm_bionics_solar,   itm_bionics_batteries,
+ itm_bionics_metabolics,   itm_bionics_furnace, itm_bionics_ethanol,
+ // utility
+ itm_bionics_toolset,      itm_bionics_storage, itm_bionics_flashlight,
+ itm_bionics_lighter,      itm_bionics_magnet,
+ // neuro
+ itm_bionics_memory,       itm_bionics_painkiller,itm_bionics_alarm,
+ // sensory
+ itm_bionics_ears,          itm_bionics_eye_enhancer, itm_bionics_night_vision,
+ itm_bionics_infrared,      itm_bionics_scent_vision,
+ // cbm: aquatic
+ itm_bionics_membrane, itm_bionics_gills,
+ // cbm: combat augs
+ itm_bionics_targeting, itm_bionics_ground_sonar,
+ // cbm: hazmat
+ itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter,
+ // nutritional
+ itm_bionics_recycler, itm_bionics_digestion, itm_bionics_evap, itm_bionics_water_extractor,
+ // desert survival (all dupes)
+ // melee:
+ itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws, 
+ // armor:
+ itm_bionics_carbon, itm_bionics_armor_head, itm_bionics_armor_torso,
+ itm_bionics_armor_arms, itm_bionics_armor_legs,
+ // espionage
+ itm_bionics_face_mask, itm_bionics_scent_mask, itm_bionics_cloak, itm_bionics_fingerhack,
+ //defense
+ itm_bionics_ads, itm_bionics_ods,
+ // medical
+ itm_bionics_nanobots, itm_bionics_blood_anal,
+ // construction
+ itm_bionics_resonator, itm_bionics_hydraulics,
+ // super soldier
+ itm_bionics_time_freeze, itm_bionics_teleport,
+ // ranged combat
+ itm_bionics_blaster, itm_bionics_laser, itm_bionics_emp,
+
 // Software
 itm_software_useless, itm_software_hacking, itm_software_medical,
  itm_software_math, itm_software_blood_data,

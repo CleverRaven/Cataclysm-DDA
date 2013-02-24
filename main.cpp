@@ -4,14 +4,7 @@
  * Who knows
  */
 
-#if (defined _WIN32 || defined WINDOWS)
-	#include "catacurse.h"
-#elif (defined __CYGWIN__)
-  #include "ncurses/curses.h"
-#else
-	#include <curses.h>
-#endif
-
+#include "cursesdef.h"
 #include <ctime>
 #include "game.h"
 #include "color.h"
@@ -46,6 +39,7 @@ int main(int argc, char *argv[])
  }
 
 // ncurses stuff
+ load_options(); // For getting size options
  initscr(); // Initialize ncurses
  noecho();  // Don't echo keypresses
  cbreak();  // C-style breaks (e.g. ^C to SIGINT)
@@ -60,7 +54,6 @@ int main(int argc, char *argv[])
  game *g = new game;
  MAPBUFFER.set_game(g);
  MAPBUFFER.load();
- load_options();
 
  #if (!(defined _WIN32 || defined WINDOWS))
   struct sigaction sigIntHandler;

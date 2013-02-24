@@ -238,6 +238,11 @@ class game
   bool debugmon;
   bool no_npc;
 // Display data... TODO: Make this more portable?
+  int VIEWX;
+  int VIEWY;
+  int TERRAIN_WINDOW_WIDTH;
+  int TERRAIN_WINDOW_HEIGHT;
+
   WINDOW *w_terrain;
   WINDOW *w_minimap;
   WINDOW *w_HP;
