@@ -43,6 +43,7 @@
 		<Unit filename="construction.h" />
 		<Unit filename="crafting.cpp" />
 		<Unit filename="crafting.h" />
+		<Unit filename="cursesdef.h" />
 		<Unit filename="debug.cpp" />
 		<Unit filename="debug.h" />
 		<Unit filename="defense.cpp" />

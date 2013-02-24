@@ -358,7 +358,7 @@ const oter_t oterlist[num_ter_types] = {
 // OMSPEC_FREQ determines the length of the side of the square in which each
 // overmap special will be placed.  At OMSPEC_FREQ 6, the overmap is divided
 // into 900 squares; lots of space for interesting stuff!
-#define OMSPEC_FREQ 7
+#define OMSPEC_FREQ 15
 
 // Flags that determine special behavior for placement
 enum omspec_flag {

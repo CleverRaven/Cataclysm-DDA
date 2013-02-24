@@ -108,11 +108,21 @@ void game::init_construction()
    COMP(itm_2x4, 10, NULL);
    COMP(itm_nail, 20, NULL);
 
+ CONSTRUCT("Build Log Wall", 2, &construct::able_pit, &construct::done_nothing);
+  STAGE(t_wall_log_half, 20);
+   TOOL(itm_shovel, NULL);
+   COMP(itm_log, 2, NULL);
+   COMP(itm_stick, 3, NULL);
+  STAGE(t_wall_log, 20);
+   TOOL(itm_shovel, NULL);
+   COMP(itm_2x4, 2, NULL);
+   COMP(itm_stick, 3, NULL);
+
  CONSTRUCT("Build Window", 2, &construct::able_empty,
                               &construct::done_nothing);
   STAGE(t_window_empty, 10);
    TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_2x4, 15, NULL);
+   COMP(itm_2x4, 15, itm_log, 2, NULL);
    COMP(itm_nail, 30, NULL);
   STAGE(t_window, 5);
    COMP(itm_glass_sheet, 1, NULL);
@@ -468,8 +478,8 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
     has_component = false;
     for (int k = 0; k < stage.components[j].size() && !has_component; k++) {
      if (( itypes[stage.components[j][k].type]->is_ammo() &&
-          inv.has_charges(stage.components[j][k].type,
-                          stage.components[j][k].count)    ) ||
+	   inv.has_charges(stage.components[j][k].type,
+			   stage.components[j][k].count)    ) ||
          (!itypes[stage.components[j][k].type]->is_ammo() &&
           inv.has_amount (stage.components[j][k].type,
                           stage.components[j][k].count)    ))
@@ -821,7 +831,6 @@ void construct::done_deconstruct(game *g, point p)
       g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,12));
       g->m.ter(p.x, p.y) = t_door_frame;
     break;
-
     case t_window_domestic:
       g->m.add_item(p.x, p.y, g->itypes[itm_stick], 0);
       g->m.add_item(p.x, p.y, g->itypes[itm_sheet], 0, 1);

@@ -178,7 +178,7 @@ bool game::opening_screen()
  erase();
  for (int i = 0; i < 80; i++)
   mvwputch(w_open, 21, i, c_white, LINE_OXOX);
-   mvwprintz(w_open, 0, 0, c_blue, "Cataclysm CZS Build 5 -Oddzball");
+   mvwprintz(w_open, 0, 0, c_blue, "Cataclysm CZS Build 6 -Oddzball");
    mvwprintz(w_open, 1, 0, c_red, "\
 Please report bugs to the CZS thread on the Cataclysm DDA Forums");
  refresh();
