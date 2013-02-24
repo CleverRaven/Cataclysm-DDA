@@ -115,8 +115,21 @@ void game::init_construction()
    COMP(itm_stick, 3, NULL);
   STAGE(t_wall_log, 20);
    TOOL(itm_shovel, NULL);
-   COMP(itm_2x4, 2, NULL);
+   COMP(itm_log, 2, NULL);
    COMP(itm_stick, 3, NULL);
+
+ CONSTRUCT("Build Palisade Wall", 2, &construct::able_pit, &construct::done_nothing);
+  STAGE(t_palisade, 20);
+   TOOL(itm_shovel, NULL);
+   COMP(itm_log, 3, NULL);
+   COMP(itm_rope_30, 1, itm_rope_6, 5, NULL);
+
+ CONSTRUCT("Build Palisade Gate", 2, &construct::able_pit, &construct::done_nothing);
+  STAGE(t_palisade_gate, 20);
+   TOOL(itm_shovel, NULL);
+   COMP(itm_log, 2, NULL);
+   COMP(itm_2x4, 3, NULL);
+   COMP(itm_rope_30, 1, itm_rope_6, 5, NULL);
 
  CONSTRUCT("Build Window", 2, &construct::able_empty,
                               &construct::done_nothing);

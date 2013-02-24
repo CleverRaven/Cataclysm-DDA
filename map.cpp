@@ -1086,6 +1086,22 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   }
   break;
 
+case t_palisade:
+case t_palisade_gate:
+  result = rng(0, 120);
+  if (res) *res = result;
+  if (str >= result && str >= rng(0, 120)) {
+   sound += "crunch!";
+   ter(x, y) = t_pit;
+   if(one_in(2))
+   add_item(x, y, (*itypes)[itm_splinter], 0, 20);
+   return true;
+  } else {
+   sound += "whump!";
+   return true;
+  }
+  break;
+
 case t_wall_log:
   result = rng(0, 120);
   if (res) *res = result;
@@ -1880,8 +1896,12 @@ bool map::open_door(const int x, const int y, const bool inside)
  if (ter(x, y) == t_door_c) {
   ter(x, y) = t_door_o;
   return true;
+ } else if (ter(x, y) == t_palisade_gate) {
+  ter(x, y) = t_palisade_gate_o;
+  return true;
  } else if (ter(x, y) == t_canvas_door) {
   ter(x, y) = t_canvas_door_o;
+  return true;
  } else if (inside && ter(x, y) == t_curtains) {
   ter(x, y) = t_window_domestic;
   return true;
@@ -1928,11 +1948,15 @@ bool map::close_door(const int x, const int y, const bool inside)
  if (ter(x, y) == t_door_o) {
   ter(x, y) = t_door_c;
   return true;
+ } else if (ter(x, y) == t_palisade_gate_o) {
+  ter(x, y) = t_palisade_gate;
+  return true;
  } else if (inside && ter(x, y) == t_window_domestic) {
   ter(x, y) = t_curtains;
   return true;
  } else if (ter(x, y) == t_canvas_door_o) {
   ter(x, y) = t_canvas_door;
+  return true;
  } else if (inside && ter(x, y) == t_window_open) {
   ter(x, y) = t_window_domestic;
   return true;

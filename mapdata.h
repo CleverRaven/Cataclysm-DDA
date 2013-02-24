@@ -91,7 +91,7 @@ t_canvas_wall, t_canvas_door, t_canvas_door_o, t_groundsheet, t_fema_groundsheet
 // Lighting related
 t_skylight, t_emergency_light_flicker, t_emergency_light,
 // Walls
-t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken,
+t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
 t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
 t_wall_v, t_wall_h, t_concrete_v, t_concrete_h,
 t_wall_metal_v, t_wall_metal_h,
@@ -237,6 +237,12 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"broken log wall", '&', c_brown,   0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)|
 	mfb(supports_roof)},
+{"palisade wall",        '#', c_brown,   0, tr_null,
+        mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(transparent)},
+{"palisade gate",        '+', c_ltred,    0, tr_null,
+        mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(door)|mfb(transparent)},
+{"open palisade gate",   '#', c_ltred,   2, tr_null,
+        mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(transparent)},
 {"half-built wall",  '#', c_ltred,   4, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)},
 {"wooden wall",      '#', c_ltred,   0, tr_null,
