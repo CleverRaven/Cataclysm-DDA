@@ -87,10 +87,11 @@ t_grate,
 t_slime,
 t_bridge,
 // Tent Walls & doors
-t_canvas_wall, t_canvas_door, t_canvas_door_o, t_groundsheet,
+t_canvas_wall, t_canvas_door, t_canvas_door_o, t_groundsheet, t_fema_groundsheet,
 // Lighting related
 t_skylight, t_emergency_light_flicker, t_emergency_light,
 // Walls
+t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken,
 t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
 t_wall_v, t_wall_h, t_concrete_v, t_concrete_h,
 t_wall_metal_v, t_wall_metal_h,
@@ -123,7 +124,7 @@ t_lava,
 // Embellishments
 t_bed, t_toilet, t_makeshift_bed,
 // More embellishments than you can shake a stick at.
-t_sink, t_oven, t_woodstove, t_bathtub, t_chair, t_armchair, t_sofa, t_cupboard, t_trashcan, t_desk, 
+t_sink, t_oven, t_woodstove, t_bathtub, t_chair, t_armchair, t_sofa, t_cupboard, t_trashcan, t_desk,
 t_sandbox, t_slide, t_monkey_bars, t_backboard,
 t_bench, t_table, t_pool_table,
 t_gas_pump, t_gas_pump_smashed,
@@ -219,12 +220,23 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(transparent)},
 {"groundsheet",      ';', c_green,   2, tr_null,
         mfb(transparent)|mfb(tentable)},
+{"groundsheet",      ';', c_green,   2, tr_null,
+        mfb(transparent)},
 {"floor",	     '.', c_white,    2, tr_null,
 	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)}, // Skylight
 {"floor",	     '.', c_white,    2, tr_null,
 	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)}, // Emergency Light
 {"floor",	     '.', c_white,    2, tr_null,
 	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)}, // Regular Light
+{"half-built wall", '#', c_brown,   4, tr_null,
+	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)},
+{"log wall",        '#', c_brown,   0, tr_null,
+        mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
+{"chipped log wall",'#', c_brown,   0, tr_null,
+        mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
+{"broken log wall", '&', c_brown,   0, tr_null,
+	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)|
+	mfb(supports_roof)},
 {"half-built wall",  '#', c_ltred,   4, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)},
 {"wooden wall",      '#', c_ltred,   0, tr_null,
@@ -233,7 +245,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
 {"broken wood wall", '&', c_ltred,   0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)|
-        mfb(supports_roof)},
+    mfb(supports_roof)},
 {"wall",             '|', c_ltgray,  0, tr_null,
         mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
 {"wall",             '-', c_ltgray,  0, tr_null,
@@ -277,7 +289,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(transparent)|mfb(supports_roof)},
 {"locked wire gate", '+', c_cyan,   0, tr_null,
         mfb(transparent)|mfb(supports_roof)},
-{"closed wooden gate", '+', c_brown,   0, tr_null,
+{"closed wooden gate", '+', c_brown,   3, tr_null,
         mfb(transparent)|mfb(supports_roof) |mfb(bashable)|mfb(flammable2)},
 {"open wooden gate",   '.', c_brown,   2, tr_null,
         mfb(transparent)|mfb(supports_roof) |mfb(bashable)|mfb(flammable2)},

@@ -2264,7 +2264,7 @@ case ot_shelter: {
   line(this, t_stairs_up, SEEX - 1, SEEY * 2 - 8, SEEX, SEEY * 2 - 8);
   place_items(mi_shelter, 80, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9, false, 0);
   break;
-  
+
   //....
 case ot_lmoe: {
 // Init to grass & dirt;
@@ -2361,9 +2361,9 @@ case ot_lmoe: {
   place_items(mi_shelter, 70, 18, 13, 20, 14, false, 0);
   place_items(mi_novels, 70, 16, 3, 16, 5, false, 0);
   place_items(mi_office, 50, 20, 7, 20, 7, false, 0);
-  
-  
-  
+
+
+
   //place_items(whatever, 80, 0, 0, 0, 0, false, 0);
   break;
 
@@ -4357,7 +4357,7 @@ case ot_s_garage_north:
 
 	//Cabin design 1 Quad
 	if(one_in(2)){
-	square(this, t_wall_wood, 2, 3, 21, 20);
+	square(this, t_wall_log, 2, 3, 21, 20);
 	square(this, t_floor, 2, 17, 21, 20);//Front porch
 	line(this, t_fence_v, 2, 17, 2, 20);
 	line(this, t_fence_v, 21, 17, 21, 20);
@@ -4379,8 +4379,8 @@ case ot_s_garage_north:
 	square(this, t_floor, 11, 4, 12, 15);
 	square(this, t_floor, 14, 4, 20, 9);
 	square(this, t_floor, 14, 11, 20, 15);
-	line(this, t_wall_wood, 7, 4, 7, 8);
-	square(this, t_wall_wood, 8, 8, 9, 9);
+	line(this, t_wall_log, 7, 4, 7, 8);
+	square(this, t_wall_log, 8, 8, 9, 9);
 	line(this, t_rack, 3, 4, 3, 9); //Pantry Racks
 	line(this, t_curtains, 2, 6, 2, 7); //Windows start
 	line(this, t_curtains, 2, 12, 2, 13);
@@ -4439,10 +4439,10 @@ case ot_s_garage_north:
 	add_spawn(mon_zombie, rng(1, 5), 11, 12);
 	}
 	else {
-	
-	square(this, t_wall_wood, 4, 2, 10, 6);
+
+	square(this, t_wall_log, 4, 2, 10, 6);
 	square(this, t_floor, 5, 3, 9, 5);
-	square(this, t_wall_wood, 3, 9, 20, 20);
+	square(this, t_wall_log, 3, 9, 20, 20);
 	square(this, t_floor, 4, 10, 19, 19);
 	line(this, t_fence_h, 0, 0, 23, 0);
 	line(this, t_fence_v, 0, 0, 0, 22);
@@ -5842,7 +5842,7 @@ break;
    }
   }
   break;
-  
+
    case ot_fema_entrance: {
   square(this, t_dirt, 0, 0, 23, 23);
 // Left wall
@@ -5864,7 +5864,7 @@ break;
   place_items(mi_office, 80, 3, 16, 3, 18, false, 0);
   place_items(mi_office, 80, 6, 16, 6, 18, false, 0);
   add_spawn(mon_zombie_soldier, rng(1, 6), 4, 17);
-  
+
   // Rotate to face the road
   if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
    rotate(1);
@@ -5925,10 +5925,10 @@ break;
   add_spawn(mon_zombie_brute, 1, 16, 17);
   }
   else if (t_west == ot_fema_entrance) {
-  
+
   square(this, t_dirt, 1, 1, 22, 22);
   square(this, t_canvas_wall, 4, 4, 19, 19); //Supply tent
-  square(this, t_groundsheet, 5, 5, 18, 18);
+  square(this, t_fema_groundsheet, 5, 5, 18, 18);
   line(this, t_canvas_door, 11, 4, 12, 4);
   line(this, t_canvas_door, 11, 19, 12, 19);
   square(this, t_crate_c, 5, 6, 7, 7);
@@ -5956,10 +5956,10 @@ break;
   place_items(mi_mil_rifles, 90, 18, 9, 18, 14, false, 0);
   place_items(mi_office, 80, 10, 11, 13, 12, false, 0);
   add_spawn(mon_zombie_soldier, rng(1, 6), 12, 14);
-  
+
    }
-  
-  
+
+
   else{
   switch (rng(1, 5)) {
 
@@ -5968,7 +5968,7 @@ break;
   case 3:
   square(this, t_dirt, 1, 1, 22, 22);
   square(this, t_canvas_wall, 4, 4, 19, 19); //Lodging
-  square(this, t_groundsheet, 5, 5, 18, 18);
+  square(this, t_fema_groundsheet, 5, 5, 18, 18);
   line(this, t_canvas_door, 11, 4, 12, 4);
   line(this, t_canvas_door, 11, 19, 12, 19);
   line(this, t_makeshift_bed, 6, 6, 6, 17);
@@ -5977,31 +5977,31 @@ break;
   line(this, t_makeshift_bed, 13, 6, 13, 17);
   line(this, t_makeshift_bed, 15, 6, 15, 17);
   line(this, t_makeshift_bed, 17, 6, 17, 17);
-  line(this, t_groundsheet, 6, 8, 17, 8);
-  line(this, t_groundsheet, 6, 8, 17, 8);
-  square(this, t_groundsheet, 6, 11, 17, 12);
-  line(this, t_groundsheet, 6, 15, 17, 15);
+  line(this, t_fema_groundsheet, 6, 8, 17, 8);
+  line(this, t_fema_groundsheet, 6, 8, 17, 8);
+  square(this, t_fema_groundsheet, 6, 11, 17, 12);
+  line(this, t_fema_groundsheet, 6, 15, 17, 15);
   line(this, t_crate_o, 6, 7, 17, 7);
   line(this, t_crate_o, 6, 10, 17, 10);
   line(this, t_crate_o, 6, 14, 17, 14);
   line(this, t_crate_o, 6, 17, 17, 17);
-  line(this, t_groundsheet, 7, 5, 7, 18);
-  line(this, t_groundsheet, 9, 5, 9, 18);
-  square(this, t_groundsheet, 11, 5, 12, 18);
-  line(this, t_groundsheet, 14, 5, 14, 18);
-  line(this, t_groundsheet, 16, 5, 16, 18);
+  line(this, t_fema_groundsheet, 7, 5, 7, 18);
+  line(this, t_fema_groundsheet, 9, 5, 9, 18);
+  square(this, t_fema_groundsheet, 11, 5, 12, 18);
+  line(this, t_fema_groundsheet, 14, 5, 14, 18);
+  line(this, t_fema_groundsheet, 16, 5, 16, 18);
   place_items(mi_livingroom, 80, 5, 5, 18, 18, false, 0);
   add_spawn(mon_zombie, rng(1, 5), 11, 12);
-  
-  
- 
-  
+
+
+
+
    break;
 
   case 4:
   square(this, t_dirt, 1, 1, 22, 22);
   square(this, t_canvas_wall, 4, 4, 19, 19); //Mess hall/tent
-  square(this, t_groundsheet, 5, 5, 18, 18);
+  square(this, t_fema_groundsheet, 5, 5, 18, 18);
   line(this, t_canvas_door, 11, 4, 12, 4);
   line(this, t_canvas_door, 11, 19, 12, 19);
   line(this, t_crate_c, 5, 5, 5, 6);
@@ -6011,23 +6011,23 @@ break;
   line(this, t_bench, 13, 6, 17, 6);
   line(this, t_table, 13, 7, 17, 7);
   line(this, t_bench, 13, 8, 17, 8);
-  
+
   line(this, t_bench, 13, 11, 17, 11);
   line(this, t_table, 13, 12, 17, 12);
   line(this, t_bench, 13, 13, 17, 13);
-  
+
   line(this, t_bench, 13, 15, 17, 15);
   line(this, t_table, 13, 16, 17, 16);
   line(this, t_bench, 13, 17, 17, 17);
-  
+
   line(this, t_bench, 6, 11, 10, 11);
   line(this, t_table, 6, 12, 10, 12);
   line(this, t_bench, 6, 13, 10, 13);
-  
+
   line(this, t_bench, 6, 15, 10, 15);
   line(this, t_table, 6, 16, 10, 16);
   line(this, t_bench, 6, 17, 10, 17);
-  
+
   place_items(mi_mil_food_nodrugs, 80, 5, 5, 5, 6, false, 0);
   place_items(mi_snacks, 80, 5, 5, 18, 18, false, 0);
   place_items(mi_kitchen, 70, 6, 5, 10, 8, false, 0);
@@ -6037,7 +6037,7 @@ break;
   place_items(mi_dining, 80, 6, 12, 10, 12, false, 0);
   place_items(mi_dining, 80, 6, 16, 10, 16, false, 0);
   add_spawn(mon_zombie, rng(1, 5), 11, 12);
-  
+
 
    break;
 
@@ -6047,13 +6047,13 @@ break;
   square(this, t_dirt, 5, 5, 18, 18);
   square(this, t_pit_corpsed, 6, 6, 17, 17);
   add_spawn(mon_zombie, rng(5, 20), 11, 12);
-  
+
    break;
-   
+
   }
   }
   }
-	
+
   break;
 
  case ot_spider_pit_under:
@@ -9041,7 +9041,7 @@ void map::add_extra(map_extra type, game *g)
  case mx_wolfpack:
   add_spawn(mon_wolf, rng(3, 6), SEEX, SEEY);
   break;
-  
+
   case mx_cougar:
   add_spawn(mon_cougar, 1, SEEX, SEEY);
   break;

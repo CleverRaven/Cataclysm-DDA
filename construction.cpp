@@ -108,11 +108,21 @@ void game::init_construction()
    COMP(itm_2x4, 10, NULL);
    COMP(itm_nail, 20, NULL);
 
+ CONSTRUCT("Build Log Wall", 2, &construct::able_pit, &construct::done_nothing);
+  STAGE(t_wall_log_half, 20);
+   TOOL(itm_shovel, NULL);
+   COMP(itm_log, 2, NULL);
+   COMP(itm_stick, 3, NULL);
+  STAGE(t_wall_log, 20);
+   TOOL(itm_shovel, NULL);
+   COMP(itm_2x4, 2, NULL);
+   COMP(itm_stick, 3, NULL);
+
  CONSTRUCT("Build Window", 2, &construct::able_empty,
                               &construct::done_nothing);
   STAGE(t_window_empty, 10);
    TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_2x4, 15, NULL);
+   COMP(itm_2x4, 15, itm_log, 2, NULL);
    COMP(itm_nail, 30, NULL);
   STAGE(t_window, 5);
    COMP(itm_glass_sheet, 1, NULL);
