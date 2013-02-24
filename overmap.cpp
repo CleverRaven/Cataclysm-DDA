@@ -1,11 +1,3 @@
-#if (defined _WIN32 || defined WINDOWS)
-	#include "catacurse.h"
-#elif (defined __CYGWIN__)
-      #include "ncurses/curses.h"
-#else
-	#include <curses.h>
-#endif
-
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
@@ -22,6 +14,7 @@
 #include <cstring>
 #include <ostream>
 #include "debug.h"
+#include "cursesdef.h"
 
 #define STREETCHANCE 2
 #define NUM_FOREST 250
@@ -867,6 +860,8 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
 {
  bool legend = true, note_here = false, npc_here = false;
  std::string note_text, npc_name;
+ int om_map_width = g->TERRAIN_WINDOW_WIDTH + 28;
+ int om_map_height = g->TERRAIN_WINDOW_HEIGHT;
 
  int omx, omy;
  overmap hori, vert, diag; // Adjacent maps
@@ -880,30 +875,31 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
   long ter_sym;
 /* First, determine if we're close enough to the edge to need to load an
  * adjacent overmap, and load it/them. */
-  if (cursx < 25) {
+  if (cursx < om_map_height / 2) {
    hori = overmap(g, posx - 1, posy, posz);
-   if (cursy < 12)
+   if (cursy < om_map_width / 2)
     diag = overmap(g, posx - 1, posy - 1, posz);
-   if (cursy > OMAPY - 14)
+   if (cursy > OMAPY - 2 - (om_map_width / 2))
     diag = overmap(g, posx - 1, posy + 1, posz);
   }
-  if (cursx > OMAPX - 26) {
+  if (cursx > OMAPX - 2 - (om_map_height / 2)) {
    hori = overmap(g, posx + 1, posy, posz);
-   if (cursy < 12)
+   if (cursy < om_map_width / 2)
     diag = overmap(g, posx + 1, posy - 1, posz);
-   if (cursy > OMAPY - 14)
+   if (cursy > OMAPY - 2 - (om_map_width / 2))
     diag = overmap(g, posx + 1, posy + 1, posz);
   }
-  if (cursy < 12)
+  if (cursy < (om_map_width / 2))
    vert = overmap(g, posx, posy - 1, posz);
-  if (cursy > OMAPY - 14)
+  if (cursy > OMAPY - 2 - (om_map_width / 2))
    vert = overmap(g, posx, posy + 1, posz);
 
 // Now actually draw the map
   bool csee = false;
   oter_id ccur_ter;
-  for (int i = -25; i < 25; i++) {
-   for (int j = -12; j <= (ch == 'j' ? 13 : 12); j++) {
+  for (int i = -(om_map_width / 2); i < (om_map_width / 2); i++) {
+    for (int j = -(om_map_height / 2);
+         j <= (om_map_height / 2) + (ch == 'j' ? 1 : 0); j++) {
     omx = cursx + i;
     omy = cursy + j;
     see = false;
@@ -991,24 +987,31 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
      ter_sym = '#';
     }
     if (j == 0 && i == 0) {
-     mvwputch_hi (w, 12,     25,     ter_color, ter_sym);
+     mvwputch_hi (w, om_map_height / 2, om_map_width / 2,
+                  ter_color, ter_sym);
      csee = see;
      ccur_ter = cur_ter;
     } else
-     mvwputch    (w, 12 + j, 25 + i, ter_color, ter_sym);
+      mvwputch    (w, (om_map_height / 2) + j, (om_map_width / 2) + i,
+                   ter_color, ter_sym);
    }
   }
   if (target.x != -1 && target.y != -1 && blink &&
-      (target.x < cursx - 25 || target.x > cursx + 25  ||
-       target.y < cursy - 12 || target.y > cursy + 12    )) {
+      (target.x < cursx - om_map_height / 2 ||
+        target.x > cursx + om_map_height / 2  ||
+       target.y < cursy - om_map_width / 2 ||
+       target.y > cursy + om_map_width / 2    )) {
    switch (direction_from(cursx, cursy, target.x, target.y)) {
-    case NORTH:      mvwputch(w,  0, 25, c_red, '^');       break;
-    case NORTHEAST:  mvwputch(w,  0, 49, c_red, LINE_OOXX); break;
-    case EAST:       mvwputch(w, 12, 49, c_red, '>');       break;
-    case SOUTHEAST:  mvwputch(w, 24, 49, c_red, LINE_XOOX); break;
-    case SOUTH:      mvwputch(w, 24, 25, c_red, 'v');       break;
-    case SOUTHWEST:  mvwputch(w, 24,  0, c_red, LINE_XXOO); break;
-    case WEST:       mvwputch(w, 12,  0, c_red, '<');       break;
+    case NORTH:      mvwputch(w, 0, (om_map_width / 2), c_red, '^');       break;
+    case NORTHEAST:  mvwputch(w, 0, om_map_width - 1, c_red, LINE_OOXX); break;
+    case EAST:       mvwputch(w, (om_map_height / 2),
+                                    om_map_width - 1, c_red, '>');       break;
+    case SOUTHEAST:  mvwputch(w, om_map_height,
+                                    om_map_width - 1, c_red, LINE_XOOX); break;
+    case SOUTH:      mvwputch(w, om_map_height,
+                                    om_map_height / 2, c_red, 'v');       break;
+    case SOUTHWEST:  mvwputch(w, om_map_height,  0, c_red, LINE_XXOO); break;
+    case WEST:       mvwputch(w, om_map_height / 2,  0, c_red, '<');       break;
     case NORTHWEST:  mvwputch(w,  0,  0, c_red, LINE_OXXO); break;
    }
   }
@@ -1029,33 +1032,33 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
   if (legend) {
    cur_ter = ter(cursx, cursy);
 // Draw the vertical line
-   for (int j = 0; j < 25; j++)
-    mvwputch(w, j, 51, c_white, LINE_XOXO);
+   for (int j = 0; j < om_map_height / 2; j++)
+    mvwputch(w, j, om_map_width, c_white, LINE_XOXO);
 // Clear the legend
-   for (int i = 51; i < 80; i++) {
-    for (int j = 0; j < 25; j++)
+   for (int i = om_map_width; i < 80; i++) {
+    for (int j = 0; j < om_map_height / 2; j++)
      mvwputch(w, j, i, c_black, 'x');
    }
 
    if (csee) {
-    mvwputch(w, 1, 51, oterlist[ccur_ter].color, oterlist[ccur_ter].sym);
-    mvwprintz(w, 1, 53, oterlist[ccur_ter].color, "%s",
+    mvwputch(w, 1, om_map_width, oterlist[ccur_ter].color, oterlist[ccur_ter].sym);
+    mvwprintz(w, 1, om_map_width, oterlist[ccur_ter].color, "%s",
               oterlist[ccur_ter].name.c_str());
    } else
-    mvwprintz(w, 1, 51, c_dkgray, "# Unexplored");
+    mvwprintz(w, 1, om_map_width, c_dkgray, "# Unexplored");
 
    if (target.x != -1 && target.y != -1) {
     int distance = rl_dist(origx, origy, target.x, target.y);
-    mvwprintz(w, 3, 51, c_white, "Distance to target: %d", distance);
+    mvwprintz(w, 3, om_map_width, c_white, "Distance to target: %d", distance);
    }
-   mvwprintz(w, 17, 51, c_magenta,           "Use movement keys to pan.  ");
-   mvwprintz(w, 18, 51, c_magenta,           "0 - Center map on character");
-   mvwprintz(w, 19, 51, c_magenta,           "t - Toggle legend          ");
-   mvwprintz(w, 20, 51, c_magenta,           "/ - Search                 ");
-   mvwprintz(w, 21, 51, c_magenta,           "N - Add a note             ");
-   mvwprintz(w, 22, 51, c_magenta,           "D - Delete a note          ");
-   mvwprintz(w, 23, 51, c_magenta,           "L - List notes             ");
-   mvwprintz(w, 24, 51, c_magenta,           "Esc or q - Return to game  ");
+   mvwprintz(w, 17, om_map_width, c_magenta, "Use movement keys to pan.  ");
+   mvwprintz(w, 18, om_map_width, c_magenta, "0 - Center map on character");
+   mvwprintz(w, 19, om_map_width, c_magenta, "t - Toggle legend          ");
+   mvwprintz(w, 20, om_map_width, c_magenta, "/ - Search                 ");
+   mvwprintz(w, 21, om_map_width, c_magenta, "N - Add a note             ");
+   mvwprintz(w, 22, om_map_width, c_magenta, "D - Delete a note          ");
+   mvwprintz(w, 23, om_map_width, c_magenta, "L - List notes             ");
+   mvwprintz(w, 24, om_map_width, c_magenta, "Esc or q - Return to game  ");
   }
 // Done with all drawing!
   wrefresh(w);
@@ -1063,8 +1066,8 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
 
 point overmap::choose_point(game *g)
 {
- WINDOW* w_map = newwin(25, 80, 0, 0);
- WINDOW* w_search = newwin(13, 27, 3, 51);
+ WINDOW* w_map = newwin(g->TERRAIN_WINDOW_HEIGHT, g->TERRAIN_WINDOW_WIDTH + 55, 0, 0);
+ WINDOW* w_search = newwin(13, 27, 3, g->TERRAIN_WINDOW_WIDTH + 1);
  timeout(BLINK_SPEED);	// Enable blinking!
  bool blink = true;
  int cursx = (g->levx + int(MAPSIZE / 2)) / 2,

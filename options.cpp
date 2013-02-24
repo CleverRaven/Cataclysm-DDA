@@ -88,6 +88,10 @@ option_key lookup_option_key(std::string id)
   return OPT_DELETE_WORLD;
  if (id == "initial_points")
   return OPT_INITIAL_POINTS;
+ if (id == "viewport_x")
+  return OPT_VIEWPORT_X;
+ if (id == "viewport_y")
+  return OPT_VIEWPORT_Y;
  return OPT_NULL;
 }
 
@@ -109,6 +113,8 @@ std::string option_string(option_key key)
   case OPT_SKILL_RUST: return "skill_rust";
   case OPT_DELETE_WORLD: return "delete_world";
   case OPT_INITIAL_POINTS: return "initial_points";
+  case OPT_VIEWPORT_X: return "viewport_x";
+  case OPT_VIEWPORT_Y: return "viewport_y";
   default:			return "unknown_option";
  }
  return "unknown_option";
@@ -132,6 +138,8 @@ std::string option_desc(option_key key)
   case OPT_SKILL_RUST: return "Set the level of skill rust\n0 - vanilla Cataclysm\n1 - capped at skill levels\n2 - none at all";
   case OPT_DELETE_WORLD: return "Delete saves upon player death\n0 - no\n1 - yes\n2 - query";
   case OPT_INITIAL_POINTS: return "Initial points available on character generation.\nDefault is 6";
+  case OPT_VIEWPORT_X: return "Set the expansion of the viewport along the X axis\nMust restart for changes to take effect\nDefault is 11";
+  case OPT_VIEWPORT_Y: return "Set the expansion of the viewport along the Y axis\nMust restart for changes to take effect\nDefault is 11";
   default:			return " ";
  }
  return "Big ol Bug";
@@ -155,6 +163,8 @@ std::string option_name(option_key key)
   case OPT_SKILL_RUST: return "Skill Rust";
   case OPT_DELETE_WORLD: return "Delete World";
   case OPT_INITIAL_POINTS: return "Initial points";
+  case OPT_VIEWPORT_X: return "Viewport width";
+  case OPT_VIEWPORT_Y: return "Viewport height";
   default:			return "Unknown Option (BUG)";
  }
  return "Big ol Bug";
@@ -167,7 +177,9 @@ bool option_is_bool(option_key id)
   case OPT_DROP_EMPTY:
   case OPT_DELETE_WORLD:
   case OPT_INITIAL_POINTS:
-    return false;
+  case OPT_VIEWPORT_X:
+  case OPT_VIEWPORT_Y:
+   return false;
     break;
   default:
    return true;
@@ -191,6 +203,10 @@ char option_max_options(option_key id)
       case OPT_SKILL_RUST:
         ret = 3;
         break;
+      case OPT_VIEWPORT_X:
+      case OPT_VIEWPORT_Y:
+		ret = 61; // TODO Set up min/max values so weird numbers don't have to be used.
+		break;
       default:
         ret = 2;
         break;
@@ -239,6 +255,10 @@ skill_rust 0\n\
 delete_world 0\n\
 # Initial points available in character generation\n\
 initial_points 6\n\
+# How far to expand the viewport's width in each direction.\n\
+viewport_x 11\n\
+# Same as viewport_x, but in height.\n\
+viewport_y 11\n\
 ";
  fout.close();
 }
