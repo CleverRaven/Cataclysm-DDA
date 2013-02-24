@@ -32,7 +32,7 @@ struct option_table
  option_table() {
   for (int i = 0; i < NUM_OPTION_KEYS; i++) {
    if(i == OPT_VIEWPORT_X || i == OPT_VIEWPORT_Y) {
-    options[i] = 11;
+    options[i] = 12;
    }
    else {
     options[i] = 0;
