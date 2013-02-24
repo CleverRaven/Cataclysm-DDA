@@ -4041,6 +4041,13 @@ TOOL("PDA - Flashlight",		60,  35,',', c_blue,	PLASTIC,IRON,
 A small multipurpose electronic device. This PDA has its flashlight\n\
 app on, and is providing light.");
 
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+TOOL("pocket knife",	14, 100,';', c_blue,	STEEL,  PLASTIC,
+//	VOL WGT DAM CUT HIT FLAGS
+	 2,  2,  2, 10, -4, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
+mfb(IF_STAB), "\
+A small pocket knife.");
+
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
