@@ -5359,8 +5359,8 @@ point game::look_around()
 void game::list_items()
 {
  int iInfoHeight = 10;
- WINDOW* w_items = newwin(25-iInfoHeight, 55, 0, 25);
- WINDOW* w_item_info = newwin(iInfoHeight, 55, 25-iInfoHeight, 25);
+ WINDOW* w_items = newwin(25-iInfoHeight, 55, 0, TERRAIN_WINDOW_WIDTH);
+ WINDOW* w_item_info = newwin(iInfoHeight, 55, 25-iInfoHeight, TERRAIN_WINDOW_WIDTH);
 
  std::vector <item> here;
  std::map<int, std::map<int, std::map<std::string, int> > > grounditems;
