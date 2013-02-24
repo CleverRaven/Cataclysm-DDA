@@ -844,7 +844,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   // Frostbite (level 1 after 2 hours, level 2 after 4 hours)
   if      (u.frostbite_timer[i] >   0) u.frostbite_timer[i]--;
   if      (u.frostbite_timer[i] >= 24) {
-   if (u.disease_intensity(dis_type(frost_pen)) < 2) add_msg("Youe %s hardens from the frostbite!", body_part_name(body_part(i), -1).c_str()); // TODO doesn't make sense for hands/feet. Find code that would fix this...
+   if (u.disease_intensity(dis_type(frost_pen)) < 2) add_msg("Your %s hardens from the frostbite!", body_part_name(body_part(i), -1).c_str()); // TODO doesn't make sense for hands/feet. Find code that would fix this...
    u.add_disease(dis_type(frost_pen), 10, this, 2, 2);}
   else if (u.frostbite_timer[i] >= 12) {
    if (!u.has_disease(dis_type(frost_pen))) add_msg("You lose sensation in your %s.", body_part_name(body_part(i), -1).c_str());
