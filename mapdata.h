@@ -305,7 +305,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(transparent)},
 {"window",	     '"', c_ltcyan,  0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
-        mfb(supports_roof)},
+        mfb(supports_roof)|mfb(deconstruct)},
 {"window",	     '"', c_ltcyan,  0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)|mfb(deconstruct)}, //has curtains

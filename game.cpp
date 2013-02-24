@@ -844,7 +844,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   // Frostbite (level 1 after 2 hours, level 2 after 4 hours)
   if      (u.frostbite_timer[i] >   0) u.frostbite_timer[i]--;
   if      (u.frostbite_timer[i] >= 24) {
-   if (u.disease_intensity(dis_type(frost_pen)) < 2) add_msg("Youe %s hardens from the frostbite!", body_part_name(body_part(i), -1).c_str()); // TODO doesn't make sense for hands/feet. Find code that would fix this...
+   if (u.disease_intensity(dis_type(frost_pen)) < 2) add_msg("Your %s hardens from the frostbite!", body_part_name(body_part(i), -1).c_str()); // TODO doesn't make sense for hands/feet. Find code that would fix this...
    u.add_disease(dis_type(frost_pen), 10, this, 2, 2);}
   else if (u.frostbite_timer[i] >= 12) {
    if (!u.has_disease(dis_type(frost_pen))) add_msg("You lose sensation in your %s.", body_part_name(body_part(i), -1).c_str());
@@ -5356,6 +5356,24 @@ point game::look_around()
  return point(-1, -1);
 }
 
+bool game::list_items_match(std::string sText, std::string sPattern)
+{
+ unsigned long iPos;
+
+ do {
+  iPos = sPattern.find(",");
+
+  if (sText.find((iPos == std::string::npos) ? sPattern : sPattern.substr(0, iPos)) != std::string::npos)
+   return true;
+
+  if (iPos != std::string::npos)
+   sPattern = sPattern.substr(iPos+1, sPattern.size());
+
+ } while(iPos != std::string::npos);
+
+ return false;
+}
+
 void game::list_items()
 {
  int iInfoHeight = 10;
@@ -5399,7 +5417,6 @@ void game::list_items()
  int iActiveX = 0;
  int iActiveY = 0;
  long ch = '.';
- std::string sFilter = "";
  int iFilter = 0;
 
  do {
@@ -5412,7 +5429,18 @@ void game::list_items()
     ch = '.';
 
    } else if (ch == 'f' || ch == 'F') {
-    sFilter = string_input_popup("Filter:", 15, sFilter);
+    for (int i = 0; i < iInfoHeight-1; i++)
+     mvwprintz(w_item_info, i, 1, c_black, "%s", "                                                     ");
+
+    mvwprintz(w_item_info, 0, 2, c_white, "%s", "How to use the filter:");
+    mvwprintz(w_item_info, 1, 2, c_white, "%s", "Example: pi  will match any itemname with pi in it.");
+    mvwprintz(w_item_info, 3, 2, c_white, "%s", "Seperate multiple items with ,");
+    mvwprintz(w_item_info, 4, 2, c_white, "%s", "Example: back,flash,aid, ,band");
+    mvwprintz(w_item_info, 6, 2, c_white, "%s", "To exclude certain items, place a - in front");
+    mvwprintz(w_item_info, 7, 2, c_white, "%s", "Example: -pipe,chunk,steel");
+    wrefresh(w_item_info);
+
+    sFilter = string_input_popup("Filter:", 55, sFilter);
     iActive = 0;
     ch = '.';
 
@@ -5482,8 +5510,8 @@ void game::list_items()
    for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
     for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
      for (std::map< std::string, int>::iterator iter=grounditems[iCol][iRow].begin(); iter!=grounditems[iCol][iRow].end(); ++iter) {
-      if (sFilterTemp == "" || (sFilterTemp != "" && ((sFilterPre != "-" && iter->first.find(sFilterTemp) != std::string::npos) ||
-                                             (sFilterPre == "-" && iter->first.find(sFilterTemp) == std::string::npos)))) {
+      if (sFilterTemp == "" || (sFilterTemp != "" && ((sFilterPre != "-" && list_items_match(iter->first, sFilterTemp)) ||
+                                                      (sFilterPre == "-" && !list_items_match(iter->first, sFilterTemp))))) {
        if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) ) {
         if (iNum == iActive) {
          iActiveX = iCol;
