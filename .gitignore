@@ -6,5 +6,3 @@ debug.log
 logg.txt
 bindist/
 cataclysmdda-*
-objwin/*.*
-*.exe
