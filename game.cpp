@@ -393,6 +393,8 @@ fivedozenwhales@gmail.com.");
      delete_save();
 
       savegames.clear();
+     MAPBUFFER.reset();
+     MAPBUFFER.make_volatile();
      }
 
     layer = 1;
