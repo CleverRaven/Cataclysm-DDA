@@ -1,17 +1,10 @@
 #ifndef _COLOR_H_
 #define _COLOR_H
 
-#if (defined _WIN32 || defined WINDOWS)
-	#include "catacurse.h"
-
-#elif (defined __CYGWIN__)
-      #include "ncurses/curses.h"
-#else
-	#include <curses.h>
-#endif
-
 #ifndef _COLOR_LIST_
 #define _COLOR_LIST_
+
+#include "cursesdef.h"
 
 void init_colors();
 

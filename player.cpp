@@ -13,14 +13,7 @@
 #include <stdlib.h>
 
 #include "name.h"
-
-#if (defined _WIN32 || defined WINDOWS)
-	#include "catacurse.h"
-#elif (defined __CYGWIN__)
-    #include "ncurses/curses.h"
-#else
-	#include <curses.h>
-#endif
+#include "cursesdef.h"
 
 nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
