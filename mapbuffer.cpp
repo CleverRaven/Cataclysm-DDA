@@ -20,11 +20,12 @@ mapbuffer::~mapbuffer()
 }
 
 void mapbuffer::reset(){
- submaps.clear();;
-
  std::list<submap*>::iterator it;
  for (it = submap_list.begin(); it != submap_list.end(); it++)
   delete *it;
+
+ submaps.clear();
+ submap_list.clear();
 }
 
 // game g's existance does not imply that it has been identified, started, or loaded.
