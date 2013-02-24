@@ -3303,8 +3303,9 @@ void game::mon_info()
    }
 
    dir_to_mon = direction_from(u.posx, u.posy, z[i].posx, z[i].posy);
-   int index = (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= VIEWX ?
-                8 : dir_to_mon);
+   int index = (abs(u.posx - z[i].posx) <= VIEWX &&
+                abs(u.posy - z[i].posy) <= VIEWY) ?
+                8 : dir_to_mon;
    if (mon_dangerous && index < 8)
     dangerous[index] = true;
 
@@ -3318,8 +3319,9 @@ void game::mon_info()
     newseen++;
    point npcp(active_npc[i].posx, active_npc[i].posy);
    dir_to_npc = direction_from ( u.posx, u.posy, npcp.x, npcp.y );
-   int index = (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= VIEWX ?
-                8 : dir_to_npc);
+   int index = (abs(u.posx - npcp.x) <= VIEWX &&
+                abs(u.posy - npcp.y) <= VIEWY) ?
+                8 : dir_to_npc;
    unique_types[index].push_back(-1 - i);
   }
  }
