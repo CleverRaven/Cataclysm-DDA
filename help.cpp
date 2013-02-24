@@ -28,18 +28,19 @@ Press q or ESC to return to the game.\n\
 \n\
 a: Introduction\n\
 b: Movement\n\
-c: Hunger, Thirst, and Sleep\n\
-d: Pain and Stimulants\n\
-e: Addiction\n\
-f: Morale and XP\n\
-g: Radioactivity and Mutation\n\
-h: Bionics\n\
-i: Crafting\n\
-j: Traps\n\
-k: Items overview\n\
-l: Combat\n\
-m: Unarmed Styles\n\
-n: Survival tips\n\
+c: Viewing\n\
+d: Hunger, Thirst, and Sleep\n\
+e: Pain and Stimulants\n\
+f: Addiction\n\
+g: Morale and XP\n\
+h: Radioactivity and Mutation\n\
+i: Bionics\n\
+j: Crafting\n\
+k: Traps\n\
+l: Items overview\n\
+m: Combat\n\
+n: Unarmed Styles\n\
+o: Survival tips\n\
 \n\
 1: List of all commands (you can change key commands here)\n\
 2: List of all options  (you can change options here)\n\
@@ -99,6 +100,20 @@ movement will be ignored if new monsters enter the player's view.");
   case 'C':
    erase();
    mvprintz(0, 0, c_white, "\
+The player can often see more than can be displayed on the screen at a time.\n\
+Pressing ';' or 'x' enters look around mode, which allows you to scoll around\n\
+using the movement keys and view irems on the map.  Pressing 'V' provides a\n\
+list of nearby visible items, though items shut away in crates, cubpoards,\n\
+refrigerators and the like will not be displayed.  Pressing Shift+vikeys\n\
+will scroll the view persistently, allowing you to keep an eye on things\n\
+as you move around.");
+   getch();
+   break;
+
+  case 'd':
+  case 'D':
+   erase();
+   mvprintz(0, 0, c_white, "\
 As time passes, you will begin to feel hunger and thirst.  A status warning\n\
 at the bottom of the screen will appear.  As hunger and thirst reach critical\n\
 levels, you will begin to suffer movement penalties. Thirst is more dangerous\n\
@@ -120,8 +135,8 @@ try to find a safe place, or set traps for unwary intruders.");
    getch();
    break;
 
-  case 'd':
-  case 'D':
+  case 'e':
+  case 'E':
    erase();
    mvprintz(0, 0, c_white, "\
 When you take damage from almost any source, you'll start to feel pain.  Pain\n\
@@ -148,8 +163,8 @@ the more intense high of Adderall and methamphetamine.");
   getch();
   break;
 
-  case 'e':
-  case 'E':
+  case 'f':
+  case 'F':
    erase();
    mvprintz(0, 0, c_white, "\
 Many drugs have a potential for addiction.  Each time you consume such a drug\n\
@@ -163,8 +178,8 @@ the effects to cease immediately, but may deepen your dependance.");
   getch();
   break;
 
-  case 'f':
-  case 'F':
+  case 'g':
+  case 'G':
    erase();
    mvprintz(0, 0, c_white, "\
 Your character has a morale level, which affects you in many ways.  The\n\
@@ -201,8 +216,8 @@ each turn.  Above 100, you get 1 XP point each turn for every 100 morale.");
    getch();
    break;
 
-  case 'g':
-  case 'G':
+  case 'h':
+  case 'H':
    erase();
    mvprintz(0, 0, c_white, "\
 Though it is relatively rare, certain areas of the world may be contamiated\n\
@@ -218,8 +233,8 @@ mutations, though these are extremely rare.");
    getch();
    break;
 
-  case 'h':
-  case 'H':
+  case 'i':
+  case 'I':
    erase();
    mvprintz(0, 0, c_white, "\
 Bionics are biomechanical upgrades to your body.  While many are simply\n\
@@ -240,8 +255,8 @@ certain wandering vagabonds for a very high price.");
    getch();
    break;
 
-  case 'i':
-  case 'I':
+  case 'j':
+  case 'J':
    erase();
    mvprintz(0, 0, c_white, "\
 Many important items can be very hard to find, or will cost a great deal of\n\
@@ -269,8 +284,8 @@ all required for certain items.");
    getch();
    break;
 
-  case 'j':
-  case 'J':
+  case 'k':
+  case 'K':
    erase();
    mvprintz(0, 0, c_white, "\
 While sleeping in dangerous territory, it may be wise to set traps to ward off\n\
@@ -297,8 +312,8 @@ may have a chance to avoid it, depending on your Dodge skill.");
    getch();
    break;
 
-  case 'k':
-  case 'K':
+  case 'l':
+  case 'L':
    erase();
    mvprintz(0, 0, c_white, "\
 There are a wide variety of items available for your use. You may find them\n\
@@ -327,8 +342,8 @@ damage and helps you resist things like smoke.  To take off an item, press\n\
    getch();
    break;
 
-  case 'l':
-  case 'L':
+  case 'm':
+  case 'M':
    erase();
    mvprintz(0, 0, c_white, "\
 After 30 minutes of warmup time, monsters will begin to appear. They are\n\
@@ -358,8 +373,8 @@ escape tactic.");
   getch();
   break;
 
-  case 'm':
-  case 'M':
+  case 'n':
+  case 'N':
    erase();
    mvprintz(0, 0, c_white, "\
 For the unarmed fighter, a variety of fighting styles are available.  You can\n\
@@ -383,8 +398,8 @@ examining your style.");
    getch();
    break;
 
-  case 'n':
-  case 'N':
+  case 'o':
+  case 'O':
    erase();
    mvprintz(0, 0, c_white, "\
 The first thing to do is to check your home for useful items. Your initial\n\
