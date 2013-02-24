@@ -532,8 +532,6 @@ void game::compare(int iCompareX, int iCompareY)
  for (int i = 0; i < u.inv.size() + groundsize; i++)
   compare[i] = 0;
  std::vector<char> weapon_and_armor; // Always single, not counted
- std::stringstream debug;
- //debug << groundsize << " ";
  print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);
 // Gun, ammo, weapon, armor, food, tool, book, other
  std::vector<int> first = find_firsts(u.inv);

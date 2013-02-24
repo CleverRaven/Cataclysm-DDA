@@ -58,16 +58,16 @@ std::string encumb_text(body_part bp)
 
 body_part random_body_part()
 {
- int rn = rng(0, 30);
+ int rn = rng(0, 100);
  if (rn == 0)
   return bp_eyes;
- if (rn <= 2)
+ if (rn <= 1)
   return bp_mouth;
- if (rn <= 6)
+ if (rn <= 7)
   return bp_head;
- if (rn <= 12)
+ if (rn <= 28)
   return bp_legs;
- if (rn <= 20)
+ if (rn <= 50)
   return bp_arms;
  return bp_torso;
 }

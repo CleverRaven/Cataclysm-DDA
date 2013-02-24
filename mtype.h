@@ -30,7 +30,7 @@ num_species
 enum mon_id {
 mon_null = 0,
 // Wildlife
-mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_cougar, //Oddzball-Cougar and cats..
+mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_cougar,
 // Friendly animals
 mon_dog, mon_cat,
 // Ants
@@ -134,7 +134,7 @@ MF_DESTROYS,	// Bashes down walls and more
 MF_POISON,	// Poisonous to eat
 MF_VENOM,	// Attack may poison the player
 MF_BADVENOM,	// Attack may SEVERELY poison the player
-MF_BLEED, //Oddzball-Causes player to bleed
+MF_BLEED,       // Causes player to bleed
 MF_WEBWALK,	// Doesn't destroy webs
 MF_DIGS,	// Digs through the ground
 MF_FLIES,	// Can fly (over water, etc)

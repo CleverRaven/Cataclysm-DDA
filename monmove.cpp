@@ -8,13 +8,7 @@
 #include "pldata.h"
 #include <stdlib.h>
 
-#if (defined _WIN32 || defined WINDOWS)
-	#include "catacurse.h"
-#elif (defined __CYGWIN__)
-      #include "ncurses/curses.h"
-#else
-	#include <curses.h>
-#endif
+#include "cursesdef.h"
 
 #ifndef SGN
 #define SGN(a) (((a)<0) ? -1 : 1)
@@ -367,9 +361,9 @@ point monster::scent_move(game *g)
  plans.clear();
  std::vector<point> smoves;
  
- int maxsmell = 2; // Squares with smell 0 are not eligable targets Oddzball-Scent?
+ int maxsmell = 2; // Squares with smell 0 are not eligable targets
  if (has_flag(MF_KEENNOSE)) {
- int maxsmell = 1; } //Oddzball-Correct setup for smell?
+ int maxsmell = 1; }
  int minsmell = 9999;
  point pbuff, next(-1, -1);
  unsigned int smell;
@@ -603,10 +597,10 @@ void monster::move_to(game *g, int x, int y)
   posx = x;
   posy = y;
   footsteps(g, x, y);
-  if (g->m.has_flag(sharp, posx, posy) && one_in(2))
-     hurt(rng(3, 10));
-  if (g->m.has_flag(rough, posx, posy) && one_in(4))
-     hurt(rng(1, 5));
+  if (g->m.has_flag(sharp, posx, posy) && !one_in(4))
+     hurt(rng(2, 3));
+  if (g->m.has_flag(rough, posx, posy) && one_in(6))
+     hurt(rng(1, 2));
   if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES) &&
       g->m.tr_at(posx, posy) != tr_null) { // Monster stepped on a trap!
    trap* tr = g->traps[g->m.tr_at(posx, posy)];

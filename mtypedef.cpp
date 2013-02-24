@@ -84,7 +84,7 @@ ANGER(MTRIG_PLAYER_CLOSE);
 PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE);
 
-mon("cougar",	species_mammal, 'C',	c_dkgray,	MS_MEDIUM,	FLESH, //Oddzball-Cougars! Jumping?
+mon("cougar",	species_mammal, 'C',	c_dkgray,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	  3, 12,  0, 20,180, 14,  2,  3,  4,  4,  1,  0,  0, 15,  5,
 	&mdeath::normal,	&mattack::leap, "\

@@ -14,13 +14,7 @@
 
 #include "name.h"
 
-#if (defined _WIN32 || defined WINDOWS)
-	#include "catacurse.h"
-#elif (defined __CYGWIN__)
-    #include "ncurses/curses.h"
-#else
-	#include <curses.h>
-#endif
+#include "cursesdef.h"
 
 nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
@@ -249,7 +243,7 @@ void player::reset(game *g)
  if (has_bionic(bio_armor_arms))
   dex_cur--;
 if (has_bionic(bio_metabolics) && power_level < max_power_level &&
-     hunger < 100 && (int(g->turn) % 20 == 0)) {
+     hunger < 100 && (int(g->turn) % 5 == 0)) {
   hunger += 2;
   power_level++;
 }
@@ -924,31 +918,20 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  wrefresh(w_stats);
 
 // Next, draw encumberment.
+ std::string asText[] = {"Head", "Eyes", "Mouth", "Torso", "Arms", "Hands", "Legs", "Feet"};
+ body_part aBodyPart[] = {bp_head, bp_eyes, bp_mouth, bp_torso, bp_arms, bp_hands, bp_legs, bp_feet};
+ int iEnc, iLayers, iArmorEnc, iWarmth;
+
  mvwprintz(w_encumb, 0, 6, c_ltgray, "ENCUMBERANCE");
- mvwprintz(w_encumb, 1, 2, c_ltgray, "Head................");
- mvwprintz(w_encumb, 1,(encumb(bp_head) >= 0 && encumb(bp_head) < 10 ? 21 : 20),
-           encumb_color(encumb(bp_head)), "%d", encumb(bp_head));
- mvwprintz(w_encumb, 2, 2, c_ltgray, "Eyes................");
- mvwprintz(w_encumb, 2,(encumb(bp_eyes) >= 0 && encumb(bp_eyes) < 10 ? 21 : 20),
-           encumb_color(encumb(bp_eyes)), "%d", encumb(bp_eyes));
- mvwprintz(w_encumb, 3, 2, c_ltgray, "Mouth...............");
- mvwprintz(w_encumb, 3,(encumb(bp_mouth)>=0 && encumb(bp_mouth) < 10 ? 21 : 20),
-           encumb_color(encumb(bp_mouth)), "%d", encumb(bp_mouth));
- mvwprintz(w_encumb, 4, 2, c_ltgray, "Torso...............");
- mvwprintz(w_encumb, 4,(encumb(bp_torso)>=0 && encumb(bp_torso) < 10 ? 21 : 20),
-           encumb_color(encumb(bp_torso)), "%d", encumb(bp_torso));
- mvwprintz(w_encumb, 5, 2, c_ltgray, "Arms...............");
- mvwprintz(w_encumb, 5,(encumb(bp_arms)>=0 && encumb(bp_arms) < 10 ? 21 : 20),
-           encumb_color(encumb(bp_arms)), "%d", encumb(bp_arms));
- mvwprintz(w_encumb, 6, 2, c_ltgray, "Hands...............");
- mvwprintz(w_encumb, 6,(encumb(bp_hands)>=0 && encumb(bp_hands) < 10 ? 21 : 20),
-           encumb_color(encumb(bp_hands)), "%d", encumb(bp_hands));
- mvwprintz(w_encumb, 7, 2, c_ltgray, "Legs................");
- mvwprintz(w_encumb, 7,(encumb(bp_legs) >= 0 && encumb(bp_legs) < 10 ? 21 : 20),
-           encumb_color(encumb(bp_legs)), "%d", encumb(bp_legs));
- mvwprintz(w_encumb, 8, 2, c_ltgray, "Feet................");
- mvwprintz(w_encumb, 8,(encumb(bp_feet) >= 0 && encumb(bp_feet) < 10 ? 21 : 20),
-           encumb_color(encumb(bp_feet)), "%d", encumb(bp_feet));
+ for (int i=0; i < 8; i++) {
+  iEnc = iLayers = iArmorEnc = iWarmth = 0;
+  iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc, iWarmth);
+  mvwprintz(w_encumb, i+1, 1, c_ltgray, "%s:", asText[i].c_str());
+  mvwprintz(w_encumb, i+1, 8, c_ltgray, "(%d)", iLayers);
+  mvwprintz(w_encumb, i+1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2), " ", iArmorEnc, "+", iEnc-iArmorEnc);
+  wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
+  wprintz(w_encumb, c_ltgray, "%*s(%d)", (iWarmth > 9 ? ((iWarmth > 99) ? 1: 2) : 3), " ", iWarmth);
+ }
  wrefresh(w_encumb);
 
 // Next, draw traits.
@@ -1182,21 +1165,21 @@ detecting traps and other things of interest.");
   case 2:	// Encumberment tab
    mvwprintz(w_encumb, 0, 0, h_ltgray, "      ENCUMBERANCE        ");
    if (line == 0) {
-    mvwprintz(w_encumb, 1, 2, h_ltgray, "Head");
+    mvwprintz(w_encumb, 1, 1, h_ltgray, "Head");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Head encumberance has no effect; it simply limits how much you can put on.");
    } else if (line == 1) {
-    mvwprintz(w_encumb, 2, 2, h_ltgray, "Eyes");
+    mvwprintz(w_encumb, 2, 1, h_ltgray, "Eyes");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Perception -%d when checking traps or firing ranged weapons;\n\
 Perception -%.1f when throwing items", encumb(bp_eyes),
 double(double(encumb(bp_eyes)) / 2));
    } else if (line == 2) {
-    mvwprintz(w_encumb, 3, 2, h_ltgray, "Mouth");
+    mvwprintz(w_encumb, 3, 1, h_ltgray, "Mouth");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Running costs +%d movement points", encumb(bp_mouth) * 5);
    } else if (line == 3) {
-    mvwprintz(w_encumb, 4, 2, h_ltgray, "Torso");
+    mvwprintz(w_encumb, 4, 1, h_ltgray, "Torso");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Melee skill -%d;      Dodge skill -%d;\n\
 Swimming costs +%d movement points;\n\
@@ -1204,17 +1187,17 @@ Melee attacks cost +%d movement points", encumb(bp_torso), encumb(bp_torso),
               encumb(bp_torso) * (80 - skillLevel("swimming").level() * 3), encumb(bp_torso) * 20);
    } else if (line == 4) 
   {
-    mvwprintz(w_encumb, 5, 2, h_ltgray, "Arms");
+    mvwprintz(w_encumb, 5, 1, h_ltgray, "Arms");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Arm encumbrance affects your accuracy with ranged weapons.");
    } else if (line == 5)    
    {
-    mvwprintz(w_encumb, 6, 2, h_ltgray, "Hands");
+    mvwprintz(w_encumb, 6, 1, h_ltgray, "Hands");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Reloading costs +%d movement points;\n\
 Dexterity -%d when throwing items", encumb(bp_hands) * 30, encumb(bp_hands));
    } else if (line == 6) {
-    mvwprintz(w_encumb, 7, 2, h_ltgray, "Legs");
+    mvwprintz(w_encumb, 7, 1, h_ltgray, "Legs");
     std::string sign = (encumb(bp_legs) >= 0 ? "+" : "");
     std::string osign = (encumb(bp_legs) < 0 ? "+" : "-");
     mvwprintz(w_info, 0, 0, c_magenta, "\
@@ -1223,7 +1206,7 @@ Dodge skill %s%.1f", sign.c_str(), encumb(bp_legs) * 3,
               sign.c_str(), encumb(bp_legs) *(50 - skillLevel("swimming").level()),
                      osign.c_str(), double(double(encumb(bp_legs)) / 2));
    } else if (line == 7) {
-    mvwprintz(w_encumb, 8, 2, h_ltgray, "Feet");
+    mvwprintz(w_encumb, 8, 1, h_ltgray, "Feet");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Running costs %s%d movement points", (encumb(bp_feet) >= 0 ? "+" : ""),
 encumb(bp_feet) * 5);
@@ -1251,14 +1234,14 @@ encumb(bp_feet) * 5);
     case KEY_ESCAPE:
      done = true;
    }
-   mvwprintz(w_encumb, 1, 2, c_ltgray, "Head");
-   mvwprintz(w_encumb, 2, 2, c_ltgray, "Eyes");
-   mvwprintz(w_encumb, 3, 2, c_ltgray, "Mouth");
-   mvwprintz(w_encumb, 4, 2, c_ltgray, "Torso");
-   mvwprintz(w_encumb, 5, 2, c_ltgray, "Arms");
-   mvwprintz(w_encumb, 6, 2, c_ltgray, "Hands");
-   mvwprintz(w_encumb, 7, 2, c_ltgray, "Legs");
-   mvwprintz(w_encumb, 8, 2, c_ltgray, "Feet");
+   mvwprintz(w_encumb, 1, 1, c_ltgray, "Head");
+   mvwprintz(w_encumb, 2, 1, c_ltgray, "Eyes");
+   mvwprintz(w_encumb, 3, 1, c_ltgray, "Mouth");
+   mvwprintz(w_encumb, 4, 1, c_ltgray, "Torso");
+   mvwprintz(w_encumb, 5, 1, c_ltgray, "Arms");
+   mvwprintz(w_encumb, 6, 1, c_ltgray, "Hands");
+   mvwprintz(w_encumb, 7, 1, c_ltgray, "Legs");
+   mvwprintz(w_encumb, 8, 1, c_ltgray, "Feet");
    wrefresh(w_encumb);
    break;
   case 3:	// Traits tab
@@ -4268,10 +4251,17 @@ bool player::wear_item(game *g, item *to_wear)
               (has_trait(PF_ANTENNAE) ? "antennae" : "antlers")));
   return false;
  }
- if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet)) {
+ // Checks to see if the player is wearing not cotton or not wool, ie leather/plastic shoes
+ if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(to_wear->made_of(WOOL) || to_wear->made_of(COTTON))) {
+ for (int i = 0; i < worn.size(); i++) {
+  item *worn_item = &worn[i];
+  it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
+  if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of(WOOL) || worn_item->made_of(COTTON))) {
   g->add_msg("You're already wearing footwear!");
   return false;
  }
+ }
+}
  g->add_msg("You put on your %s.", to_wear->tname(g).c_str());
  if (to_wear->is_artifact()) {
   it_artifact_armor *art = dynamic_cast<it_artifact_armor*>(to_wear->type);
@@ -4519,10 +4509,6 @@ void player::read(game *g, char ch)
   g->add_msg("It's bad idea to read while driving.");
   return;
  }
- if (morale_level() < MIN_MORALE_READ) {	// See morale.h
-  g->add_msg("What's the point of reading?  (Your morale is too low!)");
-  return;
- }
 // Check if reading is okay
  if (g->light_level() < 8 && LL_LIT > g->lm.at(0, 0)) {
   g->add_msg("It's too dark to read!");
@@ -4589,8 +4575,10 @@ int time; //Declare this here so that we can change the time depending on whats 
   activity = player_activity(ACT_READ, time, index);
   moves = 0;
   return;
- }
- else if (skillLevel(tmp->type) >= tmp->level && tmp->fun <= 0 &&
+ } else if (morale_level() < MIN_MORALE_READ &&  tmp->fun <= 0) {	// See morale.h
+  g->add_msg("What's the point of reading?  (Your morale is too low!)");
+  return;
+ } else if (skillLevel(tmp->type) >= tmp->level && tmp->fun <= 0 &&
             !query_yn("Your %s skill won't be improved.  Read anyway?",
                       tmp->type->name().c_str()))
   return;
@@ -4659,10 +4647,14 @@ int player::warmth(body_part bp)
  return ret;
 }
 
-int player::encumb(body_part bp)
+int player::encumb(body_part bp) {
+ int iLayers = 0, iArmorEnc = 0, iWarmth = 0;
+ return encumb(bp, iLayers, iArmorEnc, iWarmth);
+}
+
+int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
 {
  int ret = 0;
- int layers = 0;
  it_armor* armor;
  for (int i = 0; i < worn.size(); i++) {
   if (!worn[i].is_armor())
@@ -4671,10 +4663,21 @@ int player::encumb(body_part bp)
   armor = dynamic_cast<it_armor*>(worn[i].type);
 
   if (armor->covers & mfb(bp)) {
-   ret += armor->encumber;
+   armorenc += armor->encumber;
+   warmth += armor->warmth;
    if (armor->encumber >= 0 || bp != bp_torso)
     layers++;
   }
+ }
+
+ ret += armorenc;
+
+ // Following items undo their layering. Once. Bodypart has to be taken into account, hence the switch.
+ switch (bp){
+  case bp_feet  : if (!(is_wearing(itm_socks) || is_wearing(itm_socks_wool))) break; else layers--;
+  case bp_legs  : if (!is_wearing(itm_long_underpants)) break; else layers--;
+  case bp_hands : if (!is_wearing(itm_gloves_liner)) break; else layers--;
+  case bp_torso : if (!is_wearing(itm_under_armor)) break; else layers--;
  }
  if (layers > 1)
   ret += (layers - 1) * (bp == bp_torso ? .5 : 2);// Easier to layer on torso

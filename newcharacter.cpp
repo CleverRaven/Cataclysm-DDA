@@ -21,7 +21,7 @@
 #define LINE_OXXX 4194423
 #define LINE_XXXX 4194414
 
-// Colors used in this file: (Most else defaults to c_ltgray) //Oddzball-Made traits easier to see the On/Off
+// Colors used in this file: (Most else defaults to c_ltgray)
 #define COL_STAT_ACT		c_ltred    // Selected stat
 #define COL_TR_GOOD		c_green    // Good trait descriptive text
 #define COL_TR_GOOD_OFF		c_ltgray  // A toggled-off good trait

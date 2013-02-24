@@ -87,6 +87,7 @@ class game
   bool game_quit(); // True if we actually quit the game - used in main.cpp
   quit_status uquit;    // used in main.cpp to determine what type of quit
   void save();
+  void delete_save();
   bool do_turn();
   void draw();
   void draw_ter(int posx = -999, int posy = -999);
@@ -189,6 +190,8 @@ class game
   void peek();
   point look_around();// Look at nearby terrain	';'
   void list_items(); //List all items around the player
+  bool list_items_match(std::string sText, std::string sPattern);
+  std::string sFilter;
   char inv(std::string title = "Inventory:");
   char inv_type(std::string title = "Inventory:", int inv_item_type = 0);  
   std::vector<item> multidrop();
@@ -235,6 +238,11 @@ class game
   bool debugmon; 
   bool no_npc;
 // Display data... TODO: Make this more portable?
+  int VIEWX;
+  int VIEWY;
+  int TERRAIN_WINDOW_WIDTH;
+  int TERRAIN_WINDOW_HEIGHT;
+
   WINDOW *w_terrain;
   WINDOW *w_minimap;
   WINDOW *w_HP;
@@ -295,7 +303,7 @@ class game
   void complete_disassemble();              // See crafting.cpp                      
   void construction_menu();                   // See construction.cpp
   bool player_can_build(player &p, inventory inv, constructable* con,
-                        int level = -1, bool cont = false,
+                        const int level = -1, bool cont = false,
 			bool exact_level=false);
   void place_construction(constructable *con); // See construction.cpp
   void complete_construction();               // See construction.cpp
@@ -352,7 +360,7 @@ class game
   void process_events();   // Processes and enacts long-term events
   void process_activity(); // Processes and enacts the player's activity
   void update_weather();   // Updates the temperature and weather patten
-  void hallucinate();      // Prints hallucination junk to the screen
+  void hallucinate(const int x, const int y); // Prints hallucination junk to the screen
   void mon_info();         // Prints a list of nearby monsters (top right)
   input_ret get_input(int timeout_ms);   // Gets player input and calls the proper function
   void update_scent();     // Updates the scent map

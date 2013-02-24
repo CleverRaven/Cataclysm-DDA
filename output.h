@@ -43,8 +43,7 @@ void draw_tabs(WINDOW *w, int active_tab, ...);
 void realDebugmsg(const char* name, const char* line, const char *mes, ...);
 bool query_yn(const char *mes, ...);
 int  query_int(const char *mes, ...);
-std::string string_input_popup(const char *mes, ...);
-std::string string_input_popup(int max_length, const char *mes, ...);
+std::string string_input_popup(std::string title, int max_length = 0, std::string input = "");
 char popup_getkey(const char *mes, ...);
 int  menu_vec(const char *mes, std::vector<std::string> options);
 int  menu(const char *mes, ...);
@@ -60,5 +59,8 @@ nc_color red_background(nc_color c);
 nc_color rand_color();
 char rand_char();
 long special_symbol (char sym);
+
+// utility: moves \n's around to fit string breaks within a certain width.
+std::string word_rewrap (const std::string &in, int width);
 
 #endif

@@ -34,11 +34,11 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_livingroom],
 	itm_rootbeer, itm_pizza, itm_cola, itm_cig, itm_cigar, itm_weed,
-	itm_coke, itm_meth, itm_sneakers, itm_boots, itm_boots_winter,
+	itm_coke, itm_meth, itm_sneakers, itm_socks, itm_boots, itm_boots_winter, itm_socks_wool,
 	itm_flip_flops, itm_dress_shoes, itm_heels, itm_coat_rain, itm_poncho,
 	itm_gloves_light, itm_mittens, itm_gloves_light, itm_mittens,
 	itm_armguard_soft, itm_armguard_hard,
-	itm_gloves_wool, itm_gloves_winter, itm_gloves_leather,
+	itm_gloves_wool, itm_gloves_winter, itm_gloves_liner, itm_gloves_leather,
 	itm_gloves_fingerless, itm_bandana, itm_scarf, itm_hat_cotton,
 	itm_hat_knit, itm_hat_fur, itm_helmet_bike, itm_helmet_motor,
 	itm_mag_tv, itm_mag_news, itm_lighter, itm_extinguisher, itm_mp3, 
@@ -72,7 +72,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_bedroom],
 	itm_inhaler, itm_cig, itm_cigar, itm_weed, itm_coke, itm_meth,
-	itm_heroin, itm_sneakers, itm_mocassins, itm_bandana, itm_glasses_eye, itm_sunglasses,
+	itm_heroin, itm_sneakers, itm_socks, itm_mocassins, itm_bandana, itm_glasses_eye, itm_sunglasses,
 	itm_glasses_reading, itm_hat_ball, itm_backpack, itm_purse, itm_mbag,
 	itm_fanny, itm_battery, itm_bb, itm_bbgun, itm_mag_porn, itm_mag_tv,
 	itm_mag_news, itm_novel_romance, itm_novel_drama, itm_manual_mechanics,
@@ -98,7 +98,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_dresser],
-	itm_jeans, itm_pants, itm_pants_leather, itm_pants_cargo, itm_skirt,
+	itm_jeans, itm_shorts, itm_pants, itm_pants_leather, itm_pants_cargo, itm_shorts_cargo, itm_skirt,
 	itm_dress, itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top,
 	itm_sweatshirt, itm_sweater, itm_hoodie, itm_jacket_light,
 	itm_jacket_jean, itm_blazer, itm_jacket_leather, itm_poncho,
@@ -209,7 +209,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_sports],
-	itm_bandages, itm_aspirin, itm_bat, itm_bat_metal, itm_sneakers, itm_tshirt,
+	itm_bandages, itm_aspirin, itm_bat, itm_bat_metal, itm_sneakers, itm_socks, itm_tshirt,
 	itm_tank_top, itm_gloves_fingerless, itm_glasses_safety, itm_tshirt_fit,
 	itm_armguard_soft, itm_armguard_hard,
 	itm_goggles_swim, itm_goggles_ski, itm_hat_ball, itm_helmet_bike,
@@ -228,7 +228,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_allsporting],
-	itm_aspirin, itm_bat, itm_bat_metal, itm_sneakers, itm_tshirt, itm_tank_top,
+	itm_aspirin, itm_bat, itm_bat_metal, itm_sneakers, itm_socks, itm_tshirt, itm_tank_top,
 	itm_gloves_fingerless, itm_glasses_safety, itm_goggles_swim,
 	itm_armguard_soft, itm_armguard_hard,
 	itm_goggles_ski, itm_hat_ball, itm_helmet_bike, itm_helmet_ball,
@@ -320,20 +320,20 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_shoes],
-	itm_sneakers, itm_boots, itm_flip_flops, itm_dress_shoes, itm_heels,
+	itm_sneakers, itm_socks, itm_boots, itm_flip_flops, itm_dress_shoes, itm_heels,
         itm_sneakers_fit, itm_boots_fit, itm_boots_winter_fit,
         itm_dress_shoes_fit, itm_heels_fit, NULL);
 
  setvector(
    mapitems[mi_pants],
-	itm_jeans, itm_pants, itm_pants_leather, itm_pants_cargo, itm_skirt,
+	itm_jeans, itm_shorts, itm_pants, itm_pants_leather, itm_pants_cargo, itm_shorts_cargo, itm_skirt,
 	itm_dress,
         itm_jeans_fit, itm_pants_fit, itm_pants_cargo_fit, NULL);
 
  setvector(
    mapitems[mi_shirts],
 	itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top,
-	itm_sweatshirt, itm_sweater, itm_hoodie, 
+	itm_sweatshirt, itm_sweater, itm_hoodie, itm_under_armor,
         itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
         itm_tshirt_fit, NULL);
 
@@ -346,8 +346,9 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_winter],
 	itm_coat_winter, itm_peacoat, itm_gloves_light, itm_mittens,
-	itm_gloves_wool, itm_gloves_winter, itm_gloves_leather, itm_scarf,
-	itm_hat_cotton, itm_hat_knit, itm_hat_fur, NULL);
+	itm_gloves_wool, itm_gloves_winter, itm_gloves_liner, itm_gloves_leather, itm_scarf,
+	itm_hat_cotton, itm_hat_knit, itm_hat_fur, itm_pants_ski, itm_long_underpants,
+    itm_balclava, NULL);
 
  setvector(
    mapitems[mi_bags],
@@ -355,14 +356,15 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_allclothes],
-	itm_jeans, itm_pants, itm_suit, itm_tophat, itm_glasses_monocle,
-	itm_pants_leather, itm_pants_cargo, itm_skirt, itm_tshirt,
+	itm_jeans, itm_shorts, itm_pants, itm_suit, itm_tophat, itm_glasses_monocle,
+	itm_pants_leather, itm_pants_cargo, itm_shorts_cargo, itm_skirt, itm_tshirt,
 	itm_polo_shirt, itm_dress_shirt, itm_tank_top, itm_sweatshirt,
 	itm_sweater, itm_hoodie, itm_jacket_light, itm_jacket_jean,
 	itm_blazer, itm_jacket_leather, itm_coat_winter, itm_peacoat,
-	itm_gloves_light, itm_mittens, itm_gloves_wool, itm_gloves_winter,
+	itm_gloves_light, itm_mittens, itm_gloves_wool, itm_gloves_winter, itm_gloves_liner,
 	itm_gloves_leather, itm_scarf, itm_hat_cotton, itm_hat_knit,
 	itm_hat_fur, itm_UPS_off, itm_jeans_fit, itm_pants_fit, 
+    itm_under_armor, itm_balclava, itm_pants_ski, itm_long_underpants,
         itm_pants_cargo_fit, itm_polo_shirt_fit, itm_sweatshirt_fit, 
         itm_sweater_fit,
         itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit,
@@ -426,7 +428,8 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_vault],
 	itm_purifier, itm_plut_cell, itm_ftk93, itm_nx17, itm_canister_goo,
-	itm_UPS_off, itm_gold, itm_bionics_super, itm_plasma_engine,
+	itm_UPS_off, itm_gold, itm_plasma_engine,
+   itm_bionics_time_freeze, itm_bionics_teleport,
 	itm_minireactor, itm_alloy_plate, NULL);
 
  setvector(
@@ -471,8 +474,8 @@ void game::init_mapitems()
 	itm_water_clean, itm_soup, itm_chocolate, itm_ravioli, itm_can_beans,
 	itm_can_spam, itm_can_tuna, itm_coffee_raw, itm_bandages, itm_1st_aid,
 	itm_vitamins, itm_iodine, itm_dayquil, itm_screwdriver, itm_boots,
-	itm_boots_winter, itm_jeans, itm_tshirt, itm_sweatshirt, itm_sweater,
-	itm_coat_winter, itm_gloves_wool, itm_gloves_winter, itm_hat_knit,
+	itm_boots_winter, itm_socks_wool, itm_jeans, itm_shorts, itm_tshirt, itm_sweatshirt, itm_sweater,
+	itm_coat_winter, itm_gloves_wool, itm_gloves_winter, itm_gloves_liner, itm_hat_knit,
 	itm_backpack, itm_battery, itm_novel_scifi, itm_novel_drama,
 	itm_manual_first_aid, itm_manual_tailor, itm_manual_carpentry,
 	itm_lighter, itm_sewing_kit, itm_thread, itm_hammer, itm_extinguisher,
@@ -537,16 +540,35 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_bionics],
-	itm_bionics_power, itm_bionics_tools, itm_bionics_neuro,
-	itm_bionics_sensory, itm_bionics_aquatic, itm_bionics_combat_aug,
-	itm_bionics_hazmat, itm_bionics_nutritional, itm_bionics_desert,
-	itm_bionics_melee, itm_bionics_armor, itm_bionics_espionage,
-	itm_bionics_defense, itm_bionics_medical, itm_bionics_construction,
-	itm_bionics_super, itm_bionics_ranged, NULL);
+   itm_bionics_solar, itm_bionics_batteries, itm_bionics_metabolics,
+   itm_bionics_ethanol, itm_bionics_furnace,
+   itm_bionics_toolset,      itm_bionics_storage,  itm_bionics_flashlight,
+   itm_bionics_lighter,      itm_bionics_magnet,
+   itm_bionics_memory,  itm_bionics_painkiller, itm_bionics_alarm,
+   itm_bionics_ears, itm_bionics_eye_enhancer, itm_bionics_night_vision,
+   itm_bionics_infrared, itm_bionics_scent_vision,
+   itm_bionics_targeting, itm_bionics_ground_sonar,
+   itm_bionics_membrane, itm_bionics_gills,
+   itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter,
+   itm_bionics_recycler, itm_bionics_digestion, itm_bionics_evap, itm_bionics_water_extractor,
+   itm_bionics_face_mask, itm_bionics_scent_mask, itm_bionics_cloak, itm_bionics_fingerhack,
+   itm_bionics_carbon, itm_bionics_armor_head, itm_bionics_armor_torso,
+   itm_bionics_armor_arms, itm_bionics_armor_legs,
+   itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws, 
+   itm_bionics_nanobots, itm_bionics_blood_anal,
+   itm_bionics_ads, itm_bionics_ods,
+   itm_bionics_resonator, itm_bionics_hydraulics,
+   itm_bionics_time_freeze, itm_bionics_teleport,
+   itm_bionics_blaster, itm_bionics_laser, itm_bionics_emp,
+	NULL);
 
  setvector(
    mapitems[mi_bionics_common],
-	itm_bionics_battery, itm_bionics_power, itm_bionics_tools, NULL);
+	itm_bionics_battery,
+   itm_bionics_toolset,      itm_bionics_storage,  itm_bionics_flashlight,
+   itm_bionics_lighter,      itm_bionics_magnet,   itm_bionics_alarm,
+   itm_bionics_solar, itm_bionics_batteries, itm_bionics_metabolics,
+   itm_bionics_ethanol, itm_bionics_furnace, NULL);
 
  setvector(
    mapitems[mi_bots],
@@ -574,7 +596,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_mil_armor],
 	itm_pants_army, itm_kevlar, itm_vest, itm_mask_gas, itm_goggles_nv,
-	itm_helmet_army, itm_backpack, itm_UPS_off, itm_beltrig,
+	itm_helmet_army, itm_backpack, itm_UPS_off, itm_beltrig, itm_under_armor,
         itm_boots, itm_boots_fit, itm_pants_army_fit, itm_armguard_hard,
 	itm_helmet_army, itm_backpack, itm_UPS_off, itm_beltrig, NULL);
 
@@ -590,10 +612,21 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_bionics_mil],
-	itm_bionics_battery, itm_bionics_power, itm_bionics_sensory,
-	itm_bionics_combat_aug, itm_bionics_desert, itm_bionics_armor,
-	itm_bionics_espionage, itm_bionics_defense, itm_bionics_medical,
-	itm_bionics_super, itm_bionics_ranged, NULL);
+	itm_bionics_battery, itm_bionics_solar,
+   itm_bionics_solar, itm_bionics_batteries, itm_bionics_metabolics,
+   itm_bionics_ethanol, itm_bionics_furnace,
+   itm_bionics_ears, itm_bionics_eye_enhancer, itm_bionics_night_vision,
+   itm_bionics_infrared, itm_bionics_scent_vision,
+   itm_bionics_recycler, itm_bionics_digestion, itm_bionics_evap, itm_bionics_water_extractor,
+   itm_bionics_carbon, itm_bionics_armor_head, itm_bionics_armor_torso,
+   itm_bionics_armor_arms, itm_bionics_armor_legs,
+   itm_bionics_targeting, itm_bionics_ground_sonar,
+   itm_bionics_face_mask, itm_bionics_scent_mask, itm_bionics_cloak, itm_bionics_fingerhack,
+   itm_bionics_nanobots, itm_bionics_blood_anal,
+   itm_bionics_ads, itm_bionics_ods,
+   itm_bionics_blaster, itm_bionics_laser, itm_bionics_emp,
+   itm_bionics_time_freeze, itm_bionics_teleport,
+	NULL);
 
  setvector(
    mapitems[mi_weapons],
@@ -603,10 +636,10 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_survival_armor],
-	itm_boots_steel, itm_pants_cargo, itm_pants_army, itm_jumpsuit,
+	itm_boots_steel, itm_pants_cargo, itm_shorts_cargo, itm_pants_army, itm_jumpsuit,
 	itm_jacket_leather, itm_kevlar, itm_vest, itm_gloves_fingerless,
 	itm_mask_filter, itm_mask_gas, itm_goggles_ski, itm_helmet_skid,
-  itm_armguard_hard,
+  itm_armguard_hard, itm_under_armor, itm_long_underpants,
 	itm_helmet_ball, itm_helmet_riot, itm_helmet_motor, itm_holster,
 	itm_bootstrap, itm_UPS_off, itm_beltrig, 
         itm_pants_cargo_fit, itm_pants_army_fit, itm_rucksack, NULL);
@@ -617,7 +650,8 @@ void game::init_mapitems()
 	itm_string_36, itm_rope_30, itm_chain, itm_binoculars,
 	itm_bottle_plastic, itm_lighter, itm_sewing_kit, itm_thread, itm_extinguisher,
 	itm_flashlight, itm_crowbar, itm_chainsaw_off, itm_beartrap,
-	itm_grenade, itm_EMPbomb, itm_hotplate, itm_UPS_off, itm_canteen, itm_spray_can, NULL);
+	itm_grenade, itm_EMPbomb, itm_hotplate, itm_UPS_off, itm_canteen, itm_spray_can,
+   itm_bionics_toolset, itm_bionics_ethanol, NULL);
 
  setvector(
    mapitems[mi_sewage_plant],
@@ -625,7 +659,9 @@ void game::init_mapitems()
 	itm_boots, itm_jumpsuit, itm_coat_lab, itm_gloves_rubber,
 	itm_mask_filter, itm_glasses_safety, itm_hat_hard, itm_extinguisher,
 	itm_flashlight, itm_water_purifier, itm_two_way_radio,
-	itm_bionics_tools, itm_bionics_hazmat, NULL);
+   itm_bionics_toolset,      itm_bionics_storage,  itm_bionics_flashlight,
+   itm_bionics_lighter,      itm_bionics_magnet,
+   itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter, NULL);
 
  setvector(
    mapitems[mi_mine_storage],
@@ -637,8 +673,10 @@ void game::init_mapitems()
 	itm_jumpsuit, itm_gloves_leather, itm_mask_filter, itm_mask_gas,
 	itm_glasses_safety, itm_goggles_welding, itm_goggles_nv, itm_hat_hard,
 	itm_backpack, itm_battery, itm_flashlight, itm_two_way_radio,
-	itm_jackhammer, itm_jacqueshammer, itm_dynamite, itm_UPS_off, itm_bionics_tools,
-	itm_bionics_construction, itm_jerrycan, NULL);
+	itm_jackhammer, itm_jacqueshammer, itm_dynamite, itm_UPS_off,
+   itm_bionics_toolset, itm_bionics_flashlight, itm_bionics_lighter, itm_bionics_magnet,
+   itm_bionics_resonator, itm_bionics_hydraulics,
+	itm_jerrycan, NULL);
 
 
  setvector(
@@ -658,7 +696,7 @@ void game::init_mapitems()
 	itm_1st_aid, itm_iodine, itm_canister_empty, itm_boots_steel,
 	itm_hazmat_suit, itm_mask_gas, itm_hat_hard, itm_textbook_carpentry,
 	itm_extinguisher, itm_radio, itm_geiger_off, itm_UPS_off,
-	itm_bionics_hazmat, NULL);
+   itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter, NULL);
 
  setvector(
    mapitems[mi_subway],
@@ -687,15 +725,17 @@ void game::init_mapitems()
 	itm_savage_111f, itm_sks, itm_ak47, itm_m4a1, itm_steyr_aug, itm_v29,
 	itm_nx17, itm_flamethrower, itm_flashlight, itm_radio, itm_geiger_off,
 	itm_teleporter, itm_canister_goo, itm_dynamite, itm_mininuke,
-	itm_bot_manhack, itm_UPS_off, itm_bionics_battery, itm_bionics_tools,
-	itm_arrow_cf, itm_spray_can, NULL);
+	itm_bot_manhack, itm_UPS_off, itm_bionics_battery,
+   itm_bionics_flashlight, itm_bionics_lighter, 
+	itm_arrow_cf, itm_spray_can, itm_bionics_blaster, NULL);
 
  setvector(
    mapitems[mi_ant_food],
 	itm_meat, itm_veggy, itm_meat_tainted, itm_veggy_tainted, itm_apple,
 	itm_orange, itm_mushroom, itm_blueberries, itm_strawberries,
 	itm_tomato, itm_broccoli, itm_zucchini, itm_potato_raw, itm_honeycomb,
-	itm_royal_jelly, itm_arm, itm_leg, itm_rock, itm_stick, NULL);
+	itm_royal_jelly, itm_arm, itm_leg, itm_rock, itm_stick,
+   itm_bionics_metabolics, itm_bionics_blaster, NULL);
 
  setvector(
    mapitems[mi_ant_egg],
@@ -764,7 +804,8 @@ void game::init_mapitems()
 	itm_textbook_chemistry, itm_SICP, itm_textbook_robots,
 	itm_soldering_iron, itm_geiger_off, itm_teleporter, itm_canister_goo,
 	itm_EMPbomb, itm_pheromone, itm_portal, itm_bot_manhack, itm_UPS_off,
-	itm_tazer, itm_bionics_hazmat, itm_plasma, itm_usb_drive,
+	itm_tazer, itm_plasma, itm_usb_drive,
+   itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter,
 	itm_software_useless, itm_canteen, NULL);
 
  setvector(
@@ -801,13 +842,13 @@ void game::init_mapitems()
 	itm_energy_drink, itm_whiskey, itm_jerky, itm_bandages, itm_caffeine,
 	itm_oxycodone, itm_adderall, itm_cig, itm_weed, itm_coke, itm_meth,
 	itm_heroin, itm_syringe, itm_electrohack, itm_hatchet, itm_nailboard,
-	itm_knife_combat, itm_bat, itm_machete, itm_katana, itm_pants_cargo,
+	itm_knife_combat, itm_bat, itm_machete, itm_katana, itm_pants_cargo, itm_shorts_cargo,
 	itm_hoodie, itm_gloves_fingerless, itm_backpack, itm_holster,
 	itm_armguard_soft, itm_armguard_hard,
 	itm_shot_00, itm_9mm, itm_45_acp, itm_glock_19, itm_shotgun_sawn,
 	itm_uzi, itm_tec9, itm_mac_10, itm_silencer, itm_clip2, itm_autofire,
 	itm_mag_porn, itm_lighter, itm_crowbar, itm_pipebomb, itm_grenade,
-	itm_mininuke, itm_crack, itm_crackpipe, itm_pants_cargo_fit, itm_spare_mag, NULL);
+	itm_mininuke, itm_crack, itm_crackpipe, itm_pants_cargo_fit, itm_spare_mag, itm_bionics_blaster, NULL);
 
  setvector(
    mapitems[mi_wreckage],

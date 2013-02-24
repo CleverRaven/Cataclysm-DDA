@@ -237,7 +237,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    if (monster_speed_penalty < 1.)
     monster_speed_penalty = 1.;
   }
-	
+
   if (curshot > 0) {
    if (recoil_add(p) % 2 == 1)
     p.recoil++;
@@ -246,7 +246,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    p.recoil += recoil_add(p);
 
   if (missed_by >= 1.) {
-// We missed D: 
+// We missed D:
 // Shoot a random nearby space?
    tarx += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
    tary += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
@@ -283,8 +283,8 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     char bullet = '*';
     if (effects & mfb(AMMO_FLAME))
      bullet = '#';
-    mvwputch(w_terrain, trajectory[i].y + SEEY - u.posy,
-                        trajectory[i].x + SEEX - u.posx, c_red, bullet);
+    mvwputch(w_terrain, trajectory[i].y + VIEWY - u.posy,
+                        trajectory[i].x + VIEWX - u.posx, c_red, bullet);
     wrefresh(w_terrain);
     if (&p == &u)
      nanosleep(&ts, NULL);
@@ -547,7 +547,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  } else
   target = -1;	// No monsters in range, don't use target, reset to -1
 
- WINDOW* w_target = newwin(13, 48, 12, SEEX * 2 + 8);
+ WINDOW* w_target = newwin(13, 48, 12, TERRAIN_WINDOW_WIDTH + 7);
  wborder(w_target, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  if (!relevent) // currently targetting vehicle to refill with fuel
@@ -583,6 +583,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    for (int j = 1; j < 46; j++)
     mvwputch(w_target, i, j, c_white, ' ');
   }
+  lm.generate(this, center.x, center.y, natural_light_level(), u.active_light());
   m.draw(this, w_terrain, center);
 // Draw the Monsters
   for (int i = 0; i < z.size(); i++) {
@@ -602,8 +603,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     m.drawsq(w_terrain, u, ret[i].x, ret[i].y, false, true, center.x, center.y);
 */
 // Draw the player
-   int atx = SEEX + u.posx - center.x, aty = SEEY + u.posy - center.y;
-   if (atx >= 0 && atx < SEEX * 2 + 1 && aty >= 0 && aty < SEEY * 2 + 1)
+   int atx = VIEWX + u.posx - center.x, aty = VIEWY + u.posy - center.y;
+   if (atx >= 0 && atx < TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < TERRAIN_WINDOW_HEIGHT)
     mvwputch(w_terrain, aty, atx, u.color(), '@');
 
    if (m.sees(u.posx, u.posy, x, y, -1, tart)) {// Selects a valid line-of-sight
@@ -635,9 +636,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    if (mon_at(x, y) == -1) {
     mvwprintw(w_status, 0, 9, "                             ");
     if (snap_to_target)
-     mvwputch(w_terrain, SEEY, SEEX, c_red, '*');
+     mvwputch(w_terrain, VIEWY, VIEWX, c_red, '*');
     else
-     mvwputch(w_terrain, y + SEEY - u.posy, x + SEEX - u.posx, c_red, '*');
+     mvwputch(w_terrain, y + VIEWY - u.posy, x + VIEWX - u.posx, c_red, '*');
    } else if (u_see(&(z[mon_at(x, y)]), tart))
     z[mon_at(x, y)].print_info(this, w_target);
   }
@@ -656,7 +657,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    else if (m.sees(u.posx, u.posy, x, y, -1, junk))
     m.drawsq(w_terrain, u, x, y, false, true, center.x, center.y);
    else
-    mvwputch(w_terrain, SEEY, SEEX, c_black, 'X');
+    mvwputch(w_terrain, VIEWY, VIEWX, c_black, 'X');
    x += tarx;
    y += tary;
    if (x < lowx)
@@ -720,37 +721,37 @@ int time_to_fire(player &p, it_gun* firing)
  int time = 0;
  if (firing->skill_used == Skill::skill("pistol")) {
    if (p.skillLevel("pistol") > 6)
-   time = 10;
-  else
+     time = 10;
+   else
      time = (80 - 10 * p.skillLevel("pistol").level());
  } else if (firing->skill_used == Skill::skill("shotgun")) {
    if (p.skillLevel("shotgun") > 3)
-   time = 70;
-  else
+     time = 70;
+   else
      time = (150 - 25 * p.skillLevel("shotgun").level());
  } else if (firing->skill_used == Skill::skill("smg")) {
    if (p.skillLevel("smg") > 5)
-   time = 20;
-  else
+     time = 20;
+   else
      time = (80 - 10 * p.skillLevel("smg").level());
  } else if (firing->skill_used == Skill::skill("rifle")) {
    if (p.skillLevel("rifle") > 8)
-   time = 30;
-  else
+     time = 30;
+   else
      time = (150 - 15 * p.skillLevel("rifle").level());
  } else if (firing->skill_used == Skill::skill("archery")) {
    if (p.skillLevel("archery") > 8)
-   time = 20;
-  else
+     time = 20;
+   else
      time = (220 - 25 * p.skillLevel("archery").level());
  } else if (firing->skill_used == Skill::skill("launcher")) {
    if (p.skillLevel("launcher") > 8)
-   time = 30;
-  else
+     time = 30;
+   else
      time = (200 - 20 * p.skillLevel("launcher").level());
  } else {
    debugmsg("Why is shooting %s using %s skill?", (firing->name).c_str(), firing->skill_used->name().c_str());
-  time =  0;
+   time =  0;
  }
 
  return time;
@@ -933,14 +934,14 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
  body_part hit;
  int side = rng(0, 1), junk;
- if (goodhit < .05) {
+ if (goodhit < .003) {
   hit = bp_eyes;
   dam = rng(3 * dam, 5 * dam);
   p.practice(firing->skill_used, 5);
- } else if (goodhit < .1) {
-  if (one_in(6))
+ } else if (goodhit < .066) {
+  if (one_in(25))
    hit = bp_eyes;
-  else if (one_in(4))
+  else if (one_in(15))
    hit = bp_mouth;
   else
    hit = bp_head;

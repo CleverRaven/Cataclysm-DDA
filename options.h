@@ -20,6 +20,8 @@ OPT_DROP_EMPTY, // auto drop empty containers after use
 OPT_SKILL_RUST, // level of skill rust
 OPT_DELETE_WORLD,
 OPT_INITIAL_POINTS,
+OPT_VIEWPORT_X,
+OPT_VIEWPORT_Y,
 NUM_OPTION_KEYS
 };
 
@@ -27,7 +29,16 @@ struct option_table
 {
  double options[NUM_OPTION_KEYS];
 
- option_table() { for (int i = 0; i < NUM_OPTION_KEYS; i++) options[i] = 0; };
+ option_table() {
+  for (int i = 0; i < NUM_OPTION_KEYS; i++) {
+   if(i == OPT_VIEWPORT_X || i == OPT_VIEWPORT_Y) {
+    options[i] = 12;
+   }
+   else {
+    options[i] = 0;
+   }
+  }
+ };
 
  double& operator[] (option_key i) { return options[i]; };
  double& operator[] (int i) { return options[i]; };

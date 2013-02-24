@@ -1,5 +1,6 @@
 #if (defined _WIN32 || defined WINDOWS)
 #include "catacurse.h"
+#include "options.h"
 #include <cstdlib>
 #include <fstream>
 //***********************************
@@ -283,8 +284,8 @@ fin.open("data\\FONTDATA");
  }
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
-    WindowWidth=80*fontwidth;
-    WindowHeight=25*fontheight;
+    WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
+    WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
     WindowX=(GetSystemMetrics(SM_CXSCREEN) / 2)-WindowWidth/2;    //center this
     WindowY=(GetSystemMetrics(SM_CYSCREEN) / 2)-WindowHeight/2;   //sucker
     WinCreate();    //Create the actual window, register it, etc
@@ -323,7 +324,7 @@ fin.open("data\\FONTDATA");
 //    WindowCount=0;
 
     delete typeface_c;
-    mainwin = newwin(25,80,0,0);
+    mainwin = newwin((OPTIONS[OPT_VIEWPORT_Y] * 2 + 1),(55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1)),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 };
 

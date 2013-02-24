@@ -1,11 +1,4 @@
 
-#if (defined _WIN32 || defined WINDOWS)
-	#include "catacurse.h"
-#elif (defined __CYGWIN__)
-      #include "ncurses/curses.h"
-#else
-	#include <curses.h>
-#endif
 
 #include <string>
 #include <vector>
@@ -21,6 +14,7 @@
 #include "rng.h"
 #include "keypress.h"
 #include "options.h"
+#include "cursesdef.h"
 
 #define LINE_XOXO 4194424
 #define LINE_OXOX 4194417
@@ -380,69 +374,23 @@ int query_int(const char *mes, ...)
  return temp-48;
 }
 
-std::string string_input_popup(const char *mes, ...)
+std::string string_input_popup(std::string title, int max_length, std::string input)
 {
- std::string ret;
- va_list ap;
- va_start(ap, mes);
- char buff[1024];
- vsprintf(buff, mes, ap);
- va_end(ap);
- int startx = strlen(buff) + 2;
- WINDOW* w = newwin(3, 80, 11, 0);
- wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w, 1, 1, c_ltred, "%s", buff);
- for (int i = startx + 1; i < 79; i++)
-  mvwputch(w, 1, i, c_ltgray, '_');
- int posx = startx;
- mvwputch(w, 1, posx, h_ltgray, '_');
- do {
-  wrefresh(w);
-  long ch = getch();
-  if (ch == 27) {	// Escape
-   werase(w);
-   wrefresh(w);
-   delwin(w);
-   refresh();
-   return "";
-  } else if (ch == '\n') {
-   werase(w);
-   wrefresh(w);
-   delwin(w);
-   refresh();
-   return ret;
-  } else if ((ch == KEY_BACKSPACE || ch == 127) && posx > startx) {
-// Move the cursor back and re-draw it
-   ret = ret.substr(0, ret.size() - 1);
-   mvwputch(w, 1, posx, c_ltgray, '_');
-   posx--;
-   mvwputch(w, 1, posx, h_ltgray, '_');
-  } else {
-   ret += ch;
-   mvwputch(w, 1, posx, c_magenta, ch);
-   posx++;
-   mvwputch(w, 1, posx, h_ltgray, '_');
-  }
- } while (true);
-}
+ std::string ret = input;
 
-std::string string_input_popup(int max_length, const char *mes, ...)
-{
- std::string ret;
- va_list ap;
- va_start(ap, mes);
- char buff[1024];
- vsprintf(buff, mes, ap);
- va_end(ap);
- int startx = strlen(buff) + 2;
+ int startx = title.size() + 2;
  WINDOW* w = newwin(3, 80, 11, 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w, 1, 1, c_ltred, "%s", buff);
  for (int i = startx + 1; i < 79; i++)
   mvwputch(w, 1, i, c_ltgray, '_');
- int posx = startx;
+
+ mvwprintz(w, 1, 1, c_ltred, "%s", title.c_str());
+
+ if (input != "")
+  mvwprintz(w, 1, startx, c_magenta, "%s", input.c_str());
+
+ int posx = startx + input.size();
  mvwputch(w, 1, posx, h_ltgray, '_');
  do {
   wrefresh(w);
@@ -948,6 +896,42 @@ long special_symbol (char sym)
     case 'b': return LINE_XXOO;
     default: return sym;
     }
+}
+
+// crawl through string, probing each word while treating spaces & newlines the same.
+std::string word_rewrap (const std::string &in, int width){
+    std::ostringstream o;
+    int i_ok = 0; // pos in string of next char probe
+    int x_ok = 0; // ditto for column pos
+    while (i_ok <= in.size()){
+        bool fit = false;
+        int j=0; // j = word probe counter.
+        while(x_ok + j <= width){
+           if (i_ok + j >= in.size()){
+              fit = true;
+              break;
+           }
+           char c = in[i_ok+j];
+           if (c == '\n' || c == ' '){ //whitespace detected. copy word.
+              fit = true;
+              break;
+           }
+           j++;
+        }
+        if(fit == false){
+           o << '\n';
+           x_ok = 0;
+        }
+        else {
+           o << ' ';
+           for (int k=i_ok; k < i_ok+j; k++){
+              o << in[k];
+           }
+           i_ok += j+1;
+           x_ok += j+1;
+        }
+    }
+    return o.str();
 }
 
 
