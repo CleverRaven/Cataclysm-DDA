@@ -467,7 +467,7 @@ void game::init_mapitems()
 	itm_mag_guns, itm_manual_brawl, itm_manual_knives, itm_cot,
 	itm_manual_mechanics, itm_manual_first_aid, itm_manual_traps,
 	itm_flashlight, itm_water_purifier, itm_two_way_radio, itm_radio,
-	itm_geiger_off, itm_usb_drive, itm_canteen, itm_jerrycan, NULL);
+	itm_geiger_off, itm_usb_drive, itm_canteen, itm_jerrycan, itm_rucksack, NULL);
 
  setvector(
    mapitems[mi_shelter],

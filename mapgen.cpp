@@ -1196,53 +1196,11 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    while (ter(rn, bw - 1) != t_floor);
    ter(rn, bw - 1) = t_stairs_down;
   }
-  if (one_in(10)) { // Houses have a 1 in 100 chance of wasps! //Oddzball-Spawn Zombie! 1 in 20
-   for (int i = 0; i < SEEX * 2; i++) {
-    for (int j = 0; j < SEEY * 2; j++) {
-     if (ter(i, j) == t_door_c || ter(i, j) == t_door_locked)
-      ter(i, j) = t_door_frame;
-     if (ter(i, j) == t_window_domestic && !one_in(3))
-      ter(i, j) = t_window_frame;
-     if ((ter(i, j) == t_wall_h || ter(i, j) == t_wall_v) && one_in(8))
-      ter(i, j) = t_paper;
-    }
+  if (one_in(10)) { //Oddzball-Spawn Zombie! 1 in 10 houses
+       add_spawn(mon_zombie, rng(1, 5), rng(7, 11), rng(7, 11));
    }
-   int num_pods = rng(8, 12);
-   for (int i = 0; i < num_pods; i++) {
-    int podx = rng(1, SEEX * 2 - 2), pody = rng(1, SEEY * 2 - 2);
-    int nonx = 0, nony = 0;
-    while (nonx == 0 && nony == 0) {
-     nonx = rng(-1, 1);
-     nony = rng(-1, 1);
-    }
-    for (int x = -1; x <= 1; x++) {
-     for (int y = -1; y <= 1; y++) {
-      if ((x != nonx || y != nony) && (x != 0 || y != 0))
-       ter(podx + x, pody + y) = t_paper;
-     }
-    }
-    add_spawn(mon_zombie, 1, podx, pody);
-   }
-   place_items(mi_rare, 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
-
-  } else if (one_in(100)) { // No wasps; black widows? //Oddzball-Rats! DO I need to worry about pods or webs?
-   for (int i = 0; i < SEEX * 2; i++) {
-    for (int j = 0; j < SEEY * 2; j++) {
-     if (ter(i, j) == t_floor) {
-      if (one_in(15)) {
-       add_spawn(mon_sewer_rat, rng(1, 2), i, j);
-       for (int x = i - 1; x <= i + 1; x++) {
-        for (int y = j - 1; y <= j + 1; y++) {
-         if (ter(x, y) == t_floor)
-          add_field(NULL, x, y, fd_web, rng(2, 3));
-        }
-       }
-      } else if (move_cost(i, j) > 0 && field_at(i, j).is_null() && one_in(5))
-       add_field(NULL, x, y, fd_web, 1);
-     }
-    }
-   }
-   place_items(mi_rare, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
+   else if (one_in(100)) { // Oddzball-Rats! 
+   add_spawn(mon_sewer_rat, rng(1, 10), rng(7, 11), rng(7, 11));
   }
 
   if (terrain_type == ot_house_east  || terrain_type == ot_house_base_east)
@@ -2405,7 +2363,7 @@ case ot_lmoe: {
    science_room(this, 2       , 2, SEEX - 3    , SEEY * 2 - 3, 1);
    science_room(this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, 3);
 
-   add_spawn(mon_turret, 1, SEEX, 5);
+   
 
    if (t_east > ot_road_null && t_east <= ot_road_nesw_manhole)
     rotate(1);
@@ -5628,13 +5586,15 @@ break;
    else if (move_cost(zx, zy) > 0) {
     mon_id zom = mon_zombie;
     if (one_in(6))
-     zom = mon_zombie_spitter;
+     zom = mon_zombie_skeleton;
     else if (!one_in(3))
-     zom = mon_boomer;
+     zom = mon_brute;
     add_spawn(zom, 1, zx, zy);
    }
   }
   break;
+  
+  //Oddzball-Hospital spawn code above.
 
  case ot_mansion_entrance: {
 // Left wall
