@@ -137,9 +137,9 @@ std::string option_desc(option_key key)
   case OPT_DROP_EMPTY: return "Set to drop empty containers after use\n0 - don't drop any\n1 - all except watertight containers\n2 - all containers";
   case OPT_SKILL_RUST: return "Set the level of skill rust\n0 - vanilla Cataclysm\n1 - capped at skill levels\n2 - none at all";
   case OPT_DELETE_WORLD: return "Delete saves upon player death\n0 - no\n1 - yes\n2 - query";
-  case OPT_INITIAL_POINTS: return "Initial points available on character generation.\nDefault is 6";
-  case OPT_VIEWPORT_X: return "Set the expansion of the viewport along the X axis\nMust restart for changes to take effect\nDefault is 12";
-  case OPT_VIEWPORT_Y: return "Set the expansion of the viewport along the Y axis\nMust restart for changes to take effect\nDefault is 12";
+  case OPT_INITIAL_POINTS: return "Initial points available on character\ngeneration.  Default is 6";
+  case OPT_VIEWPORT_X: return "Set the expansion of the viewport along\nthe X axis.  Must restart for changes\nto take effect.  Default is 12";
+  case OPT_VIEWPORT_Y: return "Set the expansion of the viewport along\nthe Y axis.  Must restart for changes\nto take effect.  Default is 12";
   default:			return " ";
  }
  return "Big ol Bug";
