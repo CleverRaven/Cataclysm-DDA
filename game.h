@@ -190,6 +190,8 @@ class game
   void peek();
   point look_around();// Look at nearby terrain	';'
   void list_items(); //List all items around the player
+  bool list_items_match(std::string sText, std::string sPattern);
+  std::string sFilter;
   char inv(std::string title = "Inventory:");
   char inv_type(std::string title = "Inventory:", int inv_item_type = 0);
   std::vector<item> multidrop();
