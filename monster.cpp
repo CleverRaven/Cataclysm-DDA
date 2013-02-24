@@ -8,14 +8,7 @@
 #include <sstream>
 #include <fstream>
 #include <stdlib.h>
-
-#if (defined _WIN32 || defined WINDOWS)
-	#include "catacurse.h"
-#elif (defined __CYGWIN__)
-      #include "ncurses/curses.h"
-#else
-	#include <curses.h>
-#endif
+#include "cursesdef.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -221,8 +214,8 @@ char monster::symbol()
 
 void monster::draw(WINDOW *w, int plx, int ply, bool inv)
 {
- int x = w->_maxx/2 + posx - plx;
- int y = w->_maxy/2 + posy - ply;
+ int x = getmaxx(w)/2 + posx - plx;
+ int y = getmaxy(w)/2 + posy - ply;
  nc_color color = type->color;
  if (friendly != 0 && !inv)
   mvwputch_hi(w, y, x, color, type->sym);
