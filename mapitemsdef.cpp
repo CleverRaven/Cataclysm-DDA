@@ -467,7 +467,7 @@ void game::init_mapitems()
 	itm_mag_guns, itm_manual_brawl, itm_manual_knives, itm_cot,
 	itm_manual_mechanics, itm_manual_first_aid, itm_manual_traps,
 	itm_flashlight, itm_water_purifier, itm_two_way_radio, itm_radio,
-	itm_geiger_off, itm_usb_drive, itm_canteen, itm_jerrycan, NULL);
+	itm_geiger_off, itm_usb_drive, itm_canteen, itm_jerrycan, itm_rucksack, NULL);
 
  setvector(
    mapitems[mi_shelter],
@@ -554,7 +554,7 @@ void game::init_mapitems()
    itm_bionics_face_mask, itm_bionics_scent_mask, itm_bionics_cloak, itm_bionics_fingerhack,
    itm_bionics_carbon, itm_bionics_armor_head, itm_bionics_armor_torso,
    itm_bionics_armor_arms, itm_bionics_armor_legs,
-   itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws, 
+   itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws,
    itm_bionics_nanobots, itm_bionics_blood_anal,
    itm_bionics_ads, itm_bionics_ods,
    itm_bionics_resonator, itm_bionics_hydraulics,
@@ -726,7 +726,7 @@ void game::init_mapitems()
 	itm_nx17, itm_flamethrower, itm_flashlight, itm_radio, itm_geiger_off,
 	itm_teleporter, itm_canister_goo, itm_dynamite, itm_mininuke,
 	itm_bot_manhack, itm_UPS_off, itm_bionics_battery,
-   itm_bionics_flashlight, itm_bionics_lighter, 
+   itm_bionics_flashlight, itm_bionics_lighter,
 	itm_arrow_cf, itm_spray_can, itm_bionics_blaster, NULL);
 
  setvector(
