@@ -60,6 +60,7 @@ typedef struct {
   int cursorx;//x location of the cursor
   int cursory;//y location of the cursor
   curseline *line;
+
 } WINDOW;
 
 #define	A_NORMAL	__NORMAL

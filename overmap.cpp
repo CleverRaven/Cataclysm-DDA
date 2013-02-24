@@ -1,11 +1,3 @@
-#if (defined _WIN32 || defined WINDOWS)
-	#include "catacurse.h"
-#elif (defined __CYGWIN__)
-      #include "ncurses/curses.h"
-#else
-	#include <curses.h>
-#endif
-
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
@@ -22,6 +14,7 @@
 #include <cstring>
 #include <ostream>
 #include "debug.h"
+#include "cursesdef.h"
 
 #define STREETCHANCE 2
 #define NUM_FOREST 250

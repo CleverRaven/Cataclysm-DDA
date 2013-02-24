@@ -116,7 +116,7 @@ another attack.  Your dexterity and melee skills are used to determine\n\
 whether an attack hits, while strength affects damage.",
 "\
 Taking damage often causes pain.  Small amounts of pain are tolerable, but as\n\
-it gets worse youre stats will drop and you will move much slower.  To reduce\n\
+it gets worse you're stats will drop and you will move much slower.  To reduce\n\
 pain, take painkillers like codeine, or simply wait it out.",
 "\
 When you kill a monster it will often leave behind a corpse.  Corpses can be\n\
