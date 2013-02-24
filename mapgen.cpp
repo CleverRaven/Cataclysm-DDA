@@ -5586,9 +5586,9 @@ break;
    else if (move_cost(zx, zy) > 0) {
     mon_id zom = mon_zombie;
     if (one_in(6))
-     zom = mon_zombie_skeleton;
+     zom = mon_skeleton;
     else if (!one_in(3))
-     zom = mon_brute;
+     zom = mon_zombie_brute;
     add_spawn(zom, 1, zx, zy);
    }
   }
