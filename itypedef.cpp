@@ -842,11 +842,6 @@ A small, very sharp knife, used in surgery. Its small tip allows for a\n\
 precision strike in the hands of the skilled.");
 TECH(mfb(TEC_PRECISE));
 
-MELEE("pocket knife",	48,  40,',', c_cyan,	STEEL,	MNULL,
-	 1,  0,  0, 18, -4, mfb(IF_SPEAR), "\
-A small, very sharp knife.");
-TECH(mfb(TEC_PRECISE));
-
 MELEE("pot",		25,  45,')', c_ltgray,	IRON,	MNULL,
 	 8,  6,  9,  0,  1, 0, "\
 Useful for boiling water when cooking spaghetti and more.");
@@ -4039,6 +4034,13 @@ TOOL("PDA - Flashlight",		60,  35,',', c_blue,	PLASTIC,IRON,
     1,  1,  0,  0,  0, 100,100, 1,  0, AT_NULL,	itm_null, &iuse::pda_flashlight, 0, "\
 A small multipurpose electronic device. This PDA has its flashlight\n\
 app on, and is providing light.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+TOOL("pocket knife",	14, 100,';', c_blue,	STEEL,  PLASTIC,
+//	VOL WGT DAM CUT HIT FLAGS
+	 2,  2,  2, 10, -4, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
+mfb(IF_STAB), "\
+A small pocket knife.");
 
 
 // BIONICS
