@@ -3931,8 +3931,8 @@ void game::resonance_cascade(int x, int y)
   minglow = 0;
  if (maxglow > 0)
   u.add_disease(DI_TELEGLOW, rng(minglow, maxglow) * 100, this);
- int startx = (x < 8 ? 0 : x - 8), endx = (x+8 >= VIEWX*3 ? VIEWX*3 - 1 : x + 8);
- int starty = (y < 8 ? 0 : y - 8), endy = (y+8 >= VIEWY*3 ? VIEWY*3 - 1 : y + 8);
+ int startx = (x < 8 ? 0 : x - 8), endx = (x+8 >= SEEX*3 ? SEEX*3 - 1 : x + 8);
+ int starty = (y < 8 ? 0 : y - 8), endy = (y+8 >= SEEY*3 ? SEEY*3 - 1 : y + 8);
  for (int i = startx; i <= endx; i++) {
   for (int j = starty; j <= endy; j++) {
    switch (rng(1, 80)) {
