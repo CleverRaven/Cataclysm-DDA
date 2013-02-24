@@ -842,6 +842,11 @@ A small, very sharp knife, used in surgery. Its small tip allows for a\n\
 precision strike in the hands of the skilled.");
 TECH(mfb(TEC_PRECISE));
 
+MELEE("pocket knife",	48,  40,',', c_cyan,	STEEL,	MNULL,
+	 1,  0,  0, 18, -4, mfb(IF_SPEAR), "\
+A small, very sharp knife.");
+TECH(mfb(TEC_PRECISE));
+
 MELEE("pot",		25,  45,')', c_ltgray,	IRON,	MNULL,
 	 8,  6,  9,  0,  1, 0, "\
 Useful for boiling water when cooking spaghetti and more.");

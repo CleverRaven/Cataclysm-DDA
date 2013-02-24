@@ -236,9 +236,13 @@ End of cheatery */
  worn.push_back(tmp);
  tmp = item(g->itypes[itm_sneakers_fit], 0, 'c');
  worn.push_back(tmp);
+ tmp = item(g->itypes[itm_jacket_light], 0, 'd'); //Oddzball-Added a jacket to starting gear
+ worn.push_back(tmp);
+ tmp = item(g->itypes[itm_pockknife], 0, 'b' + worn.size());
+ inv.push_back(tmp);
 // The near-sighted get to start with glasses.
  if (has_trait(PF_MYOPIC)) {
-  tmp = item(g->itypes[itm_glasses_eye], 0, 'd');
+  tmp = item(g->itypes[itm_glasses_eye], 0, 'e');
   worn.push_back(tmp);
  }
 // Likewise, the asthmatic start with their medication.
