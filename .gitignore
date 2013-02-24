@@ -2,6 +2,7 @@ cataclysm
 data/*.template
 save/
 obj/
+bin/
 debug.log
 logg.txt
 bindist/
