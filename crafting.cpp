@@ -1879,7 +1879,7 @@ void game::complete_disassemble()
 
   add_msg("You disassemble the item into its components.");
   // remove any batteries or ammo first
-    if (dis_item->is_gun() && dis_item->curammo != NULL)
+    if (dis_item->is_gun() && dis_item->curammo != NULL && dis_item->ammo_type() != AT_NULL)
     {
       item ammodrop;
       ammodrop = item(dis_item->curammo, turn);
@@ -1889,7 +1889,7 @@ void game::complete_disassemble()
       else
         m.add_item(u.posx, u.posy, ammodrop);
     }
-    if (dis_item->is_tool() && dis_item->charges > 0)
+    if (dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != AT_NULL)
     {
       item ammodrop;
       ammodrop = item(itypes[default_ammo(dis_item->ammo_type())], turn);
