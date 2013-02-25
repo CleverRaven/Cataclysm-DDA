@@ -11,6 +11,7 @@
 #include "options.h"
 #include <sstream>
 #include <stdlib.h>
+#include "weather.h"
 
 #include "name.h"
 
@@ -1564,6 +1565,22 @@ void player::disp_status(WINDOW *w, game *g)
   mvwprintz(w, 2, 0, c_yellow, "Hungry");
  else if (hunger < 0)
   mvwprintz(w, 2, 0, c_green,  "Full");
+  
+   //Oddzball Temp in status
+if (temp_cur[bp_torso] > BODYTEMP_SCORCHING)
+  mvwprintz(w, 1, 9, c_red,    "Scorching!");
+ else if (temp_cur[bp_torso] > BODYTEMP_VERY_HOT)
+  mvwprintz(w, 1, 9, c_ltred,  "Very Hot");
+ else if (temp_cur[bp_torso] > BODYTEMP_HOT)
+  mvwprintz(w, 1, 9, c_yellow,  "Hot");
+ else if (temp_cur[bp_torso] > BODYTEMP_NORM)
+  mvwprintz(w, 1, 9, c_green, "Comfortable");
+ else if (temp_cur[bp_torso] > BODYTEMP_COLD)
+  mvwprintz(w, 1, 9, c_ltblue, "Cold");
+ else if (temp_cur[bp_torso] > BODYTEMP_VERY_COLD)
+  mvwprintz(w, 1, 9, c_cyan,  "Very Cold");
+ else if (temp_cur[bp_torso] < BODYTEMP_FREEZING)
+  mvwprintz(w, 1, 9, c_blue,  "Freezing");
 
       if (thirst > 520)
   mvwprintz(w, 2, 15, c_ltred,  "Parched");
