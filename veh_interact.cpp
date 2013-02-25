@@ -646,9 +646,6 @@ struct candidate_vpart {
 // characteristics like item hp & bigness.
 item consume_vpart_item (game *g, vpart_id vpid){
     std::vector<candidate_vpart> candidates;
-    //if (veh->part_flag (p, vpf_variable_size))
-    //inventory map_inv;
-    //map_inv.form_from_map(g->u.posx, g->u.posy, PICKUP_RANGE);
     const itype_id itid = vpart_list[vpid].item;
     for (int x = g->u.posx - PICKUP_RANGE; x <= g->u.posx + PICKUP_RANGE; x++)
        for (int y = g->u.posy - PICKUP_RANGE; y <= g->u.posy + PICKUP_RANGE; y++)
@@ -663,9 +660,15 @@ item consume_vpart_item (game *g, vpart_id vpid){
        if (ith_item->type->id  == itid)
           candidates.push_back (candidate_vpart(i,*ith_item));
     }
+    if (g->u.weapon.type->id == itid) {
+       candidates.push_back (candidate_vpart(-1,g->u.weapon));
+    }
 
     // bug?
-    if(candidates.size() == 0) return item();
+    if(candidates.size() == 0){
+       debugmsg("part not found");
+       return item();
+    }
 
     int selection;
     // no choice?
@@ -676,7 +679,10 @@ item consume_vpart_item (game *g, vpart_id vpid){
        std::vector<std::string> options;
        for(int i=0;i<candidates.size(); i++){
           if(candidates[i].in_inventory){
-             options.push_back(candidates[i].vpart_item.tname());
+             if (candidates[i].index == -1)
+                options.push_back(candidates[i].vpart_item.tname() + " (wielded)");
+             else 
+                options.push_back(candidates[i].vpart_item.tname());
           }
           else { //nearby.
              options.push_back(candidates[i].vpart_item.tname() + " (nearby)");
@@ -687,15 +693,19 @@ item consume_vpart_item (game *g, vpart_id vpid){
     }
     //remove item from inventory. or map.
     if(candidates[selection].in_inventory){
-       g->u.inv.remove_item (candidates[selection].index);
+       if(candidates[selection].index == -1) //weapon
+          g->u.remove_weapon();
+       else //non-weapon inventory
+          g->u.inv.remove_item (candidates[selection].index);
     } else { //map.
        int x = candidates[selection].mapx;
        int y = candidates[selection].mapy;
        int i = candidates[selection].index;
        g->m.i_rem(x,y,i);
     }
-    item ret (candidates[selection].vpart_item);
-    return ret;
+    return candidates[selection].vpart_item;
+    //item ret = candidates[selection].vpart_item;
+    //return ret;
 }
 
 void complete_vehicle (game *g)
