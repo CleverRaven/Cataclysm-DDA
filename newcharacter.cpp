@@ -957,7 +957,7 @@ int random_skill()
 
 int calc_HP(int strength, bool tough)
 {
- return (30 + 3 * strength) * (tough ? 1.2 : 1); //Oddzball- Less starting HP.
+ return (50 + 3 * strength) * (tough ? 1.2 : 1); //Oddzball- Less starting HP.
 }
 
 void save_template(player *u)
