@@ -5191,80 +5191,79 @@ shape, but with long, twisted, distended limbs.");
  }
  //-----Jovan's-----
  //flowers
-    else if ((m.ter(examx, examy)==t_mutpoppy)&&(query_yn("Pick the flower?"))) {
-        add_msg("This flower has a heady aroma");
-        if (!(u.is_wearing(itm_mask_filter)||u.is_wearing(itm_mask_gas) ||
-            one_in(3)))  {
-        add_msg("You fall asleep...");
-        u.add_disease(DI_SLEEP, 1200, this);
-        add_msg("Your legs are covered by flower's roots!");
-        u.hurt(this,bp_legs, 0, 4);
-        u.moves-=50;
-        }
-        m.ter(examx, examy) = t_dirt;
-        m.add_item(examx, examy, this->itypes[itm_poppy_flower],0);
-        m.add_item(examx, examy, this->itypes[itm_poppy_bud],0);
-    }
+ else if ((m.ter(examx, examy)==t_mutpoppy)&&(query_yn("Pick the flower?"))) {
+  add_msg("This flower has a heady aroma");
+  if (!(u.is_wearing(itm_mask_filter)||u.is_wearing(itm_mask_gas) ||
+      one_in(3)))  {
+   add_msg("You fall asleep...");
+   u.add_disease(DI_SLEEP, 1200, this);
+   add_msg("Your legs are covered by flower's roots!");
+   u.hurt(this,bp_legs, 0, 4);
+   u.moves-=50;
+  }
+  m.ter(examx, examy) = t_dirt;
+  m.add_item(examx, examy, this->itypes[itm_poppy_flower],0);
+  m.add_item(examx, examy, this->itypes[itm_poppy_bud],0);
+ }
 // apple trees
-    else if ((m.ter(examx, examy)==t_tree_apple) && (query_yn("Pick apples?")))
-    {
-      int num_apples = rng(1, u.skillLevel("survival").level());
+ else if ((m.ter(examx, examy)==t_tree_apple) && (query_yn("Pick apples?")))
+ {
+  int num_apples = rng(1, u.skillLevel("survival").level());
 
-      for (int i = 0; i < num_apples; i++)
-      m.add_item(examx, examy, this->itypes[itm_apple],0);
+  for (int i = 0; i < num_apples; i++)
+   m.add_item(examx, examy, this->itypes[itm_apple],0);
 
-      m.ter(examx, examy) = t_tree;
-    }
+  m.ter(examx, examy) = t_tree;
+ }
 // blueberry bushes
-    else if ((m.ter(examx, examy)==t_shrub_blueberry) && (query_yn("Pick blueberries?")))
-    {
-      int num_blueberries = rng(1, u.skillLevel("survival").level());
+ else if ((m.ter(examx, examy)==t_shrub_blueberry) && (query_yn("Pick blueberries?")))
+ {
+  int num_blueberries = rng(1, u.skillLevel("survival").level());
 
-      for (int i = 0; i < num_blueberries; i++)
-      m.add_item(examx, examy, this->itypes[itm_blueberries],0);
+  for (int i = 0; i < num_blueberries; i++)
+   m.add_item(examx, examy, this->itypes[itm_blueberries],0);
 
-      m.ter(examx, examy) = t_shrub;
-    }
+  m.ter(examx, examy) = t_shrub;
+ }
 
 // harvesting wild veggies
-    else if ((m.ter(examx, examy)==t_underbrush) && (query_yn("Forage for wild vegetables?")))
-    {
-      u.assign_activity(ACT_FORAGE, 50000 / (u.skillLevel("survival").level() + 1), 0);
-     u.activity.placement = point(examx, examy);
-     u.moves = 0;
-
-    }
+ else if ((m.ter(examx, examy)==t_underbrush) && (query_yn("Forage for wild vegetables?")))
+ {
+  u.assign_activity(ACT_FORAGE, 50000 / (u.skillLevel("survival").level() + 1), 0);
+  u.activity.placement = point(examx, examy);
+  u.moves = 0;
+ }
 
  //-----Recycling machine-----
-   else if ((m.ter(examx, examy)==t_recycler)&&(query_yn("Use the recycler?"))) {
-        if (m.i_at(examx, examy).size() > 0)
-        {
-          sound(examx, examy, 80, "Ka-klunk!");
-          int num_metal = 0;
-          for (int i = 0; i < m.i_at(examx, examy).size(); i++)
-          {
-            item *it = &(m.i_at(examx, examy)[i]);
-            if (it->made_of(STEEL))
-            num_metal++;
-            m.i_at(examx, examy).erase(m.i_at(examx, examy).begin() + i);
-            i--;
-          }
-          if (num_metal > 0)
-          {
-            while (num_metal > 9)
-            {
-              m.add_item(u.posx, u.posy, this->itypes[itm_steel_lump], 0);
-              num_metal -= 10;
-            }
-            do
-            {
-              m.add_item(u.posx, u.posy, this->itypes[itm_steel_chunk], 0);
-              num_metal -= 3;
-            } while (num_metal > 2);
-          }
-        }
-        else add_msg("The recycler is empty.");
+ else if ((m.ter(examx, examy)==t_recycler)&&(query_yn("Use the recycler?"))) {
+  if (m.i_at(examx, examy).size() > 0)
+  {
+   sound(examx, examy, 80, "Ka-klunk!");
+   int num_metal = 0;
+   for (int i = 0; i < m.i_at(examx, examy).size(); i++)
+   {
+    item *it = &(m.i_at(examx, examy)[i]);
+    if (it->made_of(STEEL))
+     num_metal++;
+    m.i_at(examx, examy).erase(m.i_at(examx, examy).begin() + i);
+    i--;
+   }
+   if (num_metal > 0)
+   {
+    while (num_metal > 9)
+    {
+     m.add_item(u.posx, u.posy, this->itypes[itm_steel_lump], 0);
+     num_metal -= 10;
     }
+    do
+    {
+     m.add_item(u.posx, u.posy, this->itypes[itm_steel_chunk], 0);
+     num_metal -= 3;
+    } while (num_metal > 2);
+   }
+  }
+  else add_msg("The recycler is empty.");
+ }
 
  //-----------------
  if (m.tr_at(examx, examy) != tr_null &&
