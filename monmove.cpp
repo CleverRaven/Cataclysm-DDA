@@ -525,7 +525,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     g->add_msg("You feel poison flood your body, wracking you with pain...");
    p.add_disease(DI_BADPOISON, 40, g);
   }
-  if (has_flag(MF_BLEED) && dam > 2 && cut > 0) { //Oddzball-Bleeding hit chance
+  if (has_flag(MF_BLEED) && dam > 8 && cut > 0) { //Oddzball-Bleeding hit chance
    if (!is_npc)
     g->add_msg("You're Bleeding!");
    p.add_disease(DI_BLEED, 30, g);
