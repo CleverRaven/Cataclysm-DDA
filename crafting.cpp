@@ -463,6 +463,11 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   TOOL(itm_pan, -1, itm_pot, -1, itm_spear_wood, -1, NULL);
   COMP(itm_veggy, 1, NULL);
 
+  RECIPE(itm_veggy_wild_cooked, CC_FOOD, "cooking", NULL, 0, 4000, false);
+  TOOL(itm_hotplate, 5, itm_toolset, 3, itm_fire, -1, NULL);
+  TOOL(itm_pan, -1, itm_pot, -1, NULL);
+  COMP(itm_veggy_wild, 1, NULL);
+
  RECIPE(itm_spaghetti_cooked, CC_FOOD, "cooking", NULL, 0, 10000, false);
   TOOL(itm_hotplate, 4, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);

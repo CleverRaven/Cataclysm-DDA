@@ -575,11 +575,7 @@ void game::create_starting_npcs()
 }
 
 
-// MAIN GAME LOOP
-// Returns true if game is over (death, saved, quit, etc)
-bool game::do_turn()
-{
- if (is_game_over()) {
+void game::cleanup_at_end(){
   write_msg();
 // Save the monsters before we die!
   for (int i = 0; i < z.size(); i++) {
@@ -606,6 +602,14 @@ bool game::do_turn()
    delete gamemode;
    gamemode = new special_game;	// null gamemode or something..
   }
+}
+
+// MAIN GAME LOOP
+// Returns true if game is over (death, saved, quit, etc)
+bool game::do_turn()
+{
+ if (is_game_over()) {
+  cleanup_at_end();
   return true;
  }
 // Actual stuff
@@ -693,6 +697,10 @@ bool game::do_turn()
 
   if (get_input(autosave_timeout()) == IR_GOOD)
     ++moves_since_last_save;
+  if (is_game_over()) {
+   cleanup_at_end();
+   return true;
+  }
  }
  update_scent();
  m.vehmove(this);
@@ -1004,6 +1012,10 @@ void game::process_activity()
     complete_butcher(u.activity.index);
     break;
 
+   case ACT_FORAGE:
+    forage();
+    break;
+
    case ACT_BUILD:
     complete_construction();
     break;
@@ -1092,6 +1104,10 @@ void game::cancel_activity_query(const char* message, ...)
    break;
   case ACT_BUTCHER:
    if (query_yn("%s Stop butchering?", s.c_str()))
+    doit = true;
+   break;
+  case ACT_FORAGE:
+   if (query_yn("%s Stop foraging?", s.c_str()))
     doit = true;
    break;
   case ACT_BUILD:
@@ -4796,7 +4812,7 @@ void game::examine()
    add_msg("You insert your ID card.");
    add_msg("The nearby doors slide into the floor.");
    u.use_amount(card_type, 1);
-  }
+  } else {
   bool using_electrohack = (u.has_amount(itm_electrohack, 1) &&
                             query_yn("Use electrohack on the reader?"));
   bool using_fingerhack = (!using_electrohack && u.has_bionic(bio_fingerhack) &&
@@ -4838,6 +4854,7 @@ void game::examine()
      }
     }
    }
+  }
   }
  } else if (m.ter(examx, examy) == t_elevator_control &&
             query_yn("Activate elevator?")) {
@@ -5194,6 +5211,35 @@ shape, but with long, twisted, distended limbs.");
         m.add_item(examx, examy, this->itypes[itm_poppy_flower],0);
         m.add_item(examx, examy, this->itypes[itm_poppy_bud],0);
     }
+// apple trees
+ else if ((m.ter(examx, examy)==t_tree_apple) && (query_yn("Pick apples?")))
+ {
+  int num_apples = rng(1, u.skillLevel("survival").level());
+
+  for (int i = 0; i < num_apples; i++)
+   m.add_item(examx, examy, this->itypes[itm_apple],0);
+
+  m.ter(examx, examy) = t_tree;
+ }
+// blueberry bushes
+ else if ((m.ter(examx, examy)==t_shrub_blueberry) && (query_yn("Pick blueberries?")))
+ {
+  int num_blueberries = rng(1, u.skillLevel("survival").level());
+
+  for (int i = 0; i < num_blueberries; i++)
+   m.add_item(examx, examy, this->itypes[itm_blueberries],0);
+
+  m.ter(examx, examy) = t_shrub;
+ }
+
+// harvesting wild veggies
+ else if ((m.ter(examx, examy)==t_underbrush) && (query_yn("Forage for wild vegetables?")))
+ {
+  u.assign_activity(ACT_FORAGE, 50000 / (u.skillLevel("survival").level() + 1), 0);
+  u.activity.placement = point(examx, examy);
+  u.moves = 0;
+ }
+
 //-----Recycling machine-----
    else if ((m.ter(examx, examy)==t_recycler)&&(query_yn("Use the recycler?"))) {
         if (m.i_at(examx, examy).size() > 0)
@@ -6653,6 +6699,25 @@ void game::complete_butcher(int index)
    m.add_item(u.posx, u.posy, meat, age);
   add_msg("You butcher the corpse.");
  }
+}
+
+void game::forage()
+{
+  int veggy_chance = rng(1, 20);
+
+  if (veggy_chance < u.skillLevel("survival").level())
+  {
+    add_msg("You found some wild veggies!");
+    u.practice("survival", 10);
+    m.add_item(u.activity.placement.x, u.activity.placement.y, this->itypes[itm_veggy_wild],0);
+    m.ter(u.activity.placement.x, u.activity.placement.y) = t_dirt;
+  }
+  else
+  {
+    add_msg("You didn't find anything.");
+    if (!one_in(u.skillLevel("survival").level()))
+    m.ter(u.activity.placement.x, u.activity.placement.y) = t_dirt;
+  }
 }
 
 void game::eat()

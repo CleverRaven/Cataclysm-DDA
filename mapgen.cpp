@@ -277,8 +277,18 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    for (int j = 0; j < SEEY * 2; j++) {
     ter(i, j) = grass_or_dirt();
     //------Jovan's-----
-    if (one_in(120)) ter(i, j) = t_shrub; else
-    if (one_in(99999)) ter(i,j) = t_mutpoppy; //Oddzball-No poppy, or very little anyway
+    if (one_in(120))
+    {
+      if (one_in(30))
+      {
+        ter(i, j) = t_shrub_blueberry;
+        add_item(i, j, (*itypes)[itm_blueberries], turn);
+      }
+      else
+      ter(i, j) = t_shrub;
+    }
+    else
+    if (one_in(99999)) ter(i,j) = t_mutpoppy;
     //------------------
     }
   }
@@ -358,11 +368,24 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
      forest_chance /= num;
     rn = rng(0, forest_chance);
          if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance))
+    {
+      if (one_in(250))
+      {
+        ter(i, j) = t_tree_apple;
+        add_item(i, j, (*itypes)[itm_apple], turn);
+      }
+      else
      ter(i, j) = t_tree;
+    }
     else if ((forest_chance > 0 && rn > 10) || one_in(100 - forest_chance))
      ter(i, j) = t_tree_young;
     else if ((forest_chance > 0 && rn >  9) || one_in(100 - forest_chance))
+    {
+      if (one_in(250))
+      ter(i, j) = t_shrub_blueberry;
+      else
      ter(i, j) = t_underbrush;
+    }
     else
      ter(i, j) = t_dirt;
    }

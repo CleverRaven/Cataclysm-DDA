@@ -88,6 +88,7 @@ class game
   quit_status uquit;    // used in main.cpp to determine what type of quit
   void save();
   void delete_save();
+  void cleanup_at_end();
   bool do_turn();
   void draw();
   void draw_ter(int posx = -999, int posy = -999);
@@ -322,6 +323,7 @@ class game
   void reassign_item(); // Reassign the letter of an item   '='
   void butcher(); // Butcher a corpse		'B'
   void complete_butcher(int index);	// Finish the butchering process
+  void forage();	// Foraging ('a' on underbrush)
   void eat();	  // Eat food or fuel		'E' (or 'a')
   void use_item();// Use item; also tries E,R,W	'a'
   void use_wielded_item();

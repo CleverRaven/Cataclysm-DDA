@@ -43,8 +43,8 @@ itm_water, itm_water_clean, itm_sewage, itm_salt_water, itm_oj, itm_apple_cider,
  itm_long_island, itm_beer, itm_bleach,
  itm_ammonia, itm_mutagen, itm_purifier, itm_tea, itm_coffee, itm_blood,
 // Monster Meats
-itm_meat, itm_veggy, itm_human_flesh, itm_meat_tainted, itm_veggy_tainted,
- itm_meat_cooked, itm_veggy_cooked,
+itm_meat, itm_veggy, itm_veggy_wild, itm_human_flesh, itm_meat_tainted, itm_veggy_tainted,
+itm_meat_cooked, itm_veggy_cooked, itm_veggy_wild_cooked,
 // Food
 itm_apple, itm_orange, itm_lemon, itm_chips, itm_chips2, itm_chips3,
  itm_pretzels, itm_chocolate,
