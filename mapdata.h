@@ -105,8 +105,8 @@ t_door_metal_c, t_door_metal_o, t_door_metal_locked,
 t_door_glass_c, t_door_glass_o,
 t_bulletin,
 t_portcullis,
-t_recycler, t_window, t_window_domestic, t_window_open, t_curtains,
-t_window_alarm, t_window_empty, t_window_frame, t_window_boarded,
+t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
+t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
 t_rock, t_fault,
 t_paper,
 // Tree
@@ -323,19 +323,23 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(transparent)},
 {"window",	     '"', c_ltcyan,  0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
-        mfb(supports_roof)|mfb(deconstruct)},
+        mfb(supports_roof)|mfb(deconstruct)}, // Plain Ol' window
+{"taped window",  '"', c_dkgray,    0, tr_null,
+	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)}, // Regular window
 {"window",	     '"', c_ltcyan,  0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)|mfb(deconstruct)}, //has curtains
 {"open window",      '\'', c_ltcyan, 4, tr_null,
-	mfb(transparent)|mfb(flammable)|mfb(noitem)|
-        mfb(supports_roof)},
+	mfb(transparent)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)},
 {"closed curtains",  '"', c_dkgray,    0, tr_null,
-	mfb(bashable)|mfb(flammable)|mfb(noitem)|
-        mfb(supports_roof)},
+	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)},
+{"taped window",  '"', c_dkgray,    0, tr_null,
+	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)}, // Curtain window
 {"window",	     '"', c_ltcyan,  0, tr_null, // Actually alarmed
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(alarmed)|mfb(noitem)|
         mfb(supports_roof)},
+{"taped window",  '"', c_dkgray,    0, tr_null,
+	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)|mfb(alarmed)}, //Alarmed, duh.
 {"empty window",     '0', c_yellow,  8, tr_null,
 	mfb(transparent)|mfb(flammable)|mfb(supports_roof)},
 {"window frame",     '0', c_ltcyan,  8, tr_null,
@@ -354,7 +358,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"young tree",       '1', c_green,   4, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)},
 {"apple tree", '7', c_ltgreen,   0, tr_null,
-	mfb(flammable2)|mfb(noitem)|mfb(supports_roof)},	
+	mfb(flammable2)|mfb(noitem)|mfb(supports_roof)},
 {"underbrush",       '#', c_ltgreen, 6, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(diggable)|mfb(container)|
         mfb(flammable2)|mfb(thin_obstacle)|mfb(place_item)},

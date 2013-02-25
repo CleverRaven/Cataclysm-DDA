@@ -1210,6 +1210,7 @@ case t_wall_log:
 
  case t_window_domestic:
  case t_curtains:
+ case t_window_domestic_taped:
   result = rng(0, 6);
   if (res) *res = result;
   if (str >= result) {
@@ -1226,6 +1227,8 @@ case t_wall_log:
 
  case t_window:
  case t_window_alarm:
+ case t_window_alarm_taped:
+ case t_window_taped:
   result = rng(0, 6);
   if (res) *res = result;
   if (str >= result) {

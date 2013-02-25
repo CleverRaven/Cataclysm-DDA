@@ -224,6 +224,11 @@ void game::init_construction()
    COMP(itm_2x4, 10, NULL);
    COMP(itm_sheet, 1, NULL);
 
+ CONSTRUCT("Tape up window", 0, &construct::able_window,
+                                &construct::done_tape);
+  STAGE(t_null, 2);
+  COMP(itm_duct_tape, 50, NULL);
+
  CONSTRUCT("Deconstruct Furniture", 0, &construct::able_deconstruct,
                                 &construct::done_deconstruct);
   STAGE(t_null, 20);
@@ -687,7 +692,7 @@ bool construct::able_empty_window(game *g, point p)
 
 bool construct::able_window_pane(game *g, point p)
 {
- return (g->m.ter(p.x, p.y) == t_window || g->m.ter(p.x, p.y) == t_window_domestic);
+ return (g->m.ter(p.x, p.y) == t_window || g->m.ter(p.x, p.y) == t_window_domestic || g->m.ter(p.x, p.y) == t_window_alarm);
 }
 
 bool construct::able_broken_window(game *g, point p)
@@ -795,7 +800,6 @@ void construct::done_tree(game *g, point p)
  mvprintz(0, 0, c_red, "Press a direction for the tree to fall in:");
  int x = 0, y = 0;
  do
- do
   get_direction(g, x, y, input());
  while (x == -2 || y == -2);
  x = p.x + x * 3 + rng(-1, 1);
@@ -824,6 +828,23 @@ void construct::done_vehicle(game *g, point p)
     }
     veh->name = name;
     veh->install_part (0, 0, vp_frame_v2);
+}
+
+void construct::done_tape(game *g, point p)
+{
+  g->add_msg("You tape up the %s.", g->m.tername(p.x, p.y).c_str());
+  switch (g->m.ter(p.x, p.y))
+  {
+    case t_window_alarm:
+      g->m.ter(p.x, p.y) = t_window_alarm_taped;
+
+    case t_window_domestic:
+      g->m.ter(p.x, p.y) = t_window_domestic_taped;
+
+    case t_window:
+      g->m.ter(p.x, p.y) = t_window_taped;
+  }
+
 }
 
 void construct::done_deconstruct(game *g, point p)
