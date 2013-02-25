@@ -427,6 +427,16 @@ Killing for sport! (Quiet, quiet)\n\
 Eating  all the bodies!\n\
 Actual cannibal Shia LaBeouf!");
  FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_HUMAN);
+ 
+ mon("child zombie",species_zombie, 'z',	c_ltgreen,	MS_SMALL,	FLESH,
+//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	  10, 3,100,100,100, 8,  1,  3,  3,  4,  0,  0, 45, 25,  0,
+	&mdeath::normal,	&mattack::none, "\
+A horrifying child zombie, you feel\n\
+a twinge of remorse looking at it."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED,
+      MF_HIT_AND_RUN, MF_GUILT);
 
 
 // PLANTS & FUNGI
