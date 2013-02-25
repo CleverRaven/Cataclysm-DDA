@@ -143,6 +143,7 @@ void game::init_construction()
    TOOL(itm_saw, NULL);
    COMP(itm_nail, 4, NULL);
    COMP(itm_sheet, 2, NULL);
+   COMP(itm_stick, 1, NULL);
 
 
  CONSTRUCT("Build Door", 2, &construct::able_empty,
@@ -794,6 +795,7 @@ void construct::done_tree(game *g, point p)
  mvprintz(0, 0, c_red, "Press a direction for the tree to fall in:");
  int x = 0, y = 0;
  do
+ do
   get_direction(g, x, y, input());
  while (x == -2 || y == -2);
  x = p.x + x * 3 + rng(-1, 1);
@@ -848,6 +850,7 @@ void construct::done_deconstruct(game *g, point p)
       g->m.add_item(p.x, p.y, g->itypes[itm_stick], 0);
       g->m.add_item(p.x, p.y, g->itypes[itm_sheet], 0, 1);
       g->m.add_item(p.x, p.y, g->itypes[itm_glass_sheet], 0);
+      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, 3);
       g->m.ter(p.x, p.y) = t_window_empty;
     break;
 
