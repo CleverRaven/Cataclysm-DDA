@@ -5435,9 +5435,9 @@ void game::list_items()
  std::map<int, std::map<int, std::map<std::string, int> > > grounditems;
  std::map<std::string, item> iteminfo;
 
- //Area to search +- of players position
- int iSearchX = 12;
- int iSearchY = 12;
+ //Area to search +- of players position. TODO: Use Perception
+ int iSearchX = 12 + ((VIEWX > 12) ? ((VIEWX-12)/2) : 0);
+ int iSearchY = 12 + ((VIEWY > 12) ? ((VIEWY-12)/2) : 0);
  int iItemNum = 0;
 
  int iTile;
