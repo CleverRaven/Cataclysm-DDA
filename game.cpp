@@ -571,38 +571,41 @@ void game::create_starting_npcs()
  active_npc.push_back(tmp);
 }
 
+void game::cleanup_at_end(){
+ write_msg();
+ // Save the monsters before we die!
+ for (int i = 0; i < z.size(); i++) {
+  if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
+   tinymap tmp(&itypes, &mapitems, &traps);
+   tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
+   tmp.add_spawn(&(z[i]));
+   tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
+  } else {	// Absorb them back into a group
+   int group = valid_group((mon_id)(z[i].type->id), levx, levy);
+   if (group != -1) {
+    cur_om.zg[group].population++;
+    if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
+        !cur_om.zg[group].diffuse)
+     cur_om.zg[group].radius++;
+   }
+  }
+ }
+ if (uquit == QUIT_DIED)
+  popup_top("Game over! Press spacebar...");
+ if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
+  death_screen();
+ if(gamemode){
+  delete gamemode;
+  gamemode = new special_game;	// null gamemode or something..
+ }
+}
 
 // MAIN GAME LOOP
 // Returns true if game is over (death, saved, quit, etc)
 bool game::do_turn()
 {
  if (is_game_over()) {
-  write_msg();
-// Save the monsters before we die!
-  for (int i = 0; i < z.size(); i++) {
-   if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
-    tinymap tmp(&itypes, &mapitems, &traps);
-    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
-    tmp.add_spawn(&(z[i]));
-    tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
-   } else {	// Absorb them back into a group
-    int group = valid_group((mon_id)(z[i].type->id), levx, levy);
-    if (group != -1) {
-     cur_om.zg[group].population++;
-     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
-         !cur_om.zg[group].diffuse)
-      cur_om.zg[group].radius++;
-    }
-   }
-  }
-  if (uquit == QUIT_DIED)
-   popup_top("Game over! Press spacebar...");
-  if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
-   death_screen();
-  if(gamemode){
-   delete gamemode;
-   gamemode = new special_game;	// null gamemode or something..
-  }
+  cleanup_at_end();
   return true;
  }
 // Actual stuff
@@ -690,6 +693,10 @@ bool game::do_turn()
 
   if (get_input(autosave_timeout()) == IR_GOOD)
     ++moves_since_last_save;
+  if (is_game_over()) {
+   cleanup_at_end();
+   return true;
+  }
  }
  update_scent();
  m.vehmove(this);
