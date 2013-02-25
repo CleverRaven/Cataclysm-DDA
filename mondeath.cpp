@@ -204,9 +204,19 @@ void mdeath::guilt(game *g, monster *z)
  if (z->hp >= 0)
   return;	// It probably didn't die from damage
  g->add_msg("You feel terrible for killing %s!", z->name().c_str());
+ if(z->type->id == mon_hallu_mom)
+ {
  g->u.add_morale(MORALE_KILLED_MONSTER, -50, -250);
+ }
+ else if(z->type->id == mon_zombie_child)
+ {
+ g->u.add_morale(MORALE_KILLED_MONSTER, -5, -250);
+ }
+ else
+ {
+ return;
+ }
 }
-
 void mdeath::blobsplit(game *g, monster *z)
 {
  int j;
