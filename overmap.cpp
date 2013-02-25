@@ -860,7 +860,7 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
 {
  bool legend = true, note_here = false, npc_here = false;
  std::string note_text, npc_name;
- int om_map_width = g->TERRAIN_WINDOW_WIDTH + 28;
+ int om_map_width = g->TERRAIN_WINDOW_WIDTH + 27;
  int om_map_height = g->TERRAIN_WINDOW_HEIGHT;
 
  int omx, omy;
@@ -1032,33 +1032,33 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
   if (legend) {
    cur_ter = ter(cursx, cursy);
 // Draw the vertical line
-   for (int j = 0; j < om_map_height / 2; j++)
+   for (int j = 0; j < om_map_height; j++)
     mvwputch(w, j, om_map_width, c_white, LINE_XOXO);
 // Clear the legend
-   for (int i = om_map_width; i < 80; i++) {
-    for (int j = 0; j < om_map_height / 2; j++)
+   for (int i = om_map_width + 1; i < om_map_width + 55; i++) {
+    for (int j = 0; j < om_map_height; j++)
      mvwputch(w, j, i, c_black, 'x');
    }
 
    if (csee) {
-    mvwputch(w, 1, om_map_width, oterlist[ccur_ter].color, oterlist[ccur_ter].sym);
-    mvwprintz(w, 1, om_map_width, oterlist[ccur_ter].color, "%s",
+    mvwputch(w, 1, om_map_width + 1, oterlist[ccur_ter].color, oterlist[ccur_ter].sym);
+    mvwprintz(w, 1, om_map_width + 3, oterlist[ccur_ter].color, "%s",
               oterlist[ccur_ter].name.c_str());
    } else
-    mvwprintz(w, 1, om_map_width, c_dkgray, "# Unexplored");
+    mvwprintz(w, 1, om_map_width + 1, c_dkgray, "# Unexplored");
 
    if (target.x != -1 && target.y != -1) {
     int distance = rl_dist(origx, origy, target.x, target.y);
     mvwprintz(w, 3, om_map_width, c_white, "Distance to target: %d", distance);
    }
-   mvwprintz(w, 17, om_map_width, c_magenta, "Use movement keys to pan.  ");
-   mvwprintz(w, 18, om_map_width, c_magenta, "0 - Center map on character");
-   mvwprintz(w, 19, om_map_width, c_magenta, "t - Toggle legend          ");
-   mvwprintz(w, 20, om_map_width, c_magenta, "/ - Search                 ");
-   mvwprintz(w, 21, om_map_width, c_magenta, "N - Add a note             ");
-   mvwprintz(w, 22, om_map_width, c_magenta, "D - Delete a note          ");
-   mvwprintz(w, 23, om_map_width, c_magenta, "L - List notes             ");
-   mvwprintz(w, 24, om_map_width, c_magenta, "Esc or q - Return to game  ");
+   mvwprintz(w, 17, om_map_width + 1, c_magenta, "Use movement keys to pan.  ");
+   mvwprintz(w, 18, om_map_width + 1, c_magenta, "0 - Center map on character");
+   mvwprintz(w, 19, om_map_width + 1, c_magenta, "t - Toggle legend          ");
+   mvwprintz(w, 20, om_map_width + 1, c_magenta, "/ - Search                 ");
+   mvwprintz(w, 21, om_map_width + 1, c_magenta, "N - Add a note             ");
+   mvwprintz(w, 22, om_map_width + 1, c_magenta, "D - Delete a note          ");
+   mvwprintz(w, 23, om_map_width + 1, c_magenta, "L - List notes             ");
+   mvwprintz(w, 24, om_map_width + 1, c_magenta, "Esc or q - Return to game  ");
   }
 // Done with all drawing!
   wrefresh(w);
