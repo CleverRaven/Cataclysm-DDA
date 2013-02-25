@@ -180,7 +180,7 @@ char game::inv_type(std::string title, int inv_item_type)
 // this function lists inventory objects by type
 // refer to enum item_cat in itype.h for list of categories
 
- WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+55), 0, 0);
+ WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), 0, 0);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  char ch = '.';
  int start = 0, cur_it;
@@ -301,7 +301,7 @@ std::vector<item> game::multidrop()
 {
  u.sort_inv();
  u.inv.restack(&u);
- WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+55), 0, 0);
+ WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), 0, 0);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  int dropping[u.inv.size()]; // Count of how many we'll drop from each stack
  for (int i = 0; i < u.inv.size(); i++)
@@ -518,7 +518,7 @@ void game::compare(int iCompareX, int iCompareY)
  const int groundsize = (grounditems.size() > 10 ? 10 : grounditems.size());
  u.sort_inv();
  u.inv.restack(&u);
- WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+55), 0, 0);
+ WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), 0, 0);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  int compare[u.inv.size() + groundsize]; // Count of how many we'll drop from each stack
  bool bFirst = false; // First Item selected
