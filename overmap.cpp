@@ -1042,11 +1042,11 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
    }
 
    if (csee) {
-    mvwputch(w, 1, (om_map_width + 2), oterlist[ccur_ter].color, oterlist[ccur_ter].sym);
+    mvwputch(w, 1, (om_map_width), oterlist[ccur_ter].color, oterlist[ccur_ter].sym);
     mvwprintz(w, 1, (om_map_width + 2), oterlist[ccur_ter].color, "%s                    ",
               oterlist[ccur_ter].name.c_str());
    } else
-    mvwprintz(w, 1, om_map_width, c_dkgray, "Unexplored");
+    mvwprintz(w, 1, om_map_width, c_dkgray, "# Unexplored");
 
    if (target.x != -1 && target.y != -1) {
     int distance = rl_dist(origx, origy, target.x, target.y);
