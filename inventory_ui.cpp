@@ -17,13 +17,12 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
  mvwprintw(w_inv, 0, 0, title.c_str());
 
 // Print weight
- mvwprintw(w_inv, 0, 40, "Weight: ");
+ mvwprintw(w_inv, 0, 45, "Weight: ");
  if (g->u.weight_carried() >= g->u.weight_capacity() * .25)
   wprintz(w_inv, c_red, "%d", g->u.weight_carried());
  else
   wprintz(w_inv, c_ltgray, "%d", g->u.weight_carried());
- wprintz(w_inv, c_ltgray, "/%d/%d", int(g->u.weight_capacity() * .25),
-                                    g->u.weight_capacity());
+ wprintz(w_inv, c_ltgray, "/%d", int(g->u.weight_capacity() * .25));//, g->u.weight_capacity());
 
 // Print volume
  mvwprintw(w_inv, 0, 62, "Volume: ");
@@ -42,7 +41,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
  mvwprintw(w_inv, 1, 62, "Items:  %d/52 ", n_items);
 
 // Print our weapon
- mvwprintz(w_inv, 2, 40, c_magenta, "WEAPON:");
+ mvwprintz(w_inv, 2, 45, c_magenta, "WEAPON:");
  int dropping_weapon = false;
  for (int i = 0; i < dropped_items.size() && !dropping_weapon; i++) {
   if (dropped_items[i] == g->u.weapon.invlet)
@@ -50,19 +49,19 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
  }
  if (g->u.is_armed()) {
   if (dropping_weapon)
-   mvwprintz(w_inv, 3, 40, c_white, "%c + %s", g->u.weapon.invlet,
+   mvwprintz(w_inv, 3, 45, c_white, "%c + %s", g->u.weapon.invlet,
              g->u.weapname().c_str());
   else
-   mvwprintz(w_inv, 3, 40, g->u.weapon.color_in_inventory(&(g->u)), "%c - %s",
+   mvwprintz(w_inv, 3, 45, g->u.weapon.color_in_inventory(&(g->u)), "%c - %s",
              g->u.weapon.invlet, g->u.weapname().c_str());
  } else if (g->u.weapon.is_style())
-  mvwprintz(w_inv, 3, 40, c_ltgray, "%c - %s",
+  mvwprintz(w_inv, 3, 45, c_ltgray, "%c - %s",
             g->u.weapon.invlet, g->u.weapname().c_str());
  else
   mvwprintz(w_inv, 3, 42, c_ltgray, g->u.weapname().c_str());
 // Print worn items
  if (g->u.worn.size() > 0)
-  mvwprintz(w_inv, 5, 40, c_magenta, "ITEMS WORN:");
+  mvwprintz(w_inv, 5, 45, c_magenta, "ITEMS WORN:");
  for (int i = 0; i < g->u.worn.size(); i++) {
   bool dropping_armor = false;
   for (int j = 0; j < dropped_items.size() && !dropping_armor; j++) {
@@ -70,10 +69,10 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
     dropping_armor = true;
   }
   if (dropping_armor)
-   mvwprintz(w_inv, 6 + i, 40, c_white, "%c + %s", g->u.worn[i].invlet,
+   mvwprintz(w_inv, 6 + i, 45, c_white, "%c + %s", g->u.worn[i].invlet,
              g->u.worn[i].tname(g).c_str());
   else
-   mvwprintz(w_inv, 6 + i, 40, c_ltgray, "%c - %s", g->u.worn[i].invlet,
+   mvwprintz(w_inv, 6 + i, 45, c_ltgray, "%c - %s", g->u.worn[i].invlet,
              g->u.worn[i].tname(g).c_str());
  }
 }
@@ -81,7 +80,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
 std::vector<int> find_firsts(inventory &inv)
 {
  std::vector<int> firsts;
- for (int i = 0; i < 9; i++)
+ for (int i = 0; i < 8; i++)
   firsts.push_back(-1);
 
  for (int i = 0; i < inv.size(); i++) {
@@ -111,8 +110,8 @@ std::vector<int> find_firsts(inventory &inv)
 // Display current inventory.
 char game::inv(std::string title)
 {
- WINDOW* w_inv = newwin(25, 80, 0, 0);
- const int maxitems = 20;	// Number of items to show at one time.
+ WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), 0, 0);
+ const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  char ch = '.';
  int start = 0, cur_it;
  u.sort_inv();
@@ -124,23 +123,23 @@ char game::inv(std::string title)
 
  do {
   if (ch == '<' && start > 0) { // Clear lines and shift
-   for (int i = 1; i < 25; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+   for (int i = 1; i < maxitems; i++)
+    mvwprintz(w_inv, i, 0, c_black, "                                             ");
    start -= maxitems;
    if (start < 0)
     start = 0;
-   mvwprintw(w_inv, maxitems + 2, 0, "         ");
+   mvwprintw(w_inv, maxitems + 4, 0, "         ");
   }
   if (ch == '>' && cur_it < u.inv.size()) { // Clear lines and shift
    start = cur_it;
-   mvwprintw(w_inv, maxitems + 2, 12, "            ");
-   for (int i = 1; i < 25; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+   mvwprintw(w_inv, maxitems + 4, 12, "            ");
+   for (int i = 1; i < maxitems; i++)
+    mvwprintz(w_inv, i, 0, c_black, "                                             ");
   }
   int cur_line = 2;
-  for (cur_it = start; cur_it < start + maxitems && cur_line < 23; cur_it++) {
+  for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++) {
 // Clear the current line;
-   mvwprintw(w_inv, cur_line, 0, "                                    ");
+   mvwprintw(w_inv, cur_line, 0, "                                         ");
 // Print category header
    for (int i = 1; i < 9; i++) {
     if (cur_it == firsts[i-1]) {
@@ -181,8 +180,8 @@ char game::inv_type(std::string title, int inv_item_type)
 // this function lists inventory objects by type
 // refer to enum item_cat in itype.h for list of categories
 
- WINDOW* w_inv = newwin(25, 80, 0, 0);
- const int maxitems = 20;	// Number of items to show at one time.
+ WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+55), 0, 0);
+ const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  char ch = '.';
  int start = 0, cur_it;
  u.sort_inv();
@@ -243,21 +242,21 @@ char game::inv_type(std::string title, int inv_item_type)
 
  do {
   if (ch == '<' && start > 0) { // Clear lines and shift
-   for (int i = 1; i < 25; i++)
+   for (int i = 1; i < maxitems; i++)
     mvwprintz(w_inv, i, 0, c_black, "                                        ");
    start -= maxitems;
    if (start < 0)
     start = 0;
-   mvwprintw(w_inv, maxitems + 2, 0, "         ");
+   mvwprintw(w_inv, maxitems + 4, 0, "         ");
   }
   if (ch == '>' && cur_it < reduced_inv.size()) { // Clear lines and shift
    start = cur_it;
-   mvwprintw(w_inv, maxitems + 2, 12, "            ");
-   for (int i = 1; i < 25; i++)
+   mvwprintw(w_inv, maxitems + 4, 12, "            ");
+   for (int i = 1; i < maxitems; i++)
     mvwprintz(w_inv, i, 0, c_black, "                                        ");
   }
   int cur_line = 2;
-  for (cur_it = start; cur_it < start + maxitems && cur_line < 23; cur_it++) {
+  for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++) {
 // Clear the current line;
    mvwprintw(w_inv, cur_line, 0, "                                    ");
 
@@ -302,8 +301,8 @@ std::vector<item> game::multidrop()
 {
  u.sort_inv();
  u.inv.restack(&u);
- WINDOW* w_inv = newwin(25, 80, 0, 0);
- const int maxitems = 20;    // Number of items to show at one time.
+ WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+55), 0, 0);
+ const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  int dropping[u.inv.size()]; // Count of how many we'll drop from each stack
  for (int i = 0; i < u.inv.size(); i++)
   dropping[i] = 0;
@@ -318,23 +317,23 @@ std::vector<item> game::multidrop()
  int start = 0, cur_it;
  do {
   if (ch == '<' && start > 0) {
-   for (int i = 1; i < 25; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+   for (int i = 1; i < maxitems; i++)
+    mvwprintz(w_inv, i, 0, c_black, "                                             ");
    start -= maxitems;
    if (start < 0)
     start = 0;
-   mvwprintw(w_inv, maxitems + 2, 0, "         ");
+   mvwprintw(w_inv, maxitems + 4, 0, "         ");
   }
   if (ch == '>' && cur_it < u.inv.size()) {
    start = cur_it;
-   mvwprintw(w_inv, maxitems + 2, 12, "            ");
-   for (int i = 1; i < 25; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+   mvwprintw(w_inv, maxitems + 4, 12, "            ");
+   for (int i = 1; i < maxitems; i++)
+    mvwprintz(w_inv, i, 0, c_black, "                                             ");
   }
   int cur_line = 2;
-  for (cur_it = start; cur_it < start + maxitems && cur_line < 23; cur_it++) {
+  for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++) {
 // Clear the current line;
-   mvwprintw(w_inv, cur_line, 0, "                                    ");
+   mvwprintw(w_inv, cur_line, 0, "                                         ");
 // Print category header
    for (int i = 1; i < 9; i++) {
     if (cur_it == firsts[i-1]) {
@@ -516,14 +515,11 @@ void game::compare(int iCompareX, int iCompareY)
   }
  }
  //Only the first 10 Items due to numbering 0-9
- int groundsize = grounditems.size();
- if (groundsize > 10) {
-  groundsize = 10;
- }
+ const int groundsize = (grounditems.size() > 10 ? 10 : grounditems.size());
  u.sort_inv();
  u.inv.restack(&u);
- WINDOW* w_inv = newwin(25, 80, 0, 0);
- const int maxitems = 20;    // Number of items to show at one time.
+ WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+55), 0, 0);
+ const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  int compare[u.inv.size() + groundsize]; // Count of how many we'll drop from each stack
  bool bFirst = false; // First Item selected
  bool bShowCompare = false;
@@ -545,25 +541,25 @@ void game::compare(int iCompareX, int iCompareY)
  int start = 0, cur_it;
  do {
   if (ch == '<' && start > 0) {
-   for (int i = 1; i < 25; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+   for (int i = 1; i < maxitems; i++)
+    mvwprintz(w_inv, i, 0, c_black, "                                             ");
    start -= maxitems;
    if (start < 0)
     start = 0;
-   mvwprintw(w_inv, maxitems + 2, 0, "         ");
+   mvwprintw(w_inv, maxitems + 4, 0, "         ");
   }
   if (ch == '>' && cur_it < u.inv.size() + groundsize) {
    start = cur_it;
-   mvwprintw(w_inv, maxitems + 2, 12, "            ");
-   for (int i = 1; i < 25; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+   mvwprintw(w_inv, maxitems + 4, 12, "            ");
+   for (int i = 1; i < maxitems; i++)
+    mvwprintz(w_inv, i, 0, c_black, "                                             ");
   }
   int cur_line = 2;
   int iHeaderOffset = (groundsize > 0) ? 0 : 1;
 
-  for (cur_it = start; cur_it < start + maxitems && cur_line < 23; cur_it++) {
+  for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++) {
 // Clear the current line;
-   mvwprintw(w_inv, cur_line, 0, "                                    ");
+   mvwprintw(w_inv, cur_line, 0, "                                         ");
 // Print category header
    for (int i = iHeaderOffset; i < 9; i++) {
     if (cur_it == firsts[i-iHeaderOffset]) {
@@ -605,7 +601,7 @@ void game::compare(int iCompareX, int iCompareY)
   if (u.has_item(ch)) {
    int index = u.inv.index_by_letter(ch);
    if (index == -1) { // Not from inventory
-    int found = false;
+    bool found = false;
     for (int i = 0; i < weapon_and_armor.size() && !found; i++) {
      if (weapon_and_armor[i] == ch) {
       weapon_and_armor.erase(weapon_and_armor.begin() + i);
@@ -708,6 +704,4 @@ void game::compare(int iCompareX, int iCompareY)
  delwin(w_inv);
  erase();
  refresh_all();
-
- std::vector<item> ret;
 }
