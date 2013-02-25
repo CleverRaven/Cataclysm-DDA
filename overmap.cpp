@@ -688,7 +688,7 @@ void overmap::generate_sub(overmap* above)
 
  for (int i = 0; i < shelter_points.size(); i++)
   ter(shelter_points[i].x, shelter_points[i].y) = ot_shelter_under;
-  
+
  for (int i = 0; i < lmoe_points.size(); i++)
   ter(lmoe_points[i].x, lmoe_points[i].y) = ot_lmoe_under;
 

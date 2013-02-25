@@ -211,7 +211,7 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_boltcutters, itm_mop, itm_picklocks, itm_pickaxe, itm_spray_can, itm_rag,
  itm_pda, itm_pda_flashlight,
 // Bionics containers
-itm_bionics_battery,       
+itm_bionics_battery,
  //power sources
  itm_bionics_solar,   itm_bionics_batteries,
  itm_bionics_metabolics,   itm_bionics_furnace, itm_bionics_ethanol,
@@ -233,7 +233,7 @@ itm_bionics_battery,
  itm_bionics_recycler, itm_bionics_digestion, itm_bionics_evap, itm_bionics_water_extractor,
  // desert survival (all dupes)
  // melee:
- itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws, 
+ itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws,
  // armor:
  itm_bionics_carbon, itm_bionics_armor_head, itm_bionics_armor_torso,
  itm_bionics_armor_arms, itm_bionics_armor_legs,

@@ -278,15 +278,15 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    for (int j = 0; j < SEEY * 2; j++) {
     ter(i, j) = grass_or_dirt();
     //------Jovan's-----
-    if (one_in(120)) 
+    if (one_in(120))
     {
       if (one_in(30))
       {
         ter(i, j) = t_shrub_blueberry;
-        add_item(i, j, (*itypes)[itm_blueberries], turn); 
+        add_item(i, j, (*itypes)[itm_blueberries], turn);
       }
-      else      
-      ter(i, j) = t_shrub; 
+      else
+      ter(i, j) = t_shrub;
     }
     else
     if (one_in(1000)) ter(i,j) = t_mutpoppy;

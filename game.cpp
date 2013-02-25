@@ -1103,7 +1103,7 @@ void game::cancel_activity_query(const char* message, ...)
   case ACT_FORAGE:
    if (query_yn("%s Stop foraging?", s.c_str()))
     doit = true;
-   break;   
+   break;
   case ACT_BUILD:
   case ACT_VEHICLE:
    if (query_yn("%s Stop construction?", s.c_str()))
@@ -5205,36 +5205,36 @@ shape, but with long, twisted, distended limbs.");
         m.add_item(examx, examy, this->itypes[itm_poppy_flower],0);
         m.add_item(examx, examy, this->itypes[itm_poppy_bud],0);
     }
-// apple trees        
-    else if ((m.ter(examx, examy)==t_tree_apple) && (query_yn("Pick apples?"))) 
+// apple trees
+    else if ((m.ter(examx, examy)==t_tree_apple) && (query_yn("Pick apples?")))
     {
       int num_apples = rng(1, u.skillLevel("survival").level());
-      
-      for (int i = 0; i < num_apples; i++)
-      m.add_item(examx, examy, this->itypes[itm_apple],0);           
 
-      m.ter(examx, examy) = t_tree;     
+      for (int i = 0; i < num_apples; i++)
+      m.add_item(examx, examy, this->itypes[itm_apple],0);
+
+      m.ter(examx, examy) = t_tree;
     }
-// blueberry bushes    
-    else if ((m.ter(examx, examy)==t_shrub_blueberry) && (query_yn("Pick blueberries?"))) 
+// blueberry bushes
+    else if ((m.ter(examx, examy)==t_shrub_blueberry) && (query_yn("Pick blueberries?")))
     {
       int num_blueberries = rng(1, u.skillLevel("survival").level());
-      
-      for (int i = 0; i < num_blueberries; i++)
-      m.add_item(examx, examy, this->itypes[itm_blueberries],0);           
 
-      m.ter(examx, examy) = t_shrub;     
-    }    
-    
-// harvesting wild veggies    
-    else if ((m.ter(examx, examy)==t_underbrush) && (query_yn("Forage for wild vegetables?"))) 
-    { 
+      for (int i = 0; i < num_blueberries; i++)
+      m.add_item(examx, examy, this->itypes[itm_blueberries],0);
+
+      m.ter(examx, examy) = t_shrub;
+    }
+
+// harvesting wild veggies
+    else if ((m.ter(examx, examy)==t_underbrush) && (query_yn("Forage for wild vegetables?")))
+    {
       u.assign_activity(ACT_FORAGE, 50000 / (u.skillLevel("survival").level() + 1), 0);
      u.activity.placement = point(examx, examy);
      u.moves = 0;
-  
-    } 
-    
+
+    }
+
  //-----Recycling machine-----
    else if ((m.ter(examx, examy)==t_recycler)&&(query_yn("Use the recycler?"))) {
         if (m.i_at(examx, examy).size() > 0)
@@ -6698,19 +6698,19 @@ void game::complete_butcher(int index)
 void game::forage()
 {
   int veggy_chance = rng(1, 20);
-      
+
   if (veggy_chance < u.skillLevel("survival").level())
   {
     add_msg("You found some wild veggies!");
-    u.practice("survival", 10);    
+    u.practice("survival", 10);
     m.add_item(u.activity.placement.x, u.activity.placement.y, this->itypes[itm_veggy_wild],0);
-    m.ter(u.activity.placement.x, u.activity.placement.y) = t_dirt;     
+    m.ter(u.activity.placement.x, u.activity.placement.y) = t_dirt;
   }
   else
   {
     add_msg("You didn't find anything.");
     if (!one_in(u.skillLevel("survival").level()))
-    m.ter(u.activity.placement.x, u.activity.placement.y) = t_dirt;     
+    m.ter(u.activity.placement.x, u.activity.placement.y) = t_dirt;
   }
 }
 
