@@ -19,7 +19,7 @@ void game::init_moncats()
  setvector(
    moncats[mcat_zombie],
 	mon_dog, mon_cat, mon_zombie, mon_zombie_cop, mon_zombie_fast,
-	mon_zombie_brute, mon_skeleton, mon_zombie_grabber,	NULL); //Oddzball-No goofy Zombie types spawning
+	mon_zombie_brute, mon_skeleton,	NULL); //Oddzball-No goofy Zombie types spawning
  setvector(
    moncats[mcat_triffid],
 	mon_triffid, mon_triffid_young, mon_vinebeast, mon_triffid_queen, NULL);

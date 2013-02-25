@@ -98,7 +98,7 @@ FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
 // DOMESICATED ANIMALS
 mon("dog",	species_mammal, 'd',	c_white,	MS_SMALL,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 5,   0,  -30, 15,140, 12,  2,  3,  3,  3,  0,  0,  0, 15,  0,
+	 5,   0,  -30, 15,140, 12,  2,  3,  4,  3,  0,  0,  0, 15,  0,
 	&mdeath::normal,	&mattack::none, "\
 A medium-sized domesticated dog, gone feral."
 );
@@ -234,7 +234,7 @@ FLAGS(MF_DIGS, MF_HEARS, MF_GOODHEARING, MF_WARM, MF_LEATHER);
 // ZOMBIES
 mon("zombie",	species_zombie, 'Z',	c_ltgreen,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 99,  3,100,100, 50,  8,  1,  5,  0,  1,  0,  0, 40, 50,  0,
+	 99,  3,100,100, 50,  8,  3,  3,  1,  1,  0,  0, 40, 50,  0,
 	&mdeath::normal,	&mattack::none, "\
 A human body, stumbling slowly forward on\n\
 uncertain legs, possessed with an unstoppable\n\
@@ -244,7 +244,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, 
 
 mon("zombie cop",	species_zombie, 'Z',	c_blue,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 3,  3,100,100, 50,  8,  1,  5,  0,  1,  0,  0, 40, 50,  0,
+	 3,  3,100,100, 50,  8,  2,  4,  2,  1,  0,  0, 40, 50,  0,
 	&mdeath::normal,	&mattack::none, "\
 A human body, encapsulated in tough riot\n\
 armour, this zombie was clearly a cop gearing\n\
@@ -286,7 +286,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
 
 mon("fast zombie",species_zombie, 'Z',	c_ltred,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  20, 3,100,100,100, 10,  1,  4,  3,  4,  0,  0, 45, 40,  0,
+	  20, 3,100,100,100, 10,  2,  4,  3,  4,  0,  0, 45, 40,  0,
 	&mdeath::normal,	&mattack::none, "\
 This zombie seems fresher and able to\n\
 move more quickly than most zombies."
@@ -345,7 +345,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
 
 mon("Decayed Zombie",	species_zombie, 'Z',	c_white,	MS_MEDIUM,	STONE,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  50,  3,100,100, 50, 10,  1,  5,  3,  2,  0, 15,  0, 40, 0,
+	  50,  3,100,100, 50, 3,  1,  9,  1,  2,  0, 15,  0, 40, 0,
 	&mdeath::normal,	&mattack::none, "\
 A zombie in a highly advanced state\n\
 of decay."
@@ -366,7 +366,7 @@ ANGER(MTRIG_HURT, MTRIG_PLAYER_WEAK);
 mon("zombie scientist",species_zombie, 'Z',c_ltgray,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 20,  3,100,100, 75,  7,  1,  3,  0,  1,  0,  0, 50, 35, 20,
-	&mdeath::normal,	&mattack::science, "\
+	&mdeath::normal,	&mattack::none, "\
 A zombie wearing a tattered lab coat and\n\
 some sort of utility belt.  It looks weaker\n\
 than most zombies, but more resourceful too."
@@ -376,7 +376,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, 
 
 mon("zombie soldier",	species_zombie,	'Z',c_ltblue,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  1, 20,100,100, 80, 12,  2,  4,  0,  0,  8, 16, 60,100, 0,
+	  1, 20,100,100, 80, 12,  2,  4,  2,  0,  8, 16, 60,100, 0,
 	&mdeath::normal,	&mattack::none, "\
 This zombie was clearly a soldier before.\n\
 Its tattered armor gives it strong defense,\n\
