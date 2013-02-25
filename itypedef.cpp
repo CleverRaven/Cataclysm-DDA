@@ -209,14 +209,14 @@ FOOD("chunk of veggy",	30, 60,	c_green,	VEGGY,	itm_null,
     1,  2,  0, 20, 80,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 A raw chunk of vegetable. Fine for eating raw, tastier when cooked.");
 
+FOOD("wild vegetables",	30, 60,	c_green,	VEGGY,	itm_null,
+    1,  2,  0, 20, 80,  0,  1,  0,  1,  -10,	&iuse::none, ADD_NULL, "\
+An assortment of edible-looking wild plants.  Most are quite bitter-tasting.");
+
 FOOD("human flesh",	50, 50,	c_red,		FLESH,  itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  2,  0, 20, 24,  0, -1,  0,  1,-30,	&iuse::none, ADD_NULL, "\
 Freshly butchered from a human body.");
-
-FOOD("wild vegetables",	30, 60,	c_green,	VEGGY,	itm_null,
-    1,  2,  0, 20, 80,  0,  1,  0,  1,  -10,	&iuse::none, ADD_NULL, "\
-An assortment of edible-looking wild plants.  Most are quite bitter-tasting.");
 
 FOOD("tainted meat",	60,  4,	c_red,		FLESH,	itm_null,
     1,  2,  0, 20,  4,  0,  0,  0,  1,-10,	&iuse::poison, ADD_NULL, "\
