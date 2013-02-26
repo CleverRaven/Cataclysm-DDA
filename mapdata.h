@@ -329,12 +329,12 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"window",	     '"', c_ltcyan,  0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)|mfb(deconstruct)}, //has curtains
+{"taped window",  '"', c_dkgray,    0, tr_null,
+	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)}, // Curtain window
 {"open window",      '\'', c_ltcyan, 4, tr_null,
 	mfb(transparent)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)},
 {"closed curtains",  '"', c_dkgray,    0, tr_null,
 	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)},
-{"taped window",  '"', c_dkgray,    0, tr_null,
-	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)}, // Curtain window
 {"window",	     '"', c_ltcyan,  0, tr_null, // Actually alarmed
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(alarmed)|mfb(noitem)|
         mfb(supports_roof)},

@@ -4065,7 +4065,6 @@ TOOL("pocket knife",	14, 100,';', c_blue,	STEEL,  PLASTIC,
 mfb(IF_STAB), "\
 A small pocket knife.");
 
-
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated
