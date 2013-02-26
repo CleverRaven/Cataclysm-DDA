@@ -1410,6 +1410,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 
    rotate(rng(0, 3));
   }
+  add_spawn(mon_zombie_child, rng(2, 8), SEEX, SEEY);
  } break;
 
  case ot_s_gas_north:

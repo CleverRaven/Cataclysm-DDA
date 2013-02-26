@@ -1929,7 +1929,7 @@ wear goggles.");
 TECH( mfb(TEC_WBLOCK_1) );
 
 ARMOR("chitinous helmet", 1, 380,C_HAT,		FLESH,		MNULL,
-   22,  1,  2, -2,  4, 10, 14,  4,  20,  0,	mfb(bp_head)|mfb(bp_eyes)|
+   22,  1,  2, -2,  1, 10, 14,  4,  20,  0,	mfb(bp_head)|mfb(bp_eyes)|
 						mfb(bp_mouth), "\
 A helmet made from the exoskeletons of insects. Covers the entire head; very\n\
 light and durable.");
@@ -4058,6 +4058,13 @@ TOOL("PDA - Flashlight",		60,  35,',', c_blue,	PLASTIC,IRON,
 A small multipurpose electronic device. This PDA has its flashlight\n\
 app on, and is providing light.");
 
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+TOOL("pocket knife",	14, 100,';', c_blue,	STEEL,  PLASTIC,
+//	VOL WGT DAM CUT HIT FLAGS
+	 2,  2,  2, 10, -4, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
+mfb(IF_STAB), "\
+A small pocket knife.");
+
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
@@ -4145,7 +4152,7 @@ BIO_SINGLE(bio_hydraulics, 3, 4000, c_dkgray, 6);
 BIO_SINGLE(bio_time_freeze, 1, 14000, c_white, 11);
 BIO_SINGLE(bio_teleport, 1, 7000, c_white, 7);
 // ranged combat
-BIO_SINGLE(bio_blaster, 138, 1200, c_red, 2);
+BIO_SINGLE(bio_blaster, 13, 2200, c_red, 3);
 BIO_SINGLE(bio_laser, 2, 7200, c_red, 5);
 BIO_SINGLE(bio_emp, 2, 7200, c_red, 5);
 

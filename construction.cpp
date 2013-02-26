@@ -266,14 +266,7 @@ void game::construction_menu()
  int select = 0;
  char ch;
 
- inventory total_inv;
- total_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
- total_inv.add_stack(u.inv_dump());
- if (u.has_bionic(bio_tools)) {
-  item tools(itypes[itm_toolset], turn);
-  tools.charges = u.power_level;
-  total_inv += tools;
- }
+ inventory total_inv = crafting_inventory();
 
  do {
 // Erase existing list of constructions
@@ -522,9 +515,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
 void game::place_construction(constructable *con)
 {
  refresh_all();
- inventory total_inv;
- total_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
- total_inv.add_stack(u.inv_dump());
+ inventory total_inv = crafting_inventory();
 
  std::vector<point> valid;
  for (int x = u.posx - 1; x <= u.posx + 1; x++) {

@@ -199,14 +199,24 @@ void mdeath::guilt(game *g, monster *z)
 {
  if (g->u.has_trait(PF_HEARTLESS))
   return;	// We don't give a shit!
- if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1)
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 5)
   return;	// Too far away, we can deal with it
  if (z->hp >= 0)
   return;	// It probably didn't die from damage
  g->add_msg("You feel terrible for killing %s!", z->name().c_str());
+ if(z->type->id == mon_hallu_mom)
+ {
  g->u.add_morale(MORALE_KILLED_MONSTER, -50, -250);
+ }
+ else if(z->type->id == mon_zombie_child)
+ {
+ g->u.add_morale(MORALE_KILLED_MONSTER, -5, -250);
+ }
+ else
+ {
+ return;
+ }
 }
-
 void mdeath::blobsplit(game *g, monster *z)
 {
  int j;

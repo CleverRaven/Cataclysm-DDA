@@ -25,6 +25,7 @@ void game::init_monitems()
  monitems[mon_zombie_necro]	= monitems[mon_zombie];
  monitems[mon_zombie_grabber]	= monitems[mon_zombie];
  monitems[mon_zombie_master]	= monitems[mon_zombie];
+ monitems[mon_zombie_child] = monitems[mon_zombie];
 
  setvector(monitems[mon_beekeeper],
         mi_hive, 80, NULL);

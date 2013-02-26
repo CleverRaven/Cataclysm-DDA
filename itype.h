@@ -210,7 +210,7 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_tent_kit, itm_torch, itm_torch_lit, itm_candle, itm_candle_lit,
  itm_brazier, itm_puller, itm_press, itm_screwdriver, itm_wrench,
  itm_boltcutters, itm_mop, itm_picklocks, itm_pickaxe, itm_spray_can, itm_rag,
- itm_pda, itm_pda_flashlight,
+ itm_pda, itm_pda_flashlight, itm_pockknife,
 // Bionics containers
 itm_bionics_battery,
  //power sources
