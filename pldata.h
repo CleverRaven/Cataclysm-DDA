@@ -183,6 +183,8 @@ enum pl_flag {
  PF_MASOCHIST,	// Morale boost from pain
  PF_LIGHTSTEP,	// Less noise from movement
  PF_HEARTLESS,	// No morale penalty for murder &c
+ PF_ANDROID,	// Start with two bionics (occasionally one)
+ PF_ROBUST,	// Mutations tend to be good (usually they tend to be bad)
  PF_MARTIAL_ARTS, // Start with a martial art
 
  PF_SPLIT,	// Null trait, splits between bad & good
@@ -214,9 +216,6 @@ enum pl_flag {
  PF_UGLY, // +1 grotesqueness
 
  PF_MAX,
- 
- PF_ANDROID,	// Start with two bionics (occasionally one)
- PF_ROBUST,	// Mutations tend to be good (usually they tend to be bad)
 // Below this point is mutations and other mid-game perks.
 // They are NOT available during character creation.
  PF_SKIN_ROUGH,//
@@ -524,13 +523,6 @@ poorly to you."},
 
 {"Bug - PF_MAX", 0, 0, 0, "\
 This shouldn't be here!  You have the trait PF_MAX toggled.  Weird."},
-
-{"Android", 4, 0, 0, "\
-At some point in the past you had a bionic upgrade installed in your body.\n\
-You start the game with a power system, and one random bionic enhancement."},
-{"Robust Genetics", 2, 0, 0, "\
-You have a very strong genetic base.  If you mutate, the odds that the\n\
-mutation will be beneficial are greatly increased."},
 
 /* From here down are mutations.
  * In addition to a points value, mutations have a visibility value and an
