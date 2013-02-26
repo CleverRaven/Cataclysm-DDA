@@ -3947,7 +3947,7 @@ TOOL("wood saw",	15, 40, ';', c_cyan,	IRON,	WOOD,
 A flimsy saw, useful for cutting through wood objects.");
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-TOOL("wood ax",	 8, 105,'/', c_ltgray,	WOOD,	IRON,
+TOOL("wood axe",	 8, 105,'/', c_ltgray,	WOOD,	IRON,
 //	VOL WGT DAM CUT HIT FLAGS
 	17, 15, 24, 18,  1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::lumber,
 0, "\
