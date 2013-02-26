@@ -345,13 +345,6 @@ enum talk_topic {
  NUM_TALK_TOPICS
 };
 
-enum avoidance_t {
-	avoid_none,
-	avoid_player,
-	avoid_creature,
-	avoid_vehicle
-};
-
 struct npc_chatbin
 {
  std::vector<int> missions;
@@ -507,7 +500,7 @@ public:
 // Functions which choose an action for a particular goal
  void choose_monster_target(game *g, int &enemy, int &danger,
                             int &total_danger);
- npc_action method_of_fleeing	(game *g, avoidance_t type, int target);
+ npc_action method_of_fleeing	(game *g, int target);
  npc_action method_of_attack	(game *g, int enemy, int danger);
  npc_action address_needs	(game *g, int danger);
  npc_action address_player	(game *g);
