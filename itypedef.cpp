@@ -1202,6 +1202,15 @@ MELEE("blood soaked rag",    1, 0,  ',', c_red, COTTON,   MNULL,
 A large rag, drenched in blood. It could be cleaned with\n\
 boiling water.");
 
+MELEE("clock",               60, 0, ';', c_ltctan, PLASTIC, IRON,
+         1, 2, 0, 0, 0, 0, "\
+A small mechanical clock, it's stopped at 10:10.");
+
+MELEE("clockworks",          30, 0, ';', c_ltycyan, IRON, MNULL,
+         1, 1, 0, 0, 0, 0, "\
+A small assortment of gears and other clockwork gubbins.");
+
+
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  20, 55, ']', c_cyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
@@ -2522,14 +2531,14 @@ GUN("compound bow",      2,1400,c_yellow,       STEEL,  PLASTIC,
         "archery",     AT_ARROW,12, 8,  8,  1,  0, 20,  0,  6,  0,  1, 100, "\
 A bow with wheels that fires high velocity arrows. Weaker people can use\n\
 compound bows more easily. Arrows fired from this weapon have a good chance\n\
-of remaining intact for re-use.",
+of remaining intact for re-use. It requires 8 strength to fire",
 mfb(IF_STR8_DRAW)|mfb(IF_RELOAD_AND_SHOOT));
 
 GUN("longbow",           5, 800,c_yellow,       WOOD,   MNULL,
         "archery",     AT_ARROW,8, 4, 10,  0,  0, 12,  0,  6,  0,  1,  80, "\
 A six-foot wooden bow that fires feathered arrows. This takes a fair amount\n\
 of strength to draw. Arrows fired from this weapon have a good chance of\n\
-remaining intact for re-use.",
+remaining intact for re-use. It requires 10 strength to fire",
 mfb(IF_STR10_DRAW)|mfb(IF_RELOAD_AND_SHOOT));
 
 GUN("pipe rifle: .22",	0,  800,c_ltblue,	IRON,	WOOD,
@@ -3003,6 +3012,14 @@ Boeing developed the focused plasma weaponry together with DARPA. It heats\n\
 hydrogen to create plasma and envelops it with polymers to reduce blooming.\n\
 While powerful, it suffers from short range. Powered by UPS.",
 mfb(IF_USE_UPS)|mfb(IF_MODE_BURST));
+
+//  NAME		RAR PRC COLOR	MAT1	MAT2
+GUN("Shotgun Revolver",1,600,c_red,IRON,	WOOD,
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
+	"shotgun",	AT_SHOT,12, 24, 14,  3,  0,  6,  5,  6,  0,  6, 100, "\
+A shotgun modified to use a revolver cylinder mechanism, it can hold\n\
+6 cartridges.",
+mfb(IF_RELOAD_ONE));
 
 // GUN MODS
 // Accuracy is inverted from guns; high values are a bonus, low values a penalty

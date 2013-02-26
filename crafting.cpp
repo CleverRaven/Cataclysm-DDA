@@ -41,6 +41,9 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, NULL, NULL, 0, 1000, true);
 RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
  COMP(itm_pilot_light, 1, NULL);
 
+RECIPE(itm_tshirt, CC_NONCRAFT, "tailor", NULL, 2, 38000, true);
+  TOOL(itm_sewing_kit, 4, NULL);
+  COMP(itm_rag, 5, NULL);
 // CRAFTABLE
 
 // WEAPONS
@@ -100,11 +103,16 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
        NULL);
   COMP(itm_string_36, 1, itm_string_6, 1, NULL);
 
- RECIPE(itm_shotgun_sawn, CC_WEAPON, "gun", NULL, 1, 2000, false);
+ RECIPE(itm_shotgun_sawn, CC_WEAPON, "gun", NULL, 0, 2000, false);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
   COMP(itm_shotgun_d, 1, itm_remington_870, 1, itm_mossberg_500, 1, NULL);
 
- RECIPE(itm_saiga_sawn, CC_WEAPON, "gun", NULL, 1, 2000, false);
+ RECIPE(itm_revolver_shotgun, CC_WEAPON, "gun", "mechanics", 2, 6000, false);
+  TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
+  TOOL(itm_welder, 30, itm_toolset, 3, NULL);
+  COMP(itm_shotgun_s, 1, NULL);
+
+ RECIPE(itm_saiga_sawn, CC_WEAPON, "gun", NULL, 0, 2000, false);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
   COMP(itm_saiga_12, 1, NULL);
 
@@ -791,9 +799,13 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   TOOL(itm_sewing_kit, 10, NULL);
   COMP(itm_leather, 10, NULL);
 
- RECIPE(itm_tank_top, CC_ARMOR, "tailor", NULL, 2, 38000, false);
+ RECIPE(itm_tank_top, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   TOOL(itm_sewing_kit, 4, NULL);
   COMP(itm_rag, 4, NULL);
+
+RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
+  TOOL(itm_sewing_kit, 4, NULL);
+  COMP(itm_rag, 5, NULL);
 
  RECIPE(itm_hoodie_fit, CC_ARMOR, "tailor", NULL, 3, 40000, false);
   TOOL(itm_sewing_kit, 14, NULL);
@@ -1823,6 +1835,10 @@ void game::disassemble()
               k = recipes[i]->tools[j].size();
             }
             // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
+            if (type == itm_sewing_kit)
+            {
+                have_tool[j] = true;
+            }
             if (type == itm_welder)
             {
               if (crafting_inv.has_amount(itm_hacksaw, 1) ||
