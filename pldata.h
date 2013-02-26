@@ -349,7 +349,7 @@ enum pl_flag {
  PF_SHELL,
  PF_LEG_TENTACLES,
 
- PF_MAX2,
+ PF_MAX2
  
  PF_ANDROID,	// Start with two bionics (occasionally one)
  PF_ROBUST,	// Mutations tend to be good (usually they tend to be bad)
