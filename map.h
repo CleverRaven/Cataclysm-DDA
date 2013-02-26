@@ -19,6 +19,8 @@
 #include "graffiti.h"
 
 #define MAPSIZE 11
+#define CAMPSIZE 1
+#define CAMPCHECK 3
 
 class player;
 class item;
@@ -163,6 +165,11 @@ class map
 
 // Computers
  computer* computer_at(const int x, const int y);
+
+ // Camps
+ bool allow_camp(const int x, const int y, const int radius = CAMPCHECK);
+ basecamp* camp_at(const int x, const int y, const int radius = CAMPSIZE);
+ void add_camp(const std::string& name, const int x, const int y);
 
 // Graffiti
  graffiti graffiti_at(int x, int y);

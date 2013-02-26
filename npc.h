@@ -62,6 +62,9 @@ enum npc_mission {
 
  NPC_MISSION_MISSING,	// Special; following player to finish mission
  NPC_MISSION_KIDNAPPED,	// Special; was kidnapped, to be rescued by player
+
+ NPC_MISSION_BASE, // Base Mission: unassigned
+
  NUM_NPC_MISSIONS
 };
 
@@ -93,6 +96,7 @@ enum npc_action {
  npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
  npc_talk_to_player, npc_mug_player, // 18 - 23
  npc_goto_destination, npc_avoid_friendly_fire, // 24, 25
+ npc_base_idle, // 26
  num_npc_actions
 };
 
