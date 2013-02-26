@@ -183,8 +183,8 @@ enum pl_flag {
  PF_MASOCHIST,	// Morale boost from pain
  PF_LIGHTSTEP,	// Less noise from movement
  PF_HEARTLESS,	// No morale penalty for murder &c
- PF_ANDROID,	// Start with two bionics (occasionally one)
- PF_ROBUST,	// Mutations tend to be good (usually they tend to be bad)
+ //PF_ANDROID,	// Start with two bionics (occasionally one)
+ //PF_ROBUST,	// Mutations tend to be good (usually they tend to be bad)
  PF_MARTIAL_ARTS, // Start with a martial art
 
  PF_SPLIT,	// Null trait, splits between bad & good
@@ -434,12 +434,12 @@ You make less noise while walking.  You're also less likely to set off traps."},
 {"Heartless", 2, 0, 0, "\
 You have few qualms, and no capacity for pity. Killing the helpless, the\n\
 young, and your friends will not affect your morale at all."},
-{"Android", 4, 0, 0, "\
+/*{"Android", 4, 0, 0, "\
 At some point in the past you had a bionic upgrade installed in your body.\n\
 You start the game with a power system, and one random bionic enhancement."},
 {"Robust Genetics", 2, 0, 0, "\
 You have a very strong genetic base.  If you mutate, the odds that the\n\
-mutation will be beneficial are greatly increased."},
+mutation will be beneficial are greatly increased."},*/
 {"Martial Arts Training", 3, 0, 0, "\
 You have receives some martial arts training at a local dojo.  You will start\n\
 with your choice of karate, judo, aikido, tai chi, or taekwando."},
