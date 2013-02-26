@@ -913,13 +913,13 @@ anything on your torso."},
 {"Leg Tentacles", -3, 8, 4, "\
 Your legs have transformed into six tentacles.  This decreases your speed on\n\
 land by 20%, but makes your movement silent.  However, they also increase\n\
-your swimming speed."}
+your swimming speed."},
 {"Android", 4, 0, 0, "\
 At some point in the past you had a bionic upgrade installed in your body.\n\
 You start the game with a power system, and one random bionic enhancement."},
 {"Robust Genetics", 2, 0, 0, "\
 You have a very strong genetic base.  If you mutate, the odds that the\n\
-mutation will be beneficial are greatly increased."},
+mutation will be beneficial are greatly increased."}
 };
 
 enum hp_part {
