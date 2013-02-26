@@ -7209,8 +7209,10 @@ void game::plmove(int x, int y)
   if (m.has_flag(sharp, x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur/2))
       && (!u.in_vehicle)) {
    if (!u.has_trait(PF_PARKOUR) || one_in(4)) {
-    add_msg("You cut yourself on the %s!", m.tername(x, y).c_str());
-    u.hit(this, bp_torso, 0, 0, rng(1, 4));
+    body_part bp = random_body_part();
+    int side = rng(0, 1);
+    add_msg("You cut your %s on the %s!", body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
+    u.hit(this, bp, side, 0, rng(1, 4));
    }
   }
   if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait(PF_LEG_TENTACLES)) {
