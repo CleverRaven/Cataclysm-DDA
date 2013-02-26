@@ -745,7 +745,7 @@ void complete_vehicle (game *g)
     case 'r':
         if (veh->parts[part].hp <= 0)
         {
-            used_item = consume_vpart_item (g, (vpart_id) part);
+            used_item = consume_vpart_item (g, veh->parts[part].id);
             tools.push_back(component(itm_wrench, 1));
             g->consume_tools(tools);
             tools.clear();
