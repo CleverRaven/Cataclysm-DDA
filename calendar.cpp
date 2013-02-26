@@ -98,7 +98,7 @@ calendar& calendar::operator =(int rhs)
  year = seasons / 4;
  return *this;
 }
- 
+
 calendar& calendar::operator -=(calendar &rhs)
 {
  calendar tmp(rhs);
@@ -147,6 +147,20 @@ calendar& calendar::operator +=(int rhs)
  second += rhs * 6;
  standardize();
  return *this;
+}
+
+bool calendar::operator ==(int rhs)
+{
+ return int(*this) == rhs;
+}
+bool calendar::operator ==(calendar &rhs)
+{
+ return (second == rhs.second &&
+         minute == rhs.minute &&
+         hour   == rhs.hour &&
+         day    == rhs.day &&
+         season == rhs.season &&
+         year   == rhs.year);
 }
 
 /*
@@ -372,7 +386,7 @@ std::string calendar::textify_period()
  std::stringstream ret;
  int am;
  std::string tx;
-// Describe the biggest time period, as "<am> <tx>s", am = amount, tx = name 
+// Describe the biggest time period, as "<am> <tx>s", am = amount, tx = name
  if (year > 0) {
   am = year;
   tx = "year";

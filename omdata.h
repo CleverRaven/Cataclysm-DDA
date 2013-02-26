@@ -31,21 +31,21 @@ struct oter_t {
 
 const map_extras no_extras(0);
 const map_extras road_extras(
-// %%% HEL MIL SCI STA DRG SUP PRT MIN WLF PUD CRT FUM 1WY ART
-    50, 40, 50,120,200, 30, 10,  5, 80, 20,200, 10,  8,  2,  3);
+// %%% HEL MIL SCI STA DRG SUP PRT MIN WLF CGR PUD CRT FUM 1WY ART
+    50, 40, 50,120,200, 30, 10,  5, 80, 20, 20, 200, 10,  8,  2,  3);
 const map_extras field_extras(
-    60, 40, 15, 40, 80, 10, 10,  3, 50, 30,300, 10,  8,  1,  3);
+    60, 40, 15, 40, 80, 10, 10,  3, 50, 30, 40, 300, 10,  8,  1,  3);
 const map_extras subway_extras(
-// %%% HEL MIL SCI STA DRG SUP PRT MIN WLF PUD CRT FUM 1WY ART
-    75,  0,  5, 12,  5,  5,  0,  7,  0,  0,120,  0, 20,  1,  3);
+// %%% HEL MIL SCI STA DRG SUP PRT MIN WLF CGR PUD CRT FUM 1WY ART
+    75,  0,  5, 12,  5,  5,  0,  7,  0,  0, 0, 120,  0, 20,  1,  3);
 const map_extras build_extras(
-    90,  0,  5, 12,  0, 10,  0,  5,  5,  0,  0, 60,  8,  1,  3); 
+    90,  0,  5, 12,  0, 10,  0,  5,  5,  0, 0, 0, 60,  8,  1,  3);
 
 enum oter_id {
  ot_null = 0,
  ot_crater,
 // Wild terrain
- ot_field, ot_forest, ot_forest_thick, ot_forest_water, ot_hive, ot_spider_pit,
+ ot_field, ot_dirtlot, ot_forest, ot_forest_thick, ot_forest_water, ot_hive, ot_spider_pit,
   ot_fungal_bloom,
 // Roads
  ot_hiway_ns, ot_hiway_ew,
@@ -80,7 +80,7 @@ enum oter_id {
   ot_s_restaurant_west,
  ot_sub_station_north, ot_sub_station_east, ot_sub_station_south,
   ot_sub_station_west,
- ot_s_garage_north, ot_s_garage_east, ot_s_garage_south, ot_s_garage_west,
+ ot_s_garage_north, ot_s_garage_east, ot_s_garage_south, ot_s_garage_west, ot_cabin, ot_farm, ot_farm_field,
  ot_police_north, ot_police_east, ot_police_south, ot_police_west,
  ot_bank_north, ot_bank_east, ot_bank_south, ot_bank_west,
  ot_bar_north, ot_bar_east, ot_bar_south, ot_bar_west,
@@ -89,9 +89,9 @@ enum oter_id {
   ot_mil_surplus_west,
  ot_megastore_entrance, ot_megastore,
  ot_hospital_entrance, ot_hospital,
- ot_mansion_entrance, ot_mansion,
+ ot_mansion_entrance, ot_mansion, ot_fema_entrance, ot_fema,
 // Goodies/dungeons
- ot_shelter, ot_shelter_under,
+ ot_shelter, ot_shelter_under, ot_lmoe, ot_lmoe_under,
  ot_lab, ot_lab_stairs, ot_lab_core, ot_lab_finale,
  ot_nuke_plant_entrance, ot_nuke_plant, // TODO
  ot_bunker, ot_outpost,
@@ -138,6 +138,7 @@ const oter_t oterlist[num_ter_types] = {
 {"nothing",		'%',	c_white,	0, no_extras, false, false},
 {"crater",		'O',	c_red,		2, field_extras, false, false},
 {"field",		'.',	c_brown,	2, field_extras, false, false},
+{"dirt lot",		'O',	c_brown,	1, field_extras, false, false},
 {"forest",		'F',	c_green,	3, field_extras, false, false},
 {"forest",		'F',	c_green,	4, field_extras, false, false},
 {"swamp",		'F',	c_cyan,		4, field_extras, false, false},
@@ -233,38 +234,45 @@ const oter_t oterlist[num_ter_types] = {
 {"subway station",	'S',	c_yellow,	5, build_extras, true, false},
 {"subway station",	'S',	c_yellow,	5, build_extras, true, false},
 {"subway station",	'S',	c_yellow,	5, build_extras, true, false},
-{"garage",              '^',    c_ltgray,       5, build_extras, false, false},
-{"garage",              '>',    c_ltgray,       5, build_extras, false, false},
-{"garage",              'v',    c_ltgray,       5, build_extras, false, false},
-{"garage",              '<',    c_ltgray,       5, build_extras, false, false},
-{"police station",	'^',	c_dkgray,	5, build_extras, false, false},
-{"police station",	'>',	c_dkgray,	5, build_extras, false, false},
-{"police station",	'v',	c_dkgray,	5, build_extras, false, false},
-{"police station",	'<',	c_dkgray,	5, build_extras, false, false},
-{"bank",		'^',	c_ltgray,	5, no_extras, false, false},
-{"bank",		'>',	c_ltgray,	5, no_extras, false, false},
-{"bank",		'v',	c_ltgray,	5, no_extras, false, false},
-{"bank",		'<',	c_ltgray,	5, no_extras, false, false},
-{"bar",			'^',	c_pink,		5, build_extras, false, false},
-{"bar",			'>',	c_pink,		5, build_extras, false, false},
-{"bar",			'v',	c_pink,		5, build_extras, false, false},
-{"bar",			'<',	c_pink,		5, build_extras, false, false},
+{"garage",              'O',    c_white,       5, build_extras, false, false},
+{"garage",              'O',    c_white,       5, build_extras, false, false},
+{"garage",              'O',    c_white,       5, build_extras, false, false},
+{"garage",              'O',    c_white,       5, build_extras, false, false},
+{"cabin",              'C',    i_green,       5, build_extras, false, false},
+{"farm",              '^',    i_brown,       5, build_extras, false, false},
+{"farm field",              '#',    i_brown,       5, field_extras, false, false},
+{"police station",	'^',	h_yellow,	5, build_extras, false, false},
+{"police station",	'>',	h_yellow,	5, build_extras, false, false},
+{"police station",	'v',	h_yellow,	5, build_extras, false, false},
+{"police station",	'<',	h_yellow,	5, build_extras, false, false},
+{"bank",		'$',	c_ltgray,	5, no_extras, false, false},
+{"bank",		'$',	c_ltgray,	5, no_extras, false, false},
+{"bank",		'$',	c_ltgray,	5, no_extras, false, false},
+{"bank",		'$',	c_ltgray,	5, no_extras, false, false},
+{"bar",			'^',	i_magenta,		5, build_extras, false, false},
+{"bar",			'>',	i_magenta,		5, build_extras, false, false},
+{"bar",			'v',	i_magenta,		5, build_extras, false, false},
+{"bar",			'<',	i_magenta,		5, build_extras, false, false},
 {"pawn shop",		'^',	c_white,	5, build_extras, false, false},
 {"pawn shop",		'>',	c_white,	5, build_extras, false, false},
 {"pawn shop",		'v',	c_white,	5, build_extras, false, false},
 {"pawn shop",		'<',	c_white,	5, build_extras, false, false},
-{"mil. surplus",	'^',	c_white,	5, build_extras, false, false},
-{"mil. surplus",	'>',	c_white,	5, build_extras, false, false},
-{"mil. surplus",	'v',	c_white,	5, build_extras, false, false},
-{"mil. surplus",	'<',	c_white,	5, build_extras, false, false},
-{"megastore",		'M',	c_ltblue,	5, build_extras, false, false},
+{"mil. surplus",	'^',	i_ltgray,	5, build_extras, false, false},
+{"mil. surplus",	'>',	i_ltgray,	5, build_extras, false, false},
+{"mil. surplus",	'v',	i_ltgray,	5, build_extras, false, false},
+{"mil. surplus",	'<',	i_ltgray,	5, build_extras, false, false},
+{"megastore",		'+',	c_ltblue,	5, build_extras, false, false},
 {"megastore",		'M',	c_blue,		5, build_extras, false, false},
 {"hospital",		'H',	c_ltred,	5, build_extras, false, false},
 {"hospital",		'H',	c_red,		5, build_extras, false, false},
 {"mansion",		'M',	c_ltgreen,	5, build_extras, false, false},
 {"mansion",		'M',	c_green,	5, build_extras, false, false},
+{"fema camp",		'+',	c_blue,	5, build_extras, false, false},
+{"fema camp",		'F',	i_blue,	5, build_extras, false, false}, //Oddzball- Added fema graphic
 {"evac shelter",	'+',	c_white,	2, no_extras, true, false},
 {"evac shelter",	'+',	c_white,	2, no_extras, false, true},
+{"LMOE shelter",	'+',	c_red,	2, no_extras, true, false},
+{"LMOE shelter",	'+',	c_red,	2, no_extras, false, true},
 {"science lab",		'L',	c_ltblue,	5, no_extras, false, false},
 {"science lab",		'L',	c_blue,		5, no_extras, true, false},
 {"science lab",		'L',	c_ltblue,	5, no_extras, false, false},
@@ -351,7 +359,7 @@ const oter_t oterlist[num_ter_types] = {
 // OMSPEC_FREQ determines the length of the side of the square in which each
 // overmap special will be placed.  At OMSPEC_FREQ 6, the overmap is divided
 // into 900 squares; lots of space for interesting stuff!
-#define OMSPEC_FREQ 7
+#define OMSPEC_FREQ 15
 
 // Flags that determine special behavior for placement
 enum omspec_flag {
@@ -364,6 +372,7 @@ OMS_FLAG_3X3_SECOND,	// 3x3 square, made of the tile AFTER the main one
 OMS_FLAG_BIG,		// As big as possible
 OMS_FLAG_ROAD,		// Add a road_point here; connect to towns etc.
 OMS_FLAG_PARKING_LOT,	// Add a road_point to the north of here
+OMS_FLAG_DIRT_LOT,      // Dirt lot flag for specials
 NUM_OMS_FLAGS
 };
 
@@ -404,8 +413,11 @@ enum omspec_id
  OMSPEC_HOUSE,
  OMSPEC_GAS,
  OMSPEC_CABIN,
+ OMSPEC_LMOE,
+ OMSPEC_FARM,
  OMSPEC_TEMPLE,
  OMSPEC_LAB,
+ OMSPEC_FEMA,
  OMSPEC_BUNKER,
  OMSPEC_OUTPOST,
  OMSPEC_SILO,
@@ -445,14 +457,23 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_s_gas_north,   0,100,  0, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD)},
 
-{ot_house_north,   0, 50, 20, -1, mcat_null, 0, 0, 0, 0,  // Woods cabin
- &omspec_place::forest, mfb(OMS_FLAG_ROTATE_RANDOM)|mfb(OMS_FLAG_ROTATE_ROAD)},
+{ot_cabin,   0, 30, 20, -1, mcat_null, 0, 0, 0, 0,  // Woods cabin
+ &omspec_place::forest, 0},
+
+ {ot_lmoe,   0, 3, 20, -1, mcat_null, 0, 0, 0, 0,
+ &omspec_place::land, 0},
+
+ {ot_farm,   0, 20, 20, -1, mcat_null, 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) |mfb(OMS_FLAG_DIRT_LOT)},
 
 {ot_temple_stairs, 0,  3, 20, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::forest, 0},
 
 {ot_lab_stairs,	   0, 30,  8, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_ROAD)},
+
+{ot_fema_entrance,	   0, 5,  8, -1, mcat_null, 0, 0, 0, 0,
+ &omspec_place::land, mfb(OMS_FLAG_3X3_SECOND)}, //Oddzball-Fema test
 
 // Terrain	 MIN MAX DISTANCE
 {ot_bunker,	   2, 10,  4, -1, mcat_null, 0, 0, 0, 0,
@@ -515,7 +536,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::wilderness,0}
 
 };
- 
+
 // Overmap "Zones"
 // Areas which have special post-generation processing attached to them
 

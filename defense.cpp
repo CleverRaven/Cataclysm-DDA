@@ -439,7 +439,7 @@ void defense_game::setup()
 
  while (true) {
   char ch = input();
- 
+
   if (ch == 'S') {
    if (!zombies && !specials && !spiders && !triffids && !robots && !subspace) {
     popup("You must choose at least one monster group!");
@@ -459,11 +459,11 @@ void defense_game::setup()
     selection--;
    refresh_setup(w, selection);
   } else if (ch == '!') {
-   std::string name = string_input_popup(20, "Template Name:");
+   std::string name = string_input_popup("Template Name:", 20);
    refresh_setup(w, selection);
   } else if (ch == 'S')
    return;
- 
+
   else {
    switch (selection) {
     case 1:	// Scenario selection
@@ -481,7 +481,7 @@ void defense_game::setup()
      }
      init_to_style(style);
      break;
- 
+
     case 2:	// Location selection
      if (ch == 'l') {
       if (location == defense_location(NUM_DEFENSE_LOCATIONS - 1))
@@ -501,7 +501,7 @@ void defense_game::setup()
      mvwprintz(w,  5, 28, c_ltgray,
                defense_location_description(location).c_str());
      break;
- 
+
     case 3:	// Difficulty of the first wave
      if (ch == 'h' && initial_difficulty > 10)
       initial_difficulty -= 5;
@@ -511,7 +511,7 @@ void defense_game::setup()
      mvwprintz(w, 7, NUMALIGN(initial_difficulty), c_yellow, "%d",
                initial_difficulty);
      break;
- 
+
     case 4:	// Wave Difficulty
      if (ch == 'h' && wave_difficulty > 10)
       wave_difficulty -= 5;
@@ -521,7 +521,7 @@ void defense_game::setup()
      mvwprintz(w, 8, NUMALIGN(wave_difficulty), c_yellow, "%d",
                wave_difficulty);
      break;
- 
+
     case 5:
      if (ch == 'h' && time_between_waves > 5)
       time_between_waves -= 5;
@@ -531,7 +531,7 @@ void defense_game::setup()
      mvwprintz(w, 10, NUMALIGN(time_between_waves), c_yellow, "%d",
                time_between_waves);
      break;
- 
+
     case 6:
      if (ch == 'h' && waves_between_caravans > 1)
       waves_between_caravans -= 1;
@@ -541,7 +541,7 @@ void defense_game::setup()
      mvwprintz(w, 11, NUMALIGN(waves_between_caravans), c_yellow, "%d",
                waves_between_caravans);
      break;
- 
+
     case 7:
      if (ch == 'h' && initial_cash > 0)
       initial_cash -= 100;
@@ -866,7 +866,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing.");
                         item_selected);
      draw_caravan_borders(w, current_window);
     } else if (items[category_selected].size() > 0) { // Items
-     if (item_selected > 0) 
+     if (item_selected > 0)
       item_selected--;
      else {
       item_selected = items[category_selected].size() - 1;
@@ -1149,7 +1149,7 @@ void draw_caravan_categories(WINDOW *w, int category_selected, int total_price,
             caravan_category_name( caravan_category(i) ).c_str());
  wrefresh(w);
 }
- 
+
 void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
                         std::vector<int> *counts, int offset,
                         int item_selected)
@@ -1184,11 +1184,10 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
  wrefresh(w);
 }
 
-int caravan_price(player &u, int price)
-{
- if (u.sklevel[sk_barter] > 10)
-  return int( double(price) * .5);
- return int( double(price) * (1.0 - double(u.sklevel[sk_barter]) * .05));
+int caravan_price(player &u, int price) {
+  if (u.skillLevel("barter") > 10)
+   return int( double(price) * .5);
+  return int( double(price) * (1.0 - double(u.skillLevel("barter").level()) * .05));
 }
 
 void defense_game::spawn_wave(game *g)

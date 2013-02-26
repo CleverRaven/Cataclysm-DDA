@@ -4,6 +4,7 @@
 #include "tileray.h"
 #include "color.h"
 #include "item.h"
+#include "line.h"
 #include "veh_type.h"
 #include <vector>
 #include <string>
@@ -17,11 +18,38 @@ const int num_fuel_types = 4;
 const int fuel_types[num_fuel_types] = { AT_GAS, AT_BATT, AT_PLUT, AT_PLASMA };
 const int k_mvel = 200;
 
+// 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
+// 3 - thin_obstacle, 4 - bashable, 5 - destructible, 6 - other
+enum veh_coll_type {
+ veh_coll_nothing = 0,
+ veh_coll_body,
+ veh_coll_veh,
+ veh_coll_thin_obstacle,
+ veh_coll_bashable,
+ veh_coll_destructable,
+ veh_coll_other,
+
+ num_veh_coll_types
+};
+
+struct veh_collision {
+ //int veh?
+ int part;
+ veh_coll_type type;
+ int imp; // impulse
+
+ void* target;  //vehicle
+ int target_part; //veh partnum
+ std::string target_name;
+ veh_collision(){};
+};
+
+
 // Structure, describing vehicle part (ie, wheel, seat)
 struct vehicle_part
 {
     vehicle_part() : id(vp_null), mount_dx(0), mount_dy(0), hp(0),
-    blood(0), inside(false), flags(0), passenger_id(0)
+    blood(0), inside(false), flags(0), passenger_id(0), bigness(0)
     {
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
@@ -39,15 +67,17 @@ struct vehicle_part
     int precalc_dy[2];      // mount_dy translated to face.dir [0] and turn_dir [1]
     int hp;                 // current durability, if 0, then broken
     int blood;              // how much blood covers part (in turns). only useful for external
+    int bigness;            // size of engine, wheel radius, translates to item properties.
     bool inside;            // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     int flags;
     union
     {
         int amount;         // amount of fuel for tank
         int open;           // door is open
-        int passenger_id;      // seat has passenger
+        int passenger_id;   // seat has passenger
     };
     std::vector<item> items;// inventory
+
 };
 
 // Facts you need to know about implementation:
@@ -127,7 +157,7 @@ public:
     bool player_in_control (player *p);
 
 // init parts state for randomly generated vehicle
-    void init_state();
+    void init_state(game* g);
 
 // load and init vehicle data from stream. This implies valid save data!
     void load (std::ifstream &stin);
@@ -141,6 +171,9 @@ public:
 // get vpart type info for part number (part at given vector index)
     const vpart_info& part_info (int index);
 
+// get vpart powerinfo for part number, accounting for variable-sized parts.
+    int part_power (int index);
+
 // check if certain part can be mounted at certain position (not accounting frame direction)
     bool can_mount (int dx, int dy, vpart_id id);
 
@@ -149,8 +182,13 @@ public:
 
 // install a new part to vehicle (force to skip possibility check)
     int install_part (int dx, int dy, vpart_id id, int hp = -1, bool force = false);
-    
+
     void remove_part (int p);
+
+// translate item health to part health
+    void get_part_properties_from_item (game* g, int partnum, item& i);
+// translate part health to item health (very lossy.)
+    void give_part_properties_to_item (game* g, int partnum, item& i);
 
 // returns the list of indeces of parts at certain position (not accounting frame direction)
     std::vector<int> parts_at_relative (int dx, int dy);
@@ -169,7 +207,7 @@ public:
 
 // Translate seat-relative mount coords into tile coords using given face direction
     void coord_translate (int dir, int reldx, int reldy, int &dx, int &dy);
-    
+
 // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
     int part_at (int dx, int dy);
     int global_part_at (int x, int y);
@@ -226,7 +264,7 @@ public:
 
 // Get combined power of solar panels
     int solar_power ();
-    
+
 // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
 // vehicle have fuel for are accounted
     int acceleration (bool fueled = true);
@@ -242,7 +280,7 @@ public:
     int noise (bool fueled = true, bool gas_only = false);
 
 // Calculate area covered by wheels and, optionally count number of wheels
-    int wheels_area (int *cnt = 0);
+    float wheels_area (int *cnt = 0);
 
 // Combined coefficient of aerodynamic and wheel friction resistance of vehicle, 0-1.0.
 // 1.0 means it's ideal form and have no resistance at all. 0 -- it won't move
@@ -268,8 +306,8 @@ public:
     void turn (int deg);
 
 // handle given part collision with vehicle, monster/NPC/player or terrain obstacle
-// return impulse (damage) applied on vehicle for that collision
-    int part_collision (int vx, int vy, int part, int x, int y);
+// return collision, which has type, impulse, part, & target.
+    veh_collision part_collision (int vx, int vy, int part, int x, int y);
 
 // Process the trap beneath
     void handle_trap (int x, int y, int part);
@@ -323,6 +361,9 @@ public:
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
 
+    // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
+    rl_vec2d velo_vec();
+
     // config values
     std::string name;   // vehicle name
     int type;           // vehicle type
@@ -346,7 +387,9 @@ public:
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
     bool skidding;      // skidding mode
     int last_turn;      // amount of last turning (for calculate skidding due to handbrake)
-    int moves;
+    //int moves;
+    float of_turn;      // goes from ~1 to ~0 while proceeding every turn
+    float of_turn_carry;// leftover from prev. turn
     int turret_mode;    // turret firing mode: 0 = off, 1 = burst fire
 };
 

@@ -1087,7 +1087,7 @@ bool npc::wear_if_wanted(item it)
   }
  }
  return false;
-} 
+}
 
 bool npc::wield(game *g, int index)
 {
@@ -1311,18 +1311,18 @@ int npc::vehicle_danger(game *g, int radius)
 
  // TODO: check for most dangerous vehicle?
  for(size_t i = 0; i < vehicles.size(); ++i)
-  if (vehicles[i].item->velocity > 0)
+  if (vehicles[i].v->velocity > 0)
   {
-   float facing = vehicles[i].item->face.dir();
+   float facing = vehicles[i].v->face.dir();
 
-   int ax = vehicles[i].item->global_x();
-   int ay = vehicles[i].item->global_y();
+   int ax = vehicles[i].v->global_x();
+   int ay = vehicles[i].v->global_y();
    int bx = ax + cos (facing * M_PI / 180.0) * radius;
    int by = ay + sin (facing * M_PI / 180.0) * radius;
 
    // fake size
-   int last_part = vehicles[i].item->external_parts.back();
-   int size = std::max(vehicles[i].item->parts[last_part].mount_dx, vehicles[i].item->parts[last_part].mount_dy);
+   int last_part = vehicles[i].v->external_parts.back();
+   int size = std::max(vehicles[i].v->parts[last_part].mount_dx, vehicles[i].v->parts[last_part].mount_dy);
 
    float normal = sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay));
    int closest = abs((posx - ax) * (by - ay) - (posy - ay) * (bx - ax)) / normal;
@@ -1373,7 +1373,7 @@ std::vector<skill> npc::skills_offered_to(player *p)
  if (p == NULL)
   return ret;
  for (int i = 0; i < num_skill_types; i++) {
-  if (sklevel[i] > p->sklevel[i])
+   if (p->skillLevel(Skill::skill(i)) < sklevel[i])
    ret.push_back( skill(i) );
  }
  return ret;
@@ -1592,7 +1592,7 @@ int npc::value(item &it)
   it_book* book = dynamic_cast<it_book*>(it.type);
   if (book->intel <= int_cur) {
    ret += book->fun;
-   if (sklevel[book->type] < book->level && sklevel[book->type] >= book->req)
+   if (skillLevel(book->type) < book->level && skillLevel(book->type) >= book->req)
     ret += book->level * 3;
   }
  }
@@ -1826,8 +1826,8 @@ int npc::speed_estimate(int speed)
 
 void npc::draw(WINDOW* w, int ux, int uy, bool inv)
 {
- int x = SEEX + posx - ux;
- int y = SEEY + posy - uy;
+ int x = getmaxx(w)/2 + posx - ux;
+ int y = getmaxy(w)/2 + posy - uy;
  nc_color col = c_pink;
  if (attitude == NPCATT_KILL)
   col = c_red;

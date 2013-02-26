@@ -28,8 +28,9 @@ enum item_cat
   IC_GUN,
   IC_BOOK,
   IC_TOOL,
-  IC_CONTAINER 
+  IC_CONTAINER
 };
+
 
 enum itype_id {
 itm_null = 0,
@@ -43,14 +44,14 @@ itm_water, itm_water_clean, itm_sewage, itm_salt_water, itm_oj, itm_apple_cider,
  itm_long_island, itm_beer, itm_bleach,
  itm_ammonia, itm_mutagen, itm_purifier, itm_tea, itm_coffee, itm_blood,
 // Monster Meats
-itm_meat, itm_veggy, itm_meat_tainted, itm_veggy_tainted, itm_meat_cooked,
- itm_veggy_cooked,
+itm_meat, itm_veggy, itm_human_flesh, itm_veggy_wild, itm_meat_tainted, itm_veggy_tainted,
+itm_meat_cooked, itm_veggy_cooked, itm_veggy_wild_cooked,
 // Food
 itm_apple, itm_orange, itm_lemon, itm_chips, itm_chips2, itm_chips3,
  itm_pretzels, itm_chocolate,
  itm_jerky, itm_sandwich_t, itm_candy, itm_mushroom, itm_mushroom_poison,
  itm_mushroom_magic, itm_blueberries, itm_strawberries, itm_tomato,
- itm_broccoli, itm_zucchini, itm_frozen_dinner, itm_cooked_dinner,
+ itm_broccoli, itm_zucchini, itm_corn, itm_frozen_dinner, itm_cooked_dinner,
  itm_spaghetti_raw, itm_spaghetti_cooked, itm_macaroni_raw, itm_macaroni_cooked,
  itm_ravioli, itm_sauce_red, itm_sauce_pesto, itm_can_beans, itm_can_corn,
  itm_can_spam, itm_can_pineapple, itm_can_coconut, itm_can_sardine,
@@ -63,9 +64,9 @@ itm_bandages, itm_1st_aid, itm_vitamins, itm_aspirin, itm_caffeine,
  itm_pills_sleep, itm_iodine, itm_dayquil, itm_nyquil, itm_inhaler, itm_codeine,
  itm_oxycodone, itm_tramadol, itm_xanax, itm_adderall, itm_thorazine,
  itm_prozac, itm_cig, itm_weed, itm_coke, itm_meth, itm_heroin, itm_cigar,
- itm_antibiotics, itm_poppy_sleep, itm_poppy_pain, itm_crack, itm_grack,
+ itm_antibiotics, itm_poppy_sleep, itm_poppy_pain, itm_crack, /*itm_grack,*/
 // Do-nothing / Melee weapons
-itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
+itm_wrapper, itm_withered, itm_syringe, itm_fur, itm_leather, itm_superglue,
  itm_id_science, itm_id_military, itm_electrohack, itm_string_6, itm_string_36,
  itm_rope_6, itm_rope_30, itm_chain, itm_processor, itm_RAM, itm_power_supply,
  itm_amplifier, itm_transponder, itm_receiver, itm_antenna, itm_steel_chunk,
@@ -82,30 +83,37 @@ itm_wrapper, itm_syringe, itm_rag, itm_fur, itm_leather, itm_superglue,
  itm_carspike, itm_carblade, itm_wire, itm_wire_barbed, itm_rebar, itm_log,
  itm_splinter, itm_skewer, itm_crackpipe, itm_torch_done,
  itm_spring, itm_lawnmower, itm_lawnmower_blade, itm_lawnmower_machete,
- itm_lawnmower_halberd, itm_curtain, itm_broketent, itm_element,
- itm_television, itm_pilot_light,
-
+ itm_lawnmower_halberd, itm_sheet, itm_broketent, itm_element,
+ itm_television, itm_pilot_light, itm_toaster, itm_microwave, itm_laptop,
+ itm_fan, itm_ceramic_plate, itm_ceramic_bowl, itm_ceramic_cup,
+ itm_glass_plate, itm_glass_bowl, itm_glass, itm_tin_plate, itm_fork, itm_spork,
+ itm_foon, itm_rag_bloody, itm_clock, itm_clockworks,
 // Vehicle parts
-itm_frame, itm_wheel, itm_big_wheel, itm_seat, itm_vehicle_controls,
- itm_combustion_tiny, itm_combustion_small, itm_combustion, itm_combustion_large,
+ itm_frame,
+ itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
+ itm_seat, itm_vehicle_controls,
+ itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion,
+ itm_v6_combustion, itm_v8_combustion,
  itm_motor, itm_motor_large, itm_plasma_engine, itm_foot_crank,
  itm_metal_tank, itm_storage_battery, itm_minireactor, itm_solar_panel,
  itm_steel_plate, itm_alloy_plate, itm_spiked_plate, itm_hard_plate,
 // Footwear
+ itm_socks, itm_socks_wool,
  itm_sneakers, itm_boots, itm_boots_steel, itm_boots_winter, itm_mocassins,
  itm_flip_flops, itm_dress_shoes, itm_heels,
  itm_sneakers_fit, itm_boots_fit, itm_boots_steel_fit, itm_boots_winter_fit,
  itm_dress_shoes_fit, itm_heels_fit,
 // Legwear
- itm_jeans, itm_pants, itm_pants_leather, itm_pants_cargo, itm_pants_army,
- itm_skirt,
+ itm_shorts, itm_shorts_cargo,
+ itm_jeans, itm_pants, itm_pants_leather, itm_pants_cargo, itm_pants_army, itm_pants_ski,
+ itm_long_underpants, itm_skirt,
  itm_jeans_fit, itm_pants_fit, itm_pants_cargo_fit, itm_pants_army_fit,
 // Full-body clothing
 itm_jumpsuit, itm_dress, itm_armor_chitin, itm_suit, itm_hazmat_suit,
  itm_armor_plate,
 // Torso clothing
 itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top, itm_sweatshirt,
- itm_sweater, itm_hoodie, itm_jacket_light, itm_jacket_jean, itm_blazer,
+ itm_sweater, itm_hoodie, itm_under_armor, itm_jacket_light, itm_jacket_jean, itm_blazer,
  itm_jacket_leather, itm_kevlar, itm_coat_rain, itm_poncho, itm_trenchcoat, itm_trenchcoat_leather,
  itm_coat_winter, itm_coat_fur, itm_peacoat, itm_vest, itm_beltrig, itm_coat_lab,
  itm_tshirt_fit, itm_polo_shirt_fit, itm_hoodie_fit, itm_sweatshirt_fit, itm_sweater_fit,
@@ -113,7 +121,7 @@ itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top, itm_sweatshirt,
 // Arm clothing
 itm_armguard_soft, itm_armguard_hard, itm_armguard_chitin, itm_armguard_metal,
 // Gloves
-itm_gloves_light, itm_mittens, itm_gloves_wool, itm_gloves_winter,
+itm_gloves_liner, itm_gloves_light, itm_mittens, itm_gloves_wool, itm_gloves_winter,
  itm_gloves_leather, itm_gloves_fingerless, itm_gloves_rubber,
  itm_gloves_medical, itm_fire_gauntlets,
 // Masks
@@ -122,16 +130,15 @@ itm_mask_dust, itm_bandana, itm_scarf, itm_mask_filter, itm_mask_gas,
 itm_glasses_eye, itm_glasses_reading, itm_glasses_safety, itm_goggles_swim,
  itm_goggles_ski, itm_goggles_welding, itm_goggles_nv, itm_glasses_monocle, itm_sunglasses,
 // Headwear
-itm_hat_ball, itm_hat_boonie, itm_hat_cotton, itm_hat_knit, itm_hat_hunting,
- itm_hat_fur, itm_hat_hard, itm_helmet_bike, itm_helmet_skid, itm_helmet_ball,
- itm_helmet_army, itm_helmet_riot, itm_helmet_motor, itm_helmet_chitin,
- itm_helmet_plate, itm_tophat,
+itm_hat_ball, itm_hat_boonie, itm_hat_cotton, itm_hat_knit, itm_hat_hunting, itm_hat_fur, itm_balclava, itm_hat_hard,
+ itm_helmet_bike, itm_helmet_skid, itm_helmet_ball, itm_helmet_army, itm_helmet_riot,
+ itm_helmet_motor, itm_helmet_chitin, itm_helmet_plate, itm_tophat,
 // High-storage
-itm_backpack, itm_purse, itm_mbag, itm_fanny, itm_holster, itm_bootstrap,
+itm_backpack, itm_rucksack, itm_purse, itm_mbag, itm_fanny, itm_holster, itm_bootstrap,
 // Decorative
 itm_ring, itm_necklace,
 // Ammunition
- itm_battery, itm_thread,  itm_duct_tape, itm_cable, itm_plut_cell, 
+ itm_battery, itm_thread,  itm_duct_tape, itm_cable, itm_plut_cell,
  itm_nail, itm_bb, itm_arrow_wood, itm_arrow_cf,
  itm_bolt_wood, itm_bolt_steel, itm_shot_bird, itm_shot_00, itm_shot_slug,
  itm_shot_he, itm_22_lr, itm_22_cb, itm_22_ratshot, itm_9mm, itm_9mmP,
@@ -143,9 +150,9 @@ itm_ring, itm_necklace,
  itm_40mm_teargas, itm_40mm_smoke, itm_40mm_flashbang, itm_12mm, itm_plasma,
  itm_charge_shot,
  itm_shot_hull,
- itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing, 
+ itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing,
  itm_57mm_casing, itm_46mm_casing, itm_762_casing, itm_223_casing,
- itm_3006_casing, itm_308_casing, itm_40mm_casing, itm_gunpowder, 
+ itm_3006_casing, itm_308_casing, itm_40mm_casing, itm_gunpowder,
  itm_shotgun_primer, itm_smpistol_primer, itm_lgpistol_primer,
  itm_smrifle_primer, itm_lgrifle_primer, itm_lead, itm_incendiary, itm_gasoline,
 // Guns
@@ -162,6 +169,7 @@ itm_nailgun, itm_bbgun, itm_crossbow, itm_compbow, itm_longbow, itm_rifle_22,
  itm_scar_h, itm_steyr_aug, itm_m249, itm_v29, itm_ftk93, itm_nx17,
  itm_flamethrower_simple, itm_flamethrower, itm_launcher_simple, itm_m79,
  itm_m320, itm_mgl, itm_coilgun, itm_hk_g80, itm_plasma_rifle,
+ itm_revolver_shotgun,
 // Gun modifications
 itm_silencer, itm_grip, itm_barrel_big, itm_barrel_small, itm_barrel_rifled,
  itm_clip, itm_clip2, itm_spare_mag, itm_stablizer, itm_blowback, itm_autofire,
@@ -170,7 +178,7 @@ itm_silencer, itm_grip, itm_barrel_big, itm_barrel_small, itm_barrel_rifled,
  itm_m203, itm_bayonet, itm_u_shotgun, itm_gun_crossbow,
 // Books
  itm_mag_porn, itm_mag_tv, itm_mag_news, itm_mag_cars, itm_mag_cooking,
- itm_mag_carpentry, 
+ itm_mag_carpentry,
  itm_mag_guns, itm_novel_romance, itm_novel_spy, itm_novel_scifi,
  itm_novel_drama, itm_manual_brawl, itm_manual_knives, itm_manual_mechanics, itm_manual_survival,
  itm_manual_speech, itm_manual_business, itm_manual_first_aid,
@@ -201,14 +209,48 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_knife_butcher, itm_knife_combat, itm_saw, itm_ax, itm_hacksaw,
  itm_tent_kit, itm_torch, itm_torch_lit, itm_candle, itm_candle_lit,
  itm_brazier, itm_puller, itm_press, itm_screwdriver, itm_wrench,
- itm_boltcutters, itm_mop,
+ itm_boltcutters, itm_mop, itm_picklocks, itm_pickaxe, itm_spray_can, itm_rag,
+ itm_pda, itm_pda_flashlight, itm_pockknife,
 // Bionics containers
-itm_bionics_battery,       itm_bionics_power,   itm_bionics_tools,
- itm_bionics_neuro,        itm_bionics_sensory, itm_bionics_aquatic,
- itm_bionics_combat_aug,   itm_bionics_hazmat,  itm_bionics_nutritional,
- itm_bionics_desert,       itm_bionics_melee,   itm_bionics_armor,
- itm_bionics_espionage,    itm_bionics_defense, itm_bionics_medical,
- itm_bionics_construction, itm_bionics_super,   itm_bionics_ranged,
+itm_bionics_battery,
+ //power sources
+ itm_bionics_solar,   itm_bionics_batteries,
+ itm_bionics_metabolics,   itm_bionics_furnace, itm_bionics_ethanol,
+ // utility
+ itm_bionics_toolset,      itm_bionics_storage, itm_bionics_flashlight,
+ itm_bionics_lighter,      itm_bionics_magnet,
+ // neuro
+ itm_bionics_memory,       itm_bionics_painkiller,itm_bionics_alarm,
+ // sensory
+ itm_bionics_ears,          itm_bionics_eye_enhancer, itm_bionics_night_vision,
+ itm_bionics_infrared,      itm_bionics_scent_vision,
+ // cbm: aquatic
+ itm_bionics_membrane, itm_bionics_gills,
+ // cbm: combat augs
+ itm_bionics_targeting, itm_bionics_ground_sonar,
+ // cbm: hazmat
+ itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter,
+ // nutritional
+ itm_bionics_recycler, itm_bionics_digestion, itm_bionics_evap, itm_bionics_water_extractor,
+ // desert survival (all dupes)
+ // melee:
+ itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws,
+ // armor:
+ itm_bionics_carbon, itm_bionics_armor_head, itm_bionics_armor_torso,
+ itm_bionics_armor_arms, itm_bionics_armor_legs,
+ // espionage
+ itm_bionics_face_mask, itm_bionics_scent_mask, itm_bionics_cloak, itm_bionics_fingerhack,
+ //defense
+ itm_bionics_ads, itm_bionics_ods,
+ // medical
+ itm_bionics_nanobots, itm_bionics_blood_anal,
+ // construction
+ itm_bionics_resonator, itm_bionics_hydraulics,
+ // super soldier
+ itm_bionics_time_freeze, itm_bionics_teleport,
+ // ranged combat
+ itm_bionics_blaster, itm_bionics_laser, itm_bionics_emp,
+
 // Software
 itm_software_useless, itm_software_hacking, itm_software_medical,
  itm_software_math, itm_software_blood_data,
@@ -335,6 +377,15 @@ TEC_DEF_DISARM, // Disarm an enemy
 NUM_TECHNIQUES
 };
 
+enum bigness_property_aspect {
+BIGNESS_ENGINE_NULL,         // like a cookie-cutter-cut cookie, this type has no bigness aspect.
+BIGNESS_ENGINE_DISPLACEMENT, // combustion engine CC displacement
+BIGNESS_KILOWATTS,           // electric motor power
+BIGNESS_WHEEL_DIAMETER,      // wheel size in inches, including tire
+//BIGNESS_PLATING_THICKNESS, //
+NUM_BIGNESS_ASPECTS,
+};
+
 struct style_move
 {
  std::string name;
@@ -376,6 +427,7 @@ struct itype
  unsigned int volume;	// Space taken up by this item
  unsigned int weight;	// Weight in quarter-pounds; is 64 lbs max ok?
  			// Also assumes positive weight.  No helium, guys!
+ bigness_property_aspect bigness_aspect;
 
  signed char melee_dam;	// Bonus for melee damage; may be a penalty
  signed char melee_cut;	// Cutting damage in melee
@@ -397,6 +449,9 @@ struct itype
  virtual bool is_macguffin()     { return false; }
  virtual bool is_style()         { return false; }
  virtual bool is_artifact()      { return false; }
+ virtual bool is_var_veh_part()  { return false; }
+ virtual bool is_engine()         { return false; }
+ virtual bool is_wheel()          { return false; }
  virtual bool count_by_charges() { return false; }
  virtual std::string save_data() { return std::string(); }
 
@@ -460,11 +515,11 @@ struct it_comest : public itype
  virtual bool is_food() { return true; }
 // virtual bool count_by_charges() { return charges >= 1 ; }
 
- virtual bool count_by_charges() 
- { 
+ virtual bool count_by_charges()
+ {
   if (m1 == LIQUID) return true;
   else
-  return charges > 1 ; 
+  return charges > 1 ;
  }
 
 
@@ -499,6 +554,39 @@ struct it_comest : public itype
   add = padd;
  }
 };
+
+// v6, v8, wankel, etc.
+struct it_var_veh_part: public itype
+{
+ // TODO? geometric mean: nth root of product
+ unsigned int min_bigness; //CC's
+ unsigned int max_bigness;
+
+ it_var_veh_part(int pid, unsigned char prarity, unsigned int pprice,
+        std::string pname, std::string pdes,
+        char psym, nc_color pcolor, material pm1, material pm2,
+        unsigned short pvolume, unsigned short pweight,
+        signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
+        unsigned effects,
+
+        unsigned int big_min,
+        unsigned int big_max,
+        bigness_property_aspect big_aspect)
+:itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0) {
+  min_bigness = big_min;
+  max_bigness = big_max;
+  bigness_aspect = big_aspect;
+ }
+ virtual bool is_var_veh_part(){return true;}
+ virtual bool is_wheel()          { return false; }
+ virtual bool is_engine() {
+  if (id < itm_1cyl_combustion) return false;
+  if (id > itm_v8_combustion) return false;
+  return true;
+ }
+};
+
 
 struct it_ammo : public itype
 {
@@ -542,7 +630,7 @@ struct it_ammo : public itype
 struct it_gun : public itype
 {
  ammotype ammo;
- skill skill_used;
+ Skill *skill_used;
  signed char dmg_bonus;
  signed char accuracy;
  signed char recoil;
@@ -560,12 +648,12 @@ struct it_gun : public itype
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
         unsigned pitem_flags,
 
-	skill pskill_used, ammotype pammo, signed char pdmg_bonus,
+	const char *pskill_used, ammotype pammo, signed char pdmg_bonus,
 	signed char paccuracy, signed char precoil, unsigned char pdurability,
         unsigned char pburst, int pclip, int preload_time)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
-  skill_used = pskill_used;
+  skill_used = pskill_used?Skill::skill(pskill_used):NULL;
   ammo = pammo;
   dmg_bonus = pdmg_bonus;
   accuracy = paccuracy;
@@ -618,7 +706,6 @@ struct it_gunmod : public itype
  }
 };
 
-
 struct it_armor : public itype
 {
  unsigned char covers; // Bitfield of enum body_part
@@ -669,7 +756,7 @@ struct it_armor : public itype
 
 struct it_book : public itype
 {
- skill type;		// Which skill it upgrades
+ Skill *type;		// Which skill it upgrades
  unsigned char level;	// The value it takes the skill to
  unsigned char req;	// The skill level required to understand it
  signed char fun;	// How fun reading this is
@@ -684,11 +771,11 @@ struct it_book : public itype
          signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
          unsigned pitem_flags,
 
-	 skill ptype, unsigned char plevel, unsigned char preq,
+	 const char *ptype, unsigned char plevel, unsigned char preq,
 	 signed char pfun, unsigned char pintel, unsigned char ptime)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
-  type = ptype;
+  type = ptype?Skill::skill(ptype):NULL;
   level = plevel;
   req = preq;
   fun = pfun;

@@ -13,6 +13,7 @@
 #include "mutation.h"
 #include <vector>
 #include <string>
+#include <map>
 
 class monster;
 class game;
@@ -30,6 +31,8 @@ struct special_attack
 };
 
 class player {
+  std::map<Skill*,SkillLevel> _skills;
+
 public:
  player();
  player(const player &rhs);
@@ -37,7 +40,7 @@ public:
 
  player& operator= (const player & rhs);
 
-// newcharacter.cpp 
+// newcharacter.cpp
  bool create(game *g, character_type type, std::string tempname = "");
  int  random_good_trait();
  int  random_bad_trait ();
@@ -179,7 +182,7 @@ public:
 
  void suffer(game *g);
  void vomit(game *g);
- 
+
  int  lookup_item(char let);
  bool eat(game *g, int index);	// Eat item; returns false on fail
  virtual bool wield(game *g, int index);// Wield item; returns false on fail
@@ -196,12 +199,14 @@ public:
 
  int warmth(body_part bp);	// Warmth provided by armor &c
  int encumb(body_part bp);	// Encumberance from armor &c
+ int encumb(body_part bp, int &layers, int &armorenc, int &warmth);
  int armor_bash(body_part bp);	// Bashing resistance
  int armor_cut(body_part bp);	// Cutting  resistance
  int resist(body_part bp);	// Infection &c resistance
  bool wearing_something_on(body_part bp); // True if wearing something on bp
 
- void practice(skill s, int amount);	// Practice a skill
+ void practice(Skill *s, int amount);
+ void practice(std::string s, int amount);
 
  void assign_activity(activity_type type, int moves, int index = -1);
  void cancel_activity();
@@ -254,6 +259,7 @@ public:
 // ---------------VALUES-----------------
  int id;	// A unique ID number, assigned by the game class
  int posx, posy;
+ int view_offset_x, view_offset_y;
  bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
  player_activity activity;
  player_activity backlog;
@@ -262,7 +268,7 @@ public:
  std::vector<int> completed_missions;
  std::vector<int> failed_missions;
  int active_mission;
- 
+
  std::string name;
  bool male;
  bool my_traits[PF_MAX2];
@@ -285,6 +291,8 @@ public:
  int cash;
  int moves;
  int hp_cur[num_hp_parts], hp_max[num_hp_parts];
+ signed int temp_cur[num_bp], frostbite_timer[num_bp];
+ void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
 
  std::vector<morale_point> morale;
 
@@ -293,7 +301,11 @@ public:
  int skexercise[num_skill_types];
  int sktrain[num_skill_types];
  bool sklearn[num_skill_types];
- 
+
+ SkillLevel& skillLevel(Skill* _skill);
+ SkillLevel& skillLevel(std::string ident);
+ SkillLevel& skillLevel(size_t id);
+
  bool inv_sorted;
  //std::vector <item> inv;
  inventory inv;

@@ -21,13 +21,13 @@ traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
 
 //      Name                    Symbol  Colour          Vis Avd Diff
  TRAP("brazier",                '#',    c_red,           0,  0,  0,
-        &trapfunc::none,         &trapfuncm::none, 
+        &trapfunc::none,         &trapfuncm::none,
         itm_brazier, NULL);
 
 //      Name                    Symbol  Colour          Vis Avd Diff
  TRAP("roll mat",               '#',    c_blue,          0,  0,  0,
         &trapfunc::none,     &trapfuncm::none,
-        itm_rollmat, NULL); 
+        itm_rollmat, NULL);
 //	Name			Symbol	Color		Vis Avd Diff
  TRAP("bear trap",		'^',	c_blue,		 2,  7,  3,
 	&trapfunc::beartrap,	&trapfuncm::beartrap,

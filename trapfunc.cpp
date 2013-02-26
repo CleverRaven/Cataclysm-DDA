@@ -125,7 +125,7 @@ void trapfunc::crossbow(game *g, int x, int y)
  if (add_bolt)
   g->m.add_item(x, y, g->itypes[itm_bolt_steel], 0);
 }
-  
+
 void trapfuncm::crossbow(game *g, monster *z, int x, int y)
 {
  int t;
@@ -178,7 +178,7 @@ void trapfunc::shotgun(game *g, int x, int y)
  } else
   g->m.tr_at(x, y) = tr_shotgun_1;
 }
- 
+
 void trapfuncm::shotgun(game *g, monster *z, int x, int y)
 {
  int t;
@@ -470,19 +470,19 @@ void trapfuncm::lava(game *g, monster *z, int x, int y)
 
  z->hurt(dam);
 }
- 
+
 
 void trapfunc::sinkhole(game *g, int x, int y)
 {
  g->add_msg("You step into a sinkhole, and start to sink down!");
  if (g->u.has_amount(itm_rope_30, 1) &&
      query_yn("Throw your rope to try to catch soemthing?")) {
-  int throwroll = rng(g->u.sklevel[sk_throw],
-                      g->u.sklevel[sk_throw] + g->u.str_cur + g->u.dex_cur);
+  int throwroll = rng(g->u.skillLevel("throw").level(),
+                      g->u.skillLevel("throw").level() + g->u.str_cur + g->u.dex_cur);
   if (throwroll >= 12) {
    g->add_msg("The rope catches something!");
-   if (rng(g->u.sklevel[sk_unarmed],
-           g->u.sklevel[sk_unarmed] + g->u.str_cur) > 6) {
+   if (rng(g->u.skillLevel("unarmed").level(),
+           g->u.skillLevel("unarmed").level() + g->u.str_cur) > 6) {
 // Determine safe places for the character to get pulled to
     std::vector<point> safe;
     for (int i = g->u.posx - 1; i <= g->u.posx + 1; i++) {
@@ -717,7 +717,7 @@ bool trap::is_benign()
 {
   if (id == tr_rollmat || id == itm_cot)
     return true;
-  else      
+  else
   return false;
 
 }

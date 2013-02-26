@@ -30,9 +30,9 @@ num_species
 enum mon_id {
 mon_null = 0,
 // Wildlife
-mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear,
+mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_cougar,
 // Friendly animals
-mon_dog,
+mon_dog, mon_cat,
 // Ants
 mon_ant_larva, mon_ant, mon_ant_soldier, mon_ant_queen, mon_ant_fungus,
 // Bees
@@ -44,7 +44,7 @@ mon_graboid, mon_worm, mon_halfworm,
  mon_zombie_fast, mon_zombie_brute, mon_zombie_hulk, mon_zombie_fungus,
  mon_boomer, mon_boomer_fungus, mon_skeleton, mon_zombie_necro,
  mon_zombie_scientist, mon_zombie_soldier, mon_zombie_grabber,
- mon_zombie_master,  mon_beekeeper, mon_shia,
+ mon_zombie_master,  mon_beekeeper, mon_shia, mon_zombie_child,
 // Triffids
 mon_triffid, mon_triffid_young, mon_triffid_queen, mon_creeper_hub,
  mon_creeper_vine, mon_biollante, mon_vinebeast, mon_triffid_heart,
@@ -123,6 +123,7 @@ MF_SEES,	// It can see you (and will run/follow)
 MF_HEARS,	// It can hear you
 MF_GOODHEARING,	// Pursues sounds more than most monsters
 MF_SMELLS,	// It can smell you
+MF_KEENNOSE, //Keen sense of smell
 MF_STUMBLES,	// Stumbles in its movement
 MF_WARM,	// Warm blooded
 MF_NOHEAD,	// Headshots not allowed!
@@ -133,6 +134,7 @@ MF_DESTROYS,	// Bashes down walls and more
 MF_POISON,	// Poisonous to eat
 MF_VENOM,	// Attack may poison the player
 MF_BADVENOM,	// Attack may SEVERELY poison the player
+MF_BLEED,       // Causes player to bleed
 MF_WEBWALK,	// Doesn't destroy webs
 MF_DIGS,	// Digs through the ground
 MF_FLIES,	// Can fly (over water, etc)
@@ -154,6 +156,7 @@ MF_IMMOBILE,	// Doesn't move (e.g. turrets)
 MF_FRIENDLY_SPECIAL, // Use our special attack, even if friendly
 MF_HIT_AND_RUN,	// Flee for several turns after a melee attack
 MF_GUILT,	// You feel guilty for killing it
+MF_HUMAN,	// It's a live human
 MF_MAX		// Sets the length of the flags - obviously MUST be last
 };
 
@@ -191,7 +194,7 @@ struct mtype {
  unsigned char sp_freq;			// How long sp_attack takes to charge
  void (mdeath::*dies)(game *, monster *); // What happens when this monster dies
  void (mattack::*sp_attack)(game *, monster *); // This monster's special attack
- 
+
 
  // Default constructor
  mtype () {
@@ -220,6 +223,7 @@ struct mtype {
   item_chance = 0;
   dies = NULL;
   sp_attack = NULL;
+  flags.push_back(MF_HUMAN);
  }
  // Non-default (messy)
  mtype (int pid, std::string pname, monster_species pspecies, char psym,
@@ -232,9 +236,9 @@ struct mtype {
         unsigned char psp_freq,
         void (mdeath::*pdies)      (game *, monster *),
         void (mattack::*psp_attack)(game *, monster *),
-        std::string pdescription ) { 
-  id = pid; 
-  name = pname; 
+        std::string pdescription ) {
+  id = pid;
+  name = pname;
   species = pspecies;
   sym = psym;
   color = pcolor;

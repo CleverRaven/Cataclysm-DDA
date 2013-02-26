@@ -25,12 +25,13 @@ void game::init_monitems()
  monitems[mon_zombie_necro]	= monitems[mon_zombie];
  monitems[mon_zombie_grabber]	= monitems[mon_zombie];
  monitems[mon_zombie_master]	= monitems[mon_zombie];
+ monitems[mon_zombie_child] = monitems[mon_zombie];
 
  setvector(monitems[mon_beekeeper],
         mi_hive, 80, NULL);
- 
+
  setvector(monitems[mon_zombie_cop],
-        mi_cop_weapons, 20, NULL);        
+        mi_cop_weapons, 20, NULL);
 
  setvector(monitems[mon_zombie_scientist],
 	mi_dresser,	10,mi_harddrugs,	 6,mi_chemistry,	10,
@@ -47,7 +48,7 @@ void game::init_monitems()
 
  setvector(monitems[mon_biollante],
 	mi_biollante, 1, NULL);
- 
+
  setvector(monitems[mon_chud],
 	mi_subway,	40,mi_sewer,	20,mi_trash,	 5,mi_bedroom,	 1,
 	mi_dresser,	 5,mi_ammo,	18, NULL);

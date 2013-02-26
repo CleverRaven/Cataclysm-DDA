@@ -1,7 +1,9 @@
 #if (defined _WIN32 || defined WINDOWS)
 #include "catacurse.h"
+#include "options.h"
 #include <cstdlib>
 #include <fstream>
+
 //***********************************
 //Globals                           *
 //***********************************
@@ -283,8 +285,8 @@ fin.open("data\\FONTDATA");
  }
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
-    WindowWidth=80*fontwidth;
-    WindowHeight=25*fontheight;
+    WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
+    WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
     WindowX=(GetSystemMetrics(SM_CXSCREEN) / 2)-WindowWidth/2;    //center this
     WindowY=(GetSystemMetrics(SM_CYSCREEN) / 2)-WindowHeight/2;   //sucker
     WinCreate();    //Create the actual window, register it, etc
@@ -323,7 +325,7 @@ fin.open("data\\FONTDATA");
 //    WindowCount=0;
 
     delete typeface_c;
-    mainwin = newwin(25,80,0,0);
+    mainwin = newwin((OPTIONS[OPT_VIEWPORT_Y] * 2 + 1),(55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1)),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 };
 
@@ -658,21 +660,21 @@ int start_color(void)
 {
  colorpairs=new pairs[50];
  windowsPalette=new RGBQUAD[16];     //Colors in the struct are BGR!! not RGB!!
- windowsPalette[0]= BGR(0,0,0);
- windowsPalette[1]= BGR(0, 0, 196);
- windowsPalette[2]= BGR(0,196,0);
- windowsPalette[3]= BGR(30,180,196);
- windowsPalette[4]= BGR(196, 0, 0);
- windowsPalette[5]= BGR(180, 0, 196);
- windowsPalette[6]= BGR(200, 170, 0);
- windowsPalette[7]= BGR(196, 196, 196);
- windowsPalette[8]= BGR(96, 96, 96);
- windowsPalette[9]= BGR(64, 64, 255);
- windowsPalette[10]= BGR(0, 240, 0);
- windowsPalette[11]= BGR(0, 255, 255);
- windowsPalette[12]= BGR(255, 20, 20);
- windowsPalette[13]= BGR(240, 0, 255);
- windowsPalette[14]= BGR(255, 240, 0);
+ windowsPalette[0]= BGR(0,0,0); //Oddzball - Black
+ windowsPalette[1]= BGR(0, 0, 255); //Oddzball - Red
+ windowsPalette[2]= BGR(0,100,0); //Oddzball- Green
+ windowsPalette[3]= BGR(23,51,92); //Oddzball- Brown??? -Made Darker
+ windowsPalette[4]= BGR(150, 0, 0); //Oddzball-Blue
+ windowsPalette[5]= BGR(98, 58, 139); //Oddzball-Pink? -Made Purple
+ windowsPalette[6]= BGR(180, 150, 0); //Oddzball-Cyan
+ windowsPalette[7]= BGR(196, 196, 196);//Oddzball-Gray
+ windowsPalette[8]= BGR(77, 77, 77);//Oddzball-Dark Gray -Made Darker Gray
+ windowsPalette[9]= BGR(150, 150, 255); //Oddzball-Light Red/Salmon? -Made Lighter red
+ windowsPalette[10]= BGR(0, 255, 0); //Oddzball-Bright Green
+ windowsPalette[11]= BGR(0, 255, 255); //Oddzball-Yellow
+ windowsPalette[12]= BGR(255, 100, 100); //Oddzball-Dark Blue? -Made Light Blue
+ windowsPalette[13]= BGR(240, 0, 255); //Oddzball- Pink
+ windowsPalette[14]= BGR(255, 240, 0); //Oddzball -Light Cyan?
  windowsPalette[15]= BGR(255, 255, 255);
  return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
 };

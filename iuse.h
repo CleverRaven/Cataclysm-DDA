@@ -58,6 +58,7 @@ class iuse
   void two_way_radio	(game *g, player *p, item *it, bool t);
   void radio_off	(game *g, player *p, item *it, bool t);
   void radio_on		(game *g, player *p, item *it, bool t);
+  void picklock         (game *g, player *p, item *it, bool t);
   void crowbar		(game *g, player *p, item *it, bool t);
   void makemound	(game *g, player *p, item *it, bool t);
   void dig		(game *g, player *p, item *it, bool t);
@@ -65,6 +66,7 @@ class iuse
   void chainsaw_on	(game *g, player *p, item *it, bool t);
   void jackhammer	(game *g, player *p, item *it, bool t);
   void jacqueshammer	(game *g, player *p, item *it, bool t);
+  void pickaxe          (game *g, player *p, item *it, bool t);
   void set_trap		(game *g, player *p, item *it, bool t);
   void geiger		(game *g, player *p, item *it, bool t);
   void teleport		(game *g, player *p, item *it, bool t);
@@ -118,6 +120,11 @@ class iuse
   void wrench           (game *g, player *p, item *it, bool t);
   void boltcutters      (game *g, player *p, item *it, bool t);
   void mop              (game *g, player *p, item *it, bool t);
+  void spray_can        (game *g, player *p, item *it, bool t);
+  void rag              (game *g, player *p, item *it, bool t);
+  void pda              (game *g, player *p, item *it, bool t);
+  void pda_flashlight   (game *g, player *p, item *it, bool t);
+
 // MACGUFFINS
   void mcg_note		(game *g, player *p, item *it, bool t);
 // ARTIFACTS
@@ -131,7 +138,7 @@ class iuse
   void growth		(game *g, player *p, item *it, bool t);
   void water		(game *g, player *p, item *it, bool t);
   void lava		(game *g, player *p, item *it, bool t);
-  
+
 };
 
 #endif

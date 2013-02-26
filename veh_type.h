@@ -14,6 +14,7 @@ enum vpart_id
 
 // external parts
     vp_seat,
+    vp_bed,
     vp_frame_h,
     vp_frame_v,
     vp_frame_c,
@@ -34,18 +35,24 @@ enum vpart_id
     vp_roof,
     vp_door,
     vp_door_o,
+    vp_door_i,
     vp_window,
     vp_blade_h,
     vp_blade_v,
     vp_spike_h,
     vp_spike_v = vp_spike_h,
-    vp_wheel_large,
-    vp_wheel,
 
-    vp_engine_gas_tiny,
-    vp_engine_gas_small,
-    vp_engine_gas_med,
-    vp_engine_gas_large,
+    vp_wheel,
+    vp_wheel_wide,
+    vp_wheel_bicycle,
+    vp_wheel_motorbike,
+    vp_wheel_small,
+
+    vp_engine_gas_1cyl,
+    vp_engine_gas_v2,
+    vp_engine_gas_i4,
+    vp_engine_gas_v6,
+    vp_engine_gas_v8,
     vp_engine_motor,
     vp_engine_motor_large,
     vp_engine_plasma,
@@ -97,6 +104,7 @@ enum vpart_flags
     vpf_roof,               // is a roof (cover)
     vpf_wheel,              // this part touches ground (trigger traps)
     vpf_seat,               // is seat
+    vpf_bed,                // is bed (like seat, but can't be boarded)
     vpf_engine,             // is engine
     vpf_fuel_tank,          // is fuel tank
     vpf_cargo,              // is cargo
@@ -107,6 +115,7 @@ enum vpart_flags
     vpf_turret,             // is turret
     vpf_armor,              // is armor plating
     vpf_light,              // generates light arc
+    vpf_variable_size,      // has 'bigness' for power, wheel radius, etc.
     vpf_func_begin  = vpf_over,
     vpf_func_end    = vpf_light,
 
@@ -126,7 +135,8 @@ struct vpart_info
     {
         int par1;
         int power;      // engine (top spd), solar panel (% of 1 fuel per turn, can be > 100)
-        int size;       // wheel, fuel tank, trunk
+        int size;       // fuel tank, trunk
+        int wheel_width;// wheel width in inches. car could be 9, bicycle could be 2.
         int bonus;      // seatbelt (str), muffler (%)
     };
     union
@@ -139,7 +149,7 @@ struct vpart_info
     unsigned long flags;    // flags
 };
 
-// following symbols will be translated: 
+// following symbols will be translated:
 // y, u, n, b to NW, NE, SE, SW lines correspondingly
 // h, j, c to horizontal, vertical, cross correspondingly
 const vpart_info vpart_list[num_vparts] =
@@ -147,7 +157,9 @@ const vpart_info vpart_list[num_vparts] =
     { "null part",  '?', c_red,     '?', c_red,     100, 100, 0, 0, itm_null, 0,
         0 },
     { "seat",       '#', c_red,     '*', c_red,     60,  300, 0, 0, itm_seat, 1,
-        mfb(vpf_over) | mfb(vpf_seat) | mfb(vpf_no_reinforce) },
+        mfb(vpf_over) | mfb(vpf_seat) | mfb(vpf_cargo) | mfb(vpf_no_reinforce) },
+    { "bed",        '#', c_magenta, '*', c_magenta, 60,  300, 0, 0, itm_seat, 1,
+        mfb(vpf_over) | mfb(vpf_bed) | mfb(vpf_cargo) | mfb(vpf_no_reinforce) },
     { "frame",      'h', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
         mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) },
     { "frame",      'j', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
@@ -187,7 +199,9 @@ const vpart_info vpart_list[num_vparts] =
     { "door",       '+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, itm_frame, 2,
         mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_openable) },
     { "opaque door",'+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, itm_frame, 2,
-        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_openable) },
+        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_opaque) | mfb(vpf_openable) },
+    { "internal door", '+', c_cyan, '&', c_cyan,    75,  75, 0, 0, itm_frame, 2,
+        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_opaque) | mfb(vpf_openable) | mfb(vpf_roof) | mfb(vpf_no_reinforce) },
     { "windshield", '"', c_ltcyan,  '0', c_ltgray,  70,  50, 0, 0, itm_glass_sheet, 1,
         mfb(vpf_over) | mfb(vpf_obstacle) | mfb(vpf_no_reinforce) },
     { "blade",      '-', c_white,   'x', c_white,   250, 100, 0, 0, itm_carblade, 2,
@@ -197,27 +211,35 @@ const vpart_info vpart_list[num_vparts] =
     { "spike",      '.', c_white,   'x', c_white,   300, 100, 0, 0, itm_carspike, 2,
         mfb(vpf_external) | mfb(vpf_unmount_on_damage) | mfb(vpf_sharp) | mfb(vpf_no_reinforce) },
 
-//                                                           size
-    { "large wheel",'0', c_dkgray,  'x', c_ltgray,  50,  300, 30, 0, itm_big_wheel, 3,
-        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) },
-    { "wheel",      'o', c_dkgray,  'x', c_ltgray,  50,  200, 10, 0, itm_wheel, 2,
-        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) },
-//     
-    { "100CC combustion engine",    '*', c_ltred,  '#', c_red,     80, 150, 40, AT_GAS, itm_combustion_tiny, 2, 
-        mfb(vpf_internal) | mfb(vpf_engine) },
-    { "1L combustion engine",       '*', c_ltred,  '#', c_red,     80, 200, 120, AT_GAS, itm_combustion_small, 2,
-        mfb(vpf_internal) | mfb(vpf_engine) },
-    { "2.5L combustion engine",     '*', c_ltred,  '#', c_red,     80, 300, 300, AT_GAS, itm_combustion, 3,
-        mfb(vpf_internal) | mfb(vpf_engine) },
-    { "6L combustion engine",       '*', c_ltred,  '#', c_red,     80, 400, 800, AT_GAS, itm_combustion_large, 4,
-        mfb(vpf_internal) | mfb(vpf_engine) },
+//                                                           wheel_width(inches)
+    { "wheel",      '0',    c_dkgray,  'x', c_ltgray,  50,  200, 9, 0, itm_wheel, 4,
+        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
+    { "wide wheel", 'O',     c_dkgray,   'x', c_ltgray,  50,  400, 14, 0, itm_wheel_wide, 5,
+        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
+    { "bicycle wheel",'|',  c_dkgray, 'x', c_ltgray,  50,  40, 2, 0, itm_wheel_bicycle, 1,
+        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
+    { "motorbike wheel",'o',c_dkgray, 'x', c_ltgray,  50,  90, 4, 0, itm_wheel_motorbike, 2,
+        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
+    { "small wheel",    'o',c_dkgray, 'x', c_ltgray,  50,  70, 6, 0, itm_wheel_small, 2,
+        mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
+//
+    { "1-cylinder engine",    '*', c_ltred,  '#', c_red,     80, 150, 40, AT_GAS, itm_1cyl_combustion, 2,
+        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size) },
+    { "V-twin engine",       '*', c_ltred,  '#', c_red,     80, 200, 120, AT_GAS, itm_v2_combustion, 2,
+        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size) },
+    { "Inline-4 engine",     '*', c_ltred,  '#', c_red,     80, 300, 300, AT_GAS, itm_i4_combustion, 3,
+        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size) },
+    { "V6 engine",       '*', c_ltred,  '#', c_red,     80, 400, 800, AT_GAS, itm_v6_combustion, 4,
+        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size) },
+    { "V8 engine",       '*', c_ltred,  '#', c_red,     80, 400, 800, AT_GAS, itm_v8_combustion, 4,
+        mfb(vpf_internal) | mfb(vpf_engine) | mfb(vpf_variable_size) },
     { "electric motor",             '*', c_yellow,  '#', c_red,    80, 200, 70, AT_BATT, itm_motor, 3,
         mfb(vpf_internal) | mfb(vpf_engine) },
     { "large electric motor",       '*', c_yellow,  '#', c_red,    80, 400, 350, AT_BATT, itm_motor_large, 4,
         mfb(vpf_internal) | mfb(vpf_engine) },
     { "plasma engine",              '*', c_ltblue,  '#', c_red,    80, 250, 400, AT_PLASMA, itm_plasma_engine, 6,
         mfb(vpf_internal) | mfb(vpf_engine) },
-    { "Foot pedals",                '*', c_ltgray,  '#', c_red,     50, 50, 50, AT_MUSCLE, itm_foot_crank, 1,
+    { "Foot pedals",                '*', c_ltgray,  '#', c_red,     50, 50, 70, AT_MUSCLE, itm_foot_crank, 1,
         mfb(vpf_internal) | mfb(vpf_engine) },
 //                                                                         capacity type
     { "gasoline tank",              'O', c_ltred,  '#', c_red,     80, 150, 3000, AT_GAS, itm_metal_tank, 1,
@@ -270,12 +292,16 @@ enum vhtype_id
 
 // in-built vehicles
     veh_bicycle,
+    veh_motorcycle_chassis,
     veh_motorcycle,
     veh_sandbike,
+    veh_sandbike_chassis,
     veh_car,
+    veh_car_chassis,
     veh_truck,
     veh_semi,  //6L Semitruck. 10 wheels. Sleeper cab.
     veh_trucktrailer,  //Just a trailer with 8 wheels.
+    veh_wagon, // Dwarf Fortress Wagon
     veh_bug,  //Old VW Bug.
     veh_bubblecar,  //360 degree view glass circular vehicle. Underpowered plutonium.
     veh_golfcart,  //Yamaha golf cart.

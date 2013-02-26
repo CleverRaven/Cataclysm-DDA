@@ -68,7 +68,7 @@ mon("wolf",	species_mammal, 'w',	c_dkgray,	MS_MEDIUM,	FLESH,
 	&mdeath::normal,	&mattack::none, "\
 A vicious and fast pack hunter."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, MF_KEENNOSE, MF_BLEED);
 ANGER(MTRIG_TIME, MTRIG_PLAYER_WEAK, MTRIG_HURT);
 PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
@@ -79,10 +79,21 @@ mon("bear",	species_mammal, 'B',	c_dkgray,	MS_LARGE,	FLESH,
 	&mdeath::normal,	&mattack::none, "\
 Remember, only YOU can prevent forest fires."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_BLEED);
 ANGER(MTRIG_PLAYER_CLOSE);
 PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE);
+
+mon("cougar",	species_mammal, 'C',	c_dkgray,	MS_MEDIUM,	FLESH,
+//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	  3, 12,  0, 20,180, 14,  2,  3,  4,  4,  1,  0,  0, 15,  5,
+	&mdeath::normal,	&mattack::leap, "\
+A vicious and fast hunter."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, MF_KEENNOSE, MF_BLEED);
+ANGER(MTRIG_TIME, MTRIG_PLAYER_WEAK, MTRIG_HURT);
+PLACATE(MTRIG_MEAT);
+FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
 
 // DOMESICATED ANIMALS
 mon("dog",	species_mammal, 'd',	c_white,	MS_SMALL,	FLESH,
@@ -91,9 +102,21 @@ mon("dog",	species_mammal, 'd',	c_white,	MS_SMALL,	FLESH,
 	&mdeath::normal,	&mattack::none, "\
 A medium-sized domesticated dog, gone feral."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, MF_KEENNOSE, MF_BLEED);
+ANGER(MTRIG_HURT);
 PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE);
+
+mon("cat",	species_mammal, 'c',	c_white,	MS_TINY,	FLESH,
+//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	 5,   0,  -40, 15,150, 12,  1,  3,  2,  0,  0,  0,  0, 10,  0,
+	&mdeath::normal,	&mattack::none, "\
+A small domesticated cat, gone feral."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN);
+ANGER(MTRIG_HURT);
+PLACATE(MTRIG_MEAT);
+FEARS(MTRIG_FIRE, MTRIG_SOUND);
 
 // INSECTOIDS
 mon("ant larva",species_insect, 'a',	c_white,	MS_SMALL,	FLESH,
@@ -217,7 +240,7 @@ A human body, stumbling slowly forward on\n\
 uncertain legs, possessed with an unstoppable\n\
 rage."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED);
 
 mon("zombie cop",	species_zombie, 'Z',	c_blue,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -227,7 +250,7 @@ A human body, encapsulated in tough riot\n\
 armour, this zombie was clearly a cop gearing\n\
 up to fight the infection."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED);
 
 mon("shrieker zombie",species_zombie, 'Z',c_magenta,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -329,7 +352,7 @@ A skeleton picked clean of all but a few\n\
 rotten scraps of flesh, somehow still in\n\
 motion."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_HARDTOSHOOT);
+FLAGS(MF_SEES, MF_HEARS, MF_BLEED, MF_HARDTOSHOOT);
 
 mon("zombie necromancer",species_zombie, 'Z',c_dkgray,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -350,7 +373,7 @@ A zombie wearing a tattered lab coat and\n\
 some sort of utility belt.  It looks weaker\n\
 than most zombies, but more resourceful too."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED,
       MF_ACIDPROOF);
 
 mon("zombie soldier",	species_zombie,	'Z',c_ltblue,	MS_MEDIUM,	FLESH,
@@ -362,7 +385,7 @@ Its tattered armor gives it strong defense,\n\
 and it is much more physically fit than\n\
 most zombies."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED);
 
 mon("grabber zombie",	species_zombie,	'Z',c_green,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -372,7 +395,7 @@ This zombie seems to have slightly longer\n\
 than ordinary arms, and constantly gropes\n\
 at its surroundings as it moves."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED,
       MF_GRABS);
 
 mon("master zombie",	species_zombie, 'M',c_yellow,	MS_MEDIUM,	FLESH,
@@ -405,7 +428,17 @@ Living in the woods! (Quiet, quiet)\n\
 Killing for sport! (Quiet, quiet)\n\
 Eating  all the bodies!\n\
 Actual cannibal Shia LaBeouf!");
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
+ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_HUMAN);
+ 
+ mon("child zombie",species_zombie, 'z',	c_ltgreen,	MS_SMALL,	FLESH,
+//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	  10, 3,100,100,100, 8,  1,  3,  3,  4,  0,  0, 45, 25,  0,
+	&mdeath::normal,	&mattack::none, "\
+A horrifying child zombie, you feel\n\
+a twinge of remorse looking at it."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED,
+      MF_HIT_AND_RUN, MF_GUILT);
 
 
 // PLANTS & FUNGI
@@ -587,7 +620,7 @@ Cannibalistic Humanoid Underground Dweller.\n\
 A human, turned pale and mad from years in\n\
 the subways."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_WARM, MF_BASHES);
+FLAGS(MF_SEES, MF_HEARS, MF_WARM, MF_BASHES, MF_HUMAN);
 FEARS(MTRIG_HURT, MTRIG_FIRE);
 
 mon("one-eyed mutant",species_none, 'S',c_ltred,	MS_MEDIUM,	FLESH,
@@ -597,7 +630,7 @@ mon("one-eyed mutant",species_none, 'S',c_ltred,	MS_MEDIUM,	FLESH,
 A relatively humanoid mutant with purple\n\
 hair and a grapefruit-sized bloodshot eye."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_WARM, MF_BASHES);
+FLAGS(MF_SEES, MF_HEARS, MF_WARM, MF_BASHES, MF_HUMAN);
 FEARS(MTRIG_HURT, MTRIG_FIRE);
 
 mon("crawler mutant",species_none, 'S',	c_red,		MS_LARGE,	FLESH,
@@ -608,7 +641,7 @@ Two or three humans fused together somehow,\n\
 slowly dragging their thick-hided, hideous\n\
 body across the ground."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON, MF_HUMAN);
 FEARS(MTRIG_HURT, MTRIG_FIRE);
 
 mon("sewer fish",species_none, 's',	c_ltgreen,	MS_SMALL,	FLESH,
@@ -845,7 +878,7 @@ mon("twisted body",species_none, 'h',	c_pink,		MS_MEDIUM,	FLESH,
 A human body, but with its limbs, neck, and\n\
 hair impossibly twisted."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_GOODHEARING, MF_POISON);
+FLAGS(MF_SEES, MF_HEARS, MF_GOODHEARING, MF_POISON, MF_HUMAN);
 
 mon("vortex",	species_none, 'v',	c_white,	MS_SMALL,	POWDER,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -955,7 +988,7 @@ flesh is snow-white and its face has no\n\
 features save for a perfectly round\n\
 mouth."
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_WARM, MF_ANIMAL, MF_SUNDEATH);
+FLAGS(MF_SMELLS, MF_HEARS, MF_WARM, MF_ANIMAL, MF_SUNDEATH, MF_HUMAN);
 
 mon("Gozu",	species_nether, 'G',	c_white,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq

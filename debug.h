@@ -65,7 +65,7 @@ template<typename C, typename A>
 std::ostream & operator<<(std::ostream & out, const std::vector<C,A> & elm)
 {
  bool first = true;
- for( typename std::vector<C>::const_iterator 
+ for( typename std::vector<C>::const_iterator
         it = elm.begin(),
         end = elm.end();
         it != end; ++it )

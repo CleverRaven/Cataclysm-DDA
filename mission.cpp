@@ -35,7 +35,7 @@ std::string mission::save_info()
   ret << type->id;
  ret << description << " <> " << (failed ? 1 : 0) << " " << value <<
         " " << reward.type << " " << reward.value << " " << reward.item_id <<
-        " " << reward.skill_id << " " << uid << " " << target.x << " " <<
+        " " << (reward.skill?reward.skill->id():0) << " " << uid << " " << target.x << " " <<
         target.y << " " << item_id << " " << count << " " << deadline << " " <<
         npc_id << " " << good_fac_id << " " << bad_fac_id << " " << step <<
         " " << follow_up;
@@ -61,7 +61,7 @@ void mission::load_info(game *g, std::ifstream &data)
  follow_up = mission_id(tmpfollow);
  reward.type = npc_favor_type(reward_id);
  reward.item_id = itype_id( rew_item );
- reward.skill_id = skill( rew_skill );
+ reward.skill = Skill::skill( rew_skill );
  item_id = itype_id(itemid);
 }
 
@@ -157,7 +157,7 @@ computers before completing that part.";
     return "What a shame, that data could have proved invaluable...";
   }
   break;
-  
+
  case MISSION_RESCUE_DOG:
   switch (state) {
    case TALK_MISSION_DESCRIBE:

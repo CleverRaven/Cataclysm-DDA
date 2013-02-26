@@ -36,6 +36,6 @@ struct mutation_branch
  mutation_branch() { valid = false; };
 
 };
- 
+
 
 #endif

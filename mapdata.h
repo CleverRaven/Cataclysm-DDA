@@ -10,6 +10,7 @@
 #include "enums.h"
 #include "computer.h"
 #include "vehicle.h"
+#include "graffiti.h"
 #include <iosfwd>
 
 class game;
@@ -33,6 +34,7 @@ enum t_flag {
  transparent = 0,// Player & monsters can see through/past it
  bashable,     // Player & monsters can bash this & make it the next in the list
  container,    // Items on this square are hidden until looted by the player
+ place_item,   // Valid terrain for place_item() to put items on
  door,         // Can be opened--used for NPC pathfinding.
  flammable,    // May be lit on fire
  l_flammable,  // Harder to light on fire, but still possible
@@ -72,21 +74,24 @@ enum ter_id {
 t_null = 0,
 t_hole,	// Real nothingness; makes you fall a z-level
 // Ground
-t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit, 
+t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
 t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
 t_rock_floor, t_rubble, t_ash, t_metal, t_wreckage,
 t_grass,
 t_metal_floor,
 t_pavement, t_pavement_y, t_sidewalk,
 t_floor,
+t_dirtfloor,//Dirt floor(Has roof)
+t_hay,
 t_grate,
 t_slime,
 t_bridge,
 // Tent Walls & doors
-t_canvas_wall, t_canvas_door, t_canvas_door_o, t_groundsheet,
+t_canvas_wall, t_canvas_door, t_canvas_door_o, t_groundsheet, t_fema_groundsheet,
 // Lighting related
 t_skylight, t_emergency_light_flicker, t_emergency_light,
 // Walls
+t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
 t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
 t_wall_v, t_wall_h, t_concrete_v, t_concrete_h,
 t_wall_metal_v, t_wall_metal_h,
@@ -94,18 +99,18 @@ t_wall_glass_v, t_wall_glass_h,
 t_wall_glass_v_alarm, t_wall_glass_h_alarm,
 t_reinforced_glass_v, t_reinforced_glass_h,
 t_bars,
-t_door_c, t_door_b, t_door_o, t_door_locked, t_door_locked_alarm, t_door_frame, 
-t_chaingate_l, t_chaingate_c, t_chaingate_o, t_door_boarded,
+t_door_c, t_door_b, t_door_o, t_door_locked, t_door_locked_alarm, t_door_frame,
+t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o, t_door_boarded,
 t_door_metal_c, t_door_metal_o, t_door_metal_locked,
 t_door_glass_c, t_door_glass_o,
 t_bulletin,
 t_portcullis,
-t_recycler, t_window, t_window_domestic, t_window_open, t_curtains,
-t_window_alarm, t_window_empty, t_window_frame, t_window_boarded,
+t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
+t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
 t_rock, t_fault,
 t_paper,
 // Tree
-t_tree, t_tree_young, t_underbrush, t_shrub, t_log,
+t_tree, t_tree_young, t_tree_apple, t_underbrush, t_shrub, t_shrub_blueberry, t_log,
 t_root_wall,
 t_wax, t_floor_wax,
 t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
@@ -117,21 +122,21 @@ t_marloss, t_fungus, t_tree_fungal,
 t_water_sh, t_water_dp, t_sewage,
 t_lava,
 // Embellishments
-t_bed, t_toilet, t_makeshift_bed, 
+t_bed, t_toilet, t_makeshift_bed,
 // More embellishments than you can shake a stick at.
-t_sink, t_oven, t_bathtub, t_chair, t_armchair, t_cupboard, t_trashcan, t_desk, 
+t_sink, t_oven, t_woodstove, t_bathtub, t_chair, t_armchair, t_sofa, t_cupboard, t_trashcan, t_desk,
 t_sandbox, t_slide, t_monkey_bars, t_backboard,
 t_bench, t_table, t_pool_table,
 t_gas_pump, t_gas_pump_smashed,
 t_missile, t_missile_exploded,
 t_counter,
 t_radio_tower, t_radio_controls,
-t_console_broken, t_console, t_gates_mech_control,
+t_console_broken, t_console, t_gates_mech_control, t_barndoor,
 t_sewage_pipe, t_sewage_pump,
 t_centrifuge,
 t_column,
 // Containers
-t_fridge, t_dresser, t_locker,
+t_fridge, t_glass_fridge, t_dresser, t_locker,
 t_rack, t_bookcase,
 t_dumpster,
 t_vat, t_crate_c, t_crate_o,
@@ -177,14 +182,14 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)},
 {"rock floor",       '.', c_ltgray,  2, tr_null,
 	mfb(transparent)},
-{"pile of rubble",   '#', c_ltgray,  4, tr_null,
+{"pile of rubble",   '^', c_ltgray,  4, tr_null,
 	mfb(transparent)|mfb(rough)|mfb(diggable)},
 {"pile of ash",   '#', c_ltgray,  2, tr_null,
 	mfb(transparent)|mfb(diggable)},
 {"twisted metal",    '#', c_cyan,    5, tr_null,
-	mfb(transparent)|mfb(rough)|mfb(sharp)|mfb(container)},
+        mfb(transparent)|mfb(rough)|mfb(sharp)|mfb(place_item)},
 {"metal wreckage",   '#', c_cyan,    5, tr_null,
-	mfb(transparent)|mfb(rough)|mfb(sharp)|mfb(container)},
+        mfb(transparent)|mfb(rough)|mfb(sharp)|mfb(place_item)},
 {"grass",	     '.', c_green,   2, tr_null,
 	mfb(transparent)|mfb(diggable)|mfb(tentable)},
 {"metal floor",      '.', c_ltcyan,  2, tr_null,
@@ -197,26 +202,47 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)},
 {"floor",	     '.', c_cyan,    2, tr_null,
 	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)},
+{"dirt floor",	     '.', c_brown,    2, tr_null,  //Dirt Floor, must have roofs!
+	mfb(transparent)|mfb(diggable)|mfb(supports_roof)|mfb(collapses)},
+{"hay",              '#', i_brown, 5, tr_null,
+	mfb(transparent)|mfb(container)|mfb(flammable2)|mfb(collapses)},
 {"metal grate",      '#', c_dkgray,  2, tr_null,
 	mfb(transparent)},
 {"slime",            '~', c_green,   6, tr_null,
-	mfb(transparent)|mfb(container)|mfb(flammable2)},
+        mfb(transparent)|mfb(container)|mfb(flammable2)|mfb(place_item)},
 {"walkway",          '#', c_yellow,  2, tr_null,
 	mfb(transparent)},
-{"canvas wall",      '#', c_green,   0, tr_null,
+{"canvas wall",      '#', c_blue,   0, tr_null,
         mfb(l_flammable)|mfb(bashable)|mfb(noitem)|mfb(tentable)},
-{"canvas flap",      '+', c_green,   0, tr_null,
+{"canvas flap",      '+', c_blue,   0, tr_null,
         mfb(l_flammable)|mfb(bashable)|mfb(noitem)|mfb(tentable)},
-{"open canvas flap", '.', c_green,   2, tr_null,
+{"open canvas flap", '.', c_blue,   2, tr_null,
         mfb(transparent)},
 {"groundsheet",      ';', c_green,   2, tr_null,
         mfb(transparent)|mfb(tentable)},
+{"groundsheet",      ';', c_green,   2, tr_null,
+        mfb(transparent)},
 {"floor",	     '.', c_white,    2, tr_null,
 	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)}, // Skylight
 {"floor",	     '.', c_white,    2, tr_null,
 	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)}, // Emergency Light
 {"floor",	     '.', c_white,    2, tr_null,
 	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)}, // Regular Light
+{"half-built wall", '#', c_brown,   4, tr_null,
+	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)},
+{"log wall",        '#', c_brown,   0, tr_null,
+        mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
+{"chipped log wall",'#', c_brown,   0, tr_null,
+        mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
+{"broken log wall", '&', c_brown,   0, tr_null,
+	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)|
+	mfb(supports_roof)},
+{"palisade wall",        '#', c_brown,   0, tr_null,
+        mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(transparent)},
+{"palisade gate",        '+', c_ltred,    0, tr_null,
+        mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(door)|mfb(transparent)},
+{"open palisade gate",   '#', c_ltred,   2, tr_null,
+        mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(transparent)},
 {"half-built wall",  '#', c_ltred,   4, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)},
 {"wooden wall",      '#', c_ltred,   0, tr_null,
@@ -225,23 +251,23 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
 {"broken wood wall", '&', c_ltred,   0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)|
-        mfb(supports_roof)},
+    mfb(supports_roof)},
 {"wall",             '|', c_ltgray,  0, tr_null,
- mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
+        mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
 {"wall",             '-', c_ltgray,  0, tr_null,
- mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
+        mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
 {"concrete wall",    '|', c_dkgray,  0, tr_null,
- mfb(noitem)|mfb(supports_roof)},
+        mfb(noitem)|mfb(supports_roof)},
 {"concrete wall",    '-', c_dkgray,  0, tr_null,
- mfb(noitem)|mfb(supports_roof)},
+        mfb(noitem)|mfb(supports_roof)},
 {"metal wall",       '|', c_cyan,    0, tr_null,
- mfb(noitem)|mfb(noitem)|mfb(supports_roof)},
+        mfb(noitem)|mfb(noitem)|mfb(supports_roof)},
 {"metal wall",       '-', c_cyan,    0, tr_null,
- mfb(noitem)|mfb(noitem)|mfb(supports_roof)},
+        mfb(noitem)|mfb(noitem)|mfb(supports_roof)},
 {"glass wall",       '|', c_ltcyan,  0, tr_null,
- mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
+        mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
 {"glass wall",       '-', c_ltcyan,  0, tr_null,
- mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
+        mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
 {"glass wall",       '|', c_ltcyan,  0, tr_null, // Alarmed
 	mfb(transparent)|mfb(bashable)|mfb(alarmed)|mfb(noitem)|
  mfb(supports_roof)},
@@ -249,9 +275,9 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(bashable)|mfb(alarmed)|mfb(noitem)|
  mfb(supports_roof)},
 {"reinforced glass", '|', c_ltcyan,  0, tr_null,
- mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
+        mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
 {"reinforced glass", '-', c_ltcyan,  0, tr_null,
- mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
+        mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
 {"metal bars",       '"', c_ltgray,  0, tr_null,
 	mfb(transparent)|mfb(noitem)},
 {"closed wood door", '+', c_brown,   0, tr_null,
@@ -264,12 +290,15 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"closed wood door", '+', c_brown,   0, tr_null,	// Actually locked
         mfb(bashable)|mfb(flammable2)|mfb(noitem)|mfb(supports_roof)},
 {"closed wood door", '+', c_brown,   0, tr_null, // Locked and alarmed
-	mfb(bashable)|mfb(flammable2)|mfb(alarmed)|mfb(noitem)|
- mfb(supports_roof)},
+	mfb(bashable)|mfb(flammable2)|mfb(alarmed)|mfb(noitem)|mfb(supports_roof)},
 {"empty door frame", '.', c_brown,   2, tr_null,
         mfb(transparent)|mfb(supports_roof)},
 {"locked wire gate", '+', c_cyan,   0, tr_null,
         mfb(transparent)|mfb(supports_roof)},
+{"closed wooden gate", '+', c_brown,   3, tr_null,
+        mfb(transparent)|mfb(supports_roof) |mfb(bashable)|mfb(flammable2)},
+{"open wooden gate",   '.', c_brown,   2, tr_null,
+        mfb(transparent)|mfb(supports_roof) |mfb(bashable)|mfb(flammable2)},
 {"closed wire gate", '+', c_cyan,   0, tr_null,
         mfb(transparent)|mfb(supports_roof)},
 {"open wire gate",   '.', c_cyan,   2, tr_null,
@@ -294,21 +323,25 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(transparent)},
 {"window",	     '"', c_ltcyan,  0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
-        mfb(supports_roof)},
+        mfb(supports_roof)|mfb(deconstruct)}, // Plain Ol' window
+{"taped window",  '"', c_dkgray,    0, tr_null,
+	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)}, // Regular window
 {"window",	     '"', c_ltcyan,  0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
-        mfb(supports_roof)}, //has curtains
+        mfb(supports_roof)|mfb(deconstruct)}, //has curtains
 {"open window",      '\'', c_ltcyan, 4, tr_null,
-	mfb(transparent)|mfb(flammable)|mfb(noitem)|
-        mfb(supports_roof)},
+	mfb(transparent)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)},
 {"closed curtains",  '"', c_dkgray,    0, tr_null,
-	mfb(bashable)|mfb(flammable)|mfb(noitem)|
-        mfb(supports_roof)},
+	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)},
+{"taped window",  '"', c_dkgray,    0, tr_null,
+	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)}, // Curtain window
 {"window",	     '"', c_ltcyan,  0, tr_null, // Actually alarmed
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(alarmed)|mfb(noitem)|
         mfb(supports_roof)},
+{"taped window",  '"', c_dkgray,    0, tr_null,
+	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)|mfb(alarmed)}, //Alarmed, duh.
 {"empty window",     '0', c_yellow,  8, tr_null,
-	mfb(transparent)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
+	mfb(transparent)|mfb(flammable)|mfb(supports_roof)},
 {"window frame",     '0', c_ltcyan,  8, tr_null,
 	mfb(transparent)|mfb(sharp)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)},
@@ -324,17 +357,22 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(flammable2)|mfb(noitem)|mfb(supports_roof)},
 {"young tree",       '1', c_green,   4, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)},
+{"apple tree", '7', c_ltgreen,   0, tr_null,
+	mfb(flammable2)|mfb(noitem)|mfb(supports_roof)},
 {"underbrush",       '#', c_ltgreen, 6, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(diggable)|mfb(container)|
-	mfb(flammable2)|mfb(thin_obstacle)},
+        mfb(flammable2)|mfb(thin_obstacle)|mfb(place_item)},
 {"shrub",            '#', c_green,   8, tr_null,
+        mfb(transparent)|mfb(bashable)|mfb(container)|mfb(flammable2)|
+        mfb(thin_obstacle)|mfb(place_item)},
+{"blueberry bush",   '#', c_ltgreen,   8, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(container)|mfb(flammable2)|mfb(thin_obstacle)},
-{"log",              '1', c_brown,   4, tr_null,
+{"tree trunk",              '1', c_brown,   4, tr_null,
 	mfb(transparent)|mfb(flammable2)|mfb(diggable)},
 {"root wall",        '#', c_brown,   0, tr_null,
 	mfb(noitem)|mfb(supports_roof)},
 {"wax wall",         '#', c_yellow,  0, tr_null,
-	mfb(container)|mfb(flammable2)|mfb(noitem)|mfb(supports_roof)},
+        mfb(flammable2)|mfb(noitem)|mfb(supports_roof)|mfb(place_item)},
 {"wax floor",        '.', c_yellow,  2, tr_null,
 	mfb(transparent)|mfb(l_flammable)},
 {"picket fence",     '|', c_brown,   3, tr_null,
@@ -374,27 +412,40 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"lava",             '~', c_red,     4, tr_lava,
 	mfb(transparent)|mfb(liquid)},
 {"bed",              '#', c_magenta, 5, tr_null,
-	mfb(transparent)|mfb(container)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)},
+        mfb(transparent)|mfb(container)|mfb(flammable2)|mfb(collapses)|
+        mfb(deconstruct)|mfb(place_item)},
 {"toilet",           '&', c_white,   4, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(l_flammable)|mfb(collapses)},
 {"makeshift bed",    '#', c_magenta, 5, tr_null,
         mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)},
 {"sink",             '&', c_white,   4, tr_null,
-        mfb(transparent)|mfb(bashable)|mfb(l_flammable)|mfb(collapses)},
-{"oven",             '#', c_white,   4, tr_null,
-        mfb(transparent)|mfb(bashable)|mfb(l_flammable)|mfb(collapses)|mfb(container)},
+        mfb(transparent)|mfb(bashable)|mfb(l_flammable)|mfb(collapses)|mfb(container)|mfb(place_item)},
+{"oven",             '#', c_dkgray,   4, tr_null,
+        mfb(transparent)|mfb(bashable)|mfb(l_flammable)|mfb(collapses)|mfb(container)|mfb(place_item)},
+
+{"wood stove",             '#', i_red,   4, tr_null,
+        mfb(transparent)|mfb(container)|mfb(place_item)},
+
+
 {"bathtub",          '~', c_white,   4, tr_null,
-        mfb(transparent)|mfb(bashable)|mfb(l_flammable)|mfb(collapses)|mfb(container)},
+        mfb(transparent)|mfb(bashable)|mfb(l_flammable)|mfb(collapses)|mfb(container)|mfb(place_item)},
+
 {"chair",            '#', c_brown,   2, tr_null,
 	mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)},
-{"chair",            '#', c_ltred,   3, tr_null,
+
+{"arm chair",            'H', c_green,   3, tr_null,
+	mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)},
+
+{"sofa",            'H', i_red,   3, tr_null,
 	mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)},
 {"cupboard",         '#', c_blue,    3, tr_null,
-	mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)|mfb(container)},
+        mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)|
+        mfb(container)|mfb(place_item)},
 {"trash can",        '&', c_ltcyan,  3, tr_null,
-	mfb(transparent)|mfb(flammable2)|mfb(collapses)},
-{"desk",             '#', c_brown,   3, tr_null,
-	mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)|mfb(container)},
+        mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(container)|mfb(place_item)},
+{"desk",             '#', c_ltred,   3, tr_null,
+        mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)|
+        mfb(container)|mfb(place_item)},
 {"sandbox", '#', c_yellow, 3, tr_null,
 	mfb(transparent)|mfb(deconstruct)},
 {"slide",            '#', c_ltcyan,  4, tr_null,
@@ -429,6 +480,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(console)|mfb(noitem)|mfb(collapses)},
 {"mechanical winch", '6', c_cyan_red, 0, tr_null,
         mfb(transparent)|mfb(noitem)|mfb(collapses)},
+{"rope and pulley", '|', i_brown, 0, tr_null,
+        mfb(transparent)|mfb(noitem)|mfb(collapses)},
 {"sewage pipe",      '1', c_ltgray,  0, tr_null,
 	mfb(transparent)},
 {"sewage pump",      '&', c_ltgray,  0, tr_null,
@@ -438,38 +491,42 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"column",           '1', c_ltgray,  0, tr_null,
 	mfb(flammable)},
 {"refrigerator",     '{', c_ltcyan,  0, tr_null,
-	mfb(container)|mfb(collapses)|mfb(bashable)},
+	mfb(container)|mfb(collapses)|mfb(bashable)|mfb(place_item)},
+{"glass door fridge",'{', c_ltcyan,  0, tr_null,
+        mfb(collapses)|mfb(bashable)|mfb(place_item)},
 {"dresser",          '{', c_brown,   0, tr_null,
-	mfb(transparent)|mfb(container)|mfb(flammable)|mfb(collapses)|mfb(bashable)|mfb(deconstruct)},
+        mfb(transparent)|mfb(container)|mfb(flammable)|mfb(collapses)|
+        mfb(bashable)|mfb(deconstruct)|mfb(place_item)},
 {"locker",           '{', c_ltgray,  0, tr_null,
-	mfb(container)|mfb(collapses)|mfb(bashable)},
+        mfb(container)|mfb(collapses)|mfb(bashable)|mfb(place_item)},
 {"display rack",     '{', c_ltgray,  0, tr_null,
-        mfb(transparent)|mfb(container)|mfb(l_flammable)|mfb(collapses)|mfb(bashable)|mfb(deconstruct)},
+        mfb(transparent)|mfb(l_flammable)|mfb(collapses)|mfb(bashable)|
+        mfb(deconstruct)|mfb(place_item)},
 {"book case",        '{', c_brown,   0, tr_null,
-	mfb(container)|mfb(flammable)|mfb(collapses)|mfb(bashable)|mfb(deconstruct)},
+        mfb(flammable)|mfb(collapses)|mfb(bashable)|mfb(deconstruct)|mfb(place_item)},
 {"dumpster",	     '{', c_green,   0, tr_null,
-	mfb(container)|mfb(bashable)},
+        mfb(container)|mfb(bashable)|mfb(place_item)},
 {"cloning vat",      '0', c_ltcyan,  0, tr_null,
-	mfb(transparent)|mfb(bashable)|mfb(container)|mfb(sealed)},
-{"crate",            '{', c_brown,   0, tr_null,
+        mfb(transparent)|mfb(bashable)|mfb(sealed)|mfb(place_item)},
+{"crate",            'X', i_brown,   0, tr_null,
         mfb(transparent)|mfb(bashable)|mfb(container)|mfb(sealed)|
-        mfb(flammable)|mfb(deconstruct)},
-{"open crate",       '{', c_brown,   0, tr_null,
-        mfb(transparent)|mfb(bashable)|mfb(container)|mfb(flammable)},
+        mfb(flammable)|mfb(deconstruct)|mfb(place_item)},
+{"open crate",       'O', i_brown,   0, tr_null,
+        mfb(transparent)|mfb(bashable)|mfb(container)|mfb(flammable)|mfb(place_item)},
 {"stairs down",      '>', c_yellow,  2, tr_null,
-	mfb(transparent)|mfb(goes_down)|mfb(container)},
+        mfb(transparent)|mfb(goes_down)|mfb(place_item)},
 {"stairs up",        '<', c_yellow,  2, tr_null,
-	mfb(transparent)|mfb(goes_up)|mfb(container)},
+        mfb(transparent)|mfb(goes_up)|mfb(place_item)},
 {"manhole",          '>', c_dkgray,  2, tr_null,
-	mfb(transparent)|mfb(goes_down)|mfb(container)},
+        mfb(transparent)|mfb(goes_down)|mfb(place_item)},
 {"ladder",           '<', c_dkgray,  2, tr_null,
-	mfb(transparent)|mfb(goes_up)|mfb(container)},
+        mfb(transparent)|mfb(goes_up)|mfb(place_item)},
 {"ladder",           '>', c_dkgray,  2, tr_null,
-	mfb(transparent)|mfb(goes_down)|mfb(container)},
+        mfb(transparent)|mfb(goes_down)|mfb(place_item)},
 {"downward slope",   '>', c_brown,   2, tr_null,
-	mfb(transparent)|mfb(goes_down)|mfb(container)},
+        mfb(transparent)|mfb(goes_down)|mfb(place_item)},
 {"upward slope",     '<', c_brown,   2, tr_null,
-	mfb(transparent)|mfb(goes_up)|mfb(container)},
+        mfb(transparent)|mfb(goes_up)|mfb(place_item)},
 {"rope leading up",  '<', c_white,   2, tr_null,
 	mfb(transparent)|mfb(goes_up)},
 {"manhole cover",    '0', c_dkgray,  2, tr_null,
@@ -513,7 +570,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"checkered switch", '6', c_white,   0, tr_null,
 	mfb(transparent)},
 {"mutated poppy flower", 'f', c_red, 3, tr_null,
-    mfb(transparent)}
+        mfb(transparent)}
 };
 
 enum map_extra {
@@ -527,6 +584,7 @@ enum map_extra {
  mx_portal,
  mx_minefield,
  mx_wolfpack,
+ mx_cougar,
  mx_puddle,
  mx_crater,
  mx_fumarole,
@@ -544,16 +602,17 @@ const int map_extra_chance[num_map_extras + 1] = {
 120,	// Science
 200,	// Stash
  20,	// Drug deal
- 10,    // Supply drop
+ 10, // Supply drop
   5,	// Portal
  70,	// Minefield
  30,	// Wolf pack
+ 40, // Cougar
 250,	// Puddle
  10,	// Crater
   8,	// Fumarole
   7,	// One-way portal into this world
  10,	// Anomaly
-  0	// Just a cap value; leave this as the last one
+  0	 // Just a cap value; leave this as the last one
 };
 
 struct map_extras {
@@ -561,7 +620,7 @@ struct map_extras {
  int chances[num_map_extras + 1];
  map_extras(unsigned int embellished, int helicopter = 0, int mili = 0,
             int sci = 0, int stash = 0, int drug = 0, int supply = 0,
-            int portal = 0, int minefield = 0, int wolves = 0, int puddle = 0,
+            int portal = 0, int minefield = 0, int wolves = 0, int cougar = 0, int puddle = 0,
             int crater = 0, int lava = 0, int marloss = 0, int anomaly = 0)
             : chance(embellished)
  {
@@ -575,12 +634,13 @@ struct map_extras {
   chances[ 7] = portal;
   chances[ 8] = minefield;
   chances[ 9] = wolves;
-  chances[10] = puddle;
-  chances[11] = crater;
-  chances[12] = lava;
-  chances[13] = marloss;
-  chances[14] = anomaly;
-  chances[15] = 0;
+  chances[10] = cougar;
+  chances[11] = puddle;
+  chances[12] = crater;
+  chances[13] = lava;
+  chances[14] = marloss;
+  chances[15] = anomaly;
+  chances[16] = 0;
  }
 };
 
@@ -729,6 +789,7 @@ struct submap {
  trap_id		trp[SEEX][SEEY]; // Trap on each square
  field			fld[SEEX][SEEY]; // Field on each square
  int			rad[SEEX][SEEY]; // Irradiation of each square
+ graffiti graf[SEEX][SEEY]; // Graffiti on each square
  int active_item_count;
  int field_count;
  int turn_last_touched;

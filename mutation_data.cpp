@@ -31,7 +31,7 @@ void game::init_mutations()
  MUTATION(PF_FLEET2);
   PREREQS (PF_FLEET);
   CANCELS (PF_PONDEROUS1, PF_PONDEROUS2, PF_PONDEROUS3);
-  
+
  MUTATION(PF_FASTHEALER);
   CANCELS (PF_ROT1, PF_ROT2, PF_ROT3);
   CHANGES_TO (PF_FASTHEALER2);
@@ -72,7 +72,7 @@ void game::init_mutations()
 
  MUTATION(PF_UGLY);
   CHANGES_TO (PF_DEFORMED);
- 
+
 
 // Mutation-only traits start here
 

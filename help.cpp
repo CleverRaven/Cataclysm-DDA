@@ -28,18 +28,19 @@ Press q or ESC to return to the game.\n\
 \n\
 a: Introduction\n\
 b: Movement\n\
-c: Hunger, Thirst, and Sleep\n\
-d: Pain and Stimulants\n\
-e: Addiction\n\
-f: Morale and XP\n\
-g: Radioactivity and Mutation\n\
-h: Bionics\n\
-i: Crafting\n\
-j: Traps\n\
-k: Items overview\n\
-l: Combat\n\
-m: Unarmed Styles\n\
-n: Survival tips\n\
+c: Viewing\n\
+d: Hunger, Thirst, and Sleep\n\
+e: Pain and Stimulants\n\
+f: Addiction\n\
+g: Morale and XP\n\
+h: Radioactivity and Mutation\n\
+i: Bionics\n\
+j: Crafting\n\
+k: Traps\n\
+l: Items overview\n\
+m: Combat\n\
+n: Unarmed Styles\n\
+o: Survival tips\n\
 \n\
 1: List of all commands (you can change key commands here)\n\
 2: List of all options  (you can change options here)\n\
@@ -49,7 +50,7 @@ n: Survival tips\n\
 6: Frequently Asked Questions (Some spoilers!)\n\
 \n\
 q: Return to game");
- 
+
   ch = getch();
   switch (ch) {
   case 'a':
@@ -70,7 +71,7 @@ setting makes some tasks easier. Firearms, medications, and a wide variety of\n\
 tools are all available to help you survive.");
    getch();
    break;
- 
+
   case 'b':
   case 'B':
    erase();
@@ -99,6 +100,20 @@ movement will be ignored if new monsters enter the player's view.");
   case 'C':
    erase();
    mvprintz(0, 0, c_white, "\
+The player can often see more than can be displayed on the screen at a time.\n\
+Pressing ';' or 'x' enters look around mode, which allows you to scoll around\n\
+using the movement keys and view irems on the map.  Pressing 'V' provides a\n\
+list of nearby visible items, though items shut away in crates, cubpoards,\n\
+refrigerators and the like will not be displayed.  Pressing Shift+vikeys\n\
+will scroll the view persistently, allowing you to keep an eye on things\n\
+as you move around.");
+   getch();
+   break;
+
+  case 'd':
+  case 'D':
+   erase();
+   mvprintz(0, 0, c_white, "\
 As time passes, you will begin to feel hunger and thirst.  A status warning\n\
 at the bottom of the screen will appear.  As hunger and thirst reach critical\n\
 levels, you will begin to suffer movement penalties. Thirst is more dangerous\n\
@@ -120,8 +135,8 @@ try to find a safe place, or set traps for unwary intruders.");
    getch();
    break;
 
-  case 'd':
-  case 'D':
+  case 'e':
+  case 'E':
    erase();
    mvprintz(0, 0, c_white, "\
 When you take damage from almost any source, you'll start to feel pain.  Pain\n\
@@ -148,8 +163,8 @@ the more intense high of Adderall and methamphetamine.");
   getch();
   break;
 
-  case 'e':
-  case 'E':
+  case 'f':
+  case 'F':
    erase();
    mvprintz(0, 0, c_white, "\
 Many drugs have a potential for addiction.  Each time you consume such a drug\n\
@@ -163,8 +178,8 @@ the effects to cease immediately, but may deepen your dependance.");
   getch();
   break;
 
-  case 'f':
-  case 'F':
+  case 'g':
+  case 'G':
    erase();
    mvprintz(0, 0, c_white, "\
 Your character has a morale level, which affects you in many ways.  The\n\
@@ -201,8 +216,8 @@ each turn.  Above 100, you get 1 XP point each turn for every 100 morale.");
    getch();
    break;
 
-  case 'g':
-  case 'G':
+  case 'h':
+  case 'H':
    erase();
    mvprintz(0, 0, c_white, "\
 Though it is relatively rare, certain areas of the world may be contamiated\n\
@@ -218,8 +233,8 @@ mutations, though these are extremely rare.");
    getch();
    break;
 
-  case 'h':
-  case 'H':
+  case 'i':
+  case 'I':
    erase();
    mvprintz(0, 0, c_white, "\
 Bionics are biomechanical upgrades to your body.  While many are simply\n\
@@ -231,19 +246,17 @@ to store energy for them.  Your current amount of energy is displayed below\n\
 your health.  Replenishing energy can be done in a variety of ways, but all\n\
 require the installation of a special bionic just for fuel consumption.\n\
 \n\
-Bionics come in ready-to-install canisters, most of which contain supplies\n\
-for several different modules.  Installing a bionic will consume the entire\n\
-canister, so choose your upgrade carefully.  Installation of a bionic is best\n\
-left to a trained professional; however, you may attempt to perform a self-\n\
-installation.  Performing such a task requires high levels of first aid,\n\
-mechanics, and/or electronics, and failure may cripple you!  Bionics canisters\n\
-are difficult to find, but they may be purchased from certain NPCs for a very\n\
-high price.");
+Bionics come in ready-to-install canisters. Installation of a bionic is best\n\
+left to a trained professional. However, you may attempt to perform a self-\n\
+installation.  Performing such a task requires high levels of intelligence,\n\
+first aid, mechanics, and/or electronics, and failure may cripple you!\n\
+Many bionics canisters are difficult to find, but may be purchased from\n\
+certain wandering vagabonds for a very high price.");
    getch();
    break;
 
-  case 'i':
-  case 'I':
+  case 'j':
+  case 'J':
    erase();
    mvprintz(0, 0, c_white, "\
 Many important items can be very hard to find, or will cost a great deal of\n\
@@ -271,8 +284,8 @@ all required for certain items.");
    getch();
    break;
 
-  case 'j':
-  case 'J':
+  case 'k':
+  case 'K':
    erase();
    mvprintz(0, 0, c_white, "\
 While sleeping in dangerous territory, it may be wise to set traps to ward off\n\
@@ -299,8 +312,8 @@ may have a chance to avoid it, depending on your Dodge skill.");
    getch();
    break;
 
-  case 'k':
-  case 'K':
+  case 'l':
+  case 'L':
    erase();
    mvprintz(0, 0, c_white, "\
 There are a wide variety of items available for your use. You may find them\n\
@@ -308,6 +321,11 @@ lying on the ground; if so, simply press ',' or 'g' to pick up items on the\n\
 same square. Some items are found inside a container, drawn as a { with a\n\
 blue background. Pressing 'e', then a direction, will allow you to examine\n\
 these containers and loot their contents.\n\
+\n\
+Pressing 'I' opens a comparison menu, where you can see two items\n\
+side-by-side with their attributes highlighted to indicate which is surperior.\n\
+You can also access the item comparison menu by pressing 'C' when the 'V'iew\n\
+nearby items menu is open and an item is selected.\n\
 \n\
 All items may be used as a melee weapon, though some are better than others.\n\
 You can check the melee attributes of an item you're carrying by hitting 'i'\n\
@@ -329,8 +347,8 @@ damage and helps you resist things like smoke.  To take off an item, press\n\
    getch();
    break;
 
-  case 'l':
-  case 'L':
+  case 'm':
+  case 'M':
    erase();
    mvprintz(0, 0, c_white, "\
 After 30 minutes of warmup time, monsters will begin to appear. They are\n\
@@ -360,13 +378,14 @@ escape tactic.");
   getch();
   break;
 
-  case 'm':
-  case 'M':
+  case 'n':
+  case 'N':
    erase();
    mvprintz(0, 0, c_white, "\
 For the unarmed fighter, a variety of fighting styles are available.  You can\n\
 start with your choice of a single, commonly-taught style by starting with\n\
-the Martial Arts Training trait.  Many, many more can be taught by NPCs.\n\
+the Martial Arts Training trait.  Many, many more can be taught by wandering\n\
+masters.\n\
 \n\
 To select a fighting style, press _ (underscore).  If you are already unarmed\n\
 this will make you start using the style.  Otherwise, it will be locked in as\n\
@@ -384,8 +403,8 @@ examining your style.");
    getch();
    break;
 
-  case 'n':
-  case 'N':
+  case 'o':
+  case 'O':
    erase();
    mvprintz(0, 0, c_white, "\
 The first thing to do is to check your home for useful items. Your initial\n\
@@ -503,20 +522,20 @@ easily drop unwanted items on the floor.");
       erase();
       mvprintz(0, 40, c_white, "Use up/down keys to scroll through");
       mvprintz(1, 40, c_white, "available options.");
-      mvprintz(2, 40, c_white, "Use left/right keys to toggle.");      
+      mvprintz(2, 40, c_white, "Use left/right keys to toggle.");
       mvprintz(3, 40, c_white, "Press ESC or q to return.             ");
-// highlight options for option descriptions 
+// highlight options for option descriptions
       std::string tmp = option_desc(option_key(offset + line));
       std::string out;
-      size_t pos;     
+      size_t pos;
       int displayline = 5;
       do {
         pos = tmp.find_first_of('\n');
         out = tmp.substr(0, pos);
-        mvprintz(displayline, 40, c_white, out.c_str());     
+        mvprintz(displayline, 40, c_white, out.c_str());
         tmp = tmp.substr(pos + 1);
         displayline++;
-      } while (pos != std::string::npos && displayline < 12); 
+      } while (pos != std::string::npos && displayline < 12);
      needs_refresh = false;
     }
 
@@ -525,10 +544,10 @@ easily drop unwanted items on the floor.");
      mvprintz(i, 0, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     int valid_option_count = 0;
 
-// display options    
-    for (int i = 0; i < 25 && offset + i < NUM_OPTION_KEYS; i++) 
+// display options
+    for (int i = 0; i < 25 && offset + i < NUM_OPTION_KEYS; i++)
     {
-         valid_option_count++; 
+         valid_option_count++;
          mvprintz(i, 0, c_white, "%s: ",
                   option_name( option_key(offset + i) ).c_str());
 
@@ -536,21 +555,21 @@ easily drop unwanted items on the floor.");
         {
           bool on = OPTIONS[ option_key(offset + i) ];
           if (i == line)
-            mvprintz(i, 30, hilite(c_ltcyan), (on ? "True" : "False")); 
+            mvprintz(i, 30, hilite(c_ltcyan), (on ? "True" : "False"));
           else
-            mvprintz(i, 30, (on ? c_ltgreen : c_ltred), (on ? "True" : "False"));          
+            mvprintz(i, 30, (on ? c_ltgreen : c_ltred), (on ? "True" : "False"));
         } else
         {
-          char option_val = OPTIONS[ option_key(offset + i) ]; 
+          char option_val = OPTIONS[ option_key(offset + i) ];
           if (i == line)
             mvprintz(i, 30, hilite(c_ltcyan), "%d", option_val );
           else
             mvprintz(i, 30, c_ltgreen, "%d", option_val );
-        }    
+        }
     }
      refresh();
      ch = input();
-     needs_refresh = true;  
+     needs_refresh = true;
      refresh();
 
    switch (ch) {
@@ -573,9 +592,9 @@ easily drop unwanted items on the floor.");
         {
           OPTIONS[ option_key(offset + line) ]--;
           if ((OPTIONS[ option_key(offset + line) ]) < 0 )
-            OPTIONS[ option_key(offset + line) ] = option_max_options(option_key(offset + line)) - 1; 
+            OPTIONS[ option_key(offset + line) ] = option_max_options(option_key(offset + line)) - 1;
         }
-        changed_options = true;    
+        changed_options = true;
     break;
     case 'l':
       if (option_is_bool(option_key(offset + line)))
@@ -584,11 +603,11 @@ easily drop unwanted items on the floor.");
       {
         OPTIONS[ option_key(offset + line) ]++;
         if ((OPTIONS[ option_key(offset + line) ]) >= option_max_options(option_key(offset + line)))
-          OPTIONS[ option_key(offset + line) ] = 0; 
+          OPTIONS[ option_key(offset + line) ] = 0;
       }
-      changed_options = true;    
-    break;  
-    }    
+      changed_options = true;
+    break;
+    }
    } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
    if (changed_options && query_yn("Save changes?"))
@@ -680,7 +699,7 @@ F           Forest - May be dense or sparse.  Slow moving; foragable food.");
    mvputch(3,  8, c_dkgray, LINE_XOXX);
    mvputch(3,  9, c_dkgray, LINE_OXXX);
    mvputch(3, 10, c_dkgray, LINE_XXXX);
- 
+
    mvprintz( 3, 12, c_dkgray,  "\
 Road - Safe from burrowing animals.");
    mvprintz( 4, 0, c_dkgray,  "\
@@ -878,7 +897,7 @@ Q: The game just told me to quit, and other weird stuff is happening.\n\
 A: You have the Schizophrenic trait, which might make the game seem buggy.\n\
 \n\
 Q: I have a question that's not addressed here.  How can I get an answer?\n\
-A: Email your question to fivedozenwhales@gmail.com.  I'll answer it for you,\n\
+A: Email your question to TheDarklingWolf@Gmail.com.  I'll answer it for you,\n\
    and possibly include it on this list.");
    getch();
    erase();

@@ -17,7 +17,7 @@ bio_climate, bio_storage, bio_recycler, bio_digestion,	// TODO: Ynnn
 bio_tools, bio_shock, bio_heat_absorb,
 bio_carbon, bio_armor_head, bio_armor_torso, bio_armor_arms, bio_armor_legs,
 // Player Activated
-bio_flashlight, bio_night_vision, bio_infrared, 
+bio_flashlight, bio_night_vision, bio_infrared,
 bio_face_mask,	// TODO
 bio_ads, bio_ods, bio_scent_mask,bio_scent_vision, bio_cloak, bio_painkiller,
  bio_nanobots, bio_heatsink, bio_resonator, bio_time_freeze, bio_teleport,
@@ -66,7 +66,7 @@ struct bionic {
   charge = 0;
  };
 };
- 
+
 const bionic_data bionics[] = {
 {"NULL bionics", false, false, 0, 0, "\
 If you're seeing this, it's a bug."},

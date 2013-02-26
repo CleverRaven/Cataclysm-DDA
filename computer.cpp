@@ -35,7 +35,7 @@ computer& computer::operator=(const computer &rhs)
  name = rhs.name;
  mission_id = rhs.mission_id;
  options.clear();
- for (int i = 0; i < rhs.options.size(); i++) 
+ for (int i = 0; i < rhs.options.size(); i++)
   options.push_back(rhs.options[i]);
  failures.clear();
  for (int i = 0; i < rhs.failures.size(); i++)
@@ -73,7 +73,7 @@ void computer::use(game *g)
   w_terminal = newwin(25, 80, 0, 0);
  wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                      LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- 
+
  print_line("Logging into %s...", name.c_str());
 
  if (security > 0) {
@@ -127,7 +127,7 @@ void computer::use(game *g)
    print_line("%d - %s", i + 1, options[i].name.c_str());
   print_line("Q - Quit and shut down");
   print_line("");
- 
+
   char ch;
   do
    ch = getch();
@@ -162,8 +162,8 @@ bool computer::hack_attempt(player *p, int Security)
  if (Security == -1)
   Security = security; // Set to main system security if no value passed
 
- p->practice(sk_computer, 5 + Security * 2);
- int player_roll = p->sklevel[sk_computer];
+ p->practice("computer", 5 + Security * 2);
+ int player_roll = p->skillLevel("computer").level();
  if (p->int_cur < 8 && one_in(2))
   player_roll -= rng(0, 8 - p->int_cur);
  else if (p->int_cur > 8 && one_in(3))
@@ -190,7 +190,7 @@ std::string computer::save_data()
    savename.replace(found, 1, "_");
    found = savename.find(" ");
   }
-  data << savename << " " << int(options[i].action) << " " << 
+  data << savename << " " << int(options[i].action) << " " <<
           options[i].security << " ";
  }
  data << failures.size() << " ";
@@ -351,7 +351,7 @@ void computer::activate_function(game *g, computer_action action)
     if (ch == '%')
      notes++;
    }
-    
+
    while (lines < 10) {
     fin.clear();
     fin.seekg(0, std::ios::beg);
@@ -406,7 +406,7 @@ void computer::activate_function(game *g, computer_action action)
    for (int i = minx; i <= maxx; i++) {
     for (int j = miny; j <= maxy; j++)
      if ((g->cur_om.ter(i, j) >= ot_sewer_ns &&
-          g->cur_om.ter(i, j) <= ot_sewer_nesw) || 
+          g->cur_om.ter(i, j) <= ot_sewer_nesw) ||
          (g->cur_om.ter(i, j) >= ot_sewage_treatment &&
           g->cur_om.ter(i, j) <= ot_sewage_treatment_under))
      g->cur_om.seen(i, j) = true;
@@ -808,7 +808,7 @@ bool computer::query_bool(const char *mes, ...)
         ret != 'Q');
  return (ret == 'y' || ret == 'Y');
 }
- 
+
 char computer::query_ynq(const char *mes, ...)
 {
 // Translate the printf flags

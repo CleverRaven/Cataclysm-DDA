@@ -43,7 +43,7 @@ struct ratio_index
 };
 
 // class npc functions!
- 
+
 void npc::move(game *g)
 {
  npc_action action = npc_undecided;
@@ -275,7 +275,7 @@ void npc::execute_action(game *g, npc_action action, int target)
   } else
    look_for_player(g, g->u);
   break;
-  
+
  case npc_shoot:
   g->fire(*this, tarx, tary, line, false);
   break;
@@ -645,7 +645,7 @@ npc_action npc::address_player(game *g)
   }
   return npc_undecided;
  }
- 
+
  if (attitude == NPCATT_FLEE)
   return npc_flee;
 
@@ -679,7 +679,7 @@ npc_action npc::long_term_goal_action(game *g)
   return npc_pause;	// Shopkeeps just stay put.
 
 // TODO: Follow / look for player
- 
+
 
  if (!has_destination())
   set_destination(g);
@@ -687,8 +687,8 @@ npc_action npc::long_term_goal_action(game *g)
 
  return npc_undecided;
 }
- 
- 
+
+
 bool npc::alt_attack_available(game *g)
 {
  for (int i = 0; i < NUM_ALT_ATTACK_ITEMS; i++) {
@@ -760,7 +760,7 @@ void npc::use_escape_item(game *g, int index, int target)
 // Index defaults to -1, i.e., wielded weapon
 int npc::confident_range(int index)
 {
- 
+
  if (index == -1 && (!weapon.is_gun() || weapon.charges <= 0))
   return 1;
 
@@ -774,14 +774,14 @@ int npc::confident_range(int index)
 // Here we're using median values for deviation, for a around-50% estimate.
 // See game::fire (ranged.cpp) for where these computations come from
 
-  if (sklevel[firing->skill_used] < 5)
-   deviation += 3.5 * (5 - sklevel[firing->skill_used]);
+  if (skillLevel(firing->skill_used) < 5)
+    deviation += 3.5 * (5 - skillLevel(firing->skill_used).level());
   else
-   deviation -= 2.5 * (sklevel[firing->skill_used] - 5);
+    deviation -= 2.5 * (skillLevel(firing->skill_used).level() - 5);
   if (sklevel[sk_gun] < 3)
-   deviation += 1.5 * (3 - sklevel[sk_gun]);
+    deviation += 1.5 * (3 - skillLevel("gun").level());
   else
-   deviation -= .5 * (sklevel[sk_gun] - 3);
+    deviation -= .5 * (skillLevel("gun").level() - 3);
 
   if (per_cur < 8)
    deviation += 2 * (9 - per_cur);
@@ -881,7 +881,7 @@ bool npc::wont_hit_friend(game *g, int tarx, int tary, int index)
  }
  return true;
 }
- 
+
 bool npc::can_reload()
 {
  if (!weapon.is_gun())
@@ -1010,7 +1010,8 @@ void npc::move_to(game *g, int x, int y)
 void npc::move_to_next(game *g)
 {
  if (path.empty()) {
-  debugmsg("npc::move_to_next() called with an empty path!");
+ if (g->debugmon)
+   debugmsg("npc::move_to_next() called with an empty path!");
   move_pause();
   return;
  }
@@ -1284,13 +1285,13 @@ void npc::pick_up_item(game *g)
   if (pickup.size() == 1)
    g->add_msg("Someone picks up a %s.", (*items)[pickup[0]].tname().c_str());
   else if (pickup.size() == 2)
-   g->add_msg("Someone picks up a %s and a %s", 
+   g->add_msg("Someone picks up a %s and a %s",
               (*items)[pickup[0]].tname().c_str(),
               (*items)[pickup[1]].tname().c_str());
   else
    g->add_msg("Someone picks up several items.");
  }
-  
+
  for (int i = 0; i < pickup.size(); i++) {
   int itval = value((*items)[pickup[i]]);
   if (itval < worst_item_value)
@@ -1318,7 +1319,7 @@ void npc::drop_items(game *g, int weight, int volume)
             inv.size(), inv[i].weight(), inv[i].volume(), wgtTotal, volTotal);
   }
  }
-  
+
  int weight_dropped = 0, volume_dropped = 0;
  std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios
 
@@ -1635,7 +1636,7 @@ bool thrown_item(item *used)
 void npc::heal_player(game *g, player &patient)
 {
  int dist = rl_dist(posx, posy, patient.posx, patient.posy);
- 
+
  if (dist > 1) { // We need to move to the player
   update_path(g, patient.posx, patient.posy);
   move_to_next(g);
@@ -1655,7 +1656,7 @@ void npc::heal_player(game *g, player &patient)
     worst = hp_part(i);
    }
   }
-  
+
   int t;
   bool u_see_me      = g->u_see(posx, posy, t),
        u_see_patient = g->u_see(patient.posx, patient.posy, t);
@@ -1690,7 +1691,7 @@ void npc::heal_player(game *g, player &patient)
   }
   patient.heal(worst, amount_healed);
   moves -= 250;
- 
+
   if (!patient.is_npc()) {
  // Test if we want to heal the player further
    if (op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 +
@@ -1860,7 +1861,7 @@ void npc::mug_player(game *g, player &mark)
    int best_value = minimum_item_value() * value_mod, index = -1;
    for (int i = 0; i < mark.inv.size(); i++) {
     if (value(mark.inv[i]) >= best_value &&
-        volume_carried() + mark.inv[i].volume() <= volume_capacity() && 
+        volume_carried() + mark.inv[i].volume() <= volume_capacity() &&
         weight_carried() + mark.inv[i].weight() <= weight_capacity()   ) {
      best_value = value(mark.inv[i]);
      index = i;
@@ -1971,6 +1972,15 @@ void npc::set_destination(game *g)
  * Also, NPCs should be able to assign themselves missions like "break into that
  *  lab" or "map that river bank."
  */
+
+ // all of the following luxuries are at ground level.
+ // so please wallow in hunger & fear if below ground.
+ if(g->cur_om.posz != 0){
+  goalx = -1;
+  goaly = -1;
+  return;
+ }
+
  decide_needs();
  if (needs.empty()) // We don't need anything in particular.
   needs.push_back(need_none);

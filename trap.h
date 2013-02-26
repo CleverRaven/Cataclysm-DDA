@@ -108,21 +108,21 @@ struct trap {
  char sym;
  nc_color color;
  std::string name;
- 
+
  int visibility;// 1 to ??, affects detection
  int avoidance;	// 0 to ??, affects avoidance
  int difficulty; // 0 to ??, difficulty of assembly & disassembly
  std::vector<itype_id> components;	// For disassembly?
- 
+
 // You stepped on it
  void (trapfunc::*act)(game *, int x, int y);
 // Monster stepped on it
  void (trapfuncm::*actm)(game *, monster *, int x, int y);
 // Type of trap
- bool is_benign(); 
-   
+ bool is_benign();
+
  trap(int pid, char psym, nc_color pcolor, std::string pname,
-      int pvisibility, int pavoidance, int pdifficulty, 
+      int pvisibility, int pavoidance, int pdifficulty,
       void (trapfunc::*pact)(game *, int x, int y),
       void (trapfuncm::*pactm)(game *, monster *, int x, int y), ...) {
   id = pid;

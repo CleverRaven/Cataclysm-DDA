@@ -12,6 +12,12 @@ bool one_in(int chance)
   return true;
  return false;
 }
+bool x_in_y(double x, double y)
+{
+ if( ((double)rand() / RAND_MAX) <= ((double)x/y) )
+  return true;
+ return false;
+}
 
 int dice(int number, int sides)
 {
@@ -20,3 +26,15 @@ int dice(int number, int sides)
   ret += rng(1, sides);
  return ret;
 }
+
+
+// http://www.cse.yorku.ca/~oz/hash.html
+// for world seeding.
+int djb2_hash(unsigned char *str){
+ unsigned long hash = 5381;
+ int c;
+ while (c = *str++)
+  hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+ return hash;
+}
+

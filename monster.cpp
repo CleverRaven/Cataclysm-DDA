@@ -8,14 +8,7 @@
 #include <sstream>
 #include <fstream>
 #include <stdlib.h>
-
-#if (defined _WIN32 || defined WINDOWS)
-	#include "catacurse.h"
-#elif (defined __CYGWIN__)
-      #include "ncurses/curses.h"
-#else
-	#include <curses.h>
-#endif
+#include "cursesdef.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -221,8 +214,8 @@ char monster::symbol()
 
 void monster::draw(WINDOW *w, int plx, int ply, bool inv)
 {
- int x = SEEX + posx - plx;
- int y = SEEY + posy - ply;
+ int x = getmaxx(w)/2 + posx - plx;
+ int y = getmaxy(w)/2 + posy - ply;
  nc_color color = type->color;
  if (friendly != 0 && !inv)
   mvwputch_hi(w, y, x, color, type->sym);
@@ -269,7 +262,7 @@ bool monster::made_of(material m)
   return true;
  return false;
 }
- 
+
 void monster::load_info(std::string data, std::vector <mtype*> *mtypes)
 {
  std::stringstream dump;
@@ -464,25 +457,26 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
     if (check_fire) {
      if (g->m.field_at(x, y).type == fd_fire)
       ret += 5 * g->m.field_at(x, y).density;
-     if (g->u.has_amount(itm_torch_lit, 1))
-      ret += 1;
     }
    }
+  }
+  if (check_fire) {
+   if (g->u.has_amount(itm_torch_lit, 1))
+    ret += 49;
   }
  }
 
  return ret;
 }
 
-int monster::hit(game *g, player &p, body_part &bp_hit)
-{
+int monster::hit(game *g, player &p, body_part &bp_hit) {
  int numdice = type->melee_skill;
  if (dice(numdice, 10) <= dice(p.dodge(g), 10) && !one_in(20)) {
-  if (numdice > p.sklevel[sk_dodge])
-   p.practice(sk_dodge, 10);
+  if (p.skillLevel("dodge") < numdice)
+   p.practice("dodge", 10);
   return 0;	// We missed!
  }
- p.practice(sk_dodge, 5);
+ p.practice("dodge", 5);
  int ret = 0;
  int highest_hit;
  switch (type->size) {
@@ -533,7 +527,7 @@ void monster::hit_monster(game *g, int i)
 {
  int junk;
  monster* target = &(g->z[i]);
- 
+
  int numdice = type->melee_skill;
  int dodgedice = target->dodge() * 2;
  switch (target->type->size) {
@@ -554,7 +548,7 @@ void monster::hit_monster(game *g, int i)
  if (target->hurt(damage))
   g->kill_mon(i, (friendly != 0));
 }
- 
+
 
 bool monster::hurt(int dam)
 {
@@ -592,7 +586,7 @@ int monster::dodge()
 int monster::dodge_roll()
 {
  int numdice = dodge();
- 
+
  switch (type->size) {
   case MS_TINY:  numdice += 6; break;
   case MS_SMALL: numdice += 3; break;

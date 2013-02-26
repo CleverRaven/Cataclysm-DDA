@@ -81,7 +81,7 @@ void player::mutate(game *g)
 
   if (valid.empty())
    first_pass = false; // So we won't repeat endlessly
-   
+
  } while (valid.empty() && cat != MUTCAT_NULL);
 
 

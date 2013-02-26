@@ -114,7 +114,7 @@ void npc::talk_to_u(game *g)
  mvwprintz(d.win, 1, 43, c_white, "Your response:");
 
 // Main dialogue loop
- do { 
+ do {
   talk_topic next = d.opt(d.topic_stack.back(), g);
   if (next == TALK_NONE) {
    int cat = topic_category(d.topic_stack.back());
@@ -165,7 +165,7 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   return ret;
 
  }
-  
+
  switch (topic) {
  case TALK_NONE:
  case TALK_DONE:
@@ -238,7 +238,7 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   else
    return "It's not safe here.  Let's get to safety first.";
  break;
-  
+
  case TALK_TRAIN_FORCE:
   return "Alright, let's begin.";
 
@@ -385,7 +385,7 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   ret << "*drops " << (p->male ? "his" : "her") << " weapon.";
   return ret.str();
  }
- 
+
  case TALK_DEMAND_LEAVE:
   return "Now get out of here, before I kill you.";
 
@@ -1295,7 +1295,7 @@ void talk_function::start_trade(game *g, npc *p)
  p->op_of_u.owed = 0;
  trade(g, p, trade_amount, "Trade");
 }
- 
+
 void talk_function::give_equipment(game *g, npc *p)
 {
  std::vector<int> giving;
@@ -1404,7 +1404,7 @@ void talk_function::lead_to_safety(game *g, npc *p)
  p->goaly = target.y;
  p->attitude = NPCATT_LEAD;
 }
- 
+
 void talk_function::toggle_use_guns(game *g, npc *p)
 {
  p->combat_rules.use_guns = !p->combat_rules.use_guns;
@@ -1455,9 +1455,9 @@ void talk_function::start_training(game *g, npc *p)
   style = itype_id(0 - p->chatbin.tempvalue);
   time = 30000;
  } else {
-  sk_used = skill(p->chatbin.tempvalue);
-  cost = -200 * (1 + g->u.sklevel[sk_used]);
-  time = 10000 + 5000 * g->u.sklevel[sk_used];
+   sk_used = skill(p->chatbin.tempvalue);
+   cost = -200 * (1 + g->u.skillLevel(Skill::skill(sk_used)).level());
+   time = 10000 + 5000 * g->u.skillLevel(Skill::skill(sk_used)).level();
  }
 
 // Pay for it
@@ -1521,7 +1521,7 @@ void parse_tags(std::string &phrase, player *u, npc *me)
  } while (fa != std::string::npos && fb != std::string::npos);
 }
 
- 
+
 talk_topic dialogue::opt(talk_topic topic, game *g)
 {
  std::string challenge = dynamic_line(topic, g, beta);
@@ -1543,7 +1543,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  else
   challenge = beta->name + ": " + challenge;
  history.push_back(""); // Empty line between lines of dialogue
- 
+
 // Number of lines to highlight
  int hilight_lines = 1;
  size_t split;
@@ -1575,7 +1575,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
   else
    colors.push_back(c_white);
  }
-  
+
  for (int i = 2; i < 24; i++) {
   for (int j = 1; j < 79; j++) {
    if (j != 41)
@@ -1653,7 +1653,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  if (chosen.trial == TALK_TRIAL_NONE ||
      rng(0, 99) < trial_chance(chosen, alpha, beta)) {
   if (chosen.trial != TALK_TRIAL_NONE)
-   alpha->practice(sk_speech, (100 - trial_chance(chosen, alpha, beta)) / 10);
+    alpha->practice("speech", (100 - trial_chance(chosen, alpha, beta)) / 10);
   (effect.*chosen.effect_success)(g, beta);
   beta->op_of_u += chosen.opinion_success;
   if (beta->turned_hostile()) {
@@ -1662,7 +1662,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
   }
   return chosen.success;
  } else {
-  alpha->practice(sk_speech, (100 - trial_chance(chosen, alpha, beta)) / 7);
+   alpha->practice("speech", (100 - trial_chance(chosen, alpha, beta)) / 7);
   (effect.*chosen.effect_failure)(g, beta);
   beta->op_of_u += chosen.opinion_failure;
   if (beta->turned_hostile()) {
@@ -1707,8 +1707,8 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
  for (int i = 0; i < 80; i++)
   mvwputch(w_head,  3, i, c_white, LINE_OXOX);
  wrefresh(w_head);
- 
-  
+
+
 // End of line drawings
 
 // Populate the list of what the NPC is willing to buy, and the prices they pay
@@ -1735,7 +1735,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
  bool update = true;		// Re-draw the screen?
  int  them_off = 0, you_off = 0;// Offset from the start of the list
  char ch, help;
- 
+
  do {
   if (update) {	// Time to re-draw
    update = false;
@@ -1909,7 +1909,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    } else
     newinv.push_back(tmp);
   }
-  g->u.practice(sk_barter, practice / 2);
+  g->u.practice("barter", practice / 2);
   p->inv = newinv;
   g->u.cash += cash;
   p->cash   -= cash;

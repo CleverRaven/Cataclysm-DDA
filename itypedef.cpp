@@ -55,6 +55,8 @@ void game::init_itypes ()
 // quench MAY be less than zero--salt water and liquor make you thirstier.
 // Thirst goes up by 1 every 5 minutes; so a quench of 12 lasts for 1 hour
 
+// Any foods with a nutrition of lower than 5 will never prompt a 'You are full, force yourself to eat that?' message
+
 #define DRINK(name,rarity,price,color,container,quench,nutr,spoils,stim,\
 healthy,addict,charges,fun,use_func,addict_func,des) \
 	index++;itypes.push_back(new it_comest(index,rarity,price,name,des,'~',\
@@ -86,7 +88,7 @@ DRINK("orange juice",	50, 38,	c_yellow, itm_bottle_plastic,
 Fresh squeezed from real oranges! Tasty and nutritious.");
 
 DRINK("apple cider",	50, 38, c_brown,  itm_bottle_plastic,
-	35,  6,144,  0,  3,  0,  1,  2,&iuse::none,	ADD_NULL, "\
+	35,  4,144,  0,  3,  0,  1,  2,&iuse::none,	ADD_NULL, "\
 Pressed from fresh apples. Tasty and nutritious.");
 
 DRINK("energy drink",	55, 45,	c_magenta,itm_can_drink,
@@ -207,6 +209,15 @@ FOOD("chunk of veggy",	30, 60,	c_green,	VEGGY,	itm_null,
     1,  2,  0, 20, 80,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 A raw chunk of vegetable. Fine for eating raw, tastier when cooked.");
 
+FOOD("human flesh",	50, 50,	c_red,		FLESH,  itm_null,
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
+    1,  2,  0, 20, 24,  0, -1,  0,  1,-30,	&iuse::none, ADD_NULL, "\
+Freshly butchered from a human body.");
+
+FOOD("wild vegetables",	30, 60,	c_green,	VEGGY,	itm_null,
+    1,  2,  0, 20, 80,  0,  1,  0,  1,  -10,	&iuse::none, ADD_NULL, "\
+An assortment of edible-looking wild plants.  Most are quite bitter-tasting.");
+
 FOOD("tainted meat",	60,  4,	c_red,		FLESH,	itm_null,
     1,  2,  0, 20,  4,  0,  0,  0,  1,-10,	&iuse::poison, ADD_NULL, "\
 Meat that's obviously unhealthy. You could eat it, but it will poison you.");
@@ -222,6 +233,10 @@ Freshly cooked meat. Very nutritious.");
 FOOD("cooked veggy",	 0, 70, c_green,	VEGGY,	itm_null,
     1,  2,  0, 40, 50,  0,  1,  0,  1,  0,	&iuse::none,	ADD_NULL, "\
 Freshly cooked vegetables. Very nutritious.");
+
+FOOD("cooked wild vegetables",	0, 70,	c_green,	VEGGY,	itm_null,
+    1,  2,  0, 40, 50,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
+Cooked wild edible plants.  An interesting mix of flavours.");
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("apple",		70, 16,	c_red,		VEGGY,  itm_null,
@@ -308,6 +323,10 @@ It's a bit tough, but quite delicious.");
 FOOD("zucchini",	 7, 30,	c_ltgreen,	VEGGY,	itm_null,
     2,  1,  0, 20,120,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 A tasty summer squash.");
+
+FOOD("corn",	 7, 30,	c_ltgreen,	VEGGY,	itm_null,
+    2,  1,  0, 20,120,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
+Delicious golden kernels.");
 
 FOOD("frozen dinner",	50, 80,	c_magenta,	FLESH,	itm_box_small,
     5,  4, -2, 60, 60,  0, -2,  0,  1, -3,	&iuse::none, ADD_NULL, "\
@@ -623,11 +642,11 @@ MED("crack",		 8,420,	c_white,	itm_apparatus,
 	POWDER,  40, -2, 80,  4, 50,&iuse::crack,	ADD_CRACK, "\
 Refined cocaine, incredibly addictive.");
 
-MED("Grack Cocaine",      8,420, c_white,        itm_apparatus,
-        POWDER,  200, -2, 80,  4, 50,&iuse::grack,       ADD_CRACK, "\
-Grack Cocaine, the strongest substance known to the multiverse\n\
-this potent substance is refined from the sweat of the legendary\n\
-gracken");
+//MED("Grack Cocaine",      8,420, c_white,        itm_apparatus,
+//        POWDER,  200, -2, 80,  4, 50,&iuse::grack,       ADD_CRACK, "\
+//Grack Cocaine, the strongest substance known to the multiverse\n\
+//this potent substance is refined from the sweat of the legendary\n\
+//gracken");
 
 
 // MELEE WEAPONS
@@ -647,14 +666,15 @@ MELEE("paper wrapper",	50,  1, ',', c_ltgray,	PAPER,	MNULL,
 	 1,  0, -8,  0, -2, 0, "\
 Just a piece of butcher's paper. Good for starting fires.");
 
+//    NAME		RAR PRC SYM  COLOR	MAT1	MAT2
+MELEE("withered plant",	70,  1, 't', c_ltgray,	PAPER,	MNULL,
+//	VOL WGT DAM CUT HIT FLAGS
+	 1,  0, -8,  0, -2, 0, "\
+A dead plant. Good for starting fires.");
+
 MELEE("syringe",	 8, 25, ',', c_ltcyan,	PLASTIC,MNULL,
 	 1,  0, -4,  6, -2, mfb(IF_SPEAR), "\
 A medical syringe. Used for administering heroin and other drugs.");
-
-MELEE("rag",		72, 10, ';', c_dkgray,	COTTON,	MNULL,
-	 1,  1,-10,  0,  0, 0, "\
-A small piece of cloth. Useful for making molotov cocktails and not much else."
-);
 
 MELEE("fur pelt",	 0, 10, ',', c_brown,	WOOL,	FLESH,
 	 1,  1, -8,  0,  0, 0, "\
@@ -1042,8 +1062,8 @@ handy in constructing tougher walls and such.");
 
 MELEE("log",                    20,  100,'/', c_brown,  WOOD,   MNULL,
          40, 20, 10, 0, -10, 0, "\
-A large log, cut from a tree. Useful in building, or further\n\
-processing into planks.");
+A large log, cut from a tree. (a)ctivate a wood ax or wood\n\
+saw to cut it into planks");
 
 MELEE("splintered wood", 	60,  80,'/', c_ltred,	WOOD,	MNULL,
 	 6,  6, 9,  0,  1, 0, "\
@@ -1088,10 +1108,10 @@ MELEE("lawnmower halberd", 0, 100, '/', c_ltgray, IRON, MNULL,
 A lawnmower blade affixed to a long stick, in the right\n\
 hands, this thing could do some massive damage.");
 
-MELEE("curtain",           0, 100, ';', c_dkgray, COTTON, MNULL,
+MELEE("sheet",           0, 100, ';', c_dkgray, COTTON, MNULL,
          20, 2, 0, 0,    -1, 0, "\
-A large fabric curtain, could be attached to a window or\n\
-cut up for plenty of rags.");
+A large fabric sheet, could be used as a curtain or bedsheets;\n\
+or cut up for a bunch of rags.");
 
 //  NAME        RAR PRC SYM  COLOR  MAT1    MAT
 MELEE("damaged tent",17, 65, ';', c_green,	IRON,	MNULL,
@@ -1099,40 +1119,139 @@ MELEE("damaged tent",17, 65, ';', c_green,	IRON,	MNULL,
 A small tent, just big enough to fit a person comfortably.\n\
 This tent is broken and cannot be deployed");
 
-MELEE("Heating element", 20, 10, ',', c_cyan,   IRON,   MNULL,
+MELEE("heating element", 20, 10, ',', c_cyan,   IRON,   MNULL,
          0,   1,   0,  0,  0, 0, "\
 A heating element, like the ones used in hotplates or kettles.");
 
-MELEE("Television",      40, 0,  ';', c_dkgray,   PLASTIC, GLASS,
+MELEE("television",      40, 0,  ';', c_dkgray,   PLASTIC, GLASS,
         10,  12,  5, 0, -5, 0, "\
 A large cathode ray tube television, full of delicious\n\
 electronics.");
 
-MELEE("Pilot light", 20, 10, ',', c_cyan,   IRON,   PLASTIC,
+MELEE("pilot light", 20, 10, ',', c_cyan,   IRON,   PLASTIC,
          0,   1,   0,  0,  0, 0, "\
 A pilot light from a gas-burning device, this particular one\n\
 is a simple piezo electric igniter.");
 
+MELEE("toaster", 50, 10, ',', c_cyan, IRON, PLASTIC,
+         2,   1,   0,  0,  0, 0, "\
+A small two slice toaster, not much use as anything but spare parts");
+
+MELEE("microwave", 50, 10, ',', c_cyan, IRON, PLASTIC,
+         8,   5,   0,  0,  0, 0, "\
+A home microwave, has probably seen its share of baked beans.\n\
+Good for scrap parts.");
+
+MELEE("laptop computer", 50, 10, ',', c_cyan, IRON, PLASTIC,
+         3,   2,   0,  0,  0, 0, "\
+A broken laptop, basically a paperweight now");
+
+MELEE("desk fan", 50, 10, ',', c_cyan, IRON, PLASTIC,
+         4,   1,   0,  0,  0, 0, "\
+A small fan, used to propel air around a room.");
+
+MELEE("ceramic plate", 50, 10, ',', c_cyan, GLASS, MNULL,
+         1,   1,   1,  0,  0, 0, "\
+A ceramic dinner plate, you could probably play frisbee with it");
+
+MELEE("ceramic bowl", 50, 10, ',', c_cyan, GLASS, MNULL,
+         1,   1,   1,  0,  0, 0, "\
+A shallow dessert bowl, not a lot of use for it really.");
+
+MELEE("ceramic cup", 50, 10, ',', c_cyan, GLASS, MNULL,
+         1,   1,   1,  0,  0, 0, "\
+A ceramic teacup, pinky out!");
+
+MELEE("glass plate", 50, 10, ',', c_cyan, GLASS, MNULL,
+         1,   1,   1,  0,  0, 0, "\
+A glass dinner plate, you could probably play frisbee with it");
+
+MELEE("glass bowl", 50, 10, ',', c_cyan, GLASS, MNULL,
+         1,   1,   1,  0,  0, 0, "\
+A glass dessert bowl, not a lot of use for it really.");
+
+MELEE("glass", 50, 10, ',', c_cyan, GLASS, MNULL,
+         1,   1,   1,  0,  0, 0, "\
+A tall glass, just begging for a frosty one!");
+
+MELEE("tin plate", 50, 10, ',', c_cyan, STEEL, MNULL,
+         1,   0,   0,  0,  0, 0, "\
+A tin dinner plate, you could probably play frisbee with it");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+MELEE("fork",	90,  15,';', c_ltcyan,	STEEL, 	MNULL,
+//	VOL WGT DAM CUT HIT FLAGS
+	 1,  2,  2,  1, -2, 0, "\
+A fork, if you stab something with it you eat it right away\n\
+Wait.. nevermind.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+MELEE("spork",	90,  15,';', c_ltcyan,	STEEL, 	MNULL,
+//	VOL WGT DAM CUT HIT FLAGS
+	 1,  2,  2,  1, -2, 0, "\
+Foons are for scrubs, real men use sporks.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+MELEE("foon",	90,  15,';', c_ltcyan,	STEEL, 	MNULL,
+//	VOL WGT DAM CUT HIT FLAGS
+	 1,  2,  2,  1, -2, 0, "\
+Clearly the superior instrument. Sporks are just imitators.");
+
+MELEE("blood soaked rag",    1, 0,  ',', c_red, COTTON,   MNULL,
+         0, 0, 0, 0, 0, 0, "\
+A large rag, drenched in blood. It could be cleaned with\n\
+boiling water.");
+
+MELEE("clock",               60, 0, ';', c_ltcyan, PLASTIC, IRON,
+         1, 2, 0, 0, 0, 0, "\
+A small mechanical clock, it's stopped at 10:10.");
+
+MELEE("clockworks",          30, 0, ';', c_ltcyan, IRON, MNULL,
+         1, 1, 0, 0, 0, 0, "\
+A small assortment of gears and other clockwork gubbins.");
+
+
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("steel frame",  25, 35, ']', c_cyan,  STEEL,   MNULL,
+MELEE("steel frame",  20, 55, ']', c_cyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     60,  240,  20,  0,  -5, 0, "\
 A large frame made of steel. Useful for crafting.");
-TECH( mfb(TEC_WBLOCK_3) );
+TECH( mfb(TEC_DEF_DISARM) );
 
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("wheel",  15, 50, ']', c_dkgray,  STEEL,   PLASTIC,
-//  VOL WGT DAM CUT HIT FLAGS
-    10,  80,  8,  0,  -4, 0, "\
-A wheel, perhaps from some car.");
-TECH( mfb(TEC_WBLOCK_3) );
+#define VAR_VEH_PART(name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
+              flags, bigmin, bigmax, bigaspect, des)\
+	index++;itypes.push_back(new it_var_veh_part(index,rarity,price,name,des,sym,\
+color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags, bigmin, bigmax, bigaspect))
 
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("large wheel",  6, 80, ']', c_dkgray,  STEEL,   PLASTIC,
-//  VOL WGT DAM CUT HIT FLAGS
-    20,  200,  12,  0,  -5, 0, "\
-A large wheel, from some big car.");
-TECH( mfb(TEC_WBLOCK_3) );
+//itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
+//           NAME     RAR PRC  SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("wheel", 10, 100, ']', c_dkgray,  STEEL,   PLASTIC,
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
+    40,  140, 12,  0,  -1, 0,       13,         20,  BIGNESS_WHEEL_DIAMETER,  "\
+A car wheel");
+//           NAME         RAR PRC  SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("wide wheel", 4, 340, ']', c_dkgray,  STEEL,   PLASTIC,
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX   ASPECT
+    70,  260, 17,  0,  -1, 0,       17,         36,  BIGNESS_WHEEL_DIAMETER,  "\
+A wide wheel. \\o/ This wide.");
+//           NAME            RAR  PRC  SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("bicycle wheel", 18, 40,  ']', c_dkgray,  STEEL,   PLASTIC,
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
+    28,  45,  8,  0,  -1, 0,       9,         18,  BIGNESS_WHEEL_DIAMETER,  "\
+A bicycle wheel");
+//           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("motorbike wheel", 13, 140,  ']', c_dkgray,  STEEL,   PLASTIC,
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
+    33,  85,  10,  0,  -1, 0,       9,         14,  BIGNESS_WHEEL_DIAMETER,  "\
+A motorbike wheel");
+//           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("small wheel",    5, 140,  ']', c_dkgray,  STEEL,   PLASTIC,
+//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
+    9,  42,  10,  0,  -1, 0,       6,         14,   BIGNESS_WHEEL_DIAMETER,  "\
+A pretty small wheel. Probably from one of those segway things.\
+It is not very menacing.");
+
+
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("seat",  8, 250, '0', c_red,  PLASTIC,   MNULL,
@@ -1146,30 +1265,35 @@ MELEE("vehicle controls",  3, 400, '$', c_ltcyan,  PLASTIC,   STEEL,
     12,  30,  2,  0,  -4, 0, "\
 A set of various vehicle controls. Useful for crafting.");
 
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("100CC combustion engine",  4, 100, ':', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    6,  70,  4,  0,  -1, 0, "\
-A small go kart combustion engine. Useful for crafting.");
+//                                 NAME           RAR PRC SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("1-cylinder engine",  3, 100, ':', c_ltcyan,  IRON,   MNULL,
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX   ASPECT
+    6,  70,  4,  0,  -1, 0,       28,         75,   BIGNESS_ENGINE_DISPLACEMENT, "\
+A single-cylinder 4-stroke combustion engine.");
 
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("1L combustion engine",  5, 150, ':', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    6,  160,  8,  0,  -2, 0, "\
-A small, yet powerful 2-cylinder combustion engine. Useful for crafting.");
+//                              NAME           RAR PRC SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("V-twin engine",  2, 100, ':', c_ltcyan,  IRON,   MNULL,
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
+    6,  70,  4,  0,  -1, 0,       65,        260, BIGNESS_ENGINE_DISPLACEMENT, "\
+A 2-cylinder 4-stroke combustion engine.");
 
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("2.5L combustion engine",  4, 180, ':', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    14,  400,  12,  0,  -3, 0, "\
-A powerful 4-cylinder combustion engine. Useful for crafting.");
+//                                NAME           RAR PRC SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("Inline-4 engine",  6, 150, ':', c_ltcyan,  IRON,   MNULL,
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
+    6,  160,  8,  0,  -2, 0,       220,       350, BIGNESS_ENGINE_DISPLACEMENT, "\
+A small, yet powerful 4-cylinder combustion engine.");
 
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("6L combustion engine",  2, 250, ':', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    25,  1100,  15,  0,  -5, 0, "\
-A large and very powerful 8-cylinder combustion engine. Useful for\n\
-crafting.");
+//                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("V6 engine",  3, 180, ':', c_ltcyan,  IRON,   MNULL,
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
+    14,  400,  12,  0,  -3, 0,    250,        520, BIGNESS_ENGINE_DISPLACEMENT, "\
+A powerful 6-cylinder combustion engine.");
+
+//                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
+VAR_VEH_PART("V8 engine",  2, 250, ':', c_ltcyan,  IRON,   MNULL,
+//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
+    25,  600,  15,  0,  -5, 0,    380,     700, BIGNESS_ENGINE_DISPLACEMENT, "\
+A large and very powerful 8-cylinder combustion engine.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("electric motor",  2,120, ',', c_ltcyan,  IRON,   MNULL,
@@ -1253,25 +1377,33 @@ color,mat1,mat2,volume,wgt,dam,0,to_hit,0,covers,encumber,dmg_resist,cut_resist,
 env,warmth,storage))
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
-ARMOR("sneakers",	80, 100,C_SHOES,	LEATHER,	MNULL,
+ARMOR("socks",	70, 100,C_SHOES,	COTTON,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    5,  4, -2,  0,  0,  0,  2,  0,  2,  0,	mfb(bp_feet), "\
+    1,  1, -5,  0,  0,  0,  0,  0,  10,  0,	mfb(bp_feet), "\
+Socks. Put 'em on your feet.");
+
+ARMOR("wool socks",		30, 120,C_SHOES,	WOOL,	MNULL,
+    2,  1, -5,  0,  0,  0,  0,  0,  20,  0,	mfb(bp_feet), "\
+Warm socks made of wool.");
+
+ARMOR("sneakers",	80, 100,C_SHOES,	LEATHER,	MNULL,
+    5,  4, -2,  0,  0,  0,  2,  0,  20,  0,	mfb(bp_feet), "\
 Guaranteed to make you run faster and jump higher!");
 
 ARMOR("boots",		70, 120,C_SHOES,	LEATHER,	MNULL,
-    7,  6,  1, -1,  1,  1,  4,  2,  4,  0,	mfb(bp_feet), "\
+    7,  6,  1, -1,  1,  1,  4,  2,  50,  0,	mfb(bp_feet), "\
 Tough leather boots. Very durable.");
 
 ARMOR("steeltoed boots",50, 135,C_SHOES,	LEATHER,	STEEL,
-    7,  9,  4, -1,  1,  4,  4,  3,  2,  0,	mfb(bp_feet), "\
+    7,  9,  4, -1,  1,  4,  4,  3,  50,  0,	mfb(bp_feet), "\
 Leather boots with a steel toe. Extremely durable.");
 
 ARMOR("winter boots",	60, 140,C_SHOES,	PLASTIC,	WOOL,
-    8,  7,  0, -1,  2,  0,  2,  1,  7,  0,	mfb(bp_feet), "\
+    8,  7,  0, -1,  2,  0,  2,  1,  80,  0,	mfb(bp_feet), "\
 Cumbersome boots designed for warmth.");
 
 ARMOR("mocassins",	 5,  80,C_SHOES,	LEATHER,	WOOL,
-    2,  1, -3,  0,  0,  0,  1,  0,  3,  0,	mfb(bp_feet), "\
+    2,  1, -3,  0,  0,  0,  1,  0,  40,  0,	mfb(bp_feet), "\
 Simple shoes made from animal pelts.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
@@ -1281,7 +1413,7 @@ ARMOR("flip-flops",	35,  25,C_SHOES,	PLASTIC,	MNULL,
 Simple sandals. Very difficult to run in.");
 
 ARMOR("dress shoes",	50,  45,C_SHOES,	LEATHER,	MNULL,
-    5,  3,  1,  1,  1,  0,  3,  0,  1,  0,	mfb(bp_feet), "\
+    5,  3,  1,  1,  1,  0,  3,  0,  10,  0,	mfb(bp_feet), "\
 Fancy patent leather shoes. Not designed for running in.");
 
 ARMOR("heels",		50,  50,C_SHOES,	LEATHER,	MNULL,
@@ -1291,27 +1423,27 @@ A pair of high heels. Difficult to even walk in.");
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("sneakers",	10, 100,C_SHOES,	LEATHER,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    5,  4, -2,  0, -2,  0,  2,  0,  2,  0,	mfb(bp_feet), "\
+    5,  4, -2,  0, -2,  0,  2,  0,  25,  0,	mfb(bp_feet), "\
 Guaranteed to make you run faster and jump higher!\n\
 These sneakers are a perfect fit for you.");
 
 ARMOR("boots",		5, 120,C_SHOES,	LEATHER,	MNULL,
-    7,  6,  1, -1,  0,  1,  4,  2,  4,  0,	mfb(bp_feet), "\
+    7,  6,  1, -1,  0,  1,  4,  2,  55,  0,	mfb(bp_feet), "\
 Tough leather boots. Very durable.\n\
 These boots are a perfect fit for you.");
 
 ARMOR("steeltoed boots",5, 135,C_SHOES,	LEATHER,	STEEL,
-    7,  9,  4, -1,  0,  4,  4,  3,  2,  0,	mfb(bp_feet), "\
+    7,  9,  4, -1,  0,  4,  4,  3,  55,  0,	mfb(bp_feet), "\
 Leather boots with a steel toe. Extremely durable.\n\
 These boots are a perfect fit for you.");
 
 ARMOR("winter boots",   5, 140,C_SHOES,	PLASTIC,	WOOL,
-    8,  7,  0, -1,  1,  0,  2,  1,  7,  0,	mfb(bp_feet), "\
+    8,  7,  0, -1,  1,  0,  2,  1,  85,  0,	mfb(bp_feet), "\
 Cumbersome boots designed for warmth.\n\
 These boots are a perfect fit for you.");
 
 ARMOR("dress shoes",	5,  45,C_SHOES,	LEATHER,	MNULL,
-    5,  3,  1,  1,  0,  0,  3,  0,  1,  0,	mfb(bp_feet), "\
+    5,  3,  1,  1,  0,  0,  3,  0,  15,  0,	mfb(bp_feet), "\
 Fancy patent leather shoes. Not designed for running in.\n\
 These shoes are a perfect fit for you.");
 
@@ -1320,28 +1452,44 @@ ARMOR("heels",		1,  50,C_SHOES,	LEATHER,	MNULL,
 A pair of high heels. Difficult to even walk in.\n\
 These high heels are a perfect fit for you.");
 
+ARMOR("shorts",		70, 180,C_PANTS,	COTTON,		MNULL,
+    4,  2, -4,  1,  0,  0,  1,  0,  0,  4,	mfb(bp_legs), "\
+A pair of khaki shorts.");
+
+ARMOR("cargo shorts",		50, 180,C_PANTS,	COTTON,		MNULL,
+    4,  2, -4,  1,  0,  0,  1,  0,  0,  8,	mfb(bp_legs), "\
+A pair of shorts lined with pockets, offering decent storage.");
+
 ARMOR("jeans",		90, 180,C_PANTS,	COTTON,		MNULL,
-    5,  4, -4,  1,  1,  0,  1,  0,  1,  2,	mfb(bp_legs), "\
+    5,  4, -4,  1,  1,  0,  1,  0,  10,  2,	mfb(bp_legs), "\
 A pair of blue jeans with two deep pockets.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("pants",		75, 185,C_PANTS,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    5,  5, -4,  1,  1,  0,  1,  0,  2,  4,	mfb(bp_legs), "\
+    5,  5, -4,  1,  1,  0,  1,  0,  20,  4,	mfb(bp_legs), "\
 A pair of khaki pants. Slightly warmer than jeans.");
 
 ARMOR("leather pants",	60, 210,C_PANTS,	LEATHER,	MNULL,
-    6,  8, -2,  1,  2,  1,  7,  0,  5,  2,	mfb(bp_legs), "\
+    6,  8, -2,  1,  2,  1,  7,  0,  50,  2,	mfb(bp_legs), "\
 A pair of black leather pants. Very tough, but encumbersome and without much\n\
 storage.");
 
 ARMOR("cargo pants",	70, 280,C_PANTS,	COTTON,		MNULL,
-    6,  6, -3,  0,  1,  0,  2,  0,  3, 12,	mfb(bp_legs), "\
+    6,  6, -3,  0,  1,  0,  2,  0,  20, 12,	mfb(bp_legs), "\
 A pair of pants lined with pockets, offering lots of storage.");
 
 ARMOR("army pants",	30, 315,C_PANTS,	COTTON,		MNULL,
-    6,  7, -2,  0,  1,  0,  3,  0,  4, 14,	mfb(bp_legs), "\
+    6,  7, -2,  0,  1,  0,  3,  0,  40, 14,	mfb(bp_legs), "\
 A tough pair of pants lined with pockets. Favored by the military.");
+
+ARMOR("ski pants",	60, 300,C_PANTS,	COTTON,		MNULL,
+    10,  6, -3,  0,  2,  2,  0,  3,  80, 4,	mfb(bp_legs), "\
+A pair of pants meant for alpine skiing.");
+
+ARMOR("long underwear",	40, 200,C_PANTS,	COTTON,		MNULL,
+    4,  2, -3,  0,  0,  0,  0,  0,  30, 12,	mfb(bp_legs), "\
+A pair of long underwear that help to maintain body temperature.");
 
 ARMOR("skirt",		75, 120,C_PANTS,	COTTON,		MNULL,
     2,  2, -5,  0, -1,  0,  0,  0,  0,  1,	mfb(bp_legs), "\
@@ -1349,69 +1497,69 @@ A short, breezy cotton skirt. Easy to move in, but only has a single small\n\
 pocket.");
 
 ARMOR("jeans",          20, 180, C_PANTS,       COTTON,         MNULL,
-    5,  4, -4,  1, -1,  0,  1,  0,  1,  2,      mfb(bp_legs), "\
+    5,  4, -4,  1, -1,  0,  1,  0,  15,  2,      mfb(bp_legs), "\
 A pair of blue jeans with two deep pockets.\n\
 These jeans are a perfect fit for you.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("pants",		20, 185,C_PANTS,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    5,  5, -4,  1,  -1,  0,  1,  0,  2,  4,	mfb(bp_legs), "\
+    5,  5, -4,  1,  -1,  0,  1,  0,  25,  4,	mfb(bp_legs), "\
 A pair of khaki pants.  Slightly warmer than jeans.\n\
 These pants are a perfect fit for you.");
 
 ARMOR("cargo pants",	20, 280,C_PANTS,	COTTON,		MNULL,
-    6,  6, -3,  0,   0,  0,  2,  0,  3, 14,	mfb(bp_legs), "\
+    6,  6, -3,  0,   0,  0,  2,  0,  25, 14,	mfb(bp_legs), "\
 A pair of pants lined with pockets, offering lots of storage.\n\
 These cargo pants are a perfect fit for you.");
 
 ARMOR("army pants",	10, 315,C_PANTS,	COTTON,		MNULL,
-    6,  7, -2,  0,   0,  0,  3,  0,  4, 16,	mfb(bp_legs), "\
+    6,  7, -2,  0,   0,  0,  3,  0,  50, 16,	mfb(bp_legs), "\
 A tough pair of pants lined with pockets. Favored by the military.\n\
 These army pants are a perfect fit for you.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("jumpsuit",	20, 200,C_BODY,		COTTON,		PLASTIC,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    6,  6, -3, -3,  0,  0,  1,  0,  1, 8,	mfb(bp_legs)|mfb(bp_torso), "\
+    6,  6, -3, -3,  0,  0,  1,  0,  10, 8,	mfb(bp_legs)|mfb(bp_torso), "\
 A thin, short-sleeved jumpsuit; similar to those\n\
 worn my prisoners. Provides decent storage and is\n\
 not very encumbering.");
 
 ARMOR("dress",		70, 180,C_BODY,		COTTON,		MNULL,
-    8,  6, -5, -5,  3,  0,  1,  0,  2,  0,	mfb(bp_legs)|mfb(bp_torso), "\
+    8,  6, -5, -5,  3,  0,  1,  0,  20,  0,	mfb(bp_legs)|mfb(bp_torso), "\
 A long cotton dress. Difficult to move in and lacks any storage space.");
 
 ARMOR("chitinous armor", 1,1200,C_BODY,		FLESH,		MNULL,
-   70, 10,  2, -5,  2,  8, 14,  0,  1,  0,	mfb(bp_legs)|mfb(bp_torso), "\
+   70, 10,  2, -5,  2,  8, 14,  0,  10,  0,	mfb(bp_legs)|mfb(bp_torso), "\
 Leg and body armor made from the exoskeletons of insects. Light and durable.");
 
 ARMOR("suit",		60, 180,C_BODY,		COTTON,		MNULL,
-   10,  7, -5, -5,  1,  0,  1,  0,  2,  10,	mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms), "\
+   10,  7, -5, -5,  1,  0,  1,  0,  25,  10,	mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms), "\
 A full-body cotton suit. Makes the apocalypse a truly gentlemanly\n\
 experience.");
 
 ARMOR("hazmat suit",	10,1000,C_BODY,		PLASTIC,	MNULL,
-   20, 8, -5,  -8,  4,  0,  0,10,  2, 12,	mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms), "\
+   20, 8, -5,  -8,  4,  0,  0, 10,  20, 12,	mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms), "\
 A hazardous materials suit. Though quite bulky and cumbersome, wearing it\n\
 will provide excellent protection against ambient radiation.");
 
 ARMOR("plate mail",	 2, 700,C_BODY,		IRON,		MNULL,
-   70,140,  8, -5,  5, 16, 20,  0,  2,  0,	mfb(bp_torso)|mfb(bp_legs)|mfb(bp_arms), "\
+   70,140,  8, -5,  5, 16, 20,  0,  20,  0,	mfb(bp_torso)|mfb(bp_legs)|mfb(bp_arms), "\
 An extremely heavy ornamental suit of armor.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("t shirt",	80,  80,C_TORSO,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    3,  2, -5,  0,  1,  0,  0,  0,  1,  0,	mfb(bp_torso), "\
+    3,  2, -5,  0,  1,  0,  0,  0,  10,  0,	mfb(bp_torso), "\
 A short-sleeved cotton shirt.");
 
 ARMOR("polo shirt",	65,  95,C_TORSO,	COTTON,		MNULL,
-    3,  2, -5,  0,  1,  0,  1,  0,  1,  0,	mfb(bp_torso), "\
+    3,  2, -5,  0,  1,  0,  1,  0,  20,  0,	mfb(bp_torso), "\
 A short-sleeved cotton shirt, slightly thicker than a t-shirt.");
 
 ARMOR("dress shirt",	60, 115,C_TORSO,	COTTON,		MNULL,
-    3,  3, -5,  0,  1,  0,  1,  0,  1,  1,	mfb(bp_torso)|mfb(bp_arms), "\
+    3,  3, -5,  0,  1,  0,  1,  0,  10,  1,	mfb(bp_torso)|mfb(bp_arms), "\
 A white button-down shirt with long sleeves. Looks professional!");
 
 ARMOR("tank top",	50,  75,C_TORSO,	COTTON,		MNULL,
@@ -1419,86 +1567,90 @@ ARMOR("tank top",	50,  75,C_TORSO,	COTTON,		MNULL,
 A sleeveless cotton shirt. Very easy to move in.");
 
 ARMOR("sweatshirt",	75, 110,C_TORSO,	COTTON,		MNULL,
-    9,  5, -5,  0,  1,  1,  1,  0,  3,  0,	mfb(bp_torso)|mfb(bp_arms), "\
+    9,  5, -5,  0,  1,  1,  2,  0,  30,  0,	mfb(bp_torso)|mfb(bp_arms), "\
 A thick cotton shirt. Provides warmth and a bit of padding.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("sweater",	75, 105,C_TORSO,	WOOL,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    8,  5, -5,  0,  1,  1,  0,  0,  3,  0,	mfb(bp_torso)|mfb(bp_arms), "\
+    8,  5, -5,  0,  1,  1,  0,  0,  40,  0,	mfb(bp_torso)|mfb(bp_arms), "\
 A wool shirt. Provides warmth.");
 
 ARMOR("hoodie",		65, 130,C_TORSO,	COTTON,		MNULL,
-   10,  5, -5,  0,  1,  1,  2,  0,  3,  9,	mfb(bp_torso)|mfb(bp_arms), "\
+   10,  5, -5,  0,  1,  1,  1,  0,  30,  9,	mfb(bp_torso)|mfb(bp_arms), "\
 A sweatshirt with a hood and a \"kangaroo pocket\" in front for storage.");
 
+ARMOR("under armor", 20, 200,C_TORSO,	COTTON,		MNULL,
+   2,  2, -5,  0, 0,  0,  0,  0,  20,  0,	mfb(bp_torso), "\
+Sports wear that clings to your chest to maintain body temperature.");
+
 ARMOR("light jacket",	50, 105,C_TORSO,	COTTON,		MNULL,
-    6,  4, -5,  0,  1,  0,  2,  0,  2,  4,	mfb(bp_torso)|mfb(bp_arms), "\
+    6,  4, -5,  0,  1,  0,  2,  0,  20,  4,	mfb(bp_torso)|mfb(bp_arms), "\
 A thin cotton jacket. Good for brisk weather.");
 
 ARMOR("jean jacket",	35, 120,C_TORSO,	COTTON,		MNULL,
-    7,  5, -3,  0,  1,  0,  4,  0,  2,  3,	mfb(bp_torso)|mfb(bp_arms), "\
+    7,  5, -3,  0,  1,  0,  4,  0,  20,  3,	mfb(bp_torso)|mfb(bp_arms), "\
 A jacket made from denim. Provides decent protection from cuts.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("blazer",		35, 120,C_TORSO,	WOOL,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   10,  6, -4,  0,  2,  0,  3,  0,  3,  2,	mfb(bp_torso)|mfb(bp_arms), "\
+   10,  6, -4,  0,  2,  0,  3,  0,  30,  2,	mfb(bp_torso)|mfb(bp_arms), "\
 A professional-looking wool blazer. Quite encumbersome.");
 
 ARMOR("leather jacket",	30, 150,C_TORSO,	LEATHER,	MNULL,
-   14, 14, -2,  1,  2,  1,  9,  1,  4,  4,	mfb(bp_torso)|mfb(bp_arms), "\
+   14, 14, -2,  1,  2,  1,  9,  1,  40,  4,	mfb(bp_torso)|mfb(bp_arms), "\
 A jacket made from thick leather. Encumbersome, but offers excellent\n\
 protection from cuts.");
 
 ARMOR("kevlar vest",	30, 800,C_TORSO,	KEVLAR,		MNULL,
-   24, 24,  6, -3,  2,  4, 22,  0,  4,  4,	mfb(bp_torso), "\
+   24, 24,  6, -3,  2,  4, 22,  0,  20,  4,	mfb(bp_torso), "\
 A heavy bulletproof vest. The best protection from cuts and bullets.");
 
 ARMOR("rain coat",	50, 100,C_TORSO,	PLASTIC,	COTTON,
-    9,  8, -4,  0,  2,  0,  3,  1,  2,  7,	mfb(bp_torso)|mfb(bp_arms), "\
+    9,  8, -4,  0,  2,  0,  3,  1,  20,  7,	mfb(bp_torso)|mfb(bp_arms), "\
 A plastic coat with two very large pockets. Provides protection from rain.");
 
 ARMOR("wool poncho",	15, 120,C_TORSO,	WOOL,		MNULL,
-    7,  3, -5, -1,  0,  1,  2,  1,  3,  0,	mfb(bp_torso), "\
+    7,  3, -5, -1,  0,  1,  2,  1,  35,  0,	mfb(bp_torso), "\
 A simple wool garment worn over the torso. Provides a bit of protection.");
 
 //     NAME		RARE	COLOR		MAT1		MAT2
 ARMOR("trenchcoat",	25, 225,C_TORSO,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   10,  6, -5, -1,  1,  0,  1,  1,  2, 24,	mfb(bp_torso)|mfb(bp_arms), "\
+   10,  6, -5, -1,  1,  0,  1,  1,  20, 24,	mfb(bp_torso)|mfb(bp_arms), "\
 A thin cotton trenchcoat, lined with pockets. Great for storage.");
 
 //     NAME		RARE	COLOR		MAT1		MAT2
 ARMOR("leather trenchcoat",	25, 225,C_TORSO,	LEATHER,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   16,  10, -5, -1,  2,  1,  9,  1,  3, 24,	mfb(bp_torso)|mfb(bp_arms), "\
+   16,  10, -5, -1,  2,  1,  9,  1,  50, 24,	mfb(bp_torso)|mfb(bp_arms), "\
 A thick leather trenchcoat, lined with pockets. Great for storage.");
 
 
 ARMOR("winter coat",	50, 160,C_TORSO,	COTTON,		MNULL,
-   12,  6, -5, -2,  3,  3,  1,  1,  8, 12,	mfb(bp_torso)|mfb(bp_arms), "\
+   12,  6, -5, -2,  3,  3,  1,  1,  70, 12,	mfb(bp_torso)|mfb(bp_arms), "\
 A padded coat with deep pockets. Very warm.");
 
 ARMOR("fur coat",	 5, 550,C_TORSO,	WOOL,		FLESH,
-   18, 12, -5, -5,  2,  4,  2,  2, 10,  4,	mfb(bp_torso)|mfb(bp_arms), "\
+   18, 12, -5, -5,  2,  4,  2,  2, 80,  4,	mfb(bp_torso)|mfb(bp_arms), "\
 A fur coat with a couple small pockets. Extremely warm.");
 
 ARMOR("peacoat",	30, 180,C_TORSO,	COTTON,		MNULL,
-   16, 10, -4, -3,  2,  1,  2,  0,  7, 10,	mfb(bp_torso)|mfb(bp_arms), "\
+   16, 10, -4, -3,  2,  1,  2,  0,  70, 10,	mfb(bp_torso)|mfb(bp_arms), "\
 A heavy cotton coat. Encumbersome, but warm and with deep pockets.");
 
 ARMOR("utility vest",	15, 200,C_TORSO,	COTTON,		MNULL,
-    4,  3, -3,  0,  0,  0,  1,  0,  1, 14,	mfb(bp_torso), "\
+    4,  3, -3,  0,  0,  0,  1,  0,  5, 14,	mfb(bp_torso), "\
 A light vest covered in pockets and straps for storage.");
 
 ARMOR("belt rig",	10, 200,C_TORSO,	COTTON,		MNULL,
-    4,  4, -3,  0,  0,  0,  1,  0,  1, 18,	mfb(bp_torso), "\
+    4,  4, -3,  0,  0,  0,  1,  0,  5, 18,	mfb(bp_torso), "\
 A light vest covered in webbing, pockets and straps.\n\
 This variety is favoured by the military.");
 
 ARMOR("lab coat",	20, 155,C_TORSO,	COTTON,		MNULL,
-   11,  7, -3, -2,  1,  1,  2,  0,  1, 14,	mfb(bp_torso)|mfb(bp_arms), "\
+   11,  7, -3, -2,  1,  1,  2,  0,  10, 14,	mfb(bp_torso)|mfb(bp_arms), "\
 A long white coat with several large pockets.");
 
 // Fitted clothing
@@ -1506,39 +1658,39 @@ A long white coat with several large pockets.");
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("t shirt",	20,  80,C_TORSO,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    3,  2, -5,  0,  0,  0,  0,  0,  1,  0,	mfb(bp_torso), "\
+    3,  2, -5,  0,  0,  0,  0,  0,  15,  0,	mfb(bp_torso), "\
 A short-sleeved cotton shirt.\n\
 This t-shirt is a perfect fit for you.");
 
 ARMOR("polo shirt",	65,  95,C_TORSO,	COTTON,		MNULL,
-    3,  2, -5,  0,  0,  0,  1,  0,  1,  0,	mfb(bp_torso), "\
+    3,  2, -5,  0,  0,  0,  1,  0,  25,  0,	mfb(bp_torso), "\
 A short-sleeved cotton shirt, slightly thicker than a t-shirt.\n\
 This polo shirt is a perfect fit for you.");
 
 ARMOR("hoodie",		10, 130,C_TORSO,	COTTON,		MNULL,
-   10,  5, -5,  0,  0,  1,  2,  0,  3,  9,	mfb(bp_torso)|mfb(bp_arms), "\
+   10,  5, -5,  0,  0,  1,  2,  0,  35,  9,	mfb(bp_torso)|mfb(bp_arms), "\
 A sweatshirt with a hood and a \"kangaroo pocket\" in front for storage.\n\
 This hoodie is a perfect fit for you.");
 
 ARMOR("sweatshirt",	75, 110,C_TORSO,	COTTON,		MNULL,
-    9,  5, -5,  0,  0,  1,  1,  0,  3,  0,	mfb(bp_torso)|mfb(bp_arms), "\
+    9,  5, -5,  0,  0,  1,  1,  0,  35,  0,	mfb(bp_torso)|mfb(bp_arms), "\
 A thick cotton shirt. Provides warmth and a bit of padding.\n\
 This sweatshirt is a perfect fit for you.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("sweater",	75, 105,C_TORSO,	WOOL,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    8,  5, -5,  0,  0,  1,  0,  0,  3,  0,	mfb(bp_torso)|mfb(bp_arms), "\
+    8,  5, -5,  0,  0,  1,  0,  0,  45,  0,	mfb(bp_torso)|mfb(bp_arms), "\
 A wool shirt. Provides warmth.\n\
 This sweater is a perfect fit for you.");
 
 ARMOR("light jacket",	50, 105,C_TORSO,	COTTON,		MNULL,
-    6,  4, -5,  0,  0,  0,  2,  0,  2,  4,	mfb(bp_torso)|mfb(bp_arms), "\
+    6,  4, -5,  0,  0,  0,  2,  0,  25,  4,	mfb(bp_torso)|mfb(bp_arms), "\
 A thin cotton jacket. Good for brisk weather.\n\
 This jacket is a perfect fit for you.");
 
 ARMOR("leather jacket", 5, 150,C_TORSO,        LEATHER,        MNULL,
-   14, 14, -2,  1,  1,  1,  9,  1,  4,  4,      mfb(bp_torso)|mfb(bp_arms), "\
+   14, 14, -2,  1,  1,  1,  9,  1,  50,  4,      mfb(bp_torso)|mfb(bp_arms), "\
 A jacket made from thick leather. Encumbersome, but offers excellent\n\
 protection from cuts.\n\
 This jacket is a perfect fit for you.");
@@ -1546,14 +1698,14 @@ This jacket is a perfect fit for you.");
 //     NAME		RARE	COLOR		MAT1		MAT2
 ARMOR("trenchcoat",	25, 225,C_TORSO,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   10,  6, -5, -1,  0,  0,  1,  1,  3, 24,	mfb(bp_torso)|mfb(bp_arms), "\
+   10,  6, -5, -1,  0,  0,  1,  1,  25, 24,	mfb(bp_torso)|mfb(bp_arms), "\
 A long coat lines with pockets. Great for storage.\n\
 This trenchcoat is a perfect fit for you.");
 
 //     NAME		RARE	COLOR			MAT1		MAT2
 ARMOR("leather trenchcoat",	25, 225,C_TORSO,        LEATHER, 	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   16,  10, -5, -1,  1,  1,  9,  1,  3, 24,	mfb(bp_torso)|mfb(bp_arms), "\
+   16,  10, -5, -1,  1,  1,  9,  1,  50, 24,	mfb(bp_torso)|mfb(bp_arms), "\
 A thick leather trenchcoat, lined with pockets. Great for storage.\n\
 This trenchcoat is a perfect fit for you");
 
@@ -1561,52 +1713,55 @@ This trenchcoat is a perfect fit for you");
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("soft arm sleeves",	40,  65,C_ARMS,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    0,  0, -5,  1,  0,  1,  1,  1,  2,  0,	mfb(bp_arms), "\
+    0,  0, -5,  1,  0,  1,  1,  1,  30,  0,	mfb(bp_arms), "\
 A pair of soft neoprene arm sleeves, often used in contact sports.");
 
 ARMOR("hard arm guards",	20,  130,C_ARMS,	COTTON,		PLASTIC,
-    1,  0, -5,  1,  1,  2,  2,  1,  2,  0,	mfb(bp_arms), "\
+    1,  0, -5,  1,  1,  2,  2,  1,  20,  0,	mfb(bp_arms), "\
 A pair of neoprene arm sleeves covered with molded plastic sheaths.");
 
 ARMOR("chitin arm guards",	10,  200,C_ARMS,	FLESH,		MNULL,
-    2,  0, -5,  1,  1,  3,  3,  2,  1,  0,	mfb(bp_arms), "\
+    2,  0, -5,  1,  1,  3,  3,  2,  10,  0,	mfb(bp_arms), "\
 A pair of arm guards made from the exoskeletons of insects. Light and durable.");
 
 ARMOR("metal arm guards",	10,  400,C_ARMS,	IRON,		MNULL,
     1,  1, -5,  1,  1,  4,  4,  1,  0,  0,	mfb(bp_arms), "\
 A pair of arm guards hammered out from metal. Very stylish.");
 
-
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
-ARMOR("light gloves",	35,  65,C_GLOVES,	COTTON,		MNULL,
+ARMOR("glove liners",	25,  100,C_GLOVES,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    0,  0, -5,  1,  1,  0,  0,  0,  1,  0,	mfb(bp_hands), "\
+    0,  0, -5,  1,  0,  0,  0,  0,  10,  0,	mfb(bp_hands), "\
 A pair of thin cotton gloves. Often used as a liner beneath other gloves.");
 
+ARMOR("light gloves",	35,  65,C_GLOVES,	COTTON,		MNULL,
+    1,  0, -5,  1,  1,  0,  0,  0,  30,  0,	mfb(bp_hands), "\
+A pair of cotton gloves.");
+
 ARMOR("mittens",	30,  40,C_GLOVES,	WOOL,		MNULL,
-    0,  0, -5,  1,  8,  0,  1,  0,  5,  0,	mfb(bp_hands), "\
+    2,  0, -5,  1,  8,  0,  1,  0,  90,  0,	mfb(bp_hands), "\
 A pair of warm mittens. They are extremely encumbersome.");
 
 ARMOR("wool gloves",	33,  50,C_GLOVES,	WOOL,		MNULL,
-    1,  0, -5,  1,  3,  0,  1,  0,  3,  0,	mfb(bp_hands), "\
+    1,  0, -5,  1,  3,  0,  1,  0,  60,  0,	mfb(bp_hands), "\
 A thick pair of wool gloves. Encumbersome but warm.");
 
 ARMOR("winter gloves",	40,  65,C_GLOVES,	COTTON,		MNULL,
-    1,  0, -5,  1,  5,  1,  1,  0,  4,  0,	mfb(bp_hands), "\
+    2,  0, -5,  1,  5,  1,  1,  0,  70,  0,	mfb(bp_hands), "\
 A pair of padded gloves. Encumbersome but warm.");
 
 ARMOR("leather gloves",	45,  85,C_GLOVES,	LEATHER,	MNULL,
-    1,  1, -3,  2,  1,  0,  3,  0,  3,  0,	mfb(bp_hands), "\
+    1,  1, -3,  2,  1,  0,  3,  0,  40,  0,	mfb(bp_hands), "\
 A thin pair of leather gloves. Good for doing manual labor.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("fingerless gloves",20,90,C_GLOVES,	LEATHER,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    1,  1, -3,  2,  0,  0,  2,  0,  2,  0,	mfb(bp_hands), "\
+    1,  0, -3,  2,  0,  0,  2,  0,  5,  0,	mfb(bp_hands), "\
 A pair of leather gloves with no fingers, allowing greater manual dexterity.");
 
 ARMOR("rubber gloves",	20,  30,C_GLOVES,	PLASTIC,	MNULL,
-    1,  1, -3,  2,  3,  0,  1,  2,  1,  0,	mfb(bp_hands), "\
+    1,  1, -3,  2,  3,  0,  1,  2,  5,  0,	mfb(bp_hands), "\
 A pair of rubber gloves, often used while cleaning with caustic materials.");
 
 ARMOR("medical gloves",	70,  10,C_GLOVES,	PLASTIC,	MNULL,
@@ -1614,32 +1769,32 @@ ARMOR("medical gloves",	70,  10,C_GLOVES,	PLASTIC,	MNULL,
 A pair of thin latex gloves, designed to limit the spread of disease.");
 
 ARMOR("fire gauntlets",	 5,  95,C_GLOVES,	LEATHER,	MNULL,
-    3,  5, -2,  2,  6,  1,  2,  5,  4,  0,	mfb(bp_hands), "\
+    3,  5, -2,  2,  6,  1,  2,  5,  40,  0,	mfb(bp_hands), "\
 A heavy pair of leather gloves, used by firefighters for heat protection.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("dust mask",	65,  20,C_MOUTH,	COTTON,		IRON,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    0,  0, -5, -3,  1,  0,  0,  2,  1,  0,	mfb(bp_mouth), "\
+    0,  0, -5, -3,  1,  0,  0,  2,  10,  0,	mfb(bp_mouth), "\
 A simple piece of cotton that straps over the mouth. Provides a small amount\n\
 of protection from air-borne illness and dust.");
 
 ARMOR("bandana",	35,  28,C_MOUTH,	COTTON, 	MNULL,
-    1,  0, -4, -1,  0,  0,  0,  1,  2,  0,	mfb(bp_mouth), "\
+    1,  0, -4, -1,  0,  0,  0,  1,  30,  0,	mfb(bp_mouth), "\
 A cotton bandana, worn over the mouth for warmth and minor protection from\n\
 dust and other contaminants.");
 
 ARMOR("scarf",		45,  40,C_MOUTH,	WOOL,   	MNULL,
-    2,  3, -5, -3,  1,  1,  0,  2,  3,  0,	mfb(bp_mouth), "\
+    2,  3, -5, -3,  1,  1,  0,  2,  60,  0,	mfb(bp_mouth), "\
 A long wool scarf, worn over the mouth for warmth.");
 
 ARMOR("filter mask",	30,  80,C_MOUTH,	PLASTIC,	MNULL,
-    3,  6,  1,  1,  2,  1,  1,  7,  2,  0,	mfb(bp_mouth), "\
+    3,  6,  1,  1,  2,  1,  1,  7,  20,  0,	mfb(bp_mouth), "\
 A mask that straps over your mouth and nose and filters air. Protects from\n\
 smoke, dust, and other contaminants quite well.");
 
 ARMOR("gas mask",	10, 240,C_MOUTH,	PLASTIC,	MNULL,
-    6,  8,  0, -3,  4,  1,  2, 16,  4,  0,	mfb(bp_mouth)|mfb(bp_eyes), "\
+    6,  8,  0, -3,  4,  1,  2, 16,  40,  0,	mfb(bp_mouth)|mfb(bp_eyes), "\
 A full gas mask that covers the face and eyes. Provides excellent protection\n\
 from smoke, teargas, and other contaminants.");
 
@@ -1663,24 +1818,24 @@ A pair of plastic glasses, used in workshops, sports, chemistry labs, and\n\
 many other places. Provides great protection from damage.");
 
 ARMOR("swim goggles",	50, 110,C_EYES,		PLASTIC,	MNULL,
-    1,  0, -5, -2,  2,  1,  2,  4,  1,  0,	mfb(bp_eyes), "\
+    1,  0, -5, -2,  2,  1,  2,  4,  10,  0,	mfb(bp_eyes), "\
 A small pair of goggles. Distorts vision above water, but allows you to see\n\
 much further under water.");
 
 ARMOR("ski goggles",	30, 175,C_EYES,		PLASTIC,	MNULL,
-    2,  1, -4, -2,  1,  1,  2,  6,  2,  0,	mfb(bp_eyes), "\
+    2,  1, -4, -2,  1,  1,  2,  6,  60,  0,	mfb(bp_eyes), "\
 A large pair of goggles that completely seal off your eyes. Excellent\n\
 protection from environmental dangers.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("welding goggles", 8, 240,C_EYES,		GLASS,  	STEEL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    2,  4, -1, -3,  6,  2,  5,  6,  1,  0,	mfb(bp_eyes), "\
+    2,  4, -1, -3,  6,  2,  5,  6,  10,  0,	mfb(bp_eyes), "\
 A dark pair of goggles. They make seeing very difficult, but protects you\n\
 from bright flashes.");
 
 ARMOR("light amp goggles",1,920,C_EYES,		STEEL,		GLASS,
-    3,  6,  1, -2,  2,  2,  3,  6,  2,  0,	mfb(bp_eyes), "\
+    3,  6,  1, -2,  2,  2,  3,  6,  20,  0,	mfb(bp_eyes), "\
 A pair of goggles that amplify ambient light, allowing you to see in the\n\
 dark.  You must be carrying a powered-on unified power supply, or UPS, to use\n\
 them.");
@@ -1702,75 +1857,79 @@ A pair of sunglasses, good for keeping the glare out of your eyes.");
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("baseball cap",	30,  35,C_HAT,		COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    2,  1, -5,  0,  0,  0,  0,  2,  1,  0,	mfb(bp_head), "\
+    2,  1, -5,  0,  0,  0,  0,  2,  10,  0,	mfb(bp_head), "\
 A Red Sox cap. It provides a little bit of warmth.");
 
 ARMOR("boonie hat",	10,  55,C_HAT,		PLASTIC,	MNULL,
-    2,  1, -5,  0,  0,  0,  1,  2,  2,  0,	mfb(bp_head), "\
+    2,  1, -5,  0,  0,  0,  1,  2,  20,  0,	mfb(bp_head), "\
 Also called a \"bucket hat.\" Often used in the military.");
 
 ARMOR("cotton hat",	45,  40,C_HAT,		COTTON,		MNULL,
-    2,  1, -5,  0,  0,  0,  0,  0,  3,  0,	mfb(bp_head), "\
+    2,  1, -5,  0,  0,  0,  0,  0,  30,  0,	mfb(bp_head), "\
 A snug-fitting cotton hat. Quite warm.");
 
 ARMOR("knit hat",	25,  50,C_HAT,		WOOL,		MNULL,
-    2,  1, -5,  0,  0,  1,  0,  0,  4,  0,	mfb(bp_head), "\
+    2,  1, -5,  0,  0,  1,  0,  0,  40,  0,	mfb(bp_head), "\
 A snug-fitting wool hat. Very warm.");
 
 ARMOR("hunting cap",	20,  80,C_HAT,		WOOL,		MNULL,
-    3,  2, -5,  0,  0,  0,  1,  2,  6,  0,	mfb(bp_head), "\
+    3,  2, -5,  0,  0,  0,  1,  2,  60,  0,	mfb(bp_head), "\
 A red plaid hunting cap with ear flaps. Notably warm.");
 
 ARMOR("fur hat",	15, 120,C_HAT,		WOOL,		MNULL,
-    4,  2, -5,  0,  1,  2,  2,  0,  8,  0,	mfb(bp_head), "\
+    4,  2, -5,  0,  1,  2,  2,  0,  80,  0,	mfb(bp_head), "\
 A hat made from the pelts of animals. Extremely warm.");
+
+ARMOR("balaclava",	15, 100,C_HAT,		COTTON,		MNULL,
+    4,  2, -5,  0,  0,  0,  0,  0,  30,  0,	mfb(bp_head)|mfb(bp_mouth), "\
+A warm covering that protects the head and face from cold.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("hard hat",	50, 125,C_HAT,		PLASTIC,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    8,  4,  6,  0,  1,  4,  5,  0,  1,  0,	mfb(bp_head), "\
+    8,  4,  6,  0,  1,  4,  5,  0,  10,  0,	mfb(bp_head), "\
 A hard plastic hat worn in constructions sites. Excellent protection from\n\
 cuts and percussion.");
 TECH( mfb(TEC_WBLOCK_1) );
 
 ARMOR("bike helmet",	35, 140,C_HAT,		PLASTIC,	MNULL,
-   12,  2,  4,  0,  1,  8,  2,  0,  2,  0,	mfb(bp_head), "\
+   12,  2,  4,  0,  1,  8,  2,  0,  20,  0,	mfb(bp_head), "\
 A thick foam helmet. Designed to protect against percussion.");
 TECH( mfb(TEC_WBLOCK_1) );
 
 ARMOR("skid lid",	30, 190,C_HAT,		PLASTIC,	IRON,
-   10,  5,  8,  0,  2,  6, 16,  0,  1,  0,	mfb(bp_head), "\
+   10,  5,  8,  0,  2,  6, 16,  0,  10,  0,	mfb(bp_head), "\
 A small metal helmet that covers the head and protects against cuts and\n\
 percussion.");
 TECH( mfb(TEC_WBLOCK_1) );
 
 ARMOR("baseball helmet",45, 195,C_HAT,		PLASTIC,	IRON,
-   14,  6,  7, -1,  2, 10, 10,  1,  1,  0,	mfb(bp_head), "\
+   14,  6,  7, -1,  2, 10, 10,  1,  15,  0,	mfb(bp_head), "\
 A hard plastic helmet which covers the head and ears. Designed to protect\n\
 against a baseball to the head.");
 TECH( mfb(TEC_WBLOCK_1) );
 
 ARMOR("army helmet",	40, 480,C_HAT,		PLASTIC,	IRON,
-   16,  8, 10, -1,  2, 12, 28,  0,  2,  0,	mfb(bp_head), "\
+   16,  8, 10, -1,  2, 12, 28,  0,  25,  0,	mfb(bp_head), "\
 A heavy helmet which provides excellent protection from all sorts of damage.");
 TECH( mfb(TEC_WBLOCK_1) );
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("riot helmet",	25, 420,C_HAT,		PLASTIC,	IRON,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   20,  7,  8, -1,  2,  6, 28,  2,  2,  0,	mfb(bp_head)|mfb(bp_eyes)|
+   20,  7,  8, -1,  2,  6, 28,  2,  20,  0,	mfb(bp_head)|mfb(bp_eyes)|
 						mfb(bp_mouth), "\
 A helmet with a plastic shield that covers your entire face.");
 TECH( mfb(TEC_WBLOCK_1) );
 
 ARMOR("motorcycle helmet",40,325,C_HAT,		PLASTIC,	IRON,
-   24,  8,  7, -1,  3,  8, 20,  1,  3,  0,	mfb(bp_head)|mfb(bp_mouth), "\
+   24,  8,  7, -1,  3,  8, 20,  1,  30,  0,	mfb(bp_head)|mfb(bp_mouth), "\
 A helmet with covers your head and chin, leaving space in between for you to\n\
 wear goggles.");
 TECH( mfb(TEC_WBLOCK_1) );
 
 ARMOR("chitinous helmet", 1, 380,C_HAT,		FLESH,		MNULL,
-   22,  1,  2, -2,  4, 10, 14,  4,  3,  0,	mfb(bp_head)|mfb(bp_eyes)|
+   22,  1,  2, -2,  1, 10, 14,  4,  20,  0,	mfb(bp_head)|mfb(bp_eyes)|
 						mfb(bp_mouth), "\
 A helmet made from the exoskeletons of insects. Covers the entire head; very\n\
 light and durable.");
@@ -1778,25 +1937,29 @@ light and durable.");
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("great helm",	  1,400,C_HAT,		IRON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    20, 15, 10,  0,  4, 10, 15,  1,  1,  0,	mfb(bp_head)|mfb(bp_eyes)|
+    20, 15, 10,  0,  4, 10, 15,  1,  10,  0,	mfb(bp_head)|mfb(bp_eyes)|
 						mfb(bp_mouth), "\
 A medieval helmet which provides excellent protection to the entire head, at\n\
 the cost of great encumbrance.");
 TECH( mfb(TEC_WBLOCK_1) );
 
 ARMOR("top hat",	10,  55,C_HAT,		PLASTIC,	MNULL,
-    2,  1, -5,  0,  0,  0,  1,  1,  1,  0,	mfb(bp_head), "\
+    2,  1, -5,  0,  0,  0,  1,  1,  10,  0,	mfb(bp_head), "\
 The only hat for a gentleman. Look exquisite while laughing in the face\n\
 of danger!");
 
 ARMOR("backpack",	38, 210,C_STORE,	PLASTIC,	MNULL,
-   14,  2, -4,  0,  2,  0,  0,  0,  0, 80,	mfb(bp_torso), "\
-Provides more storage than any other piece of clothing.");
+   10,  2, -4,  0,  1,  0,  0,  0,  0, 40,	mfb(bp_torso), "\
+A small backpack, good storage for a little encumbrance .");
+
+ARMOR("military rucksack",	20, 210,C_STORE,	PLASTIC,	MNULL,
+   14,  3, -4,  0,  2,  0,  0,  0,  0, 80,	mfb(bp_torso), "\
+A huge military rucksack, provides a lot of storage.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("purse",		40,  75,C_STORE,	LEATHER,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   10,  3,  2,  2,  2,  0,  0,  0,  0, 20,	mfb(bp_torso), "\
+   10,  3,  2,  2,  1,  0,  0,  0,  0, 20,	mfb(bp_torso), "\
 A bit encumbersome to wear, but provides lots of storage.");
 
 ARMOR("messenger bag",	20, 110,C_STORE,	PLASTIC,	MNULL,
@@ -2344,19 +2507,19 @@ recoil,durability,burst,clip,reload_time))
 //  NAME		RAR PRC COLOR		MAT1	MAT2
 GUN("nail gun",		12, 100,c_ltblue,	IRON,	MNULL,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
-	sk_pistol,	AT_NAIL, 4, 22, 12,  1,  0, 20,  0,  8,  5, 100, 450, "\
+    "pistol",	AT_NAIL, 4, 22, 12,  1,  0, 20,  0,  8,  5, 100, 450, "\
 A tool used to drive nails into wood or other material. It could also be\n\
 used as a ad-hoc weapon, or to practice your handgun skill up to level 1.",
 mfb(IF_MODE_BURST));
 
 GUN("BB gun",		10, 100,c_ltblue,	IRON,	WOOD,
-	sk_rifle,	AT_BB,	 8, 16,  9,  2,  0,  6, -5,  7,  0, 20, 500, "\
+	"rifle",	AT_BB,	 8, 16,  9,  2,  0,  6, -5,  7,  0, 20, 500, "\
 Popular among children. It's fairly accurate, but BBs deal nearly no damage.\n\
 It could be used to practice your rifle skill up to level 1.",
 0);
 
 GUN("crossbow",		 2,1000,c_green,	IRON,	WOOD,
-	sk_archery,	AT_BOLT, 6,  9, 11,  1,  0, 18,  0,  6,  0,  1, 800, "\
+	"archery",	AT_BOLT, 6,  9, 11,  1,  0, 18,  0,  6,  0,  1, 800, "\
 A slow-loading hand weapon that launches bolts. Stronger people can reload\n\
 it much faster. Bolts fired from this weapon have a good chance of remaining\n\
 intact for re-use.",
@@ -2365,21 +2528,21 @@ mfb(IF_STR_RELOAD));
 //  NAME		RAR PRC COLOR		MAT1	MAT2
 GUN("compound bow",      2,1400,c_yellow,       STEEL,  PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
-        sk_archery,     AT_ARROW,12, 8,  8,  1,  0, 20,  0,  6,  0,  1, 100, "\
+        "archery",     AT_ARROW,12, 8,  8,  1,  0, 20,  0,  6,  0,  1, 100, "\
 A bow with wheels that fires high velocity arrows. Weaker people can use\n\
 compound bows more easily. Arrows fired from this weapon have a good chance\n\
-of remaining intact for re-use.",
+of remaining intact for re-use. It requires 8 strength to fire",
 mfb(IF_STR8_DRAW)|mfb(IF_RELOAD_AND_SHOOT));
 
 GUN("longbow",           5, 800,c_yellow,       WOOD,   MNULL,
-        sk_archery,     AT_ARROW,8, 4, 10,  0,  0, 12,  0,  6,  0,  1,  80, "\
+        "archery",     AT_ARROW,8, 4, 10,  0,  0, 12,  0,  6,  0,  1,  80, "\
 A six-foot wooden bow that fires feathered arrows. This takes a fair amount\n\
 of strength to draw. Arrows fired from this weapon have a good chance of\n\
-remaining intact for re-use.",
+remaining intact for re-use. It requires 10 strength to fire",
 mfb(IF_STR10_DRAW)|mfb(IF_RELOAD_AND_SHOOT));
 
 GUN("pipe rifle: .22",	0,  800,c_ltblue,	IRON,	WOOD,
-sk_rifle,	AT_22,	 9, 13, 10,  2, -2, 15,  2,  6,  0,  1, 250, "\
+"rifle",	AT_22,	 9, 13, 10,  2, -2, 15,  2,  6,  0,  1, 250, "\
 A home-made rifle. It is simply a pipe attached to a stock, with a hammer to\n\
 strike the single round it holds.",
 0);
@@ -2387,25 +2550,25 @@ strike the single round it holds.",
 //  NAME		RAR PRC COLOR		MAT1	MAT2
 GUN("pipe rifle: 9mm",	0,  900,c_ltblue,	IRON,	WOOD,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
-	sk_rifle,	AT_9MM,	10, 16, 10,  2, -2, 15,  2,  6,  0,  1, 250, "\
+	"rifle",	AT_9MM,	10, 16, 10,  2, -2, 15,  2,  6,  0,  1, 250, "\
 A home-made rifle. It is simply a pipe attached to a stock, with a hammer to\n\
 strike the single round it holds.",
 0);
 
 GUN("pipe SMG: 9mm",	0, 1050,c_ltblue,	IRON,	WOOD,
-	sk_smg,		AT_9MM,  5,  8,  6, -1,  0, 30,  6,  5,  4, 10, 400, "\
+	"smg",		AT_9MM,  5,  8,  6, -1,  0, 30,  6,  5,  4, 10, 400, "\
 A home-made machine pistol. It features a rudimentary blowback system, which\n\
 allows for small bursts.",
 mfb(IF_MODE_BURST));
 
 GUN("pipe SMG: .45",	0, 1150,c_ltblue,	IRON,	WOOD,
-	sk_smg,		AT_45,	 6,  9,  7, -1,  0, 30,  6,  5,  3,  8, 400, "\
+	"smg",		AT_45,	 6,  9,  7, -1,  0, 30,  6,  5,  3,  8, 400, "\
 A home-made machine pistol. It features a rudimentary blowback system, which\n\
 allows for small bursts.",
 mfb(IF_MODE_BURST));
 
 GUN("SIG Mosquito",	 5,1200,c_dkgray,	STEEL,	PLASTIC,
-	sk_pistol,	AT_22,	 1,  6,  9,  1,  1, 28,  4,  8,  0, 10, 350, "\
+	"pistol",	AT_22,	 1,  6,  9,  1,  1, 28,  4,  8,  0, 10, 350, "\
 A popular, very small .22 pistol. \"Ergonomically designed to give the best\n\
 shooting experience.\" --SIG Sauer official website",
 0);
@@ -2413,19 +2576,19 @@ shooting experience.\" --SIG Sauer official website",
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("S&W 22A",		 5,1250,c_dkgray,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_pistol,	AT_22,	 1, 10,  9,  1,  1, 25,  5,  7,  0, 10, 300, "\
+	"pistol",	AT_22,	 1, 10,  9,  1,  1, 25,  5,  7,  0, 10, 300, "\
 A popular .22 pistol. \"Ideal for competitive target shooting or recreational\n\
 shooting.\" --Smith & Wesson official website",
 0);
 
 GUN("Glock 19",		 7,1400,c_dkgray,	STEEL,	PLASTIC,
-	sk_pistol,	AT_9MM,	 2,  5,  8,  1,  0, 24,  6,  6,  0, 15, 300, "\
+	"pistol",	AT_9MM,	 2,  5,  8,  1,  0, 24,  6,  6,  0, 15, 300, "\
 Possibly the most popular pistol in existance. The Glock 19 is often derided\n\
 for its plastic contruction, but it is easy to shoot.",
 0);
 
 GUN("USP 9mm",		 6,1450,c_dkgray,	STEEL,	PLASTIC,
-	sk_pistol,	AT_9MM,	 2,  6,  8,  1, -1, 25,  5,  9,  0, 15, 350, "\
+	"pistol",	AT_9MM,	 2,  6,  8,  1, -1, 25,  5,  9,  0, 15, 350, "\
 A popular 9mm pistol, widely used among law enforcement. Extensively tested\n\
 for durability, it has been found to stay accurate even after subjected to\n\
 extreme abuse.",
@@ -2434,25 +2597,25 @@ extreme abuse.",
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("S&W 619",		 4,1450,c_dkgray,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_pistol,	AT_38,	 2,  9,  9,  1,  2, 23,  4,  8,  0,  7, 75, "\
+	"pistol",	AT_38,	 2,  9,  9,  1,  2, 23,  4,  8,  0,  7, 75, "\
 A seven-round .38 revolver sold by Smith & Wesson. It features a fixed rear\n\
 sight and a reinforced frame.",
 mfb(IF_RELOAD_ONE));
 
 GUN("Taurus Pro .38",	 4,1500,c_dkgray,	STEEL,	PLASTIC,
-	sk_pistol,	AT_38,	 2,  6,  8,  1,  1, 22,  6,  7,  0, 10, 350, "\
+	"pistol",	AT_38,	 2,  6,  8,  1,  1, 22,  6,  7,  0, 10, 350, "\
 A popular .38 pistol. Designed with numerous safety features and built from\n\
 high-quality, durable materials.",
 0);
 
 GUN("SIG Pro .40",	 4,1500,c_dkgray,	STEEL,	PLASTIC,
-	sk_pistol,	AT_40,	 2,  6,  8,  1,  1, 22,  8,  7,  0, 12, 350, "\
+	"pistol",	AT_40,	 2,  6,  8,  1,  1, 22,  8,  7,  0, 12, 350, "\
 Originally marketed as a lightweight and compact alternative to older SIG\n\
 handguns, the Pro .40 is popular among European police forces.",
 0);
 
 GUN("S&W 610",		 2,1460,c_dkgray,	STEEL,	WOOD,
-	sk_pistol,	AT_40,	 2, 10, 10,  1,  2, 23,  6,  8,  0,  6, 60, "\
+	"pistol",	AT_40,	 2, 10, 10,  1,  2, 23,  6,  8,  0,  6, 60, "\
 The Smith and Wesson 610 is a classic six-shooter revolver chambered for 10mm\n\
 rounds, or for S&W's own .40 round.",
 mfb(IF_RELOAD_ONE));
@@ -2460,28 +2623,28 @@ mfb(IF_RELOAD_ONE));
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("Ruger Redhawk",	 3,1560,c_dkgray,	STEEL,	WOOD,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_pistol,	AT_44,	 2, 12, 10,  1,  2, 21,  6,  8,  0,  6, 80, "\
+	"pistol",	AT_44,	 2, 12, 10,  1,  2, 21,  6,  8,  0,  6, 80, "\
 One of the most powerful handguns in the world when it was released in 1979,\n\
 the Redhawk offers very sturdy contruction, with an appearance that is\n\
 reminiscent of \"Wild West\" revolvers.",
 mfb(IF_RELOAD_ONE));
 
 GUN("Desert Eagle .44",	 2,1750,c_dkgray,	STEEL,	PLASTIC,
-	sk_pistol,	AT_44,	 4, 17, 14,  1,  4, 35,  3,  7,  0, 10, 400, "\
+	"pistol",	AT_44,	 4, 17, 14,  1,  4, 35,  3,  7,  0, 10, 400, "\
 One of the most recognizable handguns due to its popularity in movies, the\n\
 \"Deagle\" is better known for its menacing appearance than its performace.\n\
 It's highly innaccurate, but its heavy weight reduces recoil.",
 0);
 
 GUN("USP .45",		 6,1600,c_dkgray,	STEEL,	PLASTIC,
-	sk_pistol,	AT_45,	 2,  7,  9,  1,  1, 25,  8,  9,  0, 12, 350, "\
+	"pistol",	AT_45,	 2,  7,  9,  1,  1, 25,  8,  9,  0, 12, 350, "\
 A popular .45 pistol, widely used among law enforcement. Extensively tested\n\
 for durability, it has been found to stay accurate even after subjected to\n\
 extreme abuse.",
 0);
 
 GUN("M1911",		 5,1680,c_ltgray,	STEEL,	PLASTIC,
-	sk_pistol,	AT_45,	 3, 10, 12,  1,  6, 25,  9,  7,  0,  7, 300, "\
+	"pistol",	AT_45,	 3, 10, 12,  1,  6, 25,  9,  7,  0,  7, 300, "\
 The M1911 was the standard-issue sidearm from the US Military for most of the\n\
 20th Century. It remains one of the most popular .45 pistols today.",
 0);
@@ -2489,26 +2652,26 @@ The M1911 was the standard-issue sidearm from the US Military for most of the\n\
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("FN Five-Seven",	 2,1550,c_ltgray,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_pistol,	AT_57,	 2,  5,  6,  0,  2, 13,  6,  8,  0, 20, 300, "\
+	"pistol",	AT_57,	 2,  5,  6,  0,  2, 13,  6,  8,  0, 20, 300, "\
 Designed to work with FN's proprietary 5.7x28mm round, the Five-Seven is a\n\
 lightweight pistol with a very high capacity, best used against armored\n\
 opponents.",
 0);
 
 GUN("H&K UCP",		 2,1500,c_ltgray,	STEEL,	PLASTIC,
-	sk_pistol,	AT_46,	 2,  5,  6,  0,  2, 12,  6,  8,  0, 20, 300, "\
+	"pistol",	AT_46,	 2,  5,  6,  0,  2, 12,  6,  8,  0, 20, 300, "\
 Designed to work with H&K's proprietary 4.6x30mm round, the UCP is a small\n\
 pistol with a very high capacity, best used against armored opponents.",
 0);
 
 GUN("sawn-off shotgun",	 1, 700,c_red,	IRON,	WOOD,
-	sk_shotgun,	AT_SHOT, 6, 10, 14,  2,  4, 40, 15,  4,  0,  2, 100, "\
+	"shotgun",	AT_SHOT, 6, 10, 14,  2,  4, 40, 15,  4,  0,  2, 100, "\
 The barrels of shotguns are often sawed in half to make it more maneuverable\n\
 and concealable. This has the added effect of reducing accuracy greatly.",
 mfb(IF_RELOAD_ONE));
 
 GUN("sawn-off Saiga 12",	 1, 700,c_red,	IRON,	WOOD,
-	sk_shotgun,	AT_SHOT, 6, 10, 14,  2,  4, 40, 15,  4,  0,  10, 100, "\
+	"shotgun",	AT_SHOT, 6, 10, 14,  2,  4, 40, 15,  4,  0,  10, 100, "\
 The Saiga-12 shotgun is designed on the same Kalishnikov pattern as the AK47\n\
 rifle. It reloads with a magazine, rather than one shell at a time like most\n\
 shotguns. This one has had the barrel cut short, vastly reducing accuracy\n\
@@ -2518,27 +2681,27 @@ mfb(IF_MODE_BURST));
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("single barrel shotgun",1,600,c_red,IRON,	WOOD,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_shotgun,	AT_SHOT,12, 20, 14,  3,  0,  6,  5,  6,  0,  1, 100, "\
+	"shotgun",	AT_SHOT,12, 20, 14,  3,  0,  6,  5,  6,  0,  1, 100, "\
 An old shotgun, possibly antique. It is little more than a barrel, a wood\n\
 stock, and a hammer to strike the cartridge. Its simple design keeps it both\n\
 light and accurate.",
 0);
 
 GUN("double barrel shotgun",2,1050,c_red,IRON,	WOOD,
-	sk_shotgun,	AT_SHOT,12, 26, 15,  3,  0,  7,  4,  7,  2,  2, 100, "\
+	"shotgun",	AT_SHOT,12, 26, 15,  3,  0,  7,  4,  7,  2,  2, 100, "\
 An old shotgun, possibly antique. It is little more than a pair of barrels,\n\
 a wood stock, and a hammer to strike the cartridges.",
 mfb(IF_RELOAD_ONE)|mfb(IF_MODE_BURST));
 
 GUN("Remington 870",	 9,2200,c_red,	STEEL,	PLASTIC,
-	sk_shotgun,	AT_SHOT,16, 30, 17,  3,  5, 10,  0,  8,  3,  6, 100, "\
+	"shotgun",	AT_SHOT,16, 30, 17,  3,  5, 10,  0,  8,  3,  6, 100, "\
 One of the most popular shotguns on the market, the Remington 870 is used by\n\
 hunters and law enforcement agencies alike thanks to its high accuracy and\n\
 muzzle velocity.",
 mfb(IF_RELOAD_ONE)|mfb(IF_MODE_BURST));
 
 GUN("Mossberg 500",	 5,2250,c_red,	STEEL,	PLASTIC,
-	sk_shotgun,	AT_SHOT,15, 30, 17,  3,  0, 13, -2,  9,  3,  8, 80, "\
+	"shotgun",	AT_SHOT,15, 30, 17,  3,  0, 13, -2,  9,  3,  8, 80, "\
 The Mossberg 500 is a popular series of pump-action shotguns, often acquired\n\
 for military use. It is noted for its high durability and low recoil.",
 mfb(IF_RELOAD_ONE)|mfb(IF_MODE_BURST));
@@ -2546,21 +2709,21 @@ mfb(IF_RELOAD_ONE)|mfb(IF_MODE_BURST));
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("Saiga-12",		 3,2300,c_red,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_shotgun,	AT_SHOT,15, 36, 17,  3,  0, 17,  2,  7,  4, 10, 500, "\
+	"shotgun",	AT_SHOT,15, 36, 17,  3,  0, 17,  2,  7,  4, 10, 500, "\
 The Saiga-12 shotgun is designed on the same Kalishnikov pattern as the AK47\n\
 rifle. It reloads with a magazine, rather than one shell at a time like most\n\
 shotguns.",
 mfb(IF_MODE_BURST));
 
 GUN("American-180",	 2,1600,c_cyan, STEEL,	MNULL,
-	sk_smg,		AT_22,  12, 23, 11,  0,  2, 20,  0,  6, 30,165, 500, "\
+	"smg",		AT_22,  12, 23, 11,  0,  2, 20,  0,  6, 30,165, 500, "\
 The American-180 is a submachine gun developed in the 1960's which fires .22\n\
 LR, unusual for an SMG. Though the round is low-powered, the high rate of\n\
 fire and large magazine makes the 180 a formidable weapon.",
 mfb(IF_MODE_BURST));
 
 GUN("Uzi 9mm",		 8,2080,c_cyan,	STEEL,	MNULL,
-	sk_smg,		AT_9MM,	 6, 29, 10,  1,  0, 25, -2,  7, 12, 32, 450, "\
+	"smg",		AT_9MM,	 6, 29, 10,  1,  0, 25, -2,  7, 12, 32, 450, "\
 The Uzi 9mm has enjoyed immense popularity, selling more units than any other\n\
 submachine gun. It is widely used as a personal defense weapon, or as a\n\
 primary weapon by elite frontline forces.",
@@ -2569,14 +2732,14 @@ mfb(IF_MODE_BURST));
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("TEC-9",		10,1750,c_cyan,	STEEL,	MNULL,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_smg,		AT_9MM,	 5, 12,  9,  1,  3, 24,  0,  6,  8, 32, 400, "\
+	"smg",		AT_9MM,	 5, 12,  9,  1,  3, 24,  0,  6,  8, 32, 400, "\
 The TEC-9 is a machine pistol made of cheap polymers and machine stamped\n\
 parts. Its rise in popularity among criminals is largely due to its\n\
 intimidating looks and low price.",
 mfb(IF_MODE_BURST));
 
 GUN("Calico M960",	 6,2400,c_cyan,	STEEL,	MNULL,
-	sk_smg,		AT_9MM,	 7, 19,  9,  1, -3, 28, -4,  6, 20, 50, 500, "\
+	"smg",		AT_9MM,	 7, 19,  9,  1, -3, 28, -4,  6, 20, 50, 500, "\
 The Calico M960 is an automatic carbine with a unique circular magazine which\n\
 allows for high capacities and reduced recoil.",
 mfb(IF_MODE_BURST));
@@ -2584,14 +2747,14 @@ mfb(IF_MODE_BURST));
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("H&K MP5",		12,2800,c_cyan,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_smg,		AT_9MM,	12, 26, 10,  2,  1, 18, -3,  8,  8, 30, 400, "\
+	"smg",		AT_9MM,	12, 26, 10,  2,  1, 18, -3,  8,  8, 30, 400, "\
 The Heckler & Koch MP5 is one of the most widely-used submachine guns in the\n\
 world, and has been adopted by special police forces and militaries alike.\n\
 Its high degree of accuracy and low recoil are universally praised.",
 mfb(IF_MODE_BURST));
 
 GUN("MAC-10",		14,1800,c_cyan,	STEEL,	MNULL,
-	sk_smg,		AT_45,	 4, 25,  8,  1, -4, 28,  0,  7, 30, 30, 450, "\
+	"smg",		AT_45,	 4, 25,  8,  1, -4, 28,  0,  7, 30, 30, 450, "\
 The MAC-10 is a popular machine pistol originally designed for military use.\n\
 For many years they were the most inexpensive automatic weapon in the US, and\n\
 enjoyed great popularity among criminals less concerned with quality firearms."
@@ -2599,7 +2762,7 @@ enjoyed great popularity among criminals less concerned with quality firearms."
 mfb(IF_MODE_BURST));
 
 GUN("H&K UMP45",	12,3000,c_cyan,	STEEL,	PLASTIC,
-	sk_smg,		AT_45,	13, 20, 11,  1,  0, 13, -3,  8,  4, 25, 450, "\
+	"smg",		AT_45,	13, 20, 11,  1,  0, 13, -3,  8,  4, 25, 450, "\
 Developed as a successor to the MP5 submachine gun, the UMP45 retains the\n\
 earlier model's supreme accuracy and low recoil, but in the higher .45 caliber."
 ,
@@ -2608,20 +2771,20 @@ mfb(IF_MODE_BURST));
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("TDI Vector",	 4,4200,c_cyan,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_smg,		AT_45,	13, 20,  9,  0, -2, 15,-14,  7,  8, 30, 450, "\
+	"smg",		AT_45,	13, 20,  9,  0, -2, 15,-14,  7,  8, 30, 450, "\
 The TDI Vector is a submachine gun with a unique in-line design which makes\n\
 recoil very managable, even in the powerful .45 caliber.",
 mfb(IF_MODE_BURST));
 
 GUN("FN P90",		 7,4000,c_cyan,	STEEL,	PLASTIC,
-	sk_smg,		AT_57,	14, 22, 10,  1,  0, 22, -8,  8, 20, 50, 500, "\
+	"smg",		AT_57,	14, 22, 10,  1,  0, 22, -8,  8, 20, 50, 500, "\
 The first in a new genre of guns, termed \"personal defense weapons.\"  FN\n\
 designed the P90 to use their proprietary 5.7x28mm ammunition.  It is made\n\
 for firing bursts manageably.",
 mfb(IF_MODE_BURST));
 
 GUN("H&K MP7",		 5,3400,c_cyan,	STEEL,	PLASTIC,
-	sk_smg,		AT_46,	 7, 17,	 7,  1,  0, 21,-10,  8, 20, 20, 450, "\
+	"smg",		AT_46,	 7, 17,	 7,  1,  0, 21,-10,  8, 20, 20, 450, "\
 Designed by Heckler & Koch as a competitor to the FN P90, as well as a\n\
 successor to the extremely popular H&K MP5. Using H&K's proprietary 4.6x30mm\n\
 ammunition, it is designed for burst fire.",
@@ -2630,21 +2793,21 @@ mfb(IF_MODE_BURST));
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("Marlin 39A",	14,1600,c_brown,IRON,	WOOD,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
-	sk_rifle,	AT_22,	 11, 26, 12,  3,  3, 10, -5,  8,  0, 19,  90, "\
+	"rifle",	AT_22,	 11, 26, 12,  3,  3, 10, -5,  8,  0, 19,  90, "\
 The oldest and longest-produced shoulder firearm in the world. Though it\n\
 fires the weak .22 round, it is highly accurate and damaging, and has\n\
 essentially no recoil.",
 mfb(IF_RELOAD_ONE));
 
 GUN("Ruger 10/22",	12,1650,c_brown,IRON,	WOOD,
-	sk_rifle,	AT_22,	11, 23, 12,  3,  0,  8, -5,  8,  0, 10, 500, "\
+	"rifle",	AT_22,	11, 23, 12,  3,  0,  8, -5,  8,  0, 10, 500, "\
 A popular and highly accurate .22 rifle. At the time of its introduction in\n\
 1964, it was one of the first modern .22 rifles designed for quality, and not\n\
 as a gun for children.",
 0);
 
 GUN("Browning BLR",	 8,3500,c_brown,IRON,	WOOD,
-	sk_rifle,	AT_3006,12, 28, 12,  3, -3,  6, -4,  7,  0,  4, 100, "\
+	"rifle",	AT_3006,12, 28, 12,  3, -3,  6, -4,  7,  0,  4, 100, "\
 A very popular rifle for hunting and sniping. Its low ammo capacity is\n\
 offset by the very powerful .30-06 round it fires.",
 mfb(IF_RELOAD_ONE));
@@ -2652,28 +2815,28 @@ mfb(IF_RELOAD_ONE));
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("Remington 700",	14,3200,c_brown,IRON,	WOOD,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_rifle,	AT_3006,12, 34, 13,  3,  7,  9, -3,  8,  0,  4, 75, "\
+	"rifle",	AT_3006,12, 34, 13,  3,  7,  9, -3,  8,  0,  4, 75, "\
 A very popular and durable hunting or sniping rifle. Popular among SWAT\n\
 and US Marine snipers. Highly damaging, but perhaps not as accurate as the\n\
 competing Browning BLR.",
 mfb(IF_RELOAD_ONE));
 
 GUN("SKS",		12,3000,c_brown,IRON,	WOOD,
-	sk_rifle,	AT_762,	12, 34, 13,  3,  0,  5, -4,  8,  0, 10, 450, "\
+	"rifle",	AT_762,	12, 34, 13,  3,  0,  5, -4,  8,  0, 10, 450, "\
 Developed by the Soviets in 1945, this rifle was quickly replaced by the\n\
 full-auto AK47. However, due to its superb accuracy and low recoil, this gun\n\
 maintains immense popularity.",
 0);
 
 GUN("Ruger Mini-14",	12,3200,c_brown,IRON,	WOOD,
-	sk_rifle,	AT_223,	12, 26, 12,  3,  4,  5, -4,  8,  0, 10, 500, "\
+	"rifle",	AT_223,	12, 26, 12,  3,  4,  5, -4,  8,  0, 10, 500, "\
 A small, lightweight semi-auto carbine designed for military use. Its superb\n\
 accuracy and low recoil makes it more suitable than full-auto rifles for some\n\
 situations.",
 0);
 
 GUN("Savage 111F",	10,3280,c_brown,STEEL,	PLASTIC,
-	sk_rifle,	AT_308, 12, 26, 13,  3,  6,  4,-11,  9,  0,  3, 100, "\
+	"rifle",	AT_308, 12, 26, 13,  3,  6,  4,-11,  9,  0,  3, 100, "\
 A very accurate rifle chambered for the powerful .308 round. Its very low\n\
 ammo capacity is offset by its accuracy and near-complete lack of recoil.",
 mfb(IF_RELOAD_ONE));
@@ -2681,14 +2844,14 @@ mfb(IF_RELOAD_ONE));
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("H&K G3",		15,5050,c_blue,	IRON,	WOOD,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_rifle,	AT_308,	16, 40, 13,  2,  8, 10,  4,  8, 10, 20, 550, "\
+	"rifle",	AT_308,	16, 40, 13,  2,  8, 10,  4,  8, 10, 20, 550, "\
 An early battle rifle developed after the end of WWII. The G3 is designed to\n\
 unload large amounts of deadly ammunition, but it is less suitable over long\n\
 ranges.",
 mfb(IF_MODE_BURST));
 
 GUN("H&K G36",		17,5100,c_blue,	IRON,	PLASTIC,
-	sk_rifle,	AT_223, 15, 32, 13,  2,  6,  8,  5,  8, 15, 30, 500, "\
+	"rifle",	AT_223, 15, 32, 13,  2,  6,  8,  5,  8, 15, 30, 500, "\
 Designed as a replacement for the early H&K G3 battle rifle, the G36 is more\n\
 accurate, and uses the much-lighter .223 round, allowing for a higher ammo\n\
 capacity.",
@@ -2697,13 +2860,13 @@ mfb(IF_MODE_BURST));
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("AK-47",		16,4000,c_blue,	IRON,	WOOD,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_rifle,	AT_762,	16, 38, 14,  2,  0, 11,  4,  9,  8, 30, 475, "\
+	"rifle",	AT_762,	16, 38, 14,  2,  0, 11,  4,  9,  8, 30, 475, "\
 One of the most recognizable assault rifles ever made, the AK-47 is renowned\n\
 for its durability even under the worst conditions.",
 mfb(IF_MODE_BURST));
 
 GUN("FN FAL",		16,4500,c_blue,	IRON,	WOOD,
-	sk_rifle,	AT_308,	19, 36, 14,  2,  7, 13, -2,  8, 10, 20, 550, "\
+	"rifle",	AT_308,	19, 36, 14,  2,  7, 13, -2,  8, 10, 20, 550, "\
 A Belgian-designed battle rifle, the FN FAL is not very accurate for a rifle,\n\
 but its high fire rate and powerful .308 ammunition have made it one of the\n\
 most widely-used battle rifles in the world.",
@@ -2712,20 +2875,20 @@ mfb(IF_MODE_BURST));
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("Bushmaster ACR",	 4,4200,c_blue,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_rifle,	AT_223,	15, 27,	18,  2,  2, 10, -2,  8,  3, 30, 475, "\
+	"rifle",	AT_223,	15, 27,	18,  2,  2, 10, -2,  8,  3, 30, 475, "\
 This carbine was developed for military use in the early 21st century. It is\n\
 damaging and accurate, though its rate of fire is a bit slower than competing\n\
 .223 carbines.",
 mfb(IF_MODE_BURST));
 
 GUN("AR-15",		 9,4000,c_blue,	STEEL,	PLASTIC,
-	sk_rifle,	AT_223,	19, 28, 12,  2,  0,  6,  0,  7, 10, 30, 500, "\
+	"rifle",	AT_223,	19, 28, 12,  2,  0,  6,  0,  7, 10, 30, 500, "\
 A widely used assault rifle and the father of popular rifles such as the M16.\n\
 It is light and accurate, but not very durable.",
 mfb(IF_MODE_BURST));
 
 GUN("M4A1",		 7,4400,c_blue,	STEEL,	PLASTIC,
-	sk_rifle,	AT_223, 14, 24, 13,  2,  4,  7,  2,  6, 10, 30, 475, "\
+	"rifle",	AT_223, 14, 24, 13,  2,  4,  7,  2,  6, 10, 30, 475, "\
 A popular carbine, long used by the US military. Though accurate, small, and\n\
 lightweight, it is infamous for its fragility, particularly in less-than-\n\
 ideal terrain.",
@@ -2734,21 +2897,21 @@ mfb(IF_MODE_BURST));
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("FN SCAR-L",	 6,4800,c_blue,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_rifle,	AT_223,	15, 29, 18,  2,  1,  6, -4,  8, 10, 30, 500, "\
+	"rifle",	AT_223,	15, 29, 18,  2,  1,  6, -4,  8, 10, 30, 500, "\
 A modular assault rifle designed for use by US Special Ops units. The 'L' in\n\
 its name stands for light, as it uses the lightweight .223 round. It is very\n\
 accurate and low on recoil.",
 mfb(IF_MODE_BURST));
 
 GUN("FN SCAR-H",	 5,4950,c_blue,	STEEL,	PLASTIC,
-	sk_rifle,	AT_308,	16, 32, 20,  2,  1,  8, -4,  8,  8, 20, 550, "\
+	"rifle",	AT_308,	16, 32, 20,  2,  1,  8, -4,  8,  8, 20, 550, "\
 A modular assault rifle designed for use by US Special Ops units. The 'H' in\n\
 its name stands for heavy, as it uses the powerful .308 round. It is fairly\n\
 accurate and low on recoil.",
 mfb(IF_MODE_BURST));
 
 GUN("Steyr AUG",	 6,4900,c_blue, STEEL,	PLASTIC,
-	sk_rifle,	AT_223, 14, 32, 17,  1, -3,  7, -8,  8,  6, 30, 550, "\
+	"rifle",	AT_223, 14, 32, 17,  1, -3,  7, -8,  8,  6, 30, 550, "\
 The Steyr AUG is an Austrian assault rifle that uses a bullpup design. It is\n\
 used in the armed forces and police forces of many nations, and enjoys\n\
 low recoil and high accuracy.",
@@ -2756,7 +2919,7 @@ mfb(IF_MODE_BURST));
 
 GUN("M249",		 1,7500,c_ltred,STEEL,	PLASTIC,
 //  SKILL       AMMO    VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
-	sk_rifle,	AT_223,	32, 68, 27, -4, -6, 20,  6,  7, 30,200, 750, "\
+	"rifle",	AT_223,	32, 68, 27, -4, -6, 20,  6,  7, 30,200, 750, "\
 The M249 is a mountable machine gun used by the US military and SWAT teams.\n\
 Quite innaccurate and difficult to control, the M249 is designed to fire many\n\
 rounds very quickly.",
@@ -2765,21 +2928,21 @@ mfb(IF_MODE_BURST));
 //  NAME		RAR PRC COLOR	 MAT1	MAT2
 GUN("V29 laser pistol",	 1,7200,c_magenta,STEEL,PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
-	sk_pistol,	AT_FUSION,4, 6,  5,  1, -2, 20,  0,  8,  0, 20, 200, "\
+	"pistol",	AT_FUSION,4, 6,  5,  1, -2, 20,  0,  8,  0, 20, 200, "\
 The V29 laser pistol was designed in the mid-21st century, and was one of the\n\
 first firearms to use fusion as its ammunition. It is larger than most\n\
 traditional handguns, but displays no recoil whatsoever.",
 0);
 
 GUN("FTK-93 fusion gun", 1,9800,c_magenta,STEEL, PLASTIC,
-	sk_rifle,	AT_FUSION,18,20, 10, 1, 40, 10,  0,  9,  0,  2, 600, "\
+	"rifle",	AT_FUSION,18,20, 10, 1, 40, 10,  0,  9,  0,  2, 600, "\
 A very powerful fusion rifle developed shortly before the influx of monsters.\n\
 It can only hold two rounds at a time, but a special superheating unit causes\n\
 its bolts to be extremely deadly.",
 0);
 
 GUN("NX-17 charge rifle",1,12000,c_magenta,STEEL, PLASTIC,
-	sk_rifle,	AT_NULL, 13,16,  8, -1,  0,   6,  0,  8,  0, 10,   0, "\
+	"rifle",	AT_NULL, 13,16,  8, -1,  0,   6,  0,  8,  0, 10,   0, "\
 A multi-purpose rifle, designed for use in conjunction with a unified power\n\
 supply, or UPS. It does not reload normally; instead, press fire once to\n\
 start charging it from your UPS, then again to unload the charge.",
@@ -2788,19 +2951,19 @@ mfb(IF_CHARGE));
 //  NAME		RAR PRC COLOR	 MAT1	MAT2
 GUN("simple flamethr.",1,1600,c_pink,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
-	sk_shotgun,	AT_GAS,  16,  8,  8, -1, -5,  6,  0,  6,  0,800, 800, "\
+	"shotgun",	AT_GAS,  16,  8,  8, -1, -5,  6,  0,  6,  0,800, 800, "\
 A simple, home-made flamethrower. While its capacity is not superb, it is\n\
 more than capable of igniting terrain and monsters alike.",
 mfb(IF_FIRE_100));
 
 GUN("flamethrower",	 1,3800,c_pink,	STEEL,	MNULL,
-	sk_shotgun,	AT_GAS,  20, 14, 10, -2,  0,  4,  0,  8,  4,1600, 900, "\
+	"shotgun",	AT_GAS,  20, 14, 10, -2,  0,  4,  0,  8,  4,1600, 900, "\
 A large flamethrower with substantial gas reserves. Very menacing and\n\
 deadly.",
 mfb(IF_FIRE_100));
 
 GUN("tube 40mm launcher",0, 400,c_ltred,STEEL,	WOOD,
-	sk_launcher,	AT_40MM,12, 20, 13, -1,  0, 16,  0,  6, 0,  1, 350, "\
+	"launcher",	AT_40MM,12, 20, 13, -1,  0, 16,  0,  6, 0,  1, 350, "\
 A simple, home-made grenade launcher. Basically a tube with a pin firing\n\
 mechanism to activate the grenade.",
 0);
@@ -2808,21 +2971,21 @@ mechanism to activate the grenade.",
 //  NAME		RAR PRC COLOR	 MAT1	MAT2
 GUN("M79 launcher",	 5,4000,c_ltred,STEEL,	WOOD,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
-	sk_launcher,	AT_40MM,14, 24, 16, -1,  3,  4, -5,  8, 0,  1, 250, "\
+	"launcher",	AT_40MM,14, 24, 16, -1,  3,  4, -5,  8, 0,  1, 250, "\
 A widely-used grenade launcher which first saw use by American forces in the\n\
 Vietnam war. Though mostly replaced by more modern launchers, the M79 still\n\
 sees use with many units worldwide.",
 0);
 
 GUN("M320 launcher",	10,8500,c_ltred,STEEL,	MNULL,
-	sk_launcher,	AT_40MM,  5, 13,  6,  0,  0, 12,  5,  9,  0,  1, 150, "\
+	"launcher",	AT_40MM,  5, 13,  6,  0,  0, 12,  5,  9,  0,  1, 150, "\
 Developed by Heckler & Koch, the M320 grenade launcher has the functionality\n\
 of larger launchers in a very small package. However, its smaller size\n\
 contributes to a lack of accuracy.",
 0);
 
 GUN("Milkor MGL",	 6,10400,c_ltred,STEEL,	MNULL,
-	sk_launcher,	AT_40MM, 24, 45, 13, -1,  0,  5, -2,  8,  2,  6, 300, "\
+	"launcher",	AT_40MM, 24, 45, 13, -1,  0,  5, -2,  8,  2,  6, 300, "\
 The Milkor Multi-Grenade Launcher is designed to compensate for the drawback\n\
 of single-shot grenade launchers by allowing sustained heavy firepower.\n\
 However, it is still slow to reload and must be used with careful planning.",
@@ -2831,24 +2994,32 @@ mfb(IF_RELOAD_ONE)|mfb(IF_MODE_BURST));
 //  NAME		    RAR PRC COLOR		MAT1	MAT2
 GUN("coilgun",		1, 200,c_ltblue,	IRON,	MNULL,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
-	sk_pistol,	AT_NAIL, 6, 30, 10, -1,  8, 10,  0,  5,  0, 100, 600, "\
+	"pistol",	AT_NAIL, 6, 30, 10, -1,  8, 10,  0,  5,  0, 100, 600, "\
 A homemade gun, using electromagnets to accelerate a ferromagnetic\n\
 projectile to high velocity. Powered by UPS.",
 mfb(IF_USE_UPS));
 
 GUN("H&K G80 Railgun",		2,9200,c_ltblue,STEEL,	MNULL,
-	sk_rifle,	AT_12MM,12, 36, 12,  1,  5,  15, 0,  8,  0, 20, 550, "\
+	"rifle",	AT_12MM,12, 36, 12,  1,  5,  15, 0,  8,  0, 20, 550, "\
 Developed by Heckler & Koch in 2033, the railgun magnetically propels\n\
 a ferromagnetic projectile using an alternating current. This makes it\n\
 silent while still deadly. Powered by UPS.",
 mfb(IF_USE_UPS));
 
 GUN("Boeing XM-P Plasma Rifle",		1,13000,c_ltblue,STEEL,	MNULL,
-	sk_rifle,	AT_PLASMA,15, 40, 12, 1,  5,  5, 0,  8,  5, 25, 700, "\
+	"rifle",	AT_PLASMA,15, 40, 12, 1,  5,  5, 0,  8,  5, 25, 700, "\
 Boeing developed the focused plasma weaponry together with DARPA. It heats\n\
 hydrogen to create plasma and envelops it with polymers to reduce blooming.\n\
 While powerful, it suffers from short range. Powered by UPS.",
 mfb(IF_USE_UPS)|mfb(IF_MODE_BURST));
+
+//  NAME		RAR PRC COLOR	MAT1	MAT2
+GUN("Shotgun Revolver",1,600,c_red,IRON,	WOOD,
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
+	"shotgun",	AT_SHOT,12, 24, 14,  3,  0,  6,  5,  6,  0,  6, 100, "\
+A shotgun modified to use a revolver cylinder mechanism, it can hold\n\
+6 cartridges.",
+mfb(IF_RELOAD_ONE));
 
 // GUN MODS
 // Accuracy is inverted from guns; high values are a bonus, low values a penalty
@@ -3086,146 +3257,146 @@ color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,0,type,level,req,fun,intel,time))
 
 BOOK("Playboy",			20,  30,c_pink,		PAPER,	MNULL,
 // VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
-    1,  1, -3,  1,	sk_null,	 0,  0,  1,  0,  10, "\
+    1,  1, -3,  1,	NULL,	 0,  0,  1,  0,  10, "\
 You can read it for the articles. Or not.");
 
 BOOK("US Weekly",		40,  40,c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	sk_speech,	 1,  0,  1,  3,  8, "\
+    1,  1, -3,  1,	"speech",	 1,  0,  1,  3,  8, "\
 Weekly news about a bunch of famous people who're all (un)dead now.");
 
 BOOK("TIME magazine",		35,  40,c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	sk_null,	 0,  0,  2,  7,  10, "\
+    1,  1, -3,  1,	NULL,	 0,  0,  2,  7,  10, "\
 Current events concerning a bunch of people who're all (un)dead now.");
 
 BOOK("Top Gear magazine",	40,  45,c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	sk_driving,	 1,  0,  1,  2,  8, "\
+    1,  1, -3,  1,	"driving",	 1,  0,  1,  2,  8, "\
 Lots of articles about cars and driving techniques.");
 
 BOOK("Bon Appetit",		30,  45,c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	sk_cooking,	 1,  0,  1,  5,  8, "\
+    1,  1, -3,  1,	"cooking",	 1,  0,  1,  5,  8, "\
 Exciting recipes and restaurant reviews. Full of handy tips about cooking.");
 
 BOOK("Birdhouse Monthly",       30,  45,c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	sk_carpentry,	 1,  0,  1,  5,  8, "\
+    1,  1, -3,  1,	"carpentry",	 1,  0,  1,  5,  8, "\
 A riveting periodical all about birdhouses and their construction.");
 
 BOOK("Guns n Ammo",		20,  48,c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	sk_gun,		 1,  0,  1,  2,  7, "\
+    1,  1, -3,  1,	"gun",		 1,  0,  1,  2,  7, "\
 Reviews of firearms, and various useful tips about their use.");
 
 BOOK("romance novel",		30,  55,c_ltblue,	PAPER,	MNULL,
-    4,  1, -2,  0,	sk_null,	 0,  0,  2,  4, 15, "\
+    4,  1, -2,  0,	NULL,	 0,  0,  2,  4, 15, "\
 Drama and mild smut.");
 
 BOOK("spy novel",		28,  55,c_ltblue,	PAPER,	MNULL,
-    4,  1, -2,  0,	sk_null,	 0,  0,  3,  5, 18, "\
+    4,  1, -2,  0,	NULL,	 0,  0,  3,  5, 18, "\
 A tale of intrigue and espionage amongst Nazis, no, Commies, no, Iraqis!");
 
 //	NAME			RAR PRC	COLOR		MAT1	MAT2
 BOOK("scifi novel",		20,  55,c_ltblue,	PAPER,	MNULL,
 // VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
-    3,  1, -3,  0,	sk_null,	 0,  0,  3,  6, 20, "\
+    3,  1, -3,  0,	NULL,	 0,  0,  3,  6, 20, "\
 Aliens, ray guns, and space ships.");
 
 BOOK("drama novel",		40,  55,c_ltblue,	PAPER,	MNULL,
-    4,  1, -2,  0,	sk_null,	 0,  0,  4,  7, 25, "\
+    4,  1, -2,  0,	NULL,	 0,  0,  4,  7, 25, "\
 A real book for real adults.");
 
 BOOK("101 Wrestling Moves",	30, 180,c_green,	PAPER,	MNULL,
-    2,  1, -4,  0, 	sk_unarmed,	 3,  0,  0,  3, 15, "\
+    2,  1, -4,  0, 	"unarmed",	 3,  0,  0,  3, 15, "\
 It seems to be a wrestling manual, poorly photocopied and released on spiral-\n\
 bound paper. Still, there are lots of useful tips for unarmed combat.");
 
 BOOK("Spetsnaz Knife Techniques",12,200,c_green,	PAPER,	MNULL,
-    1,  1, -5,  0,	sk_cutting,	 4,  1,  0,  4, 18, "\
+    1,  1, -5,  0,	"cutting",	 4,  1,  0,  4, 18, "\
 A classic Soviet text on the art of attacking with a blade.");
 
 //	NAME			RAR PRC	COLOR		MAT1	MAT2
 BOOK("Under the Hood",		35, 190,c_green,	PAPER,	MNULL,
 // VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
-    3,  1, -3,  0,	sk_mechanics,	 3,  0,  0,  5, 18, "\
+    3,  1, -3,  0,	"mechanics",	 3,  0,  0,  5, 18, "\
 An advanced mechanics manual, covering all sorts of topics.");
 
 BOOK("Pitching a Tent",20,200,c_green,  PAPER,  MNULL,
 // VOL WGT DAM HIT      TYPE            LEV REQ FUN INT TIME
-    3,  1,  -3, 0,      sk_survival,    3,   0,  0,  4,  18,"\
+    3,  1,  -3, 0,      "survival",    3,   0,  0,  4,  18,"\
 A guide detailing the basics of woodsmanship and outdoor survival.");
 
 BOOK("Self-Esteem for Dummies",	50, 160,c_green,	PAPER,	MNULL,
-    3,  1, -3,  0,	sk_speech,	 3,  0,  0,  5, 20, "\
+    3,  1, -3,  0,	"speech",	 3,  0,  0,  5, 20, "\
 Full of useful tips for showing confidence in your speech.");
 
 BOOK("How to Succeed in Business",40,180,c_green,	PAPER,	MNULL,
-    3,  1, -3,  0,	sk_barter,	 3,  0, -1,  6, 25, "\
+    3,  1, -3,  0,	"barter",	 3,  0, -1,  6, 25, "\
 Useful if you want to get a good deal when purchasing goods.");
 
 BOOK("The Big Book of First Aid",40,200,c_green,	PAPER,	MNULL,
-    5,  2, -2,  0,	sk_firstaid,	 3,  0,  0,  7, 20, "\
+    5,  2, -2,  0,	"firstaid",	 3,  0,  0,  7, 20, "\
 It's big and heavy, but full of great information about first aid.");
 
 BOOK("How to Browse the Web",	20, 170,c_green,	PAPER,	MNULL,
-    3,  1, -3,  0,	sk_computer,	 2,  0,  0,  5, 15, "\
+    3,  1, -3,  0,	"computer",	 2,  0,  0,  5, 15, "\
 Very beginner-level information about computers.");
 
 //	NAME			RAR PRC	COLOR		MAT1	MAT2
 BOOK("Cooking on a Budget",	35, 160,c_green,	PAPER,	MNULL,
 // VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
-    4,  1, -2,  0,	sk_cooking,	 3,  0,  0,  4, 10, "\
+    4,  1, -2,  0,	"cooking",	 3,  0,  0,  4, 10, "\
 A nice cook book that goes beyond recipes and into the chemistry of food.");
 
 BOOK("What's a Transistor?",	20, 200,c_green,	PAPER,	MNULL,
-    3,  1, -3,  0,	sk_electronics,	 3,  0,  0,  7, 20, "\
+    3,  1, -3,  0,	"electronics",	 3,  0,  0,  7, 20, "\
 A basic manual of electronics and circuit design.");
 
 BOOK("Sew What?  Clothing!",	15, 190,c_green,	PAPER,	MNULL,
-    3,  1, -3,  0,	sk_tailor,	 3,  0,  0,  4, 18, "\
+    3,  1, -3,  0,	"tailor",	 3,  0,  0,  4, 18, "\
 A colorful book about tailoring.");
 
 BOOK("How to Trap Anything",	12, 240,c_green,	PAPER,	MNULL,
-    2,  1, -3,  0,	sk_traps,	 4,  0,  0,  4, 20, "\
+    2,  1, -3,  0,	"traps",	 4,  0,  0,  4, 20, "\
 A worn manual that describes how to set and disarm a wide variety of traps.");
 
 //	NAME			RAR PRC	COLOR		MAT1	MAT2
 BOOK("Building for Beginners",  10, 220,c_green,	PAPER,	MNULL,
 // VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
-    2,  1, -3,  0,	sk_carpentry,	 3,  0,  0,  5, 16, "\
+    2,  1, -3,  0,	"carpentry",	 3,  0,  0,  5, 16, "\
 A large, paperback book detailing several beginner's projects in\n\
 construction.");
 
 BOOK("Computer Science 301",	 8, 500,c_blue,		PAPER,	MNULL,
-    7,  4,  5,  1,	sk_computer,	 5,  2, -2, 11, 35, "\
+    7,  4,  5,  1,	"computer",	 5,  2, -2, 11, 35, "\
 A college textbook on computer science.");
 
 BOOK("Advanced Electronics",	 6, 520,c_blue,		PAPER,	MNULL,
-    7,  5,  5,  1,	sk_electronics,	 5,  2, -1, 11, 35, "\
+    7,  5,  5,  1,	"electronics",	 5,  2, -1, 11, 35, "\
 A college textbook on circuit design.");
 
 BOOK("Advanced Economics",	12, 480,c_blue,		PAPER,	MNULL,
-    7,  4,  5,  1,	sk_barter,	 5,  3, -1,  9, 30, "\
+    7,  4,  5,  1,	"barter",	 5,  3, -1,  9, 30, "\
 A college textbook on economics.");
 
 BOOK("Mechanical Mastery",12,495,c_blue,PAPER,MNULL,
-    6,  3,  4,  1,      sk_mechanics,   6,   3, -1,  6,  30,"\
+    6,  3,  4,  1,      "mechanics",   6,   3, -1,  6,  30,"\
 An advanced guide on mechanics and welding, covering topics like\n\
 \"Grinding off rust\" and \"Making cursive E\'s\".");
 
 //	NAME			RAR PRC	COLOR		MAT1	MAT2
 BOOK("Chemistry Textbook",	11, 495,c_blue,		PAPER,	MNULL,
 // VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
-    8,  6,  5,  1,	sk_cooking,	 6,  3, -1, 12, 35, "\
+    8,  6,  5,  1,	"cooking",	 6,  3, -1, 12, 35, "\
 A college textbook on chemistry.");
 
 BOOK("Engineering 301",		 6, 550,c_blue,		PAPER,	MNULL,
-    6,  3,  4,  1,	sk_carpentry,	 6,  3, -1,  8, 30, "\
+    6,  3,  4,  1,	"carpentry",	 6,  3, -1,  8, 30, "\
 A textbook on civil engineering and construction.");
 
 BOOK("SICP",			 3, 780,c_blue,		PAPER,	MNULL,
-    6,  5,  6,  0,	sk_computer,	 8,  4, -1, 13, 50, "\
+    6,  5,  6,  0,	"computer",	 8,  4, -1, 13, 50, "\
 A classic text, \"The Structure and Interpretation of Computer Programs.\"\n\
 Written with examples in LISP, but applicable to any language.");
 
 BOOK("Robots for Fun & Profit",  1, 920,c_blue,		PAPER,	MNULL,
-    8,  8,  8,  1,	sk_electronics,	10,  5, -1, 14, 55, "\
+    8,  8,  8,  1,	"electronics",	10,  5, -1, 14, 55, "\
 A rare book on the design of robots, with lots of helpful step-by-step guides."
 );
 
@@ -3312,7 +3483,7 @@ color,mat1,mat2,volume,wgt,melee_dam,melee_cut,to_hit,flags,max_charge,\
 def_charge,charge_per_use,charge_per_sec,fuel,revert,func))
 
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
-TOOL("lighter",		60,  35,',', c_blue,	PLASTIC,IRON,
+TOOL("cheap lighter",		60,  35,',', c_blue,	PLASTIC,IRON,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
     0,  0,  0,  0,  0, 100,100, 1,  0, AT_NULL,	itm_null, &iuse::lighter, 0, "\
 A lighter must be carried to use various drugs, like cigarettes, or to light\n\
@@ -3857,6 +4028,44 @@ TOOL("mop",		30, 24, '/', c_blue, PLASTIC, MNULL,
 An unwieldy mop. Good for cleaning up spills.");
 TECH( mfb(TEC_WBLOCK_1) );
 
+TOOL("picklock kit",    20, 0,  ';', c_blue, STEEL,   MNULL,
+   0,  0,   0,  0,  0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::picklock, 0, "\
+A set of sturdy steel picklocks, essential for silently opening locks.");
+
+TOOL("pickaxe",	60, 160,'/', c_ltred,	WOOD,	MNULL,
+   12, 11, 12,  0,  -1, 0,  0,  0,  0, AT_NULL, itm_null, &iuse::pickaxe, 0, "\
+A large steel pickaxe, strike the earth!");
+
+TOOL("spray can", 50, 10, ';', c_ltblue, PLASTIC, MNULL,
+1, 1, 0, 0, 0, 10, 10, 1, 0, AT_NULL, itm_null, &iuse::spray_can, 0, "\
+A spray can, filled with paint. Use this tool to make graffiti on the floor.");
+
+TOOL("rag",    1, 0,  ',', c_white, COTTON,   MNULL,
+   1,  1,   0,  0,  0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::rag, 0, "\
+Rag, useful in crafting and possibly stopping bleeding");
+
+//	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
+TOOL("PDA",		60,  35,',', c_blue,	PLASTIC,IRON,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    1,  1,  0,  0,  0, 100,100, 1,  0, AT_NULL,	itm_null, &iuse::pda, 0, "\
+A small multipurpose electronic device. Can be loaded with a variety\n\
+of apps, providing all kinds of functionality.");
+
+//	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
+TOOL("PDA - Flashlight",		60,  35,',', c_blue,	PLASTIC,IRON,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    1,  1,  0,  0,  0, 100,100, 1,  0, AT_NULL,	itm_null, &iuse::pda_flashlight, 0, "\
+A small multipurpose electronic device. This PDA has its flashlight\n\
+app on, and is providing light.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+TOOL("pocket knife",	14, 100,';', c_blue,	STEEL,  PLASTIC,
+//	VOL WGT DAM CUT HIT FLAGS
+	 2,  2,  2, 10, -4, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
+mfb(IF_STAB), "\
+A small pocket knife.");
+
+
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated
@@ -3864,105 +4073,88 @@ TECH( mfb(TEC_WBLOCK_1) );
 #define BIO(name, rarity, price, color, difficulty, des, ...) \
 	index++;itypes.push_back(new it_bionic(index,rarity,price,name,des,':',\
 color, STEEL, PLASTIC, 10, 18, 8, 0, 0, 0, difficulty, __VA_ARGS__))
-//  Name			RAR PRICE	COLOR		DIFFICULTY
 
+#define BIO_SINGLE(bionic,rarity,price,color,difficulty) \
+     BIO(std::string("CBM: ")+bionics[bionic].name,rarity,price,color,difficulty, \
+           word_rewrap(bionics[bionic].description, 50), bionic, NULL) \
+
+//  Name                     RAR PRICE    COLOR   DIFFICULTY
 BIO("CBM: Internal Battery",	24, 3800,	c_green,	 1, "\
 Compact Bionics Module which upgrades your power capacity by 4 units. Having\n\
 at least one of these is a prerequisite to using powered bionics. You will\n\
 also need a power supply, found in another CBM.",
     NULL); // This is a special case, which increases power capacity by 4
 
-BIO("CBM: Power Sources",	18, 5000,	c_yellow,	 4, "\
-Compact Bionics Module containing the materials necessary to install any one\n\
-of several power sources. Having a power source is necessary to use powered\n\
-bionics.",
-    bio_batteries, bio_metabolics, bio_solar, bio_furnace, bio_ethanol, NULL);
-
-BIO("CBM: Utilities",		20, 2000,	c_ltgray,	 2, "\
-Compact Bionics Module containing a variety of utilities. Popular among\n\
-civilians, especially specialist laborers like mechanics.",
-    bio_tools, bio_storage, bio_flashlight, bio_lighter, bio_magnet, NULL);
-
-BIO("CBM: Neurological",	 8, 6000,	c_pink,		 8, "\
-Compact Bionics Module containing a few upgrades to one's central nervous\n\
-system or brain. Due to the difficulty associated with what is essentially\n\
-brain surgery, these are best installed by a highly skill professional.",
-    bio_memory, bio_painkiller, bio_alarm, NULL);
-
-BIO("CBM: Sensory",		10, 4500,	c_ltblue,	 5, "\
-Compact Bionics Module containing a few upgrades to one's sensory systems,\n\
-particularly sight. Fairly difficult to install.",
-    bio_ears, bio_eye_enhancer, bio_night_vision, bio_infrared, bio_scent_vision, NULL);
-
-BIO("CBM: Aquatic",		 5, 3000,	c_blue,		 3, "\
-Compact Bionics Module with a couple of upgrades designed with those who are\n\
-often underwater; popular among diving enthusiasts and Navy SEAL teams.",
-    bio_membrane, bio_gills, NULL);
-
-BIO("CBM: Combat Augs",		10, 4500,	c_red,		 3, "\
-Compact Bionics Module containing several augmentations designed to aid in\n\
-combat. While none of these are weapons, all are very useful for improving\n\
-one's battle awareness.",
-    bio_targeting, bio_night_vision, bio_infrared, bio_ground_sonar, NULL);
-
-BIO("CBM: Hazmat",		12, 4800,	c_ltgreen,	 3, "\
-Compact Bionics Module that allows you to install various augmentations\n\
-designed to protect the user in the event of exposure to hazardous materials.",
-    bio_purifier, bio_climate, bio_heatsink, bio_blood_filter, NULL);
-
-BIO("CBM: Nutritional",		 7, 3200,	c_green,	 4, "\
-Compact Bionics Module with several upgrades to one's digestive system, aimed\n\
-at making the consumption of food a lower priority.",
-    bio_recycler, bio_digestion, bio_evap, bio_water_extractor, NULL);
-
-BIO("CBM: Desert Survival",	 4, 4000,	c_brown,	 3, "\
-Compact Bionics Module designed for those who will spend  significant time in\n\
-dry, hot areas like a desert. Geared towards providing a source of water.",
-    bio_climate, bio_recycler, bio_evap, bio_water_extractor, NULL);
-
-BIO("CBM: Melee Combat",	 6, 5800,	c_red,		 3, "\
-Compact Bionics Module containing a few upgrades designed for melee combat.\n\
-Useful for those who like up-close combat.",
-    bio_shock, bio_heat_absorb, bio_claws, NULL);
-
-BIO("CBM: Armor",		12, 6800,	c_cyan,		 5, "\
-Compact Bionics Module containing the supplies necessary to install one of\n\
-several high-strength armors. Very popular.",
-    bio_carbon, bio_armor_head, bio_armor_torso, bio_armor_arms, bio_armor_legs,
-    NULL);
-
-BIO("CBM: Espionage",		 5, 7500,	c_magenta,	 4, "\
-Compact Bionics Module often used by high-tech spies. Its contents are\n\
-geared towards avoiding detection and bypassing security.",
-    bio_face_mask, bio_scent_mask, bio_cloak, bio_alarm, bio_fingerhack,
-    bio_lockpick, NULL);
-
-BIO("CBM: Defensive Systems",	 9, 8000,	c_ltblue,	 5, "\
-Compact Bionics Module containing a few augmentations designed to defend the\n\
-user in case of attack.",
-    bio_carbon, bio_ads, bio_ods, NULL);
-
-BIO("CBM: Medical",		12, 8200,	c_ltred,	 6, "\
-Compact Bionics Module containing several upgrades designed to provide the\n\
-user with medical attention in the field.",
-    bio_painkiller, bio_nanobots, bio_blood_anal, bio_blood_filter, NULL);
-
-BIO("CBM: Construction",	10, 3500,	c_dkgray,	 3, "\
-Compact Bionics Module which is very popular among construction workers.  It\n\
-contains several upgrades designed to make the user a living tool.",
-    bio_tools, bio_resonator, bio_hydraulics, bio_magnet, NULL);
-
-BIO("CBM: Super-Soldier",	 1,14000,	c_white,	10, "\
-A very rare Compact Bionics Module, designed by the military to create a kind\n\
-of super-soldier. Due to the highly advanced technology used, this module is\n\
-very difficult to install.",
-    bio_time_freeze, bio_teleport, NULL);
-
-BIO("CBM: Ranged Combat",	 7, 9200,	c_red,		 6, "\
-Compact Bionics Module containing a few devices designed for ranged combat.\n\
-Good for those who want a gun on occasion, but do not wish to carry lots of\n\
-heavy ammunition and weapons.",
-    bio_blaster, bio_laser, bio_emp, NULL);
+// power sources
+BIO_SINGLE(bio_solar, 2, 3500, c_yellow, 4);
+BIO_SINGLE(bio_batteries, 5, 800, c_yellow, 4);
+BIO_SINGLE(bio_metabolics, 4, 700, c_yellow, 4);
+BIO_SINGLE(bio_furnace, 2, 4500, c_yellow, 4);
+BIO_SINGLE(bio_ethanol, 6, 1200, c_yellow, 4);
+// utilities
+BIO_SINGLE(bio_tools, 3, 8000, c_ltgray, 6);
+BIO_SINGLE(bio_storage, 3, 4000, c_ltgray, 7);
+BIO_SINGLE(bio_flashlight, 8, 200, c_ltgray, 2);
+BIO_SINGLE(bio_lighter, 6, 1300, c_ltgray, 4);
+BIO_SINGLE(bio_magnet, 5, 2000, c_ltgray, 2);
+// neurological
+BIO_SINGLE(bio_memory, 2, 10000, c_pink, 9);
+BIO_SINGLE(bio_painkiller, 4, 2000, c_pink, 4);
+BIO_SINGLE(bio_alarm, 7, 250, c_pink, 1);
+// sensory
+BIO_SINGLE(bio_ears, 2, 5000, c_ltblue, 6);
+BIO_SINGLE(bio_eye_enhancer, 2, 8000, c_ltblue, 11);
+BIO_SINGLE(bio_night_vision, 2, 9000, c_ltblue, 11);
+BIO_SINGLE(bio_infrared, 4, 4500, c_ltblue, 6);
+BIO_SINGLE(bio_scent_vision, 4, 4500, c_ltblue, 8);
+// aquatic
+BIO_SINGLE(bio_membrane, 3, 4500, c_blue, 6);
+BIO_SINGLE(bio_gills, 3, 4500, c_blue, 6);
+// combat augs
+BIO_SINGLE(bio_targeting, 2, 6500, c_red, 5);
+BIO_SINGLE(bio_ground_sonar, 3, 4500, c_red, 5);
+// hazmat
+BIO_SINGLE(bio_purifier, 3, 4500, c_ltgreen, 4);
+BIO_SINGLE(bio_climate, 4, 3500, c_ltgreen, 3);
+BIO_SINGLE(bio_heatsink, 4, 3500, c_ltgreen, 3);
+BIO_SINGLE(bio_blood_filter, 4, 3500, c_ltgreen, 3);
+// nutritional
+BIO_SINGLE(bio_recycler, 2, 8500, c_green, 6);
+BIO_SINGLE(bio_digestion, 3, 5500, c_green, 6);
+BIO_SINGLE(bio_evap, 3, 5500, c_green, 4);
+BIO_SINGLE(bio_water_extractor, 3, 5500, c_green, 5);
+// was: desert survival (all dupes)
+// melee:
+BIO_SINGLE(bio_shock, 2, 5500, c_red, 5);
+BIO_SINGLE(bio_heat_absorb, 2, 5500, c_red, 5);
+BIO_SINGLE(bio_claws, 2, 5500, c_red, 5);
+// armor:
+BIO_SINGLE(bio_carbon, 3, 7500, c_cyan, 9);
+BIO_SINGLE(bio_armor_head, 3, 3500, c_cyan, 5);
+BIO_SINGLE(bio_armor_torso, 3, 3500, c_cyan, 4);
+BIO_SINGLE(bio_armor_arms, 3, 3500, c_cyan, 3);
+BIO_SINGLE(bio_armor_legs, 3, 3500, c_cyan, 3);
+// espionage
+BIO_SINGLE(bio_face_mask, 1, 8500, c_magenta, 5);
+BIO_SINGLE(bio_scent_mask, 1, 8500, c_magenta, 5);
+BIO_SINGLE(bio_cloak, 1, 8500, c_magenta, 5);
+BIO_SINGLE(bio_fingerhack, 1, 3500, c_magenta, 2);
+// defensive
+BIO_SINGLE(bio_ads, 1, 9500, c_ltblue, 7);
+BIO_SINGLE(bio_ods, 1, 9500, c_ltblue, 7);
+// medical
+BIO_SINGLE(bio_nanobots, 3, 9500, c_ltred, 6);
+BIO_SINGLE(bio_blood_anal, 3, 3200, c_ltred, 2);
+// construction
+BIO_SINGLE(bio_resonator, 2, 12000, c_dkgray, 11);
+BIO_SINGLE(bio_hydraulics, 3, 4000, c_dkgray, 6);
+// super soldier
+BIO_SINGLE(bio_time_freeze, 1, 14000, c_white, 11);
+BIO_SINGLE(bio_teleport, 1, 7000, c_white, 7);
+// ranged combat
+BIO_SINGLE(bio_blaster, 13, 2200, c_red, 3);
+BIO_SINGLE(bio_laser, 2, 7200, c_red, 5);
+BIO_SINGLE(bio_emp, 2, 7200, c_red, 5);
 
 // SOFTWARE
 
@@ -4028,7 +4220,7 @@ AMMO("Fusion blast",	 0,0, AT_FUSION,c_dkgray,	MNULL,
 //  NAME		RARE	COLOR		MAT1	MAT2
 GUN("fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG ACC REC DUR BST CLIP REL
-	sk_rifle,	AT_FUSION, 12,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
+	"rifle",	AT_FUSION, 12,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
 "",0);
 
 

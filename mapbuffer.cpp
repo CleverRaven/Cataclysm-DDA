@@ -9,22 +9,41 @@
 mapbuffer MAPBUFFER;
 
 // g defaults to NULL
-mapbuffer::mapbuffer(game *g)
+mapbuffer::mapbuffer()
 {
- master_game = g;
+ dirty = false;
 }
 
 mapbuffer::~mapbuffer()
 {
- std::list<submap*>::iterator it;
-
- for (it = submap_list.begin(); it != submap_list.end(); it++)
-  delete *it;
+ reset();
 }
 
+void mapbuffer::reset(){
+ std::list<submap*>::iterator it;
+ for (it = submap_list.begin(); it != submap_list.end(); it++)
+  delete *it;
+
+ submaps.clear();
+ submap_list.clear();
+}
+
+// game g's existance does not imply that it has been identified, started, or loaded.
 void mapbuffer::set_game(game *g)
 {
  master_game = g;
+}
+
+// set to dirty right before the game starts & the player starts changing stuff.
+void mapbuffer::set_dirty()
+{
+ dirty = true;
+}
+// initial state; no need to synchronize.
+// make volatile after game has ended.
+void mapbuffer::make_volatile()
+{
+ dirty = false;
 }
 
 bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
@@ -57,6 +76,12 @@ submap* mapbuffer::lookup_submap(int x, int y, int z)
  return submaps[p];
 }
 
+void mapbuffer::save_if_dirty()
+{
+ if(dirty)
+  save();
+}
+
 void mapbuffer::save()
 {
  std::map<tripoint, submap*>::iterator it;
@@ -64,14 +89,14 @@ void mapbuffer::save()
  fout.open("save/maps.txt");
 
  fout << submap_list.size() << std::endl;
- int percent = 0;
+ int num_saved_submaps = 0;
+ int num_total_submaps = submap_list.size();
 
  for (it = submaps.begin(); it != submaps.end(); it++) {
-  percent++;
-  if (percent % 100 == 0)
-   popup_nowait("Please wait as the map saves [%s%d/%d]",
-                (percent < 100 ?  percent < 10 ? "  " : " " : ""), percent,
-                submap_list.size());
+  if (num_saved_submaps % 100 == 0)
+   popup_nowait("Please wait as the map saves [%d/%d]",
+                num_saved_submaps, num_total_submaps);
+
   fout << it->first.x << " " << it->first.y << " " << it->first.z << std::endl;
   submap *sm = it->second;
   fout << sm->turn_last_touched << std::endl;
@@ -83,11 +108,11 @@ void mapbuffer::save()
   }
  // Dump the radiation
   for (int j = 0; j < SEEY; j++) {
-   for (int i = 0; i < SEEX; i++) 
+   for (int i = 0; i < SEEX; i++)
     fout << sm->rad[i][j] << " ";
   }
   fout << std::endl;
- 
+
  // Items section; designate it with an I.  Then check itm[][] for each square
  //   in the grid and print the coords and the item's details.
  // Designate it with a C if it's contained in the prior item.
@@ -113,7 +138,7 @@ void mapbuffer::save()
      std::endl;
    }
   }
- 
+
  // Output the fields
   field tmpf;
   for (int j = 0; j < SEEY; j++) {
@@ -141,7 +166,17 @@ void mapbuffer::save()
  // Output the computer
   if (sm->comp.name != "")
    fout << "c " << sm->comp.save_data() << std::endl;
+
+ // Output the graffiti
+ for (int j = 0; j < SEEY; j++) {
+  for (int i = 0; i < SEEX; i++) {
+   if (sm->graf[i][j].contents)
+    fout << "G " << i << " " << j << *sm->graf[i][j].contents << std::endl;
+  }
+ }
+
   fout << "----" << std::endl;
+  num_saved_submaps++;
  }
  // Close the file; that's all we need.
  fout.close();
@@ -159,18 +194,16 @@ void mapbuffer::load()
  if (!fin.is_open())
   return;
 
- int itx, ity, t, d, a, num_submaps;
+ int itx, ity, t, d, a, num_submaps, num_loaded=0;
  bool fields_here = false;
  item it_tmp;
  std::string databuff;
  fin >> num_submaps;
 
  while (!fin.eof()) {
-  int percent = submap_list.size();
-  if (percent % 100 == 0)
-   popup_nowait("Please wait as the map loads [%s%d/%d]",
-                (percent < 100 ?  percent < 10 ? "  " : " " : ""), percent,
-                num_submaps);
+  if (num_loaded % 100 == 0)
+   popup_nowait("Please wait as the map loads [%d/%d]",
+                num_loaded, num_submaps);
   int locx, locy, locz, turn;
   submap* sm = new submap;
   fin >> locx >> locy >> locz >> turn;
@@ -187,6 +220,7 @@ void mapbuffer::load()
     sm->itm[i][j].clear();
     sm->trp[i][j] = tr_null;
     sm->fld[i][j] = field();
+    sm->graf[i][j] = graffiti();
    }
   }
 // Load irradiation
@@ -247,11 +281,19 @@ void mapbuffer::load()
    } else if (string_identifier == "c") {
     getline(fin, databuff);
     sm->comp.load_data(databuff);
+   } else if (string_identifier == "G") {
+     std::string s;
+    int j;
+    int i;
+    fin >> j >> i;
+    getline(fin,s);
+    sm->graf[j][i] = graffiti(s);
    }
   } while (string_identifier != "----" && !fin.eof());
 
   submap_list.push_back(sm);
   submaps[ tripoint(locx, locy, locz) ] = sm;
+  num_loaded++;
  }
  fin.close();
 }

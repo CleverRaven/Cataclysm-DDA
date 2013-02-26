@@ -23,7 +23,7 @@ LDFLAGS = -static -lgdi32
 
 #ifeq ($(OS), Msys)
 #LDFLAGS = -static -lpdcurses
-#else 
+#else
 #LDFLAGS = -lncurses
 #endif
 
@@ -35,7 +35,7 @@ all: $(TARGET)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
-	$(CXX) $(LINKERFLAGS) -o $(TARGET) $(CFLAGS) $(OBJS) $(LDFLAGS) 
+	$(CXX) $(LINKERFLAGS) -o $(TARGET) $(CFLAGS) $(OBJS) $(LDFLAGS)
 
 $(ODIR):
 	mkdir $(ODIR)

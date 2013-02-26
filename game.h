@@ -52,7 +52,7 @@ enum quit_status {
  QUIT_SUICIDE, // Quit with 'Q'
  QUIT_SAVED,   // Saved and quit
  QUIT_DIED,     // Actual death
- QUIT_DELETE_WORLD  // Quit and delete world 
+ QUIT_DELETE_WORLD  // Quit and delete world
 };
 
 struct monster_and_count
@@ -87,6 +87,8 @@ class game
   bool game_quit(); // True if we actually quit the game - used in main.cpp
   quit_status uquit;    // used in main.cpp to determine what type of quit
   void save();
+  void delete_save();
+  void cleanup_at_end();
   bool do_turn();
   void draw();
   void draw_ter(int posx = -999, int posy = -999);
@@ -165,6 +167,7 @@ class game
   int& scent(int x, int y);
   float natural_light_level();
   unsigned char light_level();
+  void reset_light_level();
   int assign_npc_id();
   int assign_faction_id();
   faction* faction_by_id(int it);
@@ -187,12 +190,19 @@ class game
 
   void peek();
   point look_around();// Look at nearby terrain	';'
+  void list_items(); //List all items around the player
+  bool list_items_match(std::string sText, std::string sPattern);
+  std::string sFilter;
   char inv(std::string title = "Inventory:");
-  char inv_type(std::string title = "Inventory:", int inv_item_type = 0);  
+  char inv_type(std::string title = "Inventory:", int inv_item_type = 0);
   std::vector<item> multidrop();
   faction* list_factions(std::string title = "FACTIONS:");
   point find_item(item *it);
   void remove_item(item *it);
+
+  inventory crafting_inventory();  // inv_from_map, inv, & 'weapon'
+  void consume_items(std::vector<component> components);
+  void consume_tools(std::vector<component> tools);
 
   std::vector <itype*> itypes;
   std::vector <mtype*> mtypes;
@@ -227,9 +237,14 @@ class game
   ter_id dragging;
   std::vector<item> items_dragged;
   int weight_dragged; // Computed once, when you start dragging
-  bool debugmon; 
+  bool debugmon;
   bool no_npc;
 // Display data... TODO: Make this more portable?
+  int VIEWX;
+  int VIEWY;
+  int TERRAIN_WINDOW_WIDTH;
+  int TERRAIN_WINDOW_HEIGHT;
+
   WINDOW *w_terrain;
   WINDOW *w_minimap;
   WINDOW *w_HP;
@@ -237,6 +252,7 @@ class game
   WINDOW *w_messages;
   WINDOW *w_location;
   WINDOW *w_status;
+  overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
  private:
 // Game-start procedures
@@ -285,11 +301,11 @@ class game
   void pick_recipes(std::vector<recipe*> &current,
                     std::vector<bool> &available, craft_cat tab);// crafting.cpp
   void disassemble();              // See crafting.cpp
-  void disassemble_item(recipe *dis);              // See crafting.cpp  
-  void complete_disassemble();              // See crafting.cpp                      
+  void disassemble_item(recipe *dis);              // See crafting.cpp
+  void complete_disassemble();              // See crafting.cpp
   void construction_menu();                   // See construction.cpp
   bool player_can_build(player &p, inventory inv, constructable* con,
-                        int level = -1, bool cont = false,
+                        const int level = -1, bool cont = false,
 			bool exact_level=false);
   void place_construction(constructable *con); // See construction.cpp
   void complete_construction();               // See construction.cpp
@@ -302,11 +318,13 @@ class game
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
 // Pick where to put liquid; false if it's left where it was
   bool handle_liquid(item &liquid, bool from_ground, bool infinite);
+  void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items	'I'
   void drop();	  // Drop an item		'd'
   void drop_in_direction(); // Drop w/ direction 'D'
   void reassign_item(); // Reassign the letter of an item   '='
   void butcher(); // Butcher a corpse		'B'
   void complete_butcher(int index);	// Finish the butchering process
+  void forage();	// Foraging ('a' on underbrush)
   void eat();	  // Eat food or fuel		'E' (or 'a')
   void use_item();// Use item; also tries E,R,W	'a'
   void use_wielded_item();
@@ -340,11 +358,12 @@ class game
 // Routine loop functions, approximately in order of execution
   void cleanup_dead();     // Delete any dead NPCs/monsters
   void monmove();          // Monster movement
-  void update_skills();    // Degrades practice levels, checks & upgrades skills
+  void rustCheck();        // Degrades practice levels
+  void update_bodytemp();  // Maintains body temperature
   void process_events();   // Processes and enacts long-term events
   void process_activity(); // Processes and enacts the player's activity
   void update_weather();   // Updates the temperature and weather patten
-  void hallucinate();      // Prints hallucination junk to the screen
+  void hallucinate(const int x, const int y); // Prints hallucination junk to the screen
   void mon_info();         // Prints a list of nearby monsters (top right)
   input_ret get_input(int timeout_ms);   // Gets player input and calls the proper function
   void update_scent();     // Updates the scent map
@@ -388,7 +407,6 @@ class game
 
   calendar nextspawn; // The turn on which monsters will spawn next.
   calendar nextweather; // The turn on which weather will shift next.
-  overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
   int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
   std::vector <game_message> messages;   // Messages to be printed
   int curmes;	  // The last-seen message.
@@ -401,6 +419,8 @@ class game
 
   int moves_since_last_save;
   int item_exchanges_since_save;
+  unsigned char latest_lightlevel;
+  calendar latest_lightlevel_turn;
 
   special_game *gamemode;
 };

@@ -1,24 +1,18 @@
-
-#if (defined _WIN32 || defined WINDOWS)
-	#include "catacurse.h"
-#elif (defined __CYGWIN__)
-      #include "ncurses/curses.h"
-#else
-	#include <curses.h>
-#endif
-
 #include <string>
 #include <vector>
 #include <cstdarg>
 #include <cstring>
 #include <stdlib.h>
 #include <fstream>
+#include <sstream>
+#include <algorithm>
 
 #include "color.h"
 #include "output.h"
 #include "rng.h"
 #include "keypress.h"
 #include "options.h"
+#include "cursesdef.h"
 
 #define LINE_XOXO 4194424
 #define LINE_OXOX 4194417
@@ -378,69 +372,23 @@ int query_int(const char *mes, ...)
  return temp-48;
 }
 
-std::string string_input_popup(const char *mes, ...)
+std::string string_input_popup(std::string title, int max_length, std::string input)
 {
- std::string ret;
- va_list ap;
- va_start(ap, mes);
- char buff[1024];
- vsprintf(buff, mes, ap);
- va_end(ap);
- int startx = strlen(buff) + 2;
- WINDOW* w = newwin(3, 80, 11, 0);
- wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w, 1, 1, c_ltred, "%s", buff);
- for (int i = startx + 1; i < 79; i++)
-  mvwputch(w, 1, i, c_ltgray, '_');
- int posx = startx;
- mvwputch(w, 1, posx, h_ltgray, '_');
- do {
-  wrefresh(w);
-  long ch = getch();
-  if (ch == 27) {	// Escape
-   werase(w);
-   wrefresh(w);
-   delwin(w);
-   refresh();
-   return "";
-  } else if (ch == '\n') {
-   werase(w);
-   wrefresh(w);
-   delwin(w);
-   refresh();
-   return ret;
-  } else if ((ch == KEY_BACKSPACE || ch == 127) && posx > startx) {
-// Move the cursor back and re-draw it
-   ret = ret.substr(0, ret.size() - 1);
-   mvwputch(w, 1, posx, c_ltgray, '_');
-   posx--;
-   mvwputch(w, 1, posx, h_ltgray, '_');
-  } else {
-   ret += ch;
-   mvwputch(w, 1, posx, c_magenta, ch);
-   posx++;
-   mvwputch(w, 1, posx, h_ltgray, '_');
-  }
- } while (true);
-}
+ std::string ret = input;
 
-std::string string_input_popup(int max_length, const char *mes, ...)
-{
- std::string ret;
- va_list ap;
- va_start(ap, mes);
- char buff[1024];
- vsprintf(buff, mes, ap);
- va_end(ap);
- int startx = strlen(buff) + 2;
+ int startx = title.size() + 2;
  WINDOW* w = newwin(3, 80, 11, 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w, 1, 1, c_ltred, "%s", buff);
  for (int i = startx + 1; i < 79; i++)
   mvwputch(w, 1, i, c_ltgray, '_');
- int posx = startx;
+
+ mvwprintz(w, 1, 1, c_ltred, "%s", title.c_str());
+
+ if (input != "")
+  mvwprintz(w, 1, startx, c_magenta, "%s", input.c_str());
+
+ int posx = startx + input.size();
  mvwputch(w, 1, posx, h_ltgray, '_');
  do {
   wrefresh(w);
@@ -511,7 +459,7 @@ char popup_getkey(const char *mes, ...)
  }
  line_num++;
  mvwprintz(w, line_num, 1, c_white, tmp.c_str());
- 
+
  wrefresh(w);
  char ch = getch();;
  werase(w);
@@ -622,7 +570,7 @@ void popup_top(const char *mes, ...)
  }
  line_num++;
  mvwprintz(w, line_num, 1, c_white, tmp.c_str());
- 
+
  wrefresh(w);
  char ch;
  do
@@ -673,7 +621,7 @@ void popup(const char *mes, ...)
  }
  line_num++;
  mvwprintz(w, line_num, 1, c_white, tmp.c_str());
- 
+
  wrefresh(w);
  char ch;
  do
@@ -724,7 +672,6 @@ void popup_nowait(const char *mes, ...)
  }
  line_num++;
  mvwprintz(w, line_num, 1, c_white, tmp.c_str());
- 
  wrefresh(w);
  delwin(w);
  refresh();
@@ -763,6 +710,157 @@ void full_screen_popup(const char* mes, ...)
  refresh();
 }
 
+void compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare)
+{
+ WINDOW* w = newwin(25, 40, 0, (bLeft) ? 0 : 40);
+ wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+ mvwprintz(w, 1, 2, c_white, sItemName.c_str());
+ int line_num = 3;
+
+ std::string sPlus;
+ bool bStartNewLine = true;
+ for (int i = 0; i < vItemDisplay.size(); i++) {
+  if (vItemDisplay[i].sType == "DESCRIPTION") {
+   std::string sText = vItemDisplay[i].sName;
+   std::replace(sText.begin(), sText.end(), '\n', ' ');
+   int iPos;
+   while (1) {
+     line_num++;
+     if (sText.size() > 36) {
+      int iPos = sText.find_last_of(' ', 36);
+      mvwprintz(w, line_num, 2, c_white, (sText.substr(0, iPos)).c_str());
+      sText = sText.substr(iPos+1, sText.size());
+     } else {
+      mvwprintz(w, line_num, 2, c_white, (sText).c_str());
+      break;
+     }
+   }
+  } else {
+   if (bStartNewLine) {
+    mvwprintz(w, line_num, 2, c_white, "%s", (vItemDisplay[i].sName).c_str());
+    bStartNewLine = false;
+   } else {
+    wprintz(w, c_white, "%s", (vItemDisplay[i].sName).c_str());
+   }
+
+   sPlus = "";
+   std::string sPre = vItemDisplay[i].sPre;
+   if (sPre.size() > 1 && sPre.substr(sPre.size()-1, 1) == "+") {
+     wprintz(w, c_white, "%s", (sPre.substr(0, sPre.size()-1)).c_str());
+     sPlus = "+";
+   } else if (sPre != "+")
+     wprintz(w, c_white, "%s", sPre.c_str());
+   else if (sPre == "+")
+    sPlus = "+";
+
+   if (vItemDisplay[i].iValue != -999) {
+    nc_color thisColor = c_white;
+    for (int k = 0; k < vItemCompare.size(); k++) {
+     if (vItemCompare[k].iValue != -999) {
+      if (vItemDisplay[i].sName == vItemCompare[k].sName) {
+       if (vItemDisplay[i].iValue == vItemCompare[k].iValue) {
+         thisColor = c_white;
+       } else if (vItemDisplay[i].iValue > vItemCompare[k].iValue) {
+        if (vItemDisplay[i].bLowerIsBetter) {
+         thisColor = c_ltred;
+        } else {
+         thisColor = c_ltgreen;
+        }
+       } else if (vItemDisplay[i].iValue < vItemCompare[k].iValue) {
+        if (vItemDisplay[i].bLowerIsBetter) {
+         thisColor = c_ltgreen;
+        } else {
+         thisColor = c_ltred;
+        }
+       }
+       break;
+      }
+     }
+    }
+
+    if (sPlus == "+" )
+     wprintz(w, thisColor, "%s", (sPlus).c_str());
+    wprintz(w, thisColor, "%d", vItemDisplay[i].iValue);
+   }
+   wprintz(w, c_white, (vItemDisplay[i].sPost).c_str());
+
+   if (vItemDisplay[i].bNewLine) {
+    line_num++;
+    bStartNewLine = true;
+   }
+  }
+ }
+
+ wrefresh(w);
+ if (!bLeft)
+ {
+  char ch;
+  do
+   ch = getch();
+  while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+  werase(w);
+  wrefresh(w);
+  delwin(w);
+  refresh();
+ }
+ /*
+ std::string tmp = buff;
+ WINDOW* w = newwin(25, 40, 0, (bLeft) ? 0 : 40);
+ wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ size_t pos = tmp.find_first_of('\n');
+ mvwprintz(w, 1, 2, c_white, sItemName.c_str());
+ int line_num = 2;
+ while (pos != std::string::npos) {
+  std::string line = tmp.substr(0, pos);
+  line_num++;
+  if (line.size() > 36)
+  {
+    std::string sTemp;
+    do
+    {
+      sTemp += line;
+      tmp = tmp.substr(pos + 1);
+      pos = tmp.find_first_of('\n');
+      line = " " + tmp.substr(0, pos);
+    } while (pos != std::string::npos);
+    sTemp += line;
+    while (sTemp.size() > 0)
+    {
+      size_t iPos = sTemp.find_last_of(' ', 36);
+      if (iPos == 0)
+        iPos = sTemp.size();
+      mvwprintz(w, line_num, 2, c_white, (sTemp.substr(0, iPos)).c_str());
+      line_num++;
+      sTemp = sTemp.substr(iPos+1, sTemp.size());
+    }
+  }
+  else
+  {
+    mvwprintz(w, line_num, 2, c_white, (line).c_str());
+  }
+  tmp = tmp.substr(pos + 1);
+  pos = tmp.find_first_of('\n');
+ }
+ line_num++;
+ mvwprintz(w, line_num, 2, c_white, tmp.c_str());
+ wrefresh(w);
+ if (!bLeft)
+ {
+  char ch;
+  do
+   ch = getch();
+  while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+  werase(w);
+  wrefresh(w);
+  delwin(w);
+  refresh();
+ }
+ */
+}
+
 char rand_char()
 {
  switch (rng(0, 9)) {
@@ -781,7 +879,7 @@ char rand_char()
 }
 
 // this translates symbol y, u, n, b to NW, NE, SE, SW lines correspondingly
-// h, j, c to horizontal, vertical, cross correspondingly 
+// h, j, c to horizontal, vertical, cross correspondingly
 long special_symbol (char sym)
 {
     switch (sym)
@@ -796,5 +894,44 @@ long special_symbol (char sym)
     default: return sym;
     }
 }
+
+// crawl through string, probing each word while treating spaces & newlines the same.
+std::string word_rewrap (const std::string &in, int width){
+    std::ostringstream o;
+    int i_ok = 0; // pos in string of next char probe
+    int x_ok = 0; // ditto for column pos
+    while (i_ok <= in.size()){
+        bool fit = false;
+        int j=0; // j = word probe counter.
+        while(x_ok + j <= width){
+           if (i_ok + j >= in.size()){
+              fit = true;
+              break;
+           }
+           char c = in[i_ok+j];
+           if (c == '\n' || c == ' '){ //whitespace detected. copy word.
+              fit = true;
+              break;
+           }
+           j++;
+        }
+        if(fit == false){
+           o << '\n';
+           x_ok = 0;
+        }
+        else {
+           o << ' ';
+           for (int k=i_ok; k < i_ok+j; k++){
+              o << in[k];
+           }
+           i_ok += j+1;
+           x_ok += j+1;
+        }
+    }
+    return o.str();
+}
+
+
+
 
 

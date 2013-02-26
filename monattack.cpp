@@ -717,7 +717,7 @@ void mattack::dermatik(game *g, monster *z)
 
 // Can we swat the bug away?
  int dodge_roll = z->dodge_roll();
- int swat_skill = (g->u.sklevel[sk_melee] + g->u.sklevel[sk_unarmed] * 2) / 3;
+ int swat_skill = (g->u.skillLevel("melee").level() + g->u.skillLevel("unarmed").level() * 2) / 3;
  int player_swat = dice(swat_skill, 10);
  if (player_swat > dodge_roll) {
   g->add_msg("The %s lands on you, but you swat it off.", z->name().c_str());
@@ -1129,7 +1129,7 @@ void mattack::smg(game *g, monster *z)
   int closest = 19;
   for (int i = 0; i < g->z.size(); i++) {
    int dist = rl_dist(z->posx, z->posy, g->z[i].posx, g->z[i].posy);
-   if (g->z[i].friendly == 0 && dist < closest && 
+   if (g->z[i].friendly == 0 && dist < closest &&
        g->m.sees(z->posx, z->posy, g->z[i].posx, g->z[i].posy, 18, t)) {
     target = &(g->z[i]);
     closest = dist;
@@ -1144,8 +1144,10 @@ void mattack::smg(game *g, monster *z)
    g->add_msg("The %s fires its smg!", z->name().c_str());
   player tmp;
   tmp.name = "The " + z->name();
-  tmp.sklevel[sk_smg] = 1;
-  tmp.sklevel[sk_gun] = 0;
+
+  tmp.skillLevel("smg").level(1);
+  tmp.skillLevel("gun").level(0);
+
   tmp.recoil = 0;
   tmp.posx = z->posx;
   tmp.posy = z->posy;
@@ -1161,7 +1163,7 @@ void mattack::smg(game *g, monster *z)
 
   return;
  }
- 
+
 // Not friendly; hence, firing at the player
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 24 ||
      !g->sees_u(z->posx, z->posy, t))
@@ -1181,8 +1183,10 @@ void mattack::smg(game *g, monster *z)
 // Set up a temporary player to fire this gun
  player tmp;
  tmp.name = "The " + z->name();
- tmp.sklevel[sk_smg] = 1;
- tmp.sklevel[sk_gun] = 0;
+
+ tmp.skillLevel("smg").level(1);
+ tmp.skillLevel("gun").level(0);
+
  tmp.recoil = 0;
  tmp.posx = z->posx;
  tmp.posy = z->posy;
@@ -1297,7 +1301,7 @@ void mattack::upgrade(game *g, monster *z)
  monster *target = &( g->z[ targets[ rng(0, targets.size()-1) ] ] );
 
  mon_id newtype = mon_zombie;
- 
+
  switch( rng(1, 10) ) {
   case  1: newtype = mon_zombie_shrieker;
            break;

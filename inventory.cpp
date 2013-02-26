@@ -2,6 +2,7 @@
 #include "inventory.h"
 #include "game.h"
 #include "keypress.h"
+#include "mapdata.h"
 
 item& inventory::operator[] (int i)
 {
@@ -117,12 +118,6 @@ inventory inventory::operator+ (const item &rhs)
 
 void inventory::clear()
 {
-/*
- for (int i = 0; i < items.size(); i++) {
-  for (int j = 0; j < items[j].size(); j++)
-   delete items[i][j];
- }
-*/
  items.clear();
 }
 
@@ -136,7 +131,7 @@ void inventory::push_back(std::vector<item> newits)
 {
  add_stack(newits);
 }
- 
+
 void inventory::add_item(item newit, bool keep_invlet)
 {
  if (keep_invlet && !newit.invlet_is_okay())
@@ -146,18 +141,13 @@ void inventory::add_item(item newit, bool keep_invlet)
   return; // Styles never belong in our inventory.
  for (int i = 0; i < items.size(); i++) {
   if (items[i][0].stacks_with(newit)) {
-/*
-   if (keep_invlet)
-    items[i][0].invlet = newit.invlet;
-   else
-*/
     newit.invlet = items[i][0].invlet;
    items[i].push_back(newit);
    return;
   } else if (keep_invlet && items[i][0].invlet == newit.invlet)
    assign_empty_invlet(items[i][0]);
  }
- if (!newit.invlet_is_okay() || index_by_letter(newit.invlet) != -1) 
+ if (!newit.invlet_is_okay() || index_by_letter(newit.invlet) != -1)
   assign_empty_invlet(newit);
 
  std::vector<item> newstack;
@@ -184,13 +174,6 @@ void inventory::restack(player *p)
  }
  clear();
  if (p) {
-// Doing it backwards will preserve older items' invlet
-/*
-  for (int i = tmp.size() - 1; i >= 0; i--) {
-   if (p->has_weapon_or_armor(tmp[i].invlet)) 
-    tmp.assign_empty_invlet(tmp[i], p);
-  }
-*/
   for (int i = 0; i < tmp.size(); i++) {
    if (!tmp[i].invlet_is_okay() || p->has_weapon_or_armor(tmp[i].invlet)) {
     //debugmsg("Restacking item %d (invlet %c)", i, tmp[i].invlet);
@@ -212,11 +195,17 @@ void inventory::form_from_map(game *g, point origin, int range)
    for (int i = 0; i < g->m.i_at(x, y).size(); i++)
     if (!g->m.i_at(x, y)[i].made_of(LIQUID))
      add_item(g->m.i_at(x, y)[i]);
-// Kludge for now!
+// Kludges for now!
    if (g->m.field_at(x, y).type == fd_fire) {
     item fire(g->itypes[itm_fire], 0);
     fire.charges = 1;
     add_item(fire);
+   }
+   ter_id terrain_id = g->m.ter(x, y);
+   if (terrain_id == t_toilet || terrain_id == t_sink || terrain_id == t_water_sh || terrain_id == t_water_dp){
+    item water(g->itypes[itm_water], 0);
+    water.charges = 50;
+    add_item(water);
    }
   }
  }
@@ -445,7 +434,7 @@ void inventory::use_charges(itype_id it, int quantity)
   }
  }
 }
- 
+
 bool inventory::has_amount(itype_id it, int quantity)
 {
  return (amount_of(it) >= quantity);

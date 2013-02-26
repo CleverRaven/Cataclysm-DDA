@@ -46,7 +46,7 @@ class light_map
   light_map();
 
   void generate(game* g, int x, int y, float natural_light, float luminance);
-  
+
   lit_level at(int dx, int dy); // Assumes 0,0 is light map center
   float ambient_at(int dx, int dy); // Raw values for tilesets
 

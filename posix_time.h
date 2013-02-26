@@ -6,6 +6,8 @@
 #include <time.h>
 #include <errno.h>
 
+enum { BILLION = 1000 * 1000 * 1000 };
+
 #if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
 /* Windows platforms.  */
 
@@ -22,8 +24,6 @@ struct timespec
 #   ifdef __cplusplus
 }
 #   endif
-
-enum { BILLION = 1000 * 1000 * 1000 };
 
 # define WIN32_LEAN_AND_MEAN
 # include <windows.h>

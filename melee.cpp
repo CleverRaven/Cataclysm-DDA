@@ -5,13 +5,7 @@
 #include <sstream>
 #include <stdlib.h>
 
-#if (defined _WIN32 || defined WINDOWS)
-	#include "catacurse.h"
-#elif (defined __CYGWIN__)
-       #include "ncurses/curses.h"
-#else
-	#include <curses.h>
-#endif
+#include "cursesdef.h"
 
 void hit_message(game *g, std::string subject, std::string verb,
                  std::string target, int dam, bool crit);
@@ -53,7 +47,7 @@ int player::base_to_hit(bool real_life, int stat)
 {
  if (stat == -999)
   stat = (real_life ? dex_cur : dex_max);
- return 1 + int(stat / 2) + sklevel[sk_melee];
+ return 1 + int(stat / 2) + skillLevel("melee").level();
 }
 
 int player::hit_roll()
@@ -80,28 +74,28 @@ int player::hit_roll()
 
 // Are we unarmed?
  if (unarmed_attack()) {
-  best_bonus = sklevel[sk_unarmed];
-  if (sklevel[sk_unarmed] > 4)
-   best_bonus += sklevel[sk_unarmed] - 4; // Extra bonus for high levels
+  best_bonus = skillLevel("unarmed").level();
+  if (skillLevel("unarmed").level() > 4)
+   best_bonus += skillLevel("unarmed").level() - 4; // Extra bonus for high levels
  }
 
 // Using a bashing weapon?
  if (weapon.is_bashing_weapon()) {
-  int bash_bonus = int(sklevel[sk_bashing] / 3);
+  int bash_bonus = int(skillLevel("bashing").level() / 3);
   if (bash_bonus > best_bonus)
    best_bonus = bash_bonus;
  }
 
 // Using a cutting weapon?
  if (weapon.is_cutting_weapon()) {
-  int cut_bonus = int(sklevel[sk_cutting] / 2);
+  int cut_bonus = int(skillLevel("cutting").level() / 2);
   if (cut_bonus > best_bonus)
    best_bonus = cut_bonus;
  }
 
 // Using a spear?
  if (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)) {
-  int stab_bonus = int(sklevel[sk_stabbing] / 2);
+  int stab_bonus = int(skillLevel("stabbing").level() / 2);
   if (stab_bonus > best_bonus)
    best_bonus = stab_bonus;
  }
@@ -341,8 +335,8 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  if (allow_grab && technique == TEC_GRAB) {
 // Move our weapon to a temp slot, if it's not unarmed
   if (p.weapon.has_technique(TEC_BREAK, &p) &&
-      dice(p.dex_cur + p.sklevel[sk_melee], 12) >
-      dice(dex_cur + sklevel[sk_melee], 10)) {
+      dice(p.dex_cur + p.skillLevel("melee").level(), 12) >
+      dice(dex_cur + skillLevel("melee").level(), 10)) {
    if (is_u)
     g->add_msg("%s break%s the grab!", target.c_str(), (p.is_npc() ? "s" : ""));
   } else if (!unarmed_attack()) {
@@ -381,7 +375,7 @@ bool player::scored_crit(int target_dodge)
 // Weapon to-hit roll
  int chance = 25;
  if (unarmed_attack()) { // Unarmed attack: 1/2 of unarmed skill is to-hit
-  for (int i = 1; i <= int(sklevel[sk_unarmed] * .5); i++)
+  for (int i = 1; i <= int(skillLevel("unarmed").level() * .5); i++)
    chance += (50 / (2 + i));
  }
  if (weapon.type->m_to_hit > 0) {
@@ -427,17 +421,17 @@ bool player::scored_crit(int target_dodge)
 // Skill level roll
  int best_skill = 0;
 
- if (weapon.is_bashing_weapon() && sklevel[sk_bashing] > best_skill)
-  best_skill = sklevel[sk_bashing];
- if (weapon.is_cutting_weapon() && sklevel[sk_cutting] > best_skill)
-  best_skill = sklevel[sk_cutting];
+ if (weapon.is_bashing_weapon() && skillLevel("bashing").level() > best_skill)
+  best_skill = skillLevel("bashing").level();
+ if (weapon.is_cutting_weapon() && skillLevel("cutting").level() > best_skill)
+  best_skill = skillLevel("cutting").level();
  if ((weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)) &&
-     sklevel[sk_stabbing] > best_skill)
-  best_skill = sklevel[sk_stabbing];
- if (unarmed_attack() && sklevel[sk_unarmed] > best_skill)
-  best_skill = sklevel[sk_unarmed];
+     skillLevel("stabbing").level() > best_skill)
+  best_skill = skillLevel("stabbing").level();
+ if (unarmed_attack() && skillLevel("unarmed").level() > best_skill)
+  best_skill = skillLevel("unarmed").level();
 
- best_skill += int(sklevel[sk_melee] / 2.5);
+ best_skill += int(skillLevel("melee").level() / 2.5);
 
  chance = 25;
  if (best_skill > 3) {
@@ -465,7 +459,7 @@ int player::dodge(game *g)
  if (activity.type != ACT_NULL)
   return 0;
  int ret = 4 + (dex_cur / 2);
- ret += sklevel[sk_dodge];
+ ret += skillLevel("dodge").level();
  ret += disease_intensity(DI_DODGE_BOOST);
  ret -= (encumb(bp_legs) / 2) + encumb(bp_torso);
  ret += int(current_speed(g) / 150);
@@ -482,15 +476,15 @@ int player::dodge(game *g)
  else if (str_max <= 5)
   ret++; // Bonus if we're small
  if (dodges_left <= 0) { // We already dodged this turn
-  if (rng(1, sklevel[sk_dodge] + dex_cur + 15) <= sklevel[sk_dodge] + dex_cur)
+  if (rng(1, skillLevel("dodge").level() + dex_cur + 15) <= skillLevel("dodge").level() + dex_cur)
    ret = rng(0, ret);
   else
    ret = 0;
  }
  dodges_left--;
 // If we're over our cap, average it with our cap
- if (ret > int(dex_cur / 2) + sklevel[sk_dodge] * 2)
-  ret = ( ret + int(dex_cur / 2) + sklevel[sk_dodge] * 2 ) / 2;
+ if (ret > int(dex_cur / 2) + skillLevel("dodge").level() * 2)
+  ret = ( ret + int(dex_cur / 2) + skillLevel("dodge").level() * 2 ) / 2;
  return ret;
 }
 
@@ -518,9 +512,9 @@ int player::roll_bash_damage(monster *z, bool crit)
 {
  int ret = 0;
  int stat = str_cur; // Which stat determines damage?
- int skill = sklevel[sk_bashing]; // Which skill determines damage?
+ int skill = skillLevel("bashing").level(); // Which skill determines damage?
  if (unarmed_attack())
-  skill = sklevel[sk_unarmed];
+  skill = skillLevel("unarmed").level();
 
  switch (weapon.typeId()) { // Some martial arts change which stat
   case itm_style_crane:
@@ -554,7 +548,7 @@ int player::roll_bash_damage(monster *z, bool crit)
      bash_cap = 5 + stat + skill;
 
  if (unarmed_attack())
-  bash_dam = rng(0, int(stat / 2) + sklevel[sk_unarmed]);
+  bash_dam = rng(0, int(stat / 2) + skillLevel("unarmed").level());
 
  if (crit) {
   bash_dam *= 1.5;
@@ -594,7 +588,7 @@ int player::roll_cut_damage(monster *z, bool crit)
 {
  if (weapon.has_flag(IF_SPEAR))
   return 0;  // Stabs, doesn't cut!
- int z_armor_cut = (z == NULL ? 0 : z->armor_cut() - sklevel[sk_cutting] / 2);
+ int z_armor_cut = (z == NULL ? 0 : z->armor_cut() - skillLevel("cutting").level() / 2);
 
  if (crit)
   z_armor_cut /= 2;
@@ -607,7 +601,7 @@ int player::roll_cut_damage(monster *z, bool crit)
   if (has_trait(PF_CLAWS))
    ret += 6;
   if (has_trait(PF_TALONS))
-   ret += 6 + (sklevel[sk_unarmed] > 8 ? 8 : sklevel[sk_unarmed]);
+   ret += 6 + (skillLevel("unarmed").level() > 8 ? 8 : skillLevel("unarmed").level());
   if (has_trait(PF_SLIME_HANDS) && (z == NULL || !z->has_flag(MF_ACIDPROOF)))
    ret += rng(4, 6);
  }
@@ -616,13 +610,13 @@ int player::roll_cut_damage(monster *z, bool crit)
   return 0; // No negative damage!
 
 // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
- if (sklevel[sk_cutting] <= 5)
-  ret *= double( 0.8 + 0.08 * sklevel[sk_cutting] );
+ if (skillLevel("cutting").level() <= 5)
+  ret *= double( 0.8 + 0.08 * skillLevel("cutting").level() );
  else
-  ret *= double( 0.92 + 0.04 * sklevel[sk_cutting] );
+  ret *= double( 0.92 + 0.04 * skillLevel("cutting").level() );
 
  if (crit)
-  ret *= double( 1.0 + double(sklevel[sk_cutting] / 12) );
+  ret *= double( 1.0 + double(skillLevel("cutting").level() / 12) );
 
  return ret;
 }
@@ -630,7 +624,7 @@ int player::roll_cut_damage(monster *z, bool crit)
 int player::roll_stab_damage(monster *z, bool crit)
 {
  int ret = 0;
- int z_armor = (z == NULL ? 0 : z->armor_cut() - 3 * sklevel[sk_stabbing]);
+ int z_armor = (z == NULL ? 0 : z->armor_cut() - 3 * skillLevel("stabbing").level());
 
  if (crit)
   z_armor /= 3;
@@ -663,7 +657,7 @@ int player::roll_stab_damage(monster *z, bool crit)
   return 0; // No negative stabbing!
 
  if (crit) {
-  int multiplier = double( 1.0 + double(sklevel[sk_stabbing] / 5) );
+  int multiplier = double( 1.0 + double(skillLevel("stabbing").level() / 5) );
   if (multiplier > 2.5)
    multiplier = 2.5;
   ret *= multiplier;
@@ -679,10 +673,10 @@ int player::roll_stuck_penalty(monster *z, bool stabbing)
      cutarm  = (z == NULL ? 6 : z->armor_cut());
  if (stabbing)
   ret = weapon.damage_cut() * 3 + basharm * 3 + cutarm * 3 -
-        dice(sklevel[sk_stabbing], 10);
+        dice(skillLevel("stabbing").level(), 10);
  else
   ret = weapon.damage_cut() * 4 + basharm * 5 + cutarm * 4 -
-        dice(sklevel[sk_cutting], 10);
+        dice(skillLevel("cutting").level(), 10);
 
  if (ret >= weapon.damage_cut() * 10)
   return weapon.damage_cut() * 10;
@@ -720,7 +714,7 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
    possible.push_back(TEC_PRECISE);
 
   if (weapon.has_technique(TEC_BRUTAL, this) && !downed &&
-      str_cur + sklevel[sk_melee] >= 4 + base_str_req)
+      str_cur + skillLevel("melee").level() >= 4 + base_str_req)
    possible.push_back(TEC_BRUTAL);
 
  }
@@ -729,8 +723,8 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
 
   if (weapon.has_technique(TEC_DISARM, this) && !z &&
       p->weapon.typeId() != 0 && !p->weapon.has_flag(IF_UNARMED_WEAPON) &&
-      dice(   dex_cur +    sklevel[sk_unarmed],  8) >
-      dice(p->dex_cur + p->sklevel[sk_melee],   10))
+      dice(   dex_cur +    skillLevel("unarmed").level(),  8) >
+      dice(p->dex_cur + p->skillLevel("melee").level(),   10))
    possible.push_back(TEC_DISARM);
 
   if (weapon.has_technique(TEC_GRAB, this) && allowgrab)
@@ -740,7 +734,7 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
    possible.push_back(TEC_RAPID);
 
   if (weapon.has_technique(TEC_THROW, this) && !downed &&
-      str_cur + sklevel[sk_melee] >= 4 + base_str_req * 4 + rng(-4, 4))
+      str_cur + skillLevel("melee").level() >= 4 + base_str_req * 4 + rng(-4, 4))
    possible.push_back(TEC_THROW);
 
   if (weapon.has_technique(TEC_WIDE, this)) { // Count monsters
@@ -894,7 +888,7 @@ technique_id player::pick_defensive_technique(game *g, monster *z, player *p)
  if (z != NULL)
   foe_melee_skill = z->type->melee_skill;
  else if (p != NULL)
-  foe_melee_skill = p->dex_cur + p->sklevel[sk_melee];
+  foe_melee_skill = p->dex_cur + p->skillLevel("melee").level();
 
  int foe_dodge = 0;
  if (z != NULL)
@@ -915,26 +909,26 @@ technique_id player::pick_defensive_technique(game *g, monster *z, player *p)
 
  blocks_left--;
  if (weapon.has_technique(TEC_WBLOCK_3) &&
-     dice(dex_cur + sklevel[sk_melee], 12) > dice(foe_melee_skill, 10))
+     dice(dex_cur + skillLevel("melee").level(), 12) > dice(foe_melee_skill, 10))
   return TEC_WBLOCK_3;
 
  if (weapon.has_technique(TEC_WBLOCK_2) &&
-     dice(dex_cur + sklevel[sk_melee], 6) > dice(foe_melee_skill, 10))
+     dice(dex_cur + skillLevel("melee").level(), 6) > dice(foe_melee_skill, 10))
   return TEC_WBLOCK_2;
 
  if (weapon.has_technique(TEC_WBLOCK_1) &&
-     dice(dex_cur + sklevel[sk_melee], 3) > dice(foe_melee_skill, 10))
+     dice(dex_cur + skillLevel("melee").level(), 3) > dice(foe_melee_skill, 10))
   return TEC_WBLOCK_1;
 
  if (weapon.has_technique(TEC_DEF_DISARM, this) &&
      z == NULL && p->weapon.typeId() != 0 &&
      !p->weapon.has_flag(IF_UNARMED_WEAPON) &&
-     dice(   dex_cur +    sklevel[sk_unarmed], 8) >
-     dice(p->dex_cur + p->sklevel[sk_melee],  10))
+     dice(   dex_cur +    skillLevel("unarmed").level(), 8) >
+     dice(p->dex_cur + p->skillLevel("melee").level(),  10))
   return TEC_DEF_DISARM;
 
  if (weapon.has_technique(TEC_DEF_THROW, this) &&
-     str_cur + sklevel[sk_melee] >= foe_size + rng(-4, 4) &&
+     str_cur + skillLevel("melee").level() >= foe_size + rng(-4, 4) &&
      hit_roll() > rng(1, 5) + foe_dodge && !one_in(3))
   return TEC_DEF_THROW;
 
@@ -944,13 +938,13 @@ technique_id player::pick_defensive_technique(game *g, monster *z, player *p)
 
  if (weapon.has_technique(TEC_BLOCK_LEGS, this) &&
      (hp_cur[hp_leg_l] >= 20 || hp_cur[hp_leg_r] >= 20) &&
-     dice(dex_cur + sklevel[sk_unarmed] + sklevel[sk_melee], 13) >
+     dice(dex_cur + skillLevel("unarmed").level() + skillLevel("melee").level(), 13) >
      dice(8 + foe_melee_skill, 10))
   return TEC_BLOCK_LEGS;
 
  if (weapon.has_technique(TEC_BLOCK, this) &&
      (hp_cur[hp_arm_l] >= 20 || hp_cur[hp_arm_r] >= 20) &&
-     dice(dex_cur + sklevel[sk_unarmed] + sklevel[sk_melee], 16) >
+     dice(dex_cur + skillLevel("unarmed").level() + skillLevel("melee").level(), 16) >
      dice(6 + foe_melee_skill, 10))
   return TEC_BLOCK;
 
@@ -1119,7 +1113,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
 
 // Bashing crit
  if (crit && !unarmed_attack()) {
-  int turns_stunned = int(bash_dam / 20) + rng(0, int(sklevel[sk_bashing] / 2));
+  int turns_stunned = int(bash_dam / 20) + rng(0, int(skillLevel("bashing").level() / 2));
   if (turns_stunned > 6)
    turns_stunned = 6;
   if (turns_stunned > 0) {
@@ -1245,7 +1239,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  } else {
   if (mon && (cut_dam >= z->hp || stab_dam >= z->hp)) {
    cutting_penalty /= 2;
-   cutting_penalty -= rng(sklevel[sk_cutting], sklevel[sk_cutting] * 2 + 2);
+   cutting_penalty -= rng(skillLevel("cutting").level(), skillLevel("cutting").level() * 2 + 2);
   }
   if (cutting_penalty > 0)
    moves -= cutting_penalty;
@@ -1357,7 +1351,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
  std::stringstream text;
 
  if (has_trait(PF_FANGS) && !wearing_something_on(bp_mouth) &&
-     one_in(20 - dex_cur - sklevel[sk_unarmed])) {
+     one_in(20 - dex_cur - skillLevel("unarmed").level())) {
   special_attack tmp;
   text << You << " sink" << (is_u ? " " : "s ") << your << " fangs into " <<
           target << "!";
@@ -1366,7 +1360,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   ret.push_back(tmp);
  }
 
- if (has_trait(PF_MANDIBLES) && one_in(22 - dex_cur - sklevel[sk_unarmed])) {
+ if (has_trait(PF_MANDIBLES) && one_in(22 - dex_cur - skillLevel("unarmed").level())) {
   special_attack tmp;
   text << You << " slice" << (is_u ? " " : "s ") << target << " with " <<
           your << " mandibles!";
@@ -1375,7 +1369,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   ret.push_back(tmp);
  }
 
- if (has_trait(PF_BEAK) && one_in(15 - dex_cur - sklevel[sk_unarmed])) {
+ if (has_trait(PF_BEAK) && one_in(15 - dex_cur - skillLevel("unarmed").level())) {
   special_attack tmp;
   text << You << " peck" << (is_u ? " " : "s ") << target << "!";
   tmp.text = text.str();
@@ -1383,7 +1377,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   ret.push_back(tmp);
  }
 
- if (has_trait(PF_HOOVES) && one_in(25 - dex_cur - 2 * sklevel[sk_unarmed])) {
+ if (has_trait(PF_HOOVES) && one_in(25 - dex_cur - 2 * skillLevel("unarmed").level())) {
   special_attack tmp;
   text << You << " kick" << (is_u ? " " : "s ") << target << " with " <<
           your << " hooves!";
@@ -1394,7 +1388,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   ret.push_back(tmp);
  }
 
- if (has_trait(PF_HORNS) && one_in(20 - dex_cur - sklevel[sk_unarmed])) {
+ if (has_trait(PF_HORNS) && one_in(20 - dex_cur - skillLevel("unarmed").level())) {
   special_attack tmp;
   text << You << " headbutt" << (is_u ? " " : "s ") << target << " with " <<
           your << " horns!";
@@ -1404,7 +1398,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   ret.push_back(tmp);
  }
 
- if (has_trait(PF_HORNS_CURLED) && one_in(20 - dex_cur - sklevel[sk_unarmed])) {
+ if (has_trait(PF_HORNS_CURLED) && one_in(20 - dex_cur - skillLevel("unarmed").level())) {
   special_attack tmp;
   text << You << " headbutt" << (is_u ? " " : "s ") << target << " with " <<
           your << " curled horns!";
@@ -1413,7 +1407,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   ret.push_back(tmp);
  }
 
- if (has_trait(PF_HORNS_POINTED) && one_in(22 - dex_cur - sklevel[sk_unarmed])){
+ if (has_trait(PF_HORNS_POINTED) && one_in(22 - dex_cur - skillLevel("unarmed").level())){
   special_attack tmp;
   text << You << " stab" << (is_u ? " " : "s ") << target << " with " <<
           your << " pointed horns!";
@@ -1422,7 +1416,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
   ret.push_back(tmp);
  }
 
- if (has_trait(PF_ANTLERS) && one_in(20 - dex_cur - sklevel[sk_unarmed])) {
+ if (has_trait(PF_ANTLERS) && one_in(20 - dex_cur - skillLevel("unarmed").level())) {
   special_attack tmp;
   text << You << " butt" << (is_u ? " " : "s ") << target << " with " <<
           your << " antlers!";
@@ -1460,7 +1454,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
    num_attacks--;
 
   for (int i = 0; i < num_attacks; i++) {
-   if (one_in(18 - dex_cur - sklevel[sk_unarmed])) {
+   if (one_in(18 - dex_cur - skillLevel("unarmed").level())) {
     special_attack tmp;
     text.str("");
     text << You << " slap" << (is_u ? " " : "s ") << target << " with " <<
@@ -1560,25 +1554,25 @@ void melee_practice(player &u, bool hit, bool unarmed, bool bashing,
                                bool cutting, bool stabbing)
 {
  if (!hit) {
-  u.practice(sk_melee, rng(2, 5));
+   u.practice("melee", rng(2, 5));
   if (unarmed)
-   u.practice(sk_unarmed, 2);
+    u.practice("unarmed", 2);
   if (bashing)
-   u.practice(sk_bashing, 2);
+    u.practice("bashing", 2);
   if (cutting)
-   u.practice(sk_cutting, 2);
+    u.practice("cutting", 2);
   if (stabbing)
-   u.practice(sk_stabbing, 2);
+    u.practice("stabbing", 2);
  } else {
-  u.practice(sk_melee, rng(5, 10));
+   u.practice("melee", rng(5, 10));
   if (unarmed)
-   u.practice(sk_unarmed, rng(5, 10));
+    u.practice("unarmed", rng(5, 10));
   if (bashing)
-   u.practice(sk_bashing, rng(5, 10));
+    u.practice("bashing", rng(5, 10));
   if (cutting)
-   u.practice(sk_cutting, rng(5, 10));
+    u.practice("cutting", rng(5, 10));
   if (stabbing)
-   u.practice(sk_stabbing, rng(5, 10));
+    u.practice("stabbing", rng(5, 10));
  }
 }
 

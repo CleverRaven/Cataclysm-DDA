@@ -7,8 +7,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Release">
-				<Option output="bin\Release\Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Release\" />
+				<Option output="bin/Release/Cataclysm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -21,9 +21,6 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Compiler>
-			<Add option="-Wall" />
-		</Compiler>
 		<Unit filename="action.cpp" />
 		<Unit filename="action.h" />
 		<Unit filename="addiction.h" />
@@ -46,10 +43,12 @@
 		<Unit filename="construction.h" />
 		<Unit filename="crafting.cpp" />
 		<Unit filename="crafting.h" />
+		<Unit filename="cursesdef.h" />
 		<Unit filename="debug.cpp" />
 		<Unit filename="debug.h" />
 		<Unit filename="defense.cpp" />
 		<Unit filename="dialogue.h" />
+		<Unit filename="disease.cpp" />
 		<Unit filename="disease.h" />
 		<Unit filename="enums.h" />
 		<Unit filename="event.cpp" />
@@ -62,7 +61,12 @@
 		<Unit filename="game.h" />
 		<Unit filename="gamemode.cpp" />
 		<Unit filename="gamemode.h" />
+		<Unit filename="graffiti.cpp" />
+		<Unit filename="graffiti.h" />
 		<Unit filename="help.cpp" />
+		<Unit filename="icon.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Unit filename="inventory.cpp" />
 		<Unit filename="inventory.h" />
 		<Unit filename="inventory_ui.cpp" />
@@ -113,6 +117,8 @@
 		<Unit filename="mutation.cpp" />
 		<Unit filename="mutation.h" />
 		<Unit filename="mutation_data.cpp" />
+		<Unit filename="name.cpp" />
+		<Unit filename="name.h" />
 		<Unit filename="newcharacter.cpp" />
 		<Unit filename="npc.cpp" />
 		<Unit filename="npc.h" />
@@ -125,12 +131,16 @@
 		<Unit filename="output.h" />
 		<Unit filename="overmap.cpp" />
 		<Unit filename="overmap.h" />
+		<Unit filename="picojson.h" />
 		<Unit filename="player.cpp" />
 		<Unit filename="player.h" />
 		<Unit filename="pldata.h" />
 		<Unit filename="posix_time.cpp" />
 		<Unit filename="posix_time.h" />
 		<Unit filename="ranged.cpp" />
+		<Unit filename="resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Unit filename="rng.cpp" />
 		<Unit filename="rng.h" />
 		<Unit filename="settlement.cpp" />
@@ -161,6 +171,7 @@
 		<Extensions>
 			<code_completion />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

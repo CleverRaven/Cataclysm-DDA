@@ -7,14 +7,7 @@
 #include "rng.h"
 #include "pldata.h"
 #include <stdlib.h>
-
-#if (defined _WIN32 || defined WINDOWS)
-	#include "catacurse.h"
-#elif (defined __CYGWIN__)
-      #include "ncurses/curses.h"
-#else
-	#include <curses.h>
-#endif
+#include "cursesdef.h"
 
 #ifndef SGN
 #define SGN(a) (((a)<0) ? -1 : 1)
@@ -55,7 +48,7 @@ bool monster::can_move_to(map &m, int x, int y)
 // Currently, this assumes we can see (x,y), so shouldn't be used in any other
 // circumstance (or else the monster will "phase" through solid terrain!)
 void monster::set_dest(int x, int y, int &t)
-{ 
+{
  plans.clear();
 // TODO: This causes a segfault, once in a blue moon!  Whyyyyy.
  plans = line_to(posx, posy, x, y, t);
@@ -164,7 +157,7 @@ void monster::plan(game *g)
    set_dest(g->active_npc[closest].posx, g->active_npc[closest].posy, stc);
  }
 }
- 
+
 // General movement.
 // Currently, priority goes:
 // 1) Special Attack
@@ -237,7 +230,7 @@ void monster::move(game *g)
  if (plans.size() > 0 && !is_fleeing(g->u) &&
      (mondex == -1 || g->z[mondex].friendly != 0 || has_flag(MF_ATTACKMON)) &&
      (can_move_to(g->m, plans[0].x, plans[0].y) ||
-      (plans[0].x == g->u.posx && plans[0].y == g->u.posy) || 
+      (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
      (g->m.has_flag(bashable, plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
   // CONCRETE PLANS - Most likely based on sight
   next = plans[0];
@@ -366,7 +359,10 @@ point monster::scent_move(game *g)
 {
  plans.clear();
  std::vector<point> smoves;
- int maxsmell = 1; // Squares with smell 0 are not eligable targets
+
+ int maxsmell = 2; // Squares with smell 0 are not eligable targets
+ if (has_flag(MF_KEENNOSE)) {
+ int maxsmell = 1; }
  int minsmell = 9999;
  point pbuff, next(-1, -1);
  unsigned int smell;
@@ -528,18 +524,23 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     g->add_msg("You feel poison flood your body, wracking you with pain...");
    p.add_disease(DI_BADPOISON, 40, g);
   }
+  if (has_flag(MF_BLEED) && dam > 6 && cut > 0) {
+   if (!is_npc)
+    g->add_msg("You're Bleeding!");
+   p.add_disease(DI_BLEED, 30, g);
+  }
   if (can_grab && has_flag(MF_GRABS) &&
       dice(type->melee_dice, 10) > dice(p.dodge(g), 10)) {
    if (!is_npc)
     g->add_msg("The %s grabs you!", name().c_str());
    if (p.weapon.has_technique(TEC_BREAK, &p) &&
-       dice(p.dex_cur + p.sklevel[sk_melee], 12) > dice(type->melee_dice, 10)){
+       dice(p.dex_cur + p.skillLevel("melee").level(), 12) > dice(type->melee_dice, 10)){
     if (!is_npc)
      g->add_msg("You break the grab!");
    } else
     hit_player(g, p, false);
   }
-     
+
   if (tech == TEC_COUNTER && !is_npc) {
    g->add_msg("Counter-attack!");
    hurt( p.hit_mon(g, this) );
@@ -595,10 +596,10 @@ void monster::move_to(game *g, int x, int y)
   posx = x;
   posy = y;
   footsteps(g, x, y);
-  if (g->m.has_flag(sharp, posx, posy) && one_in(2))
-     hurt(rng(3, 10));
-  if (g->m.has_flag(rough, posx, posy) && one_in(4))
-     hurt(rng(1, 5));
+  if (g->m.has_flag(sharp, posx, posy) && !one_in(4))
+     hurt(rng(2, 3));
+  if (g->m.has_flag(rough, posx, posy) && one_in(6))
+     hurt(rng(1, 2));
   if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES) &&
       g->m.tr_at(posx, posy) != tr_null) { // Monster stepped on a trap!
    trap* tr = g->traps[g->m.tr_at(posx, posy)];
@@ -626,40 +627,44 @@ void monster::move_to(game *g, int x, int y)
  */
 void monster::stumble(game *g, bool moved)
 {
+ // don't stumble every turn. every 3rd turn, or 8th when walking.
+ if(moved)
+  if(!one_in(8))
+   return;
+ else
+  if(!one_in(3))
+   return;
+
  std::vector <point> valid_stumbles;
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
    if (can_move_to(g->m, posx + i, posy + j) &&
-       (g->u.posx != posx + i || g->u.posy != posy + j) && 
+       (g->u.posx != posx + i || g->u.posy != posy + j) &&
        (g->mon_at(posx + i, posy + j) == -1 || (i == 0 && j == 0))) {
     point tmp(posx + i, posy + j);
     valid_stumbles.push_back(tmp);
    }
   }
  }
- if (valid_stumbles.size() > 0 && (one_in(8) || (!moved && one_in(3)))) {
-  int choice = rng(0, valid_stumbles.size() - 1);
-  posx = valid_stumbles[choice].x;
-  posy = valid_stumbles[choice].y;
-  if (!has_flag(MF_DIGS) || !has_flag(MF_FLIES))
-   moves -= (g->m.move_cost(posx, posy) - 2) * 50;
-// Here we have to fix our plans[] list, trying to get back to the last point
-// Otherwise the stumble will basically have no effect!
-  if (plans.size() > 0) {
-   int tc;
-   if (g->m.sees(posx, posy, plans[0].x, plans[0].y, -1, tc)) {
-// Copy out old plans...
-    std::vector <point> plans2;
-    for (int i = 0; i < plans.size(); i++)
-     plans2.push_back(plans[i]);
-// Set plans to a route between where we are now, and where we were
-    set_dest(plans[0].x, plans[0].y, tc);
-// Append old plans to the new plans
-    for (int index = 0; index < plans2.size(); index++)
-     plans.push_back(plans2[index]);
-   } else
-    plans.clear();
-  }
+ if (valid_stumbles.size() == 0) //nowhere to stumble?
+  return;
+
+ int choice = rng(0, valid_stumbles.size() - 1);
+ posx = valid_stumbles[choice].x;
+ posy = valid_stumbles[choice].y;
+ if (!has_flag(MF_DIGS) || !has_flag(MF_FLIES))
+  moves -= (g->m.move_cost(posx, posy) - 2) * 50;
+ // Here we have to fix our plans[] list,
+ // acquiring a new path to the previous target.
+ // target == either end of current plan, or the player.
+ int tc;
+ if (plans.size() > 0) {
+  if (g->m.sees(posx, posy, plans.back().x, plans.back().y, -1, tc))
+   set_dest(plans.back().x, plans.back().y, tc);
+  else if (g->sees_u(posx, posy, tc))
+   set_dest(g->u.posx, g->u.posy, tc);
+  else //durr, i'm suddenly calm. what was i doing?
+   plans.clear();
  }
 }
 
@@ -743,7 +748,7 @@ void monster::knock_back_from(game *g, int x, int y)
 }
 
 
-/* will_reach() is used for determining whether we'll get to stairs (and 
+/* will_reach() is used for determining whether we'll get to stairs (and
  * potentially other locations of interest).  It is generally permissive.
  * TODO: Pathfinding;
          Make sure that non-smashing monsters won't "teleport" through windows

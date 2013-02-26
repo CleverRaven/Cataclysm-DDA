@@ -111,6 +111,24 @@ std::string action_ident(action_id act)
    return "move_down";
   case ACTION_MOVE_UP:
    return "move_up";
+  case ACTION_CENTER:
+   return "center";
+  case ACTION_SHIFT_N:
+   return "shift_n";
+  case ACTION_SHIFT_NE:
+   return "shift_ne";
+  case ACTION_SHIFT_E:
+   return "shift_e";
+  case ACTION_SHIFT_SE:
+   return "shift_se";
+  case ACTION_SHIFT_S:
+   return "shift_s";
+  case ACTION_SHIFT_SW:
+   return "shift_sw";
+  case ACTION_SHIFT_W:
+   return "shift_w";
+  case ACTION_SHIFT_NW:
+   return "shift_nw";
   case ACTION_OPEN:
    return "open";
   case ACTION_CLOSE:
@@ -129,8 +147,12 @@ std::string action_ident(action_id act)
    return "look";
   case ACTION_PEEK:
    return "peek";
+  case ACTION_LIST_ITEMS:
+   return "listitems";
   case ACTION_INVENTORY:
    return "inventory";
+  case ACTION_COMPARE:
+   return "compare";
   case ACTION_ORGANIZE:
    return "organize";
   case ACTION_USE:
@@ -247,6 +269,24 @@ std::string action_name(action_id act)
    return "Descend Stairs";
   case ACTION_MOVE_UP:
    return "Ascend Stairs";
+  case ACTION_CENTER:
+   return "Center View";
+  case ACTION_SHIFT_N:
+   return "Move View North";
+  case ACTION_SHIFT_NE:
+   return "Move View Northeast";
+  case ACTION_SHIFT_E:
+   return "Move View East";
+  case ACTION_SHIFT_SE:
+   return "Move View Southeast";
+  case ACTION_SHIFT_S:
+   return "Move View South";
+  case ACTION_SHIFT_SW:
+   return "Move View Southwest";
+  case ACTION_SHIFT_W:
+   return "Move View West";
+  case ACTION_SHIFT_NW:
+   return "Move View Northwest";
   case ACTION_OPEN:
    return "Open Door";
   case ACTION_CLOSE:
@@ -265,8 +305,12 @@ std::string action_name(action_id act)
    return "Look Around";
   case ACTION_PEEK:
    return "Peek Around Corners";
+  case ACTION_LIST_ITEMS:
+   return "List all items around the player";
   case ACTION_INVENTORY:
    return "Open Inventory";
+  case ACTION_COMPARE:
+   return "Compare two Items";
   case ACTION_ORGANIZE:
    return "Swap Inventory Letters";
   case ACTION_USE:
@@ -310,7 +354,7 @@ std::string action_name(action_id act)
   case ACTION_CONSTRUCT:
    return "Construct Terrain";
   case ACTION_DISASSEMBLE:
-   return "Disassemble items";   
+   return "Disassemble items";
   case ACTION_SLEEP:
    return "Sleep";
   case ACTION_TOGGLE_SAFEMODE:

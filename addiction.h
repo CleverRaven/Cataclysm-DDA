@@ -25,7 +25,7 @@ void addict_effect(game *g, addiction &add)
     g->u.stim--;
   }
   break;
-    
+
  case ADD_CAFFEINE:
   g->u.moves -= 2;
   if (in > 20 || one_in((500 - 20 * in))) {

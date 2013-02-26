@@ -135,10 +135,11 @@ void event::actualize(game *g)
 
   case EVENT_TEMPLE_FLOOD: {
    bool flooded = false;
-   map copy;
+
+   ter_id flood_buf[SEEX*MAPSIZE][SEEY*MAPSIZE];
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++)
-     copy.ter(x, y) = g->m.ter(x, y);
+     flood_buf[x][y] = g->m.ter(x, y);
    }
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
@@ -151,7 +152,7 @@ void event::actualize(game *g)
        }
       }
       if (deepen) {
-       copy.ter(x, y) = t_water_dp;
+       flood_buf[x][y] = t_water_dp;
        flooded = true;
       }
      } else if (g->m.ter(x, y) == t_rock_floor) {
@@ -163,7 +164,7 @@ void event::actualize(game *g)
        }
       }
       if (flood) {
-       copy.ter(x, y) = t_water_sh;
+       flood_buf[x][y] = t_water_sh;
        flooded = true;
       }
      }
@@ -172,18 +173,18 @@ void event::actualize(game *g)
    if (!flooded)
     return; // We finished flooding the entire chamber!
 // Check if we should print a message
-   if (copy.ter(g->u.posx, g->u.posy) != g->m.ter(g->u.posx, g->u.posy)) {
-    if (copy.ter(g->u.posx, g->u.posy) == t_water_sh)
+   if (flood_buf[g->u.posx][g->u.posy] != g->m.ter(g->u.posx, g->u.posy)) {
+    if (flood_buf[g->u.posx][g->u.posy] == t_water_sh)
      g->add_msg("Water quickly floods up to your knees.");
     else { // Must be deep water!
      g->add_msg("Water fills nearly to the ceiling!");
      g->plswim(g->u.posx, g->u.posy);
     }
    }
-// copy is filled with correct tiles; now copy them back to g->m
+// flood_buf is filled with correct tiles; now copy them back to g->m
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++)
-     g->m.ter(x, y) = copy.ter(x, y);
+     g->m.ter(x, y) = flood_buf[x][y];
    }
    g->add_event(EVENT_TEMPLE_FLOOD, int(g->turn) + rng(2, 3));
   } break;

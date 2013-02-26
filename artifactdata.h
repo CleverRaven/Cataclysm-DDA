@@ -125,37 +125,37 @@ struct artifact_property_datum
 };
 
 artifact_property_datum artifact_property_data[ARTPROP_MAX] = {
-{"BUG", "BUG", 
+{"BUG", "BUG",
  {AEP_NULL, AEP_NULL, AEP_NULL, AEP_NULL},
  {AEP_NULL, AEP_NULL, AEP_NULL, AEP_NULL},
  {AEA_NULL, AEA_NULL, AEA_NULL, AEA_NULL},
  {AEA_NULL, AEA_NULL, AEA_NULL, AEA_NULL}
 },
-{"wriggling", "is constantly wriggling", 
+{"wriggling", "is constantly wriggling",
  {AEP_SPEED_UP, AEP_SNAKES, AEP_NULL, AEP_NULL},
  {AEP_DEX_DOWN, AEP_FORCE_TELEPORT, AEP_SICK, AEP_NULL},
  {AEA_TELEPORT, AEA_ADRENALINE, AEA_NULL, AEA_NULL},
  {AEA_MUTATE, AEA_ATTENTION, AEA_VOMIT, AEA_NULL}
 },
-{"glowing", "glows faintly", 
+{"glowing", "glows faintly",
  {AEP_INT_UP, AEP_GLOW, AEP_CLAIRVOYANCE, AEP_NULL},
  {AEP_RADIOACTIVE, AEP_MUTAGENIC, AEP_ATTENTION, AEP_NULL},
  {AEA_LIGHT, AEA_LIGHT, AEA_LIGHT, AEA_NULL},
  {AEA_ATTENTION, AEA_TELEGLOW, AEA_FLASH, AEA_SHADOWS}
 },
-{"humming", "hums very quietly", 
+{"humming", "hums very quietly",
  {AEP_ALL_UP, AEP_PSYSHIELD, AEP_NULL, AEP_NULL},
  {AEP_SCHIZO, AEP_PER_DOWN, AEP_INT_DOWN, AEP_NULL},
  {AEA_PULSE, AEA_ENTRANCE, AEA_NULL, AEA_NULL},
  {AEA_NOISE, AEA_NOISE, AEA_SCREAM, AEA_NULL}
 },
-{"moving", "shifts from side to side slowly", 
+{"moving", "shifts from side to side slowly",
  {AEP_STR_UP, AEP_DEX_UP, AEP_SPEED_UP, AEP_NULL},
  {AEP_HUNGER, AEP_PER_DOWN, AEP_FORCE_TELEPORT, AEP_NULL},
  {AEA_TELEPORT, AEA_TELEPORT, AEA_MAP, AEA_NULL},
  {AEA_PARALYZE, AEA_VOMIT, AEA_VOMIT, AEA_NULL}
 },
-{"whispering", "makes very faint whispering sounds", 
+{"whispering", "makes very faint whispering sounds",
  {AEP_CLAIRVOYANCE, AEP_EXTINGUISH, AEP_STEALTH, AEP_NULL},
  {AEP_EVIL, AEP_SCHIZO, AEP_ATTENTION, AEP_NULL},
  {AEA_FATIGUE, AEA_ENTRANCE, AEA_ENTRANCE, AEA_NULL},
@@ -168,61 +168,61 @@ artifact_property_datum artifact_property_data[ARTPROP_MAX] = {
  {AEA_ADRENALINE, AEA_HEAL, AEA_ENTRANCE, AEA_GROWTH},
  {AEA_MUTATE, AEA_ATTENTION, AEA_SHADOWS, AEA_NULL}
 },
-{"dead", "is icy cold to the touch", 
+{"dead", "is icy cold to the touch",
  {AEP_INVISIBLE, AEP_CLAIRVOYANCE, AEP_EXTINGUISH, AEP_SAP_LIFE},
  {AEP_HUNGER, AEP_EVIL, AEP_ALL_DOWN, AEP_SICK},
  {AEA_BLOOD, AEA_HURTALL, AEA_NULL, AEA_NULL},
  {AEA_PAIN, AEA_SHADOWS, AEA_DIM, AEA_VOMIT}
 },
-{"itchy", "makes your skin itch slightly when it is close", 
+{"itchy", "makes your skin itch slightly when it is close",
  {AEP_DEX_UP, AEP_SPEED_UP, AEP_PSYSHIELD, AEP_NULL},
  {AEP_RADIOACTIVE, AEP_MUTAGENIC, AEP_SICK, AEP_NULL},
  {AEA_ADRENALINE, AEA_BLOOD, AEA_HEAL, AEA_BUGS},
  {AEA_RADIATION, AEA_PAIN, AEA_PAIN, AEA_VOMIT}
 },
-{"glittering", "glitters faintly under direct light", 
+{"glittering", "glitters faintly under direct light",
  {AEP_INT_UP, AEP_EXTINGUISH, AEP_GLOW, AEP_NULL},
  {AEP_SMOKE, AEP_ATTENTION, AEP_NULL, AEP_NULL},
  {AEA_MAP, AEA_LIGHT, AEA_CONFUSED, AEA_ENTRANCE},
  {AEA_RADIATION, AEA_MUTATE, AEA_ATTENTION, AEA_FLASH}
 },
-{"electric", "very weakly shocks you when touched", 
+{"electric", "very weakly shocks you when touched",
  {AEP_RESIST_ELECTRICITY, AEP_DEX_UP, AEP_SPEED_UP, AEP_PSYSHIELD},
  {AEP_THIRST, AEP_SMOKE, AEP_STR_DOWN, AEP_BAD_WEATHER},
  {AEA_STORM, AEA_ADRENALINE, AEA_LIGHT, AEA_NULL},
  {AEA_PAIN, AEA_PARALYZE, AEA_FLASH, AEA_FLASH}
 },
-{"slimy", "feels slimy", 
+{"slimy", "feels slimy",
  {AEP_SNAKES, AEP_STEALTH, AEP_EXTINGUISH, AEP_SAP_LIFE},
  {AEP_THIRST, AEP_DEX_DOWN, AEP_SPEED_DOWN, AEP_SICK},
  {AEA_BLOOD, AEA_ACIDBALL, AEA_GROWTH, AEA_ACIDBALL},
  {AEA_MUTATE, AEA_MUTATE, AEA_VOMIT, AEA_VOMIT}
 },
-{"engraved", "is covered with odd etchings", 
+{"engraved", "is covered with odd etchings",
  {AEP_CLAIRVOYANCE, AEP_INVISIBLE, AEP_PSYSHIELD, AEP_SAP_LIFE},
  {AEP_EVIL, AEP_ATTENTION, AEP_NULL, AEP_NULL},
  {AEA_FATIGUE, AEA_TELEPORT, AEA_HEAL, AEA_FATIGUE},
  {AEA_ATTENTION, AEA_ATTENTION, AEA_TELEGLOW, AEA_DIM}
 },
-{"crackling", "occasionally makes a soft crackling sound", 
+{"crackling", "occasionally makes a soft crackling sound",
  {AEP_EXTINGUISH, AEP_RESIST_ELECTRICITY, AEP_NULL, AEP_NULL},
  {AEP_SMOKE, AEP_RADIOACTIVE, AEP_MOVEMENT_NOISE, AEP_NULL},
  {AEA_STORM, AEA_FIREBALL, AEA_PULSE, AEA_NULL},
  {AEA_PAIN, AEA_PARALYZE, AEA_NOISE, AEA_NOISE}
 },
-{"warm", "is warm to the touch", 
+{"warm", "is warm to the touch",
  {AEP_STR_UP, AEP_EXTINGUISH, AEP_GLOW, AEP_NULL},
  {AEP_SMOKE, AEP_RADIOACTIVE, AEP_NULL, AEP_NULL},
  {AEA_FIREBALL, AEA_FIREBALL, AEA_FIREBALL, AEA_LIGHT},
  {AEA_FIRESTORM, AEA_FIRESTORM, AEA_TELEGLOW, AEA_NULL}
 },
-{"rattling", "makes a rattling sound when moved", 
+{"rattling", "makes a rattling sound when moved",
  {AEP_DEX_UP, AEP_SPEED_UP, AEP_SNAKES, AEP_CARRY_MORE},
  {AEP_ATTENTION, AEP_INT_DOWN, AEP_MOVEMENT_NOISE, AEP_MOVEMENT_NOISE},
  {AEA_BLOOD, AEA_PULSE, AEA_BUGS, AEA_NULL},
  {AEA_PAIN, AEA_ATTENTION, AEA_NOISE, AEA_NULL}
 },
-{"scaled", "has a surface reminiscent of reptile scales", 
+{"scaled", "has a surface reminiscent of reptile scales",
  {AEP_SNAKES, AEP_SNAKES, AEP_SNAKES, AEP_STEALTH},
  {AEP_THIRST, AEP_MUTAGENIC, AEP_SPEED_DOWN, AEP_NULL},
  {AEA_ADRENALINE, AEA_BUGS, AEA_GROWTH, AEA_NULL},
@@ -269,7 +269,7 @@ struct artifact_tool_form_datum
      volume_min (Volmin), volume_max (Volmax), weight_min (Wgtmin),
      weight_max (Wgtmax), base_weapon (Base), extra_weapons (extra) { };
 */
-                           
+
 };
 
 enum artifact_tool_form
@@ -373,7 +373,7 @@ struct artifact_armor_form_datum
 
 */
 };
- 
+
 enum artifact_armor_form
 {
  ARTARMFORM_NULL,
@@ -415,7 +415,7 @@ artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] = {
 
 {"Gloves", c_ltblue,LEATHER,MNULL, 2,  1,  1,  6,  6,  1,  2,  0, -4,  0, -2,
  mfb(bp_hands), true,
- {ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED, 
+ {ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
   ARMORMOD_NULL}},
 
 // Name    color  Materials      Vol Wgt Enc Dmg Cut Env Wrm Sto Bsh Cut Hit
