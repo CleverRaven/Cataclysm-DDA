@@ -37,7 +37,7 @@ desc))
 // PLEASE NOTE: The description is AT MAX 4 lines of 46 characters each.
 
 // FOREST ANIMALS
-mon("squirrel",	species_mammal, 'r',	c_ltgray,	MS_TINY,	FLESH,
+mon("squirrel",	species_mammal, 's',	c_ltgray,	MS_TINY,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 50,  0,-99, -8,140,  0,  1,  1,  0,  4,  0,  0,  0,  1,  0,
 	&mdeath::normal,	&mattack::none, "\
@@ -98,7 +98,7 @@ FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
 // DOMESICATED ANIMALS
 mon("dog",	species_mammal, 'd',	c_white,	MS_SMALL,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 5,   0,  -30, 15,140, 5,  1,  7,  4,  3,  0,  0,  0, 15,  0,
+	 2,   0,  -30, 15,140, 5,  1,  7,  4,  3,  0,  0,  0, 15,  0,
 	&mdeath::normal,	&mattack::none, "\
 A medium-sized domesticated dog, gone feral."
 );
@@ -109,7 +109,7 @@ FEARS(MTRIG_FIRE);
 
 mon("cat",	species_mammal, 'c',	c_white,	MS_TINY,	FLESH,      //Oddzball-Added Feral Cat
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 5,   0,  -40, 15,150, 12,  1,  3,  2,  0,  0,  0,  0, 10,  0,
+	 2,   0,  -40, 15,150, 12,  1,  3,  2,  0,  0,  0,  0, 10,  0,
 	&mdeath::normal,	&mattack::none, "\
 A small domesticated cat, gone feral."
 );

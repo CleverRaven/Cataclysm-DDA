@@ -10,7 +10,7 @@ OTHERS = -O3
 ODIR = objwin
 DDIR = .deps
 
-TARGET = cataclysm.exe
+TARGET = cataclysmCZS.exe
 
 CXX = g++
 
