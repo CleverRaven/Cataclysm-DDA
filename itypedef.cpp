@@ -1920,7 +1920,7 @@ wear goggles.");
 TECH( mfb(TEC_WBLOCK_1) );
 
 ARMOR("chitinous helmet", 1, 380,C_HAT,		FLESH,		MNULL,
-   22,  1,  2, -2,  4, 10, 14,  4,  20,  0,	mfb(bp_head)|mfb(bp_eyes)|
+   22,  1,  2, -2,  1, 10, 14,  4,  20,  0,	mfb(bp_head)|mfb(bp_eyes)|
 						mfb(bp_mouth), "\
 A helmet made from the exoskeletons of insects. Covers the entire head; very\n\
 light and durable.");
