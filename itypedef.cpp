@@ -1202,11 +1202,11 @@ MELEE("blood soaked rag",    1, 0,  ',', c_red, COTTON,   MNULL,
 A large rag, drenched in blood. It could be cleaned with\n\
 boiling water.");
 
-MELEE("clock",               60, 0, ';', c_ltctan, PLASTIC, IRON,
+MELEE("clock",               60, 0, ';', c_ltcyan, PLASTIC, IRON,
          1, 2, 0, 0, 0, 0, "\
 A small mechanical clock, it's stopped at 10:10.");
 
-MELEE("clockworks",          30, 0, ';', c_ltycyan, IRON, MNULL,
+MELEE("clockworks",          30, 0, ';', c_ltcyan, IRON, MNULL,
          1, 1, 0, 0, 0, 0, "\
 A small assortment of gears and other clockwork gubbins.");
 

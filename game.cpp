@@ -5209,7 +5209,8 @@ shape, but with long, twisted, distended limbs.");
  else if ((m.ter(examx, examy)==t_tree_apple) && (query_yn("Pick apples?")))
  {
   int num_apples = rng(1, u.skillLevel("survival").level());
-
+  if (num_apples >= 12)
+    num_apples = 12;
   for (int i = 0; i < num_apples; i++)
    m.add_item(examx, examy, this->itypes[itm_apple],0);
 
@@ -5220,6 +5221,8 @@ shape, but with long, twisted, distended limbs.");
  {
   int num_blueberries = rng(1, u.skillLevel("survival").level());
 
+ if (num_blueberries >= 12)
+    num_blueberries = 12;
   for (int i = 0; i < num_blueberries; i++)
    m.add_item(examx, examy, this->itypes[itm_blueberries],0);
 
@@ -5229,7 +5232,7 @@ shape, but with long, twisted, distended limbs.");
 // harvesting wild veggies
  else if ((m.ter(examx, examy)==t_underbrush) && (query_yn("Forage for wild vegetables?")))
  {
-  u.assign_activity(ACT_FORAGE, 50000 / (u.skillLevel("survival").level() + 1), 0);
+  u.assign_activity(ACT_FORAGE, 500 / (u.skillLevel("survival").level() + 1), 0);
   u.activity.placement = point(examx, examy);
   u.moves = 0;
  }
