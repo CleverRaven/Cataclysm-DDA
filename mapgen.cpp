@@ -2809,8 +2809,8 @@ case ot_lmoe: {
    for (int i = 9; i <= 13; i += 2) {
     line(this, t_wall_metal_h,  9, i, 10, i);
     line(this, t_wall_metal_h, 13, i, 14, i);
-    add_spawn(mon_turret, 1, 9, i + 1);
-    add_spawn(mon_turret, 1, 14, i + 1);
+    add_spawn(mon_zombie_soldier, 1, 9, i + 1);
+    add_spawn(mon_zombie_soldier, 1, 14, i + 1);
    }
    ter(13, 16) = t_card_military;
 
@@ -2985,14 +2985,14 @@ case ot_lmoe: {
    ter( 2, 12) = t_concrete_v;
 
 // Place turrets by (possible) entrances
-  add_spawn(mon_turret, 1,  3, 11);
-  add_spawn(mon_turret, 1,  3, 12);
-  add_spawn(mon_turret, 1, 20, 11);
-  add_spawn(mon_turret, 1, 20, 12);
-  add_spawn(mon_turret, 1, 11,  3);
-  add_spawn(mon_turret, 1, 12,  3);
-  add_spawn(mon_turret, 1, 11, 20);
-  add_spawn(mon_turret, 1, 12, 20);
+  add_spawn(mon_zombie_soldier, 1,  3, 11);
+  add_spawn(mon_zombie_soldier, 1,  3, 12);
+  add_spawn(mon_zombie_soldier, 1, 20, 11);
+  add_spawn(mon_zombie_soldier, 1, 20, 12);
+  add_spawn(mon_zombie_soldier, 1, 11,  3);
+  add_spawn(mon_zombie_soldier, 1, 12,  3);
+  add_spawn(mon_zombie_soldier, 1, 11, 20);
+  add_spawn(mon_zombie_soldier, 1, 12, 20);
 
 // Finally, scatter dead bodies / mil zombies
   for (int i = 0; i < 20; i++) {
@@ -7886,7 +7886,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
     tmpcomp->add_failure(COMPFAIL_ALARM);
     tmpcomp->add_failure(COMPFAIL_DAMAGE);
-    m->add_spawn(mon_turret, 1, int((x1 + x2) / 2), desk);
+    m->add_spawn(mon_zombie_soldier, 1, int((x1 + x2) / 2), desk);
    } else {
     int desk = x1 + rng(int(height / 2) - int(height / 4), int(height / 2) + 1);
     for (int y = y1 + int(width / 4); y < y2 - int(width / 4); y++)
@@ -7898,7 +7898,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
     tmpcomp->add_failure(COMPFAIL_ALARM);
     tmpcomp->add_failure(COMPFAIL_DAMAGE);
-    m->add_spawn(mon_turret, 1, desk, int((y1 + y2) / 2));
+    m->add_spawn(mon_zombie_soldier, 1, desk, int((y1 + y2) / 2));
    }
    break;
   case room_chemistry:
