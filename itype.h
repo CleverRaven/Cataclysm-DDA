@@ -86,7 +86,7 @@ itm_wrapper, itm_withered, itm_syringe, itm_fur, itm_leather, itm_superglue,
  itm_television, itm_pilot_light, itm_toaster, itm_microwave, itm_laptop,
  itm_fan, itm_ceramic_plate, itm_ceramic_bowl, itm_ceramic_cup,
  itm_glass_plate, itm_glass_bowl, itm_glass, itm_tin_plate, itm_fork, itm_spork,
- itm_foon, itm_rag_bloody,
+ itm_foon, itm_rag_bloody, itm_clock, itm_clockworks,
 
 // Vehicle parts
  itm_frame,
@@ -169,6 +169,7 @@ itm_nailgun, itm_bbgun, itm_crossbow, itm_compbow, itm_longbow, itm_rifle_22,
  itm_scar_h, itm_steyr_aug, itm_m249, itm_v29, itm_ftk93, itm_nx17,
  itm_flamethrower_simple, itm_flamethrower, itm_launcher_simple, itm_m79,
  itm_m320, itm_mgl, itm_coilgun, itm_hk_g80, itm_plasma_rifle,
+ itm_revolver_shotgun,
 // Gun modifications
 itm_silencer, itm_grip, itm_barrel_big, itm_barrel_small, itm_barrel_rifled,
  itm_clip, itm_clip2, itm_spare_mag, itm_stablizer, itm_blowback, itm_autofire,
@@ -323,6 +324,7 @@ IF_RELOAD_AND_SHOOT, // Reloading and shooting is one action
 IF_FIRE_100,	// Fires 100 rounds at once! (e.g. flamethrower)
 IF_GRENADE,	// NPCs treat this as a grenade
 IF_CHARGE,	// For guns; charges up slowly
+IF_SHOCK,   // Stuns and damages enemies, powers up shockers.
 
 IF_UNARMED_WEAPON, // Counts as an unarmed weapon
 IF_NO_UNWIELD, // Impossible to unwield, e.g. bionic claws

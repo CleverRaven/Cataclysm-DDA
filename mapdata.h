@@ -91,7 +91,7 @@ t_canvas_wall, t_canvas_door, t_canvas_door_o, t_groundsheet, t_fema_groundsheet
 // Lighting related
 t_skylight, t_emergency_light_flicker, t_emergency_light,
 // Walls
-t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken,
+t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
 t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
 t_wall_v, t_wall_h, t_concrete_v, t_concrete_h,
 t_wall_metal_v, t_wall_metal_h,
@@ -105,8 +105,8 @@ t_door_metal_c, t_door_metal_o, t_door_metal_locked,
 t_door_glass_c, t_door_glass_o,
 t_bulletin,
 t_portcullis,
-t_recycler, t_window, t_window_domestic, t_window_open, t_curtains,
-t_window_alarm, t_window_empty, t_window_frame, t_window_boarded,
+t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
+t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
 t_rock, t_fault,
 t_paper,
 // Tree
@@ -237,6 +237,12 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"broken log wall", '&', c_brown,   0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)|
 	mfb(supports_roof)},
+{"palisade wall",        '#', c_brown,   0, tr_null,
+        mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(transparent)},
+{"palisade gate",        '+', c_ltred,    0, tr_null,
+        mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(door)|mfb(transparent)},
+{"open palisade gate",   '#', c_ltred,   2, tr_null,
+        mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(transparent)},
 {"half-built wall",  '#', c_ltred,   4, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)},
 {"wooden wall",      '#', c_ltred,   0, tr_null,
@@ -317,19 +323,23 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(transparent)},
 {"window",	     '#', c_ltcyan,  0, tr_null, //Oddzball-Window Bold Test h_* and symbol change EDIT: trying c_* and dif symbol
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
-        mfb(supports_roof)},
+        mfb(supports_roof)|mfb(deconstruct)}, // Plain Ol' window
+{"taped window",  '#', c_dkgray,    0, tr_null,
+	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)}, // Regular window
 {"window",	     '#', c_ltcyan,  0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)|mfb(deconstruct)}, //has curtains
+{"taped window",  '#', c_dkgray,    0, tr_null,
+	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)}, // Curtain window
 {"open window",      '\'', c_ltcyan, 4, tr_null,
-	mfb(transparent)|mfb(flammable)|mfb(noitem)|
-        mfb(supports_roof)},
+	mfb(transparent)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)},
 {"closed curtains",  '-', i_dkgray,    0, tr_null,
-	mfb(bashable)|mfb(flammable)|mfb(noitem)|
-        mfb(supports_roof)},
-{"window",	     '"', c_ltcyan,  0, tr_null, // Actually alarmed
+	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)},
+{"window",	     '#', c_ltcyan,  0, tr_null, // Actually alarmed
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(alarmed)|mfb(noitem)|
         mfb(supports_roof)},
+{"taped window",  '#', c_dkgray,    0, tr_null,
+	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)|mfb(alarmed)}, //Alarmed, duh.
 {"empty window",     '0', c_yellow,  8, tr_null,
 	mfb(transparent)|mfb(flammable)|mfb(supports_roof)},
 {"window frame",     '0', c_ltcyan,  8, tr_null,

@@ -596,7 +596,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_mil_armor],
 	itm_pants_army, itm_kevlar, itm_vest, itm_mask_gas, itm_goggles_nv,
-	itm_helmet_army, itm_backpack, itm_beltrig, itm_under_armor,
+	itm_helmet_army, itm_backpack, itm_UPS_off, itm_beltrig, itm_under_armor,
         itm_boots, itm_boots_fit, itm_pants_army_fit, itm_armguard_hard,
 	itm_helmet_army, itm_backpack, itm_UPS_off, itm_beltrig, NULL);
 

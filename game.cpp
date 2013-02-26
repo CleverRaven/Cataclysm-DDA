@@ -5215,6 +5215,8 @@ shape, but with long, twisted, distended limbs.");
  else if ((m.ter(examx, examy)==t_tree_apple) && (query_yn("Pick apples?")))
  {
   int num_apples = rng(1, u.skillLevel("survival").level());
+  if (num_apples >= 12)
+    num_apples = 12;
 
   for (int i = 0; i < num_apples; i++)
    m.add_item(examx, examy, this->itypes[itm_apple],0);
@@ -5226,6 +5228,9 @@ shape, but with long, twisted, distended limbs.");
  {
   int num_blueberries = rng(1, u.skillLevel("survival").level());
 
+ if (num_blueberries >= 12)
+    num_blueberries = 12;
+
   for (int i = 0; i < num_blueberries; i++)
    m.add_item(examx, examy, this->itypes[itm_blueberries],0);
 
@@ -5235,7 +5240,7 @@ shape, but with long, twisted, distended limbs.");
 // harvesting wild veggies
  else if ((m.ter(examx, examy)==t_underbrush) && (query_yn("Forage for wild vegetables?")))
  {
-  u.assign_activity(ACT_FORAGE, 50000 / (u.skillLevel("survival").level() + 1), 0);
+  u.assign_activity(ACT_FORAGE, 500 / (u.skillLevel("survival").level() + 1), 0);
   u.activity.placement = point(examx, examy);
   u.moves = 0;
  }
@@ -5441,9 +5446,9 @@ void game::list_items()
  std::map<int, std::map<int, std::map<std::string, int> > > grounditems;
  std::map<std::string, item> iteminfo;
 
- //Area to search +- of players position
- int iSearchX = 12;
- int iSearchY = 12;
+ //Area to search +- of players position. TODO: Use Perception
+ int iSearchX = 12 + ((VIEWX > 12) ? ((VIEWX-12)/2) : 0);
+ int iSearchY = 12 + ((VIEWY > 12) ? ((VIEWY-12)/2) : 0);
  int iItemNum = 0;
 
  int iTile;
@@ -7216,8 +7221,10 @@ void game::plmove(int x, int y)
   if (m.has_flag(sharp, x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur/2))
       && (!u.in_vehicle)) {
    if (!u.has_trait(PF_PARKOUR) || one_in(4)) {
-    add_msg("You cut yourself on the %s!", m.tername(x, y).c_str());
-    u.hit(this, bp_torso, 0, 0, rng(1, 4));
+    body_part bp = random_body_part();
+    int side = rng(0, 1);
+    add_msg("You cut your %s on the %s!", body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
+    u.hit(this, bp, side, 0, rng(1, 4));
    }
   }
   if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait(PF_LEG_TENTACLES)) {
