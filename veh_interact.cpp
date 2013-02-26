@@ -67,15 +67,8 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     }
     wrefresh(w_grid);
 
-    crafting_inv.form_from_map(g, point(g->u.posx, g->u.posy), PICKUP_RANGE);
-    crafting_inv += g->u.inv;
-    crafting_inv += g->u.weapon;
-    if (g->u.has_bionic(bio_tools))
-    {
-        item tools(g->itypes[itm_toolset], g->turn);
-        tools.charges = g->u.power_level;
-        crafting_inv += tools;
-    }
+    crafting_inv = gm->crafting_inventory();
+
     int charges = ((it_tool *) g->itypes[itm_welder])->charges_per_use;
     has_wrench = crafting_inv.has_amount(itm_wrench, 1) ||
                  crafting_inv.has_amount(itm_toolset, 1);

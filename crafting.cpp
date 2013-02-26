@@ -1061,15 +1061,7 @@ void game::craft()
  bool done = false;
  char ch;
 
- inventory crafting_inv;
- crafting_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
- crafting_inv += u.inv;
- crafting_inv += u.weapon;
- if (u.has_bionic(bio_tools)) {
-  item tools(itypes[itm_toolset], turn);
-  tools.charges = u.power_level;
-  crafting_inv += tools;
- }
+ inventory crafting_inv = crafting_inventory();
 
  do {
   if (redraw) { // When we switch tabs, redraw the header
@@ -1422,9 +1414,7 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
  wrefresh(w);
 }
 
-void game::pick_recipes(std::vector<recipe*> &current,
-                        std::vector<bool> &available, craft_cat tab)
-{
+inventory game::crafting_inventory(){
  inventory crafting_inv;
  crafting_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
  crafting_inv += u.inv;
@@ -1434,6 +1424,13 @@ void game::pick_recipes(std::vector<recipe*> &current,
   tools.charges = u.power_level;
   crafting_inv += tools;
  }
+ return crafting_inv;
+}
+
+void game::pick_recipes(std::vector<recipe*> &current,
+                        std::vector<bool> &available, craft_cat tab)
+{
+ inventory crafting_inv = crafting_inventory();
 
  bool have_tool[5], have_comp[5];
 
@@ -1793,16 +1790,7 @@ void game::disassemble()
     {
       // check tools are available
       // loop over the tools and see what's required...again
-      inventory crafting_inv;
-      crafting_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
-      crafting_inv += u.inv;
-      crafting_inv += u.weapon;
-      if (u.has_bionic(bio_tools))
-      {
-        item tools(itypes[itm_toolset], turn);
-        tools.charges = u.power_level;
-        crafting_inv += tools;
-      }
+      inventory crafting_inv = crafting_inventory();
       bool have_tool[5];
       for (int j = 0; j < 5; j++)
       {

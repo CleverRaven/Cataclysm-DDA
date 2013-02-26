@@ -200,6 +200,7 @@ class game
   point find_item(item *it);
   void remove_item(item *it);
 
+  inventory crafting_inventory();  // inv_from_map, inv, & 'weapon'
   void consume_items(std::vector<component> components);
   void consume_tools(std::vector<component> tools);
 
