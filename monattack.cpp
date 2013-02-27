@@ -1377,7 +1377,8 @@ void mattack::bite(game *g, monster *z)
  }
  body_part hit = random_body_part();
  int dam = rng(5, 10), side = rng(0, 1);
- g->add_msg("Your %s is hit for %d damage!", body_part_name(hit, side).c_str(),
+ g->add_msg("Your %s is bitten for %d damage!", body_part_name(hit, side).c_str(),
             dam);
  g->u.hit(g, hit, side, dam, 0);
+ g->u.add_disease(DI_INFECTED, 3600, g);
 }
