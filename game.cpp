@@ -720,7 +720,7 @@ bool game::do_turn()
   refresh();
  }
 
- update_bodytemp();
+// update_bodytemp();
 
  rustCheck();
  if (turn % 10 == 0)
@@ -780,7 +780,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   int blister_pen = dis_type(DI_BLISTERS) + 1 + i, hot_pen  = dis_type(DI_HOT) + 1 + i;
   int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;
   // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
-  signed int temp_conv = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement; 
+  signed int temp_conv = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement;
   // Fatigue also affects convergeant temperature
   if (!u.has_disease(DI_SLEEP)) temp_conv -= 10*u.fatigue/6;
   else {
@@ -870,7 +870,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   else if (temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING) add_msg("You feel your %s getting red hot from the heat!", body_part_name(body_part(i), -1).c_str());
   else if (temp_before < BODYTEMP_VERY_HOT  && temp_after > BODYTEMP_VERY_HOT)  add_msg("You feel your %s getting very hot.", body_part_name(body_part(i), -1).c_str());
   else if (temp_before < BODYTEMP_HOT       && temp_after > BODYTEMP_HOT)       add_msg("You feel your %s getting hot.", body_part_name(body_part(i), -1).c_str());
- 
+
   // Debug
   //add_msg("%s temperature : %d", body_part_name(body_part(i), -1).c_str(), u.temp_cur[i]);
 
