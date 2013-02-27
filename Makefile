@@ -61,7 +61,7 @@ ifdef RELEASE
   DEBUG =
 endif
 
-CXXFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS)
+CXXFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
 BINDIST_EXTRAS = README data cataclysm-launcher
 BINDIST    = cataclysmdda-$(VERSION).tar.gz
@@ -145,3 +145,5 @@ tests: $(ODIR) $(DDIR) $(OBJS)
 .PHONY: tests
 
 -include $(SOURCES:%.cpp=$(DEPDIR)/%.P)
+-include ${OBJS:.o=.d}
+
