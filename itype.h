@@ -568,7 +568,7 @@ struct it_var_veh_part: public itype
         char psym, nc_color pcolor, material pm1, material pm2,
         unsigned short pvolume, unsigned short pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-        unsigned effects,
+        unsigned,
 
         unsigned int big_min,
         unsigned int big_max,
@@ -966,15 +966,15 @@ struct it_artifact_tool : public it_tool
           " " << int(m_to_hit) << " " << int(item_flags) << " " <<
           int(charge_type) << " " << max_charges << " " <<
           effects_wielded.size();
-  for (int i = 0; i < effects_wielded.size(); i++)
+  for (unsigned int i = 0; i < effects_wielded.size(); i++)
    data << " " << int(effects_wielded[i]);
 
   data << " " << effects_activated.size();
-  for (int i = 0; i < effects_activated.size(); i++)
+  for (unsigned int i = 0; i < effects_activated.size(); i++)
    data << " " << int(effects_activated[i]);
 
   data << " " << effects_carried.size();
-  for (int i = 0; i < effects_carried.size(); i++)
+  for (unsigned int i = 0; i < effects_carried.size(); i++)
    data << " " << int(effects_carried[i]);
 
   data << " " << name << " - ";
@@ -1026,7 +1026,7 @@ struct it_artifact_armor : public it_armor
           int(covers) << " " << int(encumber) << " " << int(dmg_resist) <<
           " " << int(cut_resist) << " " << int(env_resist) << " " <<
           int(warmth) << " " << int(storage) << " " << effects_worn.size();
-  for (int i = 0; i < effects_worn.size(); i++)
+  for (unsigned int i = 0; i < effects_worn.size(); i++)
    data << " " << int(effects_worn[i]);
 
   data << " " << name << " - ";

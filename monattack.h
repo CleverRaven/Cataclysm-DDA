@@ -8,7 +8,7 @@ class game;
 class mattack
 {
  public:
-  void none		(game *g, monster *z) { };
+  void none		(game *, monster *) { };
   void antqueen		(game *g, monster *z);
   void shriek		(game *g, monster *z);
   void acid		(game *g, monster *z);
