@@ -419,12 +419,14 @@ void game::process_artifact(item *it, player *p, bool wielded)
   it_artifact_tool* tool = dynamic_cast<it_artifact_tool*>(it->type);
   effects = tool->effects_carried;
   if (wielded) {
-   for (int i = 0; i < tool->effects_wielded.size(); i++)
+   for (unsigned int i = 0; i < tool->effects_wielded.size(); i++)
     effects.push_back(tool->effects_wielded[i]);
   }
 // Recharge it if necessary
   if (it->charges < tool->max_charges) {
    switch (tool->charge_type) {
+   case ARTC_NULL:
+       break;
     case ARTC_TIME:
      if (turn.second == 0 && turn.minute == 0) // Once per hour
       it->charges++;
@@ -448,12 +450,16 @@ void game::process_artifact(item *it, player *p, bool wielded)
       it->charges++;
      }
      break;
+    case NUM_ARTCS:
+        break;
    }
   }
  }
 
- for (int i = 0; i < effects.size(); i++) {
+ for (unsigned int i = 0; i < effects.size(); i++) {
   switch (effects[i]) {
+  case AEP_NULL:
+   break;
   case AEP_STR_UP:
    p->str_cur += 4;
    break;
@@ -480,16 +486,17 @@ void game::process_artifact(item *it, player *p, bool wielded)
     p->radiation--;
    break;
 
-  case AEP_SMOKE:
-   if (one_in(10)) {
-    int x = p->posx + rng(-1, 1), y = p->posy + rng(-1, 1);
-    if (m.add_field(this, x, y, fd_smoke, rng(1, 3)))
-     add_msg("The %s emits some smoke.", it->tname().c_str());
-   }
-   break;
-
   case AEP_SNAKES:
    break; // Handled in player::hit()
+
+  case AEP_INVISIBLE:
+   break;
+
+  case AEP_CLAIRVOYANCE:
+   break;
+
+  case AEP_STEALTH:
+   break;
 
   case AEP_EXTINGUISH:
    for (int x = p->posx - 1; x <= p->posx + 1; x++) {
@@ -504,6 +511,24 @@ void game::process_artifact(item *it, player *p, bool wielded)
    }
    break;
 
+  case AEP_GLOW:
+   break;
+
+  case AEP_PSYSHIELD:
+   break;
+
+  case AEP_RESIST_ELECTRICITY:
+   break;
+
+  case AEP_CARRY_MORE:
+   break;
+
+  case AEP_SAP_LIFE:
+   break;
+
+  case AEP_SPLIT:
+   break;
+
   case AEP_HUNGER:
    if (one_in(100))
     p->hunger++;
@@ -512,6 +537,14 @@ void game::process_artifact(item *it, player *p, bool wielded)
   case AEP_THIRST:
    if (one_in(120))
     p->thirst++;
+   break;
+
+   case AEP_SMOKE:
+   if (one_in(10)) {
+    int x = p->posx + rng(-1, 1), y = p->posy + rng(-1, 1);
+    if (m.add_field(this, x, y, fd_smoke, rng(1, 3)))
+     add_msg("The %s emits some smoke.", it->tname().c_str());
+   }
    break;
 
   case AEP_EVIL:
@@ -529,6 +562,12 @@ void game::process_artifact(item *it, player *p, bool wielded)
   case AEP_RADIOACTIVE:
    if (one_in(4))
     p->radiation++;
+   break;
+
+  case AEP_MUTAGENIC:
+   break;
+
+  case AEP_ATTENTION:
    break;
 
   case AEP_STR_DOWN:
@@ -556,6 +595,18 @@ void game::process_artifact(item *it, player *p, bool wielded)
 
   case AEP_SPEED_DOWN:
    break; // Handled in player::current_speed()
+
+  case AEP_FORCE_TELEPORT:
+   break;
+
+  case AEP_MOVEMENT_NOISE:
+   break;
+
+  case AEP_BAD_WEATHER:
+   break;
+
+  case AEP_SICK:
+   break;
   }
  }
 }

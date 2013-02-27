@@ -232,7 +232,7 @@ std::string action_ident(action_id act)
   case ACTION_NULL:
    return "null";
   case NUM_ACTIONS:
-      // Unused. Added for completeness.
+      break;
  }
  return "unknown";
 }
@@ -392,7 +392,7 @@ std::string action_name(action_id act)
   case ACTION_NULL:
    return "No Action";
   case NUM_ACTIONS:
-      // Unused. Added for completeness.
+      break;
  }
  return "Someone forgot to name an action.";
 }
