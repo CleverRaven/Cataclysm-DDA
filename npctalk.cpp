@@ -5,6 +5,7 @@
 #include "rng.h"
 #include "line.h"
 #include "keypress.h"
+#include "debug.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -40,6 +41,8 @@
 #define FAILURE_ACTION(func)  ret.back().effect_failure = func
 
 #define SUCCESS_MISSION(type) ret.back().miss = type
+
+#define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 std::string dynamic_line(talk_topic topic, game *g, npc *p);
 std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p);
@@ -928,6 +931,11 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   RESPONSE("Let's trade items.");
    SUCCESS(TALK_NONE);
    SUCCESS_ACTION(&talk_function::start_trade);
+  if (p->is_following() && g->m.camp_at(g->u.posx, g->u.posy)) {
+   RESPONSE("Wait at this base,");
+    SUCCESS(TALK_DONE);
+    SUCCESS_ACTION(&talk_function::assign_base);
+  }
   RESPONSE("Let's go.");
    SUCCESS(TALK_DONE);
   break;
@@ -1294,6 +1302,20 @@ void talk_function::start_trade(game *g, npc *p)
  int trade_amount = p->op_of_u.owed;
  p->op_of_u.owed = 0;
  trade(g, p, trade_amount, "Trade");
+}
+
+void talk_function::assign_base(game *g, npc *p)
+{
+	// TODO: decide what to do upon assign? maybe pathing required
+	basecamp* camp = g->m.camp_at(g->u.posx, g->u.posy);
+	if(!camp) {
+		dbg(D_ERROR) << "talk_function::assign_base: Assigned to base but no base here.";
+		return;
+	}
+
+	g->add_msg("%s waits at %s", p->name.c_str(), camp->camp_name().c_str());
+	p->mission = NPC_MISSION_BASE;
+	p->attitude = NPCATT_NULL;
 }
 
 void talk_function::give_equipment(game *g, npc *p)

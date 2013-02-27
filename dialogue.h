@@ -38,6 +38,7 @@ struct talk_function
  void mission_favor		(game *g, npc *p);
  void give_equipment		(game *g, npc *p);
  void start_trade		(game *g, npc *p);
+ void assign_base(game *g, npc *p);
  void follow			(game *g, npc *p); // p follows u
  void deny_follow		(game *g, npc *p); // p gets DI_ASKED_TO_FOLLOW
  void deny_lead			(game *g, npc *p); // p gets DI_ASKED_TO_LEAD

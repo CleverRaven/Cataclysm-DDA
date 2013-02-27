@@ -369,6 +369,11 @@ void npc::execute_action(game *g, npc_action action, int target)
   avoid_friendly_fire(g, target);
   break;
 
+ case npc_base_idle:
+ 	// TODO: patrol or sleep or something?
+ 	move_pause();
+ 	break;
+
  default:
   debugmsg("Unknown NPC action (%d)", action);
  }
@@ -665,6 +670,8 @@ npc_action npc::long_term_goal_action(game *g)
 
 // TODO: Follow / look for player
 
+ if (mission == NPC_MISSION_BASE)
+ 	return npc_base_idle;
 
  if (!has_destination())
   set_destination(g);

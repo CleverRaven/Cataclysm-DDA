@@ -169,7 +169,7 @@ void mapbuffer::save()
 
  // Output base camp if any
   if (sm->camp.is_valid())
-  	fout << "B" << sm->camp.save_data() << std::endl;
+  	fout << "B " << sm->camp.save_data() << std::endl;
 
  // Output the graffiti
  for (int j = 0; j < SEEY; j++) {
