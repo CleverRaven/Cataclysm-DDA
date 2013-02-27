@@ -1380,5 +1380,6 @@ void mattack::bite(game *g, monster *z)
  g->add_msg("Your %s is bitten for %d damage!", body_part_name(hit, side).c_str(),
             dam);
  g->u.hit(g, hit, side, dam, 0);
- g->u.add_disease(DI_INFECTED, 3600, g);
+ if(one_in(10){
+ g->u.add_disease(DI_BITE, 3600, g);}
 }

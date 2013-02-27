@@ -590,7 +590,7 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_BLEED:
-  if (!p.is_npc() && one_in(2)) {
+  if (!p.is_npc() && one_in(3)) {
    g->add_msg("You lose some blood.");
    p.pain++;
    p.hurt(g, bp_torso, 0, 1);
@@ -995,7 +995,7 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
   
  case DI_INFECTED: //Oddzball-Infected Wound
-// This assumes that we were given DI_HALLU with a 3600 (6-hour) lifespan
+	p.dex_cur-= 1;
   if (dis.duration > 10800) {	// First hour symptoms
    if (one_in(300)) {
     if (!p.is_npc())
@@ -1008,7 +1008,7 @@ void dis_effect(game *g, player &p, disease &dis)
   } else if (dis.duration > 7200) {	
    if (one_in(100)) {
     if (!p.is_npc())
-     g->add_msg("You feel feverish and nauseous you wound has begun to turn green");
+     g->add_msg("You feel feverish and nauseous, your wound has begun to turn green");
 	 p.vomit(g);
     if(p.pain < 100)
 	p.pain++;
@@ -1016,7 +1016,25 @@ void dis_effect(game *g, player &p, disease &dis)
    p.str_cur-= 2;
    p.dex_cur-= 2;
    }
+   else if (dis.duration > 3600) {	
+   if (one_in(100)) {
+    if (!p.is_npc())
+     g->add_msg("You can barely remain standing");
+	 p.vomit(g);
+    if(p.pain < 100)
+	p.pain++;
+     }
+   p.str_cur-= 2;
+   p.dex_cur-= 2;
+   if(one_in(5)
+   {
+   g->add_msg("You pass out");
+   p.add_disease(DI_SLEEP, 60, g);
+   }
+   }
   else {	// You die.
+  
+   g->add_msg("You succumb to the infection");
    p.hurtall(500); 
   }
   break;
