@@ -2172,6 +2172,7 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
    case MS_SMALL: numdice -= 1; break;
    case MS_LARGE: numdice += 2; break;
    case MS_HUGE:  numdice += 4; break;
+   default:                break;
   }
   int mondice = z->dodge();
   if (dice(numdice, 10) < dice(mondice, 10)) {	// A miss!
@@ -3408,6 +3409,8 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
     g->add_msg_if_player(p,"A shadow forms nearby.");
   } break;
 
+  default:
+   break;
   }
  }
 }

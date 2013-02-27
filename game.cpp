@@ -1836,6 +1836,9 @@ input_ret game::get_input(int timeout_ms)
    debugmon = !debugmon;
    add_msg("Debug messages %s!", (debugmon ? "ON" : "OFF"));
    break;
+
+  default:
+   break;
  }
 
  gamemode->post_action(this, act);

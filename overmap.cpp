@@ -2393,6 +2393,9 @@ void overmap::place_radios()
   This is FEMA camp %d%d.  A desginated long-term emergency shelter.", i, j, i, j);
     radios.push_back(radio_tower(i*2, j*2, rng(80, 200), message));
      break;
+
+   default:
+    break;
    }
   }
  }

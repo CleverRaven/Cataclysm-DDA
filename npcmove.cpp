@@ -368,6 +368,8 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
      case ENGAGE_HIT:
       okay_by_rules = (mon->has_effect(ME_HIT_BY_PLAYER));
       break;
+     default:
+      break;
     }
    }
 

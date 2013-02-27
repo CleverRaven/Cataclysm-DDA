@@ -430,6 +430,8 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   return opinion.str();
  } break;
 
+ default:
+  break;
  }
 
  return "I don't know what to say. (BUG)";
@@ -1110,6 +1112,9 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   RESPONSE("Okay.");
    SUCCESS(TALK_NONE);
   break;
+
+ default:
+  break;
  }
 
  if (ret.empty()) {
@@ -1153,6 +1158,8 @@ int trial_chance(talk_response response, player *u, npc *p)
     chance += 30;
    break;
 
+  default:
+   break;
  }
 
  if (chance < 0)

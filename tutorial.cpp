@@ -199,6 +199,8 @@ void tutorial_game::post_action(game *g, action_id act)
    add_message(g, LESSON_OVERLOADED);
  } break;
 
+ default:
+  break;
  }
 }
 
@@ -211,6 +213,7 @@ void tutorial_game::add_message(game *g, tut_lesson lesson)
     case LESSON_INTRO:	lesson = LESSON_MOVE; break;
     case LESSON_MOVE:	lesson = LESSON_LOOK; break;
     case LESSON_LOOK:	lesson = NUM_LESSONS; break;
+    default:                             break;
    }
   }
   if (lesson == NUM_LESSONS)

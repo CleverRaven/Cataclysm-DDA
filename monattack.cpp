@@ -963,6 +963,7 @@ void mattack::vortex(game *g, monster *z)
      case IRON:    distance -= 1; // fall through
      case STEEL:
      case SILVER:  distance -= 3; damage -= 10; break;
+     default:                                   break;
     }
     if (distance > 0) {
      if (g->u_see(thrown, t))

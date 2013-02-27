@@ -582,6 +582,8 @@ void trapfunc::temple_toggle(game *g, int x, int y)
       g->m.ter(i, j) = t_rock_red;
      break;
 
+    default:
+     break;
    }
   }
  }

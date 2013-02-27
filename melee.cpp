@@ -876,6 +876,8 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
    g->add_msg("%s disarm%s %s!", You.c_str(), s.c_str(), target.c_str());
   break;
 
+ default:
+  break;
  } // switch (tech)
 }
 
@@ -1039,6 +1041,8 @@ void player::perform_defensive_technique(
                                   target.c_str());
    break;
 
+  default:
+   break;
  } // switch (technique)
 }
 

@@ -263,7 +263,7 @@ void game::construction_menu()
  wrefresh(w_con);
 
  bool update_info = true;
- int select = 0;
+ unsigned int select = 0;
  char ch;
 
  inventory total_inv = crafting_inventory();

@@ -186,6 +186,9 @@ void mission_start::place_npc_software(game *g, mission *miss)
    }
   }
  } break;
+
+ default:
+  break;
  }
 
  std::stringstream compname;

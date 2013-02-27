@@ -456,7 +456,7 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
   return false;
  }
 
- int selection = 0;
+ unsigned selection = 0;
  char ch;
 
  do {
@@ -568,7 +568,7 @@ void bionics_install_failure(game *g, player *u, int success)
   fail_text += " and ";
   fail_text += (u->my_bionics.size() <= failure_level ? "all" : "some");
   fail_text += " of your existing bionics are lost.";
-  for (int i = 0; i < failure_level && u->my_bionics.size() > 0; i++) {
+  for (unsigned int i = 0; i < failure_level && u->my_bionics.size() > 0; i++) {
    int rem = rng(0, u->my_bionics.size() - 1);
    u->my_bionics.erase(u->my_bionics.begin() + rem);
   }

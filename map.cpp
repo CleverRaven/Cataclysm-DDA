@@ -975,6 +975,8 @@ bool map::has_adjacent_furniture(const int x, const int y)
     case t_bookcase:
     case t_locker:
      return true;
+    default:
+     break;
    }
  return false;
 }
@@ -1523,6 +1525,8 @@ case t_wall_log:
    sound += "wham!";
    return true;
   }
+ default:
+  break;
  }
  if (res) *res = result;
  if (move_cost(x, y) == 0) {
@@ -1787,6 +1791,8 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     remove_field(x, y);
    }
    break;
+  default:
+   break;
  }
 
 // Now, destroy items on that tile.
@@ -1816,6 +1822,8 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     i_at(x, y)[i].damage++;
     if (i_at(x, y)[i].damage >= 5)
      destroyed = true;
+    break;
+   default:
     break;
   }
   if (destroyed) {
@@ -1875,6 +1883,9 @@ bool map::hit_with_acid(game *g, const int x, const int y)
   case t_card_science:
   case t_card_military:
    ter(x, y) = t_card_reader_broken;
+   break;
+
+  default:
    break;
  }
 
