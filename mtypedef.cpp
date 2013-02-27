@@ -234,7 +234,7 @@ FLAGS(MF_DIGS, MF_HEARS, MF_GOODHEARING, MF_WARM, MF_LEATHER);
 // ZOMBIES
 mon("zombie",	species_zombie, 'Z',	c_ltgreen,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 90,  3,100,100, 70,  8,  1,  5,  0,  1,  0,  0, 40, 50,  0,
+	 90,  3,100,100, 70,  8,  1,  5,  2,  1,  0,  0, 40, 50,  0,
 	&mdeath::normal,	&mattack::none, "\
 A human body, stumbling slowly forward on\n\
 uncertain legs, possessed with an unstoppable\n\
@@ -432,13 +432,13 @@ Actual cannibal Shia LaBeouf!");
  
  mon("child zombie",species_zombie, 'z',	c_ltgreen,	MS_SMALL,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  10, 3,100,100,100, 8,  1,  3,  3,  4,  0,  0, 45, 25,  0,
+	  5, 2, 65,100,  70, 8,  1,  3,  2,  2,  0,  0, 20, 25,  0,
 	&mdeath::normal,	&mattack::none, "\
 A horrifying child zombie, you feel\n\
 a twinge of remorse looking at it."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED,
-      MF_HIT_AND_RUN, MF_GUILT);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_BLEED,
+      MF_GUILT);
 
 
 // PLANTS & FUNGI
