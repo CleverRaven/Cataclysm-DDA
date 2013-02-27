@@ -17,7 +17,7 @@ long input()
 
 bool input_wait(char & ret_ch, int delay_ms)
 {
- for(;;)
+ while(true)
  {
   ret_ch = '\0';
   timeout(delay_ms);

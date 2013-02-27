@@ -365,7 +365,7 @@ class game
   void update_weather();   // Updates the temperature and weather patten
   void hallucinate(const int x, const int y); // Prints hallucination junk to the screen
   void mon_info();         // Prints a list of nearby monsters (top right)
-  input_ret get_input(int timeout_ms);   // Gets player input and calls the proper function
+  input_ret handle_input(int timeout_ms);   // Gets player input and calls the proper function
   void update_scent();     // Updates the scent map
   bool is_game_over();     // Returns true if the player quit or died
   void death_screen();     // Display our stats, "GAME OVER BOO HOO"

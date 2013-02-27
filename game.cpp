@@ -1,6 +1,7 @@
 #include "game.h"
 #include "rng.h"
 #include "keypress.h"
+#include "input.h"
 #include "output.h"
 #include "skill.h"
 #include "line.h"
@@ -214,7 +215,7 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
    templates.push_back(tmp.substr(0, tmp.find(".template")));
  }
  int sel1 = 0, sel2 = 1, layer = 1;
- char ch;
+ InputEvent input;
  bool start = false;
 
 // Load MOTD and store it in a string
@@ -232,7 +233,9 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
   }
  }
 
- do {
+ bool inmenu = true;
+
+ while(inmenu) {
   if (layer == 1) {
    mvwprintz(w_open, 4, 1, (sel1 == 0 ? h_white : c_white), "MOTD");
    mvwprintz(w_open, 5, 1, (sel1 == 1 ? h_white : c_white), "New Game");
@@ -254,18 +257,18 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
 
    wrefresh(w_open);
    refresh();
-   ch = input();
-   if (ch == 'k') {
+   input = get_input();
+   if (input == Up) {
     if (sel1 > 0)
      sel1--;
     else
      sel1 = 6;
-   } else if (ch == 'j') {
+   } else if (input == Down) {
     if (sel1 < 6)
      sel1++;
     else
      sel1 = 0;
-   } else if ((ch == 'l' || ch == '\n' || ch == '>') && sel1 > 0) {
+   } else if ((input == Right || input == Confirm) && sel1 > 0) {
     if (sel1 == 6) {
      uquit = QUIT_MENU;
      return false;
@@ -301,25 +304,25 @@ fivedozenwhales@gmail.com.");
               "Random Character");
     wrefresh(w_open);
     refresh();
-    ch = input();
-    if (ch == 'k') {
+    input = get_input();
+    if (input == Up) {
      if (sel2 > 1)
       sel2--;
      else
       sel2 = 3;
-    } if (ch == 'j') {
+    } if (input == Down) {
      if (sel2 < 3)
       sel2++;
      else
       sel2 = 1;
-    } else if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE) {
+    } else if (input == Left) {
      mvwprintz(w_open, 5, 12, c_black, "                ");
      mvwprintz(w_open, 6, 12, c_black, "                ");
      mvwprintz(w_open, 7, 12, c_black, "                ");
      layer = 1;
      sel1 = 1;
     }
-    if (ch == 'l' || ch == '\n' || ch == '>') {
+    if (input == Right || input == Confirm) {
      if (sel2 == 1) {
       if (!u.create(this, PLTYPE_CUSTOM)) {
        u = player();
@@ -328,7 +331,6 @@ fivedozenwhales@gmail.com.");
       }
       start_game();
       start = true;
-      ch = 0;
      }
      if (sel2 == 2) {
       layer = 3;
@@ -345,7 +347,6 @@ fivedozenwhales@gmail.com.");
       }
       start_game();
       start = true;
-      ch = 0;
      }
     }
    } else if (sel1 == 2) {	// Load Character
@@ -364,27 +365,26 @@ fivedozenwhales@gmail.com.");
     }
     wrefresh(w_open);
     refresh();
-    ch = input();
-    if (ch == 'k') {
+    input = get_input();
+    if (input == Up) {
      if (sel2 > 1)
       sel2--;
      else
       sel2 = savegames.size();
-    } else if (ch == 'j') {
+    } else if (input == Down) {
      if (sel2 < savegames.size())
       sel2++;
      else
       sel2 = 1;
-    } else if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE) {
+    } else if (input == Left) {
      layer = 1;
      for (int i = 0; i < 14; i++)
       mvwprintz(w_open, 6 + i, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     }
-    if (ch == 'l' || ch == '\n' || ch == '>') {
+    if (input == Right || input == Confirm) {
      if (sel2 > 0 && savegames.size() > 0) {
       load(savegames[sel2 - 1]);
       start = true;
-      ch = 0;
      }
     }
    } else if (sel1 == 3) {  // Delete world
@@ -404,23 +404,23 @@ fivedozenwhales@gmail.com.");
     }
     wrefresh(w_open);
     refresh();
-    ch = input();
-    if (ch == 'k') {
+    input = get_input();
+    if (input == Up) {
      if (sel2 > 1)
       sel2--;
      else
       sel2 = NUM_SPECIAL_GAMES - 1;
-    } else if (ch == 'j') {
+    } else if (input == Down) {
      if (sel2 < NUM_SPECIAL_GAMES - 1)
       sel2++;
      else
       sel2 = 1;
-    } else if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE) {
+    } else if (input == Left) {
      layer = 1;
      for (int i = 6; i < 15; i++)
       mvwprintz(w_open, i, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     }
-    if (ch == 'l' || ch == '\n' || ch == '>') {
+    if (input == Right || input == Confirm) {
      if (sel2 >= 1 && sel2 < NUM_SPECIAL_GAMES) {
       delete gamemode;
       gamemode = get_special_game( special_game_id(sel2) );
@@ -432,7 +432,6 @@ fivedozenwhales@gmail.com.");
        return (opening_screen());
       }
       start = true;
-      ch = 0;
      }
     }
    }
@@ -452,18 +451,18 @@ fivedozenwhales@gmail.com.");
    }
    wrefresh(w_open);
    refresh();
-   ch = input();
-   if (ch == 'k') {
+   input = get_input();
+   if (input == Up) {
     if (sel1 > 0)
      sel1--;
     else
      sel1 = templates.size() - 1;
-   } else if (ch == 'j') {
+   } else if (input == Down) {
     if (sel1 < templates.size() - 1)
      sel1++;
     else
      sel1 = 0;
-   } else if (ch == 'h' || ch == '<' || ch == KEY_ESCAPE || templates.size() == 0) {
+   } else if (input == Left || templates.size() == 0) {
     sel1 = 1;
     layer = 2;
     for (int i = 0; i+6 < 21; i++)
@@ -472,7 +471,7 @@ fivedozenwhales@gmail.com.");
      mvwprintw(w_open, i, 0, "                                                 \
                                 ");
    }
-   else if (ch == 'l' || ch == '\n' || ch == '>') {
+   else if (input == Right || input == Confirm) {
     if (!u.create(this, PLTYPE_TEMPLATE, templates[sel1])) {
      u = player();
      delwin(w_open);
@@ -480,10 +479,9 @@ fivedozenwhales@gmail.com.");
     }
     start_game();
     start = true;
-    ch = 0;
    }
   }
- } while (ch != 0);
+ }
  delwin(w_open);
  if (start == false)
   uquit = QUIT_MENU;
@@ -691,7 +689,7 @@ bool game::do_turn()
   if (!u.has_disease(DI_SLEEP) && u.activity.type == ACT_NULL)
    draw();
 
-  if (get_input(autosave_timeout()) == IR_GOOD)
+  if (handle_input(autosave_timeout()) == IR_GOOD)
     ++moves_since_last_save;
   if (is_game_over()) {
    cleanup_at_end();
@@ -1415,7 +1413,7 @@ void game::process_missions()
  }
 }
 
-input_ret game::get_input(int timeout_ms)
+input_ret game::handle_input(int timeout_ms)
 {
  char ch = KEY_ESCAPE;
  bool success = input_wait(ch, timeout_ms); // See keypress.h - translates keypad and arrows to vikeys
@@ -2624,14 +2622,14 @@ faction* game::list_factions(std::string title)
  do {
   ch = input();
   switch ( ch ) {
-  case 'j':	// Move selection down
+  case Down:	// Move selection down
    mvwprintz(w_list, sel + 1, 0, c_white, valfac[sel].name.c_str());
    if (sel == valfac.size() - 1)
     sel = 0;	// Wrap around
    else
     sel++;
    break;
-  case 'k':	// Move selection up
+  case Up:	// Move selection up
    mvwprintz(w_list, sel + 1, 0, c_white, valfac[sel].name.c_str());
    if (sel == 0)
     sel = valfac.size() - 1;	// Wrap around
@@ -2643,7 +2641,7 @@ faction* game::list_factions(std::string title)
    sel = -1;
    break;
   }
-  if (ch == 'j' || ch == 'k') {	// Changed our selection... update the windows
+  if (ch == Down || ch == Up) {	// Changed our selection... update the windows
    mvwprintz(w_list, sel + 1, 0, h_white, valfac[sel].name.c_str());
    wrefresh(w_list);
    werase(w_info);
@@ -2736,12 +2734,12 @@ void game::list_missions()
    if (tab < 0)
     tab = 2;
    break;
-  case 'j':
+  case Down:
    selection++;
    if (selection >= umissions.size())
     selection = 0;
    break;
-  case 'k':
+  case Up:
    selection--;
    if (selection < 0)
     selection = umissions.size() - 1;
@@ -5550,13 +5548,13 @@ void game::list_items()
 
    switch(ch) {
     case KEY_UP:
-	case 'k':
+	case Up:
      iActive--;
      if (iActive < 0)
       iActive = 0;
      break;
     case KEY_DOWN:
-	case 'j':
+	case Down:
      iActive++;
      if (iActive >= iItemNum - iFilter)
       iActive = iItemNum - iFilter-1;
