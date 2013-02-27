@@ -264,8 +264,11 @@ const vpart_info& vehicle::part_info (int index)
     return vpart_list[id];
 }
 
+// engines & solar panels all have power.
+// engines consume, whilst panels provide.
 int vehicle::part_power (int index){
-   if (!part_flag(index, vpf_engine))
+   if (!part_flag(index, vpf_engine) &&
+       !part_flag(index, vpf_solar_panel))
       return 0; //not an engine.
    if(parts[index].hp <= 0)
       return 0; //broken.

@@ -324,6 +324,7 @@ IF_RELOAD_AND_SHOOT, // Reloading and shooting is one action
 IF_FIRE_100,	// Fires 100 rounds at once! (e.g. flamethrower)
 IF_GRENADE,	// NPCs treat this as a grenade
 IF_CHARGE,	// For guns; charges up slowly
+IF_SHOCK,   // Stuns and damages enemies, powers up shockers.
 
 IF_UNARMED_WEAPON, // Counts as an unarmed weapon
 IF_NO_UNWIELD, // Impossible to unwield, e.g. bionic claws

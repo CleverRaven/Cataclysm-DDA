@@ -128,7 +128,7 @@ t_bed, t_toilet, t_makeshift_bed,
 t_sink, t_oven, t_woodstove, t_bathtub, t_chair, t_armchair, t_sofa, t_cupboard, t_trashcan, t_desk,
 t_sandbox, t_slide, t_monkey_bars, t_backboard,
 t_bench, t_table, t_pool_table,
-t_gas_pump, t_gas_pump_smashed,
+t_gas_pump, t_gas_pump_smashed, t_gas_pump_empty,
 t_missile, t_missile_exploded,
 t_counter,
 t_radio_tower, t_radio_controls,
@@ -330,12 +330,12 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"window",	     '"', c_ltcyan,  0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)|mfb(deconstruct)}, //has curtains
+{"taped window",  '"', c_dkgray,    0, tr_null,
+	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)}, // Curtain window
 {"open window",      '\'', c_ltcyan, 4, tr_null,
 	mfb(transparent)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)},
 {"closed curtains",  '"', c_dkgray,    0, tr_null,
 	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)},
-{"taped window",  '"', c_dkgray,    0, tr_null,
-	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)}, // Curtain window
 {"window",	     '"', c_ltcyan,  0, tr_null, // Actually alarmed
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(alarmed)|mfb(noitem)|
         mfb(supports_roof)},
@@ -464,6 +464,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"gasoline pump",    '&', c_red,     0, tr_null,
 	mfb(transparent)|mfb(explodes)|mfb(noitem)},
 {"smashed gas pump", '&', c_ltred,   0, tr_null,
+	mfb(transparent)|mfb(noitem)},
+{"out-of-order gasoline pump",    '&', c_red,     0, tr_null,
 	mfb(transparent)|mfb(noitem)},
 {"missile",          '#', c_ltblue,  0, tr_null,
 	mfb(explodes)|mfb(noitem)},

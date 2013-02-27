@@ -234,7 +234,7 @@ anything else."},
 Your left arm has been replaced by a heavy-duty fusion blaster!  You may use\n\
 your energy banks to fire a damaging heat ray; however, you are unable to use\n\
 or carry two-handed items, and may only fire handguns."},
-{"Finger-Mounter Laser", false, true, 2, 0, "\
+{"Finger-Mounted Laser", false, true, 2, 0, "\
 One of your fingers has a small high-powered laser embedded in it.  This long\n\
 range weapon is not incredibly damaging, but is very accurate, and has the\n\
 potential to start fires."},

@@ -78,7 +78,7 @@ player::player()
  }
 
  for (int i = 0; i < num_bp; i++) {
-  temp_cur[i] = 500; ; frostbite_timer[i] = 0;
+  temp_cur[i] = 5000; ; frostbite_timer[i] = 0;
  }
 }
 

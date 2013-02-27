@@ -1,4 +1,4 @@
-#include "map.h"
+#   include "map.h"
 #include "lightmap.h"
 #include "output.h"
 #include "rng.h"
@@ -607,6 +607,8 @@ bool map::vehproceed(game* g){
 
       //give veh2 the initiative to proceed next before veh1
       float avg_of_turn = (veh2->of_turn + veh->of_turn) / 2;
+      if(avg_of_turn < .1)
+         avg_of_turn = .1;
       veh->of_turn = avg_of_turn * .9;
       veh2->of_turn = avg_of_turn * 1.1;
       return true;
@@ -1867,6 +1869,7 @@ bool map::hit_with_acid(game *g, const int x, const int y)
   case t_bathtub:
   case t_gas_pump:
   case t_gas_pump_smashed:
+  case t_gas_pump_empty:
    return false;
 
   case t_card_science:
