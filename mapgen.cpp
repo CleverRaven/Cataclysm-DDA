@@ -7264,6 +7264,49 @@ void map::post_process(game *g, unsigned zones)
 
 }
 
+void map::place_spawns(game *g, moncat_id monster_type, int chance, int x1, int y1,
+                      int x2, int y2, int min, int max)
+{
+ if (one_in(chance))
+ {
+  const std::vector<mon_id> group = g->moncats[monster_type];
+  int num = rng(min, max);
+  int total_freq = 0;
+
+  for (int i = 0; i < group.size(); i++)
+   if (g->mtypes[group[i]]->frequency > 0)
+    total_freq += g->mtypes[group[i]]->frequency;
+
+  if( total_freq == 0)
+   return;
+
+  for (int i = 0; i < num; i++)
+  {
+   int tries = 10;
+   int x = 0;
+   int y = 0;
+
+   // Pick a spot for the spawn
+   do {
+    x = rng(x1, x2);
+    y = rng(y1, y2);
+    tries--;
+   } while( move_cost(x, y) == 0 && tries );
+
+   // Pick a monster type
+   int choice = rng(0, total_freq);
+   int monster_index = -1;
+   do {
+    monster_index++;
+    choice -= g->mtypes[group[monster_index]]->frequency;
+   } while (choice > 0);
+
+   add_spawn(group[monster_index], 1, x, y);
+  }
+ }
+}
+
+
 void map::place_items(items_location loc, int chance, int x1, int y1,
                       int x2, int y2, bool ongrass, int turn)
 {
