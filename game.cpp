@@ -936,7 +936,7 @@ void game::process_activity()
     return;
    }
    veh->refill (AT_GAS, 200);
-   if(one_in(100)) {
+   if(one_in(10)) {
      // Scan for the gas pump we're refuelling from and deactivate it.
     for(int i = -1; i <= 1; i++)
      for(int j = -1; j <= 1; j++)
@@ -5038,7 +5038,7 @@ void game::examine()
    u.moves -= 300;
    handle_liquid(gas, false, true);
   }
-  if (one_in(1000)) {
+  if (one_in(100)) {
     add_msg("With a clang and a shudder, the gas pump goes silent.");
     m.ter(examx, examy) = t_gas_pump_empty;
   }
