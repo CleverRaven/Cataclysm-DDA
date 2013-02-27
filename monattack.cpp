@@ -1371,7 +1371,7 @@ void mattack::bite(game *g, monster *z)
  z->sp_timeout = z->type->sp_freq;	// Reset timer
  g->add_msg("The %s lunges forward attempting to bite you!", z->name().c_str());
  z->moves -= 100;
- if (rng(0, 20) > g->u.dodge(g) || one_in(g->u.dodge(g))) {
+ if (rng(0, 5) > g->u.dodge(g) || one_in(g->u.dodge(g))) { //Oddzball-BITETEST should be rng 0,20
   g->add_msg("You dodge it!");
   return;
  }
@@ -1380,5 +1380,5 @@ void mattack::bite(game *g, monster *z)
  g->add_msg("Your %s is bitten for %d damage!", body_part_name(hit, side).c_str(),
             dam);
  g->u.hit(g, hit, side, dam, 0);
- g->u.add_disease(DI_INFECTED, 3600, g);
+ g->u.add_disease(DI_BITE, 360, g); //BITETEST should be 3600
 }

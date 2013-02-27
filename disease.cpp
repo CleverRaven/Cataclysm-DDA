@@ -971,15 +971,15 @@ void dis_effect(game *g, player &p, disease &dis)
   }
  } break;
  
- case DI_BITE: //Oddzball-Infected Wound
+ case DI_BITE: //Oddzball-Infected Wound 
 //3600 (6-hour) lifespan
-  if (dis.duration > 3000) {	// First hour symptoms
-   if (one_in(300)) {
+  if (dis.duration > 300) {	// First hour symptoms //BITETEST all times divided by 10
+   if (one_in(3)) { //SHould be 300
     if (!p.is_npc())
      g->add_msg("Your bite wound really hurts.");
    }
-  } else if (dis.duration > 500) {	
-   if (one_in(100)) {
+  } else if (dis.duration > 50) {	
+   if (one_in(3)) { //Should be 100
     if (!p.is_npc())
      g->add_msg("Your bite wound feels swollen and painful.");
     if(p.pain < 20)
@@ -990,14 +990,14 @@ void dis_effect(game *g, player &p, disease &dis)
    }
   else {	// Infection starts
    p.rem_disease(DI_BITE);
-   p.add_disease(DI_INFECTED, 14400, g); //Oddzball 1 day of timer
+   p.add_disease(DI_INFECTED, 1440, g); //Oddzball 1 day of timer //BITETEST all times divided by 10
   }
   break;
   
  case DI_INFECTED: //Oddzball-Infected Wound
-// This assumes that we were given DI_HALLU with a 3600 (6-hour) lifespan
-  if (dis.duration > 10800) {	// First hour symptoms
-   if (one_in(300)) {
+	p.dex_cur-= 1;
+  if (dis.duration > 1080) {	// First hour symptoms
+   if (one_in(3)) { //Should be 300
     if (!p.is_npc())
      g->add_msg("Your infected wound is incredibly painful");
 	 if(p.pain < 40)
@@ -1005,8 +1005,8 @@ void dis_effect(game *g, player &p, disease &dis)
    }
    p.str_cur-= 1;
    p.dex_cur-= 1;
-  } else if (dis.duration > 7200) {	
-   if (one_in(100)) {
+  } else if (dis.duration > 720) {	
+   if (one_in(3)) { //Oddzball Should be 100
     if (!p.is_npc())
      g->add_msg("You feel feverish and nauseous you wound has begun to turn green");
 	 p.vomit(g);
@@ -1208,11 +1208,11 @@ std::string dis_name(disease dis)
    default: return "VIPER BUG!!!!";
   }
   case DI_BITE:
-  if (dis.duration > 3000) return "Bite Wound";
+  if (dis.duration > 300) return "Bite Wound"; //BITETEST all times divided by 10
                            return "Painful Bite Wound";
   case DI_INFECTED:
-  if (dis.duration > 10800) return "Infected Wound";
-  if (dis.duration > 7200) return "Painful Infected Wound";
+  if (dis.duration > 1080) return "Infected Wound";
+  if (dis.duration > 720) return "Painful Infected Wound";
   return "Puss Filled Wound";
 
   break;
