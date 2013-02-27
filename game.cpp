@@ -927,6 +927,20 @@ void game::process_activity()
     return;
    }
    veh->refill (AT_GAS, 200);
+   if(one_in(100)) {
+     // Scan for the gas pump we're refuelling from and deactivate it.
+    for(int i = -1; i <= 1; i++)
+     for(int j = -1; j <= 1; j++)
+      if(m.ter(u.posx + i, u.posy + j) == t_gas_pump) {
+       add_msg("With a clang and a shudder, the gas pump goes silent.");
+       m.ter(u.posx + i, u.posy + j) = t_gas_pump_empty;
+       u.activity.moves_left = 0;
+       // Found it, break out of the loop.
+       i = 2;
+       j = 2;
+       break;
+      }
+   }
    u.pause(this);
    u.activity.moves_left -= 100;
   } else {
@@ -5014,6 +5028,10 @@ void game::examine()
   } else {
    u.moves -= 300;
    handle_liquid(gas, false, true);
+  }
+  if (one_in(1000)) {
+    add_msg("With a clang and a shudder, the gas pump goes silent.");
+    m.ter(examx, examy) = t_gas_pump_empty;
   }
  } else if (m.ter(examx, examy) == t_fence_post && query_yn("Make Fence?")) {
   int ch = menu("Fence Construction:", "Rope Fence", "Wire Fence",
