@@ -1363,3 +1363,21 @@ void mattack::breathe(game *g, monster *z)
   g->z.push_back(spawned);
  }
 }
+
+void mattack::bite(game *g, monster *z)
+{
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1)
+  return;
+ z->sp_timeout = z->type->sp_freq;	// Reset timer
+ g->add_msg("The %s lunges forward attempting to bite you!", z->name().c_str());
+ z->moves -= 100;
+ if (rng(0, 20) > g->u.dodge(g) || one_in(g->u.dodge(g))) {
+  g->add_msg("You dodge it!");
+  return;
+ }
+ body_part hit = random_body_part();
+ int dam = rng(5, 10), side = rng(0, 1);
+ g->add_msg("Your %s is hit for %d damage!", body_part_name(hit, side).c_str(),
+            dam);
+ g->u.hit(g, hit, side, dam, 0);
+}
