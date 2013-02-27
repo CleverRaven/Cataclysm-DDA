@@ -204,7 +204,7 @@ void dis_effect(game *g, player &p, disease &dis)
     // Speed -20
    case 2 :
     p.thirst--;
-    if (one_in(1500 - p.temp_cur[bp_head])) p.vomit(g); // Hallucinations handled in game.cpp
+    if (one_in(15000 - p.temp_cur[bp_head])) p.vomit(g); // Hallucinations handled in game.cpp
 	if (p.pain < 20) p.pain++;
     if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("The heat is making you see things.");
     // Speed -5
