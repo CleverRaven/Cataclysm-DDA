@@ -425,8 +425,6 @@ void game::process_artifact(item *it, player *p, bool wielded)
 // Recharge it if necessary
   if (it->charges < tool->max_charges) {
    switch (tool->charge_type) {
-   case ARTC_NULL:
-       break;
     case ARTC_TIME:
      if (turn.second == 0 && turn.minute == 0) // Once per hour
       it->charges++;
@@ -450,6 +448,9 @@ void game::process_artifact(item *it, player *p, bool wielded)
       it->charges++;
      }
      break;
+
+     // Unused enums added for completeness.
+    case ARTC_NULL:
     case NUM_ARTCS:
         break;
    }
@@ -458,8 +459,6 @@ void game::process_artifact(item *it, player *p, bool wielded)
 
  for (unsigned int i = 0; i < effects.size(); i++) {
   switch (effects[i]) {
-  case AEP_NULL:
-   break;
   case AEP_STR_UP:
    p->str_cur += 4;
    break;
@@ -478,24 +477,10 @@ void game::process_artifact(item *it, player *p, bool wielded)
    p->per_cur += 2;
    p->int_cur += 2;
    break;
-  case AEP_SPEED_UP: // Handled in player::current_speed()
-   break;
 
   case AEP_IODINE:
    if (p->radiation > 0)
     p->radiation--;
-   break;
-
-  case AEP_SNAKES:
-   break; // Handled in player::hit()
-
-  case AEP_INVISIBLE:
-   break;
-
-  case AEP_CLAIRVOYANCE:
-   break;
-
-  case AEP_STEALTH:
    break;
 
   case AEP_EXTINGUISH:
@@ -509,24 +494,6 @@ void game::process_artifact(item *it, player *p, bool wielded)
      }
     }
    }
-   break;
-
-  case AEP_GLOW:
-   break;
-
-  case AEP_PSYSHIELD:
-   break;
-
-  case AEP_RESIST_ELECTRICITY:
-   break;
-
-  case AEP_CARRY_MORE:
-   break;
-
-  case AEP_SAP_LIFE:
-   break;
-
-  case AEP_SPLIT:
    break;
 
   case AEP_HUNGER:
@@ -556,20 +523,6 @@ void game::process_artifact(item *it, player *p, bool wielded)
    }
    break;
 
-  case AEP_SCHIZO:
-   break; // Handled in player::suffer()
-
-  case AEP_RADIOACTIVE:
-   if (one_in(4))
-    p->radiation++;
-   break;
-
-  case AEP_MUTAGENIC:
-   break;
-
-  case AEP_ATTENTION:
-   break;
-
   case AEP_STR_DOWN:
    p->str_cur -= 3;
    break;
@@ -593,19 +546,13 @@ void game::process_artifact(item *it, player *p, bool wielded)
    p->int_cur -= 2;
    break;
 
-  case AEP_SPEED_DOWN:
-   break; // Handled in player::current_speed()
-
-  case AEP_FORCE_TELEPORT:
+  case AEP_RADIOACTIVE:
+   if (one_in(4))
+    p->radiation++;
    break;
 
-  case AEP_MOVEMENT_NOISE:
-   break;
 
-  case AEP_BAD_WEATHER:
-   break;
-
-  case AEP_SICK:
+  default:
    break;
   }
  }
@@ -614,7 +561,7 @@ void game::process_artifact(item *it, player *p, bool wielded)
 void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 {
  int net_str = 0, net_dex = 0, net_per = 0, net_int = 0, net_speed = 0;
- for (int i = 0; i < effects.size(); i++) {
+ for (unsigned int i = 0; i < effects.size(); i++) {
   switch (effects[i]) {
    case AEP_STR_UP:   net_str += 4; break;
    case AEP_DEX_UP:   net_dex += 4; break;
@@ -635,9 +582,6 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 
    case AEP_SPEED_UP:   net_speed += 20; break;
    case AEP_SPEED_DOWN: net_speed -= 20; break;
-
-   case AEP_IODINE:
-    break; // No message
 
    case AEP_SNAKES:
     add_msg("Your skin feels slithery.");
@@ -709,6 +653,10 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 
    case AEP_BAD_WEATHER:
     add_msg("You feel storms coming.");
+    break;
+
+    // Unused enums added for completeness.
+   default:
     break;
   }
  }

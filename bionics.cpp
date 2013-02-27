@@ -48,11 +48,11 @@ void player::activate_bionic(int b, game *g)
  std::vector<std::string> good;
  std::vector<std::string> bad;
  WINDOW* w;
- int dirx, diry, t, l, index;
+ int dirx, diry, t, index;
+ unsigned int l;
  item tmp_item;
 
  switch (bio.id) {
-
  case bio_painkiller:
   pkill += 6;
   pain -= 2;
@@ -134,7 +134,7 @@ void player::activate_bionic(int b, game *g)
   if (good.size() == 0 && bad.size() == 0)
    mvwprintz(w, 1, 1, c_white, "No effects.");
   else {
-   for (int line = 1; line < 39 && line <= good.size() + bad.size(); line++) {
+   for (unsigned int line = 1; line < 39 && line <= good.size() + bad.size(); line++) {
     if (line <= bad.size())
      mvwprintz(w, line, 1, c_red, bad[line - 1].c_str());
     else
@@ -268,7 +268,7 @@ void player::activate_bionic(int b, game *g)
   break;
 
  case bio_water_extractor:
-  for (int i = 0; i < g->m.i_at(posx, posy).size(); i++) {
+  for (unsigned int i = 0; i < g->m.i_at(posx, posy).size(); i++) {
    item tmp = g->m.i_at(posx, posy)[i];
    if (tmp.type->id == itm_corpse && query_yn("Extract water from the %s",
                                               tmp.tname().c_str())) {
@@ -306,7 +306,7 @@ void player::activate_bionic(int b, game *g)
       traj = line_to(i, j, posx, posy, 0);
     }
     traj.insert(traj.begin(), point(i, j));
-    for (int k = 0; k < g->m.i_at(i, j).size(); k++) {
+    for (unsigned int k = 0; k < g->m.i_at(i, j).size(); k++) {
      if (g->m.i_at(i, j)[k].made_of(IRON) || g->m.i_at(i, j)[k].made_of(STEEL)){
       tmp_item = g->m.i_at(i, j)[k];
       g->m.i_rem(i, j, k);
@@ -353,6 +353,9 @@ void player::activate_bionic(int b, game *g)
    g->add_msg("You can't unlock that %s.", g->m.tername(dirx, diry).c_str());
   break;
 
+  // Unused enums added for completeness.
+ default:
+  break;
  }
 }
 
@@ -383,7 +386,7 @@ bool player::install_bionics(game *g, it_bionic* type)
   mvwputch(w, 21, i, c_ltgray, LINE_OXOX);
  }
 // Init the list of bionics
- for (int i = 1; i < type->options.size(); i++) {
+ for (unsigned int i = 1; i < type->options.size(); i++) {
   bionic_id id = type->options[i];
   mvwprintz(w, i + 2, 0, (has_bionic(id) ? c_ltred : c_ltblue),
             bionics[id].name.c_str());

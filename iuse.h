@@ -8,7 +8,7 @@ class player;
 class iuse
 {
  public:
-  void none		(game *, player *, item *, bool ) { };
+  void none		(game */*g*/, player */*p*/, item */*it*/, bool /*t*/) { };
 
 // FOOD AND DRUGS (ADMINISTRATION)
   void sewage		(game *g, player *p, item *it, bool t);

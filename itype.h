@@ -568,7 +568,7 @@ struct it_var_veh_part: public itype
         char psym, nc_color pcolor, material pm1, material pm2,
         unsigned short pvolume, unsigned short pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-        unsigned,
+        unsigned /*effects*/,
 
         unsigned int big_min,
         unsigned int big_max,
