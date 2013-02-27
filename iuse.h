@@ -25,7 +25,7 @@ class iuse
   void pkill_l		(game *g, player *p, item *it, bool t);
   void xanax		(game *g, player *p, item *it, bool t);
   void cig		(game *g, player *p, item *it, bool t);
-  void antibiotic(game *g, player *p, item *it, bool t);
+  void antibiotic		(game *g, player *p, item *it, bool t);
   void weed		(game *g, player *p, item *it, bool t);
   void coke		(game *g, player *p, item *it, bool t);
   void crack		(game *g, player *p, item *it, bool t);

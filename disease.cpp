@@ -1076,6 +1076,10 @@ void dis_effect(game *g, player &p, disease &dis)
   }
   break;
   
+  case DI_RECOVER:
+   p.str_cur-= 1;
+   p.dex_cur-= 1;
+  break;
   
  }
 }
@@ -1271,6 +1275,7 @@ std::string dis_name(disease dis)
   if (dis.duration > 10800) return "Infected Wound";
   if (dis.duration > 7200) return "Painful Infected Wound";
   return "Puss Filled Wound";
+  case DI_RECOVER:	return "Recovering From Infection";
 
   break;
 
@@ -1599,6 +1604,9 @@ You have a nasty bite wound.";
  case DI_INFECTED:
   return "\
 You have an infected wound.";
+
+ case DI_RECOVER:	return "\
+ You are recovering from an infection.";
 
  default:
   return "Who knows?  This is probably a bug.";
