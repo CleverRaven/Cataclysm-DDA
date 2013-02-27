@@ -1,16 +1,18 @@
 #ifndef _WEATHER_H_
 #define _WEATHER_H_
 
-#define BODYTEMP_FREEZING 50
-#define BODYTEMP_VERY_COLD 200
-#define BODYTEMP_COLD 350
-#define BODYTEMP_NORM 500
-#define BODYTEMP_HOT 650
-#define BODYTEMP_VERY_HOT 800
-#define BODYTEMP_SCORCHING 950
+#define BODYTEMP_FREEZING 500
+#define BODYTEMP_VERY_COLD 2000 // This value means frostbite occurs at the warmest temperature of 1C. If changed, the temp_conv calculation should be reexamined.
+#define BODYTEMP_COLD 3500
+#define BODYTEMP_NORM 5000 // Do not change this value, it is an arbitrary anchor on which other calculations are made.
+#define BODYTEMP_HOT 6500
+#define BODYTEMP_VERY_HOT 8000
+#define BODYTEMP_SCORCHING 9500
 /*
-Bodytemp is measured on a scale of 0u to 1000u, where 1u = 0.02C and 500u is 37C
-Outdoor temperature uses simliar numbers, but on a different scale: 220u = 22C, where 1u = 0.1C.
+Bodytemp is measured on a scale of 0u to 10000u, where 10u = 0.02C and 5000u is 37C
+Outdoor temperature uses simliar numbers, but on a different scale: 2200u = 22C, where 10u = 0.1C.
+Most values can be changed with no impact on calculations. Because of caluclations done in disease.cpp,
+maximum heat cannot pass 15000u, otherwise the player will vomit to death.
 */
 
 #include "color.h"

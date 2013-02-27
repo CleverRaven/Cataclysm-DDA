@@ -70,6 +70,7 @@ struct construct // Construction functions.
  void done_tree(game *, point);
  void done_log(game *, point);
  void done_furniture(game *, point);
+ void done_tape(game *, point);
  void done_deconstruct(game *, point);
 
 };

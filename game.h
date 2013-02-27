@@ -88,6 +88,7 @@ class game
   quit_status uquit;    // used in main.cpp to determine what type of quit
   void save();
   void delete_save();
+  void cleanup_at_end();
   bool do_turn();
   void draw();
   void draw_ter(int posx = -999, int posy = -999);
@@ -190,6 +191,8 @@ class game
   void peek();
   point look_around();// Look at nearby terrain	';'
   void list_items(); //List all items around the player
+  bool list_items_match(std::string sText, std::string sPattern);
+  std::string sFilter;
   char inv(std::string title = "Inventory:");
   char inv_type(std::string title = "Inventory:", int inv_item_type = 0);
   std::vector<item> multidrop();
@@ -197,6 +200,7 @@ class game
   point find_item(item *it);
   void remove_item(item *it);
 
+  inventory crafting_inventory();  // inv_from_map, inv, & 'weapon'
   void consume_items(std::vector<component> components);
   void consume_tools(std::vector<component> tools);
 
@@ -320,6 +324,7 @@ class game
   void reassign_item(); // Reassign the letter of an item   '='
   void butcher(); // Butcher a corpse		'B'
   void complete_butcher(int index);	// Finish the butchering process
+  void forage();	// Foraging ('a' on underbrush)
   void eat();	  // Eat food or fuel		'E' (or 'a')
   void use_item();// Use item; also tries E,R,W	'a'
   void use_wielded_item();

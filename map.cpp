@@ -1,4 +1,4 @@
-#include "map.h"
+#   include "map.h"
 #include "lightmap.h"
 #include "output.h"
 #include "rng.h"
@@ -607,6 +607,8 @@ bool map::vehproceed(game* g){
 
       //give veh2 the initiative to proceed next before veh1
       float avg_of_turn = (veh2->of_turn + veh->of_turn) / 2;
+      if(avg_of_turn < .1)
+         avg_of_turn = .1;
       veh->of_turn = avg_of_turn * .9;
       veh2->of_turn = avg_of_turn * 1.1;
       return true;
@@ -1086,6 +1088,66 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   }
   break;
 
+case t_palisade:
+case t_palisade_gate:
+  result = rng(0, 120);
+  if (res) *res = result;
+  if (str >= result && str >= rng(0, 120)) {
+   sound += "crunch!";
+   ter(x, y) = t_pit;
+   if(one_in(2))
+   add_item(x, y, (*itypes)[itm_splinter], 0, 20);
+   return true;
+  } else {
+   sound += "whump!";
+   return true;
+  }
+  break;
+
+case t_wall_log:
+  result = rng(0, 120);
+  if (res) *res = result;
+  if (str >= result && str >= rng(0, 120)) {
+   sound += "crunch!";
+   ter(x, y) = t_wall_log_chipped;
+   if(one_in(2))
+   add_item(x, y, (*itypes)[itm_splinter], 0, 3);
+   return true;
+  } else {
+   sound += "whump!";
+   return true;
+  }
+  break;
+
+ case t_wall_log_chipped:
+  result = rng(0, 100);
+  if (res) *res = result;
+  if (str >= result && str >= rng(0, 100)) {
+   sound += "crunch!";
+   ter(x, y) = t_wall_log_broken;
+   add_item(x, y, (*itypes)[itm_splinter], 0, 5);
+   return true;
+  } else {
+   sound += "whump!";
+   return true;
+  }
+  break;
+
+ case t_wall_log_broken:
+  result = rng(0, 80);
+  if (res) *res = result;
+  if (str >= result && str >= rng(0, 80)) {
+   sound += "crash!";
+   ter(x, y) = t_dirt;
+   add_item(x, y, (*itypes)[itm_splinter], 0, 5);
+   return true;
+  } else {
+   sound += "whump!";
+   return true;
+  }
+  break;
+
+
  case t_chaingate_c:
   result = rng(0, has_adjacent_furniture(x, y) ? 80 : 100);
   if (res) *res = result;
@@ -1150,6 +1212,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
  case t_window_domestic:
  case t_curtains:
+ case t_window_domestic_taped:
   result = rng(0, 6);
   if (res) *res = result;
   if (str >= result) {
@@ -1166,6 +1229,8 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
  case t_window:
  case t_window_alarm:
+ case t_window_alarm_taped:
+ case t_window_taped:
   result = rng(0, 6);
   if (res) *res = result;
   if (str >= result) {
@@ -1223,7 +1288,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
    // Find the center of the tent
    for (int i = -1; i <= 1; i++)
     for (int j = -1; j <= 1; j++)
-     if (ter(x + i, y + j) == t_groundsheet) {
+     if (ter(x + i, y + j) == t_groundsheet || ter(x + i, y + j) == t_fema_groundsheet)  {
        tentx = x + i;
        tenty = y + j;
        break;
@@ -1617,6 +1682,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
  switch (ter(x, y)) {
 
  case t_wall_wood_broken:
+ case t_wall_log_broken:
  case t_door_b:
   if (hit_items || one_in(8)) {	// 1 in 8 chance of hitting the door
    dam -= rng(20, 40);
@@ -1803,6 +1869,7 @@ bool map::hit_with_acid(game *g, const int x, const int y)
   case t_bathtub:
   case t_gas_pump:
   case t_gas_pump_smashed:
+  case t_gas_pump_empty:
    return false;
 
   case t_card_science:
@@ -1835,8 +1902,12 @@ bool map::open_door(const int x, const int y, const bool inside)
  if (ter(x, y) == t_door_c) {
   ter(x, y) = t_door_o;
   return true;
+ } else if (ter(x, y) == t_palisade_gate) {
+  ter(x, y) = t_palisade_gate_o;
+  return true;
  } else if (ter(x, y) == t_canvas_door) {
   ter(x, y) = t_canvas_door_o;
+  return true;
  } else if (inside && ter(x, y) == t_curtains) {
   ter(x, y) = t_window_domestic;
   return true;
@@ -1883,11 +1954,15 @@ bool map::close_door(const int x, const int y, const bool inside)
  if (ter(x, y) == t_door_o) {
   ter(x, y) = t_door_c;
   return true;
+ } else if (ter(x, y) == t_palisade_gate_o) {
+  ter(x, y) = t_palisade_gate;
+  return true;
  } else if (inside && ter(x, y) == t_window_domestic) {
   ter(x, y) = t_curtains;
   return true;
  } else if (ter(x, y) == t_canvas_door_o) {
   ter(x, y) = t_canvas_door;
+  return true;
  } else if (inside && ter(x, y) == t_window_open) {
   ter(x, y) = t_window_domestic;
   return true;

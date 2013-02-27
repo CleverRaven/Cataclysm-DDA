@@ -430,7 +430,12 @@ unwanted attention. Save the guns for emergencies, and melee when you can.\n\
 \n\
 Try to keep your inventory as full as possible without being overloaded.  You\n\
 never know when you might need an item, most are good to sell, and you can\n\
-easily drop unwanted items on the floor.");
+easily drop unwanted items on the floor.\n\
+\n\
+Keep an eye on the weather. At night, sleeping might be difficult if you\n\
+don't have a warm place to rest your head. Be sure to protect your extremities\n\
+from frostbite and to keep your distance from large fires.");
+
    getch();
    break;
 

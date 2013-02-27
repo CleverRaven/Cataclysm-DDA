@@ -4,10 +4,10 @@
 #include <string>
 
 enum body_part {
- bp_head = 0,
+ bp_torso = 0,
+ bp_head,
  bp_eyes,
  bp_mouth,
- bp_torso,
  bp_arms,
  bp_hands,
  bp_legs,

@@ -359,7 +359,7 @@ const oter_t oterlist[num_ter_types] = {
 // OMSPEC_FREQ determines the length of the side of the square in which each
 // overmap special will be placed.  At OMSPEC_FREQ 6, the overmap is divided
 // into 900 squares; lots of space for interesting stuff!
-#define OMSPEC_FREQ 7
+#define OMSPEC_FREQ 15
 
 // Flags that determine special behavior for placement
 enum omspec_flag {
@@ -471,7 +471,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 
 {ot_lab_stairs,	   0, 30,  8, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_ROAD)},
- 
+
 {ot_fema_entrance,	   0, 5,  8, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_3X3_SECOND)}, //Oddzball-Fema test
 

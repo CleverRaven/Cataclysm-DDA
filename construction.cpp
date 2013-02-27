@@ -108,11 +108,34 @@ void game::init_construction()
    COMP(itm_2x4, 10, NULL);
    COMP(itm_nail, 20, NULL);
 
+ CONSTRUCT("Build Log Wall", 2, &construct::able_pit, &construct::done_nothing);
+  STAGE(t_wall_log_half, 20);
+   TOOL(itm_shovel, NULL);
+   COMP(itm_log, 2, NULL);
+   COMP(itm_stick, 3, NULL);
+  STAGE(t_wall_log, 20);
+   TOOL(itm_shovel, NULL);
+   COMP(itm_log, 2, NULL);
+   COMP(itm_stick, 3, NULL);
+
+ CONSTRUCT("Build Palisade Wall", 2, &construct::able_pit, &construct::done_nothing);
+  STAGE(t_palisade, 20);
+   TOOL(itm_shovel, NULL);
+   COMP(itm_log, 3, NULL);
+   COMP(itm_rope_30, 1, itm_rope_6, 5, NULL);
+
+ CONSTRUCT("Build Palisade Gate", 2, &construct::able_pit, &construct::done_nothing);
+  STAGE(t_palisade_gate, 20);
+   TOOL(itm_shovel, NULL);
+   COMP(itm_log, 2, NULL);
+   COMP(itm_2x4, 3, NULL);
+   COMP(itm_rope_30, 1, itm_rope_6, 5, NULL);
+
  CONSTRUCT("Build Window", 2, &construct::able_empty,
                               &construct::done_nothing);
   STAGE(t_window_empty, 10);
    TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_2x4, 15, NULL);
+   COMP(itm_2x4, 15, itm_log, 2, NULL);
    COMP(itm_nail, 30, NULL);
   STAGE(t_window, 5);
    COMP(itm_glass_sheet, 1, NULL);
@@ -120,6 +143,7 @@ void game::init_construction()
    TOOL(itm_saw, NULL);
    COMP(itm_nail, 4, NULL);
    COMP(itm_sheet, 2, NULL);
+   COMP(itm_stick, 1, NULL);
 
 
  CONSTRUCT("Build Door", 2, &construct::able_empty,
@@ -200,6 +224,11 @@ void game::init_construction()
    COMP(itm_2x4, 10, NULL);
    COMP(itm_sheet, 1, NULL);
 
+ CONSTRUCT("Tape up window", 0, &construct::able_window,
+                                &construct::done_tape);
+  STAGE(t_null, 2);
+  COMP(itm_duct_tape, 50, NULL);
+
  CONSTRUCT("Deconstruct Furniture", 0, &construct::able_deconstruct,
                                 &construct::done_deconstruct);
   STAGE(t_null, 20);
@@ -237,14 +266,7 @@ void game::construction_menu()
  int select = 0;
  char ch;
 
- inventory total_inv;
- total_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
- total_inv.add_stack(u.inv_dump());
- if (u.has_bionic(bio_tools)) {
-  item tools(itypes[itm_toolset], turn);
-  tools.charges = u.power_level;
-  total_inv += tools;
- }
+ inventory total_inv = crafting_inventory();
 
  do {
 // Erase existing list of constructions
@@ -493,9 +515,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
 void game::place_construction(constructable *con)
 {
  refresh_all();
- inventory total_inv;
- total_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
- total_inv.add_stack(u.inv_dump());
+ inventory total_inv = crafting_inventory();
 
  std::vector<point> valid;
  for (int x = u.posx - 1; x <= u.posx + 1; x++) {
@@ -663,7 +683,7 @@ bool construct::able_empty_window(game *g, point p)
 
 bool construct::able_window_pane(game *g, point p)
 {
- return (g->m.ter(p.x, p.y) == t_window || g->m.ter(p.x, p.y) == t_window_domestic);
+ return (g->m.ter(p.x, p.y) == t_window || g->m.ter(p.x, p.y) == t_window_domestic || g->m.ter(p.x, p.y) == t_window_alarm);
 }
 
 bool construct::able_broken_window(game *g, point p)
@@ -748,7 +768,7 @@ void construct::done_furniture(game *g, point p)
    return;
   x += p.x;
   y += p.y;
-  if(!g->m.is_indoor(x, y) || !g->is_empty(x, y)) {
+  if(!g->m.ter(x, y) == t_floor || !g->is_empty(x, y)) {
    mvprintz(0, 0, c_red, "Can't move furniture there! Choose a direction with open floor.");
    continue;
   }
@@ -801,6 +821,23 @@ void construct::done_vehicle(game *g, point p)
     veh->install_part (0, 0, vp_frame_v2);
 }
 
+void construct::done_tape(game *g, point p)
+{
+  g->add_msg("You tape up the %s.", g->m.tername(p.x, p.y).c_str());
+  switch (g->m.ter(p.x, p.y))
+  {
+    case t_window_alarm:
+      g->m.ter(p.x, p.y) = t_window_alarm_taped;
+
+    case t_window_domestic:
+      g->m.ter(p.x, p.y) = t_window_domestic_taped;
+
+    case t_window:
+      g->m.ter(p.x, p.y) = t_window_taped;
+  }
+
+}
+
 void construct::done_deconstruct(game *g, point p)
 {
   g->add_msg("You disassemble the %s.", g->m.tername(p.x, p.y).c_str());
@@ -825,6 +862,7 @@ void construct::done_deconstruct(game *g, point p)
       g->m.add_item(p.x, p.y, g->itypes[itm_stick], 0);
       g->m.add_item(p.x, p.y, g->itypes[itm_sheet], 0, 1);
       g->m.add_item(p.x, p.y, g->itypes[itm_glass_sheet], 0);
+      g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, 3);
       g->m.ter(p.x, p.y) = t_window_empty;
     break;
 

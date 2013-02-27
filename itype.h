@@ -44,8 +44,8 @@ itm_water, itm_water_clean, itm_sewage, itm_salt_water, itm_oj, itm_apple_cider,
  itm_long_island, itm_beer, itm_bleach,
  itm_ammonia, itm_mutagen, itm_purifier, itm_tea, itm_coffee, itm_blood,
 // Monster Meats
-itm_meat, itm_veggy, itm_human_flesh, itm_meat_tainted, itm_veggy_tainted,
- itm_meat_cooked, itm_veggy_cooked,
+itm_meat, itm_veggy, itm_human_flesh, itm_veggy_wild, itm_meat_tainted, itm_veggy_tainted,
+itm_meat_cooked, itm_veggy_cooked, itm_veggy_wild_cooked,
 // Food
 itm_apple, itm_orange, itm_lemon, itm_chips, itm_chips2, itm_chips3,
  itm_pretzels, itm_chocolate,
@@ -87,7 +87,7 @@ itm_wrapper, itm_withered, itm_syringe, itm_fur, itm_leather, itm_superglue,
  itm_television, itm_pilot_light, itm_toaster, itm_microwave, itm_laptop,
  itm_fan, itm_ceramic_plate, itm_ceramic_bowl, itm_ceramic_cup,
  itm_glass_plate, itm_glass_bowl, itm_glass, itm_tin_plate, itm_fork, itm_spork,
- itm_foon, itm_rag_bloody,
+ itm_foon, itm_rag_bloody, itm_clock, itm_clockworks,
 // Vehicle parts
  itm_frame,
  itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
@@ -169,6 +169,7 @@ itm_nailgun, itm_bbgun, itm_crossbow, itm_compbow, itm_longbow, itm_rifle_22,
  itm_scar_h, itm_steyr_aug, itm_m249, itm_v29, itm_ftk93, itm_nx17,
  itm_flamethrower_simple, itm_flamethrower, itm_launcher_simple, itm_m79,
  itm_m320, itm_mgl, itm_coilgun, itm_hk_g80, itm_plasma_rifle,
+ itm_revolver_shotgun,
 // Gun modifications
 itm_silencer, itm_grip, itm_barrel_big, itm_barrel_small, itm_barrel_rifled,
  itm_clip, itm_clip2, itm_spare_mag, itm_stablizer, itm_blowback, itm_autofire,
@@ -209,9 +210,9 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_tent_kit, itm_torch, itm_torch_lit, itm_candle, itm_candle_lit,
  itm_brazier, itm_puller, itm_press, itm_screwdriver, itm_wrench,
  itm_boltcutters, itm_mop, itm_picklocks, itm_pickaxe, itm_spray_can, itm_rag,
- itm_pda, itm_pda_flashlight,
+ itm_pda, itm_pda_flashlight, itm_pockknife,
 // Bionics containers
-itm_bionics_battery,       
+itm_bionics_battery,
  //power sources
  itm_bionics_solar,   itm_bionics_batteries,
  itm_bionics_metabolics,   itm_bionics_furnace, itm_bionics_ethanol,
@@ -233,7 +234,7 @@ itm_bionics_battery,
  itm_bionics_recycler, itm_bionics_digestion, itm_bionics_evap, itm_bionics_water_extractor,
  // desert survival (all dupes)
  // melee:
- itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws, 
+ itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws,
  // armor:
  itm_bionics_carbon, itm_bionics_armor_head, itm_bionics_armor_torso,
  itm_bionics_armor_arms, itm_bionics_armor_legs,
@@ -323,6 +324,7 @@ IF_RELOAD_AND_SHOOT, // Reloading and shooting is one action
 IF_FIRE_100,	// Fires 100 rounds at once! (e.g. flamethrower)
 IF_GRENADE,	// NPCs treat this as a grenade
 IF_CHARGE,	// For guns; charges up slowly
+IF_SHOCK,   // Stuns and damages enemies, powers up shockers.
 
 IF_UNARMED_WEAPON, // Counts as an unarmed weapon
 IF_NO_UNWIELD, // Impossible to unwield, e.g. bionic claws

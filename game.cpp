@@ -391,6 +391,8 @@ fivedozenwhales@gmail.com.");
     if (query_yn("Delete the world and all saves?")) {
      delete_save();
      savegames.clear();
+     MAPBUFFER.reset();
+     MAPBUFFER.make_volatile();
     }
 
     layer = 1;
@@ -569,38 +571,41 @@ void game::create_starting_npcs()
  active_npc.push_back(tmp);
 }
 
+void game::cleanup_at_end(){
+ write_msg();
+ // Save the monsters before we die!
+ for (int i = 0; i < z.size(); i++) {
+  if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
+   tinymap tmp(&itypes, &mapitems, &traps);
+   tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
+   tmp.add_spawn(&(z[i]));
+   tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
+  } else {	// Absorb them back into a group
+   int group = valid_group((mon_id)(z[i].type->id), levx, levy);
+   if (group != -1) {
+    cur_om.zg[group].population++;
+    if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
+        !cur_om.zg[group].diffuse)
+     cur_om.zg[group].radius++;
+   }
+  }
+ }
+ if (uquit == QUIT_DIED)
+  popup_top("Game over! Press spacebar...");
+ if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
+  death_screen();
+ if(gamemode){
+  delete gamemode;
+  gamemode = new special_game;	// null gamemode or something..
+ }
+}
 
 // MAIN GAME LOOP
 // Returns true if game is over (death, saved, quit, etc)
 bool game::do_turn()
 {
  if (is_game_over()) {
-  write_msg();
-// Save the monsters before we die!
-  for (int i = 0; i < z.size(); i++) {
-   if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
-    tinymap tmp(&itypes, &mapitems, &traps);
-    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
-    tmp.add_spawn(&(z[i]));
-    tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
-   } else {	// Absorb them back into a group
-    int group = valid_group((mon_id)(z[i].type->id), levx, levy);
-    if (group != -1) {
-     cur_om.zg[group].population++;
-     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
-         !cur_om.zg[group].diffuse)
-      cur_om.zg[group].radius++;
-    }
-   }
-  }
-  if (uquit == QUIT_DIED)
-   popup_top("Game over! Press spacebar...");
-  if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
-   death_screen();
-  if(gamemode){
-   delete gamemode;
-   gamemode = new special_game;	// null gamemode or something..
-  }
+  cleanup_at_end();
   return true;
  }
 // Actual stuff
@@ -688,6 +693,10 @@ bool game::do_turn()
 
   if (get_input(autosave_timeout()) == IR_GOOD)
     ++moves_since_last_save;
+  if (is_game_over()) {
+   cleanup_at_end();
+   return true;
+  }
  }
  update_scent();
  m.vehmove(this);
@@ -711,7 +720,7 @@ bool game::do_turn()
   refresh();
  }
 
- if (turn % 10 == 0) update_bodytemp();
+ update_bodytemp();
 
  rustCheck();
  if (turn % 10 == 0)
@@ -723,6 +732,8 @@ bool game::do_turn()
 
 Assumption 1 : a naked person is comfortable at 31C/87.8F.
 Assumption 2 : a "lightly clothed" person is comfortable at 25C/77F.
+Assumption 3 : frostbite cannot happen above 0C temperature.*
+* In the current model, a naked person can get frostbite at 1C. This isn't true, but it's a compromise with using nice whole numbers.
 
 Here is a list of warmth values and the corresponding temperatures in which the player is comfortable, and in which the player is very cold.
 
@@ -743,15 +754,15 @@ Warmth  Temperature (Comfortable)    Temperature (Very cold)    Notes
 
 void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet) can affect body temp.
 {
- // NOTE : Bodytemp is measured on a scale of 0u to 1000u, where 1u = 0.02C and 500u is 37C
- // Converts temperature to Celsius/10!(Wito plans on using degrees Kelvin later)
- int Ctemperature = 10*(temperature - 32) * 5/9;
+ // NOTE : visit weather.h for some details on the numbers used
+ // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
+ int Ctemperature = 100*(temperature - 32) * 5/9;
  // Temperature norms
- const int ambient_norm = 310;
+ const int ambient_norm = 3100;
+ // This adjusts the temperature scale to match the bodytemp scale
+ int adjusted_temp = (Ctemperature - ambient_norm);
  // Creative thinking for clean morale penalties: this gets incremented in the for loop and applied after the loop
  int morale_pen = 0;
- // This adjusts the temperature scale to match the bodytemp scale
- int adjusted_temp = 1*(Ctemperature - ambient_norm);
  // Fetch the morale value of wetness for bodywetness
  int bodywetness = 0;
  for (int i = 0; bodywetness == 0 && i < u.morale.size(); i++)
@@ -763,29 +774,31 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
  for (int i = 0 ; i < num_bp ; i++){
   if (i == bp_eyes) continue; // Skip eyes
   // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
-  float homeostasis_adjustement = (u.temp_cur[i] > BODYTEMP_NORM ? 4.0 : 6.0);
+  float homeostasis_adjustement = (u.temp_cur[i] > BODYTEMP_NORM ? 40.0 : 60.0);
   int clothing_warmth_adjustement = homeostasis_adjustement * (float)u.warmth(body_part(i)) * (1.0 - (float)bodywetness / 100.0);
   // Disease name shorthand
   int blister_pen = dis_type(DI_BLISTERS) + 1 + i, hot_pen  = dis_type(DI_HOT) + 1 + i;
   int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;
-  signed int temp_conv = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement; // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
+  // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
+  signed int temp_conv = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement; 
   // Fatigue also affects convergeant temperature
-  if (!u.has_disease(DI_SLEEP)) temp_conv -= u.fatigue/6;
+  if (!u.has_disease(DI_SLEEP)) temp_conv -= 10*u.fatigue/6;
   else {
    int vpart = -1;
    vehicle *veh = m.veh_at (u.posx, u.posy, vpart);
-   if      (m.ter(u.posx, u.posy) == t_bed) 		              temp_conv += 100;
-   else if (m.ter(u.posx, u.posy) == t_makeshift_bed)             temp_conv +=  50;
-   else if (m.tr_at(u.posx, u.posy) == tr_cot)                    temp_conv -=  50;
-   else if (m.tr_at(u.posx, u.posy) == tr_rollmat)                temp_conv -= 100;
-   else if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0) temp_conv +=  30;
-   else	temp_conv -= 200;
+   if      (m.ter(u.posx, u.posy) == t_bed)                       temp_conv += 1000;
+   else if (m.ter(u.posx, u.posy) == t_makeshift_bed)             temp_conv +=  500;
+   else if (m.tr_at(u.posx, u.posy) == tr_cot)                    temp_conv -=  500;
+   else if (m.tr_at(u.posx, u.posy) == tr_rollmat)                temp_conv -= 1000;
+   else if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0) temp_conv +=  200;
+   else if (veh && veh->part_with_feature (vpart, vpf_bed) >= 0)  temp_conv +=  300;
+   else	temp_conv -= 2000;
   }
-  // Fire : generates body heat, helps fight frostbite TODO : add lava checks. TODO : cleanup like I did with temp_conv calculation
+  // Convection heat sources : generates body heat, helps fight frostbite
   int blister_count = 0; // If the counter is high, your skin starts to burn
   for (int j = -6 ; j <= 6 ; j++){
    for (int k = -6 ; k <= 6 ; k++){
-     // Bizarre workaround for u_see() and friends not taking const arguments.
+    // Bizarre workaround for u_see() and friends not taking const arguments.
     int l = std::max(j, k);
     int heat_intensity = 0;
     if(m.field_at(u.posx + j, u.posy + k).type == fd_fire)
@@ -793,40 +806,40 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
     else if (m.tr_at(u.posx + j, u.posy + k) == tr_lava )
       heat_intensity = 3;
     if (heat_intensity > 0 && u_see(u.posx + j, u.posy + k, l)) {
-      // Ensure fire_dist >=1 to avoid divide-by-zero errors.
+     // Ensure fire_dist >=1 to avoid divide-by-zero errors.
      int fire_dist = std::max(1, std::max(j, k));
      if (u.frostbite_timer[i] > 0) u.frostbite_timer[i] -= heat_intensity - fire_dist / 2;
-     temp_conv += 50 * heat_intensity / (fire_dist * fire_dist); // How do I square things
+     temp_conv += 50 * heat_intensity / (fire_dist * fire_dist);
      blister_count += heat_intensity / (fire_dist * fire_dist);
     }
    }
   }
-  // bionic says it is effective from 0F to 140F, these are the corresponding bodytemp values
-  if( u.has_bionic(bio_climate) && temp_conv > -461 && temp_conv < 1150) {
-    // Might want something slightly more nuanced than this
-    temp_conv = BODYTEMP_NORM;
-    blister_count = 0;
-  }
-  // Skin gets blisters from intense heat exposure. TODO : add penalties in disease.cpp
-  if (blister_count - u.resist(body_part(i)) > 20) u.add_disease(dis_type(blister_pen), 1, this, i, num_bp);
+  // TODO Balance bionics
+  // Bionic "Internal Climate Control" says it is effective from 0F to 140F, these are the corresponding bodytemp values
+  if (u.has_bionic(bio_climate) && temperature > 0 && temperature < 140)
+   temp_conv = (9*BODYTEMP_NORM + temp_conv)/10; // Bionic "eases" the effects
+  // Bionic "Thermal Dissapation" says it prevents fire damage up to 2000F. 500 is picked at random...
+  if (u.has_bionic(bio_heatsink) && blister_count < 500)
+   blister_count = 0;
+  // Skin gets blisters from intense heat exposure.
+  if (blister_count - 10*u.resist(body_part(i)) > 20) u.add_disease(dis_type(blister_pen), 1, this);
   // Increments current body temperature towards convergant.
   int temp_difference = u.temp_cur[i] - temp_conv;
   int temp_before = u.temp_cur[i];
-  // Bodytemp equalization code start
+  // Bodytemp equalization code
   if      (i == bp_torso){u.temp_equalizer(bp_torso, bp_arms); u.temp_equalizer(bp_torso, bp_legs); u.temp_equalizer(bp_torso, bp_head);}
   else if (i == bp_head) {u.temp_equalizer(bp_head, bp_eyes); u.temp_equalizer(bp_head, bp_mouth);}
   else if (i == bp_arms)  u.temp_equalizer(bp_arms, bp_hands);
   else if (i == bp_legs)  u.temp_equalizer(bp_legs, bp_feet);
-  // Bodytemp equalization code end
-  if (u.temp_cur[i] != temp_conv) u.temp_cur[i] = temp_difference*exp(-0.1) + temp_conv;
+  if (u.temp_cur[i] != temp_conv) u.temp_cur[i] = temp_difference*exp(-0.002) + temp_conv; // It takes half an hour for bodytemp to converge half way to its convergeance point (think half-life)
   int temp_after = u.temp_cur[i];
   // Penalties
-  if      (u.temp_cur[i] < BODYTEMP_FREEZING)  {u.add_disease(dis_type(cold_pen), 10, this, 3, 3); u.frostbite_timer[i] += 3;}
-  else if (u.temp_cur[i] < BODYTEMP_VERY_COLD) {u.add_disease(dis_type(cold_pen), 10, this, 2, 3); u.frostbite_timer[i] += 2;}
-  else if (u.temp_cur[i] < BODYTEMP_COLD)      {u.add_disease(dis_type(cold_pen), 10, this, 1, 3); u.frostbite_timer[i] += 1;} // Frostbite timer does not go down if you are still cold.
-  else if (u.temp_cur[i] > BODYTEMP_SCORCHING) {u.add_disease(dis_type(hot_pen),  10, this, 3, 3); } // If body temp rises over 1500, disease.cpp (DI_HOT_HEAD) acts weird and the player will die
-  else if (u.temp_cur[i] > BODYTEMP_VERY_HOT)  {u.add_disease(dis_type(hot_pen),  10, this, 2, 3); }
-  else if (u.temp_cur[i] > BODYTEMP_HOT)       {u.add_disease(dis_type(hot_pen),  10, this, 1, 3); }
+  if      (u.temp_cur[i] < BODYTEMP_FREEZING)  {u.add_disease(dis_type(cold_pen), 1, this, 3, 3); u.frostbite_timer[i] += 3;}
+  else if (u.temp_cur[i] < BODYTEMP_VERY_COLD) {u.add_disease(dis_type(cold_pen), 1, this, 2, 3); u.frostbite_timer[i] += 2;}
+  else if (u.temp_cur[i] < BODYTEMP_COLD)      {u.add_disease(dis_type(cold_pen), 1, this, 1, 3); u.frostbite_timer[i] += 1;} // Frostbite timer does not go down if you are still cold.
+  else if (u.temp_cur[i] > BODYTEMP_SCORCHING) {u.add_disease(dis_type(hot_pen),  1, this, 3, 3); } // If body temp rises over 15000, disease.cpp (DI_HOT_HEAD) acts weird and the player will die
+  else if (u.temp_cur[i] > BODYTEMP_VERY_HOT)  {u.add_disease(dis_type(hot_pen),  1, this, 2, 3); }
+  else if (u.temp_cur[i] > BODYTEMP_HOT)       {u.add_disease(dis_type(hot_pen),  1, this, 1, 3); }
   // Morale penalties : a negative morale_pen means the player is cold
   // Intensity multiplier is negative for cold, positive for hot
   int intensity_mult = -u.disease_intensity(dis_type(cold_pen)) + u.disease_intensity(dis_type(hot_pen));
@@ -843,23 +856,28 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   }
   // Frostbite (level 1 after 2 hours, level 2 after 4 hours)
   if      (u.frostbite_timer[i] >   0) u.frostbite_timer[i]--;
-  if      (u.frostbite_timer[i] >= 24) {
-   if (u.disease_intensity(dis_type(frost_pen)) < 2) add_msg("Your %s hardens from the frostbite!", body_part_name(body_part(i), -1).c_str()); // TODO doesn't make sense for hands/feet. Find code that would fix this...
-   u.add_disease(dis_type(frost_pen), 10, this, 2, 2);}
-  else if (u.frostbite_timer[i] >= 12) {
+  if      (u.frostbite_timer[i] >= 240) {
+   if      (u.disease_intensity(dis_type(frost_pen)) < 2 &&  i == bp_mouth)                  add_msg("Your %s hardens from the frostbite!", body_part_name(body_part(i), -1).c_str());
+   else if (u.disease_intensity(dis_type(frost_pen)) < 2 && (i == bp_hands || i == bp_feet)) add_msg("Your %s harden from the frostbite!",  body_part_name(body_part(i), -1).c_str());
+   u.add_disease(dis_type(frost_pen), 1, this, 2, 2);}
+  else if (u.frostbite_timer[i] >= 120) {
    if (!u.has_disease(dis_type(frost_pen))) add_msg("You lose sensation in your %s.", body_part_name(body_part(i), -1).c_str());
-   u.add_disease(dis_type(frost_pen), 10, this, 1, 2);}
+   u.add_disease(dis_type(frost_pen), 1, this, 1, 2);}
   // Warn the player if condition worsens
-  if      (temp_before > BODYTEMP_FREEZING && temp_after < BODYTEMP_FREEZING) add_msg("You feel your %s beginning to go numb from the cold!", body_part_name(body_part(i), -1).c_str());
+  if      (temp_before > BODYTEMP_FREEZING  && temp_after < BODYTEMP_FREEZING)  add_msg("You feel your %s beginning to go numb from the cold!", body_part_name(body_part(i), -1).c_str());
   else if (temp_before > BODYTEMP_VERY_COLD && temp_after < BODYTEMP_VERY_COLD) add_msg("You feel your %s getting very cold.", body_part_name(body_part(i), -1).c_str());
-  else if (temp_before > BODYTEMP_COLD && temp_after < BODYTEMP_COLD) add_msg("You feel your %s getting cold.", body_part_name(body_part(i), -1).c_str());
+  else if (temp_before > BODYTEMP_COLD      && temp_after < BODYTEMP_COLD)      add_msg("You feel your %s getting cold.", body_part_name(body_part(i), -1).c_str());
   else if (temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING) add_msg("You feel your %s getting red hot from the heat!", body_part_name(body_part(i), -1).c_str());
-  else if (temp_before < BODYTEMP_VERY_HOT && temp_after > BODYTEMP_VERY_HOT) add_msg("You feel your %s getting very hot.", body_part_name(body_part(i), -1).c_str());
-  else if (temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT) add_msg("You feel your %s getting hot.", body_part_name(body_part(i), -1).c_str());
- }
+  else if (temp_before < BODYTEMP_VERY_HOT  && temp_after > BODYTEMP_VERY_HOT)  add_msg("You feel your %s getting very hot.", body_part_name(body_part(i), -1).c_str());
+  else if (temp_before < BODYTEMP_HOT       && temp_after > BODYTEMP_HOT)       add_msg("You feel your %s getting hot.", body_part_name(body_part(i), -1).c_str());
+ 
+  // Debug
+  //add_msg("%s temperature : %d", body_part_name(body_part(i), -1).c_str(), u.temp_cur[i]);
+
+  }
  // Morale penalties
- if (morale_pen < 0) u.add_morale(MORALE_COLD, -2, -abs(morale_pen));
- if (morale_pen > 0) u.add_morale(MORALE_HOT,  -2, -abs(morale_pen));
+ if (morale_pen < 0) u.add_morale(MORALE_COLD, -1, -abs(morale_pen));
+ if (morale_pen > 0) u.add_morale(MORALE_HOT,  -1, -abs(morale_pen));
 }
 
 void game::rustCheck() {
@@ -918,6 +936,20 @@ void game::process_activity()
     return;
    }
    veh->refill (AT_GAS, 200);
+   if(one_in(100)) {
+     // Scan for the gas pump we're refuelling from and deactivate it.
+    for(int i = -1; i <= 1; i++)
+     for(int j = -1; j <= 1; j++)
+      if(m.ter(u.posx + i, u.posy + j) == t_gas_pump) {
+       add_msg("With a clang and a shudder, the gas pump goes silent.");
+       m.ter(u.posx + i, u.posy + j) = t_gas_pump_empty;
+       u.activity.moves_left = 0;
+       // Found it, break out of the loop.
+       i = 2;
+       j = 2;
+       break;
+      }
+   }
    u.pause(this);
    u.activity.moves_left -= 100;
   } else {
@@ -995,6 +1027,10 @@ void game::process_activity()
 
    case ACT_BUTCHER:
     complete_butcher(u.activity.index);
+    break;
+
+   case ACT_FORAGE:
+    forage();
     break;
 
    case ACT_BUILD:
@@ -1085,6 +1121,10 @@ void game::cancel_activity_query(const char* message, ...)
    break;
   case ACT_BUTCHER:
    if (query_yn("%s Stop butchering?", s.c_str()))
+    doit = true;
+   break;
+  case ACT_FORAGE:
+   if (query_yn("%s Stop foraging?", s.c_str()))
     doit = true;
    break;
   case ACT_BUILD:
@@ -3302,9 +3342,11 @@ void game::mon_info()
     newseen++;
    }
 
-   dir_to_mon = direction_from(u.posx, u.posy, z[i].posx, z[i].posy);
-   int index = (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= VIEWX ?
-                8 : dir_to_mon);
+   dir_to_mon = direction_from(u.posx + u.view_offset_x, u.posy + u.view_offset_y,
+                               z[i].posx, z[i].posy);
+   int index = (abs(u.posx + u.view_offset_x - z[i].posx) <= VIEWX &&
+                abs(u.posy + u.view_offset_y - z[i].posy) <= VIEWY) ?
+                8 : dir_to_mon;
    if (mon_dangerous && index < 8)
     dangerous[index] = true;
 
@@ -3317,9 +3359,11 @@ void game::mon_info()
    if (active_npc[i].attitude == NPCATT_KILL)
     newseen++;
    point npcp(active_npc[i].posx, active_npc[i].posy);
-   dir_to_npc = direction_from ( u.posx, u.posy, npcp.x, npcp.y );
-   int index = (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= VIEWX ?
-                8 : dir_to_npc);
+   dir_to_npc = direction_from ( u.posx + u.view_offset_x, u.posy + u.view_offset_y,
+                                 npcp.x, npcp.y );
+   int index = (abs(u.posx + u.view_offset_x - npcp.x) <= VIEWX &&
+                abs(u.posy + u.view_offset_y - npcp.y) <= VIEWY) ?
+                8 : dir_to_npc;
    unique_types[index].push_back(-1 - i);
   }
  }
@@ -4787,45 +4831,46 @@ void game::examine()
    add_msg("You insert your ID card.");
    add_msg("The nearby doors slide into the floor.");
    u.use_amount(card_type, 1);
-  }
-  bool using_electrohack = (u.has_amount(itm_electrohack, 1) &&
-                            query_yn("Use electrohack on the reader?"));
-  bool using_fingerhack = (!using_electrohack && u.has_bionic(bio_fingerhack) &&
-                           u.power_level > 0 &&
-                           query_yn("Use fingerhack on the reader?"));
-  if (using_electrohack || using_fingerhack) {
-   u.moves -= 500;
-   u.practice("computer", 20);
-   int success = rng(u.skillLevel("computer").level() / 4 - 2, u.skillLevel("computer").level() * 2);
-   success += rng(-3, 3);
-   if (using_fingerhack)
-    success++;
-   if (u.int_cur < 8)
-    success -= rng(0, int((8 - u.int_cur) / 2));
-   else if (u.int_cur > 8)
-    success += rng(0, int((u.int_cur - 8) / 2));
-   if (success < 0) {
-    add_msg("You cause a short circuit!");
-    if (success <= -5) {
-     if (using_electrohack) {
-      add_msg("Your electrohack is ruined!");
-      u.use_amount(itm_electrohack, 1);
-     } else {
-      add_msg("Your power is drained!");
-      u.charge_power(0 - rng(0, u.power_level));
+  } else {
+   bool using_electrohack = (u.has_amount(itm_electrohack, 1) &&
+                             query_yn("Use electrohack on the reader?"));
+   bool using_fingerhack = (!using_electrohack && u.has_bionic(bio_fingerhack) &&
+                            u.power_level > 0 &&
+                            query_yn("Use fingerhack on the reader?"));
+   if (using_electrohack || using_fingerhack) {
+    u.moves -= 500;
+    u.practice("computer", 20);
+    int success = rng(u.skillLevel("computer").level() / 4 - 2, u.skillLevel("computer").level() * 2);
+    success += rng(-3, 3);
+    if (using_fingerhack)
+     success++;
+    if (u.int_cur < 8)
+     success -= rng(0, int((8 - u.int_cur) / 2));
+    else if (u.int_cur > 8)
+     success += rng(0, int((u.int_cur - 8) / 2));
+    if (success < 0) {
+     add_msg("You cause a short circuit!");
+     if (success <= -5) {
+      if (using_electrohack) {
+       add_msg("Your electrohack is ruined!");
+       u.use_amount(itm_electrohack, 1);
+      } else {
+       add_msg("Your power is drained!");
+       u.charge_power(0 - rng(0, u.power_level));
+      }
      }
-    }
-    m.ter(examx, examy) = t_card_reader_broken;
-   } else if (success < 6)
-    add_msg("Nothing happens.");
-   else {
-    add_msg("You activate the panel!");
-    add_msg("The nearby doors slide into the floor.");
-    m.ter(examx, examy) = t_card_reader_broken;
-    for (int i = -3; i <= 3; i++) {
-     for (int j = -3; j <= 3; j++) {
-      if (m.ter(examx + i, examy + j) == t_door_metal_locked)
-       m.ter(examx + i, examy + j) = t_floor;
+     m.ter(examx, examy) = t_card_reader_broken;
+    } else if (success < 6)
+     add_msg("Nothing happens.");
+    else {
+     add_msg("You activate the panel!");
+     add_msg("The nearby doors slide into the floor.");
+     m.ter(examx, examy) = t_card_reader_broken;
+     for (int i = -3; i <= 3; i++) {
+      for (int j = -3; j <= 3; j++) {
+       if (m.ter(examx + i, examy + j) == t_door_metal_locked)
+        m.ter(examx + i, examy + j) = t_floor;
+      }
      }
     }
    }
@@ -4992,6 +5037,10 @@ void game::examine()
   } else {
    u.moves -= 300;
    handle_liquid(gas, false, true);
+  }
+  if (one_in(1000)) {
+    add_msg("With a clang and a shudder, the gas pump goes silent.");
+    m.ter(examx, examy) = t_gas_pump_empty;
   }
  } else if (m.ter(examx, examy) == t_fence_post && query_yn("Make Fence?")) {
   int ch = menu("Fence Construction:", "Rope Fence", "Wire Fence",
@@ -5169,50 +5218,82 @@ shape, but with long, twisted, distended limbs.");
  }
  //-----Jovan's-----
  //flowers
-    else if ((m.ter(examx, examy)==t_mutpoppy)&&(query_yn("Pick the flower?"))) {
-        add_msg("This flower has a heady aroma");
-        if (!(u.is_wearing(itm_mask_filter)||u.is_wearing(itm_mask_gas) ||
-            one_in(3)))  {
-        add_msg("You fall asleep...");
-        u.add_disease(DI_SLEEP, 1200, this);
-        add_msg("Your legs are covered by flower's roots!");
-        u.hurt(this,bp_legs, 0, 4);
-        u.moves-=50;
-        }
-        m.ter(examx, examy) = t_dirt;
-        m.add_item(examx, examy, this->itypes[itm_poppy_flower],0);
-        m.add_item(examx, examy, this->itypes[itm_poppy_bud],0);
+ else if ((m.ter(examx, examy)==t_mutpoppy)&&(query_yn("Pick the flower?"))) {
+  add_msg("This flower has a heady aroma");
+  if (!(u.is_wearing(itm_mask_filter)||u.is_wearing(itm_mask_gas) ||
+      one_in(3)))  {
+   add_msg("You fall asleep...");
+   u.add_disease(DI_SLEEP, 1200, this);
+   add_msg("Your legs are covered by flower's roots!");
+   u.hurt(this,bp_legs, 0, 4);
+   u.moves-=50;
+  }
+  m.ter(examx, examy) = t_dirt;
+  m.add_item(examx, examy, this->itypes[itm_poppy_flower],0);
+  m.add_item(examx, examy, this->itypes[itm_poppy_bud],0);
+ }
+// apple trees
+ else if ((m.ter(examx, examy)==t_tree_apple) && (query_yn("Pick apples?")))
+ {
+  int num_apples = rng(1, u.skillLevel("survival").level());
+  if (num_apples >= 12)
+    num_apples = 12;
+  for (int i = 0; i < num_apples; i++)
+   m.add_item(examx, examy, this->itypes[itm_apple],0);
+
+  m.ter(examx, examy) = t_tree;
+ }
+// blueberry bushes
+ else if ((m.ter(examx, examy)==t_shrub_blueberry) && (query_yn("Pick blueberries?")))
+ {
+  int num_blueberries = rng(1, u.skillLevel("survival").level());
+
+ if (num_blueberries >= 12)
+    num_blueberries = 12;
+  for (int i = 0; i < num_blueberries; i++)
+   m.add_item(examx, examy, this->itypes[itm_blueberries],0);
+
+  m.ter(examx, examy) = t_shrub;
+ }
+
+// harvesting wild veggies
+ else if ((m.ter(examx, examy)==t_underbrush) && (query_yn("Forage for wild vegetables?")))
+ {
+  u.assign_activity(ACT_FORAGE, 500 / (u.skillLevel("survival").level() + 1), 0);
+  u.activity.placement = point(examx, examy);
+  u.moves = 0;
+ }
+
+ //-----Recycling machine-----
+ else if ((m.ter(examx, examy)==t_recycler)&&(query_yn("Use the recycler?"))) {
+  if (m.i_at(examx, examy).size() > 0)
+  {
+   sound(examx, examy, 80, "Ka-klunk!");
+   int num_metal = 0;
+   for (int i = 0; i < m.i_at(examx, examy).size(); i++)
+   {
+    item *it = &(m.i_at(examx, examy)[i]);
+    if (it->made_of(STEEL))
+     num_metal++;
+    m.i_at(examx, examy).erase(m.i_at(examx, examy).begin() + i);
+    i--;
+   }
+   if (num_metal > 0)
+   {
+    while (num_metal > 9)
+    {
+     m.add_item(u.posx, u.posy, this->itypes[itm_steel_lump], 0);
+     num_metal -= 10;
     }
-//-----Recycling machine-----
-   else if ((m.ter(examx, examy)==t_recycler)&&(query_yn("Use the recycler?"))) {
-        if (m.i_at(examx, examy).size() > 0)
-        {
-          sound(examx, examy, 80, "Ka-klunk!");
-          int num_metal = 0;
-          for (int i = 0; i < m.i_at(examx, examy).size(); i++)
-          {
-            item *it = &(m.i_at(examx, examy)[i]);
-            if (it->made_of(STEEL))
-            num_metal++;
-            m.i_at(examx, examy).erase(m.i_at(examx, examy).begin() + i);
-            i--;
-          }
-          if (num_metal > 0)
-          {
-            while (num_metal > 9)
-            {
-              m.add_item(u.posx, u.posy, this->itypes[itm_steel_lump], 0);
-              num_metal -= 10;
-            }
-            do
-            {
-              m.add_item(u.posx, u.posy, this->itypes[itm_steel_chunk], 0);
-              num_metal -= 3;
-            } while (num_metal > 2);
-          }
-        }
-        else add_msg("The recycler is empty.");
-    }
+    do
+    {
+     m.add_item(u.posx, u.posy, this->itypes[itm_steel_chunk], 0);
+     num_metal -= 3;
+    } while (num_metal > 2);
+   }
+  }
+  else add_msg("The recycler is empty.");
+ }
 
  //-----------------
  if (m.tr_at(examx, examy) != tr_null &&
@@ -5356,6 +5437,24 @@ point game::look_around()
  return point(-1, -1);
 }
 
+bool game::list_items_match(std::string sText, std::string sPattern)
+{
+ unsigned long iPos;
+
+ do {
+  iPos = sPattern.find(",");
+
+  if (sText.find((iPos == std::string::npos) ? sPattern : sPattern.substr(0, iPos)) != std::string::npos)
+   return true;
+
+  if (iPos != std::string::npos)
+   sPattern = sPattern.substr(iPos+1, sPattern.size());
+
+ } while(iPos != std::string::npos);
+
+ return false;
+}
+
 void game::list_items()
 {
  int iInfoHeight = 10;
@@ -5366,9 +5465,9 @@ void game::list_items()
  std::map<int, std::map<int, std::map<std::string, int> > > grounditems;
  std::map<std::string, item> iteminfo;
 
- //Area to search +- of players position
- int iSearchX = 12;
- int iSearchY = 12;
+ //Area to search +- of players position. TODO: Use Perception
+ int iSearchX = 12 + ((VIEWX > 12) ? ((VIEWX-12)/2) : 0);
+ int iSearchY = 12 + ((VIEWY > 12) ? ((VIEWY-12)/2) : 0);
  int iItemNum = 0;
 
  int iTile;
@@ -5399,7 +5498,6 @@ void game::list_items()
  int iActiveX = 0;
  int iActiveY = 0;
  long ch = '.';
- std::string sFilter = "";
  int iFilter = 0;
 
  do {
@@ -5412,7 +5510,18 @@ void game::list_items()
     ch = '.';
 
    } else if (ch == 'f' || ch == 'F') {
-    sFilter = string_input_popup("Filter:", 15, sFilter);
+    for (int i = 0; i < iInfoHeight-1; i++)
+     mvwprintz(w_item_info, i, 1, c_black, "%s", "                                                     ");
+
+    mvwprintz(w_item_info, 0, 2, c_white, "%s", "How to use the filter:");
+    mvwprintz(w_item_info, 1, 2, c_white, "%s", "Example: pi  will match any itemname with pi in it.");
+    mvwprintz(w_item_info, 3, 2, c_white, "%s", "Seperate multiple items with ,");
+    mvwprintz(w_item_info, 4, 2, c_white, "%s", "Example: back,flash,aid, ,band");
+    mvwprintz(w_item_info, 6, 2, c_white, "%s", "To exclude certain items, place a - in front");
+    mvwprintz(w_item_info, 7, 2, c_white, "%s", "Example: -pipe,chunk,steel");
+    wrefresh(w_item_info);
+
+    sFilter = string_input_popup("Filter:", 55, sFilter);
     iActive = 0;
     ch = '.';
 
@@ -5482,8 +5591,8 @@ void game::list_items()
    for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
     for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
      for (std::map< std::string, int>::iterator iter=grounditems[iCol][iRow].begin(); iter!=grounditems[iCol][iRow].end(); ++iter) {
-      if (sFilterTemp == "" || (sFilterTemp != "" && ((sFilterPre != "-" && iter->first.find(sFilterTemp) != std::string::npos) ||
-                                             (sFilterPre == "-" && iter->first.find(sFilterTemp) == std::string::npos)))) {
+      if (sFilterTemp == "" || (sFilterTemp != "" && ((sFilterPre != "-" && list_items_match(iter->first, sFilterTemp)) ||
+                                                      (sFilterPre == "-" && !list_items_match(iter->first, sFilterTemp))))) {
        if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) ) {
         if (iNum == iActive) {
          iActiveX = iCol;
@@ -6615,6 +6724,25 @@ void game::complete_butcher(int index)
  }
 }
 
+void game::forage()
+{
+  int veggy_chance = rng(1, 20);
+
+  if (veggy_chance < u.skillLevel("survival").level())
+  {
+    add_msg("You found some wild veggies!");
+    u.practice("survival", 10);
+    m.add_item(u.activity.placement.x, u.activity.placement.y, this->itypes[itm_veggy_wild],0);
+    m.ter(u.activity.placement.x, u.activity.placement.y) = t_dirt;
+  }
+  else
+  {
+    add_msg("You didn't find anything.");
+    if (!one_in(u.skillLevel("survival").level()))
+    m.ter(u.activity.placement.x, u.activity.placement.y) = t_dirt;
+  }
+}
+
 void game::eat()
 {
  if (u.has_trait(PF_RUMINANT) && m.ter(u.posx, u.posy) == t_underbrush &&
@@ -7111,8 +7239,10 @@ void game::plmove(int x, int y)
   if (m.has_flag(sharp, x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur/2))
       && (!u.in_vehicle)) {
    if (!u.has_trait(PF_PARKOUR) || one_in(4)) {
-    add_msg("You cut yourself on the %s!", m.tername(x, y).c_str());
-    u.hit(this, bp_torso, 0, 0, rng(1, 4));
+    body_part bp = random_body_part();
+    int side = rng(0, 1);
+    add_msg("You cut your %s on the %s!", body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
+    u.hit(this, bp, side, 0, rng(1, 4));
    }
   }
   if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait(PF_LEG_TENTACLES)) {

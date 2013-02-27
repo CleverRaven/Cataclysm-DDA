@@ -1,7 +1,7 @@
 cataclysm
 data/*.template
-save/
 bin/
+save/
 obj/
 debug.log
 logg.txt
