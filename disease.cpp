@@ -1026,7 +1026,7 @@ void dis_effect(game *g, player &p, disease &dis)
      }
    p.str_cur-= 2;
    p.dex_cur-= 2;
-   if(one_in(5)
+   if(one_in(5))
    {
    g->add_msg("You pass out");
    p.add_disease(DI_SLEEP, 60, g);
