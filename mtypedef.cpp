@@ -242,8 +242,8 @@ FLAGS(MF_DIGS, MF_HEARS, MF_GOODHEARING, MF_WARM, MF_LEATHER);
 // ZOMBIES
 mon("zombie",	species_zombie, 'Z',	c_ltgreen,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 99,  3,100,100, 50,  4,  2,  4,  1,  1,  0,  0, 40, 50,  0,
-	&mdeath::normal,	&mattack::none, "\
+	 99,  3,100,100, 50,  4,  2,  4,  1,  1,  0,  0, 40, 50,  10,
+	&mdeath::normal,	&mattack::bite, "\
 A human body, stumbling slowly forward on\n\
 uncertain legs, possessed with an unstoppable\n\
 rage."
