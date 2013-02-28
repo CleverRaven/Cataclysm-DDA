@@ -410,7 +410,10 @@ void iuse::alcohol(game *g, player *p, item *it, bool t)
 
 void iuse::cig(game *g, player *p, item *it, bool t)
 {
- g->add_msg_if_player(p,"You light a cigarette and smoke it.");
+ if (it->type->id == itm_cig)
+  g->add_msg_if_player(p,"You light a cigarette and smoke it.");
+ else //cigar
+  g->add_msg_if_player(p,"You take a few puffs from your cigar.");
  p->add_disease(DI_CIG, 200, g);
  for (int i = 0; i < p->illness.size(); i++) {
   if (p->illness[i].type == DI_CIG && p->illness[i].duration > 600 &&
