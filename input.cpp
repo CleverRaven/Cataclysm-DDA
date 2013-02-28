@@ -4,9 +4,10 @@
 /* TODO Replace the hardcoded values with an abstraction layer.
  * Lower redundancy across the methods. */
 
-InputEvent get_input() 
+InputEvent get_input(char ch) 
 {
-	char ch = getch();
+	if (ch == '\0')
+		ch = getch();
 
 	switch(ch)
 	{

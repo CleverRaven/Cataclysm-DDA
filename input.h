@@ -24,7 +24,7 @@ enum InputEvent {
 	Undefined
 };
 
-InputEvent get_input();
+InputEvent get_input(char ch = '\0');
 void get_direction(int &x, int &y, InputEvent &input);
 
 #endif

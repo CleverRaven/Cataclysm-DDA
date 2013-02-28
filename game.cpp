@@ -5647,9 +5647,11 @@ void game::list_items()
    wrefresh(w_items);
    wrefresh(w_item_info);
    ch = getch();
+   input = get_input(ch);
   } else {
    add_msg("You dont see any items around you!");
    ch = ' ';
+   input = Close;
   }
  } while (input != Close && input != Cancel);
 
