@@ -125,7 +125,7 @@ $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(TARGET) $(W32TARGET) $(ODIR)/*.{o,d} $(W32ODIR)/*.o $(W32BINDIST) \
+	rm -f $(TARGET) $(W32TARGET) $(ODIR)/*.o $(ODIR)/*.d $(W32ODIR)/*.o $(W32BINDIST) \
 	$(BINDIST)
 	rm -rf $(BINDIST_DIR)
 
