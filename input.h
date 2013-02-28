@@ -5,6 +5,7 @@ enum InputEvent {
 	Confirm,
 	Cancel,
 	Close,
+	Help,
 
 	DirectionN,
 	DirectionS,
@@ -15,8 +16,11 @@ enum InputEvent {
 	DirectionSE,
 	DirectionSW,
 	DirectionNone,
+	DirectionDown,
+	DirectionUp,
 
 	Pickup,
+	Nothing,
 	Undefined
 };
 

@@ -4249,7 +4249,7 @@ void game::open()
  bool didit = false;
  mvwprintw(w_terrain, 0, 0, "Open where? (hjklyubn) ");
  wrefresh(w_terrain);
- DebugLog() << __FUNCTION__ << "calling input() \n";
+ DebugLog() << __FUNCTION__ << "calling get_input() \n";
  int openx, openy;
  InputEvent input = get_input();
  last_action += input;
@@ -4298,7 +4298,7 @@ void game::close()
  bool didit = false;
  mvwprintw(w_terrain, 0, 0, "Close where? (hjklyubn) ");
  wrefresh(w_terrain);
- DebugLog() << __FUNCTION__ << "calling input() \n";
+ DebugLog() << __FUNCTION__ << "calling get_input() \n";
  int closex, closey;
  InputEvent input = get_input();
  last_action += input;
@@ -6295,7 +6295,7 @@ void game::drop_in_direction()
 {
  refresh_all();
  mvprintz(0, 0, c_red, "Choose a direction:");
- DebugLog() << __FUNCTION__ << "calling input() \n";
+ DebugLog() << __FUNCTION__ << "calling get_input() \n";
  int dirx, diry;
  InputEvent input = get_input();
  get_direction(dirx, diry, input);

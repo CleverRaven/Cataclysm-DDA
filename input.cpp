@@ -28,6 +28,10 @@ InputEvent get_input()
 			return DirectionSE;
 		case '.':
 			return DirectionNone;
+		case '>':
+			return DirectionDown;
+		case '<':
+			return DirectionUp;
 
 		case '\n':
 			return Confirm;
@@ -36,6 +40,8 @@ InputEvent get_input()
 		case 27: /* TODO Fix delay */
 		case 'q':
 			return Cancel;
+		case '?':
+			return Help;
 
 		case ',':
 		case 'g':
