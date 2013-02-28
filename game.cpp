@@ -2630,6 +2630,7 @@ faction* game::list_factions(std::string title)
     sel--;
    break;
   case Cancel:
+  case Close:
    sel = -1;
    break;
   }
@@ -2654,7 +2655,7 @@ faction* game::list_factions(std::string title)
    mvwprintz(w_info, linenum, 0, c_white, desc.c_str());
    wrefresh(w_info);
   }
- } while (input != Cancel && input != Confirm);
+ } while (input != Cancel && input != Confirm && input != Close);
  werase(w_list);
  werase(w_info);
  delwin(w_list);
@@ -4300,7 +4301,7 @@ void game::close()
  DebugLog() << __FUNCTION__ << "calling input() \n";
  int closex, closey;
  InputEvent input = get_input();
- last_action += get_input();
+ last_action += input;
  get_direction(closex, closey, input);
  if (closex != -2 && closey != -2) {
   closex += u.posx;
@@ -4742,7 +4743,7 @@ void game::examine()
  }
  mvwprintw(w_terrain, 0, 0, "Examine where? (Direction button) ");
  wrefresh(w_terrain);
- DebugLog() << __FUNCTION__ << "calling input() \n";
+ DebugLog() << __FUNCTION__ << "calling get_input() \n";
  int examx, examy;
  InputEvent input = get_input();
  last_action += input;
