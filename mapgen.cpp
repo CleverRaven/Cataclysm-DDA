@@ -729,8 +729,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   }
   if (terrain_type == ot_road_ew)
    rotate(1);
-  if(rn == 1)
-   place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 4, 12);
   place_items(mi_road, 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
   break;
 
@@ -767,8 +765,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_road_wn)
    rotate(3);
-  if(rn == 1)
-   place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 4, 12);
   place_items(mi_road, 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
   break;
 
@@ -805,8 +801,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_road_new)
    rotate(3);
-  if(rn == 1)
-   place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 4, 12);
   place_items(mi_road, 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
   break;
 
@@ -867,8 +861,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    place_items(mi_trash, 5, 0, 0, SEEX * 2 -1, SEEX * 2 - 1, true, 0);
   } else
    place_items(mi_road,  5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
-  if(rn == 1)
-   place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 4, 12);
   if (terrain_type == ot_road_nesw_manhole)
    ter(rng(6, SEEX * 2 - 6), rng(6, SEEX * 2 - 6)) = t_manhole_cover;
   break;
@@ -1276,8 +1268,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     }
    }
    place_items(mi_rare, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
-  } else { // Just boring old zombies
-   place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 4, 12);
   }
 
   if (terrain_type == ot_house_east  || terrain_type == ot_house_base_east)
@@ -1487,7 +1477,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_gas_west)
    rotate(3);
-  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 4, 12);
   break;
 
  case ot_s_pharm_north:
@@ -1560,7 +1549,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_pharm_west)
    rotate(3);
-  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 4, 12);
   break;
 
  case ot_s_grocery_north:
@@ -1627,7 +1615,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_grocery_west)
    rotate(3);
-  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 4, 12);
   break;
 
  case ot_s_hardware_north:
@@ -1751,7 +1738,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_hardware_west)
    rotate(3);
-  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 4, 12);
   break;
 
  case ot_s_electronics_north:
@@ -1797,7 +1783,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_electronics_west)
    rotate(3);
-  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 4, 12);
   break;
 
  case ot_s_sports_north:
@@ -1867,7 +1852,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_sports_west)
    rotate(3);
-  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 4, 12);
   break;
 
  case ot_s_liquor_north:
@@ -1928,7 +1912,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_liquor_west)
    rotate(3);
-  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 4, 12);
   break;
 
  case ot_s_gun_north:
@@ -1982,7 +1965,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_gun_west)
    rotate(3);
-  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 4, 12);
   break;
 
  case ot_s_clothes_north:
@@ -2067,7 +2049,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_clothes_west)
    rotate(3);
-  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 4, 12);
   break;
 
  case ot_s_library_north:
@@ -2127,7 +2108,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_library_west)
    rotate(3);
-  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 4, 12);
   break;
 
  case ot_s_restaurant_north:
@@ -2253,9 +2233,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_restaurant_west)
    rotate(3);
-  }
-  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 4, 12);
-  break;
+  } break;
 
 //....
 case ot_shelter: {
