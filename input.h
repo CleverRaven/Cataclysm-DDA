@@ -5,13 +5,22 @@ enum InputEvent {
 	Confirm,
 	Cancel,
 	Close,
-	Up,
-	Down,
-	Left,
-	Right,
+
+	DirectionN,
+	DirectionS,
+	DirectionE,
+	DirectionW,
+	DirectionNW,
+	DirectionNE,
+	DirectionSE,
+	DirectionSW,
+	DirectionNone,
+
+	Pickup,
 	Undefined
 };
 
 InputEvent get_input();
+void get_direction(int &x, int &y, InputEvent &input);
 
 #endif

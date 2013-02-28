@@ -1,6 +1,5 @@
 #include "game.h"
 #include "rng.h"
-#include "keypress.h"
 #include "input.h"
 #include "output.h"
 #include "skill.h"
@@ -233,9 +232,7 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
   }
  }
 
- bool inmenu = true;
-
- while(inmenu) {
+ while(!start) {
   if (layer == 1) {
    mvwprintz(w_open, 4, 1, (sel1 == 0 ? h_white : c_white), "MOTD");
    mvwprintz(w_open, 5, 1, (sel1 == 1 ? h_white : c_white), "New Game");
@@ -258,17 +255,17 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
    wrefresh(w_open);
    refresh();
    input = get_input();
-   if (input == Up) {
+   if (input == DirectionN) {
     if (sel1 > 0)
      sel1--;
     else
      sel1 = 6;
-   } else if (input == Down) {
+   } else if (input == DirectionS) {
     if (sel1 < 6)
      sel1++;
     else
      sel1 = 0;
-   } else if ((input == Right || input == Confirm) && sel1 > 0) {
+   } else if ((input == DirectionE || input == Confirm) && sel1 > 0) {
     if (sel1 == 6) {
      uquit = QUIT_MENU;
      return false;
@@ -305,24 +302,24 @@ fivedozenwhales@gmail.com.");
     wrefresh(w_open);
     refresh();
     input = get_input();
-    if (input == Up) {
+    if (input == DirectionN) {
      if (sel2 > 1)
       sel2--;
      else
       sel2 = 3;
-    } if (input == Down) {
+    } if (input == DirectionS) {
      if (sel2 < 3)
       sel2++;
      else
       sel2 = 1;
-    } else if (input == Left) {
+    } else if (input == DirectionW) {
      mvwprintz(w_open, 5, 12, c_black, "                ");
      mvwprintz(w_open, 6, 12, c_black, "                ");
      mvwprintz(w_open, 7, 12, c_black, "                ");
      layer = 1;
      sel1 = 1;
     }
-    if (input == Right || input == Confirm) {
+    if (input == DirectionE || input == Confirm) {
      if (sel2 == 1) {
       if (!u.create(this, PLTYPE_CUSTOM)) {
        u = player();
@@ -366,22 +363,22 @@ fivedozenwhales@gmail.com.");
     wrefresh(w_open);
     refresh();
     input = get_input();
-    if (input == Up) {
+    if (input == DirectionN) {
      if (sel2 > 1)
       sel2--;
      else
       sel2 = savegames.size();
-    } else if (input == Down) {
+    } else if (input == DirectionS) {
      if (sel2 < savegames.size())
       sel2++;
      else
       sel2 = 1;
-    } else if (input == Left) {
+    } else if (input == DirectionW) {
      layer = 1;
      for (int i = 0; i < 14; i++)
       mvwprintz(w_open, 6 + i, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     }
-    if (input == Right || input == Confirm) {
+    if (input == DirectionE || input == Confirm) {
      if (sel2 > 0 && savegames.size() > 0) {
       load(savegames[sel2 - 1]);
       start = true;
@@ -405,22 +402,22 @@ fivedozenwhales@gmail.com.");
     wrefresh(w_open);
     refresh();
     input = get_input();
-    if (input == Up) {
+    if (input == DirectionN) {
      if (sel2 > 1)
       sel2--;
      else
       sel2 = NUM_SPECIAL_GAMES - 1;
-    } else if (input == Down) {
+    } else if (input == DirectionS) {
      if (sel2 < NUM_SPECIAL_GAMES - 1)
       sel2++;
      else
       sel2 = 1;
-    } else if (input == Left) {
+    } else if (input == DirectionW) {
      layer = 1;
      for (int i = 6; i < 15; i++)
       mvwprintz(w_open, i, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     }
-    if (input == Right || input == Confirm) {
+    if (input == DirectionE || input == Confirm) {
      if (sel2 >= 1 && sel2 < NUM_SPECIAL_GAMES) {
       delete gamemode;
       gamemode = get_special_game( special_game_id(sel2) );
@@ -452,17 +449,17 @@ fivedozenwhales@gmail.com.");
    wrefresh(w_open);
    refresh();
    input = get_input();
-   if (input == Up) {
+   if (input == DirectionN) {
     if (sel1 > 0)
      sel1--;
     else
      sel1 = templates.size() - 1;
-   } else if (input == Down) {
+   } else if (input == DirectionS) {
     if (sel1 < templates.size() - 1)
      sel1++;
     else
      sel1 = 0;
-   } else if (input == Left || templates.size() == 0) {
+   } else if (input == DirectionW || templates.size() == 0) {
     sel1 = 1;
     layer = 2;
     for (int i = 0; i+6 < 21; i++)
@@ -471,7 +468,7 @@ fivedozenwhales@gmail.com.");
      mvwprintw(w_open, i, 0, "                                                 \
                                 ");
    }
-   else if (input == Right || input == Confirm) {
+   else if (input == DirectionE || input == Confirm) {
     if (!u.create(this, PLTYPE_TEMPLATE, templates[sel1])) {
      u = player();
      delwin(w_open);
@@ -689,8 +686,9 @@ bool game::do_turn()
   if (!u.has_disease(DI_SLEEP) && u.activity.type == ACT_NULL)
    draw();
 
-  if (handle_input(autosave_timeout()) == IR_GOOD)
-    ++moves_since_last_save;
+  if(handle_action())
+	  ++moves_since_last_save;
+
   if (is_game_over()) {
    cleanup_at_end();
    return true;
@@ -1413,19 +1411,14 @@ void game::process_missions()
  }
 }
 
-input_ret game::handle_input(int timeout_ms)
+bool game::handle_action()
 {
- char ch = KEY_ESCAPE;
- bool success = input_wait(ch, timeout_ms); // See keypress.h - translates keypad and arrows to vikeys
-
- if (!success)
-  return IR_TIMEOUT;
-
- if (keymap.find(ch) == keymap.end()) {
-  if (ch != ' ' && ch != KEY_ESCAPE && ch != '\n')
-   add_msg("Unknown command: '%c'", ch);
-  return IR_BAD;
- }
+  char ch = getch();
+  if (keymap.find(ch) == keymap.end()) {
+	  if (ch != ' ' && ch != '\n')
+		  add_msg("Unknown command: '%c'", ch);
+	  return false;
+  }
 
  action_id act = keymap[ch];
 
@@ -1830,7 +1823,7 @@ input_ret game::handle_input(int timeout_ms)
 
  gamemode->post_action(this, act);
 
- return IR_GOOD;
+ return true;
 }
 
 int& game::scent(int x, int y)
@@ -1939,10 +1932,10 @@ void game::death_screen()
 
  wrefresh(w_death);
  refresh();
- char ch;
+ InputEvent input;
  do
-  ch = getch();
- while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+  input = get_input();
+ while(input != Cancel && input != Close && input != Confirm);
  delwin(w_death);
 }
 
@@ -2618,30 +2611,29 @@ faction* game::list_factions(std::string title)
  }
  mvwprintz(w_info, linenum, 0, c_white, desc.c_str());
  wrefresh(w_info);
- char ch;
+ InputEvent input;
  do {
-  ch = input();
-  switch ( ch ) {
-  case Down:	// Move selection down
+  input = get_input();
+  switch ( input ) {
+  case DirectionS:	// Move selection down
    mvwprintz(w_list, sel + 1, 0, c_white, valfac[sel].name.c_str());
    if (sel == valfac.size() - 1)
     sel = 0;	// Wrap around
    else
     sel++;
    break;
-  case Up:	// Move selection up
+  case DirectionN:	// Move selection up
    mvwprintz(w_list, sel + 1, 0, c_white, valfac[sel].name.c_str());
    if (sel == 0)
     sel = valfac.size() - 1;	// Wrap around
    else
     sel--;
    break;
-  case KEY_ESCAPE:
-  case 'q':
+  case Cancel:
    sel = -1;
    break;
   }
-  if (ch == Down || ch == Up) {	// Changed our selection... update the windows
+  if (input == DirectionS || input == DirectionN) {	// Changed our selection... update the windows
    mvwprintz(w_list, sel + 1, 0, h_white, valfac[sel].name.c_str());
    wrefresh(w_list);
    werase(w_info);
@@ -2662,7 +2654,7 @@ faction* game::list_factions(std::string title)
    mvwprintz(w_info, linenum, 0, c_white, desc.c_str());
    wrefresh(w_info);
   }
- } while (ch != KEY_ESCAPE && ch != '\n' && ch != 'q');
+ } while (input != Cancel && input != Confirm);
  werase(w_list);
  werase(w_info);
  delwin(w_list);
@@ -2677,7 +2669,7 @@ void game::list_missions()
 {
  WINDOW *w_missions = newwin(25, 80, 0, 0);
  int tab = 0, selection = 0;
- char ch;
+ InputEvent input;
  do {
   werase(w_missions);
   draw_tabs(w_missions, tab, "ACTIVE MISSIONS", "COMPLETED MISSIONS",
@@ -2722,34 +2714,34 @@ void game::list_missions()
   }
 
   wrefresh(w_missions);
-  ch = input();
-  switch (ch) {
-  case '>':
+  input = get_input();
+  switch (input) {
+  case DirectionE: 
    tab++;
    if (tab == 3)
     tab = 0;
    break;
-  case '<':
+  case DirectionW:
    tab--;
    if (tab < 0)
     tab = 2;
    break;
-  case Down:
+  case DirectionS:
    selection++;
    if (selection >= umissions.size())
     selection = 0;
    break;
-  case Up:
+  case DirectionN:
    selection--;
    if (selection < 0)
     selection = umissions.size() - 1;
    break;
-  case '\n':
+  case Confirm:
    u.active_mission = selection;
    break;
   }
 
- } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+ } while (input != Cancel);
 
 
  werase(w_missions);
@@ -4258,9 +4250,9 @@ void game::open()
  wrefresh(w_terrain);
  DebugLog() << __FUNCTION__ << "calling input() \n";
  int openx, openy;
- char ch = input();
- last_action += ch;
- get_direction(this, openx, openy, ch);
+ InputEvent input = get_input();
+ last_action += input;
+ get_direction(openx, openy, input);
  if (openx != -2 && openy != -2)
  {
   int vpart;
@@ -4307,9 +4299,9 @@ void game::close()
  wrefresh(w_terrain);
  DebugLog() << __FUNCTION__ << "calling input() \n";
  int closex, closey;
- char ch = input();
- last_action += ch;
- get_direction(this, closex, closey, ch);
+ InputEvent input = get_input();
+ last_action += get_input();
+ get_direction(closex, closey, input);
  if (closex != -2 && closey != -2) {
   closex += u.posx;
   closey += u.posy;
@@ -4345,15 +4337,15 @@ void game::smash()
  int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
  mvwprintw(w_terrain, 0, 0, "Smash what? (hjklyubn) ");
  wrefresh(w_terrain);
- DebugLog() << __FUNCTION__ << "calling input() \n";
- char ch = input();
- last_action += ch;
- if (ch == KEY_ESCAPE) {
+ DebugLog() << __FUNCTION__ << "calling get_input() \n";
+ InputEvent input = get_input();
+ last_action += input;
+ if (input == Close) {
   add_msg("Never mind.");
   return;
  }
  int smashx, smashy;
- get_direction(this, smashx, smashy, ch);
+ get_direction(smashx, smashy, input);
 // TODO: Move this elsewhere.
  if (m.has_flag(alarmed, u.posx + smashx, u.posy + smashy) &&
      !event_queued(EVENT_WANTED)) {
@@ -4389,7 +4381,7 @@ void game::smash()
 void game::use_item()
 {
  char ch = inv("Use item:");
- if (ch == KEY_ESCAPE) {
+ if (ch == ' ') {
   add_msg("Never mind.");
   return;
  }
@@ -4406,9 +4398,10 @@ bool game::pl_choose_vehicle (int &x, int &y)
 {
  refresh_all();
  mvprintz(0, 0, c_red, "Choose a vehicle at direction:");
- DebugLog() << __FUNCTION__ << "calling input() \n";
+ DebugLog() << __FUNCTION__ << "calling get_input() \n";
+ InputEvent input = get_input();
  int dirx, diry;
- get_direction(this, dirx, diry, input());
+ get_direction(dirx, diry, input);
  if (dirx == -2) {
   add_msg("Invalid direction!");
   return false;
@@ -4751,11 +4744,11 @@ void game::examine()
  wrefresh(w_terrain);
  DebugLog() << __FUNCTION__ << "calling input() \n";
  int examx, examy;
- char ch = input();
- last_action += ch;
- if (ch == KEY_ESCAPE || ch == 'e' || ch == 'q')
+ InputEvent input = get_input();
+ last_action += input;
+ if (input == Cancel || input == Close)
   return;
- get_direction(this, examx, examy, ch);
+ get_direction(examx, examy, input);
  if (examx == -2 || examy == -2) {
   add_msg("Invalid direction.");
   return;
@@ -5308,11 +5301,12 @@ shape, but with long, twisted, distended limbs.");
 void game::peek()
 {
  int mx, my;
- char ch;
+ InputEvent input;
 
  mvprintz(0, 0, c_white, "Use directional keys to chose an adjacent square to peek from.");
- ch = input();
- get_direction(this, mx, my, ch);
+
+ input = get_input();
+ get_direction (mx, my, input);
  if (mx != -2 && my != -2 &&
      m.move_cost(u.posx + mx, u.posy + my) > 0) {
   u.moves -= 200;
@@ -5329,7 +5323,7 @@ point game::look_around()
  draw_ter();
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
  int mx, my, junk;
- char ch;
+ InputEvent input;
  WINDOW* w_look = newwin(13, 48, 12, VIEWX * 2 + 8);
  wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -5338,11 +5332,11 @@ point game::look_around()
  mvwprintz(w_look, 3, 1, c_white, "to a nearby square.");
  wrefresh(w_look);
  do {
- DebugLog() << __FUNCTION__ << "calling input() \n";
-  ch = input();
+ DebugLog() << __FUNCTION__ << "calling get_input() \n";
+  input = get_input();
   if (!u_see(lx, ly, junk))
    mvwputch(w_terrain, ly - u.posy + VIEWY, lx - u.posx + VIEWX, c_black, ' ');
-  get_direction(this, mx, my, ch);
+  get_direction(mx, my, input);
   if (mx != -2 && my != -2) {	// Directional key pressed
    lx += mx;
    ly += my;
@@ -5429,8 +5423,8 @@ point game::look_around()
    mvwprintw(w_look, 6, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str());
   wrefresh(w_look);
   wrefresh(w_terrain);
- } while (ch != ' ' && ch != KEY_ESCAPE && ch != '\n');
- if (ch == '\n')
+ } while (input != Close && input != Cancel);
+ if (input == Confirm)
   return point(lx, ly);
  return point(-1, -1);
 }
@@ -5495,6 +5489,7 @@ void game::list_items()
  int iStartPos = 0;
  int iActiveX = 0;
  int iActiveY = 0;
+ InputEvent input = Undefined;
  long ch = '.';
  int iFilter = 0;
 
@@ -5546,15 +5541,13 @@ void game::list_items()
     wprintz(w_items, c_white, "%s", "ilter ");
    }
 
-   switch(ch) {
-    case KEY_UP:
-	case Up:
+   switch(input) {
+    case DirectionN:
      iActive--;
      if (iActive < 0)
       iActive = 0;
      break;
-    case KEY_DOWN:
-	case Down:
+    case DirectionS:
      iActive++;
      if (iActive >= iItemNum - iFilter)
       iActive = iItemNum - iFilter-1;
@@ -5657,7 +5650,7 @@ void game::list_items()
    add_msg("You dont see any items around you!");
    ch = ' ';
   }
- } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
+ } while (input != Close && input != Cancel);
 
  u.view_offset_x = iStoreViewOffsetX;
  u.view_offset_y = iStoreViewOffsetY;
@@ -5894,7 +5887,7 @@ void game::pickup(int posx, int posy, int min)
   }
   wrefresh(w_pickup);
   ch = getch();
- } while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+ } while (ch != ' ' && ch != '\n');
  if (ch != '\n') {
   werase(w_pickup);
   wrefresh(w_pickup);
@@ -6303,7 +6296,8 @@ void game::drop_in_direction()
  mvprintz(0, 0, c_red, "Choose a direction:");
  DebugLog() << __FUNCTION__ << "calling input() \n";
  int dirx, diry;
- get_direction(this, dirx, diry, input());
+ InputEvent input = get_input();
+ get_direction(dirx, diry, input);
  if (dirx == -2) {
   add_msg("Invalid direction!");
   return;
@@ -6378,7 +6372,7 @@ void game::drop_in_direction()
 void game::reassign_item()
 {
  char ch = inv("Reassign item:");
- if (ch == KEY_ESCAPE) {
+ if (ch == ' ') {
   add_msg("Never mind.");
   return;
  }
@@ -6752,7 +6746,7 @@ void game::eat()
   return;
  }
  char ch = inv_type("Consume item:", IC_COMESTIBLE);
- if (ch == KEY_ESCAPE) {
+ if (ch == ' ') {
   add_msg("Never mind.");
   return;
  }
@@ -6766,7 +6760,7 @@ void game::eat()
 void game::wear()
 {
  char ch = inv_type("Wear item:", IC_ARMOR);
- if (ch == KEY_ESCAPE) {
+ if (ch == ' ') {
   add_msg("Never mind.");
   return;
  }
@@ -8294,7 +8288,7 @@ void game::msg_buffer()
  mvwprintz(w, 24, 32, c_red, "Press q to return");
 
  int offset = 0;
- char ch;
+ InputEvent input;
  do {
   werase(w);
   wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -8348,17 +8342,17 @@ void game::msg_buffer()
    mvwprintz(w, 24, 51, c_magenta, "vvv");
   wrefresh(w);
 
-  DebugLog() << __FUNCTION__ << "calling input() \n";
-  ch = input();
+  DebugLog() << __FUNCTION__ << "calling get_input() \n";
+  input = get_input();
   int dirx = 0, diry = 0;
 
-  get_direction(this, dirx, diry, ch);
+  get_direction(dirx, diry, input);
   if (diry == -1 && offset > 0)
    offset--;
   if (diry == 1 && offset < messages.size())
    offset++;
 
- } while (ch != 'q' && ch != 'Q' && ch != ' ');
+ } while (input != Close);
 
  werase(w);
  delwin(w);
