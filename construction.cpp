@@ -431,7 +431,7 @@ void game::construction_menu()
   case KEY_ESCAPE:
    break;
   default:
-   if (ch < 96 || ch > constructions.size() + 101) break;
+   if (ch < 97 || ch > constructions.size() + 101) break;
    // Map menu items to hotkey letters, skipping j, k, l, and q.
    char hotkey = ch - ((ch < 106) ? 97 : ((ch < 112) ? 100 : 101));
    if (player_can_build(u, total_inv, constructions[hotkey])) {
