@@ -75,7 +75,7 @@ void npc::talk_to_u(game *g)
   d.topic_stack.push_back(TALK_FRIEND);
 
  int most_difficult_mission = 0;
- for (int i = 0; i < chatbin.missions.size(); i++) {
+ for (unsigned int i = 0; i < chatbin.missions.size(); i++) {
   mission_type *type = g->find_mission_type(chatbin.missions[i]);
   if (type->urgent && type->difficulty > most_difficult_mission) {
    d.topic_stack.push_back(TALK_MISSION_DESCRIBE);
@@ -85,7 +85,7 @@ void npc::talk_to_u(game *g)
  }
  most_difficult_mission = 0;
  bool chosen_urgent = false;
- for (int i = 0; i < chatbin.missions_assigned.size(); i++) {
+ for (unsigned int i = 0; i < chatbin.missions_assigned.size(); i++) {
   mission_type *type = g->find_mission_type(chatbin.missions_assigned[i]);
   if ((type->urgent && !chosen_urgent) ||
       (type->difficulty > most_difficult_mission &&
@@ -430,6 +430,8 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   return opinion.str();
  } break;
 
+ default:
+  break;
  }
 
  return "I don't know what to say. (BUG)";
@@ -454,7 +456,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    RESPONSE("Never mind, I'm not interested.");
     SUCCESS(TALK_NONE);
   } else {
-   for (int i = 0; i < p->chatbin.missions.size(); i++) {
+   for (unsigned int i = 0; i < p->chatbin.missions.size(); i++) {
     SELECT_MISS(g->find_mission_type( p->chatbin.missions[i] )->name, i);
      SUCCESS(TALK_MISSION_OFFER);
    }
@@ -473,7 +475,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    RESPONSE("Never mind.");
     SUCCESS(TALK_NONE);
   } else {
-   for (int i = 0; i < p->chatbin.missions_assigned.size(); i++) {
+   for (unsigned int i = 0; i < p->chatbin.missions_assigned.size(); i++) {
     SELECT_MISS(g->find_mission_type( p->chatbin.missions_assigned[i] )->name,
                 i);
      SUCCESS(TALK_MISSION_INQUIRE);
@@ -736,7 +738,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   int printed = 0;
   int shift = p->chatbin.tempvalue;
   bool more = trainable.size() + styles.size() - shift > 9;
-  for (int i = shift; i < trainable.size() && printed < 9; i++) {
+  for (unsigned int i = shift; i < trainable.size() && printed < 9; i++) {
    //shift--;
    printed++;
    std::stringstream skilltext;
@@ -750,7 +752,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   }
   if (shift < 0)
    shift = 0;
-  for (int i = 0; i < styles.size() && printed < 9; i++) {
+  for (unsigned int i = 0; i < styles.size() && printed < 9; i++) {
    printed++;
    SELECT_TEMP( g->itypes[styles[i]]->name + " (cost 800)",
                 0 - styles[i] );
@@ -1110,6 +1112,9 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   RESPONSE("Okay.");
    SUCCESS(TALK_NONE);
   break;
+
+ default:
+  break;
  }
 
  if (ret.empty()) {
@@ -1153,6 +1158,8 @@ int trial_chance(talk_response response, player *u, npc *p)
     chance += 30;
    break;
 
+  default:
+   break;
  }
 
  if (chance < 0)
@@ -1319,7 +1326,7 @@ void talk_function::give_equipment(game *g, npc *p)
  p->add_disease(DI_ASKED_FOR_ITEM, 1800, g);
 }
 
-void talk_function::follow(game *g, npc *p)
+void talk_function::follow(game * /*g*/, npc *p)
 {
  p->attitude = NPCATT_FOLLOW;
 }
@@ -1364,7 +1371,7 @@ void talk_function::start_mugging(game *g, npc *p)
             p->name.c_str());
 }
 
-void talk_function::player_leaving(game *g, npc *p)
+void talk_function::player_leaving(game * /*g*/, npc *p)
 {
  p->attitude = NPCATT_WAIT_FOR_LEAVE;
  p->patience = 15 - p->personality.aggression;
@@ -1375,12 +1382,12 @@ void talk_function::drop_weapon(game *g, npc *p)
  g->m.add_item(p->posx, p->posy, p->remove_weapon());
 }
 
-void talk_function::player_weapon_away(game *g, npc *p)
+void talk_function::player_weapon_away(game *g, npc * /*p*/)
 {
  g->u.i_add(g->u.remove_weapon());
 }
 
-void talk_function::player_weapon_drop(game *g, npc *p)
+void talk_function::player_weapon_drop(game *g, npc * /*p*/)
 {
  g->m.add_item(g->u.posx, g->u.posy, g->u.remove_weapon());
 }
@@ -1395,37 +1402,37 @@ void talk_function::lead_to_safety(game *g, npc *p)
  p->attitude = NPCATT_LEAD;
 }
 
-void talk_function::toggle_use_guns(game *g, npc *p)
+void talk_function::toggle_use_guns(game * /*g*/, npc *p)
 {
  p->combat_rules.use_guns = !p->combat_rules.use_guns;
 }
 
-void talk_function::toggle_use_grenades(game *g, npc *p)
+void talk_function::toggle_use_grenades(game * /*g*/, npc *p)
 {
  p->combat_rules.use_grenades = !p->combat_rules.use_grenades;
 }
 
-void talk_function::set_engagement_none(game *g, npc *p)
+void talk_function::set_engagement_none(game * /*g*/, npc *p)
 {
  p->combat_rules.engagement = ENGAGE_NONE;
 }
 
-void talk_function::set_engagement_close(game *g, npc *p)
+void talk_function::set_engagement_close(game * /*g*/, npc *p)
 {
  p->combat_rules.engagement = ENGAGE_CLOSE;
 }
 
-void talk_function::set_engagement_weak(game *g, npc *p)
+void talk_function::set_engagement_weak(game * /*g*/, npc *p)
 {
  p->combat_rules.engagement = ENGAGE_WEAK;
 }
 
-void talk_function::set_engagement_hit(game *g, npc *p)
+void talk_function::set_engagement_hit(game * /*g*/, npc *p)
 {
  p->combat_rules.engagement = ENGAGE_HIT;
 }
 
-void talk_function::set_engagement_all(game *g, npc *p)
+void talk_function::set_engagement_all(game * /*g*/, npc *p)
 {
  p->combat_rules.engagement = ENGAGE_ALL;
 }
@@ -1434,10 +1441,10 @@ void talk_function::start_training(game *g, npc *p)
 {
  int cost = 0, time = 0;
  skill sk_used = sk_null;
- itype_id style = itm_null;
+ // itype_id style = itm_null; -- Unused
  if (p->chatbin.tempvalue < 0) {
   cost = -800;
-  style = itype_id(0 - p->chatbin.tempvalue);
+ // style = itype_id(0 - p->chatbin.tempvalue); -- Unused
   time = 30000;
  } else {
    sk_used = skill(p->chatbin.tempvalue);
@@ -1542,7 +1549,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
 
  std::vector<std::string> options;
  std::vector<nc_color>    colors;
- for (int i = 0; i < responses.size(); i++) {
+ for (unsigned int i = 0; i < responses.size(); i++) {
   std::stringstream text;
   text << char('a' + i) << ": ";
   if (responses[i].trial != TALK_TRIAL_NONE)
@@ -1581,7 +1588,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  }
 
  curline = 3;
- for (int i = 0; i < options.size(); i++) {
+ for (unsigned int i = 0; i < options.size(); i++) {
   while (options[i].size() > 36) {
    split = options[i].find_last_of(' ', 36);
    mvwprintz(win, curline, 42, colors[i], options[i].substr(0, split).c_str());
@@ -1704,12 +1711,12 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
  bool getting_theirs[theirs.size()], getting_yours[yours.size()];
 
 // Adjust the prices based on your barter skill.
- for (int i = 0; i < their_price.size(); i++) {
+ for (unsigned int i = 0; i < their_price.size(); i++) {
   their_price[i] *= (price_adjustment(g->u.sklevel[sk_barter]) +
                      (p->int_cur - g->u.int_cur) / 15);
   getting_theirs[i] = false;
  }
- for (int i = 0; i < your_price.size(); i++) {
+ for (unsigned int i = 0; i < your_price.size(); i++) {
   your_price[i] /= (price_adjustment(g->u.sklevel[sk_barter]) +
                     (p->int_cur - g->u.int_cur) / 15);
   getting_yours[i] = false;
@@ -1750,7 +1757,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    mvwprintz(w_you,  0, 2, (cash > 0 || g->u.cash>=cash*-1 ? c_green:c_red),
              "You: $%d", g->u.cash);
 // Draw their list of items, starting from them_off
-   for (int i = them_off; i < theirs.size() && i < 17; i++)
+   for (unsigned int i = them_off; i < theirs.size() && i < 17; i++)
     mvwprintz(w_them, i - them_off + 1, 1,
               (getting_theirs[i] ? c_white : c_ltgray), "%c %c %s - $%d",
               char(i + 'a'), (getting_theirs[i] ? '+' : '-'),
@@ -1761,7 +1768,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    if (them_off + 17 < theirs.size())
     mvwprintw(w_them, 19, 9, "More >");
 // Draw your list of items, starting from you_off
-   for (int i = you_off; i < yours.size() && i < 17; i++)
+   for (unsigned int i = you_off; i < yours.size() && i < 17; i++)
     mvwprintz(w_you, i - you_off + 1, 1,
               (getting_yours[i] ? c_white : c_ltgray), "%c %c %s - $%d",
               char(i + 'a'), (getting_yours[i] ? '+' : '-'),
@@ -1840,20 +1847,20 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
     ch -= 'a';
     if (focus_them) {
      if (ch < theirs.size()) {
-      getting_theirs[ch] = !getting_theirs[ch];
-      if (getting_theirs[ch])
-       cash -= their_price[ch];
+      getting_theirs[unsigned(ch)] = !getting_theirs[unsigned(ch)];
+      if (getting_theirs[unsigned(ch)])
+       cash -= their_price[unsigned(ch)];
       else
-       cash += their_price[ch];
+       cash += their_price[unsigned(ch)];
       update = true;
      }
     } else {	// Focus is on the player's inventory
      if (ch < yours.size()) {
-      getting_yours[ch] = !getting_yours[ch];
-      if (getting_yours[ch])
-       cash += your_price[ch];
+      getting_yours[unsigned(ch)] = !getting_yours[unsigned(ch)];
+      if (getting_yours[unsigned(ch)])
+       cash += your_price[unsigned(ch)];
       else
-       cash -= your_price[ch];
+       cash -= your_price[unsigned(ch)];
       update = true;
      }
     }
@@ -1866,7 +1873,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
   inventory newinv;
   int practice = 0;
   std::vector<char> removing;
-  for (int i = 0; i < yours.size(); i++) {
+  for (unsigned int i = 0; i < yours.size(); i++) {
    if (getting_yours[i]) {
     newinv.push_back(g->u.inv[yours[i]]);
     practice++;
@@ -1874,10 +1881,10 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    }
   }
 // Do it in two passes, so removing items doesn't corrupt yours[]
-  for (int i = 0; i < removing.size(); i++)
+  for (unsigned int i = 0; i < removing.size(); i++)
    g->u.i_rem(removing[i]);
 
-  for (int i = 0; i < theirs.size(); i++) {
+  for (unsigned int i = 0; i < theirs.size(); i++) {
    item tmp = p->inv[theirs[i]];
    if (getting_theirs[i]) {
     practice += 2;

@@ -17,13 +17,13 @@ void player::mutate(game *g)
  std::vector<pl_flag> upgrades;
  for (int i = 1; i < PF_MAX2; i++) {
   if (has_trait(i)) {
-   for (int j = 0; j < g->mutation_data[i].replacements.size(); j++) {
+   for (unsigned int j = 0; j < g->mutation_data[i].replacements.size(); j++) {
     pl_flag tmp = g->mutation_data[i].replacements[j];
     if (!has_trait(tmp) && !has_child_flag(g, tmp) &&
         (!force_bad || traits[tmp].points <= 0))
      upgrades.push_back(tmp);
    }
-   for (int j = 0; j < g->mutation_data[i].additions.size(); j++) {
+   for (unsigned int j = 0; j < g->mutation_data[i].additions.size(); j++) {
     pl_flag tmp = g->mutation_data[i].additions[j];
     if (!has_trait(tmp) && !has_child_flag(g, tmp) &&
         (!force_bad || traits[tmp].points <= 0))
@@ -71,7 +71,7 @@ void player::mutate(game *g)
 
 // Remove anything we already have, or that we have a child of, or that's
 // positive and we're forcing bad
-  for (int i = 0; i < valid.size(); i++) {
+  for (unsigned int i = 0; i < valid.size(); i++) {
    if (has_trait(valid[i]) || has_child_flag(g, valid[i]) ||
        (force_bad && traits[ valid[i] ].points > 0)) {
     valid.erase(valid.begin() + i);
@@ -103,7 +103,7 @@ void player::mutate_towards(game *g, pl_flag mut)
  std::vector<pl_flag> prereq = g->mutation_data[mut].prereqs;
  std::vector<pl_flag> cancel = g->mutation_data[mut].cancels;
 
- for (int i = 0; i < cancel.size(); i++) {
+ for (unsigned int i = 0; i < cancel.size(); i++) {
   if (!has_trait( cancel[i] )) {
    cancel.erase(cancel.begin() + i);
    i--;
@@ -116,7 +116,7 @@ void player::mutate_towards(game *g, pl_flag mut)
   return;
  }
 
- for (int i = 0; !has_prereqs && i < prereq.size(); i++) {
+ for (unsigned int i = 0; !has_prereqs && i < prereq.size(); i++) {
   if (has_trait(prereq[i]))
    has_prereqs = true;
  }
@@ -129,10 +129,10 @@ void player::mutate_towards(game *g, pl_flag mut)
 // Check if one of the prereqs that we have TURNS INTO this one
  pl_flag replacing = PF_NULL;
  prereq = g->mutation_data[mut].prereqs; // Reset it
- for (int i = 0; i < prereq.size(); i++) {
+ for (unsigned int i = 0; i < prereq.size(); i++) {
   if (has_trait(prereq[i])) {
    pl_flag pre = prereq[i];
-   for (int j = 0; replacing == PF_NULL &&
+   for (unsigned int j = 0; replacing == PF_NULL &&
                    j < g->mutation_data[pre].replacements.size(); j++) {
     if (g->mutation_data[pre].replacements[j] == mut)
      replacing = pre;
@@ -153,7 +153,7 @@ void player::mutate_towards(game *g, pl_flag mut)
  for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++) {
   std::vector<pl_flag> group = mutations_from_category(mutation_category(i));
   bool found = false;
-  for (int j = 0; !found && j < group.size(); j++) {
+  for (unsigned int j = 0; !found && j < group.size(); j++) {
    if (group[j] == mut)
     found = true;
   }
@@ -171,9 +171,9 @@ void player::remove_mutation(game *g, pl_flag mut)
 // Check if there's a prereq we should shrink back into
  pl_flag replacing = PF_NULL;
  std::vector<pl_flag> originals = g->mutation_data[mut].prereqs;
- for (int i = 0; replacing == PF_NULL && i < originals.size(); i++) {
+ for (unsigned int i = 0; replacing == PF_NULL && i < originals.size(); i++) {
   pl_flag pre = originals[i];
-  for (int j = 0; replacing == PF_NULL &&
+  for (unsigned int j = 0; replacing == PF_NULL &&
                   j < g->mutation_data[pre].replacements.size(); j++) {
    if (g->mutation_data[pre].replacements[j] == mut)
     replacing = pre;
@@ -196,7 +196,7 @@ void player::remove_mutation(game *g, pl_flag mut)
 
 bool player::has_child_flag(game *g, pl_flag flag)
 {
- for (int i = 0; i < g->mutation_data[flag].replacements.size(); i++) {
+ for (unsigned int i = 0; i < g->mutation_data[flag].replacements.size(); i++) {
   pl_flag tmp = g->mutation_data[flag].replacements[i];
   if (has_trait(tmp) || has_child_flag(g, tmp))
    return true;
@@ -206,7 +206,7 @@ bool player::has_child_flag(game *g, pl_flag flag)
 
 void player::remove_child_flag(game *g, pl_flag flag)
 {
- for (int i = 0; i < g->mutation_data[flag].replacements.size(); i++) {
+ for (unsigned int i = 0; i < g->mutation_data[flag].replacements.size(); i++) {
   pl_flag tmp = g->mutation_data[flag].replacements[i];
   if (has_trait(tmp)) {
    remove_mutation(g, tmp);
@@ -221,7 +221,8 @@ void player::remove_child_flag(game *g, pl_flag flag)
 void mutation_effect(game *g, player &p, pl_flag mut)
 {
  bool is_u = (&p == &(g->u));
- bool destroy = false, skip_cloth = false;
+ bool destroy = false;
+ bool skip_cloth = false; // Unused
  std::vector<body_part> bps;
 
  switch (mut) {
@@ -317,10 +318,13 @@ void mutation_effect(game *g, player &p, pl_flag mut)
   case PF_PER_UP_4:
    p.per_max += 3;
    break;
+
+  default:
+   break;
  }
 
- for (int i = 0; i < p.worn.size(); i++) {
-  for (int j = 0; j < bps.size(); j++) {
+ for (unsigned int i = 0; i < p.worn.size(); i++) {
+  for (unsigned int j = 0; j < bps.size(); j++) {
    if ((dynamic_cast<it_armor*>(p.worn[i].type))->covers & mfb(bps[j])) {
     if (destroy) {
      if (is_u)
@@ -337,7 +341,7 @@ void mutation_effect(game *g, player &p, pl_flag mut)
  }
 }
 
-void mutation_loss_effect(game *g, player &p, pl_flag mut)
+void mutation_loss_effect(game * /*g*/, player &p, pl_flag mut)
 {
  switch (mut) {
   case PF_STR_UP:
@@ -390,6 +394,9 @@ void mutation_loss_effect(game *g, player &p, pl_flag mut)
    break;
   case PF_PER_UP_4:
    p.per_max -= 4;
+   break;
+
+  default:
    break;
  }
 }

@@ -331,7 +331,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
  int highest_priority = 0;
  total_danger = 0;
 
- for (int i = 0; i < g->z.size(); i++) {
+ for (unsigned int i = 0; i < g->z.size(); i++) {
   monster *mon = &(g->z[i]);
   if (g->pl_sees(this, mon, linet)) {
    int distance = (100 * rl_dist(posx, posy, mon->posx, mon->posy)) /
@@ -367,6 +367,8 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
       break;
      case ENGAGE_HIT:
       okay_by_rules = (mon->has_effect(ME_HIT_BY_PLAYER));
+      break;
+     default:
       break;
     }
    }
@@ -478,7 +480,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
  }
 
  bool has_ammo_for_empty_gun = false;
- for (int i = 0; i < empty_guns.size(); i++) {
+ for (unsigned int i = 0; i < empty_guns.size(); i++) {
   for (int j = 0; j < inv.size(); j++) {
    if (inv[j].is_ammo() &&
        inv[j].ammo_type() == inv[ empty_guns[i] ].ammo_type())
@@ -494,7 +496,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
  return npc_melee;
 }
 
-npc_action npc::address_needs(game *g, int danger)
+npc_action npc::address_needs(game * /*g*/, int danger)
 {
  if (has_healing_item()) {
   for (int i = 0; i < num_hp_parts; i++) {
@@ -638,7 +640,7 @@ int npc::choose_escape_item()
  return ret;
 }
 
-void npc::use_escape_item(game *g, int index, int target)
+void npc::use_escape_item(game *g, int index, int /*target*/)
 {
  if (index < 0 || index >= inv.size()) {
   debugmsg("%s tried to use item %d (%d in inv)", name.c_str(), index,
@@ -769,7 +771,7 @@ bool npc::wont_hit_friend(game *g, int tarx, int tary, int index)
  else
   traj = line_to(posx, posy, tarx, tary, 0);
 
- for (int i = 0; i < traj.size(); i++) {
+ for (unsigned int i = 0; i < traj.size(); i++) {
   int dist = rl_dist(posx, posy, traj[i].x, traj[i].y);
   int deviation = 1 + int(dist / confident);
   for (int x = traj[i].x - deviation; x <= traj[i].x + deviation; x++) {
@@ -1027,7 +1029,7 @@ void npc::avoid_friendly_fire(game *g, int target)
   break;
  }
 
- for (int i = 0; i < valid_moves.size(); i++) {
+ for (unsigned int i = 0; i < valid_moves.size(); i++) {
   if (can_move_to(g, valid_moves[i].x, valid_moves[i].y)) {
    move_to(g, valid_moves[i].x, valid_moves[i].y);
    return;
@@ -1069,7 +1071,7 @@ void npc::move_away_from(game *g, int x, int y)
   options.push_back( point(posx - dx, posy + dy) );
  }
 
- for (int i = 0; i < options.size(); i++) {
+ for (unsigned int i = 0; i < options.size(); i++) {
   if (can_move_to(g, options[i].x, options[i].y))
    move_to(g, options[i].x, options[i].y);
  }
@@ -1111,7 +1113,7 @@ void npc::find_item(game *g)
  for (int x = minx; x <= maxx; x++) {
   for (int y = miny; y <= maxy; y++) {
    if (g->m.sees(posx, posy, x, y, range, linet)) {
-    for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
+    for (unsigned int i = 0; i < g->m.i_at(x, y).size(); i++) {
      int itval = value(g->m.i_at(x, y)[i]);
      int wgt = g->m.i_at(x, y)[i].weight(), vol = g->m.i_at(x, y)[i].volume();
      if (itval > best_value &&
@@ -1155,7 +1157,7 @@ void npc::pick_up_item(game *g)
  int total_volume = 0, total_weight = 0; // How much the items will add
  std::vector<int> pickup; // Indices of items we want
 
- for (int i = 0; i < items->size(); i++) {
+ for (unsigned int i = 0; i < items->size(); i++) {
   int itval = value((*items)[i]), vol = (*items)[i].volume(),
       wgt = (*items)[i].weight();
   if (itval >= minimum_item_value() &&// (itval >= worst_item_value ||
@@ -1204,13 +1206,13 @@ void npc::pick_up_item(game *g)
    g->add_msg("Someone picks up several items.");
  }
 
- for (int i = 0; i < pickup.size(); i++) {
+ for (unsigned int i = 0; i < pickup.size(); i++) {
   int itval = value((*items)[pickup[i]]);
   if (itval < worst_item_value)
    worst_item_value = itval;
   i_add((*items)[pickup[i]]);
  }
- for (int i = 0; i < pickup.size(); i++) {
+ for (unsigned int i = 0; i < pickup.size(); i++) {
   g->m.i_rem(itx, ity, pickup[i]);
   for (int j = i + 1; j < pickup.size(); j++) // Fix indices
    pickup[j]--;
@@ -1246,7 +1248,7 @@ void npc::drop_items(game *g, int weight, int volume)
    vol_ratio = inv[i].volume() / value(inv[i]);
   }
   bool added_wgt = false, added_vol = false;
-  for (int j = 0; j < rWgt.size() && !added_wgt; j++) {
+  for (unsigned int j = 0; j < rWgt.size() && !added_wgt; j++) {
    if (wgt_ratio > rWgt[j].ratio) {
     added_wgt = true;
     rWgt.insert(rWgt.begin() + j, ratio_index(wgt_ratio, i));
@@ -1254,7 +1256,7 @@ void npc::drop_items(game *g, int weight, int volume)
   }
   if (!added_wgt)
    rWgt.push_back(ratio_index(wgt_ratio, i));
-  for (int j = 0; j < rVol.size() && !added_vol; j++) {
+  for (unsigned int j = 0; j < rVol.size() && !added_vol; j++) {
    if (vol_ratio > rVol[j].ratio) {
     added_vol = true;
     rVol.insert(rVol.begin() + j, ratio_index(vol_ratio, i));
@@ -1278,7 +1280,7 @@ void npc::drop_items(game *g, int weight, int volume)
    index = rWgt[0].index;
    rWgt.erase(rWgt.begin());
 // Fix the rest of those indices.
-   for (int i = 0; i < rWgt.size(); i++) {
+   for (unsigned int i = 0; i < rWgt.size(); i++) {
     if (rWgt[i].index > index)
      rWgt[i].index--;
    }
@@ -1286,7 +1288,7 @@ void npc::drop_items(game *g, int weight, int volume)
    index = rVol[0].index;
    rVol.erase(rVol.begin());
 // Fix the rest of those indices.
-   for (int i = 0; i < rVol.size(); i++) {
+   for (unsigned int i = 0; i < rVol.size(); i++) {
     if (i > rVol.size())
      debugmsg("npc::drop_items() - looping through rVol - Size is %d, i is %d",
               rVol.size(), i);
@@ -1334,7 +1336,7 @@ npc_action npc::scan_new_items(game *g, int target)
  }
 
  bool has_ammo_for_empty_gun = false;
- for (int i = 0; i < empty_guns.size(); i++) {
+ for (unsigned int i = 0; i < empty_guns.size(); i++) {
   for (int j = 0; j < inv.size(); j++) {
    if (inv[j].is_ammo() &&
        inv[j].ammo_type() == inv[ empty_guns[i] ].ammo_type())
@@ -1426,8 +1428,8 @@ void npc::alt_attack(game *g, int target)
    move_to(g, tarx, tary);
  }
 
- int index;
- item *used;
+ int index = 0;
+ item *used = NULL;
  if (weapon.type->id == which) {
   used = &weapon;
   index = -1;
@@ -1552,7 +1554,7 @@ void npc::heal_player(game *g, player &patient)
   move_to_next(g);
  } else { // Close enough to heal!
   int lowest_HP = 400;
-  hp_part worst;
+  hp_part worst = hp_part(0);
 // Chose the worst-hurting body part
   for (int i = 0; i < num_hp_parts; i++) {
    int hp = patient.hp_cur[i];
@@ -1583,7 +1585,7 @@ void npc::heal_player(game *g, player &patient)
   else
    g->add_msg("Someone heals you.");
 
-  int amount_healed;
+  int amount_healed = 0;
   if (has_amount(itm_1st_aid, 1)) {
    switch (worst) {
     case hp_head:  amount_healed = 10 + 1.6 * sklevel[sk_firstaid]; break;
@@ -1618,7 +1620,7 @@ void npc::heal_player(game *g, player &patient)
 void npc::heal_self(game *g)
 {
  int lowest_HP = 400;
- hp_part worst;
+ hp_part worst = hp_part(0);
 // Chose the worst-hurting body part
  for (int i = 0; i < num_hp_parts; i++) {
   int hp = hp_cur[i];
@@ -1633,7 +1635,7 @@ void npc::heal_self(game *g)
   }
  }
 
- int amount_healed;
+ int amount_healed = 0;
  if (has_amount(itm_1st_aid, 1)) {
   switch (worst) {
    case hp_head:  amount_healed = 10 + 1.6 * sklevel[sk_firstaid]; break;
@@ -1863,7 +1865,7 @@ bool npc::has_destination()
  return (goalx >= 0 && goalx < OMAPX && goaly >= 0 && goaly < OMAPY);
 }
 
-void npc::reach_destination(game *g)
+void npc::reach_destination(game * /*g*/)
 {
  goalx = -1;
  goaly = -1;

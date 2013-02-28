@@ -144,11 +144,11 @@ void defense_game::pre_action(game *g, action_id &act)
  }
 }
 
-void defense_game::post_action(game *g, action_id act)
+void defense_game::post_action(game */*g*/, action_id /*act*/)
 {
 }
 
-void defense_game::game_over(game *g)
+void defense_game::game_over(game */*g*/)
 {
  popup("You managed to survive through wave %d!", current_wave);
 }
@@ -175,8 +175,8 @@ void defense_game::init_mtypes(game *g)
 
 void defense_game::init_constructions(game *g)
 {
- for (int i = 0; i < g->constructions.size(); i++) {
-  for (int j = 0; j < g->constructions[i]->stages.size(); j++) {
+ for (unsigned int i = 0; i < g->constructions.size(); i++) {
+  for (unsigned int j = 0; j < g->constructions[i]->stages.size(); j++) {
    g->constructions[i]->stages[j].time = 1; // Everything takes 1 minute
   }
  }
@@ -184,7 +184,7 @@ void defense_game::init_constructions(game *g)
 
 void defense_game::init_recipes(game *g)
 {
- for (int i = 0; i < g->recipes.size(); i++) {
+ for (unsigned int i = 0; i < g->recipes.size(); i++) {
   g->recipes[i]->time /= 10; // Things take turns, not minutes
  }
 }
@@ -233,6 +233,9 @@ void defense_game::init_map(game *g)
     g->cur_om.ter(x, y) = ot_mansion;
   }
   g->cur_om.ter(50, 49) = ot_mansion_entrance;
+  break;
+
+ default:
   break;
  }
 // Init the map
@@ -428,6 +431,10 @@ void defense_game::init_to_style(defense_style new_style)
   hunger = true;
   thirst = true;
   sleep = true;
+  break;
+
+ default:
+  break;
  }
 }
 
@@ -782,7 +789,7 @@ void defense_game::caravan(game *g)
 // Init the items for each category
  for (int i = 0; i < NUM_CARAVAN_CATEGORIES; i++) {
   items[i] = caravan_items( caravan_category(i) );
-  for (int j = 0; j < items[i].size(); j++) {
+  for (unsigned int j = 0; j < items[i].size(); j++) {
    if (current_wave == 0 || !one_in(4))
     item_count[i].push_back(0); // Init counts to 0 for each item
    else { // Remove the item
@@ -891,14 +898,14 @@ Press Enter to buy everything in your cart, Esc to buy nothing.");
      total_price += caravan_price(g->u, g->itypes[tmp_itm]->price);
      if (category_selected == CARAVAN_CART) { // Find the item in its category
       for (int i = 1; i < NUM_CARAVAN_CATEGORIES; i++) {
-       for (int j = 0; j < items[i].size(); j++) {
+       for (unsigned int j = 0; j < items[i].size(); j++) {
         if (items[i][j] == tmp_itm)
          item_count[i][j]++;
        }
       }
      } else { // Add / increase the item in the shopping cart
       bool found_item = false;
-      for (int i = 0; i < items[0].size() && !found_item; i++) {
+      for (unsigned int i = 0; i < items[0].size() && !found_item; i++) {
        if (items[0][i] == tmp_itm) {
         found_item = true;
         item_count[0][i]++;
@@ -925,14 +932,14 @@ Press Enter to buy everything in your cart, Esc to buy nothing.");
      total_price -= caravan_price(g->u, g->itypes[tmp_itm]->price);
      if (category_selected == CARAVAN_CART) { // Find the item in its category
       for (int i = 1; i < NUM_CARAVAN_CATEGORIES; i++) {
-       for (int j = 0; j < items[i].size(); j++) {
+       for (unsigned int j = 0; j < items[i].size(); j++) {
         if (items[i][j] == tmp_itm)
          item_count[i][j]--;
        }
       }
      } else { // Decrease / remove the item in the shopping cart
       bool found_item = false;
-      for (int i = 0; i < items[0].size() && !found_item; i++) {
+      for (unsigned int i = 0; i < items[0].size() && !found_item; i++) {
        if (items[0][i] == tmp_itm) {
         found_item = true;
         item_count[0][i]--;
@@ -989,7 +996,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing.");
  if (!cancel) {
   g->u.cash -= total_price;
   bool dropped_some = false;
-  for (int i = 0; i < items[0].size(); i++) {
+  for (unsigned int i = 0; i < items[0].size(); i++) {
    item tmp(g->itypes[ items[0][i] ], g->turn);
    tmp = tmp.in_its_container(&(g->itypes));
    for (int j = 0; j < item_count[0][i]; j++) {
@@ -1018,6 +1025,7 @@ std::string caravan_category_name(caravan_category cat)
   case CARAVAN_FOOD:		return "Food & Drugs";
   case CARAVAN_CLOTHES:		return "Clothing & Armor";
   case CARAVAN_TOOLS:		return "Tools, Traps & Grenades";
+  default:                  break;
  }
  return "BUG";
 }
@@ -1075,6 +1083,9 @@ itm_scissors, itm_extinguisher, itm_flashlight, itm_hotplate,
 itm_soldering_iron, itm_shovel, itm_jackhammer, itm_landmine, itm_teleporter,
 itm_grenade, itm_flashbang, itm_EMPbomb, itm_smokebomb, itm_bot_manhack,
 itm_bot_turret, itm_UPS_off, itm_mininuke, NULL);
+  break;
+
+ default:
   break;
  }
 
@@ -1200,7 +1211,7 @@ void defense_game::spawn_wave(game *g)
  valid = pick_monster_wave(g);
  while (diff > 0) {
 // Clear out any monsters that exceed our remaining difficulty
-  for (int i = 0; i < valid.size(); i++) {
+  for (unsigned int i = 0; i < valid.size(); i++) {
    if (g->mtypes[valid[i]]->difficulty > diff) {
     valid.erase(valid.begin() + i);
     i--;
@@ -1290,7 +1301,7 @@ std::string defense_game::special_wave_message(std::string name)
  ret << "Wave " << current_wave << ": ";
  name[0] += 'A' - 'a'; // Capitalize
 
- for (int i = 2; i < name.size(); i++) {
+ for (unsigned int i = 2; i < name.size(); i++) {
   if (name[i - 1] == ' ')
    name[i] += 'A' - 'a';
  }
