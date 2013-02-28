@@ -1381,5 +1381,5 @@ void mattack::bite(game *g, monster *z)
             dam);
  g->u.hit(g, hit, side, dam, 0);
  if(one_in(1)){
- g->u.add_disease(DI_BITE, 360, g);}
+ g->u.add_disease(DI_BITE, 3600, g);}
 }
