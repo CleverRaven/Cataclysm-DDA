@@ -125,7 +125,7 @@ $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(TARGET) $(W32TARGET) $(ODIR)/*.o $(W32ODIR)/*.o $(W32BINDIST) \
+	rm -f $(TARGET) $(W32TARGET) $(ODIR)/*.{o,d} $(W32ODIR)/*.o $(W32BINDIST) \
 	$(BINDIST)
 	rm -rf $(BINDIST_DIR)
 
@@ -136,6 +136,13 @@ $(BINDIST): $(TARGET) $(BINDIST_EXTRAS)
 	mkdir -p $(BINDIST_DIR)
 	cp -R $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
 	$(BINDIST_CMD)
+
+export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS
+
+tests: $(ODIR) $(DDIR) $(OBJS)
+	$(MAKE) -C tests
+
+.PHONY: tests
 
 -include $(SOURCES:%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}
