@@ -1047,7 +1047,7 @@ void dis_effect(game *g, player &p, disease &dis)
     if (!p.is_npc())
      g->add_msg("You feel feverish and nauseous, your wound has begun to turn green");
 	 p.vomit(g);
-    if(p.pain < 100)
+    if(p.pain < 60)
 	p.pain++;
      }
    p.str_cur-= 2;
