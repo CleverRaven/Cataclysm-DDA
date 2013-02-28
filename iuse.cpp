@@ -95,7 +95,7 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
   }
  } else { // Player--present a menu
 
-  WINDOW* w = newwin(10, 20, 8, 1);
+  WINDOW* w = newwin(10, 22, 8, 1);
   wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
   mvwprintz(w, 1, 1, c_ltred,  "Bandage where?");
@@ -228,10 +228,10 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
   }
  } else { // Player--present a menu
    
-  WINDOW* w = newwin(10, 20, 8, 1);
+  WINDOW* w = newwin(11, 22, 8, 1);
   wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-  mvwprintz(w, 1, 1, c_ltred,  "Bandage where?");
+  mvwprintz(w, 1, 1, c_ltred,  "First Aid where?");
   mvwprintz(w, 2, 1, c_ltgray, "1: Head");
   mvwprintz(w, 3, 1, c_ltgray, "2: Torso");
   mvwprintz(w, 4, 1, c_ltgray, "3: Left Arm");
@@ -429,7 +429,7 @@ void iuse::antibiotic(game *g, player *p, item *it, bool t)
 if (p->has_disease(DI_INFECTED)){
   g->add_msg_if_player(p,"You took some antibiotics.");
   p->rem_disease(DI_INFECTED);
-  p->add_disease(DI_RECOVER, 200, g);
+  p->add_disease(DI_RECOVER, 1200, g);
   }
    else {
  g->add_msg_if_player(p,"You took some antibiotics.");
