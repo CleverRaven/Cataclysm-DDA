@@ -973,13 +973,13 @@ void dis_effect(game *g, player &p, disease &dis)
  
  case DI_BITE: //Oddzball-Infected Wound
 //3600 (6-hour) lifespan
-  if (dis.duration > 300) {	// First hour symptoms
-   if (one_in(3)) {
+  if (dis.duration > 3000) {	// First hour symptoms
+   if (one_in(300)) {
     if (!p.is_npc())
      g->add_msg("Your bite wound really hurts.");
    }
-  } else if (dis.duration > 50) {	
-   if (one_in(3)) {
+  } else if (dis.duration > 500) {	
+   if (one_in(100)) {
     if (!p.is_npc())
      g->add_msg("Your bite wound feels swollen and painful.");
     if(p.pain < 20)
@@ -996,8 +996,8 @@ void dis_effect(game *g, player &p, disease &dis)
   
  case DI_INFECTED: //Oddzball-Infected Wound
 	p.dex_cur-= 1;
-  if (dis.duration > 1080) {	// First hour symptoms
-   if (one_in(3)) {
+  if (dis.duration > 10800) {	// First hour symptoms
+   if (one_in(300)) {
     if (!p.is_npc())
      g->add_msg("Your infected wound is incredibly painful");
 	 if(p.pain < 40)
@@ -1005,8 +1005,8 @@ void dis_effect(game *g, player &p, disease &dis)
    }
    p.str_cur-= 1;
    p.dex_cur-= 1;
-  } else if (dis.duration > 720) {	
-   if (one_in(3)) {
+  } else if (dis.duration > 7200) {	
+   if (one_in(100)) {
     if (!p.is_npc())
      g->add_msg("You feel feverish and nauseous, your wound has begun to turn green");
 	 p.vomit(g);
@@ -1016,8 +1016,8 @@ void dis_effect(game *g, player &p, disease &dis)
    p.str_cur-= 2;
    p.dex_cur-= 2;
    }
-   else if (dis.duration > 360) {	
-   if (one_in(3)) {
+   else if (dis.duration > 3600) {	
+   if (one_in(100)) {
     if (!p.is_npc())
      g->add_msg("You can barely remain standing");
 	 p.vomit(g);
@@ -1230,11 +1230,11 @@ std::string dis_name(disease dis)
    default: return "VIPER BUG!!!!";
   }
   case DI_BITE:
-  if (dis.duration > 300) return "Bite Wound";
+  if (dis.duration > 3000) return "Bite Wound";
                            return "Painful Bite Wound";
   case DI_INFECTED:
-  if (dis.duration > 1080) return "Infected Wound";
-  if (dis.duration > 720) return "Painful Infected Wound";
+  if (dis.duration > 10800) return "Infected Wound";
+  if (dis.duration > 7200) return "Painful Infected Wound";
   return "Puss Filled Wound";
   case DI_RECOVER:	return "Recovering From Infection";
 
