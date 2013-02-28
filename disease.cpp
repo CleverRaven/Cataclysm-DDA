@@ -990,7 +990,7 @@ void dis_effect(game *g, player &p, disease &dis)
    }
   else {	// Infection starts
    p.rem_disease(DI_BITE);
-   p.add_disease(DI_INFECTED, 1440, g); //Oddzball 1 day of timer
+   p.add_disease(DI_INFECTED, 14400, g); //Oddzball 1 day of timer
   }
   break;
   
