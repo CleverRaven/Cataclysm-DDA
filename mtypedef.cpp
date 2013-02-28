@@ -438,7 +438,7 @@ Actual cannibal Shia LaBeouf!");
  
  mon("child zombie",species_zombie, 'z',	c_ltgreen,	MS_SMALL,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  10, 3,100,100,80, 8,  1,  7,  1,  4,  0,  0, 45, 25,  0,
+	  10, 3,100,100, 70, 8,  1,  3,  2,  2,  0,  0, 10, 25,  0,
 	&mdeath::normal,	&mattack::none, "\
 A horrifying child zombie, you feel\n\
 a twinge of remorse looking at it."
