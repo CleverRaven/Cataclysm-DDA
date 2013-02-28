@@ -4192,7 +4192,7 @@ case ot_lmoe: {
     int origx = rng(SEEX - 1, SEEX), origy = rng(SEEY - 1, SEEY),
         hermx = rng(SEEX - 6, SEEX + 5), hermy = rng(SEEX - 6, SEEY + 5);
     std::vector<point> bloodline = line_to(origx, origy, hermx, hermy, 0);
-    for (int ii = 0; ii < bloodline.size(); ii++)
+    for (unsigned int ii = 0; ii < bloodline.size(); ii++)
      add_field(g, bloodline[ii].x, bloodline[ii].y, fd_blood, 2);
     item body;
     body.make_corpse(g->itypes[itm_corpse], g->mtypes[mon_null], g->turn);
@@ -4215,7 +4215,7 @@ case ot_lmoe: {
     pathy = rng(SEEY - 6, SEEY + 5);
    }
    std::vector<point> pathline = line_to(pathx, pathy, SEEX - 1, SEEY - 1, 0);
-   for (int ii = 0; ii < pathline.size(); ii++)
+   for (unsigned int ii = 0; ii < pathline.size(); ii++)
     square(this, t_dirt, pathline[ii].x,     pathline[ii].y,
                          pathline[ii].x + 1, pathline[ii].y + 1);
    while (!one_in(8))
@@ -4262,7 +4262,7 @@ case ot_lmoe: {
    do {
     int tox = (one_in(2) ? 2 : SEEX * 2 - 3), toy = rng(2, SEEY * 2 - 3);
     std::vector<point> path = line_to(centerx, SEEY - 1, tox, toy, 0);
-    for (int i = 0; i < path.size(); i++) {
+    for (unsigned int i = 0; i < path.size(); i++) {
      for (int cx = path[i].x - 1; cx <= path[i].x + 1; cx++) {
       for (int cy = path[i].y - 1; cy <= path[i].y + 1; cy++) {
        ter(cx, cy) = t_rock_floor;
@@ -7336,7 +7336,7 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
  }
 
  int item_chance = 0;	// # of items
- for (int i = 0; i < eligible.size(); i++)
+ for (unsigned int i = 0; i < eligible.size(); i++)
   item_chance += (*itypes)[eligible[i]]->rarity;
  int selection, randnum;
  int px, py;
@@ -7377,7 +7377,7 @@ void map::put_items_from(items_location loc, int num, int x, int y, int turn)
 {
  std::vector<itype_id> eligible = (*mapitems)[loc];
  int item_chance = 0;	// # of items
- for (int i = 0; i < eligible.size(); i++)
+ for (unsigned int i = 0; i < eligible.size(); i++)
   item_chance += (*itypes)[eligible[i]]->rarity;
 
  for (int i = 0; i < num; i++) {
@@ -7499,7 +7499,7 @@ void map::rotate(int turns)
    for (int sy = 0; sy < 2; sy++) {
     int gridfrom = sx + sy * my_MAPSIZE;
     int gridto = sx * my_MAPSIZE + 1 - sy;
-    for (int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
+    for (unsigned int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
      spawn_point tmp = grid[gridfrom]->spawns[j];
      int tmpy = tmp.posy;
      tmp.posy = tmp.posx;
@@ -7536,7 +7536,7 @@ void map::rotate(int turns)
    for (int sy = 0; sy < 2; sy++) {
     int gridfrom = sx + sy * my_MAPSIZE;
     int gridto = (1 - sy) * my_MAPSIZE + 1 - sx;
-    for (int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
+    for (unsigned int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
      spawn_point tmp = grid[gridfrom]->spawns[j];
      tmp.posy = SEEY - 1 - tmp.posy;
      tmp.posx = SEEX - 1 - tmp.posx;
@@ -7573,7 +7573,7 @@ void map::rotate(int turns)
    for (int sy = 0; sy < 2; sy++) {
     int gridfrom = sx + sy * my_MAPSIZE;
     int gridto = (1 - sx) * my_MAPSIZE + sy;
-    for (int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
+    for (unsigned int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
      spawn_point tmp = grid[gridfrom]->spawns[j];
      int tmpy = tmp.posy;
      tmp.posy = SEEX - 1 - tmp.posx;
@@ -7601,7 +7601,7 @@ void map::rotate(int turns)
 
 // change vehicles' directions
  for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++)
-     for (int v = 0; v < grid[i]->vehicles.size(); v++)
+     for (unsigned int v = 0; v < grid[i]->vehicles.size(); v++)
          if (turns >= 1 && turns <= 3)
             grid[i]->vehicles[v]->turn (turns * 90);
 
@@ -8366,7 +8366,7 @@ void silo_rooms(map *m)
 
  while (rooms.size() > 1) {
   int best_dist = 999, closest = 0;
-  for (int i = 1; i < rooms.size(); i++) {
+  for (unsigned int i = 1; i < rooms.size(); i++) {
    int dist = trig_dist(rooms[0].x, rooms[0].y, rooms[i].x, rooms[i].y);
    if (dist < best_dist) {
     best_dist = dist;
@@ -9159,7 +9159,7 @@ void map::add_extra(map_extra type, game *g)
   int x1 = rng(0,    SEEX     - 1), y1 = rng(0,    SEEY     - 1),
       x2 = rng(SEEX, SEEX * 2 - 1), y2 = rng(SEEY, SEEY * 2 - 1);
   std::vector<point> fumarole = line_to(x1, y1, x2, y2, 0);
-  for (int i = 0; i < fumarole.size(); i++)
+  for (unsigned int i = 0; i < fumarole.size(); i++)
    ter(fumarole[i].x, fumarole[i].y) = t_lava;
  }
  break;
@@ -9319,7 +9319,7 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
 void line(map *m, ter_id type, int x1, int y1, int x2, int y2)
 {
  std::vector<point> line = line_to(x1, y1, x2, y2, 0);
- for (int i = 0; i < line.size(); i++)
+ for (unsigned int i = 0; i < line.size(); i++)
   m->ter(line[i].x, line[i].y) = type;
  m->ter(x1, y1) = type;
 }

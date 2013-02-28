@@ -420,14 +420,14 @@ void light_map::build_light_cache(game* g, int cx, int cy)
  }
 
  // Check for critters and cache
- for (int i = 0; i < g->z.size(); ++i)
+ for (unsigned int i = 0; i < g->z.size(); ++i)
   if (INBOUNDS(g->z[i].posx - cx, g->z[i].posy - cy))
    c[g->z[i].posx - cx + LIGHTMAP_RANGE_X][g->z[i].posy - cy + LIGHTMAP_RANGE_Y].mon = i;
 
  // Check for vehicles and cache
  VehicleList vehs = g->m.get_vehicles(cx - LIGHTMAP_RANGE_X, cy - LIGHTMAP_RANGE_Y, cx + LIGHTMAP_RANGE_X, cy + LIGHTMAP_RANGE_Y);
- for(int v = 0; v < vehs.size(); ++v) {
-  for(int p = 0; p < vehs[v].v->parts.size(); ++p) {
+ for(unsigned int v = 0; v < vehs.size(); ++v) {
+  for(unsigned int p = 0; p < vehs[v].v->parts.size(); ++p) {
    int px = vehs[v].x + vehs[v].v->parts[p].precalc_dx[0] - cx;
    int py = vehs[v].y + vehs[v].v->parts[p].precalc_dy[0] - cy;
 

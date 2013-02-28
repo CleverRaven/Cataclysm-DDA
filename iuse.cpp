@@ -408,7 +408,7 @@ void iuse::alcohol(game *g, player *p, item * /*it*/, bool /*t*/)
  p->add_disease(DI_DRUNK, duration, g);
 }
 
-void iuse::cig(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::cig(game *g, player *p, item *it, bool /*t*/)
 {
  if (it->type->id == itm_cig)
   g->add_msg_if_player(p,"You light a cigarette and smoke it.");
@@ -1106,7 +1106,7 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool /*t*/)
  } else if (ch == '3') {	// General S.O.S.
   p->moves -= 150;
   std::vector<npc*> in_range;
-  for (int i = 0; i < g->cur_om.npcs.size(); i++) {
+  for (unsigned int i = 0; i < g->cur_om.npcs.size(); i++) {
    if (g->cur_om.npcs[i].op_of_u.value >= 4 &&
        rl_dist(g->levx, g->levy, g->cur_om.npcs[i].mapx,
                                    g->cur_om.npcs[i].mapy) <= 30)
@@ -1143,7 +1143,7 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
  if (t) {	// Normal use
   int best_signal = 0;
   std::string message = "Radio: Kssssssssssssh.";
-  for (int k = 0; k < g->cur_om.radios.size(); k++) {
+  for (unsigned int k = 0; k < g->cur_om.radios.size(); k++) {
    int signal = g->cur_om.radios[k].strength -
                 rl_dist(g->cur_om.radios[k].x, g->cur_om.radios[k].y,
                           g->levx, g->levy);
@@ -1153,7 +1153,7 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
    }
   }
   if (best_signal > 0) {
-   for (int j = 0; j < message.length(); j++) {
+   for (unsigned int j = 0; j < message.length(); j++) {
     if (dice(10, 100) > dice(10, best_signal * 3)) {
      if (!one_in(10))
       message[j] = '#';
@@ -2283,7 +2283,7 @@ void iuse::vortex(game *g, player *p, item *it, bool /*t*/)
 void iuse::dog_whistle(game *g, player *p, item * /*it*/, bool /*t*/)
 {
  g->add_msg_if_player(p,"You blow your dog whistle.");
- for (int i = 0; i < g->z.size(); i++) {
+ for (unsigned int i = 0; i < g->z.size(); i++) {
   if (g->z[i].friendly != 0 && g->z[i].type->id == mon_dog) {
    int linet;
    bool u_see = g->u_see(&(g->z[i]), linet);
@@ -2312,7 +2312,7 @@ void iuse::vacutainer(game *g, player *p, item *it, bool /*t*/)
 
  item blood(g->itypes[itm_blood], g->turn);
  bool drew_blood = false;
- for (int i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
+ for (unsigned int i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
   item *it = &(g->m.i_at(p->posx, p->posy)[i]);
   if (it->type->id == itm_corpse &&
       query_yn("Draw blood from %s?", it->tname().c_str())) {
@@ -3305,7 +3305,7 @@ void iuse::artifact(game *g, player *p, item *it, bool /*t*/)
   } break;
 
   case AEA_HURTALL:
-   for (int i = 0; i < g->z.size(); i++)
+   for (unsigned int i = 0; i < g->z.size(); i++)
     g->z[i].hurt(rng(0, 5));
    break;
 

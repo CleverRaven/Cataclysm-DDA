@@ -43,7 +43,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
 // Print our weapon
  mvwprintz(w_inv, 2, 45, c_magenta, "WEAPON:");
  int dropping_weapon = false;
- for (int i = 0; i < dropped_items.size() && !dropping_weapon; i++) {
+ for (unsigned int i = 0; i < dropped_items.size() && !dropping_weapon; i++) {
   if (dropped_items[i] == g->u.weapon.invlet)
    dropping_weapon = true;
  }
@@ -62,9 +62,9 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
 // Print worn items
  if (g->u.worn.size() > 0)
   mvwprintz(w_inv, 5, 45, c_magenta, "ITEMS WORN:");
- for (int i = 0; i < g->u.worn.size(); i++) {
+ for (unsigned int i = 0; i < g->u.worn.size(); i++) {
   bool dropping_armor = false;
-  for (int j = 0; j < dropped_items.size() && !dropping_armor; j++) {
+  for (unsigned int j = 0; j < dropped_items.size() && !dropping_armor; j++) {
    if (dropped_items[j] == g->u.worn[i].invlet)
     dropping_armor = true;
   }
@@ -375,7 +375,7 @@ std::vector<item> game::multidrop()
    int index = u.inv.index_by_letter(ch);
    if (index == -1) { // Not from inventory
     int found = false;
-    for (int i = 0; i < weapon_and_armor.size() && !found; i++) {
+    for (unsigned int i = 0; i < weapon_and_armor.size() && !found; i++) {
      if (weapon_and_armor[i] == ch) {
       weapon_and_armor.erase(weapon_and_armor.begin() + i);
       found = true;
@@ -472,7 +472,7 @@ std::vector<item> game::multidrop()
   current_stack++;
  }
 
- for (int i = 0; i < weapon_and_armor.size(); i++)
+ for (unsigned int i = 0; i < weapon_and_armor.size(); i++)
   ret.push_back(u.i_rem(weapon_and_armor[i]));
 
  return ret;
@@ -508,7 +508,7 @@ void game::compare(int iCompareX, int iCompareY)
  std::vector <item> grounditems;
  //Filter out items with the same name (keep only one of them)
  std::map <std::string, bool> dups;
- for (int i = 0; i < here.size(); i++) {
+ for (unsigned int i = 0; i < here.size(); i++) {
   if (!dups[here[i].tname(this).c_str()]) {
    grounditems.push_back(here[i]);
    dups[here[i].tname(this).c_str()] = true;
@@ -534,7 +534,7 @@ void game::compare(int iCompareX, int iCompareY)
  if (groundsize > 0) {
   firsts.push_back(0);
  }
- for (int i = 0; i < first.size(); i++) {
+ for (unsigned int i = 0; i < first.size(); i++) {
   firsts.push_back((first[i] >= 0) ? first[i]+groundsize : -1);
  }
  ch = '.';
@@ -602,7 +602,7 @@ void game::compare(int iCompareX, int iCompareY)
    int index = u.inv.index_by_letter(ch);
    if (index == -1) { // Not from inventory
     bool found = false;
-    for (int i = 0; i < weapon_and_armor.size() && !found; i++) {
+    for (unsigned int i = 0; i < weapon_and_armor.size() && !found; i++) {
      if (weapon_and_armor[i] == ch) {
       weapon_and_armor.erase(weapon_and_armor.begin() + i);
       found = true;
