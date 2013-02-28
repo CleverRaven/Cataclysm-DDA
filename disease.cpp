@@ -627,7 +627,7 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_BLEED:
-  if (!p.is_npc() && one_in(3)) {
+  if (!p.is_npc() && one_in(6)) {
    g->add_msg("You lose some blood.");
    p.pain++;
    p.hurt(g, bp_torso, 0, 1);
@@ -1010,12 +1010,12 @@ void dis_effect(game *g, player &p, disease &dis)
  
  case DI_BITE: //Oddzball-Infected Wound
 //3600 (6-hour) lifespan
-  if (dis.duration > 3000) {	// First hour symptoms
+  if (dis.duration > 2400) {	// First symptoms for 2 hours
    if (one_in(300)) {
     if (!p.is_npc())
      g->add_msg("Your bite wound really hurts.");
    }
-  } else if (dis.duration > 500) {	
+  } else if (dis.duration > 1200) {	//Pain at 4 hours in
    if (one_in(100)) {
     if (!p.is_npc())
      g->add_msg("Your bite wound feels swollen and painful.");
@@ -1033,7 +1033,7 @@ void dis_effect(game *g, player &p, disease &dis)
   
  case DI_INFECTED: //Oddzball-Infected Wound
 	p.dex_cur-= 1;
-  if (dis.duration > 10800) {	// First hour symptoms
+  if (dis.duration > 10800) {	// Infection Symptoms 6 hours into infection
    if (one_in(300)) {
     if (!p.is_npc())
      g->add_msg("Your infected wound is incredibly painful");
@@ -1042,7 +1042,7 @@ void dis_effect(game *g, player &p, disease &dis)
    }
    p.str_cur-= 1;
    p.dex_cur-= 1;
-  } else if (dis.duration > 7200) {	
+  } else if (dis.duration > 7200) {	//Infection Symptoms 12 hours into infection
    if (one_in(100)) {
     if (!p.is_npc())
      g->add_msg("You feel feverish and nauseous, your wound has begun to turn green");
@@ -1053,7 +1053,7 @@ void dis_effect(game *g, player &p, disease &dis)
    p.str_cur-= 2;
    p.dex_cur-= 2;
    }
-   else if (dis.duration > 3600) {	
+   else if (dis.duration > 3600) {	//Infection Symptoms 18 hours into infection
    if (one_in(100)) {
     if (!p.is_npc())
      g->add_msg("You can barely remain standing");
@@ -1063,13 +1063,13 @@ void dis_effect(game *g, player &p, disease &dis)
      }
    p.str_cur-= 2;
    p.dex_cur-= 2;
-   if(one_in(5))
+   if(one_in(10))
    {
    g->add_msg("You pass out");
    p.add_disease(DI_SLEEP, 60, g);
    }
    }
-  else {	// You die.
+  else {	// You die. 24 hours after infection Total time, 30 hours including bite.
   
    g->add_msg("You succumb to the infection");
    p.hurtall(500); 
