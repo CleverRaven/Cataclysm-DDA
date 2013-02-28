@@ -171,6 +171,8 @@ class map
 // mapgen.cpp functions
  void generate(game *g, overmap *om, const int x, const int y, const int turn);
  void post_process(game *g, unsigned zones);
+ void place_spawns(game *g, moncat_id monster_type, int chance, int x1, int y1,
+                   int x2, int y2, int min, int max);
  void place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn);
 // put_items_from puts exactly num items, based on chances
