@@ -764,7 +764,7 @@ void mattack::plant(game *g, monster *z)
  }
 }
 
-void mattack::disappear(game *g, monster *z)
+void mattack::disappear(game * /*g*/, monster *z)
 {
  z->hp = 0;
 }
@@ -1124,7 +1124,7 @@ void mattack::tazer(game *g, monster *z)
 
 void mattack::smg(game *g, monster *z)
 {
- int t, j, fire_t;
+ int t = 0, j = 0, fire_t = 0;
  if (z->friendly != 0) { // Attacking monsters, not the player!
   monster* target = NULL;
   int closest = 19;

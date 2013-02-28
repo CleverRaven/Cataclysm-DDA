@@ -231,11 +231,11 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 //  integer that indicates on which turn the items were created.  This final
 //  integer should be 0, unless the items are "fresh-grown" like wild fruit.
 
- int rn, lw, rw, mw, tw, bw, cw, x, y;
+ int rn = 0, lw = 0, rw = 0, mw = 0, tw = 0, bw = 0, cw = 0, x = 0, y = 0;
  int n_fac = 0, e_fac = 0, s_fac = 0, w_fac = 0;
  computer *tmpcomp = NULL;
-       int SEEX_oth=SEEX;
-       int SEEY_oth=SEEY-5;
+       //int SEEX_oth=SEEX; -- unused
+       //int SEEY_oth=SEEY-5; -- unused
 
  switch (terrain_type) {
 
@@ -2883,8 +2883,8 @@ case ot_lmoe: {
 
 // Fill rooms with items!
     for (int i = 2; i <= 15; i += 13) {
-     items_location goods;
-     int size;
+     items_location goods = items_location(0);
+     int size = 0;
      switch (rng(1, 14)) {
       case  1:
       case  2: goods = mi_bots; size = 85; break;
@@ -4242,7 +4242,7 @@ case ot_lmoe: {
   } else { // Level 1
    int cavex = SEEX, cavey = SEEY * 2 - 3;
    int stairsx = SEEX - 1, stairsy = 1; // Default stairs location--may change
-   int centerx;
+   int centerx = 0;
    do {
     cavex += rng(-1, 1);
     cavey -= rng(0, 1);
@@ -7709,7 +7709,8 @@ bool connects_to(oter_id there, int dir)
 
 void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
 {
-    int pos_x1=0; int pos_x2=0; int pos_y1=0; int pos_y2=0;
+    int pos_x1=0; int pos_y1=0;
+    // int pos_x2=0; int pos_y2=0; -- Unused
  for (int i = x1; i <= x2; i++) {
   for (int j = y1; j <= y2; j++) {
    if (m->ter(i, j) == t_grass || m->ter(i, j) == t_dirt ||
@@ -8934,8 +8935,8 @@ void map::add_extra(map_extra type, game *g)
   if (move_cost(x, y) != 0)
    ter(x, y) = t_dirt;
 
-  int size;
-  items_location stash;
+  int size = 0;
+  items_location stash = items_location(0);
   switch (rng(1, 6)) {	// What kind of stash?
    case 1: stash = mi_stash_food;	size = 90;	break;
    case 2: stash = mi_stash_ammo;	size = 80;	break;
@@ -8953,7 +8954,7 @@ void map::add_extra(map_extra type, game *g)
   for (int i = x - 4; i <= x + 4; i++) {
    for (int j = y - 4; j <= y + 4; j++) {
     if (i >= 0 && j >= 0 && i < SEEX * 2 && j < SEEY * 2 && one_in(4)) {
-     trap_id placed;
+     trap_id placed = trap_id(0);
      switch (rng(1, 7)) {
       case 1:
       case 2:
@@ -8978,8 +8979,8 @@ void map::add_extra(map_extra type, game *g)
 
  case mx_drugdeal: {
 // Decide on a drug type
-  int num_drugs;
-  itype* drugtype;
+  int num_drugs = 0;
+  itype* drugtype = NULL;
   switch (rng(1, 10)) {
    case 1: // Weed
     num_drugs = rng(20, 30);

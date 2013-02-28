@@ -54,7 +54,7 @@ struct vehicle_part
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
     }
-    bool has_flag( int flag ) { return flag & flags; }
+    bool has_flag( int flag ) { return (flag & flags) != 0; }
     int set_flag( int flag ) { return flags |= flag; }
     int remove_flag( int flag ) { return flags &= ~flag; }
 

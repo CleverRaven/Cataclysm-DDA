@@ -141,7 +141,7 @@ public:
 
  std::string name;
  char invlet;           // Inventory letter
- unsigned int charges;
+ int charges;
  bool active;           // If true, it has active effects to be processed
  signed char damage;    // How much damage it's sustained; generally, max is 5
  char burnt;	         // How badly we're burnt

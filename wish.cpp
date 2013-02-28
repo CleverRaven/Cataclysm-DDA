@@ -38,7 +38,7 @@ void game::wish()
       result_selected = 0;
      shift = search_results[result_selected];
      a = 0;
-     if (shift + 23 > itypes.size()) {
+     if (unsigned(shift + 23) > itypes.size()) {
       a = shift + 23 - itypes.size();
       shift = itypes.size() - 23;
      }
@@ -51,7 +51,7 @@ void game::wish()
       result_selected = search_results.size() - 1;
      shift = search_results[result_selected];
      a = 0;
-     if (shift + 23 > itypes.size()) {
+     if (unsigned(shift + 23) > itypes.size()) {
       a = shift + 23 - itypes.size();
       shift = itypes.size() - 23;
      }
@@ -62,12 +62,12 @@ void game::wish()
    }
 
    if (search) {
-    for (int i = 0; i < itypes.size(); i++) {
+    for (unsigned int i = 0; i < itypes.size(); i++) {
      if (itypes[i]->name.find(pattern) != std::string::npos) {
       shift = i;
       a = 0;
       result_selected = 0;
-      if (shift + 23 > itypes.size()) {
+      if (unsigned(shift + 23) > itypes.size()) {
        a = shift + 23 - itypes.size();
        shift = itypes.size() - 23;
       }
@@ -96,7 +96,7 @@ void game::wish()
      result_selected = 0;
     shift = search_results[result_selected];
     a = 0;
-    if (shift + 23 > itypes.size()) {
+    if (unsigned(shift + 23) > itypes.size()) {
      a = shift + 23 - itypes.size();
      shift = itypes.size() - 23;
     }
@@ -106,7 +106,7 @@ void game::wish()
      result_selected = search_results.size() - 1;
     shift = search_results[result_selected];
     a = 0;
-    if (shift + 23 > itypes.size()) {
+    if (unsigned(shift + 23) > itypes.size()) {
      a = shift + 23 - itypes.size();
      shift = itypes.size() - 23;
     }

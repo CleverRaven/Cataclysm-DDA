@@ -401,7 +401,7 @@ void veh_interact::do_remove(int reason)
     }
 }
 
-void veh_interact::do_rename(int reason)
+void veh_interact::do_rename(int /*reason*/)
 {
 std::string name = string_input_popup("Enter new vehicle name", 20);
 (veh->name = name);

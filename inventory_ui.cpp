@@ -183,7 +183,7 @@ char game::inv_type(std::string title, int inv_item_type)
  WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), 0, 0);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  char ch = '.';
- int start = 0, cur_it;
+ int start = 0, cur_it = 0;
  u.sort_inv();
  u.inv.restack(&u);
  std::vector<char> null_vector;
@@ -314,7 +314,7 @@ std::vector<item> game::multidrop()
  std::vector<int> firsts = find_firsts(u.inv);
 
  char ch = '.';
- int start = 0, cur_it;
+ int start = 0, cur_it = 0;
  do {
   if (ch == '<' && start > 0) {
    for (int i = 1; i < maxitems+4; i++)
@@ -523,7 +523,7 @@ void game::compare(int iCompareX, int iCompareY)
  int compare[u.inv.size() + groundsize]; // Count of how many we'll drop from each stack
  bool bFirst = false; // First Item selected
  bool bShowCompare = false;
- char cLastCh;
+ char cLastCh = 0;
  for (int i = 0; i < u.inv.size() + groundsize; i++)
   compare[i] = 0;
  std::vector<char> weapon_and_armor; // Always single, not counted
@@ -538,7 +538,7 @@ void game::compare(int iCompareX, int iCompareY)
   firsts.push_back((first[i] >= 0) ? first[i]+groundsize : -1);
  }
  ch = '.';
- int start = 0, cur_it;
+ int start = 0, cur_it = (0);
  do {
   if (ch == '<' && start > 0) {
    for (int i = 1; i < maxitems+4; i++)

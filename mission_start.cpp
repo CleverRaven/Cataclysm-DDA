@@ -8,7 +8,7 @@
  * updating *miss with the target and any other important information.
  */
 
-void mission_start::standard(game *g, mission *miss)
+void mission_start::standard(game * /*g*/, mission * /*miss*/)
 {
 }
 
@@ -251,6 +251,6 @@ void mission_start::find_safety(game *g, mission *miss)
  }
 }
 
-void mission_start::place_book(game *g, mission *miss)
+void mission_start::place_book(game * /*g*/, mission * /*miss*/)
 {
 }

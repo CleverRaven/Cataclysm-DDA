@@ -409,11 +409,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
 
  } else if (is_gun()) {
   it_gun* gun = dynamic_cast<it_gun*>(type);
-  int ammo_dam = 0, ammo_recoil = 0;
+  int ammo_dam = 0; //ammo_recoil = 0;
   bool has_ammo = (curammo != NULL && charges > 0);
   if (has_ammo) {
    ammo_dam = curammo->damage;
-   ammo_recoil = curammo->recoil;
+   //ammo_recoil = curammo->recoil;
   }
 
   dump->push_back(iteminfo("GUN", " Skill used: ", gun->skill_used->name()));
@@ -676,7 +676,7 @@ nc_color item::color(player *u)
  return ret;
 }
 
-nc_color item::color_in_inventory(player *u)
+nc_color item::color_in_inventory(player * /*u*/)
 {
 // Items in our inventory get colorized specially
  nc_color ret = c_white;
@@ -832,7 +832,7 @@ int item::price()
 int item::weight()
 {
  if (typeId() == itm_corpse) {
-  int ret;
+  int ret = 0;
   switch (corpse->size) {
    case MS_TINY:   ret =    5;	break;
    case MS_SMALL:  ret =   60;	break;
@@ -1808,17 +1808,18 @@ bool item::reload(player &u, int index)
     reload_target->charges = max_load;
    }
   }
-  if (ammo_to_use->charges == 0)
+  if (ammo_to_use->charges == 0){
    if (u.inv[index].is_container())
      u.inv[index].contents.erase(u.inv[index].contents.begin());
    else
     u.i_remn(index);
+  }
   return true;
  } else
   return false;
 }
 
-void item::use(player &u)
+void item::use(player & /*u*/)
 {
  if (charges > 0)
   charges--;

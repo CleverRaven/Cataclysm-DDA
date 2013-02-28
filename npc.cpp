@@ -206,7 +206,7 @@ std::string npc::save_info()
  return dump.str();
 }
 
-void npc::load_info(game *g, std::string data)
+void npc::load_info(game * /*g*/, std::string data)
 {
  std::stringstream dump;
  std::string tmpname;
@@ -1254,7 +1254,7 @@ void npc::form_opinion(player *u)
   attitude = NPCATT_FLEE;
 }
 
-talk_topic npc::pick_talk_topic(player *u)
+talk_topic npc::pick_talk_topic(player * /*u*/)
 {
  //form_opinion(u);
  if (personality.aggression > 0) {
@@ -1337,7 +1337,7 @@ void npc::make_angry()
   attitude = NPCATT_KILL; // Yeah, we think we could take you!
 }
 
-bool npc::wants_to_travel_with(player *p)
+bool npc::wants_to_travel_with(player * /*p*/)
 {
  return true;
 }

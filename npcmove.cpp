@@ -496,7 +496,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
  return npc_melee;
 }
 
-npc_action npc::address_needs(game *g, int danger)
+npc_action npc::address_needs(game * /*g*/, int danger)
 {
  if (has_healing_item()) {
   for (int i = 0; i < num_hp_parts; i++) {
@@ -640,7 +640,7 @@ int npc::choose_escape_item()
  return ret;
 }
 
-void npc::use_escape_item(game *g, int index, int target)
+void npc::use_escape_item(game *g, int index, int /*target*/)
 {
  if (index < 0 || index >= inv.size()) {
   debugmsg("%s tried to use item %d (%d in inv)", name.c_str(), index,
@@ -1428,8 +1428,8 @@ void npc::alt_attack(game *g, int target)
    move_to(g, tarx, tary);
  }
 
- int index;
- item *used;
+ int index = 0;
+ item *used = NULL;
  if (weapon.type->id == which) {
   used = &weapon;
   index = -1;
@@ -1554,7 +1554,7 @@ void npc::heal_player(game *g, player &patient)
   move_to_next(g);
  } else { // Close enough to heal!
   int lowest_HP = 400;
-  hp_part worst;
+  hp_part worst = hp_part(0);
 // Chose the worst-hurting body part
   for (int i = 0; i < num_hp_parts; i++) {
    int hp = patient.hp_cur[i];
@@ -1585,7 +1585,7 @@ void npc::heal_player(game *g, player &patient)
   else
    g->add_msg("Someone heals you.");
 
-  int amount_healed;
+  int amount_healed = 0;
   if (has_amount(itm_1st_aid, 1)) {
    switch (worst) {
     case hp_head:  amount_healed = 10 + 1.6 * sklevel[sk_firstaid]; break;
@@ -1620,7 +1620,7 @@ void npc::heal_player(game *g, player &patient)
 void npc::heal_self(game *g)
 {
  int lowest_HP = 400;
- hp_part worst;
+ hp_part worst = hp_part(0);
 // Chose the worst-hurting body part
  for (int i = 0; i < num_hp_parts; i++) {
   int hp = hp_cur[i];
@@ -1635,7 +1635,7 @@ void npc::heal_self(game *g)
   }
  }
 
- int amount_healed;
+ int amount_healed = 0;
  if (has_amount(itm_1st_aid, 1)) {
   switch (worst) {
    case hp_head:  amount_healed = 10 + 1.6 * sklevel[sk_firstaid]; break;
@@ -1865,7 +1865,7 @@ bool npc::has_destination()
  return (goalx >= 0 && goalx < OMAPX && goaly >= 0 && goaly < OMAPY);
 }
 
-void npc::reach_destination(game *g)
+void npc::reach_destination(game * /*g*/)
 {
  goalx = -1;
  goaly = -1;

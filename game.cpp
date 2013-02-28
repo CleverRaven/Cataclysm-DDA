@@ -214,7 +214,7 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
    templates.push_back(tmp.substr(0, tmp.find(".template")));
  }
  int sel1 = 0, sel2 = 1, layer = 1;
- char ch;
+ char ch = 0;
  bool start = false;
 
 // Load MOTD and store it in a string
@@ -3120,7 +3120,7 @@ unsigned char game::light_level()
   ret = 8;
  if (ret < 8 && event_queued(EVENT_ARTIFACT_LIGHT))
   ret = 8;
- if (ret < 6 && u.has_amount(itm_torch_lit, 1) || ret < 6 && u.has_amount(itm_pda_flashlight, 1))
+ if ((ret < 6 && u.has_amount(itm_torch_lit, 1)) || (ret < 6 && u.has_amount(itm_pda_flashlight, 1)))
   ret = 6;
  if (ret < 4 && u.has_artifact_with(AEP_GLOW))
   ret = 4;
@@ -4199,7 +4199,7 @@ void game::explode_mon(int index)
 // Send body parts and blood all over!
   mtype* corpse = z[index].type;
   if (corpse->mat == FLESH || corpse->mat == VEGGY) { // No chunks otherwise
-   int num_chunks;
+   int num_chunks = 0;
    switch (corpse->size) {
     case MS_TINY:   num_chunks =  1; break;
     case MS_SMALL:  num_chunks =  2; break;
@@ -4961,8 +4961,8 @@ void game::examine()
  }} else {
    add_msg("You need a shovel to do that!");
   }
- } else if (m.ter(examx, examy) == t_chainfence_v && query_yn("Climb fence?") ||
-            m.ter(examx, examy) == t_chainfence_h && query_yn("Climb fence?")) {
+ } else if ((m.ter(examx, examy) == t_chainfence_v && query_yn("Climb fence?")) ||
+            (m.ter(examx, examy) == t_chainfence_h && query_yn("Climb fence?"))) {
    u.moves -= 400;
   if (one_in(u.dex_cur)) {
    add_msg("You slip whilst climbing and fall down again");
@@ -5397,19 +5397,21 @@ point game::look_around()
    if (dex != -1 && u_see(&(z[dex]), junk)) {
     z[mon_at(lx, ly)].draw(w_terrain, lx, ly, true);
     z[mon_at(lx, ly)].print_info(this, w_look);
-    if (!m.has_flag(container, lx, ly))
+    if (!m.has_flag(container, lx, ly)){
      if (m.i_at(lx, ly).size() > 1)
       mvwprintw(w_look, 3, 1, "There are several items there.");
      else if (m.i_at(lx, ly).size() == 1)
       mvwprintw(w_look, 3, 1, "There is an item there.");
+    }
    } else if (npc_at(lx, ly) != -1) {
     active_npc[npc_at(lx, ly)].draw(w_terrain, lx, ly, true);
     active_npc[npc_at(lx, ly)].print_info(w_look);
-    if (!m.has_flag(container, lx, ly))
+    if (!m.has_flag(container, lx, ly)){
      if (m.i_at(lx, ly).size() > 1)
       mvwprintw(w_look, 3, 1, "There are several items there.");
      else if (m.i_at(lx, ly).size() == 1)
       mvwprintw(w_look, 3, 1, "There is an item there.");
+    }
    } else if (veh) {
      mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
      veh->print_part_desc(w_look, 4, 48, veh_part);
@@ -5842,22 +5844,22 @@ void game::pickup(int posx, int posy, int min)
   }
   if (ch >= 'a' && ch <= 'a' + here.size() - 1) {
    ch -= 'a';
-   getitem[ch] = !getitem[ch];
+   getitem[unsigned(ch)] = !getitem[unsigned(ch)];
    wclear(w_item_info);
-   if (getitem[ch]) {
-    mvwprintw(w_item_info, 1, 0, here[ch].info().c_str());
+   if (getitem[unsigned(ch)]) {
+    mvwprintw(w_item_info, 1, 0, here[unsigned(ch)].info().c_str());
     wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                          LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wrefresh(w_item_info);
-    new_weight += here[ch].weight();
-    new_volume += here[ch].volume();
+    new_weight += here[unsigned(ch)].weight();
+    new_volume += here[unsigned(ch)].volume();
     update = true;
    } else {
     wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                          LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wrefresh(w_item_info);
-    new_weight -= here[ch].weight();
-    new_volume -= here[ch].volume();
+    new_weight -= here[unsigned(ch)].weight();
+    new_volume -= here[unsigned(ch)].volume();
     update = true;
    }
   }
@@ -6641,7 +6643,7 @@ void game::butcher()
  for (int i = corpses.size() - 1; i >= 0; i--) {
   mtype *corpse = m.i_at(u.posx, u.posy)[corpses[i]].corpse;
   if (query_yn("Butcher the %s corpse?", corpse->name.c_str())) {
-   int time_to_cut;
+   int time_to_cut = 0;
    switch (corpse->size) {	// Time in turns to cut up te corpse
     case MS_TINY:   time_to_cut =  2; break;
     case MS_SMALL:  time_to_cut =  5; break;
@@ -6666,7 +6668,7 @@ void game::complete_butcher(int index)
  int age = m.i_at(u.posx, u.posy)[index].bday;
  m.i_rem(u.posx, u.posy, index);
  int factor = u.butcher_factor();
- int pieces, pelts;
+ int pieces = 0, pelts = 0;
  double skill_shift = 0.;
 
  int sSkillLevel = u.skillLevel("survival").level();
@@ -6815,11 +6817,11 @@ single action.", u.weapon.tname().c_str());
   if (u.weapon.charges == u.weapon.clip_size()) {
    int alternate_magazine = -1;
    for (int i = 0; i < u.weapon.contents.size(); i++) {
-     if (u.weapon.contents[i].is_gunmod() &&
+     if ((u.weapon.contents[i].is_gunmod() &&
          (u.weapon.contents[i].typeId() == itm_spare_mag &&
-          u.weapon.contents[i].charges < (dynamic_cast<it_gun*>(u.weapon.type))->clip) ||
-         (u.weapon.contents[i].has_flag(IF_MODE_AUX) &&
-          u.weapon.contents[i].charges < u.weapon.contents[i].clip_size()))
+          u.weapon.contents[i].charges < (dynamic_cast<it_gun*>(u.weapon.type))->clip)) ||
+         ((u.weapon.contents[i].has_flag(IF_MODE_AUX) &&
+          u.weapon.contents[i].charges < u.weapon.contents[i].clip_size())))
       alternate_magazine = i;
    }
    if(alternate_magazine == -1) {
@@ -6872,7 +6874,7 @@ void game::unload()
   has_m203 = u.weapon.has_gunmod (itm_m203);
   has_shotgun = u.weapon.has_gunmod (itm_u_shotgun);
  }
- if (u.weapon.is_container() || u.weapon.charges == 0 &&
+ if ((u.weapon.is_container() || u.weapon.charges == 0) &&
      (spare_mag == -1 || u.weapon.contents[spare_mag].charges <= 0) &&
      (has_m203 == -1 || u.weapon.contents[has_m203].charges <= 0) &&
      (has_shotgun == -1 || u.weapon.contents[has_shotgun].charges <= 0)) {
@@ -7550,16 +7552,22 @@ void game::fling_player_or_monster(player *p, monster *zz, int dir, int flvel)
                 p->hitall (this, dam1, 40);
         }
         else
+        {
             zz->hurt (dam1);
+        }
         if (is_u)
+        {
             if (dam1 > 0)
                 add_msg ("You fall on the ground for %d damage.", dam1);
             else
                 add_msg ("You fall on the ground.");
+        }
     }
     else
-    if (is_u)
-        add_msg ("You fall into water.");
+    {
+        if (is_u)
+            add_msg ("You fall into water.");
+    }
 }
 
 void game::vertical_move(int movez, bool force)
@@ -8232,7 +8240,7 @@ void game::wait()
 {
  char ch = menu("Wait for how long?", "5 Minutes", "30 Minutes", "1 hour",
                 "2 hours", "3 hours", "6 hours", "Exit", NULL);
- int time;
+ int time = 0;
  if (ch == 7)
   return;
  switch (ch) {
@@ -8561,7 +8569,7 @@ int game::autosave_timeout()
 
 void game::autosave()
 {
-  if (u.in_vehicle || !moves_since_last_save && !item_exchanges_since_save)
+  if ((u.in_vehicle || !moves_since_last_save) && !item_exchanges_since_save)
     return;
   add_msg("Saving game, this may take a while");
   save();

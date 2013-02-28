@@ -730,7 +730,7 @@ void compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
   if (vItemDisplay[i].sType == "DESCRIPTION") {
    std::string sText = vItemDisplay[i].sName;
    std::replace(sText.begin(), sText.end(), '\n', ' ');
-   int iPos;
+   int iPos = 0;
    while (1) {
      line_num++;
      if (sText.size() > 36) {
