@@ -145,6 +145,9 @@ bool player::create(game *g, character_type type, std::string tempname)
     load_info(g, data);
     points = 0;
    } break;
+
+   default:
+    break;
   }
   tab = 3;
  } else
