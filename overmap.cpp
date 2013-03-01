@@ -615,7 +615,7 @@ void overmap::generate_sub(overmap* above)
 
    else if (above->ter(i, j) == ot_shelter)
     shelter_points.push_back( point(i, j) );
-	
+
    else if (above->ter(i, j) == ot_lmoe)
     lmoe_points.push_back( point(i, j) );
 
@@ -907,7 +907,8 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
     if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) { // It's in-bounds
      cur_ter = ter(omx, omy);
      see = seen(omx, omy);
-     if (note_here == has_note(omx, omy))
+     note_here = has_note(omx, omy);
+     if (note_here)
       note_text = note(omx, omy);
      for (unsigned int n = 0; n < npcs.size(); n++) {
       if ((npcs[n].mapx + 1) / 2 == omx && (npcs[n].mapy + 1) / 2 == omy) {
@@ -926,12 +927,14 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
       omy += (omy < 0 ? OMAPY : 0 - OMAPY);
       cur_ter = diag.ter(omx, omy);
       see = diag.seen(omx, omy);
-      if ((note_here == diag.has_note(omx, omy)))
+      note_here = diag.has_note(omx, omy);
+      if (note_here)
        note_text = diag.note(omx, omy);
      } else {
       cur_ter = hori.ter(omx, omy);
       see = hori.seen(omx, omy);
-      if (note_here = hori.has_note(omx, omy))
+      note_here = hori.has_note(omx, omy);
+      if (note_here)
        note_text = hori.note(omx, omy);
      }
     } else if (omx >= OMAPX) {
@@ -940,25 +943,29 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
       omy += (omy < 0 ? OMAPY : 0 - OMAPY);
       cur_ter = diag.ter(omx, omy);
       see = diag.seen(omx, omy);
-      if (note_here == diag.has_note(omx, omy))
+      note_here = diag.has_note(omx, omy);
+      if (note_here)
        note_text = diag.note(omx, omy);
      } else {
       cur_ter = hori.ter(omx, omy);
       see = hori.seen(omx, omy);
-      if ((note_here = hori.has_note(omx, omy)))
+      note_here = hori.has_note(omx, omy);
+      if (note_here)
        note_text = hori.note(omx, omy);
      }
     } else if (omy < 0) {
      omy += OMAPY;
      cur_ter = vert.ter(omx, omy);
      see = vert.seen(omx, omy);
-     if ((note_here = vert.has_note(omx, omy)))
+     note_here = vert.has_note(omx, omy);
+     if (note_here)
       note_text = vert.note(omx, omy);
     } else if (omy >= OMAPY) {
      omy -= OMAPY;
      cur_ter = vert.ter(omx, omy);
      see = vert.seen(omx, omy);
-     if ((note_here = vert.has_note(omx, omy)))
+     note_here = vert.has_note(omx, omy);
+     if (note_here)
       note_text = vert.note(omx, omy);
     } else
      debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
@@ -966,7 +973,10 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
     if (see) {
      if (note_here && blink) {
       ter_color = c_yellow;
-      ter_sym = 'N';
+      if (note_text[1] == ':')
+       ter_sym = note_text[0];
+      else
+       ter_sym = 'N';
      } else if (omx == origx && omy == origy && blink) {
       ter_color = g->u.color();
       ter_sym = '@';
@@ -1017,6 +1027,8 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
   }
   if (has_note(cursx, cursy)) {
    note_text = note(cursx, cursy);
+   if (note_text[1] == ':')
+    note_text = note_text.substr(2, note_text.size());
    for (unsigned int i = 0; i < note_text.length(); i++)
     mvwputch(w, 1, i, c_white, LINE_OXOX);
    mvwputch(w, 1, note_text.length(), c_white, LINE_XOOX);
@@ -1095,7 +1107,7 @@ point overmap::choose_point(game *g)
    ret = point(-1, -1);
   else if (ch == 'N') {
    timeout(-1);
-   add_note(cursx, cursy, string_input_popup("Enter note", 49)); // 49 char max
+   add_note(cursx, cursy, string_input_popup("Note: (X:TEXT for custom symbol)", 49, note(cursx, cursy))); // 49 char max
    timeout(BLINK_SPEED);
   } else if(ch == 'D'){
    timeout(-1);
