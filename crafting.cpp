@@ -1831,10 +1831,6 @@ void game::disassemble()
               k = recipes[i]->tools[j].size();
             }
             // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
-            if (type == itm_sewing_kit)
-            {
-                have_tool[j] = true;
-            }
             if (type == itm_welder)
             {
               if (crafting_inv.has_amount(itm_hacksaw, 1) ||
