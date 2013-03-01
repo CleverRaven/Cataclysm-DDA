@@ -3183,7 +3183,13 @@ bool game::sees_u(int x, int y, int &t)
 
  // doesn't matter if this actually reduces the range as we only need to look this far
  if (lm.at(0, 0) >= LL_LOW)
-  range = rl_dist(x, y, u.posx, u.posy);
+	{ if(mon->has_flag(MF_VIS50) { range = rl_dist(x, y, u.posx, u.posy) - 10) }
+	else if(mon->has_flag(MF_VIS40) { range = rl_dist(x, y, u.posx, u.posy) - 20) }
+	else if(mon->has_flag(MF_VIS30) { range = rl_dist(x, y, u.posx, u.posy) - 30) }
+	else if(mon->has_flag(MF_VIS20) { range = rl_dist(x, y, u.posx, u.posy) - 40) }
+	else if(mon->has_flag(MF_VIS10) { range = rl_dist(x, y, u.posx, u.posy) - 50) }
+	else {  range = rl_dist(x, y, u.posx, u.posy)}
+	}
 
  return (!u.has_active_bionic(bio_cloak) &&
          !u.has_artifact_with(AEP_INVISIBLE) &&
