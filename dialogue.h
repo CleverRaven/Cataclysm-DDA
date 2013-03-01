@@ -29,7 +29,7 @@ struct dialogue {
 
 struct talk_function
 {
- void nothing			(game *g, npc *p) {};
+ void nothing			(game * /*g*/, npc * /*p*/) {};
  void assign_mission		(game *g, npc *p);
  void mission_success		(game *g, npc *p);
  void mission_failure		(game *g, npc *p);
@@ -42,7 +42,7 @@ struct talk_function
  void deny_follow		(game *g, npc *p); // p gets DI_ASKED_TO_FOLLOW
  void deny_lead			(game *g, npc *p); // p gets DI_ASKED_TO_LEAD
  void deny_equipment		(game *g, npc *p); // p gets DI_ASKED_FOR_ITEM
- void enslave			(game *g, npc *p) {}; // p becomes slave of u
+ void enslave			(game * /*g*/, npc * /*p*/) {}; // p becomes slave of u
  void hostile			(game *g, npc *p); // p turns hostile to u
  void flee			(game *g, npc *p);
  void leave			(game *g, npc *p); // p becomes indifferant

@@ -155,6 +155,9 @@ void addict_effect(game *g, addiction &add)
    g->u.stim -= 3;
   }
   break;
+
+ default:
+  break;
  }
 }
 

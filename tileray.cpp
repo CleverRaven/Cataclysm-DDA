@@ -5,8 +5,8 @@
 static const int sx[4] = { 1, -1, -1, 1 };
 static const int sy[4] = { 1, 1, -1, -1 };
 
-tileray::tileray (): deltax(0), deltay(0), direction(0), leftover (0),
-                     last_dx(0), last_dy(0), infinite (false), steps(0)
+tileray::tileray (): deltax(0), deltay(0), leftover (0), direction(0),
+                     last_dx(0), last_dy(0), steps(0), infinite (false)
 {
 }
 

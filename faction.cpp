@@ -57,7 +57,7 @@ faction::faction(int uid)
  mapy = 0;
  size = 0;
  power = 0;
- uid = id;
+ id = uid;
 }
 
 
@@ -74,7 +74,7 @@ std::string faction::save_info()
          good << " " << omx << " " << omy << " " << mapx << " " << mapy <<
          " " << size << " " << power << " ";
  dump << opinion_of.size() << " ";
- for (int i = 0; i < opinion_of.size(); i++)
+ for (unsigned int i = 0; i < opinion_of.size(); i++)
   dump << opinion_of[i] << " ";
  dump << name;
  return dump.str();

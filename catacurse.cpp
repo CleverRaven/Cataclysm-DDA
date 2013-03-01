@@ -262,12 +262,12 @@ WINDOW *initscr(void)
     lastchar=-1;
     inputdelay=-1;
     std::string typeface;
-char * typeface_c;
+char * typeface_c = NULL;
 std::ifstream fin;
 fin.open("data\\FONTDATA");
  if (!fin.is_open()){
      MessageBox(WindowHandle, "Failed to open FONTDATA, loading defaults.",
-                NULL, NULL);
+                NULL, 0);
      fontheight=16;
      fontwidth=8;
  } else {
@@ -278,7 +278,7 @@ fin.open("data\\FONTDATA");
      fin >> fontheight;
      if ((fontwidth <= 4) || (fontheight <=4)){
          MessageBox(WindowHandle, "Invalid font size specified!",
-                    NULL, NULL);
+                    NULL, 0);
         fontheight=16;
         fontwidth=8;
      }
@@ -314,7 +314,7 @@ fin.open("data\\FONTDATA");
 
   } else {
       MessageBox(WindowHandle, "Failed to load default font, using FixedSys.",
-                NULL, NULL);
+                NULL, 0);
        font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
                       ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
                       PROOF_QUALITY, FF_MODERN, "FixedSys");   //Create our font
@@ -324,7 +324,8 @@ fin.open("data\\FONTDATA");
     SelectObject(backbuffer, font);//Load our font into the DC
 //    WindowCount=0;
 
-    delete typeface_c;
+    if (typeface_c != NULL) delete typeface_c;
+
     mainwin = newwin((OPTIONS[OPT_VIEWPORT_Y] * 2 + 1),(55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1)),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 };
@@ -679,7 +680,7 @@ int start_color(void)
  return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
 };
 
-int keypad(WINDOW *faux, bool bf)
+int keypad(WINDOW */*faux*/, bool /*bf*/)
 {
 return 1;
 };
@@ -692,11 +693,11 @@ int cbreak(void)
 {
     return 1;
 };
-int keypad(int faux, bool bf)
+int keypad(int /*faux*/, bool /*bf*/)
 {
     return 1;
 };
-int curs_set(int visibility)
+int curs_set(int /*visibility*/)
 {
     return 1;
 };
@@ -717,7 +718,7 @@ int wattron(WINDOW *win, int attrs)
     if (isBlink) win->BG += 8;
     return 1;
 };
-int wattroff(WINDOW *win, int attrs)
+int wattroff(WINDOW *win, int /*attrs*/)
 {
      win->FG=8;                                  //reset to white
      win->BG=0;                                  //reset to black

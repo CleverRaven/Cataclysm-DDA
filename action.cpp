@@ -233,6 +233,9 @@ std::string action_ident(action_id act)
    return "debug_mode";
   case ACTION_NULL:
    return "null";
+
+  default:
+   break;
  }
  return "unknown";
 }
@@ -402,6 +405,9 @@ std::string action_name(action_id act)
    return "Toggle Debug Messages";
   case ACTION_NULL:
    return "No Action";
+
+  default:
+   break;
  }
  return "Someone forgot to name an action.";
 }

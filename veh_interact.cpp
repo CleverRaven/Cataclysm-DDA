@@ -85,7 +85,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     bool finish = false;
     while (!finish)
     {
-        char ch = input(); // See keypress.h
+        char ch = char(input()); // See keypress.h
         int dx, dy;
         get_direction (gm, dx, dy, ch);
         if (ch == KEY_ESCAPE)
@@ -178,7 +178,7 @@ void veh_interact::do_install(int reason)
     int pos = 0;
     int engines = 0;
     int dif_eng = 0;
-    for (int p = 0; p < veh->parts.size(); p++)
+    for (unsigned int p = 0; p < veh->parts.size(); p++)
         if (veh->part_flag (p, vpf_engine))
         {
             engines++;
@@ -401,7 +401,7 @@ void veh_interact::do_remove(int reason)
     }
 }
 
-void veh_interact::do_rename(int reason)
+void veh_interact::do_rename(int /*reason*/)
 {
 std::string name = string_input_popup("Enter new vehicle name", 20);
 (veh->name = name);
@@ -415,7 +415,7 @@ int veh_interact::part_at (int dx, int dy)
 {
     int vdx = -ddx - dy;
     int vdy = dx - ddy;
-    for (int ep = 0; ep < veh->external_parts.size(); ep++)
+    for (unsigned int ep = 0; ep < veh->external_parts.size(); ep++)
     {
         int p = veh->external_parts[ep];
         if (veh->parts[p].mount_dx == vdx && veh->parts[p].mount_dy == vdy)
@@ -463,7 +463,7 @@ void veh_interact::move_cursor (int dx, int dy)
     {
         parts_here = veh->internal_parts(cpart);
         parts_here.insert (parts_here.begin(), cpart);
-        for (int i = 0; i < parts_here.size(); i++)
+        for (unsigned int i = 0; i < parts_here.size(); i++)
         {
             int p = parts_here[i];
             if (veh->parts[p].hp < veh->part_info(p).durability)
@@ -481,7 +481,7 @@ void veh_interact::move_cursor (int dx, int dy)
 void veh_interact::display_veh ()
 {
     int x1 = 12, y1 = 12, x2 = -12, y2 = -12;
-    for (int ep = 0; ep < veh->external_parts.size(); ep++)
+    for (unsigned int ep = 0; ep < veh->external_parts.size(); ep++)
     {
         int p = veh->external_parts[ep];
         if (veh->parts[p].mount_dx < x1)
@@ -508,7 +508,7 @@ void veh_interact::display_veh ()
     if (y2 > 5)
         ddy = 5 - y2;
 
-    for (int ep = 0; ep < veh->external_parts.size(); ep++)
+    for (unsigned int ep = 0; ep < veh->external_parts.size(); ep++)
     {
         int p = veh->external_parts[ep];
         char sym = veh->part_sym (p);
@@ -642,7 +642,7 @@ item consume_vpart_item (game *g, vpart_id vpid){
     const itype_id itid = vpart_list[vpid].item;
     for (int x = g->u.posx - PICKUP_RANGE; x <= g->u.posx + PICKUP_RANGE; x++)
        for (int y = g->u.posy - PICKUP_RANGE; y <= g->u.posy + PICKUP_RANGE; y++)
-          for(int i=0; i < g->m.i_at(x,y).size(); i++){
+          for(unsigned int i=0; i < g->m.i_at(x,y).size(); i++){
              item* ith_item = &(g->m.i_at(x,y)[i]);
              if (ith_item->type->id == itid)
                 candidates.push_back (candidate_vpart(x,y,i,*ith_item));
@@ -670,7 +670,7 @@ item consume_vpart_item (game *g, vpart_id vpid){
     } else {
        // popup menu!?
        std::vector<std::string> options;
-       for(int i=0;i<candidates.size(); i++){
+       for(unsigned int i=0;i<candidates.size(); i++){
           if(candidates[i].in_inventory){
              if (candidates[i].index == -1)
                 options.push_back(candidates[i].vpart_item.tname() + " (wielded)");
@@ -766,7 +766,7 @@ void complete_vehicle (game *g)
         g->pl_refill_vehicle(*veh, part);
         break;
     case 'o':
-        for (int i = 0; i < veh->parts[part].items.size(); i++)
+        for (unsigned int i = 0; i < veh->parts[part].items.size(); i++)
             g->m.add_item (g->u.posx, g->u.posy, veh->parts[part].items[i]);
         veh->parts[part].items.clear();
         itm = veh->part_info(part).item;

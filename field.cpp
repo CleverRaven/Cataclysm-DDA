@@ -55,7 +55,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
    case fd_acid:
     if (has_flag(swimmable, x, y))	// Dissipate faster in water
      cur->age += 20;
-    for (int i = 0; i < i_at(x, y).size(); i++) {
+    for (unsigned int i = 0; i < i_at(x, y).size(); i++) {
      item *melting = &(i_at(x, y)[i]);
      if (melting->made_of(LIQUID) || melting->made_of(VEGGY)   ||
          melting->made_of(FLESH)  || melting->made_of(POWDER)  ||
@@ -67,7 +67,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
       if (melting->damage >= 5 ||
           (melting->made_of(PAPER) && melting->damage >= 3)) {
        cur->age += melting->volume();
-       for (int m = 0; m < i_at(x, y)[i].contents.size(); m++)
+       for (unsigned int m = 0; m < i_at(x, y)[i].contents.size(); m++)
         i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
        i_at(x, y).erase(i_at(x, y).begin() + i);
        i--;
@@ -83,7 +83,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 // Consume items as fuel to help us grow/last longer.
     bool destroyed = false;
     int vol = 0, smoke = 0, consumed = 0;
-    for (int i = 0; i < i_at(x, y).size() && consumed < cur->density * 2; i++) {
+    for (unsigned int i = 0; i < i_at(x, y).size() && consumed < cur->density * 2; i++) {
      destroyed = false;
      vol = i_at(x, y)[i].volume();
      item *it = &(i_at(x, y)[i]);
@@ -169,7 +169,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
      }
 
      if (destroyed) {
-      for (int m = 0; m < i_at(x, y)[i].contents.size(); m++)
+      for (unsigned int m = 0; m < i_at(x, y)[i].contents.size(); m++)
        i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
       i_at(x, y).erase(i_at(x, y).begin() + i);
       i--;
@@ -538,7 +538,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 
    case fd_push_items: {
     std::vector<item> *it = &(i_at(x, y));
-    for (int i = 0; i < it->size(); i++) {
+    for (unsigned int i = 0; i < it->size(); i++) {
      if ((*it)[i].type->id != itm_rock || (*it)[i].bday >= int(g->turn) - 1)
       i++;
      else {
@@ -642,6 +642,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
     }
     break;
 
+   default:
+    break;
    } // switch (curtype)
 
    cur->age++;
@@ -711,11 +713,12 @@ void map::step_in_field(int x, int y, game *g)
 
   case fd_fire:
    adjusted_intensity = cur->density;
-   if( g->u.in_vehicle )
+   if( g->u.in_vehicle ){
      if( inside )
        adjusted_intensity -= 2;
      else
        adjusted_intensity -= 1;
+   }
    if (!g->u.has_active_bionic(bio_heatsink)) {
     if (adjusted_intensity == 1) {
      g->add_msg("You burn your legs and feet!");
@@ -747,15 +750,20 @@ void map::step_in_field(int x, int y, game *g)
     g->u.infect(DI_SMOKE, bp_mouth, 4, 15, g);
    break;
 
+   // If tear gas, toxic gas, and/or nuke gas don't behave as expected it's likely
+   // due to how they've been grouped together within the parentheses.
+   // I tried my best to bracket them in what made the most sense but I'm leaving
+   // a note about it just incase.
+   // - AkrionXxarr
   case fd_tear_gas:
-   if ((cur->density > 1 || !one_in(3)) && !inside || inside && one_in(3))
+   if (((cur->density > 1 || !one_in(3)) && !inside) || (inside && one_in(3)))
     g->u.infect(DI_TEARGAS, bp_mouth, 5, 20, g);
-   if (cur->density > 1 && !inside || inside && one_in(3))
+   if ((cur->density > 1 && !inside) || (inside && one_in(3)))
     g->u.infect(DI_BLIND, bp_eyes, cur->density * 2, 10, g);
    break;
 
   case fd_toxic_gas:
-   if (cur->density == 2 && !inside || cur->density == 3 && inside )
+   if ((cur->density == 2 && !inside) || (cur->density == 3 && inside))
     g->u.infect(DI_POISON, bp_mouth, 5, 30, g);
    else if (cur->density == 3 && !inside)
     g->u.infect(DI_BADPOISON, bp_mouth, 5, 30, g);
@@ -804,6 +812,9 @@ void map::step_in_field(int x, int y, game *g)
   case fd_shock_vent:
   case fd_acid_vent:
    remove_field(x, y);
+   break;
+
+  default:
    break;
  }
 }
@@ -974,6 +985,8 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    }
    break;
 
+  default:
+   break;
  }
  if (dam > 0)
   z->hurt(dam);
@@ -981,7 +994,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
 
 bool vector_has(std::vector <item> vec, itype_id type)
 {
- for (int i = 0; i < vec.size(); i++) {
+ for (unsigned int i = 0; i < vec.size(); i++) {
   if (vec[i].type->id == type)
    return true;
  }

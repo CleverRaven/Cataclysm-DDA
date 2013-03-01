@@ -13,7 +13,7 @@ void mattack::antqueen(game *g, monster *z)
 // Count up all adjacent tiles the contain at least one egg.
  for (int x = z->posx - 2; x <= z->posx + 2; x++) {
   for (int y = z->posy - 2; y <= z->posy + 2; y++) {
-   for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
+   for (unsigned int i = 0; i < g->m.i_at(x, y).size(); i++) {
 // is_empty() because we can't hatch an ant under the player, a monster, etc.
     if (g->m.i_at(x, y)[i].type->id == itm_ant_egg && g->is_empty(x, y)) {
      egg_points.push_back(point(x, y));
@@ -49,9 +49,9 @@ void mattack::antqueen(game *g, monster *z)
   int junk;
   if (g->u_see(z->posx, z->posy, junk))
    g->add_msg("The %s tends nearby eggs, and they hatch!", z->name().c_str());
-  for (int i = 0; i < egg_points.size(); i++) {
+  for (unsigned int i = 0; i < egg_points.size(); i++) {
    int x = egg_points[i].x, y = egg_points[i].y;
-   for (int j = 0; j < g->m.i_at(x, y).size(); j++) {
+   for (unsigned int j = 0; j < g->m.i_at(x, y).size(); j++) {
     if (g->m.i_at(x, y)[j].type->id == itm_ant_egg) {
      g->m.i_rem(x, y, j);
      j = g->m.i_at(x, y).size();	// Max one hatch per tile.
@@ -85,7 +85,7 @@ void mattack::acid(game *g, monster *z)
  g->sound(z->posx, z->posy, 4, "a spitting noise.");
  int hitx = g->u.posx + rng(-2, 2), hity = g->u.posy + rng(-2, 2);
  std::vector<point> line = line_to(z->posx, z->posy, hitx, hity, junk);
- for (int i = 0; i < line.size(); i++) {
+ for (unsigned int i = 0; i < line.size(); i++) {
   if (g->m.hit_with_acid(g, line[i].x, line[i].y)) {
    if (g->u_see(line[i].x, line[i].y, junk))
     g->add_msg("A glob of acid hits the %s!",
@@ -122,7 +122,7 @@ void mattack::shockstorm(game *g, monster *z)
  if (!g->m.sees(z->posx, z->posy, tarx, tary, -1, t))
   t = 0;
  std::vector<point> bolt = line_to(z->posx, z->posy, tarx, tary, t);
- for (int i = 0; i < bolt.size(); i++) { // Fill the LOS with electricity
+ for (unsigned int i = 0; i < bolt.size(); i++) { // Fill the LOS with electricity
   if (!one_in(4))
    g->m.add_field(g, bolt[i].x, bolt[i].y, fd_electricity, rng(1, 3));
  }
@@ -147,7 +147,7 @@ void mattack::boomer(game *g, monster *z)
  bool u_see = g->u_see(z->posx, z->posy, j);
  if (u_see)
   g->add_msg("The %s spews bile!", z->name().c_str());
- for (int i = 0; i < line.size(); i++) {
+ for (unsigned int i = 0; i < line.size(); i++) {
   if (g->m.field_at(line[i].x, line[i].y).type == fd_blood) {
    g->m.field_at(line[i].x, line[i].y).type = fd_bile;
    g->m.field_at(line[i].x, line[i].y).density = 1;
@@ -181,7 +181,7 @@ void mattack::resurrect(game *g, monster *z)
  for (int x = z->posx - 4; x <= z->posx + 4; x++) {
   for (int y = z->posy - 4; y <= z->posy + 4; y++) {
    if (g->is_empty(x, y) && g->m.sees(z->posx, z->posy, x, y, -1, junk)) {
-    for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
+    for (unsigned int i = 0; i < g->m.i_at(x, y).size(); i++) {
      if (g->m.i_at(x, y)[i].type->id == itm_corpse &&
          g->m.i_at(x, y)[i].corpse->species == species_zombie) {
       corpses.push_back(point(x, y));
@@ -200,9 +200,9 @@ void mattack::resurrect(game *g, monster *z)
  z->sp_timeout = z->type->sp_freq;	// Reset timer
  z->moves = -500;			// It takes a while
  int raised = 0;
- for (int i = 0; i < corpses.size(); i++) {
+ for (unsigned int i = 0; i < corpses.size(); i++) {
   int x = corpses[i].x, y = corpses[i].y;
-  for (int n = 0; n < g->m.i_at(x, y).size(); n++) {
+  for (unsigned int n = 0; n < g->m.i_at(x, y).size(); n++) {
    if (g->m.i_at(x, y)[n].type->id == itm_corpse && one_in(2)) {
     if (g->u_see(x, y, junk))
      raised++;
@@ -287,7 +287,7 @@ void mattack::science(game *g, monster *z)	// I said SCIENCE again!
  case 4:	// Acid pool
   g->add_msg("The %s drops a flask of acid!", z->name().c_str());
   z->moves -= 100;
-  for (int i = 0; i < free.size(); i++)
+  for (unsigned int i = 0; i < free.size(); i++)
    g->m.add_field(g, free[i].x, free[i].y, fd_acid, 3);
   break;
  case 5:	// Flavor text
@@ -466,7 +466,7 @@ void mattack::vine(game *g, monster *z)
  }
 // Calculate distance from nearest hub
  int dist_from_hub = 999;
- for (int i = 0; i < g->z.size(); i++) {
+ for (unsigned int i = 0; i < g->z.size(); i++) {
   if (g->z[i].type->id == mon_creeper_hub) {
    int dist = rl_dist(z->posx, z->posy, g->z[i].posx, g->z[i].posy);
    if (dist < dist_from_hub)
@@ -506,7 +506,7 @@ void mattack::spit_sap(game *g, monster *z)
       hity = g->u.posy + rng(0 - int(missed_by), int(missed_by));
   std::vector<point> line = line_to(z->posx, z->posy, hitx, hity, 0);
   int dam = 5;
-  for (int i = 0; i < line.size() && dam > 0; i++) {
+  for (unsigned int i = 0; i < line.size() && dam > 0; i++) {
    g->m.shoot(g, line[i].x, line[i].y, dam, false, 0);
    if (dam == 0 && g->u_see(line[i].x, line[i].y, t)) {
     g->add_msg("A glob of sap hits the %s!",
@@ -522,7 +522,7 @@ void mattack::spit_sap(game *g, monster *z)
   g->add_msg("The %s spits sap!", z->name().c_str());
  std::vector<point> line = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
  int dam = 5;
- for (int i = 0; i < line.size() && dam > 0; i++) {
+ for (unsigned int i = 0; i < line.size() && dam > 0; i++) {
   g->m.shoot(g, line[i].x, line[i].y, dam, false, 0);
   if (dam == 0 && g->u_see(line[i].x, line[i].y, t)) {
    g->add_msg("A glob of sap hits the %s!",
@@ -676,7 +676,7 @@ void mattack::leap(game *g, monster *z)
  }
 
 // Go back and remove all options that aren't tied for best
- for (int i = 0; i < options.size() && options.size() > 1; i++) {
+ for (unsigned int i = 0; i < options.size() && options.size() > 1; i++) {
   point p = options[i];
   if (rl_dist(g->u.posx, g->u.posy, options[i].x, options[i].y) != best) {
    options.erase(options.begin() + i);
@@ -764,7 +764,7 @@ void mattack::plant(game *g, monster *z)
  }
 }
 
-void mattack::disappear(game *g, monster *z)
+void mattack::disappear(game * /*g*/, monster *z)
 {
  z->hp = 0;
 }
@@ -852,7 +852,7 @@ void mattack::tentacle(game *g, monster *z)
  z->sp_timeout = z->type->sp_freq;	// Reset timer
 
  std::vector<point> line = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
- for (int i = 0; i < line.size(); i++) {
+ for (unsigned int i = 0; i < line.size(); i++) {
   int tmpdam = 20;
   g->m.shoot(g, line[i].x, line[i].y, tmpdam, true, 0);
  }
@@ -901,7 +901,7 @@ void mattack::vortex(game *g, monster *z)
     if (distance > 0) {
      int dam = thrown.weight() / double(3 + double(thrown.volume() / 6));
      std::vector<point> traj = continue_line(from_monster, distance);
-     for (int i = 0; i < traj.size() && dam > 0; i++) {
+     for (unsigned int i = 0; i < traj.size() && dam > 0; i++) {
       g->m.shoot(g, traj[i].x, traj[i].y, dam, false, 0);
       int mondex = g->mon_at(traj[i].x, traj[i].y);
       if (mondex != -1) {
@@ -925,7 +925,7 @@ void mattack::vortex(game *g, monster *z)
        if (thrown.made_of(GLASS)) {
         if (g->u_see(traj[i].x, traj[i].y, t))
          g->add_msg("The %s shatters!", thrown.tname().c_str());
-        for (int n = 0; n < thrown.contents.size(); n++)
+        for (unsigned int n = 0; n < thrown.contents.size(); n++)
          g->m.add_item(traj[i].x, traj[i].y, thrown.contents[n]);
         g->sound(traj[i].x, traj[i].y, 16, "glass breaking!");
        } else
@@ -963,13 +963,14 @@ void mattack::vortex(game *g, monster *z)
      case IRON:    distance -= 1; // fall through
      case STEEL:
      case SILVER:  distance -= 3; damage -= 10; break;
+     default:                                   break;
     }
     if (distance > 0) {
      if (g->u_see(thrown, t))
       g->add_msg("The %s is thrown by winds!", thrown->name().c_str());
      std::vector<point> traj = continue_line(from_monster, distance);
      bool hit_wall = false;
-     for (int i = 0; i < traj.size() && !hit_wall; i++) {
+     for (unsigned int i = 0; i < traj.size() && !hit_wall; i++) {
       int monhit = g->mon_at(traj[i].x, traj[i].y);
       if (i > 0 && monhit != -1 && !g->z[monhit].has_flag(MF_DIGS)) {
        if (g->u_see(traj[i].x, traj[i].y, t))
@@ -1006,7 +1007,7 @@ void mattack::vortex(game *g, monster *z)
     g->add_msg("You're thrown by winds!");
     bool hit_wall = false;
     int damage = rng(5, 10);
-    for (int i = 0; i < traj.size() && !hit_wall; i++) {
+    for (unsigned int i = 0; i < traj.size() && !hit_wall; i++) {
      int monhit = g->mon_at(traj[i].x, traj[i].y);
      if (i > 0 && monhit != -1 && !g->z[monhit].has_flag(MF_DIGS)) {
       if (g->u_see(traj[i].x, traj[i].y, t))
@@ -1065,7 +1066,7 @@ void mattack::stare(game *g, monster *z)
  } else {
   g->add_msg("A piercing beam of light bursts forth!");
   std::vector<point> sight = line_to(z->posx, z->posy, g->u.posx, g->u.posy, 0);
-  for (int i = 0; i < sight.size(); i++) {
+  for (unsigned int i = 0; i < sight.size(); i++) {
    if (g->m.ter(sight[i].x, sight[i].y) == t_reinforced_glass_h ||
        g->m.ter(sight[i].x, sight[i].y) == t_reinforced_glass_v)
     i = sight.size();
@@ -1123,11 +1124,11 @@ void mattack::tazer(game *g, monster *z)
 
 void mattack::smg(game *g, monster *z)
 {
- int t, j, fire_t;
+ int t = 0, j = 0, fire_t = 0;
  if (z->friendly != 0) { // Attacking monsters, not the player!
   monster* target = NULL;
   int closest = 19;
-  for (int i = 0; i < g->z.size(); i++) {
+  for (unsigned int i = 0; i < g->z.size(); i++) {
    int dist = rl_dist(z->posx, z->posy, g->z[i].posx, g->z[i].posy);
    if (g->z[i].friendly == 0 && dist < closest &&
        g->m.sees(z->posx, z->posy, g->z[i].posx, g->z[i].posy, 18, t)) {
@@ -1210,7 +1211,7 @@ void mattack::flamethrower(game *g, monster *z)
  z->sp_timeout = z->type->sp_freq;	// Reset timer
  z->moves = -500;			// It takes a while
  std::vector<point> traj = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
- for (int i = 0; i < traj.size(); i++)
+ for (unsigned int i = 0; i < traj.size(); i++)
   g->m.add_field(g, traj[i].x, traj[i].y, fd_fire, 1);
  g->u.add_disease(DI_ONFIRE, 8, g);
 }
@@ -1288,7 +1289,7 @@ void mattack::generator(game *g, monster *z)
 void mattack::upgrade(game *g, monster *z)
 {
  std::vector<int> targets;
- for (int i = 0; i < g->z.size(); i++) {
+ for (unsigned int i = 0; i < g->z.size(); i++) {
   if (g->z[i].type->id == mon_zombie &&
       rl_dist(z->posx, z->posy, g->z[i].posx, g->z[i].posy) <= 5)
    targets.push_back(i);

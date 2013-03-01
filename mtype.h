@@ -269,7 +269,7 @@ struct mtype {
 
  bool has_flag(m_flag flag)
  {
-  for (int i = 0; i < flags.size(); i++) {
+  for (unsigned int i = 0; i < flags.size(); i++) {
    if (flags[i] == flag)
     return true;
   }
