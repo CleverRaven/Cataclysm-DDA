@@ -72,8 +72,12 @@ option_key lookup_option_key(std::string id)
   return OPT_SNAP_TO_TARGET;
  if (id == "safemode")
   return OPT_SAFEMODE;
+ if (id == "safemodeproximity")
+  return OPT_SAFEMODEPROXIMITY;
  if (id == "autosafemode")
   return OPT_AUTOSAFEMODE;
+ if (id == "autosafemodeturns")
+  return OPT_AUTOSAFEMODETURNS;
  if (id == "autosave")
   return OPT_AUTOSAVE;
  if (id == "gradual_night_light")
@@ -105,7 +109,9 @@ std::string option_string(option_key key)
   case OPT_24_HOUR:		return "24_hour";
   case OPT_SNAP_TO_TARGET:	return "snap_to_target";
   case OPT_SAFEMODE:		return "safemode";
+  case OPT_SAFEMODEPROXIMITY: return "safemodeproximity";
   case OPT_AUTOSAFEMODE:	return "autosafemode";
+  case OPT_AUTOSAFEMODETURNS: return "autosafemodeturns";
   case OPT_AUTOSAVE:    	return "autosave";
   case OPT_GRADUAL_NIGHT_LIGHT: return "gradual_night_light";
   case OPT_QUERY_DISASSEMBLE: return "query_disassemble";
@@ -130,7 +136,9 @@ std::string option_desc(option_key key)
   case OPT_24_HOUR:		return "If true, use military time, not AM/PM";
   case OPT_SNAP_TO_TARGET:	return "If true, automatically follow the\ncrosshair when firing/throwing";
   case OPT_SAFEMODE:		return "If true, safemode will be on after\nstarting a new game or loading";
+  case OPT_SAFEMODEPROXIMITY: return "If safemode is enabled,\ndistance to hostiles when safemode\nshould show a warning (0=Viewdistance)";
   case OPT_AUTOSAFEMODE:	return "If true, auto-safemode will be on\nafter starting a new game or loading";
+  case OPT_AUTOSAFEMODETURNS: return "Number of turns after safemode\nis reenabled if no hostiles are\nin safemodeproximity distance";
   case OPT_AUTOSAVE:    	return "If true, game will periodically\nsave the map";
   case OPT_GRADUAL_NIGHT_LIGHT: return "If true will add nice gradual-lighting\n(should only make a difference @night)";
   case OPT_QUERY_DISASSEMBLE: return "If true, will query before disassembling\nitems";
@@ -155,7 +163,9 @@ std::string option_name(option_key key)
   case OPT_24_HOUR:		return "24 Hour Time";
   case OPT_SNAP_TO_TARGET:	return "Snap to Target";
   case OPT_SAFEMODE:		return "Safemode on by default";
+  case OPT_SAFEMODEPROXIMITY: return "Safemode proximity distance";
   case OPT_AUTOSAFEMODE:	return "Auto-Safemode on by default";
+  case OPT_AUTOSAFEMODETURNS: return "Turns to reenable safemode";
   case OPT_AUTOSAVE:    	return "Periodically Autosave";
   case OPT_GRADUAL_NIGHT_LIGHT: return "Gradual night light";
   case OPT_QUERY_DISASSEMBLE: return "Query on disassembly";
@@ -173,6 +183,8 @@ std::string option_name(option_key key)
 bool option_is_bool(option_key id)
 {
  switch (id) {
+  case OPT_SAFEMODEPROXIMITY:
+  case OPT_AUTOSAFEMODETURNS:
   case OPT_SKILL_RUST:
   case OPT_DROP_EMPTY:
   case OPT_DELETE_WORLD:
@@ -195,6 +207,12 @@ char option_max_options(option_key id)
   else
     switch (id)
     {
+      case OPT_SAFEMODEPROXIMITY:
+        ret = 61;
+        break;
+      case OPT_AUTOSAFEMODETURNS:
+        ret = 51;
+        break;
       case OPT_INITIAL_POINTS:
         ret = 25;
         break;
@@ -205,8 +223,8 @@ char option_max_options(option_key id)
         break;
       case OPT_VIEWPORT_X:
       case OPT_VIEWPORT_Y:
-		ret = 61; // TODO Set up min/max values so weird numbers don't have to be used.
-		break;
+        ret = 61; // TODO Set up min/max values so weird numbers don't have to be used.
+        break;
       default:
         ret = 2;
         break;
@@ -236,8 +254,12 @@ no_bright_backgrounds F\n\
 snap_to_target F\n\
 # If true, safemode will be on after starting a new game or loading\n\
 safemode T\n\
+# If safemode is enabled, distance to hostiles when safemode should show a warning (0=Viewdistance)\n\
+safemodeproximity 0\n\
 # If true, auto-safemode will be on after starting a new game or loading\n\
 autosafemode F\n\
+# Number of turns after safemode is reenabled when no zombies are in safemodeproximity distance\n\
+autosafemodeturns 50\n\
 # If true, game will periodically save the map\n\
 autosave F\n\
 # If true will add nice gradual-lighting (should only make a difference @night)\n\

@@ -3335,6 +3335,7 @@ void game::mon_info()
  werase(w_moninfo);
  int buff;
  int newseen = 0;
+ const int iProxyDist = (OPTIONS[OPT_SAFEMODEPROXIMITY] <= 0) ? 60 : OPTIONS[OPT_SAFEMODEPROXIMITY];
 // 7 0 1	unique_types uses these indices;
 // 6 8 2	0-7 are provide by direction_from()
 // 5 4 3	8 is used for local monsters (for when we explain them below)
@@ -3350,7 +3351,9 @@ void game::mon_info()
    bool mon_dangerous = false;
    if (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW) {
     mon_dangerous = true;
-    newseen++;
+
+    if (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= iProxyDist)
+     newseen++;
    }
 
    dir_to_mon = direction_from(u.posx + u.view_offset_x, u.posy + u.view_offset_y,
@@ -3368,7 +3371,9 @@ void game::mon_info()
  for (int i = 0; i < active_npc.size(); i++) {
   if (u_see(active_npc[i].posx, active_npc[i].posy, buff)) { // TODO: NPC invis
    if (active_npc[i].attitude == NPCATT_KILL)
-    newseen++;
+    if (rl_dist(u.posx, u.posy, active_npc[i].posx, active_npc[i].posy) <= iProxyDist)
+     newseen++;
+
    point npcp(active_npc[i].posx, active_npc[i].posy);
    dir_to_npc = direction_from ( u.posx + u.view_offset_x, u.posy + u.view_offset_y,
                                  npcp.x, npcp.y );
@@ -3387,12 +3392,11 @@ void game::mon_info()
   turnssincelastmon = 0;
   if (run_mode == 1)
    run_mode = 2;	// Stop movement!
- } else if (autosafemode) { // Auto-safemode
+ } else if (autosafemode && newseen == 0) { // Auto-safemode
   turnssincelastmon++;
-  if(turnssincelastmon >= 50 && run_mode == 0)
+  if(turnssincelastmon >= OPTIONS[OPT_AUTOSAFEMODETURNS] && run_mode == 0)
    run_mode = 1;
  }
-
 
  mostseen = newseen;
  nc_color tmpcol;
