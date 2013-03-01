@@ -248,7 +248,7 @@ A human body, stumbling slowly forward on\n\
 uncertain legs, possessed with an unstoppable\n\
 rage."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED, MF_GRABS);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED, MF_GRABS, MF_VIS10);
 
 mon("zombie cop",	species_zombie, 'Z',	c_blue,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
