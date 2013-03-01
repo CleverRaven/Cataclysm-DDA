@@ -720,7 +720,7 @@ bool map::vehproceed(game* g){
       }
       // accept new position
       // if submap changed, we need to process grid from the beginning.
-      // int sm_change = displace_vehicle (g, x, y, dx, dy); -- Not used for anything
+      displace_vehicle (g, x, y, dx, dy);
    } else { // can_move
       veh->stop();
    }
