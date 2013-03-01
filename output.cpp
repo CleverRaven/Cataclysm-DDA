@@ -486,7 +486,7 @@ int menu_vec(const char *mes, std::vector<std::string> options)
   if (options[i].length() + 6 > width)
    width = options[i].length() + 6;
  }
- WINDOW* w = newwin(height, width, 1, 10);
+ WINDOW* w = newwin(height, width, 12-height/2, 40-width/2);
  wattron(w, c_white);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -810,60 +810,6 @@ void compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
   delwin(w);
   refresh();
  }
- /*
- std::string tmp = buff;
- WINDOW* w = newwin(25, 40, 0, (bLeft) ? 0 : 40);
- wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- size_t pos = tmp.find_first_of('\n');
- mvwprintz(w, 1, 2, c_white, sItemName.c_str());
- int line_num = 2;
- while (pos != std::string::npos) {
-  std::string line = tmp.substr(0, pos);
-  line_num++;
-  if (line.size() > 36)
-  {
-    std::string sTemp;
-    do
-    {
-      sTemp += line;
-      tmp = tmp.substr(pos + 1);
-      pos = tmp.find_first_of('\n');
-      line = " " + tmp.substr(0, pos);
-    } while (pos != std::string::npos);
-    sTemp += line;
-    while (sTemp.size() > 0)
-    {
-      size_t iPos = sTemp.find_last_of(' ', 36);
-      if (iPos == 0)
-        iPos = sTemp.size();
-      mvwprintz(w, line_num, 2, c_white, (sTemp.substr(0, iPos)).c_str());
-      line_num++;
-      sTemp = sTemp.substr(iPos+1, sTemp.size());
-    }
-  }
-  else
-  {
-    mvwprintz(w, line_num, 2, c_white, (line).c_str());
-  }
-  tmp = tmp.substr(pos + 1);
-  pos = tmp.find_first_of('\n');
- }
- line_num++;
- mvwprintz(w, line_num, 2, c_white, tmp.c_str());
- wrefresh(w);
- if (!bLeft)
- {
-  char ch;
-  do
-   ch = getch();
-  while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
-  werase(w);
-  wrefresh(w);
-  delwin(w);
-  refresh();
- }
- */
 }
 
 char rand_char()

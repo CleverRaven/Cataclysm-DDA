@@ -1608,12 +1608,50 @@ input_ret game::get_input(int timeout_ms)
 
   case ACTION_INVENTORY: {
    bool has = false;
-   do {
-    char ch = inv();
-    has = u.has_item(ch);
-    if (has)
-     full_screen_popup(u.i_at(ch).info(true).c_str());
-   } while (has);
+   //do {
+    const std::string sSpaces = "                              ";
+    char chItem = inv();
+    has = u.has_item(chItem);
+    if (has) {
+     std::string sItemName = u.i_at(chItem).tname(this);
+     int iMenu = menu(("Item: " + sItemName + sSpaces.substr(sItemName.size(), sSpaces.size())).c_str(),
+                      "Examine", "Use/Read", "Eat", "Wear", "Wield", "Take off", "Drop", "Cancel", NULL); //"Unload", "Reload"
+
+     switch(iMenu) {
+      case 1:
+       full_screen_popup(u.i_at(chItem).info(true).c_str());
+       break;
+      case 2:
+       use_item(chItem);
+       break;
+      case 3:
+       eat(chItem);
+       break;
+      case 4:
+       wear(chItem);
+       break;
+      case 5:
+       wield(chItem);
+       break;
+      case 6:
+       takeoff(chItem);
+       break;
+      case 7:
+       drop(chItem);
+       break;
+      case 8:
+       //unload(chItem);
+       break;
+      case 9:
+       //reload(chItem);
+       break;
+      case 0:
+       break;
+      default:
+       break;
+     }
+    }
+   //} while (has);
    refresh_all();
   } break;
 
@@ -4412,9 +4450,14 @@ void game::smash()
   add_msg("There's nothing there!");
 }
 
-void game::use_item()
+void game::use_item(char chInput)
 {
- char ch = inv("Use item:");
+ char ch;
+ if (chInput == '.')
+  ch = inv("Use item:");
+ else
+  ch = chInput;
+
  if (ch == KEY_ESCAPE) {
   add_msg("Never mind.");
   return;
@@ -6271,9 +6314,22 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
  return true;
 }
 
-void game::drop()
+void game::drop(char chInput)
 {
- std::vector<item> dropped = multidrop();
+ std::vector<item> dropped;
+
+ if (chInput == '.')
+  dropped = multidrop();
+ else {
+  int index = u.inv.index_by_letter(chInput);
+
+  if (index == -1) {
+   dropped.push_back(u.i_rem(chInput));
+  } else {
+   dropped.push_back(u.inv.remove_item(index));
+  }
+ }
+
  if (dropped.size() == 0) {
   add_msg("Never mind.");
   return;
@@ -6772,8 +6828,9 @@ void game::forage()
   }
 }
 
-void game::eat()
+void game::eat(char chInput)
 {
+ char ch;
  if (u.has_trait(PF_RUMINANT) && m.ter(u.posx, u.posy) == t_underbrush &&
      query_yn("Eat underbrush?")) {
   u.moves -= 400;
@@ -6782,11 +6839,16 @@ void game::eat()
   add_msg("You eat the underbrush.");
   return;
  }
- char ch = inv_type("Consume item:", IC_COMESTIBLE);
+ if (chInput == '.')
+  ch = inv_type("Consume item:", IC_COMESTIBLE);
+ else
+  ch = chInput;
+
  if (ch == KEY_ESCAPE) {
   add_msg("Never mind.");
   return;
  }
+
  if (!u.has_item(ch)) {
   add_msg("You don't have item '%c'!", ch);
   return;
@@ -6794,9 +6856,14 @@ void game::eat()
  u.eat(this, u.lookup_item(ch));
 }
 
-void game::wear()
+void game::wear(char chInput)
 {
- char ch = inv_type("Wear item:", IC_ARMOR);
+ char ch;
+ if (chInput == '.')
+  ch = inv_type("Wear item:", IC_ARMOR);
+ else
+  ch = chInput;
+
  if (ch == KEY_ESCAPE) {
   add_msg("Never mind.");
   return;
@@ -6804,15 +6871,21 @@ void game::wear()
  u.wear(this, ch);
 }
 
-void game::takeoff()
+void game::takeoff(char chInput)
 {
- if (u.takeoff(this, inv_type("Take off item:", IC_NULL)))
+ char ch;
+ if (chInput == '.')
+  ch = inv_type("Take off item:", IC_NULL);
+ else
+  ch = chInput;
+
+ if (u.takeoff(this, ch))
   u.moves -= 250; // TODO: Make this variable
  else
   add_msg("Invalid selection.");
 }
 
-void game::reload()
+void game::reload(char chInput)
 {
  if (u.weapon.is_gun()) {
   if (u.weapon.has_flag(IF_RELOAD_AND_SHOOT)) {
@@ -6869,7 +6942,7 @@ single action.", u.weapon.tname().c_str());
 
 // Unload a containter, gun, or tool
 // If it's a gun, some gunmods can also be loaded
-void game::unload()
+void game::unload(char chInput)
 {
  if (!u.weapon.is_gun() && u.weapon.contents.size() == 0 &&
      (!u.weapon.is_tool() || u.weapon.ammo_type() == AT_NULL)) {
@@ -6993,7 +7066,7 @@ void game::unload()
  weapon->curammo = NULL;
 }
 
-void game::wield()
+void game::wield(char chInput)
 {
  if (u.weapon.has_flag(IF_NO_UNWIELD)) {
 // Bionics can't be unwielded
@@ -7001,10 +7074,14 @@ void game::wield()
   return;
  }
  char ch;
- if (u.styles.empty())
-  ch = inv("Wield item:");
- else
-  ch = inv("Wield item: Press - to choose a style");
+ if (chInput == '.') {
+  if (u.styles.empty())
+   ch = inv("Wield item:");
+  else
+   ch = inv("Wield item: Press - to choose a style");
+ } else
+  ch = chInput;
+
  bool success = false;
  if (ch == '-')
   success = u.wield(this, -3);
