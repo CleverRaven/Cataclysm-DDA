@@ -183,6 +183,7 @@ std::string option_name(option_key key)
 bool option_is_bool(option_key id)
 {
  switch (id) {
+  case OPT_24_HOUR:
   case OPT_SAFEMODEPROXIMITY:
   case OPT_AUTOSAFEMODETURNS:
   case OPT_SKILL_RUST:
@@ -207,6 +208,9 @@ char option_max_options(option_key id)
   else
     switch (id)
     {
+      case OPT_24_HOUR:
+        ret = 3;
+        break;
       case OPT_SAFEMODEPROXIMITY:
         ret = 61;
         break;
@@ -248,8 +252,8 @@ use_metric_system F\n\
 force_capital_yn T\n\
 # If true, bright backgrounds are not used--some consoles are not compatible\n\
 no_bright_backgrounds F\n\
-# If true, use military time, not AM/PM\n\
-24_hour F\n\
+# 12h/24h Time: 0 = AM/PM, 1 = 24h military, 2 = 24h normal\n\
+24_hour 0\n\
 # If true, automatically follow the crosshair when firing/throwing\n\
 snap_to_target F\n\
 # If true, safemode will be on after starting a new game or loading\n\
