@@ -3183,16 +3183,19 @@ bool game::sees_u( int x, int y, int &t)
 
  // doesn't matter if this actually reduces the range as we only need to look this far
  if (lm.at(0, 0) >= LL_LOW)
+	{
+ 
+	for (int i = 0; i < z.size(); i++) 
 	{ 
 	
-	if(m.has_flag(MF_VIS50)) { range = (rl_dist(x, y, u.posx, u.posy) - 10) }
-	else if(m.has_flag(MF_VIS40)) { range = (rl_dist(x, y, u.posx, u.posy) - 20) }
-	else if(m.has_flag(MF_VIS30)) { range = (rl_dist(x, y, u.posx, u.posy) - 30) }
-	else if(m.has_flag(MF_VIS20)) { range = (rl_dist(x, y, u.posx, u.posy) - 40) }
-	else if(m.has_flag(MF_VIS10)) { range = (rl_dist(x, y, u.posx, u.posy) - 50) }
+	if(z[i].has_flag(MF_VIS50)) { range = (light_level() - 10) }
+	else if(z[i].has_flag(MF_VIS40)) { range = (light_level() - 20) }
+	else if(z[i].has_flag(MF_VIS30)) { range = (light_level() - 30) }
+	else if(z[i].has_flag(MF_VIS20)) { range = (light_level() - 40) }
+	else if(z[i].has_flag(MF_VIS10)) { range = (light_level() - 50) }
 	else {  range = rl_dist(x, y, u.posx, u.posy)}
 	}
-
+	}
  return (!u.has_active_bionic(bio_cloak) &&
          !u.has_artifact_with(AEP_INVISIBLE) &&
          m.sees(x, y, u.posx, u.posy, range, t));
