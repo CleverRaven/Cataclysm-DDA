@@ -41,8 +41,13 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, NULL, NULL, 0, 1000, true);
 RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
  COMP(itm_pilot_light, 1, NULL);
 
-RECIPE(itm_tshirt, CC_NONCRAFT, "tailor", NULL, 2, 38000, true);
-  TOOL(itm_sewing_kit, 4, NULL);
+RECIPE(itm_tshirt, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
+  COMP(itm_rag, 5, NULL);
+
+RECIPE(itm_tshirt_fit, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
+  COMP(itm_rag, 5, NULL);
+
+RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP(itm_rag, 5, NULL);
 // CRAFTABLE
 
