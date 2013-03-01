@@ -133,7 +133,7 @@ std::string option_desc(option_key key)
   case OPT_USE_METRIC_SYS:	return "If true, use Km/h not mph";
   case OPT_FORCE_YN:		return "If true, y/n prompts are case-sensitive\nand y and n are not accepted";
   case OPT_NO_CBLINK:		return "If true, bright backgrounds are not\nused--some consoles are not compatible";
-  case OPT_24_HOUR:		return "If true, use military time, not AM/PM";
+  case OPT_24_HOUR:		return "12h/24h Time:\n0 - AM/PM\n1 - 24h military\n2 - 24h normal";
   case OPT_SNAP_TO_TARGET:	return "If true, automatically follow the\ncrosshair when firing/throwing";
   case OPT_SAFEMODE:		return "If true, safemode will be on after\nstarting a new game or loading";
   case OPT_SAFEMODEPROXIMITY: return "If safemode is enabled,\ndistance to hostiles when safemode\nshould show a warning (0=Viewdistance)";
