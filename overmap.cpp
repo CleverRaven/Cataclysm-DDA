@@ -907,7 +907,8 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
     if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) { // It's in-bounds
      cur_ter = ter(omx, omy);
      see = seen(omx, omy);
-     if (note_here == has_note(omx, omy))
+     note_here = has_note(omx, omy);
+     if (note_here)
       note_text = note(omx, omy);
      for (unsigned int n = 0; n < npcs.size(); n++) {
       if ((npcs[n].mapx + 1) / 2 == omx && (npcs[n].mapy + 1) / 2 == omy) {
@@ -926,12 +927,14 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
       omy += (omy < 0 ? OMAPY : 0 - OMAPY);
       cur_ter = diag.ter(omx, omy);
       see = diag.seen(omx, omy);
-      if ((note_here == diag.has_note(omx, omy)))
+      note_here = diag.has_note(omx, omy);
+      if (note_here)
        note_text = diag.note(omx, omy);
      } else {
       cur_ter = hori.ter(omx, omy);
       see = hori.seen(omx, omy);
-      if (note_here = hori.has_note(omx, omy))
+      note_here = hori.has_note(omx, omy);
+      if (note_here)
        note_text = hori.note(omx, omy);
      }
     } else if (omx >= OMAPX) {
@@ -940,25 +943,29 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
       omy += (omy < 0 ? OMAPY : 0 - OMAPY);
       cur_ter = diag.ter(omx, omy);
       see = diag.seen(omx, omy);
-      if (note_here == diag.has_note(omx, omy))
+      note_here = diag.has_note(omx, omy);
+      if (note_here)
        note_text = diag.note(omx, omy);
      } else {
       cur_ter = hori.ter(omx, omy);
       see = hori.seen(omx, omy);
-      if ((note_here = hori.has_note(omx, omy)))
+      note_here = hori.has_note(omx, omy);
+      if (note_here)
        note_text = hori.note(omx, omy);
      }
     } else if (omy < 0) {
      omy += OMAPY;
      cur_ter = vert.ter(omx, omy);
      see = vert.seen(omx, omy);
-     if ((note_here = vert.has_note(omx, omy)))
+     note_here = vert.has_note(omx, omy);
+     if (note_here)
       note_text = vert.note(omx, omy);
     } else if (omy >= OMAPY) {
      omy -= OMAPY;
      cur_ter = vert.ter(omx, omy);
      see = vert.seen(omx, omy);
-     if ((note_here = vert.has_note(omx, omy)))
+     note_here = vert.has_note(omx, omy);
+     if (note_here)
       note_text = vert.note(omx, omy);
     } else
      debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
