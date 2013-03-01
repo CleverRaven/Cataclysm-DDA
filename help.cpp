@@ -26,21 +26,14 @@ void game::help()
 Please press one of the following for help on that topic:\n\
 Press q or ESC to return to the game.\n\
 \n\
-a: Introduction\n\
-b: Movement\n\
-c: Viewing\n\
-d: Hunger, Thirst, and Sleep\n\
-e: Pain and Stimulants\n\
-f: Addiction\n\
-g: Morale and XP\n\
+a: Introduction                      i: Bionics\n\
+b: Movement                          j: Crafting\n\
+c: Viewing                           k: Traps\n\
+d: Hunger, Thirst, and Sleep         l: Items overview\n\
+e: Pain and Stimulants               m: Combat\n\
+f: Addiction                         n: Unarmed Styles\n\
+g: Morale and XP                     o: Survival tips\n\
 h: Radioactivity and Mutation\n\
-i: Bionics\n\
-j: Crafting\n\
-k: Traps\n\
-l: Items overview\n\
-m: Combat\n\
-n: Unarmed Styles\n\
-o: Survival tips\n\
 \n\
 1: List of all commands (you can change key commands here)\n\
 2: List of all options  (you can change options here)\n\
@@ -335,6 +328,10 @@ Bashing damage is universally effective, but is capped by low strength.\n\
 Cutting damage is a guaranteed increase in damage, but it may be reduced by\n\
 a monster's natural armor.\n\
 \n\
+Press any key for more...");
+    getch();
+    erase();
+mvprintz(0, 0, c_white, "\
 To wield an item as a weapon, press 'w' then the proper letter.  Pressing '-'\n\
 in lieu of a letter will make you wield nothing.  A wielded weapon will not\n\
 contribute to your volume carried, so holding a large item in your hands may\n\
@@ -428,6 +425,10 @@ Irregular terrain, like forests, may help you lose monsters.\n\
 Firearms are the easiest way to kill an enemy, but the sound will attract\n\
 unwanted attention. Save the guns for emergencies, and melee when you can.\n\
 \n\
+Press any key for more...");
+    getch();
+    erase();
+mvprintz(0, 0, c_white, "\
 Try to keep your inventory as full as possible without being overloaded.  You\n\
 never know when you might need an item, most are good to sell, and you can\n\
 easily drop unwanted items on the floor.\n\
