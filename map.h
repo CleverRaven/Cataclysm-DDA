@@ -171,8 +171,8 @@ class map
 // mapgen.cpp functions
  void generate(game *g, overmap *om, const int x, const int y, const int turn);
  void post_process(game *g, unsigned zones);
- void place_spawns(game *g, moncat_id monster_type, int chance, int x1, int y1,
-                   int x2, int y2, int min, int max);
+ void place_spawns(game *g, const moncat_id monster_type, const int chance,
+                   const int x1, const int y1, const int x2, const int y2, const float density);
  void place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn);
 // put_items_from puts exactly num items, based on chances
@@ -196,9 +196,9 @@ protected:
  bool loadn(game *g, const int x, const int y, const int gridx, const int gridy,
             const  bool update_vehicles = true);
  void copy_grid(const int to, const int from);
- void draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
-               oter_id t_south, oter_id t_west, oter_id t_above, const int turn,
-               game *g);
+ void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
+               const oter_id t_south, const oter_id t_west, const oter_id t_above, const int turn,
+               game *g, const float density);
  void add_extra(map_extra type, game *g);
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
 			// Useful for houses, shops, etc
