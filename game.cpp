@@ -3175,7 +3175,7 @@ faction* game::random_evil_faction()
  return &(factions[factions.size() - 1]);
 }
 
-bool game::sees_u(monster *mon int x, int y, int &t)
+bool game::sees_u(monster *mon, int x, int y, int &t)
 {
  // TODO: [lightmap] Apply default monster vison levels here
  //                  the light map should deal lighting from player or fires
