@@ -22,7 +22,7 @@
 #include "artifact.h"
 #include "mutation.h"
 #include "gamemode.h"
-#include "action.h"
+//#include "action.h"
 #include <vector>
 #include <map>
 #include <stdarg.h>

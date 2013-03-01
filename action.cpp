@@ -1,5 +1,6 @@
 #include "game.h"
 #include "keypress.h"
+#include "action.h"
 #include <fstream>
 
 void game::load_keyboard_settings()
@@ -86,6 +87,7 @@ void game::clear_bindings(action_id act)
  }
 }
 
+/*
 std::string action_ident(action_id act)
 {
  switch (act) {
@@ -233,6 +235,17 @@ std::string action_ident(action_id act)
    return "null";
  }
  return "unknown";
+}
+//*/
+
+
+std::string action_ident(action_id act)
+{
+    if (act >= 0 && act < NUM_ACTIONS){
+        return action_msg[act];
+    }
+
+    return "unknown";
 }
 
 action_id look_up_action(std::string ident)
