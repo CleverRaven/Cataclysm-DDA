@@ -74,21 +74,22 @@ void monster::plan(game *g)
  int tc, stc;
  bool fleeing = false;
  
-    if(has_flag(MF_VIS50))
-	sightrange -= 10;
-	else if(tmp->has_flag(MF_VIS40))
-	sightrange -= 20;
-	else if(has_flag(MF_VIS30))
-	sightrange -= 30;
-	else if(has_flag(MF_VIS20))
-	sightrange -= 40;
-	else if(has_flag(MF_VIS10))
-	sightrange -= 50;
-	
+
  if (friendly != 0) {	// Target monsters, not the player!
   for (int i = 0; i < g->z.size(); i++) {
    monster *tmp = &(g->z[i]);
-	
+    if(tmp->has_flag(MF_VIS50))
+	sightrange -= 10;
+	else if(tmp->has_flag(MF_VIS40))
+	sightrange -= 20;
+	else if(tmp->has_flag(MF_VIS30))
+	sightrange -= 30;
+	else if(tmp->has_flag(MF_VIS20))
+	sightrange -= 40;
+	else if(tmp->has_flag(MF_VIS10))
+	sightrange -= 50;
+	else
+	sightrange = g->light_level();
    if (tmp->friendly == 0 && rl_dist(posx, posy, tmp->posx, tmp->posy) < dist &&
        g->m.sees(posx, posy, tmp->posx, tmp->posy, sightrange, tc)) {
     closest = i;
