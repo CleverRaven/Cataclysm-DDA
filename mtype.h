@@ -124,7 +124,7 @@ MF_VIS50,   //Vision -10
 MF_VIS40,  //Vision -20
 MF_VIS30,  //Vision -30
 MF_VIS20, //Vision -40
-MF_VIS10  //Vision -50
+MF_VIS10,  //Vision -50
 MF_HEARS,	// It can hear you
 MF_GOODHEARING,	// Pursues sounds more than most monsters
 MF_SMELLS,	// It can smell you
