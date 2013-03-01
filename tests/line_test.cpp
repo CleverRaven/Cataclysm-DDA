@@ -3,10 +3,9 @@ extern "C" {
  #include "tap.h"
 }
 
-#include <string.h>
 #include "line.h"
 
-int main(void)
+int main(int argc, char *argv[])
 {
  plan_tests(1);
 
