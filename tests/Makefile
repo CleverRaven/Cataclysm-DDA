@@ -10,7 +10,8 @@ TEST_OBJS = $(TEST_SOURCES:%.cpp=$(ODIR)/%.o)
 TESTS = $(TEST_SOURCES:.cpp=)
 
 # Brute force solution, relative paths to EVERY .o file
-SOURCE_OBJS = $(patsubst %,../$(ODIR)/%,$(filter-out main.o,$(_OBJS)))
+#SOURCE_OBJS = $(patsubst %,../$(ODIR)/%,$(filter-out main.o,$(_OBJS)))
+SOURCE_OBJS = ../obj/line.o
 
 LDFLAGS += -L. -ltap -lpthread
 
