@@ -3188,12 +3188,12 @@ bool game::sees_u( int x, int y, int &t)
 	for (int i = 0; i < z.size(); i++) 
 	{ 
 	
-	if(z[i].has_flag(MF_VIS50)) { range = (light_level() - 10) }
-	else if(z[i].has_flag(MF_VIS40)) { range = (light_level() - 20) }
-	else if(z[i].has_flag(MF_VIS30)) { range = (light_level() - 30) }
-	else if(z[i].has_flag(MF_VIS20)) { range = (light_level() - 40) }
-	else if(z[i].has_flag(MF_VIS10)) { range = (light_level() - 50) }
-	else {  range = rl_dist(x, y, u.posx, u.posy)}
+	if(z[i].has_flag(MF_VIS50)) { range = (light_level() - 10); }
+	else if(z[i].has_flag(MF_VIS40)) { range = (light_level() - 20); }
+	else if(z[i].has_flag(MF_VIS30)) { range = (light_level() - 30); }
+	else if(z[i].has_flag(MF_VIS20)) { range = (light_level() - 40); }
+	else if(z[i].has_flag(MF_VIS10)) { range = (light_level() - 50); }
+	else {  range = rl_dist(x, y, u.posx, u.posy);}
 	}
 	}
  return (!u.has_active_bionic(bio_cloak) &&
