@@ -1577,11 +1577,19 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
   practice = 12;
   break;
  case itm_landmine:
+  buried = (p->has_amount(itm_shovel, 1) &&
+            g->m.has_flag(diggable, posx, posy) &&
+            query_yn("Bury the landmine?"));
+  type = (buried ? tr_landmine_buried : tr_landmine);
+  message << "You " << (buried ? "bury" : "set") << " the landmine.";
+  practice = (buried ? 7 : 4);
+  break;
+ /*case itm_landmine:
   buried = true;
   message << "You bury the landmine.";
   type = tr_landmine;
   practice = 7;
-  break;
+  break;*/
  default:
   g->add_msg_if_player(p,"Tried to set a trap.  But got confused! %s", it->tname().c_str());
   return;
