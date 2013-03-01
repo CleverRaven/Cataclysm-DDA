@@ -76,7 +76,7 @@ void monster::plan(game *g)
  
     if(has_flag(MF_VIS50))
 	sightrange -= 10;
-	else if(tmp->has_flag(MF_VIS40))
+	else if(has_flag(MF_VIS40))
 	sightrange -= 20;
 	else if(has_flag(MF_VIS30))
 	sightrange -= 30;
