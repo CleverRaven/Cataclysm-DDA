@@ -22,6 +22,9 @@ tests: $(TESTS)
 %_test: $(ODIR) $(DDIR) $(SOURCE_OBJS) $(TEST_OBJS)
 	$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(ODIR)/$@.o $(SOURCE_OBJS) $(LDFLAGS)
 
+check: $(TESTS)
+	LD_LIBRARY_PATH=/usr/local/lib ./$?
+
 $(ODIR):
 	mkdir $(ODIR)
 
