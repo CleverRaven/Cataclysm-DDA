@@ -6962,7 +6962,9 @@ void game::unload(char chInput)
   bSwitch = true;
  }
 
- unload();
+ if (bSwitch || u.weapon.invlet == chInput) {
+  unload();
+ }
 
  if (bSwitch) {
   u.inv.push_back(u.weapon);
