@@ -3184,18 +3184,20 @@ bool game::sees_u( int x, int y, int &t)
 int mondex = mon_at(x,y);
 if(mondex != -1){
 	if(z[mondex].has_flag(MF_VIS10))
-	range = 10;
+	range = (light_level() - 50);
 	else if(z[mondex].has_flag(MF_VIS20))
-	range = 20;
+	range = (light_level() - 40);
 	else if(z[mondex].has_flag(MF_VIS30))
-	range = 30;
+	range = (light_level() - 30);
 	else if(z[mondex].has_flag(MF_VIS40))
-	range = 40;
+	range = (light_level() - 20);
 	else if(z[mondex].has_flag(MF_VIS50))
-	range = 50;
+	range = (light_level() - 10);
 	else
 	range = 60;
 	}
+	if( range < 0)
+	range =1;
 	
  return (!u.has_active_bionic(bio_cloak) &&
          !u.has_artifact_with(AEP_INVISIBLE) &&
