@@ -1,6 +1,7 @@
 #include "options.h"
 #include "output.h"
 
+#include <stdlib.h>
 #include <fstream>
 #include <string>
 
@@ -45,8 +46,15 @@ void load_options()
     else
      OPTIONS[key] = 0.;
    } else {
+    std::string check;
     double val;
-    fin >> val;
+    fin >> check;
+
+    if (check == "T" || check == "F")
+     val = (check == "T") ? 1.: 0.;
+    else
+     val = atoi(check.c_str());
+
     OPTIONS[key] = val;
    }
   }
