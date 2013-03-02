@@ -1846,7 +1846,7 @@ input_ret game::get_input(int timeout_ms)
  return IR_GOOD;
 }
 
-#define SCENT_RADIUS 18
+#define SCENT_RADIUS 40
 
 int& game::scent(int x, int y)
 {
