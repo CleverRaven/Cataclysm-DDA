@@ -8,7 +8,7 @@
  * updating *miss with the target and any other important information.
  */
 
-void mission_start::standard(game *g, mission *miss)
+void mission_start::standard(game * /*g*/, mission * /*miss*/)
 {
 }
 
@@ -186,6 +186,9 @@ void mission_start::place_npc_software(game *g, mission *miss)
    }
   }
  } break;
+
+ default:
+  break;
  }
 
  std::stringstream compname;
@@ -248,6 +251,6 @@ void mission_start::find_safety(game *g, mission *miss)
  }
 }
 
-void mission_start::place_book(game *g, mission *miss)
+void mission_start::place_book(game * /*g*/, mission * /*miss*/)
 {
 }

@@ -39,7 +39,7 @@ std::vector<item> inventory::as_vector()
 {
  std::vector<item> ret;
  for (int i = 0; i < size(); i++) {
-  for (int j = 0; j < stack_at(i).size(); j++)
+  for (unsigned int j = 0; j < stack_at(i).size(); j++)
    ret.push_back(items[i][j]);
  }
  return ret;
@@ -53,7 +53,7 @@ int inventory::size() const
 int inventory::num_items() const
 {
  int ret = 0;
- for (int i = 0; i < items.size(); i++)
+ for (unsigned int i = 0; i < items.size(); i++)
   ret += items[i].size();
 
  return ret;
@@ -90,7 +90,7 @@ inventory& inventory::operator+= (const inventory &rhs)
 
 inventory& inventory::operator+= (const std::vector<item> &rhs)
 {
- for (int i = 0; i < rhs.size(); i++)
+ for (unsigned int i = 0; i < rhs.size(); i++)
   add_item(rhs[i]);
  return *this;
 }
@@ -123,7 +123,7 @@ void inventory::clear()
 
 void inventory::add_stack(const std::vector<item> newits)
 {
- for (int i = 0; i < newits.size(); i++)
+ for (unsigned int i = 0; i < newits.size(); i++)
   add_item(newits[i], true);
 }
 
@@ -139,7 +139,7 @@ void inventory::add_item(item newit, bool keep_invlet)
 
  if (newit.is_style())
   return; // Styles never belong in our inventory.
- for (int i = 0; i < items.size(); i++) {
+ for (unsigned int i = 0; i < items.size(); i++) {
   if (items[i][0].stacks_with(newit)) {
     newit.invlet = items[i][0].invlet;
    items[i].push_back(newit);
@@ -169,7 +169,7 @@ void inventory::restack(player *p)
 {
  inventory tmp;
  for (int i = 0; i < size(); i++) {
-  for (int j = 0; j < items[i].size(); j++)
+  for (unsigned int j = 0; j < items[i].size(); j++)
    tmp.add_item(items[i][j]);
  }
  clear();
@@ -178,7 +178,7 @@ void inventory::restack(player *p)
    if (!tmp[i].invlet_is_okay() || p->has_weapon_or_armor(tmp[i].invlet)) {
     //debugmsg("Restacking item %d (invlet %c)", i, tmp[i].invlet);
     tmp.assign_empty_invlet(tmp[i], p);
-    for (int j = 1; j < tmp.stack_at(i).size(); j++)
+    for (unsigned int j = 1; j < tmp.stack_at(i).size(); j++)
      tmp.stack_at(i)[j].invlet = tmp[i].invlet;
    }
   }
@@ -192,7 +192,7 @@ void inventory::form_from_map(game *g, point origin, int range)
  items.clear();
  for (int x = origin.x - range; x <= origin.x + range; x++) {
   for (int y = origin.y - range; y <= origin.y + range; y++) {
-   for (int i = 0; i < g->m.i_at(x, y).size(); i++)
+   for (unsigned int i = 0; i < g->m.i_at(x, y).size(); i++)
     if (!g->m.i_at(x, y)[i].made_of(LIQUID))
      add_item(g->m.i_at(x, y)[i]);
 // Kludges for now!
@@ -260,7 +260,7 @@ item inventory::remove_item(int stack, int index)
 
 item inventory::remove_item_by_letter(char ch)
 {
- for (int i = 0; i < items.size(); i++) {
+ for (unsigned int i = 0; i < items.size(); i++) {
   if (items[i][0].invlet == ch) {
    if (items[i].size() > 1)
     items[i][1].invlet = ch;
@@ -290,7 +290,7 @@ item inventory::remove_item_by_quantity(int index, int quantity)
 
 item& inventory::item_by_letter(char ch)
 {
- for (int i = 0; i < items.size(); i++) {
+ for (unsigned int i = 0; i < items.size(); i++) {
   if (items[i][0].invlet == ch)
    return items[i][0];
  }
@@ -301,7 +301,7 @@ int inventory::index_by_letter(char ch)
 {
  if (ch == KEY_ESCAPE)
   return -1;
- for (int i = 0; i < items.size(); i++) {
+ for (unsigned int i = 0; i < items.size(); i++) {
   if (items[i][0].invlet == ch)
    return i;
  }
@@ -311,8 +311,8 @@ int inventory::index_by_letter(char ch)
 int inventory::amount_of(itype_id it)
 {
  int count = 0;
- for (int i = 0; i < items.size(); i++) {
-  for (int j = 0; j < items[i].size(); j++) {
+ for (unsigned int i = 0; i < items.size(); i++) {
+  for (unsigned int j = 0; j < items[i].size(); j++) {
    if (items[i][j].type->id == it)
    {
     // check if it's a container, if so, it should be empty
@@ -322,7 +322,7 @@ int inventory::amount_of(itype_id it)
         count++;
     } else count++;
   }
-   for (int k = 0; k < items[i][j].contents.size(); k++) {
+   for (unsigned int k = 0; k < items[i][j].contents.size(); k++) {
     if (items[i][j].contents[k].type->id == it)
      count++;
    }
@@ -334,15 +334,15 @@ int inventory::amount_of(itype_id it)
 int inventory::charges_of(itype_id it)
 {
  int count = 0;
- for (int i = 0; i < items.size(); i++) {
-  for (int j = 0; j < items[i].size(); j++) {
+ for (unsigned int i = 0; i < items.size(); i++) {
+  for (unsigned int j = 0; j < items[i].size(); j++) {
    if (items[i][j].type->id == it) {
     if (items[i][j].charges < 0)
      count++;
     else
      count += items[i][j].charges;
    }
-   for (int k = 0; k < items[i][j].contents.size(); k++) {
+   for (unsigned int k = 0; k < items[i][j].contents.size(); k++) {
     if (items[i][j].contents[k].type->id == it) {
      if (items[i][j].contents[k].charges < 0)
       count++;
@@ -357,11 +357,11 @@ int inventory::charges_of(itype_id it)
 
 void inventory::use_amount(itype_id it, int quantity, bool use_container)
 {
- for (int i = 0; i < items.size() && quantity > 0; i++) {
-  for (int j = 0; j < items[i].size() && quantity > 0; j++) {
+ for (unsigned int i = 0; i < items.size() && quantity > 0; i++) {
+  for (unsigned int j = 0; j < items[i].size() && quantity > 0; j++) {
 // First, check contents
    bool used_item_contents = false;
-   for (int k = 0; k < items[i][j].contents.size() && quantity > 0; k++) {
+   for (unsigned int k = 0; k < items[i][j].contents.size() && quantity > 0; k++) {
     if (items[i][j].contents[k].type->id == it) {
      quantity--;
      items[i][j].contents.erase(items[i][j].contents.begin() + k);
@@ -394,10 +394,10 @@ void inventory::use_amount(itype_id it, int quantity, bool use_container)
 
 void inventory::use_charges(itype_id it, int quantity)
 {
- for (int i = 0; i < items.size() && quantity > 0; i++) {
-  for (int j = 0; j < items[i].size() && quantity > 0; j++) {
+ for (unsigned int i = 0; i < items.size() && quantity > 0; i++) {
+  for (unsigned int j = 0; j < items[i].size() && quantity > 0; j++) {
 // First, check contents
-   for (int k = 0; k < items[i][j].contents.size() && quantity > 0; k++) {
+   for (unsigned int k = 0; k < items[i][j].contents.size() && quantity > 0; k++) {
     if (items[i][j].contents[k].type->id == it) {
      if (items[i][j].contents[k].charges <= quantity) {
       quantity -= items[i][j].contents[k].charges;
@@ -447,11 +447,11 @@ bool inventory::has_charges(itype_id it, int quantity)
 
 bool inventory::has_item(item *it)
 {
- for (int i = 0; i < items.size(); i++) {
-  for (int j = 0; j < items[i].size(); j++) {
+ for (unsigned int i = 0; i < items.size(); i++) {
+  for (unsigned int j = 0; j < items[i].size(); j++) {
    if (it == &(items[i][j]))
     return true;
-   for (int k = 0; k < items[i][j].contents.size(); k++) {
+   for (unsigned int k = 0; k < items[i][j].contents.size(); k++) {
     if (it == &(items[i][j].contents[k]))
      return true;
    }

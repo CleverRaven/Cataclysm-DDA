@@ -419,7 +419,7 @@ void game::process_artifact(item *it, player *p, bool wielded)
   it_artifact_tool* tool = dynamic_cast<it_artifact_tool*>(it->type);
   effects = tool->effects_carried;
   if (wielded) {
-   for (int i = 0; i < tool->effects_wielded.size(); i++)
+   for (unsigned int i = 0; i < tool->effects_wielded.size(); i++)
     effects.push_back(tool->effects_wielded[i]);
   }
 // Recharge it if necessary
@@ -448,11 +448,16 @@ void game::process_artifact(item *it, player *p, bool wielded)
       it->charges++;
      }
      break;
+
+     // Unused enums added for completeness.
+    case ARTC_NULL:
+    case NUM_ARTCS:
+        break;
    }
   }
  }
 
- for (int i = 0; i < effects.size(); i++) {
+ for (unsigned int i = 0; i < effects.size(); i++) {
   switch (effects[i]) {
   case AEP_STR_UP:
    p->str_cur += 4;
@@ -472,24 +477,11 @@ void game::process_artifact(item *it, player *p, bool wielded)
    p->per_cur += 2;
    p->int_cur += 2;
    break;
-  case AEP_SPEED_UP: // Handled in player::current_speed()
-   break;
 
   case AEP_IODINE:
    if (p->radiation > 0)
     p->radiation--;
    break;
-
-  case AEP_SMOKE:
-   if (one_in(10)) {
-    int x = p->posx + rng(-1, 1), y = p->posy + rng(-1, 1);
-    if (m.add_field(this, x, y, fd_smoke, rng(1, 3)))
-     add_msg("The %s emits some smoke.", it->tname().c_str());
-   }
-   break;
-
-  case AEP_SNAKES:
-   break; // Handled in player::hit()
 
   case AEP_EXTINGUISH:
    for (int x = p->posx - 1; x <= p->posx + 1; x++) {
@@ -514,6 +506,14 @@ void game::process_artifact(item *it, player *p, bool wielded)
     p->thirst++;
    break;
 
+   case AEP_SMOKE:
+   if (one_in(10)) {
+    int x = p->posx + rng(-1, 1), y = p->posy + rng(-1, 1);
+    if (m.add_field(this, x, y, fd_smoke, rng(1, 3)))
+     add_msg("The %s emits some smoke.", it->tname().c_str());
+   }
+   break;
+
   case AEP_EVIL:
    if (one_in(150)) { // Once every 15 minutes, on average
     p->add_disease(DI_EVIL, 300, this);
@@ -521,14 +521,6 @@ void game::process_artifact(item *it, player *p, bool wielded)
      add_msg("You have an urge to %s the %s.",
              (it->is_armor() ? "wear" : "wield"), it->tname().c_str());
    }
-   break;
-
-  case AEP_SCHIZO:
-   break; // Handled in player::suffer()
-
-  case AEP_RADIOACTIVE:
-   if (one_in(4))
-    p->radiation++;
    break;
 
   case AEP_STR_DOWN:
@@ -554,8 +546,14 @@ void game::process_artifact(item *it, player *p, bool wielded)
    p->int_cur -= 2;
    break;
 
-  case AEP_SPEED_DOWN:
-   break; // Handled in player::current_speed()
+  case AEP_RADIOACTIVE:
+   if (one_in(4))
+    p->radiation++;
+   break;
+
+
+  default:
+   break;
   }
  }
 }
@@ -563,7 +561,7 @@ void game::process_artifact(item *it, player *p, bool wielded)
 void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 {
  int net_str = 0, net_dex = 0, net_per = 0, net_int = 0, net_speed = 0;
- for (int i = 0; i < effects.size(); i++) {
+ for (unsigned int i = 0; i < effects.size(); i++) {
   switch (effects[i]) {
    case AEP_STR_UP:   net_str += 4; break;
    case AEP_DEX_UP:   net_dex += 4; break;
@@ -584,9 +582,6 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 
    case AEP_SPEED_UP:   net_speed += 20; break;
    case AEP_SPEED_DOWN: net_speed -= 20; break;
-
-   case AEP_IODINE:
-    break; // No message
 
    case AEP_SNAKES:
     add_msg("Your skin feels slithery.");
@@ -658,6 +653,10 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 
    case AEP_BAD_WEATHER:
     add_msg("You feel storms coming.");
+    break;
+
+    // Unused enums added for completeness.
+   default:
     break;
   }
  }

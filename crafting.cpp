@@ -41,8 +41,13 @@ RECIPE(itm_lawnmower, CC_NONCRAFT, NULL, NULL, 0, 1000, true);
 RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
  COMP(itm_pilot_light, 1, NULL);
 
-RECIPE(itm_tshirt, CC_NONCRAFT, "tailor", NULL, 2, 38000, true);
-  TOOL(itm_sewing_kit, 4, NULL);
+RECIPE(itm_tshirt, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
+  COMP(itm_rag, 5, NULL);
+
+RECIPE(itm_tshirt_fit, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
+  COMP(itm_rag, 5, NULL);
+
+RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP(itm_rag, 5, NULL);
 // CRAFTABLE
 
@@ -1129,7 +1134,7 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
     }
    }
   } else{
-   for (int i = 0; i < current.size() && i < 23; i++) {
+   for (unsigned int i = 0; i < current.size() && i < 23; i++) {
     if (i == line)
      mvwprintz(w_data, i, 0, (available[i] ? h_white : h_dkgray),
                itypes[current[i]->result]->name.c_str());
@@ -1171,7 +1176,7 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
      xpos = 32;
      mvwputch(w_data, ypos, 30, col, '>');
 
-     for (int j = 0; j < current[line]->tools[i].size(); j++) {
+     for (unsigned int j = 0; j < current[line]->tools[i].size(); j++) {
       itype_id type = current[line]->tools[i][j].type;
       int charges = current[line]->tools[i][j].count;
       nc_color toolcol = c_red;
@@ -1212,7 +1217,7 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
      mvwputch(w_data, ypos, 30, col, '>');
     }
     xpos = 32;
-    for (int j = 0; j < current[line]->components[i].size(); j++) {
+    for (unsigned int j = 0; j < current[line]->components[i].size(); j++) {
      int count = current[line]->components[i][j].count;
      itype_id type = current[line]->components[i][j].type;
      nc_color compcol = c_red;
@@ -1422,6 +1427,9 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab)
   mvwputch(w, 1, 65, h_ltgray, '<');
   mvwputch(w, 1, 76, h_ltgray, '>');
   break;
+
+ default:
+  break;
  }
  wrefresh(w);
 }
@@ -1448,7 +1456,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
 
  current.clear();
  available.clear();
- for (int i = 0; i < recipes.size(); i++) {
+ for (unsigned int i = 0; i < recipes.size(); i++) {
 // Check if the category matches the tab, and we have the requisite skills
   if (recipes[i]->category == tab &&
       (recipes[i]->sk_primary == NULL ||
@@ -1461,7 +1469,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
   }
   available.push_back(false);
  }
- for (int i = 0; i < current.size() && i < 51; i++) {
+ for (unsigned int i = 0; i < current.size() && i < 51; i++) {
 //Check if we have the requisite tools and components
   for (int j = 0; j < 5; j++) {
    have_tool[j] = false;
@@ -1469,7 +1477,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
    if (current[i]->tools[j].size() == 0)
     have_tool[j] = true;
    else {
-    for (int k = 0; k < current[i]->tools[j].size(); k++) {
+    for (unsigned int k = 0; k < current[i]->tools[j].size(); k++) {
      itype_id type = current[i]->tools[j][k].type;
      int req = current[i]->tools[j][k].count;	// -1 => 1
      if ((req <= 0 && crafting_inv.has_amount (type,   1)) ||
@@ -1482,7 +1490,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
    if (current[i]->components[j].size() == 0)
     have_comp[j] = true;
    else {
-    for (int k = 0; k < current[i]->components[j].size() && !have_comp[j]; k++){
+    for (unsigned int k = 0; k < current[i]->components[j].size() && !have_comp[j]; k++){
      itype_id type = current[i]->components[j][k].type;
      int count = current[i]->components[j][k].count;
      if (itypes[type]->count_by_charges() && count > 0) {
@@ -1541,7 +1549,7 @@ void game::complete_craft()
   for (int i = 0; i < 5; i++) {
    if (making->components[i].size() > 0) {
     std::vector<component> copy = making->components[i];
-    for (int j = 0; j < copy.size(); j++)
+    for (unsigned int j = 0; j < copy.size(); j++)
      copy[j].count = rng(0, copy[j].count);
     consume_items(copy);
    }
@@ -1616,7 +1624,7 @@ void game::consume_items(std::vector<component> components)
  inventory map_inv;
  map_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
 
- for (int i = 0; i < components.size(); i++) {
+ for (unsigned int i = 0; i < components.size(); i++) {
   itype_id type = components[i].type;
   int count = abs(components[i].count);
   bool pl = false, mp = false;
@@ -1663,13 +1671,13 @@ void game::consume_items(std::vector<component> components)
  } else { // Let the player pick which component they want to use
   std::vector<std::string> options; // List for the menu_vec below
 // Populate options with the names of the items
-  for (int i = 0; i < map_has.size(); i++) {
+  for (unsigned int i = 0; i < map_has.size(); i++) {
    std::string tmpStr = itypes[map_has[i].type]->name + " (nearby)";
    options.push_back(tmpStr);
   }
-  for (int i = 0; i < player_has.size(); i++)
+  for (unsigned int i = 0; i < player_has.size(); i++)
    options.push_back(itypes[player_has[i].type]->name);
-  for (int i = 0; i < mixed.size(); i++) {
+  for (unsigned int i = 0; i < mixed.size(); i++) {
    std::string tmpStr = itypes[mixed[i].type]->name +" (on person & nearby)";
    options.push_back(tmpStr);
   }
@@ -1690,7 +1698,7 @@ void game::consume_items(std::vector<component> components)
   }
  }
 
- for (int i = 0; i < player_use.size(); i++) {
+ for (unsigned int i = 0; i < player_use.size(); i++) {
   if (itypes[player_use[i].type]->count_by_charges() &&
       player_use[i].count > 0)
    u.use_charges(player_use[i].type, player_use[i].count);
@@ -1698,7 +1706,7 @@ void game::consume_items(std::vector<component> components)
    u.use_amount(player_use[i].type, abs(player_use[i].count),
                    (player_use[i].count < 0));
  }
- for (int i = 0; i < map_use.size(); i++) {
+ for (unsigned int i = 0; i < map_use.size(); i++) {
   if (itypes[map_use[i].type]->count_by_charges() &&
       map_use[i].count > 0)
    m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,
@@ -1708,7 +1716,7 @@ void game::consume_items(std::vector<component> components)
                    map_use[i].type, abs(map_use[i].count),
                    (map_use[i].count < 0));
  }
- for (int i = 0; i < mixed_use.size(); i++) {
+ for (unsigned int i = 0; i < mixed_use.size(); i++) {
   if (itypes[mixed_use[i].type]->count_by_charges() &&
       mixed_use[i].count > 0) {
    int from_map = mixed_use[i].count - u.charges_of(mixed_use[i].type);
@@ -1734,7 +1742,7 @@ void game::consume_tools(std::vector<component> tools)
  std::vector<component> player_has;
  std::vector<component> map_has;
 // Use charges of any tools that require charges used
- for (int i = 0; i < tools.size() && !found_nocharge; i++) {
+ for (unsigned int i = 0; i < tools.size() && !found_nocharge; i++) {
   itype_id type = tools[i].type;
   if (tools[i].count > 0) {
    int count = tools[i].count;
@@ -1756,11 +1764,11 @@ void game::consume_tools(std::vector<component> tools)
  else { // Variety of options, list them and pick one
 // Populate the list
   std::vector<std::string> options;
-  for (int i = 0; i < map_has.size(); i++) {
+  for (unsigned int i = 0; i < map_has.size(); i++) {
    std::string tmpStr = itypes[map_has[i].type]->name + " (nearby)";
    options.push_back(tmpStr);
   }
-  for (int i = 0; i < player_has.size(); i++)
+  for (unsigned int i = 0; i < player_has.size(); i++)
    options.push_back(itypes[player_has[i].type]->name);
 
   if (options.size() == 0) // This SHOULD only happen if cooking with a fire,
@@ -1795,7 +1803,7 @@ void game::disassemble()
   if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Really disassemble your %s?", dis_item->tname(this).c_str())))
     return;
 
-  for (int i = 0; i < recipes.size(); i++) {
+  for (unsigned int i = 0; i < recipes.size(); i++) {
     if (dis_item->type == itypes[recipes[i]->result] && recipes[i]->reversible)
     // ok, a valid recipe exists for the item, and it is reversible
     // assign the activity
@@ -1811,7 +1819,7 @@ void game::disassemble()
           have_tool[j] = true;
         else
         {
-          for (int k = 0; k < recipes[i]->tools[j].size(); k++)
+          for (unsigned int k = 0; k < recipes[i]->tools[j].size(); k++)
           {
             itype_id type = recipes[i]->tools[j][k].type;
             int req = recipes[i]->tools[j][k].count;	// -1 => 1
@@ -1823,10 +1831,6 @@ void game::disassemble()
               k = recipes[i]->tools[j].size();
             }
             // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
-            if (type == itm_sewing_kit)
-            {
-                have_tool[j] = true;
-            }
             if (type == itm_welder)
             {
               if (crafting_inv.has_amount(itm_hacksaw, 1) ||

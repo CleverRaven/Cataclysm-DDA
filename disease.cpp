@@ -349,7 +349,7 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_ONFIRE:
   p.hurtall(3);
-  for (int i = 0; i < p.worn.size(); i++) {
+  for (unsigned int i = 0; i < p.worn.size(); i++) {
    if (p.worn[i].made_of(VEGGY) || p.worn[i].made_of(PAPER)) {
     p.worn.erase(p.worn.begin() + i);
     i--;
@@ -948,19 +948,19 @@ void dis_effect(game *g, player &p, disease &dis)
   bool lesser = false; // Worn or wielded; diminished effects
   if (p.weapon.is_artifact() && p.weapon.is_tool()) {
    it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(p.weapon.type);
-   for (int i = 0; i < tool->effects_carried.size(); i++) {
+   for (unsigned int i = 0; i < tool->effects_carried.size(); i++) {
     if (tool->effects_carried[i] == AEP_EVIL)
      lesser = true;
    }
-   for (int i = 0; i < tool->effects_wielded.size(); i++) {
+   for (unsigned int i = 0; i < tool->effects_wielded.size(); i++) {
     if (tool->effects_wielded[i] == AEP_EVIL)
      lesser = true;
    }
   }
-  for (int i = 0; !lesser && i < p.worn.size(); i++) {
+  for (unsigned int i = 0; !lesser && i < p.worn.size(); i++) {
    if (p.worn[i].is_artifact()) {
     it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(p.worn[i].type);
-    for (int i = 0; i < armor->effects_worn.size(); i++) {
+    for (unsigned int i = 0; i < armor->effects_worn.size(); i++) {
      if (armor->effects_worn[i] == AEP_EVIL)
       lesser = true;
     }
@@ -982,6 +982,9 @@ void dis_effect(game *g, player &p, disease &dis)
    p.per_cur -= (dis.duration > 4000 ? 10 : int(dis.duration / 400));
   }
  } break;
+
+ default:
+   break;
  }
 }
 

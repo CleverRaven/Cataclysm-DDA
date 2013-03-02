@@ -142,7 +142,10 @@ export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS
 tests: $(ODIR) $(DDIR) $(OBJS)
 	$(MAKE) -C tests
 
-.PHONY: tests
+check: tests
+	$(MAKE) -C tests check
+
+.PHONY: tests check
 
 -include $(SOURCES:%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}

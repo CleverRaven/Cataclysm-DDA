@@ -121,11 +121,11 @@ void mapbuffer::save()
   item tmp;
   for (int j = 0; j < SEEY; j++) {
    for (int i = 0; i < SEEX; i++) {
-    for (int k = 0; k < sm->itm[i][j].size(); k++) {
+    for (unsigned int k = 0; k < sm->itm[i][j].size(); k++) {
      tmp = sm->itm[i][j][k];
      fout << "I " << i << " " << j << std::endl;
      fout << tmp.save_info() << std::endl;
-     for (int l = 0; l < tmp.contents.size(); l++)
+     for (unsigned int l = 0; l < tmp.contents.size(); l++)
       fout << "C " << std::endl << tmp.contents[l].save_info() << std::endl;
     }
    }
@@ -151,7 +151,7 @@ void mapbuffer::save()
   }
  // Output the spawn points
   spawn_point tmpsp;
-  for (int i = 0; i < sm->spawns.size(); i++) {
+  for (unsigned int i = 0; i < sm->spawns.size(); i++) {
    tmpsp = sm->spawns[i];
    fout << "S " << int(tmpsp.type) << " " << tmpsp.count << " " << tmpsp.posx <<
            " " << tmpsp.posy << " " << tmpsp.faction_id << " " <<
@@ -159,7 +159,7 @@ void mapbuffer::save()
            tmpsp.name << std::endl;
   }
  // Output the vehicles
-  for (int i = 0; i < sm->vehicles.size(); i++) {
+  for (unsigned int i = 0; i < sm->vehicles.size(); i++) {
    fout << "V ";
    sm->vehicles[i]->save (fout);
   }
@@ -195,7 +195,7 @@ void mapbuffer::load()
   return;
 
  int itx, ity, t, d, a, num_submaps, num_loaded=0;
- bool fields_here = false;
+ bool fields_here = false; // Unused
  item it_tmp;
  std::string databuff;
  fin >> num_submaps;
