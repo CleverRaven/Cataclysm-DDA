@@ -3181,13 +3181,16 @@ bool game::sees_u( int x, int y, int &t)
  //                  the light map should deal lighting from player or fires
  int range = 0;
  
-
-
- // doesn't matter if this actually reduces the range as we only need to look this far
- if(mon_at( x, y)->has_flag(MF_VIS10))
+mondex = mon_at(x,y);
+if(mondex != -1)
+	if(z[mondex].has_flag(MF_VIS10)
 	range = 10;
 	else
 	range = 60;
+	
+/*<kevingranade>: mondex = mon_at(x, y);
+20:54	<kevingranade>: if (mondex != -1)
+20:55	<kevingranade>: if(z[mondex].has_flag(BLA))*/
 	
  return (!u.has_active_bionic(bio_cloak) &&
          !u.has_artifact_with(AEP_INVISIBLE) &&
