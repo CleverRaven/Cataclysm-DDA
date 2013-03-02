@@ -3180,10 +3180,14 @@ bool game::sees_u( int x, int y, int &t)
  // TODO: [lightmap] Apply default monster vison levels here
  //                  the light map should deal lighting from player or fires
  int range = 0;
+ 
+ game *mob= mon_at( x, y);
 
  // doesn't matter if this actually reduces the range as we only need to look this far
- if(mon_at( x, y) has_flag(MF_VIS10))
+ if(mob->has_flag(MF_VIS10))
 	range = 10;
+	else
+	range = 60;
 	
  return (!u.has_active_bionic(bio_cloak) &&
          !u.has_artifact_with(AEP_INVISIBLE) &&
