@@ -1712,6 +1712,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
   break;
 
  case t_window:
+ case t_window_domestic:
  case t_window_alarm:
   dam -= rng(0, 5);
   ter(x, y) = t_window_frame;
