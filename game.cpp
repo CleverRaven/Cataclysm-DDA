@@ -1612,10 +1612,11 @@ input_ret game::get_input(int timeout_ms)
     const std::string sSpaces = "                              ";
     char chItem = inv();
     has = u.has_item(chItem);
+
     if (has) {
      std::string sItemName = u.i_at(chItem).tname(this);
      int iMenu = menu(("Item: " + sItemName + sSpaces.substr(sItemName.size(), sSpaces.size())).c_str(),
-                      "Examine", "Use/Read", "Eat", "Wear", "Wield", "Take off", "Drop", "Cancel", NULL); //"Unload", "Reload"
+                      "Examine", "Use/Read", "Eat", "Wear", "Wield", "Take off", "Drop", "Unload", "Cancel", NULL); //"Reload",
 
      switch(iMenu) {
       case 1:
@@ -1640,10 +1641,10 @@ input_ret game::get_input(int timeout_ms)
        drop(chItem);
        break;
       case 8:
-       //unload(chItem);
+       unload(chItem);
        break;
       case 9:
-       //reload(chItem);
+       //reload();
        break;
       case 0:
        break;
@@ -6885,7 +6886,7 @@ void game::takeoff(char chInput)
   add_msg("Invalid selection.");
 }
 
-void game::reload(char chInput)
+void game::reload()
 {
  if (u.weapon.is_gun()) {
   if (u.weapon.has_flag(IF_RELOAD_AND_SHOOT)) {
@@ -6943,6 +6944,33 @@ single action.", u.weapon.tname().c_str());
 // Unload a containter, gun, or tool
 // If it's a gun, some gunmods can also be loaded
 void game::unload(char chInput)
+{
+ //Quick and dirty hack
+ //Save old weapon in temp variable
+ //Wield item that should be unloaded
+ //Unload weapon
+ //Put unloaded item back into inventory
+ //Wield old weapon
+ bool bSwitch = false;
+ item oTempWeapon;
+ int iItemIndex = u.inv.index_by_letter(chInput);
+
+ if (u.weapon.invlet != chInput && iItemIndex != -1) {
+  oTempWeapon = u.weapon;
+  u.weapon = u.inv[iItemIndex];
+  u.inv.remove_item(iItemIndex);
+  bSwitch = true;
+ }
+
+ unload();
+
+ if (bSwitch) {
+  u.inv.push_back(u.weapon);
+  u.weapon = oTempWeapon;
+ }
+}
+
+void game::unload()
 {
  if (!u.weapon.is_gun() && u.weapon.contents.size() == 0 &&
      (!u.weapon.is_tool() || u.weapon.ammo_type() == AT_NULL)) {

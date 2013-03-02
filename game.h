@@ -330,8 +330,9 @@ class game
   void use_wielded_item();
   void wear(char chInput = '.');	  // Wear armor			'W' (or 'a')
   void takeoff(char chInput = '.'); // Remove armor		'T'
-  void reload(char chInput = '.');  // Reload a wielded gun/tool	'r'
-  void unload(char chInput = '.');  // Unload a wielded gun/tool	'U'
+  void reload();  // Reload a wielded gun/tool	'r'
+  void unload();  // Unload a wielded gun/tool	'U'
+  void unload(char chInput);
   void wield(char chInput = '.');   // Wield a weapon		'w'
   void read();    // Read a book		'R' (or 'a')
   void chat();    // Talk to a nearby NPC	'C'
