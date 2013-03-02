@@ -3194,7 +3194,7 @@ if(mondex != -1){
 	else if(z[mondex].has_flag(MF_VIS50))
 	range = (light_level() - 10);
 	else
-	range = 60;
+	range = light_level();
 	}
 	if( range < 0)
 	range =1;
