@@ -5572,6 +5572,10 @@ break;
     line(this, t_counter, 15, 14, 17, 14);
     place_items(mi_surgery, 60, 15, 14, 17, 14, false, 0);
     square(this, t_bed, 18, 18, 19, 19);
+    // computer to begin healing broken bones,
+    tmpcomp = add_computer(16, 16, "Mr. Stem Cell", 3);
+    tmpcomp->add_option("Stem Cell Treatment", COMPACT_STEMCELL_TREATMENT, 3);
+    tmpcomp->add_failure(COMPFAIL_ALARM);
 
     break;
 

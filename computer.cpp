@@ -577,6 +577,13 @@ INITIATING STANDARD TREMOR TEST...");
     g->u.add_disease(DI_AMIGARA, 20, g);
    break;
 
+  case COMPACT_STEMCELL_TREATMENT:
+   g->u.add_disease(DI_STEMCELL_TREATMENT, 120, g);
+   print_line("The machine injects your eyeball with the solution \n\
+of pureed bone & LSD.");
+   g->u.pain += rng(40,90);
+   break;
+
   case COMPACT_DOWNLOAD_SOFTWARE:
    if (!g->u.has_amount(itm_usb_drive, 1))
     print_error("USB drive required!");
