@@ -1616,7 +1616,7 @@ input_ret game::get_input(int timeout_ms)
     if (has) {
      std::string sItemName = u.i_at(chItem).tname(this);
      int iMenu = menu(("Item: " + sItemName + sSpaces.substr(sItemName.size(), sSpaces.size())).c_str(),
-                      "Examine", "Use/Read", "Eat", "Wear", "Wield", "Take off", "Drop", "Unload", "Cancel", NULL); //"Reload",
+                      "Examine", "Use/Read", "Eat", "Wear", "Wield", "Take off", "Drop", "Unload", "Reload", "Cancel", NULL);
 
      switch(iMenu) {
       case 1:
@@ -1644,7 +1644,7 @@ input_ret game::get_input(int timeout_ms)
        unload(chItem);
        break;
       case 9:
-       //reload();
+       reload(chItem);
        break;
       case 0:
        break;
@@ -6884,6 +6884,37 @@ void game::takeoff(char chInput)
   u.moves -= 250; // TODO: Make this variable
  else
   add_msg("Invalid selection.");
+}
+
+void game::reload(char chInput)
+{
+ //Quick and dirty hack
+ //Save old weapon in temp variable
+ //Wield item that should be unloaded
+ //Reload weapon
+ //Put unloaded item back into inventory
+ //Wield old weapon
+ bool bSwitch = false;
+ item oTempWeapon;
+ int iItemIndex = u.inv.index_by_letter(chInput);
+
+ if (u.weapon.invlet != chInput && iItemIndex != -1) {
+  oTempWeapon = u.weapon;
+  u.weapon = u.inv[iItemIndex];
+  u.inv.remove_item(iItemIndex);
+  bSwitch = true;
+ }
+
+ if (bSwitch || u.weapon.invlet == chInput) {
+  reload();
+  u.activity.moves_left = 0; //Not entirely sure how this effects other actions
+  process_activity();
+ }
+
+ if (bSwitch) {
+  u.inv.push_back(u.weapon);
+  u.weapon = oTempWeapon;
+ }
 }
 
 void game::reload()

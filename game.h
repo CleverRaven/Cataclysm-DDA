@@ -331,6 +331,7 @@ class game
   void wear(char chInput = '.');	  // Wear armor			'W' (or 'a')
   void takeoff(char chInput = '.'); // Remove armor		'T'
   void reload();  // Reload a wielded gun/tool	'r'
+  void reload(char chInput);
   void unload();  // Unload a wielded gun/tool	'U'
   void unload(char chInput);
   void wield(char chInput = '.');   // Wield a weapon		'w'
