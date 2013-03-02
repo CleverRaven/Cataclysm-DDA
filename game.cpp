@@ -8180,7 +8180,9 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
    if (turns < 999)
     coming_to_stairs.push_back( monster_and_count(z[i], 1 + turns) );
   } else if (z[i].spawnmapx != -1) {
-  	// Static spawn, move them back to original spawn site.
+   // Static spawn, create a new spawn here.
+   z[i].spawnmapx = levx + z[i].posx / SEEX;
+   z[i].spawnmapy = levy + z[i].posy / SEEY;
    tinymap tmp(&itypes, &mapitems, &traps);
    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
    tmp.add_spawn(&(z[i]));
