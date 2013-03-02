@@ -1817,10 +1817,12 @@ input_ret game::get_input(int timeout_ms)
 
  return IR_GOOD;
 }
+#define SCENT_RADIUS 40
 
 int& game::scent(int x, int y)
 {
- if (x < 0 || x >= SEEX * MAPSIZE || y < 0 || y >= SEEY * MAPSIZE) {
+ if (x < (SEEX * MAPSIZE / 2) - SCENT_RADIUS || x >= (SEEX * MAPSIZE / 2) + SCENT_RADIUS ||
+	y < (SEEY * MAPSIZE / 2) - SCENT_RADIUS || y >= (SEEY * MAPSIZE / 2) + SCENT_RADIUS) {
   nulscent = 0;
   return nulscent;	// Out-of-bounds - null scent
  }
@@ -1835,8 +1837,8 @@ void game::update_scent()
  else
   grscent[u.posx][u.posy] = 0;
 
- for (int x = u.posx - 18; x <= u.posx + 18; x++) {
-  for (int y = u.posy - 18; y <= u.posy + 18; y++) {
+ for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
+  for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
    newscent[x][y] = 0;
    if (m.move_cost(x, y) != 0 || m.has_flag(bashable, x, y)) {
     int squares_used = 0;
@@ -1861,19 +1863,20 @@ void game::update_scent()
    }
   }
  }
- for (int x = u.posx - 18; x <= u.posx + 18; x++) {
-  for (int y = u.posy - 18; y <= u.posy + 18; y++)
+ for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
+  for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++)
    if(m.move_cost(x, y) == 0)
     //Greatly reduce scent for bashable barriers
     grscent[x][y] = newscent[x][y] / 4;
    else
-   grscent[x][y] = newscent[x][y];
+    grscent[x][y] = newscent[x][y];
  }
  if (!u.has_active_bionic(bio_scent_mask))
   grscent[u.posx][u.posy] = u.scent;
  else
   grscent[u.posx][u.posy] = 0;
 }
+
 
 bool game::is_game_over()
 {
@@ -8495,16 +8498,17 @@ void game::display_scent()
 {
  int div = 1 + query_int("Sensitivity");
  draw_ter();
- for (int x = u.posx - SEEX; x <= u.posx + SEEX; x++) {
-  for (int y = u.posy - SEEY; y <= u.posy + SEEY; y++) {
+ for (int x = u.posx - getmaxx(w_terrain)/2; x <= u.posx + getmaxx(w_terrain)/2; x++) {
+  for (int y = u.posy - getmaxy(w_terrain)/2; y <= u.posy + getmaxy(w_terrain)/2; y++) {
    int sn = scent(x, y) / (div * 2);
-   mvwprintz(w_terrain, SEEY + y - u.posy, SEEX + x - u.posx, sev(sn), "%d",
+   mvwprintz(w_terrain, getmaxy(w_terrain)/2 + y - u.posy, getmaxx(w_terrain)/2 + x - u.posx, sev(sn), "%d",
              sn % 10);
   }
  }
  wrefresh(w_terrain);
  getch();
 }
+
 
 void game::init_autosave()
 {
