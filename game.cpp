@@ -8524,10 +8524,10 @@ void game::display_scent()
 {
  int div = 1 + query_int("Sensitivity");
  draw_ter();
- for (int x = u.posx - SEEX; x <= u.posx + SEEX; x++) {
-  for (int y = u.posy - SEEY; y <= u.posy + SEEY; y++) {
+ for (int x = u.posx - getmaxx(w_terrain)/2; x <= u.posx + getmaxx(w_terrain)/2; x++) {
+  for (int y = u.posy - getmaxy(w_terrain)/2; y <= u.posy + getmaxy(w_terrain)/2; y++) {
    int sn = scent(x, y) / (div * 2);
-   mvwprintz(w_terrain, SEEY + y - u.posy, SEEX + x - u.posx, sev(sn), "%d",
+   mvwprintz(w_terrain, getmaxy(w_terrain)/2 + y - u.posy, getmaxx(w_terrain)/2 + x - u.posx, sev(sn), "%d",
              sn % 10);
   }
  }
