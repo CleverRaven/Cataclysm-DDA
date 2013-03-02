@@ -1846,9 +1846,12 @@ input_ret game::get_input(int timeout_ms)
  return IR_GOOD;
 }
 
+#define SCENT_RADIUS 18
+
 int& game::scent(int x, int y)
 {
- if (x < 0 || x >= SEEX * MAPSIZE || y < 0 || y >= SEEY * MAPSIZE) {
+  if (x < (SEEX * MAPSIZE / 2) - SCENT_RADIUS || x >= (SEEX * MAPSIZE / 2) + SCENT_RADIUS ||
+      y < (SEEY * MAPSIZE / 2) - SCENT_RADIUS || y >= (SEEY * MAPSIZE / 2) + SCENT_RADIUS) {
   nulscent = 0;
   return nulscent;	// Out-of-bounds - null scent
  }
@@ -1863,8 +1866,8 @@ void game::update_scent()
  else
   grscent[u.posx][u.posy] = 0;
 
- for (int x = u.posx - 18; x <= u.posx + 18; x++) {
-  for (int y = u.posy - 18; y <= u.posy + 18; y++) {
+ for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
+  for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
    newscent[x][y] = 0;
    if (m.move_cost(x, y) != 0 || m.has_flag(bashable, x, y)) {
     int squares_used = 0;
@@ -1889,8 +1892,8 @@ void game::update_scent()
    }
   }
  }
- for (int x = u.posx - 18; x <= u.posx + 18; x++) {
-  for (int y = u.posy - 18; y <= u.posy + 18; y++)
+ for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
+  for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++)
    if(m.move_cost(x, y) == 0)
     //Greatly reduce scent for bashable barriers
     grscent[x][y] = newscent[x][y] / 4;
