@@ -569,23 +569,9 @@ void game::create_starting_npcs()
 
 void game::cleanup_at_end(){
  write_msg();
+
  // Save the monsters before we die!
- for (int i = 0; i < z.size(); i++) {
-  if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
-   tinymap tmp(&itypes, &mapitems, &traps);
-   tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
-   tmp.add_spawn(&(z[i]));
-   tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
-  } else {	// Absorb them back into a group
-   int group = valid_group((mon_id)(z[i].type->id), levx, levy);
-   if (group != -1) {
-    cur_om.zg[group].population++;
-    if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
-        !cur_om.zg[group].diffuse)
-     cur_om.zg[group].radius++;
-   }
-  }
- }
+ despawn_monsters();
  if (uquit == QUIT_DIED)
   popup_top("Game over! Press spacebar...");
  if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
@@ -7813,32 +7799,7 @@ void game::vertical_move(int movez, bool force)
   monstairx = levx;
   monstairy = levy;
   monstairz = original_z;
-  for (int i = 0; i < z.size(); i++) {
-   if (z[i].will_reach(this, u.posx, u.posy)) {
-    int turns = z[i].turns_to_reach(this, u.posx, u.posy);
-    if (turns < 999)
-     coming_to_stairs.push_back( monster_and_count(z[i], 1 + turns) );
-   } else if (z[i].spawnmapx != -1) { // Static spawn, move them back there
-    tinymap tmp(&itypes, &mapitems, &traps);
-    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
-    tmp.add_spawn(&(z[i]));
-    tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
-   } else if (z[i].friendly < 0) { // Friendly, make it into a static spawn
-    tinymap tmp(&itypes, &mapitems, &traps);
-    tmp.load(this, levx, levy, false);
-    int spawnx = z[i].posx, spawny = z[i].posy;
-    while (spawnx < 0)
-     spawnx += SEEX;
-    while (spawny < 0)
-     spawny += SEEY;
-    tmp.add_spawn(&(z[i]));
-    tmp.save(&cur_om, turn, levx, levy);
-   } else {
-    int group = valid_group( (mon_id)(z[i].type->id), levx, levy);
-    if (group != -1)
-     cur_om.zg[group].population++;
-   }
-  }
+  despawn_monsters(true);
  }
  z.clear();
 
@@ -7961,35 +7922,9 @@ void game::update_map(int &x, int &y)
  set_adjacent_overmaps();
 
  // Shift monsters
- for (int i = 0; i < z.size(); i++) {
-  z[i].shift(shiftx, shifty);
-  if (z[i].posx < 0 - SEEX             || z[i].posy < 0 - SEEX ||
-      z[i].posx > SEEX * (MAPSIZE + 1) || z[i].posy > SEEY * (MAPSIZE + 1)) {
-// Despawn; we're out of bounds
-   if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
-    map tmp(&itypes, &mapitems, &traps);
-    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
-    tmp.add_spawn(&(z[i]));
-    tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
-   } else {	// Absorb them back into a group
-    group = valid_group((mon_id)(z[i].type->id), levx + shiftx, levy + shifty);
-    if (group != -1) {
-     cur_om.zg[group].population++;
-     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
-         !cur_om.zg[group].diffuse)
-      cur_om.zg[group].radius++;
-    }
-/*  Removing adding new groups for now.  Haha!
- else if (mt_to_mc((mon_id)(z[i].type->id)) != mcat_null)
-     cur_om.zg.push_back(mongroup(mt_to_mc((mon_id)(z[i].type->id)),
-                                  levx + shiftx, levy + shifty, 1, 1));
-*/
-   }
-   z.erase(z.begin()+i);
-   i--;
-  }
- }
-// Shift NPCs
+ despawn_monsters(false, shiftx, shifty);
+
+ // Shift NPCs
  for (int i = 0; i < active_npc.size(); i++) {
   active_npc[i].shift(shiftx, shifty);
   if (active_npc[i].posx < 0 - SEEX * 2 ||
@@ -8225,6 +8160,52 @@ void game::update_stair_monsters()
   monstairx = -1;
   monstairy = -1;
   monstairz = 999;
+ }
+}
+
+void game::despawn_monsters(const bool stairs, const int shiftx, const int shifty)
+{
+ for (unsigned int i = 0; i < z.size(); i++) {
+  // If either shift argument is non-zero, we're shifting.
+  if(shiftx != 0 || shifty != 0) {
+   z[i].shift(shiftx, shifty);
+   if (z[i].posx >= 0 - SEEX             && z[i].posy >= 0 - SEEX &&
+       z[i].posx <= SEEX * (MAPSIZE + 1) && z[i].posy <= SEEY * (MAPSIZE + 1))
+     // We're inbounds, so don't despawn after all.
+     continue;
+  }
+
+  if (stairs && z[i].will_reach(this, u.posx, u.posy)) {
+   int turns = z[i].turns_to_reach(this, u.posx, u.posy);
+   if (turns < 999)
+    coming_to_stairs.push_back( monster_and_count(z[i], 1 + turns) );
+  } else if (z[i].spawnmapx != -1) {
+  	// Static spawn, move them back to original spawn site.
+   tinymap tmp(&itypes, &mapitems, &traps);
+   tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
+   tmp.add_spawn(&(z[i]));
+   tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
+  } else if ((stairs || shiftx != 0 || shifty != 0) && z[i].friendly < 0) {
+   // Friendly, make it into a static spawn.
+   tinymap tmp(&itypes, &mapitems, &traps);
+   tmp.load(this, levx, levy, false);
+   tmp.add_spawn(&(z[i]));
+   tmp.save(&cur_om, turn, levx, levy);
+  } else {
+   	// No spawn site, so absorb them back into a group.
+   int group = valid_group((mon_id)(z[i].type->id), levx + shiftx, levy + shifty);
+   if (group != -1) {
+    cur_om.zg[group].population++;
+    if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
+        !cur_om.zg[group].diffuse)
+     cur_om.zg[group].radius++;
+   }
+  }
+  // Shifting needs some cleanup for despawned monsters since they won't be cleared afterwards.
+  if(shiftx != 0 || shifty != 0) {
+    z.erase(z.begin()+i);
+    i--;
+  }
  }
 }
 
