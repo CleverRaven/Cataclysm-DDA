@@ -3235,7 +3235,7 @@ bool game::pl_sees(player *p, monster *mon, int &t)
  if (mon->has_flag(MF_DIGS) && !p->has_active_bionic(bio_ground_sonar) &&
      rl_dist(p->posx, p->posy, mon->posx, mon->posy) > 1)
   return false;	// Can't see digging monsters until we're right next to them
- int range = (u.per_cur * 4);
+ int range = p->sight_range(u.per_cur * 4);
  return m.sees(p->posx, p->posy, mon->posx, mon->posy, range, t);
 }
 
