@@ -3185,6 +3185,14 @@ int mondex = mon_at(x,y);
 if(mondex != -1){
 	if(z[mondex].has_flag(MF_VIS10))
 	range = 10;
+	else if(z[mondex].has_flag(MF_VIS20))
+	range = 20;
+	else if(z[mondex].has_flag(MF_VIS30))
+	range = 30;
+	else if(z[mondex].has_flag(MF_VIS40))
+	range = 40;
+	else if(z[mondex].has_flag(MF_VIS50))
+	range = 50;
 	else
 	range = 60;
 	}
@@ -3227,7 +3235,7 @@ bool game::pl_sees(player *p, monster *mon, int &t)
  if (mon->has_flag(MF_DIGS) && !p->has_active_bionic(bio_ground_sonar) &&
      rl_dist(p->posx, p->posy, mon->posx, mon->posy) > 1)
   return false;	// Can't see digging monsters until we're right next to them
- int range = p->sight_range(light_level());
+ int range = p->sight_range(u.per_cur * 4);
  return m.sees(p->posx, p->posy, mon->posx, mon->posy, range, t);
 }
 
