@@ -337,7 +337,7 @@ class game
   void wield(char chInput = '.');   // Wield a weapon		'w'
   void read();    // Read a book		'R' (or 'a')
   void chat();    // Talk to a nearby NPC	'C'
-  void plthrow(); // Throw an item		't'
+  void plthrow(char chInput = '.'); // Throw an item		't'
   void help();    // Help screen		'?'
 
 // Target is an interactive function which allows the player to choose a nearby
