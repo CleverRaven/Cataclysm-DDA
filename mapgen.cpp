@@ -5919,7 +5919,7 @@ break;
   }
   if(t_west == ot_fema && t_east == ot_fema && t_south != ot_fema){ //lab bottom side
   square(this, t_dirt, 1, 1, 22, 22);
-  square(this, t_pavement, 4, 4, 19, 19);
+  square(this, t_floor, 4, 4, 19, 19);
   line(this, t_concrete_h, 4, 4, 19, 4);
   line(this, t_concrete_h, 4, 19, 19, 19);
   line(this, t_concrete_v, 4, 5, 4, 18);
