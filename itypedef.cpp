@@ -233,7 +233,8 @@ Freshly cooked meat. Very nutritious.");
 
 FOOD("cooked plant marrow",	 0, 70, c_green,	VEGGY,	itm_null,
     1,  2,  0, 40, 50,  0,  1,  0,  1,  0,	&iuse::none,	ADD_NULL, "\
-A freshly cooked chunk of plant matter, tasty and nutritious.
+A freshly cooked chunk of plant matter, tasty and nutritious.");
+
 FOOD("cooked wild vegetables",	0, 70,	c_green,	VEGGY,	itm_null,
     1,  2,  0, 40, 50,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 Cooked wild edible plants.  An interesting mix of flavours.");
