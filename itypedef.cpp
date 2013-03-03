@@ -1963,7 +1963,7 @@ ARMOR("purse",		40,  75,C_STORE,	LEATHER,	MNULL,
 A bit encumbersome to wear, but provides lots of storage.");
 
 ARMOR("messenger bag",	20, 110,C_STORE,	PLASTIC,	MNULL,
-    8,  2,  1,  1,  1,  0,  0,  0,  0, 30,	mfb(bp_torso), "\
+    8,  2,  1,  1,  0,  0,  0,  0,  0, 30,	mfb(bp_torso), "\
 A bit encumbersome to wear, but provides lots of storage.");
 
 ARMOR("fanny pack", 	10, 100,C_STORE,	PLASTIC,	MNULL,
