@@ -1,6 +1,6 @@
 #include <string>
 #include <sstream>
-#include "keypress.h"
+#include "input.h"
 #include "game.h"
 #include "options.h"
 #include "output.h"
@@ -1076,7 +1076,7 @@ void game::craft()
  int line = 0, xpos, ypos;
  bool redraw = true;
  bool done = false;
- char ch;
+ InputEvent input;
 
  inventory crafting_inv = crafting_inventory();
 
@@ -1248,29 +1248,29 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
   }
 
   wrefresh(w_data);
-  ch = input();
-  switch (ch) {
-  case '<':
+  input = get_input();
+  switch (input) {
+  case DirectionUp:
    if (tab == CC_WEAPON)
     tab = CC_MISC;
    else
     tab = craft_cat(int(tab) - 1);
    redraw = true;
    break;
-  case '>':
+  case DirectionDown:
    if (tab == CC_MISC)
     tab = CC_WEAPON;
    else
     tab = craft_cat(int(tab) + 1);
    redraw = true;
    break;
-  case 'j':
+  case DirectionS:
    line++;
    break;
-  case 'k':
+  case DirectionN:
    line--;
    break;
-  case '\n':
+  case Confirm:
    if (!available[line])
     popup("You can't do that!");
    else
@@ -1290,7 +1290,7 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
     done = true;
    }
    break;
-  case '?':
+  case Help:
    tmp = item(itypes[current[line]->result], 0);
    full_screen_popup(tmp.info(true).c_str());
    redraw = true;
@@ -1300,7 +1300,7 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
    line = current.size() - 1;
   else if (line >= current.size())
    line = 0;
- } while (ch != KEY_ESCAPE && ch != 'q' && ch != 'Q' && !done);
+ } while (input != Cancel && !done);
 
  werase(w_head);
  werase(w_data);
@@ -1789,7 +1789,7 @@ void game::consume_tools(std::vector<component> tools)
 void game::disassemble()
 {
   char ch = inv("Disassemble item:");
-  if (ch == KEY_ESCAPE) {
+  if (ch == 27) {
     add_msg("Never mind.");
     return;
   }
