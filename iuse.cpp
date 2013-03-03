@@ -1172,11 +1172,11 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  diry += p->posy;
  ter_id type = g->m.ter(dirx, diry);
  int npcdex = g->npc_at(dirx, diry);
-   if (npcdex != -1) {
-    g->add_msg_if_player(p, "You can pick your friends, and you can");
-    g->add_msg_if_player(p, "pick your nose, but you can't pick");
-    g->add_msg_if_player(p, "your friend's nose");
-    return;
+ if (npcdex != -1) {
+  g->add_msg_if_player(p, "You can pick your friends, and you can");
+  g->add_msg_if_player(p, "pick your nose, but you can't pick");
+  g->add_msg_if_player(p, "your friend's nose");
+  return;
  }
  if (type == t_chaingate_l) {
   p->moves -= (400 - (p->dex_cur * 5));
@@ -1184,6 +1184,8 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
    g->add_msg_if_player(p,"You pick the lock and the gate swings open.");
    g->m.ter(dirx, diry) = t_chaingate_o;
    return;
+  } else {
+   g->add_msg_if_player(p,"The lock stumps your efforts to pick it.");
   }
  }
  if (type == t_door_locked || type == t_door_locked_alarm) {
@@ -1192,6 +1194,8 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
    g->add_msg_if_player(p,"You pick the lock and the door swings open.");
    g->m.ter(dirx, diry) = t_door_o;
    return;
+  } else {
+   g->add_msg_if_player(p,"The lock stumps your efforts to pick it.");
   }
  } else {
   g->add_msg("That cannot be picked.");
