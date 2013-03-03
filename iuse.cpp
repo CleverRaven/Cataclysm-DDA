@@ -1178,27 +1178,30 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p, "your friend's nose");
   return;
  }
+
+ const char *door_name;
+ ter_id new_type;
  if (type == t_chaingate_l) {
-  p->moves -= (400 - (p->dex_cur * 5));
-  if (dice(4, 6) < dice(4, p->dex_cur)) {
-   g->add_msg_if_player(p,"You pick the lock and the gate swings open.");
-   g->m.ter(dirx, diry) = t_chaingate_o;
-   return;
-  } else {
-   g->add_msg_if_player(p,"The lock stumps your efforts to pick it.");
-  }
- }
- if (type == t_door_locked || type == t_door_locked_alarm) {
-  p->moves -= (400 - (p->dex_cur * 5));
-  if (dice(4, 6) < dice(4, p->dex_cur)) {
-   g->add_msg_if_player(p,"You pick the lock and the door swings open.");
-   g->m.ter(dirx, diry) = t_door_o;
-   return;
-  } else {
-   g->add_msg_if_player(p,"The lock stumps your efforts to pick it.");
-  }
+   door_name = "gate";
+   new_type = t_chaingate_o;
+ } else if (type == t_door_locked || type == t_door_locked_alarm) {
+   door_name = "door";
+   new_type = t_door_o;
  } else {
   g->add_msg("That cannot be picked.");
+  return;
+ }
+
+ p->moves -= (400 - (p->dex_cur * 5));
+ if (dice(4, 8) < dice(4, p->dex_cur) - it->damage) {
+  g->add_msg_if_player(p,"You pick the lock and the %s swings open.", door_name);
+  g->m.ter(dirx, diry) = new_type;
+  return;
+ } else if (dice(4, 6) < dice(4, p->dex_cur) - it->damage && it->damage < 100) {
+  it->damage++;
+  g->add_msg_if_player(p,"The lock stumps your efforts to pick it, and you damage your tool.");
+ } else {
+  g->add_msg_if_player(p,"The lock stumps your efforts to pick it.");
  }
 }
 void iuse::crowbar(game *g, player *p, item *it, bool t)
