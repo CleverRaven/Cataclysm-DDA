@@ -263,7 +263,7 @@ void game::construction_menu()
  wrefresh(w_con);
 
  bool update_info = true;
- int select = 0;
+ unsigned int select = 0;
  char ch;
 
  inventory total_inv = crafting_inventory();
@@ -308,7 +308,7 @@ void game::construction_menu()
 
 // Print stages and their requirements
    int posx = 33, posy = 2;
-   for (int n = 0; n < current_con->stages.size(); n++) {
+   for (unsigned int n = 0; n < current_con->stages.size(); n++) {
      nc_color color_stage = (player_can_build(u, total_inv, current_con, n,
 					      false, true) ?
                             c_white : c_dkgray);
@@ -323,7 +323,7 @@ void game::construction_menu()
     for (int i = 0; i < 3 && !has_tool[i]; i++) {
      posy++;
      posx = 33;
-     for (int j = 0; j < stage.tools[i].size(); j++) {
+     for (unsigned int j = 0; j < stage.tools[i].size(); j++) {
       itype_id tool = stage.tools[i][j];
       nc_color col = c_red;
       if (total_inv.has_amount(tool, 1)) {
@@ -357,7 +357,7 @@ void game::construction_menu()
      posx = 33;
      while (has_component[i])
       i++;
-     for (int j = 0; j < stage.components[i].size() && i < 3; j++) {
+     for (unsigned int j = 0; j < stage.components[i].size() && i < 3; j++) {
       nc_color col = c_red;
       component comp = stage.components[i][j];
       if (( itypes[comp.type]->is_ammo() &&
@@ -431,7 +431,7 @@ void game::construction_menu()
   case KEY_ESCAPE:
    break;
   default:
-   if (ch < 97 || ch > constructions.size() + 101) break;
+   if (ch < 96 || unsigned(ch) > constructions.size() + 101) break;
    // Map menu items to hotkey letters, skipping j, k, l, and q.
    char hotkey = ch - ((ch < 106) ? 97 : ((ch < 112) ? 100 : 101));
    if (player_can_build(u, total_inv, constructions[hotkey])) {
@@ -467,7 +467,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
   start = level;
 
  bool can_build_any = false;
- for (int i = start; i < con->stages.size() && i <= last_level; i++) {
+ for (unsigned int i = start; i < con->stages.size() && i <= last_level; i++) {
   construction_stage stage = con->stages[i];
   bool has_tool = false;
   bool has_component = false;
@@ -478,7 +478,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
    if (stage.tools[j].size() > 0) {
     tools_required = true;
     has_tool = false;
-    for (int k = 0; k < stage.tools[j].size() && !has_tool; k++) {
+    for (unsigned int k = 0; k < stage.tools[j].size() && !has_tool; k++) {
      if (inv.has_amount(stage.tools[j][k], 1))
       has_tool = true;
     }
@@ -488,7 +488,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
    if (stage.components[j].size() > 0) {
     components_required = true;
     has_component = false;
-    for (int k = 0; k < stage.components[j].size() && !has_component; k++) {
+    for (unsigned int k = 0; k < stage.components[j].size() && !has_component; k++) {
      if (( itypes[stage.components[j][k].type]->is_ammo() &&
 	   inv.has_charges(stage.components[j][k].type,
 			   stage.components[j][k].count)    ) ||
@@ -524,7 +524,7 @@ void game::place_construction(constructable *con)
     y++;
    construct test;
    bool place_okay = (test.*(con->able))(this, point(x, y));
-   for (int i = 0; i < con->stages.size() && !place_okay; i++) {
+   for (unsigned int i = 0; i < con->stages.size() && !place_okay; i++) {
     if (m.ter(x, y) == con->stages[i].terrain)
      place_okay = true;
    }
@@ -532,11 +532,11 @@ void game::place_construction(constructable *con)
    if (place_okay) {
 // Make sure we're not trying to continue a construction that we can't finish
     int starting_stage = 0, max_stage = -1;
-    for (int i = 0; i < con->stages.size(); i++) {
+    for (unsigned int i = 0; i < con->stages.size(); i++) {
      if (m.ter(x, y) == con->stages[i].terrain)
       starting_stage = i + 1;
     }
-    for(int i = starting_stage; i < con->stages.size(); i++) {
+    for(unsigned int i = starting_stage; i < con->stages.size(); i++) {
      if (player_can_build(u, total_inv, con, i, true, true))
        max_stage = i;
      else
@@ -560,7 +560,7 @@ void game::place_construction(constructable *con)
  dirx += u.posx;
  diry += u.posy;
  bool point_is_okay = false;
- for (int i = 0; i < valid.size() && !point_is_okay; i++) {
+ for (unsigned int i = 0; i < valid.size() && !point_is_okay; i++) {
   if (valid[i].x == dirx && valid[i].y == diry)
    point_is_okay = true;
  }
@@ -571,7 +571,7 @@ void game::place_construction(constructable *con)
 
 // Figure out what stage to start at, and what stage is the maximum
  int starting_stage = 0, max_stage = 0;
- for (int i = 0; i < con->stages.size(); i++) {
+ for (unsigned int i = 0; i < con->stages.size(); i++) {
   if (m.ter(dirx, diry) == con->stages[i].terrain)
    starting_stage = i + 1;
   if (player_can_build(u, total_inv, con, i, true))
@@ -737,12 +737,12 @@ bool construct::able_pit(game *g, point p)
 
 bool construct::able_between_walls(game *g, point p)
 {
- return (g->m.has_flag(supports_roof, p.x -1, p.y) && g->m.has_flag(supports_roof, p.x +1, p.y) ||
-         g->m.has_flag(supports_roof, p.x -1, p.y) && g->m.has_flag(supports_roof, p.x, p.y +1) ||
-         g->m.has_flag(supports_roof, p.x -1, p.y) && g->m.has_flag(supports_roof, p.x, p.y -1) ||
-         g->m.has_flag(supports_roof, p.x +1, p.y) && g->m.has_flag(supports_roof, p.x, p.y +1) ||
-         g->m.has_flag(supports_roof, p.x +1, p.y) && g->m.has_flag(supports_roof, p.x, p.y -1) ||
-         g->m.has_flag(supports_roof, p.x, p.y -1) && g->m.has_flag(supports_roof, p.x, p.y +1));
+ return ((g->m.has_flag(supports_roof, p.x -1, p.y) && g->m.has_flag(supports_roof, p.x +1, p.y)) ||
+         (g->m.has_flag(supports_roof, p.x -1, p.y) && g->m.has_flag(supports_roof, p.x, p.y +1)) ||
+         (g->m.has_flag(supports_roof, p.x -1, p.y) && g->m.has_flag(supports_roof, p.x, p.y -1)) ||
+         (g->m.has_flag(supports_roof, p.x +1, p.y) && g->m.has_flag(supports_roof, p.x, p.y +1)) ||
+         (g->m.has_flag(supports_roof, p.x +1, p.y) && g->m.has_flag(supports_roof, p.x, p.y -1)) ||
+         (g->m.has_flag(supports_roof, p.x, p.y -1) && g->m.has_flag(supports_roof, p.x, p.y +1)));
 }
 
 bool construct::able_deconstruct(game *g, point p)
@@ -750,7 +750,7 @@ bool construct::able_deconstruct(game *g, point p)
   return (g->m.has_flag(deconstruct, p.x, p.y));
 }
 
-void construct::done_window_pane(game *g, point p)
+void construct::done_window_pane(game *g, point /*p*/)
 {
  g->m.add_item(g->u.posx, g->u.posy, g->itypes[itm_glass_sheet], 0);
 }
@@ -780,7 +780,7 @@ void construct::done_furniture(game *g, point p)
 
  //Move all Items within a container
  std::vector <item> vItemMove = g->m.i_at(p.x, p.y);
- for (int i=0; i < vItemMove.size(); i++)
+ for (unsigned int i=0; i < vItemMove.size(); i++)
   g->m.add_item(x, y, vItemMove[i]);
 
  g->m.i_clear(p.x, p.y);
@@ -796,7 +796,7 @@ void construct::done_tree(game *g, point p)
  x = p.x + x * 3 + rng(-1, 1);
  y = p.y + y * 3 + rng(-1, 1);
  std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
- for (int i = 0; i < tree.size(); i++) {
+ for (unsigned int i = 0; i < tree.size(); i++) {
   g->m.destroy(g, tree[i].x, tree[i].y, true);
   g->m.ter(tree[i].x, tree[i].y) = t_log;
  }
@@ -834,6 +834,9 @@ void construct::done_tape(game *g, point p)
 
     case t_window:
       g->m.ter(p.x, p.y) = t_window_taped;
+
+    default:
+     break;
   }
 
 }
@@ -932,6 +935,9 @@ void construct::done_deconstruct(game *g, point p)
       g->m.add_item(p.x, p.y, g->itypes[itm_nail], 0, rng(12,16));
       g->m.ter(p.x, p.y) = t_floor;
     break;
+
+    default:
+     break;
   }
 
 }

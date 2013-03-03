@@ -231,7 +231,7 @@ void map::board_vehicle(game *g, int x, int y, player *p)
   g->update_map(x, y);
 }
 
-void map::unboard_vehicle(game *g, const int x, const int y)
+void map::unboard_vehicle(game * /*g*/, const int x, const int y)
 {
  int part = 0;
  vehicle *veh = veh_at(x, y, part);
@@ -720,7 +720,7 @@ bool map::vehproceed(game* g){
       }
       // accept new position
       // if submap changed, we need to process grid from the beginning.
-      int sm_change = displace_vehicle (g, x, y, dx, dy);
+      displace_vehicle (g, x, y, dx, dy);
    } else { // can_move
       veh->stop();
    }
@@ -963,7 +963,7 @@ point map::random_outdoor_tile()
  return options[rng(0, options.size() - 1)];
 }
 
-bool map::has_adjacent_furniture(const int x, const int y)
+bool map::has_adjacent_furniture(const int /*x*/, const int /*y*/)
 {
  for (int i = -1; i <= 1; i += 2)
   for (int j = -1; j <= 1; j += 2)
@@ -975,6 +975,8 @@ bool map::has_adjacent_furniture(const int x, const int y)
     case t_bookcase:
     case t_locker:
      return true;
+    default:
+     break;
    }
  return false;
 }
@@ -1284,7 +1286,7 @@ case t_wall_log:
   if (str >= result)
   {
    // Special code to collapse the tent if destroyed
-   int tentx, tenty = -1;
+   int tentx = -1, tenty = -1;
    // Find the center of the tent
    for (int i = -1; i <= 1; i++)
     for (int j = -1; j <= 1; j++)
@@ -1523,6 +1525,8 @@ case t_wall_log:
    sound += "wham!";
    return true;
   }
+ default:
+  break;
  }
  if (res) *res = result;
  if (move_cost(x, y) == 0) {
@@ -1593,7 +1597,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   ter(x, y) = t_rubble;
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
-     if (i == x && j == y || !has_flag(collapses, i, j))
+     if ((i == x && j == y) || !has_flag(collapses, i, j))
       continue;
      int num_supports = -1;
      for (int k = i - 1; k <= i + 1; k++)
@@ -1630,7 +1634,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   ter(x, y) = t_rubble;
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
-     if (i == x && j == y || !has_flag(supports_roof, i, j))
+     if ((i == x && j == y) || !has_flag(supports_roof, i, j))
       continue;
      int num_supports = 0;
      for (int k = i - 1; k <= i + 1; k++)
@@ -1708,6 +1712,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
   break;
 
  case t_window:
+ case t_window_domestic:
  case t_window_alarm:
   dam -= rng(0, 5);
   ter(x, y) = t_window_frame;
@@ -1787,6 +1792,8 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     remove_field(x, y);
    }
    break;
+  default:
+   break;
  }
 
 // Now, destroy items on that tile.
@@ -1817,6 +1824,8 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     if (i_at(x, y)[i].damage >= 5)
      destroyed = true;
     break;
+   default:
+    break;
   }
   if (destroyed) {
    for (int j = 0; j < i_at(x, y)[i].contents.size(); j++)
@@ -1827,7 +1836,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
  }
 }
 
-bool map::hit_with_acid(game *g, const int x, const int y)
+bool map::hit_with_acid(game * /*g*/, const int x, const int y)
 {
  if (move_cost(x, y) != 0)
   return false; // Didn't hit the tile!
@@ -1875,6 +1884,9 @@ bool map::hit_with_acid(game *g, const int x, const int y)
   case t_card_science:
   case t_card_military:
    ter(x, y) = t_card_reader_broken;
+   break;
+
+  default:
    break;
  }
 
@@ -2063,13 +2075,14 @@ void map::add_item(const int x, const int y, itype* type, const int birthday, co
  if (type->is_style())
   return;
  item tmp(type, birthday);
- if (quantity)
+ if (quantity){
   if(tmp.charges > 0)
    tmp.charges = quantity;
   else
    // If the item doesn't have charges, recurse and create the requested number of seperate items.
    for(int i = 0; i < quantity; i++)
     add_item(x, y, type, birthday);
+ }
  tmp = tmp.in_its_container(itypes);
  if (tmp.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
@@ -2395,8 +2408,8 @@ computer* map::computer_at(const int x, const int y)
 */
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
- const int lx = x % SEEX;
- const int ly = y % SEEY;
+ //const int lx = x % SEEX; -- Unused
+ //const int ly = y % SEEY; -- Unused
  if (grid[nonant]->comp.name == "")
   return NULL;
  return &(grid[nonant]->comp);
@@ -2778,10 +2791,10 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
            tername(Fx, Fy).c_str(), Tx, Ty);
 */
  std::vector<point> open;
- astar_list list[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
- int score	[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
- int gscore	[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
- point parent	[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
+ astar_list list[SEEX * MAPSIZE][SEEY * MAPSIZE];
+ int score	[SEEX * MAPSIZE][SEEY * MAPSIZE];
+ int gscore	[SEEX * MAPSIZE][SEEY * MAPSIZE];
+ point parent	[SEEX * MAPSIZE][SEEY * MAPSIZE];
  int startx = Fx - 4, endx = Tx + 4, starty = Fy - 4, endy = Ty + 4;
  if (Tx < Fx) {
   startx = Tx - 4;
@@ -3167,7 +3180,7 @@ bool map::inbounds(const int x, const int y)
  return (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE);
 }
 
-bool map::add_graffiti(game *g, int x, int y, std::string contents)
+bool map::add_graffiti(game * /*g*/, int x, int y, std::string contents)
 {
   int nx = x;
   int ny = y;

@@ -61,7 +61,7 @@ void weather_effect::thunder(game *g)
  }
 }
 
-void weather_effect::lightning(game *g)
+void weather_effect::lightning(game * /*g*/)
 {
 /* thunder(g);
  if (one_in(LIGHTNING_CHANCE)) {

@@ -430,6 +430,8 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   return opinion.str();
  } break;
 
+ default:
+  break;
  }
 
  return "I don't know what to say. (BUG)";
@@ -1110,6 +1112,9 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   RESPONSE("Okay.");
    SUCCESS(TALK_NONE);
   break;
+
+ default:
+  break;
  }
 
  if (ret.empty()) {
@@ -1153,6 +1158,8 @@ int trial_chance(talk_response response, player *u, npc *p)
     chance += 30;
    break;
 
+  default:
+   break;
  }
 
  if (chance < 0)
@@ -1319,7 +1326,7 @@ void talk_function::give_equipment(game *g, npc *p)
  p->add_disease(DI_ASKED_FOR_ITEM, 1800, g);
 }
 
-void talk_function::follow(game *g, npc *p)
+void talk_function::follow(game * /*g*/, npc *p)
 {
  p->attitude = NPCATT_FOLLOW;
 }
@@ -1364,7 +1371,7 @@ void talk_function::start_mugging(game *g, npc *p)
             p->name.c_str());
 }
 
-void talk_function::player_leaving(game *g, npc *p)
+void talk_function::player_leaving(game * /*g*/, npc *p)
 {
  p->attitude = NPCATT_WAIT_FOR_LEAVE;
  p->patience = 15 - p->personality.aggression;
@@ -1375,12 +1382,12 @@ void talk_function::drop_weapon(game *g, npc *p)
  g->m.add_item(p->posx, p->posy, p->remove_weapon());
 }
 
-void talk_function::player_weapon_away(game *g, npc *p)
+void talk_function::player_weapon_away(game *g, npc * /*p*/)
 {
  g->u.i_add(g->u.remove_weapon());
 }
 
-void talk_function::player_weapon_drop(game *g, npc *p)
+void talk_function::player_weapon_drop(game *g, npc * /*p*/)
 {
  g->m.add_item(g->u.posx, g->u.posy, g->u.remove_weapon());
 }
@@ -1395,37 +1402,37 @@ void talk_function::lead_to_safety(game *g, npc *p)
  p->attitude = NPCATT_LEAD;
 }
 
-void talk_function::toggle_use_guns(game *g, npc *p)
+void talk_function::toggle_use_guns(game * /*g*/, npc *p)
 {
  p->combat_rules.use_guns = !p->combat_rules.use_guns;
 }
 
-void talk_function::toggle_use_grenades(game *g, npc *p)
+void talk_function::toggle_use_grenades(game * /*g*/, npc *p)
 {
  p->combat_rules.use_grenades = !p->combat_rules.use_grenades;
 }
 
-void talk_function::set_engagement_none(game *g, npc *p)
+void talk_function::set_engagement_none(game * /*g*/, npc *p)
 {
  p->combat_rules.engagement = ENGAGE_NONE;
 }
 
-void talk_function::set_engagement_close(game *g, npc *p)
+void talk_function::set_engagement_close(game * /*g*/, npc *p)
 {
  p->combat_rules.engagement = ENGAGE_CLOSE;
 }
 
-void talk_function::set_engagement_weak(game *g, npc *p)
+void talk_function::set_engagement_weak(game * /*g*/, npc *p)
 {
  p->combat_rules.engagement = ENGAGE_WEAK;
 }
 
-void talk_function::set_engagement_hit(game *g, npc *p)
+void talk_function::set_engagement_hit(game * /*g*/, npc *p)
 {
  p->combat_rules.engagement = ENGAGE_HIT;
 }
 
-void talk_function::set_engagement_all(game *g, npc *p)
+void talk_function::set_engagement_all(game * /*g*/, npc *p)
 {
  p->combat_rules.engagement = ENGAGE_ALL;
 }
@@ -1434,10 +1441,10 @@ void talk_function::start_training(game *g, npc *p)
 {
  int cost = 0, time = 0;
  skill sk_used = sk_null;
- itype_id style = itm_null;
+ // itype_id style = itm_null; -- Unused
  if (p->chatbin.tempvalue < 0) {
   cost = -800;
-  style = itype_id(0 - p->chatbin.tempvalue);
+ // style = itype_id(0 - p->chatbin.tempvalue); -- Unused
   time = 30000;
  } else {
    sk_used = skill(p->chatbin.tempvalue);
@@ -1840,20 +1847,20 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
     ch -= 'a';
     if (focus_them) {
      if (ch < theirs.size()) {
-      getting_theirs[ch] = !getting_theirs[ch];
-      if (getting_theirs[ch])
-       cash -= their_price[ch];
+      getting_theirs[unsigned(ch)] = !getting_theirs[unsigned(ch)];
+      if (getting_theirs[unsigned(ch)])
+       cash -= their_price[unsigned(ch)];
       else
-       cash += their_price[ch];
+       cash += their_price[unsigned(ch)];
       update = true;
      }
     } else {	// Focus is on the player's inventory
      if (ch < yours.size()) {
-      getting_yours[ch] = !getting_yours[ch];
-      if (getting_yours[ch])
-       cash += your_price[ch];
+      getting_yours[unsigned(ch)] = !getting_yours[unsigned(ch)];
+      if (getting_yours[unsigned(ch)])
+       cash += your_price[unsigned(ch)];
       else
-       cash -= your_price[ch];
+       cash -= your_price[unsigned(ch)];
       update = true;
      }
     }

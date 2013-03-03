@@ -206,7 +206,7 @@ std::string npc::save_info()
  return dump.str();
 }
 
-void npc::load_info(game *g, std::string data)
+void npc::load_info(game * /*g*/, std::string data)
 {
  std::stringstream dump;
  std::string tmpname;
@@ -455,6 +455,9 @@ void npc::randomize(game *g, npc_class type)
   personality.aggression += rng(1, 6);
   personality.bravery += rng(0, 5);
   break;
+
+ default:
+  break;
  }
  for (int i = 0; i < num_hp_parts; i++) {
   hp_max[i] = 60 + str_max * 3;
@@ -525,6 +528,9 @@ void npc::randomize_from_faction(game *g, faction *fac)
    personality.aggression -= rng(2, 4);
    personality.altruism += rng(1, 5);
    personality.collector += rng(1, 5);
+   break;
+
+  default:
    break;
  }
 // Jobs
@@ -831,6 +837,9 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
    hat = itm_helmet_motor;
   }
   break;
+
+ default:
+  break;
  }
 // Fill in the standard things we wear
  if (shoes != itm_null)
@@ -867,6 +876,8 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
  case NC_TRADER:
   if (!one_in(15))
    ret.push_back(item(g->itypes[itm_backpack], 0));
+  break;
+ default:
   break;
  }
 
@@ -1041,6 +1052,9 @@ void npc::starting_weapon(game *g)
  case sk_rifle:
   index = rng(0, g->mapitems[mi_rifles].size() - 1);
   weapon.make(g->itypes[(g->mapitems[mi_rifles])[index]]);
+  break;
+
+ default:
   break;
  }
  if (weapon.is_gun()) {
@@ -1240,7 +1254,7 @@ void npc::form_opinion(player *u)
   attitude = NPCATT_FLEE;
 }
 
-talk_topic npc::pick_talk_topic(player *u)
+talk_topic npc::pick_talk_topic(player * /*u*/)
 {
  //form_opinion(u);
  if (personality.aggression > 0) {
@@ -1323,7 +1337,7 @@ void npc::make_angry()
   attitude = NPCATT_KILL; // Yeah, we think we could take you!
 }
 
-bool npc::wants_to_travel_with(player *p)
+bool npc::wants_to_travel_with(player * /*p*/)
 {
  return true;
 }
@@ -2037,6 +2051,8 @@ std::string npc_class_name(npc_class classtype)
   return "Scientist";
  case NC_BOUNTY_HUNTER: // Resourceful and well-armored
   return "Bounty Hunter";
+ default:
+  break;
  }
  return "Unknown class";
 }

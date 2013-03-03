@@ -317,7 +317,7 @@ point overmap::display_notes()
  return point(-1,-1);
 }
 
-void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
+void overmap::generate(game * /*g*/, overmap* north, overmap* east, overmap* south,
                        overmap* west)
 {
  erase();
@@ -793,7 +793,7 @@ std::vector<point> overmap::find_all(point origin, oter_id type, int type_range,
  return res;
 }
 
-std::vector<point> overmap::find_terrain(std::string term, int cursx, int cursy)
+std::vector<point> overmap::find_terrain(std::string term, int /*cursx*/, int /*cursy*/)
 {
  std::vector<point> found;
  for (int x = 0; x < OMAPX; x++) {
@@ -907,7 +907,8 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
     if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) { // It's in-bounds
      cur_ter = ter(omx, omy);
      see = seen(omx, omy);
-     if (note_here = has_note(omx, omy))
+     note_here = has_note(omx, omy);
+     if (note_here)
       note_text = note(omx, omy);
      for (int n = 0; n < npcs.size(); n++) {
       if ((npcs[n].mapx + 1) / 2 == omx && (npcs[n].mapy + 1) / 2 == omy) {
@@ -926,12 +927,14 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
       omy += (omy < 0 ? OMAPY : 0 - OMAPY);
       cur_ter = diag.ter(omx, omy);
       see = diag.seen(omx, omy);
-      if ((note_here = diag.has_note(omx, omy)))
+      note_here = diag.has_note(omx, omy);
+      if (note_here)
        note_text = diag.note(omx, omy);
      } else {
       cur_ter = hori.ter(omx, omy);
       see = hori.seen(omx, omy);
-      if (note_here = hori.has_note(omx, omy))
+      note_here = hori.has_note(omx, omy);
+      if (note_here)
        note_text = hori.note(omx, omy);
      }
     } else if (omx >= OMAPX) {
@@ -940,25 +943,29 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
       omy += (omy < 0 ? OMAPY : 0 - OMAPY);
       cur_ter = diag.ter(omx, omy);
       see = diag.seen(omx, omy);
-      if (note_here = diag.has_note(omx, omy))
+      note_here = diag.has_note(omx, omy);
+      if (note_here)
        note_text = diag.note(omx, omy);
      } else {
       cur_ter = hori.ter(omx, omy);
       see = hori.seen(omx, omy);
-      if ((note_here = hori.has_note(omx, omy)))
+      note_here = hori.has_note(omx, omy);
+      if (note_here)
        note_text = hori.note(omx, omy);
      }
     } else if (omy < 0) {
      omy += OMAPY;
      cur_ter = vert.ter(omx, omy);
      see = vert.seen(omx, omy);
-     if ((note_here = vert.has_note(omx, omy)))
+     note_here = vert.has_note(omx, omy);
+     if (note_here)
       note_text = vert.note(omx, omy);
     } else if (omy >= OMAPY) {
      omy -= OMAPY;
      cur_ter = vert.ter(omx, omy);
      see = vert.seen(omx, omy);
-     if ((note_here = vert.has_note(omx, omy)))
+     note_here = vert.has_note(omx, omy);
+     if (note_here)
       note_text = vert.note(omx, omy);
     } else
      debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
@@ -2393,6 +2400,9 @@ void overmap::place_radios()
   This is FEMA camp %d%d.  A desginated long-term emergency shelter.", i, j, i, j);
     radios.push_back(radio_tower(i*2, j*2, rng(80, 200), message));
      break;
+
+   default:
+    break;
    }
   }
  }

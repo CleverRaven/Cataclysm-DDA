@@ -963,7 +963,7 @@ float vehicle::strain ()
 
 bool vehicle::valid_wheel_config ()
 {
-    int x1, y1, x2, y2;
+    int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     int count = 0;
     for (int i = 0; i < external_parts.size(); i++)
     {
@@ -1177,7 +1177,7 @@ void vehicle::stop ()
     of_turn_carry = 0;
 }
 
-veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
+veh_collision vehicle::part_collision (int /*vx*/, int /*vy*/, int part, int x, int y)
 {
     bool pl_ctrl = player_in_control (&g->u);
     int mondex = g->mon_at(x, y);
@@ -1555,7 +1555,7 @@ void vehicle::remove_item (int part, int itemdex)
     parts[part].items.erase (parts[part].items.begin() + itemdex);
 }
 
-void vehicle::gain_moves (int mp)
+void vehicle::gain_moves (int /*mp*/)
 {
     if (velocity)
         of_turn = 1 + of_turn_carry;
@@ -1683,7 +1683,7 @@ void vehicle::refresh_insides ()
                 else
                 if (part_flag(pn, vpf_obstacle))
                 { // found an obstacle, like board or windshield or door
-                    if (parts[pn].inside || part_flag(pn, vpf_openable) && parts[pn].open)
+                    if (parts[pn].inside || (part_flag(pn, vpf_openable) && parts[pn].open))
                         continue; // door and it's open -- can't cover
                     cover = true;
                     break;

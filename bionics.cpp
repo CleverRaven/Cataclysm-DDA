@@ -1,7 +1,7 @@
 #include "player.h"
 #include "game.h"
 #include "rng.h"
-#include "keypress.h"
+#include "input.h"
 #include "item.h"
 #include "bionics.h"
 #include "line.h"
@@ -48,11 +48,12 @@ void player::activate_bionic(int b, game *g)
  std::vector<std::string> good;
  std::vector<std::string> bad;
  WINDOW* w;
- int dirx, diry, t, l, index;
+ int dirx, diry, t, index;
+ InputEvent input;
+ unsigned int l;
  item tmp_item;
 
  switch (bio.id) {
-
  case bio_painkiller:
   pkill += 6;
   pain -= 2;
@@ -134,7 +135,7 @@ void player::activate_bionic(int b, game *g)
   if (good.size() == 0 && bad.size() == 0)
    mvwprintz(w, 1, 1, c_white, "No effects.");
   else {
-   for (int line = 1; line < 39 && line <= good.size() + bad.size(); line++) {
+   for (unsigned int line = 1; line < 39 && line <= good.size() + bad.size(); line++) {
     if (line <= bad.size())
      mvwprintz(w, line, 1, c_red, bad[line - 1].c_str());
     else
@@ -200,7 +201,8 @@ void player::activate_bionic(int b, game *g)
  case bio_lighter:
   g->draw();
   mvprintw(0, 0, "Torch in which direction?");
-  get_direction(g, dirx, diry, input());
+  input = get_input();
+  get_direction(dirx, diry, input);
   if (dirx == -2) {
    g->add_msg("Invalid direction.");
    power_level += bionics[bio_lighter].power_cost;
@@ -252,7 +254,8 @@ void player::activate_bionic(int b, game *g)
  case bio_emp:
   g->draw();
   mvprintw(0, 0, "Fire EMP in which direction?");
-  get_direction(g, dirx, diry, input());
+  input = get_input();
+  get_direction(dirx, diry, input);
   if (dirx == -2) {
    g->add_msg("Invalid direction.");
    power_level += bionics[bio_emp].power_cost;
@@ -268,7 +271,7 @@ void player::activate_bionic(int b, game *g)
   break;
 
  case bio_water_extractor:
-  for (int i = 0; i < g->m.i_at(posx, posy).size(); i++) {
+  for (unsigned int i = 0; i < g->m.i_at(posx, posy).size(); i++) {
    item tmp = g->m.i_at(posx, posy)[i];
    if (tmp.type->id == itm_corpse && query_yn("Extract water from the %s",
                                               tmp.tname().c_str())) {
@@ -306,7 +309,7 @@ void player::activate_bionic(int b, game *g)
       traj = line_to(i, j, posx, posy, 0);
     }
     traj.insert(traj.begin(), point(i, j));
-    for (int k = 0; k < g->m.i_at(i, j).size(); k++) {
+    for (unsigned int k = 0; k < g->m.i_at(i, j).size(); k++) {
      if (g->m.i_at(i, j)[k].made_of(IRON) || g->m.i_at(i, j)[k].made_of(STEEL)){
       tmp_item = g->m.i_at(i, j)[k];
       g->m.i_rem(i, j, k);
@@ -337,7 +340,8 @@ void player::activate_bionic(int b, game *g)
  case bio_lockpick:
   g->draw();
   mvprintw(0, 0, "Unlock in which direction?");
-  get_direction(g, dirx, diry, input());
+  input = get_input();
+  get_direction(dirx, diry, input);
   if (dirx == -2) {
    g->add_msg("Invalid direction.");
    power_level += bionics[bio_lockpick].power_cost;
@@ -353,6 +357,9 @@ void player::activate_bionic(int b, game *g)
    g->add_msg("You can't unlock that %s.", g->m.tername(dirx, diry).c_str());
   break;
 
+  // Unused enums added for completeness.
+ default:
+  break;
  }
 }
 
@@ -383,7 +390,7 @@ bool player::install_bionics(game *g, it_bionic* type)
   mvwputch(w, 21, i, c_ltgray, LINE_OXOX);
  }
 // Init the list of bionics
- for (int i = 1; i < type->options.size(); i++) {
+ for (unsigned int i = 1; i < type->options.size(); i++) {
   bionic_id id = type->options[i];
   mvwprintz(w, i + 2, 0, (has_bionic(id) ? c_ltred : c_ltblue),
             bionics[id].name.c_str());
@@ -427,12 +434,12 @@ bool player::install_bionics(game *g, it_bionic* type)
 Installing this bionic will increase your total battery capacity by %d.\n\
 Batteries are necessary for most bionics to function.  They also require a\n\
 charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
-  char ch;
+  InputEvent input;
   wrefresh(w);
   do
-   ch = getch();
-  while (ch != 'q' && ch != '\n' && ch != KEY_ESCAPE);
-  if (ch == '\n') {
+   input = get_input();
+  while (input != Confirm && input != Close);
+  if (input == Confirm) {
    practice("electronics", (100 - chance_of_success) * 1.5);
    practice("firstaid", (100 - chance_of_success) * 1.0);
    practice("mechanics", (100 - chance_of_success) * 0.5);
@@ -453,8 +460,8 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
   return false;
  }
 
- int selection = 0;
- char ch;
+ unsigned selection = 0;
+ InputEvent input;
 
  do {
 
@@ -471,10 +478,10 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
   mvwprintz(w, 22, 0, c_ltblue, bionics[id].description.c_str());
 
   wrefresh(w);
-  ch = input();
-  switch (ch) {
+  input = get_input();
+  switch (input) {
 
-  case 'j':
+  case DirectionS:
    mvwprintz(w, 2 + selection, 0, (has_bionic(id) ? c_ltred : c_ltblue),
              bionics[id].name.c_str());
    if (selection == type->options.size() - 1)
@@ -483,7 +490,7 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
     selection++;
    break;
 
-  case 'k':
+  case DirectionN:
    mvwprintz(w, 2 + selection, 0, (has_bionic(id) ? c_ltred : c_ltblue),
              bionics[id].name.c_str());
    if (selection == 0)
@@ -493,13 +500,13 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
    break;
 
   }
-  if (ch == '\n' && has_bionic(id)) {
+  if (input == Confirm && has_bionic(id)) {
    popup("You already have a %s!", bionics[id].name.c_str());
-   ch = 'a';
+   input = Nothing;
   }
- } while (ch != '\n' && ch != 'q' && ch != KEY_ESCAPE);
+ } while (input != Cancel && input != Confirm);
 
- if (ch == '\n') {
+ if (input == Confirm) {
    practice("electronics", (100 - chance_of_success) * 1.5);
    practice("firstaid", (100 - chance_of_success) * 1.0);
    practice("mechanics", (100 - chance_of_success) * 0.5);
@@ -565,7 +572,7 @@ void bionics_install_failure(game *g, player *u, int success)
   fail_text += " and ";
   fail_text += (u->my_bionics.size() <= failure_level ? "all" : "some");
   fail_text += " of your existing bionics are lost.";
-  for (int i = 0; i < failure_level && u->my_bionics.size() > 0; i++) {
+  for (unsigned int i = 0; i < failure_level && u->my_bionics.size() > 0; i++) {
    int rem = rng(0, u->my_bionics.size() - 1);
    u->my_bionics.erase(u->my_bionics.begin() + rem);
   }

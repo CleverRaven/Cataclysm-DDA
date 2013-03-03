@@ -62,7 +62,7 @@ enum dis_type {
  DI_ATTACK_BOOST, DI_DAMAGE_BOOST, DI_DODGE_BOOST, DI_ARMOR_BOOST,
   DI_SPEED_BOOST, DI_VIPER_COMBO,
 // Other
- DI_AMIGARA, DI_TELEGLOW, DI_ATTENTION, DI_EVIL,
+ DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL,
 // Inflicted by an NPC
  DI_ASKED_TO_FOLLOW, DI_ASKED_TO_LEAD, DI_ASKED_FOR_ITEM,
 // NPC-only
@@ -128,7 +128,7 @@ struct player_activity
   index = copy.index;
   placement = copy.placement;
   values.clear();
-  for (int i = 0; i < copy.values.size(); i++)
+  for (unsigned int i = 0; i < copy.values.size(); i++)
    values.push_back(copy.values[i]);
  }
 
@@ -137,7 +137,7 @@ struct player_activity
   std::stringstream ret;
   ret << type << " " << moves_left << " " << index << " " << placement.x <<
          " " << placement.y << " " << values.size();
-  for (int i = 0; i < values.size(); i++)
+  for (unsigned int i = 0; i < values.size(); i++)
    ret << " " << values[i];
 
   return ret.str();

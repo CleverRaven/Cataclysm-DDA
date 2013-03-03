@@ -23,6 +23,7 @@ enum trap_id {
  tr_engine,
  tr_blade,
  tr_landmine,
+ tr_landmine_buried,
  tr_telepad,
  tr_goo,
  tr_dissector,
@@ -46,10 +47,10 @@ enum trap_id {
 struct trap;
 
 struct trapfunc {
- void none		(game *g, int x, int y) { };
+ void none		(game * /*g*/, int /*x*/, int /*y*/) { };
  void bubble		(game *g, int x, int y);
  void beartrap		(game *g, int x, int y);
- void snare		(game *g, int x, int y) { };
+ void snare		(game * /*g*/, int /*x*/, int /*y*/) { };
  void board		(game *g, int x, int y);
  void tripwire		(game *g, int x, int y);
  void crossbow		(game *g, int x, int y);
@@ -63,7 +64,7 @@ struct trapfunc {
  void pit		(game *g, int x, int y);
  void pit_spikes	(game *g, int x, int y);
  void lava		(game *g, int x, int y);
- void portal		(game *g, int x, int y) { };
+ void portal		(game * /*g*/, int /*x*/, int /*y*/) { };
  void ledge		(game *g, int x, int y);
  void boobytrap		(game *g, int x, int y);
  void temple_flood	(game *g, int x, int y);
@@ -76,7 +77,7 @@ struct trapfunc {
 };
 
 struct trapfuncm {
- void none	(game *g, monster *z, int x, int y) { };
+ void none	(game * /*g*/, monster * /*z*/, int /*x*/, int /*y*/) { };
  void bubble	(game *g, monster *z, int x, int y);
  void cot	(game *g, monster *z, int x, int y);
  void beartrap	(game *g, monster *z, int x, int y);
@@ -85,16 +86,16 @@ struct trapfuncm {
  void crossbow	(game *g, monster *z, int x, int y);
  void shotgun	(game *g, monster *z, int x, int y);
  void blade	(game *g, monster *z, int x, int y);
- void snare	(game *g, monster *z, int x, int y) { };
+ void snare	(game * /*g*/, monster * /*z*/, int /*x*/, int /*y*/) { };
  void landmine	(game *g, monster *z, int x, int y);
  void telepad	(game *g, monster *z, int x, int y);
  void goo	(game *g, monster *z, int x, int y);
  void dissector	(game *g, monster *z, int x, int y);
- void sinkhole	(game *g, monster *z, int x, int y) { };
+ void sinkhole	(game * /*g*/, monster * /*z*/, int /*x*/, int /*y*/) { };
  void pit	(game *g, monster *z, int x, int y);
  void pit_spikes(game *g, monster *z, int x, int y);
  void lava	(game *g, monster *z, int x, int y);
- void portal	(game *g, monster *z, int x, int y) { };
+ void portal	(game * /*g*/, monster * /*z*/, int /*x*/, int /*y*/) { };
  void ledge	(game *g, monster *z, int x, int y);
  void boobytrap (game *g, monster *z, int x, int y);
  void glow	(game *g, monster *z, int x, int y);

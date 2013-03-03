@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
  keypad(stdscr, true); // Numpad is numbers
  init_colors(); // See color.cpp
  curs_set(0); // Invisible cursor
+ set_escdelay(10); // Make escape actually responsive
 
  std::srand(seed);
 
