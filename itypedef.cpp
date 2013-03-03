@@ -205,10 +205,11 @@ FOOD("chunk of meat",	50, 50,	c_red,		FLESH,  itm_null,
     1,  2,  0, 20, 24,  0, -1,  0,  1,-10,	&iuse::none, ADD_NULL, "\
 Freshly butchered meat. You could eat it raw, but cooking it is better.");
 
-FOOD("chunk of veggy",	30, 60,	c_green,	VEGGY,	itm_null,
+FOOD("plant marrow",	30, 60,	c_green,	VEGGY,	itm_null,
     1,  2,  0, 20, 80,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
-A raw chunk of vegetable. Fine for eating raw, tastier when cooked.");
+A nutrient rich chunk of plant matter, could be eaten raw or cooked.");
 
+//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("human flesh",	50, 50,	c_red,		FLESH,  itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  2,  0, 20, 24,  0, -1,  0,  1,-30,	&iuse::none, ADD_NULL, "\
@@ -230,10 +231,9 @@ FOOD("cooked meat",	 0, 75, c_red,		FLESH,	itm_null,
     1,  2,  0, 50, 24,  0,  0,  0,  1,  8,	&iuse::none,	ADD_NULL, "\
 Freshly cooked meat. Very nutritious.");
 
-FOOD("cooked veggy",	 0, 70, c_green,	VEGGY,	itm_null,
+FOOD("cooked plant marrow",	 0, 70, c_green,	VEGGY,	itm_null,
     1,  2,  0, 40, 50,  0,  1,  0,  1,  0,	&iuse::none,	ADD_NULL, "\
-Freshly cooked vegetables. Very nutritious.");
-
+A freshly cooked chunk of plant matter, tasty and nutritious.
 FOOD("cooked wild vegetables",	0, 70,	c_green,	VEGGY,	itm_null,
     1,  2,  0, 40, 50,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 Cooked wild edible plants.  An interesting mix of flavours.");
