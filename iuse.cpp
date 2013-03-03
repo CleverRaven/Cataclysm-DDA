@@ -1179,17 +1179,17 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
     return;
  }
  if (type == t_chaingate_l) {
-      if (dice(4, 6) < dice(4, p->dex_cur)) {
+  p->moves -= (400 - (p->dex_cur * 5));
+  if (dice(4, 6) < dice(4, p->dex_cur)) {
    g->add_msg_if_player(p,"You pick the lock and the gate swings open.");
-   p->moves -= (400 - (p->dex_cur * 5));
    g->m.ter(dirx, diry) = t_chaingate_o;
    return;
   }
  }
  if (type == t_door_locked || type == t_door_locked_alarm) {
+  p->moves -= (400 - (p->dex_cur * 5));
   if (dice(4, 6) < dice(4, p->dex_cur)) {
    g->add_msg_if_player(p,"You pick the lock and the door swings open.");
-   p->moves -= (400 - (p->dex_cur * 5));
    g->m.ter(dirx, diry) = t_door_o;
    return;
   }
@@ -1216,34 +1216,30 @@ if (dirx == 0 && diry == 0) {
  diry += p->posy;
  ter_id type = g->m.ter(dirx, diry);
  if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm) {
+  p->moves -= (150 - (p->str_cur * 5));
   if (dice(4, 6) < dice(4, p->str_cur)) {
    g->add_msg_if_player(p,"You pry the door open.");
-   p->moves -= (150 - (p->str_cur * 5));
    g->m.ter(dirx, diry) = t_door_o;
-      g->sound(dirx, diry, 8, "crunch!");
-
+   g->sound(dirx, diry, 8, "crunch!");
   } else {
    g->add_msg_if_player(p,"You pry, but cannot open the door.");
-   p->moves -= 100;
   }
  } else if (g->m.ter(dirx, diry) == t_manhole_cover) {
+  p->moves -= (500 - (p->str_cur * 5));
   if (dice(8, 8) < dice(8, p->str_cur)) {
    g->add_msg_if_player(p,"You lift the manhole cover.");
-   p->moves -= (500 - (p->str_cur * 5));
    g->m.ter(dirx, diry) = t_manhole;
    g->m.add_item(p->posx, p->posy, g->itypes[itm_manhole_cover], 0);
   } else {
    g->add_msg_if_player(p,"You pry, but cannot lift the manhole cover.");
-   p->moves -= 100;
   }
  } else if (g->m.ter(dirx, diry) == t_crate_c) {
+  p->moves -= (150 - (p->str_cur * 5));
   if (p->str_cur >= rng(3, 30)) {
    g->add_msg_if_player(p,"You pop the crate open.");
-   p->moves -= (150 - (p->str_cur * 5));
    g->m.ter(dirx, diry) = t_crate_o;
   } else {
    g->add_msg_if_player(p,"You pry, but cannot open the crate.");
-   p->moves -= 100;
   }
  } else {
   int nails = 0, boards = 0;
