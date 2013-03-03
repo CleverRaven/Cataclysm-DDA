@@ -987,7 +987,6 @@ void game::process_activity()
     }
 
     if (u.skillLevel(reading->type) < reading->level) {
-      add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(), u.skillLevel(reading->type).exercise());
      int min_ex = reading->time / 10 + u.int_cur / 4,
        max_ex = reading->time /  5 + u.int_cur / 2 - u.skillLevel(reading->type).level();
      if (min_ex < 1)
@@ -999,6 +998,8 @@ void game::process_activity()
 
      int originalSkillLevel = u.skillLevel(reading->type).level();
      u.skillLevel(reading->type).readBook(min_ex, max_ex, reading->level);
+
+     add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(), u.skillLevel(reading->type).exercise());
 
      if (u.skillLevel(reading->type) > originalSkillLevel)
       add_msg("You increase %s to level %d.",
@@ -1591,12 +1592,51 @@ bool game::handle_action()
 
   case ACTION_INVENTORY: {
    bool has = false;
-   do {
-    char ch = inv();
-    has = u.has_item(ch);
-    if (has)
-     full_screen_popup(u.i_at(ch).info(true).c_str());
-   } while (has);
+   //do {
+    const std::string sSpaces = "                              ";
+    char chItem = inv();
+    has = u.has_item(chItem);
+
+    if (has) {
+     std::string sItemName = u.i_at(chItem).tname(this);
+     int iMenu = menu(("Item: " + sItemName + sSpaces.substr(sItemName.size(), sSpaces.size())).c_str(),
+                      "Examine", "Use/Read", "Eat", "Wear", "Wield", "Take off", "Drop", "Unload", "Reload", "Cancel", NULL);
+
+     switch(iMenu) {
+      case 1:
+       full_screen_popup(u.i_at(chItem).info(true).c_str());
+       break;
+      case 2:
+       use_item(chItem);
+       break;
+      case 3:
+       eat(chItem);
+       break;
+      case 4:
+       wear(chItem);
+       break;
+      case 5:
+       wield(chItem);
+       break;
+      case 6:
+       takeoff(chItem);
+       break;
+      case 7:
+       drop(chItem);
+       break;
+      case 8:
+       unload(chItem);
+       break;
+      case 9:
+       reload(chItem);
+       break;
+      case 0:
+       break;
+      default:
+       break;
+     }
+    }
+   //} while (has);
    refresh_all();
   } break;
 
@@ -2799,8 +2839,13 @@ void game::draw()
 
  mvwprintz(w_status, 0, 41, c_white, "%s, day %d",
            season_name[turn.season].c_str(), turn.day + 1);
- if (run_mode != 0)
-  mvwprintz(w_status, 2, 51, c_red, "SAFE");
+ if (run_mode != 0 || autosafemode != 0) {
+  int iPercent = ((turnssincelastmon*100)/OPTIONS[OPT_AUTOSAFEMODETURNS]);
+  mvwprintz(w_status, 2, 51, (run_mode == 0) ? ((iPercent >= 25) ? c_green : c_red): c_green, "S");
+  wprintz(w_status, (run_mode == 0) ? ((iPercent >= 50) ? c_green : c_red): c_green, "A");
+  wprintz(w_status, (run_mode == 0) ? ((iPercent >= 75) ? c_green : c_red): c_green, "F");
+  wprintz(w_status, (run_mode == 0) ? ((iPercent == 100) ? c_green : c_red): c_green, "E");
+ }
  wrefresh(w_status);
  // Draw messages
  write_msg();
@@ -3319,6 +3364,7 @@ void game::mon_info()
  werase(w_moninfo);
  int buff;
  int newseen = 0;
+ const int iProxyDist = (OPTIONS[OPT_SAFEMODEPROXIMITY] <= 0) ? 60 : OPTIONS[OPT_SAFEMODEPROXIMITY];
 // 7 0 1	unique_types uses these indices;
 // 6 8 2	0-7 are provide by direction_from()
 // 5 4 3	8 is used for local monsters (for when we explain them below)
@@ -3334,7 +3380,9 @@ void game::mon_info()
    bool mon_dangerous = false;
    if (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW) {
     mon_dangerous = true;
-    newseen++;
+
+    if (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= iProxyDist)
+     newseen++;
    }
 
    dir_to_mon = direction_from(u.posx + u.view_offset_x, u.posy + u.view_offset_y,
@@ -3352,7 +3400,9 @@ void game::mon_info()
  for (int i = 0; i < active_npc.size(); i++) {
   if (u_see(active_npc[i].posx, active_npc[i].posy, buff)) { // TODO: NPC invis
    if (active_npc[i].attitude == NPCATT_KILL)
-    newseen++;
+    if (rl_dist(u.posx, u.posy, active_npc[i].posx, active_npc[i].posy) <= iProxyDist)
+     newseen++;
+
    point npcp(active_npc[i].posx, active_npc[i].posy);
    dir_to_npc = direction_from ( u.posx + u.view_offset_x, u.posy + u.view_offset_y,
                                  npcp.x, npcp.y );
@@ -3371,12 +3421,11 @@ void game::mon_info()
   turnssincelastmon = 0;
   if (run_mode == 1)
    run_mode = 2;	// Stop movement!
- } else if (autosafemode) { // Auto-safemode
+ } else if (autosafemode && newseen == 0) { // Auto-safemode
   turnssincelastmon++;
-  if(turnssincelastmon >= 50 && run_mode == 0)
+  if(turnssincelastmon >= OPTIONS[OPT_AUTOSAFEMODETURNS] && run_mode == 0)
    run_mode = 1;
  }
-
 
  mostseen = newseen;
  nc_color tmpcol;
@@ -4383,9 +4432,14 @@ void game::smash()
   add_msg("There's nothing there!");
 }
 
-void game::use_item()
+void game::use_item(char chInput)
 {
- char ch = inv("Use item:");
+ char ch;
+ if (chInput == '.')
+  ch = inv("Use item:");
+ else
+  ch = chInput;
+
  if (ch == ' ') {
   add_msg("Never mind.");
   return;
@@ -6240,9 +6294,22 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
  return true;
 }
 
-void game::drop()
+void game::drop(char chInput)
 {
- std::vector<item> dropped = multidrop();
+ std::vector<item> dropped;
+
+ if (chInput == '.')
+  dropped = multidrop();
+ else {
+  int index = u.inv.index_by_letter(chInput);
+
+  if (index == -1) {
+   dropped.push_back(u.i_rem(chInput));
+  } else {
+   dropped.push_back(u.inv.remove_item(index));
+  }
+ }
+
  if (dropped.size() == 0) {
   add_msg("Never mind.");
   return;
@@ -6747,8 +6814,9 @@ void game::forage()
   }
 }
 
-void game::eat()
+void game::eat(char chInput)
 {
+ char ch;
  if (u.has_trait(PF_RUMINANT) && m.ter(u.posx, u.posy) == t_underbrush &&
      query_yn("Eat underbrush?")) {
   u.moves -= 400;
@@ -6757,11 +6825,16 @@ void game::eat()
   add_msg("You eat the underbrush.");
   return;
  }
- char ch = inv_type("Consume item:", IC_COMESTIBLE);
+ if (chInput == '.')
+  ch = inv_type("Consume item:", IC_COMESTIBLE);
+ else
+  ch = chInput;
+
  if (ch == ' ') {
   add_msg("Never mind.");
   return;
  }
+
  if (!u.has_item(ch)) {
   add_msg("You don't have item '%c'!", ch);
   return;
@@ -6769,9 +6842,14 @@ void game::eat()
  u.eat(this, u.lookup_item(ch));
 }
 
-void game::wear()
+void game::wear(char chInput)
 {
- char ch = inv_type("Wear item:", IC_ARMOR);
+ char ch;
+ if (chInput == '.')
+  ch = inv_type("Wear item:", IC_ARMOR);
+ else
+  ch = chInput;
+
  if (ch == ' ') {
   add_msg("Never mind.");
   return;
@@ -6779,12 +6857,49 @@ void game::wear()
  u.wear(this, ch);
 }
 
-void game::takeoff()
+void game::takeoff(char chInput)
 {
- if (u.takeoff(this, inv_type("Take off item:", IC_NULL)))
+ char ch;
+ if (chInput == '.')
+  ch = inv_type("Take off item:", IC_NULL);
+ else
+  ch = chInput;
+
+ if (u.takeoff(this, ch))
   u.moves -= 250; // TODO: Make this variable
  else
   add_msg("Invalid selection.");
+}
+
+void game::reload(char chInput)
+{
+ //Quick and dirty hack
+ //Save old weapon in temp variable
+ //Wield item that should be unloaded
+ //Reload weapon
+ //Put unloaded item back into inventory
+ //Wield old weapon
+ bool bSwitch = false;
+ item oTempWeapon;
+ int iItemIndex = u.inv.index_by_letter(chInput);
+
+ if (u.weapon.invlet != chInput && iItemIndex != -1) {
+  oTempWeapon = u.weapon;
+  u.weapon = u.inv[iItemIndex];
+  u.inv.remove_item(iItemIndex);
+  bSwitch = true;
+ }
+
+ if (bSwitch || u.weapon.invlet == chInput) {
+  reload();
+  u.activity.moves_left = 0; //Not entirely sure how this effects other actions
+  process_activity();
+ }
+
+ if (bSwitch) {
+  u.inv.push_back(u.weapon);
+  u.weapon = oTempWeapon;
+ }
 }
 
 void game::reload()
@@ -6844,6 +6959,35 @@ single action.", u.weapon.tname().c_str());
 
 // Unload a containter, gun, or tool
 // If it's a gun, some gunmods can also be loaded
+void game::unload(char chInput)
+{
+ //Quick and dirty hack
+ //Save old weapon in temp variable
+ //Wield item that should be unloaded
+ //Unload weapon
+ //Put unloaded item back into inventory
+ //Wield old weapon
+ bool bSwitch = false;
+ item oTempWeapon;
+ int iItemIndex = u.inv.index_by_letter(chInput);
+
+ if (u.weapon.invlet != chInput && iItemIndex != -1) {
+  oTempWeapon = u.weapon;
+  u.weapon = u.inv[iItemIndex];
+  u.inv.remove_item(iItemIndex);
+  bSwitch = true;
+ }
+
+ if (bSwitch || u.weapon.invlet == chInput) {
+  unload();
+ }
+
+ if (bSwitch) {
+  u.inv.push_back(u.weapon);
+  u.weapon = oTempWeapon;
+ }
+}
+
 void game::unload()
 {
  if (!u.weapon.is_gun() && u.weapon.contents.size() == 0 &&
@@ -6968,7 +7112,7 @@ void game::unload()
  weapon->curammo = NULL;
 }
 
-void game::wield()
+void game::wield(char chInput)
 {
  if (u.weapon.has_flag(IF_NO_UNWIELD)) {
 // Bionics can't be unwielded
@@ -6976,10 +7120,14 @@ void game::wield()
   return;
  }
  char ch;
- if (u.styles.empty())
-  ch = inv("Wield item:");
- else
-  ch = inv("Wield item: Press - to choose a style");
+ if (chInput == '.') {
+  if (u.styles.empty())
+   ch = inv("Wield item:");
+  else
+   ch = inv("Wield item: Press - to choose a style");
+ } else
+  ch = chInput;
+
  bool success = false;
  if (ch == '-')
   success = u.wield(this, -3);
