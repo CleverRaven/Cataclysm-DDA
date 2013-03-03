@@ -76,6 +76,10 @@ void dis_msg(game *g, dis_type type)
  case DI_AMIGARA:
   g->add_msg("You can't look away from the fautline...");
   break;
+ case DI_STEMCELL_TREATMENT:
+  g->add_msg("You receive a pureed bone & enamel injection into your eyeball.");
+  g->add_msg("It is excruciating.");
+  break;
  default:
   break;
  }
@@ -349,7 +353,7 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_ONFIRE:
   p.hurtall(3);
-  for (unsigned int i = 0; i < p.worn.size(); i++) {
+  for (int i = 0; i < p.worn.size(); i++) {
    if (p.worn[i].made_of(VEGGY) || p.worn[i].made_of(PAPER)) {
     p.worn.erase(p.worn.begin() + i);
     i--;
@@ -508,6 +512,22 @@ void dis_effect(game *g, player &p, disease &dis)
    dis.duration = 1;
   }
 
+  break;
+ 
+ case DI_STEMCELL_TREATMENT:
+  //slightly repair broken limbs. (also nonbroken limbs (unless they're too healthy))
+  for (int i = 0; i < num_hp_parts; i++) {
+   if(one_in(6)){
+    if (p.hp_cur[i] < rng(0,40)){
+     g->add_msg("You feel your skeleton melt and mend.");
+     p.hp_cur[i]+= rng(1,8);
+    }
+    else if (p.hp_cur[i] > rng(10,2000)){
+     g->add_msg("You feel your skeleton melt");
+     p.hp_cur[i] -= rng(0,8);
+    }
+   }
+  }
   break;
 
  case DI_PKILL1:
@@ -948,19 +968,19 @@ void dis_effect(game *g, player &p, disease &dis)
   bool lesser = false; // Worn or wielded; diminished effects
   if (p.weapon.is_artifact() && p.weapon.is_tool()) {
    it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(p.weapon.type);
-   for (unsigned int i = 0; i < tool->effects_carried.size(); i++) {
+   for (int i = 0; i < tool->effects_carried.size(); i++) {
     if (tool->effects_carried[i] == AEP_EVIL)
      lesser = true;
    }
-   for (unsigned int i = 0; i < tool->effects_wielded.size(); i++) {
+   for (int i = 0; i < tool->effects_wielded.size(); i++) {
     if (tool->effects_wielded[i] == AEP_EVIL)
      lesser = true;
    }
   }
-  for (unsigned int i = 0; !lesser && i < p.worn.size(); i++) {
+  for (int i = 0; !lesser && i < p.worn.size(); i++) {
    if (p.worn[i].is_artifact()) {
     it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(p.worn[i].type);
-    for (unsigned int i = 0; i < armor->effects_worn.size(); i++) {
+    for (int i = 0; i < armor->effects_worn.size(); i++) {
      if (armor->effects_worn[i] == AEP_EVIL)
       lesser = true;
     }
@@ -982,9 +1002,6 @@ void dis_effect(game *g, player &p, disease &dis)
    p.per_cur -= (dis.duration > 4000 ? 10 : int(dis.duration / 400));
   }
  } break;
-
- default:
-   break;
  }
 }
 
@@ -1151,13 +1168,15 @@ std::string dis_name(disease dis)
   if (dis.duration > 800) return "Heavy Asthma";
                           return "Asthma";
 
- case DI_GRACK:         return "UNLEASH THE GRACKEN!!!!";
+ case DI_GRACK:         return "RELEASE THE GRACKEN!!!!";
 
  case DI_METH:
   if (dis.duration > 600) return "High on Meth";
                           return "Meth Comedown";
 
  case DI_IN_PIT:	return "Stuck in Pit";
+
+ case DI_STEMCELL_TREATMENT: return "Stem cell treatment";
 
  case DI_ATTACK_BOOST:  return "Hit Bonus";
  case DI_DAMAGE_BOOST:  return "Damage Bonus";

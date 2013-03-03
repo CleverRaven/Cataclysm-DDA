@@ -39,7 +39,7 @@ void settlement::set_population()
   pop = 4;
 }
 
-int settlement::num(oter_id /*ter*/)
+int settlement::num(oter_id ter)
 {
  return -1;
 /*
@@ -52,7 +52,7 @@ int settlement::num(oter_id /*ter*/)
 */
 }
 
-void settlement::add_building(oter_id /*ter*/)
+void settlement::add_building(oter_id ter)
 {
  return;
 /*

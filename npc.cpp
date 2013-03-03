@@ -108,15 +108,15 @@ npc& npc::operator= (const npc & rhs)
  ret_null = rhs.ret_null;
  inv = rhs.inv;
  worn.clear();
- for (unsigned int i = 0; i < rhs.worn.size(); i++)
+ for (int i = 0; i < rhs.worn.size(); i++)
   worn.push_back(rhs.worn[i]);
 
  needs.clear();
- for (unsigned int i = 0; i < rhs.needs.size(); i++)
+ for (int i = 0; i < rhs.needs.size(); i++)
   needs.push_back(rhs.needs[i]);
 
  path.clear();
- for (unsigned int i = 0; i < rhs.path.size(); i++)
+ for (int i = 0; i < rhs.path.size(); i++)
   path.push_back(rhs.path[i]);
 
  for (int i = 0; i < num_hp_parts; i++) {
@@ -128,7 +128,7 @@ npc& npc::operator= (const npc & rhs)
   sklevel[i] = rhs.sklevel[i];
 
  styles.clear();
- for (unsigned int i = 0; i < rhs.styles.size(); i++)
+ for (int i = 0; i < rhs.styles.size(); i++)
   styles.push_back(rhs.styles[i]);
 
  return *this;
@@ -155,20 +155,20 @@ std::string npc::save_info()
   dump << int(sklevel[i]) << " " << skexercise[i] << " ";
 
  dump << styles.size() << " ";
- for (unsigned int i = 0; i < styles.size(); i++)
+ for (int i = 0; i < styles.size(); i++)
   dump << int(styles[i]) << " ";
 
  dump << illness.size() << " ";
- for (unsigned int i = 0; i < illness.size();  i++)
+ for (int i = 0; i < illness.size();  i++)
   dump << int(illness[i].type) << " " << illness[i].duration << " ";
 
  dump << addictions.size() << " ";
- for (unsigned int i = 0; i < addictions.size(); i++)
+ for (int i = 0; i < addictions.size(); i++)
   dump << int(addictions[i].type) << " " << addictions[i].intensity << " " <<
           addictions[i].sated << " ";
 
  dump << my_bionics.size() << " ";
- for (unsigned int i = 0; i < my_bionics.size(); i++)
+ for (int i = 0; i < my_bionics.size(); i++)
   dump << int(my_bionics[i].id) << " " << my_bionics[i].invlet << " " <<
           int(my_bionics[i].powered) << " " << my_bionics[i].charge << " ";
 
@@ -191,22 +191,22 @@ std::string npc::save_info()
 // Inventory size, plus armor size, plus 1 for the weapon
  dump << std::endl << inv.num_items() + worn.size() + 1 << std::endl;
  for (int i = 0; i < inv.size(); i++) {
-  for (unsigned int j = 0; j < inv.stack_at(i).size(); j++) {
+  for (int j = 0; j < inv.stack_at(i).size(); j++) {
    dump << "I " << inv.stack_at(i)[j].save_info() << std::endl;
-   for (unsigned int k = 0; k < inv.stack_at(i)[j].contents.size(); k++)
+   for (int k = 0; k < inv.stack_at(i)[j].contents.size(); k++)
     dump << "C " << inv.stack_at(i)[j].contents[k].save_info() << std::endl;
   }
  }
  dump << "w " << weapon.save_info() << std::endl;
- for (unsigned int i = 0; i < worn.size(); i++)
+ for (int i = 0; i < worn.size(); i++)
   dump << "W " << worn[i].save_info() << std::endl;
- for (unsigned int j = 0; j < weapon.contents.size(); j++)
+ for (int j = 0; j < weapon.contents.size(); j++)
   dump << "c " << weapon.contents[j].save_info() << std::endl;
 
  return dump.str();
 }
 
-void npc::load_info(game * /*g*/, std::string data)
+void npc::load_info(game *g, std::string data)
 {
  std::stringstream dump;
  std::string tmpname;
@@ -455,9 +455,6 @@ void npc::randomize(game *g, npc_class type)
   personality.aggression += rng(1, 6);
   personality.bravery += rng(0, 5);
   break;
-
- default:
-  break;
  }
  for (int i = 0; i < num_hp_parts; i++) {
   hp_max[i] = 60 + str_max * 3;
@@ -528,9 +525,6 @@ void npc::randomize_from_faction(game *g, faction *fac)
    personality.aggression -= rng(2, 4);
    personality.altruism += rng(1, 5);
    personality.collector += rng(1, 5);
-   break;
-
-  default:
    break;
  }
 // Jobs
@@ -837,9 +831,6 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
    hat = itm_helmet_motor;
   }
   break;
-
- default:
-  break;
  }
 // Fill in the standard things we wear
  if (shoes != itm_null)
@@ -876,8 +867,6 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
  case NC_TRADER:
   if (!one_in(15))
    ret.push_back(item(g->itypes[itm_backpack], 0));
-  break;
- default:
   break;
  }
 
@@ -957,8 +946,8 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
   }
  }
 
- for (unsigned int i = 0; i < ret.size(); i++) {
-  for (unsigned int j = 0; j < g->mapitems[mi_trader_avoid].size(); j++) {
+ for (int i = 0; i < ret.size(); i++) {
+  for (int j = 0; j < g->mapitems[mi_trader_avoid].size(); j++) {
    if (ret[i].type->id == g->mapitems[mi_trader_avoid][j]) {
     ret.erase(ret.begin() + i);
     i--;
@@ -1053,9 +1042,6 @@ void npc::starting_weapon(game *g)
   index = rng(0, g->mapitems[mi_rifles].size() - 1);
   weapon.make(g->itypes[(g->mapitems[mi_rifles])[index]]);
   break;
-
- default:
-  break;
  }
  if (weapon.is_gun()) {
   it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
@@ -1083,7 +1069,7 @@ bool npc::wear_if_wanted(item it)
  }
 // Otherwise, maybe we should take off one or more items and replace them
  std::vector<int> removal;
- for (unsigned int i = 0; i < worn.size(); i++) {
+ for (int i = 0; i < worn.size(); i++) {
   for (int j = 0; j < num_bp; j++) {
    if (armor->covers & mfb(j) &&
        dynamic_cast<it_armor*>(worn[i].type)->covers & mfb(j)) {
@@ -1092,7 +1078,7 @@ bool npc::wear_if_wanted(item it)
    }
   }
  }
- for (unsigned int i = 0; i < removal.size(); i++) {
+ for (int i = 0; i < removal.size(); i++) {
   if (true) {
 //  if (worn[removal[i]].value_to(this) < it.value_to(this)) {
    inv.push_back(worn[removal[i]]);
@@ -1240,7 +1226,7 @@ void npc::form_opinion(player *u)
    op_of_u.value++;
  }
  decide_needs();
- for (unsigned int i = 0; i < needs.size(); i++) {
+ for (int i = 0; i < needs.size(); i++) {
   if (needs[i] == need_food || needs[i] == need_drink)
    op_of_u.value += 2;
  }
@@ -1254,7 +1240,7 @@ void npc::form_opinion(player *u)
   attitude = NPCATT_FLEE;
 }
 
-talk_topic npc::pick_talk_topic(player * /*u*/)
+talk_topic npc::pick_talk_topic(player *u)
 {
  //form_opinion(u);
  if (personality.aggression > 0) {
@@ -1337,7 +1323,7 @@ void npc::make_angry()
   attitude = NPCATT_KILL; // Yeah, we think we could take you!
 }
 
-bool npc::wants_to_travel_with(player * /*p*/)
+bool npc::wants_to_travel_with(player *p)
 {
  return true;
 }
@@ -1345,7 +1331,7 @@ bool npc::wants_to_travel_with(player * /*p*/)
 int npc::assigned_missions_value(game *g)
 {
  int ret = 0;
- for (unsigned int i = 0; i < chatbin.missions_assigned.size(); i++)
+ for (int i = 0; i < chatbin.missions_assigned.size(); i++)
   ret += g->find_mission(chatbin.missions_assigned[i])->value;
  return ret;
 }
@@ -1367,9 +1353,9 @@ std::vector<itype_id> npc::styles_offered_to(player *p)
  std::vector<itype_id> ret;
  if (p == NULL)
   return ret;
- for (unsigned int i = 0; i < styles.size(); i++) {
+ for (int i = 0; i < styles.size(); i++) {
   bool found = false;
-  for (unsigned int j = 0; j < p->styles.size() && !found; j++) {
+  for (int j = 0; j < p->styles.size() && !found; j++) {
    if (p->styles[j] == styles[i])
     found = true;
   }
@@ -1439,7 +1425,7 @@ void npc::decide_needs()
   }
  }
  needs.clear();
- unsigned int j;
+ int j;
  bool serious = false;
  for (int i = 1; i < num_needs; i++) {
   if (needrank[i] < 10)
@@ -1672,7 +1658,7 @@ int npc::danger_assessment(game *g)
 {
  int ret = 0;
  int sightdist = g->light_level(), junk;
- for (unsigned int i = 0; i < g->z.size(); i++) {
+ for (int i = 0; i < g->z.size(); i++) {
   if (g->m.sees(posx, posy, g->z[i].posx, g->z[i].posy, sightdist, junk))
    ret += g->z[i].type->difficulty;
  }
@@ -1836,7 +1822,7 @@ void npc::print_info(WINDOW* w)
  std::string wearing;
  std::stringstream wstr;
  wstr << "Wearing: ";
- for (unsigned int i = 0; i < worn.size(); i++) {
+ for (int i = 0; i < worn.size(); i++) {
   if (i > 0)
    wstr << ", ";
   wstr << worn[i].tname();
@@ -1860,7 +1846,7 @@ std::string npc::short_description()
 {
  std::stringstream ret;
  ret << "Wielding " << weapon.tname() << ";   " << "Wearing: ";
- for (unsigned int i = 0; i < worn.size(); i++) {
+ for (int i = 0; i < worn.size(); i++) {
   if (i > 0)
    ret << ", ";
   ret << worn[i].tname();
@@ -1977,12 +1963,12 @@ void npc::die(game *g, bool your_fault)
  g->m.add_item(posx, posy, my_body);
  for (int i = 0; i < inv.size(); i++)
   g->m.add_item(posx, posy, inv[i]);
- for (unsigned int i = 0; i < worn.size(); i++)
+ for (int i = 0; i < worn.size(); i++)
   g->m.add_item(posx, posy, worn[i]);
  if (weapon.type->id != itm_null)
   g->m.add_item(posx, posy, weapon);
 
- for (unsigned int i = 0; i < g->active_missions.size(); i++) {
+ for (int i = 0; i < g->active_missions.size(); i++) {
   if (g->active_missions[i].npc_id == id)
    g->fail_mission( g->active_missions[i].uid );
  }
@@ -2051,8 +2037,6 @@ std::string npc_class_name(npc_class classtype)
   return "Scientist";
  case NC_BOUNTY_HUNTER: // Resourceful and well-armored
   return "Bounty Hunter";
- default:
-  break;
  }
  return "Unknown class";
 }

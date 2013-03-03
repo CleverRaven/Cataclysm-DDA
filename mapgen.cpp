@@ -231,11 +231,11 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
 //  integer that indicates on which turn the items were created.  This final
 //  integer should be 0, unless the items are "fresh-grown" like wild fruit.
 
- int rn = 0, lw = 0, rw = 0, mw = 0, tw = 0, bw = 0, cw = 0, x = 0, y = 0;
+ int rn, lw, rw, mw, tw, bw, cw, x, y;
  int n_fac = 0, e_fac = 0, s_fac = 0, w_fac = 0;
  computer *tmpcomp = NULL;
-       //int SEEX_oth=SEEX; -- unused
-       //int SEEY_oth=SEEY-5; -- unused
+       int SEEX_oth=SEEX;
+       int SEEY_oth=SEEY-5;
 
  switch (terrain_type) {
 
@@ -283,7 +283,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
       if (one_in(30))
       {
         ter(i, j) = t_shrub_blueberry;
-        add_item(i, j, (*itypes)[itm_blueberries], turn);
       }
       else
       ter(i, j) = t_shrub;
@@ -329,9 +328,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    e_fac = 0;
    s_fac = 0;
    w_fac = 0;
-   break;
-  default:
-   break;
   }
        if (t_north == ot_forest || t_north == ot_forest_water)
    n_fac += 14;
@@ -2883,8 +2879,8 @@ case ot_lmoe: {
 
 // Fill rooms with items!
     for (int i = 2; i <= 15; i += 13) {
-     items_location goods = items_location(0);
-     int size = 0;
+     items_location goods;
+     int size;
      switch (rng(1, 14)) {
       case  1:
       case  2: goods = mi_bots; size = 85; break;
@@ -3000,8 +2996,6 @@ case ot_lmoe: {
      case SOUTH:
       doorx = rng(bx1 + 1, bx2 - 1);
       doory = by2;
-      break;
-     default:
       break;
     }
     for (int i = doorx - 1; i <= doorx + 1; i++) {
@@ -3801,7 +3795,6 @@ case ot_lmoe: {
         case EAST:  p = point(SEEX * 2 - rng(2, 6), rng(1, SEEY * 2 - 2));break;
         case SOUTH: p = point(rng(1, SEEX * 2 - 2), SEEY * 2 - rng(2, 6));break;
         case WEST:  p = point(rng(1, 5)           , rng(1, SEEY * 2 - 2));break;
-        default:                                                          break;
        }
        ter(p.x, p.y) = t_rock_floor;
        add_spawn(mon_dark_wyrm, 1, p.x, p.y);
@@ -3877,8 +3870,6 @@ case ot_lmoe: {
       square(this, t_rock_floor, 6, SEEY - 3, SEEX, SEEY + 2);
       line(this, t_slope_down, 6, SEEY - 2, 6, SEEY + 1);
       break;
-     default:
-      break;
     }
    }
   } // Done building a slope down
@@ -3929,8 +3920,6 @@ case ot_lmoe: {
       break;
      case WEST:
       line(this, t_slope_up, 6, SEEY - 2, 6, SEEY + 1);
-      break;
-     default:
       break;
     }
    }
@@ -4032,8 +4021,6 @@ case ot_lmoe: {
      case WEST:
       square(this, t_rock, 0, 0, 4, SEEY * 2 - 1);
       line(this, t_fault, 4, 4, 4, SEEY * 2 - 5);
-      break;
-     default:
       break;
     }
 
@@ -4192,7 +4179,7 @@ case ot_lmoe: {
     int origx = rng(SEEX - 1, SEEX), origy = rng(SEEY - 1, SEEY),
         hermx = rng(SEEX - 6, SEEX + 5), hermy = rng(SEEX - 6, SEEY + 5);
     std::vector<point> bloodline = line_to(origx, origy, hermx, hermy, 0);
-    for (unsigned int ii = 0; ii < bloodline.size(); ii++)
+    for (int ii = 0; ii < bloodline.size(); ii++)
      add_field(g, bloodline[ii].x, bloodline[ii].y, fd_blood, 2);
     item body;
     body.make_corpse(g->itypes[itm_corpse], g->mtypes[mon_null], g->turn);
@@ -4215,7 +4202,7 @@ case ot_lmoe: {
     pathy = rng(SEEY - 6, SEEY + 5);
    }
    std::vector<point> pathline = line_to(pathx, pathy, SEEX - 1, SEEY - 1, 0);
-   for (unsigned int ii = 0; ii < pathline.size(); ii++)
+   for (int ii = 0; ii < pathline.size(); ii++)
     square(this, t_dirt, pathline[ii].x,     pathline[ii].y,
                          pathline[ii].x + 1, pathline[ii].y + 1);
    while (!one_in(8))
@@ -4242,7 +4229,7 @@ case ot_lmoe: {
   } else { // Level 1
    int cavex = SEEX, cavey = SEEY * 2 - 3;
    int stairsx = SEEX - 1, stairsy = 1; // Default stairs location--may change
-   int centerx = 0;
+   int centerx;
    do {
     cavex += rng(-1, 1);
     cavey -= rng(0, 1);
@@ -4262,7 +4249,7 @@ case ot_lmoe: {
    do {
     int tox = (one_in(2) ? 2 : SEEX * 2 - 3), toy = rng(2, SEEY * 2 - 3);
     std::vector<point> path = line_to(centerx, SEEY - 1, tox, toy, 0);
-    for (unsigned int i = 0; i < path.size(); i++) {
+    for (int i = 0; i < path.size(); i++) {
      for (int cx = path[i].x - 1; cx <= path[i].x + 1; cx++) {
       for (int cy = path[i].y - 1; cy <= path[i].y + 1; cy++) {
        ter(cx, cy) = t_rock_floor;
@@ -5572,6 +5559,10 @@ break;
     line(this, t_counter, 15, 14, 17, 14);
     place_items(mi_surgery, 60, 15, 14, 17, 14, false, 0);
     square(this, t_bed, 18, 18, 19, 19);
+    // computer to begin healing broken bones,
+    tmpcomp = add_computer(16, 16, "Mr. Stem Cell", 3);
+    tmpcomp->add_option("Stem Cell Treatment", COMPACT_STEMCELL_TREATMENT, 3);
+    tmpcomp->add_failure(COMPFAIL_ALARM);
 
     break;
 
@@ -6422,8 +6413,6 @@ break;
      case WEST:
       square(this, t_dirt, nodex - 2, nodey + 1, nodex - 1, nodey + 2);
       node--;
-      break;
-     default:
       break;
     }
    }
@@ -7336,7 +7325,7 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
  }
 
  int item_chance = 0;	// # of items
- for (unsigned int i = 0; i < eligible.size(); i++)
+ for (int i = 0; i < eligible.size(); i++)
   item_chance += (*itypes)[eligible[i]]->rarity;
  int selection, randnum;
  int px, py;
@@ -7377,7 +7366,7 @@ void map::put_items_from(items_location loc, int num, int x, int y, int turn)
 {
  std::vector<itype_id> eligible = (*mapitems)[loc];
  int item_chance = 0;	// # of items
- for (unsigned int i = 0; i < eligible.size(); i++)
+ for (int i = 0; i < eligible.size(); i++)
   item_chance += (*itypes)[eligible[i]]->rarity;
 
  for (int i = 0; i < num; i++) {
@@ -7499,7 +7488,7 @@ void map::rotate(int turns)
    for (int sy = 0; sy < 2; sy++) {
     int gridfrom = sx + sy * my_MAPSIZE;
     int gridto = sx * my_MAPSIZE + 1 - sy;
-    for (unsigned int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
+    for (int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
      spawn_point tmp = grid[gridfrom]->spawns[j];
      int tmpy = tmp.posy;
      tmp.posy = tmp.posx;
@@ -7536,7 +7525,7 @@ void map::rotate(int turns)
    for (int sy = 0; sy < 2; sy++) {
     int gridfrom = sx + sy * my_MAPSIZE;
     int gridto = (1 - sy) * my_MAPSIZE + 1 - sx;
-    for (unsigned int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
+    for (int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
      spawn_point tmp = grid[gridfrom]->spawns[j];
      tmp.posy = SEEY - 1 - tmp.posy;
      tmp.posx = SEEX - 1 - tmp.posx;
@@ -7573,7 +7562,7 @@ void map::rotate(int turns)
    for (int sy = 0; sy < 2; sy++) {
     int gridfrom = sx + sy * my_MAPSIZE;
     int gridto = (1 - sx) * my_MAPSIZE + sy;
-    for (unsigned int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
+    for (int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
      spawn_point tmp = grid[gridfrom]->spawns[j];
      int tmpy = tmp.posy;
      tmp.posy = SEEX - 1 - tmp.posx;
@@ -7601,7 +7590,7 @@ void map::rotate(int turns)
 
 // change vehicles' directions
  for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++)
-     for (unsigned int v = 0; v < grid[i]->vehicles.size(); v++)
+     for (int v = 0; v < grid[i]->vehicles.size(); v++)
          if (turns >= 1 && turns <= 3)
             grid[i]->vehicles[v]->turn (turns * 90);
 
@@ -7709,8 +7698,7 @@ bool connects_to(oter_id there, int dir)
 
 void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
 {
-    int pos_x1=0; int pos_y1=0;
-    // int pos_x2=0; int pos_y2=0; -- Unused
+    int pos_x1=0; int pos_x2=0; int pos_y1=0; int pos_y2=0;
  for (int i = x1; i <= x2; i++) {
   for (int j = y1; j <= y2; j++) {
    if (m->ter(i, j) == t_grass || m->ter(i, j) == t_dirt ||
@@ -7905,8 +7893,6 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
         m->ter(x2-1, y2-2) = t_bathtub;
         if (!((m->ter(x2-3, y2-2)==t_wall_v)||(m->ter(x2-3, y2-2)==t_wall_h))) {
         m->ter(x2-3, y2-2) = t_sink; }
-  break;
- default:
   break;
  }
  m->place_items(placed, chance, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
@@ -8186,8 +8172,6 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     science_room(m, x1, w2 + 1, x2, y2, 0);
    }
    break;
-  default:
-   break;
  }
 }
 
@@ -8366,7 +8350,7 @@ void silo_rooms(map *m)
 
  while (rooms.size() > 1) {
   int best_dist = 999, closest = 0;
-  for (unsigned int i = 1; i < rooms.size(); i++) {
+  for (int i = 1; i < rooms.size(); i++) {
    int dist = trig_dist(rooms[0].x, rooms[0].y, rooms[i].x, rooms[i].y);
    if (dist < best_dist) {
     best_dist = dist;
@@ -8440,8 +8424,6 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2)
   case WEST:
    door_point.x = x1;
    door_point.y = midy;
-   break;
-  default:
    break;
  }
  square(m, t_floor, x1, y1, x2, y2);
@@ -8517,9 +8499,6 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2)
    }
    m->place_items(mi_bedroom, 65, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
    break;
-
-  default:
-   break;
  }
 
  if (type == room_mine_fuel) { // Fuel stations are open on one side
@@ -8528,7 +8507,6 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2)
    case EAST:  line(m, t_floor, x2, y1 + 1, x2, y2 - 1); break;
    case SOUTH: line(m, t_floor, x1, y2    , x2, y2    ); break;
    case WEST:  line(m, t_floor, x1, y1 + 1, x1, y2 - 1); break;
-   default:                                              break;
   }
  } else {
   if (type == room_mine_storage) // Storage has a locked door
@@ -8832,9 +8810,6 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
    }
   }
   break;
-
- default:
-  break;
  }
 }
 
@@ -8935,8 +8910,8 @@ void map::add_extra(map_extra type, game *g)
   if (move_cost(x, y) != 0)
    ter(x, y) = t_dirt;
 
-  int size = 0;
-  items_location stash = items_location(0);
+  int size;
+  items_location stash;
   switch (rng(1, 6)) {	// What kind of stash?
    case 1: stash = mi_stash_food;	size = 90;	break;
    case 2: stash = mi_stash_ammo;	size = 80;	break;
@@ -8954,7 +8929,7 @@ void map::add_extra(map_extra type, game *g)
   for (int i = x - 4; i <= x + 4; i++) {
    for (int j = y - 4; j <= y + 4; j++) {
     if (i >= 0 && j >= 0 && i < SEEX * 2 && j < SEEY * 2 && one_in(4)) {
-     trap_id placed = trap_id(0);
+     trap_id placed;
      switch (rng(1, 7)) {
       case 1:
       case 2:
@@ -8979,8 +8954,8 @@ void map::add_extra(map_extra type, game *g)
 
  case mx_drugdeal: {
 // Decide on a drug type
-  int num_drugs = 0;
-  itype* drugtype = NULL;
+  int num_drugs;
+  itype* drugtype;
   switch (rng(1, 10)) {
    case 1: // Weed
     num_drugs = rng(20, 30);
@@ -9159,7 +9134,7 @@ void map::add_extra(map_extra type, game *g)
   int x1 = rng(0,    SEEX     - 1), y1 = rng(0,    SEEY     - 1),
       x2 = rng(SEEX, SEEX * 2 - 1), y2 = rng(SEEY, SEEY * 2 - 1);
   std::vector<point> fumarole = line_to(x1, y1, x2, y2, 0);
-  for (unsigned int i = 0; i < fumarole.size(); i++)
+  for (int i = 0; i < fumarole.size(); i++)
    ter(fumarole[i].x, fumarole[i].y) = t_lava;
  }
  break;
@@ -9193,8 +9168,6 @@ void map::add_extra(map_extra type, game *g)
   add_item(center.x, center.y, g->new_natural_artifact(prop), 0);
  } break;
 
- default:
-  break;
  } // switch (prop)
 }
 
@@ -9311,15 +9284,13 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
                artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1)));
    break;
 
-  default:
-   break;
  }
 }
 
 void line(map *m, ter_id type, int x1, int y1, int x2, int y2)
 {
  std::vector<point> line = line_to(x1, y1, x2, y2, 0);
- for (unsigned int i = 0; i < line.size(); i++)
+ for (int i = 0; i < line.size(); i++)
   m->ter(line[i].x, line[i].y) = type;
  m->ter(x1, y1) = type;
 }

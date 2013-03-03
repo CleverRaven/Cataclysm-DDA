@@ -184,7 +184,7 @@ struct npc_opinion
   anger = copy.anger;
   owed = copy.owed;
   favors.clear();
-  for (unsigned int i = 0; i < copy.favors.size(); i++)
+  for (int i = 0; i < copy.favors.size(); i++)
    favors.push_back( copy.favors[i] );
  };
 
@@ -220,7 +220,7 @@ struct npc_opinion
   std::stringstream ret;
   ret << trust << " " << fear << " " << value << " " << anger << " " << owed <<
          " " << favors.size();
-  for (unsigned int i = 0; i < favors.size(); i++)
+  for (int i = 0; i < favors.size(); i++)
     ret << " " << int(favors[i].type) << " " << favors[i].value << " " <<
       favors[i].item_id << " " << favors[i].skill->id();
   return ret.str();
@@ -363,9 +363,9 @@ struct npc_chatbin
   std::stringstream ret;
   ret << first_topic << " " << mission_selected << " " << tempvalue << " " <<
           missions.size() << " " << missions_assigned.size();
-  for (unsigned int i = 0; i < missions.size(); i++)
+  for (int i = 0; i < missions.size(); i++)
    ret << " " << missions[i];
-  for (unsigned int i = 0; i < missions_assigned.size(); i++)
+  for (int i = 0; i < missions_assigned.size(); i++)
    ret << " " << missions_assigned[i];
   return ret.str();
  }

@@ -35,10 +35,10 @@ computer& computer::operator=(const computer &rhs)
  name = rhs.name;
  mission_id = rhs.mission_id;
  options.clear();
- for (unsigned int i = 0; i < rhs.options.size(); i++)
+ for (int i = 0; i < rhs.options.size(); i++)
   options.push_back(rhs.options[i]);
  failures.clear();
- for (unsigned int i = 0; i < rhs.failures.size(); i++)
+ for (int i = 0; i < rhs.failures.size(); i++)
    failures.push_back(rhs.failures[i]);
  w_terminal = NULL;
  return *this;
@@ -123,7 +123,7 @@ void computer::use(game *g)
   //reset_terminal();
   print_line("");
   print_line("%s - Root Menu", name.c_str());
-  for (unsigned int i = 0; i < options.size(); i++)
+  for (int i = 0; i < options.size(); i++)
    print_line("%d - %s", i + 1, options[i].name.c_str());
   print_line("Q - Quit and shut down");
   print_line("");
@@ -131,7 +131,7 @@ void computer::use(game *g)
   char ch;
   do
    ch = getch();
-  while (ch != 'q' && ch != 'Q' && (ch < '1' || unsigned(ch - '1') >= options.size()));
+  while (ch != 'q' && ch != 'Q' && (ch < '1' || ch - '1' >= options.size()));
   if (ch == 'q' || ch == 'Q')
    done = true;
   else { // We selected an option other than quit.
@@ -183,7 +183,7 @@ std::string computer::save_data()
  }
  data << savename << " " << security << " " << mission_id << " " <<
          options.size() << " ";
- for (unsigned int i = 0; i < options.size(); i++) {
+ for (int i = 0; i < options.size(); i++) {
   savename = options[i].name;
   found = savename.find(" ");
   while (found != std::string::npos) {
@@ -194,7 +194,7 @@ std::string computer::save_data()
           options[i].security << " ";
  }
  data << failures.size() << " ";
- for (unsigned int i = 0; i < failures.size(); i++)
+ for (int i = 0; i < failures.size(); i++)
   data << int(failures[i]) << " ";
 
  return data.str();
@@ -257,7 +257,7 @@ void computer::activate_function(game *g, computer_action action)
        for (int y1 = y - 1; y1 <= y + 1; y1++ ) {
         if (g->m.ter(x1, y1) == t_counter) {
          bool found_item = false;
-         for (unsigned int i = 0; i < g->m.i_at(x1, y1).size(); i++) {
+         for (int i = 0; i < g->m.i_at(x1, y1).size(); i++) {
           item *it = &(g->m.i_at(x1, y1)[i]);
           if (it->is_container() && it->contents.empty()) {
            it->put_in( item(g->itypes[itm_sewage], g->turn) );
@@ -460,7 +460,7 @@ void computer::activate_function(game *g, computer_action action)
    int more = 0;
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
-     for (unsigned int i = 0; i < g->m.i_at(x, y).size(); i++) {
+     for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
       if (g->m.i_at(x, y)[i].is_bionic()) {
        if (names.size() < 9)
         names.push_back(g->m.i_at(x, y)[i].tname());
@@ -470,7 +470,7 @@ void computer::activate_function(game *g, computer_action action)
      }
     }
    }
-   for (unsigned int i = 0; i < names.size(); i++)
+   for (int i = 0; i < names.size(); i++)
     print_line(names[i].c_str());
    if (more > 0)
     print_line("%d OTHERS FOUND...");
@@ -577,6 +577,13 @@ INITIATING STANDARD TREMOR TEST...");
     g->u.add_disease(DI_AMIGARA, 20, g);
    break;
 
+  case COMPACT_STEMCELL_TREATMENT:
+   g->u.add_disease(DI_STEMCELL_TREATMENT, 120, g);
+   print_line("The machine injects your eyeball with the solution \n\
+of pureed bone & LSD.");
+   g->u.pain += rng(40,90);
+   break;
+
   case COMPACT_DOWNLOAD_SOFTWARE:
    if (!g->u.has_amount(itm_usb_drive, 1))
     print_error("USB drive required!");
@@ -637,8 +644,6 @@ INITIATING STANDARD TREMOR TEST...");
    }
    break;
 
-  default:
-   break;
  } // switch (action)
 }
 
@@ -766,7 +771,7 @@ void computer::activate_failure(game *g, computer_failure fail)
    for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
     for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
      if (g->m.ter(x, y) == t_centrifuge) {
-      for (unsigned int i = 0; i < g->m.i_at(x, y).size(); i++) {
+      for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
        if (g->m.i_at(x, y).empty())
         print_error("ERROR: Please place sample in centrifuge.");
        else if (g->m.i_at(x, y).size() > 1)
@@ -786,9 +791,6 @@ void computer::activate_failure(game *g, computer_failure fail)
     }
    }
    getch();
-   break;
-
-  default:
    break;
  }// switch (fail)
 }
