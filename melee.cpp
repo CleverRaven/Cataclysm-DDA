@@ -170,11 +170,9 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  int pain = 0; // Boost to pain; required for perform_technique
 
 // Moves lost to getting your weapon stuck
- /* -- Unused
  int stuck_penalty = roll_stuck_penalty(z, (stab_dam >= cut_dam));
  if (weapon.is_style())
   stuck_penalty = 0;
-  */
 
 // Pick one or more special attacks
  technique_id technique = pick_technique(g, z, NULL, critical_hit, allow_grab);
@@ -299,11 +297,9 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  int pain = 0; // Boost to pain; required for perform_technique
 
 // Moves lost to getting your weapon stuck
- /* -- Unused
  int stuck_penalty = roll_stuck_penalty(NULL, (stab_dam >= cut_dam));
  if (weapon.is_style())
   stuck_penalty = 0;
-  */
 
 // Pick one or more special attacks
  technique_id technique = pick_technique(g, NULL, &p, critical_hit, allow_grab);
@@ -776,8 +772,8 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
 }
 
 void player::perform_technique(technique_id technique, game *g, monster *z,
-                               player *p, int &bash_dam, int & /*cut_dam*/,
-                               int & /*stab_dam*/, int &pain)
+                               player *p, int &bash_dam, int &cut_dam,
+                               int &stab_dam, int &pain)
 {
  bool mon = (z != NULL);
  std::string You = (is_npc() ? name : "You");
@@ -880,8 +876,6 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
    g->add_msg("%s disarm%s %s!", You.c_str(), s.c_str(), target.c_str());
   break;
 
- default:
-  break;
  } // switch (tech)
 }
 
@@ -1045,8 +1039,6 @@ void player::perform_defensive_technique(
                                   target.c_str());
    break;
 
-  default:
-   break;
  } // switch (technique)
 }
 
@@ -1584,7 +1576,7 @@ void melee_practice(player &u, bool hit, bool unarmed, bool bashing,
  }
 }
 
-int attack_speed(player &u, bool /*missed*/)
+int attack_speed(player &u, bool missed)
 {
  int move_cost = u.weapon.attack_time() + 20 * u.encumb(bp_torso);
  if (u.has_trait(PF_LIGHT_BONES))

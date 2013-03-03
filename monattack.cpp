@@ -764,7 +764,7 @@ void mattack::plant(game *g, monster *z)
  }
 }
 
-void mattack::disappear(game * /*g*/, monster *z)
+void mattack::disappear(game *g, monster *z)
 {
  z->hp = 0;
 }
@@ -963,7 +963,6 @@ void mattack::vortex(game *g, monster *z)
      case IRON:    distance -= 1; // fall through
      case STEEL:
      case SILVER:  distance -= 3; damage -= 10; break;
-     default:                                   break;
     }
     if (distance > 0) {
      if (g->u_see(thrown, t))
@@ -1124,7 +1123,7 @@ void mattack::tazer(game *g, monster *z)
 
 void mattack::smg(game *g, monster *z)
 {
- int t = 0, j = 0, fire_t = 0;
+ int t, j, fire_t;
  if (z->friendly != 0) { // Attacking monsters, not the player!
   monster* target = NULL;
   int closest = 19;

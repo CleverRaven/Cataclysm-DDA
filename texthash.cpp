@@ -23,7 +23,7 @@ std::string text_hash::value(std::string key)
  return fail.str();
 }
 
-bool text_hash::has_key(std::string /*key*/)
+bool text_hash::has_key(std::string key)
 {
  return true;
 /*

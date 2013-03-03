@@ -44,7 +44,6 @@ nc_color hilite(nc_color c)
   case c_ltcyan:	return h_ltcyan;
   case c_pink:		return h_pink;
   case c_yellow:	return h_yellow;
-  default:          break;
  }
  return h_white;
 }
@@ -68,7 +67,6 @@ nc_color invert_color(nc_color c)
    case c_pink:    return i_magenta;
    case c_brown:
    case c_yellow:  return i_brown;
-   default:        break;
   }
  }
  switch (c) {
@@ -87,7 +85,6 @@ nc_color invert_color(nc_color c)
   case c_ltblue:  return i_ltblue;
   case c_ltcyan:  return i_ltcyan;
   case c_pink:    return i_pink;
-  default:        break;
  }
 
  return c_pink;
@@ -111,7 +108,6 @@ nc_color red_background(nc_color c)
   case c_ltcyan:	return c_ltcyan_red;
   case c_pink:		return c_pink_red;
   case c_yellow:	return c_yellow_red;
-  default:          break;
  }
  return c_white_red;
 }
@@ -129,7 +125,6 @@ nc_color rand_color()
   case 7:	return c_pink;
   case 8:	return c_magenta;
   case 9:	return c_brown;
-  default:  break;
  }
  return c_dkgray;
 }
@@ -730,7 +725,7 @@ void compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
   if (vItemDisplay[i].sType == "DESCRIPTION") {
    std::string sText = vItemDisplay[i].sName;
    std::replace(sText.begin(), sText.end(), '\n', ' ');
-   int iPos = 0;
+   int iPos;
    while (1) {
      line_num++;
      if (sText.size() > 36) {

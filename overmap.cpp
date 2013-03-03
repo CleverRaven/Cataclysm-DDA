@@ -317,7 +317,7 @@ point overmap::display_notes()
  return point(-1,-1);
 }
 
-void overmap::generate(game * /*g*/, overmap* north, overmap* east, overmap* south,
+void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
                        overmap* west)
 {
  erase();
@@ -793,7 +793,7 @@ std::vector<point> overmap::find_all(point origin, oter_id type, int type_range,
  return res;
 }
 
-std::vector<point> overmap::find_terrain(std::string term, int /*cursx*/, int /*cursy*/)
+std::vector<point> overmap::find_terrain(std::string term, int cursx, int cursy)
 {
  std::vector<point> found;
  for (int x = 0; x < OMAPX; x++) {
@@ -1056,7 +1056,7 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
 
    if (target.x != -1 && target.y != -1) {
     int distance = rl_dist(origx, origy, target.x, target.y);
-    mvwprintz(w, 3, om_map_width, c_white, "Distance to target: %d", distance);
+    mvwprintz(w, 3, om_map_width + 1, c_white, "Distance to target: %d", distance);
    }
    mvwprintz(w, 17, om_map_width + 1, c_magenta, "Use movement keys to pan.  ");
    mvwprintz(w, 18, om_map_width + 1, c_magenta, "0 - Center map on character");
@@ -2400,9 +2400,6 @@ void overmap::place_radios()
   This is FEMA camp %d%d.  A desginated long-term emergency shelter.", i, j, i, j);
     radios.push_back(radio_tower(i*2, j*2, rng(80, 200), message));
      break;
-
-   default:
-    break;
    }
   }
  }

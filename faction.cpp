@@ -57,7 +57,7 @@ faction::faction(int uid)
  mapy = 0;
  size = 0;
  power = 0;
- id = uid;
+ uid = id;
 }
 
 

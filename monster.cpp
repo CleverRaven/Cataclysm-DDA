@@ -133,7 +133,6 @@ std::string monster::name_with_armor()
    case FLESH: ret += "'s thick hide";    break;
    case IRON:
    case STEEL: ret += "'s armor plating"; break;
-   default:                          break;
   }
  }
  return ret;
@@ -479,7 +478,7 @@ int monster::hit(game *g, player &p, body_part &bp_hit) {
  }
  p.practice("dodge", 5);
  int ret = 0;
- int highest_hit = 0;
+ int highest_hit;
  switch (type->size) {
  case MS_TINY:
   highest_hit = 3;
@@ -536,7 +535,6 @@ void monster::hit_monster(game *g, int i)
   case MS_SMALL: dodgedice += 3; break;
   case MS_LARGE: dodgedice -= 2; break;
   case MS_HUGE:  dodgedice -= 4; break;
-  default:                       break;
  }
 
  if (dice(numdice, 10) <= dice(dodgedice, 10)) {
@@ -594,7 +592,6 @@ int monster::dodge_roll()
   case MS_SMALL: numdice += 3; break;
   case MS_LARGE: numdice -= 2; break;
   case MS_HUGE:  numdice -= 4; break;
-  default:                     break;
  }
 
  numdice += int(speed / 80);
@@ -774,8 +771,6 @@ void monster::process_effects(game *g)
     hurt(rng(15, 40));
    break;
 
-  default:
-   break;
   }
   if (effects[i].duration > 0) {
    effects[i].duration--;

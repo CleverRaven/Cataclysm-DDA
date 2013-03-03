@@ -128,7 +128,7 @@ struct player_activity
   index = copy.index;
   placement = copy.placement;
   values.clear();
-  for (unsigned int i = 0; i < copy.values.size(); i++)
+  for (int i = 0; i < copy.values.size(); i++)
    values.push_back(copy.values[i]);
  }
 
@@ -137,7 +137,7 @@ struct player_activity
   std::stringstream ret;
   ret << type << " " << moves_left << " " << index << " " << placement.x <<
          " " << placement.y << " " << values.size();
-  for (unsigned int i = 0; i < values.size(); i++)
+  for (int i = 0; i < values.size(); i++)
    ret << " " << values[i];
 
   return ret.str();

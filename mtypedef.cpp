@@ -1233,8 +1233,6 @@ std::vector<monster_trigger> default_anger(monster_species spec)
    break;
   case species_hallu:
    break;
-  default:
-   break;
  }
  return ret;
 }
@@ -1267,8 +1265,6 @@ std::vector<monster_trigger> default_fears(monster_species spec)
   case species_robot:
    break;
   case species_hallu:
-   break;
-  default:
    break;
  }
  return ret;

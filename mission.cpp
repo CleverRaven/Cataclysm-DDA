@@ -100,9 +100,6 @@ There's a town nearby.  Check pharmacies; it'll be behind the counter.";
     return "What?!  You're lying, I can tell!  Ugh, forget it!";
    case TALK_MISSION_FAILURE:
     return "How am I not dead already?!";
-
-   default:
-    break;
   }
   break;
 
@@ -127,8 +124,6 @@ Thanks!  Just pull the data onto this USB drive and bring it to me.";
     return "What?!  You liar!";
    case TALK_MISSION_FAILURE:
     return "Wow, you failed?  All that work, down the drain...";
-   default:
-    break;
   }
   break;
 
@@ -160,8 +155,6 @@ computers before completing that part.";
     return "Wait, you couldn't possibly have the data!  Liar!";
    case TALK_MISSION_FAILURE:
     return "What a shame, that data could have proved invaluable...";
-   default:
-    break;
   }
   break;
 
@@ -201,8 +194,6 @@ Thank you so much for finding him!";
    case TALK_MISSION_FAILURE:
     return "Oh no!  My poor puppy...";
 
-   default:
-    break;
   }
   break;
 
@@ -228,9 +219,6 @@ of those things now.  Can you put her out of her misery for me?";
     return "What?!  You're lying, I can tell!  Ugh, forget it!";
    case TALK_MISSION_FAILURE:
     return "Really... that's too bad.";
-
-   default:
-    break;
   }
   break;
  default:
@@ -245,9 +233,6 @@ of those things now.  Can you put her out of her misery for me?";
    case TALK_MISSION_SUCCESS_LIE:
    case TALK_MISSION_FAILURE:
     return "Someone forgot to code this message!";
-
-   default:
-    break;
   }
   break;
  }

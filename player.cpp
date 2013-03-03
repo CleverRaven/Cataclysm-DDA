@@ -362,8 +362,6 @@ void player::temp_equalizer(body_part bp1, body_part bp2)
   case bp_legs:
    temp_cur[bp1] -= temp_diff*0.05;
    temp_cur[bp2] += temp_diff*0.05;
-  default:
-   break;
  }
 }
 
@@ -3672,8 +3670,8 @@ int player::amount_of(itype_id it)
  if (it == itm_toolset && has_bionic(bio_tools))
   return 1;
  if (it == itm_apparatus) {
- if ((has_amount(itm_crackpipe, 1) && has_amount(itm_lighter, 1)) ||
-    ((has_amount(itm_can_drink, 1) && has_amount(itm_lighter, 1))))
+ if (has_amount(itm_crackpipe, 1) && has_amount(itm_lighter, 1) ||
+    (has_amount(itm_can_drink, 1) && has_amount(itm_lighter, 1)))
   return 1;
 }
  int quantity = 0;
@@ -4696,7 +4694,6 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
   case bp_legs  : if (!is_wearing(itm_long_underpants)) break; else layers--;
   case bp_hands : if (!is_wearing(itm_gloves_liner)) break; else layers--;
   case bp_torso : if (!is_wearing(itm_under_armor)) break; else layers--;
-  default: break;
  }
  if (layers > 1)
   ret += (layers - 1) * (bp == bp_torso ? .5 : 2);// Easier to layer on torso

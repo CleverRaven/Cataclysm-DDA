@@ -102,8 +102,6 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
      else
       apply_light_source(sx, sy, x, y, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
      break;
-    default:
-     break;
    }
 
    // Apply any vehicle light sources

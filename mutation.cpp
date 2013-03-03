@@ -221,8 +221,7 @@ void player::remove_child_flag(game *g, pl_flag flag)
 void mutation_effect(game *g, player &p, pl_flag mut)
 {
  bool is_u = (&p == &(g->u));
- bool destroy = false;
- bool skip_cloth = false; // Unused
+ bool destroy = false, skip_cloth = false;
  std::vector<body_part> bps;
 
  switch (mut) {
@@ -318,9 +317,6 @@ void mutation_effect(game *g, player &p, pl_flag mut)
   case PF_PER_UP_4:
    p.per_max += 3;
    break;
-
-  default:
-   break;
  }
 
  for (int i = 0; i < p.worn.size(); i++) {
@@ -341,7 +337,7 @@ void mutation_effect(game *g, player &p, pl_flag mut)
  }
 }
 
-void mutation_loss_effect(game * /*g*/, player &p, pl_flag mut)
+void mutation_loss_effect(game *g, player &p, pl_flag mut)
 {
  switch (mut) {
   case PF_STR_UP:
@@ -394,9 +390,6 @@ void mutation_loss_effect(game * /*g*/, player &p, pl_flag mut)
    break;
   case PF_PER_UP_4:
    p.per_max -= 4;
-   break;
-
-  default:
    break;
  }
 }

@@ -115,7 +115,7 @@ void mdeath::vine_cut(game *g, monster *z)
  }
 }
 
-void mdeath::triffid_heart(game *g, monster * /*z*/)
+void mdeath::triffid_heart(game *g, monster *z)
 {
  g->add_msg("The root walls begin to crumble around you.");
  g->add_event(EVENT_ROOTS_DIE, int(g->turn) + 100);
@@ -286,7 +286,7 @@ void mdeath::thing(game *g, monster *z)
 
 void mdeath::explode(game *g, monster *z)
 {
- int size = 0;
+ int size;
  switch (z->type->size) {
   case MS_TINY:   size =  4; break;
   case MS_SMALL:  size =  8; break;
@@ -297,7 +297,7 @@ void mdeath::explode(game *g, monster *z)
  g->explosion(z->posx, z->posy, size, 0, false);
 }
 
-void mdeath::ratking(game *g, monster * /*z*/)
+void mdeath::ratking(game *g, monster *z)
 {
  g->u.rem_disease(DI_RAT);
 }
@@ -308,7 +308,7 @@ void mdeath::gameover(game *g, monster *z)
  g->u.hp_cur[hp_torso] = 0;
 }
 
-void mdeath::kill_breathers(game *g, monster * /*z*/)
+void mdeath::kill_breathers(game *g, monster *z)
 {
  for (int i = 0; i < g->z.size(); i++) {
   if (g->z[i].type->id == mon_breather_hub || g->z[i].type->id == mon_breather)

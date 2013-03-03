@@ -195,7 +195,7 @@ void mapbuffer::load()
   return;
 
  int itx, ity, t, d, a, num_submaps, num_loaded=0;
- bool fields_here = false; // Unused
+ bool fields_here = false;
  item it_tmp;
  std::string databuff;
  fin >> num_submaps;
