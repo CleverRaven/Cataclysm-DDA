@@ -1,6 +1,7 @@
 #include "game.h"
 #include "rng.h"
 #include "input.h"
+#include "keypress.h"
 #include "output.h"
 #include "skill.h"
 #include "line.h"
@@ -1421,7 +1422,7 @@ void game::process_missions()
 
 bool game::handle_action()
 {
-  char ch = getch();
+  char ch = input();
   if (keymap.find(ch) == keymap.end()) {
 	  if (ch != ' ' && ch != '\n')
 		  add_msg("Unknown command: '%c'", ch);
