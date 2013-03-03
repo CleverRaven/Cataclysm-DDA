@@ -973,7 +973,10 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
     if (see) {
      if (note_here && blink) {
       ter_color = c_yellow;
-      ter_sym = 'N';
+      if (note_text[1] == ':')
+       ter_sym = note_text[0];
+      else
+       ter_sym = 'N';
      } else if (omx == origx && omy == origy && blink) {
       ter_color = g->u.color();
       ter_sym = '@';
@@ -1024,6 +1027,8 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
   }
   if (has_note(cursx, cursy)) {
    note_text = note(cursx, cursy);
+   if (note_text[1] == ':')
+    note_text = note_text.substr(2, note_text.size());
    for (int i = 0; i < note_text.length(); i++)
     mvwputch(w, 1, i, c_white, LINE_OXOX);
    mvwputch(w, 1, note_text.length(), c_white, LINE_XOOX);
