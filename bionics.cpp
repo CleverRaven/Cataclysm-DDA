@@ -1,7 +1,7 @@
 #include "player.h"
 #include "game.h"
 #include "rng.h"
-#include "keypress.h"
+#include "input.h"
 #include "item.h"
 #include "bionics.h"
 #include "line.h"
@@ -49,6 +49,7 @@ void player::activate_bionic(int b, game *g)
  std::vector<std::string> bad;
  WINDOW* w;
  int dirx, diry, t, index;
+ InputEvent input;
  unsigned int l;
  item tmp_item;
 
@@ -200,7 +201,8 @@ void player::activate_bionic(int b, game *g)
  case bio_lighter:
   g->draw();
   mvprintw(0, 0, "Torch in which direction?");
-  get_direction(g, dirx, diry, input());
+  input = get_input();
+  get_direction(dirx, diry, input);
   if (dirx == -2) {
    g->add_msg("Invalid direction.");
    power_level += bionics[bio_lighter].power_cost;
@@ -252,7 +254,8 @@ void player::activate_bionic(int b, game *g)
  case bio_emp:
   g->draw();
   mvprintw(0, 0, "Fire EMP in which direction?");
-  get_direction(g, dirx, diry, input());
+  input = get_input();
+  get_direction(dirx, diry, input);
   if (dirx == -2) {
    g->add_msg("Invalid direction.");
    power_level += bionics[bio_emp].power_cost;
@@ -337,7 +340,8 @@ void player::activate_bionic(int b, game *g)
  case bio_lockpick:
   g->draw();
   mvprintw(0, 0, "Unlock in which direction?");
-  get_direction(g, dirx, diry, input());
+  input = get_input();
+  get_direction(dirx, diry, input);
   if (dirx == -2) {
    g->add_msg("Invalid direction.");
    power_level += bionics[bio_lockpick].power_cost;
@@ -430,12 +434,12 @@ bool player::install_bionics(game *g, it_bionic* type)
 Installing this bionic will increase your total battery capacity by %d.\n\
 Batteries are necessary for most bionics to function.  They also require a\n\
 charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
-  char ch;
+  InputEvent input;
   wrefresh(w);
   do
-   ch = getch();
-  while (ch != 'q' && ch != '\n' && ch != KEY_ESCAPE);
-  if (ch == '\n') {
+   input = get_input();
+  while (input != Confirm && input != Close);
+  if (input == Confirm) {
    practice("electronics", (100 - chance_of_success) * 1.5);
    practice("firstaid", (100 - chance_of_success) * 1.0);
    practice("mechanics", (100 - chance_of_success) * 0.5);
@@ -457,7 +461,7 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
  }
 
  unsigned selection = 0;
- char ch;
+ InputEvent input;
 
  do {
 
@@ -474,10 +478,10 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
   mvwprintz(w, 22, 0, c_ltblue, bionics[id].description.c_str());
 
   wrefresh(w);
-  ch = input();
-  switch (ch) {
+  input = get_input();
+  switch (input) {
 
-  case 'j':
+  case DirectionS:
    mvwprintz(w, 2 + selection, 0, (has_bionic(id) ? c_ltred : c_ltblue),
              bionics[id].name.c_str());
    if (selection == type->options.size() - 1)
@@ -486,7 +490,7 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
     selection++;
    break;
 
-  case 'k':
+  case DirectionN:
    mvwprintz(w, 2 + selection, 0, (has_bionic(id) ? c_ltred : c_ltblue),
              bionics[id].name.c_str());
    if (selection == 0)
@@ -496,13 +500,13 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
    break;
 
   }
-  if (ch == '\n' && has_bionic(id)) {
+  if (input == Confirm && has_bionic(id)) {
    popup("You already have a %s!", bionics[id].name.c_str());
-   ch = 'a';
+   input = Nothing;
   }
- } while (ch != '\n' && ch != 'q' && ch != KEY_ESCAPE);
+ } while (input != Cancel && input != Confirm);
 
- if (ch == '\n') {
+ if (input == Confirm) {
    practice("electronics", (100 - chance_of_success) * 1.5);
    practice("firstaid", (100 - chance_of_success) * 1.0);
    practice("mechanics", (100 - chance_of_success) * 0.5);
