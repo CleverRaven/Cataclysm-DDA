@@ -7301,7 +7301,7 @@ void map::place_spawns(game *g, const moncat_id monster_type, const int chance,
  if (one_in(chance))
  {
   const std::vector<mon_id> group = g->moncats[monster_type];
-  int num = density * rng(10, 20);
+  int num = density * (float)rng(10, 50);
   int total_freq = 0;
 
   for (int i = 0; i < group.size(); i++)
