@@ -1058,7 +1058,7 @@ void player::perform_special_attacks(game *g, monster *z, player *p,
  int cut_armor  = (z == NULL ? 0 : z->armor_cut());
  std::vector<special_attack> special_attacks = mutation_attacks(z, p);
 
- for (unsigned int i = 0; i < special_attacks.size(); i++) {
+ for (int i = 0; i < special_attacks.size(); i++) {
   bool did_damage = false;
   if (special_attacks[i].bash > bash_armor) {
    bash_dam += special_attacks[i].bash;
@@ -1207,7 +1207,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
    g->add_msg("%s %s shatters!", Your.c_str(), weapon.tname(g).c_str());
   g->sound(posx, posy, 16, "");
 // Dump its contents on the ground
-  for (unsigned int i = 0; i < weapon.contents.size(); i++)
+  for (int i = 0; i < weapon.contents.size(); i++)
    g->m.add_item(posx, posy, weapon.contents[i]);
   hit(g, bp_arms, 1, 0, rng(0, weapon.volume() * 2));// Take damage
   if (weapon.is_two_handed(this))// Hurt left arm too, if it was big

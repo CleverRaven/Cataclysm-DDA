@@ -73,7 +73,7 @@ void monster::plan(game *g)
  int tc = 0, stc = 0;
  bool fleeing = false;
  if (friendly != 0) {	// Target monsters, not the player!
-  for (unsigned int i = 0; i < g->z.size(); i++) {
+  for (int i = 0; i < g->z.size(); i++) {
    monster *tmp = &(g->z[i]);
    if (tmp->friendly == 0 && rl_dist(posx, posy, tmp->posx, tmp->posy) < dist &&
        g->m.sees(posx, posy, tmp->posx, tmp->posy, sightrange, tc)) {
@@ -109,7 +109,7 @@ void monster::plan(game *g)
   closest = -2;
   stc = tc;
  }
- for (unsigned int i = 0; i < g->active_npc.size(); i++) {
+ for (int i = 0; i < g->active_npc.size(); i++) {
   npc *me = &(g->active_npc[i]);
   int medist = rl_dist(posx, posy, me->posx, me->posy);
   if ((medist < dist || (!fleeing && is_fleeing(*me))) &&
@@ -131,7 +131,7 @@ void monster::plan(game *g)
  }
  if (!fleeing) {
   fleeing = attitude() == MATT_FLEE;
-  for (unsigned int i = 0; i < g->z.size(); i++) {
+  for (int i = 0; i < g->z.size(); i++) {
    monster *mon = &(g->z[i]);
    int mondist = rl_dist(posx, posy, mon->posx, mon->posy);
    if (mon->friendly != 0 && mondist < dist && can_see() &&
@@ -213,7 +213,7 @@ void monster::move(game *g)
   if (plans.back().x == g->u.posx && plans.back().y == g->u.posy)
    current_attitude = attitude(&(g->u));
   else {
-   for (unsigned int i = 0; i < g->active_npc.size(); i++) {
+   for (int i = 0; i < g->active_npc.size(); i++) {
     if (plans.back().x == g->active_npc[i].posx &&
         plans.back().y == g->active_npc[i].posy)
      current_attitude = attitude(&(g->active_npc[i]));
@@ -557,20 +557,20 @@ void monster::hit_player(game *g, player &p, bool can_grab)
  }
 // Adjust anger/morale of same-species monsters, if appropriate
  int anger_adjust = 0, morale_adjust = 0;
- for (unsigned int i = 0; i < type->anger.size(); i++) {
+ for (int i = 0; i < type->anger.size(); i++) {
   if (type->anger[i] == MTRIG_FRIEND_ATTACKED)
    anger_adjust += 15;
  }
- for (unsigned int i = 0; i < type->placate.size(); i++) {
+ for (int i = 0; i < type->placate.size(); i++) {
   if (type->placate[i] == MTRIG_FRIEND_ATTACKED)
    anger_adjust -= 15;
  }
- for (unsigned int i = 0; i < type->fear.size(); i++) {
+ for (int i = 0; i < type->fear.size(); i++) {
   if (type->fear[i] == MTRIG_FRIEND_ATTACKED)
    morale_adjust -= 15;
  }
  if (anger_adjust != 0 && morale_adjust != 0) {
-  for (unsigned int i = 0; i < g->z.size(); i++) {
+  for (int i = 0; i < g->z.size(); i++) {
    g->z[i].morale += morale_adjust;
    g->z[i].anger += anger_adjust;
   }
@@ -788,7 +788,7 @@ int monster::turns_to_reach(game *g, int x, int y)
   return 999;
 
  double turns = 0.;
- for (unsigned int i = 0; i < path.size(); i++) {
+ for (int i = 0; i < path.size(); i++) {
   if (g->m.move_cost(path[i].x, path[i].y) == 0) // We have to bash through
    turns += 5;
   else

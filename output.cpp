@@ -256,7 +256,7 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
   mvwputch(w, 2, x, c_white, LINE_OXOX);
 
  int total_width = 0;
- for (unsigned int i = 0; i < labels.size(); i++)
+ for (int i = 0; i < labels.size(); i++)
   total_width += labels[i].length() + 6; // "< |four| >"
 
  if (total_width > win_width) {
@@ -272,7 +272,7 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
  int xpos = 0;
  double savings = 0;
 
- for (unsigned int i = 0; i < labels.size(); i++) {
+ for (int i = 0; i < labels.size(); i++) {
   int length = labels[i].length();
   xpos += buffer + 2;
   savings += buffer_extra;
@@ -482,7 +482,7 @@ int menu_vec(const char *mes, std::vector<std::string> options)
  }
  std::string title = mes;
  int height = 3 + options.size(), width = title.length() + 2;
- for (unsigned int i = 0; i < options.size(); i++) {
+ for (int i = 0; i < options.size(); i++) {
   if (options[i].length() + 6 > width)
    width = options[i].length() + 6;
  }
@@ -491,7 +491,7 @@ int menu_vec(const char *mes, std::vector<std::string> options)
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintw(w, 1, 1, title.c_str());
- for (unsigned int i = 0; i < options.size(); i++)
+ for (int i = 0; i < options.size(); i++)
   mvwprintw(w, i + 2, 1, "%c: %s", (i < 9? i + '1' :
                                    (i == 9? '0' : 'a' + i - 10)),
             options[i].c_str());
@@ -726,7 +726,7 @@ void compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
 
  std::string sPlus;
  bool bStartNewLine = true;
- for (unsigned int i = 0; i < vItemDisplay.size(); i++) {
+ for (int i = 0; i < vItemDisplay.size(); i++) {
   if (vItemDisplay[i].sType == "DESCRIPTION") {
    std::string sText = vItemDisplay[i].sName;
    std::replace(sText.begin(), sText.end(), '\n', ' ');
@@ -762,7 +762,7 @@ void compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
 
    if (vItemDisplay[i].iValue != -999) {
     nc_color thisColor = c_white;
-    for (unsigned int k = 0; k < vItemCompare.size(); k++) {
+    for (int k = 0; k < vItemCompare.size(); k++) {
      if (vItemCompare[k].iValue != -999) {
       if (vItemDisplay[i].sName == vItemCompare[k].sName) {
        if (vItemDisplay[i].iValue == vItemCompare[k].iValue) {

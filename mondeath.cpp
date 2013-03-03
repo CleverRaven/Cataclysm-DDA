@@ -62,7 +62,7 @@ void mdeath::kill_vines(game *g, monster *z)
 {
  std::vector<int> vines;
  std::vector<int> hubs;
- for (unsigned int i = 0; i < g->z.size(); i++) {
+ for (int i = 0; i < g->z.size(); i++) {
   if (g->z[i].type->id == mon_creeper_hub &&
       (g->z[i].posx != z->posx || g->z[i].posy != z->posy))
    hubs.push_back(i);
@@ -70,11 +70,11 @@ void mdeath::kill_vines(game *g, monster *z)
    vines.push_back(i);
  }
 
- for (unsigned int i = 0; i < vines.size(); i++) {
+ for (int i = 0; i < vines.size(); i++) {
   monster *vine = &(g->z[ vines[i] ]);
   int dist = rl_dist(vine->posx, vine->posy, z->posx, z->posy);
   bool closer_hub = false;
-  for (unsigned int j = 0; j < hubs.size() && !closer_hub; j++) {
+  for (int j = 0; j < hubs.size() && !closer_hub; j++) {
    if (rl_dist(vine->posx, vine->posy,
                g->z[ hubs[j] ].posx, g->z[ hubs[j] ].posy) < dist)
     closer_hub = true;
@@ -97,7 +97,7 @@ void mdeath::vine_cut(game *g, monster *z)
   }
  }
 
- for (unsigned int i = 0; i < vines.size(); i++) {
+ for (int i = 0; i < vines.size(); i++) {
   bool found_neighbor = false;
   monster *vine = &(g->z[ vines[i] ]);
   for (int x = vine->posx - 1; x <= vine->posx + 1 && !found_neighbor; x++) {
@@ -263,7 +263,7 @@ void mdeath::amigara(game *g, monster *z)
 {
  if (g->u.has_disease(DI_AMIGARA)) {
   int count = 0;
-  for (unsigned int i = 0; i < g->z.size(); i++) {
+  for (int i = 0; i < g->z.size(); i++) {
    if (g->z[i].type->id == mon_amigara_horror)
     count++;
   }
@@ -310,7 +310,7 @@ void mdeath::gameover(game *g, monster *z)
 
 void mdeath::kill_breathers(game *g, monster * /*z*/)
 {
- for (unsigned int i = 0; i < g->z.size(); i++) {
+ for (int i = 0; i < g->z.size(); i++) {
   if (g->z[i].type->id == mon_breather_hub || g->z[i].type->id == mon_breather)
    g->z[i].dead = true;
  }

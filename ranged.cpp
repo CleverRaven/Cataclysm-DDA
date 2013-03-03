@@ -191,7 +191,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    int x = p.posx - 1 + rng(0, 2);
    int y = p.posy - 1 + rng(0, 2);
    std::vector<item>& items = m.i_at(x, y);
-   unsigned int i;
+   int i;
    for (i = 0; i < items.size(); i++)
     if (items[i].typeId() == casing_type &&
         items[i].charges < (dynamic_cast<it_ammo*>(items[i].type))->count) {
@@ -267,7 +267,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   }
 
   int dam = weapon->gun_damage();
-  for (unsigned int i = 0; i < trajectory.size() &&
+  for (int i = 0; i < trajectory.size() &&
        (dam > 0 || (effects & AMMO_FLAME)); i++) {
    if (i > 0)
     m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, false, true);
@@ -421,7 +421,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
   dam = thrown.weight() * 3;
 
  int i = 0, tx = 0, ty = 0;
- for (unsigned i = 0; i < trajectory.size() && dam > -10; i++) {
+ for (i = 0; i < trajectory.size() && dam > -10; i++) {
   message = "";
   double goodhit = missed_by;
   tx = trajectory[i].x;
@@ -444,7 +444,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
        rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
     if (u_see(tx, ty, tart))
      add_msg("The %s shatters!", thrown.tname().c_str());
-    for (unsigned int i = 0; i < thrown.contents.size(); i++)
+    for (int i = 0; i < thrown.contents.size(); i++)
      m.add_item(tx, ty, thrown.contents[i]);
     sound(tx, ty, 16, "glass breaking!");
     int glassdam = rng(0, thrown.volume() * 2);
@@ -503,7 +503,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
      rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
   if (u_see(tx, ty, tart))
    add_msg("The %s shatters!", thrown.tname().c_str());
-  for (unsigned int i = 0; i < thrown.contents.size(); i++)
+  for (int i = 0; i < thrown.contents.size(); i++)
    m.add_item(tx, ty, thrown.contents[i]);
   sound(tx, ty, 16, "glass breaking!");
  } else {
@@ -528,7 +528,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 // If no previous target, target the closest there is
    double closest = -1;
    double dist;
-   for (unsigned int i = 0; i < t.size(); i++) {
+   for (int i = 0; i < t.size(); i++) {
     dist = rl_dist(t[i].posx, t[i].posy, u.posx, u.posy);
     if (closest < 0 || dist < closest) {
      closest = dist;
@@ -580,13 +580,13 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   lm.generate(this, center.x, center.y, natural_light_level(), u.active_light());
   m.draw(this, w_terrain, center);
 // Draw the Monsters
-  for (unsigned int i = 0; i < z.size(); i++) {
+  for (int i = 0; i < z.size(); i++) {
    if (u_see(&(z[i]), tart) && z[i].posx >= lowx && z[i].posy >= lowy &&
                                z[i].posx <=  hix && z[i].posy <=  hiy)
     z[i].draw(w_terrain, center.x, center.y, false);
   }
 // Draw the NPCs
-  for (unsigned int i = 0; i < active_npc.size(); i++) {
+  for (int i = 0; i < active_npc.size(); i++) {
    if (u_see(active_npc[i].posx, active_npc[i].posy, tart))
     active_npc[i].draw(w_terrain, center.x, center.y, false);
   }
@@ -604,7 +604,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    if (m.sees(u.posx, u.posy, x, y, -1, tart)) {// Selects a valid line-of-sight
     ret = line_to(u.posx, u.posy, x, y, tart); // Sets the vector to that LOS
 // Draw the trajectory
-    for (unsigned int i = 0; i < ret.size(); i++) {
+    for (int i = 0; i < ret.size(); i++) {
      if (abs(ret[i].x - u.posx) <= sight_dist &&
          abs(ret[i].y - u.posy) <= sight_dist   ) {
       int mondex = mon_at(ret[i].x, ret[i].y),
@@ -673,7 +673,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    x = t[target].posx;
    y = t[target].posy;
   } else if (ch == '.' || ch == 'f' || ch == 'F' || ch == '\n') {
-   for (unsigned int i = 0; i < t.size(); i++) {
+   for (int i = 0; i < t.size(); i++) {
     if (t[i].posx == x && t[i].posy == y)
      target = i;
    }
@@ -1012,7 +1012,7 @@ void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)
 
  std::vector<point> spurt = continue_line(trajectory, distance);
 
- for (unsigned int i = 0; i < spurt.size(); i++) {
+ for (int i = 0; i < spurt.size(); i++) {
   int tarx = spurt[i].x, tary = spurt[i].y;
   if (g->m.field_at(tarx, tary).type == blood &&
       g->m.field_at(tarx, tary).density < 3)

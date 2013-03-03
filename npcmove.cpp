@@ -331,7 +331,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
  int highest_priority = 0;
  total_danger = 0;
 
- for (unsigned int i = 0; i < g->z.size(); i++) {
+ for (int i = 0; i < g->z.size(); i++) {
   monster *mon = &(g->z[i]);
   if (g->pl_sees(this, mon, linet)) {
    int distance = (100 * rl_dist(posx, posy, mon->posx, mon->posy)) /
@@ -480,7 +480,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
  }
 
  bool has_ammo_for_empty_gun = false;
- for (unsigned int i = 0; i < empty_guns.size(); i++) {
+ for (int i = 0; i < empty_guns.size(); i++) {
   for (int j = 0; j < inv.size(); j++) {
    if (inv[j].is_ammo() &&
        inv[j].ammo_type() == inv[ empty_guns[i] ].ammo_type())
@@ -771,7 +771,7 @@ bool npc::wont_hit_friend(game *g, int tarx, int tary, int index)
  else
   traj = line_to(posx, posy, tarx, tary, 0);
 
- for (unsigned int i = 0; i < traj.size(); i++) {
+ for (int i = 0; i < traj.size(); i++) {
   int dist = rl_dist(posx, posy, traj[i].x, traj[i].y);
   int deviation = 1 + int(dist / confident);
   for (int x = traj[i].x - deviation; x <= traj[i].x + deviation; x++) {
@@ -1029,7 +1029,7 @@ void npc::avoid_friendly_fire(game *g, int target)
   break;
  }
 
- for (unsigned int i = 0; i < valid_moves.size(); i++) {
+ for (int i = 0; i < valid_moves.size(); i++) {
   if (can_move_to(g, valid_moves[i].x, valid_moves[i].y)) {
    move_to(g, valid_moves[i].x, valid_moves[i].y);
    return;
@@ -1071,7 +1071,7 @@ void npc::move_away_from(game *g, int x, int y)
   options.push_back( point(posx - dx, posy + dy) );
  }
 
- for (unsigned int i = 0; i < options.size(); i++) {
+ for (int i = 0; i < options.size(); i++) {
   if (can_move_to(g, options[i].x, options[i].y))
    move_to(g, options[i].x, options[i].y);
  }
@@ -1113,7 +1113,7 @@ void npc::find_item(game *g)
  for (int x = minx; x <= maxx; x++) {
   for (int y = miny; y <= maxy; y++) {
    if (g->m.sees(posx, posy, x, y, range, linet)) {
-    for (unsigned int i = 0; i < g->m.i_at(x, y).size(); i++) {
+    for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
      int itval = value(g->m.i_at(x, y)[i]);
      int wgt = g->m.i_at(x, y)[i].weight(), vol = g->m.i_at(x, y)[i].volume();
      if (itval > best_value &&
@@ -1157,7 +1157,7 @@ void npc::pick_up_item(game *g)
  int total_volume = 0, total_weight = 0; // How much the items will add
  std::vector<int> pickup; // Indices of items we want
 
- for (unsigned int i = 0; i < items->size(); i++) {
+ for (int i = 0; i < items->size(); i++) {
   int itval = value((*items)[i]), vol = (*items)[i].volume(),
       wgt = (*items)[i].weight();
   if (itval >= minimum_item_value() &&// (itval >= worst_item_value ||
@@ -1206,13 +1206,13 @@ void npc::pick_up_item(game *g)
    g->add_msg("Someone picks up several items.");
  }
 
- for (unsigned int i = 0; i < pickup.size(); i++) {
+ for (int i = 0; i < pickup.size(); i++) {
   int itval = value((*items)[pickup[i]]);
   if (itval < worst_item_value)
    worst_item_value = itval;
   i_add((*items)[pickup[i]]);
  }
- for (unsigned int i = 0; i < pickup.size(); i++) {
+ for (int i = 0; i < pickup.size(); i++) {
   g->m.i_rem(itx, ity, pickup[i]);
   for (int j = i + 1; j < pickup.size(); j++) // Fix indices
    pickup[j]--;
@@ -1248,7 +1248,7 @@ void npc::drop_items(game *g, int weight, int volume)
    vol_ratio = inv[i].volume() / value(inv[i]);
   }
   bool added_wgt = false, added_vol = false;
-  for (unsigned int j = 0; j < rWgt.size() && !added_wgt; j++) {
+  for (int j = 0; j < rWgt.size() && !added_wgt; j++) {
    if (wgt_ratio > rWgt[j].ratio) {
     added_wgt = true;
     rWgt.insert(rWgt.begin() + j, ratio_index(wgt_ratio, i));
@@ -1256,7 +1256,7 @@ void npc::drop_items(game *g, int weight, int volume)
   }
   if (!added_wgt)
    rWgt.push_back(ratio_index(wgt_ratio, i));
-  for (unsigned int j = 0; j < rVol.size() && !added_vol; j++) {
+  for (int j = 0; j < rVol.size() && !added_vol; j++) {
    if (vol_ratio > rVol[j].ratio) {
     added_vol = true;
     rVol.insert(rVol.begin() + j, ratio_index(vol_ratio, i));
@@ -1280,7 +1280,7 @@ void npc::drop_items(game *g, int weight, int volume)
    index = rWgt[0].index;
    rWgt.erase(rWgt.begin());
 // Fix the rest of those indices.
-   for (unsigned int i = 0; i < rWgt.size(); i++) {
+   for (int i = 0; i < rWgt.size(); i++) {
     if (rWgt[i].index > index)
      rWgt[i].index--;
    }
@@ -1288,7 +1288,7 @@ void npc::drop_items(game *g, int weight, int volume)
    index = rVol[0].index;
    rVol.erase(rVol.begin());
 // Fix the rest of those indices.
-   for (unsigned int i = 0; i < rVol.size(); i++) {
+   for (int i = 0; i < rVol.size(); i++) {
     if (i > rVol.size())
      debugmsg("npc::drop_items() - looping through rVol - Size is %d, i is %d",
               rVol.size(), i);
@@ -1336,7 +1336,7 @@ npc_action npc::scan_new_items(game *g, int target)
  }
 
  bool has_ammo_for_empty_gun = false;
- for (unsigned int i = 0; i < empty_guns.size(); i++) {
+ for (int i = 0; i < empty_guns.size(); i++) {
   for (int j = 0; j < inv.size(); j++) {
    if (inv[j].is_ammo() &&
        inv[j].ammo_type() == inv[ empty_guns[i] ].ammo_type())
