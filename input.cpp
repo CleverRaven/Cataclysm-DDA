@@ -4,7 +4,7 @@
 /* TODO Replace the hardcoded values with an abstraction layer.
  * Lower redundancy across the methods. */
 
-InputEvent get_input(char ch) 
+InputEvent get_input(int ch) 
 {
 	if (ch == '\0')
 		ch = getch();
@@ -12,12 +12,16 @@ InputEvent get_input(char ch)
 	switch(ch)
 	{
 		case 'k': 
+        case KEY_UP:
 			return DirectionN;
 		case 'j':
+        case KEY_DOWN:
 			return DirectionS;
 		case 'l':
+        case KEY_RIGHT:
 			return DirectionE;
 		case 'h':
+        case KEY_LEFT:
 			return DirectionW;
 		case 'y':
 			return DirectionNW;

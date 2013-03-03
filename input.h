@@ -16,7 +16,8 @@ enum InputEvent {
 	DirectionSE,
 	DirectionSW,
 	DirectionNone,
-	DirectionDown,
+
+	DirectionDown, /* Think stairs */
 	DirectionUp,
 
 	Pickup,
@@ -24,7 +25,7 @@ enum InputEvent {
 	Undefined
 };
 
-InputEvent get_input(char ch = '\0');
+InputEvent get_input(int ch = '\0');
 void get_direction(int &x, int &y, InputEvent &input);
 
 #endif
