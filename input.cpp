@@ -40,6 +40,7 @@ InputEvent get_input(int ch)
 		case '3':
 			return DirectionSE;
 		case '.':
+		case '5':
 			return DirectionNone;
 		case '>':
 			return DirectionDown;
