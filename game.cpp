@@ -1592,51 +1592,73 @@ bool game::handle_action()
 
   case ACTION_INVENTORY: {
    bool has = false;
-   //do {
+   char cMenu = ' ';
+   do {
     const std::string sSpaces = "                              ";
     char chItem = inv();
+    cMenu = '+';
     has = u.has_item(chItem);
 
     if (has) {
-     std::string sItemName = u.i_at(chItem).tname(this);
-     int iMenu = menu(("Item: " + sItemName + sSpaces.substr(sItemName.size(), sSpaces.size())).c_str(),
-                      "Examine", "Use/Read", "Eat", "Wear", "Wield", "Take off", "Drop", "Unload", "Reload", "Cancel", NULL);
+     item oThisItem = u.i_at(chItem);
+     //int iMenu = menu(("Item: " + sItemName + sSpaces.substr(sItemName.size(), sSpaces.size())).c_str(),
+     //                 "Examine", "Use/Read", "Eat", "Wear", "Wield", "Take off", "Drop", "Unload", "Reload", "Cancel", NULL);
 
-     switch(iMenu) {
-      case 1:
-       full_screen_popup(u.i_at(chItem).info(true).c_str());
-       break;
-      case 2:
+     std::vector<iteminfo> vThisItem, vDummy, vMenu;
+
+     vMenu.push_back(iteminfo("MENU", "", "iX", 15));
+     vMenu.push_back(iteminfo("MENU", "", "iY", 4));
+     vMenu.push_back(iteminfo("MENU", "a", "ctivate"));
+     vMenu.push_back(iteminfo("MENU", "R", "ead"));
+     vMenu.push_back(iteminfo("MENU", "E", "at"));
+     vMenu.push_back(iteminfo("MENU", "W", "ear"));
+     vMenu.push_back(iteminfo("MENU", "w", "ield"));
+     vMenu.push_back(iteminfo("MENU", "t", "hrow"));
+     vMenu.push_back(iteminfo("MENU", "T", "ake off"));
+     vMenu.push_back(iteminfo("MENU", "d", "rop"));
+     vMenu.push_back(iteminfo("MENU", "U", "nload"));
+     vMenu.push_back(iteminfo("MENU", "r", "eload"));
+
+     oThisItem.info(true, &vThisItem);
+     compare_split_screen_popup(true, oThisItem.tname(this), vThisItem, vDummy);
+     cMenu = compare_split_screen_popup(false, "", vMenu, vDummy);
+
+     switch(cMenu) {
+      case 'a':
        use_item(chItem);
        break;
-      case 3:
+      case 'E':
        eat(chItem);
        break;
-      case 4:
+      case 'W':
        wear(chItem);
        break;
-      case 5:
+      case 'w':
        wield(chItem);
        break;
-      case 6:
+      case 't':
+       plthrow(chItem);
+       break;
+      case 'T':
        takeoff(chItem);
        break;
-      case 7:
+      case 'd':
        drop(chItem);
        break;
-      case 8:
+      case 'U':
        unload(chItem);
        break;
-      case 9:
+      case 'r':
        reload(chItem);
        break;
-      case 0:
+      case 'R':
+       u.read(this, chItem);
        break;
       default:
        break;
      }
     }
-   //} while (has);
+   } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' || cMenu == KEY_ESCAPE);
    refresh_all();
   } break;
 
@@ -6470,10 +6492,16 @@ void game::reassign_item()
  add_msg("%c - %s", newch, change_from->tname().c_str());
 }
 
-
-void game::plthrow()
+void game::plthrow(char chInput)
 {
- char ch = inv("Throw item:");
+ char ch;
+
+ if (chInput != '.') {
+  ch = chInput;
+ } else {
+  ch = inv("Throw item:");
+ }
+
  int range = u.throw_range(u.lookup_item(ch));
  if (range < 0) {
   add_msg("You don't have that item.");

@@ -710,19 +710,27 @@ void full_screen_popup(const char* mes, ...)
  refresh();
 }
 
-void compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare)
+char compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare)
 {
  WINDOW* w = newwin(25, 40, 0, (bLeft) ? 0 : 40);
- wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
  mvwprintz(w, 1, 2, c_white, sItemName.c_str());
  int line_num = 3;
-
+ int iStartX = 0;
  std::string sPlus;
  bool bStartNewLine = true;
  for (int i = 0; i < vItemDisplay.size(); i++) {
-  if (vItemDisplay[i].sType == "DESCRIPTION") {
+  if (vItemDisplay[i].sType == "MENU") {
+   if (vItemDisplay[i].sPre == "iY") {
+    line_num += vItemDisplay[i].iValue;
+   } else if (vItemDisplay[i].sPre == "iX") {
+    iStartX = vItemDisplay[i].iValue;
+   } else {
+    mvwprintz(w, line_num, iStartX, c_ltgreen, "%s", (vItemDisplay[i].sName).c_str());
+    wprintz(w, c_white, "%s", (vItemDisplay[i].sPre).c_str());
+    line_num++;
+   }
+  } else if (vItemDisplay[i].sType == "DESCRIPTION") {
    std::string sText = vItemDisplay[i].sName;
    std::replace(sText.begin(), sText.end(), '\n', ' ');
    int iPos;
@@ -793,18 +801,21 @@ void compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
   }
  }
 
+ wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+ char ch = ' ';
+
  wrefresh(w);
- if (!bLeft)
- {
-  char ch;
-  do
-   ch = getch();
-  while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+ if (!bLeft) {
+  ch = getch();
   werase(w);
   wrefresh(w);
   delwin(w);
   refresh();
  }
+
+ return ch;
 }
 
 char rand_char()
