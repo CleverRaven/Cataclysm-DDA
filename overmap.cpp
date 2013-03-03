@@ -1056,7 +1056,7 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
 
    if (target.x != -1 && target.y != -1) {
     int distance = rl_dist(origx, origy, target.x, target.y);
-    mvwprintz(w, 3, om_map_width, c_white, "Distance to target: %d", distance);
+    mvwprintz(w, 3, om_map_width + 1, c_white, "Distance to target: %d", distance);
    }
    mvwprintz(w, 17, om_map_width + 1, c_magenta, "Use movement keys to pan.  ");
    mvwprintz(w, 18, om_map_width + 1, c_magenta, "0 - Center map on character");
