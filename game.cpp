@@ -2721,7 +2721,7 @@ void game::list_missions()
   wrefresh(w_missions);
   input = get_input();
   switch (input) {
-  case DirectionE: 
+  case DirectionE:
    tab++;
    if (tab == 3)
     tab = 0;
@@ -5034,7 +5034,7 @@ void game::examine()
    u.moves -= 300;
    handle_liquid(gas, false, true);
   }
-  if (one_in(100)) {
+  if (one_in(50)) {
     add_msg("With a clang and a shudder, the gas pump goes silent.");
     m.ter(examx, examy) = t_gas_pump_empty;
   }
