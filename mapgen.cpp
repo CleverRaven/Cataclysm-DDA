@@ -283,7 +283,6 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
       if (one_in(30))
       {
         ter(i, j) = t_shrub_blueberry;
-        add_item(i, j, (*itypes)[itm_blueberries], turn);
       }
       else
       ter(i, j) = t_shrub;
