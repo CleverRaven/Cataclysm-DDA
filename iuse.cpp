@@ -33,17 +33,17 @@ static void add_or_drop_item(game *g, player *p, item *it)
 /* To mark an item as "removed from inventory", set its invlet to 0
    This is useful for traps (placed on ground), inactive bots, etc
  */
-void iuse::sewage(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::sewage(game *g, player *p, item *it, bool t)
 {
  p->vomit(g);
  if (one_in(4))
   p->mutate(g);
 }
-void iuse::honeycomb(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::honeycomb(game *g, player *p, item *it, bool t)
 {
   g->m.add_item(p->posx, p->posy, g->itypes[itm_wax],0, 2);
 }
-void iuse::royal_jelly(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::royal_jelly(game *g, player *p, item *it, bool t)
 {
 // TODO: Add other diseases here; royal jelly is a cure-all!
  p->pkill += 5;
@@ -75,10 +75,10 @@ void iuse::royal_jelly(game *g, player *p, item * /*it*/, bool /*t*/)
  g->add_msg_if_player(p,message.c_str());
 }
 
-void iuse::bandage(game *g, player *p, item *it, bool /*t*/)
+void iuse::bandage(game *g, player *p, item *it, bool t)
 {
  int bonus = p->skillLevel("firstaid").level();
- hp_part healed = hp_part(0);
+ hp_part healed;
 
  if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
   int highest_damage = 0;
@@ -208,10 +208,10 @@ void iuse::bandage(game *g, player *p, item *it, bool /*t*/)
  p->heal(healed, dam);
 }
 
-void iuse::firstaid(game *g, player *p, item *it, bool /*t*/)
+void iuse::firstaid(game *g, player *p, item *it, bool t)
 {
  int bonus = p->skillLevel("firstaid").level();
- hp_part healed = hp_part(0);
+ hp_part healed;
 
  if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
   int highest_damage = 0;
@@ -336,7 +336,7 @@ void iuse::firstaid(game *g, player *p, item *it, bool /*t*/)
 }
 
 // Aspirin
-void iuse::pkill_1(game *g, player *p, item *it, bool /*t*/)
+void iuse::pkill_1(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
@@ -353,14 +353,14 @@ void iuse::pkill_1(game *g, player *p, item *it, bool /*t*/)
 }
 
 // Codeine
-void iuse::pkill_2(game *g, player *p, item *it, bool /*t*/)
+void iuse::pkill_2(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
  p->add_disease(DI_PKILL2, 180, g);
 }
 
-void iuse::pkill_3(game *g, player *p, item *it, bool /*t*/)
+void iuse::pkill_3(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
@@ -368,7 +368,7 @@ void iuse::pkill_3(game *g, player *p, item *it, bool /*t*/)
  p->add_disease(DI_PKILL2, 200, g);
 }
 
-void iuse::pkill_4(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::pkill_4(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You shoot up.");
 
@@ -376,14 +376,14 @@ void iuse::pkill_4(game *g, player *p, item * /*it*/, bool /*t*/)
  p->add_disease(DI_PKILL2, 200, g);
 }
 
-void iuse::pkill_l(game *g, player *p, item *it, bool /*t*/)
+void iuse::pkill_l(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
  p->add_disease(DI_PKILL_L, rng(12, 18) * 300, g);
 }
 
-void iuse::xanax(game *g, player *p, item *it, bool /*t*/)
+void iuse::xanax(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
@@ -393,13 +393,13 @@ void iuse::xanax(game *g, player *p, item *it, bool /*t*/)
   p->add_disease(DI_TOOK_XANAX, 200, g);
 }
 
-void iuse::caff(game * /*g*/, player *p, item *it, bool /*t*/)
+void iuse::caff(game *g, player *p, item *it, bool t)
 {
  it_comest *food = dynamic_cast<it_comest*> (it->type);
  p->fatigue -= food->stim * 3;
 }
 
-void iuse::alcohol(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::alcohol(game *g, player *p, item *it, bool t)
 {
  int duration = 680 - (10 * p->str_max); // Weaker characters are cheap drunks
  if (p->has_trait(PF_LIGHTWEIGHT))
@@ -408,7 +408,7 @@ void iuse::alcohol(game *g, player *p, item * /*it*/, bool /*t*/)
  p->add_disease(DI_DRUNK, duration, g);
 }
 
-void iuse::cig(game *g, player *p, item *it, bool /*t*/)
+void iuse::cig(game *g, player *p, item *it, bool t)
 {
  if (it->type->id == itm_cig)
   g->add_msg_if_player(p,"You light a cigarette and smoke it.");
@@ -422,7 +422,7 @@ void iuse::cig(game *g, player *p, item *it, bool /*t*/)
  }
 }
 
-void iuse::weed(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::weed(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"Good stuff, man!");
 
@@ -435,7 +435,7 @@ void iuse::weed(game *g, player *p, item * /*it*/, bool /*t*/)
  p->add_disease(DI_HIGH, duration, g);
 }
 
-void iuse::coke(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::coke(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You snort a bump.");
 
@@ -446,7 +446,7 @@ void iuse::coke(game *g, player *p, item * /*it*/, bool /*t*/)
  p->add_disease(DI_HIGH, duration, g);
 }
 
-void iuse::crack(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::crack(game *g, player *p, item *it, bool t)
 {
   g->add_msg_if_player(p,"You smoke some rocks.");
  p->use_charges(itm_lighter, 1);
@@ -457,7 +457,7 @@ void iuse::crack(game *g, player *p, item * /*it*/, bool /*t*/)
  p->add_disease(DI_HIGH, duration, g);
 }
 
-void iuse::grack(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::grack(game *g, player *p, item *it, bool t)
 {
   g->add_msg_if_player(p,"You smoke some Grack Cocaine, time seems to stop.");
  p->use_charges(itm_lighter, 1);
@@ -469,7 +469,7 @@ void iuse::grack(game *g, player *p, item * /*it*/, bool /*t*/)
 }
 
 
-void iuse::meth(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::meth(game *g, player *p, item *it, bool t)
 {
  int duration = 10 * (40 - p->str_cur);
  if (p->has_amount(itm_apparatus, 1)) {
@@ -485,18 +485,18 @@ void iuse::meth(game *g, player *p, item * /*it*/, bool /*t*/)
  p->add_disease(DI_METH, duration, g);
 }
 
-void iuse::poison(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::poison(game *g, player *p, item *it, bool t)
 {
  p->add_disease(DI_POISON, 600, g);
  p->add_disease(DI_FOODPOISON, 1800, g);
 }
 
-void iuse::hallu(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::hallu(game *g, player *p, item *it, bool t)
 {
  p->add_disease(DI_HALLU, 2400, g);
 }
 
-void iuse::thorazine(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::thorazine(game *g, player *p, item *it, bool t)
 {
  p->fatigue += 15;
  p->rem_disease(DI_HALLU);
@@ -507,7 +507,7 @@ void iuse::thorazine(game *g, player *p, item * /*it*/, bool /*t*/)
  g->add_msg_if_player(p,"You feel somewhat sedated.");
 }
 
-void iuse::prozac(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::prozac(game *g, player *p, item *it, bool t)
 {
  if (!p->has_disease(DI_TOOK_PROZAC) && p->morale_level() < 0)
   p->add_disease(DI_TOOK_PROZAC, 7200, g);
@@ -515,51 +515,51 @@ void iuse::prozac(game *g, player *p, item * /*it*/, bool /*t*/)
   p->stim += 3;
 }
 
-void iuse::sleep(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::sleep(game *g, player *p, item *it, bool t)
 {
  p->fatigue += 40;
  g->add_msg_if_player(p,"You feel very sleepy...");
 }
 
-void iuse::iodine(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::iodine(game *g, player *p, item *it, bool t)
 {
  p->add_disease(DI_IODINE, 1200, g);
  g->add_msg_if_player(p,"You take an iodine tablet.");
 }
 
-void iuse::flumed(game *g, player *p, item *it, bool /*t*/)
+void iuse::flumed(game *g, player *p, item *it, bool t)
 {
  p->add_disease(DI_TOOK_FLUMED, 6000, g);
  g->add_msg_if_player(p,"You take some %s", it->tname().c_str());
 }
 
-void iuse::flusleep(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::flusleep(game *g, player *p, item *it, bool t)
 {
  p->add_disease(DI_TOOK_FLUMED, 7200, g);
  p->fatigue += 30;
  g->add_msg_if_player(p,"You feel very sleepy...");
 }
 
-void iuse::inhaler(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::inhaler(game *g, player *p, item *it, bool t)
 {
  p->rem_disease(DI_ASTHMA);
  g->add_msg_if_player(p,"You take a puff from your inhaler.");
 }
 
-void iuse::blech(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::blech(game *g, player *p, item *it, bool t)
 {
 // TODO: Add more effects?
  g->add_msg_if_player(p,"Blech, that burns your throat!");
  p->vomit(g);
 }
 
-void iuse::mutagen(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::mutagen(game *g, player *p, item *it, bool t)
 {
  if (!one_in(3))
   p->mutate(g);
 }
 
-void iuse::mutagen_3(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::mutagen_3(game *g, player *p, item *it, bool t)
 {
  p->mutate(g);
  if (!one_in(3))
@@ -568,7 +568,7 @@ void iuse::mutagen_3(game *g, player *p, item * /*it*/, bool /*t*/)
   p->mutate(g);
 }
 
-void iuse::purifier(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::purifier(game *g, player *p, item *it, bool t)
 {
  std::vector<int> valid;	// Which flags the player has
  for (int i = 1; i < PF_MAX2; i++) {
@@ -650,7 +650,7 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
   p->radiation = 0;
 }
 
-void iuse::dogfood(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::dogfood(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
  g->draw();
@@ -679,7 +679,7 @@ void iuse::dogfood(game *g, player *p, item * /*it*/, bool /*t*/)
 
 // TOOLS below this point!
 
-void iuse::lighter(game *g, player *p, item *it, bool /*t*/)
+void iuse::lighter(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
  g->draw();
@@ -708,7 +708,7 @@ void iuse::lighter(game *g, player *p, item *it, bool /*t*/)
  }
 }
 
-void iuse::sew(game *g, player *p, item *it, bool /*t*/)
+void iuse::sew(game *g, player *p, item *it, bool t)
 {
  char ch = g->inv_type("Repair what?", IC_ARMOR);
  item* fix = &(p->i_at(ch));
@@ -795,7 +795,7 @@ void iuse::sew(game *g, player *p, item *it, bool /*t*/)
  }
 }
 
-void iuse::scissors(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::scissors(game *g, player *p, item *it, bool t)
 {
  char ch = g->inv("Chop up what?");
  item* cut = &(p->i_at(ch));
@@ -911,7 +911,7 @@ void iuse::scissors(game *g, player *p, item * /*it*/, bool /*t*/)
  }
 }
 
-void iuse::extinguisher(game *g, player *p, item *it, bool /*t*/)
+void iuse::extinguisher(game *g, player *p, item *it, bool t)
 {
  g->draw();
  mvprintz(0, 0, c_red, "Pick a direction to spray:");
@@ -960,7 +960,7 @@ void iuse::extinguisher(game *g, player *p, item *it, bool /*t*/)
  }
 }
 
-void iuse::hammer(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::hammer(game *g, player *p, item *it, bool t)
 {
  g->draw();
  mvprintz(0, 0, c_red, "Pick a direction in which to pry:");
@@ -1001,7 +1001,7 @@ void iuse::hammer(game *g, player *p, item * /*it*/, bool /*t*/)
  g->m.ter(dirx, diry) = newter;
 }
 
-void iuse::light_off(game *g, player *p, item *it, bool /*t*/)
+void iuse::light_off(game *g, player *p, item *it, bool t)
 {
  if (it->charges == 0)
   g->add_msg_if_player(p,"The flashlight's batteries are dead.");
@@ -1024,7 +1024,7 @@ void iuse::light_on(game *g, player *p, item *it, bool t)
  }
 }
 
-void iuse::water_purifier(game *g, player *p, item *it, bool /*t*/)
+void iuse::water_purifier(game *g, player *p, item *it, bool t)
 {
   it->charges++;
  char ch = g->inv_type("Purify what?", IC_COMESTIBLE);
@@ -1052,7 +1052,7 @@ void iuse::water_purifier(game *g, player *p, item *it, bool /*t*/)
  pure->poison = 0;
 }
 
-void iuse::two_way_radio(game *g, player *p, item *it, bool /*t*/)
+void iuse::two_way_radio(game *g, player *p, item *it, bool t)
 {
  WINDOW* w = newwin(6, 36, 9, 5);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -1106,7 +1106,7 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool /*t*/)
  } else if (ch == '3') {	// General S.O.S.
   p->moves -= 150;
   std::vector<npc*> in_range;
-  for (unsigned int i = 0; i < g->cur_om.npcs.size(); i++) {
+  for (int i = 0; i < g->cur_om.npcs.size(); i++) {
    if (g->cur_om.npcs[i].op_of_u.value >= 4 &&
        rl_dist(g->levx, g->levy, g->cur_om.npcs[i].mapx,
                                    g->cur_om.npcs[i].mapy) <= 30)
@@ -1127,7 +1127,7 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool /*t*/)
  refresh();
 }
 
-void iuse::radio_off(game *g, player *p, item *it, bool /*t*/)
+void iuse::radio_off(game *g, player *p, item *it, bool t)
 {
  if (it->charges == 0)
   g->add_msg_if_player(p,"It's dead.");
@@ -1143,7 +1143,7 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
  if (t) {	// Normal use
   int best_signal = 0;
   std::string message = "Radio: Kssssssssssssh.";
-  for (unsigned int k = 0; k < g->cur_om.radios.size(); k++) {
+  for (int k = 0; k < g->cur_om.radios.size(); k++) {
    int signal = g->cur_om.radios[k].strength -
                 rl_dist(g->cur_om.radios[k].x, g->cur_om.radios[k].y,
                           g->levx, g->levy);
@@ -1153,7 +1153,7 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
    }
   }
   if (best_signal > 0) {
-   for (unsigned int j = 0; j < message.length(); j++) {
+   for (int j = 0; j < message.length(); j++) {
     if (dice(10, 100) > dice(10, best_signal * 3)) {
      if (!one_in(10))
       message[j] = '#';
@@ -1185,7 +1185,7 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
  }
 }
 
-void iuse::picklock(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::picklock(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
  g->draw();
@@ -1227,7 +1227,7 @@ void iuse::picklock(game *g, player *p, item * /*it*/, bool /*t*/)
   g->add_msg("That cannot be picked.");
  }
 }
-void iuse::crowbar(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::crowbar(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
  g->draw();
@@ -1311,7 +1311,7 @@ if (dirx == 0 && diry == 0) {
  }
 }
 
-void iuse::makemound(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::makemound(game *g, player *p, item *it, bool t)
 {
  if (g->m.has_flag(diggable, p->posx, p->posy)) {
   g->add_msg_if_player(p,"You churn up the earth here.");
@@ -1321,7 +1321,7 @@ void iuse::makemound(game *g, player *p, item * /*it*/, bool /*t*/)
   g->add_msg_if_player(p,"You can't churn up this ground.");
 }
 
-void iuse::dig(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::dig(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You can dig a pit via the construction menu--hit *");
 /*
@@ -1345,7 +1345,7 @@ void iuse::dig(game *g, player *p, item * /*it*/, bool /*t*/)
 */
 }
 
-void iuse::chainsaw_off(game *g, player *p, item *it, bool /*t*/)
+void iuse::chainsaw_off(game *g, player *p, item *it, bool t)
 {
  p->moves -= 80;
  if (rng(0, 10) - it->damage > 5 && it->charges > 0) {
@@ -1369,7 +1369,7 @@ void iuse::chainsaw_on(game *g, player *p, item *it, bool t)
  }
 }
 
-void iuse::jackhammer(game *g, player *p, item *it, bool /*t*/)
+void iuse::jackhammer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
  g->draw();
@@ -1402,7 +1402,7 @@ void iuse::jackhammer(game *g, player *p, item *it, bool /*t*/)
  }
 }
 
-void iuse::jacqueshammer(game *g, player *p, item *it, bool /*t*/)
+void iuse::jacqueshammer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
  g->draw();
@@ -1435,7 +1435,7 @@ void iuse::jacqueshammer(game *g, player *p, item *it, bool /*t*/)
  }
 }
 
-void iuse::pickaxe(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::pickaxe(game *g, player *p, item *it, bool t)
 {
 /* int dirx, diry;
  g->draw();
@@ -1464,7 +1464,7 @@ void iuse::pickaxe(game *g, player *p, item * /*it*/, bool /*t*/)
   g->add_msg_if_player(p,"just expect them to work! Now put the pickaxe");
   g->add_msg_if_player(p,"down and go play the game.");
 }
-void iuse::set_trap(game *g, player *p, item *it, bool /*t*/)
+void iuse::set_trap(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
  g->draw();
@@ -1671,13 +1671,13 @@ void iuse::geiger(game *g, player *p, item *it, bool t)
  }
 }
 
-void iuse::teleport(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::teleport(game *g, player *p, item *it, bool t)
 {
  p->moves -= 100;
  g->teleport(p);
 }
 
-void iuse::can_goo(game *g, player *p, item *it, bool /*t*/)
+void iuse::can_goo(game *g, player *p, item *it, bool t)
 {
  it->make(g->itypes[itm_canister_empty]);
  int tries = 0, goox, gooy, junk;
@@ -1722,7 +1722,7 @@ void iuse::can_goo(game *g, player *p, item *it, bool /*t*/)
 }
 
 
-void iuse::pipebomb(game *g, player *p, item *it, bool /*t*/)
+void iuse::pipebomb(game *g, player *p, item *it, bool t)
 {
  if (!p->has_charges(itm_lighter, 1)) {
   g->add_msg_if_player(p,"You need a lighter!");
@@ -1735,7 +1735,7 @@ void iuse::pipebomb(game *g, player *p, item *it, bool /*t*/)
  it->active = true;
 }
 
-void iuse::pipebomb_act(game *g, player * /*p*/, item *it, bool t)
+void iuse::pipebomb_act(game *g, player *p, item *it, bool t)
 {
  int linet;
  point pos = g->find_item(it);
@@ -1751,7 +1751,7 @@ void iuse::pipebomb_act(game *g, player * /*p*/, item *it, bool t)
  }
 }
 
-void iuse::grenade(game *g, player *p, item *it, bool /*t*/)
+void iuse::grenade(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You pull the pin on the grenade.");
  it->make(g->itypes[itm_grenade_act]);
@@ -1759,7 +1759,7 @@ void iuse::grenade(game *g, player *p, item *it, bool /*t*/)
  it->active = true;
 }
 
-void iuse::grenade_act(game *g, player * /*p*/, item *it, bool t)
+void iuse::grenade_act(game *g, player *p, item *it, bool t)
 {
  point pos = g->find_item(it);
  if (pos.x == -999 || pos.y == -999)
@@ -1770,7 +1770,7 @@ void iuse::grenade_act(game *g, player * /*p*/, item *it, bool t)
   g->explosion(pos.x, pos.y, 12, 28, false);
 }
 
-void iuse::flashbang(game *g, player *p, item *it, bool /*t*/)
+void iuse::flashbang(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You pull the pin on the flashbang.");
  it->make(g->itypes[itm_flashbang_act]);
@@ -1778,7 +1778,7 @@ void iuse::flashbang(game *g, player *p, item *it, bool /*t*/)
  it->active = true;
 }
 
-void iuse::flashbang_act(game *g, player * /*p*/, item *it, bool t)
+void iuse::flashbang_act(game *g, player *p, item *it, bool t)
 {
  point pos = g->find_item(it);
  if (pos.x == -999 || pos.y == -999)
@@ -1789,7 +1789,7 @@ void iuse::flashbang_act(game *g, player * /*p*/, item *it, bool t)
   g->flashbang(pos.x, pos.y);
 }
 
-void iuse::c4(game *g, player *p, item *it, bool /*t*/)
+void iuse::c4(game *g, player *p, item *it, bool t)
 {
  int time = query_int("Set the timer to (0 to cancel)?");
  if (time == 0) {
@@ -1802,7 +1802,7 @@ void iuse::c4(game *g, player *p, item *it, bool /*t*/)
  it->active = true;
 }
 
-void iuse::c4armed(game *g, player * /*p*/, item *it, bool t)
+void iuse::c4armed(game *g, player *p, item *it, bool t)
 {
  point pos = g->find_item(it);
  if (pos.x == -999 || pos.y == -999)
@@ -1813,7 +1813,7 @@ void iuse::c4armed(game *g, player * /*p*/, item *it, bool t)
   g->explosion(pos.x, pos.y, 40, 3, false);
 }
 
-void iuse::EMPbomb(game *g, player *p, item *it, bool /*t*/)
+void iuse::EMPbomb(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You pull the pin on the EMP grenade.");
  it->make(g->itypes[itm_EMPbomb_act]);
@@ -1821,7 +1821,7 @@ void iuse::EMPbomb(game *g, player *p, item *it, bool /*t*/)
  it->active = true;
 }
 
-void iuse::EMPbomb_act(game *g, player * /*p*/, item *it, bool t)
+void iuse::EMPbomb_act(game *g, player *p, item *it, bool t)
 {
  point pos = g->find_item(it);
  if (pos.x == -999 || pos.y == -999)
@@ -1836,7 +1836,7 @@ void iuse::EMPbomb_act(game *g, player * /*p*/, item *it, bool t)
  }
 }
 
-void iuse::scrambler(game *g, player *p, item *it, bool /*t*/)
+void iuse::scrambler(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You pull the pin on the scrambler grenade.");
  it->make(g->itypes[itm_scrambler_act]);
@@ -1844,7 +1844,7 @@ void iuse::scrambler(game *g, player *p, item *it, bool /*t*/)
  it->active = true;
 }
 
-void iuse::scrambler_act(game *g, player * /*p*/, item *it, bool t)
+void iuse::scrambler_act(game *g, player *p, item *it, bool t)
 {
  point pos = g->find_item(it);
  if (pos.x == -999 || pos.y == -999)
@@ -1859,7 +1859,7 @@ void iuse::scrambler_act(game *g, player * /*p*/, item *it, bool t)
  }
 }
 
-void iuse::gasbomb(game *g, player *p, item *it, bool /*t*/)
+void iuse::gasbomb(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You pull the pin on the teargas canister.");
  it->make(g->itypes[itm_gasbomb_act]);
@@ -1867,7 +1867,7 @@ void iuse::gasbomb(game *g, player *p, item *it, bool /*t*/)
  it->active = true;
 }
 
-void iuse::gasbomb_act(game *g, player * /*p*/, item *it, bool t)
+void iuse::gasbomb_act(game *g, player *p, item *it, bool t)
 {
  point pos = g->find_item(it);
  if (pos.x == -999 || pos.y == -999)
@@ -1889,7 +1889,7 @@ void iuse::gasbomb_act(game *g, player * /*p*/, item *it, bool t)
   it->make(g->itypes[itm_canister_empty]);
 }
 
-void iuse::smokebomb(game *g, player *p, item *it, bool /*t*/)
+void iuse::smokebomb(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You pull the pin on the smoke bomb.");
  it->make(g->itypes[itm_smokebomb_act]);
@@ -1897,7 +1897,7 @@ void iuse::smokebomb(game *g, player *p, item *it, bool /*t*/)
  it->active = true;
 }
 
-void iuse::smokebomb_act(game *g, player * /*p*/, item *it, bool t)
+void iuse::smokebomb_act(game *g, player *p, item *it, bool t)
 {
  point pos = g->find_item(it);
  if (pos.x == -999 || pos.y == -999)
@@ -1919,7 +1919,7 @@ void iuse::smokebomb_act(game *g, player * /*p*/, item *it, bool t)
   it->make(g->itypes[itm_canister_empty]);
 }
 
-void iuse::acidbomb(game *g, player *p, item *it, bool /*t*/)
+void iuse::acidbomb(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You remove the divider, and the chemicals mix.");
  p->moves -= 150;
@@ -1929,7 +1929,7 @@ void iuse::acidbomb(game *g, player *p, item *it, bool /*t*/)
  it->active = true;
 }
 
-void iuse::acidbomb_act(game *g, player *p, item *it, bool /*t*/)
+void iuse::acidbomb_act(game *g, player *p, item *it, bool t)
 {
  if (!p->has_item(it)) {
   point pos = g->find_item(it);
@@ -1943,7 +1943,7 @@ void iuse::acidbomb_act(game *g, player *p, item *it, bool /*t*/)
  }
 }
 
-void iuse::molotov(game *g, player *p, item *it, bool /*t*/)
+void iuse::molotov(game *g, player *p, item *it, bool t)
 {
  if (!p->has_charges(itm_lighter, 1)) {
   g->add_msg_if_player(p,"You need a lighter!");
@@ -1958,7 +1958,7 @@ void iuse::molotov(game *g, player *p, item *it, bool /*t*/)
  it->active = true;
 }
 
-void iuse::molotov_lit(game *g, player *p, item *it, bool /*t*/)
+void iuse::molotov_lit(game *g, player *p, item *it, bool t)
 {
  int age = int(g->turn) - it->bday;
  if (!p->has_item(it)) {
@@ -1975,7 +1975,7 @@ void iuse::molotov_lit(game *g, player *p, item *it, bool /*t*/)
  }
 }
 
-void iuse::dynamite(game *g, player *p, item *it, bool /*t*/)
+void iuse::dynamite(game *g, player *p, item *it, bool t)
 {
  if (!p->has_charges(itm_lighter, 1)) {
   g->add_msg_if_player(p,"You need a lighter!");
@@ -1988,7 +1988,7 @@ void iuse::dynamite(game *g, player *p, item *it, bool /*t*/)
  it->active = true;
 }
 
-void iuse::dynamite_act(game *g, player * /*p*/, item *it, bool t)
+void iuse::dynamite_act(game *g, player *p, item *it, bool t)
 {
  point pos = g->find_item(it);
  if (pos.x == -999 || pos.y == -999)
@@ -1999,7 +1999,7 @@ void iuse::dynamite_act(game *g, player * /*p*/, item *it, bool t)
   g->explosion(pos.x, pos.y, 60, 0, false);
 }
 
-void iuse::mininuke(game *g, player *p, item *it, bool /*t*/)
+void iuse::mininuke(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You activate the mininuke.");
  it->make(g->itypes[itm_mininuke_act]);
@@ -2007,7 +2007,7 @@ void iuse::mininuke(game *g, player *p, item *it, bool /*t*/)
  it->active = true;
 }
 
-void iuse::mininuke_act(game *g, player * /*p*/, item *it, bool t)
+void iuse::mininuke_act(game *g, player *p, item *it, bool t)
 {
  point pos = g->find_item(it);
  if (pos.x == -999 || pos.y == -999)
@@ -2027,7 +2027,7 @@ void iuse::mininuke_act(game *g, player * /*p*/, item *it, bool t)
  }
 }
 
-void iuse::pheromone(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::pheromone(game *g, player *p, item *it, bool t)
 {
  point pos(p->posx, p->posy);
 
@@ -2065,12 +2065,12 @@ void iuse::pheromone(game *g, player *p, item * /*it*/, bool /*t*/)
 }
 
 
-void iuse::portal(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::portal(game *g, player *p, item *it, bool t)
 {
  g->m.add_trap(p->posx + rng(-2, 2), p->posy + rng(-2, 2), tr_portal);
 }
 
-void iuse::manhack(game *g, player *p, item *it, bool /*t*/)
+void iuse::manhack(game *g, player *p, item *it, bool t)
 {
  std::vector<point> valid;	// Valid spawn locations
  for (int x = p->posx - 1; x <= p->posx + 1; x++) {
@@ -2095,7 +2095,7 @@ void iuse::manhack(game *g, player *p, item *it, bool /*t*/)
  g->z.push_back(manhack);
 }
 
-void iuse::turret(game *g, player *p, item *it, bool /*t*/)
+void iuse::turret(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
  g->draw();
@@ -2122,7 +2122,7 @@ void iuse::turret(game *g, player *p, item *it, bool /*t*/)
  g->z.push_back(turret);
 }
 
-void iuse::UPS_off(game *g, player *p, item *it, bool /*t*/)
+void iuse::UPS_off(game *g, player *p, item *it, bool t)
 {
  if (it->charges == 0)
   g->add_msg_if_player(p,"The power supply's batteries are dead.");
@@ -2146,7 +2146,7 @@ void iuse::UPS_on(game *g, player *p, item *it, bool t)
  }
 }
 
-void iuse::tazer(game *g, player *p, item *it, bool /*t*/)
+void iuse::tazer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
  g->draw();
@@ -2180,7 +2180,6 @@ void iuse::tazer(game *g, player *p, item *it, bool /*t*/)
    case MS_SMALL: numdice -= 1; break;
    case MS_LARGE: numdice += 2; break;
    case MS_HUGE:  numdice += 4; break;
-   default:                break;
   }
   int mondice = z->dodge();
   if (dice(numdice, 10) < dice(mondice, 10)) {	// A miss!
@@ -2219,7 +2218,7 @@ void iuse::tazer(game *g, player *p, item *it, bool /*t*/)
 
 }
 
-void iuse::mp3(game *g, player *p, item *it, bool /*t*/)
+void iuse::mp3(game *g, player *p, item *it, bool t)
 {
  if (it->charges == 0)
   g->add_msg_if_player(p,"The mp3 player's batteries are dead.");
@@ -2260,7 +2259,7 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
  }
 }
 
-void iuse::vortex(game *g, player *p, item *it, bool /*t*/)
+void iuse::vortex(game *g, player *p, item *it, bool t)
 {
  std::vector<point> spawn;
  for (int i = -3; i <= 3; i++) {
@@ -2288,10 +2287,10 @@ void iuse::vortex(game *g, player *p, item *it, bool /*t*/)
  g->z.push_back(vortex);
 }
 
-void iuse::dog_whistle(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::dog_whistle(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You blow your dog whistle.");
- for (unsigned int i = 0; i < g->z.size(); i++) {
+ for (int i = 0; i < g->z.size(); i++) {
   if (g->z[i].friendly != 0 && g->z[i].type->id == mon_dog) {
    int linet;
    bool u_see = g->u_see(&(g->z[i]), linet);
@@ -2308,7 +2307,7 @@ void iuse::dog_whistle(game *g, player *p, item * /*it*/, bool /*t*/)
  }
 }
 
-void iuse::vacutainer(game *g, player *p, item *it, bool /*t*/)
+void iuse::vacutainer(game *g, player *p, item *it, bool t)
 {
  if (p->is_npc())
   return; // No NPCs for now!
@@ -2320,7 +2319,7 @@ void iuse::vacutainer(game *g, player *p, item *it, bool /*t*/)
 
  item blood(g->itypes[itm_blood], g->turn);
  bool drew_blood = false;
- for (unsigned int i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
+ for (int i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
   item *it = &(g->m.i_at(p->posx, p->posy)[i]);
   if (it->type->id == itm_corpse &&
       query_yn("Draw blood from %s?", it->tname().c_str())) {
@@ -2338,7 +2337,7 @@ void iuse::vacutainer(game *g, player *p, item *it, bool /*t*/)
  it->put_in(blood);
 }
 
- void iuse::knife(game *g, player *p, item * /*it*/, bool /*t*/)
+ void iuse::knife(game *g, player *p, item *it, bool t)
 {
  int ch = menu(
  "Using knife:", "Cut up fabric", "Carve wood", "Cancel", NULL);
@@ -2520,7 +2519,7 @@ break;
  }
 }
 
-void iuse::lumber(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::lumber(game *g, player *p, item *it, bool t)
 {
  char ch = g->inv("Cut up what?");
  item* cut = &(p->i_at(ch));
@@ -2575,7 +2574,7 @@ void iuse::lumber(game *g, player *p, item * /*it*/, bool /*t*/)
 }
 
 
-void iuse::hacksaw(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::hacksaw(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
  g->draw();
@@ -2604,8 +2603,8 @@ if (dirx == 0 && diry == 0) {
   g->sound(dirx, diry, 15,"grnd grnd grnd");
   g->m.add_item(p->posx, p->posy, g->itypes[itm_pipe], 0, rng(1, 3));
   g->m.add_item(p->posx, p->posy, g->itypes[itm_steel_chunk], 0);
- } else if (g->m.ter(dirx, diry) == t_bars && (g->m.ter(dirx + 1, diry) == t_sewage ||
-                                               g->m.ter(dirx, diry + 1) == t_sewage)) {
+ } else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(dirx + 1, diry) == t_sewage ||
+                                              g->m.ter(dirx, diry + 1) == t_sewage) {
   g->m.ter(dirx, diry) = t_sewage;
   p->moves -= 1000;
   g->sound(dirx, diry, 15,"grnd grnd grnd");
@@ -2620,7 +2619,7 @@ if (dirx == 0 && diry == 0) {
  }
 }
 
-void iuse::tent(game *g, player *p, item *it, bool /*t*/)
+void iuse::tent(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
  g->draw();
@@ -2648,7 +2647,7 @@ void iuse::tent(game *g, player *p, item *it, bool /*t*/)
  it->invlet = 0;
 }
 
-void iuse::torch(game *g, player *p, item *it, bool /*t*/)
+void iuse::torch(game *g, player *p, item *it, bool t)
 {
   if (!p->has_charges(itm_lighter, 1))
   g->add_msg_if_player(p,"You need a lighter or fire to light this.");
@@ -2673,7 +2672,7 @@ void iuse::torch_lit(game *g, player *p, item *it, bool t)
 }
 
 
-void iuse::candle(game *g, player *p, item *it, bool /*t*/)
+void iuse::candle(game *g, player *p, item *it, bool t)
 {
   if (!p->has_charges(itm_lighter, 1))
   g->add_msg_if_player(p,"You need a lighter to light this.");
@@ -2697,7 +2696,7 @@ void iuse::candle_lit(game *g, player *p, item *it, bool t)
 }
 
 
-void iuse::bullet_puller(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::bullet_puller(game *g, player *p, item *it, bool t)
 {
  char ch = g->inv("Disassemble what?");
  item* pull = &(p->i_at(ch));
@@ -2951,7 +2950,7 @@ void iuse::bullet_puller(game *g, player *p, item * /*it*/, bool /*t*/)
    g->m.add_item(p->posx, p->posy, lead);
  }
 
-void iuse::boltcutters(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::boltcutters(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
  g->draw();
@@ -2985,7 +2984,7 @@ if (dirx == 0 && diry == 0) {
  }
 }
 
-void iuse::mop(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::mop(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
  g->draw();
@@ -3010,7 +3009,7 @@ void iuse::mop(game *g, player *p, item * /*it*/, bool /*t*/)
   g->add_msg_if_player(p,"There's nothing to mop there.");
  }
 }
-void iuse::rag(game *g, player *p, item *it, bool /*t*/)
+void iuse::rag(game *g, player *p, item *it, bool t)
 {
  if (p->has_disease(DI_BLEED)){
   if (one_in(2)){
@@ -3027,7 +3026,7 @@ void iuse::rag(game *g, player *p, item *it, bool /*t*/)
 
 }
 
-void iuse::pda(game *g, player *p, item *it, bool /*t*/)
+void iuse::pda(game *g, player *p, item *it, bool t)
 {
  if (it->charges == 0)
   g->add_msg_if_player(p,"The PDA's batteries are dead.");
@@ -3053,7 +3052,7 @@ void iuse::pda_flashlight(game *g, player *p, item *it, bool t)
 /* MACGUFFIN FUNCTIONS
  * These functions should refer to it->associated_mission for the particulars
  */
-void iuse::mcg_note(game * /*g*/, player * /*p*/, item *it, bool /*t*/)
+void iuse::mcg_note(game *g, player *p, item *it, bool t)
 {
  std::stringstream message;
  message << "Dear " << it->name << ":\n";
@@ -3099,7 +3098,7 @@ you can, I need to know you're alright.";
 */
 }
 
-void iuse::artifact(game *g, player *p, item *it, bool /*t*/)
+void iuse::artifact(game *g, player *p, item *it, bool t)
 {
  if (!it->is_artifact()) {
   debugmsg("iuse::artifact called on a non-artifact item! %s",
@@ -3313,7 +3312,7 @@ void iuse::artifact(game *g, player *p, item *it, bool /*t*/)
   } break;
 
   case AEA_HURTALL:
-   for (unsigned int i = 0; i < g->z.size(); i++)
+   for (int i = 0; i < g->z.size(); i++)
     g->z[i].hurt(rng(0, 5));
    break;
 
@@ -3417,13 +3416,11 @@ void iuse::artifact(game *g, player *p, item *it, bool /*t*/)
     g->add_msg_if_player(p,"A shadow forms nearby.");
   } break;
 
-  default:
-   break;
   }
  }
 }
 
-void iuse::spray_can(game *g, player *p, item * /*it*/, bool /*t*/)
+void iuse::spray_can(game *g, player *p, item *it, bool t)
 {
  std::string message = string_input_popup("Spray what?");
  if(g->m.add_graffiti(g, p->posx, p->posy, message))

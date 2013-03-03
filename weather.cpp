@@ -61,7 +61,7 @@ void weather_effect::thunder(game *g)
  }
 }
 
-void weather_effect::lightning(game * /*g*/)
+void weather_effect::lightning(game *g)
 {
 /* thunder(g);
  if (one_in(LIGHTNING_CHANCE)) {
@@ -118,7 +118,7 @@ void weather_effect::acid(game *g)
    }
   }
  }
- for (unsigned int i = 0; i < g->z.size(); i++) {
+ for (int i = 0; i < g->z.size(); i++) {
   if (g->m.is_outside(g->z[i].posx, g->z[i].posy)) {
    if (!g->z[i].has_flag(MF_ACIDPROOF))
     g->z[i].hurt(1);

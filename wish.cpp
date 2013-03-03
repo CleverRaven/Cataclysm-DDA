@@ -9,8 +9,7 @@ void game::wish()
 {
  WINDOW* w_list = newwin(25, 30, 0,  0);
  WINDOW* w_info = newwin(25, 50, 0, 30);
- int a = 0;
- unsigned int shift = 0, result_selected = 0;
+ int a = 0, shift = 0, result_selected = 0;
  int ch = '.';
  bool search = false, found = false;
  std::string pattern;
@@ -39,7 +38,7 @@ void game::wish()
       result_selected = 0;
      shift = search_results[result_selected];
      a = 0;
-     if (unsigned(shift + 23) > itypes.size()) {
+     if (shift + 23 > itypes.size()) {
       a = shift + 23 - itypes.size();
       shift = itypes.size() - 23;
      }
@@ -52,7 +51,7 @@ void game::wish()
       result_selected = search_results.size() - 1;
      shift = search_results[result_selected];
      a = 0;
-     if (unsigned(shift + 23) > itypes.size()) {
+     if (shift + 23 > itypes.size()) {
       a = shift + 23 - itypes.size();
       shift = itypes.size() - 23;
      }
@@ -63,12 +62,12 @@ void game::wish()
    }
 
    if (search) {
-    for (unsigned int i = 0; i < itypes.size(); i++) {
+    for (int i = 0; i < itypes.size(); i++) {
      if (itypes[i]->name.find(pattern) != std::string::npos) {
       shift = i;
       a = 0;
       result_selected = 0;
-      if (unsigned(shift + 23) > itypes.size()) {
+      if (shift + 23 > itypes.size()) {
        a = shift + 23 - itypes.size();
        shift = itypes.size() - 23;
       }
@@ -97,7 +96,7 @@ void game::wish()
      result_selected = 0;
     shift = search_results[result_selected];
     a = 0;
-    if (unsigned(shift + 23) > itypes.size()) {
+    if (shift + 23 > itypes.size()) {
      a = shift + 23 - itypes.size();
      shift = itypes.size() - 23;
     }
@@ -107,7 +106,7 @@ void game::wish()
      result_selected = search_results.size() - 1;
     shift = search_results[result_selected];
     a = 0;
-    if (unsigned(shift + 23) > itypes.size()) {
+    if (shift + 23 > itypes.size()) {
      a = shift + 23 - itypes.size();
      shift = itypes.size() - 23;
     }
@@ -222,7 +221,7 @@ void game::monster_wish()
    }
 
    if (search) {
-    for (unsigned int i = 1; i < mtypes.size(); i++) {
+    for (int i = 1; i < mtypes.size(); i++) {
      if (mtypes[i]->name.find(pattern) != std::string::npos) {
       shift = i;
       a = 0;
@@ -441,22 +440,22 @@ void game::mutation_wish()
   mvwprintw(w_info, 1, 0, mutation_data[a+shift].valid ? "Valid" : "Nonvalid");
   int line2 = 2;
   mvwprintw(w_info, line2, 0, "Prereqs:");
-  for (unsigned int j = 0; j < mutation_data[a+shift].prereqs.size(); j++) {
+  for (int j = 0; j < mutation_data[a+shift].prereqs.size(); j++) {
    mvwprintw(w_info, line2, 9, traits[ mutation_data[a+shift].prereqs[j] ].name.c_str());
    line2++;
   }
   mvwprintw(w_info, line2, 0, "Cancels:");
-  for (unsigned int j = 0; j < mutation_data[a+shift].cancels.size(); j++) {
+  for (int j = 0; j < mutation_data[a+shift].cancels.size(); j++) {
    mvwprintw(w_info, line2, 9, traits[ mutation_data[a+shift].cancels[j] ].name.c_str());
    line2++;
   }
   mvwprintw(w_info, line2, 0, "Becomes:");
-  for (unsigned int j = 0; j < mutation_data[a+shift].replacements.size(); j++) {
+  for (int j = 0; j < mutation_data[a+shift].replacements.size(); j++) {
    mvwprintw(w_info, line2, 9, traits[ mutation_data[a+shift].replacements[j] ].name.c_str());
    line2++;
   }
   mvwprintw(w_info, line2, 0, "Add-ons:");
-  for (unsigned int j = 0; j < mutation_data[a+shift].additions.size(); j++) {
+  for (int j = 0; j < mutation_data[a+shift].additions.size(); j++) {
    mvwprintw(w_info, line2, 9, traits[ mutation_data[a+shift].additions[j] ].name.c_str());
    line2++;
   }

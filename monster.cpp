@@ -133,7 +133,6 @@ std::string monster::name_with_armor()
    case FLESH: ret += "'s thick hide";    break;
    case IRON:
    case STEEL: ret += "'s armor plating"; break;
-   default:                          break;
   }
  }
  return ret;
@@ -240,7 +239,7 @@ nc_color monster::color_with_effects()
 
 bool monster::has_flag(m_flag f)
 {
- for (unsigned int i = 0; i < type->flags.size(); i++) {
+ for (int i = 0; i < type->flags.size(); i++) {
   if (type->flags[i] == f)
    return true;
  }
@@ -288,7 +287,7 @@ std::string monster::save_info()
          " " << sp_timeout << " " << plans.size() << " " << friendly << " " <<
           faction_id << " " << mission_id << " " << dead << " " << anger <<
          " " << morale;
- for (unsigned int i = 0; i < plans.size(); i++) {
+ for (int i = 0; i < plans.size(); i++) {
   pack << " " << plans[i].x << " " << plans[i].y;
  }
  return pack.str();
@@ -299,7 +298,7 @@ void monster::debug(player &u)
  char buff[2];
  debugmsg("%s has %d steps planned.", name().c_str(), plans.size());
  debugmsg("%s Moves %d Speed %d HP %d",name().c_str(), moves, speed, hp);
- for (unsigned int i = 0; i < plans.size(); i++) {
+ for (int i = 0; i < plans.size(); i++) {
   sprintf(buff, "%d", i);
   if (i < 10) mvaddch(plans[i].y - SEEY + u.posy, plans[i].x - SEEX + u.posx,
                       buff[0]);
@@ -312,7 +311,7 @@ void monster::shift(int sx, int sy)
 {
  posx -= sx * SEEX;
  posy -= sy * SEEY;
- for (unsigned int i = 0; i < plans.size(); i++) {
+ for (int i = 0; i < plans.size(); i++) {
   plans[i].x -= sx * SEEX;
   plans[i].y -= sy * SEEY;
  }
@@ -385,15 +384,15 @@ void monster::process_triggers(game *g)
 // This Adjustes anger/morale levels given a single trigger.
 void monster::process_trigger(monster_trigger trig, int amount)
 {
- for (unsigned int i = 0; i < type->anger.size(); i++) {
+ for (int i = 0; i < type->anger.size(); i++) {
   if (type->anger[i] == trig)
    anger += amount;
  }
- for (unsigned int i = 0; i < type->placate.size(); i++) {
+ for (int i = 0; i < type->placate.size(); i++) {
   if (type->placate[i] == trig)
    anger -= amount;
  }
- for (unsigned int i = 0; i < type->fear.size(); i++) {
+ for (int i = 0; i < type->fear.size(); i++) {
   if (type->fear[i] == trig)
    morale -= amount;
  }
@@ -404,7 +403,7 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
 {
  int ret = 0;
  bool check_terrain = false, check_meat = false, check_fire = false;
- for (unsigned int i = 0; i < triggers->size(); i++) {
+ for (int i = 0; i < triggers->size(); i++) {
 
   switch ((*triggers)[i]) {
   case MTRIG_TIME:
@@ -420,7 +419,7 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
   case MTRIG_PLAYER_CLOSE:
    if (rl_dist(posx, posy, g->u.posx, g->u.posy) <= 5)
     ret += 5;
-   for (unsigned int i = 0; i < g->active_npc.size(); i++) {
+   for (int i = 0; i < g->active_npc.size(); i++) {
     if (rl_dist(posx, posy, g->active_npc[i].posx, g->active_npc[i].posy) <= 5)
      ret += 5;
    }
@@ -446,7 +445,7 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
    for (int y = posy - 3; y <= posy + 3; y++) {
     if (check_meat) {
      std::vector<item> *items = &(g->m.i_at(x, y));
-     for (unsigned int n = 0; n < items->size(); n++) {
+     for (int n = 0; n < items->size(); n++) {
       if ((*items)[n].type->id == itm_corpse ||
           (*items)[n].type->id == itm_meat ||
           (*items)[n].type->id == itm_meat_tainted) {
@@ -479,7 +478,7 @@ int monster::hit(game *g, player &p, body_part &bp_hit) {
  }
  p.practice("dodge", 5);
  int ret = 0;
- int highest_hit = 0;
+ int highest_hit;
  switch (type->size) {
  case MS_TINY:
   highest_hit = 3;
@@ -536,7 +535,6 @@ void monster::hit_monster(game *g, int i)
   case MS_SMALL: dodgedice += 3; break;
   case MS_LARGE: dodgedice -= 2; break;
   case MS_HUGE:  dodgedice -= 4; break;
-  default:                       break;
  }
 
  if (dice(numdice, 10) <= dice(dodgedice, 10)) {
@@ -594,7 +592,6 @@ int monster::dodge_roll()
   case MS_SMALL: numdice += 3; break;
   case MS_LARGE: numdice -= 2; break;
   case MS_HUGE:  numdice -= 4; break;
-  default:                     break;
  }
 
  numdice += int(speed / 80);
@@ -630,7 +627,7 @@ void monster::die(game *g)
   debugmsg("Type %s has item_chance %d but no items assigned!",
            type->name.c_str(), type->item_chance);
  else {
-  for (unsigned int i = 0; i < it.size(); i++)
+  for (int i = 0; i < it.size(); i++)
    total_chance += it[i].chance;
 
   while (rng(0, 99) < abs(type->item_chance) && !animal_done) {
@@ -642,7 +639,7 @@ void monster::die(game *g)
    }
    total_it_chance = 0;
    mapit = g->mapitems[it[selected_location].loc];
-   for (unsigned int i = 0; i < mapit.size(); i++)
+   for (int i = 0; i < mapit.size(); i++)
     total_it_chance += g->itypes[mapit[i]]->rarity;
    cur_chance = rng(1, total_it_chance);
    selected_item = -1;
@@ -659,10 +656,10 @@ void monster::die(game *g)
 // If we're a queen, make nearby groups of our type start to die out
  if (has_flag(MF_QUEEN)) {
   std::vector<mongroup*> groups = g->cur_om.monsters_at(g->levx, g->levy);
-  for (unsigned int i = 0; i < groups.size(); i++) {
+  for (int i = 0; i < groups.size(); i++) {
    moncat_id moncat_type = groups[i]->type;
    bool match = false;
-   for (unsigned int j = 0; !match && j < g->moncats[moncat_type].size(); j++) {
+   for (int j = 0; !match && j < g->moncats[moncat_type].size(); j++) {
     if (g->moncats[moncat_type][j] == type->id)
      match = true;
    }
@@ -677,10 +674,10 @@ void monster::die(game *g)
    tmp = overmap(g, g->cur_om.posx, g->cur_om.posy, 0);
 
   groups = tmp.monsters_at(g->levx, g->levy);
-  for (unsigned int i = 0; i < groups.size(); i++) {
+  for (int i = 0; i < groups.size(); i++) {
    moncat_id moncat_type = groups[i]->type;
    bool match = false;
-   for (unsigned int j = 0; !match && j < g->moncats[moncat_type].size(); j++) {
+   for (int j = 0; !match && j < g->moncats[moncat_type].size(); j++) {
     if (g->moncats[moncat_type][j] == type->id)
      match = true;
    }
@@ -701,21 +698,21 @@ void monster::die(game *g)
  (md.*type->dies)(g, this);
 // If our species fears seeing one of our own die, process that
  int anger_adjust = 0, morale_adjust = 0;
- for (unsigned int i = 0; i < type->anger.size(); i++) {
+ for (int i = 0; i < type->anger.size(); i++) {
   if (type->anger[i] == MTRIG_FRIEND_DIED)
    anger_adjust += 15;
  }
- for (unsigned int i = 0; i < type->placate.size(); i++) {
+ for (int i = 0; i < type->placate.size(); i++) {
   if (type->placate[i] == MTRIG_FRIEND_DIED)
    anger_adjust -= 15;
  }
- for (unsigned int i = 0; i < type->fear.size(); i++) {
+ for (int i = 0; i < type->fear.size(); i++) {
   if (type->fear[i] == MTRIG_FRIEND_DIED)
    morale_adjust -= 15;
  }
  if (anger_adjust != 0 && morale_adjust != 0) {
   int light = g->light_level();
-  for (unsigned int i = 0; i < g->z.size(); i++) {
+  for (int i = 0; i < g->z.size(); i++) {
    int t = 0;
    if (g->m.sees(g->z[i].posx, g->z[i].posy, posx, posy, light, t)) {
     g->z[i].morale += morale_adjust;
@@ -727,7 +724,7 @@ void monster::die(game *g)
 
 void monster::add_effect(monster_effect_type effect, int duration)
 {
- for (unsigned int i = 0; i < effects.size(); i++) {
+ for (int i = 0; i < effects.size(); i++) {
   if (effects[i].type == effect) {
    effects[i].duration += duration;
    return;
@@ -738,7 +735,7 @@ void monster::add_effect(monster_effect_type effect, int duration)
 
 bool monster::has_effect(monster_effect_type effect)
 {
- for (unsigned int i = 0; i < effects.size(); i++) {
+ for (int i = 0; i < effects.size(); i++) {
   if (effects[i].type == effect)
    return true;
  }
@@ -747,7 +744,7 @@ bool monster::has_effect(monster_effect_type effect)
 
 void monster::rem_effect(monster_effect_type effect)
 {
- for (unsigned int i = 0; i < effects.size(); i++) {
+ for (int i = 0; i < effects.size(); i++) {
   if (effects[i].type == effect) {
    effects.erase(effects.begin() + i);
    i--;
@@ -757,7 +754,7 @@ void monster::rem_effect(monster_effect_type effect)
 
 void monster::process_effects(game *g)
 {
- for (unsigned int i = 0; i < effects.size(); i++) {
+ for (int i = 0; i < effects.size(); i++) {
   switch (effects[i].type) {
   case ME_POISONED:
    speed -= rng(0, 3);
@@ -774,8 +771,6 @@ void monster::process_effects(game *g)
     hurt(rng(15, 40));
    break;
 
-  default:
-   break;
   }
   if (effects[i].duration > 0) {
    effects[i].duration--;
