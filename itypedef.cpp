@@ -4677,7 +4677,6 @@ itype_id default_ammo(ammotype guntype)
  case AT_PLUT:	return itm_plut_cell;
  case AT_GAS:	return itm_gasoline;
  case AT_THREAD:return itm_thread;
- default:       break;
  }
  return itm_null;
 }

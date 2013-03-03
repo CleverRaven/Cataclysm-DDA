@@ -62,7 +62,7 @@ void mdeath::kill_vines(game *g, monster *z)
 {
  std::vector<int> vines;
  std::vector<int> hubs;
- for (unsigned int i = 0; i < g->z.size(); i++) {
+ for (int i = 0; i < g->z.size(); i++) {
   if (g->z[i].type->id == mon_creeper_hub &&
       (g->z[i].posx != z->posx || g->z[i].posy != z->posy))
    hubs.push_back(i);
@@ -70,11 +70,11 @@ void mdeath::kill_vines(game *g, monster *z)
    vines.push_back(i);
  }
 
- for (unsigned int i = 0; i < vines.size(); i++) {
+ for (int i = 0; i < vines.size(); i++) {
   monster *vine = &(g->z[ vines[i] ]);
   int dist = rl_dist(vine->posx, vine->posy, z->posx, z->posy);
   bool closer_hub = false;
-  for (unsigned int j = 0; j < hubs.size() && !closer_hub; j++) {
+  for (int j = 0; j < hubs.size() && !closer_hub; j++) {
    if (rl_dist(vine->posx, vine->posy,
                g->z[ hubs[j] ].posx, g->z[ hubs[j] ].posy) < dist)
     closer_hub = true;
@@ -97,7 +97,7 @@ void mdeath::vine_cut(game *g, monster *z)
   }
  }
 
- for (unsigned int i = 0; i < vines.size(); i++) {
+ for (int i = 0; i < vines.size(); i++) {
   bool found_neighbor = false;
   monster *vine = &(g->z[ vines[i] ]);
   for (int x = vine->posx - 1; x <= vine->posx + 1 && !found_neighbor; x++) {
@@ -115,7 +115,7 @@ void mdeath::vine_cut(game *g, monster *z)
  }
 }
 
-void mdeath::triffid_heart(game *g, monster * /*z*/)
+void mdeath::triffid_heart(game *g, monster *z)
 {
  g->add_msg("The root walls begin to crumble around you.");
  g->add_event(EVENT_ROOTS_DIE, int(g->turn) + 100);
@@ -263,7 +263,7 @@ void mdeath::amigara(game *g, monster *z)
 {
  if (g->u.has_disease(DI_AMIGARA)) {
   int count = 0;
-  for (unsigned int i = 0; i < g->z.size(); i++) {
+  for (int i = 0; i < g->z.size(); i++) {
    if (g->z[i].type->id == mon_amigara_horror)
     count++;
   }
@@ -286,7 +286,7 @@ void mdeath::thing(game *g, monster *z)
 
 void mdeath::explode(game *g, monster *z)
 {
- int size = 0;
+ int size;
  switch (z->type->size) {
   case MS_TINY:   size =  4; break;
   case MS_SMALL:  size =  8; break;
@@ -297,7 +297,7 @@ void mdeath::explode(game *g, monster *z)
  g->explosion(z->posx, z->posy, size, 0, false);
 }
 
-void mdeath::ratking(game *g, monster * /*z*/)
+void mdeath::ratking(game *g, monster *z)
 {
  g->u.rem_disease(DI_RAT);
 }
@@ -308,9 +308,9 @@ void mdeath::gameover(game *g, monster *z)
  g->u.hp_cur[hp_torso] = 0;
 }
 
-void mdeath::kill_breathers(game *g, monster * /*z*/)
+void mdeath::kill_breathers(game *g, monster *z)
 {
- for (unsigned int i = 0; i < g->z.size(); i++) {
+ for (int i = 0; i < g->z.size(); i++) {
   if (g->z[i].type->id == mon_breather_hub || g->z[i].type->id == mon_breather)
    g->z[i].dead = true;
  }

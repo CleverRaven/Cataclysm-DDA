@@ -102,9 +102,9 @@ game::game() :
 game::~game()
 {
  delete gamemode;
- for (unsigned int i = 0; i < itypes.size(); i++)
+ for (int i = 0; i < itypes.size(); i++)
   delete itypes[i];
- for (unsigned int i = 0; i < mtypes.size(); i++)
+ for (int i = 0; i < mtypes.size(); i++)
   delete mtypes[i];
  delwin(w_terrain);
  delwin(w_minimap);
@@ -244,7 +244,7 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
    mvwprintz(w_open, 10, 1, (sel1 == 6 ? h_white : c_white), "Quit");
 
    if (sel1 == 0) {	// Print the MOTD.
-    for (unsigned int i = 0; i < motd.size() && i < 16; i++)
+    for (int i = 0; i < motd.size() && i < 16; i++)
      mvwprintz(w_open, i + 4, 12, c_ltred, motd[i].c_str());
    } else {	// Clear the lines if not viewing MOTD.
     for (int i = 4; i < 20; i++) {
@@ -356,7 +356,7 @@ fivedozenwhales@gmail.com.");
      for (int i = savestart; i < saveend; i++) {
       int line = 6 + i - savestart;
       mvwprintz(w_open, line, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-      if (unsigned(i) < savegames.size())
+      if (i < savegames.size())
        mvwprintz(w_open, line, 12, (sel2 - 1 == i ? h_white : c_white),
                  savegames[i].c_str());
      }
@@ -370,7 +370,7 @@ fivedozenwhales@gmail.com.");
      else
       sel2 = savegames.size();
     } else if (input == DirectionS) {
-     if (unsigned(sel2) < savegames.size())
+     if (sel2 < savegames.size())
       sel2++;
      else
       sel2 = 1;
@@ -442,7 +442,7 @@ fivedozenwhales@gmail.com.");
     for (int i = tempstart; i < tempend; i++) {
      int line = 6 + i - tempstart;
      mvwprintz(w_open, line, 29, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-     if (unsigned(i) < templates.size())
+     if (i < templates.size())
       mvwprintz(w_open, line, 29, (sel1 == i ? h_white : c_white),
                 templates[i].c_str());
     }
@@ -456,7 +456,7 @@ fivedozenwhales@gmail.com.");
     else
      sel1 = templates.size() - 1;
    } else if (input == DirectionS) {
-    if (unsigned(sel1) < templates.size() - 1)
+    if (sel1 < templates.size() - 1)
      sel1++;
     else
      sel1 = 0;
@@ -570,7 +570,7 @@ void game::create_starting_npcs()
 void game::cleanup_at_end(){
  write_msg();
  // Save the monsters before we die!
- for (unsigned int i = 0; i < z.size(); i++) {
+ for (int i = 0; i < z.size(); i++) {
   if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
    tinymap tmp(&itypes, &mapitems, &traps);
    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
@@ -762,7 +762,7 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
  int morale_pen = 0;
  // Fetch the morale value of wetness for bodywetness
  int bodywetness = 0;
- for (unsigned int i = 0; bodywetness == 0 && i < u.morale.size(); i++)
+ for (int i = 0; bodywetness == 0 && i < u.morale.size(); i++)
   if( u.morale[i].type == MORALE_WET ) {
    bodywetness = abs(u.morale[i].bonus); // Make it positive, less confusing
    break;
@@ -813,7 +813,6 @@ void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet)
   }
   // TODO Balance bionics
   // Bionic "Internal Climate Control" says it is effective from 0F to 140F, these are the corresponding bodytemp values
-  // Bug: temperature < 140 will always result true because temperature is a signed char. - AkrionXxarr
   if (u.has_bionic(bio_climate) && temperature > 0 && temperature < 140)
    temp_conv = (9*BODYTEMP_NORM + temp_conv)/10; // Bionic "eases" the effects
   // Bionic "Thermal Dissapation" says it prevents fire damage up to 2000F. 500 is picked at random...
@@ -908,7 +907,7 @@ void game::rustCheck() {
 
 void game::process_events()
 {
- for (unsigned int i = 0; i < events.size(); i++) {
+ for (int i = 0; i < events.size(); i++) {
   events[i].per_turn(this);
   if (events[i].turn <= int(turn)) {
    events[i].actualize(this);
@@ -1051,9 +1050,6 @@ void game::process_activity()
 
    case ACT_VEHICLE:
     complete_vehicle (this);
-    break;
-
-   default:
     break;
    }
 
@@ -1245,8 +1241,8 @@ int game::reserve_random_mission(mission_origin origin, point p, int npc_id)
 {
  std::vector<int> valid;
  mission_place place;
- for (unsigned int i = 0; i < mission_types.size(); i++) {
-  for (unsigned int j = 0; j < mission_types[i].origins.size(); j++) {
+ for (int i = 0; i < mission_types.size(); i++) {
+  for (int j = 0; j < mission_types[i].origins.size(); j++) {
    if (mission_types[i].origins[j] == origin &&
        (place.*mission_types[i].place)(this, p.x, p.y)) {
     valid.push_back(i);
@@ -1265,11 +1261,11 @@ int game::reserve_random_mission(mission_origin origin, point p, int npc_id)
 
 npc* game::find_npc(int id)
 {
- for (unsigned int i = 0; i < active_npc.size(); i++) {
+ for (int i = 0; i < active_npc.size(); i++) {
   if (active_npc[i].id == id)
    return &(active_npc[i]);
  }
- for (unsigned int i = 0; i < cur_om.npcs.size(); i++) {
+ for (int i = 0; i < cur_om.npcs.size(); i++) {
   if (cur_om.npcs[i].id == id)
    return &(cur_om.npcs[i]);
  }
@@ -1278,7 +1274,7 @@ npc* game::find_npc(int id)
 
 mission* game::find_mission(int id)
 {
- for (unsigned int i = 0; i < active_missions.size(); i++) {
+ for (int i = 0; i < active_missions.size(); i++) {
   if (active_missions[i].uid == id)
    return &(active_missions[i]);
  }
@@ -1287,7 +1283,7 @@ mission* game::find_mission(int id)
 
 mission_type* game::find_mission_type(int id)
 {
- for (unsigned int i = 0; i < active_missions.size(); i++) {
+ for (int i = 0; i < active_missions.size(); i++) {
   if (active_missions[i].uid == id)
    return active_missions[i].type;
  }
@@ -1325,7 +1321,7 @@ bool game::mission_complete(int id, int npc_id)
   case MGOAL_FIND_MONSTER:
    if (miss->npc_id != -1 && miss->npc_id != npc_id)
     return false;
-   for (unsigned int i = 0; i < z.size(); i++) {
+   for (int i = 0; i < z.size(); i++) {
     if (z[i].mission_id == miss->uid)
      return true;
    }
@@ -1353,7 +1349,7 @@ void game::wrap_up_mission(int id)
 {
  mission *miss = find_mission(id);
  u.completed_missions.push_back( id );
- for (unsigned int i = 0; i < u.active_missions.size(); i++) {
+ for (int i = 0; i < u.active_missions.size(); i++) {
   if (u.active_missions[i] == id) {
    u.active_missions.erase( u.active_missions.begin() + i );
    i--;
@@ -1366,8 +1362,6 @@ void game::wrap_up_mission(int id)
   case MGOAL_FIND_ANY_ITEM:
    u.remove_mission_items(miss->uid);
    break;
-  default:
-   break;
  }
  mission_end endfunc;
  (endfunc.*miss->type->end)(this, miss);
@@ -1378,7 +1372,7 @@ void game::fail_mission(int id)
  mission *miss = find_mission(id);
  miss->failed = true;
  u.failed_missions.push_back( id );
- for (unsigned int i = 0; i < u.active_missions.size(); i++) {
+ for (int i = 0; i < u.active_missions.size(); i++) {
   if (u.active_missions[i] == id) {
    u.active_missions.erase( u.active_missions.begin() + i );
    i--;
@@ -1397,7 +1391,7 @@ void game::mission_step_complete(int id, int step)
   case MGOAL_FIND_MONSTER:
   case MGOAL_KILL_MONSTER: {
    bool npc_found = false;
-   for (unsigned int i = 0; i < cur_om.npcs.size(); i++) {
+   for (int i = 0; i < cur_om.npcs.size(); i++) {
     if (cur_om.npcs[i].id == miss->npc_id) {
      miss->target = point(cur_om.npcs[i].mapx, cur_om.npcs[i].mapy);
      npc_found = true;
@@ -1406,14 +1400,12 @@ void game::mission_step_complete(int id, int step)
    if (!npc_found)
     miss->target = point(-1, -1);
   } break;
-  default:
-   break;
  }
 }
 
 void game::process_missions()
 {
- for (unsigned int i = 0; i < active_missions.size(); i++) {
+ for (int i = 0; i < active_missions.size(); i++) {
   if (active_missions[i].deadline > 0 &&
       int(turn) > active_missions[i].deadline)
    fail_mission(active_missions[i].uid);
@@ -1779,7 +1771,7 @@ bool game::handle_action()
     your_body.make_corpse(itypes[itm_corpse], mtypes[mon_null], turn);
     your_body.name = u.name;
     m.add_item(u.posx, u.posy, your_body);
-    for (unsigned int i = 0; i < tmp.size(); i++)
+    for (int i = 0; i < tmp.size(); i++)
      m.add_item(u.posx, u.posy, tmp[i]);
     uquit = QUIT_SUICIDE;
    }
@@ -1827,9 +1819,6 @@ bool game::handle_action()
   case ACTION_TOGGLE_DEBUGMON:
    debugmon = !debugmon;
    add_msg("Debug messages %s!", (debugmon ? "ON" : "OFF"));
-   break;
-
-  default:
    break;
  }
 
@@ -1909,7 +1898,7 @@ bool game::is_game_over()
    your_body.make_corpse(itypes[itm_corpse], mtypes[mon_null], turn);
    your_body.name = u.name;
    m.add_item(u.posx, u.posy, your_body);
-   for (unsigned int i = 0; i < tmp.size(); i++)
+   for (int i = 0; i < tmp.size(); i++)
     m.add_item(u.posx, u.posy, tmp[i]);
    std::stringstream playerfile;
    playerfile << "save/" << u.name << ".sav";
@@ -2146,7 +2135,7 @@ void game::save()
  }
 // Now save all monsters.
  fout << std::endl << z.size() << std::endl;
- for (unsigned int i = 0; i < z.size(); i++)
+ for (int i = 0; i < z.size(); i++)
   fout << z[i].save_info() << std::endl;
  for (int i = 0; i < num_monsters; i++)	// Save the kill counts, too.
   fout << kills[i] << " ";
@@ -2160,15 +2149,15 @@ void game::save()
 
  fout << next_mission_id << " " << next_faction_id << " " << next_npc_id <<
          " " << active_missions.size() << " ";
- for (unsigned int i = 0; i < active_missions.size(); i++)
+ for (int i = 0; i < active_missions.size(); i++)
   fout << active_missions[i].save_info() << " ";
 
  fout << factions.size() << std::endl;
- for (unsigned int i = 0; i < factions.size(); i++)
+ for (int i = 0; i < factions.size(); i++)
   fout << factions[i].save_info() << std::endl;
 
  fout << active_npc.size() << std::endl;
- for (unsigned int i = 0; i < active_npc.size(); i++) {
+ for (int i = 0; i < active_npc.size(); i++) {
   active_npc[i].mapx = levx;
   active_npc[i].mapy = levy;
   fout << active_npc[i].save_info() << std::endl;
@@ -2179,7 +2168,7 @@ void game::save()
 // Finally, save artifacts.
  if (itypes.size() > num_all_items) {
   fout.open("save/artifacts.gsav");
-  for (unsigned int i = num_all_items; i < itypes.size(); i++)
+  for (int i = num_all_items; i < itypes.size(); i++)
    fout << itypes[i]->save_data() << "\n";
   fout.close();
  }
@@ -2285,7 +2274,7 @@ void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
 
 bool game::event_queued(event_type type)
 {
- for (unsigned int i = 0; i < events.size(); i++) {
+ for (int i = 0; i < events.size(); i++) {
   if (events[i].type == type)
    return true;
   }
@@ -2380,7 +2369,7 @@ z.size(), events.size());
    break;
 
   case 8:
-   for (unsigned int i = 0; i < active_npc.size(); i++) {
+   for (int i = 0; i < active_npc.size(); i++) {
     add_msg("%s's head implodes!", active_npc[i].name.c_str());
     active_npc[i].hp_cur[bp_head] = 0;
    }
@@ -2396,7 +2385,7 @@ z.size(), events.size());
     debugmsg ("There's already vehicle here");
    }
    else {
-    for (unsigned int i = 2; i < vtypes.size(); i++)
+    for (int i = 2; i < vtypes.size(); i++)
      opts.push_back (vtypes[i]->name);
     opts.push_back (std::string("Cancel"));
     veh_num = menu_vec ("Choose vehicle to spawn", opts) + 1;
@@ -2462,7 +2451,7 @@ z.size(), events.size());
 void game::mondebug()
 {
  int tc;
- for (unsigned int i = 0; i < z.size(); i++) {
+ for (int i = 0; i < z.size(); i++) {
   z[i].debug(u);
   if (z[i].has_flag(MF_SEES) &&
       m.sees(z[i].posx, z[i].posy, u.posx, u.posy, -1, tc))
@@ -2478,7 +2467,7 @@ void game::groupdebug()
  mvprintw(0, 0, "OM %d : %d    M %d : %d", cur_om.posx, cur_om.posy, levx,
                                            levy);
  int dist, linenum = 1;
- for (unsigned int i = 0; i < cur_om.zg.size(); i++) {
+ for (int i = 0; i < cur_om.zg.size(); i++) {
   dist = trig_dist(levx, levy, cur_om.zg[i].posx, cur_om.zg[i].posy);
   if (dist <= cur_om.zg[i].radius) {
    mvprintw(linenum, 0, "Zgroup %d: Centered at %d:%d, radius %d, pop %d",
@@ -2520,7 +2509,7 @@ void game::disp_kills()
   return;
  }
 
- for (unsigned int i = 0; i < types.size(); i++) {
+ for (int i = 0; i < types.size(); i++) {
   if (i < 24) {
    mvwprintz(w, i + 1,  0, types[i]->color, "%c %s", types[i]->sym,
              types[i]->name.c_str());
@@ -2560,7 +2549,7 @@ void game::disp_NPCs()
  mvwprintz(w, 0, 0, c_white, "Your position: %d:%d", levx, levy);
  std::vector<npc*> closest;
  closest.push_back(&cur_om.npcs[0]);
- for (unsigned int i = 1; i < cur_om.npcs.size(); i++) {
+ for (int i = 1; i < cur_om.npcs.size(); i++) {
   if (closest.size() < 20)
    closest.push_back(&cur_om.npcs[i]);
   else if (rl_dist(levx, levy, cur_om.npcs[i].mapx, cur_om.npcs[i].mapy) <
@@ -2589,7 +2578,7 @@ void game::disp_NPCs()
 faction* game::list_factions(std::string title)
 {
  std::vector<faction> valfac;	// Factions that we know of.
- for (unsigned int i = 0; i < factions.size(); i++) {
+ for (int i = 0; i < factions.size(); i++) {
   if (factions[i].known_by_u)
    valfac.push_back(factions[i]);
  }
@@ -2604,7 +2593,7 @@ faction* game::list_factions(std::string title)
 
 // Init w_list content
  mvwprintz(w_list, 0, 0, c_white, title.c_str());
- for (unsigned int i = 0; i < valfac.size(); i++) {
+ for (int i = 0; i < valfac.size(); i++) {
   nc_color col = (i == 0 ? h_white : c_white);
   mvwprintz(w_list, i + 1, 0, col, valfac[i].name.c_str());
  }
@@ -3115,7 +3104,7 @@ unsigned char game::light_level()
   ret = 8;
  if (ret < 8 && event_queued(EVENT_ARTIFACT_LIGHT))
   ret = 8;
- if ((ret < 6 && u.has_amount(itm_torch_lit, 1)) || (ret < 6 && u.has_amount(itm_pda_flashlight, 1)))
+ if (ret < 6 && u.has_amount(itm_torch_lit, 1) || ret < 6 && u.has_amount(itm_pda_flashlight, 1))
   ret = 6;
  if (ret < 4 && u.has_artifact_with(AEP_GLOW))
   ret = 4;
@@ -4079,9 +4068,6 @@ void game::emp_blast(int x, int y)
   if (rn >= 40 && rn <= 80)
    add_msg("Nothing happens.");
   break;
-
- default:
-  break;
  }
  int mondex = mon_at(x, y);
  if (mondex != -1) {
@@ -4194,7 +4180,7 @@ void game::explode_mon(int index)
 // Send body parts and blood all over!
   mtype* corpse = z[index].type;
   if (corpse->mat == FLESH || corpse->mat == VEGGY) { // No chunks otherwise
-   int num_chunks = 0;
+   int num_chunks;
    switch (corpse->size) {
     case MS_TINY:   num_chunks =  1; break;
     case MS_SMALL:  num_chunks =  2; break;
@@ -4957,8 +4943,8 @@ void game::examine()
  }} else {
    add_msg("You need a shovel to do that!");
   }
- } else if ((m.ter(examx, examy) == t_chainfence_v && query_yn("Climb fence?")) ||
-            (m.ter(examx, examy) == t_chainfence_h && query_yn("Climb fence?"))) {
+ } else if (m.ter(examx, examy) == t_chainfence_v && query_yn("Climb fence?") ||
+            m.ter(examx, examy) == t_chainfence_h && query_yn("Climb fence?")) {
    u.moves -= 400;
   if (one_in(u.dex_cur)) {
    add_msg("You slip whilst climbing and fall down again");
@@ -5220,9 +5206,6 @@ shape, but with long, twisted, distended limbs.");
         m.ter(x, y) = t_rock_blue;
       }
       break;
-
-     default:
-      break;
     }
    }
   }
@@ -5394,21 +5377,19 @@ point game::look_around()
    if (dex != -1 && u_see(&(z[dex]), junk)) {
     z[mon_at(lx, ly)].draw(w_terrain, lx, ly, true);
     z[mon_at(lx, ly)].print_info(this, w_look);
-    if (!m.has_flag(container, lx, ly)){
+    if (!m.has_flag(container, lx, ly))
      if (m.i_at(lx, ly).size() > 1)
       mvwprintw(w_look, 3, 1, "There are several items there.");
      else if (m.i_at(lx, ly).size() == 1)
       mvwprintw(w_look, 3, 1, "There is an item there.");
-    }
    } else if (npc_at(lx, ly) != -1) {
     active_npc[npc_at(lx, ly)].draw(w_terrain, lx, ly, true);
     active_npc[npc_at(lx, ly)].print_info(w_look);
-    if (!m.has_flag(container, lx, ly)){
+    if (!m.has_flag(container, lx, ly))
      if (m.i_at(lx, ly).size() > 1)
       mvwprintw(w_look, 3, 1, "There are several items there.");
      else if (m.i_at(lx, ly).size() == 1)
       mvwprintw(w_look, 3, 1, "There is an item there.");
-    }
    } else if (veh) {
      mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
      veh->print_part_desc(w_look, 4, 48, veh_part);
@@ -5842,22 +5823,22 @@ void game::pickup(int posx, int posy, int min)
   }
   if (ch >= 'a' && ch <= 'a' + here.size() - 1) {
    ch -= 'a';
-   getitem[unsigned(ch)] = !getitem[unsigned(ch)];
+   getitem[ch] = !getitem[ch];
    wclear(w_item_info);
-   if (getitem[unsigned(ch)]) {
-    mvwprintw(w_item_info, 1, 0, here[unsigned(ch)].info().c_str());
+   if (getitem[ch]) {
+    mvwprintw(w_item_info, 1, 0, here[ch].info().c_str());
     wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                          LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wrefresh(w_item_info);
-    new_weight += here[unsigned(ch)].weight();
-    new_volume += here[unsigned(ch)].volume();
+    new_weight += here[ch].weight();
+    new_volume += here[ch].volume();
     update = true;
    } else {
     wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                          LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wrefresh(w_item_info);
-    new_weight -= here[unsigned(ch)].weight();
-    new_volume -= here[unsigned(ch)].volume();
+    new_weight -= here[ch].weight();
+    new_volume -= here[ch].volume();
     update = true;
    }
   }
@@ -6647,7 +6628,7 @@ void game::butcher()
  for (int i = corpses.size() - 1; i >= 0; i--) {
   mtype *corpse = m.i_at(u.posx, u.posy)[corpses[i]].corpse;
   if (query_yn("Butcher the %s corpse?", corpse->name.c_str())) {
-   int time_to_cut = 0;
+   int time_to_cut;
    switch (corpse->size) {	// Time in turns to cut up te corpse
     case MS_TINY:   time_to_cut =  2; break;
     case MS_SMALL:  time_to_cut =  5; break;
@@ -6672,7 +6653,7 @@ void game::complete_butcher(int index)
  int age = m.i_at(u.posx, u.posy)[index].bday;
  m.i_rem(u.posx, u.posy, index);
  int factor = u.butcher_factor();
- int pieces = 0, pelts = 0;
+ int pieces, pelts;
  double skill_shift = 0.;
 
  int sSkillLevel = u.skillLevel("survival").level();
@@ -6821,11 +6802,11 @@ single action.", u.weapon.tname().c_str());
   if (u.weapon.charges == u.weapon.clip_size()) {
    int alternate_magazine = -1;
    for (int i = 0; i < u.weapon.contents.size(); i++) {
-     if ((u.weapon.contents[i].is_gunmod() &&
+     if (u.weapon.contents[i].is_gunmod() &&
          (u.weapon.contents[i].typeId() == itm_spare_mag &&
-          u.weapon.contents[i].charges < (dynamic_cast<it_gun*>(u.weapon.type))->clip)) ||
-         ((u.weapon.contents[i].has_flag(IF_MODE_AUX) &&
-          u.weapon.contents[i].charges < u.weapon.contents[i].clip_size())))
+          u.weapon.contents[i].charges < (dynamic_cast<it_gun*>(u.weapon.type))->clip) ||
+         (u.weapon.contents[i].has_flag(IF_MODE_AUX) &&
+          u.weapon.contents[i].charges < u.weapon.contents[i].clip_size()))
       alternate_magazine = i;
    }
    if(alternate_magazine == -1) {
@@ -6878,7 +6859,7 @@ void game::unload()
   has_m203 = u.weapon.has_gunmod (itm_m203);
   has_shotgun = u.weapon.has_gunmod (itm_u_shotgun);
  }
- if ((u.weapon.is_container() || u.weapon.charges == 0) &&
+ if (u.weapon.is_container() || u.weapon.charges == 0 &&
      (spare_mag == -1 || u.weapon.contents[spare_mag].charges <= 0) &&
      (has_m203 == -1 || u.weapon.contents[has_m203].charges <= 0) &&
      (has_shotgun == -1 || u.weapon.contents[has_shotgun].charges <= 0)) {
@@ -7556,22 +7537,16 @@ void game::fling_player_or_monster(player *p, monster *zz, int dir, int flvel)
                 p->hitall (this, dam1, 40);
         }
         else
-        {
             zz->hurt (dam1);
-        }
         if (is_u)
-        {
             if (dam1 > 0)
                 add_msg ("You fall on the ground for %d damage.", dam1);
             else
                 add_msg ("You fall on the ground.");
-        }
     }
     else
-    {
-        if (is_u)
-            add_msg ("You fall into water.");
-    }
+    if (is_u)
+        add_msg ("You fall into water.");
 }
 
 void game::vertical_move(int movez, bool force)
@@ -8244,7 +8219,7 @@ void game::wait()
 {
  char ch = menu("Wait for how long?", "5 Minutes", "30 Minutes", "1 hour",
                 "2 hours", "3 hours", "6 hours", "Exit", NULL);
- int time = 0;
+ int time;
  if (ch == 7)
   return;
  switch (ch) {
@@ -8573,7 +8548,7 @@ int game::autosave_timeout()
 
 void game::autosave()
 {
-  if ((u.in_vehicle || !moves_since_last_save) && !item_exchanges_since_save)
+  if (u.in_vehicle || !moves_since_last_save && !item_exchanges_since_save)
     return;
   add_msg("Saving game, this may take a while");
   save();

@@ -468,7 +468,7 @@ from frostbite and to keep your distance from large fires.");
      if (keys.empty())
       printz(c_red, "Unbound!");
      else {
-      for (unsigned int j = 0; j < keys.size(); j++) {
+      for (int j = 0; j < keys.size(); j++) {
        printz(c_yellow, "%c", keys[j]);
        if (j < keys.size() - 1)
         printz(c_white, " or ");
