@@ -1976,6 +1976,13 @@ void vehicle::possibly_recover_from_skid(){
    }
 }
 
+// if not skidding, move_vec == face_vec, mv <dot> fv == 1, velocity*1 is returned.
+float vehicle::forward_velocity(){
+   rl_vec2d mv = move_vec();
+   rl_vec2d fv = face_vec();
+   float dot = mv.dot_product(fv);
+   return velocity * dot;
+}
 
 rl_vec2d vehicle::velo_vec(){
     rl_vec2d ret;

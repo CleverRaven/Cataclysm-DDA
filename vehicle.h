@@ -301,6 +301,9 @@ public:
 // depending on skid vectors, chance to recover.
     void possibly_recover_from_skid();
 
+//forward component of velocity.
+    float forward_velocity();
+
 // cruise control
     void cruise_thrust (int amount);
 

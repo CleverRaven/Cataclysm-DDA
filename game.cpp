@@ -7240,8 +7240,9 @@ void game::pldrive(int x, int y) {
  }
  veh->turn (15 * x);
  if (veh->skidding && veh->valid_wheel_config()) {
-   if (rng (0, 40) < u.dex_cur + u.skillLevel("driving").level() * 2) {
+  if (rng (0, 100) < u.dex_cur + u.skillLevel("driving").level() * 2) {
    add_msg ("You regain control of the %s.", veh->name.c_str());
+   veh->velocity = veh->forward_velocity();
    veh->skidding = false;
    veh->move.init (veh->turn_dir);
   }
