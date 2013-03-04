@@ -362,6 +362,7 @@ public:
 
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
     rl_vec2d velo_vec();
+    rl_vec2d face_vec();
 
     // config values
     std::string name;   // vehicle name

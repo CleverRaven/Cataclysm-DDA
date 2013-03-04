@@ -1968,6 +1968,14 @@ rl_vec2d vehicle::velo_vec(){
     ret = ret * velocity;
     return ret;
 }
-//todO: face_vec()...
 
+// normalized.
+rl_vec2d vehicle::face_vec(){
+    float fx,fy;
+    fx = cos (face.dir() * M_PI/180);
+    fy = sin (face.dir() * M_PI/180);
+    rl_vec2d ret(fx,fy);
+    ret = ret.normalized();
+    return ret;
+}
 
