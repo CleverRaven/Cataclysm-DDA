@@ -5919,7 +5919,7 @@ break;
   }
   if(t_west == ot_fema && t_east == ot_fema && t_south != ot_fema){ //lab bottom side
   square(this, t_dirt, 1, 1, 22, 22);
-  square(this, t_pavement, 4, 4, 19, 19);
+  square(this, t_floor, 4, 4, 19, 19);
   line(this, t_concrete_h, 4, 4, 19, 4);
   line(this, t_concrete_h, 4, 19, 19, 19);
   line(this, t_concrete_v, 4, 5, 4, 18);
@@ -8941,7 +8941,7 @@ void map::add_extra(map_extra type, game *g)
      }
      if (placed == tr_beartrap && has_flag(diggable, i, j)) {
       if (one_in(8))
-       placed = tr_landmine;
+       placed = tr_landmine_buried;
       else
        placed = tr_beartrap_buried;
      }
@@ -9101,9 +9101,9 @@ void map::add_extra(map_extra type, game *g)
   }
   for (int i = 0; i < num_mines; i++) {
    int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
-   if (!has_flag(diggable, x, y) || one_in(4))
+   if (!has_flag(diggable, x, y) || one_in(8))
     ter(x, y) = t_dirtmound;
-   add_trap(x, y, tr_landmine);
+   add_trap(x, y, tr_landmine_buried);
   }
  }
  break;

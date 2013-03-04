@@ -5110,7 +5110,7 @@ void game::examine()
    u.moves -= 300;
    handle_liquid(gas, false, true);
   }
-  if (one_in(100)) {
+  if (one_in(50)) {
     add_msg("With a clang and a shudder, the gas pump goes silent.");
     m.ter(examx, examy) = t_gas_pump_empty;
   }

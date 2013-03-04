@@ -64,9 +64,8 @@
 		<Unit filename="graffiti.cpp" />
 		<Unit filename="graffiti.h" />
 		<Unit filename="help.cpp" />
-		<Unit filename="icon.rc">
-			<Option compilerVar="WINDRES" />
-		</Unit>
+		<Unit filename="input.cpp" />
+		<Unit filename="input.h" />
 		<Unit filename="inventory.cpp" />
 		<Unit filename="inventory.h" />
 		<Unit filename="inventory_ui.cpp" />
