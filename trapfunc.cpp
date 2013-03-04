@@ -715,7 +715,7 @@ void trapfuncm::snake(game *g, monster *z, int x, int y)
 
 bool trap::is_benign()
 {
-  if (id == tr_rollmat || id == itm_cot)
+  if (id == tr_rollmat || id == tr_cot)
     return true;
   else
   return false;
