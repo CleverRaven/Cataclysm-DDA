@@ -908,13 +908,20 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_steel_chunk, 12, NULL);
   COMP(itm_wire, 3, NULL);
 
- RECIPE(itm_string_36, CC_MISC, NULL, NULL, 0, 5000, false);
+ RECIPE(itm_string_6, CC_MISC, NULL, NULL, 0, 5000, true);
+  TOOL(itm_knife_steak, -1, itm_knife_combat, -1, NULL);
+  COMP(itm_thread, 50, NULL);
+
+ RECIPE(itm_string_36, CC_MISC, NULL, NULL, 0, 5000, true);
+  TOOL(itm_knife_steak, -1, itm_knife_combat, -1, NULL);
   COMP(itm_string_6, 6, NULL);
 
- RECIPE(itm_rope_6, CC_MISC, "tailor", NULL, 2, 5000, false);
+ RECIPE(itm_rope_6, CC_MISC, "tailor", NULL, 0, 5000, true);
+  TOOL(itm_knife_steak, -1, itm_knife_combat, -1, NULL);
   COMP(itm_string_36, 6, NULL);
 
- RECIPE(itm_rope_30, CC_MISC, "tailor", NULL, 2, 5000, false);
+ RECIPE(itm_rope_30, CC_MISC, "tailor", NULL, 0, 5000, true);
+  TOOL(itm_knife_steak, -1, itm_knife_combat, -1, NULL);
   COMP(itm_rope_6, 5, NULL);
 
  RECIPE(itm_torch,        CC_MISC, NULL,    NULL,     0, 2000, false);
