@@ -1222,32 +1222,30 @@ if (dirx == 0 && diry == 0) {
  dirx += p->posx;
  diry += p->posy;
  ter_id type = g->m.ter(dirx, diry);
+ const char *door_name;
+ const char *action_name;
+ ter_id new_type;
+ bool noisy;
+ int difficulty;
+
  if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm) {
-  p->moves -= (150 - (p->str_cur * 5));
-  if (dice(4, 6) < dice(4, p->str_cur)) {
-   g->add_msg_if_player(p,"You pry the door open.");
-   g->m.ter(dirx, diry) = t_door_o;
-   g->sound(dirx, diry, 8, "crunch!");
-  } else {
-   g->add_msg_if_player(p,"You pry, but cannot open the door.");
-  }
+   door_name = "door";
+   action_name = "pry open";
+   new_type = t_chaingate_o;
+   noisy = true;
+   difficulty = 6;
  } else if (g->m.ter(dirx, diry) == t_manhole_cover) {
-  p->moves -= (500 - (p->str_cur * 5));
-  if (dice(8, 8) < dice(8, p->str_cur)) {
-   g->add_msg_if_player(p,"You lift the manhole cover.");
-   g->m.ter(dirx, diry) = t_manhole;
-   g->m.add_item(p->posx, p->posy, g->itypes[itm_manhole_cover], 0);
-  } else {
-   g->add_msg_if_player(p,"You pry, but cannot lift the manhole cover.");
-  }
+   door_name = "manhole cover";
+   action_name = "lift";
+   new_type = t_manhole;
+   noisy = false;
+   difficulty = 12;
  } else if (g->m.ter(dirx, diry) == t_crate_c) {
-  p->moves -= (150 - (p->str_cur * 5));
-  if (p->str_cur >= rng(3, 30)) {
-   g->add_msg_if_player(p,"You pop the crate open.");
-   g->m.ter(dirx, diry) = t_crate_o;
-  } else {
-   g->add_msg_if_player(p,"You pry, but cannot open the crate.");
-  }
+   door_name = "crate";
+   action_name = "pop open";
+   new_type = t_crate_o;
+   noisy = true;
+   difficulty = 6;
  } else {
   int nails = 0, boards = 0;
   ter_id newter;
@@ -1272,7 +1270,6 @@ if (dirx == 0 && diry == 0) {
    boards = 3;
    newter = t_fence_post;
    break;
-
   default:
    g->add_msg_if_player(p,"There's nothing to pry there.");
    return;
@@ -1281,6 +1278,16 @@ if (dirx == 0 && diry == 0) {
   g->m.add_item(p->posx, p->posy, g->itypes[itm_nail], 0, nails);
   g->m.add_item(p->posx, p->posy, g->itypes[itm_2x4], 0, boards);
   g->m.ter(dirx, diry) = newter;
+ }
+
+ p->moves -= (difficulty * 25 - (p->str_cur * 5));
+ if (dice(4, difficulty) < dice(4, p->str_cur)) {
+  g->add_msg_if_player(p,"You %s the %s.", action_name, door_name);
+  g->m.ter(dirx, diry) = new_type;
+  if (noisy)
+   g->sound(dirx, diry, 8, "crunch!");
+ } else {
+  g->add_msg_if_player(p,"You pry, but cannot % the %s.", action_name, door_name);
  }
 }
 
