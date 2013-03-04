@@ -5570,6 +5570,8 @@ void game::list_items()
  int iStartPos = 0;
  int iActiveX = 0;
  int iActiveY = 0;
+ int iLastActiveX = -1;
+ int iLastActiveY = -1;
  std::vector<point> vPoint;
  InputEvent input = Undefined;
  long ch = '.';
@@ -5599,6 +5601,8 @@ void game::list_items()
 
     sFilter = string_input_popup("Filter:", 55, sFilter);
     iActive = 0;
+    iLastActiveX = -1;
+    iLastActiveY = -1;
     ch = '.';
 
    } else if (ch == 'r' || ch == 'R') {
@@ -5656,7 +5660,7 @@ void game::list_items()
     for (int i = 0; i < iMaxRows; i++)
      mvwprintz(w_items, 1 + i, 1, c_black, "%s", "                                                     ");
 
-    //TODO: Speed up this shit. Generate new list after filter changes.
+    //TODO: Speed this up, first attemp to do so failed
     int iNum = 0;
     iFilter = 0;
     iActiveX = 0;
@@ -5719,21 +5723,28 @@ void game::list_items()
     mvwputch(w_item_info, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
     mvwputch(w_item_info, iInfoHeight-1, 54, c_ltgray, LINE_XOOX);
 
-    //Remove previous trail
-    for (int i = 0; i < vPoint.size(); i++) {
-     m.drawsq(w_terrain, u, vPoint[i].x, vPoint[i].y, false, true);
+    //Only redraw trail/terrain if x/y position changed
+    if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {
+     iLastActiveX = iActiveX;
+     iLastActiveY = iActiveY;
+
+     //Remove previous trail
+     for (int i = 0; i < vPoint.size(); i++) {
+      m.drawsq(w_terrain, u, vPoint[i].x, vPoint[i].y, false, true);
+     }
+
+     //Draw new trail
+     vPoint = line_to(u.posx, u.posy, u.posx + iActiveX, u.posy + iActiveY, 0);
+     for (int i = 1; i < vPoint.size(); i++) {
+       m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
+     }
+
+     mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
+                         vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
+
+     wrefresh(w_terrain);
     }
 
-    //Draw new trail
-    vPoint = line_to(u.posx, u.posy, u.posx + iActiveX, u.posy + iActiveY, 0);
-    for (int i = 1; i < vPoint.size(); i++) {
-      m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
-    }
-
-    mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
-                        vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
-
-    wrefresh(w_terrain);
     wrefresh(w_items);
     wrefresh(w_item_info);
    }
