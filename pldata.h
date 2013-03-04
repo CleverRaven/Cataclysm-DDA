@@ -389,7 +389,7 @@ Your system is rather tolerant of poisons and toxins, and most will affect\n\
 you less."},
 {"Fast Reader", 1, 0, 0, "\
 You're a quick reader, and can get through books a lot faster than most."},
-{"Tough", 5, 0, 0, "\
+{"Tough", 3, 0, 0, "\
 It takes a lot to bring you down!  You get a 20%% bonus to all hit points."},
 {"Thick-Skinned", 2, 0, 0, "\
 Your skin is tough.  Cutting damage is slightly reduced for you."},
