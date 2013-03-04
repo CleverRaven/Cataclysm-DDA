@@ -362,7 +362,9 @@ public:
 
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
     rl_vec2d velo_vec();
+    //normalized vectors, from tilerays face & move
     rl_vec2d face_vec();
+    rl_vec2d move_vec();
 
     // config values
     std::string name;   // vehicle name

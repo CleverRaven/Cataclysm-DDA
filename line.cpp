@@ -192,7 +192,13 @@ rl_vec2d rl_vec2d::normalized(){
  return ret;
 }
 float rl_vec2d::dot_product (rl_vec2d &v){
- return x*v.x + y*v.y;
+ float dot = x*v.x + y*v.y;
+ // this is messy, but the dot of normalized rl_vecs should somehow be max 1
+ float tot1 = x + y;
+ float tot2 = v.x + v.y;
+ dot /= ((tot1+tot2)/2);
+ dot *= norm() * v.norm();
+ return dot;
 }
 bool rl_vec2d::is_null(){
  return !(x || y);
