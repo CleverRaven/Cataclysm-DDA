@@ -1954,6 +1954,29 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     return true;
 }
 
+// a chance to stop skidding if moving in roughly the faced direction
+void vehicle::possibly_recover_from_skid(){
+   if (last_turn > 13)
+      //turning on the initial skid is delayed, so move==face, initially. This filters out that case.
+      return;
+   rl_vec2d mv = move_vec();
+   rl_vec2d fv = face_vec();
+   float dot = mv.dot_product(fv);
+   //threshold of recovery is gaussianesque.
+
+   if (fabs(dot) * 100 > dice(9,20)){
+      g->add_msg("The %s recovers from its skid.", name.c_str());
+      skidding = false; //face_vec takes over.
+      velocity *= dot; //wheels absorb horizontal velocity.
+      if(dot < -.8){
+         //pointed backwards, velo-wise.
+         velocity *= -1; //move backwards.
+      }
+      move = face;
+   }
+}
+
+
 rl_vec2d vehicle::velo_vec(){
     rl_vec2d ret;
     if(skidding)

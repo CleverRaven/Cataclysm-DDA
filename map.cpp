@@ -520,23 +520,6 @@ bool map::vehproceed(game* g){
          veh->move.init (veh->move.dir() +
                (one_in(2) ? -15 * rng(1, 3) : 15 * rng(1, 3)));
       }
-      if(abs(veh->last_turn) < 13 ){
-         // a chance to stop skidding if moving in roughly the faced direction
-         rl_vec2d mv = veh->move_vec();
-         rl_vec2d fv = veh->face_vec();
-         float dot = mv.dot_product(fv);
-         //threshold of recovery is gaussianesque.
-         //if face_dir == move_dir,
-         if (fabs(dot) * 100 > dice(9,20)){
-            g->add_msg("The %s recovers from its skid.", veh->name.c_str());
-            if(dot > 0)
-               veh->skidding = false; //face_vec takes over.
-            else if(dot < -.8){
-               veh->skidding = false; //pointed backwards, velo-wise.
-               veh->velocity *= -1; //move backwards.
-            }
-         }
-      }
    }
    else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving").level() && one_in(20)) {
       g->add_msg("You fumble with the %s's controls.", veh->name.c_str());
@@ -729,8 +712,10 @@ bool map::vehproceed(game* g){
 
    if (can_move) {
       // accept new direction
-      if (veh->skidding)
+      if (veh->skidding){
          veh->face.init (veh->turn_dir);
+         veh->possibly_recover_from_skid();
+      }
       else
          veh->face = mdir;
       veh->move = mdir;

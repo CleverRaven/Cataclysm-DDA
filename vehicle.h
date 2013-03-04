@@ -298,6 +298,9 @@ public:
 // thrust (1) or brake (-1) vehicle
     void thrust (int thd);
 
+// depending on skid vectors, chance to recover.
+    void possibly_recover_from_skid();
+
 // cruise control
     void cruise_thrust (int amount);
 
