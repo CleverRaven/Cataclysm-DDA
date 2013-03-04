@@ -3286,6 +3286,12 @@ BOOK("Guns n Ammo",		20,  48,c_pink,		PAPER,	MNULL,
     1,  1, -3,  1,	"gun",		 1,  0,  1,  2,  7, "\
 Reviews of firearms, and various useful tips about their use.");
 
+BOOK("Archery for Kids",		20,  48, c_pink,		PAPER,	MNULL,
+    1,  1, -3,  1,	"archery",		 1,  0,  1,  2,  7, "\
+Will you be able to place the arrow right into bull's eye?\n\
+It is not that easy, but once you know how it's done,\n\
+you will have a lot of fun with archery.");
+
 BOOK("romance novel",		30,  55,c_ltblue,	PAPER,	MNULL,
     4,  1, -2,  0,	NULL,	 0,  0,  2,  4, 15, "\
 Drama and mild smut.");
