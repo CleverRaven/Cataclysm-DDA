@@ -837,19 +837,6 @@ MELEE("nail bat",	60, 160,'/', c_ltred,	WOOD,	MNULL,
 	12, 10, 28,  6,  3, mfb(IF_STAB), "\
 A baseball bat with several nails driven through it, an excellent melee weapon.");
 
-MELEE("X-Acto knife",	10,  40,';', c_dkgray,	IRON,	PLASTIC,
-	 1,  0,  0, 14, -4, mfb(IF_SPEAR), "\
-A small, very sharp knife.  Causes decent damage but is difficult to hit\n\
-with. Its small tip allows for a precision strike in hands of the skill."
-);
-TECH(mfb(TEC_PRECISE));
-
-MELEE("scalpel",	48,  40,',', c_cyan,	STEEL,	MNULL,
-	 1,  0,  0, 18, -4, mfb(IF_SPEAR), "\
-A small, very sharp knife, used in surgery. Its small tip allows for a\n\
-precision strike in the hands of the skilled.");
-TECH(mfb(TEC_PRECISE));
-
 MELEE("pot",		25,  45,')', c_ltgray,	IRON,	MNULL,
 	 8,  6,  9,  0,  1, 0, "\
 Useful for boiling water when cooking spaghetti and more.");
@@ -891,29 +878,9 @@ An aluminium baseball bat, smaller and lighter than a wooden bat\n\
 and a little less damaging as a result.");
 TECH( mfb(TEC_WBLOCK_1) );
 
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("machete",	 5, 280,'/', c_blue,	IRON,	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 8, 14,  6, 28,  2, 0, "\
-This huge iron knife makes an excellent melee weapon.");
-TECH( mfb(TEC_WBLOCK_1) );
-
-MELEE("katana",		 2, 980,'/', c_ltblue,	STEEL,	MNULL,
-	16, 16,  4, 45,  1, mfb(IF_STAB), "\
-A rare sword from Japan. Deadly against unarmored targets, and still very\n\
-effective against the armored.");
-TECH( mfb(TEC_RAPID)|mfb(TEC_WBLOCK_2) );
-
 MELEE("wood spear",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
 	 5,  3,  4, 18,  1, mfb(IF_SPEAR), "\
 A simple wood pole with one end sharpened.");
-TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("steel spear",      5,  140,'/', c_ltred,   WOOD,   STEEL,
-//	VOL WGT DAM CUT HIT FLAGS
-         6,  6,  2, 28,  1, mfb(IF_SPEAR), "\
-A simple wood pole made deadlier by the knife tied to it.");
 TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
 
 MELEE("expandable baton",8, 175,'/', c_blue,	STEEL,	MNULL,
@@ -969,12 +936,6 @@ A rock the size of your fist. It is covered with intricate spirals; it is\n\
 impossible to tell whether they are carved, naturally formed, or some kind of\n\
 fossil.");
 
-MELEE("rapier",		 3, 980,'/', c_ltblue,	STEEL,	MNULL,
-	 6,  9, 5, 28,  2, mfb(IF_STAB), "\
-Preferred weapon of gentlemen and swashbucklers. Light and quick, it makes\n\
-any battle a stylish battle.");
-TECH( mfb(TEC_RAPID)|mfb(TEC_WBLOCK_1)|mfb(TEC_PRECISE) );
-
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("walking cane",   10, 160,'/', c_ltred,	WOOD,	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
@@ -992,19 +953,6 @@ travels.");
 MELEE("USB drive",	 5, 100,',', c_white,	PLASTIC,MNULL,
 	  0,  0,  0,  0,  0, 0, "\
 A USB thumb drive. Useful for holding software.");
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("awl pike",        5,2000,'/', c_ltcyan,	IRON,	WOOD,
-//	VOL WGT DAM CUT HIT FLAGS
-        14, 18,  8, 50,  2, mfb(IF_SPEAR), "\
-A medieval weapon consisting of a wood shaft, tipped with an iron spike.\n\
-Though large and heavy compared to other spears, its accuracy and damage\n\
-are unparalled.");
-
-MELEE("broadsword",	30,1200,'/',c_cyan,	IRON,	MNULL,
-	 7, 11,  8, 35,  2, mfb(IF_STAB), "\
-An early modern sword seeing use in the 16th, 17th ane 18th centuries.\n\
-Called 'broad' to contrast with the slimmer rapiers.");
 
 MELEE("mace",		20,1000,'/',c_dkgray,	IRON,	WOOD,
 	10, 18, 36,  0,  1, 0, "\
@@ -1093,21 +1041,6 @@ MELEE("lawnmower", 25, 100, ';', c_red, STEEL,  IRON,
          25, 40, -3, 10, 0, 0, "\
 A motorized pushmower, it seems to be broken. You could\n\
 take it apart if you had a wrench.");
-
-MELEE("lawnmower blade", 0, 100, '/', c_ltgray, IRON, MNULL,
-	 7, 5,  4, 15,  -1, mfb(IF_STAB), "\
-The blade of a lawnmower. It's not incredibly sharp, but\n\
-it could still do some serious damage.");
-
-MELEE("lawnmower machete", 0, 100, '/', c_ltgray, IRON, MNULL,
-         7, 5,  4, 15,   1, mfb(IF_STAB), "\
-A lawnmower blade that's been fashioned into a makeshift\n\
-machete, mainly by adding a handle for easier wielding.");
-
-MELEE("lawnmower halberd", 0, 100, '/', c_ltgray, IRON, MNULL,
-         10, 7, 4, 15,   2, mfb(IF_STAB), "\
-A lawnmower blade affixed to a long stick, in the right\n\
-hands, this thing could do some massive damage.");
 
 MELEE("sheet",           0, 100, ';', c_dkgray, COTTON, MNULL,
          20, 2, 0, 0,    -1, 0, "\
@@ -3921,6 +3854,67 @@ TOOL("rollmat",  40,400,';', c_blue, MNULL, MNULL,
 0, "\
 A sheet of foam which can be rolled tightly for storage\n\
 Insulates you from the floor, making it easier to sleep");
+
+TOOL("X-Acto knife",	10,  40,';', c_dkgray,	IRON,	PLASTIC,
+	 1,  0,  0, 14, -4,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_SPEAR), "\
+A small, very sharp knife.  Causes decent damage but is difficult to hit\n\
+with. Its small tip allows for a precision strike in hands of the skill."
+);
+TECH(mfb(TEC_PRECISE));
+
+TOOL("scalpel",	48,  40,',', c_cyan,	STEEL,	MNULL,
+	 1,  0,  0, 18, -4,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_SPEAR), "\
+A small, very sharp knife, used in surgery. Its small tip allows for a\n\
+precision strike in the hands of the skilled.");
+TECH(mfb(TEC_PRECISE));
+
+TOOL("machete",	 5, 280,'/', c_blue,	IRON,	MNULL,
+	 8, 14,  6, 28,  2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, 0, "\
+This huge iron knife makes an excellent melee weapon.");
+TECH( mfb(TEC_WBLOCK_1) );
+
+TOOL("katana",		 2, 980,'/', c_ltblue,	STEEL,	MNULL,
+	16, 16,  4, 45,  1,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
+A rare sword from Japan. Deadly against unarmored targets, and still very\n\
+effective against the armored.");
+TECH( mfb(TEC_RAPID)|mfb(TEC_WBLOCK_2) );
+
+TOOL("steel spear",      5,  140,'/', c_ltred,   WOOD,   STEEL,
+         6,  6,  2, 28,  1,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_SPEAR), "\
+A simple wood pole made deadlier by the knife tied to it.");
+TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
+
+TOOL("rapier",		 3, 980,'/', c_ltblue,	STEEL,	MNULL,
+	 6,  9, 5, 28,  2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
+Preferred weapon of gentlemen and swashbucklers. Light and quick, it makes\n\
+any battle a stylish battle.");
+TECH( mfb(TEC_RAPID)|mfb(TEC_WBLOCK_1)|mfb(TEC_PRECISE) );
+
+TOOL("awl pike",        5,2000,'/', c_ltcyan,	IRON,	WOOD,
+        14, 18,  8, 50,  2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_SPEAR), "\
+A medieval weapon consisting of a wood shaft, tipped with an iron spike.\n\
+Though large and heavy compared to other spears, its accuracy and damage\n\
+are unparalled.");
+
+TOOL("broadsword",	30,1200,'/',c_cyan,	IRON,	MNULL,
+	 7, 11,  8, 35,  2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
+An early modern sword seeing use in the 16th, 17th ane 18th centuries.\n\
+Called 'broad' to contrast with the slimmer rapiers.");
+
+TOOL("lawnmower blade", 0, 100, '/', c_ltgray, IRON, MNULL,
+	 7, 5,  4, 15,  -1,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
+The blade of a lawnmower. It's not incredibly sharp, but\n\
+it could still do some serious damage.");
+
+TOOL("lawnmower machete", 0, 100, '/', c_ltgray, IRON, MNULL,
+         7, 5,  4, 15,   1,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
+A lawnmower blade that's been fashioned into a makeshift\n\
+machete, mainly by adding a handle for easier wielding.");
+
+TOOL("lawnmower halberd", 0, 100, '/', c_ltgray, IRON, MNULL,
+         10, 7, 4, 15,   2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
+A lawnmower blade affixed to a long stick, in the right\n\
+hands, this thing could do some massive damage.");
 
 TOOL("steak knife",	85,  25,';', c_ltcyan,	STEEL,	MNULL,
      1,  2,  2, 10, -3, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
