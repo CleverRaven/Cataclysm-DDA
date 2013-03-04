@@ -437,40 +437,32 @@ std::vector<item> game::multidrop()
  int max_size = u.inv.size();
  for (int i = 0; i < max_size; i++) {
 
-  if (dropping[i] == -1)  // drop whole stack of charges
-  {
-    ret.push_back(u.inv.remove_item(current_stack));
-    current_stack--;
+  if (dropping[i] == -1) {  // drop whole stack of charges
+   ret.push_back(u.inv.remove_item(current_stack));
+   current_stack--;
   }
 
-    for (int j = 0; j < dropping[i]; j++) {
+  for (int j = 0; j < dropping[i]; j++) {
+   if (u.inv.stack_at(current_stack)[0].count_by_charges()) {      // dropping parts of stacks
+    int tmpcount = dropping[i];
 
-    if (u.inv.stack_at(current_stack)[0].count_by_charges())      // dropping parts of stacks
-    {
-        int tmpcount = dropping[i];
-
-        if (tmpcount >= u.inv.stack_at(current_stack)[0].charges)
-        {
-          ret.push_back(u.inv.remove_item(current_stack));
-          current_stack--;
-        }
-        else
-        {
-          u.inv.stack_at(current_stack)[0].charges -= tmpcount;
-          ret.push_back(u.inv.remove_item_by_quantity(current_stack, tmpcount));
-        }
-          j = dropping[i];
+    if (tmpcount >= u.inv.stack_at(current_stack)[0].charges) {
+      ret.push_back(u.inv.remove_item(current_stack));
+      current_stack--;
+    } else {
+      u.inv.stack_at(current_stack)[0].charges -= tmpcount;
+      ret.push_back(u.inv.remove_item_by_quantity(current_stack, tmpcount));
     }
-  else
-    {
-      if (current_stack >= 0) {
-      if (u.inv.stack_at(current_stack).size() == 1) {
-       ret.push_back(u.inv.remove_item(current_stack));
-       current_stack--;
-      } else
-       ret.push_back(u.inv.remove_item(current_stack));
-      }
+    j = dropping[i];
+   } else {
+    if (current_stack >= 0) {
+    if (u.inv.stack_at(current_stack).size() == 1) {
+     ret.push_back(u.inv.remove_item(current_stack));
+     current_stack--;
+    } else
+     ret.push_back(u.inv.remove_item(current_stack));
     }
+   }
   }
   current_stack++;
  }

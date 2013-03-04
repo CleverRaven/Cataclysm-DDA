@@ -448,7 +448,8 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
      for (int n = 0; n < items->size(); n++) {
       if ((*items)[n].type->id == itm_corpse ||
           (*items)[n].type->id == itm_meat ||
-          (*items)[n].type->id == itm_meat_tainted) {
+          (*items)[n].type->id == itm_meat_cooked ||
+          (*items)[n].type->id == itm_human_flesh) {
        ret += 3;
        check_meat = false;
       }

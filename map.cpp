@@ -909,7 +909,7 @@ bool map::is_destructable_ter_only(const int x, const int y)
 
 bool map::is_outside(const int x, const int y)
 {
- bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet);
+ bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet && ter(x, y) != t_fema_groundsheet);
 
  for(int i = -1; out && i <= 1; i++)
   for(int j = -1; out && j <= 1; j++) {

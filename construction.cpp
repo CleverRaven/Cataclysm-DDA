@@ -467,7 +467,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
   start = level;
 
  bool can_build_any = false;
- for (unsigned int i = start; i < con->stages.size() && i <= last_level; i++) {
+ for (int i = start; i < con->stages.size() && i <= last_level; i++) {
   construction_stage stage = con->stages[i];
   bool has_tool = false;
   bool has_component = false;

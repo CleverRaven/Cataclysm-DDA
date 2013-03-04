@@ -615,7 +615,7 @@ void overmap::generate_sub(overmap* above)
 
    else if (above->ter(i, j) == ot_shelter)
     shelter_points.push_back( point(i, j) );
-	
+
    else if (above->ter(i, j) == ot_lmoe)
     lmoe_points.push_back( point(i, j) );
 
@@ -973,7 +973,10 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
     if (see) {
      if (note_here && blink) {
       ter_color = c_yellow;
-      ter_sym = 'N';
+      if (note_text[1] == ':')
+       ter_sym = note_text[0];
+      else
+       ter_sym = 'N';
      } else if (omx == origx && omy == origy && blink) {
       ter_color = g->u.color();
       ter_sym = '@';
@@ -1024,6 +1027,8 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
   }
   if (has_note(cursx, cursy)) {
    note_text = note(cursx, cursy);
+   if (note_text[1] == ':')
+    note_text = note_text.substr(2, note_text.size());
    for (int i = 0; i < note_text.length(); i++)
     mvwputch(w, 1, i, c_white, LINE_OXOX);
    mvwputch(w, 1, note_text.length(), c_white, LINE_XOOX);
@@ -1062,7 +1067,7 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
    mvwprintz(w, 18, om_map_width + 1, c_magenta, "0 - Center map on character");
    mvwprintz(w, 19, om_map_width + 1, c_magenta, "t - Toggle legend          ");
    mvwprintz(w, 20, om_map_width + 1, c_magenta, "/ - Search                 ");
-   mvwprintz(w, 21, om_map_width + 1, c_magenta, "N - Add a note             ");
+   mvwprintz(w, 21, om_map_width + 1, c_magenta, "N - Add/Edit a note        ");
    mvwprintz(w, 22, om_map_width + 1, c_magenta, "D - Delete a note          ");
    mvwprintz(w, 23, om_map_width + 1, c_magenta, "L - List notes             ");
    mvwprintz(w, 24, om_map_width + 1, c_magenta, "Esc or q - Return to game  ");
@@ -1102,7 +1107,7 @@ point overmap::choose_point(game *g)
    ret = point(-1, -1);
   else if (ch == 'N') {
    timeout(-1);
-   add_note(cursx, cursy, string_input_popup("Enter note", 49)); // 49 char max
+   add_note(cursx, cursy, string_input_popup("Note (X:TEXT for custom symbol):", 49, note(cursx, cursy))); // 49 char max
    timeout(BLINK_SPEED);
   } else if(ch == 'D'){
    timeout(-1);

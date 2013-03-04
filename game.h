@@ -319,23 +319,25 @@ class game
 // Pick where to put liquid; false if it's left where it was
   bool handle_liquid(item &liquid, bool from_ground, bool infinite);
   void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items	'I'
-  void drop();	  // Drop an item		'd'
+  void drop(char chInput = '.');	  // Drop an item		'd'
   void drop_in_direction(); // Drop w/ direction 'D'
   void reassign_item(); // Reassign the letter of an item   '='
   void butcher(); // Butcher a corpse		'B'
   void complete_butcher(int index);	// Finish the butchering process
   void forage();	// Foraging ('a' on underbrush)
-  void eat();	  // Eat food or fuel		'E' (or 'a')
-  void use_item();// Use item; also tries E,R,W	'a'
+  void eat(char chInput = '.');	  // Eat food or fuel		'E' (or 'a')
+  void use_item(char chInput = '.');// Use item; also tries E,R,W	'a'
   void use_wielded_item();
-  void wear();	  // Wear armor			'W' (or 'a')
-  void takeoff(); // Remove armor		'T'
+  void wear(char chInput = '.');	  // Wear armor			'W' (or 'a')
+  void takeoff(char chInput = '.'); // Remove armor		'T'
   void reload();  // Reload a wielded gun/tool	'r'
+  void reload(char chInput);
   void unload();  // Unload a wielded gun/tool	'U'
-  void wield();   // Wield a weapon		'w'
+  void unload(char chInput);
+  void wield(char chInput = '.');   // Wield a weapon		'w'
   void read();    // Read a book		'R' (or 'a')
   void chat();    // Talk to a nearby NPC	'C'
-  void plthrow(); // Throw an item		't'
+  void plthrow(char chInput = '.'); // Throw an item		't'
   void help();    // Help screen		'?'
 
 // Target is an interactive function which allows the player to choose a nearby
