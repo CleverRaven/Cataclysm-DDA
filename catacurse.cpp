@@ -807,5 +807,6 @@ void timeout(int delay)
 {
     inputdelay=delay;
 };
+void set_escdelay(int delay) { } //PORTABILITY, DUMMY FUNCTION
 
 #endif
