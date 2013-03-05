@@ -515,9 +515,12 @@ bool map::vehproceed(game* g){
       }
    }
 
-   if (veh->skidding && one_in(4)) // might turn uncontrollably while skidding
-      veh->move.init (veh->move.dir() +
-            (one_in(2) ? -15 * rng(1, 3) : 15 * rng(1, 3)));
+   if (veh->skidding){
+      if (one_in(4)){ // might turn uncontrollably while skidding
+         veh->move.init (veh->move.dir() +
+               (one_in(2) ? -15 * rng(1, 3) : 15 * rng(1, 3)));
+      }
+   }
    else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving").level() && one_in(20)) {
       g->add_msg("You fumble with the %s's controls.", veh->name.c_str());
       veh->turn (one_in(2) ? -15 : 15);
@@ -709,8 +712,10 @@ bool map::vehproceed(game* g){
 
    if (can_move) {
       // accept new direction
-      if (veh->skidding)
+      if (veh->skidding){
          veh->face.init (veh->turn_dir);
+         veh->possibly_recover_from_skid();
+      }
       else
          veh->face = mdir;
       veh->move = mdir;
