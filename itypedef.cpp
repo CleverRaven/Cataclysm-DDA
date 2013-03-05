@@ -4066,7 +4066,7 @@ TOOL("pocket knife",	14, 100,';', c_blue,	STEEL,  PLASTIC,
 //	VOL WGT DAM CUT HIT FLAGS
 	 0,  2,  0, 10, -4, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
 mfb(IF_STAB), "\
-A small pocket knife, not great for combat, but butter than nothing.");
+A small pocket knife, not great for combat, but better than nothing.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
