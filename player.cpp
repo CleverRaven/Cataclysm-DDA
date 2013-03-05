@@ -79,7 +79,7 @@ player::player()
 
  for (int i = 0; i < num_bp; i++) {
   temp_cur[i] = BODYTEMP_NORM; ; frostbite_timer[i] = 0;
-}
+ }
 }
 
 player::player(const player &rhs)
@@ -1120,7 +1120,7 @@ which require brute force.");
     mvwprintz(w_stats, 3, 2, h_ltgray, "Dexterity:");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Dexterity affects your chance to hit in melee combat, helps you steady your\n\
-gun for ranged combat, and enhances many actions that require finesse."); 
+gun for ranged combat, and enhances many actions that require finesse.");
    } else if (line == 2) {
     mvwprintz(w_stats, 4, 2, h_ltgray, "Intelligence:");
     mvwprintz(w_info, 0, 0, c_magenta, "\
@@ -1185,12 +1185,12 @@ Melee skill -%d;      Dodge skill -%d;\n\
 Swimming costs +%d movement points;\n\
 Melee attacks cost +%d movement points", encumb(bp_torso), encumb(bp_torso),
               encumb(bp_torso) * (80 - skillLevel("swimming").level() * 3), encumb(bp_torso) * 20);
-   } else if (line == 4) 
+   } else if (line == 4)
   {
     mvwprintz(w_encumb, 5, 1, h_ltgray, "Arms");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Arm encumbrance affects your accuracy with ranged weapons.");
-   } else if (line == 5)    
+   } else if (line == 5)
    {
     mvwprintz(w_encumb, 6, 1, h_ltgray, "Hands");
     mvwprintz(w_info, 0, 0, c_magenta, "\
@@ -1965,9 +1965,9 @@ int player::clairvoyance()
 bool player::sight_impaired()
 {
  return has_disease(DI_BOOMERED) ||
-  (underwater && !has_bionic(bio_membrane) && !has_trait(PF_MEMBRANE) 
+  (underwater && !has_bionic(bio_membrane) && !has_trait(PF_MEMBRANE)
               && !is_wearing(itm_goggles_swim)) ||
-  (has_trait(PF_MYOPIC) && !is_wearing(itm_glasses_eye) 
+  (has_trait(PF_MYOPIC) && !is_wearing(itm_glasses_eye)
                         && !is_wearing(itm_glasses_monocle));
 }
 
@@ -4273,9 +4273,9 @@ bool player::wear_item(game *g, item *to_wear)
   item *worn_item = &worn[i];
   it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
   if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of(WOOL) || worn_item->made_of(COTTON))) {
-  g->add_msg("You're already wearing footwear!");
-  return false;
- }
+   g->add_msg("You're already wearing footwear!");
+   return false;
+  }
  }
 }
  g->add_msg("You put on your %s.", to_wear->tname(g).c_str());

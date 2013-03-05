@@ -75,7 +75,7 @@ void iuse::royal_jelly(game *g, player *p, item *it, bool t)
  g->add_msg_if_player(p,message.c_str());
 }
 
-void iuse::bandage(game *g, player *p, item *it, bool t) 
+void iuse::bandage(game *g, player *p, item *it, bool t)
 {
  int bonus = p->skillLevel("firstaid").level();
  hp_part healed;
@@ -95,7 +95,7 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
   }
  } else { // Player--present a menu
 
-  WINDOW* w = newwin(10, 22, 8, 1);
+  WINDOW* w = newwin(10, 24, 8, 1);
   wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
   mvwprintz(w, 1, 1, c_ltred,  "Bandage where?");
@@ -208,7 +208,7 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
  p->heal(healed, dam);
 }
 
-void iuse::firstaid(game *g, player *p, item *it, bool t) 
+void iuse::firstaid(game *g, player *p, item *it, bool t)
 {
  int bonus = p->skillLevel("firstaid").level();
  hp_part healed;
@@ -227,8 +227,8 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
    }
   }
  } else { // Player--present a menu
-   
-  WINDOW* w = newwin(11, 22, 8, 1);
+
+  WINDOW* w = newwin(11, 24, 8, 1);
   wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
   mvwprintz(w, 1, 1, c_ltred,  "First Aid where?");
@@ -416,7 +416,7 @@ void iuse::alcohol(game *g, player *p, item *it, bool t)
 void iuse::cig(game *g, player *p, item *it, bool t)
 {
  if (it->type->id == itm_cig)
- g->add_msg_if_player(p,"You light a cigarette and smoke it.");
+  g->add_msg_if_player(p,"You light a cigarette and smoke it.");
  else //cigar
   g->add_msg_if_player(p,"You take a few puffs from your cigar.");
  p->add_disease(DI_CIG, 200, g);
@@ -692,8 +692,8 @@ void iuse::dogfood(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You spill the dogfood all over the ground.");
 
 }
-  
- 
+
+
 
 // TOOLS below this point!
 
@@ -988,7 +988,7 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
  g->m.add_item(p->posx, p->posy, g->itypes[itm_2x4], 0, boards);
  g->m.ter(dirx, diry) = newter;
 }
- 
+
 void iuse::light_off(game *g, player *p, item *it, bool t)
 {
  if (it->charges == 0)
@@ -1000,7 +1000,7 @@ void iuse::light_off(game *g, player *p, item *it, bool t)
   it->charges --;
  }
 }
- 
+
 void iuse::light_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
@@ -1114,7 +1114,7 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
  delwin(w);
  refresh();
 }
- 
+
 void iuse::radio_off(game *g, player *p, item *it, bool t)
 {
  if (it->charges == 0)
@@ -1184,17 +1184,17 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
   return;
  } else if (dirx == 0 && diry == 0) {
   g->add_msg_if_player(p, "You pick your nose and your sinuses swing open.");
- return;
-}
+  return;
+ }
  dirx += p->posx;
  diry += p->posy;
  ter_id type = g->m.ter(dirx, diry);
  int npcdex = g->npc_at(dirx, diry);
-   if (npcdex != -1) {
-    g->add_msg_if_player(p, "You can pick your friends, and you can");
-    g->add_msg_if_player(p, "pick your nose, but you can't pick");
-    g->add_msg_if_player(p, "your friend's nose");
-    return;
+ if (npcdex != -1) {
+  g->add_msg_if_player(p, "You can pick your friends, and you can");
+  g->add_msg_if_player(p, "pick your nose, but you can't pick");
+  g->add_msg_if_player(p, "your friend's nose");
+  return;
  }
 
  const char *door_name;
@@ -1207,8 +1207,8 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
    new_type = t_door_c;
  } else {
   g->add_msg("That cannot be picked.");
-   return;
-  }
+  return;
+ }
 
  p->practice("mechanics", 1);
  p->moves -= 500 - (p->dex_cur + p->skillLevel("mechanics").level()) * 5;
@@ -1274,7 +1274,7 @@ if (dirx == 0 && diry == 0) {
    new_type = t_crate_o;
    noisy = true;
    difficulty = 6;
-  } else {
+ } else {
   int nails = 0, boards = 0;
   ter_id newter;
   switch (g->m.ter(dirx, diry)) {
@@ -1322,7 +1322,7 @@ if (dirx == 0 && diry == 0) {
    g->sound(p->posx, p->posy, 30, "An alarm sounds!");
    if (!g->event_queued(EVENT_WANTED)) {
     g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
-}
+   }
   }
  } else {
   g->add_msg_if_player(p,"You pry, but cannot %s the %s.", action_name, door_name);
@@ -1409,7 +1409,7 @@ void iuse::jackhammer(game *g, player *p, item *it, bool t)
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
   g->sound(dirx, diry, 45, "TATATATATATATAT!");
- } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 && 
+ } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
             g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
@@ -1442,7 +1442,7 @@ void iuse::jacqueshammer(game *g, player *p, item *it, bool t)
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
   g->sound(dirx, diry, 45, "OHOHOHOHOHOHOHOHO!");
- } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 && 
+ } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
             g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
@@ -1482,7 +1482,6 @@ void iuse::pickaxe(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"just expect them to work! Now put the pickaxe");
   g->add_msg_if_player(p,"down and go play the game.");
 }
-
 void iuse::set_trap(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
@@ -1543,7 +1542,7 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
             query_yn("Bury the beartrap?"));
   type = (buried ? tr_beartrap_buried : tr_beartrap);
   message << "You " << (buried ? "bury" : "set") << " the beartrap.";
-  practice = (buried ? 7 : 4); 
+  practice = (buried ? 7 : 4);
   break;
  case itm_board_trap:
   message << "You set the board trap on the " << g->m.tername(posx, posy) <<
@@ -1769,7 +1768,7 @@ void iuse::pipebomb_act(game *g, player *p, item *it, bool t)
    g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
  }
 }
- 
+
 void iuse::grenade(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You pull the pin on the grenade.");
@@ -1947,7 +1946,7 @@ void iuse::acidbomb(game *g, player *p, item *it, bool t)
  it->bday = int(g->turn);
  it->active = true;
 }
- 
+
 void iuse::acidbomb_act(game *g, player *p, item *it, bool t)
 {
  if (!p->has_item(it)) {
@@ -1976,7 +1975,7 @@ void iuse::molotov(game *g, player *p, item *it, bool t)
  it->bday = int(g->turn);
  it->active = true;
 }
- 
+
 void iuse::molotov_lit(game *g, player *p, item *it, bool t)
 {
  int age = int(g->turn) - it->bday;
@@ -2082,7 +2081,7 @@ void iuse::pheromone(game *g, player *p, item *it, bool t)
    g->add_msg("...and several nearby zombies turn friendly!");
  }
 }
- 
+
 
 void iuse::portal(game *g, player *p, item *it, bool t)
 {
@@ -2153,7 +2152,7 @@ void iuse::UPS_off(game *g, player *p, item *it, bool t)
   it->active = true;
  }
 }
- 
+
 void iuse::UPS_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
@@ -2212,7 +2211,7 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
    g->kill_mon(mondex, (p == &(g->u)));
   return;
  }
- 
+
  if (npcdex != -1) {
   npc *foe = dynamic_cast<npc*>(&g->active_npc[npcdex]);
   if (foe->attitude != NPCATT_FLEE)
@@ -2355,7 +2354,7 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
 
  it->put_in(blood);
 }
- 
+
  void iuse::knife(game *g, player *p, item *it, bool t)
 {
  int ch = menu(
@@ -2579,7 +2578,7 @@ if (dirx == 0 && diry == 0) {
   g->m.ter(dirx, diry) = t_sewage;
   p->moves -= 1000;
   g->sound(dirx, diry, 15,"grnd grnd grnd");
-  g->m.add_item(p->posx, p->posy, g->itypes[itm_pipe], 0, 3);	
+  g->m.add_item(p->posx, p->posy, g->itypes[itm_pipe], 0, 3);
  } else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(p->posx, p->posy)) {
   g->m.ter(dirx, diry) = t_floor;
   p->moves -= 500;
@@ -2606,7 +2605,7 @@ void iuse::tent(game *g, player *p, item *it, bool t)
  posy += diry;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-   if (!g->m.has_flag(tentable, posx + i, posy + j)) { 
+   if (!g->m.has_flag(tentable, posx + i, posy + j)) {
     g->add_msg("You need a 3x3 diggable space to place a tent");
     return;
    }
@@ -2620,7 +2619,7 @@ void iuse::tent(game *g, player *p, item *it, bool t)
 
 void iuse::torch(game *g, player *p, item *it, bool t)
 {
-  if (!p->has_charges(itm_lighter, 1)) 
+  if (!p->has_charges(itm_lighter, 1))
   g->add_msg_if_player(p,"You need a lighter or fire to light this.");
 else {
  p->use_charges(itm_lighter, 1);
@@ -2629,7 +2628,7 @@ else {
   it->active = true;
  }
 }
- 
+
 void iuse::torch_lit(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
@@ -2645,7 +2644,7 @@ void iuse::torch_lit(game *g, player *p, item *it, bool t)
 
 void iuse::candle(game *g, player *p, item *it, bool t)
 {
-  if (!p->has_charges(itm_lighter, 1)) 
+  if (!p->has_charges(itm_lighter, 1))
   g->add_msg_if_player(p,"You need a lighter to light this.");
 else {
   p->use_charges(itm_lighter, 1);
@@ -2654,7 +2653,7 @@ else {
   it->active = true;
  }
 }
- 
+
 void iuse::candle_lit(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
@@ -2953,8 +2952,8 @@ if (dirx == 0 && diry == 0) {
  } else {
   g->add_msg("You can't cut that.");
  }
-} 
- 
+}
+
 void iuse::mop(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
@@ -2973,7 +2972,7 @@ void iuse::mop(game *g, player *p, item *it, bool t)
  p->moves -= 15;
  dirx += p->posx;
  diry += p->posy;
- if (g->m.moppable_items_at(dirx, diry)) {
+  if (g->m.moppable_items_at(dirx, diry)) {
    g->m.mop_spills(dirx, diry);
    g->add_msg("You mop up the spill");
  } else {

@@ -155,7 +155,7 @@ struct player_activity
   }
  }
 };
- 
+
 enum pl_flag {
  PF_NULL = 0,
  PF_FLEET,	// -15% terrain movement cost
@@ -182,7 +182,7 @@ enum pl_flag {
  PF_INCONSPICUOUS,// Less spawns due to timeouts
  PF_MASOCHIST,	// Morale boost from pain
  PF_LIGHTSTEP,	// Less noise from movement
- PF_HEARTLESS,	// No morale penalty for murder
+ PF_HEARTLESS,	// No morale penalty for murder &c
  PF_MARTIAL_ARTS, // Start with a martial art
 
  PF_SPLIT,	// Null trait, splits between bad & good

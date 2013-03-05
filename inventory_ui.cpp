@@ -79,7 +79,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
    n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
  mvwprintw(w_inv, 1, 62, "Items:  %d/52 ", n_items);
 }
- 
+
 std::vector<int> find_firsts(inventory &inv)
 {
  std::vector<int> firsts;
@@ -109,7 +109,7 @@ std::vector<int> find_firsts(inventory &inv)
 
  return firsts;
 }
- 
+
 // Display current inventory.
 char game::inv(std::string title)
 {
@@ -127,7 +127,7 @@ char game::inv(std::string title)
  do {
   if (ch == '<' && start > 0) { // Clear lines and shift
    for (int i = 1; i < maxitems+4; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+    mvwprintz(w_inv, i, 0, c_black, "                                             ");
    start -= maxitems;
    if (start < 0)
     start = 0;
@@ -137,12 +137,12 @@ char game::inv(std::string title)
    start = cur_it;
    mvwprintw(w_inv, maxitems + 4, 12, "            ");
    for (int i = 1; i < maxitems+4; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+    mvwprintz(w_inv, i, 0, c_black, "                                             ");
   }
   int cur_line = 2;
   for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++) {
 // Clear the current line;
-   mvwprintw(w_inv, cur_line, 0, "                                    ");
+   mvwprintw(w_inv, cur_line, 0, "                                             ");
 // Print category header
    for (int i = 1; i < 9; i++) {
     if (cur_it == firsts[i-1]) {
@@ -182,7 +182,7 @@ char game::inv_type(std::string title, int inv_item_type)
 {
 // this function lists inventory objects by type
 // refer to enum item_cat in itype.h for list of categories
- 
+
  WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), 0, 0);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  char ch = '.';
@@ -197,7 +197,7 @@ char game::inv_type(std::string title, int inv_item_type)
   inventory reduced_inv = u.inv;
   reduced_inv.clear();
   int inv_index = 0;
-  
+
   if (u.inv.size() > 0)
   {
     do
@@ -219,7 +219,7 @@ char game::inv_type(std::string title, int inv_item_type)
         case IC_BOOK: // books
           if (u.inv[inv_index].is_book())
             reduced_inv += u.inv[inv_index];
-          break;         
+          break;
         case IC_TOOL: // tools
           if (u.inv[inv_index].is_tool())
             reduced_inv += u.inv[inv_index];
@@ -235,18 +235,18 @@ char game::inv_type(std::string title, int inv_item_type)
             if (u.inv[inv_index].is_container())
               reduced_inv += u.inv[inv_index];
           }
-          break;                         
+          break;
       }
-      inv_index++;  
+      inv_index++;
     } while (inv_index < u.inv.size());
-  }    
+  }
 
  std::vector<int> firsts = find_firsts(reduced_inv);
 
  do {
   if (ch == '<' && start > 0) { // Clear lines and shift
    for (int i = 1; i < maxitems+4; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+    mvwprintz(w_inv, i, 0, c_black, "                                             ");
    start -= maxitems;
    if (start < 0)
     start = 0;
@@ -256,12 +256,12 @@ char game::inv_type(std::string title, int inv_item_type)
    start = cur_it;
    mvwprintw(w_inv, maxitems + 4, 12, "            ");
    for (int i = 1; i < maxitems+4; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+    mvwprintz(w_inv, i, 0, c_black, "                                             ");
   }
   int cur_line = 2;
   for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++) {
 // Clear the current line;
-   mvwprintw(w_inv, cur_line, 0, "                                    ");
+   mvwprintw(w_inv, cur_line, 0, "                                             ");
 
    for (int i = 1; i < 9; i++) {
     if (cur_it == firsts[i-1]) {
@@ -269,7 +269,7 @@ char game::inv_type(std::string title, int inv_item_type)
      cur_line++;
     }
    }
-   
+
    if (cur_it < reduced_inv.size())
    {
     mvwputch (w_inv, cur_line, 0, c_white, reduced_inv[cur_it].invlet);
@@ -321,7 +321,7 @@ std::vector<item> game::multidrop()
  do {
   if (ch == '<' && start > 0) {
    for (int i = 1; i < maxitems+4; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+    mvwprintz(w_inv, i, 0, c_black, "                                             ");
    start -= maxitems;
    if (start < 0)
     start = 0;
@@ -331,12 +331,12 @@ std::vector<item> game::multidrop()
    start = cur_it;
    mvwprintw(w_inv, maxitems + 4, 12, "            ");
    for (int i = 1; i < maxitems+4; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+    mvwprintz(w_inv, i, 0, c_black, "                                             ");
   }
   int cur_line = 2;
   for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++) {
 // Clear the current line;
-   mvwprintw(w_inv, cur_line, 0, "                                    ");
+   mvwprintw(w_inv, cur_line, 0, "                                             ");
 // Print category header
    for (int i = 1; i < 9; i++) {
     if (cur_it == firsts[i-1]) {
@@ -396,17 +396,17 @@ std::vector<item> game::multidrop()
       print_inv_statics(this, w_inv, "Multidrop:", weapon_and_armor);
      }
     }
-   } else {   
-    if (count == 0) {  
+   } else {
+    if (count == 0) {
     if (u.inv.stack_at(index)[0].count_by_charges())
-      {  
+      {
        if (dropping[index] == 0)
         dropping[index] = -1;
        else
         dropping[index] = 0;
-      } 
+      }
     else
-      {  
+      {
        if (dropping[index] == 0)
         dropping[index] = u.inv.stack_at(index).size();
        else
@@ -415,13 +415,13 @@ std::vector<item> game::multidrop()
     }
 
     else if (count >= u.inv.stack_at(index).size() && !u.inv.stack_at(index)[0].count_by_charges())
-       dropping[index] = u.inv.stack_at(index).size();                 
+       dropping[index] = u.inv.stack_at(index).size();
     else
       dropping[index] = count;
 
    count = 0;
   }
-  } 
+  }
  } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
  werase(w_inv);
  delwin(w_inv);
@@ -438,31 +438,31 @@ std::vector<item> game::multidrop()
  for (int i = 0; i < max_size; i++) {
 
   if (dropping[i] == -1) {  // drop whole stack of charges
-    ret.push_back(u.inv.remove_item(current_stack));
-    current_stack--;  
-  } 
- 
-    for (int j = 0; j < dropping[i]; j++) {    
+   ret.push_back(u.inv.remove_item(current_stack));
+   current_stack--;
+  }
+
+  for (int j = 0; j < dropping[i]; j++) {
    if (u.inv.stack_at(current_stack)[0].count_by_charges()) {      // dropping parts of stacks
-        int tmpcount = dropping[i];
-        
+    int tmpcount = dropping[i];
+
     if (tmpcount >= u.inv.stack_at(current_stack)[0].charges) {
-          ret.push_back(u.inv.remove_item(current_stack));
-          current_stack--;
+      ret.push_back(u.inv.remove_item(current_stack));
+      current_stack--;
     } else {
-          u.inv.stack_at(current_stack)[0].charges -= tmpcount;
-          ret.push_back(u.inv.remove_item_by_quantity(current_stack, tmpcount));
-        }      
-          j = dropping[i];
+      u.inv.stack_at(current_stack)[0].charges -= tmpcount;
+      ret.push_back(u.inv.remove_item_by_quantity(current_stack, tmpcount));
+    }
+    j = dropping[i];
    } else {
-      if (current_stack >= 0) {
-      if (u.inv.stack_at(current_stack).size() == 1) {
-       ret.push_back(u.inv.remove_item(current_stack));
-       current_stack--;
-      } else
-       ret.push_back(u.inv.remove_item(current_stack));
-      }
-    }  
+    if (current_stack >= 0) {
+    if (u.inv.stack_at(current_stack).size() == 1) {
+     ret.push_back(u.inv.remove_item(current_stack));
+     current_stack--;
+    } else
+     ret.push_back(u.inv.remove_item(current_stack));
+    }
+   }
   }
   current_stack++;
  }

@@ -1,7 +1,6 @@
 #ifndef _COLOR_H_
 #define _COLOR_H
 
-
 #ifndef _COLOR_LIST_
 #define _COLOR_LIST_
 

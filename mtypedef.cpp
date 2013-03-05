@@ -95,8 +95,8 @@ ANGER(MTRIG_TIME, MTRIG_PLAYER_WEAK, MTRIG_HURT);
 PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
 
-mon("crow",	species_mammal, 'v',	c_dkgray,	MS_TINY,	FLESH,
-//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+mon("crow",	species_mammal, 'v',	c_dkgray,	MS_TINY,	FLESH, 
+//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq  // OddzBall likes crows
 	 3,  10,-99, -8,140,  0,  1,  1,  0,  4,  0,  0,  0,  1,  0,
 	&mdeath::normal,	&mattack::none, "\
 A small woodland animal."

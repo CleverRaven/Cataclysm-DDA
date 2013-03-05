@@ -1249,7 +1249,6 @@ std::string dis_name(disease dis)
 
  case DI_GRACK:         return "RELEASE THE GRACKEN!!!!";
 
-
  case DI_METH:
   if (dis.duration > 600) return "High on Meth";
                           return "Meth Comedown";

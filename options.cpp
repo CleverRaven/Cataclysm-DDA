@@ -205,7 +205,7 @@ bool option_is_bool(option_key id)
   case OPT_INITIAL_POINTS:
   case OPT_VIEWPORT_X:
   case OPT_VIEWPORT_Y:
-    return false;
+   return false;
     break;
   default:
    return true;

@@ -139,7 +139,7 @@ class iuse
   void growth		(game *g, player *p, item *it, bool t);
   void water		(game *g, player *p, item *it, bool t);
   void lava		(game *g, player *p, item *it, bool t);
-  
+
 };
 
 #endif

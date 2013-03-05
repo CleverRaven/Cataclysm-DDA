@@ -111,7 +111,7 @@ public:
  bool is_food_container(player *u);  // Ditto
  bool is_food();                // Ignoring the ability to eat batteries, etc.
  bool is_food_container();      // Ignoring the ability to eat batteries, etc.
- bool is_ammo_container();      
+ bool is_ammo_container();
  bool is_drink();
  bool is_weap();
  bool is_bashing_weapon();
@@ -144,11 +144,11 @@ public:
  int charges;
  bool active;           // If true, it has active effects to be processed
  signed char damage;    // How much damage it's sustained; generally, max is 5
- char burnt;		// How badly we're burnt
+ char burnt;	         // How badly we're burnt
  unsigned int bday;     // The turn on which it was created
- int owned;		// UID of NPC owner; 0 = player, -1 = unowned
+ int owned;	            // UID of NPC owner; 0 = player, -1 = unowned
  union{
- int poison;		// How badly poisoned is it?
+   int poison;	         // How badly poisoned is it?
    int bigness;         // engine power, wheel size
  };
  int mode;              // Mode of operation, can be changed by the player.

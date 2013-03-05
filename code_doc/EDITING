@@ -18,7 +18,7 @@ ADDITIONS
 1.2 Adding a monster
  1) Edit mtype.h.  Change the enum mon_id and insert a unique identifier for
     your new monster type.  Be sure to put it among similar monsters.
- 2) Edit mtypedef.cpp.  A macro is used for monsters and it is pretty
+ 2) Edit montypedef.cpp.  A macro is used for monsters and it is pretty
     straightforward (Any of this ring a bell?).  Be ABSOLUTELY sure that you
     insert the macro at the same point in the list as your inserted the
     identifier in mon_id!

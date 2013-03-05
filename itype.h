@@ -28,7 +28,7 @@ enum item_cat
   IC_GUN,
   IC_BOOK,
   IC_TOOL,
-  IC_CONTAINER 
+  IC_CONTAINER
 };
 
 
@@ -137,7 +137,7 @@ itm_backpack, itm_rucksack, itm_purse, itm_mbag, itm_fanny, itm_holster, itm_boo
 // Decorative
 itm_ring, itm_necklace,
 // Ammunition
- itm_battery, itm_thread,  itm_duct_tape, itm_cable, itm_plut_cell, 
+ itm_battery, itm_thread,  itm_duct_tape, itm_cable, itm_plut_cell,
  itm_nail, itm_bb, itm_arrow_wood, itm_arrow_cf,
  itm_bolt_wood, itm_bolt_steel, itm_shot_bird, itm_shot_00, itm_shot_slug,
  itm_shot_he, itm_22_lr, itm_22_cb, itm_22_ratshot, itm_9mm, itm_9mmP,
@@ -149,9 +149,9 @@ itm_ring, itm_necklace,
  itm_40mm_teargas, itm_40mm_smoke, itm_40mm_flashbang, itm_12mm, itm_plasma,
  itm_charge_shot,
  itm_shot_hull,
- itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing, 
+ itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing,
  itm_57mm_casing, itm_46mm_casing, itm_762_casing, itm_223_casing,
- itm_3006_casing, itm_308_casing, itm_40mm_casing, itm_gunpowder, 
+ itm_3006_casing, itm_308_casing, itm_40mm_casing, itm_gunpowder,
  itm_shotgun_primer, itm_smpistol_primer, itm_lgpistol_primer,
  itm_smrifle_primer, itm_lgrifle_primer, itm_lead, itm_incendiary, itm_gasoline,
 // Guns
@@ -177,7 +177,7 @@ itm_silencer, itm_grip, itm_barrel_big, itm_barrel_small, itm_barrel_rifled,
  itm_m203, itm_bayonet, itm_u_shotgun, itm_gun_crossbow,
 // Books
  itm_mag_porn, itm_mag_tv, itm_mag_news, itm_mag_cars, itm_mag_cooking,
- itm_mag_carpentry, 
+ itm_mag_carpentry,
  itm_mag_guns, itm_novel_romance, itm_novel_spy, itm_novel_scifi,
  itm_novel_drama, itm_manual_brawl, itm_manual_knives, itm_manual_mechanics, itm_manual_survival,
  itm_manual_speech, itm_manual_business, itm_manual_first_aid,
@@ -517,11 +517,11 @@ struct it_comest : public itype
  virtual bool is_food() { return true; }
 // virtual bool count_by_charges() { return charges >= 1 ; }
 
- virtual bool count_by_charges() 
- { 
+ virtual bool count_by_charges()
+ {
   if (m1 == LIQUID) return true;
   else
-  return charges > 1 ; 
+  return charges > 1 ;
  }
 
 

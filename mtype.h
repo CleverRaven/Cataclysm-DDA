@@ -120,7 +120,7 @@ std::vector<monster_trigger> default_fears(monster_species spec);
 enum m_flag {
 MF_NULL = 0,	// Helps with setvector
 MF_SEES,	// It can see you (and will run/follow)
-MF_VIS50,   //Vision -10
+MF_VIS50,   //Vision -10  //OddzBall Vision System!
 MF_VIS40,  //Vision -20
 MF_VIS30,  //Vision -30
 MF_VIS20, //Vision -40
@@ -199,7 +199,7 @@ struct mtype {
  unsigned char sp_freq;			// How long sp_attack takes to charge
  void (mdeath::*dies)(game *, monster *); // What happens when this monster dies
  void (mattack::*sp_attack)(game *, monster *); // This monster's special attack
- 
+
 
  // Default constructor
  mtype () {
@@ -241,9 +241,9 @@ struct mtype {
         unsigned char psp_freq,
         void (mdeath::*pdies)      (game *, monster *),
         void (mattack::*psp_attack)(game *, monster *),
-        std::string pdescription ) { 
-  id = pid; 
-  name = pname; 
+        std::string pdescription ) {
+  id = pid;
+  name = pname;
   species = pspecies;
   sym = psym;
   color = pcolor;

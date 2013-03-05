@@ -28,6 +28,7 @@ struct oter_t {
  bool known_down;
  bool known_up;
 };
+
 const map_extras no_extras(0);
 const map_extras road_extras(
 // %%% HEL MIL SCI STA DRG SUP PRT MIN WLF CGR PUD CRT FUM 1WY ART
@@ -458,7 +459,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 
 {ot_cabin,   0, 30, 20, -1, mcat_null, 0, 0, 0, 0,  // Woods cabin
  &omspec_place::forest, 0},
- 
+
  {ot_lmoe,   0, 3, 20, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, 0},
 
@@ -535,7 +536,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::wilderness,0}
 
 };
- 
+
 // Overmap "Zones"
 // Areas which have special post-generation processing attached to them
 

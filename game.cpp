@@ -388,10 +388,10 @@ fivedozenwhales@gmail.com.");
    } else if (sel1 == 3) {  // Delete world
     if (query_yn("Delete the world and all saves?")) {
      delete_save();
-      savegames.clear();
+     savegames.clear();
      MAPBUFFER.reset();
      MAPBUFFER.make_volatile();
-     }
+    }
 
     layer = 1;
    } else if (sel1 == 4) {	// Special game
@@ -568,9 +568,9 @@ void game::create_starting_npcs()
 }
 
 void game::cleanup_at_end(){
-  write_msg();
+ write_msg();
 
-// Save the monsters before we die!
+ // Save the monsters before we die!
  despawn_monsters();
  if (uquit == QUIT_DIED)
   popup_top("Game over! Press spacebar...");
@@ -2088,8 +2088,10 @@ void game::load(std::string name)
  turn = tmpturn;
  nextspawn = tmpspawn;
  nextweather = tmpnextweather;
+
  cur_om = overmap(this, comx, comy, levz);
  m.load(this, levx, levy);
+
  run_mode = tmprun;
  if (OPTIONS[OPT_SAFEMODE] && run_mode == 0)
   run_mode = 1;
@@ -3240,7 +3242,7 @@ faction* game::random_evil_faction()
  return &(factions[factions.size() - 1]);
 }
 
-bool game::sees_u( int x, int y, int &t)
+bool game::sees_u(int x, int y, int &t)
 {
  // TODO: [lightmap] Apply default monster vison levels here
  //                  the light map should deal lighting from player or fires
@@ -3402,7 +3404,7 @@ void game::mon_info()
     mon_dangerous = true;
 
     if (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= iProxyDist)
-    newseen++;
+     newseen++;
    }
 
    dir_to_mon = direction_from(u.posx + u.view_offset_x, u.posy + u.view_offset_y,
@@ -3421,7 +3423,7 @@ void game::mon_info()
   if (u_see(active_npc[i].posx, active_npc[i].posy, buff)) { // TODO: NPC invis
    if (active_npc[i].attitude == NPCATT_KILL)
     if (rl_dist(u.posx, u.posy, active_npc[i].posx, active_npc[i].posy) <= iProxyDist)
-    newseen++;
+     newseen++;
 
    point npcp(active_npc[i].posx, active_npc[i].posy);
    dir_to_npc = direction_from ( u.posx + u.view_offset_x, u.posy + u.view_offset_y,
@@ -4902,48 +4904,48 @@ void game::examine()
    add_msg("The nearby doors slide into the floor.");
    u.use_amount(card_type, 1);
   } else {
-  bool using_electrohack = (u.has_amount(itm_electrohack, 1) &&
-                            query_yn("Use electrohack on the reader?"));
-  bool using_fingerhack = (!using_electrohack && u.has_bionic(bio_fingerhack) &&
-                           u.power_level > 0 &&
-                           query_yn("Use fingerhack on the reader?"));
-  if (using_electrohack || using_fingerhack) {
-   u.moves -= 500;
-   u.practice("computer", 20);
-   int success = rng(u.skillLevel("computer").level() / 4 - 2, u.skillLevel("computer").level() * 2);
-   success += rng(-3, 3);
-   if (using_fingerhack)
-    success++;
-   if (u.int_cur < 8)
-    success -= rng(0, int((8 - u.int_cur) / 2));
-   else if (u.int_cur > 8)
-    success += rng(0, int((u.int_cur - 8) / 2));
-   if (success < 0) {
-    add_msg("You cause a short circuit!");
-    if (success <= -5) {
-     if (using_electrohack) {
-      add_msg("Your electrohack is ruined!");
-      u.use_amount(itm_electrohack, 1);
-     } else {
-      add_msg("Your power is drained!");
-      u.charge_power(0 - rng(0, u.power_level));
+   bool using_electrohack = (u.has_amount(itm_electrohack, 1) &&
+                             query_yn("Use electrohack on the reader?"));
+   bool using_fingerhack = (!using_electrohack && u.has_bionic(bio_fingerhack) &&
+                            u.power_level > 0 &&
+                            query_yn("Use fingerhack on the reader?"));
+   if (using_electrohack || using_fingerhack) {
+    u.moves -= 500;
+    u.practice("computer", 20);
+    int success = rng(u.skillLevel("computer").level() / 4 - 2, u.skillLevel("computer").level() * 2);
+    success += rng(-3, 3);
+    if (using_fingerhack)
+     success++;
+    if (u.int_cur < 8)
+     success -= rng(0, int((8 - u.int_cur) / 2));
+    else if (u.int_cur > 8)
+     success += rng(0, int((u.int_cur - 8) / 2));
+    if (success < 0) {
+     add_msg("You cause a short circuit!");
+     if (success <= -5) {
+      if (using_electrohack) {
+       add_msg("Your electrohack is ruined!");
+       u.use_amount(itm_electrohack, 1);
+      } else {
+       add_msg("Your power is drained!");
+       u.charge_power(0 - rng(0, u.power_level));
+      }
      }
-    }
-    m.ter(examx, examy) = t_card_reader_broken;
-   } else if (success < 6)
-    add_msg("Nothing happens.");
-   else {
-    add_msg("You activate the panel!");
-    add_msg("The nearby doors slide into the floor.");
-    m.ter(examx, examy) = t_card_reader_broken;
-    for (int i = -3; i <= 3; i++) {
-     for (int j = -3; j <= 3; j++) {
-      if (m.ter(examx + i, examy + j) == t_door_metal_locked)
-       m.ter(examx + i, examy + j) = t_floor;
+     m.ter(examx, examy) = t_card_reader_broken;
+    } else if (success < 6)
+     add_msg("Nothing happens.");
+    else {
+     add_msg("You activate the panel!");
+     add_msg("The nearby doors slide into the floor.");
+     m.ter(examx, examy) = t_card_reader_broken;
+     for (int i = -3; i <= 3; i++) {
+      for (int j = -3; j <= 3; j++) {
+       if (m.ter(examx + i, examy + j) == t_door_metal_locked)
+        m.ter(examx + i, examy + j) = t_floor;
+      }
      }
     }
    }
-  }
   }
  } else if (m.ter(examx, examy) == t_elevator_control &&
             query_yn("Activate elevator?")) {
@@ -5288,20 +5290,20 @@ shape, but with long, twisted, distended limbs.");
  }
  //-----Jovan's-----
  //flowers
-    else if ((m.ter(examx, examy)==t_mutpoppy)&&(query_yn("Pick the flower?"))) {
-        add_msg("This flower has a heady aroma");
-        if (!(u.is_wearing(itm_mask_filter)||u.is_wearing(itm_mask_gas) ||
-            one_in(3)))  {
-        add_msg("You fall asleep...");
-        u.add_disease(DI_SLEEP, 1200, this);
-        add_msg("Your legs are covered by flower's roots!");
-        u.hurt(this,bp_legs, 0, 4);
-        u.moves-=50;
-        }
-        m.ter(examx, examy) = t_dirt;
-        m.add_item(examx, examy, this->itypes[itm_poppy_flower],0);
-        m.add_item(examx, examy, this->itypes[itm_poppy_bud],0);
-    }
+ else if ((m.ter(examx, examy)==t_mutpoppy)&&(query_yn("Pick the flower?"))) {
+  add_msg("This flower has a heady aroma");
+  if (!(u.is_wearing(itm_mask_filter)||u.is_wearing(itm_mask_gas) ||
+      one_in(3)))  {
+   add_msg("You fall asleep...");
+   u.add_disease(DI_SLEEP, 1200, this);
+   add_msg("Your legs are covered by flower's roots!");
+   u.hurt(this,bp_legs, 0, 4);
+   u.moves-=50;
+  }
+  m.ter(examx, examy) = t_dirt;
+  m.add_item(examx, examy, this->itypes[itm_poppy_flower],0);
+  m.add_item(examx, examy, this->itypes[itm_poppy_bud],0);
+ }
 // apple trees
  else if ((m.ter(examx, examy)==t_tree_apple) && (query_yn("Pick apples?")))
  {
@@ -5334,36 +5336,36 @@ shape, but with long, twisted, distended limbs.");
   u.moves = 0;
  }
 
-//-----Recycling machine-----
-   else if ((m.ter(examx, examy)==t_recycler)&&(query_yn("Use the recycler?"))) {
-        if (m.i_at(examx, examy).size() > 0)
-        {
-          sound(examx, examy, 80, "Ka-klunk!");
-          int num_metal = 0;
-          for (int i = 0; i < m.i_at(examx, examy).size(); i++)
-          {
-            item *it = &(m.i_at(examx, examy)[i]);
-            if (it->made_of(STEEL))
-            num_metal++;
-            m.i_at(examx, examy).erase(m.i_at(examx, examy).begin() + i);
-            i--;
-          }
-          if (num_metal > 0)
-          {
-            while (num_metal > 9)
-            {
-              m.add_item(u.posx, u.posy, this->itypes[itm_steel_lump], 0);
-              num_metal -= 10;
-            }
-            do
-            {
-              m.add_item(u.posx, u.posy, this->itypes[itm_steel_chunk], 0);
-              num_metal -= 3;
-            } while (num_metal > 2);
-          }
-        }
-        else add_msg("The recycler is empty.");
+ //-----Recycling machine-----
+ else if ((m.ter(examx, examy)==t_recycler)&&(query_yn("Use the recycler?"))) {
+  if (m.i_at(examx, examy).size() > 0)
+  {
+   sound(examx, examy, 80, "Ka-klunk!");
+   int num_metal = 0;
+   for (int i = 0; i < m.i_at(examx, examy).size(); i++)
+   {
+    item *it = &(m.i_at(examx, examy)[i]);
+    if (it->made_of(STEEL))
+     num_metal++;
+    m.i_at(examx, examy).erase(m.i_at(examx, examy).begin() + i);
+    i--;
+   }
+   if (num_metal > 0)
+   {
+    while (num_metal > 9)
+    {
+     m.add_item(u.posx, u.posy, this->itypes[itm_steel_lump], 0);
+     num_metal -= 10;
     }
+    do
+    {
+     m.add_item(u.posx, u.posy, this->itypes[itm_steel_chunk], 0);
+     num_metal -= 3;
+    } while (num_metal > 2);
+   }
+  }
+  else add_msg("The recycler is empty.");
+ }
 
  //-----------------
  if (m.tr_at(examx, examy) != tr_null &&
@@ -5452,18 +5454,18 @@ point game::look_around()
     z[mon_at(lx, ly)].draw(w_terrain, lx, ly, true);
     z[mon_at(lx, ly)].print_info(this, w_look);
     if (!m.has_flag(container, lx, ly))
-    if (m.i_at(lx, ly).size() > 1)
-     mvwprintw(w_look, 3, 1, "There are several items there.");
-    else if (m.i_at(lx, ly).size() == 1)
-     mvwprintw(w_look, 3, 1, "There is an item there.");
+     if (m.i_at(lx, ly).size() > 1)
+      mvwprintw(w_look, 3, 1, "There are several items there.");
+     else if (m.i_at(lx, ly).size() == 1)
+      mvwprintw(w_look, 3, 1, "There is an item there.");
    } else if (npc_at(lx, ly) != -1) {
     active_npc[npc_at(lx, ly)].draw(w_terrain, lx, ly, true);
     active_npc[npc_at(lx, ly)].print_info(w_look);
     if (!m.has_flag(container, lx, ly))
-    if (m.i_at(lx, ly).size() > 1)
-     mvwprintw(w_look, 3, 1, "There are several items there.");
-    else if (m.i_at(lx, ly).size() == 1)
-     mvwprintw(w_look, 3, 1, "There is an item there.");
+     if (m.i_at(lx, ly).size() > 1)
+      mvwprintw(w_look, 3, 1, "There are several items there.");
+     else if (m.i_at(lx, ly).size() == 1)
+      mvwprintw(w_look, 3, 1, "There is an item there.");
    } else if (veh) {
      mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
      veh->print_part_desc(w_look, 4, 48, veh_part);
@@ -6811,7 +6813,7 @@ void game::complete_butcher(int index)
     if(corpse->has_flag(MF_HUMAN))
      meat = itypes[itm_human_flesh];
     else
-    meat = itypes[itm_meat];
+     meat = itypes[itm_meat];
    else
     meat = itypes[itm_veggy];
   }
@@ -7147,10 +7149,10 @@ void game::wield(char chInput)
  }
  char ch;
  if (chInput == '.') {
- if (u.styles.empty())
-  ch = inv("Wield item:");
- else
-  ch = inv("Wield item: Press - to choose a style");
+  if (u.styles.empty())
+   ch = inv("Wield item:");
+  else
+   ch = inv("Wield item: Press - to choose a style");
  } else
   ch = chInput;
 
@@ -7812,7 +7814,7 @@ void game::vertical_move(int movez, bool force)
   monstairy = levy;
   monstairz = original_z;
   despawn_monsters(true);
-   }
+ }
  z.clear();
 
 // Figure out where we know there are up/down connectors
@@ -7936,7 +7938,7 @@ void game::update_map(int &x, int &y)
  // Shift monsters
  despawn_monsters(false, shiftx, shifty);
 
-// Shift NPCs
+ // Shift NPCs
  for (int i = 0; i < active_npc.size(); i++) {
   active_npc[i].shift(shiftx, shifty);
   if (active_npc[i].posx < 0 - SEEX * 2 ||
@@ -8262,8 +8264,8 @@ void game::spawn_mon(int shiftx, int shifty)
   if (dist <= rad) {
 // (The area of the group's territory) in (population/square at this range)
 // chance of adding one monster; cap at the population OR 16
-   while ( (cur_om.zg[i].diffuse ? 
-            long( pop) : 
+   while ( (cur_om.zg[i].diffuse ?
+            long( pop) :
             long((1.0 - double(dist / rad)) * pop) )
 	  > rng(0, pow(rad, 2.0)) &&
           rng(0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)

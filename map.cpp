@@ -1,4 +1,4 @@
-#include "map.h"
+#   include "map.h"
 #include "lightmap.h"
 #include "output.h"
 #include "rng.h"
@@ -182,7 +182,7 @@ void map::clear_vehicle_cache()
   }
   veh_cached_parts.erase(part);
  }
-} 
+}
 
 void map::update_vehicle_list(const int to) {
  // Update vehicle data
@@ -337,7 +337,7 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
   player *psg = psgs[i];
   const int p = psg_parts[i];
   if (!psg) {
-   debugmsg ("empty passenger part %d pcoord=%d,%d u=%d,%d?", p, 
+   debugmsg ("empty passenger part %d pcoord=%d,%d u=%d,%d?", p,
              veh->global_x() + veh->parts[p].precalc_dx[0],
              veh->global_y() + veh->parts[p].precalc_dy[0],
                       g->u.posx, g->u.posy);
@@ -401,14 +401,14 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
 
 void map::vehmove(game *g)
 {
- // give vehicles movement points
+   // give vehicles movement points
    {
       VehicleList vehs = g->m.get_vehicles();
       for(int v = 0; v < vehs.size(); ++v) {
          vehicle* veh = vehs[v].v;
-    veh->gain_moves (abs (veh->velocity));
+         veh->gain_moves (abs (veh->velocity));
+      }
    }
-  }
 
    int count = 0;
    while(vehproceed(g)){
@@ -444,7 +444,7 @@ bool map::vehproceed(game* g){
       return true;
    }
 
-     bool pl_ctrl = veh->player_in_control(&g->u);
+   bool pl_ctrl = veh->player_in_control(&g->u);
 
    // k slowdown first.
    int slowdown = veh->skidding? 200 : 20; // mph lost per tile when coasting
@@ -481,9 +481,9 @@ bool map::vehproceed(game* g){
       if (num_wheels &&  (float)submerged_wheels / num_wheels > .666){
          g->add_msg ("Your %s sank.", veh->name.c_str());
          if (pl_ctrl)
-       veh->unboard_all ();
-// destroy vehicle (sank to nowhere)
-       destroy_vehicle(veh);
+            veh->unboard_all ();
+         // destroy vehicle (sank to nowhere)
+         destroy_vehicle(veh);
          return true;
       }
    }
@@ -504,65 +504,65 @@ bool map::vehproceed(game* g){
 
    // if not enough wheels, mess up the ground a bit.
    if (!veh->valid_wheel_config()) {
-       veh->velocity += veh->velocity < 0 ? 2000 : -2000;
-       for (int ep = 0; ep < veh->external_parts.size(); ep++) {
-        const int p = veh->external_parts[ep];
-        const int px = x + veh->parts[p].precalc_dx[0];
-        const int py = y + veh->parts[p].precalc_dy[0];
-        ter_id &pter = ter(px, py);
-        if (pter == t_dirt || pter == t_grass)
-         pter = t_dirtmound;
-       }
+      veh->velocity += veh->velocity < 0 ? 2000 : -2000;
+      for (int ep = 0; ep < veh->external_parts.size(); ep++) {
+         const int p = veh->external_parts[ep];
+         const int px = x + veh->parts[p].precalc_dx[0];
+         const int py = y + veh->parts[p].precalc_dy[0];
+         ter_id &pter = ter(px, py);
+         if (pter == t_dirt || pter == t_grass)
+            pter = t_dirtmound;
+      }
    }
 
    if (veh->skidding){
       if (one_in(4)){ // might turn uncontrollably while skidding
-       veh->move.init (veh->move.dir() +
-                       (one_in(2) ? -15 * rng(1, 3) : 15 * rng(1, 3)));
+         veh->move.init (veh->move.dir() +
+               (one_in(2) ? -15 * rng(1, 3) : 15 * rng(1, 3)));
       }
    }
-      else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving").level() && one_in(20)) {
-       g->add_msg("You fumble with the %s's controls.", veh->name.c_str());
-       veh->turn (one_in(2) ? -15 : 15);
-      }
- // eventually send it skidding if no control
-      if (!veh->boarded_parts().size() && one_in (10))
-       veh->skidding = true;
-      tileray mdir; // the direction we're moving
-      if (veh->skidding) // if skidding, it's the move vector
-       mdir = veh->move;
-      else if (veh->turn_dir != veh->face.dir())
-       mdir.init (veh->turn_dir); // driver turned vehicle, get turn_dir
-      else
-       mdir = veh->face;          // not turning, keep face.dir
-      mdir.advance (veh->velocity < 0? -1 : 1);
-      const int dx = mdir.dx();           // where do we go
-      const int dy = mdir.dy();           // where do we go
-      bool can_move = true;
-// calculate parts' mount points @ next turn (put them into precalc[1])
-      veh->precalc_mounts(1, veh->skidding ? veh->turn_dir : mdir.dir());
+   else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving").level() && one_in(20)) {
+      g->add_msg("You fumble with the %s's controls.", veh->name.c_str());
+      veh->turn (one_in(2) ? -15 : 15);
+   }
+   // eventually send it skidding if no control
+   if (!veh->boarded_parts().size() && one_in (10))
+      veh->skidding = true;
+   tileray mdir; // the direction we're moving
+   if (veh->skidding) // if skidding, it's the move vector
+      mdir = veh->move;
+   else if (veh->turn_dir != veh->face.dir())
+      mdir.init (veh->turn_dir); // driver turned vehicle, get turn_dir
+   else
+      mdir = veh->face;          // not turning, keep face.dir
+   mdir.advance (veh->velocity < 0? -1 : 1);
+   const int dx = mdir.dx();           // where do we go
+   const int dy = mdir.dy();           // where do we go
+   bool can_move = true;
+   // calculate parts' mount points @ next turn (put them into precalc[1])
+   veh->precalc_mounts(1, veh->skidding ? veh->turn_dir : mdir.dir());
 
-      int imp = 0;
+   int imp = 0;
 
    std::vector<veh_collision> veh_veh_colls;
 
    if (veh->velocity == 0)
       can_move = false;
-// find collisions
+   // find collisions
    for (int ep = 0; ep < veh->external_parts.size() && can_move; ep++) {
-       const int p = veh->external_parts[ep];
-// coords of where part will go due to movement (dx/dy)
-// and turning (precalc_dx/dy [1])
-       const int dsx = x + dx + veh->parts[p].precalc_dx[1];
-       const int dsy = y + dy + veh->parts[p].precalc_dy[1];
+      const int p = veh->external_parts[ep];
+      // coords of where part will go due to movement (dx/dy)
+      // and turning (precalc_dx/dy [1])
+      const int dsx = x + dx + veh->parts[p].precalc_dx[1];
+      const int dsy = y + dy + veh->parts[p].precalc_dy[1];
       veh_collision coll = veh->part_collision (x, y, p, dsx, dsy);
       if(coll.type == veh_coll_veh)
          veh_veh_colls.push_back(coll);
       else if (coll.type != veh_coll_nothing){ //run over someone?
-       if (can_move)
+         if (can_move)
             imp += coll.imp;
-       if (veh->velocity == 0)
-        can_move = false;
+         if (veh->velocity == 0)
+            can_move = false;
       }
    }
 
@@ -617,119 +617,120 @@ bool map::vehproceed(game* g){
       return true;
    }
 
-      int coll_turn = 0;
+   int coll_turn = 0;
    if (imp > 0) { // imp == impulse from collisions
-// debugmsg ("collision imp=%d dam=%d-%d", imp, imp/10, imp/6);
-       if (imp > 100)
-        veh->damage_all(imp / 20, imp / 10, 1);// shake veh because of collision
-       std::vector<int> ppl = veh->boarded_parts();
-       const int vel2 = imp * k_mvel * 100 / (veh->total_mass() / 8);
-       for (int ps = 0; ps < ppl.size(); ps++) {
-        player *psg = veh->get_passenger (ppl[ps]);
-        if (!psg) {
-         debugmsg ("throw passenger: empty passenger at part %d", ppl[ps]);
-         continue;
-        }
-        const int throw_roll = rng (vel2/100, vel2/100 * 2);
-        const int psblt = veh->part_with_feature (ppl[ps], vpf_seatbelt);
-        const int sb_bonus = psblt >= 0? veh->part_info(psblt).bonus : 0;
+      // debugmsg ("collision imp=%d dam=%d-%d", imp, imp/10, imp/6);
+      if (imp > 100)
+         veh->damage_all(imp / 20, imp / 10, 1);// shake veh because of collision
+      std::vector<int> ppl = veh->boarded_parts();
+      const int vel2 = imp * k_mvel * 100 / (veh->total_mass() / 8);
+      for (int ps = 0; ps < ppl.size(); ps++) {
+         player *psg = veh->get_passenger (ppl[ps]);
+         if (!psg) {
+            debugmsg ("throw passenger: empty passenger at part %d", ppl[ps]);
+            continue;
+         }
+         const int throw_roll = rng (vel2/100, vel2/100 * 2);
+         const int psblt = veh->part_with_feature (ppl[ps], vpf_seatbelt);
+         const int sb_bonus = psblt >= 0? veh->part_info(psblt).bonus : 0;
          bool throw_from_seat = throw_roll > (psg->str_cur + sb_bonus) * 3;
 
-        std::string psgname, psgverb;
-        if (psg == &g->u) {
-         psgname = "You";
-         psgverb = "were";
-        } else {
-         psgname = psg->name;
-         psgverb = "was";
-        }
-         if (throw_from_seat) {
-         if (psgname.length())
-          g->add_msg("%s %s hurled from the %s's seat by the power of impact!",
-                      psgname.c_str(), psgverb.c_str(), veh->name.c_str());
-         g->m.unboard_vehicle(g, x + veh->parts[ppl[ps]].precalc_dx[0],
-                                 y + veh->parts[ppl[ps]].precalc_dy[0]);
-         g->fling_player_or_monster(psg, 0, mdir.dir() + rng(0, 60) - 30,
-                                    (vel2/100 - sb_bonus < 10 ? 10 :
-                                     vel2/100 - sb_bonus));
-        } else if (veh->part_with_feature (ppl[ps], vpf_controls) >= 0) {
-         const int lose_ctrl_roll = rng (0, imp);
-         if (lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving").level() * 3) {
-          if (psgname.length())
-           g->add_msg ("%s lose%s control of the %s.", psgname.c_str(),
-                       (psg == &g->u ? "" : "s"), veh->name.c_str());
-          int turn_amount = (rng (1, 3) * sqrt (vel2) / 2) / 15;
-          if (turn_amount < 1)
-           turn_amount = 1;
-          turn_amount *= 15;
-          if (turn_amount > 120)
-           turn_amount = 120;
-          //veh->skidding = true;
-          //veh->turn (one_in (2)? turn_amount : -turn_amount);
-          coll_turn = one_in (2)? turn_amount : -turn_amount;
+         std::string psgname, psgverb;
+         if (psg == &g->u) {
+            psgname = "You";
+            psgverb = "were";
+         } else {
+            psgname = psg->name;
+            psgverb = "was";
          }
-        }
-       }
-      }
-// now we're gonna handle traps we're standing on (if we're still moving).
-// this is done here before displacement because
-// after displacement veh reference would be invdalid.
-// damn references!
-      if (can_move) {
-       for (int ep = 0; ep < veh->external_parts.size(); ep++) {
-        const int p = veh->external_parts[ep];
-        if (veh->part_flag(p, vpf_wheel) && one_in(2))
-         if (displace_water (x + veh->parts[p].precalc_dx[0], y + veh->parts[p].precalc_dy[0]) && pl_ctrl)
-          g->add_msg ("You hear a splash!");
-        veh->handle_trap(x + veh->parts[p].precalc_dx[0],
-                         y + veh->parts[p].precalc_dy[0], p);
-       }
-      }
+         if (throw_from_seat) {
+            if (psgname.length())
+               g->add_msg("%s %s hurled from the %s's seat by the power of impact!",
+                     psgname.c_str(), psgverb.c_str(), veh->name.c_str());
+            g->m.unboard_vehicle(g, x + veh->parts[ppl[ps]].precalc_dx[0],
+                  y + veh->parts[ppl[ps]].precalc_dy[0]);
+            g->fling_player_or_monster(psg, 0, mdir.dir() + rng(0, 60) - 30,
+                  (vel2/100 - sb_bonus < 10 ? 10 :
+                   vel2/100 - sb_bonus));
+         } else if (veh->part_with_feature (ppl[ps], vpf_controls) >= 0) {
 
-      int last_turn_dec = 1;
-      if (veh->last_turn < 0) {
-       veh->last_turn += last_turn_dec;
-       if (veh->last_turn > -last_turn_dec)
-        veh->last_turn = 0;
-      } else if (veh->last_turn > 0) {
-       veh->last_turn -= last_turn_dec;
-       if (veh->last_turn < last_turn_dec)
-        veh->last_turn = 0;
+            const int lose_ctrl_roll = rng (0, imp);
+            if (lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving").level() * 3) {
+               if (psgname.length())
+                  g->add_msg ("%s lose%s control of the %s.", psgname.c_str(),
+                        (psg == &g->u ? "" : "s"), veh->name.c_str());
+               int turn_amount = (rng (1, 3) * sqrt (vel2) / 2) / 15;
+               if (turn_amount < 1)
+                  turn_amount = 1;
+               turn_amount *= 15;
+               if (turn_amount > 120)
+                  turn_amount = 120;
+               //veh->skidding = true;
+               //veh->turn (one_in (2)? turn_amount : -turn_amount);
+               coll_turn = one_in (2)? turn_amount : -turn_amount;
+            }
+         }
       }
+   }
+   // now we're gonna handle traps we're standing on (if we're still moving).
+   // this is done here before displacement because
+   // after displacement veh reference would be invdalid.
+   // damn references!
+   if (can_move) {
+      for (int ep = 0; ep < veh->external_parts.size(); ep++) {
+         const int p = veh->external_parts[ep];
+         if (veh->part_flag(p, vpf_wheel) && one_in(2))
+            if (displace_water (x + veh->parts[p].precalc_dx[0], y + veh->parts[p].precalc_dy[0]) && pl_ctrl)
+               g->add_msg ("You hear a splash!");
+         veh->handle_trap(x + veh->parts[p].precalc_dx[0],
+               y + veh->parts[p].precalc_dy[0], p);
+      }
+   }
 
-      if (pl_ctrl && veh->velocity) {
-// a bit of delay for animation
-// total delay is roughly one third of a second.
-       int ns_per_frame = abs ( (BILLION/3) / ( (float)veh->velocity / 1000) );
+   int last_turn_dec = 1;
+   if (veh->last_turn < 0) {
+      veh->last_turn += last_turn_dec;
+      if (veh->last_turn > -last_turn_dec)
+         veh->last_turn = 0;
+   } else if (veh->last_turn > 0) {
+      veh->last_turn -= last_turn_dec;
+      if (veh->last_turn < last_turn_dec)
+         veh->last_turn = 0;
+   }
+
+   if (pl_ctrl && veh->velocity) {
+      // a bit of delay for animation
+      // total delay is roughly one third of a second.
+      int ns_per_frame = abs ( (BILLION/3) / ( (float)veh->velocity / 1000) );
       if (ns_per_frame > BILLION/15)
          ns_per_frame = BILLION/15;
-       timespec ts;   // Timespec for the animation
-       ts.tv_sec = 0;
-       ts.tv_nsec = ns_per_frame;
-       nanosleep (&ts, 0);
-      }
+      timespec ts;   // Timespec for the animation
+      ts.tv_sec = 0;
+      ts.tv_nsec = ns_per_frame;
+      nanosleep (&ts, 0);
+   }
 
-      if (can_move) {
-// accept new direction
+   if (can_move) {
+      // accept new direction
       if (veh->skidding){
-        veh->face.init (veh->turn_dir);
+         veh->face.init (veh->turn_dir);
          veh->possibly_recover_from_skid();
       }
-       else
-        veh->face = mdir;
-       veh->move = mdir;
-       if (coll_turn) {
-        veh->skidding = true;
-        veh->turn (coll_turn);
-       }
-// accept new position
-// if submap changed, we need to process grid from the beginning.
+      else
+         veh->face = mdir;
+      veh->move = mdir;
+      if (coll_turn) {
+         veh->skidding = true;
+         veh->turn (coll_turn);
+      }
+      // accept new position
+      // if submap changed, we need to process grid from the beginning.
       displace_vehicle (g, x, y, dx, dy);
    } else { // can_move
-       veh->stop();
+      veh->stop();
    }
-// redraw scene
-      g->draw();
+   // redraw scene
+   g->draw();
    return true;
 }
 
@@ -773,7 +774,7 @@ ter_id& map::ter(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
   nulter = t_null;
-  return nulter;	// Out-of-bounds - null terrain 
+  return nulter;	// Out-of-bounds - null terrain
  }
 /*
  int nonant;
@@ -1027,7 +1028,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
  }
 
  switch (ter(x, y)) {
- 
+
  case t_chainfence_v:
  case t_chainfence_h:
   result = rng(0, 50);
@@ -1166,7 +1167,7 @@ case t_wall_log:
    return true;
   }
   break;
-  
+
   case t_fencegate_c:
   result = rng(0, has_adjacent_furniture(x, y) ? 30 : 40);
   if (res) *res = result;
@@ -1398,7 +1399,7 @@ case t_wall_log:
    return true;
   }
   break;
-  
+
  case t_bench:
  case t_chair:
  case t_desk:
@@ -2135,7 +2136,7 @@ void map::process_active_items(game *g)
   }
  }
 }
-     
+
 void map::process_active_items_in_submap(game *g, const int nonant)
 {
  it_tool* tmp;
@@ -2148,7 +2149,7 @@ void map::process_active_items_in_submap(game *g, const int nonant)
      if (!(*items)[n].is_tool()) { // It's probably a charger gun
       (*items)[n].active = false;
       (*items)[n].charges = 0;
-     } else { 
+     } else {
       tmp = dynamic_cast<it_tool*>((*items)[n].type);
       (use.*tmp->use)(g, &(g->u), &((*items)[n]), true);
       if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge ==0)
@@ -2248,7 +2249,7 @@ void map::use_charges(const point origin, const int range, const itype_id type, 
   }
  }
 }
- 
+
 trap_id& map::tr_at(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
@@ -2273,7 +2274,7 @@ trap_id& map::tr_at(const int x, const int y)
   nultrap = terlist[ grid[nonant]->ter[lx][ly] ].trap;
   return nultrap;
  }
- 
+
  return grid[nonant]->trp[lx][ly];
 }
 
@@ -2329,7 +2330,7 @@ void map::disarm_trap(game *g, const int x, const int y)
    g->u.practice("traps", 2*diff);
  }
 }
- 
+
 field& map::field_at(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
@@ -2466,7 +2467,7 @@ void map::draw(game *g, WINDOW* w, const point center)
     // and light level should do rest of the work....
     distance_to_look = DAYLIGHT_LEVEL;
    }
- 
+
    int diffx = (g->u.posx - center.x), diffy = (g->u.posy - center.y);
    bool can_see = g->lm.sees(diffx, diffy, realx - center.x, realy - center.y, distance_to_look);
    lit_level lit = g->lm.at(realx - center.x, realy - center.y);
@@ -2540,7 +2541,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  long sym = terlist[ter(x, y)].sym;
  bool hi = false;
  bool graf = false;
- bool normal_tercol = false, drew_field = false; 
+ bool normal_tercol = false, drew_field = false;
  if (u.has_disease(DI_BOOMERED))
   tercol = c_magenta;
  else if ((u.is_wearing(itm_goggles_nv) && u.has_active_item(itm_UPS_on)) ||
@@ -2639,7 +2640,7 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
  int y = Fy;
  int t = 0;
  int st;
- 
+
  if (range >= 0 && (abs(dx) > range || abs(dy) > range))
   return false;	// Out of range!
  if (ax > ay) { // Mostly-horizontal line
@@ -2702,7 +2703,7 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
  int y = Fy;
  int t = 0;
  int st;
- 
+
  if (range >= 0 && (abs(dx) > range || abs(dy) > range))
   return false;	// Out of range!
  if (ax > ay) { // Mostly-horizontal line
@@ -2927,8 +2928,6 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
  // Clear vehicle list and rebuild after shift
  clear_vehicle_cache();
  vehicle_list.clear();
-
-
 // Shift the map sx submaps to the right and sy submaps down.
 // sx and sy should never be bigger than +/-1.
 // wx and wy are our position in the world, for saving/loading purposes.
@@ -3127,7 +3126,7 @@ void map::spawn_monsters(game *g)
       tmp.friendly = -1;
      int fx = mx + gx * SEEX, fy = my + gy * SEEY;
 
-     while ((!g->is_empty(fx, fy) || !tmp.can_move_to(g->m, fx, fy)) && 
+     while ((!g->is_empty(fx, fy) || !tmp.can_move_to(g->m, fx, fy)) &&
             tries < 10) {
       mx = (grid[n]->spawns[i].posx + rng(-3, 3)) % SEEX;
       my = (grid[n]->spawns[i].posy + rng(-3, 3)) % SEEY;

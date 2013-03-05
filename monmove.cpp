@@ -48,7 +48,7 @@ bool monster::can_move_to(map &m, int x, int y)
 // Currently, this assumes we can see (x,y), so shouldn't be used in any other
 // circumstance (or else the monster will "phase" through solid terrain!)
 void monster::set_dest(int x, int y, int &t)
-{ 
+{
  plans.clear();
 // TODO: This causes a segfault, once in a blue moon!  Whyyyyy.
  plans = line_to(posx, posy, x, y, t);
@@ -157,7 +157,7 @@ void monster::plan(game *g)
    set_dest(g->active_npc[closest].posx, g->active_npc[closest].posy, stc);
  }
 }
- 
+
 // General movement.
 // Currently, priority goes:
 // 1) Special Attack
@@ -230,7 +230,7 @@ void monster::move(game *g)
  if (plans.size() > 0 && !is_fleeing(g->u) &&
      (mondex == -1 || g->z[mondex].friendly != 0 || has_flag(MF_ATTACKMON)) &&
      (can_move_to(g->m, plans[0].x, plans[0].y) ||
-      (plans[0].x == g->u.posx && plans[0].y == g->u.posy) || 
+      (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
      (g->m.has_flag(bashable, plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
   // CONCRETE PLANS - Most likely based on sight
   next = plans[0];
@@ -540,7 +540,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
    } else
     hit_player(g, p, false);
   }
-     
+
   if (tech == TEC_COUNTER && !is_npc) {
    g->add_msg("Counter-attack!");
    hurt( p.hit_mon(g, this) );
@@ -639,7 +639,7 @@ void monster::stumble(game *g, bool moved)
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
    if (can_move_to(g->m, posx + i, posy + j) &&
-       (g->u.posx != posx + i || g->u.posy != posy + j) && 
+       (g->u.posx != posx + i || g->u.posy != posy + j) &&
        (g->mon_at(posx + i, posy + j) == -1 || (i == 0 && j == 0))) {
     point tmp(posx + i, posy + j);
     valid_stumbles.push_back(tmp);
@@ -649,11 +649,11 @@ void monster::stumble(game *g, bool moved)
  if (valid_stumbles.size() == 0) //nowhere to stumble?
   return;
 
-  int choice = rng(0, valid_stumbles.size() - 1);
-  posx = valid_stumbles[choice].x;
-  posy = valid_stumbles[choice].y;
-  if (!has_flag(MF_DIGS) || !has_flag(MF_FLIES))
-   moves -= (g->m.move_cost(posx, posy) - 2) * 50;
+ int choice = rng(0, valid_stumbles.size() - 1);
+ posx = valid_stumbles[choice].x;
+ posy = valid_stumbles[choice].y;
+ if (!has_flag(MF_DIGS) || !has_flag(MF_FLIES))
+  moves -= (g->m.move_cost(posx, posy) - 2) * 50;
  // Here we have to fix our plans[] list,
  // acquiring a new path to the previous target.
  // target == either end of current plan, or the player.
@@ -664,7 +664,7 @@ void monster::stumble(game *g, bool moved)
   else if (g->sees_u(posx, posy, tc))
    set_dest(g->u.posx, g->u.posy, tc);
   else //durr, i'm suddenly calm. what was i doing?
-    plans.clear();
+   plans.clear();
  }
 }
 
@@ -748,7 +748,7 @@ void monster::knock_back_from(game *g, int x, int y)
 }
 
 
-/* will_reach() is used for determining whether we'll get to stairs (and 
+/* will_reach() is used for determining whether we'll get to stairs (and
  * potentially other locations of interest).  It is generally permissive.
  * TODO: Pathfinding;
          Make sure that non-smashing monsters won't "teleport" through windows

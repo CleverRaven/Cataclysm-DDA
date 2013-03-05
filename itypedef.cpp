@@ -1125,7 +1125,7 @@ MELEE("spork",	90,  15,';', c_ltcyan,	STEEL, 	MNULL,
 	 1,  2,  2,  1, -2, 0, "\
 Foons are for scrubs, real men use sporks.");
 
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("foon",	90,  15,';', c_ltcyan,	STEEL, 	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
 	 1,  2,  2,  1, -2, 0, "\
@@ -1145,7 +1145,7 @@ MELEE("clockworks",          30, 0, ';', c_ltcyan, IRON, MNULL,
 A small assortment of gears and other clockwork gubbins.");
 
 
-//           NAME     RAR PRC  SYM COLOR        MAT1    MAT2
+//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  20, 55, ']', c_cyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     60,  240,  20,  0,  -5, 0, "\
@@ -1158,7 +1158,7 @@ TECH( mfb(TEC_DEF_DISARM) );
 color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags, bigmin, bigmax, bigaspect))
 
 //itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
+//           NAME     RAR PRC  SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("wheel", 10, 100, ']', c_dkgray,  STEEL,   PLASTIC,
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
     40,  140, 12,  0,  -1, 0,       13,         20,  BIGNESS_WHEEL_DIAMETER,  "\
@@ -1199,25 +1199,25 @@ MELEE("vehicle controls",  3, 400, '$', c_ltcyan,  PLASTIC,   STEEL,
     12,  30,  2,  0,  -4, 0, "\
 A set of various vehicle controls. Useful for crafting.");
 
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
+//                                 NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("1-cylinder engine",  3, 100, ':', c_ltcyan,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX   ASPECT
     6,  70,  4,  0,  -1, 0,       28,         75,   BIGNESS_ENGINE_DISPLACEMENT, "\
 A single-cylinder 4-stroke combustion engine.");
 
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
+//                              NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("V-twin engine",  2, 100, ':', c_ltcyan,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     6,  70,  4,  0,  -1, 0,       65,        260, BIGNESS_ENGINE_DISPLACEMENT, "\
 A 2-cylinder 4-stroke combustion engine.");
 
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
+//                                NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("Inline-4 engine",  6, 150, ':', c_ltcyan,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     6,  160,  8,  0,  -2, 0,       220,       350, BIGNESS_ENGINE_DISPLACEMENT, "\
 A small, yet powerful 4-cylinder combustion engine.");
 
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
+//                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("V6 engine",  3, 180, ':', c_ltcyan,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     14,  400,  12,  0,  -3, 0,    250,        520, BIGNESS_ENGINE_DISPLACEMENT, "\
@@ -4074,7 +4074,7 @@ color, STEEL, PLASTIC, 10, 18, 8, 0, 0, 0, difficulty, __VA_ARGS__))
      BIO(std::string("CBM: ")+bionics[bionic].name,rarity,price,color,difficulty, \
            word_rewrap(bionics[bionic].description, 50), bionic, NULL) \
 
-//  Name			RAR PRICE	COLOR		DIFFICULTY
+//  Name                     RAR PRICE    COLOR   DIFFICULTY
 BIO("CBM: Internal Battery",	24, 3800,	c_green,	 1, "\
 Compact Bionics Module which upgrades your power capacity by 4 units. Having\n\
 at least one of these is a prerequisite to using powered bionics. You will\n\

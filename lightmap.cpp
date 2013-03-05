@@ -55,7 +55,7 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
           is_outside(sx - x + LIGHTMAP_RANGE_X + dir_x[i], sy - y + LIGHTMAP_RANGE_Y + dir_y[i])) {
        if (INBOUNDS(sx - x, sy - y) && is_outside(LIGHTMAP_RANGE_X, LIGHTMAP_RANGE_Y))
         lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
-       
+
        if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].transparency > LIGHT_TRANSPARENCY_SOLID)
        	apply_light_arc(sx, sy, dir_d[i], x, y, natural_light);
       }
@@ -66,10 +66,10 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
    if (items.size() == 1 &&
        items[0].type->id == itm_flashlight_on)
     apply_light_source(sx, sy, x, y, 20);
-   
+
    if(terrain == t_lava)
     apply_light_source(sx, sy, x, y, 50);
-   
+
    if(terrain == t_console)
     apply_light_source(sx, sy, x, y, 3);
 
@@ -356,7 +356,7 @@ void light_map::apply_light_ray(bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy
     x += dx;
     t -= ay;
    }
- 
+
    y += dy;
    t += ax;
 
@@ -428,7 +428,7 @@ void light_map::build_light_cache(game* g, int cx, int cy)
   for(int p = 0; p < vehs[v].v->parts.size(); ++p) {
    int px = vehs[v].x + vehs[v].v->parts[p].precalc_dx[0] - cx;
    int py = vehs[v].y + vehs[v].v->parts[p].precalc_dy[0] - cy;
-      
+
    if (INBOUNDS(px, py)) {
     px += LIGHTMAP_RANGE_X;
     py += LIGHTMAP_RANGE_Y;

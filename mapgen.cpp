@@ -279,7 +279,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   }
   place_items(mi_wreckage, 83, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
   break;
-  case ot_field:
+
+ case ot_field:
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     ter(i, j) = grass_or_dirt();
@@ -381,7 +382,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         add_item(i, j, (*itypes)[itm_apple], turn);
       }
       else
-     ter(i, j) = t_tree;
+      ter(i, j) = t_tree;
     }
     else if ((forest_chance > 0 && rn > 10) || one_in(100 - forest_chance))
      ter(i, j) = t_tree_young;
@@ -390,7 +391,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
       if (one_in(250))
       ter(i, j) = t_shrub_blueberry;
       else
-     ter(i, j) = t_underbrush;
+      ter(i, j) = t_underbrush;
     }
     else
      ter(i, j) = t_dirt;
@@ -1384,6 +1385,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   add_spawn(mon_zombie_child, rng(2, 4), SEEX, SEEY);
   add_spawn(mon_zombie, rng(1, 3), SEEX, SEEY);
  } break;
+
  case ot_s_gas_north:
  case ot_s_gas_east:
  case ot_s_gas_south:
@@ -1450,6 +1452,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
    rotate(3);
   place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   break;
+
  case ot_s_pharm_north:
  case ot_s_pharm_east:
  case ot_s_pharm_south:
@@ -2270,7 +2273,7 @@ case ot_shelter: {
   line(this, t_stairs_up, SEEX - 1, SEEY * 2 - 8, SEEX, SEEY * 2 - 8);
   place_items(mi_shelter, 80, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9, false, 0);
   break;
-  
+
   //....
 case ot_lmoe: {
 // Init to grass & dirt;
@@ -2415,7 +2418,7 @@ case ot_lmoe: {
    science_room(this, 2       , 2, SEEX - 3    , SEEY * 2 - 3, 1);
    science_room(this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, 3);
 
-   
+
    if (t_east > ot_road_null && t_east <= ot_road_nesw_manhole)
     rotate(1);
    else if (t_south > ot_road_null && t_south <= ot_road_nesw_manhole)
@@ -4278,6 +4281,7 @@ case ot_lmoe: {
   if (terrain_type == ot_sub_station_west)
    rotate(3);
   break;
+
 case ot_s_garage_north:
   case ot_s_garage_east:
   case ot_s_garage_south:
@@ -5625,7 +5629,7 @@ break;
    }
   }
   break;
-  
+
   //Oddzball-Hospital spawn code above.
 
  case ot_mansion_entrance: {
@@ -5852,7 +5856,8 @@ break;
    }
   }
   break;
-  case ot_fema_entrance: {
+
+   case ot_fema_entrance: {
   square(this, t_dirt, 0, 0, 23, 23);
 // Left wall
   line(this, t_chainfence_v,  0,  0,  0, SEEY * 2 - 2);
@@ -5873,7 +5878,7 @@ break;
   place_items(mi_office, 80, 3, 16, 3, 18, false, 0);
   place_items(mi_office, 80, 6, 16, 6, 18, false, 0);
   add_spawn(mon_zombie_soldier, rng(1, 6), 4, 17);
-  
+
   // Rotate to face the road
   if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
    rotate(1);
@@ -5901,7 +5906,7 @@ break;
   }
   if(t_west == ot_fema && t_east == ot_fema && t_south != ot_fema){ //lab bottom side
   square(this, t_dirt, 1, 1, 22, 22);
-  square(this, t_pavement, 4, 4, 19, 19);
+  square(this, t_floor, 4, 4, 19, 19);
   line(this, t_concrete_h, 4, 4, 19, 4);
   line(this, t_concrete_h, 4, 19, 19, 19);
   line(this, t_concrete_v, 4, 5, 4, 18);
@@ -5934,7 +5939,7 @@ break;
   add_spawn(mon_zombie_brute, 1, 16, 17);
   }
   else if (t_west == ot_fema_entrance) {
-  
+
   square(this, t_dirt, 1, 1, 22, 22);
   square(this, t_canvas_wall, 4, 4, 19, 19); //Supply tent
   square(this, t_fema_groundsheet, 5, 5, 18, 18);
@@ -5965,10 +5970,10 @@ break;
   place_items(mi_mil_rifles, 90, 18, 9, 18, 14, false, 0);
   place_items(mi_office, 80, 10, 11, 13, 12, false, 0);
   add_spawn(mon_zombie_soldier, rng(1, 6), 12, 14);
-  
+
    }
-  
-  
+
+
   else{
   switch (rng(1, 5)) {
 
@@ -6001,10 +6006,10 @@ break;
   line(this, t_fema_groundsheet, 16, 5, 16, 18);
   place_items(mi_livingroom, 80, 5, 5, 18, 18, false, 0);
   add_spawn(mon_zombie, rng(1, 5), 11, 12);
-  
-  
- 
-  
+
+
+
+
    break;
 
   case 4:
@@ -6020,23 +6025,23 @@ break;
   line(this, t_bench, 13, 6, 17, 6);
   line(this, t_table, 13, 7, 17, 7);
   line(this, t_bench, 13, 8, 17, 8);
-  
+
   line(this, t_bench, 13, 11, 17, 11);
   line(this, t_table, 13, 12, 17, 12);
   line(this, t_bench, 13, 13, 17, 13);
-  
+
   line(this, t_bench, 13, 15, 17, 15);
   line(this, t_table, 13, 16, 17, 16);
   line(this, t_bench, 13, 17, 17, 17);
-  
+
   line(this, t_bench, 6, 11, 10, 11);
   line(this, t_table, 6, 12, 10, 12);
   line(this, t_bench, 6, 13, 10, 13);
-  
+
   line(this, t_bench, 6, 15, 10, 15);
   line(this, t_table, 6, 16, 10, 16);
   line(this, t_bench, 6, 17, 10, 17);
-  
+
   place_items(mi_mil_food_nodrugs, 80, 5, 5, 5, 6, false, 0);
   place_items(mi_snacks, 80, 5, 5, 18, 18, false, 0);
   place_items(mi_kitchen, 70, 6, 5, 10, 8, false, 0);
@@ -6046,7 +6051,7 @@ break;
   place_items(mi_dining, 80, 6, 12, 10, 12, false, 0);
   place_items(mi_dining, 80, 6, 16, 10, 16, false, 0);
   add_spawn(mon_zombie, rng(1, 5), 11, 12);
-  
+
 
    break;
 
@@ -6056,13 +6061,13 @@ break;
   square(this, t_dirt, 5, 5, 18, 18);
   square(this, t_pit_corpsed, 6, 6, 17, 17);
   add_spawn(mon_zombie, rng(5, 20), 11, 12);
-  
+
    break;
-   
+
   }
   }
   }
-	
+
   break;
 
  case ot_spider_pit_under:
@@ -9092,10 +9097,11 @@ void map::add_extra(map_extra type, game *g)
   }
  }
  break;
+
  case mx_wolfpack:
   add_spawn(mon_wolf, rng(3, 6), SEEX, SEEY);
   break;
-  
+
   case mx_cougar:
   add_spawn(mon_cougar, 1, SEEX, SEEY);
   break;

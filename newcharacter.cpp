@@ -788,7 +788,7 @@ int set_skills(WINDOW* w, player *u, int &points)
   switch (input()) {
    case 'j':
      if (cur_sk < Skill::skills.size() - 1)
-     cur_sk++;
+      cur_sk++;
     currentSkill = Skill::skill(cur_sk);
     break;
    case 'k':
