@@ -20,10 +20,10 @@ OPT_GRADUAL_NIGHT_LIGHT, // be so cool at night :)
 OPT_QUERY_DISASSEMBLE, // Query before disassembling items
 OPT_DROP_EMPTY, // auto drop empty containers after use
 OPT_SKILL_RUST, // level of skill rust
-OPT_DELETE_WORLD,
-OPT_INITIAL_POINTS,
-OPT_VIEWPORT_X,
-OPT_VIEWPORT_Y,
+OPT_DELETE_WORLD, // Delete workd every time New Character is created
+OPT_INITIAL_POINTS, // Set the number of character points
+OPT_VIEWPORT_X, // Set the width of the terrain window, in characters
+OPT_VIEWPORT_Y, // Set the height of the terrain window, in characters
 NUM_OPTION_KEYS
 };
 
