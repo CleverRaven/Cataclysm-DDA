@@ -2329,7 +2329,7 @@ void overmap::place_mongroups()
   for (unsigned int i = 0; i < cities.size(); i++) {
    if (!one_in(16) || cities[i].s > 5)
     zg.push_back (mongroup(mcat_zombie, (cities[i].x * 2), (cities[i].y * 2),
-	         int(cities[i].s * 2.5), cities[i].s * 160)); //Oddzball-Increased spawn test
+	         int(cities[i].s * 2.5), cities[i].s * 80)); //Oddzball-Increased spawn test //Tase-DDA-CZA Merge, back to 80
  }
  }
 
