@@ -15,6 +15,7 @@
 #include <ostream>
 #include "debug.h"
 #include "cursesdef.h"
+#include "options.h"
 
 #define STREETCHANCE 2
 #define NUM_FOREST 250
@@ -1404,7 +1405,7 @@ void overmap::put_buildings(int x, int y, int dir, city town)
  for (int i = -1; i <= 1; i += 2) {
   if ((ter(x+i*xchange, y+i*ychange) == ot_field) && !one_in(STREETCHANCE)) {
    if (rng(0, 99) > 80 * dist(x,y,town.x,town.y) / town.s)//Oddzball-Shop generation chance smaller is better
-    ter(x+i*xchange, y+i*ychange) = shop(((dir%2)-i)%4); 
+    ter(x+i*xchange, y+i*ychange) = shop(((dir%2)-i)%4);
    else {
     if (rng(0, 99) > 130 * dist(x, y, town.x, town.y) / town.s)
      ter(x+i*xchange, y+i*ychange) = ot_park;
@@ -2323,12 +2324,13 @@ void overmap::place_special(overmap_special special, point p)
 
 void overmap::place_mongroups()
 {
-// Cities are full of zombies
- for (int i = 0; i < cities.size(); i++) {
-  if (!one_in(16) || cities[i].s > 5)
-   zg.push_back(
-	mongroup(mcat_zombie, (cities[i].x * 2), (cities[i].y * 2),
+ if (!OPTIONS[OPT_STATIC_SPAWN]) {
+  // Cities are full of zombies
+  for (unsigned int i = 0; i < cities.size(); i++) {
+   if (!one_in(16) || cities[i].s > 5)
+    zg.push_back (mongroup(mcat_zombie, (cities[i].x * 2), (cities[i].y * 2),
 	         int(cities[i].s * 2.5), cities[i].s * 160)); //Oddzball-Increased spawn test
+ }
  }
 
 // Figure out where swamps are, and place swamp monsters
