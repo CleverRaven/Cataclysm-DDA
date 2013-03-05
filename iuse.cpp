@@ -1192,12 +1192,15 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
   return;
  }
 
- p->moves -= (400 - (p->dex_cur * 5));
- if (dice(4, 8) < dice(4, p->dex_cur) - it->damage) {
+ p->practice("mechanics", 1);
+ p->moves -= 500 - (p->dex_cur + p->skillLevel("mechanics").level()) * 5;
+ if (dice(4, 6) < dice(2, p->skillLevel("mechanics").level()) + dice(2, p->dex_cur) - it->damage / 2) {
+  p->practice("mechanics", 1);
   g->add_msg_if_player(p,"You pick the lock and the %s swings open.", door_name);
   g->m.ter(dirx, diry) = new_type;
   return;
- } else if (dice(4, 6) < dice(4, p->dex_cur) - it->damage && it->damage < 100) {
+ } else if (dice(4, 4) < dice(2, p->skillLevel("mechanics").level()) +
+                         dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
   it->damage++;
   g->add_msg_if_player(p,"The lock stumps your efforts to pick it, and you damage your tool.");
  } else {
@@ -1231,10 +1234,10 @@ if (dirx == 0 && diry == 0) {
  if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm) {
    door_name = "door";
    action_name = "pry open";
-   new_type = t_chaingate_o;
+   new_type = t_door_o;
    noisy = true;
    difficulty = 6;
- } else if (g->m.ter(dirx, diry) == t_manhole_cover) {
+ } else if (type == t_manhole_cover) {
    door_name = "manhole cover";
    action_name = "lift";
    new_type = t_manhole;
@@ -1274,20 +1277,24 @@ if (dirx == 0 && diry == 0) {
    g->add_msg_if_player(p,"There's nothing to pry there.");
    return;
   }
+  if(p->skillLevel("carpentry").level() < 1)
+   p->practice("carpentry", 1);
   p->moves -= 500;
   g->m.add_item(p->posx, p->posy, g->itypes[itm_nail], 0, nails);
   g->m.add_item(p->posx, p->posy, g->itypes[itm_2x4], 0, boards);
   g->m.ter(dirx, diry) = newter;
  }
 
- p->moves -= (difficulty * 25 - (p->str_cur * 5));
- if (dice(4, difficulty) < dice(4, p->str_cur)) {
+ p->practice("mechanics", 1);
+ p->moves -= (difficulty * 25) - ((p->str_cur + p->skillLevel("mechanics").level()) * 5);
+ if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics").level()) + dice(2, p->str_cur)) {
+  p->practice("mechanics", 1);
   g->add_msg_if_player(p,"You %s the %s.", action_name, door_name);
   g->m.ter(dirx, diry) = new_type;
   if (noisy)
    g->sound(dirx, diry, 8, "crunch!");
  } else {
-  g->add_msg_if_player(p,"You pry, but cannot % the %s.", action_name, door_name);
+  g->add_msg_if_player(p,"You pry, but cannot %s the %s.", action_name, door_name);
  }
 }
 
