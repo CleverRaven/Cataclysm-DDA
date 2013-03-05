@@ -1183,10 +1183,10 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  ter_id new_type;
  if (type == t_chaingate_l) {
    door_name = "gate";
-   new_type = t_chaingate_o;
+   new_type = t_chaingate_c;
  } else if (type == t_door_locked || type == t_door_locked_alarm) {
    door_name = "door";
-   new_type = t_door_o;
+   new_type = t_door_c;
  } else {
   g->add_msg("That cannot be picked.");
   return;
@@ -1196,7 +1196,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  p->moves -= 500 - (p->dex_cur + p->skillLevel("mechanics").level()) * 5;
  if (dice(4, 6) < dice(2, p->skillLevel("mechanics").level()) + dice(2, p->dex_cur) - it->damage / 2) {
   p->practice("mechanics", 1);
-  g->add_msg_if_player(p,"You pick the lock and the %s swings open.", door_name);
+  g->add_msg_if_player(p,"With a satisfying click, the lock on the %s opens.", door_name);
   g->m.ter(dirx, diry) = new_type;
   return;
  } else if (dice(4, 4) < dice(2, p->skillLevel("mechanics").level()) +
