@@ -1954,20 +1954,64 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     return true;
 }
 
+// a chance to stop skidding if moving in roughly the faced direction
+void vehicle::possibly_recover_from_skid(){
+   if (last_turn > 13)
+      //turning on the initial skid is delayed, so move==face, initially. This filters out that case.
+      return;
+   rl_vec2d mv = move_vec();
+   rl_vec2d fv = face_vec();
+   float dot = mv.dot_product(fv);
+   //threshold of recovery is gaussianesque.
+
+   if (fabs(dot) * 100 > dice(9,20)){
+      g->add_msg("The %s recovers from its skid.", name.c_str());
+      skidding = false; //face_vec takes over.
+      velocity *= dot; //wheels absorb horizontal velocity.
+      if(dot < -.8){
+         //pointed backwards, velo-wise.
+         velocity *= -1; //move backwards.
+      }
+      move = face;
+   }
+}
+
+// if not skidding, move_vec == face_vec, mv <dot> fv == 1, velocity*1 is returned.
+float vehicle::forward_velocity(){
+   rl_vec2d mv = move_vec();
+   rl_vec2d fv = face_vec();
+   float dot = mv.dot_product(fv);
+   return velocity * dot;
+}
+
 rl_vec2d vehicle::velo_vec(){
-    float vx,vy;
-    if(skidding){
-       vx = cos (move.dir() * M_PI/180);
-       vy = sin (move.dir() * M_PI/180);
-    } else {
-       vx = cos (face.dir() * M_PI/180);
-       vy = sin (face.dir() * M_PI/180);
-    }
-    rl_vec2d ret(vx,vy);
+    rl_vec2d ret;
+    if(skidding)
+       ret = move_vec();
+    else
+       ret = face_vec();
     ret = ret.normalized();
     ret = ret * velocity;
     return ret;
 }
-//todO: face_vec()...
 
+// normalized.
+rl_vec2d vehicle::move_vec(){
+    float mx,my;
+    mx = cos (move.dir() * M_PI/180);
+    my = sin (move.dir() * M_PI/180);
+    rl_vec2d ret(mx,my);
+    ret = ret.normalized();
+    return ret;
+}
+
+// normalized.
+rl_vec2d vehicle::face_vec(){
+    float fx,fy;
+    fx = cos (face.dir() * M_PI/180);
+    fy = sin (face.dir() * M_PI/180);
+    rl_vec2d ret(fx,fy);
+    ret = ret.normalized();
+    return ret;
+}
 

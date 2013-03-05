@@ -648,12 +648,17 @@ bool construct::able_furniture(game *g, point p)
  switch(g->m.ter(p.x, p.y)) {
   case t_fridge:
   case t_glass_fridge:
-  case t_dresser:
-  case t_rack:
+   required_str = 10;
+   break;
   case t_bookcase:
   case t_locker:
+   required_str = 9;
+   break;
+  case t_dresser:
+  case t_rack:
   case t_chair:
   case t_armchair:
+  case t_bench:
    required_str = 8;
    break;
   default:

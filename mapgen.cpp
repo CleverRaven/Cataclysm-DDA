@@ -6,6 +6,7 @@
 #include "rng.h"
 #include "line.h"
 #include "debug.h"
+#include "options.h"
 
 #ifndef sgn
 #define sgn(x) (((x) < 0) ? -1 : 1)
@@ -191,7 +192,13 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
   }
  }
 
- draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g);
+ // This attempts to scale density of zombies inversely with distance from the nearest city.
+ // In other words, make city centers dense and perimiters sparse.
+ city *closest_city = &om->cities[om->closest_city(point(overx, overy))];
+ float size = (float)closest_city->s;
+ float dist = (float)rl_dist(overx, overy, closest_city->x, closest_city->y);
+ float density = log(1 + (size - dist) / size);
+ draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g, density);
 
  if ( one_in( oterlist[terrain_type].embellishments.chance ))
   add_extra( random_map_extra( oterlist[terrain_type].embellishments ), g);
@@ -214,9 +221,9 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
  }
 }
 
-void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
-                   oter_id t_south, oter_id t_west, oter_id t_above, int turn,
-                   game *g)
+void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
+                   const oter_id t_south, const oter_id t_west, const oter_id t_above,
+                   const int turn, game *g, const float density)
 {
 // Big old switch statement with a case for each overmap terrain type.
 // Many of these can be copied from another type, then rotated; for instance,
@@ -728,6 +735,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
   }
   if (terrain_type == ot_road_ew)
    rotate(1);
+  if(rn == 1)
+   place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   place_items(mi_road, 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
   break;
 
@@ -764,6 +773,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_road_wn)
    rotate(3);
+  if(rn == 1)
+   place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   place_items(mi_road, 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
   break;
 
@@ -800,6 +811,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_road_new)
    rotate(3);
+  if(rn == 1)
+   place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   place_items(mi_road, 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
   break;
 
@@ -860,6 +873,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    place_items(mi_trash, 5, 0, 0, SEEX * 2 -1, SEEX * 2 - 1, true, 0);
   } else
    place_items(mi_road,  5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
+  if(rn == 1)
+   place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   if (terrain_type == ot_road_nesw_manhole)
    ter(rng(6, SEEX * 2 - 6), rng(6, SEEX * 2 - 6)) = t_manhole_cover;
   break;
@@ -1267,6 +1282,8 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
     }
    }
    place_items(mi_rare, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
+  } else { // Just boring old zombies
+   place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   }
 
   if (terrain_type == ot_house_east  || terrain_type == ot_house_base_east)
@@ -1476,6 +1493,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_gas_west)
    rotate(3);
+  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   break;
 
  case ot_s_pharm_north:
@@ -1548,6 +1566,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_pharm_west)
    rotate(3);
+  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   break;
 
  case ot_s_grocery_north:
@@ -1614,6 +1633,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_grocery_west)
    rotate(3);
+  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   break;
 
  case ot_s_hardware_north:
@@ -1737,6 +1757,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_hardware_west)
    rotate(3);
+  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   break;
 
  case ot_s_electronics_north:
@@ -1782,6 +1803,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_electronics_west)
    rotate(3);
+  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   break;
 
  case ot_s_sports_north:
@@ -1851,6 +1873,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_sports_west)
    rotate(3);
+  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   break;
 
  case ot_s_liquor_north:
@@ -1911,6 +1934,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_liquor_west)
    rotate(3);
+  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   break;
 
  case ot_s_gun_north:
@@ -1964,6 +1988,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_gun_west)
    rotate(3);
+  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   break;
 
  case ot_s_clothes_north:
@@ -2048,6 +2073,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_clothes_west)
    rotate(3);
+  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   break;
 
  case ot_s_library_north:
@@ -2107,6 +2133,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_library_west)
    rotate(3);
+  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   break;
 
  case ot_s_restaurant_north:
@@ -2232,7 +2259,9 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
    rotate(2);
   if (terrain_type == ot_s_restaurant_west)
    rotate(3);
-  } break;
+  }
+  place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+  break;
 
 //....
 case ot_shelter: {
@@ -4190,7 +4219,7 @@ case ot_lmoe: {
 
   } else { // We're above ground!
 // First, draw a forest
-   draw_map(ot_forest, t_north, t_east, t_south, t_west, t_above, turn, g);
+    draw_map(ot_forest, t_north, t_east, t_south, t_west, t_above, turn, g, density);
 // Clear the center with some rocks
    square(this, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5);
    int pathx, pathy;
@@ -7267,13 +7296,16 @@ void map::post_process(game *g, unsigned zones)
 
 }
 
-void map::place_spawns(game *g, moncat_id monster_type, int chance, int x1, int y1,
-                      int x2, int y2, int min, int max)
+void map::place_spawns(game *g, const moncat_id monster_type, const int chance,
+                       const int x1, const int y1, const int x2, const int y2, const float density)
 {
+ if (!OPTIONS[OPT_STATIC_SPAWN])
+  return;
+
  if (one_in(chance))
  {
   const std::vector<mon_id> group = g->moncats[monster_type];
-  int num = rng(min, max);
+  int num = density * (float)rng(10, 50);
   int total_freq = 0;
 
   for (int i = 0; i < group.size(); i++)

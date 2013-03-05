@@ -15,6 +15,7 @@
 #include <ostream>
 #include "debug.h"
 #include "cursesdef.h"
+#include "options.h"
 
 #define STREETCHANCE 2
 #define NUM_FOREST 250
@@ -2323,12 +2324,13 @@ void overmap::place_special(overmap_special special, point p)
 
 void overmap::place_mongroups()
 {
-// Cities are full of zombies
- for (int i = 0; i < cities.size(); i++) {
-  if (!one_in(16) || cities[i].s > 5)
-   zg.push_back(
-	mongroup(mcat_zombie, (cities[i].x * 2), (cities[i].y * 2),
-	         int(cities[i].s * 2.5), cities[i].s * 80));
+ if (!OPTIONS[OPT_STATIC_SPAWN]) {
+  // Cities are full of zombies
+  for (unsigned int i = 0; i < cities.size(); i++) {
+   if (!one_in(16) || cities[i].s > 5)
+    zg.push_back (mongroup(mcat_zombie, (cities[i].x * 2), (cities[i].y * 2),
+                           int(cities[i].s * 2.5), cities[i].s * 80));
+  }
  }
 
 // Figure out where swamps are, and place swamp monsters

@@ -275,8 +275,7 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
      clear();
      mvwprintz(w_open, 0, 1, c_blue, "Welcome to Cataclysm!");
      mvwprintz(w_open, 1, 0, c_red, "\
-This alpha release is highly unstable. Please report any crashes or bugs to\n\
-fivedozenwhales@gmail.com.");
+Please report all bugs to TheDarklingWolf@Gmail.com");
      refresh();
      wrefresh(w_open);
      refresh();
@@ -569,23 +568,9 @@ void game::create_starting_npcs()
 
 void game::cleanup_at_end(){
  write_msg();
+
  // Save the monsters before we die!
- for (int i = 0; i < z.size(); i++) {
-  if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
-   tinymap tmp(&itypes, &mapitems, &traps);
-   tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
-   tmp.add_spawn(&(z[i]));
-   tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
-  } else {	// Absorb them back into a group
-   int group = valid_group((mon_id)(z[i].type->id), levx, levy);
-   if (group != -1) {
-    cur_om.zg[group].population++;
-    if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
-        !cur_om.zg[group].diffuse)
-     cur_om.zg[group].radius++;
-   }
-  }
- }
+ despawn_monsters();
  if (uquit == QUIT_DIED)
   popup_top("Game over! Press spacebar...");
  if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
@@ -5570,9 +5555,13 @@ void game::list_items()
  int iStartPos = 0;
  int iActiveX = 0;
  int iActiveY = 0;
+ int iLastActiveX = -1;
+ int iLastActiveY = -1;
+ std::vector<point> vPoint;
  InputEvent input = Undefined;
  long ch = '.';
  int iFilter = 0;
+ bool bStopDrawing = false;
 
  do {
   if (iItemNum > 0) {
@@ -5597,6 +5586,8 @@ void game::list_items()
 
     sFilter = string_input_popup("Filter:", 55, sFilter);
     iActive = 0;
+    iLastActiveX = -1;
+    iLastActiveY = -1;
     ch = '.';
 
    } else if (ch == 'r' || ch == 'R') {
@@ -5622,110 +5613,127 @@ void game::list_items()
     wprintz(w_items, c_white, "%s", "ilter ");
    }
 
+   bStopDrawing = false;
+
    switch(input) {
     case DirectionN:
      iActive--;
-     if (iActive < 0)
+     if (iActive < 0) {
       iActive = 0;
+      bStopDrawing = true;
+     }
      break;
     case DirectionS:
      iActive++;
-     if (iActive >= iItemNum - iFilter)
+     if (iActive >= iItemNum - iFilter) {
       iActive = iItemNum - iFilter-1;
+      bStopDrawing = true;
+     }
      break;
    }
 
-   if (iItemNum - iFilter > iMaxRows) {
-    iStartPos = iActive - (iMaxRows - 1) / 2;
+   if (!bStopDrawing) {
+    if (iItemNum - iFilter > iMaxRows) {
+     iStartPos = iActive - (iMaxRows - 1) / 2;
 
-    if (iStartPos < 0)
-     iStartPos = 0;
-    else if (iStartPos + iMaxRows > iItemNum - iFilter)
-     iStartPos = iItemNum - iFilter - iMaxRows;
-   }
+     if (iStartPos < 0)
+      iStartPos = 0;
+     else if (iStartPos + iMaxRows > iItemNum - iFilter)
+      iStartPos = iItemNum - iFilter - iMaxRows;
+    }
 
-   for (int i = 0; i < iMaxRows; i++)
-    mvwprintz(w_items, 1 + i, 1, c_black, "%s", "                                                     ");
+    for (int i = 0; i < iMaxRows; i++)
+     mvwprintz(w_items, 1 + i, 1, c_black, "%s", "                                                     ");
 
-   int iNum = 0;
-   iFilter = 0;
-   iActiveX = 0;
-   iActiveY = 0;
-   std::string sActiveItemName;
-   std::stringstream sText;
-   std::string sFilterPre = "";
-   std::string sFilterTemp = sFilter;
-   if (sFilterTemp != "" && sFilter.substr(0, 1) == "-") {
-    sFilterPre = "-";
-    sFilterTemp = sFilterTemp.substr(1, sFilterTemp.size()-1);
-   }
+    //TODO: Speed this up, first attemp to do so failed
+    int iNum = 0;
+    iFilter = 0;
+    iActiveX = 0;
+    iActiveY = 0;
+    std::string sActiveItemName;
+    std::stringstream sText;
+    std::string sFilterPre = "";
+    std::string sFilterTemp = sFilter;
+    if (sFilterTemp != "" && sFilter.substr(0, 1) == "-") {
+     sFilterPre = "-";
+     sFilterTemp = sFilterTemp.substr(1, sFilterTemp.size()-1);
+    }
 
-   for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
-    for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
-     for (std::map< std::string, int>::iterator iter=grounditems[iCol][iRow].begin(); iter!=grounditems[iCol][iRow].end(); ++iter) {
-      if (sFilterTemp == "" || (sFilterTemp != "" && ((sFilterPre != "-" && list_items_match(iter->first, sFilterTemp)) ||
-                                                      (sFilterPre == "-" && !list_items_match(iter->first, sFilterTemp))))) {
-       if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) ) {
-        if (iNum == iActive) {
-         iActiveX = iCol;
-         iActiveY = iRow;
-         sActiveItemName = iter->first;
+    for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
+     for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
+      for (std::map< std::string, int>::iterator iter=grounditems[iCol][iRow].begin(); iter!=grounditems[iCol][iRow].end(); ++iter) {
+       if (sFilterTemp == "" || (sFilterTemp != "" && ((sFilterPre != "-" && list_items_match(iter->first, sFilterTemp)) ||
+                                                       (sFilterPre == "-" && !list_items_match(iter->first, sFilterTemp))))) {
+        if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) ) {
+         if (iNum == iActive) {
+          iActiveX = iCol;
+          iActiveY = iRow;
+          sActiveItemName = iter->first;
+         }
+         sText.str("");
+         sText << iter->first;
+         if (iter->second > 1)
+          sText << " " << "[" << iter->second << "]";
+         mvwprintz(w_items, 1 + iNum - iStartPos, 2, ((iNum == iActive) ? c_ltgreen : c_white), "%s", (sText.str()).c_str());
+         mvwprintz(w_items, 1 + iNum - iStartPos, 48, ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
+                   ((iItemNum > 9) ? 2 : 1),
+                   trig_dist(0, 0, iCol, iRow),
+                   direction_name_short(direction_from(0, 0, iCol, iRow)).c_str()
+                  );
         }
-        sText.str("");
-        sText << iter->first;
-        if (iter->second > 1)
-         sText << " " << "[" << iter->second << "]";
-        mvwprintz(w_items, 1 + iNum - iStartPos, 2, ((iNum == iActive) ? c_ltgreen : c_white), "%s", (sText.str()).c_str());
-        mvwprintz(w_items, 1 + iNum - iStartPos, 48, ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                  ((iItemNum > 9) ? 2 : 1),
-                  trig_dist(0, 0, iCol, iRow),
-                  direction_name_short(direction_from(0, 0, iCol, iRow)).c_str()
-                 );
-       }
 
-       iNum++;
-      } else {
-       iFilter++;
+        iNum++;
+       } else {
+        iFilter++;
+       }
       }
      }
     }
-   }
 
-   mvwprintz(w_items, 0, 23 + ((iItemNum - iFilter > 9) ? 0 : 1), c_ltgreen, " %*d", ((iItemNum - iFilter > 9) ? 2 : 1), iActive+1);
-   wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
+    mvwprintz(w_items, 0, 23 + ((iItemNum - iFilter > 9) ? 0 : 1), c_ltgreen, " %*d", ((iItemNum - iFilter > 9) ? 2 : 1), iActive+1);
+    wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
 
-   wclear(w_item_info);
-   mvwprintz(w_item_info, 0, 0, c_white, "%s", iteminfo[sActiveItemName].info().c_str());
+    wclear(w_item_info);
+    mvwprintz(w_item_info, 0, 0, c_white, "%s", iteminfo[sActiveItemName].info().c_str());
 
-   for (int j=0; j < iInfoHeight-1; j++)
-    mvwputch(w_item_info, j, 0, c_ltgray, LINE_XOXO);
+    for (int j=0; j < iInfoHeight-1; j++)
+     mvwputch(w_item_info, j, 0, c_ltgray, LINE_XOXO);
 
-   for (int j=0; j < iInfoHeight-1; j++)
-    mvwputch(w_item_info, j, 54, c_ltgray, LINE_XOXO);
+    for (int j=0; j < iInfoHeight-1; j++)
+     mvwputch(w_item_info, j, 54, c_ltgray, LINE_XOXO);
 
-   for (int j=0; j < 54; j++)
-    mvwputch(w_item_info, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
+    for (int j=0; j < 54; j++)
+     mvwputch(w_item_info, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
 
-   mvwputch(w_item_info, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
-   mvwputch(w_item_info, iInfoHeight-1, 54, c_ltgray, LINE_XOOX);
+    mvwputch(w_item_info, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
+    mvwputch(w_item_info, iInfoHeight-1, 54, c_ltgray, LINE_XOOX);
 
-   draw_ter();
-   std::vector<point> trajectory = line_to(u.posx, u.posy, u.posx + iActiveX, u.posy + iActiveY, 0);
-   int junk;
-   for (int i = 0; i < trajectory.size(); i++) {
-    if (i > 0)
-     m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, true, true);
+    //Only redraw trail/terrain if x/y position changed
+    if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {
+     iLastActiveX = iActiveX;
+     iLastActiveY = iActiveY;
 
-    if (u_see(trajectory[i].x, trajectory[i].y, junk)) {
-     char bullet = 'X';
-     mvwputch(w_terrain, trajectory[i].y + VIEWY - u.posy - u.view_offset_y,
-                         trajectory[i].x + VIEWX - u.posx - u.view_offset_x, c_white, bullet);
+     //Remove previous trail
+     for (int i = 0; i < vPoint.size(); i++) {
+      m.drawsq(w_terrain, u, vPoint[i].x, vPoint[i].y, false, true);
+     }
+
+     //Draw new trail
+     vPoint = line_to(u.posx, u.posy, u.posx + iActiveX, u.posy + iActiveY, 0);
+     for (int i = 1; i < vPoint.size(); i++) {
+       m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
+     }
+
+     mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
+                         vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
+
+     wrefresh(w_terrain);
     }
+
+    wrefresh(w_items);
+    wrefresh(w_item_info);
    }
 
-   wrefresh(w_terrain);
-   wrefresh(w_items);
-   wrefresh(w_item_info);
    ch = getch();
    input = get_input(ch);
   } else {
@@ -7240,8 +7248,9 @@ void game::pldrive(int x, int y) {
  }
  veh->turn (15 * x);
  if (veh->skidding && veh->valid_wheel_config()) {
-   if (rng (0, 40) < u.dex_cur + u.skillLevel("driving").level() * 2) {
+  if (rng (0, 100) < u.dex_cur + u.skillLevel("driving").level() * 2) {
    add_msg ("You regain control of the %s.", veh->name.c_str());
+   veh->velocity = veh->forward_velocity();
    veh->skidding = false;
    veh->move.init (veh->turn_dir);
   }
@@ -7812,32 +7821,7 @@ void game::vertical_move(int movez, bool force)
   monstairx = levx;
   monstairy = levy;
   monstairz = original_z;
-  for (int i = 0; i < z.size(); i++) {
-   if (z[i].will_reach(this, u.posx, u.posy)) {
-    int turns = z[i].turns_to_reach(this, u.posx, u.posy);
-    if (turns < 999)
-     coming_to_stairs.push_back( monster_and_count(z[i], 1 + turns) );
-   } else if (z[i].spawnmapx != -1) { // Static spawn, move them back there
-    tinymap tmp(&itypes, &mapitems, &traps);
-    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
-    tmp.add_spawn(&(z[i]));
-    tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
-   } else if (z[i].friendly < 0) { // Friendly, make it into a static spawn
-    tinymap tmp(&itypes, &mapitems, &traps);
-    tmp.load(this, levx, levy, false);
-    int spawnx = z[i].posx, spawny = z[i].posy;
-    while (spawnx < 0)
-     spawnx += SEEX;
-    while (spawny < 0)
-     spawny += SEEY;
-    tmp.add_spawn(&(z[i]));
-    tmp.save(&cur_om, turn, levx, levy);
-   } else {
-    int group = valid_group( (mon_id)(z[i].type->id), levx, levy);
-    if (group != -1)
-     cur_om.zg[group].population++;
-   }
-  }
+  despawn_monsters(true);
  }
  z.clear();
 
@@ -7960,35 +7944,9 @@ void game::update_map(int &x, int &y)
  set_adjacent_overmaps();
 
  // Shift monsters
- for (int i = 0; i < z.size(); i++) {
-  z[i].shift(shiftx, shifty);
-  if (z[i].posx < 0 - SEEX             || z[i].posy < 0 - SEEX ||
-      z[i].posx > SEEX * (MAPSIZE + 1) || z[i].posy > SEEY * (MAPSIZE + 1)) {
-// Despawn; we're out of bounds
-   if (z[i].spawnmapx != -1) {	// Static spawn, move them back there
-    map tmp(&itypes, &mapitems, &traps);
-    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
-    tmp.add_spawn(&(z[i]));
-    tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
-   } else {	// Absorb them back into a group
-    group = valid_group((mon_id)(z[i].type->id), levx + shiftx, levy + shifty);
-    if (group != -1) {
-     cur_om.zg[group].population++;
-     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
-         !cur_om.zg[group].diffuse)
-      cur_om.zg[group].radius++;
-    }
-/*  Removing adding new groups for now.  Haha!
- else if (mt_to_mc((mon_id)(z[i].type->id)) != mcat_null)
-     cur_om.zg.push_back(mongroup(mt_to_mc((mon_id)(z[i].type->id)),
-                                  levx + shiftx, levy + shifty, 1, 1));
-*/
-   }
-   z.erase(z.begin()+i);
-   i--;
-  }
- }
-// Shift NPCs
+ despawn_monsters(false, shiftx, shifty);
+
+ // Shift NPCs
  for (int i = 0; i < active_npc.size(); i++) {
   active_npc[i].shift(shiftx, shifty);
   if (active_npc[i].posx < 0 - SEEX * 2 ||
@@ -8224,6 +8182,54 @@ void game::update_stair_monsters()
   monstairx = -1;
   monstairy = -1;
   monstairz = 999;
+ }
+}
+
+void game::despawn_monsters(const bool stairs, const int shiftx, const int shifty)
+{
+ for (unsigned int i = 0; i < z.size(); i++) {
+  // If either shift argument is non-zero, we're shifting.
+  if(shiftx != 0 || shifty != 0) {
+   z[i].shift(shiftx, shifty);
+   if (z[i].posx >= 0 - SEEX             && z[i].posy >= 0 - SEEX &&
+       z[i].posx <= SEEX * (MAPSIZE + 1) && z[i].posy <= SEEY * (MAPSIZE + 1))
+     // We're inbounds, so don't despawn after all.
+     continue;
+  }
+
+  if (stairs && z[i].will_reach(this, u.posx, u.posy)) {
+   int turns = z[i].turns_to_reach(this, u.posx, u.posy);
+   if (turns < 999)
+    coming_to_stairs.push_back( monster_and_count(z[i], 1 + turns) );
+  } else if (z[i].spawnmapx != -1) {
+   // Static spawn, create a new spawn here.
+   z[i].spawnmapx = levx + z[i].posx / SEEX;
+   z[i].spawnmapy = levy + z[i].posy / SEEY;
+   tinymap tmp(&itypes, &mapitems, &traps);
+   tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, false);
+   tmp.add_spawn(&(z[i]));
+   tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy);
+  } else if ((stairs || shiftx != 0 || shifty != 0) && z[i].friendly < 0) {
+   // Friendly, make it into a static spawn.
+   tinymap tmp(&itypes, &mapitems, &traps);
+   tmp.load(this, levx, levy, false);
+   tmp.add_spawn(&(z[i]));
+   tmp.save(&cur_om, turn, levx, levy);
+  } else {
+   	// No spawn site, so absorb them back into a group.
+   int group = valid_group((mon_id)(z[i].type->id), levx + shiftx, levy + shifty);
+   if (group != -1) {
+    cur_om.zg[group].population++;
+    if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
+        !cur_om.zg[group].diffuse)
+     cur_om.zg[group].radius++;
+   }
+  }
+  // Shifting needs some cleanup for despawned monsters since they won't be cleared afterwards.
+  if(shiftx != 0 || shifty != 0) {
+    z.erase(z.begin()+i);
+    i--;
+  }
  }
 }
 
