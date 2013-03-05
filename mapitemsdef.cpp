@@ -136,7 +136,8 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_magazines],
 	itm_mag_tv, itm_mag_news, itm_mag_cars, itm_mag_cooking,
-	itm_novel_romance, itm_novel_spy, itm_mag_carpentry,  NULL);
+	itm_novel_romance, itm_novel_spy, itm_mag_carpentry,
+	itm_mag_guns, itm_mag_archery, NULL);
 
  setvector(
    mapitems[mi_softdrugs],
@@ -239,7 +240,7 @@ void game::init_mapitems()
 	itm_sewing_kit, itm_thread, itm_hammer, itm_flashlight, itm_water_purifier,
 	itm_radio, itm_beartrap, itm_extinguisher, itm_string_36, itm_longbow,
 	itm_compbow, itm_arrow_wood, itm_arrow_cf, itm_rollmat, itm_tent_kit,
-	itm_tshirt_fit, itm_foot_crank, NULL);
+	itm_tshirt_fit, itm_foot_crank, itm_mag_archery, NULL);
 
  setvector(
    mapitems[mi_alcohol],
@@ -307,7 +308,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_gunxtras],
 	itm_glasses_safety, itm_goggles_nv, itm_holster, itm_bootstrap,
-	itm_mag_guns, itm_flashlight, itm_UPS_off, itm_silencer, itm_grip,
+	itm_mag_guns, itm_mag_archery, itm_flashlight, itm_UPS_off, itm_silencer, itm_grip,
 	itm_barrel_big, itm_barrel_small, itm_barrel_rifled, itm_clip, itm_spare_mag,
 	itm_clip2, itm_stablizer, itm_blowback, itm_autofire, itm_retool_45,
 	itm_retool_9mm, itm_retool_22, itm_retool_57, itm_retool_46,

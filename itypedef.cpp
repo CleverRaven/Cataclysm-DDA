@@ -3219,6 +3219,12 @@ BOOK("Guns n Ammo",		20,  48,c_pink,		PAPER,	MNULL,
     1,  1, -3,  1,	"gun",		 1,  0,  1,  2,  7, "\
 Reviews of firearms, and various useful tips about their use.");
 
+BOOK("Archery for Kids",		20,  48, c_pink,		PAPER,	MNULL,
+    1,  1, -3,  1,	"archery",		 1,  0,  1,  2,  7, "\
+Will you be able to place the arrow right into bull's eye?\n\
+It is not that easy, but once you know how it's done,\n\
+you will have a lot of fun with archery.");
+
 BOOK("romance novel",		30,  55,c_ltblue,	PAPER,	MNULL,
     4,  1, -2,  0,	NULL,	 0,  0,  2,  4, 15, "\
 Drama and mild smut.");
@@ -3941,7 +3947,7 @@ TOOL("wood saw",	15, 40, ';', c_cyan,	IRON,	WOOD,
 A flimsy saw, useful for cutting through wood objects.");
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-TOOL("wood axe",	 8, 105,'/', c_ltgray,	WOOD,	IRON,
+TOOL("wood ax",	 8, 105,'/', c_ltgray,	WOOD,	IRON,
 //	VOL WGT DAM CUT HIT FLAGS
 	17, 15, 24, 18,  1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::lumber,
 0, "\
@@ -4058,9 +4064,9 @@ app on, and is providing light.");
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 TOOL("pocket knife",	14, 100,';', c_blue,	STEEL,  PLASTIC,
 //	VOL WGT DAM CUT HIT FLAGS
-	 2,  2,  2, 10, -4, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
+	 0,  2,  0, 10, -4, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
 mfb(IF_STAB), "\
-A small pocket knife.");
+A small pocket knife, not great for combat, but better than nothing.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
