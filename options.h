@@ -24,6 +24,7 @@ OPT_DELETE_WORLD, // Delete workd every time New Character is created
 OPT_INITIAL_POINTS, // Set the number of character points
 OPT_VIEWPORT_X, // Set the width of the terrain window, in characters
 OPT_VIEWPORT_Y, // Set the height of the terrain window, in characters
+OPT_STATIC_SPAWN, // Makes zombies spawn using the new static system
 NUM_OPTION_KEYS
 };
 

@@ -104,6 +104,8 @@ option_key lookup_option_key(std::string id)
   return OPT_VIEWPORT_X;
  if (id == "viewport_y")
   return OPT_VIEWPORT_Y;
+ if (id == "static_spawn")
+  return OPT_STATIC_SPAWN;
  return OPT_NULL;
 }
 
@@ -129,6 +131,7 @@ std::string option_string(option_key key)
   case OPT_INITIAL_POINTS: return "initial_points";
   case OPT_VIEWPORT_X: return "viewport_x";
   case OPT_VIEWPORT_Y: return "viewport_y";
+  case OPT_STATIC_SPAWN: return "static_spawn";
   default:			return "unknown_option";
  }
  return "unknown_option";
@@ -156,6 +159,7 @@ std::string option_desc(option_key key)
   case OPT_INITIAL_POINTS: return "Initial points available on character\ngeneration.  Default is 6";
   case OPT_VIEWPORT_X: return "Set the expansion of the viewport along\nthe X axis.  Must restart for changes\nto take effect.  Default is 12";
   case OPT_VIEWPORT_Y: return "Set the expansion of the viewport along\nthe Y axis.  Must restart for changes\nto take effect.  Default is 12";
+  case OPT_STATIC_SPAWN: return "Spawn zombies at game start instead of\nduring game. Must delete save directory\nafter changing for it to take effect.\nDefault is 12";
   default:			return " ";
  }
  return "Big ol Bug";
@@ -183,6 +187,7 @@ std::string option_name(option_key key)
   case OPT_INITIAL_POINTS: return "Initial points";
   case OPT_VIEWPORT_X: return "Viewport width";
   case OPT_VIEWPORT_Y: return "Viewport height";
+  case OPT_STATIC_SPAWN: return "Static spawn";
   default:			return "Unknown Option (BUG)";
  }
  return "Big ol Bug";
@@ -289,10 +294,11 @@ skill_rust 0\n\
 delete_world 0\n\
 # Initial points available in character generation\n\
 initial_points 6\n\
-# How far to expand the viewport's width in each direction.\n\
+# The width of the terrain window in characters.\n\
 viewport_x 12\n\
-# Same as viewport_x, but in height.\n\
+# The height of the terrain window, which is also the height of the main window, in characters.\n\
 viewport_y 12\n\
+# Spawn zombies at game start instead of during the game.  You must create a new world after changing\n\
 ";
  fout.close();
 }

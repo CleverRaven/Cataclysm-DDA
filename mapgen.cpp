@@ -6,6 +6,7 @@
 #include "rng.h"
 #include "line.h"
 #include "debug.h"
+#include "options.h"
 
 #ifndef sgn
 #define sgn(x) (((x) < 0) ? -1 : 1)
@@ -7298,6 +7299,9 @@ void map::post_process(game *g, unsigned zones)
 void map::place_spawns(game *g, const moncat_id monster_type, const int chance,
                        const int x1, const int y1, const int x2, const int y2, const float density)
 {
+ if (!OPTIONS[OPT_STATIC_SPAWN])
+  return;
+
  if (one_in(chance))
  {
   const std::vector<mon_id> group = g->moncats[monster_type];
