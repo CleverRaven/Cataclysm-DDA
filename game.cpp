@@ -5556,9 +5556,13 @@ void game::list_items()
  int iStartPos = 0;
  int iActiveX = 0;
  int iActiveY = 0;
+ int iLastActiveX = -1;
+ int iLastActiveY = -1;
+ std::vector<point> vPoint;
  InputEvent input = Undefined;
  long ch = '.';
  int iFilter = 0;
+ bool bStopDrawing = false;
 
  do {
   if (iItemNum > 0) {
@@ -5583,6 +5587,8 @@ void game::list_items()
 
     sFilter = string_input_popup("Filter:", 55, sFilter);
     iActive = 0;
+    iLastActiveX = -1;
+    iLastActiveY = -1;
     ch = '.';
 
    } else if (ch == 'r' || ch == 'R') {
@@ -5608,110 +5614,127 @@ void game::list_items()
     wprintz(w_items, c_white, "%s", "ilter ");
    }
 
+   bStopDrawing = false;
+
    switch(input) {
     case DirectionN:
      iActive--;
-     if (iActive < 0)
+     if (iActive < 0) {
       iActive = 0;
+      bStopDrawing = true;
+     }
      break;
     case DirectionS:
      iActive++;
-     if (iActive >= iItemNum - iFilter)
+     if (iActive >= iItemNum - iFilter) {
       iActive = iItemNum - iFilter-1;
+      bStopDrawing = true;
+     }
      break;
    }
 
-   if (iItemNum - iFilter > iMaxRows) {
-    iStartPos = iActive - (iMaxRows - 1) / 2;
+   if (!bStopDrawing) {
+    if (iItemNum - iFilter > iMaxRows) {
+     iStartPos = iActive - (iMaxRows - 1) / 2;
 
-    if (iStartPos < 0)
-     iStartPos = 0;
-    else if (iStartPos + iMaxRows > iItemNum - iFilter)
-     iStartPos = iItemNum - iFilter - iMaxRows;
-   }
+     if (iStartPos < 0)
+      iStartPos = 0;
+     else if (iStartPos + iMaxRows > iItemNum - iFilter)
+      iStartPos = iItemNum - iFilter - iMaxRows;
+    }
 
-   for (int i = 0; i < iMaxRows; i++)
-    mvwprintz(w_items, 1 + i, 1, c_black, "%s", "                                                     ");
+    for (int i = 0; i < iMaxRows; i++)
+     mvwprintz(w_items, 1 + i, 1, c_black, "%s", "                                                     ");
 
-   int iNum = 0;
-   iFilter = 0;
-   iActiveX = 0;
-   iActiveY = 0;
-   std::string sActiveItemName;
-   std::stringstream sText;
-   std::string sFilterPre = "";
-   std::string sFilterTemp = sFilter;
-   if (sFilterTemp != "" && sFilter.substr(0, 1) == "-") {
-    sFilterPre = "-";
-    sFilterTemp = sFilterTemp.substr(1, sFilterTemp.size()-1);
-   }
+    //TODO: Speed this up, first attemp to do so failed
+    int iNum = 0;
+    iFilter = 0;
+    iActiveX = 0;
+    iActiveY = 0;
+    std::string sActiveItemName;
+    std::stringstream sText;
+    std::string sFilterPre = "";
+    std::string sFilterTemp = sFilter;
+    if (sFilterTemp != "" && sFilter.substr(0, 1) == "-") {
+     sFilterPre = "-";
+     sFilterTemp = sFilterTemp.substr(1, sFilterTemp.size()-1);
+    }
 
-   for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
-    for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
-     for (std::map< std::string, int>::iterator iter=grounditems[iCol][iRow].begin(); iter!=grounditems[iCol][iRow].end(); ++iter) {
-      if (sFilterTemp == "" || (sFilterTemp != "" && ((sFilterPre != "-" && list_items_match(iter->first, sFilterTemp)) ||
-                                                      (sFilterPre == "-" && !list_items_match(iter->first, sFilterTemp))))) {
-       if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) ) {
-        if (iNum == iActive) {
-         iActiveX = iCol;
-         iActiveY = iRow;
-         sActiveItemName = iter->first;
+    for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
+     for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
+      for (std::map< std::string, int>::iterator iter=grounditems[iCol][iRow].begin(); iter!=grounditems[iCol][iRow].end(); ++iter) {
+       if (sFilterTemp == "" || (sFilterTemp != "" && ((sFilterPre != "-" && list_items_match(iter->first, sFilterTemp)) ||
+                                                       (sFilterPre == "-" && !list_items_match(iter->first, sFilterTemp))))) {
+        if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) ) {
+         if (iNum == iActive) {
+          iActiveX = iCol;
+          iActiveY = iRow;
+          sActiveItemName = iter->first;
+         }
+         sText.str("");
+         sText << iter->first;
+         if (iter->second > 1)
+          sText << " " << "[" << iter->second << "]";
+         mvwprintz(w_items, 1 + iNum - iStartPos, 2, ((iNum == iActive) ? c_ltgreen : c_white), "%s", (sText.str()).c_str());
+         mvwprintz(w_items, 1 + iNum - iStartPos, 48, ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
+                   ((iItemNum > 9) ? 2 : 1),
+                   trig_dist(0, 0, iCol, iRow),
+                   direction_name_short(direction_from(0, 0, iCol, iRow)).c_str()
+                  );
         }
-        sText.str("");
-        sText << iter->first;
-        if (iter->second > 1)
-         sText << " " << "[" << iter->second << "]";
-        mvwprintz(w_items, 1 + iNum - iStartPos, 2, ((iNum == iActive) ? c_ltgreen : c_white), "%s", (sText.str()).c_str());
-        mvwprintz(w_items, 1 + iNum - iStartPos, 48, ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                  ((iItemNum > 9) ? 2 : 1),
-                  trig_dist(0, 0, iCol, iRow),
-                  direction_name_short(direction_from(0, 0, iCol, iRow)).c_str()
-                 );
-       }
 
-       iNum++;
-      } else {
-       iFilter++;
+        iNum++;
+       } else {
+        iFilter++;
+       }
       }
      }
     }
-   }
 
-   mvwprintz(w_items, 0, 23 + ((iItemNum - iFilter > 9) ? 0 : 1), c_ltgreen, " %*d", ((iItemNum - iFilter > 9) ? 2 : 1), iActive+1);
-   wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
+    mvwprintz(w_items, 0, 23 + ((iItemNum - iFilter > 9) ? 0 : 1), c_ltgreen, " %*d", ((iItemNum - iFilter > 9) ? 2 : 1), iActive+1);
+    wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
 
-   wclear(w_item_info);
-   mvwprintz(w_item_info, 0, 0, c_white, "%s", iteminfo[sActiveItemName].info().c_str());
+    wclear(w_item_info);
+    mvwprintz(w_item_info, 0, 0, c_white, "%s", iteminfo[sActiveItemName].info().c_str());
 
-   for (int j=0; j < iInfoHeight-1; j++)
-    mvwputch(w_item_info, j, 0, c_ltgray, LINE_XOXO);
+    for (int j=0; j < iInfoHeight-1; j++)
+     mvwputch(w_item_info, j, 0, c_ltgray, LINE_XOXO);
 
-   for (int j=0; j < iInfoHeight-1; j++)
-    mvwputch(w_item_info, j, 54, c_ltgray, LINE_XOXO);
+    for (int j=0; j < iInfoHeight-1; j++)
+     mvwputch(w_item_info, j, 54, c_ltgray, LINE_XOXO);
 
-   for (int j=0; j < 54; j++)
-    mvwputch(w_item_info, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
+    for (int j=0; j < 54; j++)
+     mvwputch(w_item_info, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
 
-   mvwputch(w_item_info, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
-   mvwputch(w_item_info, iInfoHeight-1, 54, c_ltgray, LINE_XOOX);
+    mvwputch(w_item_info, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
+    mvwputch(w_item_info, iInfoHeight-1, 54, c_ltgray, LINE_XOOX);
 
-   draw_ter();
-   std::vector<point> trajectory = line_to(u.posx, u.posy, u.posx + iActiveX, u.posy + iActiveY, 0);
-   int junk;
-   for (int i = 0; i < trajectory.size(); i++) {
-    if (i > 0)
-     m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, true, true);
+    //Only redraw trail/terrain if x/y position changed
+    if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {
+     iLastActiveX = iActiveX;
+     iLastActiveY = iActiveY;
 
-    if (u_see(trajectory[i].x, trajectory[i].y, junk)) {
-     char bullet = 'X';
-     mvwputch(w_terrain, trajectory[i].y + VIEWY - u.posy - u.view_offset_y,
-                         trajectory[i].x + VIEWX - u.posx - u.view_offset_x, c_white, bullet);
+     //Remove previous trail
+     for (int i = 0; i < vPoint.size(); i++) {
+      m.drawsq(w_terrain, u, vPoint[i].x, vPoint[i].y, false, true);
+     }
+
+     //Draw new trail
+     vPoint = line_to(u.posx, u.posy, u.posx + iActiveX, u.posy + iActiveY, 0);
+     for (int i = 1; i < vPoint.size(); i++) {
+       m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
+     }
+
+     mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
+                         vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
+
+     wrefresh(w_terrain);
     }
+
+    wrefresh(w_items);
+    wrefresh(w_item_info);
    }
 
-   wrefresh(w_terrain);
-   wrefresh(w_items);
-   wrefresh(w_item_info);
    ch = getch();
    input = get_input(ch);
   } else {
