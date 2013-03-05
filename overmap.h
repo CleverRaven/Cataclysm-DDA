@@ -8,9 +8,7 @@
 #include "output.h"
 #include <vector>
 #include <iosfwd>
-
 #include "cursesdef.h"
-
 
 class npc;
 struct settlement;

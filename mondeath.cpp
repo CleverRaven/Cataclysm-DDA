@@ -242,7 +242,7 @@ void mdeath::blobsplit(game *g, monster *z)
     valid.push_back(point(z->posx+i, z->posy+j));
   }
  }
- 
+
  int rn;
  for (int s = 0; s < 2 && valid.size() > 0; s++) {
   rn = rng(0, valid.size() - 1);

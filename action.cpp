@@ -354,7 +354,7 @@ std::string action_name(action_id act)
   case ACTION_CONSTRUCT:
    return "Construct Terrain";
   case ACTION_DISASSEMBLE:
-   return "Disassemble items";   
+   return "Disassemble items";
   case ACTION_SLEEP:
    return "Sleep";
   case ACTION_TOGGLE_SAFEMODE:

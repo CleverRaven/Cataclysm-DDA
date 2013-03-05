@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
@@ -908,7 +907,8 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
     if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) { // It's in-bounds
      cur_ter = ter(omx, omy);
      see = seen(omx, omy);
-     if (note_here = has_note(omx, omy))
+     note_here = has_note(omx, omy);
+     if (note_here)
       note_text = note(omx, omy);
      for (int n = 0; n < npcs.size(); n++) {
       if ((npcs[n].mapx + 1) / 2 == omx && (npcs[n].mapy + 1) / 2 == omy) {
@@ -927,12 +927,14 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
       omy += (omy < 0 ? OMAPY : 0 - OMAPY);
       cur_ter = diag.ter(omx, omy);
       see = diag.seen(omx, omy);
-      if ((note_here = diag.has_note(omx, omy)))
+      note_here = diag.has_note(omx, omy);
+      if (note_here)
        note_text = diag.note(omx, omy);
      } else {
       cur_ter = hori.ter(omx, omy);
       see = hori.seen(omx, omy);
-      if (note_here = hori.has_note(omx, omy))
+      note_here = hori.has_note(omx, omy);
+      if (note_here)
        note_text = hori.note(omx, omy);
      }
     } else if (omx >= OMAPX) {
@@ -941,25 +943,29 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
       omy += (omy < 0 ? OMAPY : 0 - OMAPY);
       cur_ter = diag.ter(omx, omy);
       see = diag.seen(omx, omy);
-      if (note_here = diag.has_note(omx, omy))
+      note_here = diag.has_note(omx, omy);
+      if (note_here)
        note_text = diag.note(omx, omy);
      } else {
       cur_ter = hori.ter(omx, omy);
       see = hori.seen(omx, omy);
-      if ((note_here = hori.has_note(omx, omy)))
+      note_here = hori.has_note(omx, omy);
+      if (note_here)
        note_text = hori.note(omx, omy);
      }
     } else if (omy < 0) {
      omy += OMAPY;
      cur_ter = vert.ter(omx, omy);
      see = vert.seen(omx, omy);
-     if ((note_here = vert.has_note(omx, omy)))
+     note_here = vert.has_note(omx, omy);
+     if (note_here)
       note_text = vert.note(omx, omy);
     } else if (omy >= OMAPY) {
      omy -= OMAPY;
      cur_ter = vert.ter(omx, omy);
      see = vert.seen(omx, omy);
-     if ((note_here = vert.has_note(omx, omy)))
+     note_here = vert.has_note(omx, omy);
+     if (note_here)
       note_text = vert.note(omx, omy);
     } else
      debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
@@ -967,6 +973,9 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
     if (see) {
      if (note_here && blink) {
       ter_color = c_yellow;
+      if (note_text[1] == ':')
+       ter_sym = note_text[0];
+      else
       ter_sym = 'N';
      } else if (omx == origx && omy == origy && blink) {
       ter_color = g->u.color();
@@ -1018,6 +1027,8 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
   }
   if (has_note(cursx, cursy)) {
    note_text = note(cursx, cursy);
+   if (note_text[1] == ':')
+    note_text = note_text.substr(2, note_text.size());
    for (int i = 0; i < note_text.length(); i++)
     mvwputch(w, 1, i, c_white, LINE_OXOX);
    mvwputch(w, 1, note_text.length(), c_white, LINE_XOOX);
@@ -1050,13 +1061,13 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
 
    if (target.x != -1 && target.y != -1) {
     int distance = rl_dist(origx, origy, target.x, target.y);
-    mvwprintz(w, 3, om_map_width, c_white, "Distance to target: %d", distance);
+    mvwprintz(w, 3, om_map_width + 1, c_white, "Distance to target: %d", distance);
    }
    mvwprintz(w, 17, om_map_width + 1, c_magenta, "Use movement keys to pan.  ");
    mvwprintz(w, 18, om_map_width + 1, c_magenta, "0 - Center map on character");
    mvwprintz(w, 19, om_map_width + 1, c_magenta, "t - Toggle legend          ");
    mvwprintz(w, 20, om_map_width + 1, c_magenta, "/ - Search                 ");
-   mvwprintz(w, 21, om_map_width + 1, c_magenta, "N - Add a note             ");
+   mvwprintz(w, 21, om_map_width + 1, c_magenta, "N - Add/Edit a note        ");
    mvwprintz(w, 22, om_map_width + 1, c_magenta, "D - Delete a note          ");
    mvwprintz(w, 23, om_map_width + 1, c_magenta, "L - List notes             ");
    mvwprintz(w, 24, om_map_width + 1, c_magenta, "Esc or q - Return to game  ");
@@ -1096,7 +1107,7 @@ point overmap::choose_point(game *g)
    ret = point(-1, -1);
   else if (ch == 'N') {
    timeout(-1);
-   add_note(cursx, cursy, string_input_popup("Enter note", 49)); // 49 char max
+   add_note(cursx, cursy, string_input_popup("Note (X:TEXT for custom symbol):", 49, note(cursx, cursy))); // 49 char max
    timeout(BLINK_SPEED);
   } else if(ch == 'D'){
    timeout(-1);
@@ -1366,7 +1377,6 @@ void overmap::place_river(point pa, point pb)
 
 spawns happen at... <cue Clue music>
 20:56	<kevingranade>: game:pawn_mon() in game.cpp:7380*/
-
 void overmap::place_cities()
 {
  int NUM_CITIES = dice(3, 4);
@@ -2280,7 +2290,7 @@ void overmap::place_special(overmap_special special, point p)
   ter(p.x, p.y - 1) = ot_s_lot;
   make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, ot_road_null);
  }
-  if (special.flags & mfb(OMS_FLAG_DIRT_LOT)) {
+ if (special.flags & mfb(OMS_FLAG_DIRT_LOT)) {
   int closest = -1, distance = 999;
   for (int i = 0; i < cities.size(); i++) {
    int dist = rl_dist(p.x, p.y, cities[i].x, cities[i].y);

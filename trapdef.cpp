@@ -21,13 +21,13 @@ traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
 
 //      Name                    Symbol  Colour          Vis Avd Diff
  TRAP("brazier",                '#',    c_red,           0,  0,  0,
-        &trapfunc::none,         &trapfuncm::none, 
+        &trapfunc::none,         &trapfuncm::none,
         itm_brazier, NULL);
 
 //      Name                    Symbol  Colour          Vis Avd Diff
  TRAP("roll mat",               '#',    c_blue,          0,  0,  0,
         &trapfunc::none,     &trapfuncm::none,
-        itm_rollmat, NULL); 
+        itm_rollmat, NULL);
 //	Name			Symbol	Color		Vis Avd Diff
  TRAP("bear trap",		'^',	c_blue,		 2,  7,  3,
 	&trapfunc::beartrap,	&trapfuncm::beartrap,
@@ -71,8 +71,13 @@ traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
 	&trapfunc::blade,	&trapfuncm::blade,
 	NULL);
 
-//	Name			Symbol	Color		Vis Avd Diff
- TRAP("land mine",		'_',	c_red,		10, 14, 10,
+//	Name			    Symbol	Color		Vis Avd Diff
+ TRAP("land mine",		'^',	c_red,	     1, 14, 10,
+	&trapfunc::landmine,	&trapfuncm::landmine,
+	itm_landmine, NULL);
+
+//	Name			          Symbol	Color		Vis Avd Diff
+ TRAP("buried land mine",		'_',	c_red,		10, 14, 10,
 	&trapfunc::landmine,	&trapfuncm::landmine,
 	itm_landmine, NULL);
 

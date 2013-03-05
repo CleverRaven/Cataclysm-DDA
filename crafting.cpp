@@ -1,6 +1,6 @@
 #include <string>
 #include <sstream>
-#include "keypress.h"
+#include "input.h"
 #include "game.h"
 #include "options.h"
 #include "output.h"
@@ -43,6 +43,11 @@ RECIPE(itm_lighter, CC_NONCRAFT, NULL, NULL, 0, 100, true);
 
 RECIPE(itm_tshirt, CC_NONCRAFT, "tailor", NULL, 2, 38000, true);
   TOOL(itm_sewing_kit, 4, NULL);
+  COMP(itm_rag, 5, NULL);
+RECIPE(itm_tshirt_fit, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
+  COMP(itm_rag, 5, NULL);
+
+RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP(itm_rag, 5, NULL);
 // CRAFTABLE
 
@@ -463,7 +468,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   TOOL(itm_hotplate, 6, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_meat, 1, NULL);
-  COMP(itm_veggy,1, NULL);
+  COMP(itm_veggy,1, itm_veggy_wild, 1,NULL);
   COMP(itm_water,1, NULL);
 
  RECIPE(itm_veggy_cooked, CC_FOOD, "cooking", NULL, 0, 4000, false);
@@ -540,14 +545,14 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
-  COMP(itm_broccoli, 1, itm_zucchini, 1, itm_veggy, 1, NULL);
+  COMP(itm_broccoli, 1, itm_zucchini, 1, itm_veggy, 1, itm_veggy_wild, 1, NULL);
 
  RECIPE(itm_soup, CC_FOOD, "cooking", NULL, 2, 10000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pot, -1, NULL);
   COMP(itm_broth, 2, NULL);
   COMP(itm_macaroni_raw, 1, itm_potato_raw, 1, NULL);
-  COMP(itm_tomato, 2, itm_broccoli, 2, itm_zucchini, 2, itm_veggy, 2, NULL);
+  COMP(itm_tomato, 2, itm_broccoli, 2, itm_zucchini, 2, itm_veggy, 2, itm_veggy_wild, 2, NULL);
 
  RECIPE(itm_bread, CC_FOOD, "cooking", NULL, 4, 20000, false);
   TOOL(itm_hotplate, 8, itm_toolset, 1, itm_fire, -1, NULL);
@@ -567,7 +572,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   TOOL(itm_hotplate, 8, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, NULL);
   COMP(itm_flour, 2, NULL);
-  COMP(itm_veggy, 1, itm_tomato, 2, itm_broccoli, 1, NULL);
+  COMP(itm_veggy, 1, itm_veggy_wild, 1, itm_tomato, 2, itm_broccoli, 1, NULL);
   COMP(itm_sauce_pesto, 1, itm_sauce_red, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
@@ -903,13 +908,20 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_steel_chunk, 12, NULL);
   COMP(itm_wire, 3, NULL);
 
- RECIPE(itm_string_36, CC_MISC, NULL, NULL, 0, 5000, false);
+ RECIPE(itm_string_6, CC_MISC, NULL, NULL, 0, 5000, true);
+  TOOL(itm_knife_steak, -1, itm_knife_combat, -1, NULL);
+  COMP(itm_thread, 50, NULL);
+
+ RECIPE(itm_string_36, CC_MISC, NULL, NULL, 0, 5000, true);
+  TOOL(itm_knife_steak, -1, itm_knife_combat, -1, NULL);
   COMP(itm_string_6, 6, NULL);
 
- RECIPE(itm_rope_6, CC_MISC, "tailor", NULL, 2, 5000, false);
+ RECIPE(itm_rope_6, CC_MISC, "tailor", NULL, 0, 5000, true);
+  TOOL(itm_knife_steak, -1, itm_knife_combat, -1, NULL);
   COMP(itm_string_36, 6, NULL);
 
- RECIPE(itm_rope_30, CC_MISC, "tailor", NULL, 2, 5000, false);
+ RECIPE(itm_rope_30, CC_MISC, "tailor", NULL, 0, 5000, true);
+  TOOL(itm_knife_steak, -1, itm_knife_combat, -1, NULL);
   COMP(itm_rope_6, 5, NULL);
 
  RECIPE(itm_torch,        CC_MISC, NULL,    NULL,     0, 2000, false);
@@ -1071,7 +1083,7 @@ void game::craft()
  int line = 0, xpos, ypos;
  bool redraw = true;
  bool done = false;
- char ch;
+ InputEvent input;
 
  inventory crafting_inv = crafting_inventory();
 
@@ -1243,29 +1255,29 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
   }
 
   wrefresh(w_data);
-  ch = input();
-  switch (ch) {
-  case '<':
+  input = get_input();
+  switch (input) {
+  case DirectionUp:
    if (tab == CC_WEAPON)
     tab = CC_MISC;
    else
     tab = craft_cat(int(tab) - 1);
    redraw = true;
    break;
-  case '>':
+  case DirectionDown:
    if (tab == CC_MISC)
     tab = CC_WEAPON;
    else
     tab = craft_cat(int(tab) + 1);
    redraw = true;
    break;
-  case 'j':
+  case DirectionS:
    line++;
    break;
-  case 'k':
+  case DirectionN:
    line--;
    break;
-  case '\n':
+  case Confirm:
    if (!available[line])
     popup("You can't do that!");
    else
@@ -1285,7 +1297,7 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
     done = true;
    }
    break;
-  case '?':
+  case Help:
    tmp = item(itypes[current[line]->result], 0);
    full_screen_popup(tmp.info(true).c_str());
    redraw = true;
@@ -1295,7 +1307,7 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
    line = current.size() - 1;
   else if (line >= current.size())
    line = 0;
- } while (ch != KEY_ESCAPE && ch != 'q' && ch != 'Q' && !done);
+ } while (input != Cancel && !done);
 
  werase(w_head);
  werase(w_data);
@@ -1781,7 +1793,7 @@ void game::consume_tools(std::vector<component> tools)
 void game::disassemble()
 {
   char ch = inv("Disassemble item:");
-  if (ch == KEY_ESCAPE) {
+  if (ch == 27) {
     add_msg("Never mind.");
     return;
   }

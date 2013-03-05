@@ -131,7 +131,7 @@ void inventory::push_back(std::vector<item> newits)
 {
  add_stack(newits);
 }
- 
+
 void inventory::add_item(item newit, bool keep_invlet)
 {
  if (keep_invlet && !newit.invlet_is_okay())
@@ -147,7 +147,7 @@ void inventory::add_item(item newit, bool keep_invlet)
   } else if (keep_invlet && items[i][0].invlet == newit.invlet)
    assign_empty_invlet(items[i][0]);
  }
- if (!newit.invlet_is_okay() || index_by_letter(newit.invlet) != -1) 
+ if (!newit.invlet_is_okay() || index_by_letter(newit.invlet) != -1)
   assign_empty_invlet(newit);
 
  std::vector<item> newstack;
@@ -434,7 +434,7 @@ void inventory::use_charges(itype_id it, int quantity)
   }
  }
 }
- 
+
 bool inventory::has_amount(itype_id it, int quantity)
 {
  return (amount_of(it) >= quantity);

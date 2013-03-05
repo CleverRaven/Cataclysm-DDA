@@ -59,5 +59,4 @@ struct rl_vec2d {
  rl_vec2d operator+ (const rl_vec2d &rhs);
 };
 
-
 #endif

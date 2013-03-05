@@ -121,7 +121,7 @@ class iuse
   void wrench           (game *g, player *p, item *it, bool t);
   void boltcutters      (game *g, player *p, item *it, bool t);
   void mop              (game *g, player *p, item *it, bool t);
-  void spray_can        (game *g, player *p, item *it, bool t); 
+  void spray_can        (game *g, player *p, item *it, bool t);
   void rag              (game *g, player *p, item *it, bool t);
   void pda              (game *g, player *p, item *it, bool t);
   void pda_flashlight   (game *g, player *p, item *it, bool t);

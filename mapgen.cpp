@@ -282,13 +282,12 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
       if (one_in(30))
       {
         ter(i, j) = t_shrub_blueberry;
-        add_item(i, j, (*itypes)[itm_blueberries], turn);
       }
       else
       ter(i, j) = t_shrub;
     }
     else
-    if (one_in(99999)) ter(i,j) = t_mutpoppy;
+    if (one_in(1000)) ter(i,j) = t_mutpoppy;
     //------------------
     }
   }
@@ -981,6 +980,7 @@ void map::draw_map(oter_id terrain_type, oter_id t_north, oter_id t_east,
  case ot_house_east:
  case ot_house_south:
  case ot_house_west:
+
   lw = rng(0, 4);		// West external wall
   mw = lw + rng(7, 10);		// Middle wall between bedroom & kitchen/bath
   rw = SEEX * 2 - rng(1, 5);	// East external wall
@@ -2340,9 +2340,9 @@ case ot_lmoe: {
   place_items(mi_shelter, 70, 18, 13, 20, 14, false, 0);
   place_items(mi_novels, 70, 16, 3, 16, 5, false, 0);
   place_items(mi_office, 50, 20, 7, 20, 7, false, 0);
-  
-  
-  
+
+
+
   //place_items(whatever, 80, 0, 0, 0, 0, false, 0);
   break;
 
@@ -4322,7 +4322,7 @@ case ot_s_garage_north:
             vt = one_in(2) ? veh_car : veh_car_chassis;
           else if(one_in(2))
             vt = one_in(2) ? veh_sandbike : veh_sandbike_chassis;
-          else 
+          else
             vt = one_in(2) ? veh_motorcycle : veh_motorcycle_chassis;
           add_vehicle (g, vt, vx, vy, theta);
         }
@@ -4332,8 +4332,6 @@ case ot_s_garage_north:
  case ot_cabin:
 	{
 	square(this, t_grass, 0, 0, 23, 23);
-	
-
 
 	//Cabin design 1 Quad
 	if(one_in(2)){
@@ -4419,7 +4417,7 @@ case ot_s_garage_north:
 	add_spawn(mon_zombie, rng(1, 5), 11, 12);
 	}
 	else {
-	
+
 	square(this, t_wall_log, 4, 2, 10, 6);
 	square(this, t_floor, 5, 3, 9, 5);
 	square(this, t_wall_log, 3, 9, 20, 20);
@@ -4459,29 +4457,28 @@ case ot_s_garage_north:
 	}
 }
 break;
+
  case ot_farm:
 		{
 		square(this, t_grass, 0, 0, 23, 23); //basic lot
 		square(this, t_floor, 0, 0, 14, 9);  //house floor #1
 		square(this, t_wall_wood, 16, 0, 23, 9); //Barn exterior #2
-		
+
 		for (int i = 0; i < SEEX * 2; i++) {
 		for (int j = 13; j < SEEY * 2; j++)
 		ter(i, j) = grass_or_dirt();
 		}
-		
-		/*square(this, grass_or_dirt(), 0, 13, 23, 23); //Oddzball-field exterior #3 */
-		line(this, t_wall_h, 0, 0, 14, 0); //Oddzball-House north wall #4
-		line(this, t_wall_h, 0, 9, 14, 9); //Oddzball-House south wall #5
-		line(this, t_wall_h, 1, 5, 8, 5); //Oddzball-House interior wall 1 horizontal #6
-		line(this, t_wall_h, 10, 4, 13, 4); //Oddzball-House interior wall 2 horizontal #7
-		line(this, t_wall_v, 0, 1, 0, 8); //Oddzball-House west wall #8
-		line(this, t_wall_v, 14, 1, 14, 8);//Oddzball-House east wall #9
-		line(this, t_wall_v, 9, 4, 9, 5);//Oddzball-House interior wall 3 vertical #10
-		line(this, t_wall_v, 10, 1, 10, 3);//Oddzball-House interior wall 4 Vertical #11
-		square(this, t_dirtfloor, 17, 1, 22, 8); //Oddzball-Barn Floor #None
-		/*square(this, t_dirt, 1, 14, 22, 22); //Oddzball-Field dirt #12 */
-		ter( 5,  0) = t_window_domestic; //Oddzball-Begin placing items left-right, top-down
+
+		line(this, t_wall_h, 0, 0, 14, 0); // House north wall #4
+		line(this, t_wall_h, 0, 9, 14, 9); // House south wall #5
+		line(this, t_wall_h, 1, 5, 8, 5); // House interior wall 1 horizontal #6
+		line(this, t_wall_h, 10, 4, 13, 4); // House interior wall 2 horizontal #7
+		line(this, t_wall_v, 0, 1, 0, 8); // House west wall #8
+		line(this, t_wall_v, 14, 1, 14, 8);// House east wall #9
+		line(this, t_wall_v, 9, 4, 9, 5);// House interior wall 3 vertical #10
+		line(this, t_wall_v, 10, 1, 10, 3);// House interior wall 4 Vertical #11
+		square(this, t_dirtfloor, 17, 1, 22, 8); // Barn Floor #None
+		ter( 5,  0) = t_window_domestic; // Begin placing items left-right, top-down
 		ter( 12,  0) = t_window_domestic;//House window
 		ter( 19,  0) = t_door_c;//Barn door N1
 		ter( 20,  0) = t_door_c;//Barn door N2
@@ -4519,49 +4516,28 @@ break;
 		ter( 20,  9) = t_door_c;//Barn door S2
 		line(this, t_shrub, 1, 10, 3, 10); //Bushes 1
 		line(this, t_shrub, 11, 10, 13, 10); //Bushes 2
-		/*ter( 0,  13) = t_fence_post;//Fence post 1
-		ter( 23,  13) = t_fence_post;//Fence post 2
-		line(this, t_dirtmound, 2, 15, 21, 15); //Crop row 1
-		line(this, t_dirtmound, 2, 17, 21, 17); //Crop row 2
-		line(this, t_dirtmound, 2, 19, 21, 19); //Crop row 3
-		line(this, t_dirtmound, 2, 21, 21, 21); //Crop row 1
-		ter( 0,  23) = t_fence_post;//Fence post 3
-		ter( 23,  23) = t_fence_post;//Fence post 4*/
-		
-		/*std::vector<direction> faces_road; //Oddzball Test rotation
-		
-			if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
-			rotate(3);
-			if (t_north >= ot_road_null && t_north <= ot_bridge_ew)
-			rotate(2);
-			if (t_west >= ot_road_null && t_west <= ot_bridge_ew)
-			rotate(1);*/
-			
-			place_items(mi_fridge, 65, 10, 8, 10, 8, false, 0);
-			place_items(mi_kitchen, 70, 10, 5, 12, 7, false, 0);
-			place_items(mi_livingroom, 65, 1, 6, 6, 8, false, 0);
-			place_items(mi_dresser, 80, 1, 1, 1, 1, false, 0);
-			place_items(mi_dresser, 80, 4, 1, 4, 1, false, 0);
-			place_items(mi_bedroom, 65, 5, 1, 9, 3, false, 0);
-			place_items(mi_softdrugs, 70, 11, 2, 12, 3, false, 0);
-			place_items(mi_bigtools, 50, 17, 1, 22, 8, true, 0);
-			place_items(mi_homeguns, 20, 17, 1, 22, 8, true, 0);
-			
-			if(one_in(2)){
-			add_spawn(mon_zombie, rng(1, 6), 20, 4);}
-			else {
-			add_spawn(mon_zombie, rng(1, 6), 6, 3);
-			}
-			rotate(2);
-			
-			
-		
+        place_items(mi_fridge, 65, 10, 8, 10, 8, false, 0);
+		place_items(mi_kitchen, 70, 10, 5, 12, 7, false, 0);
+		place_items(mi_livingroom, 65, 1, 6, 6, 8, false, 0);
+		place_items(mi_dresser, 80, 1, 1, 1, 1, false, 0);
+		place_items(mi_dresser, 80, 4, 1, 4, 1, false, 0);
+		place_items(mi_bedroom, 65, 5, 1, 9, 3, false, 0);
+		place_items(mi_softdrugs, 70, 11, 2, 12, 3, false, 0);
+		place_items(mi_bigtools, 50, 17, 1, 22, 8, true, 0);
+		place_items(mi_homeguns, 20, 17, 1, 22, 8, true, 0);
+
+		if(one_in(2)){
+		add_spawn(mon_zombie, rng(1, 6), 20, 4);}
+		else {
+		add_spawn(mon_zombie, rng(1, 6), 6, 3);
+		}
+		rotate(2);
 		}
 		break;
 		case ot_farm_field:
 		if(t_east == ot_farm)
 		{
-		
+
 		square(this, grass_or_dirt(), 0, 0, SEEX * 2, SEEY * 2);
 		square(this, t_wall_wood, 3, 3, 20, 20);
 		square(this, t_dirtfloor, 4, 4, 19, 19);
@@ -4576,7 +4552,7 @@ break;
 		line(this, t_fence_v, 6, 9, 6, 14);
 		line(this, t_fence_h, 4, 15, 6, 15);
 		line(this, t_fencegate_c, 6, 11, 6, 12);
-		
+
 		line(this, t_fence_h, 17, 8, 19, 8);
 		line(this, t_fence_v, 17, 9, 17, 14);
 		line(this, t_fence_h, 17, 15, 19, 15);
@@ -4596,19 +4572,19 @@ break;
 		line(this, t_window_boarded, 20, 17, 20, 18);
 		ter(5, 20) = t_window_boarded;
 		ter(18, 20) = t_window_boarded;
-		
-				
+
+
 		place_items(mi_bigtools, 60, 4, 4, 7, 19, true, 0);
 		place_items(mi_bigtools, 60, 16, 5, 19, 19, true, 0);
 		place_items(mi_mechanics, 40, 8, 4, 15, 19, true, 0);
 		place_items(mi_home_hw, 50, 4, 19, 7, 19, true, 0);
 		place_items(mi_tools, 50, 4, 19, 7, 19, true, 0);
-		
+
 		if(one_in(10)){
 			add_spawn(mon_zombie, rng(3, 6), 12, 12);
 			}
-		
-				
+
+
 		}
 		else
 		{
@@ -4628,7 +4604,7 @@ break;
 		line(this, t_dirtmound, 3, 15, 20, 15);
 		line(this, t_dirtmound, 3, 17, 20, 17);
 		line(this, t_dirtmound, 3, 19, 20, 19);
-		
+
 		place_items(mi_hydro, 70, 3, 3, 20, 3, true, turn); //Spawn crops
 		place_items(mi_hydro, 70, 3, 5, 20, 5, true, turn);
 		place_items(mi_hydro, 70, 3, 7, 20, 7, true, turn);
@@ -4640,6 +4616,7 @@ break;
 		place_items(mi_hydro, 70, 3, 19, 20, 19, true, turn);
 		}
 		break;
+
  case ot_police_north:
  case ot_police_east:
  case ot_police_south:
@@ -5537,6 +5514,10 @@ break;
     line(this, t_counter, 15, 14, 17, 14);
     place_items(mi_surgery, 60, 15, 14, 17, 14, false, 0);
     square(this, t_bed, 18, 18, 19, 19);
+    // computer to begin healing broken bones,
+    tmpcomp = add_computer(16, 16, "Mr. Stem Cell", 3);
+    tmpcomp->add_option("Stem Cell Treatment", COMPACT_STEMCELL_TREATMENT, 3);
+    tmpcomp->add_failure(COMPFAIL_ALARM);
 
     break;
 
@@ -7242,6 +7223,49 @@ void map::post_process(game *g, unsigned zones)
 
 }
 
+void map::place_spawns(game *g, moncat_id monster_type, int chance, int x1, int y1,
+                      int x2, int y2, int min, int max)
+{
+ if (one_in(chance))
+ {
+  const std::vector<mon_id> group = g->moncats[monster_type];
+  int num = rng(min, max);
+  int total_freq = 0;
+
+  for (int i = 0; i < group.size(); i++)
+   if (g->mtypes[group[i]]->frequency > 0)
+    total_freq += g->mtypes[group[i]]->frequency;
+
+  if( total_freq == 0)
+   return;
+
+  for (int i = 0; i < num; i++)
+  {
+   int tries = 10;
+   int x = 0;
+   int y = 0;
+
+   // Pick a spot for the spawn
+   do {
+    x = rng(x1, x2);
+    y = rng(y1, y2);
+    tries--;
+   } while( move_cost(x, y) == 0 && tries );
+
+   // Pick a monster type
+   int choice = rng(0, total_freq);
+   int monster_index = -1;
+   do {
+    monster_index++;
+    choice -= g->mtypes[group[monster_index]]->frequency;
+   } while (choice > 0);
+
+   add_spawn(group[monster_index], 1, x, y);
+  }
+ }
+}
+
+
 void map::place_items(items_location loc, int chance, int x1, int y1,
                       int x2, int y2, bool ongrass, int turn)
 {
@@ -7401,7 +7425,7 @@ void map::rotate(int turns)
  ter_id rotated         [SEEX*2][SEEY*2];
  trap_id traprot        [SEEX*2][SEEY*2];
  std::vector<item> itrot[SEEX*2][SEEY*2];
- std::vector<spawn_point> sprot[my_MAPSIZE * my_MAPSIZE];
+ std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
  computer tmpcomp;
  std::vector<vehicle*> tmpveh;
 
@@ -7714,7 +7738,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
         m->ter(pos_x1,pos_y1)=t_bookcase;
       pos_x1-=2;
       }
-  break;
+      break;
         m->ter(rng(x1+2, x2-2), rng(y1+1, y2-1)) = t_armchair;
   }
 
@@ -8873,7 +8897,7 @@ void map::add_extra(map_extra type, game *g)
      }
      if (placed == tr_beartrap && has_flag(diggable, i, j)) {
       if (one_in(8))
-       placed = tr_landmine;
+       placed = tr_landmine_buried;
       else
        placed = tr_beartrap_buried;
      }
@@ -9033,9 +9057,9 @@ void map::add_extra(map_extra type, game *g)
   }
   for (int i = 0; i < num_mines; i++) {
    int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
-   if (!has_flag(diggable, x, y) || one_in(4))
+   if (!has_flag(diggable, x, y) || one_in(8))
     ter(x, y) = t_dirtmound;
-   add_trap(x, y, tr_landmine);
+   add_trap(x, y, tr_landmine_buried);
   }
  }
  break;

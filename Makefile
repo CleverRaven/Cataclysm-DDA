@@ -10,7 +10,7 @@
 # Win32
 #   Run: make NATIVE=win32
 
-# Build types: 
+# Build types:
 # Debug (no optimizations)
 #  Default
 # Release (turn on optimizations)
@@ -61,7 +61,7 @@ ifdef RELEASE
   DEBUG =
 endif
 
-CXXFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS)
+CXXFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
 BINDIST_EXTRAS = README data cataclysm-launcher
 BINDIST    = cataclysmdda-$(VERSION).tar.gz
@@ -73,7 +73,7 @@ W32BINDIST_CMD = zip -r $(W32BINDIST) $(BINDIST_DIR)
 # SOMEBODY PLEASE CHECK
 #ifeq ($(OS), Msys)
 #  LDFLAGS = -static -lpdcurses
-#else 
+#else
   LDFLAGS = -lncurses
 #endif
 
@@ -93,7 +93,7 @@ ifeq ($(NATIVE), win32)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
   W32LDFLAGS = -Wl,-stack,12000000,-subsystem,windows
-  LDFLAGS += -static -lgdi32 
+  LDFLAGS += -static -lgdi32
 endif
 # MXE cross-compile to win32
 ifeq ($(CROSS), i686-pc-mingw32-)
@@ -113,7 +113,7 @@ all: $(TARGET)
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
 	$(CXX) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
-          $(OBJS) $(LDFLAGS) 
+          $(OBJS) $(LDFLAGS)
 
 $(ODIR):
 	mkdir $(ODIR)
@@ -125,7 +125,7 @@ $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(TARGET) $(W32TARGET) $(ODIR)/*.o $(W32ODIR)/*.o $(W32BINDIST) \
+	rm -f $(TARGET) $(W32TARGET) $(ODIR)/*.o $(ODIR)/*.d $(W32ODIR)/*.o $(W32BINDIST) \
 	$(BINDIST)
 	rm -rf $(BINDIST_DIR)
 
@@ -137,4 +137,16 @@ $(BINDIST): $(TARGET) $(BINDIST_EXTRAS)
 	cp -R $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
 	$(BINDIST_CMD)
 
+export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS
+
+tests: $(ODIR) $(DDIR) $(OBJS)
+	$(MAKE) -C tests
+
+check: tests
+	$(MAKE) -C tests check
+
+.PHONY: tests check
+
 -include $(SOURCES:%.cpp=$(DEPDIR)/%.P)
+-include ${OBJS:.o=.d}
+

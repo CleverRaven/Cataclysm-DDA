@@ -27,8 +27,8 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_road],
 	itm_muffler, itm_pipe, itm_motor, itm_seat,
-   itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small, 
-   itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion, itm_v6_combustion, 
+   itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
+   itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion, itm_v6_combustion,
    itm_v8_combustion, itm_foot_crank, NULL);
 
  setvector(
@@ -485,10 +485,10 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_mechanics],
         itm_wrench, itm_frame, itm_motor,
-        itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small, 
-        itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion, itm_v6_combustion, 
+        itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
+        itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion, itm_v6_combustion,
         itm_vehicle_controls, itm_v8_combustion, itm_hacksaw, itm_welder, itm_motor,
-        itm_motor_large, itm_storage_battery, itm_solar_panel, itm_jerrycan, NULL);
+        itm_motor_large, itm_storage_battery, itm_solar_panel, itm_jerrycan, itm_metal_tank, NULL);
 
  setvector(
    mapitems[mi_chemistry],
@@ -554,7 +554,7 @@ void game::init_mapitems()
    itm_bionics_face_mask, itm_bionics_scent_mask, itm_bionics_cloak, itm_bionics_fingerhack,
    itm_bionics_carbon, itm_bionics_armor_head, itm_bionics_armor_torso,
    itm_bionics_armor_arms, itm_bionics_armor_legs,
-   itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws, 
+   itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws,
    itm_bionics_nanobots, itm_bionics_blood_anal,
    itm_bionics_ads, itm_bionics_ods,
    itm_bionics_resonator, itm_bionics_hydraulics,
@@ -871,6 +871,6 @@ void game::init_mapitems()
 	itm_chainsaw_on, itm_pipebomb_act, itm_grenade_act, itm_flashbang_act,
 	itm_EMPbomb_act, itm_gasbomb_act, itm_smokebomb_act, itm_molotov_lit,
 	itm_dynamite_act, itm_mininuke_act, itm_UPS_on, itm_mp3_on, itm_c4armed,
-        itm_apparatus, itm_brazier, itm_rag_bloody, 
+        itm_apparatus, itm_brazier, itm_rag_bloody,
 	NULL);
 }

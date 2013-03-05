@@ -76,11 +76,17 @@ void dis_msg(game *g, dis_type type)
  case DI_AMIGARA:
   g->add_msg("You can't look away from the fautline...");
   break;
+<<<<<<< HEAD
  case DI_BITE:
   g->add_msg("The bite wound feels really deep...");
   break;
  case DI_INFECTED:
   g->add_msg("Your bite wound feels infected");
+=======
+ case DI_STEMCELL_TREATMENT:
+  g->add_msg("You receive a pureed bone & enamel injection into your eyeball.");
+  g->add_msg("It is excruciating.");
+>>>>>>> upstream/master
   break;
  default:
   break;
@@ -102,6 +108,7 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_COLD_HEAD:
   switch (dis.intensity) {
+<<<<<<< HEAD
    case 3 : p.int_cur -= 3; if (one_in(200)) g->add_msg("Your thoughts are unclear.");
    case 2 : p.int_cur--;
    case 1 : if (one_in(600)) g->add_msg("Brr.");
@@ -115,6 +122,21 @@ void dis_effect(game *g, player &p, disease &dis)
    case 2 :	p.dex_cur -= 1;
    // Speed -5
    case 1 : p.dex_cur -= 1; if (one_in(600)) g->add_msg("Brr.");
+=======
+   case 3 : p.int_cur -= 3; if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your thoughts are unclear.");
+   case 2 : p.int_cur--;
+   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Brr.\"");
+  }
+  break;
+
+ case DI_COLD_TORSO:
+  switch (dis.intensity) {
+   case 3 : p.dex_cur -= 2; if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your torso is burning up. You should remove some layers.");
+   // Speed -20
+   case 2 :	p.dex_cur -= 1;
+   // Speed -5
+   case 1 : p.dex_cur -= 1; if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Brr.\"");
+>>>>>>> upstream/master
    // Speed -2
   }
   break;
@@ -123,14 +145,22 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 : p.dex_cur -= 2;
    case 2 :	p.dex_cur--;
+<<<<<<< HEAD
    case 1 : if (one_in(600)) g->add_msg("Your arms are shivering.");
   }
   break;
  
+=======
+   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("Your arms are shivering.");
+  }
+  break;
+
+>>>>>>> upstream/master
  case DI_COLD_HANDS:
   switch (dis.intensity) {
    case 3 :	p.dex_cur -= 2;
    case 2 :	p.dex_cur -= 2;
+<<<<<<< HEAD
    case 1 : if (one_in(600)) g->add_msg("Brr.");
   }
   break;
@@ -146,28 +176,60 @@ void dis_effect(game *g, player &p, disease &dis)
   }
   break;
  
+=======
+   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Brr.\"");
+  }
+  break;
+
+ case DI_COLD_LEGS:
+  switch (dis.intensity) {
+   case 3 :	p.str_cur--; if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your legs are seizing from the incredible cold.");
+   // Speed -20
+   case 2 :	p.str_cur--;
+   // Speed -5
+   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("Your legs feel sluggish from the cold.");
+   // Speed -2
+  }
+  break;
+
+>>>>>>> upstream/master
  case DI_COLD_FEET:
   switch (dis.intensity) {
    case 3 : p.str_cur--;
    case 2 : p.str_cur--;
+<<<<<<< HEAD
    case 1 : if (one_in(600)) g->add_msg("Brr.");
   }
   break;
  
+=======
+   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Brr.\"");
+  }
+  break;
+
+>>>>>>> upstream/master
  case DI_FROSTBITE_HANDS:
   switch (dis.intensity) {
    case 2 : p.dex_cur -= 3;
    case 1 :
     if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
+<<<<<<< HEAD
     if (one_in(600)) g->add_msg("Your hands feel numb.");
   }
  break;
  
+=======
+    if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your hands feel numb.");
+  }
+ break;
+
+>>>>>>> upstream/master
  case DI_FROSTBITE_FEET:
   switch (dis.intensity) {
    case 2 : // -4 speed
    case 1 :
     if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
+<<<<<<< HEAD
 	if (one_in(600)) g->add_msg("Your feet feel numb.");
   }
  break;
@@ -181,22 +243,45 @@ void dis_effect(game *g, player &p, disease &dis)
   }
  break;
  
+=======
+	if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your feet feel numb.");
+  }
+ break;
+
+ case DI_FROSTBITE_MOUTH:
+  switch (dis.intensity) {
+   case 2 : p.per_cur -= 3;
+   case 1 :
+    if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
+	if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your face feels numb.");
+  }
+ break;
+
+>>>>>>> upstream/master
  case DI_BLISTERS_HANDS:
   p.dex_cur--;
   if (p.pain < 35) p.pain++;
   if (one_in(2)) p.hp_max[hp_arm_r]--;
   else p.hp_max[hp_arm_l]--;
   break;
+<<<<<<< HEAD
   
  
+=======
+
+>>>>>>> upstream/master
  case DI_BLISTERS_FEET:
   p.str_cur--;
   if (p.pain < 35) p.pain++;
   if (one_in(2)) p.hp_max[hp_leg_r]--;
   else p.hp_max[hp_leg_l]--;
   break;
+<<<<<<< HEAD
   
  
+=======
+
+>>>>>>> upstream/master
  case DI_BLISTERS_MOUTH:
   p.per_cur--;
   p.hp_max[hp_head]--;
@@ -205,6 +290,7 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_HOT_HEAD:
   switch (dis.intensity) {
+<<<<<<< HEAD
    case 3 : 
     p.thirst--;
 	if (p.pain < 50) p.pain++;
@@ -223,21 +309,64 @@ void dis_effect(game *g, player &p, disease &dis)
    case 2 : 
     p.thirst--;
 	p.str_cur--;
+=======
+   case 3 :
+    p.thirst--;
+	if (p.pain < 50) p.pain++;
+    if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your head is pounding from the heat.");
+    // Speed -20
+   case 2 :
+    p.thirst--;
+    if (one_in(15000 - p.temp_cur[bp_head])) p.vomit(g); // Hallucinations handled in game.cpp
+	if (p.pain < 20) p.pain++;
+    if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("The heat is making you see things.");
+    // Speed -5
+   case 1 : 
+    if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot warm.\"");
+    // Speed -2
+  }
+  break;
+
+ case DI_HOT_TORSO:
+  switch (dis.intensity) {
+   case 3 :
+    p.thirst--;
+    p.str_cur--;
+    if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("You are sweating profusely.");
+    // Speed -20
+   case 2 :
+    p.thirst--;
+	p.str_cur--;
+    // Speed -5
+   case 1 : 
+    if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot warm.\"");
+    // Speed -2
+>>>>>>> upstream/master
   }
   break;
 
  case DI_HOT_ARMS:
   switch (dis.intensity) {
    case 3 : p.thirst--;
+<<<<<<< HEAD
    if (p.pain < 50) p.pain++;
    case 2 : p.thirst--;
   }
   break;
  
+=======
+    if (p.pain < 50) p.pain++;
+   case 2 : p.thirst--;
+   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot warm.\"");
+  }
+  break;
+
+>>>>>>> upstream/master
  case DI_HOT_HANDS:
   switch (dis.intensity) {
    case 3 : p.dex_cur--;
    case 2 : p.dex_cur--;
+<<<<<<< HEAD
   }
   break;
  
@@ -256,6 +385,32 @@ void dis_effect(game *g, player &p, disease &dis)
   }
   break;
     
+=======
+   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot warm.\"");
+  }
+  break;
+
+ case DI_HOT_LEGS:
+  switch (dis.intensity) {
+   case 3 : p.thirst--;
+    if (p.pain < 50) p.pain++;
+    if (one_in(200)) g->add_msg("Your legs are cramping up.");
+   case 2 : p.thirst--;
+   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot warm.\"");
+  }
+  break;
+
+ case DI_HOT_FEET:
+  switch (dis.intensity) {
+   case 3 : if (p.pain < 50) p.pain++;
+   case 2 : 
+    if (p.pain < 30) p.pain++;
+    if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your feet are swelling in the heat.");
+   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot warm.\"");
+  }
+  break;
+
+>>>>>>> upstream/master
  case DI_COMMON_COLD:
   if (int(g->turn) % 300 == 0)
    p.thirst++;
@@ -490,13 +645,37 @@ void dis_effect(game *g, player &p, disease &dis)
   }
   // Cold may wake you up.
   // Player gets desperate for sleep
+<<<<<<< HEAD
   if (p.temp_cur[bp_torso] < BODYTEMP_VERY_COLD - p.fatigue/2 || 
   (one_in(p.temp_cur[bp_torso]) && p.temp_cur[bp_torso] < BODYTEMP_NORM - p.fatigue/2)){ 
+=======
+  if (p.temp_cur[bp_torso] < BODYTEMP_VERY_COLD - p.fatigue/2 ||
+  (one_in(p.temp_cur[bp_torso]) && p.temp_cur[bp_torso] < BODYTEMP_NORM - p.fatigue/2)){
+>>>>>>> upstream/master
    g->add_msg("The cold wakes you up.");
    dis.duration = 1;
   }
 
   break;
+<<<<<<< HEAD
+=======
+ 
+ case DI_STEMCELL_TREATMENT:
+  //slightly repair broken limbs. (also nonbroken limbs (unless they're too healthy))
+  for (int i = 0; i < num_hp_parts; i++) {
+   if(one_in(6)){
+    if (p.hp_cur[i] < rng(0,40)){
+     g->add_msg("You feel your skeleton melt and mend.");
+     p.hp_cur[i]+= rng(1,8);
+    }
+    else if (p.hp_cur[i] > rng(10,2000)){
+     g->add_msg("You feel your skeleton melt");
+     p.hp_cur[i] -= rng(0,8);
+    }
+   }
+  }
+  break;
+>>>>>>> upstream/master
 
  case DI_PKILL1:
   if (dis.duration <= 70 && dis.duration % 7 == 0 && p.pkill < 15)
@@ -544,7 +723,11 @@ void dis_effect(game *g, player &p, disease &dis)
   p.str_cur -= int(dis.duration / 1500);
   if (dis.duration <= 600)
    p.str_cur += 1;
+<<<<<<< HEAD
   if (dis.duration > 2000 + 100 * dice(2, 100) && 
+=======
+  if (dis.duration > 2000 + 100 * dice(2, 100) &&
+>>>>>>> upstream/master
       (p.has_trait(PF_WEAKSTOMACH) || p.has_trait(PF_NAUSEA) || one_in(20)))
    p.vomit(g);
   if (!p.has_disease(DI_SLEEP) && dis.duration >= 4500 &&
@@ -590,7 +773,11 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_BLEED:
+<<<<<<< HEAD
   if (!p.is_npc() && one_in(6)) {
+=======
+  if (!p.is_npc() && one_in(2)) {
+>>>>>>> upstream/master
    g->add_msg("You lose some blood.");
    p.pain++;
    p.hurt(g, bp_torso, 0, 1);
@@ -599,7 +786,11 @@ void dis_effect(game *g, player &p, disease &dis)
    g->m.add_field(g, p.posx, p.posy, fd_blood, 1);
   }
   break;
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> upstream/master
  case DI_BADPOISON:
   if ((!p.has_trait(PF_POISRESIST) && one_in(100)) ||
       ( p.has_trait(PF_POISRESIST) && one_in(500))   ) {
@@ -970,6 +1161,7 @@ void dis_effect(game *g, player &p, disease &dis)
    p.per_cur -= (dis.duration > 4000 ? 10 : int(dis.duration / 400));
   }
  } break;
+<<<<<<< HEAD
  
  case DI_BITE: //Oddzball-Infected Wound
 //3600 (6-hour) lifespan
@@ -1044,6 +1236,8 @@ void dis_effect(game *g, player &p, disease &dis)
    p.dex_cur-= 1;
   break;
   
+=======
+>>>>>>> upstream/master
  }
 }
 
@@ -1122,7 +1316,11 @@ std::string dis_name(disease dis)
   switch (dis.intensity) {
    case 1: return "Cold feet";
    case 2: return "Cold feet!";
+<<<<<<< HEAD
    case 3: return "Freezing feet!!";}	
+=======
+   case 3: return "Freezing feet!!";}
+>>>>>>> upstream/master
  case DI_FROSTBITE_HANDS:
   switch (dis.intensity) {
    case 1: return "Frostnip - hands";
@@ -1210,7 +1408,11 @@ std::string dis_name(disease dis)
   if (dis.duration > 800) return "Heavy Asthma";
                           return "Asthma";
 
+<<<<<<< HEAD
  case DI_GRACK:         return "UNLEASH THE GRACKEN!!!!";
+=======
+ case DI_GRACK:         return "RELEASE THE GRACKEN!!!!";
+>>>>>>> upstream/master
 
  case DI_METH:
   if (dis.duration > 600) return "High on Meth";
@@ -1218,6 +1420,11 @@ std::string dis_name(disease dis)
 
  case DI_IN_PIT:	return "Stuck in Pit";
 
+<<<<<<< HEAD
+=======
+ case DI_STEMCELL_TREATMENT: return "Stem cell treatment";
+
+>>>>>>> upstream/master
  case DI_ATTACK_BOOST:  return "Hit Bonus";
  case DI_DAMAGE_BOOST:  return "Damage Bonus";
  case DI_DODGE_BOOST:   return "Dodge Bonus";
@@ -1229,6 +1436,7 @@ std::string dis_name(disease dis)
    case 2: return "Viper Strike Unlocked!";
    default: return "VIPER BUG!!!!";
   }
+<<<<<<< HEAD
   case DI_BITE:
   if (dis.duration > 3000) return "Bite Wound";
                            return "Painful Bite Wound";
@@ -1238,6 +1446,8 @@ std::string dis_name(disease dis)
   return "Puss Filled Wound";
   case DI_RECOVER:	return "Recovering From Infection";
 
+=======
+>>>>>>> upstream/master
   break;
 
  default:		return "";
@@ -1261,49 +1471,81 @@ std::string dis_description(disease dis)
    case 1: return "Your head is exposed to the cold.";
    case 2: return "Your head is very exposed to the cold. It is hard to concentrate.";
    case 3: return "Your head is dangerously cold. Getting undressed sounds like a good idea.";}
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> upstream/master
  case DI_COLD_EYES:		
   switch (dis.intensity) {
    case 1: return "Your eyes are exposed to the cold.";
    case 2: return "Your eyes are very exposed to the cold.";
    case 3: return "Your eyes are dangerously cold.";}
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> upstream/master
  case DI_COLD_MOUTH:		
   switch (dis.intensity) {
    case 1: return "Your mouth is exposed to the cold.";
    case 2: return "Your mouth is very exposed to the cold.";
    case 3: return "Your mouth is dangerously cold.";}
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> upstream/master
  case DI_COLD_TORSO:		
   switch (dis.intensity) {
    case 1: return "Your torso is exposed to the cold.";
    case 2: return "Your torso is very exposed to the cold. Your actions are incoordinated.";
    case 3: return "Your torso is dangerously cold. Your actions are incredibly incoordinated.";}
+<<<<<<< HEAD
    
+=======
+
+>>>>>>> upstream/master
  case DI_COLD_ARMS:		
   switch (dis.intensity) {
    case 1: return "Your arms are exposed to the cold.";
    case 2: return "Your arms are very exposed to the cold. Your arms are shivering.";
    case 3: return "Your arms is dangerously cold. Your arms are shivering uncontrollably";}
+<<<<<<< HEAD
    
+=======
+
+>>>>>>> upstream/master
  case DI_COLD_HANDS:		
   switch (dis.intensity) {
    case 1: return "Your hands are exposed to the cold.";
    case 2: return "Your hands are very exposed to the cold. Your hands are shivering.";
    case 3: return "Your hands is dangerously cold. Your hands are shivering uncontrollably";}
+<<<<<<< HEAD
    
+=======
+
+>>>>>>> upstream/master
  case DI_COLD_LEGS:		
   switch (dis.intensity) {
    case 1: return "Your legs are exposed to the cold.";
    case 2: return "Your legs are very exposed to the cold. Your strength is sapped.";
    case 3: return "Your legs is dangerously cold. Your strength is sapped.";}
+<<<<<<< HEAD
    
+=======
+
+>>>>>>> upstream/master
  case DI_COLD_FEET:		
   switch (dis.intensity) {
    case 1: return "Your feet are exposed to the cold.";
    case 2: return "Your feet are very exposed to the cold. Your strength is sapped.";
    case 3: return "Your feet is dangerously cold. Your strength is sapped.";}
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> upstream/master
  case DI_FROSTBITE_HANDS:
   switch (dis.intensity) {
    case 1: return "\
@@ -1329,43 +1571,71 @@ std::string dis_description(disease dis)
  Your arms are frostbitten from prolonged exposure to the cold. It is extremely painful.";
  case DI_FROSTBITE_LEGS: return "\
  Your legs are frostbitten from prolonged exposure to the cold. It is extremely painful.";
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> upstream/master
  case DI_HOT_HEAD:		
   switch (dis.intensity) {
    case 1: return "Your head feels warm.";
    case 2: return "Your head is sweating from the heat. You feel nauseated. You have a headache.";
    case 3: return "Your head is sweating profusely. You feel very nauseated. You have a headache.";}	
+<<<<<<< HEAD
    
+=======
+
+>>>>>>> upstream/master
  case DI_HOT_TORSO:		
   switch (dis.intensity) {
    case 1: return "Your torso feels warm.";
    case 2: return "Your torso is sweating from the heat. You feel weak.";
    case 3: return "Your torso is sweating profusely. You feel very weak.";}	
+<<<<<<< HEAD
    
+=======
+
+>>>>>>> upstream/master
  case DI_HOT_ARMS:		
   switch (dis.intensity) {
    case 1: return "Your arms feel warm.";
    case 2: return "Your arms are sweating from the heat.";
    case 3: return "Your arms are sweating profusely. Your muscles are in pain due to cramps.";}	
+<<<<<<< HEAD
    
+=======
+
+>>>>>>> upstream/master
  case DI_HOT_HANDS:		
   switch (dis.intensity) {
    case 1: return "Your hands feel warm.";
    case 2: return "Your hands feel hot and incoordinated.";
    case 3: return "Your hands feel disgustinly hot and are very incoordinated.";}	
+<<<<<<< HEAD
    
+=======
+
+>>>>>>> upstream/master
  case DI_HOT_LEGS:		
   switch (dis.intensity) {
    case 1: return "Your legs feel warm.";
    case 2: return "Your legs are sweating from the heat.";
    case 3: return "Your legs are sweating profusely. Your muscles are in pain due to cramps.";}	
+<<<<<<< HEAD
    
+=======
+
+>>>>>>> upstream/master
  case DI_HOT_FEET:		
   switch (dis.intensity) {
    case 1: return "Your feet feel hot.";
    case 2: return "Your feet are painfully swollen due to the heat.";
    case 3: return "Your feet are painfully swollen due to the heat.";}	
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> upstream/master
  case DI_BLISTERS_MOUTH: return "\
  Your face is blistering from the intense heat. It is extremely painful.";
  case DI_BLISTERS_TORSO: return "\
@@ -1378,7 +1648,11 @@ std::string dis_description(disease dis)
  Your legs are blistering from the intense heat. It is extremely painful.";
  case DI_BLISTERS_FEET: return "\
  Your feet are blistering from the intense heat. It is extremely painful.";
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> upstream/master
  case DI_COMMON_COLD:	return "\
 Increased thirst;  Frequent coughing\n\
 Strength - 3;  Dexterity - 1;  Intelligence - 2;  Perception - 1\n\
@@ -1559,6 +1833,7 @@ will deal piercing damage.";
 Your next strike will be a Viper Strike.  It requires both arms to be in good\n\
 condition, and deals massive damage.";
   }
+<<<<<<< HEAD
  case DI_BITE:
   return "\
 You have a nasty bite wound.";
@@ -1568,6 +1843,8 @@ You have an infected wound.";
 
  case DI_RECOVER:	return "\
  You are recovering from an infection.";
+=======
+>>>>>>> upstream/master
 
  default:
   return "Who knows?  This is probably a bug.";

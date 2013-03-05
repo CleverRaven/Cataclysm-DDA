@@ -77,7 +77,7 @@ template <class T> void setvec(std::vector<T> &vec, ... )
   vec.push_back(tmp);
  va_end(ap);
 }
- 
+
 void setvector(std::vector<pl_flag> &vec, ... )
 {
  va_list ap;

@@ -157,7 +157,7 @@ computers before completing that part.";
     return "What a shame, that data could have proved invaluable...";
   }
   break;
-  
+
  case MISSION_RESCUE_DOG:
   switch (state) {
    case TALK_MISSION_DESCRIBE:

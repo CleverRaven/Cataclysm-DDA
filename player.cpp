@@ -14,7 +14,6 @@
 #include "weather.h"
 
 #include "name.h"
-
 #include "cursesdef.h"
 
 nc_color encumb_color(int level);
@@ -79,7 +78,7 @@ player::player()
  }
 
  for (int i = 0; i < num_bp; i++) {
-  temp_cur[i] = 500; ; frostbite_timer[i] = 0;
+  temp_cur[i] = BODYTEMP_NORM; ; frostbite_timer[i] = 0;
 }
 }
 

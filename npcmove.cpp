@@ -41,7 +41,7 @@ struct ratio_index
 };
 
 // class npc functions!
- 
+
 void npc::move(game *g)
 {
  npc_action action = npc_undecided;
@@ -63,7 +63,7 @@ void npc::move(game *g)
  }
 // TODO: Place player-aiding actions here, with a weight
 
- //if (!bravery_check(danger) || !bravery_check(total_danger) || 
+ //if (!bravery_check(danger) || !bravery_check(total_danger) ||
  if (target == TARGET_PLAYER && attitude == NPCATT_FLEE)
   action = method_of_fleeing(g, target);
  else if (danger > 0 || (target == TARGET_PLAYER && attitude == NPCATT_KILL))
@@ -247,7 +247,7 @@ void npc::execute_action(game *g, npc_action action, int target)
   } else
    look_for_player(g, g->u);
   break;
-  
+
  case npc_shoot:
   g->fire(*this, tarx, tary, line, false);
   break;
@@ -562,7 +562,7 @@ npc_action npc::address_player(game *g)
   }
   return npc_undecided;
  }
- 
+
  if (attitude == NPCATT_FLEE)
   return npc_flee;
 
@@ -596,7 +596,7 @@ npc_action npc::long_term_goal_action(game *g)
   return npc_pause;	// Shopkeeps just stay put.
 
 // TODO: Follow / look for player
- 
+
 
  if (!has_destination())
   set_destination(g);
@@ -604,8 +604,8 @@ npc_action npc::long_term_goal_action(game *g)
 
  return npc_undecided;
 }
- 
- 
+
+
 bool npc::alt_attack_available(game *g)
 {
  for (int i = 0; i < NUM_ALT_ATTACK_ITEMS; i++) {
@@ -677,7 +677,7 @@ void npc::use_escape_item(game *g, int index, int target)
 // Index defaults to -1, i.e., wielded weapon
 int npc::confident_range(int index)
 {
- 
+
  if (index == -1 && (!weapon.is_gun() || weapon.charges <= 0))
   return 1;
 
@@ -798,7 +798,7 @@ bool npc::wont_hit_friend(game *g, int tarx, int tary, int index)
  }
  return true;
 }
- 
+
 bool npc::can_reload()
 {
  if (!weapon.is_gun())
@@ -1197,13 +1197,13 @@ void npc::pick_up_item(game *g)
   if (pickup.size() == 1)
    g->add_msg("Someone picks up a %s.", (*items)[pickup[0]].tname().c_str());
   else if (pickup.size() == 2)
-   g->add_msg("Someone picks up a %s and a %s", 
+   g->add_msg("Someone picks up a %s and a %s",
               (*items)[pickup[0]].tname().c_str(),
               (*items)[pickup[1]].tname().c_str());
   else
    g->add_msg("Someone picks up several items.");
  }
-  
+
  for (int i = 0; i < pickup.size(); i++) {
   int itval = value((*items)[pickup[i]]);
   if (itval < worst_item_value)
@@ -1231,7 +1231,7 @@ void npc::drop_items(game *g, int weight, int volume)
             inv.size(), inv[i].weight(), inv[i].volume(), wgtTotal, volTotal);
   }
  }
-  
+
  int weight_dropped = 0, volume_dropped = 0;
  std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios
 
@@ -1546,7 +1546,7 @@ bool thrown_item(item *used)
 void npc::heal_player(game *g, player &patient)
 {
  int dist = rl_dist(posx, posy, patient.posx, patient.posy);
- 
+
  if (dist > 1) { // We need to move to the player
   update_path(g, patient.posx, patient.posy);
   move_to_next(g);
@@ -1566,7 +1566,7 @@ void npc::heal_player(game *g, player &patient)
     worst = hp_part(i);
    }
   }
-  
+
   int t;
   bool u_see_me      = g->u_see(posx, posy, t),
        u_see_patient = g->u_see(patient.posx, patient.posy, t);
@@ -1601,7 +1601,7 @@ void npc::heal_player(game *g, player &patient)
   }
   patient.heal(worst, amount_healed);
   moves -= 250;
- 
+
   if (!patient.is_npc()) {
  // Test if we want to heal the player further
    if (op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 +
@@ -1771,7 +1771,7 @@ void npc::mug_player(game *g, player &mark)
    int best_value = minimum_item_value() * value_mod, index = -1;
    for (int i = 0; i < mark.inv.size(); i++) {
     if (value(mark.inv[i]) >= best_value &&
-        volume_carried() + mark.inv[i].volume() <= volume_capacity() && 
+        volume_carried() + mark.inv[i].volume() <= volume_capacity() &&
         weight_carried() + mark.inv[i].weight() <= weight_capacity()   ) {
      best_value = value(mark.inv[i]);
      index = i;

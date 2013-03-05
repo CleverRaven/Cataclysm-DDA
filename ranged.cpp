@@ -84,12 +84,6 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 // Bolts and arrows are silent
  if (curammo->type == AT_BOLT || curammo->type == AT_ARROW)
   is_bolt = true;
-// TODO: Move this check to game::plfire
- if ((weapon->has_flag(IF_STR8_DRAW)  && p.str_cur <  4) ||
-     (weapon->has_flag(IF_STR10_DRAW) && p.str_cur <  5)   ) {
-  add_msg("You're not strong enough to draw the bow!");
-  return;
- }
 
  int x = p.posx, y = p.posy;
  // Have to use the gun, gunmods don't have a type

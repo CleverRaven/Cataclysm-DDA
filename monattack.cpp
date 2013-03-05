@@ -1129,7 +1129,7 @@ void mattack::smg(game *g, monster *z)
   int closest = 19;
   for (int i = 0; i < g->z.size(); i++) {
    int dist = rl_dist(z->posx, z->posy, g->z[i].posx, g->z[i].posy);
-   if (g->z[i].friendly == 0 && dist < closest && 
+   if (g->z[i].friendly == 0 && dist < closest &&
        g->m.sees(z->posx, z->posy, g->z[i].posx, g->z[i].posy, 18, t)) {
     target = &(g->z[i]);
     closest = dist;
@@ -1163,7 +1163,7 @@ void mattack::smg(game *g, monster *z)
 
   return;
  }
- 
+
 // Not friendly; hence, firing at the player
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 24 ||
      !g->sees_u(z->posx, z->posy, t))
@@ -1301,7 +1301,7 @@ void mattack::upgrade(game *g, monster *z)
  monster *target = &( g->z[ targets[ rng(0, targets.size()-1) ] ] );
 
  mon_id newtype = mon_zombie;
- 
+
  switch( rng(1, 10) ) {
   case  1: newtype = mon_zombie_shrieker;
            break;

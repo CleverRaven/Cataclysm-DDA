@@ -17,7 +17,7 @@ long input()
 
 bool input_wait(char & ret_ch, int delay_ms)
 {
- for(;;)
+ while(true)
  {
   ret_ch = '\0';
   timeout(delay_ms);
@@ -50,51 +50,6 @@ bool input_wait(char & ret_ch, int delay_ms)
   if( ret_ch != '\0' )
    return true;
   return false;
- }
-}
-
-void get_direction(int &x, int &y, char ch)
-{
- x = 0;
- y = 0;
- switch (ch) {
- case 'y':
-  x = -1;
-  y = -1;
-  return;
- case 'u':
-  x = 1;
-  y = -1;
-  return;
- case 'h':
-  x = -1;
-  return;
- case 'j':
-  y = 1;
-  return;
- case 'k':
-  y = -1;
-  return;
- case 'l':
-  x = 1;
-  return;
- case 'b':
-  x = -1;
-  y = 1;
-  return;
- case 'n':
-  x = 1;
-  y = 1;
-  return;
- case '.':
- case ',':
- case 'g':
-  x = 0;
-  y = 0;
-  return;
- default:
-  x = -2;
-  y = -2;
  }
 }
 

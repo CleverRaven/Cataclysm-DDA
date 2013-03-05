@@ -431,7 +431,7 @@ void game::construction_menu()
   case KEY_ESCAPE:
    break;
   default:
-   if (ch < 96 || ch > constructions.size() + 101) break;
+   if (ch < 97 || ch > constructions.size() + 101) break;
    // Map menu items to hotkey letters, skipping j, k, l, and q.
    char hotkey = ch - ((ch < 106) ? 97 : ((ch < 112) ? 100 : 101));
    if (player_can_build(u, total_inv, constructions[hotkey])) {
@@ -648,10 +648,17 @@ bool construct::able_furniture(game *g, point p)
  switch(g->m.ter(p.x, p.y)) {
   case t_fridge:
   case t_glass_fridge:
-  case t_dresser:
-  case t_rack:
+   required_str = 10;
+   break;
   case t_bookcase:
   case t_locker:
+   required_str = 9;
+   break;
+  case t_dresser:
+  case t_rack:
+  case t_chair:
+  case t_armchair:
+  case t_bench:
   case t_chair:
   case t_armchair:
    required_str = 8;

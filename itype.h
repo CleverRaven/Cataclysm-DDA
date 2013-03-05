@@ -31,6 +31,7 @@ enum item_cat
   IC_CONTAINER 
 };
 
+
 enum itype_id {
 itm_null = 0,
 itm_corpse,
@@ -43,7 +44,7 @@ itm_water, itm_water_clean, itm_sewage, itm_salt_water, itm_oj, itm_apple_cider,
  itm_long_island, itm_beer, itm_bleach,
  itm_ammonia, itm_mutagen, itm_purifier, itm_tea, itm_coffee, itm_blood,
 // Monster Meats
-itm_meat, itm_veggy, itm_veggy_wild, itm_human_flesh, itm_meat_tainted, itm_veggy_tainted,
+itm_meat, itm_veggy, itm_human_flesh, itm_veggy_wild, itm_meat_tainted, itm_veggy_tainted,
 itm_meat_cooked, itm_veggy_cooked, itm_veggy_wild_cooked,
 // Food
 itm_apple, itm_orange, itm_lemon, itm_chips, itm_chips2, itm_chips3,
@@ -72,25 +73,23 @@ itm_wrapper, itm_withered, itm_syringe, itm_fur, itm_leather, itm_superglue,
  itm_steel_lump, itm_scrap, itm_hose, itm_glass_sheet, itm_manhole_cover, itm_rock,
  itm_stick, itm_broom,
  itm_hammer_sledge, itm_hatchet, itm_nailboard, itm_nailbat,
- itm_xacto, itm_scalpel, itm_pot, itm_pan, itm_knife_butter, itm_2x4, itm_muffler,
+ itm_pot, itm_pan, itm_knife_butter, itm_2x4, itm_muffler,
  itm_pipe, itm_bat, itm_bat_metal,
- itm_machete, itm_katana, itm_spear_wood, itm_spear_knife, itm_baton,
+ itm_spear_wood, itm_baton,
  itm_bee_sting, itm_wasp_sting, itm_chitin_piece, itm_biollante_bud,
  itm_canister_empty, itm_gold, itm_coal, itm_petrified_eye, itm_spiral_stone,
- itm_rapier, itm_cane, itm_binoculars, itm_usb_drive, itm_pike, itm_broadsword,
+ itm_cane, itm_binoculars, itm_usb_drive,
  itm_mace, itm_morningstar, itm_pool_cue, itm_pool_ball, itm_candlestick,
  itm_carspike, itm_carblade, itm_wire, itm_wire_barbed, itm_rebar, itm_log,
  itm_splinter, itm_skewer, itm_crackpipe, itm_torch_done,
- itm_spring, itm_lawnmower, itm_lawnmower_blade, itm_lawnmower_machete,
- itm_lawnmower_halberd, itm_sheet, itm_broketent, itm_element,
+ itm_spring, itm_lawnmower, itm_sheet, itm_broketent, itm_element,
  itm_television, itm_pilot_light, itm_toaster, itm_microwave, itm_laptop,
  itm_fan, itm_ceramic_plate, itm_ceramic_bowl, itm_ceramic_cup,
  itm_glass_plate, itm_glass_bowl, itm_glass, itm_tin_plate, itm_fork, itm_spork,
  itm_foon, itm_rag_bloody, itm_clock, itm_clockworks,
-
 // Vehicle parts
  itm_frame,
- itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small, 
+ itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
  itm_seat, itm_vehicle_controls,
  itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion,
  itm_v6_combustion, itm_v8_combustion,
@@ -205,14 +204,16 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_mininuke_act, itm_pheromone, itm_portal, itm_bot_manhack, itm_bot_turret,
  itm_UPS_off, itm_UPS_on, itm_tazer, itm_mp3, itm_mp3_on, itm_vortex_stone,
  itm_dogfood, itm_boobytrap, itm_c4, itm_c4armed, itm_dog_whistle,
- itm_vacutainer, itm_welder, itm_cot, itm_rollmat, itm_knife_steak,
+ itm_vacutainer, itm_welder, itm_cot, itm_rollmat, itm_xacto, itm_scalpel,
+ itm_machete, itm_katana, itm_spear_knife, itm_rapier, itm_pike, itm_broadsword,
+ itm_lawnmower_blade, itm_lawnmower_machete, itm_lawnmower_halberd, itm_knife_steak,
  itm_knife_butcher, itm_knife_combat, itm_saw, itm_ax, itm_hacksaw,
  itm_tent_kit, itm_torch, itm_torch_lit, itm_candle, itm_candle_lit,
  itm_brazier, itm_puller, itm_press, itm_screwdriver, itm_wrench,
  itm_boltcutters, itm_mop, itm_picklocks, itm_pickaxe, itm_spray_can, itm_rag,
  itm_pda, itm_pda_flashlight, itm_pockknife,
 // Bionics containers
-itm_bionics_battery,       
+itm_bionics_battery,
  //power sources
  itm_bionics_solar,   itm_bionics_batteries,
  itm_bionics_metabolics,   itm_bionics_furnace, itm_bionics_ethanol,
@@ -234,7 +235,7 @@ itm_bionics_battery,
  itm_bionics_recycler, itm_bionics_digestion, itm_bionics_evap, itm_bionics_water_extractor,
  // desert survival (all dupes)
  // melee:
- itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws, 
+ itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws,
  // armor:
  itm_bionics_carbon, itm_bionics_armor_head, itm_bionics_armor_torso,
  itm_bionics_armor_arms, itm_bionics_armor_legs,
@@ -588,6 +589,7 @@ struct it_var_veh_part: public itype
  }
 };
 
+
 struct it_ammo : public itype
 {
  ammotype type;		// Enum of varieties (e.g. 9mm, shot, etc)
@@ -705,7 +707,6 @@ struct it_gunmod : public itype
   used_on_rifle = rifle;
  }
 };
-
 
 struct it_armor : public itype
 {

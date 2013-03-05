@@ -7,7 +7,6 @@
 #include "rng.h"
 #include "pldata.h"
 #include <stdlib.h>
-
 #include "cursesdef.h"
 
 #ifndef SGN
@@ -360,7 +359,7 @@ point monster::scent_move(game *g)
 {
  plans.clear();
  std::vector<point> smoves;
- 
+
  int maxsmell = 2; // Squares with smell 0 are not eligable targets
  if (has_flag(MF_KEENNOSE)) {
  int maxsmell = 1; }
@@ -658,7 +657,7 @@ void monster::stumble(game *g, bool moved)
  // Here we have to fix our plans[] list,
  // acquiring a new path to the previous target.
  // target == either end of current plan, or the player.
-   int tc;
+ int tc;
  if (plans.size() > 0) {
   if (g->m.sees(posx, posy, plans.back().x, plans.back().y, -1, tc))
    set_dest(plans.back().x, plans.back().y, tc);

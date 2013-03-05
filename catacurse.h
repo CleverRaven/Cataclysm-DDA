@@ -61,6 +61,7 @@ typedef struct {
   int cursorx;//x location of the cursor
   int cursory;//y location of the cursor
   curseline *line;
+
 } WINDOW;
 
 #define	A_NORMAL	__NORMAL
@@ -143,6 +144,7 @@ int getmaxx(WINDOW *win);
 int getmaxy(WINDOW *win);
 int move(int y, int x);
 void timeout(int delay);//PORTABILITY, DUMMY FUNCTION
+void set_escdelay(int delay);//PORTABILITY, DUMMY FUNCTION
 
 //Window Functions, Do not call these outside of catacurse.cpp
 void WinDestroy();

@@ -184,7 +184,7 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
 	g->add_msg_if_player(p,"Never mind.");
  	add_or_drop_item(g, p, it);
     return;
-	
+
    } else if (ch == '7') {
     g->add_msg_if_player(p,"You stopped the bleeding.");
     p->rem_disease(DI_BLEED);
@@ -415,7 +415,10 @@ void iuse::alcohol(game *g, player *p, item *it, bool t)
 
 void iuse::cig(game *g, player *p, item *it, bool t)
 {
+ if (it->type->id == itm_cig)
  g->add_msg_if_player(p,"You light a cigarette and smoke it.");
+ else //cigar
+  g->add_msg_if_player(p,"You take a few puffs from your cigar.");
  p->add_disease(DI_CIG, 200, g);
  for (int i = 0; i < p->illness.size(); i++) {
   if (p->illness[i].type == DI_CIG && p->illness[i].duration > 600 &&
@@ -822,36 +825,6 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"There's no point in cutting a rag.");
   return;
  }
- if (cut->type->id == itm_string_36 || cut->type->id == itm_rope_30) {
-  p->moves -= 150;
-  bool is_string = (cut->type->id == itm_string_36);
-  int pieces = (is_string ? 6 : 5);
-  g->add_msg_if_player(p,"You cut the %s into %d smaller pieces.",
-             (is_string ? "string" : "rope"), pieces);
-  itype_id piece_id = (is_string ? itm_string_6 : itm_rope_6);
-  item string(g->itypes[piece_id], int(g->turn), g->nextinv);
-  p->i_rem(ch);
-  bool drop = false;
-  for (int i = 0; i < pieces; i++) {
-   int iter = 0;
-   while (p->has_item(string.invlet)) {
-    string.invlet = g->nextinv;
-    g->advance_nextinv();
-    iter++;
-   }
-   if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
-    drop = true;
-   if (drop)
-    g->m.add_item(p->posx, p->posy, string);
-   else
-    p->i_add(string, g);
-  }
-  return;
- }
- if (!cut->made_of(COTTON) && !cut->made_of(LEATHER)) {
-  g->add_msg_if_player(p,"You can only slice items made of cotton or leather.");
-  return;
- }
  if (cut->made_of(COTTON)) {
  p->moves -= 25 * cut->volume();
  int count = cut->volume();
@@ -1223,23 +1196,40 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
     g->add_msg_if_player(p, "your friend's nose");
     return;
  }
+
+ const char *door_name;
+ ter_id new_type;
  if (type == t_chaingate_l) {
-      if (dice(4, 6) < dice(4, p->dex_cur)) {
-   g->add_msg_if_player(p,"You pick the lock and the gate swings open.");
-   p->moves -= (400 - (p->dex_cur * 5));
-   g->m.ter(dirx, diry) = t_chaingate_o;
-   return;
-  }
- }
- if (type == t_door_locked || type == t_door_locked_alarm) {
-  if (dice(4, 6) < dice(4, p->dex_cur)) {
-   g->add_msg_if_player(p,"You pick the lock and the door swings open.");
-   p->moves -= (400 - (p->dex_cur * 5));
-   g->m.ter(dirx, diry) = t_door_o;
-   return;
-  }
+   door_name = "gate";
+   new_type = t_chaingate_c;
+ } else if (type == t_door_locked || type == t_door_locked_alarm) {
+   door_name = "door";
+   new_type = t_door_c;
  } else {
   g->add_msg("That cannot be picked.");
+   return;
+  }
+
+ p->practice("mechanics", 1);
+ p->moves -= 500 - (p->dex_cur + p->skillLevel("mechanics").level()) * 5;
+ if (dice(4, 6) < dice(2, p->skillLevel("mechanics").level()) + dice(2, p->dex_cur) - it->damage / 2) {
+  p->practice("mechanics", 1);
+  g->add_msg_if_player(p,"With a satisfying click, the lock on the %s opens.", door_name);
+  g->m.ter(dirx, diry) = new_type;
+ } else if (dice(4, 4) < dice(2, p->skillLevel("mechanics").level()) +
+                         dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
+  it->damage++;
+  g->add_msg_if_player(p,"The lock stumps your efforts to pick it, and you damage your tool.");
+ } else {
+  g->add_msg_if_player(p,"The lock stumps your efforts to pick it.");
+ }
+ if ( type == t_door_locked_alarm &&
+      dice(4, 7) <  dice(2, p->skillLevel("mechanics").level()) +
+      dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
+  g->sound(p->posx, p->posy, 30, "An alarm sounds!");
+  if (!g->event_queued(EVENT_WANTED)) {
+   g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
+  }
  }
 }
 void iuse::crowbar(game *g, player *p, item *it, bool t)
@@ -1260,37 +1250,31 @@ if (dirx == 0 && diry == 0) {
  dirx += p->posx;
  diry += p->posy;
  ter_id type = g->m.ter(dirx, diry);
- if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm) {
-  if (dice(4, 6) < dice(4, p->str_cur)) {
-   g->add_msg_if_player(p,"You pry the door open.");
-   p->moves -= (150 - (p->str_cur * 5));
-   g->m.ter(dirx, diry) = t_door_o;
-      g->sound(dirx, diry, 8, "crunch!");
+ const char *door_name;
+ const char *action_name;
+ ter_id new_type;
+ bool noisy;
+ int difficulty;
 
-  } else {
-   g->add_msg_if_player(p,"You pry, but cannot open the door.");
-   p->moves -= 100;
-  }
- } else if (g->m.ter(dirx, diry) == t_manhole_cover) {
-  if (dice(8, 8) < dice(8, p->str_cur)) {
-   g->add_msg_if_player(p,"You lift the manhole cover.");
-   p->moves -= (500 - (p->str_cur * 5));
-   g->m.ter(dirx, diry) = t_manhole;
-   g->m.add_item(p->posx, p->posy, g->itypes[itm_manhole_cover], 0);
-  } else {
-   g->add_msg_if_player(p,"You pry, but cannot lift the manhole cover.");
-   p->moves -= 100;
-  }
+ if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm) {
+   door_name = "door";
+   action_name = "pry open";
+   new_type = t_door_o;
+   noisy = true;
+   difficulty = 6;
+ } else if (type == t_manhole_cover) {
+   door_name = "manhole cover";
+   action_name = "lift";
+   new_type = t_manhole;
+   noisy = false;
+   difficulty = 12;
  } else if (g->m.ter(dirx, diry) == t_crate_c) {
-  if (p->str_cur >= rng(3, 30)) {
-   g->add_msg_if_player(p,"You pop the crate open.");
-   p->moves -= (150 - (p->str_cur * 5));
-   g->m.ter(dirx, diry) = t_crate_o;
+   door_name = "crate";
+   action_name = "pop open";
+   new_type = t_crate_o;
+   noisy = true;
+   difficulty = 6;
   } else {
-   g->add_msg_if_player(p,"You pry, but cannot open the crate.");
-   p->moves -= 100;
-  } 
- } else {
   int nails = 0, boards = 0;
   ter_id newter;
   switch (g->m.ter(dirx, diry)) {
@@ -1314,15 +1298,34 @@ if (dirx == 0 && diry == 0) {
    boards = 3;
    newter = t_fence_post;
    break;
-
   default:
    g->add_msg_if_player(p,"There's nothing to pry there.");
    return;
   }
+  if(p->skillLevel("carpentry").level() < 1)
+   p->practice("carpentry", 1);
   p->moves -= 500;
   g->m.add_item(p->posx, p->posy, g->itypes[itm_nail], 0, nails);
   g->m.add_item(p->posx, p->posy, g->itypes[itm_2x4], 0, boards);
   g->m.ter(dirx, diry) = newter;
+ }
+
+ p->practice("mechanics", 1);
+ p->moves -= (difficulty * 25) - ((p->str_cur + p->skillLevel("mechanics").level()) * 5);
+ if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics").level()) + dice(2, p->str_cur)) {
+  p->practice("mechanics", 1);
+  g->add_msg_if_player(p,"You %s the %s.", action_name, door_name);
+  g->m.ter(dirx, diry) = new_type;
+  if (noisy)
+   g->sound(dirx, diry, 8, "crunch!");
+  if ( type == t_door_locked_alarm ) {
+   g->sound(p->posx, p->posy, 30, "An alarm sounds!");
+   if (!g->event_queued(EVENT_WANTED)) {
+    g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
+}
+  }
+ } else {
+  g->add_msg_if_player(p,"You pry, but cannot %s the %s.", action_name, door_name);
  }
 }
 
@@ -1502,6 +1505,7 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
   return;
  }
 
+
  trap_id type = tr_null;
  bool buried = false;
  std::stringstream message;
@@ -1592,11 +1596,19 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
   practice = 12;
   break;
  case itm_landmine:
+  buried = (p->has_amount(itm_shovel, 1) &&
+            g->m.has_flag(diggable, posx, posy) &&
+            query_yn("Bury the landmine?"));
+  type = (buried ? tr_landmine_buried : tr_landmine);
+  message << "You " << (buried ? "bury" : "set") << " the landmine.";
+  practice = (buried ? 7 : 4);
+  break;
+ /*case itm_landmine:
   buried = true;
   message << "You bury the landmine.";
   type = tr_landmine;
   practice = 7;
-  break;
+  break;*/
  default:
   g->add_msg_if_player(p,"Tried to set a trap.  But got confused! %s", it->tname().c_str());
   return;
@@ -2363,54 +2375,6 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
   g->add_msg("There's no point in cutting a rag.");
   return;
  }
- if (cut->type->id == itm_string_36 || cut->type->id == itm_rope_30) {
-  bool is_string = cut->type->id == itm_string_36;
-  int num_pieces = is_string ? 6 : 5;
-  p->moves -= is_string ? 150 : 300;
-  g->add_msg("You cut the %s into %d smaller pieces.", is_string 
-             ? "string" : "rope", num_pieces);
-  item string(g->itypes[is_string ?itm_string_6 : itm_rope_6], 
-              int(g->turn), g->nextinv);
-  p->i_rem(ch);
-  bool drop = false;
-  for (int i = 0; i < num_pieces; i++) {
-   int iter = 0;
-   while (p->has_item(string.invlet)) {
-    string.invlet = g->nextinv;
-    g->advance_nextinv();
-    iter++;
-   }
-   if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
-    drop = true;
-   if (drop)
-    g->m.add_item(p->posx, p->posy, string);
-   else
-    p->i_add(string);
-  }
- return;
- }
- if (cut->type->id == itm_rope_6) {
-  p->moves -= 150;
-  g->add_msg("You cut the rope in half and unbraid it into 6 pieces of string.");
-  item string(g->itypes[itm_string_36], int(g->turn), g->nextinv);
-  p->i_rem(ch);
-  bool drop = false;
-  for (int i = 0; i < 6; i++) {
-   int iter = 0;
-   while (p->has_item(string.invlet)) {
-    string.invlet = g->nextinv;
-    g->advance_nextinv();
-    iter++;
-   }
-   if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
-    drop = true;
-   if (drop)
-    g->m.add_item(p->posx, p->posy, string);
-   else
-    p->i_add(string);
-  }
- return;
- }
  if (!cut->made_of(COTTON) && !cut->made_of(LEATHER)) {
   g->add_msg("You can only slice items made of cotton.");
   return;
@@ -2975,6 +2939,7 @@ if (dirx == 0 && diry == 0) {
 }
  dirx += p->posx;
  diry += p->posy;
+
  if (g->m.ter(dirx, diry) == t_chaingate_l) {
   p->moves -= 100;
   g->m.ter(dirx, diry) = t_chaingate_c;
@@ -3017,18 +2982,17 @@ void iuse::mop(game *g, player *p, item *it, bool t)
 }
 void iuse::rag(game *g, player *p, item *it, bool t)
 {
-if (p->has_disease(DI_BLEED)){
-
-  if (one_in(2)){ 
-  g->add_msg_if_player(p,"You managed to stop the bleeding.");
-  p->rem_disease(DI_BLEED);
+ if (p->has_disease(DI_BLEED)){
+  if (one_in(2)){
+   g->add_msg_if_player(p,"You managed to stop the bleeding.");
+   p->rem_disease(DI_BLEED);
   } else {
-  g->add_msg_if_player(p,"You couldnt stop the bleeding.");
+   g->add_msg_if_player(p,"You couldnt stop the bleeding.");
   }
   p->use_charges(itm_rag, 1);
   it->make(g->itypes[itm_rag_bloody]);
  } else {
- g->add_msg_if_player(p,"Nothing to use the rag for.");
+  g->add_msg_if_player(p,"Nothing to use the rag for.");
  }
 
 }
@@ -3054,10 +3018,8 @@ void iuse::pda_flashlight(game *g, player *p, item *it, bool t)
   it->make(g->itypes[itm_pda]);
   it->active = false;
  }
- 
 }
 
- 
 /* MACGUFFIN FUNCTIONS
  * These functions should refer to it->associated_mission for the particulars
  */

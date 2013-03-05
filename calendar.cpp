@@ -98,7 +98,7 @@ calendar& calendar::operator =(int rhs)
  year = seasons / 4;
  return *this;
 }
- 
+
 calendar& calendar::operator -=(calendar &rhs)
 {
  calendar tmp(rhs);
@@ -355,12 +355,15 @@ std::string calendar::print_time(bool twentyfour)
    ret << "0";
   ret << minute;
  } else {
-  if (OPTIONS[OPT_24_HOUR]) {
+  if (OPTIONS[OPT_24_HOUR] == 1) {
    int hours = hour % 24;
    if (hours < 10)
     ret << "0";
    ret << hours;
-  } else {
+  } else if (OPTIONS[OPT_24_HOUR] == 2) {
+   int hours = hour % 24;
+   ret << hours << ":";
+  }else {
    int hours = hour % 12;
    if (hours == 0)
     hours = 12;
@@ -369,7 +372,7 @@ std::string calendar::print_time(bool twentyfour)
   if (minute < 10)
    ret << "0";
   ret << minute;
-  if (!OPTIONS[OPT_24_HOUR]) {
+  if (OPTIONS[OPT_24_HOUR] == 0) {
    if (hour < 12)
     ret << " AM";
    else
@@ -386,7 +389,7 @@ std::string calendar::textify_period()
  std::stringstream ret;
  int am;
  std::string tx;
-// Describe the biggest time period, as "<am> <tx>s", am = amount, tx = name 
+// Describe the biggest time period, as "<am> <tx>s", am = amount, tx = name
  if (year > 0) {
   am = year;
   tx = "year";

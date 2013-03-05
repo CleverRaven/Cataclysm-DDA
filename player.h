@@ -40,7 +40,7 @@ public:
 
  player& operator= (const player & rhs);
 
-// newcharacter.cpp 
+// newcharacter.cpp
  bool create(game *g, character_type type, std::string tempname = "");
  int  random_good_trait();
  int  random_bad_trait ();
@@ -182,7 +182,7 @@ public:
 
  void suffer(game *g);
  void vomit(game *g);
- 
+
  int  lookup_item(char let);
  bool eat(game *g, int index);	// Eat item; returns false on fail
  virtual bool wield(game *g, int index);// Wield item; returns false on fail
@@ -268,7 +268,7 @@ public:
  std::vector<int> completed_missions;
  std::vector<int> failed_missions;
  int active_mission;
- 
+
  std::string name;
  bool male;
  bool my_traits[PF_MAX2];

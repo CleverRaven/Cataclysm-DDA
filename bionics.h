@@ -17,7 +17,7 @@ bio_climate, bio_storage, bio_recycler, bio_digestion,	// TODO: Ynnn
 bio_tools, bio_shock, bio_heat_absorb,
 bio_carbon, bio_armor_head, bio_armor_torso, bio_armor_arms, bio_armor_legs,
 // Player Activated
-bio_flashlight, bio_night_vision, bio_infrared, 
+bio_flashlight, bio_night_vision, bio_infrared,
 bio_face_mask,	// TODO
 bio_ads, bio_ods, bio_scent_mask,bio_scent_vision, bio_cloak, bio_painkiller,
  bio_nanobots, bio_heatsink, bio_resonator, bio_time_freeze, bio_teleport,
@@ -66,7 +66,7 @@ struct bionic {
   charge = 0;
  };
 };
- 
+
 const bionic_data bionics[] = {
 {"NULL bionics", false, false, 0, 0, "\
 If you're seeing this, it's a bug."},
@@ -234,7 +234,7 @@ anything else."},
 Your left arm has been replaced by a heavy-duty fusion blaster!  You may use\n\
 your energy banks to fire a damaging heat ray; however, you are unable to use\n\
 or carry two-handed items, and may only fire handguns."},
-{"Finger-Mounter Laser", false, true, 2, 0, "\
+{"Finger-Mounted Laser", false, true, 2, 0, "\
 One of your fingers has a small high-powered laser embedded in it.  This long\n\
 range weapon is not incredibly damaging, but is very accurate, and has the\n\
 potential to start fires."},

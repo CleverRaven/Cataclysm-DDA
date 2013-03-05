@@ -29,7 +29,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
    cur = &(grid[gridn]->fld[locx][locy]);
    int x = locx + SEEX * (gridn % my_MAPSIZE),
        y = locy + SEEY * int(gridn / my_MAPSIZE);
-   
+
    curtype = cur->type;
    if (!found_field && curtype != fd_null)
     found_field = true;
@@ -228,7 +228,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
        int fx = x + ((i + starti) % 3) - 1, fy = y + ((j + startj) % 3) - 1;
        if (field_at(fx, fy).type == fd_fire && field_at(fx, fy).density < 3 &&
            (in_pit == (ter(fx, fy) == t_pit))) {
-        field_at(fx, fy).density++; 
+        field_at(fx, fy).density++;
         field_at(fx, fy).age = 0;
         cur->age = 0;
        }
@@ -277,7 +277,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
         }
 // If we're not spreading, maybe we'll stick out some smoke, huh?
         if (move_cost(fx, fy) > 0 &&
-            (!one_in(smoke) || (nosmoke && one_in(40))) && 
+            (!one_in(smoke) || (nosmoke && one_in(40))) &&
             rng(3, 35) < cur->density * 10 && cur->age < 1000) {
          smoke--;
          add_field(g, fx, fy, fd_smoke, rng(1, cur->density));
@@ -287,7 +287,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
      }
     }
    } break;
-  
+
    case fd_smoke:
     for (int i = -1; i <= 1; i++) {
      for (int j = -1; j <= 1; j++)
@@ -643,7 +643,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
     break;
 
    } // switch (curtype)
-  
+
    cur->age++;
    if (fieldlist[cur->type].halflife > 0) {
     if (cur->age > 0 &&
@@ -696,7 +696,7 @@ void map::step_in_field(int x, int y, game *g)
     g->u.hit(g, bp_feet, 1, 0, rng(4, 10));
     g->u.hit(g, bp_legs, 0, 0, rng(2,  8));
     g->u.hit(g, bp_legs, 1, 0, rng(2,  8));
-   } 
+   }
    break;
 
  case fd_sap:
@@ -807,7 +807,7 @@ void map::step_in_field(int x, int y, game *g)
    break;
  }
 }
-    
+
 void map::mon_in_field(int x, int y, game *g, monster *z)
 {
  if (z->has_flag(MF_DIGS))
@@ -973,7 +973,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     }
    }
    break;
-     
+
  }
  if (dam > 0)
   z->hurt(dam);

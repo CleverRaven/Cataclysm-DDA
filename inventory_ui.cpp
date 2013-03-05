@@ -3,7 +3,6 @@
 #include "keypress.h"
 #include <string>
 #include <vector>
-
 #include <map>
 #include <sstream>
 
@@ -33,15 +32,8 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
   wprintz(w_inv, c_ltgray, "%d", g->u.volume_carried());
  wprintw(w_inv, "/%d", g->u.volume_capacity() - 2);
 
-// Print items carried
- int n_items = 0;
- for(int ch='a'; ch <= 'z'; ++ch)
-   n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
- for(int ch='A'; ch <= 'Z'; ++ch)
-   n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
- mvwprintw(w_inv, 1, 62, "Items:  %d/52 ", n_items);
-
 // Print our weapon
+ int n_items = 0;
  mvwprintz(w_inv, 2, 45, c_magenta, "WEAPON:");
  int dropping_weapon = false;
  for (int i = 0; i < dropped_items.size() && !dropping_weapon; i++) {
@@ -49,21 +41,24 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
    dropping_weapon = true;
  }
  if (g->u.is_armed()) {
+  n_items++;
   if (dropping_weapon)
    mvwprintz(w_inv, 3, 45, c_white, "%c + %s", g->u.weapon.invlet,
              g->u.weapname().c_str());
   else
    mvwprintz(w_inv, 3, 45, g->u.weapon.color_in_inventory(&(g->u)), "%c - %s",
              g->u.weapon.invlet, g->u.weapname().c_str());
- } else if (g->u.weapon.is_style())
+ } else if (g->u.weapon.is_style()) {
+  n_items++;
   mvwprintz(w_inv, 3, 45, c_ltgray, "%c - %s",
             g->u.weapon.invlet, g->u.weapname().c_str());
- else
-  mvwprintz(w_inv, 3, 42, c_ltgray, g->u.weapname().c_str());
+ } else
+  mvwprintz(w_inv, 3, 45, c_ltgray, g->u.weapname().c_str());
 // Print worn items
  if (g->u.worn.size() > 0)
   mvwprintz(w_inv, 5, 45, c_magenta, "ITEMS WORN:");
  for (int i = 0; i < g->u.worn.size(); i++) {
+  n_items++;
   bool dropping_armor = false;
   for (int j = 0; j < dropped_items.size() && !dropping_armor; j++) {
    if (dropped_items[j] == g->u.worn[i].invlet)
@@ -76,6 +71,13 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
    mvwprintz(w_inv, 6 + i, 45, c_ltgray, "%c - %s", g->u.worn[i].invlet,
              g->u.worn[i].tname(g).c_str());
  }
+
+ // Print items carried
+ for(int ch='a'; ch <= 'z'; ++ch)
+   n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
+ for(int ch='A'; ch <= 'Z'; ++ch)
+   n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
+ mvwprintw(w_inv, 1, 62, "Items:  %d/52 ", n_items);
 }
  
 std::vector<int> find_firsts(inventory &inv)
@@ -435,32 +437,24 @@ std::vector<item> game::multidrop()
  int max_size = u.inv.size();
  for (int i = 0; i < max_size; i++) {
 
-  if (dropping[i] == -1)  // drop whole stack of charges
-  {
+  if (dropping[i] == -1) {  // drop whole stack of charges
     ret.push_back(u.inv.remove_item(current_stack));
     current_stack--;  
   } 
  
     for (int j = 0; j < dropping[i]; j++) {    
-
-    if (u.inv.stack_at(current_stack)[0].count_by_charges())      // dropping parts of stacks
-    {
+   if (u.inv.stack_at(current_stack)[0].count_by_charges()) {      // dropping parts of stacks
         int tmpcount = dropping[i];
         
-        if (tmpcount >= u.inv.stack_at(current_stack)[0].charges)
-        {
+    if (tmpcount >= u.inv.stack_at(current_stack)[0].charges) {
           ret.push_back(u.inv.remove_item(current_stack));
           current_stack--;
-        }
-        else
-        {
+    } else {
           u.inv.stack_at(current_stack)[0].charges -= tmpcount;
           ret.push_back(u.inv.remove_item_by_quantity(current_stack, tmpcount));
         }      
           j = dropping[i];
-    }
-  else
-    {
+   } else {
       if (current_stack >= 0) {
       if (u.inv.stack_at(current_stack).size() == 1) {
        ret.push_back(u.inv.remove_item(current_stack));
@@ -488,20 +482,20 @@ void game::compare(int iCompareX, int iCompareY)
   examx = iCompareX;
   examy = iCompareY;
  } else {
- mvwprintw(w_terrain, 0, 0, "Compare where? (Direction button)");
- wrefresh(w_terrain);
+  mvwprintw(w_terrain, 0, 0, "Compare where? (Direction button)");
+  wrefresh(w_terrain);
 
   ch = input();
- last_action += ch;
+  last_action += ch;
   if (ch == KEY_ESCAPE || ch == 'q')
-  return;
+   return;
   if (ch == '\n' || ch == 'I')
    ch = '.';
- get_direction(this, examx, examy, ch);
- if (examx == -2 || examy == -2) {
-  add_msg("Invalid direction.");
-  return;
- }
+  get_direction(this, examx, examy, ch);
+  if (examx == -2 || examy == -2) {
+   add_msg("Invalid direction.");
+   return;
+  }
  }
  examx += u.posx;
  examy += u.posy;
@@ -543,7 +537,7 @@ void game::compare(int iCompareX, int iCompareY)
  do {
   if (ch == '<' && start > 0) {
    for (int i = 1; i < maxitems+4; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+    mvwprintz(w_inv, i, 0, c_black, "                                             ");
    start -= maxitems;
    if (start < 0)
     start = 0;
@@ -553,14 +547,14 @@ void game::compare(int iCompareX, int iCompareY)
    start = cur_it;
    mvwprintw(w_inv, maxitems + 4, 12, "            ");
    for (int i = 1; i < maxitems+4; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                        ");
+    mvwprintz(w_inv, i, 0, c_black, "                                             ");
   }
   int cur_line = 2;
   int iHeaderOffset = (groundsize > 0) ? 0 : 1;
 
   for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++) {
 // Clear the current line;
-   mvwprintw(w_inv, cur_line, 0, "                                    ");
+   mvwprintw(w_inv, cur_line, 0, "                                             ");
 // Print category header
    for (int i = iHeaderOffset; i < 9; i++) {
     if (cur_it == firsts[i-iHeaderOffset]) {
@@ -575,7 +569,7 @@ void game::compare(int iCompareX, int iCompareY)
     if (cur_it < groundsize) {
      mvwputch (w_inv, cur_line, 0, c_white, '1'+((cur_it<9) ? cur_it: -1));
      nc_color col = (compare[cur_it] == 0 ? c_ltgray : c_white);
-    mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
+     mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
                grounditems[cur_it].tname(this).c_str());
     } else {
      mvwputch (w_inv, cur_line, 0, c_white, u.inv[cur_it-groundsize].invlet);
@@ -589,7 +583,7 @@ void game::compare(int iCompareX, int iCompareY)
      else if (u.inv[cur_it-groundsize].contents.size() == 1 &&
               u.inv[cur_it-groundsize].contents[0].charges > 0)
       wprintw(w_inv, " (%d)", u.inv[cur_it-groundsize].contents[0].charges);
-   }
+    }
    }
    cur_line++;
   }
@@ -664,7 +658,7 @@ void game::compare(int iCompareX, int iCompareY)
     }
    }
   }
-   if (bShowCompare) {
+  if (bShowCompare) {
    std::vector<iteminfo> vItemLastCh, vItemCh;
    std::string sItemLastCh, sItemCh;
    if (cLastCh >= '0' && cLastCh <= '9') {
@@ -696,15 +690,13 @@ void game::compare(int iCompareX, int iCompareY)
    compare_split_screen_popup(true, sItemLastCh, vItemLastCh, vItemCh);
    compare_split_screen_popup(false, sItemCh, vItemCh, vItemLastCh);
 
-    wclear(w_inv);
-    print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);
-    bShowCompare = false;
-   }
+   wclear(w_inv);
+   print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);
+   bShowCompare = false;
+  }
  } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
  werase(w_inv);
  delwin(w_inv);
  erase();
  refresh_all();
-
 }
-

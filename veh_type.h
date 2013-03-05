@@ -211,7 +211,7 @@ const vpart_info vpart_list[num_vparts] =
     { "spike",      '.', c_white,   'x', c_white,   300, 100, 0, 0, itm_carspike, 2,
         mfb(vpf_external) | mfb(vpf_unmount_on_damage) | mfb(vpf_sharp) | mfb(vpf_no_reinforce) },
 
-//                                                           wheel_width(inches) 
+//                                                           wheel_width(inches)
     { "wheel",      '0',    c_dkgray,  'x', c_ltgray,  50,  200, 9, 0, itm_wheel, 4,
         mfb(vpf_external) | mfb (vpf_mount_over) | mfb(vpf_wheel) | mfb(vpf_mount_point) | mfb(vpf_variable_size) },
     { "wide wheel", 'O',     c_dkgray,   'x', c_ltgray,  50,  400, 14, 0, itm_wheel_wide, 5,

@@ -11,7 +11,6 @@
 #include <fstream>
 #include "debug.h"
 
-
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
@@ -410,7 +409,8 @@ void map::vehmove(game *g)
     veh->gain_moves (abs (veh->velocity));
    }
   }
- int count = 0;
+
+   int count = 0;
    while(vehproceed(g)){
       count++;// lots of movement stuff. maybe 10 is low for collisions.
       if (count > 10)
@@ -419,7 +419,7 @@ void map::vehmove(game *g)
 }
 
 // find veh with the most amt of turn remaining, and move it a bit.
-// proposal: 
+// proposal:
 //  move it at most, a tenth of a turn, and at least one square.
 bool map::vehproceed(game* g){
    VehicleList vehs = g->m.get_vehicles();
@@ -479,7 +479,7 @@ bool map::vehproceed(game* g){
       }
       // submerged wheels threshold is 2/3.
       if (num_wheels &&  (float)submerged_wheels / num_wheels > .666){
-        g->add_msg ("Your %s sank.", veh->name.c_str());
+         g->add_msg ("Your %s sank.", veh->name.c_str());
          if (pl_ctrl)
        veh->unboard_all ();
 // destroy vehicle (sank to nowhere)
@@ -489,7 +489,7 @@ bool map::vehproceed(game* g){
    }
    // One-tile step take some of movement
    //  terrain cost is 1000 on roads.
-   // This is stupid btw, it makes veh magically seem 
+   // This is stupid btw, it makes veh magically seem
    //  to accelerate when exiting rubble areas.
    float ter_turn_cost = 500.0 * move_cost_ter_only (x,y) / abs(veh->velocity);
 
@@ -498,12 +498,12 @@ bool map::vehproceed(game* g){
       veh->of_turn_carry = veh->of_turn;
       veh->of_turn = 0;
       return true;
-      }
-      
+   }
+
    veh->of_turn -= ter_turn_cost;
 
    // if not enough wheels, mess up the ground a bit.
-   if (!veh->valid_wheel_config()) { 
+   if (!veh->valid_wheel_config()) {
        veh->velocity += veh->velocity < 0 ? 2000 : -2000;
        for (int ep = 0; ep < veh->external_parts.size(); ep++) {
         const int p = veh->external_parts[ep];
@@ -515,9 +515,12 @@ bool map::vehproceed(game* g){
        }
    }
 
-      if (veh->skidding && one_in(4)) // might turn uncontrollably while skidding
+   if (veh->skidding){
+      if (one_in(4)){ // might turn uncontrollably while skidding
        veh->move.init (veh->move.dir() +
                        (one_in(2) ? -15 * rng(1, 3) : 15 * rng(1, 3)));
+      }
+   }
       else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving").level() && one_in(20)) {
        g->add_msg("You fumble with the %s's controls.", veh->name.c_str());
        veh->turn (one_in(2) ? -15 : 15);
@@ -574,7 +577,7 @@ bool map::vehproceed(game* g){
                  veh->name.c_str(),  veh->part_info(c.part).name,
                 veh2->name.c_str(), veh2->part_info(c.target_part).name);
 
-      // for reference, a cargo truck weighs ~25300, a bicycle 690, 
+      // for reference, a cargo truck weighs ~25300, a bicycle 690,
       //  and 38mph is 3800 'velocity'
       rl_vec2d velo_veh1 = veh->velo_vec();
       rl_vec2d velo_veh2 = veh2->velo_vec();
@@ -602,11 +605,13 @@ bool map::vehproceed(game* g){
       veh2->move.init(final2.x, final2.y);
       veh2->velocity = final2.norm();
       if(delta2.norm() > 800) {
-      veh2->skidding = 1;
+         veh2->skidding = 1;
       }
 
       //give veh2 the initiative to proceed next before veh1
       float avg_of_turn = (veh2->of_turn + veh->of_turn) / 2;
+      if(avg_of_turn < .1)
+         avg_of_turn = .1;
       veh->of_turn = avg_of_turn * .9;
       veh2->of_turn = avg_of_turn * 1.1;
       return true;
@@ -706,8 +711,10 @@ bool map::vehproceed(game* g){
 
       if (can_move) {
 // accept new direction
-       if (veh->skidding)
+      if (veh->skidding){
         veh->face.init (veh->turn_dir);
+         veh->possibly_recover_from_skid();
+      }
        else
         veh->face = mdir;
        veh->move = mdir;
@@ -717,14 +724,13 @@ bool map::vehproceed(game* g){
        }
 // accept new position
 // if submap changed, we need to process grid from the beginning.
-      int sm_change = displace_vehicle (g, x, y, dx, dy);
+      displace_vehicle (g, x, y, dx, dy);
    } else { // can_move
        veh->stop();
    }
 // redraw scene
       g->draw();
    return true;
-
 }
 
 bool map::displace_water (const int x, const int y)
@@ -907,7 +913,7 @@ bool map::is_destructable_ter_only(const int x, const int y)
 
 bool map::is_outside(const int x, const int y)
 {
- bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet);
+ bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet && ter(x, y) != t_fema_groundsheet);
 
  for(int i = -1; out && i <= 1; i++)
   for(int j = -1; out && j <= 1; j++) {
@@ -1144,7 +1150,8 @@ case t_wall_log:
    return true;
   }
   break;
- 
+
+
  case t_chaingate_c:
   result = rng(0, has_adjacent_furniture(x, y) ? 80 : 100);
   if (res) *res = result;
@@ -1345,7 +1352,6 @@ case t_wall_log:
 
  case t_sink:
  case t_bathtub:
-
  case t_toilet:
   result = dice(8, 4) - 8;
   if (res) *res = result;
@@ -1706,6 +1712,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
   break;
 
  case t_window:
+ case t_window_domestic:
  case t_window_alarm:
   dam -= rng(0, 5);
   ter(x, y) = t_window_frame;
@@ -1867,6 +1874,7 @@ bool map::hit_with_acid(game *g, const int x, const int y)
   case t_bathtub:
   case t_gas_pump:
   case t_gas_pump_smashed:
+  case t_gas_pump_empty:
    return false;
 
   case t_card_science:
@@ -2775,10 +2783,10 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
            tername(Fx, Fy).c_str(), Tx, Ty);
 */
  std::vector<point> open;
- astar_list list[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
- int score	[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
- int gscore	[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
- point parent	[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
+ astar_list list[SEEX * MAPSIZE][SEEY * MAPSIZE];
+ int score	[SEEX * MAPSIZE][SEEY * MAPSIZE];
+ int gscore	[SEEX * MAPSIZE][SEEY * MAPSIZE];
+ point parent	[SEEX * MAPSIZE][SEEY * MAPSIZE];
  int startx = Fx - 4, endx = Tx + 4, starty = Fy - 4, endy = Ty + 4;
  if (Tx < Fx) {
   startx = Tx - 4;
@@ -3191,6 +3199,7 @@ graffiti map::graffiti_at(int x, int y)
  y %= SEEY;
  return grid[nonant]->graf[x][y];
 }
+
 
 tinymap::tinymap()
 {

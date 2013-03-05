@@ -5,7 +5,6 @@
  */
 
 #include "cursesdef.h"
-
 #include <ctime>
 #include "game.h"
 #include "color.h"
@@ -47,6 +46,7 @@ int main(int argc, char *argv[])
  keypad(stdscr, true); // Numpad is numbers
  init_colors(); // See color.cpp
  curs_set(0); // Invisible cursor
+ set_escdelay(10); // Make escape actually responsive
 
  std::srand(seed);
 
@@ -100,15 +100,14 @@ void exit_handler(int s) {
  }
 
  if (bExit) {
-
- erase(); // Clear screen
- endwin(); // End ncurses
-#if (defined _WIN32 || defined WINDOWS)
- system("cls"); // Tell the terminal to clear itself
- system("color 07");
-#else
- system("clear"); // Tell the terminal to clear itself
-#endif
+  erase(); // Clear screen
+  endwin(); // End ncurses
+  #if (defined _WIN32 || defined WINDOWS)
+   system("cls"); // Tell the terminal to clear itself
+   system("color 07");
+  #else
+   system("clear"); // Tell the terminal to clear itself
+  #endif
 
   exit(1);
  }

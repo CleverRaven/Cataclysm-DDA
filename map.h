@@ -26,7 +26,7 @@ struct itype;
 
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
- int x; 
+ int x;
  int y;
  int i; // submap col
  int j; // submap row
@@ -171,6 +171,8 @@ class map
 // mapgen.cpp functions
  void generate(game *g, overmap *om, const int x, const int y, const int turn);
  void post_process(game *g, unsigned zones);
+ void place_spawns(game *g, moncat_id monster_type, int chance, int x1, int y1,
+                   int x2, int y2, int min, int max);
  void place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn);
 // put_items_from puts exactly num items, based on chances
@@ -182,7 +184,7 @@ class map
  void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
  vehicle *add_vehicle(game *g, vhtype_id type, const int x, const int y, const int dir);
  computer* add_computer(const int x, const int y, std::string name, const int security);
- 
+
  std::vector <itype*> *itypes;
  std::set<vehicle*> vehicle_list;
  std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;

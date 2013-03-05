@@ -3,6 +3,7 @@
 #include "options.h"
 #include <cstdlib>
 #include <fstream>
+
 //***********************************
 //Globals                           *
 //***********************************
@@ -806,5 +807,6 @@ void timeout(int delay)
 {
     inputdelay=delay;
 };
+void set_escdelay(int delay) { } //PORTABILITY, DUMMY FUNCTION
 
 #endif
