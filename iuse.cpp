@@ -1198,13 +1198,20 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
   p->practice("mechanics", 1);
   g->add_msg_if_player(p,"With a satisfying click, the lock on the %s opens.", door_name);
   g->m.ter(dirx, diry) = new_type;
-  return;
  } else if (dice(4, 4) < dice(2, p->skillLevel("mechanics").level()) +
                          dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
   it->damage++;
   g->add_msg_if_player(p,"The lock stumps your efforts to pick it, and you damage your tool.");
  } else {
   g->add_msg_if_player(p,"The lock stumps your efforts to pick it.");
+ }
+ if ( type == t_door_locked_alarm &&
+      dice(4, 7) <  dice(2, p->skillLevel("mechanics").level()) +
+      dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
+  g->sound(p->posx, p->posy, 30, "An alarm sounds!");
+  if (!g->event_queued(EVENT_WANTED)) {
+   g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
+  }
  }
 }
 void iuse::crowbar(game *g, player *p, item *it, bool t)
@@ -1293,6 +1300,12 @@ if (dirx == 0 && diry == 0) {
   g->m.ter(dirx, diry) = new_type;
   if (noisy)
    g->sound(dirx, diry, 8, "crunch!");
+  if ( type == t_door_locked_alarm ) {
+   g->sound(p->posx, p->posy, 30, "An alarm sounds!");
+   if (!g->event_queued(EVENT_WANTED)) {
+    g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
+   }
+  }
  } else {
   g->add_msg_if_player(p,"You pry, but cannot %s the %s.", action_name, door_name);
  }
