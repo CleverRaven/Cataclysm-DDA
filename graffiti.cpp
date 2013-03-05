@@ -22,9 +22,6 @@ graffiti graffiti::operator=(graffiti rhs)
   this->contents = new std::string(*rhs.contents);
  else
   this->contents = 0;
-<<<<<<< HEAD
-}
-=======
+  
  return *this;
 }
->>>>>>> upstream/master

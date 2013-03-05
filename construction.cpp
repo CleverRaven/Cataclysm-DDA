@@ -656,8 +656,6 @@ bool construct::able_furniture(game *g, point p)
    break;
   case t_dresser:
   case t_rack:
-  case t_chair:
-  case t_armchair:
   case t_bench:
   case t_chair:
   case t_armchair:
