@@ -818,6 +818,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  }
 
  int maxy = (g->VIEWY*2)+1;
+ if (maxy < 25)
+  maxy = 25;
 
  int effect_win_size_y = 0;
  int trait_win_size_y = 0;
