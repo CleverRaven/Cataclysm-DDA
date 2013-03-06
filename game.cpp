@@ -3247,9 +3247,25 @@ bool game::sees_u(int x, int y, int &t)
  //                  the light map should deal lighting from player or fires
  int range = light_level();
 
- // doesn't matter if this actually reduces the range as we only need to look this far
+ // Set to max possible value if the player is lit brightly
  if (lm.at(0, 0) >= LL_LOW)
-  range = rl_dist(x, y, u.posx, u.posy);
+  range = DAYLIGHT_LEVEL;
+
+ int mondex = mon_at(x,y);
+ if (mondex != -1) {
+  if(z[mondex].has_flag(MF_VIS10))
+   range -= 50;
+  else if(z[mondex].has_flag(MF_VIS20))
+   range -= 40;
+  else if(z[mondex].has_flag(MF_VIS30))
+   range -= 30;
+  else if(z[mondex].has_flag(MF_VIS40))
+   range -= 20;
+  else if(z[mondex].has_flag(MF_VIS50))
+   range -= 10;
+ }
+ if( range <= 0)
+  range = 1;
 
  return (!u.has_active_bionic(bio_cloak) &&
          !u.has_artifact_with(AEP_INVISIBLE) &&
