@@ -1382,7 +1382,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
    rotate(rng(0, 3));
   }
-  add_spawn(mon_zombie_child, rng(2, 4), SEEX, SEEY);
+  add_spawn(mon_zombie_child, rng(2, 4), SEEX, SEEY); //Tase: OddzBall stuff?
   add_spawn(mon_zombie, rng(1, 3), SEEX, SEEY);
  } break;
 

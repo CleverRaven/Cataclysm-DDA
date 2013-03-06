@@ -115,7 +115,7 @@ ANGER(MTRIG_HURT);
 PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE);
 
-mon("cat",	species_mammal, 'c',	c_white,	MS_TINY,	FLESH,      //Oddzball-Added Feral Cat
+mon("cat",	species_mammal, 'c',	c_white,	MS_TINY,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 2,   0,  -40, 15,150, 12,  1,  3,  2,  0,  0,  0,  0, 10,  0,
 	&mdeath::normal,	&mattack::none, "\
@@ -197,7 +197,7 @@ sized sting pointed forward."
 FLAGS(MF_SMELLS, MF_VENOM, MF_FLIES, MF_STUMBLES, MF_HIT_AND_RUN);
 ANGER(MTRIG_FRIEND_DIED, MTRIG_PLAYER_CLOSE);
 
-mon("Wasp Swarm",species_insect, 'a', 	c_red,		MS_MEDIUM,	FLESH,
+mon("Wasp Swarm",species_insect, 'a', 	c_red,		MS_MEDIUM,	FLESH,  // OddzBall giant wasp -> wasp swarm
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	  2, 22,  5, 60,150,  6,  1,  3,  0,  7,  0,  0,-40, 5, 0,
 	&mdeath::normal,	&mattack::none, "\
