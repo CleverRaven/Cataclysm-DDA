@@ -1572,13 +1572,13 @@ if (temp_cur[bp_torso] > BODYTEMP_SCORCHING)
   mvwprintz(w, 1, 9, c_ltred,  "Very Hot");
  else if (temp_cur[bp_torso] > BODYTEMP_HOT)
   mvwprintz(w, 1, 9, c_yellow,  "Hot");
- else if (temp_cur[bp_torso] > BODYTEMP_NORM)
+ else if (temp_cur[bp_torso] > BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
   mvwprintz(w, 1, 9, c_green, "Comfortable");
- else if (temp_cur[bp_torso] > BODYTEMP_COLD)
-  mvwprintz(w, 1, 9, c_ltblue, "Cold");
  else if (temp_cur[bp_torso] > BODYTEMP_VERY_COLD)
+  mvwprintz(w, 1, 9, c_ltblue, "Cold");
+ else if (temp_cur[bp_torso] > BODYTEMP_FREEZING)
   mvwprintz(w, 1, 9, c_cyan,  "Very Cold");
- else if (temp_cur[bp_torso] < BODYTEMP_FREEZING)
+ else if (temp_cur[bp_torso] <= BODYTEMP_FREEZING)
   mvwprintz(w, 1, 9, c_blue,  "Freezing");
 
       if (thirst > 520)
