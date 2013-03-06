@@ -1290,6 +1290,7 @@ if (dirx == 0 && diry == 0) {
   g->m.add_item(p->posx, p->posy, g->itypes[itm_nail], 0, nails);
   g->m.add_item(p->posx, p->posy, g->itypes[itm_2x4], 0, boards);
   g->m.ter(dirx, diry) = newter;
+  return;
  }
 
  p->practice("mechanics", 1);

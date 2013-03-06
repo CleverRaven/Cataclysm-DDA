@@ -4064,9 +4064,9 @@ app on, and is providing light.");
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 TOOL("pocket knife",	14, 100,';', c_blue,	STEEL,  PLASTIC,
 //	VOL WGT DAM CUT HIT FLAGS
-	 2,  2,  2, 10, -4, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
+	 0,  2,  0, 10, -4, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
 mfb(IF_STAB), "\
-A small pocket knife.");
+A small pocket knife, not great for combat, but butter than nothing.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

@@ -275,8 +275,7 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
      clear();
      mvwprintz(w_open, 0, 1, c_blue, "Welcome to Cataclysm!");
      mvwprintz(w_open, 1, 0, c_red, "\
-This alpha release is highly unstable. Please report any crashes or bugs to\n\
-fivedozenwhales@gmail.com.");
+Please report all bugs to TheDarklingWolf@Gmail.com");
      refresh();
      wrefresh(w_open);
      refresh();
