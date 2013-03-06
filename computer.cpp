@@ -89,7 +89,7 @@ void computer::use(game *g)
   3. SEEK SHELTER IN THE BASEMENT. \n\
   4. USE PROVIDED GAS MASKS. \n\
   \n\
-  Press any key to continue...";
+  Press any key to continue...");
   getch();
   shutdown_terminal();
   return;}
