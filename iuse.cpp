@@ -95,7 +95,7 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
   }
  } else { // Player--present a menu
 
-  WINDOW* w = newwin(10, 24, 8, 1);
+  WINDOW* w = newwin(10, 22, 8, 1);
   wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
   mvwprintz(w, 1, 1, c_ltred,  "Bandage where?");
@@ -228,7 +228,7 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
   }
  } else { // Player--present a menu
 
-  WINDOW* w = newwin(11, 24, 8, 1);
+  WINDOW* w = newwin(11, 22, 8, 1);
   wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
   mvwprintz(w, 1, 1, c_ltred,  "First Aid where?");

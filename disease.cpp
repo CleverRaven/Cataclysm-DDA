@@ -76,15 +76,14 @@ void dis_msg(game *g, dis_type type)
  case DI_AMIGARA:
   g->add_msg("You can't look away from the fautline...");
   break;
+ case DI_STEMCELL_TREATMENT:
+  g->add_msg("You receive a pureed bone & enamel injection into your eyeball.");
+  g->add_msg("It is excruciating.");
  case DI_BITE:
   g->add_msg("The bite wound feels really deep...");
   break;
  case DI_INFECTED:
   g->add_msg("Your bite wound feels infected");
-  break;
- case DI_STEMCELL_TREATMENT:
-  g->add_msg("You receive a pureed bone & enamel injection into your eyeball.");
-  g->add_msg("It is excruciating.");
   break;
  default:
   break;
@@ -628,7 +627,7 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_BLEED:
-  if (!p.is_npc() && one_in(2)) {
+  if (!p.is_npc() && one_in(6)) {
    g->add_msg("You lose some blood.");
    p.pain++;
    p.hurt(g, bp_torso, 0, 1);
@@ -1081,6 +1080,7 @@ void dis_effect(game *g, player &p, disease &dis)
    p.str_cur-= 1;
    p.dex_cur-= 1;
   break;
+  
  }
 }
 

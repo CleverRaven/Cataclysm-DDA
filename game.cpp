@@ -3245,26 +3245,28 @@ bool game::sees_u(int x, int y, int &t)
 {
  // TODO: [lightmap] Apply default monster vison levels here
  //                  the light map should deal lighting from player or fires
- int range = 0;
- 
-int mondex = mon_at(x,y);
-if(mondex != -1){
-	if(z[mondex].has_flag(MF_VIS10))
-	range = (light_level() - 50);
-	else if(z[mondex].has_flag(MF_VIS20))
-	range = (light_level() - 40);
-	else if(z[mondex].has_flag(MF_VIS30))
-	range = (light_level() - 30);
-	else if(z[mondex].has_flag(MF_VIS40))
-	range = (light_level() - 20);
-	else if(z[mondex].has_flag(MF_VIS50))
-	range = (light_level() - 10);
-	else
-	range = light_level();
-	}
-	if( range < 0)
-	range =1;
-	
+ int range = light_level();
+
+ // Set to max possible value if the player is lit brightly
+ if (lm.at(0, 0) >= LL_LOW)
+  range = DAYLIGHT_LEVEL;
+
+ int mondex = mon_at(x,y);
+ if (mondex != -1) {
+  if(z[mondex].has_flag(MF_VIS10))
+   range -= 50;
+  else if(z[mondex].has_flag(MF_VIS20))
+   range -= 40;
+  else if(z[mondex].has_flag(MF_VIS30))
+   range -= 30;
+  else if(z[mondex].has_flag(MF_VIS40))
+   range -= 20;
+  else if(z[mondex].has_flag(MF_VIS50))
+   range -= 10;
+ }
+ if( range <= 0)
+  range = 1;
+
  return (!u.has_active_bionic(bio_cloak) &&
          !u.has_artifact_with(AEP_INVISIBLE) &&
          m.sees(x, y, u.posx, u.posy, range, t));
