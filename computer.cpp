@@ -78,9 +78,9 @@ void computer::use(game *g)
  
  //Checks if computer is the Evac shelter computer. If so then display message then shutdown after keystroke.
  
- if (s = "Evac shelter computer"){
-  print_line("
-  GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\"
+ if (name == "Evac shelter computer"){
+  print_line("\
+  GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
   EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n\
   SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   \n\
@@ -88,8 +88,8 @@ void computer::use(game *g)
   2. REMAIN INSIDE THE BUILDING. \n\
   3. SEEK SHELTER IN THE BASEMENT. \n\
   4. USE PROVIDED GAS MASKS. \n\
-  
-  Press any key to continue...);
+  \n\
+  Press any key to continue...";
   getch();
   shutdown_terminal();
   return;}
