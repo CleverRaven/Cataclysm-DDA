@@ -79,6 +79,11 @@ void dis_msg(game *g, dis_type type)
  case DI_STEMCELL_TREATMENT:
   g->add_msg("You receive a pureed bone & enamel injection into your eyeball.");
   g->add_msg("It is excruciating.");
+ case DI_BITE:
+  g->add_msg("The bite wound feels really deep...");
+  break;
+ case DI_INFECTED:
+  g->add_msg("Your bite wound feels infected");
   break;
  default:
   break;
@@ -1002,6 +1007,58 @@ void dis_effect(game *g, player &p, disease &dis)
    p.per_cur -= (dis.duration > 4000 ? 10 : int(dis.duration / 400));
   }
  } break;
+ 
+ case DI_BITE: //Oddzball-Infected Wound
+//3600 (6-hour) lifespan
+  if (dis.duration > 3000) {	// First hour symptoms
+   if (one_in(300)) {
+    if (!p.is_npc())
+     g->add_msg("Your bite wound really hurts.");
+   }
+  } else if (dis.duration > 500) {	
+   if (one_in(100)) {
+    if (!p.is_npc())
+     g->add_msg("Your bite wound feels swollen and painful.");
+    if(p.pain < 20)
+	p.pain++;
+     }
+
+  p.dex_cur-= 1;
+   }
+  else {	// Infection starts
+   p.rem_disease(DI_BITE);
+   p.add_disease(DI_INFECTED, 14400, g); //Oddzball 1 day of timer
+  }
+  break;
+  
+ case DI_INFECTED: //Oddzball-Infected Wound
+// This assumes that we were given DI_HALLU with a 3600 (6-hour) lifespan
+  if (dis.duration > 10800) {	// First hour symptoms
+   if (one_in(300)) {
+    if (!p.is_npc())
+     g->add_msg("Your infected wound is incredibly painful");
+	 if(p.pain < 40)
+	 p.pain++;
+   }
+   p.str_cur-= 1;
+   p.dex_cur-= 1;
+  } else if (dis.duration > 7200) {	
+   if (one_in(100)) {
+    if (!p.is_npc())
+     g->add_msg("You feel feverish and nauseous you wound has begun to turn green");
+	 p.vomit(g);
+    if(p.pain < 100)
+	p.pain++;
+     }
+   p.str_cur-= 2;
+   p.dex_cur-= 2;
+   }
+  else {	// You die.
+   p.hurtall(500); 
+  }
+  break;
+  
+  
  }
 }
 
@@ -1189,6 +1246,14 @@ std::string dis_name(disease dis)
    case 2: return "Viper Strike Unlocked!";
    default: return "VIPER BUG!!!!";
   }
+  case DI_BITE:
+  if (dis.duration > 3000) return "Bite Wound";
+                           return "Painful Bite Wound";
+  case DI_INFECTED:
+  if (dis.duration > 10800) return "Infected Wound";
+  if (dis.duration > 7200) return "Painful Infected Wound";
+  return "Puss Filled Wound";
+
   break;
 
  default:		return "";
@@ -1510,6 +1575,12 @@ will deal piercing damage.";
 Your next strike will be a Viper Strike.  It requires both arms to be in good\n\
 condition, and deals massive damage.";
   }
+ case DI_BITE:
+  return "\
+You have a nasty bite wound.";
+ case DI_INFECTED:
+  return "\
+You have an infected wound.";
 
  default:
   return "Who knows?  This is probably a bug.";
