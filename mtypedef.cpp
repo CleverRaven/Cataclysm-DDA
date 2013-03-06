@@ -253,7 +253,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, 
 mon("zombie cop",	species_zombie, 'Z',	c_blue,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 2,  3,100,100, 70,  8,  1,  5,  0,  1,  0,  0, 40, 50,  0,
-	&mdeath::normal,	&mattack::none, "\
+	&mdeath::normal,	&mattack::bite, "\
 A human body, encapsulated in tough riot\n\
 armour, this zombie was clearly a cop gearing\n\
 up to fight the infection."
@@ -295,7 +295,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
 mon("fresh zombie",species_zombie, 'Z',	c_ltred,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	  6, 12,100,100,150, 10,  1,  4,  3,  4,  0,  0, 45, 40,  0,
-	&mdeath::normal,	&mattack::none, "\
+	&mdeath::normal,	&mattack::bite, "\
 This deformed, sinewy zombie stays close to\n\
 the ground, loping forward faster than most\n\
 humans ever could."
@@ -306,7 +306,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
 mon("zombie brute",species_zombie, 'Z',	c_red,		MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	  4, 25,100,100,115,  9,  4,  4,  2,  0,  6,  3, 60, 80,  0,
-	&mdeath::normal,	&mattack::none, "\
+	&mdeath::normal,	&mattack::bite, "\
 A hideous beast of a zombie, bulging with\n\
 distended muscles on both arms and legs."
 );
@@ -355,7 +355,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON);
 mon("skeleton",	species_zombie, 'Z',	c_white,	MS_MEDIUM,	STONE,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	  7,  8,100,100, 90, 10,  1,  5,  3,  2,  0, 15,  0, 40, 0,
-	&mdeath::normal,	&mattack::none, "\
+	&mdeath::normal,	&mattack::bite, "\
 A skeleton picked clean of all but a few\n\
 rotten scraps of flesh, somehow still in\n\
 motion."
@@ -387,7 +387,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, 
 mon("zombie soldier",	species_zombie,	'Z',c_ltblue,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	  1, 20,100,100, 80, 12,  2,  4,  0,  0,  8, 16, 60,100, 0,
-	&mdeath::normal,	&mattack::none, "\
+	&mdeath::normal,	&mattack::bite, "\
 This zombie was clearly a soldier before.\n\
 Its tattered armor gives it strong defense,\n\
 and it is much more physically fit than\n\
