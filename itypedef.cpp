@@ -628,7 +628,7 @@ MED("cigars",		 5,120,	c_dkgray,	itm_lighter,
 A gentleman's vice. Cigars are what separates a gentleman from a savage.");
 
 MED("antibiotics",	25,900, c_pink,		itm_null,
-	PLASTIC,   0, -2,  0, 15,  0,&iuse::none,	ADD_NULL, "\
+	PLASTIC,   0, -2,  0, 15,  0,&iuse::antibiotic,	ADD_NULL, "\
 Medication designed to stop the spread of, and kill, bacterial infections.");
 
 MED("Poppy Sleep",	25,900, c_pink,		itm_null,
@@ -3947,7 +3947,7 @@ TOOL("wood saw",	15, 40, ';', c_cyan,	IRON,	WOOD,
 A flimsy saw, useful for cutting through wood objects.");
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-TOOL("wood ax",	 8, 105,'/', c_ltgray,	WOOD,	IRON,
+TOOL("wood axe",	 8, 105,'/', c_ltgray,	WOOD,	IRON,
 //	VOL WGT DAM CUT HIT FLAGS
 	17, 15, 24, 18,  1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::lumber,
 0, "\

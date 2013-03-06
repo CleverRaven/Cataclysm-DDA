@@ -95,7 +95,7 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
   }
  } else { // Player--present a menu
 
-  WINDOW* w = newwin(10, 20, 8, 1);
+  WINDOW* w = newwin(10, 22, 8, 1);
   wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
   mvwprintz(w, 1, 1, c_ltred,  "Bandage where?");
@@ -228,17 +228,18 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
   }
  } else { // Player--present a menu
 
-  WINDOW* w = newwin(10, 20, 8, 1);
+  WINDOW* w = newwin(11, 22, 8, 1);
   wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-  mvwprintz(w, 1, 1, c_ltred,  "Bandage where?");
+  mvwprintz(w, 1, 1, c_ltred,  "First Aid where?");
   mvwprintz(w, 2, 1, c_ltgray, "1: Head");
   mvwprintz(w, 3, 1, c_ltgray, "2: Torso");
   mvwprintz(w, 4, 1, c_ltgray, "3: Left Arm");
   mvwprintz(w, 5, 1, c_ltgray, "4: Right Arm");
   mvwprintz(w, 6, 1, c_ltgray, "5: Left Leg");
   mvwprintz(w, 7, 1, c_ltgray, "6: Right Leg");
-  mvwprintz(w, 8, 1, c_ltgray, "7: Exit");
+  mvwprintz(w, 8, 1, c_ltgray, "7: Clean Wound");
+  mvwprintz(w, 9, 1, c_ltgray, "8: Exit");
   nc_color col;
   int curhp;
   for (int i = 0; i < num_hp_parts; i++) {
@@ -312,12 +313,16 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
      return;
     } else
      healed = hp_leg_r;
-   } else if (ch == '7') {
+   } else if (ch == '8') {
     g->add_msg_if_player(p,"Never mind.");
     add_or_drop_item(g, p, it);
     return;
+   } else if (ch == '7') {
+    g->add_msg_if_player(p,"You patch up the bite wound.");
+    p->rem_disease(DI_BITE);
+    return;
    }
-  } while (ch < '1' || ch > '7');
+  } while (ch < '1' || ch > '8');
   werase(w);
   wrefresh(w);
   delwin(w);
@@ -420,6 +425,19 @@ void iuse::cig(game *g, player *p, item *it, bool t)
       !p->is_npc())
    g->add_msg_if_player(p,"Ugh, too much smoke... you feel gross.");
  }
+}
+
+void iuse::antibiotic(game *g, player *p, item *it, bool t)
+{
+if (p->has_disease(DI_INFECTED)){
+  g->add_msg_if_player(p,"You took some antibiotics.");
+  p->rem_disease(DI_INFECTED);
+  p->add_disease(DI_RECOVER, 1200, g);
+  }
+   else {
+ g->add_msg_if_player(p,"You took some antibiotics.");
+ }
+
 }
 
 void iuse::weed(game *g, player *p, item *it, bool t)
