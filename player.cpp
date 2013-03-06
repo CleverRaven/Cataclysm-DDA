@@ -817,76 +817,133 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   }
  }
 
- int maxy,maxx;
- getmaxyx(stdscr,maxy,maxx);
+ int maxy = (g->VIEWY*2)+1;
 
- int effect_win_size_y;
- int trait_win_size_y = 2; // Lines not counting actual traits
- int skill_win_size_y = 2; // Same, but skills
- int infooffsety = 11;
- int row2 = infooffsety+4;
+ int effect_win_size_y = 0;
+ int trait_win_size_y = 0;
+ int skill_win_size_y = 0;
+ int infooffsetytop = 11;
+ int infooffsetybottom = 15;
  std::vector<pl_flag> traitslist;
 
- effect_win_size_y = effect_name.size();
- if(effect_win_size_y < 9)
-     effect_win_size_y = 9;
+ effect_win_size_y = effect_name.size()+1;
 
- for(int i = 0; i < PF_MAX2; ++i) {
-     if(my_traits[i]) {
-         traitslist.push_back(pl_flag(i));
-         if(traitslist.size()+row2+4 < maxy)
-             ++trait_win_size_y;
-     }
+ for(int i = 0; i < PF_MAX2; i++) {
+  if(my_traits[i]) {
+   traitslist.push_back(pl_flag(i));
+  }
  }
 
- if(trait_win_size_y < 9)
-  trait_win_size_y = 9;
- if(trait_win_size_y+16 > (g->VIEWX*2+1))
-  trait_win_size_y = (g->VIEWX*2+1)-16;
-
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
-     int i = (*aSkill)->id();
-
-     SkillLevel level = skillLevel(*aSkill);
-
-     if (i == 0)
-         continue;
-
-     if (sklevel[i] >= 0 && skill_win_size_y+row2+4 < maxy) {
-         ++skill_win_size_y;
-     }
+ trait_win_size_y = traitslist.size()+1;
+ if (trait_win_size_y + infooffsetybottom > maxy ) {
+  trait_win_size_y = maxy - infooffsetybottom;
  }
 
- if(skill_win_size_y+16 > (g->VIEWX*2+1))
-  skill_win_size_y = (g->VIEWX*2+1)-16;
+ skill_win_size_y = num_skill_types;
+ if (skill_win_size_y + infooffsetybottom > maxy ) {
+  skill_win_size_y = maxy - infooffsetybottom;
+ }
+/*
+ std::stringstream ssTemp;
+ ssTemp  << skill_win_size_y << " - " << trait_win_size_y << " - " << effect_win_size_y;
+ debugmsg((ssTemp.str()).c_str());
+*/
+ WINDOW* w_grid_top    = newwin(infooffsetybottom, 81,  0,  0);
+ WINDOW* w_grid_skill  = newwin(skill_win_size_y + 1, 27, infooffsetybottom, 0);
+ WINDOW* w_grid_trait  = newwin(trait_win_size_y + 1, 27, infooffsetybottom, 27);
+ WINDOW* w_grid_effect = newwin(effect_win_size_y+ 1, 28, infooffsetybottom, 53);
 
- WINDOW* w_grid    = newwin(skill_win_size_y+15, 80,  0,  0);
- WINDOW* w_tip     = newwin( 1, 80,  0,  0);
- WINDOW* w_stats   = newwin( 9, 26,  1,  0);
- WINDOW* w_traits  = newwin( trait_win_size_y, 26, row2,  27);
- WINDOW* w_encumb  = newwin( 9, 26,  1, 27);
- WINDOW* w_effects = newwin( effect_win_size_y, 26, row2, 54);
- WINDOW* w_speed   = newwin( 9, 26,  1, 54);
- WINDOW* w_skills  = newwin( skill_win_size_y, 26, row2, 0);
- WINDOW* w_info    = newwin( 3, 80, infooffsety,  0);
+ WINDOW* w_tip     = newwin(1, 80,  0,  0);
+ WINDOW* w_stats   = newwin(9, 26,  1,  0);
+ WINDOW* w_traits  = newwin(trait_win_size_y, 26, infooffsetybottom,  27);
+ WINDOW* w_encumb  = newwin(9, 26,  1, 27);
+ WINDOW* w_effects = newwin(effect_win_size_y, 26, infooffsetybottom, 54);
+ WINDOW* w_speed   = newwin(9, 26,  1, 54);
+ WINDOW* w_skills  = newwin(skill_win_size_y, 26, infooffsetybottom, 0);
+ WINDOW* w_info    = newwin(3, 80, infooffsetytop,  0);
 
- for (int i = 0; i < 80; i++) {
-  mvwputch(w_grid, 10, i, c_ltgray, LINE_OXOX);
-  mvwputch(w_grid, 14, i, c_ltgray, LINE_OXOX);
-  if (i < skill_win_size_y+15)
-   mvwputch(w_grid, i, 26, c_ltgray, LINE_XOXO);
+ for (int i = 0; i < 81; i++) {
+  //Horizontal line top grid
+  mvwputch(w_grid_top, 10, i, c_ltgray, LINE_OXOX);
+  mvwputch(w_grid_top, 14, i, c_ltgray, LINE_OXOX);
 
-  if (i < trait_win_size_y+15)
-   mvwputch(w_grid, i, 53, c_ltgray, LINE_XOXO);
+  //Vertical line top grid
+  if (i <= infooffsetybottom) {
+   mvwputch(w_grid_top, i, 26, c_ltgray, LINE_XOXO);
+   mvwputch(w_grid_top, i, 53, c_ltgray, LINE_XOXO);
+   mvwputch(w_grid_top, i, 80, c_ltgray, LINE_XOXO);
+  }
+
+  //Horizontal line skills
+  if (i <= 26) {
+   mvwputch(w_grid_skill, skill_win_size_y, i, c_ltgray, LINE_OXOX);
+  }
+
+  //Vertical line skills
+  if (i <= skill_win_size_y) {
+   mvwputch(w_grid_skill, i, 26, c_ltgray, LINE_XOXO);
+  }
+
+  //Horizontal line traits
+  if (i <= 26) {
+   mvwputch(w_grid_trait, trait_win_size_y, i, c_ltgray, LINE_OXOX);
+  }
+
+  //Vertical line traits
+  if (i <= trait_win_size_y) {
+   mvwputch(w_grid_trait, i, 26, c_ltgray, LINE_XOXO);
+  }
+
+  //Horizontal line effects
+  if (i <= 27) {
+   mvwputch(w_grid_effect, effect_win_size_y, i, c_ltgray, LINE_OXOX);
+  }
+
+  //Vertical line effects
+  if (i <= effect_win_size_y) {
+   mvwputch(w_grid_effect, i, 0, c_ltgray, LINE_XOXO);
+   mvwputch(w_grid_effect, i, 27, c_ltgray, LINE_XOXO);
+  }
  }
 
- mvwputch(w_grid, 14, 26, c_ltgray, LINE_OXXX); // T
- mvwputch(w_grid, 14, 53, c_ltgray, LINE_OXXX); // T
- mvwputch(w_grid, 10, 26, c_ltgray, LINE_XXOX); // reverse T
- mvwputch(w_grid, 10, 53, c_ltgray, LINE_XXOX); // reverse T
- //mvwputch(w_grid, 18, 26, c_ltgray, LINE_XXXX); //+
- //mvwputch(w_grid, 18, 53, c_ltgray, LINE_XXXX); //+
- wrefresh(w_grid);
+ //Intersections top grid
+ mvwputch(w_grid_top, 14, 26, c_ltgray, LINE_OXXX); // T
+ mvwputch(w_grid_top, 14, 53, c_ltgray, LINE_OXXX); // T
+ mvwputch(w_grid_top, 10, 26, c_ltgray, LINE_XXOX); // _|_
+ mvwputch(w_grid_top, 10, 53, c_ltgray, LINE_XXOX); // _|_
+ mvwputch(w_grid_top, 10, 80, c_ltgray, LINE_XOXX); // -|
+ mvwputch(w_grid_top, 14, 80, c_ltgray, LINE_XOXX); // -|
+ wrefresh(w_grid_top);
+
+ mvwputch(w_grid_skill, skill_win_size_y, 26, c_ltgray, LINE_XOOX); // _|
+
+ if (skill_win_size_y > trait_win_size_y)
+  mvwputch(w_grid_skill, trait_win_size_y, 26, c_ltgray, LINE_XXXO); // |-
+ else if (skill_win_size_y == trait_win_size_y)
+  mvwputch(w_grid_skill, trait_win_size_y, 26, c_ltgray, LINE_XXOX); // _|_
+
+ mvwputch(w_grid_trait, trait_win_size_y, 26, c_ltgray, LINE_XOOX); // _|
+
+ if (trait_win_size_y > effect_win_size_y)
+  mvwputch(w_grid_trait, effect_win_size_y, 26, c_ltgray, LINE_XXXO); // |-
+ else if (trait_win_size_y == effect_win_size_y)
+  mvwputch(w_grid_trait, effect_win_size_y, 26, c_ltgray, LINE_XXOX); // _|_
+ else if (trait_win_size_y < effect_win_size_y) {
+  mvwputch(w_grid_trait, trait_win_size_y, 26, c_ltgray, LINE_XOXX); // -|
+  mvwputch(w_grid_trait, effect_win_size_y, 26, c_ltgray, LINE_XXOO); // |_
+ }
+
+ mvwputch(w_grid_effect, effect_win_size_y, 0, c_ltgray, LINE_XXOO); // |_
+ mvwputch(w_grid_effect, effect_win_size_y, 27, c_ltgray, LINE_XOOX); // _|
+
+ wrefresh(w_grid_skill);
+ wrefresh(w_grid_effect);
+ wrefresh(w_grid_trait);
+
+ //-1 for header
+ trait_win_size_y--;
+ skill_win_size_y--;
+ effect_win_size_y--;
 
 // Print name and header
  mvwprintw(w_tip, 0, 0, "%s - %s", name.c_str(), (male ? "Male" : "Female"));
@@ -982,27 +1039,21 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  wrefresh(w_encumb);
 
 // Next, draw traits.
- line = 2;
  mvwprintz(w_traits, 0, 10, c_ltgray, "TRAITS");
- for (int i = 0; i < traitslist.size(); i++) {
+ for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
   if (traits[traitslist[i]].points > 0)
    status = c_ltgreen;
   else
    status = c_ltred;
-  if (line < trait_win_size_y) {
-   mvwprintz(w_traits, line, 1, status, traits[traitslist[i]].name.c_str());
-   line++;
-  }
+  mvwprintz(w_traits, i+1, 1, status, traits[traitslist[i]].name.c_str());
  }
 
  wrefresh(w_traits);
 
 // Next, draw effects.
- line = 2;
  mvwprintz(w_effects, 0, 8, c_ltgray, "EFFECTS");
- for (int i = 0; i < effect_name.size() && line < effect_win_size_y; i++) {
-  mvwprintz(w_effects, line, 1, c_ltgray, effect_name[i].c_str());
-  line++;
+ for (int i = 0; i < effect_name.size() && i < effect_win_size_y; i++) {
+  mvwprintz(w_effects, i+1, 1, c_ltgray, effect_name[i].c_str());
  }
  wrefresh(w_effects);
 
@@ -1011,21 +1062,18 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  std::vector <skill> skillslist;
  mvwprintz(w_skills, 0, 11, c_ltgray, "SKILLS");
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
-   int i = (*aSkill)->id();
+  int i = (*aSkill)->id();
 
-   SkillLevel level = skillLevel(*aSkill);
+  SkillLevel level = skillLevel(*aSkill);
 
-   if (i == 0)
-     continue;
-
-  if (sklevel[i] >= 0) {
+  if ( i != 0 && sklevel[i] >= 0) {
    skillslist.push_back(skill(i));
-   if (line < skill_win_size_y) {
-     mvwprintz(w_skills, line, 1, skillLevel(*aSkill).isTraining() ? c_dkgray : c_ltblue, "%-17s",
+   if (line < skill_win_size_y+1) {
+     mvwprintz(w_skills, line, 1, skillLevel(*aSkill).isTraining() ? c_ltblue : c_blue, "%s",
                ((*aSkill)->name() + ":").c_str());
-     mvwprintz(w_skills, line,19, c_ltblue, "%-2d(%2d%%%%)", level.level(),
+     mvwprintz(w_skills, line, 19, skillLevel(*aSkill).isTraining() ? c_ltblue : c_blue, "%-2d(%2d%%%%)", level.level(),
               (level.exercise() <  0 ? 0 : level.exercise()));
-    line++;
+     line++;
     }
   }
  }
@@ -1286,22 +1334,25 @@ encumb(bp_feet) * 5);
    mvwprintz(w_encumb, 8, 1, c_ltgray, "Feet");
    wrefresh(w_encumb);
    break;
-  case 3:	// Traits tab
+  case 4:	// Traits tab
    mvwprintz(w_traits, 0, 0, h_ltgray, "          TRAITS          ");
-   if (line <= 2) {
+   if (line <= (trait_win_size_y-1)/2) {
     min = 0;
     max = trait_win_size_y;
     if (traitslist.size() < max)
      max = traitslist.size();
-   } else if (line >= traitslist.size() - 3) {
-    min = (traitslist.size() < trait_win_size_y+1 ? 0 : traitslist.size() - trait_win_size_y);
+   } else if (line >= traitslist.size() - (trait_win_size_y+1)/2) {
+    min = (traitslist.size() < trait_win_size_y ? 0 : traitslist.size() - trait_win_size_y);
     max = traitslist.size();
    } else {
-    min = line - trait_win_size_y/2;
-    max = line + trait_win_size_y/2;
+    min = line - (trait_win_size_y-1)/2;
+    max = line + (trait_win_size_y+1)/2;
     if (traitslist.size() < max)
      max = traitslist.size();
+    if (min < 0)
+     min = 0;
    }
+
    for (int i = min; i < max; i++) {
     mvwprintz(w_traits, 1 + i - min, 1, c_ltgray, "                         ");
     if (traitslist[i] > PF_MAX2)
@@ -1335,13 +1386,11 @@ encumb(bp_feet) * 5);
      mvwprintz(w_traits, 0, 0, c_ltgray, "          TRAITS          ");
      for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
       mvwprintz(w_traits, i + 1, 1, c_black, "                         ");
-      if (traitslist[i] > trait_win_size_y)
-       status = c_ltblue;
-      else if (traits[traitslist[i]].points > 0)
+      if (traits[traitslist[i]].points > 0)
        status = c_ltgreen;
       else
        status = c_ltred;
-      mvwprintz(w_traits, i + 21, 1, status, traits[traitslist[i]].name.c_str());
+      mvwprintz(w_traits, i + 1, 1, status, traits[traitslist[i]].name.c_str());
      }
      wrefresh(w_traits);
      line = 0;
@@ -1353,27 +1402,30 @@ encumb(bp_feet) * 5);
    }
    break;
 
-  case 4:	// Effects tab
+  case 5:	// Effects tab
    mvwprintz(w_effects, 0, 0, h_ltgray, "        EFFECTS           ");
-   if (line <= 2) {
+   if (line <= (effect_win_size_y-1)/2) {
     min = 0;
-    max = 7;
+    max = effect_win_size_y;
     if (effect_name.size() < max)
      max = effect_name.size();
-   } else if (line >= effect_name.size() - 3) {
-    min = (effect_name.size() < 8 ? 0 : effect_name.size() - 7);
+   } else if (line >= effect_name.size() - (effect_win_size_y+1)/2) {
+    min = (effect_name.size() < effect_win_size_y ? 0 : effect_name.size() - effect_win_size_y);
     max = effect_name.size();
    } else {
-    min = line - 2;
-    max = line + 4;
+    min = line - (effect_win_size_y-1)/2;
+    max = line + (effect_win_size_y+1)/2;
     if (effect_name.size() < max)
      max = effect_name.size();
+    if (min < 0)
+     min = 0;
    }
+
    for (int i = min; i < max; i++) {
     if (i == line)
-     mvwprintz(w_effects, 2 + i - min, 1, h_ltgray, effect_name[i].c_str());
+     mvwprintz(w_effects, 1 + i - min, 1, h_ltgray, effect_name[i].c_str());
     else
-     mvwprintz(w_effects, 2 + i - min, 1, c_ltgray, effect_name[i].c_str());
+     mvwprintz(w_effects, 1 + i - min, 1, c_ltgray, effect_name[i].c_str());
    }
    if (line >= 0 && line < effect_text.size())
     mvwprintz(w_info, 0, 0, c_magenta, effect_text[line].c_str());
@@ -1391,10 +1443,10 @@ encumb(bp_feet) * 5);
     case '\t':
      mvwprintz(w_effects, 0, 0, c_ltgray, "        EFFECTS           ");
      for (int i = 0; i < effect_name.size() && i < 7; i++)
-      mvwprintz(w_effects, i + 2, 1, c_ltgray, effect_name[i].c_str());
+      mvwprintz(w_effects, i + 1, 1, c_ltgray, effect_name[i].c_str());
      wrefresh(w_effects);
      line = 0;
-     curtab++;
+     curtab = 1;
      break;
     case 'q':
     case KEY_ESCAPE:
@@ -1402,19 +1454,19 @@ encumb(bp_feet) * 5);
    }
    break;
 
-  case 5:	// Skills tab
+  case 3:	// Skills tab
    mvwprintz(w_skills, 0, 0, h_ltgray, "           SKILLS         ");
-   if (line <= 2) {
+   if (line <= (skill_win_size_y-1)/2) {
     min = 0;
     max = skill_win_size_y;
     if (skillslist.size() < max)
      max = skillslist.size();
-   } else if (line >= skillslist.size() - skill_win_size_y/2) {
-    min = (skillslist.size() < skill_win_size_y+1 ? 0 : skillslist.size() - skill_win_size_y);
+   } else if (line >= skillslist.size() - (skill_win_size_y+1)/2) {
+    min = (skillslist.size() < skill_win_size_y ? 0 : skillslist.size() - skill_win_size_y);
     max = skillslist.size();
    } else {
-    min = line - skill_win_size_y/2;
-    max = line + skill_win_size_y/2;
+    min = line - (skill_win_size_y-1)/2;
+    max = line + (skill_win_size_y+1)/2;
     if (skillslist.size() < max)
      max = skillslist.size();
     if (min < 0)
@@ -1443,20 +1495,8 @@ encumb(bp_feet) * 5);
       status = isLearning ? c_ltblue : c_blue;
     }
     mvwprintz(w_skills, 1 + i - min, 1, c_ltgray, "                         ");
-    if (exercise >= 100) {
-     mvwprintz(w_skills, 1 + i - min, 1, status, "%s:",
-               aSkill->name().c_str());
-     mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%%%)",
-               level.level(),
-               (exercise <  0 ? 0 : exercise));
-    } else {
-     mvwprintz(w_skills, 1 + i - min, 1, status, "%-17s",
-               (aSkill->name() + ":").c_str());
-     mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%%%)",
-               level.level(),
-               (exercise <  0 ? 0 :
-                exercise));
-    }
+    mvwprintz(w_skills, 1 + i - min, 1, status, "%s:", aSkill->name().c_str());
+    mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%%%)", level.level(), (exercise <  0 ? 0 : exercise));
    }
    werase(w_info);
    if (line >= 0 && line < skillslist.size())
@@ -1477,22 +1517,21 @@ encumb(bp_feet) * 5);
       werase(w_skills);
      mvwprintz(w_skills, 0, 0, c_ltgray, "           SKILLS         ");
      for (int i = 0; i < skillslist.size() && i < skill_win_size_y; i++) {
-       Skill *thisSkill = Skill::skill(skillslist[i]);
-       SkillLevel thisLevel = skillLevel(thisSkill);
-       if (thisLevel.exercise() < 0)
-       status = c_ltred;
+      Skill *thisSkill = Skill::skill(skillslist[i]);
+      SkillLevel level = skillLevel(thisSkill);
+      bool isLearning = level.isTraining();
+
+      if (level.exercise() < 0)
+       status = isLearning ? c_ltred : c_red;
       else
-       status = c_ltblue;
-      mvwprintz(w_skills, i + 1,  1, status, "%s:",
-                thisSkill->name().c_str());
-      mvwprintz(w_skills, i + 1, 19, status, "%d (%2d%%%%)",
-                thisLevel.level(),
-                (thisLevel.exercise() <  0 ? 0 :
-                 thisLevel.exercise()));
+       status = isLearning ? c_ltblue : c_blue;
+
+      mvwprintz(w_skills, i + 1,  1, status, "%s:", thisSkill->name().c_str());
+      mvwprintz(w_skills, i + 1, 19, status, "%d (%2d%%%%)", level.level(), (level.exercise() <  0 ? 0 : level.exercise()));
      }
      wrefresh(w_skills);
      line = 0;
-     curtab = 1;
+     curtab++;
      break;
    case ' ':
      skillLevel(selectedSkill).toggleTraining();
@@ -1514,7 +1553,10 @@ encumb(bp_feet) * 5);
  werase(w_skills);
  werase(w_speed);
  werase(w_info);
- werase(w_grid);
+ werase(w_grid_top);
+ werase(w_grid_effect);
+ werase(w_grid_skill);
+ werase(w_grid_trait);
 
  delwin(w_info);
  delwin(w_tip);
@@ -1524,7 +1566,10 @@ encumb(bp_feet) * 5);
  delwin(w_effects);
  delwin(w_skills);
  delwin(w_speed);
- delwin(w_grid);
+ delwin(w_grid_top);
+ delwin(w_grid_effect);
+ delwin(w_grid_skill);
+ delwin(w_grid_trait);
  erase();
 }
 
