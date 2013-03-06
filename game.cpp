@@ -3405,7 +3405,8 @@ void game::mon_info()
  for (int i = 0; i < z.size(); i++) {
   if (u_see(&(z[i]), buff)) {
    bool mon_dangerous = false;
-   if (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW) {
+   int j;
+   if (sees_u(z[i].posx, z[i].posy, j) && (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW)) {
     mon_dangerous = true;
 
     if (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= iProxyDist)
