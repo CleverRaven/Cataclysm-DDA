@@ -53,8 +53,6 @@ game::game() :
  gamemode(NULL)
 {
  dout() << "Game initialized.";
- clear();	// Clear the screen
- intro();	// Print an intro screen, make sure we're at least 80x25
 // Gee, it sure is init-y around here!
  init_itypes();	      // Set up item types                (SEE itypedef.cpp)
  init_mtypes();	      // Set up monster types             (SEE mtypedef.cpp)
@@ -69,6 +67,30 @@ game::game() :
  init_vehicles();     // Set up vehicles                  (SEE veh_typedef.cpp)
  init_autosave();     // Set up autosave
  load_keyboard_settings();
+
+
+ gamemode = new special_game;	// Nothing, basically.
+}
+
+game::~game()
+{
+ delete gamemode;
+ for (int i = 0; i < itypes.size(); i++)
+  delete itypes[i];
+ for (int i = 0; i < mtypes.size(); i++)
+  delete mtypes[i];
+ delwin(w_terrain);
+ delwin(w_minimap);
+ delwin(w_HP);
+ delwin(w_moninfo);
+ delwin(w_messages);
+ delwin(w_location);
+ delwin(w_status);
+}
+
+void game::init_ui(){
+ clear();	// Clear the screen
+ intro();	// Print an intro screen, make sure we're at least 80x25
 
  VIEWX = OPTIONS[OPT_VIEWPORT_X];
  VIEWY = OPTIONS[OPT_VIEWPORT_Y];
@@ -95,24 +117,6 @@ game::game() :
  werase(w_location);
  w_status = newwin(4, 55, 21, TERRAIN_WINDOW_WIDTH);
  werase(w_status);
-
- gamemode = new special_game;	// Nothing, basically.
-}
-
-game::~game()
-{
- delete gamemode;
- for (int i = 0; i < itypes.size(); i++)
-  delete itypes[i];
- for (int i = 0; i < mtypes.size(); i++)
-  delete mtypes[i];
- delwin(w_terrain);
- delwin(w_minimap);
- delwin(w_HP);
- delwin(w_moninfo);
- delwin(w_messages);
- delwin(w_location);
- delwin(w_status);
 }
 
 void game::setup()
