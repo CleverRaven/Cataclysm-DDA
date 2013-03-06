@@ -75,24 +75,6 @@ void computer::use(game *g)
                      LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
  print_line("Logging into %s...", name.c_str()); 
- 
- //Checks if computer is the Evac shelter computer. If so then display message then shutdown after keystroke.
- 
- if (name == "Evac shelter computer"){
-  print_line("\
-  GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
-  EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n\
-  SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
-  \n\
-  1. DO NOT PANIC. \n\
-  2. REMAIN INSIDE THE BUILDING. \n\
-  3. SEEK SHELTER IN THE BASEMENT. \n\
-  4. USE PROVIDED GAS MASKS. \n\
-  \n\
-  Press any key to continue...");
-  getch();
-  shutdown_terminal();
-  return;}
 
  if (security > 0) {
   print_error("ERROR!  Access denied!");
@@ -258,6 +240,20 @@ void computer::load_data(std::string data)
 void computer::activate_function(game *g, computer_action action)
 {
  switch (action) {
+
+  case COMPACT_EMERG_MESS
+  print_line("\
+  GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
+  EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n\
+  SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
+  \n\
+  1. DO NOT PANIC. \n\
+  2. REMAIN INSIDE THE BUILDING. \n\
+  3. SEEK SHELTER IN THE BASEMENT. \n\
+  4. USE PROVIDED GAS MASKS. \n\
+  \n\
+  Press any key to continue...");
+  break;
 
   case COMPACT_NULL:
    break; // Why would this be called?
