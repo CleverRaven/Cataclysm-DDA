@@ -2295,7 +2295,7 @@ case ot_shelter: {
         ter(SEEX+2, 4) = t_window_domestic;
         line(this, t_counter, SEEX+3, 5, SEEX+3, SEEY-4);
         ter(SEEX+6, 5) = t_console;
-        tmpcomp = this->add_computer(SEEX+6, 5, "Evac shelter computer", 0);
+        tmpcomp = add_computer(SEEX+6, 5, "Evac shelter computer", 0);
  	tmpcomp->add_option("Emergency Message", COMPACT_EMERG_MESS, 0);
         line(this, t_counter, SEEX+3, SEEY+3, SEEX+3, SEEY*2-6);
         ter(SEEX+6, SEEY*2-6) = t_console_broken;
