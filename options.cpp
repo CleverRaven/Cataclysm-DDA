@@ -299,6 +299,7 @@ viewport_x 12\n\
 # The height of the terrain window, which is also the height of the main window, in characters.\n\
 viewport_y 12\n\
 # Spawn zombies at game start instead of during the game.  You must create a new world after changing\n\
+static_spawn T\n\
 ";
  fout.close();
 }
