@@ -53,6 +53,7 @@ int main(int argc, char *argv[])
  bool quit_game = false;
  bool delete_world = false;
  game *g = new game;
+ g->init_ui();
  MAPBUFFER.set_game(g);
  MAPBUFFER.load();
 

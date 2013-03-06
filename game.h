@@ -83,6 +83,7 @@ class game
  public:
   game();
   ~game();
+  void init_ui();
   void setup();
   bool game_quit(); // True if we actually quit the game - used in main.cpp
   quit_status uquit;    // used in main.cpp to determine what type of quit
