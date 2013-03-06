@@ -5587,6 +5587,7 @@ void game::list_items()
    if (ch == 'I' || ch == 'c' || ch == 'C') {
     compare(iActiveX, iActiveY);
     ch = '.';
+    refresh_all();
 
    } else if (ch == 'f' || ch == 'F') {
     for (int i = 0; i < iInfoHeight-1; i++)
