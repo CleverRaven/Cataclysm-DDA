@@ -431,7 +431,7 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
    break;
 
   case MTRIG_PLAYER_WEAK:
-   if (g->u.hp_percentage() <= 70)
+   if (g->u.hp_percentage() <= 50) //OddzBall Change? --Tase
     ret += 10 - int(g->u.hp_percentage() / 10);
    break;
 

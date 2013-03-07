@@ -1672,9 +1672,9 @@ void map::shoot(game *g, const int x, const int y, int &dam,
  if (dam < 0)
   return;
 
- if (has_flag(alarmed, x, y) && !g->event_queued(EVENT_WANTED)) {
+ if (has_flag(alarmed, x, y) && !g->event_queued(EVENT_ALARM)) {  //Oddzball-Alarm attracts zombies..
   g->sound(g->u.posx, g->u.posy, 30, "An alarm sounds!");
-  g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
+  g->add_event(EVENT_ALARM, int(g->turn) + 300, 0, g->levx, g->levy);
  }
 
  int vpart;

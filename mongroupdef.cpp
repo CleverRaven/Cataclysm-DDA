@@ -18,10 +18,8 @@ void game::init_moncats()
 	mon_graboid, mon_worm, mon_halfworm, NULL);
  setvector(
    moncats[mcat_zombie],
-	mon_zombie, mon_zombie_cop, mon_zombie_shrieker, mon_zombie_spitter, mon_zombie_fast,
-	mon_zombie_electric, mon_zombie_brute, mon_zombie_hulk,
-	mon_zombie_necro, mon_boomer, mon_skeleton, mon_zombie_grabber,
- mon_zombie_master, mon_crow, NULL);
+	mon_dog, mon_cat, mon_zombie, mon_zombie_cop, mon_zombie_fast,
+	mon_zombie_brute, mon_skeleton, mon_crow, NULL); //Oddzball-No goofy Zombie types spawning
  setvector(
    moncats[mcat_triffid],
 	mon_triffid, mon_triffid_young, mon_vinebeast, mon_triffid_queen, NULL);
@@ -45,12 +43,12 @@ void game::init_moncats()
 	mon_dermatik_larva, mon_dermatik, NULL);
  setvector(
    moncats[mcat_lab],
-	mon_zombie_scientist, mon_blob_small, mon_manhack, mon_skitterbot,
+	mon_zombie_scientist, mon_skeleton, /*mon_blob_small, mon_manhack, mon_skitterbot,*/ //Oddzball-No weird zombies hopefully
 	NULL);
  setvector(
    moncats[mcat_nether],
-	mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
-	mon_flaming_eye, mon_kreck, mon_blank, mon_gozu, NULL);
+	/*mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
+	mon_flaming_eye, mon_kreck, mon_blank, mon_gozu,*/ NULL); //Oddzball-Not sure if this causes spawns in labs...
  setvector(
    moncats[mcat_spiral],
 	mon_human_snail, mon_twisted_body, mon_vortex, NULL);
@@ -63,8 +61,8 @@ void game::init_moncats()
 	NULL);
  setvector(
    moncats[mcat_robot],
-	mon_manhack, mon_skitterbot, mon_secubot, mon_copbot, mon_molebot,
-	mon_tripod, mon_chickenbot, mon_tankbot, NULL);
+	/*mon_manhack, mon_skitterbot, mon_secubot, mon_copbot, mon_molebot,
+	mon_tripod, mon_chickenbot, mon_tankbot, */NULL); //Oddzball-No robots..
 }
 
 bool moncat_is_safe(moncat_id id)

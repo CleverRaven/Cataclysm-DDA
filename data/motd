@@ -2,14 +2,17 @@
 # Max length of a line is 64 characters; the following line is for reference
 ################################################################
 This branch contains much work by Creidieki, Uzername,
-Kevingranade, HerbertJones, Gim, Shades and Origamiwolf.
+Kevingranade, HerbertJones, Gim, Shades, Origamiwolf,
+ Darkling Wolf, zpmorgan, Voker57, OZoneH3, and RWJMurphy.
+ A special thanks to Kevin and BurnZeZ for getting the
+ larger view port working. Keep doing the impossible guys!
 
 The game now has configurable options.
-You can directly edit options.txt in the data directory, or you
-can edit the options via the help menu.
+You can directly edit options.txt in the data directory, or
+under the help section.
 
-For latest discussions on Cataclysm and its mods, please visit:
-http://www.cataclysm.glyphgryph.com/smf/index.php
+If you change the viewport(play area) size, you NEED to restart
+for it to take effect.
 
 Check out the options listing by pressing ?2
 

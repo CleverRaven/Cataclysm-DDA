@@ -252,26 +252,26 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"broken wood wall", '&', c_ltred,   0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)|
     mfb(supports_roof)},
-{"wall",             '|', c_ltgray,  0, tr_null,
+{"wall",             '|', i_ltgray,  0, tr_null, //Oddzball-Changed Wall Graphics c_* to i_* should give us nicer walls
         mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
-{"wall",             '-', c_ltgray,  0, tr_null,
+{"wall",             '-', i_ltgray,  0, tr_null,
         mfb(flammable)|mfb(noitem)|mfb(supports_roof)},
-{"concrete wall",    '|', c_dkgray,  0, tr_null,
+{"concrete wall",    '|', i_dkgray,  0, tr_null,
         mfb(noitem)|mfb(supports_roof)},
-{"concrete wall",    '-', c_dkgray,  0, tr_null,
+{"concrete wall",    '-', i_dkgray,  0, tr_null,
         mfb(noitem)|mfb(supports_roof)},
-{"metal wall",       '|', c_cyan,    0, tr_null,
+{"metal wall",       '|', i_cyan,    0, tr_null,
         mfb(noitem)|mfb(noitem)|mfb(supports_roof)},
-{"metal wall",       '-', c_cyan,    0, tr_null,
+{"metal wall",       '-', i_cyan,    0, tr_null,
         mfb(noitem)|mfb(noitem)|mfb(supports_roof)},
-{"glass wall",       '|', c_ltcyan,  0, tr_null,
+{"glass wall",       '|', i_ltcyan,  0, tr_null,
         mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
-{"glass wall",       '-', c_ltcyan,  0, tr_null,
+{"glass wall",       '-', i_ltcyan,  0, tr_null,
         mfb(transparent)|mfb(bashable)|mfb(noitem)|mfb(supports_roof)},
-{"glass wall",       '|', c_ltcyan,  0, tr_null, // Alarmed
+{"glass wall",       '|', i_ltcyan,  0, tr_null, // Alarmed
 	mfb(transparent)|mfb(bashable)|mfb(alarmed)|mfb(noitem)|
  mfb(supports_roof)},
-{"glass wall",       '-', c_ltcyan,  0, tr_null, // Alarmed
+{"glass wall",       '-', i_ltcyan,  0, tr_null, // Alarmed
 	mfb(transparent)|mfb(bashable)|mfb(alarmed)|mfb(noitem)|
  mfb(supports_roof)},
 {"reinforced glass", '|', c_ltcyan,  0, tr_null,
@@ -321,24 +321,24 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(noitem)},
 {"steel compactor",      '&', c_green, 0, tr_null,
         mfb(transparent)},
-{"window",	     '"', c_ltcyan,  0, tr_null,
+{"window",	     '#', c_ltcyan,  0, tr_null, //Oddzball-Window Bold Test h_* and symbol change EDIT: trying c_* and dif symbol
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)|mfb(deconstruct)}, // Plain Ol' window
-{"taped window",  '"', c_dkgray,    0, tr_null,
+{"taped window",  '#', c_dkgray,    0, tr_null,
 	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)}, // Regular window
-{"window",	     '"', c_ltcyan,  0, tr_null,
+{"window",	     '#', c_ltcyan,  0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)|mfb(deconstruct)}, //has curtains
-{"taped window",  '"', c_dkgray,    0, tr_null,
+{"taped window",  '#', c_dkgray,    0, tr_null,
 	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)}, // Curtain window
 {"open window",      '\'', c_ltcyan, 4, tr_null,
 	mfb(transparent)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)},
-{"closed curtains",  '"', c_dkgray,    0, tr_null,
+{"closed curtains",  '-', c_dkgray,    0, tr_null,
 	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)},
-{"window",	     '"', c_ltcyan,  0, tr_null, // Actually alarmed
+{"window",	     '#', c_ltcyan,  0, tr_null, // Actually alarmed
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(alarmed)|mfb(noitem)|
         mfb(supports_roof)},
-{"taped window",  '"', c_dkgray,    0, tr_null,
+{"taped window",  '#', c_dkgray,    0, tr_null,
 	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)|mfb(alarmed)}, //Alarmed, duh.
 {"empty window",     '0', c_yellow,  8, tr_null,
 	mfb(transparent)|mfb(flammable)|mfb(supports_roof)},

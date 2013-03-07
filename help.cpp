@@ -546,12 +546,12 @@ from frostbite and to keep your distance from large fires.");
     }
 
 // Clear the lines
-    for (int i = 0; i < 25; i++)
+    for (int i = 0; i < 26; i++)
      mvprintz(i, 0, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     int valid_option_count = 0;
 
 // display options
-    for (int i = 0; i < 25 && offset + i < NUM_OPTION_KEYS; i++)
+    for (int i = 0; i < 26 && offset + i < NUM_OPTION_KEYS; i++)
     {
          valid_option_count++;
          mvprintz(i, 0, c_white, "%s: ",

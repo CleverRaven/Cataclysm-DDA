@@ -182,9 +182,9 @@ bool game::opening_screen()
  erase();
  for (int i = 0; i < 80; i++)
   mvwputch(w_open, 21, i, c_white, LINE_OXOX);
-   mvwprintz(w_open, 0, 0, c_blue, "Welcome to Cataclysm: Dark Days Ahead!");
+   mvwprintz(w_open, 0, 0, c_blue, "Cataclysm CZS Build 6 -Oddzball");
    mvwprintz(w_open, 1, 0, c_red, "\
-Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
+Please report bugs to the CZS thread on the Cataclysm DDA Forums");
  refresh();
  wrefresh(w_open);
  refresh();
@@ -492,7 +492,8 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
 // Set up all default values for a new game
 void game::start_game()
 {
- turn = MINUTES(STARTING_MINUTES);// It's turn 0...
+ //turn = MINUTES(STARTING_MINUTES);// It's turn 0...
+ turn = HOURS(OPTIONS[OPT_INITIAL_TIME]);
  run_mode = (OPTIONS[OPT_SAFEMODE] ? 1 : 0);
  mostseen = 0;	// ...and mostseen is 0, we haven't seen any monsters yet.
 
@@ -3727,7 +3728,7 @@ void game::monmove()
 
 void game::sound(int x, int y, int vol, std::string description)
 {
- vol *= 1.5; // Scale it a little
+ vol *= 1; // Scale it a little //Oddzball-Why did everything have same sound sense as Canine Ears? Bug? Changed to 1
 // First, alert all monsters (that can hear) to the sound
  for (int i = 0; i < z.size(); i++) {
   if (z[i].can_hear()) {
@@ -3737,10 +3738,10 @@ void game::sound(int x, int y, int vol, std::string description)
    z[i].process_trigger(MTRIG_SOUND, volume);
   }
  }
-// Loud sounds make the next spawn sooner!
+// Loud sounds make the next spawn sooner!//Oddzball-fixed accelerrated spawn
  int spawn_range = int(MAPSIZE / 2) * SEEX;
- if (vol >= spawn_range) {
-  int max = (vol - spawn_range);
+ if ((vol*1.5) >= spawn_range) { 
+  int max = ((vol*1.5) - spawn_range);
   int min = int(max / 6);
   if (max > spawn_range * 4)
    max = spawn_range * 4;
@@ -4429,9 +4430,9 @@ void game::smash()
  get_direction(smashx, smashy, input);
 // TODO: Move this elsewhere.
  if (m.has_flag(alarmed, u.posx + smashx, u.posy + smashy) &&
-     !event_queued(EVENT_WANTED)) {
+     !event_queued(EVENT_ALARM)) {      //Oddzball-Alarm attracts zombies..
   sound(u.posx, u.posy, 30, "An alarm sounds!");
-  add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
+  add_event(EVENT_ALARM, int(turn) + 300, 0, levx, levy);
  }
  if (smashx != -2 && smashy != -2)
   didit = m.bash(u.posx + smashx, u.posy + smashy, smashskill, bashsound);
@@ -7458,7 +7459,7 @@ void game::plmove(int x, int y)
    if (u.has_trait(PF_LIGHTSTEP))
     sound(x, y, 2, "");	// Sound of footsteps may awaken nearby monsters
    else
-    sound(x, y, 6, "");	// Sound of footsteps may awaken nearby monsters
+    sound(x, y, 4, "");	// Sound of footsteps may awaken nearby monsters //Oddzball-Made Footsteps slightly less loud, we arent a damn elephant.
   }
   if (one_in(20) && u.has_artifact_with(AEP_MOVEMENT_NOISE))
    sound(x, y, 40, "You emit a rattling sound.");

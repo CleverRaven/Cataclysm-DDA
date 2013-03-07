@@ -1,6 +1,11 @@
 #include "color.h"
 
-#define HILIGHT COLOR_BLUE
+#if (defined _WIN32 || defined WINDOWS)
+	#define HILIGHT COLOR_CYAN
+#else
+	#define HILIGHT COLOR_BLUE
+#endif
+
 void init_colors()
 {
  start_color();

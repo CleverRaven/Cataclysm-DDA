@@ -263,9 +263,9 @@ const oter_t oterlist[num_ter_types] = {
 {"mil. surplus",	'<',	i_ltgray,	5, build_extras, false, false},
 {"megastore",		'+',	c_ltblue,	5, build_extras, false, false},
 {"megastore",		'M',	c_blue,		5, build_extras, false, false},
-{"hospital",		'H',	c_ltred,	5, build_extras, false, false},
+{"hospital",		'+',	c_ltred,	5, build_extras, false, false},
 {"hospital",		'H',	c_red,		5, build_extras, false, false},
-{"mansion",		'M',	c_ltgreen,	5, build_extras, false, false},
+{"mansion",		'+',	c_ltgreen,	5, build_extras, false, false},
 {"mansion",		'M',	c_green,	5, build_extras, false, false},
 {"fema camp",		'+',	c_blue,	5, build_extras, false, false},
 {"fema camp",		'F',	i_blue,	5, build_extras, false, false}, //Oddzball- Added fema graphic
@@ -448,8 +448,8 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_crater,	   0, 10,  0, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_BLOB)},
 
-{ot_hive, 	   0, 50, 10, -1, mcat_bee, 20, 60, 2, 4,
- &omspec_place::forest, mfb(OMS_FLAG_3X3)},
+{ot_hive, 	   0, 0, 10, -1, mcat_bee, 20, 60, 2, 4, //Oddzball No Bee Hives
+ &omspec_place::never, mfb(OMS_FLAG_3X3)},
 
 {ot_house_north,   0,100,  0, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD)},
@@ -463,14 +463,14 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  {ot_lmoe,   0, 3, 20, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, 0},
 
- {ot_farm,   0, 20, 20, -1, mcat_null, 0, 0, 0, 0,
+ {ot_farm,   5, 10, 20, -1, mcat_null, 0, 0, 0, 0,  // Oddzball-farm
  &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) |mfb(OMS_FLAG_DIRT_LOT)},
 
 {ot_temple_stairs, 0,  3, 20, -1, mcat_null, 0, 0, 0, 0,
- &omspec_place::forest, 0},
+ &omspec_place::never, 0},
 
 {ot_lab_stairs,	   0, 30,  8, -1, mcat_null, 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_ROAD)},
+ &omspec_place::never, mfb(OMS_FLAG_ROAD)},
 
 {ot_fema_entrance,	   0, 5,  8, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_3X3_SECOND)}, //Oddzball-Fema test
@@ -507,29 +507,29 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT)},
 
 // Terrain	 MIN MAX DISTANCE
-{ot_anthill,	   0, 30,  10, -1, mcat_ant, 10, 30, 1000, 2000,
- &omspec_place::wilderness, 0},
+{ot_anthill,	   0, 0,  10, -1, mcat_ant, 10, 30, 1000, 2000, //Oddzball-No Anthills
+ &omspec_place::never, 0},
 
 {ot_spider_pit,	   0,500,  0, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::forest, 0},
 
-{ot_slimepit,	   0,  4,  0, -1, mcat_goo, 2, 10, 100, 200,
- &omspec_place::land, 0},
+{ot_slimepit,	   0,  0,  0, -1, mcat_goo, 2, 10, 100, 200, //Oddzball-No Slimes
+ &omspec_place::never, 0},
 
-{ot_fungal_bloom,  0,  3,  5, -1, mcat_fungi, 600, 1200, 30, 50,
- &omspec_place::wilderness, 0},
+{ot_fungal_bloom,  0,  0,  5, -1, mcat_fungi, 600, 1200, 30, 50, //Oddzball-No Fungal
+ &omspec_place::never, 0},
 
-{ot_triffid_grove, 0,  4,  0, -1, mcat_triffid, 800, 1300, 12, 20,
- &omspec_place::forest, 0},
+{ot_triffid_grove, 0,  0,  0, -1, mcat_triffid, 800, 1300, 12, 20, //Oddzball-No Triffids
+ &omspec_place::never, 0},
 
-{ot_river_center,  0, 10, 10, -1, mcat_null, 0, 0, 0, 0,
+{ot_river_center,  0, 7, 15, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::always, mfb(OMS_FLAG_BLOB)},
 
 // Terrain	 MIN MAX DISTANCE
-{ot_shelter,       5, 10,  5, 10, mcat_null, 0, 0, 0, 0,
+{ot_shelter,       5, 7,  5, 10, mcat_null, 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
 
-{ot_cave,	   0, 30,  0, -1, mcat_null, 0, 0, 0, 0,
+{ot_cave,	   0, 20,  0, -1, mcat_null, 0, 0, 0, 0,
  &omspec_place::wilderness, 0},
 
 {ot_toxic_dump,	   0,  5, 15, -1, mcat_null, 0, 0, 0, 0,

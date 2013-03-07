@@ -479,7 +479,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
    }
   }
 
-  if (one_in(100)) { // One in 100 forests has a spider living in it :o
+  if (one_in(9999)) { // One in 100 forests has a spider living in it :o //Oddzball-Stop spider spawns for now
    for (int i = 0; i < SEEX * 2; i++) {
     for (int j = 0; j < SEEX * 2; j++) {
      if ((ter(i, j) == t_dirt || ter(i, j) == t_underbrush) && !one_in(3))
@@ -1235,55 +1235,11 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
    while (ter(rn, bw - 1) != t_floor);
    ter(rn, bw - 1) = t_stairs_down;
   }
-  if (one_in(100)) { // Houses have a 1 in 100 chance of wasps!
-   for (int i = 0; i < SEEX * 2; i++) {
-    for (int j = 0; j < SEEY * 2; j++) {
-     if (ter(i, j) == t_door_c || ter(i, j) == t_door_locked)
-      ter(i, j) = t_door_frame;
-     if (ter(i, j) == t_window_domestic && !one_in(3))
-      ter(i, j) = t_window_frame;
-     if ((ter(i, j) == t_wall_h || ter(i, j) == t_wall_v) && one_in(8))
-      ter(i, j) = t_paper;
-    }
+  if (one_in(10)) { //Oddzball-Spawn Zombie! 1 in 10 houses
+       add_spawn(mon_zombie, rng(1, 5), rng(7, 11), rng(7, 11));
    }
-   int num_pods = rng(8, 12);
-   for (int i = 0; i < num_pods; i++) {
-    int podx = rng(1, SEEX * 2 - 2), pody = rng(1, SEEY * 2 - 2);
-    int nonx = 0, nony = 0;
-    while (nonx == 0 && nony == 0) {
-     nonx = rng(-1, 1);
-     nony = rng(-1, 1);
-    }
-    for (int x = -1; x <= 1; x++) {
-     for (int y = -1; y <= 1; y++) {
-      if ((x != nonx || y != nony) && (x != 0 || y != 0))
-       ter(podx + x, pody + y) = t_paper;
-     }
-    }
-    add_spawn(mon_wasp, 1, podx, pody);
-   }
-   place_items(mi_rare, 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
-
-  } else if (one_in(150)) { // No wasps; black widows?
-   for (int i = 0; i < SEEX * 2; i++) {
-    for (int j = 0; j < SEEY * 2; j++) {
-     if (ter(i, j) == t_floor) {
-      if (one_in(15)) {
-       add_spawn(mon_spider_widow, rng(1, 2), i, j);
-       for (int x = i - 1; x <= i + 1; x++) {
-        for (int y = j - 1; y <= j + 1; y++) {
-         if (ter(x, y) == t_floor)
-          add_field(NULL, x, y, fd_web, rng(2, 3));
-        }
-       }
-      } else if (move_cost(i, j) > 0 && field_at(i, j).is_null() && one_in(5))
-       add_field(NULL, x, y, fd_web, 1);
-     }
-    }
-   }
-   place_items(mi_rare, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
-  } else { // Just boring old zombies
-   place_spawns(g, mcat_zombie, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+   else if (one_in(100)) { // Oddzball-Rats! 
+   add_spawn(mon_sewer_rat, rng(1, 10), rng(7, 11), rng(7, 11));
   }
 
   if (terrain_type == ot_house_east  || terrain_type == ot_house_base_east)
@@ -1426,7 +1382,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
    rotate(rng(0, 3));
   }
-  add_spawn(mon_zombie_child, rng(2, 8), SEEX, SEEY);
+  add_spawn(mon_zombie_child, rng(2, 4), SEEX, SEEY); //Tase: OddzBall stuff?
+  add_spawn(mon_zombie, rng(1, 3), SEEX, SEEY);
  } break;
 
  case ot_s_gas_north:
@@ -2461,7 +2418,6 @@ case ot_lmoe: {
    science_room(this, 2       , 2, SEEX - 3    , SEEY * 2 - 3, 1);
    science_room(this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, 3);
 
-   add_spawn(mon_turret, 1, SEEX, 5);
 
    if (t_east > ot_road_null && t_east <= ot_road_nesw_manhole)
     rotate(1);
@@ -2883,8 +2839,8 @@ case ot_lmoe: {
    for (int i = 9; i <= 13; i += 2) {
     line(this, t_wall_metal_h,  9, i, 10, i);
     line(this, t_wall_metal_h, 13, i, 14, i);
-    add_spawn(mon_turret, 1, 9, i + 1);
-    add_spawn(mon_turret, 1, 14, i + 1);
+    add_spawn(mon_zombie_soldier, 1, 9, i + 1);
+    add_spawn(mon_zombie_soldier, 1, 14, i + 1);
    }
    ter(13, 16) = t_card_military;
 
@@ -3059,14 +3015,14 @@ case ot_lmoe: {
    ter( 2, 12) = t_concrete_v;
 
 // Place turrets by (possible) entrances
-  add_spawn(mon_turret, 1,  3, 11);
-  add_spawn(mon_turret, 1,  3, 12);
-  add_spawn(mon_turret, 1, 20, 11);
-  add_spawn(mon_turret, 1, 20, 12);
-  add_spawn(mon_turret, 1, 11,  3);
-  add_spawn(mon_turret, 1, 12,  3);
-  add_spawn(mon_turret, 1, 11, 20);
-  add_spawn(mon_turret, 1, 12, 20);
+  add_spawn(mon_zombie_soldier, 1,  3, 11);
+  add_spawn(mon_zombie_soldier, 1,  3, 12);
+  add_spawn(mon_zombie_soldier, 1, 20, 11);
+  add_spawn(mon_zombie_soldier, 1, 20, 12);
+  add_spawn(mon_zombie_soldier, 1, 11,  3);
+  add_spawn(mon_zombie_soldier, 1, 12,  3);
+  add_spawn(mon_zombie_soldier, 1, 11, 20);
+  add_spawn(mon_zombie_soldier, 1, 12, 20);
 
 // Finally, scatter dead bodies / mil zombies
   for (int i = 0; i < 20; i++) {
@@ -5666,13 +5622,15 @@ break;
    else if (move_cost(zx, zy) > 0) {
     mon_id zom = mon_zombie;
     if (one_in(6))
-     zom = mon_zombie_spitter;
+     zom = mon_skeleton;
     else if (!one_in(3))
-     zom = mon_boomer;
+     zom = mon_zombie_brute;
     add_spawn(zom, 1, zx, zy);
    }
   }
   break;
+
+  //Oddzball-Hospital spawn code above.
 
  case ot_mansion_entrance: {
 // Left wall
@@ -7987,7 +7945,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
     tmpcomp->add_failure(COMPFAIL_ALARM);
     tmpcomp->add_failure(COMPFAIL_DAMAGE);
-    m->add_spawn(mon_turret, 1, int((x1 + x2) / 2), desk);
+    m->add_spawn(mon_zombie_soldier, 1, int((x1 + x2) / 2), desk);
    } else {
     int desk = x1 + rng(int(height / 2) - int(height / 4), int(height / 2) + 1);
     for (int y = y1 + int(width / 4); y < y2 - int(width / 4); y++)
@@ -7999,7 +7957,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
     tmpcomp->add_failure(COMPFAIL_ALARM);
     tmpcomp->add_failure(COMPFAIL_DAMAGE);
-    m->add_spawn(mon_turret, 1, desk, int((y1 + y2) / 2));
+    m->add_spawn(mon_zombie_soldier, 1, desk, int((y1 + y2) / 2));
    }
    break;
   case room_chemistry:
@@ -9182,7 +9140,7 @@ void map::add_extra(map_extra type, game *g)
      if (ter(i, j) == t_marloss)
       add_item(x, y, (*itypes)[itm_marloss_berry], g->turn);
      if (one_in(15)) {
-      monster creature(g->mtypes[mon_id(rng(mon_gelatin, mon_blank))]);
+      monster creature(g->mtypes[mon_id(rng(mon_gelatin, mon_blank))]); //Oddzball-Spawns from portal? Science?
       creature.spawn(i, j);
       g->z.push_back(creature);
      }

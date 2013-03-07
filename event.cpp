@@ -211,6 +211,28 @@ void event::actualize(game *g)
    }
   } break;
 
+	case EVENT_ALARM: {   //Oddzball-Alarm event that spawns zombies, copied from temple spawn..
+   mon_id montype;
+   switch (rng(1, 4)) {
+    case 1: montype = mon_skeleton;  break;
+    case 2: montype = mon_zombie;    break;
+    case 3: montype = mon_zombie;     break;
+    case 4: montype = mon_zombie_fast; break;
+   }
+   monster spawned( g->mtypes[montype] );
+   int tries = 0, x, y;
+   do {
+    x = rng(g->u.posx - 5, g->u.posx + 5);
+    y = rng(g->u.posy - 5, g->u.posy + 5);
+    tries++;
+   } while (tries < 20 && !g->is_empty(x, y) &&
+            rl_dist(x, y, g->u.posx, g->u.posy) <= 2);
+   if (tries < 20) {
+    spawned.spawn(x, y);
+    g->z.push_back(spawned);
+   }
+  } break;
+
   default:
    break; // Nothing happens for other events
  }

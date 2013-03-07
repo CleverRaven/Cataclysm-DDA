@@ -37,7 +37,7 @@ desc))
 // PLEASE NOTE: The description is AT MAX 4 lines of 46 characters each.
 
 // FOREST ANIMALS
-mon("squirrel",	species_mammal, 'r',	c_ltgray,	MS_TINY,	FLESH,
+mon("squirrel",	species_mammal, 's',	c_ltgray,	MS_TINY,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 50,  0,-99, -8,140,  0,  1,  1,  0,  4,  0,  0,  0,  1,  0,
 	&mdeath::normal,	&mattack::none, "\
@@ -64,12 +64,12 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR);
 
 mon("wolf",	species_mammal, 'w',	c_dkgray,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  4, 12,  0, 20,165, 14,  2,  3,  4,  4,  1,  0,  0, 28,  0,
+	  4, 12,  0, 20,165, 9,  1,  7,  4,  4,  1,  0,  0, 28,  0,
 	&mdeath::normal,	&mattack::none, "\
 A vicious and fast pack hunter."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, MF_KEENNOSE, MF_BLEED, MF_ATTACKMON);
-ANGER(MTRIG_TIME, MTRIG_PLAYER_WEAK, MTRIG_HURT, MF_VIS50);
+ANGER(MTRIG_TIME, MTRIG_PLAYER_WEAK, MTRIG_HURT, MF_VIS30);
 PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
 
@@ -79,34 +79,34 @@ mon("bear",	species_mammal, 'B',	c_dkgray,	MS_LARGE,	FLESH,
 	&mdeath::normal,	&mattack::none, "\
 Remember, only YOU can prevent forest fires."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_BLEED, MF_VIS40);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_BLEED, MF_VIS20);
 ANGER(MTRIG_PLAYER_CLOSE);
 PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE);
 
 mon("cougar",	species_mammal, 'C',	c_dkgray,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  3, 12,  0, 20,180, 14,  2,  3,  4,  4,  1,  0,  0, 15,  5,
+	  3, 12,  0, 20,180, 10,  1,  7,  4,  4,  0,  0,  0, 15,  5,
 	&mdeath::normal,	&mattack::leap, "\
 A vicious and fast hunter."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, MF_KEENNOSE, MF_BLEED, MF_VIS50);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, MF_KEENNOSE, MF_BLEED, MF_VIS40);
 ANGER(MTRIG_TIME, MTRIG_PLAYER_WEAK, MTRIG_HURT);
 PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
 
 mon("crow",	species_mammal, 'v',	c_dkgray,	MS_TINY,	FLESH,
-//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq  // OddzBall likes crows
 	 3,  10,-99, -8,140,  0,  1,  1,  0,  4,  0,  0,  0,  1,  0,
 	&mdeath::normal,	&mattack::none, "\
 A small woodland animal."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FLIES, MF_VIS40);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FLIES, MF_VIS30);
 
 // DOMESICATED ANIMALS
 mon("dog",	species_mammal, 'd',	c_white,	MS_SMALL,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 1,   5,  2, 15,150, 12,  2,  3,  3,  3,  0,  0,  0, 25,  0,
+	 2,   0,  -30, 15,140, 5,  1,  7,  4,  3,  0,  0,  0, 15,  0,
 	&mdeath::normal,	&mattack::none, "\
 A medium-sized domesticated dog, gone feral."
 );
@@ -117,7 +117,7 @@ FEARS(MTRIG_FIRE);
 
 mon("cat",	species_mammal, 'c',	c_white,	MS_TINY,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 5,   0,  -40, 15,150, 12,  1,  3,  2,  0,  0,  0,  0, 10,  0,
+	 2,   0,  -40, 15,150, 12,  1,  3,  2,  0,  0,  0,  0, 10,  0,
 	&mdeath::normal,	&mattack::none, "\
 A small domesticated cat, gone feral."
 );
@@ -197,12 +197,12 @@ sized sting pointed forward."
 FLAGS(MF_SMELLS, MF_VENOM, MF_FLIES, MF_STUMBLES, MF_HIT_AND_RUN);
 ANGER(MTRIG_FRIEND_DIED, MTRIG_PLAYER_CLOSE);
 
-mon("giant wasp",species_insect, 'a', 	c_red,		MS_MEDIUM,	FLESH,
+mon("Wasp Swarm",species_insect, 'a', 	c_red,		MS_MEDIUM,	FLESH,  // OddzBall giant wasp -> wasp swarm
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  2, 22,  5, 60,150,  6,  1,  3,  7,  7,  0,  7,-40, 35, 0,
+	  2, 22,  5, 60,150,  6,  1,  3,  0,  7,  0,  0,-40, 5, 0,
 	&mdeath::normal,	&mattack::none, "\
-An evil-looking, slender-bodied wasp with\n\
-a vicious sting on its abdomen."
+A swarm of wasps with\n\
+vicious looking stingers."
 );
 FLAGS(MF_SMELLS, MF_POISON, MF_VENOM, MF_FLIES);
 ANGER(MTRIG_FRIEND_DIED, MTRIG_PLAYER_CLOSE, MTRIG_SOUND);
@@ -242,23 +242,23 @@ FLAGS(MF_DIGS, MF_HEARS, MF_GOODHEARING, MF_WARM, MF_LEATHER);
 // ZOMBIES
 mon("zombie",	species_zombie, 'Z',	c_ltgreen,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 90,  3,100,100, 70,  8,  1,  5,  2,  1,  0,  0, 40, 50,  0,
+	 99,  3,100,100, 50,  4,  2,  4,  1,  1,  0,  0, 40, 50,  10,
 	&mdeath::normal,	&mattack::bite, "\
 A human body, stumbling slowly forward on\n\
 uncertain legs, possessed with an unstoppable\n\
 rage."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED, MF_VIS40);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED, MF_GRABS, MF_VIS20);
 
 mon("zombie cop",	species_zombie, 'Z',	c_blue,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 2,  3,100,100, 70,  8,  1,  5,  0,  1,  0,  0, 40, 50,  0,
+	 3,  3,100,100, 50,  5,  2,  4,  2,  1,  0,  0, 40, 50,  10,
 	&mdeath::normal,	&mattack::bite, "\
 A human body, encapsulated in tough riot\n\
 armour, this zombie was clearly a cop gearing\n\
 up to fight the infection."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED, MF_VIS30);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED, MF_VIS10);
 
 mon("shrieker zombie",species_zombie, 'Z',c_magenta,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -294,23 +294,22 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
 
 mon("fresh zombie",species_zombie, 'Z',	c_ltred,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  6, 12,100,100,150, 10,  1,  4,  3,  4,  0,  0, 45, 40,  0,
+	  20, 3,100,100,100, 10,  2,  4,  2,  4,  0,  0, 45, 40,  20,
 	&mdeath::normal,	&mattack::bite, "\
-This deformed, sinewy zombie stays close to\n\
-the ground, loping forward faster than most\n\
-humans ever could."
+This zombie seems fresher and able to\n\
+move more quickly than most zombies."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
-      MF_HIT_AND_RUN, MF_VIS50);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED,
+      MF_HIT_AND_RUN, MF_VIS30);
 
 mon("zombie brute",species_zombie, 'Z',	c_red,		MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  4, 25,100,100,115,  9,  4,  4,  2,  0,  6,  3, 60, 80,  0,
+	  4, 25,100,100,100,  9,  4,  4,  0,  0,  6,  3, 60, 80,  10,
 	&mdeath::normal,	&mattack::bite, "\
 A hideous beast of a zombie, bulging with\n\
 distended muscles on both arms and legs."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_VIS40);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_VIS20);
 
 mon("zombie hulk",species_zombie, 'Z',	c_blue,		MS_HUGE,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -352,15 +351,14 @@ and it dribbles a gray sludge from its mouth."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_VIS30);
 
-mon("skeleton",	species_zombie, 'Z',	c_white,	MS_MEDIUM,	STONE,
+mon("Decayed Zombie",	species_zombie, 'Z',	c_white,	MS_MEDIUM,	STONE,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  7,  8,100,100, 90, 10,  1,  5,  3,  2,  0, 15,  0, 40, 0,
+	  50,  3,100,100, 50, 3,  1,  7,  1,  2,  0, 15,  0, 40, 20,
 	&mdeath::normal,	&mattack::bite, "\
-A skeleton picked clean of all but a few\n\
-rotten scraps of flesh, somehow still in\n\
-motion."
+A zombie in a highly advanced state\n\
+of decay."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_BLEED, MF_HARDTOSHOOT, MF_VIS30);
+FLAGS(MF_SEES, MF_HEARS, MF_BLEED, MF_VIS10);
 
 mon("zombie necromancer",species_zombie, 'Z',c_dkgray,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -375,25 +373,25 @@ ANGER(MTRIG_HURT, MTRIG_PLAYER_WEAK);
 
 mon("zombie scientist",species_zombie, 'Z',c_ltgray,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 20,  3,100,100, 75,  7,  1,  3,  0,  1,  0,  0, 50, 35, 20,
-	&mdeath::normal,	&mattack::science, "\
+	 20,  3,100,100, 75,  15,  1,  7,  0,  5,  0,  0, 50, 35, 8,
+	&mdeath::normal,	&mattack::bite, "\
 A zombie wearing a tattered lab coat and\n\
 some sort of utility belt.  It looks weaker\n\
 than most zombies, but more resourceful too."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED,
-      MF_ACIDPROOF, MF_VIS50);
+      MF_ACIDPROOF, MF_VIS40);
 
 mon("zombie soldier",	species_zombie,	'Z',c_ltblue,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  1, 20,100,100, 80, 12,  2,  4,  0,  0,  8, 16, 60,100, 0,
+	  1, 20,100,100, 80, 8,  2,  4,  2,  0,  8, 16, 60,100, 10,
 	&mdeath::normal,	&mattack::bite, "\
 This zombie was clearly a soldier before.\n\
 Its tattered armor gives it strong defense,\n\
 and it is much more physically fit than\n\
 most zombies."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED, MF_VIS30);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED, MF_VIS10);
 
 mon("grabber zombie",	species_zombie,	'Z',c_green,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -440,13 +438,13 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, 
 
  mon("child zombie",species_zombie, 'z',	c_ltgreen,	MS_SMALL,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  5, 2, 65,100,  70, 8,  1,  3,  2,  2,  0,  0, 20, 25,  0,
+	  10, 3,100,100, 70, 8,  1,  3,  2,  2,  0,  0, 10, 25,  0,
 	&mdeath::normal,	&mattack::none, "\
 A horrifying child zombie, you feel\n\
 a twinge of remorse looking at it."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_BLEED,
-      MF_GUILT, MF_VIS30);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED,
+      MF_HIT_AND_RUN, MF_GUILT, MF_VIS20);
 
 
 // PLANTS & FUNGI

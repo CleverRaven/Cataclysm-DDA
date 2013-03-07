@@ -1404,7 +1404,7 @@ void overmap::put_buildings(int x, int y, int dir, city town)
  int ychange = dir % 2, xchange = (dir + 1) % 2;
  for (int i = -1; i <= 1; i += 2) {
   if ((ter(x+i*xchange, y+i*ychange) == ot_field) && !one_in(STREETCHANCE)) {
-   if (rng(0, 99) > 80 * dist(x,y,town.x,town.y) / town.s)
+   if (rng(0, 99) > 80 * dist(x,y,town.x,town.y) / town.s)//Oddzball-Shop generation chance smaller is better // There is no change here -- Tase
     ter(x+i*xchange, y+i*ychange) = shop(((dir%2)-i)%4);
    else {
     if (rng(0, 99) > 130 * dist(x, y, town.x, town.y) / town.s)
