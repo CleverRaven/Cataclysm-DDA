@@ -379,36 +379,17 @@ void light_map::apply_light_ray(bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy
  }
 }
 
-void light_map::build_outside_cache(map *m, const int x, const int y, const int sx, const int sy)
-{
- const ter_id terrain = m->ter(sx, sy);
-
- if( terrain == t_floor || terrain == t_rock_floor || terrain == t_floor_wax) {
-  for( int dx = -1; dx <=1; dx++ ) {
-   for( int dy = -1; dy <=1; dy++ ) {
-    if( INBOUNDS(x + dx, x + dy) ) {
-     outside_cache[x + dx][y + dy] = false;
-    }
-   }
-  }
- } else if(terrain == t_bed || terrain == t_groundsheet) {
-  outside_cache[x][y] = false;
- }
-}
-
 // We only do this once now so we don't make 100k calls to is_outside for each
 // generation. As well as close to that for the veh_at function.
 void light_map::build_light_cache(game* g, int cx, int cy)
 {
  // Clear cache
- // Initialize cache of outside tiles
- memset(outside_cache, true, sizeof(outside_cache));
  for(int sx = cx - LIGHTMAP_RANGE_X; sx <= cx + LIGHTMAP_RANGE_X; ++sx) {
   for(int sy = cy - LIGHTMAP_RANGE_Y; sy <= cy + LIGHTMAP_RANGE_Y; ++sy) {
    int x = sx - cx + LIGHTMAP_RANGE_X;
    int y = sy - cy + LIGHTMAP_RANGE_Y;
 
-   build_outside_cache(&g->m, x, y, sx, sy);
+   outside_cache[x][y] = g->m.is_outside(sx, sy);
    c[x][y].transparency = LIGHT_TRANSPARENCY_CLEAR;
    c[x][y].veh = NULL;
    c[x][y].veh_part = 0;
