@@ -12,16 +12,19 @@ OPT_NO_CBLINK, // No bright backgrounds
 OPT_24_HOUR, // 24 hour time
 OPT_SNAP_TO_TARGET, // game::firing snaps to target
 OPT_SAFEMODE, // Safemode on by default?
+OPT_SAFEMODEPROXIMITY, //Range after which safemode kicks in
 OPT_AUTOSAFEMODE, // Autosafemode on by default?
+OPT_AUTOSAFEMODETURNS, //Number of turns untill safemode kicks back in
 OPT_AUTOSAVE, // Automatically save the game on intervals.
 OPT_GRADUAL_NIGHT_LIGHT, // be so cool at night :)
 OPT_QUERY_DISASSEMBLE, // Query before disassembling items
 OPT_DROP_EMPTY, // auto drop empty containers after use
 OPT_SKILL_RUST, // level of skill rust
-OPT_DELETE_WORLD,
-OPT_INITIAL_POINTS,
-OPT_VIEWPORT_X,
-OPT_VIEWPORT_Y,
+OPT_DELETE_WORLD, // Delete workd every time New Character is created
+OPT_INITIAL_POINTS, // Set the number of character points
+OPT_VIEWPORT_X, // Set the width of the terrain window, in characters
+OPT_VIEWPORT_Y, // Set the height of the terrain window, in characters
+OPT_STATIC_SPAWN, // Makes zombies spawn using the new static system
 NUM_OPTION_KEYS
 };
 

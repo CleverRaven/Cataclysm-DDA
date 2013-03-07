@@ -515,9 +515,12 @@ bool map::vehproceed(game* g){
       }
    }
 
-   if (veh->skidding && one_in(4)) // might turn uncontrollably while skidding
-      veh->move.init (veh->move.dir() +
-            (one_in(2) ? -15 * rng(1, 3) : 15 * rng(1, 3)));
+   if (veh->skidding){
+      if (one_in(4)){ // might turn uncontrollably while skidding
+         veh->move.init (veh->move.dir() +
+               (one_in(2) ? -15 * rng(1, 3) : 15 * rng(1, 3)));
+      }
+   }
    else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving").level() && one_in(20)) {
       g->add_msg("You fumble with the %s's controls.", veh->name.c_str());
       veh->turn (one_in(2) ? -15 : 15);
@@ -709,8 +712,10 @@ bool map::vehproceed(game* g){
 
    if (can_move) {
       // accept new direction
-      if (veh->skidding)
+      if (veh->skidding){
          veh->face.init (veh->turn_dir);
+         veh->possibly_recover_from_skid();
+      }
       else
          veh->face = mdir;
       veh->move = mdir;
@@ -720,7 +725,7 @@ bool map::vehproceed(game* g){
       }
       // accept new position
       // if submap changed, we need to process grid from the beginning.
-      int sm_change = displace_vehicle (g, x, y, dx, dy);
+      displace_vehicle (g, x, y, dx, dy);
    } else { // can_move
       veh->stop();
    }
@@ -909,7 +914,7 @@ bool map::is_destructable_ter_only(const int x, const int y)
 
 bool map::is_outside(const int x, const int y)
 {
- bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet);
+ bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet && ter(x, y) != t_fema_groundsheet);
 
  for(int i = -1; out && i <= 1; i++)
   for(int j = -1; out && j <= 1; j++) {
@@ -1708,6 +1713,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
   break;
 
  case t_window:
+ case t_window_domestic:
  case t_window_alarm:
   dam -= rng(0, 5);
   ter(x, y) = t_window_frame;
@@ -2778,10 +2784,10 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
            tername(Fx, Fy).c_str(), Tx, Ty);
 */
  std::vector<point> open;
- astar_list list[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
- int score	[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
- int gscore	[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
- point parent	[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
+ astar_list list[SEEX * MAPSIZE][SEEY * MAPSIZE];
+ int score	[SEEX * MAPSIZE][SEEY * MAPSIZE];
+ int gscore	[SEEX * MAPSIZE][SEEY * MAPSIZE];
+ point parent	[SEEX * MAPSIZE][SEEY * MAPSIZE];
  int startx = Fx - 4, endx = Tx + 4, starty = Fy - 4, endy = Ty + 4;
  if (Tx < Fx) {
   startx = Tx - 4;

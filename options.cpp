@@ -1,6 +1,7 @@
 #include "options.h"
 #include "output.h"
 
+#include <stdlib.h>
 #include <fstream>
 #include <string>
 
@@ -45,8 +46,15 @@ void load_options()
     else
      OPTIONS[key] = 0.;
    } else {
+    std::string check;
     double val;
-    fin >> val;
+    fin >> check;
+
+    if (check == "T" || check == "F")
+     val = (check == "T") ? 1.: 0.;
+    else
+     val = atoi(check.c_str());
+
     OPTIONS[key] = val;
    }
   }
@@ -72,8 +80,12 @@ option_key lookup_option_key(std::string id)
   return OPT_SNAP_TO_TARGET;
  if (id == "safemode")
   return OPT_SAFEMODE;
+ if (id == "safemodeproximity")
+  return OPT_SAFEMODEPROXIMITY;
  if (id == "autosafemode")
   return OPT_AUTOSAFEMODE;
+ if (id == "autosafemodeturns")
+  return OPT_AUTOSAFEMODETURNS;
  if (id == "autosave")
   return OPT_AUTOSAVE;
  if (id == "gradual_night_light")
@@ -92,6 +104,8 @@ option_key lookup_option_key(std::string id)
   return OPT_VIEWPORT_X;
  if (id == "viewport_y")
   return OPT_VIEWPORT_Y;
+ if (id == "static_spawn")
+  return OPT_STATIC_SPAWN;
  return OPT_NULL;
 }
 
@@ -105,7 +119,9 @@ std::string option_string(option_key key)
   case OPT_24_HOUR:		return "24_hour";
   case OPT_SNAP_TO_TARGET:	return "snap_to_target";
   case OPT_SAFEMODE:		return "safemode";
+  case OPT_SAFEMODEPROXIMITY: return "safemodeproximity";
   case OPT_AUTOSAFEMODE:	return "autosafemode";
+  case OPT_AUTOSAFEMODETURNS: return "autosafemodeturns";
   case OPT_AUTOSAVE:    	return "autosave";
   case OPT_GRADUAL_NIGHT_LIGHT: return "gradual_night_light";
   case OPT_QUERY_DISASSEMBLE: return "query_disassemble";
@@ -115,6 +131,7 @@ std::string option_string(option_key key)
   case OPT_INITIAL_POINTS: return "initial_points";
   case OPT_VIEWPORT_X: return "viewport_x";
   case OPT_VIEWPORT_Y: return "viewport_y";
+  case OPT_STATIC_SPAWN: return "static_spawn";
   default:			return "unknown_option";
  }
  return "unknown_option";
@@ -127,10 +144,12 @@ std::string option_desc(option_key key)
   case OPT_USE_METRIC_SYS:	return "If true, use Km/h not mph";
   case OPT_FORCE_YN:		return "If true, y/n prompts are case-sensitive\nand y and n are not accepted";
   case OPT_NO_CBLINK:		return "If true, bright backgrounds are not\nused--some consoles are not compatible";
-  case OPT_24_HOUR:		return "If true, use military time, not AM/PM";
+  case OPT_24_HOUR:		return "12h/24h Time:\n0 - AM/PM\n1 - 24h military\n2 - 24h normal";
   case OPT_SNAP_TO_TARGET:	return "If true, automatically follow the\ncrosshair when firing/throwing";
   case OPT_SAFEMODE:		return "If true, safemode will be on after\nstarting a new game or loading";
+  case OPT_SAFEMODEPROXIMITY: return "If safemode is enabled,\ndistance to hostiles when safemode\nshould show a warning (0=Viewdistance)";
   case OPT_AUTOSAFEMODE:	return "If true, auto-safemode will be on\nafter starting a new game or loading";
+  case OPT_AUTOSAFEMODETURNS: return "Number of turns after safemode\nis reenabled if no hostiles are\nin safemodeproximity distance";
   case OPT_AUTOSAVE:    	return "If true, game will periodically\nsave the map";
   case OPT_GRADUAL_NIGHT_LIGHT: return "If true will add nice gradual-lighting\n(should only make a difference @night)";
   case OPT_QUERY_DISASSEMBLE: return "If true, will query before disassembling\nitems";
@@ -140,6 +159,7 @@ std::string option_desc(option_key key)
   case OPT_INITIAL_POINTS: return "Initial points available on character\ngeneration.  Default is 6";
   case OPT_VIEWPORT_X: return "Set the expansion of the viewport along\nthe X axis.  Must restart for changes\nto take effect.  Default is 12";
   case OPT_VIEWPORT_Y: return "Set the expansion of the viewport along\nthe Y axis.  Must restart for changes\nto take effect.  Default is 12";
+  case OPT_STATIC_SPAWN: return "Spawn zombies at game start instead of\nduring game. Must delete save directory\nafter changing for it to take effect.\nDefault is 12";
   default:			return " ";
  }
  return "Big ol Bug";
@@ -155,7 +175,9 @@ std::string option_name(option_key key)
   case OPT_24_HOUR:		return "24 Hour Time";
   case OPT_SNAP_TO_TARGET:	return "Snap to Target";
   case OPT_SAFEMODE:		return "Safemode on by default";
+  case OPT_SAFEMODEPROXIMITY: return "Safemode proximity distance";
   case OPT_AUTOSAFEMODE:	return "Auto-Safemode on by default";
+  case OPT_AUTOSAFEMODETURNS: return "Turns to reenable safemode";
   case OPT_AUTOSAVE:    	return "Periodically Autosave";
   case OPT_GRADUAL_NIGHT_LIGHT: return "Gradual night light";
   case OPT_QUERY_DISASSEMBLE: return "Query on disassembly";
@@ -165,6 +187,7 @@ std::string option_name(option_key key)
   case OPT_INITIAL_POINTS: return "Initial points";
   case OPT_VIEWPORT_X: return "Viewport width";
   case OPT_VIEWPORT_Y: return "Viewport height";
+  case OPT_STATIC_SPAWN: return "Static spawn";
   default:			return "Unknown Option (BUG)";
  }
  return "Big ol Bug";
@@ -173,6 +196,9 @@ std::string option_name(option_key key)
 bool option_is_bool(option_key id)
 {
  switch (id) {
+  case OPT_24_HOUR:
+  case OPT_SAFEMODEPROXIMITY:
+  case OPT_AUTOSAFEMODETURNS:
   case OPT_SKILL_RUST:
   case OPT_DROP_EMPTY:
   case OPT_DELETE_WORLD:
@@ -195,6 +221,15 @@ char option_max_options(option_key id)
   else
     switch (id)
     {
+      case OPT_24_HOUR:
+        ret = 3;
+        break;
+      case OPT_SAFEMODEPROXIMITY:
+        ret = 61;
+        break;
+      case OPT_AUTOSAFEMODETURNS:
+        ret = 51;
+        break;
       case OPT_INITIAL_POINTS:
         ret = 25;
         break;
@@ -205,8 +240,8 @@ char option_max_options(option_key id)
         break;
       case OPT_VIEWPORT_X:
       case OPT_VIEWPORT_Y:
-		ret = 61; // TODO Set up min/max values so weird numbers don't have to be used.
-		break;
+        ret = 61; // TODO Set up min/max values so weird numbers don't have to be used.
+        break;
       default:
         ret = 2;
         break;
@@ -230,14 +265,18 @@ use_metric_system F\n\
 force_capital_yn T\n\
 # If true, bright backgrounds are not used--some consoles are not compatible\n\
 no_bright_backgrounds F\n\
-# If true, use military time, not AM/PM\n\
-24_hour F\n\
+# 12h/24h Time: 0 = AM/PM, 1 = 24h military, 2 = 24h normal\n\
+24_hour 0\n\
 # If true, automatically follow the crosshair when firing/throwing\n\
 snap_to_target F\n\
 # If true, safemode will be on after starting a new game or loading\n\
 safemode T\n\
+# If safemode is enabled, distance to hostiles when safemode should show a warning (0=Viewdistance)\n\
+safemodeproximity 0\n\
 # If true, auto-safemode will be on after starting a new game or loading\n\
 autosafemode F\n\
+# Number of turns after safemode is reenabled when no zombies are in safemodeproximity distance\n\
+autosafemodeturns 50\n\
 # If true, game will periodically save the map\n\
 autosave F\n\
 # If true will add nice gradual-lighting (should only make a difference @night)\n\
@@ -255,10 +294,11 @@ skill_rust 0\n\
 delete_world 0\n\
 # Initial points available in character generation\n\
 initial_points 6\n\
-# How far to expand the viewport's width in each direction.\n\
+# The width of the terrain window in characters.\n\
 viewport_x 12\n\
-# Same as viewport_x, but in height.\n\
+# The height of the terrain window, which is also the height of the main window, in characters.\n\
 viewport_y 12\n\
+# Spawn zombies at game start instead of during the game.  You must create a new world after changing\n\
 ";
  fout.close();
 }

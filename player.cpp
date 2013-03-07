@@ -1564,7 +1564,7 @@ void player::disp_status(WINDOW *w, game *g)
   mvwprintz(w, 2, 0, c_yellow, "Hungry");
  else if (hunger < 0)
   mvwprintz(w, 2, 0, c_green,  "Full");
-  
+
    //Oddzball Temp in status
 if (temp_cur[bp_torso] > BODYTEMP_SCORCHING)
   mvwprintz(w, 1, 9, c_red,    "Scorching!");
@@ -4298,25 +4298,29 @@ bool player::wear_item(game *g, item *to_wear)
 
 bool player::takeoff(game *g, char let)
 {
- for (int i = 0; i < worn.size(); i++) {
-  if (worn[i].invlet == let) {
-   if (volume_capacity() - (dynamic_cast<it_armor*>(worn[i].type))->storage >
-       volume_carried() + worn[i].type->volume) {
-    inv.push_back(worn[i]);
-    worn.erase(worn.begin() + i);
-    inv_sorted = false;
-    return true;
-   } else if (query_yn("No room in inventory for your %s.  Drop it?",
-                       worn[i].tname(g).c_str())) {
-    g->m.add_item(posx, posy, worn[i]);
-    worn.erase(worn.begin() + i);
-    return true;
-   } else
-    return false;
+ if (weapon.invlet == let) {
+  return wield(g, -3);
+ } else {
+  for (int i = 0; i < worn.size(); i++) {
+   if (worn[i].invlet == let) {
+    if (volume_capacity() - (dynamic_cast<it_armor*>(worn[i].type))->storage >
+        volume_carried() + worn[i].type->volume) {
+     inv.push_back(worn[i]);
+     worn.erase(worn.begin() + i);
+     inv_sorted = false;
+     return true;
+    } else if (query_yn("No room in inventory for your %s.  Drop it?",
+                        worn[i].tname(g).c_str())) {
+     g->m.add_item(posx, posy, worn[i]);
+     worn.erase(worn.begin() + i);
+     return true;
+    } else
+     return false;
+   }
   }
+  g->add_msg("You are not wearing that item.");
+  return false;
  }
- g->add_msg("You are not wearing that item.");
- return false;
 }
 
 void player::use_wielded(game *g) {

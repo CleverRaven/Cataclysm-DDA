@@ -83,6 +83,7 @@ class game
  public:
   game();
   ~game();
+  void init_ui();
   void setup();
   bool game_quit(); // True if we actually quit the game - used in main.cpp
   quit_status uquit;    // used in main.cpp to determine what type of quit
@@ -319,23 +320,25 @@ class game
 // Pick where to put liquid; false if it's left where it was
   bool handle_liquid(item &liquid, bool from_ground, bool infinite);
   void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items	'I'
-  void drop();	  // Drop an item		'd'
+  void drop(char chInput = '.');	  // Drop an item		'd'
   void drop_in_direction(); // Drop w/ direction 'D'
   void reassign_item(); // Reassign the letter of an item   '='
   void butcher(); // Butcher a corpse		'B'
   void complete_butcher(int index);	// Finish the butchering process
   void forage();	// Foraging ('a' on underbrush)
-  void eat();	  // Eat food or fuel		'E' (or 'a')
-  void use_item();// Use item; also tries E,R,W	'a'
+  void eat(char chInput = '.');	  // Eat food or fuel		'E' (or 'a')
+  void use_item(char chInput = '.');// Use item; also tries E,R,W	'a'
   void use_wielded_item();
-  void wear();	  // Wear armor			'W' (or 'a')
-  void takeoff(); // Remove armor		'T'
+  void wear(char chInput = '.');	  // Wear armor			'W' (or 'a')
+  void takeoff(char chInput = '.'); // Remove armor		'T'
   void reload();  // Reload a wielded gun/tool	'r'
+  void reload(char chInput);
   void unload();  // Unload a wielded gun/tool	'U'
-  void wield();   // Wield a weapon		'w'
+  void unload(char chInput);
+  void wield(char chInput = '.');   // Wield a weapon		'w'
   void read();    // Read a book		'R' (or 'a')
   void chat();    // Talk to a nearby NPC	'C'
-  void plthrow(); // Throw an item		't'
+  void plthrow(char chInput = '.'); // Throw an item		't'
   void help();    // Help screen		'?'
 
 // Target is an interactive function which allows the player to choose a nearby
@@ -349,6 +352,7 @@ class game
 // Map updating and monster spawning
   void replace_stair_monsters();
   void update_stair_monsters();
+  void despawn_monsters(const bool stairs = false, const int shiftx = 0, const int shifty = 0);
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
   mon_id valid_monster_from(std::vector<mon_id> group);
   int valid_group(mon_id type, int x, int y);// Picks a group from cur_om
@@ -365,7 +369,7 @@ class game
   void update_weather();   // Updates the temperature and weather patten
   void hallucinate(const int x, const int y); // Prints hallucination junk to the screen
   void mon_info();         // Prints a list of nearby monsters (top right)
-  input_ret get_input(int timeout_ms);   // Gets player input and calls the proper function
+  bool handle_action();
   void update_scent();     // Updates the scent map
   bool is_game_over();     // Returns true if the player quit or died
   void death_screen();     // Display our stats, "GAME OVER BOO HOO"

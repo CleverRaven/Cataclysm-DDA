@@ -527,7 +527,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
   if (has_flag(MF_BLEED) && dam > 6 && cut > 0) {
    if (!is_npc)
     g->add_msg("You're Bleeding!");
-   p.add_disease(DI_BLEED, 30, g);
+   p.add_disease(DI_BLEED, 60, g);
   }
   if (can_grab && has_flag(MF_GRABS) &&
       dice(type->melee_dice, 10) > dice(p.dodge(g), 10)) {

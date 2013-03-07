@@ -32,15 +32,8 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
   wprintz(w_inv, c_ltgray, "%d", g->u.volume_carried());
  wprintw(w_inv, "/%d", g->u.volume_capacity() - 2);
 
-// Print items carried
- int n_items = 0;
- for(int ch='a'; ch <= 'z'; ++ch)
-   n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
- for(int ch='A'; ch <= 'Z'; ++ch)
-   n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
- mvwprintw(w_inv, 1, 62, "Items:  %d/52 ", n_items);
-
 // Print our weapon
+ int n_items = 0;
  mvwprintz(w_inv, 2, 45, c_magenta, "WEAPON:");
  int dropping_weapon = false;
  for (int i = 0; i < dropped_items.size() && !dropping_weapon; i++) {
@@ -48,21 +41,24 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
    dropping_weapon = true;
  }
  if (g->u.is_armed()) {
+  n_items++;
   if (dropping_weapon)
    mvwprintz(w_inv, 3, 45, c_white, "%c + %s", g->u.weapon.invlet,
              g->u.weapname().c_str());
   else
    mvwprintz(w_inv, 3, 45, g->u.weapon.color_in_inventory(&(g->u)), "%c - %s",
              g->u.weapon.invlet, g->u.weapname().c_str());
- } else if (g->u.weapon.is_style())
+ } else if (g->u.weapon.is_style()) {
+  n_items++;
   mvwprintz(w_inv, 3, 45, c_ltgray, "%c - %s",
             g->u.weapon.invlet, g->u.weapname().c_str());
- else
+ } else
   mvwprintz(w_inv, 3, 45, c_ltgray, g->u.weapname().c_str());
 // Print worn items
  if (g->u.worn.size() > 0)
   mvwprintz(w_inv, 5, 45, c_magenta, "ITEMS WORN:");
  for (int i = 0; i < g->u.worn.size(); i++) {
+  n_items++;
   bool dropping_armor = false;
   for (int j = 0; j < dropped_items.size() && !dropping_armor; j++) {
    if (dropped_items[j] == g->u.worn[i].invlet)
@@ -75,6 +71,13 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
    mvwprintz(w_inv, 6 + i, 45, c_ltgray, "%c - %s", g->u.worn[i].invlet,
              g->u.worn[i].tname(g).c_str());
  }
+
+ // Print items carried
+ for(int ch='a'; ch <= 'z'; ++ch)
+   n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
+ for(int ch='A'; ch <= 'Z'; ++ch)
+   n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
+ mvwprintw(w_inv, 1, 62, "Items:  %d/52 ", n_items);
 }
 
 std::vector<int> find_firsts(inventory &inv)
@@ -434,40 +437,32 @@ std::vector<item> game::multidrop()
  int max_size = u.inv.size();
  for (int i = 0; i < max_size; i++) {
 
-  if (dropping[i] == -1)  // drop whole stack of charges
-  {
-    ret.push_back(u.inv.remove_item(current_stack));
-    current_stack--;
+  if (dropping[i] == -1) {  // drop whole stack of charges
+   ret.push_back(u.inv.remove_item(current_stack));
+   current_stack--;
   }
 
-    for (int j = 0; j < dropping[i]; j++) {
+  for (int j = 0; j < dropping[i]; j++) {
+   if (u.inv.stack_at(current_stack)[0].count_by_charges()) {      // dropping parts of stacks
+    int tmpcount = dropping[i];
 
-    if (u.inv.stack_at(current_stack)[0].count_by_charges())      // dropping parts of stacks
-    {
-        int tmpcount = dropping[i];
-
-        if (tmpcount >= u.inv.stack_at(current_stack)[0].charges)
-        {
-          ret.push_back(u.inv.remove_item(current_stack));
-          current_stack--;
-        }
-        else
-        {
-          u.inv.stack_at(current_stack)[0].charges -= tmpcount;
-          ret.push_back(u.inv.remove_item_by_quantity(current_stack, tmpcount));
-        }
-          j = dropping[i];
+    if (tmpcount >= u.inv.stack_at(current_stack)[0].charges) {
+      ret.push_back(u.inv.remove_item(current_stack));
+      current_stack--;
+    } else {
+      u.inv.stack_at(current_stack)[0].charges -= tmpcount;
+      ret.push_back(u.inv.remove_item_by_quantity(current_stack, tmpcount));
     }
-  else
-    {
-      if (current_stack >= 0) {
-      if (u.inv.stack_at(current_stack).size() == 1) {
-       ret.push_back(u.inv.remove_item(current_stack));
-       current_stack--;
-      } else
-       ret.push_back(u.inv.remove_item(current_stack));
-      }
+    j = dropping[i];
+   } else {
+    if (current_stack >= 0) {
+    if (u.inv.stack_at(current_stack).size() == 1) {
+     ret.push_back(u.inv.remove_item(current_stack));
+     current_stack--;
+    } else
+     ret.push_back(u.inv.remove_item(current_stack));
     }
+   }
   }
   current_stack++;
  }

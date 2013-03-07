@@ -41,7 +41,7 @@ enum dis_type {
  DI_BLISTERS_ARMS, DI_BLISTERS_HANDS, DI_BLISTERS_LEGS, DI_BLISTERS_FEET,
 // Diseases
  DI_INFECTION,
- DI_COMMON_COLD, DI_FLU,
+ DI_COMMON_COLD, DI_FLU, DI_RECOVER,
 // Fields
  DI_SMOKE, DI_ONFIRE, DI_TEARGAS,
 // Monsters
@@ -51,7 +51,7 @@ enum dis_type {
  DI_POISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
  DI_WEBBED,
- DI_RAT,
+ DI_RAT, DI_BITE,
 // Food & Drugs
  DI_PKILL1, DI_PKILL2, DI_PKILL3, DI_PKILL_L, DI_DRUNK, DI_CIG, DI_HIGH,
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
@@ -62,7 +62,7 @@ enum dis_type {
  DI_ATTACK_BOOST, DI_DAMAGE_BOOST, DI_DODGE_BOOST, DI_ARMOR_BOOST,
   DI_SPEED_BOOST, DI_VIPER_COMBO,
 // Other
- DI_AMIGARA, DI_TELEGLOW, DI_ATTENTION, DI_EVIL,
+ DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL, DI_INFECTED,
 // Inflicted by an NPC
  DI_ASKED_TO_FOLLOW, DI_ASKED_TO_LEAD, DI_ASKED_FOR_ITEM,
 // NPC-only
@@ -389,7 +389,7 @@ Your system is rather tolerant of poisons and toxins, and most will affect\n\
 you less."},
 {"Fast Reader", 1, 0, 0, "\
 You're a quick reader, and can get through books a lot faster than most."},
-{"Tough", 5, 0, 0, "\
+{"Tough", 3, 0, 0, "\
 It takes a lot to bring you down!  You get a 20%% bonus to all hit points."},
 {"Thick-Skinned", 2, 0, 0, "\
 Your skin is tough.  Cutting damage is slightly reduced for you."},

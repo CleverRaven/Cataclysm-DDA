@@ -23,6 +23,7 @@ enum trap_id {
  tr_engine,
  tr_blade,
  tr_landmine,
+ tr_landmine_buried,
  tr_telepad,
  tr_goo,
  tr_dissector,
