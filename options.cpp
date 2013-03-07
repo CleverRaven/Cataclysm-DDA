@@ -160,7 +160,7 @@ std::string option_desc(option_key key)
   case OPT_SKILL_RUST: return "Set the level of skill rust\n0 - vanilla Cataclysm\n1 - capped at skill levels\n2 - none at all";
   case OPT_DELETE_WORLD: return "Delete saves upon player death\n0 - no\n1 - yes\n2 - query";
   case OPT_INITIAL_POINTS: return "Initial points available on character\ngeneration.  Default is 6";
-  case OPT_INITIAL_TIME: return "Initial starting time of day on character\ngeneration.  Default is 8:00";
+  case OPT_INITIAL_TIME: return "Initial starting time of day on\ncharacter generation.\nDefault is 8:00\n\nRemember that past 9:30 AM,\nthe world becomes more dangerous!";
   case OPT_VIEWPORT_X: return "Set the expansion of the viewport along\nthe X axis.  Must restart for changes\nto take effect.  Default is 12";
   case OPT_VIEWPORT_Y: return "Set the expansion of the viewport along\nthe Y axis.  Must restart for changes\nto take effect.  Default is 12";
   case OPT_STATIC_SPAWN: return "Spawn zombies at game start instead of\nduring game. Must delete save directory\nafter changing for it to take effect.\nDefault is 12";
