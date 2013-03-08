@@ -67,6 +67,14 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
 	itm_knife_combat, -1, itm_machete, -1, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_pool_cue, 1, NULL);
 
+ RECIPE(itm_javelin, CC_WEAPON, "survival", NULL, 1, 5000, false);
+  TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_pockknife, -1, itm_knife_combat, -1,
+       itm_knife_butcher, -1, itm_machete, -1, NULL);
+  TOOL(itm_fire, -1, NULL);
+  COMP(itm_spear_wood, 1, NULL);
+  COMP(itm_rag, 1, itm_leather, 1, itm_fur, 1, NULL);
+  COMP(itm_plant_fibre, 20, itm_sinew, 20, NULL);
+
  RECIPE(itm_spear_knife, CC_WEAPON, "stabbing", NULL, 0, 600, true);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, NULL);
   COMP(itm_knife_steak, 2, itm_knife_combat, 1, NULL);
@@ -1032,7 +1040,7 @@ RECIPE(itm_boobytrap, CC_MISC, "mechanics", "traps",3,5000, false);
   COMP(itm_string_6,1,NULL);
   COMP(itm_can_food,1,NULL);
 
- RECIPE(itm_landmine, CC_WEAPON, "traps", "mechanics", 5, 10000, false);
+ RECIPE(itm_landmine, CC_MISC, "traps", "mechanics", 5, 10000, false);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   COMP(itm_superglue, 1, NULL);
   COMP(itm_can_food, 1, itm_steel_chunk, 1, itm_canister_empty, 1, itm_scrap, 4, NULL);

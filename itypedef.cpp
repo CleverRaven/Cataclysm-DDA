@@ -1157,6 +1157,13 @@ MELEE("clockworks",          30, 0, ';', c_ltcyan, IRON, MNULL,
          1, 1, 0, 0, 0, 0, "\
 A small assortment of gears and other clockwork gubbins.");
 
+MELEE("wooden javelin",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
+//	VOL WGT DAM CUT HIT FLAGS
+	 5,  3,  6,  22,  2, mfb(IF_SPEAR), "\
+A wooden spear, honed to a sharper point and fire hardened\n\
+for toughness. The grip area has also be carved and covered\n\
+for better grip.");
+TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  20, 55, ']', c_cyan,  STEEL,   MNULL,
