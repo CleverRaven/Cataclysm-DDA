@@ -441,7 +441,8 @@ void game::construction_menu()
      ch = 'q';
     } else {
      popup("You can't build that!");
-     select = ch;
+     if (ch != '\n')
+      select = ch;
      for (int i = 1; i < iMaxY-1; i++)
       mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
      update_info = true;
