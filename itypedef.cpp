@@ -199,11 +199,32 @@ color,mat1,volume,weight,0,0,0,0,quench,nutr,spoils,stim,healthy,addict,charges,
 fun,container,itm_null,use_func,addict_func));
 // FOOD
 
+FOOD("bone",            50, 50, c_white,    FLESH, itm_null,
+    1,  1,  0, 4,  0,   0, -1,  0, 1, 0,    &iuse::none, ADD_NULL, "\
+A bone from some creature or other, could be eaten or used to make some\n\
+stuff, like needles.");
+
+FOOD("sinew",            50, 50, c_white,    FLESH, itm_null,
+    1,  1,  0, 4,  0,   0, -1,  0, 1, 0,    &iuse::none, ADD_NULL, "\
+A tough sinew from a creature, usable for bindings and thread, also could\n\
+be eaten, if you were really hungry.");
+
+FOOD("fluid sac",            50, 50, c_white,    FLESH, itm_null,
+    1,  1,  0, 4,  0,   0, -1,  0, 1, 0,    &iuse::none, ADD_NULL, "\
+A fluid bladder from a plant based lifeform, not very nutritious, but\n\
+fine to eat anyway.");
+
+FOOD("plant fibre",            50, 50, c_white,    FLESH, itm_null,
+    1,  1,  0, 4,  0,   0, -1,  0, 1, 0,    &iuse::none, ADD_NULL, "\
+A tough fibre from a plant based lifeform, usable for bindings and thread\n\
+also could be eaten if you were hungry.");
+
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("chunk of meat",	50, 50,	c_red,		FLESH,  itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  2,  0, 20, 24,  0, -1,  0,  1,-10,	&iuse::none, ADD_NULL, "\
 Freshly butchered meat. You could eat it raw, but cooking it is better.");
+
 
 FOOD("plant marrow",	30, 60,	c_green,	VEGGY,	itm_null,
     1,  2,  0, 20, 80,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
@@ -3400,6 +3421,11 @@ A 2.5 litre plastic carboy for household cleaning chemicals.");
 CONT("glass flask",	10,  2500,	c_ltcyan,	GLASS,MNULL,
     1,  0, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A 250 ml laboratory conical flask, with a rubber bung.");
+
+CONT("waterskin",   0,  0, c_brown, LEATHER, MNULL,
+// VOL WGT DAM HIT	VOL	FLAGS
+    2, 2,  -8, -5,   6, mfb(con_wtight)|mfb(con_seals), "\
+A watertight leather bag, can hold 1.5 litres of water.");
 
 /* TOOLS
  * MAX is the maximum number of charges help.

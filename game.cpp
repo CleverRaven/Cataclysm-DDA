@@ -6793,17 +6793,17 @@ void game::complete_butcher(int index)
  int age = m.i_at(u.posx, u.posy)[index].bday;
  m.i_rem(u.posx, u.posy, index);
  int factor = u.butcher_factor();
- int pieces, pelts;
+ int pieces, pelts, bones, sinews;
  double skill_shift = 0.;
 
  int sSkillLevel = u.skillLevel("survival").level();
 
  switch (corpse->size) {
-  case MS_TINY:   pieces =  1; pelts =  1; break;
-  case MS_SMALL:  pieces =  2; pelts =  3; break;
-  case MS_MEDIUM: pieces =  4; pelts =  6; break;
-  case MS_LARGE:  pieces =  8; pelts = 10; break;
-  case MS_HUGE:   pieces = 16; pelts = 18; break;
+  case MS_TINY:   pieces =  1; pelts =  1; bones = 1; sinews = 1; break;
+  case MS_SMALL:  pieces =  2; pelts =  3; bones = 4; sinews = 4; break;
+  case MS_MEDIUM: pieces =  4; pelts =  6; bones = 9; sinews = 9; break;
+  case MS_LARGE:  pieces =  8; pelts = 10; bones = 14;sinews = 14;break;
+  case MS_HUGE:   pieces = 16; pelts = 18; bones = 21;sinews = 21;break;
  }
  if (sSkillLevel < 3)
   skill_shift -= rng(0, 8 - sSkillLevel);
@@ -6824,8 +6824,39 @@ void game::complete_butcher(int index)
  u.practice("survival", practice);
 
  pieces += int(skill_shift);
- if (skill_shift < 5)	// Lose some pelts
+ if (skill_shift < 5)  {	// Lose some pelts and bones
   pelts += (skill_shift - 5);
+  bones += (skill_shift - 2);
+  sinews += (skill_shift - 8);
+ }
+
+ if (bones > 0) {
+  for (int i = 0; i < bones; i++) {
+   itype* bone;
+   if (corpse->mat == FLESH) {
+     bone = itypes[itm_bone];
+     add_msg("You harvest some usable bones!");
+   } else if (corpse->mat == VEGGY) {
+     bone = itypes[itm_plant_sac];
+     add_msg("You harvest some fluid bladders!");
+  }
+   m.add_item(u.posx, u.posy, bone, age);
+  }
+ }
+
+  if (sinews > 0) {
+  for (int i = 0; i < sinews; i++) {
+   itype* sinew;
+   if (corpse->mat == FLESH) {
+     sinew = itypes[itm_sinew];
+     add_msg("You harvest some usable sinews!");
+   } else if (corpse->mat == VEGGY) {
+     sinew = itypes[itm_plant_fibre];
+     add_msg("You harvest some plant fibres!");
+  }
+   m.add_item(u.posx, u.posy, sinew, age);
+  }
+ }
 
  if ((corpse->has_flag(MF_FUR) || corpse->has_flag(MF_LEATHER)) &&
      pelts > 0) {
