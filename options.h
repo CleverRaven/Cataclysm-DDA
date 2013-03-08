@@ -31,21 +31,29 @@ NUM_OPTION_KEYS
 
 struct option_table
 {
- double options[NUM_OPTION_KEYS];
+    double options[NUM_OPTION_KEYS];
 
- option_table() {
-  for (int i = 0; i < NUM_OPTION_KEYS; i++) {
-   if(i == OPT_VIEWPORT_X || i == OPT_VIEWPORT_Y) {
-    options[i] = 12;
-   }
-   else {
-    options[i] = 0;
-   }
-  }
- };
+    option_table()
+    {
+        for (int i = 0; i < NUM_OPTION_KEYS; i++)
+        {   //setup default values where needed
+            switch(i)
+            {
+            case OPT_VIEWPORT_X:
+            case OPT_VIEWPORT_Y:
+                options[i] = 12;
+                break;
+            case OPT_INITIAL_TIME:
+                options[i] = 8;
+                break;
+            default:
+                options[i] = 0;
+            }
+        }
+    };
 
- double& operator[] (option_key i) { return options[i]; };
- double& operator[] (int i) { return options[i]; };
+    double& operator[] (option_key i) { return options[i]; };
+    double& operator[] (int i) { return options[i]; };
 };
 
 extern option_table OPTIONS;
