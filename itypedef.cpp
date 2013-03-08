@@ -204,20 +204,12 @@ FOOD("bone",            50, 50, c_white,    FLESH, itm_null,
 A bone from some creature or other, could be eaten or used to make some\n\
 stuff, like needles.");
 
-FOOD("sinew",            50, 50, c_white,    FLESH, itm_null,
-    1,  1,  0, 4,  0,   0, -1,  0, 1, 0,    &iuse::none, ADD_NULL, "\
-A tough sinew from a creature, usable for bindings and thread, also could\n\
-be eaten, if you were really hungry.");
-
 FOOD("fluid sac",            50, 50, c_white,    FLESH, itm_null,
     1,  1,  0, 4,  0,   0, -1,  0, 1, 0,    &iuse::none, ADD_NULL, "\
 A fluid bladder from a plant based lifeform, not very nutritious, but\n\
 fine to eat anyway.");
 
-FOOD("plant fibre",            50, 50, c_white,    FLESH, itm_null,
-    1,  1,  0, 4,  0,   0, -1,  0, 1, 0,    &iuse::none, ADD_NULL, "\
-A tough fibre from a plant based lifeform, usable for bindings and thread\n\
-also could be eaten if you were hungry.");
+
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("chunk of meat",	50, 50,	c_red,		FLESH,  itm_null,
@@ -1975,6 +1967,19 @@ AMMO("thread",          40, 50, AT_THREAD,      c_magenta,      COTTON,
 A small quantity of thread that could be used to refill a sewing kit.",
 0);
 
+//  NAME		RAR PRC TYPE		COLOR		MAT
+AMMO("sinew",	50, 120,AT_THREAD,	c_red,	   FLESH,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 1,  1,  0,  0,  0,  0,  0,  10, "\
+A tough sinew cut from a corpse, useable as thread.",
+0);
+
+//  NAME		RAR PRC TYPE		COLOR		MAT
+AMMO("plant fibre",	50, 120,AT_THREAD,	c_green,	   VEGGY,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 1,  1,  1,  0,  0,  0,  0,  10, "\
+Tough thin fibres, taken from a plant. Can be used as thread.",
+0);
 AMMO("duct tape",       60, 20, AT_NULL,    c_ltgray,       PLASTIC,
          2,  2,  0,  0,  0,  0,  0, 200, "\
 A roll of incredibly strong tape. Its uses are innumerable.",
@@ -4093,6 +4098,14 @@ TOOL("pocket knife",	14, 100,';', c_blue,	STEEL,  PLASTIC,
 	 0,  2,  0, 10, -4, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
 mfb(IF_STAB), "\
 A small pocket knife, not great for combat, but better than nothing.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+TOOL("bone needle",     0, 0,';', c_white, FLESH, MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+     0,  0,  0,  0, 0, 200, 0,  1,  0, AT_THREAD, itm_null, &iuse::sew,
+mfb(IF_STAB), "\
+A sharp needle made from a bone. It would be useful for making rough\n\
+clothing and items");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

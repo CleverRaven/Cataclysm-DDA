@@ -890,6 +890,10 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
 
 // MISC
 
+ RECIPE(itm_bone_needle, CC_MISC, "survival", NULL, 0, 3000, false);
+  TOOL(itm_knife_butcher, -1, itm_knife_combat, -1, itm_knife_steak, -1, itm_pockknife, -1, NULL)
+  COMP(itm_bone, 1, NULL);
+
  RECIPE(itm_rag, CC_MISC, NULL, NULL, 0, 3000, false);
   TOOL(itm_fire, -1, itm_hotplate, 3, itm_toolset, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
