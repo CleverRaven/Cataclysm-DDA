@@ -8,6 +8,7 @@
 #include "setvector.h"
 #include "inventory.h"
 
+void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_recipe_tabs(WINDOW *w, craft_cat tab);
 
 // This function just defines the recipes used throughout the game.
@@ -1100,53 +1101,64 @@ void game::craft()
 
 // Clear the screen of recipe data, and draw it anew
   werase(w_data);
-   mvwprintz(w_data, 20, 0, c_white, "\
-Press ? to describe object.  Press <ENTER> to attempt to craft object.");
+  mvwprintz(w_data, 20, 5, c_white, "Press ? to describe object.  Press <ENTER> to attempt to craft object.");
+  for (int i = 0; i < 80; i++) {
+   mvwputch(w_data, 21, i, c_ltgray, LINE_OXOX);
+
+   if (i < 21) {
+    mvwputch(w_data, i, 0, c_ltgray, LINE_XOXO);
+    mvwputch(w_data, i, 79, c_ltgray, LINE_XOXO);
+   }
+  }
+
+  mvwputch(w_data, 21,  0, c_ltgray, LINE_XXOO); // _|
+  mvwputch(w_data, 21, 79, c_ltgray, LINE_XOOX); // |_
   wrefresh(w_data);
+
   int recmin = 0, recmax = current.size();
   if(recmax > MAX_DISPLAYED_RECIPES){
    if (line <= recmin + 9) {
     for (int i = recmin; i < recmin + MAX_DISPLAYED_RECIPES; i++) {
-     mvwprintz(w_data, i - recmin, 0, c_dkgray, "\
+     mvwprintz(w_data, i - recmin, 2, c_dkgray, "\
                                ");	// Clear the line
      if (i == line)
-      mvwprintz(w_data, i - recmin, 0, (available[i] ? h_white : h_dkgray),
+      mvwprintz(w_data, i - recmin, 2, (available[i] ? h_white : h_dkgray),
                 itypes[current[i]->result]->name.c_str());
      else
-      mvwprintz(w_data, i - recmin, 0, (available[i] ? c_white : c_dkgray),
+      mvwprintz(w_data, i - recmin, 2, (available[i] ? c_white : c_dkgray),
                 itypes[current[i]->result]->name.c_str());
     }
    } else if (line >= recmax - 9) {
     for (int i = recmax - MAX_DISPLAYED_RECIPES; i < recmax; i++) {
-     mvwprintz(w_data, 18 + i - recmax, 0, c_ltgray, "\
+     mvwprintz(w_data, 18 + i - recmax, 2, c_ltgray, "\
                                 ");	// Clear the line
 
      if (i == line)
-       mvwprintz(w_data, 18 + i - recmax, 0, (available[i] ? h_white : h_dkgray),
+       mvwprintz(w_data, 18 + i - recmax, 2, (available[i] ? h_white : h_dkgray),
                  itypes[current[i]->result]->name.c_str());
      else
-      mvwprintz(w_data, 18 + i - recmax, 0, (available[i] ? c_white : c_dkgray),
+      mvwprintz(w_data, 18 + i - recmax, 2, (available[i] ? c_white : c_dkgray),
                 itypes[current[i]->result]->name.c_str());
     }
    } else {
     for (int i = line - 9; i < line + 9; i++) {
-     mvwprintz(w_data, 9 + i - line, 0, c_ltgray, "\
+     mvwprintz(w_data, 9 + i - line, 2, c_ltgray, "\
                                 ");	// Clear the line
      if (i == line)
-       mvwprintz(w_data, 9 + i - line, 0, (available[i] ? h_white : h_dkgray),
+       mvwprintz(w_data, 9 + i - line, 2, (available[i] ? h_white : h_dkgray),
                  itypes[current[i]->result]->name.c_str());
      else
-      mvwprintz(w_data, 9 + i - line, 0, (available[i] ? c_white : c_dkgray),
+      mvwprintz(w_data, 9 + i - line, 2, (available[i] ? c_white : c_dkgray),
                 itypes[current[i]->result]->name.c_str());
     }
    }
   } else{
    for (int i = 0; i < current.size() && i < 23; i++) {
     if (i == line)
-     mvwprintz(w_data, i, 0, (available[i] ? h_white : h_dkgray),
+     mvwprintz(w_data, i, 2, (available[i] ? h_white : h_dkgray),
                itypes[current[i]->result]->name.c_str());
     else
-     mvwprintz(w_data, i, 0, (available[i] ? c_white : c_dkgray),
+     mvwprintz(w_data, i, 2, (available[i] ? c_white : c_dkgray),
                itypes[current[i]->result]->name.c_str());
    }
   }
@@ -1257,51 +1269,53 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
   wrefresh(w_data);
   input = get_input();
   switch (input) {
-  case DirectionUp:
-   if (tab == CC_WEAPON)
-    tab = CC_MISC;
-   else
-    tab = craft_cat(int(tab) - 1);
-   redraw = true;
-   break;
-  case DirectionDown:
-   if (tab == CC_MISC)
-    tab = CC_WEAPON;
-   else
-    tab = craft_cat(int(tab) + 1);
-   redraw = true;
-   break;
-  case DirectionS:
-   line++;
-   break;
-  case DirectionN:
-   line--;
-   break;
-  case Confirm:
-   if (!available[line])
-    popup("You can't do that!");
-   else
-   // is player making a liquid? Then need to check for valid container
-   if (itypes[current[line]->result]->m1 == LIQUID)
-   {
-    if (u.has_watertight_container() || u.has_matching_liquid(itypes[current[line]->result]->id)) {
-            make_craft(current[line]);
-            done = true;
-            break;
-    } else {
-      popup("You don't have anything to store that liquid in!");
+   case DirectionW:
+   case DirectionUp:
+    if (tab == CC_WEAPON)
+     tab = CC_MISC;
+    else
+     tab = craft_cat(int(tab) - 1);
+    redraw = true;
+    break;
+   case DirectionE:
+   case DirectionDown:
+    if (tab == CC_MISC)
+     tab = CC_WEAPON;
+    else
+     tab = craft_cat(int(tab) + 1);
+    redraw = true;
+    break;
+   case DirectionS:
+    line++;
+    break;
+   case DirectionN:
+    line--;
+    break;
+   case Confirm:
+    if (!available[line])
+     popup("You can't do that!");
+    else
+    // is player making a liquid? Then need to check for valid container
+    if (itypes[current[line]->result]->m1 == LIQUID)
+    {
+     if (u.has_watertight_container() || u.has_matching_liquid(itypes[current[line]->result]->id)) {
+             make_craft(current[line]);
+             done = true;
+             break;
+     } else {
+       popup("You don't have anything to store that liquid in!");
+     }
     }
-   }
-   else {
-    make_craft(current[line]);
-    done = true;
-   }
-   break;
-  case Help:
-   tmp = item(itypes[current[line]->result], 0);
-   full_screen_popup(tmp.info(true).c_str());
-   redraw = true;
-   break;
+    else {
+     make_craft(current[line]);
+     done = true;
+    }
+    break;
+   case Help:
+    tmp = item(itypes[current[line]->result], 0);
+    full_screen_popup(tmp.info(true).c_str());
+    redraw = true;
+    break;
   }
   if (line < 0)
    line = current.size() - 1;
@@ -1316,125 +1330,54 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
  refresh_all();
 }
 
+void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
+{
+ int iOffsetXRight = iOffsetX + sText.size() + 1;
+
+ mvwputch(w, 0, iOffsetX,      c_ltgray, LINE_OXXO); // |^
+ mvwputch(w, 0, iOffsetXRight, c_ltgray, LINE_OOXX); // ^|
+ mvwputch(w, 1, iOffsetX,      c_ltgray, LINE_XOXO); // |
+ mvwputch(w, 1, iOffsetXRight, c_ltgray, LINE_XOXO); // |
+
+ mvwprintz(w, 1, iOffsetX+1, (bSelected) ? h_ltgray : c_ltgray, sText.c_str());
+
+ for (int i = iOffsetX+1; i < iOffsetXRight; i++)
+  mvwputch(w, 0, i, c_ltgray, LINE_OXOX); // -
+
+ if (bSelected) {
+  mvwputch(w, 1, iOffsetX-1,      h_ltgray, '<');
+  mvwputch(w, 1, iOffsetXRight+1, h_ltgray, '>');
+
+  for (int i = iOffsetX+1; i < iOffsetXRight; i++)
+   mvwputch(w, 2, i, c_black, ' ');
+
+  mvwputch(w, 2, iOffsetX,      c_ltgray, LINE_XOOX); // _|
+  mvwputch(w, 2, iOffsetXRight, c_ltgray, LINE_XXOO); // |_
+
+ } else {
+  mvwputch(w, 2, iOffsetX,      c_ltgray, LINE_XXOX); // _|_
+  mvwputch(w, 2, iOffsetXRight, c_ltgray, LINE_XXOX); // _|_
+ }
+}
+
 void draw_recipe_tabs(WINDOW *w, craft_cat tab)
 {
  werase(w);
- for (int i = 0; i < 80; i++) {
+ for (int i = 0; i < 80; i++)
   mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
-  if ((i >  4 && i < 14) || (i > 20 && i < 27) || (i > 33 && i < 47) ||
-      (i > 53 && i < 61) || (i > 67 && i < 74))
-   mvwputch(w, 0, i, c_ltgray, LINE_OXOX);
- }
 
- mvwputch(w, 0,  4, c_ltgray, LINE_OXXO);
- mvwputch(w, 0, 20, c_ltgray, LINE_OXXO);
- mvwputch(w, 0, 33, c_ltgray, LINE_OXXO);
- mvwputch(w, 0, 53, c_ltgray, LINE_OXXO);
- mvwputch(w, 0, 67, c_ltgray, LINE_OXXO);
- mvwputch(w, 2,  4, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 20, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 33, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 53, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 67, c_ltgray, LINE_XXOX);
+ mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
+ mvwputch(w, 2, 79, c_ltgray, LINE_OOXX); // ^|
 
- mvwputch(w, 0, 14, c_ltgray, LINE_OOXX);
- mvwputch(w, 0, 27, c_ltgray, LINE_OOXX);
- mvwputch(w, 0, 47, c_ltgray, LINE_OOXX);
- mvwputch(w, 0, 61, c_ltgray, LINE_OOXX);
- mvwputch(w, 0, 74, c_ltgray, LINE_OOXX);
- mvwputch(w, 2, 14, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 27, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 47, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 61, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 74, c_ltgray, LINE_XXOX);
+ draw_tab(w,  2, "WEAPONS", (tab == CC_WEAPON) ? true : false);
+ draw_tab(w, 13, "AMMO",    (tab == CC_AMMO)   ? true : false);
+ draw_tab(w, 21, "FOOD",    (tab == CC_FOOD)   ? true : false);
+ draw_tab(w, 29, "DRINKS",  (tab == CC_DRINK)  ? true : false);
+ draw_tab(w, 39, "CHEMS",   (tab == CC_CHEM)   ? true : false);
+ draw_tab(w, 48, "ELECTRONICS", (tab == CC_ELECTRONIC) ? true : false);
+ draw_tab(w, 63, "ARMOR",   (tab == CC_ARMOR)  ? true : false);
+ draw_tab(w, 72, "MISC",    (tab == CC_MISC)   ? true : false);
 
- mvwprintz(w, 1, 0, c_ltgray, "\
-      OFFENSE        COMEST        ELECTRONICS         ARMOR         MISC");
- mvwputch(w, 1,  4, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 20, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 33, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 53, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 67, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 14, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 27, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 47, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 61, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 74, c_ltgray, LINE_XOXO);
-
- switch (tab) {
- case CC_WEAPON:
-  for (int i = 5; i < 14; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 6, h_ltgray, "WEAPONS");
-  mvwputch(w, 2,  4, c_ltgray, LINE_XOOX);
-  mvwputch(w, 2, 14, c_ltgray, LINE_XXOO);
-  mvwputch(w, 1,  2, h_ltgray, '<');
-  mvwputch(w, 1, 16, h_ltgray, '>');
-  break;
- case CC_AMMO:
-  for (int i = 5; i < 14; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 6, h_ltgray, "BULLETS");
-  mvwputch(w, 2,  4, c_ltgray, LINE_XOOX);
-  mvwputch(w, 2, 14, c_ltgray, LINE_XXOO);
-  mvwputch(w, 1,  2, h_ltgray, '<');
-  mvwputch(w, 1, 16, h_ltgray, '>');
-  break;
- case CC_FOOD:
-  for (int i = 21; i < 27; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 21, h_ltgray, " FOOD ");
-  mvwputch(w, 2, 20, c_ltgray, LINE_XOOX);
-  mvwputch(w, 2, 27, c_ltgray, LINE_XXOO);
-  mvwputch(w, 1, 18, h_ltgray, '<');
-  mvwputch(w, 1, 29, h_ltgray, '>');
-  break;
-   case CC_DRINK:
-  for (int i = 21; i < 27; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 21, h_ltgray, "DRINKS");
-  mvwputch(w, 2, 20, c_ltgray, LINE_XOOX);
-  mvwputch(w, 2, 27, c_ltgray, LINE_XXOO);
-  mvwputch(w, 1, 18, h_ltgray, '<');
-  mvwputch(w, 1, 29, h_ltgray, '>');
-  break;
-   case CC_CHEM:
-  for (int i = 21; i < 27; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 21, h_ltgray, " CHEMS");
-  mvwputch(w, 2, 20, c_ltgray, LINE_XOOX);
-  mvwputch(w, 2, 27, c_ltgray, LINE_XXOO);
-  mvwputch(w, 1, 18, h_ltgray, '<');
-  mvwputch(w, 1, 29, h_ltgray, '>');
-  break;
- case CC_ELECTRONIC:
-  for (int i = 34; i < 47; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 35, h_ltgray, "ELECTRONICS");
-  mvwputch(w, 2, 33, c_ltgray, LINE_XOOX);
-  mvwputch(w, 2, 47, c_ltgray, LINE_XXOO);
-  mvwputch(w, 1, 31, h_ltgray, '<');
-  mvwputch(w, 1, 49, h_ltgray, '>');
-  break;
- case CC_ARMOR:
-  for (int i = 54; i < 61; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 55, h_ltgray, "ARMOR");
-  mvwputch(w, 2, 53, c_ltgray, LINE_XOOX);
-  mvwputch(w, 2, 61, c_ltgray, LINE_XXOO);
-  mvwputch(w, 1, 51, h_ltgray, '<');
-  mvwputch(w, 1, 63, h_ltgray, '>');
-  break;
- case CC_MISC:
-  for (int i = 68; i < 74; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 69, h_ltgray, "MISC");
-  mvwputch(w, 2, 67, c_ltgray, LINE_XOOX);
-  mvwputch(w, 2, 74, c_ltgray, LINE_XXOO);
-  mvwputch(w, 1, 65, h_ltgray, '<');
-  mvwputch(w, 1, 76, h_ltgray, '>');
-  break;
- }
  wrefresh(w);
 }
 
