@@ -316,7 +316,7 @@ blue background. Pressing 'e', then a direction, will allow you to examine\n\
 these containers and loot their contents.\n\
 \n\
 Pressing 'I' opens a comparison menu, where you can see two items\n\
-side-by-side with their attributes highlighted to indicate which is surperior.\n\
+side-by-side with their attributes highlighted to indicate which is superior.\n\
 You can also access the item comparison menu by pressing 'C' when the 'V'iew\n\
 nearby items menu is open and an item is selected.\n\
 \n\
