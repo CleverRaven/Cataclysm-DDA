@@ -291,6 +291,15 @@ lightning."
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
       MF_ELECTRIC, MF_VIS40);
 
+mon("smoker zombie",species_zombie,'Z',c_ltgray,	MS_MEDIUM,	FLESH,
+//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	  3, 10,100,100,110,  8,  1,  6,  0,  4,  0,  0, 40, 65, 1,
+	&mdeath::smokeburst,	&mattack::smokecloud, "\
+This zombie emits a constant haze of\n\
+thick, obfuscating smoke."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
+      MF_ELECTRIC, MF_VIS40);
 
 mon("fresh zombie",species_zombie, 'Z',	c_ltred,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq

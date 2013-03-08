@@ -135,6 +135,17 @@ void mattack::shockstorm(game *g, monster *z)
  }
 }
 
+
+void mattack::smokecloud(game *g, monster *z)
+{
+  z->sp_timeout = z->type->sp_freq;	// Reset timer
+  for (int i = -2; i <= 2; i++) {
+    for (int j = -2; j <= 2; j++) {
+      g->m.add_field(g, z->posx + i, z->posy + j, fd_smoke, rng(1, 2) + rng(0, 1));
+    }
+  }
+}
+
 void mattack::boomer(game *g, monster *z)
 {
  int j;

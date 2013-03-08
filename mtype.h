@@ -41,6 +41,7 @@ mon_fly, mon_bee, mon_wasp,
 mon_graboid, mon_worm, mon_halfworm,
 // Zombies
  mon_zombie, mon_zombie_cop, mon_zombie_shrieker, mon_zombie_spitter, mon_zombie_electric,
+ mon_zombie_smoker,
  mon_zombie_fast, mon_zombie_brute, mon_zombie_hulk, mon_zombie_fungus,
  mon_boomer, mon_boomer_fungus, mon_skeleton, mon_zombie_necro,
  mon_zombie_scientist, mon_zombie_soldier, mon_zombie_grabber,
