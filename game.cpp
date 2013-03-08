@@ -3426,13 +3426,16 @@ void game::mon_info()
   if (u_see(&(z[i]), buff)) {
    bool mon_dangerous = false;
    int j;
-   if (sees_u(z[i].posx, z[i].posy, j) && (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW)) {
-    mon_dangerous = true;
+   if (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW) {
+    if (sees_u(z[i].posx, z[i].posy, j))
+     mon_dangerous = true;
+
+    if (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= iProxyDist)
+     newseen++;
    }
 
    if (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW)
-    if (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= iProxyDist)
-     newseen++;
+
 
    dir_to_mon = direction_from(u.posx + u.view_offset_x, u.posy + u.view_offset_y,
                                z[i].posx, z[i].posy);
