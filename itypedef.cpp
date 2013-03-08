@@ -1938,6 +1938,18 @@ ARMOR("silver necklace",14, 500,C_DECOR,	SILVER,		MNULL,
 A nice silver necklace. You can wear it if you like, but it won't provide\n\
 any effects.");
 
+ARMOR("pouch",	20, 110,C_STORE,	COTTON,	MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    5,  2,  1,  1,  1,  0,  0,  0,  0, 12,	mfb(bp_torso), "\
+A makeshift bag, cobbled together from rags. Really gets in the way, but\n\
+provides a decent amount of storage.");
+
+ARMOR("leather pouch",	20, 110,C_STORE,	LEATHER,	MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    5,  2,  1,  1,  0,  0,  0,  0,  0, 12,	mfb(bp_torso), "\
+A bag stitched together from leather scraps. Doesn't hold an awful lot\n\
+but is easy to wear.");
+
 // AMMUNITION
 // Material should be the wrapper--even though shot is made of iron, because
 //   it can survive a dip in water and be okay, its material here is PLASTIC.

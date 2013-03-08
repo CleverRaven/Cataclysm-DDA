@@ -430,8 +430,8 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, 
 
 mon("Actual Cannibal Shia LaBeouf",	species_zombie, '@',	c_white,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 1,  3,100,100, 70,  8,  1,  5,  0,  1,  0,  0, 40, 50,  0,
-	&mdeath::normal,	&mattack::none, "\
+	 1,  3,100,100, 70,  8,  1,  5,  0,  1,  0,  0, 40, 50,  40,
+	&mdeath::normal,	&mattack::brandish, "\
 Living in the woods! (Quiet, quiet)\n\
 Killing for sport! (Quiet, quiet)\n\
 Eating  all the bodies!\n\

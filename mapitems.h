@@ -4,7 +4,7 @@ enum items_location {
  mi_none,
  mi_field, mi_forest, mi_hive, mi_hive_center,
  mi_road,
- mi_livingroom, mi_kitchen, mi_fridge, mi_home_hw, mi_bedroom, mi_homeguns,
+ mi_livingroom, mi_kitchen, mi_knifeblock, mi_fridge, mi_home_hw, mi_bedroom, mi_homeguns,
   mi_dresser, mi_dining,
  mi_snacks, mi_fridgesnacks, mi_behindcounter, mi_magazines,
  mi_softdrugs, mi_harddrugs,

@@ -45,6 +45,7 @@ class mattack
   void upgrade		(game *g, monster *z);
   void breathe		(game *g, monster *z);
   void bite		    (game *g, monster *z); //Oddzball-Bite attack
+  void brandish     (game *g, monster *z);
 };
 
 #endif

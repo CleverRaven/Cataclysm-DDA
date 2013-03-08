@@ -7189,6 +7189,7 @@ void game::unload()
   }
  }
  item newam;
+
  if ((weapon->is_gun() || weapon->is_gunmod()) && weapon->curammo != NULL)
   newam = item(weapon->curammo, turn);
  else
