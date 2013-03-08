@@ -22,6 +22,7 @@ OPT_DROP_EMPTY, // auto drop empty containers after use
 OPT_SKILL_RUST, // level of skill rust
 OPT_DELETE_WORLD, // Delete workd every time New Character is created
 OPT_INITIAL_POINTS, // Set the number of character points
+OPT_INITIAL_TIME, // Sets the starting hour (0-24)
 OPT_VIEWPORT_X, // Set the width of the terrain window, in characters
 OPT_VIEWPORT_Y, // Set the height of the terrain window, in characters
 OPT_STATIC_SPAWN, // Makes zombies spawn using the new static system
@@ -30,21 +31,29 @@ NUM_OPTION_KEYS
 
 struct option_table
 {
- double options[NUM_OPTION_KEYS];
+    double options[NUM_OPTION_KEYS];
 
- option_table() {
-  for (int i = 0; i < NUM_OPTION_KEYS; i++) {
-   if(i == OPT_VIEWPORT_X || i == OPT_VIEWPORT_Y) {
-    options[i] = 12;
-   }
-   else {
-    options[i] = 0;
-   }
-  }
- };
+    option_table()
+    {
+        for (int i = 0; i < NUM_OPTION_KEYS; i++)
+        {   //setup default values where needed
+            switch(i)
+            {
+            case OPT_VIEWPORT_X:
+            case OPT_VIEWPORT_Y:
+                options[i] = 12;
+                break;
+            case OPT_INITIAL_TIME:
+                options[i] = 8;
+                break;
+            default:
+                options[i] = 0;
+            }
+        }
+    };
 
- double& operator[] (option_key i) { return options[i]; };
- double& operator[] (int i) { return options[i]; };
+    double& operator[] (option_key i) { return options[i]; };
+    double& operator[] (int i) { return options[i]; };
 };
 
 extern option_table OPTIONS;
