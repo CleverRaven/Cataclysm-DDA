@@ -258,11 +258,12 @@ void game::construction_menu()
  WINDOW *w_con = newwin(iMaxY, 80, 0, 0);
  wborder(w_con, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w_con, 0, 1, c_red, "Construction");
- mvwputch(w_con,  0, 30, c_white, LINE_OXXX);
- mvwputch(w_con, iMaxY-1, 30, c_white, LINE_XXOX);
+ mvwprintz(w_con, 0, 8, c_ltred, " Construction ");
+
+ mvwputch(w_con,  0, 30, c_ltgray, LINE_OXXX);
+ mvwputch(w_con, iMaxY-1, 30, c_ltgray, LINE_XXOX);
  for (int i = 1; i < iMaxY-1; i++)
-  mvwputch(w_con, i, 30, c_white, LINE_XOXO);
+  mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
 
  mvwprintz(w_con,  1, 31, c_white, "Difficulty:");
 
@@ -440,14 +441,22 @@ void game::construction_menu()
      ch = 'q';
     } else {
      popup("You can't build that!");
+     select = ch;
      for (int i = 1; i < iMaxY-1; i++)
-      mvwputch(w_con, i, 30, c_white, LINE_XOXO);
+      mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
      update_info = true;
     }
    }
    break;
   }
  } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+
+ for (int i = iMaxY-25; i < iMaxY+1; i++) {
+  for (int j = (VIEWX*2)+1; j < 81; j++)
+   mvwputch(w_con, i, j, c_black, ' ');
+ }
+
+ wrefresh(w_con);
  refresh_all();
 }
 
