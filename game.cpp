@@ -178,7 +178,11 @@ void game::setup()
 
 void game::print_menu(WINDOW* w_open, int iSel)
 {
- erase();
+ //Clear Lines
+ for (int i = 0; i < 25; i++)
+  for (int j = 0; j < 79; j++)
+   mvwputch(w_open, i, j, c_black, ' ');
+
  for (int i = 0; i < 80; i++)
   mvwputch(w_open, 21, i, c_white, LINE_OXOX);
  mvwprintz(w_open, 0, 0, c_blue, "Welcome to Cataclysm: Dark Days Ahead!");
