@@ -654,6 +654,7 @@ of pureed bone & LSD.");
   2. REMAIN INSIDE THE BUILDING. \n\
   3. SEEK SHELTER IN THE BASEMENT. \n\
   4. USE PROVIDED GAS MASKS. \n\
+  5. AWAIT FURTHER INSTRUCTIONS \n\
   \n\
   Press any key to continue...");
   break;
