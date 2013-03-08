@@ -1793,6 +1793,7 @@ bool game::handle_action()
   case ACTION_TOGGLE_SAFEMODE:
    if (run_mode == 0 ) {
     run_mode = 1;
+    mostseen = 0;
     add_msg("Safe mode ON!");
    } else {
     turnssincelastmon = 0;
@@ -3425,8 +3426,9 @@ void game::mon_info()
   if (u_see(&(z[i]), buff)) {
    bool mon_dangerous = false;
    int j;
-   if (sees_u(z[i].posx, z[i].posy, j) && (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW)) {
-    mon_dangerous = true;
+   if (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW) {
+    if (sees_u(z[i].posx, z[i].posy, j))
+     mon_dangerous = true;
 
     if (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= iProxyDist)
      newseen++;
