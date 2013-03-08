@@ -184,14 +184,16 @@ void game::print_menu(WINDOW* w_open, int iSel)
  mvwprintz(w_open, 0, 0, c_blue, "Welcome to Cataclysm: Dark Days Ahead!");
  mvwprintz(w_open, 1, 0, c_red, "Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
 
- mvwprintz(w_open, 4, 1, (iSel == 0 ? h_white : c_white), "MOTD");
- mvwprintz(w_open, 5, 1, (iSel == 1 ? h_white : c_white), "New Game");
- mvwprintz(w_open, 6, 1, (iSel == 2 ? h_white : c_white), "Load Game");
- mvwprintz(w_open, 7, 1, (iSel == 3 ? h_white : c_white), "New World");
- mvwprintz(w_open, 8, 1, (iSel == 4 ? h_white : c_white), "Special...");
- mvwprintz(w_open, 9, 1, (iSel == 5 ? h_white : c_white), "Options");
- mvwprintz(w_open, 10, 1, (iSel == 6 ? h_white : c_white), "Help");
- mvwprintz(w_open, 11, 1, (iSel == 7 ? h_white : c_white), "Quit");
+ int iRow = 4;
+ mvwprintz(w_open, iRow++, 1, (iSel == 0 ? h_white : c_white), "MOTD");
+ mvwprintz(w_open, iRow++, 1, (iSel == 1 ? h_white : c_white), "New Game");
+ mvwprintz(w_open, iRow++, 1, (iSel == 2 ? h_white : c_white), "Load Game");
+ mvwprintz(w_open, iRow++, 1, (iSel == 3 ? h_white : c_white), "New World");
+ mvwprintz(w_open, iRow++, 1, (iSel == 4 ? h_white : c_white), "Special...");
+ mvwprintz(w_open, iRow++, 1, (iSel == 5 ? h_white : c_white), "Options");
+ mvwprintz(w_open, iRow++, 1, (iSel == 6 ? h_white : c_white), "Help");
+ mvwprintz(w_open, iRow++, 1, (iSel == 7 ? h_white : c_white), "Credits");
+ mvwprintz(w_open, iRow++, 1, (iSel == 8 ? h_white : c_white), "Quit");
 
  refresh();
  wrefresh(w_open);
@@ -236,7 +238,7 @@ bool game::opening_screen()
  InputEvent input;
  bool start = false;
 
-// Load MOTD and store it in a string
+ // Load MOTD and store it in a string
  std::vector<std::string> motd;
  std::ifstream motd_file;
  motd_file.open("data/motd");
@@ -251,12 +253,33 @@ bool game::opening_screen()
   }
  }
 
+ // Load Credits and store it in a string
+ std::vector<std::string> credits;
+ std::ifstream credits_file;
+ credits_file.open("data/credits");
+ if (!credits_file.is_open())
+  credits.push_back("No message today.");
+ else {
+  while (!credits_file.eof()) {
+   std::string tmp;
+   getline(credits_file, tmp);
+   if (tmp[0] != '#')
+    credits.push_back(tmp);
+  }
+ }
+
  while(!start) {
   if (layer == 1) {
    print_menu(w_open, sel1);
    if (sel1 == 0) {	// Print the MOTD.
     for (int i = 0; i < motd.size() && i < 16; i++)
      mvwprintz(w_open, i + 4, 12, c_ltred, motd[i].c_str());
+
+    wrefresh(w_open);
+    refresh();
+   } else if (sel1 == 7) {	// Print the Credits.
+    for (int i = 0; i < credits.size() && i < 16; i++)
+     mvwprintz(w_open, i + 4, 12, c_ltred, credits[i].c_str());
 
     wrefresh(w_open);
     refresh();
@@ -267,9 +290,9 @@ bool game::opening_screen()
     if (sel1 > 0)
      sel1--;
     else
-     sel1 = 7;
+     sel1 = 8;
    } else if (input == DirectionS) {
-    if (sel1 < 7)
+    if (sel1 < 8)
      sel1++;
     else
      sel1 = 0;
@@ -278,7 +301,7 @@ bool game::opening_screen()
      show_options();
     } else if (sel1 == 6) {
      help();
-    } else if (sel1 == 7) {
+    } else if (sel1 == 8) {
      uquit = QUIT_MENU;
      return false;
     } else {
@@ -483,7 +506,8 @@ bool game::opening_screen()
 // Set up all default values for a new game
 void game::start_game()
 {
- turn = MINUTES(STARTING_MINUTES);// It's turn 0...
+ //turn = MINUTES(STARTING_MINUTES);// It's turn 0...
+ turn = HOURS(OPTIONS[OPT_INITIAL_TIME]);
  run_mode = (OPTIONS[OPT_SAFEMODE] ? 1 : 0);
  mostseen = 0;	// ...and mostseen is 0, we haven't seen any monsters yet.
 
