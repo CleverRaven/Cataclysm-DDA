@@ -506,7 +506,8 @@ bool game::opening_screen()
 // Set up all default values for a new game
 void game::start_game()
 {
- turn = MINUTES(STARTING_MINUTES);// It's turn 0...
+ //turn = MINUTES(STARTING_MINUTES);// It's turn 0...
+ turn = HOURS(OPTIONS[OPT_INITIAL_TIME]);
  run_mode = (OPTIONS[OPT_SAFEMODE] ? 1 : 0);
  mostseen = 0;	// ...and mostseen is 0, we haven't seen any monsters yet.
 
