@@ -176,18 +176,32 @@ void game::setup()
  }
 }
 
-bool game::opening_screen()
+void game::print_menu(WINDOW* w_open, int iSel)
 {
- WINDOW* w_open = newwin(25, 80, 0, 0);
  erase();
  for (int i = 0; i < 80; i++)
   mvwputch(w_open, 21, i, c_white, LINE_OXOX);
-   mvwprintz(w_open, 0, 0, c_blue, "Welcome to Cataclysm: Dark Days Ahead!");
-   mvwprintz(w_open, 1, 0, c_red, "\
-Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
+ mvwprintz(w_open, 0, 0, c_blue, "Welcome to Cataclysm: Dark Days Ahead!");
+ mvwprintz(w_open, 1, 0, c_red, "Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
+
+ mvwprintz(w_open, 4, 1, (iSel == 0 ? h_white : c_white), "MOTD");
+ mvwprintz(w_open, 5, 1, (iSel == 1 ? h_white : c_white), "New Game");
+ mvwprintz(w_open, 6, 1, (iSel == 2 ? h_white : c_white), "Load Game");
+ mvwprintz(w_open, 7, 1, (iSel == 3 ? h_white : c_white), "New World");
+ mvwprintz(w_open, 8, 1, (iSel == 4 ? h_white : c_white), "Special...");
+ mvwprintz(w_open, 9, 1, (iSel == 5 ? h_white : c_white), "Options");
+ mvwprintz(w_open, 10, 1, (iSel == 6 ? h_white : c_white), "Help");
+ mvwprintz(w_open, 11, 1, (iSel == 7 ? h_white : c_white), "Quit");
+
  refresh();
  wrefresh(w_open);
  refresh();
+}
+
+bool game::opening_screen()
+{
+ WINDOW* w_open = newwin(25, 80, 0, 0);
+ print_menu(w_open, 0);
  std::vector<std::string> savegames, templates;
  std::string tmp;
  dirent *dp;
@@ -239,61 +253,38 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
 
  while(!start) {
   if (layer == 1) {
-   mvwprintz(w_open, 4, 1, (sel1 == 0 ? h_white : c_white), "MOTD");
-   mvwprintz(w_open, 5, 1, (sel1 == 1 ? h_white : c_white), "New Game");
-   mvwprintz(w_open, 6, 1, (sel1 == 2 ? h_white : c_white), "Load Game");
-   mvwprintz(w_open, 7, 1, (sel1 == 3 ? h_white : c_white), "New World");
-   mvwprintz(w_open, 8, 1, (sel1 == 4 ? h_white : c_white), "Special...");
-   mvwprintz(w_open, 9, 1, (sel1 == 5 ? h_white : c_white), "Help");
-   mvwprintz(w_open, 10, 1, (sel1 == 6 ? h_white : c_white), "Quit");
-
+   print_menu(w_open, sel1);
    if (sel1 == 0) {	// Print the MOTD.
     for (int i = 0; i < motd.size() && i < 16; i++)
      mvwprintz(w_open, i + 4, 12, c_ltred, motd[i].c_str());
-   } else {	// Clear the lines if not viewing MOTD.
-    for (int i = 4; i < 20; i++) {
-     for (int j = 12; j < 79; j++)
-      mvwputch(w_open, i, j, c_black, 'x');
-    }
+
+    wrefresh(w_open);
+    refresh();
    }
 
-   wrefresh(w_open);
-   refresh();
    input = get_input();
    if (input == DirectionN) {
     if (sel1 > 0)
      sel1--;
     else
-     sel1 = 6;
+     sel1 = 7;
    } else if (input == DirectionS) {
-    if (sel1 < 6)
+    if (sel1 < 7)
      sel1++;
     else
      sel1 = 0;
    } else if ((input == DirectionE || input == Confirm) && sel1 > 0) {
-    if (sel1 == 6) {
+    if (sel1 == 5) {
+     show_options();
+    } else if (sel1 == 6) {
+     help();
+    } else if (sel1 == 7) {
      uquit = QUIT_MENU;
      return false;
-    } else if (sel1 == 5) {
-     help();
-     clear();
-     mvwprintz(w_open, 0, 1, c_blue, "Welcome to Cataclysm!");
-     mvwprintz(w_open, 1, 0, c_red, "\
-Please report all bugs to TheDarklingWolf@Gmail.com");
-     refresh();
-     wrefresh(w_open);
-     refresh();
     } else {
      sel2 = 1;
      layer = 2;
     }
-    mvwprintz(w_open, 4, 1, (sel1 == 0 ? c_white : c_dkgray), "MOTD");
-    mvwprintz(w_open, 5, 1, (sel1 == 1 ? c_white : c_dkgray), "New Game");
-    mvwprintz(w_open, 6, 1, (sel1 == 2 ? c_white : c_dkgray), "Load Game");
-    mvwprintz(w_open, 7, 1, (sel1 == 3 ? c_white : c_dkgray), "New World");
-    mvwprintz(w_open, 8, 1, (sel1 == 4 ? c_white : c_dkgray), "Special...");
-    mvwprintz(w_open, 9, 1, (sel1 == 5 ? c_white : c_dkgray), "Help");
-    mvwprintz(w_open, 10, 1, (sel1 == 6 ? c_white : c_dkgray), "Quit");
    }
   } else if (layer == 2) {
    if (sel1 == 1) {	// New Character
@@ -358,7 +349,7 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
          saveend   = (sel2 < 7 ? 14 : sel2 + 7);
      for (int i = savestart; i < saveend; i++) {
       int line = 6 + i - savestart;
-      mvwprintz(w_open, line, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      mvwprintz(w_open, line, 12, c_black, "                                 ");
       if (i < savegames.size())
        mvwprintz(w_open, line, 12, (sel2 - 1 == i ? h_white : c_white),
                  savegames[i].c_str());
@@ -380,7 +371,7 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
     } else if (input == DirectionW) {
      layer = 1;
      for (int i = 0; i < 14; i++)
-      mvwprintz(w_open, 6 + i, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      mvwprintz(w_open, 6 + i, 12, c_black, "                                 ");
     }
     if (input == DirectionE || input == Confirm) {
      if (sel2 > 0 && savegames.size() > 0) {
@@ -399,7 +390,7 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
     layer = 1;
    } else if (sel1 == 4) {	// Special game
     for (int i = 1; i < NUM_SPECIAL_GAMES; i++) {
-     mvwprintz(w_open, 6 + i, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+     mvwprintz(w_open, 6 + i, 12, c_black, "                                 ");
      mvwprintz(w_open, 6 + i, 12, (sel2 == i ? h_white : c_white),
                special_game_name( special_game_id(i) ).c_str());
     }
@@ -419,7 +410,7 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
     } else if (input == DirectionW) {
      layer = 1;
      for (int i = 6; i < 15; i++)
-      mvwprintz(w_open, i, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      mvwprintz(w_open, i, 12, c_black, "                                 ");
     }
     if (input == DirectionE || input == Confirm) {
      if (sel2 >= 1 && sel2 < NUM_SPECIAL_GAMES) {
@@ -444,7 +435,7 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
         tempend   = (sel1 < 6 ? 14 : sel1 + 8);
     for (int i = tempstart; i < tempend; i++) {
      int line = 6 + i - tempstart;
-     mvwprintz(w_open, line, 29, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+     mvwprintz(w_open, line, 29, c_black, "                                 ");
      if (i < templates.size())
       mvwprintz(w_open, line, 29, (sel1 == i ? h_white : c_white),
                 templates[i].c_str());
@@ -3406,7 +3397,8 @@ void game::mon_info()
  for (int i = 0; i < z.size(); i++) {
   if (u_see(&(z[i]), buff)) {
    bool mon_dangerous = false;
-   if (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW) {
+   int j;
+   if (sees_u(z[i].posx, z[i].posy, j) && (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW)) {
     mon_dangerous = true;
 
     if (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= iProxyDist)
@@ -5592,6 +5584,7 @@ void game::list_items()
    if (ch == 'I' || ch == 'c' || ch == 'C') {
     compare(iActiveX, iActiveY);
     ch = '.';
+    refresh_all();
 
    } else if (ch == 'f' || ch == 'F') {
     for (int i = 0; i < iInfoHeight-1; i++)

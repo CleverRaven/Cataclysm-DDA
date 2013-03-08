@@ -258,6 +258,7 @@ class game
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
+  void print_menu(WINDOW* w_open, int iSel);
   bool load_master();	// Load the master data file, with factions &c
   void load(std::string name);	// Load a player-specific save file
   void start_game();	// Starts a new game
