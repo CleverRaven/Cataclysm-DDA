@@ -300,7 +300,7 @@ bool game::opening_screen()
      sel1++;
     else
      sel1 = 0;
-   } else if ((input == DirectionE || input == Confirm) && sel1 > 0) {
+   } else if ((input == DirectionE || input == Confirm) && sel1 > 0 && sel1 != 7) {
     if (sel1 == 5) {
      show_options();
     } else if (sel1 == 6) {
