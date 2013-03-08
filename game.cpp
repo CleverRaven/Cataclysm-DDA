@@ -3430,8 +3430,9 @@ void game::mon_info()
     mon_dangerous = true;
    }
 
-   if (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= iProxyDist)
-    newseen++;
+   if (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW)
+    if (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= iProxyDist)
+     newseen++;
 
    dir_to_mon = direction_from(u.posx + u.view_offset_x, u.posy + u.view_offset_y,
                                z[i].posx, z[i].posy);
