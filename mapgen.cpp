@@ -9017,20 +9017,28 @@ void map::add_extra(map_extra type, game *g)
   bool north_south = one_in(2);
   bool a_has_drugs = one_in(2);
   for (int i = 0; i < num_bodies_a; i++) {
-   int x, y, tries = 0;
+    int x, y, x_offset, y_offset, tries = 0;
    do {	// Loop until we find a valid spot to dump a body, or we give up
     if (north_south) {
      x = rng(0, SEEX * 2 - 1);
      y = rng(0, SEEY - 4);
+     x_offset = 0;
+     y_offset = -1;
     } else {
      x = rng(0, SEEX - 4);
      y = rng(0, SEEY * 2 - 1);
+     x_offset = -1;
+     y_offset = 0;
     }
     tries++;
    } while (tries < 10 && move_cost(x, y) == 0);
 
    if (tries < 10) {	// We found a valid spot!
     add_item(x, y, body);
+    int splatter_range = rng(1, 3);
+    for (i = 0; i <= splatter_range; i++) {
+     add_field(g, x + (i * x_offset), y + (i * y_offset), fd_blood, 1);
+    }
     place_items(mi_drugdealer, 75, x, y, x, y, true, 0);
     if (a_has_drugs && num_drugs > 0) {
      int drugs_placed = rng(2, 6);
@@ -9043,20 +9051,28 @@ void map::add_extra(map_extra type, game *g)
    }
   }
   for (int i = 0; i < num_bodies_b; i++) {
-   int x, y, tries = 0;
+    int x, y, x_offset, y_offset, tries = 0;
    do {	// Loop until we find a valid spot to dump a body, or we give up
     if (north_south) {
      x = rng(0, SEEX * 2 - 1);
      y = rng(SEEY + 3, SEEY * 2 - 1);
+     x_offset = 0;
+     y_offset = 1;
     } else {
      x = rng(SEEX + 3, SEEX * 2 - 1);
      y = rng(0, SEEY * 2 - 1);
+     x_offset = 1;
+     y_offset = 0;
     }
     tries++;
    } while (tries < 10 && move_cost(x, y) == 0);
 
    if (tries < 10) {	// We found a valid spot!
     add_item(x, y, body);
+    int splatter_range = rng(1, 3);
+    for (i = 0; i <= splatter_range; i++) {
+     add_field(g, x + (i * x_offset), y + (i * y_offset), fd_blood, 1);
+    }
     place_items(mi_drugdealer, 75, x, y, x, y, true, 0);
     if (!a_has_drugs && num_drugs > 0) {
      int drugs_placed = rng(2, 6);
