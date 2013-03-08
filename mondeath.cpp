@@ -299,7 +299,7 @@ void mdeath::explode(game *g, monster *z)
 
 void mdeath::ratking(game *g, monster *z)
 {
- g->u.rem_disease(di_rat);
+ g->u.rem_disease(DI_RAT);
 }
 
 void mdeath::smokeburst(game *g, monster *z)
