@@ -199,11 +199,24 @@ color,mat1,volume,weight,0,0,0,0,quench,nutr,spoils,stim,healthy,addict,charges,
 fun,container,itm_null,use_func,addict_func));
 // FOOD
 
+FOOD("bone",            50, 50, c_white,    FLESH, itm_null,
+    1,  1,  0, 4,  0,   0, -1,  0, 1, 0,    &iuse::none, ADD_NULL, "\
+A bone from some creature or other, could be eaten or used to make some\n\
+stuff, like needles.");
+
+FOOD("fluid sac",            50, 50, c_white,    FLESH, itm_null,
+    1,  1,  0, 4,  0,   0, -1,  0, 1, 0,    &iuse::none, ADD_NULL, "\
+A fluid bladder from a plant based lifeform, not very nutritious, but\n\
+fine to eat anyway.");
+
+
+
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("chunk of meat",	50, 50,	c_red,		FLESH,  itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  2,  0, 20, 24,  0, -1,  0,  1,-10,	&iuse::none, ADD_NULL, "\
 Freshly butchered meat. You could eat it raw, but cooking it is better.");
+
 
 FOOD("plant marrow",	30, 60,	c_green,	VEGGY,	itm_null,
     1,  2,  0, 20, 80,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
@@ -1925,6 +1938,18 @@ ARMOR("silver necklace",14, 500,C_DECOR,	SILVER,		MNULL,
 A nice silver necklace. You can wear it if you like, but it won't provide\n\
 any effects.");
 
+ARMOR("pouch",	20, 110,C_STORE,	COTTON,	MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    5,  2,  1,  1,  1,  0,  0,  0,  0, 12,	mfb(bp_torso), "\
+A makeshift bag, cobbled together from rags. Really gets in the way, but\n\
+provides a decent amount of storage.");
+
+ARMOR("leather pouch",	20, 110,C_STORE,	LEATHER,	MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    5,  2,  1,  1,  0,  0,  0,  0,  0, 12,	mfb(bp_torso), "\
+A bag stitched together from leather scraps. Doesn't hold an awful lot\n\
+but is easy to wear.");
+
 // AMMUNITION
 // Material should be the wrapper--even though shot is made of iron, because
 //   it can survive a dip in water and be okay, its material here is PLASTIC.
@@ -1954,6 +1979,19 @@ AMMO("thread",          40, 50, AT_THREAD,      c_magenta,      COTTON,
 A small quantity of thread that could be used to refill a sewing kit.",
 0);
 
+//  NAME		RAR PRC TYPE		COLOR		MAT
+AMMO("sinew",	50, 120,AT_THREAD,	c_red,	   FLESH,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 1,  1,  0,  0,  0,  0,  0,  10, "\
+A tough sinew cut from a corpse, useable as thread.",
+0);
+
+//  NAME		RAR PRC TYPE		COLOR		MAT
+AMMO("plant fibre",	50, 120,AT_THREAD,	c_green,	   VEGGY,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 1,  1,  1,  0,  0,  0,  0,  10, "\
+Tough thin fibres, taken from a plant. Can be used as thread.",
+0);
 AMMO("duct tape",       60, 20, AT_NULL,    c_ltgray,       PLASTIC,
          2,  2,  0,  0,  0,  0,  0, 200, "\
 A roll of incredibly strong tape. Its uses are innumerable.",
@@ -3401,6 +3439,11 @@ CONT("glass flask",	10,  2500,	c_ltcyan,	GLASS,MNULL,
     1,  0, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A 250 ml laboratory conical flask, with a rubber bung.");
 
+CONT("waterskin",   0,  0, c_brown, LEATHER, MNULL,
+// VOL WGT DAM HIT	VOL	FLAGS
+    2, 2,  -8, -5,   6, mfb(con_wtight)|mfb(con_seals), "\
+A watertight leather bag, can hold 1.5 litres of water.");
+
 /* TOOLS
  * MAX is the maximum number of charges help.
  * DEF is the default number of charges--items will be generated with this
@@ -4067,6 +4110,14 @@ TOOL("pocket knife",	14, 100,';', c_blue,	STEEL,  PLASTIC,
 	 0,  2,  0, 10, -4, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
 mfb(IF_STAB), "\
 A small pocket knife, not great for combat, but better than nothing.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+TOOL("bone needle",     0, 0,';', c_white, FLESH, MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+     0,  0,  0,  0, 0, 200, 0,  1,  0, AT_THREAD, itm_null, &iuse::sew,
+mfb(IF_STAB), "\
+A sharp needle made from a bone. It would be useful for making rough\n\
+clothing and items");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

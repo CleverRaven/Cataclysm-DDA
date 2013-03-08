@@ -1382,6 +1382,7 @@ void mattack::breathe(game *g, monster *z)
  }
 }
 
+
 void mattack::bite(game *g, monster *z)
 {
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1)
@@ -1401,4 +1402,10 @@ void mattack::bite(game *g, monster *z)
  if(one_in(10)){
  g->u.add_disease(DI_BITE, 3600, g);
  }
+}
+
+void mattack::brandish(game *g, monster *z)
+{
+g->add_msg("He's brandishing a knife!");
+g->add_msg("Quiet, quiet");
 }

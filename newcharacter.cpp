@@ -246,11 +246,11 @@ End of cheatery */
   tmp = item(g->itypes[itm_inhaler], 0, 'a' + worn.size());
   inv.push_back(tmp);
  }
- // Add starter gear, possibly tie this to profession setting later.
-/* tmp = item(g->itypes[itm_pockknife], 0,'a' + worn.size());
+ // Basic starter gear, added independently of profession.
+ tmp = item(g->itypes[itm_pockknife], 0,'a' + worn.size());
   inv.push_back(tmp);
  tmp = item(g->itypes[itm_lighter], 0,'a' + worn.size());
-  inv.push_back(tmp); */
+  inv.push_back(tmp);
 // make sure we have no mutations
  for (int i = 0; i < PF_MAX2; i++)
   my_mutations[i] = false;

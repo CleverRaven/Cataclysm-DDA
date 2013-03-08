@@ -54,6 +54,11 @@ void game::init_mapitems()
 	NULL);
 
  setvector(
+   mapitems[mi_knifeblock],
+    itm_knife_steak, itm_knife_butcher, itm_knife_combat, itm_pockknife,
+    NULL);
+
+ setvector(
    mapitems[mi_fridge],
 	itm_water_clean, itm_oj, itm_cola, itm_rootbeer, itm_milk, itm_V8, itm_apple,
 	itm_sandwich_t, itm_mushroom, itm_blueberries, itm_strawberries,
