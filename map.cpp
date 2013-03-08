@@ -869,12 +869,13 @@ bool map::trans(const int x, const int y, char * trans_buf)
   }
  } else
   tertr = terlist[ter(x, y)].flags & mfb(transparent);
- if( tertr )
- { // Fields may obscure the view, too
-  // field & f(field_at(x, y));
-  // if(f.type == 0 || fieldlist[f.type].transparent[f.density - 1]); // TODO: Clarify function
-  if(trans_buf) trans_buf[x + (y * my_MAPSIZE * SEEX)] = 1;
-  return true;
+ if( tertr ){ 
+  // Fields may obscure the view, too
+  field & f(field_at(x, y));
+  if(f.type == 0 || fieldlist[f.type].transparent[f.density - 1]){
+   if(trans_buf) trans_buf[x + (y * my_MAPSIZE * SEEX)] = 1;
+   return true;
+  }
  }
  if(trans_buf) trans_buf[x + (y * my_MAPSIZE * SEEX)] = 0;
  return false;
