@@ -1942,16 +1942,6 @@ ARMOR("bootstrap",	 3,  80,C_STORE, 	LEATHER,	MNULL,
     1,  1, -1, -1,  0,  0,  0,  0,  1,  2,	mfb(bp_legs), "\
 A small holster worn on the ankle.");
 
-ARMOR("gold ring",	12, 600,C_DECOR,	SILVER,		MNULL,
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,	0,	"\
-A flashy gold ring. You can wear it if you like, but it won't provide\n\
-any effects.");
-
-ARMOR("silver necklace",14, 500,C_DECOR,	SILVER,		MNULL,
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,	0,	"\
-A nice silver necklace. You can wear it if you like, but it won't provide\n\
-any effects.");
-
 ARMOR("pouch",	20, 110,C_STORE,	COTTON,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
     5,  2,  1,  1,  1,  0,  0,  0,  0, 12,	mfb(bp_torso), "\
@@ -1963,6 +1953,17 @@ ARMOR("leather pouch",	20, 110,C_STORE,	LEATHER,	MNULL,
     5,  2,  1,  1,  0,  0,  0,  0,  0, 12,	mfb(bp_torso), "\
 A bag stitched together from leather scraps. Doesn't hold an awful lot\n\
 but is easy to wear.");
+
+ARMOR("gold ring",	12, 600,C_DECOR,	SILVER,		MNULL,
+    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,	0,	"\
+A flashy gold ring. You can wear it if you like, but it won't provide\n\
+any effects.");
+
+ARMOR("silver necklace",14, 500,C_DECOR,	SILVER,		MNULL,
+    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,	0,	"\
+A nice silver necklace. You can wear it if you like, but it won't provide\n\
+any effects.");
+
 
 // AMMUNITION
 // Material should be the wrapper--even though shot is made of iron, because
