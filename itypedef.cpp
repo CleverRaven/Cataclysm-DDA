@@ -1163,6 +1163,14 @@ MELEE("clockworks",          30, 0, ';', c_ltcyan, IRON, MNULL,
          1, 1, 0, 0, 0, 0, "\
 A small assortment of gears and other clockwork gubbins.");
 
+MELEE("wooden javelin",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
+//	VOL WGT DAM CUT HIT FLAGS
+	 5,  3,  6,  22,  2, mfb(IF_SPEAR), "\
+A wooden spear, honed to a sharper point and fire hardened\n\
+for toughness. The grip area has also be carved and covered\n\
+for better grip.");
+TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
+
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  20, 55, ']', c_cyan,  STEEL,   MNULL,
@@ -1351,7 +1359,7 @@ ARMOR("steeltoed boots",50, 135,C_SHOES,	LEATHER,	STEEL,
     7,  9,  4, -1,  1,  4,  4,  3,  50,  0,	mfb(bp_feet), "\
 Leather boots with a steel toe. Extremely durable.");
 
-ARMOR("winter boots",	60, 140,C_SHOES,	PLASTIC,	WOOL,
+ARMOR("winter boots",	60, 140,C_SHOES,	WOOL,	PLASTIC,
     8,  7,  0, -1,  2,  0,  2,  1,  80,  0,	mfb(bp_feet), "\
 Cumbersome boots designed for warmth.");
 
@@ -1404,6 +1412,10 @@ ARMOR("heels",		1,  50,C_SHOES,	LEATHER,	MNULL,
     4,  2,  6, -2,  2,  0,  0,  0,  0,  0,	mfb(bp_feet), "\
 A pair of high heels. Difficult to even walk in.\n\
 These high heels are a perfect fit for you.");
+
+ARMOR("chitinous boots",50, 135,C_SHOES,	LEATHER,	STEEL,
+    7,  9,  4, -1,  1,  4,  4,  3,  50,  0,	mfb(bp_feet), "\
+Boots made from the exoskeletons of insects. Light and durable.");
 
 ARMOR("shorts",		70, 180,C_PANTS,	COTTON,		MNULL,
     4,  2, -4,  1,  0,  0,  1,  0,  0,  4,	mfb(bp_legs), "\
@@ -1560,7 +1572,7 @@ ARMOR("kevlar vest",	30, 800,C_TORSO,	KEVLAR,		MNULL,
    24, 24,  6, -3,  2,  4, 22,  0,  20,  4,	mfb(bp_torso), "\
 A heavy bulletproof vest. The best protection from cuts and bullets.");
 
-ARMOR("rain coat",	50, 100,C_TORSO,	PLASTIC,	COTTON,
+ARMOR("rain coat",	50, 100,C_TORSO,	COTTON,	PLASTIC,
     9,  8, -4,  0,  2,  0,  3,  1,  20,  7,	mfb(bp_torso)|mfb(bp_arms), "\
 A plastic coat with two very large pockets. Provides protection from rain.");
 
@@ -1724,6 +1736,11 @@ A pair of thin latex gloves, designed to limit the spread of disease.");
 ARMOR("fire gauntlets",	 5,  95,C_GLOVES,	LEATHER,	MNULL,
     3,  5, -2,  2,  6,  1,  2,  5,  40,  0,	mfb(bp_hands), "\
 A heavy pair of leather gloves, used by firefighters for heat protection.");
+
+ARMOR("chitinous gauntlets", 1, 380,C_HAT,		FLESH,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   4,   1,  2, -2,  1,  5, 7,   4,  20,  0,	mfb(bp_hands), "\
+Gauntlets made from the exoskeletons of insects. Very light and durable.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("dust mask",	65,  20,C_MOUTH,	COTTON,		IRON,
@@ -1934,16 +1951,6 @@ ARMOR("bootstrap",	 3,  80,C_STORE, 	LEATHER,	MNULL,
     1,  1, -1, -1,  0,  0,  0,  0,  1,  2,	mfb(bp_legs), "\
 A small holster worn on the ankle.");
 
-ARMOR("gold ring",	12, 600,C_DECOR,	SILVER,		MNULL,
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,	0,	"\
-A flashy gold ring. You can wear it if you like, but it won't provide\n\
-any effects.");
-
-ARMOR("silver necklace",14, 500,C_DECOR,	SILVER,		MNULL,
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,	0,	"\
-A nice silver necklace. You can wear it if you like, but it won't provide\n\
-any effects.");
-
 ARMOR("pouch",	20, 110,C_STORE,	COTTON,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
     5,  2,  1,  1,  1,  0,  0,  0,  0, 12,	mfb(bp_torso), "\
@@ -1955,6 +1962,17 @@ ARMOR("leather pouch",	20, 110,C_STORE,	LEATHER,	MNULL,
     5,  2,  1,  1,  0,  0,  0,  0,  0, 12,	mfb(bp_torso), "\
 A bag stitched together from leather scraps. Doesn't hold an awful lot\n\
 but is easy to wear.");
+
+ARMOR("gold ring",	12, 600,C_DECOR,	SILVER,		MNULL,
+    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,	0,	"\
+A flashy gold ring. You can wear it if you like, but it won't provide\n\
+any effects.");
+
+ARMOR("silver necklace",14, 500,C_DECOR,	SILVER,		MNULL,
+    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,	0,	"\
+A nice silver necklace. You can wear it if you like, but it won't provide\n\
+any effects.");
+
 
 // AMMUNITION
 // Material should be the wrapper--even though shot is made of iron, because
@@ -4124,6 +4142,25 @@ TOOL("bone needle",     0, 0,';', c_white, FLESH, MNULL,
 mfb(IF_STAB), "\
 A sharp needle made from a bone. It would be useful for making rough\n\
 clothing and items");
+
+TOOL("stone hammer",		35, 70, ';', c_ltgray,	STONE,	WOOD,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    2,  8, 12,  0,  0,   0,  0, 0,  0, AT_NULL, itm_null, &iuse::hammer, 0, "\
+A rock affixed to a stick, functions adequately as a hammer, but really\n\
+can't compare to a proper hammer.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+TOOL("stone axe",	 8, 105,'/', c_ltgray,	WOOD,	STONE,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+	17, 19, 15, 18,  0, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::lumber,
+0, "\
+A sharpened stone affixed to a stick, works passably well as ane axe\n\
+but really can't compare to a proper axe..");
+
+TOOL("stone shovel",		40, 100,'/', c_brown,	STONE,	WOOD,
+   16, 21, 15,  5,  3,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::dig, 0, "\
+A flattened stone affixed to a stick, works passably well as a shovel\n\
+but really can't compare to a real shovel.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

@@ -68,6 +68,14 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
 	itm_knife_combat, -1, itm_machete, -1, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_pool_cue, 1, NULL);
 
+ RECIPE(itm_javelin, CC_WEAPON, "survival", NULL, 1, 5000, false);
+  TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_pockknife, -1, itm_knife_combat, -1,
+       itm_knife_butcher, -1, itm_machete, -1, NULL);
+  TOOL(itm_fire, -1, NULL);
+  COMP(itm_spear_wood, 1, NULL);
+  COMP(itm_rag, 1, itm_leather, 1, itm_fur, 1, NULL);
+  COMP(itm_plant_fibre, 20, itm_sinew, 20, NULL);
+
  RECIPE(itm_spear_knife, CC_WEAPON, "stabbing", NULL, 0, 600, true);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, NULL);
   COMP(itm_knife_steak, 2, itm_knife_combat, 1, NULL);
@@ -99,7 +107,7 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
  RECIPE(itm_molotov, CC_WEAPON, NULL, NULL, 0, 500, false);
   COMP(itm_rag, 1, NULL);
   COMP(itm_bottle_glass, 1, itm_flask_glass, 1, NULL);
-  COMP(itm_whiskey, 21, itm_vodka, 21, itm_rum, 21, itm_tequila, 21,
+  COMP(itm_whiskey, 21, itm_vodka, 21, itm_rum, 21, itm_tequila, 21, itm_gin, 21, itm_triple_sec, 21,
        itm_gasoline, 200, NULL);
 
  RECIPE(itm_pipebomb, CC_WEAPON, "mechanics", NULL, 1, 750, false);
@@ -885,7 +893,16 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
 
  RECIPE(itm_armguard_chitin, CC_ARMOR, "tailor", NULL, 3,  30000, false);
   COMP(itm_string_36, 1, itm_string_6, 4, NULL);
-  COMP(itm_chitin_piece, 2, NULL);
+  COMP(itm_chitin_piece, 6, NULL);
+
+ RECIPE(itm_boots_chitin, CC_ARMOR, "tailor", NULL, 3,  30000, false);
+  COMP(itm_string_36, 1, itm_string_6, 4, NULL);
+  COMP(itm_chitin_piece, 4, NULL);
+  COMP(itm_leather, 2, itm_fur, 2, itm_rag, 2, NULL);
+
+ RECIPE(itm_gauntlets_chitin, CC_ARMOR, "tailor", NULL, 3,  30000, false);
+  COMP(itm_string_36, 1, itm_string_6, 4, NULL);
+  COMP(itm_chitin_piece, 4, NULL);
 
  RECIPE(itm_helmet_chitin, CC_ARMOR, "tailor", NULL, 6,  60000, false);
   COMP(itm_string_36, 1, itm_string_6, 5, NULL);
@@ -900,6 +917,24 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_rag, 20, itm_fur, 16, itm_leather, 12, NULL);
 
 // MISC
+
+ RECIPE(itm_primitive_hammer, CC_MISC, "survival", NULL, 0, 5000, false);
+  TOOL(itm_rock, -1, itm_hammer, -1, NULL);
+  COMP(itm_stick, 1, NULL);
+  COMP(itm_rock, 1, NULL);
+  COMP(itm_string_6, 2, itm_sinew, 40, itm_plant_fibre, 40, NULL);
+
+ RECIPE(itm_primitive_shovel, CC_MISC, "survival", "construction", 2, 5000, false);
+  TOOL(itm_rock, -1, itm_hammer, -1, NULL);
+  COMP(itm_stick, 1, NULL);
+  COMP(itm_rock, 1, NULL);
+  COMP(itm_string_6, 2, itm_sinew, 40, itm_plant_fibre, 40, NULL);
+
+ RECIPE(itm_primitive_axe, CC_MISC, "survival", NULL, 2, 5000, false);
+  TOOL(itm_rock, -1, itm_hammer, -1, NULL);
+  COMP(itm_stick, 1, NULL);
+  COMP(itm_rock, 1, NULL);
+  COMP(itm_string_6, 2, itm_sinew, 40, itm_plant_fibre, 40, NULL);
 
  RECIPE(itm_needle_bone, CC_MISC, "survival", NULL, 0, 3000, false);
   TOOL(itm_knife_butcher, -1, itm_knife_combat, -1, itm_knife_steak, -1, itm_pockknife, -1, NULL);
@@ -941,7 +976,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
 
  RECIPE(itm_torch,        CC_MISC, NULL,    NULL,     0, 2000, false);
   COMP(itm_stick, 1, itm_2x4, 1, itm_splinter, 1, itm_pool_cue, 1, itm_torch_done, 1, NULL);
-  COMP(itm_gasoline, 1, itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, 1, NULL);
+  COMP(itm_gasoline, 200, itm_vodka, 7, itm_rum, 7, itm_whiskey, 7, itm_tequila, 7, itm_gin, 7, itm_triple_sec, 7, NULL);
   COMP(itm_rag, 1, NULL);
 
  RECIPE(itm_candle,       CC_MISC, NULL,    NULL,     0, 5000, false);
@@ -1033,7 +1068,7 @@ RECIPE(itm_boobytrap, CC_MISC, "mechanics", "traps",3,5000, false);
   COMP(itm_string_6,1,NULL);
   COMP(itm_can_food,1,NULL);
 
- RECIPE(itm_landmine, CC_WEAPON, "traps", "mechanics", 5, 10000, false);
+ RECIPE(itm_landmine, CC_MISC, "traps", "mechanics", 5, 10000, false);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   COMP(itm_superglue, 1, NULL);
   COMP(itm_can_food, 1, itm_steel_chunk, 1, itm_canister_empty, 1, itm_scrap, 4, NULL);
@@ -1044,7 +1079,7 @@ RECIPE(itm_boobytrap, CC_MISC, "mechanics", "traps",3,5000, false);
  RECIPE(itm_bandages, CC_MISC, "firstaid", NULL, 1, 500, false);
   COMP(itm_rag, 3, NULL);
   COMP(itm_superglue, 1, itm_duct_tape, 5, NULL);
-  COMP(itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, 1, NULL);
+  COMP(itm_vodka, 7, itm_rum, 7, itm_whiskey, 7, itm_tequila, 7, itm_gin, 7, itm_triple_sec, 7, NULL);
 
  RECIPE(itm_silencer, CC_MISC, "mechanics", NULL, 1, 650, false);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);

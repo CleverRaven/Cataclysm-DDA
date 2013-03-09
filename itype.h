@@ -88,6 +88,7 @@ itm_wrapper, itm_withered, itm_syringe, itm_fur, itm_leather, itm_superglue,
  itm_fan, itm_ceramic_plate, itm_ceramic_bowl, itm_ceramic_cup,
  itm_glass_plate, itm_glass_bowl, itm_glass, itm_tin_plate, itm_fork, itm_spork,
  itm_foon, itm_rag_bloody, itm_clock, itm_clockworks,
+ itm_javelin,
 // Vehicle parts
  itm_frame,
  itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
@@ -102,7 +103,7 @@ itm_wrapper, itm_withered, itm_syringe, itm_fur, itm_leather, itm_superglue,
  itm_sneakers, itm_boots, itm_boots_steel, itm_boots_winter, itm_mocassins,
  itm_flip_flops, itm_dress_shoes, itm_heels,
  itm_sneakers_fit, itm_boots_fit, itm_boots_steel_fit, itm_boots_winter_fit,
- itm_dress_shoes_fit, itm_heels_fit,
+ itm_dress_shoes_fit, itm_heels_fit, itm_boots_chitin,
 // Legwear
  itm_shorts, itm_shorts_cargo,
  itm_jeans, itm_pants, itm_pants_leather, itm_pants_cargo, itm_pants_army, itm_pants_ski,
@@ -123,7 +124,7 @@ itm_armguard_soft, itm_armguard_hard, itm_armguard_chitin, itm_armguard_metal,
 // Gloves
 itm_gloves_liner, itm_gloves_light, itm_mittens, itm_gloves_wool, itm_gloves_winter,
  itm_gloves_leather, itm_gloves_fingerless, itm_gloves_rubber,
- itm_gloves_medical, itm_fire_gauntlets,
+ itm_gloves_medical, itm_fire_gauntlets, itm_gauntlets_chitin,
 // Masks
 itm_mask_dust, itm_bandana, itm_scarf, itm_mask_filter, itm_mask_gas,
 // Eyewear
@@ -214,6 +215,7 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_brazier, itm_puller, itm_press, itm_screwdriver, itm_wrench,
  itm_boltcutters, itm_mop, itm_picklocks, itm_pickaxe, itm_spray_can, itm_rag,
  itm_pda, itm_pda_flashlight, itm_pockknife, itm_needle_bone,
+ itm_primitive_hammer, itm_primitive_axe, itm_primitive_shovel,
 // Bionics containers
 itm_bionics_battery,
  //power sources
