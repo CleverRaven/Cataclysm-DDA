@@ -215,6 +215,7 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_brazier, itm_puller, itm_press, itm_screwdriver, itm_wrench,
  itm_boltcutters, itm_mop, itm_picklocks, itm_pickaxe, itm_spray_can, itm_rag,
  itm_pda, itm_pda_flashlight, itm_pockknife, itm_needle_bone,
+ itm_primitive_hammer, itm_primitive_axe, itm_primitive_shovel,
 // Bionics containers
 itm_bionics_battery,
  //power sources

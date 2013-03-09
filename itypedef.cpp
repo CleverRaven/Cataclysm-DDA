@@ -1171,6 +1171,7 @@ for toughness. The grip area has also be carved and covered\n\
 for better grip.");
 TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
 
+
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  20, 55, ']', c_cyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
@@ -4131,6 +4132,25 @@ TOOL("bone needle",     0, 0,';', c_white, FLESH, MNULL,
 mfb(IF_STAB), "\
 A sharp needle made from a bone. It would be useful for making rough\n\
 clothing and items");
+
+TOOL("stone hammer",		35, 70, ';', c_ltgray,	STONE,	WOOD,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    2,  8, 12,  0,  0,   0,  0, 0,  0, AT_NULL, itm_null, &iuse::hammer, 0, "\
+A rock affixed to a stick, functions adequately as a hammer, but really\n\
+can't compare to a proper hammer.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+TOOL("stone axe",	 8, 105,'/', c_ltgray,	WOOD,	STONE,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+	17, 19, 15, 18,  0, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::lumber,
+0, "\
+A sharpened stone affixed to a stick, works passably well as ane axe\n\
+but really can't compare to a proper axe..");
+
+TOOL("stone shovel",		40, 100,'/', c_brown,	STONE,	WOOD,
+   16, 21, 15,  5,  3,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::dig, 0, "\
+A flattened stone affixed to a stick, works passably well as a shovel\n\
+but really can't compare to a real shovel.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
