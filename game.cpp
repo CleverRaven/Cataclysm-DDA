@@ -232,7 +232,7 @@ bool game::opening_screen()
    savegames.push_back(tmp.substr(0, tmp.find(".sav")));
  }
  closedir(dir);
- dir = opendir("data");
+ dir = opendir("save");
  while ((dp = readdir(dir))) {
   tmp = dp->d_name;
   if (tmp.find(".template") != std::string::npos)
@@ -6881,7 +6881,7 @@ void game::complete_butcher(int index)
    m.add_item(u.posx, u.posy, pelt, age);
   }
  }
- 
+
  //Add a chance of CBM recovery. For shocker and cyborg corpses.
  if (corpse->has_flag(MF_CBM)) {
   //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
