@@ -5531,7 +5531,7 @@ point game::look_around()
    mvwprintw(w_look, 6, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str());
   wrefresh(w_look);
   wrefresh(w_terrain);
- } while (input != Close && input != Cancel);
+ } while (input != Close && input != Cancel && input != Confirm);
  if (input == Confirm)
   return point(lx, ly);
  return point(-1, -1);
