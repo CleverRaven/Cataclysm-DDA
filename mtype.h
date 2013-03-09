@@ -163,8 +163,8 @@ MF_FRIENDLY_SPECIAL, // Use our special attack, even if friendly
 MF_HIT_AND_RUN,	// Flee for several turns after a melee attack
 MF_GUILT,	// You feel guilty for killing it
 MF_HUMAN,	// It's a live human
-MF_MAX,		// Sets the length of the flags - obviously MUST be last
 MF_NO_BREATHE //Provides immunity to inhalation effects from gas, smoke, and poison
+MF_MAX,		// Sets the length of the flags - obviously MUST be last
 };
 
 struct mtype {
