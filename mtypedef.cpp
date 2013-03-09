@@ -289,7 +289,7 @@ occasionally crackles with small bolts of\n\
 lightning."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
-      MF_ELECTRIC, MF_CBM, MF_NO_BREATHRE,  MF_VIS40);
+      MF_ELECTRIC, MF_CBM, MF_NO_BREATHE,  MF_VIS40);
 
 mon("smoker zombie",species_zombie,'Z',c_ltgray,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
