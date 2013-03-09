@@ -437,7 +437,7 @@ but moves a bit slower"
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_NO_BREATHE, MF_VIS30);
 
-mon("Actual Cannibal Shia LaBeouf",	species_zombie, '@',	c_white,	MS_MEDIUM,	FLESH,
+mon("Actual Cannibal Shia LaBeouf",	species_mammal, '@',	c_white,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 1,  3,100,100, 70,  8,  1,  5,  0,  1,  0,  0, 40, 50,  40,
 	&mdeath::normal,	&mattack::brandish, "\
