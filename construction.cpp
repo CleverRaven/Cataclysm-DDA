@@ -423,32 +423,35 @@ void game::construction_menu()
     else
      select = constructions.size() - 1;
     break;
-  case ' ':
-  case KEY_ESCAPE:
-   ch = 'q';
-   break;
-  case '\n':
-  default:
-   if (ch > 64 && ch < 91) //A-Z
-    ch = ch - 65 + 26;
+   case ' ':
+   case KEY_ESCAPE:
+    ch = 'q';
+    break;
+   case '\n':
+   default:
+    if (ch > 64 && ch < 91) //A-Z
+     ch = ch - 65 + 26;
 
-   if (ch > 96 && ch < 122) //a-z
-    ch = ch - 97;
+    if (ch > 96 && ch < 123) //a-z
+     ch = ch - 97;
 
-   if (ch < constructions.size()) {
-    if (player_can_build(u, total_inv, constructions[ch])) {
-     place_construction(constructions[ch]);
-     ch = 'q';
-    } else {
-     popup("You can't build that!");
-     if (ch != '\n')
-      select = ch;
-     for (int i = 1; i < iMaxY-1; i++)
-      mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
-     update_info = true;
+    if (ch == '\n')
+     ch = select;
+
+    if (ch < constructions.size()) {
+     if (player_can_build(u, total_inv, constructions[ch])) {
+      place_construction(constructions[ch]);
+      ch = 'q';
+     } else {
+      popup("You can't build that!");
+      if (ch != '\n')
+       select = ch;
+      for (int i = 1; i < iMaxY-1; i++)
+       mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
+      update_info = true;
+     }
     }
-   }
-   break;
+    break;
   }
  } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
