@@ -83,6 +83,7 @@ class game
  public:
   game();
   ~game();
+  void init_ui();
   void setup();
   bool game_quit(); // True if we actually quit the game - used in main.cpp
   quit_status uquit;    // used in main.cpp to determine what type of quit
@@ -257,6 +258,7 @@ class game
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
+  void print_menu(WINDOW* w_open, int iSel);
   bool load_master();	// Load the master data file, with factions &c
   void load(std::string name);	// Load a player-specific save file
   void start_game();	// Starts a new game

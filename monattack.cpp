@@ -135,6 +135,24 @@ void mattack::shockstorm(game *g, monster *z)
  }
 }
 
+
+void mattack::smokecloud(game *g, monster *z)
+{
+  z->sp_timeout = z->type->sp_freq;	// Reset timer
+  for (int i = -3; i <= 3; i++) {
+    for (int j = -3; j <=3; j++) {
+      g->m.add_field(g, z->posx + i, z->posy + j, fd_smoke, 2);
+    }
+  }
+  //Round it out a bit
+  for (int i = -2; i <= 2; i++){
+      g->m.add_field(g, z->posx + i, z->posy + 4, fd_smoke, 2);
+      g->m.add_field(g, z->posx + i, z->posy - 4, fd_smoke, 2);
+      g->m.add_field(g, z->posx + 4, z->posy + i, fd_smoke, 2);
+      g->m.add_field(g, z->posx - 4, z->posy + i, fd_smoke, 2);
+  }
+}
+
 void mattack::boomer(game *g, monster *z)
 {
  int j;
@@ -1383,4 +1401,10 @@ void mattack::bite(game *g, monster *z)
  if(one_in(10)){
  g->u.add_disease(DI_BITE, 3600, g);
  }
+}
+
+void mattack::brandish(game *g, monster *z)
+{
+g->add_msg("He's brandishing a knife!");
+g->add_msg("Quiet, quiet");
 }

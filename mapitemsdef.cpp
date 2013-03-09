@@ -54,6 +54,11 @@ void game::init_mapitems()
 	NULL);
 
  setvector(
+   mapitems[mi_knifeblock],
+    itm_knife_steak, itm_knife_butcher, itm_knife_combat, itm_pockknife,
+    NULL);
+
+ setvector(
    mapitems[mi_fridge],
 	itm_water_clean, itm_oj, itm_cola, itm_rootbeer, itm_milk, itm_V8, itm_apple,
 	itm_sandwich_t, itm_mushroom, itm_blueberries, itm_strawberries,
@@ -763,6 +768,47 @@ void game::init_mapitems()
 	itm_processor, itm_RAM, itm_power_supply, itm_amplifier,
 	itm_transponder, itm_receiver, itm_antenna, itm_steel_chunk, itm_spring,
 	itm_steel_lump, itm_motor, itm_battery, itm_plut_cell, NULL);
+
+ setvector(
+   mapitems[mi_eyebot],
+     itm_flashlight, NULL);
+
+ setvector(
+   mapitems[mi_manhack],
+    itm_knife_combat, NULL);
+
+ setvector(
+   mapitems[mi_skitterbot],
+     itm_tazer, NULL);
+
+ setvector(
+   mapitems[mi_secubot],
+    itm_9mm, itm_steel_plate, NULL);
+
+ setvector(
+   mapitems[mi_copbot],
+     itm_baton, itm_tazer, itm_alloy_plate, NULL);
+
+ setvector(
+   mapitems[mi_molebot],
+     itm_spiked_plate, itm_hard_plate, NULL);
+
+ setvector(
+   mapitems[mi_tripod],
+     itm_flamethrower, itm_alloy_plate, NULL);
+
+ setvector(
+   mapitems[mi_chickenbot],
+     itm_9mm, itm_alloy_plate, NULL);
+
+ setvector(
+   mapitems[mi_tankbot],
+     itm_tazer, itm_flamethrower, itm_9mm, itm_alloy_plate,
+     itm_hard_plate, NULL);
+
+ setvector(
+   mapitems[mi_turret],
+     itm_9mm, NULL);
 
  setvector(
    mapitems[mi_helicopter],

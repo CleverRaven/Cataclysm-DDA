@@ -1,5 +1,6 @@
 #include "options.h"
 #include "output.h"
+#include "keypress.h"
 
 #include <stdlib.h>
 #include <fstream>
@@ -11,6 +12,113 @@ option_key lookup_option_key(std::string id);
 bool option_is_bool(option_key id);
 void create_default_options();
 std::string options_header();
+
+void show_options()
+{
+ erase();
+ int offset = 1;
+ int line = 0;
+ char ch = ' ';
+ bool changed_options = false;
+ bool needs_refresh = true;
+ do {
+// TODO: change instructions
+  if (needs_refresh) {
+    erase();
+    mvprintz(0, 40, c_white, "Use up/down keys to scroll through");
+    mvprintz(1, 40, c_white, "available options.");
+    mvprintz(2, 40, c_white, "Use left/right keys to toggle.");
+    mvprintz(3, 40, c_white, "Press ESC or q to return.             ");
+// highlight options for option descriptions
+    std::string tmp = option_desc(option_key(offset + line));
+    std::string out;
+    size_t pos;
+    int displayline = 5;
+    do {
+      pos = tmp.find_first_of('\n');
+      out = tmp.substr(0, pos);
+      mvprintz(displayline, 40, c_white, out.c_str());
+      tmp = tmp.substr(pos + 1);
+      displayline++;
+    } while (pos != std::string::npos && displayline < 12);
+   needs_refresh = false;
+  }
+
+// Clear the lines
+  for (int i = 0; i < 25; i++)
+   mvprintz(i, 0, c_black, "                                        ");
+  int valid_option_count = 0;
+
+// display options
+  for (int i = 0; i < 25 && offset + i < NUM_OPTION_KEYS; i++)
+  {
+       valid_option_count++;
+       mvprintz(i, 0, c_white, "%s: ",
+                option_name( option_key(offset + i) ).c_str());
+
+      if (option_is_bool(option_key(offset + i)))
+      {
+        bool on = OPTIONS[ option_key(offset + i) ];
+        if (i == line)
+          mvprintz(i, 30, hilite(c_ltcyan), (on ? "True" : "False"));
+        else
+          mvprintz(i, 30, (on ? c_ltgreen : c_ltred), (on ? "True" : "False"));
+      } else
+      {
+        char option_val = OPTIONS[ option_key(offset + i) ];
+        if (i == line)
+          mvprintz(i, 30, hilite(c_ltcyan), "%d", option_val );
+        else
+          mvprintz(i, 30, c_ltgreen, "%d", option_val );
+      }
+  }
+  refresh();
+  ch = input();
+  needs_refresh = true;
+  refresh();
+
+ switch (ch) {
+// move up and down
+  case 'j':
+   line++;
+   if (line == NUM_OPTION_KEYS - 1)
+    line = 0;
+   break;
+  case 'k':
+   line--;
+   if (line < 0)
+    line = NUM_OPTION_KEYS - 2;
+   break;
+// toggle options with left/right keys
+  case 'h':
+      if (option_is_bool(option_key(offset + line)))
+        OPTIONS[ option_key(offset + line) ] = !(OPTIONS[ option_key(offset + line) ]);
+      else
+      {
+        OPTIONS[ option_key(offset + line) ]--;
+        if ((OPTIONS[ option_key(offset + line) ]) < 0 )
+          OPTIONS[ option_key(offset + line) ] = option_max_options(option_key(offset + line)) - 1;
+      }
+      changed_options = true;
+  break;
+  case 'l':
+    if (option_is_bool(option_key(offset + line)))
+      OPTIONS[ option_key(offset + line) ] = !(OPTIONS[ option_key(offset + line) ]);
+    else
+    {
+      OPTIONS[ option_key(offset + line) ]++;
+      if ((OPTIONS[ option_key(offset + line) ]) >= option_max_options(option_key(offset + line)))
+        OPTIONS[ option_key(offset + line) ] = 0;
+    }
+    changed_options = true;
+  break;
+  }
+ } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+
+ if (changed_options && query_yn("Save changes?"))
+  save_options();
+ erase();
+}
 
 void load_options()
 {
@@ -100,6 +208,8 @@ option_key lookup_option_key(std::string id)
   return OPT_DELETE_WORLD;
  if (id == "initial_points")
   return OPT_INITIAL_POINTS;
+ if(id == "initial_time")
+  return OPT_INITIAL_TIME;
  if (id == "viewport_x")
   return OPT_VIEWPORT_X;
  if (id == "viewport_y")
@@ -129,6 +239,7 @@ std::string option_string(option_key key)
   case OPT_SKILL_RUST: return "skill_rust";
   case OPT_DELETE_WORLD: return "delete_world";
   case OPT_INITIAL_POINTS: return "initial_points";
+  case OPT_INITIAL_TIME: return "initial_time";
   case OPT_VIEWPORT_X: return "viewport_x";
   case OPT_VIEWPORT_Y: return "viewport_y";
   case OPT_STATIC_SPAWN: return "static_spawn";
@@ -157,9 +268,10 @@ std::string option_desc(option_key key)
   case OPT_SKILL_RUST: return "Set the level of skill rust\n0 - vanilla Cataclysm\n1 - capped at skill levels\n2 - none at all";
   case OPT_DELETE_WORLD: return "Delete saves upon player death\n0 - no\n1 - yes\n2 - query";
   case OPT_INITIAL_POINTS: return "Initial points available on character\ngeneration.  Default is 6";
+  case OPT_INITIAL_TIME: return "Initial starting time of day on character\ngeneration.  Default is 8:00";
   case OPT_VIEWPORT_X: return "Set the expansion of the viewport along\nthe X axis.  Must restart for changes\nto take effect.  Default is 12";
   case OPT_VIEWPORT_Y: return "Set the expansion of the viewport along\nthe Y axis.  Must restart for changes\nto take effect.  Default is 12";
-  case OPT_STATIC_SPAWN: return "Spawn zombies at game start instead of\nduring game. Must delete save directory\nafter changing for it to take effect.\nDefault is 12";
+  case OPT_STATIC_SPAWN: return "Spawn zombies at game start instead of\nduring game. Must delete save directory\nafter changing for it to take effect.\nDefault is F";
   default:			return " ";
  }
  return "Big ol Bug";
@@ -185,6 +297,7 @@ std::string option_name(option_key key)
   case OPT_SKILL_RUST: return "Skill Rust";
   case OPT_DELETE_WORLD: return "Delete World";
   case OPT_INITIAL_POINTS: return "Initial points";
+  case OPT_INITIAL_TIME: return "Initial time";
   case OPT_VIEWPORT_X: return "Viewport width";
   case OPT_VIEWPORT_Y: return "Viewport height";
   case OPT_STATIC_SPAWN: return "Static spawn";
@@ -203,6 +316,7 @@ bool option_is_bool(option_key id)
   case OPT_DROP_EMPTY:
   case OPT_DELETE_WORLD:
   case OPT_INITIAL_POINTS:
+  case OPT_INITIAL_TIME:
   case OPT_VIEWPORT_X:
   case OPT_VIEWPORT_Y:
    return false;
@@ -232,6 +346,9 @@ char option_max_options(option_key id)
         break;
       case OPT_INITIAL_POINTS:
         ret = 25;
+        break;
+      case OPT_INITIAL_TIME:
+        ret = 24; // 0h to 23h
         break;
       case OPT_DELETE_WORLD:
       case OPT_DROP_EMPTY:
@@ -294,11 +411,14 @@ skill_rust 0\n\
 delete_world 0\n\
 # Initial points available in character generation\n\
 initial_points 6\n\
+# Initial time at character generation\n\
+initial_time 8\n\
 # The width of the terrain window in characters.\n\
 viewport_x 12\n\
 # The height of the terrain window, which is also the height of the main window, in characters.\n\
 viewport_y 12\n\
 # Spawn zombies at game start instead of during the game.  You must create a new world after changing\n\
+static_spawn T\n\
 ";
  fout.close();
 }

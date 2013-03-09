@@ -860,6 +860,7 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
   else
    p->i_add(rag, g);
   }
+  return;
  }
  if (cut->made_of(LEATHER)) {
  p->moves -= 25 * cut->volume();
@@ -2414,6 +2415,7 @@ if (cut->made_of(COTTON)) {
   else
    p->i_add(rag);
   }
+  break;
  }
  if (cut->made_of(LEATHER)) {
  p->moves -= 25 * cut->volume();

@@ -53,8 +53,6 @@ game::game() :
  gamemode(NULL)
 {
  dout() << "Game initialized.";
- clear();	// Clear the screen
- intro();	// Print an intro screen, make sure we're at least 80x25
 // Gee, it sure is init-y around here!
  init_itypes();	      // Set up item types                (SEE itypedef.cpp)
  init_mtypes();	      // Set up monster types             (SEE mtypedef.cpp)
@@ -69,6 +67,30 @@ game::game() :
  init_vehicles();     // Set up vehicles                  (SEE veh_typedef.cpp)
  init_autosave();     // Set up autosave
  load_keyboard_settings();
+
+
+ gamemode = new special_game;	// Nothing, basically.
+}
+
+game::~game()
+{
+ delete gamemode;
+ for (int i = 0; i < itypes.size(); i++)
+  delete itypes[i];
+ for (int i = 0; i < mtypes.size(); i++)
+  delete mtypes[i];
+ delwin(w_terrain);
+ delwin(w_minimap);
+ delwin(w_HP);
+ delwin(w_moninfo);
+ delwin(w_messages);
+ delwin(w_location);
+ delwin(w_status);
+}
+
+void game::init_ui(){
+ clear();	// Clear the screen
+ intro();	// Print an intro screen, make sure we're at least 80x25
 
  VIEWX = OPTIONS[OPT_VIEWPORT_X];
  VIEWY = OPTIONS[OPT_VIEWPORT_Y];
@@ -95,24 +117,6 @@ game::game() :
  werase(w_location);
  w_status = newwin(4, 55, 21, TERRAIN_WINDOW_WIDTH);
  werase(w_status);
-
- gamemode = new special_game;	// Nothing, basically.
-}
-
-game::~game()
-{
- delete gamemode;
- for (int i = 0; i < itypes.size(); i++)
-  delete itypes[i];
- for (int i = 0; i < mtypes.size(); i++)
-  delete mtypes[i];
- delwin(w_terrain);
- delwin(w_minimap);
- delwin(w_HP);
- delwin(w_moninfo);
- delwin(w_messages);
- delwin(w_location);
- delwin(w_status);
 }
 
 void game::setup()
@@ -172,18 +176,38 @@ void game::setup()
  }
 }
 
-bool game::opening_screen()
+void game::print_menu(WINDOW* w_open, int iSel)
 {
- WINDOW* w_open = newwin(25, 80, 0, 0);
- erase();
+ //Clear Lines
+ for (int i = 0; i < 25; i++)
+  for (int j = 0; j < 79; j++)
+   mvwputch(w_open, i, j, c_black, ' ');
+
  for (int i = 0; i < 80; i++)
   mvwputch(w_open, 21, i, c_white, LINE_OXOX);
-   mvwprintz(w_open, 0, 0, c_blue, "Welcome to Cataclysm: Dark Days Ahead!");
-   mvwprintz(w_open, 1, 0, c_red, "\
-Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
+ mvwprintz(w_open, 0, 0, c_blue, "Welcome to Cataclysm: Dark Days Ahead!");
+ mvwprintz(w_open, 1, 0, c_red, "Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
+
+ int iRow = 4;
+ mvwprintz(w_open, iRow++, 1, (iSel == 0 ? h_white : c_white), "MOTD");
+ mvwprintz(w_open, iRow++, 1, (iSel == 1 ? h_white : c_white), "New Game");
+ mvwprintz(w_open, iRow++, 1, (iSel == 2 ? h_white : c_white), "Load Game");
+ mvwprintz(w_open, iRow++, 1, (iSel == 3 ? h_white : c_white), "New World");
+ mvwprintz(w_open, iRow++, 1, (iSel == 4 ? h_white : c_white), "Special...");
+ mvwprintz(w_open, iRow++, 1, (iSel == 5 ? h_white : c_white), "Options");
+ mvwprintz(w_open, iRow++, 1, (iSel == 6 ? h_white : c_white), "Help");
+ mvwprintz(w_open, iRow++, 1, (iSel == 7 ? h_white : c_white), "Credits");
+ mvwprintz(w_open, iRow++, 1, (iSel == 8 ? h_white : c_white), "Quit");
+
  refresh();
  wrefresh(w_open);
  refresh();
+}
+
+bool game::opening_screen()
+{
+ WINDOW* w_open = newwin(25, 80, 0, 0);
+ print_menu(w_open, 0);
  std::vector<std::string> savegames, templates;
  std::string tmp;
  dirent *dp;
@@ -218,7 +242,7 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
  InputEvent input;
  bool start = false;
 
-// Load MOTD and store it in a string
+ // Load MOTD and store it in a string
  std::vector<std::string> motd;
  std::ifstream motd_file;
  motd_file.open("data/motd");
@@ -233,63 +257,61 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
   }
  }
 
+ // Load Credits and store it in a string
+ std::vector<std::string> credits;
+ std::ifstream credits_file;
+ credits_file.open("data/credits");
+ if (!credits_file.is_open())
+  credits.push_back("No message today.");
+ else {
+  while (!credits_file.eof()) {
+   std::string tmp;
+   getline(credits_file, tmp);
+   if (tmp[0] != '#')
+    credits.push_back(tmp);
+  }
+ }
+
  while(!start) {
   if (layer == 1) {
-   mvwprintz(w_open, 4, 1, (sel1 == 0 ? h_white : c_white), "MOTD");
-   mvwprintz(w_open, 5, 1, (sel1 == 1 ? h_white : c_white), "New Game");
-   mvwprintz(w_open, 6, 1, (sel1 == 2 ? h_white : c_white), "Load Game");
-   mvwprintz(w_open, 7, 1, (sel1 == 3 ? h_white : c_white), "New World");
-   mvwprintz(w_open, 8, 1, (sel1 == 4 ? h_white : c_white), "Special...");
-   mvwprintz(w_open, 9, 1, (sel1 == 5 ? h_white : c_white), "Help");
-   mvwprintz(w_open, 10, 1, (sel1 == 6 ? h_white : c_white), "Quit");
-
+   print_menu(w_open, sel1);
    if (sel1 == 0) {	// Print the MOTD.
     for (int i = 0; i < motd.size() && i < 16; i++)
      mvwprintz(w_open, i + 4, 12, c_ltred, motd[i].c_str());
-   } else {	// Clear the lines if not viewing MOTD.
-    for (int i = 4; i < 20; i++) {
-     for (int j = 12; j < 79; j++)
-      mvwputch(w_open, i, j, c_black, 'x');
-    }
+
+    wrefresh(w_open);
+    refresh();
+   } else if (sel1 == 7) {	// Print the Credits.
+    for (int i = 0; i < credits.size() && i < 16; i++)
+     mvwprintz(w_open, i + 4, 12, c_ltred, credits[i].c_str());
+
+    wrefresh(w_open);
+    refresh();
    }
 
-   wrefresh(w_open);
-   refresh();
    input = get_input();
    if (input == DirectionN) {
     if (sel1 > 0)
      sel1--;
     else
-     sel1 = 6;
+     sel1 = 8;
    } else if (input == DirectionS) {
-    if (sel1 < 6)
+    if (sel1 < 8)
      sel1++;
     else
      sel1 = 0;
-   } else if ((input == DirectionE || input == Confirm) && sel1 > 0) {
-    if (sel1 == 6) {
+   } else if ((input == DirectionE || input == Confirm) && sel1 > 0 && sel1 != 7) {
+    if (sel1 == 5) {
+     show_options();
+    } else if (sel1 == 6) {
+     help();
+    } else if (sel1 == 8) {
      uquit = QUIT_MENU;
      return false;
-    } else if (sel1 == 5) {
-     help();
-     clear();
-     mvwprintz(w_open, 0, 1, c_blue, "Welcome to Cataclysm!");
-     mvwprintz(w_open, 1, 0, c_red, "\
-Please report all bugs to TheDarklingWolf@Gmail.com");
-     refresh();
-     wrefresh(w_open);
-     refresh();
     } else {
      sel2 = 1;
      layer = 2;
     }
-    mvwprintz(w_open, 4, 1, (sel1 == 0 ? c_white : c_dkgray), "MOTD");
-    mvwprintz(w_open, 5, 1, (sel1 == 1 ? c_white : c_dkgray), "New Game");
-    mvwprintz(w_open, 6, 1, (sel1 == 2 ? c_white : c_dkgray), "Load Game");
-    mvwprintz(w_open, 7, 1, (sel1 == 3 ? c_white : c_dkgray), "New World");
-    mvwprintz(w_open, 8, 1, (sel1 == 4 ? c_white : c_dkgray), "Special...");
-    mvwprintz(w_open, 9, 1, (sel1 == 5 ? c_white : c_dkgray), "Help");
-    mvwprintz(w_open, 10, 1, (sel1 == 6 ? c_white : c_dkgray), "Quit");
    }
   } else if (layer == 2) {
    if (sel1 == 1) {	// New Character
@@ -354,7 +376,7 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
          saveend   = (sel2 < 7 ? 14 : sel2 + 7);
      for (int i = savestart; i < saveend; i++) {
       int line = 6 + i - savestart;
-      mvwprintz(w_open, line, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      mvwprintz(w_open, line, 12, c_black, "                                 ");
       if (i < savegames.size())
        mvwprintz(w_open, line, 12, (sel2 - 1 == i ? h_white : c_white),
                  savegames[i].c_str());
@@ -376,7 +398,7 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
     } else if (input == DirectionW) {
      layer = 1;
      for (int i = 0; i < 14; i++)
-      mvwprintz(w_open, 6 + i, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      mvwprintz(w_open, 6 + i, 12, c_black, "                                 ");
     }
     if (input == DirectionE || input == Confirm) {
      if (sel2 > 0 && savegames.size() > 0) {
@@ -395,7 +417,7 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
     layer = 1;
    } else if (sel1 == 4) {	// Special game
     for (int i = 1; i < NUM_SPECIAL_GAMES; i++) {
-     mvwprintz(w_open, 6 + i, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+     mvwprintz(w_open, 6 + i, 12, c_black, "                                 ");
      mvwprintz(w_open, 6 + i, 12, (sel2 == i ? h_white : c_white),
                special_game_name( special_game_id(i) ).c_str());
     }
@@ -415,7 +437,7 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
     } else if (input == DirectionW) {
      layer = 1;
      for (int i = 6; i < 15; i++)
-      mvwprintz(w_open, i, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      mvwprintz(w_open, i, 12, c_black, "                                 ");
     }
     if (input == DirectionE || input == Confirm) {
      if (sel2 >= 1 && sel2 < NUM_SPECIAL_GAMES) {
@@ -440,7 +462,7 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
         tempend   = (sel1 < 6 ? 14 : sel1 + 8);
     for (int i = tempstart; i < tempend; i++) {
      int line = 6 + i - tempstart;
-     mvwprintz(w_open, line, 29, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+     mvwprintz(w_open, line, 29, c_black, "                                 ");
      if (i < templates.size())
       mvwprintz(w_open, line, 29, (sel1 == i ? h_white : c_white),
                 templates[i].c_str());
@@ -488,7 +510,8 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
 // Set up all default values for a new game
 void game::start_game()
 {
- turn = MINUTES(STARTING_MINUTES);// It's turn 0...
+ //turn = MINUTES(STARTING_MINUTES);// It's turn 0...
+ turn = HOURS(OPTIONS[OPT_INITIAL_TIME]);
  run_mode = (OPTIONS[OPT_SAFEMODE] ? 1 : 0);
  mostseen = 0;	// ...and mostseen is 0, we haven't seen any monsters yet.
 
@@ -1770,6 +1793,7 @@ bool game::handle_action()
   case ACTION_TOGGLE_SAFEMODE:
    if (run_mode == 0 ) {
     run_mode = 1;
+    mostseen = 0;
     add_msg("Safe mode ON!");
    } else {
     turnssincelastmon = 0;
@@ -3401,8 +3425,10 @@ void game::mon_info()
  for (int i = 0; i < z.size(); i++) {
   if (u_see(&(z[i]), buff)) {
    bool mon_dangerous = false;
+   int j;
    if (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW) {
-    mon_dangerous = true;
+    if (sees_u(z[i].posx, z[i].posy, j))
+     mon_dangerous = true;
 
     if (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= iProxyDist)
      newseen++;
@@ -5505,7 +5531,7 @@ point game::look_around()
    mvwprintw(w_look, 6, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str());
   wrefresh(w_look);
   wrefresh(w_terrain);
- } while (input != Close && input != Cancel);
+ } while (input != Close && input != Cancel && input != Confirm);
  if (input == Confirm)
   return point(lx, ly);
  return point(-1, -1);
@@ -5587,6 +5613,7 @@ void game::list_items()
    if (ch == 'I' || ch == 'c' || ch == 'C') {
     compare(iActiveX, iActiveY);
     ch = '.';
+    refresh_all();
 
    } else if (ch == 'f' || ch == 'F') {
     for (int i = 0; i < iInfoHeight-1; i++)
@@ -6772,17 +6799,17 @@ void game::complete_butcher(int index)
  int age = m.i_at(u.posx, u.posy)[index].bday;
  m.i_rem(u.posx, u.posy, index);
  int factor = u.butcher_factor();
- int pieces, pelts;
+ int pieces, pelts, bones, sinews;
  double skill_shift = 0.;
 
  int sSkillLevel = u.skillLevel("survival").level();
 
  switch (corpse->size) {
-  case MS_TINY:   pieces =  1; pelts =  1; break;
-  case MS_SMALL:  pieces =  2; pelts =  3; break;
-  case MS_MEDIUM: pieces =  4; pelts =  6; break;
-  case MS_LARGE:  pieces =  8; pelts = 10; break;
-  case MS_HUGE:   pieces = 16; pelts = 18; break;
+  case MS_TINY:   pieces =  1; pelts =  1; bones = 1; sinews = 1; break;
+  case MS_SMALL:  pieces =  2; pelts =  3; bones = 4; sinews = 4; break;
+  case MS_MEDIUM: pieces =  4; pelts =  6; bones = 9; sinews = 9; break;
+  case MS_LARGE:  pieces =  8; pelts = 10; bones = 14;sinews = 14;break;
+  case MS_HUGE:   pieces = 16; pelts = 18; bones = 21;sinews = 21;break;
  }
  if (sSkillLevel < 3)
   skill_shift -= rng(0, 8 - sSkillLevel);
@@ -6803,8 +6830,39 @@ void game::complete_butcher(int index)
  u.practice("survival", practice);
 
  pieces += int(skill_shift);
- if (skill_shift < 5)	// Lose some pelts
+ if (skill_shift < 5)  {	// Lose some pelts and bones
   pelts += (skill_shift - 5);
+  bones += (skill_shift - 2);
+  sinews += (skill_shift - 8);
+ }
+
+ if (bones > 0) {
+  for (int i = 0; i < bones; i++) {
+   itype* bone;
+   if (corpse->mat == FLESH) {
+     bone = itypes[itm_bone];
+     add_msg("You harvest some usable bones!");
+   } else if (corpse->mat == VEGGY) {
+     bone = itypes[itm_plant_sac];
+     add_msg("You harvest some fluid bladders!");
+  }
+   m.add_item(u.posx, u.posy, bone, age);
+  }
+ }
+
+  if (sinews > 0) {
+  for (int i = 0; i < sinews; i++) {
+   itype* sinew;
+   if (corpse->mat == FLESH) {
+     sinew = itypes[itm_sinew];
+     add_msg("You harvest some usable sinews!");
+   } else if (corpse->mat == VEGGY) {
+     sinew = itypes[itm_plant_fibre];
+     add_msg("You harvest some plant fibres!");
+  }
+   m.add_item(u.posx, u.posy, sinew, age);
+  }
+ }
 
  if ((corpse->has_flag(MF_FUR) || corpse->has_flag(MF_LEATHER)) &&
      pelts > 0) {
@@ -6823,6 +6881,30 @@ void game::complete_butcher(int index)
    m.add_item(u.posx, u.posy, pelt, age);
   }
  }
+ 
+ //Add a chance of CBM recovery. For shocker and cyborg corpses.
+ if (corpse->has_flag(MF_CBM)) {
+  //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
+  if(skill_shift >= 0){
+   add_msg("You discover a CBM in the %s!", corpse->name.c_str());
+   //To see if it spawns a battery
+   if(rng(0,1) == 1){ //The battery works
+    m.add_item(u.posx, u.posy, itypes[itm_bionics_batteries], age);
+   }else{//There is a burnt out CBM
+    m.add_item(u.posx, u.posy, itypes[itm_burnt_out_bionic], age);
+   }
+  }
+  if(skill_shift >= 0){
+   //To see if it spawns a random additional CBM
+   if(rng(0,1) == 1){ //The CBM works
+    int index = rng(0, mapitems[mi_bionics].size()-1);
+    m.add_item(u.posx, u.posy, itypes[ mapitems[mi_bionics][index] ], age);
+   }else{//There is a burnt out CBM
+    m.add_item(u.posx, u.posy, itypes[itm_burnt_out_bionic], age);
+   }
+  }
+ }
+
  if (pieces <= 0)
   add_msg("Your clumsy butchering destroys the meat!");
  else {
@@ -7133,6 +7215,7 @@ void game::unload()
   }
  }
  item newam;
+
  if ((weapon->is_gun() || weapon->is_gunmod()) && weapon->curammo != NULL)
   newam = item(weapon->curammo, turn);
  else

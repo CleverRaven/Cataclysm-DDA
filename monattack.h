@@ -13,6 +13,7 @@ class mattack
   void shriek		(game *g, monster *z);
   void acid		(game *g, monster *z);
   void shockstorm	(game *g, monster *z);
+  void smokecloud	(game *g, monster *z);
   void boomer		(game *g, monster *z);
   void resurrect        (game *g, monster *z);
   void science		(game *g, monster *z);
@@ -44,7 +45,8 @@ class mattack
   void generator	(game *g, monster *z);
   void upgrade		(game *g, monster *z);
   void breathe		(game *g, monster *z);
-  void bite		    (game *g, monster *z); //Oddzball-Bite attack
+  void bite		    (game *g, monster *z);
+  void brandish     (game *g, monster *z);
 };
 
 #endif

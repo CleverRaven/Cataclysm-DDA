@@ -249,14 +249,21 @@ void game::init_construction()
 
 void game::construction_menu()
 {
- WINDOW *w_con = newwin(25, 80, 0, 0);
+ int iMaxY = (VIEWY*2)+1;
+ if (constructions.size()+2 < iMaxY)
+  iMaxY = constructions.size()+2;
+ if (iMaxY < 25)
+  iMaxY = 25;
+
+ WINDOW *w_con = newwin(iMaxY, 80, 0, 0);
  wborder(w_con, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w_con, 0, 1, c_red, "Construction");
- mvwputch(w_con,  0, 30, c_white, LINE_OXXX);
- mvwputch(w_con, 24, 30, c_white, LINE_XXOX);
- for (int i = 1; i < 24; i++)
-  mvwputch(w_con, i, 30, c_white, LINE_XOXO);
+ mvwprintz(w_con, 0, 8, c_ltred, " Construction ");
+
+ mvwputch(w_con,  0, 30, c_ltgray, LINE_OXXX);
+ mvwputch(w_con, iMaxY-1, 30, c_ltgray, LINE_XXOX);
+ for (int i = 1; i < iMaxY-1; i++)
+  mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
 
  mvwprintz(w_con,  1, 31, c_white, "Difficulty:");
 
@@ -264,32 +271,34 @@ void game::construction_menu()
 
  bool update_info = true;
  int select = 0;
- char ch;
+ long ch;
 
  inventory total_inv = crafting_inventory();
 
  do {
 // Erase existing list of constructions
-  for (int i = 1; i < 24; i++) {
-   for (int j = 1; j < 29; j++)
-    mvwputch(w_con, i, j, c_black, 'x');
+  for (int i = 1; i < iMaxY-1; i++) {
+   for (int j = 1; j < 30; j++)
+    mvwputch(w_con, i, j, c_black, ' ');
   }
 // Determine where in the master list to start printing
   //int offset = select - 11;
   int offset = 0;
-  if (select >= 22)
-   offset = select - 22;
+  if (select >= iMaxY-2)
+   offset = select - iMaxY + 3;
 // Print the constructions between offset and max (or how many will fit)
-  for (int i = 0; i <= 22 && (i + offset) < constructions.size(); i++) {
+  for (int i = 0; i < iMaxY-2 && (i + offset) < constructions.size(); i++) {
    int current = i + offset;
    nc_color col = (player_can_build(u, total_inv, constructions[current]) ?
                    c_white : c_dkgray);
    // Map menu items to hotkey letters, skipping j, k, l, and q.
-   char hotkey = current + ((current < 9) ? 97 : ((current < 13) ? 100 : 101));
+   char hotkey = 97 + current;
+   if (hotkey > 122)
+    hotkey = hotkey - 58;
+
    if (current == select)
     col = hilite(col);
-   mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey,
-	     constructions[current]->name.c_str());
+   mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey, constructions[current]->name.c_str());
   }
 
   if (update_info) {
@@ -301,9 +310,9 @@ void game::construction_menu()
    mvwprintz(w_con, 1, 43, (pskill >= diff ? c_white : c_red),
              "%d   ", diff);
 // Clear out lines for tools & materials
-   for (int i = 2; i < 24; i++) {
+   for (int i = 2; i < iMaxY-1; i++) {
     for (int j = 31; j < 79; j++)
-     mvwputch(w_con, i, j, c_black, 'x');
+     mvwputch(w_con, i, j, c_black, ' ');
    }
 
 // Print stages and their requirements
@@ -398,54 +407,57 @@ void game::construction_menu()
    wrefresh(w_con);
   } // Finished updating
 
-  ch = input();
+  ch = getch();
   switch (ch) {
-   case 'j':
+   case KEY_DOWN:
     update_info = true;
     if (select < constructions.size() - 1)
      select++;
     else
      select = 0;
     break;
-   case 'k':
+   case KEY_UP:
     update_info = true;
     if (select > 0)
      select--;
     else
      select = constructions.size() - 1;
     break;
-   case '\n':
-   case 'l':
-    if (player_can_build(u, total_inv, constructions[select])) {
-     place_construction(constructions[select]);
+  case ' ':
+  case KEY_ESCAPE:
+   ch = 'q';
+   break;
+  case '\n':
+  default:
+   if (ch > 64 && ch < 91) //A-Z
+    ch = ch - 65 + 26;
+
+   if (ch > 96 && ch < 122) //a-z
+    ch = ch - 97;
+
+   if (ch < constructions.size()) {
+    if (player_can_build(u, total_inv, constructions[ch])) {
+     place_construction(constructions[ch]);
      ch = 'q';
     } else {
      popup("You can't build that!");
-     for (int i = 1; i < 24; i++)
-      mvwputch(w_con, i, 30, c_white, LINE_XOXO);
+     if (ch != '\n')
+      select = ch;
+     for (int i = 1; i < iMaxY-1; i++)
+      mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
      update_info = true;
     }
-    break;
-  case 'q':
-  case 'Q':
-  case KEY_ESCAPE:
-   break;
-  default:
-   if (ch < 97 || ch > constructions.size() + 101) break;
-   // Map menu items to hotkey letters, skipping j, k, l, and q.
-   char hotkey = ch - ((ch < 106) ? 97 : ((ch < 112) ? 100 : 101));
-   if (player_can_build(u, total_inv, constructions[hotkey])) {
-    place_construction(constructions[hotkey]);
-    ch = 'q';
-   } else {
-    popup("You can't build that!");
-    for (int i = 1; i < 24; i++)
-     mvwputch(w_con, i, 30, c_white, LINE_XOXO);
-    update_info = true;
    }
    break;
   }
  } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+
+ for (int i = iMaxY-25; i < iMaxY+1; i++) {
+  for (int j = (VIEWX*2)+1; j < 81; j++)
+   mvwputch(w_con, i, j, c_black, ' ');
+ }
+
+ wrefresh(w_con);
  refresh_all();
 }
 
