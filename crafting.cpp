@@ -967,7 +967,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
 
  RECIPE(itm_torch,        CC_MISC, NULL,    NULL,     0, 2000, false);
   COMP(itm_stick, 1, itm_2x4, 1, itm_splinter, 1, itm_pool_cue, 1, itm_torch_done, 1, NULL);
-  COMP(itm_gasoline, 200, itm_vodka, 7, itm_rum, 7, itm_whiskey, 7, itm_tequila, 7, itm_gin, 7, itm_triple_sec, 7 NULL);
+  COMP(itm_gasoline, 200, itm_vodka, 7, itm_rum, 7, itm_whiskey, 7, itm_tequila, 7, itm_gin, 7, itm_triple_sec, 7, NULL);
   COMP(itm_rag, 1, NULL);
 
  RECIPE(itm_candle,       CC_MISC, NULL,    NULL,     0, 5000, false);

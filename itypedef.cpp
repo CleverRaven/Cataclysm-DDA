@@ -1359,7 +1359,7 @@ ARMOR("steeltoed boots",50, 135,C_SHOES,	LEATHER,	STEEL,
     7,  9,  4, -1,  1,  4,  4,  3,  50,  0,	mfb(bp_feet), "\
 Leather boots with a steel toe. Extremely durable.");
 
-ARMOR("winter boots",	60, 140,C_SHOES,	PLASTIC,	WOOL,
+ARMOR("winter boots",	60, 140,C_SHOES,	WOOL,	PLASTIC,
     8,  7,  0, -1,  2,  0,  2,  1,  80,  0,	mfb(bp_feet), "\
 Cumbersome boots designed for warmth.");
 
@@ -1568,7 +1568,7 @@ ARMOR("kevlar vest",	30, 800,C_TORSO,	KEVLAR,		MNULL,
    24, 24,  6, -3,  2,  4, 22,  0,  20,  4,	mfb(bp_torso), "\
 A heavy bulletproof vest. The best protection from cuts and bullets.");
 
-ARMOR("rain coat",	50, 100,C_TORSO,	PLASTIC,	COTTON,
+ARMOR("rain coat",	50, 100,C_TORSO,	COTTON,	PLASTIC,
     9,  8, -4,  0,  2,  0,  3,  1,  20,  7,	mfb(bp_torso)|mfb(bp_arms), "\
 A plastic coat with two very large pockets. Provides protection from rain.");
 
