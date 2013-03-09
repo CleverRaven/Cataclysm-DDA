@@ -893,7 +893,16 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
 
  RECIPE(itm_armguard_chitin, CC_ARMOR, "tailor", NULL, 3,  30000, false);
   COMP(itm_string_36, 1, itm_string_6, 4, NULL);
-  COMP(itm_chitin_piece, 2, NULL);
+  COMP(itm_chitin_piece, 6, NULL);
+
+ RECIPE(itm_boots_chitin, CC_ARMOR, "tailor", NULL, 3,  30000, false);
+  COMP(itm_string_36, 1, itm_string_6, 4, NULL);
+  COMP(itm_chitin_piece, 4, NULL);
+  COMP(itm_leather, 2, itm_fur, 2, itm_rag, 2, NULL);
+
+ RECIPE(itm_gauntlets_chitin, CC_ARMOR, "tailor", NULL, 3,  30000, false);
+  COMP(itm_string_36, 1, itm_string_6, 4, NULL);
+  COMP(itm_chitin_piece, 4, NULL);
 
  RECIPE(itm_helmet_chitin, CC_ARMOR, "tailor", NULL, 6,  60000, false);
   COMP(itm_string_36, 1, itm_string_6, 5, NULL);

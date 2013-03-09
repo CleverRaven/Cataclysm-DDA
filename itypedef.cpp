@@ -1413,6 +1413,10 @@ ARMOR("heels",		1,  50,C_SHOES,	LEATHER,	MNULL,
 A pair of high heels. Difficult to even walk in.\n\
 These high heels are a perfect fit for you.");
 
+ARMOR("chitinous boots",50, 135,C_SHOES,	LEATHER,	STEEL,
+    7,  9,  4, -1,  1,  4,  4,  3,  50,  0,	mfb(bp_feet), "\
+Boots made from the exoskeletons of insects. Light and durable.");
+
 ARMOR("shorts",		70, 180,C_PANTS,	COTTON,		MNULL,
     4,  2, -4,  1,  0,  0,  1,  0,  0,  4,	mfb(bp_legs), "\
 A pair of khaki shorts.");
@@ -1732,6 +1736,11 @@ A pair of thin latex gloves, designed to limit the spread of disease.");
 ARMOR("fire gauntlets",	 5,  95,C_GLOVES,	LEATHER,	MNULL,
     3,  5, -2,  2,  6,  1,  2,  5,  40,  0,	mfb(bp_hands), "\
 A heavy pair of leather gloves, used by firefighters for heat protection.");
+
+ARMOR("chitinous gauntlets", 1, 380,C_HAT,		FLESH,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   4,   1,  2, -2,  1,  5, 7,   4,  20,  0,	mfb(bp_hands), "\
+Gauntlets made from the exoskeletons of insects. Very light and durable.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("dust mask",	65,  20,C_MOUTH,	COTTON,		IRON,
