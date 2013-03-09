@@ -27,6 +27,7 @@ public:
  void explode		(game *g, monster *z); // Damaging explosion
  void ratking		(game *g, monster *z); // Cure verminitis
  void kill_breathers	(game *g, monster *z); // All breathers die
+ void smokeburst  (game *g, monster *z); //Explode like a huge smoke bomb.
 
  void gameover		(game *g, monster *z); // Game over!  Defense mode
 };
