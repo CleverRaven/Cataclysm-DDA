@@ -1382,7 +1382,6 @@ void mattack::breathe(game *g, monster *z)
  }
 }
 
-
 void mattack::bite(game *g, monster *z)
 {
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1)
