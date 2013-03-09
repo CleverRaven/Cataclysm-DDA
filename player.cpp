@@ -1656,7 +1656,7 @@ void player::disp_status(WINDOW *w, game *g)
  else if (hunger < 0)
   mvwprintz(w, 2, 0, c_green,  "Full");
 
-   //Oddzball Temp in status
+
 if (temp_cur[bp_torso] > BODYTEMP_SCORCHING)
   mvwprintz(w, 1, 9, c_red,    "Scorching!");
  else if (temp_cur[bp_torso] > BODYTEMP_VERY_HOT)

@@ -822,7 +822,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
 
   case fd_web:
    if (!z->has_flag(MF_WEBWALK)) {
-    z->speed *= .8;
+    z->moves *= .8;
     remove_field(x, y);
    }
    break;
@@ -838,7 +838,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    break;
 
   case fd_sap:
-   z->speed -= cur->density * 5;
+   z->moves -= cur->density * 5;
    if (cur->density == 1)
     remove_field(x, y);
    else
@@ -880,14 +880,16 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
 // Drop through to smoke
 
   case fd_smoke:
-   if (cur->density == 3)
-    z->speed -= rng(10, 20);
-   if (z->made_of(VEGGY))	// Plants suffer from smoke even worse
-    z->speed -= rng(1, cur->density * 12);
+   if (!z->has_flag(MF_NO_BREATHE)){
+    if (cur->density == 3)
+     z->moves -= rng(10, 20);
+    if (z->made_of(VEGGY))	// Plants suffer from smoke even worse
+     z->moves -= rng(1, cur->density * 12);
+   }
    break;
 
   case fd_tear_gas:
-   if (z->made_of(FLESH) || z->made_of(VEGGY)) {
+   if ((z->made_of(FLESH) || z->made_of(VEGGY)) && !z->has_flag(MF_NO_BREATHE)) {
     z->add_effect(ME_BLIND, cur->density * 8);
     if (cur->density == 3) {
      z->add_effect(ME_STUNNED, rng(10, 20));
@@ -898,31 +900,35 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     } else
      z->add_effect(ME_STUNNED, rng(1, 5));
     if (z->made_of(VEGGY)) {
-     z->speed -= rng(cur->density * 5, cur->density * 12);
+     z->moves -= rng(cur->density * 5, cur->density * 12);
      dam += cur->density * rng(8, 14);
     }
    }
    break;
 
   case fd_toxic_gas:
-   dam = cur->density;
-   z->speed -= cur->density;
+   if(!z->has_flag(MF_NO_BREATHE)){
+     dam = cur->density;
+     z->moves -= cur->density;
+   }
    break;
 
   case fd_nuke_gas:
-   if (cur->density == 3) {
-    z->speed -= rng(60, 120);
-    dam = rng(30, 50);
-   } else if (cur->density == 2) {
-    z->speed -= rng(20, 50);
-    dam = rng(10, 25);
-   } else {
-    z->speed -= rng(0, 15);
-    dam = rng(0, 12);
-   }
-   if (z->made_of(VEGGY)) {
-    z->speed -= rng(cur->density * 5, cur->density * 12);
-    dam *= cur->density;
+   if(!z->has_flag(MF_NO_BREATHE)){
+    if (cur->density == 3) {
+     z->moves -= rng(60, 120);
+     dam = rng(30, 50);
+    } else if (cur->density == 2) {
+     z->moves -= rng(20, 50);
+     dam = rng(10, 25);
+    } else {
+     z->moves -= rng(0, 15);
+     dam = rng(0, 12);
+    }
+    if (z->made_of(VEGGY)) {
+     z->moves -= rng(cur->density * 5, cur->density * 12);
+     dam *= cur->density;
+    }
    }
    break;
 
