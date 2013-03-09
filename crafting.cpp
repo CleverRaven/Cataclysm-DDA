@@ -107,7 +107,7 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
  RECIPE(itm_molotov, CC_WEAPON, NULL, NULL, 0, 500, false);
   COMP(itm_rag, 1, NULL);
   COMP(itm_bottle_glass, 1, itm_flask_glass, 1, NULL);
-  COMP(itm_whiskey, 21, itm_vodka, 21, itm_rum, 21, itm_tequila, 21,
+  COMP(itm_whiskey, 21, itm_vodka, 21, itm_rum, 21, itm_tequila, 21, itm_gin, 21, itm_triple_sec, 21,
        itm_gasoline, 200, NULL);
 
  RECIPE(itm_pipebomb, CC_WEAPON, "mechanics", NULL, 1, 750, false);
@@ -967,7 +967,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
 
  RECIPE(itm_torch,        CC_MISC, NULL,    NULL,     0, 2000, false);
   COMP(itm_stick, 1, itm_2x4, 1, itm_splinter, 1, itm_pool_cue, 1, itm_torch_done, 1, NULL);
-  COMP(itm_gasoline, 1, itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, 1, NULL);
+  COMP(itm_gasoline, 200, itm_vodka, 7, itm_rum, 7, itm_whiskey, 7, itm_tequila, 7, itm_gin, 7, itm_triple_sec, 7 NULL);
   COMP(itm_rag, 1, NULL);
 
  RECIPE(itm_candle,       CC_MISC, NULL,    NULL,     0, 5000, false);
@@ -1070,7 +1070,7 @@ RECIPE(itm_boobytrap, CC_MISC, "mechanics", "traps",3,5000, false);
  RECIPE(itm_bandages, CC_MISC, "firstaid", NULL, 1, 500, false);
   COMP(itm_rag, 3, NULL);
   COMP(itm_superglue, 1, itm_duct_tape, 5, NULL);
-  COMP(itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, 1, NULL);
+  COMP(itm_vodka, 7, itm_rum, 7, itm_whiskey, 7, itm_tequila, 7, itm_gin, 7, itm_triple_sec, 7, NULL);
 
  RECIPE(itm_silencer, CC_MISC, "mechanics", NULL, 1, 650, false);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
