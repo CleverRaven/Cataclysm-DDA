@@ -775,6 +775,12 @@ MELEE("signal receiver",10,135, ',', c_ltcyan,	IRON,	PLASTIC,
 A module designed to receive many forms of signals. Useful for crafting\n\
 communications equipment.");
 
+MELEE("burnt out bionic",10,135, ',', c_ltred,	STEEL,	PLASTIC,
+	 1,  0, -4,  0, -1, 0, "\
+Once a valuable bionic implants, it's not held up well under repeated\n\
+use. This object has been destroyed by excessive electric current and\n\
+is now useless.");
+
 MELEE("antenna",	18, 80, ',', c_ltcyan,	STEEL,	MNULL,
 	 1,  0, -6,  0,  2, 0, "\
 A simple thin aluminum shaft. Useful in lots of electronics recipes.");

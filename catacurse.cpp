@@ -659,22 +659,22 @@ inline RGBQUAD BGR(int b, int g, int r)
 int start_color(void)
 {
  colorpairs=new pairs[50];
- windowsPalette=new RGBQUAD[16];     //Colors in the struct are BGR!! not RGB!!
- windowsPalette[0]= BGR(0,0,0); //Oddzball - Black
- windowsPalette[1]= BGR(0, 0, 255); //Oddzball - Red
- windowsPalette[2]= BGR(0,100,0); //Oddzball- Green
- windowsPalette[3]= BGR(23,51,92); //Oddzball- Brown??? -Made Darker
- windowsPalette[4]= BGR(150, 0, 0); //Oddzball-Blue
- windowsPalette[5]= BGR(98, 58, 139); //Oddzball-Pink? -Made Purple
- windowsPalette[6]= BGR(180, 150, 0); //Oddzball-Cyan
- windowsPalette[7]= BGR(196, 196, 196);//Oddzball-Gray
- windowsPalette[8]= BGR(77, 77, 77);//Oddzball-Dark Gray -Made Darker Gray
- windowsPalette[9]= BGR(150, 150, 255); //Oddzball-Light Red/Salmon? -Made Lighter red
- windowsPalette[10]= BGR(0, 255, 0); //Oddzball-Bright Green
- windowsPalette[11]= BGR(0, 255, 255); //Oddzball-Yellow
- windowsPalette[12]= BGR(255, 100, 100); //Oddzball-Dark Blue? -Made Light Blue
- windowsPalette[13]= BGR(240, 0, 255); //Oddzball- Pink
- windowsPalette[14]= BGR(255, 240, 0); //Oddzball -Light Cyan?
+ windowsPalette=new RGBQUAD[16]; //Colors in the struct are BGR!! not RGB!!
+ windowsPalette[0]= BGR(0,0,0); // Black
+ windowsPalette[1]= BGR(0, 0, 255); // Red
+ windowsPalette[2]= BGR(0,100,0); // Green
+ windowsPalette[3]= BGR(23,51,92); // Brown???
+ windowsPalette[4]= BGR(150, 0, 0); // Blue
+ windowsPalette[5]= BGR(98, 58, 139); // Purple
+ windowsPalette[6]= BGR(180, 150, 0); // Cyan
+ windowsPalette[7]= BGR(196, 196, 196);// Gray
+ windowsPalette[8]= BGR(77, 77, 77);// Dark Gray
+ windowsPalette[9]= BGR(150, 150, 255); // Light Red/Salmon?
+ windowsPalette[10]= BGR(0, 255, 0); // Bright Green
+ windowsPalette[11]= BGR(0, 255, 255); // Yellow
+ windowsPalette[12]= BGR(255, 100, 100); // Light Blue
+ windowsPalette[13]= BGR(240, 0, 255); // Pink
+ windowsPalette[14]= BGR(255, 240, 0); // Light Cyan?
  windowsPalette[15]= BGR(255, 255, 255);
  return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
 };

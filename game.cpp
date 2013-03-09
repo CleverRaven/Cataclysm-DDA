@@ -1793,6 +1793,7 @@ bool game::handle_action()
   case ACTION_TOGGLE_SAFEMODE:
    if (run_mode == 0 ) {
     run_mode = 1;
+    mostseen = 0;
     add_msg("Safe mode ON!");
    } else {
     turnssincelastmon = 0;
@@ -3425,8 +3426,9 @@ void game::mon_info()
   if (u_see(&(z[i]), buff)) {
    bool mon_dangerous = false;
    int j;
-   if (sees_u(z[i].posx, z[i].posy, j) && (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW)) {
-    mon_dangerous = true;
+   if (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW) {
+    if (sees_u(z[i].posx, z[i].posy, j))
+     mon_dangerous = true;
 
     if (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= iProxyDist)
      newseen++;
@@ -5529,7 +5531,7 @@ point game::look_around()
    mvwprintw(w_look, 6, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str());
   wrefresh(w_look);
   wrefresh(w_terrain);
- } while (input != Close && input != Cancel);
+ } while (input != Close && input != Cancel && input != Confirm);
  if (input == Confirm)
   return point(lx, ly);
  return point(-1, -1);
@@ -6879,6 +6881,30 @@ void game::complete_butcher(int index)
    m.add_item(u.posx, u.posy, pelt, age);
   }
  }
+ 
+ //Add a chance of CBM recovery. For shocker and cyborg corpses.
+ if (corpse->has_flag(MF_CBM)) {
+  //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
+  if(skill_shift >= 0){
+   add_msg("You discover a CBM in the %s!", corpse->name.c_str());
+   //To see if it spawns a battery
+   if(rng(0,1) == 1){ //The battery works
+    m.add_item(u.posx, u.posy, itypes[itm_bionics_batteries], age);
+   }else{//There is a burnt out CBM
+    m.add_item(u.posx, u.posy, itypes[itm_burnt_out_bionic], age);
+   }
+  }
+  if(skill_shift >= 0){
+   //To see if it spawns a random additional CBM
+   if(rng(0,1) == 1){ //The CBM works
+    int index = rng(0, mapitems[mi_bionics].size()-1);
+    m.add_item(u.posx, u.posy, itypes[ mapitems[mi_bionics][index] ], age);
+   }else{//There is a burnt out CBM
+    m.add_item(u.posx, u.posy, itypes[itm_burnt_out_bionic], age);
+   }
+  }
+ }
+
  if (pieces <= 0)
   add_msg("Your clumsy butchering destroys the meat!");
  else {

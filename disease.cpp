@@ -1008,7 +1008,7 @@ void dis_effect(game *g, player &p, disease &dis)
   }
  } break;
 
- case DI_BITE: //Oddzball-Infected Wound
+ case DI_BITE:
 //3600 (6-hour) lifespan
   if (dis.duration > 2400) {	// First symptoms for 2 hours
    if (one_in(300)) {
@@ -1030,11 +1030,11 @@ void dis_effect(game *g, player &p, disease &dis)
    p.dex_cur-= 1;
   } else {	// Infection starts
    p.rem_disease(DI_BITE);
-   p.add_disease(DI_INFECTED, 14400, g); //Oddzball 1 day of timer
+   p.add_disease(DI_INFECTED, 14400, g); // 1 day of timer
   }
   break;
 
- case DI_INFECTED: //Oddzball-Infected Wound
+ case DI_INFECTED:
 	 p.dex_cur-= 1;
   if (dis.duration > 10800) {	// Infection Symptoms 6 hours into infection
    if (one_in(300)) {
