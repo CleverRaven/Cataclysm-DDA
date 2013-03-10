@@ -69,6 +69,39 @@ void game::init_moncats()
 	mon_tripod, mon_chickenbot, mon_tankbot, NULL);
 }
 
+void game::init_mongroups()
+{
+    forestGroup.defaultMonster = mon_squirrel;
+    forestGroup.monstersFreq[mon_rabbit] = 500;//50%
+    forestGroup.monstersFreq[mon_deer]   = 250;//25%
+    forestGroup.monstersFreq[mon_wolf]   = 200;//20%
+    forestGroup.monstersFreq[mon_bear]   = 100;//10%
+    forestGroup.monstersFreq[mon_cougar] = 100;//
+    forestGroup.monstersFreq[mon_spider_wolf]= 100;
+    forestGroup.monstersFreq[mon_spider_jumping] = 100;
+    forestGroup.monstersFreq[mon_dog] = 200;
+    forestGroup.monstersFreq[mon_crow] = 200;
+
+    antGroup.defaultMonster = mon_ant;
+    antGroup.monstersFreq[mon_ant_larva] = 250;
+    antGroup.monstersFreq[mon_ant_soldier] 200;
+    antGroup.monstersFreq[mon_ant_queen] = 50;//5%
+
+    beeGroup.defaultMonster = mon_bee;
+
+    wormGroup.defaultMonster = mon_worm;
+    wormGroup.monstersFreq[mon_graboid] = 300;
+    wormGroup.monstersFreq[mon_halfworm] = 300;
+
+    zombieGroup.defaultMonster = mon_zombie;
+
+//TODO: rest of this
+//triffidGroup, fungiGroup, chudGroup,
+//sewerGroup, swampGroup, labGroup, netherGroup,
+//spiralGroup, vanillaGroup, spiderGroup, robotGroup;
+
+}
+
 bool moncat_is_safe(moncat_id id)
 {
  if (id == mcat_null || id == mcat_forest)
