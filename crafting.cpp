@@ -89,7 +89,7 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
 
  RECIPE(itm_arrow_wood, CC_WEAPON, "archery", "survival", 1, 5000, false);
   TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
-       itm_knife_combat, -1, itm_machete, -1, itm_toolset, -1, NULL);
+       itm_knife_combat, -1, itm_machete, -1, itm_pockknife, -1, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_bee_sting, 1,
        NULL);
 
