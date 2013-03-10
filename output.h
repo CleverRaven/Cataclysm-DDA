@@ -63,4 +63,6 @@ long special_symbol (char sym);
 // utility: moves \n's around to fit string breaks within a certain width.
 std::string word_rewrap (const std::string &in, int width);
 
+void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
+
 #endif
