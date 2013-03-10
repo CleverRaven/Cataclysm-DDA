@@ -667,7 +667,7 @@ nc_color item::color(player *u)
   }
  } else if (is_book()) {
   it_book* tmp = dynamic_cast<it_book*>(type);
-  if (tmp->type && tmp->intel <= u->int_cur + u->skillLevel(tmp->type).level() &&
+  if (tmp->type && tmp->intel <= u->int_cur + u->skillLevel(tmp->type) &&
       (tmp->intel == 0 || !u->has_trait(PF_ILLITERATE)) &&
       (u->skillLevel(tmp->type) >= tmp->req) &&
       (u->skillLevel(tmp->type) < tmp->level))
@@ -1372,7 +1372,7 @@ int item::reload_time(player &u)
    if (spare_mag != -1 && contents[spare_mag].charges > 0)
     ret -= double(ret) * 0.9;
   }
-  double skill_bonus = double(u.skillLevel(reloading->skill_used).level()) * .075;
+  double skill_bonus = double(u.skillLevel(reloading->skill_used)) * .075;
   if (skill_bonus > .75)
    skill_bonus = .75;
   ret -= double(ret) * skill_bonus;

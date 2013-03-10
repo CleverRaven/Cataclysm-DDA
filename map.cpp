@@ -343,7 +343,7 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
                       g->u.posx, g->u.posy);
    continue;
   }
-  int trec = rec -psgs[i]->skillLevel("driving").level();
+  int trec = rec -psgs[i]->skillLevel("driving");
   if (trec < 0) trec = 0;
   // add recoil
   psg->driving_recoil = rec;
@@ -521,7 +521,7 @@ bool map::vehproceed(game* g){
                (one_in(2) ? -15 * rng(1, 3) : 15 * rng(1, 3)));
       }
    }
-   else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving").level() && one_in(20)) {
+   else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20)) {
       g->add_msg("You fumble with the %s's controls.", veh->name.c_str());
       veh->turn (one_in(2) ? -15 : 15);
    }
@@ -655,7 +655,7 @@ bool map::vehproceed(game* g){
          } else if (veh->part_with_feature (ppl[ps], vpf_controls) >= 0) {
 
             const int lose_ctrl_roll = rng (0, imp);
-            if (lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving").level() * 3) {
+            if (lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving") * 3) {
                if (psgname.length())
                   g->add_msg ("%s lose%s control of the %s.", psgname.c_str(),
                         (psg == &g->u ? "" : "s"), veh->name.c_str());
@@ -2292,14 +2292,14 @@ void map::add_trap(const int x, const int y, const trap_id t)
 
 void map::disarm_trap(game *g, const int x, const int y)
 {
-  int skillLevel = g->u.skillLevel("traps").level();
+  int skillLevel = g->u.skillLevel("traps");
 
  if (tr_at(x, y) == tr_null) {
   debugmsg("Tried to disarm a trap where there was none (%d %d)", x, y);
   return;
  }
 
- const int tSkillLevel = g->u.skillLevel("traps").level();
+ const int tSkillLevel = g->u.skillLevel("traps");
  const int diff = g->traps[tr_at(x, y)]->difficulty;
  int roll = rng(tSkillLevel, 4 * tSkillLevel);
 

@@ -105,6 +105,7 @@ ifeq ($(CROSS), i686-pc-mingw32-)
 endif
 
 SOURCES = $(wildcard *.cpp)
+HEADERS = $(wildcard *.h)
 _OBJS = $(SOURCES:.cpp=.o)
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
@@ -139,6 +140,9 @@ $(BINDIST): $(TARGET) $(BINDIST_EXTRAS)
 
 export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS
 
+ctags: $(SOURCES) $(HEADERS)
+	ctags $(SOURCES) $(HEADERS)
+
 tests: $(ODIR) $(DDIR) $(OBJS)
 	$(MAKE) -C tests
 
@@ -149,4 +153,3 @@ check: tests
 
 -include $(SOURCES:%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}
-

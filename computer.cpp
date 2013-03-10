@@ -163,7 +163,7 @@ bool computer::hack_attempt(player *p, int Security)
   Security = security; // Set to main system security if no value passed
 
  p->practice("computer", 5 + Security * 2);
- int player_roll = p->skillLevel("computer").level();
+ int player_roll = p->skillLevel("computer");
  if (p->int_cur < 8 && one_in(2))
   player_roll -= rng(0, 8 - p->int_cur);
  else if (p->int_cur > 8 && one_in(3))

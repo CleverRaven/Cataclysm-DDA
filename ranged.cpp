@@ -134,7 +134,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
       (mon_at(tarx, tary) == -1 || z[mon_at(tarx, tary)].hp <= 0)) {
    std::vector<point> new_targets;
    int mondex;
-   for (int radius = 1; radius <= 2 + p.skillLevel("gun").level() && new_targets.empty();
+   for (int radius = 1; radius <= 2 + p.skillLevel("gun") && new_targets.empty();
         radius++) {
     for (int diff = 0 - radius; diff <= radius; diff++) {
      mondex = mon_at(tarx + diff, tary - radius);
@@ -165,7 +165,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     else
      trajectory = line_to(p.posx, p.posy, tarx, tary, 0);
    } else if ((!p.has_trait(PF_TRIGGERHAPPY) || one_in(3)) &&
-              (p.skillLevel("gun") >= 7 || one_in(7 - p.skillLevel("gun").level())))
+              (p.skillLevel("gun") >= 7 || one_in(7 - p.skillLevel("gun"))))
     return; // No targets, so return
   }
 
@@ -364,7 +364,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
  int trange = 1.5 * rl_dist(p.posx, p.posy, tarx, tary);
 
 // Throwing attempts below "Basic Competency" level are extra-bad
- int skillLevel = p.skillLevel("throw").level();
+ int skillLevel = p.skillLevel("throw");
 
  if (skillLevel < 3)
   deviation += rng(0, 8 - skillLevel);
@@ -717,32 +717,32 @@ int time_to_fire(player &p, it_gun* firing)
    if (p.skillLevel("pistol") > 6)
      time = 10;
    else
-     time = (80 - 10 * p.skillLevel("pistol").level());
+     time = (80 - 10 * p.skillLevel("pistol"));
  } else if (firing->skill_used == Skill::skill("shotgun")) {
    if (p.skillLevel("shotgun") > 3)
      time = 70;
    else
-     time = (150 - 25 * p.skillLevel("shotgun").level());
+     time = (150 - 25 * p.skillLevel("shotgun"));
  } else if (firing->skill_used == Skill::skill("smg")) {
    if (p.skillLevel("smg") > 5)
      time = 20;
    else
-     time = (80 - 10 * p.skillLevel("smg").level());
+     time = (80 - 10 * p.skillLevel("smg"));
  } else if (firing->skill_used == Skill::skill("rifle")) {
    if (p.skillLevel("rifle") > 8)
      time = 30;
    else
-     time = (150 - 15 * p.skillLevel("rifle").level());
+     time = (150 - 15 * p.skillLevel("rifle"));
  } else if (firing->skill_used == Skill::skill("archery")) {
    if (p.skillLevel("archery") > 8)
      time = 20;
    else
-     time = (220 - 25 * p.skillLevel("archery").level());
+     time = (220 - 25 * p.skillLevel("archery"));
  } else if (firing->skill_used == Skill::skill("launcher")) {
    if (p.skillLevel("launcher") > 8)
      time = 30;
    else
-     time = (200 - 20 * p.skillLevel("launcher").level());
+     time = (200 - 20 * p.skillLevel("launcher"));
  } else {
    debugmsg("Why is shooting %s using %s skill?", (firing->name).c_str(), firing->skill_used->name().c_str());
    time =  0;
@@ -816,14 +816,14 @@ double calculate_missed_by(player &p, int trange, item* weapon)
   double deviation = 0.; // Measured in quarter-degrees
 // Up to 1.5 degrees for each skill point < 4; up to 1.25 for each point > 4
   if (p.skillLevel(firing->skill_used) < 4)
-    deviation += rng(0, 6 * (4 - p.skillLevel(firing->skill_used).level()));
+    deviation += rng(0, 6 * (4 - p.skillLevel(firing->skill_used)));
   else if (p.skillLevel(firing->skill_used) > 4)
-    deviation -= rng(0, 5 * (p.skillLevel(firing->skill_used).level() - 4));
+    deviation -= rng(0, 5 * (p.skillLevel(firing->skill_used) - 4));
 
   if (p.skillLevel("gun") < 3)
-    deviation += rng(0, 3 * (3 - p.skillLevel("gun").level()));
+    deviation += rng(0, 3 * (3 - p.skillLevel("gun")));
   else
-    deviation -= rng(0, 2 * (p.skillLevel("gun").level() - 3));
+    deviation -= rng(0, 2 * (p.skillLevel("gun") - 3));
 
   deviation += p.ranged_dex_mod();
   deviation += p.ranged_per_mod();
@@ -850,7 +850,7 @@ int recoil_add(player &p)
  // item::recoil() doesn't suport gunmods, so call it on player gun.
  int ret = p.weapon.recoil();
  ret -= rng(p.str_cur / 2, p.str_cur);
- ret -= rng(0, p.skillLevel(firing->skill_used).level() / 2);
+ ret -= rng(0, p.skillLevel(firing->skill_used) / 2);
  if (ret > 0)
   return ret;
  return 0;

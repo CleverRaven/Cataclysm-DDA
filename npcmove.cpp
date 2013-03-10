@@ -692,13 +692,13 @@ int npc::confident_range(int index)
 // See game::fire (ranged.cpp) for where these computations come from
 
   if (skillLevel(firing->skill_used) < 5)
-    deviation += 3.5 * (5 - skillLevel(firing->skill_used).level());
+    deviation += 3.5 * (5 - skillLevel(firing->skill_used));
   else
-    deviation -= 2.5 * (skillLevel(firing->skill_used).level() - 5);
+    deviation -= 2.5 * (skillLevel(firing->skill_used) - 5);
   if (sklevel[sk_gun] < 3)
-    deviation += 1.5 * (3 - skillLevel("gun").level());
+    deviation += 1.5 * (3 - skillLevel("gun"));
   else
-    deviation -= .5 * (skillLevel("gun").level() - 3);
+    deviation -= .5 * (skillLevel("gun") - 3);
 
   if (per_cur < 8)
    deviation += 2 * (9 - per_cur);

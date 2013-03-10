@@ -305,7 +305,7 @@ void game::construction_menu()
    update_info = false;
    constructable* current_con = constructions[select];
 // Print difficulty
-   int pskill = u.skillLevel("carpentry").level();
+   int pskill = u.skillLevel("carpentry");
    int diff = current_con->difficulty > 0 ? current_con->difficulty : 0;
    mvwprintz(w_con, 1, 43, (pskill >= diff ? c_white : c_red),
              "%d   ", diff);

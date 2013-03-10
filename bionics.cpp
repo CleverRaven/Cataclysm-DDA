@@ -370,9 +370,9 @@ bool player::install_bionics(game *g, it_bionic* type)
  WINDOW* w = newwin(25, 80, 0, 0);
 
  int pl_skill = int_cur +
-   skillLevel("electronics").level() * 4 +
-   skillLevel("firstaid").level()    * 3 +
-   skillLevel("mechanics").level()   * 2;
+   skillLevel("electronics") * 4 +
+   skillLevel("firstaid")    * 3 +
+   skillLevel("mechanics")   * 2;
 
  int skint = int(pl_skill / 4);
  int skdec = int((pl_skill * 10) / 4) % 10;
