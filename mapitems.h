@@ -4,7 +4,7 @@ enum items_location {
  mi_none,
  mi_field, mi_forest, mi_hive, mi_hive_center,
  mi_road,
- mi_livingroom, mi_kitchen, mi_fridge, mi_home_hw, mi_bedroom, mi_homeguns,
+ mi_livingroom, mi_kitchen, mi_knifeblock, mi_fridge, mi_home_hw, mi_bedroom, mi_homeguns,
   mi_dresser, mi_dining,
  mi_snacks, mi_fridgesnacks, mi_behindcounter, mi_magazines,
  mi_softdrugs, mi_harddrugs,
@@ -40,7 +40,9 @@ enum items_location {
  mi_spider,
  mi_ant_food, mi_ant_egg,
 // Monster drops
- mi_biollante, mi_bugs, mi_bees, mi_wasps, mi_robots,
+ mi_biollante, mi_bugs, mi_bees, mi_wasps, mi_robots, mi_eyebot,
+ mi_manhack, mi_skitterbot, mi_secubot, mi_copbot, mi_molebot,
+ mi_tripod, mi_chickenbot, mi_tankbot, mi_turret,
 // Map Extras
  mi_helicopter, mi_military, mi_science, mi_rare, mi_stash_food, mi_stash_ammo,
  mi_stash_wood, mi_stash_drugs, mi_drugdealer, mi_wreckage,

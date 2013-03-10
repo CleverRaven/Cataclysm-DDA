@@ -1,17 +1,17 @@
 # This message may be 16 lines long at maximum.
-# Max length of a line is 64 characters; the following line is for reference
-################################################################
-This branch contains much work by Creidieki, Uzername,
-Kevingranade, HerbertJones, Gim, Shades and Origamiwolf.
+# Max length of a line is 68 characters; the following line is for reference
+####################################################################
+New features v0.3:
+Reduced sight range of monsters. Monster bites and infections.
+Fixes, fixes and even more fixes.
 
-The game now has configurable options.
-You can directly edit options.txt in the data directory, or you
-can edit the options via the help menu.
+For latest discussions on Cataclysm DDA and its mods, please visit:
 
-For latest discussions on Cataclysm and its mods, please visit:
-http://www.cataclysm.glyphgryph.com/smf/index.php
+Homepage: http://www.cataclysmdda.com/
+Forum: http://www.cataclysmdda.com/smf/
+Wiki: http://wiki.cataclysmdda.com/
 
-Check out the options listing by pressing ?2
+The game now has new configurable options:
+Customizeable Viewport, Spawntype: Classic/Static, Starting time
 
-As always, please visit the forums at:
-http://www.cataclysm.glyphgryph.com/smf/index.php
+Ingame you can access the options via the help menu (?).

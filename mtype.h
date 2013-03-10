@@ -30,7 +30,7 @@ num_species
 enum mon_id {
 mon_null = 0,
 // Wildlife
-mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_cougar,
+mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_cougar, mon_crow,
 // Friendly animals
 mon_dog, mon_cat,
 // Ants
@@ -41,6 +41,7 @@ mon_fly, mon_bee, mon_wasp,
 mon_graboid, mon_worm, mon_halfworm,
 // Zombies
  mon_zombie, mon_zombie_cop, mon_zombie_shrieker, mon_zombie_spitter, mon_zombie_electric,
+ mon_zombie_smoker,
  mon_zombie_fast, mon_zombie_brute, mon_zombie_hulk, mon_zombie_fungus,
  mon_boomer, mon_boomer_fungus, mon_skeleton, mon_zombie_necro,
  mon_zombie_scientist, mon_zombie_soldier, mon_zombie_grabber,
@@ -120,6 +121,11 @@ std::vector<monster_trigger> default_fears(monster_species spec);
 enum m_flag {
 MF_NULL = 0,	// Helps with setvector
 MF_SEES,	// It can see you (and will run/follow)
+MF_VIS50, //Vision -10
+MF_VIS40, //Vision -20
+MF_VIS30, //Vision -30
+MF_VIS20, //Vision -40
+MF_VIS10, //Vision -50
 MF_HEARS,	// It can hear you
 MF_GOODHEARING,	// Pursues sounds more than most monsters
 MF_SMELLS,	// It can smell you
@@ -152,11 +158,13 @@ MF_QUEEN,	// When it dies, local populations start to die off too
 MF_ELECTRONIC,	// e.g. a robot; affected by emp blasts, and other stuff
 MF_FUR,		// May produce fur when butchered.
 MF_LEATHER,	// May produce leather when butchered
+MF_CBM, // May produce a cbm or two when butchered
 MF_IMMOBILE,	// Doesn't move (e.g. turrets)
 MF_FRIENDLY_SPECIAL, // Use our special attack, even if friendly
 MF_HIT_AND_RUN,	// Flee for several turns after a melee attack
 MF_GUILT,	// You feel guilty for killing it
 MF_HUMAN,	// It's a live human
+MF_NO_BREATHE, //Provides immunity to inhalation effects from gas, smoke, and poison
 MF_MAX		// Sets the length of the flags - obviously MUST be last
 };
 

@@ -515,9 +515,12 @@ bool map::vehproceed(game* g){
       }
    }
 
-   if (veh->skidding && one_in(4)) // might turn uncontrollably while skidding
-      veh->move.init (veh->move.dir() +
-            (one_in(2) ? -15 * rng(1, 3) : 15 * rng(1, 3)));
+   if (veh->skidding){
+      if (one_in(4)){ // might turn uncontrollably while skidding
+         veh->move.init (veh->move.dir() +
+               (one_in(2) ? -15 * rng(1, 3) : 15 * rng(1, 3)));
+      }
+   }
    else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving").level() && one_in(20)) {
       g->add_msg("You fumble with the %s's controls.", veh->name.c_str());
       veh->turn (one_in(2) ? -15 : 15);
@@ -709,8 +712,10 @@ bool map::vehproceed(game* g){
 
    if (can_move) {
       // accept new direction
-      if (veh->skidding)
+      if (veh->skidding){
          veh->face.init (veh->turn_dir);
+         veh->possibly_recover_from_skid();
+      }
       else
          veh->face = mdir;
       veh->move = mdir;
@@ -720,7 +725,7 @@ bool map::vehproceed(game* g){
       }
       // accept new position
       // if submap changed, we need to process grid from the beginning.
-      int sm_change = displace_vehicle (g, x, y, dx, dy);
+      displace_vehicle (g, x, y, dx, dy);
    } else { // can_move
       veh->stop();
    }
@@ -864,12 +869,13 @@ bool map::trans(const int x, const int y, char * trans_buf)
   }
  } else
   tertr = terlist[ter(x, y)].flags & mfb(transparent);
- if( tertr )
- { // Fields may obscure the view, too
-  // field & f(field_at(x, y));
-  // if(f.type == 0 || fieldlist[f.type].transparent[f.density - 1]); // TODO: Clarify function
-  if(trans_buf) trans_buf[x + (y * my_MAPSIZE * SEEX)] = 1;
-  return true;
+ if( tertr ){ 
+  // Fields may obscure the view, too
+  field & f(field_at(x, y));
+  if(f.type == 0 || fieldlist[f.type].transparent[f.density - 1]){
+   if(trans_buf) trans_buf[x + (y * my_MAPSIZE * SEEX)] = 1;
+   return true;
+  }
  }
  if(trans_buf) trans_buf[x + (y * my_MAPSIZE * SEEX)] = 0;
  return false;
@@ -909,7 +915,7 @@ bool map::is_destructable_ter_only(const int x, const int y)
 
 bool map::is_outside(const int x, const int y)
 {
- bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet);
+ bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet && ter(x, y) != t_fema_groundsheet);
 
  for(int i = -1; out && i <= 1; i++)
   for(int j = -1; out && j <= 1; j++) {
@@ -1708,6 +1714,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
   break;
 
  case t_window:
+ case t_window_domestic:
  case t_window_alarm:
   dam -= rng(0, 5);
   ter(x, y) = t_window_frame;
@@ -2466,7 +2473,7 @@ void map::draw(game *g, WINDOW* w, const point center)
  g->reset_light_level();
  const int natural_sight_range = g->u.sight_range(1);
  const int light_sight_range = g->u.sight_range(g->light_level());
- int lowlight_sight_range = std::max((int)g->light_level() / 2, natural_sight_range);
+ const int lowlight_sight_range = std::max((int)g->light_level() / 2, natural_sight_range);
  const int max_sight_range = g->u.unimpaired_range();
 
  for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
@@ -2486,13 +2493,14 @@ void map::draw(game *g, WINDOW* w, const point center)
   for (int realy = center.y - getmaxy(w)/2; realy <= center.y + getmaxy(w)/2; realy++) {
    const int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
    int sight_range = light_sight_range;
+   int low_sight_range = lowlight_sight_range;
 
    // While viewing indoor areas use lightmap model
    if (!g->lm.is_outside(realx - g->u.posx, realy - g->u.posy)) {
     sight_range = natural_sight_range;
    // Don't display area as shadowy if it's outside and illuminated by natural light
-   } else if (dist <= g->u.sight_range(g->natural_light_level())) {
-    lowlight_sight_range = std::max(g_light_level, natural_sight_range);
+   } else if (dist <= g->u.sight_range(g_light_level)) {
+    low_sight_range = std::max(g_light_level, natural_sight_range);
    }
 
    // I've moved this part above loops without even thinking that
@@ -2545,7 +2553,7 @@ void map::draw(game *g, WINDOW* w, const point center)
      mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_ltgray, '#');
    } else if (dist <= u_clairvoyance || can_see) {
     drawsq(w, g->u, realx, realy, false, true, center.x, center.y,
-           (dist > lowlight_sight_range && LL_LIT > lit) ||
+           (dist > low_sight_range && LL_LIT > lit) ||
 	   (dist > sight_range && LL_LOW == lit),
            LL_BRIGHT == lit);
    } else {
@@ -2821,10 +2829,10 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
            tername(Fx, Fy).c_str(), Tx, Ty);
 */
  std::vector<point> open;
- astar_list list[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
- int score	[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
- int gscore	[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
- point parent	[SEEX * my_MAPSIZE][SEEY * my_MAPSIZE];
+ astar_list list[SEEX * MAPSIZE][SEEY * MAPSIZE];
+ int score	[SEEX * MAPSIZE][SEEY * MAPSIZE];
+ int gscore	[SEEX * MAPSIZE][SEEY * MAPSIZE];
+ point parent	[SEEX * MAPSIZE][SEEY * MAPSIZE];
  int startx = Fx - 4, endx = Tx + 4, starty = Fy - 4, endy = Ty + 4;
  if (Tx < Fx) {
   startx = Tx - 4;

@@ -134,7 +134,7 @@ bool player::create(game *g, character_type type, std::string tempname)
    case PLTYPE_TEMPLATE: {
     std::ifstream fin;
     std::stringstream filename;
-    filename << "data/" << tempname << ".template";
+    filename << "save/" << tempname << ".template";
     fin.open(filename.str().c_str());
     if (!fin.is_open()) {
      debugmsg("Couldn't open %s!", filename.str().c_str());
@@ -246,6 +246,11 @@ End of cheatery */
   tmp = item(g->itypes[itm_inhaler], 0, 'a' + worn.size());
   inv.push_back(tmp);
  }
+ // Basic starter gear, added independently of profession.
+ tmp = item(g->itypes[itm_pockknife], 0,'a' + worn.size());
+  inv.push_back(tmp);
+ tmp = item(g->itypes[itm_lighter], 0,'a' + worn.size());
+  inv.push_back(tmp);
 // make sure we have no mutations
  for (int i = 0; i < PF_MAX2; i++)
   my_mutations[i] = false;
@@ -962,7 +967,7 @@ void save_template(player *u)
  if (name.length() == 0)
   return;
  std::stringstream playerfile;
- playerfile << "data/" << name << ".template";
+ playerfile << "save/" << name << ".template";
  std::ofstream fout;
  fout.open(playerfile.str().c_str());
  fout << u->save_info();

@@ -302,6 +302,24 @@ void mdeath::ratking(game *g, monster *z)
  g->u.rem_disease(DI_RAT);
 }
 
+void mdeath::smokeburst(game *g, monster *z)
+{
+  std::string tmp;
+  g->sound(z->posx, z->posy, 24, "a smoker explodes!");
+  for (int i = -1; i <= 1; i++) {
+    for (int j = -1; j <= 1; j++) {
+      g->m.add_field(g, z->posx + i, z->posy + j, fd_smoke, 3);
+      int mondex = g->mon_at(z->posx + i, z->posy +j);
+      if (mondex != -1) {
+        g->z[mondex].stumble(g, false);
+        g->z[mondex].moves -= 250;
+      }
+    }
+  }
+}
+
+
+
 void mdeath::gameover(game *g, monster *z)
 {
  g->add_msg("Your %s is destroyed!  GAME OVER!", z->name().c_str());

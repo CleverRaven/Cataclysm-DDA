@@ -135,6 +135,24 @@ void mattack::shockstorm(game *g, monster *z)
  }
 }
 
+
+void mattack::smokecloud(game *g, monster *z)
+{
+  z->sp_timeout = z->type->sp_freq;	// Reset timer
+  for (int i = -3; i <= 3; i++) {
+    for (int j = -3; j <=3; j++) {
+      g->m.add_field(g, z->posx + i, z->posy + j, fd_smoke, 2);
+    }
+  }
+  //Round it out a bit
+  for (int i = -2; i <= 2; i++){
+      g->m.add_field(g, z->posx + i, z->posy + 4, fd_smoke, 2);
+      g->m.add_field(g, z->posx + i, z->posy - 4, fd_smoke, 2);
+      g->m.add_field(g, z->posx + 4, z->posy + i, fd_smoke, 2);
+      g->m.add_field(g, z->posx - 4, z->posy + i, fd_smoke, 2);
+  }
+}
+
 void mattack::boomer(game *g, monster *z)
 {
  int j;
@@ -1362,4 +1380,31 @@ void mattack::breathe(game *g, monster *z)
   spawned.spawn(place.x, place.y);
   g->z.push_back(spawned);
  }
+}
+
+void mattack::bite(game *g, monster *z)
+{
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1)
+  return;
+ z->sp_timeout = z->type->sp_freq;	// Reset timer
+ g->add_msg("The %s lunges forward attempting to bite you!", z->name().c_str());
+ z->moves -= 100;
+ if (rng(0, 20) > g->u.dodge(g) || one_in(g->u.dodge(g))) {
+  g->add_msg("You dodge it!");
+  return;
+ }
+ body_part hit = random_body_part();
+ int dam = rng(5, 10), side = rng(0, 1);
+ g->add_msg("Your %s is bitten for %d damage!", body_part_name(hit, side).c_str(),
+            dam);
+ g->u.hit(g, hit, side, dam, 0);
+ if(one_in(10)){
+ g->u.add_disease(DI_BITE, 3600, g);
+ }
+}
+
+void mattack::brandish(game *g, monster *z)
+{
+g->add_msg("He's brandishing a knife!");
+g->add_msg("Quiet, quiet");
 }

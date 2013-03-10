@@ -577,6 +577,13 @@ INITIATING STANDARD TREMOR TEST...");
     g->u.add_disease(DI_AMIGARA, 20, g);
    break;
 
+  case COMPACT_STEMCELL_TREATMENT:
+   g->u.add_disease(DI_STEMCELL_TREATMENT, 120, g);
+   print_line("The machine injects your eyeball with the solution \n\
+of pureed bone & LSD.");
+   g->u.pain += rng(40,90);
+   break;
+
   case COMPACT_DOWNLOAD_SOFTWARE:
    if (!g->u.has_amount(itm_usb_drive, 1))
     print_error("USB drive required!");
@@ -636,6 +643,21 @@ INITIATING STANDARD TREMOR TEST...");
     }
    }
    break;
+   
+  case COMPACT_EMERG_MESS:
+  print_line("\
+  GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
+  EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n\
+  SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
+  \n\
+  1. DO NOT PANIC. \n\
+  2. REMAIN INSIDE THE BUILDING. \n\
+  3. SEEK SHELTER IN THE BASEMENT. \n\
+  4. USE PROVIDED GAS MASKS. \n\
+  5. AWAIT FURTHER INSTRUCTIONS \n\
+  \n\
+  Press any key to continue...");
+  break;
 
  } // switch (action)
 }
@@ -785,6 +807,7 @@ void computer::activate_failure(game *g, computer_failure fail)
    }
    getch();
    break;
+   
  }// switch (fail)
 }
 

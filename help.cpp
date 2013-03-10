@@ -26,21 +26,14 @@ void game::help()
 Please press one of the following for help on that topic:\n\
 Press q or ESC to return to the game.\n\
 \n\
-a: Introduction\n\
-b: Movement\n\
-c: Viewing\n\
-d: Hunger, Thirst, and Sleep\n\
-e: Pain and Stimulants\n\
-f: Addiction\n\
-g: Morale and XP\n\
+a: Introduction                      i: Bionics\n\
+b: Movement                          j: Crafting\n\
+c: Viewing                           k: Traps\n\
+d: Hunger, Thirst, and Sleep         l: Items overview\n\
+e: Pain and Stimulants               m: Combat\n\
+f: Addiction                         n: Unarmed Styles\n\
+g: Morale and XP                     o: Survival tips\n\
 h: Radioactivity and Mutation\n\
-i: Bionics\n\
-j: Crafting\n\
-k: Traps\n\
-l: Items overview\n\
-m: Combat\n\
-n: Unarmed Styles\n\
-o: Survival tips\n\
 \n\
 1: List of all commands (you can change key commands here)\n\
 2: List of all options  (you can change options here)\n\
@@ -323,7 +316,7 @@ blue background. Pressing 'e', then a direction, will allow you to examine\n\
 these containers and loot their contents.\n\
 \n\
 Pressing 'I' opens a comparison menu, where you can see two items\n\
-side-by-side with their attributes highlighted to indicate which is surperior.\n\
+side-by-side with their attributes highlighted to indicate which is superior.\n\
 You can also access the item comparison menu by pressing 'C' when the 'V'iew\n\
 nearby items menu is open and an item is selected.\n\
 \n\
@@ -335,6 +328,10 @@ Bashing damage is universally effective, but is capped by low strength.\n\
 Cutting damage is a guaranteed increase in damage, but it may be reduced by\n\
 a monster's natural armor.\n\
 \n\
+Press any key for more...");
+    getch();
+    erase();
+mvprintz(0, 0, c_white, "\
 To wield an item as a weapon, press 'w' then the proper letter.  Pressing '-'\n\
 in lieu of a letter will make you wield nothing.  A wielded weapon will not\n\
 contribute to your volume carried, so holding a large item in your hands may\n\
@@ -428,6 +425,10 @@ Irregular terrain, like forests, may help you lose monsters.\n\
 Firearms are the easiest way to kill an enemy, but the sound will attract\n\
 unwanted attention. Save the guns for emergencies, and melee when you can.\n\
 \n\
+Press any key for more...");
+    getch();
+    erase();
+mvprintz(0, 0, c_white, "\
 Try to keep your inventory as full as possible without being overloaded.  You\n\
 never know when you might need an item, most are good to sell, and you can\n\
 easily drop unwanted items on the floor.\n\
@@ -515,109 +516,7 @@ from frostbite and to keep your distance from large fires.");
   } break;
 
   case '2': {
-   erase();
-   int offset = 1;
-   int line = 0;
-   char ch = ' ';
-   bool changed_options = false;
-   bool needs_refresh = true;
-   do {
-// TODO: change instructions
-    if (needs_refresh) {
-      erase();
-      mvprintz(0, 40, c_white, "Use up/down keys to scroll through");
-      mvprintz(1, 40, c_white, "available options.");
-      mvprintz(2, 40, c_white, "Use left/right keys to toggle.");
-      mvprintz(3, 40, c_white, "Press ESC or q to return.             ");
-// highlight options for option descriptions
-      std::string tmp = option_desc(option_key(offset + line));
-      std::string out;
-      size_t pos;
-      int displayline = 5;
-      do {
-        pos = tmp.find_first_of('\n');
-        out = tmp.substr(0, pos);
-        mvprintz(displayline, 40, c_white, out.c_str());
-        tmp = tmp.substr(pos + 1);
-        displayline++;
-      } while (pos != std::string::npos && displayline < 12);
-     needs_refresh = false;
-    }
-
-// Clear the lines
-    for (int i = 0; i < 25; i++)
-     mvprintz(i, 0, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-    int valid_option_count = 0;
-
-// display options
-    for (int i = 0; i < 25 && offset + i < NUM_OPTION_KEYS; i++)
-    {
-         valid_option_count++;
-         mvprintz(i, 0, c_white, "%s: ",
-                  option_name( option_key(offset + i) ).c_str());
-
-        if (option_is_bool(option_key(offset + i)))
-        {
-          bool on = OPTIONS[ option_key(offset + i) ];
-          if (i == line)
-            mvprintz(i, 30, hilite(c_ltcyan), (on ? "True" : "False"));
-          else
-            mvprintz(i, 30, (on ? c_ltgreen : c_ltred), (on ? "True" : "False"));
-        } else
-        {
-          char option_val = OPTIONS[ option_key(offset + i) ];
-          if (i == line)
-            mvprintz(i, 30, hilite(c_ltcyan), "%d", option_val );
-          else
-            mvprintz(i, 30, c_ltgreen, "%d", option_val );
-        }
-    }
-     refresh();
-     ch = input();
-     needs_refresh = true;
-     refresh();
-
-   switch (ch) {
-// move up and down
-    case 'j':
-     line++;
-     if (line == NUM_OPTION_KEYS - 1)
-      line = 0;
-     break;
-    case 'k':
-     line--;
-     if (line < 0)
-      line = NUM_OPTION_KEYS - 2;
-     break;
-// toggle options with left/right keys
-    case 'h':
-        if (option_is_bool(option_key(offset + line)))
-          OPTIONS[ option_key(offset + line) ] = !(OPTIONS[ option_key(offset + line) ]);
-        else
-        {
-          OPTIONS[ option_key(offset + line) ]--;
-          if ((OPTIONS[ option_key(offset + line) ]) < 0 )
-            OPTIONS[ option_key(offset + line) ] = option_max_options(option_key(offset + line)) - 1;
-        }
-        changed_options = true;
-    break;
-    case 'l':
-      if (option_is_bool(option_key(offset + line)))
-        OPTIONS[ option_key(offset + line) ] = !(OPTIONS[ option_key(offset + line) ]);
-      else
-      {
-        OPTIONS[ option_key(offset + line) ]++;
-        if ((OPTIONS[ option_key(offset + line) ]) >= option_max_options(option_key(offset + line)))
-          OPTIONS[ option_key(offset + line) ] = 0;
-      }
-      changed_options = true;
-    break;
-    }
-   } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
-
-   if (changed_options && query_yn("Save changes?"))
-    save_options();
-   erase();
+   show_options();
   } break;
 
   case '3':

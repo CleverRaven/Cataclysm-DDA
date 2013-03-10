@@ -268,7 +268,7 @@ const oter_t oterlist[num_ter_types] = {
 {"mansion",		'M',	c_ltgreen,	5, build_extras, false, false},
 {"mansion",		'M',	c_green,	5, build_extras, false, false},
 {"fema camp",		'+',	c_blue,	5, build_extras, false, false},
-{"fema camp",		'F',	i_blue,	5, build_extras, false, false}, //Oddzball- Added fema graphic
+{"fema camp",		'F',	i_blue,	5, build_extras, false, false},
 {"evac shelter",	'+',	c_white,	2, no_extras, true, false},
 {"evac shelter",	'+',	c_white,	2, no_extras, false, true},
 {"LMOE shelter",	'+',	c_red,	2, no_extras, true, false},
@@ -473,7 +473,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::land, mfb(OMS_FLAG_ROAD)},
 
 {ot_fema_entrance,	   0, 5,  8, -1, mcat_null, 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_3X3_SECOND)}, //Oddzball-Fema test
+ &omspec_place::land, mfb(OMS_FLAG_3X3_SECOND)},
 
 // Terrain	 MIN MAX DISTANCE
 {ot_bunker,	   2, 10,  4, -1, mcat_null, 0, 0, 0, 0,

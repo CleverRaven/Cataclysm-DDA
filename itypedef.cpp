@@ -199,16 +199,30 @@ color,mat1,volume,weight,0,0,0,0,quench,nutr,spoils,stim,healthy,addict,charges,
 fun,container,itm_null,use_func,addict_func));
 // FOOD
 
+FOOD("bone",            50, 50, c_white,    FLESH, itm_null,
+    1,  1,  0, 4,  0,   0, -1,  0, 1, 0,    &iuse::none, ADD_NULL, "\
+A bone from some creature or other, could be eaten or used to make some\n\
+stuff, like needles.");
+
+FOOD("fluid sac",            50, 50, c_white,    FLESH, itm_null,
+    1,  1,  0, 4,  0,   0, -1,  0, 1, 0,    &iuse::none, ADD_NULL, "\
+A fluid bladder from a plant based lifeform, not very nutritious, but\n\
+fine to eat anyway.");
+
+
+
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("chunk of meat",	50, 50,	c_red,		FLESH,  itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  2,  0, 20, 24,  0, -1,  0,  1,-10,	&iuse::none, ADD_NULL, "\
 Freshly butchered meat. You could eat it raw, but cooking it is better.");
 
-FOOD("chunk of veggy",	30, 60,	c_green,	VEGGY,	itm_null,
-    1,  2,  0, 20, 80,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
-A raw chunk of vegetable. Fine for eating raw, tastier when cooked.");
 
+FOOD("plant marrow",	30, 60,	c_green,	VEGGY,	itm_null,
+    1,  2,  0, 20, 80,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
+A nutrient rich chunk of plant matter, could be eaten raw or cooked.");
+
+//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("human flesh",	50, 50,	c_red,		FLESH,  itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  2,  0, 20, 24,  0, -1,  0,  1,-30,	&iuse::none, ADD_NULL, "\
@@ -230,9 +244,9 @@ FOOD("cooked meat",	 0, 75, c_red,		FLESH,	itm_null,
     1,  2,  0, 50, 24,  0,  0,  0,  1,  8,	&iuse::none,	ADD_NULL, "\
 Freshly cooked meat. Very nutritious.");
 
-FOOD("cooked veggy",	 0, 70, c_green,	VEGGY,	itm_null,
+FOOD("cooked plant marrow",	 0, 70, c_green,	VEGGY,	itm_null,
     1,  2,  0, 40, 50,  0,  1,  0,  1,  0,	&iuse::none,	ADD_NULL, "\
-Freshly cooked vegetables. Very nutritious.");
+A freshly cooked chunk of plant matter, tasty and nutritious.");
 
 FOOD("cooked wild vegetables",	0, 70,	c_green,	VEGGY,	itm_null,
     1,  2,  0, 40, 50,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
@@ -627,7 +641,7 @@ MED("cigars",		 5,120,	c_dkgray,	itm_lighter,
 A gentleman's vice. Cigars are what separates a gentleman from a savage.");
 
 MED("antibiotics",	25,900, c_pink,		itm_null,
-	PLASTIC,   0, -2,  0, 15,  0,&iuse::none,	ADD_NULL, "\
+	PLASTIC,   0, -2,  0, 15,  0,&iuse::antibiotic,	ADD_NULL, "\
 Medication designed to stop the spread of, and kill, bacterial infections.");
 
 MED("Poppy Sleep",	25,900, c_pink,		itm_null,
@@ -761,6 +775,12 @@ MELEE("signal receiver",10,135, ',', c_ltcyan,	IRON,	PLASTIC,
 A module designed to receive many forms of signals. Useful for crafting\n\
 communications equipment.");
 
+MELEE("burnt out bionic",10,135, ',', c_ltred,	STEEL,	PLASTIC,
+	 1,  0, -4,  0, -1, 0, "\
+Once a valuable bionic implants, it's not held up well under repeated\n\
+use. This object has been destroyed by excessive electric current and\n\
+is now useless.");
+
 MELEE("antenna",	18, 80, ',', c_ltcyan,	STEEL,	MNULL,
 	 1,  0, -6,  0,  2, 0, "\
 A simple thin aluminum shaft. Useful in lots of electronics recipes.");
@@ -836,19 +856,6 @@ MELEE("nail bat",	60, 160,'/', c_ltred,	WOOD,	MNULL,
 	12, 10, 28,  6,  3, mfb(IF_STAB), "\
 A baseball bat with several nails driven through it, an excellent melee weapon.");
 
-MELEE("X-Acto knife",	10,  40,';', c_dkgray,	IRON,	PLASTIC,
-	 1,  0,  0, 14, -4, mfb(IF_SPEAR), "\
-A small, very sharp knife.  Causes decent damage but is difficult to hit\n\
-with. Its small tip allows for a precision strike in hands of the skill."
-);
-TECH(mfb(TEC_PRECISE));
-
-MELEE("scalpel",	48,  40,',', c_cyan,	STEEL,	MNULL,
-	 1,  0,  0, 18, -4, mfb(IF_SPEAR), "\
-A small, very sharp knife, used in surgery. Its small tip allows for a\n\
-precision strike in the hands of the skilled.");
-TECH(mfb(TEC_PRECISE));
-
 MELEE("pot",		25,  45,')', c_ltgray,	IRON,	MNULL,
 	 8,  6,  9,  0,  1, 0, "\
 Useful for boiling water when cooking spaghetti and more.");
@@ -890,29 +897,9 @@ An aluminium baseball bat, smaller and lighter than a wooden bat\n\
 and a little less damaging as a result.");
 TECH( mfb(TEC_WBLOCK_1) );
 
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("machete",	 5, 280,'/', c_blue,	IRON,	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 8, 14,  6, 28,  2, 0, "\
-This huge iron knife makes an excellent melee weapon.");
-TECH( mfb(TEC_WBLOCK_1) );
-
-MELEE("katana",		 2, 980,'/', c_ltblue,	STEEL,	MNULL,
-	16, 16,  4, 45,  1, mfb(IF_STAB), "\
-A rare sword from Japan. Deadly against unarmored targets, and still very\n\
-effective against the armored.");
-TECH( mfb(TEC_RAPID)|mfb(TEC_WBLOCK_2) );
-
 MELEE("wood spear",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
 	 5,  3,  4, 18,  1, mfb(IF_SPEAR), "\
 A simple wood pole with one end sharpened.");
-TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("steel spear",      5,  140,'/', c_ltred,   WOOD,   STEEL,
-//	VOL WGT DAM CUT HIT FLAGS
-         6,  6,  2, 28,  1, mfb(IF_SPEAR), "\
-A simple wood pole made deadlier by the knife tied to it.");
 TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
 
 MELEE("expandable baton",8, 175,'/', c_blue,	STEEL,	MNULL,
@@ -968,12 +955,6 @@ A rock the size of your fist. It is covered with intricate spirals; it is\n\
 impossible to tell whether they are carved, naturally formed, or some kind of\n\
 fossil.");
 
-MELEE("rapier",		 3, 980,'/', c_ltblue,	STEEL,	MNULL,
-	 6,  9, 5, 28,  2, mfb(IF_STAB), "\
-Preferred weapon of gentlemen and swashbucklers. Light and quick, it makes\n\
-any battle a stylish battle.");
-TECH( mfb(TEC_RAPID)|mfb(TEC_WBLOCK_1)|mfb(TEC_PRECISE) );
-
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("walking cane",   10, 160,'/', c_ltred,	WOOD,	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
@@ -991,19 +972,6 @@ travels.");
 MELEE("USB drive",	 5, 100,',', c_white,	PLASTIC,MNULL,
 	  0,  0,  0,  0,  0, 0, "\
 A USB thumb drive. Useful for holding software.");
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("awl pike",        5,2000,'/', c_ltcyan,	IRON,	WOOD,
-//	VOL WGT DAM CUT HIT FLAGS
-        14, 18,  8, 50,  2, mfb(IF_SPEAR), "\
-A medieval weapon consisting of a wood shaft, tipped with an iron spike.\n\
-Though large and heavy compared to other spears, its accuracy and damage\n\
-are unparalled.");
-
-MELEE("broadsword",	30,1200,'/',c_cyan,	IRON,	MNULL,
-	 7, 11,  8, 35,  2, mfb(IF_STAB), "\
-An early modern sword seeing use in the 16th, 17th ane 18th centuries.\n\
-Called 'broad' to contrast with the slimmer rapiers.");
 
 MELEE("mace",		20,1000,'/',c_dkgray,	IRON,	WOOD,
 	10, 18, 36,  0,  1, 0, "\
@@ -1092,21 +1060,6 @@ MELEE("lawnmower", 25, 100, ';', c_red, STEEL,  IRON,
          25, 40, -3, 10, 0, 0, "\
 A motorized pushmower, it seems to be broken. You could\n\
 take it apart if you had a wrench.");
-
-MELEE("lawnmower blade", 0, 100, '/', c_ltgray, IRON, MNULL,
-	 7, 5,  4, 15,  -1, mfb(IF_STAB), "\
-The blade of a lawnmower. It's not incredibly sharp, but\n\
-it could still do some serious damage.");
-
-MELEE("lawnmower machete", 0, 100, '/', c_ltgray, IRON, MNULL,
-         7, 5,  4, 15,   1, mfb(IF_STAB), "\
-A lawnmower blade that's been fashioned into a makeshift\n\
-machete, mainly by adding a handle for easier wielding.");
-
-MELEE("lawnmower halberd", 0, 100, '/', c_ltgray, IRON, MNULL,
-         10, 7, 4, 15,   2, mfb(IF_STAB), "\
-A lawnmower blade affixed to a long stick, in the right\n\
-hands, this thing could do some massive damage.");
 
 MELEE("sheet",           0, 100, ';', c_dkgray, COTTON, MNULL,
          20, 2, 0, 0,    -1, 0, "\
@@ -1209,6 +1162,14 @@ A small mechanical clock, it's stopped at 10:10.");
 MELEE("clockworks",          30, 0, ';', c_ltcyan, IRON, MNULL,
          1, 1, 0, 0, 0, 0, "\
 A small assortment of gears and other clockwork gubbins.");
+
+MELEE("wooden javelin",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
+//	VOL WGT DAM CUT HIT FLAGS
+	 5,  3,  6,  22,  2, mfb(IF_SPEAR), "\
+A wooden spear, honed to a sharper point and fire hardened\n\
+for toughness. The grip area has also be carved and covered\n\
+for better grip.");
+TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
 
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
@@ -1398,7 +1359,7 @@ ARMOR("steeltoed boots",50, 135,C_SHOES,	LEATHER,	STEEL,
     7,  9,  4, -1,  1,  4,  4,  3,  50,  0,	mfb(bp_feet), "\
 Leather boots with a steel toe. Extremely durable.");
 
-ARMOR("winter boots",	60, 140,C_SHOES,	PLASTIC,	WOOL,
+ARMOR("winter boots",	60, 140,C_SHOES,	WOOL,	PLASTIC,
     8,  7,  0, -1,  2,  0,  2,  1,  80,  0,	mfb(bp_feet), "\
 Cumbersome boots designed for warmth.");
 
@@ -1451,6 +1412,10 @@ ARMOR("heels",		1,  50,C_SHOES,	LEATHER,	MNULL,
     4,  2,  6, -2,  2,  0,  0,  0,  0,  0,	mfb(bp_feet), "\
 A pair of high heels. Difficult to even walk in.\n\
 These high heels are a perfect fit for you.");
+
+ARMOR("chitinous boots",50, 135,C_SHOES,	LEATHER,	STEEL,
+    7,  9,  4, -1,  1,  4,  4,  3,  50,  0,	mfb(bp_feet), "\
+Boots made from the exoskeletons of insects. Light and durable.");
 
 ARMOR("shorts",		70, 180,C_PANTS,	COTTON,		MNULL,
     4,  2, -4,  1,  0,  0,  1,  0,  0,  4,	mfb(bp_legs), "\
@@ -1607,7 +1572,7 @@ ARMOR("kevlar vest",	30, 800,C_TORSO,	KEVLAR,		MNULL,
    24, 24,  6, -3,  2,  4, 22,  0,  20,  4,	mfb(bp_torso), "\
 A heavy bulletproof vest. The best protection from cuts and bullets.");
 
-ARMOR("rain coat",	50, 100,C_TORSO,	PLASTIC,	COTTON,
+ARMOR("rain coat",	50, 100,C_TORSO,	COTTON,	PLASTIC,
     9,  8, -4,  0,  2,  0,  3,  1,  20,  7,	mfb(bp_torso)|mfb(bp_arms), "\
 A plastic coat with two very large pockets. Provides protection from rain.");
 
@@ -1772,6 +1737,11 @@ ARMOR("fire gauntlets",	 5,  95,C_GLOVES,	LEATHER,	MNULL,
     3,  5, -2,  2,  6,  1,  2,  5,  40,  0,	mfb(bp_hands), "\
 A heavy pair of leather gloves, used by firefighters for heat protection.");
 
+ARMOR("chitinous gauntlets", 1, 380,C_HAT,		FLESH,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   4,   1,  2, -2,  1,  5, 7,   4,  20,  0,	mfb(bp_hands), "\
+Gauntlets made from the exoskeletons of insects. Very light and durable.");
+
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("dust mask",	65,  20,C_MOUTH,	COTTON,		IRON,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
@@ -1894,7 +1864,7 @@ TECH( mfb(TEC_WBLOCK_1) );
 
 ARMOR("bike helmet",	35, 140,C_HAT,		PLASTIC,	MNULL,
    12,  2,  4,  0,  1,  8,  2,  0,  20,  0,	mfb(bp_head), "\
-A thick foam helmet. Designed to protect against percussion.");
+A thick foam helmet. Designed to protect against concussion.");
 TECH( mfb(TEC_WBLOCK_1) );
 
 ARMOR("skid lid",	30, 190,C_HAT,		PLASTIC,	IRON,
@@ -1959,12 +1929,13 @@ A huge military rucksack, provides a lot of storage.");
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("purse",		40,  75,C_STORE,	LEATHER,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   10,  3,  2,  2,  1,  0,  0,  0,  0, 20,	mfb(bp_torso), "\
+   10,  3,  2,  2,  0,  0,  0,  0,  0, 20,	mfb(bp_torso), "\
 A bit encumbersome to wear, but provides lots of storage.");
 
 ARMOR("messenger bag",	20, 110,C_STORE,	PLASTIC,	MNULL,
-    8,  2,  1,  1,  1,  0,  0,  0,  0, 30,	mfb(bp_torso), "\
-A bit encumbersome to wear, but provides lots of storage.");
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    8,  2,  1,  1,  0,  0,  0,  0,  0, 20,	mfb(bp_torso), "\
+Light and easy to wear, but doesn't offer much storage.");
 
 ARMOR("fanny pack", 	10, 100,C_STORE,	PLASTIC,	MNULL,
     3,  1,  1,  2,  0,  0,  0,  0,  0,  6,	0, "\
@@ -1980,6 +1951,18 @@ ARMOR("bootstrap",	 3,  80,C_STORE, 	LEATHER,	MNULL,
     1,  1, -1, -1,  0,  0,  0,  0,  1,  2,	mfb(bp_legs), "\
 A small holster worn on the ankle.");
 
+ARMOR("pouch",	20, 110,C_STORE,	COTTON,	MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    5,  2,  1,  1,  1,  0,  0,  0,  0, 12,	mfb(bp_torso), "\
+A makeshift bag, cobbled together from rags. Really gets in the way, but\n\
+provides a decent amount of storage.");
+
+ARMOR("leather pouch",	20, 110,C_STORE,	LEATHER,	MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    5,  2,  1,  1,  0,  0,  0,  0,  0, 12,	mfb(bp_torso), "\
+A bag stitched together from leather scraps. Doesn't hold an awful lot\n\
+but is easy to wear.");
+
 ARMOR("gold ring",	12, 600,C_DECOR,	SILVER,		MNULL,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,	0,	"\
 A flashy gold ring. You can wear it if you like, but it won't provide\n\
@@ -1989,6 +1972,7 @@ ARMOR("silver necklace",14, 500,C_DECOR,	SILVER,		MNULL,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,	0,	"\
 A nice silver necklace. You can wear it if you like, but it won't provide\n\
 any effects.");
+
 
 // AMMUNITION
 // Material should be the wrapper--even though shot is made of iron, because
@@ -2019,6 +2003,19 @@ AMMO("thread",          40, 50, AT_THREAD,      c_magenta,      COTTON,
 A small quantity of thread that could be used to refill a sewing kit.",
 0);
 
+//  NAME		RAR PRC TYPE		COLOR		MAT
+AMMO("sinew",	50, 120,AT_THREAD,	c_red,	   FLESH,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 1,  1,  0,  0,  0,  0,  0,  10, "\
+A tough sinew cut from a corpse, useable as thread.",
+0);
+
+//  NAME		RAR PRC TYPE		COLOR		MAT
+AMMO("plant fibre",	50, 120,AT_THREAD,	c_green,	   VEGGY,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 1,  1,  1,  0,  0,  0,  0,  10, "\
+Tough thin fibres, taken from a plant. Can be used as thread.",
+0);
 AMMO("duct tape",       60, 20, AT_NULL,    c_ltgray,       PLASTIC,
          2,  2,  0,  0,  0,  0,  0, 200, "\
 A roll of incredibly strong tape. Its uses are innumerable.",
@@ -3284,6 +3281,12 @@ BOOK("Guns n Ammo",		20,  48,c_pink,		PAPER,	MNULL,
     1,  1, -3,  1,	"gun",		 1,  0,  1,  2,  7, "\
 Reviews of firearms, and various useful tips about their use.");
 
+BOOK("Archery for Kids",		20,  48, c_pink,		PAPER,	MNULL,
+    1,  1, -3,  1,	"archery",		 1,  0,  1,  2,  7, "\
+Will you be able to place the arrow right into bull's eye?\n\
+It is not that easy, but once you know how it's done,\n\
+you will have a lot of fun with archery.");
+
 BOOK("romance novel",		30,  55,c_ltblue,	PAPER,	MNULL,
     4,  1, -2,  0,	NULL,	 0,  0,  2,  4, 15, "\
 Drama and mild smut.");
@@ -3459,6 +3462,11 @@ A 2.5 litre plastic carboy for household cleaning chemicals.");
 CONT("glass flask",	10,  2500,	c_ltcyan,	GLASS,MNULL,
     1,  0, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A 250 ml laboratory conical flask, with a rubber bung.");
+
+CONT("waterskin",   0,  0, c_brown, LEATHER, MNULL,
+// VOL WGT DAM HIT	VOL	FLAGS
+    2, 2,  -8, -5,   6, mfb(con_wtight)|mfb(con_seals), "\
+A watertight leather bag, can hold 1.5 litres of water.");
 
 /* TOOLS
  * MAX is the maximum number of charges help.
@@ -3917,7 +3925,69 @@ but much better than slumming it on the ground.");
 TOOL("rollmat",  40,400,';', c_blue, MNULL, MNULL,
      4, 3,  0, 0, -1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::set_trap,
 0, "\
-A thin rollmat, better than sleeping on the ground.");
+A sheet of foam which can be rolled tightly for storage\n\
+Insulates you from the floor, making it easier to sleep");
+
+TOOL("X-Acto knife",	10,  40,';', c_dkgray,	IRON,	PLASTIC,
+	 1,  0,  0, 14, -4,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_SPEAR), "\
+A small, very sharp knife.  Causes decent damage but is difficult to hit\n\
+with. Its small tip allows for a precision strike in hands of the skill."
+);
+TECH(mfb(TEC_PRECISE));
+
+TOOL("scalpel",	48,  40,',', c_cyan,	STEEL,	MNULL,
+	 1,  0,  0, 18, -4,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_SPEAR), "\
+A small, very sharp knife, used in surgery. Its small tip allows for a\n\
+precision strike in the hands of the skilled.");
+TECH(mfb(TEC_PRECISE));
+
+TOOL("machete",	 5, 280,'/', c_blue,	IRON,	MNULL,
+	 8, 14,  6, 28,  2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, 0, "\
+This huge iron knife makes an excellent melee weapon.");
+TECH( mfb(TEC_WBLOCK_1) );
+
+TOOL("katana",		 2, 980,'/', c_ltblue,	STEEL,	MNULL,
+	16, 16,  4, 45,  1,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
+A rare sword from Japan. Deadly against unarmored targets, and still very\n\
+effective against the armored.");
+TECH( mfb(TEC_RAPID)|mfb(TEC_WBLOCK_2) );
+
+TOOL("steel spear",      5,  140,'/', c_ltred,   WOOD,   STEEL,
+         6,  6,  2, 28,  1,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_SPEAR), "\
+A simple wood pole made deadlier by the knife tied to it.");
+TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
+
+TOOL("rapier",		 3, 980,'/', c_ltblue,	STEEL,	MNULL,
+	 6,  9, 5, 28,  2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
+Preferred weapon of gentlemen and swashbucklers. Light and quick, it makes\n\
+any battle a stylish battle.");
+TECH( mfb(TEC_RAPID)|mfb(TEC_WBLOCK_1)|mfb(TEC_PRECISE) );
+
+TOOL("awl pike",        5,2000,'/', c_ltcyan,	IRON,	WOOD,
+        14, 18,  8, 50,  2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_SPEAR), "\
+A medieval weapon consisting of a wood shaft, tipped with an iron spike.\n\
+Though large and heavy compared to other spears, its accuracy and damage\n\
+are unparalled.");
+
+TOOL("broadsword",	30,1200,'/',c_cyan,	IRON,	MNULL,
+	 7, 11,  8, 35,  2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
+An early modern sword seeing use in the 16th, 17th ane 18th centuries.\n\
+Called 'broad' to contrast with the slimmer rapiers.");
+
+TOOL("lawnmower blade", 0, 100, '/', c_ltgray, IRON, MNULL,
+	 7, 5,  4, 15,  -1,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
+The blade of a lawnmower. It's not incredibly sharp, but\n\
+it could still do some serious damage.");
+
+TOOL("lawnmower machete", 0, 100, '/', c_ltgray, IRON, MNULL,
+         7, 5,  4, 15,   1,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
+A lawnmower blade that's been fashioned into a makeshift\n\
+machete, mainly by adding a handle for easier wielding.");
+
+TOOL("lawnmower halberd", 0, 100, '/', c_ltgray, IRON, MNULL,
+         10, 7, 4, 15,   2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
+A lawnmower blade affixed to a long stick, in the right\n\
+hands, this thing could do some massive damage.");
 
 TOOL("steak knife",	85,  25,';', c_ltcyan,	STEEL,	MNULL,
      1,  2,  2, 10, -3, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
@@ -3944,7 +4014,7 @@ TOOL("wood saw",	15, 40, ';', c_cyan,	IRON,	WOOD,
 A flimsy saw, useful for cutting through wood objects.");
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-TOOL("wood ax",	 8, 105,'/', c_ltgray,	WOOD,	IRON,
+TOOL("wood axe",	 8, 105,'/', c_ltgray,	WOOD,	IRON,
 //	VOL WGT DAM CUT HIT FLAGS
 	17, 15, 24, 18,  1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::lumber,
 0, "\
@@ -4061,9 +4131,36 @@ app on, and is providing light.");
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 TOOL("pocket knife",	14, 100,';', c_blue,	STEEL,  PLASTIC,
 //	VOL WGT DAM CUT HIT FLAGS
-	 2,  2,  2, 10, -4, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
+	 0,  2,  0, 10, -4, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
 mfb(IF_STAB), "\
-A small pocket knife.");
+A small pocket knife, not great for combat, but better than nothing.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+TOOL("bone needle",     0, 0,';', c_white, FLESH, MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+     0,  0,  0,  0, 0, 200, 0,  1,  0, AT_THREAD, itm_null, &iuse::sew,
+mfb(IF_STAB), "\
+A sharp needle made from a bone. It would be useful for making rough\n\
+clothing and items");
+
+TOOL("stone hammer",		35, 70, ';', c_ltgray,	STONE,	WOOD,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    2,  8, 12,  0,  0,   0,  0, 0,  0, AT_NULL, itm_null, &iuse::hammer, 0, "\
+A rock affixed to a stick, functions adequately as a hammer, but really\n\
+can't compare to a proper hammer.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+TOOL("stone axe",	 8, 105,'/', c_ltgray,	WOOD,	STONE,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+	17, 19, 15, 18,  0, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::lumber,
+0, "\
+A sharpened stone affixed to a stick, works passably well as ane axe\n\
+but really can't compare to a proper axe..");
+
+TOOL("stone shovel",		40, 100,'/', c_brown,	STONE,	WOOD,
+   16, 21, 15,  5,  3,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::dig, 0, "\
+A flattened stone affixed to a stick, works passably well as a shovel\n\
+but really can't compare to a real shovel.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

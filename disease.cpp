@@ -76,6 +76,15 @@ void dis_msg(game *g, dis_type type)
  case DI_AMIGARA:
   g->add_msg("You can't look away from the fautline...");
   break;
+ case DI_STEMCELL_TREATMENT:
+  g->add_msg("You receive a pureed bone & enamel injection into your eyeball.");
+  g->add_msg("It is excruciating.");
+ case DI_BITE:
+  g->add_msg("The bite wound feels really deep...");
+  break;
+ case DI_INFECTED:
+  g->add_msg("Your bite wound feels infected");
+  break;
  default:
   break;
  }
@@ -208,7 +217,7 @@ void dis_effect(game *g, player &p, disease &dis)
 	if (p.pain < 20) p.pain++;
     if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("The heat is making you see things.");
     // Speed -5
-   case 1 : 
+   case 1 :
     if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot warm.\"");
     // Speed -2
   }
@@ -225,7 +234,7 @@ void dis_effect(game *g, player &p, disease &dis)
     p.thirst--;
 	p.str_cur--;
     // Speed -5
-   case 1 : 
+   case 1 :
     if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot warm.\"");
     // Speed -2
   }
@@ -261,7 +270,7 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_HOT_FEET:
   switch (dis.intensity) {
    case 3 : if (p.pain < 50) p.pain++;
-   case 2 : 
+   case 2 :
     if (p.pain < 30) p.pain++;
     if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your feet are swelling in the heat.");
    case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot warm.\"");
@@ -510,6 +519,22 @@ void dis_effect(game *g, player &p, disease &dis)
 
   break;
 
+ case DI_STEMCELL_TREATMENT:
+  //slightly repair broken limbs. (also nonbroken limbs (unless they're too healthy))
+  for (int i = 0; i < num_hp_parts; i++) {
+   if(one_in(6)){
+    if (p.hp_cur[i] < rng(0,40)){
+     g->add_msg("You feel your skeleton melt and mend.");
+     p.hp_cur[i]+= rng(1,8);
+    }
+    else if (p.hp_cur[i] > rng(10,2000)){
+     g->add_msg("You feel your skeleton melt");
+     p.hp_cur[i] -= rng(0,8);
+    }
+   }
+  }
+  break;
+
  case DI_PKILL1:
   if (dis.duration <= 70 && dis.duration % 7 == 0 && p.pkill < 15)
    p.pkill++;
@@ -602,7 +627,7 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_BLEED:
-  if (!p.is_npc() && one_in(2)) {
+  if (!p.is_npc() && one_in(6)) {
    g->add_msg("You lose some blood.");
    p.pain++;
    p.hurt(g, bp_torso, 0, 1);
@@ -982,6 +1007,100 @@ void dis_effect(game *g, player &p, disease &dis)
    p.per_cur -= (dis.duration > 4000 ? 10 : int(dis.duration / 400));
   }
  } break;
+
+ case DI_BITE:
+//3600 (6-hour) lifespan
+  if (dis.duration > 2400) {	// First symptoms for 2 hours
+   if (one_in(300)) {
+    if (!p.is_npc())
+     g->add_msg("Your bite wound really hurts.");
+   }
+  } else if (dis.duration > 1200) {	//Pain at 4 hours in
+   if (one_in(100)) {
+    if (!p.is_npc())
+     if (p.has_disease(DI_SLEEP)) {
+      p.rem_disease(DI_SLEEP);
+      g->add_msg("You wake up.");
+     }
+     g->add_msg("Your bite wound feels swollen and painful.");
+    if(p.pain < 20)
+	    p.pain++;
+   }
+
+   p.dex_cur-= 1;
+  } else {	// Infection starts
+   p.rem_disease(DI_BITE);
+   p.add_disease(DI_INFECTED, 14400, g); // 1 day of timer
+  }
+  break;
+
+ case DI_INFECTED:
+	 p.dex_cur-= 1;
+  if (dis.duration > 10800) {	// Infection Symptoms 6 hours into infection
+   if (one_in(300)) {
+    if (!p.is_npc()) {
+     if (p.has_disease(DI_SLEEP)) {
+      p.rem_disease(DI_SLEEP);
+      g->add_msg("You wake up.");
+     }
+     g->add_msg("Your infected wound is incredibly painful.");
+    }
+	   if(p.pain < 40)
+	    p.pain++;
+   }
+   p.str_cur-= 1;
+   p.dex_cur-= 1;
+
+  } else if (dis.duration > 7200) {	//Infection Symptoms 12 hours into infection
+   if (one_in(100)) {
+    if (!p.is_npc()) {
+     if (p.has_disease(DI_SLEEP)) {
+      p.rem_disease(DI_SLEEP);
+      g->add_msg("You wake up.");
+     }
+     g->add_msg("You feel feverish and nauseous, your wound has begun to turn green.");
+    }
+    p.vomit(g);
+    if(p.pain < 60)
+	    p.pain++;
+   }
+   p.str_cur-= 2;
+   p.dex_cur-= 2;
+
+  } else if (dis.duration > 3600) {	//Infection Symptoms 18 hours into infection
+   if (one_in(100)) {
+    if (!p.is_npc())
+     if (p.has_disease(DI_SLEEP)) {
+      p.rem_disease(DI_SLEEP);
+      g->add_msg("You wake up.");
+      g->add_msg("You feel terribly weak, standing up is nearly impossible.");
+     } else
+      g->add_msg("You can barely remain standing.");
+    p.vomit(g);
+    if(p.pain < 100)
+    	p.pain++;
+   }
+   p.str_cur-= 2;
+   p.dex_cur-= 2;
+
+   if(one_in(10)) {
+    if (p.has_disease(DI_SLEEP))
+     p.rem_disease(DI_SLEEP);
+    g->add_msg("You pass out.");
+    p.add_disease(DI_SLEEP, 60, g);
+   }
+  } else {	// You die. 24 hours after infection Total time, 30 hours including bite.
+   if (p.has_disease(DI_SLEEP))
+    p.rem_disease(DI_SLEEP);
+   g->add_msg("You succumb to the infection.");
+   p.hurtall(500);
+  }
+  break;
+
+  case DI_RECOVER:
+   p.str_cur-= 1;
+   p.dex_cur-= 1;
+  break;
  }
 }
 
@@ -1031,32 +1150,32 @@ std::string dis_name(disease dis)
  switch (dis.type) {
  case DI_NULL:		return "";
  case DI_GLARE:		return "Glare";
- case DI_COLD_HEAD:		
+ case DI_COLD_HEAD:
   switch (dis.intensity) {
    case 1: return "Cold head";
    case 2: return "Cold head!";
-   case 3: return "Freezing head!!";}	
- case DI_COLD_TORSO:		
+   case 3: return "Freezing head!!";}
+ case DI_COLD_TORSO:
   switch (dis.intensity) {
    case 1: return "Cold torso";
    case 2: return "Cold torso!";
-   case 3: return "Freezing torso!!";}	
- case DI_COLD_ARMS:		
+   case 3: return "Freezing torso!!";}
+ case DI_COLD_ARMS:
   switch (dis.intensity) {
    case 1: return "Cold arms";
    case 2: return "Cold arms!";
-   case 3: return "Freezing arms!!";}	
- case DI_COLD_HANDS:		
+   case 3: return "Freezing arms!!";}
+ case DI_COLD_HANDS:
   switch (dis.intensity) {
    case 1: return "Cold hands";
    case 2: return "Cold hands!";
-   case 3: return "Freezing hands!!";}	
- case DI_COLD_LEGS:		
+   case 3: return "Freezing hands!!";}
+ case DI_COLD_LEGS:
   switch (dis.intensity) {
    case 1: return "Cold legs";
    case 2: return "Cold legs!";
-   case 3: return "Freezing legs!!";}	
- case DI_COLD_FEET:		
+   case 3: return "Freezing legs!!";}
+ case DI_COLD_FEET:
   switch (dis.intensity) {
    case 1: return "Cold feet";
    case 2: return "Cold feet!";
@@ -1073,36 +1192,36 @@ std::string dis_name(disease dis)
   switch (dis.intensity) {
    case 1: return "Frostnip - face";
    case 2: return "Frostbite - face";}
- case DI_HOT_HEAD:		
+ case DI_HOT_HEAD:
   switch (dis.intensity) {
    case 1: return "Hot head";
    case 2: return "Hot head!";
-   case 3: return "Scorching head!!";}	
- case DI_HOT_TORSO:		
+   case 3: return "Scorching head!!";}
+ case DI_HOT_TORSO:
   switch (dis.intensity) {
    case 1: return "Hot torso";
    case 2: return "Hot torso!";
-   case 3: return "Scorching torso!!";}	
- case DI_HOT_ARMS:		
+   case 3: return "Scorching torso!!";}
+ case DI_HOT_ARMS:
   switch (dis.intensity) {
    case 1: return "Hot arms";
    case 2: return "Hot arms!";
-   case 3: return "Scorching arms!!";}	
- case DI_HOT_HANDS:		
+   case 3: return "Scorching arms!!";}
+ case DI_HOT_HANDS:
   switch (dis.intensity) {
    case 1: return "Hot hands";
    case 2: return "Hot hands!";
-   case 3: return "Scorching hands!!";}	
- case DI_HOT_LEGS:		
+   case 3: return "Scorching hands!!";}
+ case DI_HOT_LEGS:
   switch (dis.intensity) {
    case 1: return "Hot legs";
    case 2: return "Hot legs!";
-   case 3: return "Scorching legs!!";}	
- case DI_HOT_FEET:		
+   case 3: return "Scorching legs!!";}
+ case DI_HOT_FEET:
   switch (dis.intensity) {
    case 1: return "Hot feet";
    case 2: return "Hot feet!";
-   case 3: return "Scorching feet!!";}	
+   case 3: return "Scorching feet!!";}
  case DI_BLISTERS_MOUTH: return "Blisters - face";
  case DI_BLISTERS_TORSO: return "Blisters - torso";
  case DI_BLISTERS_ARMS: return "Blisters - arms";
@@ -1148,13 +1267,15 @@ std::string dis_name(disease dis)
   if (dis.duration > 800) return "Heavy Asthma";
                           return "Asthma";
 
- case DI_GRACK:         return "UNLEASH THE GRACKEN!!!!";
+ case DI_GRACK:         return "RELEASE THE GRACKEN!!!!";
 
  case DI_METH:
   if (dis.duration > 600) return "High on Meth";
                           return "Meth Comedown";
 
  case DI_IN_PIT:	return "Stuck in Pit";
+
+ case DI_STEMCELL_TREATMENT: return "Stem cell treatment";
 
  case DI_ATTACK_BOOST:  return "Hit Bonus";
  case DI_DAMAGE_BOOST:  return "Damage Bonus";
@@ -1167,6 +1288,15 @@ std::string dis_name(disease dis)
    case 2: return "Viper Strike Unlocked!";
    default: return "VIPER BUG!!!!";
   }
+  case DI_BITE:
+  if (dis.duration > 3000) return "Bite Wound";
+                           return "Painful Bite Wound";
+  case DI_INFECTED:
+  if (dis.duration > 10800) return "Infected Wound";
+  if (dis.duration > 7200) return "Painful Infected Wound";
+  return "Puss Filled Wound";
+  case DI_RECOVER:	return "Recovering From Infection";
+
   break;
 
  default:		return "";
@@ -1185,49 +1315,49 @@ std::string dis_description(disease dis)
  case DI_GLARE:
   return "Perception - 1";
 
- case DI_COLD_HEAD:		
+ case DI_COLD_HEAD:
   switch (dis.intensity) {
    case 1: return "Your head is exposed to the cold.";
    case 2: return "Your head is very exposed to the cold. It is hard to concentrate.";
    case 3: return "Your head is dangerously cold. Getting undressed sounds like a good idea.";}
 
- case DI_COLD_EYES:		
+ case DI_COLD_EYES:
   switch (dis.intensity) {
    case 1: return "Your eyes are exposed to the cold.";
    case 2: return "Your eyes are very exposed to the cold.";
    case 3: return "Your eyes are dangerously cold.";}
 
- case DI_COLD_MOUTH:		
+ case DI_COLD_MOUTH:
   switch (dis.intensity) {
    case 1: return "Your mouth is exposed to the cold.";
    case 2: return "Your mouth is very exposed to the cold.";
    case 3: return "Your mouth is dangerously cold.";}
 
- case DI_COLD_TORSO:		
+ case DI_COLD_TORSO:
   switch (dis.intensity) {
    case 1: return "Your torso is exposed to the cold.";
    case 2: return "Your torso is very exposed to the cold. Your actions are incoordinated.";
    case 3: return "Your torso is dangerously cold. Your actions are incredibly incoordinated.";}
 
- case DI_COLD_ARMS:		
+ case DI_COLD_ARMS:
   switch (dis.intensity) {
    case 1: return "Your arms are exposed to the cold.";
    case 2: return "Your arms are very exposed to the cold. Your arms are shivering.";
    case 3: return "Your arms is dangerously cold. Your arms are shivering uncontrollably";}
 
- case DI_COLD_HANDS:		
+ case DI_COLD_HANDS:
   switch (dis.intensity) {
    case 1: return "Your hands are exposed to the cold.";
    case 2: return "Your hands are very exposed to the cold. Your hands are shivering.";
    case 3: return "Your hands is dangerously cold. Your hands are shivering uncontrollably";}
 
- case DI_COLD_LEGS:		
+ case DI_COLD_LEGS:
   switch (dis.intensity) {
    case 1: return "Your legs are exposed to the cold.";
    case 2: return "Your legs are very exposed to the cold. Your strength is sapped.";
    case 3: return "Your legs is dangerously cold. Your strength is sapped.";}
 
- case DI_COLD_FEET:		
+ case DI_COLD_FEET:
   switch (dis.intensity) {
    case 1: return "Your feet are exposed to the cold.";
    case 2: return "Your feet are very exposed to the cold. Your strength is sapped.";
@@ -1259,41 +1389,41 @@ std::string dis_description(disease dis)
  case DI_FROSTBITE_LEGS: return "\
  Your legs are frostbitten from prolonged exposure to the cold. It is extremely painful.";
 
- case DI_HOT_HEAD:		
+ case DI_HOT_HEAD:
   switch (dis.intensity) {
    case 1: return "Your head feels warm.";
    case 2: return "Your head is sweating from the heat. You feel nauseated. You have a headache.";
-   case 3: return "Your head is sweating profusely. You feel very nauseated. You have a headache.";}	
+   case 3: return "Your head is sweating profusely. You feel very nauseated. You have a headache.";}
 
- case DI_HOT_TORSO:		
+ case DI_HOT_TORSO:
   switch (dis.intensity) {
    case 1: return "Your torso feels warm.";
    case 2: return "Your torso is sweating from the heat. You feel weak.";
-   case 3: return "Your torso is sweating profusely. You feel very weak.";}	
+   case 3: return "Your torso is sweating profusely. You feel very weak.";}
 
- case DI_HOT_ARMS:		
+ case DI_HOT_ARMS:
   switch (dis.intensity) {
    case 1: return "Your arms feel warm.";
    case 2: return "Your arms are sweating from the heat.";
-   case 3: return "Your arms are sweating profusely. Your muscles are in pain due to cramps.";}	
+   case 3: return "Your arms are sweating profusely. Your muscles are in pain due to cramps.";}
 
- case DI_HOT_HANDS:		
+ case DI_HOT_HANDS:
   switch (dis.intensity) {
    case 1: return "Your hands feel warm.";
    case 2: return "Your hands feel hot and incoordinated.";
-   case 3: return "Your hands feel disgustinly hot and are very incoordinated.";}	
+   case 3: return "Your hands feel disgustinly hot and are very incoordinated.";}
 
- case DI_HOT_LEGS:		
+ case DI_HOT_LEGS:
   switch (dis.intensity) {
    case 1: return "Your legs feel warm.";
    case 2: return "Your legs are sweating from the heat.";
-   case 3: return "Your legs are sweating profusely. Your muscles are in pain due to cramps.";}	
+   case 3: return "Your legs are sweating profusely. Your muscles are in pain due to cramps.";}
 
- case DI_HOT_FEET:		
+ case DI_HOT_FEET:
   switch (dis.intensity) {
    case 1: return "Your feet feel hot.";
    case 2: return "Your feet are painfully swollen due to the heat.";
-   case 3: return "Your feet are painfully swollen due to the heat.";}	
+   case 3: return "Your feet are painfully swollen due to the heat.";}
 
  case DI_BLISTERS_MOUTH: return "\
  Your face is blistering from the intense heat. It is extremely painful.";
@@ -1488,6 +1618,15 @@ will deal piercing damage.";
 Your next strike will be a Viper Strike.  It requires both arms to be in good\n\
 condition, and deals massive damage.";
   }
+ case DI_BITE:
+  return "\
+You have a nasty bite wound.";
+ case DI_INFECTED:
+  return "\
+You have an infected wound.";
+
+ case DI_RECOVER:	return "\
+ You are recovering from an infection.";
 
  default:
   return "Who knows?  This is probably a bug.";

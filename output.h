@@ -51,7 +51,7 @@ void popup_top(const char *mes, ...); // Displayed at the top of the screen
 void popup(const char *mes, ...);
 void popup_nowait(const char *mes, ...); // Doesn't wait for spacebar
 void full_screen_popup(const char *mes, ...);
-void compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare);
+char compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare);
 
 nc_color hilite(nc_color c);
 nc_color invert_color(nc_color c);
