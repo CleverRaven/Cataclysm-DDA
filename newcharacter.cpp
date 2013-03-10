@@ -522,6 +522,7 @@ int set_traits(WINDOW* w, player *u, int &points)
              traits[cur_dis].name.c_str(), traits[cur_dis].points * -1);
    mvwprintz(w_description, 0, 0, COL_TR_BAD, "%s", traits[cur_dis].description.c_str());
   }
+
   if (cur_trait <= traitmin + 7) {
    for (int i = traitmin; i < traitmin + 16; i++) {
     mvwprintz(w, 5 + i - traitmin, xoff, c_ltgray, "\
@@ -572,8 +573,8 @@ int set_traits(WINDOW* w, player *u, int &points)
    }
   }
 
-  wrefresh(w_description);
   wrefresh(w);
+  wrefresh(w_description);
   switch (input()) {
    case 'h':
    case 'l':
@@ -667,13 +668,14 @@ int set_skills(WINDOW* w, player *u, int &points)
                                                                              ");
   mvwprintz(w_description, 2, 0, c_ltgray, "\
                                                                              ");
+  mvwprintz(w,  3, 40, c_ltgray, "                                    ");
   if (points >= u->skillLevel(currentSkill) + 1)
-   mvwprintz(w,  3, 30, COL_SKILL_USED, "Upgrading %s costs %d points         ",
+   mvwprintz(w,  3, 30, COL_SKILL_USED, "Upgrading %s costs %d points",
              skill_name(cur_sk).c_str(), u->skillLevel(currentSkill) + 1);
   else
-   mvwprintz(w,  3, 30, c_ltred, "Upgrading %s costs %d points         ",
+   mvwprintz(w,  3, 30, c_ltred, "Upgrading %s costs %d points",
              skill_name(cur_sk).c_str(), u->skillLevel(currentSkill) + 1);
-  mvwprintz(w, 22, 0, COL_SKILL_USED, currentSkill->description().c_str());
+  mvwprintz(w_description, 0, 0, COL_SKILL_USED, currentSkill->description().c_str());
 
   if (cur_sk <= 7) {
    for (int i = 1; i < 17; i++) {
@@ -726,8 +728,8 @@ int set_skills(WINDOW* w, player *u, int &points)
    }
   }
 
-  wrefresh(w_description);
   wrefresh(w);
+  wrefresh(w_description);
   switch (input()) {
    case 'j':
      if (cur_sk < Skill::skills.size() - 1)
