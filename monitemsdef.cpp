@@ -13,6 +13,9 @@ void game::init_monitems()
 	mi_softdrugs,	 5,mi_harddrugs, 1,mi_tools,	 20,mi_trash,	 7,
 	mi_ammo,	 1,mi_pistols,	 1,mi_shotguns,	 1,mi_smg,	 1,
 	NULL);
+ setvector(monitems[mon_zombie_child],
+  mi_child_items,65, NULL);
+
  monitems[mon_zombie_shrieker]	= monitems[mon_zombie];
  monitems[mon_zombie_spitter]	= monitems[mon_zombie];
  monitems[mon_zombie_electric]	= monitems[mon_zombie];
@@ -25,7 +28,6 @@ void game::init_monitems()
  monitems[mon_zombie_necro]	= monitems[mon_zombie];
  monitems[mon_zombie_grabber]	= monitems[mon_zombie];
  monitems[mon_zombie_master]	= monitems[mon_zombie];
- monitems[mon_zombie_child] = monitems[mon_zombie];
 
  setvector(monitems[mon_beekeeper],
         mi_hive, 80, NULL);

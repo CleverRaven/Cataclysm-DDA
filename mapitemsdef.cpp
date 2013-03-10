@@ -6,6 +6,8 @@
 
 void game::init_mapitems()
 {
+ setvector(mapitems[mi_child_items],
+  itm_chocolate, itm_candy, itm_crack, itm_bat, itm_backpack, itm_pockknife, NULL);
 
  setvector(
    mapitems[mi_field],
