@@ -3,6 +3,7 @@
 
 #include "mtype.h"
 #include <vector>
+#include <map>
 
 enum moncat_id {
  mcat_null = 0,
@@ -54,13 +55,16 @@ typedef FreqDef::iterator FreqDef_iter;
 struct MonsterGroup
 {
     mon_id defaultMonster;
-    FreqDef  monstersFreq;
+    FreqDef  monsters;
 };
 
-MonsterGroup //hello there
+extern MonsterGroup //hello there
 forestGroup, antGroup, beeGroup, wormGroup,
-zombieGroup, triffidGroup, fungiGroup, chudGroup,
-sewerGroup, swampGroup, labGroup, netherGroup,
-spiralGroup, vanillaGroup, spiderGroup, robotGroup;
+zombieGroup, triffidGroup, fungiGroup, gooGroup,
+chudGroup, sewerGroup, swampGroup, labGroup,
+netherGroup, spiralGroup, vanillaGroup,
+spiderGroup, robotGroup;
+
+mon_id GetMonsterFromGroup(MonsterGroup *);
 
 #endif

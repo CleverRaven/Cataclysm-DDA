@@ -269,6 +269,7 @@ class game
   void init_mapitems();     // Initializes item placement
   void init_mtypes();       // Initializes monster types
   void init_moncats();      // Initializes monster categories
+  void init_mongroups();    // Initualizes monster groups
   void init_monitems();     // Initializes monster inventory selection
   void init_traps();        // Initializes trap types
   void init_recipes();      // Initializes crafting recipes
