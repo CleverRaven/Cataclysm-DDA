@@ -176,28 +176,59 @@ void game::setup()
  }
 }
 
-void game::print_menu(WINDOW* w_open, int iSel)
+void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY)
 {
  //Clear Lines
- for (int i = 0; i < 25; i++)
-  for (int j = 0; j < 79; j++)
+ for (int i = 0; i < (VIEWY*2)+1; i++)
+  for (int j = 0; j < 65+(VIEWX*2); j++)
    mvwputch(w_open, i, j, c_black, ' ');
 
- for (int i = 0; i < 80; i++)
-  mvwputch(w_open, 21, i, c_white, LINE_OXOX);
- mvwprintz(w_open, 0, 0, c_blue, "Welcome to Cataclysm: Dark Days Ahead!");
- mvwprintz(w_open, 1, 0, c_red, "Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
+ for (int i = 1; i < 79; i++)
+  mvwputch(w_open, 23, i, c_white, LINE_OXOX);
 
- int iRow = 4;
- mvwprintz(w_open, iRow++, 1, (iSel == 0 ? h_white : c_white), "MOTD");
- mvwprintz(w_open, iRow++, 1, (iSel == 1 ? h_white : c_white), "New Game");
- mvwprintz(w_open, iRow++, 1, (iSel == 2 ? h_white : c_white), "Load Game");
- mvwprintz(w_open, iRow++, 1, (iSel == 3 ? h_white : c_white), "New World");
- mvwprintz(w_open, iRow++, 1, (iSel == 4 ? h_white : c_white), "Special...");
- mvwprintz(w_open, iRow++, 1, (iSel == 5 ? h_white : c_white), "Options");
- mvwprintz(w_open, iRow++, 1, (iSel == 6 ? h_white : c_white), "Help");
- mvwprintz(w_open, iRow++, 1, (iSel == 7 ? h_white : c_white), "Credits");
- mvwprintz(w_open, iRow++, 1, (iSel == 8 ? h_white : c_white), "Quit");
+ mvwprintz(w_open, 24, 5, c_red, "Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
+
+ int iLine = 0;
+ const int iOffsetX1 = 6;
+ const int iOffsetX2 = 7;
+ const int iOffsetX3 = 20;
+
+ nc_color cColor1 = c_cyan;
+ nc_color cColor2 = c_blue;
+ nc_color cColor3 = c_blue;
+
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "_________            __                   .__                            ");
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "\\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__.  ______  _____  ");
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "/    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | /  ___/ /     \\ ");
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "\\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\___ \\ |  Y Y  \\");
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, " \\______  /(____  / |__|  (____  / \\___  >|____/ / ____|/____  >|__|_|  /");
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "        \\/      \\/             \\/      \\/        \\/          \\/       \\/ ");
+
+ iLine++;
+ mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "________                    __     ________                           ");
+ mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "\\______ \\  _____   _______ |  | __ \\______ \\  _____    ___.__.  ______");
+ mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    |  \\ \\__  \\  \\_  __ \\|  |/ /  |    |  \\ \\__  \\  <   |  | /  ___/");
+ mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    `   \\ / __ \\_ |  | \\/|    <   |    `   \\ / __ \\_ \\___  | \\___ \\ ");
+ mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "/_______  /(____  / |__|   |__|_ \\ /_______  /(____  / / ____|/____  >");
+ mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "        \\/      \\/              \\/         \\/      \\/  \\/          \\/ ");
+
+ iLine++;
+ mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "   _____   .__                         .___");
+ mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "  /  _  \\  |  |__    ____  _____     __| _/");
+ mvwprintz(w_open, iLine++, iOffsetX3, cColor3, " /  /_\\  \\ |  |  \\ _/ __ \\ \\__  \\   / __ | ");
+ mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "/    |    \\|   Y  \\\\  ___/  / __ \\_/ /_/ | ");
+ mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "\\____|__  /|___|  / \\___  >(____  /\\____ | ");
+ mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "        \\/      \\/      \\/      \\/      \\/ ");
+
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 0 ? h_white : c_white), "MOTD");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 1 ? h_white : c_white), "New Game");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 2 ? h_white : c_white), "Load Game");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 3 ? h_white : c_white), "New World");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 4 ? h_white : c_white), "Special...");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 5 ? h_white : c_white), "Options");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 6 ? h_white : c_white), "Help");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 7 ? h_white : c_white), "Credits");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 8 ? h_white : c_white), "Quit");
 
  refresh();
  wrefresh(w_open);
@@ -206,8 +237,11 @@ void game::print_menu(WINDOW* w_open, int iSel)
 
 bool game::opening_screen()
 {
- WINDOW* w_open = newwin(25, 80, 0, 0);
- print_menu(w_open, 0);
+ WINDOW* w_open = newwin((VIEWY*2)+1, 65+(VIEWX*2), 0, 0);
+ const int iMenuOffsetX = 3;
+ int iMenuOffsetY = 13;
+
+ print_menu(w_open, 0, iMenuOffsetX, iMenuOffsetY);
  std::vector<std::string> savegames, templates;
  std::string tmp;
  dirent *dp;
@@ -274,16 +308,16 @@ bool game::opening_screen()
 
  while(!start) {
   if (layer == 1) {
-   print_menu(w_open, sel1);
+   print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
    if (sel1 == 0) {	// Print the MOTD.
     for (int i = 0; i < motd.size() && i < 16; i++)
-     mvwprintz(w_open, i + 4, 12, c_ltred, motd[i].c_str());
+     mvwprintz(w_open, i + 7, 12 + iMenuOffsetX, c_ltred, motd[i].c_str());
 
     wrefresh(w_open);
     refresh();
    } else if (sel1 == 7) {	// Print the Credits.
     for (int i = 0; i < credits.size() && i < 16; i++)
-     mvwprintz(w_open, i + 4, 12, c_ltred, credits[i].c_str());
+     mvwprintz(w_open, i + 7, 12 + iMenuOffsetX, c_ltred, credits[i].c_str());
 
     wrefresh(w_open);
     refresh();
@@ -315,11 +349,11 @@ bool game::opening_screen()
    }
   } else if (layer == 2) {
    if (sel1 == 1) {	// New Character
-    mvwprintz(w_open, 5, 12, (sel2 == 1 ? h_white : c_white),
+    mvwprintz(w_open, 1 + iMenuOffsetY, 12 + iMenuOffsetX, (sel2 == 1 ? h_white : c_white),
               "Custom Character");
-    mvwprintz(w_open, 6, 12, (sel2 == 2 ? h_white : c_white),
+    mvwprintz(w_open, 2 + iMenuOffsetY, 12 + iMenuOffsetX, (sel2 == 2 ? h_white : c_white),
               "Preset Character");
-    mvwprintz(w_open, 7, 12, (sel2 == 3 ? h_white : c_white),
+    mvwprintz(w_open, 3 + iMenuOffsetY, 12 + iMenuOffsetX, (sel2 == 3 ? h_white : c_white),
               "Random Character");
     wrefresh(w_open);
     refresh();
@@ -335,9 +369,9 @@ bool game::opening_screen()
      else
       sel2 = 1;
     } else if (input == DirectionW) {
-     mvwprintz(w_open, 5, 12, c_black, "                ");
-     mvwprintz(w_open, 6, 12, c_black, "                ");
-     mvwprintz(w_open, 7, 12, c_black, "                ");
+     mvwprintz(w_open, 1 + iMenuOffsetY, 12 + iMenuOffsetX, c_black, "                ");
+     mvwprintz(w_open, 2 + iMenuOffsetY, 12 + iMenuOffsetX, c_black, "                ");
+     mvwprintz(w_open, 3 + iMenuOffsetY, 12 + iMenuOffsetX, c_black, "                ");
      layer = 1;
      sel1 = 1;
     }
@@ -354,9 +388,9 @@ bool game::opening_screen()
      if (sel2 == 2) {
       layer = 3;
       sel1 = 0;
-      mvwprintz(w_open, 5, 12, c_dkgray, "Custom Character");
-      mvwprintz(w_open, 6, 12, c_white,  "Preset Character");
-      mvwprintz(w_open, 7, 12, c_dkgray, "Random Character");
+      mvwprintz(w_open, 1 + iMenuOffsetY, 12 + iMenuOffsetX, c_dkgray, "Custom Character");
+      mvwprintz(w_open, 2 + iMenuOffsetY, 12 + iMenuOffsetX, c_white,  "Preset Character");
+      mvwprintz(w_open, 3 + iMenuOffsetY, 12 + iMenuOffsetX, c_dkgray, "Random Character");
      }
      if (sel2 == 3) {
       if (!u.create(this, PLTYPE_RANDOM)) {
@@ -370,15 +404,14 @@ bool game::opening_screen()
     }
    } else if (sel1 == 2) {	// Load Character
     if (savegames.size() == 0)
-     mvwprintz(w_open, 6, 12, c_red, "No save games found!");
+     mvwprintz(w_open, 2 + iMenuOffsetY, 12 + iMenuOffsetX, c_red, "No save games found!");
     else {
      int savestart = (sel2 < 7 ?  0 : sel2 - 7),
          saveend   = (sel2 < 7 ? 14 : sel2 + 7);
      for (int i = savestart; i < saveend; i++) {
-      int line = 6 + i - savestart;
-      mvwprintz(w_open, line, 12, c_black, "                                 ");
+      int line = 2 + iMenuOffsetY + i - savestart;
       if (i < savegames.size())
-       mvwprintz(w_open, line, 12, (sel2 - 1 == i ? h_white : c_white),
+       mvwprintz(w_open, line, 12 + iMenuOffsetX, (sel2 - 1 == i ? h_white : c_white),
                  savegames[i].c_str());
      }
     }
@@ -397,8 +430,6 @@ bool game::opening_screen()
       sel2 = 1;
     } else if (input == DirectionW) {
      layer = 1;
-     for (int i = 0; i < 14; i++)
-      mvwprintz(w_open, 6 + i, 12, c_black, "                                 ");
     }
     if (input == DirectionE || input == Confirm) {
      if (sel2 > 0 && savegames.size() > 0) {
@@ -417,8 +448,7 @@ bool game::opening_screen()
     layer = 1;
    } else if (sel1 == 4) {	// Special game
     for (int i = 1; i < NUM_SPECIAL_GAMES; i++) {
-     mvwprintz(w_open, 6 + i, 12, c_black, "                                 ");
-     mvwprintz(w_open, 6 + i, 12, (sel2 == i ? h_white : c_white),
+     mvwprintz(w_open, 3 + i + iMenuOffsetY, 12 + iMenuOffsetX, (sel2 == i ? h_white : c_white),
                special_game_name( special_game_id(i) ).c_str());
     }
     wrefresh(w_open);
@@ -436,8 +466,6 @@ bool game::opening_screen()
       sel2 = 1;
     } else if (input == DirectionW) {
      layer = 1;
-     for (int i = 6; i < 15; i++)
-      mvwprintz(w_open, i, 12, c_black, "                                 ");
     }
     if (input == DirectionE || input == Confirm) {
      if (sel2 >= 1 && sel2 < NUM_SPECIAL_GAMES) {
@@ -456,15 +484,14 @@ bool game::opening_screen()
    }
   } else if (layer == 3) {	// Character Templates
    if (templates.size() == 0)
-    mvwprintz(w_open, 6, 12, c_red, "No templates found!");
+    mvwprintz(w_open, 2 + iMenuOffsetY, 29 + iMenuOffsetX, c_red, "No templates found!");
    else {
     int tempstart = (sel1 < 6 ?  0 : sel1 - 6),
         tempend   = (sel1 < 6 ? 14 : sel1 + 8);
     for (int i = tempstart; i < tempend; i++) {
-     int line = 6 + i - tempstart;
-     mvwprintz(w_open, line, 29, c_black, "                                 ");
+     int line = 2 + iMenuOffsetY + i - tempstart;
      if (i < templates.size())
-      mvwprintz(w_open, line, 29, (sel1 == i ? h_white : c_white),
+      mvwprintz(w_open, line, 29 + iMenuOffsetX, (sel1 == i ? h_white : c_white),
                 templates[i].c_str());
     }
    }
@@ -484,11 +511,7 @@ bool game::opening_screen()
    } else if (input == DirectionW || templates.size() == 0) {
     sel1 = 1;
     layer = 2;
-    for (int i = 0; i+6 < 21; i++)
-     mvwprintz(w_open, 6 + i, 12, c_black, "                                 ");
-    for (int i = 22; i < 25; i++)
-     mvwprintw(w_open, i, 0, "                                                 \
-                                ");
+    print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
    }
    else if (input == DirectionE || input == Confirm) {
     if (!u.create(this, PLTYPE_TEMPLATE, templates[sel1])) {
@@ -1603,6 +1626,9 @@ bool game::handle_action()
   case ACTION_INVENTORY: {
    bool has = false;
    char cMenu = ' ';
+   int iMaxX = 55 + ((VIEWX < 12) ? 25 : (VIEWX*2)+1);
+   int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
+
    do {
     const std::string sSpaces = "                              ";
     char chItem = inv();
@@ -1611,13 +1637,10 @@ bool game::handle_action()
 
     if (has) {
      item oThisItem = u.i_at(chItem);
-     //int iMenu = menu(("Item: " + sItemName + sSpaces.substr(sItemName.size(), sSpaces.size())).c_str(),
-     //                 "Examine", "Use/Read", "Eat", "Wear", "Wield", "Take off", "Drop", "Unload", "Reload", "Cancel", NULL);
-
      std::vector<iteminfo> vThisItem, vDummy, vMenu;
 
-     vMenu.push_back(iteminfo("MENU", "", "iX", 15));
-     vMenu.push_back(iteminfo("MENU", "", "iY", 4));
+     vMenu.push_back(iteminfo("MENU", "", "iOffsetX", 3));
+     vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
      vMenu.push_back(iteminfo("MENU", "a", "ctivate"));
      vMenu.push_back(iteminfo("MENU", "R", "ead"));
      vMenu.push_back(iteminfo("MENU", "E", "at"));
@@ -1630,8 +1653,8 @@ bool game::handle_action()
      vMenu.push_back(iteminfo("MENU", "r", "eload"));
 
      oThisItem.info(true, &vThisItem);
-     compare_split_screen_popup(true, oThisItem.tname(this), vThisItem, vDummy);
-     cMenu = compare_split_screen_popup(false, "", vMenu, vDummy);
+     compare_split_screen_popup(0, 50, iMaxY, oThisItem.tname(this), vThisItem, vDummy);
+     cMenu = compare_split_screen_popup(50, 14, 16, "", vMenu, vDummy);
 
      switch(cMenu) {
       case 'a':
