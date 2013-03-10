@@ -389,6 +389,8 @@ void computer::activate_function(game *g, computer_action action)
    if (maxx >= OMAPX) maxx = OMAPX - 1;
    if (miny < 0)             miny = 0;
    if (maxy >= OMAPY) maxy = OMAPY - 1;
+#warning download of surface maps needs to be done before checkin
+   /*
    overmap tmp(g, g->cur_om.posx, g->cur_om.posy, 0);
    for (int i = minx; i <= maxx; i++) {
     for (int j = miny; j <= maxy; j++)
@@ -396,6 +398,7 @@ void computer::activate_function(game *g, computer_action action)
    }
    tmp.save(g->u.name, g->cur_om.posx, g->cur_om.posy, 0);
    print_line("Surface map data downloaded.");
+   */
   } break;
 
   case COMPACT_MAP_SEWER: {
@@ -409,17 +412,19 @@ void computer::activate_function(game *g, computer_action action)
    if (maxy >= OMAPY) maxy = OMAPY - 1;
    for (int i = minx; i <= maxx; i++) {
     for (int j = miny; j <= maxy; j++)
-     if ((g->cur_om.ter(i, j) >= ot_sewer_ns &&
-          g->cur_om.ter(i, j) <= ot_sewer_nesw) ||
-         (g->cur_om.ter(i, j) >= ot_sewage_treatment &&
-          g->cur_om.ter(i, j) <= ot_sewage_treatment_under))
-     g->cur_om.seen(i, j) = true;
+     if ((g->cur_om.ter(i, j, g->levz) >= ot_sewer_ns &&
+          g->cur_om.ter(i, j, g->levz) <= ot_sewer_nesw) ||
+         (g->cur_om.ter(i, j, g->levz) >= ot_sewage_treatment &&
+          g->cur_om.ter(i, j, g->levz) <= ot_sewage_treatment_under))
+     g->cur_om.seen(i, j, g->levz) = true;
    }
    print_line("Sewage map data downloaded.");
   } break;
 
 
   case COMPACT_MISS_LAUNCH: {
+#warning firing of missles needs to be done before checkin
+  	/*
    overmap tmp_om(g, g->cur_om.posx, g->cur_om.posy, 0);
 // Target Acquisition.
    point target = tmp_om.choose_point(g);
@@ -445,15 +450,16 @@ void computer::activate_function(game *g, computer_action action)
     tmp_om = g->cur_om;
     g->cur_om = overmap(g, tmp_om.posx, tmp_om.posy, level);
     tinymap tmpmap(&g->itypes, &g->mapitems, &g->traps);
-    tmpmap.load(g, g->levx, g->levy, false);
+    tmpmap.load(g, g->levx, g->levy, g->levz, false);
     tmpmap.translate(t_missile, t_hole);
-    tmpmap.save(&tmp_om, g->turn, g->levx, g->levy);
+    tmpmap.save(&tmp_om, g->turn, g->levx, g->levy, g->levz);
    }
    g->cur_om = tmp_om;
    for (int x = target.x - 2; x <= target.x + 2; x++) {
     for (int y = target.y -  2; y <= target.y + 2; y++)
      g->nuke(x, y);
    }
+   */
   } break;
 
   case COMPACT_MISS_DISARM: // TODO: This!
@@ -557,7 +563,7 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n");
    print_line("\
 SITE %d%d%d%d%d\n\
 PERTINANT FOREMAN LOGS WILL BE PREPENDED TO NOTES",
-g->cur_om.posx, g->cur_om.posy, g->levx, g->levy, abs(g->levz));
+g->cur_om.pos().x, g->cur_om.pos().y, g->levx, g->levy, abs(g->levz));
    print_line("\n\
 MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER\n\
    IMPERATIVE 2:07B\n\

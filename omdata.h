@@ -13,10 +13,6 @@
 #define OMAPX 180
 #define OMAPY 180
 
-#define TUTORIAL_Z	10
-#define DEFENSE_Z	20
-#define NETHER_Z 	30
-
 class overmap;
 
 struct oter_t {
@@ -379,13 +375,13 @@ NUM_OMS_FLAGS
 struct omspec_place
 {
 // Able functions - true if p is valid
- bool never      (overmap *om, point p) { return false; }
- bool always     (overmap *om, point p) { return true;  }
- bool water      (overmap *om, point p); // Only on rivers
- bool land       (overmap *om, point p); // Only on land (no rivers)
- bool forest     (overmap *om, point p); // Forest
- bool wilderness (overmap *om, point p); // Forest or fields
- bool by_highway (overmap *om, point p); // Next to existing highways
+ bool never      (overmap *om, tripoint p) { return false; }
+ bool always     (overmap *om, tripoint p) { return true;  }
+ bool water      (overmap *om, tripoint p); // Only on rivers
+ bool land       (overmap *om, tripoint p); // Only on land (no rivers)
+ bool forest     (overmap *om, tripoint p); // Forest
+ bool wilderness (overmap *om, tripoint p); // Forest or fields
+ bool by_highway (overmap *om, tripoint p); // Next to existing highways
 };
 
 struct overmap_special
@@ -402,7 +398,7 @@ struct overmap_special
  int monster_rad_min;   // Minimum monster radius
  int monster_rad_max;   // Maximum monster radius
 
- bool (omspec_place::*able) (overmap *om, point p); // See above
+ bool (omspec_place::*able) (overmap *om, tripoint p); // See above
  unsigned flags : NUM_OMS_FLAGS; // See above
 };
 

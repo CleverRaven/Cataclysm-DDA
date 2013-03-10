@@ -79,6 +79,8 @@ bool defense_game::init(game *g)
  setup();
  g->u.cash = initial_cash;
  popup_nowait("Please wait as the map generates [ 0%]");
+ // TODO: support multiple defence games? clean up old defence game
+ g->cur_om = overmap(g, 0, 0);
  init_map(g);
  caravan(g);
  return true;
@@ -193,12 +195,12 @@ void defense_game::init_map(game *g)
 {
  for (int x = 0; x < OMAPX; x++) {
   for (int y = 0; y < OMAPY; y++) {
-   g->cur_om.ter(x, y) = ot_field;
-   g->cur_om.seen(x, y) = true;
+   g->cur_om.ter(x, y, 0) = ot_field;
+   g->cur_om.seen(x, y, 0) = true;
   }
  }
 
- g->cur_om.save(g->u.name, 0, 0, DEFENSE_Z);
+ g->cur_om.save();
  g->levx = 100;
  g->levy = 100;
  g->levz = 0;
@@ -210,29 +212,29 @@ void defense_game::init_map(game *g)
  case DEFLOC_HOSPITAL:
   for (int x = 49; x <= 51; x++) {
    for (int y = 49; y <= 51; y++)
-    g->cur_om.ter(x, y) = ot_hospital;
+    g->cur_om.ter(x, y, 0) = ot_hospital;
   }
-  g->cur_om.ter(50, 49) = ot_hospital_entrance;
+  g->cur_om.ter(50, 49, 0) = ot_hospital_entrance;
   break;
 
  case DEFLOC_MALL:
   for (int x = 49; x <= 51; x++) {
    for (int y = 49; y <= 51; y++)
-    g->cur_om.ter(x, y) = ot_megastore;
+    g->cur_om.ter(x, y, 0) = ot_megastore;
   }
-  g->cur_om.ter(50, 49) = ot_megastore_entrance;
+  g->cur_om.ter(50, 49, 0) = ot_megastore_entrance;
   break;
 
  case DEFLOC_BAR:
-  g->cur_om.ter(50, 50) = ot_bar_north;
+  g->cur_om.ter(50, 50, 0) = ot_bar_north;
   break;
 
  case DEFLOC_MANSION:
   for (int x = 49; x <= 51; x++) {
    for (int y = 49; y <= 51; y++)
-    g->cur_om.ter(x, y) = ot_mansion;
+    g->cur_om.ter(x, y, 0) = ot_mansion;
   }
-  g->cur_om.ter(50, 49) = ot_mansion_entrance;
+  g->cur_om.ter(50, 49, 0) = ot_mansion_entrance;
   break;
  }
 // Init the map
@@ -251,14 +253,14 @@ void defense_game::init_map(game *g)
    mx -= mx % 2;
    my -= my % 2;
    tinymap tm(&g->itypes, &g->mapitems, &g->traps);
-   tm.generate(g, &(g->cur_om), mx, my, int(g->turn));
+   tm.generate(g, &(g->cur_om), mx, my, 0, int(g->turn));
    tm.clear_spawns();
    tm.clear_traps();
-   tm.save(&g->cur_om, int(g->turn), mx, my);
+   tm.save(&g->cur_om, int(g->turn), mx, my, 0);
   }
  }
 
- g->m.load(g, g->levx, g->levy);
+ g->m.load(g, g->levx, g->levy, g->levz, true);
 
  g->update_map(g->u.posx, g->u.posy);
  monster generator(g->mtypes[mon_generator], g->u.posx + 1, g->u.posy + 1);

@@ -55,9 +55,9 @@ class map
              const bool low_light = false, const bool bright_level = false);
 
 // File I/O
- virtual void save(overmap *om, unsigned const int turn, const int x, const int y);
- virtual void load(game *g, const int wx, const int wy, const bool update_vehicles = true);
- void shift(game *g, const int wx, const int wy, const int x, const int y);
+ virtual void save(overmap *om, unsigned const int turn, const int x, const int y, const int z);
+ virtual void load(game *g, const int wx, const int wy, const int wz, const bool update_vehicles = true);
+ void shift(game *g, const int wx, const int wy, const int wz, const int x, const int y);
  void spawn_monsters(game *g);
  void clear_spawns();
  void clear_traps();
@@ -176,7 +176,7 @@ class map
  bool add_graffiti(game *g, int x, int y, std::string contents);
 
 // mapgen.cpp functions
- void generate(game *g, overmap *om, const int x, const int y, const int turn);
+ void generate(game *g, overmap *om, const int x, const int y, const int z, const int turn);
  void post_process(game *g, unsigned zones);
  void place_spawns(game *g, std::string group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
@@ -198,9 +198,9 @@ class map
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
 
 protected:
- void saven(overmap *om, unsigned const int turn, const int x, const int y,
+ void saven(overmap *om, unsigned const int turn, const int x, const int y, const int z,
             const int gridx, const int gridy);
- bool loadn(game *g, const int x, const int y, const int gridx, const int gridy,
+ bool loadn(game *g, const int x, const int y, const int z, const int gridx, const int gridy,
             const  bool update_vehicles = true);
  void copy_grid(const int to, const int from);
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,

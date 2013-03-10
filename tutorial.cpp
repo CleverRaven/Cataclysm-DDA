@@ -5,6 +5,8 @@
 
 bool tutorial_game::init(game *g)
 {
+	// TODO: clean up old tutorial
+
  g->turn = HOURS(12); // Start at noon
  for (int i = 0; i < NUM_LESSONS; i++)
   tutorials_seen[i] = false;
@@ -24,11 +26,9 @@ bool tutorial_game::init(game *g)
  g->u.name = "John Smith";
  g->levx = 100;
  g->levy = 100;
- g->cur_om = overmap(g, 0, 0, TUTORIAL_Z - 1);
+ g->cur_om = overmap(g, 0, 0);
  g->cur_om.make_tutorial();
- g->cur_om.save(g->u.name, 0, 0, TUTORIAL_Z - 1);
- g->cur_om = overmap(g, 0, 0, TUTORIAL_Z);
- g->cur_om.make_tutorial();
+ g->cur_om.save();
  g->u.toggle_trait(PF_QUICK);
  g->u.inv.push_back(item(g->itypes[itm_lighter], 0, 'e'));
  g->u.skillLevel("gun").level(5);
@@ -37,15 +37,15 @@ bool tutorial_game::init(game *g)
  for (int i = 0; i <= MAPSIZE; i += 2) {
   for (int j = 0; j <= MAPSIZE; j += 2) {
    tinymap tm(&g->itypes, &g->mapitems, &g->traps);
-   tm.generate(g, &(g->cur_om), g->levx + i - 1, g->levy + j - 1, int(g->turn));
+   tm.generate(g, &(g->cur_om), g->levx + i - 1, g->levy + j - 1, 0, int(g->turn));
   }
  }
 // Start with the overmap revealed
  for (int x = 0; x < OMAPX; x++) {
   for (int y = 0; y < OMAPY; y++)
-   g->cur_om.seen(x, y) = true;
+   g->cur_om.seen(x, y, 0) = true;
  }
- g->m.load(g, g->levx, g->levy);
+ g->m.load(g, g->levx, g->levy, 0);
  g->levz = 0;
  g->u.posx = SEEX + 2;
  g->u.posy = SEEY + 4;

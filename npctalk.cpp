@@ -1436,6 +1436,7 @@ void talk_function::lead_to_safety(game *g, npc *p)
  point target = g->find_mission( missid )->target;
  p->goalx = target.x;
  p->goaly = target.y;
+ p->goalz = g->levz;
  p->attitude = NPCATT_LEAD;
 }
 
