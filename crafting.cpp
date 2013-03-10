@@ -8,7 +8,6 @@
 #include "setvector.h"
 #include "inventory.h"
 
-void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_recipe_tabs(WINDOW *w, craft_cat tab);
 
 // This function just defines the recipes used throughout the game.
@@ -1377,36 +1376,6 @@ void game::craft()
  delwin(w_head);
  delwin(w_data);
  refresh_all();
-}
-
-void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
-{
- int iOffsetXRight = iOffsetX + sText.size() + 1;
-
- mvwputch(w, 0, iOffsetX,      c_ltgray, LINE_OXXO); // |^
- mvwputch(w, 0, iOffsetXRight, c_ltgray, LINE_OOXX); // ^|
- mvwputch(w, 1, iOffsetX,      c_ltgray, LINE_XOXO); // |
- mvwputch(w, 1, iOffsetXRight, c_ltgray, LINE_XOXO); // |
-
- mvwprintz(w, 1, iOffsetX+1, (bSelected) ? h_ltgray : c_ltgray, sText.c_str());
-
- for (int i = iOffsetX+1; i < iOffsetXRight; i++)
-  mvwputch(w, 0, i, c_ltgray, LINE_OXOX); // -
-
- if (bSelected) {
-  mvwputch(w, 1, iOffsetX-1,      h_ltgray, '<');
-  mvwputch(w, 1, iOffsetXRight+1, h_ltgray, '>');
-
-  for (int i = iOffsetX+1; i < iOffsetXRight; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-
-  mvwputch(w, 2, iOffsetX,      c_ltgray, LINE_XOOX); // _|
-  mvwputch(w, 2, iOffsetXRight, c_ltgray, LINE_XXOO); // |_
-
- } else {
-  mvwputch(w, 2, iOffsetX,      c_ltgray, LINE_XXOX); // _|_
-  mvwputch(w, 2, iOffsetXRight, c_ltgray, LINE_XXOX); // _|_
- }
 }
 
 void draw_recipe_tabs(WINDOW *w, craft_cat tab)
