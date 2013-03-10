@@ -179,8 +179,8 @@ void game::setup()
 void game::print_menu(WINDOW* w_open, int iSel)
 {
  //Clear Lines
- for (int i = 0; i < 25; i++)
-  for (int j = 0; j < 79; j++)
+ for (int i = 0; i < (VIEWY*2)+1; i++)
+  for (int j = 0; j < 65+(VIEWX*2); j++)
    mvwputch(w_open, i, j, c_black, ' ');
 
  for (int i = 0; i < 80; i++)
@@ -206,7 +206,7 @@ void game::print_menu(WINDOW* w_open, int iSel)
 
 bool game::opening_screen()
 {
- WINDOW* w_open = newwin(25, 80, 0, 0);
+ WINDOW* w_open = newwin((VIEWY*2)+1, 65+(VIEWX*2), 0, 0);
  print_menu(w_open, 0);
  std::vector<std::string> savegames, templates;
  std::string tmp;
