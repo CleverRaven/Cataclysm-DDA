@@ -1255,12 +1255,12 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  }
 
  p->practice("mechanics", 1);
- p->moves -= 500 - (p->dex_cur + p->skillLevel("mechanics").level()) * 5;
- if (dice(4, 6) < dice(2, p->skillLevel("mechanics").level()) + dice(2, p->dex_cur) - it->damage / 2) {
+ p->moves -= 500 - (p->dex_cur + p->skillLevel("mechanics")) * 5;
+ if (dice(4, 6) < dice(2, p->skillLevel("mechanics")) + dice(2, p->dex_cur) - it->damage / 2) {
   p->practice("mechanics", 1);
   g->add_msg_if_player(p,"With a satisfying click, the lock on the %s opens.", door_name);
   g->m.ter(dirx, diry) = new_type;
- } else if (dice(4, 4) < dice(2, p->skillLevel("mechanics").level()) +
+ } else if (dice(4, 4) < dice(2, p->skillLevel("mechanics")) +
                          dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
   it->damage++;
 
@@ -1275,7 +1275,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"The lock stumps your efforts to pick it.");
  }
  if ( type == t_door_locked_alarm &&
-      dice(4, 7) <  dice(2, p->skillLevel("mechanics").level()) +
+      dice(4, 7) <  dice(2, p->skillLevel("mechanics")) +
       dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
   g->sound(p->posx, p->posy, 30, "An alarm sounds!");
   if (!g->event_queued(EVENT_WANTED)) {
@@ -1353,7 +1353,7 @@ if (dirx == 0 && diry == 0) {
    g->add_msg_if_player(p,"There's nothing to pry there.");
    return;
   }
-  if(p->skillLevel("carpentry").level() < 1)
+  if(p->skillLevel("carpentry") < 1)
    p->practice("carpentry", 1);
   p->moves -= 500;
   g->m.add_item(p->posx, p->posy, g->itypes[itm_nail], 0, nails);
@@ -1363,8 +1363,8 @@ if (dirx == 0 && diry == 0) {
  }
 
  p->practice("mechanics", 1);
- p->moves -= (difficulty * 25) - ((p->str_cur + p->skillLevel("mechanics").level()) * 5);
- if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics").level()) + dice(2, p->str_cur)) {
+ p->moves -= (difficulty * 25) - ((p->str_cur + p->skillLevel("mechanics")) * 5);
+ if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
   p->practice("mechanics", 1);
   g->add_msg_if_player(p,"You %s the %s.", action_name, door_name);
   g->m.ter(dirx, diry) = new_type;
