@@ -444,7 +444,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   //dump << "\n Recoil: ";
   temp1.str("");
   if (has_ammo)
-   temp1 << ammo_dam; //dump << ammo_recoil;
+   temp1 << ammo_recoil; //dump << ammo_recoil;
 
   temp1 << (recoil(false) >= 0 ? "+" : "" );
   //dump << (recoil(false) >= 0 ? "+" : "" ) << recoil(false);

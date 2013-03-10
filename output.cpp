@@ -710,9 +710,9 @@ void full_screen_popup(const char* mes, ...)
  refresh();
 }
 
-char compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare)
+char compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare)
 {
- WINDOW* w = newwin(25, 40, 0, (bLeft) ? 0 : 40);
+ WINDOW* w = newwin(iHeight, iWidth, 0, iLeft);
 
  mvwprintz(w, 1, 2, c_white, sItemName.c_str());
  int line_num = 3;
@@ -721,9 +721,9 @@ char compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
  bool bStartNewLine = true;
  for (int i = 0; i < vItemDisplay.size(); i++) {
   if (vItemDisplay[i].sType == "MENU") {
-   if (vItemDisplay[i].sPre == "iY") {
+   if (vItemDisplay[i].sPre == "iOffsetY") {
     line_num += vItemDisplay[i].iValue;
-   } else if (vItemDisplay[i].sPre == "iX") {
+   } else if (vItemDisplay[i].sPre == "iOffsetX") {
     iStartX = vItemDisplay[i].iValue;
    } else {
     mvwprintz(w, line_num, iStartX, c_ltgreen, "%s", (vItemDisplay[i].sName).c_str());
@@ -736,8 +736,8 @@ char compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
    int iPos;
    while (1) {
      line_num++;
-     if (sText.size() > 36) {
-      int iPos = sText.find_last_of(' ', 36);
+     if (sText.size() > iWidth-4) {
+      int iPos = sText.find_last_of(' ', iWidth-4);
       mvwprintz(w, line_num, 2, c_white, (sText.substr(0, iPos)).c_str());
       sText = sText.substr(iPos+1, sText.size());
      } else {
@@ -807,7 +807,7 @@ char compare_split_screen_popup(bool bLeft, std::string sItemName, std::vector<i
  char ch = ' ';
 
  wrefresh(w);
- if (!bLeft) {
+ if (iLeft > 0) {
   ch = getch();
   werase(w);
   wrefresh(w);

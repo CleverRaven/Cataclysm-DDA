@@ -1601,6 +1601,9 @@ bool game::handle_action()
   case ACTION_INVENTORY: {
    bool has = false;
    char cMenu = ' ';
+   int iMaxX = 55 + ((VIEWX < 12) ? 25 : (VIEWX*2)+1);
+   int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
+
    do {
     const std::string sSpaces = "                              ";
     char chItem = inv();
@@ -1609,13 +1612,10 @@ bool game::handle_action()
 
     if (has) {
      item oThisItem = u.i_at(chItem);
-     //int iMenu = menu(("Item: " + sItemName + sSpaces.substr(sItemName.size(), sSpaces.size())).c_str(),
-     //                 "Examine", "Use/Read", "Eat", "Wear", "Wield", "Take off", "Drop", "Unload", "Reload", "Cancel", NULL);
-
      std::vector<iteminfo> vThisItem, vDummy, vMenu;
 
-     vMenu.push_back(iteminfo("MENU", "", "iX", 15));
-     vMenu.push_back(iteminfo("MENU", "", "iY", 4));
+     vMenu.push_back(iteminfo("MENU", "", "iOffsetX", 3));
+     vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
      vMenu.push_back(iteminfo("MENU", "a", "ctivate"));
      vMenu.push_back(iteminfo("MENU", "R", "ead"));
      vMenu.push_back(iteminfo("MENU", "E", "at"));
@@ -1628,8 +1628,8 @@ bool game::handle_action()
      vMenu.push_back(iteminfo("MENU", "r", "eload"));
 
      oThisItem.info(true, &vThisItem);
-     compare_split_screen_popup(true, oThisItem.tname(this), vThisItem, vDummy);
-     cMenu = compare_split_screen_popup(false, "", vMenu, vDummy);
+     compare_split_screen_popup(0, 50, iMaxY, oThisItem.tname(this), vThisItem, vDummy);
+     cMenu = compare_split_screen_popup(50, 14, 16, "", vMenu, vDummy);
 
      switch(cMenu) {
       case 'a':
