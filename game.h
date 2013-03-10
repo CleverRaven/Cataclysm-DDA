@@ -205,6 +205,9 @@ class game
   void consume_items(std::vector<component> components);
   void consume_tools(std::vector<component> tools);
 
+  bool has_gametype() const { return gamemode && gamemode->id() != SGAME_NULL; }
+  special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
+
   std::vector <itype*> itypes;
   std::vector <mtype*> mtypes;
   std::vector <vehicle*> vtypes;
@@ -390,10 +393,6 @@ class game
   void disp_kills();       // Display the player's kill counts
   void disp_NPCs();        // Currently UNUSED.  Lists global NPCs.
   void list_missions();    // Listed current, completed and failed missions.
-
-// If x & y are OOB, creates a new overmap and returns the proper terrain; also,
-// may mark the square as seen by the player
-  oter_id ter_at(int x, int y, bool& mark_as_seen);
 
 // Debug functions
   void debug();           // All-encompassing debug screen.  TODO: This.
