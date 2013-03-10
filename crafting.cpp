@@ -1224,7 +1224,7 @@ void game::craft()
     mvwprintz(w_data, 3, 30, col, "Your skill level: N/A");
    else
     mvwprintz(w_data, 3, 30, col, "Your skill level: %d",
-              u.skillLevel(current[line]->sk_primary).level());
+              u.skillLevel(current[line]->sk_primary));
    if (current[line]->time >= 1000)
     mvwprintz(w_data, 4, 30, col, "Time to complete: %d minutes",
               int(current[line]->time / 1000));
@@ -1519,11 +1519,11 @@ void game::complete_craft()
  recipe* making = recipes[u.activity.index]; // Which recipe is it?
 
 // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
- int skill_dice = u.skillLevel(making->sk_primary).level() * 3;
+ int skill_dice = u.skillLevel(making->sk_primary) * 3;
  if (making->sk_secondary == NULL)
-   skill_dice += u.skillLevel(making->sk_primary).level();
+   skill_dice += u.skillLevel(making->sk_primary);
  else
-   skill_dice += u.skillLevel(making->sk_secondary).level();
+   skill_dice += u.skillLevel(making->sk_secondary);
 // Sides on dice is 16 plus your current intelligence
  int skill_sides = 16 + u.int_cur;
 
@@ -1917,11 +1917,11 @@ void game::complete_disassemble()
 
   // adapting original crafting formula to check if disassembly was successful
   // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
-  int skill_dice = 2 + u.skillLevel(dis->sk_primary).level() * 3;
+  int skill_dice = 2 + u.skillLevel(dis->sk_primary) * 3;
    if (dis->sk_secondary == NULL)
-     skill_dice += u.skillLevel(dis->sk_primary).level();
+     skill_dice += u.skillLevel(dis->sk_primary);
    else
-     skill_dice += u.skillLevel(dis->sk_secondary).level();
+     skill_dice += u.skillLevel(dis->sk_secondary);
   // Sides on dice is 16 plus your current intelligence
    int skill_sides = 16 + u.int_cur;
 

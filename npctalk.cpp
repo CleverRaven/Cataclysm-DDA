@@ -1442,8 +1442,8 @@ void talk_function::start_training(game *g, npc *p)
   time = 30000;
  } else {
    sk_used = skill(p->chatbin.tempvalue);
-   cost = -200 * (1 + g->u.skillLevel(Skill::skill(sk_used)).level());
-   time = 10000 + 5000 * g->u.skillLevel(Skill::skill(sk_used)).level();
+   cost = -200 * (1 + g->u.skillLevel(Skill::skill(sk_used)));
+   time = 10000 + 5000 * g->u.skillLevel(Skill::skill(sk_used));
  }
 
 // Pay for it
