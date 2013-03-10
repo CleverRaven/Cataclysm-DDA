@@ -1403,8 +1403,3 @@ void mattack::bite(game *g, monster *z)
  }
 }
 
-void mattack::brandish(game *g, monster *z)
-{
-g->add_msg("He's brandishing a knife!");
-g->add_msg("Quiet, quiet");
-}

@@ -384,10 +384,10 @@ void light_map::apply_light_ray(bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy
 void light_map::build_light_cache(game* g, int cx, int cy)
 {
  // Clear cache
- for(int sx = cx - LIGHTMAP_RANGE_X; sx <= cx + LIGHTMAP_RANGE_X; ++sx) {
-  for(int sy = cy - LIGHTMAP_RANGE_Y; sy <= cy + LIGHTMAP_RANGE_Y; ++sy) {
-   int x = sx - cx + LIGHTMAP_RANGE_X;
-   int y = sy - cy + LIGHTMAP_RANGE_Y;
+ for(int x = 0; x < LIGHTMAP_CACHE_X; x++) {
+  for(int y = 0; y < LIGHTMAP_CACHE_Y; y++) {
+   int sx = x + g->u.posx - LIGHTMAP_RANGE_X;
+   int sy = y + g->u.posy - LIGHTMAP_RANGE_Y;
 
    outside_cache[x][y] = g->m.is_outside(sx, sy);
    c[x][y].transparency = LIGHT_TRANSPARENCY_CLEAR;
@@ -430,10 +430,10 @@ void light_map::build_light_cache(game* g, int cx, int cy)
   }
  }
 
- for(int sx = cx - LIGHTMAP_RANGE_X; sx <= cx + LIGHTMAP_RANGE_X; ++sx) {
-  for(int sy = cy - LIGHTMAP_RANGE_Y; sy <= cy + LIGHTMAP_RANGE_Y; ++sy) {
-   int x = sx - cx + LIGHTMAP_RANGE_X;
-   int y = sy - cy + LIGHTMAP_RANGE_Y;
+ for(int x = 0; x < LIGHTMAP_CACHE_X; x++) {
+  for(int y = 0; y < LIGHTMAP_CACHE_Y; y++) {
+   int sx = x + cx - LIGHTMAP_RANGE_X;
+   int sy = y + cy - LIGHTMAP_RANGE_Y;
 
    if (c[x][y].veh) {
     if (c[x][y].veh->part_flag(c[x][y].veh_part, vpf_opaque) &&
