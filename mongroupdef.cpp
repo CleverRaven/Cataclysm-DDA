@@ -79,18 +79,18 @@ void game::init_mongroups()
     forestGroup.monstersFreq[mon_cougar] = 100;//
     forestGroup.monstersFreq[mon_spider_wolf]= 100;
     forestGroup.monstersFreq[mon_spider_jumping] = 100;
-    forestGroup.monstersFreq[mon_dog] = 200;
-    forestGroup.monstersFreq[mon_crow] = 200;
+    forestGroup.monstersFreq[mon_dog]    = 200;
+    forestGroup.monstersFreq[mon_crow]   = 200;
 
     antGroup.defaultMonster = mon_ant;
-    antGroup.monstersFreq[mon_ant_larva] = 250;
-    antGroup.monstersFreq[mon_ant_soldier] 200;
-    antGroup.monstersFreq[mon_ant_queen] = 50;//5%
+    antGroup.monstersFreq[mon_ant_larva]   = 250;
+    antGroup.monstersFreq[mon_ant_soldier] = 200;
+    antGroup.monstersFreq[mon_ant_queen]   = 50;//5%
 
     beeGroup.defaultMonster = mon_bee;
 
     wormGroup.defaultMonster = mon_worm;
-    wormGroup.monstersFreq[mon_graboid] = 300;
+    wormGroup.monstersFreq[mon_graboid]  = 300;
     wormGroup.monstersFreq[mon_halfworm] = 300;
 
     zombieGroup.defaultMonster = mon_zombie;

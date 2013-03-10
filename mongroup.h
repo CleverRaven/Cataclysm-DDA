@@ -48,7 +48,7 @@ struct mongroup {
  bool is_safe() { return moncat_is_safe(type); };
 };
 
-typedef std::map<mon_id, int>           FreqDef;
+typedef std::map<mon_id, int> FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
 
 struct MonsterGroup

@@ -7300,56 +7300,54 @@ void map::post_process(game *g, unsigned zones)
 void map::place_spawns(game *g, const MonsterGroup *monsterGroup, const int chance,
                        const int x1, const int y1, const int x2, const int y2, const float density)
 {
-    if (!OPTIONS[OPT_STATIC_SPAWN])
-        return;
+ if (!OPTIONS[OPT_STATIC_SPAWN])
+  return;
 
-    if (one_in(chance))
+ if (one_in(chance))
+ {
+  const std::vector<mon_id> group = g->moncats[monster_type];
+  int num = density * (float)rng(10, 50);
+  //int total_freq = 0;
+
+  //for (int i = 0; i < group.size(); i++)
+  // if (g->mtypes[group[i]]->frequency > 0)
+  //  total_freq += g->mtypes[group[i]]->frequency;
+
+  //if( total_freq == 0)
+  // return;
+
+  for (int i = 0; i < num; i++)
+  {
+   int tries = 10;
+   int x = 0;
+   int y = 0;
+
+   // Pick a spot for the spawn
+   do {
+    x = rng(x1, x2);
+    y = rng(y1, y2);
+    tries--;
+   } while( move_cost(x, y) == 0 && tries );
+
+   // Pick a monster type
+   mon_id monster = monsterGroup.defaultMonster;
+   int roll;
+    for (FreqDef_iter it=monsterGroup.monsters.begin(); it!=monsterGroup.monsters.end(); ++it)
     {
-        const std::vector<mon_id> group = g->moncats[monster_type];
-        int num = density * (float)rng(10, 50);
-        /*int total_freq = 0;
-
-        for (int i = 0; i < group.size(); i++)
-         if (g->mtypes[group[i]]->frequency > 0)
-          total_freq += g->mtypes[group[i]]->frequency;
-
-        if( total_freq == 0)
-         return;*/
-
-        for (int i = 0; i < num; i++)
-        {
-            int tries = 10;
-            int x = 0;
-            int y = 0;
-
-            // Pick a spot for the spawn
-            do
-            {
-                x = rng(x1, x2);
-                y = rng(y1, y2);
-                tries--;
-            }
-            while( move_cost(x, y) == 0 && tries );
-
-            // Pick a monster type
-            mon_id monster = monsterGroup.defaultMonster;
-            int roll;
-            for (FreqDef_iter it=monsterGroup.monsters.begin(); it!=monsterGroup.monsters.end(); ++it)
-            {
-                roll  = rng(1, 1000);
-                if(it->second >= roll) return it->first;
-            }
-
-            /*int choice = rng(0, total_freq);
-            int monster_index = -1;
-            do {
-             monster_index++;
-             choice -= g->mtypes[group[monster_index]]->frequency;
-            } while (choice > 0);*/
-
-            add_spawn(monster, 1, x, y);
-        }
+        roll  = rng(1, 1000);
+        if(it->second >= roll) return it->first;
     }
+
+   //int choice = rng(0, total_freq);
+   //int monster_index = -1;
+   //do {
+   // monster_index++;
+   // choice -= g->mtypes[group[monster_index]]->frequency;
+   //} while (choice > 0);
+
+   add_spawn(monster, 1, x, y);
+  }
+ }
 }
 
 
