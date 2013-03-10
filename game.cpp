@@ -2954,57 +2954,67 @@ void game::refresh_all()
 
 void game::draw_HP()
 {
- int curhp;
- nc_color col;
- for (int i = 0; i < num_hp_parts; i++) {
-  curhp = u.hp_cur[i];
-       if (curhp == u.hp_max[i])
-   col = c_green;
-  else if (curhp > u.hp_max[i] * .8)
-   col = c_ltgreen;
-  else if (curhp > u.hp_max[i] * .5)
-   col = c_yellow;
-  else if (curhp > u.hp_max[i] * .3)
-   col = c_ltred;
-  else
-   col = c_red;
-  if (u.has_trait(PF_HPIGNORANT)) {
-   mvwprintz(w_HP, i * 2 + 1, 0, col, " ***  ");
-  } else {
-   if (curhp >= 100)
-    mvwprintz(w_HP, i * 2 + 1, 0, col, "%d     ", curhp);
-   else if (curhp >= 10)
-    mvwprintz(w_HP, i * 2 + 1, 0, col, " %d    ", curhp);
-   else
-    mvwprintz(w_HP, i * 2 + 1, 0, col, "  %d    ", curhp);
-  }
- }
- mvwprintz(w_HP,  0, 0, c_ltgray, "HEAD:  ");
- mvwprintz(w_HP,  2, 0, c_ltgray, "TORSO: ");
- mvwprintz(w_HP,  4, 0, c_ltgray, "L ARM: ");
- mvwprintz(w_HP,  6, 0, c_ltgray, "R ARM: ");
- mvwprintz(w_HP,  8, 0, c_ltgray, "L LEG: ");
- mvwprintz(w_HP, 10, 0, c_ltgray, "R LEG: ");
- mvwprintz(w_HP, 12, 0, c_ltgray, "POW:   ");
- if (u.max_power_level == 0)
-  mvwprintz(w_HP, 13, 0, c_ltgray, " --   ");
- else {
-  if (u.power_level == u.max_power_level)
-   col = c_blue;
-  else if (u.power_level >= u.max_power_level * .5)
-   col = c_ltblue;
-  else if (u.power_level > 0)
-   col = c_yellow;
-  else
-   col = c_red;
-  if (u.power_level >= 100)
-   mvwprintz(w_HP, 13, 0, col, "%d     ", u.power_level);
-  else if (u.power_level >= 10)
-   mvwprintz(w_HP, 13, 0, col, " %d    ", u.power_level);
-  else
-   mvwprintz(w_HP, 13, 0, col, "  %d    ", u.power_level);
- }
- wrefresh(w_HP);
+    int current_hp;
+    nc_color color;
+    std::string asterisks = "";
+    for (int i = 0; i < num_hp_parts; i++) {
+        current_hp = u.hp_cur[i];
+        if (current_hp == u.hp_max[i]){
+          color = c_green;
+          asterisks = " **** ";
+        } else if (current_hp > u.hp_max[i] * .8) {
+          color = c_ltgreen;
+          asterisks = " **** ";
+        } else if (current_hp > u.hp_max[i] * .5) {
+          color = c_yellow;
+          asterisks = " ***  ";
+        } else if (current_hp > u.hp_max[i] * .3) {
+          color = c_ltred;
+          asterisks = " **   ";
+        } else {
+          color = c_red;
+          asterisks = " *    ";
+        }
+        if (u.has_trait(PF_SELFAWARE)) {
+            if (current_hp >= 100){
+                mvwprintz(w_HP, i * 2 + 1, 0, color, "%d     ", current_hp);
+            } else if (current_hp >= 10) {
+                mvwprintz(w_HP, i * 2 + 1, 0, color, " %d    ", current_hp);
+            } else {
+                mvwprintz(w_HP, i * 2 + 1, 0, color, "  %d    ", current_hp);
+            }
+        } else {
+            mvwprintz(w_HP, i * 2 + 1, 0, color, asterisks.c_str());
+        }
+    }
+    mvwprintz(w_HP,  0, 0, c_ltgray, "HEAD:  ");
+    mvwprintz(w_HP,  2, 0, c_ltgray, "TORSO: ");
+    mvwprintz(w_HP,  4, 0, c_ltgray, "L ARM: ");
+    mvwprintz(w_HP,  6, 0, c_ltgray, "R ARM: ");
+    mvwprintz(w_HP,  8, 0, c_ltgray, "L LEG: ");
+    mvwprintz(w_HP, 10, 0, c_ltgray, "R LEG: ");
+    mvwprintz(w_HP, 12, 0, c_ltgray, "POW:   ");
+    if (u.max_power_level == 0){
+        mvwprintz(w_HP, 13, 0, c_ltgray, " --   ");
+    } else {
+        if (u.power_level == u.max_power_level){
+            color = c_blue;
+        } else if (u.power_level >= u.max_power_level * .5){
+            color = c_ltblue;
+        } else if (u.power_level > 0){
+            color = c_yellow;
+        } else {
+            color = c_red;
+        }
+        if (u.power_level >= 100){
+            mvwprintz(w_HP, 13, 0, color, "%d     ", u.power_level);
+        } else if (u.power_level >= 10){
+            mvwprintz(w_HP, 13, 0, color, " %d    ", u.power_level);
+        } else {
+            mvwprintz(w_HP, 13, 0, color, "  %d    ", u.power_level);
+        }
+    }
+    wrefresh(w_HP);
 }
 
 void game::draw_minimap()
