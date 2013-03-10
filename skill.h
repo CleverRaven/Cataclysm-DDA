@@ -95,6 +95,9 @@ class SkillLevel {
   bool operator!=(const int& b) const { return !(*this == b); }
   bool operator<=(const int& b) const { return !(*this >  b); }
   bool operator>=(const int& b) const { return !(*this <  b); }
+
+  // Make skillLevel act like a raw level by default.
+  operator int() const { return _level; }
 };
 
 std::istream& operator>>(std::istream& is, SkillLevel& obj);

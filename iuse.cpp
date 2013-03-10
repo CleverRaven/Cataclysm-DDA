@@ -77,7 +77,7 @@ void iuse::royal_jelly(game *g, player *p, item *it, bool t)
 
 void iuse::bandage(game *g, player *p, item *it, bool t)
 {
- int bonus = p->skillLevel("firstaid").level();
+ int bonus = p->skillLevel("firstaid");
  hp_part healed;
 
  if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
@@ -210,7 +210,7 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
 
 void iuse::firstaid(game *g, player *p, item *it, bool t)
 {
- int bonus = p->skillLevel("firstaid").level();
+ int bonus = p->skillLevel("firstaid");
  hp_part healed;
 
  if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
@@ -752,7 +752,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
  } else if (fix->damage == 0) {
   p->moves -= 500;
   p->practice("tailor", 10);
-  int rn = dice(4, 2 + p->skillLevel("tailor").level());
+  int rn = dice(4, 2 + p->skillLevel("tailor"));
   if (p->dex_cur < 8 && one_in(p->dex_cur))
    rn -= rng(2, 6);
   if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur)))
@@ -770,7 +770,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
  } else {
   p->moves -= 500;
   p->practice("tailor", 8);
-  int rn = dice(4, 2 + p->skillLevel("tailor").level());
+  int rn = dice(4, 2 + p->skillLevel("tailor"));
   rn -= rng(fix->damage, fix->damage * 2);
   if (p->dex_cur < 8 && one_in(p->dex_cur))
    rn -= rng(2, 6);
@@ -2114,8 +2114,8 @@ void iuse::manhack(game *g, player *p, item *it, bool t)
  p->moves -= 60;
  it->invlet = 0; // Remove the manhack from the player's inv
  monster manhack(g->mtypes[mon_manhack], valid[index].x, valid[index].y);
- if (rng(0, p->int_cur / 2) + p->skillLevel("electronics").level() / 2 +
-     p->skillLevel("computer").level() < rng(0, 4))
+ if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
+     p->skillLevel("computer") < rng(0, 4))
   g->add_msg_if_player(p,"You misprogram the manhack; it's hostile!");
  else
   manhack.friendly = -1;
@@ -2141,8 +2141,8 @@ void iuse::turret(game *g, player *p, item *it, bool t)
  }
  it->invlet = 0; // Remove the turret from the player's inv
  monster turret(g->mtypes[mon_turret], dirx, diry);
- if (rng(0, p->int_cur / 2) + p->skillLevel("electronics").level() / 2 +
-     p->skillLevel("computer").level() < rng(0, 6))
+ if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
+     p->skillLevel("computer") < rng(0, 6))
   g->add_msg_if_player(p,"You misprogram the turret; it's hostile!");
  else
   turret.friendly = -1;
@@ -2197,7 +2197,7 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
   return;
  }
 
- int numdice = 3 + (p->dex_cur / 2.5) + p->skillLevel("melee").level() * 2;
+ int numdice = 3 + (p->dex_cur / 2.5) + p->skillLevel("melee") * 2;
  p->moves -= 100;
 
  if (mondex != -1) {
@@ -2514,7 +2514,7 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
   item scrap(g->itypes[itm_splinter], int(g->turn), g->nextinv);
   p->i_rem(ch);
   bool drop = false;
-  int planks = (rng(1, 3) + (p->skillLevel("carpentry").level() * 2));
+  int planks = (rng(1, 3) + (p->skillLevel("carpentry") * 2));
   int scraps = 12 - planks;
    if (planks >= 12)
     planks = 12;
