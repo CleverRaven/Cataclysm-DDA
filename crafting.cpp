@@ -8,7 +8,6 @@
 #include "setvector.h"
 #include "inventory.h"
 
-void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_recipe_tabs(WINDOW *w, craft_cat tab);
 
 // This function just defines the recipes used throughout the game.
@@ -23,6 +22,16 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
                               time, reversible) )
  #define TOOL(...)  setvector(recipes[id]->tools[tl],      __VA_ARGS__); tl++
  #define COMP(...)  setvector(recipes[id]->components[cl], __VA_ARGS__); cl++
+
+/**
+ * Macro Tool Groups
+ * Placeholder for imminent better system, this is already ridiculous
+ * Usage:
+ * TOOL(TG_KNIVES,NULL);
+ */
+
+#define TG_KNIVES \
+ itm_knife_steak, -1, itm_knife_combat, -1, itm_knife_butcher, -1, itm_pockknife, -1, itm_xacto, -1, itm_scalpel, -1, itm_machete, -1
 
 /* A recipe will not appear in your menu until your level in the primary skill
  * is at least equal to the difficulty.  At that point, your chance of success
@@ -64,8 +73,7 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP(itm_stick, 1, itm_mop, 1, itm_broom, 1, NULL);
 
  RECIPE(itm_spear_wood, CC_WEAPON, NULL, NULL, 0, 800, false);
-  TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
-	itm_knife_combat, -1, itm_machete, -1, itm_toolset, -1, NULL);
+  TOOL(itm_hatchet, -1, TG_KNIVES, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_pool_cue, 1, NULL);
 
  RECIPE(itm_javelin, CC_WEAPON, "survival", NULL, 1, 5000, false);
@@ -82,14 +90,12 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP(itm_string_6, 6, itm_string_36, 1, NULL);
 
  RECIPE(itm_longbow, CC_WEAPON, "archery", "survival", 2, 15000, true);
-  TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
-       itm_knife_combat, -1, itm_machete, -1, itm_toolset, -1, NULL);
+  TOOL(itm_hatchet, -1, TG_KNIVES, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, NULL);
   COMP(itm_string_36, 2, NULL);
 
  RECIPE(itm_arrow_wood, CC_WEAPON, "archery", "survival", 1, 5000, false);
-  TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
-       itm_knife_combat, -1, itm_machete, -1, itm_pockknife, -1, itm_toolset, -1, NULL);
+  TOOL(itm_hatchet, -1, TG_KNIVES, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_bee_sting, 1,
        NULL);
 
@@ -131,8 +137,7 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP(itm_saiga_12, 1, NULL);
 
  RECIPE(itm_bolt_wood, CC_WEAPON, "mechanics", "archery", 1, 5000, false);
-  TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
-       itm_knife_combat, -1, itm_machete, -1, itm_toolset, -1, NULL);
+  TOOL(itm_hatchet, TG_KNIVES, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_bee_sting, 1,
        NULL);
 
@@ -790,7 +795,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
 // ARMOR
 
  RECIPE(itm_thread, CC_ARMOR, "tailor", NULL, 1, 3000, false);
-  TOOL(itm_knife_combat, -1, itm_knife_steak, -1, itm_scissors, -1, NULL);
+  TOOL(TG_KNIVES, itm_scissors, -1, NULL);
   COMP(itm_string_6, 1, NULL);
 
  RECIPE(itm_ragpouch, CC_ARMOR, "tailor",  NULL, 0, 10000, false);
@@ -852,7 +857,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_rag, 2, NULL);
 
  RECIPE(itm_gloves_fingerless, CC_ARMOR, "tailor", NULL, 0, 16000, false);
-  TOOL(itm_scissors, -1, itm_knife_combat, -1, itm_knife_steak, -1, NULL);
+  TOOL(itm_scissors, -1, TG_KNIVES, NULL);
   COMP(itm_gloves_leather, 1, NULL);
 
  RECIPE(itm_gloves_leather, CC_ARMOR, "tailor", NULL, 2, 16000, false);
@@ -870,8 +875,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_hose, 1, NULL);
 
  RECIPE(itm_glasses_safety, CC_ARMOR, "tailor", NULL, 1, 8000, false);
-  TOOL(itm_scissors, -1, itm_xacto, -1, itm_knife_steak, -1,
-       itm_knife_combat, -1, itm_toolset, -1, NULL);
+  TOOL(itm_scissors, -1, TG_KNIVES, itm_toolset, -1, NULL);
   COMP(itm_string_36, 1, itm_string_6, 2, NULL);
   COMP(itm_bottle_plastic, 1, NULL);
 
@@ -959,19 +963,19 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_wire, 3, NULL);
 
  RECIPE(itm_string_6, CC_MISC, NULL, NULL, 0, 5000, true);
-  TOOL(itm_knife_steak, -1, itm_knife_combat, -1, NULL);
+  TOOL(TG_KNIVES, NULL);
   COMP(itm_thread, 50, NULL);
 
  RECIPE(itm_string_36, CC_MISC, NULL, NULL, 0, 5000, true);
-  TOOL(itm_knife_steak, -1, itm_knife_combat, -1, NULL);
+  TOOL(TG_KNIVES, NULL);
   COMP(itm_string_6, 6, NULL);
 
  RECIPE(itm_rope_6, CC_MISC, "tailor", NULL, 0, 5000, true);
-  TOOL(itm_knife_steak, -1, itm_knife_combat, -1, NULL);
+  TOOL(TG_KNIVES, NULL);
   COMP(itm_string_36, 6, NULL);
 
  RECIPE(itm_rope_30, CC_MISC, "tailor", NULL, 0, 5000, true);
-  TOOL(itm_knife_steak, -1, itm_knife_combat, -1, NULL);
+  TOOL(TG_KNIVES, NULL);
   COMP(itm_rope_6, 5, NULL);
 
  RECIPE(itm_torch,        CC_MISC, NULL,    NULL,     0, 2000, false);
@@ -1224,7 +1228,8 @@ void game::craft()
     mvwprintz(w_data, 3, 30, col, "Your skill level: N/A");
    else
     mvwprintz(w_data, 3, 30, col, "Your skill level: %d",
-              u.skillLevel(current[line]->sk_primary));
+              // Macs don't seem to like passing this as a class, so force it to int
+              (int)u.skillLevel(current[line]->sk_primary));
    if (current[line]->time >= 1000)
     mvwprintz(w_data, 4, 30, col, "Time to complete: %d minutes",
               int(current[line]->time / 1000));
@@ -1377,36 +1382,6 @@ void game::craft()
  delwin(w_head);
  delwin(w_data);
  refresh_all();
-}
-
-void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
-{
- int iOffsetXRight = iOffsetX + sText.size() + 1;
-
- mvwputch(w, 0, iOffsetX,      c_ltgray, LINE_OXXO); // |^
- mvwputch(w, 0, iOffsetXRight, c_ltgray, LINE_OOXX); // ^|
- mvwputch(w, 1, iOffsetX,      c_ltgray, LINE_XOXO); // |
- mvwputch(w, 1, iOffsetXRight, c_ltgray, LINE_XOXO); // |
-
- mvwprintz(w, 1, iOffsetX+1, (bSelected) ? h_ltgray : c_ltgray, sText.c_str());
-
- for (int i = iOffsetX+1; i < iOffsetXRight; i++)
-  mvwputch(w, 0, i, c_ltgray, LINE_OXOX); // -
-
- if (bSelected) {
-  mvwputch(w, 1, iOffsetX-1,      h_ltgray, '<');
-  mvwputch(w, 1, iOffsetXRight+1, h_ltgray, '>');
-
-  for (int i = iOffsetX+1; i < iOffsetXRight; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-
-  mvwputch(w, 2, iOffsetX,      c_ltgray, LINE_XOOX); // _|
-  mvwputch(w, 2, iOffsetXRight, c_ltgray, LINE_XXOO); // |_
-
- } else {
-  mvwputch(w, 2, iOffsetX,      c_ltgray, LINE_XXOX); // _|_
-  mvwputch(w, 2, iOffsetXRight, c_ltgray, LINE_XXOX); // _|_
- }
 }
 
 void draw_recipe_tabs(WINDOW *w, craft_cat tab)

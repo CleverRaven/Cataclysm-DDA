@@ -77,267 +77,310 @@ void iuse::royal_jelly(game *g, player *p, item *it, bool t)
 
 void iuse::bandage(game *g, player *p, item *it, bool t)
 {
- int bonus = p->skillLevel("firstaid");
- hp_part healed;
+    int bonus = p->skillLevel("firstaid");
+    hp_part healed;
 
- if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
-  int highest_damage = 0;
-  for (int i = 0; i < num_hp_parts; i++) {
-   int damage = p->hp_max[i] - p->hp_cur[i];
-   if (i == hp_head)
-    damage *= 1.5;
-   if (i == hp_torso)
-    damage *= 1.2;
-   if (damage > highest_damage) {
-    highest_damage = damage;
-    healed = hp_part(i);
-   }
-  }
- } else { // Player--present a menu
-
-  WINDOW* w = newwin(10, 22, 8, 1);
-  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-  mvwprintz(w, 1, 1, c_ltred,  "Bandage where?");
-  mvwprintz(w, 2, 1, c_ltgray, "1: Head");
-  mvwprintz(w, 3, 1, c_ltgray, "2: Torso");
-  mvwprintz(w, 4, 1, c_ltgray, "3: Left Arm");
-  mvwprintz(w, 5, 1, c_ltgray, "4: Right Arm");
-  mvwprintz(w, 6, 1, c_ltgray, "5: Left Leg");
-  mvwprintz(w, 7, 1, c_ltgray, "6: Right Leg");
-  mvwprintz(w, 8, 1, c_ltgray, "7: Stop Bleeding");
-  mvwprintz(w, 9, 1, c_ltgray, "8: Exit");
-  nc_color col;
-  int curhp;
-  for (int i = 0; i < num_hp_parts; i++) {
-   curhp = p->hp_cur[i];
-   int tmpbonus = bonus;
-   if (curhp != 0) {
-    switch (hp_part(i)) {
-     case hp_head:  curhp += 1;	tmpbonus *=  .8;	break;
-     case hp_torso: curhp += 4;	tmpbonus *= 1.5;	break;
-     default:       curhp += 3;				break;
+    if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
+        int highest_damage = 0;
+        for (int i = 0; i < num_hp_parts; i++) {
+            int damage = p->hp_max[i] - p->hp_cur[i];
+            if (i == hp_head)
+                damage *= 1.5;
+            if (i == hp_torso)
+                damage *= 1.2;
+            if (damage > highest_damage) {
+                highest_damage = damage;
+                healed = hp_part(i);
+            }
+        }
+    } else { // Player--present a menu
+        WINDOW* hp_window = newwin(10, 22, 8, 1);
+        wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+        LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+        mvwprintz(hp_window, 1, 1, c_ltred,  "Bandage where?");
+        mvwprintz(hp_window, 2, 1, c_ltgray, "1: Head");
+        mvwprintz(hp_window, 3, 1, c_ltgray, "2: Torso");
+        mvwprintz(hp_window, 4, 1, c_ltgray, "3: Left Arm");
+        mvwprintz(hp_window, 5, 1, c_ltgray, "4: Right Arm");
+        mvwprintz(hp_window, 6, 1, c_ltgray, "5: Left Leg");
+        mvwprintz(hp_window, 7, 1, c_ltgray, "6: Right Leg");
+        mvwprintz(hp_window, 8, 1, c_ltgray, "7: Stop Bleeding");
+        mvwprintz(hp_window, 9, 1, c_ltgray, "8: Exit");
+        nc_color color;
+        std::string asterisks = "";
+        int current_hp;
+        for (int i = 0; i < num_hp_parts; i++) {
+            current_hp = p->hp_cur[i];
+            int temporary_bonus = bonus;
+            if (current_hp != 0) {
+                switch (hp_part(i)) {
+                    case hp_head: 
+                        current_hp += 1;
+                        temporary_bonus *=  .8;
+                        break;
+                    case hp_torso:
+                        current_hp += 4;
+                        temporary_bonus *= 1.5;
+                        break;
+                    default:
+                        current_hp += 3;
+                        break;
+                }
+                current_hp += temporary_bonus;
+                if (current_hp > p->hp_max[i]){
+                  current_hp = p->hp_max[i];
+                }
+                if (current_hp == p->hp_max[i]){
+                  color = c_green;
+                  asterisks = "***";
+                } else if (current_hp > p->hp_max[i] * .8) {
+                  color = c_ltgreen;
+                  asterisks = "***";
+                } else if (current_hp > p->hp_max[i] * .5) {
+                  color = c_yellow;
+                  asterisks = "** ";
+                } else if (current_hp > p->hp_max[i] * .3) {
+                  color = c_ltred;
+                  asterisks = "** ";
+                } else {
+                  color = c_red;
+                  asterisks = "*  ";
+                }
+                if (p->has_trait(PF_SELFAWARE)) {
+                    if (current_hp >= 100){
+                        mvwprintz(hp_window, i * 2 + 15, 0, color, "%d", current_hp);
+                    } else if (current_hp >= 10) {
+                        mvwprintz(hp_window, i * 2 + 16, 0, color, "%d", current_hp);
+                    } else {
+                        mvwprintz(hp_window, i * 2 + 17, 0, color, "%d", current_hp);
+                    }
+                } else {
+                    mvwprintz(hp_window, i * 2 + 15, 0, color, asterisks.c_str());
+                }
+            } else { // curhp is 0; requires surgical attention
+                mvwprintz(hp_window, i + 2, 15, c_dkgray, "---");
+            }
+        }
+        wrefresh(hp_window);
+        char ch;
+        do {
+            ch = getch();
+            if (ch == '1'){
+                healed = hp_head;
+            } else if (ch == '2'){
+                healed = hp_torso;
+            } else if (ch == '3') {
+                if (p->hp_cur[hp_arm_l] == 0) {
+                    g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
+                    add_or_drop_item(g, p, it);
+                    return;
+                } else {
+                    healed = hp_arm_l;
+                }
+            } else if (ch == '4') {
+                if (p->hp_cur[hp_arm_r] == 0) {
+                    g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
+                    add_or_drop_item(g, p, it);
+                    return;
+                } else {
+                    healed = hp_arm_r;
+                }
+            } else if (ch == '5') {
+                if (p->hp_cur[hp_leg_l] == 0) {
+                    g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
+                    add_or_drop_item(g, p, it);
+                    return;
+                } else {
+                    healed = hp_leg_l;
+                }
+            } else if (ch == '6') {
+                if (p->hp_cur[hp_leg_r] == 0) {
+                    g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
+                    add_or_drop_item(g, p, it);
+                    return;
+                } else {
+                    healed = hp_leg_r;
+                }
+            } else if (ch == '8') {
+                g->add_msg_if_player(p,"Never mind.");
+                add_or_drop_item(g, p, it);
+                return;
+            } else if (ch == '7') {
+                g->add_msg_if_player(p,"You stopped the bleeding.");
+                p->rem_disease(DI_BLEED);
+                return;
+            }
+        } while (ch < '1' || ch > '8');
+        werase(hp_window);
+        wrefresh(hp_window);
+        delwin(hp_window);
+        refresh();
     }
-    curhp += tmpbonus;
-    if (curhp > p->hp_max[i])
-     curhp = p->hp_max[i];
-    if (curhp == p->hp_max[i])
-     col = c_green;
-    else if (curhp > p->hp_max[i] * .8)
-     col = c_ltgreen;
-    else if (curhp > p->hp_max[i] * .5)
-     col = c_yellow;
-    else if (curhp > p->hp_max[i] * .3)
-     col = c_ltred;
-    else
-     col = c_red;
-    if (p->has_trait(PF_HPIGNORANT))
-     mvwprintz(w, i + 2, 15, col, "***");
-    else {
-     if (curhp >= 100)
-      mvwprintz(w, i + 2, 15, col, "%d", curhp);
-     else if (curhp >= 10)
-      mvwprintz(w, i + 2, 16, col, "%d", curhp);
-     else
-      mvwprintz(w, i + 2, 17, col, "%d", curhp);
+
+    p->practice("firstaid", 8);
+    int dam = 0;
+    if (healed == hp_head){
+        dam = 1 + bonus * .8;
+    } else if (healed == hp_torso){
+        dam = 4 + bonus * 1.5;
+    } else {
+        dam = 3 + bonus;
+        p->heal(healed, dam);
     }
-   } else	// curhp is 0; requires surgical attention
-    mvwprintz(w, i + 2, 15, c_dkgray, "---");
-  }
-  wrefresh(w);
-  char ch;
-  do {
-   ch = getch();
-   if (ch == '1')
-    healed = hp_head;
-   else if (ch == '2')
-    healed = hp_torso;
-   else if (ch == '3') {
-    if (p->hp_cur[hp_arm_l] == 0) {
-     g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
-     add_or_drop_item(g, p, it);
-     return;
-    } else
-     healed = hp_arm_l;
-   } else if (ch == '4') {
-    if (p->hp_cur[hp_arm_r] == 0) {
-     g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
-     add_or_drop_item(g, p, it);
-     return;
-    } else
-     healed = hp_arm_r;
-   } else if (ch == '5') {
-    if (p->hp_cur[hp_leg_l] == 0) {
-     g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
-     add_or_drop_item(g, p, it);
-     return;
-    } else
-     healed = hp_leg_l;
-   } else if (ch == '6') {
-    if (p->hp_cur[hp_leg_r] == 0) {
-     g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
-     add_or_drop_item(g, p, it);
-     return;
-    } else
-     healed = hp_leg_r;
-   } else if (ch == '8') {
-	g->add_msg_if_player(p,"Never mind.");
- 	add_or_drop_item(g, p, it);
-    return;
-
-   } else if (ch == '7') {
-    g->add_msg_if_player(p,"You stopped the bleeding.");
-    p->rem_disease(DI_BLEED);
-    return;
-   }
-  } while (ch < '1' || ch > '8');
-  werase(w);
-  wrefresh(w);
-  delwin(w);
-  refresh();
- }
-
- p->practice("firstaid", 8);
- int dam = 0;
- if (healed == hp_head)
-  dam = 1 + bonus * .8;
- else if (healed == hp_torso)
-  dam = 4 + bonus * 1.5;
- else
-  dam = 3 + bonus;
- p->heal(healed, dam);
 }
 
 void iuse::firstaid(game *g, player *p, item *it, bool t)
 {
- int bonus = p->skillLevel("firstaid");
- hp_part healed;
+    int bonus = p->skillLevel("firstaid");
+    hp_part healed;
 
- if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
-  int highest_damage = 0;
-  for (int i = 0; i < num_hp_parts; i++) {
-   int damage = p->hp_max[i] - p->hp_cur[i];
-   if (i == hp_head)
-    damage *= 1.5;
-   if (i == hp_torso)
-    damage *= 1.2;
-   if (damage > highest_damage) {
-    highest_damage = damage;
-    healed = hp_part(i);
-   }
-  }
- } else { // Player--present a menu
-
-  WINDOW* w = newwin(11, 22, 8, 1);
-  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-  mvwprintz(w, 1, 1, c_ltred,  "First Aid where?");
-  mvwprintz(w, 2, 1, c_ltgray, "1: Head");
-  mvwprintz(w, 3, 1, c_ltgray, "2: Torso");
-  mvwprintz(w, 4, 1, c_ltgray, "3: Left Arm");
-  mvwprintz(w, 5, 1, c_ltgray, "4: Right Arm");
-  mvwprintz(w, 6, 1, c_ltgray, "5: Left Leg");
-  mvwprintz(w, 7, 1, c_ltgray, "6: Right Leg");
-  mvwprintz(w, 8, 1, c_ltgray, "7: Clean Wound");
-  mvwprintz(w, 9, 1, c_ltgray, "8: Exit");
-  nc_color col;
-  int curhp;
-  for (int i = 0; i < num_hp_parts; i++) {
-   curhp = p->hp_cur[i];
-   int tmpbonus = bonus;
-   if (curhp != 0) {
-    switch (hp_part(i)) {
-     case hp_head:  curhp += 10; tmpbonus *=  .8;	break;
-     case hp_torso: curhp += 18; tmpbonus *= 1.5;	break;
-     default:       curhp += 14;			break;
+    if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
+        int highest_damage = 0;
+        for (int i = 0; i < num_hp_parts; i++) {
+            int damage = p->hp_max[i] - p->hp_cur[i];
+            if (i == hp_head)
+                damage *= 1.5;
+            if (i == hp_torso)
+                damage *= 1.2;
+            if (damage > highest_damage) {
+                highest_damage = damage;
+                healed = hp_part(i);
+            }
+        }
+    } else { // Player--present a menu
+        WINDOW* hp_window = newwin(10, 22, 8, 1);
+        wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+        LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+        mvwprintz(hp_window, 1, 1, c_ltred,  "First Aid where?");
+        mvwprintz(hp_window, 2, 1, c_ltgray, "1: Head");
+        mvwprintz(hp_window, 3, 1, c_ltgray, "2: Torso");
+        mvwprintz(hp_window, 4, 1, c_ltgray, "3: Left Arm");
+        mvwprintz(hp_window, 5, 1, c_ltgray, "4: Right Arm");
+        mvwprintz(hp_window, 6, 1, c_ltgray, "5: Left Leg");
+        mvwprintz(hp_window, 7, 1, c_ltgray, "6: Right Leg");
+        mvwprintz(hp_window, 8, 1, c_ltgray, "7: Clean Wound");
+        mvwprintz(hp_window, 9, 1, c_ltgray, "8: Exit");
+        nc_color color;
+        std::string asterisks = "";
+        int current_hp;
+        for (int i = 0; i < num_hp_parts; i++) {
+            current_hp = p->hp_cur[i];
+            int temporary_bonus = bonus;
+            if (current_hp != 0) {
+                switch (hp_part(i)) {
+                    case hp_head: 
+                        current_hp += 10;
+                        temporary_bonus *=  .8;
+                        break;
+                    case hp_torso:
+                        current_hp += 18;
+                        temporary_bonus *= 1.5;
+                        break;
+                    default:
+                        current_hp += 14;
+                        break;
+                }
+                current_hp += temporary_bonus;
+                if (current_hp > p->hp_max[i]){
+                  current_hp = p->hp_max[i];
+                }
+                if (current_hp == p->hp_max[i]){
+                  color = c_green;
+                  asterisks = "***";
+                } else if (current_hp > p->hp_max[i] * .8) {
+                  color = c_ltgreen;
+                  asterisks = "***";
+                } else if (current_hp > p->hp_max[i] * .5) {
+                  color = c_yellow;
+                  asterisks = "** ";
+                } else if (current_hp > p->hp_max[i] * .3) {
+                  color = c_ltred;
+                  asterisks = "** ";
+                } else {
+                  color = c_red;
+                  asterisks = "*  ";
+                }
+                if (p->has_trait(PF_SELFAWARE)) {
+                    if (current_hp >= 100){
+                        mvwprintz(hp_window, i * 2 + 15, 0, color, "%d", current_hp);
+                    } else if (current_hp >= 10) {
+                        mvwprintz(hp_window, i * 2 + 16, 0, color, "%d", current_hp);
+                    } else {
+                        mvwprintz(hp_window, i * 2 + 17, 0, color, "%d", current_hp);
+                    }
+                } else {
+                    mvwprintz(hp_window, i * 2 + 15, 0, color, asterisks.c_str());
+                }
+            } else { // curhp is 0; requires surgical attention
+                mvwprintz(hp_window, i + 2, 15, c_dkgray, "---");
+            }
+        }
+        wrefresh(hp_window);
+        char ch;
+        do {
+            ch = getch();
+            if (ch == '1'){
+                healed = hp_head;
+            } else if (ch == '2'){
+                healed = hp_torso;
+            } else if (ch == '3') {
+                if (p->hp_cur[hp_arm_l] == 0) {
+                    g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
+                    add_or_drop_item(g, p, it);
+                    return;
+                } else {
+                    healed = hp_arm_l;
+                }
+            } else if (ch == '4') {
+                if (p->hp_cur[hp_arm_r] == 0) {
+                    g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
+                    add_or_drop_item(g, p, it);
+                    return;
+                } else {
+                    healed = hp_arm_r;
+                }
+            } else if (ch == '5') {
+                if (p->hp_cur[hp_leg_l] == 0) {
+                    g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
+                    add_or_drop_item(g, p, it);
+                    return;
+                } else {
+                    healed = hp_leg_l;
+                }
+            } else if (ch == '6') {
+                if (p->hp_cur[hp_leg_r] == 0) {
+                    g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
+                    add_or_drop_item(g, p, it);
+                    return;
+                } else {
+                    healed = hp_leg_r;
+                }
+            } else if (ch == '8') {
+                g->add_msg_if_player(p,"Never mind.");
+                add_or_drop_item(g, p, it);
+                return;
+            } else if (ch == '7') {
+                g->add_msg_if_player(p,"You clean the bite wound.");
+                p->rem_disease(DI_BITE);
+                return;
+            }
+        } while (ch < '1' || ch > '8');
+        werase(hp_window);
+        wrefresh(hp_window);
+        delwin(hp_window);
+        refresh();
     }
-    curhp += tmpbonus;
-    if (curhp > p->hp_max[i])
-     curhp = p->hp_max[i];
-    if (curhp == p->hp_max[i])
-     col = c_green;
-    else if (curhp > p->hp_max[i] * .8)
-     col = c_ltgreen;
-    else if (curhp > p->hp_max[i] * .5)
-     col = c_yellow;
-    else if (curhp > p->hp_max[i] * .3)
-     col = c_ltred;
-    else
-     col = c_red;
-    if (p->has_trait(PF_HPIGNORANT))
-     mvwprintz(w, i + 2, 15, col, "***");
-    else {
-     if (curhp >= 100)
-      mvwprintz(w, i + 2, 15, col, "%d", curhp);
-     else if (curhp >= 10)
-      mvwprintz(w, i + 2, 16, col, "%d", curhp);
-     else
-      mvwprintz(w, i + 2, 17, col, "%d", curhp);
-    }
-   } else	// curhp is 0; requires surgical attention
-    mvwprintz(w, i + 2, 15, c_dkgray, "---");
-  }
-  wrefresh(w);
-  char ch;
-  do {
-   ch = getch();
-   if (ch == '1')
-    healed = hp_head;
-   else if (ch == '2')
-    healed = hp_torso;
-   else if (ch == '3') {
-    if (p->hp_cur[hp_arm_l] == 0) {
-     g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
-     add_or_drop_item(g, p, it);
-     return;
-    } else
-     healed = hp_arm_l;
-   } else if (ch == '4') {
-    if (p->hp_cur[hp_arm_r] == 0) {
-     g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
-     add_or_drop_item(g, p, it);
-     return;
-    } else
-     healed = hp_arm_r;
-   } else if (ch == '5') {
-    if (p->hp_cur[hp_leg_l] == 0) {
-     g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
-     add_or_drop_item(g, p, it);
-     return;
-    } else
-     healed = hp_leg_l;
-   } else if (ch == '6') {
-    if (p->hp_cur[hp_leg_r] == 0) {
-     g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
-     add_or_drop_item(g, p, it);
-     return;
-    } else
-     healed = hp_leg_r;
-   } else if (ch == '8') {
-    g->add_msg_if_player(p,"Never mind.");
-    add_or_drop_item(g, p, it);
-    return;
-   } else if (ch == '7') {
-    g->add_msg_if_player(p,"You patch up the bite wound.");
-    p->rem_disease(DI_BITE);
-    return;
-   }
-  } while (ch < '1' || ch > '8');
-  werase(w);
-  wrefresh(w);
-  delwin(w);
-  refresh();
- }
 
- p->practice("firstaid", 8);
- int dam = 0;
- if (healed == hp_head)
-  dam = 10 + bonus * .8;
- else if (healed == hp_torso)
-  dam = 18 + bonus * 1.5;
- else
-  dam = 14 + bonus;
- p->heal(healed, dam);
+    p->practice("firstaid", 8);
+    int dam = 0;
+    if (healed == hp_head){
+        dam = 10 + bonus * .8;
+    } else if (healed == hp_torso){
+        dam = 18 + bonus * 1.5;
+    } else {
+        dam = 14 + bonus;
+        p->heal(healed, dam);
+    }
 }
 
 // Aspirin
@@ -1212,12 +1255,12 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  }
 
  p->practice("mechanics", 1);
- p->moves -= 500 - (p->dex_cur + p->skillLevel("mechanics").level()) * 5;
- if (dice(4, 6) < dice(2, p->skillLevel("mechanics").level()) + dice(2, p->dex_cur) - it->damage / 2) {
+ p->moves -= 500 - (p->dex_cur + p->skillLevel("mechanics")) * 5;
+ if (dice(4, 6) < dice(2, p->skillLevel("mechanics")) + dice(2, p->dex_cur) - it->damage / 2) {
   p->practice("mechanics", 1);
   g->add_msg_if_player(p,"With a satisfying click, the lock on the %s opens.", door_name);
   g->m.ter(dirx, diry) = new_type;
- } else if (dice(4, 4) < dice(2, p->skillLevel("mechanics").level()) +
+ } else if (dice(4, 4) < dice(2, p->skillLevel("mechanics")) +
                          dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
   it->damage++;
 
@@ -1232,7 +1275,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"The lock stumps your efforts to pick it.");
  }
  if ( type == t_door_locked_alarm &&
-      dice(4, 7) <  dice(2, p->skillLevel("mechanics").level()) +
+      dice(4, 7) <  dice(2, p->skillLevel("mechanics")) +
       dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
   g->sound(p->posx, p->posy, 30, "An alarm sounds!");
   if (!g->event_queued(EVENT_WANTED)) {
@@ -1310,7 +1353,7 @@ if (dirx == 0 && diry == 0) {
    g->add_msg_if_player(p,"There's nothing to pry there.");
    return;
   }
-  if(p->skillLevel("carpentry").level() < 1)
+  if(p->skillLevel("carpentry") < 1)
    p->practice("carpentry", 1);
   p->moves -= 500;
   g->m.add_item(p->posx, p->posy, g->itypes[itm_nail], 0, nails);
@@ -1320,8 +1363,8 @@ if (dirx == 0 && diry == 0) {
  }
 
  p->practice("mechanics", 1);
- p->moves -= (difficulty * 25) - ((p->str_cur + p->skillLevel("mechanics").level()) * 5);
- if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics").level()) + dice(2, p->str_cur)) {
+ p->moves -= (difficulty * 25) - ((p->str_cur + p->skillLevel("mechanics")) * 5);
+ if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
   p->practice("mechanics", 1);
   g->add_msg_if_player(p,"You %s the %s.", action_name, door_name);
   g->m.ter(dirx, diry) = new_type;

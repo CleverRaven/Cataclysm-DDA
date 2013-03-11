@@ -1073,7 +1073,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
    if (line < skill_win_size_y+1) {
      mvwprintz(w_skills, line, 1, skillLevel(*aSkill).isTraining() ? c_ltblue : c_blue, "%s",
                ((*aSkill)->name() + ":").c_str());
-     mvwprintz(w_skills, line, 19, skillLevel(*aSkill).isTraining() ? c_ltblue : c_blue, "%-2d(%2d%%%%)", level.level(),
+     mvwprintz(w_skills, line, 19, skillLevel(*aSkill).isTraining() ? c_ltblue : c_blue, "%-2d(%2d%%%%)", (int)level,
               (level.exercise() <  0 ? 0 : level.exercise()));
      line++;
     }
@@ -1498,7 +1498,7 @@ encumb(bp_feet) * 5);
     }
     mvwprintz(w_skills, 1 + i - min, 1, c_ltgray, "                         ");
     mvwprintz(w_skills, 1 + i - min, 1, status, "%s:", aSkill->name().c_str());
-    mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%%%)", level.level(), (exercise <  0 ? 0 : exercise));
+    mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%%%)", (int)level, (exercise <  0 ? 0 : exercise));
    }
    werase(w_info);
    if (line >= 0 && line < skillslist.size())
@@ -1529,7 +1529,7 @@ encumb(bp_feet) * 5);
        status = isLearning ? c_ltblue : c_blue;
 
       mvwprintz(w_skills, i + 1,  1, status, "%s:", thisSkill->name().c_str());
-      mvwprintz(w_skills, i + 1, 19, status, "%d (%2d%%%%)", level.level(), (level.exercise() <  0 ? 0 : level.exercise()));
+      mvwprintz(w_skills, i + 1, 19, status, "%d (%2d%%%%)", (int)level, (level.exercise() <  0 ? 0 : level.exercise()));
      }
      wrefresh(w_skills);
      line = 0;
@@ -3249,29 +3249,31 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
 void player::sort_inv()
 {
  // guns ammo weaps armor food tools books other
- std::vector< std::vector<item> > types[8];
+ std::vector< std::vector<item> > types[9];
  std::vector<item> tmp;
  for (int i = 0; i < inv.size(); i++) {
   tmp = inv.stack_at(i);
-       if (tmp[0].is_gun())
+  if (tmp[0].is_gun())
    types[0].push_back(tmp);
   else if (tmp[0].is_ammo())
    types[1].push_back(tmp);
-  else if (tmp[0].is_armor())
-   types[3].push_back(tmp);
-  else if (tmp[0].is_tool() || tmp[0].is_gunmod())
-   types[5].push_back(tmp);
-  else if (tmp[0].is_food() || tmp[0].is_food_container())
-   types[4].push_back(tmp);
-  else if (tmp[0].is_book())
-   types[6].push_back(tmp);
   else if (tmp[0].is_weap())
    types[2].push_back(tmp);
-  else
+  else if (tmp[0].is_tool())
+   types[3].push_back(tmp);
+  else if (tmp[0].is_armor())
+   types[4].push_back(tmp);
+  else if (tmp[0].is_food() || tmp[0].is_food_container())
+   types[5].push_back(tmp);
+  else if (tmp[0].is_book())
+   types[6].push_back(tmp);
+  else if (tmp[0].is_gunmod() || tmp[0].is_bionic())
    types[7].push_back(tmp);
+  else
+   types[8].push_back(tmp);
  }
  inv.clear();
- for (int i = 0; i < 8; i++) {
+ for (int i = 0; i < 9; i++) {
   for (int j = 0; j < types[i].size(); j++)
    inv.push_back(types[i][j]);
  }
@@ -5047,7 +5049,7 @@ void player::practice (Skill *s, int amount) {
 
   if (isSavant) {
     for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
-      if (skillLevel(*aSkill) > savantSkillLevel.level()) {
+      if (skillLevel(*aSkill) > savantSkillLevel) {
         savantSkill = *aSkill;
         savantSkillLevel = skillLevel(*aSkill);
       }
@@ -5056,10 +5058,10 @@ void player::practice (Skill *s, int amount) {
 
   int newLevel;
 
-  while (level.isTraining() && amount > 0 && xp_pool >= (1 + level.level())) {
-    amount -= level.level() + 1;
+  while (level.isTraining() && amount > 0 && xp_pool >= (1 + level)) {
+    amount -= level + 1;
     if ((!isSavant || s == savantSkill || one_in(2)) && rng(0, 100) < level.comprehension(int_cur, has_trait(PF_FASTLEARNER))) {
-      xp_pool -= (1 + level.level());
+      xp_pool -= (1 + level);
 
       skillLevel(s).train(newLevel);
     }
