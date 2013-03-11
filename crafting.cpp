@@ -1223,7 +1223,8 @@ void game::craft()
     mvwprintz(w_data, 3, 30, col, "Your skill level: N/A");
    else
     mvwprintz(w_data, 3, 30, col, "Your skill level: %d",
-              u.skillLevel(current[line]->sk_primary));
+              // Macs don't seem to like passing this as a class, so force it to int
+              (int)u.skillLevel(current[line]->sk_primary));
    if (current[line]->time >= 1000)
     mvwprintz(w_data, 4, 30, col, "Time to complete: %d minutes",
               int(current[line]->time / 1000));
