@@ -191,7 +191,7 @@ void game::init_mongroups()
     vanillaGroup.defaultMonster = mon_zombie;
 
     spiderGroup.defaultMonster = mon_spider_wolf;//freq 1
-    spiderGroup.monsters[mon_spider_web]    =  10;//I hate spiders anyway, 1-2% FTW
+    spiderGroup.monsters[mon_spider_web]    =  10;
     spiderGroup.monsters[mon_spider_jumping]=  20;
     spiderGroup.monsters[mon_spider_widow]  =  10;
     //mon_spider_widow ? freq 1
