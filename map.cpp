@@ -869,7 +869,7 @@ bool map::trans(const int x, const int y, char * trans_buf)
   }
  } else
   tertr = terlist[ter(x, y)].flags & mfb(transparent);
- if( tertr ){ 
+ if( tertr ){
   // Fields may obscure the view, too
   field & f(field_at(x, y));
   if(f.type == 0 || fieldlist[f.type].transparent[f.density - 1]){
@@ -915,12 +915,12 @@ bool map::is_destructable_ter_only(const int x, const int y)
 
 bool map::is_outside(const int x, const int y)
 {
- bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet && ter(x, y) != t_fema_groundsheet);
+ bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet && ter(x, y) != t_makeshift_bed);
 
  for(int i = -1; out && i <= 1; i++)
   for(int j = -1; out && j <= 1; j++) {
    const ter_id terrain = ter( x + i, y + j );
-   out = (terrain != t_floor && terrain != t_rock_floor && terrain != t_floor_wax);
+   out = (terrain != t_floor && terrain != t_rock_floor && terrain != t_floor_wax && terrain != t_fema_groundsheet);
   }
  if (out) {
   int vpart;

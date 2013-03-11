@@ -177,11 +177,11 @@ void game::setup()
  }
 }
 
-void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY)
+void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA)
 {
  //Clear Lines
- for (int i = 0; i < (VIEWY*2)+1; i++)
-  for (int j = 0; j < 65+(VIEWX*2); j++)
+ for (int i = 0; i < 25; i++)
+  for (int j = 0; j < 80; j++)
    mvwputch(w_open, i, j, c_black, ' ');
 
  for (int i = 1; i < 79; i++)
@@ -190,13 +190,13 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
  mvwprintz(w_open, 24, 5, c_red, "Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
 
  int iLine = 0;
- const int iOffsetX1 = 6;
- const int iOffsetX2 = 7;
- const int iOffsetX3 = 20;
+ const int iOffsetX1 = 4;
+ const int iOffsetX2 = 5;
+ const int iOffsetX3 = 18;
 
- nc_color cColor1 = c_cyan;
- nc_color cColor2 = c_blue;
- nc_color cColor3 = c_blue;
+ const nc_color cColor1 = c_cyan;
+ const nc_color cColor2 = c_blue;
+ const nc_color cColor3 = c_blue;
 
  mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "_________            __                   .__                            ");
  mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "\\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__.  ______  _____  ");
@@ -205,21 +205,23 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
  mvwprintz(w_open, iLine++, iOffsetX1, cColor1, " \\______  /(____  / |__|  (____  / \\___  >|____/ / ____|/____  >|__|_|  /");
  mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "        \\/      \\/             \\/      \\/        \\/          \\/       \\/ ");
 
- iLine++;
- mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "________                    __     ________                           ");
- mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "\\______ \\  _____   _______ |  | __ \\______ \\  _____    ___.__.  ______");
- mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    |  \\ \\__  \\  \\_  __ \\|  |/ /  |    |  \\ \\__  \\  <   |  | /  ___/");
- mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    `   \\ / __ \\_ |  | \\/|    <   |    `   \\ / __ \\_ \\___  | \\___ \\ ");
- mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "/_______  /(____  / |__|   |__|_ \\ /_______  /(____  / / ____|/____  >");
- mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "        \\/      \\/              \\/         \\/      \\/  \\/          \\/ ");
+ if (bShowDDA) {
+  iLine++;
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "________                    __     ________                           ");
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "\\______ \\  _____   _______ |  | __ \\______ \\  _____    ___.__.  ______");
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    |  \\ \\__  \\  \\_  __ \\|  |/ /  |    |  \\ \\__  \\  <   |  | /  ___/");
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    `   \\ / __ \\_ |  | \\/|    <   |    `   \\ / __ \\_ \\___  | \\___ \\ ");
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "/_______  /(____  / |__|   |__|_ \\ /_______  /(____  / / ____|/____  >");
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "        \\/      \\/              \\/         \\/      \\/  \\/          \\/ ");
 
- iLine++;
- mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "   _____   .__                         .___");
- mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "  /  _  \\  |  |__    ____  _____     __| _/");
- mvwprintz(w_open, iLine++, iOffsetX3, cColor3, " /  /_\\  \\ |  |  \\ _/ __ \\ \\__  \\   / __ | ");
- mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "/    |    \\|   Y  \\\\  ___/  / __ \\_/ /_/ | ");
- mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "\\____|__  /|___|  / \\___  >(____  /\\____ | ");
- mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "        \\/      \\/      \\/      \\/      \\/ ");
+  iLine++;
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "   _____   .__                         .___");
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "  /  _  \\  |  |__    ____  _____     __| _/");
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, " /  /_\\  \\ |  |  \\ _/ __ \\ \\__  \\   / __ | ");
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "/    |    \\|   Y  \\\\  ___/  / __ \\_/ /_/ | ");
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "\\____|__  /|___|  / \\___  >(____  /\\____ | ");
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "        \\/      \\/      \\/      \\/      \\/ ");
+ }
 
  mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 0 ? h_white : c_white), "MOTD");
  mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 1 ? h_white : c_white), "New Game");
@@ -238,7 +240,13 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
 
 bool game::opening_screen()
 {
- WINDOW* w_open = newwin((VIEWY*2)+1, 65+(VIEWX*2), 0, 0);
+ int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
+ int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
+
+ WINDOW* w_background = newwin(iMaxY, iMaxX, 0, 0);
+ wrefresh(w_background);
+
+ WINDOW* w_open = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
  const int iMenuOffsetX = 3;
  int iMenuOffsetY = 13;
 
@@ -309,7 +317,7 @@ bool game::opening_screen()
 
  while(!start) {
   if (layer == 1) {
-   print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
+   print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY, (sel1 == 0 || sel1 == 7) ? false : true);
    if (sel1 == 0) {	// Print the MOTD.
     for (int i = 0; i < motd.size() && i < 16; i++)
      mvwprintz(w_open, i + 7, 12 + iMenuOffsetX, c_ltred, motd[i].c_str());
@@ -1789,6 +1797,10 @@ bool game::handle_action()
 
   case ACTION_CRAFT:
    craft();
+   break;
+  
+  case ACTION_RECRAFT:
+   recraft();
    break;
 
   case ACTION_DISASSEMBLE:
@@ -5855,14 +5867,14 @@ void game::pickup(int posx, int posy, int min)
  if ((!from_veh) && m.i_at(posx, posy).size() == 0) {
   if (m.has_flag(swimmable, posx, posy) || m.ter(posx, posy) == t_toilet || m.ter(posx, posy) == t_water_sh) {
    item water = m.water_from(posx, posy);
-   if (query_yn("Drink from your hands?")) {
+    // Try to handle first (bottling) drink after.
+    // changed boolean, large sources should be infinite
+   if (handle_liquid(water, true, true)) {
+    u.moves -= 100;
+   } else if (query_yn("Drink from your hands?")) {
     u.inv.push_back(water);
     u.eat(this, u.inv.size() - 1);
     u.moves -= 350;
-   } else {
-// changed boolean, large sources should be infinite
-    handle_liquid(water, true, true);
-    u.moves -= 100;
    }
   }
   return;
@@ -6207,21 +6219,38 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    return false;
   } // if (pl_choose_vehicle(vx, vy))
 
- } else if (!from_ground &&
-            query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
-  m.add_item(u.posx, u.posy, liquid);
-  return true;
-
  } else { // Not filling vehicle
 
+   // Ask to pour rotten liquid (milk!) from the get-go
+  if (!from_ground && liquid.rotten(this) &&
+      query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
+   m.add_item(u.posx, u.posy, liquid);
+   return true;
+  }
+  
   std::stringstream text;
   text << "Container for " << liquid.tname(this);
   char ch = inv_type(text.str().c_str(), IC_CONTAINER);
-  if (!u.has_item(ch))
+  if (!u.has_item(ch)) {
+    // No container selected (escaped, ...), ask to pour
+    // we asked to pour rotten already
+   if (!from_ground && !liquid.rotten(this) &&
+       query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
+    m.add_item(u.posx, u.posy, liquid);
+    return true;
+   }
    return false;
+  }
 
   item *cont = &(u.i_at(ch));
   if (cont == NULL || cont->is_null()) {
+    // Container is null, ask to pour.
+    // we asked to pour rotten already
+   if (!from_ground && !liquid.rotten(this) &&
+       query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
+    m.add_item(u.posx, u.posy, liquid);
+    return true;
+   }
    add_msg("Never mind.");
    return false;
 

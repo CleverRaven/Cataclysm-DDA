@@ -209,7 +209,7 @@ void trapfuncm::shotgun(game *g, monster *z, int x, int y)
 
 void trapfunc::blade(game *g, int x, int y)
 {
- g->add_msg("A machete swings out and hacks your torso!");
+ g->add_msg("A blade swings out and hacks your torso!");
  g->u.hit(g, bp_torso, 0, 12, 30);
 }
 
@@ -217,7 +217,7 @@ void trapfuncm::blade(game *g, monster *z, int x, int y)
 {
  int t;
  if (g->u_see(z, t))
-  g->add_msg("A machete swings out and hacks the %s!", z->name().c_str());
+  g->add_msg("A blade swings out and hacks the %s!", z->name().c_str());
  int cutdam = 30 - z->armor_cut();
  int bashdam = 12 - z->armor_bash();
  if (cutdam < 0)

@@ -690,11 +690,11 @@ MELEE("syringe",	 8, 25, ',', c_ltcyan,	PLASTIC,MNULL,
 	 1,  0, -4,  6, -2, mfb(IF_SPEAR), "\
 A medical syringe. Used for administering heroin and other drugs.");
 
-MELEE("fur pelt",	 0, 10, ',', c_brown,	WOOL,	FLESH,
+MELEE("fur pelt",	 0, 10, ',', c_brown,	FUR,	LEATHER,
 	 1,  1, -8,  0,  0, 0, "\
 A small bolt of fur from an animal. Can be made into warm clothing.");
 
-MELEE("leather patch",	 0, 20, ',', c_red,	LEATHER,FLESH,
+MELEE("leather patch",	 0, 20, ',', c_red,	LEATHER, FLESH,
 	 2,  1, -2,  0, -1, 0, "\
 A smallish patch of leather, could be used to make tough clothing.");
 
@@ -1363,7 +1363,7 @@ ARMOR("winter boots",	60, 140,C_SHOES,	WOOL,	PLASTIC,
     8,  7,  0, -1,  2,  0,  2,  1,  80,  0,	mfb(bp_feet), "\
 Cumbersome boots designed for warmth.");
 
-ARMOR("mocassins",	 5,  80,C_SHOES,	LEATHER,	WOOL,
+ARMOR("mocassins",	 5,  80,C_SHOES,	FUR,	LEATHER,
     2,  1, -3,  0,  0,  0,  1,  0,  40,  0,	mfb(bp_feet), "\
 Simple shoes made from animal pelts.");
 
@@ -1597,7 +1597,7 @@ ARMOR("winter coat",	50, 160,C_TORSO,	COTTON,		MNULL,
    12,  6, -5, -2,  3,  3,  1,  1,  70, 12,	mfb(bp_torso)|mfb(bp_arms), "\
 A padded coat with deep pockets. Very warm.");
 
-ARMOR("fur coat",	 5, 550,C_TORSO,	WOOL,		FLESH,
+ARMOR("fur coat",	 5, 550,C_TORSO,	FUR,		LEATHER,
    18, 12, -5, -5,  2,  4,  2,  2, 80,  4,	mfb(bp_torso)|mfb(bp_arms), "\
 A fur coat with a couple small pockets. Extremely warm.");
 
@@ -1846,7 +1846,7 @@ ARMOR("hunting cap",	20,  80,C_HAT,		WOOL,		MNULL,
     3,  2, -5,  0,  0,  0,  1,  2,  60,  0,	mfb(bp_head), "\
 A red plaid hunting cap with ear flaps. Notably warm.");
 
-ARMOR("fur hat",	15, 120,C_HAT,		WOOL,		MNULL,
+ARMOR("fur hat",	15, 120,C_HAT,		FUR,		LEATHER,
     4,  2, -5,  0,  1,  2,  2,  0,  80,  0,	mfb(bp_head), "\
 A hat made from the pelts of animals. Extremely warm.");
 

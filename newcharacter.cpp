@@ -50,7 +50,12 @@ void save_template(player *u);
 bool player::create(game *g, character_type type, std::string tempname)
 {
  weapon = item(g->itypes[0], 0);
- WINDOW* w = newwin((g->VIEWY*2)+1, 80, 0, 0);
+
+ int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
+ int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
+
+ WINDOW* w = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+
  int tab = 0, points = 38;
  if (type != PLTYPE_CUSTOM) {
   switch (type) {
@@ -456,8 +461,7 @@ int set_traits(WINDOW* w, player *u, int &points)
 {
  draw_tabs(w, "TRAITS");
 
- WINDOW* w_description = newwin(3, 78, 21, 1);
-
+ WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
 // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
  int num_good = 0, num_bad = 0;
  for (int i = 0; i < PF_SPLIT; i++) {
@@ -654,7 +658,7 @@ int set_skills(WINDOW* w, player *u, int &points)
 {
  draw_tabs(w, "SKILLS");
 
- WINDOW* w_description = newwin(3, 78, 21, 1);
+ WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
 
  int cur_sk = 1;
  Skill *currentSkill = Skill::skill(cur_sk);
