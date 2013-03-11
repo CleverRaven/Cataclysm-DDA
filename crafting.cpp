@@ -1121,6 +1121,103 @@ RECIPE(itm_boobytrap, CC_MISC, "mechanics", "traps",3,5000, false);
 //  COMP(itm_battery, 500, itm_plut_cell, 1, NULL);
 //  COMP(itm_scrap, 30, NULL);
 }
+void game::recraft()
+{
+ if(u.lastrecipe == NULL)
+ {
+  popup("Craft something first");
+ }
+ else
+ {
+  try_and_make(u.lastrecipe);
+ }
+}
+void game::try_and_make(recipe *making)
+{
+ if(can_make(making))
+ {
+  if (itypes[(making->result)]->m1 == LIQUID)
+  {
+   if (u.has_watertight_container() || u.has_matching_liquid(itypes[making->result]->id)) {
+     make_craft(making);
+   } else {
+     popup("You don't have anything to store that liquid in!");
+   }
+  }
+  else {
+   make_craft(making);
+  }
+ }
+ else
+ {
+  popup("You can't do that!");
+ }
+}
+bool game::can_make(recipe *r)
+{
+ inventory crafting_inv = crafting_inventory();
+ if((r->sk_primary != NULL && u.skillLevel(r->sk_primary) < r->difficulty) || (r->sk_secondary != NULL && u.skillLevel(r->sk_secondary) <= 0))
+ {
+ }
+ // under the assumption that all comp and tool's array contains all the required stuffs at the start of the array
+ 
+ // check all tools
+ for(int i = 0 ; i < 20 ; i++)
+ { 
+  // if current tool is null(size 0), assume that there is no more after it.
+  if(r->tools[i].size()==0)
+  {
+   break;
+  }
+  bool has_tool = false;
+  for(int j = 0 ; j < r->tools[i].size() ; j++)
+  {
+   itype_id type = r->tools[i][j].type;
+   int req = r->tools[i][j].count;
+   if((req<= 0 && crafting_inv.has_amount(type,1)) || (req > 0 && crafting_inv.has_charges(type,req)))
+   {
+    has_tool = true;
+    break;
+   }
+  }
+  if(!has_tool)
+  {
+   return false;
+  }
+ }
+ // check all components
+ for(int i = 0 ; i < 20 ; i++)
+ {
+  if(r->components[i].size() == 0)
+  {
+   break;
+  }
+  bool has_comp = false;
+  for(int j = 0 ; j < r->components[i].size() ; j++)
+  {
+   itype_id type = r->components[i][j].type;
+   int req = r->components[i][j].count;
+   if (itypes[type]->count_by_charges() && req > 0) 
+   {
+       if (crafting_inv.has_charges(type, req)) 
+       {
+           has_comp = true;
+           break;
+       }
+   }
+   else if (crafting_inv.has_amount(type, abs(req))) 
+   {
+       has_comp = true;
+       break;
+   }
+  }
+  if(!has_comp)
+  {
+   return false;
+  }
+ }
+ return true;
+}
 
 void game::craft()
 {
@@ -1487,6 +1584,7 @@ void game::make_craft(recipe *making)
 {
  u.assign_activity(ACT_CRAFT, making->time, making->id);
  u.moves = 0;
+ u.lastrecipe = making;
 }
 
 void game::complete_craft()
