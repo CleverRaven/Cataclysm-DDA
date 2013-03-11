@@ -1036,7 +1036,7 @@ void game::process_activity()
      if (u.skillLevel(reading->type) > originalSkillLevel)
       add_msg("You increase %s to level %d.",
               reading->type->name().c_str(),
-              u.skillLevel(reading->type));
+              (int)u.skillLevel(reading->type));
 
      if (u.skillLevel(reading->type) == reading->level)
       add_msg("You can no longer learn from this %s.", reading->name.c_str());
@@ -1078,7 +1078,7 @@ void game::process_activity()
      u.skillLevel(u.activity.index).level(skillLevel + 1);
      add_msg("You finish training %s to level %d.",
              skill_name(u.activity.index).c_str(),
-             u.skillLevel(u.activity.index));
+             (int)u.skillLevel(u.activity.index));
     }
     break;
 
