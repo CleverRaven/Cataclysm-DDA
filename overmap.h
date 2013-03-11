@@ -90,9 +90,8 @@ class overmap
   bool ter_in_type_range(int x, int y, int z, oter_id type, int type_range);
   oter_id& ter(int x, int y, int z);
   bool&   seen(int x, int y, int z);
-  unsigned zones(int x, int y);
-  std::vector<mongroup*> monsters_at(int x, int y);
-  bool is_safe(int x, int y); // true if monsters_at is empty, or only woodland
+  std::vector<mongroup*> monsters_at(int x, int y, int z);
+  bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
 
   bool has_note(int const x, int const y, int const z) const;
   std::string const& note(int const x, int const y, int const z) const;

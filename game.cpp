@@ -2092,6 +2092,7 @@ void game::groupdebug()
                                            levy);
  int dist, linenum = 1;
  for (int i = 0; i < cur_om.zg.size(); i++) {
+ 	if (cur_om.zg[i].posz != levz) { continue; }
   dist = trig_dist(levx, levy, cur_om.zg[i].posx, cur_om.zg[i].posy);
   if (dist <= cur_om.zg[i].radius) {
    mvprintw(linenum, 0, "Zgroup %d: Centered at %d:%d, radius %d, pop %d",
@@ -3315,7 +3316,7 @@ void game::monmove()
        z[i].posx > (SEEX * MAPSIZE * 7) / 6 ||
        z[i].posy > (SEEY * MAPSIZE * 7) / 6   ) {
 // Re-absorb into local group, if applicable
-    int group = valid_group((mon_id)(z[i].type->id), levx, levy);
+    int group = valid_group((mon_id)(z[i].type->id), levx, levy, levz);
     if (group != -1) {
      cur_om.zg[group].population++;
      if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
@@ -3323,7 +3324,7 @@ void game::monmove()
       cur_om.zg[group].radius++;
     } else if (MonsterGroupManager::Monster2Group((mon_id)(z[i].type->id)) != "GROUP_NULL") {
      cur_om.zg.push_back(mongroup(MonsterGroupManager::Monster2Group((mon_id)(z[i].type->id)),
-                                  levx, levy, 1, 1));
+                                  levx, levy, levz, 1, 1));
     }
     z[i].dead = true;
    } else
@@ -7963,7 +7964,7 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
    tmp.save(&cur_om, turn, levx, levy, levz);
   } else {
    	// No spawn site, so absorb them back into a group.
-   int group = valid_group((mon_id)(z[i].type->id), levx + shiftx, levy + shifty);
+   int group = valid_group((mon_id)(z[i].type->id), levx + shiftx, levy + shifty, levz);
    if (group != -1) {
     cur_om.zg[group].population++;
     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
@@ -8011,6 +8012,7 @@ void game::spawn_mon(int shiftx, int shifty)
 // Now, spawn monsters (perhaps)
  monster zom;
  for (int i = 0; i < cur_om.zg.size(); i++) { // For each valid group...
+ 	if (cur_om.zg[i].posz != levz) { continue; } // skip other levels - hack
   group = 0;
   if(cur_om.zg[i].diffuse)
    dist = rl_dist(nlevx, nlevy, cur_om.zg[i].posx, cur_om.zg[i].posy);
@@ -8079,12 +8081,13 @@ void game::spawn_mon(int shiftx, int shifty)
  }
 }
 
-int game::valid_group(mon_id type, int x, int y)
+int game::valid_group(mon_id type, int x, int y, int z)
 {
  std::vector <int> valid_groups;
  std::vector <int> semi_valid;	// Groups that're ALMOST big enough
  int dist;
  for (int i = 0; i < cur_om.zg.size(); i++) {
+ 	if (cur_om.zg[i].posz != z) { continue; }
   dist = trig_dist(x, y, cur_om.zg[i].posx, cur_om.zg[i].posy);
   if (dist < cur_om.zg[i].radius) {
    if(MonsterGroupManager::IsMonsterInGroup(cur_om.zg[i].type, type)) {
@@ -8306,7 +8309,6 @@ void game::teleport(player *p)
 
 void game::nuke(int x, int y)
 {
-#warning decide if to fix this before commit
 	// TODO: nukes hit above surface, not z = 0
  overmap tmp_om = cur_om;
  cur_om = overmap(this, tmp_om.pos().x, tmp_om.pos().y);
