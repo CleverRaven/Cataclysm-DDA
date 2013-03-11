@@ -1789,6 +1789,10 @@ bool game::handle_action()
   case ACTION_CRAFT:
    craft();
    break;
+  
+  case ACTION_RECRAFT:
+   recraft();
+   break;
 
   case ACTION_DISASSEMBLE:
    if (u.in_vehicle)

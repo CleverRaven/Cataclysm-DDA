@@ -298,6 +298,9 @@ class game
   void close();	// Close a door			'c'
   void smash();	// Smash terrain
   void craft();                    // See crafting.cpp
+  void recraft();                  // See crafting.cpp 
+  void try_and_make(recipe *r);
+  bool can_make(recipe *r);
   void make_craft(recipe *making); // See crafting.cpp
   void complete_craft();           // See crafting.cpp
   void pick_recipes(std::vector<recipe*> &current,
