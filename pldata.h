@@ -179,6 +179,7 @@ enum pl_flag {
  PF_TERRIFYING,	// All creatures run away more
  PF_DISRESISTANT,// Less likely to succumb to low health; TODO: Implement this
  PF_ADRENALINE,	// Big bonuses when low on HP
+ PF_SELFAWARE, // Let's you see exact HP totals
  PF_INCONSPICUOUS,// Less spawns due to timeouts
  PF_MASOCHIST,	// Morale boost from pain
  PF_LIGHTSTEP,	// Less noise from movement
@@ -211,7 +212,6 @@ enum pl_flag {
  PF_MOODSWINGS,	// Big random shifts in morale
  PF_WEAKSTOMACH,// More likely to throw up in all circumstances
  PF_WOOLALLERGY,// Can't wear wool
- PF_HPIGNORANT,	// Don't get to see exact HP numbers, just colors & symbols
  PF_TRUTHTELLER, // Worse at telling lies
  PF_UGLY, // +1 grotesqueness
 
@@ -423,6 +423,9 @@ flu."},
 {"High Adrenaline", 3, 0, 0, "\
 If you are in a very dangerous situation, you may experience a temporary rush\n\
 which increases your speed and strength significantly."},
+{"Self-aware", 1, 0, 0, "\
+You get to see your exact amount of HP remaining, instead of only having a\n\
+vague idea of whether you're in good condition or not."},
 {"Inconspicuous", 2, 0, 0, "\
 While sleeping or staying still, it is less likely that monsters will wander\n\
 close to you."},
@@ -511,9 +514,6 @@ You are more likely to throw up from food poisoning, alcohol, etc."},
 {"Wool Allergy", -1, 0, 0, "\
 You are badly allergic to wool, and can not wear any clothing made of the\n\
 substance."},
-{"HP Ignorant", -2, 0, 0, "\
-You do not get to see your exact amount of HP remaining, but do have a vague\n\
-idea of whether you're in good condition or not."},
 {"Truth Teller", -2, 0, 0, "\
 When you try to tell a lie, you blush, stammer, and get all shifty-eyed.\n\
 Telling lies and otherwise bluffing will be much more difficult for you."},
