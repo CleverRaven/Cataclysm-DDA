@@ -231,7 +231,7 @@ void mission_start::find_safety(game *g, mission *miss)
      case 2: check.y += dist; check.x -= radius; break;
      case 3: check.y += dist; check.x += radius; break;
     }
-    if (g->cur_om.is_safe(check.x, check.y)) {
+    if (g->cur_om.is_safe(check.x, check.y, g->levz)) {
      miss->target = check;
      done = true;
     }

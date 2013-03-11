@@ -30,16 +30,17 @@ bool moncat_is_safe(moncat_id id);
 
 struct mongroup {
  moncat_id type;
- int posx, posy;
+ int posx, posy, posz;
  unsigned char radius;
  unsigned int population;
  bool dying;
  bool diffuse;   // group size ind. of dist. from center and radius invariant
- mongroup(moncat_id ptype, int pposx, int pposy, unsigned char prad,
+ mongroup(moncat_id ptype, int pposx, int pposy, int pposz, unsigned char prad,
           unsigned int ppop) {
   type = ptype;
   posx = pposx;
   posy = pposy;
+  posz = pposz;
   radius = prad;
   population = ppop;
   dying = false;

@@ -385,16 +385,11 @@ void computer::activate_function(game *g, computer_action action)
    if (maxx >= OMAPX) maxx = OMAPX - 1;
    if (miny < 0)             miny = 0;
    if (maxy >= OMAPY) maxy = OMAPY - 1;
-#warning download of surface maps needs to be done before checkin
-   /*
-   overmap tmp(g, g->cur_om.posx, g->cur_om.posy, 0);
    for (int i = minx; i <= maxx; i++) {
     for (int j = miny; j <= maxy; j++)
-     tmp.seen(i, j) = true;
+     g->cur_om.seen(i, j, 0) = true;
    }
-   tmp.save(g->u.name, g->cur_om.posx, g->cur_om.posy, 0);
    print_line("Surface map data downloaded.");
-   */
   } break;
 
   case COMPACT_MAP_SEWER: {
@@ -419,11 +414,8 @@ void computer::activate_function(game *g, computer_action action)
 
 
   case COMPACT_MISS_LAUNCH: {
-#warning firing of missles needs to be done before checkin
-  	/*
-   overmap tmp_om(g, g->cur_om.posx, g->cur_om.posy, 0);
 // Target Acquisition.
-   point target = tmp_om.choose_point(g);
+   point target = g->cur_om.choose_point(g, 0);
    if (target.x == -1) {
     print_line("Launch canceled.");
     return;
@@ -442,20 +434,16 @@ void computer::activate_function(game *g, computer_action action)
     }
    }
 // For each level between here and the surface, remove the missile
-   for (int level = g->cur_om.posz; level < 0; level++) {
-    tmp_om = g->cur_om;
-    g->cur_om = overmap(g, tmp_om.posx, tmp_om.posy, level);
+   for (int level = g->levz; level < 0; level++) {
     tinymap tmpmap(&g->itypes, &g->mapitems, &g->traps);
-    tmpmap.load(g, g->levx, g->levy, g->levz, false);
+    tmpmap.load(g, g->levx, g->levy, level, false);
     tmpmap.translate(t_missile, t_hole);
-    tmpmap.save(&tmp_om, g->turn, g->levx, g->levy, g->levz);
+    tmpmap.save(&g->cur_om, g->turn, g->levx, level, g->levz);
    }
-   g->cur_om = tmp_om;
    for (int x = target.x - 2; x <= target.x + 2; x++) {
     for (int y = target.y -  2; y <= target.y + 2; y++)
      g->nuke(x, y);
    }
-   */
   } break;
 
   case COMPACT_MISS_DISARM: // TODO: This!
