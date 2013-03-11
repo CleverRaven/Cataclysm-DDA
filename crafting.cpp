@@ -31,7 +31,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
  */
 
 #define TG_KNIVES \
- itm_knife_steak, -1, itm_knife_combat, -1, itm_knife_butcher, -1, itm_pockknife, -1, itm_xacto, -1, itm_scalpel, -1, itm_machete, -1
+ itm_knife_steak, -1, itm_knife_combat, -1, itm_knife_butcher, -1, itm_pockknife, -1, itm_xacto, -1, itm_scalpel, -1, itm_machete, -1, itm_broadsword, -1
 
 /* A recipe will not appear in your menu until your level in the primary skill
  * is at least equal to the difficulty.  At that point, your chance of success
@@ -59,6 +59,18 @@ RECIPE(itm_tshirt_fit, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
 
 RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP(itm_rag, 5, NULL);
+
+ RECIPE(itm_string_36, CC_NONCRAFT, NULL, NULL, 0, 5000, true);
+  TOOL(TG_KNIVES, NULL);
+  COMP(itm_string_6, 6, NULL);
+
+ RECIPE(itm_rope_6, CC_NONCRAFT, "tailor", NULL, 0, 5000, true);
+  TOOL(TG_KNIVES, NULL);
+  COMP(itm_string_36, 6, NULL);
+
+ RECIPE(itm_rope_30, CC_NONCRAFT, "tailor", NULL, 0, 5000, true);
+  TOOL(TG_KNIVES, NULL);
+  COMP(itm_rope_6, 5, NULL);
 // CRAFTABLE
 
 // WEAPONS
@@ -794,66 +806,63 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
 
 // ARMOR
 
- RECIPE(itm_thread, CC_ARMOR, "tailor", NULL, 1, 3000, false);
-  TOOL(TG_KNIVES, itm_scissors, -1, NULL);
-  COMP(itm_string_6, 1, NULL);
 
  RECIPE(itm_ragpouch, CC_ARMOR, "tailor",  NULL, 0, 10000, false);
-  TOOL(itm_sewing_kit, 20, itm_needle_bone, 20, NULL);
+  TOOL(itm_needle_bone, 20, itm_sewing_kit, 20,  NULL);
   COMP(itm_rag, 6, NULL);
   COMP(itm_string_36, 1, itm_string_6, 6, itm_sinew, 20, itm_plant_fibre, 20, NULL);
 
  RECIPE(itm_leather_pouch, CC_ARMOR, "tailor",  "survival", 1, 10000, false);
-  TOOL(itm_sewing_kit, 20, itm_needle_bone, 20, NULL);
+  TOOL(itm_needle_bone, 20, itm_sewing_kit, 20, NULL);
   COMP(itm_leather, 6, NULL);
   COMP(itm_string_36, 1, itm_string_6, 6, itm_sinew, 20, itm_plant_fibre, 20, NULL);
 
  RECIPE(itm_mocassins, CC_ARMOR, "tailor", NULL, 1, 30000, false);
-  TOOL(itm_sewing_kit,  5, NULL);
+  TOOL(itm_needle_bone, 5, itm_sewing_kit,  5, NULL);
   COMP(itm_fur, 2, NULL);
 
  RECIPE(itm_boots_fit, CC_ARMOR, "tailor", NULL, 2, 35000, false);
-  TOOL(itm_sewing_kit, 10, NULL);
+  TOOL(itm_needle_bone, 5, itm_sewing_kit, 10, NULL);
   COMP(itm_leather, 7, NULL);
 
  RECIPE(itm_jeans_fit, CC_ARMOR, "tailor", NULL, 2, 45000, false);
-  TOOL(itm_sewing_kit, 10, NULL);
+  TOOL(itm_needle_bone, 10, itm_sewing_kit, 10, NULL);
   COMP(itm_rag, 6, NULL);
 
  RECIPE(itm_pants_cargo_fit, CC_ARMOR, "tailor", NULL, 3, 48000, false);
-  TOOL(itm_sewing_kit, 16, NULL);
+  TOOL(itm_needle_bone, 16, itm_sewing_kit, 16, NULL);
   COMP(itm_rag, 8, NULL);
 
  RECIPE(itm_pants_leather, CC_ARMOR, "tailor", NULL, 4, 50000, false);
-  TOOL(itm_sewing_kit, 10, NULL);
+  TOOL(itm_needle_bone, 10, itm_sewing_kit, 10, NULL);
   COMP(itm_leather, 10, NULL);
 
  RECIPE(itm_tank_top, CC_ARMOR, "tailor", NULL, 2, 38000, true);
-  TOOL(itm_sewing_kit, 4, NULL);
+  TOOL(itm_needle_bone, 4, itm_sewing_kit, 4, NULL);
   COMP(itm_rag, 4, NULL);
 
 RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
-  TOOL(itm_sewing_kit, 4, NULL);
+  TOOL(itm_needle_bone, 4, itm_sewing_kit, 4, NULL);
   COMP(itm_rag, 5, NULL);
 
  RECIPE(itm_hoodie_fit, CC_ARMOR, "tailor", NULL, 3, 40000, false);
-  TOOL(itm_sewing_kit, 14, NULL);
+  TOOL(itm_needle_bone, 14, itm_sewing_kit, 14, NULL);
   COMP(itm_rag, 12, NULL);
 
  RECIPE(itm_trenchcoat_fit, CC_ARMOR, "tailor", NULL, 3, 42000, false);
-  TOOL(itm_sewing_kit, 24, NULL);
+  TOOL(itm_needle_bone, 24, itm_sewing_kit, 24, NULL);
   COMP(itm_rag, 11, NULL);
 
  RECIPE(itm_coat_fur, CC_ARMOR, "tailor", NULL, 4, 100000, false);
-  TOOL(itm_sewing_kit, 20, NULL);
+  TOOL(itm_needle_bone, 20, itm_sewing_kit, 20, NULL);
   COMP(itm_fur, 10, NULL);
 
  RECIPE(itm_jacket_leather_fit, CC_ARMOR, "tailor", NULL, 5, 150000, false);
-  TOOL(itm_sewing_kit, 30, NULL);
+  TOOL(itm_needle_bone, 30, itm_sewing_kit, 30, NULL);
   COMP(itm_leather, 16, NULL);
 
  RECIPE(itm_gloves_light, CC_ARMOR, "tailor", NULL, 1, 10000, false);
-  TOOL(itm_sewing_kit, 2, NULL);
+  TOOL(itm_needle_bone, 2, itm_sewing_kit, 2, NULL);
   COMP(itm_rag, 2, NULL);
 
  RECIPE(itm_gloves_fingerless, CC_ARMOR, "tailor", NULL, 0, 16000, false);
@@ -861,7 +870,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_gloves_leather, 1, NULL);
 
  RECIPE(itm_gloves_leather, CC_ARMOR, "tailor", NULL, 2, 16000, false);
-  TOOL(itm_sewing_kit, 6, NULL);
+  TOOL(itm_needle_bone, 6, itm_sewing_kit, 6, NULL);
   COMP(itm_leather, 2, NULL);
 
  RECIPE(itm_mask_filter, CC_ARMOR, "mechanics", "tailor", 1, 5000, true);
@@ -887,7 +896,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_scrap, 5, NULL);
 
  RECIPE(itm_hat_fur, CC_ARMOR, "tailor", NULL, 2, 40000, false);
-  TOOL(itm_sewing_kit, 8, NULL);
+  TOOL(itm_needle_bone, 8, itm_sewing_kit, 8, NULL);
   COMP(itm_fur, 3, NULL);
 
  RECIPE(itm_armguard_metal, CC_ARMOR, "tailor", NULL, 4,  30000, false);
@@ -917,10 +926,23 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_chitin_piece, 15, NULL);
 
  RECIPE(itm_backpack, CC_ARMOR, "tailor", NULL, 3, 50000, false);
-  TOOL(itm_sewing_kit, 20, NULL);
+  TOOL(itm_needle_bone, 20, itm_sewing_kit, 20, NULL);
   COMP(itm_rag, 20, itm_fur, 16, itm_leather, 12, NULL);
 
 // MISC
+
+
+ RECIPE(itm_thread, CC_MISC, "tailor", NULL, 1, 3000, false);
+  COMP(itm_string_6, 1, NULL);
+
+ RECIPE(itm_string_36, CC_MISC, NULL, NULL, 0, 5000, true);
+  COMP(itm_string_6, 6, NULL);
+
+ RECIPE(itm_rope_6, CC_MISC, "tailor", NULL, 0, 5000, true);
+  COMP(itm_string_36, 6, NULL);
+
+ RECIPE(itm_rope_30, CC_MISC, "tailor", NULL, 0, 5000, true);
+  COMP(itm_rope_6, 5, NULL);
 
  RECIPE(itm_primitive_hammer, CC_MISC, "survival", NULL, 0, 5000, false);
   TOOL(itm_rock, -1, itm_hammer, -1, NULL);
@@ -963,19 +985,15 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_wire, 3, NULL);
 
  RECIPE(itm_string_6, CC_MISC, NULL, NULL, 0, 5000, true);
-  TOOL(TG_KNIVES, NULL);
   COMP(itm_thread, 50, NULL);
 
  RECIPE(itm_string_36, CC_MISC, NULL, NULL, 0, 5000, true);
-  TOOL(TG_KNIVES, NULL);
   COMP(itm_string_6, 6, NULL);
 
  RECIPE(itm_rope_6, CC_MISC, "tailor", NULL, 0, 5000, true);
-  TOOL(TG_KNIVES, NULL);
   COMP(itm_string_36, 6, NULL);
 
  RECIPE(itm_rope_30, CC_MISC, "tailor", NULL, 0, 5000, true);
-  TOOL(TG_KNIVES, NULL);
   COMP(itm_rope_6, 5, NULL);
 
  RECIPE(itm_torch,        CC_MISC, NULL,    NULL,     0, 2000, false);
@@ -1064,7 +1082,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
  RECIPE(itm_blade_trap, CC_MISC, "mechanics", "traps", 4, 8000, true);
   TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
   COMP(itm_motor, 1, NULL);
-  COMP(itm_machete, 1, NULL);
+  COMP(itm_carblade, 1, NULL);
   COMP(itm_string_36, 1, NULL);
 
 RECIPE(itm_boobytrap, CC_MISC, "mechanics", "traps",3,5000, false);
@@ -1160,10 +1178,10 @@ bool game::can_make(recipe *r)
  {
  }
  // under the assumption that all comp and tool's array contains all the required stuffs at the start of the array
- 
+
  // check all tools
  for(int i = 0 ; i < 20 ; i++)
- { 
+ {
   // if current tool is null(size 0), assume that there is no more after it.
   if(r->tools[i].size()==0)
   {
@@ -1197,15 +1215,15 @@ bool game::can_make(recipe *r)
   {
    itype_id type = r->components[i][j].type;
    int req = r->components[i][j].count;
-   if (itypes[type]->count_by_charges() && req > 0) 
+   if (itypes[type]->count_by_charges() && req > 0)
    {
-       if (crafting_inv.has_charges(type, req)) 
+       if (crafting_inv.has_charges(type, req))
        {
            has_comp = true;
            break;
        }
    }
-   else if (crafting_inv.has_amount(type, abs(req))) 
+   else if (crafting_inv.has_amount(type, abs(req)))
    {
        has_comp = true;
        break;
