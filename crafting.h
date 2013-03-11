@@ -41,8 +41,8 @@ struct recipe {
   int time;
   bool reversible; // can the item be disassembled?
 
-  std::vector<component> tools[5];
-  std::vector<component> components[10];
+  std::vector<component> tools[20];
+  std::vector<component> components[20];
 
   recipe() {
     id = 0;
