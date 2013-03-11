@@ -578,51 +578,18 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
 // Clean up our roads and rivers
  polish(0);
 
- // do we need sublevels
- int z = 0;
+ // TODO: there is no reason we can't generate the sublevels in one pass
+ //       for that matter there is no reason we can't as we add the entrance ways either
+
+ // Always need at least one sublevel, but how many more
+ int z = -1;
 	bool requires_sub = false;
  do {
- 	requires_sub = false;
-  for (int i = 0; i < OMAPX; i++) {
-   for (int j = 0; j < OMAPY; j++) {
-   	// TODO ask someone if there is a nice flag for this
-   	switch(ter(i, j, z)) {
-   	case ot_sub_station_north:
-   	case ot_sub_station_east:
-   	case ot_sub_station_south:
-   	case ot_sub_station_west:
-   	case ot_road_nesw_manhole:
-   	case ot_sewage_treatment:
-   	case ot_spider_pit:
-   	case ot_cave_rat:
-   	case ot_cave:
-   	case ot_anthill:
-   	case ot_slimepit_down:
-   	case ot_forest_water:
-   	case ot_triffid_grove:
-   	case ot_triffid_roots:
-   	case ot_temple_stairs:
-   	case ot_lab_stairs:
-   	case ot_bunker:
-   	case ot_shelter:
-   	case ot_lmoe:
-   	case ot_mine_entrance:
-   	case ot_mine_shaft:
-   	case ot_mine_down:
-   	case ot_mine_finale:
-   	case ot_silo:
-   		requires_sub = true;
-   		break;
-   	}
-   }
-  }
-  if (requires_sub) {
   	// Hacky way to generate next level as blank map
-  	layers[--z];
+  	layers[z];
 
   	// Generate actual map and loop to check that one
-  	generate_sub(z);
-  }
+  	requires_sub = generate_sub(z--);
  } while(requires_sub);
 
 // Place the monsters, now that the terrain is laid out
@@ -630,8 +597,9 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
  place_radios();
 }
 
-void overmap::generate_sub(int const z)
+bool overmap::generate_sub(int const z)
 {
+	bool requires_sub = false;
  std::vector<city> subway_points;
  std::vector<city> sewer_points;
  std::vector<city> ant_points;
@@ -674,8 +642,10 @@ void overmap::generate_sub(int const z)
    } else if (ter(i, j, z + 1) == ot_spider_pit)
     ter(i, j, z) = ot_spider_pit_under;
    else if (ter(i, j, z + 1) == ot_cave && z == -1) {
-    if (one_in(3))
+    if (one_in(3)) {
      ter(i, j, z) = ot_cave_rat;
+     requires_sub = true; // rat caves are two level
+    }
     else
      ter(i, j, z) = ot_cave;
 
@@ -724,7 +694,8 @@ void overmap::generate_sub(int const z)
             ter(i, j, z + 1) == ot_mine_down    ) {
     ter(i, j, z) = ot_mine;
     mine_points.push_back(city(i, j, rng(6 + z, 10 + z)));
-
+    // technically not all finales need a sub level, but at this point we don't know
+    requires_sub = true;
    } else if (ter(i, j, z + 1) == ot_mine_finale) {
     for (int x = i - 1; x <= i + 1; x++) {
      for (int y = j - 1; y <= j + 1; y++)
@@ -736,22 +707,24 @@ void overmap::generate_sub(int const z)
    } else if (ter(i, j, z + 1) == ot_silo) {
     if (rng(2, 7) < abs(z) || rng(2, 7) < abs(z))
      ter(i, j, z) = ot_silo_finale;
-    else
+    else {
      ter(i, j, z) = ot_silo;
+     requires_sub = true;
+    }
    }
 
   }
  }
 
  for (int i = 0; i < goo_points.size(); i++)
-  build_slimepit(goo_points[i].x, goo_points[i].y, z, goo_points[i].s);
+  requires_sub |= build_slimepit(goo_points[i].x, goo_points[i].y, z, goo_points[i].s);
  place_hiways(sewer_points, z, ot_sewer_nesw);
  polish(z, ot_sewer_ns, ot_sewer_nesw);
  place_hiways(subway_points, z, ot_subway_nesw);
  for (int i = 0; i < subway_points.size(); i++)
   ter(subway_points[i].x, subway_points[i].y, z) = ot_subway_station;
  for (int i = 0; i < lab_points.size(); i++)
-  build_lab(lab_points[i].x, lab_points[i].y, z, lab_points[i].s);
+  requires_sub |= build_lab(lab_points[i].x, lab_points[i].y, z, lab_points[i].s);
  for (int i = 0; i < ant_points.size(); i++)
   build_anthill(ant_points[i].x, ant_points[i].y, z, ant_points[i].s);
  polish(z, ot_subway_ns, ot_subway_nesw);
@@ -778,8 +751,10 @@ void overmap::generate_sub(int const z)
   }
  }
 
- for (int i = 0; i < shaft_points.size(); i++)
+ for (int i = 0; i < shaft_points.size(); i++) {
   ter(shaft_points[i].x, shaft_points[i].y, z) = ot_mine_shaft;
+  requires_sub = true;
+ }
 
  for (int i = 0; i < bunker_points.size(); i++)
   ter(bunker_points[i].x, bunker_points[i].y, z) = ot_bunker;
@@ -791,8 +766,10 @@ void overmap::generate_sub(int const z)
   ter(lmoe_points[i].x, lmoe_points[i].y, z) = ot_lmoe_under;
 
  for (int i = 0; i < triffid_points.size(); i++) {
-  if (z == -1)
+  if (z == -1) {
    ter( triffid_points[i].x, triffid_points[i].y, z ) = ot_triffid_roots;
+   requires_sub = true;
+  }
   else
    ter( triffid_points[i].x, triffid_points[i].y, z ) = ot_triffid_finale;
  }
@@ -800,10 +777,13 @@ void overmap::generate_sub(int const z)
  for (int i = 0; i < temple_points.size(); i++) {
   if (z == -5)
    ter( temple_points[i].x, temple_points[i].y, z ) = ot_temple_finale;
-  else
+  else {
    ter( temple_points[i].x, temple_points[i].y, z ) = ot_temple_stairs;
+   requires_sub = true;
+  }
  }
 
+ return requires_sub;
 }
 
 void overmap::make_tutorial()
@@ -1613,7 +1593,7 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
  }
 }
 
-void overmap::build_lab(int x, int y, int z, int s)
+bool overmap::build_lab(int x, int y, int z, int s)
 {
  ter(x, y, z) = ot_lab;
  for (int n = 0; n <= 1; n++) {	// Do it in two passes to allow diagonals
@@ -1639,9 +1619,10 @@ void overmap::build_lab(int x, int y, int z, int s)
     stairy = rng(y - s, y + s);
     tries++;
    } while (ter(stairx, stairy, z) != ot_lab && tries < 15);
-   if (tries < 15)
+   if (tries < 15) {
     ter(stairx, stairy, z) = ot_lab_stairs;
-   numstairs++;
+    numstairs++;
+   }
   }
  }
  if (numstairs == 0) {	// This is the bottom of the lab;  We need a finale
@@ -1656,6 +1637,8 @@ void overmap::build_lab(int x, int y, int z, int s)
   ter(finalex, finaley, z) = ot_lab_finale;
  }
  zg.push_back(mongroup("GROUP_LAB", (x * 2), (y * 2), z, s, 400));
+
+ return numstairs > 0;
 }
 
 void overmap::build_anthill(int x, int y, int z, int s)
@@ -1718,16 +1701,22 @@ void overmap::build_tunnel(int x, int y, int z, int s, int dir)
  build_tunnel(next.x, next.y, z, s - 1, dir);
 }
 
-void overmap::build_slimepit(int x, int y, int z, int s)
+bool overmap::build_slimepit(int x, int y, int z, int s)
 {
+	bool requires_sub = false;
  for (int n = 1; n <= s; n++) {
   for (int i = x - n; i <= x + n; i++) {
    for (int j = y - n; j <= y + n; j++) {
     if (rng(1, s * 2) >= n)
-     ter(i, j, z) = (one_in(8) ? ot_slimepit_down : ot_slimepit);
+    	if (one_in(8)) {
+    		ter(i, j, z) = ot_slimepit_down;
+    		requires_sub = true;
+    	} else
+      ter(i, j, z) = ot_slimepit;
     }
    }
  }
+ return requires_sub;
 }
 
 void overmap::build_mine(int x, int y, int z, int s)
