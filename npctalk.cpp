@@ -732,8 +732,8 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   if (trainable.empty() && styles.empty()) {
    RESPONSE("Oh, okay."); // Nothing to learn here
     SUCCESS(TALK_NONE);
+   break;
   }
-  break;
   int printed = 0;
   int shift = p->chatbin.tempvalue;
   bool more = trainable.size() + styles.size() - shift > 9;
