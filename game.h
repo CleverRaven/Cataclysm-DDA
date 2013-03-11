@@ -205,6 +205,9 @@ class game
   void consume_items(std::vector<component> components);
   void consume_tools(std::vector<component> tools);
 
+  bool has_gametype() const { return gamemode && gamemode->id() != SGAME_NULL; }
+  special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
+
   std::vector <itype*> itypes;
   std::vector <mtype*> mtypes;
   std::vector <vehicle*> vtypes;
@@ -359,7 +362,7 @@ class game
   void despawn_monsters(const bool stairs = false, const int shiftx = 0, const int shifty = 0);
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
   mon_id valid_monster_from(std::vector<mon_id> group);
-  int valid_group(mon_id type, int x, int y);// Picks a group from cur_om
+  int valid_group(mon_id type, int x, int y, int z);// Picks a group from cur_om
   moncat_id mt_to_mc(mon_id type);// Monster type to monster category
   void set_adjacent_overmaps(bool from_scratch = false);
 
@@ -390,10 +393,6 @@ class game
   void disp_kills();       // Display the player's kill counts
   void disp_NPCs();        // Currently UNUSED.  Lists global NPCs.
   void list_missions();    // Listed current, completed and failed missions.
-
-// If x & y are OOB, creates a new overmap and returns the proper terrain; also,
-// may mark the square as seen by the player
-  oter_id ter_at(int x, int y, bool& mark_as_seen);
 
 // Debug functions
   void debug();           // All-encompassing debug screen.  TODO: This.

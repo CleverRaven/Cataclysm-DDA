@@ -38,19 +38,32 @@ struct radio_tower {
              x (X), y (Y), strength (S), message (M) {}
 };
 
+struct map_layer {
+ oter_id terrain[OMAPX][OMAPY];
+ bool visable[OMAPX][OMAPY];
+ std::vector<om_note> notes;
+
+ map_layer() : terrain(), visable(), notes() {
+ 	for(int i = 0; i < OMAPX; ++i) {
+ 		for(int j = 0; j < OMAPY; ++j) {
+ 			terrain[i][j] = ot_null;
+ 			visable[i][j] = false;
+ 		}
+ 	}
+ }
+};
+
 class overmap
 {
  public:
   overmap();
   overmap(const overmap & om);
-  overmap(game *g, int x, int y, int z);
+  overmap(game *g, int x, int y);
   ~overmap();
-  void save(std::string name);
-  void save(std::string name, int x, int y, int z);
-  void open(game *g, int x, int y, int z);
-  void generate(game *g, overmap* north, overmap* east, overmap* south,
-                overmap* west);
-  void generate_sub(overmap* above);
+
+  point const& pos() const { return loc; }
+
+  void save();
   void make_tutorial();
   void first_house(int &x, int &y);
 
@@ -64,47 +77,58 @@ class overmap
  * Use must_be_seen=true if only terrain seen by the player should be searched.
  * If no such tile can be found, (-1, -1) is returned.
  */
+  // TODO: make this 3d
   point find_closest(point origin, oter_id type, int type_range,
                      int &dist, bool must_be_seen);
-  std::vector<point> find_all(point origin, oter_id type, int type_range,
-                            int &dist, bool must_be_seen);
-  std::vector<point> find_terrain(std::string term, int cursx, int cursy);
+  std::vector<point> find_terrain(std::string term, int cursx, int cursy, int zlevel);
   int closest_city(point p);
   point random_house_in_city(int city_id);
   int dist_from_city(point p);
 // Interactive point choosing; used as the map screen
-  point choose_point(game *g);
+  point choose_point(game *g, int const z);
 
-  bool ter_in_type_range(int x, int y, oter_id type, int type_range);
-  oter_id& ter(int x, int y);
-  unsigned zones(int x, int y);
-  std::vector<mongroup*> monsters_at(int x, int y);
-  bool is_safe(int x, int y); // true if monsters_at is empty, or only woodland
-  bool&   seen(int x, int y);
+  bool ter_in_type_range(int x, int y, int z, oter_id type, int type_range);
+  oter_id& ter(int x, int y, int z);
+  bool&   seen(int x, int y, int z);
+  std::vector<mongroup*> monsters_at(int x, int y, int z);
+  bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
 
-  bool has_note(int x, int y);
-  std::string note(int x, int y);
-  void add_note(int x, int y, std::string message);
-  point find_note(point origin, std::string text);
-  void delete_note(int x, int y);
-  point display_notes();
+  bool has_note(int const x, int const y, int const z) const;
+  std::string const& note(int const x, int const y, int const z) const;
+  void add_note(int const x, int const y, int const z, std::string const& message);
+  void delete_note(int const x, int const y, int const z) { add_note(x, y, z, ""); }
 
+  point find_note(int const x, int const y, int const z, std::string const& text) const;
+  point display_notes(int const z) const;
+
+  // TODO: make private
+  std::vector<mongroup> zg;
+  std::vector<radio_tower> radios;
+  std::vector<npc> npcs;
   std::vector<city> cities;
   std::vector<city> roads_out;
   std::vector<settlement> towns;
-  std::vector<mongroup> zg;
-  std::vector<radio_tower> radios;
-  int posx, posy, posz;
-  std::vector<npc> npcs;
 
  private:
-  oter_id t[OMAPX][OMAPY];
+  typedef std::map<int, map_layer> layer_map_t;
+  point loc;
+  std::string prefix;
+  std::string name;
+
+  layer_map_t layers;
+
   oter_id nullret;
-  bool s[OMAPX][OMAPY];
   bool nullbool;
-  std::vector<om_note> notes;
+  std::string nullstr;
+
+  // Initialise
+  void open(game *g);
+  void generate(game *g, overmap* north, overmap* east, overmap* south,
+                overmap* west);
+  bool generate_sub(int const z);
+
   //Drawing
-  void draw(WINDOW *w, game *g, int &cursx, int &cursy,
+  void draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
                    int &origx, int &origy, char &ch, bool blink);
   // Overall terrain
   void place_river(point pa, point pb);
@@ -113,35 +137,37 @@ class overmap
   void place_cities();
   void put_buildings(int x, int y, int dir, city town);
   void make_road(int cx, int cy, int cs, int dir, city town);
-  void build_lab(int x, int y, int s);
-  void build_anthill(int x, int y, int s);
-  void build_tunnel(int x, int y, int s, int dir);
-  void build_slimepit(int x, int y, int s);
-  void build_mine(int x, int y, int s);
-  void place_rifts();
+  bool build_lab(int x, int y, int z, int s);
+  void build_anthill(int x, int y, int z, int s);
+  void build_tunnel(int x, int y, int z, int s, int dir);
+  bool build_slimepit(int x, int y, int z, int s);
+  void build_mine(int x, int y, int z, int s);
+  void place_rifts(int const z);
   // Connection highways
-  void place_hiways(std::vector<city> cities, oter_id base);
+  void place_hiways(std::vector<city> cities, int z, oter_id base);
   void place_subways(std::vector<point> stations);
-  void make_hiway(int x1, int y1, int x2, int y2, oter_id base);
+  void make_hiway(int x1, int y1, int x2, int y2, int z, oter_id base);
   void building_on_hiway(int x, int y, int dir);
   // Polishing
-  bool is_road(oter_id base, int x, int y); // Dependant on road type
-  bool is_road(int x, int y);
-  void polish(oter_id min = ot_null, oter_id max = ot_tutorial);
-  void good_road(oter_id base, int x, int y);
-  void good_river(int x, int y);
+  bool is_road(oter_id base, int x, int y, int z); // Dependant on road type
+  bool is_road(int x, int y, int z);
+  void polish(int z, oter_id min = ot_null, oter_id max = ot_tutorial);
+  void good_road(oter_id base, int x, int y, int z);
+  void good_river(int x, int y, int z);
   // Monsters, radios, etc.
   void place_specials();
-  void place_special(overmap_special special, point p);
+  void place_special(overmap_special special, tripoint p);
   void place_mongroups();
   void place_radios();
   // File I/O
 
-  friend std::ostream & operator<<(std::ostream &, const overmap *);
+  std::string terrain_filename(int const x, int const y) const;
+  std::string player_filename(int const x, int const y) const;
 };
 
-std::ostream & operator<<(std::ostream &, const overmap *);
-std::ostream & operator<<(std::ostream &, const overmap &);
-std::ostream & operator<<(std::ostream &, const city &);
+// TODO: readd the stream operators
+//std::ostream & operator<<(std::ostream &, const overmap *);
+//std::ostream & operator<<(std::ostream &, const overmap &);
+//std::ostream & operator<<(std::ostream &, const city &);
 
 #endif
