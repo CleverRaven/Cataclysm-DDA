@@ -2693,7 +2693,7 @@ std::string overmap::terrain_filename(int const x, int const y) const
  filename << "save/";
 
  if (!prefix.empty()) {
- 	filename << prefix << "/";
+ 	filename << prefix << ".";
  }
 
  filename << "o." << x << "." << y;
