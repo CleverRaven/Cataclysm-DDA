@@ -1182,7 +1182,6 @@ bool game::can_make(recipe *r)
   }
   if(!has_tool)
   {
-   debugmsg("fail tool check");
    return false;
   }
  }
@@ -1214,7 +1213,6 @@ bool game::can_make(recipe *r)
   }
   if(!has_comp)
   {
-   debugmsg("fail comp check");
    return false;
   }
  }
