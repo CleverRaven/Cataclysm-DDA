@@ -137,7 +137,7 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP(itm_saiga_12, 1, NULL);
 
  RECIPE(itm_bolt_wood, CC_WEAPON, "mechanics", "archery", 1, 5000, false);
-  TOOL(itm_hatchet, TG_KNIVES, itm_toolset, -1, NULL);
+  TOOL(itm_hatchet, -1, TG_KNIVES, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_bee_sting, 1,
        NULL);
 
