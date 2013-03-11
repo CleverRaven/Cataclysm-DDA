@@ -546,6 +546,7 @@ void game::start_game()
  run_mode = (OPTIONS[OPT_SAFEMODE] ? 1 : 0);
  mostseen = 0;	// ...and mostseen is 0, we haven't seen any monsters yet.
 
+ popup_nowait("Please wait as we build your world");
 // Init some factions.
  if (!load_master())	// Master data record contains factions.
   create_factions();

@@ -125,7 +125,7 @@ class overmap
   void open(game *g);
   void generate(game *g, overmap* north, overmap* east, overmap* south,
                 overmap* west);
-  void generate_sub(int const z);
+  bool generate_sub(int const z);
 
   //Drawing
   void draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
@@ -137,10 +137,10 @@ class overmap
   void place_cities();
   void put_buildings(int x, int y, int dir, city town);
   void make_road(int cx, int cy, int cs, int dir, city town);
-  void build_lab(int x, int y, int z, int s);
+  bool build_lab(int x, int y, int z, int s);
   void build_anthill(int x, int y, int z, int s);
   void build_tunnel(int x, int y, int z, int s, int dir);
-  void build_slimepit(int x, int y, int z, int s);
+  bool build_slimepit(int x, int y, int z, int s);
   void build_mine(int x, int y, int z, int s);
   void place_rifts(int const z);
   // Connection highways
