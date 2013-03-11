@@ -5862,14 +5862,14 @@ void game::pickup(int posx, int posy, int min)
  if ((!from_veh) && m.i_at(posx, posy).size() == 0) {
   if (m.has_flag(swimmable, posx, posy) || m.ter(posx, posy) == t_toilet || m.ter(posx, posy) == t_water_sh) {
    item water = m.water_from(posx, posy);
-   if (query_yn("Drink from your hands?")) {
+    // Try to handle first (bottling) drink after.
+    // changed boolean, large sources should be infinite
+   if (handle_liquid(water, true, true)) {
+    u.moves -= 100;
+   } else if (query_yn("Drink from your hands?")) {
     u.inv.push_back(water);
     u.eat(this, u.inv.size() - 1);
     u.moves -= 350;
-   } else {
-// changed boolean, large sources should be infinite
-    handle_liquid(water, true, true);
-    u.moves -= 100;
    }
   }
   return;
@@ -6214,21 +6214,38 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    return false;
   } // if (pl_choose_vehicle(vx, vy))
 
- } else if (!from_ground &&
-            query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
-  m.add_item(u.posx, u.posy, liquid);
-  return true;
-
  } else { // Not filling vehicle
 
+   // Ask to pour rotten liquid (milk!) from the get-go
+  if (!from_ground && liquid.rotten(this) &&
+      query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
+   m.add_item(u.posx, u.posy, liquid);
+   return true;
+  }
+  
   std::stringstream text;
   text << "Container for " << liquid.tname(this);
   char ch = inv_type(text.str().c_str(), IC_CONTAINER);
-  if (!u.has_item(ch))
+  if (!u.has_item(ch)) {
+    // No container selected (escaped, ...), ask to pour
+    // we asked to pour rotten already
+   if (!from_ground && !liquid.rotten(this) &&
+       query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
+    m.add_item(u.posx, u.posy, liquid);
+    return true;
+   }
    return false;
+  }
 
   item *cont = &(u.i_at(ch));
   if (cont == NULL || cont->is_null()) {
+    // Container is null, ask to pour.
+    // we asked to pour rotten already
+   if (!from_ground && !liquid.rotten(this) &&
+       query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
+    m.add_item(u.posx, u.posy, liquid);
+    return true;
+   }
    add_msg("Never mind.");
    return false;
 
