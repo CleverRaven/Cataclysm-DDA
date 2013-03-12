@@ -29,9 +29,6 @@
 #if (defined _WIN32 || defined __WIN32__)
 #include <windows.h>
 #include <tchar.h>
-#else
-#include <sys/ioctl.h>
-#include <unistd.h>
 #endif
 
 #define MAX_MONSTERS_MOVING 40 // Efficiency!
@@ -95,25 +92,12 @@ void game::init_ui(){
  clear();	// Clear the screen
  intro();	// Print an intro screen, make sure we're at least 80x25
 
+ getmaxyx(stdscr, TERMY, TERMX);
 
-#if (defined _WIN32 || defined __WIN32__)
- TERMX = (55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1);
- TERMY = (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1);
- VIEWX = OPTIONS[OPT_VIEWPORT_X];
- VIEWY = OPTIONS[OPT_VIEWPORT_Y];
- TERRAIN_WINDOW_WIDTH = (VIEWX * 2) + 1;
- TERRAIN_WINDOW_HEIGHT = (VIEWY * 2) + 1;
-#else
- struct winsize w;
- ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-
- TERMX = w.ws_col;
- TERMY = w.ws_row;
  TERRAIN_WINDOW_WIDTH = TERMX - STATUS_WIDTH;
  TERRAIN_WINDOW_HEIGHT = TERMY;
  VIEWX = (TERRAIN_WINDOW_WIDTH - 1) / 2;
  VIEWY = (TERRAIN_WINDOW_HEIGHT - 1) / 2;
-#endif
 
  if (VIEWX <= 0) {
   VIEWX = 1;
