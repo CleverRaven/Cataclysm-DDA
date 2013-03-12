@@ -18,6 +18,7 @@
 
 void game::help()
 {
+ erase();
  char ch;
  do {
   erase();
@@ -809,4 +810,6 @@ A: Email your question to TheDarklingWolf@Gmail.com.  I'll answer it for you,\n\
 
   }
  } while (ch != 'q' && ch != KEY_ESCAPE);
+
+ erase();
 }
