@@ -123,12 +123,12 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP(itm_bat, 1, NULL);
   COMP(itm_nail, 6, NULL);
 
-// molotovs use 250ml of flammable liquids
+// molotovs use 500ml of flammable liquids
  RECIPE(itm_molotov, CC_WEAPON, NULL, NULL, 0, 500, false);
   COMP(itm_rag, 1, NULL);
   COMP(itm_bottle_glass, 1, itm_flask_glass, 1, NULL);
-  COMP(itm_whiskey, 21, itm_vodka, 21, itm_rum, 21, itm_tequila, 21, itm_gin, 21, itm_triple_sec, 21,
-       itm_gasoline, 200, NULL);
+  COMP(itm_whiskey, 14, itm_vodka, 14, itm_rum, 14, itm_tequila, 14, itm_gin, 14, itm_triple_sec, 14,
+       itm_gasoline, 400, NULL);
 
  RECIPE(itm_pipebomb, CC_WEAPON, "mechanics", NULL, 1, 750, false);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
