@@ -39,6 +39,8 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
  */
 
 // NON-CRAFTABLE BUT CAN BE DISASSEMBLED (set category to CC_NONCRAFT)
+RECIPE(itm_knife_steak, CC_NONCRAFT, NULL, NULL, 0, 2000, true);
+ COMP(itm_carspike, 1, NULL);
 
 RECIPE(itm_lawnmower, CC_NONCRAFT, NULL, NULL, 0, 1000, true);
  TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
@@ -98,7 +100,7 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
 
  RECIPE(itm_spear_knife, CC_WEAPON, "stabbing", NULL, 0, 600, true);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, NULL);
-  COMP(itm_knife_steak, 2, itm_knife_combat, 1, NULL);
+  COMP(itm_blade, 1, NULL);
   COMP(itm_string_6, 6, itm_string_36, 1, NULL);
 
  RECIPE(itm_longbow, CC_WEAPON, "archery", "survival", 2, 15000, true);
@@ -1009,8 +1011,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
 
  RECIPE(itm_carspike,     CC_MISC, NULL, NULL, 0, 3000, false);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
-  COMP(itm_spear_knife, 1, itm_knife_combat, 1, itm_knife_steak, 3,
-       itm_steel_chunk, 3, itm_scrap, 9, NULL);
+  COMP(itm_knife_combat, 1, itm_steel_chunk, 3, itm_scrap, 9, NULL);
 
  RECIPE(itm_blade,     CC_MISC, NULL, NULL, 0, 3000, false);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);

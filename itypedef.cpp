@@ -817,7 +817,6 @@ MELEE("manhole cover",	 1, 20, ']', c_dkgray,	IRON,	MNULL,
 	45,250, 20,  0,-10, 0, "\
 A heavy iron disc which generally covers a ladder into the sewers. Lifting\n\
 it from the manhole is impossible without a crowbar.");
-TECH( mfb(TEC_WBLOCK_3) );
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("rock",		40,  0, '*', c_ltgray,	STONE,	MNULL,
@@ -851,6 +850,7 @@ MELEE("nail board",	 5,  80,'/', c_ltred,	WOOD,	MNULL,
 	 6,  6, 16,  6,  1, mfb(IF_STAB), "\
 A long piece of wood with several nails through one end; essentially a simple\n\
 mace. Makes a great melee weapon.");
+TECH( mfb(TEC_WBLOCK_1) );
 
 MELEE("nail bat",	60, 160,'/', c_ltred,	WOOD,	MNULL,
 	12, 10, 28,  6,  3, mfb(IF_STAB), "\
@@ -1011,7 +1011,7 @@ mounted on a vehicle.");
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("blade",	 5, 280,'/', c_blue,	IRON,	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
-	 8, 14,  6, 10, -2, 0, "\
+	 8, 10,  6, 10, -2, 0, "\
 A large, relatively sharp blade. Could be used to make\n\
 bladed weaponry, or attached to a car.");
 
@@ -3953,9 +3953,9 @@ A rare sword from Japan. Deadly against unarmored targets, and still very\n\
 effective against the armored.");
 TECH( mfb(TEC_RAPID)|mfb(TEC_WBLOCK_2) );
 
-TOOL("steel spear",      5,  140,'/', c_ltred,   WOOD,   STEEL,
+TOOL("knife spear",      5,  140,'/', c_ltred,   WOOD,   STEEL,
          6,  6,  2, 28,  1,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_SPEAR), "\
-A simple wood pole made deadlier by the knife tied to it.");
+A simple wood pole made deadlier by the blade tied to it.");
 TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
 
 TOOL("rapier",		 3, 980,'/', c_ltblue,	STEEL,	MNULL,
@@ -3978,16 +3978,17 @@ TECH( mfb(TEC_WBLOCK_1) );
 
 TOOL("makeshift machete", 0, 100, '/', c_ltgray, IRON, MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC   FUEL    REVERT    FUNCTION
-    7,  5,  4,  15, 1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::knife,
+    7,  12,  4,  15, 1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::knife,
     mfb(IF_STAB), "\
 A large blade which has had a portion of the handle wrapped\n\
 in duct tape, making it easier to wield as a rough machete.");
-TECH( mfb(TEC_WBLOCK_1) );
 
 TOOL("makeshift halberd", 0, 100, '/', c_ltgray, IRON, MNULL,
-         10, 7, 4, 15,   2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
+// VOL WGT DAM CUT HIT MAX DEF USE SEC   FUEL    REVERT    FUNCTION
+    13, 17, 4, 15,   2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
 A large blade attached to a long stick. Could do a considerable\n\
 amount of damage.");
+TECH( mfb(TEC_WBLOCK_1) );
 
 TOOL("steak knife",	85,  25,';', c_ltcyan,	STEEL,	MNULL,
      1,  2,  2, 10, -3, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
