@@ -18,59 +18,59 @@ static int debugClass = DC_ALL;
 
 void setupDebug()
 {
- int level = 0;
+    int level = 0;
 
 #ifdef DEBUG_INFO
- level |= D_INFO;
+    level |= D_INFO;
 #endif
 
 #ifdef DEBUG_WARNING
- level |= D_WARNING;
+    level |= D_WARNING;
 #endif
 
 #ifdef DEBUG_ERROR
- level |= D_ERROR;
+    level |= D_ERROR;
 #endif
 
 #ifdef DEBUG_PEDANTIC_INFO
- level |= D_PEDANTIC_INFO;
+    level |= D_PEDANTIC_INFO;
 #endif
 
- if( level != 0 )
-  limitDebugLevel(level);
+    if( level != 0 )
+        limitDebugLevel(level);
 
- int cl = 0;
+    int cl = 0;
 
 #ifdef DEBUG_ENABLE_MAIN
- cl |= D_MAIN;
+    cl |= D_MAIN;
 #endif
 
 #ifdef DEBUG_ENABLE_MAP
- cl |= D_MAP;
+    cl |= D_MAP;
 #endif
 
 #ifdef DEBUG_ENABLE_MAP_GEN
- cl |= D_MAP_GEN;
+    cl |= D_MAP_GEN;
 #endif
 
 #ifdef DEBUG_ENABLE_GAME
- cl |= D_GAME;
+    cl |= D_GAME;
 #endif
 
- if( cl != 0 )
-  limitDebugClass(cl);
+    if( cl != 0 )
+        limitDebugClass(cl);
 }
 
 void limitDebugLevel( int i )
 {
- dout() << "Set debug level to: " << (DebugLevel)i;
- debugLevel = i;
+    dout() << "Set debug level to: " << (DebugLevel)i;
+    debugLevel = i;
 }
 
 void limitDebugClass( int i )
 {
- dout() << "Set debug class to: " << (DebugClass)i;
- debugClass = i;
+    dout() << "Set debug class to: " << (DebugClass)i;
+    debugClass = i;
 }
 
 // Debug only                                                       {{{1
@@ -93,17 +93,17 @@ void* tracePtrs[TRACE_SIZE];
 
 struct NullBuf : public std::streambuf
 {
- NullBuf() {}
- int overflow(int c) { return c; }
+    NullBuf() {}
+    int overflow(int c) { return c; }
 };
 
 struct DebugFile
 {
- DebugFile();
- ~DebugFile();
+    DebugFile();
+    ~DebugFile();
 
- std::ofstream & currentTime();
- std::ofstream file;
+    std::ofstream & currentTime();
+    std::ofstream file;
 };
 
 static NullBuf nullBuf;
@@ -116,17 +116,17 @@ static DebugFile debugFile;
 
 DebugFile::DebugFile()
 {
- file.open("data/debug.txt", std::ios::out | std::ios::app );
- file << "\n\n-----------------------------------------\n";
- currentTime() << " : Starting log.";
+    file.open("data/debug.txt", std::ios::out | std::ios::app );
+    file << "\n\n-----------------------------------------\n";
+    currentTime() << " : Starting log.";
 }
 
 DebugFile::~DebugFile()
 {
- file << "\n";
- currentTime() << " : Log shutdown.\n";
- file << "-----------------------------------------\n\n";
- file.close();
+    file << "\n";
+    currentTime() << " : Log shutdown.\n";
+    file << "-----------------------------------------\n\n";
+    file.close();
 }
 
 // OStream Operators                                                {{{2
@@ -134,73 +134,73 @@ DebugFile::~DebugFile()
 
 std::ostream & operator<<(std::ostream & out, DebugLevel lev)
 {
- if( lev != DL_ALL )
- {
-  if( lev & D_INFO )
-   out << "INFO ";
-  if( lev & D_WARNING )
-   out << "WARNING ";
-  if( lev & D_ERROR )
-   out << "ERROR ";
-  if( lev & D_PEDANTIC_INFO )
-   out << "PEDANTIC ";
- }
- return out;
+    if( lev != DL_ALL )
+    {
+        if( lev & D_INFO )
+            out << "INFO ";
+        if( lev & D_WARNING )
+            out << "WARNING ";
+        if( lev & D_ERROR )
+            out << "ERROR ";
+        if( lev & D_PEDANTIC_INFO )
+            out << "PEDANTIC ";
+    }
+    return out;
 }
 
 std::ostream & operator<<(std::ostream & out, DebugClass cl)
 {
- if( cl != DC_ALL )
- {
-  if( cl & D_MAIN )
-   out << "MAIN ";
-  if( cl & D_MAP )
-   out << "MAP ";
- }
- return out;
+    if( cl != DC_ALL )
+    {
+        if( cl & D_MAIN )
+            out << "MAIN ";
+        if( cl & D_MAP )
+            out << "MAP ";
+    }
+    return out;
 }
 
 std::ofstream & DebugFile::currentTime()
 {
- struct tm *current;
- time_t now;
+    struct tm *current;
+    time_t now;
 
- time(&now);
- current = localtime(&now);
+    time(&now);
+    current = localtime(&now);
 
- file << current->tm_hour << ":" << current->tm_min << ":" <<
-  current->tm_sec;
- return file;
+    file << current->tm_hour << ":" << current->tm_min << ":" <<
+        current->tm_sec;
+    return file;
 }
 
 std::ostream & dout(DebugLevel lev,DebugClass cl)
 {
- if( (lev & debugLevel) && (cl & debugClass) )
- {
-  debugFile.file << std::endl;
-  debugFile.currentTime() << " ";
-  if( lev != debugLevel )
-   debugFile.file << lev;
-  if( cl != debugClass )
-   debugFile.file << cl;
-  debugFile.file << ": ";
+    if( (lev & debugLevel) && (cl & debugClass) )
+    {
+        debugFile.file << std::endl;
+        debugFile.currentTime() << " ";
+        if( lev != debugLevel )
+            debugFile.file << lev;
+        if( cl != debugClass )
+            debugFile.file << cl;
+        debugFile.file << ": ";
 
-  // Backtrace on error.
+        // Backtrace on error.
 #if !(defined _WIN32 || defined WINDOWS)
-  if( lev == D_ERROR )
-  {
-   int count = backtrace( tracePtrs, TRACE_SIZE );
-   char** funcNames = backtrace_symbols( tracePtrs, count );
-   for(int i = 0; i < count; ++i)
-    debugFile.file << "\n\t(" << funcNames[i] << "), ";
-   debugFile.file << "\n\t";
-   free(funcNames);
-  }
+        if( lev == D_ERROR )
+        {
+            int count = backtrace( tracePtrs, TRACE_SIZE );
+            char** funcNames = backtrace_symbols( tracePtrs, count );
+            for(int i = 0; i < count; ++i)
+                debugFile.file << "\n\t(" << funcNames[i] << "), ";
+            debugFile.file << "\n\t";
+            free(funcNames);
+        }
 #endif
 
-  return debugFile.file;
- }
- return nullStream;
+        return debugFile.file;
+    }
+    return nullStream;
 }
 
 // Non Debug Only                                                   {{{1
