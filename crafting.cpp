@@ -39,12 +39,14 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
  */
 
 // NON-CRAFTABLE BUT CAN BE DISASSEMBLED (set category to CC_NONCRAFT)
+RECIPE(itm_knife_steak, CC_NONCRAFT, NULL, NULL, 0, 2000, true);
+ COMP(itm_carspike, 1, NULL);
 
 RECIPE(itm_lawnmower, CC_NONCRAFT, NULL, NULL, 0, 1000, true);
  TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
  COMP(itm_scrap, 8, NULL);
  COMP(itm_spring, 2, NULL);
- COMP(itm_lawnmower_blade, 2, NULL);
+ COMP(itm_blade, 2, NULL);
  COMP(itm_1cyl_combustion, 1, NULL);
  COMP(itm_pipe, 3, NULL);
 
@@ -75,13 +77,13 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
 
 // WEAPONS
 
- RECIPE(itm_lawnmower_machete, CC_WEAPON, NULL, NULL, 0, 5000, true);
+ RECIPE(itm_makeshift_machete, CC_WEAPON, NULL, NULL, 0, 5000, true);
   COMP(itm_duct_tape, 50, NULL);
-  COMP(itm_lawnmower_blade, 1, NULL);
+  COMP(itm_blade, 1, NULL);
 
- RECIPE(itm_lawnmower_halberd, CC_WEAPON, NULL, NULL, 0, 5000, true);
+ RECIPE(itm_makeshift_halberd, CC_WEAPON, NULL, NULL, 0, 5000, true);
   COMP(itm_duct_tape, 100, NULL);
-  COMP(itm_lawnmower_blade, 1, NULL);
+  COMP(itm_blade, 1, NULL);
   COMP(itm_stick, 1, itm_mop, 1, itm_broom, 1, NULL);
 
  RECIPE(itm_spear_wood, CC_WEAPON, NULL, NULL, 0, 800, false);
@@ -98,7 +100,7 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
 
  RECIPE(itm_spear_knife, CC_WEAPON, "stabbing", NULL, 0, 600, true);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, NULL);
-  COMP(itm_knife_steak, 2, itm_knife_combat, 1, NULL);
+  COMP(itm_blade, 1, NULL);
   COMP(itm_string_6, 6, itm_string_36, 1, NULL);
 
  RECIPE(itm_longbow, CC_WEAPON, "archery", "survival", 2, 15000, true);
@@ -121,12 +123,12 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP(itm_bat, 1, NULL);
   COMP(itm_nail, 6, NULL);
 
-// molotovs use 250ml of flammable liquids
+// molotovs use 500ml of flammable liquids
  RECIPE(itm_molotov, CC_WEAPON, NULL, NULL, 0, 500, false);
   COMP(itm_rag, 1, NULL);
   COMP(itm_bottle_glass, 1, itm_flask_glass, 1, NULL);
-  COMP(itm_whiskey, 21, itm_vodka, 21, itm_rum, 21, itm_tequila, 21, itm_gin, 21, itm_triple_sec, 21,
-       itm_gasoline, 200, NULL);
+  COMP(itm_whiskey, 14, itm_vodka, 14, itm_rum, 14, itm_tequila, 14, itm_gin, 14, itm_triple_sec, 14,
+       itm_gasoline, 400, NULL);
 
  RECIPE(itm_pipebomb, CC_WEAPON, "mechanics", NULL, 1, 750, false);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
@@ -1009,13 +1011,11 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
 
  RECIPE(itm_carspike,     CC_MISC, NULL, NULL, 0, 3000, false);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
-  COMP(itm_spear_knife, 1, itm_knife_combat, 1, itm_knife_steak, 3,
-       itm_steel_chunk, 3, itm_scrap, 9, NULL);
+  COMP(itm_knife_combat, 1, itm_steel_chunk, 3, itm_scrap, 9, NULL);
 
- RECIPE(itm_carblade,     CC_MISC, NULL, NULL, 0, 3000, false);
+ RECIPE(itm_blade,     CC_MISC, NULL, NULL, 0, 3000, false);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
-  COMP(itm_broadsword, 1, itm_machete, 1, itm_pike, 1,
-       itm_lawnmower_blade, 1, NULL);
+  COMP(itm_broadsword, 1, itm_machete, 1, itm_pike, 1, NULL);
 
  RECIPE(itm_superglue, CC_MISC, "cooking", NULL, 2, 12000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
@@ -1082,7 +1082,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
  RECIPE(itm_blade_trap, CC_MISC, "mechanics", "traps", 4, 8000, true);
   TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
   COMP(itm_motor, 1, NULL);
-  COMP(itm_carblade, 1, NULL);
+  COMP(itm_blade, 1, NULL);
   COMP(itm_string_36, 1, NULL);
 
 RECIPE(itm_boobytrap, CC_MISC, "mechanics", "traps",3,5000, false);

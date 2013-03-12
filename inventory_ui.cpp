@@ -6,38 +6,48 @@
 #include <map>
 #include <sstream>
 
-std::string CATEGORIES[10] =
- {"GROUND:", "FIREARMS:", "AMMUNITION:", "CLOTHING:", "COMESTIBLES:",
-  "TOOLS:", "BOOKS:", "WEAPONS:", "MODS/BIONICS", "OTHER:"};
+const int iCategorieNum = 11;
+std::string CATEGORIES[iCategorieNum] =
+ {"GROUND:", "FIREARMS:", "AMMUNITION:", "CLOTHING:", "FOOD/DRINKS:",
+  "TOOLS:", "BOOKS:", "WEAPONS:", "MODS/BIONICS", "MEDICINE/DRUGS", "OTHER:"};
 
 std::vector<int> find_firsts(inventory &inv)
 {
- std::vector<int> firsts;
- for (int i = 0; i < 9; i++)
-  firsts.push_back(-1);
+    std::vector<int> firsts;
+    for (int i = 0; i < iCategorieNum-1; i++) {
+        firsts.push_back(-1);
+    }
 
- for (int i = 0; i < inv.size(); i++) {
-  if (firsts[0] == -1 && inv[i].is_gun())
-   firsts[0] = i;
-  else if (firsts[1] == -1 && inv[i].is_ammo())
-   firsts[1] = i;
-  else if (firsts[2] == -1 && inv[i].is_armor())
-   firsts[2] = i;
-  else if (firsts[3] == -1 && (inv[i].is_food() || inv[i].is_food_container()))
-   firsts[3] = i;
-  else if (firsts[4] == -1 && inv[i].is_tool())
-   firsts[4] = i;
-  else if (firsts[5] == -1 && inv[i].is_book())
-   firsts[5] = i;
-  else if (firsts[6] == -1 && inv[i].is_weap())
-   firsts[6] = i;
-  else if (firsts[7] == -1 && (inv[i].is_gunmod() || inv[i].is_bionic()))
-   firsts[7] = i;
-  else if (firsts[8] == -1 && inv[i].is_other())
-   firsts[8] = i;
- }
+    for (int i = 0; i < inv.size(); i++) {
+        if (firsts[0] == -1 && inv[i].is_gun()) {
+            firsts[0] = i;
+        } else if (firsts[1] == -1 && inv[i].is_ammo()) {
+            firsts[1] = i;
+        } else if (firsts[2] == -1 && inv[i].is_armor()) {
+            firsts[2] = i;
+        } else if (firsts[3] == -1 && inv[i].is_food_container()) {
+            firsts[3] = i;
+        } else if (inv[i].is_food()) {
+            it_comest* comest = dynamic_cast<it_comest*>(inv[i].type);
+            if (firsts[3] == -1 && comest->comesttype != "MED") {
+                firsts[3] = i;
+            } else if (firsts[8] == -1 && comest->comesttype == "MED") {
+                firsts[8] = i;
+            }
+        } else if (firsts[4] == -1 && inv[i].is_tool()) {
+            firsts[4] = i;
+        } else if (firsts[5] == -1 && inv[i].is_book()) {
+            firsts[5] = i;
+        } else if (firsts[6] == -1 && inv[i].is_weap()) {
+            firsts[6] = i;
+        } else if (firsts[7] == -1 && (inv[i].is_gunmod() || inv[i].is_bionic())) {
+            firsts[7] = i;
+        } else if (firsts[9] == -1 && inv[i].is_other()) {
+            firsts[9] = i;
+        }
+    }
 
- return firsts;
+    return firsts;
 }
 
 void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
@@ -144,7 +154,7 @@ char game::inv(std::string title)
 // Clear the current line;
    mvwprintw(w_inv, cur_line, 0, "                                             ");
 // Print category header
-   for (int i = 1; i < 10; i++) {
+   for (int i = 1; i < iCategorieNum; i++) {
     if (cur_it == firsts[i-1]) {
      mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
      cur_line++;
@@ -263,7 +273,7 @@ char game::inv_type(std::string title, int inv_item_type)
 // Clear the current line;
    mvwprintw(w_inv, cur_line, 0, "                                             ");
 
-   for (int i = 1; i < 10; i++) {
+   for (int i = 1; i < iCategorieNum; i++) {
     if (cur_it == firsts[i-1]) {
      mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
      cur_line++;
@@ -338,7 +348,7 @@ std::vector<item> game::multidrop()
 // Clear the current line;
    mvwprintw(w_inv, cur_line, 0, "                                             ");
 // Print category header
-   for (int i = 1; i < 10; i++) {
+   for (int i = 1; i < iCategorieNum; i++) {
     if (cur_it == firsts[i-1]) {
      mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
      cur_line++;
@@ -559,7 +569,7 @@ void game::compare(int iCompareX, int iCompareY)
 // Clear the current line;
    mvwprintw(w_inv, cur_line, 0, "                                             ");
 // Print category header
-   for (int i = iHeaderOffset; i < 10; i++) {
+   for (int i = iHeaderOffset; i < iCategorieNum; i++) {
     if (cur_it == firsts[i-iHeaderOffset]) {
      mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
      cur_line++;

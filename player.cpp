@@ -3248,36 +3248,45 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
 
 void player::sort_inv()
 {
- // guns ammo weaps armor food tools books other
- std::vector< std::vector<item> > types[9];
- std::vector<item> tmp;
- for (int i = 0; i < inv.size(); i++) {
-  tmp = inv.stack_at(i);
-  if (tmp[0].is_gun())
-   types[0].push_back(tmp);
-  else if (tmp[0].is_ammo())
-   types[1].push_back(tmp);
-  else if (tmp[0].is_weap())
-   types[2].push_back(tmp);
-  else if (tmp[0].is_tool())
-   types[3].push_back(tmp);
-  else if (tmp[0].is_armor())
-   types[4].push_back(tmp);
-  else if (tmp[0].is_food() || tmp[0].is_food_container())
-   types[5].push_back(tmp);
-  else if (tmp[0].is_book())
-   types[6].push_back(tmp);
-  else if (tmp[0].is_gunmod() || tmp[0].is_bionic())
-   types[7].push_back(tmp);
-  else
-   types[8].push_back(tmp);
- }
- inv.clear();
- for (int i = 0; i < 9; i++) {
-  for (int j = 0; j < types[i].size(); j++)
-   inv.push_back(types[i][j]);
- }
- inv_sorted = true;
+    // guns ammo weaps armor food med tools books other
+    std::vector< std::vector<item> > types[10];
+    std::vector<item> tmp;
+    for (int i = 0; i < inv.size(); i++) {
+        tmp = inv.stack_at(i);
+        if (tmp[0].is_gun()) {
+            types[0].push_back(tmp);
+        } else if (tmp[0].is_ammo()) {
+            types[1].push_back(tmp);
+        } else if (tmp[0].is_weap()) {
+            types[2].push_back(tmp);
+        } else if (tmp[0].is_tool()) {
+            types[3].push_back(tmp);
+        } else if (tmp[0].is_armor()) {
+            types[4].push_back(tmp);
+        } else if (tmp[0].is_food_container())  {
+            types[5].push_back(tmp);
+        } else if (tmp[0].is_food()) {
+            it_comest* comest = dynamic_cast<it_comest*>(tmp[0].type);
+            if (comest->comesttype != "MED") {
+                types[5].push_back(tmp);
+            } else {
+                types[6].push_back(tmp);
+            }
+        } else if (tmp[0].is_book()) {
+            types[7].push_back(tmp);
+        } else if (tmp[0].is_gunmod() || tmp[0].is_bionic()) {
+            types[8].push_back(tmp);
+        } else {
+            types[9].push_back(tmp);
+        }
+    }
+    inv.clear();
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < types[i].size(); j++) {
+            inv.push_back(types[i][j]);
+        }
+    }
+    inv_sorted = true;
 }
 
 void player::i_add(item it, game *g)
