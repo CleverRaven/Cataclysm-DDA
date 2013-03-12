@@ -6,7 +6,7 @@
 	"artifact.h"
 	"artifactdata.h"
 
-1362514887 c:\users\galenevil\desktop\git repos\cataclysm-dda\game.h
+1362820317 c:\users\galenevil\desktop\git repos\cataclysm-dda\game.h
 	"mtype.h"
 	"monster.h"
 	"map.h"
@@ -33,7 +33,7 @@
 	<map>
 	<stdarg.h>
 
-1362300976 c:\users\galenevil\desktop\git repos\cataclysm-dda\mtype.h
+1362820317 c:\users\galenevil\desktop\git repos\cataclysm-dda\mtype.h
 	<string>
 	<vector>
 	<math.h>
@@ -42,9 +42,9 @@
 	"enums.h"
 	"color.h"
 
-1361944230 c:\users\galenevil\desktop\git repos\cataclysm-dda\mondeath.h
+1362820317 c:\users\galenevil\desktop\git repos\cataclysm-dda\mondeath.h
 
-1362300976 c:\users\galenevil\desktop\git repos\cataclysm-dda\monattack.h
+1362820317 c:\users\galenevil\desktop\git repos\cataclysm-dda\monattack.h
 
 1361944230 c:\users\galenevil\desktop\git repos\cataclysm-dda\enums.h
 
@@ -87,7 +87,7 @@
 	"itype.h"
 	"mtype.h"
 
-1362514887 c:\users\galenevil\desktop\git repos\cataclysm-dda\itype.h
+1362869509 c:\users\galenevil\desktop\git repos\cataclysm-dda\itype.h
 	<string>
 	<vector>
 	<sstream>
@@ -100,9 +100,9 @@
 	"bionics.h"
 	"artifact.h"
 
-1362300976 c:\users\galenevil\desktop\git repos\cataclysm-dda\iuse.h
+1362543504 c:\users\galenevil\desktop\git repos\cataclysm-dda\iuse.h
 
-1362375044 c:\users\galenevil\desktop\git repos\cataclysm-dda\pldata.h
+1362543504 c:\users\galenevil\desktop\git repos\cataclysm-dda\pldata.h
 	<sstream>
 
 1361944230 c:\users\galenevil\desktop\git repos\cataclysm-dda\bodypart.h
@@ -168,7 +168,7 @@
 	"graffiti.h"
 	<iosfwd>
 
-1362291175 c:\users\galenevil\desktop\git repos\cataclysm-dda\computer.h
+1362820316 c:\users\galenevil\desktop\git repos\cataclysm-dda\computer.h
 	"output.h"
 	<vector>
 	<string>
@@ -207,7 +207,7 @@
 	"itype.h"
 	"mtype.h"
 
-1361944230 c:\users\galenevil\desktop\git repos\cataclysm-dda\mapitems.h
+1362820317 c:\users\galenevil\desktop\git repos\cataclysm-dda\mapitems.h
 
 1361944230 c:\users\galenevil\desktop\git repos\cataclysm-dda\overmap.h
 	"enums.h"
@@ -220,7 +220,7 @@
 	<iosfwd>
 	"cursesdef.h"
 
-1362300976 c:\users\galenevil\desktop\git repos\cataclysm-dda\omdata.h
+1362820317 c:\users\galenevil\desktop\git repos\cataclysm-dda\omdata.h
 	<string>
 	<vector>
 	<bitset>
@@ -253,7 +253,7 @@
 	<string>
 	<vector>
 
-1361944230 c:\users\galenevil\desktop\git repos\cataclysm-dda\lightmap.h
+1362820317 c:\users\galenevil\desktop\git repos\cataclysm-dda\lightmap.h
 	"mapdata.h"
 	"map.h"
 
@@ -337,7 +337,7 @@
 	"output.h"
 	"options.h"
 
-1362514887 c:\users\galenevil\desktop\git repos\cataclysm-dda\options.h
+1362820317 c:\users\galenevil\desktop\git repos\cataclysm-dda\options.h
 	<string>
 
 1362375044 source:c:\users\galenevil\desktop\git repos\cataclysm-dda\catacurse.cpp
@@ -563,7 +563,7 @@
 	"game.h"
 	"lightmap.h"
 
-1362069348 source:c:\users\galenevil\desktop\git repos\cataclysm-dda\line.cpp
+1362514887 source:c:\users\galenevil\desktop\git repos\cataclysm-dda\line.cpp
 	"line.h"
 	<stdlib.h>
 
@@ -678,7 +678,7 @@
 	"line.h"
 	<sstream>
 
-1361944230 source:c:\users\galenevil\desktop\git repos\cataclysm-dda\mongroupdef.cpp
+1362543504 source:c:\users\galenevil\desktop\git repos\cataclysm-dda\mongroupdef.cpp
 	"game.h"
 	"setvector.h"
 
@@ -686,7 +686,7 @@
 	"game.h"
 	"setvector.h"
 
-1362300976 source:c:\users\galenevil\desktop\git repos\cataclysm-dda\monmove.cpp
+1362543504 source:c:\users\galenevil\desktop\git repos\cataclysm-dda\monmove.cpp
 	"monster.h"
 	"map.h"
 	"game.h"
@@ -822,7 +822,7 @@
 	"options.h"
 	"cursesdef.h"
 
-1362357728 source:c:\users\galenevil\desktop\git repos\cataclysm-dda\overmap.cpp
+1362514887 source:c:\users\galenevil\desktop\git repos\cataclysm-dda\overmap.cpp
 	<stdlib.h>
 	<time.h>
 	<math.h>
@@ -840,6 +840,7 @@
 	<ostream>
 	"debug.h"
 	"cursesdef.h"
+	"options.h"
 
 1362300976 source:c:\users\galenevil\desktop\git repos\cataclysm-dda\player.cpp
 	"player.h"
@@ -921,7 +922,7 @@
 1362357728 source:c:\users\galenevil\desktop\git repos\cataclysm-dda\trapdef.cpp
 	"game.h"
 
-1362300976 source:c:\users\galenevil\desktop\git repos\cataclysm-dda\trapfunc.cpp
+1362514887 source:c:\users\galenevil\desktop\git repos\cataclysm-dda\trapfunc.cpp
 	"game.h"
 	"trap.h"
 	"rng.h"
@@ -949,7 +950,7 @@
 	"vehicle.h"
 	"game.h"
 
-1362300976 source:c:\users\galenevil\desktop\git repos\cataclysm-dda\vehicle.cpp
+1362514887 source:c:\users\galenevil\desktop\git repos\cataclysm-dda\vehicle.cpp
 	"vehicle.h"
 	"map.h"
 	"output.h"

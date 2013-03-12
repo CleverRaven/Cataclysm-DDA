@@ -87,14 +87,14 @@ void game::init_construction()
 
  CONSTRUCT("Board Up Door", 0, &construct::able_door, &construct::done_nothing);
   STAGE(t_door_boarded, 8);
-   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_hammer_sledge, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 4, NULL);
    COMP(itm_nail, 8, NULL);
 
  CONSTRUCT("Board Up Window", 0, &construct::able_window,
                                  &construct::done_nothing);
   STAGE(t_window_boarded, 5);
-   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_hammer_sledge, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 4, NULL);
    COMP(itm_nail, 8, NULL);
 
@@ -305,7 +305,7 @@ void game::construction_menu()
    update_info = false;
    constructable* current_con = constructions[select];
 // Print difficulty
-   int pskill = u.skillLevel("carpentry").level();
+   int pskill = u.skillLevel("carpentry");
    int diff = current_con->difficulty > 0 ? current_con->difficulty : 0;
    mvwprintz(w_con, 1, 43, (pskill >= diff ? c_white : c_red),
              "%d   ", diff);

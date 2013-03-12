@@ -258,7 +258,7 @@ class game
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
-  void print_menu(WINDOW* w_open, int iSel);
+  void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA = true);
   bool load_master();	// Load the master data file, with factions &c
   void load(std::string name);	// Load a player-specific save file
   void start_game();	// Starts a new game
@@ -298,6 +298,9 @@ class game
   void close();	// Close a door			'c'
   void smash();	// Smash terrain
   void craft();                    // See crafting.cpp
+  void recraft();                  // See crafting.cpp 
+  void try_and_make(recipe *r);
+  bool can_make(recipe *r);
   void make_craft(recipe *making); // See crafting.cpp
   void complete_craft();           // See crafting.cpp
   void pick_recipes(std::vector<recipe*> &current,

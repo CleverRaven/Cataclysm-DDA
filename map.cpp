@@ -343,7 +343,7 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
                       g->u.posx, g->u.posy);
    continue;
   }
-  int trec = rec -psgs[i]->skillLevel("driving").level();
+  int trec = rec -psgs[i]->skillLevel("driving");
   if (trec < 0) trec = 0;
   // add recoil
   psg->driving_recoil = rec;
@@ -521,7 +521,7 @@ bool map::vehproceed(game* g){
                (one_in(2) ? -15 * rng(1, 3) : 15 * rng(1, 3)));
       }
    }
-   else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving").level() && one_in(20)) {
+   else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20)) {
       g->add_msg("You fumble with the %s's controls.", veh->name.c_str());
       veh->turn (one_in(2) ? -15 : 15);
    }
@@ -655,7 +655,7 @@ bool map::vehproceed(game* g){
          } else if (veh->part_with_feature (ppl[ps], vpf_controls) >= 0) {
 
             const int lose_ctrl_roll = rng (0, imp);
-            if (lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving").level() * 3) {
+            if (lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving") * 3) {
                if (psgname.length())
                   g->add_msg ("%s lose%s control of the %s.", psgname.c_str(),
                         (psg == &g->u ? "" : "s"), veh->name.c_str());
@@ -869,7 +869,7 @@ bool map::trans(const int x, const int y, char * trans_buf)
   }
  } else
   tertr = terlist[ter(x, y)].flags & mfb(transparent);
- if( tertr ){ 
+ if( tertr ){
   // Fields may obscure the view, too
   field & f(field_at(x, y));
   if(f.type == 0 || fieldlist[f.type].transparent[f.density - 1]){
@@ -915,12 +915,13 @@ bool map::is_destructable_ter_only(const int x, const int y)
 
 bool map::is_outside(const int x, const int y)
 {
- bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet && ter(x, y) != t_fema_groundsheet);
+ bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet && ter(x, y) != t_makeshift_bed);
 
  for(int i = -1; out && i <= 1; i++)
   for(int j = -1; out && j <= 1; j++) {
    const ter_id terrain = ter( x + i, y + j );
-   out = (terrain != t_floor && terrain != t_rock_floor && terrain != t_floor_wax);
+   out = (terrain != t_floor && terrain != t_rock_floor && terrain != t_floor_wax &&
+          terrain != t_fema_groundsheet && terrain != t_dirtfloor);
   }
  if (out) {
   int vpart;
@@ -2292,14 +2293,14 @@ void map::add_trap(const int x, const int y, const trap_id t)
 
 void map::disarm_trap(game *g, const int x, const int y)
 {
-  int skillLevel = g->u.skillLevel("traps").level();
+  int skillLevel = g->u.skillLevel("traps");
 
  if (tr_at(x, y) == tr_null) {
   debugmsg("Tried to disarm a trap where there was none (%d %d)", x, y);
   return;
  }
 
- const int tSkillLevel = g->u.skillLevel("traps").level();
+ const int tSkillLevel = g->u.skillLevel("traps");
  const int diff = g->traps[tr_at(x, y)]->difficulty;
  int roll = rng(tSkillLevel, 4 * tSkillLevel);
 
@@ -2430,7 +2431,7 @@ void map::draw(game *g, WINDOW* w, const point center)
  g->reset_light_level();
  const int natural_sight_range = g->u.sight_range(1);
  const int light_sight_range = g->u.sight_range(g->light_level());
- int lowlight_sight_range = std::max((int)g->light_level() / 2, natural_sight_range);
+ const int lowlight_sight_range = std::max((int)g->light_level() / 2, natural_sight_range);
  const int max_sight_range = g->u.unimpaired_range();
 
  for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
@@ -2450,13 +2451,14 @@ void map::draw(game *g, WINDOW* w, const point center)
   for (int realy = center.y - getmaxy(w)/2; realy <= center.y + getmaxy(w)/2; realy++) {
    const int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
    int sight_range = light_sight_range;
+   int low_sight_range = lowlight_sight_range;
 
    // While viewing indoor areas use lightmap model
    if (!g->lm.is_outside(realx - g->u.posx, realy - g->u.posy)) {
     sight_range = natural_sight_range;
    // Don't display area as shadowy if it's outside and illuminated by natural light
-   } else if (dist <= g->u.sight_range(g->natural_light_level())) {
-    lowlight_sight_range = std::max(g_light_level, natural_sight_range);
+   } else if (dist <= g->u.sight_range(g_light_level)) {
+    low_sight_range = std::max(g_light_level, natural_sight_range);
    }
 
    // I've moved this part above loops without even thinking that
@@ -2509,7 +2511,7 @@ void map::draw(game *g, WINDOW* w, const point center)
      mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_ltgray, '#');
    } else if (dist <= u_clairvoyance || can_see) {
     drawsq(w, g->u, realx, realy, false, true, center.x, center.y,
-           (dist > lowlight_sight_range && LL_LIT > lit) ||
+           (dist > low_sight_range && LL_LIT > lit) ||
 	   (dist > sight_range && LL_LOW == lit),
            LL_BRIGHT == lit);
    } else {

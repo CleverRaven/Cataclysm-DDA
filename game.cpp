@@ -176,28 +176,61 @@ void game::setup()
  }
 }
 
-void game::print_menu(WINDOW* w_open, int iSel)
+void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA)
 {
  //Clear Lines
  for (int i = 0; i < 25; i++)
-  for (int j = 0; j < 79; j++)
+  for (int j = 0; j < 80; j++)
    mvwputch(w_open, i, j, c_black, ' ');
 
- for (int i = 0; i < 80; i++)
-  mvwputch(w_open, 21, i, c_white, LINE_OXOX);
- mvwprintz(w_open, 0, 0, c_blue, "Welcome to Cataclysm: Dark Days Ahead!");
- mvwprintz(w_open, 1, 0, c_red, "Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
+ for (int i = 1; i < 79; i++)
+  mvwputch(w_open, 23, i, c_white, LINE_OXOX);
 
- int iRow = 4;
- mvwprintz(w_open, iRow++, 1, (iSel == 0 ? h_white : c_white), "MOTD");
- mvwprintz(w_open, iRow++, 1, (iSel == 1 ? h_white : c_white), "New Game");
- mvwprintz(w_open, iRow++, 1, (iSel == 2 ? h_white : c_white), "Load Game");
- mvwprintz(w_open, iRow++, 1, (iSel == 3 ? h_white : c_white), "New World");
- mvwprintz(w_open, iRow++, 1, (iSel == 4 ? h_white : c_white), "Special...");
- mvwprintz(w_open, iRow++, 1, (iSel == 5 ? h_white : c_white), "Options");
- mvwprintz(w_open, iRow++, 1, (iSel == 6 ? h_white : c_white), "Help");
- mvwprintz(w_open, iRow++, 1, (iSel == 7 ? h_white : c_white), "Credits");
- mvwprintz(w_open, iRow++, 1, (iSel == 8 ? h_white : c_white), "Quit");
+ mvwprintz(w_open, 24, 5, c_red, "Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
+
+ int iLine = 0;
+ const int iOffsetX1 = 4;
+ const int iOffsetX2 = 5;
+ const int iOffsetX3 = 18;
+
+ const nc_color cColor1 = c_cyan;
+ const nc_color cColor2 = c_blue;
+ const nc_color cColor3 = c_blue;
+
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "_________            __                   .__                            ");
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "\\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__.  ______  _____  ");
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "/    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | /  ___/ /     \\ ");
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "\\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\___ \\ |  Y Y  \\");
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, " \\______  /(____  / |__|  (____  / \\___  >|____/ / ____|/____  >|__|_|  /");
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "        \\/      \\/             \\/      \\/        \\/          \\/       \\/ ");
+
+ if (bShowDDA) {
+  iLine++;
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "________                    __     ________                           ");
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "\\______ \\  _____   _______ |  | __ \\______ \\  _____    ___.__.  ______");
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    |  \\ \\__  \\  \\_  __ \\|  |/ /  |    |  \\ \\__  \\  <   |  | /  ___/");
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    `   \\ / __ \\_ |  | \\/|    <   |    `   \\ / __ \\_ \\___  | \\___ \\ ");
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "/_______  /(____  / |__|   |__|_ \\ /_______  /(____  / / ____|/____  >");
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "        \\/      \\/              \\/         \\/      \\/  \\/          \\/ ");
+
+  iLine++;
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "   _____   .__                         .___");
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "  /  _  \\  |  |__    ____  _____     __| _/");
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, " /  /_\\  \\ |  |  \\ _/ __ \\ \\__  \\   / __ | ");
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "/    |    \\|   Y  \\\\  ___/  / __ \\_/ /_/ | ");
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "\\____|__  /|___|  / \\___  >(____  /\\____ | ");
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "        \\/      \\/      \\/      \\/      \\/ ");
+ }
+
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 0 ? h_white : c_white), "MOTD");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 1 ? h_white : c_white), "New Game");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 2 ? h_white : c_white), "Load Game");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 3 ? h_white : c_white), "New World");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 4 ? h_white : c_white), "Special...");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 5 ? h_white : c_white), "Options");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 6 ? h_white : c_white), "Help");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 7 ? h_white : c_white), "Credits");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 8 ? h_white : c_white), "Quit");
 
  refresh();
  wrefresh(w_open);
@@ -206,8 +239,17 @@ void game::print_menu(WINDOW* w_open, int iSel)
 
 bool game::opening_screen()
 {
- WINDOW* w_open = newwin(25, 80, 0, 0);
- print_menu(w_open, 0);
+ int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
+ int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
+
+ WINDOW* w_background = newwin(iMaxY, iMaxX, 0, 0);
+ wrefresh(w_background);
+
+ WINDOW* w_open = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+ const int iMenuOffsetX = 3;
+ int iMenuOffsetY = 13;
+
+ print_menu(w_open, 0, iMenuOffsetX, iMenuOffsetY);
  std::vector<std::string> savegames, templates;
  std::string tmp;
  dirent *dp;
@@ -274,16 +316,16 @@ bool game::opening_screen()
 
  while(!start) {
   if (layer == 1) {
-   print_menu(w_open, sel1);
+   print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY, (sel1 == 0 || sel1 == 7) ? false : true);
    if (sel1 == 0) {	// Print the MOTD.
     for (int i = 0; i < motd.size() && i < 16; i++)
-     mvwprintz(w_open, i + 4, 12, c_ltred, motd[i].c_str());
+     mvwprintz(w_open, i + 7, 12 + iMenuOffsetX, c_ltred, motd[i].c_str());
 
     wrefresh(w_open);
     refresh();
    } else if (sel1 == 7) {	// Print the Credits.
     for (int i = 0; i < credits.size() && i < 16; i++)
-     mvwprintz(w_open, i + 4, 12, c_ltred, credits[i].c_str());
+     mvwprintz(w_open, i + 7, 12 + iMenuOffsetX, c_ltred, credits[i].c_str());
 
     wrefresh(w_open);
     refresh();
@@ -315,11 +357,11 @@ bool game::opening_screen()
    }
   } else if (layer == 2) {
    if (sel1 == 1) {	// New Character
-    mvwprintz(w_open, 5, 12, (sel2 == 1 ? h_white : c_white),
+    mvwprintz(w_open, 1 + iMenuOffsetY, 12 + iMenuOffsetX, (sel2 == 1 ? h_white : c_white),
               "Custom Character");
-    mvwprintz(w_open, 6, 12, (sel2 == 2 ? h_white : c_white),
+    mvwprintz(w_open, 2 + iMenuOffsetY, 12 + iMenuOffsetX, (sel2 == 2 ? h_white : c_white),
               "Preset Character");
-    mvwprintz(w_open, 7, 12, (sel2 == 3 ? h_white : c_white),
+    mvwprintz(w_open, 3 + iMenuOffsetY, 12 + iMenuOffsetX, (sel2 == 3 ? h_white : c_white),
               "Random Character");
     wrefresh(w_open);
     refresh();
@@ -335,9 +377,9 @@ bool game::opening_screen()
      else
       sel2 = 1;
     } else if (input == DirectionW) {
-     mvwprintz(w_open, 5, 12, c_black, "                ");
-     mvwprintz(w_open, 6, 12, c_black, "                ");
-     mvwprintz(w_open, 7, 12, c_black, "                ");
+     mvwprintz(w_open, 1 + iMenuOffsetY, 12 + iMenuOffsetX, c_black, "                ");
+     mvwprintz(w_open, 2 + iMenuOffsetY, 12 + iMenuOffsetX, c_black, "                ");
+     mvwprintz(w_open, 3 + iMenuOffsetY, 12 + iMenuOffsetX, c_black, "                ");
      layer = 1;
      sel1 = 1;
     }
@@ -354,9 +396,9 @@ bool game::opening_screen()
      if (sel2 == 2) {
       layer = 3;
       sel1 = 0;
-      mvwprintz(w_open, 5, 12, c_dkgray, "Custom Character");
-      mvwprintz(w_open, 6, 12, c_white,  "Preset Character");
-      mvwprintz(w_open, 7, 12, c_dkgray, "Random Character");
+      mvwprintz(w_open, 1 + iMenuOffsetY, 12 + iMenuOffsetX, c_dkgray, "Custom Character");
+      mvwprintz(w_open, 2 + iMenuOffsetY, 12 + iMenuOffsetX, c_white,  "Preset Character");
+      mvwprintz(w_open, 3 + iMenuOffsetY, 12 + iMenuOffsetX, c_dkgray, "Random Character");
      }
      if (sel2 == 3) {
       if (!u.create(this, PLTYPE_RANDOM)) {
@@ -370,15 +412,14 @@ bool game::opening_screen()
     }
    } else if (sel1 == 2) {	// Load Character
     if (savegames.size() == 0)
-     mvwprintz(w_open, 6, 12, c_red, "No save games found!");
+     mvwprintz(w_open, 2 + iMenuOffsetY, 12 + iMenuOffsetX, c_red, "No save games found!");
     else {
      int savestart = (sel2 < 7 ?  0 : sel2 - 7),
          saveend   = (sel2 < 7 ? 14 : sel2 + 7);
      for (int i = savestart; i < saveend; i++) {
-      int line = 6 + i - savestart;
-      mvwprintz(w_open, line, 12, c_black, "                                 ");
+      int line = 2 + iMenuOffsetY + i - savestart;
       if (i < savegames.size())
-       mvwprintz(w_open, line, 12, (sel2 - 1 == i ? h_white : c_white),
+       mvwprintz(w_open, line, 12 + iMenuOffsetX, (sel2 - 1 == i ? h_white : c_white),
                  savegames[i].c_str());
      }
     }
@@ -397,8 +438,6 @@ bool game::opening_screen()
       sel2 = 1;
     } else if (input == DirectionW) {
      layer = 1;
-     for (int i = 0; i < 14; i++)
-      mvwprintz(w_open, 6 + i, 12, c_black, "                                 ");
     }
     if (input == DirectionE || input == Confirm) {
      if (sel2 > 0 && savegames.size() > 0) {
@@ -417,8 +456,7 @@ bool game::opening_screen()
     layer = 1;
    } else if (sel1 == 4) {	// Special game
     for (int i = 1; i < NUM_SPECIAL_GAMES; i++) {
-     mvwprintz(w_open, 6 + i, 12, c_black, "                                 ");
-     mvwprintz(w_open, 6 + i, 12, (sel2 == i ? h_white : c_white),
+     mvwprintz(w_open, 3 + i + iMenuOffsetY, 12 + iMenuOffsetX, (sel2 == i ? h_white : c_white),
                special_game_name( special_game_id(i) ).c_str());
     }
     wrefresh(w_open);
@@ -436,8 +474,6 @@ bool game::opening_screen()
       sel2 = 1;
     } else if (input == DirectionW) {
      layer = 1;
-     for (int i = 6; i < 15; i++)
-      mvwprintz(w_open, i, 12, c_black, "                                 ");
     }
     if (input == DirectionE || input == Confirm) {
      if (sel2 >= 1 && sel2 < NUM_SPECIAL_GAMES) {
@@ -456,15 +492,14 @@ bool game::opening_screen()
    }
   } else if (layer == 3) {	// Character Templates
    if (templates.size() == 0)
-    mvwprintz(w_open, 6, 12, c_red, "No templates found!");
+    mvwprintz(w_open, 2 + iMenuOffsetY, 29 + iMenuOffsetX, c_red, "No templates found!");
    else {
     int tempstart = (sel1 < 6 ?  0 : sel1 - 6),
         tempend   = (sel1 < 6 ? 14 : sel1 + 8);
     for (int i = tempstart; i < tempend; i++) {
-     int line = 6 + i - tempstart;
-     mvwprintz(w_open, line, 29, c_black, "                                 ");
+     int line = 2 + iMenuOffsetY + i - tempstart;
      if (i < templates.size())
-      mvwprintz(w_open, line, 29, (sel1 == i ? h_white : c_white),
+      mvwprintz(w_open, line, 29 + iMenuOffsetX, (sel1 == i ? h_white : c_white),
                 templates[i].c_str());
     }
    }
@@ -484,11 +519,7 @@ bool game::opening_screen()
    } else if (input == DirectionW || templates.size() == 0) {
     sel1 = 1;
     layer = 2;
-    for (int i = 0; i+6 < 21; i++)
-     mvwprintz(w_open, 6 + i, 12, c_black, "                                 ");
-    for (int i = 22; i < 25; i++)
-     mvwprintw(w_open, i, 0, "                                                 \
-                                ");
+    print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
    }
    else if (input == DirectionE || input == Confirm) {
     if (!u.create(this, PLTYPE_TEMPLATE, templates[sel1])) {
@@ -889,8 +920,9 @@ void game::rustCheck() {
   if (OPTIONS[OPT_SKILL_RUST] == 2)
     return;
 
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
-    int skillLevel = u.skillLevel(*aSkill).level();
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++;
+       aSkill != Skill::skills.end(); ++aSkill) {
+    int skillLevel = u.skillLevel(*aSkill);
     int forgetCap = skillLevel > 7 ? 7 : skillLevel;
 
     if (skillLevel > 0 && turn % (8192 / int(pow(2, double(forgetCap - 1)))) == 0) {
@@ -996,7 +1028,7 @@ void game::process_activity()
 
     if (u.skillLevel(reading->type) < reading->level) {
      int min_ex = reading->time / 10 + u.int_cur / 4,
-       max_ex = reading->time /  5 + u.int_cur / 2 - u.skillLevel(reading->type).level();
+       max_ex = reading->time /  5 + u.int_cur / 2 - u.skillLevel(reading->type);
      if (min_ex < 1)
       min_ex = 1;
      if (max_ex < 2)
@@ -1004,7 +1036,7 @@ void game::process_activity()
      if (max_ex > 10)
       max_ex = 10;
 
-     int originalSkillLevel = u.skillLevel(reading->type).level();
+     int originalSkillLevel = u.skillLevel(reading->type);
      u.skillLevel(reading->type).readBook(min_ex, max_ex, reading->level);
 
      add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(), u.skillLevel(reading->type).exercise());
@@ -1012,7 +1044,7 @@ void game::process_activity()
      if (u.skillLevel(reading->type) > originalSkillLevel)
       add_msg("You increase %s to level %d.",
               reading->type->name().c_str(),
-              u.skillLevel(reading->type).level());
+              (int)u.skillLevel(reading->type));
 
      if (u.skillLevel(reading->type) == reading->level)
       add_msg("You can no longer learn from this %s.", reading->name.c_str());
@@ -1050,10 +1082,11 @@ void game::process_activity()
     } else {
      u.sklevel[ u.activity.index ]++;
 
-     int skillLevel = u.skillLevel(u.activity.index).level();
+     int skillLevel = u.skillLevel(u.activity.index);
+     u.skillLevel(u.activity.index).level(skillLevel + 1);
      add_msg("You finish training %s to level %d.",
              skill_name(u.activity.index).c_str(),
-             u.skillLevel(u.activity.index).level(skillLevel + 1));
+             (int)u.skillLevel(u.activity.index));
     }
     break;
 
@@ -1601,6 +1634,9 @@ bool game::handle_action()
   case ACTION_INVENTORY: {
    bool has = false;
    char cMenu = ' ';
+   int iMaxX = 55 + ((VIEWX < 12) ? 25 : (VIEWX*2)+1);
+   int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
+
    do {
     const std::string sSpaces = "                              ";
     char chItem = inv();
@@ -1609,13 +1645,10 @@ bool game::handle_action()
 
     if (has) {
      item oThisItem = u.i_at(chItem);
-     //int iMenu = menu(("Item: " + sItemName + sSpaces.substr(sItemName.size(), sSpaces.size())).c_str(),
-     //                 "Examine", "Use/Read", "Eat", "Wear", "Wield", "Take off", "Drop", "Unload", "Reload", "Cancel", NULL);
-
      std::vector<iteminfo> vThisItem, vDummy, vMenu;
 
-     vMenu.push_back(iteminfo("MENU", "", "iX", 15));
-     vMenu.push_back(iteminfo("MENU", "", "iY", 4));
+     vMenu.push_back(iteminfo("MENU", "", "iOffsetX", 3));
+     vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
      vMenu.push_back(iteminfo("MENU", "a", "ctivate"));
      vMenu.push_back(iteminfo("MENU", "R", "ead"));
      vMenu.push_back(iteminfo("MENU", "E", "at"));
@@ -1628,8 +1661,8 @@ bool game::handle_action()
      vMenu.push_back(iteminfo("MENU", "r", "eload"));
 
      oThisItem.info(true, &vThisItem);
-     compare_split_screen_popup(true, oThisItem.tname(this), vThisItem, vDummy);
-     cMenu = compare_split_screen_popup(false, "", vMenu, vDummy);
+     compare_split_screen_popup(0, 50, iMaxY, oThisItem.tname(this), vThisItem, vDummy);
+     cMenu = compare_split_screen_popup(50, 14, 16, "", vMenu, vDummy);
 
      switch(cMenu) {
       case 'a':
@@ -1763,6 +1796,10 @@ bool game::handle_action()
 
   case ACTION_CRAFT:
    craft();
+   break;
+  
+  case ACTION_RECRAFT:
+   recraft();
    break;
 
   case ACTION_DISASSEMBLE:
@@ -2467,7 +2504,7 @@ z.size(), events.size());
 
   case 11:
     for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill)
-      u.skillLevel(*aSkill).level(u.skillLevel(*aSkill).level() + 3);
+      u.skillLevel(*aSkill).level(u.skillLevel(*aSkill) + 3);
    break;
 
   case 12:
@@ -2954,57 +2991,67 @@ void game::refresh_all()
 
 void game::draw_HP()
 {
- int curhp;
- nc_color col;
- for (int i = 0; i < num_hp_parts; i++) {
-  curhp = u.hp_cur[i];
-       if (curhp == u.hp_max[i])
-   col = c_green;
-  else if (curhp > u.hp_max[i] * .8)
-   col = c_ltgreen;
-  else if (curhp > u.hp_max[i] * .5)
-   col = c_yellow;
-  else if (curhp > u.hp_max[i] * .3)
-   col = c_ltred;
-  else
-   col = c_red;
-  if (u.has_trait(PF_HPIGNORANT)) {
-   mvwprintz(w_HP, i * 2 + 1, 0, col, " ***  ");
-  } else {
-   if (curhp >= 100)
-    mvwprintz(w_HP, i * 2 + 1, 0, col, "%d     ", curhp);
-   else if (curhp >= 10)
-    mvwprintz(w_HP, i * 2 + 1, 0, col, " %d    ", curhp);
-   else
-    mvwprintz(w_HP, i * 2 + 1, 0, col, "  %d    ", curhp);
-  }
- }
- mvwprintz(w_HP,  0, 0, c_ltgray, "HEAD:  ");
- mvwprintz(w_HP,  2, 0, c_ltgray, "TORSO: ");
- mvwprintz(w_HP,  4, 0, c_ltgray, "L ARM: ");
- mvwprintz(w_HP,  6, 0, c_ltgray, "R ARM: ");
- mvwprintz(w_HP,  8, 0, c_ltgray, "L LEG: ");
- mvwprintz(w_HP, 10, 0, c_ltgray, "R LEG: ");
- mvwprintz(w_HP, 12, 0, c_ltgray, "POW:   ");
- if (u.max_power_level == 0)
-  mvwprintz(w_HP, 13, 0, c_ltgray, " --   ");
- else {
-  if (u.power_level == u.max_power_level)
-   col = c_blue;
-  else if (u.power_level >= u.max_power_level * .5)
-   col = c_ltblue;
-  else if (u.power_level > 0)
-   col = c_yellow;
-  else
-   col = c_red;
-  if (u.power_level >= 100)
-   mvwprintz(w_HP, 13, 0, col, "%d     ", u.power_level);
-  else if (u.power_level >= 10)
-   mvwprintz(w_HP, 13, 0, col, " %d    ", u.power_level);
-  else
-   mvwprintz(w_HP, 13, 0, col, "  %d    ", u.power_level);
- }
- wrefresh(w_HP);
+    int current_hp;
+    nc_color color;
+    std::string asterisks = "";
+    for (int i = 0; i < num_hp_parts; i++) {
+        current_hp = u.hp_cur[i];
+        if (current_hp == u.hp_max[i]){
+          color = c_green;
+          asterisks = " **** ";
+        } else if (current_hp > u.hp_max[i] * .8) {
+          color = c_ltgreen;
+          asterisks = " **** ";
+        } else if (current_hp > u.hp_max[i] * .5) {
+          color = c_yellow;
+          asterisks = " ***  ";
+        } else if (current_hp > u.hp_max[i] * .3) {
+          color = c_ltred;
+          asterisks = " **   ";
+        } else {
+          color = c_red;
+          asterisks = " *    ";
+        }
+        if (u.has_trait(PF_SELFAWARE)) {
+            if (current_hp >= 100){
+                mvwprintz(w_HP, i * 2 + 1, 0, color, "%d     ", current_hp);
+            } else if (current_hp >= 10) {
+                mvwprintz(w_HP, i * 2 + 1, 0, color, " %d    ", current_hp);
+            } else {
+                mvwprintz(w_HP, i * 2 + 1, 0, color, "  %d    ", current_hp);
+            }
+        } else {
+            mvwprintz(w_HP, i * 2 + 1, 0, color, asterisks.c_str());
+        }
+    }
+    mvwprintz(w_HP,  0, 0, c_ltgray, "HEAD:  ");
+    mvwprintz(w_HP,  2, 0, c_ltgray, "TORSO: ");
+    mvwprintz(w_HP,  4, 0, c_ltgray, "L ARM: ");
+    mvwprintz(w_HP,  6, 0, c_ltgray, "R ARM: ");
+    mvwprintz(w_HP,  8, 0, c_ltgray, "L LEG: ");
+    mvwprintz(w_HP, 10, 0, c_ltgray, "R LEG: ");
+    mvwprintz(w_HP, 12, 0, c_ltgray, "POW:   ");
+    if (u.max_power_level == 0){
+        mvwprintz(w_HP, 13, 0, c_ltgray, " --   ");
+    } else {
+        if (u.power_level == u.max_power_level){
+            color = c_blue;
+        } else if (u.power_level >= u.max_power_level * .5){
+            color = c_ltblue;
+        } else if (u.power_level > 0){
+            color = c_yellow;
+        } else {
+            color = c_red;
+        }
+        if (u.power_level >= 100){
+            mvwprintz(w_HP, 13, 0, color, "%d     ", u.power_level);
+        } else if (u.power_level >= 10){
+            mvwprintz(w_HP, 13, 0, color, " %d    ", u.power_level);
+        } else {
+            mvwprintz(w_HP, 13, 0, color, "  %d    ", u.power_level);
+        }
+    }
+    wrefresh(w_HP);
 }
 
 void game::draw_minimap()
@@ -4939,7 +4986,7 @@ void game::examine()
    if (using_electrohack || using_fingerhack) {
     u.moves -= 500;
     u.practice("computer", 20);
-    int success = rng(u.skillLevel("computer").level() / 4 - 2, u.skillLevel("computer").level() * 2);
+    int success = rng(u.skillLevel("computer") / 4 - 2, u.skillLevel("computer") * 2);
     success += rng(-3, 3);
     if (using_fingerhack)
      success++;
@@ -5334,7 +5381,7 @@ shape, but with long, twisted, distended limbs.");
 // apple trees
  else if ((m.ter(examx, examy)==t_tree_apple) && (query_yn("Pick apples?")))
  {
-  int num_apples = rng(1, u.skillLevel("survival").level());
+  int num_apples = rng(1, u.skillLevel("survival"));
   if (num_apples >= 12)
     num_apples = 12;
   for (int i = 0; i < num_apples; i++)
@@ -5345,7 +5392,7 @@ shape, but with long, twisted, distended limbs.");
 // blueberry bushes
  else if ((m.ter(examx, examy)==t_shrub_blueberry) && (query_yn("Pick blueberries?")))
  {
-  int num_blueberries = rng(1, u.skillLevel("survival").level());
+  int num_blueberries = rng(1, u.skillLevel("survival"));
 
  if (num_blueberries >= 12)
     num_blueberries = 12;
@@ -5358,7 +5405,7 @@ shape, but with long, twisted, distended limbs.");
 // harvesting wild veggies
  else if ((m.ter(examx, examy)==t_underbrush) && (query_yn("Forage for wild vegetables?")))
  {
-  u.assign_activity(ACT_FORAGE, 500 / (u.skillLevel("survival").level() + 1), 0);
+  u.assign_activity(ACT_FORAGE, 500 / (u.skillLevel("survival") + 1), 0);
   u.activity.placement = point(examx, examy);
   u.moves = 0;
  }
@@ -5819,14 +5866,14 @@ void game::pickup(int posx, int posy, int min)
  if ((!from_veh) && m.i_at(posx, posy).size() == 0) {
   if (m.has_flag(swimmable, posx, posy) || m.ter(posx, posy) == t_toilet || m.ter(posx, posy) == t_water_sh) {
    item water = m.water_from(posx, posy);
-   if (query_yn("Drink from your hands?")) {
+    // Try to handle first (bottling) drink after.
+    // changed boolean, large sources should be infinite
+   if (handle_liquid(water, true, true)) {
+    u.moves -= 100;
+   } else if (query_yn("Drink from your hands?")) {
     u.inv.push_back(water);
     u.eat(this, u.inv.size() - 1);
     u.moves -= 350;
-   } else {
-// changed boolean, large sources should be infinite
-    handle_liquid(water, true, true);
-    u.moves -= 100;
    }
   }
   return;
@@ -6171,21 +6218,38 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    return false;
   } // if (pl_choose_vehicle(vx, vy))
 
- } else if (!from_ground &&
-            query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
-  m.add_item(u.posx, u.posy, liquid);
-  return true;
-
  } else { // Not filling vehicle
 
+   // Ask to pour rotten liquid (milk!) from the get-go
+  if (!from_ground && liquid.rotten(this) &&
+      query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
+   m.add_item(u.posx, u.posy, liquid);
+   return true;
+  }
+  
   std::stringstream text;
   text << "Container for " << liquid.tname(this);
   char ch = inv_type(text.str().c_str(), IC_CONTAINER);
-  if (!u.has_item(ch))
+  if (!u.has_item(ch)) {
+    // No container selected (escaped, ...), ask to pour
+    // we asked to pour rotten already
+   if (!from_ground && !liquid.rotten(this) &&
+       query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
+    m.add_item(u.posx, u.posy, liquid);
+    return true;
+   }
    return false;
+  }
 
   item *cont = &(u.i_at(ch));
   if (cont == NULL || cont->is_null()) {
+    // Container is null, ask to pour.
+    // we asked to pour rotten already
+   if (!from_ground && !liquid.rotten(this) &&
+       query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
+    m.add_item(u.posx, u.posy, liquid);
+    return true;
+   }
    add_msg("Never mind.");
    return false;
 
@@ -6802,7 +6866,7 @@ void game::complete_butcher(int index)
  int pieces, pelts, bones, sinews;
  double skill_shift = 0.;
 
- int sSkillLevel = u.skillLevel("survival").level();
+ int sSkillLevel = u.skillLevel("survival");
 
  switch (corpse->size) {
   case MS_TINY:   pieces =  1; pelts =  1; bones = 1; sinews = 1; break;
@@ -6933,7 +6997,7 @@ void game::forage()
 {
   int veggy_chance = rng(1, 20);
 
-  if (veggy_chance < u.skillLevel("survival").level())
+  if (veggy_chance < u.skillLevel("survival"))
   {
     add_msg("You found some wild veggies!");
     u.practice("survival", 10);
@@ -6943,7 +7007,7 @@ void game::forage()
   else
   {
     add_msg("You didn't find anything.");
-    if (!one_in(u.skillLevel("survival").level()))
+    if (!one_in(u.skillLevel("survival")))
     m.ter(u.activity.placement.x, u.activity.placement.y) = t_dirt;
   }
 }
@@ -7347,7 +7411,7 @@ void game::pldrive(int x, int y) {
  }
  veh->turn (15 * x);
  if (veh->skidding && veh->valid_wheel_config()) {
-  if (rng (0, 100) < u.dex_cur + u.skillLevel("driving").level() * 2) {
+  if (rng (0, 100) < u.dex_cur + u.skillLevel("driving") * 2) {
    add_msg ("You regain control of the %s.", veh->name.c_str());
    veh->velocity = veh->forward_velocity();
    veh->skidding = false;
@@ -7502,10 +7566,10 @@ void game::plmove(int x, int y)
 
 // Adjust recoil down
   if (u.recoil > 0) {
-    if (int(u.str_cur / 2) + u.skillLevel("gun").level() >= u.recoil)
+    if (int(u.str_cur / 2) + u.skillLevel("gun") >= u.recoil)
     u.recoil = 0;
    else {
-     u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun").level();
+     u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
     u.recoil = int(u.recoil / 2);
    }
   }

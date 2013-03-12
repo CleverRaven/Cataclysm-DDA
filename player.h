@@ -11,6 +11,7 @@
 #include "inventory.h"
 #include "artifact.h"
 #include "mutation.h"
+#include "crafting.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -318,6 +319,8 @@ public:
 
  std::vector <disease> illness;
  std::vector <addiction> addictions;
+
+ recipe* lastrecipe;
 };
 
 #endif

@@ -136,61 +136,69 @@ void map::generate(game *g, overmap *om, int x, int y, int turn)
   overmap tmp(g, om->posx + sx, om->posy + sy, om->posz);
   terrain_type = tmp.ter(overx, overy);
   //zones = tmp.zones(overx, overy);
-  if (om->posz < 0 || om->posz == 9) {	// 9 is for tutorial overmap
-   overmap tmp2 = overmap(g, om->posx, om->posy, om->posz + 1);
-   t_above = tmp2.ter(overx, overy);
-  } else
-   t_above = ot_null;
-  if (overy - 1 >= 0)
-   t_north = tmp.ter(overx, overy - 1);
-  else
-   t_north = om->ter(overx, OMAPY - 1);
-  if (overx + 1 < OMAPX)
-   t_east = tmp.ter(overx + 1, overy - 1);
-  else
-   t_east = om->ter(0, overy);
-  if (overy + 1 < OMAPY)
-   t_south = tmp.ter(overx, overy + 1);
-  else
-   t_south = om->ter(overx, 0);
-  if (overx - 1 >= 0)
-   t_west = tmp.ter(overx - 1, overy);
-  else
-   t_west = om->ter(OMAPX - 1, overy);
- } else {
-  dbg(D_INFO) << "map::generate: In section 2";
+    if (om->posz < 0 || om->posz == 9) {	// 9 is for tutorial overmap
+        overmap tmp2 = overmap(g, om->posx, om->posy, om->posz + 1);
+        t_above = tmp2.ter(overx, overy);
+    } else
+        t_above = ot_null;
 
-  if (om->posz < 0 || om->posz == 9) {	// 9 is for tutorials
-   overmap tmp = overmap(g, om->posx, om->posy, om->posz + 1);
-   t_above = tmp.ter(overx, overy);
-  } else
-   t_above = ot_null;
-  terrain_type = om->ter(overx, overy);
-  if (overy - 1 >= 0)
-   t_north = om->ter(overx, overy - 1);
-  else {
-   overmap tmp(g, om->posx, om->posy - 1, 0);
-   t_north = tmp.ter(overx, OMAPY - 1);
-  }
-  if (overx + 1 < OMAPX)
-   t_east = om->ter(overx + 1, overy);
-  else {
-   overmap tmp(g, om->posx + 1, om->posy, 0);
-   t_east = tmp.ter(0, overy);
-  }
-  if (overy + 1 < OMAPY)
-   t_south = om->ter(overx, overy + 1);
-  else {
-   overmap tmp(g, om->posx, om->posy + 1, 0);
-   t_south = tmp.ter(overx, 0);
-  }
-  if (overx - 1 >= 0)
-   t_west = om->ter(overx - 1, overy);
-  else {
-   overmap tmp(g, om->posx - 1, om->posy, 0);
-   t_west = tmp.ter(OMAPX - 1, overy);
-  }
- }
+    if (overy - 1 >= 0)
+        t_north = tmp.ter(overx, overy - 1);
+    else
+        t_north = om->ter(overx, OMAPY - 1);
+
+    if (overx + 1 < OMAPX)
+        t_east = tmp.ter(overx + 1, overy - 1);
+    else
+        t_east = om->ter(0, overy);
+
+    if (overy + 1 < OMAPY)
+        t_south = tmp.ter(overx, overy + 1);
+    else
+        t_south = om->ter(overx, 0);
+
+    if (overx - 1 >= 0)
+        t_west = tmp.ter(overx - 1, overy);
+    else
+        t_west = om->ter(OMAPX - 1, overy);
+ } else {
+    dbg(D_INFO) << "map::generate: In section 2";
+
+      if (om->posz < 0 || om->posz == 9) {	// 9 is for tutorials
+       overmap tmp = overmap(g, om->posx, om->posy, om->posz + 1);
+       t_above = tmp.ter(overx, overy);
+      } else
+       t_above = ot_null;
+      terrain_type = om->ter(overx, overy);
+      if (overy - 1 >= 0)
+       t_north = om->ter(overx, overy - 1);
+      else {
+       overmap tmp(g, om->posx, om->posy - 1, 0);
+       t_north = tmp.ter(overx, OMAPY - 1);
+      }
+
+      if (overx + 1 < OMAPX)
+       t_east = om->ter(overx + 1, overy);
+      else {
+       overmap tmp(g, om->posx + 1, om->posy, 0);
+       t_east = tmp.ter(0, overy);
+      }
+
+      if (overy + 1 < OMAPY)
+       t_south = om->ter(overx, overy + 1);
+      else {
+       overmap tmp(g, om->posx, om->posy + 1, 0);
+       t_south = tmp.ter(overx, 0);
+      }
+
+      if (overx - 1 >= 0)
+       t_west = om->ter(overx - 1, overy);
+      else {
+       overmap tmp(g, om->posx - 1, om->posy, 0);
+       t_west = tmp.ter(OMAPX - 1, overy);
+      }
+
+    }
 
  // This attempts to scale density of zombies inversely with distance from the nearest city.
  // In other words, make city centers dense and perimiters sparse.
@@ -2461,7 +2469,7 @@ case ot_lmoe: {
    ter(SEEX    , SEEY * 2 - 3) = t_stairs_down;
    science_room(this, 2       , 2, SEEX - 3    , SEEY * 2 - 3, 1);
    science_room(this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, 3);
-
+// QWERTY
    add_spawn(mon_turret, 1, SEEX, 5);
 
    if (t_east > ot_road_null && t_east <= ot_road_nesw_manhole)

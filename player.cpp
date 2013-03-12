@@ -487,7 +487,7 @@ int player::run_cost(int base_cost)
 
 int player::swim_speed()
 {
-  int ret = 440 + 2 * weight_carried() - 50 * skillLevel("swimming").level();
+  int ret = 440 + 2 * weight_carried() - 50 * skillLevel("swimming");
  if (has_trait(PF_WEBBED))
   ret -= 60 + str_cur * 5;
  if (has_trait(PF_TAIL_FIN))
@@ -496,11 +496,11 @@ int player::swim_speed()
   ret -= 100;
  if (has_trait(PF_LEG_TENTACLES))
   ret -= 60;
- ret += (50 - skillLevel("swimming").level() * 2) * abs(encumb(bp_legs));
- ret += (80 - skillLevel("swimming").level() * 3) * abs(encumb(bp_torso));
+ ret += (50 - skillLevel("swimming") * 2) * abs(encumb(bp_legs));
+ ret += (80 - skillLevel("swimming") * 3) * abs(encumb(bp_torso));
  if (skillLevel("swimming") < 10) {
   for (int i = 0; i < worn.size(); i++)
-    ret += (worn[i].volume() * (10 - skillLevel("swimming").level())) / 2;
+    ret += (worn[i].volume() * (10 - skillLevel("swimming"))) / 2;
  }
  ret -= str_cur * 6 + dex_cur * 4;
 // If (ret > 500), we can not swim; so do not apply the underwater bonus.
@@ -1073,7 +1073,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
    if (line < skill_win_size_y+1) {
      mvwprintz(w_skills, line, 1, skillLevel(*aSkill).isTraining() ? c_ltblue : c_blue, "%s",
                ((*aSkill)->name() + ":").c_str());
-     mvwprintz(w_skills, line, 19, skillLevel(*aSkill).isTraining() ? c_ltblue : c_blue, "%-2d(%2d%%%%)", level.level(),
+     mvwprintz(w_skills, line, 19, skillLevel(*aSkill).isTraining() ? c_ltblue : c_blue, "%-2d(%2d%%%%)", (int)level,
               (level.exercise() <  0 ? 0 : level.exercise()));
      line++;
     }
@@ -1276,7 +1276,7 @@ Running costs +%d movement points", encumb(bp_mouth) * 5);
 Melee skill -%d;      Dodge skill -%d;\n\
 Swimming costs +%d movement points;\n\
 Melee attacks cost +%d movement points", encumb(bp_torso), encumb(bp_torso),
-              encumb(bp_torso) * (80 - skillLevel("swimming").level() * 3), encumb(bp_torso) * 20);
+              encumb(bp_torso) * (80 - skillLevel("swimming") * 3), encumb(bp_torso) * 20);
    } else if (line == 4)
   {
     mvwprintz(w_encumb, 5, 1, h_ltgray, "Arms");
@@ -1295,7 +1295,7 @@ Dexterity -%d when throwing items", encumb(bp_hands) * 30, encumb(bp_hands));
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Running costs %s%d movement points;  Swimming costs %s%d movement points;\n\
 Dodge skill %s%.1f", sign.c_str(), encumb(bp_legs) * 3,
-              sign.c_str(), encumb(bp_legs) *(50 - skillLevel("swimming").level()),
+              sign.c_str(), encumb(bp_legs) *(50 - skillLevel("swimming")),
                      osign.c_str(), double(double(encumb(bp_legs)) / 2));
    } else if (line == 7) {
     mvwprintz(w_encumb, 8, 1, h_ltgray, "Feet");
@@ -1498,7 +1498,7 @@ encumb(bp_feet) * 5);
     }
     mvwprintz(w_skills, 1 + i - min, 1, c_ltgray, "                         ");
     mvwprintz(w_skills, 1 + i - min, 1, status, "%s:", aSkill->name().c_str());
-    mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%%%)", level.level(), (exercise <  0 ? 0 : exercise));
+    mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%%%)", (int)level, (exercise <  0 ? 0 : exercise));
    }
    werase(w_info);
    if (line >= 0 && line < skillslist.size())
@@ -1529,7 +1529,7 @@ encumb(bp_feet) * 5);
        status = isLearning ? c_ltblue : c_blue;
 
       mvwprintz(w_skills, i + 1,  1, status, "%s:", thisSkill->name().c_str());
-      mvwprintz(w_skills, i + 1, 19, status, "%d (%2d%%%%)", level.level(), (level.exercise() <  0 ? 0 : level.exercise()));
+      mvwprintz(w_skills, i + 1, 19, status, "%d (%2d%%%%)", (int)level, (level.exercise() <  0 ? 0 : level.exercise()));
      }
      wrefresh(w_skills);
      line = 0;
@@ -2071,7 +2071,7 @@ bool player::has_two_arms()
 
 bool player::avoid_trap(trap* tr)
 {
-  int myroll = dice(3, dex_cur + skillLevel("dodge").level() * 1.5);
+  int myroll = dice(3, dex_cur + skillLevel("dodge") * 1.5);
  int traproll;
  if (per_cur - encumb(bp_eyes) >= tr->visibility)
   traproll = dice(3, tr->avoidance);
@@ -2088,10 +2088,10 @@ void player::pause(game *g)
 {
  moves = 0;
  if (recoil > 0) {
-   if (str_cur + 2 * skillLevel("gun").level() >= recoil)
+   if (str_cur + 2 * skillLevel("gun") >= recoil)
    recoil = 0;
   else {
-    recoil -= str_cur + 2 * skillLevel("gun").level();
+    recoil -= str_cur + 2 * skillLevel("gun");
    recoil = int(recoil / 2);
   }
  }
@@ -2125,8 +2125,8 @@ int player::throw_range(int index)
  if (ret < 1)
   return 1;
 // Cap at double our strength + skill
- if (ret > str_cur * 1.5 + skillLevel("throw").level())
-   return str_cur * 1.5 + skillLevel("throw").level();
+ if (ret > str_cur * 1.5 + skillLevel("throw"))
+   return str_cur * 1.5 + skillLevel("throw");
  return ret;
 }
 
@@ -2225,7 +2225,7 @@ int player::read_speed(bool real_life)
 
 int player::talk_skill()
 {
-  int ret = int_cur + per_cur + skillLevel("speech").level() * 3;
+  int ret = int_cur + per_cur + skillLevel("speech") * 3;
  if (has_trait(PF_DEFORMED))
   ret -= 4;
  else if (has_trait(PF_DEFORMED2))
@@ -3249,29 +3249,31 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
 void player::sort_inv()
 {
  // guns ammo weaps armor food tools books other
- std::vector< std::vector<item> > types[8];
+ std::vector< std::vector<item> > types[9];
  std::vector<item> tmp;
  for (int i = 0; i < inv.size(); i++) {
   tmp = inv.stack_at(i);
-       if (tmp[0].is_gun())
+  if (tmp[0].is_gun())
    types[0].push_back(tmp);
   else if (tmp[0].is_ammo())
    types[1].push_back(tmp);
-  else if (tmp[0].is_armor())
-   types[3].push_back(tmp);
-  else if (tmp[0].is_tool() || tmp[0].is_gunmod())
-   types[5].push_back(tmp);
-  else if (tmp[0].is_food() || tmp[0].is_food_container())
-   types[4].push_back(tmp);
-  else if (tmp[0].is_book())
-   types[6].push_back(tmp);
   else if (tmp[0].is_weap())
    types[2].push_back(tmp);
-  else
+  else if (tmp[0].is_tool())
+   types[3].push_back(tmp);
+  else if (tmp[0].is_armor())
+   types[4].push_back(tmp);
+  else if (tmp[0].is_food() || tmp[0].is_food_container())
+   types[5].push_back(tmp);
+  else if (tmp[0].is_book())
+   types[6].push_back(tmp);
+  else if (tmp[0].is_gunmod() || tmp[0].is_bionic())
    types[7].push_back(tmp);
+  else
+   types[8].push_back(tmp);
  }
  inv.clear();
- for (int i = 0; i < 8; i++) {
+ for (int i = 0; i < 9; i++) {
   for (int j = 0; j < types[i].size(); j++)
    inv.push_back(types[i][j]);
  }
@@ -5056,10 +5058,10 @@ void player::practice (Skill *s, int amount) {
 
   int newLevel;
 
-  while (level.isTraining() && amount > 0 && xp_pool >= (1 + level.level())) {
-    amount -= level.level() + 1;
+  while (level.isTraining() && amount > 0 && xp_pool >= (1 + level)) {
+    amount -= level + 1;
     if ((!isSavant || s == savantSkill || one_in(2)) && rng(0, 100) < level.comprehension(int_cur, has_trait(PF_FASTLEARNER))) {
-      xp_pool -= (1 + level.level());
+      xp_pool -= (1 + level);
 
       skillLevel(s).train(newLevel);
     }

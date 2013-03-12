@@ -646,6 +646,20 @@ int getmaxy(WINDOW *win)
     return win->height;
 };
 
+//gets the beginning x of a window (the x pos)
+int getbegx(WINDOW *win)
+{
+    if (win==0) return mainwin->x;     //StdScr
+    return win->x;
+};
+
+//gets the beginning y of a window (the y pos)
+int getbegy(WINDOW *win)
+{
+    if (win==0) return mainwin->y;     //StdScr
+    return win->y;
+};
+
 inline RGBQUAD BGR(int b, int g, int r)
 {
     RGBQUAD result;

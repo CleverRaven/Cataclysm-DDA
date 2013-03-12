@@ -242,7 +242,7 @@ FLAGS(MF_DIGS, MF_HEARS, MF_GOODHEARING, MF_WARM, MF_LEATHER);
 // ZOMBIES
 mon("zombie",	species_zombie, 'Z',	c_ltgreen,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 90,  3,100,100, 70,  8,  1,  5,  2,  1,  0,  0, 40, 50,  0,
+	 255,  3,100,100, 70,  8,  1,  5,  2,  1,  0,  0, 40, 50,  0,
 	&mdeath::normal,	&mattack::bite, "\
 A human body, stumbling slowly forward on\n\
 uncertain legs, possessed with an unstoppable\n\
@@ -252,7 +252,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, 
 
 mon("zombie cop",	species_zombie, 'Z',	c_blue,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 2,  3,100,100, 70,  8,  1,  5,  0,  1,  0,  0, 40, 50,  0,
+	 15,  3,100,100, 70,  8,  1,  5,  0,  1,  0,  0, 40, 50,  0,
 	&mdeath::normal,	&mattack::bite, "\
 A human body, encapsulated in tough riot\n\
 armour, this zombie was clearly a cop gearing\n\
@@ -262,7 +262,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, 
 
 mon("shrieker zombie",species_zombie, 'Z',c_magenta,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  4, 10,100,100, 95,  9,  1,  2,  0,  4,  0,  0, 45, 50, 10,
+	  25, 10,100,100, 95,  9,  1,  2,  0,  4,  0,  0, 45, 50, 10,
 	&mdeath::normal,	&mattack::shriek, "\
 This zombie's jaw has been torn off, leaving\n\
 a gaping hole from mid-neck up."
@@ -271,7 +271,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, 
 
 mon("spitter zombie",species_zombie, 'Z',c_yellow,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  4,  9,100,100,105,  8,  1,  5,  0,  4,  0,  0, 30, 60, 20,
+	  25,  9,100,100,105,  8,  1,  5,  0,  4,  0,  0, 30, 60, 20,
 	&mdeath::acid,		&mattack::acid,	"\
 This zombie's mouth is deformed into a round\n\
 spitter, and its body throbs with a dense\n\
@@ -282,7 +282,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
 
 mon("shocker zombie",species_zombie,'Z',c_ltcyan,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  3, 10,100,100,110,  8,  1,  6,  0,  4,  0,  0, 40, 65, 25,
+	  25, 10,100,100,110,  8,  1,  6,  0,  4,  0,  0, 40, 65, 25,
 	&mdeath::normal,	&mattack::shockstorm, "\
 This zombie's flesh is pale blue, and it\n\
 occasionally crackles with small bolts of\n\
@@ -293,7 +293,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
 
 mon("smoker zombie",species_zombie,'Z',c_ltgray,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  2, 10,100,100,110,  8,  1,  6,  0,  4,  0,  0, 0, 65, 1,
+	  25, 10,100,100,110,  8,  1,  6,  0,  4,  0,  0, 0, 65, 1,
 	&mdeath::smokeburst,	&mattack::smokecloud, "\
 This zombie emits a constant haze of\n\
 thick, obfuscating smoke."
@@ -303,7 +303,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
 
 mon("fresh zombie",species_zombie, 'Z',	c_ltred,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  6, 12,100,100,150, 10,  1,  4,  3,  4,  0,  0, 45, 40,  0,
+	  50, 12,100,100,150, 10,  1,  4,  3,  4,  0,  0, 45, 40,  0,
 	&mdeath::normal,	&mattack::bite, "\
 This deformed, sinewy zombie stays close to\n\
 the ground, loping forward faster than most\n\
@@ -314,7 +314,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
 
 mon("zombie brute",species_zombie, 'Z',	c_red,		MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  4, 25,100,100,115,  9,  4,  4,  2,  0,  6,  3, 60, 80,  0,
+	  10, 25,100,100,115,  9,  4,  4,  2,  0,  6,  3, 60, 80,  0,
 	&mdeath::normal,	&mattack::bite, "\
 A hideous beast of a zombie, bulging with\n\
 distended muscles on both arms and legs."
@@ -343,7 +343,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, 
 
 mon("boomer",	species_zombie, 'Z',	c_pink,		MS_LARGE,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  6,  5,100,100, 55,  7,  2,  4,  0,  1,  3,  0, 35, 40,  20,
+	  25,  5,100,100, 55,  7,  2,  4,  0,  1,  3,  0, 35, 40,  20,
 	&mdeath::boomer,	&mattack::boomer, "\
 A bloated zombie sagging with fat. It emits a\n\
 horrible odor, and putrid, pink sludge drips\n\
@@ -363,7 +363,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, 
 
 mon("skeleton",	species_zombie, 'Z',	c_white,	MS_MEDIUM,	STONE,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  7,  8,100,100, 90, 10,  1,  5,  3,  2,  0, 15,  0, 40, 0,
+	  25,  8,100,100, 90, 10,  1,  5,  3,  2,  0, 15,  0, 40, 0,
 	&mdeath::normal,	&mattack::bite, "\
 A skeleton picked clean of all but a few\n\
 rotten scraps of flesh, somehow still in\n\
@@ -373,7 +373,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_BLEED, MF_HARDTOSHOOT, MF_NO_BREATHE, MF_VIS30);
 
 mon("zombie necromancer",species_zombie, 'Z',c_dkgray,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  3, 13,  0,100,100,  4,  2,  3,  0,  4,  0,  0, 50,140, 4,
+	  1, 13,  0,100,100,  4,  2,  3,  0,  4,  0,  0, 50,140, 4,
 	&mdeath::normal,	&mattack::resurrect, "\
 A zombie with jet black skin and glowing red\n\
 eyes.  As you look at it, you're gripped by a\n\
@@ -395,7 +395,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, 
 
 mon("zombie soldier",	species_zombie,	'Z',c_ltblue,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  1, 20,100,100, 80, 12,  2,  4,  0,  0,  8, 16, 60,100, 0,
+	  3, 20,100,100, 80, 12,  2,  4,  0,  0,  8, 16, 60,100, 0,
 	&mdeath::normal,	&mattack::bite, "\
 This zombie was clearly a soldier before.\n\
 Its tattered armor gives it strong defense,\n\
@@ -406,7 +406,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_POISON, MF_BLEED, MF_
 
 mon("grabber zombie",	species_zombie,	'Z',c_green,	MS_MEDIUM,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  6,  8,100,100, 70, 10,  1,  2,  0,  4,  0,  0, 40, 65, 0,
+	  50,  8,100,100, 70, 10,  1,  2,  0,  4,  0,  0, 40, 65, 0,
 	&mdeath::normal,	&mattack::none, "\
 This zombie seems to have slightly longer\n\
 than ordinary arms, and constantly gropes\n\
@@ -437,19 +437,9 @@ but moves a bit slower"
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_NO_BREATHE, MF_VIS30);
 
-mon("Actual Cannibal Shia LaBeouf",	species_zombie, '@',	c_white,	MS_MEDIUM,	FLESH,
-//	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 1,  3,100,100, 70,  8,  1,  5,  0,  1,  0,  0, 40, 50,  40,
-	&mdeath::normal,	&mattack::brandish, "\
-Living in the woods! (Quiet, quiet)\n\
-Killing for sport! (Quiet, quiet)\n\
-Eating  all the bodies!\n\
-Actual cannibal Shia LaBeouf!");
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_HUMAN);
-
  mon("child zombie",species_zombie, 'z',	c_ltgreen,	MS_SMALL,	FLESH,
 //	frq dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  5, 2, 65,100,  70, 8,  1,  3,  2,  2,  0,  0, 20, 25,  0,
+	  25, 2, 65,100,  70, 8,  1,  3,  2,  2,  0,  0, 20, 25,  0,
 	&mdeath::normal,	&mattack::none, "\
 A horrifying child zombie, you feel\n\
 a twinge of remorse looking at it."
