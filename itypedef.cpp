@@ -1011,8 +1011,8 @@ mounted on a vehicle.");
 MELEE("blade",	 5, 280,'/', c_blue,	IRON,	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
 	 8, 14,  6, 10, -2, 0, "\
-A large and slightly misshapen blade, could do some damage\n\
-mounted on a vehicle.");
+A large, relatively sharp blade. Could be used to make\n\
+bladed weaponry, or attached to a car.");
 
 MELEE("wire",   50, 200,';', c_blue,    STEEL,  MNULL,
          4,  2,  0,  0, -2, 0, "\
@@ -3974,20 +3974,17 @@ TOOL("broadsword",	30,1200,'/',c_cyan,	IRON,	MNULL,
 An early modern sword seeing use in the 16th, 17th ane 18th centuries.\n\
 Called 'broad' to contrast with the slimmer rapiers.");
 
-TOOL("lawnmower blade", 0, 100, '/', c_ltgray, IRON, MNULL,
-	 7, 5,  4, 15,  -1,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
-The blade of a lawnmower. It's not incredibly sharp, but\n\
-it could still do some serious damage.");
+TOOL("makeshift machete", 0, 100, '/', c_ltgray, IRON, MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC   FUEL    REVERT    FUNCTION
+    7,  5,  4,  15, 1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
+A large blade which has had a portion of the handle wrapped\n\
+in duct tape, making it easier to wield as a rough machete.");
 
-TOOL("lawnmower machete", 0, 100, '/', c_ltgray, IRON, MNULL,
-         7, 5,  4, 15,   1,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
-A lawnmower blade that's been fashioned into a makeshift\n\
-machete, mainly by adding a handle for easier wielding.");
-
-TOOL("lawnmower halberd", 0, 100, '/', c_ltgray, IRON, MNULL,
+TOOL("makeshift halberd", 0, 100, '/', c_ltgray, IRON, MNULL,
          10, 7, 4, 15,   2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
-A lawnmower blade affixed to a long stick, in the right\n\
-hands, this thing could do some massive damage.");
+A large blade attached to a long stick. Could do a considerable\n\
+amount of damage.");
+TECH(mfb(TEC_WBLOCK_1));
 
 TOOL("steak knife",	85,  25,';', c_ltcyan,	STEEL,	MNULL,
      1,  2,  2, 10, -3, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
