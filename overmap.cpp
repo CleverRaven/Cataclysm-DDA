@@ -118,10 +118,10 @@ oter_id house(int dir)
 // *** BEGIN overmap FUNCTIONS ***
 
 overmap::overmap()
-	: loc(999, 999)
+ : loc(999, 999)
  , prefix()
  , name()
- , layers()
+ , layer(NULL)
  , nullret(ot_null)
  , nullbool(false)
  , nullstr("")
@@ -129,83 +129,109 @@ overmap::overmap()
 // debugmsg("Warning - null overmap!");
  if (num_ter_types > 256 - 32)
   debugmsg("More than 256 - 32 oterid!  Saving won't work!");
-}
 
-overmap::overmap(const overmap & om)
- : loc(om.loc)
-	, prefix(om.prefix)
-	, name(om.name)
- , layers(om.layers)
- , nullret(ot_null)
- , nullbool(false)
- , nullstr("")
-{
-#define CP(x) x = om.x
- CP(cities);
- CP(roads_out);
- CP(towns);
- CP(zg);
- CP(radios);
- CP(npcs);
-#undef CP
+ init_layers();
 }
 
 overmap::overmap(game *g, int x, int y)
  : loc(x, y)
-	, prefix()
-	, name(g->u.name)
-	, layers()
+ , prefix()
+ , name(g->u.name)
+ , layer(NULL)
  , nullret(ot_null)
  , nullbool(false)
  , nullstr("")
 {
-	if (name.empty()) {
-	 debugmsg("Attempting to load overmap for unknown player!  Saving won't work!");
-	}
+ if (name.empty()) {
+  debugmsg("Attempting to load overmap for unknown player!  Saving won't work!");
+ }
 
  if (num_ter_types > 256 - 32) {
   debugmsg("More than 256 - 32 oterid!  Saving won't work!");
  }
 
  if (g->has_gametype()) {
- 	prefix = special_game_name(g->gametype());
+  prefix = special_game_name(g->gametype());
  }
 
+ init_layers();
  open(g);
 }
 
 overmap::~overmap()
 {
+	if (layer) {
+		delete [] layer;
+		layer = NULL;
+	}
+}
+
+overmap& overmap::operator=(overmap const& o)
+{
+	loc = o.loc;
+	prefix = o.prefix;
+	name = o.name;
+	cities = o.cities;
+	roads_out = o.roads_out;
+	towns = o.towns;
+	zg = o.zg;
+	radios = o.radios;
+	npcs = o.npcs;
+
+        layer = new map_layer[OVERMAP_LAYERS];
+	for(int z = 0; z < OVERMAP_LAYERS; ++z) {
+		for(int i = 0; i < OMAPX; ++i) {
+			for(int j = 0; j < OMAPY; ++j) {
+				layer[z].terrain[i][j] = o.layer[z].terrain[i][j];
+				layer[z].visable[i][j] = o.layer[z].visable[i][j];
+			}
+		}
+		layer[z].notes = o.layer[z].notes;
+	}
+
+	return *this;
+}
+
+void overmap::init_layers()
+{
+	layer = new map_layer[OVERMAP_LAYERS];
+	for(int z = 0; z < OVERMAP_LAYERS; ++z) {
+		oter_id default_type = (z < OVERMAP_DEPTH) ? ot_rock : (z == OVERMAP_DEPTH) ? ot_field : ot_null;
+		for(int i = 0; i < OMAPX; ++i) {
+			for(int j = 0; j < OMAPY; ++j) {
+				layer[z].terrain[i][j] = default_type;
+				layer[z].visable[i][j] = false;
+			}
+		}
+	}
 }
 
 oter_id& overmap::ter(int x, int y, int z)
 {
- if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY ||
- 		layers.find(z) == layers.end()) {
+ if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
   nullret = ot_null;
   return nullret;
  }
 
- return layers[z].terrain[x][y];
+ return layer[z + OVERMAP_DEPTH].terrain[x][y];
 }
 
 bool& overmap::seen(int x, int y, int z)
 {
- if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY ||
- 		layers.find(z) == layers.end()) {
+ if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
   nullbool = false;
   return nullbool;
  }
- return layers[z].visable[x][y];
+ return layer[z + OVERMAP_DEPTH].visable[x][y];
 }
 
 std::vector<mongroup*> overmap::monsters_at(int x, int y, int z)
 {
  std::vector<mongroup*> ret;
- if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY)
+ if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) 
   return ret;
  for (int i = 0; i < zg.size(); i++) {
- 	if (zg[i].posz != z) { continue; }
+  if (zg[i].posz != z) { continue; }
   if (trig_dist(x, y, zg[i].posx, zg[i].posy) <= zg[i].radius)
    ret.push_back(&(zg[i]));
  }
@@ -227,13 +253,10 @@ bool overmap::is_safe(int x, int y, int z)
 
 bool overmap::has_note(int const x, int const y, int const z) const
 {
-	layer_map_t::const_iterator it = layers.find(z);
-	if (it == layers.end()) {
-		return false;
-	}
+ if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) { return false; }
 
-	for (int i = 0; i < it->second.notes.size(); i++) {
-  if (it->second.notes[i].x == x && it->second.notes[i].y == y)
+ for (int i = 0; i < layer[z + OVERMAP_DEPTH].notes.size(); i++) {
+  if (layer[z + OVERMAP_DEPTH].notes[i].x == x && layer[z + OVERMAP_DEPTH].notes[i].y == y)
    return true;
  }
  return false;
@@ -241,14 +264,11 @@ bool overmap::has_note(int const x, int const y, int const z) const
 
 std::string const& overmap::note(int const x, int const y, int const z) const
 {
-	layer_map_t::const_iterator it = layers.find(z);
-	if (it == layers.end()) {
-		return nullstr;
-	}
+ if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) { return nullstr; }
 
- for (int i = 0; i < it->second.notes.size(); i++) {
-  if (it->second.notes[i].x == x && it->second.notes[i].y == y)
-   return it->second.notes[i].text;
+ for (int i = 0; i < layer[z + OVERMAP_DEPTH].notes.size(); i++) {
+  if (layer[z + OVERMAP_DEPTH].notes[i].x == x && layer[z + OVERMAP_DEPTH].notes[i].y == y)
+   return layer[z + OVERMAP_DEPTH].notes[i].text;
  }
 
  return nullstr;
@@ -256,40 +276,38 @@ std::string const& overmap::note(int const x, int const y, int const z) const
 
 void overmap::add_note(int const x, int const y, int const z, std::string const & message)
 {
-	layer_map_t::iterator it = layers.find(z);
-	if (it == layers.end()) {
-		debugmsg("Attempting to add not to overmap for blank layer %d", z);
-		return;
-	}
+ if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
+  debugmsg("Attempting to add not to overmap for blank layer %d", z);
+  return;
+ }
 
-	for (int i = 0; i < it->second.notes.size(); i++) {
-  if (it->second.notes[i].x == x && it->second.notes[i].y == y) {
+ for (int i = 0; i < layer[z + OVERMAP_DEPTH].notes.size(); i++) {
+  if (layer[z + OVERMAP_DEPTH].notes[i].x == x && layer[z + OVERMAP_DEPTH].notes[i].y == y) {
    if (message.empty())
-   	it->second.notes.erase(it->second.notes.begin() + i);
+    layer[z + OVERMAP_DEPTH].notes.erase(layer[z + OVERMAP_DEPTH].notes.begin() + i);
    else
-   	it->second.notes[i].text = message;
+    layer[z + OVERMAP_DEPTH].notes[i].text = message;
    return;
   }
  }
  if (message.length() > 0)
- 	it->second.notes.push_back(om_note(x, y, it->second.notes.size(), message));
+  layer[z + OVERMAP_DEPTH].notes.push_back(om_note(x, y, layer[z + OVERMAP_DEPTH].notes.size(), message));
 }
 
 point overmap::find_note(int const x, int const y, int const z, std::string const& text) const
 {
- point ret(-1, -1);
-	layer_map_t::const_iterator it = layers.find(z);
-	if (it == layers.end()) {
-		debugmsg("Attempting to find note on overmap for blank layer %d", z);
-		return ret;
-	}
+ point ret(-1, -1);	
+ if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
+  debugmsg("Attempting to find note on overmap for blank layer %d", z);
+  return ret;
+ }
 
-	int closest = 9999;
- for (int i = 0; i < it->second.notes.size(); i++) {
-  if (it->second.notes[i].text.find(text) != std::string::npos &&
-      rl_dist(x, y, it->second.notes[i].x, it->second.notes[i].y) < closest) {
-   closest = rl_dist(x, y, it->second.notes[i].x, it->second.notes[i].y);
-   ret = point(it->second.notes[i].x, it->second.notes[i].y);
+ int closest = 9999;
+ for (int i = 0; i < layer[z + OVERMAP_DEPTH].notes.size(); i++) {
+  if (layer[z + OVERMAP_DEPTH].notes[i].text.find(text) != std::string::npos &&
+      rl_dist(x, y, layer[z + OVERMAP_DEPTH].notes[i].x, layer[z + OVERMAP_DEPTH].notes[i].y) < closest) {
+   closest = rl_dist(x, y, layer[z + OVERMAP_DEPTH].notes[i].x, layer[z + OVERMAP_DEPTH].notes[i].y);
+   ret = point(layer[z + OVERMAP_DEPTH].notes[i].x, layer[z + OVERMAP_DEPTH].notes[i].y);
   }
  }
 
@@ -298,8 +316,7 @@ point overmap::find_note(int const x, int const y, int const z, std::string cons
 
 point overmap::display_notes(game* g, int const z) const
 {
- layer_map_t::const_iterator it = layers.find(z);
- if (it == layers.end()) {
+ if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
   debugmsg("Attempting to display notes on overmap for blank layer %d", z);
   return point(-1, -1);
  }
@@ -326,7 +343,7 @@ point overmap::display_notes(game* g, int const z) const
     start = 0;
    mvwprintw(w_notes, maxitems + 2, 1, "         ");
   }
-  if (ch == '>' && cur_it < it->second.notes.size()) {
+  if (ch == '>' && cur_it < layer[z + OVERMAP_DEPTH].notes.size()) {
    start = cur_it;
    mvwprintw(w_notes, maxitems + 2, 13, "            ");
    for (int i = 1; i < 25; i++)
@@ -336,9 +353,9 @@ point overmap::display_notes(game* g, int const z) const
   int last_line = -1;
   char cur_let = 'a';
   for (cur_it = start; cur_it < start + maxitems && cur_line < 23; cur_it++) {
-   if (cur_it < it->second.notes.size()) {
+   if (cur_it < layer[z + OVERMAP_DEPTH].notes.size()) {
    mvwputch (w_notes, cur_line, 1, c_white, cur_let++);
-   mvwprintz(w_notes, cur_line, 3, c_ltgray, "- %s", it->second.notes[cur_it].text.c_str());
+   mvwprintz(w_notes, cur_line, 3, c_ltgray, "- %s", layer[z + OVERMAP_DEPTH].notes[cur_it].text.c_str());
    } else{
     last_line = cur_line - 2;
     break;
@@ -350,12 +367,12 @@ point overmap::display_notes(game* g, int const z) const
    last_line = 23;
   if (start > 0)
    mvwprintw(w_notes, maxitems + 4, 1, "< Go Back");
-  if (cur_it < it->second.notes.size())
+  if (cur_it < layer[z + OVERMAP_DEPTH].notes.size())
    mvwprintw(w_notes, maxitems + 4, 12, "> More notes");
   if(ch >= 'a' && ch <= 't'){
    int chosen_line = (int)(ch % (int)'a');
    if(chosen_line < last_line)
-    return point(it->second.notes[start + chosen_line].x, it->second.notes[start + chosen_line].y);
+    return point(layer[z + OVERMAP_DEPTH].notes[start + chosen_line].x, layer[z + OVERMAP_DEPTH].notes[start + chosen_line].y);
   }
   mvwprintz(w_notes, 1, 40, c_white, "Press letter to center on note");
   mvwprintz(w_notes, 23, 40, c_white, "Spacebar - Return to map  ");
@@ -372,14 +389,6 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
  erase();
  clear();
  move(0, 0);
- // TODO: fix hacky generation again
- layers[0];
- for (int i = 0; i < OMAPY; i++) {
-  for (int j = 0; j < OMAPX; j++) {
-   ter(i, j, 0) = ot_field;
-   seen(i, j, 0) = false;
-  }
- }
  std::vector<city> road_points;	// cities and roads_out together
  std::vector<point> river_start;// West/North endpoints of rivers
  std::vector<point> river_end;	// East/South endpoints of rivers
@@ -583,14 +592,10 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
 
  // Always need at least one sublevel, but how many more
  int z = -1;
-	bool requires_sub = false;
+ bool requires_sub = false;
  do {
-  	// Hacky way to generate next level as blank map
-  	layers[z];
-
-  	// Generate actual map and loop to check that one
-  	requires_sub = generate_sub(z--);
- } while(requires_sub);
+  	requires_sub = generate_sub(z);
+ } while(requires_sub && (--z >= -OVERMAP_DEPTH));
 
 // Place the monsters, now that the terrain is laid out
  place_mongroups();
@@ -599,7 +604,7 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
 
 bool overmap::generate_sub(int const z)
 {
-	bool requires_sub = false;
+ bool requires_sub = false;
  std::vector<city> subway_points;
  std::vector<city> sewer_points;
  std::vector<city> ant_points;
@@ -612,12 +617,6 @@ bool overmap::generate_sub(int const z)
  std::vector<point> lmoe_points;
  std::vector<point> triffid_points;
  std::vector<point> temple_points;
- for (int i = 0; i < OMAPX; i++) {
-  for (int j = 0; j < OMAPY; j++) {
-   seen(i, j, z) = false;	// Start by setting all squares to unseen
-   ter(i, j, z) = ot_rock;	// Start by setting everything to solid rock
-  }
- }
 
  for (int i = 0; i < OMAPX; i++) {
   for (int j = 0; j < OMAPY; j++) {
@@ -2485,34 +2484,32 @@ void overmap::save()
 
  // Player specific data
  fout.open(plrfilename.c_str());
- for (layer_map_t::const_iterator it = layers.begin(); it != layers.end(); ++it)
- {
- 	fout << "L " << it->first << std::endl;
-		for (int j = 0; j < OMAPY; j++) {
-			for (int i = 0; i < OMAPX; i++) {
-				fout << ((it->second.visable[i][j]) ? "1" : "0");
-			}
-			fout << std::endl;
-		}
+ for (int z = 0; z < OVERMAP_LAYERS; ++z) {
+  fout << "L " << z << std::endl;
+  for (int j = 0; j < OMAPY; j++) {
+   for (int i = 0; i < OMAPX; i++) {
+    fout << ((layer[z].visable[i][j]) ? "1" : "0");
+   }
+   fout << std::endl;
+  }
 
-		for (int i = 0; i < it->second.notes.size(); i++) {
-			fout << "N " << it->second.notes[i].x << " " << it->second.notes[i].y << " " << it->second.notes[i].num <<
-          std::endl << it->second.notes[i].text << std::endl;
-		}
+  for (int i = 0; i < layer[z].notes.size(); i++) {
+   fout << "N " << layer[z].notes[i].x << " " << layer[z].notes[i].y << " " << layer[z].notes[i].num <<
+           std::endl << layer[z].notes[i].text << std::endl;
+  }
  }
  fout.close();
 
  // World terrain data
-	fout.open(terfilename.c_str(), std::ios_base::trunc);
- for (layer_map_t::const_iterator it = layers.begin(); it != layers.end(); ++it)
- {
- 	fout << "L " << it->first << std::endl;
-		for (int j = 0; j < OMAPY; j++) {
-			for (int i = 0; i < OMAPX; i++) {
-				fout << char(int(it->second.terrain[i][j]) + 32);
-			}
-		 fout << std::endl;
-		}
+ fout.open(terfilename.c_str(), std::ios_base::trunc);
+ for (int z = 0; z < OVERMAP_LAYERS; ++z) {
+  fout << "L " << z << std::endl;
+  for (int j = 0; j < OMAPY; j++) {
+   for (int i = 0; i < OMAPX; i++) {
+    fout << char(int(layer[z].terrain[i][j]) + 32);
+   }
+   fout << std::endl;
+  }
  }
 
  for (int i = 0; i < zg.size(); i++)
@@ -2551,27 +2548,26 @@ void overmap::open(game *g)
 // DEBUG VARS
  int nummg = 0;
  if (fin.is_open()) {
- 	int z = 0; // assumption
+  int z = 0; // assumption
   while (fin >> datatype) {
-  	if (datatype == 'L') { 	// Load layer data, and switch to layer
-  		fin >> z;
-  		if (layers.find(z) != layers.end()) {
-  			debugmsg("Map has duplicate data for layer %d", z);
-  		}
+   if (datatype == 'L') { 	// Load layer data, and switch to layer
+    fin >> z;
 
     std::string dataline;
-  		getline(fin, dataline);	// Chomp endl
+    getline(fin, dataline);	// Chomp endl
 
     for (int j = 0; j < OMAPY; j++) {
-    	getline(fin, dataline);
-     for (int i = 0; i < OMAPX; i++) {
-      layers[z].terrain[i][j] = oter_id((unsigned char)dataline[i] - 32);
-      layers[z].visable[i][j] = false;
-      if (layers[z].terrain[i][j] < 0 || layers[z].terrain[i][j] > num_ter_types)
-       debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), layers[z].terrain[i][j]);
+     getline(fin, dataline);
+     if (z >= 0 && z < OVERMAP_LAYERS) {
+      for (int i = 0; i < OMAPX; i++) {
+       layer[z].terrain[i][j] = oter_id((unsigned char)dataline[i] - 32);
+       layer[z].visable[i][j] = false;
+       if (layer[z].terrain[i][j] < 0 || layer[z].terrain[i][j] > num_ter_types)
+        debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), layer[z].terrain[i][j]);
+      }
      }
     }
-  	} else if (datatype == 'Z') {	// Monster group
+   } else if (datatype == 'Z') {	// Monster group
     fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd;
     zg.push_back(mongroup(cstr, cx, cy, cz, cs, cp));
     zg.back().diffuse = cd;
@@ -2633,29 +2629,30 @@ void overmap::open(game *g)
   // Private/per-character data
   fin.open(plrfilename.c_str());
   if (fin.is_open()) {	// Load private seen data
- 		int z = 0; // assumption
+   int z = 0; // assumption
    while (fin >> datatype) {
-   	if (datatype == 'L') { 	// Load layer data, and switch to layer
-   		fin >> z;
-   		if (layers.find(z) == layers.end()) {
-   			debugmsg("Map data has seen but no terrain for layer %d", z);
-   		}
+    if (datatype == 'L') {  // Load layer data, and switch to layer
+     fin >> z;
 
      std::string dataline;
-   		getline(fin, dataline);	// Chomp endl
+     getline(fin, dataline); // Chomp endl
 
      for (int j = 0; j < OMAPY; j++) {
       getline(fin, dataline);
-      for (int i = 0; i < OMAPX; i++) {
-       	layers[z].visable[i][j] = (dataline[i] == '1');
+      if (z >= 0 && z < OVERMAP_LAYERS) {
+       for (int i = 0; i < OMAPX; i++) {
+       	layer[z].visable[i][j] = (dataline[i] == '1');
+       }
       }
      }
-   	} else if (datatype == 'N') { // Load notes
+    } else if (datatype == 'N') { // Load notes
      om_note tmp;
      fin >> tmp.x >> tmp.y >> tmp.num;
      getline(fin, tmp.text);	// Chomp endl
      getline(fin, tmp.text);
-     layers[z].notes.push_back(tmp);
+     if (z >= 0 && z < OVERMAP_LAYERS) {
+      layer[z].notes.push_back(tmp);
+     }
     }
    }
    fin.close();

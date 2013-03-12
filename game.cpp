@@ -8311,8 +8311,6 @@ void game::teleport(player *p)
 void game::nuke(int x, int y)
 {
 	// TODO: nukes hit above surface, not z = 0
- overmap tmp_om = cur_om;
- cur_om = overmap(this, tmp_om.pos().x, tmp_om.pos().y);
  if (x < 0 || y < 0 || x >= OMAPX || y >= OMAPY)
   return;
  int mapx = x * 2, mapy = y * 2;
@@ -8329,7 +8327,6 @@ void game::nuke(int x, int y)
  }
  tmpmap.save(&cur_om, turn, mapx, mapy, 0);
  cur_om.ter(x, y, 0) = ot_crater;
- cur_om = tmp_om;
 }
 
 std::vector<faction *> game::factions_at(int x, int y)

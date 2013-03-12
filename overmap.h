@@ -13,6 +13,10 @@
 class npc;
 struct settlement;
 
+#define OVERMAP_DEPTH 10
+#define OVERMAP_HEIGHT 0
+#define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
+
 struct city {
  int x;
  int y;
@@ -43,23 +47,17 @@ struct map_layer {
  bool visable[OMAPX][OMAPY];
  std::vector<om_note> notes;
 
- map_layer() : terrain(), visable(), notes() {
- 	for(int i = 0; i < OMAPX; ++i) {
- 		for(int j = 0; j < OMAPY; ++j) {
- 			terrain[i][j] = ot_null;
- 			visable[i][j] = false;
- 		}
- 	}
- }
+ map_layer() : terrain(), visable(), notes() {}
 };
 
 class overmap
 {
  public:
   overmap();
-  overmap(const overmap & om);
   overmap(game *g, int x, int y);
   ~overmap();
+
+  overmap& operator=(overmap const&);
 
   point const& pos() const { return loc; }
 
@@ -110,18 +108,22 @@ class overmap
   std::vector<settlement> towns;
 
  private:
-  typedef std::map<int, map_layer> layer_map_t;
   point loc;
   std::string prefix;
   std::string name;
 
-  layer_map_t layers;
+  //map_layer layer[OVERMAP_LAYERS];
+  map_layer *layer;
 
   oter_id nullret;
   bool nullbool;
   std::string nullstr;
 
+  // no copy constructor
+  overmap(overmap const&);
+
   // Initialise
+  void init_layers();
   void open(game *g);
   void generate(game *g, overmap* north, overmap* east, overmap* south,
                 overmap* west);
