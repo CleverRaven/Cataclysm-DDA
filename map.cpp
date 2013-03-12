@@ -920,7 +920,8 @@ bool map::is_outside(const int x, const int y)
  for(int i = -1; out && i <= 1; i++)
   for(int j = -1; out && j <= 1; j++) {
    const ter_id terrain = ter( x + i, y + j );
-   out = (terrain != t_floor && terrain != t_rock_floor && terrain != t_floor_wax && terrain != t_fema_groundsheet);
+   out = (terrain != t_floor && terrain != t_rock_floor && terrain != t_floor_wax &&
+          terrain != t_fema_groundsheet && terrain != t_dirtfloor);
   }
  if (out) {
   int vpart;
