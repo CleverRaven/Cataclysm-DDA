@@ -855,6 +855,7 @@ mace. Makes a great melee weapon.");
 MELEE("nail bat",	60, 160,'/', c_ltred,	WOOD,	MNULL,
 	12, 10, 28,  6,  3, mfb(IF_STAB), "\
 A baseball bat with several nails driven through it, an excellent melee weapon.");
+TECH( mfb(TEC_WBLOCK_1) );
 
 MELEE("pot",		25,  45,')', c_ltgray,	IRON,	MNULL,
 	 8,  6,  9,  0,  1, 0, "\
