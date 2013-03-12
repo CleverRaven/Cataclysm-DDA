@@ -3973,18 +3973,20 @@ TOOL("broadsword",	30,1200,'/',c_cyan,	IRON,	MNULL,
 	 7, 11,  8, 35,  2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
 An early modern sword seeing use in the 16th, 17th ane 18th centuries.\n\
 Called 'broad' to contrast with the slimmer rapiers.");
+TECH( mfb(TEC_WBLOCK_1) );
 
 TOOL("makeshift machete", 0, 100, '/', c_ltgray, IRON, MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC   FUEL    REVERT    FUNCTION
-    7,  5,  4,  15, 1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
+    7,  5,  4,  15, 1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::knife,
+    mfb(IF_STAB), "\
 A large blade which has had a portion of the handle wrapped\n\
 in duct tape, making it easier to wield as a rough machete.");
+TECH( mfb(TEC_WBLOCK_1) );
 
 TOOL("makeshift halberd", 0, 100, '/', c_ltgray, IRON, MNULL,
          10, 7, 4, 15,   2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
 A large blade attached to a long stick. Could do a considerable\n\
 amount of damage.");
-TECH(mfb(TEC_WBLOCK_1));
 
 TOOL("steak knife",	85,  25,';', c_ltcyan,	STEEL,	MNULL,
      1,  2,  2, 10, -3, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
