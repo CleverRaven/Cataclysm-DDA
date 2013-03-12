@@ -61,7 +61,7 @@ void game::init_itypes ()
 healthy,addict,charges,fun,use_func,addict_func,des) \
 	index++;itypes.push_back(new it_comest(index,rarity,price,name,des,'~',\
 color,LIQUID,2,1,0,0,0,0,quench,nutr,spoils,stim,healthy,addict,charges,\
-fun,container,itm_null,use_func,addict_func));
+fun,container,itm_null,use_func,addict_func,"DRINK"));
 
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("water",		90, 50,	c_ltcyan, itm_bottle_plastic,
@@ -196,7 +196,7 @@ Blood, possibly that of a human. Disgusting!");
 nutr,spoils,stim,healthy,addict,charges,fun,use_func,addict_func,des) \
 	index++;itypes.push_back(new it_comest(index,rarity,price,name,des,'%',\
 color,mat1,volume,weight,0,0,0,0,quench,nutr,spoils,stim,healthy,addict,charges,\
-fun,container,itm_null,use_func,addict_func));
+fun,container,itm_null,use_func,addict_func,"FOOD"));
 // FOOD
 
 FOOD("bone",            50, 50, c_white,    FLESH, itm_null,
@@ -523,7 +523,7 @@ or swallow it raw for a lesser stimulative boost.");
 charges,fun,use_func,addict_func,des) \
 	index++;itypes.push_back(new it_comest(index,rarity,price,name,des,'!',\
 color,mat,1,1,0,0,0,0,0,0,0,stim,healthy,addict,charges,\
-fun,itm_null,tool,use_func,addict_func));
+fun,itm_null,tool,use_func,addict_func,"MED"));
 
 //  NAME		RAR PRC	COLOR		TOOL
 MED("bandages",		50, 60,	c_white,	itm_null,
