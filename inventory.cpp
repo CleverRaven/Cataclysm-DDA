@@ -202,7 +202,7 @@ void inventory::form_from_map(game *g, point origin, int range)
     add_item(fire);
    }
    ter_id terrain_id = g->m.ter(x, y);
-   if (terrain_id == t_toilet || terrain_id == t_sink || terrain_id == t_water_sh || terrain_id == t_water_dp){
+   if (terrain_id == t_toilet || terrain_id == t_water_sh || terrain_id == t_water_dp){
     item water(g->itypes[itm_water], 0);
     water.charges = 50;
     add_item(water);
