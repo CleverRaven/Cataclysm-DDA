@@ -505,60 +505,63 @@ struct itype
 // Includes food drink and drugs
 struct it_comest : public itype
 {
- signed char quench;	// Many things make you thirstier!
- unsigned char nutr;	// Nutrition imparted
- unsigned char spoils;	// How long it takes to spoil (hours / 600 turns)
- unsigned char addict;	// Addictiveness potential
- unsigned char charges;	// Defaults # of charges (drugs, loaf of bread? etc)
- signed char stim;
- signed char healthy;
+    signed char quench;	// Many things make you thirstier!
+    unsigned char nutr;	// Nutrition imparted
+    unsigned char spoils;	// How long it takes to spoil (hours / 600 turns)
+    unsigned char addict;	// Addictiveness potential
+    unsigned char charges;	// Defaults # of charges (drugs, loaf of bread? etc)
+    signed char stim;
+    signed char healthy;
+    std::string comesttype; //FOOD, DRINK, MED
 
- signed char fun;	// How fun its use is
+    signed char fun;	// How fun its use is
 
- itype_id container;	// The container it comes in
- itype_id tool;		// Tool needed to consume (e.g. lighter for cigarettes)
+    itype_id container;	// The container it comes in
+    itype_id tool;		// Tool needed to consume (e.g. lighter for cigarettes)
 
- virtual bool is_food() { return true; }
-// virtual bool count_by_charges() { return charges >= 1 ; }
+    virtual bool is_food() { return true; }
+    // virtual bool count_by_charges() { return charges >= 1 ; }
 
- virtual bool count_by_charges()
- {
-  if (m1 == LIQUID) return true;
-  else
-  return charges > 1 ;
- }
+    virtual bool count_by_charges()
+    {
+        if (m1 == LIQUID) {
+            return true;
+        } else {
+            return charges > 1 ;
+        }
+    }
 
+    void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
+    add_type add;				// Effects of addiction
 
- void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
- add_type add;				// Effects of addiction
+    it_comest(int pid, unsigned char prarity, unsigned int pprice,
+    std::string pname, std::string pdes,
+    char psym, nc_color pcolor, material pm1,
+    unsigned short pvolume, unsigned short pweight,
+    signed char pmelee_dam, signed char pmelee_cut,
+    signed char pm_to_hit, unsigned pitem_flags,
 
- it_comest(int pid, unsigned char prarity, unsigned int pprice,
-           std::string pname, std::string pdes,
-           char psym, nc_color pcolor, material pm1,
-           unsigned short pvolume, unsigned short pweight,
-           signed char pmelee_dam, signed char pmelee_cut,
-           signed char pm_to_hit, unsigned pitem_flags,
-
-           signed char pquench, unsigned char pnutr, signed char pspoils,
-           signed char pstim, signed char phealthy, unsigned char paddict,
-           unsigned char pcharges, signed char pfun, itype_id pcontainer,
-           itype_id ptool, void (iuse::*puse)(game *, player *, item *, bool),
-           add_type padd)
-:itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
-  quench = pquench;
-  nutr = pnutr;
-  spoils = pspoils;
-  stim = pstim;
-  healthy = phealthy;
-  addict = paddict;
-  charges = pcharges;
-  fun = pfun;
-  container = pcontainer;
-  tool = ptool;
-  use = puse;
-  add = padd;
- }
+    signed char pquench, unsigned char pnutr, signed char pspoils,
+    signed char pstim, signed char phealthy, unsigned char paddict,
+    unsigned char pcharges, signed char pfun, itype_id pcontainer,
+    itype_id ptool, void (iuse::*puse)(game *, player *, item *, bool),
+    add_type padd, std::string pcomesttype)
+    :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL,
+    pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+        quench = pquench;
+        nutr = pnutr;
+        spoils = pspoils;
+        stim = pstim;
+        healthy = phealthy;
+        addict = paddict;
+        charges = pcharges;
+        fun = pfun;
+        container = pcontainer;
+        tool = ptool;
+        use = puse;
+        add = padd;
+        comesttype = pcomesttype;
+    }
 };
 
 // v6, v8, wankel, etc.
