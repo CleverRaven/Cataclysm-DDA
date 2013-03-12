@@ -387,6 +387,7 @@ int set_stats(WINDOW* w, player *u, int &points)
              (u->ranged_per_mod(false) <= 0 ? "bonus" : "penalty"),
              (u->ranged_per_mod(false) <= 0 ? "+" : "-"),
              abs(u->ranged_per_mod(false)));
+   mvwprintz(w, 7, 33, COL_STAT_ACT, "                                            ");
    mvwprintz(w, 8, 33, COL_STAT_ACT, "Perception is also used for detecting       ");
    mvwprintz(w, 9, 33, COL_STAT_ACT, "traps and other things of interest.         ");
    mvwprintz(w,10, 33, COL_STAT_ACT, "                                            ");
