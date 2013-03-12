@@ -1797,7 +1797,7 @@ bool game::handle_action()
   case ACTION_CRAFT:
    craft();
    break;
-  
+
   case ACTION_RECRAFT:
    recraft();
    break;
@@ -6226,7 +6226,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    m.add_item(u.posx, u.posy, liquid);
    return true;
   }
-  
+
   std::stringstream text;
   text << "Container for " << liquid.tname(this);
   char ch = inv_type(text.str().c_str(), IC_CONTAINER);

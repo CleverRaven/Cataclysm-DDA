@@ -119,9 +119,13 @@ DRINK("broth",		15, 35, c_yellow, itm_can_food,
 	10, 15,160,  0,  0,  0,  1,  1,&iuse::none,	ADD_NULL, "\
 Vegetable stock. Tasty and fairly nutritious.");
 
-DRINK("soup",		15, 60, c_red,    itm_can_food,
+DRINK("vegetable soup",		15, 60, c_red,    itm_can_food,
 	10, 60,120,  0,  2,  0,  1,  2,&iuse::none,	ADD_NULL, "\
 A nutritious and delicious hearty vegetable soup.");
+
+DRINK("meat soup",		15, 60, c_red,    itm_can_food,
+	10, 60,120,  0,  2,  0,  1,  2,&iuse::none,	ADD_NULL, "\
+A nutritious and delicious hearty meat soup.");
 
 DRINK("whiskey",	16, 85,	c_brown,  itm_bottle_glass,
 	-12, 4,  0,-12, -2,  5, 7, 15,&iuse::alcohol,	ADD_ALCOHOL, "\

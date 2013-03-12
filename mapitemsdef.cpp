@@ -161,7 +161,7 @@ void game::init_mapitems()
    mapitems[mi_cannedfood],
 	itm_can_beans, itm_can_corn, itm_can_spam, itm_can_pineapple,
 	itm_can_coconut, itm_can_sardine, itm_can_tuna, itm_can_catfood,
-	itm_broth, itm_soup, itm_flour, itm_sugar, itm_salt, NULL);
+	itm_broth, itm_soup_veggy, itm_soup_meat, itm_flour, itm_sugar, itm_salt, NULL);
 
  setvector(
    mapitems[mi_pasta],
@@ -479,7 +479,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_shelter],
-	itm_water_clean, itm_soup, itm_chocolate, itm_ravioli, itm_can_beans,
+	itm_water_clean, itm_soup_veggy, itm_soup_meat, itm_chocolate, itm_ravioli, itm_can_beans,
 	itm_can_spam, itm_can_tuna, itm_coffee_raw, itm_bandages, itm_1st_aid,
 	itm_vitamins, itm_iodine, itm_dayquil, itm_screwdriver, itm_boots,
 	itm_boots_winter, itm_socks_wool, itm_jeans, itm_shorts, itm_tshirt, itm_sweatshirt, itm_sweater,
