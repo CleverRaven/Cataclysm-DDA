@@ -821,7 +821,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_rag, 6, NULL);
   COMP(itm_string_36, 1, itm_string_6, 6, itm_sinew, 20, itm_plant_fibre, 20, NULL);
 
- RECIPE(itm_leather_pouch, CC_ARMOR, "tailor",  "survival", 1, 10000, false);
+ RECIPE(itm_leather_pouch, CC_ARMOR, "tailor",  "survival", 2, 10000, false);
   TOOL(itm_needle_bone, 20, itm_sewing_kit, 20, NULL);
   COMP(itm_leather, 6, NULL);
   COMP(itm_string_36, 1, itm_string_6, 6, itm_sinew, 20, itm_plant_fibre, 20, NULL);
@@ -945,18 +945,6 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_rock, 3, NULL);
   COMP(itm_sinew, 80, itm_plant_fibre, 80, itm_string_36, 1, NULL);
 
- RECIPE(itm_thread, CC_MISC, "tailor", NULL, 1, 3000, false);
-  COMP(itm_string_6, 1, NULL);
-
- RECIPE(itm_string_36, CC_MISC, NULL, NULL, 0, 5000, true);
-  COMP(itm_string_6, 6, NULL);
-
- RECIPE(itm_rope_6, CC_MISC, "tailor", NULL, 0, 5000, true);
-  COMP(itm_string_36, 6, NULL);
-
- RECIPE(itm_rope_30, CC_MISC, "tailor", NULL, 0, 5000, true);
-  COMP(itm_rope_6, 5, NULL);
-
  RECIPE(itm_primitive_hammer, CC_MISC, "survival", NULL, 0, 5000, false);
   TOOL(itm_rock, -1, itm_hammer, -1, NULL);
   COMP(itm_stick, 1, NULL);
@@ -996,6 +984,14 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_pipe, 10, NULL);
   COMP(itm_steel_chunk, 12, NULL);
   COMP(itm_wire, 3, NULL);
+
+ RECIPE(itm_waterskin, CC_MISC, "tailor", "survival", 1, 8000, false);
+  COMP(itm_sewing_kit, 60, itm_needle_bone, 60, NULL);
+  COMP(itm_sinew, 40, itm_plant_fibre, 40, itm_string_36, 1, NULL);
+  COMP(itm_leather, 6, NULL);
+
+ RECIPE(itm_thread, CC_MISC, "tailor", NULL, 1, 3000, false);
+  COMP(itm_string_6, 1, NULL);
 
  RECIPE(itm_string_6, CC_MISC, NULL, NULL, 0, 5000, true);
   COMP(itm_thread, 50, NULL);
