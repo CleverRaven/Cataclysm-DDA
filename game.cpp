@@ -1980,9 +1980,11 @@ void game::update_scent()
  else
   grscent[u.posx][u.posy] = 0;
  int move_cost;
+ field field_at;
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
    move_cost = m.move_cost(x, y);
+   field_at = m.field_at(x, y);
    newscent[x][y] = 0;
    if (move_cost != 0 || m.has_flag(bashable, x, y)) {
     int squares_used = 0;
@@ -1995,9 +1997,9 @@ void game::update_scent()
      }
     }
     newscent[x][y] /= (squares_used + 1);
-    if (m.field_at(x, y).type == fd_slime &&
-        newscent[x][y] < 10 * m.field_at(x, y).density)
-     newscent[x][y] = 10 * m.field_at(x, y).density;
+    if (field_at.type == fd_slime &&
+        newscent[x][y] < 10 * field_at.density)
+     newscent[x][y] = 10 * field_at.density;
     if (newscent[x][y] > 10000) {
      dbg(D_ERROR) << "game:update_scent: Wacky scent at " << x << ","
                   << y << " (" << newscent[x][y] << ")";
