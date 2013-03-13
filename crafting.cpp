@@ -956,13 +956,13 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_sinew, 80, itm_plant_fibre, 80, itm_string_36, 1, NULL);
 
  RECIPE(itm_primitive_shovel, CC_MISC, "survival", "construction", 2, 60000, false);
-  TOOL(itm_rock, -1, itm_hammer, -1, NULL);
+  TOOL(itm_primitive_hammer, -1, itm_hammer, -1, NULL);
   COMP(itm_stick, 1, NULL);
   COMP(itm_rock, 1, NULL);
   COMP(itm_string_6, 2, itm_sinew, 40, itm_plant_fibre, 40, NULL);
 
  RECIPE(itm_primitive_axe, CC_MISC, "survival", "construction", 3, 60000, false);
-  TOOL(itm_rock, -1, itm_hammer, -1, NULL);
+  TOOL(itm_primitive_hammer, -1, itm_hammer, -1, NULL);
   COMP(itm_stick, 1, NULL);
   COMP(itm_rock, 1, NULL);
   COMP(itm_string_6, 2, itm_sinew, 40, itm_plant_fibre, 40, NULL);
