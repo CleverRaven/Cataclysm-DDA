@@ -9017,6 +9017,7 @@ void map::add_extra(map_extra type, game *g)
   int num_bodies_b = dice(3, 3);
   bool north_south = one_in(2);
   bool a_has_drugs = one_in(2);
+
   for (int i = 0; i < num_bodies_a; i++) {
     int x, y, x_offset, y_offset, tries = 0;
    do {	// Loop until we find a valid spot to dump a body, or we give up
@@ -9037,8 +9038,8 @@ void map::add_extra(map_extra type, game *g)
    if (tries < 10) {	// We found a valid spot!
     add_item(x, y, body);
     int splatter_range = rng(1, 3);
-    for (i = 0; i <= splatter_range; i++) {
-     add_field(g, x + (i * x_offset), y + (i * y_offset), fd_blood, 1);
+    for (int j = 0; j <= splatter_range; j++) {
+     add_field(g, x + (j * x_offset), y + (j * y_offset), fd_blood, 1);
     }
     place_items(mi_drugdealer, 75, x, y, x, y, true, 0);
     if (a_has_drugs && num_drugs > 0) {
@@ -9071,8 +9072,8 @@ void map::add_extra(map_extra type, game *g)
    if (tries < 10) {	// We found a valid spot!
     add_item(x, y, body);
     int splatter_range = rng(1, 3);
-    for (i = 0; i <= splatter_range; i++) {
-     add_field(g, x + (i * x_offset), y + (i * y_offset), fd_blood, 1);
+    for (int j = 0; j <= splatter_range; j++) {
+     add_field(g, x + (j * x_offset), y + (j * y_offset), fd_blood, 1);
     }
     place_items(mi_drugdealer, 75, x, y, x, y, true, 0);
     if (!a_has_drugs && num_drugs > 0) {
