@@ -328,7 +328,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)}, // Regular window
 {"window",	     '"', c_ltcyan,  0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
-        mfb(supports_roof)|mfb(deconstruct)|mfb(bashable)}, //has curtains
+        mfb(supports_roof)|mfb(deconstruct)}, //has curtains
 {"taped window",  '"', c_dkgray,    0, tr_null,
 	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)}, // Curtain window
 {"open window",      '\'', c_ltcyan, 4, tr_null,
