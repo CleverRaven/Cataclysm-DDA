@@ -8,7 +8,7 @@
 enum material {
 MNULL = 0,
 //Food Materials
-LIQUID, VEGGY, FLESH, POWDER,
+LIQUID, VEGGY, FLESH, POWDER, HFLESH, //Human Flesh.
 //Clothing
 COTTON, WOOL, LEATHER, KEVLAR, FUR,
 //Other

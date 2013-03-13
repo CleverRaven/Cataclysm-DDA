@@ -65,7 +65,7 @@ void game::init_mapitems()
 	itm_water_clean, itm_oj, itm_cola, itm_rootbeer, itm_milk, itm_V8, itm_apple,
 	itm_sandwich_t, itm_mushroom, itm_blueberries, itm_strawberries,
 	itm_tomato, itm_broccoli, itm_zucchini, itm_frozen_dinner, itm_vodka,
-	itm_apple_cider, NULL);
+	itm_apple_cider, itm_jihelucake, NULL);
 
  setvector(
    mapitems[mi_home_hw],
