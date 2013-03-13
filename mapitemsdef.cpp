@@ -161,7 +161,7 @@ void game::init_mapitems()
    mapitems[mi_cannedfood],
 	itm_can_beans, itm_can_corn, itm_can_spam, itm_can_pineapple,
 	itm_can_coconut, itm_can_sardine, itm_can_tuna, itm_can_catfood,
-	itm_broth, itm_soup, itm_flour, itm_sugar, itm_salt, NULL);
+	itm_broth, itm_soup_veggy, itm_soup_meat, itm_flour, itm_sugar, itm_salt, NULL);
 
  setvector(
    mapitems[mi_pasta],
@@ -464,10 +464,10 @@ void game::init_mapitems()
 	itm_chainsaw_off, itm_jackhammer, itm_jacqueshammer, itm_ring, itm_necklace, itm_usb_drive,
 	itm_broadsword, itm_morningstar, itm_helmet_plate, itm_cot, itm_rollmat, itm_tent_kit,
 	itm_boots_fit, itm_boots_steel_fit, itm_boots_winter_fit,
-        itm_dress_shoes_fit, itm_bat_metal, itm_jeans_fit, itm_pants_army_fit,
-        itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
-        itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit, itm_lawnmower,
-        itm_lawnmower_machete, itm_picklocks, itm_rucksack, itm_puller, itm_press, NULL);
+    itm_dress_shoes_fit, itm_bat_metal, itm_jeans_fit, itm_pants_army_fit,
+    itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
+    itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit, itm_lawnmower,
+    itm_makeshift_machete, itm_picklocks, itm_rucksack, itm_puller, itm_press, NULL);
 
  setvector(
    mapitems[mi_mil_surplus], // NOT food or armor!
@@ -479,7 +479,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_shelter],
-	itm_water_clean, itm_soup, itm_chocolate, itm_ravioli, itm_can_beans,
+	itm_water_clean, itm_soup_veggy, itm_soup_meat, itm_chocolate, itm_ravioli, itm_can_beans,
 	itm_can_spam, itm_can_tuna, itm_coffee_raw, itm_bandages, itm_1st_aid,
 	itm_vitamins, itm_iodine, itm_dayquil, itm_screwdriver, itm_boots,
 	itm_boots_winter, itm_socks_wool, itm_jeans, itm_shorts, itm_tshirt, itm_sweatshirt, itm_sweater,

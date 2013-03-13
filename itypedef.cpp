@@ -61,7 +61,7 @@ void game::init_itypes ()
 healthy,addict,charges,fun,use_func,addict_func,des) \
 	index++;itypes.push_back(new it_comest(index,rarity,price,name,des,'~',\
 color,LIQUID,2,1,0,0,0,0,quench,nutr,spoils,stim,healthy,addict,charges,\
-fun,container,itm_null,use_func,addict_func));
+fun,container,itm_null,use_func,addict_func,"DRINK"));
 
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("water",		90, 50,	c_ltcyan, itm_bottle_plastic,
@@ -119,9 +119,13 @@ DRINK("broth",		15, 35, c_yellow, itm_can_food,
 	10, 15,160,  0,  0,  0,  1,  1,&iuse::none,	ADD_NULL, "\
 Vegetable stock. Tasty and fairly nutritious.");
 
-DRINK("soup",		15, 60, c_red,    itm_can_food,
+DRINK("vegetable soup",		15, 60, c_red,    itm_can_food,
 	10, 60,120,  0,  2,  0,  1,  2,&iuse::none,	ADD_NULL, "\
 A nutritious and delicious hearty vegetable soup.");
+
+DRINK("meat soup",		15, 60, c_red,    itm_can_food,
+	10, 60,120,  0,  2,  0,  1,  2,&iuse::none,	ADD_NULL, "\
+A nutritious and delicious hearty meat soup.");
 
 DRINK("whiskey",	16, 85,	c_brown,  itm_bottle_glass,
 	-12, 4,  0,-12, -2,  5, 7, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
@@ -196,7 +200,7 @@ Blood, possibly that of a human. Disgusting!");
 nutr,spoils,stim,healthy,addict,charges,fun,use_func,addict_func,des) \
 	index++;itypes.push_back(new it_comest(index,rarity,price,name,des,'%',\
 color,mat1,volume,weight,0,0,0,0,quench,nutr,spoils,stim,healthy,addict,charges,\
-fun,container,itm_null,use_func,addict_func));
+fun,container,itm_null,use_func,addict_func,"FOOD"));
 // FOOD
 
 FOOD("bone",            50, 50, c_white,    FLESH, itm_null,
@@ -523,7 +527,7 @@ or swallow it raw for a lesser stimulative boost.");
 charges,fun,use_func,addict_func,des) \
 	index++;itypes.push_back(new it_comest(index,rarity,price,name,des,'!',\
 color,mat,1,1,0,0,0,0,0,0,0,stim,healthy,addict,charges,\
-fun,itm_null,tool,use_func,addict_func));
+fun,itm_null,tool,use_func,addict_func,"MED"));
 
 //  NAME		RAR PRC	COLOR		TOOL
 MED("bandages",		50, 60,	c_white,	itm_null,
@@ -817,7 +821,6 @@ MELEE("manhole cover",	 1, 20, ']', c_dkgray,	IRON,	MNULL,
 	45,250, 20,  0,-10, 0, "\
 A heavy iron disc which generally covers a ladder into the sewers. Lifting\n\
 it from the manhole is impossible without a crowbar.");
-TECH( mfb(TEC_WBLOCK_3) );
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("rock",		40,  0, '*', c_ltgray,	STONE,	MNULL,
@@ -851,10 +854,12 @@ MELEE("nail board",	 5,  80,'/', c_ltred,	WOOD,	MNULL,
 	 6,  6, 16,  6,  1, mfb(IF_STAB), "\
 A long piece of wood with several nails through one end; essentially a simple\n\
 mace. Makes a great melee weapon.");
+TECH( mfb(TEC_WBLOCK_1) );
 
 MELEE("nail bat",	60, 160,'/', c_ltred,	WOOD,	MNULL,
 	12, 10, 28,  6,  3, mfb(IF_STAB), "\
 A baseball bat with several nails driven through it, an excellent melee weapon.");
+TECH( mfb(TEC_WBLOCK_1) );
 
 MELEE("pot",		25,  45,')', c_ltgray,	IRON,	MNULL,
 	 8,  6,  9,  0,  1, 0, "\
@@ -1010,9 +1015,9 @@ mounted on a vehicle.");
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("blade",	 5, 280,'/', c_blue,	IRON,	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
-	 8, 14,  6, 10, -2, 0, "\
-A large and slightly misshapen blade, could do some damage\n\
-mounted on a vehicle.");
+	 8, 10,  6, 10, -2, 0, "\
+A large, relatively sharp blade. Could be used to make\n\
+bladed weaponry, or attached to a car.");
 
 MELEE("wire",   50, 200,';', c_blue,    STEEL,  MNULL,
          4,  2,  0,  0, -2, 0, "\
@@ -1171,6 +1176,9 @@ for toughness. The grip area has also be carved and covered\n\
 for better grip.");
 TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
 
+MELEE("stone pot", 0, 0, ';', c_dkgray, STONE, MNULL,
+     8, 3,  4, 0, -1, 0, "\
+A large stone, roughly hollowed out into a pot.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  20, 55, ']', c_cyan,  STEEL,   MNULL,
@@ -3952,9 +3960,9 @@ A rare sword from Japan. Deadly against unarmored targets, and still very\n\
 effective against the armored.");
 TECH( mfb(TEC_RAPID)|mfb(TEC_WBLOCK_2) );
 
-TOOL("steel spear",      5,  140,'/', c_ltred,   WOOD,   STEEL,
+TOOL("knife spear",      5,  140,'/', c_ltred,   WOOD,   STEEL,
          6,  6,  2, 28,  1,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_SPEAR), "\
-A simple wood pole made deadlier by the knife tied to it.");
+A simple wood pole made deadlier by the blade tied to it.");
 TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
 
 TOOL("rapier",		 3, 980,'/', c_ltblue,	STEEL,	MNULL,
@@ -3973,21 +3981,21 @@ TOOL("broadsword",	30,1200,'/',c_cyan,	IRON,	MNULL,
 	 7, 11,  8, 35,  2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
 An early modern sword seeing use in the 16th, 17th ane 18th centuries.\n\
 Called 'broad' to contrast with the slimmer rapiers.");
+TECH( mfb(TEC_WBLOCK_1) );
 
-TOOL("lawnmower blade", 0, 100, '/', c_ltgray, IRON, MNULL,
-	 7, 5,  4, 15,  -1,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
-The blade of a lawnmower. It's not incredibly sharp, but\n\
-it could still do some serious damage.");
+TOOL("makeshift machete", 0, 100, '/', c_ltgray, IRON, MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC   FUEL    REVERT    FUNCTION
+    7,  12,  4,  15, 1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::knife,
+    mfb(IF_STAB), "\
+A large blade which has had a portion of the handle wrapped\n\
+in duct tape, making it easier to wield as a rough machete.");
 
-TOOL("lawnmower machete", 0, 100, '/', c_ltgray, IRON, MNULL,
-         7, 5,  4, 15,   1,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
-A lawnmower blade that's been fashioned into a makeshift\n\
-machete, mainly by adding a handle for easier wielding.");
-
-TOOL("lawnmower halberd", 0, 100, '/', c_ltgray, IRON, MNULL,
-         10, 7, 4, 15,   2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
-A lawnmower blade affixed to a long stick, in the right\n\
-hands, this thing could do some massive damage.");
+TOOL("makeshift halberd", 0, 100, '/', c_ltgray, IRON, MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC   FUEL    REVERT    FUNCTION
+    13, 17, 4, 15,   2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
+A large blade attached to a long stick. Could do a considerable\n\
+amount of damage.");
+TECH( mfb(TEC_WBLOCK_1) );
 
 TOOL("steak knife",	85,  25,';', c_ltcyan,	STEEL,	MNULL,
      1,  2,  2, 10, -3, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
