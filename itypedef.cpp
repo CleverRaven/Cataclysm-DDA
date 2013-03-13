@@ -1176,6 +1176,9 @@ for toughness. The grip area has also be carved and covered\n\
 for better grip.");
 TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
 
+MELEE("stone pot", 0, 0, ';', c_dkgray, STONE, MNULL,
+     8, 3,  4, 0, -1, 0, "\
+A large stone, roughly hollowed out into a pot.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  20, 55, ']', c_cyan,  STEEL,   MNULL,

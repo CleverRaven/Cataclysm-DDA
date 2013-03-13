@@ -484,34 +484,34 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
 
  RECIPE(itm_water_clean, CC_DRINK, "cooking", NULL, 0, 5000, false);
   TOOL(itm_hotplate, 3, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pan, -1, itm_pot, -1, NULL);
+  TOOL(itm_pan, -1, itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_water, 1, NULL);
 
  RECIPE(itm_meat_cooked, CC_FOOD, "cooking", NULL, 0, 5000, false);
   TOOL(itm_hotplate, 7, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pan, -1, itm_pot, -1, itm_spear_wood, -1, NULL);
+  TOOL(itm_pan, -1, itm_pot, -1, itm_rock_pot, -1, itm_spear_wood, -1, NULL);
   COMP(itm_meat, 1, NULL);
 
  RECIPE(itm_dogfood, CC_FOOD, "cooking", NULL, 4, 10000, false);
   TOOL(itm_hotplate, 6, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_meat, 1, NULL);
   COMP(itm_veggy,1, itm_veggy_wild, 1,NULL);
   COMP(itm_water,1, NULL);
 
  RECIPE(itm_veggy_cooked, CC_FOOD, "cooking", NULL, 0, 4000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pan, -1, itm_pot, -1, itm_spear_wood, -1, NULL);
+  TOOL(itm_pan, -1, itm_pot, -1, itm_rock_pot, -1, itm_spear_wood, -1, NULL);
   COMP(itm_veggy, 1, NULL);
 
   RECIPE(itm_veggy_wild_cooked, CC_FOOD, "cooking", NULL, 0, 4000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 3, itm_fire, -1, NULL);
-  TOOL(itm_pan, -1, itm_pot, -1, NULL);
+  TOOL(itm_pan, -1, itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_veggy_wild, 1, NULL);
 
  RECIPE(itm_spaghetti_cooked, CC_FOOD, "cooking", NULL, 0, 10000, false);
   TOOL(itm_hotplate, 4, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_spaghetti_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
@@ -521,24 +521,24 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
 
  RECIPE(itm_macaroni_cooked, CC_FOOD, "cooking", NULL, 1, 10000, false);
   TOOL(itm_hotplate, 4, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_macaroni_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
  RECIPE(itm_potato_baked, CC_FOOD, "cooking", NULL, 1, 15000, false);
   TOOL(itm_hotplate, 3, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pan, -1, itm_pot, -1, NULL);
+  TOOL(itm_pan, -1, itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_potato_raw, 1, NULL);
 
  RECIPE(itm_tea, CC_DRINK, "cooking", NULL, 0, 4000, false);
   TOOL(itm_hotplate, 2, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_tea_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
  RECIPE(itm_coffee, CC_DRINK, "cooking", NULL, 0, 4000, false);
   TOOL(itm_hotplate, 2, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_coffee_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
@@ -571,27 +571,27 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
 
  RECIPE(itm_broth, CC_FOOD, "cooking", NULL, 2, 10000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
   COMP(itm_broccoli, 1, itm_zucchini, 1, itm_veggy, 1, itm_veggy_wild, 1, NULL);
 
  RECIPE(itm_soup_veggy, CC_FOOD, "cooking", NULL, 2, 10000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_broth, 2, NULL);
   COMP(itm_macaroni_raw, 1, itm_potato_raw, 1, NULL);
   COMP(itm_tomato, 2, itm_broccoli, 2, itm_zucchini, 2, itm_veggy, 2, itm_veggy_wild, 2, NULL);
 
  RECIPE(itm_soup_meat, CC_FOOD, "cooking", NULL, 2, 10000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_broth, 2, NULL);
   COMP(itm_macaroni_raw, 1, itm_potato_raw, 1, NULL);
   COMP(itm_meat, 2, NULL);
 
  RECIPE(itm_bread, CC_FOOD, "cooking", NULL, 4, 20000, false);
   TOOL(itm_hotplate, 8, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_flour, 3, NULL);
   COMP(itm_water, 2, itm_water_clean, 2, NULL);
 
@@ -619,20 +619,20 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_caffeine, 20, itm_adderall, 5, itm_energy_drink, 2, NULL);
 
  RECIPE(itm_crack,        CC_CHEM, "cooking", NULL,     4, 30000,false);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 8, itm_toolset, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
   COMP(itm_coke, 12, NULL);
   COMP(itm_ammonia, 1, NULL);
 
  RECIPE(itm_poppy_sleep,  CC_CHEM, "cooking", "survival", 2, 5000, false);
-  TOOL(itm_pot, -1, itm_rock, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, itm_rock, -1, NULL);
   TOOL(itm_fire, -1, NULL);
   COMP(itm_poppy_bud, 2, NULL);
   COMP(itm_poppy_flower, 1, NULL);
 
  RECIPE(itm_poppy_pain,  CC_CHEM, "cooking", "survival", 2, 5000, false);
-  TOOL(itm_pot, -1, itm_rock, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, itm_rock, -1, NULL);
   TOOL(itm_fire, -1, NULL);
   COMP(itm_poppy_bud, 2, NULL);
   COMP(itm_poppy_flower, 2, NULL);
@@ -643,7 +643,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
 
  RECIPE(itm_heroin, CC_CHEM, "cooking", NULL, 6, 2000, false);
   TOOL(itm_hotplate, 3, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pan, -1, itm_pot, -1, NULL);
+  TOOL(itm_pan, -1, itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_salt_water, 1, itm_salt, 4, NULL);
   COMP(itm_oxycodone, 40, NULL);
 
@@ -940,6 +940,10 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
 
 // MISC
 
+ RECIPE(itm_rock_pot, CC_MISC, "survival", NULL, 1, 20000, false);
+  TOOL(itm_hammer, -1, itm_primitive_hammer, -1, NULL);
+  COMP(itm_rock, 3, NULL);
+  COMP(itm_sinew, 80, itm_plant_fibre, 80, itm_string_36, 1, NULL);
 
  RECIPE(itm_thread, CC_MISC, "tailor", NULL, 1, 3000, false);
   COMP(itm_string_6, 1, NULL);
