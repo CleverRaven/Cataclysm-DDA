@@ -1950,7 +1950,7 @@ void npc::die(game *g, bool your_fault)
  int j;
  if (g->u_see(posx, posy, j))
   g->add_msg("%s dies!", name.c_str());
- if (your_fault && !g->u.has_trait(PF_HEARTLESS)) {
+ if (your_fault && !g->u.has_trait(PF_CANNIBAL)) {
   if (is_friend())
    g->u.add_morale(MORALE_KILLED_FRIEND, -500);
   else if (!is_enemy())

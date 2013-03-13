@@ -213,8 +213,6 @@ FOOD("fluid sac",            50, 50, c_white,    FLESH, itm_null,
 A fluid bladder from a plant based lifeform, not very nutritious, but\n\
 fine to eat anyway.");
 
-
-
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("chunk of meat",	50, 50,	c_red,		FLESH,  itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
@@ -227,9 +225,9 @@ FOOD("plant marrow",	30, 60,	c_green,	VEGGY,	itm_null,
 A nutrient rich chunk of plant matter, could be eaten raw or cooked.");
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
-FOOD("human flesh",	50, 50,	c_red,		FLESH,  itm_null,
+FOOD("human flesh",	50, 50,	c_red,		HFLESH,  itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
-    1,  2,  0, 20, 24,  0, -1,  0,  1,-30,	&iuse::none, ADD_NULL, "\
+    1,  2,  0, 20, 24,  0, -1,  0,  1, 0,	&iuse::none, ADD_NULL, "\
 Freshly butchered from a human body.");
 
 FOOD("wild vegetables",	30, 60,	c_green,	VEGGY,	itm_null,
@@ -436,20 +434,22 @@ FOOD("royal jelly",	 8,200,	c_magenta,	VEGGY,	itm_null,
 A large chunk of wax, filled with dense, dark honey.  Useful for curing all\n\
 sorts of afflictions.");
 
-FOOD("misshapen fetus",	 1,150,	c_magenta,	FLESH,	itm_null,
+FOOD("misshapen fetus",	 1,150,	c_magenta,	HFLESH,	itm_null,
     4,  4,  0,  8,  0,  0, -8,  0,  1,-60,	&iuse::mutagen, ADD_NULL, "\
-Eating this is about the most disgusting thing you can imagine, and it will\n\
-cause your DNA to mutate as well.");
+A deformed human fetus, eating this would be very nasty, and cause\n\
+your DNA to mutate.");
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
-FOOD("arm",		 4,250,	c_brown,	FLESH,	itm_null,
+FOOD("mutated arm",		 4,250,	c_brown,	HFLESH,	itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func       addiction type
     8, 14,  0, 12,  0,  0, -8,  0,  1, -20,	&iuse::mutagen, ADD_NULL, "\
-Eating this would be pretty gross. It causes you to mutate.");
+A misshapen human arm, eating this would be pretty disgusting\n\
+and cause your DNA to mutate.");
 
-FOOD("leg",		 4,250,	c_brown,	FLESH,	itm_null,
+FOOD("mutated leg",		 4,250,	c_brown,	HFLESH,	itm_null,
    12, 24,  0, 16,  0,  0, -8,  0,  1, -20,	&iuse::mutagen, ADD_NULL, "\
-Eating this would be pretty gross. It causes you to mutate.");
+A malformed human leg, this would be gross to eat, and cause\n\
+mutations.");
 
 FOOD("ant egg",		 5, 80,	c_white,	FLESH,	itm_null,
     4,  2, 10, 100, 0,  0, -1,  0,  1, -10,	&iuse::none,	ADD_NULL, "\
@@ -521,6 +521,11 @@ FOOD("coffee powder",	15, 13,	c_brown,	VEGGY,	itm_bag_plastic,
     2,  1, 0,  0,  0,  8,  0,  0,  4, -5,	&iuse::caff, ADD_CAFFEINE, "\
 Ground coffee beans. You can boil it into a mediocre stimulant,\n\
 or swallow it raw for a lesser stimulative boost.");
+
+FOOD("cake",            0, 0, c_white, VEGGY, itm_null,
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func       addiction type
+    2,  1,   0, 25, 0,  0,  0,  0,  1,  20, &iuse::none, ADD_NULL, "\
+Delicious sponge cake with buttercream icing, it says happy birthday on it.");
 
 // MEDS
 #define MED(name,rarity,price,color,tool,mat,stim,healthy,addict,\
@@ -2152,6 +2157,14 @@ A step beyond the high-pressure 9mm +P round, the +P+ is a very high pressure\n\
 loading which offers a degree of armor-penetrating ability.",
 0);
 
+//  NAME		RAR PRC TYPE		COLOR		MAT
+AMMO("7.62mm Type P",8, 300, AT_762x25,	c_ltblue,	STEEL,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 2,  7, 15,  4,  12, 14, 10,  200, "\
+This small caliber pistol round offers quite good armor penetration at the\n\
+cost of slightly less damage, it is rarely used outside of the Chinese army.",
+0);
+
 AMMO(".38 Special",	 7, 400,AT_38,		c_ltblue,	STEEL,
 	 2, 10, 20,  0, 14, 16, 12,  50, "\
 The .38 Smith & Wesson Special enjoyed popularity among US police forces\n\
@@ -2452,7 +2465,7 @@ Primer from a shotgun round.",
 
 AMMO("small pistol primer",	 15, 40,AT_NULL,		c_dkgray,	STEEL,
 	 0,  0, 0, 0,  0, 0, 0, 200, "\
-Primer from a small caliber pistol round.",
+Primer from a small caliber  round.",
 0);
 
 AMMO("large pistol primer",	 15, 60,AT_NULL,		c_dkgray,	STEEL,
@@ -2669,6 +2682,13 @@ Designed to work with H&K's proprietary 4.6x30mm round, the UCP is a small\n\
 pistol with a very high capacity, best used against armored opponents.",
 0);
 
+GUN("Tokarev TT-30",		 7,1400,c_dkgray,	STEEL,	PLASTIC,
+//	SKILL		AMMO	    VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
+	"pistol",	AT_762x25,	 2,  12,  10,1,  0, 23,  4,  6,  0, 8, 300, "\
+The Norinco manufactured Tokarev TT-30 is the standard sidearm of the\n\
+Chinese military, it does not see extensive use outside of China.",
+0);
+
 GUN("sawn-off shotgun",	 1, 700,c_red,	IRON,	WOOD,
 	"shotgun",	AT_SHOT, 6, 10, 14,  2,  4, 40, 15,  4,  0,  2, 100, "\
 The barrels of shotguns are often sawed in half to make it more maneuverable\n\
@@ -2795,6 +2815,13 @@ successor to the extremely popular H&K MP5. Using H&K's proprietary 4.6x30mm\n\
 ammunition, it is designed for burst fire.",
 mfb(IF_MODE_BURST));
 
+//  NAME		RAR PRC COLOR	MAT1	MAT2
+GUN("PPSh-41",	12,2800,c_cyan,	STEEL,	WOOD,
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
+	"smg",		AT_762x25,12, 26, 10,  2,  1, 16, -1,  8,  8, 35, 400, "\
+The Soviet made PPSh-41, chambered in 7.62 Tokarev provides a relatively\n\
+large ammunition capacity, coupled with low recoil and decent accuracy.",
+mfb(IF_MODE_BURST));
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("Marlin 39A",	14,1600,c_brown,IRON,	WOOD,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
@@ -4731,6 +4758,7 @@ std::string ammo_name(ammotype t)
   case AT_SHOT:	  return "shot";
   case AT_22:	  return ".22";
   case AT_9MM:	  return "9mm";
+  case AT_762x25: return "7.62x25mm";
   case AT_38:	  return ".38";
   case AT_40:	  return ".40";
   case AT_44:	  return ".44";
@@ -4764,6 +4792,7 @@ itype_id default_ammo(ammotype guntype)
  case AT_SHOT:	return itm_shot_00;
  case AT_22:	return itm_22_lr;
  case AT_9MM:	return itm_9mm;
+ case AT_762x25:return itm_762_25;
  case AT_38:	return itm_38_special;
  case AT_40:	return itm_10mm;
  case AT_44:	return itm_44magnum;
