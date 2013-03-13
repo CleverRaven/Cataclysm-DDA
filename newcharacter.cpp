@@ -139,7 +139,7 @@ bool player::create(game *g, character_type type, std::string tempname)
    case PLTYPE_TEMPLATE: {
     std::ifstream fin;
     std::stringstream filename;
-    filename << "save/" << tempname << ".template";
+    filename << "data/" << tempname << ".template";
     fin.open(filename.str().c_str());
     if (!fin.is_open()) {
      debugmsg("Couldn't open %s!", filename.str().c_str());
@@ -902,7 +902,7 @@ void save_template(player *u)
  if (name.length() == 0)
   return;
  std::stringstream playerfile;
- playerfile << "save/" << name << ".template";
+ playerfile << "data/" << name << ".template";
  std::ofstream fout;
  fout.open(playerfile.str().c_str());
  fout << u->save_info();

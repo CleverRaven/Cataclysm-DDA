@@ -279,7 +279,7 @@ bool game::opening_screen()
    savegames.push_back(tmp.substr(0, tmp.find(".sav")));
  }
  closedir(dir);
- dir = opendir("save");
+ dir = opendir("data");
  while ((dp = readdir(dir))) {
   tmp = dp->d_name;
   if (tmp.find(".template") != std::string::npos)
