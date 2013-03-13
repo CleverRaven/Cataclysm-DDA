@@ -19,6 +19,7 @@ Lawnmower blades have been replaced with generic blades, most bladed items are m
 Nail bat, nail board and makeshift halberd now all have weak block.
 Wild veggies function as plant marrow for most recipes.
 Meat soup added, more cooking to come.
+The player now spawns with a pocket knife and lighter.
 
 0.2
 Reworked spawning option which places zombies at world generation rather than generating them dynamically in play.
