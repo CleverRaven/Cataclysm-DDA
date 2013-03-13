@@ -1,11 +1,12 @@
 #include "game.h"
 #include "setvector.h"
 
+MonsterGroup monsterGroupArray[GROUP_COUNT];
+
 //Adding a group:
 //  1: Declare it in the MonsterGroupDefs enum in mongroup.h
 //  2: Define it in here with the macro Group(your group, default monster)
 //     and AddMonster(your group, some monster, a frequency on 1000)
-
 #define Group(group, defaultmon)     monsterGroupArray[group].defaultMonster = defaultmon;
 #define AddMonster(group, mon, freq) monsterGroupArray[group].monsters[mon]  = freq;
 

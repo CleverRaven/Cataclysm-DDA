@@ -62,8 +62,6 @@ enum MonsterGroupType
     GROUP_COUNT
 };
 
-MonsterGroup monsterGroupArray[GROUP_COUNT];
-
 struct mongroup {
  MonsterGroupType type; //
  int posx, posy;
