@@ -1267,7 +1267,6 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
   std::string sStatus = "damage";
   if (it->damage >= 5) {
    sStatus = "destroy";
-   p->i_rem(it->invlet);
    it->invlet = 0; // no copy to inventory in player.cpp:4472 ->
   }
 
