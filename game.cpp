@@ -3786,8 +3786,8 @@ void game::monmove()
      if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
          !cur_om.zg[group].diffuse )
       cur_om.zg[group].radius++;
-    } else if (mt_to_mc((mon_id)(z[i].type->id)) != mcat_null) {
-     cur_om.zg.push_back(mongroup(mt_to_mc((mon_id)(z[i].type->id)),
+    } else if (Monster2Group((mon_id)(z[i].type->id)) != GROUP_NULL) {
+     cur_om.zg.push_back(mongroup(Monster2Group((mon_id)(z[i].type->id)),
                                   levx, levy, 1, 1));
     }
     z[i].dead = true;
@@ -8494,10 +8494,7 @@ void game::spawn_mon(int shiftx, int shifty)
     nextspawn += rng(group * 4 + z.size() * 4, group * 10 + z.size() * 10);
 
    for (int j = 0; j < group; j++) {	// For each monster in the group...
-    mon_id type = valid_monster_from(moncats[cur_om.zg[i].type]);
-    if (type == mon_null)
-     j = group;	// No monsters may be spawned; not soon enough?
-    else {
+    mon_id type = GetMonsterFromGroup(cur_om.zg[i].type);
      zom = monster(mtypes[type]);
      iter = 0;
      do {
@@ -8528,7 +8525,6 @@ void game::spawn_mon(int shiftx, int shifty)
       zom.spawn(monx, mony);
       z.push_back(zom);
      }
-    }
    }	// Placing monsters of this group is done!
    if (cur_om.zg[i].population <= 0) { // Last monster in the group spawned...
     cur_om.zg.erase(cur_om.zg.begin() + i); // ...so remove that group
@@ -8537,31 +8533,6 @@ void game::spawn_mon(int shiftx, int shifty)
   }
  }
 }
-
-mon_id game::valid_monster_from(std::vector<mon_id> group)
-{
- std::vector<mon_id> valid;
- int rntype = 0;
- for (int i = 0; i < group.size(); i++) {
-  if (mtypes[group[i]]->frequency > 0 &&
-      int(turn) + 900 >=
-          MINUTES(STARTING_MINUTES) + HOURS(mtypes[group[i]]->difficulty)){
-   valid.push_back(group[i]);
-   rntype += mtypes[group[i]]->frequency;
-  }
- }
- if (valid.size() == 0)
-  return mon_null;
- int curmon = -1;
- if (rntype > 0)
-  rntype = rng(0, rntype - 1);	// rntype set to [0, rntype)
- do {
-  curmon++;
-  rntype -= mtypes[valid[curmon]]->frequency;
- } while (rntype > 0);
- return valid[curmon];
-}
-
 
 int game::valid_group(mon_id type, int x, int y)
 {

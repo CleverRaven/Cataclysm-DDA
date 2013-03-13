@@ -588,7 +588,7 @@ void overmap::generate_sub(overmap* above)
    else if (above->ter(i, j) == ot_anthill) {
     int size = rng(MIN_ANT_SIZE, MAX_ANT_SIZE);
     ant_points.push_back(city(i, j, size));
-    zg.push_back(mongroup(mcat_ant, i * 2, j * 2, size * 1.5, rng(6000, 8000)));
+    zg.push_back(mongroup(GROUP_ANT, i * 2, j * 2, size * 1.5, rng(6000, 8000)));
 
    } else if (above->ter(i, j) == ot_slimepit_down) {
     int size = rng(MIN_GOO_SIZE, MAX_GOO_SIZE);
@@ -634,7 +634,7 @@ void overmap::generate_sub(overmap* above)
       ter(x, y) = ot_spiral;
     }
     ter(i, j) = ot_spiral_hub;
-    zg.push_back(mongroup(mcat_spiral, i * 2, j * 2, 2, 200));
+    zg.push_back(mongroup(GROUP_SPIRAL, i * 2, j * 2, 2, 200));
 
    } else if (above->ter(i, j) == ot_silo) {
     if (rng(2, 7) < abs(posz) || rng(2, 7) < abs(posz))
@@ -662,11 +662,11 @@ void overmap::generate_sub(overmap* above)
  for (int i = 0; i < above->cities.size(); i++) {
   if (one_in(3))
    zg.push_back(
-    mongroup(mcat_chud, above->cities[i].x * 2, above->cities[i].y * 2,
+    mongroup(GROUP_CHUD, above->cities[i].x * 2, above->cities[i].y * 2,
              above->cities[i].s, above->cities[i].s * 20));
   if (!one_in(8))
    zg.push_back(
-    mongroup(mcat_sewer, above->cities[i].x * 2, above->cities[i].y * 2,
+    mongroup(GROUP_SEWER, above->cities[i].x * 2, above->cities[i].y * 2,
              above->cities[i].s * 3.5, above->cities[i].s * 70));
  }
  place_rifts();
@@ -1576,7 +1576,7 @@ void overmap::build_lab(int x, int y, int s)
                          ter(finalex, finaley) != ot_lab_core);
   ter(finalex, finaley) = ot_lab_finale;
  }
- zg.push_back(mongroup(mcat_lab, (x * 2), (y * 2), s, 400));
+ zg.push_back(mongroup(GROUP_LAB, (x * 2), (y * 2), s, 400));
 }
 
 void overmap::build_anthill(int x, int y, int s)
@@ -2305,7 +2305,7 @@ void overmap::place_special(overmap_special special, point p)
  }
 
 // Finally, place monsters if applicable
- if (special.monsters != mcat_null) {
+ if (special.monsters != GROUP_NULL) {
   if (special.monster_pop_min == 0 || special.monster_pop_max == 0 ||
       special.monster_rad_min == 0 || special.monster_rad_max == 0   ) {
    debugmsg("Overmap special %s has bad spawn: pop(%d, %d) rad(%d, %d)",
@@ -2328,7 +2328,7 @@ void overmap::place_mongroups()
   // Cities are full of zombies
   for (unsigned int i = 0; i < cities.size(); i++) {
    if (!one_in(16) || cities[i].s > 5)
-    zg.push_back (mongroup(mcat_zombie, (cities[i].x * 2), (cities[i].y * 2),
+    zg.push_back (mongroup(GROUP_ZOMBIE, (cities[i].x * 2), (cities[i].y * 2),
                            int(cities[i].s * 2.5), cities[i].s * 80));
   }
  }
@@ -2346,7 +2346,7 @@ void overmap::place_mongroups()
     }
    }
    if (swamp_count >= 25) // ~25% swamp or ~50% river
-    zg.push_back(mongroup(mcat_swamp, x * 2, y * 2, 3,
+    zg.push_back(mongroup(GROUP_SWAMP, x * 2, y * 2, 3,
                           rng(swamp_count * 8, swamp_count * 25)));
   }
  }
@@ -2355,25 +2355,25 @@ void overmap::place_mongroups()
  int numgroups = rng(0, 3);
  for (int i = 0; i < numgroups; i++) {
   zg.push_back(
-	mongroup(mcat_worm, rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1),
+	mongroup(GROUP_WORM, rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1),
 	         rng(20, 40), rng(500, 1000)));
  }
 
 // Forest groups cover the entire map
  zg.push_back(
-	mongroup(mcat_forest, 0, OMAPY, OMAPY,
+	mongroup(GROUP_FOREST, 0, OMAPY, OMAPY,
                  rng(2000, 12000)));
  zg.back().diffuse = true;
  zg.push_back(
-	mongroup(mcat_forest, 0, OMAPY * 2 - 1, OMAPY,
+	mongroup(GROUP_FOREST, 0, OMAPY * 2 - 1, OMAPY,
                  rng(2000, 12000)));
  zg.back().diffuse = true;
  zg.push_back(
-	mongroup(mcat_forest, OMAPX, 0, OMAPX,
+	mongroup(GROUP_FOREST, OMAPX, 0, OMAPX,
                  rng(2000, 12000)));
  zg.back().diffuse = true;
  zg.push_back(
-	mongroup(mcat_forest, OMAPX * 2 - 1, 0, OMAPX,
+	mongroup(GROUP_FOREST, OMAPX * 2 - 1, 0, OMAPX,
                  rng(2000, 12000)));
  zg.back().diffuse = true;
 }
@@ -2493,7 +2493,7 @@ void overmap::open(game *g, int x, int y, int z)
   while (fin >> datatype) {
    if (datatype == 'Z') {	// Monster group
     fin >> ct >> cx >> cy >> cs >> cp >> cd;
-    zg.push_back(mongroup(moncat_id(ct), cx, cy, cs, cp));
+    zg.push_back(mongroup(MonsterGroupType(ct), cx, cy, cs, cp));
     zg.back().diffuse = cd;
     nummg++;
    } else if (datatype == 't') {	// City

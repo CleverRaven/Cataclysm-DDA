@@ -5,6 +5,9 @@
 #include <vector>
 #include <map>
 
+typedef std::map<mon_id, int> FreqDef;
+typedef FreqDef::iterator FreqDef_iter;
+
 enum moncat_id {
  mcat_null = 0,
  mcat_forest,
@@ -27,16 +30,48 @@ enum moncat_id {
  num_moncats
 };
 
-bool moncat_is_safe(moncat_id id);
+struct MonsterGroup
+{
+    mon_id defaultMonster;
+    FreqDef  monsters;
+};
+
+//Adding a group:
+//  1: Declare it here
+//  2: Define it in game::init_mongroups() (mongroupdef.cpp)
+enum MonsterGroupType
+{
+    GROUP_NULL = 0,
+    GROUP_FOREST,
+    GROUP_ANT,
+    GROUP_BEE,
+    GROUP_WORM,
+    GROUP_ZOMBIE,
+    GROUP_TRIFFID,
+    GROUP_FUNGI,
+    GROUP_GOO,
+    GROUP_CHUD,
+    GROUP_SEWER,
+    GROUP_SWAMP,
+    GROUP_LAB,
+    GROUP_NETHER,
+    GROUP_SPIRAL,
+    GROUP_VANILLA,
+    GROUP_SPIDER,
+    GROUP_ROBOT,
+    GROUP_COUNT
+};
+
+MonsterGroup monsterGroupArray[GROUP_COUNT];
 
 struct mongroup {
- moncat_id type;
+ MonsterGroupType type; //
  int posx, posy;
  unsigned char radius;
  unsigned int population;
  bool dying;
  bool diffuse;   // group size ind. of dist. from center and radius invariant
- mongroup(moncat_id ptype, int pposx, int pposy, unsigned char prad,
+ mongroup(MonsterGroupType ptype, int pposx, int pposy, unsigned char prad,
           unsigned int ppop) {
   type = ptype;
   posx = pposx;
@@ -46,25 +81,11 @@ struct mongroup {
   dying = false;
   diffuse = false;
  }
- bool is_safe() { return moncat_is_safe(type); };
+ bool is_safe() { return (type == GROUP_NULL || type == GROUP_FOREST); };
 };
 
-typedef std::map<mon_id, int> FreqDef;
-typedef FreqDef::iterator FreqDef_iter;
-
-struct MonsterGroup
-{
-    mon_id defaultMonster;
-    FreqDef  monsters;
-};
-
-extern MonsterGroup //hello there
-forestGroup, antGroup, beeGroup, wormGroup,
-zombieGroup, triffidGroup, fungiGroup, gooGroup,
-chudGroup, sewerGroup, swampGroup, labGroup,
-netherGroup, spiralGroup, vanillaGroup,
-spiderGroup, robotGroup;
-
-mon_id GetMonsterFromGroup(MonsterGroup *);
+mon_id GetMonsterFromGroup(MonsterGroupType);
+bool IsMonsterInGroup(MonsterGroupType , mon_id);
+MonsterGroupType Monster2Group(mon_id);
 
 #endif

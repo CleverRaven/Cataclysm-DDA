@@ -171,7 +171,7 @@ class map
 // mapgen.cpp functions
  void generate(game *g, overmap *om, const int x, const int y, const int turn);
  void post_process(game *g, unsigned zones);
- void place_spawns(game *g, MonsterGroup *monsterGroup, const int chance,
+ void place_spawns(game *g, MonsterGroupType group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn);
