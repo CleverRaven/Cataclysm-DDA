@@ -139,7 +139,7 @@ bool player::create(game *g, character_type type, std::string tempname)
    case PLTYPE_TEMPLATE: {
     std::ifstream fin;
     std::stringstream filename;
-    filename << "save/" << tempname << ".template";
+    filename << "data/" << tempname << ".template";
     fin.open(filename.str().c_str());
     if (!fin.is_open()) {
      debugmsg("Couldn't open %s!", filename.str().c_str());
@@ -349,6 +349,7 @@ int set_stats(WINDOW* w, player *u, int &points)
              (u->throw_dex_mod(false) <= 0 ? "bonus" : "penalty"),
              (u->throw_dex_mod(false) <= 0 ? "+" : "-"),
              abs(u->throw_dex_mod(false)));
+   mvwprintz(w, 9, 33, COL_STAT_ACT, "                                            ");
    mvwprintz(w,10, 33, COL_STAT_ACT, "Dexterity also enhances many actions which  ");
    mvwprintz(w,11, 33, COL_STAT_ACT, "require finesse.                            ");
    mvwprintz(w,12, 33, COL_STAT_ACT, "                                            ");
@@ -363,10 +364,12 @@ int set_stats(WINDOW* w, player *u, int &points)
    mvwprintz(w, 7,  2, c_ltgray,     "Dexterity:    %d  ", u->dex_max);
    mvwprintz(w, 8,  2, COL_STAT_ACT, "Intelligence: %d  ", u->int_max);
    mvwprintz(w, 9,  2, c_ltgray,     "Perception:   %d  ", u->per_max);
+
    mvwprintz(w, 6, 33, COL_STAT_ACT, "Skill comprehension: %d%%%%                     ",
              u->skillLevel("melee").comprehension(u->int_max));
    mvwprintz(w, 7, 33, COL_STAT_ACT, "Read times: %d%%%%                              ",
              u->read_speed(false));
+   mvwprintz(w, 8, 33, COL_STAT_ACT, "                                            ");
    mvwprintz(w, 9, 33, COL_STAT_ACT, "Intelligence is also used when crafting,    ");
    mvwprintz(w,10, 33, COL_STAT_ACT, "installing bionics, and interacting with    ");
    mvwprintz(w,11, 33, COL_STAT_ACT, "NPCs.                                       ");
@@ -899,7 +902,7 @@ void save_template(player *u)
  if (name.length() == 0)
   return;
  std::stringstream playerfile;
- playerfile << "save/" << name << ".template";
+ playerfile << "data/" << name << ".template";
  std::ofstream fout;
  fout.open(playerfile.str().c_str());
  fout << u->save_info();

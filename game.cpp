@@ -243,6 +243,11 @@ bool game::opening_screen()
  int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
 
  WINDOW* w_background = newwin(iMaxY, iMaxX, 0, 0);
+
+ for (int i = 0; i < iMaxY; i++)
+  for (int j = 0; j < iMaxX; j++)
+   mvwputch(w_background, i, j, c_black, ' ');
+
  wrefresh(w_background);
 
  WINDOW* w_open = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
@@ -274,7 +279,7 @@ bool game::opening_screen()
    savegames.push_back(tmp.substr(0, tmp.find(".sav")));
  }
  closedir(dir);
- dir = opendir("save");
+ dir = opendir("data");
  while ((dp = readdir(dir))) {
   tmp = dp->d_name;
   if (tmp.find(".template") != std::string::npos)
@@ -390,6 +395,11 @@ bool game::opening_screen()
        delwin(w_open);
        return (opening_screen());
       }
+      for (int i = 0; i < iMaxY; i++)
+       for (int j = 0; j < iMaxX; j++)
+        mvwputch(w_background, i, j, c_black, ' ');
+
+      wrefresh(w_background);
       start_game();
       start = true;
      }
@@ -406,6 +416,11 @@ bool game::opening_screen()
        delwin(w_open);
        return (opening_screen());
       }
+      for (int i = 0; i < iMaxY; i++)
+       for (int j = 0; j < iMaxX; j++)
+        mvwputch(w_background, i, j, c_black, ' ');
+
+      wrefresh(w_background);
       start_game();
       start = true;
      }
@@ -441,6 +456,11 @@ bool game::opening_screen()
     }
     if (input == DirectionE || input == Confirm) {
      if (sel2 > 0 && savegames.size() > 0) {
+      for (int i = 0; i < iMaxY; i++)
+       for (int j = 0; j < iMaxX; j++)
+        mvwputch(w_background, i, j, c_black, ' ');
+
+      wrefresh(w_background);
       load(savegames[sel2 - 1]);
       start = true;
      }
@@ -527,6 +547,11 @@ bool game::opening_screen()
      delwin(w_open);
      return (opening_screen());
     }
+    for (int i = 0; i < iMaxY; i++)
+     for (int j = 0; j < iMaxX; j++)
+      mvwputch(w_background, i, j, c_black, ' ');
+
+    wrefresh(w_background);
     start_game();
     start = true;
    }
@@ -1797,7 +1822,7 @@ bool game::handle_action()
   case ACTION_CRAFT:
    craft();
    break;
-  
+
   case ACTION_RECRAFT:
    recraft();
    break;
@@ -5686,8 +5711,21 @@ void game::list_items()
    }
 
    if (ch == '.') {
-    wborder(w_items, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                     LINE_OXXO, LINE_OOXX, LINE_XXXO, LINE_XOXX );
+    for (int i = 1; i < 54; i++) {
+     mvwputch(w_items, 0, i, c_ltgray, LINE_OXOX); // -
+     mvwputch(w_items, 25-iInfoHeight-1, i, c_ltgray, LINE_OXOX); // -
+
+     if (i < 25-iInfoHeight) {
+      mvwputch(w_items, i, 0, c_ltgray, LINE_XOXO); // |
+      mvwputch(w_items, i, 54, c_ltgray, LINE_XOXO); // |
+     }
+    }
+
+    mvwputch(w_items, 0,  0, c_ltgray, LINE_OXXO); // |^
+    mvwputch(w_items, 0, 54, c_ltgray, LINE_OOXX); // ^|
+
+    mvwputch(w_items, 25-iInfoHeight-1,  0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_items, 25-iInfoHeight-1, 54, c_ltgray, LINE_XOXX); // -|
 
     int iTempStart = 19;
     if (sFilter != "") {
@@ -5701,6 +5739,8 @@ void game::list_items()
 
     mvwprintz(w_items, 25-iInfoHeight-1, iTempStart + 10, c_ltgreen, " %s", "F");
     wprintz(w_items, c_white, "%s", "ilter ");
+
+    refresh_all();
    }
 
    bStopDrawing = false;
@@ -6226,7 +6266,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    m.add_item(u.posx, u.posy, liquid);
    return true;
   }
-  
+
   std::stringstream text;
   text << "Container for " << liquid.tname(this);
   char ch = inv_type(text.str().c_str(), IC_CONTAINER);
