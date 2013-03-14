@@ -138,7 +138,7 @@ void game::init_mapitems()
    mapitems[mi_behindcounter],
 	itm_aspirin, itm_caffeine, itm_cig, itm_cigar, itm_battery,
 	itm_shotgun_sawn, itm_mag_porn, itm_lighter, itm_flashlight,
-	itm_extinguisher, itm_tazer, itm_mp3, NULL);
+	itm_extinguisher, itm_tazer, itm_mp3, itm_roadmap, NULL);
 
  setvector(
    mapitems[mi_magazines],
