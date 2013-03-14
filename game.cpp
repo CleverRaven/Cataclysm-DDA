@@ -90,34 +90,63 @@ game::~game()
 }
 
 void game::init_ui(){
- clear();	// Clear the screen
- intro();	// Print an intro screen, make sure we're at least 80x25
+    clear();	// Clear the screen
+    intro();	// Print an intro screen, make sure we're at least 80x25
 
- VIEWX = OPTIONS[OPT_VIEWPORT_X];
- VIEWY = OPTIONS[OPT_VIEWPORT_Y];
- if (VIEWX <= 0) {
-  VIEWX = 1;
- }
- if (VIEWY <= 0) {
-  VIEWY = 1;
- }
- TERRAIN_WINDOW_WIDTH = (VIEWX * 2) + 1;
- TERRAIN_WINDOW_HEIGHT = (VIEWY * 2) + 1;
-// Set up the main UI windows.
- w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, 0, 0);
- werase(w_terrain);
- w_minimap = newwin(7, 7, 0, TERRAIN_WINDOW_WIDTH);
- werase(w_minimap);
- w_HP = newwin(14, 7, 7, TERRAIN_WINDOW_WIDTH);
- werase(w_HP);
- w_moninfo = newwin(12, 48, 0, VIEWX * 2 + 8);
- werase(w_moninfo);
- w_messages = newwin(8, 48, 12, VIEWX * 2 + 8);
- werase(w_messages);
- w_location = newwin(1, 48, 20, VIEWX * 2 + 8);
- werase(w_location);
- w_status = newwin(4, 55, 21, TERRAIN_WINDOW_WIDTH);
- werase(w_status);
+    #if (defined _WIN32 || defined __WIN32__)
+        TERMX = (55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1);
+        TERMY = (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1);
+        VIEWX = OPTIONS[OPT_VIEWPORT_X];
+        VIEWY = OPTIONS[OPT_VIEWPORT_Y];
+        TERRAIN_WINDOW_WIDTH = (VIEWX * 2) + 1;
+        TERRAIN_WINDOW_HEIGHT = (VIEWY * 2) + 1;
+    #else
+        getmaxyx(stdscr, TERMY, TERMX);
+
+        //make sure TERRAIN_WINDOW_WIDTH and TERRAIN_WINDOW_HEIGHT are uneven
+        if (TERMX%2 == 1) {
+            TERMX--;
+        }
+
+        if (TERMY%2 == 0) {
+            TERMY--;
+        }
+
+        TERRAIN_WINDOW_WIDTH = TERMX - STATUS_WIDTH;
+        TERRAIN_WINDOW_HEIGHT = TERMY;
+        VIEWX = (TERRAIN_WINDOW_WIDTH - 1) / 2;
+        VIEWY = (TERRAIN_WINDOW_HEIGHT - 1) / 2;
+    #endif
+
+    if (VIEWX < 12) {
+        VIEWX = 12;
+    }
+
+    if (VIEWY < 12) {
+        VIEWY = 12;
+    }
+
+    // Set up the main UI windows.
+    w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, 0, 0);
+    werase(w_terrain);
+
+    w_minimap = newwin(MINIMAP_HEIGHT, MINIMAP_WIDTH, 0, TERMX - MONINFO_WIDTH - MINIMAP_WIDTH);
+    werase(w_minimap);
+
+    w_HP = newwin(HP_HEIGHT, HP_WIDTH, MINIMAP_HEIGHT, TERMX - MESSAGES_WIDTH - HP_WIDTH);
+    werase(w_HP);
+
+    w_moninfo = newwin(MONINFO_HEIGHT, MONINFO_WIDTH, 0, TERMX - MONINFO_WIDTH);
+    werase(w_moninfo);
+
+    w_messages = newwin(MESSAGES_HEIGHT, MESSAGES_WIDTH, MONINFO_HEIGHT, TERMX - MESSAGES_WIDTH);
+    werase(w_messages);
+
+    w_location = newwin(LOCATION_HEIGHT, LOCATION_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT, TERMX - LOCATION_WIDTH);
+    werase(w_location);
+
+    w_status = newwin(STATUS_HEIGHT, STATUS_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT, TERMX - STATUS_WIDTH);
+    werase(w_status);
 }
 
 void game::setup()

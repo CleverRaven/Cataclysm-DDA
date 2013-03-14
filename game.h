@@ -27,6 +27,20 @@
 #include <map>
 #include <stdarg.h>
 
+// Fixed window sizes
+#define HP_HEIGHT 14
+#define HP_WIDTH 7
+#define MINIMAP_HEIGHT 7
+#define MINIMAP_WIDTH 7
+#define MONINFO_HEIGHT 12
+#define MONINFO_WIDTH 48
+#define MESSAGES_HEIGHT 8
+#define MESSAGES_WIDTH 48
+#define LOCATION_HEIGHT 1
+#define LOCATION_WIDTH 48
+#define STATUS_HEIGHT 4
+#define STATUS_WIDTH 55
+
 #define LONG_RANGE 10
 #define BLINK_SPEED 300
 #define BULLET_SPEED 10000000
@@ -243,6 +257,8 @@ class game
 // Display data... TODO: Make this more portable?
   int VIEWX;
   int VIEWY;
+  int TERMX;
+  int TERMY;
   int TERRAIN_WINDOW_WIDTH;
   int TERRAIN_WINDOW_HEIGHT;
 

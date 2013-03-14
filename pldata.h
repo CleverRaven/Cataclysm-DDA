@@ -446,7 +446,7 @@ tastes. Now the world's ended, and you'll be damned if anyone is going to\n\
 tell you you can't eat people."},
 {"Martial Arts Training", 3, 0, 0, "\
 You have receives some martial arts training at a local dojo.  You will start\n\
-with your choice of karate, judo, aikido, tai chi, or taekwando."},
+with your choice of karate, judo, aikido, tai chi, or taekwondo."},
 
 {"NULL", 0, 0, 0, " -------------------------------------------------- "},
 
