@@ -93,8 +93,8 @@ void game::init_ui(){
     intro();	// Print an intro screen, make sure we're at least 80x25
 
     #if (defined _WIN32 || defined __WIN32__)
-        TERMX = (55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1);
-        TERMY = (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1);
+        TERMX = 55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1);
+        TERMY = OPTIONS[OPT_VIEWPORT_Y] * 2 + 1;
         VIEWX = OPTIONS[OPT_VIEWPORT_X];
         VIEWY = OPTIONS[OPT_VIEWPORT_Y];
         TERRAIN_WINDOW_WIDTH = (VIEWX * 2) + 1;
@@ -146,6 +146,9 @@ void game::init_ui(){
 
     w_status = newwin(STATUS_HEIGHT, STATUS_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT, TERMX - STATUS_WIDTH);
     werase(w_status);
+
+    w_void = newwin(TERMY-(MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT+STATUS_HEIGHT), STATUS_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT+STATUS_HEIGHT, TERMX - STATUS_WIDTH);
+    werase(w_void);
 }
 
 void game::setup()
@@ -3040,6 +3043,8 @@ void game::refresh_all()
  draw_HP();
  wrefresh(w_moninfo);
  wrefresh(w_messages);
+ werase(w_void);
+ wrefresh(w_void);
  refresh();
 }
 

@@ -269,6 +269,7 @@ class game
   WINDOW *w_messages;
   WINDOW *w_location;
   WINDOW *w_status;
+  WINDOW *w_void; //space unter status if viewport Y > 12
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
  private:
@@ -314,7 +315,7 @@ class game
   void close();	// Close a door			'c'
   void smash();	// Smash terrain
   void craft();                    // See crafting.cpp
-  void recraft();                  // See crafting.cpp 
+  void recraft();                  // See crafting.cpp
   void try_and_make(recipe *r);
   bool can_make(recipe *r);
   void make_craft(recipe *making); // See crafting.cpp
@@ -360,6 +361,7 @@ class game
   void chat();    // Talk to a nearby NPC	'C'
   void plthrow(char chInput = '.'); // Throw an item		't'
   void help();    // Help screen		'?'
+  void show_options();    // Options screen		'?'
 
 // Target is an interactive function which allows the player to choose a nearby
 // square.  It display information on any monster/NPC on that square, and also
