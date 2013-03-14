@@ -1094,7 +1094,7 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
 //       > Report something to a faction
 //       > Call another player
  mvwprintz(w, 1, 1, c_white, "1: Radio a faction for help...");
- mvwprintz(w, 2, 1, c_white, "2: Call Acquaitance...");
+ mvwprintz(w, 2, 1, c_white, "2: Call Acquaintance...");
  mvwprintz(w, 3, 1, c_white, "3: General S.O.S.");
  mvwprintz(w, 4, 1, c_white, "0: Cancel");
  wrefresh(w);
