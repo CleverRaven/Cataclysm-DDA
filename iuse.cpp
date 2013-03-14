@@ -1219,7 +1219,27 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
 
 void iuse::roadmap(game *g, player *p, item *it, bool t)
 {
- roadmap_a_target(g, p, it, t, (int)ot_hospital);
+ if (it->charges < 1) {
+  g->add_msg_if_player(p, "There isn't anything new on the map.");
+  return;
+ }
+  // Show roads
+ roadmap_targets(g, p, it, t, (int)ot_hiway_ns, 2, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_road_ns, 12, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_bridge_ns, 2, 0, 0);
+ 
+  // Show hospital(s)
+ roadmap_targets(g, p, it, t, (int)ot_hospital_entrance, 2, 0, 0);
+  // Show megastores
+ roadmap_targets(g, p, it, t, (int)ot_megastore_entrance, 2, 0, 0);
+  // Show police stations
+ roadmap_targets(g, p, it, t, (int)ot_police_north, 4, 0, 0);
+  // Show pharmacies
+ roadmap_targets(g, p, it, t, (int)ot_s_pharm_north, 4, 0, 0);
+ 
+ g->add_msg_if_player(p, "You add roads and points of interest to your map."); 
+
+ it->charges = 0;
 }
 
 void iuse::roadmap_a_target(game *g, player *p, item *it, bool t, int target)
@@ -1248,6 +1268,27 @@ void iuse::roadmap_a_target(game *g, player *p, item *it, bool t, int target)
  } else {
   g->add_msg_if_player(p, "You can't find a hospital near your location.");
  }
+}
+
+void iuse::roadmap_targets(game *g, player *p, item *it, bool t, int target, int target_range, int distance, int reveal_distance)
+{
+ oter_t oter_target = oterlist[target];
+ point place;
+ std::vector<point> places = g->cur_om.find_all(g->om_location(), (oter_id)target, target_range, distance, false);
+
+ for (std::vector<point>::iterator iter = places.begin(); iter != places.end(); ++iter) {
+  place = *iter;
+  if (place.x >= 0 && place.y >= 0) {
+  if (reveal_distance == 0) {
+   g->cur_om.seen(place.x,place.y) = true;
+  } else {
+   for (int x = place.x - reveal_distance; x <= place.x + reveal_distance; x++) {
+    for (int y = place.y - reveal_distance; y <= place.y + reveal_distance; y++)
+     g->cur_om.seen(x, y) = true;
+   }
+  }
+  }
+ }  
 }
 
 void iuse::picklock(game *g, player *p, item *it, bool t)
