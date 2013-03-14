@@ -1227,7 +1227,9 @@ void iuse::roadmap(game *g, player *p, item *it, bool t)
  roadmap_targets(g, p, it, t, (int)ot_hiway_ns, 2, 0, 0);
  roadmap_targets(g, p, it, t, (int)ot_road_ns, 12, 0, 0);
  roadmap_targets(g, p, it, t, (int)ot_bridge_ns, 2, 0, 0);
- 
+
+  // Show evac shelters
+ roadmap_targets(g, p, it, t, (int)ot_shelter, 1, 0, 0);
   // Show hospital(s)
  roadmap_targets(g, p, it, t, (int)ot_hospital_entrance, 2, 0, 0);
   // Show megastores
