@@ -482,7 +482,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
 
 // FOOD
 
- RECIPE(itm_water_clean, CC_DRINK, "cooking", NULL, 0, 5000, false);
+ RECIPE(itm_water_clean, CC_DRINK, "cooking", NULL, 0, 1000, false);
   TOOL(itm_hotplate, 3, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_pan, -1, itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_water, 1, NULL);
