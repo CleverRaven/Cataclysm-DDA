@@ -8,37 +8,12 @@
 typedef std::map<mon_id, int> FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
 
-enum moncat_id {
- mcat_null = 0,
- mcat_forest,
- mcat_ant,
- mcat_bee,
- mcat_worm,
- mcat_zombie,
- mcat_triffid,
- mcat_fungi,
- mcat_goo,
- mcat_chud,
- mcat_sewer,
- mcat_swamp,
- mcat_lab,
- mcat_nether,
- mcat_spiral,
- mcat_vanilla_zombie,	// Defense mode only
- mcat_spider,		// Defense mode only
- mcat_robot,		// Defense mode only
- num_moncats
-};
-
 struct MonsterGroup
 {
     mon_id defaultMonster;
     FreqDef  monsters;
 };
 
-//Adding a group:
-//  1: Declare it here
-//  2: Define it in game::init_mongroups() (mongroupdef.cpp)
 enum MonsterGroupType
 {
     GROUP_NULL = 0,
@@ -63,7 +38,7 @@ enum MonsterGroupType
 };
 
 struct mongroup {
- MonsterGroupType type; //
+ MonsterGroupType type;
  int posx, posy;
  unsigned char radius;
  unsigned int population;
@@ -82,8 +57,16 @@ struct mongroup {
  bool is_safe() { return (type == GROUP_NULL || type == GROUP_FOREST); };
 };
 
-mon_id GetMonsterFromGroup(MonsterGroupType);
-bool IsMonsterInGroup(MonsterGroupType , mon_id);
-MonsterGroupType Monster2Group(mon_id);
+class MonsterGroupManager
+{
+    public:
+        static void init_mongroups();
+        static mon_id GetMonsterFromGroup(MonsterGroupType);
+        static bool IsMonsterInGroup(MonsterGroupType, mon_id);
+        static MonsterGroupType Monster2Group(mon_id);
+        static std::vector<mon_id> GetMonstersFromGroup(MonsterGroupType);
 
+    private:
+        static MonsterGroup monsterGroupArray[GROUP_COUNT];
+};
 #endif

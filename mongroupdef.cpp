@@ -1,16 +1,23 @@
 #include "game.h"
 #include "setvector.h"
 
-MonsterGroup monsterGroupArray[GROUP_COUNT];
-
 //Adding a group:
 //  1: Declare it in the MonsterGroupDefs enum in mongroup.h
 //  2: Define it in here with the macro Group(your group, default monster)
 //     and AddMonster(your group, some monster, a frequency on 1000)
+//
+//  Frequency: If you don't use the whole 1000 points of frequency for each of
+//     the monsters, the remaining points will go to the defaultMonster.
+//     Ie. a group with 1 monster at frequency will have 50% chance to spawn
+//     the default monster.
+//     In the same spirit, if you have a total point count of over 1000, the
+//     default monster will never get picked, and nor will the others past the
+//     monster that makes the point count go over 1000
+
 #define Group(group, defaultmon)     monsterGroupArray[group].defaultMonster = defaultmon;
 #define AddMonster(group, mon, freq) monsterGroupArray[group].monsters[mon]  = freq;
 
-void game::init_mongroups()
+void MonsterGroupManager::init_mongroups()
 {
     //TODO: Balance the numbers
     Group(      GROUP_FOREST, mon_squirrel);//freq 50
@@ -150,7 +157,7 @@ void game::init_mongroups()
 
 }
 
-mon_id GetMonsterFromGroup(MonsterGroupType group)
+mon_id MonsterGroupManager::GetMonsterFromGroup(MonsterGroupType group)
 {
     int roll;// = rng(1, 1000);
     MonsterGroup g = monsterGroupArray[group];
@@ -163,7 +170,7 @@ mon_id GetMonsterFromGroup(MonsterGroupType group)
     return g.defaultMonster;
 }
 
-bool IsMonsterInGroup(MonsterGroupType group, mon_id monster)
+bool MonsterGroupManager::IsMonsterInGroup(MonsterGroupType group, mon_id monster)
 {
     MonsterGroup g = monsterGroupArray[group];
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
@@ -173,7 +180,7 @@ bool IsMonsterInGroup(MonsterGroupType group, mon_id monster)
     return false;
 }
 
-MonsterGroupType Monster2Group(mon_id monster)
+MonsterGroupType MonsterGroupManager::Monster2Group(mon_id monster)
 {
     for(int i = 0; i<GROUP_COUNT; i++)
     {
@@ -184,3 +191,15 @@ MonsterGroupType Monster2Group(mon_id monster)
     }
     return GROUP_NULL;
 }
+
+std::vector<mon_id> MonsterGroupManager::GetMonstersFromGroup(MonsterGroupType group)
+{
+    std::vector<mon_id> monsters;
+    MonsterGroup g = monsterGroupArray[group];
+    for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
+    {
+        monsters.push_back(it->first);
+    }
+    return monsters;
+}
+

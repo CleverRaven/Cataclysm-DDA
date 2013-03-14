@@ -1094,7 +1094,7 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
 //       > Report something to a faction
 //       > Call another player
  mvwprintz(w, 1, 1, c_white, "1: Radio a faction for help...");
- mvwprintz(w, 2, 1, c_white, "2: Call Acquaitance...");
+ mvwprintz(w, 2, 1, c_white, "2: Call Acquaintance...");
  mvwprintz(w, 3, 1, c_white, "3: General S.O.S.");
  mvwprintz(w, 4, 1, c_white, "0: Cancel");
  wrefresh(w);
@@ -1217,6 +1217,39 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::roadmap(game *g, player *p, item *it, bool t)
+{
+ roadmap_a_target(g, p, it, t, (int)ot_hospital);
+}
+
+void iuse::roadmap_a_target(game *g, player *p, item *it, bool t, int target)
+{
+ int dist = 0;
+ oter_t oter_target = oterlist[target];
+ point place = g->cur_om.find_closest(g->om_location(), (oter_id)target, 1, dist,
+                                      false);
+
+ int pomx = (g->levx + int(MAPSIZE / 2)) / 2; //overmap loc
+ int pomy = (g->levy + int(MAPSIZE / 2)) / 2; //overmap loc
+ 
+ if (g->debugmon) debugmsg("Map: %s at %d,%d found! You @ %d %d",oter_target.name.c_str(), place.x, place.y, pomx,pomy);
+ 
+ if (place.x >= 0 && place.y >= 0) {
+  for (int x = place.x - 3; x <= place.x + 3; x++) {
+   for (int y = place.y - 3; y <= place.y + 3; y++)
+    g->cur_om.seen(x, y) = true;
+  }
+  
+  direction to_hospital = direction_from(pomx,pomy, place.x, place.y);
+  int distance = trig_dist(pomx,pomy, place.x, place.y);
+  
+  g->add_msg_if_player(p, "You add a %s location to your map.", oterlist[target].name.c_str());
+  g->add_msg_if_player(p, "It's %d squares to the %s", distance,  direction_name(to_hospital).c_str());
+ } else {
+  g->add_msg_if_player(p, "You can't find a hospital near your location.");
+ }
+}
+
 void iuse::picklock(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
@@ -1267,7 +1300,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
   std::string sStatus = "damage";
   if (it->damage >= 5) {
    sStatus = "destroy";
-   p->i_rem(it->invlet);
+   it->invlet = 0; // no copy to inventory in player.cpp:4472 ->
   }
 
   g->add_msg_if_player(p,("The lock stumps your efforts to pick it, and you " + sStatus + " your tool.").c_str());

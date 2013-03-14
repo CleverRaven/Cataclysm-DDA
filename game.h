@@ -27,6 +27,20 @@
 #include <map>
 #include <stdarg.h>
 
+// Fixed window sizes
+#define HP_HEIGHT 14
+#define HP_WIDTH 7
+#define MINIMAP_HEIGHT 7
+#define MINIMAP_WIDTH 7
+#define MONINFO_HEIGHT 12
+#define MONINFO_WIDTH 48
+#define MESSAGES_HEIGHT 8
+#define MESSAGES_WIDTH 48
+#define LOCATION_HEIGHT 1
+#define LOCATION_WIDTH 48
+#define STATUS_HEIGHT 4
+#define STATUS_WIDTH 55
+
 #define LONG_RANGE 10
 #define BLINK_SPEED 300
 #define BULLET_SPEED 10000000
@@ -231,7 +245,7 @@ class game
   std::vector<monster_and_count> coming_to_stairs;
   int monstairx, monstairy, monstairz;
   std::vector<npc> active_npc;
-  std::vector<mon_id> moncats[num_moncats];
+  //std::vector<mon_id> moncats[num_moncats];
   std::vector<faction> factions;
   std::vector<mission> active_missions; // Missions which may be assigned
 // NEW: Dragging a piece of furniture, with a list of items contained
@@ -243,6 +257,8 @@ class game
 // Display data... TODO: Make this more portable?
   int VIEWX;
   int VIEWY;
+  int TERMX;
+  int TERMY;
   int TERRAIN_WINDOW_WIDTH;
   int TERRAIN_WINDOW_HEIGHT;
 
@@ -299,7 +315,7 @@ class game
   void close();	// Close a door			'c'
   void smash();	// Smash terrain
   void craft();                    // See crafting.cpp
-  void recraft();                  // See crafting.cpp 
+  void recraft();                  // See crafting.cpp
   void try_and_make(recipe *r);
   bool can_make(recipe *r);
   void make_craft(recipe *making); // See crafting.cpp
@@ -360,7 +376,7 @@ class game
   void despawn_monsters(const bool stairs = false, const int shiftx = 0, const int shifty = 0);
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
   int valid_group(mon_id type, int x, int y);// Picks a group from cur_om
-  moncat_id mt_to_mc(mon_id type);// Monster type to monster category
+  //moncat_id mt_to_mc(mon_id type);// Monster type to monster category
   void set_adjacent_overmaps(bool from_scratch = false);
 
 // Routine loop functions, approximately in order of execution
