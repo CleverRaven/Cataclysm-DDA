@@ -988,7 +988,7 @@ void player::perform_defensive_technique(
 // Special reductions for certain styles
    if (weapon.typeId() == itm_style_tai_chi)
     reduction -= double(0.08 * double(per_cur - 6));
-   if (weapon.typeId() == itm_style_taekwando)
+   if (weapon.typeId() == itm_style_taekwondo)
     reduction -= double(0.08 * double(str_cur - 6));
    if (reduction > 1.0)
     reduction = 1.0;

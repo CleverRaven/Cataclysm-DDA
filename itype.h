@@ -274,7 +274,7 @@ itm_bio_claws, itm_bio_fusion, itm_bio_blaster,
 // Unarmed Combat Styles
 itm_style_karate, itm_style_aikido, itm_style_judo, itm_style_tai_chi,
  itm_style_capoeira, itm_style_krav_maga, itm_style_muay_thai,
- itm_style_ninjutsu, itm_style_taekwando, itm_style_tiger, itm_style_crane,
+ itm_style_ninjutsu, itm_style_taekwondo, itm_style_tiger, itm_style_crane,
  itm_style_leopard, itm_style_snake, itm_style_dragon, itm_style_centipede,
  itm_style_venom_snake, itm_style_scorpion, itm_style_lizard, itm_style_toad,
  itm_style_zui_quan,
