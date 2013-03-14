@@ -1300,7 +1300,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
   std::string sStatus = "damage";
   if (it->damage >= 5) {
    sStatus = "destroy";
-   p->i_rem(it->invlet);
+   it->invlet = 0; // no copy to inventory in player.cpp:4472 ->
   }
 
   g->add_msg_if_player(p,("The lock stumps your efforts to pick it, and you " + sStatus + " your tool.").c_str());
