@@ -2537,10 +2537,12 @@ void map::draw(game *g, WINDOW* w, const point center)
             i, i % my_MAPSIZE, i / my_MAPSIZE, MAPBUFFER.size());
  }
 
- bool u_is_boomered = g->u.has_disease(DI_BOOMERED);
- int  u_clairvoyance = g->u.clairvoyance();
- bool u_sight_impaired = g->u.sight_impaired();
- int  g_light_level = (int)g->light_level();
+ const bool u_is_boomered = g->u.has_disease(DI_BOOMERED);
+ const int  u_clairvoyance = g->u.clairvoyance();
+ const bool u_sight_impaired = g->u.sight_impaired();
+ const int  g_light_level = (int)g->light_level();
+ const int diffx = (g->u.posx - center.x);
+ const int diffy = (g->u.posy - center.y);
 
  char trans_buf[my_MAPSIZE*SEEX][my_MAPSIZE*SEEY];
  memset(trans_buf, -1, sizeof(trans_buf));
@@ -2569,8 +2571,7 @@ void map::draw(game *g, WINDOW* w, const point center)
     distance_to_look = DAYLIGHT_LEVEL;
    }
 
-   int diffx = (g->u.posx - center.x), diffy = (g->u.posy - center.y);
-   bool can_see = g->lm.sees(diffx, diffy, realx - center.x, realy - center.y, distance_to_look);
+   bool can_see = g->lm.sees(diffx, diffy, realx - center.x, realy - center.y, distance_to_look, true);
    lit_level lit = g->lm.at(realx - center.x, realy - center.y);
 
    if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0.) {
