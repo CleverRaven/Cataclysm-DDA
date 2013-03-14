@@ -1,6 +1,7 @@
 #include "game.h"
 #include "keypress.h"
 #include "options.h"
+#include "action.h"
 
 #ifndef LINE_XOXO
 	#define LINE_XOXO 4194424

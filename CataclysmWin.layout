@@ -1,204 +1,373 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
-	<File name="player.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="mapgen.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="150683" topLine="5239" />
+			<Cursor1 position="157229" topLine="4559" />
 		</Cursor>
 	</File>
-	<File name="skill.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="inventory_ui.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3936" topLine="175" />
-		</Cursor>
-	</File>
-	<File name="player.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="10575" topLine="298" />
-		</Cursor>
-	</File>
-	<File name="color.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="79" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="bionics.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="18945" topLine="587" />
-		</Cursor>
-	</File>
-	<File name="itype.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="30548" topLine="516" />
-		</Cursor>
-	</File>
-	<File name="construction.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="26989" topLine="901" />
-		</Cursor>
-	</File>
-	<File name="line.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="300" topLine="90" />
-		</Cursor>
-	</File>
-	<File name="bodypart.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1417" topLine="47" />
-		</Cursor>
-	</File>
-	<File name="map.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="56605" topLine="2063" />
-		</Cursor>
-	</File>
-	<File name="color.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="314" topLine="161" />
-		</Cursor>
-	</File>
-	<File name="computer.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="26522" topLine="865" />
-		</Cursor>
-	</File>
-	<File name="omdata.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1657" topLine="32" />
-		</Cursor>
-	</File>
-	<File name="item.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3669" topLine="110" />
-		</Cursor>
-	</File>
-	<File name="cursesdef.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="87" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="main.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1875" topLine="65" />
-		</Cursor>
-	</File>
-	<File name="catacurse.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="27212" topLine="771" />
+			<Cursor1 position="192" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="item.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="36014" topLine="0" />
+			<Cursor1 position="144" topLine="0" />
+		</Cursor>
+		<Folding>
+			<Collapse line="13" />
+			<Collapse line="32" />
+			<Collapse line="54" />
+			<Collapse line="73" />
+			<Collapse line="80" />
+			<Collapse line="92" />
+			<Collapse line="114" />
+			<Collapse line="127" />
+			<Collapse line="147" />
+			<Collapse line="152" />
+			<Collapse line="157" />
+			<Collapse line="161" />
+			<Collapse line="170" />
+			<Collapse line="175" />
+			<Collapse line="177" />
+			<Collapse line="194" />
+			<Collapse line="205" />
+			<Collapse line="210" />
+			<Collapse line="239" />
+			<Collapse line="244" />
+			<Collapse line="248" />
+			<Collapse line="270" />
+			<Collapse line="279" />
+			<Collapse line="292" />
+			<Collapse line="294" />
+			<Collapse line="315" />
+			<Collapse line="321" />
+			<Collapse line="325" />
+			<Collapse line="333" />
+			<Collapse line="343" />
+			<Collapse line="350" />
+			<Collapse line="364" />
+			<Collapse line="382" />
+			<Collapse line="401" />
+			<Collapse line="413" />
+			<Collapse line="421" />
+			<Collapse line="463" />
+			<Collapse line="541" />
+			<Collapse line="555" />
+			<Collapse line="574" />
+			<Collapse line="587" />
+			<Collapse line="595" />
+			<Collapse line="604" />
+			<Collapse line="607" />
+			<Collapse line="608" />
+			<Collapse line="621" />
+			<Collapse line="639" />
+			<Collapse line="646" />
+			<Collapse line="651" />
+			<Collapse line="659" />
+			<Collapse line="660" />
+			<Collapse line="661" />
+			<Collapse line="679" />
+			<Collapse line="689" />
+			<Collapse line="692" />
+			<Collapse line="694" />
+			<Collapse line="754" />
+			<Collapse line="756" />
+			<Collapse line="760" />
+			<Collapse line="770" />
+			<Collapse line="783" />
+			<Collapse line="812" />
+			<Collapse line="821" />
+			<Collapse line="832" />
+			<Collapse line="833" />
+			<Collapse line="835" />
+			<Collapse line="854" />
+			<Collapse line="861" />
+			<Collapse line="863" />
+			<Collapse line="868" />
+			<Collapse line="882" />
+			<Collapse line="883" />
+			<Collapse line="884" />
+			<Collapse line="898" />
+			<Collapse line="903" />
+			<Collapse line="911" />
+			<Collapse line="919" />
+			<Collapse line="925" />
+			<Collapse line="932" />
+			<Collapse line="933" />
+			<Collapse line="934" />
+			<Collapse line="945" />
+			<Collapse line="946" />
+			<Collapse line="947" />
+			<Collapse line="952" />
+			<Collapse line="965" />
+			<Collapse line="966" />
+			<Collapse line="968" />
+			<Collapse line="980" />
+			<Collapse line="990" />
+			<Collapse line="992" />
+			<Collapse line="1000" />
+			<Collapse line="1008" />
+			<Collapse line="1016" />
+			<Collapse line="1019" />
+			<Collapse line="1027" />
+			<Collapse line="1037" />
+			<Collapse line="1038" />
+			<Collapse line="1039" />
+			<Collapse line="1053" />
+			<Collapse line="1058" />
+			<Collapse line="1085" />
+			<Collapse line="1108" />
+			<Collapse line="1116" />
+			<Collapse line="1125" />
+			<Collapse line="1132" />
+			<Collapse line="1143" />
+			<Collapse line="1158" />
+			<Collapse line="1163" />
+			<Collapse line="1171" />
+			<Collapse line="1179" />
+			<Collapse line="1187" />
+			<Collapse line="1195" />
+			<Collapse line="1203" />
+			<Collapse line="1223" />
+			<Collapse line="1228" />
+			<Collapse line="1238" />
+			<Collapse line="1243" />
+			<Collapse line="1248" />
+			<Collapse line="1256" />
+			<Collapse line="1267" />
+			<Collapse line="1275" />
+			<Collapse line="1283" />
+			<Collapse line="1291" />
+			<Collapse line="1295" />
+			<Collapse line="1305" />
+			<Collapse line="1313" />
+			<Collapse line="1321" />
+			<Collapse line="1329" />
+			<Collapse line="1337" />
+			<Collapse line="1345" />
+			<Collapse line="1355" />
+			<Collapse line="1363" />
+			<Collapse line="1366" />
+			<Collapse line="1369" />
+			<Collapse line="1390" />
+			<Collapse line="1399" />
+			<Collapse line="1400" />
+			<Collapse line="1407" />
+			<Collapse line="1417" />
+			<Collapse line="1426" />
+			<Collapse line="1430" />
+			<Collapse line="1435" />
+			<Collapse line="1447" />
+			<Collapse line="1455" />
+			<Collapse line="1456" />
+			<Collapse line="1465" />
+			<Collapse line="1470" />
+			<Collapse line="1479" />
+			<Collapse line="1484" />
+			<Collapse line="1495" />
+			<Collapse line="1504" />
+			<Collapse line="1508" />
+			<Collapse line="1519" />
+			<Collapse line="1527" />
+			<Collapse line="1535" />
+			<Collapse line="1545" />
+			<Collapse line="1549" />
+			<Collapse line="1560" />
+			<Collapse line="1568" />
+			<Collapse line="1572" />
+			<Collapse line="1582" />
+			<Collapse line="1599" />
+			<Collapse line="1600" />
+			<Collapse line="1603" />
+			<Collapse line="1604" />
+			<Collapse line="1625" />
+			<Collapse line="1629" />
+			<Collapse line="1637" />
+			<Collapse line="1638" />
+			<Collapse line="1649" />
+			<Collapse line="1660" />
+			<Collapse line="1673" />
+			<Collapse line="1680" />
+			<Collapse line="1704" />
+			<Collapse line="1711" />
+			<Collapse line="1721" />
+			<Collapse line="1725" />
+			<Collapse line="1737" />
+			<Collapse line="1742" />
+			<Collapse line="1748" />
+			<Collapse line="1752" />
+			<Collapse line="1756" />
+			<Collapse line="1766" />
+			<Collapse line="1767" />
+			<Collapse line="1784" />
+			<Collapse line="1790" />
+			<Collapse line="1791" />
+			<Collapse line="1798" />
+			<Collapse line="1804" />
+			<Collapse line="1821" />
+			<Collapse line="1827" />
+			<Collapse line="1833" />
+			<Collapse line="1838" />
+			<Collapse line="1839" />
+			<Collapse line="1864" />
+			<Collapse line="1867" />
+			<Collapse line="1876" />
+			<Collapse line="1883" />
+		</Folding>
+	</File>
+	<File name="mutation.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="571" topLine="364" />
 		</Cursor>
 	</File>
-	<File name="iuse.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="overmap.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="8127" topLine="224" />
+			<Cursor1 position="26474" topLine="1175" />
 		</Cursor>
 	</File>
-	<File name="itypedef.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="posix_time.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="23684" topLine="521" />
+			<Cursor1 position="593" topLine="57" />
 		</Cursor>
 	</File>
-	<File name="action.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="item.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="5606" topLine="368" />
+			<Cursor1 position="2095" topLine="39" />
 		</Cursor>
 	</File>
-	<File name="map.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="addiction.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="9280" topLine="186" />
+			<Cursor1 position="5108" topLine="149" />
 		</Cursor>
 	</File>
-	<File name="catacurse.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="player.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="5092" topLine="126" />
+			<Cursor1 position="10279" topLine="259" />
 		</Cursor>
 	</File>
-	<File name="lightmap.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="keypress.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="10384" topLine="311" />
+			<Cursor1 position="22" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="artifact.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="ranged.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="19201" topLine="654" />
+			<Cursor1 position="1431" topLine="31" />
 		</Cursor>
 	</File>
-	<File name="mapdata.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="catacurse.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="32101" topLine="763" />
+			<Cursor1 position="0" topLine="54" />
+		</Cursor>
+	</File>
+	<File name="pldata.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2300" topLine="54" />
+		</Cursor>
+	</File>
+	<File name="player.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1306" topLine="60" />
+		</Cursor>
+	</File>
+	<File name="itype.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7601" topLine="147" />
+		</Cursor>
+	</File>
+	<File name="construction.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3061" topLine="252" />
+		</Cursor>
+	</File>
+	<File name="action.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1345" topLine="0" />
+		</Cursor>
+		<Folding>
+			<Collapse line="3" />
+		</Folding>
+	</File>
+	<File name="map.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="20" />
+		</Cursor>
+	</File>
+	<File name="action.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="41" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="game.cpp" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="622" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="output.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="942" topLine="28" />
+		</Cursor>
+	</File>
+	<File name="artifactdata.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7285" topLine="101" />
+		</Cursor>
+	</File>
+	<File name="mapdata.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2876" topLine="64" />
+		</Cursor>
+	</File>
+	<File name="bionics.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3930" topLine="92" />
+		</Cursor>
+	</File>
+	<File name="mutation_data.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="options.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="385" topLine="269" />
+		</Cursor>
+	</File>
+	<File name="gamemode.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="79" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="help.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="62" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="tutorial.cpp" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="525" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="game.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="418" topLine="3" />
 		</Cursor>
 	</File>
 	<File name="inventory.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3408" topLine="143" />
+			<Cursor1 position="192" topLine="156" />
 		</Cursor>
 	</File>
-	<File name="mapgen.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="computer.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2610" topLine="26" />
-		</Cursor>
-		<Folding>
-			<Collapse line="17" />
-			<Collapse line="24" />
-			<Collapse line="30" />
-		</Folding>
-	</File>
-	<File name="field.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="6143" topLine="183" />
+			<Cursor1 position="0" topLine="178" />
 		</Cursor>
 	</File>
-	<File name="input.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="inventory.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1538" topLine="84" />
-		</Cursor>
-	</File>
-	<File name="game.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="219178" topLine="6972" />
-		</Cursor>
-	</File>
-	<File name="overmap.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3048" topLine="76" />
-		</Cursor>
-	</File>
-	<File name="skill.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2913" topLine="71" />
-		</Cursor>
-	</File>
-	<File name="enums.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="115" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="input.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="343" topLine="4" />
-		</Cursor>
-	</File>
-	<File name="tileray.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1702" topLine="66" />
-		</Cursor>
-	</File>
-	<File name="calendar.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="8565" topLine="390" />
-		</Cursor>
-	</File>
-	<File name="settlement.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="218" topLine="46" />
-		</Cursor>
-	</File>
-	<File name="crafting.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="21387" topLine="549" />
+			<Cursor1 position="374" topLine="50" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
