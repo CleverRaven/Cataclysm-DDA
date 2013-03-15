@@ -13,6 +13,9 @@ void game::init_monitems()
 	mi_softdrugs,	 5,mi_harddrugs, 1,mi_tools,	 20,mi_trash,	 7,
 	mi_ammo,	 1,mi_pistols,	 1,mi_shotguns,	 1,mi_smg,	 1,
 	NULL);
+ setvector(monitems[mon_zombie_child],
+  mi_child_items,65, NULL);
+
  monitems[mon_zombie_shrieker]	= monitems[mon_zombie];
  monitems[mon_zombie_spitter]	= monitems[mon_zombie];
  monitems[mon_zombie_electric]	= monitems[mon_zombie];
@@ -25,7 +28,6 @@ void game::init_monitems()
  monitems[mon_zombie_necro]	= monitems[mon_zombie];
  monitems[mon_zombie_grabber]	= monitems[mon_zombie];
  monitems[mon_zombie_master]	= monitems[mon_zombie];
- monitems[mon_zombie_child] = monitems[mon_zombie];
 
  setvector(monitems[mon_beekeeper],
         mi_hive, 80, NULL);
@@ -70,14 +72,33 @@ void game::init_monitems()
  monitems[mon_spider_widow]	= monitems[mon_dragonfly];
 
  setvector(monitems[mon_eyebot],
-	mi_robots,	4, mi_ammo,	 1,NULL);
- monitems[mon_manhack]		= monitems[mon_eyebot];
- monitems[mon_skitterbot]	= monitems[mon_eyebot];
- monitems[mon_secubot]		= monitems[mon_eyebot];
- monitems[mon_copbot]		= monitems[mon_eyebot];
- monitems[mon_molebot]		= monitems[mon_eyebot];
- monitems[mon_tripod]		= monitems[mon_eyebot];
- monitems[mon_chickenbot]	= monitems[mon_eyebot];
- monitems[mon_tankbot]		= monitems[mon_eyebot];
- monitems[mon_turret]		= monitems[mon_eyebot];
+           mi_robots,4, mi_eyebot, 1,NULL);
+
+ setvector(monitems[mon_manhack],
+           mi_robots,4, mi_manhack, 1, NULL);
+
+ setvector(monitems[mon_skitterbot],
+           mi_robots,4, mi_skitterbot, 1, NULL);
+
+ setvector(monitems[mon_secubot],
+           mi_robots,4, mi_secubot, 1, NULL);
+
+ setvector(monitems[mon_copbot],
+           mi_robots,4, mi_copbot, 1, NULL);
+
+ setvector(monitems[mon_molebot],
+           mi_robots,4, mi_molebot, 1, NULL);
+
+ setvector(monitems[mon_tripod],
+           mi_robots,4, mi_tripod, 1, NULL);
+
+ setvector(monitems[mon_chickenbot],
+           mi_robots,4, mi_chickenbot, 1, NULL);
+
+ setvector(monitems[mon_tankbot],
+           mi_robots,4, mi_tankbot, 1, NULL);
+
+ setvector(monitems[mon_turret],
+           mi_robots,4, mi_turret, 1, NULL);
+
 }

@@ -88,34 +88,66 @@ game::~game()
 }
 
 void game::init_ui(){
- clear();	// Clear the screen
- intro();	// Print an intro screen, make sure we're at least 80x25
+    clear();	// Clear the screen
+    intro();	// Print an intro screen, make sure we're at least 80x25
 
- VIEWX = OPTIONS[OPT_VIEWPORT_X];
- VIEWY = OPTIONS[OPT_VIEWPORT_Y];
- if (VIEWX <= 0) {
-  VIEWX = 1;
- }
- if (VIEWY <= 0) {
-  VIEWY = 1;
- }
- TERRAIN_WINDOW_WIDTH = (VIEWX * 2) + 1;
- TERRAIN_WINDOW_HEIGHT = (VIEWY * 2) + 1;
-// Set up the main UI windows.
- w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, 0, 0);
- werase(w_terrain);
- w_minimap = newwin(7, 7, 0, TERRAIN_WINDOW_WIDTH);
- werase(w_minimap);
- w_HP = newwin(14, 7, 7, TERRAIN_WINDOW_WIDTH);
- werase(w_HP);
- w_moninfo = newwin(12, 48, 0, VIEWX * 2 + 8);
- werase(w_moninfo);
- w_messages = newwin(8, 48, 12, VIEWX * 2 + 8);
- werase(w_messages);
- w_location = newwin(1, 48, 20, VIEWX * 2 + 8);
- werase(w_location);
- w_status = newwin(4, 55, 21, TERRAIN_WINDOW_WIDTH);
- werase(w_status);
+    #if (defined _WIN32 || defined __WIN32__)
+        TERMX = 55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1);
+        TERMY = OPTIONS[OPT_VIEWPORT_Y] * 2 + 1;
+        VIEWX = OPTIONS[OPT_VIEWPORT_X];
+        VIEWY = OPTIONS[OPT_VIEWPORT_Y];
+        TERRAIN_WINDOW_WIDTH = (VIEWX * 2) + 1;
+        TERRAIN_WINDOW_HEIGHT = (VIEWY * 2) + 1;
+    #else
+        getmaxyx(stdscr, TERMY, TERMX);
+
+        //make sure TERRAIN_WINDOW_WIDTH and TERRAIN_WINDOW_HEIGHT are uneven
+        if (TERMX%2 == 1) {
+            TERMX--;
+        }
+
+        if (TERMY%2 == 0) {
+            TERMY--;
+        }
+
+        TERRAIN_WINDOW_WIDTH = TERMX - STATUS_WIDTH;
+        TERRAIN_WINDOW_HEIGHT = TERMY;
+        VIEWX = (TERRAIN_WINDOW_WIDTH - 1) / 2;
+        VIEWY = (TERRAIN_WINDOW_HEIGHT - 1) / 2;
+    #endif
+
+    if (VIEWX < 12) {
+        VIEWX = 12;
+    }
+
+    if (VIEWY < 12) {
+        VIEWY = 12;
+    }
+
+    // Set up the main UI windows.
+    w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, 0, 0);
+    werase(w_terrain);
+
+    w_minimap = newwin(MINIMAP_HEIGHT, MINIMAP_WIDTH, 0, TERMX - MONINFO_WIDTH - MINIMAP_WIDTH);
+    werase(w_minimap);
+
+    w_HP = newwin(HP_HEIGHT, HP_WIDTH, MINIMAP_HEIGHT, TERMX - MESSAGES_WIDTH - HP_WIDTH);
+    werase(w_HP);
+
+    w_moninfo = newwin(MONINFO_HEIGHT, MONINFO_WIDTH, 0, TERMX - MONINFO_WIDTH);
+    werase(w_moninfo);
+
+    w_messages = newwin(MESSAGES_HEIGHT, MESSAGES_WIDTH, MONINFO_HEIGHT, TERMX - MESSAGES_WIDTH);
+    werase(w_messages);
+
+    w_location = newwin(LOCATION_HEIGHT, LOCATION_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT, TERMX - LOCATION_WIDTH);
+    werase(w_location);
+
+    w_status = newwin(STATUS_HEIGHT, STATUS_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT, TERMX - STATUS_WIDTH);
+    werase(w_status);
+
+    w_void = newwin(TERMY-(MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT+STATUS_HEIGHT), STATUS_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT+STATUS_HEIGHT, TERMX - STATUS_WIDTH);
+    werase(w_void);
 }
 
 void game::setup()
@@ -175,18 +207,85 @@ void game::setup()
  }
 }
 
-bool game::opening_screen()
+void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA)
 {
- WINDOW* w_open = newwin(25, 80, 0, 0);
- erase();
- for (int i = 0; i < 80; i++)
-  mvwputch(w_open, 21, i, c_white, LINE_OXOX);
-   mvwprintz(w_open, 0, 0, c_blue, "Welcome to Cataclysm: Dark Days Ahead!");
-   mvwprintz(w_open, 1, 0, c_red, "\
-Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
+ //Clear Lines
+ for (int i = 0; i < 25; i++)
+  for (int j = 0; j < 80; j++)
+   mvwputch(w_open, i, j, c_black, ' ');
+
+ for (int i = 1; i < 79; i++)
+  mvwputch(w_open, 23, i, c_white, LINE_OXOX);
+
+ mvwprintz(w_open, 24, 5, c_red, "Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
+
+ int iLine = 0;
+ const int iOffsetX1 = 4;
+ const int iOffsetX2 = 5;
+ const int iOffsetX3 = 18;
+
+ const nc_color cColor1 = c_cyan;
+ const nc_color cColor2 = c_blue;
+ const nc_color cColor3 = c_blue;
+
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "_________            __                   .__                            ");
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "\\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__.  ______  _____  ");
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "/    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | /  ___/ /     \\ ");
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "\\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\___ \\ |  Y Y  \\");
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, " \\______  /(____  / |__|  (____  / \\___  >|____/ / ____|/____  >|__|_|  /");
+ mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "        \\/      \\/             \\/      \\/        \\/          \\/       \\/ ");
+
+ if (bShowDDA) {
+  iLine++;
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "________                    __     ________                           ");
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "\\______ \\  _____   _______ |  | __ \\______ \\  _____    ___.__.  ______");
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    |  \\ \\__  \\  \\_  __ \\|  |/ /  |    |  \\ \\__  \\  <   |  | /  ___/");
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    `   \\ / __ \\_ |  | \\/|    <   |    `   \\ / __ \\_ \\___  | \\___ \\ ");
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "/_______  /(____  / |__|   |__|_ \\ /_______  /(____  / / ____|/____  >");
+  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "        \\/      \\/              \\/         \\/      \\/  \\/          \\/ ");
+
+  iLine++;
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "   _____   .__                         .___");
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "  /  _  \\  |  |__    ____  _____     __| _/");
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, " /  /_\\  \\ |  |  \\ _/ __ \\ \\__  \\   / __ | ");
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "/    |    \\|   Y  \\\\  ___/  / __ \\_/ /_/ | ");
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "\\____|__  /|___|  / \\___  >(____  /\\____ | ");
+  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "        \\/      \\/      \\/      \\/      \\/ ");
+ }
+
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 0 ? h_white : c_white), "MOTD");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 1 ? h_white : c_white), "New Game");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 2 ? h_white : c_white), "Load Game");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 3 ? h_white : c_white), "New World");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 4 ? h_white : c_white), "Special...");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 5 ? h_white : c_white), "Options");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 6 ? h_white : c_white), "Help");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 7 ? h_white : c_white), "Credits");
+ mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 8 ? h_white : c_white), "Quit");
+
  refresh();
  wrefresh(w_open);
  refresh();
+}
+
+bool game::opening_screen()
+{
+ int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
+ int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
+
+ WINDOW* w_background = newwin(iMaxY, iMaxX, 0, 0);
+
+ for (int i = 0; i < iMaxY; i++)
+  for (int j = 0; j < iMaxX; j++)
+   mvwputch(w_background, i, j, c_black, ' ');
+
+ wrefresh(w_background);
+
+ WINDOW* w_open = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+ const int iMenuOffsetX = 3;
+ int iMenuOffsetY = 13;
+
+ print_menu(w_open, 0, iMenuOffsetX, iMenuOffsetY);
  std::vector<std::string> savegames, templates;
  std::string tmp;
  dirent *dp;
@@ -221,7 +320,7 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
  InputEvent input;
  bool start = false;
 
-// Load MOTD and store it in a string
+ // Load MOTD and store it in a string
  std::vector<std::string> motd;
  std::ifstream motd_file;
  motd_file.open("data/motd");
@@ -236,71 +335,69 @@ Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
   }
  }
 
+ // Load Credits and store it in a string
+ std::vector<std::string> credits;
+ std::ifstream credits_file;
+ credits_file.open("data/credits");
+ if (!credits_file.is_open())
+  credits.push_back("No message today.");
+ else {
+  while (!credits_file.eof()) {
+   std::string tmp;
+   getline(credits_file, tmp);
+   if (tmp[0] != '#')
+    credits.push_back(tmp);
+  }
+ }
+
  while(!start) {
   if (layer == 1) {
-   mvwprintz(w_open, 4, 1, (sel1 == 0 ? h_white : c_white), "MOTD");
-   mvwprintz(w_open, 5, 1, (sel1 == 1 ? h_white : c_white), "New Game");
-   mvwprintz(w_open, 6, 1, (sel1 == 2 ? h_white : c_white), "Load Game");
-   mvwprintz(w_open, 7, 1, (sel1 == 3 ? h_white : c_white), "New World");
-   mvwprintz(w_open, 8, 1, (sel1 == 4 ? h_white : c_white), "Special...");
-   mvwprintz(w_open, 9, 1, (sel1 == 5 ? h_white : c_white), "Help");
-   mvwprintz(w_open, 10, 1, (sel1 == 6 ? h_white : c_white), "Quit");
-
+   print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY, (sel1 == 0 || sel1 == 7) ? false : true);
    if (sel1 == 0) {	// Print the MOTD.
     for (int i = 0; i < motd.size() && i < 16; i++)
-     mvwprintz(w_open, i + 4, 12, c_ltred, motd[i].c_str());
-   } else {	// Clear the lines if not viewing MOTD.
-    for (int i = 4; i < 20; i++) {
-     for (int j = 12; j < 79; j++)
-      mvwputch(w_open, i, j, c_black, 'x');
-    }
+     mvwprintz(w_open, i + 7, 12 + iMenuOffsetX, c_ltred, motd[i].c_str());
+
+    wrefresh(w_open);
+    refresh();
+   } else if (sel1 == 7) {	// Print the Credits.
+    for (int i = 0; i < credits.size() && i < 16; i++)
+     mvwprintz(w_open, i + 7, 12 + iMenuOffsetX, c_ltred, credits[i].c_str());
+
+    wrefresh(w_open);
+    refresh();
    }
 
-   wrefresh(w_open);
-   refresh();
    input = get_input();
    if (input == DirectionN) {
     if (sel1 > 0)
      sel1--;
     else
-     sel1 = 6;
+     sel1 = 8;
    } else if (input == DirectionS) {
-    if (sel1 < 6)
+    if (sel1 < 8)
      sel1++;
     else
      sel1 = 0;
-   } else if ((input == DirectionE || input == Confirm) && sel1 > 0) {
-    if (sel1 == 6) {
+   } else if ((input == DirectionE || input == Confirm) && sel1 > 0 && sel1 != 7) {
+    if (sel1 == 5) {
+     show_options();
+    } else if (sel1 == 6) {
+     help();
+    } else if (sel1 == 8) {
      uquit = QUIT_MENU;
      return false;
-    } else if (sel1 == 5) {
-     help();
-     clear();
-     mvwprintz(w_open, 0, 1, c_blue, "Welcome to Cataclysm!");
-     mvwprintz(w_open, 1, 0, c_red, "\
-Please report all bugs to TheDarklingWolf@Gmail.com");
-     refresh();
-     wrefresh(w_open);
-     refresh();
     } else {
      sel2 = 1;
      layer = 2;
     }
-    mvwprintz(w_open, 4, 1, (sel1 == 0 ? c_white : c_dkgray), "MOTD");
-    mvwprintz(w_open, 5, 1, (sel1 == 1 ? c_white : c_dkgray), "New Game");
-    mvwprintz(w_open, 6, 1, (sel1 == 2 ? c_white : c_dkgray), "Load Game");
-    mvwprintz(w_open, 7, 1, (sel1 == 3 ? c_white : c_dkgray), "New World");
-    mvwprintz(w_open, 8, 1, (sel1 == 4 ? c_white : c_dkgray), "Special...");
-    mvwprintz(w_open, 9, 1, (sel1 == 5 ? c_white : c_dkgray), "Help");
-    mvwprintz(w_open, 10, 1, (sel1 == 6 ? c_white : c_dkgray), "Quit");
    }
   } else if (layer == 2) {
    if (sel1 == 1) {	// New Character
-    mvwprintz(w_open, 5, 12, (sel2 == 1 ? h_white : c_white),
+    mvwprintz(w_open, 1 + iMenuOffsetY, 12 + iMenuOffsetX, (sel2 == 1 ? h_white : c_white),
               "Custom Character");
-    mvwprintz(w_open, 6, 12, (sel2 == 2 ? h_white : c_white),
+    mvwprintz(w_open, 2 + iMenuOffsetY, 12 + iMenuOffsetX, (sel2 == 2 ? h_white : c_white),
               "Preset Character");
-    mvwprintz(w_open, 7, 12, (sel2 == 3 ? h_white : c_white),
+    mvwprintz(w_open, 3 + iMenuOffsetY, 12 + iMenuOffsetX, (sel2 == 3 ? h_white : c_white),
               "Random Character");
     wrefresh(w_open);
     refresh();
@@ -316,9 +413,9 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
      else
       sel2 = 1;
     } else if (input == DirectionW) {
-     mvwprintz(w_open, 5, 12, c_black, "                ");
-     mvwprintz(w_open, 6, 12, c_black, "                ");
-     mvwprintz(w_open, 7, 12, c_black, "                ");
+     mvwprintz(w_open, 1 + iMenuOffsetY, 12 + iMenuOffsetX, c_black, "                ");
+     mvwprintz(w_open, 2 + iMenuOffsetY, 12 + iMenuOffsetX, c_black, "                ");
+     mvwprintz(w_open, 3 + iMenuOffsetY, 12 + iMenuOffsetX, c_black, "                ");
      layer = 1;
      sel1 = 1;
     }
@@ -329,15 +426,20 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
        delwin(w_open);
        return (opening_screen());
       }
+      for (int i = 0; i < iMaxY; i++)
+       for (int j = 0; j < iMaxX; j++)
+        mvwputch(w_background, i, j, c_black, ' ');
+
+      wrefresh(w_background);
       start_game();
       start = true;
      }
      if (sel2 == 2) {
       layer = 3;
       sel1 = 0;
-      mvwprintz(w_open, 5, 12, c_dkgray, "Custom Character");
-      mvwprintz(w_open, 6, 12, c_white,  "Preset Character");
-      mvwprintz(w_open, 7, 12, c_dkgray, "Random Character");
+      mvwprintz(w_open, 1 + iMenuOffsetY, 12 + iMenuOffsetX, c_dkgray, "Custom Character");
+      mvwprintz(w_open, 2 + iMenuOffsetY, 12 + iMenuOffsetX, c_white,  "Preset Character");
+      mvwprintz(w_open, 3 + iMenuOffsetY, 12 + iMenuOffsetX, c_dkgray, "Random Character");
      }
      if (sel2 == 3) {
       if (!u.create(this, PLTYPE_RANDOM)) {
@@ -345,21 +447,25 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
        delwin(w_open);
        return (opening_screen());
       }
+      for (int i = 0; i < iMaxY; i++)
+       for (int j = 0; j < iMaxX; j++)
+        mvwputch(w_background, i, j, c_black, ' ');
+
+      wrefresh(w_background);
       start_game();
       start = true;
      }
     }
    } else if (sel1 == 2) {	// Load Character
     if (savegames.size() == 0)
-     mvwprintz(w_open, 6, 12, c_red, "No save games found!");
+     mvwprintz(w_open, 2 + iMenuOffsetY, 12 + iMenuOffsetX, c_red, "No save games found!");
     else {
      int savestart = (sel2 < 7 ?  0 : sel2 - 7),
          saveend   = (sel2 < 7 ? 14 : sel2 + 7);
      for (int i = savestart; i < saveend; i++) {
-      int line = 6 + i - savestart;
-      mvwprintz(w_open, line, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      int line = 2 + iMenuOffsetY + i - savestart;
       if (i < savegames.size())
-       mvwprintz(w_open, line, 12, (sel2 - 1 == i ? h_white : c_white),
+       mvwprintz(w_open, line, 12 + iMenuOffsetX, (sel2 - 1 == i ? h_white : c_white),
                  savegames[i].c_str());
      }
     }
@@ -378,11 +484,14 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
       sel2 = 1;
     } else if (input == DirectionW) {
      layer = 1;
-     for (int i = 0; i < 14; i++)
-      mvwprintz(w_open, 6 + i, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     }
     if (input == DirectionE || input == Confirm) {
      if (sel2 > 0 && savegames.size() > 0) {
+      for (int i = 0; i < iMaxY; i++)
+       for (int j = 0; j < iMaxX; j++)
+        mvwputch(w_background, i, j, c_black, ' ');
+
+      wrefresh(w_background);
       load(savegames[sel2 - 1]);
       start = true;
      }
@@ -398,8 +507,7 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
     layer = 1;
    } else if (sel1 == 4) {	// Special game
     for (int i = 1; i < NUM_SPECIAL_GAMES; i++) {
-     mvwprintz(w_open, 6 + i, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-     mvwprintz(w_open, 6 + i, 12, (sel2 == i ? h_white : c_white),
+     mvwprintz(w_open, 3 + i + iMenuOffsetY, 12 + iMenuOffsetX, (sel2 == i ? h_white : c_white),
                special_game_name( special_game_id(i) ).c_str());
     }
     wrefresh(w_open);
@@ -417,8 +525,6 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
       sel2 = 1;
     } else if (input == DirectionW) {
      layer = 1;
-     for (int i = 6; i < 15; i++)
-      mvwprintz(w_open, i, 12, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     }
     if (input == DirectionE || input == Confirm) {
      if (sel2 >= 1 && sel2 < NUM_SPECIAL_GAMES) {
@@ -437,15 +543,14 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
    }
   } else if (layer == 3) {	// Character Templates
    if (templates.size() == 0)
-    mvwprintz(w_open, 6, 12, c_red, "No templates found!");
+    mvwprintz(w_open, 2 + iMenuOffsetY, 29 + iMenuOffsetX, c_red, "No templates found!");
    else {
     int tempstart = (sel1 < 6 ?  0 : sel1 - 6),
         tempend   = (sel1 < 6 ? 14 : sel1 + 8);
     for (int i = tempstart; i < tempend; i++) {
-     int line = 6 + i - tempstart;
-     mvwprintz(w_open, line, 29, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+     int line = 2 + iMenuOffsetY + i - tempstart;
      if (i < templates.size())
-      mvwprintz(w_open, line, 29, (sel1 == i ? h_white : c_white),
+      mvwprintz(w_open, line, 29 + iMenuOffsetX, (sel1 == i ? h_white : c_white),
                 templates[i].c_str());
     }
    }
@@ -465,11 +570,7 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
    } else if (input == DirectionW || templates.size() == 0) {
     sel1 = 1;
     layer = 2;
-    for (int i = 0; i+6 < 21; i++)
-     mvwprintz(w_open, 6 + i, 12, c_black, "                                 ");
-    for (int i = 22; i < 25; i++)
-     mvwprintw(w_open, i, 0, "                                                 \
-                                ");
+    print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
    }
    else if (input == DirectionE || input == Confirm) {
     if (!u.create(this, PLTYPE_TEMPLATE, templates[sel1])) {
@@ -477,6 +578,11 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
      delwin(w_open);
      return (opening_screen());
     }
+    for (int i = 0; i < iMaxY; i++)
+     for (int j = 0; j < iMaxX; j++)
+      mvwputch(w_background, i, j, c_black, ' ');
+
+    wrefresh(w_background);
     start_game();
     start = true;
    }
@@ -491,7 +597,8 @@ Please report all bugs to TheDarklingWolf@Gmail.com");
 // Set up all default values for a new game
 void game::start_game()
 {
- turn = MINUTES(STARTING_MINUTES);// It's turn 0...
+ //turn = MINUTES(STARTING_MINUTES);// It's turn 0...
+ turn = HOURS(OPTIONS[OPT_INITIAL_TIME]);
  run_mode = (OPTIONS[OPT_SAFEMODE] ? 1 : 0);
  mostseen = 0;	// ...and mostseen is 0, we haven't seen any monsters yet.
 
@@ -717,8 +824,9 @@ void game::rustCheck() {
   if (OPTIONS[OPT_SKILL_RUST] == 2)
     return;
 
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
-    int skillLevel = u.skillLevel(*aSkill).level();
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++;
+       aSkill != Skill::skills.end(); ++aSkill) {
+    int skillLevel = u.skillLevel(*aSkill);
     int forgetCap = skillLevel > 7 ? 7 : skillLevel;
 
     if (skillLevel > 0 && turn % (8192 / int(pow(2, double(forgetCap - 1)))) == 0) {
@@ -824,7 +932,7 @@ void game::process_activity()
 
     if (u.skillLevel(reading->type) < reading->level) {
      int min_ex = reading->time / 10 + u.int_cur / 4,
-       max_ex = reading->time /  5 + u.int_cur / 2 - u.skillLevel(reading->type).level();
+       max_ex = reading->time /  5 + u.int_cur / 2 - u.skillLevel(reading->type);
      if (min_ex < 1)
       min_ex = 1;
      if (max_ex < 2)
@@ -832,7 +940,7 @@ void game::process_activity()
      if (max_ex > 10)
       max_ex = 10;
 
-     int originalSkillLevel = u.skillLevel(reading->type).level();
+     int originalSkillLevel = u.skillLevel(reading->type);
      u.skillLevel(reading->type).readBook(min_ex, max_ex, reading->level);
 
      add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(), u.skillLevel(reading->type).exercise());
@@ -840,7 +948,7 @@ void game::process_activity()
      if (u.skillLevel(reading->type) > originalSkillLevel)
       add_msg("You increase %s to level %d.",
               reading->type->name().c_str(),
-              u.skillLevel(reading->type).level());
+              (int)u.skillLevel(reading->type));
 
      if (u.skillLevel(reading->type) == reading->level)
       add_msg("You can no longer learn from this %s.", reading->name.c_str());
@@ -878,10 +986,11 @@ void game::process_activity()
     } else {
      u.sklevel[ u.activity.index ]++;
 
-     int skillLevel = u.skillLevel(u.activity.index).level();
+     int skillLevel = u.skillLevel(u.activity.index);
+     u.skillLevel(u.activity.index).level(skillLevel + 1);
      add_msg("You finish training %s to level %d.",
              skill_name(u.activity.index).c_str(),
-             u.skillLevel(u.activity.index).level(skillLevel + 1));
+             (int)u.skillLevel(u.activity.index));
     }
     break;
 
@@ -1429,6 +1538,9 @@ bool game::handle_action()
   case ACTION_INVENTORY: {
    bool has = false;
    char cMenu = ' ';
+   int iMaxX = 55 + ((VIEWX < 12) ? 25 : (VIEWX*2)+1);
+   int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
+
    do {
     const std::string sSpaces = "                              ";
     char chItem = inv();
@@ -1437,13 +1549,10 @@ bool game::handle_action()
 
     if (has) {
      item oThisItem = u.i_at(chItem);
-     //int iMenu = menu(("Item: " + sItemName + sSpaces.substr(sItemName.size(), sSpaces.size())).c_str(),
-     //                 "Examine", "Use/Read", "Eat", "Wear", "Wield", "Take off", "Drop", "Unload", "Reload", "Cancel", NULL);
-
      std::vector<iteminfo> vThisItem, vDummy, vMenu;
 
-     vMenu.push_back(iteminfo("MENU", "", "iX", 15));
-     vMenu.push_back(iteminfo("MENU", "", "iY", 4));
+     vMenu.push_back(iteminfo("MENU", "", "iOffsetX", 3));
+     vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
      vMenu.push_back(iteminfo("MENU", "a", "ctivate"));
      vMenu.push_back(iteminfo("MENU", "R", "ead"));
      vMenu.push_back(iteminfo("MENU", "E", "at"));
@@ -1456,8 +1565,8 @@ bool game::handle_action()
      vMenu.push_back(iteminfo("MENU", "r", "eload"));
 
      oThisItem.info(true, &vThisItem);
-     compare_split_screen_popup(true, oThisItem.tname(this), vThisItem, vDummy);
-     cMenu = compare_split_screen_popup(false, "", vMenu, vDummy);
+     compare_split_screen_popup(0, 50, iMaxY, oThisItem.tname(this), vThisItem, vDummy);
+     cMenu = compare_split_screen_popup(50, 14, 16, "", vMenu, vDummy);
 
      switch(cMenu) {
       case 'a':
@@ -1593,6 +1702,10 @@ bool game::handle_action()
    craft();
    break;
 
+  case ACTION_RECRAFT:
+   recraft();
+   break;
+
   case ACTION_DISASSEMBLE:
    if (u.in_vehicle)
     add_msg("You can't disassemble items while in vehicle.");
@@ -1621,6 +1734,7 @@ bool game::handle_action()
   case ACTION_TOGGLE_SAFEMODE:
    if (run_mode == 0 ) {
     run_mode = 1;
+    mostseen = 0;
     add_msg("Safe mode ON!");
    } else {
     turnssincelastmon = 0;
@@ -1686,6 +1800,10 @@ bool game::handle_action()
 
   case ACTION_MISSIONS:
    list_missions();
+   break;
+
+  case ACTION_KILLS:
+   disp_kills();
    break;
 
   case ACTION_FACTIONS:
@@ -1810,36 +1928,24 @@ bool game::is_game_over()
 
 void game::death_screen()
 {
- gamemode->game_over(this);
- std::stringstream playerfile;
- playerfile << "save/" << u.name << ".sav";
- unlink(playerfile.str().c_str());
- int num_kills = 0;
- for (int i = 0; i < num_monsters; i++)
-  num_kills += kills[i];
+    gamemode->game_over(this);
+    std::stringstream playerfile;
+    playerfile << "save/" << u.name << ".sav";
+    unlink(playerfile.str().c_str());
 
- WINDOW* w_death = newwin(25, 80, 0, 0);
- mvwprintz(w_death, 0, 35, c_red, "GAME OVER - Press Spacebar to Quit");
- mvwprintz(w_death, 2, 0, c_white, "Number of kills: %d", num_kills);
- int line = 0, mon = 0;
- while (line < 40 && mon < num_monsters) {
-  if (kills[mon] > 0) {
-   int y = line % 20 + 3, x = int(line / 20) * 40 + 1;
-   mvwprintz(w_death, y, x, c_white, "%s: %d", mtypes[mon]->name.c_str(),
-             kills[mon]);
-   line++;
-  }
-  mon++;
- }
+    WINDOW* w_death = newwin(TERMY, TERMX, 0, 0);
+    mvwprintz(w_death, 0, 35, c_red, "GAME OVER - Press Spacebar to Quit");
+    wrefresh(w_death);
+    refresh();
+    InputEvent input;
+    do
+        input = get_input();
+    while(input != Cancel && input != Close && input != Confirm);
+    delwin(w_death);
 
- wrefresh(w_death);
- refresh();
- InputEvent input;
- do
-  input = get_input();
- while(input != Cancel && input != Close && input != Confirm);
- delwin(w_death);
+    disp_kills();
 }
+
 
 bool game::load_master()
 {
@@ -2294,7 +2400,7 @@ z.size(), events.size());
 
   case 11:
     for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill)
-      u.skillLevel(*aSkill).level(u.skillLevel(*aSkill).level() + 3);
+      u.skillLevel(*aSkill).level(u.skillLevel(*aSkill) + 3);
    break;
 
   case 12:
@@ -2384,7 +2490,7 @@ void game::draw_overmap()
 
 void game::disp_kills()
 {
- WINDOW* w = newwin(25, 80, 0, 0);
+ WINDOW* w = newwin(TERMY, TERMX, 0, 0);
  std::vector<mtype *> types;
  std::vector<int> count;
  for (int i = 0; i < num_monsters; i++) {
@@ -2776,62 +2882,74 @@ void game::refresh_all()
  draw_HP();
  wrefresh(w_moninfo);
  wrefresh(w_messages);
+ werase(w_void);
+ wrefresh(w_void);
  refresh();
 }
 
 void game::draw_HP()
 {
- int curhp;
- nc_color col;
- for (int i = 0; i < num_hp_parts; i++) {
-  curhp = u.hp_cur[i];
-       if (curhp == u.hp_max[i])
-   col = c_green;
-  else if (curhp > u.hp_max[i] * .8)
-   col = c_ltgreen;
-  else if (curhp > u.hp_max[i] * .5)
-   col = c_yellow;
-  else if (curhp > u.hp_max[i] * .3)
-   col = c_ltred;
-  else
-   col = c_red;
-  if (u.has_trait(PF_HPIGNORANT)) {
-   mvwprintz(w_HP, i * 2 + 1, 0, col, " ***  ");
-  } else {
-   if (curhp >= 100)
-    mvwprintz(w_HP, i * 2 + 1, 0, col, "%d     ", curhp);
-   else if (curhp >= 10)
-    mvwprintz(w_HP, i * 2 + 1, 0, col, " %d    ", curhp);
-   else
-    mvwprintz(w_HP, i * 2 + 1, 0, col, "  %d    ", curhp);
-  }
- }
- mvwprintz(w_HP,  0, 0, c_ltgray, "HEAD:  ");
- mvwprintz(w_HP,  2, 0, c_ltgray, "TORSO: ");
- mvwprintz(w_HP,  4, 0, c_ltgray, "L ARM: ");
- mvwprintz(w_HP,  6, 0, c_ltgray, "R ARM: ");
- mvwprintz(w_HP,  8, 0, c_ltgray, "L LEG: ");
- mvwprintz(w_HP, 10, 0, c_ltgray, "R LEG: ");
- mvwprintz(w_HP, 12, 0, c_ltgray, "POW:   ");
- if (u.max_power_level == 0)
-  mvwprintz(w_HP, 13, 0, c_ltgray, " --   ");
- else {
-  if (u.power_level == u.max_power_level)
-   col = c_blue;
-  else if (u.power_level >= u.max_power_level * .5)
-   col = c_ltblue;
-  else if (u.power_level > 0)
-   col = c_yellow;
-  else
-   col = c_red;
-  if (u.power_level >= 100)
-   mvwprintz(w_HP, 13, 0, col, "%d     ", u.power_level);
-  else if (u.power_level >= 10)
-   mvwprintz(w_HP, 13, 0, col, " %d    ", u.power_level);
-  else
-   mvwprintz(w_HP, 13, 0, col, "  %d    ", u.power_level);
- }
- wrefresh(w_HP);
+    int current_hp;
+    nc_color color;
+    std::string asterisks = "";
+    for (int i = 0; i < num_hp_parts; i++) {
+        current_hp = u.hp_cur[i];
+        if (current_hp == u.hp_max[i]){
+          color = c_green;
+          asterisks = " **** ";
+        } else if (current_hp > u.hp_max[i] * .8) {
+          color = c_ltgreen;
+          asterisks = " **** ";
+        } else if (current_hp > u.hp_max[i] * .5) {
+          color = c_yellow;
+          asterisks = " ***  ";
+        } else if (current_hp > u.hp_max[i] * .3) {
+          color = c_ltred;
+          asterisks = " **   ";
+        } else {
+          color = c_red;
+          asterisks = " *    ";
+        }
+        if (u.has_trait(PF_SELFAWARE)) {
+            if (current_hp >= 100){
+                mvwprintz(w_HP, i * 2 + 1, 0, color, "%d     ", current_hp);
+            } else if (current_hp >= 10) {
+                mvwprintz(w_HP, i * 2 + 1, 0, color, " %d    ", current_hp);
+            } else {
+                mvwprintz(w_HP, i * 2 + 1, 0, color, "  %d    ", current_hp);
+            }
+        } else {
+            mvwprintz(w_HP, i * 2 + 1, 0, color, asterisks.c_str());
+        }
+    }
+    mvwprintz(w_HP,  0, 0, c_ltgray, "HEAD:  ");
+    mvwprintz(w_HP,  2, 0, c_ltgray, "TORSO: ");
+    mvwprintz(w_HP,  4, 0, c_ltgray, "L ARM: ");
+    mvwprintz(w_HP,  6, 0, c_ltgray, "R ARM: ");
+    mvwprintz(w_HP,  8, 0, c_ltgray, "L LEG: ");
+    mvwprintz(w_HP, 10, 0, c_ltgray, "R LEG: ");
+    mvwprintz(w_HP, 12, 0, c_ltgray, "POW:   ");
+    if (u.max_power_level == 0){
+        mvwprintz(w_HP, 13, 0, c_ltgray, " --   ");
+    } else {
+        if (u.power_level == u.max_power_level){
+            color = c_blue;
+        } else if (u.power_level >= u.max_power_level * .5){
+            color = c_ltblue;
+        } else if (u.power_level > 0){
+            color = c_yellow;
+        } else {
+            color = c_red;
+        }
+        if (u.power_level >= 100){
+            mvwprintz(w_HP, 13, 0, color, "%d     ", u.power_level);
+        } else if (u.power_level >= 10){
+            mvwprintz(w_HP, 13, 0, color, " %d    ", u.power_level);
+        } else {
+            mvwprintz(w_HP, 13, 0, color, "  %d    ", u.power_level);
+        }
+    }
+    wrefresh(w_HP);
 }
 
 void game::draw_minimap()
@@ -3252,8 +3370,10 @@ void game::mon_info()
  for (int i = 0; i < z.size(); i++) {
   if (u_see(&(z[i]), buff)) {
    bool mon_dangerous = false;
+   int j;
    if (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW) {
-    mon_dangerous = true;
+    if (sees_u(z[i].posx, z[i].posy, j))
+     mon_dangerous = true;
 
     if (rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= iProxyDist)
      newseen++;
@@ -4764,7 +4884,7 @@ void game::examine()
    if (using_electrohack || using_fingerhack) {
     u.moves -= 500;
     u.practice("computer", 20);
-    int success = rng(u.skillLevel("computer").level() / 4 - 2, u.skillLevel("computer").level() * 2);
+    int success = rng(u.skillLevel("computer") / 4 - 2, u.skillLevel("computer") * 2);
     success += rng(-3, 3);
     if (using_fingerhack)
      success++;
@@ -5159,7 +5279,7 @@ shape, but with long, twisted, distended limbs.");
 // apple trees
  else if ((m.ter(examx, examy)==t_tree_apple) && (query_yn("Pick apples?")))
  {
-  int num_apples = rng(1, u.skillLevel("survival").level());
+  int num_apples = rng(1, u.skillLevel("survival"));
   if (num_apples >= 12)
     num_apples = 12;
   for (int i = 0; i < num_apples; i++)
@@ -5170,7 +5290,7 @@ shape, but with long, twisted, distended limbs.");
 // blueberry bushes
  else if ((m.ter(examx, examy)==t_shrub_blueberry) && (query_yn("Pick blueberries?")))
  {
-  int num_blueberries = rng(1, u.skillLevel("survival").level());
+  int num_blueberries = rng(1, u.skillLevel("survival"));
 
  if (num_blueberries >= 12)
     num_blueberries = 12;
@@ -5183,7 +5303,7 @@ shape, but with long, twisted, distended limbs.");
 // harvesting wild veggies
  else if ((m.ter(examx, examy)==t_underbrush) && (query_yn("Forage for wild vegetables?")))
  {
-  u.assign_activity(ACT_FORAGE, 500 / (u.skillLevel("survival").level() + 1), 0);
+  u.assign_activity(ACT_FORAGE, 500 / (u.skillLevel("survival") + 1), 0);
   u.activity.placement = point(examx, examy);
   u.moves = 0;
  }
@@ -5356,7 +5476,7 @@ point game::look_around()
    mvwprintw(w_look, 6, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str());
   wrefresh(w_look);
   wrefresh(w_terrain);
- } while (input != Close && input != Cancel);
+ } while (input != Close && input != Cancel && input != Confirm);
  if (input == Confirm)
   return point(lx, ly);
  return point(-1, -1);
@@ -5438,6 +5558,7 @@ void game::list_items()
    if (ch == 'I' || ch == 'c' || ch == 'C') {
     compare(iActiveX, iActiveY);
     ch = '.';
+    refresh_all();
 
    } else if (ch == 'f' || ch == 'F') {
     for (int i = 0; i < iInfoHeight-1; i++)
@@ -5463,8 +5584,21 @@ void game::list_items()
    }
 
    if (ch == '.') {
-    wborder(w_items, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                     LINE_OXXO, LINE_OOXX, LINE_XXXO, LINE_XOXX );
+    for (int i = 1; i < 54; i++) {
+     mvwputch(w_items, 0, i, c_ltgray, LINE_OXOX); // -
+     mvwputch(w_items, 25-iInfoHeight-1, i, c_ltgray, LINE_OXOX); // -
+
+     if (i < 25-iInfoHeight) {
+      mvwputch(w_items, i, 0, c_ltgray, LINE_XOXO); // |
+      mvwputch(w_items, i, 54, c_ltgray, LINE_XOXO); // |
+     }
+    }
+
+    mvwputch(w_items, 0,  0, c_ltgray, LINE_OXXO); // |^
+    mvwputch(w_items, 0, 54, c_ltgray, LINE_OOXX); // ^|
+
+    mvwputch(w_items, 25-iInfoHeight-1,  0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_items, 25-iInfoHeight-1, 54, c_ltgray, LINE_XOXX); // -|
 
     int iTempStart = 19;
     if (sFilter != "") {
@@ -5478,6 +5612,8 @@ void game::list_items()
 
     mvwprintz(w_items, 25-iInfoHeight-1, iTempStart + 10, c_ltgreen, " %s", "F");
     wprintz(w_items, c_white, "%s", "ilter ");
+
+    refresh_all();
    }
 
    bStopDrawing = false;
@@ -5643,14 +5779,14 @@ void game::pickup(int posx, int posy, int min)
  if ((!from_veh) && m.i_at(posx, posy).size() == 0) {
   if (m.has_flag(swimmable, posx, posy) || m.ter(posx, posy) == t_toilet || m.ter(posx, posy) == t_water_sh) {
    item water = m.water_from(posx, posy);
-   if (query_yn("Drink from your hands?")) {
+    // Try to handle first (bottling) drink after.
+    // changed boolean, large sources should be infinite
+   if (handle_liquid(water, true, true)) {
+    u.moves -= 100;
+   } else if (query_yn("Drink from your hands?")) {
     u.inv.push_back(water);
     u.eat(this, u.inv.size() - 1);
     u.moves -= 350;
-   } else {
-// changed boolean, large sources should be infinite
-    handle_liquid(water, true, true);
-    u.moves -= 100;
    }
   }
   return;
@@ -5995,21 +6131,38 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    return false;
   } // if (pl_choose_vehicle(vx, vy))
 
- } else if (!from_ground &&
-            query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
-  m.add_item(u.posx, u.posy, liquid);
-  return true;
-
  } else { // Not filling vehicle
+
+   // Ask to pour rotten liquid (milk!) from the get-go
+  if (!from_ground && liquid.rotten(this) &&
+      query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
+   m.add_item(u.posx, u.posy, liquid);
+   return true;
+  }
 
   std::stringstream text;
   text << "Container for " << liquid.tname(this);
   char ch = inv_type(text.str().c_str(), IC_CONTAINER);
-  if (!u.has_item(ch))
+  if (!u.has_item(ch)) {
+    // No container selected (escaped, ...), ask to pour
+    // we asked to pour rotten already
+   if (!from_ground && !liquid.rotten(this) &&
+       query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
+    m.add_item(u.posx, u.posy, liquid);
+    return true;
+   }
    return false;
+  }
 
   item *cont = &(u.i_at(ch));
   if (cont == NULL || cont->is_null()) {
+    // Container is null, ask to pour.
+    // we asked to pour rotten already
+   if (!from_ground && !liquid.rotten(this) &&
+       query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
+    m.add_item(u.posx, u.posy, liquid);
+    return true;
+   }
    add_msg("Never mind.");
    return false;
 
@@ -6623,17 +6776,17 @@ void game::complete_butcher(int index)
  int age = m.i_at(u.posx, u.posy)[index].bday;
  m.i_rem(u.posx, u.posy, index);
  int factor = u.butcher_factor();
- int pieces, pelts;
+ int pieces, pelts, bones, sinews;
  double skill_shift = 0.;
 
- int sSkillLevel = u.skillLevel("survival").level();
+ int sSkillLevel = u.skillLevel("survival");
 
  switch (corpse->size) {
-  case MS_TINY:   pieces =  1; pelts =  1; break;
-  case MS_SMALL:  pieces =  2; pelts =  3; break;
-  case MS_MEDIUM: pieces =  4; pelts =  6; break;
-  case MS_LARGE:  pieces =  8; pelts = 10; break;
-  case MS_HUGE:   pieces = 16; pelts = 18; break;
+  case MS_TINY:   pieces =  1; pelts =  1; bones = 1; sinews = 1; break;
+  case MS_SMALL:  pieces =  2; pelts =  3; bones = 4; sinews = 4; break;
+  case MS_MEDIUM: pieces =  4; pelts =  6; bones = 9; sinews = 9; break;
+  case MS_LARGE:  pieces =  8; pelts = 10; bones = 14;sinews = 14;break;
+  case MS_HUGE:   pieces = 16; pelts = 18; bones = 21;sinews = 21;break;
  }
  if (sSkillLevel < 3)
   skill_shift -= rng(0, 8 - sSkillLevel);
@@ -6654,8 +6807,39 @@ void game::complete_butcher(int index)
  u.practice("survival", practice);
 
  pieces += int(skill_shift);
- if (skill_shift < 5)	// Lose some pelts
+ if (skill_shift < 5)  {	// Lose some pelts and bones
   pelts += (skill_shift - 5);
+  bones += (skill_shift - 2);
+  sinews += (skill_shift - 8);
+ }
+
+ if (bones > 0) {
+  for (int i = 0; i < bones; i++) {
+   itype* bone;
+   if (corpse->mat == FLESH) {
+     bone = itypes[itm_bone];
+     add_msg("You harvest some usable bones!");
+   } else if (corpse->mat == VEGGY) {
+     bone = itypes[itm_plant_sac];
+     add_msg("You harvest some fluid bladders!");
+  }
+   m.add_item(u.posx, u.posy, bone, age);
+  }
+ }
+
+  if (sinews > 0) {
+  for (int i = 0; i < sinews; i++) {
+   itype* sinew;
+   if (corpse->mat == FLESH) {
+     sinew = itypes[itm_sinew];
+     add_msg("You harvest some usable sinews!");
+   } else if (corpse->mat == VEGGY) {
+     sinew = itypes[itm_plant_fibre];
+     add_msg("You harvest some plant fibres!");
+  }
+   m.add_item(u.posx, u.posy, sinew, age);
+  }
+ }
 
  if ((corpse->has_flag(MF_FUR) || corpse->has_flag(MF_LEATHER)) &&
      pelts > 0) {
@@ -6674,6 +6858,30 @@ void game::complete_butcher(int index)
    m.add_item(u.posx, u.posy, pelt, age);
   }
  }
+
+ //Add a chance of CBM recovery. For shocker and cyborg corpses.
+ if (corpse->has_flag(MF_CBM)) {
+  //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
+  if(skill_shift >= 0){
+   add_msg("You discover a CBM in the %s!", corpse->name.c_str());
+   //To see if it spawns a battery
+   if(rng(0,1) == 1){ //The battery works
+    m.add_item(u.posx, u.posy, itypes[itm_bionics_batteries], age);
+   }else{//There is a burnt out CBM
+    m.add_item(u.posx, u.posy, itypes[itm_burnt_out_bionic], age);
+   }
+  }
+  if(skill_shift >= 0){
+   //To see if it spawns a random additional CBM
+   if(rng(0,1) == 1){ //The CBM works
+    int index = rng(0, mapitems[mi_bionics].size()-1);
+    m.add_item(u.posx, u.posy, itypes[ mapitems[mi_bionics][index] ], age);
+   }else{//There is a burnt out CBM
+    m.add_item(u.posx, u.posy, itypes[itm_burnt_out_bionic], age);
+   }
+  }
+ }
+
  if (pieces <= 0)
   add_msg("Your clumsy butchering destroys the meat!");
  else {
@@ -6702,7 +6910,7 @@ void game::forage()
 {
   int veggy_chance = rng(1, 20);
 
-  if (veggy_chance < u.skillLevel("survival").level())
+  if (veggy_chance < u.skillLevel("survival"))
   {
     add_msg("You found some wild veggies!");
     u.practice("survival", 10);
@@ -6712,7 +6920,7 @@ void game::forage()
   else
   {
     add_msg("You didn't find anything.");
-    if (!one_in(u.skillLevel("survival").level()))
+    if (!one_in(u.skillLevel("survival")))
     m.ter(u.activity.placement.x, u.activity.placement.y) = t_dirt;
   }
 }
@@ -6984,6 +7192,7 @@ void game::unload()
   }
  }
  item newam;
+
  if ((weapon->is_gun() || weapon->is_gunmod()) && weapon->curammo != NULL)
   newam = item(weapon->curammo, turn);
  else
@@ -7115,7 +7324,7 @@ void game::pldrive(int x, int y) {
  }
  veh->turn (15 * x);
  if (veh->skidding && veh->valid_wheel_config()) {
-  if (rng (0, 100) < u.dex_cur + u.skillLevel("driving").level() * 2) {
+  if (rng (0, 100) < u.dex_cur + u.skillLevel("driving") * 2) {
    add_msg ("You regain control of the %s.", veh->name.c_str());
    veh->velocity = veh->forward_velocity();
    veh->skidding = false;
@@ -7270,10 +7479,10 @@ void game::plmove(int x, int y)
 
 // Adjust recoil down
   if (u.recoil > 0) {
-    if (int(u.str_cur / 2) + u.skillLevel("gun").level() >= u.recoil)
+    if (int(u.str_cur / 2) + u.skillLevel("gun") >= u.recoil)
     u.recoil = 0;
    else {
-     u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun").level();
+     u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
     u.recoil = int(u.recoil / 2);
    }
   }

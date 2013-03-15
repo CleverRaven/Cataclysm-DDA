@@ -1,0 +1,35 @@
+Changelog will be a little light for the early entries due to me being really bad at documenting things.
+
+0.3
+Many menus stretch with an enlarged viewport.
+An action to repeat the last craft has been added, default keybinding of -
+When crafting liquid items, the game asks you for a container first, then asks if you want to dump the item.
+A large amount of survival craft has been added, allowing you to make most of the basic tools and necessities. Along with several new weapons, some storage items and a liquid container.
+Smoker Zombies, belch clouds of smoke at players, slowing them and blocking LOS.
+Robots now pull from separate drop lists when killed.
+Alcohol cost for Torches and Bandages has been increased to 7, or one third of a bottle.
+Alcohol cost for molotovs has been reduced to 14, gasoline cost increased to 400.
+Chitinous boots and gauntlets added.
+Picklock kits break when damaged 5 times.
+Zombie spawn ratios have been rebalanced for static spawning.
+Pocketknives are useable for all logical recipes.
+Child zombies have had a small pool of item drops added.
+HP Ignorant is now the player default, Self Aware can be purchased to display exact HP.
+Lawnmower blades have been replaced with generic blades, most bladed items are made using blades instead of machetes/swords now.
+Nail bat, nail board and makeshift halberd now all have weak block.
+Wild veggies function as plant marrow for most recipes.
+Meat soup added, more cooking to come.
+The player now spawns with a pocket knife and lighter.
+Sledge hammer is usable to board windows and doors up.
+Heartless trait has been removed, replaced with the Cannibal trait, which allows you to eat human meat with no morale penalty.
+
+0.2
+Reworked spawning option which places zombies at world generation rather than generating them dynamically in play.
+Implementation of a context menu when examining inventory items.
+Machine added to hospitals to regrow limbs.
+
+0.1
+Palisade Walls and Gates - Pretty tough to bash down, and can be fired throguh
+Log Walls - Basically the same as wood walls, different construction methods.
+The ability to disassemble tshirts and tank tops by hand. - Handy for bleeding.
+Revolver Shotgun - NotTe much to say on this.

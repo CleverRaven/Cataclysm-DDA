@@ -34,7 +34,7 @@
 #define HIGH_STAT 14 // The point after which stats cost double
 #define MAX_TRAIT_POINTS 12 // How many points from traits
 
-void draw_tabs(WINDOW* w);
+void draw_tabs(WINDOW* w, std::string sTab);
 
 int set_stats(WINDOW* w, player *u, int &points);
 int set_traits(WINDOW* w, player *u, int &points);
@@ -50,7 +50,12 @@ void save_template(player *u);
 bool player::create(game *g, character_type type, std::string tempname)
 {
  weapon = item(g->itypes[0], 0);
- WINDOW* w = newwin(25, 80, 0, 0);
+
+ int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
+ int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
+
+ WINDOW* w = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+
  int tab = 0, points = 38;
  if (type != PLTYPE_CUSTOM) {
   switch (type) {
@@ -121,7 +126,7 @@ bool player::create(game *g, character_type type, std::string tempname)
       rn = random_skill();
 
       Skill *aSkill = Skill::skill(rn);
-      int level = skillLevel(aSkill).level();
+      int level = skillLevel(aSkill);
 
       if (level < points) {
         points -= level + 1;
@@ -152,7 +157,6 @@ bool player::create(game *g, character_type type, std::string tempname)
 
  do {
   werase(w);
-  draw_tabs(w);
   wrefresh(w);
   switch (tab) {
    case 0: tab += set_stats      (w, this, points); break;
@@ -208,7 +212,7 @@ End of cheatery */
   itype_id ma_type;
   do {
    int choice = menu("Pick your style:",
-                     "Karate", "Judo", "Aikido", "Tai Chi", "Taekwando", NULL);
+                     "Karate", "Judo", "Aikido", "Tai Chi", "Taekwondo", NULL);
    if (choice == 1)
     ma_type = itm_style_karate;
    if (choice == 2)
@@ -218,7 +222,7 @@ End of cheatery */
    if (choice == 4)
     ma_type = itm_style_tai_chi;
    if (choice == 5)
-    ma_type = itm_style_taekwando;
+    ma_type = itm_style_taekwondo;
    item tmpitem = item(g->itypes[ma_type], 0);
    full_screen_popup(tmpitem.info(true).c_str());
   } while (!query_yn("Use this style?"));
@@ -246,85 +250,60 @@ End of cheatery */
   tmp = item(g->itypes[itm_inhaler], 0, 'a' + worn.size());
   inv.push_back(tmp);
  }
- // Add starter gear, possibly tie this to profession setting later.
-/* tmp = item(g->itypes[itm_pockknife], 0,'a' + worn.size());
+ // Basic starter gear, added independently of profession.
+ tmp = item(g->itypes[itm_pockknife], 0,'a' + worn.size());
   inv.push_back(tmp);
  tmp = item(g->itypes[itm_lighter], 0,'a' + worn.size());
-  inv.push_back(tmp); */
+  inv.push_back(tmp);
 // make sure we have no mutations
  for (int i = 0; i < PF_MAX2; i++)
   my_mutations[i] = false;
  return true;
 }
 
-void draw_tabs(WINDOW* w)
+void draw_tabs(WINDOW* w, std::string sTab)
 {
- for (int i = 0; i < 16; i++) {
-  if (i < 9)
-   mvwputch(w, 0, i +  5, c_ltgray, LINE_OXOX);
-  if (i < 10) {
-   mvwputch(w, 0, i + 22, c_ltgray, LINE_OXOX);
-   mvwputch(w, 0, i + 40, c_ltgray, LINE_OXOX);
+ for (int i = 1; i < 79; i++) {
+  mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
+  mvwputch(w, 4, i, c_ltgray, LINE_OXOX);
+  mvwputch(w, 24, i, c_ltgray, LINE_OXOX);
+
+  if (i > 2 && i < 24) {
+   mvwputch(w, i, 0, c_ltgray, LINE_XOXO);
+   mvwputch(w, i, 79, c_ltgray, LINE_XOXO);
   }
-  mvwputch(w, 0, i + 57, c_ltgray, LINE_OXOX);
  }
- mvwputch(w, 0, 4, c_ltgray, LINE_OXXO);
- mvwputch(w, 0,21, c_ltgray, LINE_OXXO);
- mvwputch(w, 0,39, c_ltgray, LINE_OXXO);
- mvwputch(w, 0,57, c_ltgray, LINE_OXXO);
 
- mvwputch(w, 0,14, c_ltgray, LINE_OOXX);
- mvwputch(w, 0,32, c_ltgray, LINE_OOXX);
- mvwputch(w, 0,50, c_ltgray, LINE_OOXX);
- mvwputch(w, 0,73, c_ltgray, LINE_OOXX);
+ draw_tab(w, 8, "STATS", (sTab == "STATS") ? true : false);
+ draw_tab(w, 24, "TRAITS", (sTab == "TRAITS") ? true : false);
+ draw_tab(w, 41, "SKILLS", (sTab == "SKILLS") ? true : false);
+ draw_tab(w, 58, "DESCRIPTION", (sTab == "DESCRIPTION") ? true : false);
 
- mvwprintz(w, 1, 4, c_ltgray, "\
-   STATS            TRAITS            SKILLS            DESCRIPTION   ");
+ mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
+ mvwputch(w, 2, 79, c_ltgray, LINE_OOXX); // ^|
 
- mvwputch(w, 1, 4, c_ltgray, LINE_XOXO);
- mvwputch(w, 1,14, c_ltgray, LINE_XOXO);
- mvwputch(w, 1,21, c_ltgray, LINE_XOXO);
- mvwputch(w, 1,32, c_ltgray, LINE_XOXO);
- mvwputch(w, 1,39, c_ltgray, LINE_XOXO);
- mvwputch(w, 1,50, c_ltgray, LINE_XOXO);
- mvwputch(w, 1,57, c_ltgray, LINE_XOXO);
- mvwputch(w, 1,73, c_ltgray, LINE_XOXO);
+ mvwputch(w, 4, 0, c_ltgray, LINE_XXXO); // |-
+ mvwputch(w, 4, 79, c_ltgray, LINE_XOXX); // -|
+
+ mvwputch(w, 24, 0, c_ltgray, LINE_XXOO); // |_
+ mvwputch(w, 24, 79, c_ltgray, LINE_XOOX); // _|
 }
 
 int set_stats(WINDOW* w, player *u, int &points)
 {
  unsigned char sel = 1;
  char ch;
-// Draw horizontal lines, with a gap for the active tab
- for (int i = 0; i < 80; i++) {
-  if (i < 4 || i > 14)
-   mvwputch(w,  2, i, c_ltgray, LINE_OXOX);
-  mvwputch(w,  4, i, c_ltgray, LINE_OXOX);
-  mvwputch(w, 21, i, c_ltgray, LINE_OXOX);
- }
-// Attaching lines for tabs
- mvwputch(w, 1,  2, h_ltgray, '<');
- mvwputch(w, 1, 16, h_ltgray, '>');
- mvwputch(w, 2,  4, c_ltgray, LINE_XOOX);
- mvwputch(w, 2, 14, c_ltgray, LINE_XXOO);
- mvwputch(w, 2, 21, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 32, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 39, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 50, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 57, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 73, c_ltgray, LINE_XXOX);
- mvwprintz(w, 1, 5, h_ltgray, "  STATS  ");
 
- mvwprintz(w, 11, 0, c_ltgray, "\
-   j/k, 8/2, or arrows select\n\
-    a statistic.\n\
-   l, 6, or right arrow\n\
-    increases the statistic.\n\
-   h, 4, or left arrow\n\
-    decreases the statistic.\n\
-\n\
-   > Takes you to the next tab.\n\
-   < Returns you to the main menu.");
+ draw_tabs(w, "STATS");
+
+ mvwprintz(w, 11, 2, c_ltgray, "j/k, 8/2, or arrows select");
+ mvwprintz(w, 12, 2, c_ltgray, " a statistic.");
+ mvwprintz(w, 13, 2, c_ltgray, "l, 6, or right arrow");
+ mvwprintz(w, 14, 2, c_ltgray, " increases the statistic.");
+ mvwprintz(w, 15, 2, c_ltgray, "h, 4, or left arrow");
+ mvwprintz(w, 16, 2, c_ltgray, " decreases the statistic.");
+ mvwprintz(w, 18, 2, c_ltgray, "> Takes you to the next tab.");
+ mvwprintz(w, 19, 2, c_ltgray, "< Returns you to the main menu.");
 
  do {
   mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
@@ -344,9 +323,9 @@ int set_stats(WINDOW* w, player *u, int &points)
              u->weight_capacity(false) / 4);
    mvwprintz(w, 8, 33, COL_STAT_ACT, "Melee damage: %d                            ",
              u->base_damage(false));
-   mvwprintz(w, 9, 33, COL_STAT_ACT, "  Strength also makes you more resistant to ");
-   mvwprintz(w,10, 33, COL_STAT_ACT, "many diseases and poisons, and makes actions");
-   mvwprintz(w,11, 33, COL_STAT_ACT, "which require brute force more effective.   ");
+   mvwprintz(w,10, 33, COL_STAT_ACT, "Strength also makes you more resistant to   ");
+   mvwprintz(w,11, 33, COL_STAT_ACT, "many diseases and poisons, and makes actions");
+   mvwprintz(w,12, 33, COL_STAT_ACT, "which require brute force more effective.   ");
    break;
 
   case 2:
@@ -370,9 +349,10 @@ int set_stats(WINDOW* w, player *u, int &points)
              (u->throw_dex_mod(false) <= 0 ? "bonus" : "penalty"),
              (u->throw_dex_mod(false) <= 0 ? "+" : "-"),
              abs(u->throw_dex_mod(false)));
-   mvwprintz(w, 9, 33, COL_STAT_ACT, "  Dexterity also enhances many actions which");
-   mvwprintz(w,10, 33, COL_STAT_ACT, "require finesse.                            ");
-   mvwprintz(w,11, 33, COL_STAT_ACT, "                                            ");
+   mvwprintz(w, 9, 33, COL_STAT_ACT, "                                            ");
+   mvwprintz(w,10, 33, COL_STAT_ACT, "Dexterity also enhances many actions which  ");
+   mvwprintz(w,11, 33, COL_STAT_ACT, "require finesse.                            ");
+   mvwprintz(w,12, 33, COL_STAT_ACT, "                                            ");
    break;
 
   case 3:
@@ -384,14 +364,16 @@ int set_stats(WINDOW* w, player *u, int &points)
    mvwprintz(w, 7,  2, c_ltgray,     "Dexterity:    %d  ", u->dex_max);
    mvwprintz(w, 8,  2, COL_STAT_ACT, "Intelligence: %d  ", u->int_max);
    mvwprintz(w, 9,  2, c_ltgray,     "Perception:   %d  ", u->per_max);
+
    mvwprintz(w, 6, 33, COL_STAT_ACT, "Skill comprehension: %d%%%%                     ",
              u->skillLevel("melee").comprehension(u->int_max));
    mvwprintz(w, 7, 33, COL_STAT_ACT, "Read times: %d%%%%                              ",
              u->read_speed(false));
-   mvwprintz(w, 8, 33, COL_STAT_ACT, "  Intelligence is also used when crafting,  ");
-   mvwprintz(w, 9, 33, COL_STAT_ACT, "installing bionics, and interacting with    ");
-   mvwprintz(w,10, 33, COL_STAT_ACT, "NPCs.                                       ");
-   mvwprintz(w,11, 33, COL_STAT_ACT, "                                            ");
+   mvwprintz(w, 8, 33, COL_STAT_ACT, "                                            ");
+   mvwprintz(w, 9, 33, COL_STAT_ACT, "Intelligence is also used when crafting,    ");
+   mvwprintz(w,10, 33, COL_STAT_ACT, "installing bionics, and interacting with    ");
+   mvwprintz(w,11, 33, COL_STAT_ACT, "NPCs.                                       ");
+   mvwprintz(w,12, 33, COL_STAT_ACT, "                                            ");
    break;
 
   case 4:
@@ -408,11 +390,12 @@ int set_stats(WINDOW* w, player *u, int &points)
              (u->ranged_per_mod(false) <= 0 ? "bonus" : "penalty"),
              (u->ranged_per_mod(false) <= 0 ? "+" : "-"),
              abs(u->ranged_per_mod(false)));
-   mvwprintz(w, 7, 33, COL_STAT_ACT, "  Perception is also used for detecting     ");
-   mvwprintz(w, 8, 33, COL_STAT_ACT, "traps and other things of interest.         ");
-   mvwprintz(w, 9, 33, COL_STAT_ACT, "                                            ");
+   mvwprintz(w, 7, 33, COL_STAT_ACT, "                                            ");
+   mvwprintz(w, 8, 33, COL_STAT_ACT, "Perception is also used for detecting       ");
+   mvwprintz(w, 9, 33, COL_STAT_ACT, "traps and other things of interest.         ");
    mvwprintz(w,10, 33, COL_STAT_ACT, "                                            ");
    mvwprintz(w,11, 33, COL_STAT_ACT, "                                            ");
+   mvwprintz(w,12, 33, COL_STAT_ACT, "                                            ");
    break;
   }
 
@@ -480,6 +463,9 @@ int set_stats(WINDOW* w, player *u, int &points)
 
 int set_traits(WINDOW* w, player *u, int &points)
 {
+ draw_tabs(w, "TRAITS");
+
+ WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
 // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
  int num_good = 0, num_bad = 0;
  for (int i = 0; i < PF_SPLIT; i++) {
@@ -490,25 +476,6 @@ int set_traits(WINDOW* w, player *u, int &points)
   if (u->has_trait(i))
    num_bad += abs(traits[i].points);
  }
-// Draw horizontal lines, with a gap for the active tab
- for (int i = 0; i < 80; i++) {
-  if (i < 21 || i > 32)
-   mvwputch(w,  2, i, c_ltgray, LINE_OXOX);
-  mvwputch(w,  4, i, c_ltgray, LINE_OXOX);
-  mvwputch(w, 21, i, c_ltgray, LINE_OXOX);
- }
-// Attaching lines for tabs
- mvwputch(w, 1,19, h_ltgray, '<');
- mvwputch(w, 1,34, h_ltgray, '>');
- mvwputch(w, 2, 4, c_ltgray, LINE_XXOX);
- mvwputch(w, 2,14, c_ltgray, LINE_XXOX);
- mvwputch(w, 2,21, c_ltgray, LINE_XOOX);
- mvwputch(w, 2,32, c_ltgray, LINE_XXOO);
- mvwputch(w, 2,39, c_ltgray, LINE_XXOX);
- mvwputch(w, 2,50, c_ltgray, LINE_XXOX);
- mvwputch(w, 2,57, c_ltgray, LINE_XXOX);
- mvwputch(w, 2,73, c_ltgray, LINE_XXOX);
- mvwprintz(w, 1,22, h_ltgray, "  TRAITS  ");
 
  for (int i = 0; i < 16; i++) {
   mvwprintz(w, 5 + i, 40, c_dkgray, "\
@@ -533,25 +500,22 @@ int set_traits(WINDOW* w, player *u, int &points)
   mvwprintz(w,  3,33, c_ltred, "%s%d/%d", (num_bad < 10 ? " " : ""),
                                num_bad, MAX_TRAIT_POINTS);
 // Clear the bottom of the screen.
-  mvwprintz(w, 22, 0, c_ltgray, "\
-                                                                             ");
-  mvwprintz(w, 23, 0, c_ltgray, "\
-                                                                             ");
-  mvwprintz(w, 24, 0, c_ltgray, "\
-                                                                             ");
+  mvwprintz(w_description, 0, 0, c_ltgray, "                                                                             ");
+  mvwprintz(w_description, 1, 0, c_ltgray, "                                                                             ");
+  mvwprintz(w_description, 2, 0, c_ltgray, "                                                                             ");
   if (using_adv) {
    col_on  = COL_TR_GOOD_ON;
    col_off = COL_TR_GOOD_OFF;
    hi_on   = hilite(col_on);
    hi_off  = hilite(col_off);
-   xoff = 0;
+   xoff = 2;
    cur_trait = cur_adv;
    traitmin = 1;
    traitmax = PF_SPLIT;
-   mvwprintz(w,  3, 40, c_ltgray, "                                       ");
+   mvwprintz(w,  3, 40, c_ltgray, "                                    ");
    mvwprintz(w,  3, 40, COL_TR_GOOD, "%s costs %d points",
              traits[cur_adv].name.c_str(), traits[cur_adv].points);
-   mvwprintz(w, 22, 0, COL_TR_GOOD, "%s", traits[cur_adv].description.c_str());
+   mvwprintz(w_description, 0, 0, COL_TR_GOOD, "%s", traits[cur_adv].description.c_str());
   } else {
    col_on  = COL_TR_BAD_ON;
    col_off = COL_TR_BAD_OFF;
@@ -561,15 +525,16 @@ int set_traits(WINDOW* w, player *u, int &points)
    cur_trait = cur_dis;
    traitmin = PF_SPLIT + 1;
    traitmax = PF_MAX;
-   mvwprintz(w,  3, 40, c_ltgray, "                                       ");
+   mvwprintz(w,  3, 40, c_ltgray, "                                    ");
    mvwprintz(w,  3, 40, COL_TR_BAD, "%s earns %d points",
              traits[cur_dis].name.c_str(), traits[cur_dis].points * -1);
-   mvwprintz(w, 22, 0, COL_TR_BAD, "%s", traits[cur_dis].description.c_str());
+   mvwprintz(w_description, 0, 0, COL_TR_BAD, "%s", traits[cur_dis].description.c_str());
   }
+
   if (cur_trait <= traitmin + 7) {
    for (int i = traitmin; i < traitmin + 16; i++) {
     mvwprintz(w, 5 + i - traitmin, xoff, c_ltgray, "\
-                                       ");	// Clear the line
+                                      ");	// Clear the line
     if (i == cur_trait) {
      if (u->has_trait(i))
       mvwprintz(w, 5 + i - traitmin, xoff, hi_on, traits[i].name.c_str());
@@ -585,7 +550,7 @@ int set_traits(WINDOW* w, player *u, int &points)
   } else if (cur_trait >= traitmax - 9) {
    for (int i = traitmax - 16; i < traitmax; i++) {
     mvwprintz(w, 21 + i - traitmax, xoff, c_ltgray, "\
-                                       ");	// Clear the line
+                                      ");	// Clear the line
     if (i == cur_trait) {
      if (u->has_trait(i))
       mvwprintz(w, 21 + i - traitmax, xoff, hi_on, traits[i].name.c_str());
@@ -601,7 +566,7 @@ int set_traits(WINDOW* w, player *u, int &points)
   } else {
    for (int i = cur_trait - 7; i < cur_trait + 9; i++) {
     mvwprintz(w, 12 + i - cur_trait, xoff, c_ltgray, "\
-                                      ");	// Clear the line
+                                     ");	// Clear the line
     if (i == cur_trait) {
      if (u->has_trait(i))
       mvwprintz(w, 12 + i - cur_trait, xoff, hi_on, traits[i].name.c_str());
@@ -617,6 +582,7 @@ int set_traits(WINDOW* w, player *u, int &points)
   }
 
   wrefresh(w);
+  wrefresh(w_description);
   switch (input()) {
    case 'h':
    case 'l':
@@ -629,9 +595,9 @@ int set_traits(WINDOW* w, player *u, int &points)
      }
     } else {
      for (int i = 0; i < 16; i++) {
-      mvwprintz(w, 5 + i, 0, c_dkgray, "\
+      mvwprintz(w, 5 + i, 2, c_dkgray, "\
                                        ");
-      mvwprintz(w, 5 + i, 0, c_dkgray, traits[i + 1].name.c_str());
+      mvwprintz(w, 5 + i, 2, c_dkgray, traits[i + 1].name.c_str());
      }
     }
     using_adv = !using_adv;
@@ -694,25 +660,9 @@ int set_traits(WINDOW* w, player *u, int &points)
 
 int set_skills(WINDOW* w, player *u, int &points)
 {
-// Draw horizontal lines, with a gap for the active tab
- for (int i = 0; i < 80; i++) {
-  if (i < 39 || i > 50)
-   mvwputch(w,  2, i, c_ltgray, LINE_OXOX);
-  mvwputch(w,  4, i, c_ltgray, LINE_OXOX);
-  mvwputch(w, 21, i, c_ltgray, LINE_OXOX);
- }
-// Attaching lines for tabs
- mvwputch(w, 1,37, h_ltgray, '<');
- mvwputch(w, 1,52, h_ltgray, '>');
- mvwputch(w, 2, 4, c_ltgray, LINE_XXOX);
- mvwputch(w, 2,14, c_ltgray, LINE_XXOX);
- mvwputch(w, 2,21, c_ltgray, LINE_XXOX);
- mvwputch(w, 2,32, c_ltgray, LINE_XXOX);
- mvwputch(w, 2,39, c_ltgray, LINE_XOOX);
- mvwputch(w, 2,50, c_ltgray, LINE_XXOO);
- mvwputch(w, 2,57, c_ltgray, LINE_XXOX);
- mvwputch(w, 2,73, c_ltgray, LINE_XXOX);
- mvwprintz(w,1,40, h_ltgray, "  SKILLS  ");
+ draw_tabs(w, "SKILLS");
+
+ WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
 
  int cur_sk = 1;
  Skill *currentSkill = Skill::skill(cur_sk);
@@ -720,72 +670,74 @@ int set_skills(WINDOW* w, player *u, int &points)
  do {
   mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
 // Clear the bottom of the screen.
-  mvwprintz(w, 22, 0, c_ltgray, "\
+  mvwprintz(w_description, 0, 0, c_ltgray, "\
                                                                              ");
-  mvwprintz(w, 23, 0, c_ltgray, "\
+  mvwprintz(w_description, 1, 0, c_ltgray, "\
                                                                              ");
-  mvwprintz(w, 24, 0, c_ltgray, "\
+  mvwprintz(w_description, 2, 0, c_ltgray, "\
                                                                              ");
-  if (points >= u->skillLevel(currentSkill).level() + 1)
-   mvwprintz(w,  3, 30, COL_SKILL_USED, "Upgrading %s costs %d points         ",
-             skill_name(cur_sk).c_str(), u->skillLevel(currentSkill).level() + 1);
+  mvwprintz(w,  3, 40, c_ltgray, "                                    ");
+  if (points >= u->skillLevel(currentSkill) + 1)
+   mvwprintz(w,  3, 30, COL_SKILL_USED, "Upgrading %s costs %d points",
+             skill_name(cur_sk).c_str(), u->skillLevel(currentSkill) + 1);
   else
-   mvwprintz(w,  3, 30, c_ltred, "Upgrading %s costs %d points         ",
-             skill_name(cur_sk).c_str(), u->skillLevel(currentSkill).level() + 1);
-  mvwprintz(w, 22, 0, COL_SKILL_USED, currentSkill->description().c_str());
+   mvwprintz(w,  3, 30, c_ltred, "Upgrading %s costs %d points",
+             skill_name(cur_sk).c_str(), u->skillLevel(currentSkill) + 1);
+  mvwprintz(w_description, 0, 0, COL_SKILL_USED, currentSkill->description().c_str());
 
   if (cur_sk <= 7) {
    for (int i = 1; i < 17; i++) {
      Skill *thisSkill = Skill::skill(i);
 
-    mvwprintz(w, 4 + i, 0, c_ltgray, "\
+    mvwprintz(w, 4 + i, 2, c_ltgray, "\
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
-     mvwprintz(w, 4 + i, 0, (i == cur_sk ? h_ltgray : c_ltgray),
+     mvwprintz(w, 4 + i, 2, (i == cur_sk ? h_ltgray : c_ltgray),
                thisSkill->name().c_str());
     } else {
-     mvwprintz(w, 4 + i, 0,
+     mvwprintz(w, 4 + i, 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
                "%s ", skill_name(i).c_str());
-     for (int j = 0; j < u->skillLevel(thisSkill).level(); j++)
+     for (int j = 0; j < u->skillLevel(thisSkill); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
    }
   } else if (cur_sk >= Skill::skills.size() - 9) {
    for (int i = num_skill_types - 16; i < num_skill_types; i++) {
      Skill *thisSkill = Skill::skill(i);
-    mvwprintz(w, 21 + i - num_skill_types, 0, c_ltgray, "\
+    mvwprintz(w, 21 + i - num_skill_types, 2, c_ltgray, "\
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
-     mvwprintz(w, 21 + i - num_skill_types, 0,
+     mvwprintz(w, 21 + i - num_skill_types, 2,
                (i == cur_sk ? h_ltgray : c_ltgray), thisSkill->name().c_str());
     } else {
-     mvwprintz(w, 21 + i - num_skill_types, 0,
+     mvwprintz(w, 21 + i - num_skill_types, 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "%s ",
                thisSkill->name().c_str());
-     for (int j = 0; j < u->skillLevel(thisSkill).level(); j++)
+     for (int j = 0; j < u->skillLevel(thisSkill); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
    }
   } else {
    for (int i = cur_sk - 7; i < cur_sk + 9; i++) {
      Skill *thisSkill = Skill::skill(i);
-    mvwprintz(w, 12 + i - cur_sk, 0, c_ltgray, "\
+    mvwprintz(w, 12 + i - cur_sk, 2, c_ltgray, "\
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
-     mvwprintz(w, 12 + i - cur_sk, 0, (i == cur_sk ? h_ltgray : c_ltgray),
+     mvwprintz(w, 12 + i - cur_sk, 2, (i == cur_sk ? h_ltgray : c_ltgray),
                thisSkill->name().c_str());
     } else {
-     mvwprintz(w, 12 + i - cur_sk, 0,
+     mvwprintz(w, 12 + i - cur_sk, 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
                "%s ", thisSkill->name().c_str());
-     for (int j = 0; j < u->skillLevel(thisSkill).level(); j++)
+     for (int j = 0; j < u->skillLevel(thisSkill); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
    }
   }
 
   wrefresh(w);
+  wrefresh(w_description);
   switch (input()) {
    case 'j':
      if (cur_sk < Skill::skills.size() - 1)
@@ -798,15 +750,15 @@ int set_skills(WINDOW* w, player *u, int &points)
     currentSkill = Skill::skill(cur_sk);
     break;
    case 'h':
-     if (u->skillLevel(currentSkill).level()) {
-      u->skillLevel(currentSkill).level(u->skillLevel(currentSkill).level() - 2);
-      points += u->skillLevel(currentSkill).level() + 1;
+     if (u->skillLevel(currentSkill)) {
+      u->skillLevel(currentSkill).level(u->skillLevel(currentSkill) - 2);
+      points += u->skillLevel(currentSkill) + 1;
     }
     break;
    case 'l':
-     if (points >= u->skillLevel(currentSkill).level() + 1) {
-       points -= u->skillLevel(currentSkill).level() + 1;
-       u->skillLevel(currentSkill).level(u->skillLevel(currentSkill).level() + 2);
+     if (points >= u->skillLevel(currentSkill) + 1) {
+       points -= u->skillLevel(currentSkill) + 1;
+       u->skillLevel(currentSkill).level(u->skillLevel(currentSkill) + 2);
     }
     break;
    case '<':
@@ -819,25 +771,8 @@ int set_skills(WINDOW* w, player *u, int &points)
 
 int set_description(WINDOW* w, player *u, int &points)
 {
-// Draw horizontal lines, with a gap for the active tab
- for (int i = 0; i < 80; i++) {
-  if (i < 57 || i > 73)
-   mvwputch(w,  2, i, c_ltgray, LINE_OXOX);
-  mvwputch(w,  4, i, c_ltgray, LINE_OXOX);
-  mvwputch(w, 21, i, c_ltgray, LINE_OXOX);
- }
-// Attaching lines for tabs
- mvwputch(w, 1,55, h_ltgray, '<');
- mvwputch(w, 1,75, h_ltgray, '>');
- mvwputch(w, 2, 4, c_ltgray, LINE_XXOX);
- mvwputch(w, 2,14, c_ltgray, LINE_XXOX);
- mvwputch(w, 2,21, c_ltgray, LINE_XXOX);
- mvwputch(w, 2,32, c_ltgray, LINE_XXOX);
- mvwputch(w, 2,39, c_ltgray, LINE_XXOX);
- mvwputch(w, 2,50, c_ltgray, LINE_XXOX);
- mvwputch(w, 2,57, c_ltgray, LINE_XOOX);
- mvwputch(w, 2,73, c_ltgray, LINE_XXOO);
- mvwprintz(w,1,58, h_ltgray, "  DESCRIPTION  ");
+ draw_tabs(w, "DESCRIPTION");
+
  mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
 
  mvwprintz(w, 6, 2, c_ltgray, "\

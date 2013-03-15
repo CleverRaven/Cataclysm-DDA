@@ -135,6 +135,24 @@ void mattack::shockstorm(game *g, monster *z)
  }
 }
 
+
+void mattack::smokecloud(game *g, monster *z)
+{
+  z->sp_timeout = z->type->sp_freq;	// Reset timer
+  for (int i = -3; i <= 3; i++) {
+    for (int j = -3; j <=3; j++) {
+      g->m.add_field(g, z->posx + i, z->posy + j, fd_smoke, 2);
+    }
+  }
+  //Round it out a bit
+  for (int i = -2; i <= 2; i++){
+      g->m.add_field(g, z->posx + i, z->posy + 4, fd_smoke, 2);
+      g->m.add_field(g, z->posx + i, z->posy - 4, fd_smoke, 2);
+      g->m.add_field(g, z->posx + 4, z->posy + i, fd_smoke, 2);
+      g->m.add_field(g, z->posx - 4, z->posy + i, fd_smoke, 2);
+  }
+}
+
 void mattack::boomer(game *g, monster *z)
 {
  int j;
@@ -717,7 +735,7 @@ void mattack::dermatik(game *g, monster *z)
 
 // Can we swat the bug away?
  int dodge_roll = z->dodge_roll();
- int swat_skill = (g->u.skillLevel("melee").level() + g->u.skillLevel("unarmed").level() * 2) / 3;
+ int swat_skill = (g->u.skillLevel("melee") + g->u.skillLevel("unarmed") * 2) / 3;
  int player_swat = dice(swat_skill, 10);
  if (player_swat > dodge_roll) {
   g->add_msg("The %s lands on you, but you swat it off.", z->name().c_str());
@@ -1384,3 +1402,4 @@ void mattack::bite(game *g, monster *z)
  g->u.add_disease(DI_BITE, 3600, g);
  }
 }
+

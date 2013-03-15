@@ -661,6 +661,14 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    int score = p->op_of_u.trust + p->op_of_u.value * 3 +
                p->personality.altruism * 2;
    int missions_value = p->assigned_missions_value(g);
+   if (g->u.has_amount(itm_mininuke, 1)) {
+   RESPONSE("Because I'm holding a thermal detonator!");
+    SUCCESS(TALK_GIVE_EQUIPMENT);
+     SUCCESS_ACTION(&talk_function::give_equipment);
+     SUCCESS_OPINION(0, 0, -1, 0, score * 300);
+    FAILURE(TALK_DENY_EQUIPMENT);
+     FAILURE_OPINION(0, 0, -1, 0, 0);
+  }
    RESPONSE("Because I'm your friend!");
     TRIAL(TALK_TRIAL_PERSUADE, 10 + score);
     SUCCESS(TALK_GIVE_EQUIPMENT);
@@ -732,6 +740,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   if (trainable.empty() && styles.empty()) {
    RESPONSE("Oh, okay."); // Nothing to learn here
     SUCCESS(TALK_NONE);
+   break;
   }
   int printed = 0;
   int shift = p->chatbin.tempvalue;
@@ -1441,8 +1450,8 @@ void talk_function::start_training(game *g, npc *p)
   time = 30000;
  } else {
    sk_used = skill(p->chatbin.tempvalue);
-   cost = -200 * (1 + g->u.skillLevel(Skill::skill(sk_used)).level());
-   time = 10000 + 5000 * g->u.skillLevel(Skill::skill(sk_used)).level();
+   cost = -200 * (1 + g->u.skillLevel(Skill::skill(sk_used)));
+   time = 10000 + 5000 * g->u.skillLevel(Skill::skill(sk_used));
  }
 
 // Pay for it

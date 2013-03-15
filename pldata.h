@@ -179,12 +179,13 @@ enum pl_flag {
  PF_TERRIFYING,	// All creatures run away more
  PF_DISRESISTANT,// Less likely to succumb to low health; TODO: Implement this
  PF_ADRENALINE,	// Big bonuses when low on HP
+ PF_SELFAWARE, // Let's you see exact HP totals
  PF_INCONSPICUOUS,// Less spawns due to timeouts
  PF_MASOCHIST,	// Morale boost from pain
  PF_LIGHTSTEP,	// Less noise from movement
- PF_HEARTLESS,	// No morale penalty for murder &c
  PF_ANDROID,	// Start with two bionics (occasionally one)
  PF_ROBUST,	// Mutations tend to be good (usually they tend to be bad)
+ PF_CANNIBAL, // No penalty for eating human meat
  PF_MARTIAL_ARTS, // Start with a martial art
 
  PF_SPLIT,	// Null trait, splits between bad & good
@@ -211,7 +212,6 @@ enum pl_flag {
  PF_MOODSWINGS,	// Big random shifts in morale
  PF_WEAKSTOMACH,// More likely to throw up in all circumstances
  PF_WOOLALLERGY,// Can't wear wool
- PF_HPIGNORANT,	// Don't get to see exact HP numbers, just colors & symbols
  PF_TRUTHTELLER, // Worse at telling lies
  PF_UGLY, // +1 grotesqueness
 
@@ -423,6 +423,9 @@ flu."},
 {"High Adrenaline", 3, 0, 0, "\
 If you are in a very dangerous situation, you may experience a temporary rush\n\
 which increases your speed and strength significantly."},
+{"Self-aware", 1, 0, 0, "\
+You get to see your exact amount of HP remaining, instead of only having a\n\
+vague idea of whether you're in good condition or not."},
 {"Inconspicuous", 2, 0, 0, "\
 While sleeping or staying still, it is less likely that monsters will wander\n\
 close to you."},
@@ -431,18 +434,19 @@ Although you still suffer the negative effects of pain, it also brings a\n\
 unique pleasure to you."},
 {"Light Step", 1, 0, 0, "\
 You make less noise while walking.  You're also less likely to set off traps."},
-{"Heartless", 2, 0, 0, "\
-You have few qualms, and no capacity for pity. Killing the helpless, the\n\
-young, and your friends will not affect your morale at all."},
 {"Android", 4, 0, 0, "\
 At some point in the past you had a bionic upgrade installed in your body.\n\
 You start the game with a power system, and one random bionic enhancement."},
 {"Robust Genetics", 2, 0, 0, "\
 You have a very strong genetic base.  If you mutate, the odds that the\n\
 mutation will be beneficial are greatly increased."},
+{"Cannibal", 3, 0, 0, "\
+For your whole life you've been forbidden from indulging in your peculiar\n\
+tastes. Now the world's ended, and you'll be damned if anyone is going to\n\
+tell you you can't eat people."},
 {"Martial Arts Training", 3, 0, 0, "\
 You have receives some martial arts training at a local dojo.  You will start\n\
-with your choice of karate, judo, aikido, tai chi, or taekwando."},
+with your choice of karate, judo, aikido, tai chi, or taekwondo."},
 
 {"NULL", 0, 0, 0, " -------------------------------------------------- "},
 
@@ -464,7 +468,7 @@ You never learned to read!  Books and computers are off-limits to you."},
 Your hearing is poor, and you may not hear quiet or far-off noises."},
 {"Insomniac", -2, 0, 0, "\
 You have a hard time falling asleep, even under the best circumstances!"},
-{"Meat Allergy", -3, 0, 0, "\
+{"Meat Intolerance", -3, 0, 0, "\
 You have problems with eating meat, it's possible for you to eat it but\n\
 you will suffer morale penalties due to nausea."},
 {"Glass Jaw", -3, 0, 0, "\
@@ -511,9 +515,6 @@ You are more likely to throw up from food poisoning, alcohol, etc."},
 {"Wool Allergy", -1, 0, 0, "\
 You are badly allergic to wool, and can not wear any clothing made of the\n\
 substance."},
-{"HP Ignorant", -2, 0, 0, "\
-You do not get to see your exact amount of HP remaining, but do have a vague\n\
-idea of whether you're in good condition or not."},
 {"Truth Teller", -2, 0, 0, "\
 When you try to tell a lie, you blush, stammer, and get all shifty-eyed.\n\
 Telling lies and otherwise bluffing will be much more difficult for you."},

@@ -444,7 +444,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   //dump << "\n Recoil: ";
   temp1.str("");
   if (has_ammo)
-   temp1 << ammo_dam; //dump << ammo_recoil;
+   temp1 << ammo_recoil; //dump << ammo_recoil;
 
   temp1 << (recoil(false) >= 0 ? "+" : "" );
   //dump << (recoil(false) >= 0 ? "+" : "" ) << recoil(false);
@@ -667,7 +667,7 @@ nc_color item::color(player *u)
   }
  } else if (is_book()) {
   it_book* tmp = dynamic_cast<it_book*>(type);
-  if (tmp->type && tmp->intel <= u->int_cur + u->skillLevel(tmp->type).level() &&
+  if (tmp->type && tmp->intel <= u->int_cur + u->skillLevel(tmp->type) &&
       (tmp->intel == 0 || !u->has_trait(PF_ILLITERATE)) &&
       (u->skillLevel(tmp->type) >= tmp->req) &&
       (u->skillLevel(tmp->type) < tmp->level))
@@ -799,7 +799,7 @@ std::string item::tname(game *g)
   food = dynamic_cast<it_comest*>(contents[0].type);
  if (food != NULL && g != NULL && food->spoils != 0 &&
    int(g->turn) < (int)bday + 100)
-  ret << " (hot)";
+  ret << " (fresh)";
  if (food != NULL && g != NULL && food->spoils != 0 &&
    int(g->turn) - (int)bday > food->spoils * 600)
   ret << " (rotten)";
@@ -1372,7 +1372,7 @@ int item::reload_time(player &u)
    if (spare_mag != -1 && contents[spare_mag].charges > 0)
     ret -= double(ret) * 0.9;
   }
-  double skill_bonus = double(u.skillLevel(reloading->skill_used).level()) * .075;
+  double skill_bonus = double(u.skillLevel(reloading->skill_used)) * .075;
   if (skill_bonus > .75)
    skill_bonus = .75;
   ret -= double(ret) * skill_bonus;

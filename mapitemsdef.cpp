@@ -6,6 +6,8 @@
 
 void game::init_mapitems()
 {
+ setvector(mapitems[mi_child_items],
+  itm_chocolate, itm_candy, itm_crack, itm_bat, itm_backpack, itm_pockknife, NULL);
 
  setvector(
    mapitems[mi_field],
@@ -54,11 +56,16 @@ void game::init_mapitems()
 	NULL);
 
  setvector(
+   mapitems[mi_knifeblock],
+    itm_knife_steak, itm_knife_butcher, itm_knife_combat, itm_pockknife,
+    NULL);
+
+ setvector(
    mapitems[mi_fridge],
 	itm_water_clean, itm_oj, itm_cola, itm_rootbeer, itm_milk, itm_V8, itm_apple,
 	itm_sandwich_t, itm_mushroom, itm_blueberries, itm_strawberries,
 	itm_tomato, itm_broccoli, itm_zucchini, itm_frozen_dinner, itm_vodka,
-	itm_apple_cider, NULL);
+	itm_apple_cider, itm_jihelucake, NULL);
 
  setvector(
    mapitems[mi_home_hw],
@@ -131,7 +138,7 @@ void game::init_mapitems()
    mapitems[mi_behindcounter],
 	itm_aspirin, itm_caffeine, itm_cig, itm_cigar, itm_battery,
 	itm_shotgun_sawn, itm_mag_porn, itm_lighter, itm_flashlight,
-	itm_extinguisher, itm_tazer, itm_mp3, NULL);
+	itm_extinguisher, itm_tazer, itm_mp3, itm_roadmap, NULL);
 
  setvector(
    mapitems[mi_magazines],
@@ -154,7 +161,7 @@ void game::init_mapitems()
    mapitems[mi_cannedfood],
 	itm_can_beans, itm_can_corn, itm_can_spam, itm_can_pineapple,
 	itm_can_coconut, itm_can_sardine, itm_can_tuna, itm_can_catfood,
-	itm_broth, itm_soup, itm_flour, itm_sugar, itm_salt, NULL);
+	itm_broth, itm_soup_veggy, itm_soup_meat, itm_flour, itm_sugar, itm_salt, NULL);
 
  setvector(
    mapitems[mi_pasta],
@@ -457,10 +464,10 @@ void game::init_mapitems()
 	itm_chainsaw_off, itm_jackhammer, itm_jacqueshammer, itm_ring, itm_necklace, itm_usb_drive,
 	itm_broadsword, itm_morningstar, itm_helmet_plate, itm_cot, itm_rollmat, itm_tent_kit,
 	itm_boots_fit, itm_boots_steel_fit, itm_boots_winter_fit,
-        itm_dress_shoes_fit, itm_bat_metal, itm_jeans_fit, itm_pants_army_fit,
-        itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
-        itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit, itm_lawnmower,
-        itm_lawnmower_machete, itm_picklocks, itm_rucksack, itm_puller, itm_press, NULL);
+    itm_dress_shoes_fit, itm_bat_metal, itm_jeans_fit, itm_pants_army_fit,
+    itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
+    itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit, itm_lawnmower,
+    itm_makeshift_machete, itm_picklocks, itm_rucksack, itm_puller, itm_press, NULL);
 
  setvector(
    mapitems[mi_mil_surplus], // NOT food or armor!
@@ -472,7 +479,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_shelter],
-	itm_water_clean, itm_soup, itm_chocolate, itm_ravioli, itm_can_beans,
+	itm_water_clean, itm_soup_veggy, itm_soup_meat, itm_chocolate, itm_ravioli, itm_can_beans,
 	itm_can_spam, itm_can_tuna, itm_coffee_raw, itm_bandages, itm_1st_aid,
 	itm_vitamins, itm_iodine, itm_dayquil, itm_screwdriver, itm_boots,
 	itm_boots_winter, itm_socks_wool, itm_jeans, itm_shorts, itm_tshirt, itm_sweatshirt, itm_sweater,
@@ -763,6 +770,47 @@ void game::init_mapitems()
 	itm_processor, itm_RAM, itm_power_supply, itm_amplifier,
 	itm_transponder, itm_receiver, itm_antenna, itm_steel_chunk, itm_spring,
 	itm_steel_lump, itm_motor, itm_battery, itm_plut_cell, NULL);
+
+ setvector(
+   mapitems[mi_eyebot],
+     itm_flashlight, NULL);
+
+ setvector(
+   mapitems[mi_manhack],
+    itm_knife_combat, NULL);
+
+ setvector(
+   mapitems[mi_skitterbot],
+     itm_tazer, NULL);
+
+ setvector(
+   mapitems[mi_secubot],
+    itm_9mm, itm_steel_plate, NULL);
+
+ setvector(
+   mapitems[mi_copbot],
+     itm_baton, itm_tazer, itm_alloy_plate, NULL);
+
+ setvector(
+   mapitems[mi_molebot],
+     itm_spiked_plate, itm_hard_plate, NULL);
+
+ setvector(
+   mapitems[mi_tripod],
+     itm_flamethrower, itm_alloy_plate, NULL);
+
+ setvector(
+   mapitems[mi_chickenbot],
+     itm_9mm, itm_alloy_plate, NULL);
+
+ setvector(
+   mapitems[mi_tankbot],
+     itm_tazer, itm_flamethrower, itm_9mm, itm_alloy_plate,
+     itm_hard_plate, NULL);
+
+ setvector(
+   mapitems[mi_turret],
+     itm_9mm, NULL);
 
  setvector(
    mapitems[mi_helicopter],

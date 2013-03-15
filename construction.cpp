@@ -42,9 +42,9 @@ void game::init_construction()
 
  CONSTRUCT("Dig Pit", 0, &construct::able_dig, &construct::done_nothing);
   STAGE(t_pit_shallow, 10);
-   TOOL(itm_shovel, NULL);
+   TOOL(itm_shovel, itm_primitive_shovel, NULL);
   STAGE(t_pit, 10);
-   TOOL(itm_shovel, NULL);
+   TOOL(itm_shovel, itm_primitive_shovel, NULL);
 
  CONSTRUCT("Spike Pit", 0, &construct::able_pit, &construct::done_nothing);
   STAGE(t_pit_spiked, 5);
@@ -52,17 +52,17 @@ void game::init_construction()
 
  CONSTRUCT("Fill Pit", 0, &construct::able_pit, &construct::done_nothing);
   STAGE(t_pit_shallow, 5);
-   TOOL(itm_shovel, NULL);
+   TOOL(itm_shovel, itm_primitive_shovel, NULL);
   STAGE(t_dirt, 5);
-   TOOL(itm_shovel, NULL);
+   TOOL(itm_shovel, itm_primitive_shovel, NULL);
 
  CONSTRUCT("Chop Down Tree", 0, &construct::able_tree, &construct::done_tree);
   STAGE(t_dirt, 10);
-   TOOL(itm_ax, itm_chainsaw_on, NULL);
+   TOOL(itm_ax, itm_primitive_axe, itm_chainsaw_on, NULL);
 
  CONSTRUCT("Chop Up Log", 0, &construct::able_log, &construct::done_log);
   STAGE(t_dirt, 20);
-   TOOL(itm_ax, itm_chainsaw_on, NULL);
+   TOOL(itm_ax, itm_primitive_axe, itm_chainsaw_on, NULL);
 
  CONSTRUCT("Move Furniture", -1, &construct::able_furniture, &construct::done_furniture);
   STAGE(t_null, 1);
@@ -74,59 +74,59 @@ void game::init_construction()
 /* CONSTRUCT("Remove Window Pane",  1, &construct::able_window_pane,
                                      &construct::done_window_pane);
   STAGE(t_window_empty, 10);
-   TOOL(itm_hammer, itm_rock, itm_hatchet, NULL);
+   TOOL(itm_hammer, itm_primitive_hammer, itm_rock, itm_hatchet, NULL);
    TOOL(itm_screwdriver, itm_knife_butter, itm_toolset, NULL);
 */
 
  CONSTRUCT("Repair Door", 1, &construct::able_door_broken,
                              &construct::done_nothing);
   STAGE(t_door_c, 10);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 3, NULL);
    COMP(itm_nail, 12, NULL);
 
  CONSTRUCT("Board Up Door", 0, &construct::able_door, &construct::done_nothing);
   STAGE(t_door_boarded, 8);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_hammer_sledge, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 4, NULL);
    COMP(itm_nail, 8, NULL);
 
  CONSTRUCT("Board Up Window", 0, &construct::able_window,
                                  &construct::done_nothing);
   STAGE(t_window_boarded, 5);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_hammer_sledge, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 4, NULL);
    COMP(itm_nail, 8, NULL);
 
  CONSTRUCT("Build Wall", 2, &construct::able_empty, &construct::done_nothing);
   STAGE(t_wall_half, 10);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 10, NULL);
    COMP(itm_nail, 20, NULL);
   STAGE(t_wall_wood, 10);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 10, NULL);
    COMP(itm_nail, 20, NULL);
 
  CONSTRUCT("Build Log Wall", 2, &construct::able_pit, &construct::done_nothing);
   STAGE(t_wall_log_half, 20);
-   TOOL(itm_shovel, NULL);
+   TOOL(itm_shovel, itm_primitive_shovel, NULL);
    COMP(itm_log, 2, NULL);
    COMP(itm_stick, 3, NULL);
   STAGE(t_wall_log, 20);
-   TOOL(itm_shovel, NULL);
+   TOOL(itm_shovel, itm_primitive_shovel, NULL);
    COMP(itm_log, 2, NULL);
    COMP(itm_stick, 3, NULL);
 
  CONSTRUCT("Build Palisade Wall", 2, &construct::able_pit, &construct::done_nothing);
   STAGE(t_palisade, 20);
-   TOOL(itm_shovel, NULL);
+   TOOL(itm_shovel, itm_primitive_shovel, NULL);
    COMP(itm_log, 3, NULL);
    COMP(itm_rope_30, 1, itm_rope_6, 5, NULL);
 
  CONSTRUCT("Build Palisade Gate", 2, &construct::able_pit, &construct::done_nothing);
   STAGE(t_palisade_gate, 20);
-   TOOL(itm_shovel, NULL);
+   TOOL(itm_shovel, itm_primitive_shovel, NULL);
    COMP(itm_log, 2, NULL);
    COMP(itm_2x4, 3, NULL);
    COMP(itm_rope_30, 1, itm_rope_6, 5, NULL);
@@ -134,7 +134,7 @@ void game::init_construction()
  CONSTRUCT("Build Window", 2, &construct::able_empty,
                               &construct::done_nothing);
   STAGE(t_window_empty, 10);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 15, itm_log, 2, NULL);
    COMP(itm_nail, 30, NULL);
   STAGE(t_window, 5);
@@ -149,18 +149,18 @@ void game::init_construction()
  CONSTRUCT("Build Door", 2, &construct::able_empty,
                               &construct::done_nothing);
   STAGE(t_door_frame, 15);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 12, NULL);
    COMP(itm_nail, 24, NULL);
   STAGE(t_door_c, 15);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 4, NULL);
    COMP(itm_nail, 12, NULL);
 
  CONSTRUCT("Build Wire Fence",3, &construct::able_dig,
                                  &construct::done_nothing);
   STAGE(t_chainfence_posts, 20);
-   TOOL(itm_hammer, itm_hatchet, itm_rock, NULL);
+   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_rock, NULL);
    COMP(itm_pipe, 6, NULL);
    COMP(itm_scrap, 8, NULL);
   STAGE(t_chainfence_v, 20);
@@ -181,14 +181,14 @@ void game::init_construction()
 /*  Removed until we have some way of auto-aligning fences!
  CONSTRUCT("Build Fence", 1, 15, &construct::able_empty);
   STAGE(t_fence_h, 10);
-   TOOL(itm_hammer, itm_hatchet, NULL);
+   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, NULL);
    COMP(itm_2x4, 5, itm_nail, 8, NULL);
 */
 
  CONSTRUCT("Build Roof", 3, &construct::able_between_walls,
                             &construct::done_nothing);
   STAGE(t_floor, 40);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_2x4, 8, NULL);
    COMP(itm_nail, 40, NULL);
 
@@ -197,7 +197,7 @@ void game::init_construction()
                                 &construct::done_nothing);
   STAGE(t_dresser, 20);
    TOOL(itm_saw, NULL);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_nail, 8, NULL);
    COMP(itm_2x4, 6, NULL);
 
@@ -205,21 +205,21 @@ void game::init_construction()
                                 &construct::done_nothing);
   STAGE(t_bookcase, 20);
    TOOL(itm_saw, NULL);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_nail, 16, NULL);
    COMP(itm_2x4, 12, NULL);
 
  CONSTRUCT("Build Counter", 0, &construct::able_indoors,
                                 &construct::done_nothing);
   STAGE(t_counter, 20);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_nail, 8, NULL);
    COMP(itm_2x4, 6, NULL);
 
  CONSTRUCT("Build Makeshift Bed", 0, &construct::able_indoors,
                                 &construct::done_nothing);
   STAGE(t_makeshift_bed, 20);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
    COMP(itm_nail, 8, NULL);
    COMP(itm_2x4, 10, NULL);
    COMP(itm_sheet, 1, NULL);
@@ -232,7 +232,7 @@ void game::init_construction()
  CONSTRUCT("Deconstruct Furniture", 0, &construct::able_deconstruct,
                                 &construct::done_deconstruct);
   STAGE(t_null, 20);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
    TOOL(itm_screwdriver, itm_toolset, NULL);
 
  CONSTRUCT("Start vehicle construction", 0, &construct::able_empty, &construct::done_vehicle);
@@ -242,21 +242,28 @@ void game::init_construction()
  CONSTRUCT("Fence Posts", 0, &construct::able_dig,
                              &construct::done_nothing);
   STAGE(t_fence_post, 5);
-  TOOL(itm_hammer, itm_shovel, itm_rock, itm_hatchet, itm_ax, NULL);
+  TOOL(itm_hammer, itm_primitive_hammer, itm_shovel, itm_primitive_shovel, itm_rock, itm_hatchet, itm_ax, itm_primitive_axe, NULL);
   COMP(itm_spear_wood, 2, NULL);
 
 }
 
 void game::construction_menu()
 {
- WINDOW *w_con = newwin(25, 80, 0, 0);
+ int iMaxY = (VIEWY*2)+1;
+ if (constructions.size()+2 < iMaxY)
+  iMaxY = constructions.size()+2;
+ if (iMaxY < 25)
+  iMaxY = 25;
+
+ WINDOW *w_con = newwin(iMaxY, 80, 0, 0);
  wborder(w_con, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w_con, 0, 1, c_red, "Construction");
- mvwputch(w_con,  0, 30, c_white, LINE_OXXX);
- mvwputch(w_con, 24, 30, c_white, LINE_XXOX);
- for (int i = 1; i < 24; i++)
-  mvwputch(w_con, i, 30, c_white, LINE_XOXO);
+ mvwprintz(w_con, 0, 8, c_ltred, " Construction ");
+
+ mvwputch(w_con,  0, 30, c_ltgray, LINE_OXXX);
+ mvwputch(w_con, iMaxY-1, 30, c_ltgray, LINE_XXOX);
+ for (int i = 1; i < iMaxY-1; i++)
+  mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
 
  mvwprintz(w_con,  1, 31, c_white, "Difficulty:");
 
@@ -264,46 +271,48 @@ void game::construction_menu()
 
  bool update_info = true;
  int select = 0;
- char ch;
+ long ch;
 
  inventory total_inv = crafting_inventory();
 
  do {
 // Erase existing list of constructions
-  for (int i = 1; i < 24; i++) {
-   for (int j = 1; j < 29; j++)
-    mvwputch(w_con, i, j, c_black, 'x');
+  for (int i = 1; i < iMaxY-1; i++) {
+   for (int j = 1; j < 30; j++)
+    mvwputch(w_con, i, j, c_black, ' ');
   }
 // Determine where in the master list to start printing
   //int offset = select - 11;
   int offset = 0;
-  if (select >= 22)
-   offset = select - 22;
+  if (select >= iMaxY-2)
+   offset = select - iMaxY + 3;
 // Print the constructions between offset and max (or how many will fit)
-  for (int i = 0; i <= 22 && (i + offset) < constructions.size(); i++) {
+  for (int i = 0; i < iMaxY-2 && (i + offset) < constructions.size(); i++) {
    int current = i + offset;
    nc_color col = (player_can_build(u, total_inv, constructions[current]) ?
                    c_white : c_dkgray);
    // Map menu items to hotkey letters, skipping j, k, l, and q.
-   char hotkey = current + ((current < 9) ? 97 : ((current < 13) ? 100 : 101));
+   char hotkey = 97 + current;
+   if (hotkey > 122)
+    hotkey = hotkey - 58;
+
    if (current == select)
     col = hilite(col);
-   mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey,
-	     constructions[current]->name.c_str());
+   mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey, constructions[current]->name.c_str());
   }
 
   if (update_info) {
    update_info = false;
    constructable* current_con = constructions[select];
 // Print difficulty
-   int pskill = u.skillLevel("carpentry").level();
+   int pskill = u.skillLevel("carpentry");
    int diff = current_con->difficulty > 0 ? current_con->difficulty : 0;
    mvwprintz(w_con, 1, 43, (pskill >= diff ? c_white : c_red),
              "%d   ", diff);
 // Clear out lines for tools & materials
-   for (int i = 2; i < 24; i++) {
+   for (int i = 2; i < iMaxY-1; i++) {
     for (int j = 31; j < 79; j++)
-     mvwputch(w_con, i, j, c_black, 'x');
+     mvwputch(w_con, i, j, c_black, ' ');
    }
 
 // Print stages and their requirements
@@ -398,54 +407,60 @@ void game::construction_menu()
    wrefresh(w_con);
   } // Finished updating
 
-  ch = input();
+  ch = getch();
   switch (ch) {
-   case 'j':
+   case KEY_DOWN:
     update_info = true;
     if (select < constructions.size() - 1)
      select++;
     else
      select = 0;
     break;
-   case 'k':
+   case KEY_UP:
     update_info = true;
     if (select > 0)
      select--;
     else
      select = constructions.size() - 1;
     break;
+   case ' ':
+   case KEY_ESCAPE:
+    ch = 'q';
+    break;
    case '\n':
-   case 'l':
-    if (player_can_build(u, total_inv, constructions[select])) {
-     place_construction(constructions[select]);
-     ch = 'q';
-    } else {
-     popup("You can't build that!");
-     for (int i = 1; i < 24; i++)
-      mvwputch(w_con, i, 30, c_white, LINE_XOXO);
-     update_info = true;
+   default:
+    if (ch > 64 && ch < 91) //A-Z
+     ch = ch - 65 + 26;
+
+    if (ch > 96 && ch < 123) //a-z
+     ch = ch - 97;
+
+    if (ch == '\n')
+     ch = select;
+
+    if (ch < constructions.size()) {
+     if (player_can_build(u, total_inv, constructions[ch])) {
+      place_construction(constructions[ch]);
+      ch = 'q';
+     } else {
+      popup("You can't build that!");
+      if (ch != '\n')
+       select = ch;
+      for (int i = 1; i < iMaxY-1; i++)
+       mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
+      update_info = true;
+     }
     }
     break;
-  case 'q':
-  case 'Q':
-  case KEY_ESCAPE:
-   break;
-  default:
-   if (ch < 97 || ch > constructions.size() + 101) break;
-   // Map menu items to hotkey letters, skipping j, k, l, and q.
-   char hotkey = ch - ((ch < 106) ? 97 : ((ch < 112) ? 100 : 101));
-   if (player_can_build(u, total_inv, constructions[hotkey])) {
-    place_construction(constructions[hotkey]);
-    ch = 'q';
-   } else {
-    popup("You can't build that!");
-    for (int i = 1; i < 24; i++)
-     mvwputch(w_con, i, 30, c_white, LINE_XOXO);
-    update_info = true;
-   }
-   break;
   }
  } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+
+ for (int i = iMaxY-25; i < iMaxY+1; i++) {
+  for (int j = (VIEWX*2)+1; j < 81; j++)
+   mvwputch(w_con, i, j, c_black, ' ');
+ }
+
+ wrefresh(w_con);
  refresh_all();
 }
 

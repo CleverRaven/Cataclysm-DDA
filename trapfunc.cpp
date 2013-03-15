@@ -209,7 +209,7 @@ void trapfuncm::shotgun(game *g, monster *z, int x, int y)
 
 void trapfunc::blade(game *g, int x, int y)
 {
- g->add_msg("A machete swings out and hacks your torso!");
+ g->add_msg("A blade swings out and hacks your torso!");
  g->u.hit(g, bp_torso, 0, 12, 30);
 }
 
@@ -217,7 +217,7 @@ void trapfuncm::blade(game *g, monster *z, int x, int y)
 {
  int t;
  if (g->u_see(z, t))
-  g->add_msg("A machete swings out and hacks the %s!", z->name().c_str());
+  g->add_msg("A blade swings out and hacks the %s!", z->name().c_str());
  int cutdam = 30 - z->armor_cut();
  int bashdam = 12 - z->armor_bash();
  if (cutdam < 0)
@@ -477,12 +477,12 @@ void trapfunc::sinkhole(game *g, int x, int y)
  g->add_msg("You step into a sinkhole, and start to sink down!");
  if (g->u.has_amount(itm_rope_30, 1) &&
      query_yn("Throw your rope to try to catch soemthing?")) {
-  int throwroll = rng(g->u.skillLevel("throw").level(),
-                      g->u.skillLevel("throw").level() + g->u.str_cur + g->u.dex_cur);
+  int throwroll = rng(g->u.skillLevel("throw"),
+                      g->u.skillLevel("throw") + g->u.str_cur + g->u.dex_cur);
   if (throwroll >= 12) {
    g->add_msg("The rope catches something!");
-   if (rng(g->u.skillLevel("unarmed").level(),
-           g->u.skillLevel("unarmed").level() + g->u.str_cur) > 6) {
+   if (rng(g->u.skillLevel("unarmed"),
+           g->u.skillLevel("unarmed") + g->u.str_cur) > 6) {
 // Determine safe places for the character to get pulled to
     std::vector<point> safe;
     for (int i = g->u.posx - 1; i <= g->u.posx + 1; i++) {

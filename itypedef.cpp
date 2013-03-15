@@ -61,7 +61,7 @@ void game::init_itypes ()
 healthy,addict,charges,fun,use_func,addict_func,des) \
 	index++;itypes.push_back(new it_comest(index,rarity,price,name,des,'~',\
 color,LIQUID,2,1,0,0,0,0,quench,nutr,spoils,stim,healthy,addict,charges,\
-fun,container,itm_null,use_func,addict_func));
+fun,container,itm_null,use_func,addict_func,"DRINK"));
 
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("water",		90, 50,	c_ltcyan, itm_bottle_plastic,
@@ -119,9 +119,13 @@ DRINK("broth",		15, 35, c_yellow, itm_can_food,
 	10, 15,160,  0,  0,  0,  1,  1,&iuse::none,	ADD_NULL, "\
 Vegetable stock. Tasty and fairly nutritious.");
 
-DRINK("soup",		15, 60, c_red,    itm_can_food,
+DRINK("vegetable soup",		15, 60, c_red,    itm_can_food,
 	10, 60,120,  0,  2,  0,  1,  2,&iuse::none,	ADD_NULL, "\
 A nutritious and delicious hearty vegetable soup.");
+
+DRINK("meat soup",		15, 60, c_red,    itm_can_food,
+	10, 60,120,  0,  2,  0,  1,  2,&iuse::none,	ADD_NULL, "\
+A nutritious and delicious hearty meat soup.");
 
 DRINK("whiskey",	16, 85,	c_brown,  itm_bottle_glass,
 	-12, 4,  0,-12, -2,  5, 7, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
@@ -196,8 +200,18 @@ Blood, possibly that of a human. Disgusting!");
 nutr,spoils,stim,healthy,addict,charges,fun,use_func,addict_func,des) \
 	index++;itypes.push_back(new it_comest(index,rarity,price,name,des,'%',\
 color,mat1,volume,weight,0,0,0,0,quench,nutr,spoils,stim,healthy,addict,charges,\
-fun,container,itm_null,use_func,addict_func));
+fun,container,itm_null,use_func,addict_func,"FOOD"));
 // FOOD
+
+FOOD("bone",            50, 50, c_white,    FLESH, itm_null,
+    1,  1,  0, 4,  0,   0, -1,  0, 1, 0,    &iuse::none, ADD_NULL, "\
+A bone from some creature or other, could be eaten or used to make some\n\
+stuff, like needles.");
+
+FOOD("fluid sac",            50, 50, c_white,    FLESH, itm_null,
+    1,  1,  0, 4,  0,   0, -1,  0, 1, 0,    &iuse::none, ADD_NULL, "\
+A fluid bladder from a plant based lifeform, not very nutritious, but\n\
+fine to eat anyway.");
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("chunk of meat",	50, 50,	c_red,		FLESH,  itm_null,
@@ -205,14 +219,15 @@ FOOD("chunk of meat",	50, 50,	c_red,		FLESH,  itm_null,
     1,  2,  0, 20, 24,  0, -1,  0,  1,-10,	&iuse::none, ADD_NULL, "\
 Freshly butchered meat. You could eat it raw, but cooking it is better.");
 
+
 FOOD("plant marrow",	30, 60,	c_green,	VEGGY,	itm_null,
     1,  2,  0, 20, 80,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 A nutrient rich chunk of plant matter, could be eaten raw or cooked.");
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
-FOOD("human flesh",	50, 50,	c_red,		FLESH,  itm_null,
+FOOD("human flesh",	50, 50,	c_red,		HFLESH,  itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
-    1,  2,  0, 20, 24,  0, -1,  0,  1,-30,	&iuse::none, ADD_NULL, "\
+    1,  2,  0, 20, 24,  0, -1,  0,  1, 0,	&iuse::none, ADD_NULL, "\
 Freshly butchered from a human body.");
 
 FOOD("wild vegetables",	30, 60,	c_green,	VEGGY,	itm_null,
@@ -419,20 +434,22 @@ FOOD("royal jelly",	 8,200,	c_magenta,	VEGGY,	itm_null,
 A large chunk of wax, filled with dense, dark honey.  Useful for curing all\n\
 sorts of afflictions.");
 
-FOOD("misshapen fetus",	 1,150,	c_magenta,	FLESH,	itm_null,
+FOOD("misshapen fetus",	 1,150,	c_magenta,	HFLESH,	itm_null,
     4,  4,  0,  8,  0,  0, -8,  0,  1,-60,	&iuse::mutagen, ADD_NULL, "\
-Eating this is about the most disgusting thing you can imagine, and it will\n\
-cause your DNA to mutate as well.");
+A deformed human fetus, eating this would be very nasty, and cause\n\
+your DNA to mutate.");
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
-FOOD("arm",		 4,250,	c_brown,	FLESH,	itm_null,
+FOOD("mutated arm",		 4,250,	c_brown,	HFLESH,	itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func       addiction type
     8, 14,  0, 12,  0,  0, -8,  0,  1, -20,	&iuse::mutagen, ADD_NULL, "\
-Eating this would be pretty gross. It causes you to mutate.");
+A misshapen human arm, eating this would be pretty disgusting\n\
+and cause your DNA to mutate.");
 
-FOOD("leg",		 4,250,	c_brown,	FLESH,	itm_null,
+FOOD("mutated leg",		 4,250,	c_brown,	HFLESH,	itm_null,
    12, 24,  0, 16,  0,  0, -8,  0,  1, -20,	&iuse::mutagen, ADD_NULL, "\
-Eating this would be pretty gross. It causes you to mutate.");
+A malformed human leg, this would be gross to eat, and cause\n\
+mutations.");
 
 FOOD("ant egg",		 5, 80,	c_white,	FLESH,	itm_null,
     4,  2, 10, 100, 0,  0, -1,  0,  1, -10,	&iuse::none,	ADD_NULL, "\
@@ -505,12 +522,17 @@ FOOD("coffee powder",	15, 13,	c_brown,	VEGGY,	itm_bag_plastic,
 Ground coffee beans. You can boil it into a mediocre stimulant,\n\
 or swallow it raw for a lesser stimulative boost.");
 
+FOOD("cake",            0, 0, c_white, VEGGY, itm_null,
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func       addiction type
+    2,  1,   0, 25, 0,  0,  0,  0,  1,  20, &iuse::none, ADD_NULL, "\
+Delicious sponge cake with buttercream icing, it says happy birthday on it.");
+
 // MEDS
 #define MED(name,rarity,price,color,tool,mat,stim,healthy,addict,\
 charges,fun,use_func,addict_func,des) \
 	index++;itypes.push_back(new it_comest(index,rarity,price,name,des,'!',\
 color,mat,1,1,0,0,0,0,0,0,0,stim,healthy,addict,charges,\
-fun,itm_null,tool,use_func,addict_func));
+fun,itm_null,tool,use_func,addict_func,"MED"));
 
 //  NAME		RAR PRC	COLOR		TOOL
 MED("bandages",		50, 60,	c_white,	itm_null,
@@ -677,11 +699,11 @@ MELEE("syringe",	 8, 25, ',', c_ltcyan,	PLASTIC,MNULL,
 	 1,  0, -4,  6, -2, mfb(IF_SPEAR), "\
 A medical syringe. Used for administering heroin and other drugs.");
 
-MELEE("fur pelt",	 0, 10, ',', c_brown,	WOOL,	FLESH,
+MELEE("fur pelt",	 0, 10, ',', c_brown,	FUR,	LEATHER,
 	 1,  1, -8,  0,  0, 0, "\
 A small bolt of fur from an animal. Can be made into warm clothing.");
 
-MELEE("leather patch",	 0, 20, ',', c_red,	LEATHER,FLESH,
+MELEE("leather patch",	 0, 20, ',', c_red,	LEATHER, FLESH,
 	 2,  1, -2,  0, -1, 0, "\
 A smallish patch of leather, could be used to make tough clothing.");
 
@@ -762,6 +784,12 @@ MELEE("signal receiver",10,135, ',', c_ltcyan,	IRON,	PLASTIC,
 A module designed to receive many forms of signals. Useful for crafting\n\
 communications equipment.");
 
+MELEE("burnt out bionic",10,135, ',', c_ltred,	STEEL,	PLASTIC,
+	 1,  0, -4,  0, -1, 0, "\
+Once a valuable bionic implants, it's not held up well under repeated\n\
+use. This object has been destroyed by excessive electric current and\n\
+is now useless.");
+
 MELEE("antenna",	18, 80, ',', c_ltcyan,	STEEL,	MNULL,
 	 1,  0, -6,  0,  2, 0, "\
 A simple thin aluminum shaft. Useful in lots of electronics recipes.");
@@ -798,7 +826,6 @@ MELEE("manhole cover",	 1, 20, ']', c_dkgray,	IRON,	MNULL,
 	45,250, 20,  0,-10, 0, "\
 A heavy iron disc which generally covers a ladder into the sewers. Lifting\n\
 it from the manhole is impossible without a crowbar.");
-TECH( mfb(TEC_WBLOCK_3) );
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("rock",		40,  0, '*', c_ltgray,	STONE,	MNULL,
@@ -832,10 +859,12 @@ MELEE("nail board",	 5,  80,'/', c_ltred,	WOOD,	MNULL,
 	 6,  6, 16,  6,  1, mfb(IF_STAB), "\
 A long piece of wood with several nails through one end; essentially a simple\n\
 mace. Makes a great melee weapon.");
+TECH( mfb(TEC_WBLOCK_1) );
 
 MELEE("nail bat",	60, 160,'/', c_ltred,	WOOD,	MNULL,
 	12, 10, 28,  6,  3, mfb(IF_STAB), "\
 A baseball bat with several nails driven through it, an excellent melee weapon.");
+TECH( mfb(TEC_WBLOCK_1) );
 
 MELEE("pot",		25,  45,')', c_ltgray,	IRON,	MNULL,
 	 8,  6,  9,  0,  1, 0, "\
@@ -991,9 +1020,9 @@ mounted on a vehicle.");
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("blade",	 5, 280,'/', c_blue,	IRON,	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
-	 8, 14,  6, 10, -2, 0, "\
-A large and slightly misshapen blade, could do some damage\n\
-mounted on a vehicle.");
+	 8, 10,  6, 10, -2, 0, "\
+A large, relatively sharp blade. Could be used to make\n\
+bladed weaponry, or attached to a car.");
 
 MELEE("wire",   50, 200,';', c_blue,    STEEL,  MNULL,
          4,  2,  0,  0, -2, 0, "\
@@ -1144,6 +1173,17 @@ MELEE("clockworks",          30, 0, ';', c_ltcyan, IRON, MNULL,
          1, 1, 0, 0, 0, 0, "\
 A small assortment of gears and other clockwork gubbins.");
 
+MELEE("wooden javelin",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
+//	VOL WGT DAM CUT HIT FLAGS
+	 5,  3,  6,  22,  2, mfb(IF_SPEAR), "\
+A wooden spear, honed to a sharper point and fire hardened\n\
+for toughness. The grip area has also be carved and covered\n\
+for better grip.");
+TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
+
+MELEE("stone pot", 0, 0, ';', c_dkgray, STONE, MNULL,
+     8, 3,  4, 0, -1, 0, "\
+A large stone, roughly hollowed out into a pot.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel frame",  20, 55, ']', c_cyan,  STEEL,   MNULL,
@@ -1332,11 +1372,11 @@ ARMOR("steeltoed boots",50, 135,C_SHOES,	LEATHER,	STEEL,
     7,  9,  4, -1,  1,  4,  4,  3,  50,  0,	mfb(bp_feet), "\
 Leather boots with a steel toe. Extremely durable.");
 
-ARMOR("winter boots",	60, 140,C_SHOES,	PLASTIC,	WOOL,
+ARMOR("winter boots",	60, 140,C_SHOES,	WOOL,	PLASTIC,
     8,  7,  0, -1,  2,  0,  2,  1,  80,  0,	mfb(bp_feet), "\
 Cumbersome boots designed for warmth.");
 
-ARMOR("mocassins",	 5,  80,C_SHOES,	LEATHER,	WOOL,
+ARMOR("mocassins",	 5,  80,C_SHOES,	FUR,	LEATHER,
     2,  1, -3,  0,  0,  0,  1,  0,  40,  0,	mfb(bp_feet), "\
 Simple shoes made from animal pelts.");
 
@@ -1385,6 +1425,10 @@ ARMOR("heels",		1,  50,C_SHOES,	LEATHER,	MNULL,
     4,  2,  6, -2,  2,  0,  0,  0,  0,  0,	mfb(bp_feet), "\
 A pair of high heels. Difficult to even walk in.\n\
 These high heels are a perfect fit for you.");
+
+ARMOR("chitinous boots",50, 135,C_SHOES,	LEATHER,	STEEL,
+    7,  9,  4, -1,  1,  4,  4,  3,  50,  0,	mfb(bp_feet), "\
+Boots made from the exoskeletons of insects. Light and durable.");
 
 ARMOR("shorts",		70, 180,C_PANTS,	COTTON,		MNULL,
     4,  2, -4,  1,  0,  0,  1,  0,  0,  4,	mfb(bp_legs), "\
@@ -1541,7 +1585,7 @@ ARMOR("kevlar vest",	30, 800,C_TORSO,	KEVLAR,		MNULL,
    24, 24,  6, -3,  2,  4, 22,  0,  20,  4,	mfb(bp_torso), "\
 A heavy bulletproof vest. The best protection from cuts and bullets.");
 
-ARMOR("rain coat",	50, 100,C_TORSO,	PLASTIC,	COTTON,
+ARMOR("rain coat",	50, 100,C_TORSO,	COTTON,	PLASTIC,
     9,  8, -4,  0,  2,  0,  3,  1,  20,  7,	mfb(bp_torso)|mfb(bp_arms), "\
 A plastic coat with two very large pockets. Provides protection from rain.");
 
@@ -1566,7 +1610,7 @@ ARMOR("winter coat",	50, 160,C_TORSO,	COTTON,		MNULL,
    12,  6, -5, -2,  3,  3,  1,  1,  70, 12,	mfb(bp_torso)|mfb(bp_arms), "\
 A padded coat with deep pockets. Very warm.");
 
-ARMOR("fur coat",	 5, 550,C_TORSO,	WOOL,		FLESH,
+ARMOR("fur coat",	 5, 550,C_TORSO,	FUR,		LEATHER,
    18, 12, -5, -5,  2,  4,  2,  2, 80,  4,	mfb(bp_torso)|mfb(bp_arms), "\
 A fur coat with a couple small pockets. Extremely warm.");
 
@@ -1706,6 +1750,11 @@ ARMOR("fire gauntlets",	 5,  95,C_GLOVES,	LEATHER,	MNULL,
     3,  5, -2,  2,  6,  1,  2,  5,  40,  0,	mfb(bp_hands), "\
 A heavy pair of leather gloves, used by firefighters for heat protection.");
 
+ARMOR("chitinous gauntlets", 1, 380,C_HAT,		FLESH,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   4,   1,  2, -2,  1,  5, 7,   4,  20,  0,	mfb(bp_hands), "\
+Gauntlets made from the exoskeletons of insects. Very light and durable.");
+
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("dust mask",	65,  20,C_MOUTH,	COTTON,		IRON,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
@@ -1810,7 +1859,7 @@ ARMOR("hunting cap",	20,  80,C_HAT,		WOOL,		MNULL,
     3,  2, -5,  0,  0,  0,  1,  2,  60,  0,	mfb(bp_head), "\
 A red plaid hunting cap with ear flaps. Notably warm.");
 
-ARMOR("fur hat",	15, 120,C_HAT,		WOOL,		MNULL,
+ARMOR("fur hat",	15, 120,C_HAT,		FUR,		LEATHER,
     4,  2, -5,  0,  1,  2,  2,  0,  80,  0,	mfb(bp_head), "\
 A hat made from the pelts of animals. Extremely warm.");
 
@@ -1915,6 +1964,18 @@ ARMOR("bootstrap",	 3,  80,C_STORE, 	LEATHER,	MNULL,
     1,  1, -1, -1,  0,  0,  0,  0,  1,  2,	mfb(bp_legs), "\
 A small holster worn on the ankle.");
 
+ARMOR("pouch",	20, 110,C_STORE,	COTTON,	MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    5,  2,  1,  1,  1,  0,  0,  0,  0, 12,	mfb(bp_torso), "\
+A makeshift bag, cobbled together from rags. Really gets in the way, but\n\
+provides a decent amount of storage.");
+
+ARMOR("leather pouch",	20, 110,C_STORE,	LEATHER,	MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    5,  2,  1,  1,  0,  0,  0,  0,  0, 12,	mfb(bp_torso), "\
+A bag stitched together from leather scraps. Doesn't hold an awful lot\n\
+but is easy to wear.");
+
 ARMOR("gold ring",	12, 600,C_DECOR,	SILVER,		MNULL,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,	0,	"\
 A flashy gold ring. You can wear it if you like, but it won't provide\n\
@@ -1924,6 +1985,7 @@ ARMOR("silver necklace",14, 500,C_DECOR,	SILVER,		MNULL,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,	0,	"\
 A nice silver necklace. You can wear it if you like, but it won't provide\n\
 any effects.");
+
 
 // AMMUNITION
 // Material should be the wrapper--even though shot is made of iron, because
@@ -1954,6 +2016,19 @@ AMMO("thread",          40, 50, AT_THREAD,      c_magenta,      COTTON,
 A small quantity of thread that could be used to refill a sewing kit.",
 0);
 
+//  NAME		RAR PRC TYPE		COLOR		MAT
+AMMO("sinew",	50, 120,AT_THREAD,	c_red,	   FLESH,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 1,  1,  0,  0,  0,  0,  0,  10, "\
+A tough sinew cut from a corpse, useable as thread.",
+0);
+
+//  NAME		RAR PRC TYPE		COLOR		MAT
+AMMO("plant fibre",	50, 120,AT_THREAD,	c_green,	   VEGGY,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 1,  1,  1,  0,  0,  0,  0,  10, "\
+Tough thin fibres, taken from a plant. Can be used as thread.",
+0);
 AMMO("duct tape",       60, 20, AT_NULL,    c_ltgray,       PLASTIC,
          2,  2,  0,  0,  0,  0,  0, 200, "\
 A roll of incredibly strong tape. Its uses are innumerable.",
@@ -2080,6 +2155,14 @@ AMMO("9mm +P+",		 8, 440,AT_9MM,		c_ltblue,	STEEL,
 	 1,  7, 22, 12, 16, 14, 15,  10, "\
 A step beyond the high-pressure 9mm +P round, the +P+ is a very high pressure\n\
 loading which offers a degree of armor-penetrating ability.",
+0);
+
+//  NAME		RAR PRC TYPE		COLOR		MAT
+AMMO("7.62mm Type P",8, 300, AT_762x25,	c_ltblue,	STEEL,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 2,  7, 15,  4,  12, 14, 10,  200, "\
+This small caliber pistol round offers quite good armor penetration at the\n\
+cost of slightly less damage, it is rarely used outside of the Chinese army.",
 0);
 
 AMMO(".38 Special",	 7, 400,AT_38,		c_ltblue,	STEEL,
@@ -2382,7 +2465,7 @@ Primer from a shotgun round.",
 
 AMMO("small pistol primer",	 15, 40,AT_NULL,		c_dkgray,	STEEL,
 	 0,  0, 0, 0,  0, 0, 0, 200, "\
-Primer from a small caliber pistol round.",
+Primer from a small caliber  round.",
 0);
 
 AMMO("large pistol primer",	 15, 60,AT_NULL,		c_dkgray,	STEEL,
@@ -2599,6 +2682,13 @@ Designed to work with H&K's proprietary 4.6x30mm round, the UCP is a small\n\
 pistol with a very high capacity, best used against armored opponents.",
 0);
 
+GUN("Tokarev TT-30",		 7,1400,c_dkgray,	STEEL,	PLASTIC,
+//	SKILL		AMMO	    VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
+	"pistol",	AT_762x25,	 2,  12,  10,1,  0, 23,  4,  6,  0, 8, 300, "\
+The Norinco manufactured Tokarev TT-30 is the standard sidearm of the\n\
+Chinese military, it does not see extensive use outside of China.",
+0);
+
 GUN("sawn-off shotgun",	 1, 700,c_red,	IRON,	WOOD,
 	"shotgun",	AT_SHOT, 6, 10, 14,  2,  4, 40, 15,  4,  0,  2, 100, "\
 The barrels of shotguns are often sawed in half to make it more maneuverable\n\
@@ -2725,6 +2815,13 @@ successor to the extremely popular H&K MP5. Using H&K's proprietary 4.6x30mm\n\
 ammunition, it is designed for burst fire.",
 mfb(IF_MODE_BURST));
 
+//  NAME		RAR PRC COLOR	MAT1	MAT2
+GUN("PPSh-41",	12,2800,c_cyan,	STEEL,	WOOD,
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
+	"smg",		AT_762x25,12, 26, 10,  2,  1, 16, -1,  8,  8, 35, 400, "\
+The Soviet made PPSh-41, chambered in 7.62 Tokarev provides a relatively\n\
+large ammunition capacity, coupled with low recoil and decent accuracy.",
+mfb(IF_MODE_BURST));
 //  NAME		RAR PRC COLOR	MAT1	MAT2
 GUN("Marlin 39A",	14,1600,c_brown,IRON,	WOOD,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
@@ -3401,6 +3498,11 @@ CONT("glass flask",	10,  2500,	c_ltcyan,	GLASS,MNULL,
     1,  0, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A 250 ml laboratory conical flask, with a rubber bung.");
 
+CONT("waterskin",   0,  0, c_brown, LEATHER, MNULL,
+// VOL WGT DAM HIT	VOL	FLAGS
+    2, 2,  -8, -5,   6, mfb(con_wtight)|mfb(con_seals), "\
+A watertight leather bag, can hold 1.5 litres of water.");
+
 /* TOOLS
  * MAX is the maximum number of charges help.
  * DEF is the default number of charges--items will be generated with this
@@ -3496,6 +3598,11 @@ TOOL("radio (on)",	 0, 420,';', c_yellow,	PLASTIC, IRON,
     4,  2,  4,  0, -1, 100,100, 0,  8, AT_BATT, itm_radio,&iuse::radio_on, 0,"\
 This radio is turned on, and continually draining its batteries. It is\n\
 playing the broadcast being sent from any nearby radio towers.");
+
+TOOL("road map", 40, 10, ';', c_yellow, MNULL, MNULL,
+     1, 0, 0, 0, -1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::roadmap, 0, "\
+A road map. Use it to read points of interest, including, but not\n\
+limited to, location(s) of hospital(s) nearby.");
 
 TOOL("crowbar",		18, 130,';', c_ltblue,	IRON,	MNULL,
     4,  9, 16,  3,  2,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::crowbar, 0,"\
@@ -3885,9 +3992,9 @@ A rare sword from Japan. Deadly against unarmored targets, and still very\n\
 effective against the armored.");
 TECH( mfb(TEC_RAPID)|mfb(TEC_WBLOCK_2) );
 
-TOOL("steel spear",      5,  140,'/', c_ltred,   WOOD,   STEEL,
+TOOL("knife spear",      5,  140,'/', c_ltred,   WOOD,   STEEL,
          6,  6,  2, 28,  1,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_SPEAR), "\
-A simple wood pole made deadlier by the knife tied to it.");
+A simple wood pole made deadlier by the blade tied to it.");
 TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
 
 TOOL("rapier",		 3, 980,'/', c_ltblue,	STEEL,	MNULL,
@@ -3906,21 +4013,21 @@ TOOL("broadsword",	30,1200,'/',c_cyan,	IRON,	MNULL,
 	 7, 11,  8, 35,  2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
 An early modern sword seeing use in the 16th, 17th ane 18th centuries.\n\
 Called 'broad' to contrast with the slimmer rapiers.");
+TECH( mfb(TEC_WBLOCK_1) );
 
-TOOL("lawnmower blade", 0, 100, '/', c_ltgray, IRON, MNULL,
-	 7, 5,  4, 15,  -1,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
-The blade of a lawnmower. It's not incredibly sharp, but\n\
-it could still do some serious damage.");
+TOOL("makeshift machete", 0, 100, '/', c_ltgray, IRON, MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC   FUEL    REVERT    FUNCTION
+    7,  12,  4,  15, 1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::knife,
+    mfb(IF_STAB), "\
+A large blade which has had a portion of the handle wrapped\n\
+in duct tape, making it easier to wield as a rough machete.");
 
-TOOL("lawnmower machete", 0, 100, '/', c_ltgray, IRON, MNULL,
-         7, 5,  4, 15,   1,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
-A lawnmower blade that's been fashioned into a makeshift\n\
-machete, mainly by adding a handle for easier wielding.");
-
-TOOL("lawnmower halberd", 0, 100, '/', c_ltgray, IRON, MNULL,
-         10, 7, 4, 15,   2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
-A lawnmower blade affixed to a long stick, in the right\n\
-hands, this thing could do some massive damage.");
+TOOL("makeshift halberd", 0, 100, '/', c_ltgray, IRON, MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC   FUEL    REVERT    FUNCTION
+    13, 17, 4, 15,   2,  0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife, mfb(IF_STAB), "\
+A large blade attached to a long stick. Could do a considerable\n\
+amount of damage.");
+TECH( mfb(TEC_WBLOCK_1) );
 
 TOOL("steak knife",	85,  25,';', c_ltcyan,	STEEL,	MNULL,
      1,  2,  2, 10, -3, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
@@ -4067,6 +4174,33 @@ TOOL("pocket knife",	14, 100,';', c_blue,	STEEL,  PLASTIC,
 	 0,  2,  0, 10, -4, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::knife,
 mfb(IF_STAB), "\
 A small pocket knife, not great for combat, but better than nothing.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+TOOL("bone needle",     0, 0,';', c_white, FLESH, MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+     0,  0,  0,  0, 0, 200, 0,  1,  0, AT_THREAD, itm_null, &iuse::sew,
+mfb(IF_STAB), "\
+A sharp needle made from a bone. It would be useful for making rough\n\
+clothing and items");
+
+TOOL("stone hammer",		35, 70, ';', c_ltgray,	STONE,	WOOD,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    2,  8, 12,  0,  0,   0,  0, 0,  0, AT_NULL, itm_null, &iuse::hammer, 0, "\
+A rock affixed to a stick, functions adequately as a hammer, but really\n\
+can't compare to a proper hammer.");
+
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+TOOL("stone axe",	 8, 105,'/', c_ltgray,	WOOD,	STONE,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+	17, 19, 15, 18,  0, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::lumber,
+0, "\
+A sharpened stone affixed to a stick, works passably well as ane axe\n\
+but really can't compare to a proper axe..");
+
+TOOL("stone shovel",		40, 100,'/', c_brown,	STONE,	WOOD,
+   16, 21, 15,  5,  3,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::dig, 0, "\
+A flattened stone affixed to a stick, works passably well as a shovel\n\
+but really can't compare to a real shovel.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
@@ -4629,6 +4763,7 @@ std::string ammo_name(ammotype t)
   case AT_SHOT:	  return "shot";
   case AT_22:	  return ".22";
   case AT_9MM:	  return "9mm";
+  case AT_762x25: return "7.62x25mm";
   case AT_38:	  return ".38";
   case AT_40:	  return ".40";
   case AT_44:	  return ".44";
@@ -4662,6 +4797,7 @@ itype_id default_ammo(ammotype guntype)
  case AT_SHOT:	return itm_shot_00;
  case AT_22:	return itm_22_lr;
  case AT_9MM:	return itm_9mm;
+ case AT_762x25:return itm_762_25;
  case AT_38:	return itm_38_special;
  case AT_40:	return itm_10mm;
  case AT_44:	return itm_44magnum;

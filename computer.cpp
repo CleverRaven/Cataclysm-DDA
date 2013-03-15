@@ -163,7 +163,7 @@ bool computer::hack_attempt(player *p, int Security)
   Security = security; // Set to main system security if no value passed
 
  p->practice("computer", 5 + Security * 2);
- int player_roll = p->skillLevel("computer").level();
+ int player_roll = p->skillLevel("computer");
  if (p->int_cur < 8 && one_in(2))
   player_roll -= rng(0, 8 - p->int_cur);
  else if (p->int_cur > 8 && one_in(3))
@@ -643,6 +643,21 @@ of pureed bone & LSD.");
     }
    }
    break;
+   
+  case COMPACT_EMERG_MESS:
+  print_line("\
+  GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
+  EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n\
+  SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
+  \n\
+  1. DO NOT PANIC. \n\
+  2. REMAIN INSIDE THE BUILDING. \n\
+  3. SEEK SHELTER IN THE BASEMENT. \n\
+  4. USE PROVIDED GAS MASKS. \n\
+  5. AWAIT FURTHER INSTRUCTIONS \n\
+  \n\
+  Press any key to continue...");
+  break;
 
  } // switch (action)
 }
@@ -792,6 +807,7 @@ void computer::activate_failure(game *g, computer_failure fail)
    }
    getch();
    break;
+   
  }// switch (fail)
 }
 

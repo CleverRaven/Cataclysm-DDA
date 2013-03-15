@@ -27,6 +27,20 @@
 #include <map>
 #include <stdarg.h>
 
+// Fixed window sizes
+#define HP_HEIGHT 14
+#define HP_WIDTH 7
+#define MINIMAP_HEIGHT 7
+#define MINIMAP_WIDTH 7
+#define MONINFO_HEIGHT 12
+#define MONINFO_WIDTH 48
+#define MESSAGES_HEIGHT 8
+#define MESSAGES_WIDTH 48
+#define LOCATION_HEIGHT 1
+#define LOCATION_WIDTH 48
+#define STATUS_HEIGHT 4
+#define STATUS_WIDTH 55
+
 #define LONG_RANGE 10
 #define BLINK_SPEED 300
 #define BULLET_SPEED 10000000
@@ -243,6 +257,8 @@ class game
 // Display data... TODO: Make this more portable?
   int VIEWX;
   int VIEWY;
+  int TERMX;
+  int TERMY;
   int TERRAIN_WINDOW_WIDTH;
   int TERRAIN_WINDOW_HEIGHT;
 
@@ -253,11 +269,13 @@ class game
   WINDOW *w_messages;
   WINDOW *w_location;
   WINDOW *w_status;
+  WINDOW *w_void; //space unter status if viewport Y > 12
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
+  void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA = true);
   bool load_master();	// Load the master data file, with factions &c
   void load(std::string name);	// Load a player-specific save file
   void start_game();	// Starts a new game
@@ -297,6 +315,9 @@ class game
   void close();	// Close a door			'c'
   void smash();	// Smash terrain
   void craft();                    // See crafting.cpp
+  void recraft();                  // See crafting.cpp
+  void try_and_make(recipe *r);
+  bool can_make(recipe *r);
   void make_craft(recipe *making); // See crafting.cpp
   void complete_craft();           // See crafting.cpp
   void pick_recipes(std::vector<recipe*> &current,
@@ -340,6 +361,7 @@ class game
   void chat();    // Talk to a nearby NPC	'C'
   void plthrow(char chInput = '.'); // Throw an item		't'
   void help();    // Help screen		'?'
+  void show_options();    // Options screen		'?'
 
 // Target is an interactive function which allows the player to choose a nearby
 // square.  It display information on any monster/NPC on that square, and also

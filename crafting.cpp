@@ -23,18 +23,30 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
  #define TOOL(...)  setvector(recipes[id]->tools[tl],      __VA_ARGS__); tl++
  #define COMP(...)  setvector(recipes[id]->components[cl], __VA_ARGS__); cl++
 
+/**
+ * Macro Tool Groups
+ * Placeholder for imminent better system, this is already ridiculous
+ * Usage:
+ * TOOL(TG_KNIVES,NULL);
+ */
+
+#define TG_KNIVES \
+ itm_knife_steak, -1, itm_knife_combat, -1, itm_knife_butcher, -1, itm_pockknife, -1, itm_xacto, -1, itm_scalpel, -1, itm_machete, -1, itm_broadsword, -1
+
 /* A recipe will not appear in your menu until your level in the primary skill
  * is at least equal to the difficulty.  At that point, your chance of success
  * is still not great; a good 25% improvement over the difficulty is important
  */
 
 // NON-CRAFTABLE BUT CAN BE DISASSEMBLED (set category to CC_NONCRAFT)
+RECIPE(itm_knife_steak, CC_NONCRAFT, NULL, NULL, 0, 2000, true);
+ COMP(itm_spike, 1, NULL);
 
 RECIPE(itm_lawnmower, CC_NONCRAFT, NULL, NULL, 0, 1000, true);
  TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
  COMP(itm_scrap, 8, NULL);
  COMP(itm_spring, 2, NULL);
- COMP(itm_lawnmower_blade, 2, NULL);
+ COMP(itm_blade, 2, NULL);
  COMP(itm_1cyl_combustion, 1, NULL);
  COMP(itm_pipe, 3, NULL);
 
@@ -49,38 +61,55 @@ RECIPE(itm_tshirt_fit, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
 
 RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP(itm_rag, 5, NULL);
+
+ RECIPE(itm_string_36, CC_NONCRAFT, NULL, NULL, 0, 5000, true);
+  TOOL(TG_KNIVES, NULL);
+  COMP(itm_string_6, 6, NULL);
+
+ RECIPE(itm_rope_6, CC_NONCRAFT, "tailor", NULL, 0, 5000, true);
+  TOOL(TG_KNIVES, NULL);
+  COMP(itm_string_36, 6, NULL);
+
+ RECIPE(itm_rope_30, CC_NONCRAFT, "tailor", NULL, 0, 5000, true);
+  TOOL(TG_KNIVES, NULL);
+  COMP(itm_rope_6, 5, NULL);
 // CRAFTABLE
 
 // WEAPONS
 
- RECIPE(itm_lawnmower_machete, CC_WEAPON, NULL, NULL, 0, 5000, true);
+ RECIPE(itm_makeshift_machete, CC_WEAPON, NULL, NULL, 0, 5000, true);
   COMP(itm_duct_tape, 50, NULL);
-  COMP(itm_lawnmower_blade, 1, NULL);
+  COMP(itm_blade, 1, NULL);
 
- RECIPE(itm_lawnmower_halberd, CC_WEAPON, NULL, NULL, 0, 5000, true);
+ RECIPE(itm_makeshift_halberd, CC_WEAPON, NULL, NULL, 0, 5000, true);
   COMP(itm_duct_tape, 100, NULL);
-  COMP(itm_lawnmower_blade, 1, NULL);
+  COMP(itm_blade, 1, NULL);
   COMP(itm_stick, 1, itm_mop, 1, itm_broom, 1, NULL);
 
  RECIPE(itm_spear_wood, CC_WEAPON, NULL, NULL, 0, 800, false);
-  TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
-	itm_knife_combat, -1, itm_machete, -1, itm_toolset, -1, NULL);
+  TOOL(itm_hatchet, -1, TG_KNIVES, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_pool_cue, 1, NULL);
+
+ RECIPE(itm_javelin, CC_WEAPON, "survival", NULL, 1, 5000, false);
+  TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_pockknife, -1, itm_knife_combat, -1,
+       itm_knife_butcher, -1, itm_machete, -1, NULL);
+  TOOL(itm_fire, -1, NULL);
+  COMP(itm_spear_wood, 1, NULL);
+  COMP(itm_rag, 1, itm_leather, 1, itm_fur, 1, NULL);
+  COMP(itm_plant_fibre, 20, itm_sinew, 20, NULL);
 
  RECIPE(itm_spear_knife, CC_WEAPON, "stabbing", NULL, 0, 600, true);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, NULL);
-  COMP(itm_knife_steak, 2, itm_knife_combat, 1, NULL);
+  COMP(itm_spike, 1, NULL);
   COMP(itm_string_6, 6, itm_string_36, 1, NULL);
 
  RECIPE(itm_longbow, CC_WEAPON, "archery", "survival", 2, 15000, true);
-  TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
-       itm_knife_combat, -1, itm_machete, -1, itm_toolset, -1, NULL);
+  TOOL(itm_hatchet, -1, TG_KNIVES, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, NULL);
   COMP(itm_string_36, 2, NULL);
 
  RECIPE(itm_arrow_wood, CC_WEAPON, "archery", "survival", 1, 5000, false);
-  TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
-       itm_knife_combat, -1, itm_machete, -1, itm_toolset, -1, NULL);
+  TOOL(itm_hatchet, -1, TG_KNIVES, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_bee_sting, 1,
        NULL);
 
@@ -94,12 +123,12 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP(itm_bat, 1, NULL);
   COMP(itm_nail, 6, NULL);
 
-// molotovs use 250ml of flammable liquids
+// molotovs use 500ml of flammable liquids
  RECIPE(itm_molotov, CC_WEAPON, NULL, NULL, 0, 500, false);
   COMP(itm_rag, 1, NULL);
   COMP(itm_bottle_glass, 1, itm_flask_glass, 1, NULL);
-  COMP(itm_whiskey, 21, itm_vodka, 21, itm_rum, 21, itm_tequila, 21,
-       itm_gasoline, 200, NULL);
+  COMP(itm_whiskey, 14, itm_vodka, 14, itm_rum, 14, itm_tequila, 14, itm_gin, 14, itm_triple_sec, 14,
+       itm_gasoline, 400, NULL);
 
  RECIPE(itm_pipebomb, CC_WEAPON, "mechanics", NULL, 1, 750, false);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
@@ -122,8 +151,7 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP(itm_saiga_12, 1, NULL);
 
  RECIPE(itm_bolt_wood, CC_WEAPON, "mechanics", "archery", 1, 5000, false);
-  TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_knife_butcher, -1,
-       itm_knife_combat, -1, itm_machete, -1, itm_toolset, -1, NULL);
+  TOOL(itm_hatchet, -1, TG_KNIVES, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_bee_sting, 1,
        NULL);
 
@@ -454,36 +482,36 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
 
 // FOOD
 
- RECIPE(itm_water_clean, CC_DRINK, "cooking", NULL, 0, 5000, false);
+ RECIPE(itm_water_clean, CC_DRINK, "cooking", NULL, 0, 1000, false);
   TOOL(itm_hotplate, 3, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pan, -1, itm_pot, -1, NULL);
+  TOOL(itm_pan, -1, itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_water, 1, NULL);
 
  RECIPE(itm_meat_cooked, CC_FOOD, "cooking", NULL, 0, 5000, false);
   TOOL(itm_hotplate, 7, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pan, -1, itm_pot, -1, itm_spear_wood, -1, NULL);
+  TOOL(itm_pan, -1, itm_pot, -1, itm_rock_pot, -1, itm_spear_wood, -1, NULL);
   COMP(itm_meat, 1, NULL);
 
  RECIPE(itm_dogfood, CC_FOOD, "cooking", NULL, 4, 10000, false);
   TOOL(itm_hotplate, 6, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_meat, 1, NULL);
   COMP(itm_veggy,1, itm_veggy_wild, 1,NULL);
   COMP(itm_water,1, NULL);
 
  RECIPE(itm_veggy_cooked, CC_FOOD, "cooking", NULL, 0, 4000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pan, -1, itm_pot, -1, itm_spear_wood, -1, NULL);
+  TOOL(itm_pan, -1, itm_pot, -1, itm_rock_pot, -1, itm_spear_wood, -1, NULL);
   COMP(itm_veggy, 1, NULL);
 
   RECIPE(itm_veggy_wild_cooked, CC_FOOD, "cooking", NULL, 0, 4000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 3, itm_fire, -1, NULL);
-  TOOL(itm_pan, -1, itm_pot, -1, NULL);
+  TOOL(itm_pan, -1, itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_veggy_wild, 1, NULL);
 
  RECIPE(itm_spaghetti_cooked, CC_FOOD, "cooking", NULL, 0, 10000, false);
   TOOL(itm_hotplate, 4, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_spaghetti_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
@@ -493,24 +521,24 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
 
  RECIPE(itm_macaroni_cooked, CC_FOOD, "cooking", NULL, 1, 10000, false);
   TOOL(itm_hotplate, 4, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_macaroni_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
  RECIPE(itm_potato_baked, CC_FOOD, "cooking", NULL, 1, 15000, false);
   TOOL(itm_hotplate, 3, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pan, -1, itm_pot, -1, NULL);
+  TOOL(itm_pan, -1, itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_potato_raw, 1, NULL);
 
  RECIPE(itm_tea, CC_DRINK, "cooking", NULL, 0, 4000, false);
   TOOL(itm_hotplate, 2, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_tea_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
  RECIPE(itm_coffee, CC_DRINK, "cooking", NULL, 0, 4000, false);
   TOOL(itm_hotplate, 2, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_coffee_raw, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
 
@@ -543,20 +571,27 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
 
  RECIPE(itm_broth, CC_FOOD, "cooking", NULL, 2, 10000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
   COMP(itm_broccoli, 1, itm_zucchini, 1, itm_veggy, 1, itm_veggy_wild, 1, NULL);
 
- RECIPE(itm_soup, CC_FOOD, "cooking", NULL, 2, 10000, false);
+ RECIPE(itm_soup_veggy, CC_FOOD, "cooking", NULL, 2, 10000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_broth, 2, NULL);
   COMP(itm_macaroni_raw, 1, itm_potato_raw, 1, NULL);
   COMP(itm_tomato, 2, itm_broccoli, 2, itm_zucchini, 2, itm_veggy, 2, itm_veggy_wild, 2, NULL);
 
+ RECIPE(itm_soup_meat, CC_FOOD, "cooking", NULL, 2, 10000, false);
+  TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
+  COMP(itm_broth, 2, NULL);
+  COMP(itm_macaroni_raw, 1, itm_potato_raw, 1, NULL);
+  COMP(itm_meat, 2, NULL);
+
  RECIPE(itm_bread, CC_FOOD, "cooking", NULL, 4, 20000, false);
   TOOL(itm_hotplate, 8, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_flour, 3, NULL);
   COMP(itm_water, 2, itm_water_clean, 2, NULL);
 
@@ -584,20 +619,20 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_caffeine, 20, itm_adderall, 5, itm_energy_drink, 2, NULL);
 
  RECIPE(itm_crack,        CC_CHEM, "cooking", NULL,     4, 30000,false);
-  TOOL(itm_pot, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   TOOL(itm_fire, -1, itm_hotplate, 8, itm_toolset, 1, NULL);
   COMP(itm_water, 1, itm_water_clean, 1, NULL);
   COMP(itm_coke, 12, NULL);
   COMP(itm_ammonia, 1, NULL);
 
  RECIPE(itm_poppy_sleep,  CC_CHEM, "cooking", "survival", 2, 5000, false);
-  TOOL(itm_pot, -1, itm_rock, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, itm_rock, -1, NULL);
   TOOL(itm_fire, -1, NULL);
   COMP(itm_poppy_bud, 2, NULL);
   COMP(itm_poppy_flower, 1, NULL);
 
  RECIPE(itm_poppy_pain,  CC_CHEM, "cooking", "survival", 2, 5000, false);
-  TOOL(itm_pot, -1, itm_rock, -1, NULL);
+  TOOL(itm_pot, -1, itm_rock_pot, -1, itm_rock, -1, NULL);
   TOOL(itm_fire, -1, NULL);
   COMP(itm_poppy_bud, 2, NULL);
   COMP(itm_poppy_flower, 2, NULL);
@@ -608,7 +643,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
 
  RECIPE(itm_heroin, CC_CHEM, "cooking", NULL, 6, 2000, false);
   TOOL(itm_hotplate, 3, itm_toolset, 1, itm_fire, -1, NULL);
-  TOOL(itm_pan, -1, itm_pot, -1, NULL);
+  TOOL(itm_pan, -1, itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_salt_water, 1, itm_salt, 4, NULL);
   COMP(itm_oxycodone, 40, NULL);
 
@@ -780,64 +815,60 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
 
 // ARMOR
 
- RECIPE(itm_thread, CC_ARMOR, "tailor", NULL, 1, 3000, false);
-  TOOL(itm_knife_combat, -1, itm_knife_steak, -1, itm_scissors, -1, NULL);
-  COMP(itm_string_6, 1, NULL);
-
  RECIPE(itm_mocassins, CC_ARMOR, "tailor", NULL, 1, 30000, false);
-  TOOL(itm_sewing_kit,  5, NULL);
+  TOOL(itm_needle_bone, 5, itm_sewing_kit,  5, NULL);
   COMP(itm_fur, 2, NULL);
 
  RECIPE(itm_boots_fit, CC_ARMOR, "tailor", NULL, 2, 35000, false);
-  TOOL(itm_sewing_kit, 10, NULL);
+  TOOL(itm_needle_bone, 5, itm_sewing_kit, 10, NULL);
   COMP(itm_leather, 7, NULL);
 
  RECIPE(itm_jeans_fit, CC_ARMOR, "tailor", NULL, 2, 45000, false);
-  TOOL(itm_sewing_kit, 10, NULL);
+  TOOL(itm_needle_bone, 10, itm_sewing_kit, 10, NULL);
   COMP(itm_rag, 6, NULL);
 
  RECIPE(itm_pants_cargo_fit, CC_ARMOR, "tailor", NULL, 3, 48000, false);
-  TOOL(itm_sewing_kit, 16, NULL);
+  TOOL(itm_needle_bone, 16, itm_sewing_kit, 16, NULL);
   COMP(itm_rag, 8, NULL);
 
  RECIPE(itm_pants_leather, CC_ARMOR, "tailor", NULL, 4, 50000, false);
-  TOOL(itm_sewing_kit, 10, NULL);
+  TOOL(itm_needle_bone, 10, itm_sewing_kit, 10, NULL);
   COMP(itm_leather, 10, NULL);
 
  RECIPE(itm_tank_top, CC_ARMOR, "tailor", NULL, 2, 38000, true);
-  TOOL(itm_sewing_kit, 4, NULL);
+  TOOL(itm_needle_bone, 4, itm_sewing_kit, 4, NULL);
   COMP(itm_rag, 4, NULL);
 
 RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
-  TOOL(itm_sewing_kit, 4, NULL);
+  TOOL(itm_needle_bone, 4, itm_sewing_kit, 4, NULL);
   COMP(itm_rag, 5, NULL);
 
  RECIPE(itm_hoodie_fit, CC_ARMOR, "tailor", NULL, 3, 40000, false);
-  TOOL(itm_sewing_kit, 14, NULL);
+  TOOL(itm_needle_bone, 14, itm_sewing_kit, 14, NULL);
   COMP(itm_rag, 12, NULL);
 
  RECIPE(itm_trenchcoat_fit, CC_ARMOR, "tailor", NULL, 3, 42000, false);
-  TOOL(itm_sewing_kit, 24, NULL);
+  TOOL(itm_needle_bone, 24, itm_sewing_kit, 24, NULL);
   COMP(itm_rag, 11, NULL);
 
  RECIPE(itm_coat_fur, CC_ARMOR, "tailor", NULL, 4, 100000, false);
-  TOOL(itm_sewing_kit, 20, NULL);
+  TOOL(itm_needle_bone, 20, itm_sewing_kit, 20, NULL);
   COMP(itm_fur, 10, NULL);
 
  RECIPE(itm_jacket_leather_fit, CC_ARMOR, "tailor", NULL, 5, 150000, false);
-  TOOL(itm_sewing_kit, 30, NULL);
+  TOOL(itm_needle_bone, 30, itm_sewing_kit, 30, NULL);
   COMP(itm_leather, 16, NULL);
 
  RECIPE(itm_gloves_light, CC_ARMOR, "tailor", NULL, 1, 10000, false);
-  TOOL(itm_sewing_kit, 2, NULL);
+  TOOL(itm_needle_bone, 2, itm_sewing_kit, 2, NULL);
   COMP(itm_rag, 2, NULL);
 
  RECIPE(itm_gloves_fingerless, CC_ARMOR, "tailor", NULL, 0, 16000, false);
-  TOOL(itm_scissors, -1, itm_knife_combat, -1, itm_knife_steak, -1, NULL);
+  TOOL(itm_scissors, -1, TG_KNIVES, NULL);
   COMP(itm_gloves_leather, 1, NULL);
 
  RECIPE(itm_gloves_leather, CC_ARMOR, "tailor", NULL, 2, 16000, false);
-  TOOL(itm_sewing_kit, 6, NULL);
+  TOOL(itm_needle_bone, 6, itm_sewing_kit, 6, NULL);
   COMP(itm_leather, 2, NULL);
 
  RECIPE(itm_mask_filter, CC_ARMOR, "mechanics", "tailor", 1, 5000, true);
@@ -851,8 +882,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_hose, 1, NULL);
 
  RECIPE(itm_glasses_safety, CC_ARMOR, "tailor", NULL, 1, 8000, false);
-  TOOL(itm_scissors, -1, itm_xacto, -1, itm_knife_steak, -1,
-       itm_knife_combat, -1, itm_toolset, -1, NULL);
+  TOOL(itm_scissors, -1, TG_KNIVES, itm_toolset, -1, NULL);
   COMP(itm_string_36, 1, itm_string_6, 2, NULL);
   COMP(itm_bottle_plastic, 1, NULL);
 
@@ -864,7 +894,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_scrap, 5, NULL);
 
  RECIPE(itm_hat_fur, CC_ARMOR, "tailor", NULL, 2, 40000, false);
-  TOOL(itm_sewing_kit, 8, NULL);
+  TOOL(itm_needle_bone, 8, itm_sewing_kit, 8, NULL);
   COMP(itm_fur, 3, NULL);
 
  RECIPE(itm_armguard_metal, CC_ARMOR, "tailor", NULL, 4,  30000, false);
@@ -874,7 +904,16 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
 
  RECIPE(itm_armguard_chitin, CC_ARMOR, "tailor", NULL, 3,  30000, false);
   COMP(itm_string_36, 1, itm_string_6, 4, NULL);
-  COMP(itm_chitin_piece, 2, NULL);
+  COMP(itm_chitin_piece, 6, NULL);
+
+ RECIPE(itm_boots_chitin, CC_ARMOR, "tailor", NULL, 3,  30000, false);
+  COMP(itm_string_36, 1, itm_string_6, 4, NULL);
+  COMP(itm_chitin_piece, 4, NULL);
+  COMP(itm_leather, 2, itm_fur, 2, itm_rag, 2, NULL);
+
+ RECIPE(itm_gauntlets_chitin, CC_ARMOR, "tailor", NULL, 3,  30000, false);
+  COMP(itm_string_36, 1, itm_string_6, 4, NULL);
+  COMP(itm_chitin_piece, 4, NULL);
 
  RECIPE(itm_helmet_chitin, CC_ARMOR, "tailor", NULL, 6,  60000, false);
   COMP(itm_string_36, 1, itm_string_6, 5, NULL);
@@ -885,10 +924,55 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_chitin_piece, 15, NULL);
 
  RECIPE(itm_backpack, CC_ARMOR, "tailor", NULL, 3, 50000, false);
-  TOOL(itm_sewing_kit, 20, NULL);
+  TOOL(itm_needle_bone, 20, itm_sewing_kit, 20, NULL);
   COMP(itm_rag, 20, itm_fur, 16, itm_leather, 12, NULL);
 
+
+// SURVIVAL
+
+ RECIPE(itm_primitive_hammer, CC_MISC, "survival", "construction", 0, 5000, false);
+  TOOL(itm_rock, -1, itm_hammer, -1, NULL);
+  COMP(itm_stick, 1, NULL);
+  COMP(itm_rock, 1, NULL);
+  COMP(itm_string_6, 2, itm_sinew, 40, itm_plant_fibre, 40, NULL);
+
+ RECIPE(itm_needle_bone, CC_MISC, "survival", NULL, 3, 20000, false);
+  TOOL(itm_knife_butcher, -1, itm_knife_combat, -1, itm_knife_steak, -1, itm_pockknife, -1, NULL);
+  COMP(itm_bone, 1, NULL);
+
+ RECIPE(itm_ragpouch, CC_ARMOR, "tailor",  NULL, 0, 10000, false);
+  TOOL(itm_needle_bone, 20, itm_sewing_kit, 20,  NULL);
+  COMP(itm_rag, 6, NULL);
+  COMP(itm_string_36, 1, itm_string_6, 6, itm_sinew, 20, itm_plant_fibre, 20, NULL);
+
+ RECIPE(itm_leather_pouch, CC_ARMOR, "tailor",  "survival", 2, 10000, false);
+  TOOL(itm_needle_bone, 20, itm_sewing_kit, 20, NULL);
+  COMP(itm_leather, 6, NULL);
+  COMP(itm_string_36, 1, itm_string_6, 6, itm_sinew, 20, itm_plant_fibre, 20, NULL);
+
+ RECIPE(itm_rock_pot, CC_MISC, "survival", "cooking", 2, 20000, false);
+  TOOL(itm_hammer, -1, itm_primitive_hammer, -1, NULL);
+  COMP(itm_rock, 3, NULL);
+  COMP(itm_sinew, 80, itm_plant_fibre, 80, itm_string_36, 1, NULL);
+
+ RECIPE(itm_primitive_shovel, CC_MISC, "survival", "construction", 2, 60000, false);
+  TOOL(itm_primitive_hammer, -1, itm_hammer, -1, NULL);
+  COMP(itm_stick, 1, NULL);
+  COMP(itm_rock, 1, NULL);
+  COMP(itm_string_6, 2, itm_sinew, 40, itm_plant_fibre, 40, NULL);
+
+ RECIPE(itm_primitive_axe, CC_MISC, "survival", "construction", 3, 60000, false);
+  TOOL(itm_primitive_hammer, -1, itm_hammer, -1, NULL);
+  COMP(itm_stick, 1, NULL);
+  COMP(itm_rock, 1, NULL);
+  COMP(itm_string_6, 2, itm_sinew, 40, itm_plant_fibre, 40, NULL);
+
+ RECIPE(itm_waterskin, CC_MISC, "tailor", "survival", 2, 30000, false);
+  TOOL(itm_sewing_kit, 60, itm_needle_bone, 60, NULL);
+  COMP(itm_sinew, 40, itm_plant_fibre, 40, itm_string_36, 1, NULL);
+  COMP(itm_leather, 6, NULL);
 // MISC
+
 
  RECIPE(itm_rag, CC_MISC, NULL, NULL, 0, 3000, false);
   TOOL(itm_fire, -1, itm_hotplate, 3, itm_toolset, 1, NULL);
@@ -908,25 +992,25 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_steel_chunk, 12, NULL);
   COMP(itm_wire, 3, NULL);
 
+
+ RECIPE(itm_thread, CC_MISC, "tailor", NULL, 1, 3000, false);
+  COMP(itm_string_6, 1, NULL);
+
  RECIPE(itm_string_6, CC_MISC, NULL, NULL, 0, 5000, true);
-  TOOL(itm_knife_steak, -1, itm_knife_combat, -1, NULL);
   COMP(itm_thread, 50, NULL);
 
  RECIPE(itm_string_36, CC_MISC, NULL, NULL, 0, 5000, true);
-  TOOL(itm_knife_steak, -1, itm_knife_combat, -1, NULL);
   COMP(itm_string_6, 6, NULL);
 
  RECIPE(itm_rope_6, CC_MISC, "tailor", NULL, 0, 5000, true);
-  TOOL(itm_knife_steak, -1, itm_knife_combat, -1, NULL);
   COMP(itm_string_36, 6, NULL);
 
  RECIPE(itm_rope_30, CC_MISC, "tailor", NULL, 0, 5000, true);
-  TOOL(itm_knife_steak, -1, itm_knife_combat, -1, NULL);
   COMP(itm_rope_6, 5, NULL);
 
  RECIPE(itm_torch,        CC_MISC, NULL,    NULL,     0, 2000, false);
   COMP(itm_stick, 1, itm_2x4, 1, itm_splinter, 1, itm_pool_cue, 1, itm_torch_done, 1, NULL);
-  COMP(itm_gasoline, 1, itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, 1, NULL);
+  COMP(itm_gasoline, 200, itm_vodka, 7, itm_rum, 7, itm_whiskey, 7, itm_tequila, 7, itm_gin, 7, itm_triple_sec, 7, NULL);
   COMP(itm_rag, 1, NULL);
 
  RECIPE(itm_candle,       CC_MISC, NULL,    NULL,     0, 5000, false);
@@ -935,15 +1019,13 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_wax, 2, NULL);
   COMP(itm_string_6, 1, NULL);
 
- RECIPE(itm_carspike,     CC_MISC, NULL, NULL, 0, 3000, false);
+ RECIPE(itm_spike,     CC_MISC, NULL, NULL, 0, 3000, false);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
-  COMP(itm_spear_knife, 1, itm_knife_combat, 1, itm_knife_steak, 3,
-       itm_steel_chunk, 3, itm_scrap, 9, NULL);
+  COMP(itm_knife_combat, 1, itm_steel_chunk, 3, itm_scrap, 9, NULL);
 
- RECIPE(itm_carblade,     CC_MISC, NULL, NULL, 0, 3000, false);
+ RECIPE(itm_blade,     CC_MISC, NULL, NULL, 0, 3000, false);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
-  COMP(itm_broadsword, 1, itm_machete, 1, itm_pike, 1,
-       itm_lawnmower_blade, 1, NULL);
+  COMP(itm_broadsword, 1, itm_machete, 1, itm_pike, 1, NULL);
 
  RECIPE(itm_superglue, CC_MISC, "cooking", NULL, 2, 12000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
@@ -980,7 +1062,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_pipe, 1, NULL);
 
  RECIPE(itm_bayonet, CC_MISC, "gun", NULL, 1, 500, true);
-  COMP(itm_carspike, 1, NULL);
+  COMP(itm_spike, 1, NULL);
   COMP(itm_string_36, 1, NULL);
 
  RECIPE(itm_tripwire, CC_MISC, "traps", NULL, 1, 500, false);
@@ -1010,7 +1092,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
  RECIPE(itm_blade_trap, CC_MISC, "mechanics", "traps", 4, 8000, true);
   TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
   COMP(itm_motor, 1, NULL);
-  COMP(itm_machete, 1, NULL);
+  COMP(itm_blade, 1, NULL);
   COMP(itm_string_36, 1, NULL);
 
 RECIPE(itm_boobytrap, CC_MISC, "mechanics", "traps",3,5000, false);
@@ -1018,7 +1100,7 @@ RECIPE(itm_boobytrap, CC_MISC, "mechanics", "traps",3,5000, false);
   COMP(itm_string_6,1,NULL);
   COMP(itm_can_food,1,NULL);
 
- RECIPE(itm_landmine, CC_WEAPON, "traps", "mechanics", 5, 10000, false);
+ RECIPE(itm_landmine, CC_MISC, "traps", "mechanics", 5, 10000, false);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   COMP(itm_superglue, 1, NULL);
   COMP(itm_can_food, 1, itm_steel_chunk, 1, itm_canister_empty, 1, itm_scrap, 4, NULL);
@@ -1029,7 +1111,7 @@ RECIPE(itm_boobytrap, CC_MISC, "mechanics", "traps",3,5000, false);
  RECIPE(itm_bandages, CC_MISC, "firstaid", NULL, 1, 500, false);
   COMP(itm_rag, 3, NULL);
   COMP(itm_superglue, 1, itm_duct_tape, 5, NULL);
-  COMP(itm_vodka, 1, itm_rum, 1, itm_whiskey, 1, itm_tequila, 1, NULL);
+  COMP(itm_vodka, 7, itm_rum, 7, itm_whiskey, 7, itm_tequila, 7, itm_gin, 7, itm_triple_sec, 7, NULL);
 
  RECIPE(itm_silencer, CC_MISC, "mechanics", NULL, 1, 650, false);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
@@ -1049,7 +1131,7 @@ RECIPE(itm_boobytrap, CC_MISC, "mechanics", "traps",3,5000, false);
  RECIPE(itm_bot_manhack, CC_MISC, "electronics", "computer", 6, 8000, true);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
   TOOL(itm_soldering_iron, 10, itm_toolset, 10, NULL);
-  COMP(itm_carspike, 2, NULL);
+  COMP(itm_spike, 2, NULL);
   COMP(itm_processor, 1, NULL);
   COMP(itm_RAM, 1, NULL);
   COMP(itm_power_supply, 1, NULL);
@@ -1066,6 +1148,103 @@ RECIPE(itm_boobytrap, CC_MISC, "mechanics", "traps",3,5000, false);
   COMP(itm_power_supply, 1, NULL);
 //  COMP(itm_battery, 500, itm_plut_cell, 1, NULL);
 //  COMP(itm_scrap, 30, NULL);
+}
+void game::recraft()
+{
+ if(u.lastrecipe == NULL)
+ {
+  popup("Craft something first");
+ }
+ else
+ {
+  try_and_make(u.lastrecipe);
+ }
+}
+void game::try_and_make(recipe *making)
+{
+ if(can_make(making))
+ {
+  if (itypes[(making->result)]->m1 == LIQUID)
+  {
+   if (u.has_watertight_container() || u.has_matching_liquid(itypes[making->result]->id)) {
+     make_craft(making);
+   } else {
+     popup("You don't have anything to store that liquid in!");
+   }
+  }
+  else {
+   make_craft(making);
+  }
+ }
+ else
+ {
+  popup("You can't do that!");
+ }
+}
+bool game::can_make(recipe *r)
+{
+ inventory crafting_inv = crafting_inventory();
+ if((r->sk_primary != NULL && u.skillLevel(r->sk_primary) < r->difficulty) || (r->sk_secondary != NULL && u.skillLevel(r->sk_secondary) <= 0))
+ {
+ }
+ // under the assumption that all comp and tool's array contains all the required stuffs at the start of the array
+
+ // check all tools
+ for(int i = 0 ; i < 20 ; i++)
+ {
+  // if current tool is null(size 0), assume that there is no more after it.
+  if(r->tools[i].size()==0)
+  {
+   break;
+  }
+  bool has_tool = false;
+  for(int j = 0 ; j < r->tools[i].size() ; j++)
+  {
+   itype_id type = r->tools[i][j].type;
+   int req = r->tools[i][j].count;
+   if((req<= 0 && crafting_inv.has_amount(type,1)) || (req > 0 && crafting_inv.has_charges(type,req)))
+   {
+    has_tool = true;
+    break;
+   }
+  }
+  if(!has_tool)
+  {
+   return false;
+  }
+ }
+ // check all components
+ for(int i = 0 ; i < 20 ; i++)
+ {
+  if(r->components[i].size() == 0)
+  {
+   break;
+  }
+  bool has_comp = false;
+  for(int j = 0 ; j < r->components[i].size() ; j++)
+  {
+   itype_id type = r->components[i][j].type;
+   int req = r->components[i][j].count;
+   if (itypes[type]->count_by_charges() && req > 0)
+   {
+       if (crafting_inv.has_charges(type, req))
+       {
+           has_comp = true;
+           break;
+       }
+   }
+   else if (crafting_inv.has_amount(type, abs(req)))
+   {
+       has_comp = true;
+       break;
+   }
+  }
+  if(!has_comp)
+  {
+   return false;
+  }
+ }
+ return true;
 }
 
 void game::craft()
@@ -1100,53 +1279,64 @@ void game::craft()
 
 // Clear the screen of recipe data, and draw it anew
   werase(w_data);
-   mvwprintz(w_data, 20, 0, c_white, "\
-Press ? to describe object.  Press <ENTER> to attempt to craft object.");
+  mvwprintz(w_data, 20, 5, c_white, "Press ? to describe object.  Press <ENTER> to attempt to craft object.");
+  for (int i = 0; i < 80; i++) {
+   mvwputch(w_data, 21, i, c_ltgray, LINE_OXOX);
+
+   if (i < 21) {
+    mvwputch(w_data, i, 0, c_ltgray, LINE_XOXO);
+    mvwputch(w_data, i, 79, c_ltgray, LINE_XOXO);
+   }
+  }
+
+  mvwputch(w_data, 21,  0, c_ltgray, LINE_XXOO); // _|
+  mvwputch(w_data, 21, 79, c_ltgray, LINE_XOOX); // |_
   wrefresh(w_data);
+
   int recmin = 0, recmax = current.size();
   if(recmax > MAX_DISPLAYED_RECIPES){
    if (line <= recmin + 9) {
     for (int i = recmin; i < recmin + MAX_DISPLAYED_RECIPES; i++) {
-     mvwprintz(w_data, i - recmin, 0, c_dkgray, "\
+     mvwprintz(w_data, i - recmin, 2, c_dkgray, "\
                                ");	// Clear the line
      if (i == line)
-      mvwprintz(w_data, i - recmin, 0, (available[i] ? h_white : h_dkgray),
+      mvwprintz(w_data, i - recmin, 2, (available[i] ? h_white : h_dkgray),
                 itypes[current[i]->result]->name.c_str());
      else
-      mvwprintz(w_data, i - recmin, 0, (available[i] ? c_white : c_dkgray),
+      mvwprintz(w_data, i - recmin, 2, (available[i] ? c_white : c_dkgray),
                 itypes[current[i]->result]->name.c_str());
     }
    } else if (line >= recmax - 9) {
     for (int i = recmax - MAX_DISPLAYED_RECIPES; i < recmax; i++) {
-     mvwprintz(w_data, 18 + i - recmax, 0, c_ltgray, "\
+     mvwprintz(w_data, 18 + i - recmax, 2, c_ltgray, "\
                                 ");	// Clear the line
 
      if (i == line)
-       mvwprintz(w_data, 18 + i - recmax, 0, (available[i] ? h_white : h_dkgray),
+       mvwprintz(w_data, 18 + i - recmax, 2, (available[i] ? h_white : h_dkgray),
                  itypes[current[i]->result]->name.c_str());
      else
-      mvwprintz(w_data, 18 + i - recmax, 0, (available[i] ? c_white : c_dkgray),
+      mvwprintz(w_data, 18 + i - recmax, 2, (available[i] ? c_white : c_dkgray),
                 itypes[current[i]->result]->name.c_str());
     }
    } else {
     for (int i = line - 9; i < line + 9; i++) {
-     mvwprintz(w_data, 9 + i - line, 0, c_ltgray, "\
+     mvwprintz(w_data, 9 + i - line, 2, c_ltgray, "\
                                 ");	// Clear the line
      if (i == line)
-       mvwprintz(w_data, 9 + i - line, 0, (available[i] ? h_white : h_dkgray),
+       mvwprintz(w_data, 9 + i - line, 2, (available[i] ? h_white : h_dkgray),
                  itypes[current[i]->result]->name.c_str());
      else
-      mvwprintz(w_data, 9 + i - line, 0, (available[i] ? c_white : c_dkgray),
+      mvwprintz(w_data, 9 + i - line, 2, (available[i] ? c_white : c_dkgray),
                 itypes[current[i]->result]->name.c_str());
     }
    }
   } else{
    for (int i = 0; i < current.size() && i < 23; i++) {
     if (i == line)
-     mvwprintz(w_data, i, 0, (available[i] ? h_white : h_dkgray),
+     mvwprintz(w_data, i, 2, (available[i] ? h_white : h_dkgray),
                itypes[current[i]->result]->name.c_str());
     else
-     mvwprintz(w_data, i, 0, (available[i] ? c_white : c_dkgray),
+     mvwprintz(w_data, i, 2, (available[i] ? c_white : c_dkgray),
                itypes[current[i]->result]->name.c_str());
    }
   }
@@ -1163,7 +1353,8 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
     mvwprintz(w_data, 3, 30, col, "Your skill level: N/A");
    else
     mvwprintz(w_data, 3, 30, col, "Your skill level: %d",
-              u.skillLevel(current[line]->sk_primary).level());
+              // Macs don't seem to like passing this as a class, so force it to int
+              (int)u.skillLevel(current[line]->sk_primary));
    if (current[line]->time >= 1000)
     mvwprintz(w_data, 4, 30, col, "Time to complete: %d minutes",
               int(current[line]->time / 1000));
@@ -1257,51 +1448,53 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
   wrefresh(w_data);
   input = get_input();
   switch (input) {
-  case DirectionUp:
-   if (tab == CC_WEAPON)
-    tab = CC_MISC;
-   else
-    tab = craft_cat(int(tab) - 1);
-   redraw = true;
-   break;
-  case DirectionDown:
-   if (tab == CC_MISC)
-    tab = CC_WEAPON;
-   else
-    tab = craft_cat(int(tab) + 1);
-   redraw = true;
-   break;
-  case DirectionS:
-   line++;
-   break;
-  case DirectionN:
-   line--;
-   break;
-  case Confirm:
-   if (!available[line])
-    popup("You can't do that!");
-   else
-   // is player making a liquid? Then need to check for valid container
-   if (itypes[current[line]->result]->m1 == LIQUID)
-   {
-    if (u.has_watertight_container() || u.has_matching_liquid(itypes[current[line]->result]->id)) {
-            make_craft(current[line]);
-            done = true;
-            break;
-    } else {
-      popup("You don't have anything to store that liquid in!");
+   case DirectionW:
+   case DirectionUp:
+    if (tab == CC_WEAPON)
+     tab = CC_MISC;
+    else
+     tab = craft_cat(int(tab) - 1);
+    redraw = true;
+    break;
+   case DirectionE:
+   case DirectionDown:
+    if (tab == CC_MISC)
+     tab = CC_WEAPON;
+    else
+     tab = craft_cat(int(tab) + 1);
+    redraw = true;
+    break;
+   case DirectionS:
+    line++;
+    break;
+   case DirectionN:
+    line--;
+    break;
+   case Confirm:
+    if (!available[line])
+     popup("You can't do that!");
+    else
+    // is player making a liquid? Then need to check for valid container
+    if (itypes[current[line]->result]->m1 == LIQUID)
+    {
+     if (u.has_watertight_container() || u.has_matching_liquid(itypes[current[line]->result]->id)) {
+             make_craft(current[line]);
+             done = true;
+             break;
+     } else {
+       popup("You don't have anything to store that liquid in!");
+     }
     }
-   }
-   else {
-    make_craft(current[line]);
-    done = true;
-   }
-   break;
-  case Help:
-   tmp = item(itypes[current[line]->result], 0);
-   full_screen_popup(tmp.info(true).c_str());
-   redraw = true;
-   break;
+    else {
+     make_craft(current[line]);
+     done = true;
+    }
+    break;
+   case Help:
+    tmp = item(itypes[current[line]->result], 0);
+    full_screen_popup(tmp.info(true).c_str());
+    redraw = true;
+    break;
   }
   if (line < 0)
    line = current.size() - 1;
@@ -1319,122 +1512,21 @@ Press ? to describe object.  Press <ENTER> to attempt to craft object.");
 void draw_recipe_tabs(WINDOW *w, craft_cat tab)
 {
  werase(w);
- for (int i = 0; i < 80; i++) {
+ for (int i = 0; i < 80; i++)
   mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
-  if ((i >  4 && i < 14) || (i > 20 && i < 27) || (i > 33 && i < 47) ||
-      (i > 53 && i < 61) || (i > 67 && i < 74))
-   mvwputch(w, 0, i, c_ltgray, LINE_OXOX);
- }
 
- mvwputch(w, 0,  4, c_ltgray, LINE_OXXO);
- mvwputch(w, 0, 20, c_ltgray, LINE_OXXO);
- mvwputch(w, 0, 33, c_ltgray, LINE_OXXO);
- mvwputch(w, 0, 53, c_ltgray, LINE_OXXO);
- mvwputch(w, 0, 67, c_ltgray, LINE_OXXO);
- mvwputch(w, 2,  4, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 20, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 33, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 53, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 67, c_ltgray, LINE_XXOX);
+ mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
+ mvwputch(w, 2, 79, c_ltgray, LINE_OOXX); // ^|
 
- mvwputch(w, 0, 14, c_ltgray, LINE_OOXX);
- mvwputch(w, 0, 27, c_ltgray, LINE_OOXX);
- mvwputch(w, 0, 47, c_ltgray, LINE_OOXX);
- mvwputch(w, 0, 61, c_ltgray, LINE_OOXX);
- mvwputch(w, 0, 74, c_ltgray, LINE_OOXX);
- mvwputch(w, 2, 14, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 27, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 47, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 61, c_ltgray, LINE_XXOX);
- mvwputch(w, 2, 74, c_ltgray, LINE_XXOX);
+ draw_tab(w,  2, "WEAPONS", (tab == CC_WEAPON) ? true : false);
+ draw_tab(w, 13, "AMMO",    (tab == CC_AMMO)   ? true : false);
+ draw_tab(w, 21, "FOOD",    (tab == CC_FOOD)   ? true : false);
+ draw_tab(w, 29, "DRINKS",  (tab == CC_DRINK)  ? true : false);
+ draw_tab(w, 39, "CHEMS",   (tab == CC_CHEM)   ? true : false);
+ draw_tab(w, 48, "ELECTRONICS", (tab == CC_ELECTRONIC) ? true : false);
+ draw_tab(w, 63, "ARMOR",   (tab == CC_ARMOR)  ? true : false);
+ draw_tab(w, 72, "MISC",    (tab == CC_MISC)   ? true : false);
 
- mvwprintz(w, 1, 0, c_ltgray, "\
-      OFFENSE        COMEST        ELECTRONICS         ARMOR         MISC");
- mvwputch(w, 1,  4, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 20, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 33, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 53, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 67, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 14, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 27, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 47, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 61, c_ltgray, LINE_XOXO);
- mvwputch(w, 1, 74, c_ltgray, LINE_XOXO);
-
- switch (tab) {
- case CC_WEAPON:
-  for (int i = 5; i < 14; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 6, h_ltgray, "WEAPONS");
-  mvwputch(w, 2,  4, c_ltgray, LINE_XOOX);
-  mvwputch(w, 2, 14, c_ltgray, LINE_XXOO);
-  mvwputch(w, 1,  2, h_ltgray, '<');
-  mvwputch(w, 1, 16, h_ltgray, '>');
-  break;
- case CC_AMMO:
-  for (int i = 5; i < 14; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 6, h_ltgray, "BULLETS");
-  mvwputch(w, 2,  4, c_ltgray, LINE_XOOX);
-  mvwputch(w, 2, 14, c_ltgray, LINE_XXOO);
-  mvwputch(w, 1,  2, h_ltgray, '<');
-  mvwputch(w, 1, 16, h_ltgray, '>');
-  break;
- case CC_FOOD:
-  for (int i = 21; i < 27; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 21, h_ltgray, " FOOD ");
-  mvwputch(w, 2, 20, c_ltgray, LINE_XOOX);
-  mvwputch(w, 2, 27, c_ltgray, LINE_XXOO);
-  mvwputch(w, 1, 18, h_ltgray, '<');
-  mvwputch(w, 1, 29, h_ltgray, '>');
-  break;
-   case CC_DRINK:
-  for (int i = 21; i < 27; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 21, h_ltgray, "DRINKS");
-  mvwputch(w, 2, 20, c_ltgray, LINE_XOOX);
-  mvwputch(w, 2, 27, c_ltgray, LINE_XXOO);
-  mvwputch(w, 1, 18, h_ltgray, '<');
-  mvwputch(w, 1, 29, h_ltgray, '>');
-  break;
-   case CC_CHEM:
-  for (int i = 21; i < 27; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 21, h_ltgray, " CHEMS");
-  mvwputch(w, 2, 20, c_ltgray, LINE_XOOX);
-  mvwputch(w, 2, 27, c_ltgray, LINE_XXOO);
-  mvwputch(w, 1, 18, h_ltgray, '<');
-  mvwputch(w, 1, 29, h_ltgray, '>');
-  break;
- case CC_ELECTRONIC:
-  for (int i = 34; i < 47; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 35, h_ltgray, "ELECTRONICS");
-  mvwputch(w, 2, 33, c_ltgray, LINE_XOOX);
-  mvwputch(w, 2, 47, c_ltgray, LINE_XXOO);
-  mvwputch(w, 1, 31, h_ltgray, '<');
-  mvwputch(w, 1, 49, h_ltgray, '>');
-  break;
- case CC_ARMOR:
-  for (int i = 54; i < 61; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 55, h_ltgray, "ARMOR");
-  mvwputch(w, 2, 53, c_ltgray, LINE_XOOX);
-  mvwputch(w, 2, 61, c_ltgray, LINE_XXOO);
-  mvwputch(w, 1, 51, h_ltgray, '<');
-  mvwputch(w, 1, 63, h_ltgray, '>');
-  break;
- case CC_MISC:
-  for (int i = 68; i < 74; i++)
-   mvwputch(w, 2, i, c_black, ' ');
-  mvwprintz(w, 1, 69, h_ltgray, "MISC");
-  mvwputch(w, 2, 67, c_ltgray, LINE_XOOX);
-  mvwputch(w, 2, 74, c_ltgray, LINE_XXOO);
-  mvwputch(w, 1, 65, h_ltgray, '<');
-  mvwputch(w, 1, 76, h_ltgray, '>');
-  break;
- }
  wrefresh(w);
 }
 
@@ -1520,6 +1612,7 @@ void game::make_craft(recipe *making)
 {
  u.assign_activity(ACT_CRAFT, making->time, making->id);
  u.moves = 0;
+ u.lastrecipe = making;
 }
 
 void game::complete_craft()
@@ -1527,11 +1620,11 @@ void game::complete_craft()
  recipe* making = recipes[u.activity.index]; // Which recipe is it?
 
 // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
- int skill_dice = u.skillLevel(making->sk_primary).level() * 3;
+ int skill_dice = u.skillLevel(making->sk_primary) * 3;
  if (making->sk_secondary == NULL)
-   skill_dice += u.skillLevel(making->sk_primary).level();
+   skill_dice += u.skillLevel(making->sk_primary);
  else
-   skill_dice += u.skillLevel(making->sk_secondary).level();
+   skill_dice += u.skillLevel(making->sk_secondary);
 // Sides on dice is 16 plus your current intelligence
  int skill_sides = 16 + u.int_cur;
 
@@ -1925,11 +2018,11 @@ void game::complete_disassemble()
 
   // adapting original crafting formula to check if disassembly was successful
   // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
-  int skill_dice = 2 + u.skillLevel(dis->sk_primary).level() * 3;
+  int skill_dice = 2 + u.skillLevel(dis->sk_primary) * 3;
    if (dis->sk_secondary == NULL)
-     skill_dice += u.skillLevel(dis->sk_primary).level();
+     skill_dice += u.skillLevel(dis->sk_primary);
    else
-     skill_dice += u.skillLevel(dis->sk_secondary).level();
+     skill_dice += u.skillLevel(dis->sk_secondary);
   // Sides on dice is 16 plus your current intelligence
    int skill_sides = 16 + u.int_cur;
 
