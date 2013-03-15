@@ -217,6 +217,8 @@ std::string action_ident(action_id act)
    return "missions";
   case ACTION_FACTIONS:
    return "factions";
+  case ACTION_KILLS:
+   return "kills";
   case ACTION_MORALE:
    return "morale";
   case ACTION_MESSAGES:
@@ -377,6 +379,8 @@ std::string action_name(action_id act)
    return "View Missions";
   case ACTION_FACTIONS:
    return "View Factions";
+  case ACTION_KILLS:
+   return "View Kills";
   case ACTION_MORALE:
    return "View Morale";
   case ACTION_MESSAGES:
