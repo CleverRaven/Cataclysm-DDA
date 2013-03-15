@@ -93,7 +93,7 @@ void game::init_ui(){
     intro();	// Print an intro screen, make sure we're at least 80x25
 
     #if (defined _WIN32 || defined __WIN32__)
-        TERMX = 55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1);
+        TERMX = 55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1);
         TERMY = OPTIONS[OPT_VIEWPORT_Y] * 2 + 1;
         VIEWX = OPTIONS[OPT_VIEWPORT_X];
         VIEWY = OPTIONS[OPT_VIEWPORT_Y];
