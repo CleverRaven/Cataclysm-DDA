@@ -2,7 +2,7 @@
 #define _BODYPART_H_
 
 #include <string>
-
+// The order is important ; pldata.h has to be in the same order
 enum body_part {
  bp_torso = 0,
  bp_head,
