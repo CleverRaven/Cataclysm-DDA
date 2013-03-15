@@ -208,6 +208,7 @@ player_data @\n\
 map m :\n\
 missions M\n\
 factions #\n\
+kills )\n\
 morale %\n\
 messages P\n\
 help ?\n\
