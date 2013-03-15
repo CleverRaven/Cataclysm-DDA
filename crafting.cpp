@@ -1253,8 +1253,12 @@ void game::craft()
   add_msg("Your morale is too low to craft...");
   return;
  }
- WINDOW *w_head = newwin( 3, 80, 0, 0);
- WINDOW *w_data = newwin(22, 80, 3, 0);
+
+ int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
+ int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
+
+ WINDOW *w_head = newwin( 3, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+ WINDOW *w_data = newwin(22, 80, 3 + ((iMaxY > 25) ? (iMaxY-25)/2 : 0), (iMaxX > 80) ? (iMaxX-80)/2 : 0);
  craft_cat tab = CC_WEAPON;
  std::vector<recipe*> current;
  std::vector<bool> available;

@@ -249,13 +249,14 @@ void game::init_construction()
 
 void game::construction_menu()
 {
+ int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
  int iMaxY = (VIEWY*2)+1;
  if (constructions.size()+2 < iMaxY)
   iMaxY = constructions.size()+2;
  if (iMaxY < 25)
   iMaxY = 25;
 
- WINDOW *w_con = newwin(iMaxY, 80, 0, 0);
+ WINDOW *w_con = newwin(iMaxY, 80, (iMaxY > 25) ? ((VIEWY*2)+1-iMaxY)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
  wborder(w_con, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w_con, 0, 8, c_ltred, " Construction ");

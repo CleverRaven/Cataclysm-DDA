@@ -245,42 +245,42 @@ bool game::opening_screen()
                 } else {
                     sel2 = 0;
                     layer = 2;
+                    print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY, (sel1 == 0 || sel1 == 7) ? false : true);
                 }
             }
         } else if (layer == 2) {
             if (sel1 == 1) {	// New Character
                 print_menu_items(w_open, vSubItems, sel2, iMenuOffsetY-2, iMenuOffsetX+7);
-
                 wrefresh(w_open);
                 refresh();
-                input = get_input();
+                chInput = getch();
 
                 if (chInput == 'c' || chInput == 'C') {
-                    sel1 = 0;
-                    input = Confirm  ;
+                    sel2 = 0;
+                    chInput = '\n'  ;
                 } else if (chInput == 'p' || chInput == 'P') {
-                    sel1 = 1;
-                    input = Confirm;
+                    sel2 = 1;
+                    chInput = '\n';
                 } else if (chInput == 'r' || chInput == 'R') {
-                    sel1 = 2;
-                    input = Confirm;
+                    sel2 = 2;
+                    chInput = '\n';
                 }
 
-                if (input == DirectionW) {
+                if (chInput == KEY_LEFT) {
                     if (sel2 > 0)
                         sel2--;
                     else
                         sel2 = 2;
-                } if (input == DirectionE) {
+                } if (chInput == KEY_RIGHT) {
                     if (sel2 < 2)
                         sel2++;
                     else
                         sel2 = 0;
-                } else if (input == DirectionS || input == Cancel) {
+                } else if (chInput == KEY_DOWN || chInput == KEY_ESCAPE) {
                     layer = 1;
                     sel1 = 1;
                 }
-                if (input == DirectionN || input == Confirm) {
+                if (chInput == KEY_UP || chInput == '\n') {
                     if (sel2 == 0 || sel2 == 2) {
                         if (!u.create(this, (sel2 == 0) ? PLTYPE_CUSTOM : PLTYPE_RANDOM)) {
                             u = player();
@@ -295,31 +295,28 @@ bool game::opening_screen()
                     } else if (sel2 == 1) {
                         layer = 3;
                         sel1 = 0;
+                        print_menu_items(w_open, vSubItems, sel2, iMenuOffsetY-2, iMenuOffsetX+7);
                     }
                 }
             } else if (sel1 == 2) {	// Load Character
                 if (savegames.size() == 0)
                     mvwprintz(w_open, iMenuOffsetY - 2, 19 + iMenuOffsetX, c_red, "No save games found!");
                 else {
-                    //int savestart = (sel2 < 7 ?  0 : sel2 - 7),
-                    //saveend   = (sel2 < 7 ? 14 : sel2 + 7);
-                    //for (int i = savestart; i < saveend; i++) {
                     for (int i = 0; i < savegames.size(); i++) {
                         int line = iMenuOffsetY - 2 - i;
-                        if (i < savegames.size())
-                            mvwprintz(w_open, line, 19 + iMenuOffsetX, (sel2 == i ? h_white : c_white), savegames[i].c_str());
+                        mvwprintz(w_open, line, 19 + iMenuOffsetX, (sel2 == i ? h_white : c_white), savegames[i].c_str());
                     }
                 }
                 wrefresh(w_open);
                 refresh();
                 input = get_input();
-                if (input == DirectionS) {
+                if (savegames.size() == 0 && (input == DirectionS || input == Confirm)) {
+                    layer = 1;
+                } else if (input == DirectionS) {
                     if (sel2 > 0)
                         sel2--;
                     else
                         sel2 = savegames.size() - 1;
-                } else if (savegames.size() == 0 && (input == DirectionS || input == Confirm)) {
-                    layer = 1;
                 } else if (input == DirectionN) {
                     if (sel2 < savegames.size() - 1)
                         sel2++;
@@ -329,10 +326,10 @@ bool game::opening_screen()
                     layer = 1;
                 }
                 if (input == DirectionE || input == Confirm) {
-                    if (sel2 > 0 && savegames.size() > 0) {
+                    if (sel2 >= 0 && sel2 < savegames.size()) {
                         werase(w_background);
                         wrefresh(w_background);
-                        load(savegames[sel2 - 1]);
+                        load(savegames[sel2]);
                         start = true;
                     }
                 }
@@ -385,13 +382,9 @@ bool game::opening_screen()
             if (templates.size() == 0)
                 mvwprintz(w_open, iMenuOffsetY-4, iMenuOffsetX+27, c_red, "No templates found!");
             else {
-                int tempstart = (sel1 < 6 ?  0 : sel1 - 6),
-                tempend   = (sel1 < 6 ? 14 : sel1 + 8);
-                for (int i = tempstart; i < tempend; i++) {
-                    int line = iMenuOffsetY - 4 - i - tempstart;
-                    if (i < templates.size())
-                        mvwprintz(w_open, line, 27 + iMenuOffsetX, (sel1 == i ? h_white : c_white),
-                    templates[i].c_str());
+                for (int i = 0; i < templates.size(); i++) {
+                    int line = iMenuOffsetY - 4 - i;
+                    mvwprintz(w_open, line, 27 + iMenuOffsetX, (sel1 == i ? h_white : c_white), templates[i].c_str());
                 }
             }
             wrefresh(w_open);
@@ -402,6 +395,10 @@ bool game::opening_screen()
                     sel1--;
                 else
                     sel1 = templates.size() - 1;
+            } else if (templates.size() == 0 && (input == DirectionS || input == Confirm)) {
+                sel1 = 1;
+                layer = 2;
+                print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
             } else if (input == DirectionS) {
                 if (sel1 < templates.size() - 1)
                     sel1++;
