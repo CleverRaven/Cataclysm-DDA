@@ -2083,7 +2083,7 @@ void game::death_screen()
     playerfile << "save/" << u.name << ".sav";
     unlink(playerfile.str().c_str());
 
-    WINDOW* w_death = newwin(25, 80, 0, 0);
+    WINDOW* w_death = newwin(TERMY, TERMX, 0, 0);
     mvwprintz(w_death, 0, 35, c_red, "GAME OVER - Press Spacebar to Quit");
     wrefresh(w_death);
     refresh();
