@@ -931,13 +931,13 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
 // SURVIVAL
 
  RECIPE(itm_primitive_hammer, CC_MISC, "survival", "construction", 0, 5000, false);
-  TOOL(itm_rock, -1, itm_hammer, -1, NULL);
+  TOOL(itm_rock, -1, itm_hammer, -1, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, NULL);
   COMP(itm_rock, 1, NULL);
   COMP(itm_string_6, 2, itm_sinew, 40, itm_plant_fibre, 40, NULL);
 
  RECIPE(itm_needle_bone, CC_MISC, "survival", NULL, 3, 20000, false);
-  TOOL(itm_knife_butcher, -1, itm_knife_combat, -1, itm_knife_steak, -1, itm_pockknife, -1, NULL);
+  TOOL(TG_KNIVES, itm_toolset, -1, NULL);
   COMP(itm_bone, 1, NULL);
 
  RECIPE(itm_ragpouch, CC_ARMOR, "tailor",  NULL, 0, 10000, false);
@@ -951,18 +951,18 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_string_36, 1, itm_string_6, 6, itm_sinew, 20, itm_plant_fibre, 20, NULL);
 
  RECIPE(itm_rock_pot, CC_MISC, "survival", "cooking", 2, 20000, false);
-  TOOL(itm_hammer, -1, itm_primitive_hammer, -1, NULL);
+  TOOL(itm_hammer, -1, itm_primitive_hammer, -1, itm_toolset, -1, NULL);
   COMP(itm_rock, 3, NULL);
   COMP(itm_sinew, 80, itm_plant_fibre, 80, itm_string_36, 1, NULL);
 
  RECIPE(itm_primitive_shovel, CC_MISC, "survival", "construction", 2, 60000, false);
-  TOOL(itm_primitive_hammer, -1, itm_hammer, -1, NULL);
+  TOOL(itm_primitive_hammer, -1, itm_hammer, -1, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, NULL);
   COMP(itm_rock, 1, NULL);
   COMP(itm_string_6, 2, itm_sinew, 40, itm_plant_fibre, 40, NULL);
 
  RECIPE(itm_primitive_axe, CC_MISC, "survival", "construction", 3, 60000, false);
-  TOOL(itm_primitive_hammer, -1, itm_hammer, -1, NULL);
+  TOOL(itm_primitive_hammer, -1, itm_hammer, -1, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, NULL);
   COMP(itm_rock, 1, NULL);
   COMP(itm_string_6, 2, itm_sinew, 40, itm_plant_fibre, 40, NULL);
@@ -970,7 +970,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
  RECIPE(itm_waterskin, CC_MISC, "tailor", "survival", 2, 30000, false);
   TOOL(itm_sewing_kit, 60, itm_needle_bone, 60, NULL);
   COMP(itm_sinew, 40, itm_plant_fibre, 40, itm_string_36, 1, NULL);
-  COMP(itm_leather, 6, NULL);
+  COMP(itm_leather, 6, itm_fur, 6, NULL);
 // MISC
 
 
