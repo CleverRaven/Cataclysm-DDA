@@ -970,7 +970,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
  RECIPE(itm_waterskin, CC_MISC, "tailor", "survival", 2, 30000, false);
   TOOL(itm_sewing_kit, 60, itm_needle_bone, 60, NULL);
   COMP(itm_sinew, 40, itm_plant_fibre, 40, itm_string_36, 1, NULL);
-  COMP(itm_leather, 6, NULL);
+  COMP(itm_leather, 6, itm_fur, 6, NULL);
 // MISC
 
 
