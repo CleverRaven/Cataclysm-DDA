@@ -1466,7 +1466,7 @@ ARMOR("ski pants",	60, 300,C_PANTS,	COTTON,		MNULL,
 A pair of pants meant for alpine skiing.");
 
 ARMOR("long underwear",	40, 200,C_PANTS,	COTTON,		MNULL,
-    4,  2, -3,  0,  0,  0,  0,  0,  30, 12,	mfb(bp_legs), "\
+    4,  2, -3,  0,  0,  0,  0,  0,  30,  0,	mfb(bp_legs), "\
 A pair of long underwear that help to maintain body temperature.");
 
 ARMOR("skirt",		75, 120,C_PANTS,	COTTON,		MNULL,
