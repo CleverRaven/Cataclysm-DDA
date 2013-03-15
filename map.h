@@ -192,6 +192,8 @@ class map
  void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
  vehicle *add_vehicle(game *g, vhtype_id type, const int x, const int y, const int dir);
  computer* add_computer(const int x, const int y, std::string name, const int security);
+ void build_outside_cache(const int x, const int y);
+ void build_map_cache();
 
  std::vector <itype*> *itypes;
  std::set<vehicle*> vehicle_list;
@@ -228,6 +230,8 @@ protected:
  bool veh_in_active_range;
 
 private:
+ int cache_built;
+ bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  submap* grid[MAPSIZE * MAPSIZE];
 };
 

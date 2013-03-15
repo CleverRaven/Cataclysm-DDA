@@ -31,7 +31,7 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
   for(int sx = x - SEEX; sx <= x + SEEX; ++sx) {
    for(int sy = y - SEEY; sy <= y + SEEY; ++sy) {
     // In bright light indoor light exists to some degree
-    if (!is_outside(sx - x, sy - y))
+    if (!g->m.is_outside(sx, sy))
      lm[sx - x + SEEX][sy - y + SEEY] = LIGHT_AMBIENT_LOW;
    }
   }
@@ -48,12 +48,12 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
    const field current_field = g->m.field_at(sx, sy);
    // When underground natural_light is 0, if this changes we need to revisit
    if (natural_light > LIGHT_AMBIENT_LOW) {
-    if (!is_outside(sx - x, sy - y)) {
+    if (!g->m.is_outside(sx, sy)) {
      // Apply light sources for external/internal divide
      for(int i = 0; i < 4; ++i) {
       if (INBOUNDS_LARGE(sx - x + dir_x[i], sy - y + dir_y[i]) &&
-          is_outside(sx - x + dir_x[i], sy - y + dir_y[i])) {
-        if (INBOUNDS(sx - x, sy - y) && is_outside(0, 0))
+          g->m.is_outside(sx + dir_x[i], sy + dir_y[i])) {
+        if (INBOUNDS(sx - x, sy - y) && g->m.is_outside(0, 0))
         lm[sx - x + SEEX][sy - y + SEEY] = natural_light;
 
        if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].transparency > LIGHT_TRANSPARENCY_SOLID)
@@ -163,15 +163,6 @@ float light_map::ambient_at(int dx, int dy)
   return 0.0f;
 
  return lm[dx + SEEX][dy + SEEY];
-}
-
-bool light_map::is_outside(int dx, int dy)
-{
- // We don't know and true seems a better default than false
- if (!INBOUNDS_LARGE(dx, dy))
-  return true;
-
- return outside_cache[dx + LIGHTMAP_RANGE_X][dy + LIGHTMAP_RANGE_Y];
 }
 
 bool light_map::sees(int fx, int fy, int tx, int ty, int max_range)
@@ -379,35 +370,16 @@ void light_map::apply_light_ray(bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy
  }
 }
 
-void light_map::build_outside_cache(map *m, const int x, const int y, const int sx, const int sy)
-{
- const ter_id terrain = m->ter(sx, sy);
-
- if( terrain == t_floor || terrain == t_rock_floor || terrain == t_floor_wax ||
-     terrain == t_fema_groundsheet || terrain == t_dirtfloor) {
-  for( int dx = -1; dx <= 1; dx++ ) {
-   for( int dy = -1; dy <= 1; dy++ ) {
-    outside_cache[x + dx][y + dy] = false;
-   }
-  }
- } else if(terrain == t_bed || terrain == t_groundsheet || terrain == t_makeshift_bed) {
-  outside_cache[x][y] = false;
- }
-}
-
 // We only do this once now so we don't make 100k calls to is_outside for each
 // generation. As well as close to that for the veh_at function.
 void light_map::build_light_cache(game* g, int cx, int cy)
 {
  // Clear cache
- memset(outside_cache, true, sizeof(outside_cache));
-
  for(int x = 0; x < LIGHTMAP_CACHE_X; x++) {
   for(int y = 0; y < LIGHTMAP_CACHE_Y; y++) {
    int sx = x + g->u.posx - LIGHTMAP_RANGE_X;
    int sy = y + g->u.posy - LIGHTMAP_RANGE_Y;
 
-   build_outside_cache(&g->m, x, y, sx, sy);
    c[x][y].transparency = LIGHT_TRANSPARENCY_CLEAR;
    c[x][y].veh = NULL;
    c[x][y].veh_part = 0;
@@ -432,8 +404,6 @@ void light_map::build_light_cache(game* g, int cx, int cy)
     px += LIGHTMAP_RANGE_X;
     py += LIGHTMAP_RANGE_Y;
 
-    if (vehs[v].v->is_inside(p))
-     outside_cache[px][py] = true;
     // External part appears to always be the first?
     if (!c[px][py].veh) {
      c[px][py].veh = vehs[v].v;

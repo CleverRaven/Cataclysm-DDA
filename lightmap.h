@@ -50,14 +50,12 @@ class light_map
   lit_level at(int dx, int dy); // Assumes 0,0 is light map center
   float ambient_at(int dx, int dy); // Raw values for tilesets
 
-  bool is_outside(int dx, int dy);
   bool sees(int fx, int fy, int tx, int ty, int max_range);
 
  private:
   typedef light_map_cache light_cache[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
   float lm[LIGHTMAP_X][LIGHTMAP_Y];
   float sm[LIGHTMAP_X][LIGHTMAP_Y];
-  bool outside_cache[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
   light_cache c;
 
   void apply_light_source(int x, int y, int cx, int cy, float luminance);
@@ -66,7 +64,6 @@ class light_map
   void apply_light_ray(bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy,
                        int ex, int ey, int cx, int cy, float luminance);
 
-  void build_outside_cache(map *m, const int x, const int y, const int sx, const int sy);
   void build_light_cache(game* g, int x, int y);
 };
 

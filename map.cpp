@@ -26,6 +26,7 @@ map::map()
 {
  nulter = t_null;
  nultrap = tr_null;
+ cache_built = false;
  if (is_tiny())
   my_MAPSIZE = 2;
  else
@@ -39,6 +40,7 @@ map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
 {
  nulter = t_null;
  nultrap = tr_null;
+ cache_built = false;
  itypes = itptr;
  mapitems = miptr;
  traps = trptr;
@@ -913,8 +915,32 @@ bool map::is_destructable_ter_only(const int x, const int y)
          (move_cost_ter_only(x, y) == 0 && !has_flag(liquid, x, y)));
 }
 
+void map::build_outside_cache(const int x, const int y)
+{
+ const ter_id terrain = ter(x, y);
+
+ if( terrain == t_floor || terrain == t_rock_floor || terrain == t_floor_wax ||
+     terrain == t_fema_groundsheet || terrain == t_dirtfloor) {
+  for( int dx = -1; dx <= 1; dx++ ) {
+   for( int dy = -1; dy <= 1; dy++ ) {
+    if(INBOUNDS(x + dx, y + dy)) {
+     outside_cache[x + dx][y + dy] = false;
+    }
+   }
+  }
+ } else if(terrain == t_bed || terrain == t_groundsheet || terrain == t_makeshift_bed) {
+  outside_cache[x][y] = false;
+ }
+}
+
 bool map::is_outside(const int x, const int y)
 {
+ if(!INBOUNDS(x, y))
+  return true;
+
+ if(cache_built)
+   return outside_cache[x][y];
+
  bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet && ter(x, y) != t_makeshift_bed);
 
  for(int i = -1; out && i <= 1; i++)
@@ -2553,7 +2579,7 @@ void map::draw(game *g, WINDOW* w, const point center)
    int low_sight_range = lowlight_sight_range;
    bool bRainOutside = false;
    // While viewing indoor areas use lightmap model
-   if (!g->lm.is_outside(realx - g->u.posx, realy - g->u.posy)) {
+   if (!is_outside(realx, realy)) {
     sight_range = natural_sight_range;
    // Don't display area as shadowy if it's outside and illuminated by natural light
    } else if (dist <= g->u.sight_range(g_light_level)) {
@@ -2571,7 +2597,7 @@ void map::draw(game *g, WINDOW* w, const point center)
     distance_to_look = DAYLIGHT_LEVEL;
    }
 
-   bool can_see = g->lm.sees(diffx, diffy, realx - center.x, realy - center.y, distance_to_look, true);
+   bool can_see = g->lm.sees(diffx, diffy, realx - center.x, realy - center.y, distance_to_look);
    lit_level lit = g->lm.at(realx - center.x, realy - center.y);
 
    if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0.) {
@@ -3378,6 +3404,33 @@ long map::determine_wall_corner(int x, int y, long sym)
 
     return sym;
 }
+
+void map::build_map_cache()
+{
+ memset(outside_cache, true, sizeof(outside_cache));
+ for(int x = 0; x < SEEX * my_MAPSIZE; x++) {
+  for(int y = 0; y < SEEY * my_MAPSIZE; y++) {
+   build_outside_cache(x, y);
+  }
+ }
+
+ VehicleList vehs = get_vehicles();
+ for(int v = 0; v < vehs.size(); ++v) {
+  for(int p = 0; p < vehs[v].v->parts.size(); ++p) {
+   int px = vehs[v].x + vehs[v].v->parts[p].precalc_dx[0];
+   int py = vehs[v].y + vehs[v].v->parts[p].precalc_dy[0];
+
+   if (INBOUNDS(px, py)) {
+    if (vehs[v].v->is_inside(p)) {
+     outside_cache[px][py] = true;
+    }
+   }
+  }
+ }
+
+ cache_built = true;
+}
+
 
 tinymap::tinymap()
 {
