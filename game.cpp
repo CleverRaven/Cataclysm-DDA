@@ -1955,6 +1955,10 @@ bool game::handle_action()
    list_missions();
    break;
 
+  case ACTION_KILLS:
+   disp_kills();
+   break;
+
   case ACTION_FACTIONS:
    list_factions();
    break;
@@ -2077,36 +2081,24 @@ bool game::is_game_over()
 
 void game::death_screen()
 {
- gamemode->game_over(this);
- std::stringstream playerfile;
- playerfile << "save/" << u.name << ".sav";
- unlink(playerfile.str().c_str());
- int num_kills = 0;
- for (int i = 0; i < num_monsters; i++)
-  num_kills += kills[i];
+    gamemode->game_over(this);
+    std::stringstream playerfile;
+    playerfile << "save/" << u.name << ".sav";
+    unlink(playerfile.str().c_str());
 
- WINDOW* w_death = newwin(25, 80, 0, 0);
- mvwprintz(w_death, 0, 35, c_red, "GAME OVER - Press Spacebar to Quit");
- mvwprintz(w_death, 2, 0, c_white, "Number of kills: %d", num_kills);
- int line = 0, mon = 0;
- while (line < 40 && mon < num_monsters) {
-  if (kills[mon] > 0) {
-   int y = line % 20 + 3, x = int(line / 20) * 40 + 1;
-   mvwprintz(w_death, y, x, c_white, "%s: %d", mtypes[mon]->name.c_str(),
-             kills[mon]);
-   line++;
-  }
-  mon++;
- }
+    WINDOW* w_death = newwin(TERMY, TERMX, 0, 0);
+    mvwprintz(w_death, 0, 35, c_red, "GAME OVER - Press Spacebar to Quit");
+    wrefresh(w_death);
+    refresh();
+    InputEvent input;
+    do
+        input = get_input();
+    while(input != Cancel && input != Close && input != Confirm);
+    delwin(w_death);
 
- wrefresh(w_death);
- refresh();
- InputEvent input;
- do
-  input = get_input();
- while(input != Cancel && input != Close && input != Confirm);
- delwin(w_death);
+    disp_kills();
 }
+
 
 bool game::load_master()
 {
@@ -2651,7 +2643,7 @@ void game::draw_overmap()
 
 void game::disp_kills()
 {
- WINDOW* w = newwin(25, 80, 0, 0);
+ WINDOW* w = newwin(TERMY, TERMX, 0, 0);
  std::vector<mtype *> types;
  std::vector<int> count;
  for (int i = 0; i < num_monsters; i++) {
