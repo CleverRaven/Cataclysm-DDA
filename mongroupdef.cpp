@@ -196,6 +196,7 @@ std::vector<mon_id> MonsterGroupManager::GetMonstersFromGroup(MonsterGroupType g
 {
     std::vector<mon_id> monsters;
     MonsterGroup g = monsterGroupArray[group];
+
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
     {
         monsters.push_back(it->first);
