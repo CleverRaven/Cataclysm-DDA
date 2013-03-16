@@ -67,6 +67,6 @@ class MonsterGroupManager
         static std::vector<mon_id> GetMonstersFromGroup(MonsterGroupType);
 
     private:
-        static MonsterGroup MonsterGroupManager::monsterGroupArray[GROUP_COUNT];
+        static MonsterGroup monsterGroupArray[GROUP_COUNT];
 };
 #endif

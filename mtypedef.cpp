@@ -9,7 +9,7 @@
 //  * mtype.h - enum mon_id MUST match the order of this list!
 //  * monster.cpp - void make_fungus() should be edited, or fungal infection
 //                  will simply kill the monster
-//  * mongroupdef.cpp - void init_moncats() should be edited, so the monster
+//  * mongroupdef.cpp - void init_mongroups() should be edited, so the monster
 //                      spawns with the proper group
 // PLEASE NOTE: The description is AT MAX 4 lines of 46 characters each.
 
