@@ -14,11 +14,15 @@
 //     default monster will never get picked, and nor will the others past the
 //     monster that makes the point count go over 1000
 
-#define Group(group, defaultmon)     monsterGroupArray[group].defaultMonster = defaultmon;
-#define AddMonster(group, mon, freq) monsterGroupArray[group].monsters[mon]  = freq;
+MonsterGroup MonsterGroupManager::monsterGroupArray[GROUP_COUNT];
 
+//I could do this, or put this \/ giant line in game::game() and have it stick out like a sore thumb :S
+void game::init_mongroups() { MonsterGroupManager::init_mongroups(); }
 void MonsterGroupManager::init_mongroups()
 {
+    #define Group(group, defaultmon)     monsterGroupArray[group].defaultMonster = defaultmon;
+    #define AddMonster(group, mon, freq) monsterGroupArray[group].monsters[mon]  = freq;
+
     //TODO: Balance the numbers
     Group(      GROUP_FOREST, mon_squirrel);//freq 50
     AddMonster( GROUP_FOREST, mon_rabbit,  100);//freq 10

@@ -59,7 +59,6 @@ game::game() :
  init_traps();	      // Set up the trap types            (SEE trapdef.cpp)
  init_mapitems();     // Set up which items appear where  (SEE mapitemsdef.cpp)
  init_recipes();      // Set up crafting reciptes         (SEE crafting.cpp)
- init_moncats();      // Set up monster categories        (SEE mongroupdef.cpp)
  init_mongroups();    // Set up monster groupings         (SEE mongroupdef.cpp)
  init_missions();     // Set up mission templates         (SEE missiondef.cpp)
  init_construction(); // Set up constructables            (SEE construction.cpp)
@@ -8570,18 +8569,12 @@ int game::valid_group(mon_id type, int x, int y)
  for (int i = 0; i < cur_om.zg.size(); i++) {
   dist = trig_dist(x, y, cur_om.zg[i].posx, cur_om.zg[i].posy);
   if (dist < cur_om.zg[i].radius) {
-   for (int j = 0; j < (moncats[cur_om.zg[i].type]).size(); j++) {
-    if (type == (moncats[cur_om.zg[i].type])[j]) {
+   if(MonsterGroupManager::IsMonsterInGroup(cur_om.zg[i].type, type)) {
      valid_groups.push_back(i);
-     j = (moncats[cur_om.zg[i].type]).size();
-    }
    }
   } else if (dist < cur_om.zg[i].radius + 3) {
-   for (int j = 0; j < (moncats[cur_om.zg[i].type]).size(); j++) {
-    if (type == (moncats[cur_om.zg[i].type])[j]) {
+   if(MonsterGroupManager::IsMonsterInGroup(cur_om.zg[i].type, type)) {
      semi_valid.push_back(i);
-     j = (moncats[cur_om.zg[i].type]).size();
-    }
    }
   }
  }
