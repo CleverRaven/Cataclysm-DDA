@@ -1411,7 +1411,7 @@ ARMOR("steeltoed boots",5, 135,C_SHOES,	LEATHER,	STEEL,
 Leather boots with a steel toe. Extremely durable.\n\
 These boots are a perfect fit for you.");
 
-ARMOR("winter boots",   5, 140,C_SHOES,	PLASTIC,	WOOL,
+ARMOR("winter boots",   5, 140,C_SHOES,	WOOL,	PLASTIC,
     8,  7,  0, -1,  1,  0,  2,  1,  85,  0,	mfb(bp_feet), "\
 Cumbersome boots designed for warmth.\n\
 These boots are a perfect fit for you.");
@@ -1466,7 +1466,7 @@ ARMOR("ski pants",	60, 300,C_PANTS,	COTTON,		MNULL,
 A pair of pants meant for alpine skiing.");
 
 ARMOR("long underwear",	40, 200,C_PANTS,	COTTON,		MNULL,
-    4,  2, -3,  0,  0,  0,  0,  0,  30, 12,	mfb(bp_legs), "\
+    4,  2, -3,  0,  0,  0,  0,  0,  30,  0,	mfb(bp_legs), "\
 A pair of long underwear that help to maintain body temperature.");
 
 ARMOR("skirt",		75, 120,C_PANTS,	COTTON,		MNULL,

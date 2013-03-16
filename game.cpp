@@ -13,7 +13,6 @@
 #include "debug.h"
 #include "bodypart.h"
 #include "map.h"
-#include "weather.h"
 
 #include <map>
 #include <algorithm>
@@ -92,8 +91,8 @@ void game::init_ui(){
     intro();	// Print an intro screen, make sure we're at least 80x25
 
     #if (defined _WIN32 || defined __WIN32__)
-        TERMX = (55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1);
-        TERMY = (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1);
+        TERMX = 55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1);
+        TERMY = OPTIONS[OPT_VIEWPORT_Y] * 2 + 1;
         VIEWX = OPTIONS[OPT_VIEWPORT_X];
         VIEWY = OPTIONS[OPT_VIEWPORT_Y];
         TERRAIN_WINDOW_WIDTH = (VIEWX * 2) + 1;
@@ -145,6 +144,9 @@ void game::init_ui(){
 
     w_status = newwin(STATUS_HEIGHT, STATUS_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT, TERMX - STATUS_WIDTH);
     werase(w_status);
+
+    w_void = newwin(TERMY-(MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT+STATUS_HEIGHT), STATUS_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT+STATUS_HEIGHT, TERMX - STATUS_WIDTH);
+    werase(w_void);
 }
 
 void game::setup()
@@ -202,393 +204,6 @@ void game::setup()
   refresh_all();
   draw();
  }
-}
-
-void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA)
-{
- //Clear Lines
- for (int i = 0; i < 25; i++)
-  for (int j = 0; j < 80; j++)
-   mvwputch(w_open, i, j, c_black, ' ');
-
- for (int i = 1; i < 79; i++)
-  mvwputch(w_open, 23, i, c_white, LINE_OXOX);
-
- mvwprintz(w_open, 24, 5, c_red, "Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
-
- int iLine = 0;
- const int iOffsetX1 = 4;
- const int iOffsetX2 = 5;
- const int iOffsetX3 = 18;
-
- const nc_color cColor1 = c_cyan;
- const nc_color cColor2 = c_blue;
- const nc_color cColor3 = c_blue;
-
- mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "_________            __                   .__                            ");
- mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "\\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__.  ______  _____  ");
- mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "/    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | /  ___/ /     \\ ");
- mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "\\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\___ \\ |  Y Y  \\");
- mvwprintz(w_open, iLine++, iOffsetX1, cColor1, " \\______  /(____  / |__|  (____  / \\___  >|____/ / ____|/____  >|__|_|  /");
- mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "        \\/      \\/             \\/      \\/        \\/          \\/       \\/ ");
-
- if (bShowDDA) {
-  iLine++;
-  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "________                    __     ________                           ");
-  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "\\______ \\  _____   _______ |  | __ \\______ \\  _____    ___.__.  ______");
-  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    |  \\ \\__  \\  \\_  __ \\|  |/ /  |    |  \\ \\__  \\  <   |  | /  ___/");
-  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    `   \\ / __ \\_ |  | \\/|    <   |    `   \\ / __ \\_ \\___  | \\___ \\ ");
-  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "/_______  /(____  / |__|   |__|_ \\ /_______  /(____  / / ____|/____  >");
-  mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "        \\/      \\/              \\/         \\/      \\/  \\/          \\/ ");
-
-  iLine++;
-  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "   _____   .__                         .___");
-  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "  /  _  \\  |  |__    ____  _____     __| _/");
-  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, " /  /_\\  \\ |  |  \\ _/ __ \\ \\__  \\   / __ | ");
-  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "/    |    \\|   Y  \\\\  ___/  / __ \\_/ /_/ | ");
-  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "\\____|__  /|___|  / \\___  >(____  /\\____ | ");
-  mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "        \\/      \\/      \\/      \\/      \\/ ");
- }
-
- mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 0 ? h_white : c_white), "MOTD");
- mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 1 ? h_white : c_white), "New Game");
- mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 2 ? h_white : c_white), "Load Game");
- mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 3 ? h_white : c_white), "New World");
- mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 4 ? h_white : c_white), "Special...");
- mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 5 ? h_white : c_white), "Options");
- mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 6 ? h_white : c_white), "Help");
- mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 7 ? h_white : c_white), "Credits");
- mvwprintz(w_open, iMenuOffsetY++, iMenuOffsetX, (iSel == 8 ? h_white : c_white), "Quit");
-
- refresh();
- wrefresh(w_open);
- refresh();
-}
-
-bool game::opening_screen()
-{
- int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
- int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
-
- WINDOW* w_background = newwin(iMaxY, iMaxX, 0, 0);
-
- for (int i = 0; i < iMaxY; i++)
-  for (int j = 0; j < iMaxX; j++)
-   mvwputch(w_background, i, j, c_black, ' ');
-
- wrefresh(w_background);
-
- WINDOW* w_open = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
- const int iMenuOffsetX = 3;
- int iMenuOffsetY = 13;
-
- print_menu(w_open, 0, iMenuOffsetX, iMenuOffsetY);
- std::vector<std::string> savegames, templates;
- std::string tmp;
- dirent *dp;
- DIR *dir = opendir("save");
- if (!dir) {
-#if (defined _WIN32 || defined __WIN32__)
-  mkdir("save");
-#else
-  mkdir("save", 0777);
-#endif
-  dir = opendir("save");
- }
- if (!dir) {
-  dbg(D_ERROR) << "game:opening_screen: Unable to make save directory.";
-  debugmsg("Could not make './save' directory");
-  endwin();
-  exit(1);
- }
- while ((dp = readdir(dir))) {
-  tmp = dp->d_name;
-  if (tmp.find(".sav") != std::string::npos)
-   savegames.push_back(tmp.substr(0, tmp.find(".sav")));
- }
- closedir(dir);
- dir = opendir("data");
- while ((dp = readdir(dir))) {
-  tmp = dp->d_name;
-  if (tmp.find(".template") != std::string::npos)
-   templates.push_back(tmp.substr(0, tmp.find(".template")));
- }
- int sel1 = 0, sel2 = 1, layer = 1;
- InputEvent input;
- bool start = false;
-
- // Load MOTD and store it in a string
- std::vector<std::string> motd;
- std::ifstream motd_file;
- motd_file.open("data/motd");
- if (!motd_file.is_open())
-  motd.push_back("No message today.");
- else {
-  while (!motd_file.eof()) {
-   std::string tmp;
-   getline(motd_file, tmp);
-   if (tmp[0] != '#')
-    motd.push_back(tmp);
-  }
- }
-
- // Load Credits and store it in a string
- std::vector<std::string> credits;
- std::ifstream credits_file;
- credits_file.open("data/credits");
- if (!credits_file.is_open())
-  credits.push_back("No message today.");
- else {
-  while (!credits_file.eof()) {
-   std::string tmp;
-   getline(credits_file, tmp);
-   if (tmp[0] != '#')
-    credits.push_back(tmp);
-  }
- }
-
- while(!start) {
-  if (layer == 1) {
-   print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY, (sel1 == 0 || sel1 == 7) ? false : true);
-   if (sel1 == 0) {	// Print the MOTD.
-    for (int i = 0; i < motd.size() && i < 16; i++)
-     mvwprintz(w_open, i + 7, 12 + iMenuOffsetX, c_ltred, motd[i].c_str());
-
-    wrefresh(w_open);
-    refresh();
-   } else if (sel1 == 7) {	// Print the Credits.
-    for (int i = 0; i < credits.size() && i < 16; i++)
-     mvwprintz(w_open, i + 7, 12 + iMenuOffsetX, c_ltred, credits[i].c_str());
-
-    wrefresh(w_open);
-    refresh();
-   }
-
-   input = get_input();
-   if (input == DirectionN) {
-    if (sel1 > 0)
-     sel1--;
-    else
-     sel1 = 8;
-   } else if (input == DirectionS) {
-    if (sel1 < 8)
-     sel1++;
-    else
-     sel1 = 0;
-   } else if ((input == DirectionE || input == Confirm) && sel1 > 0 && sel1 != 7) {
-    if (sel1 == 5) {
-     show_options();
-    } else if (sel1 == 6) {
-     help();
-    } else if (sel1 == 8) {
-     uquit = QUIT_MENU;
-     return false;
-    } else {
-     sel2 = 1;
-     layer = 2;
-    }
-   }
-  } else if (layer == 2) {
-   if (sel1 == 1) {	// New Character
-    mvwprintz(w_open, 1 + iMenuOffsetY, 12 + iMenuOffsetX, (sel2 == 1 ? h_white : c_white),
-              "Custom Character");
-    mvwprintz(w_open, 2 + iMenuOffsetY, 12 + iMenuOffsetX, (sel2 == 2 ? h_white : c_white),
-              "Preset Character");
-    mvwprintz(w_open, 3 + iMenuOffsetY, 12 + iMenuOffsetX, (sel2 == 3 ? h_white : c_white),
-              "Random Character");
-    wrefresh(w_open);
-    refresh();
-    input = get_input();
-    if (input == DirectionN) {
-     if (sel2 > 1)
-      sel2--;
-     else
-      sel2 = 3;
-    } if (input == DirectionS) {
-     if (sel2 < 3)
-      sel2++;
-     else
-      sel2 = 1;
-    } else if (input == DirectionW) {
-     mvwprintz(w_open, 1 + iMenuOffsetY, 12 + iMenuOffsetX, c_black, "                ");
-     mvwprintz(w_open, 2 + iMenuOffsetY, 12 + iMenuOffsetX, c_black, "                ");
-     mvwprintz(w_open, 3 + iMenuOffsetY, 12 + iMenuOffsetX, c_black, "                ");
-     layer = 1;
-     sel1 = 1;
-    }
-    if (input == DirectionE || input == Confirm) {
-     if (sel2 == 1) {
-      if (!u.create(this, PLTYPE_CUSTOM)) {
-       u = player();
-       delwin(w_open);
-       return (opening_screen());
-      }
-      for (int i = 0; i < iMaxY; i++)
-       for (int j = 0; j < iMaxX; j++)
-        mvwputch(w_background, i, j, c_black, ' ');
-
-      wrefresh(w_background);
-      start_game();
-      start = true;
-     }
-     if (sel2 == 2) {
-      layer = 3;
-      sel1 = 0;
-      mvwprintz(w_open, 1 + iMenuOffsetY, 12 + iMenuOffsetX, c_dkgray, "Custom Character");
-      mvwprintz(w_open, 2 + iMenuOffsetY, 12 + iMenuOffsetX, c_white,  "Preset Character");
-      mvwprintz(w_open, 3 + iMenuOffsetY, 12 + iMenuOffsetX, c_dkgray, "Random Character");
-     }
-     if (sel2 == 3) {
-      if (!u.create(this, PLTYPE_RANDOM)) {
-       u = player();
-       delwin(w_open);
-       return (opening_screen());
-      }
-      for (int i = 0; i < iMaxY; i++)
-       for (int j = 0; j < iMaxX; j++)
-        mvwputch(w_background, i, j, c_black, ' ');
-
-      wrefresh(w_background);
-      start_game();
-      start = true;
-     }
-    }
-   } else if (sel1 == 2) {	// Load Character
-    if (savegames.size() == 0)
-     mvwprintz(w_open, 2 + iMenuOffsetY, 12 + iMenuOffsetX, c_red, "No save games found!");
-    else {
-     int savestart = (sel2 < 7 ?  0 : sel2 - 7),
-         saveend   = (sel2 < 7 ? 14 : sel2 + 7);
-     for (int i = savestart; i < saveend; i++) {
-      int line = 2 + iMenuOffsetY + i - savestart;
-      if (i < savegames.size())
-       mvwprintz(w_open, line, 12 + iMenuOffsetX, (sel2 - 1 == i ? h_white : c_white),
-                 savegames[i].c_str());
-     }
-    }
-    wrefresh(w_open);
-    refresh();
-    input = get_input();
-    if (input == DirectionN) {
-     if (sel2 > 1)
-      sel2--;
-     else
-      sel2 = savegames.size();
-    } else if (input == DirectionS) {
-     if (sel2 < savegames.size())
-      sel2++;
-     else
-      sel2 = 1;
-    } else if (input == DirectionW) {
-     layer = 1;
-    }
-    if (input == DirectionE || input == Confirm) {
-     if (sel2 > 0 && savegames.size() > 0) {
-      for (int i = 0; i < iMaxY; i++)
-       for (int j = 0; j < iMaxX; j++)
-        mvwputch(w_background, i, j, c_black, ' ');
-
-      wrefresh(w_background);
-      load(savegames[sel2 - 1]);
-      start = true;
-     }
-    }
-   } else if (sel1 == 3) {  // Delete world
-    if (query_yn("Delete the world and all saves?")) {
-     delete_save();
-     savegames.clear();
-     MAPBUFFER.reset();
-     MAPBUFFER.make_volatile();
-    }
-
-    layer = 1;
-   } else if (sel1 == 4) {	// Special game
-    for (int i = 1; i < NUM_SPECIAL_GAMES; i++) {
-     mvwprintz(w_open, 3 + i + iMenuOffsetY, 12 + iMenuOffsetX, (sel2 == i ? h_white : c_white),
-               special_game_name( special_game_id(i) ).c_str());
-    }
-    wrefresh(w_open);
-    refresh();
-    input = get_input();
-    if (input == DirectionN) {
-     if (sel2 > 1)
-      sel2--;
-     else
-      sel2 = NUM_SPECIAL_GAMES - 1;
-    } else if (input == DirectionS) {
-     if (sel2 < NUM_SPECIAL_GAMES - 1)
-      sel2++;
-     else
-      sel2 = 1;
-    } else if (input == DirectionW) {
-     layer = 1;
-    }
-    if (input == DirectionE || input == Confirm) {
-     if (sel2 >= 1 && sel2 < NUM_SPECIAL_GAMES) {
-      delete gamemode;
-      gamemode = get_special_game( special_game_id(sel2) );
-      if (!gamemode->init(this)) {
-       delete gamemode;
-       gamemode = new special_game;
-       u = player();
-       delwin(w_open);
-       return (opening_screen());
-      }
-      start = true;
-     }
-    }
-   }
-  } else if (layer == 3) {	// Character Templates
-   if (templates.size() == 0)
-    mvwprintz(w_open, 2 + iMenuOffsetY, 29 + iMenuOffsetX, c_red, "No templates found!");
-   else {
-    int tempstart = (sel1 < 6 ?  0 : sel1 - 6),
-        tempend   = (sel1 < 6 ? 14 : sel1 + 8);
-    for (int i = tempstart; i < tempend; i++) {
-     int line = 2 + iMenuOffsetY + i - tempstart;
-     if (i < templates.size())
-      mvwprintz(w_open, line, 29 + iMenuOffsetX, (sel1 == i ? h_white : c_white),
-                templates[i].c_str());
-    }
-   }
-   wrefresh(w_open);
-   refresh();
-   input = get_input();
-   if (input == DirectionN) {
-    if (sel1 > 0)
-     sel1--;
-    else
-     sel1 = templates.size() - 1;
-   } else if (input == DirectionS) {
-    if (sel1 < templates.size() - 1)
-     sel1++;
-    else
-     sel1 = 0;
-   } else if (input == DirectionW || templates.size() == 0) {
-    sel1 = 1;
-    layer = 2;
-    print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
-   }
-   else if (input == DirectionE || input == Confirm) {
-    if (!u.create(this, PLTYPE_TEMPLATE, templates[sel1])) {
-     u = player();
-     delwin(w_open);
-     return (opening_screen());
-    }
-    for (int i = 0; i < iMaxY; i++)
-     for (int j = 0; j < iMaxX; j++)
-      mvwputch(w_background, i, j, c_black, ' ');
-
-    wrefresh(w_background);
-    start_game();
-    start = true;
-   }
-  }
- }
- delwin(w_open);
- if (start == false)
-  uquit = QUIT_MENU;
- return start;
 }
 
 // Set up all default values for a new game
@@ -809,164 +424,12 @@ bool game::do_turn()
   refresh();
  }
 
-// update_bodytemp();
+ u.update_bodytemp(this);
 
  rustCheck();
  if (turn % 10 == 0)
   u.update_morale();
  return false;
-}
-
-/* Here lies the intended effects of body temperature
-
-Assumption 1 : a naked person is comfortable at 31C/87.8F.
-Assumption 2 : a "lightly clothed" person is comfortable at 25C/77F.
-Assumption 3 : frostbite cannot happen above 0C temperature.*
-* In the current model, a naked person can get frostbite at 1C. This isn't true, but it's a compromise with using nice whole numbers.
-
-Here is a list of warmth values and the corresponding temperatures in which the player is comfortable, and in which the player is very cold.
-
-Warmth  Temperature (Comfortable)    Temperature (Very cold)    Notes
-0        31C /  87.8F                 1C /  33.8F               * Naked
-10       25C /  77.0F                -5C /  23.0F               * Lightly clothed
-20       19C /  66.2F               -11C /  12.2F
-30       13C /  55.4F               -17C /   1.4F
-40        7C /  44.6F               -23C /  -9.4F
-50        1C /  33.8F               -29C / -20.2F
-60       -5C /  23.0F               -35C / -31.0F
-70      -11C /  12.2F               -41C / -41.8F
-80      -17C /   1.4F               -47C / -52.6F
-90      -23C /  -9.4F               -53C / -63.4F
-100     -29C / -20.2F               -59C / -74.2F
-
-*/
-
-void game::update_bodytemp() // TODO bionics, diseases and humidity (not in yet) can affect body temp.
-{
- // NOTE : visit weather.h for some details on the numbers used
- // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
- int Ctemperature = 100*(temperature - 32) * 5/9;
- // Temperature norms
- const int ambient_norm = 3100;
- // This adjusts the temperature scale to match the bodytemp scale
- int adjusted_temp = (Ctemperature - ambient_norm);
- // Creative thinking for clean morale penalties: this gets incremented in the for loop and applied after the loop
- int morale_pen = 0;
- // Fetch the morale value of wetness for bodywetness
- int bodywetness = 0;
- for (int i = 0; bodywetness == 0 && i < u.morale.size(); i++)
-  if( u.morale[i].type == MORALE_WET ) {
-   bodywetness = abs(u.morale[i].bonus); // Make it positive, less confusing
-   break;
-  }
- // Current temperature and converging temperature calculations
- for (int i = 0 ; i < num_bp ; i++){
-  if (i == bp_eyes) continue; // Skip eyes
-  // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
-  float homeostasis_adjustement = (u.temp_cur[i] > BODYTEMP_NORM ? 40.0 : 60.0);
-  int clothing_warmth_adjustement = homeostasis_adjustement * (float)u.warmth(body_part(i)) * (1.0 - (float)bodywetness / 100.0);
-  // Disease name shorthand
-  int blister_pen = dis_type(DI_BLISTERS) + 1 + i, hot_pen  = dis_type(DI_HOT) + 1 + i;
-  int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;
-  // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
-  signed int temp_conv = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement;
-  // Fatigue also affects convergeant temperature
-  if (!u.has_disease(DI_SLEEP)) temp_conv -= 10*u.fatigue/6;
-  else {
-   int vpart = -1;
-   vehicle *veh = m.veh_at (u.posx, u.posy, vpart);
-   if      (m.ter(u.posx, u.posy) == t_bed)                       temp_conv += 1000;
-   else if (m.ter(u.posx, u.posy) == t_makeshift_bed)             temp_conv +=  500;
-   else if (m.tr_at(u.posx, u.posy) == tr_cot)                    temp_conv -=  500;
-   else if (m.tr_at(u.posx, u.posy) == tr_rollmat)                temp_conv -= 1000;
-   else if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0) temp_conv +=  200;
-   else if (veh && veh->part_with_feature (vpart, vpf_bed) >= 0)  temp_conv +=  300;
-   else	temp_conv -= 2000;
-  }
-  // Convection heat sources : generates body heat, helps fight frostbite
-  int blister_count = 0; // If the counter is high, your skin starts to burn
-  for (int j = -6 ; j <= 6 ; j++){
-   for (int k = -6 ; k <= 6 ; k++){
-    // Bizarre workaround for u_see() and friends not taking const arguments.
-    int l = std::max(j, k);
-    int heat_intensity = 0;
-    if(m.field_at(u.posx + j, u.posy + k).type == fd_fire)
-     heat_intensity = m.field_at(u.posx + j, u.posy + k).density;
-    else if (m.tr_at(u.posx + j, u.posy + k) == tr_lava )
-      heat_intensity = 3;
-    if (heat_intensity > 0 && u_see(u.posx + j, u.posy + k, l)) {
-     // Ensure fire_dist >=1 to avoid divide-by-zero errors.
-     int fire_dist = std::max(1, std::max(j, k));
-     if (u.frostbite_timer[i] > 0) u.frostbite_timer[i] -= heat_intensity - fire_dist / 2;
-     temp_conv += 50 * heat_intensity / (fire_dist * fire_dist);
-     blister_count += heat_intensity / (fire_dist * fire_dist);
-    }
-   }
-  }
-  // TODO Balance bionics
-  // Bionic "Internal Climate Control" says it is effective from 0F to 140F, these are the corresponding bodytemp values
-  if (u.has_bionic(bio_climate) && temperature > 0 && temperature < 140)
-   temp_conv = (9*BODYTEMP_NORM + temp_conv)/10; // Bionic "eases" the effects
-  // Bionic "Thermal Dissapation" says it prevents fire damage up to 2000F. 500 is picked at random...
-  if (u.has_bionic(bio_heatsink) && blister_count < 500)
-   blister_count = 0;
-  // Skin gets blisters from intense heat exposure.
-  if (blister_count - 10*u.resist(body_part(i)) > 20) u.add_disease(dis_type(blister_pen), 1, this);
-  // Increments current body temperature towards convergant.
-  int temp_difference = u.temp_cur[i] - temp_conv;
-  int temp_before = u.temp_cur[i];
-  // Bodytemp equalization code
-  if      (i == bp_torso){u.temp_equalizer(bp_torso, bp_arms); u.temp_equalizer(bp_torso, bp_legs); u.temp_equalizer(bp_torso, bp_head);}
-  else if (i == bp_head) {u.temp_equalizer(bp_head, bp_eyes); u.temp_equalizer(bp_head, bp_mouth);}
-  else if (i == bp_arms)  u.temp_equalizer(bp_arms, bp_hands);
-  else if (i == bp_legs)  u.temp_equalizer(bp_legs, bp_feet);
-  if (u.temp_cur[i] != temp_conv) u.temp_cur[i] = temp_difference*exp(-0.002) + temp_conv; // It takes half an hour for bodytemp to converge half way to its convergeance point (think half-life)
-  int temp_after = u.temp_cur[i];
-  // Penalties
-  if      (u.temp_cur[i] < BODYTEMP_FREEZING)  {u.add_disease(dis_type(cold_pen), 1, this, 3, 3); u.frostbite_timer[i] += 3;}
-  else if (u.temp_cur[i] < BODYTEMP_VERY_COLD) {u.add_disease(dis_type(cold_pen), 1, this, 2, 3); u.frostbite_timer[i] += 2;}
-  else if (u.temp_cur[i] < BODYTEMP_COLD)      {u.add_disease(dis_type(cold_pen), 1, this, 1, 3); u.frostbite_timer[i] += 1;} // Frostbite timer does not go down if you are still cold.
-  else if (u.temp_cur[i] > BODYTEMP_SCORCHING) {u.add_disease(dis_type(hot_pen),  1, this, 3, 3); } // If body temp rises over 15000, disease.cpp (DI_HOT_HEAD) acts weird and the player will die
-  else if (u.temp_cur[i] > BODYTEMP_VERY_HOT)  {u.add_disease(dis_type(hot_pen),  1, this, 2, 3); }
-  else if (u.temp_cur[i] > BODYTEMP_HOT)       {u.add_disease(dis_type(hot_pen),  1, this, 1, 3); }
-  // Morale penalties : a negative morale_pen means the player is cold
-  // Intensity multiplier is negative for cold, positive for hot
-  int intensity_mult = -u.disease_intensity(dis_type(cold_pen)) + u.disease_intensity(dis_type(hot_pen));
-  if (u.has_disease(dis_type(cold_pen)) > 0 || u.has_disease(dis_type(hot_pen)) > 0) {
-   switch (i) {
-    case bp_head :
-    case bp_torso :
-    case bp_mouth : morale_pen += 2*intensity_mult;
-    case bp_arms :
-    case bp_legs : morale_pen += 1*intensity_mult;
-    case bp_hands:
-    case bp_feet : morale_pen += 1*intensity_mult;
-   }
-  }
-  // Frostbite (level 1 after 2 hours, level 2 after 4 hours)
-  if      (u.frostbite_timer[i] >   0) u.frostbite_timer[i]--;
-  if      (u.frostbite_timer[i] >= 240) {
-   if      (u.disease_intensity(dis_type(frost_pen)) < 2 &&  i == bp_mouth)                  add_msg("Your %s hardens from the frostbite!", body_part_name(body_part(i), -1).c_str());
-   else if (u.disease_intensity(dis_type(frost_pen)) < 2 && (i == bp_hands || i == bp_feet)) add_msg("Your %s harden from the frostbite!",  body_part_name(body_part(i), -1).c_str());
-   u.add_disease(dis_type(frost_pen), 1, this, 2, 2);}
-  else if (u.frostbite_timer[i] >= 120) {
-   if (!u.has_disease(dis_type(frost_pen))) add_msg("You lose sensation in your %s.", body_part_name(body_part(i), -1).c_str());
-   u.add_disease(dis_type(frost_pen), 1, this, 1, 2);}
-  // Warn the player if condition worsens
-  if      (temp_before > BODYTEMP_FREEZING  && temp_after < BODYTEMP_FREEZING)  add_msg("You feel your %s beginning to go numb from the cold!", body_part_name(body_part(i), -1).c_str());
-  else if (temp_before > BODYTEMP_VERY_COLD && temp_after < BODYTEMP_VERY_COLD) add_msg("You feel your %s getting very cold.", body_part_name(body_part(i), -1).c_str());
-  else if (temp_before > BODYTEMP_COLD      && temp_after < BODYTEMP_COLD)      add_msg("You feel your %s getting cold.", body_part_name(body_part(i), -1).c_str());
-  else if (temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING) add_msg("You feel your %s getting red hot from the heat!", body_part_name(body_part(i), -1).c_str());
-  else if (temp_before < BODYTEMP_VERY_HOT  && temp_after > BODYTEMP_VERY_HOT)  add_msg("You feel your %s getting very hot.", body_part_name(body_part(i), -1).c_str());
-  else if (temp_before < BODYTEMP_HOT       && temp_after > BODYTEMP_HOT)       add_msg("You feel your %s getting hot.", body_part_name(body_part(i), -1).c_str());
-
-  // Debug
-  //add_msg("%s temperature : %d", body_part_name(body_part(i), -1).c_str(), u.temp_cur[i]);
-
-  }
- // Morale penalties
- if (morale_pen < 0) u.add_morale(MORALE_COLD, -1, -abs(morale_pen));
- if (morale_pen > 0) u.add_morale(MORALE_HOT,  -1, -abs(morale_pen));
 }
 
 void game::rustCheck() {
@@ -1951,6 +1414,10 @@ bool game::handle_action()
    list_missions();
    break;
 
+  case ACTION_KILLS:
+   disp_kills();
+   break;
+
   case ACTION_FACTIONS:
    list_factions();
    break;
@@ -2073,36 +1540,24 @@ bool game::is_game_over()
 
 void game::death_screen()
 {
- gamemode->game_over(this);
- std::stringstream playerfile;
- playerfile << "save/" << u.name << ".sav";
- unlink(playerfile.str().c_str());
- int num_kills = 0;
- for (int i = 0; i < num_monsters; i++)
-  num_kills += kills[i];
+    gamemode->game_over(this);
+    std::stringstream playerfile;
+    playerfile << "save/" << u.name << ".sav";
+    unlink(playerfile.str().c_str());
 
- WINDOW* w_death = newwin(25, 80, 0, 0);
- mvwprintz(w_death, 0, 35, c_red, "GAME OVER - Press Spacebar to Quit");
- mvwprintz(w_death, 2, 0, c_white, "Number of kills: %d", num_kills);
- int line = 0, mon = 0;
- while (line < 40 && mon < num_monsters) {
-  if (kills[mon] > 0) {
-   int y = line % 20 + 3, x = int(line / 20) * 40 + 1;
-   mvwprintz(w_death, y, x, c_white, "%s: %d", mtypes[mon]->name.c_str(),
-             kills[mon]);
-   line++;
-  }
-  mon++;
- }
+    WINDOW* w_death = newwin(TERMY, TERMX, 0, 0);
+    mvwprintz(w_death, 0, 35, c_red, "GAME OVER - Press Spacebar to Quit");
+    wrefresh(w_death);
+    refresh();
+    InputEvent input;
+    do
+        input = get_input();
+    while(input != Cancel && input != Close && input != Confirm);
+    delwin(w_death);
 
- wrefresh(w_death);
- refresh();
- InputEvent input;
- do
-  input = get_input();
- while(input != Cancel && input != Close && input != Confirm);
- delwin(w_death);
+    disp_kills();
 }
+
 
 bool game::load_master()
 {
@@ -2647,7 +2102,7 @@ void game::draw_overmap()
 
 void game::disp_kills()
 {
- WINDOW* w = newwin(25, 80, 0, 0);
+ WINDOW* w = newwin(TERMY, TERMX, 0, 0);
  std::vector<mtype *> types;
  std::vector<int> count;
  for (int i = 0; i < num_monsters; i++) {
@@ -3039,6 +2494,8 @@ void game::refresh_all()
  draw_HP();
  wrefresh(w_moninfo);
  wrefresh(w_messages);
+ werase(w_void);
+ wrefresh(w_void);
  refresh();
 }
 

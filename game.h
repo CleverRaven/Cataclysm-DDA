@@ -268,12 +268,14 @@ class game
   WINDOW *w_messages;
   WINDOW *w_location;
   WINDOW *w_status;
+  WINDOW *w_void; //space unter status if viewport Y > 12
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
   void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA = true);
+  void print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX);
   bool load_master();	// Load the master data file, with factions &c
   void load(std::string name);	// Load a player-specific save file
   void start_game();	// Starts a new game
@@ -359,6 +361,7 @@ class game
   void chat();    // Talk to a nearby NPC	'C'
   void plthrow(char chInput = '.'); // Throw an item		't'
   void help();    // Help screen		'?'
+  void show_options();    // Options screen		'?'
 
 // Target is an interactive function which allows the player to choose a nearby
 // square.  It display information on any monster/NPC on that square, and also
@@ -380,7 +383,6 @@ class game
   void cleanup_dead();     // Delete any dead NPCs/monsters
   void monmove();          // Monster movement
   void rustCheck();        // Degrades practice levels
-  void update_bodytemp();  // Maintains body temperature
   void process_events();   // Processes and enacts long-term events
   void process_activity(); // Processes and enacts the player's activity
   void update_weather();   // Updates the temperature and weather patten

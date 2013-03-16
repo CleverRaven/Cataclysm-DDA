@@ -64,5 +64,6 @@ long special_symbol (char sym);
 std::string word_rewrap (const std::string &in, int width);
 
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
+void clear_window(WINDOW* w);
 
 #endif
