@@ -7978,7 +7978,7 @@ void game::spawn_mon(int shiftx, int shifty)
     nextspawn += rng(group * 4 + z.size() * 4, group * 10 + z.size() * 10);
 
    for (int j = 0; j < group; j++) {	// For each monster in the group...
-    mon_id type = MonsterGroupManager::GetMonsterFromGroup(cur_om.zg[i].type);
+    mon_id type = MonsterGroupManager::GetMonsterFromGroup(cur_om.zg[i].type, (int)turn, &mtypes);
      zom = monster(mtypes[type]);
      iter = 0;
      do {

@@ -163,12 +163,20 @@ void MonsterGroupManager::init_mongroups()
 
 mon_id MonsterGroupManager::GetMonsterFromGroup(MonsterGroupType group)
 {
+    return GetMonsterFromGroup(group, -1, NULL);
+}
+
+mon_id MonsterGroupManager::GetMonsterFromGroup(MonsterGroupType group, int turn, std::vector <mtype*> *mtypes)
+{
     int roll = rng(1, 1000);
     MonsterGroup g = monsterGroupArray[group];
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
-    {   //first = mon_id, second = chance on 1000
-        if(it->second >= roll) return it->first;
-        else roll -= it->second;
+    {
+        if(turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + (*mtypes)[it->first]->difficulty))
+        {   //Not too hard for us (or we dont care)
+            if(it->second >= roll) return it->first;
+            else roll -= it->second;
+        }
     }
     return g.defaultMonster;
 }

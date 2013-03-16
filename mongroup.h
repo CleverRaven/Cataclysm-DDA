@@ -62,6 +62,7 @@ class MonsterGroupManager
     public:
         static void init_mongroups();
         static mon_id GetMonsterFromGroup(MonsterGroupType);
+        static mon_id GetMonsterFromGroup(MonsterGroupType, int, std::vector <mtype*> *);
         static bool IsMonsterInGroup(MonsterGroupType, mon_id);
         static MonsterGroupType Monster2Group(mon_id);
         static std::vector<mon_id> GetMonstersFromGroup(MonsterGroupType);
