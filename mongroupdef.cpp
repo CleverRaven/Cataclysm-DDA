@@ -163,11 +163,10 @@ void MonsterGroupManager::init_mongroups()
 
 mon_id MonsterGroupManager::GetMonsterFromGroup(MonsterGroupType group)
 {
-    int roll;// = rng(1, 1000);
+    int roll = rng(1, 1000);
     MonsterGroup g = monsterGroupArray[group];
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
-    {   //first = mon_id, second = chance%1000
-        roll = rng(1, 1000);
+    {   //first = mon_id, second = chance on 1000
         if(it->second >= roll) return it->first;
         else roll -= it->second;
     }
