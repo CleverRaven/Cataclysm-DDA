@@ -2,6 +2,7 @@
 #include "game.h"
 #include "rng.h"
 #include "input.h"
+#include "keypress.h"
 #include "item.h"
 #include "bionics.h"
 #include "line.h"
@@ -10,6 +11,117 @@
 
 void bionics_install_failure(game *g, player *u, int success);
 
+void player::power_bionics(game *g)
+{
+ int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
+ int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
+
+ WINDOW* wBio = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+
+ werase(wBio);
+ std::vector <bionic> passive;
+ std::vector <bionic> active;
+ mvwprintz(wBio, 0, 0, c_blue, "BIONICS -");
+ mvwprintz(wBio, 0,10, c_white,
+           "Activating.  Press '!' to examine your implants.");
+
+ for (int i = 0; i < 80; i++) {
+  mvwputch(wBio,  1, i, c_ltgray, LINE_OXOX);
+  mvwputch(wBio, 21, i, c_ltgray, LINE_OXOX);
+ }
+ for (int i = 0; i < my_bionics.size(); i++) {
+  if ( bionics[my_bionics[i].id].power_source ||
+      !bionics[my_bionics[i].id].activated      )
+   passive.push_back(my_bionics[i]);
+  else
+   active.push_back(my_bionics[i]);
+ }
+ nc_color type;
+ if (passive.size() > 0) {
+  mvwprintz(wBio, 2, 0, c_ltblue, "Passive:");
+  for (int i = 0; i < passive.size(); i++) {
+   if (bionics[passive[i].id].power_source)
+    type = c_ltcyan;
+   else
+    type = c_cyan;
+   mvwputch(wBio, 3 + i, 0, type, passive[i].invlet);
+   mvwprintz(wBio, 3 + i, 2, type, bionics[passive[i].id].name.c_str());
+  }
+ }
+ if (active.size() > 0) {
+  mvwprintz(wBio, 2, 32, c_ltblue, "Active:");
+  for (int i = 0; i < active.size(); i++) {
+   if (active[i].powered)
+    type = c_red;
+   else
+    type = c_ltred;
+   mvwputch(wBio, 3 + i, 32, type, active[i].invlet);
+   mvwprintz(wBio, 3 + i, 34, type,
+             (active[i].powered ? "%s - ON" : "%s - %d PU / %d trns"),
+             bionics[active[i].id].name.c_str(),
+             bionics[active[i].id].power_cost,
+             bionics[active[i].id].charge_time);
+  }
+ }
+
+ wrefresh(wBio);
+ char ch;
+ bool activating = true;
+ bionic *tmp;
+ int b;
+ do {
+  ch = getch();
+  if (ch == '!') {
+   activating = !activating;
+   if (activating)
+    mvwprintz(wBio, 0, 10, c_white,
+              "Activating.  Press '!' to examine your implants.");
+   else
+    mvwprintz(wBio, 0, 10, c_white,
+              "Examining.  Press '!' to activate your implants.");
+  } else if (ch == ' ')
+   ch = KEY_ESCAPE;
+  else if (ch != KEY_ESCAPE) {
+   for (int i = 0; i < my_bionics.size(); i++) {
+    if (ch == my_bionics[i].invlet) {
+     tmp = &my_bionics[i];
+     b = i;
+     ch = KEY_ESCAPE;
+    }
+   }
+   if (ch == KEY_ESCAPE) {
+    if (activating) {
+     if (bionics[tmp->id].activated) {
+      if (tmp->powered) {
+       tmp->powered = false;
+       g->add_msg("%s powered off.", bionics[tmp->id].name.c_str());
+      } else if (power_level >= bionics[tmp->id].power_cost ||
+                 (weapon.type->id == itm_bio_claws && tmp->id == bio_claws))
+       activate_bionic(b, g);
+     } else
+      mvwprintz(wBio, 22, 0, c_ltred, "\
+You can not activate %s!  To read a description of \
+%s, press '!', then '%c'.", bionics[tmp->id].name.c_str(),
+                            bionics[tmp->id].name.c_str(), tmp->invlet);
+    } else {	// Describing bionics, not activating them!
+// Clear the lines first
+     ch = 0;
+     mvwprintz(wBio, 22, 0, c_ltgray, "\
+                                                                               \
+                                                                               \
+                                                                             ");
+     mvwprintz(wBio, 22, 0, c_ltblue,
+               bionics[tmp->id].description.c_str());
+    }
+   }
+  }
+  wrefresh(wBio);
+ } while (ch != KEY_ESCAPE);
+ werase(wBio);
+ wrefresh(wBio);
+ delwin(wBio);
+ erase();
+}
 
 // Why put this in a Big Switch?  Why not let bionics have pointers to
 // functions, much like monsters and items?
@@ -18,6 +130,9 @@ void bionics_install_failure(game *g, player *u, int success);
 // share functions....
 void player::activate_bionic(int b, game *g)
 {
+ int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
+ int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
+
  bionic bio = my_bionics[b];
  int power_cost = bionics[bio.id].power_cost;
  if (weapon.type->id == itm_bio_claws && bio.id == bio_claws)
@@ -101,7 +216,8 @@ void player::activate_bionic(int b, game *g)
 
 // TODO: More stuff here (and bio_blood_filter)
  case bio_blood_anal:
-  w = newwin(20, 40, 3, 10);
+  w = newwin(20, 40, 3 + ((iMaxY > 25) ? (iMaxY-25)/2 : 0), 10+((iMaxX > 80) ? (iMaxX-80)/2 : 0));
+
   wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
   if (has_disease(DI_FUNGUS))
@@ -367,7 +483,11 @@ bool player::install_bionics(game *g, it_bionic* type)
   return false;
  }
  std::string bio_name = type->name.substr(5);	// Strip off "CBM: "
- WINDOW* w = newwin(25, 80, 0, 0);
+
+ int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
+ int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
+
+ WINDOW* w = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
 
  int pl_skill = int_cur +
    skillLevel("electronics") * 4 +
