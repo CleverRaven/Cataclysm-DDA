@@ -13,19 +13,19 @@ InputEvent get_input(int ch)
 	{
 		case 'k':
 		case '8':
-  case KEY_UP:
+        case KEY_UP:
 			return DirectionN;
 		case 'j':
 		case '2':
-  case KEY_DOWN:
+        case KEY_DOWN:
 			return DirectionS;
 		case 'l':
 		case '6':
-  case KEY_RIGHT:
+        case KEY_RIGHT:
 			return DirectionE;
 		case 'h':
 		case '4':
-  case KEY_LEFT:
+        case KEY_LEFT:
 			return DirectionW;
 		case 'y':
 		case '7':
