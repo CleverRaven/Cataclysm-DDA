@@ -110,6 +110,6 @@ void exit_handler(int s) {
    system("clear"); // Tell the terminal to clear itself
   #endif
 
-  exit(1);
+  exit(0);
  }
 }
