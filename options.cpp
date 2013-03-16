@@ -406,7 +406,7 @@ autosafemode F\n\
 # Number of turns after safemode is reenabled when no zombies are in safemodeproximity distance\n\
 autosafemodeturns 50\n\
 # If true, game will periodically save the map\n\
-autosave F\n\
+autosave T\n\
 # If true will add nice gradual-lighting (should only make a difference @night)\n\
 gradual_night_light F\n\
 # If true, will query beefore disassembling items\n\
