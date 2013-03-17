@@ -82,6 +82,7 @@
 		<Unit filename="line.cpp" />
 		<Unit filename="line.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="main_menu.cpp" />
 		<Unit filename="map.cpp" />
 		<Unit filename="map.h" />
 		<Unit filename="mapbuffer.cpp" />

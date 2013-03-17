@@ -2360,21 +2360,17 @@ void overmap::place_mongroups()
  }
 
 // Forest groups cover the entire map
- zg.push_back(
-	mongroup(mcat_forest, 0, OMAPY, OMAPY,
-                 rng(2000, 12000)));
+ zg.push_back( mongroup(mcat_forest, OMAPX / 2, OMAPY / 2,
+                        OMAPY, rng(2000, 12000)));
  zg.back().diffuse = true;
- zg.push_back(
-	mongroup(mcat_forest, 0, OMAPY * 2 - 1, OMAPY,
-                 rng(2000, 12000)));
+ zg.push_back( mongroup(mcat_forest, OMAPX / 2, (OMAPY * 3) / 2,
+                        OMAPY, rng(2000, 12000)));
  zg.back().diffuse = true;
- zg.push_back(
-	mongroup(mcat_forest, OMAPX, 0, OMAPX,
-                 rng(2000, 12000)));
+ zg.push_back( mongroup(mcat_forest, (OMAPX * 3) / 2, OMAPY / 2,
+                        OMAPX, rng(2000, 12000)));
  zg.back().diffuse = true;
- zg.push_back(
-	mongroup(mcat_forest, OMAPX * 2 - 1, 0, OMAPX,
-                 rng(2000, 12000)));
+ zg.push_back( mongroup(mcat_forest, (OMAPX * 3) / 2, (OMAPY * 3) / 2,
+                        OMAPX, rng(2000, 12000)));
  zg.back().diffuse = true;
 }
 
