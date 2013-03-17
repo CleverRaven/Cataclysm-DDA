@@ -7954,7 +7954,10 @@ void game::spawn_mon(int shiftx, int shifty)
  monster zom;
  for (int i = 0; i < cur_om.zg.size(); i++) { // For each valid group...
   group = 0;
-  dist = trig_dist(nlevx, nlevy, cur_om.zg[i].posx, cur_om.zg[i].posy);
+  if(cur_om.zg[i].diffuse)
+   dist = rl_dist(nlevx, nlevy, cur_om.zg[i].posx, cur_om.zg[i].posy);
+  else
+   dist = trig_dist(nlevx, nlevy, cur_om.zg[i].posx, cur_om.zg[i].posy);
   pop = cur_om.zg[i].population;
   rad = cur_om.zg[i].radius;
   if (dist <= rad) {

@@ -830,13 +830,14 @@ To save this character as a template, press !.");
      return 1;
      } else
     return 1;
-  } else if (u->name.size() == 0)
+  } else if (u->name.size() == 0) {
     mvwprintz(w, 6, 8, h_ltgray, "______NO NAME ENTERED!!!!_____");
     noname = true;
     wrefresh(w);
     if (query_yn("Are you SURE you're finished? Your name will be randomly generated.")){
      u->pick_name();
      return 1;
+    }
    } else if (query_yn("Are you SURE you're finished?"))
     return 1;
    else
