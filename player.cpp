@@ -431,10 +431,17 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
     }
    }
   }
-  // TODO Balance bionics
-  // Bionic "Internal Climate Control" says it is effective from 0F to 140F, these are the corresponding bodytemp values
-  if (has_bionic(bio_climate) && g->temperature > 0 && g->temperature < 140)
-   temp_conv = (9*BODYTEMP_NORM + temp_conv)/10; // Bionic "eases" the effects
+  // BIONICS
+  // Bionic "Internal Climate Control" says it eases the effects of high and low ambient temps
+  const int variation = BODYTEMP_NORM*0.5;
+  if (has_bionic(bio_climate) && temp_conv < BODYTEMP_SCORCHING + variation && temp_conv > BODYTEMP_FREEZING - variation){
+   if      (temp_conv > BODYTEMP_SCORCHING) temp_conv = BODYTEMP_VERY_HOT;
+   else if (temp_conv > BODYTEMP_VERY_HOT)  temp_conv = BODYTEMP_HOT;
+   else if (temp_conv > BODYTEMP_HOT)       temp_conv = BODYTEMP_NORM;
+   else if (temp_conv < BODYTEMP_FREEZING)  temp_conv = BODYTEMP_VERY_COLD;
+   else if (temp_conv < BODYTEMP_VERY_COLD) temp_conv = BODYTEMP_COLD;
+   else if (temp_conv < BODYTEMP_COLD)      temp_conv = BODYTEMP_NORM;
+   }
   // Bionic "Thermal Dissapation" says it prevents fire damage up to 2000F. 500 is picked at random...
   if (has_bionic(bio_heatsink) && blister_count < 500)
    blister_count = 0;
