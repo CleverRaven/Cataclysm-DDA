@@ -3859,6 +3859,12 @@ bool player::has_watertight_container()
     return true;
   }
  }
+ if (weapon.is_container() && weapon.contents.empty()) {
+   it_container* cont = dynamic_cast<it_container*>(weapon.type);
+   if (cont->flags & mfb(con_wtight) && cont->flags & mfb(con_seals))
+    return true;
+ }
+
  return false;
 }
 
