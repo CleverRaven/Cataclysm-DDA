@@ -92,8 +92,8 @@ MonsterGroup GetMGroupFromJSON(picojson::object *jsonobj)
     g.name = GetString("name", jsonobj);
     g.defaultMonster = monStr2monId[GetString("default", jsonobj)];
 
-    if(jsonobj->at("monsters").is<picojson::array>())
-        jsonarray = jsonobj->at("monsters").get<picojson::array>();
+    if(jsonobj->find("monsters")->second.is<picojson::array>())
+        jsonarray = jsonobj->find("monsters")->second.get<picojson::array>();
     else
     {
         printf("Fatal error, cannot get monster group array in %s", monGroupFilePath);
@@ -152,8 +152,8 @@ void MonsterGroupManager::LoadJSONGroups()
 
 std::string GetString(std::string key, picojson::object *obj)
 {
-    if(obj->at(key).is<std::string>())
-        return obj->at(key).get<std::string>();
+    if(obj->find(key)->second.is<std::string>())
+        return obj->find(key)->second.get<std::string>();
     else
     {
         printf("Cannot get string '%s' in '%s'",key.c_str(), monGroupFilePath);
@@ -163,8 +163,8 @@ std::string GetString(std::string key, picojson::object *obj)
 
 int GetInt(std::string key, picojson::object *obj)
 {
-    if(obj->at(key).is<double>())
-        return obj->at(key).get<double>();
+    if(obj->find(key)->second.is<double>())
+        return obj->find(key)->second.get<double>();
     else
     {
         printf("Cannot get number '%s' in '%s'",key.c_str(), monGroupFilePath);
