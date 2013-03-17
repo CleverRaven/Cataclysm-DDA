@@ -882,7 +882,7 @@ void dis_effect(game *g, player &p, disease &dis)
   }
   if (dis.duration > 3600) { // 12 teles
    if (one_in(4000 - int(.25 * (dis.duration - 3600)))) {
-    mon_id type = MonsterGroupManager::GetMonsterFromGroup(GROUP_NETHER);
+    mon_id type = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER");
     monster beast(g->mtypes[type]);
     int x, y, tries = 0;
     do {
@@ -944,7 +944,7 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_ATTENTION:
   if (one_in( 100000 / dis.duration ) && one_in( 100000 / dis.duration ) &&
       one_in(250)) {
-   mon_id type = MonsterGroupManager::GetMonsterFromGroup(GROUP_NETHER);
+   mon_id type = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER");
    monster beast(g->mtypes[type]);
    int x, y, tries = 0, junk;
    do {

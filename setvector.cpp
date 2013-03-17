@@ -108,16 +108,6 @@ void setvector(std::vector<monster_trigger> &vec, ... )
  va_end(ap);
 }
 
-void setvector(std::vector<MonsterGroupType> &vec, ... )
-{
- va_list ap;
- va_start(ap, vec);
- MonsterGroupType tmp;
- while ((tmp = (MonsterGroupType)va_arg(ap, int)))
-  vec.push_back(tmp);
- va_end(ap);
-}
-
 void setvector(std::vector<style_move> &vec, ... )
 {
  va_list ap;

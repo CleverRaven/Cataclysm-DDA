@@ -10,11 +10,12 @@ typedef FreqDef::iterator FreqDef_iter;
 
 struct MonsterGroup
 {
+    std::string name;
     mon_id defaultMonster;
     FreqDef  monsters;
 };
 
-enum MonsterGroupType
+/*enum MonsterGroupType
 {
     GROUP_NULL = 0,
     GROUP_FOREST,
@@ -35,16 +36,16 @@ enum MonsterGroupType
     GROUP_SPIDER,
     GROUP_ROBOT,
     GROUP_COUNT
-};
+};*/
 
 struct mongroup {
- MonsterGroupType type;
+ std::string type;
  int posx, posy;
  unsigned char radius;
  unsigned int population;
  bool dying;
  bool diffuse;   // group size ind. of dist. from center and radius invariant
- mongroup(MonsterGroupType ptype, int pposx, int pposy, unsigned char prad,
+ mongroup(std::string ptype, int pposx, int pposy, unsigned char prad,
           unsigned int ppop) {
   type = ptype;
   posx = pposx;
@@ -54,20 +55,20 @@ struct mongroup {
   dying = false;
   diffuse = false;
  }
- bool is_safe() { return (type == GROUP_NULL || type == GROUP_FOREST); };
+ bool is_safe() { return (type == "GROUP_NULL" || type == "GROUP_FOREST"); };
 };
 
 class MonsterGroupManager
 {
     public:
-        static void init_mongroups();
-        static mon_id GetMonsterFromGroup(MonsterGroupType);
-        static mon_id GetMonsterFromGroup(MonsterGroupType, int, std::vector <mtype*> *);
-        static bool IsMonsterInGroup(MonsterGroupType, mon_id);
-        static MonsterGroupType Monster2Group(mon_id);
-        static std::vector<mon_id> GetMonstersFromGroup(MonsterGroupType);
+        static void LoadJSONGroups();
+        static mon_id GetMonsterFromGroup(std::string);
+        static mon_id GetMonsterFromGroup(std::string, int, std::vector <mtype*> *);
+        static bool IsMonsterInGroup(std::string, mon_id);
+        static std::string Monster2Group(mon_id);
+        static std::vector<mon_id> GetMonstersFromGroup(std::string);
 
     private:
-        static MonsterGroup monsterGroupArray[GROUP_COUNT];
+        static std::map<std::string, MonsterGroup> monsterGroupMap;
 };
 #endif

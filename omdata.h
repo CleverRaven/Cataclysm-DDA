@@ -396,7 +396,7 @@ struct overmap_special
  int min_dist_from_city;// Min distance from city limits
  int max_dist_from_city;// Max distance from city limits
 
- MonsterGroupType monsters;    // Type of monsters that appear here
+ std::string monsters;    // Type of monsters that appear here
  int monster_pop_min;   // Minimum monster population
  int monster_pop_max;   // Maximum monster population
  int monster_rad_min;   // Minimum monster radius
@@ -445,94 +445,94 @@ enum omspec_id
 const overmap_special overmap_specials[NUM_OMSPECS] = {
 
 // Terrain	 MIN MAX DISTANCE
-{ot_crater,	   0, 10,  0, -1, GROUP_NULL, 0, 0, 0, 0,
+{ot_crater,	   0, 10,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_BLOB)},
 
-{ot_hive, 	   0, 50, 10, -1, GROUP_BEE, 20, 60, 2, 4,
+{ot_hive, 	   0, 50, 10, -1, "GROUP_BEE", 20, 60, 2, 4,
  &omspec_place::forest, mfb(OMS_FLAG_3X3)},
 
-{ot_house_north,   0,100,  0, -1, GROUP_NULL, 0, 0, 0, 0,
+{ot_house_north,   0,100,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD)},
 
-{ot_s_gas_north,   0,100,  0, -1, GROUP_NULL, 0, 0, 0, 0,
+{ot_s_gas_north,   0,100,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD)},
 
-{ot_cabin,   0, 30, 20, -1, GROUP_NULL, 0, 0, 0, 0,  // Woods cabin
+{ot_cabin,   0, 30, 20, -1, "GROUP_NULL", 0, 0, 0, 0,  // Woods cabin
  &omspec_place::forest, 0},
 
- {ot_lmoe,   0, 3, 20, -1, GROUP_NULL, 0, 0, 0, 0,
+ {ot_lmoe,   0, 3, 20, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::land, 0},
 
- {ot_farm,   0, 20, 20, -1, GROUP_NULL, 0, 0, 0, 0,
+ {ot_farm,   0, 20, 20, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) |mfb(OMS_FLAG_DIRT_LOT)},
 
-{ot_temple_stairs, 0,  3, 20, -1, GROUP_NULL, 0, 0, 0, 0,
+{ot_temple_stairs, 0,  3, 20, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::forest, 0},
 
-{ot_lab_stairs,	   0, 30,  8, -1, GROUP_NULL, 0, 0, 0, 0,
+{ot_lab_stairs,	   0, 30,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_ROAD)},
 
-{ot_fema_entrance,	   0, 5,  8, -1, GROUP_NULL, 0, 0, 0, 0,
+{ot_fema_entrance,	   0, 5,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_3X3_SECOND)},
 
 // Terrain	 MIN MAX DISTANCE
-{ot_bunker,	   2, 10,  4, -1, GROUP_NULL, 0, 0, 0, 0,
+{ot_bunker,	   2, 10,  4, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_ROAD)},
 
-{ot_outpost,	   0, 10,  4, -1, GROUP_NULL, 0, 0, 0, 0,
+{ot_outpost,	   0, 10,  4, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, 0},
 
-{ot_silo,	   0,  1, 30, -1, GROUP_NULL, 0, 0, 0, 0,
+{ot_silo,	   0,  1, 30, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
 
-{ot_radio_tower,   1,  5,  0, 20, GROUP_NULL, 0, 0, 0, 0,
+{ot_radio_tower,   1,  5,  0, 20, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::by_highway, 0},
 
-{ot_mansion_entrance, 0, 8, 0, -1, GROUP_NULL, 0, 0, 0, 0,
+{ot_mansion_entrance, 0, 8, 0, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND)},
 
-{ot_mansion_entrance, 0, 4, 10, -1, GROUP_NULL, 0, 0, 0, 0,
+{ot_mansion_entrance, 0, 4, 10, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND)},
 
-{ot_megastore_entrance, 0, 5, 0, 10, GROUP_NULL, 0, 0, 0, 0,
+{ot_megastore_entrance, 0, 5, 0, 10, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND)},
 
-{ot_hospital_entrance, 1, 5, 3, 15, GROUP_NULL, 0, 0, 0, 0,
+{ot_hospital_entrance, 1, 5, 3, 15, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND)},
 
-{ot_sewage_treatment, 1,  5, 10, 20, GROUP_NULL, 0, 0, 0, 0,
+{ot_sewage_treatment, 1,  5, 10, 20, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_PARKING_LOT)},
 
-{ot_mine_entrance,  0,  5,  15, -1, GROUP_NULL, 0, 0, 0, 0,
+{ot_mine_entrance,  0,  5,  15, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT)},
 
 // Terrain	 MIN MAX DISTANCE
-{ot_anthill,	   0, 30,  10, -1, GROUP_ANT, 10, 30, 1000, 2000,
+{ot_anthill,	   0, 30,  10, -1, "GROUP_ANT", 10, 30, 1000, 2000,
  &omspec_place::wilderness, 0},
 
-{ot_spider_pit,	   0,500,  0, -1, GROUP_NULL, 0, 0, 0, 0,
+{ot_spider_pit,	   0,500,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::forest, 0},
 
-{ot_slimepit,	   0,  4,  0, -1, GROUP_GOO, 2, 10, 100, 200,
+{ot_slimepit,	   0,  4,  0, -1, "GROUP_GOO", 2, 10, 100, 200,
  &omspec_place::land, 0},
 
-{ot_fungal_bloom,  0,  3,  5, -1, GROUP_FUNGI, 600, 1200, 30, 50,
+{ot_fungal_bloom,  0,  3,  5, -1, "GROUP_FUNGI", 600, 1200, 30, 50,
  &omspec_place::wilderness, 0},
 
-{ot_triffid_grove, 0,  4,  0, -1, GROUP_TRIFFID, 800, 1300, 12, 20,
+{ot_triffid_grove, 0,  4,  0, -1, "GROUP_TRIFFID", 800, 1300, 12, 20,
  &omspec_place::forest, 0},
 
-{ot_river_center,  0, 10, 10, -1, GROUP_NULL, 0, 0, 0, 0,
+{ot_river_center,  0, 10, 10, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::always, mfb(OMS_FLAG_BLOB)},
 
 // Terrain	 MIN MAX DISTANCE
-{ot_shelter,       5, 10,  5, 10, GROUP_NULL, 0, 0, 0, 0,
+{ot_shelter,       5, 10,  5, 10, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
 
-{ot_cave,	   0, 30,  0, -1, GROUP_NULL, 0, 0, 0, 0,
+{ot_cave,	   0, 30,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, 0},
 
-{ot_toxic_dump,	   0,  5, 15, -1, GROUP_NULL, 0, 0, 0, 0,
+{ot_toxic_dump,	   0,  5, 15, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness,0}
 
 };

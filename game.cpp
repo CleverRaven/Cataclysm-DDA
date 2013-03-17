@@ -3270,7 +3270,7 @@ void game::monmove()
      if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
          !cur_om.zg[group].diffuse )
       cur_om.zg[group].radius++;
-    } else if (MonsterGroupManager::Monster2Group((mon_id)(z[i].type->id)) != GROUP_NULL) {
+    } else if (MonsterGroupManager::Monster2Group((mon_id)(z[i].type->id)) != "GROUP_NULL") {
      cur_om.zg.push_back(mongroup(MonsterGroupManager::Monster2Group((mon_id)(z[i].type->id)),
                                   levx, levy, 1, 1));
     }
@@ -3668,7 +3668,7 @@ void game::resonance_cascade(int x, int y)
    case 13:
    case 14:
    case 15:
-    spawn = MonsterGroupManager::GetMonsterFromGroup(GROUP_NETHER);
+    spawn = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER");
     invader = monster(mtypes[spawn], i, j);
     z.push_back(invader);
     break;
