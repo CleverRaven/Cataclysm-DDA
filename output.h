@@ -41,7 +41,7 @@ void draw_tabs(WINDOW *w, int active_tab, ...);
 #define debugmsg(format...) realDebugmsg(__FILE__, STRING(__LINE__), format)
 
 void realDebugmsg(const char* name, const char* line, const char *mes, ...);
-bool query_yn(const char *mes, ...);
+bool query_yn(int iViewX, int iViewY, const char *mes, ...);
 int  query_int(const char *mes, ...);
 std::string string_input_popup(std::string title, int max_length = 0, std::string input = "");
 char popup_getkey(const char *mes, ...);

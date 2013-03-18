@@ -1113,7 +1113,7 @@ point overmap::choose_point(game *g)
   } else if(ch == 'D'){
    timeout(-1);
    if (has_note(cursx, cursy)){
-    bool res = query_yn("Really delete note?");
+    bool res = query_yn(g->VIEWX, g->VIEWY, "Really delete note?");
     if (res == true)
      delete_note(cursx, cursy);
    }

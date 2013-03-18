@@ -1460,7 +1460,7 @@ void talk_function::start_training(game *g, npc *p)
  else if (!trade(g, p, cost, "Pay for training:"))
   return;
 // Then receive it
- g->u.assign_activity(ACT_TRAIN, time, p->chatbin.tempvalue);
+ g->u.assign_activity(g, ACT_TRAIN, time, p->chatbin.tempvalue);
 }
 
 void parse_tags(std::string &phrase, player *u, npc *me)
@@ -1618,9 +1618,9 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
    okay = true;
   else if (colors[ch] == c_white || colors[ch] == c_green)
    okay = true;
-  else if (colors[ch] == c_red && query_yn("You may be attacked! Proceed?"))
+  else if (colors[ch] == c_red && query_yn(g->VIEWX, g->VIEWY, "You may be attacked! Proceed?"))
    okay = true;
-  else if (colors[ch] == c_ltred && query_yn("You'll be helpless! Proceed?"))
+  else if (colors[ch] == c_ltred && query_yn(g->VIEWX, g->VIEWY, "You'll be helpless! Proceed?"))
    okay = true;
  } while (!okay);
  history.push_back("");

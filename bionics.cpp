@@ -280,7 +280,7 @@ void player::activate_bionic(int b, game *g)
   break;
 
  case bio_evap:
-  if (query_yn("Drink directly? Otherwise you will need a container.")) {
+  if (query_yn(g->VIEWX, g->VIEWY, "Drink directly? Otherwise you will need a container.")) {
    tmp_item = item(g->itypes[itm_water], 0);
    thirst -= 50;
    if (has_trait(PF_GOURMAND) && thirst < -60) {
@@ -389,7 +389,7 @@ void player::activate_bionic(int b, game *g)
  case bio_water_extractor:
   for (int i = 0; i < g->m.i_at(posx, posy).size(); i++) {
    item tmp = g->m.i_at(posx, posy)[i];
-   if (tmp.type->id == itm_corpse && query_yn("Extract water from the %s",
+   if (tmp.type->id == itm_corpse && query_yn(g->VIEWX, g->VIEWY, "Extract water from the %s",
                                               tmp.tname().c_str())) {
     i = g->m.i_at(posx, posy).size() + 1;	// Loop is finished
     t = g->inv("Choose a container:");
