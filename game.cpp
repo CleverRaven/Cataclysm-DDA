@@ -5884,29 +5884,21 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
           add_msg("You pour %s into your %s.", liquid.tname(this).c_str(),
                                         cont->tname(this).c_str());
         }
-        else
+        else // Container is finite, not empty and not full, add liquid to it
         {
-        // if same inventory letter
-          if (ch == u.weapon.invlet)
+          add_msg("You pour %s into your %s.", liquid.tname(this).c_str(),
+                    cont->tname(this).c_str());
+          cont->contents[0].charges += liquid.charges;
+          if (cont->contents[0].charges > holding_container_charges)
           {
-            add_msg("Never mind.");
+            int extra = cont->contents[0].charges - holding_container_charges;
+            cont->contents[0].charges = holding_container_charges;
+            liquid.charges = extra;
+            add_msg("There's some left over!");
+            // Why not try to find another container here?
             return false;
           }
-          else
-          {
-            add_msg("You pour %s into your %s.", liquid.tname(this).c_str(),
-                      cont->tname(this).c_str());
-            cont->contents[0].charges += liquid.charges;
-            if (cont->contents[0].charges > holding_container_charges)
-            {
-              int extra = cont->contents[0].charges - holding_container_charges;
-              cont->contents[0].charges = holding_container_charges;
-              liquid.charges = extra;
-              add_msg("There's some left over!");
-              return false;
-            }
-            return true;
-          }
+          return true;
         }
       }
       else  // pouring into an empty container
