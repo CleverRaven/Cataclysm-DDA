@@ -192,7 +192,7 @@ itm_silencer, itm_grip, itm_barrel_big, itm_barrel_small, itm_barrel_rifled,
 // Containers
 itm_bag_plastic, itm_bottle_plastic, itm_bottle_glass,
  itm_can_drink, itm_can_food, itm_box_small,
- itm_canteen, itm_jerrycan, itm_carboy_plastic, itm_flask_glass, itm_waterskin,
+ itm_canteen, itm_jerrycan, itm_jug_plastic, itm_flask_glass, itm_waterskin,
 // Tools
 itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_flashlight, itm_flashlight_on, itm_hotplate, itm_soldering_iron,

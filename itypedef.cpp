@@ -162,12 +162,12 @@ DRINK("itm_beer","beer",           60, 35, c_brown,  itm_can_drink,
          16, 4,  0, -4, -1,  2,  1, 10, &iuse::alcohol,   ADD_ALCOHOL, "\
 Best served cold, in a glass, and with a lime - but you're not that lucky.");
 
-DRINK("itm_bleach","bleach",		20, 18,	c_white,  itm_carboy_plastic,
+DRINK("itm_bleach","bleach",		20, 18,	c_white,  itm_jug_plastic,
 	-96, 0,  0,  0, -8,  0,  1,-30,&iuse::blech,	ADD_NULL, "\
 Don't drink it. Mixing it with ammonia produces toxic gas.");
 
 //     NAME		RAR PRC	COLOR     CONTAINER
-DRINK("itm_ammonia","ammonia",	24, 30,	c_yellow, itm_carboy_plastic,
+DRINK("itm_ammonia","ammonia",	24, 30,	c_yellow, itm_jug_plastic,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
 	-96, 0,  0,  0, -2,  0,  1,-30,&iuse::blech,	ADD_NULL, "\
 Don't drink it. Mixing it with bleach produces toxic gas.");
@@ -3489,9 +3489,9 @@ CONT("itm_jerrycan","plastic jerrycan",	10,  2500,	c_green,	PLASTIC,MNULL,
 A bulky plastic jerrycan, meant to carry fuel, but can carry other liquids\n\
 in a pinch. It has a capacity of 10 litres.");
 
-CONT("itm_carboy_plastic","plastic carboy",	10,  2500,	c_ltcyan,	PLASTIC,MNULL,
+CONT("itm_jug_plastic","plastic jug",	10,  2500,	c_ltcyan,	PLASTIC,MNULL,
     10,  2, -8,  1,	 10,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A 2.5 litre plastic carboy for household cleaning chemicals.");
+A 2.5 litre plastic bottle used for household cleaning chemicals.");
 
 CONT("itm_flask_glass","glass flask",	10,  2500,	c_ltcyan,	GLASS,MNULL,
     1,  0, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
