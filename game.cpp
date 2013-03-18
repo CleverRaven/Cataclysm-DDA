@@ -7632,8 +7632,9 @@ void game::update_map(int &x, int &y)
  }
  set_adjacent_overmaps();
 
- // Shift monsters
- despawn_monsters(false, shiftx, shifty);
+ // Shift monsters if we're actually shifting
+ if(shiftx || shifty)
+  despawn_monsters(false, shiftx, shifty);
 
  // Shift NPCs
  for (int i = 0; i < active_npc.size(); i++) {
@@ -8251,6 +8252,7 @@ void game::teleport(player *p)
   p = &u;
  int newx, newy, t, tries = 0;
  bool is_u = (p == &u);
+
  p->add_disease(DI_TELEGLOW, 300, this);
  do {
   newx = p->posx + rng(0, SEEX * 2) - SEEX;
