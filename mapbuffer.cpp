@@ -167,6 +167,10 @@ void mapbuffer::save()
   if (sm->comp.name != "")
    fout << "c " << sm->comp.save_data() << std::endl;
 
+ // Output base camp if any
+  if (sm->camp.is_valid())
+  	fout << "B " << sm->camp.save_data() << std::endl;
+
  // Output the graffiti
  for (int j = 0; j < SEEY; j++) {
   for (int i = 0; i < SEEX; i++) {
@@ -281,6 +285,9 @@ void mapbuffer::load()
    } else if (string_identifier == "c") {
     getline(fin, databuff);
     sm->comp.load_data(databuff);
+   } else if (string_identifier == "B") {
+    getline(fin, databuff);
+    sm->camp.load_data(databuff);
    } else if (string_identifier == "G") {
      std::string s;
     int j;

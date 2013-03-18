@@ -661,6 +661,15 @@ std::vector<int> vehicle::boarded_parts()
     return res;
 }
 
+int vehicle::free_seat()
+{
+ for (int p = 0; p < parts.size(); p++)
+  if (part_flag (p, vpf_seat) && !parts[p].has_flag(vehicle_part::passenger_flag))
+   return p;
+
+ return -1;
+}
+
 player *vehicle::get_passenger (int p)
 {
     p = part_with_feature (p, vpf_seat, false);
@@ -1185,11 +1194,14 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
     bool u_here = x == g->u.posx && y == g->u.posy && !g->u.in_vehicle;
     monster *z = mondex >= 0? &g->z[mondex] : 0;
     player *ph = (npcind >= 0? &g->active_npc[npcind] : (u_here? &g->u : 0));
+
+    if (ph && ph->in_vehicle) // if in a vehicle assume it's this one
+    	ph = 0;
+
     int target_part = -1;
     vehicle *oveh = g->m.veh_at (x, y, target_part);
     bool is_veh_collision = oveh && (oveh->posx != posx || oveh->posy != posy);
-    bool is_body_collision = (g->u.posx == x && g->u.posy == y && !g->u.in_vehicle) ||
-                           mondex >= 0 || npcind >= 0;
+    bool is_body_collision = ph || mondex >= 0;
 
     veh_coll_type collision_type = veh_coll_nothing;
     std::string obs_name = g->m.tername(x, y).c_str();

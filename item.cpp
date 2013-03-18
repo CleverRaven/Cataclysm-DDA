@@ -1176,6 +1176,19 @@ bool item::is_gun()
  return type->is_gun();
 }
 
+bool item::is_silent()
+{
+ if ( is_null() )
+  return false;
+
+ // So far only gun code uses this check
+ return type->is_gun() && (
+   noise() < 5 ||              // almost silent
+   curammo->type == AT_BOLT || // crossbows
+   curammo->type == AT_ARROW   // bows
+ );
+}
+
 bool item::is_gunmod()
 {
  if( is_null() )

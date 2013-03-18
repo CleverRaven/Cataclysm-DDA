@@ -4776,17 +4776,26 @@ void game::examine()
    } while (u.cash >= 10 && query_yn(this->VIEWX, this->VIEWY, "Play again?"));
   }
  } else if (m.ter(examx, examy) == t_bulletin) {
-// TODO: Bulletin Boards
-  switch (menu("Bulletin Board", "Check jobs", "Check events",
-               "Check other notices", "Post notice", "Cancel", NULL)) {
-   case 1:
-    break;
-   case 2:
-    break;
-   case 3:
-    break;
-   case 4:
-    break;
+ 	basecamp *camp = m.camp_at(examx, examy);
+ 	if (camp && camp->board_x() == examx && camp->board_y() == examy) {
+ 		std::vector<std::string> options;
+ 		options.push_back("Cancel");
+ 		int choice = menu_vec(camp->board_name().c_str(), options) - 1;
+ 	}
+ 	else {
+ 		bool create_camp = m.allow_camp(examx, examy);
+ 		std::vector<std::string> options;
+ 		if (create_camp)
+ 			options.push_back("Create camp");
+ 		options.push_back("Cancel");
+ 		// TODO: Other Bulletin Boards
+ 		int choice = menu_vec("Bulletin Board", options) - 1;
+ 		if (choice >= 0 && choice < options.size()) {
+  		if (options[choice] == "Create camp") {
+  			// TODO: Allow text entry for name
+ 	 		m.add_camp("Home", examx, examy);
+ 		 }
+ 		}
   }
  } else if (m.ter(examx, examy) == t_fault) {
   popup("\
