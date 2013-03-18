@@ -2690,12 +2690,14 @@ Chinese military, it does not see extensive use outside of China.",
 0);
 
 GUN("sawn-off shotgun",	 1, 700,c_red,	IRON,	WOOD,
-	"shotgun",	AT_SHOT, 6, 10, 14,  2,  4, 40, 15,  4,  0,  2, 100, "\
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
+	"shotgun",	AT_SHOT, 6, 10, 14, 2,  4,  40, 15, 4,   0,   2, 100, "\
 The barrels of shotguns are often sawed in half to make it more maneuverable\n\
 and concealable. This has the added effect of reducing accuracy greatly.",
 mfb(IF_RELOAD_ONE));
 
 GUN("sawn-off Saiga 12",	 1, 700,c_red,	IRON,	WOOD,
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
 	"shotgun",	AT_SHOT, 6, 10, 14,  2,  4, 40, 15,  4,  0,  10, 100, "\
 The Saiga-12 shotgun is designed on the same Kalishnikov pattern as the AK47\n\
 rifle. It reloads with a magazine, rather than one shell at a time like most\n\
@@ -3635,12 +3637,12 @@ it off.");
 TECH( mfb(TEC_SWEEP) );
 
 TOOL("jackhammer",	 2, 890,';', c_magenta,	IRON,	MNULL,
-   13, 54, 20,  6, -4, 120,  0,10,  0, AT_GAS,	itm_null, &iuse::jackhammer,0,"\
+   26, 54, 20,  6, -4, 120,  0,10,  0, AT_GAS,	itm_null, &iuse::jackhammer,0,"\
 This jackhammer runs on gasoline. Use it (if loaded) to blast a hole in\n\
 adjacent solid terrain.");
 
 TOOL("jacqueshammer",     2, 890,  ';', c_magenta, IRON,   MNULL,
-   13, 54, 20,  6, -4, 120,  0,10,  0, AT_GAS,  itm_null, &iuse::jacqueshammer,0,"\
+   26, 54, 20,  6, -4, 120,  0,10,  0, AT_GAS,  itm_null, &iuse::jacqueshammer,0,"\
 Ce marteau-piqueur fonctionne a l'essence.\n\
 Utilisez-le (si charge) pour faire sauter un troudans\n\
 adjacente terrain solide.");
@@ -3652,7 +3654,7 @@ ground, creating a trap that will warn you with noise when something steps on\n\
 it.");
 
 TOOL("bear trap",	 5, 120,';', c_cyan,	IRON,	MNULL,
-    4, 12,  9,  1, -2,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap,0,"\
+    12, 10,  9,  1, -2,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap,0,"\
 A spring-loaded pair of steel jaws. Use it to set it on the ground, creating\n\
 a trap that will ensnare and damage anything that steps on it. If you are\n\
 carrying a shovel, you will have the option of burying it.");
@@ -3685,15 +3687,14 @@ trigger is pulled, one or two may be used.");
 //	NAME		RAR VAL	SYM  COLOR	MAT1	MAT
 TOOL("blade trap",	 0,500, ';', c_ltgray,	IRON,	MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-   13, 21,  4, 16, -4,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap,0,"\
+   20, 21,  4, 16, -4,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap,0,"\
 A machete is attached laterally to a motor, with a tripwire controlling its\n\
 throttle. When the tripwire is pulled, the blade is swung around with great\n\
 force. The trap forms a 3x3 area of effect.");
 
 TOOL("land mine",	 3,2400,';', c_red,	IRON,	MNULL,
-    3,  6, 10,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap,0,"\
-An explosive that is triggered when stepped upon. It must be partially\n\
-buried to be effective, and so you will need a shovel to use it.");
+    5,  6, 10,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap,0,"\
+An anti-personnel mine that is triggered when stepped upon.");
 
 TOOL("geiger ctr (off)", 8, 300,';', c_green,	PLASTIC,STEEL,
     2,  2,  2,  0,  0,100,100,  1,  0, AT_BATT,	itm_null, &iuse::geiger,0,"\
