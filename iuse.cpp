@@ -1231,18 +1231,18 @@ void iuse::roadmap_a_target(game *g, player *p, item *it, bool t, int target)
 
  int pomx = (g->levx + int(MAPSIZE / 2)) / 2; //overmap loc
  int pomy = (g->levy + int(MAPSIZE / 2)) / 2; //overmap loc
- 
+
  if (g->debugmon) debugmsg("Map: %s at %d,%d found! You @ %d %d",oter_target.name.c_str(), place.x, place.y, pomx,pomy);
- 
+
  if (place.x >= 0 && place.y >= 0) {
   for (int x = place.x - 3; x <= place.x + 3; x++) {
    for (int y = place.y - 3; y <= place.y + 3; y++)
     g->cur_om.seen(x, y) = true;
   }
-  
+
   direction to_hospital = direction_from(pomx,pomy, place.x, place.y);
   int distance = trig_dist(pomx,pomy, place.x, place.y);
-  
+
   g->add_msg_if_player(p, "You add a %s location to your map.", oterlist[target].name.c_str());
   g->add_msg_if_player(p, "It's %d squares to the %s", distance,  direction_name(to_hospital).c_str());
  } else {
@@ -2454,6 +2454,10 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
  if (cut->type->id == 0) {
   g->add_msg("You do not have that item!");
   return;
+ }
+ if (cut->type->id == itm_string_6 || cut->type->id == itm_string_36 || cut->type->id == itm_rope_30 || cut->type->id == itm_rope_6) {
+    g->add_msg("You cannot cut that, you must disassemble it using the disassemble key");
+    return;
  }
  if (cut->type->id == itm_rag) {
   g->add_msg("There's no point in cutting a rag.");
