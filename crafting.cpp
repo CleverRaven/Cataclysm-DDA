@@ -1044,6 +1044,10 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   TOOL(itm_welder, 50, itm_toolset, 2, NULL);
   COMP(itm_steel_lump, 3, NULL);
 
+ RECIPE(itm_sheet_metal, CC_MISC, "mechanics", NULL, 2, 4000, true);
+  TOOL(itm_welder, 20, itm_toolset, 1, NULL);
+  COMP(itm_scrap, 4, NULL);
+
  RECIPE(itm_steel_plate, CC_MISC, "mechanics", NULL,4, 12000, true);
   TOOL(itm_welder, 100, itm_toolset, 4, NULL);
   COMP(itm_steel_lump, 8, NULL);
