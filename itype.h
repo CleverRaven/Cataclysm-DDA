@@ -97,7 +97,7 @@ itm_wrapper, itm_withered, itm_syringe, itm_fur, itm_leather, itm_superglue,
  itm_v6_combustion, itm_v8_combustion,
  itm_motor, itm_motor_large, itm_plasma_engine, itm_foot_crank,
  itm_metal_tank, itm_storage_battery, itm_minireactor, itm_solar_panel,
- itm_steel_plate, itm_alloy_plate, itm_spiked_plate, itm_hard_plate,
+ itm_sheet_metal, itm_steel_plate, itm_alloy_plate, itm_spiked_plate, itm_hard_plate,
 // Footwear
  itm_socks, itm_socks_wool,
  itm_sneakers, itm_boots, itm_boots_steel, itm_boots_winter, itm_mocassins,

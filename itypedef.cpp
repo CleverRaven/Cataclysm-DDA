@@ -1318,6 +1318,11 @@ MELEE("solar panel",  3, 900, ']', c_yellow,  GLASS,   MNULL,
 Electronic device which can convert solar radiation into electric\n\
 power. Useful for crafting.");
 
+MELEE("sheet metal",  30, 60, ']', c_ltcyan,  STEEL,   MNULL,
+//  VOL WGT DAM CUT HIT FLAGS
+    4,  20,  5,  0,  -2, 0, "\
+A thin sheet of metal.");
+
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel plating",  30, 120, ']', c_ltcyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
