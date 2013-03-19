@@ -29,6 +29,8 @@ itype_id ALT_ATTACK_ITEMS[NUM_ALT_ATTACK_ITEMS] = {
 };
 #endif
 
+const int avoidance_vehicles_radius = 5;
+
 std::string npc_action_name(npc_action action);
 bool thrown_item(item *used);
 
@@ -63,7 +65,20 @@ void npc::move(game *g)
  }
 // TODO: Place player-aiding actions here, with a weight
 
+ /* NPCs are fairly suicidal so at this point we will do a quick check to see if
+  * something nasty is going to happen.
+  */
+
+ int vehicle = vehicle_danger(g, avoidance_vehicles_radius);
+ if (vehicle) {
+  // TODO: Think about how this actually needs to work, for now assume flee from player
+ 	target = TARGET_PLAYER;
+ }
+
+ // TODO: morale breaking when surrounded by hostiles
  //if (!bravery_check(danger) || !bravery_check(total_danger) ||
+ // TODO: near by active explosives spotted
+
  if (target == TARGET_PLAYER && attitude == NPCATT_FLEE)
   action = method_of_fleeing(g, target);
  else if (danger > 0 || (target == TARGET_PLAYER && attitude == NPCATT_KILL))
@@ -86,7 +101,10 @@ void npc::move(game *g)
     find_item(g);
    if (g->debugmon)
     debugmsg("find_item %s", npc_action_name(action).c_str());
-   if (fetching_item)		// Set to true if find_item() found something
+   // check if in vehicle before rushing off to fetch things
+   if (is_following() && g->u.in_vehicle)
+    action = npc_follow_embarked;
+   else if (fetching_item)		// Set to true if find_item() found something
     action = npc_pickup;
    else if (is_following())	// No items, so follow the player?
     action = npc_follow_player;
@@ -100,9 +118,15 @@ void npc::move(game *g)
 /* Sometimes we'll be following the player at this point, but close enough that
  * "following" means standing still.  If that's the case, if there are any
  * monsters around, we should attack them after all!
+ *
+ * If we are following a embarked player and we are in a vehicle then shoot anyway
+ * as we are most likely riding shotgun
  */
- if (action == npc_follow_player && danger > 0 &&
-     rl_dist(posx, posy, g->u.posx, g->u.posy) <= follow_distance())
+ if (danger > 0 && (
+     (action == npc_follow_embarked && in_vehicle) ||
+     (action == npc_follow_player &&
+       rl_dist(posx, posy, g->u.posx, g->u.posy) <= follow_distance())
+    ))
   action = method_of_attack(g, target, danger);
 
  if (g->debugmon)
@@ -289,6 +313,39 @@ void npc::execute_action(game *g, npc_action action, int target)
    move_pause();
   break;
 
+ case npc_follow_embarked:
+  if (in_vehicle)
+   move_pause();
+  else {
+   int p1;
+   vehicle *veh = g->m.veh_at(g->u.posx, g->u.posy, p1);
+
+   if (!veh) {
+    debugmsg("Following an embarked player with no vehicle at their location?");
+    // TODO: change to wait? - for now pause
+    move_pause();
+   } else {
+    int p2 = veh->free_seat();
+    if (p2 < 0) {
+     // TODO: be angry at player, switch to wait or leave - for now pause
+     move_pause();
+    } else {
+     int px = veh->global_x() + veh->parts[p2].precalc_dx[0];
+     int py = veh->global_y() + veh->parts[p2].precalc_dy[0];
+     update_path(g, px, py);
+
+     // TODO: replace extra hop distance with finding the correct door
+     //       Hop in the last few squares is mostly to avoid player clash
+     if (path.size() <= 2) {
+      g->m.board_vehicle(g, px, py, this);
+      move_pause();
+     } else
+      move_to_next(g);
+    }
+   }
+  }
+  break;
+
  case npc_talk_to_player:
   talk_to_u(g);
   moves = 0;
@@ -311,6 +368,11 @@ void npc::execute_action(game *g, npc_action action, int target)
  case npc_avoid_friendly_fire:
   avoid_friendly_fire(g, target);
   break;
+
+ case npc_base_idle:
+ 	// TODO: patrol or sleep or something?
+ 	move_pause();
+ 	break;
 
  default:
   debugmsg("Unknown NPC action (%d)", action);
@@ -349,7 +411,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
     priority -= 10;
     monster_danger -= 10;
    } else
-    priority *= 1 + (.1 * distance);
+    priority *= 1 + (.1 *use_escape_item distance);
 */
    total_danger += int(monster_danger / (distance == 0 ? 1 : distance));
 
@@ -421,6 +483,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
 {
  int tarx = posx, tary = posy;
  bool can_use_gun = (!is_following() || combat_rules.use_guns);
+ bool use_silent = (is_following() && combat_rules.use_silent);
 
  if (target == TARGET_PLAYER) {
   tarx = g->u.posx;
@@ -444,16 +507,24 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
    return npc_reload;
   if (emergency(danger_assessment(g)) && alt_attack_available(g))
    return npc_alt_attack;
-  if (weapon.is_gun() && weapon.charges > 0) {
+  if (weapon.is_gun() && (!use_silent || weapon.is_silent()) && weapon.charges > 0) {
    it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
    if (dist > confident_range()) {
-    if (can_reload() && enough_time_to_reload(g, target, weapon))
+    if (can_reload() && (enough_time_to_reload(g, target, weapon) || in_vehicle))
      return npc_reload;
+    else if (in_vehicle && dist > 1)
+     return npc_pause;
     else
      return npc_melee;
    }
    if (!wont_hit_friend(g, tarx, tary))
-    return npc_avoid_friendly_fire;
+    if (in_vehicle)
+     if (can_reload())
+      return npc_reload;
+     else
+      return npc_pause; // wait for clear shot
+    else
+     return npc_avoid_friendly_fire;
    else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
             gun->burst > 1 &&
             ((weapon.curammo && target_HP >= weapon.curammo->damage * 3) || emergency(danger * 2)))
@@ -467,10 +538,10 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
  bool has_empty_gun = false, has_better_melee = false;
  std::vector<int> empty_guns;
  for (int i = 0; i < inv.size(); i++) {
-  if (can_use_gun && inv[i].is_gun() && inv[i].charges > 0)
+  bool allowed = can_use_gun && inv[i].is_gun() && (!use_silent || weapon.is_silent());
+  if (allowed && inv[i].charges > 0)
    return npc_wield_loaded_gun;
-  else if (can_use_gun && inv[i].is_gun() &&
-           enough_time_to_reload(g, target, inv[i])) {
+  else if (allowed && enough_time_to_reload(g, target, inv[i])) {
    has_empty_gun = true;
    empty_guns.push_back(i);
   } else if (inv[i].melee_value(sklevel) > weapon.melee_value(sklevel) * 1.1)
@@ -491,6 +562,8 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
  else if (has_better_melee)
   return npc_wield_melee;
 
+ if (in_vehicle && dist > 1)
+  return npc_pause;
  return npc_melee;
 }
 
@@ -597,6 +670,8 @@ npc_action npc::long_term_goal_action(game *g)
 
 // TODO: Follow / look for player
 
+ if (mission == NPC_MISSION_BASE)
+ 	return npc_base_idle;
 
  if (!has_destination())
   set_destination(g);
@@ -862,6 +937,11 @@ bool npc::can_move_to(game *g, int x, int y)
 
 void npc::move_to(game *g, int x, int y)
 {
+ if (in_vehicle) {
+  // TODO: handle this nicely - npcs should not jump from moving vehicles
+  g->m.unboard_vehicle(g, posx, posy);
+ }
+
  if (has_disease(DI_DOWNED)) {
   moves -= 100;
   return;
@@ -1318,15 +1398,17 @@ void npc::drop_items(game *g, int weight, int volume)
 
 npc_action npc::scan_new_items(game *g, int target)
 {
- bool can_use_gun =      (!is_following() || combat_rules.use_guns);
+ bool can_use_gun = (!is_following() || combat_rules.use_guns);
+ bool use_silent = (is_following() && combat_rules.use_silent);
+
 // Check if there's something better to wield
  bool has_empty_gun = false, has_better_melee = false;
  std::vector<int> empty_guns;
  for (int i = 0; i < inv.size(); i++) {
-  if (can_use_gun && inv[i].is_gun() && inv[i].charges > 0)
+  bool allowed = can_use_gun && inv[i].is_gun() && (!use_silent || inv[i].is_silent());
+  if (allowed && inv[i].charges > 0)
    return npc_wield_loaded_gun;
-  else if (can_use_gun && inv[i].is_gun() &&
-           enough_time_to_reload(g, target, inv[i])) {
+  else if (allowed && enough_time_to_reload(g, target, inv[i])) {
    has_empty_gun = true;
    empty_guns.push_back(i);
   } else if (inv[i].melee_value(sklevel) > weapon.melee_value(sklevel) * 1.1)
@@ -1987,6 +2069,7 @@ std::string npc_action_name(npc_action action)
   case npc_look_for_player:	return "Look for player";
   case npc_heal_player:		return "Heal player";
   case npc_follow_player:	return "Follow player";
+  case npc_follow_embarked: return "Follow player (embarked)";
   case npc_talk_to_player:	return "Talk to player";
   case npc_mug_player:		return "Mug player";
   case npc_goto_destination:	return "Go to destination";

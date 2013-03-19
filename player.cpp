@@ -3894,6 +3894,29 @@ bool player::has_matching_liquid(int it)
     }
   }
  }
+ if (weapon.is_container() && !weapon.contents.empty()) {
+  if (weapon.contents[0].type->id == it) { // liquid matches
+    it_container* container = dynamic_cast<it_container*>(weapon.type);
+    int holding_container_charges;
+
+    if (weapon.contents[0].type->is_food()) {
+      it_comest* tmp_comest = dynamic_cast<it_comest*>(weapon.contents[0].type);
+
+      if (tmp_comest->add == ADD_ALCOHOL) // 1 contains = 20 alcohol charges
+        holding_container_charges = container->contains * 20;
+      else
+        holding_container_charges = container->contains;
+    }
+    else if (weapon.contents[0].type->is_ammo())
+      holding_container_charges = container->contains * 200;
+    else
+      holding_container_charges = container->contains;
+
+  if (weapon.contents[0].charges < holding_container_charges)
+    return true;
+  }
+}
+
  return false;
 }
 

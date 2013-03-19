@@ -117,6 +117,7 @@ public:
  bool is_bashing_weapon();
  bool is_cutting_weapon();
  bool is_gun();
+ bool is_silent();
  bool is_gunmod();
  bool is_bionic();
  bool is_ammo();
