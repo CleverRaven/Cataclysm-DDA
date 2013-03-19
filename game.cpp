@@ -726,8 +726,13 @@ void game::update_weather()
  int choice = rng(0, total - 1);
  weather_type old_weather = weather;
  weather_type new_weather = WEATHER_CLEAR;
- while (choice >= chances[new_weather]) {
-  choice -= chances[new_weather];
+
+ if (total > 0) {
+  while (choice >= chances[new_weather]) {
+   choice -= chances[new_weather];
+   new_weather = weather_type(int(new_weather) + 1);
+  }
+ } else {
   new_weather = weather_type(int(new_weather) + 1);
  }
 // Advance the weather timer
