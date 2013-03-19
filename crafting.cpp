@@ -1614,7 +1614,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
 
 void game::make_craft(recipe *making)
 {
- u.assign_activity(ACT_CRAFT, making->time, making->id);
+ u.assign_activity(this, ACT_CRAFT, making->time, making->id);
  u.moves = 0;
  u.lastrecipe = making;
 }
@@ -1901,7 +1901,7 @@ void game::disassemble()
 
   item* dis_item = &u.i_at(ch);
 
-  if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Really disassemble your %s?", dis_item->tname(this).c_str())))
+  if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn(this->VIEWX, this->VIEWY, "Really disassemble your %s?", dis_item->tname(this).c_str())))
     return;
 
   for (int i = 0; i < recipes.size(); i++) {
@@ -1967,7 +1967,7 @@ void game::disassemble()
       if (have_tool[0] && have_tool[1] && have_tool[2] && have_tool[3] &&
       have_tool[4])
       {
-        u.assign_activity(ACT_DISASSEMBLE, recipes[i]->time, recipes[i]->id);
+        u.assign_activity(this, ACT_DISASSEMBLE, recipes[i]->time, recipes[i]->id);
         u.moves = 0;
         std::vector<int> dis_items;
         dis_items.push_back(ch);

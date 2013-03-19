@@ -594,7 +594,7 @@ void game::place_construction(constructable *con)
    max_stage = i;
  }
 
- u.assign_activity(ACT_BUILD, con->stages[starting_stage].time * 1000, con->id);
+ u.assign_activity(this, ACT_BUILD, con->stages[starting_stage].time * 1000, con->id);
 
  u.moves = 0;
  std::vector<int> stages;

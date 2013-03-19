@@ -126,7 +126,7 @@ void game::show_options()
   }
  } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
- if (changed_options && query_yn("Save changes?"))
+ if (changed_options && query_yn(this->VIEWX, this->VIEWY, "Save changes?"))
   save_options();
  werase(w_options);
 }
