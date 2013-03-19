@@ -1112,6 +1112,10 @@ RECIPE(itm_boobytrap, CC_MISC, "mechanics", "traps",3,5000, false);
   COMP(itm_shot_bird, 30, itm_shot_00, 15, itm_shot_slug, 12, itm_gasoline, 600,
      itm_grenade, 1, itm_gunpowder, 72, NULL);
 
+RECIPE(itm_brazier, CC_MISC, "mechanics", NULL, 1, 2000, false);
+  TOOL(itm_hatchet, -1, itm_hammer, -1, itm_rock, -1, itm_toolset, -1, NULL);
+  COMP(itm_sheet_metal,1,NULL);
+
  RECIPE(itm_bandages, CC_MISC, "firstaid", NULL, 1, 500, false);
   COMP(itm_rag, 3, NULL);
   COMP(itm_superglue, 1, itm_duct_tape, 5, NULL);
