@@ -2305,6 +2305,10 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  if (dam <= 0)
   return;
 
+ hit_animation(this->posx - g->u.posx + g->VIEWX + this->view_offset_x,
+               this->posy - g->u.posy + g->VIEWY + this->view_offset_y,
+               red_background(c_white), '@');
+
  rem_disease(DI_SPEED_BOOST);
  if (dam >= 6)
   rem_disease(DI_ARMOR_BOOST);

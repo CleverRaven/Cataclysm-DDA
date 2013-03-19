@@ -6973,8 +6973,13 @@ void game::plmove(int x, int y)
  if (mondex != -1) {
   if (z[mondex].friendly == 0) {
    int udam = u.hit_mon(this, &z[mondex]);
+   char sMonSym = '%';
+   nc_color cMonColor = z[mondex].type->color;
    if (z[mondex].hurt(udam))
     kill_mon(mondex, true);
+   else
+    sMonSym = z[mondex].symbol();
+   hit_animation(x - u.posx + this->VIEWX + u.view_offset_x, y - u.posy + this->VIEWY + u.view_offset_y, red_background(cMonColor), sMonSym);
    return;
   } else
    displace = true;
