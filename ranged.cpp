@@ -921,7 +921,9 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
     sMonSym = g->z[g->mon_at(mon.posx, mon.posy)].symbol();
    }
 
-   hit_animation(mon.posx - g->u.posx + g->VIEWX, mon.posy - g->u.posy + g->VIEWY, red_background(cMonColor), sMonSym);
+   hit_animation(mon.posx - g->u.posx + g->VIEWX - g->u.view_offset_x,
+                 mon.posy - g->u.posy + g->VIEWY - g->u.view_offset_y,
+                 red_background(cMonColor), sMonSym);
 
    dam = 0;
   }

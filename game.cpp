@@ -6979,7 +6979,9 @@ void game::plmove(int x, int y)
     kill_mon(mondex, true);
    else
     sMonSym = z[mondex].symbol();
-   hit_animation(x - u.posx + this->VIEWX + u.view_offset_x, y - u.posy + this->VIEWY + u.view_offset_y, red_background(cMonColor), sMonSym);
+   hit_animation(x - u.posx + this->VIEWX - u.view_offset_x,
+                 y - u.posy + this->VIEWY - u.view_offset_y,
+                 red_background(cMonColor), sMonSym);
    return;
   } else
    displace = true;
