@@ -4279,6 +4279,16 @@ static void open_gate( game *g, const int examx, const int examy, const enum ter
   close_message = "The barn doors closed!";
   break;
 
+ case t_palisade_pulley:
+  v_wall_type = t_palisade;
+  h_wall_type = t_palisade;
+  door_type   = t_palisade_gate;
+  floor_type  = t_dirt;
+  pull_message = "You pull the rope...";
+  open_message = "The gate!";
+  close_message = "The barn doors closed!";
+  break;
+
   default: return; // No matching gate type
  }
 
@@ -4561,20 +4571,14 @@ void game::examine()
  else if (m.ter(examx, examy) == t_gates_mech_control && query_yn(this->VIEWX, this->VIEWY, "Use this winch?"))
  {
    open_gate( this, examx, examy, t_gates_mech_control );
-/* } else if (m.ter(examx, examy) == t_dirt || m.ter(examx, examy) == t_grass) {
-    m.ter(examx, examy) = t_wall_wood;
-    m.ter(examx, examy) = t_shrub;
-    m.ter(examx, examy) = t_underbrush;
-    m.ter(examx, examy) = t_wall_v;
-    m.ter(examx, examy) = t_wall_h;
-    m.ter(examx, examy) = t_water_dp;
-*/
-//Debug for testing things
  }
-
  else if (m.ter(examx, examy) == t_barndoor && query_yn(this->VIEWX, this->VIEWY, "Pull the rope?"))
  {
    open_gate( this, examx, examy, t_barndoor );
+ }
+ else if (m.ter(examx, examy) == t_palisade_pulley && query_yn(this->VIEWX, this->VIEWY, "Pull the rope?"))
+ {
+   open_gate( this, examx, examy, t_palisade_pulley );
  }
 
  else if (m.ter(examx, examy) == t_rubble && u.has_amount(itm_shovel, 1)) {

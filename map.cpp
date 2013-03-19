@@ -1910,9 +1910,6 @@ bool map::open_door(const int x, const int y, const bool inside)
  if (ter(x, y) == t_door_c) {
   ter(x, y) = t_door_o;
   return true;
- } else if (ter(x, y) == t_palisade_gate) {
-  ter(x, y) = t_palisade_gate_o;
-  return true;
  } else if (ter(x, y) == t_canvas_door) {
   ter(x, y) = t_canvas_door_o;
   return true;
@@ -1961,9 +1958,6 @@ bool map::close_door(const int x, const int y, const bool inside)
 {
  if (ter(x, y) == t_door_o) {
   ter(x, y) = t_door_c;
-  return true;
- } else if (ter(x, y) == t_palisade_gate_o) {
-  ter(x, y) = t_palisade_gate;
   return true;
  } else if (inside && ter(x, y) == t_window_domestic) {
   ter(x, y) = t_curtains;

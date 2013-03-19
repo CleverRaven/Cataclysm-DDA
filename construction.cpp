@@ -124,6 +124,11 @@ void game::init_construction()
    COMP(itm_log, 3, NULL);
    COMP(itm_rope_30, 1, itm_rope_6, 5, NULL);
 
+ CONSTRUCT("Build Rope and Pulley System", 2, &construct::able_empty, &construct::done_nothing);
+  STAGE(t_palisade_pulley, 0);
+  COMP(itm_rope_30, 1, NULL);
+  COMP(itm_stick, 8, itm_2x4, 8, NULL);
+
  CONSTRUCT("Build Palisade Gate", 2, &construct::able_pit, &construct::done_nothing);
   STAGE(t_palisade_gate, 20);
    TOOL(itm_shovel, itm_primitive_shovel, NULL);
