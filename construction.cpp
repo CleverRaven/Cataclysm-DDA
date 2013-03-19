@@ -192,6 +192,15 @@ void game::init_construction()
    COMP(itm_2x4, 8, NULL);
    COMP(itm_nail, 40, NULL);
 
+// Base stuff
+ CONSTRUCT("Build Bulletin Board", 0, &construct::able_empty,
+ 		                                   &construct::done_nothing);
+  STAGE(t_bulletin, 10)
+   TOOL(itm_saw, NULL);
+   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   COMP(itm_2x4, 4, NULL);
+   COMP(itm_nail, 8, NULL);
+
 // Household stuff
  CONSTRUCT("Build Dresser", 1, &construct::able_indoors,
                                 &construct::done_nothing);
@@ -594,7 +603,7 @@ void game::place_construction(constructable *con)
    max_stage = i;
  }
 
- u.assign_activity(ACT_BUILD, con->stages[starting_stage].time * 1000, con->id);
+ u.assign_activity(this, ACT_BUILD, con->stages[starting_stage].time * 1000, con->id);
 
  u.moves = 0;
  std::vector<int> stages;

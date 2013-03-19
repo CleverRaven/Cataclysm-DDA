@@ -1044,6 +1044,10 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   TOOL(itm_welder, 50, itm_toolset, 2, NULL);
   COMP(itm_steel_lump, 3, NULL);
 
+ RECIPE(itm_sheet_metal, CC_MISC, "mechanics", NULL, 2, 4000, true);
+  TOOL(itm_welder, 20, itm_toolset, 1, NULL);
+  COMP(itm_scrap, 4, NULL);
+
  RECIPE(itm_steel_plate, CC_MISC, "mechanics", NULL,4, 12000, true);
   TOOL(itm_welder, 100, itm_toolset, 4, NULL);
   COMP(itm_steel_lump, 8, NULL);
@@ -1107,6 +1111,10 @@ RECIPE(itm_boobytrap, CC_MISC, "mechanics", "traps",3,5000, false);
   COMP(itm_nail, 100, itm_bb, 200, NULL);
   COMP(itm_shot_bird, 30, itm_shot_00, 15, itm_shot_slug, 12, itm_gasoline, 600,
      itm_grenade, 1, itm_gunpowder, 72, NULL);
+
+RECIPE(itm_brazier, CC_MISC, "mechanics", NULL, 1, 2000, false);
+  TOOL(itm_hatchet, -1, itm_hammer, -1, itm_rock, -1, itm_toolset, -1, NULL);
+  COMP(itm_sheet_metal,1,NULL);
 
  RECIPE(itm_bandages, CC_MISC, "firstaid", NULL, 1, 500, false);
   COMP(itm_rag, 3, NULL);
@@ -1614,7 +1622,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
 
 void game::make_craft(recipe *making)
 {
- u.assign_activity(ACT_CRAFT, making->time, making->id);
+ u.assign_activity(this, ACT_CRAFT, making->time, making->id);
  u.moves = 0;
  u.lastrecipe = making;
 }
@@ -1901,7 +1909,7 @@ void game::disassemble()
 
   item* dis_item = &u.i_at(ch);
 
-  if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Really disassemble your %s?", dis_item->tname(this).c_str())))
+  if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn(this->VIEWX, this->VIEWY, "Really disassemble your %s?", dis_item->tname(this).c_str())))
     return;
 
   for (int i = 0; i < recipes.size(); i++) {
@@ -1967,7 +1975,7 @@ void game::disassemble()
       if (have_tool[0] && have_tool[1] && have_tool[2] && have_tool[3] &&
       have_tool[4])
       {
-        u.assign_activity(ACT_DISASSEMBLE, recipes[i]->time, recipes[i]->id);
+        u.assign_activity(this, ACT_DISASSEMBLE, recipes[i]->time, recipes[i]->id);
         u.moves = 0;
         std::vector<int> dis_items;
         dis_items.push_back(ch);

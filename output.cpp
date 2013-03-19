@@ -318,7 +318,7 @@ void realDebugmsg(const char* filename, const char* line, const char *mes, ...)
  attroff(c_red);
 }
 
-bool query_yn(const char *mes, ...)
+bool query_yn(int iViewX, int iViewY, const char *mes, ...)
 {
  bool force_uc = OPTIONS[OPT_FORCE_YN];
  va_list ap;
@@ -327,7 +327,12 @@ bool query_yn(const char *mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  int win_width = strlen(buff) + 26;
- WINDOW* w = newwin(3, win_width, 11, 0);
+
+ int iMaxX = (iViewX < 12) ? 80 : (iViewX*2)+56;
+ int iMaxY = (iViewY < 12) ? 25 : (iViewY*2)+1;
+
+ WINDOW *w = newwin(3, win_width, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > win_width) ? (iMaxX-win_width)/2 : 0);
+
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w, 1, 1, c_ltred, "%s (%s)", buff,

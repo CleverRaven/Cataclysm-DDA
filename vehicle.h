@@ -229,6 +229,7 @@ public:
 
 // get a list of part indeces where is a passenger inside
     std::vector<int> boarded_parts();
+    int free_seat();
 
 // get passenger at part p
     player *get_passenger (int p);

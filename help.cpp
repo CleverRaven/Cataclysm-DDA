@@ -547,7 +547,7 @@ from frostbite and to keep your distance from large fires.");
      if (actch >= 'a' && actch <= 'a' + 24 &&
          actch - 'a' + offset < NUM_ACTIONS) {
       action_id act = action_id(actch - 'a' + offset);
-      if (ch == '-' && query_yn("Clear keys for %s?",action_name(act).c_str())){
+      if (ch == '-' && query_yn(this->VIEWX, this->VIEWY, "Clear keys for %s?",action_name(act).c_str())){
        clear_bindings(act);
        changed_keymap = true;
       } else if (ch == '+') {
@@ -562,7 +562,7 @@ from frostbite and to keep your distance from large fires.");
      }
     }
    } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
-   if (changed_keymap && query_yn("Save changes?"))
+   if (changed_keymap && query_yn(this->VIEWX, this->VIEWY, "Save changes?"))
     save_keymap();
    werase(w_help);
   } break;

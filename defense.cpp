@@ -956,7 +956,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing.");
     break;
 
    case KEY_ESCAPE:
-    if (query_yn("Really buy nothing?")) {
+    if (query_yn(g->VIEWX, g->VIEWY, "Really buy nothing?")) {
      cancel = true;
      done = true;
     } else {
@@ -970,9 +970,9 @@ Press Enter to buy everything in your cart, Esc to buy nothing.");
    case '\n':
     if (total_price > g->u.cash)
      popup("You can't afford those items!");
-    else if ((items[0].empty() && query_yn("Really buy nothing?")) ||
+    else if ((items[0].empty() && query_yn(g->VIEWX, g->VIEWY, "Really buy nothing?")) ||
              (!items[0].empty() &&
-              query_yn("Buy %d items, leaving you with $%d?", items[0].size(),
+              query_yn(g->VIEWX, g->VIEWY, "Buy %d items, leaving you with $%d?", items[0].size(),
                        g->u.cash - total_price)))
      done = true;
     if (!done) { // We canceled, so redraw everything

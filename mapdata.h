@@ -11,6 +11,7 @@
 #include "computer.h"
 #include "vehicle.h"
 #include "graffiti.h"
+#include "basecamp.h"
 #include <iosfwd>
 
 class game;
@@ -798,6 +799,7 @@ struct submap {
  std::vector<spawn_point> spawns;
  std::vector<vehicle*> vehicles;
  computer comp;
+ basecamp camp;  // only allowing one basecamp per submap
 };
 
 std::ostream & operator<<(std::ostream &, const submap *);
