@@ -22,6 +22,8 @@ enum trap_id {
  tr_shotgun_1,
  tr_engine,
  tr_blade,
+ tr_light_snare,
+ tr_heavy_snare,
  tr_landmine,
  tr_landmine_buried,
  tr_telepad,
@@ -50,6 +52,8 @@ struct trapfunc {
  void none		(game *g, int x, int y) { };
  void bubble		(game *g, int x, int y);
  void beartrap		(game *g, int x, int y);
+ void snare_light (game *g, int x, int y);
+ void snare_heavy (game *g, int x, int y);
  void snare		(game *g, int x, int y) { };
  void board		(game *g, int x, int y);
  void tripwire		(game *g, int x, int y);
@@ -86,6 +90,8 @@ struct trapfuncm {
  void crossbow	(game *g, monster *z, int x, int y);
  void shotgun	(game *g, monster *z, int x, int y);
  void blade	(game *g, monster *z, int x, int y);
+ void snare_light (game *g, monster *z, int x, int y);
+ void snare_heavy (game *g, monster *z, int x, int y);
  void snare	(game *g, monster *z, int x, int y) { };
  void landmine	(game *g, monster *z, int x, int y);
  void telepad	(game *g, monster *z, int x, int y);

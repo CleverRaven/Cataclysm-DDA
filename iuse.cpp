@@ -1591,7 +1591,9 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
 
 
  trap_id type = tr_null;
+ ter_id ter;
  bool buried = false;
+ bool set = false;
  std::stringstream message;
  int practice;
 
@@ -1678,6 +1680,40 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
   message << "You set the blade trap two squares away.";
   type = tr_engine;
   practice = 12;
+  break;
+ case itm_light_snare_trap:
+  for(int i = -1; i <= 1; i++) {
+    for(int j = -1; j <= 1; j++){
+      ter = g->m.ter(posx+j, posy+i);
+      if(ter == t_tree_young && !set) {
+        message << "You set the snare trap.";
+        type = tr_light_snare;
+        practice = 2;
+        set = true;
+      }
+    }
+  }
+  if(!set) {
+    g->add_msg_if_player(p, "Invalid Placement.");
+    return;
+  }
+  break;
+ case itm_heavy_snare_trap:
+  for(int i = -1; i <= 1; i++) {
+    for(int j = -1; j <= 1; j++){
+      ter = g->m.ter(posx+j, posy+i);
+      if(ter == t_tree && !set) {
+        message << "You set the snare trap.";
+        type = tr_heavy_snare;
+        practice = 4;
+        set = true;
+      }
+    }
+  }
+  if(!set) {
+    g->add_msg_if_player(p, "Invalid Placement.");
+    return;
+  }
   break;
  case itm_landmine:
   buried = (p->has_amount(itm_shovel, 1) &&

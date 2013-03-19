@@ -228,6 +228,132 @@ void trapfuncm::blade(game *g, monster *z, int x, int y)
   g->kill_mon(g->mon_at(x, y));
 }
 
+void trapfunc::snare_light(game *g, int x, int y)
+{
+ g->sound(x, y, 2, "Snap!");
+ g->add_msg("A snare closes on your leg.");
+ g->u.add_disease(DI_LIGHTSNARE, rng(10, 20), g);
+ g->m.tr_at(x, y) = tr_null;
+ g->m.add_item(x, y, g->itypes[itm_string_36], 0);
+ g->m.add_item(x, y, g->itypes[itm_snare_trigger], 0);
+}
+
+void trapfuncm::snare_light(game *g, monster *z, int x, int y)
+{
+ int t;
+ bool seen = g->u_see(z, t);
+ g->sound(x, y, 2, "Snap!");
+ switch (z->type->size) {
+  case MS_TINY:
+   if(seen){
+    g->add_msg("The %s has been snared!", z->name().c_str());
+   }
+   if(z->hurt(10)){
+    g->kill_mon(g->mon_at(x, y));
+   } else {
+    z->add_effect(ME_BEARTRAP, -1);
+   }
+   break;
+  case MS_SMALL:
+   if(seen){
+    g->add_msg("The %s has been snared!", z->name().c_str());
+   }
+   z->moves = 0;
+   z->add_effect(ME_BEARTRAP, rng(100, 150));
+   break;
+  case MS_MEDIUM:
+   if(seen){
+    g->add_msg("The %s has been snared!", z->name().c_str());
+   }
+   z->moves = 0;
+   z->add_effect(ME_BEARTRAP, rng(20, 30));
+   break;
+  case MS_LARGE:
+   if(seen){
+    g->add_msg("The snare has no effect on the %s!", z->name().c_str());
+   }
+   break;
+  case MS_HUGE:
+   if(seen){
+    g->add_msg("The snare has no effect on the %s!", z->name().c_str());
+   }
+   break;
+ }
+ g->m.tr_at(x, y) = tr_null;
+ g->m.add_item(x, y, g->itypes[itm_string_36], 0);
+ g->m.add_item(x, y, g->itypes[itm_snare_trigger], 0);
+}
+
+void trapfunc::snare_heavy(game *g, int x, int y)
+{
+ int side = one_in(2) ? 0 : 1;
+ body_part hit = bp_legs;
+ g->sound(x, y, 4, "Snap!");
+ g->add_msg("A snare closes on your %s.", body_part_name(hit, side).c_str());
+ g->u.hit(g, bp_legs, side, 15, 20);
+ g->u.add_disease(DI_HEAVYSNARE, rng(20, 30), g);
+ g->m.tr_at(x, y) = tr_null;
+ g->m.add_item(x, y, g->itypes[itm_rope_6], 0);
+ g->m.add_item(x, y, g->itypes[itm_snare_trigger], 0);
+}
+
+void trapfuncm::snare_heavy(game *g, monster *z, int x, int y)
+{
+ int t;
+ bool seen = g->u_see(z, t);
+ g->sound(x, y, 4, "Snap!");
+ switch (z->type->size) {
+  case MS_TINY:
+   if(seen){
+    g->add_msg("The %s has been snared!", z->name().c_str());
+   }
+   if(z->hurt(20)){
+    g->kill_mon(g->mon_at(x, y));
+   } else {
+    z->moves = 0;
+    z->add_effect(ME_BEARTRAP, -1);
+   }
+   break;
+  case MS_SMALL:
+   if(seen){
+    g->add_msg("The %s has been snared!", z->name().c_str());
+   }
+   if(z->hurt(20)){
+    g->kill_mon(g->mon_at(x, y));
+   } else {
+    z->moves = 0;
+    z->add_effect(ME_BEARTRAP, -1);
+   }
+   break;
+  case MS_MEDIUM:
+   if(seen){
+    g->add_msg("The %s has been snared!", z->name().c_str());
+   }
+   if(z->hurt(10)){
+    g->kill_mon(g->mon_at(x, y));
+   } else {
+    z->moves = 0;
+    z->add_effect(ME_BEARTRAP, rng(100, 150));
+   }
+   break;
+  case MS_LARGE:
+   if(seen){
+    g->add_msg("The %s has been snared!", z->name().c_str());
+   }
+    z->moves = 0;
+    z->add_effect(ME_BEARTRAP, rng(20, 30));
+   break;
+  case MS_HUGE:
+   if(seen){
+    g->add_msg("The snare has no effect on the %s!", z->name().c_str());
+   }
+   break;
+ }
+ g->m.tr_at(x, y) = tr_null;
+ g->m.add_item(x, y, g->itypes[itm_snare_trigger], 0);
+ g->m.add_item(x, y, g->itypes[itm_rope_6], 0);
+}
+
 void trapfunc::landmine(game *g, int x, int y)
 {
  g->add_msg("You trigger a landmine!");
