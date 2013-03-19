@@ -3490,16 +3490,16 @@ A small cardboard box. No bigger than a foot in any dimension.");
 
 CONT("plastic canteen",	20,  1000,	c_green,	PLASTIC,MNULL,
     6,  2, -8,  1,	 6,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A large military-style water canteen, with a 1.5 litre capacity");
+A large military-style water canteen, with a 1.5 liter capacity");
 
 CONT("plastic jerrycan",	10,  2500,	c_green,	PLASTIC,MNULL,
     40,  4, -2,  -2,	 40,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A bulky plastic jerrycan, meant to carry fuel, but can carry other liquids\n\
-in a pinch. It has a capacity of 10 litres.");
+in a pinch. It has a capacity of 10 liters.");
 
 CONT("plastic jug",	10,  2500,	c_ltcyan,	PLASTIC,MNULL,
     10,  2, -8,  1,	 10,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A 2.5 litre plastic bottle used for household cleaning chemicals.");
+A 2.5 liter plastic bottle used for household cleaning chemicals.");
 
 CONT("glass flask",	10,  2500,	c_ltcyan,	GLASS,MNULL,
     1,  0, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
@@ -3508,7 +3508,7 @@ A 250 ml laboratory conical flask, with a rubber bung.");
 CONT("waterskin",   0,  0, c_brown, LEATHER, MNULL,
 // VOL WGT DAM HIT	VOL	FLAGS
     2, 2,  -8, -5,   6, mfb(con_wtight)|mfb(con_seals), "\
-A watertight leather bag, can hold 1.5 litres of water.");
+A watertight leather bag, can hold 1.5 liters of water.");
 
 /* TOOLS
  * MAX is the maximum number of charges help.
