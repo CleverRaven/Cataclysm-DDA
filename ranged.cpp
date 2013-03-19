@@ -907,15 +907,24 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
   if (dam > 0) {
    mon.moves -= dam * 5;
    if (&p == &(g->u) && u_see_mon)
-    g->add_msg("%s You hit the %s for %d damage.", message.c_str(),
-            mon.name().c_str(), dam);
+    g->add_msg("%s You hit the %s for %d damage.", message.c_str(), mon.name().c_str(), dam);
    else if (u_see_mon)
-    g->add_msg("%s %s shoots the %s.", message.c_str(), p.name.c_str(),
-            mon.name().c_str());
+    g->add_msg("%s %s shoots the %s.", message.c_str(), p.name.c_str(), mon.name().c_str());
+
+   char sMonSym = '%';
+   nc_color cMonColor = g->z[g->mon_at(mon.posx, mon.posy)].type->color;
+
    if (mon.hurt(dam))
     g->kill_mon(g->mon_at(mon.posx, mon.posy), (&p == &(g->u)));
-   else if (weapon->curammo->ammo_effects != 0)
+   else if (weapon->curammo->ammo_effects != 0) {
     g->hit_monster_with_flags(mon, weapon->curammo->ammo_effects);
+    sMonSym = g->z[g->mon_at(mon.posx, mon.posy)].symbol();
+   }
+
+   hit_animation(mon.posx - g->u.posx + g->VIEWX - g->u.view_offset_x,
+                 mon.posy - g->u.posy + g->VIEWY - g->u.view_offset_y,
+                 red_background(cMonColor), sMonSym);
+
    dam = 0;
   }
  }

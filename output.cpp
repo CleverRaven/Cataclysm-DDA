@@ -922,3 +922,23 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
   mvwputch(w, 2, iOffsetXRight, c_ltgray, LINE_XXOX); // _|_
  }
 }
+
+void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
+{
+    WINDOW *w_hit = newwin(1, 1, iY, iX);
+    mvwputch(w_hit, 0, 0, cColor, cTile);
+    wrefresh(w_hit);
+
+    if (iTimeout <= 0 || iTimeout > 999) {
+        iTimeout = 70;
+    }
+
+    timeout(iTimeout);
+    getch(); //useing this, because holding down a key with nanosleep can get yourself killed
+    timeout(-1);
+
+    /*timespec ts;
+    ts.tv_sec = 0;
+    ts.tv_nsec = iTimeout * 1000 * 1000; //100ms
+    nanosleep(&ts, NULL);*/
+}
