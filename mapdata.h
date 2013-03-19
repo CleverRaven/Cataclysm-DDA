@@ -11,6 +11,7 @@
 #include "computer.h"
 #include "vehicle.h"
 #include "graffiti.h"
+#include "basecamp.h"
 #include <iosfwd>
 
 class game;
@@ -91,7 +92,7 @@ t_canvas_wall, t_canvas_door, t_canvas_door_o, t_groundsheet, t_fema_groundsheet
 // Lighting related
 t_skylight, t_emergency_light_flicker, t_emergency_light,
 // Walls
-t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
+t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate,
 t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
 t_wall_v, t_wall_h, t_concrete_v, t_concrete_h,
 t_wall_metal_v, t_wall_metal_h,
@@ -131,7 +132,7 @@ t_gas_pump, t_gas_pump_smashed, t_gas_pump_empty,
 t_missile, t_missile_exploded,
 t_counter,
 t_radio_tower, t_radio_controls,
-t_console_broken, t_console, t_gates_mech_control, t_barndoor,
+t_console_broken, t_console, t_gates_mech_control, t_barndoor, t_palisade_pulley,
 t_sewage_pipe, t_sewage_pump,
 t_centrifuge,
 t_column,
@@ -241,8 +242,6 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(transparent)},
 {"palisade gate",        '+', c_ltred,    0, tr_null,
         mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(door)|mfb(transparent)},
-{"open palisade gate",   '#', c_ltred,   2, tr_null,
-        mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(supports_roof)|mfb(transparent)},
 {"half-built wall",  '#', c_ltred,   4, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem)},
 {"wooden wall",      '#', c_ltred,   0, tr_null,
@@ -482,7 +481,9 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(console)|mfb(noitem)|mfb(collapses)},
 {"mechanical winch", '6', c_cyan_red, 0, tr_null,
         mfb(transparent)|mfb(noitem)|mfb(collapses)},
-{"rope and pulley", '|', i_brown, 0, tr_null,
+{"rope and pulley", '|', c_brown, 0, tr_null,
+        mfb(transparent)|mfb(noitem)|mfb(collapses)},
+{"rope and pulley", '|', c_brown, 0, tr_null,
         mfb(transparent)|mfb(noitem)|mfb(collapses)},
 {"sewage pipe",      '1', c_ltgray,  0, tr_null,
 	mfb(transparent)},
@@ -798,6 +799,7 @@ struct submap {
  std::vector<spawn_point> spawns;
  std::vector<vehicle*> vehicles;
  computer comp;
+ basecamp camp;  // only allowing one basecamp per submap
 };
 
 std::ostream & operator<<(std::ostream &, const submap *);

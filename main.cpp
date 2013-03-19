@@ -90,13 +90,13 @@ void exit_handler(int s) {
  bool bExit = false;
 
  if (s == 2) {
-  if (query_yn("Really Quit without saving?")) {
+  if (query_yn(12, 12, "Really Quit? All unsafed changes will be lost.")) {
    bExit = true;
   }
  } else if (s == -999) {
   bExit = true;
  } else {
-  //query_yn("Signal received: %d", s);
+  //query_yn(g, "Signal received: %d", s);
   bExit = true;
  }
 

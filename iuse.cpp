@@ -1624,7 +1624,7 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
  case itm_beartrap:
   buried = (p->has_amount(itm_shovel, 1) &&
             g->m.has_flag(diggable, posx, posy) &&
-            query_yn("Bury the beartrap?"));
+            query_yn(g->VIEWX, g->VIEWY, "Bury the beartrap?"));
   type = (buried ? tr_beartrap_buried : tr_beartrap);
   message << "You " << (buried ? "bury" : "set") << " the beartrap.";
   practice = (buried ? 7 : 4);
@@ -1682,7 +1682,7 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
  case itm_landmine:
   buried = (p->has_amount(itm_shovel, 1) &&
             g->m.has_flag(diggable, posx, posy) &&
-            query_yn("Bury the landmine?"));
+            query_yn(g->VIEWX, g->VIEWY, "Bury the landmine?"));
   type = (buried ? tr_landmine_buried : tr_landmine);
   message << "You " << (buried ? "bury" : "set") << " the landmine.";
   practice = (buried ? 7 : 4);
@@ -2425,13 +2425,13 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
  for (int i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
   item *it = &(g->m.i_at(p->posx, p->posy)[i]);
   if (it->type->id == itm_corpse &&
-      query_yn("Draw blood from %s?", it->tname().c_str())) {
+      query_yn(g->VIEWX, g->VIEWY, "Draw blood from %s?", it->tname().c_str())) {
    blood.corpse = it->corpse;
    drew_blood = true;
   }
  }
 
- if (!drew_blood && query_yn("Draw your own blood?"))
+ if (!drew_blood && query_yn(g->VIEWX, g->VIEWY, "Draw your own blood?"))
   drew_blood = true;
 
  if (!drew_blood)

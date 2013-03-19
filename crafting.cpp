@@ -31,7 +31,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
  */
 
 #define TG_KNIVES \
- itm_knife_steak, -1, itm_knife_combat, -1, itm_knife_butcher, -1, itm_pockknife, -1, itm_xacto, -1, itm_scalpel, -1, itm_machete, -1, itm_broadsword, -1
+ itm_knife_steak, -1, itm_knife_combat, -1, itm_knife_butcher, -1, itm_pockknife, -1, itm_scalpel, -1, itm_machete, -1, itm_broadsword, -1, itm_toolset, -1
 
 /* A recipe will not appear in your menu until your level in the primary skill
  * is at least equal to the difficulty.  At that point, your chance of success
@@ -87,12 +87,11 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP(itm_stick, 1, itm_mop, 1, itm_broom, 1, NULL);
 
  RECIPE(itm_spear_wood, CC_WEAPON, NULL, NULL, 0, 800, false);
-  TOOL(itm_hatchet, -1, TG_KNIVES, itm_toolset, -1, NULL);
+  TOOL(itm_hatchet, -1, TG_KNIVES,  NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_pool_cue, 1, NULL);
 
  RECIPE(itm_javelin, CC_WEAPON, "survival", NULL, 1, 5000, false);
-  TOOL(itm_hatchet, -1, itm_knife_steak, -1, itm_pockknife, -1, itm_knife_combat, -1,
-       itm_knife_butcher, -1, itm_machete, -1, NULL);
+  TOOL(itm_hatchet, -1, TG_KNIVES, NULL);
   TOOL(itm_fire, -1, NULL);
   COMP(itm_spear_wood, 1, NULL);
   COMP(itm_rag, 1, itm_leather, 1, itm_fur, 1, NULL);
@@ -104,12 +103,12 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP(itm_string_6, 6, itm_string_36, 1, NULL);
 
  RECIPE(itm_longbow, CC_WEAPON, "archery", "survival", 2, 15000, true);
-  TOOL(itm_hatchet, -1, TG_KNIVES, itm_toolset, -1, NULL);
+  TOOL(itm_hatchet, -1, TG_KNIVES,  NULL);
   COMP(itm_stick, 1, NULL);
-  COMP(itm_string_36, 2, NULL);
+  COMP(itm_string_36, 2, itm_sinew, 200, itm_plant_fibre, 200, NULL);
 
  RECIPE(itm_arrow_wood, CC_WEAPON, "archery", "survival", 1, 5000, false);
-  TOOL(itm_hatchet, -1, TG_KNIVES, itm_toolset, -1, NULL);
+  TOOL(itm_hatchet, -1, TG_KNIVES,  NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_bee_sting, 1,
        NULL);
 
@@ -151,7 +150,7 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP(itm_saiga_12, 1, NULL);
 
  RECIPE(itm_bolt_wood, CC_WEAPON, "mechanics", "archery", 1, 5000, false);
-  TOOL(itm_hatchet, -1, TG_KNIVES, itm_toolset, -1, NULL);
+  TOOL(itm_hatchet, -1, TG_KNIVES,  NULL);
   COMP(itm_stick, 1, itm_broom, 1, itm_mop, 1, itm_2x4, 1, itm_bee_sting, 1,
        NULL);
 
@@ -176,8 +175,7 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
  RECIPE(itm_smg_9mm, CC_WEAPON, "mechanics", "gun", 5, 18000, true);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
-  TOOL(itm_hammer, -1, itm_rock, -1, itm_hatchet, -1, NULL);
-
+  TOOL(itm_hammer, -1, itm_rock, -1, itm_hatchet, -1, itm_toolset, -1, NULL);
   COMP(itm_pipe, 1, NULL);
   COMP(itm_2x4, 2, NULL);
   COMP(itm_nail, 4, NULL);
@@ -185,7 +183,7 @@ RECIPE(itm_tank_top, CC_NONCRAFT, "tailor", NULL, 0, 500, true);
  RECIPE(itm_smg_45, CC_WEAPON, "mechanics", "gun", 5, 20000, true);
   TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
   TOOL(itm_screwdriver, -1, itm_toolset, -1, NULL);
-  TOOL(itm_hammer, -1, itm_rock, -1, itm_hatchet, -1, NULL);
+  TOOL(itm_hammer, -1, itm_rock, -1, itm_hatchet, -1, itm_toolset, -1, NULL);
   COMP(itm_pipe, 1, NULL);
   COMP(itm_2x4, 2, NULL);
   COMP(itm_nail, 4, NULL);
@@ -497,7 +495,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   TOOL(itm_pot, -1, itm_rock_pot, -1, NULL);
   COMP(itm_meat, 1, NULL);
   COMP(itm_veggy,1, itm_veggy_wild, 1,NULL);
-  COMP(itm_water,1, NULL);
+  COMP(itm_water,1, itm_water_clean, 1, NULL);
 
  RECIPE(itm_veggy_cooked, CC_FOOD, "cooking", NULL, 0, 4000, false);
   TOOL(itm_hotplate, 5, itm_toolset, 1, itm_fire, -1, NULL);
@@ -882,7 +880,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_hose, 1, NULL);
 
  RECIPE(itm_glasses_safety, CC_ARMOR, "tailor", NULL, 1, 8000, false);
-  TOOL(itm_scissors, -1, TG_KNIVES, itm_toolset, -1, NULL);
+  TOOL(itm_scissors, -1, TG_KNIVES, NULL);
   COMP(itm_string_36, 1, itm_string_6, 2, NULL);
   COMP(itm_bottle_plastic, 1, NULL);
 
@@ -937,7 +935,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_string_6, 2, itm_sinew, 40, itm_plant_fibre, 40, NULL);
 
  RECIPE(itm_needle_bone, CC_MISC, "survival", NULL, 3, 20000, false);
-  TOOL(TG_KNIVES, itm_toolset, -1, NULL);
+  TOOL(TG_KNIVES, NULL);
   COMP(itm_bone, 1, NULL);
 
  RECIPE(itm_ragpouch, CC_ARMOR, "tailor",  NULL, 0, 10000, false);
@@ -1044,6 +1042,10 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   TOOL(itm_welder, 50, itm_toolset, 2, NULL);
   COMP(itm_steel_lump, 3, NULL);
 
+ RECIPE(itm_sheet_metal, CC_MISC, "mechanics", NULL, 2, 4000, true);
+  TOOL(itm_welder, 20, itm_toolset, 1, NULL);
+  COMP(itm_scrap, 4, NULL);
+
  RECIPE(itm_steel_plate, CC_MISC, "mechanics", NULL,4, 12000, true);
   TOOL(itm_welder, 100, itm_toolset, 4, NULL);
   COMP(itm_steel_lump, 8, NULL);
@@ -1107,6 +1109,10 @@ RECIPE(itm_boobytrap, CC_MISC, "mechanics", "traps",3,5000, false);
   COMP(itm_nail, 100, itm_bb, 200, NULL);
   COMP(itm_shot_bird, 30, itm_shot_00, 15, itm_shot_slug, 12, itm_gasoline, 600,
      itm_grenade, 1, itm_gunpowder, 72, NULL);
+
+RECIPE(itm_brazier, CC_MISC, "mechanics", NULL, 1, 2000, false);
+  TOOL(itm_hatchet, -1, itm_hammer, -1, itm_rock, -1, itm_toolset, -1, NULL);
+  COMP(itm_sheet_metal,1,NULL);
 
  RECIPE(itm_bandages, CC_MISC, "firstaid", NULL, 1, 500, false);
   COMP(itm_rag, 3, NULL);
@@ -1614,7 +1620,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
 
 void game::make_craft(recipe *making)
 {
- u.assign_activity(ACT_CRAFT, making->time, making->id);
+ u.assign_activity(this, ACT_CRAFT, making->time, making->id);
  u.moves = 0;
  u.lastrecipe = making;
 }
@@ -1901,7 +1907,7 @@ void game::disassemble()
 
   item* dis_item = &u.i_at(ch);
 
-  if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Really disassemble your %s?", dis_item->tname(this).c_str())))
+  if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn(this->VIEWX, this->VIEWY, "Really disassemble your %s?", dis_item->tname(this).c_str())))
     return;
 
   for (int i = 0; i < recipes.size(); i++) {
@@ -1967,7 +1973,7 @@ void game::disassemble()
       if (have_tool[0] && have_tool[1] && have_tool[2] && have_tool[3] &&
       have_tool[4])
       {
-        u.assign_activity(ACT_DISASSEMBLE, recipes[i]->time, recipes[i]->id);
+        u.assign_activity(this, ACT_DISASSEMBLE, recipes[i]->time, recipes[i]->id);
         u.moves = 0;
         std::vector<int> dis_items;
         dis_items.push_back(ch);

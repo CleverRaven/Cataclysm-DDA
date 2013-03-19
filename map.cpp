@@ -219,7 +219,7 @@ void map::board_vehicle(game *g, int x, int y, player *p)
   return;
  }
  veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
- veh->parts[seat_part].passenger_id = 0; // Player is 0
+ veh->parts[seat_part].passenger_id = p->id; // Player is 0
 
  p->posx = x;
  p->posy = y;
@@ -1910,9 +1910,6 @@ bool map::open_door(const int x, const int y, const bool inside)
  if (ter(x, y) == t_door_c) {
   ter(x, y) = t_door_o;
   return true;
- } else if (ter(x, y) == t_palisade_gate) {
-  ter(x, y) = t_palisade_gate_o;
-  return true;
  } else if (ter(x, y) == t_canvas_door) {
   ter(x, y) = t_canvas_door_o;
   return true;
@@ -1961,9 +1958,6 @@ bool map::close_door(const int x, const int y, const bool inside)
 {
  if (ter(x, y) == t_door_o) {
   ter(x, y) = t_door_c;
-  return true;
- } else if (ter(x, y) == t_palisade_gate_o) {
-  ter(x, y) = t_palisade_gate;
   return true;
  } else if (inside && ter(x, y) == t_window_domestic) {
   ter(x, y) = t_curtains;
@@ -2408,6 +2402,49 @@ computer* map::computer_at(const int x, const int y)
  if (grid[nonant]->comp.name == "")
   return NULL;
  return &(grid[nonant]->comp);
+}
+
+bool map::allow_camp(const int x, const int y, const int radius)
+{
+	return camp_at(x, y, radius) == NULL;
+}
+
+basecamp* map::camp_at(const int x, const int y, const int radius)
+{
+	// locate the nearest camp in a CAMPSIZE radius
+ if (!INBOUNDS(x, y))
+  return NULL;
+
+ const int sx = std::max(0, x / SEEX - CAMPSIZE);
+ const int sy = std::max(0, y / SEEY - CAMPSIZE);
+ const int ex = std::min(MAPSIZE - 1, x / SEEX + CAMPSIZE);
+ const int ey = std::min(MAPSIZE - 1, y / SEEY + CAMPSIZE);
+
+ for( int ly = sy; ly < ey; ++ly )
+ {
+ 	for( int lx = sx; lx < ex; ++lx )
+ 	{
+ 		int nonant = lx + ly * my_MAPSIZE;
+ 		if (grid[nonant]->camp.is_valid())
+ 		{
+ 			// we only allow on camp per size radius, kinda
+ 			return &(grid[nonant]->camp);
+ 		}
+ 	}
+ }
+
+ return NULL;
+}
+
+void map::add_camp(const std::string& name, const int x, const int y)
+{
+	if (!allow_camp(x, y)) {
+		dbg(D_ERROR) << "map::add_camp: Attempting to add camp when one in local area.";
+		return;
+	}
+
+	const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+	grid[nonant]->camp = basecamp(name, x, y);
 }
 
 void map::debug()
