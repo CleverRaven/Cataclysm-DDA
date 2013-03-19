@@ -67,6 +67,7 @@ class MonsterGroupManager
         static bool IsMonsterInGroup(std::string, mon_id);
         static std::string Monster2Group(mon_id);
         static std::vector<mon_id> GetMonstersFromGroup(std::string);
+        static MonsterGroup GetMonsterGroup(std::string group)
 
     private:
         static std::map<std::string, MonsterGroup> monsterGroupMap;

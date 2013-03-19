@@ -65,8 +65,11 @@ std::string MonsterGroupManager::Monster2Group(mon_id monster)
 
 std::vector<mon_id> MonsterGroupManager::GetMonstersFromGroup(std::string group)
 {
+    MonsterGroup g = GetMonsterGroup(group);
+
     std::vector<mon_id> monsters;
-    MonsterGroup g = monsterGroupMap[group];
+
+    monsters.push_back(g.defaultMonster);
 
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
     {
@@ -75,6 +78,19 @@ std::vector<mon_id> MonsterGroupManager::GetMonstersFromGroup(std::string group)
     return monsters;
 }
 
+MonsterGroup MonsterGroupManager::GetMonsterGroup(std::string group)
+{
+    std::map<T>::iterator it = monsterGroupMap.find(group)
+    if(it == MonsterGroupMap.end())
+    {
+        debugmsg("Unable to get the group '%s'", group);
+        return MonsterGroup();
+    }
+    else
+    {
+        return it->second;
+    }
+}
 
 //json loading
 const char *monGroupFilePath = "data/raw/monstergroups.json";

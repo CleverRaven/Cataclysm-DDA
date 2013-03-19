@@ -1566,7 +1566,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
    rotate(2);
   if (terrain_type == ot_s_pharm_west)
    rotate(3);
-  place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+  place_spawns(g, "GROUP_PHARM", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   break;
 
  case ot_s_grocery_north:
@@ -1633,7 +1633,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
    rotate(2);
   if (terrain_type == ot_s_grocery_west)
    rotate(3);
-  place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+  place_spawns(g, "GROUP_GROCERY", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   break;
 
  case ot_s_hardware_north:
@@ -1803,7 +1803,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
    rotate(2);
   if (terrain_type == ot_s_electronics_west)
    rotate(3);
-  place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+  place_spawns(g, "GROUP_ELECTRO", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   break;
 
  case ot_s_sports_north:
@@ -2260,7 +2260,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   if (terrain_type == ot_s_restaurant_west)
    rotate(3);
   }
-  place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+  place_spawns(g, "GROUP_GROCERY", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   break;
 
 //....
@@ -4792,7 +4792,9 @@ break;
    rotate(2);
   if (terrain_type == ot_police_east)
    rotate(3);
-  } break;
+
+  place_spawns(g, "GROUP_POLICE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+ } break;
 
  case ot_bank_north:
  case ot_bank_east:
@@ -8876,6 +8878,7 @@ void map::add_extra(map_extra type, game *g)
    case 3: extra_items = mi_allguns;	break;
    case 4: extra_items = mi_bionics;	break;
   }
+  place_spawns(g, "GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);//0.1 = 1-5
   place_items(extra_items, 70, cx - 4, cy - 4, cx + 4, cy + 4, true, 0);
  }
  break;
@@ -8898,6 +8901,7 @@ void map::add_extra(map_extra type, game *g)
      add_item(x, y, (*itypes)[itm_id_military], 0);
    }
   }
+  place_spawns(g, "GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);//0.1 = 1-5
   place_items(mi_rare, 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
  }
  break;
