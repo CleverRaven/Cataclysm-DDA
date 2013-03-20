@@ -253,13 +253,6 @@ class game
   int weight_dragged; // Computed once, when you start dragging
   bool debugmon;
   bool no_npc;
-// Display data... TODO: Make this more portable?
-  int VIEWX;
-  int VIEWY;
-  int TERMX;
-  int TERMY;
-  int TERRAIN_WINDOW_WIDTH;
-  int TERRAIN_WINDOW_HEIGHT;
 
   WINDOW *w_terrain;
   WINDOW *w_minimap;

@@ -26,6 +26,14 @@
 #define LINE_OXXX 4194423
 #define LINE_XXXX 4194414
 
+// Display data... TODO: Make this more portable?
+int VIEWX;
+int VIEWY;
+int TERMX;
+int TERMY;
+int TERRAIN_WINDOW_WIDTH;
+int TERRAIN_WINDOW_HEIGHT;
+
 nc_color hilite(nc_color c)
 {
  switch (c) {
@@ -318,7 +326,7 @@ void realDebugmsg(const char* filename, const char* line, const char *mes, ...)
  attroff(c_red);
 }
 
-bool query_yn(int iViewX, int iViewY, const char *mes, ...)
+bool query_yn(const char *mes, ...)
 {
  bool force_uc = OPTIONS[OPT_FORCE_YN];
  va_list ap;
@@ -328,20 +336,16 @@ bool query_yn(int iViewX, int iViewY, const char *mes, ...)
  va_end(ap);
  int win_width = strlen(buff) + 26;
 
- const int iMaxX = (iViewX < 12) ? 80 : (iViewX*2)+56;
- const int iMaxY = (iViewY < 12) ? 25 : (iViewY*2)+1;
-
- WINDOW *w = newwin(3, win_width, (iMaxY-3)/2, (iMaxX > win_width) ? (iMaxX-win_width)/2 : 0);
+ WINDOW *w = newwin(3, win_width, (TERMY-3)/2, (TERMX > win_width) ? (TERMX-win_width)/2 : 0);
 
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w, 1, 1, c_ltred, "%s (%s)", buff,
-           (force_uc ? "Y/N - Case Sensitive" : "y/n"));
+ mvwprintz(w, 1, 1, c_ltred, "%s (%s)", buff, (force_uc ? "Y/N - Case Sensitive" : "y/n"));
  wrefresh(w);
  char ch;
  do
   ch = getch();
- while (ch != 'Y' && ch != 'N' && (force_uc || (ch != 'y' && ch != 'n')));
+ while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE && ch != 'Y' && ch != 'N' && (force_uc || (ch != 'y' && ch != 'n')));
  werase(w);
  wrefresh(w);
  delwin(w);
@@ -351,7 +355,7 @@ bool query_yn(int iViewX, int iViewY, const char *mes, ...)
  return false;
 }
 
-int query_int(int iViewX, int iViewY, const char *mes, ...)
+int query_int(const char *mes, ...)
 {
  va_list ap;
  va_start(ap, mes);
@@ -360,10 +364,7 @@ int query_int(int iViewX, int iViewY, const char *mes, ...)
  va_end(ap);
  int win_width = strlen(buff) + 10;
 
- const int iMaxX = (iViewX < 12) ? 80 : (iViewX*2)+56;
- const int iMaxY = (iViewY < 12) ? 25 : (iViewY*2)+1;
-
- WINDOW *w = newwin(3, win_width, (iMaxY-3)/2, 11+((iMaxX > win_width) ? (iMaxX-win_width)/2 : 0));
+ WINDOW *w = newwin(3, win_width, (TERMY-3)/2, 11+((TERMX > win_width) ? (TERMX-win_width)/2 : 0));
 
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -387,7 +388,7 @@ std::string string_input_popup(std::string title, int max_length, std::string in
  std::string ret = input;
 
  int startx = title.size() + 2;
- WINDOW* w = newwin(3, 80, 11, 0);
+ WINDOW *w = newwin(3, 80, (TERMY-3)/2, ((TERMX > 80) ? (TERMX-80)/2 : 0));
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  for (int i = startx + 1; i < 79; i++)
@@ -453,8 +454,7 @@ char popup_getkey(const char *mes, ...)
  width += 2;
  if (height > 25)
   height = 25;
- WINDOW* w = newwin(height + 1, width, int((25 - height) / 2),
-                    int((80 - width) / 2));
+ WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  tmp = buff;
@@ -491,7 +491,7 @@ int menu_vec(const char *mes, std::vector<std::string> options)
   if (options[i].length() + 6 > width)
    width = options[i].length() + 6;
  }
- WINDOW* w = newwin(height, width, 12-height/2, 40-width/2);
+ WINDOW *w = newwin(height, width, (TERMY-height)/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wattron(w, c_white);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -565,7 +565,7 @@ void popup_top(const char *mes, ...)
  if (width == 0 || tmp.length() > width)
   width = tmp.length();
  width += 2;
- WINDOW* w = newwin(height + 1, width, 0, int((80 - width) / 2));
+ WINDOW *w = newwin(height+1, width, 0, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  tmp = buff;
@@ -615,8 +615,7 @@ void popup(const char *mes, ...)
  width += 2;
  if (height > 25)
   height = 25;
- WINDOW* w = newwin(height + 1, width, int((25 - height) / 2),
-                    int((80 - width) / 2));
+ WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  tmp = buff;
@@ -666,8 +665,7 @@ void popup_nowait(const char *mes, ...)
  width += 2;
  if (height > 25)
   height = 25;
- WINDOW* w = newwin(height + 1, width, int((25 - height) / 2),
-                    int((80 - width) / 2));
+ WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  tmp = buff;
@@ -695,7 +693,9 @@ void full_screen_popup(const char* mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  std::string tmp = buff;
- WINDOW* w = newwin(25, 80, 0, 0);
+
+ WINDOW *w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ //WINDOW* w = newwin(TERMY, TERMX, 0, 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  size_t pos = tmp.find_first_of('\n');

@@ -974,7 +974,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   }
  }
 
- int maxy = (g->VIEWY*2)+1;
+ int maxy = (VIEWY*2)+1;
  if (maxy < 25)
   maxy = 25;
 
@@ -1734,10 +1734,7 @@ encumb(bp_feet) * 5);
 
 void player::disp_morale(game* g)
 {
- const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
- const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
-
- WINDOW* w = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+ WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w, 1,  1, c_white, "Morale Modifiers:");
@@ -2318,8 +2315,8 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  if (dam <= 0)
   return;
 
- hit_animation(this->posx - g->u.posx + g->VIEWX - g->u.view_offset_x,
-               this->posy - g->u.posy + g->VIEWY - g->u.view_offset_y,
+ hit_animation(this->posx - g->u.posx + VIEWX - g->u.view_offset_x,
+               this->posy - g->u.posy + VIEWY - g->u.view_offset_y,
                red_background(this->color()), '@');
 
  rem_disease(DI_SPEED_BOOST);
@@ -4084,7 +4081,7 @@ bool player::eat(game *g, int index)
   last_item = itype_id(eaten->type->id);
 
   if (overeating && !is_npc() &&
-      !query_yn(g->VIEWX, g->VIEWY, "You're full.  Force yourself to eat?"))
+      !query_yn("You're full.  Force yourself to eat?"))
    return false;
 
   if (has_trait(PF_CARNIVORE) && eaten->made_of(VEGGY) && comest->nutr > 0) {
@@ -4095,18 +4092,18 @@ bool player::eat(game *g, int index)
    return false;
   }
   if (!has_trait(PF_CANNIBAL) && eaten->made_of(HFLESH)&& !is_npc() &&
-      !query_yn(g->VIEWX, g->VIEWY, "The thought of eating that makes you feel sick. Really do it?"))
+      !query_yn("The thought of eating that makes you feel sick. Really do it?"))
    return false;
 
   if (has_trait(PF_VEGETARIAN) && eaten->made_of(FLESH) && !is_npc() &&
-      !query_yn(g->VIEWX, g->VIEWY, "Really eat that meat? Your stomach won't be happy."))
+      !query_yn("Really eat that meat? Your stomach won't be happy."))
    return false;
 
   if (spoiled) {
    if (is_npc())
     return false;
    if (!has_trait(PF_SAPROVORE) &&
-       !query_yn(g->VIEWX, g->VIEWY, "This %s smells awful!  Eat it?", eaten->tname(g).c_str()))
+       !query_yn("This %s smells awful!  Eat it?", eaten->tname(g).c_str()))
     return false;
    g->add_msg("Ick, this %s doesn't taste so good...",eaten->tname(g).c_str());
    if (!has_trait(PF_SAPROVORE) && (!has_bionic(bio_digestion) || one_in(3)))
@@ -4284,7 +4281,7 @@ bool player::wield(game *g, int index)
    recoil = 0;
    if (!pickstyle)
     return true;
-  } else if (query_yn(g->VIEWX, g->VIEWY, "No space in inventory for your %s.  Drop it?",
+  } else if (query_yn("No space in inventory for your %s.  Drop it?",
                       weapon.tname(g).c_str())) {
    g->m.add_item(posx, posy, remove_weapon());
    recoil = 0;
@@ -4334,7 +4331,7 @@ bool player::wield(game *g, int index)
   }
   last_item = itype_id(weapon.type->id);
   return true;
- } else if (query_yn(g->VIEWX, g->VIEWY, "No space in inventory for your %s.  Drop it?",
+ } else if (query_yn("No space in inventory for your %s.  Drop it?",
                      weapon.tname(g).c_str())) {
   g->m.add_item(posx, posy, remove_weapon());
   weapon = inv[index];
@@ -4504,7 +4501,7 @@ bool player::takeoff(game *g, char let)
      worn.erase(worn.begin() + i);
      inv_sorted = false;
      return true;
-    } else if (query_yn(g->VIEWX, g->VIEWY, "No room in inventory for your %s.  Drop it?",
+    } else if (query_yn("No room in inventory for your %s.  Drop it?",
                         worn[i].tname(g).c_str())) {
      g->m.add_item(posx, posy, worn[i]);
      worn.erase(worn.begin() + i);
@@ -4794,7 +4791,7 @@ int time; //Declare this here so that we can change the time depending on whats 
   g->add_msg("What's the point of reading?  (Your morale is too low!)");
   return;
  } else if (skillLevel(tmp->type) >= tmp->level && tmp->fun <= 0 &&
-            !query_yn(g->VIEWX, g->VIEWY, "Your %s skill won't be improved.  Read anyway?",
+            !query_yn("Your %s skill won't be improved.  Read anyway?",
                       tmp->type->name().c_str()))
   return;
 
@@ -5178,7 +5175,7 @@ void player::practice (std::string s, int amount) {
 void player::assign_activity(game* g, activity_type type, int moves, int index)
 {
  if (backlog.type == type && backlog.index == index &&
-     query_yn(g->VIEWX, g->VIEWY, "Resume task?")) {
+     query_yn("Resume task?")) {
   activity = backlog;
   backlog = player_activity();
  } else

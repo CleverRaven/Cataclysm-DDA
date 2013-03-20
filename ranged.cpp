@@ -912,8 +912,8 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
     g->add_msg("%s %s shoots the %s.", message.c_str(), p.name.c_str(), mon.name().c_str());
 
    bool bMonDead = mon.hurt(dam);
-   hit_animation(mon.posx - g->u.posx + g->VIEWX - g->u.view_offset_x,
-                 mon.posy - g->u.posy + g->VIEWY - g->u.view_offset_y,
+   hit_animation(mon.posx - g->u.posx + VIEWX - g->u.view_offset_x,
+                 mon.posy - g->u.posy + VIEWY - g->u.view_offset_y,
                  red_background(mon.type->color), (bMonDead) ? '%' : mon.symbol());
 
    if (bMonDead)

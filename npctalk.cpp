@@ -106,10 +106,7 @@ void npc::talk_to_u(game *g)
  moves -= 100;
  decide_needs();
 
- const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
- const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
-
- d.win = newwin(25, 80, (iMaxY-25)/2, (iMaxX-80)/2);
+ d.win = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
  wborder(d.win, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  for (int i = 1; i < 24; i++)
@@ -1658,9 +1655,9 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
    okay = true;
   else if (colors[ch] == c_white || colors[ch] == c_green)
    okay = true;
-  else if (colors[ch] == c_red && query_yn(g->VIEWX, g->VIEWY, "You may be attacked! Proceed?"))
+  else if (colors[ch] == c_red && query_yn("You may be attacked! Proceed?"))
    okay = true;
-  else if (colors[ch] == c_ltred && query_yn(g->VIEWX, g->VIEWY, "You'll be helpless! Proceed?"))
+  else if (colors[ch] == c_ltred && query_yn("You'll be helpless! Proceed?"))
    okay = true;
  } while (!okay);
  history.push_back("");
@@ -1728,12 +1725,9 @@ talk_topic special_talk(char ch)
 
 bool trade(game *g, npc *p, int cost, std::string deal)
 {
- const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
- const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
-
- WINDOW* w_head = newwin(4, 80, (iMaxY-25)/2, (iMaxX-80)/2);
- WINDOW* w_them = newwin(21, 40, 4+(iMaxY-25)/2, (iMaxX-80)/2);
- WINDOW* w_you = newwin(21, 40, 4+(iMaxY-25)/2, 40+(iMaxX-80)/2);
+ WINDOW* w_head = newwin(4, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW* w_them = newwin(21, 40, 4+((TERMY > 25) ? (TERMY-25)/2 : 0), (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW* w_you = newwin(21, 40, 4+((TERMY > 25) ? (TERMY-25)/2 : 0), 40+((TERMX > 80) ? (TERMX-80)/2 : 0));
 
  WINDOW* w_tmp;
  mvwprintz(w_head, 0, 0, c_white, "\
@@ -1862,7 +1856,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    break;
   case '?':
    update = true;
-   w_tmp = newwin(3, 21, 1+(iMaxY-25)/2, 30+(iMaxX-80)/2);
+   w_tmp = newwin(3, 21, 1+(TERMY-25)/2, 30+(TERMX-80)/2);
    mvwprintz(w_tmp, 1, 1, c_red, "Examine which item?");
    wborder(w_tmp, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                   LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );

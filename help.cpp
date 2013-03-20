@@ -18,11 +18,8 @@
 
 void game::help()
 {
- const int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
- const int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
-
- WINDOW* w_help_border = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
- WINDOW* w_help = newwin(23, 78, 1 + (int)((iMaxY > 25) ? (iMaxY-25)/2 : 0), 1 + (int)((iMaxX > 80) ? (iMaxX-80)/2 : 0));
+ WINDOW* w_help_border = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW* w_help = newwin(23, 78, 1 + (int)((TERMY > 25) ? (TERMY-25)/2 : 0), 1 + (int)((TERMX > 80) ? (TERMX-80)/2 : 0));
 
  char ch;
 
@@ -547,7 +544,7 @@ extremities from frostbite and to keep your distance from large fires.");
      if (actch >= 'a' && actch <= 'a' + 24 &&
          actch - 'a' + offset < NUM_ACTIONS) {
       action_id act = action_id(actch - 'a' + offset);
-      if (ch == '-' && query_yn(this->VIEWX, this->VIEWY, "Clear keys for %s?",action_name(act).c_str())){
+      if (ch == '-' && query_yn("Clear keys for %s?",action_name(act).c_str())){
        clear_bindings(act);
        changed_keymap = true;
       } else if (ch == '+') {
@@ -562,7 +559,7 @@ extremities from frostbite and to keep your distance from large fires.");
      }
     }
    } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
-   if (changed_keymap && query_yn(this->VIEWX, this->VIEWY, "Save changes?"))
+   if (changed_keymap && query_yn("Save changes?"))
     save_keymap();
    werase(w_help);
   } break;

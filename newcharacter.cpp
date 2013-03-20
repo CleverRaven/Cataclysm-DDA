@@ -51,10 +51,7 @@ bool player::create(game *g, character_type type, std::string tempname)
 {
  weapon = item(g->itypes[0], 0);
 
- const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
- const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
-
- WINDOW* w = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+ WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
 
  int tab = 0, points = 38;
  if (type != PLTYPE_CUSTOM) {
@@ -225,7 +222,7 @@ End of cheatery */
     ma_type = itm_style_taekwondo;
    item tmpitem = item(g->itypes[ma_type], 0);
    full_screen_popup(tmpitem.info(true).c_str());
-  } while (!query_yn(g->VIEWX, g->VIEWY, "Use this style?"));
+  } while (!query_yn("Use this style?"));
   styles.push_back(ma_type);
  }
  ret_null = item(g->itypes[0], 0);
@@ -454,7 +451,7 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
     u->per_max++;
    }
   }
-  if (ch == '<' && query_yn(g->VIEWX, g->VIEWY, "Return to main menu?"))
+  if (ch == '<' && query_yn("Return to main menu?"))
    return -1;
   if (ch == '>')
    return 1;
@@ -820,12 +817,12 @@ To save this character as a template, press !.");
 
 
   if (ch == '>') {
-   if (points > 0 && query_yn(g->VIEWX, g->VIEWY, "Remaining points will be discarded, are you sure you want to proceed?")) {
+   if (points > 0 && query_yn("Remaining points will be discarded, are you sure you want to proceed?")) {
     if (u->name.size() == 0) {
     mvwprintz(w, 6, 8, h_ltgray, "______NO NAME ENTERED!!!!_____");
     noname = true;
     wrefresh(w);
-    if (query_yn(g->VIEWX, g->VIEWY, "Are you SURE you're finished? Your name will be randomly generated."))
+    if (query_yn("Are you SURE you're finished? Your name will be randomly generated."))
      u->pick_name();
      return 1;
      } else
@@ -834,11 +831,11 @@ To save this character as a template, press !.");
     mvwprintz(w, 6, 8, h_ltgray, "______NO NAME ENTERED!!!!_____");
     noname = true;
     wrefresh(w);
-    if (query_yn(g->VIEWX, g->VIEWY, "Are you SURE you're finished? Your name will be randomly generated.")){
+    if (query_yn("Are you SURE you're finished? Your name will be randomly generated.")){
      u->pick_name();
      return 1;
     }
-   } else if (query_yn(g->VIEWX, g->VIEWY, "Are you SURE you're finished?"))
+   } else if (query_yn("Are you SURE you're finished?"))
     return 1;
    else
     refresh();

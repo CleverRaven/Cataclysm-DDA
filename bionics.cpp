@@ -13,10 +13,7 @@ void bionics_install_failure(game *g, player *u, int success);
 
 void player::power_bionics(game *g)
 {
- const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
- const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
-
- WINDOW* wBio = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+ WINDOW* wBio = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
  WINDOW* w_description = newwin(3, 78, 21 + getbegy(wBio), 1 + getbegx(wBio));
 
  werase(wBio);
@@ -134,9 +131,6 @@ You can not activate %s!  To read a description of \
 // share functions....
 void player::activate_bionic(int b, game *g)
 {
- const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
- const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
-
  bionic bio = my_bionics[b];
  int power_cost = bionics[bio.id].power_cost;
  if (weapon.type->id == itm_bio_claws && bio.id == bio_claws)
@@ -220,7 +214,7 @@ void player::activate_bionic(int b, game *g)
 
 // TODO: More stuff here (and bio_blood_filter)
  case bio_blood_anal:
-  w = newwin(20, 40, 3 + ((iMaxY > 25) ? (iMaxY-25)/2 : 0), 10+((iMaxX > 80) ? (iMaxX-80)/2 : 0));
+  w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY-25)/2 : 0), 10+((TERMX > 80) ? (TERMX-80)/2 : 0));
 
   wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -284,7 +278,7 @@ void player::activate_bionic(int b, game *g)
   break;
 
  case bio_evap:
-  if (query_yn(g->VIEWX, g->VIEWY, "Drink directly? Otherwise you will need a container.")) {
+  if (query_yn("Drink directly? Otherwise you will need a container.")) {
    tmp_item = item(g->itypes[itm_water], 0);
    thirst -= 50;
    if (has_trait(PF_GOURMAND) && thirst < -60) {
@@ -393,7 +387,7 @@ void player::activate_bionic(int b, game *g)
  case bio_water_extractor:
   for (int i = 0; i < g->m.i_at(posx, posy).size(); i++) {
    item tmp = g->m.i_at(posx, posy)[i];
-   if (tmp.type->id == itm_corpse && query_yn(g->VIEWX, g->VIEWY, "Extract water from the %s",
+   if (tmp.type->id == itm_corpse && query_yn("Extract water from the %s",
                                               tmp.tname().c_str())) {
     i = g->m.i_at(posx, posy).size() + 1;	// Loop is finished
     t = g->inv("Choose a container:");
@@ -488,10 +482,7 @@ bool player::install_bionics(game *g, it_bionic* type)
  }
  std::string bio_name = type->name.substr(5);	// Strip off "CBM: "
 
- const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
- const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
-
- WINDOW* w = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+ WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
  WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
 
  werase(w);

@@ -1260,11 +1260,8 @@ void game::craft()
   return;
  }
 
- const int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
- const int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
-
- WINDOW *w_head = newwin( 3, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
- WINDOW *w_data = newwin(22, 80, 3 + ((iMaxY > 25) ? (iMaxY-25)/2 : 0), (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+ WINDOW *w_head = newwin( 3, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX -80)/2 : 0);
+ WINDOW *w_data = newwin(22, 80, 3 + ((TERMY > 25) ? (TERMY-25)/2 : 0), (TERMX  > 80) ? (TERMX -80)/2 : 0);
  craft_cat tab = CC_WEAPON;
  std::vector<recipe*> current;
  std::vector<bool> available;
@@ -1907,7 +1904,7 @@ void game::disassemble()
 
   item* dis_item = &u.i_at(ch);
 
-  if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn(this->VIEWX, this->VIEWY, "Really disassemble your %s?", dis_item->tname(this).c_str())))
+  if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Really disassemble your %s?", dis_item->tname(this).c_str())))
     return;
 
   for (int i = 0; i < recipes.size(); i++) {

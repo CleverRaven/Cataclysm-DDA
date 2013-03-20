@@ -16,11 +16,8 @@ std::string options_header();
 
 void game::show_options()
 {
- const int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
- const int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
-
- WINDOW* w_options_border = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
- WINDOW* w_options = newwin(23, 78, 1 + (int)((iMaxY > 25) ? (iMaxY-25)/2 : 0), 1 + (int)((iMaxX > 80) ? (iMaxX-80)/2 : 0));
+ WINDOW* w_options_border = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW* w_options = newwin(23, 78, 1 + ((TERMY > 25) ? (TERMY-25)/2 : 0), 1 + ((TERMX > 80) ? (TERMX-80)/2 : 0));
 
  int offset = 1;
  int line = 0;
@@ -126,7 +123,7 @@ void game::show_options()
   }
  } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
- if (changed_options && query_yn(this->VIEWX, this->VIEWY, "Save changes?"))
+ if (changed_options && query_yn("Save changes?"))
   save_options();
  werase(w_options);
 }

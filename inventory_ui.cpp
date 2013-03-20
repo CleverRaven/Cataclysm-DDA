@@ -523,11 +523,9 @@ void game::compare(int iCompareX, int iCompareY)
  const int groundsize = (grounditems.size() > 10 ? 10 : grounditems.size());
  u.sort_inv();
  u.inv.restack(&u);
- const int iMaxX = 55 + ((VIEWX < 12) ? 25 : (VIEWX*2)+1);
- const int iMaxY = ((VIEWY < 12) ? 25 : (VIEWY*2)+1);
 
- WINDOW* w_inv = newwin(iMaxY, iMaxX, 0, 0);
- int maxitems = iMaxY-5;    // Number of items to show at one time.
+ WINDOW* w_inv = newwin(TERMY, TERMX, 0, 0);
+ int maxitems = TERMY-5;    // Number of items to show at one time.
  int compare[u.inv.size() + groundsize]; // Count of how many we'll drop from each stack
  bool bFirst = false; // First Item selected
  bool bShowCompare = false;
@@ -700,8 +698,8 @@ void game::compare(int iCompareX, int iCompareY)
     sItemCh = u.i_at(ch).tname(this);
    }
 
-   compare_split_screen_popup(0, iMaxX/2, iMaxY, sItemLastCh, vItemLastCh, vItemCh);
-   compare_split_screen_popup(iMaxX/2, iMaxX/2, iMaxY, sItemCh, vItemCh, vItemLastCh);
+   compare_split_screen_popup(0, TERMX/2, TERMY, sItemLastCh, vItemLastCh, vItemCh);
+   compare_split_screen_popup(TERMX/2, TERMX/2, TERMY, sItemCh, vItemCh, vItemLastCh);
 
    wclear(w_inv);
    print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);

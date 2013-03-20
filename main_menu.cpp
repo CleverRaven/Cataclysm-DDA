@@ -90,15 +90,12 @@ void game::print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int i
 
 bool game::opening_screen()
 {
-    const int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
-    const int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
-
-    WINDOW* w_background = newwin(iMaxY, iMaxX, 0, 0);
+    WINDOW* w_background = newwin(TERMY, TERMX, 0, 0);
 
     werase(w_background);
     wrefresh(w_background);
 
-    WINDOW* w_open = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+    WINDOW* w_open = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
     const int iMenuOffsetX = 2;
     int iMenuOffsetY = 22;
 
@@ -334,7 +331,7 @@ bool game::opening_screen()
                     }
                 }
             } else if (sel1 == 3) {  // Delete world
-                if (query_yn(this->VIEWX, this->VIEWY, "Delete the world and all saves?")) {
+                if (query_yn("Delete the world and all saves?")) {
                     delete_save();
                     savegames.clear();
                     MAPBUFFER.reset();

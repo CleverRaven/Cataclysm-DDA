@@ -90,7 +90,7 @@ void exit_handler(int s) {
  bool bExit = false;
 
  if (s == 2) {
-  if (query_yn(12, 12, "Really Quit? All unsafed changes will be lost.")) {
+  if (query_yn("Really Quit? All unsafed changes will be lost.")) {
    bExit = true;
   }
  } else if (s == -999) {

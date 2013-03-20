@@ -80,9 +80,6 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
     int bonus = p->skillLevel("firstaid");
     hp_part healed;
 
-    const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
-    const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
-
     if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
         int highest_damage = 0;
         for (int i = 0; i < num_hp_parts; i++) {
@@ -97,7 +94,7 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
             }
         }
     } else { // Player--present a menu
-        WINDOW* hp_window = newwin(10, 22, (iMaxY-10)/2, (iMaxX-22)/2);
+        WINDOW* hp_window = newwin(10, 22, (TERMY-10)/2, (TERMX-22)/2);
         wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
@@ -238,9 +235,6 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
     int bonus = p->skillLevel("firstaid");
     hp_part healed;
 
-    const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
-    const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
-
     if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
         int highest_damage = 0;
         for (int i = 0; i < num_hp_parts; i++) {
@@ -255,7 +249,7 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
             }
         }
     } else { // Player--present a menu
-        WINDOW* hp_window = newwin(10, 22, (iMaxY-10)/2, (iMaxX-22)/2);
+        WINDOW* hp_window = newwin(10, 22, (TERMY-10)/2, (TERMX-22)/2);
         wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
         mvwprintz(hp_window, 1, 1, c_ltred,  "Use First Aid:");
@@ -1093,10 +1087,7 @@ void iuse::water_purifier(game *g, player *p, item *it, bool t)
 
 void iuse::two_way_radio(game *g, player *p, item *it, bool t)
 {
- const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
- const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
-
- WINDOW* w = newwin(6, 36, (iMaxY-6)/2, (iMaxX-36)/2);
+ WINDOW* w = newwin(6, 36, (TERMY-6)/2, (TERMX-36)/2);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 // TODO: More options here.  Thoughts...
@@ -1634,7 +1625,7 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
  case itm_beartrap:
   buried = (p->has_amount(itm_shovel, 1) &&
             g->m.has_flag(diggable, posx, posy) &&
-            query_yn(g->VIEWX, g->VIEWY, "Bury the beartrap?"));
+            query_yn("Bury the beartrap?"));
   type = (buried ? tr_beartrap_buried : tr_beartrap);
   message << "You " << (buried ? "bury" : "set") << " the beartrap.";
   practice = (buried ? 7 : 4);
@@ -1692,7 +1683,7 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
  case itm_landmine:
   buried = (p->has_amount(itm_shovel, 1) &&
             g->m.has_flag(diggable, posx, posy) &&
-            query_yn(g->VIEWX, g->VIEWY, "Bury the landmine?"));
+            query_yn("Bury the landmine?"));
   type = (buried ? tr_landmine_buried : tr_landmine);
   message << "You " << (buried ? "bury" : "set") << " the landmine.";
   practice = (buried ? 7 : 4);
@@ -1904,7 +1895,7 @@ void iuse::flashbang_act(game *g, player *p, item *it, bool t)
 
 void iuse::c4(game *g, player *p, item *it, bool t)
 {
- int time = query_int(g->VIEWX, g->VIEWY, "Set the timer to (0 to cancel)?");
+ int time = query_int("Set the timer to (0 to cancel)?");
  if (time == 0) {
   g->add_msg_if_player(p,"Never mind.");
   return;
@@ -2435,13 +2426,13 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
  for (int i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
   item *it = &(g->m.i_at(p->posx, p->posy)[i]);
   if (it->type->id == itm_corpse &&
-      query_yn(g->VIEWX, g->VIEWY, "Draw blood from %s?", it->tname().c_str())) {
+      query_yn("Draw blood from %s?", it->tname().c_str())) {
    blood.corpse = it->corpse;
    drew_blood = true;
   }
  }
 
- if (!drew_blood && query_yn(g->VIEWX, g->VIEWY, "Draw your own blood?"))
+ if (!drew_blood && query_yn("Draw your own blood?"))
   drew_blood = true;
 
  if (!drew_blood)

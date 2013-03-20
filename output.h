@@ -21,6 +21,14 @@
 #define LINE_OXXX 4194423
 #define LINE_XXXX 4194414
 
+// Display data... TODO: Make this more portable?
+extern int VIEWX;
+extern int VIEWY;
+extern int TERMX;
+extern int TERMY;
+extern int TERRAIN_WINDOW_WIDTH;
+extern int TERRAIN_WINDOW_HEIGHT;
+
 void mvputch(int y, int x, nc_color FG, long ch);
 void wputch(WINDOW* w, nc_color FG, long ch);
 void mvwputch(WINDOW* w, int y, int x, nc_color FG, long ch);
@@ -41,8 +49,8 @@ void draw_tabs(WINDOW *w, int active_tab, ...);
 #define debugmsg(format...) realDebugmsg(__FILE__, STRING(__LINE__), format)
 
 void realDebugmsg(const char* name, const char* line, const char *mes, ...);
-bool query_yn(int iViewX, int iViewY, const char *mes, ...);
-int  query_int(int iViewX, int iViewY, const char *mes, ...);
+bool query_yn(const char *mes, ...);
+int  query_int(const char *mes, ...);
 std::string string_input_popup(std::string title, int max_length = 0, std::string input = "");
 char popup_getkey(const char *mes, ...);
 int  menu_vec(const char *mes, std::vector<std::string> options);

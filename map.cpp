@@ -2557,7 +2557,7 @@ void map::draw(game *g, WINDOW* w, const point center)
   }
  }
  int atx = getmaxx(w)/2 + g->u.posx - center.x, aty = getmaxy(w)/2 + g->u.posy - center.y;
- if (atx >= 0 && atx < g->TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < g->TERRAIN_WINDOW_HEIGHT)
+ if (atx >= 0 && atx < TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < TERRAIN_WINDOW_HEIGHT)
   mvwputch(w, aty, atx, g->u.color(), '@');
 }
 

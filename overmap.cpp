@@ -264,10 +264,7 @@ void overmap::delete_note(int x, int y)
 point overmap::display_notes(game* g)
 {
  std::string title = "Notes:";
- const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
- const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
-
- WINDOW* w_notes = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+ WINDOW* w_notes = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
 
  wborder(w_notes, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                   LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -868,8 +865,8 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
 {
  bool legend = true, note_here = false, npc_here = false;
  std::string note_text, npc_name;
- int om_map_width = g->TERRAIN_WINDOW_WIDTH + 27;
- int om_map_height = g->TERRAIN_WINDOW_HEIGHT;
+ int om_map_width = TERRAIN_WINDOW_WIDTH + 27;
+ int om_map_height = TERRAIN_WINDOW_HEIGHT;
 
  int omx, omy;
  overmap hori, vert, diag; // Adjacent maps
@@ -1086,8 +1083,8 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
 
 point overmap::choose_point(game *g)
 {
- WINDOW* w_map = newwin(g->TERRAIN_WINDOW_HEIGHT, g->TERRAIN_WINDOW_WIDTH + 55, 0, 0);
- WINDOW* w_search = newwin(13, 27, 3, g->TERRAIN_WINDOW_WIDTH + 1);
+ WINDOW* w_map = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH + 55, 0, 0);
+ WINDOW* w_search = newwin(13, 27, 3, TERRAIN_WINDOW_WIDTH + 1);
  timeout(BLINK_SPEED);	// Enable blinking!
  bool blink = true;
  int cursx = (g->levx + int(MAPSIZE / 2)) / 2,
@@ -1120,7 +1117,7 @@ point overmap::choose_point(game *g)
   } else if(ch == 'D'){
    timeout(-1);
    if (has_note(cursx, cursy)){
-    bool res = query_yn(g->VIEWX, g->VIEWY, "Really delete note?");
+    bool res = query_yn("Really delete note?");
     if (res == true)
      delete_note(cursx, cursy);
    }

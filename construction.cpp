@@ -263,14 +263,13 @@ void game::init_construction()
 
 void game::construction_menu()
 {
- const int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
- int iMaxY = (VIEWY*2)+1;
+ int iMaxY = TERMY;
  if (constructions.size()+2 < iMaxY)
   iMaxY = constructions.size()+2;
  if (iMaxY < 25)
   iMaxY = 25;
 
- WINDOW *w_con = newwin(iMaxY, 80, (iMaxY > 25) ? ((VIEWY*2)+1-iMaxY)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+ WINDOW *w_con = newwin(iMaxY, 80, (TERMY > iMaxY) ? (TERMY-iMaxY)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
  wborder(w_con, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w_con, 0, 8, c_ltred, " Construction ");
@@ -471,7 +470,7 @@ void game::construction_menu()
  } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
  for (int i = iMaxY-25; i < iMaxY+1; i++) {
-  for (int j = (VIEWX*2)+1; j < 81; j++)
+  for (int j = TERRAIN_WINDOW_WIDTH; j < 81; j++)
    mvwputch(w_con, i, j, c_black, ' ');
  }
 
