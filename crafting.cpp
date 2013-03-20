@@ -935,7 +935,7 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   COMP(itm_string_6, 2, itm_sinew, 40, itm_plant_fibre, 40, NULL);
 
  RECIPE(itm_needle_bone, CC_MISC, "survival", NULL, 3, 20000, false);
-  TOOL(TG_KNIVES, NULL);
+  TOOL(TG_KNIVES, itm_toolset, -1, NULL);
   COMP(itm_bone, 1, NULL);
 
  RECIPE(itm_ragpouch, CC_ARMOR, "tailor",  NULL, 0, 10000, false);
@@ -969,6 +969,19 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   TOOL(itm_sewing_kit, 60, itm_needle_bone, 60, NULL);
   COMP(itm_sinew, 40, itm_plant_fibre, 40, itm_string_36, 1, NULL);
   COMP(itm_leather, 6, itm_fur, 6, NULL);
+
+ RECIPE(itm_snare_trigger, CC_MISC, "survival", NULL, 1, 2000, false);
+  TOOL(TG_KNIVES, NULL);
+  COMP(itm_stick, 1, NULL);
+
+ RECIPE(itm_light_snare_kit, CC_MISC, "survival", "traps", 1, 5000, true);
+  COMP(itm_snare_trigger, 1, NULL);
+  COMP(itm_string_36, 1, NULL);
+
+ RECIPE(itm_heavy_snare_kit, CC_MISC, "survival", "traps", 3, 8000, true);
+  COMP(itm_snare_trigger, 1, NULL);
+  COMP(itm_rope_6, 1, NULL);
+  
 // MISC
 
 

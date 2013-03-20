@@ -85,6 +85,12 @@ void dis_msg(game *g, dis_type type)
  case DI_INFECTED:
   g->add_msg("Your bite wound feels infected");
   break;
+ case DI_LIGHTSNARE:
+  g->add_msg("You are snared.");
+  break;
+ case DI_HEAVYSNARE:
+  g->add_msg("You are snared.");
+  break;
  default:
   break;
  }
@@ -1029,6 +1035,20 @@ void dis_effect(game *g, player &p, disease &dis)
   } else {	// Infection starts
    p.rem_disease(DI_BITE);
    p.add_disease(DI_INFECTED, 14400, g); // 1 day of timer
+  }
+  break;
+
+ case DI_LIGHTSNARE:
+  p.moves = -500;
+  if(one_in(10)) {
+    g->add_msg("You attempt to free yourself from the snare.");
+  }
+  break;
+
+ case DI_HEAVYSNARE:
+  p.moves = -500;
+  if(one_in(20)) {
+    g->add_msg("You attempt to free yourself from the snare.");
   }
   break;
 

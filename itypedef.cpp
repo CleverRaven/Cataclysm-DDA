@@ -3697,6 +3697,19 @@ A machete is attached laterally to a motor, with a tripwire controlling its\n\
 throttle. When the tripwire is pulled, the blade is swung around with great\n\
 force. The trap forms a 3x3 area of effect.");
 
+TOOL("light snare kit",   0,100, ';', c_brown,  WOOD,   MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL REVER    FUNCTION
+   1, 3,  0, 10, 0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap,0,"\
+A kit for a simple trap consisting of a string noose and a snare trigger.\n\
+Requires a young tree nearby. Effective at trapping and killing some small\n\
+animals.");
+
+TOOL("heavy snare kit",   0,250, ';', c_brown,  WOOD,   MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL REVER    FUNCTION
+   1, 5,  0, 20, 0,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap,0,"\
+A kit for a simple trap consisting of a rope noose and a snare trigger.\n\
+Requires a tree nearby. Effective at trapping monsters.");
+
 TOOL("land mine",	 3,2400,';', c_red,	IRON,	MNULL,
     5,  6, 10,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap,0,"\
 An anti-personnel mine that is triggered when stepped upon.");
@@ -4133,6 +4146,10 @@ TOOL("wrench",		30, 86, ';', c_ltgray,	IRON,	MNULL,
 	 2,  5, 15,  0,  2, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::none, 0, "\
 An adjustable wrench. Makes a decent melee weapon, and is used in many\n\
 mechanics crafting recipes.");
+
+TOOL("snare trigger", 50, 15, ';', c_brown, WOOD, MNULL,
+    1, 0, 0, 0, -1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::none, 0, "\
+A stick that has been cut into a trigger mechanism for a snare trap.");
 
 TOOL("bolt cutters",		5, 100, ';', c_blue,	STEEL,	PLASTIC,
     5,  4, 10,  4,  1,   0,  0, 0,  0, AT_NULL, itm_null, &iuse::boltcutters, 0, "\
