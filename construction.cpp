@@ -124,6 +124,11 @@ void game::init_construction()
    COMP(itm_log, 3, NULL);
    COMP(itm_rope_30, 1, itm_rope_6, 5, NULL);
 
+ CONSTRUCT("Build Rope and Pulley System", 2, &construct::able_empty, &construct::done_nothing);
+  STAGE(t_palisade_pulley, 0);
+  COMP(itm_rope_30, 1, NULL);
+  COMP(itm_stick, 8, itm_2x4, 8, NULL);
+
  CONSTRUCT("Build Palisade Gate", 2, &construct::able_pit, &construct::done_nothing);
   STAGE(t_palisade_gate, 20);
    TOOL(itm_shovel, itm_primitive_shovel, NULL);
@@ -192,6 +197,15 @@ void game::init_construction()
    COMP(itm_2x4, 8, NULL);
    COMP(itm_nail, 40, NULL);
 
+// Base stuff
+ CONSTRUCT("Build Bulletin Board", 0, &construct::able_empty,
+ 		                                   &construct::done_nothing);
+  STAGE(t_bulletin, 10)
+   TOOL(itm_saw, NULL);
+   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
+   COMP(itm_2x4, 4, NULL);
+   COMP(itm_nail, 8, NULL);
+
 // Household stuff
  CONSTRUCT("Build Dresser", 1, &construct::able_indoors,
                                 &construct::done_nothing);
@@ -249,13 +263,14 @@ void game::init_construction()
 
 void game::construction_menu()
 {
+ int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
  int iMaxY = (VIEWY*2)+1;
  if (constructions.size()+2 < iMaxY)
   iMaxY = constructions.size()+2;
  if (iMaxY < 25)
   iMaxY = 25;
 
- WINDOW *w_con = newwin(iMaxY, 80, 0, 0);
+ WINDOW *w_con = newwin(iMaxY, 80, (iMaxY > 25) ? ((VIEWY*2)+1-iMaxY)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
  wborder(w_con, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w_con, 0, 8, c_ltred, " Construction ");
@@ -593,7 +608,7 @@ void game::place_construction(constructable *con)
    max_stage = i;
  }
 
- u.assign_activity(ACT_BUILD, con->stages[starting_stage].time * 1000, con->id);
+ u.assign_activity(this, ACT_BUILD, con->stages[starting_stage].time * 1000, con->id);
 
  u.moves = 0;
  std::vector<int> stages;

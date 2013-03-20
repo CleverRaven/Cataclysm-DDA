@@ -162,12 +162,12 @@ DRINK("beer",           60, 35, c_brown,  itm_can_drink,
          16, 4,  0, -4, -1,  2,  1, 10, &iuse::alcohol,   ADD_ALCOHOL, "\
 Best served cold, in a glass, and with a lime - but you're not that lucky.");
 
-DRINK("bleach",		20, 18,	c_white,  itm_carboy_plastic,
+DRINK("bleach",		20, 18,	c_white,  itm_jug_plastic,
 	-96, 0,  0,  0, -8,  0,  1,-30,&iuse::blech,	ADD_NULL, "\
 Don't drink it. Mixing it with ammonia produces toxic gas.");
 
 //     NAME		RAR PRC	COLOR     CONTAINER
-DRINK("ammonia",	24, 30,	c_yellow, itm_carboy_plastic,
+DRINK("ammonia",	24, 30,	c_yellow, itm_jug_plastic,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
 	-96, 0,  0,  0, -2,  0,  1,-30,&iuse::blech,	ADD_NULL, "\
 Don't drink it. Mixing it with bleach produces toxic gas.");
@@ -1318,6 +1318,11 @@ MELEE("solar panel",  3, 900, ']', c_yellow,  GLASS,   MNULL,
 Electronic device which can convert solar radiation into electric\n\
 power. Useful for crafting.");
 
+MELEE("sheet metal",  30, 60, ']', c_ltcyan,  STEEL,   MNULL,
+//  VOL WGT DAM CUT HIT FLAGS
+    4,  20,  5,  0,  -2, 0, "\
+A thin sheet of metal.");
+
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("steel plating",  30, 120, ']', c_ltcyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
@@ -1411,7 +1416,7 @@ ARMOR("steeltoed boots",5, 135,C_SHOES,	LEATHER,	STEEL,
 Leather boots with a steel toe. Extremely durable.\n\
 These boots are a perfect fit for you.");
 
-ARMOR("winter boots",   5, 140,C_SHOES,	PLASTIC,	WOOL,
+ARMOR("winter boots",   5, 140,C_SHOES,	WOOL,	PLASTIC,
     8,  7,  0, -1,  1,  0,  2,  1,  85,  0,	mfb(bp_feet), "\
 Cumbersome boots designed for warmth.\n\
 These boots are a perfect fit for you.");
@@ -1466,7 +1471,7 @@ ARMOR("ski pants",	60, 300,C_PANTS,	COTTON,		MNULL,
 A pair of pants meant for alpine skiing.");
 
 ARMOR("long underwear",	40, 200,C_PANTS,	COTTON,		MNULL,
-    4,  2, -3,  0,  0,  0,  0,  0,  30, 12,	mfb(bp_legs), "\
+    4,  2, -3,  0,  0,  0,  0,  0,  30,  0,	mfb(bp_legs), "\
 A pair of long underwear that help to maintain body temperature.");
 
 ARMOR("skirt",		75, 120,C_PANTS,	COTTON,		MNULL,
@@ -2690,12 +2695,14 @@ Chinese military, it does not see extensive use outside of China.",
 0);
 
 GUN("sawn-off shotgun",	 1, 700,c_red,	IRON,	WOOD,
-	"shotgun",	AT_SHOT, 6, 10, 14,  2,  4, 40, 15,  4,  0,  2, 100, "\
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
+	"shotgun",	AT_SHOT, 6, 10, 14, 2,  4,  40, 15, 4,   0,   2, 100, "\
 The barrels of shotguns are often sawed in half to make it more maneuverable\n\
 and concealable. This has the added effect of reducing accuracy greatly.",
 mfb(IF_RELOAD_ONE));
 
 GUN("sawn-off Saiga 12",	 1, 700,c_red,	IRON,	WOOD,
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
 	"shotgun",	AT_SHOT, 6, 10, 14,  2,  4, 40, 15,  4,  0,  10, 100, "\
 The Saiga-12 shotgun is designed on the same Kalishnikov pattern as the AK47\n\
 rifle. It reloads with a magazine, rather than one shell at a time like most\n\
@@ -3483,16 +3490,16 @@ A small cardboard box. No bigger than a foot in any dimension.");
 
 CONT("plastic canteen",	20,  1000,	c_green,	PLASTIC,MNULL,
     6,  2, -8,  1,	 6,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A large military-style water canteen, with a 1.5 litre capacity");
+A large military-style water canteen, with a 1.5 liter capacity");
 
 CONT("plastic jerrycan",	10,  2500,	c_green,	PLASTIC,MNULL,
     40,  4, -2,  -2,	 40,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A bulky plastic jerrycan, meant to carry fuel, but can carry other liquids\n\
-in a pinch. It has a capacity of 10 litres.");
+in a pinch. It has a capacity of 10 liters.");
 
-CONT("plastic carboy",	10,  2500,	c_ltcyan,	PLASTIC,MNULL,
+CONT("gallon jug",	10,  2500,	c_ltcyan,	PLASTIC,MNULL,
     10,  2, -8,  1,	 10,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A 2.5 litre plastic carboy for household cleaning chemicals.");
+A standard plastic jug used for household cleaning chemicals.");
 
 CONT("glass flask",	10,  2500,	c_ltcyan,	GLASS,MNULL,
     1,  0, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
@@ -3501,7 +3508,7 @@ A 250 ml laboratory conical flask, with a rubber bung.");
 CONT("waterskin",   0,  0, c_brown, LEATHER, MNULL,
 // VOL WGT DAM HIT	VOL	FLAGS
     2, 2,  -8, -5,   6, mfb(con_wtight)|mfb(con_seals), "\
-A watertight leather bag, can hold 1.5 litres of water.");
+A watertight leather bag, can hold 1.5 liters of water.");
 
 /* TOOLS
  * MAX is the maximum number of charges help.
@@ -3635,12 +3642,12 @@ it off.");
 TECH( mfb(TEC_SWEEP) );
 
 TOOL("jackhammer",	 2, 890,';', c_magenta,	IRON,	MNULL,
-   13, 54, 20,  6, -4, 120,  0,10,  0, AT_GAS,	itm_null, &iuse::jackhammer,0,"\
+   26, 54, 20,  6, -4, 120,  0,10,  0, AT_GAS,	itm_null, &iuse::jackhammer,0,"\
 This jackhammer runs on gasoline. Use it (if loaded) to blast a hole in\n\
 adjacent solid terrain.");
 
 TOOL("jacqueshammer",     2, 890,  ';', c_magenta, IRON,   MNULL,
-   13, 54, 20,  6, -4, 120,  0,10,  0, AT_GAS,  itm_null, &iuse::jacqueshammer,0,"\
+   26, 54, 20,  6, -4, 120,  0,10,  0, AT_GAS,  itm_null, &iuse::jacqueshammer,0,"\
 Ce marteau-piqueur fonctionne a l'essence.\n\
 Utilisez-le (si charge) pour faire sauter un troudans\n\
 adjacente terrain solide.");
@@ -3652,7 +3659,7 @@ ground, creating a trap that will warn you with noise when something steps on\n\
 it.");
 
 TOOL("bear trap",	 5, 120,';', c_cyan,	IRON,	MNULL,
-    4, 12,  9,  1, -2,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap,0,"\
+    12, 10,  9,  1, -2,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap,0,"\
 A spring-loaded pair of steel jaws. Use it to set it on the ground, creating\n\
 a trap that will ensnare and damage anything that steps on it. If you are\n\
 carrying a shovel, you will have the option of burying it.");
@@ -3685,15 +3692,14 @@ trigger is pulled, one or two may be used.");
 //	NAME		RAR VAL	SYM  COLOR	MAT1	MAT
 TOOL("blade trap",	 0,500, ';', c_ltgray,	IRON,	MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-   13, 21,  4, 16, -4,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap,0,"\
+   20, 21,  4, 16, -4,  0,  0,  0,  0, AT_NULL,	itm_null, &iuse::set_trap,0,"\
 A machete is attached laterally to a motor, with a tripwire controlling its\n\
 throttle. When the tripwire is pulled, the blade is swung around with great\n\
 force. The trap forms a 3x3 area of effect.");
 
 TOOL("land mine",	 3,2400,';', c_red,	IRON,	MNULL,
-    3,  6, 10,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap,0,"\
-An explosive that is triggered when stepped upon. It must be partially\n\
-buried to be effective, and so you will need a shovel to use it.");
+    5,  6, 10,  0, -1,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap,0,"\
+An anti-personnel mine that is triggered when stepped upon.");
 
 TOOL("geiger ctr (off)", 8, 300,';', c_green,	PLASTIC,STEEL,
     2,  2,  2,  0,  0,100,100,  1,  0, AT_BATT,	itm_null, &iuse::geiger,0,"\

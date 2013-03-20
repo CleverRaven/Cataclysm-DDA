@@ -218,7 +218,7 @@ void dis_effect(game *g, player &p, disease &dis)
     if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("The heat is making you see things.");
     // Speed -5
    case 1 :
-    if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot warm.\"");
+    if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
     // Speed -2
   }
   break;
@@ -235,7 +235,7 @@ void dis_effect(game *g, player &p, disease &dis)
 	p.str_cur--;
     // Speed -5
    case 1 :
-    if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot warm.\"");
+    if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
     // Speed -2
   }
   break;
@@ -245,7 +245,7 @@ void dis_effect(game *g, player &p, disease &dis)
    case 3 : p.thirst--;
     if (p.pain < 50) p.pain++;
    case 2 : p.thirst--;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot warm.\"");
+   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
   }
   break;
 
@@ -253,7 +253,7 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 : p.dex_cur--;
    case 2 : p.dex_cur--;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot warm.\"");
+   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
   }
   break;
 
@@ -263,7 +263,7 @@ void dis_effect(game *g, player &p, disease &dis)
     if (p.pain < 50) p.pain++;
     if (one_in(200)) g->add_msg("Your legs are cramping up.");
    case 2 : p.thirst--;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot warm.\"");
+   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
   }
   break;
 
@@ -273,7 +273,7 @@ void dis_effect(game *g, player &p, disease &dis)
    case 2 :
     if (p.pain < 30) p.pain++;
     if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your feet are swelling in the heat.");
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot warm.\"");
+   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
   }
   break;
 
@@ -882,8 +882,7 @@ void dis_effect(game *g, player &p, disease &dis)
   }
   if (dis.duration > 3600) { // 12 teles
    if (one_in(4000 - int(.25 * (dis.duration - 3600)))) {
-    int range = g->moncats[mcat_nether].size();
-    mon_id type = (g->moncats[mcat_nether])[rng(0, range - 1)];
+    mon_id type = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER");
     monster beast(g->mtypes[type]);
     int x, y, tries = 0;
     do {
@@ -945,8 +944,7 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_ATTENTION:
   if (one_in( 100000 / dis.duration ) && one_in( 100000 / dis.duration ) &&
       one_in(250)) {
-   int range = g->moncats[mcat_nether].size();
-   mon_id type = (g->moncats[mcat_nether])[rng(0, range - 1)];
+   mon_id type = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER");
    monster beast(g->mtypes[type]);
    int x, y, tries = 0, junk;
    do {

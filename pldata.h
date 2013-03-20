@@ -26,18 +26,18 @@ enum dis_type {
  DI_NULL,
 // Weather
  DI_GLARE, DI_WET,
-// Temperature, the order is important
+// Temperature, the order is important (dependant on bodypart.h)
  DI_COLD,
- DI_COLD_HEAD, DI_COLD_EYES, DI_COLD_MOUTH, DI_COLD_TORSO,
+ DI_COLD_TORSO, DI_COLD_HEAD, DI_COLD_EYES, DI_COLD_MOUTH, 
  DI_COLD_ARMS, DI_COLD_HANDS, DI_COLD_LEGS, DI_COLD_FEET,
  DI_FROSTBITE,
- DI_FROSTBITE_HEAD, DI_FROSTBITE_EYES, DI_FROSTBITE_MOUTH, DI_FROSTBITE_TORSO,
+ DI_FROSTBITE_TORSO, DI_FROSTBITE_HEAD, DI_FROSTBITE_EYES, DI_FROSTBITE_MOUTH,
  DI_FROSTBITE_ARMS, DI_FROSTBITE_HANDS, DI_FROSTBITE_LEGS, DI_FROSTBITE_FEET,
  DI_HOT,
- DI_HOT_HEAD, DI_HOT_EYES, DI_HOT_MOUTH, DI_HOT_TORSO,
+ DI_HOT_TORSO, DI_HOT_HEAD, DI_HOT_EYES, DI_HOT_MOUTH, 
  DI_HOT_ARMS, DI_HOT_HANDS, DI_HOT_LEGS, DI_HOT_FEET,
  DI_BLISTERS,
- DI_BLISTERS_HEAD, DI_BLISTERS_EYES, DI_BLISTERS_MOUTH, DI_BLISTERS_TORSO,
+ DI_BLISTERS_TORSO, DI_BLISTERS_HEAD, DI_BLISTERS_EYES, DI_BLISTERS_MOUTH, 
  DI_BLISTERS_ARMS, DI_BLISTERS_HANDS, DI_BLISTERS_LEGS, DI_BLISTERS_FEET,
 // Diseases
  DI_INFECTION,
@@ -445,8 +445,8 @@ For your whole life you've been forbidden from indulging in your peculiar\n\
 tastes. Now the world's ended, and you'll be damned if anyone is going to\n\
 tell you you can't eat people."},
 {"Martial Arts Training", 3, 0, 0, "\
-You have receives some martial arts training at a local dojo.  You will start\n\
-with your choice of karate, judo, aikido, tai chi, or taekwando."},
+You have received some martial arts training at a local dojo.  You will start\n\
+with your choice of karate, judo, aikido, tai chi, or taekwondo."},
 
 {"NULL", 0, 0, 0, " -------------------------------------------------- "},
 

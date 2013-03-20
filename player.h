@@ -62,6 +62,7 @@ public:
 
  void reset(game *g = NULL);// Resets movement points, stats, applies effects
  void update_morale();	// Ticks down morale counters and removes them
+ void update_bodytemp(game *g);  // Maintains body temperature
  int  current_speed(game *g = NULL); // Number of movement points we get a turn
  int  run_cost(int base_cost); // Adjust base_cost
  int  swim_speed();	// Our speed when swimming
@@ -209,7 +210,7 @@ public:
  void practice(Skill *s, int amount);
  void practice(std::string s, int amount);
 
- void assign_activity(activity_type type, int moves, int index = -1);
+ void assign_activity(game* g, activity_type type, int moves, int index = -1);
  void cancel_activity();
 
  int weight_carried();

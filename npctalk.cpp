@@ -5,6 +5,7 @@
 #include "rng.h"
 #include "line.h"
 #include "keypress.h"
+#include "debug.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -40,6 +41,8 @@
 #define FAILURE_ACTION(func)  ret.back().effect_failure = func
 
 #define SUCCESS_MISSION(type) ret.back().miss = type
+
+#define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 std::string dynamic_line(talk_topic topic, game *g, npc *p);
 std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p);
@@ -297,7 +300,8 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   case ENGAGE_ALL:   status << "engaging all enemies.";         break;
   }
   status << " " << (p->male ? "He" : "She") << " will " <<
-            (p->combat_rules.use_guns ? "" : "not ") << "use firearms.";
+            (p->combat_rules.use_guns ? (p->combat_rules.use_silent ? "use silenced" : "use")
+              : "not use") << " firearms";
   status << " " << (p->male ? "He" : "She") << " will " <<
             (p->combat_rules.use_grenades ? "" : "not ") << "use grenades.";
 
@@ -936,6 +940,11 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   RESPONSE("Let's trade items.");
    SUCCESS(TALK_NONE);
    SUCCESS_ACTION(&talk_function::start_trade);
+  if (p->is_following() && g->m.camp_at(g->u.posx, g->u.posy)) {
+   RESPONSE("Wait at this base,");
+    SUCCESS(TALK_DONE);
+    SUCCESS_ACTION(&talk_function::assign_base);
+  }
   RESPONSE("Let's go.");
    SUCCESS(TALK_DONE);
   break;
@@ -951,6 +960,15 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    RESPONSE("You can use guns.");
     SUCCESS(TALK_COMBAT_COMMANDS);
     SUCCESS_ACTION(&talk_function::toggle_use_guns);
+  }
+  if (p->combat_rules.use_silent) {
+   RESPONSE("Don't worry about noise.");
+    SUCCESS(TALK_COMBAT_COMMANDS);
+    SUCCESS_ACTION(&talk_function::toggle_use_silent);
+  } else {
+   RESPONSE("Use only silent weapons.");
+    SUCCESS(TALK_COMBAT_COMMANDS);
+    SUCCESS_ACTION(&talk_function::toggle_use_silent);
   }
   if (p->combat_rules.use_grenades) {
    RESPONSE("Don't use grenades anymore.");
@@ -1295,6 +1313,20 @@ void talk_function::start_trade(game *g, npc *p)
  trade(g, p, trade_amount, "Trade");
 }
 
+void talk_function::assign_base(game *g, npc *p)
+{
+	// TODO: decide what to do upon assign? maybe pathing required
+	basecamp* camp = g->m.camp_at(g->u.posx, g->u.posy);
+	if(!camp) {
+		dbg(D_ERROR) << "talk_function::assign_base: Assigned to base but no base here.";
+		return;
+	}
+
+	g->add_msg("%s waits at %s", p->name.c_str(), camp->camp_name().c_str());
+	p->mission = NPC_MISSION_BASE;
+	p->attitude = NPCATT_NULL;
+}
+
 void talk_function::give_equipment(game *g, npc *p)
 {
  std::vector<int> giving;
@@ -1409,6 +1441,11 @@ void talk_function::toggle_use_guns(game *g, npc *p)
  p->combat_rules.use_guns = !p->combat_rules.use_guns;
 }
 
+void talk_function::toggle_use_silent(game *g, npc *p)
+{
+ p->combat_rules.use_silent = !p->combat_rules.use_silent;
+}
+
 void talk_function::toggle_use_grenades(game *g, npc *p)
 {
  p->combat_rules.use_grenades = !p->combat_rules.use_grenades;
@@ -1460,7 +1497,7 @@ void talk_function::start_training(game *g, npc *p)
  else if (!trade(g, p, cost, "Pay for training:"))
   return;
 // Then receive it
- g->u.assign_activity(ACT_TRAIN, time, p->chatbin.tempvalue);
+ g->u.assign_activity(g, ACT_TRAIN, time, p->chatbin.tempvalue);
 }
 
 void parse_tags(std::string &phrase, player *u, npc *me)
@@ -1618,9 +1655,9 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
    okay = true;
   else if (colors[ch] == c_white || colors[ch] == c_green)
    okay = true;
-  else if (colors[ch] == c_red && query_yn("You may be attacked! Proceed?"))
+  else if (colors[ch] == c_red && query_yn(g->VIEWX, g->VIEWY, "You may be attacked! Proceed?"))
    okay = true;
-  else if (colors[ch] == c_ltred && query_yn("You'll be helpless! Proceed?"))
+  else if (colors[ch] == c_ltred && query_yn(g->VIEWX, g->VIEWY, "You'll be helpless! Proceed?"))
    okay = true;
  } while (!okay);
  history.push_back("");

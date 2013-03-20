@@ -1,3 +1,4 @@
+#include "game.h"
 #include "options.h"
 #include "output.h"
 #include "keypress.h"
@@ -13,22 +14,32 @@ bool option_is_bool(option_key id);
 void create_default_options();
 std::string options_header();
 
-void show_options()
+void game::show_options()
 {
- erase();
+ int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
+ int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
+
+ WINDOW* w_options_border = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+ WINDOW* w_options = newwin(23, 78, 1 + (int)((iMaxY > 25) ? (iMaxY-25)/2 : 0), 1 + (int)((iMaxX > 80) ? (iMaxX-80)/2 : 0));
+
  int offset = 1;
  int line = 0;
  char ch = ' ';
  bool changed_options = false;
  bool needs_refresh = true;
  do {
+  wborder(w_options_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+  mvwprintz(w_options_border, 0, 36, c_ltred, " OPTIONS ");
+  wrefresh(w_options_border);
+
 // TODO: change instructions
   if (needs_refresh) {
-    erase();
-    mvprintz(0, 40, c_white, "Use up/down keys to scroll through");
-    mvprintz(1, 40, c_white, "available options.");
-    mvprintz(2, 40, c_white, "Use left/right keys to toggle.");
-    mvprintz(3, 40, c_white, "Press ESC or q to return.             ");
+    werase(w_options);
+    mvwprintz(w_options, 0, 40, c_white, "Use up/down keys to scroll through");
+    mvwprintz(w_options, 1, 40, c_white, "available options.");
+    mvwprintz(w_options, 2, 40, c_white, "Use left/right keys to toggle.");
+    mvwprintz(w_options, 3, 40, c_white, "Press ESC or q to return.             ");
 // highlight options for option descriptions
     std::string tmp = option_desc(option_key(offset + line));
     std::string out;
@@ -37,7 +48,7 @@ void show_options()
     do {
       pos = tmp.find_first_of('\n');
       out = tmp.substr(0, pos);
-      mvprintz(displayline, 40, c_white, out.c_str());
+      mvwprintz(w_options, displayline, 40, c_white, out.c_str());
       tmp = tmp.substr(pos + 1);
       displayline++;
     } while (pos != std::string::npos && displayline < 12);
@@ -46,32 +57,32 @@ void show_options()
 
 // Clear the lines
   for (int i = 0; i < 25; i++)
-   mvprintz(i, 0, c_black, "                                        ");
+   mvwprintz(w_options, i, 0, c_black, "                                        ");
   int valid_option_count = 0;
 
 // display options
   for (int i = 0; i < 25 && offset + i < NUM_OPTION_KEYS; i++)
   {
        valid_option_count++;
-       mvprintz(i, 0, c_white, "%s: ",
+       mvwprintz(w_options, i, 0, c_white, "%s: ",
                 option_name( option_key(offset + i) ).c_str());
 
       if (option_is_bool(option_key(offset + i)))
       {
         bool on = OPTIONS[ option_key(offset + i) ];
         if (i == line)
-          mvprintz(i, 30, hilite(c_ltcyan), (on ? "True" : "False"));
+          mvwprintz(w_options, i, 30, hilite(c_ltcyan), (on ? "True" : "False"));
         else
-          mvprintz(i, 30, (on ? c_ltgreen : c_ltred), (on ? "True" : "False"));
-      } else
-      {
+          mvwprintz(w_options, i, 30, (on ? c_ltgreen : c_ltred), (on ? "True" : "False"));
+      } else {
         char option_val = OPTIONS[ option_key(offset + i) ];
         if (i == line)
-          mvprintz(i, 30, hilite(c_ltcyan), "%d", option_val );
+          mvwprintz(w_options, i, 30, hilite(c_ltcyan), "%d", option_val );
         else
-          mvprintz(i, 30, c_ltgreen, "%d", option_val );
+          mvwprintz(w_options, i, 30, c_ltgreen, "%d", option_val );
       }
   }
+  wrefresh(w_options);
   refresh();
   ch = input();
   needs_refresh = true;
@@ -115,9 +126,9 @@ void show_options()
   }
  } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
- if (changed_options && query_yn("Save changes?"))
+ if (changed_options && query_yn(this->VIEWX, this->VIEWY, "Save changes?"))
   save_options();
- erase();
+ werase(w_options);
 }
 
 void load_options()
@@ -269,8 +280,8 @@ std::string option_desc(option_key key)
   case OPT_DELETE_WORLD: return "Delete saves upon player death\n0 - no\n1 - yes\n2 - query";
   case OPT_INITIAL_POINTS: return "Initial points available on character\ngeneration.  Default is 6";
   case OPT_INITIAL_TIME: return "Initial starting time of day on character\ngeneration.  Default is 8:00";
-  case OPT_VIEWPORT_X: return "Set the expansion of the viewport along\nthe X axis.  Must restart for changes\nto take effect.  Default is 12";
-  case OPT_VIEWPORT_Y: return "Set the expansion of the viewport along\nthe Y axis.  Must restart for changes\nto take effect.  Default is 12";
+  case OPT_VIEWPORT_X: return "WINDOWS ONLY: Set the expansion of the viewport along\nthe X axis.  Must restart for changes\nto take effect.  Default is 12. POSIX\nsystems will use terminal size at startup.";
+  case OPT_VIEWPORT_Y: return "WINDOWS ONLY: Set the expansion of the viewport along\nthe Y axis.  Must restart for changes\nto take effect.  Default is 12. POSIX\nsystems will use terminal size at startup.";
   case OPT_STATIC_SPAWN: return "Spawn zombies at game start instead of\nduring game. Must delete save directory\nafter changing for it to take effect.\nDefault is F";
   default:			return " ";
  }

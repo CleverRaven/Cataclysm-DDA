@@ -27,6 +27,20 @@
 #include <map>
 #include <stdarg.h>
 
+// Fixed window sizes
+#define HP_HEIGHT 14
+#define HP_WIDTH 7
+#define MINIMAP_HEIGHT 7
+#define MINIMAP_WIDTH 7
+#define MONINFO_HEIGHT 12
+#define MONINFO_WIDTH 48
+#define MESSAGES_HEIGHT 8
+#define MESSAGES_WIDTH 48
+#define LOCATION_HEIGHT 1
+#define LOCATION_WIDTH 48
+#define STATUS_HEIGHT 4
+#define STATUS_WIDTH 55
+
 #define LONG_RANGE 10
 #define BLINK_SPEED 300
 #define BULLET_SPEED 10000000
@@ -231,7 +245,6 @@ class game
   std::vector<monster_and_count> coming_to_stairs;
   int monstairx, monstairy, monstairz;
   std::vector<npc> active_npc;
-  std::vector<mon_id> moncats[num_moncats];
   std::vector<faction> factions;
   std::vector<mission> active_missions; // Missions which may be assigned
 // NEW: Dragging a piece of furniture, with a list of items contained
@@ -243,6 +256,8 @@ class game
 // Display data... TODO: Make this more portable?
   int VIEWX;
   int VIEWY;
+  int TERMX;
+  int TERMY;
   int TERRAIN_WINDOW_WIDTH;
   int TERRAIN_WINDOW_HEIGHT;
 
@@ -253,12 +268,14 @@ class game
   WINDOW *w_messages;
   WINDOW *w_location;
   WINDOW *w_status;
+  WINDOW *w_void; //space unter status if viewport Y > 12
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
   void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA = true);
+  void print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX);
   bool load_master();	// Load the master data file, with factions &c
   void load(std::string name);	// Load a player-specific save file
   void start_game();	// Starts a new game
@@ -268,7 +285,7 @@ class game
   void init_itypes();       // Initializes item types
   void init_mapitems();     // Initializes item placement
   void init_mtypes();       // Initializes monster types
-  void init_moncats();      // Initializes monster categories
+  void init_mongroups();    // Initualizes monster groups
   void init_monitems();     // Initializes monster inventory selection
   void init_traps();        // Initializes trap types
   void init_recipes();      // Initializes crafting recipes
@@ -298,7 +315,7 @@ class game
   void close();	// Close a door			'c'
   void smash();	// Smash terrain
   void craft();                    // See crafting.cpp
-  void recraft();                  // See crafting.cpp 
+  void recraft();                  // See crafting.cpp
   void try_and_make(recipe *r);
   bool can_make(recipe *r);
   void make_craft(recipe *making); // See crafting.cpp
@@ -344,6 +361,7 @@ class game
   void chat();    // Talk to a nearby NPC	'C'
   void plthrow(char chInput = '.'); // Throw an item		't'
   void help();    // Help screen		'?'
+  void show_options();    // Options screen		'?'
 
 // Target is an interactive function which allows the player to choose a nearby
 // square.  It display information on any monster/NPC on that square, and also
@@ -358,16 +376,13 @@ class game
   void update_stair_monsters();
   void despawn_monsters(const bool stairs = false, const int shiftx = 0, const int shifty = 0);
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
-  mon_id valid_monster_from(std::vector<mon_id> group);
   int valid_group(mon_id type, int x, int y);// Picks a group from cur_om
-  moncat_id mt_to_mc(mon_id type);// Monster type to monster category
   void set_adjacent_overmaps(bool from_scratch = false);
 
 // Routine loop functions, approximately in order of execution
   void cleanup_dead();     // Delete any dead NPCs/monsters
   void monmove();          // Monster movement
   void rustCheck();        // Degrades practice levels
-  void update_bodytemp();  // Maintains body temperature
   void process_events();   // Processes and enacts long-term events
   void process_activity(); // Processes and enacts the player's activity
   void update_weather();   // Updates the temperature and weather patten

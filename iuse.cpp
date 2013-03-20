@@ -1094,7 +1094,7 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
 //       > Report something to a faction
 //       > Call another player
  mvwprintz(w, 1, 1, c_white, "1: Radio a faction for help...");
- mvwprintz(w, 2, 1, c_white, "2: Call Acquaitance...");
+ mvwprintz(w, 2, 1, c_white, "2: Call Acquaintance...");
  mvwprintz(w, 3, 1, c_white, "3: General S.O.S.");
  mvwprintz(w, 4, 1, c_white, "0: Cancel");
  wrefresh(w);
@@ -1231,18 +1231,18 @@ void iuse::roadmap_a_target(game *g, player *p, item *it, bool t, int target)
 
  int pomx = (g->levx + int(MAPSIZE / 2)) / 2; //overmap loc
  int pomy = (g->levy + int(MAPSIZE / 2)) / 2; //overmap loc
- 
+
  if (g->debugmon) debugmsg("Map: %s at %d,%d found! You @ %d %d",oter_target.name.c_str(), place.x, place.y, pomx,pomy);
- 
+
  if (place.x >= 0 && place.y >= 0) {
   for (int x = place.x - 3; x <= place.x + 3; x++) {
    for (int y = place.y - 3; y <= place.y + 3; y++)
     g->cur_om.seen(x, y) = true;
   }
-  
+
   direction to_hospital = direction_from(pomx,pomy, place.x, place.y);
   int distance = trig_dist(pomx,pomy, place.x, place.y);
-  
+
   g->add_msg_if_player(p, "You add a %s location to your map.", oterlist[target].name.c_str());
   g->add_msg_if_player(p, "It's %d squares to the %s", distance,  direction_name(to_hospital).c_str());
  } else {
@@ -1624,7 +1624,7 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
  case itm_beartrap:
   buried = (p->has_amount(itm_shovel, 1) &&
             g->m.has_flag(diggable, posx, posy) &&
-            query_yn("Bury the beartrap?"));
+            query_yn(g->VIEWX, g->VIEWY, "Bury the beartrap?"));
   type = (buried ? tr_beartrap_buried : tr_beartrap);
   message << "You " << (buried ? "bury" : "set") << " the beartrap.";
   practice = (buried ? 7 : 4);
@@ -1682,7 +1682,7 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
  case itm_landmine:
   buried = (p->has_amount(itm_shovel, 1) &&
             g->m.has_flag(diggable, posx, posy) &&
-            query_yn("Bury the landmine?"));
+            query_yn(g->VIEWX, g->VIEWY, "Bury the landmine?"));
   type = (buried ? tr_landmine_buried : tr_landmine);
   message << "You " << (buried ? "bury" : "set") << " the landmine.";
   practice = (buried ? 7 : 4);
@@ -2425,13 +2425,13 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
  for (int i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
   item *it = &(g->m.i_at(p->posx, p->posy)[i]);
   if (it->type->id == itm_corpse &&
-      query_yn("Draw blood from %s?", it->tname().c_str())) {
+      query_yn(g->VIEWX, g->VIEWY, "Draw blood from %s?", it->tname().c_str())) {
    blood.corpse = it->corpse;
    drew_blood = true;
   }
  }
 
- if (!drew_blood && query_yn("Draw your own blood?"))
+ if (!drew_blood && query_yn(g->VIEWX, g->VIEWY, "Draw your own blood?"))
   drew_blood = true;
 
  if (!drew_blood)
@@ -2454,6 +2454,10 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
  if (cut->type->id == 0) {
   g->add_msg("You do not have that item!");
   return;
+ }
+ if (cut->type->id == itm_string_6 || cut->type->id == itm_string_36 || cut->type->id == itm_rope_30 || cut->type->id == itm_rope_6) {
+    g->add_msg("You cannot cut that, you must disassemble it using the disassemble key");
+    return;
  }
  if (cut->type->id == itm_rag) {
   g->add_msg("There's no point in cutting a rag.");

@@ -19,6 +19,8 @@
 #include "graffiti.h"
 
 #define MAPSIZE 11
+#define CAMPSIZE 1
+#define CAMPCHECK 3
 
 class player;
 class item;
@@ -164,6 +166,11 @@ class map
 // Computers
  computer* computer_at(const int x, const int y);
 
+ // Camps
+ bool allow_camp(const int x, const int y, const int radius = CAMPCHECK);
+ basecamp* camp_at(const int x, const int y, const int radius = CAMPSIZE);
+ void add_camp(const std::string& name, const int x, const int y);
+
 // Graffiti
  graffiti graffiti_at(int x, int y);
  bool add_graffiti(game *g, int x, int y, std::string contents);
@@ -171,7 +178,7 @@ class map
 // mapgen.cpp functions
  void generate(game *g, overmap *om, const int x, const int y, const int turn);
  void post_process(game *g, unsigned zones);
- void place_spawns(game *g, const moncat_id monster_type, const int chance,
+ void place_spawns(game *g, std::string group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn);

@@ -27,6 +27,8 @@
 		<Unit filename="artifact.cpp" />
 		<Unit filename="artifact.h" />
 		<Unit filename="artifactdata.h" />
+		<Unit filename="basecamp.cpp" />
+		<Unit filename="basecamp.h" />
 		<Unit filename="bionics.cpp" />
 		<Unit filename="bionics.h" />
 		<Unit filename="bodypart.cpp" />
@@ -82,6 +84,7 @@
 		<Unit filename="line.cpp" />
 		<Unit filename="line.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="main_menu.cpp" />
 		<Unit filename="map.cpp" />
 		<Unit filename="map.h" />
 		<Unit filename="mapbuffer.cpp" />

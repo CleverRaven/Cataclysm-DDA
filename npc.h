@@ -62,6 +62,9 @@ enum npc_mission {
 
  NPC_MISSION_MISSING,	// Special; following player to finish mission
  NPC_MISSION_KIDNAPPED,	// Special; was kidnapped, to be rescued by player
+
+ NPC_MISSION_BASE, // Base Mission: unassigned
+
  NUM_NPC_MISSIONS
 };
 
@@ -90,9 +93,10 @@ enum npc_action {
  npc_escape_item, npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
   npc_heal, npc_use_painkiller, npc_eat, npc_drop_items, // 5 - 12
  npc_flee, npc_melee, npc_shoot, npc_shoot_burst, npc_alt_attack, // 13 - 17
- npc_look_for_player, npc_heal_player, npc_follow_player, npc_talk_to_player,
-  npc_mug_player, // 18 - 22
- npc_goto_destination, npc_avoid_friendly_fire, // 23, 24
+ npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
+ npc_talk_to_player, npc_mug_player, // 18 - 23
+ npc_goto_destination, npc_avoid_friendly_fire, // 24, 25
+ npc_base_idle, // 26
  num_npc_actions
 };
 
@@ -255,25 +259,27 @@ struct npc_combat_rules
  combat_engagement engagement;
  bool use_guns;
  bool use_grenades;
+ bool use_silent;
 
  npc_combat_rules()
  {
   engagement = ENGAGE_ALL;
   use_guns = true;
   use_grenades = true;
+  use_silent = false;
  };
 
  std::string save_info()
  {
   std::stringstream dump;
-  dump << engagement << " " << use_guns << " " << use_grenades << " ";
+  dump << engagement << " " << use_guns << " " << use_grenades << " " << use_silent;
   return dump.str();
  }
 
  void load_info(std::istream &data)
  {
   int tmpen;
-  data >> tmpen >> use_guns >> use_grenades;
+  data >> tmpen >> use_guns >> use_grenades >> use_silent;
   engagement = combat_engagement(tmpen);
  }
 };
@@ -431,6 +437,7 @@ public:
  void form_opinion(player *u);
  talk_topic pick_talk_topic(player *u);
  int  player_danger(player *u); // Comparable to monsters
+ int vehicle_danger(game *g, int radius);
  bool turned_hostile(); // True if our anger is at least equal to...
  int hostile_anger_level(); // ... this value!
  void make_angry(); // Called if the player attacks us
@@ -497,7 +504,7 @@ public:
 // Functions which choose an action for a particular goal
  void choose_monster_target(game *g, int &enemy, int &danger,
                             int &total_danger);
- npc_action method_of_fleeing	(game *g, int enemy);
+ npc_action method_of_fleeing	(game *g, int target);
  npc_action method_of_attack	(game *g, int enemy, int danger);
  npc_action address_needs	(game *g, int danger);
  npc_action address_player	(game *g);
