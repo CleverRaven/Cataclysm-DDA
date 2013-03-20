@@ -656,22 +656,13 @@ void monster::die(game *g)
 
 // If we're a queen, make nearby groups of our type start to die out
  if (has_flag(MF_QUEEN)) {
-  std::vector<mongroup*> groups = g->cur_om.monsters_at(g->levx, g->levy);
-  for (int i = 0; i < groups.size(); i++) {
-   if (MonsterGroupManager::IsMonsterInGroup(groups[i]->type, mon_id(type->id)))
-    groups[i]->dying = true;
-  }
 // Do it for overmap above/below too
-  overmap tmp;
-  if (g->cur_om.posz == 0)
-   tmp = overmap(g, g->cur_om.posx, g->cur_om.posy, -1);
-  else
-   tmp = overmap(g, g->cur_om.posx, g->cur_om.posy, 0);
-
-  groups = tmp.monsters_at(g->levx, g->levy);
-  for (int i = 0; i < groups.size(); i++) {
+  for(int z = 0; z >= -1; --z) {
+   std::vector<mongroup*> groups = g->cur_om.monsters_at(g->levx, g->levy, z);
+   for (int i = 0; i < groups.size(); i++) {
    if (MonsterGroupManager::IsMonsterInGroup(groups[i]->type, mon_id(type->id)))
     groups[i]->dying = true;
+   }
   }
  }
 // If we're a mission monster, update the mission

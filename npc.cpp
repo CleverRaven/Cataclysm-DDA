@@ -31,6 +31,7 @@ npc::npc()
  ity = -1;
  goalx = 999;
  goaly = 999;
+ goalz = 999;
  fatigue = 0;
  hunger = 0;
  thirst = 0;
@@ -79,6 +80,7 @@ npc& npc::operator= (const npc & rhs)
  ity = rhs.ity;
  goalx = rhs.goalx;
  goaly = rhs.goaly;
+ goalz = rhs.goalz;
 
  path = rhs.path;
 
@@ -178,7 +180,7 @@ std::string npc::save_info()
          int(personality.altruism) << " " << wandx << " " << wandy << " " <<
          wandf << " " << omx << " " << omy << " " << omz << " " << mapx <<
          " " << mapy << " " << plx << " " << ply << " " <<  goalx << " " <<
-         goaly << " " << int(mission) << " " << int(flags) << " ";
+         goaly << " " << goalz << " " << int(mission) << " " << int(flags) << " ";
  if (my_fac == NULL)
   dump << -1;
  else
@@ -280,7 +282,7 @@ void npc::load_info(game *g, std::string data)
 // Special NPC stuff
  int misstmp, flagstmp, tmpatt, agg, bra, col, alt;
  dump >> agg >> bra >> col >> alt >> wandx >> wandy >> wandf >> omx >> omy >>
-         omz >> mapx >> mapy >> plx >> ply >> goalx >> goaly >> misstmp >>
+         omz >> mapx >> mapy >> plx >> ply >> goalx >> goaly >> goalz >> misstmp >>
          flagstmp >> fac_id >> tmpatt;
  personality.aggression = agg;
  personality.bravery = bra;
@@ -962,8 +964,8 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
 void npc::spawn_at(overmap *o, int x, int y)
 {
 // First, specify that we are in this overmap!
- omx = o->posx;
- omy = o->posy;
+ omx = o->pos().x;
+ omy = o->pos().y;
  mapx = x;
  mapy = y;
  if (x == -1 || y == -1) {

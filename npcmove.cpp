@@ -1967,7 +1967,7 @@ void npc::set_destination(game *g)
 
  // all of the following luxuries are at ground level.
  // so please wallow in hunger & fear if below ground.
- if(g->cur_om.posz != 0){
+ if(g->levz != 0){
   goalx = -1;
   goaly = -1;
   return;
@@ -2006,6 +2006,7 @@ void npc::set_destination(game *g)
  point p = g->cur_om.find_closest(point(mapx, mapy),dest_type,4, dist, false);
  goalx = p.x;
  goaly = p.y;
+ goalz = g->levz;
 }
 
 void npc::go_to_destination(game *g)

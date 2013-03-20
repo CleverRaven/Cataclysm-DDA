@@ -2927,33 +2927,33 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
  return ret;
 }
 
-void map::save(overmap *om, unsigned const int turn, const int x, const int y)
+void map::save(overmap *om, unsigned const int turn, const int x, const int y, const int z)
 {
  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
   for (int gridy = 0; gridy < my_MAPSIZE; gridy++)
-   saven(om, turn, x, y, gridx, gridy);
+   saven(om, turn, x, y, z, gridx, gridy);
  }
 }
 
-void map::load(game *g, const int wx, const int wy, const bool update_vehicle)
+void map::load(game *g, const int wx, const int wy, const int wz, const bool update_vehicle)
 {
  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
   for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-   if (!loadn(g, wx, wy, gridx, gridy, update_vehicle))
-    loadn(g, wx, wy, gridx, gridy, update_vehicle);
+   if (!loadn(g, wx, wy, wz, gridx, gridy, update_vehicle))
+    loadn(g, wx, wy, wz, gridx, gridy, update_vehicle);
   }
  }
 }
 
-void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
+void map::shift(game *g, const int wx, const int wy, const int wz, const int sx, const int sy)
 {
 // Special case of 0-shift; refresh the map
  if (sx == 0 && sy == 0) {
   return; // Skip this?
   for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
    for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-    if (!loadn(g, wx+sx, wy+sy, gridx, gridy))
-     loadn(g, wx+sx, wy+sy, gridx, gridy);
+    if (!loadn(g, wx+sx, wy+sy, wz, gridx, gridy))
+     loadn(g, wx+sx, wy+sy, wz, gridx, gridy);
    }
   }
   return;
@@ -2984,8 +2984,8 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
       copy_grid(gridx + gridy * my_MAPSIZE,
                 gridx + sx + (gridy + sy) * my_MAPSIZE);
       update_vehicle_list(gridx + gridy * my_MAPSIZE);
-     } else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
-      loadn(g, wx + sx, wy + sy, gridx, gridy);
+     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
+      loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
     }
    } else { // sy < 0; work through it backwards
     for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
@@ -2998,8 +2998,8 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
       copy_grid(gridx + gridy * my_MAPSIZE,
                 gridx + sx + (gridy + sy) * my_MAPSIZE);
       update_vehicle_list(gridx + gridy * my_MAPSIZE);
-     } else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
-      loadn(g, wx + sx, wy + sy, gridx, gridy);
+     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
+      loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
     }
    }
   }
@@ -3016,8 +3016,8 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
       copy_grid(gridx + gridy * my_MAPSIZE,
                 gridx + sx + (gridy + sy) * my_MAPSIZE);
       update_vehicle_list(gridx + gridy * my_MAPSIZE);
-     } else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
-      loadn(g, wx + sx, wy + sy, gridx, gridy);
+     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
+      loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
     }
    } else { // sy < 0; work through it backwards
     for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
@@ -3030,8 +3030,8 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
       copy_grid(gridx + gridy * my_MAPSIZE,
                 gridx + sx + (gridy + sy) * my_MAPSIZE);
       update_vehicle_list(gridx + gridy * my_MAPSIZE);
-     } else if (!loadn(g, wx + sx, wy + sy, gridx, gridy))
-      loadn(g, wx + sx, wy + sy, gridx, gridy);
+     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
+      loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
     }
    }
   }
@@ -3045,7 +3045,7 @@ void map::shift(game *g, const int wx, const int wy, const int sx, const int sy)
 // 0,0 1,0 2,0
 // 0,1 1,1 2,1
 // 0,2 1,2 2,2
-void map::saven(overmap *om, unsigned const int turn, const int worldx, const int worldy,
+void map::saven(overmap *om, unsigned const int turn, const int worldx, const int worldy, const int worldz,
                 const int gridx, const int gridy)
 {
  dbg(D_INFO) << "map::saven(om[" << (void*)om << "], turn[" << turn <<"], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
@@ -3059,12 +3059,12 @@ void map::saven(overmap *om, unsigned const int turn, const int worldx, const in
   dbg(D_ERROR) << "map::saven grid NULL!";
   return;
  }
- const int abs_x = om->posx * OMAPX * 2 + worldx + gridx,
-           abs_y = om->posy * OMAPY * 2 + worldy + gridy;
+ const int abs_x = om->pos().x * OMAPX * 2 + worldx + gridx,
+           abs_y = om->pos().y * OMAPY * 2 + worldy + gridy;
 
  dbg(D_INFO) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y;
 
- MAPBUFFER.add_submap(abs_x, abs_y, om->posz, grid[n]);
+ MAPBUFFER.add_submap(abs_x, abs_y, worldz, grid[n]);
 }
 
 // worldx & worldy specify where in the world this is;
@@ -3072,19 +3072,19 @@ void map::saven(overmap *om, unsigned const int turn, const int worldx, const in
 // 0,0  1,0  2,0
 // 0,1  1,1  2,1
 // 0,2  1,2  2,2 etc
-bool map::loadn(game *g, const int worldx, const int worldy, const int gridx, const int gridy,
+bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, const int gridx, const int gridy,
                 const bool update_vehicles)
 {
  dbg(D_INFO) << "map::loadn(game[" << g << "], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
 
- const int absx = g->cur_om.posx * OMAPX * 2 + worldx + gridx,
-           absy = g->cur_om.posy * OMAPY * 2 + worldy + gridy,
+ const int absx = g->cur_om.pos().x * OMAPX * 2 + worldx + gridx,
+           absy = g->cur_om.pos().y * OMAPY * 2 + worldy + gridy,
            gridn = gridx + gridy * my_MAPSIZE;
 
  dbg(D_INFO) << "map::loadn absx: " << absx << "  absy: " << absy
             << "  gridn: " << gridn;
 
- submap *tmpsub = MAPBUFFER.lookup_submap(absx, absy, g->cur_om.posz);
+ submap *tmpsub = MAPBUFFER.lookup_submap(absx, absy, worldz);
  if (tmpsub) {
   grid[gridn] = tmpsub;
 
@@ -3130,7 +3130,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int gridx, co
    newmapx = worldx + gridx;
   if (worldy + gridy < 0)
    newmapy = worldy + gridy;
-  tmp_map.generate(g, this_om, newmapx, newmapy, int(g->turn));
+  tmp_map.generate(g, this_om, newmapx, newmapy, worldz, int(g->turn));
   return false;
  }
  return true;
