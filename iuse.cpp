@@ -1904,7 +1904,7 @@ void iuse::flashbang_act(game *g, player *p, item *it, bool t)
 
 void iuse::c4(game *g, player *p, item *it, bool t)
 {
- int time = query_int(this->VIEWX, this->VIEWY, "Set the timer to (0 to cancel)?");
+ int time = query_int(g->VIEWX, g->VIEWY, "Set the timer to (0 to cancel)?");
  if (time == 0) {
   g->add_msg_if_player(p,"Never mind.");
   return;
