@@ -61,6 +61,7 @@ class iuse
   void radio_on		(game *g, player *p, item *it, bool t);
   void roadmap (game *g, player *p, item *it, bool t);
   void roadmap_a_target (game *g, player *p, item *it, bool t, int target);
+  void roadmap_targets(game *g, player *p, item *it, bool t, int target, int target_range, int distance, int reveal_distance);
   void picklock         (game *g, player *p, item *it, bool t);
   void crowbar		(game *g, player *p, item *it, bool t);
   void makemound	(game *g, player *p, item *it, bool t);

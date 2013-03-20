@@ -3607,7 +3607,7 @@ This radio is turned on, and continually draining its batteries. It is\n\
 playing the broadcast being sent from any nearby radio towers.");
 
 TOOL("road map", 40, 10, ';', c_yellow, MNULL, MNULL,
-     1, 0, 0, 0, -1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::roadmap, 0, "\
+     1, 0, 0, 0, -1, 1, 1, 0, 0, AT_NULL, itm_null, &iuse::roadmap, 0, "\
 A road map. Use it to read points of interest, including, but not\n\
 limited to, location(s) of hospital(s) nearby.");
 
