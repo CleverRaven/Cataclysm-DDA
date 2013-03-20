@@ -876,23 +876,23 @@ void overmap::draw(WINDOW *w, game *g, int &cursx, int &cursy,
   long ter_sym;
 /* First, determine if we're close enough to the edge to need to load an
  * adjacent overmap, and load it/them. */
-  if (cursx < om_map_height / 2) {
+  if (cursx < om_map_width / 2) {
    hori = overmap(g, posx - 1, posy, posz);
-   if (cursy < om_map_width / 2)
+   if (cursy < om_map_height / 2)
     diag = overmap(g, posx - 1, posy - 1, posz);
    if (cursy > OMAPY - 2 - (om_map_width / 2))
     diag = overmap(g, posx - 1, posy + 1, posz);
   }
-  if (cursx > OMAPX - 2 - (om_map_height / 2)) {
+  if (cursx > OMAPX - 2 - (om_map_width / 2)) {
    hori = overmap(g, posx + 1, posy, posz);
-   if (cursy < om_map_width / 2)
+   if (cursy < om_map_height / 2)
     diag = overmap(g, posx + 1, posy - 1, posz);
-   if (cursy > OMAPY - 2 - (om_map_width / 2))
+   if (cursy > OMAPY - 2 - (om_map_height / 2))
     diag = overmap(g, posx + 1, posy + 1, posz);
   }
-  if (cursy < (om_map_width / 2))
+  if (cursy < (om_map_height / 2))
    vert = overmap(g, posx, posy - 1, posz);
-  if (cursy > OMAPY - 2 - (om_map_width / 2))
+  if (cursy > OMAPY - 2 - (om_map_height / 2))
    vert = overmap(g, posx, posy + 1, posz);
 
 // Now actually draw the map
