@@ -129,8 +129,6 @@ overmap::overmap()
 // debugmsg("Warning - null overmap!");
  if (num_ter_types > 256 - 32)
   debugmsg("More than 256 - 32 oterid!  Saving won't work!");
-
- init_layers();
 }
 
 overmap::overmap(game *g, int x, int y)
@@ -178,7 +176,7 @@ overmap& overmap::operator=(overmap const& o)
 	radios = o.radios;
 	npcs = o.npcs;
 
-        layer = new map_layer[OVERMAP_LAYERS];
+ layer = new map_layer[OVERMAP_LAYERS];
 	for(int z = 0; z < OVERMAP_LAYERS; ++z) {
 		for(int i = 0; i < OMAPX; ++i) {
 			for(int j = 0; j < OMAPY; ++j) {
@@ -934,23 +932,23 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
   long ter_sym;
 /* First, determine if we're close enough to the edge to need to load an
  * adjacent overmap, and load it/them. */
-  if (cursx < om_map_height / 2) {
+  if (cursx < om_map_width / 2) {
    hori = overmap(g, loc.x - 1, loc.y);
-   if (cursy < om_map_width / 2)
+   if (cursy < om_map_height / 2)
     diag = overmap(g, loc.x - 1, loc.y - 1);
-   if (cursy > OMAPY - 2 - (om_map_width / 2))
+   if (cursy > OMAPY - 2 - (om_map_height / 2))
     diag = overmap(g, loc.x - 1, loc.y + 1);
   }
-  if (cursx > OMAPX - 2 - (om_map_height / 2)) {
+  if (cursx > OMAPX - 2 - (om_map_width / 2)) {
    hori = overmap(g, loc.x + 1, loc.y);
-   if (cursy < om_map_width / 2)
+   if (cursy < om_map_height / 2)
     diag = overmap(g, loc.x + 1, loc.y - 1);
-   if (cursy > OMAPY - 2 - (om_map_width / 2))
+   if (cursy > OMAPY - 2 - (om_map_height / 2))
     diag = overmap(g, loc.x + 1, loc.y + 1);
   }
-  if (cursy < (om_map_width / 2))
+  if (cursy < (om_map_height / 2))
    vert = overmap(g, loc.x, loc.y - 1);
-  if (cursy > OMAPY - 2 - (om_map_width / 2))
+  if (cursy > OMAPY - 2 - (om_map_height / 2))
    vert = overmap(g, loc.x, loc.y + 1);
 
 // Now actually draw the map
