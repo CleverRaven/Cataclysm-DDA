@@ -431,10 +431,20 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
     }
    }
   }
-  // TODO Balance bionics
-  // Bionic "Internal Climate Control" says it is effective from 0F to 140F, these are the corresponding bodytemp values
-  if (has_bionic(bio_climate) && g->temperature > 0 && g->temperature < 140)
-   temp_conv = (9*BODYTEMP_NORM + temp_conv)/10; // Bionic "eases" the effects
+  // Weather
+  if (g->weather == WEATHER_SUNNY && !g->m.is_indoor(posx, posy)) temp_conv += 1000;
+  if (g->weather == WEATHER_CLEAR && !g->m.is_indoor(posx, posy)) temp_conv += 500;
+  // BIONICS
+  // Bionic "Internal Climate Control" says it eases the effects of high and low ambient temps
+  const int variation = BODYTEMP_NORM*0.5;
+  if (has_bionic(bio_climate) && temp_conv < BODYTEMP_SCORCHING + variation && temp_conv > BODYTEMP_FREEZING - variation){
+   if      (temp_conv > BODYTEMP_SCORCHING) temp_conv = BODYTEMP_VERY_HOT;
+   else if (temp_conv > BODYTEMP_VERY_HOT)  temp_conv = BODYTEMP_HOT;
+   else if (temp_conv > BODYTEMP_HOT)       temp_conv = BODYTEMP_NORM;
+   else if (temp_conv < BODYTEMP_FREEZING)  temp_conv = BODYTEMP_VERY_COLD;
+   else if (temp_conv < BODYTEMP_VERY_COLD) temp_conv = BODYTEMP_COLD;
+   else if (temp_conv < BODYTEMP_COLD)      temp_conv = BODYTEMP_NORM;
+   }
   // Bionic "Thermal Dissapation" says it prevents fire damage up to 2000F. 500 is picked at random...
   if (has_bionic(bio_heatsink) && blister_count < 500)
    blister_count = 0;
@@ -2305,6 +2315,10 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  if (dam <= 0)
   return;
 
+ hit_animation(this->posx - g->u.posx + g->VIEWX - g->u.view_offset_x,
+               this->posy - g->u.posy + g->VIEWY - g->u.view_offset_y,
+               red_background(this->color()), '@');
+
  rem_disease(DI_SPEED_BOOST);
  if (dam >= 6)
   rem_disease(DI_ARMOR_BOOST);
@@ -3894,6 +3908,29 @@ bool player::has_matching_liquid(int it)
     }
   }
  }
+ if (weapon.is_container() && !weapon.contents.empty()) {
+  if (weapon.contents[0].type->id == it) { // liquid matches
+    it_container* container = dynamic_cast<it_container*>(weapon.type);
+    int holding_container_charges;
+
+    if (weapon.contents[0].type->is_food()) {
+      it_comest* tmp_comest = dynamic_cast<it_comest*>(weapon.contents[0].type);
+
+      if (tmp_comest->add == ADD_ALCOHOL) // 1 contains = 20 alcohol charges
+        holding_container_charges = container->contains * 20;
+      else
+        holding_container_charges = container->contains;
+    }
+    else if (weapon.contents[0].type->is_ammo())
+      holding_container_charges = container->contains * 200;
+    else
+      holding_container_charges = container->contains;
+
+  if (weapon.contents[0].charges < holding_container_charges)
+    return true;
+  }
+}
+
  return false;
 }
 
@@ -4044,7 +4081,7 @@ bool player::eat(game *g, int index)
   last_item = itype_id(eaten->type->id);
 
   if (overeating && !is_npc() &&
-      !query_yn("You're full.  Force yourself to eat?"))
+      !query_yn(g->VIEWX, g->VIEWY, "You're full.  Force yourself to eat?"))
    return false;
 
   if (has_trait(PF_CARNIVORE) && eaten->made_of(VEGGY) && comest->nutr > 0) {
@@ -4055,18 +4092,18 @@ bool player::eat(game *g, int index)
    return false;
   }
   if (!has_trait(PF_CANNIBAL) && eaten->made_of(HFLESH)&& !is_npc() &&
-      !query_yn("The thought of eating that makes you feel sick. Really do it?"))
+      !query_yn(g->VIEWX, g->VIEWY, "The thought of eating that makes you feel sick. Really do it?"))
    return false;
 
   if (has_trait(PF_VEGETARIAN) && eaten->made_of(FLESH) && !is_npc() &&
-      !query_yn("Really eat that meat? Your stomach won't be happy."))
+      !query_yn(g->VIEWX, g->VIEWY, "Really eat that meat? Your stomach won't be happy."))
    return false;
 
   if (spoiled) {
    if (is_npc())
     return false;
    if (!has_trait(PF_SAPROVORE) &&
-       !query_yn("This %s smells awful!  Eat it?", eaten->tname(g).c_str()))
+       !query_yn(g->VIEWX, g->VIEWY, "This %s smells awful!  Eat it?", eaten->tname(g).c_str()))
     return false;
    g->add_msg("Ick, this %s doesn't taste so good...",eaten->tname(g).c_str());
    if (!has_trait(PF_SAPROVORE) && (!has_bionic(bio_digestion) || one_in(3)))
@@ -4244,7 +4281,7 @@ bool player::wield(game *g, int index)
    recoil = 0;
    if (!pickstyle)
     return true;
-  } else if (query_yn("No space in inventory for your %s.  Drop it?",
+  } else if (query_yn(g->VIEWX, g->VIEWY, "No space in inventory for your %s.  Drop it?",
                       weapon.tname(g).c_str())) {
    g->m.add_item(posx, posy, remove_weapon());
    recoil = 0;
@@ -4294,7 +4331,7 @@ bool player::wield(game *g, int index)
   }
   last_item = itype_id(weapon.type->id);
   return true;
- } else if (query_yn("No space in inventory for your %s.  Drop it?",
+ } else if (query_yn(g->VIEWX, g->VIEWY, "No space in inventory for your %s.  Drop it?",
                      weapon.tname(g).c_str())) {
   g->m.add_item(posx, posy, remove_weapon());
   weapon = inv[index];
@@ -4464,7 +4501,7 @@ bool player::takeoff(game *g, char let)
      worn.erase(worn.begin() + i);
      inv_sorted = false;
      return true;
-    } else if (query_yn("No room in inventory for your %s.  Drop it?",
+    } else if (query_yn(g->VIEWX, g->VIEWY, "No room in inventory for your %s.  Drop it?",
                         worn[i].tname(g).c_str())) {
      g->m.add_item(posx, posy, worn[i]);
      worn.erase(worn.begin() + i);
@@ -4754,7 +4791,7 @@ int time; //Declare this here so that we can change the time depending on whats 
   g->add_msg("What's the point of reading?  (Your morale is too low!)");
   return;
  } else if (skillLevel(tmp->type) >= tmp->level && tmp->fun <= 0 &&
-            !query_yn("Your %s skill won't be improved.  Read anyway?",
+            !query_yn(g->VIEWX, g->VIEWY, "Your %s skill won't be improved.  Read anyway?",
                       tmp->type->name().c_str()))
   return;
 
@@ -5135,10 +5172,10 @@ void player::practice (std::string s, int amount) {
   practice(aSkill, amount);
 }
 
-void player::assign_activity(activity_type type, int moves, int index)
+void player::assign_activity(game* g, activity_type type, int moves, int index)
 {
  if (backlog.type == type && backlog.index == index &&
-     query_yn("Resume task?")) {
+     query_yn(g->VIEWX, g->VIEWY, "Resume task?")) {
   activity = backlog;
   backlog = player_activity();
  } else

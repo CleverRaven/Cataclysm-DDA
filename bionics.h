@@ -110,10 +110,9 @@ slowly draining your energy reserves but providing oxygen."},
 {"Air Filtration System", false, false, 1, 0, "\
 Implanted in your trachea is an advanced filtration system.  If toxins find\n\
 their way into your windpipe, the filter will attempt to remove them."},
-{"Internal Climate Control", false, false, 0, 0, "\
+{"Internal Climate Control", false, true, 1, 30, "\
 Throughout your body lies a network of thermal piping which eases the effects\n\
-of high and low ambient temperatures.  It has an operating range of 0 to 140\n\
-degrees Fahrenheit."},
+of high and low ambient temperatures."},
 {"Internal Storage", false, false, 0, 0, "\
 Space inside your chest cavity has been converted into a storage area.  You\n\
 may carry an extra 8 units of volume."},

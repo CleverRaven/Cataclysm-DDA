@@ -318,7 +318,7 @@ void realDebugmsg(const char* filename, const char* line, const char *mes, ...)
  attroff(c_red);
 }
 
-bool query_yn(const char *mes, ...)
+bool query_yn(int iViewX, int iViewY, const char *mes, ...)
 {
  bool force_uc = OPTIONS[OPT_FORCE_YN];
  va_list ap;
@@ -327,7 +327,12 @@ bool query_yn(const char *mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  int win_width = strlen(buff) + 26;
- WINDOW* w = newwin(3, win_width, 11, 0);
+
+ int iMaxX = (iViewX < 12) ? 80 : (iViewX*2)+56;
+ int iMaxY = (iViewY < 12) ? 25 : (iViewY*2)+1;
+
+ WINDOW *w = newwin(3, win_width, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > win_width) ? (iMaxX-win_width)/2 : 0);
+
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w, 1, 1, c_ltred, "%s (%s)", buff,
@@ -916,4 +921,24 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
   mvwputch(w, 2, iOffsetX,      c_ltgray, LINE_XXOX); // _|_
   mvwputch(w, 2, iOffsetXRight, c_ltgray, LINE_XXOX); // _|_
  }
+}
+
+void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
+{
+    WINDOW *w_hit = newwin(1, 1, iY, iX);
+    mvwputch(w_hit, 0, 0, cColor, cTile);
+    wrefresh(w_hit);
+
+    if (iTimeout <= 0 || iTimeout > 999) {
+        iTimeout = 70;
+    }
+
+    timeout(iTimeout);
+    getch(); //useing this, because holding down a key with nanosleep can get yourself killed
+    timeout(-1);
+
+    /*timespec ts;
+    ts.tv_sec = 0;
+    ts.tv_nsec = iTimeout * 1000 * 1000; //100ms
+    nanosleep(&ts, NULL);*/
 }

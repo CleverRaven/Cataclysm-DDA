@@ -660,40 +660,40 @@ void game::cancel_activity_query(const char* message, ...)
    doit = false;
    break;
   case ACT_READ:
-   if (query_yn("%s Stop reading?", s.c_str()))
+   if (query_yn(this->VIEWX, this->VIEWY, "%s Stop reading?", s.c_str()))
     doit = true;
    break;
   case ACT_RELOAD:
-   if (query_yn("%s Stop reloading?", s.c_str()))
+   if (query_yn(this->VIEWX, this->VIEWY, "%s Stop reloading?", s.c_str()))
     doit = true;
    break;
   case ACT_CRAFT:
-   if (query_yn("%s Stop crafting?", s.c_str()))
+   if (query_yn(this->VIEWX, this->VIEWY, "%s Stop crafting?", s.c_str()))
     doit = true;
    break;
   case ACT_DISASSEMBLE:
-   if (query_yn("%s Stop disassembly?", s.c_str()))
+   if (query_yn(this->VIEWX, this->VIEWY, "%s Stop disassembly?", s.c_str()))
     doit = true;
    break;
   case ACT_BUTCHER:
-   if (query_yn("%s Stop butchering?", s.c_str()))
+   if (query_yn(this->VIEWX, this->VIEWY, "%s Stop butchering?", s.c_str()))
     doit = true;
    break;
   case ACT_FORAGE:
-   if (query_yn("%s Stop foraging?", s.c_str()))
+   if (query_yn(this->VIEWX, this->VIEWY, "%s Stop foraging?", s.c_str()))
     doit = true;
    break;
   case ACT_BUILD:
   case ACT_VEHICLE:
-   if (query_yn("%s Stop construction?", s.c_str()))
+   if (query_yn(this->VIEWX, this->VIEWY, "%s Stop construction?", s.c_str()))
     doit = true;
    break;
   case ACT_REFILL_VEHICLE:
-   if (query_yn("%s Stop pumping gas?", s.c_str()))
+   if (query_yn(this->VIEWX, this->VIEWY, "%s Stop pumping gas?", s.c_str()))
     doit = true;
    break;
   case ACT_TRAIN:
-   if (query_yn("%s Stop training?", s.c_str()))
+   if (query_yn(this->VIEWX, this->VIEWY, "%s Stop training?", s.c_str()))
     doit = true;
    break;
   default:
@@ -726,8 +726,13 @@ void game::update_weather()
  int choice = rng(0, total - 1);
  weather_type old_weather = weather;
  weather_type new_weather = WEATHER_CLEAR;
- while (choice >= chances[new_weather]) {
-  choice -= chances[new_weather];
+
+ if (total > 0) {
+  while (choice >= chances[new_weather]) {
+   choice -= chances[new_weather];
+   new_weather = weather_type(int(new_weather) + 1);
+  }
+ } else {
   new_weather = weather_type(int(new_weather) + 1);
  }
 // Advance the weather timer
@@ -1338,7 +1343,7 @@ bool game::handle_action()
     std::string message = veh->use_controls();
     if (!message.empty())
      add_msg(message.c_str());
-   } else if (query_yn("Are you sure you want to sleep?")) {
+   } else if (query_yn(this->VIEWX, this->VIEWY, "Are you sure you want to sleep?")) {
     u.try_to_sleep(this);
     u.moves = 0;
    }
@@ -1378,7 +1383,7 @@ bool game::handle_action()
 
   case ACTION_SAVE:
   if (!u.in_vehicle) {
-   if (query_yn("Save and quit?")) {
+   if (query_yn(this->VIEWX, this->VIEWY, "Save and quit?")) {
     save();
     u.moves = 0;
     uquit = QUIT_SAVED;
@@ -1389,7 +1394,7 @@ bool game::handle_action()
   add_msg("Saving in vehicles is buggy, stop and get out of the vehicle first");
  } break;
   case ACTION_QUIT:
-   if (query_yn("Commit suicide?")) {
+   if (query_yn(this->VIEWX, this->VIEWY, "Commit suicide?")) {
     u.moves = 0;
     std::vector<item> tmp = u.inv_dump();
     item your_body;
@@ -4274,6 +4279,16 @@ static void open_gate( game *g, const int examx, const int examy, const enum ter
   close_message = "The barn doors closed!";
   break;
 
+ case t_palisade_pulley:
+  v_wall_type = t_palisade;
+  h_wall_type = t_palisade;
+  door_type   = t_palisade_gate;
+  floor_type  = t_dirt;
+  pull_message = "You pull the rope...";
+  open_message = "The gate!";
+  close_message = "The barn doors closed!";
+  break;
+
   default: return; // No matching gate type
  }
 
@@ -4394,8 +4409,8 @@ void game::examine()
   int vpart;
   vehicle *veh = m.veh_at(u.posx, u.posy, vpart);
   bool qexv = (veh && (veh->velocity != 0 ?
-                       query_yn("Really exit moving vehicle?") :
-                       query_yn("Exit vehicle?")));
+                       query_yn(this->VIEWX, this->VIEWY, "Really exit moving vehicle?") :
+                       query_yn(this->VIEWX, this->VIEWY, "Exit vehicle?")));
   if (qexv) {
    m.unboard_vehicle (this, u.posx, u.posy);
    u.moves -= 200;
@@ -4471,7 +4486,7 @@ void game::examine()
      m.ter(examx, examy) == t_card_military  ) {
   itype_id card_type = (m.ter(examx, examy) == t_card_science ? itm_id_science :
                                                                itm_id_military);
-  if (u.has_amount(card_type, 1) && query_yn("Swipe your ID card?")) {
+  if (u.has_amount(card_type, 1) && query_yn(this->VIEWX, this->VIEWY, "Swipe your ID card?")) {
    u.moves -= 100;
    for (int i = -3; i <= 3; i++) {
     for (int j = -3; j <= 3; j++) {
@@ -4490,10 +4505,10 @@ void game::examine()
    u.use_amount(card_type, 1);
   } else {
    bool using_electrohack = (u.has_amount(itm_electrohack, 1) &&
-                             query_yn("Use electrohack on the reader?"));
+                             query_yn(this->VIEWX, this->VIEWY, "Use electrohack on the reader?"));
    bool using_fingerhack = (!using_electrohack && u.has_bionic(bio_fingerhack) &&
                             u.power_level > 0 &&
-                            query_yn("Use fingerhack on the reader?"));
+                            query_yn(this->VIEWX, this->VIEWY, "Use fingerhack on the reader?"));
    if (using_electrohack || using_fingerhack) {
     u.moves -= 500;
     u.practice("computer", 20);
@@ -4533,7 +4548,7 @@ void game::examine()
    }
   }
  } else if (m.ter(examx, examy) == t_elevator_control &&
-            query_yn("Activate elevator?")) {
+            query_yn(this->VIEWX, this->VIEWY, "Activate elevator?")) {
   int movez = (levz < 0 ? 2 : -2);
   levz += movez;
   cur_om.save(u.name);
@@ -4553,27 +4568,21 @@ void game::examine()
   }
   refresh_all();
 }
- else if (m.ter(examx, examy) == t_gates_mech_control && query_yn("Use this winch?"))
+ else if (m.ter(examx, examy) == t_gates_mech_control && query_yn(this->VIEWX, this->VIEWY, "Use this winch?"))
  {
    open_gate( this, examx, examy, t_gates_mech_control );
-/* } else if (m.ter(examx, examy) == t_dirt || m.ter(examx, examy) == t_grass) {
-    m.ter(examx, examy) = t_wall_wood;
-    m.ter(examx, examy) = t_shrub;
-    m.ter(examx, examy) = t_underbrush;
-    m.ter(examx, examy) = t_wall_v;
-    m.ter(examx, examy) = t_wall_h;
-    m.ter(examx, examy) = t_water_dp;
-*/
-//Debug for testing things
  }
-
- else if (m.ter(examx, examy) == t_barndoor && query_yn("Pull the rope?"))
+ else if (m.ter(examx, examy) == t_barndoor && query_yn(this->VIEWX, this->VIEWY, "Pull the rope?"))
  {
    open_gate( this, examx, examy, t_barndoor );
  }
+ else if (m.ter(examx, examy) == t_palisade_pulley && query_yn(this->VIEWX, this->VIEWY, "Pull the rope?"))
+ {
+   open_gate( this, examx, examy, t_palisade_pulley );
+ }
 
  else if (m.ter(examx, examy) == t_rubble && u.has_amount(itm_shovel, 1)) {
-  if (query_yn("Clear up that rubble?")) {
+  if (query_yn(this->VIEWX, this->VIEWY, "Clear up that rubble?")) {
   if (levz == -1) {
    u.moves -= 200;
    m.ter(examx, examy) = t_rock_floor;
@@ -4592,7 +4601,7 @@ void game::examine()
    add_msg("You need a shovel to do that!");
   }
  } else if (m.ter(examx, examy) == t_ash && u.has_amount(itm_shovel, 1)) {
-  if (query_yn("Clear up that rubble?")) {
+  if (query_yn(this->VIEWX, this->VIEWY, "Clear up that rubble?")) {
   if (levz == -1) {
    u.moves -= 200;
    m.ter(examx, examy) = t_rock_floor;
@@ -4604,8 +4613,8 @@ void game::examine()
  }} else {
    add_msg("You need a shovel to do that!");
   }
- } else if (m.ter(examx, examy) == t_chainfence_v && query_yn("Climb fence?") ||
-            m.ter(examx, examy) == t_chainfence_h && query_yn("Climb fence?")) {
+ } else if (m.ter(examx, examy) == t_chainfence_v && query_yn(this->VIEWX, this->VIEWY, "Climb fence?") ||
+            m.ter(examx, examy) == t_chainfence_h && query_yn(this->VIEWX, this->VIEWY, "Climb fence?")) {
    u.moves -= 400;
   if (one_in(u.dex_cur)) {
    add_msg("You slip whilst climbing and fall down again");
@@ -4614,7 +4623,7 @@ void game::examine()
    u.posx = examx;
    u.posy = examy;
   }
- } else if (m.ter(examx, examy) == t_groundsheet && query_yn("Take down tent?")) {
+ } else if (m.ter(examx, examy) == t_groundsheet && query_yn(this->VIEWX, this->VIEWY, "Take down tent?")) {
    u.moves -= 200;
    m.ter(examx    , examy    ) = t_dirt;
    m.ter(examx - 1, examy - 1) = t_dirt;
@@ -4629,7 +4638,7 @@ void game::examine()
   item tent(itypes[itm_tent_kit], turn);
   m.add_item(examx, examy, tent);
  } else if (m.ter(examx, examy) == t_wreckage && u.has_amount(itm_shovel, 1)) {
-  if (query_yn("Clear up that wreckage?")) {
+  if (query_yn(this->VIEWX, this->VIEWY, "Clear up that wreckage?")) {
    u.moves -= 200;
    m.ter(examx, examy) = t_dirt;
    item chunk(itypes[itm_steel_chunk], turn);
@@ -4646,7 +4655,7 @@ void game::examine()
    add_msg("You need a shovel to do that!");
   }
  } else if (m.ter(examx, examy) == t_metal && u.has_amount(itm_shovel, 1)) {
-  if (query_yn("Clear up that wreckage?")) {
+  if (query_yn(this->VIEWX, this->VIEWY, "Clear up that wreckage?")) {
    u.moves -= 200;
    m.ter(examx, examy) = t_floor;
    item chunk(itypes[itm_steel_chunk], turn);
@@ -4661,7 +4670,7 @@ void game::examine()
    add_msg("You need a shovel to do that!");
   }
  } else if (m.ter(examx, examy) == t_pit && u.has_amount(itm_2x4, 1)) {
-  if (query_yn("Place a plank over the pit?")) {
+  if (query_yn(this->VIEWX, this->VIEWY, "Place a plank over the pit?")) {
    u.use_amount(itm_2x4, 1);
    m.ter(examx, examy) = t_pit_covered;
    add_msg("You place a plank of wood over the pit");
@@ -4669,24 +4678,24 @@ void game::examine()
    add_msg("You need a plank of wood to do that");
   }
  } else if (m.ter(examx, examy) == t_pit_spiked && u.has_amount(itm_2x4, 1)) {
-  if (query_yn("Place a plank over the pit?")) {
+  if (query_yn(this->VIEWX, this->VIEWY, "Place a plank over the pit?")) {
    u.use_amount(itm_2x4, 1);
    m.ter(examx, examy) = t_pit_spiked_covered;
    add_msg("You place a plank of wood over the pit");
  } else {
    add_msg("You need a plank of wood to do that");
   }
- } else if (m.ter(examx, examy) == t_pit_covered && query_yn("Remove that plank?")) {
+ } else if (m.ter(examx, examy) == t_pit_covered && query_yn(this->VIEWX, this->VIEWY, "Remove that plank?")) {
     item plank(itypes[itm_2x4], turn);
     add_msg("You remove the plank.");
      m.add_item(u.posx, u.posy, plank);
      m.ter(examx, examy) = t_pit;
- } else if (m.ter(examx, examy) == t_pit_spiked_covered && query_yn("Remove that plank?")) {
+ } else if (m.ter(examx, examy) == t_pit_spiked_covered && query_yn(this->VIEWX, this->VIEWY, "Remove that plank?")) {
     item plank(itypes[itm_2x4], turn);
     add_msg("You remove the plank.");
      m.add_item(u.posx, u.posy, plank);
      m.ter(examx, examy) = t_pit_spiked;
- } else if (m.ter(examx, examy) == t_gas_pump && query_yn("Pump gas?")) {
+ } else if (m.ter(examx, examy) == t_gas_pump && query_yn(this->VIEWX, this->VIEWY, "Pump gas?")) {
   item gas(itypes[itm_gasoline], turn);
   if (one_in(10 + u.dex_cur)) {
    add_msg("You accidentally spill the gasoline.");
@@ -4699,7 +4708,7 @@ void game::examine()
     add_msg("With a clang and a shudder, the gas pump goes silent.");
     m.ter(examx, examy) = t_gas_pump_empty;
   }
- } else if (m.ter(examx, examy) == t_fence_post && query_yn("Make Fence?")) {
+ } else if (m.ter(examx, examy) == t_fence_post && query_yn(this->VIEWX, this->VIEWY, "Make Fence?")) {
   int ch = menu("Fence Construction:", "Rope Fence", "Wire Fence",
                 "Barbed Wire Fence", "Cancel", NULL);
   switch (ch){
@@ -4733,20 +4742,20 @@ void game::examine()
    case 4:
    break;
   }
- } else if (m.ter(examx, examy) == t_fence_rope && query_yn("Remove fence material?")) {
+ } else if (m.ter(examx, examy) == t_fence_rope && query_yn(this->VIEWX, this->VIEWY, "Remove fence material?")) {
   item rope(itypes[itm_rope_6], turn);
   m.add_item(u.posx, u.posy, rope);
   m.add_item(u.posx, u.posy, rope);
   m.ter(examx, examy) = t_fence_post;
   u.moves -= 200;
 
- } else if (m.ter(examx, examy) == t_fence_wire && query_yn("Remove fence material?")) {
+ } else if (m.ter(examx, examy) == t_fence_wire && query_yn(this->VIEWX, this->VIEWY, "Remove fence material?")) {
   item rope(itypes[itm_wire], turn);
   m.add_item(u.posx, u.posy, rope);
   m.add_item(u.posx, u.posy, rope);
   m.ter(examx, examy) = t_fence_post;
   u.moves -= 200;
- } else if (m.ter(examx, examy) == t_fence_barbed && query_yn("Remove fence material?")) {
+ } else if (m.ter(examx, examy) == t_fence_barbed && query_yn(this->VIEWX, this->VIEWY, "Remove fence material?")) {
   item rope(itypes[itm_wire_barbed], turn);
   m.add_item(u.posx, u.posy, rope);
   m.add_item(u.posx, u.posy, rope);
@@ -4756,7 +4765,7 @@ void game::examine()
  } else if (m.ter(examx, examy) == t_slot_machine) {
   if (u.cash < 10)
    add_msg("You need $10 to play.");
-  else if (query_yn("Insert $10?")) {
+  else if (query_yn(this->VIEWX, this->VIEWY, "Insert $10?")) {
    do {
     if (one_in(5))
      popup("Three cherries... you get your money back!");
@@ -4773,20 +4782,29 @@ void game::examine()
      popup("No win.");
      u.cash -= 10;
     }
-   } while (u.cash >= 10 && query_yn("Play again?"));
+   } while (u.cash >= 10 && query_yn(this->VIEWX, this->VIEWY, "Play again?"));
   }
  } else if (m.ter(examx, examy) == t_bulletin) {
-// TODO: Bulletin Boards
-  switch (menu("Bulletin Board", "Check jobs", "Check events",
-               "Check other notices", "Post notice", "Cancel", NULL)) {
-   case 1:
-    break;
-   case 2:
-    break;
-   case 3:
-    break;
-   case 4:
-    break;
+ 	basecamp *camp = m.camp_at(examx, examy);
+ 	if (camp && camp->board_x() == examx && camp->board_y() == examy) {
+ 		std::vector<std::string> options;
+ 		options.push_back("Cancel");
+ 		int choice = menu_vec(camp->board_name().c_str(), options) - 1;
+ 	}
+ 	else {
+ 		bool create_camp = m.allow_camp(examx, examy);
+ 		std::vector<std::string> options;
+ 		if (create_camp)
+ 			options.push_back("Create camp");
+ 		options.push_back("Cancel");
+ 		// TODO: Other Bulletin Boards
+ 		int choice = menu_vec("Bulletin Board", options) - 1;
+ 		if (choice >= 0 && choice < options.size()) {
+  		if (options[choice] == "Create camp") {
+  			// TODO: Allow text entry for name
+ 	 		m.add_camp("Home", examx, examy);
+ 		 }
+ 		}
   }
  } else if (m.ter(examx, examy) == t_fault) {
   popup("\
@@ -4806,7 +4824,7 @@ shape, but with long, twisted, distended limbs.");
    m.i_at(examx, examy).clear();
    add_event(EVENT_TEMPLE_OPEN, int(turn) + 4);
   } else if (u.has_amount(itm_petrified_eye, 1) &&
-             query_yn("Place your petrified eye on the pedestal?")) {
+             query_yn(this->VIEWX, this->VIEWY, "Place your petrified eye on the pedestal?")) {
    u.use_amount(itm_petrified_eye, 1);
    add_msg("The pedestal sinks into the ground...");
    m.ter(examx, examy) = t_dirt;
@@ -4816,7 +4834,7 @@ shape, but with long, twisted, distended limbs.");
  semi-spherical indentation at the top.");
  } else if (m.ter(examx, examy) >= t_switch_rg &&
             m.ter(examx, examy) <= t_switch_even &&
-            query_yn("Flip the %s?", m.tername(examx, examy).c_str())) {
+            query_yn(this->VIEWX, this->VIEWY, "Flip the %s?", m.tername(examx, examy).c_str())) {
   u.moves -= 100;
   for (int y = examy; y <= examy + 5; y++) {
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
@@ -4875,7 +4893,7 @@ shape, but with long, twisted, distended limbs.");
  }
  //-----Jovan's-----
  //flowers
- else if ((m.ter(examx, examy)==t_mutpoppy)&&(query_yn("Pick the flower?"))) {
+ else if ((m.ter(examx, examy)==t_mutpoppy)&&(query_yn(this->VIEWX, this->VIEWY, "Pick the flower?"))) {
   add_msg("This flower has a heady aroma");
   if (!(u.is_wearing(itm_mask_filter)||u.is_wearing(itm_mask_gas) ||
       one_in(3)))  {
@@ -4890,7 +4908,7 @@ shape, but with long, twisted, distended limbs.");
   m.add_item(examx, examy, this->itypes[itm_poppy_bud],0);
  }
 // apple trees
- else if ((m.ter(examx, examy)==t_tree_apple) && (query_yn("Pick apples?")))
+ else if ((m.ter(examx, examy)==t_tree_apple) && (query_yn(this->VIEWX, this->VIEWY, "Pick apples?")))
  {
   int num_apples = rng(1, u.skillLevel("survival"));
   if (num_apples >= 12)
@@ -4901,7 +4919,7 @@ shape, but with long, twisted, distended limbs.");
   m.ter(examx, examy) = t_tree;
  }
 // blueberry bushes
- else if ((m.ter(examx, examy)==t_shrub_blueberry) && (query_yn("Pick blueberries?")))
+ else if ((m.ter(examx, examy)==t_shrub_blueberry) && (query_yn(this->VIEWX, this->VIEWY, "Pick blueberries?")))
  {
   int num_blueberries = rng(1, u.skillLevel("survival"));
 
@@ -4914,15 +4932,15 @@ shape, but with long, twisted, distended limbs.");
  }
 
 // harvesting wild veggies
- else if ((m.ter(examx, examy)==t_underbrush) && (query_yn("Forage for wild vegetables?")))
+ else if ((m.ter(examx, examy)==t_underbrush) && (query_yn(this->VIEWX, this->VIEWY, "Forage for wild vegetables?")))
  {
-  u.assign_activity(ACT_FORAGE, 500 / (u.skillLevel("survival") + 1), 0);
+  u.assign_activity(this, ACT_FORAGE, 500 / (u.skillLevel("survival") + 1), 0);
   u.activity.placement = point(examx, examy);
   u.moves = 0;
  }
 
  //-----Recycling machine-----
- else if ((m.ter(examx, examy)==t_recycler)&&(query_yn("Use the recycler?"))) {
+ else if ((m.ter(examx, examy)==t_recycler)&&(query_yn(this->VIEWX, this->VIEWY, "Use the recycler?"))) {
   if (m.i_at(examx, examy).size() > 0)
   {
    sound(examx, examy, 80, "Ka-klunk!");
@@ -4956,7 +4974,7 @@ shape, but with long, twisted, distended limbs.");
  if (m.tr_at(examx, examy) != tr_null &&
       traps[m.tr_at(examx, examy)]->difficulty < 99 &&
      u.per_cur-u.encumb(bp_eyes) >= traps[m.tr_at(examx, examy)]->visibility &&
-     query_yn("There is a %s there.  Disarm?",
+     query_yn(this->VIEWX, this->VIEWY, "There is a %s there.  Disarm?",
               traps[m.tr_at(examx, examy)]->name.c_str()))
   m.disarm_trap(this, examx, examy);
 }
@@ -5386,7 +5404,7 @@ void game::pickup(int posx, int posy, int min)
   veh_part = veh->part_with_feature(veh_part, vpf_cargo, false);
   from_veh = veh && veh_part >= 0 &&
              veh->parts[veh_part].items.size() > 0 &&
-             query_yn("Get items from %s?", veh->part_info(veh_part).name);
+             query_yn(this->VIEWX, this->VIEWY, "Get items from %s?", veh->part_info(veh_part).name);
  }
 // Picking up water?
  if ((!from_veh) && m.i_at(posx, posy).size() == 0) {
@@ -5396,7 +5414,7 @@ void game::pickup(int posx, int posy, int min)
     // changed boolean, large sources should be infinite
    if (handle_liquid(water, true, true)) {
     u.moves -= 100;
-   } else if (query_yn("Drink from your hands?")) {
+   } else if (query_yn(this->VIEWX, this->VIEWY, "Drink from your hands?")) {
     u.inv.push_back(water);
     u.eat(this, u.inv.size() - 1);
     u.moves -= 350;
@@ -5432,14 +5450,14 @@ void game::pickup(int posx, int posy, int min)
    if (u.is_armed()) {
     if (!u.weapon.has_flag(IF_NO_UNWIELD)) {
      if (newit.is_armor() && // Armor can be instantly worn
-         query_yn("Put on the %s?", newit.tname(this).c_str())) {
+         query_yn(this->VIEWX, this->VIEWY, "Put on the %s?", newit.tname(this).c_str())) {
       if(u.wear_item(this, &newit)){
        if (from_veh)
         veh->remove_item (veh_part, 0);
        else
         m.i_clear(posx, posy);
       }
-     } else if (query_yn("Drop your %s and pick up %s?",
+     } else if (query_yn(this->VIEWX, this->VIEWY, "Drop your %s and pick up %s?",
                 u.weapon.tname(this).c_str(), newit.tname(this).c_str())) {
       if (from_veh)
        veh->remove_item (veh_part, 0);
@@ -5634,7 +5652,7 @@ void game::pickup(int posx, int posy, int min)
     if (u.is_armed()) {
      if (!u.weapon.has_flag(IF_NO_UNWIELD)) {
       if (here[i].is_armor() && // Armor can be instantly worn
-          query_yn("Put on the %s?", here[i].tname(this).c_str())) {
+          query_yn(this->VIEWX, this->VIEWY, "Put on the %s?", here[i].tname(this).c_str())) {
        if(u.wear_item(this, &(here[i])))
        {
         if (from_veh)
@@ -5643,7 +5661,7 @@ void game::pickup(int posx, int posy, int min)
          m.i_rem(posx, posy, curmit);
         curmit--;
        }
-      } else if (query_yn("Drop your %s and pick up %s?",
+      } else if (query_yn(this->VIEWX, this->VIEWY, "Drop your %s and pick up %s?",
                 u.weapon.tname(this).c_str(), here[i].tname(this).c_str())) {
        if (from_veh)
         veh->remove_item (veh_part, curmit);
@@ -5715,8 +5733,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
   debugmsg("Tried to handle_liquid a non-liquid!");
   return false;
  }
- if (liquid.type->id == itm_gasoline && vehicle_near() &&
-     query_yn ("Refill vehicle?")) {
+ if (liquid.type->id == itm_gasoline && vehicle_near() && query_yn(this->VIEWX, this->VIEWY, "Refill vehicle?")) {
   int vx = u.posx, vy = u.posy;
   if (pl_choose_vehicle(vx, vy)) {
    vehicle *veh = m.veh_at (vx, vy);
@@ -5728,8 +5745,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
      add_msg ("This vehicle doesn't use %s.", veh->fuel_name(ftype).c_str());
     else if (fuel_amnt == fuel_cap)
      add_msg ("Already full.");
-    else if (infinite && query_yn("Pump until full?")) {
-     u.assign_activity(ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
+    else if (infinite && query_yn(this->VIEWX, this->VIEWY, "Pump until full?")) {
+     u.assign_activity(this, ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
      u.activity.placement = point(vx, vy);
     } else { // Not infinite
      veh->refill (AT_GAS, liquid.charges);
@@ -5748,7 +5765,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
 
    // Ask to pour rotten liquid (milk!) from the get-go
   if (!from_ground && liquid.rotten(this) &&
-      query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
+      query_yn(this->VIEWX, this->VIEWY, "Pour %s on the ground?", liquid.tname(this).c_str())) {
    m.add_item(u.posx, u.posy, liquid);
    return true;
   }
@@ -5760,7 +5777,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
     // No container selected (escaped, ...), ask to pour
     // we asked to pour rotten already
    if (!from_ground && !liquid.rotten(this) &&
-       query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
+       query_yn(this->VIEWX, this->VIEWY, "Pour %s on the ground?", liquid.tname(this).c_str())) {
     m.add_item(u.posx, u.posy, liquid);
     return true;
    }
@@ -5772,7 +5789,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
     // Container is null, ask to pour.
     // we asked to pour rotten already
    if (!from_ground && !liquid.rotten(this) &&
-       query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
+       query_yn(this->VIEWX, this->VIEWY, "Pour %s on the ground?", liquid.tname(this).c_str())) {
     m.add_item(u.posx, u.posy, liquid);
     return true;
    }
@@ -5884,29 +5901,21 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
           add_msg("You pour %s into your %s.", liquid.tname(this).c_str(),
                                         cont->tname(this).c_str());
         }
-        else
+        else // Container is finite, not empty and not full, add liquid to it
         {
-        // if same inventory letter
-          if (ch == u.weapon.invlet)
+          add_msg("You pour %s into your %s.", liquid.tname(this).c_str(),
+                    cont->tname(this).c_str());
+          cont->contents[0].charges += liquid.charges;
+          if (cont->contents[0].charges > holding_container_charges)
           {
-            add_msg("Never mind.");
+            int extra = cont->contents[0].charges - holding_container_charges;
+            cont->contents[0].charges = holding_container_charges;
+            liquid.charges = extra;
+            add_msg("There's some left over!");
+            // Why not try to find another container here?
             return false;
           }
-          else
-          {
-            add_msg("You pour %s into your %s.", liquid.tname(this).c_str(),
-                      cont->tname(this).c_str());
-            cont->contents[0].charges += liquid.charges;
-            if (cont->contents[0].charges > holding_container_charges)
-            {
-              int extra = cont->contents[0].charges - holding_container_charges;
-              cont->contents[0].charges = holding_container_charges;
-              liquid.charges = extra;
-              add_msg("There's some left over!");
-              return false;
-            }
-            return true;
-          }
+          return true;
         }
       }
       else  // pouring into an empty container
@@ -6363,7 +6372,7 @@ void game::butcher()
 // vector of indices.
  for (int i = corpses.size() - 1; i >= 0; i--) {
   mtype *corpse = m.i_at(u.posx, u.posy)[corpses[i]].corpse;
-  if (query_yn("Butcher the %s corpse?", corpse->name.c_str())) {
+  if (query_yn(this->VIEWX, this->VIEWY, "Butcher the %s corpse?", corpse->name.c_str())) {
    int time_to_cut;
    switch (corpse->size) {	// Time in turns to cut up te corpse
     case MS_TINY:   time_to_cut =  2; break;
@@ -6376,7 +6385,7 @@ void game::butcher()
    time_to_cut += factor * 5;	// Penalty for poor tool
    if (time_to_cut < 250)
     time_to_cut = 250;
-   u.assign_activity(ACT_BUTCHER, time_to_cut, corpses[i]);
+   u.assign_activity(this, ACT_BUTCHER, time_to_cut, corpses[i]);
    u.moves = 0;
    return;
   }
@@ -6542,7 +6551,7 @@ void game::eat(char chInput)
 {
  char ch;
  if (u.has_trait(PF_RUMINANT) && m.ter(u.posx, u.posy) == t_underbrush &&
-     query_yn("Eat underbrush?")) {
+     query_yn(this->VIEWX, this->VIEWY, "Eat underbrush?")) {
   u.moves -= 400;
   u.hunger -= 10;
   m.ter(u.posx, u.posy) = t_grass;
@@ -6658,7 +6667,7 @@ single action.", u.weapon.tname().c_str());
    add_msg("Out of ammo!");
    return;
   }
-  u.assign_activity(ACT_RELOAD, u.weapon.reload_time(u), index);
+  u.assign_activity(this, ACT_RELOAD, u.weapon.reload_time(u), index);
   u.moves = 0;
  } else if (u.weapon.is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(u.weapon.type);
@@ -6672,7 +6681,7 @@ single action.", u.weapon.tname().c_str());
    add_msg("Out of %s!", ammo_name(tool->ammo).c_str());
    return;
   }
-  u.assign_activity(ACT_RELOAD, u.weapon.reload_time(u), index);
+  u.assign_activity(this, ACT_RELOAD, u.weapon.reload_time(u), index);
   u.moves = 0;
  } else if (!u.is_armed())
   add_msg("You're not wielding anything.");
@@ -6973,8 +6982,15 @@ void game::plmove(int x, int y)
  if (mondex != -1) {
   if (z[mondex].friendly == 0) {
    int udam = u.hit_mon(this, &z[mondex]);
+   char sMonSym = '%';
+   nc_color cMonColor = z[mondex].type->color;
    if (z[mondex].hurt(udam))
     kill_mon(mondex, true);
+   else
+    sMonSym = z[mondex].symbol();
+   hit_animation(x - u.posx + this->VIEWX - u.view_offset_x,
+                 y - u.posy + this->VIEWY - u.view_offset_y,
+                 red_background(cMonColor), sMonSym);
    return;
   } else
    displace = true;
@@ -6983,7 +6999,7 @@ void game::plmove(int x, int y)
  int npcdex = npc_at(x, y);
  if (npcdex != -1) {
   if (!active_npc[npcdex].is_enemy() &&
-      !query_yn("Really attack %s?", active_npc[npcdex].name.c_str())) {
+      !query_yn(this->VIEWX, this->VIEWY, "Really attack %s?", active_npc[npcdex].name.c_str())) {
    if (active_npc[npcdex].is_friend()) {
     add_msg("%s moves out of the way.", active_npc[npcdex].name.c_str());
     active_npc[npcdex].move_away_from(this, u.posx, u.posy);
@@ -7061,21 +7077,21 @@ void game::plmove(int x, int y)
       !veh->parts[dpart].has_flag(vehicle_part::passenger_flag);
 /*  if (veh.type != veh_null)
       add_msg ("vp=%d dp=%d can=%c", vpart, dpart, can_board? 'y' : 'n',);*/
-  if (can_board && query_yn("Board vehicle?")) { // empty vehicle's seat ahead
+  if (can_board && query_yn(this->VIEWX, this->VIEWY, "Board vehicle?")) { // empty vehicle's seat ahead
    m.board_vehicle (this, x, y, &u);
    u.moves -= 200;
    return;
   }
 
   if (m.field_at(x, y).is_dangerous() &&
-      !query_yn("Really step into that %s?", m.field_at(x, y).name().c_str()))
+      !query_yn(this->VIEWX, this->VIEWY, "Really step into that %s?", m.field_at(x, y).name().c_str()))
    return;
 
 // no need to query if stepping into 'benign' traps
 /*
   if (m.tr_at(x, y) != tr_null &&
       u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(x, y)]->visibility &&
-      !query_yn("Really step onto that %s?",traps[m.tr_at(x, y)]->name.c_str()))
+      !query_yn(this->VIEWX, this->VIEWY, "Really step onto that %s?",traps[m.tr_at(x, y)]->name.c_str()))
    return;
 */
 
@@ -7083,7 +7099,7 @@ void game::plmove(int x, int y)
       u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(x, y)]->visibility)
       {
         if (!traps[m.tr_at(x, y)]->is_benign())
-                  if (!query_yn("Really step onto that %s?",traps[m.tr_at(x, y)]->name.c_str()))
+                  if (!query_yn(this->VIEWX, this->VIEWY, "Really step onto that %s?",traps[m.tr_at(x, y)]->name.c_str()))
              return;
       }
 
@@ -7143,7 +7159,7 @@ void game::plmove(int x, int y)
 // ...except that turrets can be picked up.
 // TODO: Make there a flag, instead of hard-coded to mon_turret
     if (z[mondex].type->id == mon_turret) {
-     if (query_yn("Deactivate the turret?")) {
+     if (query_yn(this->VIEWX, this->VIEWY, "Deactivate the turret?")) {
       z.erase(z.begin() + mondex);
       u.moves -= 100;
       m.add_item(z[mondex].posx, z[mondex].posy, itypes[itm_bot_turret], turn);
@@ -7239,7 +7255,7 @@ void game::plmove(int x, int y)
  } else if (m.has_flag(swimmable, x, y)) { // Dive into water!
 // Requires confirmation if we were on dry land previously
   if ((m.has_flag(swimmable, u.posx, u.posy) &&
-      m.move_cost(u.posx, u.posy) == 0) || query_yn("Dive into the water?")) {
+      m.move_cost(u.posx, u.posy) == 0) || query_yn(this->VIEWX, this->VIEWY, "Dive into the water?")) {
    if (m.move_cost(u.posx, u.posy) > 0 && u.swim_speed() < 500)
     add_msg("You start swimming.  Press '>' to dive underwater.");
    plswim(x, y);
@@ -7487,12 +7503,12 @@ void game::vertical_move(int movez, bool force)
      popup("Halfway down, the way down becomes blocked off.");
      return;
     } else if (u.has_amount(itm_rope_30, 1)) {
-     if (query_yn("There is a sheer drop halfway down. Climb your rope down?")){
+     if (query_yn(this->VIEWX, this->VIEWY, "There is a sheer drop halfway down. Climb your rope down?")){
       rope_ladder = true;
       u.use_amount(itm_rope_30, 1);
      } else
       return;
-    } else if (!query_yn("There is a sheer drop halfway down.  Jump?"))
+    } else if (!query_yn(this->VIEWX, this->VIEWY, "There is a sheer drop halfway down.  Jump?"))
      return;
    }
    stairx = u.posx;
@@ -8105,7 +8121,7 @@ void game::wait()
   case 5: time = 180000; break;
   case 6: time = 360000; break;
  }
- u.assign_activity(ACT_WAIT, time, 0);
+ u.assign_activity(this, ACT_WAIT, time, 0);
  u.moves = 0;
 }
 

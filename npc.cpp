@@ -1303,6 +1303,37 @@ int npc::player_danger(player *u)
  return ret;
 }
 
+int npc::vehicle_danger(game *g, int radius)
+{
+	VehicleList vehicles = g->m.get_vehicles(posx - radius, posy - radius, posx + radius, posy + radius);
+
+ int danger = 0;
+
+ // TODO: check for most dangerous vehicle?
+ for(size_t i = 0; i < vehicles.size(); ++i)
+  if (vehicles[i].v->velocity > 0)
+  {
+   float facing = vehicles[i].v->face.dir();
+
+   int ax = vehicles[i].v->global_x();
+   int ay = vehicles[i].v->global_y();
+   int bx = ax + cos (facing * M_PI / 180.0) * radius;
+   int by = ay + sin (facing * M_PI / 180.0) * radius;
+
+   // fake size
+   int last_part = vehicles[i].v->external_parts.back();
+   int size = std::max(vehicles[i].v->parts[last_part].mount_dx, vehicles[i].v->parts[last_part].mount_dy);
+
+   float normal = sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay));
+   int closest = abs((posx - ax) * (by - ay) - (posy - ay) * (bx - ax)) / normal;
+
+   if (size > closest)
+   	danger = i;
+  }
+
+ return danger;
+}
+
 bool npc::turned_hostile()
 {
  return (op_of_u.anger >= hostile_anger_level());
