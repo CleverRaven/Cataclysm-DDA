@@ -80,6 +80,9 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
     int bonus = p->skillLevel("firstaid");
     hp_part healed;
 
+    const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
+    const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
+
     if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
         int highest_damage = 0;
         for (int i = 0; i < num_hp_parts; i++) {
@@ -94,10 +97,11 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
             }
         }
     } else { // Player--present a menu
-        WINDOW* hp_window = newwin(10, 22, 8, 1);
+        WINDOW* hp_window = newwin(10, 22, (iMaxY-10)/2, (iMaxX-22)/2);
         wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-        LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-        mvwprintz(hp_window, 1, 1, c_ltred,  "Bandage where?");
+                           LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+        mvwprintz(hp_window, 1, 1, c_ltred,  "Use Bandage:");
         mvwprintz(hp_window, 2, 1, c_ltgray, "1: Head");
         mvwprintz(hp_window, 3, 1, c_ltgray, "2: Torso");
         mvwprintz(hp_window, 4, 1, c_ltgray, "3: Left Arm");
@@ -234,6 +238,9 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
     int bonus = p->skillLevel("firstaid");
     hp_part healed;
 
+    const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
+    const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
+
     if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
         int highest_damage = 0;
         for (int i = 0; i < num_hp_parts; i++) {
@@ -248,10 +255,10 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
             }
         }
     } else { // Player--present a menu
-        WINDOW* hp_window = newwin(10, 22, 8, 1);
+        WINDOW* hp_window = newwin(10, 22, (iMaxY-10)/2, (iMaxX-22)/2);
         wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-        LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-        mvwprintz(hp_window, 1, 1, c_ltred,  "First Aid where?");
+                           LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+        mvwprintz(hp_window, 1, 1, c_ltred,  "Use First Aid:");
         mvwprintz(hp_window, 2, 1, c_ltgray, "1: Head");
         mvwprintz(hp_window, 3, 1, c_ltgray, "2: Torso");
         mvwprintz(hp_window, 4, 1, c_ltgray, "3: Left Arm");
@@ -1086,7 +1093,10 @@ void iuse::water_purifier(game *g, player *p, item *it, bool t)
 
 void iuse::two_way_radio(game *g, player *p, item *it, bool t)
 {
- WINDOW* w = newwin(6, 36, 9, 5);
+ const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
+ const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
+
+ WINDOW* w = newwin(6, 36, (iMaxY-6)/2, (iMaxX-36)/2);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 // TODO: More options here.  Thoughts...
@@ -1894,7 +1904,7 @@ void iuse::flashbang_act(game *g, player *p, item *it, bool t)
 
 void iuse::c4(game *g, player *p, item *it, bool t)
 {
- int time = query_int("Set the timer to (0 to cancel)?");
+ int time = query_int(this->VIEWX, this->VIEWY, "Set the timer to (0 to cancel)?");
  if (time == 0) {
   g->add_msg_if_player(p,"Never mind.");
   return;

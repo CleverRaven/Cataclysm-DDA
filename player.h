@@ -57,7 +57,7 @@ public:
  virtual std::string save_info();		// Save to file matching name
 
  void disp_info(game *g);	// '@' key; extended character info
- void disp_morale();		// '%' key; morale info
+ void disp_morale(game *g);		// '%' key; morale info
  void disp_status(WINDOW* w, game *g = NULL);// On-screen data
 
  void reset(game *g = NULL);// Resets movement points, stats, applies effects

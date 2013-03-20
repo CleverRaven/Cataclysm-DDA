@@ -42,7 +42,7 @@ void draw_tabs(WINDOW *w, int active_tab, ...);
 
 void realDebugmsg(const char* name, const char* line, const char *mes, ...);
 bool query_yn(int iViewX, int iViewY, const char *mes, ...);
-int  query_int(const char *mes, ...);
+int  query_int(int iViewX, int iViewY, const char *mes, ...);
 std::string string_input_popup(std::string title, int max_length = 0, std::string input = "");
 char popup_getkey(const char *mes, ...);
 int  menu_vec(const char *mes, std::vector<std::string> options);

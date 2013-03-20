@@ -51,8 +51,8 @@ bool player::create(game *g, character_type type, std::string tempname)
 {
  weapon = item(g->itypes[0], 0);
 
- int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
- int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
+ const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
+ const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
 
  WINDOW* w = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
 

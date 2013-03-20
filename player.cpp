@@ -1732,9 +1732,12 @@ encumb(bp_feet) * 5);
  erase();
 }
 
-void player::disp_morale()
+void player::disp_morale(game* g)
 {
- WINDOW *w = newwin(25, 80, 0, 0);
+ const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
+ const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
+
+ WINDOW* w = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w, 1,  1, c_white, "Morale Modifiers:");

@@ -911,19 +911,15 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
    else if (u_see_mon)
     g->add_msg("%s %s shoots the %s.", message.c_str(), p.name.c_str(), mon.name().c_str());
 
-   char sMonSym = '%';
-   nc_color cMonColor = g->z[g->mon_at(mon.posx, mon.posy)].type->color;
-
-   if (mon.hurt(dam))
-    g->kill_mon(g->mon_at(mon.posx, mon.posy), (&p == &(g->u)));
-   else if (weapon->curammo->ammo_effects != 0) {
-    g->hit_monster_with_flags(mon, weapon->curammo->ammo_effects);
-    sMonSym = g->z[g->mon_at(mon.posx, mon.posy)].symbol();
-   }
-
+   bool bMonDead = mon.hurt(dam);
    hit_animation(mon.posx - g->u.posx + g->VIEWX - g->u.view_offset_x,
                  mon.posy - g->u.posy + g->VIEWY - g->u.view_offset_y,
-                 red_background(cMonColor), sMonSym);
+                 red_background(mon.type->color), (bMonDead) ? '%' : mon.symbol());
+
+   if (bMonDead)
+    g->kill_mon(g->mon_at(mon.posx, mon.posy), (&p == &(g->u)));
+   else if (weapon->curammo->ammo_effects != 0)
+    g->hit_monster_with_flags(mon, weapon->curammo->ammo_effects);
 
    dam = 0;
   }

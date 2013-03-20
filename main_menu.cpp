@@ -22,7 +22,7 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
 
     int iLine = 0;
     const int iOffsetX1 = 3;
-    const int iOffsetX2 = 5;
+    const int iOffsetX2 = 4;
     const int iOffsetX3 = 18;
 
     const nc_color cColor1 = c_ltcyan;
@@ -38,12 +38,12 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
 
     if (bShowDDA) {
         iLine++;
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "________                   .__     ________                           ");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "\\______ \\  _____   _______ |  | __ \\______ \\  _____    ___.__   ______");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    |  \\ \\__  \\  \\_  __ \\|  |/ /  |    |  \\ \\__  \\  <   |  | /  ___/");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    `   \\ / __ \\_ |  | \\/|    <   |    `   \\ / __ \\_ \\___  | \\___ \\ ");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "/_______  /(____  / |__|   |__|_ \\ /_______  /(____  / / ____|/____  >");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "        \\/      \\/              \\/         \\/      \\/  \\/          \\/ ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "________                   .__      ________                           ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "\\______ \\  _____   _______ |  | __  \\______ \\  _____    ___.__   ______");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    |  \\ \\__  \\  \\_  __ \\|  |/ /   |    |  \\ \\__  \\  <   |  | /  ___/");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    `   \\ / __ \\_ |  | \\/|    <    |    `   \\ / __ \\_ \\___  | \\___ \\ ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "/_______  /(____  / |__|   |__|_ \\  /_______  /(____  / / ____|/____  >");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "        \\/      \\/              \\/          \\/      \\/  \\/          \\/ ");
 
         iLine++;
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "   _____   .__                         .___");
@@ -90,8 +90,8 @@ void game::print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int i
 
 bool game::opening_screen()
 {
-    int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
-    int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
+    const int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
+    const int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
 
     WINDOW* w_background = newwin(iMaxY, iMaxX, 0, 0);
 
@@ -181,13 +181,13 @@ bool game::opening_screen()
 
             if (sel1 == 0) {	// Print the MOTD.
                 for (int i = 0; i < motd.size() && i < 16; i++)
-                    mvwprintz(w_open, i + 7, 12 + iMenuOffsetX, c_ltred, motd[i].c_str());
+                    mvwprintz(w_open, i + 7, 8, c_ltred, motd[i].c_str());
 
                 wrefresh(w_open);
                 refresh();
             } else if (sel1 == 7) {	// Print the Credits.
                 for (int i = 0; i < credits.size() && i < 16; i++)
-                    mvwprintz(w_open, i + 7, 12 + iMenuOffsetX, c_ltred, credits[i].c_str());
+                    mvwprintz(w_open, i + 7, 8, c_ltred, credits[i].c_str());
 
                 wrefresh(w_open);
                 refresh();

@@ -18,8 +18,8 @@
 
 void game::help()
 {
- int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
- int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
+ const int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
+ const int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
 
  WINDOW* w_help_border = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
  WINDOW* w_help = newwin(23, 78, 1 + (int)((iMaxY > 25) ? (iMaxY-25)/2 : 0), 1 + (int)((iMaxX > 80) ? (iMaxX-80)/2 : 0));

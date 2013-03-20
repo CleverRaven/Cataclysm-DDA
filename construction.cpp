@@ -263,7 +263,7 @@ void game::init_construction()
 
 void game::construction_menu()
 {
- int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
+ const int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
  int iMaxY = (VIEWY*2)+1;
  if (constructions.size()+2 < iMaxY)
   iMaxY = constructions.size()+2;

@@ -261,36 +261,43 @@ void overmap::delete_note(int x, int y)
  }
 }
 
-point overmap::display_notes()
+point overmap::display_notes(game* g)
 {
  std::string title = "Notes:";
- WINDOW* w_notes = newwin(25, 80, 0, 0);
+ const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
+ const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
+
+ WINDOW* w_notes = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+
+ wborder(w_notes, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
  const int maxitems = 20;	// Number of items to show at one time.
  char ch = '.';
  int start = 0, cur_it;
- mvwprintz(w_notes, 0, 0, c_ltgray, title.c_str());
+ mvwprintz(w_notes, 1, 1, c_ltgray, title.c_str());
  do{
   if (ch == '<' && start > 0) {
    for (int i = 1; i < 25; i++)
-    mvwprintz(w_notes, i, 0, c_black, "                                                     ");
+    mvwprintz(w_notes, i+1, 1, c_black, "                                                     ");
    start -= maxitems;
    if (start < 0)
     start = 0;
-   mvwprintw(w_notes, maxitems + 2, 0, "         ");
+   mvwprintw(w_notes, maxitems + 2, 1, "         ");
   }
   if (ch == '>' && cur_it < notes.size()) {
    start = cur_it;
-   mvwprintw(w_notes, maxitems + 2, 12, "            ");
+   mvwprintw(w_notes, maxitems + 2, 13, "            ");
    for (int i = 1; i < 25; i++)
     mvwprintz(w_notes, i, 0, c_black, "                                                     ");
   }
-  int cur_line = 2;
+  int cur_line = 3;
   int last_line = -1;
   char cur_let = 'a';
   for (cur_it = start; cur_it < start + maxitems && cur_line < 23; cur_it++) {
    if (cur_it < notes.size()) {
-   mvwputch (w_notes, cur_line, 0, c_white, cur_let++);
-   mvwprintz(w_notes, cur_line, 2, c_ltgray, "- %s", notes[cur_it].text.c_str());
+   mvwputch (w_notes, cur_line, 1, c_white, cur_let++);
+   mvwprintz(w_notes, cur_line, 3, c_ltgray, "- %s", notes[cur_it].text.c_str());
    } else{
     last_line = cur_line - 2;
     break;
@@ -301,7 +308,7 @@ point overmap::display_notes()
   if(last_line == -1)
    last_line = 23;
   if (start > 0)
-   mvwprintw(w_notes, maxitems + 4, 0, "< Go Back");
+   mvwprintw(w_notes, maxitems + 4, 1, "< Go Back");
   if (cur_it < notes.size())
    mvwprintw(w_notes, maxitems + 4, 12, "> More notes");
   if(ch >= 'a' && ch <= 't'){
@@ -309,11 +316,11 @@ point overmap::display_notes()
    if(chosen_line < last_line)
     return point(notes[start + chosen_line].x, notes[start + chosen_line].y);
   }
-  mvwprintz(w_notes, 0, 40, c_white, "Press letter to center on note");
-  mvwprintz(w_notes, 24, 40, c_white, "Spacebar - Return to map  ");
+  mvwprintz(w_notes, 1, 40, c_white, "Press letter to center on note");
+  mvwprintz(w_notes, 23, 40, c_white, "Spacebar - Return to map  ");
   wrefresh(w_notes);
   ch = getch();
- } while(ch != ' ');
+ } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
  delwin(w_notes);
  return point(-1,-1);
 }
@@ -1120,7 +1127,7 @@ point overmap::choose_point(game *g)
    timeout(BLINK_SPEED);
   } else if (ch == 'L'){
    timeout(-1);
-   point p = display_notes();
+   point p = display_notes(g);
    if (p.x != -1){
     cursx = p.x;
     cursy = p.y;

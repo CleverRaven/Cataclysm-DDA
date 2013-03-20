@@ -106,7 +106,10 @@ void npc::talk_to_u(game *g)
  moves -= 100;
  decide_needs();
 
- d.win = newwin(25, 80, 0, 0);
+ const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
+ const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
+
+ d.win = newwin(25, 80, (iMaxY-25)/2, (iMaxX-80)/2);
  wborder(d.win, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  for (int i = 1; i < 24; i++)
@@ -1725,9 +1728,13 @@ talk_topic special_talk(char ch)
 
 bool trade(game *g, npc *p, int cost, std::string deal)
 {
- WINDOW* w_head = newwin( 4, 80,  0,  0);
- WINDOW* w_them = newwin(21, 40,  4,  0);
- WINDOW* w_you  = newwin(21, 40,  4, 40);
+ const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
+ const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
+
+ WINDOW* w_head = newwin(4, 80, (iMaxY-25)/2, (iMaxX-80)/2);
+ WINDOW* w_them = newwin(21, 40, 4+(iMaxY-25)/2, (iMaxX-80)/2);
+ WINDOW* w_you = newwin(21, 40, 4+(iMaxY-25)/2, 40+(iMaxX-80)/2);
+
  WINDOW* w_tmp;
  mvwprintz(w_head, 0, 0, c_white, "\
 Trading with %s\n\
@@ -1855,7 +1862,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    break;
   case '?':
    update = true;
-   w_tmp = newwin(3, 21, 1, 30);
+   w_tmp = newwin(3, 21, 1+(iMaxY-25)/2, 30+(iMaxX-80)/2);
    mvwprintz(w_tmp, 1, 1, c_red, "Examine which item?");
    wborder(w_tmp, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                   LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );

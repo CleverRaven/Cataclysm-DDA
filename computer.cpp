@@ -69,8 +69,12 @@ void computer::shutdown_terminal()
 
 void computer::use(game *g)
 {
- if (w_terminal == NULL)
-  w_terminal = newwin(25, 80, 0, 0);
+ if (w_terminal == NULL) {
+  const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
+  const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
+
+  w_terminal = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+ }
  wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                      LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
@@ -643,7 +647,7 @@ of pureed bone & LSD.");
     }
    }
    break;
-   
+
   case COMPACT_EMERG_MESS:
   print_line("\
   GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
@@ -807,7 +811,7 @@ void computer::activate_failure(game *g, computer_failure fail)
    }
    getch();
    break;
-   
+
  }// switch (fail)
 }
 

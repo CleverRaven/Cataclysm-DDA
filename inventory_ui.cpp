@@ -523,8 +523,8 @@ void game::compare(int iCompareX, int iCompareY)
  const int groundsize = (grounditems.size() > 10 ? 10 : grounditems.size());
  u.sort_inv();
  u.inv.restack(&u);
- int iMaxX = 55 + ((VIEWX < 12) ? 25 : VIEWX*2+1);
- int iMaxY = ((VIEWY < 12) ? 25 : (VIEWX*2)+1);
+ const int iMaxX = 55 + ((VIEWX < 12) ? 25 : (VIEWX*2)+1);
+ const int iMaxY = ((VIEWY < 12) ? 25 : (VIEWY*2)+1);
 
  WINDOW* w_inv = newwin(iMaxY, iMaxX, 0, 0);
  int maxitems = iMaxY-5;    // Number of items to show at one time.

@@ -87,7 +87,7 @@ class overmap
   void add_note(int x, int y, std::string message);
   point find_note(point origin, std::string text);
   void delete_note(int x, int y);
-  point display_notes();
+  point display_notes(game* g);
 
   std::vector<city> cities;
   std::vector<city> roads_out;

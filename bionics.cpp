@@ -13,22 +13,32 @@ void bionics_install_failure(game *g, player *u, int success);
 
 void player::power_bionics(game *g)
 {
- int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
- int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
+ const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
+ const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
 
  WINDOW* wBio = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+ WINDOW* w_description = newwin(3, 78, 21 + getbegy(wBio), 1 + getbegx(wBio));
 
  werase(wBio);
+ wborder(wBio, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+               LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
  std::vector <bionic> passive;
  std::vector <bionic> active;
- mvwprintz(wBio, 0, 0, c_blue, "BIONICS -");
- mvwprintz(wBio, 0,10, c_white,
-           "Activating.  Press '!' to examine your implants.");
+ mvwprintz(wBio, 1,  1, c_blue, "BIONICS -");
+ mvwprintz(wBio, 1, 11, c_white, "Activating.  Press '!' to examine your implants.");
 
- for (int i = 0; i < 80; i++) {
-  mvwputch(wBio,  1, i, c_ltgray, LINE_OXOX);
-  mvwputch(wBio, 21, i, c_ltgray, LINE_OXOX);
+ for (int i = 1; i < 79; i++) {
+  mvwputch(wBio,  2, i, c_ltgray, LINE_OXOX);
+  mvwputch(wBio, 20, i, c_ltgray, LINE_OXOX);
  }
+
+ mvwputch(wBio, 2,  0, c_ltgray, LINE_XXXO); // |-
+ mvwputch(wBio, 2, 79, c_ltgray, LINE_XOXX); // -|
+
+ mvwputch(wBio, 20,  0, c_ltgray, LINE_XXXO); // |-
+ mvwputch(wBio, 20, 79, c_ltgray, LINE_XOXX); // -|
+
  for (int i = 0; i < my_bionics.size(); i++) {
   if ( bionics[my_bionics[i].id].power_source ||
       !bionics[my_bionics[i].id].activated      )
@@ -38,32 +48,31 @@ void player::power_bionics(game *g)
  }
  nc_color type;
  if (passive.size() > 0) {
-  mvwprintz(wBio, 2, 0, c_ltblue, "Passive:");
+  mvwprintz(wBio, 3, 1, c_ltblue, "Passive:");
   for (int i = 0; i < passive.size(); i++) {
    if (bionics[passive[i].id].power_source)
     type = c_ltcyan;
    else
     type = c_cyan;
-   mvwputch(wBio, 3 + i, 0, type, passive[i].invlet);
-   mvwprintz(wBio, 3 + i, 2, type, bionics[passive[i].id].name.c_str());
+   mvwputch(wBio, 4 + i, 1, type, passive[i].invlet);
+   mvwprintz(wBio, 4 + i, 3, type, bionics[passive[i].id].name.c_str());
   }
  }
  if (active.size() > 0) {
-  mvwprintz(wBio, 2, 32, c_ltblue, "Active:");
+  mvwprintz(wBio, 3, 33, c_ltblue, "Active:");
   for (int i = 0; i < active.size(); i++) {
    if (active[i].powered)
     type = c_red;
    else
     type = c_ltred;
-   mvwputch(wBio, 3 + i, 32, type, active[i].invlet);
-   mvwprintz(wBio, 3 + i, 34, type,
+   mvwputch(wBio, 4 + i, 33, type, active[i].invlet);
+   mvwprintz(wBio, 4 + i, 35, type,
              (active[i].powered ? "%s - ON" : "%s - %d PU / %d trns"),
              bionics[active[i].id].name.c_str(),
              bionics[active[i].id].power_cost,
              bionics[active[i].id].charge_time);
   }
  }
-
  wrefresh(wBio);
  char ch;
  bool activating = true;
@@ -74,11 +83,9 @@ void player::power_bionics(game *g)
   if (ch == '!') {
    activating = !activating;
    if (activating)
-    mvwprintz(wBio, 0, 10, c_white,
-              "Activating.  Press '!' to examine your implants.");
+    mvwprintz(wBio, 1, 11, c_white, "Activating.  Press '!' to examine your implants.");
    else
-    mvwprintz(wBio, 0, 10, c_white,
-              "Examining.  Press '!' to activate your implants.");
+    mvwprintz(wBio, 1, 11, c_white, "Examining.  Press '!' to activate your implants.");
   } else if (ch == ' ')
    ch = KEY_ESCAPE;
   else if (ch != KEY_ESCAPE) {
@@ -99,22 +106,19 @@ void player::power_bionics(game *g)
                  (weapon.type->id == itm_bio_claws && tmp->id == bio_claws))
        activate_bionic(b, g);
      } else
-      mvwprintz(wBio, 22, 0, c_ltred, "\
+      mvwprintz(wBio, 21, 1, c_ltred, "\
 You can not activate %s!  To read a description of \
 %s, press '!', then '%c'.", bionics[tmp->id].name.c_str(),
                             bionics[tmp->id].name.c_str(), tmp->invlet);
     } else {	// Describing bionics, not activating them!
 // Clear the lines first
      ch = 0;
-     mvwprintz(wBio, 22, 0, c_ltgray, "\
-                                                                               \
-                                                                               \
-                                                                             ");
-     mvwprintz(wBio, 22, 0, c_ltblue,
-               bionics[tmp->id].description.c_str());
+     werase(w_description);
+     mvwprintz(w_description, 0, 0, c_ltblue, bionics[tmp->id].description.c_str());
     }
    }
   }
+  wrefresh(w_description);
   wrefresh(wBio);
  } while (ch != KEY_ESCAPE);
  werase(wBio);
@@ -130,8 +134,8 @@ You can not activate %s!  To read a description of \
 // share functions....
 void player::activate_bionic(int b, game *g)
 {
- int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
- int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
+ const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
+ const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
 
  bionic bio = my_bionics[b];
  int power_cost = bionics[bio.id].power_cost;
@@ -484,10 +488,15 @@ bool player::install_bionics(game *g, it_bionic* type)
  }
  std::string bio_name = type->name.substr(5);	// Strip off "CBM: "
 
- int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
- int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
+ const int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
+ const int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
 
  WINDOW* w = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+ WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
+
+ werase(w);
+ wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
  int pl_skill = int_cur +
    skillLevel("electronics") * 4 +
@@ -498,33 +507,40 @@ bool player::install_bionics(game *g, it_bionic* type)
  int skdec = int((pl_skill * 10) / 4) % 10;
 
 // Header text
- mvwprintz(w, 0,  0, c_white, "Installing bionics:");
- mvwprintz(w, 0, 20, type->color, bio_name.c_str());
+ mvwprintz(w, 1,  1, c_white, "Installing bionics:");
+ mvwprintz(w, 1, 21, type->color, bio_name.c_str());
 
 // Dividing bars
- for (int i = 0; i < 80; i++) {
-  mvwputch(w,  1, i, c_ltgray, LINE_OXOX);
-  mvwputch(w, 21, i, c_ltgray, LINE_OXOX);
+ for (int i = 1; i < 79; i++) {
+  mvwputch(w,  2, i, c_ltgray, LINE_OXOX);
+  mvwputch(w, 20, i, c_ltgray, LINE_OXOX);
  }
+
+ mvwputch(w, 2,  0, c_ltgray, LINE_XXXO); // |-
+ mvwputch(w, 2, 79, c_ltgray, LINE_XOXX); // -|
+
+ mvwputch(w, 20,  0, c_ltgray, LINE_XXXO); // |-
+ mvwputch(w, 20, 79, c_ltgray, LINE_XOXX); // -|
+
 // Init the list of bionics
  for (int i = 1; i < type->options.size(); i++) {
   bionic_id id = type->options[i];
-  mvwprintz(w, i + 2, 0, (has_bionic(id) ? c_ltred : c_ltblue),
+  mvwprintz(w, i + 3, 1, (has_bionic(id) ? c_ltred : c_ltblue),
             bionics[id].name.c_str());
  }
 // Helper text
- mvwprintz(w, 2, 40, c_white,        "Difficulty of this module: %d",
+ mvwprintz(w, 3, 39, c_white,        "Difficulty of this module: %d",
            type->difficulty);
- mvwprintz(w, 3, 40, c_white,        "Your installation skill:   %d.%d",
+ mvwprintz(w, 4, 39, c_white,        "Your installation skill:   %d.%d",
            skint, skdec);
- mvwprintz(w, 4, 40, c_white,       "Installation requires high intelligence,");
- mvwprintz(w, 5, 40, c_white,       "and skill in electronics, first aid, and");
- mvwprintz(w, 6, 40, c_white,       "mechanics (in that order of importance).");
+ mvwprintz(w, 5, 39, c_white,       "Installation requires high intelligence,");
+ mvwprintz(w, 6, 39, c_white,       "and skill in electronics, first aid, and");
+ mvwprintz(w, 7, 39, c_white,       "mechanics (in that order of importance).");
 
  int chance_of_success = int((100 * pl_skill) /
                              (pl_skill + 4 * type->difficulty));
 
- mvwprintz(w, 8, 40, c_white,        "Chance of success:");
+ mvwprintz(w, 9, 39, c_white,        "Chance of success:");
 
  nc_color col_suc;
  if (chance_of_success >= 95)
@@ -538,20 +554,22 @@ bool player::install_bionics(game *g, it_bionic* type)
  else
   col_suc = c_red;
 
- mvwprintz(w, 8, 59, col_suc, "%d%%%%", chance_of_success);
+ mvwprintz(w, 9, 59, col_suc, "%d%%%%", chance_of_success);
 
- mvwprintz(w, 10, 40, c_white,       "Failure may result in crippling damage,");
- mvwprintz(w, 11, 40, c_white,       "loss of existing bionics, genetic damage");
- mvwprintz(w, 12, 40, c_white,       "or faulty installation.");
+ mvwprintz(w, 11, 39, c_white,       "Failure may result in crippling damage,");
+ mvwprintz(w, 12, 39, c_white,       "loss of existing bionics, genetic damage");
+ mvwprintz(w, 13, 39, c_white,       "or faulty installation.");
  wrefresh(w);
 
  if (type->id == itm_bionics_battery) {	// No selection list; just confirm
-  mvwprintz(w,  2, 0, h_ltblue, "Battery Level +%d", BATTERY_AMOUNT);
-  mvwprintz(w, 22, 0, c_ltblue, "\
+  mvwprintz(w, 3, 1, h_ltblue, "Battery Level +%d", BATTERY_AMOUNT);
+  mvwprintz(w_description, 0, 0, c_ltblue, "\
 Installing this bionic will increase your total battery capacity by %d.\n\
 Batteries are necessary for most bionics to function.  They also require a\n\
 charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
+
   InputEvent input;
+  wrefresh(w_description);
   wrefresh(w);
   do
    input = get_input();
@@ -583,17 +601,15 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
  do {
 
   bionic_id id = type->options[selection];
-  mvwprintz(w, 2 + selection, 0, (has_bionic(id) ? h_ltred : h_ltblue),
+  mvwprintz(w, 3 + selection, 1, (has_bionic(id) ? h_ltred : h_ltblue),
             bionics[id].name.c_str());
 
 // Clear the bottom three lines...
-  mvwprintz(w, 22, 0, c_ltgray, "\
-                                                                             \n\
-                                                                             \n\
-                                                                             ");
+  werase(w_description);
 // ...and then fill them with the description of the selected bionic
-  mvwprintz(w, 22, 0, c_ltblue, bionics[id].description.c_str());
+  mvwprintz(w_description, 0, 0, c_ltblue, bionics[id].description.c_str());
 
+  wrefresh(w_description);
   wrefresh(w);
   input = get_input();
   switch (input) {

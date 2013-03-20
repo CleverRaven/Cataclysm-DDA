@@ -328,10 +328,10 @@ bool query_yn(int iViewX, int iViewY, const char *mes, ...)
  va_end(ap);
  int win_width = strlen(buff) + 26;
 
- int iMaxX = (iViewX < 12) ? 80 : (iViewX*2)+56;
- int iMaxY = (iViewY < 12) ? 25 : (iViewY*2)+1;
+ const int iMaxX = (iViewX < 12) ? 80 : (iViewX*2)+56;
+ const int iMaxY = (iViewY < 12) ? 25 : (iViewY*2)+1;
 
- WINDOW *w = newwin(3, win_width, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > win_width) ? (iMaxX-win_width)/2 : 0);
+ WINDOW *w = newwin(3, win_width, (iMaxY-3)/2, (iMaxX > win_width) ? (iMaxX-win_width)/2 : 0);
 
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -351,7 +351,7 @@ bool query_yn(int iViewX, int iViewY, const char *mes, ...)
  return false;
 }
 
-int query_int(const char *mes, ...)
+int query_int(int iViewX, int iViewY, const char *mes, ...)
 {
  va_list ap;
  va_start(ap, mes);
@@ -359,7 +359,12 @@ int query_int(const char *mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  int win_width = strlen(buff) + 10;
- WINDOW* w = newwin(3, win_width, 11, 0);
+
+ const int iMaxX = (iViewX < 12) ? 80 : (iViewX*2)+56;
+ const int iMaxY = (iViewY < 12) ? 25 : (iViewY*2)+1;
+
+ WINDOW *w = newwin(3, win_width, (iMaxY-3)/2, 11+((iMaxX > win_width) ? (iMaxX-win_width)/2 : 0));
+
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w, 1, 1, c_ltred, "%s (0-9)", buff);
