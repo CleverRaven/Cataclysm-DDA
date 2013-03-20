@@ -8340,39 +8340,6 @@ std::vector<faction *> game::factions_at(int x, int y)
  return ret;
 }
 
-oter_id game::ter_at(int omx, int omy, bool& mark_as_seen)
-{
- oter_id ret;
- int sx = 0, sy = 0;
- if (omx >= OMAPX)
-  sx = 1;
- if (omx < 0)
-  sx = -1;
- if (omy >= OMAPY)
-  sy = 1;
- if (omy < 0)
-  sy = -1;
- if (sx != 0 || sy != 0) {
-  omx -= sx * OMAPX;
-  omy -= sy * OMAPY;
-  overmap tmp(this, cur_om.posx + sx, cur_om.posy + sy, 0);
-  if (mark_as_seen) {
-   tmp.seen(omx, omy) = true;
-   tmp.save(u.name, tmp.posx, tmp.posy, cur_om.posz);
-  } else {
-   mark_as_seen = tmp.seen(omx, omy);
-  }
-  ret = tmp.ter(omx, omy);
- } else {
-  ret = cur_om.ter(omx, omy);
-  if (mark_as_seen)
-   cur_om.seen(omx, omy) = true;
-  else
-   mark_as_seen = cur_om.seen(omx, omy);
- }
- return ret;
-}
-
 nc_color sev(int a)
 {
  switch (a) {
