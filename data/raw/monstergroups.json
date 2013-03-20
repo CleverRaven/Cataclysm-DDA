@@ -3,13 +3,13 @@
     "name" : "GROUP_FOREST",
     "default" : "mon_squirrel",
     "monsters" : [
-      { "monster" : "mon_rabbit", "freq" : 110 },
+      { "monster" : "mon_rabbit", "freq" : 150 },
       { "monster" : "mon_deer", "freq" : 30 },
-      { "monster" : "mon_wolf", "freq" : 40 },
+      { "monster" : "mon_wolf", "freq" : 30 },
       { "monster" : "mon_bear", "freq" : 20 },
-      { "monster" : "mon_cougar", "freq" : 30 },
-      { "monster" : "mon_spider_wolf", "freq" : 100 },
-      { "monster" : "mon_spider_jumping", "freq" : 100 },
+      { "monster" : "mon_cougar", "freq" : 20 },
+      { "monster" : "mon_spider_wolf", "freq" : 30 },
+      { "monster" : "mon_spider_jumping", "freq" : 30 },
       { "monster" : "mon_dog", "freq" : 10 },
       { "monster" : "mon_crow", "freq" : 30 }
     ]
