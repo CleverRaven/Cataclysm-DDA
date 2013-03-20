@@ -976,11 +976,11 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   TOOL(TG_KNIVES, NULL);
   COMP(itm_stick, 1, NULL);
 
- RECIPE(itm_light_snare_trap, CC_MISC, "survival", "traps", 1, 5000, true);
+ RECIPE(itm_light_snare_kit, CC_MISC, "survival", "traps", 1, 5000, true);
   COMP(itm_snare_trigger, 1, NULL);
   COMP(itm_string_36, 1, NULL);
 
- RECIPE(itm_heavy_snare_trap, CC_MISC, "survival", "traps", 2, 8000, true);
+ RECIPE(itm_heavy_snare_kit, CC_MISC, "survival", "traps", 3, 8000, true);
   COMP(itm_snare_trigger, 1, NULL);
   COMP(itm_rope_6, 1, NULL);
   

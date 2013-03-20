@@ -1681,7 +1681,7 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
   type = tr_engine;
   practice = 12;
   break;
- case itm_light_snare_trap:
+ case itm_light_snare_kit:
   for(int i = -1; i <= 1; i++) {
     for(int j = -1; j <= 1; j++){
       ter = g->m.ter(posx+j, posy+i);
@@ -1698,7 +1698,7 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
     return;
   }
   break;
- case itm_heavy_snare_trap:
+ case itm_heavy_snare_kit:
   for(int i = -1; i <= 1; i++) {
     for(int j = -1; j <= 1; j++){
       ter = g->m.ter(posx+j, posy+i);
