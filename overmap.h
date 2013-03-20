@@ -95,7 +95,7 @@ class overmap
   std::string const& note(int const x, int const y, int const z) const;
   void add_note(int const x, int const y, int const z, std::string const& message);
   void delete_note(int const x, int const y, int const z) { add_note(x, y, z, ""); }
-  point display_notes(game* g, int const z);
+  point display_notes(game* g, int const z) const;
 
   point find_note(int const x, int const y, int const z, std::string const& text) const;
 
