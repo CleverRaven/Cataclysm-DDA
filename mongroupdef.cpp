@@ -83,7 +83,7 @@ MonsterGroup MonsterGroupManager::GetMonsterGroup(std::string group)
     std::map<std::string, MonsterGroup>::iterator it = monsterGroupMap.find(group);
     if(it == monsterGroupMap.end())
     {
-        debugmsg("Unable to get the group '%s'", group);
+        debugmsg("Unable to get the group '%s'", group.c_str());
         return MonsterGroup();
     }
     else
