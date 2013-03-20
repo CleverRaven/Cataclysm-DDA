@@ -3497,9 +3497,9 @@ CONT("plastic jerrycan",	10,  2500,	c_green,	PLASTIC,MNULL,
 A bulky plastic jerrycan, meant to carry fuel, but can carry other liquids\n\
 in a pinch. It has a capacity of 10 liters.");
 
-CONT("plastic jug",	10,  2500,	c_ltcyan,	PLASTIC,MNULL,
+CONT("gallon jug",	10,  2500,	c_ltcyan,	PLASTIC,MNULL,
     10,  2, -8,  1,	 10,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A 2.5 liter plastic bottle used for household cleaning chemicals.");
+A standard plastic jug used for household cleaning chemicals.");
 
 CONT("glass flask",	10,  2500,	c_ltcyan,	GLASS,MNULL,
     1,  0, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
