@@ -44,13 +44,13 @@ void mission_start::place_dog(game *g, mission *miss)
 // Make it seen on our map
  for (int x = house.x - 6; x <= house.x + 6; x++) {
   for (int y = house.y - 6; y <= house.y + 6; y++)
-   g->cur_om.seen(x, y) = true;
+   g->cur_om.seen(x, y, 0) = true;
  }
 
  tinymap doghouse(&(g->itypes), &(g->mapitems), &(g->traps));
- doghouse.load(g, house.x * 2, house.y * 2, false);
+ doghouse.load(g, house.x * 2, house.y * 2, 0, false);
  doghouse.add_spawn(mon_dog, 1, SEEX, SEEY, true, -1, miss->uid);
- doghouse.save(&(g->cur_om), int(g->turn), house.x * 2, house.y * 2);
+ doghouse.save(&(g->cur_om), int(g->turn), house.x * 2, house.y * 2, 0);
 }
 
 void mission_start::place_zombie_mom(game *g, mission *miss)
@@ -62,13 +62,13 @@ void mission_start::place_zombie_mom(game *g, mission *miss)
 // Make it seen on our map
  for (int x = house.x - 6; x <= house.x + 6; x++) {
   for (int y = house.y - 6; y <= house.y + 6; y++)
-   g->cur_om.seen(x, y) = true;
+   g->cur_om.seen(x, y, 0) = true;
  }
 
  tinymap zomhouse(&(g->itypes), &(g->mapitems), &(g->traps));
- zomhouse.load(g, house.x * 2, house.y * 2, false);
+ zomhouse.load(g, house.x * 2, house.y * 2,  0, false);
  zomhouse.add_spawn(mon_zombie, 1, SEEX, SEEY, false, -1, miss->uid, Name::get(nameIsFemaleName | nameIsGivenName));
- zomhouse.save(&(g->cur_om), int(g->turn), house.x * 2, house.y * 2);
+ zomhouse.save(&(g->cur_om), int(g->turn), house.x * 2, house.y * 2, 0);
 }
 
 void mission_start::place_npc_software(game *g, mission *miss)
@@ -110,13 +110,13 @@ void mission_start::place_npc_software(game *g, mission *miss)
 // Make it seen on our map
  for (int x = place.x - 6; x <= place.x + 6; x++) {
   for (int y = place.y - 6; y <= place.y + 6; y++)
-   g->cur_om.seen(x, y) = true;
+   g->cur_om.seen(x, y, 0) = true;
  }
  tinymap compmap(&(g->itypes), &(g->mapitems), &(g->traps));
- compmap.load(g, place.x * 2, place.y * 2, false);
+ compmap.load(g, place.x * 2, place.y * 2, 0, false);
  point comppoint;
 
- switch (g->cur_om.ter(place.x, place.y)) {
+ switch (g->cur_om.ter(place.x, place.y, 0)) {
  case ot_house_north:
  case ot_house_east:
  case ot_house_west:
@@ -196,7 +196,7 @@ void mission_start::place_npc_software(game *g, mission *miss)
  tmpcomp->mission_id = miss->uid;
  tmpcomp->add_option("Download Software", COMPACT_DOWNLOAD_SOFTWARE, 0);
 
- compmap.save(&(g->cur_om), int(g->turn), place.x * 2, place.y * 2);
+ compmap.save(&(g->cur_om), int(g->turn), place.x * 2, place.y * 2, 0);
 }
 
 void mission_start::reveal_hospital(game *g, mission *miss)
@@ -211,7 +211,7 @@ void mission_start::reveal_hospital(game *g, mission *miss)
                                       false);
  for (int x = place.x - 3; x <= place.x + 3; x++) {
   for (int y = place.y - 3; y <= place.y + 3; y++)
-   g->cur_om.seen(x, y) = true;
+   g->cur_om.seen(x, y, 0) = true;
  }
  miss->target = place;
 }
@@ -231,7 +231,7 @@ void mission_start::find_safety(game *g, mission *miss)
      case 2: check.y += dist; check.x -= radius; break;
      case 3: check.y += dist; check.x += radius; break;
     }
-    if (g->cur_om.is_safe(check.x, check.y)) {
+    if (g->cur_om.is_safe(check.x, check.y, g->levz)) {
      miss->target = check;
      done = true;
     }

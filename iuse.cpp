@@ -1238,7 +1238,7 @@ void iuse::roadmap_a_target(game *g, player *p, item *it, bool t, int target)
  if (place.x >= 0 && place.y >= 0) {
   for (int x = place.x - 3; x <= place.x + 3; x++) {
    for (int y = place.y - 3; y <= place.y + 3; y++)
-    g->cur_om.seen(x, y) = true;
+    g->cur_om.seen(x, y, g->levz) = true;
   }
 
   direction to_hospital = direction_from(pomx,pomy, place.x, place.y);
@@ -3264,9 +3264,9 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    bool new_map = false;
    for (int x = int(g->levx / 2) - 20; x <= int(g->levx / 2) + 20; x++) {
     for (int y = int(g->levy / 2) - 20; y <= int(g->levy / 2) + 20; y++) {
-     if (!g->cur_om.seen(x, y)) {
+     if (!g->cur_om.seen(x, y, g->levz)) {
       new_map = true;
-      g->cur_om.seen(x, y) = true;
+      g->cur_om.seen(x, y, g->levz) = true;
      }
     }
    }

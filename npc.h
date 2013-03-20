@@ -569,7 +569,7 @@ public:
  int mapx, mapy;// Which square in that overmap (e.g., m.0.0)
  int plx, ply, plt;// Where we last saw the player, timeout to forgetting
  int itx, ity;	// The square containing an item we want
- int goalx, goaly;// Which mapx:mapy square we want to get to
+ int goalx, goaly, goalz;// Which mapx:mapy square we want to get to
 
  bool fetching_item;
  bool has_new_items; // If true, we have something new and should re-equip
