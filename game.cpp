@@ -35,7 +35,6 @@
 
 void intro();
 nc_color sev(int a);	// Right now, ONLY used for scent debugging....
-moncat_id mt_to_mc(mon_id type);	// Pick the moncat that contains type
 
 // This is the main game set-up process.
 game::game() :
@@ -59,7 +58,7 @@ game::game() :
  init_traps();	      // Set up the trap types            (SEE trapdef.cpp)
  init_mapitems();     // Set up which items appear where  (SEE mapitemsdef.cpp)
  init_recipes();      // Set up crafting reciptes         (SEE crafting.cpp)
- init_moncats();      // Set up monster categories        (SEE mongroupdef.cpp)
+ init_mongroups();    // Set up monster groupings         (SEE mongroupdef.cpp)
  init_missions();     // Set up mission templates         (SEE missiondef.cpp)
  init_construction(); // Set up constructables            (SEE construction.cpp)
  init_mutations();
@@ -3276,8 +3275,8 @@ void game::monmove()
      if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
          !cur_om.zg[group].diffuse )
       cur_om.zg[group].radius++;
-    } else if (mt_to_mc((mon_id)(z[i].type->id)) != mcat_null) {
-     cur_om.zg.push_back(mongroup(mt_to_mc((mon_id)(z[i].type->id)),
+    } else if (MonsterGroupManager::Monster2Group((mon_id)(z[i].type->id)) != "GROUP_NULL") {
+     cur_om.zg.push_back(mongroup(MonsterGroupManager::Monster2Group((mon_id)(z[i].type->id)),
                                   levx, levy, 1, 1));
     }
     z[i].dead = true;
@@ -3674,7 +3673,7 @@ void game::resonance_cascade(int x, int y)
    case 13:
    case 14:
    case 15:
-    spawn = moncats[mcat_nether][rng(0, moncats[mcat_nether].size() - 1)];
+    spawn = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER");
     invader = monster(mtypes[spawn], i, j);
     z.push_back(invader);
     break;
@@ -7999,10 +7998,7 @@ void game::spawn_mon(int shiftx, int shifty)
     nextspawn += rng(group * 4 + z.size() * 4, group * 10 + z.size() * 10);
 
    for (int j = 0; j < group; j++) {	// For each monster in the group...
-    mon_id type = valid_monster_from(moncats[cur_om.zg[i].type]);
-    if (type == mon_null)
-     j = group;	// No monsters may be spawned; not soon enough?
-    else {
+    mon_id type = MonsterGroupManager::GetMonsterFromGroup(cur_om.zg[i].type, (int)turn, &mtypes);
      zom = monster(mtypes[type]);
      iter = 0;
      do {
@@ -8033,7 +8029,6 @@ void game::spawn_mon(int shiftx, int shifty)
       zom.spawn(monx, mony);
       z.push_back(zom);
      }
-    }
    }	// Placing monsters of this group is done!
    if (cur_om.zg[i].population <= 0) { // Last monster in the group spawned...
     cur_om.zg.erase(cur_om.zg.begin() + i); // ...so remove that group
@@ -8043,31 +8038,6 @@ void game::spawn_mon(int shiftx, int shifty)
  }
 }
 
-mon_id game::valid_monster_from(std::vector<mon_id> group)
-{
- std::vector<mon_id> valid;
- int rntype = 0;
- for (int i = 0; i < group.size(); i++) {
-  if (mtypes[group[i]]->frequency > 0 &&
-      int(turn) + 900 >=
-          MINUTES(STARTING_MINUTES) + HOURS(mtypes[group[i]]->difficulty)){
-   valid.push_back(group[i]);
-   rntype += mtypes[group[i]]->frequency;
-  }
- }
- if (valid.size() == 0)
-  return mon_null;
- int curmon = -1;
- if (rntype > 0)
-  rntype = rng(0, rntype - 1);	// rntype set to [0, rntype)
- do {
-  curmon++;
-  rntype -= mtypes[valid[curmon]]->frequency;
- } while (rntype > 0);
- return valid[curmon];
-}
-
-
 int game::valid_group(mon_id type, int x, int y)
 {
  std::vector <int> valid_groups;
@@ -8076,18 +8046,12 @@ int game::valid_group(mon_id type, int x, int y)
  for (int i = 0; i < cur_om.zg.size(); i++) {
   dist = trig_dist(x, y, cur_om.zg[i].posx, cur_om.zg[i].posy);
   if (dist < cur_om.zg[i].radius) {
-   for (int j = 0; j < (moncats[cur_om.zg[i].type]).size(); j++) {
-    if (type == (moncats[cur_om.zg[i].type])[j]) {
+   if(MonsterGroupManager::IsMonsterInGroup(cur_om.zg[i].type, type)) {
      valid_groups.push_back(i);
-     j = (moncats[cur_om.zg[i].type]).size();
-    }
    }
   } else if (dist < cur_om.zg[i].radius + 3) {
-   for (int j = 0; j < (moncats[cur_om.zg[i].type]).size(); j++) {
-    if (type == (moncats[cur_om.zg[i].type])[j]) {
+   if(MonsterGroupManager::IsMonsterInGroup(cur_om.zg[i].type, type)) {
      semi_valid.push_back(i);
-     j = (moncats[cur_om.zg[i].type]).size();
-    }
    }
   }
  }
@@ -8364,17 +8328,6 @@ oter_id game::ter_at(int omx, int omy, bool& mark_as_seen)
    mark_as_seen = cur_om.seen(omx, omy);
  }
  return ret;
-}
-
-moncat_id game::mt_to_mc(mon_id type)
-{
- for (int i = 0; i < num_moncats; i++) {
-  for (int j = 0; j < (moncats[i]).size(); j++) {
-   if ((moncats[i])[j] == type)
-    return (moncat_id)(i);
-  }
- }
- return mcat_null;
 }
 
 nc_color sev(int a)
