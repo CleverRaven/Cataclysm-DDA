@@ -399,7 +399,7 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
   signed int temp_conv = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement;
   // Fatigue also affects convergeant temperature
-  if (!has_disease(DI_SLEEP)) temp_conv -= 10*fatigue/6;
+  if (!has_disease(DI_SLEEP)) temp_conv -= 3*fatigue;
   else {
    int vpart = -1;
    vehicle *veh = g->m.veh_at (posx, posy, vpart);
@@ -436,7 +436,6 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   if (g->weather == WEATHER_CLEAR && !g->m.is_indoor(posx, posy)) temp_conv += 500;
   // Other diseases
   if (has_disease(DI_FLU) && i == bp_head) temp_conv += 1500;
-  if (has_disease(DI_COMMON_COLD)) temp_conv -= 1000;
   // BIONICS
   // Bionic "Internal Climate Control" says it eases the effects of high and low ambient temps
   // NOTE : This should be the last place temp_conv is changed, otherwise the bionic will not work as intended.
