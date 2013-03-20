@@ -434,8 +434,12 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   // Weather
   if (g->weather == WEATHER_SUNNY && !g->m.is_indoor(posx, posy)) temp_conv += 1000;
   if (g->weather == WEATHER_CLEAR && !g->m.is_indoor(posx, posy)) temp_conv += 500;
+  // Other diseases
+  if (has_disease(DI_FLU) && i == bp_head) temp_conv += 1500;
+  if (has_disease(DI_COMMON_COLD)) temp_conv -= 1000;
   // BIONICS
   // Bionic "Internal Climate Control" says it eases the effects of high and low ambient temps
+  // NOTE : This should be the last place temp_conv is changed, otherwise the bionic will not work as intended.
   const int variation = BODYTEMP_NORM*0.5;
   if (has_bionic(bio_climate) && temp_conv < BODYTEMP_SCORCHING + variation && temp_conv > BODYTEMP_FREEZING - variation){
    if      (temp_conv > BODYTEMP_SCORCHING) temp_conv = BODYTEMP_VERY_HOT;
