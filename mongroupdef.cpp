@@ -80,8 +80,8 @@ std::vector<mon_id> MonsterGroupManager::GetMonstersFromGroup(std::string group)
 
 MonsterGroup MonsterGroupManager::GetMonsterGroup(std::string group)
 {
-    std::map<T>::iterator it = monsterGroupMap.find(group)
-    if(it == MonsterGroupMap.end())
+    std::map<std::string, MonsterGroup>::iterator it = monsterGroupMap.find(group);
+    if(it == monsterGroupMap.end())
     {
         debugmsg("Unable to get the group '%s'", group);
         return MonsterGroup();
