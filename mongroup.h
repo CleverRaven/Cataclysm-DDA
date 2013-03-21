@@ -63,8 +63,7 @@ class MonsterGroupManager
 {
     public:
         static void LoadJSONGroups();
-        static mon_id GetMonsterFromGroup(std::string);
-        static mon_id GetMonsterFromGroup(std::string, int, std::vector <mtype*> *);
+        static mon_id GetMonsterFromGroup(std::string, std::vector <mtype*> *, int turn = -1);
         static bool IsMonsterInGroup(std::string, mon_id);
         static std::string Monster2Group(mon_id);
         static std::vector<mon_id> GetMonstersFromGroup(std::string);

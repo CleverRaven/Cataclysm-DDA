@@ -21,12 +21,7 @@ std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 
 void game::init_mongroups() { MonsterGroupManager::LoadJSONGroups(); }
 
-mon_id MonsterGroupManager::GetMonsterFromGroup(std::string group)
-{
-    return GetMonsterFromGroup(group, -1, NULL);
-}
-
-mon_id MonsterGroupManager::GetMonsterFromGroup(std::string group, int turn, std::vector <mtype*> *mtypes)
+mon_id MonsterGroupManager::GetMonsterFromGroup(std::string group, std::vector <mtype*> *mtypes, int turn)
 {
     int roll = rng(1, 1000);
     MonsterGroup g = monsterGroupMap[group];
