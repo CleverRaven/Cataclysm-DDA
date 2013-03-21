@@ -5349,7 +5349,7 @@ void game::list_items()
    }
 
    if (ch == '.') {
-    for (int i = 1; i < TERMY; i++) {
+    for (int i = 1; i < TERMX; i++) {
      if (i < 55) {
       mvwputch(w_items, 0, i, c_ltgray, LINE_OXOX); // -
       mvwputch(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, i, c_ltgray, LINE_OXOX); // -
