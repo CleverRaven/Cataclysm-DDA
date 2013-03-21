@@ -2,6 +2,7 @@
 #include "npc.h"
 #include "game.h"
 #include "rng.h"
+#include "options.h"
 
 void event::actualize(game *g)
 {
@@ -220,7 +221,8 @@ void event::per_turn(game *g)
 {
  switch (type) {
   case EVENT_WANTED: {
-   if (g->levz >= 0 && one_in(100)) { // About once every 10 minutes
+   // About once every 10 minutes. Suppress in classic zombie mode.
+   if (g->levz >= 0 && one_in(100) && !OPTIONS[OPT_CLASSIC_ZOMBIES]) {
     monster eyebot(g->mtypes[mon_eyebot]);
     eyebot.faction_id = faction_id;
     point place = g->m.random_outdoor_tile();
