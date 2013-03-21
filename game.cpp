@@ -975,10 +975,14 @@ void game::process_missions()
 bool game::handle_action()
 {
     char ch = '.';
-    int iStartX = 0;// > TERRAIN_WINDOW_WIDTH ? 0 : (TERRAIN_WINDOW_WIDTH - VIEWX) / 2;
-    int iStartY = 0;// > TERRAIN_WINDOW_HEIGHT ? 0 : (TERRAIN_WINDOW_HEIGHT - VIEWY)/2;
-    int iEndX = TERRAIN_WINDOW_WIDTH;// == 0 ? TERRAIN_WINDOW_WIDTH : xRangeStart + VIEWX;
-    int iEndY = TERRAIN_WINDOW_HEIGHT;// == 0 ? TERRAIN_WINDOW_HEIGHT : yRangeStart + VIEWY;
+
+    std::stringstream ssTemp;
+
+    //TODO: Make sure this is only inside the viewable area when useing a very large viewport
+    int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH-121)/2 : 0;
+    int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT-121)/2: 0;
+    int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH-(TERRAIN_WINDOW_WIDTH-121)/2: TERRAIN_WINDOW_WIDTH;
+    int iEndY = (TERRAIN_WINDOW_HEIGHT > 121) ? TERRAIN_WINDOW_HEIGHT-(TERRAIN_WINDOW_HEIGHT-121)/2: TERRAIN_WINDOW_HEIGHT;
 
     char cGlyph = ',';
     nc_color colGlyph = c_ltblue;
@@ -1034,45 +1038,33 @@ bool game::handle_action()
     if (bWeatherEffect) {
         //x% of the Viewport, only shown on visible areas
         int dropCount = iEndX * iEndY * fFactor;
-        WINDOW *w_drop[dropCount];
-
-        for(int i=0; i < dropCount; i++) {
-            w_drop[i] = newwin(1,1,999,999);
-        }
+        std::vector<std::pair<int, int> > vDrops;
 
         int iCh;
 
         timeout(125);
         do {
-            for(int i=0; i < dropCount; i++) {
-                int iPosX = getbegx(w_drop[i]);
-                int iPosY = getbegy(w_drop[i]);
-
-                if (iPosX < 999 && iPosY < 999 && mapRain[iPosY][iPosX]) {
-                    m.drawsq(w_terrain, u,
-                             iPosX - getmaxx(w_terrain)/2 + u.posx,
-                             iPosY - getmaxy(w_terrain)/2 + u.posy,
-                             false,
-                             true,
-                             u.posx + u.view_offset_x,
-                             u.posy + u.view_offset_y);
-                }
+            for(int i=0; i < vDrops.size(); i++) {
+                m.drawsq(w_terrain, u,
+                         vDrops[i].first - getmaxx(w_terrain)/2 + u.posx,
+                         vDrops[i].second - getmaxy(w_terrain)/2 + u.posy,
+                         false,
+                         true,
+                         u.posx + u.view_offset_x,
+                         u.posy + u.view_offset_y);
             }
-
-            wrefresh(w_terrain);
 
             for(int i=0; i < dropCount; i++) {
                 int iRandX = rng(iStartX, iEndX-1);
                 int iRandY = rng(iStartY, iEndY-1);
 
-                if (mapRain[iRandY][iRandX] && iRandX != getmaxx(w_terrain)/2+u.view_offset_x && iRandY != getmaxy(w_terrain)/2+u.view_offset_y) {
-                    mvwin(w_drop[i], iRandY, iRandX);
-                    mvwputch(w_drop[i], 0, 0, colGlyph, cGlyph);
-                    wrefresh(w_drop[i]);
-                } else {
-                    mvwin(w_drop[i], 999, 999);
+                if (mapRain[iRandY][iRandX]) {
+                    vDrops.push_back(std::make_pair(iRandX, iRandY));
+                    mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
                 }
             }
+
+            wrefresh(w_terrain);
         } while ((iCh = getch()) == ERR);
         timeout(-1);
 
