@@ -71,6 +71,14 @@ traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
 	&trapfunc::blade,	&trapfuncm::blade,
 	NULL);
 
+ TRAP("light snare trap", '^', c_brown, 5, 10, 2,
+ 	&trapfunc::snare_light, &trapfuncm::snare_light,
+ 	itm_light_snare_kit, NULL);
+
+ TRAP("heavy snare trap", '^', c_brown, 3, 10, 4,
+ 	&trapfunc::snare_heavy, &trapfuncm::snare_heavy,
+ 	itm_heavy_snare_kit, NULL);
+
 //	Name			    Symbol	Color		Vis Avd Diff
  TRAP("land mine",		'^',	c_red,	     1, 14, 10,
 	&trapfunc::landmine,	&trapfuncm::landmine,

@@ -183,7 +183,6 @@ struct mtype {
  std::vector<monster_trigger> placate; // What reduces our anger?
  std::vector<monster_trigger> fear;    // What are we afraid of?
 
- unsigned char frequency;	// How often do these show up? 0 (never) to ??
  int difficulty;// Used all over; 30 min + (diff-3)*30 min = earlist appearance
  int agro;	// How likely to attack; -100 to 100
  int morale;	// Default morale level
@@ -215,7 +214,6 @@ struct mtype {
   size = MS_MEDIUM;
   mat = FLESH;
   difficulty = 0;
-  frequency = 0;
   agro = 0;
   morale = 0;
   speed = 0;
@@ -236,7 +234,7 @@ struct mtype {
  // Non-default (messy)
  mtype (int pid, std::string pname, monster_species pspecies, char psym,
         nc_color pcolor, m_size psize, material pmat,
-	unsigned char pfreq, unsigned int pdiff, signed char pagro,
+	    unsigned int pdiff, signed char pagro,
         signed char pmorale, unsigned int pspeed, unsigned char pml_skill,
         unsigned char pml_dice, unsigned char pml_sides, unsigned char pml_cut,
         unsigned char pdodge, unsigned char parmor_bash,
@@ -252,7 +250,6 @@ struct mtype {
   color = pcolor;
   size = psize;
   mat = pmat;
-  frequency = pfreq;
   difficulty = pdiff;
   agro = pagro;
   morale = pmorale;

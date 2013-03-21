@@ -27,6 +27,8 @@
 		<Unit filename="artifact.cpp" />
 		<Unit filename="artifact.h" />
 		<Unit filename="artifactdata.h" />
+		<Unit filename="basecamp.cpp" />
+		<Unit filename="basecamp.h" />
 		<Unit filename="bionics.cpp" />
 		<Unit filename="bionics.h" />
 		<Unit filename="bodypart.cpp" />

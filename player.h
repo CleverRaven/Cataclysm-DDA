@@ -57,7 +57,7 @@ public:
  virtual std::string save_info();		// Save to file matching name
 
  void disp_info(game *g);	// '@' key; extended character info
- void disp_morale();		// '%' key; morale info
+ void disp_morale(game *g);		// '%' key; morale info
  void disp_status(WINDOW* w, game *g = NULL);// On-screen data
 
  void reset(game *g = NULL);// Resets movement points, stats, applies effects
@@ -210,7 +210,7 @@ public:
  void practice(Skill *s, int amount);
  void practice(std::string s, int amount);
 
- void assign_activity(activity_type type, int moves, int index = -1);
+ void assign_activity(game* g, activity_type type, int moves, int index = -1);
  void cancel_activity();
 
  int weight_carried();

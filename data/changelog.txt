@@ -22,9 +22,27 @@ Meat soup added, more cooking to come.
 The player now spawns with a pocket knife and lighter.
 Sledge hammer is usable to board windows and doors up.
 Heartless trait has been removed, replaced with the Cannibal trait, which allows you to eat human meat with no morale penalty.
+Braziers are now craftable. They contain fire and can be set up indoors.
+Bulletin Boards can be built to set an area as your home base. NPCs can 
+be told to wait there and will defend the area.
+Bear traps have been increased in weight and volume.
+Carboys have been renamed to Gallon jugs.
+You can now create a character without allocating all skill points.
+Winter Boots and Raincoats now correctly display the reinforced tag.
+Kills can now be accessed from in-game. Default key is ).
+'Phew it's hot warm' message has been fixed.
+The game now accepts wielded items when checking for containers.
+Sunny and Clear weather now provide warmth.
+Internal Climate Control bionic consumes power to cool or warm you.
+Crash bug caused by the screen being larger than the loaded overmap has 
+been fixed.
+Crash bug when going down stairs near cities has been fixed.
+
+Got angry at other developers for not updating changelog.
 
 0.2
-Reworked spawning option which places zombies at world generation rather than generating them dynamically in play.
+Reworked spawning option which places zombies at world generation 
+rather than generating them dynamically in play.
 Implementation of a context menu when examining inventory items.
 Machine added to hospitals to regrow limbs.
 

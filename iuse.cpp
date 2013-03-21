@@ -94,10 +94,11 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
             }
         }
     } else { // Player--present a menu
-        WINDOW* hp_window = newwin(10, 22, 8, 1);
+        WINDOW* hp_window = newwin(10, 22, (TERMY-10)/2, (TERMX-22)/2);
         wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-        LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-        mvwprintz(hp_window, 1, 1, c_ltred,  "Bandage where?");
+                           LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+        mvwprintz(hp_window, 1, 1, c_ltred,  "Use Bandage:");
         mvwprintz(hp_window, 2, 1, c_ltgray, "1: Head");
         mvwprintz(hp_window, 3, 1, c_ltgray, "2: Torso");
         mvwprintz(hp_window, 4, 1, c_ltgray, "3: Left Arm");
@@ -248,10 +249,10 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
             }
         }
     } else { // Player--present a menu
-        WINDOW* hp_window = newwin(10, 22, 8, 1);
+        WINDOW* hp_window = newwin(10, 22, (TERMY-10)/2, (TERMX-22)/2);
         wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-        LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-        mvwprintz(hp_window, 1, 1, c_ltred,  "First Aid where?");
+                           LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+        mvwprintz(hp_window, 1, 1, c_ltred,  "Use First Aid:");
         mvwprintz(hp_window, 2, 1, c_ltgray, "1: Head");
         mvwprintz(hp_window, 3, 1, c_ltgray, "2: Torso");
         mvwprintz(hp_window, 4, 1, c_ltgray, "3: Left Arm");
@@ -1086,7 +1087,7 @@ void iuse::water_purifier(game *g, player *p, item *it, bool t)
 
 void iuse::two_way_radio(game *g, player *p, item *it, bool t)
 {
- WINDOW* w = newwin(6, 36, 9, 5);
+ WINDOW* w = newwin(6, 36, (TERMY-6)/2, (TERMX-36)/2);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 // TODO: More options here.  Thoughts...
@@ -1231,18 +1232,18 @@ void iuse::roadmap_a_target(game *g, player *p, item *it, bool t, int target)
 
  int pomx = (g->levx + int(MAPSIZE / 2)) / 2; //overmap loc
  int pomy = (g->levy + int(MAPSIZE / 2)) / 2; //overmap loc
- 
+
  if (g->debugmon) debugmsg("Map: %s at %d,%d found! You @ %d %d",oter_target.name.c_str(), place.x, place.y, pomx,pomy);
- 
+
  if (place.x >= 0 && place.y >= 0) {
   for (int x = place.x - 3; x <= place.x + 3; x++) {
    for (int y = place.y - 3; y <= place.y + 3; y++)
-    g->cur_om.seen(x, y) = true;
+    g->cur_om.seen(x, y, g->levz) = true;
   }
-  
+
   direction to_hospital = direction_from(pomx,pomy, place.x, place.y);
   int distance = trig_dist(pomx,pomy, place.x, place.y);
-  
+
   g->add_msg_if_player(p, "You add a %s location to your map.", oterlist[target].name.c_str());
   g->add_msg_if_player(p, "It's %d squares to the %s", distance,  direction_name(to_hospital).c_str());
  } else {
@@ -1591,7 +1592,9 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
 
 
  trap_id type = tr_null;
+ ter_id ter;
  bool buried = false;
+ bool set = false;
  std::stringstream message;
  int practice;
 
@@ -1678,6 +1681,40 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
   message << "You set the blade trap two squares away.";
   type = tr_engine;
   practice = 12;
+  break;
+ case itm_light_snare_kit:
+  for(int i = -1; i <= 1; i++) {
+    for(int j = -1; j <= 1; j++){
+      ter = g->m.ter(posx+j, posy+i);
+      if(ter == t_tree_young && !set) {
+        message << "You set the snare trap.";
+        type = tr_light_snare;
+        practice = 2;
+        set = true;
+      }
+    }
+  }
+  if(!set) {
+    g->add_msg_if_player(p, "Invalid Placement.");
+    return;
+  }
+  break;
+ case itm_heavy_snare_kit:
+  for(int i = -1; i <= 1; i++) {
+    for(int j = -1; j <= 1; j++){
+      ter = g->m.ter(posx+j, posy+i);
+      if(ter == t_tree && !set) {
+        message << "You set the snare trap.";
+        type = tr_heavy_snare;
+        practice = 4;
+        set = true;
+      }
+    }
+  }
+  if(!set) {
+    g->add_msg_if_player(p, "Invalid Placement.");
+    return;
+  }
   break;
  case itm_landmine:
   buried = (p->has_amount(itm_shovel, 1) &&
@@ -2455,6 +2492,10 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
   g->add_msg("You do not have that item!");
   return;
  }
+ if (cut->type->id == itm_string_6 || cut->type->id == itm_string_36 || cut->type->id == itm_rope_30 || cut->type->id == itm_rope_6) {
+    g->add_msg("You cannot cut that, you must disassemble it using the disassemble key");
+    return;
+ }
  if (cut->type->id == itm_rag) {
   g->add_msg("There's no point in cutting a rag.");
   return;
@@ -3223,9 +3264,9 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    bool new_map = false;
    for (int x = int(g->levx / 2) - 20; x <= int(g->levx / 2) + 20; x++) {
     for (int y = int(g->levy / 2) - 20; y <= int(g->levy / 2) + 20; y++) {
-     if (!g->cur_om.seen(x, y)) {
+     if (!g->cur_om.seen(x, y, g->levz)) {
       new_map = true;
-      g->cur_om.seen(x, y) = true;
+      g->cur_om.seen(x, y, g->levz) = true;
      }
     }
    }

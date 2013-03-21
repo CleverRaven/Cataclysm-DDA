@@ -36,10 +36,10 @@
 
 void draw_tabs(WINDOW* w, std::string sTab);
 
-int set_stats(WINDOW* w, player *u, int &points);
-int set_traits(WINDOW* w, player *u, int &points);
-int set_skills(WINDOW* w, player *u, int &points);
-int set_description(WINDOW* w, player *u, int &points);
+int set_stats(WINDOW* w, game* g, player *u, int &points);
+int set_traits(WINDOW* w, game* g, player *u, int &points);
+int set_skills(WINDOW* w, game* g, player *u, int &points);
+int set_description(WINDOW* w, game* g, player *u, int &points);
 
 int random_skill();
 
@@ -51,10 +51,7 @@ bool player::create(game *g, character_type type, std::string tempname)
 {
  weapon = item(g->itypes[0], 0);
 
- int iMaxX = (g->VIEWX < 12) ? 80 : (g->VIEWX*2)+56;
- int iMaxY = (g->VIEWY < 12) ? 25 : (g->VIEWY*2)+1;
-
- WINDOW* w = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+ WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
 
  int tab = 0, points = 38;
  if (type != PLTYPE_CUSTOM) {
@@ -159,10 +156,10 @@ bool player::create(game *g, character_type type, std::string tempname)
   werase(w);
   wrefresh(w);
   switch (tab) {
-   case 0: tab += set_stats      (w, this, points); break;
-   case 1: tab += set_traits     (w, this, points); break;
-   case 2: tab += set_skills     (w, this, points); break;
-   case 3: tab += set_description(w, this, points); break;
+   case 0: tab += set_stats      (w, g, this, points); break;
+   case 1: tab += set_traits     (w, g, this, points); break;
+   case 2: tab += set_skills     (w, g, this, points); break;
+   case 3: tab += set_description(w, g, this, points); break;
   }
  } while (tab >= 0 && tab < 4);
  delwin(w);
@@ -289,7 +286,7 @@ void draw_tabs(WINDOW* w, std::string sTab)
  mvwputch(w, 24, 79, c_ltgray, LINE_XOOX); // _|
 }
 
-int set_stats(WINDOW* w, player *u, int &points)
+int set_stats(WINDOW* w, game* g, player *u, int &points)
 {
  unsigned char sel = 1;
  char ch;
@@ -461,7 +458,7 @@ int set_stats(WINDOW* w, player *u, int &points)
  } while (true);
 }
 
-int set_traits(WINDOW* w, player *u, int &points)
+int set_traits(WINDOW* w, game* g, player *u, int &points)
 {
  draw_tabs(w, "TRAITS");
 
@@ -658,7 +655,7 @@ int set_traits(WINDOW* w, player *u, int &points)
  } while (true);
 }
 
-int set_skills(WINDOW* w, player *u, int &points)
+int set_skills(WINDOW* w, game* g, player *u, int &points)
 {
  draw_tabs(w, "SKILLS");
 
@@ -769,7 +766,7 @@ int set_skills(WINDOW* w, player *u, int &points)
  } while (true);
 }
 
-int set_description(WINDOW* w, player *u, int &points)
+int set_description(WINDOW* w, game* g, player *u, int &points)
 {
  draw_tabs(w, "DESCRIPTION");
 
@@ -830,13 +827,14 @@ To save this character as a template, press !.");
      return 1;
      } else
     return 1;
-  } else if (u->name.size() == 0)
+  } else if (u->name.size() == 0) {
     mvwprintz(w, 6, 8, h_ltgray, "______NO NAME ENTERED!!!!_____");
     noname = true;
     wrefresh(w);
     if (query_yn("Are you SURE you're finished? Your name will be randomly generated.")){
      u->pick_name();
      return 1;
+    }
    } else if (query_yn("Are you SURE you're finished?"))
     return 1;
    else

@@ -263,7 +263,7 @@ void game::init_mapitems()
 	itm_glass_sheet, itm_stick, itm_muffler, itm_pipe, itm_bag_plastic,
 	itm_bottle_plastic, itm_bottle_glass, itm_can_drink, itm_can_food,
 	itm_box_small, itm_bubblewrap, itm_lighter, itm_syringe, itm_rag,
-	itm_software_hacking, itm_carboy_plastic, itm_spray_can, NULL);
+	itm_software_hacking, itm_jug_plastic, itm_spray_can, NULL);
 
  setvector(
    mapitems[mi_ammo],

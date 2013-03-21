@@ -22,12 +22,12 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
 
     int iLine = 0;
     const int iOffsetX1 = 3;
-    const int iOffsetX2 = 5;
+    const int iOffsetX2 = 4;
     const int iOffsetX3 = 18;
 
-    const nc_color cColor1 = c_cyan;
-    const nc_color cColor2 = c_blue;
-    const nc_color cColor3 = c_blue;
+    const nc_color cColor1 = c_ltcyan;
+    const nc_color cColor2 = c_ltblue;
+    const nc_color cColor3 = c_ltblue;
 
     mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "_________            __                   .__                            ");
     mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "\\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____  ");
@@ -38,12 +38,12 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
 
     if (bShowDDA) {
         iLine++;
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "________                   .__     ________                           ");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "\\______ \\  _____   _______ |  | __ \\______ \\  _____    ___.__   ______");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    |  \\ \\__  \\  \\_  __ \\|  |/ /  |    |  \\ \\__  \\  <   |  | /  ___/");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    `   \\ / __ \\_ |  | \\/|    <   |    `   \\ / __ \\_ \\___  | \\___ \\ ");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "/_______  /(____  / |__|   |__|_ \\ /_______  /(____  / / ____|/____  >");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "        \\/      \\/              \\/         \\/      \\/  \\/          \\/ ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "________                   .__      ________                           ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "\\______ \\  _____   _______ |  | __  \\______ \\  _____    ___.__   ______");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    |  \\ \\__  \\  \\_  __ \\|  |/ /   |    |  \\ \\__  \\  <   |  | /  ___/");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    `   \\ / __ \\_ |  | \\/|    <    |    `   \\ / __ \\_ \\___  | \\___ \\ ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "/_______  /(____  / |__|   |__|_ \\  /_______  /(____  / / ____|/____  >");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "        \\/      \\/              \\/          \\/      \\/  \\/          \\/ ");
 
         iLine++;
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "   _____   .__                         .___");
@@ -81,7 +81,7 @@ void game::print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int i
         if (iSel == i) {
             wprintz(w_in, h_white, vItems[i].c_str());
         } else {
-            wprintz(w_in, c_blue, (vItems[i].substr(0, 1)).c_str());
+            wprintz(w_in, c_white, (vItems[i].substr(0, 1)).c_str());
             wprintz(w_in, c_ltgray, (vItems[i].substr(1)).c_str());
         }
         wprintz(w_in, c_ltgray, "] ");
@@ -90,15 +90,12 @@ void game::print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int i
 
 bool game::opening_screen()
 {
-    int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
-    int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
-
-    WINDOW* w_background = newwin(iMaxY, iMaxX, 0, 0);
+    WINDOW* w_background = newwin(TERMY, TERMX, 0, 0);
 
     werase(w_background);
     wrefresh(w_background);
 
-    WINDOW* w_open = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+    WINDOW* w_open = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
     const int iMenuOffsetX = 2;
     int iMenuOffsetY = 22;
 
@@ -181,13 +178,13 @@ bool game::opening_screen()
 
             if (sel1 == 0) {	// Print the MOTD.
                 for (int i = 0; i < motd.size() && i < 16; i++)
-                    mvwprintz(w_open, i + 7, 12 + iMenuOffsetX, c_ltred, motd[i].c_str());
+                    mvwprintz(w_open, i + 7, 8, c_ltred, motd[i].c_str());
 
                 wrefresh(w_open);
                 refresh();
             } else if (sel1 == 7) {	// Print the Credits.
                 for (int i = 0; i < credits.size() && i < 16; i++)
-                    mvwprintz(w_open, i + 7, 12 + iMenuOffsetX, c_ltred, credits[i].c_str());
+                    mvwprintz(w_open, i + 7, 8, c_ltred, credits[i].c_str());
 
                 wrefresh(w_open);
                 refresh();
@@ -201,7 +198,7 @@ bool game::opening_screen()
             } else if (chInput == 'n' || chInput == 'N') {
                 sel1 = 1;
                 chInput = '\n';
-            } else if (chInput == 'l' || chInput == 'L') {
+            } else if (chInput == 'L') {
                 sel1 = 2;
                 chInput = '\n';
             } else if (chInput == 'r' || chInput == 'R') {
@@ -213,7 +210,7 @@ bool game::opening_screen()
             } else if (chInput == 'o' || chInput == 'O') {
                 sel1 = 5;
                 chInput = '\n';
-            } else if (chInput == 'h' || chInput == 'H') {
+            } else if (chInput == 'H') {
                 sel1 = 6;
                 chInput = '\n';
             } else if (chInput == 'c' || chInput == 'C') {
@@ -224,17 +221,17 @@ bool game::opening_screen()
                 chInput = '\n';
             }
 
-            if (chInput == KEY_LEFT) {
+            if (chInput == KEY_LEFT || chInput == 'h') {
                 if (sel1 > 0)
                     sel1--;
                 else
                     sel1 = 8;
-            } else if (chInput == KEY_RIGHT) {
+            } else if (chInput == KEY_RIGHT || chInput == 'l') {
                 if (sel1 < 8)
                     sel1++;
                 else
                     sel1 = 0;
-            } else if ((chInput == KEY_UP || chInput == '\n') && sel1 > 0 && sel1 != 7) {
+            } else if ((chInput == KEY_UP || chInput == 'k' || chInput == '\n') && sel1 > 0 && sel1 != 7) {
                 if (sel1 == 5) {
                     show_options();
                 } else if (sel1 == 6) {
@@ -266,21 +263,21 @@ bool game::opening_screen()
                     chInput = '\n';
                 }
 
-                if (chInput == KEY_LEFT) {
+                if (chInput == KEY_LEFT || chInput == 'h') {
                     if (sel2 > 0)
                         sel2--;
                     else
                         sel2 = 2;
-                } if (chInput == KEY_RIGHT) {
+                } if (chInput == KEY_RIGHT || chInput == 'l') {
                     if (sel2 < 2)
                         sel2++;
                     else
                         sel2 = 0;
-                } else if (chInput == KEY_DOWN || chInput == KEY_ESCAPE) {
+                } else if (chInput == KEY_DOWN || chInput == 'j' || chInput == KEY_ESCAPE) {
                     layer = 1;
                     sel1 = 1;
                 }
-                if (chInput == KEY_UP || chInput == '\n') {
+                if (chInput == KEY_UP || chInput == 'k' || chInput == '\n') {
                     if (sel2 == 0 || sel2 == 2) {
                         if (!u.create(this, (sel2 == 0) ? PLTYPE_CUSTOM : PLTYPE_RANDOM)) {
                             u = player();
@@ -410,9 +407,9 @@ bool game::opening_screen()
                 print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
             } else if (input == DirectionE || input == Confirm) {
                 if (!u.create(this, PLTYPE_TEMPLATE, templates[sel1])) {
-                u = player();
-                delwin(w_open);
-                return (opening_screen());
+                    u = player();
+                    delwin(w_open);
+                    return (opening_screen());
                 }
 
                 werase(w_background);

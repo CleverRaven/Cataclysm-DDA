@@ -70,7 +70,7 @@ void computer::shutdown_terminal()
 void computer::use(game *g)
 {
  if (w_terminal == NULL)
-  w_terminal = newwin(25, 80, 0, 0);
+  w_terminal = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
  wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                      LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
@@ -385,12 +385,10 @@ void computer::activate_function(game *g, computer_action action)
    if (maxx >= OMAPX) maxx = OMAPX - 1;
    if (miny < 0)             miny = 0;
    if (maxy >= OMAPY) maxy = OMAPY - 1;
-   overmap tmp(g, g->cur_om.posx, g->cur_om.posy, 0);
    for (int i = minx; i <= maxx; i++) {
     for (int j = miny; j <= maxy; j++)
-     tmp.seen(i, j) = true;
+     g->cur_om.seen(i, j, 0) = true;
    }
-   tmp.save(g->u.name, g->cur_om.posx, g->cur_om.posy, 0);
    print_line("Surface map data downloaded.");
   } break;
 
@@ -405,20 +403,19 @@ void computer::activate_function(game *g, computer_action action)
    if (maxy >= OMAPY) maxy = OMAPY - 1;
    for (int i = minx; i <= maxx; i++) {
     for (int j = miny; j <= maxy; j++)
-     if ((g->cur_om.ter(i, j) >= ot_sewer_ns &&
-          g->cur_om.ter(i, j) <= ot_sewer_nesw) ||
-         (g->cur_om.ter(i, j) >= ot_sewage_treatment &&
-          g->cur_om.ter(i, j) <= ot_sewage_treatment_under))
-     g->cur_om.seen(i, j) = true;
+     if ((g->cur_om.ter(i, j, g->levz) >= ot_sewer_ns &&
+          g->cur_om.ter(i, j, g->levz) <= ot_sewer_nesw) ||
+         (g->cur_om.ter(i, j, g->levz) >= ot_sewage_treatment &&
+          g->cur_om.ter(i, j, g->levz) <= ot_sewage_treatment_under))
+     g->cur_om.seen(i, j, g->levz) = true;
    }
    print_line("Sewage map data downloaded.");
   } break;
 
 
   case COMPACT_MISS_LAUNCH: {
-   overmap tmp_om(g, g->cur_om.posx, g->cur_om.posy, 0);
 // Target Acquisition.
-   point target = tmp_om.choose_point(g);
+   point target = g->cur_om.choose_point(g, 0);
    if (target.x == -1) {
     print_line("Launch canceled.");
     return;
@@ -437,15 +434,12 @@ void computer::activate_function(game *g, computer_action action)
     }
    }
 // For each level between here and the surface, remove the missile
-   for (int level = g->cur_om.posz; level < 0; level++) {
-    tmp_om = g->cur_om;
-    g->cur_om = overmap(g, tmp_om.posx, tmp_om.posy, level);
+   for (int level = g->levz; level < 0; level++) {
     tinymap tmpmap(&g->itypes, &g->mapitems, &g->traps);
-    tmpmap.load(g, g->levx, g->levy, false);
+    tmpmap.load(g, g->levx, g->levy, level, false);
     tmpmap.translate(t_missile, t_hole);
-    tmpmap.save(&tmp_om, g->turn, g->levx, g->levy);
+    tmpmap.save(&g->cur_om, g->turn, g->levx, level, g->levz);
    }
-   g->cur_om = tmp_om;
    for (int x = target.x - 2; x <= target.x + 2; x++) {
     for (int y = target.y -  2; y <= target.y + 2; y++)
      g->nuke(x, y);
@@ -553,7 +547,7 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n");
    print_line("\
 SITE %d%d%d%d%d\n\
 PERTINANT FOREMAN LOGS WILL BE PREPENDED TO NOTES",
-g->cur_om.posx, g->cur_om.posy, g->levx, g->levy, abs(g->levz));
+g->cur_om.pos().x, g->cur_om.pos().y, g->levx, g->levy, abs(g->levz));
    print_line("\n\
 MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER\n\
    IMPERATIVE 2:07B\n\
@@ -643,7 +637,7 @@ of pureed bone & LSD.");
     }
    }
    break;
-   
+
   case COMPACT_EMERG_MESS:
   print_line("\
   GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
@@ -807,7 +801,7 @@ void computer::activate_failure(game *g, computer_failure fail)
    }
    getch();
    break;
-   
+
  }// switch (fail)
 }
 
