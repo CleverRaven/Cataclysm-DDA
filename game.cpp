@@ -1051,6 +1051,8 @@ bool game::handle_action()
                          u.posy + u.view_offset_y);
             }
 
+            vDrops.clear();
+
             for(int i=0; i < dropCount; i++) {
                 int iRandX = rng(iStartX, iEndX-1);
                 int iRandY = rng(iStartY, iEndY-1);
