@@ -815,6 +815,10 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
 
 // ARMOR
 
+ RECIPE(itm_socks, CC_ARMOR, "tailor", NULL, 0, 10000, false);
+  TOOL(itm_needle_bone, 4, itm_sewing_kit,  4, NULL);
+  COMP(itm_rag, 2, NULL);
+
  RECIPE(itm_mocassins, CC_ARMOR, "tailor", NULL, 1, 30000, false);
   TOOL(itm_needle_bone, 5, itm_sewing_kit,  5, NULL);
   COMP(itm_fur, 2, NULL);
@@ -831,6 +835,18 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   TOOL(itm_needle_bone, 16, itm_sewing_kit, 16, NULL);
   COMP(itm_rag, 8, NULL);
 
+ RECIPE(itm_shorts, CC_ARMOR, "tailor", NULL, 1, 25000, false);
+  TOOL(itm_needle_bone, 10, itm_sewing_kit, 10, NULL);
+  COMP(itm_rag, 5, NULL);
+
+ RECIPE(itm_shorts_cargo, CC_ARMOR, "tailor", NULL, 2, 30000, false);
+  TOOL(itm_needle_bone, 12, itm_sewing_kit, 12, NULL);
+  COMP(itm_rag, 6, NULL);
+
+ RECIPE(itm_long_underwear, CC_ARMOR, "tailor", "survival", 3, 35000, false);
+  TOOL(itm_needle_bone, 15, itm_sewing_kit, 15, NULL);
+  COMP(itm_rag, 10, NULL);
+
  RECIPE(itm_pants_leather, CC_ARMOR, "tailor", NULL, 4, 50000, false);
   TOOL(itm_needle_bone, 10, itm_sewing_kit, 10, NULL);
   COMP(itm_leather, 10, NULL);
@@ -839,7 +855,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   TOOL(itm_needle_bone, 4, itm_sewing_kit, 4, NULL);
   COMP(itm_rag, 4, NULL);
 
-RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
+ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   TOOL(itm_needle_bone, 4, itm_sewing_kit, 4, NULL);
   COMP(itm_rag, 5, NULL);
 
@@ -859,13 +875,17 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   TOOL(itm_needle_bone, 30, itm_sewing_kit, 30, NULL);
   COMP(itm_leather, 16, NULL);
 
- RECIPE(itm_gloves_light, CC_ARMOR, "tailor", NULL, 1, 10000, false);
-  TOOL(itm_needle_bone, 2, itm_sewing_kit, 2, NULL);
-  COMP(itm_rag, 2, NULL);
-
  RECIPE(itm_gloves_fingerless, CC_ARMOR, "tailor", NULL, 0, 16000, false);
   TOOL(itm_scissors, -1, TG_KNIVES, NULL);
   COMP(itm_gloves_leather, 1, NULL);
+
+ RECIPE(itm_gloves_liner, CC_ARMOR, "tailor", NULL, 1, 10000, false);
+  TOOL(itm_needle_bone, 2, itm_sewing_kit, 2, NULL);
+  COMP(itm_rag, 2, NULL);
+
+ RECIPE(itm_gloves_light, CC_ARMOR, "tailor", NULL, 2, 16000, false);
+  TOOL(itm_needle_bone, 4, itm_sewing_kit, 4, NULL);
+  COMP(itm_rag, 1, NULL);
 
  RECIPE(itm_gloves_leather, CC_ARMOR, "tailor", NULL, 2, 16000, false);
   TOOL(itm_needle_bone, 6, itm_sewing_kit, 6, NULL);
@@ -896,6 +916,10 @@ RECIPE(itm_tshirt_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
  RECIPE(itm_hat_fur, CC_ARMOR, "tailor", NULL, 2, 40000, false);
   TOOL(itm_needle_bone, 8, itm_sewing_kit, 8, NULL);
   COMP(itm_fur, 3, NULL);
+
+ RECIPE(itm_balclava, CC_ARMOR, "tailor", NULL, 3, 35000, false);
+  TOOL(itm_needle_bone, 12, itm_sewing_kit, 12, NULL);
+  COMP(itm_rag, 6, NULL);
 
  RECIPE(itm_armguard_metal, CC_ARMOR, "tailor", NULL, 4,  30000, false);
   TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
