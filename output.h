@@ -21,6 +21,14 @@
 #define LINE_OXXX 4194423
 #define LINE_XXXX 4194414
 
+// Display data... TODO: Make this more portable?
+extern int VIEWX;
+extern int VIEWY;
+extern int TERMX;
+extern int TERMY;
+extern int TERRAIN_WINDOW_WIDTH;
+extern int TERRAIN_WINDOW_HEIGHT;
+
 void mvputch(int y, int x, nc_color FG, long ch);
 void wputch(WINDOW* w, nc_color FG, long ch);
 void mvwputch(WINDOW* w, int y, int x, nc_color FG, long ch);
@@ -62,6 +70,9 @@ long special_symbol (char sym);
 
 // utility: moves \n's around to fit string breaks within a certain width.
 std::string word_rewrap (const std::string &in, int width);
+
+// short visual animation (player, monster, ...) (hit, dodge, ...)
+void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout = 70);
 
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void clear_window(WINDOW* w);

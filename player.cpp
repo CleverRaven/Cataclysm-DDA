@@ -979,7 +979,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   }
  }
 
- int maxy = (g->VIEWY*2)+1;
+ int maxy = (VIEWY*2)+1;
  if (maxy < 25)
   maxy = 25;
 
@@ -1737,9 +1737,9 @@ encumb(bp_feet) * 5);
  erase();
 }
 
-void player::disp_morale()
+void player::disp_morale(game* g)
 {
- WINDOW *w = newwin(25, 80, 0, 0);
+ WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w, 1,  1, c_white, "Morale Modifiers:");
@@ -2034,114 +2034,6 @@ void player::charge_power(int amount)
   power_level = 0;
 }
 
-void player::power_bionics(game *g)
-{
- WINDOW *wBio = newwin(25, 80, 0, 0);
- werase(wBio);
- std::vector <bionic> passive;
- std::vector <bionic> active;
- mvwprintz(wBio, 0, 0, c_blue, "BIONICS -");
- mvwprintz(wBio, 0,10, c_white,
-           "Activating.  Press '!' to examine your implants.");
-
- for (int i = 0; i < 80; i++) {
-  mvwputch(wBio,  1, i, c_ltgray, LINE_OXOX);
-  mvwputch(wBio, 21, i, c_ltgray, LINE_OXOX);
- }
- for (int i = 0; i < my_bionics.size(); i++) {
-  if ( bionics[my_bionics[i].id].power_source ||
-      !bionics[my_bionics[i].id].activated      )
-   passive.push_back(my_bionics[i]);
-  else
-   active.push_back(my_bionics[i]);
- }
- nc_color type;
- if (passive.size() > 0) {
-  mvwprintz(wBio, 2, 0, c_ltblue, "Passive:");
-  for (int i = 0; i < passive.size(); i++) {
-   if (bionics[passive[i].id].power_source)
-    type = c_ltcyan;
-   else
-    type = c_cyan;
-   mvwputch(wBio, 3 + i, 0, type, passive[i].invlet);
-   mvwprintz(wBio, 3 + i, 2, type, bionics[passive[i].id].name.c_str());
-  }
- }
- if (active.size() > 0) {
-  mvwprintz(wBio, 2, 32, c_ltblue, "Active:");
-  for (int i = 0; i < active.size(); i++) {
-   if (active[i].powered)
-    type = c_red;
-   else
-    type = c_ltred;
-   mvwputch(wBio, 3 + i, 32, type, active[i].invlet);
-   mvwprintz(wBio, 3 + i, 34, type,
-             (active[i].powered ? "%s - ON" : "%s - %d PU / %d trns"),
-             bionics[active[i].id].name.c_str(),
-             bionics[active[i].id].power_cost,
-             bionics[active[i].id].charge_time);
-  }
- }
-
- wrefresh(wBio);
- char ch;
- bool activating = true;
- bionic *tmp;
- int b;
- do {
-  ch = getch();
-  if (ch == '!') {
-   activating = !activating;
-   if (activating)
-    mvwprintz(wBio, 0, 10, c_white,
-              "Activating.  Press '!' to examine your implants.");
-   else
-    mvwprintz(wBio, 0, 10, c_white,
-              "Examining.  Press '!' to activate your implants.");
-  } else if (ch == ' ')
-   ch = KEY_ESCAPE;
-  else if (ch != KEY_ESCAPE) {
-   for (int i = 0; i < my_bionics.size(); i++) {
-    if (ch == my_bionics[i].invlet) {
-     tmp = &my_bionics[i];
-     b = i;
-     ch = KEY_ESCAPE;
-    }
-   }
-   if (ch == KEY_ESCAPE) {
-    if (activating) {
-     if (bionics[tmp->id].activated) {
-      if (tmp->powered) {
-       tmp->powered = false;
-       g->add_msg("%s powered off.", bionics[tmp->id].name.c_str());
-      } else if (power_level >= bionics[tmp->id].power_cost ||
-                 (weapon.type->id == itm_bio_claws && tmp->id == bio_claws))
-       activate_bionic(b, g);
-     } else
-      mvwprintz(wBio, 22, 0, c_ltred, "\
-You can not activate %s!  To read a description of \
-%s, press '!', then '%c'.", bionics[tmp->id].name.c_str(),
-                            bionics[tmp->id].name.c_str(), tmp->invlet);
-    } else {	// Describing bionics, not activating them!
-// Clear the lines first
-     ch = 0;
-     mvwprintz(wBio, 22, 0, c_ltgray, "\
-                                                                               \
-                                                                               \
-                                                                             ");
-     mvwprintz(wBio, 22, 0, c_ltblue,
-               bionics[tmp->id].description.c_str());
-    }
-   }
-  }
-  wrefresh(wBio);
- } while (ch != KEY_ESCAPE);
- werase(wBio);
- wrefresh(wBio);
- delwin(wBio);
- erase();
-}
-
 float player::active_light()
 {
  float lumination = 0;
@@ -2427,6 +2319,10 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  dam += cut;
  if (dam <= 0)
   return;
+
+ hit_animation(this->posx - g->u.posx + VIEWX - g->u.view_offset_x,
+               this->posy - g->u.posy + VIEWY - g->u.view_offset_y,
+               red_background(this->color()), '@');
 
  rem_disease(DI_SPEED_BOOST);
  if (dam >= 6)
@@ -3982,6 +3878,12 @@ bool player::has_watertight_container()
     return true;
   }
  }
+ if (weapon.is_container() && weapon.contents.empty()) {
+   it_container* cont = dynamic_cast<it_container*>(weapon.type);
+   if (cont->flags & mfb(con_wtight) && cont->flags & mfb(con_seals))
+    return true;
+ }
+
  return false;
 }
 
@@ -4011,6 +3913,29 @@ bool player::has_matching_liquid(int it)
     }
   }
  }
+ if (weapon.is_container() && !weapon.contents.empty()) {
+  if (weapon.contents[0].type->id == it) { // liquid matches
+    it_container* container = dynamic_cast<it_container*>(weapon.type);
+    int holding_container_charges;
+
+    if (weapon.contents[0].type->is_food()) {
+      it_comest* tmp_comest = dynamic_cast<it_comest*>(weapon.contents[0].type);
+
+      if (tmp_comest->add == ADD_ALCOHOL) // 1 contains = 20 alcohol charges
+        holding_container_charges = container->contains * 20;
+      else
+        holding_container_charges = container->contains;
+    }
+    else if (weapon.contents[0].type->is_ammo())
+      holding_container_charges = container->contains * 200;
+    else
+      holding_container_charges = container->contains;
+
+  if (weapon.contents[0].charges < holding_container_charges)
+    return true;
+  }
+}
+
  return false;
 }
 
@@ -5252,7 +5177,7 @@ void player::practice (std::string s, int amount) {
   practice(aSkill, amount);
 }
 
-void player::assign_activity(activity_type type, int moves, int index)
+void player::assign_activity(game* g, activity_type type, int moves, int index)
 {
  if (backlog.type == type && backlog.index == index &&
      query_yn("Resume task?")) {
