@@ -168,6 +168,13 @@ MF_NO_BREATHE, //Provides immunity to inhalation effects from gas, smoke, and po
 MF_MAX		// Sets the length of the flags - obviously MUST be last
 };
 
+enum m_category {
+MC_NULL = 0, // No category.
+MC_CLASSIC, // Only monsters we expect in a classic zombie movie.
+MC_WILDLIFE, // The natural animals.
+MC_MAX // Size of flag array.
+};
+
 struct mtype {
  int id;
  std::string name;
@@ -179,6 +186,7 @@ struct mtype {
  m_size size;
  material mat;	// See enums.h for material list.  Generally, flesh; veggy?
  std::vector<m_flag> flags;
+ std::vector<m_category> categories;
  std::vector<monster_trigger> anger;   // What angers us?
  std::vector<monster_trigger> placate; // What reduces our anger?
  std::vector<monster_trigger> fear;    // What are we afraid of?
@@ -276,6 +284,15 @@ struct mtype {
  {
   for (int i = 0; i < flags.size(); i++) {
    if (flags[i] == flag)
+    return true;
+  }
+  return false;
+ }
+
+ bool in_category(m_category category)
+ {
+  for (int i = 0; i < categories.size(); i++) {
+   if (categories[i] == category)
     return true;
   }
   return false;
