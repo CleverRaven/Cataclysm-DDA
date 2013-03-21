@@ -387,16 +387,16 @@ bool game::opening_screen()
             wrefresh(w_open);
             refresh();
             input = get_input();
-            if (input == DirectionN) {
+            if (input == DirectionS) {
                 if (sel1 > 0)
                     sel1--;
                 else
                     sel1 = templates.size() - 1;
-            } else if (templates.size() == 0 && (input == DirectionS || input == Confirm)) {
+            } else if (templates.size() == 0 && (input == DirectionN || input == Confirm)) {
                 sel1 = 1;
                 layer = 2;
                 print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
-            } else if (input == DirectionS) {
+            } else if (input == DirectionN) {
                 if (sel1 < templates.size() - 1)
                     sel1++;
                 else
