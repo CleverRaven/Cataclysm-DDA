@@ -286,6 +286,8 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_COMMON_COLD:
   if (int(g->turn) % 300 == 0)
    p.thirst++;
+  if (int(g->turn) % 50 == 0)
+   p.fatigue++;
   if (p.has_disease(DI_TOOK_FLUMED)) {
    p.str_cur--;
    p.int_cur--;
