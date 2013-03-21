@@ -26,11 +26,13 @@
 #define LINE_OXXX 4194423
 #define LINE_XXXX 4194414
 
-// Display data... TODO: Make this more portable?
-int VIEWX;
-int VIEWY;
+// Display data
 int TERMX;
 int TERMY;
+int VIEWX;
+int VIEWY;
+int VIEW_OFFSET_X;
+int VIEW_OFFSET_Y;
 int TERRAIN_WINDOW_WIDTH;
 int TERRAIN_WINDOW_HEIGHT;
 
