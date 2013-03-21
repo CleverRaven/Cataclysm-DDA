@@ -976,14 +976,6 @@ bool game::handle_action()
 {
     char ch = '.';
 
-    std::stringstream ssTemp;
-
-    //TODO: Make sure this is only inside the viewable area when useing a very large viewport
-    int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH-121)/2 : 0;
-    int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT-121)/2: 0;
-    int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH-(TERRAIN_WINDOW_WIDTH-121)/2: TERRAIN_WINDOW_WIDTH;
-    int iEndY = (TERRAIN_WINDOW_HEIGHT > 121) ? TERRAIN_WINDOW_HEIGHT-(TERRAIN_WINDOW_HEIGHT-121)/2: TERRAIN_WINDOW_HEIGHT;
-
     char cGlyph = ',';
     nc_color colGlyph = c_ltblue;
     float fFactor = 0.01;
@@ -1031,11 +1023,16 @@ bool game::handle_action()
             fFactor = 0.04;
             break;
         default:
-            bWeatherEffect = true;
+            bWeatherEffect = false;
             break;
     }
 
     if (bWeatherEffect) {
+        int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH-121)/2 : 0;
+        int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT-121)/2: 0;
+        int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH-(TERRAIN_WINDOW_WIDTH-121)/2: TERRAIN_WINDOW_WIDTH;
+        int iEndY = (TERRAIN_WINDOW_HEIGHT > 121) ? TERRAIN_WINDOW_HEIGHT-(TERRAIN_WINDOW_HEIGHT-121)/2: TERRAIN_WINDOW_HEIGHT;
+
         //x% of the Viewport, only shown on visible areas
         int dropCount = iEndX * iEndY * fFactor;
         std::vector<std::pair<int, int> > vDrops;
