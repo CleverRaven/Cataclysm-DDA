@@ -2548,7 +2548,7 @@ void map::draw(game *g, WINDOW* w, const point center)
     else
      mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_ltgray, '#');
    } else if (dist <= u_clairvoyance || can_see) {
-    if (bRainOutside)
+    if (bRainOutside && INBOUNDS(realx, realy) && terlist[ter(realx, realy)].sym == '.')
      g->mapRain[realy + getmaxy(w)/2 - g->u.posy][realx + getmaxx(w)/2 - g->u.posx] = true;
     drawsq(w, g->u, realx, realy, false, true, center.x, center.y,
            (dist > low_sight_range && LL_LIT > lit) ||

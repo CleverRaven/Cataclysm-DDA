@@ -981,70 +981,99 @@ void game::process_missions()
 bool game::handle_action()
 {
     char ch = '.';
-    int xRangeStart = 0;// > TERRAIN_WINDOW_WIDTH ? 0 : (TERRAIN_WINDOW_WIDTH - VIEWX) / 2;
-    int yRangeStart = 0;// > TERRAIN_WINDOW_HEIGHT ? 0 : (TERRAIN_WINDOW_HEIGHT - VIEWY)/2;
-    int xRangeEnd = TERRAIN_WINDOW_WIDTH;// == 0 ? TERRAIN_WINDOW_WIDTH : xRangeStart + VIEWX;
-    int yRangeEnd = TERRAIN_WINDOW_HEIGHT;// == 0 ? TERRAIN_WINDOW_HEIGHT : yRangeStart + VIEWY;
 
     char cGlyph = ',';
     nc_color colGlyph = c_ltblue;
+    float fFactor = 0.01;
 
     bool bWeatherEffect = true;
     switch(weather) {
-        case WEATHER_ACID_DRIZZLE:  cGlyph = '.';   colGlyph = c_green;     break;
-        case WEATHER_ACID_RAIN:     cGlyph = ',';   colGlyph = c_ltgreen;   break;
-        case WEATHER_DRIZZLE:       cGlyph = '.';   colGlyph = c_blue;      break;
-        case WEATHER_RAINY:         cGlyph = ',';   colGlyph = c_ltblue;    break;
-        case WEATHER_THUNDER:       cGlyph = ',';   colGlyph = c_blue;      break;
-        case WEATHER_LIGHTNING:     cGlyph = 'o';   colGlyph = c_blue;      break;
-        case WEATHER_SNOW:          cGlyph = '*';   colGlyph = c_white;     break;
-        case WEATHER_SNOWSTORM:     cGlyph = '#';   colGlyph = c_white;     break;
-        default:                    bWeatherEffect = true;                 break;
+        case WEATHER_ACID_DRIZZLE:
+            cGlyph = '.';
+            colGlyph = c_ltgreen;
+            fFactor = 0.01;
+            break;
+        case WEATHER_ACID_RAIN:
+            cGlyph = ',';
+            colGlyph = c_ltgreen;
+            fFactor = 0.02;
+            break;
+        case WEATHER_DRIZZLE:
+            cGlyph = '.';
+            colGlyph = c_ltblue;
+            fFactor = 0.01;
+            break;
+        case WEATHER_RAINY:
+            cGlyph = ',';
+            colGlyph = c_ltblue;
+            fFactor = 0.02;
+            break;
+        case WEATHER_THUNDER:
+            cGlyph = '.';
+            colGlyph = c_ltblue;
+            fFactor = 0.02;
+            break;
+        case WEATHER_LIGHTNING:
+            cGlyph = ',';
+            colGlyph = c_ltblue;
+            fFactor = 0.04;
+            break;
+        case WEATHER_SNOW:
+            cGlyph = '*';
+            colGlyph = c_white;
+            fFactor = 0.02;
+            break;
+        case WEATHER_SNOWSTORM:
+            cGlyph = '*';
+            colGlyph = c_white;
+            fFactor = 0.04;
+            break;
+        default:
+            bWeatherEffect = false;
+            break;
     }
 
     if (bWeatherEffect) {
-        int dropCount = xRangeEnd * yRangeEnd * 0.01; //1% of the visible area
-        WINDOW *w_drop[dropCount];
+        int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH-121)/2 : 0;
+        int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT-121)/2: 0;
+        int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH-(TERRAIN_WINDOW_WIDTH-121)/2: TERRAIN_WINDOW_WIDTH;
+        int iEndY = (TERRAIN_WINDOW_HEIGHT > 121) ? TERRAIN_WINDOW_HEIGHT-(TERRAIN_WINDOW_HEIGHT-121)/2: TERRAIN_WINDOW_HEIGHT;
 
-        for(int i=0; i < dropCount; i++) {
-            w_drop[i] = newwin(1,1,999,999);
-        }
+        //x% of the Viewport, only shown on visible areas
+        int dropCount = iEndX * iEndY * fFactor;
+        std::vector<std::pair<int, int> > vDrops;
 
-        timeout(100);
+        int iCh;
+
+        timeout(125);
         do {
-            for(int i=0; i < dropCount; i++) {
-                int iPosX = getbegx(w_drop[i]);
-                int iPosY = getbegy(w_drop[i]);
+            for(int i=0; i < vDrops.size(); i++) {
+                m.drawsq(w_terrain, u,
+                         vDrops[i].first - getmaxx(w_terrain)/2 + u.posx,
+                         vDrops[i].second - getmaxy(w_terrain)/2 + u.posy,
+                         false,
+                         true,
+                         u.posx + u.view_offset_x,
+                         u.posy + u.view_offset_y);
+            }
 
-                if (iPosX < 999 && iPosY < 999 && mapRain[iPosY][iPosX]) {
-                    m.drawsq(w_terrain, u,
-                             iPosX - getmaxx(w_terrain)/2 + u.posx,
-                             iPosY - getmaxy(w_terrain)/2 + u.posy,
-                             false,
-                             true,
-                             u.posx + u.view_offset_x,
-                             u.posy + u.view_offset_y);
+            vDrops.clear();
+
+            for(int i=0; i < dropCount; i++) {
+                int iRandX = rng(iStartX, iEndX-1);
+                int iRandY = rng(iStartY, iEndY-1);
+
+                if (mapRain[iRandY][iRandX]) {
+                    vDrops.push_back(std::make_pair(iRandX, iRandY));
+                    mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
                 }
             }
 
             wrefresh(w_terrain);
-
-            for(int i=0; i < dropCount; i++) {
-                int iRandX = rng(xRangeStart, xRangeEnd-1);
-                int iRandY = rng(yRangeStart, yRangeEnd-1);
-
-                if (mapRain[iRandY][iRandX] && iRandX != getmaxx(w_terrain)/2+u.view_offset_x && iRandY != getmaxy(w_terrain)/2+u.view_offset_y) {
-                    mvwin(w_drop[i], iRandY, iRandX);
-                    mvwputch(w_drop[i], 0, 0, colGlyph, cGlyph);
-                    wrefresh(w_drop[i]);
-                } else {
-                    mvwin(w_drop[i], 999, 999);
-                }
-            }
-        } while ((ch = getch()) == ERR);
+        } while ((iCh = getch()) == ERR);
         timeout(-1);
 
-        ch = input(ch);
+        ch = input(iCh);
     } else {
         ch = input();
     }
