@@ -848,7 +848,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   TOOL(itm_needle_bone, 16, itm_sewing_kit, 16, NULL);
   COMP(itm_rag, 8, NULL);
 
- RECIPE(itm_long_underwear, CC_ARMOR, "tailor", "survival", 3, 35000, false);
+ RECIPE(itm_long_underpants, CC_ARMOR, "tailor", "survival", 3, 35000, false);
   TOOL(itm_needle_bone, 15, itm_sewing_kit, 15, NULL);
   COMP(itm_rag, 10, NULL);
 
