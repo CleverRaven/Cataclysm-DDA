@@ -398,7 +398,9 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;
   // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
   signed int temp_conv = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement;
-  // Fatigue also affects convergeant temperature
+  // Hunger
+  temp_conv -= 2*(hunger + 100)
+  // Fatigue
   if (!has_disease(DI_SLEEP)) temp_conv -= 3*fatigue;
   else {
    int vpart = -1;
