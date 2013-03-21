@@ -44,10 +44,10 @@ struct radio_tower {
 
 struct map_layer {
  oter_id terrain[OMAPX][OMAPY];
- bool visable[OMAPX][OMAPY];
+ bool visible[OMAPX][OMAPY];
  std::vector<om_note> notes;
 
- map_layer() : terrain(), visable(), notes() {}
+ map_layer() : terrain(), visible(), notes() {}
 };
 
 class overmap

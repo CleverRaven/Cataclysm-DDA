@@ -225,7 +225,7 @@ void game::start_game()
  levx -= int(int(MAPSIZE / 2) / 2);
  levy -= int(int(MAPSIZE / 2) / 2);
  levz = 0;
-// Start the overmap with out immediate neighborhood visable
+// Start the overmap with out immediate neighborhood visible
  for (int i = -15; i <= 15; i++) {
   for (int j = -15; j <= 15; j++)
    cur_om.seen(levx + i, levy + j, 0) = true;

@@ -181,7 +181,7 @@ overmap& overmap::operator=(overmap const& o)
 		for(int i = 0; i < OMAPX; ++i) {
 			for(int j = 0; j < OMAPY; ++j) {
 				layer[z].terrain[i][j] = o.layer[z].terrain[i][j];
-				layer[z].visable[i][j] = o.layer[z].visable[i][j];
+				layer[z].visible[i][j] = o.layer[z].visible[i][j];
 			}
 		}
 		layer[z].notes = o.layer[z].notes;
@@ -198,7 +198,7 @@ void overmap::init_layers()
 		for(int i = 0; i < OMAPX; ++i) {
 			for(int j = 0; j < OMAPY; ++j) {
 				layer[z].terrain[i][j] = default_type;
-				layer[z].visable[i][j] = false;
+				layer[z].visible[i][j] = false;
 			}
 		}
 	}
@@ -220,7 +220,7 @@ bool& overmap::seen(int x, int y, int z)
   nullbool = false;
   return nullbool;
  }
- return layer[z + OVERMAP_DEPTH].visable[x][y];
+ return layer[z + OVERMAP_DEPTH].visible[x][y];
 }
 
 std::vector<mongroup*> overmap::monsters_at(int x, int y, int z)
@@ -2483,7 +2483,7 @@ void overmap::save()
   fout << "L " << z << std::endl;
   for (int j = 0; j < OMAPY; j++) {
    for (int i = 0; i < OMAPX; i++) {
-    fout << ((layer[z].visable[i][j]) ? "1" : "0");
+    fout << ((layer[z].visible[i][j]) ? "1" : "0");
    }
    fout << std::endl;
   }
@@ -2556,7 +2556,7 @@ void overmap::open(game *g)
      if (z >= 0 && z < OVERMAP_LAYERS) {
       for (int i = 0; i < OMAPX; i++) {
        layer[z].terrain[i][j] = oter_id((unsigned char)dataline[i] - 32);
-       layer[z].visable[i][j] = false;
+       layer[z].visible[i][j] = false;
        if (layer[z].terrain[i][j] < 0 || layer[z].terrain[i][j] > num_ter_types)
         debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), layer[z].terrain[i][j]);
       }
@@ -2636,7 +2636,7 @@ void overmap::open(game *g)
       getline(fin, dataline);
       if (z >= 0 && z < OVERMAP_LAYERS) {
        for (int i = 0; i < OMAPX; i++) {
-       	layer[z].visable[i][j] = (dataline[i] == '1');
+       	layer[z].visible[i][j] = (dataline[i] == '1');
        }
       }
      }
