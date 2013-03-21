@@ -975,36 +975,74 @@ void game::process_missions()
 bool game::handle_action()
 {
     char ch = '.';
-    int xRangeStart = 0;// > TERRAIN_WINDOW_WIDTH ? 0 : (TERRAIN_WINDOW_WIDTH - VIEWX) / 2;
-    int yRangeStart = 0;// > TERRAIN_WINDOW_HEIGHT ? 0 : (TERRAIN_WINDOW_HEIGHT - VIEWY)/2;
-    int xRangeEnd = TERRAIN_WINDOW_WIDTH;// == 0 ? TERRAIN_WINDOW_WIDTH : xRangeStart + VIEWX;
-    int yRangeEnd = TERRAIN_WINDOW_HEIGHT;// == 0 ? TERRAIN_WINDOW_HEIGHT : yRangeStart + VIEWY;
+    int iStartX = 0;// > TERRAIN_WINDOW_WIDTH ? 0 : (TERRAIN_WINDOW_WIDTH - VIEWX) / 2;
+    int iStartY = 0;// > TERRAIN_WINDOW_HEIGHT ? 0 : (TERRAIN_WINDOW_HEIGHT - VIEWY)/2;
+    int iEndX = TERRAIN_WINDOW_WIDTH;// == 0 ? TERRAIN_WINDOW_WIDTH : xRangeStart + VIEWX;
+    int iEndY = TERRAIN_WINDOW_HEIGHT;// == 0 ? TERRAIN_WINDOW_HEIGHT : yRangeStart + VIEWY;
 
     char cGlyph = ',';
     nc_color colGlyph = c_ltblue;
+    float fFactor = 0.01;
 
     bool bWeatherEffect = true;
     switch(weather) {
-        case WEATHER_ACID_DRIZZLE:  cGlyph = '.';   colGlyph = c_green;     break;
-        case WEATHER_ACID_RAIN:     cGlyph = ',';   colGlyph = c_ltgreen;   break;
-        case WEATHER_DRIZZLE:       cGlyph = '.';   colGlyph = c_blue;      break;
-        case WEATHER_RAINY:         cGlyph = ',';   colGlyph = c_ltblue;    break;
-        case WEATHER_THUNDER:       cGlyph = ',';   colGlyph = c_blue;      break;
-        case WEATHER_LIGHTNING:     cGlyph = 'o';   colGlyph = c_blue;      break;
-        case WEATHER_SNOW:          cGlyph = '*';   colGlyph = c_white;     break;
-        case WEATHER_SNOWSTORM:     cGlyph = '#';   colGlyph = c_white;     break;
-        default:                    bWeatherEffect = true;                 break;
+        case WEATHER_ACID_DRIZZLE:
+            cGlyph = '.';
+            colGlyph = c_ltgreen;
+            fFactor = 0.01;
+            break;
+        case WEATHER_ACID_RAIN:
+            cGlyph = ',';
+            colGlyph = c_ltgreen;
+            fFactor = 0.02;
+            break;
+        case WEATHER_DRIZZLE:
+            cGlyph = '.';
+            colGlyph = c_ltblue;
+            fFactor = 0.01;
+            break;
+        case WEATHER_RAINY:
+            cGlyph = ',';
+            colGlyph = c_ltblue;
+            fFactor = 0.02;
+            break;
+        case WEATHER_THUNDER:
+            cGlyph = '.';
+            colGlyph = c_ltblue;
+            fFactor = 0.02;
+            break;
+        case WEATHER_LIGHTNING:
+            cGlyph = ',';
+            colGlyph = c_ltblue;
+            fFactor = 0.04;
+            break;
+        case WEATHER_SNOW:
+            cGlyph = '*';
+            colGlyph = c_white;
+            fFactor = 0.02;
+            break;
+        case WEATHER_SNOWSTORM:
+            cGlyph = '*';
+            colGlyph = c_white;
+            fFactor = 0.04;
+            break;
+        default:
+            bWeatherEffect = true;
+            break;
     }
 
     if (bWeatherEffect) {
-        int dropCount = xRangeEnd * yRangeEnd * 0.01; //1% of the visible area
+        //x% of the Viewport, only shown on visible areas
+        int dropCount = iEndX * iEndY * fFactor;
         WINDOW *w_drop[dropCount];
 
         for(int i=0; i < dropCount; i++) {
             w_drop[i] = newwin(1,1,999,999);
         }
 
-        timeout(100);
+        int iCh;
+
+        timeout(125);
         do {
             for(int i=0; i < dropCount; i++) {
                 int iPosX = getbegx(w_drop[i]);
@@ -1024,8 +1062,8 @@ bool game::handle_action()
             wrefresh(w_terrain);
 
             for(int i=0; i < dropCount; i++) {
-                int iRandX = rng(xRangeStart, xRangeEnd-1);
-                int iRandY = rng(yRangeStart, yRangeEnd-1);
+                int iRandX = rng(iStartX, iEndX-1);
+                int iRandY = rng(iStartY, iEndY-1);
 
                 if (mapRain[iRandY][iRandX] && iRandX != getmaxx(w_terrain)/2+u.view_offset_x && iRandY != getmaxy(w_terrain)/2+u.view_offset_y) {
                     mvwin(w_drop[i], iRandY, iRandX);
@@ -1035,10 +1073,10 @@ bool game::handle_action()
                     mvwin(w_drop[i], 999, 999);
                 }
             }
-        } while ((ch = getch()) == ERR);
+        } while ((iCh = getch()) == ERR);
         timeout(-1);
 
-        ch = input(ch);
+        ch = input(iCh);
     } else {
         ch = input();
     }
