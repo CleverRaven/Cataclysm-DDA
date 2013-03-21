@@ -974,7 +974,75 @@ void game::process_missions()
 
 bool game::handle_action()
 {
-  char ch = input();
+    char ch = '.';
+    int xRangeStart = 0;// > TERRAIN_WINDOW_WIDTH ? 0 : (TERRAIN_WINDOW_WIDTH - VIEWX) / 2;
+    int yRangeStart = 0;// > TERRAIN_WINDOW_HEIGHT ? 0 : (TERRAIN_WINDOW_HEIGHT - VIEWY)/2;
+    int xRangeEnd = TERRAIN_WINDOW_WIDTH;// == 0 ? TERRAIN_WINDOW_WIDTH : xRangeStart + VIEWX;
+    int yRangeEnd = TERRAIN_WINDOW_HEIGHT;// == 0 ? TERRAIN_WINDOW_HEIGHT : yRangeStart + VIEWY;
+
+    char cGlyph = ',';
+    nc_color colGlyph = c_ltblue;
+
+    bool bWeatherEffect = true;
+    switch(weather) {
+        case WEATHER_ACID_DRIZZLE:  cGlyph = '.';   colGlyph = c_green;     break;
+        case WEATHER_ACID_RAIN:     cGlyph = ',';   colGlyph = c_ltgreen;   break;
+        case WEATHER_DRIZZLE:       cGlyph = '.';   colGlyph = c_blue;      break;
+        case WEATHER_RAINY:         cGlyph = ',';   colGlyph = c_ltblue;    break;
+        case WEATHER_THUNDER:       cGlyph = ',';   colGlyph = c_blue;      break;
+        case WEATHER_LIGHTNING:     cGlyph = 'o';   colGlyph = c_blue;      break;
+        case WEATHER_SNOW:          cGlyph = '*';   colGlyph = c_white;     break;
+        case WEATHER_SNOWSTORM:     cGlyph = '#';   colGlyph = c_white;     break;
+        default:                    bWeatherEffect = true;                 break;
+    }
+
+    if (bWeatherEffect) {
+        int dropCount = xRangeEnd * yRangeEnd * 0.01; //1% of the visible area
+        WINDOW *w_drop[dropCount];
+
+        for(int i=0; i < dropCount; i++) {
+            w_drop[i] = newwin(1,1,999,999);
+        }
+
+        timeout(100);
+        do {
+            for(int i=0; i < dropCount; i++) {
+                int iPosX = getbegx(w_drop[i]);
+                int iPosY = getbegy(w_drop[i]);
+
+                if (iPosX < 999 && iPosY < 999 && mapRain[iPosY][iPosX]) {
+                    m.drawsq(w_terrain, u,
+                             iPosX - getmaxx(w_terrain)/2 + u.posx,
+                             iPosY - getmaxy(w_terrain)/2 + u.posy,
+                             false,
+                             true,
+                             u.posx + u.view_offset_x,
+                             u.posy + u.view_offset_y);
+                }
+            }
+
+            wrefresh(w_terrain);
+
+            for(int i=0; i < dropCount; i++) {
+                int iRandX = rng(xRangeStart, xRangeEnd-1);
+                int iRandY = rng(yRangeStart, yRangeEnd-1);
+
+                if (mapRain[iRandY][iRandX] && iRandX != getmaxx(w_terrain)/2+u.view_offset_x && iRandY != getmaxy(w_terrain)/2+u.view_offset_y) {
+                    mvwin(w_drop[i], iRandY, iRandX);
+                    mvwputch(w_drop[i], 0, 0, colGlyph, cGlyph);
+                    wrefresh(w_drop[i]);
+                } else {
+                    mvwin(w_drop[i], 999, 999);
+                }
+            }
+        } while ((ch = getch()) == ERR);
+        timeout(-1);
+
+        ch = input(ch);
+    } else {
+        ch = input();
+    }
+
   if (keymap.find(ch) == keymap.end()) {
 	  if (ch != ' ' && ch != '\n')
 		  add_msg("Unknown command: '%c'", ch);
@@ -2472,6 +2540,7 @@ bool game::isBetween(int test, int down, int up)
 
 void game::draw_ter(int posx, int posy)
 {
+ mapRain.clear();
 // posx/posy default to -999
  if (posx == -999)
   posx = u.posx + u.view_offset_x;
@@ -2486,9 +2555,10 @@ void game::draw_ter(int posx, int posy)
  for (int i = 0; i < z.size(); i++) {
   disty = abs(z[i].posy - posy);
   distx = abs(z[i].posx - posx);
-  if (distx <= VIEWX && disty <= VIEWY && u_see(&(z[i]), t))
+  if (distx <= VIEWX && disty <= VIEWY && u_see(&(z[i]), t)) {
    z[i].draw(w_terrain, posx, posy, false);
-  else if (z[i].has_flag(MF_WARM) && distx <= VIEWX && disty <= VIEWY &&
+   mapRain[VIEWY + z[i].posy - posy][VIEWX + z[i].posx - posx] = false;
+  } else if (z[i].has_flag(MF_WARM) && distx <= VIEWX && disty <= VIEWY &&
            (u.has_active_bionic(bio_infrared) || u.has_trait(PF_INFRARED)))
    mvwputch(w_terrain, VIEWY + z[i].posy - posy, VIEWX + z[i].posx - posx,
             c_red, '?');

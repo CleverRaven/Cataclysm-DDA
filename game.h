@@ -257,6 +257,8 @@ class game
   bool debugmon;
   bool no_npc;
 
+  std::map<int, std::map<int, bool> > mapRain;
+
   WINDOW *w_terrain;
   WINDOW *w_minimap;
   WINDOW *w_HP;
