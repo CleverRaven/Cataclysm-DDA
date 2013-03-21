@@ -123,7 +123,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
 // Display current inventory.
 char game::inv(std::string title)
 {
- WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), 0, 0);
+ WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  char ch = '.';
  int start = 0, cur_it;
@@ -193,7 +193,7 @@ char game::inv_type(std::string title, int inv_item_type)
 // this function lists inventory objects by type
 // refer to enum item_cat in itype.h for list of categories
 
- WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), 0, 0);
+ WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  char ch = '.';
  int start = 0, cur_it;
@@ -314,7 +314,7 @@ std::vector<item> game::multidrop()
 {
  u.sort_inv();
  u.inv.restack(&u);
- WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), 0, 0);
+ WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  int dropping[u.inv.size()]; // Count of how many we'll drop from each stack
  for (int i = 0; i < u.inv.size(); i++)
@@ -524,8 +524,8 @@ void game::compare(int iCompareX, int iCompareY)
  u.sort_inv();
  u.inv.restack(&u);
 
- WINDOW* w_inv = newwin(TERMY, TERMX, 0, 0);
- int maxitems = TERMY-5;    // Number of items to show at one time.
+ WINDOW* w_inv = newwin(TERMY-VIEW_OFFSET_Y*2, TERMX-VIEW_OFFSET_X*2, VIEW_OFFSET_Y, VIEW_OFFSET_X);
+ int maxitems = TERMY-5-VIEW_OFFSET_Y*2;    // Number of items to show at one time.
  int compare[u.inv.size() + groundsize]; // Count of how many we'll drop from each stack
  bool bFirst = false; // First Item selected
  bool bShowCompare = false;
@@ -698,8 +698,8 @@ void game::compare(int iCompareX, int iCompareY)
     sItemCh = u.i_at(ch).tname(this);
    }
 
-   compare_split_screen_popup(0, TERMX/2, TERMY, sItemLastCh, vItemLastCh, vItemCh);
-   compare_split_screen_popup(TERMX/2, TERMX/2, TERMY, sItemCh, vItemCh, vItemLastCh);
+   compare_split_screen_popup(0, (TERMX-VIEW_OFFSET_X*2)/2, TERMY-VIEW_OFFSET_Y*2, sItemLastCh, vItemLastCh, vItemCh);
+   compare_split_screen_popup((TERMX-VIEW_OFFSET_X*2)/2, (TERMX-VIEW_OFFSET_X*2)/2, TERMY-VIEW_OFFSET_Y*2, sItemCh, vItemCh, vItemLastCh);
 
    wclear(w_inv);
    print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);

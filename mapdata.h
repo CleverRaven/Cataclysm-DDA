@@ -161,7 +161,7 @@ num_terrain_types
 const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"nothing",	     ' ', c_white,   2, tr_null,
 	mfb(transparent)|mfb(diggable)},
-{"empty space",      '#', c_black,   2, tr_ledge,
+{"empty space",      ' ', c_black,   2, tr_ledge,
 	mfb(transparent)},
 {"dirt",	     '.', c_brown,   2, tr_null,
 	mfb(transparent)|mfb(diggable)|mfb(tentable)},

@@ -724,7 +724,7 @@ void full_screen_popup(const char* mes, ...)
 
 char compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare)
 {
- WINDOW* w = newwin(iHeight, iWidth, 0, iLeft);
+ WINDOW* w = newwin(iHeight, iWidth, VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
  mvwprintz(w, 1, 2, c_white, sItemName.c_str());
  int line_num = 3;

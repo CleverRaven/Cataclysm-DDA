@@ -227,7 +227,7 @@ bool& overmap::seen(int x, int y, int z)
 std::vector<mongroup*> overmap::monsters_at(int x, int y, int z)
 {
  std::vector<mongroup*> ret;
- if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) 
+ if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT)
   return ret;
  for (int i = 0; i < zg.size(); i++) {
   if (zg[i].posz != z) { continue; }
@@ -295,7 +295,7 @@ void overmap::add_note(int const x, int const y, int const z, std::string const 
 
 point overmap::find_note(int const x, int const y, int const z, std::string const& text) const
 {
- point ret(-1, -1);	
+ point ret(-1, -1);
  if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
   debugmsg("Attempting to find note on overmap for blank layer %d", z);
   return ret;
@@ -915,8 +915,8 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
 {
  bool legend = true, note_here = false, npc_here = false;
  std::string note_text, npc_name;
- int om_map_width = TERRAIN_WINDOW_WIDTH + 27;
- int om_map_height = TERRAIN_WINDOW_HEIGHT;
+ int om_map_width = TERMX-28;
+ int om_map_height = TERMY;
 
  int omx, omy;
  overmap hori, vert, diag; // Adjacent maps
@@ -1104,7 +1104,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
 // Clear the legend
    for (int i = om_map_width + 1; i < om_map_width + 55; i++) {
     for (int j = 0; j < om_map_height; j++)
-     mvwputch(w, j, i, c_black, 'x');
+     mvwputch(w, j, i, c_black, ' ');
    }
 
    if (csee) {
@@ -1133,8 +1133,8 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
 
 point overmap::choose_point(game *g, int const zlevel)
 {
- WINDOW* w_map = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH + 55, 0, 0);
- WINDOW* w_search = newwin(13, 27, 3, TERRAIN_WINDOW_WIDTH + 1);
+ WINDOW* w_map = newwin(TERMY, TERMX, 0, 0);
+ WINDOW* w_search = newwin(13, 27, 3, TERMX-27);
  timeout(BLINK_SPEED);	// Enable blinking!
  bool blink = true;
  int cursx = (g->levx + int(MAPSIZE / 2)) / 2,

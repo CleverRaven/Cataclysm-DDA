@@ -2548,15 +2548,15 @@ void map::draw(game *g, WINDOW* w, const point center)
     else
      mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_ltgray, '#');
    } else if (dist <= u_clairvoyance || can_see) {
-    if (bRainOutside && INBOUNDS(realx, realy) && terlist[ter(realx, realy)].sym == '.')
+    if (bRainOutside && INBOUNDS(realx, realy) && !has_flag(supports_roof, realx, realy))
      g->mapRain[realy + getmaxy(w)/2 - g->u.posy][realx + getmaxx(w)/2 - g->u.posx] = true;
     drawsq(w, g->u, realx, realy, false, true, center.x, center.y,
            (dist > low_sight_range && LL_LIT > lit) ||
 	   (dist > sight_range && LL_LOW == lit),
            LL_BRIGHT == lit);
-   } else {
+   }/* else { //just unneeded drawing
     mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_black,'#');
-   }
+   }*/
   }
  }
  int atx = getmaxx(w)/2 + g->u.posx - center.x, aty = getmaxy(w)/2 + g->u.posy - center.y;

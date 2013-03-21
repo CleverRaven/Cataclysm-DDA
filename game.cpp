@@ -1279,7 +1279,7 @@ bool game::handle_action()
      vMenu.push_back(iteminfo("MENU", "r", "eload"));
 
      oThisItem.info(true, &vThisItem);
-     compare_split_screen_popup(0, 50, TERMY, oThisItem.tname(this), vThisItem, vDummy);
+     compare_split_screen_popup(0, 50, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
      cMenu = compare_split_screen_popup(50, 14, 16, "", vMenu, vDummy);
 
      switch(cMenu) {
@@ -5265,9 +5265,9 @@ bool game::list_items_match(std::string sText, std::string sPattern)
 void game::list_items()
 {
  int iInfoHeight = 12;
- WINDOW* w_items = newwin(TERMY-iInfoHeight, 55, 0, TERRAIN_WINDOW_WIDTH);
- WINDOW* w_item_info = newwin(iInfoHeight-1, 53, TERMY-iInfoHeight, TERRAIN_WINDOW_WIDTH+1);
- WINDOW* w_item_info_border = newwin(iInfoHeight, 55, TERMY-iInfoHeight, TERRAIN_WINDOW_WIDTH);
+ WINDOW* w_items = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, 55, VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
+ WINDOW* w_item_info = newwin(iInfoHeight-1, 53, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
+ WINDOW* w_item_info_border = newwin(iInfoHeight, 55, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
 
  std::vector <item> here;
  std::map<int, std::map<int, std::map<std::string, int> > > grounditems;
@@ -5301,7 +5301,7 @@ void game::list_items()
  const int iStoreViewOffsetY = u.view_offset_y;
 
  int iActive = 0;
- const int iMaxRows = TERMY-iInfoHeight-2;
+ const int iMaxRows = TERMY-iInfoHeight-2-VIEW_OFFSET_Y*2;
  int iStartPos = 0;
  int iActiveX = 0;
  int iActiveY = 0;
@@ -5349,11 +5349,13 @@ void game::list_items()
    }
 
    if (ch == '.') {
-    for (int i = 1; i < 54; i++) {
-     mvwputch(w_items, 0, i, c_ltgray, LINE_OXOX); // -
-     mvwputch(w_items, TERMY-iInfoHeight-1, i, c_ltgray, LINE_OXOX); // -
+    for (int i = 1; i < TERMY; i++) {
+     if (i < 55) {
+      mvwputch(w_items, 0, i, c_ltgray, LINE_OXOX); // -
+      mvwputch(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, i, c_ltgray, LINE_OXOX); // -
+     }
 
-     if (i < TERMY-iInfoHeight) {
+     if (i < TERMY-iInfoHeight-VIEW_OFFSET_Y*2) {
       mvwputch(w_items, i, 0, c_ltgray, LINE_XOXO); // |
       mvwputch(w_items, i, 54, c_ltgray, LINE_XOXO); // |
      }
@@ -5362,20 +5364,20 @@ void game::list_items()
     mvwputch(w_items, 0,  0, c_ltgray, LINE_OXXO); // |^
     mvwputch(w_items, 0, 54, c_ltgray, LINE_OOXX); // ^|
 
-    mvwputch(w_items, TERMY-iInfoHeight-1,  0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_items, TERMY-iInfoHeight-1, 54, c_ltgray, LINE_XOXX); // -|
+    mvwputch(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2,  0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, 54, c_ltgray, LINE_XOXX); // -|
 
     int iTempStart = 19;
     if (sFilter != "") {
      iTempStart = 15;
-     mvwprintz(w_items, TERMY-iInfoHeight-1, iTempStart + 19, c_ltgreen, " %s", "R");
+     mvwprintz(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, iTempStart + 19, c_ltgreen, " %s", "R");
      wprintz(w_items, c_white, "%s", "eset ");
     }
 
-    mvwprintz(w_items, TERMY-iInfoHeight-1, iTempStart, c_ltgreen, " %s", "C");
+    mvwprintz(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, iTempStart, c_ltgreen, " %s", "C");
     wprintz(w_items, c_white, "%s", "ompare ");
 
-    mvwprintz(w_items, TERMY-iInfoHeight-1, iTempStart + 10, c_ltgreen, " %s", "F");
+    mvwprintz(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, iTempStart + 10, c_ltgreen, " %s", "F");
     wprintz(w_items, c_white, "%s", "ilter ");
 
     refresh_all();
@@ -5646,8 +5648,8 @@ void game::pickup(int posx, int posy, int min)
   return;
  }
 // Otherwise, we have 2 or more items and should list them, etc.
- WINDOW* w_pickup = newwin(12, 48, 0, VIEWX * 2 + 8);
- WINDOW* w_item_info = newwin(12, 48, 12, VIEWX * 2 + 8);
+ WINDOW* w_pickup = newwin(12, 48, VIEW_OFFSET_Y, VIEWX * 2 + 8 + VIEW_OFFSET_X);
+ WINDOW* w_item_info = newwin(12, 48, 12 + VIEW_OFFSET_Y, VIEWX * 2 + 8 + VIEW_OFFSET_X);
  int maxitems = 9;	 // Number of items to show at one time.
  std::vector <item> here = from_veh? veh->parts[veh_part].items : m.i_at(posx, posy);
  bool getitem[here.size()];
