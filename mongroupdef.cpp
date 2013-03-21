@@ -3,6 +3,7 @@
 #include <vector>
 #include "setvector.h"
 #include "picojson.h"
+#include "options.h"
 
 //Adding a group:
 //  1: Declare it in the MonsterGroupDefs enum in mongroup.h
@@ -27,7 +28,10 @@ mon_id MonsterGroupManager::GetMonsterFromGroup(std::string group, std::vector <
     MonsterGroup g = monsterGroupMap[group];
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
     {
-        if(turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + (*mtypes)[it->first]->difficulty))
+        if((turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + (*mtypes)[it->first]->difficulty)) &&
+           (!OPTIONS[OPT_CLASSIC_ZOMBIES] ||
+            (*mtypes)[it->first]->in_category(MC_CLASSIC) ||
+            (*mtypes)[it->first]->in_category(MC_WILDLIFE)))
         {   //Not too hard for us (or we dont care)
             if(it->second >= roll) return it->first;
             else roll -= it->second;

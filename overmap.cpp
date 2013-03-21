@@ -16,6 +16,7 @@
 #include "debug.h"
 #include "cursesdef.h"
 #include "options.h"
+#include "options.h"
 
 #define STREETCHANCE 2
 #define NUM_FOREST 250
@@ -2212,6 +2213,8 @@ void overmap::place_specials()
     overmap_special special = overmap_specials[i];
     int min = special.min_dist_from_city, max = special.max_dist_from_city;
     point pt(p.x, p.y);
+    // Skip non-classic specials if we're in classic mode
+    if (OPTIONS[OPT_CLASSIC_ZOMBIES] && !(special.flags & mfb(OMS_FLAG_CLASSIC))) continue;
     if ((placed[i] < special.max_appearances || special.max_appearances <= 0) &&
         (min == -1 || dist_from_city(pt) >= min) &&
         (max == -1 || dist_from_city(pt) <= max) &&
@@ -2396,33 +2399,37 @@ void overmap::place_mongroups()
   }
  }
 
-// Figure out where swamps are, and place swamp monsters
- for (int x = 3; x < OMAPX - 3; x += 7) {
-  for (int y = 3; y < OMAPY - 3; y += 7) {
-   int swamp_count = 0;
-   for (int sx = x - 3; sx <= x + 3; sx++) {
-    for (int sy = y - 3; sy <= y + 3; sy++) {
-     if (ter(sx, sy, 0) == ot_forest_water)
-      swamp_count += 2;
-     else if (is_river(ter(sx, sy, 0)))
-      swamp_count++;
+ if (!OPTIONS[OPT_CLASSIC_ZOMBIES]) {
+  // Figure out where swamps are, and place swamp monsters
+  for (int x = 3; x < OMAPX - 3; x += 7) {
+   for (int y = 3; y < OMAPY - 3; y += 7) {
+    int swamp_count = 0;
+    for (int sx = x - 3; sx <= x + 3; sx++) {
+     for (int sy = y - 3; sy <= y + 3; sy++) {
+      if (ter(sx, sy, 0) == ot_forest_water)
+       swamp_count += 2;
+      else if (is_river(ter(sx, sy, 0)))
+       swamp_count++;
+     }
     }
+    if (swamp_count >= 25) // ~25% swamp or ~50% river
+     zg.push_back(mongroup("GROUP_SWAMP", x * 2, y * 2, 0, 3,
+                           rng(swamp_count * 8, swamp_count * 25)));
    }
-   if (swamp_count >= 25) // ~25% swamp or ~50% river
-    zg.push_back(mongroup("GROUP_SWAMP", x * 2, y * 2, 0, 3,
-                          rng(swamp_count * 8, swamp_count * 25)));
   }
  }
 
-// Place the "put me anywhere" groups
- int numgroups = rng(0, 3);
- for (int i = 0; i < numgroups; i++) {
-  zg.push_back(
-	mongroup("GROUP_WORM", rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1), 0,
-	         rng(20, 40), rng(500, 1000)));
+ if (!OPTIONS[OPT_CLASSIC_ZOMBIES]) {
+  // Place the "put me anywhere" groups
+  int numgroups = rng(0, 3);
+  for (int i = 0; i < numgroups; i++) {
+   zg.push_back(
+	 mongroup("GROUP_WORM", rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1), 0,
+	          rng(20, 40), rng(500, 1000)));
+  }
  }
 
-// Forest groups cover the entire map
+ // Forest groups cover the entire map
  zg.push_back( mongroup("GROUP_FOREST", OMAPX / 2, OMAPY / 2, 0,
                         OMAPY, rng(2000, 12000)));
  zg.back().diffuse = true;
