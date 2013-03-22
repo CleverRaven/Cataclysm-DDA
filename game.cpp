@@ -5156,6 +5156,7 @@ point game::look_around()
    lx += mx;
    ly += my;
   }
+  werase(w_terrain);
   draw_ter(lx, ly);
   for (int i = 1; i < 12; i++) {
    for (int j = 1; j < 47; j++)
