@@ -3859,6 +3859,28 @@ TOOL("dynamite (lit)",	5,    0,'*', c_red,	PLASTIC,MNULL,
     6, 10,  4,  0, -3,  0,  0,  0,  1, AT_NULL,	itm_null, &iuse::dynamite_act,0,
 "The fuse on this dynamite is lit and hissing.  It'll explode any moment now.");
 
+TOOL("pack of firecrackers",    5,  100,'*', c_red, PAPER, MNULL,
+    0, 0,  1,  0, -3,  25,  25,  0,  0, AT_NULL, itm_null, &iuse::firecracker_pack,0,"\
+A pack of 25 firecrackers with a starter fuse. Use this item to light the\n\
+fuse; you will need a lighter of course. Shortly after you light the fuse\n\
+they will begin to explode, so throw them quickly!");
+
+TOOL("pack of firecrackers (lit)",    5,  0,'*', c_red, PAPER, MNULL,
+    0, 0,  0,  0, -3,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::firecracker_pack_act,0,"\
+A pack of 25 firecrackers that has been lit, the fuse is hissing.\n\
+Throw them quickly before the start to explode.");
+
+TOOL("firecracker",    5,  2,';', c_red, PAPER, MNULL,
+    0, 0,  1,  0, -3,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::firecracker,0,"\
+A firecracker with a short fuse. Use this item to light the fuse; you will\n\
+need a lighter of course. Shortly after you light the fuse it will explode,\n\
+so throw it quickly!");
+
+TOOL("firecracker (lit)",    5,  0,';', c_red, PAPER, MNULL,
+    0, 0,  1,  0, -3,  0,  0,  0,  1, AT_NULL, itm_null, &iuse::firecracker_act,0,"\
+A firecracker that has been lit, the fuse is hissing. Throw it quickly before\n\
+it explodes.");
+
 TOOL("mininuke",	1, 1800,'*', c_ltgreen,	STEEL,	PLASTIC,
     3,  4,  8,  0, -2,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::mininuke,0,"\
 An extremely powerful weapon--essentially a hand-held nuclear bomb. Use it\n\
