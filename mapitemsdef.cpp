@@ -185,7 +185,7 @@ void game::init_mapitems()
 	itm_superglue, itm_chain, itm_rope_6, itm_rope_30, itm_glass_sheet,
 	itm_pipe, itm_nail, itm_hose, itm_string_36, itm_frame, itm_metal_tank,
 	itm_wire, itm_wire_barbed, itm_duct_tape, itm_jerrycan, itm_lawnmower,
-	itm_foot_crank, itm_spray_can, itm_ax,
+  itm_foot_crank, itm_spray_can, itm_ax, itm_jerrycan_big,
 	NULL);
 
  setvector(
@@ -496,7 +496,7 @@ void game::init_mapitems()
         itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
         itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion, itm_v6_combustion,
         itm_vehicle_controls, itm_v8_combustion, itm_hacksaw, itm_welder, itm_motor,
-        itm_motor_large, itm_storage_battery, itm_solar_panel, itm_jerrycan, itm_metal_tank, NULL);
+        itm_motor_large, itm_storage_battery, itm_solar_panel, itm_jerrycan, itm_jerrycan_big, itm_metal_tank, NULL);
 
  setvector(
    mapitems[mi_chemistry],
@@ -684,7 +684,7 @@ void game::init_mapitems()
 	itm_jackhammer, itm_jacqueshammer, itm_dynamite, itm_UPS_off,
    itm_bionics_toolset, itm_bionics_flashlight, itm_bionics_lighter, itm_bionics_magnet,
    itm_bionics_resonator, itm_bionics_hydraulics,
-	itm_jerrycan, NULL);
+  itm_jerrycan, itm_jerrycan_big, NULL);
 
 
  setvector(
