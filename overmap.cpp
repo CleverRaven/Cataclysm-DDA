@@ -2342,7 +2342,7 @@ void overmap::place_special(overmap_special special, tripoint p)
     distance = dist;
    }
   }
-  make_hiway(p.x, p.y, 0, cities[closest].x, cities[closest].y, ot_road_null);
+  make_hiway(p.x, p.y, cities[closest].x, cities[closest].y, p.z, ot_road_null);
  }
 
  if (special.flags & mfb(OMS_FLAG_PARKING_LOT)) {
@@ -2355,7 +2355,7 @@ void overmap::place_special(overmap_special special, tripoint p)
    }
   }
   ter(p.x, p.y - 1, p.z) = ot_s_lot;
-  make_hiway(p.x, p.y - 1, 0, cities[closest].x, cities[closest].y, ot_road_null);
+  make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, p.z, ot_road_null);
  }
  if (special.flags & mfb(OMS_FLAG_DIRT_LOT)) {
   int closest = -1, distance = 999;
@@ -2367,7 +2367,7 @@ void overmap::place_special(overmap_special special, tripoint p)
    }
   }
   ter(p.x, p.y - 1, p.z) = ot_dirtlot;
-  make_hiway(p.x, p.y - 1, 0, cities[closest].x, cities[closest].y, ot_road_null);
+  make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, p.z, ot_road_null);
  }
 
 // Finally, place monsters if applicable
