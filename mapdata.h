@@ -59,6 +59,7 @@ enum t_flag {
  collapses,    // Tiles that have a roof over them (which can collapse)
  flammable2,   // Burn to ash rather than rubble.
  deconstruct,  // Can be deconstructed
+ reduce_scent, // Reduces the scent even more, only works if object is bashable as well
  num_t_flags   // MUST be last
 };
 
@@ -324,12 +325,12 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)|mfb(deconstruct)}, // Plain Ol' window
 {"taped window",  '"', c_dkgray,    0, tr_null,
-	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)}, // Regular window
+	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)| mfb(reduce_scent)}, // Regular window
 {"window",	     '"', c_ltcyan,  0, tr_null,
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(noitem)|
         mfb(supports_roof)|mfb(deconstruct)}, //has curtains
 {"taped window",  '"', c_dkgray,    0, tr_null,
-	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)}, // Curtain window
+	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)| mfb(reduce_scent)}, // Curtain window
 {"open window",      '\'', c_ltcyan, 4, tr_null,
 	mfb(transparent)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)},
 {"closed curtains",  '"', c_dkgray,    0, tr_null,
@@ -338,7 +339,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	mfb(transparent)|mfb(bashable)|mfb(flammable)|mfb(alarmed)|mfb(noitem)|
         mfb(supports_roof)},
 {"taped window",  '"', c_dkgray,    0, tr_null,
-	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)|mfb(alarmed)}, //Alarmed, duh.
+	mfb(bashable)|mfb(flammable)|mfb(noitem)| mfb(supports_roof)|mfb(alarmed)| mfb(reduce_scent)}, //Alarmed, duh.
 {"empty window",     '0', c_yellow,  8, tr_null,
 	mfb(transparent)|mfb(flammable)|mfb(supports_roof)},
 {"window frame",     '0', c_ltcyan,  8, tr_null,

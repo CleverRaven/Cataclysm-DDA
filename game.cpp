@@ -1606,8 +1606,11 @@ void game::update_scent()
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++)
    if(m.move_cost(x, y) == 0)
-    //Greatly reduce scent for bashable barriers
-    grscent[x][y] = newscent[x][y] / 4;
+    //Greatly reduce scent for bashable barriers, even more for ductaped barriers
+    if (m.has_flag(reduce_scent, x, y))
+     grscent[x][y] = newscent[x][y] / 12;
+    else
+     grscent[x][y] = newscent[x][y] / 4;
    else
     grscent[x][y] = newscent[x][y];
  }
