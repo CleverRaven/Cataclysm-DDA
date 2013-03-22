@@ -3510,6 +3510,16 @@ CONT("waterskin",   0,  0, c_brown, LEATHER, MNULL,
     2, 2,  -8, -5,   6, mfb(con_wtight)|mfb(con_seals), "\
 A watertight leather bag, can hold 1.5 liters of water.");
 
+CONT("steel jerrycan", 20, 5000, c_green, STEEL, MNULL,
+    100, 7, -3, -3, 100, mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+A steel jerrycan, meant to carry fuel, but can carry other liquds\n\
+in a pinch. It has a capacity of 25 liters.");
+
+CONT("aluminum keg", 20, 6000, c_ltcyan, STEEL, MNULL,
+    200, 12, -4, -4, 200, mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+A reusable aluminum keg, used for shipping beer.\n\
+It has a capcity of 50 liters.");
+
 /* TOOLS
  * MAX is the maximum number of charges help.
  * DEF is the default number of charges--items will be generated with this
