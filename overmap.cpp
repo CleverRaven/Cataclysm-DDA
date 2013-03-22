@@ -1158,7 +1158,7 @@ point overmap::choose_point(game *g, int const zlevel)
    cursy = origy;
   } else if (ch == '\n')
    ret = point(cursx, cursy);
-  else if (ch == KEY_ESCAPE || ch == 'q' || ch == 'Q')
+  else if (ch == KEY_ESCAPE || ch == 'q' || ch == 'Q' || ch == 'm')
    ret = point(-1, -1);
   else if (ch == 'N') {
    timeout(-1);
