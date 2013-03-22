@@ -921,7 +921,7 @@ bool map::is_outside(const int x, const int y)
   for(int j = -1; out && j <= 1; j++) {
    const ter_id terrain = ter( x + i, y + j );
    out = (terrain != t_floor && terrain != t_rock_floor && terrain != t_floor_wax &&
-          terrain != t_fema_groundsheet && terrain != t_dirtfloor);
+          terrain != t_fema_groundsheet && terrain != t_dirtfloor && terrain != t_skin_groundsheet);
   }
  if (out) {
   int vpart;
@@ -1278,6 +1278,43 @@ case t_wall_log:
    return true;
   } else {
    sound += "wham!";
+   return true;
+  }
+  break;
+
+ case t_skin_wall:
+ case t_skin_door:
+ case t_skin_door_o:
+ case t_skin_groundsheet:
+  result = rng(0, 6);
+  if (res) *res = result;
+  if (str >= result)
+  {
+   // Special code to collapse the tent if destroyed
+   int tentx, tenty = -1;
+   // Find the center of the tent
+   for (int i = -1; i <= 1; i++)
+    for (int j = -1; j <= 1; j++)
+     if (ter(x + i, y + j) == t_skin_groundsheet){
+       tentx = x + i;
+       tenty = y + j;
+       break;
+     }
+   // Never found tent center, bail out
+   if (tentx == -1 && tenty == -1)
+    break;
+   // Take the tent down
+   for (int i = -1; i <= 1; i++)
+    for (int j = -1; j <= 1; j++) {
+     if (ter(tentx + i, tenty + j) == t_skin_groundsheet)
+      add_item(tentx + i, tenty + j, (*itypes)[itm_damaged_shelter_kit], 0);
+     ter(tentx + i, tenty + j) = t_dirt;
+    }
+
+   sound += "rrrrip!";
+   return true;
+  } else {
+   sound += "slap!";
    return true;
   }
   break;
@@ -1913,6 +1950,9 @@ bool map::open_door(const int x, const int y, const bool inside)
  } else if (ter(x, y) == t_canvas_door) {
   ter(x, y) = t_canvas_door_o;
   return true;
+ } else if (ter(x, y) == t_skin_door) {
+  ter(x, y) = t_skin_door_o;
+  return true;
  } else if (inside && ter(x, y) == t_curtains) {
   ter(x, y) = t_window_domestic;
   return true;
@@ -1964,6 +2004,9 @@ bool map::close_door(const int x, const int y, const bool inside)
   return true;
  } else if (ter(x, y) == t_canvas_door_o) {
   ter(x, y) = t_canvas_door;
+  return true;
+ } else if (ter(x, y) == t_skin_door_o) {
+  ter(x, y) = t_skin_door;
   return true;
  } else if (inside && ter(x, y) == t_window_open) {
   ter(x, y) = t_window_domestic;
@@ -2489,13 +2532,14 @@ void map::draw(game *g, WINDOW* w, const point center)
    const int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
    int sight_range = light_sight_range;
    int low_sight_range = lowlight_sight_range;
-
+   bool bRainOutside = false;
    // While viewing indoor areas use lightmap model
    if (!g->lm.is_outside(realx - g->u.posx, realy - g->u.posy)) {
     sight_range = natural_sight_range;
    // Don't display area as shadowy if it's outside and illuminated by natural light
    } else if (dist <= g->u.sight_range(g_light_level)) {
     low_sight_range = std::max(g_light_level, natural_sight_range);
+    bRainOutside = true;
    }
 
    // I've moved this part above loops without even thinking that
@@ -2547,18 +2591,22 @@ void map::draw(game *g, WINDOW* w, const point center)
     else
      mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_ltgray, '#');
    } else if (dist <= u_clairvoyance || can_see) {
+    if (bRainOutside && INBOUNDS(realx, realy) && !has_flag(supports_roof, realx, realy))
+     g->mapRain[realy + getmaxy(w)/2 - g->u.posy][realx + getmaxx(w)/2 - g->u.posx] = true;
     drawsq(w, g->u, realx, realy, false, true, center.x, center.y,
            (dist > low_sight_range && LL_LIT > lit) ||
 	   (dist > sight_range && LL_LOW == lit),
            LL_BRIGHT == lit);
    } else {
-    mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_black,'#');
+    mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_black,' ');
    }
   }
  }
  int atx = getmaxx(w)/2 + g->u.posx - center.x, aty = getmaxy(w)/2 + g->u.posy - center.y;
- if (atx >= 0 && atx < TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < TERRAIN_WINDOW_HEIGHT)
+ if (atx >= 0 && atx < TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < TERRAIN_WINDOW_HEIGHT) {
   mvwputch(w, aty, atx, g->u.color(), '@');
+  g->mapRain[aty][atx] = false;
+ }
 }
 
 void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert_arg,

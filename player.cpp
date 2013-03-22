@@ -398,8 +398,10 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;
   // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
   signed int temp_conv = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement;
-  // Fatigue also affects convergeant temperature
-  if (!has_disease(DI_SLEEP)) temp_conv -= 10*fatigue/6;
+  // Hunger
+  temp_conv -= 2*(hunger + 100);
+  // Fatigue
+  if (!has_disease(DI_SLEEP)) temp_conv -= 3*fatigue;
   else {
    int vpart = -1;
    vehicle *veh = g->m.veh_at (posx, posy, vpart);
@@ -434,8 +436,11 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   // Weather
   if (g->weather == WEATHER_SUNNY && !g->m.is_indoor(posx, posy)) temp_conv += 1000;
   if (g->weather == WEATHER_CLEAR && !g->m.is_indoor(posx, posy)) temp_conv += 500;
+  // Other diseases
+  if (has_disease(DI_FLU) && i == bp_head) temp_conv += 1500;
   // BIONICS
   // Bionic "Internal Climate Control" says it eases the effects of high and low ambient temps
+  // NOTE : This should be the last place temp_conv is changed, otherwise the bionic will not work as intended.
   const int variation = BODYTEMP_NORM*0.5;
   if (has_bionic(bio_climate) && temp_conv < BODYTEMP_SCORCHING + variation && temp_conv > BODYTEMP_FREEZING - variation){
    if      (temp_conv > BODYTEMP_SCORCHING) temp_conv = BODYTEMP_VERY_HOT;
@@ -1007,19 +1012,19 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  ssTemp  << skill_win_size_y << " - " << trait_win_size_y << " - " << effect_win_size_y;
  debugmsg((ssTemp.str()).c_str());
 */
- WINDOW* w_grid_top    = newwin(infooffsetybottom, 81,  0,  0);
- WINDOW* w_grid_skill  = newwin(skill_win_size_y + 1, 27, infooffsetybottom, 0);
- WINDOW* w_grid_trait  = newwin(trait_win_size_y + 1, 27, infooffsetybottom, 27);
- WINDOW* w_grid_effect = newwin(effect_win_size_y+ 1, 28, infooffsetybottom, 53);
+ WINDOW* w_grid_top    = newwin(infooffsetybottom, 81,  VIEW_OFFSET_Y,  VIEW_OFFSET_X);
+ WINDOW* w_grid_skill  = newwin(skill_win_size_y + 1, 27, infooffsetybottom + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X);
+ WINDOW* w_grid_trait  = newwin(trait_win_size_y + 1, 27, infooffsetybottom + VIEW_OFFSET_Y, 27 + VIEW_OFFSET_X);
+ WINDOW* w_grid_effect = newwin(effect_win_size_y+ 1, 28, infooffsetybottom + VIEW_OFFSET_Y, 53 + VIEW_OFFSET_X);
 
- WINDOW* w_tip     = newwin(1, 80,  0,  0);
- WINDOW* w_stats   = newwin(9, 26,  1,  0);
- WINDOW* w_traits  = newwin(trait_win_size_y, 26, infooffsetybottom,  27);
- WINDOW* w_encumb  = newwin(9, 26,  1, 27);
- WINDOW* w_effects = newwin(effect_win_size_y, 26, infooffsetybottom, 54);
- WINDOW* w_speed   = newwin(9, 26,  1, 54);
- WINDOW* w_skills  = newwin(skill_win_size_y, 26, infooffsetybottom, 0);
- WINDOW* w_info    = newwin(3, 80, infooffsetytop,  0);
+ WINDOW* w_tip     = newwin(1, 80,  VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
+ WINDOW* w_stats   = newwin(9, 26,  1 + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
+ WINDOW* w_traits  = newwin(trait_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y,  27 + VIEW_OFFSET_X);
+ WINDOW* w_encumb  = newwin(9, 26,  1 + VIEW_OFFSET_Y, 27 + VIEW_OFFSET_X);
+ WINDOW* w_effects = newwin(effect_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y, 54 + VIEW_OFFSET_X);
+ WINDOW* w_speed   = newwin(9, 26,  1 + VIEW_OFFSET_Y, 54 + VIEW_OFFSET_X);
+ WINDOW* w_skills  = newwin(skill_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X);
+ WINDOW* w_info    = newwin(3, 80, infooffsetytop + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
 
  for (int i = 0; i < 81; i++) {
   //Horizontal line top grid

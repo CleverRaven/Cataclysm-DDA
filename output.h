@@ -21,11 +21,13 @@
 #define LINE_OXXX 4194423
 #define LINE_XXXX 4194414
 
-// Display data... TODO: Make this more portable?
-extern int VIEWX;
-extern int VIEWY;
+// Display data
 extern int TERMX;
 extern int TERMY;
+extern int VIEWX;
+extern int VIEWY;
+extern int VIEW_OFFSET_X;
+extern int VIEW_OFFSET_Y;
 extern int TERRAIN_WINDOW_WIDTH;
 extern int TERRAIN_WINDOW_HEIGHT;
 

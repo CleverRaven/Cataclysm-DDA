@@ -94,8 +94,10 @@ void game::init_ui(){
     #if (defined _WIN32 || defined __WIN32__)
         TERMX = 55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1);
         TERMY = OPTIONS[OPT_VIEWPORT_Y] * 2 + 1;
-        VIEWX = OPTIONS[OPT_VIEWPORT_X];
-        VIEWY = OPTIONS[OPT_VIEWPORT_Y];
+        VIEWX = (OPTIONS[OPT_VIEWPORT_X] > 60) ? 60 : OPTIONS[OPT_VIEWPORT_X];
+        VIEWY = (OPTIONS[OPT_VIEWPORT_Y] > 60) ? 60 : OPTIONS[OPT_VIEWPORT_Y];
+        VIEW_OFFSET_X = (OPTIONS[OPT_VIEWPORT_X] > 60) ? OPTIONS[OPT_VIEWPORT_X]-60 : 0;
+        VIEW_OFFSET_Y = (OPTIONS[OPT_VIEWPORT_Y] > 60) ? OPTIONS[OPT_VIEWPORT_Y]-60 : 0;
         TERRAIN_WINDOW_WIDTH = (VIEWX * 2) + 1;
         TERRAIN_WINDOW_HEIGHT = (VIEWY * 2) + 1;
     #else
@@ -110,8 +112,12 @@ void game::init_ui(){
             TERMY--;
         }
 
-        TERRAIN_WINDOW_WIDTH = TERMX - STATUS_WIDTH;
-        TERRAIN_WINDOW_HEIGHT = TERMY;
+        TERRAIN_WINDOW_WIDTH = (TERMX - STATUS_WIDTH > 121) ? 121 : TERMX - STATUS_WIDTH;
+        TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
+
+        VIEW_OFFSET_X = (TERMX - STATUS_WIDTH > 121) ? (TERMX - STATUS_WIDTH - 121)/2 : 0;
+        VIEW_OFFSET_Y = (TERMY > 121) ? (TERMY - 121)/2 : 0;
+
         VIEWX = (TERRAIN_WINDOW_WIDTH - 1) / 2;
         VIEWY = (TERRAIN_WINDOW_HEIGHT - 1) / 2;
     #endif
@@ -125,28 +131,28 @@ void game::init_ui(){
     }
 
     // Set up the main UI windows.
-    w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, 0, 0);
+    w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, VIEW_OFFSET_Y, VIEW_OFFSET_X);
     werase(w_terrain);
 
-    w_minimap = newwin(MINIMAP_HEIGHT, MINIMAP_WIDTH, 0, TERMX - MONINFO_WIDTH - MINIMAP_WIDTH);
+    w_minimap = newwin(MINIMAP_HEIGHT, MINIMAP_WIDTH, VIEW_OFFSET_Y, TERMX - MONINFO_WIDTH - MINIMAP_WIDTH - VIEW_OFFSET_X);
     werase(w_minimap);
 
-    w_HP = newwin(HP_HEIGHT, HP_WIDTH, MINIMAP_HEIGHT, TERMX - MESSAGES_WIDTH - HP_WIDTH);
+    w_HP = newwin(HP_HEIGHT, HP_WIDTH, VIEW_OFFSET_Y + MINIMAP_HEIGHT, TERMX - MESSAGES_WIDTH - HP_WIDTH - VIEW_OFFSET_X);
     werase(w_HP);
 
-    w_moninfo = newwin(MONINFO_HEIGHT, MONINFO_WIDTH, 0, TERMX - MONINFO_WIDTH);
+    w_moninfo = newwin(MONINFO_HEIGHT, MONINFO_WIDTH, VIEW_OFFSET_Y, TERMX - MONINFO_WIDTH - VIEW_OFFSET_X);
     werase(w_moninfo);
 
-    w_messages = newwin(MESSAGES_HEIGHT, MESSAGES_WIDTH, MONINFO_HEIGHT, TERMX - MESSAGES_WIDTH);
+    w_messages = newwin(MESSAGES_HEIGHT, MESSAGES_WIDTH, MONINFO_HEIGHT + VIEW_OFFSET_Y, TERMX - MESSAGES_WIDTH - VIEW_OFFSET_X);
     werase(w_messages);
 
-    w_location = newwin(LOCATION_HEIGHT, LOCATION_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT, TERMX - LOCATION_WIDTH);
+    w_location = newwin(LOCATION_HEIGHT, LOCATION_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT + VIEW_OFFSET_Y, TERMX - LOCATION_WIDTH - VIEW_OFFSET_X);
     werase(w_location);
 
-    w_status = newwin(STATUS_HEIGHT, STATUS_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT, TERMX - STATUS_WIDTH);
+    w_status = newwin(STATUS_HEIGHT, STATUS_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT + VIEW_OFFSET_Y, TERMX - STATUS_WIDTH - VIEW_OFFSET_X);
     werase(w_status);
 
-    w_void = newwin(TERMY-(MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT+STATUS_HEIGHT), STATUS_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT+STATUS_HEIGHT, TERMX - STATUS_WIDTH);
+    w_void = newwin(TERMY-(MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT+STATUS_HEIGHT), STATUS_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT+STATUS_HEIGHT + VIEW_OFFSET_Y, TERMX - STATUS_WIDTH - VIEW_OFFSET_X);
     werase(w_void);
 }
 
@@ -974,7 +980,104 @@ void game::process_missions()
 
 bool game::handle_action()
 {
-  char ch = input();
+    char ch = '.';
+
+    char cGlyph = ',';
+    nc_color colGlyph = c_ltblue;
+    float fFactor = 0.01;
+
+    bool bWeatherEffect = true;
+    switch(weather) {
+        case WEATHER_ACID_DRIZZLE:
+            cGlyph = '.';
+            colGlyph = c_ltgreen;
+            fFactor = 0.01;
+            break;
+        case WEATHER_ACID_RAIN:
+            cGlyph = ',';
+            colGlyph = c_ltgreen;
+            fFactor = 0.02;
+            break;
+        case WEATHER_DRIZZLE:
+            cGlyph = '.';
+            colGlyph = c_ltblue;
+            fFactor = 0.01;
+            break;
+        case WEATHER_RAINY:
+            cGlyph = ',';
+            colGlyph = c_ltblue;
+            fFactor = 0.02;
+            break;
+        case WEATHER_THUNDER:
+            cGlyph = '.';
+            colGlyph = c_ltblue;
+            fFactor = 0.02;
+            break;
+        case WEATHER_LIGHTNING:
+            cGlyph = ',';
+            colGlyph = c_ltblue;
+            fFactor = 0.04;
+            break;
+        case WEATHER_SNOW:
+            cGlyph = '*';
+            colGlyph = c_white;
+            fFactor = 0.02;
+            break;
+        case WEATHER_SNOWSTORM:
+            cGlyph = '*';
+            colGlyph = c_white;
+            fFactor = 0.04;
+            break;
+        default:
+            bWeatherEffect = false;
+            break;
+    }
+
+    if (bWeatherEffect) {
+        int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH-121)/2 : 0;
+        int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT-121)/2: 0;
+        int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH-(TERRAIN_WINDOW_WIDTH-121)/2: TERRAIN_WINDOW_WIDTH;
+        int iEndY = (TERRAIN_WINDOW_HEIGHT > 121) ? TERRAIN_WINDOW_HEIGHT-(TERRAIN_WINDOW_HEIGHT-121)/2: TERRAIN_WINDOW_HEIGHT;
+
+        //x% of the Viewport, only shown on visible areas
+        int dropCount = iEndX * iEndY * fFactor;
+        std::vector<std::pair<int, int> > vDrops;
+
+        int iCh;
+
+        timeout(125);
+        do {
+            for(int i=0; i < vDrops.size(); i++) {
+                m.drawsq(w_terrain, u,
+                         vDrops[i].first - getmaxx(w_terrain)/2 + u.posx,
+                         vDrops[i].second - getmaxy(w_terrain)/2 + u.posy,
+                         false,
+                         true,
+                         u.posx + u.view_offset_x,
+                         u.posy + u.view_offset_y);
+            }
+
+            vDrops.clear();
+
+            for(int i=0; i < dropCount; i++) {
+                int iRandX = rng(iStartX, iEndX-1);
+                int iRandY = rng(iStartY, iEndY-1);
+
+                if (mapRain[iRandY][iRandX]) {
+                    vDrops.push_back(std::make_pair(iRandX, iRandY));
+                    mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
+                }
+            }
+
+            wrefresh(w_terrain);
+        } while ((iCh = getch()) == ERR);
+        timeout(-1);
+
+        ch = input(iCh);
+    } else {
+        ch = input();
+    }
+
   if (keymap.find(ch) == keymap.end()) {
 	  if (ch != ' ' && ch != '\n')
 		  add_msg("Unknown command: '%c'", ch);
@@ -1176,7 +1279,7 @@ bool game::handle_action()
      vMenu.push_back(iteminfo("MENU", "r", "eload"));
 
      oThisItem.info(true, &vThisItem);
-     compare_split_screen_popup(0, 50, TERMY, oThisItem.tname(this), vThisItem, vDummy);
+     compare_split_screen_popup(0, 50, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
      cMenu = compare_split_screen_popup(50, 14, 16, "", vMenu, vDummy);
 
      switch(cMenu) {
@@ -1503,8 +1606,11 @@ void game::update_scent()
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++)
    if(m.move_cost(x, y) == 0)
-    //Greatly reduce scent for bashable barriers
-    grscent[x][y] = newscent[x][y] / 4;
+    //Greatly reduce scent for bashable barriers, even more for ductaped barriers
+    if (m.has_flag(reduce_scent, x, y))
+     grscent[x][y] = newscent[x][y] / 12;
+    else
+     grscent[x][y] = newscent[x][y] / 4;
    else
     grscent[x][y] = newscent[x][y];
  }
@@ -2472,6 +2578,7 @@ bool game::isBetween(int test, int down, int up)
 
 void game::draw_ter(int posx, int posy)
 {
+ mapRain.clear();
 // posx/posy default to -999
  if (posx == -999)
   posx = u.posx + u.view_offset_x;
@@ -2486,9 +2593,10 @@ void game::draw_ter(int posx, int posy)
  for (int i = 0; i < z.size(); i++) {
   disty = abs(z[i].posy - posy);
   distx = abs(z[i].posx - posx);
-  if (distx <= VIEWX && disty <= VIEWY && u_see(&(z[i]), t))
+  if (distx <= VIEWX && disty <= VIEWY && u_see(&(z[i]), t)) {
    z[i].draw(w_terrain, posx, posy, false);
-  else if (z[i].has_flag(MF_WARM) && distx <= VIEWX && disty <= VIEWY &&
+   mapRain[VIEWY + z[i].posy - posy][VIEWX + z[i].posx - posx] = false;
+  } else if (z[i].has_flag(MF_WARM) && distx <= VIEWX && disty <= VIEWY &&
            (u.has_active_bionic(bio_infrared) || u.has_trait(PF_INFRARED)))
    mvwputch(w_terrain, VIEWY + z[i].posy - posy, VIEWX + z[i].posx - posx,
             c_red, '?');
@@ -2538,6 +2646,7 @@ void game::refresh_all()
 
 void game::draw_HP()
 {
+    werase(w_HP);
     int current_hp;
     nc_color color;
     std::string asterisks = "";
@@ -4651,18 +4760,22 @@ void game::examine()
   }
  } else if (m.ter(examx, examy) == t_groundsheet && query_yn("Take down tent?")) {
    u.moves -= 200;
-   m.ter(examx    , examy    ) = t_dirt;
-   m.ter(examx - 1, examy - 1) = t_dirt;
-   m.ter(examx - 1, examy    ) = t_dirt;
-   m.ter(examx - 1, examy + 1) = t_dirt;
-   m.ter(examx    , examy - 1) = t_dirt;
-   m.ter(examx    , examy + 1) = t_dirt;
-   m.ter(examx + 1, examy - 1) = t_dirt;
-   m.ter(examx + 1, examy    ) = t_dirt;
-   m.ter(examx + 1, examy + 1) = t_dirt;
+   for (int i = -1; i <= 1; i++)
+    for (int j = -1; j <= 1; j++)
+    m.ter(examx + i, examy + j) = t_dirt;
   add_msg("You take down the tent");
   item tent(itypes[itm_tent_kit], turn);
   m.add_item(examx, examy, tent);
+
+ } else if (m.ter(examx, examy) == t_skin_groundsheet && query_yn("Take down shelter?")) {
+   u.moves -= 200;
+   for (int i = -1; i <= 1; i++)
+    for (int j = -1; j <= 1; j++)
+    m.ter(examx + i, examy + j) = t_dirt;
+  add_msg("You take down the shelter");
+  item tent(itypes[itm_shelter_kit], turn);
+  m.add_item(examx, examy, tent);
+
  } else if (m.ter(examx, examy) == t_wreckage && u.has_amount(itm_shovel, 1)) {
   if (query_yn("Clear up that wreckage?")) {
    u.moves -= 200;
@@ -5034,7 +5147,7 @@ point game::look_around()
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
  int mx, my, junk;
  InputEvent input;
- WINDOW* w_look = newwin(13, 48, 12, VIEWX * 2 + 8);
+ WINDOW* w_look = newwin(13, 48, 12+VIEW_OFFSET_Y, VIEWX * 2 + 8+VIEW_OFFSET_X);
  wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w_look, 1, 1, c_white, "Looking Around");
@@ -5051,6 +5164,7 @@ point game::look_around()
    lx += mx;
    ly += my;
   }
+  werase(w_terrain);
   draw_ter(lx, ly);
   for (int i = 1; i < 12; i++) {
    for (int j = 1; j < 47; j++)
@@ -5160,9 +5274,9 @@ bool game::list_items_match(std::string sText, std::string sPattern)
 void game::list_items()
 {
  int iInfoHeight = 12;
- WINDOW* w_items = newwin(TERMY-iInfoHeight, 55, 0, TERRAIN_WINDOW_WIDTH);
- WINDOW* w_item_info = newwin(iInfoHeight-1, 53, TERMY-iInfoHeight, TERRAIN_WINDOW_WIDTH+1);
- WINDOW* w_item_info_border = newwin(iInfoHeight, 55, TERMY-iInfoHeight, TERRAIN_WINDOW_WIDTH);
+ WINDOW* w_items = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, 55, VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
+ WINDOW* w_item_info = newwin(iInfoHeight-1, 53, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
+ WINDOW* w_item_info_border = newwin(iInfoHeight, 55, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
 
  std::vector <item> here;
  std::map<int, std::map<int, std::map<std::string, int> > > grounditems;
@@ -5196,7 +5310,7 @@ void game::list_items()
  const int iStoreViewOffsetY = u.view_offset_y;
 
  int iActive = 0;
- const int iMaxRows = TERMY-iInfoHeight-2;
+ const int iMaxRows = TERMY-iInfoHeight-2-VIEW_OFFSET_Y*2;
  int iStartPos = 0;
  int iActiveX = 0;
  int iActiveY = 0;
@@ -5244,11 +5358,13 @@ void game::list_items()
    }
 
    if (ch == '.') {
-    for (int i = 1; i < 54; i++) {
-     mvwputch(w_items, 0, i, c_ltgray, LINE_OXOX); // -
-     mvwputch(w_items, TERMY-iInfoHeight-1, i, c_ltgray, LINE_OXOX); // -
+    for (int i = 1; i < TERMX; i++) {
+     if (i < 55) {
+      mvwputch(w_items, 0, i, c_ltgray, LINE_OXOX); // -
+      mvwputch(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, i, c_ltgray, LINE_OXOX); // -
+     }
 
-     if (i < TERMY-iInfoHeight) {
+     if (i < TERMY-iInfoHeight-VIEW_OFFSET_Y*2) {
       mvwputch(w_items, i, 0, c_ltgray, LINE_XOXO); // |
       mvwputch(w_items, i, 54, c_ltgray, LINE_XOXO); // |
      }
@@ -5257,20 +5373,20 @@ void game::list_items()
     mvwputch(w_items, 0,  0, c_ltgray, LINE_OXXO); // |^
     mvwputch(w_items, 0, 54, c_ltgray, LINE_OOXX); // ^|
 
-    mvwputch(w_items, TERMY-iInfoHeight-1,  0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_items, TERMY-iInfoHeight-1, 54, c_ltgray, LINE_XOXX); // -|
+    mvwputch(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2,  0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, 54, c_ltgray, LINE_XOXX); // -|
 
     int iTempStart = 19;
     if (sFilter != "") {
      iTempStart = 15;
-     mvwprintz(w_items, TERMY-iInfoHeight-1, iTempStart + 19, c_ltgreen, " %s", "R");
+     mvwprintz(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, iTempStart + 19, c_ltgreen, " %s", "R");
      wprintz(w_items, c_white, "%s", "eset ");
     }
 
-    mvwprintz(w_items, TERMY-iInfoHeight-1, iTempStart, c_ltgreen, " %s", "C");
+    mvwprintz(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, iTempStart, c_ltgreen, " %s", "C");
     wprintz(w_items, c_white, "%s", "ompare ");
 
-    mvwprintz(w_items, TERMY-iInfoHeight-1, iTempStart + 10, c_ltgreen, " %s", "F");
+    mvwprintz(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, iTempStart + 10, c_ltgreen, " %s", "F");
     wprintz(w_items, c_white, "%s", "ilter ");
 
     refresh_all();
@@ -5541,8 +5657,8 @@ void game::pickup(int posx, int posy, int min)
   return;
  }
 // Otherwise, we have 2 or more items and should list them, etc.
- WINDOW* w_pickup = newwin(12, 48, 0, VIEWX * 2 + 8);
- WINDOW* w_item_info = newwin(12, 48, 12, VIEWX * 2 + 8);
+ WINDOW* w_pickup = newwin(12, 48, VIEW_OFFSET_Y, VIEWX * 2 + 8 + VIEW_OFFSET_X);
+ WINDOW* w_item_info = newwin(12, 48, 12 + VIEW_OFFSET_Y, VIEWX * 2 + 8 + VIEW_OFFSET_X);
  int maxitems = 9;	 // Number of items to show at one time.
  std::vector <item> here = from_veh? veh->parts[veh_part].items : m.i_at(posx, posy);
  bool getitem[here.size()];
@@ -6465,30 +6581,22 @@ void game::complete_butcher(int index)
  }
 
  if (bones > 0) {
-  for (int i = 0; i < bones; i++) {
-   itype* bone;
-   if (corpse->mat == FLESH) {
-     bone = itypes[itm_bone];
-     add_msg("You harvest some usable bones!");
-   } else if (corpse->mat == VEGGY) {
-     bone = itypes[itm_plant_sac];
-     add_msg("You harvest some fluid bladders!");
-  }
-   m.add_item(u.posx, u.posy, bone, age);
+  if (corpse->has_flag(MF_BONES)) {
+    m.add_item(u.posx, u.posy, itypes[itm_bone], age, bones);
+   add_msg("You harvest some usable bones!");
+  } else if (corpse->mat == VEGGY) {
+    m.add_item(u.posx, u.posy, itypes[itm_plant_sac], age, bones);
+   add_msg("You harvest some fluid bladders!");
   }
  }
 
-  if (sinews > 0) {
-  for (int i = 0; i < sinews; i++) {
-   itype* sinew;
-   if (corpse->mat == FLESH) {
-     sinew = itypes[itm_sinew];
-     add_msg("You harvest some usable sinews!");
-   } else if (corpse->mat == VEGGY) {
-     sinew = itypes[itm_plant_fibre];
-     add_msg("You harvest some plant fibres!");
-  }
-   m.add_item(u.posx, u.posy, sinew, age);
+ if (sinews > 0) {
+  if (corpse->has_flag(MF_BONES)) {
+    m.add_item(u.posx, u.posy, itypes[itm_sinew], age, sinews);
+   add_msg("You harvest some usable sinews!");
+  } else if (corpse->mat == VEGGY) {
+    m.add_item(u.posx, u.posy, itypes[itm_plant_fibre], age, sinews);
+   add_msg("You harvest some plant fibres!");
   }
  }
 
@@ -6654,7 +6762,8 @@ void game::reload(char chInput)
 
  if (bSwitch || u.weapon.invlet == chInput) {
   reload();
-  u.activity.moves_left = 0; //Not entirely sure how this effects other actions
+  u.activity.moves_left = 0;
+  monmove();
   process_activity();
  }
 
