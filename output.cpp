@@ -847,7 +847,7 @@ char rand_char()
 
 // this translates symbol y, u, n, b to NW, NE, SE, SW lines correspondingly
 // h, j, c to horizontal, vertical, cross correspondingly
-long special_symbol (char sym)
+long special_symbol (unsigned char sym)
 {
     switch (sym)
     {
