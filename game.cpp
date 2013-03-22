@@ -2643,6 +2643,7 @@ void game::refresh_all()
 
 void game::draw_HP()
 {
+    werase(w_HP);
     int current_hp;
     nc_color color;
     std::string asterisks = "";
