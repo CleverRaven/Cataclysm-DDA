@@ -251,7 +251,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_alcohol],
-	itm_whiskey, itm_vodka, itm_gin, itm_rum, itm_tequila, itm_triple_sec, NULL);
+  itm_whiskey, itm_vodka, itm_gin, itm_rum, itm_tequila, itm_triple_sec, itm_beer, NULL);
 
  setvector(
    mapitems[mi_pool_table],
