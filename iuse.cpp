@@ -2868,6 +2868,34 @@ void iuse::tent(game *g, player *p, item *it, bool t)
  it->invlet = 0;
 }
 
+void iuse::shelter(game *g, player *p, item *it, bool t)
+{
+ int dirx, diry;
+ g->draw();
+ mvprintw(0, 0, "Put up shelter where?");
+ get_direction(g, dirx, diry, input());
+ if (dirx == -2 || (dirx == 0 && diry == 0)) {
+  g->add_msg_if_player(p,"Invalid direction.");
+  return;
+ }
+ int posx = dirx + p->posx;
+ int posy = diry + p->posy;
+ posx += dirx;
+ posy += diry;
+ for (int i = -1; i <= 1; i++)
+  for (int j = -1; j <= 1; j++)
+   if (!g->m.has_flag(tentable, posx + i, posy + j)) {
+    g->add_msg("You need a 3x3 diggable space to place a shelter");
+    return;
+   }
+ for (int i = -1; i <= 1; i++)
+  for (int j = -1; j <= 1; j++)
+    g->m.ter(posx + i, posy + j) = t_skin_wall;
+ g->m.ter(posx, posy) = t_skin_groundsheet;
+ g->m.ter(posx - dirx, posy - diry) = t_skin_door;
+ it->invlet = 0;
+}
+
 void iuse::torch(game *g, player *p, item *it, bool t)
 {
   if (!p->has_charges(itm_lighter, 1))
@@ -2879,6 +2907,7 @@ else {
   it->active = true;
  }
 }
+
 
 void iuse::torch_lit(game *g, player *p, item *it, bool t)
 {

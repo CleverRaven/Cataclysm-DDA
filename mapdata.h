@@ -90,6 +90,7 @@ t_slime,
 t_bridge,
 // Tent Walls & doors
 t_canvas_wall, t_canvas_door, t_canvas_door_o, t_groundsheet, t_fema_groundsheet,
+t_skin_wall, t_skin_door, t_skin_door_o,  t_skin_groundsheet,
 // Lighting related
 t_skylight, t_emergency_light_flicker, t_emergency_light,
 // Walls
@@ -224,6 +225,14 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(transparent)|mfb(tentable)},
 {"groundsheet",      ';', c_green,   2, tr_null,
         mfb(transparent)},
+{"animalskin wall",      '#', c_brown,   0, tr_null,
+        mfb(l_flammable)|mfb(bashable)|mfb(noitem)|mfb(tentable)},
+{"animalskin flap",      '+', c_white,   0, tr_null,
+        mfb(l_flammable)|mfb(bashable)|mfb(noitem)|mfb(tentable)},
+{"open animalskin flap", '.', c_white,   2, tr_null,
+        mfb(transparent)},
+{"animalskin floor",      ';', c_brown,   2, tr_null,
+        mfb(transparent)|mfb(tentable)},
 {"floor",	     '.', c_white,    2, tr_null,
 	mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses)}, // Skylight
 {"floor",	     '.', c_white,    2, tr_null,

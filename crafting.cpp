@@ -976,6 +976,10 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_rock, 3, NULL);
   COMP(itm_sinew, 80, itm_plant_fibre, 80, itm_string_36, 1, NULL);
 
+ RECIPE(itm_digging_stick, CC_MISC, "survival", NULL, 1, 20000, false);
+  TOOL(TG_KNIVES, itm_hatchet, -1, NULL);
+  COMP(itm_stick, 1, NULL);
+
  RECIPE(itm_primitive_shovel, CC_MISC, "survival", "construction", 2, 60000, false);
   TOOL(itm_primitive_hammer, -1, itm_hammer, -1, itm_toolset, -1, NULL);
   COMP(itm_stick, 1, NULL);
@@ -993,6 +997,19 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_sinew, 40, itm_plant_fibre, 40, itm_string_36, 1, NULL);
   COMP(itm_leather, 6, itm_fur, 6, NULL);
 
+ RECIPE(itm_shelter_kit, CC_MISC, "survival", "construction", 2, 50000, false);
+  TOOL(itm_sewing_kit, 200, itm_needle_bone, 200, NULL);
+  COMP(itm_stick, 10, NULL);
+  COMP(itm_leather, 20, NULL);
+  COMP(itm_string_6, 10, itm_sinew, 500, itm_plant_fibre, 500, NULL);
+
+ RECIPE(itm_shelter_kit, CC_MISC, "survival", "tailoring", 0, 20000, false);
+  TOOL(itm_sewing_kit, 50, itm_needle_bone, 50, NULL);
+  COMP(itm_stick, 3, NULL);
+  COMP(itm_leather, 4, NULL);
+  COMP(itm_sinew, 60, itm_plant_fibre, 60, itm_string_6, 1, NULL);
+  COMP(itm_damaged_shelter_kit, 1, NULL);
+
  RECIPE(itm_snare_trigger, CC_MISC, "survival", NULL, 1, 2000, false);
   TOOL(TG_KNIVES, NULL);
   COMP(itm_stick, 1, NULL);
@@ -1004,7 +1021,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
  RECIPE(itm_heavy_snare_kit, CC_MISC, "survival", "traps", 3, 8000, true);
   COMP(itm_snare_trigger, 1, NULL);
   COMP(itm_rope_6, 1, NULL);
-  
+
 // MISC
 
 

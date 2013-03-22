@@ -3580,7 +3580,7 @@ A small heating element. Indispensable for cooking and chemistry.");
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
 TOOL("soldering iron",	70, 200,',', c_ltblue,	IRON,	MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    3,  1,  2,  6,  0, 50, 20,  0,  0, AT_BATT, itm_null, &iuse::none,
+    3,  1,  2,  6,  0, 200, 20,  0,  0, AT_BATT, itm_null, &iuse::none,
 mfb(IF_SPEAR), "\
 A piece of metal that can get very hot. Necessary for electronics crafting.");
 
@@ -4247,6 +4247,23 @@ TOOL("stone shovel",		40, 100,'/', c_brown,	STONE,	WOOD,
 A flattened stone affixed to a stick, works passably well as a shovel\n\
 but really can't compare to a real shovel.");
 
+TOOL("digging stick",		40, 100,'/', c_brown,  WOOD, MNULL,
+    6, 10, 12,  0,  3, 0,  0,  0,  0, AT_NULL,	itm_null, &iuse::dig, 0, "\
+A large stick, with the end carved into a blade for digging. Can be used\n\
+to dig shallow pits, but not deep ones.");
+
+//  NAME        RAR PRC SYM  COLOR  MAT1    MAT
+TOOL("shelter kit",	17, 65, ';', c_green,	WOOD,	LEATHER,
+	 40,  20,  4,  0, -3, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::shelter,
+0, "\
+A small shelter, made of sticks and skins. (a)ctivate it to place.");
+
+//  NAME        RAR PRC SYM  COLOR  MAT1    MAT
+TOOL("damaged shelter kit",	17, 65, ';', c_green,	WOOD,	LEATHER,
+	 40,  20,  4,  0, -3, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::none,
+0, "\
+A small shelter, made of sticks and skins. (a)ctivate it to place.\n\
+This shelter has been damaged, and needs repairs.");
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated

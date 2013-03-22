@@ -921,7 +921,7 @@ bool map::is_outside(const int x, const int y)
   for(int j = -1; out && j <= 1; j++) {
    const ter_id terrain = ter( x + i, y + j );
    out = (terrain != t_floor && terrain != t_rock_floor && terrain != t_floor_wax &&
-          terrain != t_fema_groundsheet && terrain != t_dirtfloor);
+          terrain != t_fema_groundsheet && terrain != t_dirtfloor && terrain != t_skin_groundsheet);
   }
  if (out) {
   int vpart;
@@ -1278,6 +1278,43 @@ case t_wall_log:
    return true;
   } else {
    sound += "wham!";
+   return true;
+  }
+  break;
+
+ case t_skin_wall:
+ case t_skin_door:
+ case t_skin_door_o:
+ case t_skin_groundsheet:
+  result = rng(0, 6);
+  if (res) *res = result;
+  if (str >= result)
+  {
+   // Special code to collapse the tent if destroyed
+   int tentx, tenty = -1;
+   // Find the center of the tent
+   for (int i = -1; i <= 1; i++)
+    for (int j = -1; j <= 1; j++)
+     if (ter(x + i, y + j) == t_skin_groundsheet){
+       tentx = x + i;
+       tenty = y + j;
+       break;
+     }
+   // Never found tent center, bail out
+   if (tentx == -1 && tenty == -1)
+    break;
+   // Take the tent down
+   for (int i = -1; i <= 1; i++)
+    for (int j = -1; j <= 1; j++) {
+     if (ter(tentx + i, tenty + j) == t_skin_groundsheet)
+      add_item(tentx + i, tenty + j, (*itypes)[itm_damaged_shelter_kit], 0);
+     ter(tentx + i, tenty + j) = t_dirt;
+    }
+
+   sound += "rrrrip!";
+   return true;
+  } else {
+   sound += "slap!";
    return true;
   }
   break;
@@ -1913,6 +1950,9 @@ bool map::open_door(const int x, const int y, const bool inside)
  } else if (ter(x, y) == t_canvas_door) {
   ter(x, y) = t_canvas_door_o;
   return true;
+ } else if (ter(x, y) == t_skin_door) {
+  ter(x, y) = t_skin_door_o;
+  return true;
  } else if (inside && ter(x, y) == t_curtains) {
   ter(x, y) = t_window_domestic;
   return true;
@@ -1964,6 +2004,9 @@ bool map::close_door(const int x, const int y, const bool inside)
   return true;
  } else if (ter(x, y) == t_canvas_door_o) {
   ter(x, y) = t_canvas_door;
+  return true;
+ } else if (ter(x, y) == t_skin_door_o) {
+  ter(x, y) = t_skin_door;
   return true;
  } else if (inside && ter(x, y) == t_window_open) {
   ter(x, y) = t_window_domestic;

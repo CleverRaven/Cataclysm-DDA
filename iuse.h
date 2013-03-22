@@ -118,6 +118,7 @@ class iuse
   void lumber    	(game *g, player *p, item *it, bool t);
   void hacksaw          (game *g, player *p, item *it, bool t);
   void tent             (game *g, player *p, item *it, bool t);
+  void shelter          (game *g, player *p, item *it, bool t);
   void torch            (game *g, player *p, item *it, bool t);
   void torch_lit        (game *g, player *p, item *it, bool t);
   void candle           (game *g, player *p, item *it, bool t);
