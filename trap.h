@@ -112,7 +112,7 @@ struct trapfuncm {
 
 struct trap {
  int id;
- char sym;
+ unsigned char sym;
  nc_color color;
  std::string name;
 
