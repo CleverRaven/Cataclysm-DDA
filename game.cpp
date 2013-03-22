@@ -6755,7 +6755,7 @@ void game::reload(char chInput)
 
  if (bSwitch || u.weapon.invlet == chInput) {
   reload();
-  u.activity.moves_left = 0; //Not entirely sure how this effects other actions
+  monmove();
   process_activity();
  }
 
