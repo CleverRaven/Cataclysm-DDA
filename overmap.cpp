@@ -618,7 +618,7 @@ bool overmap::generate_sub(int const z)
   for (int j = 0; j < OMAPY; j++) {
    if (ter(i, j, z + 1) >= ot_sub_station_north &&
        ter(i, j, z + 1) <= ot_sub_station_west) {
-    ter(i, j, z + 1) = ot_subway_nesw;
+    ter(i, j, z) = ot_subway_nesw;
     subway_points.push_back(city(i, j, 0));
 
    } else if (ter(i, j, z + 1) == ot_road_nesw_manhole) {
