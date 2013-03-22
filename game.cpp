@@ -6572,30 +6572,22 @@ void game::complete_butcher(int index)
  }
 
  if (bones > 0) {
-  for (int i = 0; i < bones; i++) {
-   itype* bone;
-   if (corpse->mat == FLESH) {
-     bone = itypes[itm_bone];
-     add_msg("You harvest some usable bones!");
-   } else if (corpse->mat == VEGGY) {
-     bone = itypes[itm_plant_sac];
-     add_msg("You harvest some fluid bladders!");
-  }
-   m.add_item(u.posx, u.posy, bone, age);
+  if (corpse->has_flag(MF_BONES)) {
+    m.add_item(u.posx, u.posy, itypes[itm_bone], age, bones);
+   add_msg("You harvest some usable bones!");
+  } else if (corpse->mat == VEGGY) {
+    m.add_item(u.posx, u.posy, itypes[itm_plant_sac], age, bones);
+   add_msg("You harvest some fluid bladders!");
   }
  }
 
-  if (sinews > 0) {
-  for (int i = 0; i < sinews; i++) {
-   itype* sinew;
-   if (corpse->mat == FLESH) {
-     sinew = itypes[itm_sinew];
-     add_msg("You harvest some usable sinews!");
-   } else if (corpse->mat == VEGGY) {
-     sinew = itypes[itm_plant_fibre];
-     add_msg("You harvest some plant fibres!");
-  }
-   m.add_item(u.posx, u.posy, sinew, age);
+ if (sinews > 0) {
+  if (corpse->has_flag(MF_BONES)) {
+    m.add_item(u.posx, u.posy, itypes[itm_sinew], age, sinews);
+   add_msg("You harvest some usable sinews!");
+  } else if (corpse->mat == VEGGY) {
+    m.add_item(u.posx, u.posy, itypes[itm_plant_fibre], age, sinews);
+   add_msg("You harvest some plant fibres!");
   }
  }
 
