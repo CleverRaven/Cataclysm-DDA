@@ -2232,7 +2232,7 @@ void iuse::firecracker_pack_act(game *g, player *p, item *it, bool t)
     ex = it->charges;
   }
   for(i = 0; i < ex; i++) {
-   g->sound(pos.x, pos.y, 12, "Bang!");
+   g->sound(pos.x, pos.y, 20, "Bang!");
   }
   it->charges -= ex;
  }
@@ -2259,7 +2259,7 @@ void iuse::firecracker_act(game *g, player *p, item *it, bool t)
  if (t) {// Simple timer effects
   g->sound(pos.x, pos.y, 0, "ssss...");
  } else {  // When that timer runs down...
-  g->sound(pos.x, pos.y, 12, "Bang!");
+  g->sound(pos.x, pos.y, 20, "Bang!");
  }
 }
 
