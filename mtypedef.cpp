@@ -459,7 +459,7 @@ A horrifying child zombie, you feel\n\
 a twinge of remorse looking at it."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_BLEED,
-      MF_GUILT, MF_NO_BREATHE, MF_VIS30);
+      MF_POISON, MF_GUILT, MF_NO_BREATHE, MF_VIS30);
 CATEGORIES(MC_CLASSIC);
 
 
