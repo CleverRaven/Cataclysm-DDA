@@ -2554,9 +2554,9 @@ void map::draw(game *g, WINDOW* w, const point center)
            (dist > low_sight_range && LL_LIT > lit) ||
 	   (dist > sight_range && LL_LOW == lit),
            LL_BRIGHT == lit);
-   }/* else { //just unneeded drawing
-    mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_black,'#');
-   }*/
+   } else {
+    mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_black,' ');
+   }
   }
  }
  int atx = getmaxx(w)/2 + g->u.posx - center.x, aty = getmaxy(w)/2 + g->u.posy - center.y;

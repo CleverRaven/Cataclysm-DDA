@@ -697,7 +697,6 @@ void full_screen_popup(const char* mes, ...)
  std::string tmp = buff;
 
  WINDOW *w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
- //WINDOW* w = newwin(TERMY, TERMX, 0, 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  size_t pos = tmp.find_first_of('\n');
@@ -932,7 +931,7 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
 
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
 {
-    WINDOW *w_hit = newwin(1, 1, iY, iX);
+    WINDOW *w_hit = newwin(1, 1, iY+VIEW_OFFSET_Y, iX+VIEW_OFFSET_X);
     mvwputch(w_hit, 0, 0, cColor, cTile);
     wrefresh(w_hit);
 

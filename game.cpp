@@ -5143,7 +5143,7 @@ point game::look_around()
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
  int mx, my, junk;
  InputEvent input;
- WINDOW* w_look = newwin(13, 48, 12, VIEWX * 2 + 8);
+ WINDOW* w_look = newwin(13, 48, 12+VIEW_OFFSET_Y, VIEWX * 2 + 8+VIEW_OFFSET_X);
  wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w_look, 1, 1, c_white, "Looking Around");
