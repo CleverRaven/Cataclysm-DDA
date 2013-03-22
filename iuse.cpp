@@ -2139,6 +2139,130 @@ void iuse::dynamite_act(game *g, player *p, item *it, bool t)
   g->explosion(pos.x, pos.y, 60, 0, false);
 }
 
+void iuse::firecracker_pack(game *g, player *p, item *it, bool t)
+{
+ if (!p->has_charges(itm_lighter, 1)) {
+  g->add_msg_if_player(p,"You need a lighter!");
+  return;
+ }
+ WINDOW* w = newwin(5, 41, (TERMY-5)/2, (TERMX-41)/2);
+ wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ int mid_x = getmaxx(w) / 2;
+ mvwprintz(w, 1, 2, c_white,  "How many do you want to light? (1-%d)", it->charges);
+ mvwprintz(w, 2, mid_x, c_white, "1");
+ mvwprintz(w, 3, 5, c_ltred, "I");
+ mvwprintz(w, 3, 6, c_white, "ncrease");
+ mvwprintz(w, 3, 14, c_ltred, "D");
+ mvwprintz(w, 3, 15, c_white, "ecrease");
+ mvwprintz(w, 3, 23, c_ltred, "A");
+ mvwprintz(w, 3, 24, c_white, "ccept");
+ mvwprintz(w, 3, 30, c_ltred, "C");
+ mvwprintz(w, 3, 31, c_white, "ancel");
+ wrefresh(w);
+ bool close = false;
+ int charges = 1;
+ char ch = getch();
+ while(!close) {
+  if(ch == 'I') {
+   charges++;
+   if(charges > it->charges) {
+    charges = it->charges;
+   }
+   mvwprintz(w, 2, mid_x, c_white, "%d", charges);
+   wrefresh(w);
+  } else if(ch == 'D') {
+   charges--;
+   if(charges < 1) {
+    charges = 1;
+   }
+   mvwprintz(w, 2, mid_x, c_white, "%d ", charges); //Trailing space clears the second digit when decreasing from 10 to 9
+   wrefresh(w);
+  } else if(ch == 'A') {
+   p->use_charges(itm_lighter, 1);
+   if(charges == it->charges) {
+    g->add_msg_if_player(p,"You light the pack of firecrackers.");
+    it->make(g->itypes[itm_firecracker_pack_act]);
+    it->charges = charges;
+    it->bday = g->turn;
+    it->active = true;
+   } else {
+    if(charges == 1) {
+     g->add_msg_if_player(p,"You light one firecracker.");
+     item new_it = item(g->itypes[itm_firecracker_act], int(g->turn));
+     new_it.charges = 2;
+     new_it.active = true;
+     p->i_add(new_it, g);
+     it->charges -= 1;
+    } else {
+     g->add_msg_if_player(p,"You light a string of %d firecrackers.", charges);
+     item new_it = item(g->itypes[itm_firecracker_pack_act], int(g->turn));
+     new_it.charges = charges;
+     new_it.bday = g->turn;
+     new_it.active = true;
+     p->i_add(new_it, g);
+     it->charges -= charges;
+    }
+    if(it->charges == 1) {
+     it->make(g->itypes[itm_firecracker]);
+    }
+   }
+   close = true;
+  } else if(ch == 'C') {
+   close = true;
+  }
+  if(!close) {
+   ch = getch();
+  }
+ }
+}
+
+void iuse::firecracker_pack_act(game *g, player *p, item *it, bool t)
+{
+ point pos = g->find_item(it);
+ int current_turn = g->turn;
+ int timer = current_turn - it->bday;
+ if(timer < 2) {
+  g->sound(pos.x, pos.y, 0, "ssss...");
+  it->damage += 1;
+ } else if(it->charges > 0) {
+  int ex = rng(3,5);
+  int i = 0;
+  if(ex > it->charges) {
+    ex = it->charges;
+  }
+  for(i = 0; i < ex; i++) {
+   g->sound(pos.x, pos.y, 12, "Bang!");
+  }
+  it->charges -= ex;
+ }
+}
+
+void iuse::firecracker(game *g, player *p, item *it, bool t)
+{
+ if (!p->has_charges(itm_lighter, 1)) {
+  g->add_msg_if_player(p,"You need a lighter!");
+  return;
+ }
+ p->use_charges(itm_lighter, 1);
+ g->add_msg_if_player(p,"You light the firecracker.");
+ it->make(g->itypes[itm_firecracker_act]);
+ it->charges = 2;
+ it->active = true;
+}
+
+void iuse::firecracker_act(game *g, player *p, item *it, bool t)
+{
+ point pos = g->find_item(it);
+ if (pos.x == -999 || pos.y == -999)
+  return;
+ if (t) {// Simple timer effects
+  g->sound(pos.x, pos.y, 0, "ssss...");
+ } else {  // When that timer runs down...
+  g->sound(pos.x, pos.y, 12, "Bang!");
+ }
+}
+
 void iuse::mininuke(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You activate the mininuke.");

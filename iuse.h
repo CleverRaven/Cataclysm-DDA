@@ -96,6 +96,10 @@ class iuse
   void molotov_lit	(game *g, player *p, item *it, bool t);
   void dynamite		(game *g, player *p, item *it, bool t);
   void dynamite_act	(game *g, player *p, item *it, bool t);
+  void firecracker_pack (game *g, player *p, item *it, bool t);
+  void firecracker_pack_act (game *g, player *p, item *it, bool t);
+  void firecracker (game *g, player *p, item *it, bool t);
+  void firecracker_act (game *g, player *p, item *it, bool t);
   void mininuke		(game *g, player *p, item *it, bool t);
   void mininuke_act	(game *g, player *p, item *it, bool t);
   void pheromone	(game *g, player *p, item *it, bool t);
