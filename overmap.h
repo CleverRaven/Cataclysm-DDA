@@ -54,6 +54,7 @@ class overmap
 {
  public:
   overmap();
+  overmap(overmap const&);
   overmap(game *g, int x, int y);
   ~overmap();
 
@@ -118,9 +119,6 @@ class overmap
   oter_id nullret;
   bool nullbool;
   std::string nullstr;
-
-  // no copy constructor
-  overmap(overmap const&);
 
   // Initialise
   void init_layers();
