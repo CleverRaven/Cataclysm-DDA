@@ -83,7 +83,7 @@ int tileray::dir4 ()
         return 0;
 }
 
-unsigned char tileray::dir_symbol (unsigned char sym)
+long tileray::dir_symbol (long sym)
 {
     switch (sym)
     {
