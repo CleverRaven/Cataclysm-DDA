@@ -157,6 +157,30 @@ overmap::overmap(game *g, int x, int y)
  open(g);
 }
 
+overmap::overmap(overmap const& o)
+    : zg(o.zg)
+    , radios(o.radios)
+    , npcs(o.npcs)
+    , cities(o.cities)
+    , roads_out(o.roads_out)
+    , towns(o.towns)
+    , loc(o.loc)
+    , prefix(o.prefix)
+    , name(o.name)
+    , layer(NULL)
+{
+    layer = new map_layer[OVERMAP_LAYERS];
+    for(int z = 0; z < OVERMAP_LAYERS; ++z) {
+        for(int i = 0; i < OMAPX; ++i) {
+            for(int j = 0; j < OMAPY; ++j) {
+                layer[z].terrain[i][j] = o.layer[z].terrain[i][j];
+                layer[z].visible[i][j] = o.layer[z].visible[i][j];
+            }
+        }
+        layer[z].notes = o.layer[z].notes;
+    }
+}
+
 overmap::~overmap()
 {
 	if (layer) {
@@ -167,28 +191,33 @@ overmap::~overmap()
 
 overmap& overmap::operator=(overmap const& o)
 {
-	loc = o.loc;
-	prefix = o.prefix;
-	name = o.name;
-	cities = o.cities;
-	roads_out = o.roads_out;
-	towns = o.towns;
-	zg = o.zg;
-	radios = o.radios;
-	npcs = o.npcs;
+    zg = o.zg;
+    radios = o.radios;
+    npcs = o.npcs;
+    cities = o.cities;
+    roads_out = o.roads_out;
+    towns = o.towns;
+    loc = o.loc;
+    prefix = o.prefix;
+    name = o.name;
 
- layer = new map_layer[OVERMAP_LAYERS];
-	for(int z = 0; z < OVERMAP_LAYERS; ++z) {
-		for(int i = 0; i < OMAPX; ++i) {
-			for(int j = 0; j < OMAPY; ++j) {
-				layer[z].terrain[i][j] = o.layer[z].terrain[i][j];
-				layer[z].visible[i][j] = o.layer[z].visible[i][j];
-			}
-		}
-		layer[z].notes = o.layer[z].notes;
-	}
+    if (layer) {
+        delete [] layer;
+        layer = NULL;
+    }
 
-	return *this;
+    layer = new map_layer[OVERMAP_LAYERS];
+    for(int z = 0; z < OVERMAP_LAYERS; ++z) {
+        for(int i = 0; i < OMAPX; ++i) {
+            for(int j = 0; j < OMAPY; ++j) {
+                layer[z].terrain[i][j] = o.layer[z].terrain[i][j];
+                layer[z].visible[i][j] = o.layer[z].visible[i][j];
+            }
+        }
+        layer[z].notes = o.layer[z].notes;
+    }
+
+    return *this;
 }
 
 void overmap::init_layers()
