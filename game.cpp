@@ -1979,6 +1979,7 @@ void game::update_scent()
   grscent[u.posx][u.posy] = u.scent;
  else
   grscent[u.posx][u.posy] = 0;
+
  int move_cost;
  field field_at;
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
@@ -2007,12 +2008,15 @@ void game::update_scent()
      newscent[x][y] = 0; // Scent should never be higher
     }
    }
-   if(move_cost == 0)
+  }
+ }
+ for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
+  for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++)
+   if(m.move_cost(x, y) == 0)
     //Greatly reduce scent for bashable barriers
     grscent[x][y] = newscent[x][y] / 4;
    else
     grscent[x][y] = newscent[x][y];
-  }
  }
  if (!u.has_active_bionic(bio_scent_mask))
   grscent[u.posx][u.posy] = u.scent;
