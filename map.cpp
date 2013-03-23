@@ -2541,7 +2541,8 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  const int k = x + getmaxx(w)/2 - cx;
  const int j = y + getmaxy(w)/2 - cy;
  nc_color tercol;
- long sym = terlist[ter(x, y)].sym;
+ ter_id curr_ter = ter(x,y);
+ long sym = terlist[curr_ter].sym;
  bool hi = false;
  bool graf = false;
  bool normal_tercol = false, drew_field = false;
@@ -2555,7 +2556,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  else
  {
   normal_tercol = true;
-  tercol = terlist[ter(x, y)].color;
+  tercol = terlist[curr_ter].color;
  }
  if (move_cost(x, y) == 0 && has_flag(swimmable, x, y) && !u.underwater)
   show_items = false;	// Can only see underwater items if WE are underwater
@@ -2595,7 +2596,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  }
 // If there's items here, draw those instead
  if (show_items && !has_flag(container, x, y) && i_at(x, y).size() > 0 && !drew_field) {
-  if ((terlist[ter(x, y)].sym != '.'))
+  if ((terlist[curr_ter].sym != '.'))
    hi = true;
   else {
    tercol = i_at(x, y)[i_at(x, y).size() - 1].color();
