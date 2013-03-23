@@ -34,7 +34,6 @@ enum lit_level {
 
 struct light_map_cache {
  float transparency;
- int mon;
 };
 
 class light_map

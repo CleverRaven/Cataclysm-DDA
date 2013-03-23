@@ -103,28 +103,32 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
       apply_light_source(sx, sy, x, y, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
      break;
    }
+  }
+ }
 
-   if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].mon >= 0) {
-    if (g->z[c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].mon].has_effect(ME_ONFIRE))
-     apply_light_source(sx, sy, x, y, 3);
-
-    // TODO: [lightmap] Attach natural light brightness to creatures
-    // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
-    // TODO: [lightmap] Allow creatures to have facing and arc lights
-    switch(g->z[c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].mon].type->id) {
-     case mon_zombie_electric:
-      apply_light_source(sx, sy, x, y, 1);
-      break;
-     case mon_turret:
-      apply_light_source(sx, sy, x, y, 2);
-      break;
-     case mon_flaming_eye:
-      apply_light_source(sx, sy, x, y, LIGHT_SOURCE_BRIGHT);
-      break;
-     case mon_manhack:
-      apply_light_source(sx, sy, x, y, LIGHT_SOURCE_LOCAL);
-      break;
-    }
+ for (int i = 0; i < g->z.size(); ++i) {
+  int mx = g->z[i].posx;
+  int my = g->z[i].posy;
+  if (INBOUNDS(mx - LIGHTMAP_RANGE_X, my - LIGHTMAP_RANGE_Y)) {
+   if (g->z[i].has_effect(ME_ONFIRE)) {
+    apply_light_source(mx, my, x, y, 3);
+   }
+   // TODO: [lightmap] Attach natural light brightness to creatures
+   // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
+   // TODO: [lightmap] Allow creatures to have facing and arc lights
+   switch (g->z[i].type->id) {
+    case mon_zombie_electric:
+     apply_light_source(mx, my, x, y, 1);
+     break;
+    case mon_turret:
+     apply_light_source(mx, my, x, y, 2);
+     break;
+    case mon_flaming_eye:
+     apply_light_source(mx, my, x, y, LIGHT_SOURCE_BRIGHT);
+     break;
+    case mon_manhack:
+     apply_light_source(mx, my, x, y, LIGHT_SOURCE_LOCAL);
+     break;
    }
   }
  }
@@ -393,14 +397,8 @@ void light_map::build_light_cache(game* g, int cx, int cy)
    int sy = y + g->u.posy - LIGHTMAP_RANGE_Y;
 
    c[x][y].transparency = LIGHT_TRANSPARENCY_CLEAR;
-   c[x][y].mon = -1;
   }
  }
-
- // Check for critters and cache
- for (int i = 0; i < g->z.size(); ++i)
-  if (INBOUNDS(g->z[i].posx - cx, g->z[i].posy - cy))
-   c[g->z[i].posx - cx + LIGHTMAP_RANGE_X][g->z[i].posy - cy + LIGHTMAP_RANGE_Y].mon = i;
 
  for(int x = 0; x < LIGHTMAP_CACHE_X; x++) {
   for(int y = 0; y < LIGHTMAP_CACHE_Y; y++) {
