@@ -75,7 +75,6 @@
       { "monster" : "mon_zombie_fungus", "freq" : 300 },
       { "monster" : "mon_boomer_fungus", "freq" : 30 },
       { "monster" : "mon_spore", "freq" : 0 },
-      { "monster" : "mon_fungaloid_queen", "freq" : 303 },
       { "monster" : "mon_fungal_wall", "freq" : 0 }
     ]
   },
