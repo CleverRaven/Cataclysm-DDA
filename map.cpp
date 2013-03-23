@@ -1388,6 +1388,8 @@ case t_wall_log:
   }
   break;
 
+ case t_fence_v:
+ case t_fence_h:
  case t_fence_post:
   result = rng(0, 10);
   if (res) *res = result;
