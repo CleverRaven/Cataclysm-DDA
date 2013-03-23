@@ -2215,7 +2215,7 @@ void overmap::place_specials()
     point pt(p.x, p.y);
     // Skip non-classic specials if we're in classic mode
     if (OPTIONS[OPT_CLASSIC_ZOMBIES] && !(special.flags & mfb(OMS_FLAG_CLASSIC))) continue;
-    if ((placed[i] < special.max_appearances || special.max_appearances <= 0) &&
+    if ((placed[ valid[i] ] < special.max_appearances || special.max_appearances <= 0) &&
         (min == -1 || dist_from_city(pt) >= min) &&
         (max == -1 || dist_from_city(pt) <= max) &&
         (place.*special.able)(this, p))
@@ -2228,7 +2228,7 @@ void overmap::place_specials()
 // Place the MUST HAVE ones first, to try and guarantee that they appear
    std::vector<omspec_id> must_place;
    for (int i = 0; i < valid.size(); i++) {
-    if (placed[i] < overmap_specials[ valid[i] ].min_appearances)
+    if (placed[ valid[i] ] < overmap_specials[ valid[i] ].min_appearances)
      must_place.push_back(valid[i]);
    }
    if (must_place.empty()) {
