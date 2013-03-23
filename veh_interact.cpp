@@ -511,7 +511,7 @@ void veh_interact::display_veh ()
     for (int ep = 0; ep < veh->external_parts.size(); ep++)
     {
         int p = veh->external_parts[ep];
-        unsigned char sym = veh->part_sym (p);
+        long sym = veh->part_sym (p);
         nc_color col = veh->part_color (p);
         int y = -(veh->parts[p].mount_dx + ddx);
         int x = veh->parts[p].mount_dy + ddy;
