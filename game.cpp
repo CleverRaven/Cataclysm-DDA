@@ -6603,19 +6603,20 @@ void game::complete_butcher(int index)
  if ((corpse->has_flag(MF_FUR) || corpse->has_flag(MF_LEATHER)) &&
      pelts > 0) {
   add_msg("You manage to skin the %s!", corpse->name.c_str());
-  for (int i = 0; i < pelts; i++) {
-   itype* pelt;
-   if (corpse->has_flag(MF_FUR) && corpse->has_flag(MF_LEATHER)) {
-    if (one_in(2))
-     pelt = itypes[itm_fur];
-    else
-     pelt = itypes[itm_leather];
-   } else if (corpse->has_flag(MF_FUR))
-    pelt = itypes[itm_fur];
-   else
-    pelt = itypes[itm_leather];
-   m.add_item(u.posx, u.posy, pelt, age);
+  int fur = 0;
+  int leather = 0;
+
+  if (corpse->has_flag(MF_FUR) && corpse->has_flag(MF_LEATHER)) {
+   fur = rng(0, pelts);
+   leather = pelts - fur;
+  } else if (corpse->has_flag(MF_FUR)) {
+   fur = pelts;
+  } else {
+   leather = pelts;
   }
+
+  if(fur) m.add_item(u.posx, u.posy, itypes[itm_fur], age, fur);
+  if(leather) m.add_item(u.posx, u.posy, itypes[itm_leather], age, leather);
  }
 
  //Add a chance of CBM recovery. For shocker and cyborg corpses.
@@ -6659,8 +6660,7 @@ void game::complete_butcher(int index)
    else
     meat = itypes[itm_veggy];
   }
-  for (int i = 0; i < pieces; i++)
-   m.add_item(u.posx, u.posy, meat, age);
+  m.add_item(u.posx, u.posy, meat, age, pieces);
   add_msg("You butcher the corpse.");
  }
 }
