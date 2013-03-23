@@ -2215,7 +2215,7 @@ void overmap::place_specials()
     point pt(p.x, p.y);
     // Skip non-classic specials if we're in classic mode
     if (OPTIONS[OPT_CLASSIC_ZOMBIES] && !(special.flags & mfb(OMS_FLAG_CLASSIC))) continue;
-    if ((placed[ valid[i] ] < special.max_appearances || special.max_appearances <= 0) &&
+    if ((placed[ omspec_id(i) ] < special.max_appearances || special.max_appearances <= 0) &&
         (min == -1 || dist_from_city(pt) >= min) &&
         (max == -1 || dist_from_city(pt) <= max) &&
         (place.*special.able)(this, p))
