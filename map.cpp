@@ -2702,7 +2702,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
   graf = true;
 
  //suprise, we're not done, if it's a wall adjacent to an other, put the right glyph
- if(sym == LINE_V || sym == LINE_H)//vertical or horizontal
+ if(sym == LINE_XOXO || sym == LINE_OXOX)//vertical or horizontal
   sym = determine_wall_corner(x, y, sym);
 
  if (invert)
@@ -3291,10 +3291,9 @@ graffiti map::graffiti_at(int x, int y)
  return grid[nonant]->graf[x][y];
 }
 
-unsigned char map::determine_wall_corner(int x, int y, unsigned char sym)
+long map::determine_wall_corner(int x, int y, long sym)
 {
-    //196 = -
-    //179 = |
+    //LINE_NESW
     long above = terlist[ter(x, y-1)].sym;
     long below = terlist[ter(x, y+1)].sym;
     long left  = terlist[ter(x-1, y)].sym;
@@ -3302,61 +3301,61 @@ unsigned char map::determine_wall_corner(int x, int y, unsigned char sym)
 
     bool above_connects = above == sym || (above == '"' || above == '+' || above == '\'');
     bool below_connects = below == sym || (below == '"' || below == '+' || below == '\'');
-    bool left_connects =  left  == sym || (left  == '"' || left  == '+' || left  == '\'');
+    bool left_connects  = left  == sym || (left  == '"' || left  == '+' || left  == '\'');
     bool right_connects = right == sym || (right == '"' || right == '+' || right == '\'');
 
     // -
     // |      this = - and above = | or a connectable
-    if(sym == LINE_H &&  (above == LINE_V || above_connects))
+    if(sym == LINE_OXOX &&  (above == LINE_XOXO || above_connects))
     {
         //connects to upper
         if(left_connects)
-            sym = CORNER_SE; // ┘ left coming wall
+            sym = LINE_XOOX; // ┘ left coming wall
         else if(right_connects)
-            sym = CORNER_SW;//└   right coming wall
+            sym = LINE_XXOO;//└   right coming wall
         if(left_connects && right_connects)
-            sym = T_TOP; // ┴ passing by
+            sym = LINE_XXOX; // ┴ passing by
     }
 
     // |
     // -      this = - and below = | or a connectable
-    else if(sym == LINE_H && (below == LINE_V || below_connects))
+    else if(sym == LINE_OXOX && (below == LINE_XOXO || below_connects))
     {
         //connects to lower
         if(left_connects)
-            sym = CORNER_NE; // ┐ left coming wall
+            sym = LINE_OOXX; // ┐ left coming wall
         else if(right_connects)
-            sym = CORNER_NW;//┌   right coming wall
+            sym = LINE_OXXO;//┌   right coming wall
         if(left_connects && right_connects)
-            sym = T_BOTTOM; // ┬ passing by
+            sym = LINE_OXXX; // ┬ passing by
     }
 
     // -|       this = | and left = - or a connectable
-    else if(sym == LINE_V && (left == LINE_H || left_connects))
+    else if(sym == LINE_XOXO && (left == LINE_OXOX || left_connects))
     {
         //connexts to left
         if(above_connects)
-            sym = CORNER_SE; // ┘ north coming wall
+            sym = LINE_XOOX; // ┘ north coming wall
         else if(below_connects )
-            sym = CORNER_NE;//┐   south coming wall
+            sym = LINE_OOXX;//┐   south coming wall
         if(above_connects && below_connects)
-            sym = T_LEFT; // ┤ passing by
+            sym = LINE_XOXX; // ┤ passing by
     }
 
     // |-       this = | and right = - or a connectable
-    else if(sym == LINE_V && (right == LINE_H || right_connects))
+    else if(sym == LINE_XOXO && (right == LINE_OXOX || right_connects))
     {
         //connects to right
         if(above_connects)
-            sym = CORNER_SW; // └ north coming wall
+            sym = LINE_XXOO; // └ north coming wall
         else if(below_connects)
-            sym = CORNER_NW;// ┌   south coming wall
+            sym = LINE_OXXO;// ┌   south coming wall
         if(above_connects && below_connects)
-            sym = T_RIGHT; // ├ passing by
+            sym = LINE_XXXO; // ├ passing by
     }
 
-    if(above == LINE_V && left == LINE_H && above == below && left == right)
-        sym = 197; // ┼ crossway
+    if(above == LINE_XOXO && left == LINE_OXOX && above == below && left == right)
+        sym = LINE_XXXX; // ┼ crossway
 
     return sym;
 }
