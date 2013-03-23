@@ -191,8 +191,31 @@ overmap::~overmap()
 
 overmap& overmap::operator=(overmap const& o)
 {
-    overmap tmp(o); // copy
-    std::swap(*this, tmp); // and swap
+    zg = o.zg;
+    radios = o.radios;
+    npcs = o.npcs;
+    cities = o.cities;
+    roads_out = o.roads_out;
+    towns = o.towns;
+    loc = o.loc;
+    prefix = o.prefix;
+    name = o.name;
+
+    if (layer) {
+        delete [] layer;
+        layer = NULL;
+    }
+
+    layer = new map_layer[OVERMAP_LAYERS];
+    for(int z = 0; z < OVERMAP_LAYERS; ++z) {
+        for(int i = 0; i < OMAPX; ++i) {
+            for(int j = 0; j < OMAPY; ++j) {
+                layer[z].terrain[i][j] = o.layer[z].terrain[i][j];
+                layer[z].visible[i][j] = o.layer[z].visible[i][j];
+            }
+        }
+        layer[z].notes = o.layer[z].notes;
+    }
 
     return *this;
 }
