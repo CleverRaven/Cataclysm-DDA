@@ -104,16 +104,6 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
      break;
    }
 
-   // Apply any vehicle light sources
-   if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh &&
-       c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh_light > LL_DARK) {
-    if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh_light > LL_LIT) {
-     int dir = c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh->face.dir();
-     float luminance = c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].veh_light;
-     apply_light_arc(sx, sy, dir, x, y, luminance);
-    }
-   }
-
    if (c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].mon >= 0) {
     if (g->z[c[sx - x + LIGHTMAP_RANGE_X][sy - y + LIGHTMAP_RANGE_Y].mon].has_effect(ME_ONFIRE))
      apply_light_source(sx, sy, x, y, 3);
@@ -134,6 +124,28 @@ void light_map::generate(game* g, int x, int y, float natural_light, float lumin
      case mon_manhack:
       apply_light_source(sx, sy, x, y, LIGHT_SOURCE_LOCAL);
       break;
+    }
+   }
+  }
+ }
+
+ // Apply any vehicle light sources
+ VehicleList vehs = g->m.get_vehicles();
+ for(int v = 0; v < vehs.size(); ++v) {
+  if(vehs[v].v->lights_on) {
+   int dir = vehs[v].v->face.dir();
+   for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
+        part != vehs[v].v->external_parts.end(); ++part) {
+    int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0] - LIGHTMAP_RANGE_X;
+    int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0] - LIGHTMAP_RANGE_Y;
+    if(INBOUNDS_LARGE(px, py)) {
+     int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
+     if (dpart >= 0) {
+      float luminance = vehs[v].v->part_info(dpart).power;
+      if (luminance > LL_LIT) {
+        apply_light_arc(px + LIGHTMAP_RANGE_X, py + LIGHTMAP_RANGE_Y, dir, x, y, luminance);
+      }
+     }
     }
    }
   }
@@ -381,9 +393,6 @@ void light_map::build_light_cache(game* g, int cx, int cy)
    int sy = y + g->u.posy - LIGHTMAP_RANGE_Y;
 
    c[x][y].transparency = LIGHT_TRANSPARENCY_CLEAR;
-   c[x][y].veh = NULL;
-   c[x][y].veh_part = 0;
-   c[x][y].veh_light = 0;
    c[x][y].mon = -1;
   }
  }
@@ -393,46 +402,12 @@ void light_map::build_light_cache(game* g, int cx, int cy)
   if (INBOUNDS(g->z[i].posx - cx, g->z[i].posy - cy))
    c[g->z[i].posx - cx + LIGHTMAP_RANGE_X][g->z[i].posy - cy + LIGHTMAP_RANGE_Y].mon = i;
 
- // Check for vehicles and cache
- VehicleList vehs = g->m.get_vehicles(cx - LIGHTMAP_RANGE_X, cy - LIGHTMAP_RANGE_Y, cx + LIGHTMAP_RANGE_X, cy + LIGHTMAP_RANGE_Y);
- for(int v = 0; v < vehs.size(); ++v) {
-  for(int p = 0; p < vehs[v].v->parts.size(); ++p) {
-   int px = vehs[v].x + vehs[v].v->parts[p].precalc_dx[0] - cx;
-   int py = vehs[v].y + vehs[v].v->parts[p].precalc_dy[0] - cy;
-
-   if (INBOUNDS(px, py)) {
-    px += LIGHTMAP_RANGE_X;
-    py += LIGHTMAP_RANGE_Y;
-
-    // External part appears to always be the first?
-    if (!c[px][py].veh) {
-     c[px][py].veh = vehs[v].v;
-     c[px][py].veh_part = p;
-    }
-
-    if (vehs[v].v->lights_on &&
-        vehs[v].v->part_flag(p, vpf_light) &&
-        vehs[v].v->parts[p].hp > 0)
-     c[px][py].veh_light = vehs[v].v->part_info(p).power;
-   }
-  }
- }
-
  for(int x = 0; x < LIGHTMAP_CACHE_X; x++) {
   for(int y = 0; y < LIGHTMAP_CACHE_Y; y++) {
    int sx = x + cx - LIGHTMAP_RANGE_X;
    int sy = y + cy - LIGHTMAP_RANGE_Y;
 
-   if (c[x][y].veh) {
-    if (c[x][y].veh->part_flag(c[x][y].veh_part, vpf_opaque) &&
-        c[x][y].veh->parts[c[x][y].veh_part].hp > 0) {
-     int dpart = c[x][y].veh->part_with_feature(c[x][y].veh_part, vpf_openable);
-     if (dpart < 0 || !c[x][y].veh->parts[dpart].open) {
-      c[x][y].transparency = LIGHT_TRANSPARENCY_SOLID;
-      continue;
-     }
-    }
-   } else if (!(terlist[g->m.ter(sx, sy)].flags & mfb(transparent))) {
+   if (!(terlist[g->m.ter(sx, sy)].flags & mfb(transparent))) {
     c[x][y].transparency = LIGHT_TRANSPARENCY_SOLID;
     continue;
    }
@@ -460,6 +435,22 @@ void light_map::build_light_cache(game* g, int cx, int cy)
     }
 
     // TODO: [lightmap] Have glass reduce light as well
+   }
+  }
+ }
+
+ VehicleList vehs = g->m.get_vehicles();
+ for(int v = 0; v < vehs.size(); ++v) {
+  for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
+       part != vehs[v].v->external_parts.end(); ++part) {
+   if (vehs[v].v->part_flag(*part, vpf_opaque) && vehs[v].v->parts[*part].hp > 0) {
+    int dpart = vehs[v].v->part_with_feature(*part , vpf_openable);
+    if (dpart < 0 || !vehs[v].v->parts[dpart].open) {
+     int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0] - cx;
+     int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0] - cy;
+     if(INBOUNDS_LARGE(px, py))
+      c[px + LIGHTMAP_RANGE_X][py + LIGHTMAP_RANGE_Y].transparency = LIGHT_TRANSPARENCY_SOLID;
+    }
    }
   }
  }

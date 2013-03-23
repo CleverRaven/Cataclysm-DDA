@@ -34,9 +34,6 @@ enum lit_level {
 
 struct light_map_cache {
  float transparency;
- vehicle* veh;
- int veh_part;
- int veh_light;
  int mon;
 };
 
