@@ -490,11 +490,11 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   }
   // Frostbite (level 1 after 2 hours, level 2 after 4 hours)
   if      (frostbite_timer[i] >   0) frostbite_timer[i]--;
-  if      (frostbite_timer[i] >= 240) {
+  if      (frostbite_timer[i] >= 240 && g->temperature < 32) {
    if      (disease_intensity(dis_type(frost_pen)) < 2 &&  i == bp_mouth)                  g->add_msg("Your %s hardens from the frostbite!", body_part_name(body_part(i), -1).c_str());
    else if (disease_intensity(dis_type(frost_pen)) < 2 && (i == bp_hands || i == bp_feet)) g->add_msg("Your %s harden from the frostbite!",  body_part_name(body_part(i), -1).c_str());
    add_disease(dis_type(frost_pen), 1, g, 2, 2);}
-  else if (frostbite_timer[i] >= 120) {
+  else if (frostbite_timer[i] >= 120 && g->temperature < 32) {
    if (!has_disease(dis_type(frost_pen))) g->add_msg("You lose sensation in your %s.", body_part_name(body_part(i), -1).c_str());
    add_disease(dis_type(frost_pen), 1, g, 1, 2);}
   // Warn the player if condition worsens
