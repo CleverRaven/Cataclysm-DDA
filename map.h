@@ -232,7 +232,6 @@ protected:
  bool veh_in_active_range;
 
 private:
- int cache_built;
  bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  submap* grid[MAPSIZE * MAPSIZE];

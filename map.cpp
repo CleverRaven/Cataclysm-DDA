@@ -26,7 +26,6 @@ map::map()
 {
  nulter = t_null;
  nultrap = tr_null;
- cache_built = false;
  if (is_tiny())
   my_MAPSIZE = 2;
  else
@@ -40,7 +39,6 @@ map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
 {
  nulter = t_null;
  nultrap = tr_null;
- cache_built = false;
  itypes = itptr;
  mapitems = miptr;
  traps = trptr;
@@ -938,24 +936,7 @@ bool map::is_outside(const int x, const int y)
  if(!INBOUNDS(x, y))
   return true;
 
- if(cache_built)
-   return outside_cache[x][y];
-
- bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet && ter(x, y) != t_makeshift_bed);
-
- for(int i = -1; out && i <= 1; i++)
-  for(int j = -1; out && j <= 1; j++) {
-   const ter_id terrain = ter( x + i, y + j );
-   out = (terrain != t_floor && terrain != t_rock_floor && terrain != t_floor_wax &&
-          terrain != t_fema_groundsheet && terrain != t_dirtfloor && terrain != t_skin_groundsheet);
-  }
- if (out) {
-  int vpart;
-  vehicle *veh = veh_at (x, y, vpart);
-  if (veh && veh->is_inside(vpart))
-   out = false;
- }
- return out;
+ return outside_cache[x][y];
 }
 
 bool map::flammable_items_at(const int x, const int y)
@@ -3490,8 +3471,6 @@ void map::build_map_cache()
    }
   }
  }
-
- cache_built = true;
 }
 
 
