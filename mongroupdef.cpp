@@ -3,6 +3,7 @@
 #include <vector>
 #include "setvector.h"
 #include "picojson.h"
+#include "options.h"
 
 //Adding a group:
 //  1: Declare it in the MonsterGroupDefs enum in mongroup.h
@@ -21,18 +22,16 @@ std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 
 void game::init_mongroups() { MonsterGroupManager::LoadJSONGroups(); }
 
-mon_id MonsterGroupManager::GetMonsterFromGroup(std::string group)
-{
-    return GetMonsterFromGroup(group, -1, NULL);
-}
-
-mon_id MonsterGroupManager::GetMonsterFromGroup(std::string group, int turn, std::vector <mtype*> *mtypes)
+mon_id MonsterGroupManager::GetMonsterFromGroup(std::string group, std::vector <mtype*> *mtypes, int turn)
 {
     int roll = rng(1, 1000);
     MonsterGroup g = monsterGroupMap[group];
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
     {
-        if(turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + (*mtypes)[it->first]->difficulty))
+        if((turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + (*mtypes)[it->first]->difficulty)) &&
+           (!OPTIONS[OPT_CLASSIC_ZOMBIES] ||
+            (*mtypes)[it->first]->in_category(MC_CLASSIC) ||
+            (*mtypes)[it->first]->in_category(MC_WILDLIFE)))
         {   //Not too hard for us (or we dont care)
             if(it->second >= roll) return it->first;
             else roll -= it->second;

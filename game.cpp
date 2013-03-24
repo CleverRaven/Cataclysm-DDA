@@ -94,8 +94,10 @@ void game::init_ui(){
     #if (defined _WIN32 || defined __WIN32__)
         TERMX = 55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1);
         TERMY = OPTIONS[OPT_VIEWPORT_Y] * 2 + 1;
-        VIEWX = OPTIONS[OPT_VIEWPORT_X];
-        VIEWY = OPTIONS[OPT_VIEWPORT_Y];
+        VIEWX = (OPTIONS[OPT_VIEWPORT_X] > 60) ? 60 : OPTIONS[OPT_VIEWPORT_X];
+        VIEWY = (OPTIONS[OPT_VIEWPORT_Y] > 60) ? 60 : OPTIONS[OPT_VIEWPORT_Y];
+        VIEW_OFFSET_X = (OPTIONS[OPT_VIEWPORT_X] > 60) ? OPTIONS[OPT_VIEWPORT_X]-60 : 0;
+        VIEW_OFFSET_Y = (OPTIONS[OPT_VIEWPORT_Y] > 60) ? OPTIONS[OPT_VIEWPORT_Y]-60 : 0;
         TERRAIN_WINDOW_WIDTH = (VIEWX * 2) + 1;
         TERRAIN_WINDOW_HEIGHT = (VIEWY * 2) + 1;
     #else
@@ -110,8 +112,12 @@ void game::init_ui(){
             TERMY--;
         }
 
-        TERRAIN_WINDOW_WIDTH = TERMX - STATUS_WIDTH;
-        TERRAIN_WINDOW_HEIGHT = TERMY;
+        TERRAIN_WINDOW_WIDTH = (TERMX - STATUS_WIDTH > 121) ? 121 : TERMX - STATUS_WIDTH;
+        TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
+
+        VIEW_OFFSET_X = (TERMX - STATUS_WIDTH > 121) ? (TERMX - STATUS_WIDTH - 121)/2 : 0;
+        VIEW_OFFSET_Y = (TERMY > 121) ? (TERMY - 121)/2 : 0;
+
         VIEWX = (TERRAIN_WINDOW_WIDTH - 1) / 2;
         VIEWY = (TERRAIN_WINDOW_HEIGHT - 1) / 2;
     #endif
@@ -125,28 +131,28 @@ void game::init_ui(){
     }
 
     // Set up the main UI windows.
-    w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, 0, 0);
+    w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, VIEW_OFFSET_Y, VIEW_OFFSET_X);
     werase(w_terrain);
 
-    w_minimap = newwin(MINIMAP_HEIGHT, MINIMAP_WIDTH, 0, TERMX - MONINFO_WIDTH - MINIMAP_WIDTH);
+    w_minimap = newwin(MINIMAP_HEIGHT, MINIMAP_WIDTH, VIEW_OFFSET_Y, TERMX - MONINFO_WIDTH - MINIMAP_WIDTH - VIEW_OFFSET_X);
     werase(w_minimap);
 
-    w_HP = newwin(HP_HEIGHT, HP_WIDTH, MINIMAP_HEIGHT, TERMX - MESSAGES_WIDTH - HP_WIDTH);
+    w_HP = newwin(HP_HEIGHT, HP_WIDTH, VIEW_OFFSET_Y + MINIMAP_HEIGHT, TERMX - MESSAGES_WIDTH - HP_WIDTH - VIEW_OFFSET_X);
     werase(w_HP);
 
-    w_moninfo = newwin(MONINFO_HEIGHT, MONINFO_WIDTH, 0, TERMX - MONINFO_WIDTH);
+    w_moninfo = newwin(MONINFO_HEIGHT, MONINFO_WIDTH, VIEW_OFFSET_Y, TERMX - MONINFO_WIDTH - VIEW_OFFSET_X);
     werase(w_moninfo);
 
-    w_messages = newwin(MESSAGES_HEIGHT, MESSAGES_WIDTH, MONINFO_HEIGHT, TERMX - MESSAGES_WIDTH);
+    w_messages = newwin(MESSAGES_HEIGHT, MESSAGES_WIDTH, MONINFO_HEIGHT + VIEW_OFFSET_Y, TERMX - MESSAGES_WIDTH - VIEW_OFFSET_X);
     werase(w_messages);
 
-    w_location = newwin(LOCATION_HEIGHT, LOCATION_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT, TERMX - LOCATION_WIDTH);
+    w_location = newwin(LOCATION_HEIGHT, LOCATION_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT + VIEW_OFFSET_Y, TERMX - LOCATION_WIDTH - VIEW_OFFSET_X);
     werase(w_location);
 
-    w_status = newwin(STATUS_HEIGHT, STATUS_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT, TERMX - STATUS_WIDTH);
+    w_status = newwin(STATUS_HEIGHT, STATUS_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT + VIEW_OFFSET_Y, TERMX - STATUS_WIDTH - VIEW_OFFSET_X);
     werase(w_status);
 
-    w_void = newwin(TERMY-(MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT+STATUS_HEIGHT), STATUS_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT+STATUS_HEIGHT, TERMX - STATUS_WIDTH);
+    w_void = newwin(TERMY-(MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT+STATUS_HEIGHT), STATUS_WIDTH, MONINFO_HEIGHT+MESSAGES_HEIGHT+LOCATION_HEIGHT+STATUS_HEIGHT + VIEW_OFFSET_Y, TERMX - STATUS_WIDTH - VIEW_OFFSET_X);
     werase(w_void);
 }
 
@@ -974,7 +980,104 @@ void game::process_missions()
 
 bool game::handle_action()
 {
-  char ch = input();
+    char ch = '.';
+
+    char cGlyph = ',';
+    nc_color colGlyph = c_ltblue;
+    float fFactor = 0.01;
+
+    bool bWeatherEffect = true;
+    switch(weather) {
+        case WEATHER_ACID_DRIZZLE:
+            cGlyph = '.';
+            colGlyph = c_ltgreen;
+            fFactor = 0.01;
+            break;
+        case WEATHER_ACID_RAIN:
+            cGlyph = ',';
+            colGlyph = c_ltgreen;
+            fFactor = 0.02;
+            break;
+        case WEATHER_DRIZZLE:
+            cGlyph = '.';
+            colGlyph = c_ltblue;
+            fFactor = 0.01;
+            break;
+        case WEATHER_RAINY:
+            cGlyph = ',';
+            colGlyph = c_ltblue;
+            fFactor = 0.02;
+            break;
+        case WEATHER_THUNDER:
+            cGlyph = '.';
+            colGlyph = c_ltblue;
+            fFactor = 0.02;
+            break;
+        case WEATHER_LIGHTNING:
+            cGlyph = ',';
+            colGlyph = c_ltblue;
+            fFactor = 0.04;
+            break;
+        case WEATHER_SNOW:
+            cGlyph = '*';
+            colGlyph = c_white;
+            fFactor = 0.02;
+            break;
+        case WEATHER_SNOWSTORM:
+            cGlyph = '*';
+            colGlyph = c_white;
+            fFactor = 0.04;
+            break;
+        default:
+            bWeatherEffect = false;
+            break;
+    }
+
+    if (bWeatherEffect) {
+        int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH-121)/2 : 0;
+        int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT-121)/2: 0;
+        int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH-(TERRAIN_WINDOW_WIDTH-121)/2: TERRAIN_WINDOW_WIDTH;
+        int iEndY = (TERRAIN_WINDOW_HEIGHT > 121) ? TERRAIN_WINDOW_HEIGHT-(TERRAIN_WINDOW_HEIGHT-121)/2: TERRAIN_WINDOW_HEIGHT;
+
+        //x% of the Viewport, only shown on visible areas
+        int dropCount = iEndX * iEndY * fFactor;
+        std::vector<std::pair<int, int> > vDrops;
+
+        int iCh;
+
+        timeout(125);
+        do {
+            for(int i=0; i < vDrops.size(); i++) {
+                m.drawsq(w_terrain, u,
+                         vDrops[i].first - getmaxx(w_terrain)/2 + u.posx,
+                         vDrops[i].second - getmaxy(w_terrain)/2 + u.posy,
+                         false,
+                         true,
+                         u.posx + u.view_offset_x,
+                         u.posy + u.view_offset_y);
+            }
+
+            vDrops.clear();
+
+            for(int i=0; i < dropCount; i++) {
+                int iRandX = rng(iStartX, iEndX-1);
+                int iRandY = rng(iStartY, iEndY-1);
+
+                if (mapRain[iRandY][iRandX]) {
+                    vDrops.push_back(std::make_pair(iRandX, iRandY));
+                    mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
+                }
+            }
+
+            wrefresh(w_terrain);
+        } while ((iCh = getch()) == ERR);
+        timeout(-1);
+
+        ch = input(iCh);
+    } else {
+        ch = input();
+    }
+
   if (keymap.find(ch) == keymap.end()) {
 	  if (ch != ' ' && ch != '\n')
 		  add_msg("Unknown command: '%c'", ch);
@@ -1176,7 +1279,7 @@ bool game::handle_action()
      vMenu.push_back(iteminfo("MENU", "r", "eload"));
 
      oThisItem.info(true, &vThisItem);
-     compare_split_screen_popup(0, 50, TERMY, oThisItem.tname(this), vThisItem, vDummy);
+     compare_split_screen_popup(0, 50, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
      cMenu = compare_split_screen_popup(50, 14, 16, "", vMenu, vDummy);
 
      switch(cMenu) {
@@ -1474,10 +1577,14 @@ void game::update_scent()
  else
   grscent[u.posx][u.posy] = 0;
 
+ int move_cost;
+ field field_at;
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
+   move_cost = m.move_cost(x, y);
+   field_at = m.field_at(x, y);
    newscent[x][y] = 0;
-   if (m.move_cost(x, y) != 0 || m.has_flag(bashable, x, y)) {
+   if (move_cost != 0 || m.has_flag(bashable, x, y)) {
     int squares_used = 0;
     for (int i = -1; i <= 1; i++) {
      for (int j = -1; j <= 1; j++) {
@@ -1488,9 +1595,9 @@ void game::update_scent()
      }
     }
     newscent[x][y] /= (squares_used + 1);
-    if (m.field_at(x, y).type == fd_slime &&
-        newscent[x][y] < 10 * m.field_at(x, y).density)
-     newscent[x][y] = 10 * m.field_at(x, y).density;
+    if (field_at.type == fd_slime &&
+        newscent[x][y] < 10 * field_at.density)
+     newscent[x][y] = 10 * field_at.density;
     if (newscent[x][y] > 10000) {
      dbg(D_ERROR) << "game:update_scent: Wacky scent at " << x << ","
                   << y << " (" << newscent[x][y] << ")";
@@ -1503,8 +1610,11 @@ void game::update_scent()
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++)
    if(m.move_cost(x, y) == 0)
-    //Greatly reduce scent for bashable barriers
-    grscent[x][y] = newscent[x][y] / 4;
+    //Greatly reduce scent for bashable barriers, even more for ductaped barriers
+    if (m.has_flag(reduce_scent, x, y))
+     grscent[x][y] = newscent[x][y] / 12;
+    else
+     grscent[x][y] = newscent[x][y] / 4;
    else
     grscent[x][y] = newscent[x][y];
  }
@@ -2472,6 +2582,7 @@ bool game::isBetween(int test, int down, int up)
 
 void game::draw_ter(int posx, int posy)
 {
+ mapRain.clear();
 // posx/posy default to -999
  if (posx == -999)
   posx = u.posx + u.view_offset_x;
@@ -2486,9 +2597,10 @@ void game::draw_ter(int posx, int posy)
  for (int i = 0; i < z.size(); i++) {
   disty = abs(z[i].posy - posy);
   distx = abs(z[i].posx - posx);
-  if (distx <= VIEWX && disty <= VIEWY && u_see(&(z[i]), t))
+  if (distx <= VIEWX && disty <= VIEWY && u_see(&(z[i]), t)) {
    z[i].draw(w_terrain, posx, posy, false);
-  else if (z[i].has_flag(MF_WARM) && distx <= VIEWX && disty <= VIEWY &&
+   mapRain[VIEWY + z[i].posy - posy][VIEWX + z[i].posx - posx] = false;
+  } else if (z[i].has_flag(MF_WARM) && distx <= VIEWX && disty <= VIEWY &&
            (u.has_active_bionic(bio_infrared) || u.has_trait(PF_INFRARED)))
    mvwputch(w_terrain, VIEWY + z[i].posy - posy, VIEWX + z[i].posx - posx,
             c_red, '?');
@@ -2538,6 +2650,7 @@ void game::refresh_all()
 
 void game::draw_HP()
 {
+    werase(w_HP);
     int current_hp;
     nc_color color;
     std::string asterisks = "";
@@ -3705,7 +3818,7 @@ void game::resonance_cascade(int x, int y)
    case 13:
    case 14:
    case 15:
-    spawn = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER");
+    spawn = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &mtypes);
     invader = monster(mtypes[spawn], i, j);
     z.push_back(invader);
     break;
@@ -4279,7 +4392,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
 //
 // The terrain type of the handle is passed in, and that is used to determine the type of
 // the wall and gate.
-static void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type ) {
+void game::open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type ) {
 
  enum ter_id v_wall_type;
  enum ter_id h_wall_type;
@@ -4467,7 +4580,6 @@ void game::examine()
  }
  examx += u.posx;
  examy += u.posy;
- add_msg("That is a %s.", m.tername(examx, examy).c_str());
 
  int veh_part = 0;
  vehicle *veh = m.veh_at (examx, examy, veh_part);
@@ -4513,496 +4625,12 @@ void game::examine()
   use_computer(examx, examy);
   return;
  }
- if (m.ter(examx, examy) == t_card_science ||
-     m.ter(examx, examy) == t_card_military  ) {
-  itype_id card_type = (m.ter(examx, examy) == t_card_science ? itm_id_science :
-                                                               itm_id_military);
-  if (u.has_amount(card_type, 1) && query_yn("Swipe your ID card?")) {
-   u.moves -= 100;
-   for (int i = -3; i <= 3; i++) {
-    for (int j = -3; j <= 3; j++) {
-     if (m.ter(examx + i, examy + j) == t_door_metal_locked)
-      m.ter(examx + i, examy + j) = t_floor;
-    }
-   }
-   for (int i = 0; i < z.size(); i++) {
-    if (z[i].type->id == mon_turret) {
-     z.erase(z.begin() + i);
-     i--;
-    }
-   }
-   add_msg("You insert your ID card.");
-   add_msg("The nearby doors slide into the floor.");
-   u.use_amount(card_type, 1);
-  } else {
-   bool using_electrohack = (u.has_amount(itm_electrohack, 1) &&
-                             query_yn("Use electrohack on the reader?"));
-   bool using_fingerhack = (!using_electrohack && u.has_bionic(bio_fingerhack) &&
-                            u.power_level > 0 &&
-                            query_yn("Use fingerhack on the reader?"));
-   if (using_electrohack || using_fingerhack) {
-    u.moves -= 500;
-    u.practice("computer", 20);
-    int success = rng(u.skillLevel("computer") / 4 - 2, u.skillLevel("computer") * 2);
-    success += rng(-3, 3);
-    if (using_fingerhack)
-     success++;
-    if (u.int_cur < 8)
-     success -= rng(0, int((8 - u.int_cur) / 2));
-    else if (u.int_cur > 8)
-     success += rng(0, int((u.int_cur - 8) / 2));
-    if (success < 0) {
-     add_msg("You cause a short circuit!");
-     if (success <= -5) {
-      if (using_electrohack) {
-       add_msg("Your electrohack is ruined!");
-       u.use_amount(itm_electrohack, 1);
-      } else {
-       add_msg("Your power is drained!");
-       u.charge_power(0 - rng(0, u.power_level));
-      }
-     }
-     m.ter(examx, examy) = t_card_reader_broken;
-    } else if (success < 6)
-     add_msg("Nothing happens.");
-    else {
-     add_msg("You activate the panel!");
-     add_msg("The nearby doors slide into the floor.");
-     m.ter(examx, examy) = t_card_reader_broken;
-     for (int i = -3; i <= 3; i++) {
-      for (int j = -3; j <= 3; j++) {
-       if (m.ter(examx + i, examy + j) == t_door_metal_locked)
-        m.ter(examx + i, examy + j) = t_floor;
-      }
-     }
-    }
-   }
-  }
- } else if (m.ter(examx, examy) == t_elevator_control &&
-            query_yn("Activate elevator?")) {
-  int movez = (levz < 0 ? 2 : -2);
-  levz += movez;
-  m.load(this, levx, levy, levz);
-  update_map(u.posx, u.posy);
-  for (int x = 0; x < SEEX * MAPSIZE; x++) {
-   for (int y = 0; y < SEEY * MAPSIZE; y++) {
-    if (m.ter(x, y) == t_elevator) {
-     u.posx = x;
-     u.posy = y;
-    }
-   }
-  }
-  refresh_all();
-}
- else if (m.ter(examx, examy) == t_gates_mech_control && query_yn("Use this winch?"))
- {
-   open_gate( this, examx, examy, t_gates_mech_control );
- }
- else if (m.ter(examx, examy) == t_barndoor && query_yn("Pull the rope?"))
- {
-   open_gate( this, examx, examy, t_barndoor );
- }
- else if (m.ter(examx, examy) == t_palisade_pulley && query_yn("Pull the rope?"))
- {
-   open_gate( this, examx, examy, t_palisade_pulley );
- }
+ const ter_t *xter_t = &terlist[m.ter(examx,examy)];
+ iexamine xmine;
+ 
+ if(m.tr_at(examx, examy) != tr_null) xmine.trap(this,&u,&m,examx,examy);
 
- else if (m.ter(examx, examy) == t_rubble && u.has_amount(itm_shovel, 1)) {
-  if (query_yn("Clear up that rubble?")) {
-  if (levz == -1) {
-   u.moves -= 200;
-   m.ter(examx, examy) = t_rock_floor;
-   item rock(itypes[itm_rock], turn);
-   m.add_item(u.posx, u.posy, rock);
-   m.add_item(u.posx, u.posy, rock);
-   add_msg("You clear the rubble up");
- } else {
-   u.moves -= 200;
-   m.ter(examx, examy) = t_dirt;
-   item rock(itypes[itm_rock], turn);
-   m.add_item(u.posx, u.posy, rock);
-   m.add_item(u.posx, u.posy, rock);
-   add_msg("You clear the rubble up");
- }} else {
-   add_msg("You need a shovel to do that!");
-  }
- } else if (m.ter(examx, examy) == t_ash && u.has_amount(itm_shovel, 1)) {
-  if (query_yn("Clear up that rubble?")) {
-  if (levz == -1) {
-   u.moves -= 200;
-   m.ter(examx, examy) = t_rock_floor;
-   add_msg("You clear the ash up");
- } else {
-   u.moves -= 200;
-   m.ter(examx, examy) = t_dirt;
-   add_msg("You clear the ash up");
- }} else {
-   add_msg("You need a shovel to do that!");
-  }
- } else if (m.ter(examx, examy) == t_chainfence_v && query_yn("Climb fence?") ||
-            m.ter(examx, examy) == t_chainfence_h && query_yn("Climb fence?")) {
-   u.moves -= 400;
-  if (one_in(u.dex_cur)) {
-   add_msg("You slip whilst climbing and fall down again");
- } else {
-   u.moves += u.dex_cur * 10;
-   u.posx = examx;
-   u.posy = examy;
-  }
- } else if (m.ter(examx, examy) == t_groundsheet && query_yn("Take down tent?")) {
-   u.moves -= 200;
-   m.ter(examx    , examy    ) = t_dirt;
-   m.ter(examx - 1, examy - 1) = t_dirt;
-   m.ter(examx - 1, examy    ) = t_dirt;
-   m.ter(examx - 1, examy + 1) = t_dirt;
-   m.ter(examx    , examy - 1) = t_dirt;
-   m.ter(examx    , examy + 1) = t_dirt;
-   m.ter(examx + 1, examy - 1) = t_dirt;
-   m.ter(examx + 1, examy    ) = t_dirt;
-   m.ter(examx + 1, examy + 1) = t_dirt;
-  add_msg("You take down the tent");
-  item tent(itypes[itm_tent_kit], turn);
-  m.add_item(examx, examy, tent);
- } else if (m.ter(examx, examy) == t_wreckage && u.has_amount(itm_shovel, 1)) {
-  if (query_yn("Clear up that wreckage?")) {
-   u.moves -= 200;
-   m.ter(examx, examy) = t_dirt;
-   item chunk(itypes[itm_steel_chunk], turn);
-   item scrap(itypes[itm_scrap], turn);
-   item pipe(itypes[itm_pipe], turn);
-   item wire(itypes[itm_wire], turn);
-   m.add_item(examx, examy, chunk);
-   m.add_item(examx, examy, scrap);
-  if (one_in(5)) {
-   m.add_item(examx, examy, pipe);
-   m.add_item(examx, examy, wire); }
-   add_msg("You clear the wreckage up");
- } else {
-   add_msg("You need a shovel to do that!");
-  }
- } else if (m.ter(examx, examy) == t_metal && u.has_amount(itm_shovel, 1)) {
-  if (query_yn("Clear up that wreckage?")) {
-   u.moves -= 200;
-   m.ter(examx, examy) = t_floor;
-   item chunk(itypes[itm_steel_chunk], turn);
-   item scrap(itypes[itm_scrap], turn);
-   item pipe(itypes[itm_pipe], turn);
-   m.add_item(examx, examy, chunk);
-   m.add_item(examx, examy, scrap);
-  if (one_in(5)) {
-   m.add_item(examx, examy, pipe);}
-   add_msg("You clear the wreckage up");
- } else {
-   add_msg("You need a shovel to do that!");
-  }
- } else if (m.ter(examx, examy) == t_pit && u.has_amount(itm_2x4, 1)) {
-  if (query_yn("Place a plank over the pit?")) {
-   u.use_amount(itm_2x4, 1);
-   m.ter(examx, examy) = t_pit_covered;
-   add_msg("You place a plank of wood over the pit");
- } else {
-   add_msg("You need a plank of wood to do that");
-  }
- } else if (m.ter(examx, examy) == t_pit_spiked && u.has_amount(itm_2x4, 1)) {
-  if (query_yn("Place a plank over the pit?")) {
-   u.use_amount(itm_2x4, 1);
-   m.ter(examx, examy) = t_pit_spiked_covered;
-   add_msg("You place a plank of wood over the pit");
- } else {
-   add_msg("You need a plank of wood to do that");
-  }
- } else if (m.ter(examx, examy) == t_pit_covered && query_yn("Remove that plank?")) {
-    item plank(itypes[itm_2x4], turn);
-    add_msg("You remove the plank.");
-     m.add_item(u.posx, u.posy, plank);
-     m.ter(examx, examy) = t_pit;
- } else if (m.ter(examx, examy) == t_pit_spiked_covered && query_yn("Remove that plank?")) {
-    item plank(itypes[itm_2x4], turn);
-    add_msg("You remove the plank.");
-     m.add_item(u.posx, u.posy, plank);
-     m.ter(examx, examy) = t_pit_spiked;
- } else if (m.ter(examx, examy) == t_gas_pump && query_yn("Pump gas?")) {
-  item gas(itypes[itm_gasoline], turn);
-  if (one_in(10 + u.dex_cur)) {
-   add_msg("You accidentally spill the gasoline.");
-   m.add_item(u.posx, u.posy, gas);
-  } else {
-   u.moves -= 300;
-   handle_liquid(gas, false, true);
-  }
-  if (one_in(50)) {
-    add_msg("With a clang and a shudder, the gas pump goes silent.");
-    m.ter(examx, examy) = t_gas_pump_empty;
-  }
- } else if (m.ter(examx, examy) == t_fence_post && query_yn("Make Fence?")) {
-  int ch = menu("Fence Construction:", "Rope Fence", "Wire Fence",
-                "Barbed Wire Fence", "Cancel", NULL);
-  switch (ch){
-   case 1:{
-  if (u.has_amount(itm_rope_6, 2)) {
-   u.use_amount(itm_rope_6, 2);
-   m.ter(examx, examy) = t_fence_rope;
-   u.moves -= 200;
-  } else
-   add_msg("You need 2 six-foot lengths of rope to do that");
-  } break;
-
-   case 2:{
-  if (u.has_amount(itm_wire, 2)) {
-   u.use_amount(itm_wire, 2);
-   m.ter(examx, examy) = t_fence_wire;
-   u.moves -= 200;
-  } else
-   add_msg("You need 2 lengths of wire to do that!");
-  } break;
-
-   case 3:{
-  if (u.has_amount(itm_wire_barbed, 2)) {
-   u.use_amount(itm_wire_barbed, 2);
-   m.ter(examx, examy) = t_fence_barbed;
-   u.moves -= 200;
-  } else
-   add_msg("You need 2 lengths of barbed wire to do that!");
-  } break;
-
-   case 4:
-   break;
-  }
- } else if (m.ter(examx, examy) == t_fence_rope && query_yn("Remove fence material?")) {
-  item rope(itypes[itm_rope_6], turn);
-  m.add_item(u.posx, u.posy, rope);
-  m.add_item(u.posx, u.posy, rope);
-  m.ter(examx, examy) = t_fence_post;
-  u.moves -= 200;
-
- } else if (m.ter(examx, examy) == t_fence_wire && query_yn("Remove fence material?")) {
-  item rope(itypes[itm_wire], turn);
-  m.add_item(u.posx, u.posy, rope);
-  m.add_item(u.posx, u.posy, rope);
-  m.ter(examx, examy) = t_fence_post;
-  u.moves -= 200;
- } else if (m.ter(examx, examy) == t_fence_barbed && query_yn("Remove fence material?")) {
-  item rope(itypes[itm_wire_barbed], turn);
-  m.add_item(u.posx, u.posy, rope);
-  m.add_item(u.posx, u.posy, rope);
-  m.ter(examx, examy) = t_fence_post;
-  u.moves -= 200;
-
- } else if (m.ter(examx, examy) == t_slot_machine) {
-  if (u.cash < 10)
-   add_msg("You need $10 to play.");
-  else if (query_yn("Insert $10?")) {
-   do {
-    if (one_in(5))
-     popup("Three cherries... you get your money back!");
-    else if (one_in(20)) {
-     popup("Three bells... you win $50!");
-     u.cash += 40;	// Minus the $10 we wagered
-    } else if (one_in(50)) {
-     popup("Three stars... you win $200!");
-     u.cash += 190;
-    } else if (one_in(1000)) {
-     popup("JACKPOT!  You win $5000!");
-     u.cash += 4990;
-    } else {
-     popup("No win.");
-     u.cash -= 10;
-    }
-   } while (u.cash >= 10 && query_yn("Play again?"));
-  }
- } else if (m.ter(examx, examy) == t_bulletin) {
- 	basecamp *camp = m.camp_at(examx, examy);
- 	if (camp && camp->board_x() == examx && camp->board_y() == examy) {
- 		std::vector<std::string> options;
- 		options.push_back("Cancel");
- 		int choice = menu_vec(camp->board_name().c_str(), options) - 1;
- 	}
- 	else {
- 		bool create_camp = m.allow_camp(examx, examy);
- 		std::vector<std::string> options;
- 		if (create_camp)
- 			options.push_back("Create camp");
- 		options.push_back("Cancel");
- 		// TODO: Other Bulletin Boards
- 		int choice = menu_vec("Bulletin Board", options) - 1;
- 		if (choice >= 0 && choice < options.size()) {
-  		if (options[choice] == "Create camp") {
-  			// TODO: Allow text entry for name
- 	 		m.add_camp("Home", examx, examy);
- 		 }
- 		}
-  }
- } else if (m.ter(examx, examy) == t_fault) {
-  popup("\
-This wall is perfectly vertical.  Odd, twisted holes are set in it, leading\n\
-as far back into the solid rock as you can see.  The holes are humanoid in\n\
-shape, but with long, twisted, distended limbs.");
- } else if (m.ter(examx, examy) == t_pedestal_wyrm &&
-            m.i_at(examx, examy).empty()) {
-  add_msg("The pedestal sinks into the ground...");
-  m.ter(examx, examy) = t_rock_floor;
-  add_event(EVENT_SPAWN_WYRMS, int(turn) + rng(5, 10));
- } else if (m.ter(examx, examy) == t_pedestal_temple) {
-  if (m.i_at(examx, examy).size() == 1 &&
-      m.i_at(examx, examy)[0].type->id == itm_petrified_eye) {
-   add_msg("The pedestal sinks into the ground...");
-   m.ter(examx, examy) = t_dirt;
-   m.i_at(examx, examy).clear();
-   add_event(EVENT_TEMPLE_OPEN, int(turn) + 4);
-  } else if (u.has_amount(itm_petrified_eye, 1) &&
-             query_yn("Place your petrified eye on the pedestal?")) {
-   u.use_amount(itm_petrified_eye, 1);
-   add_msg("The pedestal sinks into the ground...");
-   m.ter(examx, examy) = t_dirt;
-   add_event(EVENT_TEMPLE_OPEN, int(turn) + 4);
-  } else
-   add_msg("This pedestal is engraved in eye-shaped diagrams, and has a large\
- semi-spherical indentation at the top.");
- } else if (m.ter(examx, examy) >= t_switch_rg &&
-            m.ter(examx, examy) <= t_switch_even &&
-            query_yn("Flip the %s?", m.tername(examx, examy).c_str())) {
-  u.moves -= 100;
-  for (int y = examy; y <= examy + 5; y++) {
-   for (int x = 0; x < SEEX * MAPSIZE; x++) {
-    switch (m.ter(examx, examy)) {
-     case t_switch_rg:
-      if (m.ter(x, y) == t_rock_red)
-       m.ter(x, y) = t_floor_red;
-      else if (m.ter(x, y) == t_floor_red)
-       m.ter(x, y) = t_rock_red;
-      else if (m.ter(x, y) == t_rock_green)
-       m.ter(x, y) = t_floor_green;
-      else if (m.ter(x, y) == t_floor_green)
-       m.ter(x, y) = t_rock_green;
-      break;
-     case t_switch_gb:
-      if (m.ter(x, y) == t_rock_blue)
-       m.ter(x, y) = t_floor_blue;
-      else if (m.ter(x, y) == t_floor_blue)
-       m.ter(x, y) = t_rock_blue;
-      else if (m.ter(x, y) == t_rock_green)
-       m.ter(x, y) = t_floor_green;
-      else if (m.ter(x, y) == t_floor_green)
-       m.ter(x, y) = t_rock_green;
-      break;
-     case t_switch_rb:
-      if (m.ter(x, y) == t_rock_blue)
-       m.ter(x, y) = t_floor_blue;
-      else if (m.ter(x, y) == t_floor_blue)
-       m.ter(x, y) = t_rock_blue;
-      else if (m.ter(x, y) == t_rock_red)
-       m.ter(x, y) = t_floor_red;
-      else if (m.ter(x, y) == t_floor_red)
-       m.ter(x, y) = t_rock_red;
-      break;
-     case t_switch_even:
-      if ((y - examy) % 2 == 1) {
-       if (m.ter(x, y) == t_rock_red)
-        m.ter(x, y) = t_floor_red;
-       else if (m.ter(x, y) == t_floor_red)
-        m.ter(x, y) = t_rock_red;
-       else if (m.ter(x, y) == t_rock_green)
-        m.ter(x, y) = t_floor_green;
-       else if (m.ter(x, y) == t_floor_green)
-        m.ter(x, y) = t_rock_green;
-       else if (m.ter(x, y) == t_rock_blue)
-        m.ter(x, y) = t_floor_blue;
-       else if (m.ter(x, y) == t_floor_blue)
-        m.ter(x, y) = t_rock_blue;
-      }
-      break;
-    }
-   }
-  }
-  add_msg("You hear the rumble of rock shifting.");
-  add_event(EVENT_TEMPLE_SPAWN, turn + 3);
- }
- //-----Jovan's-----
- //flowers
- else if ((m.ter(examx, examy)==t_mutpoppy)&&(query_yn("Pick the flower?"))) {
-  add_msg("This flower has a heady aroma");
-  if (!(u.is_wearing(itm_mask_filter)||u.is_wearing(itm_mask_gas) ||
-      one_in(3)))  {
-   add_msg("You fall asleep...");
-   u.add_disease(DI_SLEEP, 1200, this);
-   add_msg("Your legs are covered by flower's roots!");
-   u.hurt(this,bp_legs, 0, 4);
-   u.moves-=50;
-  }
-  m.ter(examx, examy) = t_dirt;
-  m.add_item(examx, examy, this->itypes[itm_poppy_flower],0);
-  m.add_item(examx, examy, this->itypes[itm_poppy_bud],0);
- }
-// apple trees
- else if ((m.ter(examx, examy)==t_tree_apple) && (query_yn("Pick apples?")))
- {
-  int num_apples = rng(1, u.skillLevel("survival"));
-  if (num_apples >= 12)
-    num_apples = 12;
-  for (int i = 0; i < num_apples; i++)
-   m.add_item(examx, examy, this->itypes[itm_apple],0);
-
-  m.ter(examx, examy) = t_tree;
- }
-// blueberry bushes
- else if ((m.ter(examx, examy)==t_shrub_blueberry) && (query_yn("Pick blueberries?")))
- {
-  int num_blueberries = rng(1, u.skillLevel("survival"));
-
- if (num_blueberries >= 12)
-    num_blueberries = 12;
-  for (int i = 0; i < num_blueberries; i++)
-   m.add_item(examx, examy, this->itypes[itm_blueberries],0);
-
-  m.ter(examx, examy) = t_shrub;
- }
-
-// harvesting wild veggies
- else if ((m.ter(examx, examy)==t_underbrush) && (query_yn("Forage for wild vegetables?")))
- {
-  u.assign_activity(this, ACT_FORAGE, 500 / (u.skillLevel("survival") + 1), 0);
-  u.activity.placement = point(examx, examy);
-  u.moves = 0;
- }
-
- //-----Recycling machine-----
- else if ((m.ter(examx, examy)==t_recycler)&&(query_yn("Use the recycler?"))) {
-  if (m.i_at(examx, examy).size() > 0)
-  {
-   sound(examx, examy, 80, "Ka-klunk!");
-   int num_metal = 0;
-   for (int i = 0; i < m.i_at(examx, examy).size(); i++)
-   {
-    item *it = &(m.i_at(examx, examy)[i]);
-    if (it->made_of(STEEL))
-     num_metal++;
-    m.i_at(examx, examy).erase(m.i_at(examx, examy).begin() + i);
-    i--;
-   }
-   if (num_metal > 0)
-   {
-    while (num_metal > 9)
-    {
-     m.add_item(u.posx, u.posy, this->itypes[itm_steel_lump], 0);
-     num_metal -= 10;
-    }
-    do
-    {
-     m.add_item(u.posx, u.posy, this->itypes[itm_steel_chunk], 0);
-     num_metal -= 3;
-    } while (num_metal > 2);
-   }
-  }
-  else add_msg("The recycler is empty.");
- }
-
- //-----------------
- if (m.tr_at(examx, examy) != tr_null &&
-      traps[m.tr_at(examx, examy)]->difficulty < 99 &&
-     u.per_cur-u.encumb(bp_eyes) >= traps[m.tr_at(examx, examy)]->visibility &&
-     query_yn("There is a %s there.  Disarm?",
-              traps[m.tr_at(examx, examy)]->name.c_str()))
-  m.disarm_trap(this, examx, examy);
+  (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
 }
 
 
@@ -5034,7 +4662,7 @@ point game::look_around()
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
  int mx, my, junk;
  InputEvent input;
- WINDOW* w_look = newwin(13, 48, 12, VIEWX * 2 + 8);
+ WINDOW* w_look = newwin(13, 48, 12+VIEW_OFFSET_Y, VIEWX * 2 + 8+VIEW_OFFSET_X);
  wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w_look, 1, 1, c_white, "Looking Around");
@@ -5051,6 +4679,7 @@ point game::look_around()
    lx += mx;
    ly += my;
   }
+  werase(w_terrain);
   draw_ter(lx, ly);
   for (int i = 1; i < 12; i++) {
    for (int j = 1; j < 47; j++)
@@ -5160,9 +4789,9 @@ bool game::list_items_match(std::string sText, std::string sPattern)
 void game::list_items()
 {
  int iInfoHeight = 12;
- WINDOW* w_items = newwin(TERMY-iInfoHeight, 55, 0, TERRAIN_WINDOW_WIDTH);
- WINDOW* w_item_info = newwin(iInfoHeight-1, 53, TERMY-iInfoHeight, TERRAIN_WINDOW_WIDTH+1);
- WINDOW* w_item_info_border = newwin(iInfoHeight, 55, TERMY-iInfoHeight, TERRAIN_WINDOW_WIDTH);
+ WINDOW* w_items = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, 55, VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
+ WINDOW* w_item_info = newwin(iInfoHeight-1, 53, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
+ WINDOW* w_item_info_border = newwin(iInfoHeight, 55, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
 
  std::vector <item> here;
  std::map<int, std::map<int, std::map<std::string, int> > > grounditems;
@@ -5196,7 +4825,7 @@ void game::list_items()
  const int iStoreViewOffsetY = u.view_offset_y;
 
  int iActive = 0;
- const int iMaxRows = TERMY-iInfoHeight-2;
+ const int iMaxRows = TERMY-iInfoHeight-2-VIEW_OFFSET_Y*2;
  int iStartPos = 0;
  int iActiveX = 0;
  int iActiveY = 0;
@@ -5244,11 +4873,13 @@ void game::list_items()
    }
 
    if (ch == '.') {
-    for (int i = 1; i < 54; i++) {
-     mvwputch(w_items, 0, i, c_ltgray, LINE_OXOX); // -
-     mvwputch(w_items, TERMY-iInfoHeight-1, i, c_ltgray, LINE_OXOX); // -
+    for (int i = 1; i < TERMX; i++) {
+     if (i < 55) {
+      mvwputch(w_items, 0, i, c_ltgray, LINE_OXOX); // -
+      mvwputch(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, i, c_ltgray, LINE_OXOX); // -
+     }
 
-     if (i < TERMY-iInfoHeight) {
+     if (i < TERMY-iInfoHeight-VIEW_OFFSET_Y*2) {
       mvwputch(w_items, i, 0, c_ltgray, LINE_XOXO); // |
       mvwputch(w_items, i, 54, c_ltgray, LINE_XOXO); // |
      }
@@ -5257,20 +4888,20 @@ void game::list_items()
     mvwputch(w_items, 0,  0, c_ltgray, LINE_OXXO); // |^
     mvwputch(w_items, 0, 54, c_ltgray, LINE_OOXX); // ^|
 
-    mvwputch(w_items, TERMY-iInfoHeight-1,  0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_items, TERMY-iInfoHeight-1, 54, c_ltgray, LINE_XOXX); // -|
+    mvwputch(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2,  0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, 54, c_ltgray, LINE_XOXX); // -|
 
     int iTempStart = 19;
     if (sFilter != "") {
      iTempStart = 15;
-     mvwprintz(w_items, TERMY-iInfoHeight-1, iTempStart + 19, c_ltgreen, " %s", "R");
+     mvwprintz(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, iTempStart + 19, c_ltgreen, " %s", "R");
      wprintz(w_items, c_white, "%s", "eset ");
     }
 
-    mvwprintz(w_items, TERMY-iInfoHeight-1, iTempStart, c_ltgreen, " %s", "C");
+    mvwprintz(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, iTempStart, c_ltgreen, " %s", "C");
     wprintz(w_items, c_white, "%s", "ompare ");
 
-    mvwprintz(w_items, TERMY-iInfoHeight-1, iTempStart + 10, c_ltgreen, " %s", "F");
+    mvwprintz(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, iTempStart + 10, c_ltgreen, " %s", "F");
     wprintz(w_items, c_white, "%s", "ilter ");
 
     refresh_all();
@@ -5541,8 +5172,8 @@ void game::pickup(int posx, int posy, int min)
   return;
  }
 // Otherwise, we have 2 or more items and should list them, etc.
- WINDOW* w_pickup = newwin(12, 48, 0, VIEWX * 2 + 8);
- WINDOW* w_item_info = newwin(12, 48, 12, VIEWX * 2 + 8);
+ WINDOW* w_pickup = newwin(12, 48, VIEW_OFFSET_Y, VIEWX * 2 + 8 + VIEW_OFFSET_X);
+ WINDOW* w_item_info = newwin(12, 48, 12 + VIEW_OFFSET_Y, VIEWX * 2 + 8 + VIEW_OFFSET_X);
  int maxitems = 9;	 // Number of items to show at one time.
  std::vector <item> here = from_veh? veh->parts[veh_part].items : m.i_at(posx, posy);
  bool getitem[here.size()];
@@ -6465,49 +6096,42 @@ void game::complete_butcher(int index)
  }
 
  if (bones > 0) {
-  for (int i = 0; i < bones; i++) {
-   itype* bone;
-   if (corpse->mat == FLESH) {
-     bone = itypes[itm_bone];
-     add_msg("You harvest some usable bones!");
-   } else if (corpse->mat == VEGGY) {
-     bone = itypes[itm_plant_sac];
-     add_msg("You harvest some fluid bladders!");
-  }
-   m.add_item(u.posx, u.posy, bone, age);
+  if (corpse->has_flag(MF_BONES)) {
+    m.add_item(u.posx, u.posy, itypes[itm_bone], age, bones);
+   add_msg("You harvest some usable bones!");
+  } else if (corpse->mat == VEGGY) {
+    m.add_item(u.posx, u.posy, itypes[itm_plant_sac], age, bones);
+   add_msg("You harvest some fluid bladders!");
   }
  }
 
-  if (sinews > 0) {
-  for (int i = 0; i < sinews; i++) {
-   itype* sinew;
-   if (corpse->mat == FLESH) {
-     sinew = itypes[itm_sinew];
-     add_msg("You harvest some usable sinews!");
-   } else if (corpse->mat == VEGGY) {
-     sinew = itypes[itm_plant_fibre];
-     add_msg("You harvest some plant fibres!");
-  }
-   m.add_item(u.posx, u.posy, sinew, age);
+ if (sinews > 0) {
+  if (corpse->has_flag(MF_BONES)) {
+    m.add_item(u.posx, u.posy, itypes[itm_sinew], age, sinews);
+   add_msg("You harvest some usable sinews!");
+  } else if (corpse->mat == VEGGY) {
+    m.add_item(u.posx, u.posy, itypes[itm_plant_fibre], age, sinews);
+   add_msg("You harvest some plant fibres!");
   }
  }
 
  if ((corpse->has_flag(MF_FUR) || corpse->has_flag(MF_LEATHER)) &&
      pelts > 0) {
   add_msg("You manage to skin the %s!", corpse->name.c_str());
-  for (int i = 0; i < pelts; i++) {
-   itype* pelt;
-   if (corpse->has_flag(MF_FUR) && corpse->has_flag(MF_LEATHER)) {
-    if (one_in(2))
-     pelt = itypes[itm_fur];
-    else
-     pelt = itypes[itm_leather];
-   } else if (corpse->has_flag(MF_FUR))
-    pelt = itypes[itm_fur];
-   else
-    pelt = itypes[itm_leather];
-   m.add_item(u.posx, u.posy, pelt, age);
+  int fur = 0;
+  int leather = 0;
+
+  if (corpse->has_flag(MF_FUR) && corpse->has_flag(MF_LEATHER)) {
+   fur = rng(0, pelts);
+   leather = pelts - fur;
+  } else if (corpse->has_flag(MF_FUR)) {
+   fur = pelts;
+  } else {
+   leather = pelts;
   }
+
+  if(fur) m.add_item(u.posx, u.posy, itypes[itm_fur], age, fur);
+  if(leather) m.add_item(u.posx, u.posy, itypes[itm_leather], age, leather);
  }
 
  //Add a chance of CBM recovery. For shocker and cyborg corpses.
@@ -6551,8 +6175,7 @@ void game::complete_butcher(int index)
    else
     meat = itypes[itm_veggy];
   }
-  for (int i = 0; i < pieces; i++)
-   m.add_item(u.posx, u.posy, meat, age);
+  m.add_item(u.posx, u.posy, meat, age, pieces);
   add_msg("You butcher the corpse.");
  }
 }
@@ -6654,7 +6277,8 @@ void game::reload(char chInput)
 
  if (bSwitch || u.weapon.invlet == chInput) {
   reload();
-  u.activity.moves_left = 0; //Not entirely sure how this effects other actions
+  u.activity.moves_left = 0;
+  monmove();
   process_activity();
  }
 
@@ -8021,7 +7645,7 @@ void game::spawn_mon(int shiftx, int shifty)
     nextspawn += rng(group * 4 + z.size() * 4, group * 10 + z.size() * 10);
 
    for (int j = 0; j < group; j++) {	// For each monster in the group...
-    mon_id type = MonsterGroupManager::GetMonsterFromGroup(cur_om.zg[i].type, (int)turn, &mtypes);
+     mon_id type = MonsterGroupManager::GetMonsterFromGroup(cur_om.zg[i].type, &mtypes, (int)turn);
      zom = monster(mtypes[type]);
      iter = 0;
      do {

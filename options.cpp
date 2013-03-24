@@ -224,6 +224,8 @@ option_key lookup_option_key(std::string id)
   return OPT_VIEWPORT_Y;
  if (id == "static_spawn")
   return OPT_STATIC_SPAWN;
+ if (id == "classic_zombies")
+  return OPT_CLASSIC_ZOMBIES;
  return OPT_NULL;
 }
 
@@ -251,6 +253,7 @@ std::string option_string(option_key key)
   case OPT_VIEWPORT_X: return "viewport_x";
   case OPT_VIEWPORT_Y: return "viewport_y";
   case OPT_STATIC_SPAWN: return "static_spawn";
+  case OPT_CLASSIC_ZOMBIES: return "classic_zombies";
   default:			return "unknown_option";
  }
  return "unknown_option";
@@ -280,6 +283,7 @@ std::string option_desc(option_key key)
   case OPT_VIEWPORT_X: return "WINDOWS ONLY: Set the expansion of the viewport along\nthe X axis.  Must restart for changes\nto take effect.  Default is 12. POSIX\nsystems will use terminal size at startup.";
   case OPT_VIEWPORT_Y: return "WINDOWS ONLY: Set the expansion of the viewport along\nthe Y axis.  Must restart for changes\nto take effect.  Default is 12. POSIX\nsystems will use terminal size at startup.";
   case OPT_STATIC_SPAWN: return "Spawn zombies at game start instead of\nduring game. Must delete save directory\nafter changing for it to take effect.\nDefault is F";
+  case OPT_CLASSIC_ZOMBIES: return "Only spawn classic zombies and natural\nwildlife. Probably requires a reset of\nsave folder to take effect. Default is F";
   default:			return " ";
  }
  return "Big ol Bug";
@@ -309,6 +313,7 @@ std::string option_name(option_key key)
   case OPT_VIEWPORT_X: return "Viewport width";
   case OPT_VIEWPORT_Y: return "Viewport height";
   case OPT_STATIC_SPAWN: return "Static spawn";
+  case OPT_CLASSIC_ZOMBIES: return "Classic zombies";
   default:			return "Unknown Option (BUG)";
  }
  return "Big ol Bug";
@@ -365,7 +370,7 @@ char option_max_options(option_key id)
         break;
       case OPT_VIEWPORT_X:
       case OPT_VIEWPORT_Y:
-        ret = 61; // TODO Set up min/max values so weird numbers don't have to be used.
+        ret = 93; // TODO Set up min/max values so weird numbers don't have to be used.
         break;
       default:
         ret = 2;
@@ -427,6 +432,8 @@ viewport_x 12\n\
 viewport_y 12\n\
 # Spawn zombies at game start instead of during the game.  You must create a new world after changing\n\
 static_spawn T\n\
+# Only spawn classic zombies and natural wildlife.  You must create a new world after changing\n\
+classic_zombies F\n\
 ";
  fout.close();
 }

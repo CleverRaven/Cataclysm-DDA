@@ -14,6 +14,7 @@ void setvector(std::vector <mission_origin> &vec, ... );
 void setvector(std::vector <std::string> &vec, ... );
 void setvector(std::vector <pl_flag> &vec, ... );
 void setvector(std::vector <m_flag> &vec, ... );
+void setvector(std::vector <m_category> &vec, ... );
 void setvector(std::vector <monster_trigger> &vec, ... );
 void setvector(std::vector <style_move> &vec, ... );
 template <class T> void setvec(std::vector<T> &vec, ... );

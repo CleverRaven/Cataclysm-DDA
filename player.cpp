@@ -1015,19 +1015,19 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  ssTemp  << skill_win_size_y << " - " << trait_win_size_y << " - " << effect_win_size_y;
  debugmsg((ssTemp.str()).c_str());
 */
- WINDOW* w_grid_top    = newwin(infooffsetybottom, 81,  0,  0);
- WINDOW* w_grid_skill  = newwin(skill_win_size_y + 1, 27, infooffsetybottom, 0);
- WINDOW* w_grid_trait  = newwin(trait_win_size_y + 1, 27, infooffsetybottom, 27);
- WINDOW* w_grid_effect = newwin(effect_win_size_y+ 1, 28, infooffsetybottom, 53);
+ WINDOW* w_grid_top    = newwin(infooffsetybottom, 81,  VIEW_OFFSET_Y,  VIEW_OFFSET_X);
+ WINDOW* w_grid_skill  = newwin(skill_win_size_y + 1, 27, infooffsetybottom + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X);
+ WINDOW* w_grid_trait  = newwin(trait_win_size_y + 1, 27, infooffsetybottom + VIEW_OFFSET_Y, 27 + VIEW_OFFSET_X);
+ WINDOW* w_grid_effect = newwin(effect_win_size_y+ 1, 28, infooffsetybottom + VIEW_OFFSET_Y, 53 + VIEW_OFFSET_X);
 
- WINDOW* w_tip     = newwin(1, 80,  0,  0);
- WINDOW* w_stats   = newwin(9, 26,  1,  0);
- WINDOW* w_traits  = newwin(trait_win_size_y, 26, infooffsetybottom,  27);
- WINDOW* w_encumb  = newwin(9, 26,  1, 27);
- WINDOW* w_effects = newwin(effect_win_size_y, 26, infooffsetybottom, 54);
- WINDOW* w_speed   = newwin(9, 26,  1, 54);
- WINDOW* w_skills  = newwin(skill_win_size_y, 26, infooffsetybottom, 0);
- WINDOW* w_info    = newwin(3, 80, infooffsetytop,  0);
+ WINDOW* w_tip     = newwin(1, 80,  VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
+ WINDOW* w_stats   = newwin(9, 26,  1 + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
+ WINDOW* w_traits  = newwin(trait_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y,  27 + VIEW_OFFSET_X);
+ WINDOW* w_encumb  = newwin(9, 26,  1 + VIEW_OFFSET_Y, 27 + VIEW_OFFSET_X);
+ WINDOW* w_effects = newwin(effect_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y, 54 + VIEW_OFFSET_X);
+ WINDOW* w_speed   = newwin(9, 26,  1 + VIEW_OFFSET_Y, 54 + VIEW_OFFSET_X);
+ WINDOW* w_skills  = newwin(skill_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X);
+ WINDOW* w_info    = newwin(3, 80, infooffsetytop + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
 
  for (int i = 0; i < 81; i++) {
   //Horizontal line top grid

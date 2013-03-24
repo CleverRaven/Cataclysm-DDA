@@ -511,7 +511,7 @@ void veh_interact::display_veh ()
     for (int ep = 0; ep < veh->external_parts.size(); ep++)
     {
         int p = veh->external_parts[ep];
-        char sym = veh->part_sym (p);
+        long sym = veh->part_sym (p);
         nc_color col = veh->part_color (p);
         int y = -(veh->parts[p].mount_dx + ddx);
         int x = veh->parts[p].mount_dy + ddy;
@@ -674,7 +674,7 @@ item consume_vpart_item (game *g, vpart_id vpid){
           if(candidates[i].in_inventory){
              if (candidates[i].index == -1)
                 options.push_back(candidates[i].vpart_item.tname() + " (wielded)");
-             else 
+             else
                 options.push_back(candidates[i].vpart_item.tname());
           }
           else { //nearby.

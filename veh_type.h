@@ -125,7 +125,7 @@ enum vpart_flags
 struct vpart_info
 {
     const char *name;       // part name
-    char sym;               // symbol of part as if it's looking north
+    long sym;               // symbol of part as if it's looking north
     nc_color color;         // color
     char sym_broken;        // symbol of broken part as if it's looking north
     nc_color color_broken;  // color of broken part

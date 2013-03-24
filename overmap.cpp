@@ -16,6 +16,7 @@
 #include "debug.h"
 #include "cursesdef.h"
 #include "options.h"
+#include "options.h"
 
 #define STREETCHANCE 2
 #define NUM_FOREST 250
@@ -156,6 +157,30 @@ overmap::overmap(game *g, int x, int y)
  open(g);
 }
 
+overmap::overmap(overmap const& o)
+    : zg(o.zg)
+    , radios(o.radios)
+    , npcs(o.npcs)
+    , cities(o.cities)
+    , roads_out(o.roads_out)
+    , towns(o.towns)
+    , loc(o.loc)
+    , prefix(o.prefix)
+    , name(o.name)
+    , layer(NULL)
+{
+    layer = new map_layer[OVERMAP_LAYERS];
+    for(int z = 0; z < OVERMAP_LAYERS; ++z) {
+        for(int i = 0; i < OMAPX; ++i) {
+            for(int j = 0; j < OMAPY; ++j) {
+                layer[z].terrain[i][j] = o.layer[z].terrain[i][j];
+                layer[z].visible[i][j] = o.layer[z].visible[i][j];
+            }
+        }
+        layer[z].notes = o.layer[z].notes;
+    }
+}
+
 overmap::~overmap()
 {
 	if (layer) {
@@ -166,28 +191,33 @@ overmap::~overmap()
 
 overmap& overmap::operator=(overmap const& o)
 {
-	loc = o.loc;
-	prefix = o.prefix;
-	name = o.name;
-	cities = o.cities;
-	roads_out = o.roads_out;
-	towns = o.towns;
-	zg = o.zg;
-	radios = o.radios;
-	npcs = o.npcs;
+    zg = o.zg;
+    radios = o.radios;
+    npcs = o.npcs;
+    cities = o.cities;
+    roads_out = o.roads_out;
+    towns = o.towns;
+    loc = o.loc;
+    prefix = o.prefix;
+    name = o.name;
 
- layer = new map_layer[OVERMAP_LAYERS];
-	for(int z = 0; z < OVERMAP_LAYERS; ++z) {
-		for(int i = 0; i < OMAPX; ++i) {
-			for(int j = 0; j < OMAPY; ++j) {
-				layer[z].terrain[i][j] = o.layer[z].terrain[i][j];
-				layer[z].visible[i][j] = o.layer[z].visible[i][j];
-			}
-		}
-		layer[z].notes = o.layer[z].notes;
-	}
+    if (layer) {
+        delete [] layer;
+        layer = NULL;
+    }
 
-	return *this;
+    layer = new map_layer[OVERMAP_LAYERS];
+    for(int z = 0; z < OVERMAP_LAYERS; ++z) {
+        for(int i = 0; i < OMAPX; ++i) {
+            for(int j = 0; j < OMAPY; ++j) {
+                layer[z].terrain[i][j] = o.layer[z].terrain[i][j];
+                layer[z].visible[i][j] = o.layer[z].visible[i][j];
+            }
+        }
+        layer[z].notes = o.layer[z].notes;
+    }
+
+    return *this;
 }
 
 void overmap::init_layers()
@@ -226,7 +256,7 @@ bool& overmap::seen(int x, int y, int z)
 std::vector<mongroup*> overmap::monsters_at(int x, int y, int z)
 {
  std::vector<mongroup*> ret;
- if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) 
+ if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT)
   return ret;
  for (int i = 0; i < zg.size(); i++) {
   if (zg[i].posz != z) { continue; }
@@ -294,7 +324,7 @@ void overmap::add_note(int const x, int const y, int const z, std::string const 
 
 point overmap::find_note(int const x, int const y, int const z, std::string const& text) const
 {
- point ret(-1, -1);	
+ point ret(-1, -1);
  if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
   debugmsg("Attempting to find note on overmap for blank layer %d", z);
   return ret;
@@ -617,7 +647,7 @@ bool overmap::generate_sub(int const z)
   for (int j = 0; j < OMAPY; j++) {
    if (ter(i, j, z + 1) >= ot_sub_station_north &&
        ter(i, j, z + 1) <= ot_sub_station_west) {
-    ter(i, j, z + 1) = ot_subway_nesw;
+    ter(i, j, z) = ot_subway_nesw;
     subway_points.push_back(city(i, j, 0));
 
    } else if (ter(i, j, z + 1) == ot_road_nesw_manhole) {
@@ -914,8 +944,8 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
 {
  bool legend = true, note_here = false, npc_here = false;
  std::string note_text, npc_name;
- int om_map_width = TERRAIN_WINDOW_WIDTH + 27;
- int om_map_height = TERRAIN_WINDOW_HEIGHT;
+ int om_map_width = TERMX-28;
+ int om_map_height = TERMY;
 
  int omx, omy;
  overmap hori, vert, diag; // Adjacent maps
@@ -1103,7 +1133,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
 // Clear the legend
    for (int i = om_map_width + 1; i < om_map_width + 55; i++) {
     for (int j = 0; j < om_map_height; j++)
-     mvwputch(w, j, i, c_black, 'x');
+     mvwputch(w, j, i, c_black, ' ');
    }
 
    if (csee) {
@@ -1132,8 +1162,8 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
 
 point overmap::choose_point(game *g, int const zlevel)
 {
- WINDOW* w_map = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH + 55, 0, 0);
- WINDOW* w_search = newwin(13, 27, 3, TERRAIN_WINDOW_WIDTH + 1);
+ WINDOW* w_map = newwin(TERMY, TERMX, 0, 0);
+ WINDOW* w_search = newwin(13, 27, 3, TERMX-27);
  timeout(BLINK_SPEED);	// Enable blinking!
  bool blink = true;
  int cursx = (g->levx + int(MAPSIZE / 2)) / 2,
@@ -2212,7 +2242,9 @@ void overmap::place_specials()
     overmap_special special = overmap_specials[i];
     int min = special.min_dist_from_city, max = special.max_dist_from_city;
     point pt(p.x, p.y);
-    if ((placed[i] < special.max_appearances || special.max_appearances <= 0) &&
+    // Skip non-classic specials if we're in classic mode
+    if (OPTIONS[OPT_CLASSIC_ZOMBIES] && !(special.flags & mfb(OMS_FLAG_CLASSIC))) continue;
+    if ((placed[ omspec_id(i) ] < special.max_appearances || special.max_appearances <= 0) &&
         (min == -1 || dist_from_city(pt) >= min) &&
         (max == -1 || dist_from_city(pt) <= max) &&
         (place.*special.able)(this, p))
@@ -2225,7 +2257,7 @@ void overmap::place_specials()
 // Place the MUST HAVE ones first, to try and guarantee that they appear
    std::vector<omspec_id> must_place;
    for (int i = 0; i < valid.size(); i++) {
-    if (placed[i] < overmap_specials[ valid[i] ].min_appearances)
+    if (placed[ valid[i] ] < overmap_specials[ valid[i] ].min_appearances)
      must_place.push_back(valid[i]);
    }
    if (must_place.empty()) {
@@ -2339,7 +2371,7 @@ void overmap::place_special(overmap_special special, tripoint p)
     distance = dist;
    }
   }
-  make_hiway(p.x, p.y, 0, cities[closest].x, cities[closest].y, ot_road_null);
+  make_hiway(p.x, p.y, cities[closest].x, cities[closest].y, p.z, ot_road_null);
  }
 
  if (special.flags & mfb(OMS_FLAG_PARKING_LOT)) {
@@ -2352,7 +2384,7 @@ void overmap::place_special(overmap_special special, tripoint p)
    }
   }
   ter(p.x, p.y - 1, p.z) = ot_s_lot;
-  make_hiway(p.x, p.y - 1, 0, cities[closest].x, cities[closest].y, ot_road_null);
+  make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, p.z, ot_road_null);
  }
  if (special.flags & mfb(OMS_FLAG_DIRT_LOT)) {
   int closest = -1, distance = 999;
@@ -2364,7 +2396,7 @@ void overmap::place_special(overmap_special special, tripoint p)
    }
   }
   ter(p.x, p.y - 1, p.z) = ot_dirtlot;
-  make_hiway(p.x, p.y - 1, 0, cities[closest].x, cities[closest].y, ot_road_null);
+  make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, p.z, ot_road_null);
  }
 
 // Finally, place monsters if applicable
@@ -2396,33 +2428,37 @@ void overmap::place_mongroups()
   }
  }
 
-// Figure out where swamps are, and place swamp monsters
- for (int x = 3; x < OMAPX - 3; x += 7) {
-  for (int y = 3; y < OMAPY - 3; y += 7) {
-   int swamp_count = 0;
-   for (int sx = x - 3; sx <= x + 3; sx++) {
-    for (int sy = y - 3; sy <= y + 3; sy++) {
-     if (ter(sx, sy, 0) == ot_forest_water)
-      swamp_count += 2;
-     else if (is_river(ter(sx, sy, 0)))
-      swamp_count++;
+ if (!OPTIONS[OPT_CLASSIC_ZOMBIES]) {
+  // Figure out where swamps are, and place swamp monsters
+  for (int x = 3; x < OMAPX - 3; x += 7) {
+   for (int y = 3; y < OMAPY - 3; y += 7) {
+    int swamp_count = 0;
+    for (int sx = x - 3; sx <= x + 3; sx++) {
+     for (int sy = y - 3; sy <= y + 3; sy++) {
+      if (ter(sx, sy, 0) == ot_forest_water)
+       swamp_count += 2;
+      else if (is_river(ter(sx, sy, 0)))
+       swamp_count++;
+     }
     }
+    if (swamp_count >= 25) // ~25% swamp or ~50% river
+     zg.push_back(mongroup("GROUP_SWAMP", x * 2, y * 2, 0, 3,
+                           rng(swamp_count * 8, swamp_count * 25)));
    }
-   if (swamp_count >= 25) // ~25% swamp or ~50% river
-    zg.push_back(mongroup("GROUP_SWAMP", x * 2, y * 2, 0, 3,
-                          rng(swamp_count * 8, swamp_count * 25)));
   }
  }
 
-// Place the "put me anywhere" groups
- int numgroups = rng(0, 3);
- for (int i = 0; i < numgroups; i++) {
-  zg.push_back(
-	mongroup("GROUP_WORM", rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1), 0,
-	         rng(20, 40), rng(500, 1000)));
+ if (!OPTIONS[OPT_CLASSIC_ZOMBIES]) {
+  // Place the "put me anywhere" groups
+  int numgroups = rng(0, 3);
+  for (int i = 0; i < numgroups; i++) {
+   zg.push_back(
+	 mongroup("GROUP_WORM", rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1), 0,
+	          rng(20, 40), rng(500, 1000)));
+  }
  }
 
-// Forest groups cover the entire map
+ // Forest groups cover the entire map
  zg.push_back( mongroup("GROUP_FOREST", OMAPX / 2, OMAPY / 2, 0,
                         OMAPY, rng(2000, 12000)));
  zg.back().diffuse = true;

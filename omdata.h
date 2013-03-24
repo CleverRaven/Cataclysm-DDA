@@ -369,6 +369,7 @@ OMS_FLAG_BIG,		// As big as possible
 OMS_FLAG_ROAD,		// Add a road_point here; connect to towns etc.
 OMS_FLAG_PARKING_LOT,	// Add a road_point to the north of here
 OMS_FLAG_DIRT_LOT,      // Dirt lot flag for specials
+OMS_FLAG_CLASSIC, // Allow this location to spawn in classic mode
 NUM_OMS_FLAGS
 };
 
@@ -442,25 +443,25 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 
 // Terrain	 MIN MAX DISTANCE
 {ot_crater,	   0, 10,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_BLOB)},
+ &omspec_place::land, mfb(OMS_FLAG_BLOB) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_hive, 	   0, 50, 10, -1, "GROUP_BEE", 20, 60, 2, 4,
  &omspec_place::forest, mfb(OMS_FLAG_3X3)},
 
 {ot_house_north,   0,100,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD)},
+ &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_s_gas_north,   0,100,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD)},
+ &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_cabin,   0, 30, 20, -1, "GROUP_NULL", 0, 0, 0, 0,  // Woods cabin
- &omspec_place::forest, 0},
+ &omspec_place::forest, mfb(OMS_FLAG_CLASSIC)},
 
  {ot_lmoe,   0, 3, 20, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, 0},
+ &omspec_place::land, mfb(OMS_FLAG_CLASSIC)},
 
  {ot_farm,   0, 20, 20, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) |mfb(OMS_FLAG_DIRT_LOT)},
+ &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) |mfb(OMS_FLAG_DIRT_LOT) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_temple_stairs, 0,  3, 20, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::forest, 0},
@@ -469,7 +470,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::land, mfb(OMS_FLAG_ROAD)},
 
 {ot_fema_entrance,	   0, 5,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_3X3_SECOND)},
+ &omspec_place::land, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
 
 // Terrain	 MIN MAX DISTANCE
 {ot_bunker,	   2, 10,  4, -1, "GROUP_NULL", 0, 0, 0, 0,
@@ -482,22 +483,22 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
 
 {ot_radio_tower,   1,  5,  0, 20, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::by_highway, 0},
+ &omspec_place::by_highway, mfb(OMS_FLAG_CLASSIC)},
 
 {ot_mansion_entrance, 0, 8, 0, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND)},
+ &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_mansion_entrance, 0, 4, 10, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND)},
+ &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_megastore_entrance, 0, 5, 0, 10, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND)},
+ &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_hospital_entrance, 1, 5, 3, 15, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND)},
+ &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_sewage_treatment, 1,  5, 10, 20, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_PARKING_LOT)},
+ &omspec_place::land, mfb(OMS_FLAG_PARKING_LOT) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_mine_entrance,  0,  5,  15, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT)},
@@ -519,17 +520,17 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::forest, 0},
 
 {ot_river_center,  0, 10, 10, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::always, mfb(OMS_FLAG_BLOB)},
+ &omspec_place::always, mfb(OMS_FLAG_BLOB) | mfb(OMS_FLAG_CLASSIC)},
 
 // Terrain	 MIN MAX DISTANCE
 {ot_shelter,       5, 10,  5, 10, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_cave,	   0, 30,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, 0},
 
 {ot_toxic_dump,	   0,  5, 15, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness,0}
+ &omspec_place::wilderness, mfb(OMS_FLAG_CLASSIC)}
 
 };
 

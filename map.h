@@ -53,6 +53,7 @@ class map
  void drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert, const bool show_items,
              const int cx = -1, const int cy = -1,
              const bool low_light = false, const bool bright_level = false);
+ long determine_wall_corner(int x, int y, long);
 
 // File I/O
  virtual void save(overmap *om, unsigned const int turn, const int x, const int y, const int z);

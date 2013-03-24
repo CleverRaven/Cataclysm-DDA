@@ -21,11 +21,13 @@
 #define LINE_OXXX 4194423
 #define LINE_XXXX 4194414
 
-// Display data... TODO: Make this more portable?
-extern int VIEWX;
-extern int VIEWY;
+// Display data
 extern int TERMX;
 extern int TERMY;
+extern int VIEWX;
+extern int VIEWY;
+extern int VIEW_OFFSET_X;
+extern int VIEW_OFFSET_Y;
 extern int TERRAIN_WINDOW_WIDTH;
 extern int TERRAIN_WINDOW_HEIGHT;
 
@@ -66,7 +68,7 @@ nc_color invert_color(nc_color c);
 nc_color red_background(nc_color c);
 nc_color rand_color();
 char rand_char();
-long special_symbol (char sym);
+long special_symbol (long sym);
 
 // utility: moves \n's around to fit string breaks within a certain width.
 std::string word_rewrap (const std::string &in, int width);

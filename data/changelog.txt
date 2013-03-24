@@ -37,6 +37,10 @@ Internal Climate Control bionic consumes power to cool or warm you.
 Crash bug caused by the screen being larger than the loaded overmap has 
 been fixed.
 Crash bug when going down stairs near cities has been fixed.
+Hunger now affects body temperature.
+Added new crafting recipes: shorts, cargo shorts, balclava, long underwear,
+glove liners, socks.
+Added a digging stick. Can be used to dig shallow pits, and level construction enough to enable crafting of stone shovels.
 
 Got angry at other developers for not updating changelog.
 

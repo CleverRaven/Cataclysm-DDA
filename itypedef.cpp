@@ -158,7 +158,7 @@ DRINK("long island iced tea",	8, 100,	c_brown,  itm_bottle_glass,
 A blend of incredibly strong-flavored liquors that somehow tastes\n\
 like none of them.");
 
-DRINK("beer",           60, 35, c_brown,  itm_can_drink,
+DRINK("beer",           60, 35, c_brown,  itm_keg,
          16, 4,  0, -4, -1,  2,  1, 10, &iuse::alcohol,   ADD_ALCOHOL, "\
 Best served cold, in a glass, and with a lime - but you're not that lucky.");
 
@@ -3510,6 +3510,16 @@ CONT("waterskin",   0,  0, c_brown, LEATHER, MNULL,
     2, 2,  -8, -5,   6, mfb(con_wtight)|mfb(con_seals), "\
 A watertight leather bag, can hold 1.5 liters of water.");
 
+CONT("steel jerrycan", 20, 5000, c_green, STEEL, MNULL,
+    100, 7, -3, -3, 100, mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+A steel jerrycan, meant to carry fuel, but can carry other liquds\n\
+in a pinch. It has a capacity of 25 liters.");
+
+CONT("aluminum keg", 20, 6000, c_ltcyan, STEEL, MNULL,
+    200, 12, -4, -4, 200, mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+A reusable aluminum keg, used for shipping beer.\n\
+It has a capcity of 50 liters.");
+
 /* TOOLS
  * MAX is the maximum number of charges help.
  * DEF is the default number of charges--items will be generated with this
@@ -3580,7 +3590,7 @@ A small heating element. Indispensable for cooking and chemistry.");
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
 TOOL("soldering iron",	70, 200,',', c_ltblue,	IRON,	MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    3,  1,  2,  6,  0, 50, 20,  0,  0, AT_BATT, itm_null, &iuse::none,
+    3,  1,  2,  6,  0, 200, 20,  0,  0, AT_BATT, itm_null, &iuse::none,
 mfb(IF_SPEAR), "\
 A piece of metal that can get very hot. Necessary for electronics crafting.");
 
@@ -3858,6 +3868,28 @@ Shortly after lighting the fuse, this item will explode, so get away!");
 TOOL("dynamite (lit)",	5,    0,'*', c_red,	PLASTIC,MNULL,
     6, 10,  4,  0, -3,  0,  0,  0,  1, AT_NULL,	itm_null, &iuse::dynamite_act,0,
 "The fuse on this dynamite is lit and hissing.  It'll explode any moment now.");
+
+TOOL("pack of firecrackers",    5,  100,'*', c_red, PAPER, MNULL,
+    0, 0,  1,  0, -3,  25,  25,  0,  0, AT_NULL, itm_null, &iuse::firecracker_pack,0,"\
+A pack of 25 firecrackers with a starter fuse. Use this item to light the\n\
+fuse; you will need a lighter of course. Shortly after you light the fuse\n\
+they will begin to explode, so throw them quickly!");
+
+TOOL("pack of firecrackers (lit)",    5,  0,'*', c_red, PAPER, MNULL,
+    0, 0,  0,  0, -3,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::firecracker_pack_act,0,"\
+A pack of 25 firecrackers that has been lit, the fuse is hissing.\n\
+Throw them quickly before the start to explode.");
+
+TOOL("firecracker",    5,  2,';', c_red, PAPER, MNULL,
+    0, 0,  1,  0, -3,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::firecracker,0,"\
+A firecracker with a short fuse. Use this item to light the fuse; you will\n\
+need a lighter of course. Shortly after you light the fuse it will explode,\n\
+so throw it quickly!");
+
+TOOL("firecracker (lit)",    5,  0,';', c_red, PAPER, MNULL,
+    0, 0,  1,  0, -3,  0,  0,  0,  1, AT_NULL, itm_null, &iuse::firecracker_act,0,"\
+A firecracker that has been lit, the fuse is hissing. Throw it quickly before\n\
+it explodes.");
 
 TOOL("mininuke",	1, 1800,'*', c_ltgreen,	STEEL,	PLASTIC,
     3,  4,  8,  0, -2,  0,  0,  0,  0, AT_NULL, itm_null, &iuse::mininuke,0,"\
@@ -4225,6 +4257,23 @@ TOOL("stone shovel",		40, 100,'/', c_brown,	STONE,	WOOD,
 A flattened stone affixed to a stick, works passably well as a shovel\n\
 but really can't compare to a real shovel.");
 
+TOOL("digging stick",		40, 100,'/', c_brown,  WOOD, MNULL,
+    6, 10, 12,  0,  3, 0,  0,  0,  0, AT_NULL,	itm_null, &iuse::dig, 0, "\
+A large stick, with the end carved into a blade for digging. Can be used\n\
+to dig shallow pits, but not deep ones.");
+
+//  NAME        RAR PRC SYM  COLOR  MAT1    MAT
+TOOL("shelter kit",	17, 65, ';', c_green,	WOOD,	LEATHER,
+	 40,  20,  4,  0, -3, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::shelter,
+0, "\
+A small shelter, made of sticks and skins. (a)ctivate it to place.");
+
+//  NAME        RAR PRC SYM  COLOR  MAT1    MAT
+TOOL("damaged shelter kit",	17, 65, ';', c_green,	WOOD,	LEATHER,
+	 40,  20,  4,  0, -3, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::none,
+0, "\
+A small shelter, made of sticks and skins. (a)ctivate it to place.\n\
+This shelter has been damaged, and needs repairs.");
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated

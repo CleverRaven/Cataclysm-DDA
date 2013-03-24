@@ -26,6 +26,7 @@ OPT_INITIAL_TIME, // Sets the starting hour (0-24)
 OPT_VIEWPORT_X, // Set the width of the terrain window, in characters
 OPT_VIEWPORT_Y, // Set the height of the terrain window, in characters
 OPT_STATIC_SPAWN, // Makes zombies spawn using the new static system
+OPT_CLASSIC_ZOMBIES, // Only spawn the more classic zombies
 NUM_OPTION_KEYS
 };
 

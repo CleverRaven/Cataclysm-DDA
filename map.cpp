@@ -921,7 +921,7 @@ bool map::is_outside(const int x, const int y)
   for(int j = -1; out && j <= 1; j++) {
    const ter_id terrain = ter( x + i, y + j );
    out = (terrain != t_floor && terrain != t_rock_floor && terrain != t_floor_wax &&
-          terrain != t_fema_groundsheet && terrain != t_dirtfloor);
+          terrain != t_fema_groundsheet && terrain != t_dirtfloor && terrain != t_skin_groundsheet);
   }
  if (out) {
   int vpart;
@@ -1282,6 +1282,43 @@ case t_wall_log:
   }
   break;
 
+ case t_skin_wall:
+ case t_skin_door:
+ case t_skin_door_o:
+ case t_skin_groundsheet:
+  result = rng(0, 6);
+  if (res) *res = result;
+  if (str >= result)
+  {
+   // Special code to collapse the tent if destroyed
+   int tentx, tenty = -1;
+   // Find the center of the tent
+   for (int i = -1; i <= 1; i++)
+    for (int j = -1; j <= 1; j++)
+     if (ter(x + i, y + j) == t_skin_groundsheet){
+       tentx = x + i;
+       tenty = y + j;
+       break;
+     }
+   // Never found tent center, bail out
+   if (tentx == -1 && tenty == -1)
+    break;
+   // Take the tent down
+   for (int i = -1; i <= 1; i++)
+    for (int j = -1; j <= 1; j++) {
+     if (ter(tentx + i, tenty + j) == t_skin_groundsheet)
+      add_item(tentx + i, tenty + j, (*itypes)[itm_damaged_shelter_kit], 0);
+     ter(tentx + i, tenty + j) = t_dirt;
+    }
+
+   sound += "rrrrip!";
+   return true;
+  } else {
+   sound += "slap!";
+   return true;
+  }
+  break;
+
  case t_canvas_wall:
  case t_canvas_door:
  case t_canvas_door_o:
@@ -1380,6 +1417,23 @@ case t_wall_log:
    ter(x, y) = t_floor;
    add_item(x, y, (*itypes)[itm_2x4], 0, rng(2, 6));
    add_item(x, y, (*itypes)[itm_nail], 0, rng(4, 12));
+   add_item(x, y, (*itypes)[itm_splinter], 0);
+   return true;
+  } else {
+   sound += "whump.";
+   return true;
+  }
+  break;
+
+ case t_fence_v:
+ case t_fence_h:
+  result = rng(0, 10);
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "crak";
+   ter(x, y) = t_dirt;
+   add_item(x, y, (*itypes)[itm_2x4], 0, rng(1, 3));
+   add_item(x, y, (*itypes)[itm_nail], 0, rng(2, 6));
    add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
   } else {
@@ -1913,6 +1967,9 @@ bool map::open_door(const int x, const int y, const bool inside)
  } else if (ter(x, y) == t_canvas_door) {
   ter(x, y) = t_canvas_door_o;
   return true;
+ } else if (ter(x, y) == t_skin_door) {
+  ter(x, y) = t_skin_door_o;
+  return true;
  } else if (inside && ter(x, y) == t_curtains) {
   ter(x, y) = t_window_domestic;
   return true;
@@ -1964,6 +2021,9 @@ bool map::close_door(const int x, const int y, const bool inside)
   return true;
  } else if (ter(x, y) == t_canvas_door_o) {
   ter(x, y) = t_canvas_door;
+  return true;
+ } else if (ter(x, y) == t_skin_door_o) {
+  ter(x, y) = t_skin_door;
   return true;
  } else if (inside && ter(x, y) == t_window_open) {
   ter(x, y) = t_window_domestic;
@@ -2489,13 +2549,14 @@ void map::draw(game *g, WINDOW* w, const point center)
    const int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
    int sight_range = light_sight_range;
    int low_sight_range = lowlight_sight_range;
-
+   bool bRainOutside = false;
    // While viewing indoor areas use lightmap model
    if (!g->lm.is_outside(realx - g->u.posx, realy - g->u.posy)) {
     sight_range = natural_sight_range;
    // Don't display area as shadowy if it's outside and illuminated by natural light
    } else if (dist <= g->u.sight_range(g_light_level)) {
     low_sight_range = std::max(g_light_level, natural_sight_range);
+    bRainOutside = true;
    }
 
    // I've moved this part above loops without even thinking that
@@ -2547,18 +2608,22 @@ void map::draw(game *g, WINDOW* w, const point center)
     else
      mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_ltgray, '#');
    } else if (dist <= u_clairvoyance || can_see) {
+    if (bRainOutside && INBOUNDS(realx, realy) && !has_flag(supports_roof, realx, realy))
+     g->mapRain[realy + getmaxy(w)/2 - g->u.posy][realx + getmaxx(w)/2 - g->u.posx] = true;
     drawsq(w, g->u, realx, realy, false, true, center.x, center.y,
            (dist > low_sight_range && LL_LIT > lit) ||
 	   (dist > sight_range && LL_LOW == lit),
            LL_BRIGHT == lit);
    } else {
-    mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_black,'#');
+    mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_black,' ');
    }
   }
  }
  int atx = getmaxx(w)/2 + g->u.posx - center.x, aty = getmaxy(w)/2 + g->u.posy - center.y;
- if (atx >= 0 && atx < TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < TERRAIN_WINDOW_HEIGHT)
+ if (atx >= 0 && atx < TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < TERRAIN_WINDOW_HEIGHT) {
   mvwputch(w, aty, atx, g->u.color(), '@');
+  g->mapRain[aty][atx] = false;
+ }
 }
 
 void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert_arg,
@@ -2578,7 +2643,8 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  const int k = x + getmaxx(w)/2 - cx;
  const int j = y + getmaxy(w)/2 - cy;
  nc_color tercol;
- long sym = terlist[ter(x, y)].sym;
+ ter_id curr_ter = ter(x,y);
+ long sym = terlist[curr_ter].sym;
  bool hi = false;
  bool graf = false;
  bool normal_tercol = false, drew_field = false;
@@ -2592,7 +2658,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  else
  {
   normal_tercol = true;
-  tercol = terlist[ter(x, y)].color;
+  tercol = terlist[curr_ter].color;
  }
  if (move_cost(x, y) == 0 && has_flag(swimmable, x, y) && !u.underwater)
   show_items = false;	// Can only see underwater items if WE are underwater
@@ -2632,7 +2698,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  }
 // If there's items here, draw those instead
  if (show_items && !has_flag(container, x, y) && i_at(x, y).size() > 0 && !drew_field) {
-  if ((terlist[ter(x, y)].sym != '.'))
+  if ((terlist[curr_ter].sym != '.'))
    hi = true;
   else {
    tercol = i_at(x, y)[i_at(x, y).size() - 1].color();
@@ -2652,6 +2718,10 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  // If there's graffiti here, change background color
  if(graffiti_at(x,y).contents)
   graf = true;
+
+ //suprise, we're not done, if it's a wall adjacent to an other, put the right glyph
+ if(sym == LINE_XOXO || sym == LINE_OXOX)//vertical or horizontal
+  sym = determine_wall_corner(x, y, sym);
 
  if (invert)
   mvwputch_inv(w, j, k, tercol, sym);
@@ -3239,6 +3309,74 @@ graffiti map::graffiti_at(int x, int y)
  return grid[nonant]->graf[x][y];
 }
 
+long map::determine_wall_corner(int x, int y, long sym)
+{
+    //LINE_NESW
+    long above = terlist[ter(x, y-1)].sym;
+    long below = terlist[ter(x, y+1)].sym;
+    long left  = terlist[ter(x-1, y)].sym;
+    long right = terlist[ter(x+1, y)].sym;
+
+    bool above_connects = above == sym || (above == '"' || above == '+' || above == '\'');
+    bool below_connects = below == sym || (below == '"' || below == '+' || below == '\'');
+    bool left_connects  = left  == sym || (left  == '"' || left  == '+' || left  == '\'');
+    bool right_connects = right == sym || (right == '"' || right == '+' || right == '\'');
+
+    // -
+    // |      this = - and above = | or a connectable
+    if(sym == LINE_OXOX &&  (above == LINE_XOXO || above_connects))
+    {
+        //connects to upper
+        if(left_connects)
+            sym = LINE_XOOX; // ┘ left coming wall
+        else if(right_connects)
+            sym = LINE_XXOO;//└   right coming wall
+        if(left_connects && right_connects)
+            sym = LINE_XXOX; // ┴ passing by
+    }
+
+    // |
+    // -      this = - and below = | or a connectable
+    else if(sym == LINE_OXOX && (below == LINE_XOXO || below_connects))
+    {
+        //connects to lower
+        if(left_connects)
+            sym = LINE_OOXX; // ┐ left coming wall
+        else if(right_connects)
+            sym = LINE_OXXO;//┌   right coming wall
+        if(left_connects && right_connects)
+            sym = LINE_OXXX; // ┬ passing by
+    }
+
+    // -|       this = | and left = - or a connectable
+    else if(sym == LINE_XOXO && (left == LINE_OXOX || left_connects))
+    {
+        //connexts to left
+        if(above_connects)
+            sym = LINE_XOOX; // ┘ north coming wall
+        else if(below_connects )
+            sym = LINE_OOXX;//┐   south coming wall
+        if(above_connects && below_connects)
+            sym = LINE_XOXX; // ┤ passing by
+    }
+
+    // |-       this = | and right = - or a connectable
+    else if(sym == LINE_XOXO && (right == LINE_OXOX || right_connects))
+    {
+        //connects to right
+        if(above_connects)
+            sym = LINE_XXOO; // └ north coming wall
+        else if(below_connects)
+            sym = LINE_OXXO;// ┌   south coming wall
+        if(above_connects && below_connects)
+            sym = LINE_XXXO; // ├ passing by
+    }
+
+    if(above == LINE_XOXO && left == LINE_OXOX && above == below && left == right)
+        sym = LINE_XXXX; // ┼ crossway
+
+    return sym;
+}
 
 tinymap::tinymap()
 {

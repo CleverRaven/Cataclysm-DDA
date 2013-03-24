@@ -2,9 +2,12 @@
 #include "action.h"
 #include "game.h"
 
-long input()
+long input(long ch)
 {
- long ch = getch();
+ if (ch == -1) {
+  ch = getch();
+ }
+
  switch (ch) {
   case KEY_UP:    return 'k';
   case KEY_LEFT:  return 'h';

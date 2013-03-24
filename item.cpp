@@ -1685,7 +1685,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
  int index = -1;
 
  if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
-   WINDOW* w_ammo = newwin(am.size() + 1, 80, 0, 0);
+   WINDOW* w_ammo = newwin(am.size() + 1, 80, VIEW_OFFSET_Y, VIEW_OFFSET_X);
    char ch;
    clear();
    it_ammo* ammo_type;

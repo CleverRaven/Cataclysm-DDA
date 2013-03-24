@@ -42,7 +42,7 @@ void game::init_construction()
 
  CONSTRUCT("Dig Pit", 0, &construct::able_dig, &construct::done_nothing);
   STAGE(t_pit_shallow, 10);
-   TOOL(itm_shovel, itm_primitive_shovel, NULL);
+   TOOL(itm_shovel, itm_primitive_shovel, itm_digging_stick, NULL);
   STAGE(t_pit, 10);
    TOOL(itm_shovel, itm_primitive_shovel, NULL);
 
@@ -929,7 +929,7 @@ void construct::done_deconstruct(game *g, point p)
     break;
 
     case t_slide:
-      g->m.add_item(p.x, p.y, g->itypes[itm_steel_plate], 0);
+      g->m.add_item(p.x, p.y, g->itypes[itm_sheet_metal], 3);
       g->m.add_item(p.x, p.y, g->itypes[itm_pipe], 0, rng(4,8));
       g->m.ter(p.x, p.y) = t_grass;
     break;
