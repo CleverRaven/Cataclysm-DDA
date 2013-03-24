@@ -1427,6 +1427,19 @@ case t_wall_log:
 
  case t_fence_v:
  case t_fence_h:
+  result = rng(0, 10);
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "crak";
+   ter(x, y) = t_fence_post;
+   add_item(x, y, (*itypes)[itm_splinter], 0, 3);
+   return true;
+  } else {
+   sound += "whump.";
+   return true;
+  }
+  break;
+
  case t_fence_post:
   result = rng(0, 10);
   if (res) *res = result;
