@@ -1431,8 +1431,10 @@ case t_wall_log:
   if (res) *res = result;
   if (str >= result) {
    sound += "crak";
-   ter(x, y) = t_fence_post;
-   add_item(x, y, (*itypes)[itm_splinter], 0, 3);
+   ter(x, y) = t_dirt;
+   add_item(x, y, (*itypes)[itm_2x4], 0, rng(1, 3));
+   add_item(x, y, (*itypes)[itm_nail], 0, rng(2, 6));
+   add_item(x, y, (*itypes)[itm_splinter], 0);
    return true;
   } else {
    sound += "whump.";
