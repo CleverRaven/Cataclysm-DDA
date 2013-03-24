@@ -2567,8 +2567,6 @@ void map::draw(game *g, WINDOW* w, const point center)
  const int  u_clairvoyance = g->u.clairvoyance();
  const bool u_sight_impaired = g->u.sight_impaired();
  const int  g_light_level = (int)g->light_level();
- const int diffx = (g->u.posx - center.x);
- const int diffy = (g->u.posy - center.y);
 
  char trans_buf[my_MAPSIZE*SEEX][my_MAPSIZE*SEEY];
  memset(trans_buf, -1, sizeof(trans_buf));
@@ -2597,7 +2595,7 @@ void map::draw(game *g, WINDOW* w, const point center)
     distance_to_look = DAYLIGHT_LEVEL;
    }
 
-   bool can_see = g->lm.sees(diffx, diffy, realx - center.x, realy - center.y, distance_to_look);
+   bool can_see = g->lm.sees(this, g->u.posx, g->u.posy, realx, realy, distance_to_look);
    lit_level lit = g->lm.at(realx - center.x, realy - center.y);
 
    if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0.) {
@@ -3405,6 +3403,69 @@ long map::determine_wall_corner(int x, int y, long sym)
     return sym;
 }
 
+const float map::light_transparency(const int x, const int y) const
+{
+  return transparency_cache[x][y];
+}
+
+// TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
+void map::build_transparency_cache()
+{
+ for(int x = 0; x < my_MAPSIZE * SEEX; x++) {
+  for(int y = 0; y < my_MAPSIZE * SEEY; y++) {
+
+   // Default to fully transparent.
+   transparency_cache[x][y] = LIGHT_TRANSPARENCY_CLEAR;
+
+   if (!(terlist[ter(x, y)].flags & mfb(transparent))) {
+    transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+    continue;
+   }
+
+   field& f = field_at(x, y);
+   if(f.type > 0) {
+    if(!fieldlist[f.type].transparent[f.density - 1]) {
+     // Fields are either transparent or not, however we want some to be translucent
+     switch(f.type) {
+      case fd_smoke:
+      case fd_toxic_gas:
+      case fd_tear_gas:
+       if(f.density == 3)
+        transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+       if(f.density == 2)
+        transparency_cache[x][y] *= 0.5;
+       break;
+      case fd_nuke_gas:
+       transparency_cache[x][y] *= 0.5;
+       break;
+      default:
+       transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+       break;
+     }
+    }
+
+    // TODO: [lightmap] Have glass reduce light as well
+   }
+  }
+ }
+
+ VehicleList vehs = get_vehicles();
+ for(int v = 0; v < vehs.size(); ++v) {
+  for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
+       part != vehs[v].v->external_parts.end(); ++part) {
+   if (vehs[v].v->part_flag(*part, vpf_opaque) && vehs[v].v->parts[*part].hp > 0) {
+    int dpart = vehs[v].v->part_with_feature(*part , vpf_openable);
+    if (dpart < 0 || !vehs[v].v->parts[dpart].open) {
+     int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
+     int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
+     if(INBOUNDS(px, py))
+      transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
+    }
+   }
+  }
+ }
+}
+
 void map::build_map_cache()
 {
  memset(outside_cache, true, sizeof(outside_cache));
@@ -3413,6 +3474,8 @@ void map::build_map_cache()
    build_outside_cache(x, y);
   }
  }
+
+ build_transparency_cache();
 
  VehicleList vehs = get_vehicles();
  for(int v = 0; v < vehs.size(); ++v) {

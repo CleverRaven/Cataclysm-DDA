@@ -32,10 +32,6 @@ enum lit_level {
  LL_BRIGHT  // Probably only for light sources
 };
 
-struct light_map_cache {
- float transparency;
-};
-
 class light_map
 {
  public:
@@ -46,21 +42,17 @@ class light_map
   lit_level at(int dx, int dy); // Assumes 0,0 is light map center
   float ambient_at(int dx, int dy); // Raw values for tilesets
 
-  bool sees(int fx, int fy, int tx, int ty, int max_range);
+  bool sees(map *m, int fx, int fy, int tx, int ty, int max_range);
 
  private:
-  typedef light_map_cache light_cache[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
   float lm[LIGHTMAP_X][LIGHTMAP_Y];
   float sm[LIGHTMAP_X][LIGHTMAP_Y];
-  light_cache c;
 
-  void apply_light_source(int x, int y, int cx, int cy, float luminance);
-  void apply_light_arc(int x, int y, int angle, int cx, int cy, float luminance);
+  void apply_light_source(map *m, int x, int y, int cx, int cy, float luminance);
+  void apply_light_arc(map *m, int x, int y, int angle, int cx, int cy, float luminance);
 
-  void apply_light_ray(bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy,
+  void apply_light_ray(map *m, bool lit[LIGHTMAP_X][LIGHTMAP_Y], int sx, int sy,
                        int ex, int ey, int cx, int cy, float luminance);
-
-  void build_light_cache(game* g, int x, int y);
 };
 
 #endif

@@ -192,6 +192,8 @@ class map
  void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
  vehicle *add_vehicle(game *g, vhtype_id type, const int x, const int y, const int dir);
  computer* add_computer(const int x, const int y, std::string name, const int security);
+ const float light_transparency(const int x, const int y) const;
+ void build_transparency_cache();
  void build_outside_cache(const int x, const int y);
  void build_map_cache();
 
@@ -232,6 +234,7 @@ protected:
 private:
  int cache_built;
  bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
+ float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  submap* grid[MAPSIZE * MAPSIZE];
 };
 
