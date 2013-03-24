@@ -681,6 +681,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   } else if (ch == '0') {
    x = u.posx;
    y = u.posy;
+   ret.clear();
   } else if (ch == '*')
    snap_to_target = !snap_to_target;
   else if (ch == KEY_ESCAPE || ch == 'q') { // return empty vector (cancel)
