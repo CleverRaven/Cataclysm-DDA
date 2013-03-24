@@ -433,6 +433,8 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
     }
    }
   }
+  // Fire (it is very dangerous to be on fire for long, as it directly increases body temperature, not temp_conv)
+  if(has_dis(DI_ONFIRE) temp_cur[i] += 250;
   // Weather
   if (g->weather == WEATHER_SUNNY && !g->m.is_indoor(posx, posy)) temp_conv += 1000;
   if (g->weather == WEATHER_CLEAR && !g->m.is_indoor(posx, posy)) temp_conv += 500;
