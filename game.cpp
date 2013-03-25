@@ -2839,7 +2839,7 @@ void game::hallucinate(const int x, const int y)
  wrefresh(w_terrain);
 }
 
-float game::natural_light_level()
+float game::natural_light_level() const
 {
  float ret = 0;
 

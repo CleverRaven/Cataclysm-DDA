@@ -224,14 +224,14 @@ void calendar::standardize()
  season = season_type(tmpseason);
 }
 
-int calendar::minutes_past_midnight()
+int calendar::minutes_past_midnight() const
 {
  //debugmsg("minute: %d  hour: %d");
  int ret = minute + hour * 60;
  return ret;
 }
 
-moon_phase calendar::moon()
+moon_phase calendar::moon() const
 {
  int phase = day / (DAYS_IN_SEASON / 4);
  //phase %= 4;   Redundant?
@@ -241,7 +241,7 @@ moon_phase calendar::moon()
   return moon_phase(phase);
 }
 
-calendar calendar::sunrise()
+calendar calendar::sunrise() const
 {
  calendar ret;
  int start_hour = 0, end_hour = 0;
@@ -273,7 +273,7 @@ calendar calendar::sunrise()
  return ret;
 }
 
-calendar calendar::sunset()
+calendar calendar::sunset() const
 {
  calendar ret;
  int start_hour = 0, end_hour = 0;
@@ -305,7 +305,7 @@ calendar calendar::sunset()
  return ret;
 }
 
-bool calendar::is_night()
+bool calendar::is_night() const
 {
  calendar sunrise_time = sunrise(), sunset_time = sunset();
 
@@ -316,7 +316,7 @@ bool calendar::is_night()
  return (mins > sunset_mins + TWILIGHT_MINUTES || mins < sunrise_mins);
 }
 
-int calendar::sunlight()
+int calendar::sunlight() const
 {
  calendar sunrise_time = sunrise(), sunset_time = sunset();
 
