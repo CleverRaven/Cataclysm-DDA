@@ -17,6 +17,8 @@ Map tiles can now contain up to 64 items.
 Beer has been made weaker, and now appears in kegs in liquor stores and bars.
 Steel jerrycans.
 Any gun can now be used one-handed if you are strong enough.
+Hardcoded frostbite not to occur above freezing temperatures.
+Improved fire's ability to warm the player. Also, standing on fire and being on fire warm up the player.
 The ability to cauterize wounds to heal bites and stop bleeding. (a)ctivate a knife, requires a lighter.
 The ability to craft an item as many times as is possible. Defaults to the + key. (Linux and Mac users will need to assign a key)
 Added M72-LAW. Makes a large explosion and penetrates armour well. One shot only.
