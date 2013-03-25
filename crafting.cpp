@@ -1600,8 +1600,8 @@ void game::craft()
                 else
                 {
                     tab = craft_cat(int(tab) + 1);
-                    redraw = true;
                 }
+                redraw = true;
                 break;
             case DirectionS:
                 line++;
