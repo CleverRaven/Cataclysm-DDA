@@ -578,7 +578,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     mvwputch(w_target, i, j, c_white, ' ');
   }
   m.build_map_cache();
-  lm.generate(this, center.x, center.y, natural_light_level(), u.active_light());
+  lm.generate(this, natural_light_level(), u.active_light());
   m.draw(this, w_terrain, center);
 // Draw the Monsters
   for (int i = 0; i < z.size(); i++) {

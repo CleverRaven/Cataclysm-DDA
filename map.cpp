@@ -2577,7 +2577,7 @@ void map::draw(game *g, WINDOW* w, const point center)
    }
 
    bool can_see = g->lm.sees(this, g->u.posx, g->u.posy, realx, realy, distance_to_look);
-   lit_level lit = g->lm.at(realx - center.x, realy - center.y);
+   lit_level lit = g->lm.at(realx, realy);
 
    if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0.) {
     // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
