@@ -1326,7 +1326,7 @@ void game::craft()
     InputEvent input;
 
     inventory crafting_inv = crafting_inventory();
-
+    std::string filterstring = "";
     do {
         if (redraw) 
         { // When we switch tabs, redraw the header
@@ -1336,12 +1336,20 @@ void game::craft()
             current.clear();
             available.clear();
             // Set current to all recipes in the current tab; available are possible to make
-            pick_recipes(current, available, tab);
+            pick_recipes(current, available, tab,filterstring);
         }
 
         // Clear the screen of recipe data, and draw it anew
         werase(w_data);
-        mvwprintz(w_data, 20, 5, c_white, "Press ? to describe object.  Press <ENTER> to attempt to craft object.");
+        if(filterstring != "")
+        {
+            mvwprintz(w_data, 19, 5, c_white, "?: Describe, [F]ind , [R]eset");
+        }
+        else
+        {
+            mvwprintz(w_data, 19, 5, c_white, "?: Describe, [F]ind");
+        }
+        mvwprintz(w_data, 20, 5, c_white, "Press <ENTER> to attempt to craft object.");
         for (int i = 0; i < 80; i++) 
         {
             mvwputch(w_data, 21, i, c_ltgray, LINE_OXOX);
@@ -1633,6 +1641,15 @@ void game::craft()
                 full_screen_popup(tmp.info(true).c_str());
                 redraw = true;
                 break;
+            case Filter:
+                filterstring = string_input_popup("Search :",55,filterstring);
+                redraw = true;
+                break;
+            case Reset:
+                filterstring = "";
+                redraw = true;
+                break;
+
         }
         if (line < 0)
         {
@@ -1686,68 +1703,38 @@ inventory game::crafting_inventory(){
 }
 
 void game::pick_recipes(std::vector<recipe*> &current,
-                        std::vector<bool> &available, craft_cat tab)
+                        std::vector<bool> &available, craft_cat tab,std::string filter)
 {
- inventory crafting_inv = crafting_inventory();
+    inventory crafting_inv = crafting_inventory();
 
- bool have_tool[5], have_comp[5];
+    bool have_tool[5], have_comp[5];
 
- current.clear();
- available.clear();
- for (int i = 0; i < recipes.size(); i++) {
-// Check if the category matches the tab, and we have the requisite skills
-  if (recipes[i]->category == tab &&
-      (recipes[i]->sk_primary == NULL ||
-       u.skillLevel(recipes[i]->sk_primary) >= recipes[i]->difficulty) &&
-      (recipes[i]->sk_secondary == NULL ||
-       u.skillLevel(recipes[i]->sk_secondary) > 0))
-  {
-    if (recipes[i]->difficulty >= 0)
-      current.push_back(recipes[i]);
-  }
-  available.push_back(false);
- }
- for (int i = 0; i < current.size() && i < 51; i++) {
-//Check if we have the requisite tools and components
-  for (int j = 0; j < 5; j++) {
-   have_tool[j] = false;
-   have_comp[j] = false;
-   if (current[i]->tools[j].size() == 0)
-    have_tool[j] = true;
-   else {
-    for (int k = 0; k < current[i]->tools[j].size(); k++) {
-     itype_id type = current[i]->tools[j][k].type;
-     int req = current[i]->tools[j][k].count;	// -1 => 1
-     if ((req <= 0 && crafting_inv.has_amount (type,   1)) ||
-         (req >  0 && crafting_inv.has_charges(type, req))   ) {
-      have_tool[j] = true;
-      k = current[i]->tools[j].size();
-     }
+    current.clear();
+    available.clear();
+    for (int i = 0; i < recipes.size(); i++) 
+    {
+        // Check if the category matches the tab, and we have the requisite skills
+        if (recipes[i]->category == tab &&
+                (recipes[i]->sk_primary == NULL ||
+                u.skillLevel(recipes[i]->sk_primary) >= recipes[i]->difficulty) &&
+                (recipes[i]->sk_secondary == NULL ||
+                u.skillLevel(recipes[i]->sk_secondary) > 0))
+        {
+            if (recipes[i]->difficulty >= 0 && itypes[recipes[i]->result]->name.find(filter) != std::string::npos)
+            {
+                current.push_back(recipes[i]);
+            }
+        }
+        available.push_back(false);
     }
-   }
-   if (current[i]->components[j].size() == 0)
-    have_comp[j] = true;
-   else {
-    for (int k = 0; k < current[i]->components[j].size() && !have_comp[j]; k++){
-     itype_id type = current[i]->components[j][k].type;
-     int count = current[i]->components[j][k].count;
-     if (itypes[type]->count_by_charges() && count > 0) {
-      if (crafting_inv.has_charges(type, count)) {
-       have_comp[j] = true;
-       k = current[i]->components[j].size();
-      }
-     } else if (crafting_inv.has_amount(type, abs(count))) {
-      have_comp[j] = true;
-      k = current[i]->components[j].size();
-     }
+    for (int i = 0; i < current.size() && i < 51; i++) 
+    {
+        //Check if we have the requisite tools and components
+        if(can_make(current[i]))
+        {
+            available[i] = true;
+        }
     }
-   }
-  }
-  if (have_tool[0] && have_tool[1] && have_tool[2] && have_tool[3] &&
-      have_tool[4] && have_comp[0] && have_comp[1] && have_comp[2] &&
-      have_comp[3] && have_comp[4])
-   available[i] = true;
- }
 }
 
 void game::make_craft(recipe *making)
