@@ -1,5 +1,9 @@
 Changelog will be a little light for the early entries due to me being really bad at documenting things.
 
+0.4 (I think?)
+Hardcoded frostbite not to occur above freezing temperatures.
+Improved fire's ability to warm the player. Also, standing on fire and being on fire warm up the player.
+
 0.3
 Many menus stretch with an enlarged viewport.
 An action to repeat the last craft has been added, default keybinding of -
