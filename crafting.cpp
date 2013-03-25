@@ -1308,265 +1308,347 @@ bool game::can_make(recipe *r)
 
 void game::craft()
 {
- if (u.morale_level() < MIN_MORALE_CRAFT) {	// See morale.h
-  add_msg("Your morale is too low to craft...");
-  return;
- }
-
- WINDOW *w_head = newwin( 3, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX -80)/2 : 0);
- WINDOW *w_data = newwin(22, 80, 3 + ((TERMY > 25) ? (TERMY-25)/2 : 0), (TERMX  > 80) ? (TERMX -80)/2 : 0);
- craft_cat tab = CC_WEAPON;
- std::vector<recipe*> current;
- std::vector<bool> available;
- item tmp;
- int line = 0, xpos, ypos;
- bool redraw = true;
- bool done = false;
- InputEvent input;
-
- inventory crafting_inv = crafting_inventory();
-
- do {
-  if (redraw) { // When we switch tabs, redraw the header
-   redraw = false;
-   line = 0;
-   draw_recipe_tabs(w_head, tab);
-   current.clear();
-   available.clear();
-// Set current to all recipes in the current tab; available are possible to make
-   pick_recipes(current, available, tab);
-  }
-
-// Clear the screen of recipe data, and draw it anew
-  werase(w_data);
-  mvwprintz(w_data, 20, 5, c_white, "Press ? to describe object.  Press <ENTER> to attempt to craft object.");
-  for (int i = 0; i < 80; i++) {
-   mvwputch(w_data, 21, i, c_ltgray, LINE_OXOX);
-
-   if (i < 21) {
-    mvwputch(w_data, i, 0, c_ltgray, LINE_XOXO);
-    mvwputch(w_data, i, 79, c_ltgray, LINE_XOXO);
-   }
-  }
-
-  mvwputch(w_data, 21,  0, c_ltgray, LINE_XXOO); // _|
-  mvwputch(w_data, 21, 79, c_ltgray, LINE_XOOX); // |_
-  wrefresh(w_data);
-
-  int recmin = 0, recmax = current.size();
-  if(recmax > MAX_DISPLAYED_RECIPES){
-   if (line <= recmin + 9) {
-    for (int i = recmin; i < recmin + MAX_DISPLAYED_RECIPES; i++) {
-     mvwprintz(w_data, i - recmin, 2, c_dkgray, "\
-                               ");	// Clear the line
-     if (i == line)
-      mvwprintz(w_data, i - recmin, 2, (available[i] ? h_white : h_dkgray),
-                itypes[current[i]->result]->name.c_str());
-     else
-      mvwprintz(w_data, i - recmin, 2, (available[i] ? c_white : c_dkgray),
-                itypes[current[i]->result]->name.c_str());
+    if (u.morale_level() < MIN_MORALE_CRAFT) 
+    {	// See morale.h
+        add_msg("Your morale is too low to craft...");
+        return;
     }
-   } else if (line >= recmax - 9) {
-    for (int i = recmax - MAX_DISPLAYED_RECIPES; i < recmax; i++) {
-     mvwprintz(w_data, 18 + i - recmax, 2, c_ltgray, "\
-                                ");	// Clear the line
 
-     if (i == line)
-       mvwprintz(w_data, 18 + i - recmax, 2, (available[i] ? h_white : h_dkgray),
-                 itypes[current[i]->result]->name.c_str());
-     else
-      mvwprintz(w_data, 18 + i - recmax, 2, (available[i] ? c_white : c_dkgray),
-                itypes[current[i]->result]->name.c_str());
-    }
-   } else {
-    for (int i = line - 9; i < line + 9; i++) {
-     mvwprintz(w_data, 9 + i - line, 2, c_ltgray, "\
-                                ");	// Clear the line
-     if (i == line)
-       mvwprintz(w_data, 9 + i - line, 2, (available[i] ? h_white : h_dkgray),
-                 itypes[current[i]->result]->name.c_str());
-     else
-      mvwprintz(w_data, 9 + i - line, 2, (available[i] ? c_white : c_dkgray),
-                itypes[current[i]->result]->name.c_str());
-    }
-   }
-  } else{
-   for (int i = 0; i < current.size() && i < 23; i++) {
-    if (i == line)
-     mvwprintz(w_data, i, 2, (available[i] ? h_white : h_dkgray),
-               itypes[current[i]->result]->name.c_str());
-    else
-     mvwprintz(w_data, i, 2, (available[i] ? c_white : c_dkgray),
-               itypes[current[i]->result]->name.c_str());
-   }
-  }
-  if (current.size() > 0) {
-   nc_color col = (available[line] ? c_white : c_dkgray);
-   mvwprintz(w_data, 0, 30, col, "Primary skill: %s",
-             (current[line]->sk_primary == NULL ? "N/A" :
-              current[line]->sk_primary->name().c_str()));
-   mvwprintz(w_data, 1, 30, col, "Secondary skill: %s",
-             (current[line]->sk_secondary == NULL ? "N/A" :
-              current[line]->sk_secondary->name().c_str()));
-   mvwprintz(w_data, 2, 30, col, "Difficulty: %d", current[line]->difficulty);
-   if (current[line]->sk_primary == NULL)
-    mvwprintz(w_data, 3, 30, col, "Your skill level: N/A");
-   else
-    mvwprintz(w_data, 3, 30, col, "Your skill level: %d",
-              // Macs don't seem to like passing this as a class, so force it to int
-              (int)u.skillLevel(current[line]->sk_primary));
-   if (current[line]->time >= 1000)
-    mvwprintz(w_data, 4, 30, col, "Time to complete: %d minutes",
-              int(current[line]->time / 1000));
-   else
-    mvwprintz(w_data, 4, 30, col, "Time to complete: %d turns",
-              int(current[line]->time / 100));
-   mvwprintz(w_data, 5, 30, col, "Tools required:");
-   if (current[line]->tools[0].size() == 0) {
-    mvwputch(w_data, 6, 30, col, '>');
-    mvwprintz(w_data, 6, 32, c_green, "NONE");
-    ypos = 6;
-   } else {
-    ypos = 5;
-// Loop to print the required tools
-    for (int i = 0; i < 5 && current[line]->tools[i].size() > 0; i++) {
-     ypos++;
-     xpos = 32;
-     mvwputch(w_data, ypos, 30, col, '>');
+    WINDOW *w_head = newwin( 3, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX -80)/2 : 0);
+    WINDOW *w_data = newwin(22, 80, 3 + ((TERMY > 25) ? (TERMY-25)/2 : 0), (TERMX  > 80) ? (TERMX -80)/2 : 0);
+    craft_cat tab = CC_WEAPON;
+    std::vector<recipe*> current;
+    std::vector<bool> available;
+    item tmp;
+    int line = 0, xpos, ypos;
+    bool redraw = true;
+    bool done = false;
+    InputEvent input;
 
-     for (int j = 0; j < current[line]->tools[i].size(); j++) {
-      itype_id type = current[line]->tools[i][j].type;
-      int charges = current[line]->tools[i][j].count;
-      nc_color toolcol = c_red;
+    inventory crafting_inv = crafting_inventory();
 
-      if (charges < 0 && crafting_inv.has_amount(type, 1))
-       toolcol = c_green;
-      else if (charges > 0 && crafting_inv.has_charges(type, charges))
-       toolcol = c_green;
+    do {
+        if (redraw) 
+        { // When we switch tabs, redraw the header
+            redraw = false;
+            line = 0;
+            draw_recipe_tabs(w_head, tab);
+            current.clear();
+            available.clear();
+            // Set current to all recipes in the current tab; available are possible to make
+            pick_recipes(current, available, tab);
+        }
 
-      std::stringstream toolinfo;
-      toolinfo << itypes[type]->name + " ";
-      if (charges > 0)
-       toolinfo << "(" << charges << " charges) ";
-      std::string toolname = toolinfo.str();
-      if (xpos + toolname.length() >= 80) {
-       xpos = 32;
-       ypos++;
-      }
-      mvwprintz(w_data, ypos, xpos, toolcol, toolname.c_str());
-      xpos += toolname.length();
-      if (j < current[line]->tools[i].size() - 1) {
-       if (xpos >= 77) {
-        xpos = 32;
-        ypos++;
-       }
-       mvwprintz(w_data, ypos, xpos, c_white, "OR ");
-       xpos += 3;
-      }
-     }
-    }
-   }
- // Loop to print the required components
-   ypos++;
-   mvwprintz(w_data, ypos, 30, col, "Components required:");
-   for (int i = 0; i < 5; i++) {
-    if (current[line]->components[i].size() > 0) {
-     ypos++;
-     mvwputch(w_data, ypos, 30, col, '>');
-    }
-    xpos = 32;
-    for (int j = 0; j < current[line]->components[i].size(); j++) {
-     int count = current[line]->components[i][j].count;
-     itype_id type = current[line]->components[i][j].type;
-     nc_color compcol = c_red;
-     if (itypes[type]->count_by_charges() && count > 0)  {
-      if (crafting_inv.has_charges(type, count))
-       compcol = c_green;
-     } else if (crafting_inv.has_amount(type, abs(count)))
-      compcol = c_green;
-     std::stringstream dump;
-     dump << abs(count) << "x " << itypes[type]->name << " ";
-     std::string compname = dump.str();
-     if (xpos + compname.length() >= 80) {
-      ypos++;
-      xpos = 32;
-     }
-     mvwprintz(w_data, ypos, xpos, compcol, compname.c_str());
-     xpos += compname.length();
-     if (j < current[line]->components[i].size() - 1) {
-      if (xpos >= 77) {
-       ypos++;
-       xpos = 32;
-      }
-      mvwprintz(w_data, ypos, xpos, c_white, "OR ");
-      xpos += 3;
-     }
-    }
-   }
-  }
+        // Clear the screen of recipe data, and draw it anew
+        werase(w_data);
+        mvwprintz(w_data, 20, 5, c_white, "Press ? to describe object.  Press <ENTER> to attempt to craft object.");
+        for (int i = 0; i < 80; i++) 
+        {
+            mvwputch(w_data, 21, i, c_ltgray, LINE_OXOX);
 
-  wrefresh(w_data);
-  input = get_input();
-  switch (input) {
-   case DirectionW:
-   case DirectionUp:
-    if (tab == CC_WEAPON)
-     tab = CC_MISC;
-    else
-     tab = craft_cat(int(tab) - 1);
-    redraw = true;
-    break;
-   case DirectionE:
-   case DirectionDown:
-    if (tab == CC_MISC)
-     tab = CC_WEAPON;
-    else
-     tab = craft_cat(int(tab) + 1);
-    redraw = true;
-    break;
-   case DirectionS:
-    line++;
-    break;
-   case DirectionN:
-    line--;
-    break;
-   case Confirm:
-    if (!available[line])
-     popup("You can't do that!");
-    else
-    // is player making a liquid? Then need to check for valid container
-    if (itypes[current[line]->result]->m1 == LIQUID)
-    {
-     if (u.has_watertight_container() || u.has_matching_liquid(itypes[current[line]->result]->id)) {
-             make_craft(current[line]);
-             done = true;
-             break;
-     } else {
-       popup("You don't have anything to store that liquid in!");
-     }
-    }
-    else {
-     make_craft(current[line]);
-     done = true;
-    }
-    break;
-   case Help:
-    tmp = item(itypes[current[line]->result], 0);
-    full_screen_popup(tmp.info(true).c_str());
-    redraw = true;
-    break;
-  }
-  if (line < 0)
-   line = current.size() - 1;
-  else if (line >= current.size())
-   line = 0;
- } while (input != Cancel && !done);
+            if (i < 21) 
+            {
+                mvwputch(w_data, i, 0, c_ltgray, LINE_XOXO);
+                mvwputch(w_data, i, 79, c_ltgray, LINE_XOXO);
+            }
+        }
 
- werase(w_head);
- werase(w_data);
- delwin(w_head);
- delwin(w_data);
- refresh_all();
+        mvwputch(w_data, 21,  0, c_ltgray, LINE_XXOO); // _|
+        mvwputch(w_data, 21, 79, c_ltgray, LINE_XOOX); // |_
+        wrefresh(w_data);
+
+        int recmin = 0, recmax = current.size();
+        if(recmax > MAX_DISPLAYED_RECIPES)
+        {
+            if (line <= recmin + 9) 
+            {
+                for (int i = recmin; i < recmin + MAX_DISPLAYED_RECIPES; i++) 
+                {
+                    mvwprintz(w_data, i - recmin, 2, c_dkgray, "");	// Clear the line
+                    if (i == line)
+                    {
+                        mvwprintz(w_data, i - recmin, 2, (available[i] ? h_white : h_dkgray),
+                        itypes[current[i]->result]->name.c_str());
+                    }
+                    else
+                    {
+                        mvwprintz(w_data, i - recmin, 2, (available[i] ? c_white : c_dkgray),
+                        itypes[current[i]->result]->name.c_str());
+                    }
+                }
+            } 
+            else if (line >= recmax - 9) 
+            {
+                for (int i = recmax - MAX_DISPLAYED_RECIPES; i < recmax; i++) 
+                {
+                    mvwprintz(w_data, 18 + i - recmax, 2, c_ltgray, "");	// Clear the line
+                    if (i == line)
+                    {
+                        mvwprintz(w_data, 18 + i - recmax, 2, (available[i] ? h_white : h_dkgray),
+                        itypes[current[i]->result]->name.c_str());
+                    }
+                    else
+                    {
+                        mvwprintz(w_data, 18 + i - recmax, 2, (available[i] ? c_white : c_dkgray),
+                        itypes[current[i]->result]->name.c_str());
+                    }
+                }
+            } 
+            else 
+            {
+                for (int i = line - 9; i < line + 9; i++) 
+                {
+                    mvwprintz(w_data, 9 + i - line, 2, c_ltgray, "");	// Clear the line
+                    if (i == line)
+                    {
+                        mvwprintz(w_data, 9 + i - line, 2, (available[i] ? h_white : h_dkgray),
+                        itypes[current[i]->result]->name.c_str());
+                    }
+                    else
+                    {
+                        mvwprintz(w_data, 9 + i - line, 2, (available[i] ? c_white : c_dkgray),
+                        itypes[current[i]->result]->name.c_str());
+                    }
+                }
+            }
+        } 
+        else
+        {
+            for (int i = 0; i < current.size() && i < 23; i++) 
+            {
+                if (i == line)
+                {
+                    mvwprintz(w_data, i, 2, (available[i] ? h_white : h_dkgray),
+                    itypes[current[i]->result]->name.c_str());
+                }
+                else
+                {
+                    mvwprintz(w_data, i, 2, (available[i] ? c_white : c_dkgray),
+                    itypes[current[i]->result]->name.c_str());
+                }
+            }
+        }
+        if (current.size() > 0) 
+        {
+            nc_color col = (available[line] ? c_white : c_dkgray);
+            mvwprintz(w_data, 0, 30, col, "Primary skill: %s",
+            (current[line]->sk_primary == NULL ? "N/A" :
+            current[line]->sk_primary->name().c_str()));
+            mvwprintz(w_data, 1, 30, col, "Secondary skill: %s",
+            (current[line]->sk_secondary == NULL ? "N/A" :
+            current[line]->sk_secondary->name().c_str()));
+            mvwprintz(w_data, 2, 30, col, "Difficulty: %d", current[line]->difficulty);
+            if (current[line]->sk_primary == NULL)
+            {
+                mvwprintz(w_data, 3, 30, col, "Your skill level: N/A");
+            }
+            else
+            {
+                mvwprintz(w_data, 3, 30, col, "Your skill level: %d",
+                // Macs don't seem to like passing this as a class, so force it to int
+                (int)u.skillLevel(current[line]->sk_primary));
+            }
+            if (current[line]->time >= 1000)
+            {
+                mvwprintz(w_data, 4, 30, col, "Time to complete: %d minutes",
+                int(current[line]->time / 1000));
+            }
+            else
+            {
+                mvwprintz(w_data, 4, 30, col, "Time to complete: %d turns",
+                int(current[line]->time / 100));
+            }
+            mvwprintz(w_data, 5, 30, col, "Tools required:");
+            if (current[line]->tools[0].size() == 0) 
+            {
+                mvwputch(w_data, 6, 30, col, '>');
+                mvwprintz(w_data, 6, 32, c_green, "NONE");
+                ypos = 6;
+            } 
+            else 
+            {
+                ypos = 5;
+                // Loop to print the required tools
+                for (int i = 0; i < 5 && current[line]->tools[i].size() > 0; i++) 
+                {
+                    ypos++;
+                    xpos = 32;
+                    mvwputch(w_data, ypos, 30, col, '>');
+                    for (int j = 0; j < current[line]->tools[i].size(); j++) 
+                    {
+                        itype_id type = current[line]->tools[i][j].type;
+                        int charges = current[line]->tools[i][j].count;
+                        nc_color toolcol = c_red;
+
+                        if (charges < 0 && crafting_inv.has_amount(type, 1))
+                        {
+                            toolcol = c_green;
+                        }
+                        else if (charges > 0 && crafting_inv.has_charges(type, charges))
+                        {
+                            toolcol = c_green;
+                        }
+
+                            std::stringstream toolinfo;
+                            toolinfo << itypes[type]->name + " ";
+                        if (charges > 0)
+                        {
+                            toolinfo << "(" << charges << " charges) ";
+                        }
+                        std::string toolname = toolinfo.str();
+                        if (xpos + toolname.length() >= 80) 
+                        {
+                            xpos = 32;
+                            ypos++;
+                        }
+                        mvwprintz(w_data, ypos, xpos, toolcol, toolname.c_str());
+                        xpos += toolname.length();
+                        if (j < current[line]->tools[i].size() - 1) 
+                        {
+                            if (xpos >= 77) 
+                            {
+                            xpos = 32;
+                            ypos++;
+                            }
+                            mvwprintz(w_data, ypos, xpos, c_white, "OR ");
+                            xpos += 3;
+                        }
+                    }
+                }
+            }
+        // Loop to print the required components
+            ypos++;
+            mvwprintz(w_data, ypos, 30, col, "Components required:");
+            for (int i = 0; i < 5; i++) 
+            {
+                if (current[line]->components[i].size() > 0) 
+                {
+                    ypos++;
+                    mvwputch(w_data, ypos, 30, col, '>');
+                }
+                xpos = 32;
+                for (int j = 0; j < current[line]->components[i].size(); j++) 
+                {
+                    int count = current[line]->components[i][j].count;
+                    itype_id type = current[line]->components[i][j].type;
+                    nc_color compcol = c_red;
+                    if (itypes[type]->count_by_charges() && count > 0)  
+                    {
+                        if (crafting_inv.has_charges(type, count))
+                        {
+                            compcol = c_green;
+                        }
+                    } 
+                    else if (crafting_inv.has_amount(type, abs(count)))
+                    {
+                        compcol = c_green;
+                    }
+                    std::stringstream dump;
+                    dump << abs(count) << "x " << itypes[type]->name << " ";
+                    std::string compname = dump.str();
+                    if (xpos + compname.length() >= 80) 
+                    {
+                        ypos++;
+                        xpos = 32;
+                    }
+                    mvwprintz(w_data, ypos, xpos, compcol, compname.c_str());
+                    xpos += compname.length();
+                    if (j < current[line]->components[i].size() - 1) 
+                    {
+                        if (xpos >= 77) 
+                        {
+                            ypos++;
+                            xpos = 32;
+                        }
+                        mvwprintz(w_data, ypos, xpos, c_white, "OR ");
+                        xpos += 3;
+                    }
+                }
+            }
+        }
+
+        wrefresh(w_data);
+        input = get_input();
+        switch (input) 
+        {
+            case DirectionW:
+            case DirectionUp:
+                if (tab == CC_WEAPON)
+                {
+                    tab = CC_MISC;
+                }
+                else
+                {
+                    tab = craft_cat(int(tab) - 1);
+                }
+                redraw = true;
+                break;
+            case DirectionE:
+            case DirectionDown:
+                if (tab == CC_MISC)
+                {
+                    tab = CC_WEAPON;
+                }
+                else
+                {
+                    tab = craft_cat(int(tab) + 1);
+                    redraw = true;
+                }
+                break;
+            case DirectionS:
+                line++;
+                break;
+            case DirectionN:
+                line--;
+                break;
+            case Confirm:
+                if (!available[line])
+                {
+                    popup("You can't do that!");
+                }
+                else
+                {// is player making a liquid? Then need to check for valid container
+                    if (itypes[current[line]->result]->m1 == LIQUID)
+                    {
+                        if (u.has_watertight_container() || u.has_matching_liquid(itypes[current[line]->result]->id)) 
+                        {
+                            make_craft(current[line]);
+                            done = true;
+                            break;
+                        } 
+                        else 
+                        {
+                            popup("You don't have anything to store that liquid in!");
+                        }
+                    }
+                    else 
+                    {
+                        make_craft(current[line]);
+                        done = true;
+                    }
+                }
+                break;
+            case Help:
+                tmp = item(itypes[current[line]->result], 0);
+                full_screen_popup(tmp.info(true).c_str());
+                redraw = true;
+                break;
+        }
+        if (line < 0)
+        {
+            line = current.size() - 1;
+        }
+        else if (line >= current.size())
+        {
+            line = 0;
+        }
+    } while (input != Cancel && !done);
+
+    werase(w_head);
+    werase(w_data);
+    delwin(w_head);
+    delwin(w_data);
+    refresh_all();
 }
 
 void draw_recipe_tabs(WINDOW *w, craft_cat tab)
