@@ -3447,7 +3447,7 @@ void map::build_transparency_cache()
  }
 }
 
-void map::build_map_cache()
+void map::build_map_cache(game *g)
 {
  memset(outside_cache, true, sizeof(outside_cache));
  for(int x = 0; x < SEEX * my_MAPSIZE; x++) {
