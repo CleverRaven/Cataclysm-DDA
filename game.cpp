@@ -4627,7 +4627,7 @@ void game::examine()
  }
  const ter_t *xter_t = &terlist[m.ter(examx,examy)];
  iexamine xmine;
- 
+
  if(m.tr_at(examx, examy) != tr_null) xmine.trap(this,&u,&m,examx,examy);
 
   (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
@@ -6188,7 +6188,7 @@ void game::forage()
   {
     add_msg("You found some wild veggies!");
     u.practice("survival", 10);
-    m.add_item(u.activity.placement.x, u.activity.placement.y, this->itypes[itm_veggy_wild],0);
+    m.add_item(u.activity.placement.x, u.activity.placement.y, this->itypes[itm_veggy_wild], turn, 0);
     m.ter(u.activity.placement.x, u.activity.placement.y) = t_dirt;
   }
   else
