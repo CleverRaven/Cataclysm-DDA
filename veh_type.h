@@ -32,6 +32,9 @@ enum vpart_id
     vp_board_u,
     vp_board_n,
     vp_board_b,
+    vp_isle_h2,
+    vp_isle_v2,
+    vp_floor_trunk,
     vp_roof,
     vp_door,
     vp_door_o,
@@ -105,6 +108,7 @@ enum vpart_flags
     vpf_wheel,              // this part touches ground (trigger traps)
     vpf_seat,               // is seat
     vpf_bed,                // is bed (like seat, but can't be boarded)
+    vpf_isle,               // is isle (no extra movement cost)
     vpf_engine,             // is engine
     vpf_fuel_tank,          // is fuel tank
     vpf_cargo,              // is cargo
@@ -194,6 +198,12 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle) },
     { "board",      'b', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
         mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle) },
+    { "isle",       '=', c_white,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
+        mfb(vpf_internal) | mfb(vpf_over) | mfb(vpf_no_reinforce) | mfb(vpf_isle) },
+    { "isle",       'H', c_white,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
+        mfb(vpf_internal) | mfb(vpf_over) | mfb (vpf_no_reinforce) | mfb(vpf_isle) },
+    { "floor trunk",       '=', c_white,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
+        mfb(vpf_internal) | mfb(vpf_over) | mfb (vpf_no_reinforce) | mfb(vpf_isle) | mfb(vpf_cargo) },
     { "roof",       '#', c_ltgray,  '#', c_dkgray,  100, 1000, 0, 0, itm_steel_plate, 1,
         mfb(vpf_internal) | mfb(vpf_roof) },
     { "door",       '+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, itm_frame, 2,

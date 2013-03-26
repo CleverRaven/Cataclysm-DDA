@@ -835,11 +835,16 @@ int map::move_cost(const int x, const int y)
  vehicle *veh = veh_at(x, y, vpart);
  if (veh) {  // moving past vehicle cost
   const int dpart = veh->part_with_feature(vpart, vpf_obstacle);
-  if (dpart >= 0 &&
-      (!veh->part_flag(dpart, vpf_openable) || !veh->parts[dpart].open))
+  if (dpart >= 0 && (!veh->part_flag(dpart, vpf_openable) || !veh->parts[dpart].open)) {
    return 0;
-  else
+  } else {
+    const int ipart = veh->part_with_feature(vpart, vpf_isle);
+
+    if (ipart >= 0)
+      return 2;
+
    return 8;
+  }
  }
  return terlist[ter(x, y)].movecost;
 }
