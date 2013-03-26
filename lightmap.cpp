@@ -175,55 +175,67 @@ float map::ambient_light_at(int dx, int dy)
  return lm[dx][dy];
 }
 
-bool map::lm_sees(int fx, int fy, int tx, int ty, int max_range)
+bool map::pl_sees(int fx, int fy, int tx, int ty, int max_range)
 {
-  if (!INBOUNDS(fx, fy) || !INBOUNDS(tx, ty))
-  return false;
+  if (!INBOUNDS(tx, ty)) return false;
 
  if (max_range >= 0 && (abs(tx - fx) > max_range || abs(ty - fy) > max_range))
   return false; // Out of range!
 
- int ax = abs(tx - fx) << 1;
- int ay = abs(ty - fy) << 1;
- int dx = (fx < tx) ? 1 : -1;
- int dy = (fy < ty) ? 1 : -1;
- int x = fx;
- int y = fy;
+ return seen_cache[tx][ty];
+}
 
- // TODO: [lightmap] Pull out the common code here rather than duplication
- if (ax > ay) {
-  int t = ay - (ax >> 1);
-  do {
-   if(t >= 0 && ((y + dy != ty) || (x + dx == tx))) {
-    y += dy;
-    t -= ax;
+void map::cache_seen(int fx, int fy, int tx, int ty, int max_range)
+{
+   if (!INBOUNDS(fx, fy) || !INBOUNDS(tx, ty)) return;
+
+   const int ax = abs(tx - fx) << 1;
+   const int ay = abs(ty - fy) << 1;
+   const int dx = (fx < tx) ? 1 : -1;
+   const int dy = (fy < ty) ? 1 : -1;
+   int x = fx;
+   int y = fy;
+   int seen = true;
+
+   // TODO: [lightmap] Pull out the common code here rather than duplication
+   if (ax > ay)
+   {
+      int t = ay - (ax >> 1);
+      do
+      {
+         if(t >= 0 && ((y + dy != ty) || (x + dx == tx)))
+         {
+            y += dy;
+            t -= ax;
+         }
+
+         x += dx;
+         t += ay;
+
+         seen_cache[x][y] = seen;
+         if(light_transparency(x, y) == LIGHT_TRANSPARENCY_SOLID) seen = false;
+
+      } while(!(x == tx && y == ty));
    }
+   else
+   {
+      int t = ax - (ay >> 1);
+      do
+      {
+         if(t >= 0 && ((x + dx != tx) || (y + dy == ty)))
+         {
+            x += dx;
+            t -= ay;
+         }
 
-   x += dx;
-   t += ay;
+         y += dy;
+         t += ax;
 
-   if(light_transparency(x, y) == LIGHT_TRANSPARENCY_SOLID)
-    break;
+         seen_cache[x][y] = seen;
+         if(light_transparency(x, y) == LIGHT_TRANSPARENCY_SOLID) seen = false;
 
-  } while(!(x == tx && y == ty));
- } else {
-  int t = ax - (ay >> 1);
-  do {
-   if(t >= 0 && ((x + dx != tx) || (y + dy == ty))) {
-    x += dx;
-    t -= ay;
+      } while(!(x == tx && y == ty));
    }
-
-   y += dy;
-   t += ax;
-
-   if(light_transparency(x, y) == LIGHT_TRANSPARENCY_SOLID)
-    break;
-
-  } while(!(x == tx && y == ty));
- }
-
- return (x == tx && y == ty);
 }
 
 void map::apply_light_source(int x, int y, float luminance)

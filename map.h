@@ -197,7 +197,7 @@ class map
  void build_map_cache(game *g);
  lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
  float ambient_light_at(int dx, int dy); // Raw values for tilesets
- bool lm_sees(int fx, int fy, int tx, int ty, int max_range);
+ bool pl_sees(int fx, int fy, int tx, int ty, int max_range);
 
  std::vector <itype*> *itypes;
  std::set<vehicle*> vehicle_list;
@@ -219,6 +219,7 @@ protected:
  void build_transparency_cache();
  void build_outside_cache(const int x, const int y);
  void generate_lightmap(game* g);
+ void build_seen_cache(game *g);
 
  bool inbounds(const int x, const int y);
  int my_MAPSIZE;
@@ -237,6 +238,7 @@ protected:
  bool veh_in_active_range;
 
 private:
+ void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  void apply_light_source(int x, int y, float luminance);
  void apply_light_arc(int x, int y, int angle, float luminance);
  void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
@@ -246,6 +248,7 @@ private:
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
+ bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  submap* grid[MAPSIZE * MAPSIZE];
 };
 

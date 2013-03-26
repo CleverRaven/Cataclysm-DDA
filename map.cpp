@@ -2576,7 +2576,7 @@ void map::draw(game *g, WINDOW* w, const point center)
     distance_to_look = DAYLIGHT_LEVEL;
    }
 
-   bool can_see = lm_sees(g->u.posx, g->u.posy, realx, realy, distance_to_look);
+   bool can_see = pl_sees(g->u.posx, g->u.posy, realx, realy, distance_to_look);
    lit_level lit = light_at(realx, realy);
 
    if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0.) {
@@ -3447,6 +3447,17 @@ void map::build_transparency_cache()
  }
 }
 
+void map::build_seen_cache(game *g)
+{
+  const int j = (SEEX * my_MAPSIZE) - 1;
+  for (int i = 0; i < SEEX * my_MAPSIZE; i++) {
+    cache_seen(g->u.posx, g->u.posy, 0, i, 60);
+    cache_seen(g->u.posx, g->u.posy, i, 0, 60);
+    cache_seen(g->u.posx, g->u.posy, j, i, 60);
+    cache_seen(g->u.posx, g->u.posy, i, j, 60);
+  }
+}
+
 void map::build_map_cache(game *g)
 {
  memset(outside_cache, true, sizeof(outside_cache));
@@ -3471,6 +3482,7 @@ void map::build_map_cache(game *g)
    }
   }
  }
+ build_seen_cache(g);
  generate_lightmap(g);
 }
 
