@@ -846,7 +846,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   TOOL(itm_needle_bone, 16, itm_sewing_kit, 16, NULL);
   COMP(itm_rag, 8, NULL);
 
- RECIPE(itm_long_underpants, CC_ARMOR, "tailor", "survival", 3, 35000, false);
+ RECIPE(itm_long_underpants_fit, CC_ARMOR, "tailor", "survival", 3, 35000, false);
   TOOL(itm_needle_bone, 15, itm_sewing_kit, 15, NULL);
   COMP(itm_rag, 10, NULL);
 
@@ -854,7 +854,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   TOOL(itm_needle_bone, 10, itm_sewing_kit, 10, NULL);
   COMP(itm_leather, 10, NULL);
 // Torso
- RECIPE(itm_tank_top, CC_ARMOR, "tailor", NULL, 2, 38000, true);
+ RECIPE(itm_tank_top_fit, CC_ARMOR, "tailor", NULL, 2, 38000, true);
   TOOL(itm_needle_bone, 4, itm_sewing_kit, 4, NULL);
   COMP(itm_rag, 4, NULL);
 
@@ -890,7 +890,7 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   TOOL(itm_scissors, -1, TG_KNIVES, NULL);
   COMP(itm_gloves_leather, 1, NULL);
 
- RECIPE(itm_gloves_liner, CC_ARMOR, "tailor", NULL, 1, 10000, false);
+ RECIPE(itm_gloves_liner_fit, CC_ARMOR, "tailor", NULL, 1, 10000, false);
   TOOL(itm_needle_bone, 2, itm_sewing_kit, 2, NULL);
   COMP(itm_rag, 2, NULL);
 
