@@ -106,7 +106,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_dresser],
 	itm_jeans, itm_shorts, itm_pants, itm_pants_leather, itm_pants_cargo, itm_shorts_cargo, itm_skirt,
-	itm_dress, itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top,
+  itm_dress, itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top,
 	itm_sweatshirt, itm_sweater, itm_hoodie, itm_jacket_light,
 	itm_jacket_jean, itm_blazer, itm_jacket_leather, itm_poncho,
 	itm_trenchcoat, itm_peacoat, itm_vest, itm_mag_porn, itm_lighter,
@@ -115,6 +115,7 @@ void game::init_mapitems()
         itm_jeans_fit, itm_pants_fit, itm_pants_cargo_fit,
         itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
         itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit,
+        itm_tank_top_fit, itm_dress_fit, itm_dress_shirt_fit,
 
         NULL);
 
@@ -219,6 +220,7 @@ void game::init_mapitems()
    mapitems[mi_sports],
 	itm_bandages, itm_aspirin, itm_bat, itm_bat_metal, itm_sneakers, itm_socks, itm_tshirt,
 	itm_tank_top, itm_gloves_fingerless, itm_glasses_safety, itm_tshirt_fit,
+  itm_tank_top_fit,
 	itm_armguard_soft, itm_armguard_hard,
 	itm_goggles_swim, itm_goggles_ski, itm_hat_ball, itm_helmet_bike,
 	itm_helmet_ball, itm_manual_brawl, itm_foot_crank, NULL);
@@ -237,6 +239,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_allsporting],
 	itm_aspirin, itm_bat, itm_bat_metal, itm_sneakers, itm_socks, itm_tshirt, itm_tank_top,
+  itm_tank_top_fit,
 	itm_gloves_fingerless, itm_glasses_safety, itm_goggles_swim,
 	itm_armguard_soft, itm_armguard_hard,
 	itm_goggles_ski, itm_hat_ball, itm_helmet_bike, itm_helmet_ball,
@@ -336,11 +339,13 @@ void game::init_mapitems()
    mapitems[mi_pants],
 	itm_jeans, itm_shorts, itm_pants, itm_pants_leather, itm_pants_cargo, itm_shorts_cargo, itm_skirt,
 	itm_dress,
+  itm_dress_fit,
         itm_jeans_fit, itm_pants_fit, itm_pants_cargo_fit, NULL);
 
  setvector(
    mapitems[mi_shirts],
 	itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top,
+  itm_tank_top_fit, itm_under_armor_fit, itm_dress_shirt_fit,
 	itm_sweatshirt, itm_sweater, itm_hoodie, itm_under_armor,
         itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
         itm_tshirt_fit, NULL);
@@ -355,6 +360,7 @@ void game::init_mapitems()
    mapitems[mi_winter],
 	itm_coat_winter, itm_peacoat, itm_gloves_light, itm_mittens,
 	itm_gloves_wool, itm_gloves_winter, itm_gloves_liner, itm_gloves_leather, itm_scarf,
+  itm_gloves_liner_fit, itm_long_underpants_fit,
 	itm_hat_cotton, itm_hat_knit, itm_hat_fur, itm_pants_ski, itm_long_underpants,
     itm_balclava, NULL);
 
@@ -376,6 +382,7 @@ void game::init_mapitems()
         itm_pants_cargo_fit, itm_polo_shirt_fit, itm_sweatshirt_fit,
         itm_sweater_fit,
         itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit,
+        itm_under_armor_fit, itm_long_underpants_fit, itm_tank_top_fit, itm_suit_fit, itm_dress_shirt_fit,
         itm_trenchcoat_leather, itm_trenchcoat_leather_fit, NULL);
 
  setvector(
@@ -456,6 +463,7 @@ void game::init_mapitems()
 	itm_bat, itm_petrified_eye, itm_binoculars, itm_boots, itm_mocassins,
 	itm_dress_shoes, itm_heels, itm_pants, itm_pants_army, itm_skirt,
 	itm_jumpsuit, itm_dress, itm_dress_shirt, itm_sweater, itm_blazer,
+  itm_jumpsuit_fit, itm_dress_fit, itm_dress_shirt_fit,
 	itm_jacket_leather, itm_coat_fur, itm_peacoat, itm_coat_lab,
 	itm_helmet_army, itm_hat_fur, itm_holster, itm_bootstrap,
 	itm_remington_870, itm_browning_blr, itm_remington_700, itm_sks,
@@ -508,12 +516,14 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_teleport],
 	itm_screwdriver, itm_wrench, itm_jumpsuit, itm_mask_dust,
+  itm_jumpsuit_fit,
 	itm_glasses_safety, itm_goggles_welding, itm_teleporter, itm_usb_drive,
 	NULL);
 
  setvector(
    mapitems[mi_goo],
 	itm_jumpsuit, itm_gloves_rubber, itm_mask_filter, itm_glasses_safety,
+  itm_jumpsuit_fit,
 	itm_helmet_riot, itm_lighter, itm_canister_goo, NULL);
 
  setvector(
@@ -605,6 +615,7 @@ void game::init_mapitems()
    mapitems[mi_mil_armor],
 	itm_pants_army, itm_kevlar, itm_vest, itm_mask_gas, itm_goggles_nv,
 	itm_helmet_army, itm_backpack, itm_UPS_off, itm_beltrig, itm_under_armor,
+  itm_under_armor_fit,
         itm_boots, itm_boots_fit, itm_pants_army_fit, itm_armguard_hard,
 	itm_helmet_army, itm_backpack, itm_UPS_off, itm_beltrig, NULL);
 
@@ -648,6 +659,7 @@ void game::init_mapitems()
 	itm_jacket_leather, itm_kevlar, itm_vest, itm_gloves_fingerless,
 	itm_mask_filter, itm_mask_gas, itm_goggles_ski, itm_helmet_skid,
   itm_armguard_hard, itm_under_armor, itm_long_underpants,
+  itm_jumpsuit_fit, itm_under_armor_fit, itm_long_underpants_fit,
 	itm_helmet_ball, itm_helmet_riot, itm_helmet_motor, itm_holster,
 	itm_bootstrap, itm_UPS_off, itm_beltrig,
         itm_pants_cargo_fit, itm_pants_army_fit, itm_rucksack, NULL);
@@ -665,6 +677,7 @@ void game::init_mapitems()
    mapitems[mi_sewage_plant],
 	itm_1st_aid, itm_motor, itm_hose, itm_screwdriver, itm_wrench, itm_pipe,
 	itm_boots, itm_jumpsuit, itm_coat_lab, itm_gloves_rubber,
+  itm_jumpsuit_fit,
 	itm_mask_filter, itm_glasses_safety, itm_hat_hard, itm_extinguisher,
 	itm_flashlight, itm_water_purifier, itm_two_way_radio,
    itm_bionics_toolset,      itm_bionics_storage,  itm_bionics_flashlight,
@@ -679,6 +692,7 @@ void game::init_mapitems()
    mapitems[mi_mine_equipment],
 	itm_water_clean, itm_1st_aid, itm_rope_30, itm_chain, itm_boots_steel,
 	itm_jumpsuit, itm_gloves_leather, itm_mask_filter, itm_mask_gas,
+  itm_jumpsuit_fit,
 	itm_glasses_safety, itm_goggles_welding, itm_goggles_nv, itm_hat_hard,
 	itm_backpack, itm_battery, itm_flashlight, itm_two_way_radio,
 	itm_jackhammer, itm_jacqueshammer, itm_dynamite, itm_UPS_off,
@@ -818,6 +832,7 @@ void game::init_mapitems()
 	itm_steel_lump, itm_frame, itm_steel_plate, itm_spiked_plate,
 	itm_hard_plate, itm_motor, itm_motor_large, itm_hose, itm_pants_army,
 	itm_jumpsuit, itm_kevlar, itm_mask_gas, itm_helmet_army, itm_battery,
+  itm_jumpsuit_fit,
 	itm_plut_cell, itm_m249, itm_v8_combustion, itm_extinguisher,
 	itm_two_way_radio, itm_radio, itm_UPS_off, itm_beltrig,
         itm_pants_army_fit, itm_boots_fit, itm_rucksack, NULL);
