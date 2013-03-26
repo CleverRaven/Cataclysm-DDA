@@ -159,7 +159,7 @@ A blend of incredibly strong-flavored liquors that somehow tastes\n\
 like none of them.");
 
 DRINK("beer",           60, 35, c_brown,  itm_keg,
-         16, 4,  0, -4, -1,  2,  1, 10, &iuse::alcohol,   ADD_ALCOHOL, "\
+         16, 4,  0, -4, -1,  2,  1, 10, &iuse::alcohol_weak, ADD_ALCOHOL, "\
 Best served cold, in a glass, and with a lime - but you're not that lucky.");
 
 DRINK("bleach",		20, 18,	c_white,  itm_jug_plastic,
