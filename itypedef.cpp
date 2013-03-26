@@ -1716,6 +1716,11 @@ ARMOR("leather trenchcoat",	25, 225,C_TORSO,        LEATHER, 	MNULL,
 A thick leather trenchcoat, lined with pockets. Great for storage.\n\
 This trenchcoat is a perfect fit for you");
 
+ARMOR("dress shirt",	60, 115,C_TORSO,	COTTON,		MNULL,
+    3,  3, -5,  0,  0,  0,  1,  0,  10,  1,	mfb(bp_torso)|mfb(bp_arms), "\
+A white button-down shirt with long sleeves. Looks professional!\n\
+This one fits you perfectly.");
+
 ARMOR("tank top",	50,  75,C_TORSO,	COTTON,		MNULL,
     1,  1, -5,  0,  -1,  0,  0,  0,  0,  0,	mfb(bp_torso), "\
 A sleeveless cotton shirt. Very easy to move in.\n\
