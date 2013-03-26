@@ -5199,24 +5199,27 @@ void game::pickup(int posx, int posy, int min)
    start += maxitems;
    mvwprintw(w_pickup, maxitems + 2, 12, "            ");
   }
-  if (ch >= 'a' && ch <= 'a' + here.size() - 1) {
-   ch -= 'a';
-   getitem[ch] = !getitem[ch];
+
+  static const std::string pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;";
+  size_t idx = pickup_chars.find(ch);
+
+  if (idx < here.size()) {
+   getitem[idx] = !getitem[idx];
    wclear(w_item_info);
-   if (getitem[ch]) {
-    mvwprintw(w_item_info, 1, 0, here[ch].info().c_str());
+   if (getitem[idx]) {
+    mvwprintw(w_item_info, 1, 0, here[idx].info().c_str());
     wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                          LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wrefresh(w_item_info);
-    new_weight += here[ch].weight();
-    new_volume += here[ch].volume();
+    new_weight += here[idx].weight();
+    new_volume += here[idx].volume();
     update = true;
    } else {
     wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                          LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wrefresh(w_item_info);
-    new_weight -= here[ch].weight();
-    new_volume -= here[ch].volume();
+    new_weight -= here[idx].weight();
+    new_volume -= here[idx].volume();
     update = true;
    }
   }
@@ -5244,7 +5247,7 @@ void game::pickup(int posx, int posy, int min)
              "                                        ");
    if (cur_it < here.size()) {
     mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, here[cur_it].color(&u),
-             char(cur_it + 'a'));
+             char(pickup_chars[cur_it]));
     if (getitem[cur_it])
      wprintw(w_pickup, " + ");
     else

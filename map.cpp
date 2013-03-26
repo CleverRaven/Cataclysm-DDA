@@ -2153,12 +2153,12 @@ void map::add_item(const int x, const int y, item new_item)
   return;
  if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
- if (has_flag(noitem, x, y) || i_at(x, y).size() >= 26) {// Too many items there
+ if (has_flag(noitem, x, y) || i_at(x, y).size() >= 64) {// Too many items there
   std::vector<point> okay;
   for (int i = x - 1; i <= x + 1; i++) {
    for (int j = y - 1; j <= y + 1; j++) {
     if (INBOUNDS(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
-        i_at(i, j).size() < 26)
+        i_at(i, j).size() < 64)
      okay.push_back(point(i, j));
    }
   }
@@ -2166,7 +2166,7 @@ void map::add_item(const int x, const int y, item new_item)
    for (int i = x - 2; i <= x + 2; i++) {
     for (int j = y - 2; j <= y + 2; j++) {
      if (INBOUNDS(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
-         i_at(i, j).size() < 26)
+         i_at(i, j).size() < 64)
       okay.push_back(point(i, j));
     }
    }
