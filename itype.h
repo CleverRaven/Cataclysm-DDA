@@ -109,9 +109,11 @@ itm_wrapper, itm_withered, itm_syringe, itm_fur, itm_leather, itm_superglue,
  itm_jeans, itm_pants, itm_pants_leather, itm_pants_cargo, itm_pants_army, itm_pants_ski,
  itm_long_underpants, itm_skirt,
  itm_jeans_fit, itm_pants_fit, itm_pants_cargo_fit, itm_pants_army_fit,
+ itm_long_underpants_fit,
 // Full-body clothing
 itm_jumpsuit, itm_dress, itm_armor_chitin, itm_suit, itm_hazmat_suit,
  itm_armor_plate,
+ itm_jumpsuit_fit, itm_dress_fit, itm_suit_fit,
 // Torso clothing
 itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top, itm_sweatshirt,
  itm_sweater, itm_hoodie, itm_under_armor, itm_jacket_light, itm_jacket_jean, itm_blazer,
@@ -119,12 +121,14 @@ itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top, itm_sweatshirt,
  itm_coat_winter, itm_coat_fur, itm_peacoat, itm_vest, itm_beltrig, itm_coat_lab,
  itm_tshirt_fit, itm_polo_shirt_fit, itm_hoodie_fit, itm_sweatshirt_fit, itm_sweater_fit,
  itm_jacket_light_fit, itm_jacket_leather_fit, itm_trenchcoat_fit, itm_trenchcoat_leather_fit,
+ itm_tank_top_fit, itm_under_armor_fit,
 // Arm clothing
 itm_armguard_soft, itm_armguard_hard, itm_armguard_chitin, itm_armguard_metal,
 // Gloves
 itm_gloves_liner, itm_gloves_light, itm_mittens, itm_gloves_wool, itm_gloves_winter,
  itm_gloves_leather, itm_gloves_fingerless, itm_gloves_rubber,
  itm_gloves_medical, itm_fire_gauntlets, itm_gauntlets_chitin,
+ itm_gloves_liner_fit,
 // Masks
 itm_mask_dust, itm_bandana, itm_scarf, itm_mask_filter, itm_mask_gas,
 // Eyewear

@@ -1501,6 +1501,11 @@ ARMOR("army pants",	10, 315,C_PANTS,	COTTON,		MNULL,
 A tough pair of pants lined with pockets. Favored by the military.\n\
 These army pants are a perfect fit for you.");
 
+ARMOR("long underwear",	40, 200,C_PANTS,	COTTON,		MNULL,
+    4,  2, -3,  0, -1,  0,  0,  0,  30,  0,	mfb(bp_legs), "\
+A pair of long underwear that help to maintain body temperature.\n\
+These are a perfect fit for you.");
+
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("jumpsuit",	20, 200,C_BODY,		COTTON,		PLASTIC,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
@@ -1530,6 +1535,25 @@ will provide excellent protection against ambient radiation.");
 ARMOR("plate mail",	 2, 700,C_BODY,		IRON,		MNULL,
    70,140,  8, -5,  5, 16, 20,  0,  20,  0,	mfb(bp_torso)|mfb(bp_legs)|mfb(bp_arms), "\
 An extremely heavy ornamental suit of armor.");
+
+ARMOR("jumpsuit",	20, 200,C_BODY,		COTTON,		PLASTIC,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    6,  6, -3, -3,  -1,  0,  1,  0,  10, 12,	mfb(bp_legs)|mfb(bp_torso), "\
+A thin, short-sleeved jumpsuit; similar to those\n\
+worn my prisoners. Provides decent storage and is\n\
+not very encumbering.\n\
+This one is a perfect fit for you.");
+
+ARMOR("dress",		70, 180,C_BODY,		COTTON,		MNULL,
+    8,  6, -5, -5,  2,  0,  1,  0,  20,  0,	mfb(bp_legs)|mfb(bp_torso), "\
+A long cotton dress. Difficult to move in and lacks any storage space.\n\
+This one is a perfect fit for you.");
+
+ARMOR("suit",		60, 180,C_BODY,		COTTON,		MNULL,
+   10,  7, -5, -5,  0,  0,  1,  0,  25,  10,	mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms), "\
+A full-body cotton suit. Makes the apocalypse a truly gentlemanly\n\
+experience.\n\
+This one fits perfectly. Dapper indeed!");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("t shirt",	80,  80,C_TORSO,	COTTON,		MNULL,
@@ -1692,6 +1716,17 @@ ARMOR("leather trenchcoat",	25, 225,C_TORSO,        LEATHER, 	MNULL,
 A thick leather trenchcoat, lined with pockets. Great for storage.\n\
 This trenchcoat is a perfect fit for you");
 
+ARMOR("tank top",	50,  75,C_TORSO,	COTTON,		MNULL,
+    1,  1, -5,  0,  -1,  0,  0,  0,  0,  0,	mfb(bp_torso), "\
+A sleeveless cotton shirt. Very easy to move in.\n\
+It fits perfectly.");
+
+ARMOR("under armor", 20, 200,C_TORSO,	COTTON,		MNULL,
+   2,  2, -5,  0, -1,  0,  0,  0,  20,  0,	mfb(bp_torso), "\
+Sports wear that clings to your chest to maintain body temperature.\n\
+Fits you perfectly!");
+
+
 // arm guards
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("soft arm sleeves",	40,  65,C_ARMS,	COTTON,		MNULL,
@@ -1759,6 +1794,11 @@ ARMOR("chitinous gauntlets", 1, 380,C_HAT,		FLESH,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
    4,   1,  2, -2,  1,  5, 7,   4,  20,  0,	mfb(bp_hands), "\
 Gauntlets made from the exoskeletons of insects. Very light and durable.");
+
+ARMOR("glove liners",	25,  100,C_GLOVES,	COTTON,		MNULL,
+    0,  0, -5,  1,  -1,  0,  0,  0,  10,  0,	mfb(bp_hands), "\
+A pair of thin cotton gloves. Often used as a liner beneath other gloves.\n\
+Fits you perfectly.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("dust mask",	65,  20,C_MOUTH,	COTTON,		IRON,
