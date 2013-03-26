@@ -2589,7 +2589,7 @@ void game::draw_ter(int posx, int posy)
  if (posy == -999)
   posy = u.posy + u.view_offset_y;
  int t = 0;
- lm.generate(this, posx, posy, natural_light_level(), u.active_light());
+ m.build_map_cache(this);
  m.draw(this, w_terrain, point(posx, posy));
 
  // Draw monsters
@@ -2838,7 +2838,7 @@ void game::hallucinate(const int x, const int y)
  wrefresh(w_terrain);
 }
 
-float game::natural_light_level()
+float game::natural_light_level() const
 {
  float ret = 0;
 
@@ -2979,7 +2979,7 @@ bool game::sees_u(int x, int y, int &t)
  int range = light_level();
 
  // Set to max possible value if the player is lit brightly
- if (lm.at(0, 0) >= LL_LOW)
+ if (m.light_at(u.posx, u.posy) >= LL_LOW)
   range = DAYLIGHT_LEVEL;
 
  int mondex = mon_at(x,y);
@@ -3012,7 +3012,7 @@ bool game::u_see(int x, int y, int &t)
   can_see = true;
  else if (wanted_range <= u.sight_range(light_level()) ||
           (wanted_range <= u.sight_range(DAYLIGHT_LEVEL) &&
-            lm.at(x - u.posx, y - u.posy) >= LL_LOW))
+            m.light_at(x, y) >= LL_LOW))
   can_see = m.sees(u.posx, u.posy, x, y, wanted_range, t);
 
  return can_see;
@@ -4746,7 +4746,7 @@ point game::look_around()
     m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
    }
   } else if (u.sight_impaired() &&
-              lm.at(lx - u.posx, ly - u.posy) == LL_BRIGHT &&
+              m.light_at(lx, ly) == LL_BRIGHT &&
               rl_dist(u.posx, u.posy, lx, ly) < u.unimpaired_range() &&
               m.sees(u.posx, u.posy, lx, ly, u.unimpaired_range(), junk)) {
    if (u.has_disease(DI_BOOMERED))

@@ -913,23 +913,30 @@ bool map::is_destructable_ter_only(const int x, const int y)
          (move_cost_ter_only(x, y) == 0 && !has_flag(liquid, x, y)));
 }
 
+void map::build_outside_cache(const int x, const int y)
+{
+ const ter_id terrain = ter(x, y);
+
+ if( terrain == t_floor || terrain == t_rock_floor || terrain == t_floor_wax ||
+     terrain == t_fema_groundsheet || terrain == t_dirtfloor) {
+  for( int dx = -1; dx <= 1; dx++ ) {
+   for( int dy = -1; dy <= 1; dy++ ) {
+    if(INBOUNDS(x + dx, y + dy)) {
+     outside_cache[x + dx][y + dy] = false;
+    }
+   }
+  }
+ } else if(terrain == t_bed || terrain == t_groundsheet || terrain == t_makeshift_bed) {
+  outside_cache[x][y] = false;
+ }
+}
+
 bool map::is_outside(const int x, const int y)
 {
- bool out = (ter(x, y) != t_bed && ter(x, y) != t_groundsheet && ter(x, y) != t_makeshift_bed);
+ if(!INBOUNDS(x, y))
+  return true;
 
- for(int i = -1; out && i <= 1; i++)
-  for(int j = -1; out && j <= 1; j++) {
-   const ter_id terrain = ter( x + i, y + j );
-   out = (terrain != t_floor && terrain != t_rock_floor && terrain != t_floor_wax &&
-          terrain != t_fema_groundsheet && terrain != t_dirtfloor && terrain != t_skin_groundsheet);
-  }
- if (out) {
-  int vpart;
-  vehicle *veh = veh_at (x, y, vpart);
-  if (veh && veh->is_inside(vpart))
-   out = false;
- }
- return out;
+ return outside_cache[x][y];
 }
 
 bool map::flammable_items_at(const int x, const int y)
@@ -2537,10 +2544,10 @@ void map::draw(game *g, WINDOW* w, const point center)
             i, i % my_MAPSIZE, i / my_MAPSIZE, MAPBUFFER.size());
  }
 
- bool u_is_boomered = g->u.has_disease(DI_BOOMERED);
- int  u_clairvoyance = g->u.clairvoyance();
- bool u_sight_impaired = g->u.sight_impaired();
- int  g_light_level = (int)g->light_level();
+ const bool u_is_boomered = g->u.has_disease(DI_BOOMERED);
+ const int  u_clairvoyance = g->u.clairvoyance();
+ const bool u_sight_impaired = g->u.sight_impaired();
+ const int  g_light_level = (int)g->light_level();
 
  char trans_buf[my_MAPSIZE*SEEX][my_MAPSIZE*SEEY];
  memset(trans_buf, -1, sizeof(trans_buf));
@@ -2551,7 +2558,7 @@ void map::draw(game *g, WINDOW* w, const point center)
    int low_sight_range = lowlight_sight_range;
    bool bRainOutside = false;
    // While viewing indoor areas use lightmap model
-   if (!g->lm.is_outside(realx - g->u.posx, realy - g->u.posy)) {
+   if (!is_outside(realx, realy)) {
     sight_range = natural_sight_range;
    // Don't display area as shadowy if it's outside and illuminated by natural light
    } else if (dist <= g->u.sight_range(g_light_level)) {
@@ -2569,9 +2576,8 @@ void map::draw(game *g, WINDOW* w, const point center)
     distance_to_look = DAYLIGHT_LEVEL;
    }
 
-   int diffx = (g->u.posx - center.x), diffy = (g->u.posy - center.y);
-   bool can_see = g->lm.sees(diffx, diffy, realx - center.x, realy - center.y, distance_to_look);
-   lit_level lit = g->lm.at(realx - center.x, realy - center.y);
+   bool can_see = pl_sees(g->u.posx, g->u.posy, realx, realy, distance_to_look);
+   lit_level lit = light_at(realx, realy);
 
    if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0.) {
     // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
@@ -3377,6 +3383,109 @@ long map::determine_wall_corner(int x, int y, long sym)
 
     return sym;
 }
+
+const float map::light_transparency(const int x, const int y) const
+{
+  return transparency_cache[x][y];
+}
+
+// TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
+void map::build_transparency_cache()
+{
+ for(int x = 0; x < my_MAPSIZE * SEEX; x++) {
+  for(int y = 0; y < my_MAPSIZE * SEEY; y++) {
+
+   // Default to fully transparent.
+   transparency_cache[x][y] = LIGHT_TRANSPARENCY_CLEAR;
+
+   if (!(terlist[ter(x, y)].flags & mfb(transparent))) {
+    transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+    continue;
+   }
+
+   field& f = field_at(x, y);
+   if(f.type > 0) {
+    if(!fieldlist[f.type].transparent[f.density - 1]) {
+     // Fields are either transparent or not, however we want some to be translucent
+     switch(f.type) {
+      case fd_smoke:
+      case fd_toxic_gas:
+      case fd_tear_gas:
+       if(f.density == 3)
+        transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+       if(f.density == 2)
+        transparency_cache[x][y] *= 0.5;
+       break;
+      case fd_nuke_gas:
+       transparency_cache[x][y] *= 0.5;
+       break;
+      default:
+       transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+       break;
+     }
+    }
+
+    // TODO: [lightmap] Have glass reduce light as well
+   }
+  }
+ }
+
+ VehicleList vehs = get_vehicles();
+ for(int v = 0; v < vehs.size(); ++v) {
+  for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
+       part != vehs[v].v->external_parts.end(); ++part) {
+   if (vehs[v].v->part_flag(*part, vpf_opaque) && vehs[v].v->parts[*part].hp > 0) {
+    int dpart = vehs[v].v->part_with_feature(*part , vpf_openable);
+    if (dpart < 0 || !vehs[v].v->parts[dpart].open) {
+     int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
+     int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
+     if(INBOUNDS(px, py))
+      transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
+    }
+   }
+  }
+ }
+}
+
+void map::build_seen_cache(game *g)
+{
+  const int j = (SEEX * my_MAPSIZE) - 1;
+  for (int i = 0; i < SEEX * my_MAPSIZE; i++) {
+    cache_seen(g->u.posx, g->u.posy, 0, i, 60);
+    cache_seen(g->u.posx, g->u.posy, i, 0, 60);
+    cache_seen(g->u.posx, g->u.posy, j, i, 60);
+    cache_seen(g->u.posx, g->u.posy, i, j, 60);
+  }
+}
+
+void map::build_map_cache(game *g)
+{
+ memset(outside_cache, true, sizeof(outside_cache));
+ for(int x = 0; x < SEEX * my_MAPSIZE; x++) {
+  for(int y = 0; y < SEEY * my_MAPSIZE; y++) {
+   build_outside_cache(x, y);
+  }
+ }
+
+ build_transparency_cache();
+
+ VehicleList vehs = get_vehicles();
+ for(int v = 0; v < vehs.size(); ++v) {
+  for(int p = 0; p < vehs[v].v->parts.size(); ++p) {
+   int px = vehs[v].x + vehs[v].v->parts[p].precalc_dx[0];
+   int py = vehs[v].y + vehs[v].v->parts[p].precalc_dy[0];
+
+   if (INBOUNDS(px, py)) {
+    if (vehs[v].v->is_inside(p)) {
+     outside_cache[px][py] = true;
+    }
+   }
+  }
+ }
+ build_seen_cache(g);
+ generate_lightmap(g);
+}
+
 
 tinymap::tinymap()
 {

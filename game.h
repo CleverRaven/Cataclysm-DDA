@@ -180,7 +180,7 @@ class game
   void nuke(int x, int y);
   std::vector<faction *> factions_at(int x, int y);
   int& scent(int x, int y);
-  float natural_light_level();
+  float natural_light_level() const;
   unsigned char light_level();
   void reset_light_level();
   int assign_npc_id();
@@ -241,7 +241,6 @@ class game
   char nextinv;	// Determines which letter the next inv item will have
   overmap cur_om;
   map m;
-  light_map lm;
   int levx, levy, levz;	// Placement inside the overmap
   player u;
   std::vector<monster> z;
