@@ -878,6 +878,10 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   TOOL(itm_needle_bone, 30, itm_sewing_kit, 30, NULL);
   COMP(itm_leather, 16, NULL);
 
+ RECIPE(itm_trenchcoat_leather_fit, CC_ARMOR, "tailor", NULL, 6, 200000, false);
+  TOOL(itm_needle_bone, 45, itm_sewing_kit, 45, NULL);
+  COMP(itm_leather, 22, NULL);
+
  RECIPE(itm_armor_chitin, CC_ARMOR, "tailor", NULL,  7, 100000, false);
   COMP(itm_string_36, 2, itm_string_6, 12, NULL);
   COMP(itm_chitin_piece, 15, NULL);
