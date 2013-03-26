@@ -4730,7 +4730,7 @@ void player::read(game *g, char ch)
   return;
  }
 // Check if reading is okay
- if (g->light_level() < 8 && LL_LIT > g->lm.at(posx, posy)) {
+ if (g->light_level() < 8 && LL_LIT > g->m.light_at(posx, posy)) {
   g->add_msg("It's too dark to read!");
   return;
  }

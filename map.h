@@ -17,6 +17,7 @@
 #include "npc.h"
 #include "vehicle.h"
 #include "graffiti.h"
+#include "lightmap.h"
 
 #define MAPSIZE 11
 #define CAMPSIZE 1
@@ -193,9 +194,10 @@ class map
  vehicle *add_vehicle(game *g, vhtype_id type, const int x, const int y, const int dir);
  computer* add_computer(const int x, const int y, std::string name, const int security);
  const float light_transparency(const int x, const int y) const;
- void build_transparency_cache();
- void build_outside_cache(const int x, const int y);
- void build_map_cache();
+ void build_map_cache(game *g);
+ lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
+ float ambient_light_at(int dx, int dy); // Raw values for tilesets
+ bool lm_sees(int fx, int fy, int tx, int ty, int max_range);
 
  std::vector <itype*> *itypes;
  std::set<vehicle*> vehicle_list;
@@ -214,6 +216,9 @@ protected:
  void add_extra(map_extra type, game *g);
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
 			// Useful for houses, shops, etc
+ void build_transparency_cache();
+ void build_outside_cache(const int x, const int y);
+ void generate_lightmap(game* g);
 
  bool inbounds(const int x, const int y);
  int my_MAPSIZE;
@@ -232,6 +237,13 @@ protected:
  bool veh_in_active_range;
 
 private:
+ void apply_light_source(int x, int y, float luminance);
+ void apply_light_arc(int x, int y, int angle, float luminance);
+ void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                      int sx, int sy, int ex, int ey, float luminance);
+
+ float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
+ float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  submap* grid[MAPSIZE * MAPSIZE];

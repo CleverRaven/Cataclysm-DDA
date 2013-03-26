@@ -2576,8 +2576,8 @@ void map::draw(game *g, WINDOW* w, const point center)
     distance_to_look = DAYLIGHT_LEVEL;
    }
 
-   bool can_see = g->lm.sees(this, g->u.posx, g->u.posy, realx, realy, distance_to_look);
-   lit_level lit = g->lm.at(realx, realy);
+   bool can_see = lm_sees(g->u.posx, g->u.posy, realx, realy, distance_to_look);
+   lit_level lit = light_at(realx, realy);
 
    if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0.) {
     // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
@@ -3471,6 +3471,7 @@ void map::build_map_cache()
    }
   }
  }
+ generate_lightmap(g);
 }
 
 

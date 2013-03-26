@@ -5,23 +5,19 @@
 
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * MAPSIZE && y >= 0 && y < SEEY * MAPSIZE)
+#define LIGHTMAP_CACHE_X SEEX * MAPSIZE
+#define LIGHTMAP_CACHE_Y SEEY * MAPSIZE
 
-light_map::light_map()
- : lm()
- , sm()
-{
- memset(lm, 0, sizeof(lm));
- memset(sm, 0, sizeof(sm));
-}
-
-void light_map::generate(game* g, float natural_light, float luminance)
+void map::generate_lightmap(game* g)
 {
  memset(lm, 0, sizeof(lm));
  memset(sm, 0, sizeof(sm));
 
- int dir_x[] = { 1, 0 , -1,  0 };
- int dir_y[] = { 0, 1 ,  0, -1 };
- int dir_d[] = { 180, 270, 0, 90 };
+ const int dir_x[] = { 1, 0 , -1,  0 };
+ const int dir_y[] = { 0, 1 ,  0, -1 };
+ const int dir_d[] = { 180, 270, 0, 90 };
+ const float luminance = g->u.active_light();
+ const float natural_light = g->natural_light_level();
 
  // Daylight vision handling returned back to map due to issues it causes here
  if (natural_light > LIGHT_SOURCE_BRIGHT) {
@@ -37,7 +33,7 @@ void light_map::generate(game* g, float natural_light, float luminance)
 
  // Apply player light sources
  if (luminance > LIGHT_AMBIENT_LOW)
-  apply_light_source(&g->m, g->u.posx, g->u.posy, luminance);
+  apply_light_source(g->u.posx, g->u.posy, luminance);
 
   for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
    for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
@@ -51,11 +47,11 @@ void light_map::generate(game* g, float natural_light, float luminance)
       for(int i = 0; i < 4; ++i) {
        if (INBOUNDS(sx + dir_x[i], sy + dir_y[i]) &&
            g->m.is_outside(sx + dir_x[i], sy + dir_y[i])) {
-         if (INBOUNDS(sx, sy) && g->m.is_outside(0, 0))
+        if (INBOUNDS(sx, sy) && g->m.is_outside(0, 0))
          lm[sx][sy] = natural_light;
 
-         if (g->m.light_transparency(sx, sy) > LIGHT_TRANSPARENCY_SOLID)
-        	apply_light_arc(&g->m, sx, sy, dir_d[i], natural_light);
+        if (g->m.light_transparency(sx, sy) > LIGHT_TRANSPARENCY_SOLID)
+         apply_light_arc(sx, sy, dir_d[i], natural_light);
        }
       }
      }
@@ -63,42 +59,42 @@ void light_map::generate(game* g, float natural_light, float luminance)
 
     if (items.size() == 1 &&
         items[0].type->id == itm_flashlight_on)
-     apply_light_source(&g->m, sx, sy, 20);
+     apply_light_source(sx, sy, 20);
 
    if(terrain == t_lava)
-    apply_light_source(&g->m, sx, sy, 50);
+    apply_light_source(sx, sy, 50);
 
    if(terrain == t_console)
-    apply_light_source(&g->m, sx, sy, 3);
+    apply_light_source(sx, sy, 3);
 
    if (items.size() == 1 &&
        items[0].type->id == itm_candle_lit)
-    apply_light_source(&g->m, sx, sy, 4);
+    apply_light_source(sx, sy, 4);
 
    if(terrain == t_emergency_light)
-    apply_light_source(&g->m, sx, sy, 3);
+    apply_light_source(sx, sy, 3);
 
    // TODO: [lightmap] Attach light brightness to fields
-   switch(current_field.type) {
+  switch(current_field.type) {
     case fd_fire:
      if (3 == current_field.density)
-      apply_light_source(&g->m, sx, sy, 160);
+      apply_light_source(sx, sy, 160);
      else if (2 == current_field.density)
-      apply_light_source(&g->m, sx, sy, 60);
+      apply_light_source(sx, sy, 60);
      else
-      apply_light_source(&g->m, sx, sy, 16);
+      apply_light_source(sx, sy, 16);
      break;
     case fd_fire_vent:
     case fd_flame_burst:
-     apply_light_source(&g->m, sx, sy, 8);
+     apply_light_source(sx, sy, 8);
      break;
     case fd_electricity:
      if (3 == current_field.density)
-      apply_light_source(&g->m, sx, sy, 8);
+      apply_light_source(sx, sy, 8);
      else if (2 == current_field.density)
-      apply_light_source(&g->m, sx, sy, 1);
+      apply_light_source(sx, sy, 1);
      else
-      apply_light_source(&g->m, sx, sy, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
+      apply_light_source(sx, sy, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
      break;
    }
   }
@@ -109,23 +105,23 @@ void light_map::generate(game* g, float natural_light, float luminance)
   int my = g->z[i].posy;
   if (INBOUNDS(mx, my)) {
    if (g->z[i].has_effect(ME_ONFIRE)) {
-    apply_light_source(&g->m, mx, my, 3);
+    apply_light_source(mx, my, 3);
    }
    // TODO: [lightmap] Attach natural light brightness to creatures
    // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
    // TODO: [lightmap] Allow creatures to have facing and arc lights
    switch (g->z[i].type->id) {
     case mon_zombie_electric:
-     apply_light_source(&g->m, mx, my, 1);
+     apply_light_source(mx, my, 1);
      break;
     case mon_turret:
-     apply_light_source(&g->m, mx, my, 2);
+     apply_light_source(mx, my, 2);
      break;
     case mon_flaming_eye:
-     apply_light_source(&g->m, mx, my, LIGHT_SOURCE_BRIGHT);
+     apply_light_source(mx, my, LIGHT_SOURCE_BRIGHT);
      break;
     case mon_manhack:
-     apply_light_source(&g->m, mx, my, LIGHT_SOURCE_LOCAL);
+     apply_light_source(mx, my, LIGHT_SOURCE_LOCAL);
      break;
    }
   }
@@ -145,7 +141,7 @@ void light_map::generate(game* g, float natural_light, float luminance)
      if (dpart >= 0) {
       float luminance = vehs[v].v->part_info(dpart).power;
       if (luminance > LL_LIT) {
-        apply_light_arc(&g->m, px, py, dir, luminance);
+        apply_light_arc(px, py, dir, luminance);
       }
      }
     }
@@ -154,7 +150,7 @@ void light_map::generate(game* g, float natural_light, float luminance)
  }
 }
 
-lit_level light_map::at(int dx, int dy)
+lit_level map::light_at(int dx, int dy)
 {
  if (!INBOUNDS(dx, dy))
   return LL_DARK; // Out of bounds
@@ -171,7 +167,7 @@ lit_level light_map::at(int dx, int dy)
  return LL_DARK;
 }
 
-float light_map::ambient_at(int dx, int dy)
+float map::ambient_light_at(int dx, int dy)
 {
  if (!INBOUNDS(dx, dy))
   return 0.0f;
@@ -179,7 +175,7 @@ float light_map::ambient_at(int dx, int dy)
  return lm[dx][dy];
 }
 
-bool light_map::sees(map *m, int fx, int fy, int tx, int ty, int max_range)
+bool map::lm_sees(int fx, int fy, int tx, int ty, int max_range)
 {
   if (!INBOUNDS(fx, fy) || !INBOUNDS(tx, ty))
   return false;
@@ -206,7 +202,7 @@ bool light_map::sees(map *m, int fx, int fy, int tx, int ty, int max_range)
    x += dx;
    t += ay;
 
-   if(m->light_transparency(x, y) == LIGHT_TRANSPARENCY_SOLID)
+   if(light_transparency(x, y) == LIGHT_TRANSPARENCY_SOLID)
     break;
 
   } while(!(x == tx && y == ty));
@@ -221,7 +217,7 @@ bool light_map::sees(map *m, int fx, int fy, int tx, int ty, int max_range)
    y += dy;
    t += ax;
 
-   if(m->light_transparency(x, y) == LIGHT_TRANSPARENCY_SOLID)
+   if(light_transparency(x, y) == LIGHT_TRANSPARENCY_SOLID)
     break;
 
   } while(!(x == tx && y == ty));
@@ -230,7 +226,7 @@ bool light_map::sees(map *m, int fx, int fy, int tx, int ty, int max_range)
  return (x == tx && y == ty);
 }
 
-void light_map::apply_light_source(map *m, int x, int y, float luminance)
+void map::apply_light_source(int x, int y, float luminance)
 {
  bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
  memset(lit, 0, sizeof(lit));
@@ -247,19 +243,19 @@ void light_map::apply_light_source(map *m, int x, int y, float luminance)
   int sy = y - range; int ey = y + range;
 
   for(int off = sx; off <= ex; ++off) {
-   apply_light_ray(m, lit, x, y, off, sy, luminance);
-   apply_light_ray(m, lit, x, y, off, ey, luminance);
+   apply_light_ray(lit, x, y, off, sy, luminance);
+   apply_light_ray(lit, x, y, off, ey, luminance);
   }
 
   // Skip corners with + 1 and < as they were done
   for(int off = sy + 1; off < ey; ++off) {
-   apply_light_ray(m, lit, x, y, sx, off, luminance);
-   apply_light_ray(m, lit, x, y, ex, off, luminance);
+   apply_light_ray(lit, x, y, sx, off, luminance);
+   apply_light_ray(lit, x, y, ex, off, luminance);
   }
  }
 }
 
-void light_map::apply_light_arc(map *m, int x, int y, int angle, float luminance)
+void map::apply_light_arc(int x, int y, int angle, float luminance)
 {
  if (luminance <= LIGHT_SOURCE_LOCAL)
   return;
@@ -268,7 +264,7 @@ void light_map::apply_light_arc(map *m, int x, int y, int angle, float luminance
  memset(lit, 0, sizeof(lit));
 
  int range = LIGHT_RANGE(luminance);
- apply_light_source(m, x, y, LIGHT_SOURCE_LOCAL);
+ apply_light_source(x, y, LIGHT_SOURCE_LOCAL);
 
  // Normalise (should work with negative values too)
  angle = angle % 360;
@@ -280,7 +276,7 @@ void light_map::apply_light_arc(map *m, int x, int y, int angle, float luminance
 
   int ox = x + range;
   for(int oy = sy; oy <= ey; ++oy)
-   apply_light_ray(m, lit, x, y, ox, oy, luminance);
+   apply_light_ray(lit, x, y, ox, oy, luminance);
  }
 
  // South side
@@ -290,7 +286,7 @@ void light_map::apply_light_arc(map *m, int x, int y, int angle, float luminance
 
   int oy = y + range;
   for(int ox = sx; ox <= ex; ++ox)
-   apply_light_ray(m, lit, x, y, ox, oy, luminance);
+   apply_light_ray(lit, x, y, ox, oy, luminance);
  }
 
  // West side
@@ -300,7 +296,7 @@ void light_map::apply_light_arc(map *m, int x, int y, int angle, float luminance
 
   int ox = x - range;
   for(int oy = sy; oy <= ey; ++oy)
-   apply_light_ray(m, lit, x, y, ox, oy, luminance);
+   apply_light_ray(lit, x, y, ox, oy, luminance);
  }
 
  // North side
@@ -310,12 +306,12 @@ void light_map::apply_light_arc(map *m, int x, int y, int angle, float luminance
 
   int oy = y - range;
   for(int ox = sx; ox <= ex; ++ox)
-   apply_light_ray(m, lit, x, y, ox, oy, luminance);
+   apply_light_ray(lit, x, y, ox, oy, luminance);
  }
 }
 
-void light_map::apply_light_ray(map *m, bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
-                                int sx, int sy, int ex, int ey, float luminance)
+void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
+                          int sx, int sy, int ex, int ey, float luminance)
 {
  int ax = abs(ex - sx) << 1;
  int ay = abs(ey - sy) << 1;
@@ -348,7 +344,7 @@ void light_map::apply_light_ray(map *m, bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACH
    }
 
    if (INBOUNDS(x, y))
-     transparency *= m->light_transparency(x, y);
+     transparency *= light_transparency(x, y);
 
    if (transparency <= LIGHT_TRANSPARENCY_SOLID)
     break;
@@ -375,7 +371,7 @@ void light_map::apply_light_ray(map *m, bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACH
    }
 
    if (INBOUNDS(x, y))
-    transparency *= m->light_transparency(x, y);
+    transparency *= light_transparency(x, y);
 
    if (transparency <= LIGHT_TRANSPARENCY_SOLID)
     break;
