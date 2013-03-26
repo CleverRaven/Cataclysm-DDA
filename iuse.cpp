@@ -457,6 +457,15 @@ void iuse::alcohol(game *g, player *p, item *it, bool t)
  p->add_disease(DI_DRUNK, duration, g);
 }
 
+void iuse::alcohol_weak(game *g, player *p, item *it, bool t)
+{
+ int duration = 340 - (6 * p->str_max);
+ if (p->has_trait(PF_LIGHTWEIGHT))
+  duration += 120;
+ p->pkill += 4;
+ p->add_disease(DI_DRUNK, duration, g);
+}
+
 void iuse::cig(game *g, player *p, item *it, bool t)
 {
  if (it->type->id == itm_cig)
