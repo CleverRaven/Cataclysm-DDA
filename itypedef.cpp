@@ -3550,6 +3550,12 @@ A lighter must be carried to use various drugs, like cigarettes, or to light\n\
 things like molotov cocktails.  You can also use a lighter to light nearby\n\
 items on fire.");
 
+TOOL("matchbook",       60, 10,',', c_blue,     PAPER, MNULL,
+    0,  0,  0,  0,  0,   20, 20, 1,  0, AT_NULL, itm_null, &iuse::lighter, 0, "\
+Matches must be carried to use various drugs, like cigarettes, or to light\n\
+things like molotov cocktails.  You can also use matches to light nearby\n\
+items on fire.");
+
 TOOL("sewing kit",	30,120, ',', c_red,	PLASTIC,IRON,
     2,  0, -3,  0, -1,  200, 50, 1,  0, AT_THREAD, itm_null, &iuse::sew, 0, "\
 Use a sewing kit on an article of clothing to attempt to repair or reinforce\n\
