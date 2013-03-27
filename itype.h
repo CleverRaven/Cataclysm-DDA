@@ -195,7 +195,7 @@ itm_bag_plastic, itm_bottle_plastic, itm_bottle_glass,
  itm_canteen, itm_jerrycan, itm_jug_plastic, itm_flask_glass, itm_waterskin,
  itm_jerrycan_big, itm_keg,
 // Tools
-itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
+itm_lighter, itm_matches, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_flashlight, itm_flashlight_on, itm_hotplate, itm_soldering_iron,
  itm_water_purifier, itm_two_way_radio, itm_radio, itm_radio_on, itm_roadmap, itm_crowbar,
  itm_hoe, itm_shovel, itm_chainsaw_off, itm_chainsaw_on, itm_jackhammer, itm_jacqueshammer,
