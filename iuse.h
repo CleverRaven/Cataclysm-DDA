@@ -18,6 +18,7 @@ class iuse
   void firstaid		(game *g, player *p, item *it, bool t);
   void caff		(game *g, player *p, item *it, bool t);
   void alcohol		(game *g, player *p, item *it, bool t);
+  void alcohol_weak (game *g, player *p, item *it, bool t);
   void pkill_1		(game *g, player *p, item *it, bool t);
   void pkill_2		(game *g, player *p, item *it, bool t);
   void pkill_3		(game *g, player *p, item *it, bool t);

@@ -1548,7 +1548,7 @@ void vehicle::handle_trap (int x, int y, int part)
 
 bool vehicle::add_item (int part, item itm)
 {
-    if (!part_flag(part, vpf_cargo) || parts[part].items.size() >= 26)
+    if (!part_flag(part, vpf_cargo) || parts[part].items.size() >= 64)
         return false;
     it_ammo *ammo = dynamic_cast<it_ammo*> (itm.type);
     if (part_flag(part, vpf_turret))
