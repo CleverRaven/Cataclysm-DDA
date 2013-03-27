@@ -257,7 +257,7 @@ const vpart_info vpart_list[num_vparts] =
 //                                                                         capacity type
     { "gasoline tank",              'O', c_ltred,  '#', c_red,     80, 150, 3000, AT_GAS, itm_metal_tank, 1,
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },
-    { "storage battery",            'O', c_yellow,  '#', c_red,    80, 300, 1000, AT_BATT, itm_storage_battery, 2,
+    { "storage battery",            'O', c_yellow,  '#', c_red,    80, 300, 100000, AT_BATT, itm_storage_battery, 2,
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },
     { "minireactor",                'O', c_ltgreen,  '#', c_red,    80, 700, 10000, AT_PLUT, itm_minireactor, 7,
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },

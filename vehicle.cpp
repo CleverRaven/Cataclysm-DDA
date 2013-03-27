@@ -794,7 +794,7 @@ std::string vehicle::fuel_name(int ftype)
 int vehicle::basic_consumption (int ftype)
 {
     if (ftype == AT_PLUT)
-        ftype = AT_BATT;
+      ftype = AT_BATT;
     int cnt = 0;
     int fcon = 0;
     for (int p = 0; p < parts.size(); p++)
@@ -1041,7 +1041,7 @@ void vehicle::consume_fuel ()
     for (int ft = 0; ft < 3; ft++)
     {
         float st = strain() * 10;
-        int amnt = (int) (basic_consumption (ftypes[ft]) * (1.0 + st * st) / 100);
+        int amnt = (int) (basic_consumption (ftypes[ft]) * (1.0 + st * st) / (ftypes[ft] == AT_BATT?1:100));
         if (!amnt)
             continue; // no engines of that type
 //         g->add_msg("consume: %d of fuel%d (st:%.2f)", amnt, ft, st);
@@ -1058,7 +1058,7 @@ void vehicle::consume_fuel ()
                 if (part_flag(p, vpf_fuel_tank) &&
                     (part_info(p).fuel_type == (elec? (j? AT_BATT : AT_PLUT) : ftypes[ft])))
                 {
-                    parts[p].amount -= amnt;
+                    parts[p].amount -= amnt / (j?1:100);
                     if (parts[p].amount < 0)
                         parts[p].amount = 0;
                     found = true;
@@ -1609,12 +1609,7 @@ void vehicle::gain_moves (int mp)
         int spw = solar_power ();
         if (spw)
         {
-            int fl = spw / 100;
-            int prob = spw % 100;
-            if (rng (0, 100) <= prob)
-                fl++;
-            if (fl)
-                refill (AT_BATT, fl);
+            refill (AT_BATT, spw);
         }
     }
     // check for smoking parts
