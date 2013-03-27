@@ -1058,7 +1058,7 @@ void vehicle::consume_fuel ()
                 if (part_flag(p, vpf_fuel_tank) &&
                     (part_info(p).fuel_type == (elec? (j? AT_BATT : AT_PLUT) : ftypes[ft])))
                 {
-                    parts[p].amount -= amnt / (j?1:100);
+                    parts[p].amount -= amnt / ((elec && !j)?100:1);
                     if (parts[p].amount < 0)
                         parts[p].amount = 0;
                     found = true;
