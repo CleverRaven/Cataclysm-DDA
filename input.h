@@ -19,7 +19,8 @@ enum InputEvent {
 
 	DirectionDown, /* Think stairs */
 	DirectionUp,
-
+    Filter,
+    Reset,
 	Pickup,
 	Nothing,
 	Undefined

@@ -322,7 +322,7 @@ class game
   void make_craft(recipe *making); // See crafting.cpp
   void complete_craft();           // See crafting.cpp
   void pick_recipes(std::vector<recipe*> &current,
-                    std::vector<bool> &available, craft_cat tab);// crafting.cpp
+                    std::vector<bool> &available, craft_cat tab,std::string filter);// crafting.cpp
   void disassemble();              // See crafting.cpp
   void disassemble_item(recipe *dis);              // See crafting.cpp
   void complete_disassemble();              // See crafting.cpp
