@@ -64,6 +64,7 @@ enum vpart_id
     vp_fuel_tank_batt,
     vp_fuel_tank_plut,
     vp_fuel_tank_hydrogen,
+    vp_fuel_tank_water,
     vp_cargo_trunk, // over
     vp_cargo_box,   // over
 
@@ -261,6 +262,8 @@ const vpart_info vpart_list[num_vparts] =
     { "minireactor",                'O', c_ltgreen,  '#', c_red,    80, 700, 10000, AT_PLUT, itm_minireactor, 7,
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },
     { "hydrogene tank",             'O', c_ltblue,  '#', c_red,     80, 150, 3000, AT_PLASMA, itm_metal_tank, 1,
+        mfb(vpf_internal) | mfb(vpf_fuel_tank) },
+    { "water tank",                 'O', c_ltcyan,  '#', c_red,     80, 150, 400, AT_WATER, itm_metal_tank, 1,
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },
     { "trunk",                      'H', c_brown,  '#', c_brown,    80, 300, 400, 0, itm_frame, 1,
         mfb(vpf_over) | mfb(vpf_cargo) },

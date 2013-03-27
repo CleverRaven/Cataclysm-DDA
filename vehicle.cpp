@@ -606,7 +606,7 @@ void vehicle::print_part_desc (void *w, int y1, int width, int p, int hl)
 void vehicle::print_fuel_indicator (void *w, int y, int x)
 {
     WINDOW *win = (WINDOW *) w;
-    const nc_color fcs[num_fuel_types] = { c_ltred, c_yellow, c_ltgreen, c_ltblue };
+    const nc_color fcs[num_fuel_types] = { c_ltred, c_yellow, c_ltgreen, c_ltblue, c_ltcyan };
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_ltgray;
     mvwprintz(win, y, x, col_indf1, "E...F");
@@ -753,6 +753,25 @@ int vehicle::refill (int ftype, int amount)
     return amount;
 }
 
+int vehicle::drain (int ftype, int amount) {
+  int drained = 0;
+
+  for (int p = 0; p < parts.size(); p++) {
+    if (part_flag(p, vpf_fuel_tank) && part_info(p).fuel_type == ftype && parts[p].amount > 0) {
+      if (parts[p].amount > (amount - drained)) {
+        parts[p].amount -= (amount - drained);
+        drained = amount;
+        break;
+      } else {
+        drained += parts[p].amount;
+        parts[p].amount = 0;
+      }
+    }
+  }
+
+  return drained;
+}
+
 std::string vehicle::fuel_name(int ftype)
 {
     switch (ftype)
@@ -765,6 +784,8 @@ std::string vehicle::fuel_name(int ftype)
         return std::string("plutonium cells");
     case AT_PLASMA:
         return std::string("hydrogen");
+    case AT_WATER:
+        return std::string("clean water");
     default:
         return std::string("INVALID FUEL (BUG)");
     }

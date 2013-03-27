@@ -4860,6 +4860,7 @@ std::string ammo_name(ammotype t)
   case AT_FUSION: return "fusion cell";
   case AT_12MM:   return "12mm slugs";
   case AT_PLASMA: return "hydrogen";
+  case AT_WATER: return "clean water";
   default:	  return "XXX";
  }
 }
@@ -4893,6 +4894,7 @@ itype_id default_ammo(ammotype guntype)
  case AT_PLUT:	return itm_plut_cell;
  case AT_GAS:	return itm_gasoline;
  case AT_THREAD:return itm_thread;
+ case AT_WATER:return itm_water_clean;
  }
  return itm_null;
 }
