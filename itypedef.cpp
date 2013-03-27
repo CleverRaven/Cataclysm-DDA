@@ -1348,6 +1348,11 @@ MELEE("hard plating",  30, 160, ']', c_ltcyan,  STEEL,   MNULL,
     12,  1800,  6,  0,  -1, 0, "\
 A piece of very thick armor plating made of steel.");
 
+ MELEE("RV kitchen unit", 20, 400, '&', c_ltcyan, STEEL, MNULL,
+    80, 900, 0, 0, -2, 0, "\
+A vehicle mountable electric range and sink unit with integrated\n\
+tool storage for cooking utensils.");
+
 // ARMOR
 #define ARMOR(name,rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
 encumber,dmg_resist,cut_resist,env,warmth,storage,covers,des)\

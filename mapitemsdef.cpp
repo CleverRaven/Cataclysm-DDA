@@ -496,6 +496,7 @@ void game::init_mapitems()
         itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
         itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion, itm_v6_combustion,
         itm_vehicle_controls, itm_v8_combustion, itm_hacksaw, itm_welder, itm_motor,
+        itm_kitchen_unit,
         itm_motor_large, itm_storage_battery, itm_solar_panel, itm_jerrycan, itm_jerrycan_big, itm_metal_tank, NULL);
 
  setvector(
