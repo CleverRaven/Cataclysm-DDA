@@ -2127,18 +2127,16 @@ point map::find_item(const item *it)
  return ret;
 }
 
-void map::add_item(const int x, const int y, itype* type, const int birthday, const int quantity)
+void map::add_item(const int x, const int y, itype* type, const int birthday, const int quantity, const int charges)
 {
  if (type->is_style())
   return;
  item tmp(type, birthday);
  if (quantity)
-  if(tmp.charges > 0)
-   tmp.charges = quantity;
-  else
-   // If the item doesn't have charges, recurse and create the requested number of seperate items.
-   for(int i = 0; i < quantity; i++)
-    add_item(x, y, type, birthday);
+  for(int i = 0; i < quantity; i++)
+   add_item(x, y, type, birthday);
+ if (charges && tmp.charges > 0) //let's fail silently if we specify charges for an item that doesn't support it
+  tmp.charges = charges;
  tmp = tmp.in_its_container(itypes);
  if (tmp.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
