@@ -3255,6 +3255,8 @@ int player::morale_level()
   int pen = int((volume_capacity()-volume_carried()) / 2);
   if (pen > 70)
    pen = 70;
+  if (pen <= 0)
+   pen = 0;
   if (has_disease(DI_TOOK_XANAX))
    pen = int(pen / 7);
   else if (has_disease(DI_TOOK_PROZAC))
