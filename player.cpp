@@ -462,10 +462,12 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   int temp_difference = temp_cur[i] - temp_conv;
   int temp_before = temp_cur[i];
   // Bodytemp equalization code
+  /*
   if      (i == bp_torso){temp_equalizer(bp_torso, bp_arms); temp_equalizer(bp_torso, bp_legs); temp_equalizer(bp_torso, bp_head);}
   else if (i == bp_head) {temp_equalizer(bp_head, bp_eyes); temp_equalizer(bp_head, bp_mouth);}
   else if (i == bp_arms)  temp_equalizer(bp_arms, bp_hands);
   else if (i == bp_legs)  temp_equalizer(bp_legs, bp_feet);
+  */
   if (temp_cur[i] != temp_conv) temp_cur[i] = temp_difference*exp(-0.002) + temp_conv; // It takes half an hour for bodytemp to converge half way to its convergeance point (think half-life)
   int temp_after = temp_cur[i];
   // Penalties
