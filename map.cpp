@@ -2279,6 +2279,27 @@ void map::use_charges(const point origin, const int range, const itype_id type, 
   for (int x = origin.x - radius; x <= origin.x + radius; x++) {
    for (int y = origin.y - radius; y <= origin.y + radius; y++) {
     if (rl_dist(origin.x, origin.y, x, y) >= radius) {
+      int vpart = -1;
+      vehicle *veh = veh_at(x, y, vpart);
+
+      if (veh) { // check if a vehicle part is present to provide water/power
+        const int kpart = veh->part_with_feature(vpart, vpf_kitchen);
+
+        if (kpart >= 0) { // we have a kitchen, now to see what to drain
+          int ftype = -1;
+
+          if (type == itm_water_clean)
+            ftype = AT_WATER;
+          else if (type == itm_hotplate)
+            ftype = AT_BATT;
+
+          quantity -= veh->drain(ftype, quantity);
+
+          if (quantity == 0)
+            return;
+        }
+      }
+
      for (int n = 0; n < i_at(x, y).size(); n++) {
       item* curit = &(i_at(x, y)[n]);
 // Check contents first
