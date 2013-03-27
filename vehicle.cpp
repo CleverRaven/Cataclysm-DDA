@@ -1604,14 +1604,15 @@ void vehicle::gain_moves (int mp)
             thrust (cruise_velocity > velocity? 1 : -1);
     }
 
-    if (g->is_in_sunlight(global_x(), global_y()))
-    {
-        int spw = solar_power ();
-        if (spw)
-        {
-            refill (AT_BATT, spw);
-        }
+    if (g->is_in_sunlight(global_x(), global_y())) {
+      refill (AT_BATT, solar_power());
     }
+
+    // If the vehicle is moving, trickle-charge storage batteries.
+    if (velocity && one_in(10)) {
+      refill (AT_BATT, velocity / 100);
+    }
+
     // check for smoking parts
     for (int ep = 0; ep < external_parts.size(); ep++)
     {
