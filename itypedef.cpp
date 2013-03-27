@@ -1348,6 +1348,11 @@ MELEE("hard plating",  30, 160, ']', c_ltcyan,  STEEL,   MNULL,
     12,  1800,  6,  0,  -1, 0, "\
 A piece of very thick armor plating made of steel.");
 
+ MELEE("RV kitchen unit", 20, 400, '&', c_ltcyan, STEEL, MNULL,
+    80, 900, 0, 0, -2, 0, "\
+A vehicle mountable electric range and sink unit with integrated\n\
+tool storage for cooking utensils.");
+
 // ARMOR
 #define ARMOR(name,rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
 encumber,dmg_resist,cut_resist,env,warmth,storage,covers,des)\
@@ -4900,6 +4905,7 @@ std::string ammo_name(ammotype t)
   case AT_FUSION: return "fusion cell";
   case AT_12MM:   return "12mm slugs";
   case AT_PLASMA: return "hydrogen";
+  case AT_WATER: return "clean water";
   default:	  return "XXX";
  }
 }
@@ -4933,6 +4939,7 @@ itype_id default_ammo(ammotype guntype)
  case AT_PLUT:	return itm_plut_cell;
  case AT_GAS:	return itm_gasoline;
  case AT_THREAD:return itm_thread;
+ case AT_WATER:return itm_water_clean;
  }
  return itm_null;
 }
