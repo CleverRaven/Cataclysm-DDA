@@ -141,7 +141,7 @@ class map
  void i_clear(const int x, const int y);
  void i_rem(const int x, const int y, const int index);
  point find_item(const item *it);
- void add_item(const int x, const int y, itype* type, int birthday, int quantity = 0);
+ void spawn_item(const int x, const int y, itype* type, int birthday, int quantity = 0, int charges = 0);
  void add_item(const int x, const int y, item new_item);
  void process_active_items(game *g);
  void process_active_items_in_submap(game *g, const int nonant);

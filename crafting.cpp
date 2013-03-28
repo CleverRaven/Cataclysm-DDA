@@ -2195,7 +2195,7 @@ void game::complete_disassemble()
           if (newit.count_by_charges())
           {
             if (dis->difficulty == 0 || comp_success)
-              m.add_item(u.posx, u.posy, itypes[dis->components[j][0].type], 0, compcount);
+              m.spawn_item(u.posx, u.posy, itypes[dis->components[j][0].type], 0, compcount);
             else
               add_msg("You fail to recover a component.");
             compcount = 0;
