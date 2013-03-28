@@ -43,7 +43,7 @@ void mattack::antqueen(game *g, monster *z)
   int junk;
   if (g->u_see(z->posx, z->posy, junk))
    g->add_msg("The %s lays an egg!", z->name().c_str());
-  g->m.add_item(z->posx, z->posy, g->itypes[itm_ant_egg], g->turn);
+  g->m.spawn_item(z->posx, z->posy, g->itypes[itm_ant_egg], g->turn);
  } else { // There are eggs nearby.  Let's hatch some.
   z->moves -= 20 * egg_points.size(); // It takes a while
   int junk;
