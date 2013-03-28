@@ -250,7 +250,7 @@ End of cheatery */
  // Basic starter gear, added independently of profession.
  tmp = item(g->itypes[itm_pockknife], 0,'a' + worn.size());
   inv.push_back(tmp);
- tmp = item(g->itypes[itm_lighter], 0,'a' + worn.size());
+ tmp = item(g->itypes[itm_matches], 0,'a' + worn.size());
   inv.push_back(tmp);
 // make sure we have no mutations
  for (int i = 0; i < PF_MAX2; i++)
