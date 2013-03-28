@@ -91,6 +91,7 @@
 { "name" : "Diego", "gender" : "male", "usage" : "given" },
 { "name" : "Dominic", "gender" : "male", "usage" : "given" },
 { "name" : "Dylan", "gender" : "male", "usage" : "given" },
+{ "name" : "Eben", "gender" : "male", "usage" : "given" },
 { "name" : "Edwards", "gender" : "unisex", "usage" : "family" },
 { "name" : "Eli", "gender" : "male", "usage" : "given" },
 { "name" : "Elijah", "gender" : "male", "usage" : "given" },
