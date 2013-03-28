@@ -1038,7 +1038,7 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
   return;
  }
  p->moves -= 500;
- g->m.spawn_item(p->posx, p->posy, g->itypes[itm_nail], 0, nails);
+ g->m.spawn_item(p->posx, p->posy, g->itypes[itm_nail], 0, 1, nails);
  g->m.spawn_item(p->posx, p->posy, g->itypes[itm_2x4], 0, boards);
  g->m.ter(dirx, diry) = newter;
 }
@@ -1399,7 +1399,7 @@ if (dirx == 0 && diry == 0) {
   if(p->skillLevel("carpentry") < 1)
    p->practice("carpentry", 1);
   p->moves -= 500;
-  g->m.spawn_item(p->posx, p->posy, g->itypes[itm_nail], 0, nails);
+  g->m.spawn_item(p->posx, p->posy, g->itypes[itm_nail], 0, 1, nails);
   g->m.spawn_item(p->posx, p->posy, g->itypes[itm_2x4], 0, boards);
   g->m.ter(dirx, diry) = newter;
   return;

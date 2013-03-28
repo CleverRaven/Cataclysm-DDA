@@ -882,21 +882,21 @@ void construct::done_deconstruct(game *g, point p)
     case t_armchair:
       g->m.spawn_item(p.x, p.y, g->itypes[itm_2x4], 0, 9);
       g->m.spawn_item(p.x, p.y, g->itypes[itm_rag], 0, 9);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,8));
+      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 1, rng(6,8));
       g->m.ter(p.x, p.y) = t_floor;
     break;
 
     case t_door_c:
     case t_door_o:
       g->m.spawn_item(p.x, p.y, g->itypes[itm_2x4], 0, 3);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,12));
+      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 1, rng(6,12));
       g->m.ter(p.x, p.y) = t_door_frame;
     break;
     case t_window_domestic:
       g->m.spawn_item(p.x, p.y, g->itypes[itm_stick], 0);
       g->m.spawn_item(p.x, p.y, g->itypes[itm_sheet], 0, 1);
       g->m.spawn_item(p.x, p.y, g->itypes[itm_glass_sheet], 0);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 3);
+      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 1, 3);
       g->m.ter(p.x, p.y) = t_window_empty;
     break;
 
@@ -907,7 +907,7 @@ void construct::done_deconstruct(game *g, point p)
 
     case t_backboard:
       g->m.spawn_item(p.x, p.y, g->itypes[itm_2x4], 0, 4);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,10));
+      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 1, rng(6,10));
       g->m.ter(p.x, p.y) = t_pavement;
     break;
 
@@ -916,7 +916,7 @@ void construct::done_deconstruct(game *g, point p)
     case t_crate_o:
     case t_crate_c:
       g->m.spawn_item(p.x, p.y, g->itypes[itm_2x4], 0, 4);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,10));
+      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 1, rng(6,10));
       g->m.ter(p.x, p.y) = t_floor;
     break;
 
@@ -924,7 +924,7 @@ void construct::done_deconstruct(game *g, point p)
     case t_cupboard:
     case t_desk:
       g->m.spawn_item(p.x, p.y, g->itypes[itm_2x4], 0, 4);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,10));
+      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 1, rng(6,10));
       g->m.ter(p.x, p.y) = t_floor;
     break;
 
@@ -950,20 +950,20 @@ void construct::done_deconstruct(game *g, point p)
     case t_dresser:
     case t_table:
       g->m.spawn_item(p.x, p.y, g->itypes[itm_2x4], 0, 6);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,8));
+      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 1, rng(6,8));
       g->m.ter(p.x, p.y) = t_floor;
     break;
 
     case t_pool_table:
       g->m.spawn_item(p.x, p.y, g->itypes[itm_2x4], 0, 4);
       g->m.spawn_item(p.x, p.y, g->itypes[itm_rag], 0, 4);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, rng(6,10));
+      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 1, rng(6,10));
       g->m.ter(p.x, p.y) = t_floor;
     break;
 
     case t_bookcase:
       g->m.spawn_item(p.x, p.y, g->itypes[itm_2x4], 0, 12);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, rng(12,16));
+      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 1, rng(12,16));
       g->m.ter(p.x, p.y) = t_floor;
     break;
   }
