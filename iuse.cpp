@@ -1368,6 +1368,12 @@ if (dirx == 0 && diry == 0) {
    new_type = t_crate_o;
    noisy = true;
    difficulty = 6;
+ } else if (type == t_window_domestic || type == t_curtains) {
+   door_name = "window";
+   action_name = "pry open";
+   new_type = t_window_open;
+   noisy = true;
+   difficulty = 6;
  } else {
   int nails = 0, boards = 0;
   ter_id newter;
