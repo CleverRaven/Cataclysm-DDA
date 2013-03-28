@@ -1212,6 +1212,18 @@ RECIPE(itm_brazier, CC_MISC, "mechanics", NULL, 1, 2000, false);
 //  COMP(itm_battery, 500, itm_plut_cell, 1, NULL);
 //  COMP(itm_scrap, 30, NULL);
 }
+
+bool game::crafting_allowed()
+{
+    if (u.morale_level() < MIN_MORALE_CRAFT) 
+    {	// See morale.h
+        add_msg("Your morale is too low to craft...");
+        return false;
+    }
+    
+    return true;
+}
+
 void game::recraft()
 {
  if(u.lastrecipe == NULL)
@@ -1225,11 +1237,11 @@ void game::recraft()
 }
 void game::try_and_make(recipe *making)
 {
-    if (u.morale_level() < MIN_MORALE_CRAFT) 
-    {	// See morale.h
-        add_msg("Your morale is too low to craft...");
-        return;
+    if (!crafting_allowed())
+    {
+    	return;
     }
+    
     if(can_make(making))
     {
         if (itypes[(making->result)]->m1 == LIQUID)
@@ -1322,13 +1334,21 @@ bool game::can_make(recipe *r)
 
 void game::craft()
 {
-    if (u.morale_level() < MIN_MORALE_CRAFT) 
-    {	// See morale.h
-        add_msg("Your morale is too low to craft...");
-        return;
+    if (!crafting_allowed())
+    {
+    	return;
     }
 
-    WINDOW *w_head = newwin( 3, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX -80)/2 : 0);
+    recipe *rec = select_crafting_recipe();
+    if (rec)
+    {
+    	make_craft(rec);
+    }
+}
+
+recipe* game::select_crafting_recipe()
+{
+	WINDOW *w_head = newwin( 3, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX -80)/2 : 0);
     WINDOW *w_data = newwin(22, 80, 3 + ((TERMY > 25) ? (TERMY-25)/2 : 0), (TERMX  > 80) ? (TERMX -80)/2 : 0);
     craft_cat tab = CC_WEAPON;
     std::vector<recipe*> current;
@@ -1337,6 +1357,7 @@ void game::craft()
     int line = 0, xpos, ypos;
     bool redraw = true;
     bool done = false;
+    recipe *chosen = NULL;
     InputEvent input;
 
     inventory crafting_inv = crafting_inventory();
@@ -1634,7 +1655,7 @@ void game::craft()
                     {
                         if (u.has_watertight_container() || u.has_matching_liquid(itypes[current[line]->result]->id)) 
                         {
-                            make_craft(current[line]);
+                            chosen = current[line];
                             done = true;
                             break;
                         } 
@@ -1645,7 +1666,7 @@ void game::craft()
                     }
                     else 
                     {
-                        make_craft(current[line]);
+                        chosen = current[line];
                         done = true;
                     }
                 }
@@ -1680,6 +1701,8 @@ void game::craft()
     delwin(w_head);
     delwin(w_data);
     refresh_all();
+    
+    return chosen;
 }
 
 void draw_recipe_tabs(WINDOW *w, craft_cat tab)

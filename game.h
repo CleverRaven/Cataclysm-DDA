@@ -317,8 +317,10 @@ class game
   void smash();	// Smash terrain
   void craft();                    // See crafting.cpp
   void recraft();                  // See crafting.cpp
-  void try_and_make(recipe *r);
-  bool can_make(recipe *r);
+  bool crafting_allowed();         // See crafting.cpp
+  recipe* select_crafting_recipe();// See crafting.cpp
+  void try_and_make(recipe *r);    // See crafting.cpp
+  bool can_make(recipe *r);        // See crafting.cpp
   void make_craft(recipe *making); // See crafting.cpp
   void complete_craft();           // See crafting.cpp
   void pick_recipes(std::vector<recipe*> &current,
