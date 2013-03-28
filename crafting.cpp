@@ -1230,16 +1230,16 @@ void game::recraft()
  {
   popup("Craft something first");
  }
- else
+ else if (making_would_work(u.lastrecipe))
  {
-  try_and_make(u.lastrecipe);
+  make_craft(u.lastrecipe);
  }
 }
-void game::try_and_make(recipe *making)
+bool game::making_would_work(recipe *making)
 {
     if (!crafting_allowed())
     {
-    	return;
+    	return false;
     }
     
     if(can_make(making))
@@ -1248,7 +1248,7 @@ void game::try_and_make(recipe *making)
         {
             if (u.has_watertight_container() || u.has_matching_liquid(itypes[making->result]->id)) 
             {
-                make_craft(making);
+                return true;
             } 
             else 
             {
@@ -1257,13 +1257,15 @@ void game::try_and_make(recipe *making)
         }
         else 
         {
-            make_craft(making);
+            return true;
         }
     }
     else
     {
-        popup("You can't do that!");
+        popup("You can no longer make that craft!");
     }
+    
+    return false;
 }
 bool game::can_make(recipe *r)
 {
@@ -1342,7 +1344,21 @@ void game::craft()
     recipe *rec = select_crafting_recipe();
     if (rec)
     {
-    	make_craft(rec);
+        make_craft(rec);
+    }
+}
+
+void game::long_craft()
+{
+    if (!crafting_allowed())
+    {
+    	return;
+    }
+    
+    recipe *rec = select_crafting_recipe();
+    if (rec)
+    {
+        make_all_craft(rec);
     }
 }
 
@@ -1777,6 +1793,14 @@ void game::pick_recipes(std::vector<recipe*> &current,
 void game::make_craft(recipe *making)
 {
  u.assign_activity(this, ACT_CRAFT, making->time, making->id);
+ u.moves = 0;
+ u.lastrecipe = making;
+}
+
+
+void game::make_all_craft(recipe *making)
+{
+ u.assign_activity(this, ACT_LONGCRAFT, making->time, making->id);
  u.moves = 0;
  u.lastrecipe = making;
 }

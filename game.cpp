@@ -575,6 +575,7 @@ void game::process_activity()
     break;
 
    case ACT_CRAFT:
+   case ACT_LONGCRAFT:
     complete_craft();
     break;
 
@@ -615,6 +616,7 @@ void game::process_activity()
    }
 
    bool act_veh = (u.activity.type == ACT_VEHICLE);
+   bool act_longcraft = (u.activity.type == ACT_LONGCRAFT);
    u.activity.type = ACT_NULL;
    if (act_veh) {
     if (u.activity.values.size() < 7)
@@ -636,6 +638,9 @@ void game::process_activity()
       debugmsg ("process_activity ACT_VEHICLE: vehicle not found");
      }
     }
+   } else if (act_longcraft) {
+    if (making_would_work(u.lastrecipe))
+     make_all_craft(u.lastrecipe);
    }
   }
  }
@@ -670,6 +675,7 @@ void game::cancel_activity_query(const char* message, ...)
     doit = true;
    break;
   case ACT_CRAFT:
+  case ACT_LONGCRAFT:
    if (query_yn("%s Stop crafting?", s.c_str()))
     doit = true;
    break;
@@ -1418,6 +1424,10 @@ bool game::handle_action()
 
   case ACTION_RECRAFT:
    recraft();
+   break;
+  
+  case ACTION_LONGCRAFT:
+   long_craft();
    break;
 
   case ACTION_DISASSEMBLE:
