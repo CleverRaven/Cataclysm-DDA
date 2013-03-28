@@ -143,6 +143,8 @@ itm_backpack, itm_rucksack, itm_purse, itm_mbag, itm_fanny, itm_holster, itm_boo
 itm_ragpouch, itm_leather_pouch,
 // Decorative
 itm_ring, itm_necklace,
+// Power armor
+itm_power_armor_basic, itm_power_armor_helmet_basic,
 // Ammunition
  itm_battery, itm_thread, itm_sinew, itm_plant_fibre, itm_duct_tape, itm_cable, itm_plut_cell,
  itm_nail, itm_bb, itm_arrow_wood, itm_arrow_cf,
@@ -455,6 +457,7 @@ struct itype
  virtual bool is_gunmod()        { return false; }
  virtual bool is_bionic()        { return false; }
  virtual bool is_armor()         { return false; }
+ virtual bool is_power_armor()   { return false; }
  virtual bool is_book()          { return false; }
  virtual bool is_tool()          { return false; }
  virtual bool is_container()     { return false; }
@@ -732,7 +735,10 @@ struct it_armor : public itype
  signed char warmth;
  unsigned char storage;
 
+ bool power_armor;
+
  virtual bool is_armor() { return true; }
+ virtual bool is_power_armor() { return power_armor; }
  virtual bool is_artifact() { return false; }
  virtual std::string save_data() { return std::string(); }
 
@@ -757,7 +763,7 @@ struct it_armor : public itype
           unsigned char pcovers, signed char pencumber,
           unsigned char pdmg_resist, unsigned char pcut_resist,
           unsigned char penv_resist, signed char pwarmth,
-          unsigned char pstorage)
+          unsigned char pstorage, bool ppower_armor = false)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
   covers = pcovers;
@@ -767,6 +773,7 @@ struct it_armor : public itype
   env_resist = penv_resist;
   warmth = pwarmth;
   storage = pstorage;
+  power_armor = ppower_armor;
  }
 };
 

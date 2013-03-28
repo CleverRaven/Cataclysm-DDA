@@ -2036,6 +2036,20 @@ ARMOR("silver necklace",14, 500,C_DECOR,	SILVER,		MNULL,
 A nice silver necklace. You can wear it if you like, but it won't provide\n\
 any effects.");
 
+#define POWER_ARMOR(name,rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
+encumber,dmg_resist,cut_resist,env,warmth,storage,covers,des)\
+	index++;itypes.push_back(new it_armor(index,rarity,price,name,des,'[',\
+  color,mat1,mat2,volume,wgt,dam,0,to_hit,0,covers,encumber,dmg_resist,cut_resist,\
+  env,warmth,storage,true))
+
+POWER_ARMOR("basic power armor", 5, 1000, C_BODY, STEEL, MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   40, 24, 1, 1, 5, 50, 32, 10, 70, 0, mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
+A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.");
+
+POWER_ARMOR("basic power armor helmet", 6, 500, C_HAT, STEEL, MNULL,
+   10, 6, 1, 1, 5, 50, 32, 10, 70, 0, mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth), "\
+A basic helmet, designed for use with power armor. Offers excellent protection from both attacks and environmental hazards.");
 
 // AMMUNITION
 // Material should be the wrapper--even though shot is made of iron, because
