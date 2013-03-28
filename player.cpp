@@ -4416,6 +4416,25 @@ bool player::wear_item(game *g, item *to_wear)
   return false;
  }
 
+ // are we trying to put on power armor? If so, make sure we don't have any other gear on.
+ if (armor->is_power_armor() && worn.size()) {
+   if (armor->covers & mfb(bp_torso)) {
+     g->add_msg("You can't wear power armor over other gear!");
+     return false;
+   } else if (armor->covers & mfb(bp_head) && !((it_armor *)worn[0].type)->is_power_armor()) {
+     g->add_msg("You can only wear power armor helmets with power armor!");
+     return false;
+   }
+ }
+
+ // are we trying to wear something over power armor? We can't have that, unless it's a backpack, or similar.
+ if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor() && !(armor->covers & mfb(bp_head))) {
+   if (!(armor->covers & mfb(bp_torso) && armor->color == c_green)) {
+     g->add_msg("You can't wear %s with power armor!", to_wear->tname().c_str());
+     return false;
+   }
+ }
+
 // Make sure we're not wearing 2 of the item already
  int count = 0;
  for (int i = 0; i < worn.size(); i++) {
@@ -4505,6 +4524,15 @@ bool player::takeoff(game *g, char let)
  } else {
   for (int i = 0; i < worn.size(); i++) {
    if (worn[i].invlet == let) {
+     if (i == 0 && (dynamic_cast<it_armor*>(worn[i].type))->is_power_armor()) {
+       // We're trying to take off power armor, but cannot do that if we have a power armor component on!
+       for (int i = 1; i < worn.size(); i++) {
+         if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor()) {
+           g->add_msg("You can't take off power armor while wearing other power armor components.");
+           return false;
+         }
+       }
+     }
     if (volume_capacity() - (dynamic_cast<it_armor*>(worn[i].type))->storage >
         volume_carried() + worn[i].type->volume) {
      inv.push_back(worn[i]);
@@ -4885,8 +4913,13 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
   armor = dynamic_cast<it_armor*>(worn[i].type);
 
   if (armor->covers & mfb(bp)) {
+    if (armor->is_power_armor() && has_active_item(itm_UPS_on)) {
+      armorenc += armor->encumber - 4;
+      warmth   += armor->warmth - 20;
+    } else {
    armorenc += armor->encumber;
    warmth += armor->warmth;
+    }
    if (armor->encumber >= 0 || bp != bp_torso)
     layers++;
   }

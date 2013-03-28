@@ -2403,6 +2403,8 @@ void iuse::UPS_off(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You turn the power supply on.");
   if (p->is_wearing(itm_goggles_nv))
    g->add_msg_if_player(p,"Your light amp goggles power on.");
+  if (p->worn.size() && p->worn[0].type->is_power_armor())
+    g->add_msg_if_player(p, "Your power armor engages.");
   it->make(g->itypes[itm_UPS_on]);
   it->active = true;
  }
@@ -2411,9 +2413,17 @@ void iuse::UPS_off(game *g, player *p, item *it, bool t)
 void iuse::UPS_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
-	// Does nothing
+   if (p->worn.size() && p->worn[0].type->is_power_armor()) {
+     it->charges -= 4;
+
+     if (it->charges < 0) {
+       it->charges = 0;
+     }
+   }
  } else {	// Turning it off
   g->add_msg_if_player(p,"The UPS powers off with a soft hum.");
+  if (p->worn.size() && p->worn[0].type->is_power_armor())
+    g->add_msg_if_player(p, "Your power armor disengages.");
   it->make(g->itypes[itm_UPS_off]);
   it->active = false;
  }
