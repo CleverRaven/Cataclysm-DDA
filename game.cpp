@@ -5100,7 +5100,7 @@ void game::pickup(int posx, int posy, int min)
    iter++;
    advance_nextinv();
   }
-  if (iter == 52) {
+  if (iter == 53) {
    add_msg("You're carrying too many items!");
    return;
   } else if (u.weight_carried() + newit.weight() > u.weight_capacity()) {
