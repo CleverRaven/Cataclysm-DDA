@@ -360,7 +360,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   dump->push_back(iteminfo("FOOD", " Nutrition: ", "", int(food->nutr)));
   dump->push_back(iteminfo("FOOD", " Quench: ", "", int(food->quench)));
   dump->push_back(iteminfo("FOOD", " Enjoyability: ", "", int(food->fun)));
-  dump->push_back(iteminfo("FOOD", " Charges: ", "", int(contents[0].charges)));
+  dump->push_back(iteminfo("FOOD", " Portions: ", "", abs(int(contents[0].charges))));
 
   /*
   dump << " Nutrition: " << int(food->nutr) << "\n Quench: " <<
