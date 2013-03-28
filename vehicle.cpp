@@ -1493,7 +1493,7 @@ void vehicle::handle_trap (int x, int y, int part)
             snd = "SNAP!";
             wreckit = true;
             g->m.tr_at(x, y) = tr_null;
-            g->m.add_item(x, y, g->itypes[itm_beartrap], 0);
+            g->m.spawn_item(x, y, g->itypes[itm_beartrap], 0);
             break;
         case tr_nailboard:
             wreckit = true;
@@ -1509,10 +1509,10 @@ void vehicle::handle_trap (int x, int y, int part)
             snd = "Clank!";
             wreckit = true;
             g->m.tr_at(x, y) = tr_null;
-            g->m.add_item(x, y, g->itypes[itm_crossbow], 0);
-            g->m.add_item(x, y, g->itypes[itm_string_6], 0);
+            g->m.spawn_item(x, y, g->itypes[itm_crossbow], 0);
+            g->m.spawn_item(x, y, g->itypes[itm_string_6], 0);
             if (!one_in(10))
-                g->m.add_item(x, y, g->itypes[itm_bolt_steel], 0);
+                g->m.spawn_item(x, y, g->itypes[itm_bolt_steel], 0);
             break;
         case tr_shotgun_2:
         case tr_shotgun_1:
@@ -1525,8 +1525,8 @@ void vehicle::handle_trap (int x, int y, int part)
             else
             {
                 g->m.tr_at(x, y) = tr_null;
-                g->m.add_item(x, y, g->itypes[itm_shotgun_sawn], 0);
-                g->m.add_item(x, y, g->itypes[itm_string_6], 0);
+                g->m.spawn_item(x, y, g->itypes[itm_shotgun_sawn], 0);
+                g->m.spawn_item(x, y, g->itypes[itm_string_6], 0);
             }
             break;
         case tr_landmine:
@@ -1835,7 +1835,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
         else
         if (parts[p].hp <= 0 && part_flag(p, vpf_unmount_on_damage))
         {
-            g->m.add_item (global_x() + parts[p].precalc_dx[0],
+            g->m.spawn_item (global_x() + parts[p].precalc_dx[0],
                            global_y() + parts[p].precalc_dy[0],
                            g->itypes[part_info(p).item], g->turn);
             remove_part (p);
@@ -1864,7 +1864,7 @@ void vehicle::leak_fuel (int p)
                         parts[p].amount = 0;
                         return;
                     }
-                    g->m.add_item(i, j, g->itypes[itm_gasoline], 0);
+                    g->m.spawn_item(i, j, g->itypes[itm_gasoline], 0);
                     parts[p].amount -= 100;
                 }
     }

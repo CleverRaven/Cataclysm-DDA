@@ -28,7 +28,7 @@ mon_id MonsterGroupManager::GetMonsterFromGroup(std::string group, std::vector <
     MonsterGroup g = monsterGroupMap[group];
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
     {
-        if((turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + (*mtypes)[it->first]->difficulty)) &&
+        if((turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + HOURS((*mtypes)[it->first]->difficulty))) &&
            (!OPTIONS[OPT_CLASSIC_ZOMBIES] ||
             (*mtypes)[it->first]->in_category(MC_CLASSIC) ||
             (*mtypes)[it->first]->in_category(MC_WILDLIFE)))
@@ -37,7 +37,11 @@ mon_id MonsterGroupManager::GetMonsterFromGroup(std::string group, std::vector <
             else roll -= it->second;
         }
     }
-    return g.defaultMonster;
+    if ((turn + 900 < MINUTES(STARTING_MINUTES) + HOURS((*mtypes)[g.defaultMonster]->difficulty))
+        && (!OPTIONS[OPT_STATIC_SPAWN]))
+      return mon_null;
+    else
+      return g.defaultMonster;
 }
 
 bool MonsterGroupManager::IsMonsterInGroup(std::string group, mon_id monster)

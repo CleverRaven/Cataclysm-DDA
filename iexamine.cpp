@@ -516,8 +516,8 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
   p->moves-=50;
  }
  m->ter(examx, examy) = t_dirt;
- m->add_item(examx, examy, g->itypes[itm_poppy_flower],0);
- m->add_item(examx, examy, g->itypes[itm_poppy_bud],0);
+ m->spawn_item(examx, examy, g->itypes[itm_poppy_flower],0);
+ m->spawn_item(examx, examy, g->itypes[itm_poppy_bud],0);
 }
 
 void iexamine::tree_apple(game *g, player *p, map *m, int examx, int examy) {
@@ -527,7 +527,7 @@ void iexamine::tree_apple(game *g, player *p, map *m, int examx, int examy) {
  if (num_apples >= 12)
   num_apples = 12;
  for (int i = 0; i < num_apples; i++)
-  m->add_item(examx, examy, g->itypes[itm_apple], g->turn, 0);
+  m->spawn_item(examx, examy, g->itypes[itm_apple], g->turn, 0);
 
  m->ter(examx, examy) = t_tree;
 
@@ -544,7 +544,7 @@ void iexamine::shrub_blueberry(game *g, player *p, map *m, int examx, int examy)
  if (num_blueberries >= 12)
   num_blueberries = 12;
  for (int i = 0; i < num_blueberries; i++)
-  m->add_item(examx, examy, g->itypes[itm_blueberries], g->turn, 0);
+  m->spawn_item(examx, examy, g->itypes[itm_blueberries], g->turn, 0);
 
  m->ter(examx, examy) = t_shrub;
 }
@@ -579,12 +579,12 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
   {
    while (num_metal > 9)
    {
-    m->add_item(p->posx, p->posy, g->itypes[itm_steel_lump], 0);
+    m->spawn_item(p->posx, p->posy, g->itypes[itm_steel_lump], 0);
     num_metal -= 10;
    }
    do
    {
-    m->add_item(p->posx, p->posy, g->itypes[itm_steel_chunk], 0);
+    m->spawn_item(p->posx, p->posy, g->itypes[itm_steel_chunk], 0);
     num_metal -= 3;
    } while (num_metal > 2);
   }
