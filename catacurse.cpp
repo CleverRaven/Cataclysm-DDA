@@ -157,6 +157,7 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 {
     int j;
     for (j=y; j<y+height; j++)
+        //NOTE TO FUTURE: this breaks if j is negative. Apparently it doesn't break if j is too large, though?
         memset(&dcbits[x+j*WindowWidth],color,width);
 };
 
@@ -331,6 +332,10 @@ fin.open("data\\FONTDATA");
 
 WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
 {
+    if (begin_y < 0 || begin_x < 0) {
+        return NULL; //it's the caller's problem now (since they have logging functions declared)
+    }
+    
     int i,j;
     WINDOW *newwindow = new WINDOW;
     //newwindow=&_windows[WindowCount];

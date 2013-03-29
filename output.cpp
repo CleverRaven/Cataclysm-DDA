@@ -931,7 +931,11 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
 
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
 {
-/*    WINDOW *w_hit = newwin(1, 1, iY+VIEW_OFFSET_Y, iX+VIEW_OFFSET_X);
+    WINDOW *w_hit = newwin(1, 1, iY+VIEW_OFFSET_Y, iX+VIEW_OFFSET_X);
+    if (w_hit == NULL) {
+        return; //we passed in negative values (semi-expected), so let's not segfault
+    }
+    
     mvwputch(w_hit, 0, 0, cColor, cTile);
     wrefresh(w_hit);
 
