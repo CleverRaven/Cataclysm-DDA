@@ -331,6 +331,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   dump->push_back(iteminfo("BASE", "  To-hit bonus: ", ((type->m_to_hit > 0) ? "+" : ""), int(type->m_to_hit), ""));
   dump->push_back(iteminfo("BASE", " Moves per attack: ", "", int(attack_time()), "", true, true));
 
+ if (type->techniques != 0)
+  for (int i = 1; i < NUM_TECHNIQUES; i++)
+   if (type->techniques & mfb(i))
+    dump->push_back(iteminfo("TECHNIQUE", " +",default_technique_name( technique_id(i) )));
+
   /*
   dump << " Volume: " << volume() << "    Weight: " << weight() << "\n" <<
           " Bash: " << int(type->melee_dam) <<
@@ -579,7 +584,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   else
    dump << " of " << ammo_name(tool->ammo) << ".";
   */
-  dump->push_back(iteminfo("TOOL", " Maximum ", "", int(tool->max_charges), " charges" + ((tool->ammo == AT_NULL) ? "" : (" of " + ammo_name(tool->ammo))) + "."));
+  if ((tool->max_charges)!=0)
+   dump->push_back(iteminfo("TOOL", " Maximum ", "", int(tool->max_charges), " charges" + ((tool->ammo == AT_NULL) ? "" : (" of " + ammo_name(tool->ammo))) + "."));
 
  } else if (is_style()) {
   it_style* style = dynamic_cast<it_style*>(type);
@@ -590,16 +596,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
    //dump << default_technique_name(style->moves[i].tech) << ". Requires Unarmed Skill of " << style->moves[i].level << "\n";
   }
 
- } else if (!is_null() && type->techniques != 0) {
-  //dump << "\n";
-  temp1.str("");
-  for (int i = 1; i < NUM_TECHNIQUES; i++) {
-   if (type->techniques & mfb(i))
-    temp1 << default_technique_name( technique_id(i) ) + "; "; //dump << default_technique_name( technique_id(i) ) << "; ";
-  }
-
-  if (temp1.str() != "")
-  dump->push_back(iteminfo("TECHNIQUE", temp1.str()));
  }
 
  if ( showtext && !is_null() ) {
