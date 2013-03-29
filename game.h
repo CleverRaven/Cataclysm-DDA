@@ -315,18 +315,22 @@ class game
   void open();	// Open a door			'o'
   void close();	// Close a door			'c'
   void smash();	// Smash terrain
-  void craft();                    // See crafting.cpp
-  void recraft();                  // See crafting.cpp
-  void try_and_make(recipe *r);
-  bool can_make(recipe *r);
-  void make_craft(recipe *making); // See crafting.cpp
-  void complete_craft();           // See crafting.cpp
+  void craft();                        // See crafting.cpp
+  void recraft();                      // See crafting.cpp
+  void long_craft();                   // See crafting.cpp
+  bool crafting_allowed();             // See crafting.cpp
+  recipe* select_crafting_recipe();    // See crafting.cpp
+  bool making_would_work(recipe *r);   // See crafting.cpp
+  bool can_make(recipe *r);            // See crafting.cpp
+  void make_craft(recipe *making);     // See crafting.cpp
+  void make_all_craft(recipe *making); // See crafting.cpp
+  void complete_craft();               // See crafting.cpp
   void pick_recipes(std::vector<recipe*> &current,
                     std::vector<bool> &available, craft_cat tab,std::string filter);// crafting.cpp
-  void disassemble();              // See crafting.cpp
-  void disassemble_item(recipe *dis);              // See crafting.cpp
-  void complete_disassemble();              // See crafting.cpp
-  void construction_menu();                   // See construction.cpp
+  void disassemble();                  // See crafting.cpp
+  void disassemble_item(recipe *dis);  // See crafting.cpp
+  void complete_disassemble();         // See crafting.cpp
+  void construction_menu();            // See construction.cpp
   bool player_can_build(player &p, inventory inv, constructable* con,
                         const int level = -1, bool cont = false,
 			bool exact_level=false);
