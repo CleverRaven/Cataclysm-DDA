@@ -200,14 +200,14 @@ public:
  bool can_sleep(game *g);	// Checked each turn during DIS_LYING_DOWN
  
  // helper functions meant to tell inventory display code what kind of visual feedback to give to the user
- use_rating rate_action_use(item *it); //rates usability lower for non-tools (books, etc.)
- use_rating rate_action_wear(item *it);
- use_rating rate_action_eat(item *it);
- use_rating rate_action_read(item *it, game *g);
- use_rating rate_action_takeoff(item *it);
- use_rating rate_action_reload(item *it);
- use_rating rate_action_unload(item *it);
- use_rating rate_action_disassemble(item *it, game *g);
+ hint_rating rate_action_use(item *it); //rates usability lower for non-tools (books, etc.)
+ hint_rating rate_action_wear(item *it);
+ hint_rating rate_action_eat(item *it);
+ hint_rating rate_action_read(item *it, game *g);
+ hint_rating rate_action_takeoff(item *it);
+ hint_rating rate_action_reload(item *it);
+ hint_rating rate_action_unload(item *it);
+ hint_rating rate_action_disassemble(item *it, game *g);
 
  int warmth(body_part bp);	// Warmth provided by armor &c
  int encumb(body_part bp);	// Encumberance from armor &c
