@@ -8,7 +8,7 @@
 #include "setvector.h"
 #include "inventory.h"
 
-void draw_recipe_tabs(WINDOW *w, craft_cat tab);
+void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
 
 // This function just defines the recipes used throughout the game.
 void game::init_recipes()
@@ -1396,7 +1396,7 @@ recipe* game::select_crafting_recipe()
         { // When we switch tabs, redraw the header
             redraw = false;
             line = 0;
-            draw_recipe_tabs(w_head, tab);
+            draw_recipe_tabs(w_head, tab, (filterstring == "")?false:true);
             current.clear();
             available.clear();
             // Set current to all recipes in the current tab; available are possible to make
@@ -1734,25 +1734,33 @@ recipe* game::select_crafting_recipe()
     return chosen;
 }
 
-void draw_recipe_tabs(WINDOW *w, craft_cat tab)
+void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
 {
- werase(w);
- for (int i = 0; i < 80; i++)
-  mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
+    werase(w);
+    for (int i = 0; i < 80; i++)
+    {
+        mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
+    }
 
- mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
- mvwputch(w, 2, 79, c_ltgray, LINE_OOXX); // ^|
+    mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
+    mvwputch(w, 2, 79, c_ltgray, LINE_OOXX); // ^|
+    if(!filtered)
+    {
+        draw_tab(w,  2, "WEAPONS", (tab == CC_WEAPON) ? true : false);
+        draw_tab(w, 13, "AMMO",    (tab == CC_AMMO)   ? true : false);
+        draw_tab(w, 21, "FOOD",    (tab == CC_FOOD)   ? true : false);
+        draw_tab(w, 29, "DRINKS",  (tab == CC_DRINK)  ? true : false);
+        draw_tab(w, 39, "CHEMS",   (tab == CC_CHEM)   ? true : false);
+        draw_tab(w, 48, "ELECTRONICS", (tab == CC_ELECTRONIC) ? true : false);
+        draw_tab(w, 63, "ARMOR",   (tab == CC_ARMOR)  ? true : false);
+        draw_tab(w, 72, "MISC",    (tab == CC_MISC)   ? true : false);
+    }
+    else
+    {
+        draw_tab(w,  2, "Searched", true);
+    }
 
- draw_tab(w,  2, "WEAPONS", (tab == CC_WEAPON) ? true : false);
- draw_tab(w, 13, "AMMO",    (tab == CC_AMMO)   ? true : false);
- draw_tab(w, 21, "FOOD",    (tab == CC_FOOD)   ? true : false);
- draw_tab(w, 29, "DRINKS",  (tab == CC_DRINK)  ? true : false);
- draw_tab(w, 39, "CHEMS",   (tab == CC_CHEM)   ? true : false);
- draw_tab(w, 48, "ELECTRONICS", (tab == CC_ELECTRONIC) ? true : false);
- draw_tab(w, 63, "ARMOR",   (tab == CC_ARMOR)  ? true : false);
- draw_tab(w, 72, "MISC",    (tab == CC_MISC)   ? true : false);
-
- wrefresh(w);
+    wrefresh(w);
 }
 
 inventory game::crafting_inventory(){
@@ -1779,19 +1787,37 @@ void game::pick_recipes(std::vector<recipe*> &current,
     available.clear();
     for (int i = 0; i < recipes.size(); i++) 
     {
-        // Check if the category matches the tab, and we have the requisite skills
-        if (recipes[i]->category == tab &&
-                (recipes[i]->sk_primary == NULL ||
-                u.skillLevel(recipes[i]->sk_primary) >= recipes[i]->difficulty) &&
-                (recipes[i]->sk_secondary == NULL ||
-                u.skillLevel(recipes[i]->sk_secondary) > 0))
+        if(filter == "")
         {
-            if (recipes[i]->difficulty >= 0 && itypes[recipes[i]->result]->name.find(filter) != std::string::npos)
+            // Check if the category matches the tab, and we have the requisite skills
+            if (recipes[i]->category == tab &&
+                    (recipes[i]->sk_primary == NULL ||
+                    u.skillLevel(recipes[i]->sk_primary) >= recipes[i]->difficulty) &&
+                    (recipes[i]->sk_secondary == NULL ||
+                    u.skillLevel(recipes[i]->sk_secondary) > 0))
             {
-                current.push_back(recipes[i]);
+                if (recipes[i]->difficulty >= 0 )
+                {
+                    current.push_back(recipes[i]);
+                }
             }
+            available.push_back(false);
         }
-        available.push_back(false);
+        else
+        {
+            // if filter is on , put everything here
+            if ((recipes[i]->sk_primary == NULL ||
+                    u.skillLevel(recipes[i]->sk_primary) >= recipes[i]->difficulty) &&
+                    (recipes[i]->sk_secondary == NULL ||
+                    u.skillLevel(recipes[i]->sk_secondary) > 0))
+            {
+                if (recipes[i]->difficulty >= 0 && itypes[recipes[i]->result]->name.find(filter) != std::string::npos)
+                {
+                    current.push_back(recipes[i]);
+                }
+            }
+            available.push_back(false);
+        }
     }
     for (int i = 0; i < current.size() && i < 51; i++) 
     {
