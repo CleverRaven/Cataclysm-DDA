@@ -193,6 +193,10 @@ std::string action_ident(action_id act)
    return "wait";
   case ACTION_CRAFT:
    return "craft";
+  case ACTION_RECRAFT:
+   return "recraft";
+  case ACTION_LONGCRAFT:
+   return "long_craft";
   case ACTION_CONSTRUCT:
    return "construct";
   case ACTION_DISASSEMBLE:
@@ -233,8 +237,6 @@ std::string action_ident(action_id act)
    return "debug_mode";
   case ACTION_NULL:
    return "null";
-  case ACTION_RECRAFT:
-   return "recraft";
  }
  return "unknown";
 }
@@ -355,6 +357,10 @@ std::string action_name(action_id act)
    return "Wait for Several Minutes";
   case ACTION_CRAFT:
    return "Craft Items";
+  case ACTION_RECRAFT:
+   return "Recraft last recipe";
+  case ACTION_LONGCRAFT:
+   return "Craft as long as possible";
   case ACTION_CONSTRUCT:
    return "Construct Terrain";
   case ACTION_DISASSEMBLE:
@@ -395,8 +401,6 @@ std::string action_name(action_id act)
    return "Toggle Debug Messages";
   case ACTION_NULL:
    return "No Action";
-  case ACTION_RECRAFT:
-   return "Recraft last recipe";
  }
  return "Someone forgot to name an action.";
 }

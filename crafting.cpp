@@ -8,7 +8,7 @@
 #include "setvector.h"
 #include "inventory.h"
 
-void draw_recipe_tabs(WINDOW *w, craft_cat tab);
+void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
 
 // This function just defines the recipes used throughout the game.
 void game::init_recipes()
@@ -1047,6 +1047,17 @@ RECIPE(itm_c4, CC_WEAPON, "mechanics", "electronics", 4, 8000);
   COMP(itm_steel_chunk, 12, NULL);
   COMP(itm_wire, 3, NULL);
 
+ RECIPE(itm_kitchen_unit, CC_MISC, "mechanics", NULL, 4, 60000, true);
+  TOOL(itm_wrench, -1, itm_toolset, -1, NULL);
+  TOOL(itm_hammer, -1, itm_toolset, -1, NULL);
+  TOOL(itm_welder, 100, itm_toolset, 10, NULL);
+  TOOL(itm_hacksaw, -1, itm_toolset, -1, NULL);
+  COMP(itm_pipe, 2, NULL);
+  COMP(itm_steel_chunk, 16, itm_steel_plate, 2, NULL);
+  COMP(itm_hotplate, 1, NULL);
+  COMP(itm_pot, 1, NULL);
+  COMP(itm_pan, 1, NULL);
+
 
  RECIPE(itm_thread, CC_MISC, "tailor", NULL, 1, 3000, false);
   COMP(itm_string_6, 1, NULL);
@@ -1212,31 +1223,45 @@ RECIPE(itm_brazier, CC_MISC, "mechanics", NULL, 1, 2000, false);
 //  COMP(itm_battery, 500, itm_plut_cell, 1, NULL);
 //  COMP(itm_scrap, 30, NULL);
 }
+
+bool game::crafting_allowed()
+{
+    if (u.morale_level() < MIN_MORALE_CRAFT) 
+    {	// See morale.h
+        add_msg("Your morale is too low to craft...");
+        return false;
+    }
+    
+    return true;
+}
+
 void game::recraft()
 {
  if(u.lastrecipe == NULL)
  {
   popup("Craft something first");
  }
- else
+ else if (making_would_work(u.lastrecipe))
  {
-  try_and_make(u.lastrecipe);
+  make_craft(u.lastrecipe);
  }
 }
-void game::try_and_make(recipe *making)
+
+//TODO clean up this function to give better status messages (e.g., "no fire available")
+bool game::making_would_work(recipe *making)
 {
-    if (u.morale_level() < MIN_MORALE_CRAFT) 
-    {	// See morale.h
-        add_msg("Your morale is too low to craft...");
-        return;
+    if (!crafting_allowed())
+    {
+    	return false;
     }
+    
     if(can_make(making))
     {
         if (itypes[(making->result)]->m1 == LIQUID)
         {
             if (u.has_watertight_container() || u.has_matching_liquid(itypes[making->result]->id)) 
             {
-                make_craft(making);
+                return true;
             } 
             else 
             {
@@ -1245,13 +1270,15 @@ void game::try_and_make(recipe *making)
         }
         else 
         {
-            make_craft(making);
+            return true;
         }
     }
     else
     {
-        popup("You can't do that!");
+        popup("You can no longer make that craft!");
     }
+    
+    return false;
 }
 bool game::can_make(recipe *r)
 {
@@ -1322,13 +1349,35 @@ bool game::can_make(recipe *r)
 
 void game::craft()
 {
-    if (u.morale_level() < MIN_MORALE_CRAFT) 
-    {	// See morale.h
-        add_msg("Your morale is too low to craft...");
-        return;
+    if (!crafting_allowed())
+    {
+    	return;
     }
 
-    WINDOW *w_head = newwin( 3, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX -80)/2 : 0);
+    recipe *rec = select_crafting_recipe();
+    if (rec)
+    {
+        make_craft(rec);
+    }
+}
+
+void game::long_craft()
+{
+    if (!crafting_allowed())
+    {
+    	return;
+    }
+    
+    recipe *rec = select_crafting_recipe();
+    if (rec)
+    {
+        make_all_craft(rec);
+    }
+}
+
+recipe* game::select_crafting_recipe()
+{
+	WINDOW *w_head = newwin( 3, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX -80)/2 : 0);
     WINDOW *w_data = newwin(22, 80, 3 + ((TERMY > 25) ? (TERMY-25)/2 : 0), (TERMX  > 80) ? (TERMX -80)/2 : 0);
     craft_cat tab = CC_WEAPON;
     std::vector<recipe*> current;
@@ -1337,6 +1386,7 @@ void game::craft()
     int line = 0, xpos, ypos;
     bool redraw = true;
     bool done = false;
+    recipe *chosen = NULL;
     InputEvent input;
 
     inventory crafting_inv = crafting_inventory();
@@ -1346,7 +1396,7 @@ void game::craft()
         { // When we switch tabs, redraw the header
             redraw = false;
             line = 0;
-            draw_recipe_tabs(w_head, tab);
+            draw_recipe_tabs(w_head, tab, (filterstring == "")?false:true);
             current.clear();
             available.clear();
             // Set current to all recipes in the current tab; available are possible to make
@@ -1634,7 +1684,7 @@ void game::craft()
                     {
                         if (u.has_watertight_container() || u.has_matching_liquid(itypes[current[line]->result]->id)) 
                         {
-                            make_craft(current[line]);
+                            chosen = current[line];
                             done = true;
                             break;
                         } 
@@ -1645,7 +1695,7 @@ void game::craft()
                     }
                     else 
                     {
-                        make_craft(current[line]);
+                        chosen = current[line];
                         done = true;
                     }
                 }
@@ -1680,27 +1730,37 @@ void game::craft()
     delwin(w_head);
     delwin(w_data);
     refresh_all();
+    
+    return chosen;
 }
 
-void draw_recipe_tabs(WINDOW *w, craft_cat tab)
+void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
 {
- werase(w);
- for (int i = 0; i < 80; i++)
-  mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
+    werase(w);
+    for (int i = 0; i < 80; i++)
+    {
+        mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
+    }
 
- mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
- mvwputch(w, 2, 79, c_ltgray, LINE_OOXX); // ^|
+    mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
+    mvwputch(w, 2, 79, c_ltgray, LINE_OOXX); // ^|
+    if(!filtered)
+    {
+        draw_tab(w,  2, "WEAPONS", (tab == CC_WEAPON) ? true : false);
+        draw_tab(w, 13, "AMMO",    (tab == CC_AMMO)   ? true : false);
+        draw_tab(w, 21, "FOOD",    (tab == CC_FOOD)   ? true : false);
+        draw_tab(w, 29, "DRINKS",  (tab == CC_DRINK)  ? true : false);
+        draw_tab(w, 39, "CHEMS",   (tab == CC_CHEM)   ? true : false);
+        draw_tab(w, 48, "ELECTRONICS", (tab == CC_ELECTRONIC) ? true : false);
+        draw_tab(w, 63, "ARMOR",   (tab == CC_ARMOR)  ? true : false);
+        draw_tab(w, 72, "MISC",    (tab == CC_MISC)   ? true : false);
+    }
+    else
+    {
+        draw_tab(w,  2, "Searched", true);
+    }
 
- draw_tab(w,  2, "WEAPONS", (tab == CC_WEAPON) ? true : false);
- draw_tab(w, 13, "AMMO",    (tab == CC_AMMO)   ? true : false);
- draw_tab(w, 21, "FOOD",    (tab == CC_FOOD)   ? true : false);
- draw_tab(w, 29, "DRINKS",  (tab == CC_DRINK)  ? true : false);
- draw_tab(w, 39, "CHEMS",   (tab == CC_CHEM)   ? true : false);
- draw_tab(w, 48, "ELECTRONICS", (tab == CC_ELECTRONIC) ? true : false);
- draw_tab(w, 63, "ARMOR",   (tab == CC_ARMOR)  ? true : false);
- draw_tab(w, 72, "MISC",    (tab == CC_MISC)   ? true : false);
-
- wrefresh(w);
+    wrefresh(w);
 }
 
 inventory game::crafting_inventory(){
@@ -1727,19 +1787,37 @@ void game::pick_recipes(std::vector<recipe*> &current,
     available.clear();
     for (int i = 0; i < recipes.size(); i++) 
     {
-        // Check if the category matches the tab, and we have the requisite skills
-        if (recipes[i]->category == tab &&
-                (recipes[i]->sk_primary == NULL ||
-                u.skillLevel(recipes[i]->sk_primary) >= recipes[i]->difficulty) &&
-                (recipes[i]->sk_secondary == NULL ||
-                u.skillLevel(recipes[i]->sk_secondary) > 0))
+        if(filter == "")
         {
-            if (recipes[i]->difficulty >= 0 && itypes[recipes[i]->result]->name.find(filter) != std::string::npos)
+            // Check if the category matches the tab, and we have the requisite skills
+            if (recipes[i]->category == tab &&
+                    (recipes[i]->sk_primary == NULL ||
+                    u.skillLevel(recipes[i]->sk_primary) >= recipes[i]->difficulty) &&
+                    (recipes[i]->sk_secondary == NULL ||
+                    u.skillLevel(recipes[i]->sk_secondary) > 0))
             {
-                current.push_back(recipes[i]);
+                if (recipes[i]->difficulty >= 0 )
+                {
+                    current.push_back(recipes[i]);
+                }
             }
+            available.push_back(false);
         }
-        available.push_back(false);
+        else
+        {
+            // if filter is on , put everything here
+            if ((recipes[i]->sk_primary == NULL ||
+                    u.skillLevel(recipes[i]->sk_primary) >= recipes[i]->difficulty) &&
+                    (recipes[i]->sk_secondary == NULL ||
+                    u.skillLevel(recipes[i]->sk_secondary) > 0))
+            {
+                if (recipes[i]->difficulty >= 0 && itypes[recipes[i]->result]->name.find(filter) != std::string::npos)
+                {
+                    current.push_back(recipes[i]);
+                }
+            }
+            available.push_back(false);
+        }
     }
     for (int i = 0; i < current.size() && i < 51; i++) 
     {
@@ -1754,6 +1832,14 @@ void game::pick_recipes(std::vector<recipe*> &current,
 void game::make_craft(recipe *making)
 {
  u.assign_activity(this, ACT_CRAFT, making->time, making->id);
+ u.moves = 0;
+ u.lastrecipe = making;
+}
+
+
+void game::make_all_craft(recipe *making)
+{
+ u.assign_activity(this, ACT_LONGCRAFT, making->time, making->id);
  u.moves = 0;
  u.lastrecipe = making;
 }
@@ -1802,7 +1888,9 @@ void game::complete_craft()
  } else if (diff_roll > skill_roll) {
   add_msg("You fail to make the %s, but don't waste any materials.",
           itypes[making->result]->name.c_str());
-  u.activity.type = ACT_NULL;
+  //this method would only have been called from a place that nulls u.activity.type,
+  //so it appears that it's safe to NOT null that variable here.
+  //rationale: this allows certain contexts (e.g. ACT_LONGCRAFT) to distinguish major and minor failures
   return;
  }
 // If we're here, the craft was a success!

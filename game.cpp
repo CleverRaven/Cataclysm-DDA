@@ -575,6 +575,7 @@ void game::process_activity()
     break;
 
    case ACT_CRAFT:
+   case ACT_LONGCRAFT:
     complete_craft();
     break;
 
@@ -615,6 +616,7 @@ void game::process_activity()
    }
 
    bool act_veh = (u.activity.type == ACT_VEHICLE);
+   bool act_longcraft = (u.activity.type == ACT_LONGCRAFT);
    u.activity.type = ACT_NULL;
    if (act_veh) {
     if (u.activity.values.size() < 7)
@@ -636,6 +638,9 @@ void game::process_activity()
       debugmsg ("process_activity ACT_VEHICLE: vehicle not found");
      }
     }
+   } else if (act_longcraft) {
+    if (making_would_work(u.lastrecipe))
+     make_all_craft(u.lastrecipe);
    }
   }
  }
@@ -670,6 +675,7 @@ void game::cancel_activity_query(const char* message, ...)
     doit = true;
    break;
   case ACT_CRAFT:
+  case ACT_LONGCRAFT:
    if (query_yn("%s Stop crafting?", s.c_str()))
     doit = true;
    break;
@@ -1065,7 +1071,7 @@ bool game::handle_action()
 
                 if (mapRain[iRandY][iRandX]) {
                     vDrops.push_back(std::make_pair(iRandX, iRandY));
-                    mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
+                    mvwputch(w_terrain, iRandY - u.view_offset_y, iRandX - u.view_offset_x, colGlyph, cGlyph);
                 }
             }
 
@@ -1418,6 +1424,10 @@ bool game::handle_action()
 
   case ACTION_RECRAFT:
    recraft();
+   break;
+  
+  case ACTION_LONGCRAFT:
+   long_craft();
    break;
 
   case ACTION_DISASSEMBLE:
@@ -4585,7 +4595,8 @@ void game::examine()
  vehicle *veh = m.veh_at (examx, examy, veh_part);
  if (veh) {
   int vpcargo = veh->part_with_feature(veh_part, vpf_cargo, false);
-  if (vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0)
+  int vpkitchen = veh->part_with_feature(veh_part, vpf_kitchen, true);
+  if (vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0 || vpkitchen >= 0)
    pickup(examx, examy, 0);
   else if (u.in_vehicle)
    add_msg ("You can't do that while onboard.");
@@ -5059,12 +5070,29 @@ void game::pickup(int posx, int posy, int min)
  bool volume_is_okay = (u.volume_carried() <= u.volume_capacity() -  2);
  bool from_veh = false;
  int veh_part = 0;
+ int k_part = 0;
  vehicle *veh = m.veh_at (posx, posy, veh_part);
  if (veh) {
+  k_part = veh->part_with_feature(veh_part, vpf_kitchen);
   veh_part = veh->part_with_feature(veh_part, vpf_cargo, false);
   from_veh = veh && veh_part >= 0 &&
              veh->parts[veh_part].items.size() > 0 &&
              query_yn("Get items from %s?", veh->part_info(veh_part).name);
+
+  if (!from_veh && k_part >= 0) {
+    if (veh->fuel_left(AT_WATER)) {
+      if (query_yn("Have a drink?")) {
+        veh->drain(AT_WATER, 1);
+
+        item water(itypes[itm_water_clean], 0);
+        u.inv.push_back(water);
+        u.eat(this, u.inv.size() - 1);
+        u.moves -= 250;
+      }
+    } else {
+      add_msg("The water tank is empty.");
+    }
+  }
  }
 // Picking up water?
  if ((!from_veh) && m.i_at(posx, posy).size() == 0) {
@@ -6774,7 +6802,7 @@ void game::plmove(int x, int y)
   if ((!u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 2) ||
       ( u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 4    ))
   {
-   if (veh)
+   if (veh && m.move_cost(x,y) != 2)
     add_msg("Moving past this %s is slow!", veh->part_info(vpart).name);
    else
     add_msg("Moving past this %s is slow!", m.tername(x, y).c_str());
