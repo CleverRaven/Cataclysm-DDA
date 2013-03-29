@@ -1,5 +1,11 @@
 Changelog will be a little light for the early entries due to me being really bad at documenting things.
 
+Going forwards:
+Power armor.
+More fitted gear, and a few more things made craftable.
+Vehicle-mountable water tanks and kitchen units, implied storage-battery-charging generators.
+Map tiles can now contain up to 64 items.
+
 0.3
 Many menus stretch with an enlarged viewport.
 An action to repeat the last craft has been added, default keybinding of -
