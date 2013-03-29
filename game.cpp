@@ -1071,7 +1071,7 @@ bool game::handle_action()
 
                 if (mapRain[iRandY][iRandX]) {
                     vDrops.push_back(std::make_pair(iRandX, iRandY));
-                    mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
+                    mvwputch(w_terrain, iRandY - u.view_offset_y, iRandX - u.view_offset_x, colGlyph, cGlyph);
                 }
             }
 
