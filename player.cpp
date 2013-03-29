@@ -471,7 +471,11 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   else if (i == bp_head) {temp_equalizer(bp_head, bp_eyes, g); temp_equalizer(bp_head, bp_mouth, g);}
   else if (i == bp_arms)  temp_equalizer(bp_arms, bp_hands, g);
   else if (i == bp_legs)  temp_equalizer(bp_legs, bp_feet, g);
-  if (temp_cur[i] != temp_conv[i]) temp_cur[i] = temp_difference*exp(-0.002) + temp_conv[i]; // It takes half an hour for bodytemp to converge half way to its convergeance point (think half-life)
+  // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes, exp(-0.003) : half life of 20 minutes, exp(-0.004) : half life of 15 minutes
+  if      ((g->m.ter(posx, posy) == t_water_sh || g->m.ter(posx, posy) == t_sewage) && (i == bp_feet || i == bp_legs)) temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i];
+  else if (g->m.ter(posx, posy) == t_water_dp) temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i];
+  else if (i == bp_torso || i == bp_head) temp_cur[i] = temp_difference*exp(-0.003) + temp_conv[i];
+  else temp_cur[i] = temp_difference*exp(-0.002) + temp_conv[i];
   // Loss of blood results in loss of body heat
   int blood_loss = 0;
   if      (i == bp_legs)  blood_loss = 1 - (hp_cur[hp_leg_l] + hp_cur[hp_leg_r]) / (hp_max[hp_leg_l] + hp_max[hp_leg_r]);
