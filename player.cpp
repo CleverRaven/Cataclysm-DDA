@@ -4007,6 +4007,15 @@ int player::lookup_item(char let)
  return -2; // -2 is for "item not found"
 }
 
+use_rating player::rate_action_eat(item *it)
+{
+ //TODO more cases, for USE_IFFY
+ if (it->is_food_container() || it->is_food()) {
+  return USE_GOOD;
+ }
+ return USE_CANT;
+}
+
 bool player::eat(game *g, int index)
 {
  it_comest *comest = NULL;
@@ -4373,6 +4382,83 @@ void player::pick_style(game *g) // Style selection menu
   style_selected = itm_null;
 }
 
+use_rating player::rate_action_wear(item *it)
+{
+ //TODO flag already-worn items as USE_IFFY
+ 
+ if (!it->is_armor()) {
+  return USE_CANT;
+ }
+ 
+ it_armor* armor = dynamic_cast<it_armor*>(it->type);
+ 
+ // are we trying to put on power armor? If so, make sure we don't have any other gear on.
+ if (armor->is_power_armor() && worn.size()) {
+  if (armor->covers & mfb(bp_torso)) {
+   return USE_IFFY;
+  } else if (armor->covers & mfb(bp_head) && !((it_armor *)worn[0].type)->is_power_armor()) {
+   return USE_IFFY;
+  }
+ }
+ // are we trying to wear something over power armor? We can't have that, unless it's a backpack, or similar.
+ if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor() && !(armor->covers & mfb(bp_head))) {
+  if (!(armor->covers & mfb(bp_torso) && armor->color == c_green)) {
+   return USE_IFFY;
+  }
+ }
+
+ // Make sure we're not wearing 2 of the item already
+ int count = 0;
+ for (int i = 0; i < worn.size(); i++) {
+  if (worn[i].type->id == it->type->id)
+   count++;
+ }
+ if (count == 2) {
+  return USE_IFFY;
+ }
+ if (has_trait(PF_WOOLALLERGY) && it->made_of(WOOL)) {
+  return USE_IFFY; //should this be USE_CANT? I kinda think not, because USE_CANT is more for things that can NEVER happen
+ }
+ if (armor->covers & mfb(bp_head) && encumb(bp_head) != 0) {
+  return USE_IFFY;
+ }
+ if (armor->covers & mfb(bp_hands) && has_trait(PF_WEBBED)) {
+  return USE_IFFY;
+ }
+ if (armor->covers & mfb(bp_hands) && has_trait(PF_TALONS)) {
+  return USE_IFFY;
+ }
+ if (armor->covers & mfb(bp_mouth) && has_trait(PF_BEAK)) {
+  return USE_IFFY;
+ }
+ if (armor->covers & mfb(bp_feet) && has_trait(PF_HOOVES)) {
+  return USE_IFFY;
+ }
+ if (armor->covers & mfb(bp_head) && has_trait(PF_HORNS_CURLED)) {
+  return USE_IFFY;
+ }
+ if (armor->covers & mfb(bp_torso) && has_trait(PF_SHELL)) {
+  return USE_IFFY;
+ }
+ if (armor->covers & mfb(bp_head) && !it->made_of(WOOL) &&
+     !it->made_of(COTTON) && !it->made_of(LEATHER) &&
+     (has_trait(PF_HORNS_POINTED) || has_trait(PF_ANTENNAE) ||
+      has_trait(PF_ANTLERS))) {
+  return USE_IFFY;
+ }
+ // Checks to see if the player is wearing not cotton or not wool, ie leather/plastic shoes
+ if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(it->made_of(WOOL) || it->made_of(COTTON))) {
+  for (int i = 0; i < worn.size(); i++) {
+   item *worn_item = &worn[i];
+   it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
+   if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of(WOOL) || worn_item->made_of(COTTON))) {
+    return USE_IFFY;
+   }
+  }
+ }
+ return USE_GOOD;
+}
+
 bool player::wear(game *g, char let)
 {
  item* to_wear = NULL;
@@ -4517,6 +4603,20 @@ bool player::wear_item(game *g, item *to_wear)
  return true;
 }
 
+use_rating player::rate_action_takeoff(item *it) {
+ if (!it->is_armor()) {
+  return USE_CANT;
+ }
+ 
+ for (int i = 0; i < worn.size(); i++) {
+  if (worn[i].invlet == it->invlet) { //surely there must be an easier way to do this?
+   return USE_GOOD;
+  }
+ }
+ 
+ return USE_IFFY;
+}
+
 bool player::takeoff(game *g, char let)
 {
  if (weapon.invlet == let) {
@@ -4555,6 +4655,68 @@ bool player::takeoff(game *g, char let)
 
 void player::use_wielded(game *g) {
   use(g, weapon.invlet);
+}
+
+use_rating player::rate_action_reload(item *it) {
+ if (it->is_gun()) {
+  if (it->has_flag(IF_RELOAD_AND_SHOOT) || it->ammo_type() == AT_NULL) {
+   return USE_CANT;
+  }
+  if (it->charges == it->clip_size()) {
+   int alternate_magazine = -1;
+   for (int i = 0; i < it->contents.size(); i++) {
+     if (it->contents[i].is_gunmod() &&
+         (it->contents[i].typeId() == itm_spare_mag &&
+          it->contents[i].charges < (dynamic_cast<it_gun*>(it->type))->clip) ||
+         (it->contents[i].has_flag(IF_MODE_AUX) &&
+          it->contents[i].charges < it->contents[i].clip_size()))
+      alternate_magazine = i;
+   }
+   if(alternate_magazine == -1) {
+    return USE_IFFY;
+   }
+  }
+  int index = it->pick_reload_ammo(*this, true);
+  if (index == -1) {
+   return USE_IFFY;
+  }
+  return USE_GOOD;
+ } else if (it->is_tool()) {
+  it_tool* tool = dynamic_cast<it_tool*>(it->type);
+  if (tool->ammo == AT_NULL) {
+   return USE_CANT;
+  }
+  int index = it->pick_reload_ammo(*this, true);
+  if (index == -1) {
+   return USE_IFFY;
+  }
+  return USE_GOOD;
+ }
+ return USE_CANT;
+}
+
+use_rating player::rate_action_use(item *it)
+{
+ if (it->is_tool()) {
+  it_tool *tool = dynamic_cast<it_tool*>(it->type);
+  if (tool->charges_per_use != 0 && it->charges < tool->charges_per_use) {
+   return USE_IFFY;
+  } else {
+   return USE_GOOD;
+  }
+ } else if (it->is_gunmod()) {
+  if (skillLevel("gun") == 0) {
+   return USE_IFFY;
+  } else {
+   return USE_GOOD;
+  }
+ } else if (it->is_bionic()) {
+  return USE_GOOD;
+ } else if (it->is_food() || it->is_food_container() || it->is_book() || it->is_armor()) {
+  return USE_IFFY; //the rating is subjective, could be argued as USE_CANT or USE_GOOD as well
+ }
+ 
+ return USE_CANT;
 }
 
 void player::use(game *g, char let)
@@ -4750,6 +4912,26 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
 
  if (replace_item)
   inv.add_item(copy);
+}
+
+use_rating player::rate_action_read(item *it, game *g)
+{
+ //note: there's a cryptic note about macguffins in player::read(). Do we have to account for those? 
+ if (!it->is_book()) {
+  return USE_CANT;
+ }
+ 
+ it_book *book = dynamic_cast<it_book*>(it->type);
+ 
+ if (g && g->light_level() < 8 && LL_LIT > g->m.light_at(posx, posy)) {
+  return USE_IFFY;
+ } else if (morale_level() < MIN_MORALE_READ &&  book->fun <= 0) {
+  return USE_IFFY; //won't read non-fun books when sad
+ } else if (book->intel > 0 && has_trait(PF_ILLITERATE)) {
+  return USE_IFFY;
+ }
+ 
+ return USE_GOOD;
 }
 
 void player::read(game *g, char ch)
