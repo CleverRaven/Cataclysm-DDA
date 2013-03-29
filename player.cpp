@@ -473,12 +473,12 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   else if (i == bp_legs)  temp_equalizer(bp_legs, bp_feet, g);
   if (temp_cur[i] != temp_conv[i]) temp_cur[i] = temp_difference*exp(-0.002) + temp_conv[i]; // It takes half an hour for bodytemp to converge half way to its convergeance point (think half-life)
   // Loss of blood results in loss of body heat
-  int blood_loss = 1;
-  if      (i == bp_legs)  blood_loss = (hp_cur[hp_leg_l] + hp_cur[hp_leg_r]) / (hp_max[hp_leg_l] + hp_max[hp_leg_r]);
-  else if (i == bp_arms)  blood_loss = (hp_cur[hp_arm_l] + hp_cur[hp_arm_r]) / (hp_max[hp_arm_l] + hp_max[hp_arm_r]);
-  else if (i == bp_torso) blood_loss = hp_cur[hp_torso] / hp_max[hp_torso];
-  else if (i == bp_head)  blood_loss = hp_cur[hp_head] / hp_max[hp_head];
-  temp_cur[i] = temp_cur[i] * blood_loss;
+  int blood_loss = 0;
+  if      (i == bp_legs)  blood_loss = 1 - (hp_cur[hp_leg_l] + hp_cur[hp_leg_r]) / (hp_max[hp_leg_l] + hp_max[hp_leg_r]);
+  else if (i == bp_arms)  blood_loss = 1 - (hp_cur[hp_arm_l] + hp_cur[hp_arm_r]) / (hp_max[hp_arm_l] + hp_max[hp_arm_r]);
+  else if (i == bp_torso) blood_loss = 1 -  hp_cur[hp_torso] / hp_max[hp_torso];
+  else if (i == bp_head)  blood_loss = 1 -  hp_cur[hp_head] / hp_max[hp_head];
+  temp_conv[i] -= temp_conv[i] * blood_loss * 0.5; // 1% bodyheat lost for 2% hp lost
   int temp_after = temp_cur[i];
   // Penalties
   if      (temp_cur[i] < BODYTEMP_FREEZING)  {add_disease(dis_type(cold_pen), 1, g, 3, 3); frostbite_timer[i] += 3;}
