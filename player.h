@@ -198,6 +198,16 @@ public:
  void read(game *g, char let);	// Read a book
  void try_to_sleep(game *g);	// '$' command; adds DIS_LYING_DOWN
  bool can_sleep(game *g);	// Checked each turn during DIS_LYING_DOWN
+ 
+ // helper functions meant to tell inventory display code what kind of visual feedback to give to the user
+ hint_rating rate_action_use(item *it); //rates usability lower for non-tools (books, etc.)
+ hint_rating rate_action_wear(item *it);
+ hint_rating rate_action_eat(item *it);
+ hint_rating rate_action_read(item *it, game *g);
+ hint_rating rate_action_takeoff(item *it);
+ hint_rating rate_action_reload(item *it);
+ hint_rating rate_action_unload(item *it);
+ hint_rating rate_action_disassemble(item *it, game *g);
 
  int warmth(body_part bp);	// Warmth provided by armor &c
  int encumb(body_part bp);	// Encumberance from armor &c
