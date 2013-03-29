@@ -207,6 +207,29 @@ void inventory::form_from_map(game *g, point origin, int range)
     water.charges = 50;
     add_item(water);
    }
+
+   int vpart = -1;
+   vehicle *veh = g->m.veh_at(x, y, vpart);
+
+   if (veh) {
+     const int kpart = veh->part_with_feature(vpart, vpf_kitchen);
+
+     if (kpart >= 0) {
+       item hotplate(g->itypes[itm_hotplate], 0);
+       hotplate.charges = veh->fuel_left(AT_BATT, true);
+       add_item(hotplate);
+
+       item water(g->itypes[itm_water_clean], 0);
+       water.charges = veh->fuel_left(AT_WATER);
+       add_item(water);
+
+       item pot(g->itypes[itm_pot], 0);
+       add_item(pot);
+       item pan(g->itypes[itm_pan], 0);
+       add_item(pan);
+     }
+   }
+
   }
  }
 }

@@ -494,7 +494,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     g->add_msg("You stop reloading.");
    else if (g->u.activity.type == ACT_READ)
     g->add_msg("You stop reading.");
-   else if (g->u.activity.type == ACT_CRAFT)
+   else if (g->u.activity.type == ACT_CRAFT || g->u.activity.type == ACT_LONGCRAFT)
     g->add_msg("You stop crafting.");
    g->u.activity.type = ACT_NULL;
   }

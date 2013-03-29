@@ -315,7 +315,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON,
 
 mon("zombie dog",species_zombie, 'd',	c_ltgreen,	MS_MEDIUM,	FLESH,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	12,100,100,150, 10,  1,  4,  3,  4,  0,  0, 45, 40,  5,
+	12,100,100,150, 10,  1,  4,  3,  4,  0,  0, 0, 40,  5,
 	&mdeath::normal,	&mattack::bite, "\
 This deformed, sinewy canine stays close to\n\
 the ground, loping forward faster than most\n\

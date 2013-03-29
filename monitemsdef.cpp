@@ -19,7 +19,6 @@ void game::init_monitems()
  monitems[mon_zombie_shrieker]	= monitems[mon_zombie];
  monitems[mon_zombie_spitter]	= monitems[mon_zombie];
  monitems[mon_zombie_electric]	= monitems[mon_zombie];
- monitems[mon_zombie_fast]	= monitems[mon_zombie];
  monitems[mon_zombie_brute]	= monitems[mon_zombie];
  monitems[mon_zombie_hulk]	= monitems[mon_zombie];
  monitems[mon_zombie_fungus]	= monitems[mon_zombie];

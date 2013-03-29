@@ -606,7 +606,7 @@ void vehicle::print_part_desc (void *w, int y1, int width, int p, int hl)
 void vehicle::print_fuel_indicator (void *w, int y, int x)
 {
     WINDOW *win = (WINDOW *) w;
-    const nc_color fcs[num_fuel_types] = { c_ltred, c_yellow, c_ltgreen, c_ltblue };
+    const nc_color fcs[num_fuel_types] = { c_ltred, c_yellow, c_ltgreen, c_ltblue, c_ltcyan };
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_ltgray;
     mvwprintz(win, y, x, col_indf1, "E...F");
@@ -753,6 +753,25 @@ int vehicle::refill (int ftype, int amount)
     return amount;
 }
 
+int vehicle::drain (int ftype, int amount) {
+  int drained = 0;
+
+  for (int p = 0; p < parts.size(); p++) {
+    if (part_flag(p, vpf_fuel_tank) && part_info(p).fuel_type == ftype && parts[p].amount > 0) {
+      if (parts[p].amount > (amount - drained)) {
+        parts[p].amount -= (amount - drained);
+        drained = amount;
+        break;
+      } else {
+        drained += parts[p].amount;
+        parts[p].amount = 0;
+      }
+    }
+  }
+
+  return drained;
+}
+
 std::string vehicle::fuel_name(int ftype)
 {
     switch (ftype)
@@ -765,6 +784,8 @@ std::string vehicle::fuel_name(int ftype)
         return std::string("plutonium cells");
     case AT_PLASMA:
         return std::string("hydrogen");
+    case AT_WATER:
+        return std::string("clean water");
     default:
         return std::string("INVALID FUEL (BUG)");
     }
@@ -773,7 +794,7 @@ std::string vehicle::fuel_name(int ftype)
 int vehicle::basic_consumption (int ftype)
 {
     if (ftype == AT_PLUT)
-        ftype = AT_BATT;
+      ftype = AT_BATT;
     int cnt = 0;
     int fcon = 0;
     for (int p = 0; p < parts.size(); p++)
@@ -1020,7 +1041,7 @@ void vehicle::consume_fuel ()
     for (int ft = 0; ft < 3; ft++)
     {
         float st = strain() * 10;
-        int amnt = (int) (basic_consumption (ftypes[ft]) * (1.0 + st * st) / 100);
+        int amnt = (int) (basic_consumption (ftypes[ft]) * (1.0 + st * st) / (ftypes[ft] == AT_BATT?1:100));
         if (!amnt)
             continue; // no engines of that type
 //         g->add_msg("consume: %d of fuel%d (st:%.2f)", amnt, ft, st);
@@ -1037,7 +1058,7 @@ void vehicle::consume_fuel ()
                 if (part_flag(p, vpf_fuel_tank) &&
                     (part_info(p).fuel_type == (elec? (j? AT_BATT : AT_PLUT) : ftypes[ft])))
                 {
-                    parts[p].amount -= amnt;
+                    parts[p].amount -= amnt / ((elec && !j)?100:1);
                     if (parts[p].amount < 0)
                         parts[p].amount = 0;
                     found = true;
@@ -1583,19 +1604,15 @@ void vehicle::gain_moves (int mp)
             thrust (cruise_velocity > velocity? 1 : -1);
     }
 
-    if (g->is_in_sunlight(global_x(), global_y()))
-    {
-        int spw = solar_power ();
-        if (spw)
-        {
-            int fl = spw / 100;
-            int prob = spw % 100;
-            if (rng (0, 100) <= prob)
-                fl++;
-            if (fl)
-                refill (AT_BATT, fl);
-        }
+    if (g->is_in_sunlight(global_x(), global_y())) {
+      refill (AT_BATT, solar_power());
     }
+
+    // If the vehicle is moving, trickle-charge storage batteries.
+    if (velocity && one_in(10)) {
+      refill (AT_BATT, abs(velocity) / 100);
+    }
+
     // check for smoking parts
     for (int ep = 0; ep < external_parts.size(); ep++)
     {

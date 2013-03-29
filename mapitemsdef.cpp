@@ -445,7 +445,8 @@ void game::init_mapitems()
 	itm_purifier, itm_plut_cell, itm_ftk93, itm_nx17, itm_canister_goo,
 	itm_UPS_off, itm_gold, itm_plasma_engine,
    itm_bionics_time_freeze, itm_bionics_teleport,
-	itm_minireactor, itm_alloy_plate, NULL);
+   itm_power_armor_basic,
+  itm_minireactor, itm_alloy_plate, NULL);
 
  setvector(
    mapitems[mi_art],
@@ -504,6 +505,7 @@ void game::init_mapitems()
         itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
         itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion, itm_v6_combustion,
         itm_vehicle_controls, itm_v8_combustion, itm_hacksaw, itm_welder, itm_motor,
+        itm_kitchen_unit,
         itm_motor_large, itm_storage_battery, itm_solar_panel, itm_jerrycan, itm_jerrycan_big, itm_metal_tank, NULL);
 
  setvector(
@@ -617,6 +619,7 @@ void game::init_mapitems()
 	itm_helmet_army, itm_backpack, itm_UPS_off, itm_beltrig, itm_under_armor,
   itm_under_armor_fit,
         itm_boots, itm_boots_fit, itm_pants_army_fit, itm_armguard_hard,
+  itm_power_armor_basic,
 	itm_helmet_army, itm_backpack, itm_UPS_off, itm_beltrig, NULL);
 
  setvector(
@@ -855,6 +858,7 @@ void game::init_mapitems()
 	itm_landmine, itm_grenade, itm_flashbang, itm_EMPbomb, itm_gasbomb,
 	itm_smokebomb, itm_UPS_off, itm_tazer, itm_c4, itm_hk_g80, itm_12mm,
 	itm_binoculars, itm_u_shotgun, itm_beltrig, itm_pants_army_fit,
+  itm_power_armor_basic, itm_power_armor_helmet_basic,
         itm_spare_mag, itm_canteen, itm_jerrycan, itm_rucksack, NULL);
 
 
@@ -879,6 +883,7 @@ void game::init_mapitems()
 	itm_plut_cell, itm_laser_pack, itm_m249, itm_v29, itm_ftk93, itm_nx17,
 	itm_conversion_battle, itm_conversion_sniper, itm_canister_goo,
 	itm_mininuke, itm_portal, itm_c4, itm_12mm, itm_hk_g80,
+  itm_power_armor_basic, itm_power_armor_helmet_basic,
 	itm_plasma, itm_plasma_rifle, NULL);
 
  setvector(
