@@ -1281,7 +1281,7 @@ bool game::handle_action()
      vMenu.push_back(iteminfo("MENU", "t", "hrow"));
      vMenu.push_back(iteminfo("MENU", "T", "ake off", u.rate_action_takeoff(&oThisItem)));
      vMenu.push_back(iteminfo("MENU", "d", "rop"));
-     vMenu.push_back(iteminfo("MENU", "U", "nload"));
+     vMenu.push_back(iteminfo("MENU", "U", "nload", u.rate_action_unload(&oThisItem)));
      vMenu.push_back(iteminfo("MENU", "r", "eload", u.rate_action_reload(&oThisItem)));
 
      oThisItem.info(true, &vThisItem);

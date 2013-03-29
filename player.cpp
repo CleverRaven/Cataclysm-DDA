@@ -4695,6 +4695,31 @@ use_rating player::rate_action_reload(item *it) {
  return USE_CANT;
 }
 
+use_rating player::rate_action_unload(item *it) {
+ if (!it->is_gun() && !it->is_container() &&
+     (!it->is_tool() || it->ammo_type() == AT_NULL)) {
+  return USE_CANT;
+ }
+ int spare_mag = -1;
+ int has_m203 = -1;
+ int has_shotgun = -1;
+ if (it->is_gun()) {
+  spare_mag = it->has_gunmod (itm_spare_mag);
+  has_m203 = it->has_gunmod (itm_m203);
+  has_shotgun = it->has_gunmod (itm_u_shotgun);
+ }
+ if (it->is_container() || it->charges == 0 &&
+     (spare_mag == -1 || it->contents[spare_mag].charges <= 0) &&
+     (has_m203 == -1 || it->contents[has_m203].charges <= 0) &&
+     (has_shotgun == -1 || it->contents[has_shotgun].charges <= 0)) {
+  if (it->contents.size() == 0) {
+   return USE_IFFY;
+  }
+ }
+ 
+ return USE_GOOD;
+}
+
 use_rating player::rate_action_use(item *it)
 {
  if (it->is_tool()) {
