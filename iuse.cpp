@@ -10,6 +10,11 @@
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
+// mfb(n) converts a flag to its appropriate position in covers's bitfield
+#ifndef mfb
+#define mfb(n) long(1 << (n))
+#endif
+
 static void add_or_drop_item(game *g, player *p, item *it)
 {
   item replacement(g->itypes[it->type->id], int(g->turn), g->nextinv);
@@ -3686,4 +3691,33 @@ void iuse::spray_can(game *g, player *p, item *it, bool t)
   g->add_msg("You spray a message on the ground.");
  else
   g->add_msg("You fail to spray a message here.");
+}
+
+void iuse::heatpack(game *g, player *p, item *it, bool t)
+{
+	char ch = g->inv("Heat up what?");
+	item* heat = &(p->i_at(ch));
+	if (heat->type->id == 0) {
+		g->add_msg("You do not have that item!");
+		return;
+	}
+	if (heat->type->is_food()) {
+		p->moves -= 300;
+		g->add_msg("You heat up the food.");	
+		heat->item_flags |= mfb(IF_HOT);
+		heat->active = true;  
+		heat->item_counter = 600;		// sets the hot food flag for 60 minutes		
+		it->make(g->itypes[itm_heatpack_used]); 
+		return;
+  } else 	if (heat->is_food_container()) {
+		p->moves -= 300;
+		g->add_msg("You heat up the food.");	
+		heat->contents[0].item_flags |= mfb(IF_HOT);
+		heat->contents[0].active = true;  
+		heat->contents[0].item_counter = 600;		// sets the hot food flag for 60 minutes		
+		it->make(g->itypes[itm_heatpack_used]); 
+		return;
+	} 
+  { g->add_msg("You can't heat that up!");
+ } return;
 }

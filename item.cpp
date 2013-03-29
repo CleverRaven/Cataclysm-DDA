@@ -26,6 +26,7 @@ item::item()
  poison = 0;
  mode = IF_NULL;
  item_flags = 0;
+ item_counter = 0;
  type = nullitem();
  curammo = NULL;
  corpse = NULL;
@@ -48,7 +49,8 @@ item::item(itype* it, unsigned int turn)
  burnt = 0;
  poison = 0;
  mode = IF_NULL;
- item_flags = 0; 
+ item_flags = 0;
+ item_counter = 0;  
  active = false;
  curammo = NULL;
  corpse = NULL;
@@ -96,7 +98,8 @@ item::item(itype *it, unsigned int turn, char let)
  burnt = 0;
  poison = 0;
  mode = IF_NULL;
- item_flags = 0; 
+ item_flags = 0;
+ item_counter = 0;  
  active = false;
  if (it->is_gun()) {
   charges = 0;
@@ -141,7 +144,8 @@ void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
  burnt = 0;
  poison = 0;
  mode = IF_NULL;
- item_flags = 0; 
+ item_flags = 0;
+ item_counter = 0;  
  curammo = NULL;
  active = false;
  if(!it)
@@ -221,6 +225,7 @@ bool item::stacks_with(item rhs)
 
  bool stacks = (type   == rhs.type   && damage  == rhs.damage  &&
                 active == rhs.active && charges == rhs.charges &&
+                item_flags == rhs.item_flags &&
                 contents.size() == rhs.contents.size() &&
                 (!goes_bad() || bday == rhs.bday));
 
@@ -265,7 +270,7 @@ std::string item::save_info()
   ammotmp = 0; // Saves us from some bugs
  std::stringstream dump;// (std::stringstream::in | std::stringstream::out);
  dump << " " << int(invlet) << " " << int(typeId()) << " " <<  int(charges) <<
-         " " << int(damage) << " " << char(item_flags) << " " << int(burnt) << 
+         " " << int(damage) << " " << int(item_flags) << " " << int(burnt) << 
          " " << poison << " " << ammotmp << " " << owned << " " << int(bday);
  if (active)
   dump << " 1";
@@ -289,8 +294,8 @@ void item::load_info(std::string data, game *g)
 {
  std::stringstream dump;
  dump << data;
- int idtmp, ammotmp, lettmp, damtmp, burntmp, acttmp, corp;
- dump >> lettmp >> idtmp >> charges >> damtmp >> item_flags >> 
+ int idtmp, ammotmp, lettmp, damtmp, burntmp, acttmp, corp, item_flagstmp;
+ dump >> lettmp >> idtmp >> charges >> damtmp >> item_flagstmp >> 
 		 burntmp >> poison >> ammotmp >> owned >> bday >> acttmp >> 
 		 corp >> mission_id >> player_id;
  if (corp != -1)
@@ -312,6 +317,7 @@ void item::load_info(std::string data, game *g)
  invlet = char(lettmp);
  damage = damtmp;
  burnt = burntmp;
+ item_flags = item_flagstmp;
  active = false;
  mode = IF_NULL;
  if (acttmp == 1)
@@ -657,7 +663,7 @@ nc_color item::color(player *u)
 {
  nc_color ret = c_ltgray;
 
- if (active) // Active items show up as yellow
+ if (active && !is_food() && !is_food_container()) // Active items show up as yellow
   ret = c_yellow;
  else if (is_gun()) { // Guns are green if you are carrying ammo for them
   ammotype amtype = ammo_type();
@@ -690,7 +696,7 @@ nc_color item::color_in_inventory(player *u)
 {
 // Items in our inventory get colorized specially
  nc_color ret = c_white;
- if (active)
+ if (active && !is_food() && !is_food_container())
   ret = c_yellow;
 
  return ret;
@@ -809,7 +815,13 @@ std::string item::tname(game *g)
   food = dynamic_cast<it_comest*>(contents[0].type);
  if (food != NULL && g != NULL && food->spoils != 0 &&
    int(g->turn) < (int)bday + 100)
-  ret << " (fresh)";
+  ret << " (fresh)";  
+ if (food != NULL && g != NULL && has_flag(IF_HOT))
+  ret << " (hot)";
+ if (food != NULL && g != NULL && is_food_container()) {
+	if (contents[0].has_flag(IF_HOT)) 
+		ret << " (hot)";     
+ }
  if (food != NULL && g != NULL && food->spoils != 0 &&
    int(g->turn) - (int)bday > food->spoils * 600)
   ret << " (rotten)";

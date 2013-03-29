@@ -141,6 +141,11 @@ void inventory::add_item(item newit, bool keep_invlet)
   return; // Styles never belong in our inventory.
  for (int i = 0; i < items.size(); i++) {
   if (items[i][0].stacks_with(newit)) {
+		if (items[i][0].is_food() && items[i][0].has_flag(IF_HOT)) {
+			int tmpcounter = (items[i][0].item_counter + newit.item_counter) / 2;
+			items[i][0].item_counter = tmpcounter;
+			newit.item_counter = tmpcounter;
+		}
     newit.invlet = items[i][0].invlet;
    items[i].push_back(newit);
    return;
