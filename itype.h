@@ -145,6 +145,7 @@ itm_ragpouch, itm_leather_pouch,
 itm_ring, itm_necklace,
 // Power armor
 itm_power_armor_basic, itm_power_armor_helmet_basic,
+itm_power_armor_frame,
 // Ammunition
  itm_battery, itm_thread, itm_sinew, itm_plant_fibre, itm_duct_tape, itm_cable, itm_plut_cell,
  itm_nail, itm_bb, itm_arrow_wood, itm_arrow_cf,

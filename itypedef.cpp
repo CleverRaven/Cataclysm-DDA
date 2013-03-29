@@ -2051,6 +2051,10 @@ POWER_ARMOR("basic power armor helmet", 6, 500, C_HAT, STEEL, MNULL,
    10, 6, 1, 1, 5, 32, 50, 10, 70, 0, mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth), "\
 A basic helmet, designed for use with power armor. Offers excellent protection from both attacks and environmental hazards.");
 
+POWER_ARMOR("power armor hauling frame", 4, 1000, C_STORE, STEEL, MNULL,
+    8, 12, 1, 1, 4, 0, 0, 0, 0, 200, 0, "\
+A heavy duty hauling frame designed to interface with power armor.");
+
 // AMMUNITION
 // Material should be the wrapper--even though shot is made of iron, because
 //   it can survive a dip in water and be okay, its material here is PLASTIC.
