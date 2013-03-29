@@ -1283,7 +1283,8 @@ bool game::handle_action()
      vMenu.push_back(iteminfo("MENU", "d", "rop"));
      vMenu.push_back(iteminfo("MENU", "U", "nload", u.rate_action_unload(&oThisItem)));
      vMenu.push_back(iteminfo("MENU", "r", "eload", u.rate_action_reload(&oThisItem)));
-
+     vMenu.push_back(iteminfo("MENU", "D", "isassemble", u.rate_action_disassemble(&oThisItem, this)));
+     
      oThisItem.info(true, &vThisItem);
      compare_split_screen_popup(0, 50, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
      cMenu = compare_split_screen_popup(50, 14, 16, "", vMenu, vDummy);
@@ -1319,6 +1320,8 @@ bool game::handle_action()
       case 'R':
        u.read(this, chItem);
        break;
+      case 'D':
+       disassemble(chItem);
       default:
        break;
      }

@@ -2088,9 +2088,11 @@ void game::consume_tools(std::vector<component> tools)
  }
 }
 
-void game::disassemble()
+void game::disassemble(char ch)
 {
-  char ch = inv("Disassemble item:");
+  if (!ch) {
+    ch = inv("Disassemble item:");
+  }
   if (ch == 27) {
     add_msg("Never mind.");
     return;

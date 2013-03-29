@@ -207,6 +207,7 @@ public:
  use_rating rate_action_takeoff(item *it);
  use_rating rate_action_reload(item *it);
  use_rating rate_action_unload(item *it);
+ use_rating rate_action_disassemble(item *it, game *g);
 
  int warmth(body_part bp);	// Warmth provided by armor &c
  int encumb(body_part bp);	// Encumberance from armor &c

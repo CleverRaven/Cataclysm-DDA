@@ -4720,6 +4720,57 @@ use_rating player::rate_action_unload(item *it) {
  return USE_GOOD;
 }
 
+use_rating player::rate_action_disassemble(item *it, game *g) {
+ for (int i = 0; i < g->recipes.size(); i++) {
+  if (it->type == g->itypes[g->recipes[i]->result] && g->recipes[i]->reversible)
+  // ok, a valid recipe exists for the item, and it is reversible
+  {
+   // check tools are available
+   // loop over the tools and see what's required...again
+   inventory crafting_inv = g->crafting_inventory();
+   bool have_tool[5];
+   for (int j = 0; j < 5; j++)
+   {
+    have_tool[j] = false;
+    if (g->recipes[i]->tools[j].size() == 0) // no tools required, may change this
+     have_tool[j] = true;
+    else
+    {
+     for (int k = 0; k < g->recipes[i]->tools[j].size(); k++)
+     {
+      itype_id type = g->recipes[i]->tools[j][k].type;
+      int req = g->recipes[i]->tools[j][k].count;	// -1 => 1
+
+      if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
+        (req >  0 && crafting_inv.has_charges(type, req)))
+      {
+       have_tool[j] = true;
+       k = g->recipes[i]->tools[j].size();
+      }
+      // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
+      if (type == itm_welder)
+      {
+       if (crafting_inv.has_amount(itm_hacksaw, 1) ||
+           crafting_inv.has_amount(itm_toolset, 1))
+        have_tool[j] = true;
+       else
+        have_tool[j] = false;
+      }
+     }
+
+     if (!have_tool[j])
+     {
+      return USE_IFFY;
+     }
+    }
+   }
+   return USE_GOOD;
+  }
+ }
+ 
+ return USE_CANT;
+}
+
 use_rating player::rate_action_use(item *it)
 {
  if (it->is_tool()) {
