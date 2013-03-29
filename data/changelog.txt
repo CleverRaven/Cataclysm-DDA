@@ -1,6 +1,7 @@
 Changelog will be a little light for the early entries due to me being really bad at documenting things.
 
 0.4
+Reduce (maybe fully fix) wolf self-attacks.
 Power armor.
 More fitted gear, and a few more pieces made craftable.
 Vehicle-mountable water tanks and kitchen units, implied storage-battery-charging generators.
