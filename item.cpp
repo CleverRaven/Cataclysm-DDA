@@ -6,6 +6,11 @@
 #include <sstream>
 #include "cursesdef.h"
 
+// mfb(n) converts a flag to its appropriate position in covers's bitfield
+#ifndef mfb
+#define mfb(n) long(1 << (n))
+#endif
+
 bool is_flammable(material m);
 
 std::string default_technique_name(technique_id tech);
@@ -20,6 +25,7 @@ item::item()
  burnt = 0;
  poison = 0;
  mode = IF_NULL;
+ item_flags = 0;
  type = nullitem();
  curammo = NULL;
  corpse = NULL;
@@ -42,6 +48,7 @@ item::item(itype* it, unsigned int turn)
  burnt = 0;
  poison = 0;
  mode = IF_NULL;
+ item_flags = 0; 
  active = false;
  curammo = NULL;
  corpse = NULL;
@@ -89,6 +96,7 @@ item::item(itype *it, unsigned int turn, char let)
  burnt = 0;
  poison = 0;
  mode = IF_NULL;
+ item_flags = 0; 
  active = false;
  if (it->is_gun()) {
   charges = 0;
@@ -133,6 +141,7 @@ void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
  burnt = 0;
  poison = 0;
  mode = IF_NULL;
+ item_flags = 0; 
  curammo = NULL;
  active = false;
  if(!it)
@@ -256,8 +265,8 @@ std::string item::save_info()
   ammotmp = 0; // Saves us from some bugs
  std::stringstream dump;// (std::stringstream::in | std::stringstream::out);
  dump << " " << int(invlet) << " " << int(typeId()) << " " <<  int(charges) <<
-         " " << int(damage) << " " << int(burnt) << " " << poison << " " <<
-         ammotmp << " " << owned << " " << int(bday);
+         " " << int(damage) << " " << char(item_flags) << " " << int(burnt) << 
+         " " << poison << " " << ammotmp << " " << owned << " " << int(bday);
  if (active)
   dump << " 1";
  else
@@ -281,8 +290,9 @@ void item::load_info(std::string data, game *g)
  std::stringstream dump;
  dump << data;
  int idtmp, ammotmp, lettmp, damtmp, burntmp, acttmp, corp;
- dump >> lettmp >> idtmp >> charges >> damtmp >> burntmp >> poison >> ammotmp >>
-         owned >> bday >> acttmp >> corp >> mission_id >> player_id;
+ dump >> lettmp >> idtmp >> charges >> damtmp >> item_flags >> 
+		 burntmp >> poison >> ammotmp >> owned >> bday >> acttmp >> 
+		 corp >> mission_id >> player_id;
  if (corp != -1)
   corpse = g->mtypes[corp];
  else
@@ -944,22 +954,33 @@ int item::damage_cut()
 
 bool item::has_flag(item_flag f)
 {
+ bool ret = false;
+ 
+// first check for flags specific to item type
+// gun flags
  if (is_gun()) {
   if (mode == IF_MODE_AUX) {
    item* gunmod = active_gunmod();
    if( gunmod != NULL )
-    return gunmod->has_flag(f);
+	ret = gunmod->has_flag(f);
+	if (ret) return ret;
   } else {
    for (int i = 0; i < contents.size(); i++) {
      // Don't report flags from active gunmods for the gun.
-    if (contents[i].has_flag(f) && contents[i].has_flag(IF_MODE_AUX))
-     return true;
+    if (contents[i].has_flag(f) && contents[i].has_flag(IF_MODE_AUX)) {
+     ret = true;
+     return ret;
+    }
    }
   }
  }
- if( is_null() )
-  return false;
- return (type->item_flags & mfb(f));
+// other item type flags
+ ret = type->item_flags & mfb(f);
+ if (ret) return ret;
+
+// now check for item specific flags
+ ret = item_flags & mfb(f);
+ return ret;
 }
 
 bool item::has_technique(technique_id tech, player *p)

@@ -153,7 +153,8 @@ public:
    int bigness;         // engine power, wheel size
  };
  int mode;              // Mode of operation, can be changed by the player.
-
+ char item_flags;		// generic item specific flags
+ 
  int mission_id;// Refers to a mission in game's master list
  int player_id;	// Only give a mission to the right player!
 
