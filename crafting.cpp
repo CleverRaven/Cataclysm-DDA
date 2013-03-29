@@ -1235,6 +1235,8 @@ void game::recraft()
   make_craft(u.lastrecipe);
  }
 }
+
+//TODO clean up this function to give better status messages (e.g., "no fire available")
 bool game::making_would_work(recipe *making)
 {
     if (!crafting_allowed())
@@ -1849,7 +1851,9 @@ void game::complete_craft()
  } else if (diff_roll > skill_roll) {
   add_msg("You fail to make the %s, but don't waste any materials.",
           itypes[making->result]->name.c_str());
-  u.activity.type = ACT_NULL;
+  //this method would only have been called from a place that nulls u.activity.type,
+  //so it appears that it's safe to NOT null that variable here.
+  //rationale: this allows certain contexts (e.g. ACT_LONGCRAFT) to distinguish major and minor failures
   return;
  }
 // If we're here, the craft was a success!
