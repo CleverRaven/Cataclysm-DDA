@@ -528,6 +528,11 @@ void monster::hit_monster(game *g, int i)
 {
  int junk;
  monster* target = &(g->z[i]);
+ 
+ if (this == target) {
+  debugmsg("stopped monster from hitting itself");
+  return;
+ }
 
  int numdice = type->melee_skill;
  int dodgedice = target->dodge() * 2;
