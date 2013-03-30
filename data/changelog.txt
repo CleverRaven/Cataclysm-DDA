@@ -1,6 +1,7 @@
 Changelog will be a little light for the early entries due to me being really bad at documenting things.
 
 0.4
+Make the battery system bionic only consume as many batteries as necessary to fully power yourself
 Soldering irons (and hotplates, why not) can be used to cauterize wounds, causing pain and removing any bleeding or uninfected bite effects.
 Fixed crash bug in Windows when attacks hit something off-screen?
 Fixed precipitation animation with shifted viewport.
