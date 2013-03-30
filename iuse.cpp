@@ -1078,10 +1078,7 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
  } else {
   if (p->is_npc() || query_yn("Cauterize any open wounds?")) {
    it->charges -= 1;
-   p->rem_disease(DI_BLEED);
-   p->rem_disease(DI_BITE);
-   p->pain += 15;
-   g->add_msg_if_player(p,"You cauterize yourself. It hurts like hell!");
+   p->cauterize(g);
   }
  }
 }
@@ -2703,9 +2700,9 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
  void iuse::knife(game *g, player *p, item *it, bool t)
 {
  int ch = menu(
- "Using knife:", "Cut up fabric", "Carve wood", "Cancel", NULL);
+ "Using knife:", "Cut up fabric", "Carve wood", "Cauterize", "Cancel", NULL);
  switch (ch) {
-  if (ch == 3)
+  if (ch == 4)
   break;
 
  case 1: {

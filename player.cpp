@@ -2831,6 +2831,15 @@ int player::addiction_level(add_type type)
  return 0;
 }
 
+void player::cauterize(game *g) {
+ rem_disease(DI_BLEED);
+ rem_disease(DI_BITE);
+ pain += 15;
+ if (!is_npc()) {
+  g->add_msg("You cauterize yourself. It hurts like hell!");
+ }
+}
+
 void player::suffer(game *g)
 {
  for (int i = 0; i < my_bionics.size(); i++) {
