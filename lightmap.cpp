@@ -212,7 +212,7 @@ void map::cache_seen(int fx, int fy, int tx, int ty, int max_range)
          x += dx;
          t += ay;
 
-         seen_cache[x][y] = seen;
+         seen_cache[x][y] |= seen;
          if(light_transparency(x, y) == LIGHT_TRANSPARENCY_SOLID) seen = false;
 
       } while(!(x == tx && y == ty));
@@ -231,7 +231,7 @@ void map::cache_seen(int fx, int fy, int tx, int ty, int max_range)
          y += dy;
          t += ax;
 
-         seen_cache[x][y] = seen;
+         seen_cache[x][y] |= seen;
          if(light_transparency(x, y) == LIGHT_TRANSPARENCY_SOLID) seen = false;
 
       } while(!(x == tx && y == ty));

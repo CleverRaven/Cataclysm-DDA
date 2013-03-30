@@ -3491,6 +3491,7 @@ void map::build_transparency_cache()
 
 void map::build_seen_cache(game *g)
 {
+  memset(seen_cache, false, sizeof(seen_cache));
   const int j = (SEEX * my_MAPSIZE) - 1;
   for (int i = 0; i < SEEX * my_MAPSIZE; i++) {
     cache_seen(g->u.posx, g->u.posy, 0, i, 60);
