@@ -7,6 +7,7 @@ Vehicle-mountable water tanks and kitchen units, implied storage-battery-chargin
 Map tiles can now contain up to 64 items.
 Beer has been made weaker, and now appears in kegs in liquor stores and bars.
 Steel jerrycans.
+Any gun can now be used one-handed if you are strong enough.
 
 0.3
 Many menus stretch with an enlarged viewport.
