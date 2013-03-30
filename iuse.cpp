@@ -1071,6 +1071,21 @@ void iuse::light_on(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
+{
+ if (it->charges == 0) {
+  g->add_msg_if_player(p,"You need batteries to cauterize wounds.");
+ } else {
+  if (p->is_npc() || query_yn("Cauterize any open wounds?")) {
+   it->charges -= 1;
+   p->rem_disease(DI_BLEED);
+   p->rem_disease(DI_BITE);
+   p->pain += 15;
+   g->add_msg_if_player(p,"You cauterize yourself. Ouch!");
+  }
+ }
+}
+
 void iuse::water_purifier(game *g, player *p, item *it, bool t)
 {
   it->charges++;

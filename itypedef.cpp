@@ -3654,15 +3654,17 @@ mfb(IF_LIGHT_8),
 provides light during the night or while underground. Use it to turn it off.");
 
 TOOL("hotplate",	10, 250,';', c_green,	IRON,	PLASTIC,
-    5,  6,  8,  0, -1, 200, 100,  0,  0, AT_BATT, itm_null, &iuse::none,0,"\
-A small heating element. Indispensable for cooking and chemistry.");
+    5,  6,  8,  0, -1, 200, 100,  0,  0, AT_BATT, itm_null, &iuse::cauterize_elec,0,"\
+A small heating element. Indispensable for cooking and chemistry. Try not to\n\
+burn yourself.");
 
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
 TOOL("soldering iron",	70, 200,',', c_ltblue,	IRON,	MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    3,  1,  2,  6,  0, 200, 20,  0,  0, AT_BATT, itm_null, &iuse::none,
+    3,  1,  2,  6,  0, 200, 20,  0,  0, AT_BATT, itm_null, &iuse::cauterize_elec,
 mfb(IF_SPEAR), "\
-A piece of metal that can get very hot. Necessary for electronics crafting.");
+A piece of metal that can get very hot. Necessary for electronics crafting.\n\
+You could also use it to cauterize wounds, if you had to.");
 
 TOOL("water purifier",   5,1200,';', c_ltblue,	PLASTIC, IRON,
    12, 20,  2,  0, -3, 100,100, 1,  0, AT_BATT,itm_null,&iuse::water_purifier,0,
