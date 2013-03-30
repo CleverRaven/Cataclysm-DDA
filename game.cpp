@@ -53,6 +53,7 @@ game::game() :
 {
  dout() << "Game initialized.";
 // Gee, it sure is init-y around here!
+ init_bionics();      // Set up bionics                   (SEE bionics.cpp)
  init_itypes();	      // Set up item types                (SEE itypedef.cpp)
  init_mtypes();	      // Set up monster types             (SEE mtypedef.cpp)
  init_monitems();     // Set up the items monsters carry  (SEE monitemsdef.cpp)
@@ -74,8 +75,7 @@ game::game() :
 game::~game()
 {
  delete gamemode;
- for (int i = 0; i < itypes.size(); i++)
-  delete itypes[i];
+ itypes.clear();
  for (int i = 0; i < mtypes.size(); i++)
   delete mtypes[i];
  delwin(w_terrain);
@@ -333,9 +333,9 @@ bool game::do_turn()
 
  if (turn % 50 == 0) {	// Hunger, thirst, & fatigue up every 5 minutes
   if ((!u.has_trait(PF_LIGHTEATER) || !one_in(3)) &&
-      (!u.has_bionic(bio_recycler) || turn % 300 == 0))
+      (!u.has_bionic("bio_recycler") || turn % 300 == 0))
    u.hunger++;
-  if ((!u.has_bionic(bio_recycler) || turn % 100 == 0) &&
+  if ((!u.has_bionic("bio_recycler") || turn % 100 == 0) &&
       (!u.has_trait(PF_PLANTSKIN) || !one_in(5)))
    u.thirst++;
   u.fatigue++;
@@ -354,7 +354,7 @@ bool game::do_turn()
    u.pkill--;
   if (u.pkill < 0)
    u.pkill++;
-  if (u.has_bionic(bio_solar) && is_in_sunlight(u.posx, u.posy))
+  if (u.has_bionic("bio_solar") && is_in_sunlight(u.posx, u.posy))
    u.charge_power(1);
  }
  if (turn % 300 == 0) {	// Pain up/down every 30 minutes
@@ -446,7 +446,7 @@ void game::rustCheck() {
 
     if (skillLevel > 0 && turn % (8192 / int(pow(2, double(forgetCap - 1)))) == 0) {
       if (rng(1,12) % (u.has_trait(PF_FORGETFUL) ? 3 : 4)) {
-        if (u.has_bionic(bio_memory) && u.power_level > 0) {
+        if (u.has_bionic("bio_memory") && u.power_level > 0) {
           if (one_in(5))
             u.power_level--;
         } else {
@@ -597,8 +597,8 @@ void game::process_activity()
 
    case ACT_TRAIN:
     if (u.activity.index < 0) {
-     add_msg("You learn %s.", itypes[0 - u.activity.index]->name.c_str());
-     u.styles.push_back( itype_id(0 - u.activity.index) );
+     add_msg("You learn %s.", martial_arts_itype_ids[0 - u.activity.index].c_str());
+     u.styles.push_back( martial_arts_itype_ids[0 - u.activity.index] );
     } else {
      u.sklevel[ u.activity.index ]++;
 
@@ -1368,7 +1368,7 @@ bool game::handle_action()
 
   case ACTION_PICK_STYLE:
    u.pick_style(this);
-   if (u.weapon.type->id == 0 || u.weapon.is_style()) {
+   if (u.weapon.type->id == "null" || u.weapon.is_style()) {
     u.weapon = item(itypes[u.style_selected], 0);
     u.weapon.invlet = ':';
    }
@@ -1507,7 +1507,7 @@ bool game::handle_action()
     u.moves = 0;
     std::vector<item> tmp = u.inv_dump();
     item your_body;
-    your_body.make_corpse(itypes[itm_corpse], mtypes[mon_null], turn);
+    your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
     your_body.name = u.name;
     m.add_item(u.posx, u.posy, your_body);
     for (int i = 0; i < tmp.size(); i++)
@@ -1585,7 +1585,7 @@ int& game::scent(int x, int y)
 void game::update_scent()
 {
  signed int newscent[SEEX * MAPSIZE][SEEY * MAPSIZE];
- if (!u.has_active_bionic(bio_scent_mask))
+ if (!u.has_active_bionic("bio_scent_mask"))
   grscent[u.posx][u.posy] = u.scent;
  else
   grscent[u.posx][u.posy] = 0;
@@ -1631,7 +1631,7 @@ void game::update_scent()
    else
     grscent[x][y] = newscent[x][y];
  }
- if (!u.has_active_bionic(bio_scent_mask))
+ if (!u.has_active_bionic("bio_scent_mask"))
   grscent[u.posx][u.posy] = u.scent;
  else
   grscent[u.posx][u.posy] = 0;
@@ -1645,7 +1645,7 @@ bool game::is_game_over()
   if (u.hp_cur[i] < 1) {
    std::vector<item> tmp = u.inv_dump();
    item your_body;
-   your_body.make_corpse(itypes[itm_corpse], mtypes[mon_null], turn);
+   your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
    your_body.name = u.name;
    m.add_item(u.posx, u.posy, your_body);
    for (int i = 0; i < tmp.size(); i++)
@@ -1774,8 +1774,8 @@ void game::load(std::string name)
  }
  u = player();
  u.name = name;
- u.ret_null = item(itypes[0], 0);
- u.weapon = item(itypes[0], 0);
+ u.ret_null = item(itypes["null"], 0);
+ u.weapon = item(itypes["null"], 0);
  int tmpturn, tmpspawn, tmpnextweather, tmprun, tmptar, tmpweather, tmptemp,
      comx, comy;
  fin >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
@@ -1910,11 +1910,13 @@ void game::save()
  fout.close();
 
 // Finally, save artifacts.
- if (itypes.size() > num_all_items) {
-  fout.open("save/artifacts.gsav");
-  for (int i = num_all_items; i < itypes.size(); i++)
-   fout << itypes[i]->save_data() << "\n";
-  fout.close();
+ if (artifact_itype_ids.size() > 0) {
+    fout.open("save/artifacts.gsav");
+    for ( std::vector<std::string>::iterator it = artifact_itype_ids.begin(); 
+          it != artifact_itype_ids.end(); ++it){
+        fout << itypes[*it]->save_data() << "\n";
+    }
+    fout.close();
  }
 // aaaand the overmap, and the local map.
  cur_om.save();
@@ -2144,8 +2146,10 @@ z.size(), events.size());
    break;
 
   case 12:
-   for (int i = itm_style_karate; i <= itm_style_zui_quan; i++)
-    u.styles.push_back( itype_id(i) );
+    for(std::vector<std::string>::iterator it = martial_arts_itype_ids.begin(); 
+          it != martial_arts_itype_ids.end(); ++it){
+        u.styles.push_back(*it);
+    }
    break;
 
   case 13: {
@@ -2614,7 +2618,7 @@ void game::draw_ter(int posx, int posy)
    z[i].draw(w_terrain, posx, posy, false);
    mapRain[VIEWY + z[i].posy - posy][VIEWX + z[i].posx - posx] = false;
   } else if (z[i].has_flag(MF_WARM) && distx <= VIEWX && disty <= VIEWY &&
-           (u.has_active_bionic(bio_infrared) || u.has_trait(PF_INFRARED)))
+           (u.has_active_bionic("bio_infrared") || u.has_trait(PF_INFRARED)))
    mvwputch(w_terrain, VIEWY + z[i].posy - posy, VIEWX + z[i].posx - posx,
             c_red, '?');
  }
@@ -2626,7 +2630,7 @@ void game::draw_ter(int posx, int posy)
       u_see(active_npc[i].posx, active_npc[i].posy, t))
    active_npc[i].draw(w_terrain, posx, posy, false);
  }
- if (u.has_active_bionic(bio_scent_vision)) {
+ if (u.has_active_bionic("bio_scent_vision")) {
   for (int realx = posx - VIEWX; realx <= posx + VIEWX; realx++) {
    for (int realy = posy - VIEWY; realy <= posy + VIEWY; realy++) {
     if (scent(realx, realy) != 0) {
@@ -2888,7 +2892,7 @@ unsigned char game::light_level()
     ret = (ret * (25 - turns_left)) / 25;
   }
  }
- int flashlight = u.active_item_charges(itm_flashlight_on);
+ int flashlight = u.active_item_charges("flashlight_on");
  if (ret < 10 && flashlight > 0) {
 /* additive so that low battery flashlights still increase the light level
 	rather than decrease it 						*/
@@ -2896,15 +2900,15 @@ unsigned char game::light_level()
   if (ret > 10)
    ret = 10;
  }
- if (ret < 8 && u.has_active_bionic(bio_flashlight))
+ if (ret < 8 && u.has_active_bionic("bio_flashlight"))
   ret = 8;
  if (ret < 8 && event_queued(EVENT_ARTIFACT_LIGHT))
   ret = 8;
- if (ret < 6 && u.has_amount(itm_torch_lit, 1) || ret < 6 && u.has_amount(itm_pda_flashlight, 1))
+ if (ret < 6 && u.has_amount("torch_lit", 1) || ret < 6 && u.has_amount("pda_flashlight", 1))
   ret = 6;
  if (ret < 4 && u.has_artifact_with(AEP_GLOW))
   ret = 4;
- if (ret < 3 && u.has_amount(itm_candle_lit, 1))
+ if (ret < 3 && u.has_amount("candle_lit", 1))
   ret = 3;
  if (ret < 1)
   ret = 1;
@@ -3011,7 +3015,7 @@ bool game::sees_u(int x, int y, int &t)
  if( range <= 0)
   range = 1;
 
- return (!u.has_active_bionic(bio_cloak) &&
+ return (!u.has_active_bionic("bio_cloak") &&
          !u.has_artifact_with(AEP_INVISIBLE) &&
          m.sees(x, y, u.posx, u.posy, range, t));
 }
@@ -3036,7 +3040,7 @@ bool game::u_see(monster *mon, int &t)
  int dist = rl_dist(u.posx, u.posy, mon->posx, mon->posy);
  if (u.has_trait(PF_ANTENNAE) && dist <= 3)
   return true;
- if (mon->has_flag(MF_DIGS) && !u.has_active_bionic(bio_ground_sonar) &&
+ if (mon->has_flag(MF_DIGS) && !u.has_active_bionic("bio_ground_sonar") &&
      dist > 1)
   return false;	// Can't see digging monsters until we're right next to them
 
@@ -3046,7 +3050,7 @@ bool game::u_see(monster *mon, int &t)
 bool game::pl_sees(player *p, monster *mon, int &t)
 {
  // TODO: [lightmap] Allow npcs to use the lightmap
- if (mon->has_flag(MF_DIGS) && !p->has_active_bionic(bio_ground_sonar) &&
+ if (mon->has_flag(MF_DIGS) && !p->has_active_bionic("bio_ground_sonar") &&
      rl_dist(p->posx, p->posy, mon->posx, mon->posy) > 1)
   return false;	// Can't see digging monsters until we're right next to them
  int range = p->sight_range(light_level());
@@ -3411,7 +3415,7 @@ void game::monmove()
   }
 
   if (!z[i].dead) {
-   if (u.has_active_bionic(bio_alarm) && u.power_level >= 1 &&
+   if (u.has_active_bionic("bio_alarm") && u.power_level >= 1 &&
        rl_dist(u.posx, u.posy, z[i].posx, z[i].posy) <= 5) {
     u.power_level--;
     add_msg("Your motion alarm goes off!");
@@ -3500,7 +3504,7 @@ void game::sound(int x, int y, int vol, std::string description)
  if (u.has_disease(DI_DEAF))
   return;	// We're deaf, can't hear it
 
- if (u.has_bionic(bio_ears))
+ if (u.has_bionic("bio_ears"))
   vol *= 3.5;
  if (u.has_trait(PF_BADHEARING))
   vol *= .5;
@@ -3516,7 +3520,7 @@ void game::sound(int x, int y, int vol, std::string description)
   add_msg("You're woken up by a noise.");
   return;
  }
- if (!u.has_bionic(bio_ears) && rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
+ if (!u.has_bionic("bio_ears") && rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
   int duration = (vol - dist - 130) / 4;
   if (duration > 40)
    duration = 40;
@@ -3556,7 +3560,7 @@ void game::add_footstep(int x, int y, int volume, int distance)
   err_offset = 2;
  else
   err_offset = 1;
- if (u.has_bionic(bio_ears))
+ if (u.has_bionic("bio_ears"))
   err_offset--;
  if (u.has_trait(PF_BADHEARING))
   err_offset++;
@@ -3738,7 +3742,7 @@ void game::flashbang(int x, int y)
 {
  int dist = rl_dist(u.posx, u.posy, x, y), t;
  if (dist <= 8) {
-  if (!u.has_bionic(bio_ears))
+  if (!u.has_bionic("bio_ears"))
    u.add_disease(DI_DEAF, 40 - dist * 4, this);
   if (m.sees(u.posx, u.posy, x, y, 8, t))
    u.infect(DI_BLIND, bp_eyes, (12 - dist) / 2, 10 - dist, this);
@@ -4009,14 +4013,14 @@ void game::explode_mon(int index)
    itype* meat;
    if (corpse->has_flag(MF_POISON)) {
     if (corpse->mat == FLESH)
-     meat = itypes[itm_meat_tainted];
+     meat = itypes["meat_tainted"];
     else
-     meat = itypes[itm_veggy_tainted];
+     meat = itypes["veggy_tainted"];
    } else {
     if (corpse->mat == FLESH)
-     meat = itypes[itm_meat];
+     meat = itypes["meat"];
     else
-     meat = itypes[itm_veggy];
+     meat = itypes["veggy"];
    }
 
    int posx = z[index].posx, posy = z[index].posy;
@@ -5065,7 +5069,7 @@ void game::pickup(int posx, int posy, int min)
 {
  item_exchanges_since_save += 1; // Keeping this simple.
  write_msg();
- if (u.weapon.type->id == itm_bio_claws) {
+ if (u.weapon.type->id == "bio_claws_weapon") {
   add_msg("You cannot pick up items with your claws out!");
   return;
  }
@@ -5087,7 +5091,7 @@ void game::pickup(int posx, int posy, int min)
       if (query_yn("Have a drink?")) {
         veh->drain(AT_WATER, 1);
 
-        item water(itypes[itm_water_clean], 0);
+        item water(itypes["water_clean"], 0);
         u.inv.push_back(water);
         u.eat(this, u.inv.size() - 1);
         u.moves -= 250;
@@ -5427,7 +5431,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
   debugmsg("Tried to handle_liquid a non-liquid!");
   return false;
  }
- if (liquid.type->id == itm_gasoline && vehicle_near() && query_yn("Refill vehicle?")) {
+ if (liquid.type->id == "gasoline" && vehicle_near() && query_yn("Refill vehicle?")) {
   int vx = u.posx, vy = u.posy;
   if (pl_choose_vehicle(vx, vy)) {
    vehicle *veh = m.veh_at (vx, vy);
@@ -5855,7 +5859,8 @@ void game::plthrow(char chInput)
   return;
  }
  item thrown = u.i_at(ch);
- if (thrown.type->id > num_items && thrown.type->id < num_all_items) {
+  if( std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(), 
+    thrown.type->id) != unreal_itype_ids.end()) {
   add_msg("That's part of your body, you can't throw that!");
   return;
  }
@@ -5924,10 +5929,10 @@ void game::plfire(bool burst)
   return;
  }
  if (u.weapon.has_flag(IF_CHARGE) && !u.weapon.active) {
-  if (u.has_charges(itm_UPS_on, 1) || u.has_charges(itm_UPS_off, 1)) {
+  if (u.has_charges("UPS_on", 1) || u.has_charges("UPS_off", 1)) {
    add_msg("Your %s starts charging.", u.weapon.tname().c_str());
    u.weapon.charges = 0;
-   u.weapon.curammo = dynamic_cast<it_ammo*>(itypes[itm_charge_shot]);
+   u.weapon.curammo = dynamic_cast<it_ammo*>(itypes["charge_shot"]);
    u.weapon.active = true;
    return;
   } else {
@@ -5955,8 +5960,8 @@ void game::plfire(bool burst)
   add_msg("Your %s needs 100 charges to fire!", u.weapon.tname().c_str());
   return;
  }
- if (u.weapon.has_flag(IF_USE_UPS) && !u.has_charges(itm_UPS_off, 5) &&
-     !u.has_charges(itm_UPS_on, 5)) {
+ if (u.weapon.has_flag(IF_USE_UPS) && !u.has_charges("UPS_off", 5) &&
+     !u.has_charges("UPS_on", 5)) {
   add_msg("You need a UPS with at least 5 charges to fire that!");
   return;
  }
@@ -6020,10 +6025,10 @@ void game::plfire(bool burst)
  }
 
  if (u.weapon.has_flag(IF_USE_UPS)) {
-  if (u.has_charges(itm_UPS_off, 5))
-   u.use_charges(itm_UPS_off, 5);
-  else if (u.has_charges(itm_UPS_on, 5))
-   u.use_charges(itm_UPS_on, 5);
+  if (u.has_charges("UPS_off", 5))
+   u.use_charges("UPS_off", 5);
+  else if (u.has_charges("UPS_on", 5))
+   u.use_charges("UPS_on", 5);
  }
 
  if (u.weapon.mode == IF_MODE_BURST)
@@ -6050,7 +6055,7 @@ void game::butcher()
 {
  std::vector<int> corpses;
  for (int i = 0; i < m.i_at(u.posx, u.posy).size(); i++) {
-  if (m.i_at(u.posx, u.posy)[i].type->id == itm_corpse)
+  if (m.i_at(u.posx, u.posy)[i].type->id == "corpse")
    corpses.push_back(i);
  }
  if (corpses.size() == 0) {
@@ -6131,20 +6136,20 @@ void game::complete_butcher(int index)
 
  if (bones > 0) {
   if (corpse->has_flag(MF_BONES)) {
-    m.spawn_item(u.posx, u.posy, itypes[itm_bone], age, bones);
+    m.spawn_item(u.posx, u.posy, itypes["bone"], age, bones);
    add_msg("You harvest some usable bones!");
   } else if (corpse->mat == VEGGY) {
-    m.spawn_item(u.posx, u.posy, itypes[itm_plant_sac], age, bones);
+    m.spawn_item(u.posx, u.posy, itypes["plant_sac"], age, bones);
    add_msg("You harvest some fluid bladders!");
   }
  }
 
  if (sinews > 0) {
   if (corpse->has_flag(MF_BONES)) {
-    m.spawn_item(u.posx, u.posy, itypes[itm_sinew], age, sinews);
+    m.spawn_item(u.posx, u.posy, itypes["sinew"], age, sinews);
    add_msg("You harvest some usable sinews!");
   } else if (corpse->mat == VEGGY) {
-    m.spawn_item(u.posx, u.posy, itypes[itm_plant_fibre], age, sinews);
+    m.spawn_item(u.posx, u.posy, itypes["plant_fibre"], age, sinews);
    add_msg("You harvest some plant fibres!");
   }
  }
@@ -6164,8 +6169,8 @@ void game::complete_butcher(int index)
    leather = pelts;
   }
 
-  if(fur) m.spawn_item(u.posx, u.posy, itypes[itm_fur], age, fur);
-  if(leather) m.spawn_item(u.posx, u.posy, itypes[itm_leather], age, leather);
+  if(fur) m.spawn_item(u.posx, u.posy, itypes["fur"], age, fur);
+  if(leather) m.spawn_item(u.posx, u.posy, itypes["leather"], age, leather);
  }
 
  //Add a chance of CBM recovery. For shocker and cyborg corpses.
@@ -6175,9 +6180,9 @@ void game::complete_butcher(int index)
    add_msg("You discover a CBM in the %s!", corpse->name.c_str());
    //To see if it spawns a battery
    if(rng(0,1) == 1){ //The battery works
-    m.spawn_item(u.posx, u.posy, itypes[itm_bionics_batteries], age);
+    m.spawn_item(u.posx, u.posy, itypes["bionics_batteries"], age);
    }else{//There is a burnt out CBM
-    m.spawn_item(u.posx, u.posy, itypes[itm_burnt_out_bionic], age);
+    m.spawn_item(u.posx, u.posy, itypes["burnt_out_bionic"], age);
    }
   }
   if(skill_shift >= 0){
@@ -6186,7 +6191,7 @@ void game::complete_butcher(int index)
     int index = rng(0, mapitems[mi_bionics].size()-1);
     m.spawn_item(u.posx, u.posy, itypes[ mapitems[mi_bionics][index] ], age);
    }else{//There is a burnt out CBM
-    m.spawn_item(u.posx, u.posy, itypes[itm_burnt_out_bionic], age);
+    m.spawn_item(u.posx, u.posy, itypes["burnt_out_bionic"], age);
    }
   }
  }
@@ -6197,17 +6202,17 @@ void game::complete_butcher(int index)
   itype* meat;
   if (corpse->has_flag(MF_POISON)) {
     if (corpse->mat == FLESH)
-     meat = itypes[itm_meat_tainted];
+     meat = itypes["meat_tainted"];
     else
-     meat = itypes[itm_veggy_tainted];
+     meat = itypes["veggy_tainted"];
   } else {
    if (corpse->mat == FLESH)
     if(corpse->has_flag(MF_HUMAN))
-     meat = itypes[itm_human_flesh];
+     meat = itypes["human_flesh"];
     else
-     meat = itypes[itm_meat];
+     meat = itypes["meat"];
    else
-    meat = itypes[itm_veggy];
+    meat = itypes["veggy"];
   }
   m.spawn_item(u.posx, u.posy, meat, age, pieces);
   add_msg("You butcher the corpse.");
@@ -6222,7 +6227,7 @@ void game::forage()
   {
     add_msg("You found some wild veggies!");
     u.practice("survival", 10);
-    m.spawn_item(u.activity.placement.x, u.activity.placement.y, this->itypes[itm_veggy_wild], turn, 0);
+    m.spawn_item(u.activity.placement.x, u.activity.placement.y, this->itypes["veggy_wild"], turn, 0);
     m.ter(u.activity.placement.x, u.activity.placement.y) = t_dirt;
   }
   else
@@ -6338,7 +6343,7 @@ single action.", u.weapon.tname().c_str());
    int alternate_magazine = -1;
    for (int i = 0; i < u.weapon.contents.size(); i++) {
      if (u.weapon.contents[i].is_gunmod() &&
-         (u.weapon.contents[i].typeId() == itm_spare_mag &&
+         (u.weapon.contents[i].typeId() == "spare_mag" &&
           u.weapon.contents[i].charges < (dynamic_cast<it_gun*>(u.weapon.type))->clip) ||
          (u.weapon.contents[i].has_flag(IF_MODE_AUX) &&
           u.weapon.contents[i].charges < u.weapon.contents[i].clip_size()))
@@ -6419,9 +6424,9 @@ void game::unload()
  int has_m203 = -1;
  int has_shotgun = -1;
  if (u.weapon.is_gun()) {
-  spare_mag = u.weapon.has_gunmod (itm_spare_mag);
-  has_m203 = u.weapon.has_gunmod (itm_m203);
-  has_shotgun = u.weapon.has_gunmod (itm_u_shotgun);
+  spare_mag = u.weapon.has_gunmod ("spare_mag");
+  has_m203 = u.weapon.has_gunmod ("m203");
+  has_shotgun = u.weapon.has_gunmod ("u_shotgun");
  }
  if (u.weapon.is_container() || u.weapon.charges == 0 &&
      (spare_mag == -1 || u.weapon.contents[spare_mag].charges <= 0) &&
@@ -6849,7 +6854,7 @@ void game::plmove(int x, int y)
      if (query_yn("Deactivate the turret?")) {
       z.erase(z.begin() + mondex);
       u.moves -= 100;
-      m.spawn_item(z[mondex].posx, z[mondex].posy, itypes[itm_bot_turret], turn);
+      m.spawn_item(z[mondex].posx, z[mondex].posy, itypes["bot_turret"], turn);
      }
      return;
     } else {
@@ -6874,34 +6879,22 @@ void game::plmove(int x, int y)
   }
 
 // Some martial art styles have special effects that trigger when we move
-  switch (u.weapon.type->id) {
-
-   case itm_style_capoeira:
+  if(u.weapon.type->id == "style_capoeira"){
     if (u.disease_level(DI_ATTACK_BOOST) < 2)
      u.add_disease(DI_ATTACK_BOOST, 2, this, 2, 2);
     if (u.disease_level(DI_DODGE_BOOST) < 2)
      u.add_disease(DI_DODGE_BOOST, 2, this, 2, 2);
-    break;
-
-   case itm_style_ninjutsu:
+  } else if(u.weapon.type->id == "style_ninjutsu"){
     u.add_disease(DI_ATTACK_BOOST, 2, this, 1, 3);
-    break;
-
-   case itm_style_crane:
+  } else if(u.weapon.type->id == "style_crane"){
     if (!u.has_disease(DI_DODGE_BOOST))
      u.add_disease(DI_DODGE_BOOST, 1, this, 3, 3);
-    break;
-
-   case itm_style_leopard:
+  } else if(u.weapon.type->id == "style_leopard"){
     u.add_disease(DI_ATTACK_BOOST, 2, this, 1, 4);
-    break;
-
-   case itm_style_dragon:
+  } else if(u.weapon.type->id == "style_dragon"){
     if (!u.has_disease(DI_DAMAGE_BOOST))
      u.add_disease(DI_DAMAGE_BOOST, 2, this, 3, 3);
-    break;
-
-   case itm_style_lizard: {
+  } else if(u.weapon.type->id == "style_lizard"){
     bool wall = false;
     for (int wallx = x - 1; wallx <= x + 1 && !wall; wallx++) {
      for (int wally = y - 1; wally <= y + 1 && !wall; wally++) {
@@ -6913,8 +6906,7 @@ void game::plmove(int x, int y)
      u.add_disease(DI_ATTACK_BOOST, 2, this, 2, 8);
     else
      u.rem_disease(DI_ATTACK_BOOST);
-   } break;
-  }
+  } 
 
 // List items here
   if (!u.has_disease(DI_BLIND) && m.i_at(x, y).size() <= 3 &&
@@ -7183,10 +7175,10 @@ void game::vertical_move(int movez, bool force)
     if (tmpmap.move_cost(u.posx, u.posy) == 0) {
      popup("Halfway down, the way down becomes blocked off.");
      return;
-    } else if (u.has_amount(itm_rope_30, 1)) {
+    } else if (u.has_amount("rope_30", 1)) {
      if (query_yn("There is a sheer drop halfway down. Climb your rope down?")){
       rope_ladder = true;
-      u.use_amount(itm_rope_30, 1);
+      u.use_amount("rope_30", 1);
      } else
       return;
     } else if (!query_yn("There is a sheer drop halfway down.  Jump?"))
@@ -7246,7 +7238,7 @@ void game::vertical_move(int movez, bool force)
   m.ter(u.posx, u.posy) = t_rope_up;
  if (m.ter(stairx, stairy) == t_manhole_cover) {
   m.spawn_item(stairx + rng(-1, 1), stairy + rng(-1, 1),
-             itypes[itm_manhole_cover], 0);
+             itypes["manhole_cover"], 0);
   m.ter(stairx, stairy) = t_manhole;
  }
 

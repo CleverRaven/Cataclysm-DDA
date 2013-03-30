@@ -69,15 +69,15 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
 
     crafting_inv = gm->crafting_inventory();
 
-    int charges = ((it_tool *) g->itypes[itm_welder])->charges_per_use;
-    has_wrench = crafting_inv.has_amount(itm_wrench, 1) ||
-                 crafting_inv.has_amount(itm_toolset, 1);
-    has_hacksaw = crafting_inv.has_amount(itm_hacksaw, 1) ||
-                  crafting_inv.has_amount(itm_toolset, 1);
-    has_welder = (crafting_inv.has_amount(itm_welder, 1) &&
-                  crafting_inv.has_charges(itm_welder, charges)) ||
-                 (crafting_inv.has_amount(itm_toolset, 1) &&
-                 crafting_inv.has_charges(itm_toolset, charges/5));
+    int charges = ((it_tool *) g->itypes["welder"])->charges_per_use;
+    has_wrench = crafting_inv.has_amount("wrench", 1) ||
+                 crafting_inv.has_amount("toolset", 1);
+    has_hacksaw = crafting_inv.has_amount("hacksaw", 1) ||
+                  crafting_inv.has_amount("toolset", 1);
+    has_welder = (crafting_inv.has_amount("welder", 1) &&
+                  crafting_inv.has_charges("welder", charges)) ||
+                 (crafting_inv.has_amount("toolset", 1) &&
+                 crafting_inv.has_charges("toolset", charges/5));
 
     display_stats ();
     display_veh   ();
@@ -719,7 +719,7 @@ void complete_vehicle (game *g)
     int dy = g->u.activity.values[5];
     int part = g->u.activity.values[6];
     std::vector<component> tools;
-    int welder_charges = ((it_tool *) g->itypes[itm_welder])->charges_per_use;
+    int welder_charges = ((it_tool *) g->itypes["welder"])->charges_per_use;
     itype_id itm;
     int partnum;
     item used_item;
@@ -735,8 +735,8 @@ void complete_vehicle (game *g)
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part);
         used_item = consume_vpart_item (g, (vpart_id) part);
         veh->get_part_properties_from_item(g, partnum, used_item); //transfer damage, etc.
-        tools.push_back(component(itm_welder, welder_charges));
-        tools.push_back(component(itm_toolset, welder_charges/5));
+        tools.push_back(component("welder", welder_charges));
+        tools.push_back(component("toolset", welder_charges/5));
         g->consume_tools(tools);
         g->add_msg ("You install a %s into the %s.",
                    vpart_list[part].name, veh->name.c_str());
@@ -746,14 +746,14 @@ void complete_vehicle (game *g)
         if (veh->parts[part].hp <= 0)
         {
             used_item = consume_vpart_item (g, veh->parts[part].id);
-            tools.push_back(component(itm_wrench, 1));
+            tools.push_back(component("wrench", 1));
             g->consume_tools(tools);
             tools.clear();
             dd = 0;
             veh->insides_dirty = true;
         }
-        tools.push_back(component(itm_welder, welder_charges));
-        tools.push_back(component(itm_toolset, welder_charges/5));
+        tools.push_back(component("welder", welder_charges));
+        tools.push_back(component("toolset", welder_charges/5));
         g->consume_tools(tools);
         veh->parts[part].hp = veh->part_info(part).durability;
         g->add_msg ("You repair the %s's %s.",

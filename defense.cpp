@@ -157,10 +157,10 @@ void defense_game::game_over(game *g)
 
 void defense_game::init_itypes(game *g)
 {
- g->itypes[itm_2x4]->volume = 0;
- g->itypes[itm_2x4]->weight = 0;
- g->itypes[itm_landmine]->price = 300;
- g->itypes[itm_bot_turret]->price = 6000;
+ g->itypes["2x4"]->volume = 0;
+ g->itypes["2x4"]->weight = 0;
+ g->itypes["landmine"]->price = 300;
+ g->itypes["bot_turret"]->price = 6000;
 }
 
 void defense_game::init_mtypes(game *g)
@@ -1033,50 +1033,50 @@ std::vector<itype_id> caravan_items(caravan_category cat)
 
  case CARAVAN_MELEE:
   setvector(ret,
-itm_hammer, itm_bat, itm_mace, itm_morningstar, itm_hammer_sledge, itm_hatchet,
-itm_knife_combat, itm_rapier, itm_machete, itm_katana, itm_spear_knife,
-itm_pike, itm_chainsaw_off, NULL);
+"hammer", "bat", "mace", "morningstar", "hammer_sledge", "hatchet",
+"knife_combat", "rapier", "machete", "katana", "spear_knife",
+"pike", "chainsaw_off", NULL);
   break;
 
  case CARAVAN_GUNS:
   setvector(ret,
-itm_crossbow, itm_bolt_steel, itm_compbow, itm_arrow_cf, itm_marlin_9a,
-itm_22_lr, itm_hk_mp5, itm_9mm, itm_taurus_38, itm_38_special, itm_deagle_44,
-itm_44magnum, itm_m1911, itm_hk_ump45, itm_45_acp, itm_fn_p90, itm_57mm,
-itm_remington_870, itm_shot_00, itm_shot_slug, itm_browning_blr, itm_3006,
-itm_ak47, itm_762_m87, itm_m4a1, itm_556, itm_savage_111f, itm_hk_g3,
-itm_762_51, itm_hk_g80, itm_12mm, itm_plasma_rifle, itm_plasma, NULL);
+"crossbow", "bolt_steel", "compbow", "arrow_cf", "marlin_9a",
+"22_lr", "hk_mp5", "9mm", "taurus_38", "38_special", "deagle_44",
+"44magnum", "m1911", "hk_ump45", "45_acp", "fn_p90", "57mm",
+"remington_870", "shot_00", "shot_slug", "browning_blr", "3006",
+"ak47", "762_m87", "m4a1", "556", "savage_111f", "hk_g3",
+"762_51", "hk_g80", "12mm", "plasma_rifle", "plasma", NULL);
   break;
 
  case CARAVAN_COMPONENTS:
   setvector(ret,
-itm_rag, itm_fur, itm_leather, itm_superglue, itm_string_36, itm_chain,
-itm_processor, itm_RAM, itm_power_supply, itm_motor, itm_hose, itm_pot,
-itm_2x4, itm_battery, itm_nail, itm_gasoline, NULL);
+"rag", "fur", "leather", "superglue", "string_36", "chain",
+"processor", "RAM", "power_supply", "motor", "hose", "pot",
+"2x4", "battery", "nail", "gasoline", NULL);
   break;
 
  case CARAVAN_FOOD:
   setvector(ret,
-itm_1st_aid, itm_water, itm_energy_drink, itm_whiskey, itm_can_beans,
-itm_mre_beef, itm_flour, itm_inhaler, itm_codeine, itm_oxycodone, itm_adderall,
-itm_cig, itm_meth, itm_royal_jelly, itm_mutagen, itm_purifier, NULL);
+"1st_aid", "water", "energy_drink", "whiskey", "can_beans",
+"mre_beef", "flour", "inhaler", "codeine", "oxycodone", "adderall",
+"cig", "meth", "royal_jelly", "mutagen", "purifier", NULL);
  break;
 
  case CARAVAN_CLOTHES:
   setvector(ret,
-itm_backpack, itm_vest, itm_trenchcoat, itm_jacket_leather, itm_kevlar,
-itm_gloves_fingerless, itm_mask_filter, itm_mask_gas, itm_glasses_eye,
-itm_glasses_safety, itm_goggles_ski, itm_goggles_nv, itm_helmet_ball,
-itm_helmet_riot, NULL);
+"backpack", "vest", "trenchcoat", "jacket_leather", "kevlar",
+"gloves_fingerless", "mask_filter", "mask_gas", "glasses_eye",
+"glasses_safety", "goggles_ski", "goggles_nv", "helmet_ball",
+"helmet_riot", NULL);
   break;
 
  case CARAVAN_TOOLS:
   setvector(ret,
-itm_screwdriver, itm_wrench, itm_saw, itm_hacksaw, itm_lighter, itm_sewing_kit,
-itm_scissors, itm_extinguisher, itm_flashlight, itm_hotplate,
-itm_soldering_iron, itm_shovel, itm_jackhammer, itm_landmine, itm_teleporter,
-itm_grenade, itm_flashbang, itm_EMPbomb, itm_smokebomb, itm_bot_manhack,
-itm_bot_turret, itm_UPS_off, itm_mininuke, NULL);
+"screwdriver", "wrench", "saw", "hacksaw", "lighter", "sewing_kit",
+"scissors", "extinguisher", "flashlight", "hotplate",
+"soldering_iron", "shovel", "jackhammer", "landmine", "teleporter",
+"grenade", "flashbang", "EMPbomb", "smokebomb", "bot_manhack",
+"bot_turret", "UPS_off", "mininuke", NULL);
   break;
  }
 

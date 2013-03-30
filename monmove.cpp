@@ -498,7 +498,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     g->add_msg("You stop crafting.");
    g->u.activity.type = ACT_NULL;
   }
-  if (p.has_active_bionic(bio_ods)) {
+  if (p.has_active_bionic("bio_ods")) {
    if (u_see)
     g->add_msg("%s offensive defense system shocks it!", Your.c_str());
    hurt(rng(10, 40));

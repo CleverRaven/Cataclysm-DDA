@@ -1493,7 +1493,7 @@ void vehicle::handle_trap (int x, int y, int part)
             snd = "SNAP!";
             wreckit = true;
             g->m.tr_at(x, y) = tr_null;
-            g->m.spawn_item(x, y, g->itypes[itm_beartrap], 0);
+            g->m.spawn_item(x, y, g->itypes["beartrap"], 0);
             break;
         case tr_nailboard:
             wreckit = true;
@@ -1509,10 +1509,10 @@ void vehicle::handle_trap (int x, int y, int part)
             snd = "Clank!";
             wreckit = true;
             g->m.tr_at(x, y) = tr_null;
-            g->m.spawn_item(x, y, g->itypes[itm_crossbow], 0);
-            g->m.spawn_item(x, y, g->itypes[itm_string_6], 0);
+            g->m.spawn_item(x, y, g->itypes["crossbow"], 0);
+            g->m.spawn_item(x, y, g->itypes["string_6"], 0);
             if (!one_in(10))
-                g->m.spawn_item(x, y, g->itypes[itm_bolt_steel], 0);
+                g->m.spawn_item(x, y, g->itypes["bolt_steel"], 0);
             break;
         case tr_shotgun_2:
         case tr_shotgun_1:
@@ -1525,8 +1525,8 @@ void vehicle::handle_trap (int x, int y, int part)
             else
             {
                 g->m.tr_at(x, y) = tr_null;
-                g->m.spawn_item(x, y, g->itypes[itm_shotgun_sawn], 0);
-                g->m.spawn_item(x, y, g->itypes[itm_string_6], 0);
+                g->m.spawn_item(x, y, g->itypes["shotgun_sawn"], 0);
+                g->m.spawn_item(x, y, g->itypes["string_6"], 0);
             }
             break;
         case tr_landmine:
@@ -1864,7 +1864,8 @@ void vehicle::leak_fuel (int p)
                         parts[p].amount = 0;
                         return;
                     }
-                    g->m.spawn_item(i, j, g->itypes[itm_gasoline], 0);
+                    g->m.spawn_item(i, j, g->itypes["gasoline"], 0);
+                    g->m.spawn_item(i, j, g->itypes["gasoline"], 0);
                     parts[p].amount -= 100;
                 }
     }
@@ -1889,7 +1890,7 @@ void vehicle::fire_turret (int p, bool burst)
         int fleft = fuel_left (amt);
         if (fleft < 1)
             return;
-        it_ammo *ammo = dynamic_cast<it_ammo*>(g->itypes[amt == AT_GAS? itm_gasoline : itm_plasma]);
+        it_ammo *ammo = dynamic_cast<it_ammo*>(g->itypes[amt == AT_GAS? "gasoline" : "plasma"]);
         if (!ammo)
             return;
         if (fire_turret_internal (p, *gun, *ammo, charges))

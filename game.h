@@ -222,7 +222,7 @@ class game
   bool has_gametype() const { return gamemode && gamemode->id() != SGAME_NULL; }
   special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
 
-  std::vector <itype*> itypes;
+  std::map<std::string, itype*> itypes;
   std::vector <mtype*> mtypes;
   std::vector <vehicle*> vtypes;
   std::vector <trap*> traps;
@@ -284,6 +284,7 @@ class game
 
 // Data Initialization
   void init_itypes();       // Initializes item types
+  void init_bionics();      // Initializes bionics... for now.
   void init_mapitems();     // Initializes item placement
   void init_mtypes();       // Initializes monster types
   void init_mongroups();    // Initualizes monster groups

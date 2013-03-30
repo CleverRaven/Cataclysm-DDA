@@ -21,7 +21,7 @@ void mission_start::infect_npc(game *g, mission *miss)
  }
  p->add_disease(DI_INFECTION, -1, g);
  for (int i = 0; i < p->inv.size(); i++) {
-  if (p->inv[i].type->id == itm_antibiotics) {
+  if (p->inv[i].type->id == "antibiotics") {
    p->inv.remove_stack(i);
    i--;
   }
@@ -37,7 +37,7 @@ void mission_start::place_dog(game *g, mission *miss)
   debugmsg("Couldn't find NPC! %d", miss->npc_id);
   return;
  }
- g->u.i_add( item(g->itypes[itm_dog_whistle], 0) );
+ g->u.i_add( item(g->itypes["dog_whistle"], 0) );
  g->add_msg("%s gave you a dog whistle.", dev->name.c_str());
 
  miss->target = house;
@@ -78,25 +78,25 @@ void mission_start::place_npc_software(game *g, mission *miss)
   debugmsg("Couldn't find NPC! %d", miss->npc_id);
   return;
  }
- g->u.i_add( item(g->itypes[itm_usb_drive], 0) );
+ g->u.i_add( item(g->itypes["usb_drive"], 0) );
  g->add_msg("%s gave you a USB drive.", dev->name.c_str());
 
  oter_id ter = ot_house_north;
 
  switch (dev->myclass) {
  case NC_HACKER:
-  miss->item_id = itm_software_hacking;
+  miss->item_id = "software_hacking";
   break;
  case NC_DOCTOR:
-  miss->item_id = itm_software_medical;
+  miss->item_id = "software_medical";
   ter = ot_s_pharm_north;
   miss->follow_up = MISSION_GET_ZOMBIE_BLOOD_ANAL;
   break;
  case NC_SCIENTIST:
-  miss->item_id = itm_software_math;
+  miss->item_id = "software_math";
   break;
  default:
-  miss->item_id = itm_software_useless;
+  miss->item_id = "software_useless";
  }
 
  int dist = 0;
@@ -203,7 +203,7 @@ void mission_start::reveal_hospital(game *g, mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);
  if (dev != NULL) {
-  g->u.i_add( item(g->itypes[itm_vacutainer], 0) );
+  g->u.i_add( item(g->itypes["vacutainer"], 0) );
   g->add_msg("%s gave you a vacutainer.", dev->name.c_str());
  }
  int dist = 0;
