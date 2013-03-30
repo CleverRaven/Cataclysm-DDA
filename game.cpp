@@ -575,6 +575,7 @@ void game::process_activity()
     break;
 
    case ACT_CRAFT:
+   case ACT_LONGCRAFT:
     complete_craft();
     break;
 
@@ -615,6 +616,7 @@ void game::process_activity()
    }
 
    bool act_veh = (u.activity.type == ACT_VEHICLE);
+   bool act_longcraft = (u.activity.type == ACT_LONGCRAFT);
    u.activity.type = ACT_NULL;
    if (act_veh) {
     if (u.activity.values.size() < 7)
@@ -636,6 +638,9 @@ void game::process_activity()
       debugmsg ("process_activity ACT_VEHICLE: vehicle not found");
      }
     }
+   } else if (act_longcraft) {
+    if (making_would_work(u.lastrecipe))
+     make_all_craft(u.lastrecipe);
    }
   }
  }
@@ -670,6 +675,7 @@ void game::cancel_activity_query(const char* message, ...)
     doit = true;
    break;
   case ACT_CRAFT:
+  case ACT_LONGCRAFT:
    if (query_yn("%s Stop crafting?", s.c_str()))
     doit = true;
    break;
@@ -1065,7 +1071,7 @@ bool game::handle_action()
 
                 if (mapRain[iRandY][iRandX]) {
                     vDrops.push_back(std::make_pair(iRandX, iRandY));
-                    mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
+                    mvwputch(w_terrain, iRandY - u.view_offset_y, iRandX - u.view_offset_x, colGlyph, cGlyph);
                 }
             }
 
@@ -1264,20 +1270,21 @@ bool game::handle_action()
     if (has) {
      item oThisItem = u.i_at(chItem);
      std::vector<iteminfo> vThisItem, vDummy, vMenu;
-
-     vMenu.push_back(iteminfo("MENU", "", "iOffsetX", 3));
+     
+     vMenu.push_back(iteminfo("MENU", "", "iOffsetX", 2));
      vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
-     vMenu.push_back(iteminfo("MENU", "a", "ctivate"));
-     vMenu.push_back(iteminfo("MENU", "R", "ead"));
-     vMenu.push_back(iteminfo("MENU", "E", "at"));
-     vMenu.push_back(iteminfo("MENU", "W", "ear"));
+     vMenu.push_back(iteminfo("MENU", "a", "ctivate", u.rate_action_use(&oThisItem)));
+     vMenu.push_back(iteminfo("MENU", "R", "ead", u.rate_action_read(&oThisItem, this)));
+     vMenu.push_back(iteminfo("MENU", "E", "at", u.rate_action_eat(&oThisItem)));
+     vMenu.push_back(iteminfo("MENU", "W", "ear", u.rate_action_wear(&oThisItem)));
      vMenu.push_back(iteminfo("MENU", "w", "ield"));
      vMenu.push_back(iteminfo("MENU", "t", "hrow"));
-     vMenu.push_back(iteminfo("MENU", "T", "ake off"));
+     vMenu.push_back(iteminfo("MENU", "T", "ake off", u.rate_action_takeoff(&oThisItem)));
      vMenu.push_back(iteminfo("MENU", "d", "rop"));
-     vMenu.push_back(iteminfo("MENU", "U", "nload"));
-     vMenu.push_back(iteminfo("MENU", "r", "eload"));
-
+     vMenu.push_back(iteminfo("MENU", "U", "nload", u.rate_action_unload(&oThisItem)));
+     vMenu.push_back(iteminfo("MENU", "r", "eload", u.rate_action_reload(&oThisItem)));
+     vMenu.push_back(iteminfo("MENU", "D", "isassemble", u.rate_action_disassemble(&oThisItem, this)));
+     
      oThisItem.info(true, &vThisItem);
      compare_split_screen_popup(0, 50, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
      cMenu = compare_split_screen_popup(50, 14, 16, "", vMenu, vDummy);
@@ -1313,6 +1320,8 @@ bool game::handle_action()
       case 'R':
        u.read(this, chItem);
        break;
+      case 'D':
+       disassemble(chItem);
       default:
        break;
      }
@@ -1418,6 +1427,10 @@ bool game::handle_action()
 
   case ACTION_RECRAFT:
    recraft();
+   break;
+  
+  case ACTION_LONGCRAFT:
+   long_craft();
    break;
 
   case ACTION_DISASSEMBLE:
@@ -2172,7 +2185,7 @@ z.size(), events.size());
    artifact_natural_property prop =
     artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
    m.create_anomaly(center.x, center.y, prop);
-   m.add_item(center.x, center.y, new_natural_artifact(prop), 0);
+   m.spawn_item(center.x, center.y, new_natural_artifact(prop), 0);
    break;
  }
  erase();
@@ -4040,7 +4053,7 @@ void game::explode_mon(int index)
       }
      }
     }
-    m.add_item(tarx, tary, meat, turn);
+    m.spawn_item(tarx, tary, meat, turn);
    }
   }
  }
@@ -4585,7 +4598,8 @@ void game::examine()
  vehicle *veh = m.veh_at (examx, examy, veh_part);
  if (veh) {
   int vpcargo = veh->part_with_feature(veh_part, vpf_cargo, false);
-  if (vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0)
+  int vpkitchen = veh->part_with_feature(veh_part, vpf_kitchen, true);
+  if (vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0 || vpkitchen >= 0)
    pickup(examx, examy, 0);
   else if (u.in_vehicle)
    add_msg ("You can't do that while onboard.");
@@ -5059,12 +5073,29 @@ void game::pickup(int posx, int posy, int min)
  bool volume_is_okay = (u.volume_carried() <= u.volume_capacity() -  2);
  bool from_veh = false;
  int veh_part = 0;
+ int k_part = 0;
  vehicle *veh = m.veh_at (posx, posy, veh_part);
  if (veh) {
+  k_part = veh->part_with_feature(veh_part, vpf_kitchen);
   veh_part = veh->part_with_feature(veh_part, vpf_cargo, false);
   from_veh = veh && veh_part >= 0 &&
              veh->parts[veh_part].items.size() > 0 &&
              query_yn("Get items from %s?", veh->part_info(veh_part).name);
+
+  if (!from_veh && k_part >= 0) {
+    if (veh->fuel_left(AT_WATER)) {
+      if (query_yn("Have a drink?")) {
+        veh->drain(AT_WATER, 1);
+
+        item water(itypes[itm_water_clean], 0);
+        u.inv.push_back(water);
+        u.eat(this, u.inv.size() - 1);
+        u.moves -= 250;
+      }
+    } else {
+      add_msg("The water tank is empty.");
+    }
+  }
  }
 // Picking up water?
  if ((!from_veh) && m.i_at(posx, posy).size() == 0) {
@@ -5094,13 +5125,13 @@ void game::pickup(int posx, int posy, int min)
    newit.invlet = nextinv;
    advance_nextinv();
   }
-  while (iter < 52 && u.has_item(newit.invlet) &&
+  while (iter <= 52 && u.has_item(newit.invlet) &&
          !u.i_at(newit.invlet).stacks_with(newit)) {
    newit.invlet = nextinv;
    iter++;
    advance_nextinv();
   }
-  if (iter == 52) {
+  if (iter == 53) {
    add_msg("You're carrying too many items!");
    return;
   } else if (u.weight_carried() + newit.weight() > u.weight_capacity()) {
@@ -5199,24 +5230,27 @@ void game::pickup(int posx, int posy, int min)
    start += maxitems;
    mvwprintw(w_pickup, maxitems + 2, 12, "            ");
   }
-  if (ch >= 'a' && ch <= 'a' + here.size() - 1) {
-   ch -= 'a';
-   getitem[ch] = !getitem[ch];
+
+  static const std::string pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;";
+  size_t idx = pickup_chars.find(ch);
+
+  if (idx < here.size()) {
+   getitem[idx] = !getitem[idx];
    wclear(w_item_info);
-   if (getitem[ch]) {
-    mvwprintw(w_item_info, 1, 0, here[ch].info().c_str());
+   if (getitem[idx]) {
+    mvwprintw(w_item_info, 1, 0, here[idx].info().c_str());
     wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                          LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wrefresh(w_item_info);
-    new_weight += here[ch].weight();
-    new_volume += here[ch].volume();
+    new_weight += here[idx].weight();
+    new_volume += here[idx].volume();
     update = true;
    } else {
     wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                          LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wrefresh(w_item_info);
-    new_weight -= here[ch].weight();
-    new_volume -= here[ch].volume();
+    new_weight -= here[idx].weight();
+    new_volume -= here[idx].volume();
     update = true;
    }
   }
@@ -5244,7 +5278,7 @@ void game::pickup(int posx, int posy, int min)
              "                                        ");
    if (cur_it < here.size()) {
     mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, here[cur_it].color(&u),
-             char(cur_it + 'a'));
+             char(pickup_chars[cur_it]));
     if (getitem[cur_it])
      wprintw(w_pickup, " + ");
     else
@@ -6097,20 +6131,20 @@ void game::complete_butcher(int index)
 
  if (bones > 0) {
   if (corpse->has_flag(MF_BONES)) {
-    m.add_item(u.posx, u.posy, itypes[itm_bone], age, bones);
+    m.spawn_item(u.posx, u.posy, itypes[itm_bone], age, bones);
    add_msg("You harvest some usable bones!");
   } else if (corpse->mat == VEGGY) {
-    m.add_item(u.posx, u.posy, itypes[itm_plant_sac], age, bones);
+    m.spawn_item(u.posx, u.posy, itypes[itm_plant_sac], age, bones);
    add_msg("You harvest some fluid bladders!");
   }
  }
 
  if (sinews > 0) {
   if (corpse->has_flag(MF_BONES)) {
-    m.add_item(u.posx, u.posy, itypes[itm_sinew], age, sinews);
+    m.spawn_item(u.posx, u.posy, itypes[itm_sinew], age, sinews);
    add_msg("You harvest some usable sinews!");
   } else if (corpse->mat == VEGGY) {
-    m.add_item(u.posx, u.posy, itypes[itm_plant_fibre], age, sinews);
+    m.spawn_item(u.posx, u.posy, itypes[itm_plant_fibre], age, sinews);
    add_msg("You harvest some plant fibres!");
   }
  }
@@ -6130,8 +6164,8 @@ void game::complete_butcher(int index)
    leather = pelts;
   }
 
-  if(fur) m.add_item(u.posx, u.posy, itypes[itm_fur], age, fur);
-  if(leather) m.add_item(u.posx, u.posy, itypes[itm_leather], age, leather);
+  if(fur) m.spawn_item(u.posx, u.posy, itypes[itm_fur], age, fur);
+  if(leather) m.spawn_item(u.posx, u.posy, itypes[itm_leather], age, leather);
  }
 
  //Add a chance of CBM recovery. For shocker and cyborg corpses.
@@ -6141,18 +6175,18 @@ void game::complete_butcher(int index)
    add_msg("You discover a CBM in the %s!", corpse->name.c_str());
    //To see if it spawns a battery
    if(rng(0,1) == 1){ //The battery works
-    m.add_item(u.posx, u.posy, itypes[itm_bionics_batteries], age);
+    m.spawn_item(u.posx, u.posy, itypes[itm_bionics_batteries], age);
    }else{//There is a burnt out CBM
-    m.add_item(u.posx, u.posy, itypes[itm_burnt_out_bionic], age);
+    m.spawn_item(u.posx, u.posy, itypes[itm_burnt_out_bionic], age);
    }
   }
   if(skill_shift >= 0){
    //To see if it spawns a random additional CBM
    if(rng(0,1) == 1){ //The CBM works
     int index = rng(0, mapitems[mi_bionics].size()-1);
-    m.add_item(u.posx, u.posy, itypes[ mapitems[mi_bionics][index] ], age);
+    m.spawn_item(u.posx, u.posy, itypes[ mapitems[mi_bionics][index] ], age);
    }else{//There is a burnt out CBM
-    m.add_item(u.posx, u.posy, itypes[itm_burnt_out_bionic], age);
+    m.spawn_item(u.posx, u.posy, itypes[itm_burnt_out_bionic], age);
    }
   }
  }
@@ -6175,7 +6209,7 @@ void game::complete_butcher(int index)
    else
     meat = itypes[itm_veggy];
   }
-  m.add_item(u.posx, u.posy, meat, age, pieces);
+  m.spawn_item(u.posx, u.posy, meat, age, pieces);
   add_msg("You butcher the corpse.");
  }
 }
@@ -6188,7 +6222,7 @@ void game::forage()
   {
     add_msg("You found some wild veggies!");
     u.practice("survival", 10);
-    m.add_item(u.activity.placement.x, u.activity.placement.y, this->itypes[itm_veggy_wild], turn, 0);
+    m.spawn_item(u.activity.placement.x, u.activity.placement.y, this->itypes[itm_veggy_wild], turn, 0);
     m.ter(u.activity.placement.x, u.activity.placement.y) = t_dirt;
   }
   else
@@ -6771,7 +6805,7 @@ void game::plmove(int x, int y)
   if ((!u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 2) ||
       ( u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 4    ))
   {
-   if (veh)
+   if (veh && m.move_cost(x,y) != 2)
     add_msg("Moving past this %s is slow!", veh->part_info(vpart).name);
    else
     add_msg("Moving past this %s is slow!", m.tername(x, y).c_str());
@@ -6815,7 +6849,7 @@ void game::plmove(int x, int y)
      if (query_yn("Deactivate the turret?")) {
       z.erase(z.begin() + mondex);
       u.moves -= 100;
-      m.add_item(z[mondex].posx, z[mondex].posy, itypes[itm_bot_turret], turn);
+      m.spawn_item(z[mondex].posx, z[mondex].posy, itypes[itm_bot_turret], turn);
      }
      return;
     } else {
@@ -7211,7 +7245,7 @@ void game::vertical_move(int movez, bool force)
  if (rope_ladder)
   m.ter(u.posx, u.posy) = t_rope_up;
  if (m.ter(stairx, stairy) == t_manhole_cover) {
-  m.add_item(stairx + rng(-1, 1), stairy + rng(-1, 1),
+  m.spawn_item(stairx + rng(-1, 1), stairy + rng(-1, 1),
              itypes[itm_manhole_cover], 0);
   m.ter(stairx, stairy) = t_manhole;
  }

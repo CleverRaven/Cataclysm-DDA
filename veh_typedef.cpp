@@ -778,8 +778,10 @@ void game::init_vehicles()
 
     // dx, dy, part_id
 	PART ( 0, 0, vp_frame_v2);
+  PART ( 0, 0, vp_isle_v2);
 	PART ( 0, 0, vp_roof);
 	PART ( 0, 1, vp_frame_v2);
+  PART ( 0, 1, vp_isle_h2);
 	PART ( 0, 1, vp_roof);
 	PART ( 0, 2, vp_door);
 	PART ( 0, -1, vp_frame_v2);
@@ -815,6 +817,7 @@ void game::init_vehicles()
 	PART ( -1, -1, vp_seat);
 	PART ( -1, -1, vp_roof);
 	PART ( -1, 0, vp_frame_v2);
+  PART ( -1, 0, vp_isle_v2);
 	PART ( -1, 0, vp_roof);
 	PART ( -1, 1, vp_frame_h2);
 	PART ( -1, 1, vp_seat);
@@ -829,6 +832,7 @@ void game::init_vehicles()
 	PART ( -2, -1, vp_seat);
 	PART ( -2, -1, vp_roof);
 	PART ( -2, 0, vp_frame_v2);
+  PART ( -2, 0, vp_floor_trunk);
 	PART ( -2, 0, vp_roof);
 	PART ( -2, 1, vp_frame_h2);
 	PART ( -2, 1, vp_seat);
@@ -843,6 +847,7 @@ void game::init_vehicles()
 	PART ( -3, -1, vp_seat);
 	PART ( -3, -1, vp_roof);
 	PART ( -3, 0, vp_frame_v2);
+  PART ( -3, 0, vp_isle_v2);
 	PART ( -3, 0, vp_roof);
 	PART ( -3, 1, vp_frame_h2);
 	PART ( -3, 1, vp_seat);
@@ -856,6 +861,7 @@ void game::init_vehicles()
 	PART ( -4, -1, vp_seat);
 	PART ( -4, -1, vp_roof);
 	PART ( -4, 0, vp_frame_v2);
+  PART ( -4, 0, vp_isle_v2);
 	PART ( -4, 0, vp_roof);
 	PART ( -4, 1, vp_frame_h2);
 	PART ( -4, 1, vp_seat);
@@ -869,6 +875,7 @@ void game::init_vehicles()
 	PART ( -5, -1, vp_seat);
 	PART ( -5, -1, vp_roof);
 	PART ( -5, 0, vp_frame_v2);
+  PART ( -5, 0, vp_floor_trunk);
 	PART ( -5, 0, vp_roof);
 	PART ( -5, 1, vp_frame_h2);
 	PART ( -5, 1, vp_seat);
@@ -882,6 +889,7 @@ void game::init_vehicles()
 	PART ( -6, -1, vp_seat);
 	PART ( -6, -1, vp_roof);
 	PART ( -6, 0, vp_frame_v2);
+  PART ( -6, 0, vp_isle_v2);
 	PART ( -6, 0, vp_roof);
 	PART ( -6, 1, vp_frame_h2);
 	PART ( -6, 1, vp_seat);
@@ -895,6 +903,7 @@ void game::init_vehicles()
 	PART ( -7, -1, vp_seat);
 	PART ( -7, -1, vp_roof);
 	PART ( -7, 0, vp_frame_v2);
+  PART ( -7, 0, vp_isle_v2);
 	PART ( -7, 0, vp_roof);
 	PART ( -7, 1, vp_frame_h2);
 	PART ( -7, 1, vp_seat);

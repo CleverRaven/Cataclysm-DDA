@@ -58,474 +58,474 @@ void game::init_itypes ()
 // Any foods with a nutrition of lower than 5 will never prompt a 'You are full, force yourself to eat that?' message
 
 #define DRINK(name,rarity,price,color,container,quench,nutr,spoils,stim,\
-healthy,addict,charges,fun,use_func,addict_func,des) \
+healthy,addict,charges,fun,use_func,addict_func,des,item_flags) \
 	index++;itypes.push_back(new it_comest(index,rarity,price,name,des,'~',\
-color,LIQUID,2,1,0,0,0,0,quench,nutr,spoils,stim,healthy,addict,charges,\
+color,LIQUID,2,1,0,0,0,item_flags,quench,nutr,spoils,stim,healthy,addict,charges,\
 fun,container,itm_null,use_func,addict_func,"DRINK"));
 
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("water",		90, 50,	c_ltcyan, itm_bottle_plastic,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
 	25,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
-Water, the stuff of life, the best thirst-quencher available.");
+Water, the stuff of life, the best thirst-quencher available.", 0);
 
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("clean water",	90, 50,	c_ltcyan, itm_bottle_plastic,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
 	25,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
-Fresh clean water, truly the best thing to quench your thirst.");
+Fresh clean water, truly the best thing to quench your thirst.", 0);
 
 DRINK("sewage sample",	 5,  5, c_ltgreen, itm_bottle_plastic,
 	 5,  0,  0,  0,-10,  0,  1,-20,&iuse::sewage,	ADD_NULL, "\
-A sample of sewage from a treatment plant. Gross.");
+A sample of sewage from a treatment plant. Gross.", 0);
 
 DRINK("salt water",	20,  5,	c_ltcyan, itm_bottle_plastic,
 	-30, 0,  0,  0,  1,  0,  1, -1,&iuse::none,	ADD_NULL, "\
-Water with salt added. Not good for drinking.");
+Water with salt added. Not good for drinking.", 0);
 
 DRINK("orange juice",	50, 38,	c_yellow, itm_bottle_plastic,
 	35,  4,120,  0,  2,  0,  1,  3,&iuse::none,	ADD_NULL, "\
-Fresh squeezed from real oranges! Tasty and nutritious.");
+Fresh squeezed from real oranges! Tasty and nutritious.", 0);
 
 DRINK("apple cider",	50, 38, c_brown,  itm_bottle_plastic,
 	35,  4,144,  0,  3,  0,  1,  2,&iuse::none,	ADD_NULL, "\
-Pressed from fresh apples. Tasty and nutritious.");
+Pressed from fresh apples. Tasty and nutritious.", 0);
 
 DRINK("energy drink",	55, 45,	c_magenta,itm_can_drink,
 	15,  1,  0,  8, -2,  2,  1,  5,&iuse::caff,	ADD_CAFFEINE, "\
-Popular among those who need to stay up late working.");
+Popular among those who need to stay up late working.", 0);
 
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("cola",		70, 35,	c_brown,  itm_can_drink,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
 	18,  3,  0,  6, -1,  2,  1,  5,&iuse::caff,	ADD_CAFFEINE, "\
-Things go better with cola. Sugar water with caffeine added.");
+Things go better with cola. Sugar water with caffeine added.", 0);
 
 DRINK("root beer",	65, 30,	c_brown,  itm_can_drink,
 	18,  3,  0,  1, -1,  0,  1,  3,&iuse::none,	ADD_NULL, "\
-Like cola, but without caffeine. Still not that healthy.");
+Like cola, but without caffeine. Still not that healthy.", 0);
 
 DRINK("milk",		50, 35,	c_white,  itm_bottle_glass,
 	25,  8,  8,  0,  1,  0,  1,  0,&iuse::none,	ADD_NULL, "\
-Baby cow food, appropriated for adult humans. Spoils rapidly.");
+Baby cow food, appropriated for adult humans. Spoils rapidly.", 0);
 
 DRINK("V8",		15, 35,	c_red,    itm_can_drink,
 	 6, 28,240,  0,  1,  0,  1,  0,&iuse::none,	ADD_NULL, "\
-Contains up to 8 vegetables! Nutritious and tasty.");
+Contains up to 8 vegetables! Nutritious and tasty.", 0);
 
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("broth",		15, 35, c_yellow, itm_can_food,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
 	10, 15,160,  0,  0,  0,  1,  1,&iuse::none,	ADD_NULL, "\
-Vegetable stock. Tasty and fairly nutritious.");
+Vegetable stock. Tasty and fairly nutritious.", mfb(IF_EATEN_HOT));
 
 DRINK("vegetable soup",		15, 60, c_red,    itm_can_food,
 	10, 60,120,  0,  2,  0,  1,  2,&iuse::none,	ADD_NULL, "\
-A nutritious and delicious hearty vegetable soup.");
+A nutritious and delicious hearty vegetable soup.", mfb(IF_EATEN_HOT));
 
 DRINK("meat soup",		15, 60, c_red,    itm_can_food,
 	10, 60,120,  0,  2,  0,  1,  2,&iuse::none,	ADD_NULL, "\
-A nutritious and delicious hearty meat soup.");
+A nutritious and delicious hearty meat soup.", mfb(IF_EATEN_HOT));
 
 DRINK("whiskey",	16, 85,	c_brown,  itm_bottle_glass,
 	-12, 4,  0,-12, -2,  5, 7, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
-Made from, by, and for real Southern colonels!");
+Made from, by, and for real Southern colonels!", 0);
 
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("vodka",		20, 78,	c_ltcyan, itm_bottle_glass,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
 	-10, 2,  0,-12, -2,  5, 7, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
-In Soviet Russia, vodka drinks you!");
+In Soviet Russia, vodka drinks you!", 0);
 
 DRINK("gin",		20, 78,	c_ltcyan, itm_bottle_glass,
 	-10, 2,  0,-12, -2,  5, 7, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
-Smells faintly of elderberries, but mostly booze.");
+Smells faintly of elderberries, but mostly booze.", 0);
 
 DRINK("rum",		14, 85,	c_ltcyan, itm_bottle_glass,
 	-12, 2,  0,-10, -2,  5, 7, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
-Drinking this might make you feel like a pirate. Or not.");
+Drinking this might make you feel like a pirate. Or not.", 0);
 
 DRINK("tequila",	12, 88,	c_brown,  itm_bottle_glass,
 	-12, 2,  0,-12, -2,  6, 7, 18,&iuse::alcohol,	ADD_ALCOHOL, "\
-Don't eat the worm! Wait, there's no worm in this bottle.");
+Don't eat the worm! Wait, there's no worm in this bottle.", 0);
 
 DRINK("triple sec",	12, 55,	c_brown,  itm_bottle_glass,
 	-8, 2,  0,-10, -2,  4, 7, 10,&iuse::alcohol,	ADD_ALCOHOL, "\
-An orange flavored liquor used in many mixed drinks.");
+An orange flavored liquor used in many mixed drinks.", 0);
 
 DRINK("long island iced tea",	8, 100,	c_brown,  itm_bottle_glass,
 	-10, 2,  0,-10, -2,  5, 6, 20,&iuse::alcohol,	ADD_ALCOHOL, "\
 A blend of incredibly strong-flavored liquors that somehow tastes\n\
-like none of them.");
+like none of them.", 0);
 
 DRINK("beer",           60, 35, c_brown,  itm_keg,
-         16, 4,  0, -4, -1,  2,  1, 10, &iuse::alcohol,   ADD_ALCOHOL, "\
-Best served cold, in a glass, and with a lime - but you're not that lucky.");
+         16, 4,  0, -4, -1,  2,  1, 10, &iuse::alcohol_weak, ADD_ALCOHOL, "\
+Best served cold, in a glass, and with a lime - but you're not that lucky.", 0);
 
 DRINK("bleach",		20, 18,	c_white,  itm_jug_plastic,
 	-96, 0,  0,  0, -8,  0,  1,-30,&iuse::blech,	ADD_NULL, "\
-Don't drink it. Mixing it with ammonia produces toxic gas.");
+Don't drink it. Mixing it with ammonia produces toxic gas.", 0);
 
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("ammonia",	24, 30,	c_yellow, itm_jug_plastic,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
 	-96, 0,  0,  0, -2,  0,  1,-30,&iuse::blech,	ADD_NULL, "\
-Don't drink it. Mixing it with bleach produces toxic gas.");
+Don't drink it. Mixing it with bleach produces toxic gas.", 0);
 
 DRINK("mutagen",	 8,1000,c_magenta,itm_flask_glass,
 	  0, 0,  0,  0, -2,  0,  1,  0,&iuse::mutagen_3,ADD_NULL, "\
-A rare substance of uncertain origins. Causes you to mutate.");
+A rare substance of uncertain origins. Causes you to mutate.", 0);
 
 DRINK("purifier",	12, 6000,c_pink,  itm_flask_glass,
 	  0, 0,  0,  0,  1,  0,  1,  0,&iuse::purifier,	ADD_NULL, "\
 A rare stem-cell treatment, which causes mutations and other genetic defects\n\
-to fade away.");
+to fade away.", 0);
 
 DRINK("tea",		1, 50,	c_green, itm_bottle_plastic,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
 	40,  3,  0,  0,  0,  0,  1, 6,&iuse::none,	ADD_NULL, "\
-Tea, the beverage of gentlemen everywhere.");
+Tea, the beverage of gentlemen everywhere.", mfb(IF_EATEN_HOT));
 
 DRINK("coffee",		1, 50,	c_brown, itm_bottle_plastic,
 	40,  3,  0,  12,  0,  0,  1, 6,&iuse::caff,	ADD_CAFFEINE, "\
-Coffee. The morning ritual of the pre-apocalypse world.");
+Coffee. The morning ritual of the pre-apocalypse world.", mfb(IF_EATEN_HOT));
 
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("blood",		 20,  0, c_red, itm_flask_glass,
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
 	  5,  5,  0,  0, -8,  0,  1,-50,&iuse::none,	ADD_NULL, "\
-Blood, possibly that of a human. Disgusting!");
+Blood, possibly that of a human. Disgusting!", 0);
 
 #define FOOD(name,rarity,price,color,mat1,container,volume,weight,quench,\
-nutr,spoils,stim,healthy,addict,charges,fun,use_func,addict_func,des) \
+nutr,spoils,stim,healthy,addict,charges,fun,use_func,addict_func,des,item_flags) \
 	index++;itypes.push_back(new it_comest(index,rarity,price,name,des,'%',\
-color,mat1,volume,weight,0,0,0,0,quench,nutr,spoils,stim,healthy,addict,charges,\
+color,mat1,volume,weight,0,0,0,item_flags,quench,nutr,spoils,stim,healthy,addict,charges,\
 fun,container,itm_null,use_func,addict_func,"FOOD"));
 // FOOD
 
 FOOD("bone",            50, 50, c_white,    FLESH, itm_null,
     1,  1,  0, 4,  0,   0, -1,  0, 1, 0,    &iuse::none, ADD_NULL, "\
 A bone from some creature or other, could be eaten or used to make some\n\
-stuff, like needles.");
+stuff, like needles.", 0);
 
 FOOD("fluid sac",            50, 50, c_white,    FLESH, itm_null,
     1,  1,  0, 4,  0,   0, -1,  0, 1, 0,    &iuse::none, ADD_NULL, "\
 A fluid bladder from a plant based lifeform, not very nutritious, but\n\
-fine to eat anyway.");
+fine to eat anyway.", 0);
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("chunk of meat",	50, 50,	c_red,		FLESH,  itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  2,  0, 20, 24,  0, -1,  0,  1,-10,	&iuse::none, ADD_NULL, "\
-Freshly butchered meat. You could eat it raw, but cooking it is better.");
+Freshly butchered meat. You could eat it raw, but cooking it is better.", 0);
 
 
 FOOD("plant marrow",	30, 60,	c_green,	VEGGY,	itm_null,
     1,  2,  0, 20, 80,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
-A nutrient rich chunk of plant matter, could be eaten raw or cooked.");
+A nutrient rich chunk of plant matter, could be eaten raw or cooked.", 0);
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("human flesh",	50, 50,	c_red,		HFLESH,  itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  2,  0, 20, 24,  0, -1,  0,  1, 0,	&iuse::none, ADD_NULL, "\
-Freshly butchered from a human body.");
+Freshly butchered from a human body.", 0);
 
 FOOD("wild vegetables",	30, 60,	c_green,	VEGGY,	itm_null,
     1,  2,  0, 20, 80,  0,  1,  0,  1,  -10,	&iuse::none, ADD_NULL, "\
-An assortment of edible-looking wild plants.  Most are quite bitter-tasting.");
+An assortment of edible-looking wild plants.  Most are quite bitter-tasting.", 0);
 
 FOOD("tainted meat",	60,  4,	c_red,		FLESH,	itm_null,
     1,  2,  0, 20,  4,  0,  0,  0,  1,-10,	&iuse::poison, ADD_NULL, "\
-Meat that's obviously unhealthy. You could eat it, but it will poison you.");
+Meat that's obviously unhealthy. You could eat it, but it will poison you.", 0);
 
 FOOD("tainted veggy",	35,  5,	c_green,	VEGGY,	itm_null,
     1,  2,  0, 20, 10,  0,  1,  0,  1,  0,	&iuse::poison, ADD_NULL, "\
-Vegetable that looks poisonous. You could eat it, but it will poison you.");
+Vegetable that looks poisonous. You could eat it, but it will poison you.", 0);
 
 FOOD("cooked meat",	 0, 75, c_red,		FLESH,	itm_null,
     1,  2,  0, 50, 24,  0,  0,  0,  1,  8,	&iuse::none,	ADD_NULL, "\
-Freshly cooked meat. Very nutritious.");
+Freshly cooked meat. Very nutritious.", mfb(IF_EATEN_HOT));
 
 FOOD("cooked plant marrow",	 0, 70, c_green,	VEGGY,	itm_null,
     1,  2,  0, 40, 50,  0,  1,  0,  1,  0,	&iuse::none,	ADD_NULL, "\
-A freshly cooked chunk of plant matter, tasty and nutritious.");
+A freshly cooked chunk of plant matter, tasty and nutritious.", mfb(IF_EATEN_HOT));
 
 FOOD("cooked wild vegetables",	0, 70,	c_green,	VEGGY,	itm_null,
     1,  2,  0, 40, 50,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
-Cooked wild edible plants.  An interesting mix of flavours.");
+Cooked wild edible plants.  An interesting mix of flavours.", mfb(IF_EATEN_HOT));
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("apple",		70, 16,	c_red,		VEGGY,  itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  1,  3, 16,160,  0,  4,  0,  1,  3,	&iuse::none, ADD_NULL, "\
-An apple a day keeps the doctor away.");
+An apple a day keeps the doctor away.", 0);
 
 FOOD("orange",		65, 18,	c_yellow,	VEGGY,	itm_null,
     1,  1,  8, 14, 96,  0,  0,  0,  1,  3,	&iuse::none, ADD_NULL, "\
-Sweet citrus fruit. Also comes in juice form.");
+Sweet citrus fruit. Also comes in juice form.", 0);
 
 FOOD("lemon",		50, 12, c_yellow,	VEGGY,	itm_null,
     1,  1,  5,  5,180,  0,  0,  0,  1, -4,	&iuse::none, ADD_NULL, "\
-Very sour citrus. Can be eaten if you really want.");
+Very sour citrus. Can be eaten if you really want.", 0);
 
 FOOD("potato chips",	65, 12,	c_magenta,	VEGGY,	itm_bag_plastic,
     2,  1, -2,  8,  0,  0,  0,  0,  3,  6,	&iuse::none, ADD_NULL, "\
-Betcha can't eat just one.");
+Betcha can't eat just one.", 0);
 
 FOOD("potato chips",	65, 12,	c_magenta,	VEGGY,	itm_bag_plastic,
     2,  1, -2,  8,  0,  0,  0,  0,  3,  3,	&iuse::none, ADD_NULL, "\
-A bag of cheap, own-brand chips.");
+A bag of cheap, own-brand chips.", 0);
 
 FOOD("potato chips",	65, 12,	c_magenta,	VEGGY,	itm_bag_plastic,
     2,  1, -2,  8,  0,  0,  0,  0,  3,  12,	&iuse::none, ADD_NULL, "\
-Oh man, you love these chips! Score!");
+Oh man, you love these chips! Score!", 0);
 
 FOOD("pretzels",	55, 13,	c_brown,	VEGGY,	itm_bag_plastic,
     2,  1, -2,  9,  0,  0,  0,  0,  3,  2,	&iuse::none, ADD_NULL, "\
-A salty treat of a snack.");
+A salty treat of a snack.", 0);
 
 FOOD("chocolate bar",	50, 20,	c_brown,	VEGGY,	itm_wrapper,
     1,  1,  0,  8,  0,  1,  0,  0,  1,  8,	&iuse::none, ADD_NULL, "\
-Chocolate isn't very healthy, but it does make a delicious treat.");
+Chocolate isn't very healthy, but it does make a delicious treat.", 0);
 
 FOOD("beef jerky",	55, 24,	c_red,		FLESH,  itm_bag_plastic,
     1,  1, -3, 12,  0,  0, -1,  0,  3,  4,	&iuse::none, ADD_NULL, "\
-Salty dried meat that never goes bad, but will make you thirsty.");
+Salty dried meat that never goes bad, but will make you thirsty.", 0);
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("meat sandwich", 30, 60,	c_ltgray,	FLESH,	itm_wrapper,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  2,  0, 50, 36,  0,  0,  0,  1,  5,	&iuse::none, ADD_NULL, "\
-Bread and turkey, that's it.");
+Bread and turkey, that's it.", mfb(IF_EATEN_HOT));
 
 FOOD("candy",		80, 14,	c_magenta,	VEGGY,	itm_bag_plastic,
     0, 0,  -1,  2,  0,  1, -2,  0,  3,  4,	&iuse::none, ADD_NULL, "\
-A big bag of peanut butter cups... your favorite!");
+A big bag of peanut butter cups... your favorite!", 0);
 
 FOOD("mushroom",         4, 14,	c_brown,	VEGGY,	itm_null,
     1,  0,  0, 14,  0,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 Mushrooms are tasty, but be careful. Some can poison you, while others are\n\
-hallucinogenic.");
+hallucinogenic.", mfb(IF_EATEN_HOT));
 
 FOOD("mushroom",	 3, 14,	c_brown,	VEGGY,	itm_null,
     1,  0,  0, 10,  0,  0,  0,  0,  1,  0,	&iuse::poison, ADD_NULL, "\
 Mushrooms are tasty, but be careful. Some can poison you, while others are\n\
-hallucinogenic.");
+hallucinogenic.", mfb(IF_EATEN_HOT));
 
 FOOD("mushroom",	 1, 14,	c_brown,	VEGGY,	itm_null,
     1,  0,  0, 10,  0, -4,  0,  0,  1,  6,	&iuse::hallu, ADD_NULL, "\
 Mushrooms are tasty, but be careful. Some can poison you, while others are\n\
-hallucinogenic.");
+hallucinogenic.", mfb(IF_EATEN_HOT));
 
 FOOD("blueberries",	 3, 20,	c_blue,		VEGGY,	itm_null,
     1,  1,  2, 16, 60,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
-They're blue, but that doesn't mean they're sad.");
+They're blue, but that doesn't mean they're sad.", 0);
 
 FOOD("strawberries",	 2, 10,	c_red,		VEGGY,	itm_null,
     1,  1,  3, 18, 60,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
-Tasty juicy berry, often found growing wild in fields.");
+Tasty juicy berry, often found growing wild in fields.", 0);
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("tomato",		 9, 25,	c_red,		VEGGY,  itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  1,  3, 18, 90,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
 Juicy red tomato. It gained popularity in Italy after being brought back\n\
-from the New World.");
+from the New World.", 0);
 
 FOOD("broccoli",	 9, 40,	c_green,	VEGGY,	itm_null,
     2,  2,  0, 30,160,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
-It's a bit tough, but quite delicious.");
+It's a bit tough, but quite delicious.", mfb(IF_EATEN_HOT));
 
 FOOD("zucchini",	 7, 30,	c_ltgreen,	VEGGY,	itm_null,
     2,  1,  0, 20,120,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
-A tasty summer squash.");
+A tasty summer squash.", mfb(IF_EATEN_HOT));
 
 FOOD("corn",	 7, 30,	c_ltgreen,	VEGGY,	itm_null,
     2,  1,  0, 20,120,  0,  1,  0,  1,  0,	&iuse::none, ADD_NULL, "\
-Delicious golden kernels.");
+Delicious golden kernels.", mfb(IF_EATEN_HOT));
 
 FOOD("frozen dinner",	50, 80,	c_magenta,	FLESH,	itm_box_small,
     5,  4, -2, 60, 60,  0, -2,  0,  1, -3,	&iuse::none, ADD_NULL, "\
 Now with ONE POUND of meat and ONE POUND of carbs! Not as appetizing or\n\
-nutritious as it would be if heated up.");
+nutritious as it would be if heated up.", 0);
 
 FOOD("cooked TV dinner", 0,  0, c_magenta,	FLESH,  itm_null,
     5,  4, -2, 72, 12,  0, -2,  0,  1,  5,	&iuse::none,	ADD_NULL, "\
 Now with ONE POUND of meat and ONE POUND of carbs! Nice and heated up. It's\n\
-tastier and more filling, but will also spoil quickly.");
+tastier and more filling, but will also spoil quickly.", mfb(IF_EATEN_HOT));
 
 FOOD("raw spaghetti",	40, 12,	c_yellow,	VEGGY,	itm_box_small,
     6,  2,  0,  6,  0,  0,  0,  0,  1, -8,	&iuse::none, ADD_NULL, "\
-It could be eaten raw if you're desperate, but is much better cooked.");
+It could be eaten raw if you're desperate, but is much better cooked.", 0);
 
 FOOD("cooked spaghetti", 0, 28,	c_yellow,	VEGGY,	itm_box_small,
    10,  3,  0, 60, 20,  0,  0,  0,  1,  2,	&iuse::none, ADD_NULL, "\
-Fresh wet noodles. Very tasty.");
+Fresh wet noodles. Very tasty.", mfb(IF_EATEN_HOT));
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("raw macaroni",	40, 15,	c_yellow,	VEGGY,	itm_box_small,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     3,  1,  0,  3,  0,  0,  0,  0,  1, -8,	&iuse::none, ADD_NULL, "\
-It could be eaten raw if you're desperate, but is much better cooked.");
+It could be eaten raw if you're desperate, but is much better cooked.", 0);
 
 FOOD("mac & cheese",	 0, 38,	c_yellow,	VEGGY,	itm_box_small,
     4,  2,  0, 60, 10,  0, -1,  0,  1,  3,	&iuse::none, ADD_NULL, "\
-When the cheese starts flowing, Kraft gets your noodle going.");
+When the cheese starts flowing, Kraft gets your noodle going.", mfb(IF_EATEN_HOT));
 
 FOOD("ravioli",		25, 75,	c_cyan,		FLESH,	itm_can_food,
     1,  2,  0, 48,  0,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
-Meat encased in little dough satchels. Tastes fine raw.");
+Meat encased in little dough satchels. Tastes fine raw.", mfb(IF_EATEN_HOT));
 
 FOOD("red sauce",	20, 24,	c_red,		VEGGY,	itm_can_food,
     2,  3,  0, 20,  0,  0,  0,  0,  1,  1,	&iuse::none, ADD_NULL, "\
-Tomato sauce, yum yum.");
+Tomato sauce, yum yum.", mfb(IF_EATEN_HOT));
 
 FOOD("pesto",		15, 20,	c_ltgreen,	VEGGY,	itm_can_food,
     2,  3,  0, 18,  0,  0,  1,  0,  1,  4,	&iuse::none, ADD_NULL, "\
-Olive oil, basil, garlic, pine nuts. Simple and delicious.");
+Olive oil, basil, garlic, pine nuts. Simple and delicious.", 0);
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("beans",		40, 55,	c_cyan,		VEGGY,	itm_can_food,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  2,  0, 40,  0,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
-Canned beans. A staple for hobos.");
+Canned beans. A staple for hobos.", mfb(IF_EATEN_HOT));
 
 FOOD("corn",		35, 40,	c_cyan,		VEGGY,	itm_can_food,
     1,  2,  5, 30,  0,  0,  0,  0,  1, -2,	&iuse::none, ADD_NULL, "\
-Canned corn in water. Eat up!");
+Canned corn in water. Eat up!", mfb(IF_EATEN_HOT));
 
 FOOD("SPAM",		30, 50,	c_cyan,		FLESH,	itm_can_food,
     1,  2, -3, 48,  0,  0,  0,  0,  1, -8,	&iuse::none, ADD_NULL, "\
-Yuck, not very tasty, but it is quite filling.");
+Yuck, not very tasty, but it is quite filling.", mfb(IF_EATEN_HOT));
 
 FOOD("pineapple",	30, 50,	c_cyan,		VEGGY,	itm_can_food,
     1,  2,  5, 26,  0,  0,  1,  0,  1,  7,	&iuse::none, ADD_NULL, "\
-Canned pineapple rings in water. Quite tasty.");
+Canned pineapple rings in water. Quite tasty.", 0);
 
 FOOD("coconut milk",	10, 45,	c_cyan,		VEGGY,	itm_can_food,
     1,  2,  5, 30,  0,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
-A dense, sweet creamy sauce, often used in curries.");
+A dense, sweet creamy sauce, often used in curries.", 0);
 
 FOOD("sardines",	14, 25,	c_cyan,		FLESH,	itm_can_food,
     1,  1, -8, 14,  0,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
-Salty little fish. They'll make you thirsty.");
+Salty little fish. They'll make you thirsty.", mfb(IF_EATEN_HOT));
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("tuna fish",	35, 35,	c_cyan,		FLESH,	itm_can_food,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func    addiction type
     1,  2,  0, 24,  0,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
-Now with 95 percent less dolphins!");
+Now with 95 percent less dolphins!", 0);
 
 FOOD("cat food",	20,  8,	c_cyan,		FLESH,	itm_can_food,
     1,  2,  0, 10,  0,  0, -1,  0,  1,-24,	&iuse::none, ADD_NULL, "\
-Blech, so gross. Save it for when you're about to die of starvation.");
+Blech, so gross. Save it for when you're about to die of starvation.", 0);
 
 FOOD("honey comb",	10, 35,	c_yellow,	VEGGY,	itm_null,
     1,  1,  0, 20,  0,  0, -2,  0,  1,  9,	&iuse::honeycomb, ADD_NULL, "\
-A large chunk of wax, filled with honey. Very tasty.");
+A large chunk of wax, filled with honey. Very tasty.", 0);
 
 FOOD("wax",     	10, 35,	c_yellow,	VEGGY,	itm_null,
     1,  1,  0, 4,  0,  0, -2,  0,  1,  -5,	&iuse::none, ADD_NULL, "\
 A large chunk of beeswax.\n\
-Not very tasty or nourishing, but ok in an emergency.");
+Not very tasty or nourishing, but ok in an emergency.", 0);
 
 FOOD("royal jelly",	 8,200,	c_magenta,	VEGGY,	itm_null,
     1,  1,  0, 10,  0,  0,  3,  0,  1,  7,	&iuse::royal_jelly, ADD_NULL, "\
 A large chunk of wax, filled with dense, dark honey.  Useful for curing all\n\
-sorts of afflictions.");
+sorts of afflictions.", 0);
 
 FOOD("misshapen fetus",	 1,150,	c_magenta,	HFLESH,	itm_null,
     4,  4,  0,  8,  0,  0, -8,  0,  1,-60,	&iuse::mutagen, ADD_NULL, "\
 A deformed human fetus, eating this would be very nasty, and cause\n\
-your DNA to mutate.");
+your DNA to mutate.", 0);
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("mutated arm",		 4,250,	c_brown,	HFLESH,	itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func       addiction type
     8, 14,  0, 12,  0,  0, -8,  0,  1, -20,	&iuse::mutagen, ADD_NULL, "\
 A misshapen human arm, eating this would be pretty disgusting\n\
-and cause your DNA to mutate.");
+and cause your DNA to mutate.", 0);
 
 FOOD("mutated leg",		 4,250,	c_brown,	HFLESH,	itm_null,
    12, 24,  0, 16,  0,  0, -8,  0,  1, -20,	&iuse::mutagen, ADD_NULL, "\
 A malformed human leg, this would be gross to eat, and cause\n\
-mutations.");
+mutations.", 0);
 
 FOOD("ant egg",		 5, 80,	c_white,	FLESH,	itm_null,
     4,  2, 10, 100, 0,  0, -1,  0,  1, -10,	&iuse::none,	ADD_NULL, "\
-A large ant egg, the size of a softball. Extremely nutritious, but gross.");
+A large ant egg, the size of a softball. Extremely nutritious, but gross.", 0);
 
 FOOD("marloss berry",	 2,600, c_pink,		VEGGY,	itm_null,
     1,  1, 20, 40,  0,  0,-10,  0,  1, 30,	&iuse::marloss,	ADD_NULL, "\
 This looks like a blueberry the size of your fist, but pinkish in color. It\n\
 has a strong but delicious aroma, but is clearly either mutated or of alien\n\
-origin.");
+origin.", 0);
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("flour",		20, 25, c_white,	POWDER, itm_box_small,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func       addiction type
     2,  4,  0,  1,  0,  0,  0,  0,  8, -5,	&iuse::none,	ADD_NULL, "\
-This white flour is useful for baking.");
+This white flour is useful for baking.", 0);
 
 FOOD("sugar",		20, 25, c_white,	POWDER, itm_box_small,
     2,  3,  0,  3,  0,  4, -3,  0,  8,  1,	&iuse::none,	ADD_NULL, "\
 Sweet, sweet sugar. Bad for your teeth and surprisingly not very tasty\n\
-on its own.");
+on its own.", 0);
 
 FOOD("salt",		20, 18, c_white,	POWDER, itm_box_small,
     2,  2,-10,  0,  0,  0,  0,  0,  8, -8,	&iuse::none,	ADD_NULL, "\
 Yuck, you surely wouldn't want to eat this. It's good for preserving meat\n\
-and cooking with, though.");
+and cooking with, though.", 0);
 
 FOOD("raw potato",	10, 10, c_brown,	VEGGY,  itm_null,
     1,  1,  0,  8,240,  0, -2,  0,  1, -3,	&iuse::none,	ADD_NULL, "\
-Mildly toxic and not very tasty raw. When cooked, it is delicious.");
+Mildly toxic and not very tasty raw. When cooked, it is delicious.", 0);
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("baked potato",	 0, 30, c_brown,	VEGGY,  itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func       addiction type
     1,  1,  0, 20, 48,  0,  1,  0,  1,  3,	&iuse::none,	ADD_NULL, "\
-A delicious baked potato. Got any sour cream?");
+A delicious baked potato. Got any sour cream?", mfb(IF_EATEN_HOT));
 
 FOOD("bread",		14, 50, c_brown,	VEGGY,  itm_bag_plastic,
     4,  1,  0, 20,240,  0,  1,  0,  4,  1,	&iuse::none,	ADD_NULL, "\
-Healthy and filling.");
+Healthy and filling.", mfb(IF_EATEN_HOT));
 
 FOOD("fruit pie",	20, 80, c_yellow,	VEGGY,  itm_box_small,
     6,  3,  5, 16, 72,  2,  1,  0,  6,  3,	&iuse::none,	ADD_NULL, "\
-A delicious baked pie with a sweet fruit filling.");
+A delicious baked pie with a sweet fruit filling.", mfb(IF_EATEN_HOT));
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("pizza",		 8, 80, c_ltred,	VEGGY,	itm_box_small,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func       addiction type
     8,  4,  0, 18, 48,  0,  0,  0,  8,  6,	&iuse::none,	ADD_NULL, "\
 A vegetarian pizza, with delicious tomato sauce and a fluffy crust.  Its\n\
-smell brings back great memories.");
+smell brings back great memories.", mfb(IF_EATEN_HOT));
 
 FOOD("MRE - beef",		50,100, c_green,	FLESH,	itm_null,
     2,  1,  0, 50,  0,  0,  1,  0,  1, -4,	&iuse::none,	ADD_NULL, "\
 Meal Ready to Eat. A military ration. Though not very tasty, it is very\n\
-filling and will not spoil.");
+filling and will not spoil.", mfb(IF_EATEN_HOT));
 
 FOOD("MRE - vegetable",		50,100, c_green,	VEGGY,	itm_null,
     2,  1,  0, 40,  0,  0,  1,  0,  1, -4,	&iuse::none,	ADD_NULL, "\
 Meal Ready to Eat.  A military ration.  Though not very tasty, it is very\n\
-filling and will not spoil.");
+filling and will not spoil.", mfb(IF_EATEN_HOT));
 
 FOOD("tea leaves",	10, 13,	c_green,	VEGGY,	itm_bag_plastic,
     2,  1, 0,  2,  0,  0,  0,  0,  5, -1,	&iuse::none, ADD_NULL, "\
 Dried leaves of a tropical plant. You cam boil them into tea, or you\n\
-can just eat them raw. They aren't too filling though.");
+can just eat them raw. They aren't too filling though.", 0);
 
 FOOD("coffee powder",	15, 13,	c_brown,	VEGGY,	itm_bag_plastic,
     2,  1, 0,  0,  0,  8,  0,  0,  4, -5,	&iuse::caff, ADD_CAFFEINE, "\
 Ground coffee beans. You can boil it into a mediocre stimulant,\n\
-or swallow it raw for a lesser stimulative boost.");
+or swallow it raw for a lesser stimulative boost.", 0);
 
 FOOD("cake",            0, 0, c_white, VEGGY, itm_null,
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func       addiction type
     2,  1,   0, 25, 0,  0,  0,  0,  1,  20, &iuse::none, ADD_NULL, "\
-Delicious sponge cake with buttercream icing, it says happy birthday on it.");
+Delicious sponge cake with buttercream icing, it says happy birthday on it.", 0);
 
 // MEDS
 #define MED(name,rarity,price,color,tool,mat,stim,healthy,addict,\
@@ -1182,7 +1182,7 @@ for better grip.");
 TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
 
 MELEE("stone pot", 0, 0, ';', c_dkgray, STONE, MNULL,
-     8, 3,  4, 0, -1, 0, "\
+     9, 8,  4, 0, -1, 0, "\
 A large stone, roughly hollowed out into a pot.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
@@ -1348,6 +1348,11 @@ MELEE("hard plating",  30, 160, ']', c_ltcyan,  STEEL,   MNULL,
     12,  1800,  6,  0,  -1, 0, "\
 A piece of very thick armor plating made of steel.");
 
+ MELEE("RV kitchen unit", 20, 400, '&', c_ltcyan, STEEL, MNULL,
+    80, 900, 0, 0, -2, 0, "\
+A vehicle mountable electric range and sink unit with integrated\n\
+tool storage for cooking utensils.");
+
 // ARMOR
 #define ARMOR(name,rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
 encumber,dmg_resist,cut_resist,env,warmth,storage,covers,des)\
@@ -1501,6 +1506,11 @@ ARMOR("army pants",	10, 315,C_PANTS,	COTTON,		MNULL,
 A tough pair of pants lined with pockets. Favored by the military.\n\
 These army pants are a perfect fit for you.");
 
+ARMOR("long underwear",	40, 200,C_PANTS,	COTTON,		MNULL,
+    4,  2, -3,  0, -1,  0,  0,  0,  30,  0,	mfb(bp_legs), "\
+A pair of long underwear that help to maintain body temperature.\n\
+These are a perfect fit for you.");
+
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("jumpsuit",	20, 200,C_BODY,		COTTON,		PLASTIC,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
@@ -1530,6 +1540,25 @@ will provide excellent protection against ambient radiation.");
 ARMOR("plate mail",	 2, 700,C_BODY,		IRON,		MNULL,
    70,140,  8, -5,  5, 16, 20,  0,  20,  0,	mfb(bp_torso)|mfb(bp_legs)|mfb(bp_arms), "\
 An extremely heavy ornamental suit of armor.");
+
+ARMOR("jumpsuit",	20, 200,C_BODY,		COTTON,		PLASTIC,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    6,  6, -3, -3,  -1,  0,  1,  0,  10, 12,	mfb(bp_legs)|mfb(bp_torso), "\
+A thin, short-sleeved jumpsuit; similar to those\n\
+worn my prisoners. Provides decent storage and is\n\
+not very encumbering.\n\
+This one is a perfect fit for you.");
+
+ARMOR("dress",		70, 180,C_BODY,		COTTON,		MNULL,
+    8,  6, -5, -5,  2,  0,  1,  0,  20,  0,	mfb(bp_legs)|mfb(bp_torso), "\
+A long cotton dress. Difficult to move in and lacks any storage space.\n\
+This one is a perfect fit for you.");
+
+ARMOR("suit",		60, 180,C_BODY,		COTTON,		MNULL,
+   10,  7, -5, -5,  0,  0,  1,  0,  25,  10,	mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms), "\
+A full-body cotton suit. Makes the apocalypse a truly gentlemanly\n\
+experience.\n\
+This one fits perfectly. Dapper indeed!");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("t shirt",	80,  80,C_TORSO,	COTTON,		MNULL,
@@ -1692,6 +1721,22 @@ ARMOR("leather trenchcoat",	25, 225,C_TORSO,        LEATHER, 	MNULL,
 A thick leather trenchcoat, lined with pockets. Great for storage.\n\
 This trenchcoat is a perfect fit for you");
 
+ARMOR("dress shirt",	60, 115,C_TORSO,	COTTON,		MNULL,
+    3,  3, -5,  0,  0,  0,  1,  0,  10,  1,	mfb(bp_torso)|mfb(bp_arms), "\
+A white button-down shirt with long sleeves. Looks professional!\n\
+This one fits you perfectly.");
+
+ARMOR("tank top",	50,  75,C_TORSO,	COTTON,		MNULL,
+    1,  1, -5,  0,  -1,  0,  0,  0,  0,  0,	mfb(bp_torso), "\
+A sleeveless cotton shirt. Very easy to move in.\n\
+It fits perfectly.");
+
+ARMOR("under armor", 20, 200,C_TORSO,	COTTON,		MNULL,
+   2,  2, -5,  0, -1,  0,  0,  0,  20,  0,	mfb(bp_torso), "\
+Sports wear that clings to your chest to maintain body temperature.\n\
+Fits you perfectly!");
+
+
 // arm guards
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("soft arm sleeves",	40,  65,C_ARMS,	COTTON,		MNULL,
@@ -1759,6 +1804,11 @@ ARMOR("chitinous gauntlets", 1, 380,C_HAT,		FLESH,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
    4,   1,  2, -2,  1,  5, 7,   4,  20,  0,	mfb(bp_hands), "\
 Gauntlets made from the exoskeletons of insects. Very light and durable.");
+
+ARMOR("glove liners",	25,  100,C_GLOVES,	COTTON,		MNULL,
+    0,  0, -5,  1,  -1,  0,  0,  0,  10,  0,	mfb(bp_hands), "\
+A pair of thin cotton gloves. Often used as a liner beneath other gloves.\n\
+Fits you perfectly.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("dust mask",	65,  20,C_MOUTH,	COTTON,		IRON,
@@ -1991,6 +2041,20 @@ ARMOR("silver necklace",14, 500,C_DECOR,	SILVER,		MNULL,
 A nice silver necklace. You can wear it if you like, but it won't provide\n\
 any effects.");
 
+#define POWER_ARMOR(name,rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
+encumber,dmg_resist,cut_resist,env,warmth,storage,covers,des)\
+	index++;itypes.push_back(new it_armor(index,rarity,price,name,des,'[',\
+  color,mat1,mat2,volume,wgt,dam,0,to_hit,0,covers,encumber,dmg_resist,cut_resist,\
+  env,warmth,storage,true))
+
+POWER_ARMOR("basic power armor", 5, 1000, C_BODY, STEEL, MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   40, 24, 1, 1, 5, 32, 50, 10, 70, 0, mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
+A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.");
+
+POWER_ARMOR("basic power armor helmet", 6, 500, C_HAT, STEEL, MNULL,
+   10, 6, 1, 1, 5, 32, 50, 10, 70, 0, mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth), "\
+A basic helmet, designed for use with power armor. Offers excellent protection from both attacks and environmental hazards.");
 
 // AMMUNITION
 // Material should be the wrapper--even though shot is made of iron, because
@@ -3507,7 +3571,7 @@ A 250 ml laboratory conical flask, with a rubber bung.");
 
 CONT("waterskin",   0,  0, c_brown, LEATHER, MNULL,
 // VOL WGT DAM HIT	VOL	FLAGS
-    2, 2,  -8, -5,   6, mfb(con_wtight)|mfb(con_seals), "\
+    4, 4,  -8, -5,   9, mfb(con_wtight)|mfb(con_seals), "\
 A watertight leather bag, can hold 1.5 liters of water.");
 
 CONT("steel jerrycan", 20, 5000, c_green, STEEL, MNULL,
@@ -3550,6 +3614,12 @@ A lighter must be carried to use various drugs, like cigarettes, or to light\n\
 things like molotov cocktails.  You can also use a lighter to light nearby\n\
 items on fire.");
 
+TOOL("matchbook",       60, 10,',', c_blue,     PAPER, MNULL,
+    0,  0,  0,  0,  0,   20, 20, 1,  0, AT_NULL, itm_null, &iuse::lighter, 0, "\
+Matches must be carried to use various drugs, like cigarettes, or to light\n\
+things like molotov cocktails.  You can also use matches to light nearby\n\
+items on fire.");
+
 TOOL("sewing kit",	30,120, ',', c_red,	PLASTIC,IRON,
     2,  0, -3,  0, -1,  200, 50, 1,  0, AT_THREAD, itm_null, &iuse::sew, 0, "\
 Use a sewing kit on an article of clothing to attempt to repair or reinforce\n\
@@ -3584,15 +3654,17 @@ mfb(IF_LIGHT_8),
 provides light during the night or while underground. Use it to turn it off.");
 
 TOOL("hotplate",	10, 250,';', c_green,	IRON,	PLASTIC,
-    5,  6,  8,  0, -1, 200, 100,  0,  0, AT_BATT, itm_null, &iuse::none,0,"\
-A small heating element. Indispensable for cooking and chemistry.");
+    5,  6,  8,  0, -1, 200, 100,  0,  0, AT_BATT, itm_null, &iuse::cauterize_elec,0,"\
+A small heating element. Indispensable for cooking and chemistry. Try not to\n\
+burn yourself.");
 
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
 TOOL("soldering iron",	70, 200,',', c_ltblue,	IRON,	MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    3,  1,  2,  6,  0, 200, 20,  0,  0, AT_BATT, itm_null, &iuse::none,
+    3,  1,  2,  6,  0, 200, 20,  0,  0, AT_BATT, itm_null, &iuse::cauterize_elec,
 mfb(IF_SPEAR), "\
-A piece of metal that can get very hot. Necessary for electronics crafting.");
+A piece of metal that can get very hot. Necessary for electronics crafting.\n\
+You could also use it to cauterize wounds, if you had to.");
 
 TOOL("water purifier",   5,1200,';', c_ltblue,	PLASTIC, IRON,
    12, 20,  2,  0, -3, 100,100, 1,  0, AT_BATT,itm_null,&iuse::water_purifier,0,
@@ -3617,7 +3689,7 @@ This radio is turned on, and continually draining its batteries. It is\n\
 playing the broadcast being sent from any nearby radio towers.");
 
 TOOL("road map", 40, 10, ';', c_yellow, MNULL, MNULL,
-     1, 0, 0, 0, -1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::roadmap, 0, "\
+     1, 0, 0, 0, -1, 1, 1, 0, 0, AT_NULL, itm_null, &iuse::roadmap, 0, "\
 A road map. Use it to read points of interest, including, but not\n\
 limited to, location(s) of hospital(s) nearby.");
 
@@ -4155,8 +4227,8 @@ TOOL("brazier",  50,900,';', c_ltred,  IRON,MNULL,
 // VOL WGT DAM CUT HIT   MAX DEF  USE SEC   FUEL    REVERT    FUNCTION
      6, 5,  11,  0, 1,    0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap,
 0, "\
-A large stand, with a shallow bowl on top. Used for old school\n\
-fire sconces.");
+A large stand with slots in the side. (a)ctivate it and place it somewhere\n\
+then set fires in it with no risk of spreading.");
 
 TOOL("kinetic bullet puller",		5, 100, ';', c_blue,	STEEL,	PLASTIC,
     2,  4, 10,  0,  0,   0,  0, 0,  0, AT_NULL, itm_null, &iuse::bullet_puller, 0, "\
@@ -4274,6 +4346,18 @@ TOOL("damaged shelter kit",	17, 65, ';', c_green,	WOOD,	LEATHER,
 0, "\
 A small shelter, made of sticks and skins. (a)ctivate it to place.\n\
 This shelter has been damaged, and needs repairs.");
+
+TOOL("heatpack",	20, 65, ';', c_blue,	PLASTIC,	MNULL,
+	 1,  1,  1,  1,  1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::heatpack,
+0, "\
+A heatpack, used to treat sports injuries and heat food.  Usable only once.");
+
+TOOL("used heatpack",	2, 10, ';', c_blue,	PLASTIC,	MNULL,
+	 1,  1,  1,  1,  1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::none,
+0, "\
+A heatpack, used to treat sports injuries and heat food.  This one\n\
+has been used already and is now useless.");
+
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated
@@ -4855,6 +4939,7 @@ std::string ammo_name(ammotype t)
   case AT_FUSION: return "fusion cell";
   case AT_12MM:   return "12mm slugs";
   case AT_PLASMA: return "hydrogen";
+  case AT_WATER: return "clean water";
   default:	  return "XXX";
  }
 }
@@ -4888,6 +4973,7 @@ itype_id default_ammo(ammotype guntype)
  case AT_PLUT:	return itm_plut_cell;
  case AT_GAS:	return itm_gasoline;
  case AT_THREAD:return itm_thread;
+ case AT_WATER:return itm_water_clean;
  }
  return itm_null;
 }

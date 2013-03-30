@@ -376,7 +376,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
       if (one_in(250))
       {
         ter(i, j) = t_tree_apple;
-        add_item(i, j, (*itypes)[itm_apple], turn);
+        spawn_item(i, j, (*itypes)[itm_apple], turn);
       }
       else
       ter(i, j) = t_tree;
@@ -695,7 +695,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
      ter(i, j) = t_tree_fungal;
     else if (one_in(300)) {
      ter(i, j) = t_marloss;
-     add_item(i, j, (*itypes)[itm_marloss_berry], turn);
+     spawn_item(i, j, (*itypes)[itm_marloss_berry], turn);
     } else if (one_in(3))
      ter(i, j) = t_dirt;
     else
@@ -2771,18 +2771,18 @@ case ot_lmoe: {
    if (!one_in(3)) {
     rn = dice(4, 3);
     for (int i = 0; i < rn; i++) {
-     add_item(SEEX - 1, SEEY - 1, (*itypes)[itm_laser_pack], 0);
-     add_item(SEEX + 1, SEEY - 1, (*itypes)[itm_laser_pack], 0);
+     spawn_item(SEEX - 1, SEEY - 1, (*itypes)[itm_laser_pack], 0);
+     spawn_item(SEEX + 1, SEEY - 1, (*itypes)[itm_laser_pack], 0);
     }
-    add_item(SEEX - 1, SEEY    , (*itypes)[itm_v29], 0);
-    add_item(SEEX + 1, SEEY    , (*itypes)[itm_ftk93], 0);
+    spawn_item(SEEX - 1, SEEY    , (*itypes)[itm_v29], 0);
+    spawn_item(SEEX + 1, SEEY    , (*itypes)[itm_ftk93], 0);
    } else if (!one_in(3)) {
     rn = dice(3, 6);
     for (int i = 0; i < rn; i++) {
-     add_item(SEEX - 1, SEEY - 1, (*itypes)[itm_mininuke], 0);
-     add_item(SEEX    , SEEY - 1, (*itypes)[itm_mininuke], 0);
-     add_item(SEEX - 1, SEEY    , (*itypes)[itm_mininuke], 0);
-     add_item(SEEX    , SEEY    , (*itypes)[itm_mininuke], 0);
+     spawn_item(SEEX - 1, SEEY - 1, (*itypes)[itm_mininuke], 0);
+     spawn_item(SEEX    , SEEY - 1, (*itypes)[itm_mininuke], 0);
+     spawn_item(SEEX - 1, SEEY    , (*itypes)[itm_mininuke], 0);
+     spawn_item(SEEX    , SEEY    , (*itypes)[itm_mininuke], 0);
     }
    } else {
     ter(SEEX - 2, SEEY - 1) = t_rack;
@@ -3080,7 +3080,7 @@ case ot_lmoe: {
      place_items(mi_mil_rifles, 30, rnx, rny, rnx, rny, true, 0);
      place_items(mi_mil_armor,  70, rnx, rny, rnx, rny, true, 0);
      place_items(mi_mil_food,   40, rnx, rny, rnx, rny, true, 0);
-     add_item(rnx, rny, (*itypes)[itm_id_military], 0);
+     spawn_item(rnx, rny, (*itypes)[itm_id_military], 0);
     } else if (one_in(20))
      rough_circle(this, t_rubble, rnx, rny, rng(3, 6));
    }
@@ -3383,8 +3383,8 @@ case ot_lmoe: {
   square(this, t_rock_floor, SEEX - 1, 1, SEEX + 2, 4);
   square(this, t_rock_floor, SEEX, 5, SEEX + 1, SEEY * 2 - 1);
   line(this, t_stairs_up, SEEX, SEEY * 2 - 1, SEEX + 1, SEEY * 2 - 1);
-  add_item(rng(SEEX, SEEX + 1), rng(2, 3), g->new_artifact(), 0);
-  add_item(rng(SEEX, SEEX + 1), rng(2, 3), g->new_artifact(), 0);
+  spawn_item(rng(SEEX, SEEX + 1), rng(2, 3), g->new_artifact(), 0);
+  spawn_item(rng(SEEX, SEEX + 1), rng(2, 3), g->new_artifact(), 0);
   return;
 
  case ot_sewage_treatment:
@@ -3996,7 +3996,7 @@ case ot_lmoe: {
    case 1: { // Wyrms
     int x = rng(SEEX, SEEX + 1), y = rng(SEEY, SEEY + 1);
     ter(x, y) = t_pedestal_wyrm;
-    add_item(x, y, (*itypes)[itm_petrified_eye], 0);
+    spawn_item(x, y, (*itypes)[itm_petrified_eye], 0);
    } break; // That's it!  game::examine handles the pedestal/wyrm spawns
 
    case 2: { // The Thing dog
@@ -4009,7 +4009,7 @@ case ot_lmoe: {
      place_items(mi_mine_equipment, 60, x, y, x, y, false, 0);
     }
     add_spawn(mon_dog_thing, 1, rng(SEEX, SEEX + 1), rng(SEEX, SEEX + 1), true);
-    add_item(rng(SEEX, SEEX + 1), rng(SEEY, SEEY + 1), g->new_artifact(), 0);
+    spawn_item(rng(SEEX, SEEX + 1), rng(SEEY, SEEY + 1), g->new_artifact(), 0);
    } break;
 
    case 3: { // Spiral down
@@ -4169,7 +4169,7 @@ case ot_lmoe: {
   line(this, t_counter, buildx - 3, buildy - 3, buildx + 3, buildy - 3);
   place_items(mi_toxic_dump_equipment, 80,
               buildx - 3, buildy - 3, buildx + 3, buildy - 3, false, 0);
-  add_item(buildx, buildy, g->itypes[itm_id_military], 0);
+  spawn_item(buildx, buildy, g->itypes[itm_id_military], 0);
   ter(buildx, buildy + 4) = t_door_locked;
 
   rotate(rng(0, 3));
@@ -6590,7 +6590,7 @@ break;
      int num_weed = rng(0, 3) * rng(0, 1);
      for (int n = 0; n < num_weed; n++) {
       int x = rng(i, i + 2), y = rng(j, j + 2);
-      add_item(x, y, (*itypes)[itm_weed], 0);
+      spawn_item(x, y, (*itypes)[itm_weed], 0);
      }
     }
    }
@@ -7042,19 +7042,19 @@ break;
    ter(3, 2) = t_water_sh;
    ter(3, 3) = t_water_sh;
   } else {
-   add_item(           5, SEEY + 1, (*itypes)[itm_helmet_bike], 0);
-   add_item(           4, SEEY + 1, (*itypes)[itm_backpack], 0);
-   add_item(           3, SEEY + 1, (*itypes)[itm_pants_cargo], 0);
-   add_item(           7, SEEY * 2 - 4, (*itypes)[itm_machete], 0);
-   add_item(           7, SEEY * 2 - 4, (*itypes)[itm_9mm], 0);
-   add_item(           7, SEEY * 2 - 4, (*itypes)[itm_9mmP], 0);
-   add_item(           7, SEEY * 2 - 4, (*itypes)[itm_uzi], 0);
-   add_item(SEEX * 2 - 2, SEEY + 5, (*itypes)[itm_bubblewrap], 0);
-   add_item(SEEX * 2 - 2, SEEY + 6, (*itypes)[itm_grenade], 0);
-   add_item(SEEX * 2 - 3, SEEY + 6, (*itypes)[itm_flashlight], 0);
-   add_item(SEEX * 2 - 2, SEEY + 7, (*itypes)[itm_cig], 0);
-   add_item(SEEX * 2 - 2, SEEY + 7, (*itypes)[itm_codeine], 0);
-   add_item(SEEX * 2 - 3, SEEY + 7, (*itypes)[itm_water], 0);
+   spawn_item(           5, SEEY + 1, (*itypes)[itm_helmet_bike], 0);
+   spawn_item(           4, SEEY + 1, (*itypes)[itm_backpack], 0);
+   spawn_item(           3, SEEY + 1, (*itypes)[itm_pants_cargo], 0);
+   spawn_item(           7, SEEY * 2 - 4, (*itypes)[itm_machete], 0);
+   spawn_item(           7, SEEY * 2 - 4, (*itypes)[itm_9mm], 0);
+   spawn_item(           7, SEEY * 2 - 4, (*itypes)[itm_9mmP], 0);
+   spawn_item(           7, SEEY * 2 - 4, (*itypes)[itm_uzi], 0);
+   spawn_item(SEEX * 2 - 2, SEEY + 5, (*itypes)[itm_bubblewrap], 0);
+   spawn_item(SEEX * 2 - 2, SEEY + 6, (*itypes)[itm_grenade], 0);
+   spawn_item(SEEX * 2 - 3, SEEY + 6, (*itypes)[itm_flashlight], 0);
+   spawn_item(SEEX * 2 - 2, SEEY + 7, (*itypes)[itm_cig], 0);
+   spawn_item(SEEX * 2 - 2, SEEY + 7, (*itypes)[itm_codeine], 0);
+   spawn_item(SEEX * 2 - 3, SEEY + 7, (*itypes)[itm_water], 0);
    ter(SEEX - 2, SEEY + 2) = t_stairs_down;
   }
   break;
@@ -7120,13 +7120,13 @@ break;
     y = rng(0, SEEY * 2 - 1);
    } while (move_cost(x, y) == 0);
    if (!one_in(3))
-    add_item(x, y, (*itypes)[itm_jackhammer], 0);
+    spawn_item(x, y, (*itypes)[itm_jackhammer], 0);
    if (one_in(3))
-    add_item(x, y, (*itypes)[itm_mask_dust], 0);
+    spawn_item(x, y, (*itypes)[itm_mask_dust], 0);
    if (one_in(2))
-    add_item(x, y, (*itypes)[itm_hat_hard], 0);
+    spawn_item(x, y, (*itypes)[itm_hat_hard], 0);
    while (!one_in(3))
-    add_item(x, y, (*itypes)[rng(itm_can_beans, itm_can_tuna)], 0);
+    spawn_item(x, y, (*itypes)[rng(itm_can_beans, itm_can_tuna)], 0);
   }
   break;
 
@@ -7368,13 +7368,13 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
             (!ongrass && (ter(px, py) == t_dirt || ter(px, py) == t_grass))) &&
            tries < 20);
   if (tries < 20) {
-   add_item(px, py, (*itypes)[eligible[selection]], turn);
+   spawn_item(px, py, (*itypes)[eligible[selection]], turn);
 // Guns in the home and behind counters are generated with their ammo
 // TODO: Make this less of a hack
    if ((*itypes)[eligible[selection]]->is_gun() &&
        (loc == mi_homeguns || loc == mi_behindcounter)) {
     it_gun* tmpgun = dynamic_cast<it_gun*> ((*itypes)[eligible[selection]]);
-    add_item(px, py, (*itypes)[default_ammo(tmpgun->ammo)], turn);
+    spawn_item(px, py, (*itypes)[default_ammo(tmpgun->ammo)], turn);
    }
   }
  }
@@ -7398,7 +7398,7 @@ void map::put_items_from(items_location loc, int num, int x, int y, int turn)
              selection, eligible.size(), randnum, item_chance);
    randnum -= (*itypes)[eligible[selection]]->rarity;
   }
-  add_item(x, y, (*itypes)[eligible[selection]], turn);
+  spawn_item(x, y, (*itypes)[eligible[selection]], turn);
  }
 }
 
@@ -8635,27 +8635,27 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
   if (one_in(6)) { // Suits of armor
    int start = y1 + rng(2, 4), end = y2 - rng(0, 4), step = rng(3, 6);
    for (int y = start; y <= end; y += step) {
-    m->add_item(x1 + 1, y, (*(m->itypes))[itm_helmet_plate], 0);
-    m->add_item(x1 + 1, y, (*(m->itypes))[itm_armor_plate],  0);
+    m->spawn_item(x1 + 1, y, (*(m->itypes))[itm_helmet_plate], 0);
+    m->spawn_item(x1 + 1, y, (*(m->itypes))[itm_armor_plate],  0);
     if (one_in(2))
-     m->add_item(x1 + 1, y, (*(m->itypes))[itm_pike],  0);
+     m->spawn_item(x1 + 1, y, (*(m->itypes))[itm_pike],  0);
     else if (one_in(3))
-     m->add_item(x1 + 1, y, (*(m->itypes))[itm_broadsword],  0);
+     m->spawn_item(x1 + 1, y, (*(m->itypes))[itm_broadsword],  0);
     else if (one_in(6))
-     m->add_item(x1 + 1, y, (*(m->itypes))[itm_mace],  0);
+     m->spawn_item(x1 + 1, y, (*(m->itypes))[itm_mace],  0);
     else if (one_in(6))
-     m->add_item(x1 + 1, y, (*(m->itypes))[itm_morningstar],  0);
+     m->spawn_item(x1 + 1, y, (*(m->itypes))[itm_morningstar],  0);
 
-    m->add_item(x2 - 1, y, (*(m->itypes))[itm_helmet_plate], 0);
-    m->add_item(x2 - 1, y, (*(m->itypes))[itm_armor_plate],  0);
+    m->spawn_item(x2 - 1, y, (*(m->itypes))[itm_helmet_plate], 0);
+    m->spawn_item(x2 - 1, y, (*(m->itypes))[itm_armor_plate],  0);
     if (one_in(2))
-     m->add_item(x2 - 1, y, (*(m->itypes))[itm_pike],  0);
+     m->spawn_item(x2 - 1, y, (*(m->itypes))[itm_pike],  0);
     else if (one_in(3))
-     m->add_item(x2 - 1, y, (*(m->itypes))[itm_broadsword],  0);
+     m->spawn_item(x2 - 1, y, (*(m->itypes))[itm_broadsword],  0);
     else if (one_in(6))
-     m->add_item(x2 - 1, y, (*(m->itypes))[itm_mace],  0);
+     m->spawn_item(x2 - 1, y, (*(m->itypes))[itm_mace],  0);
     else if (one_in(6))
-     m->add_item(x2 - 1, y, (*(m->itypes))[itm_morningstar],  0);
+     m->spawn_item(x2 - 1, y, (*(m->itypes))[itm_morningstar],  0);
    }
   }
   break;
@@ -8792,16 +8792,16 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
   for (int x = x1 + 1; x <= cx_low - 1; x += rng(2, 4)) {
    for (int y = y1 + 1; y <= cy_low - 1; y += rng(2, 4)) {
     if (one_in(10)) { // Suit of armor
-     m->add_item(x, y, (*(m->itypes))[itm_helmet_plate], 0);
-     m->add_item(x, y, (*(m->itypes))[itm_armor_plate],  0);
+     m->spawn_item(x, y, (*(m->itypes))[itm_helmet_plate], 0);
+     m->spawn_item(x, y, (*(m->itypes))[itm_armor_plate],  0);
      if (one_in(2))
-      m->add_item(x, y, (*(m->itypes))[itm_pike],  0);
+      m->spawn_item(x, y, (*(m->itypes))[itm_pike],  0);
      else if (one_in(3))
-      m->add_item(x, y, (*(m->itypes))[itm_broadsword],  0);
+      m->spawn_item(x, y, (*(m->itypes))[itm_broadsword],  0);
      else if (one_in(6))
-      m->add_item(x, y, (*(m->itypes))[itm_mace],  0);
+      m->spawn_item(x, y, (*(m->itypes))[itm_mace],  0);
      else if (one_in(6))
-      m->add_item(x, y, (*(m->itypes))[itm_morningstar],  0);
+      m->spawn_item(x, y, (*(m->itypes))[itm_morningstar],  0);
     } else { // Objets d'art
      m->ter(x, y) = t_counter;
      m->place_items(mi_art, 70, x, y, x, y, false, 0);
@@ -8811,16 +8811,16 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
   for (int x = x2 - 1; x >= cx_hi + 1; x -= rng(2, 4)) {
    for (int y = y2 - 1; y >= cy_hi + 1; y -= rng(2, 4)) {
     if (one_in(10)) { // Suit of armor
-     m->add_item(x, y, (*(m->itypes))[itm_helmet_plate], 0);
-     m->add_item(x, y, (*(m->itypes))[itm_armor_plate],  0);
+     m->spawn_item(x, y, (*(m->itypes))[itm_helmet_plate], 0);
+     m->spawn_item(x, y, (*(m->itypes))[itm_armor_plate],  0);
      if (one_in(2))
-      m->add_item(x, y, (*(m->itypes))[itm_pike],  0);
+      m->spawn_item(x, y, (*(m->itypes))[itm_pike],  0);
      else if (one_in(3))
-      m->add_item(x, y, (*(m->itypes))[itm_broadsword],  0);
+      m->spawn_item(x, y, (*(m->itypes))[itm_broadsword],  0);
      else if (one_in(6))
-      m->add_item(x, y, (*(m->itypes))[itm_mace],  0);
+      m->spawn_item(x, y, (*(m->itypes))[itm_mace],  0);
      else if (one_in(6))
-      m->add_item(x, y, (*(m->itypes))[itm_morningstar],  0);
+      m->spawn_item(x, y, (*(m->itypes))[itm_morningstar],  0);
     } else { // Objets d'art
      m->ter(x, y) = t_counter;
      m->place_items(mi_art, 70, x, y, x, y, false, 0);
@@ -8895,7 +8895,7 @@ void map::add_extra(map_extra type, game *g)
     add_item(x, y, body);
     place_items(mi_military, 86, x, y, x, y, true, 0);
     if (one_in(8))
-     add_item(x, y, (*itypes)[itm_id_military], 0);
+     spawn_item(x, y, (*itypes)[itm_id_military], 0);
    }
   }
   place_spawns(g, "GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);//0.1 = 1-5
@@ -8916,7 +8916,7 @@ void map::add_extra(map_extra type, game *g)
 
    if (tries < 10) {	// We found a valid spot!
     add_item(x, y, body);
-    add_item(x, y, (*itypes)[itm_id_science], 0);
+    spawn_item(x, y, (*itypes)[itm_id_science], 0);
     place_items(mi_science, 84, x, y, x, y, true, 0);
    }
   }
@@ -9035,7 +9035,7 @@ void map::add_extra(map_extra type, game *g)
       drugs_placed = num_drugs;
       num_drugs = 0;
      }
-     add_item(x, y, drugtype, 0, drugs_placed);
+     spawn_item(x, y, drugtype, 0, 0, drugs_placed);
     }
    }
   }
@@ -9069,7 +9069,7 @@ void map::add_extra(map_extra type, game *g)
       drugs_placed = num_drugs;
       num_drugs = 0;
      }
-     add_item(x, y, drugtype, 0, drugs_placed);
+     spawn_item(x, y, drugtype, 0, 0, drugs_placed);
     }
    }
   }
@@ -9185,7 +9185,7 @@ void map::add_extra(map_extra type, game *g)
     if (rng(0, 9) > trig_dist(x, y, i, j)) {
      marlossify(i, j);
      if (ter(i, j) == t_marloss)
-      add_item(x, y, (*itypes)[itm_marloss_berry], g->turn);
+      spawn_item(x, y, (*itypes)[itm_marloss_berry], g->turn);
      if (one_in(15)) {
       monster creature(g->mtypes[mon_id(rng(mon_gelatin, mon_blank))]);
       creature.spawn(i, j);
@@ -9202,7 +9202,7 @@ void map::add_extra(map_extra type, game *g)
   artifact_natural_property prop =
    artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
   create_anomaly(center.x, center.y, prop);
-  add_item(center.x, center.y, g->new_natural_artifact(prop), 0);
+  spawn_item(center.x, center.y, g->new_natural_artifact(prop), 0);
  } break;
 
  } // switch (prop)
@@ -9219,7 +9219,7 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
      if (ter(i, j) == t_rubble) {
       add_field(NULL, i, j, fd_push_items, 1);
       if (one_in(3))
-       add_item(i, j, (*itypes)[itm_rock], 0);
+       spawn_item(i, j, (*itypes)[itm_rock], 0);
      }
     }
    }

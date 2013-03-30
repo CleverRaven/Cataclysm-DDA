@@ -98,6 +98,7 @@ itm_wrapper, itm_withered, itm_syringe, itm_fur, itm_leather, itm_superglue,
  itm_motor, itm_motor_large, itm_plasma_engine, itm_foot_crank,
  itm_metal_tank, itm_storage_battery, itm_minireactor, itm_solar_panel,
  itm_sheet_metal, itm_steel_plate, itm_alloy_plate, itm_spiked_plate, itm_hard_plate,
+ itm_kitchen_unit,
 // Footwear
  itm_socks, itm_socks_wool,
  itm_sneakers, itm_boots, itm_boots_steel, itm_boots_winter, itm_mocassins,
@@ -109,9 +110,11 @@ itm_wrapper, itm_withered, itm_syringe, itm_fur, itm_leather, itm_superglue,
  itm_jeans, itm_pants, itm_pants_leather, itm_pants_cargo, itm_pants_army, itm_pants_ski,
  itm_long_underpants, itm_skirt,
  itm_jeans_fit, itm_pants_fit, itm_pants_cargo_fit, itm_pants_army_fit,
+ itm_long_underpants_fit,
 // Full-body clothing
 itm_jumpsuit, itm_dress, itm_armor_chitin, itm_suit, itm_hazmat_suit,
  itm_armor_plate,
+ itm_jumpsuit_fit, itm_dress_fit, itm_suit_fit,
 // Torso clothing
 itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top, itm_sweatshirt,
  itm_sweater, itm_hoodie, itm_under_armor, itm_jacket_light, itm_jacket_jean, itm_blazer,
@@ -119,12 +122,14 @@ itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top, itm_sweatshirt,
  itm_coat_winter, itm_coat_fur, itm_peacoat, itm_vest, itm_beltrig, itm_coat_lab,
  itm_tshirt_fit, itm_polo_shirt_fit, itm_hoodie_fit, itm_sweatshirt_fit, itm_sweater_fit,
  itm_jacket_light_fit, itm_jacket_leather_fit, itm_trenchcoat_fit, itm_trenchcoat_leather_fit,
+ itm_dress_shirt_fit, itm_tank_top_fit, itm_under_armor_fit,
 // Arm clothing
 itm_armguard_soft, itm_armguard_hard, itm_armguard_chitin, itm_armguard_metal,
 // Gloves
 itm_gloves_liner, itm_gloves_light, itm_mittens, itm_gloves_wool, itm_gloves_winter,
  itm_gloves_leather, itm_gloves_fingerless, itm_gloves_rubber,
  itm_gloves_medical, itm_fire_gauntlets, itm_gauntlets_chitin,
+ itm_gloves_liner_fit,
 // Masks
 itm_mask_dust, itm_bandana, itm_scarf, itm_mask_filter, itm_mask_gas,
 // Eyewear
@@ -139,6 +144,8 @@ itm_backpack, itm_rucksack, itm_purse, itm_mbag, itm_fanny, itm_holster, itm_boo
 itm_ragpouch, itm_leather_pouch,
 // Decorative
 itm_ring, itm_necklace,
+// Power armor
+itm_power_armor_basic, itm_power_armor_helmet_basic,
 // Ammunition
  itm_battery, itm_thread, itm_sinew, itm_plant_fibre, itm_duct_tape, itm_cable, itm_plut_cell,
  itm_nail, itm_bb, itm_arrow_wood, itm_arrow_cf,
@@ -195,7 +202,7 @@ itm_bag_plastic, itm_bottle_plastic, itm_bottle_glass,
  itm_canteen, itm_jerrycan, itm_jug_plastic, itm_flask_glass, itm_waterskin,
  itm_jerrycan_big, itm_keg,
 // Tools
-itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
+itm_lighter, itm_matches, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_flashlight, itm_flashlight_on, itm_hotplate, itm_soldering_iron,
  itm_water_purifier, itm_two_way_radio, itm_radio, itm_radio_on, itm_roadmap, itm_crowbar,
  itm_hoe, itm_shovel, itm_chainsaw_off, itm_chainsaw_on, itm_jackhammer, itm_jacqueshammer,
@@ -218,7 +225,7 @@ itm_lighter, itm_sewing_kit, itm_scissors, itm_hammer, itm_extinguisher,
  itm_boltcutters, itm_mop, itm_picklocks, itm_pickaxe, itm_spray_can, itm_rag,
  itm_pda, itm_pda_flashlight, itm_pockknife, itm_needle_bone,
  itm_primitive_hammer, itm_primitive_axe, itm_primitive_shovel, itm_digging_stick,
-  itm_shelter_kit, itm_damaged_shelter_kit,
+  itm_shelter_kit, itm_damaged_shelter_kit, itm_heatpack, itm_heatpack_used,
 // Bionics containers
 itm_bionics_battery,
  //power sources
@@ -299,6 +306,7 @@ AT_FUSION,
 AT_MUSCLE,
 AT_12MM,
 AT_PLASMA,
+AT_WATER,
 NUM_AMMO_TYPES
 };
 
@@ -340,6 +348,11 @@ IF_NO_UNWIELD, // Impossible to unwield, e.g. bionic claws
 // Weapon mode flags
 IF_MODE_AUX, // A gunmod with a firing mode
 IF_MODE_BURST, // A burst of attacks
+
+// Food status flags
+IF_HOT,				// hot food
+IF_EATEN_HOT,	// food meant to be eaten hot
+IF_ROTTEN, 		// rotten foox
 
 NUM_ITEM_FLAGS
 };
@@ -451,6 +464,7 @@ struct itype
  virtual bool is_gunmod()        { return false; }
  virtual bool is_bionic()        { return false; }
  virtual bool is_armor()         { return false; }
+ virtual bool is_power_armor()   { return false; }
  virtual bool is_book()          { return false; }
  virtual bool is_tool()          { return false; }
  virtual bool is_container()     { return false; }
@@ -564,6 +578,7 @@ struct it_comest : public itype
         use = puse;
         add = padd;
         comesttype = pcomesttype;
+        item_flags = pitem_flags;
     }
 };
 
@@ -728,7 +743,10 @@ struct it_armor : public itype
  signed char warmth;
  unsigned char storage;
 
+ bool power_armor;
+
  virtual bool is_armor() { return true; }
+ virtual bool is_power_armor() { return power_armor; }
  virtual bool is_artifact() { return false; }
  virtual std::string save_data() { return std::string(); }
 
@@ -753,7 +771,7 @@ struct it_armor : public itype
           unsigned char pcovers, signed char pencumber,
           unsigned char pdmg_resist, unsigned char pcut_resist,
           unsigned char penv_resist, signed char pwarmth,
-          unsigned char pstorage)
+          unsigned char pstorage, bool ppower_armor = false)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
   covers = pcovers;
@@ -763,6 +781,7 @@ struct it_armor : public itype
   env_resist = penv_resist;
   warmth = pwarmth;
   storage = pstorage;
+  power_armor = ppower_armor;
  }
 };
 

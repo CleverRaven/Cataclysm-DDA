@@ -141,7 +141,7 @@ class map
  void i_clear(const int x, const int y);
  void i_rem(const int x, const int y, const int index);
  point find_item(const item *it);
- void add_item(const int x, const int y, itype* type, int birthday, int quantity = 0);
+ void spawn_item(const int x, const int y, itype* type, int birthday, int quantity = 0, int charges = 0);
  void add_item(const int x, const int y, item new_item);
  void process_active_items(game *g);
  void process_active_items_in_submap(game *g, const int nonant);
@@ -217,7 +217,7 @@ protected:
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
 			// Useful for houses, shops, etc
  void build_transparency_cache();
- void build_outside_cache(const int x, const int y);
+ void build_outside_cache();
  void generate_lightmap(game* g);
  void build_seen_cache(game *g);
 

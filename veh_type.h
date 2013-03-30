@@ -32,6 +32,9 @@ enum vpart_id
     vp_board_u,
     vp_board_n,
     vp_board_b,
+    vp_isle_h2,
+    vp_isle_v2,
+    vp_floor_trunk,
     vp_roof,
     vp_door,
     vp_door_o,
@@ -61,6 +64,7 @@ enum vpart_id
     vp_fuel_tank_batt,
     vp_fuel_tank_plut,
     vp_fuel_tank_hydrogen,
+    vp_fuel_tank_water,
     vp_cargo_trunk, // over
     vp_cargo_box,   // over
 
@@ -69,6 +73,7 @@ enum vpart_id
     vp_muffler,
     vp_seatbelt,
     vp_solar_panel,
+    vp_kitchen_unit,
     vp_m249,
     vp_flamethrower,
     vp_plasmagun,
@@ -105,7 +110,9 @@ enum vpart_flags
     vpf_wheel,              // this part touches ground (trigger traps)
     vpf_seat,               // is seat
     vpf_bed,                // is bed (like seat, but can't be boarded)
+    vpf_isle,               // is isle (no extra movement cost)
     vpf_engine,             // is engine
+    vpf_kitchen,            // is kitchen
     vpf_fuel_tank,          // is fuel tank
     vpf_cargo,              // is cargo
     vpf_controls,           // is controls
@@ -194,6 +201,12 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle) },
     { "board",      'b', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, itm_steel_plate, 1,
         mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle) },
+    { "isle",       '=', c_white,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
+        mfb(vpf_internal) | mfb(vpf_over) | mfb(vpf_no_reinforce) | mfb(vpf_isle) },
+    { "isle",       'H', c_white,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
+        mfb(vpf_internal) | mfb(vpf_over) | mfb (vpf_no_reinforce) | mfb(vpf_isle) },
+    { "floor trunk",       '=', c_white,  '#', c_ltgray,  100, 400, 0, 0, itm_frame, 1,
+        mfb(vpf_internal) | mfb(vpf_over) | mfb (vpf_no_reinforce) | mfb(vpf_isle) | mfb(vpf_cargo) },
     { "roof",       '#', c_ltgray,  '#', c_dkgray,  100, 1000, 0, 0, itm_steel_plate, 1,
         mfb(vpf_internal) | mfb(vpf_roof) },
     { "door",       '+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, itm_frame, 2,
@@ -244,11 +257,13 @@ const vpart_info vpart_list[num_vparts] =
 //                                                                         capacity type
     { "gasoline tank",              'O', c_ltred,  '#', c_red,     80, 150, 3000, AT_GAS, itm_metal_tank, 1,
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },
-    { "storage battery",            'O', c_yellow,  '#', c_red,    80, 300, 1000, AT_BATT, itm_storage_battery, 2,
+    { "storage battery",            'O', c_yellow,  '#', c_red,    80, 300, 100000, AT_BATT, itm_storage_battery, 2,
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },
     { "minireactor",                'O', c_ltgreen,  '#', c_red,    80, 700, 10000, AT_PLUT, itm_minireactor, 7,
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },
     { "hydrogene tank",             'O', c_ltblue,  '#', c_red,     80, 150, 3000, AT_PLASMA, itm_metal_tank, 1,
+        mfb(vpf_internal) | mfb(vpf_fuel_tank) },
+    { "water tank",                 'O', c_ltcyan,  '#', c_red,     80, 150, 400, AT_WATER, itm_metal_tank, 1,
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },
     { "trunk",                      'H', c_brown,  '#', c_brown,    80, 300, 400, 0, itm_frame, 1,
         mfb(vpf_over) | mfb(vpf_cargo) },
@@ -264,7 +279,8 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_internal)  | mfb(vpf_seatbelt) },
     { "solar panel", '#', c_yellow,  'x', c_yellow, 10, 20, 30, 0, itm_solar_panel, 6,
         mfb(vpf_over)  | mfb(vpf_solar_panel) },
-
+    { "kitchen unit", '&', c_ltcyan, 'x', c_ltcyan, 10, 20, 0, 0, itm_kitchen_unit, 4,
+        mfb(vpf_over) | mfb(vpf_cargo) | mfb(vpf_roof) | mfb(vpf_no_reinforce) | mfb(vpf_obstacle) | mfb(vpf_kitchen) },
     { "mounted M249",         't', c_cyan,    '#', c_cyan,    80, 400, 0, AT_223, itm_m249, 6,
         mfb(vpf_over)  | mfb(vpf_turret) | mfb(vpf_cargo) },
     { "mounted flamethrower", 't', c_dkgray,  '#', c_dkgray,  80, 400, 0, AT_GAS, itm_flamethrower, 7,

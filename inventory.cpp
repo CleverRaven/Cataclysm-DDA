@@ -141,6 +141,11 @@ void inventory::add_item(item newit, bool keep_invlet)
   return; // Styles never belong in our inventory.
  for (int i = 0; i < items.size(); i++) {
   if (items[i][0].stacks_with(newit)) {
+		if (items[i][0].is_food() && items[i][0].has_flag(IF_HOT)) {
+			int tmpcounter = (items[i][0].item_counter + newit.item_counter) / 2;
+			items[i][0].item_counter = tmpcounter;
+			newit.item_counter = tmpcounter;
+		}
     newit.invlet = items[i][0].invlet;
    items[i].push_back(newit);
    return;
@@ -207,6 +212,29 @@ void inventory::form_from_map(game *g, point origin, int range)
     water.charges = 50;
     add_item(water);
    }
+
+   int vpart = -1;
+   vehicle *veh = g->m.veh_at(x, y, vpart);
+
+   if (veh) {
+     const int kpart = veh->part_with_feature(vpart, vpf_kitchen);
+
+     if (kpart >= 0) {
+       item hotplate(g->itypes[itm_hotplate], 0);
+       hotplate.charges = veh->fuel_left(AT_BATT, true);
+       add_item(hotplate);
+
+       item water(g->itypes[itm_water_clean], 0);
+       water.charges = veh->fuel_left(AT_WATER);
+       add_item(water);
+
+       item pot(g->itypes[itm_pot], 0);
+       add_item(pot);
+       item pan(g->itypes[itm_pan], 0);
+       add_item(pan);
+     }
+   }
+
   }
  }
 }

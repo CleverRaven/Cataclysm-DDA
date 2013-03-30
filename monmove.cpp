@@ -261,7 +261,7 @@ void monster::move(game *g)
    hit_player(g, g->u);
   else if (mondex != -1 && g->z[mondex].type->species == species_hallu)
    g->kill_mon(mondex);
-  else if (mondex != -1 && type->melee_dice > 0 &&
+  else if (mondex != -1 && type->melee_dice > 0 && this != &(g->z[mondex]) &&
            (g->z[mondex].friendly != 0 || has_flag(MF_ATTACKMON)))
    hit_monster(g, mondex);
   else if (npcdex != -1 && type->melee_dice > 0)
@@ -494,7 +494,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     g->add_msg("You stop reloading.");
    else if (g->u.activity.type == ACT_READ)
     g->add_msg("You stop reading.");
-   else if (g->u.activity.type == ACT_CRAFT)
+   else if (g->u.activity.type == ACT_CRAFT || g->u.activity.type == ACT_LONGCRAFT)
     g->add_msg("You stop crafting.");
    g->u.activity.type = ACT_NULL;
   }
