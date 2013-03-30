@@ -67,7 +67,7 @@ item::item(itype* it, unsigned int turn)
    charges = -1;
   else
    charges = tool->def_charges;
- } else if (it->is_gunmod() && it->id == itm_spare_mag) {
+ } else if (it->is_gunmod() && it->id == itm_spare_mag || it->item_flags & mfb(IF_MODE_AUX)) {
   charges = 0;
  } else
   charges = -1;
