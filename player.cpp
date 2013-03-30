@@ -4545,19 +4545,17 @@ bool player::wear_item(game *g, item *to_wear)
  }
 
  // are we trying to put on power armor? If so, make sure we don't have any other gear on.
- if (armor->is_power_armor() && worn.size()) {
-   if (armor->covers & mfb(bp_torso)) {
+ if (armor->is_power_armor()) {
+   if (worn.size() && armor->covers & mfb(bp_torso)) {
      g->add_msg("You can't wear power armor over other gear!");
      return false;
-   } else if (armor->covers & mfb(bp_head) && !((it_armor *)worn[0].type)->is_power_armor()) {
-     g->add_msg("You can only wear power armor helmets with power armor!");
+   } else if (!(armor->covers & mfb(bp_torso)) && (!worn.size() || !((it_armor *)worn[0].type)->is_power_armor())) {
+     g->add_msg("You can only wear power armor components with power armor!");
      return false;
    }
- }
-
- // are we trying to wear something over power armor? We can't have that, unless it's a backpack, or similar.
- if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor() && !(armor->covers & mfb(bp_head))) {
-   if (!(armor->covers & mfb(bp_torso) && armor->color == c_green)) {
+ } else {
+   // Only helmets can be worn with power armor, except other power armor components
+   if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor() && !(armor->covers & mfb(bp_head))) {
      g->add_msg("You can't wear %s with power armor!", to_wear->tname().c_str());
      return false;
    }
