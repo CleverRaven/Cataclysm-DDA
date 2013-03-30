@@ -918,24 +918,6 @@ bool map::is_destructable_ter_only(const int x, const int y)
          (move_cost_ter_only(x, y) == 0 && !has_flag(liquid, x, y)));
 }
 
-void map::build_outside_cache(const int x, const int y)
-{
- const ter_id terrain = ter(x, y);
-
- if( terrain == t_floor || terrain == t_rock_floor || terrain == t_floor_wax ||
-     terrain == t_fema_groundsheet || terrain == t_dirtfloor) {
-  for( int dx = -1; dx <= 1; dx++ ) {
-   for( int dy = -1; dy <= 1; dy++ ) {
-    if(INBOUNDS(x + dx, y + dy)) {
-     outside_cache[x + dx][y + dy] = false;
-    }
-   }
-  }
- } else if(terrain == t_bed || terrain == t_groundsheet || terrain == t_makeshift_bed) {
-  outside_cache[x][y] = false;
- }
-}
-
 bool map::is_outside(const int x, const int y)
 {
  if(!INBOUNDS(x, y))
@@ -3431,6 +3413,38 @@ const float map::light_transparency(const int x, const int y) const
   return transparency_cache[x][y];
 }
 
+void map::build_outside_cache()
+{
+    memset(outside_cache, true, sizeof(outside_cache));
+
+    for(int x = 0; x < SEEX * my_MAPSIZE; x++)
+    {
+        for(int y = 0; y < SEEY * my_MAPSIZE; y++)
+        {
+            const ter_id terrain = ter(x, y);
+
+            if( terrain == t_floor || terrain == t_rock_floor || terrain == t_floor_wax ||
+                terrain == t_fema_groundsheet || terrain == t_dirtfloor)
+            {
+                for( int dx = -1; dx <= 1; dx++ )
+                {
+                    for( int dy = -1; dy <= 1; dy++ )
+                    {
+                        if(INBOUNDS(x + dx, y + dy))
+                        {
+                            outside_cache[x + dx][y + dy] = false;
+                        }
+                    }
+                }
+            }
+            else if(terrain == t_bed || terrain == t_groundsheet || terrain == t_makeshift_bed)
+            {
+                outside_cache[x][y] = false;
+            }
+        }
+    }
+}
+
 // TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
 void map::build_transparency_cache()
 {
@@ -3503,12 +3517,7 @@ void map::build_seen_cache(game *g)
 
 void map::build_map_cache(game *g)
 {
- memset(outside_cache, true, sizeof(outside_cache));
- for(int x = 0; x < SEEX * my_MAPSIZE; x++) {
-  for(int y = 0; y < SEEY * my_MAPSIZE; y++) {
-   build_outside_cache(x, y);
-  }
- }
+ build_outside_cache();
 
  build_transparency_cache();
 
