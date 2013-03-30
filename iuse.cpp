@@ -2833,6 +2833,16 @@ char ch = g->inv("Chop up what?");
   }
  }
 break;
+
+case 3:{
+ if (!p->has_charges(itm_lighter, 1))
+  g->add_msg_if_player(p,"You need a lighter before you can cauterize yourself.");
+ else {
+  p->use_charges(itm_lighter, 1);
+  p->cauterize(g);
+ }
+break;
+ }
  }
 }
 
