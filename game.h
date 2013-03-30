@@ -327,8 +327,7 @@ class game
   void complete_craft();               // See crafting.cpp
   void pick_recipes(std::vector<recipe*> &current,
                     std::vector<bool> &available, craft_cat tab,std::string filter);// crafting.cpp
-  void disassemble();                  // See crafting.cpp
-  void disassemble_item(recipe *dis);  // See crafting.cpp
+  void disassemble(char ch = 0);       // See crafting.cpp
   void complete_disassemble();         // See crafting.cpp
   void construction_menu();            // See construction.cpp
   bool player_can_build(player &p, inventory inv, constructable* con,

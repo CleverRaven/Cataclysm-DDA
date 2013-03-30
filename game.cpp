@@ -1270,20 +1270,21 @@ bool game::handle_action()
     if (has) {
      item oThisItem = u.i_at(chItem);
      std::vector<iteminfo> vThisItem, vDummy, vMenu;
-
-     vMenu.push_back(iteminfo("MENU", "", "iOffsetX", 3));
+     
+     vMenu.push_back(iteminfo("MENU", "", "iOffsetX", 2));
      vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
-     vMenu.push_back(iteminfo("MENU", "a", "ctivate"));
-     vMenu.push_back(iteminfo("MENU", "R", "ead"));
-     vMenu.push_back(iteminfo("MENU", "E", "at"));
-     vMenu.push_back(iteminfo("MENU", "W", "ear"));
+     vMenu.push_back(iteminfo("MENU", "a", "ctivate", u.rate_action_use(&oThisItem)));
+     vMenu.push_back(iteminfo("MENU", "R", "ead", u.rate_action_read(&oThisItem, this)));
+     vMenu.push_back(iteminfo("MENU", "E", "at", u.rate_action_eat(&oThisItem)));
+     vMenu.push_back(iteminfo("MENU", "W", "ear", u.rate_action_wear(&oThisItem)));
      vMenu.push_back(iteminfo("MENU", "w", "ield"));
      vMenu.push_back(iteminfo("MENU", "t", "hrow"));
-     vMenu.push_back(iteminfo("MENU", "T", "ake off"));
+     vMenu.push_back(iteminfo("MENU", "T", "ake off", u.rate_action_takeoff(&oThisItem)));
      vMenu.push_back(iteminfo("MENU", "d", "rop"));
-     vMenu.push_back(iteminfo("MENU", "U", "nload"));
-     vMenu.push_back(iteminfo("MENU", "r", "eload"));
-
+     vMenu.push_back(iteminfo("MENU", "U", "nload", u.rate_action_unload(&oThisItem)));
+     vMenu.push_back(iteminfo("MENU", "r", "eload", u.rate_action_reload(&oThisItem)));
+     vMenu.push_back(iteminfo("MENU", "D", "isassemble", u.rate_action_disassemble(&oThisItem, this)));
+     
      oThisItem.info(true, &vThisItem);
      compare_split_screen_popup(0, 50, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
      cMenu = compare_split_screen_popup(50, 14, 16, "", vMenu, vDummy);
@@ -1319,6 +1320,8 @@ bool game::handle_action()
       case 'R':
        u.read(this, chItem);
        break;
+      case 'D':
+       disassemble(chItem);
       default:
        break;
      }

@@ -261,7 +261,7 @@ void monster::move(game *g)
    hit_player(g, g->u);
   else if (mondex != -1 && g->z[mondex].type->species == species_hallu)
    g->kill_mon(mondex);
-  else if (mondex != -1 && type->melee_dice > 0 &&
+  else if (mondex != -1 && type->melee_dice > 0 && this != &(g->z[mondex]) &&
            (g->z[mondex].friendly != 0 || has_flag(MF_ATTACKMON)))
    hit_monster(g, mondex);
   else if (npcdex != -1 && type->melee_dice > 0)

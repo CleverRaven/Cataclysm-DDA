@@ -918,24 +918,6 @@ bool map::is_destructable_ter_only(const int x, const int y)
          (move_cost_ter_only(x, y) == 0 && !has_flag(liquid, x, y)));
 }
 
-void map::build_outside_cache(const int x, const int y)
-{
- const ter_id terrain = ter(x, y);
-
- if( terrain == t_floor || terrain == t_rock_floor || terrain == t_floor_wax ||
-     terrain == t_fema_groundsheet || terrain == t_dirtfloor) {
-  for( int dx = -1; dx <= 1; dx++ ) {
-   for( int dy = -1; dy <= 1; dy++ ) {
-    if(INBOUNDS(x + dx, y + dy)) {
-     outside_cache[x + dx][y + dy] = false;
-    }
-   }
-  }
- } else if(terrain == t_bed || terrain == t_groundsheet || terrain == t_makeshift_bed) {
-  outside_cache[x][y] = false;
- }
-}
-
 bool map::is_outside(const int x, const int y)
 {
  if(!INBOUNDS(x, y))
@@ -2205,35 +2187,53 @@ void map::process_active_items(game *g)
 
 void map::process_active_items_in_submap(game *g, const int nonant)
 {
- it_tool* tmp;
- iuse use;
- for (int i = 0; i < SEEX; i++) {
-  for (int j = 0; j < SEEY; j++) {
-   std::vector<item> *items = &(grid[nonant]->itm[i][j]);
-   for (int n = 0; n < items->size(); n++) {
-    if ((*items)[n].active) {
-     if (!(*items)[n].is_tool()) { // It's probably a charger gun
-      (*items)[n].active = false;
-      (*items)[n].charges = 0;
-     } else {
-      tmp = dynamic_cast<it_tool*>((*items)[n].type);
-      (use.*tmp->use)(g, &(g->u), &((*items)[n]), true);
-      if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge ==0)
-       (*items)[n].charges--;
-      if ((*items)[n].charges <= 0) {
-       (use.*tmp->use)(g, &(g->u), &((*items)[n]), false);
-       if (tmp->revert_to == itm_null || (*items)[n].charges == -1) {
-        items->erase(items->begin() + n);
-        grid[nonant]->active_item_count--;
-        n--;
-       } else
-        (*items)[n].type = g->itypes[tmp->revert_to];
-      }
-     }
-    }
-   }
-  }
- }
+	it_tool* tmp;
+	iuse use;
+	for (int i = 0; i < SEEX; i++) {
+		for (int j = 0; j < SEEY; j++) {
+			std::vector<item> *items = &(grid[nonant]->itm[i][j]);
+			for (int n = 0; n < items->size(); n++) {
+				if ((*items)[n].active) {
+					if ((*items)[n].is_food()) {	// food items
+						if ((*items)[n].has_flag(IF_HOT)) {
+							(*items)[n].item_counter--;
+							if ((*items)[n].item_counter == 0) {
+								(*items)[n].item_flags ^= mfb(IF_HOT);
+								(*items)[n].active = false;
+								grid[nonant]->active_item_count--;
+							}
+						}
+					} else if ((*items)[n].is_food_container()) {	// food in containers
+						if ((*items)[n].contents[0].has_flag(IF_HOT)) {
+							(*items)[n].contents[0].item_counter--;
+							if ((*items)[n].contents[0].item_counter == 0) {
+								(*items)[n].contents[0].item_flags ^= mfb(IF_HOT);
+								(*items)[n].contents[0].active = false;
+								grid[nonant]->active_item_count--;
+							}
+						}
+					} else if	(!(*items)[n].is_tool()) { // It's probably a charger gun
+						(*items)[n].active = false;
+						(*items)[n].charges = 0;
+					} else {
+						tmp = dynamic_cast<it_tool*>((*items)[n].type);
+						(use.*tmp->use)(g, &(g->u), &((*items)[n]), true);
+						if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge ==0)
+						(*items)[n].charges--;
+						if ((*items)[n].charges <= 0) {
+							(use.*tmp->use)(g, &(g->u), &((*items)[n]), false);
+							if (tmp->revert_to == itm_null || (*items)[n].charges == -1) {
+								items->erase(items->begin() + n);
+								grid[nonant]->active_item_count--;
+								n--;
+							} else
+								(*items)[n].type = g->itypes[tmp->revert_to];
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 void map::use_amount(const point origin, const int range, const itype_id type, const int amount,
@@ -3413,6 +3413,38 @@ const float map::light_transparency(const int x, const int y) const
   return transparency_cache[x][y];
 }
 
+void map::build_outside_cache()
+{
+    memset(outside_cache, true, sizeof(outside_cache));
+
+    for(int x = 0; x < SEEX * my_MAPSIZE; x++)
+    {
+        for(int y = 0; y < SEEY * my_MAPSIZE; y++)
+        {
+            const ter_id terrain = ter(x, y);
+
+            if( terrain == t_floor || terrain == t_rock_floor || terrain == t_floor_wax ||
+                terrain == t_fema_groundsheet || terrain == t_dirtfloor)
+            {
+                for( int dx = -1; dx <= 1; dx++ )
+                {
+                    for( int dy = -1; dy <= 1; dy++ )
+                    {
+                        if(INBOUNDS(x + dx, y + dy))
+                        {
+                            outside_cache[x + dx][y + dy] = false;
+                        }
+                    }
+                }
+            }
+            else if(terrain == t_bed || terrain == t_groundsheet || terrain == t_makeshift_bed)
+            {
+                outside_cache[x][y] = false;
+            }
+        }
+    }
+}
+
 // TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
 void map::build_transparency_cache()
 {
@@ -3453,26 +3485,11 @@ void map::build_transparency_cache()
    }
   }
  }
-
- VehicleList vehs = get_vehicles();
- for(int v = 0; v < vehs.size(); ++v) {
-  for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
-       part != vehs[v].v->external_parts.end(); ++part) {
-   if (vehs[v].v->part_flag(*part, vpf_opaque) && vehs[v].v->parts[*part].hp > 0) {
-    int dpart = vehs[v].v->part_with_feature(*part , vpf_openable);
-    if (dpart < 0 || !vehs[v].v->parts[dpart].open) {
-     int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
-     int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
-     if(INBOUNDS(px, py))
-      transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
-    }
-   }
-  }
- }
 }
 
 void map::build_seen_cache(game *g)
 {
+  memset(seen_cache, false, sizeof(seen_cache));
   const int j = (SEEX * my_MAPSIZE) - 1;
   for (int i = 0; i < SEEX * my_MAPSIZE; i++) {
     cache_seen(g->u.posx, g->u.posy, 0, i, 60);
@@ -3484,28 +3501,31 @@ void map::build_seen_cache(game *g)
 
 void map::build_map_cache(game *g)
 {
- memset(outside_cache, true, sizeof(outside_cache));
- for(int x = 0; x < SEEX * my_MAPSIZE; x++) {
-  for(int y = 0; y < SEEY * my_MAPSIZE; y++) {
-   build_outside_cache(x, y);
-  }
- }
+ build_outside_cache();
 
  build_transparency_cache();
 
+ // Cache all the vehicle stuff in one loop
  VehicleList vehs = get_vehicles();
  for(int v = 0; v < vehs.size(); ++v) {
-  for(int p = 0; p < vehs[v].v->parts.size(); ++p) {
-   int px = vehs[v].x + vehs[v].v->parts[p].precalc_dx[0];
-   int py = vehs[v].y + vehs[v].v->parts[p].precalc_dy[0];
-
-   if (INBOUNDS(px, py)) {
-    if (vehs[v].v->is_inside(p)) {
+  for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
+       part != vehs[v].v->external_parts.end(); ++part) {
+   int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
+   int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
+   if(INBOUNDS(px, py)) {
+    if (vehs[v].v->is_inside(*part)) {
      outside_cache[px][py] = true;
+    }
+    if (vehs[v].v->part_flag(*part, vpf_opaque) && vehs[v].v->parts[*part].hp > 0) {
+     int dpart = vehs[v].v->part_with_feature(*part , vpf_openable);
+     if (dpart < 0 || !vehs[v].v->parts[dpart].open) {
+      transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
+     }
     }
    }
   }
  }
+
  build_seen_cache(g);
  generate_lightmap(g);
 }

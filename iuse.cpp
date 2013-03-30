@@ -10,6 +10,11 @@
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
+// mfb(n) converts a flag to its appropriate position in covers's bitfield
+#ifndef mfb
+#define mfb(n) long(1 << (n))
+#endif
+
 static void add_or_drop_item(game *g, player *p, item *it)
 {
   item replacement(g->itypes[it->type->id], int(g->turn), g->nextinv);
@@ -1066,6 +1071,21 @@ void iuse::light_on(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
+{
+ if (it->charges == 0) {
+  g->add_msg_if_player(p,"You need batteries to cauterize wounds.");
+ } else {
+  if (p->is_npc() || query_yn("Cauterize any open wounds?")) {
+   it->charges -= 1;
+   p->rem_disease(DI_BLEED);
+   p->rem_disease(DI_BITE);
+   p->pain += 15;
+   g->add_msg_if_player(p,"You cauterize yourself. It hurts like hell!");
+  }
+ }
+}
+
 void iuse::water_purifier(game *g, player *p, item *it, bool t)
 {
   it->charges++;
@@ -1229,7 +1249,29 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
 
 void iuse::roadmap(game *g, player *p, item *it, bool t)
 {
- roadmap_a_target(g, p, it, t, (int)ot_hospital);
+ if (it->charges < 1) {
+  g->add_msg_if_player(p, "There isn't anything new on the map.");
+  return;
+ }
+  // Show roads
+ roadmap_targets(g, p, it, t, (int)ot_hiway_ns, 2, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_road_ns, 12, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_bridge_ns, 2, 0, 0);
+
+  // Show evac shelters
+ roadmap_targets(g, p, it, t, (int)ot_shelter, 1, 0, 0);
+  // Show hospital(s)
+ roadmap_targets(g, p, it, t, (int)ot_hospital_entrance, 2, 0, 0);
+  // Show megastores
+ roadmap_targets(g, p, it, t, (int)ot_megastore_entrance, 2, 0, 0);
+  // Show police stations
+ roadmap_targets(g, p, it, t, (int)ot_police_north, 4, 0, 0);
+  // Show pharmacies
+ roadmap_targets(g, p, it, t, (int)ot_s_pharm_north, 4, 0, 0);
+ 
+ g->add_msg_if_player(p, "You add roads and points of interest to your map."); 
+
+ it->charges = 0;
 }
 
 void iuse::roadmap_a_target(game *g, player *p, item *it, bool t, int target)
@@ -1258,6 +1300,29 @@ void iuse::roadmap_a_target(game *g, player *p, item *it, bool t, int target)
  } else {
   g->add_msg_if_player(p, "You can't find a hospital near your location.");
  }
+}
+
+void iuse::roadmap_targets(game *g, player *p, item *it, bool t, int target, int target_range, int distance, int reveal_distance)
+{
+ oter_t oter_target = oterlist[target];
+ point place;
+ point origin = g->om_location();
+ std::vector<point> places = g->cur_om.find_all(tripoint(origin.x, origin.y, g->levz),
+                                                (oter_id)target, target_range, distance, false);
+
+ for (std::vector<point>::iterator iter = places.begin(); iter != places.end(); ++iter) {
+  place = *iter;
+  if (place.x >= 0 && place.y >= 0) {
+  if (reveal_distance == 0) {
+    g->cur_om.seen(place.x,place.y,g->levz) = true;
+  } else {
+   for (int x = place.x - reveal_distance; x <= place.x + reveal_distance; x++) {
+    for (int y = place.y - reveal_distance; y <= place.y + reveal_distance; y++)
+      g->cur_om.seen(x, y,g->levz) = true;
+   }
+  }
+  }
+ }  
 }
 
 void iuse::picklock(game *g, player *p, item *it, bool t)
@@ -1368,6 +1433,12 @@ if (dirx == 0 && diry == 0) {
    new_type = t_crate_o;
    noisy = true;
    difficulty = 6;
+ } else if (type == t_window_domestic || type == t_curtains) {
+   door_name = "window";
+   action_name = "pry open";
+   new_type = t_window_open;
+   noisy = true;
+   difficulty = 6;
  } else {
   int nails = 0, boards = 0;
   ter_id newter;
@@ -1420,6 +1491,15 @@ if (dirx == 0 && diry == 0) {
    }
   }
  } else {
+  if (type == t_window_domestic || type == t_curtains) {
+   //chance of breaking the glass if pry attempt fails
+   if (dice(4, difficulty) > dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
+    g->add_msg_if_player(p,"You break the glass.");
+    g->sound(dirx, diry, 16, "glass breaking!");
+    g->m.ter(dirx, diry) = t_window_frame;
+    return;
+   }
+  }
   g->add_msg_if_player(p,"You pry, but cannot %s the %s.", action_name, door_name);
  }
 }
@@ -3696,4 +3776,33 @@ void iuse::spray_can(game *g, player *p, item *it, bool t)
   g->add_msg("You spray a message on the ground.");
  else
   g->add_msg("You fail to spray a message here.");
+}
+
+void iuse::heatpack(game *g, player *p, item *it, bool t)
+{
+	char ch = g->inv("Heat up what?");
+	item* heat = &(p->i_at(ch));
+	if (heat->type->id == 0) {
+		g->add_msg("You do not have that item!");
+		return;
+	}
+	if (heat->type->is_food()) {
+		p->moves -= 300;
+		g->add_msg("You heat up the food.");	
+		heat->item_flags |= mfb(IF_HOT);
+		heat->active = true;  
+		heat->item_counter = 600;		// sets the hot food flag for 60 minutes		
+		it->make(g->itypes[itm_heatpack_used]); 
+		return;
+  } else 	if (heat->is_food_container()) {
+		p->moves -= 300;
+		g->add_msg("You heat up the food.");	
+		heat->contents[0].item_flags |= mfb(IF_HOT);
+		heat->contents[0].active = true;  
+		heat->contents[0].item_counter = 600;		// sets the hot food flag for 60 minutes		
+		it->make(g->itypes[itm_heatpack_used]); 
+		return;
+	} 
+  { g->add_msg("You can't heat that up!");
+ } return;
 }
