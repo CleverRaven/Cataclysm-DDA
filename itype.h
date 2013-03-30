@@ -225,7 +225,7 @@ itm_lighter, itm_matches, itm_sewing_kit, itm_scissors, itm_hammer, itm_extingui
  itm_boltcutters, itm_mop, itm_picklocks, itm_pickaxe, itm_spray_can, itm_rag,
  itm_pda, itm_pda_flashlight, itm_pockknife, itm_needle_bone,
  itm_primitive_hammer, itm_primitive_axe, itm_primitive_shovel, itm_digging_stick,
-  itm_shelter_kit, itm_damaged_shelter_kit,
+  itm_shelter_kit, itm_damaged_shelter_kit, itm_heatpack, itm_heatpack_used,
 // Bionics containers
 itm_bionics_battery,
  //power sources
@@ -348,6 +348,11 @@ IF_NO_UNWIELD, // Impossible to unwield, e.g. bionic claws
 // Weapon mode flags
 IF_MODE_AUX, // A gunmod with a firing mode
 IF_MODE_BURST, // A burst of attacks
+
+// Food status flags
+IF_HOT,				// hot food
+IF_EATEN_HOT,	// food meant to be eaten hot
+IF_ROTTEN, 		// rotten foox
 
 NUM_ITEM_FLAGS
 };
@@ -573,6 +578,7 @@ struct it_comest : public itype
         use = puse;
         add = padd;
         comesttype = pcomesttype;
+        item_flags = pitem_flags;
     }
 };
 

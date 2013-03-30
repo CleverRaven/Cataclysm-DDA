@@ -7,6 +7,7 @@
 std::string morale_data[NUM_MORALE_TYPES] = {
 "This is a bug",
 "Enjoyed %i",
+"Enjoyed a hot meal",
 "Music",
 "Marloss Bliss",
 "Good Feeling",

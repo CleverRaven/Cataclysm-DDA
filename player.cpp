@@ -3463,7 +3463,25 @@ void player::process_active_items(game *g)
    }
    return;
   } // if (weapon.has_flag(IF_CHARGE))
-
+	if (weapon.is_food()) {	// food items
+	  if (weapon.has_flag(IF_HOT)) {
+			weapon.item_counter--;
+			if (weapon.item_counter == 0) {
+				weapon.item_flags ^= mfb(IF_HOT);
+				weapon.active = false;
+			}
+		}
+		return;
+	} else if (weapon.is_food_container()) {	// food items
+	  if (weapon.contents[0].has_flag(IF_HOT)) {
+			weapon.contents[0].item_counter--;
+			if (weapon.contents[0].item_counter == 0) {
+				weapon.contents[0].item_flags ^= mfb(IF_HOT);
+				weapon.contents[0].active = false;
+			}
+		}
+		return;
+	}	 
   if (!weapon.is_tool()) {
    debugmsg("%s is active, but it is not a tool.", weapon.tname().c_str());
    return;
@@ -3480,37 +3498,59 @@ void player::process_active_items(game *g)
     weapon.type = g->itypes[tmp->revert_to];
   }
  }
- for (int i = 0; i < inv.size(); i++) {
-  for (int j = 0; j < inv.stack_at(i).size(); j++) {
-   item *tmp_it = &(inv.stack_at(i)[j]);
-   if (tmp_it->is_artifact() && tmp_it->is_tool())
-    g->process_artifact(tmp_it, this);
-   if (tmp_it->active) {
-    tmp = dynamic_cast<it_tool*>(tmp_it->type);
-    (use.*tmp->use)(g, this, tmp_it, true);
-    if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0)
-    tmp_it->charges--;
-    if (tmp_it->charges <= 0) {
-     (use.*tmp->use)(g, this, tmp_it, false);
-     if (tmp->revert_to == itm_null) {
-      if (inv.stack_at(i).size() == 1) {
-       inv.remove_stack(i);
-       i--;
-       j = 0;
-      } else {
-       inv.stack_at(i).erase(inv.stack_at(i).begin() + j);
-       j--;
-      }
-     } else
-      tmp_it->type = g->itypes[tmp->revert_to];
-    }
-   }
-  }
- }
- for (int i = 0; i < worn.size(); i++) {
-  if (worn[i].is_artifact())
-   g->process_artifact(&(worn[i]), this);
- }
+ 
+// inventory items 
+	for (int i = 0; i < inv.size(); i++) {
+		for (int j = 0; j < inv.stack_at(i).size(); j++) {
+			item *tmp_it = &(inv.stack_at(i)[j]);
+			if (tmp_it->is_artifact() && tmp_it->is_tool())
+				g->process_artifact(tmp_it, this);
+			if (tmp_it->active) {
+				if (tmp_it->is_food()) {
+					if (tmp_it->has_flag(IF_HOT)) {
+						tmp_it->item_counter--;
+						if (tmp_it->item_counter == 0) {
+							tmp_it->item_flags ^= mfb(IF_HOT);
+							tmp_it->active = false;
+						}
+					}				
+				} else if (tmp_it->is_food_container()) {
+					if (tmp_it->contents[0].has_flag(IF_HOT)) {
+						tmp_it->contents[0].item_counter--;
+						if (tmp_it->contents[0].item_counter == 0) {
+							tmp_it->contents[0].item_flags ^= mfb(IF_HOT);
+							tmp_it->contents[0].active = false;
+						}
+					}				
+				} 				
+				else {
+					tmp = dynamic_cast<it_tool*>(tmp_it->type);
+					(use.*tmp->use)(g, this, tmp_it, true);
+					if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0)
+						tmp_it->charges--;
+					if (tmp_it->charges <= 0) {
+						(use.*tmp->use)(g, this, tmp_it, false);
+						if (tmp->revert_to == itm_null) {
+							if (inv.stack_at(i).size() == 1) {
+								inv.remove_stack(i);
+								i--;
+								j = 0;
+							} else {
+								inv.stack_at(i).erase(inv.stack_at(i).begin() + j);
+								j--;
+							}
+						} else
+						tmp_it->type = g->itypes[tmp->revert_to];
+					}
+				}
+			}
+		}
+	}
+// worn items	
+	for (int i = 0; i < worn.size(); i++) {
+		if (worn[i].is_artifact())
+		g->process_artifact(&(worn[i]), this);
+	}
 }
 
 item player::remove_weapon()
@@ -4198,6 +4238,8 @@ bool player::eat(game *g, int index)
    if (comest->nutr >= 2)
     hunger += int(comest->nutr * .75);
   }
+	if (eaten->has_flag(IF_HOT) && eaten->has_flag(IF_EATEN_HOT))
+		add_morale(MORALE_FOOD_HOT, 5, 10);  
   if (has_trait(PF_GOURMAND)) {
    if (comest->fun < -2)
     add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, comest);
