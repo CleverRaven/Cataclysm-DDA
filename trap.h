@@ -128,10 +128,12 @@ struct trap {
 // Type of trap
  bool is_benign();
 
- trap(int pid, char psym, nc_color pcolor, std::string pname,
+ trap(int pid, std::string string_id, std::string pname, nc_color pcolor, char psym,
       int pvisibility, int pavoidance, int pdifficulty,
       void (trapfunc::*pact)(game *, int x, int y),
-      void (trapfuncm::*pactm)(game *, monster *, int x, int y), ...) {
+      void (trapfuncm::*pactm)(game *, monster *, int x, int y),
+      std::vector<std::string> keys) {
+  //string_id is ignored at the moment, will later replace the id
   id = pid;
   sym = psym;
   color = pcolor;
@@ -141,12 +143,8 @@ struct trap {
   difficulty = pdifficulty;
   act = pact;
   actm = pactm;
-  va_list ap;
-  va_start(ap, pactm);
-  itype_id tmp;
-  while ((tmp = (itype_id)va_arg(ap, int)))
-   components.push_back(tmp);
-  va_end(ap);
+
+  components.insert(components.end(), keys.begin(), keys.end());
  };
 };
 

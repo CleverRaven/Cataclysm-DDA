@@ -22,7 +22,7 @@ std::string melee_verb(technique_id tech, std::string your, player &p,
  * STATE QUERIES
  * bool is_armed() - True if we are armed with any weapon.
  * bool unarmed_attack() - True if we are NOT armed with any weapon, but still
- *  true if we're wielding a bionic weapon (at this point, just itm_bio_claws).
+ *  true if we're wielding a bionic weapon (at this point, just "bio_claws").
  *
  * HIT DETERMINATION
  * int base_to_hit() - The base number of sides we get in hit_roll().
@@ -34,12 +34,12 @@ std::string melee_verb(technique_id tech, std::string your, player &p,
 
 bool player::is_armed()
 {
- return (weapon.typeId() != 0 && !weapon.is_style());
+ return (weapon.typeId() != "null" && !weapon.is_style());
 }
 
 bool player::unarmed_attack()
 {
- return (weapon.typeId() == 0 || weapon.is_style() ||
+ return (weapon.typeId() == "null" || weapon.is_style() ||
          weapon.has_flag(IF_UNARMED_WEAPON));
 }
 
@@ -54,16 +54,12 @@ int player::hit_roll()
 {
  int stat = dex_cur;
 // Some martial arts use something else to determine hits!
- switch (weapon.typeId()) {
-  case itm_style_tiger:
+ if(weapon.typeId() == "style_tiger"){
    stat = (str_cur * 2 + dex_cur) / 3;
-   break;
-  case itm_style_leopard:
+ } else if(weapon.typeId() == "style_leopard"){
    stat = (per_cur + int_cur + dex_cur * 2) / 4;
-   break;
-  case itm_style_snake:
+ } else if(weapon.typeId() == "style_snake"){
    stat = (per_cur + dex_cur) / 2;
-   break;
  }
  int numdice = base_to_hit(stat) + weapon.type->m_to_hit +
                disease_intensity(DI_ATTACK_BOOST);
@@ -188,7 +184,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  melee_special_effects(g, z, NULL, critical_hit, bash_dam, cut_dam, stab_dam);
 
 // Make a rather quiet sound, to alert any nearby monsters
- if (weapon.typeId() != itm_style_ninjutsu) // Ninjutsu is silent!
+ if (weapon.typeId() != "style_ninjutsu") // Ninjutsu is silent!
   g->sound(posx, posy, 8, "");
 
  verb = melee_verb(technique, your, *this, bash_dam, cut_dam, stab_dam);
@@ -315,7 +311,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  melee_special_effects(g, NULL, &p, critical_hit, bash_dam, cut_dam, stab_dam);
 
 // Make a rather quiet sound, to alert any nearby monsters
- if (weapon.typeId() != itm_style_ninjutsu) // Ninjutsu is silent!
+ if (weapon.typeId() != "style_ninjutsu") // Ninjutsu is silent!
   g->sound(posx, posy, 8, "");
 
  p.hit(g, bp_hit, side, bash_dam, (cut_dam > stab_dam ? cut_dam : stab_dam));
@@ -392,16 +388,12 @@ bool player::scored_crit(int target_dodge)
 // ... except sometimes we don't use dexteiry!
  int stat = dex_cur;
 // Some martial arts use something else to determine hits!
- switch (weapon.typeId()) {
-  case itm_style_tiger:
+ if(weapon.typeId() == "style_tiger"){
    stat = (str_cur * 2 + dex_cur) / 3;
-   break;
-  case itm_style_leopard:
+ } else if(weapon.typeId() == "style_leopard"){
    stat = (per_cur + int_cur + dex_cur * 2) / 4;
-   break;
-  case itm_style_snake:
+ } else if(weapon.typeId() == "style_snake"){
    stat = (per_cur + dex_cur) / 2;
-   break;
  }
  chance = 25;
  if (stat > 8) {
@@ -516,16 +508,12 @@ int player::roll_bash_damage(monster *z, bool crit)
  if (unarmed_attack())
   skill = skillLevel("unarmed");
 
- switch (weapon.typeId()) { // Some martial arts change which stat
-  case itm_style_crane:
+ if(weapon.typeId() =="style_crane"){
    stat = (dex_cur * 2 + str_cur) / 3;
-   break;
-  case itm_style_snake:
+ } else if(weapon.typeId() == "style_snake"){
    stat = int(str_cur + per_cur) / 2;
-   break;
-  case itm_style_dragon:
+ } else if(weapon.typeId() == "style_dragon"){
    stat = int(str_cur + int_cur) / 2;
-   break;
  }
 
  ret = base_damage(true, stat);
@@ -722,7 +710,7 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
  if (possible.empty()) { // Use non-crits only if any crit-onlies aren't used
 
   if (weapon.has_technique(TEC_DISARM, this) && !z &&
-      p->weapon.typeId() != 0 && !p->weapon.has_flag(IF_UNARMED_WEAPON) &&
+      p->weapon.typeId() != "null" && !p->weapon.has_flag(IF_UNARMED_WEAPON) &&
       dice(   dex_cur +    skillLevel("unarmed"),  8) >
       dice(p->dex_cur + p->skillLevel("melee"),   10))
    possible.push_back(TEC_DISARM);
@@ -800,7 +788,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
   if (z != NULL && !z->has_flag(MF_FLIES)) {
    z->add_effect(ME_DOWNED, rng(1, 2));
    bash_dam += z->fall_damage();
-  } else if (p != NULL && !p->weapon.typeId() == itm_style_judo) {
+  } else if (p != NULL && p->weapon.typeId() != "style_judo") {
    p->add_disease(DI_DOWNED, rng(1, 2), g);
    bash_dam += 3;
   }
@@ -832,7 +820,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
    z->knock_back_from(g, posx + rng(-1, 1), posy + rng(-1, 1));
   } else if (p != NULL) {
    p->knock_back_from(g, posx + rng(-1, 1), posy + rng(-1, 1));
-   if (!p->weapon.typeId() == itm_style_judo)
+   if (p->weapon.typeId() != "style_judo")
     p->add_disease(DI_DOWNED, rng(1, 2), g);
   }
   break;
@@ -921,7 +909,7 @@ technique_id player::pick_defensive_technique(game *g, monster *z, player *p)
   return TEC_WBLOCK_1;
 
  if (weapon.has_technique(TEC_DEF_DISARM, this) &&
-     z == NULL && p->weapon.typeId() != 0 &&
+     z == NULL && p->weapon.typeId() != "null" &&
      !p->weapon.has_flag(IF_UNARMED_WEAPON) &&
      dice(   dex_cur +    skillLevel("unarmed"), 8) >
      dice(p->dex_cur + p->skillLevel("melee"),  10))
@@ -986,9 +974,9 @@ void player::perform_defensive_technique(
    bash_dam *= .5;
    double reduction = 1.0;
 // Special reductions for certain styles
-   if (weapon.typeId() == itm_style_tai_chi)
+   if (weapon.typeId() == "style_tai_chi")
     reduction -= double(0.08 * double(per_cur - 6));
-   if (weapon.typeId() == itm_style_taekwondo)
+   if (weapon.typeId() == "style_taekwondo")
     reduction -= double(0.08 * double(str_cur - 6));
    if (reduction > 1.0)
     reduction = 1.0;
@@ -1145,11 +1133,11 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   p->moves -= stab_moves;
 
 // Bonus attacks!
- bool shock_them = (has_bionic(bio_shock) && power_level >= 2 &&
+ bool shock_them = (has_bionic("bio_shock") && power_level >= 2 &&
                     unarmed_attack() && (!mon || !z->has_flag(MF_ELECTRIC)) &&
                     one_in(3));
 
- bool drain_them = (has_bionic(bio_heat_absorb) && power_level >= 1 &&
+ bool drain_them = (has_bionic("bio_heat_absorb") && power_level >= 1 &&
                     !is_armed() && (!mon || z->has_flag(MF_WARM)));
 
  if (drain_them)
@@ -1251,36 +1239,22 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  }
 
 // Finally, some special effects for martial arts
- switch (weapon.typeId()) {
-
-  case itm_style_karate:
+ if(weapon.typeId() == "style_karate"){
    dodges_left++;
    blocks_left += 2;
-   break;
-
-  case itm_style_aikido:
+ } else if(weapon.typeId() == "style_aikido"){
    bash_dam /= 2;
-   break;
-
-  case itm_style_capoeira:
+ } else if(weapon.typeId() == "style_capoeira"){
    add_disease(DI_DODGE_BOOST, 2, g, 2);
-   break;
-
-  case itm_style_muay_thai:
+ } else if(weapon.typeId() == "style_muay_thai"){
    if ((mon && z->type->size >= MS_LARGE) || (!mon && p->str_max >= 12))
     bash_dam += rng((mon ? z->type->size : (p->str_max - 8) / 4),
                     3 * (mon ? z->type->size : (p->str_max - 8) / 4));
-   break;
-
-  case itm_style_tiger:
+ } else if(weapon.typeId() == "style_tiger"){
    add_disease(DI_DAMAGE_BOOST, 2, g, 2, 10);
-   break;
-
-  case itm_style_centipede:
+ } else if(weapon.typeId() == "style_centipede"){
    add_disease(DI_SPEED_BOOST, 2, g, 4, 40);
-   break;
-
-  case itm_style_venom_snake:
+ } else if(weapon.typeId() == "style_venom_snake"){
    if (has_disease(DI_VIPER_COMBO)) {
     if (disease_intensity(DI_VIPER_COMBO) == 1) {
      if (is_u)
@@ -1305,9 +1279,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
     bash_dam += 5;
     add_disease(DI_VIPER_COMBO, 2, g, 1, 2);
    }
-   break;
-
-  case itm_style_scorpion:
+ } else if(weapon.typeId() == "style_scorpion"){
    if (crit) {
     if (!is_npc())
      g->add_msg("Stinger Strike!");
@@ -1325,12 +1297,8 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
       p->knock_back_from(g, posx, posy); // Knock a 2nd time if the first worked
     }
    }
-   break;
-
-  case itm_style_zui_quan:
+ } else if(weapon.typeId() == "style_zui_quan"){
    dodges_left = 50; // Basically, unlimited.
-   break;
-
  }
 }
 

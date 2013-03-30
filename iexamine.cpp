@@ -24,7 +24,7 @@ void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
   none(g, p, m, examx, examy);
   return;
  }
- item gas(g->itypes[itm_gasoline], g->turn);
+ item gas(g->itypes["gasoline"], g->turn);
  if (one_in(10 + p->dex_cur)) {
   g->add_msg("You accidentally spill the gasoline.");
   m->add_item(p->posx, p->posy, gas);
@@ -64,8 +64,8 @@ void iexamine::controls_gate(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
- itype_id card_type = (m->ter(examx, examy) == t_card_science ? itm_id_science :
-                       itm_id_military);
+ itype_id card_type = (m->ter(examx, examy) == t_card_science ? "id_science" :
+                       "id_military");
  if (p->has_amount(card_type, 1) && query_yn("Swipe your ID card?")) {
   p->moves -= 100;
   for (int i = -3; i <= 3; i++) {
@@ -84,9 +84,9 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
   g->add_msg("The nearby doors slide into the floor.");
   p->use_amount(card_type, 1);
  } else {
-  bool using_electrohack = (p->has_amount(itm_electrohack, 1) &&
+  bool using_electrohack = (p->has_amount("electrohack", 1) &&
                             query_yn("Use electrohack on the reader?"));
-  bool using_fingerhack = (!using_electrohack && p->has_bionic(bio_fingerhack) &&
+  bool using_fingerhack = (!using_electrohack && p->has_bionic("bio_fingerhack") &&
                            p->power_level > 0 &&
                            query_yn("Use fingerhack on the reader?"));
   if (using_electrohack || using_fingerhack) {
@@ -105,7 +105,7 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
       if (success <= -5) {
        if (using_electrohack) {
         g->add_msg("Your electrohack is ruined!");
-        p->use_amount(itm_electrohack, 1);
+        p->use_amount("electrohack", 1);
        } else {
         g->add_msg("Your power is drained!");
         p->charge_power(0 - rng(0, p->power_level));
@@ -132,7 +132,7 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::rubble(game *g, player *p, map *m, int examx, int examy) {
- if (!(p->has_amount(itm_shovel, 1) || p->has_amount(itm_primitive_shovel, 1))) {
+ if (!(p->has_amount("shovel", 1) || p->has_amount("primitive_shovel", 1))) {
   g->add_msg("If only you had a shovel...");
   return;
  }
@@ -143,7 +143,7 @@ void iexamine::rubble(game *g, player *p, map *m, int examx, int examy) {
 
    // "Replace"
   if(m->ter(examx,examy) == t_rubble) {
-   item rock(g->itypes[itm_rock], g->turn);
+   item rock(g->itypes["rock"], g->turn);
    m->add_item(p->posx, p->posy, rock);
    m->add_item(p->posx, p->posy, rock);
   }
@@ -185,7 +185,7 @@ void iexamine::tent(game *g, player *p, map *m, int examx, int examy) {
   for (int j = -1; j <= 1; j++)
    m->ter(examx + i, examy + j) = t_dirt;
  g->add_msg("You take down the tent");
- item tent(g->itypes[itm_tent_kit], g->turn);
+ item tent(g->itypes["tent_kit"], g->turn);
  m->add_item(examx, examy, tent);
 }
 
@@ -199,12 +199,12 @@ void iexamine::shelter(game *g, player *p, map *m, int examx, int examy) {
   for (int j = -1; j <= 1; j++)
    m->ter(examx + i, examy + j) = t_dirt;
  g->add_msg("You take down the shelter");
- item tent(g->itypes[itm_shelter_kit], g->turn);
+ item tent(g->itypes["shelter_kit"], g->turn);
  m->add_item(examx, examy, tent);
 }
 
 void iexamine::wreckage(game *g, player *p, map *m, int examx, int examy) {
- if (!(p->has_amount(itm_shovel, 1) || p->has_amount(itm_primitive_shovel, 1))) {
+ if (!(p->has_amount("shovel", 1) || p->has_amount("primitive_shovel", 1))) {
   g->add_msg("If only you had a shovel..");
   return;
  }
@@ -212,10 +212,10 @@ void iexamine::wreckage(game *g, player *p, map *m, int examx, int examy) {
  if (query_yn("Clear up that wreckage?")) {
   p->moves -= 200;
   m->ter(examx, examy) = t_dirt;
-  item chunk(g->itypes[itm_steel_chunk], g->turn);
-  item scrap(g->itypes[itm_scrap], g->turn);
-  item pipe(g->itypes[itm_pipe], g->turn);
-  item wire(g->itypes[itm_wire], g->turn);
+  item chunk(g->itypes["steel_chunk"], g->turn);
+  item scrap(g->itypes["scrap"], g->turn);
+  item pipe(g->itypes["pipe"], g->turn);
+  item wire(g->itypes["wire"], g->turn);
   m->add_item(examx, examy, chunk);
   m->add_item(examx, examy, scrap);
   if (one_in(5)) {
@@ -226,12 +226,12 @@ void iexamine::wreckage(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::pit(game *g, player *p, map *m, int examx, int examy) {
- if(!p->has_amount(itm_2x4, 1)) {
+ if(!p->has_amount("2x4", 1)) {
   none(g, p, m, examx, examy);
   return;
  }
  if (query_yn("Place a plank over the pit?")) {
-  p->use_amount(itm_2x4, 1);
+  p->use_amount("2x4", 1);
   m->ter(examx, examy) = t_pit_covered;
   g->add_msg("You place a plank of wood over the pit");
  } else {
@@ -240,12 +240,12 @@ void iexamine::pit(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::pit_spiked(game *g, player *p, map *m, int examx, int examy) {
- if(!p->has_amount(itm_2x4, 1)) {
+ if(!p->has_amount("2x4", 1)) {
   none(g, p, m, examx, examy);
   return;
  }
  if (query_yn("Place a plank over the pit?")) {
-  p->use_amount(itm_2x4, 1);
+  p->use_amount("2x4", 1);
   m->ter(examx, examy) = t_pit_spiked_covered;
   g->add_msg("You place a plank of wood over the pit");
  } else {
@@ -258,7 +258,7 @@ void iexamine::pit_covered(game *g, player *p, map *m, int examx, int examy) {
   none(g, p, m, examx, examy);
   return;
  }
- item plank(g->itypes[itm_2x4], g->turn);
+ item plank(g->itypes["2x4"], g->turn);
  g->add_msg("You remove the plank.");
  m->add_item(p->posx, p->posy, plank);
  m->ter(examx, examy) = t_pit;
@@ -270,7 +270,7 @@ void iexamine::pit_spiked_covered(game *g, player *p, map *m, int examx, int exa
   return;
  }
 
- item plank(g->itypes[itm_2x4], g->turn);
+ item plank(g->itypes["2x4"], g->turn);
  g->add_msg("You remove the plank.");
  m->add_item(p->posx, p->posy, plank);
  m->ter(examx, examy) = t_pit_spiked;
@@ -282,8 +282,8 @@ void iexamine::fence_post(game *g, player *p, map *m, int examx, int examy) {
                "Barbed Wire Fence", "Cancel", NULL);
  switch (ch){
   case 1:{
-   if (p->has_amount(itm_rope_6, 2)) {
-    p->use_amount(itm_rope_6, 2);
+   if (p->has_amount("rope_6", 2)) {
+    p->use_amount("rope_6", 2);
     m->ter(examx, examy) = t_fence_rope;
     p->moves -= 200;
    } else
@@ -291,8 +291,8 @@ void iexamine::fence_post(game *g, player *p, map *m, int examx, int examy) {
   } break;
 
   case 2:{
-   if (p->has_amount(itm_wire, 2)) {
-    p->use_amount(itm_wire, 2);
+   if (p->has_amount("wire", 2)) {
+    p->use_amount("wire", 2);
     m->ter(examx, examy) = t_fence_wire;
     p->moves -= 200;
    } else
@@ -300,8 +300,8 @@ void iexamine::fence_post(game *g, player *p, map *m, int examx, int examy) {
   } break;
 
   case 3:{
-   if (p->has_amount(itm_wire_barbed, 2)) {
-    p->use_amount(itm_wire_barbed, 2);
+   if (p->has_amount("wire_barbed", 2)) {
+    p->use_amount("wire_barbed", 2);
     m->ter(examx, examy) = t_fence_barbed;
     p->moves -= 200;
    } else
@@ -319,7 +319,7 @@ void iexamine::remove_fence_rope(game *g, player *p, map *m, int examx, int exam
   none(g, p, m, examx, examy);
   return;
  }
- item rope(g->itypes[itm_rope_6], g->turn);
+ item rope(g->itypes["rope_6"], g->turn);
  m->add_item(p->posx, p->posy, rope);
  m->add_item(p->posx, p->posy, rope);
  m->ter(examx, examy) = t_fence_post;
@@ -333,7 +333,7 @@ void iexamine::remove_fence_wire(game *g, player *p, map *m, int examx, int exam
   return;
  }
 
- item rope(g->itypes[itm_wire], g->turn);
+ item rope(g->itypes["wire"], g->turn);
  m->add_item(p->posx, p->posy, rope);
  m->add_item(p->posx, p->posy, rope);
  m->ter(examx, examy) = t_fence_post;
@@ -346,7 +346,7 @@ void iexamine::remove_fence_barbed(game *g, player *p, map *m, int examx, int ex
   return;
  }
 
- item rope(g->itypes[itm_wire_barbed], g->turn);
+ item rope(g->itypes["wire_barbed"], g->turn);
  m->add_item(p->posx, p->posy, rope);
  m->add_item(p->posx, p->posy, rope);
  m->ter(examx, examy) = t_fence_post;
@@ -421,14 +421,14 @@ void iexamine::pedestal_wyrm(game *g, player *p, map *m, int examx, int examy) {
 void iexamine::pedestal_temple(game *g, player *p, map *m, int examx, int examy) {
 
  if (m->i_at(examx, examy).size() == 1 &&
-     m->i_at(examx, examy)[0].type->id == itm_petrified_eye) {
+     m->i_at(examx, examy)[0].type->id == "petrified_eye") {
   g->add_msg("The pedestal sinks into the ground...");
   m->ter(examx, examy) = t_dirt;
   m->i_at(examx, examy).clear();
   g->add_event(EVENT_TEMPLE_OPEN, int(g->turn) + 4);
- } else if (p->has_amount(itm_petrified_eye, 1) &&
+ } else if (p->has_amount("petrified_eye", 1) &&
             query_yn("Place your petrified eye on the pedestal?")) {
-  p->use_amount(itm_petrified_eye, 1);
+  p->use_amount("petrified_eye", 1);
   g->add_msg("The pedestal sinks into the ground...");
   m->ter(examx, examy) = t_dirt;
   g->add_event(EVENT_TEMPLE_OPEN, int(g->turn) + 4);
@@ -507,7 +507,7 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
  }
 
  g->add_msg("This flower has a heady aroma");
- if (!(p->is_wearing(itm_mask_filter)||p->is_wearing(itm_mask_gas) ||
+ if (!(p->is_wearing("mask_filter")||p->is_wearing("mask_gas") ||
        one_in(3)))  {
   g->add_msg("You fall asleep...");
   p->add_disease(DI_SLEEP, 1200, g);
@@ -516,8 +516,8 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
   p->moves-=50;
  }
  m->ter(examx, examy) = t_dirt;
- m->spawn_item(examx, examy, g->itypes[itm_poppy_flower],0);
- m->spawn_item(examx, examy, g->itypes[itm_poppy_bud],0);
+ m->spawn_item(examx, examy, g->itypes["poppy_flower"],0);
+ m->spawn_item(examx, examy, g->itypes["poppy_bud"],0);
 }
 
 void iexamine::tree_apple(game *g, player *p, map *m, int examx, int examy) {
@@ -527,7 +527,7 @@ void iexamine::tree_apple(game *g, player *p, map *m, int examx, int examy) {
  if (num_apples >= 12)
   num_apples = 12;
  for (int i = 0; i < num_apples; i++)
-  m->spawn_item(examx, examy, g->itypes[itm_apple], g->turn, 0);
+  m->spawn_item(examx, examy, g->itypes["apple"], g->turn, 0);
 
  m->ter(examx, examy) = t_tree;
 
@@ -544,7 +544,7 @@ void iexamine::shrub_blueberry(game *g, player *p, map *m, int examx, int examy)
  if (num_blueberries >= 12)
   num_blueberries = 12;
  for (int i = 0; i < num_blueberries; i++)
-  m->spawn_item(examx, examy, g->itypes[itm_blueberries], g->turn, 0);
+  m->spawn_item(examx, examy, g->itypes["blueberries"], g->turn, 0);
 
  m->ter(examx, examy) = t_shrub;
 }
@@ -579,12 +579,12 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
   {
    while (num_metal > 9)
    {
-    m->spawn_item(p->posx, p->posy, g->itypes[itm_steel_lump], 0);
+    m->spawn_item(p->posx, p->posy, g->itypes["steel_lump"], 0);
     num_metal -= 10;
    }
    do
    {
-    m->spawn_item(p->posx, p->posy, g->itypes[itm_steel_chunk], 0);
+    m->spawn_item(p->posx, p->posy, g->itypes["steel_chunk"], 0);
     num_metal -= 3;
    } while (num_metal > 2);
   }

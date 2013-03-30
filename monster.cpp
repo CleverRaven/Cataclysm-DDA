@@ -446,10 +446,10 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
     if (check_meat) {
      std::vector<item> *items = &(g->m.i_at(x, y));
      for (int n = 0; n < items->size(); n++) {
-      if ((*items)[n].type->id == itm_corpse ||
-          (*items)[n].type->id == itm_meat ||
-          (*items)[n].type->id == itm_meat_cooked ||
-          (*items)[n].type->id == itm_human_flesh) {
+      if ((*items)[n].type->id == "corpse" ||
+          (*items)[n].type->id == "meat" ||
+          (*items)[n].type->id == "meat_cooked" ||
+          (*items)[n].type->id == "human_flesh") {
        ret += 3;
        check_meat = false;
       }
@@ -462,7 +462,7 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
    }
   }
   if (check_fire) {
-   if (g->u.has_amount(itm_torch_lit, 1))
+   if (g->u.has_amount("torch_lit", 1))
     ret += 49;
   }
  }
