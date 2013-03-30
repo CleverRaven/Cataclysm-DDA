@@ -150,7 +150,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_softdrugs],
 	itm_bandages, itm_1st_aid, itm_vitamins, itm_aspirin, itm_caffeine,
-	itm_pills_sleep, itm_iodine, itm_dayquil, itm_nyquil, NULL);
+	itm_pills_sleep, itm_iodine, itm_dayquil, itm_nyquil, itm_heatpack, NULL);
 
  setvector(
    mapitems[mi_harddrugs],
@@ -233,7 +233,8 @@ void game::init_mapitems()
 	itm_manual_first_aid, itm_manual_traps, itm_lighter, itm_sewing_kit, itm_thread,
 	itm_hammer, itm_flashlight, itm_water_purifier, itm_radio, itm_beartrap,
         itm_UPS_off, itm_string_36, itm_longbow, itm_compbow, itm_arrow_wood,
-        itm_arrow_cf, itm_wire, itm_rollmat, itm_tent_kit, itm_canteen, itm_ax, NULL);
+        itm_arrow_cf, itm_wire, itm_rollmat, itm_tent_kit, itm_canteen, itm_ax, 
+        itm_heatpack, NULL);
 
 
  setvector(
@@ -250,7 +251,7 @@ void game::init_mapitems()
 	itm_sewing_kit, itm_thread, itm_hammer, itm_flashlight, itm_water_purifier,
 	itm_radio, itm_beartrap, itm_extinguisher, itm_string_36, itm_longbow,
 	itm_compbow, itm_arrow_wood, itm_arrow_cf, itm_rollmat, itm_tent_kit,
-	itm_tshirt_fit, itm_foot_crank, itm_mag_archery, NULL);
+	itm_tshirt_fit, itm_foot_crank, itm_mag_archery, itm_heatpack, NULL);
 
  setvector(
    mapitems[mi_alcohol],
@@ -483,7 +484,8 @@ void game::init_mapitems()
 	itm_mag_guns, itm_manual_brawl, itm_manual_knives, itm_cot,
 	itm_manual_mechanics, itm_manual_first_aid, itm_manual_traps,
 	itm_flashlight, itm_water_purifier, itm_two_way_radio, itm_radio,
-	itm_geiger_off, itm_usb_drive, itm_canteen, itm_jerrycan, itm_rucksack, NULL);
+	itm_geiger_off, itm_usb_drive, itm_canteen, itm_jerrycan, itm_rucksack, 
+	itm_heatpack, NULL);
 
  setvector(
    mapitems[mi_shelter],
@@ -496,7 +498,7 @@ void game::init_mapitems()
 	itm_manual_first_aid, itm_manual_tailor, itm_manual_carpentry,
 	itm_lighter, itm_sewing_kit, itm_thread, itm_hammer, itm_extinguisher,
 	itm_flashlight, itm_hotplate, itm_water_purifier, itm_radio, itm_rollmat,
-        itm_tent_kit, itm_canteen, itm_spray_can, itm_ax, NULL);
+        itm_tent_kit, itm_canteen, itm_spray_can, itm_ax, itm_heatpack, NULL);
 
  setvector(
    mapitems[mi_mechanics],
@@ -622,7 +624,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_mil_food],
 	itm_chocolate, itm_can_beans, itm_mre_beef, itm_mre_veggy, itm_1st_aid,
-	itm_codeine, itm_antibiotics, itm_water_clean, itm_purifier, NULL);
+	itm_codeine, itm_antibiotics, itm_water_clean, itm_purifier, itm_heatpack, NULL);
 
  setvector(
    mapitems[mi_mil_food_nodrugs],
@@ -671,7 +673,7 @@ void game::init_mapitems()
 	itm_bottle_plastic, itm_lighter, itm_sewing_kit, itm_thread, itm_extinguisher,
 	itm_flashlight, itm_crowbar, itm_chainsaw_off, itm_beartrap,
 	itm_grenade, itm_EMPbomb, itm_hotplate, itm_UPS_off, itm_canteen, itm_spray_can,
-   itm_bionics_toolset, itm_bionics_ethanol, NULL);
+   itm_bionics_toolset, itm_bionics_ethanol, itm_heatpack, NULL);
 
  setvector(
    mapitems[mi_sewage_plant],
@@ -855,7 +857,8 @@ void game::init_mapitems()
 	itm_landmine, itm_grenade, itm_flashbang, itm_EMPbomb, itm_gasbomb,
 	itm_smokebomb, itm_UPS_off, itm_tazer, itm_c4, itm_hk_g80, itm_12mm,
 	itm_binoculars, itm_u_shotgun, itm_beltrig, itm_pants_army_fit,
-        itm_spare_mag, itm_canteen, itm_jerrycan, itm_rucksack, NULL);
+        itm_spare_mag, itm_canteen, itm_jerrycan, itm_rucksack, 
+        itm_heatpack, NULL);
 
 
  setvector(
