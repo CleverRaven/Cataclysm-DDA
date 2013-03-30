@@ -303,7 +303,7 @@ void item::load_info(std::string data, game *g)
  else
   corpse = NULL;
  getline(dump, name);
- if (name == " ''")
+ if (name.length() <= 0 || name == " ''")
   name = "";
  else {
   size_t pos = name.find_first_of("@@");
