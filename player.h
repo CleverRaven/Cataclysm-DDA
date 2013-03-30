@@ -181,7 +181,8 @@ public:
  void rem_addiction(add_type type);
  bool has_addiction(add_type type);
  int  addiction_level(add_type type);
-
+ 
+ void cauterize(game *g);
  void suffer(game *g);
  void vomit(game *g);
 
