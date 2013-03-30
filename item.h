@@ -166,4 +166,12 @@ private:
 std::ostream & operator<<(std::ostream &, const item &);
 std::ostream & operator<<(std::ostream &, const item *);
 
+//the assigned numbers are a result of legacy stuff in compare_split_screen_popup(),
+//it would be better long-term to rewrite stuff so that we don't need that hack
+enum hint_rating {
+ HINT_CANT = 0, //meant to display as gray
+ HINT_IFFY = 1, //meant to display as red
+ HINT_GOOD = -999 // meant to display as green
+};
+
 #endif
