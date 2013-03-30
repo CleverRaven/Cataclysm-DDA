@@ -24,10 +24,6 @@ void game::init_construction()
  #define STAGE(...)\
   tl = 0; cl = 0; sl++; \
   constructions[id]->stages.push_back(construction_stage(__VA_ARGS__));
- // #define TOOL(...)   setvector(constructions[id]->stages[sl].tools[tl], \
- //                               __VA_ARGS__); tl++
- // #define COMP(...)   setvector(constructions[id]->stages[sl].components[cl], \
- //                               __VA_ARGS__); cl++
  #define TOOL(item)  ++tl; recipes[id]->tools[tl].push_back(component(item, -1))
  #define TOOLCONT(item) recipes[id]->tools[tl].push_back(component(item, -1))
  #define COMP(item, amount)  ++cl; recipes[id]->components[tl].push_back(component(item,amount))

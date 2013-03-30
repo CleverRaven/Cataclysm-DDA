@@ -10,20 +10,6 @@ void setvector(std::vector<int> &vec, ... )
  va_end(ap);
 }
 
-// void setvector(std::vector<component> &vec, ... )
-// {
-//  va_list ap;
-//  va_start(ap, vec);
-//  itype_id it_tmp;
-//  int n_tmp;
-//  while ((it_tmp = (int)va_arg(ap, int))) {
-//   n_tmp = ()va_arg(ap, int);
-//   component tmp(it_tmp, n_tmp);
-//   vec.push_back(tmp);
-//  }
-//  va_end(ap);
-// }
-
 void setvector(std::vector<mon_id> &vec, ... )
 {
  va_list ap;
