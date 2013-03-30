@@ -8,13 +8,13 @@
 
 void weather_effect::glare(game *g)
 {
- if (g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing(itm_sunglasses))
+ if (g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing("sunglasses"))
   g->u.infect(DI_GLARE, bp_eyes, 1, 2, g);
 }
 
 void weather_effect::wet(game *g)
 {
- if (!g->u.is_wearing(itm_coat_rain) && !g->u.has_trait(PF_FEATHERS) &&
+ if (!g->u.is_wearing("coat_rain") && !g->u.has_trait(PF_FEATHERS) &&
      !g->u.warmth(bp_torso) >= 20 && PLAYER_OUTSIDE && one_in(2))
   g->u.add_morale(MORALE_WET, -1, -30);
 // Put out fires and reduce scent
@@ -33,7 +33,7 @@ void weather_effect::wet(game *g)
 
 void weather_effect::very_wet(game *g)
 {
- if (!g->u.is_wearing(itm_coat_rain) && !g->u.has_trait(PF_FEATHERS) &&
+ if (!g->u.is_wearing("coat_rain") && !g->u.has_trait(PF_FEATHERS) &&
      !g->u.warmth(bp_torso) >= 50 && PLAYER_OUTSIDE)
   g->u.add_morale(MORALE_WET, -1, -60);
 // Put out fires and reduce scent

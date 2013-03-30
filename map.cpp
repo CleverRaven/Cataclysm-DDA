@@ -34,7 +34,7 @@ map::map()
  veh_in_active_range = true;
 }
 
-map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
+map::map(std::map<std::string, itype*>* itptr, std::vector<itype_id> (*miptr)[num_itloc],
          std::vector<trap*> *trptr)
 {
  nulter = t_null;
@@ -932,8 +932,8 @@ bool map::flammable_items_at(const int x, const int y)
   item *it = &(i_at(x, y)[i]);
   if (it->made_of(PAPER) || it->made_of(WOOD) || it->made_of(COTTON) ||
       it->made_of(POWDER) || it->made_of(VEGGY) || it->is_ammo() ||
-      it->type->id == itm_whiskey || it->type->id == itm_vodka ||
-      it->type->id == itm_rum || it->type->id == itm_tequila)
+      it->type->id == "whiskey" || it->type->id == "vodka" ||
+      it->type->id == "rum" || it->type->id == "tequila")
    return true;
  }
  return false;
@@ -1032,7 +1032,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   if (str >= result && str >= rng(0, 50)) {
    sound += "clang!";
    ter(x, y) = t_chainfence_posts;
-   spawn_item(x, y, (*itypes)[itm_wire], 0, rng(4, 10));
+   spawn_item(x, y, (*itypes)["wire"], 0, rng(4, 10));
    return true;
   } else {
    sound += "clang!";
@@ -1047,9 +1047,9 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
    sound += "crunch!";
    ter(x, y) = t_wall_wood_chipped;
    if(one_in(2))
-    spawn_item(x, y, (*itypes)[itm_2x4], 0);
-   spawn_item(x, y, (*itypes)[itm_nail], 0, 0, 2);
-   spawn_item(x, y, (*itypes)[itm_splinter], 0);
+    spawn_item(x, y, (*itypes)["2x4"], 0);
+   spawn_item(x, y, (*itypes)["nail"], 0, 2);
+   spawn_item(x, y, (*itypes)["splinter"], 0);
    return true;
   } else {
    sound += "whump!";
@@ -1063,9 +1063,9 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   if (str >= result && str >= rng(0, 100)) {
    sound += "crunch!";
    ter(x, y) = t_wall_wood_broken;
-   spawn_item(x, y, (*itypes)[itm_2x4], 0, rng(1, 4));
-   spawn_item(x, y, (*itypes)[itm_nail], 0, 0, rng(1, 3));
-   spawn_item(x, y, (*itypes)[itm_splinter], 0);
+   spawn_item(x, y, (*itypes)["2x4"], 0, rng(1, 4));
+   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(1, 3));
+   spawn_item(x, y, (*itypes)["splinter"], 0);
    return true;
   } else {
    sound += "whump!";
@@ -1079,9 +1079,9 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   if (str >= result && str >= rng(0, 80)) {
    sound += "crash!";
    ter(x, y) = t_dirt;
-   spawn_item(x, y, (*itypes)[itm_2x4], 0, rng(2, 5));
-   spawn_item(x, y, (*itypes)[itm_nail], 0, 0, rng(4, 10));
-   spawn_item(x, y, (*itypes)[itm_splinter], 0);
+   spawn_item(x, y, (*itypes)["2x4"], 0, rng(2, 5));
+   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(4, 10));
+   spawn_item(x, y, (*itypes)["splinter"], 0);
    return true;
   } else {
    sound += "whump!";
@@ -1097,7 +1097,7 @@ case t_palisade_gate:
    sound += "crunch!";
    ter(x, y) = t_pit;
    if(one_in(2))
-   spawn_item(x, y, (*itypes)[itm_splinter], 0, 20);
+   spawn_item(x, y, (*itypes)["splinter"], 0, 20);
    return true;
   } else {
    sound += "whump!";
@@ -1112,7 +1112,7 @@ case t_wall_log:
    sound += "crunch!";
    ter(x, y) = t_wall_log_chipped;
    if(one_in(2))
-   spawn_item(x, y, (*itypes)[itm_splinter], 0, 3);
+   spawn_item(x, y, (*itypes)["splinter"], 0, 3);
    return true;
   } else {
    sound += "whump!";
@@ -1126,7 +1126,7 @@ case t_wall_log:
   if (str >= result && str >= rng(0, 100)) {
    sound += "crunch!";
    ter(x, y) = t_wall_log_broken;
-   spawn_item(x, y, (*itypes)[itm_splinter], 0, 5);
+   spawn_item(x, y, (*itypes)["splinter"], 0, 5);
    return true;
   } else {
    sound += "whump!";
@@ -1140,7 +1140,7 @@ case t_wall_log:
   if (str >= result && str >= rng(0, 80)) {
    sound += "crash!";
    ter(x, y) = t_dirt;
-   spawn_item(x, y, (*itypes)[itm_splinter], 0, 5);
+   spawn_item(x, y, (*itypes)["splinter"], 0, 5);
    return true;
   } else {
    sound += "whump!";
@@ -1155,8 +1155,8 @@ case t_wall_log:
   if (str >= result && str >= rng(0, 80)) {
    sound += "clang!";
    ter(x, y) = t_dirt;
-   spawn_item(x, y, (*itypes)[itm_wire], 0, rng(8, 20));
-   spawn_item(x, y, (*itypes)[itm_scrap], 0, rng(0, 12));
+   spawn_item(x, y, (*itypes)["wire"], 0, rng(8, 20));
+   spawn_item(x, y, (*itypes)["scrap"], 0, rng(0, 12));
    return true;
   } else {
    sound += "whump!";
@@ -1170,9 +1170,9 @@ case t_wall_log:
   if (str >= result) {
    sound += "crash!";
    ter(x, y) = t_dirtfloor;
-   spawn_item(x, y, (*itypes)[itm_2x4], 0, rng(1, 4));
-   spawn_item(x, y, (*itypes)[itm_nail], 0, 0, rng(2, 12));
-   spawn_item(x, y, (*itypes)[itm_splinter], 0);
+   spawn_item(x, y, (*itypes)["2x4"], 0, rng(1, 4));
+   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(2, 12));
+   spawn_item(x, y, (*itypes)["splinter"], 0);
    return true;
   } else {
    sound += "wham!";
@@ -1201,9 +1201,9 @@ case t_wall_log:
   if (str >= result) {
    sound += "crash!";
    ter(x, y) = t_door_frame;
-   spawn_item(x, y, (*itypes)[itm_2x4], 0, rng(1, 6));
-   spawn_item(x, y, (*itypes)[itm_nail], 0, 0, rng(2, 12));
-   spawn_item(x, y, (*itypes)[itm_splinter], 0);
+   spawn_item(x, y, (*itypes)["2x4"], 0, rng(1, 6));
+   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(2, 12));
+   spawn_item(x, y, (*itypes)["splinter"], 0);
    return true;
   } else {
    sound += "wham!";
@@ -1219,8 +1219,8 @@ case t_wall_log:
   if (str >= result) {
    sound += "glass breaking!";
    ter(x, y) = t_window_frame;
-  spawn_item(x, y, (*itypes)[itm_sheet], 0, 1);
-  spawn_item(x, y, (*itypes)[itm_stick], 0);
+  spawn_item(x, y, (*itypes)["sheet"], 0, 1);
+  spawn_item(x, y, (*itypes)["stick"], 0);
    return true;
   } else {
    sound += "whack!";
@@ -1250,9 +1250,9 @@ case t_wall_log:
   if (str >= result) {
    sound += "crash!";
    ter(x, y) = t_door_frame;
-   spawn_item(x, y, (*itypes)[itm_2x4], 0, rng(1, 6));
-   spawn_item(x, y, (*itypes)[itm_nail], 0, 0, rng(2, 12));
-   spawn_item(x, y, (*itypes)[itm_splinter], 0);
+   spawn_item(x, y, (*itypes)["2x4"], 0, rng(1, 6));
+   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(2, 12));
+   spawn_item(x, y, (*itypes)["splinter"], 0);
    return true;
   } else {
    sound += "wham!";
@@ -1268,7 +1268,7 @@ case t_wall_log:
    ter(x, y) = t_window_frame;
    const int num_boards = rng(0, 2) * rng(0, 1);
    for (int i = 0; i < num_boards; i++)
-    spawn_item(x, y, (*itypes)[itm_splinter], 0);
+    spawn_item(x, y, (*itypes)["splinter"], 0);
    return true;
   } else {
    sound += "wham!";
@@ -1301,7 +1301,7 @@ case t_wall_log:
    for (int i = -1; i <= 1; i++)
     for (int j = -1; j <= 1; j++) {
      if (ter(tentx + i, tenty + j) == t_skin_groundsheet)
-      spawn_item(tentx + i, tenty + j, (*itypes)[itm_damaged_shelter_kit], 0);
+      spawn_item(tentx + i, tenty + j, (*itypes)["damaged_shelter_kit"], 0);
      ter(tentx + i, tenty + j) = t_dirt;
     }
 
@@ -1338,7 +1338,7 @@ case t_wall_log:
    for (int i = -1; i <= 1; i++)
     for (int j = -1; j <= 1; j++) {
      if (ter(tentx + i, tenty + j) == t_groundsheet)
-      spawn_item(tentx + i, tenty + j, (*itypes)[itm_broketent], 0);
+      spawn_item(tentx + i, tenty + j, (*itypes)["broketent"], 0);
      ter(tentx + i, tenty + j) = t_dirt;
     }
 
@@ -1372,11 +1372,11 @@ case t_wall_log:
   if (str >= result) {
    sound += "metal screeching!";
    ter(x, y) = t_metal;
-   spawn_item(x, y, (*itypes)[itm_scrap], 0, rng(2, 8));
+   spawn_item(x, y, (*itypes)["scrap"], 0, rng(2, 8));
    const int num_boards = rng(0, 3);
    for (int i = 0; i < num_boards; i++)
-    spawn_item(x, y, (*itypes)[itm_steel_chunk], 0);
-   spawn_item(x, y, (*itypes)[itm_pipe], 0);
+    spawn_item(x, y, (*itypes)["steel_chunk"], 0);
+   spawn_item(x, y, (*itypes)["pipe"], 0);
    return true;
   } else {
    sound += "clang!";
@@ -1409,9 +1409,9 @@ case t_wall_log:
   if (str >= result) {
    sound += "smash!";
    ter(x, y) = t_floor;
-   spawn_item(x, y, (*itypes)[itm_2x4], 0, rng(2, 6));
-   spawn_item(x, y, (*itypes)[itm_nail], 0, 0, rng(4, 12));
-   spawn_item(x, y, (*itypes)[itm_splinter], 0);
+   spawn_item(x, y, (*itypes)["2x4"], 0, rng(2, 6));
+   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(4, 12));
+   spawn_item(x, y, (*itypes)["splinter"], 0);
    return true;
   } else {
    sound += "whump.";
@@ -1426,9 +1426,9 @@ case t_wall_log:
   if (str >= result) {
    sound += "crak";
    ter(x, y) = t_dirt;
-   spawn_item(x, y, (*itypes)[itm_2x4], 0, rng(1, 3));
-   spawn_item(x, y, (*itypes)[itm_nail], 0, 0, rng(2, 6));
-   spawn_item(x, y, (*itypes)[itm_splinter], 0);
+   spawn_item(x, y, (*itypes)["2x4"], 0, rng(1, 3));
+   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(2, 6));
+   spawn_item(x, y, (*itypes)["splinter"], 0);
    return true;
   } else {
    sound += "whump.";
@@ -1442,7 +1442,7 @@ case t_wall_log:
   if (str >= result) {
    sound += "crak";
    ter(x, y) = t_dirt;
-   spawn_item(x, y, (*itypes)[itm_spear_wood], 0, 1);
+   spawn_item(x, y, (*itypes)["spear_wood"], 0, 1);
    return true;
   } else {
    sound += "whump.";
@@ -1459,9 +1459,9 @@ case t_wall_log:
   if (str >= result) {
    sound += "smash!";
    ter(x, y) = t_floor;
-   spawn_item(x, y, (*itypes)[itm_2x4], 0, rng(1, 3));
-   spawn_item(x, y, (*itypes)[itm_nail], 0, 0, rng(2, 6));
-   spawn_item(x, y, (*itypes)[itm_splinter], 0);
+   spawn_item(x, y, (*itypes)["2x4"], 0, rng(1, 3));
+   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(2, 6));
+   spawn_item(x, y, (*itypes)["splinter"], 0);
    return true;
   } else {
    sound += "whump.";
@@ -1508,7 +1508,7 @@ case t_wall_log:
    ter(x, y) = t_underbrush;
    const int num_sticks = rng(0, 3);
    for (int i = 0; i < num_sticks; i++)
-    spawn_item(x, y, (*itypes)[itm_stick], 0);
+    spawn_item(x, y, (*itypes)["stick"], 0);
    return true;
   } else {
    sound += "whack!";
@@ -1571,8 +1571,8 @@ case t_wall_log:
   if (str >= result) {
    sound += "smash";
    ter(x, y) = t_dirt;
-   spawn_item(x, y, (*itypes)[itm_2x4], 0, rng(1, 5));
-   spawn_item(x, y, (*itypes)[itm_nail], 0, 0, rng(2, 10));
+   spawn_item(x, y, (*itypes)["2x4"], 0, rng(1, 5));
+   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(2, 10));
    return true;
   } else {
    sound += "wham!";
@@ -1599,9 +1599,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
    for (int i = x - 2; i <= x + 2; i++) {
     for (int j = y - 2; j <= y + 2; j++) {
      if (move_cost(i, j) > 0 && one_in(3))
-      spawn_item(i, j, g->itypes[itm_gasoline], 0);
+      spawn_item(i, j, g->itypes["gasoline"], 0);
      if (move_cost(i, j) > 0 && one_in(6))
-      spawn_item(i, j, g->itypes[itm_steel_chunk], 0);
+      spawn_item(i, j, g->itypes["steel_chunk"], 0);
     }
    }
   }
@@ -1616,9 +1616,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
     if (move_cost(i, j) > 0 && one_in(6))
-     spawn_item(i, j, g->itypes[itm_2x4], 0);
+     spawn_item(i, j, g->itypes["2x4"], 0);
     if (move_cost(i, j) > 0 && one_in(6))
-      spawn_item(i, j, g->itypes[itm_nail], 0, 0, 3);
+      spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
    }
   }
   break;
@@ -1629,7 +1629,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
     if (move_cost(i, j) > 0 && one_in(5))
-     spawn_item(i, j, g->itypes[itm_rock], 0);
+     spawn_item(i, j, g->itypes["rock"], 0);
     ter(x, y) = t_rubble;
    }
   }
@@ -1640,9 +1640,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
     if (move_cost(i, j) > 0 && one_in(5))
-     spawn_item(i, j, g->itypes[itm_splinter], 0);
+     spawn_item(i, j, g->itypes["splinter"], 0);
     if (move_cost(i, j) > 0 && one_in(6))
-      spawn_item(i, j, g->itypes[itm_nail], 0, 0, 3);
+      spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
    }
   }
   ter(x, y) = t_rubble;
@@ -1673,13 +1673,13 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
     if (move_cost(i, j) > 0 && one_in(5))
-     spawn_item(i, j, g->itypes[itm_rock], 0);
+     spawn_item(i, j, g->itypes["rock"], 0);
     if (move_cost(i, j) > 0 && one_in(4))
-     spawn_item(i, j, g->itypes[itm_splinter], 0);
+     spawn_item(i, j, g->itypes["splinter"], 0);
     if (move_cost(i, j) > 0 && one_in(3))
-     spawn_item(i, j, g->itypes[itm_rebar], 0);
+     spawn_item(i, j, g->itypes["rebar"], 0);
     if (move_cost(i, j) > 0 && one_in(6))
-      spawn_item(i, j, g->itypes[itm_nail], 0, 0, 3);
+      spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
    }
   }
   ter(x, y) = t_rubble;
@@ -1800,7 +1800,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
      for (int i = x - 2; i <= x + 2; i++) {
       for (int j = y - 2; j <= y + 2; j++) {
        if (move_cost(i, j) > 0 && one_in(3))
-        spawn_item(i, j, g->itypes[itm_gasoline], 0);
+        spawn_item(i, j, g->itypes["gasoline"], 0);
       }
      }
     }
@@ -2073,7 +2073,7 @@ std::vector<item>& map::i_at(const int x, const int y)
 
 item map::water_from(const int x, const int y)
 {
- item ret((*itypes)[itm_water], 0);
+ item ret((*itypes)["water"], 0);
  if (ter(x, y) == t_water_sh && one_in(3))
   ret.poison = rng(1, 4);
  else if (ter(x, y) == t_water_dp && one_in(4))
@@ -2222,7 +2222,7 @@ void map::process_active_items_in_submap(game *g, const int nonant)
 						(*items)[n].charges--;
 						if ((*items)[n].charges <= 0) {
 							(use.*tmp->use)(g, &(g->u), &((*items)[n]), false);
-							if (tmp->revert_to == itm_null || (*items)[n].charges == -1) {
+							if (tmp->revert_to == "null" || (*items)[n].charges == -1) {
 								items->erase(items->begin() + n);
 								grid[nonant]->active_item_count--;
 								n--;
@@ -2286,9 +2286,9 @@ void map::use_charges(const point origin, const int range, const itype_id type, 
         if (kpart >= 0) { // we have a kitchen, now to see what to drain
           int ftype = -1;
 
-          if (type == itm_water_clean)
+          if (type == "water_clean")
             ftype = AT_WATER;
-          else if (type == itm_hotplate)
+          else if (type == "hotplate")
             ftype = AT_BATT;
 
           quantity -= veh->drain(ftype, quantity);
@@ -2395,7 +2395,7 @@ void map::disarm_trap(game *g, const int x, const int y)
   g->add_msg("You disarm the trap!");
   std::vector<itype_id> comp = g->traps[tr_at(x, y)]->components;
   for (int i = 0; i < comp.size(); i++) {
-   if (comp[i] != itm_null)
+   if (comp[i] != "null")
     spawn_item(x, y, g->itypes[comp[i]], 0);
   }
   tr_at(x, y) = tr_null;
@@ -2680,8 +2680,8 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  bool normal_tercol = false, drew_field = false;
  if (u.has_disease(DI_BOOMERED))
   tercol = c_magenta;
- else if ((u.is_wearing(itm_goggles_nv) && u.has_active_item(itm_UPS_on)) ||
-          u.has_active_bionic(bio_night_vision))
+ else if ((u.is_wearing("goggles_nv") && u.has_active_item("UPS_on")) ||
+          u.has_active_bionic("bio_night_vision"))
   tercol = (bright_light) ? c_white : c_ltgreen;
  else if (low_light)
   tercol = c_dkgray;
@@ -3537,7 +3537,7 @@ tinymap::tinymap()
  nultrap = tr_null;
 }
 
-tinymap::tinymap(std::vector<itype*> *itptr,
+tinymap::tinymap(std::map<std::string, itype*> *itptr,
                  std::vector<itype_id> (*miptr)[num_itloc],
                  std::vector<trap*> *trptr)
 {

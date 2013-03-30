@@ -24,10 +24,11 @@ void game::init_construction()
  #define STAGE(...)\
   tl = 0; cl = 0; sl++; \
   constructions[id]->stages.push_back(construction_stage(__VA_ARGS__));
- #define TOOL(...)   setvector(constructions[id]->stages[sl].tools[tl], \
-                               __VA_ARGS__); tl++
- #define COMP(...)   setvector(constructions[id]->stages[sl].components[cl], \
-                               __VA_ARGS__); cl++
+ #define TOOL(item)  ++tl; recipes[id]->tools[tl].push_back(component(item, -1))
+ #define TOOLCONT(item) recipes[id]->tools[tl].push_back(component(item, -1))
+ #define COMP(item, amount)  ++cl; recipes[id]->components[tl].push_back(component(item,amount))
+ #define COMPCONT(item, amount) recipes[id]->components[tl].push_back(component(item,amount))
+
 
 /* CONSTRUCT( name, time, able, done )
  * Name is the name as it appears in the menu; 30 characters or less, please.
@@ -42,27 +43,36 @@ void game::init_construction()
 
  CONSTRUCT("Dig Pit", 0, &construct::able_dig, &construct::done_nothing);
   STAGE(t_pit_shallow, 10);
-   TOOL(itm_shovel, itm_primitive_shovel, itm_digging_stick, NULL);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
+   TOOLCONT("digging_stick");
   STAGE(t_pit, 10);
-   TOOL(itm_shovel, itm_primitive_shovel, NULL);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
 
  CONSTRUCT("Spike Pit", 0, &construct::able_pit, &construct::done_nothing);
   STAGE(t_pit_spiked, 5);
-   COMP(itm_spear_wood, 4, NULL);
+   COMP("spear_wood", 4);
 
  CONSTRUCT("Fill Pit", 0, &construct::able_pit, &construct::done_nothing);
   STAGE(t_pit_shallow, 5);
-   TOOL(itm_shovel, itm_primitive_shovel, NULL);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
   STAGE(t_dirt, 5);
-   TOOL(itm_shovel, itm_primitive_shovel, NULL);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
 
  CONSTRUCT("Chop Down Tree", 0, &construct::able_tree, &construct::done_tree);
   STAGE(t_dirt, 10);
-   TOOL(itm_ax, itm_primitive_axe, itm_chainsaw_on, NULL);
+   TOOL("ax");
+   TOOLCONT("primitive_axe");
+   TOOLCONT("chainsaw_on");
 
  CONSTRUCT("Chop Up Log", 0, &construct::able_log, &construct::done_log);
   STAGE(t_dirt, 20);
-   TOOL(itm_ax, itm_primitive_axe, itm_chainsaw_on, NULL);
+   TOOL("ax");
+   TOOLCONT("primitive_axe");
+   TOOLCONT("chainsaw_on");
 
  CONSTRUCT("Move Furniture", -1, &construct::able_furniture, &construct::done_furniture);
   STAGE(t_null, 1);
@@ -74,102 +84,143 @@ void game::init_construction()
 /* CONSTRUCT("Remove Window Pane",  1, &construct::able_window_pane,
                                      &construct::done_window_pane);
   STAGE(t_window_empty, 10);
-   TOOL(itm_hammer, itm_primitive_hammer, itm_rock, itm_hatchet, NULL);
-   TOOL(itm_screwdriver, itm_knife_butter, itm_toolset, NULL);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("rock");
+   TOOLCONT("hatchet");
+   TOOL("screwdriver");
+   TOOLCONT("knife_butter");
+   TOOLCONT("toolset");
 */
 
  CONSTRUCT("Repair Door", 1, &construct::able_door_broken,
                              &construct::done_nothing);
   STAGE(t_door_c, 10);
-   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_2x4, 3, NULL);
-   COMP(itm_nail, 12, NULL);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   COMP("2x4", 3);
+   COMP("nail", 12);
 
  CONSTRUCT("Board Up Door", 0, &construct::able_door, &construct::done_nothing);
   STAGE(t_door_boarded, 8);
-   TOOL(itm_hammer, itm_hammer_sledge, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_2x4, 4, NULL);
-   COMP(itm_nail, 8, NULL);
+   TOOL("hammer");
+   TOOLCONT("hammer_sledge");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   COMP("2x4", 4);
+   COMP("nail", 8);
 
  CONSTRUCT("Board Up Window", 0, &construct::able_window,
                                  &construct::done_nothing);
   STAGE(t_window_boarded, 5);
-   TOOL(itm_hammer, itm_hammer_sledge, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_2x4, 4, NULL);
-   COMP(itm_nail, 8, NULL);
+   TOOL("hammer");
+   TOOLCONT("hammer_sledge");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   COMP("2x4", 4);
+   COMP("nail", 8);
 
  CONSTRUCT("Build Wall", 2, &construct::able_empty, &construct::done_nothing);
   STAGE(t_wall_half, 10);
-   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_2x4, 10, NULL);
-   COMP(itm_nail, 20, NULL);
-  STAGE(t_wall_wood, 10);
-   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_2x4, 10, NULL);
-   COMP(itm_nail, 20, NULL);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   COMP("2x4", 10);
+   COMP("nail", 20);
+     STAGE(t_wall_wood, 10);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   COMP("2x4", 10);
+   COMP("nail", 20);
 
  CONSTRUCT("Build Log Wall", 2, &construct::able_pit, &construct::done_nothing);
   STAGE(t_wall_log_half, 20);
-   TOOL(itm_shovel, itm_primitive_shovel, NULL);
-   COMP(itm_log, 2, NULL);
-   COMP(itm_stick, 3, NULL);
-  STAGE(t_wall_log, 20);
-   TOOL(itm_shovel, itm_primitive_shovel, NULL);
-   COMP(itm_log, 2, NULL);
-   COMP(itm_stick, 3, NULL);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
+   COMP("log", 2);
+   COMP("stick", 3);
+     STAGE(t_wall_log, 20);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
+   COMP("log", 2);
+   COMP("stick", 3);
 
  CONSTRUCT("Build Palisade Wall", 2, &construct::able_pit, &construct::done_nothing);
   STAGE(t_palisade, 20);
-   TOOL(itm_shovel, itm_primitive_shovel, NULL);
-   COMP(itm_log, 3, NULL);
-   COMP(itm_rope_30, 1, itm_rope_6, 5, NULL);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
+   COMP("log", 3);
+   COMP("rope_30", 1);
+   COMPCONT("rope_6", 5);
 
  CONSTRUCT("Build Rope and Pulley System", 2, &construct::able_empty, &construct::done_nothing);
   STAGE(t_palisade_pulley, 0);
-  COMP(itm_rope_30, 1, NULL);
-  COMP(itm_stick, 8, itm_2x4, 8, NULL);
+  COMP("rope_30", 1);
+     COMP("stick", 8);
+   COMPCONT("2x4", 8);
 
  CONSTRUCT("Build Palisade Gate", 2, &construct::able_pit, &construct::done_nothing);
   STAGE(t_palisade_gate, 20);
-   TOOL(itm_shovel, itm_primitive_shovel, NULL);
-   COMP(itm_log, 2, NULL);
-   COMP(itm_2x4, 3, NULL);
-   COMP(itm_rope_30, 1, itm_rope_6, 5, NULL);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
+   COMP("log", 2);
+   COMP("2x4", 3);
+   COMP("rope_30", 1);
+   COMPCONT("rope_6", 5);
 
  CONSTRUCT("Build Window", 2, &construct::able_empty,
                               &construct::done_nothing);
   STAGE(t_window_empty, 10);
-   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_2x4, 15, itm_log, 2, NULL);
-   COMP(itm_nail, 30, NULL);
-  STAGE(t_window, 5);
-   COMP(itm_glass_sheet, 1, NULL);
-  STAGE(t_window_domestic, 5);
-   TOOL(itm_saw, NULL);
-   COMP(itm_nail, 4, NULL);
-   COMP(itm_sheet, 2, NULL);
-   COMP(itm_stick, 1, NULL);
-
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   COMP("2x4", 15);
+   COMPCONT("log", 2);
+      COMP("nail", 30);
+     STAGE(t_window, 5);
+   COMP("glass_sheet", 1);
+     STAGE(t_window_domestic, 5);
+   TOOL("saw");
+   COMP("nail", 4);
+   COMP("sheet", 2);
+   COMP("stick", 1);
 
  CONSTRUCT("Build Door", 2, &construct::able_empty,
                               &construct::done_nothing);
   STAGE(t_door_frame, 15);
-   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_2x4, 12, NULL);
-   COMP(itm_nail, 24, NULL);
-  STAGE(t_door_c, 15);
-   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_2x4, 4, NULL);
-   COMP(itm_nail, 12, NULL);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   COMP("2x4", 12);
+   COMP("nail", 24);
+     STAGE(t_door_c, 15);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   COMP("2x4", 4);
+   COMP("nail", 12);
 
  CONSTRUCT("Build Wire Fence",3, &construct::able_dig,
                                  &construct::done_nothing);
   STAGE(t_chainfence_posts, 20);
-   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_rock, NULL);
-   COMP(itm_pipe, 6, NULL);
-   COMP(itm_scrap, 8, NULL);
-  STAGE(t_chainfence_v, 20);
-   COMP(itm_wire, 15, NULL);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("rock");
+   COMP("pipe", 6);
+   COMP("scrap", 8);
+     STAGE(t_chainfence_v, 20);
+   COMP("wire", 15);
 
  CONSTRUCT("Realign Fence",   0, &construct::able_chainlink,
                                  &construct::done_nothing);
@@ -179,86 +230,117 @@ void game::init_construction()
  CONSTRUCT("Build Wire Gate", 3, &construct::able_between_walls,
                                  &construct::done_nothing);
   STAGE(t_chaingate_c, 15);
-   COMP(itm_wire, 20, NULL);
-   COMP(itm_steel_chunk, 3, itm_scrap, 12, NULL);
-   COMP(itm_pipe, 6, NULL);
+   COMP("wire", 20);
+   COMP("steel_chunk", 3);
+   COMPCONT("scrap", 12);
+      COMP("pipe", 6);
 
 /*  Removed until we have some way of auto-aligning fences!
  CONSTRUCT("Build Fence", 1, 15, &construct::able_empty);
   STAGE(t_fence_h, 10);
-   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, NULL);
-   COMP(itm_2x4, 5, itm_nail, 8, NULL);
-*/
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   COMP("2x4", 5);
+   COMPCONT("nail", 8);
+   */
 
  CONSTRUCT("Build Roof", 3, &construct::able_between_walls,
                             &construct::done_nothing);
   STAGE(t_floor, 40);
-   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_2x4, 8, NULL);
-   COMP(itm_nail, 40, NULL);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   COMP("2x4", 8);
+   COMP("nail", 40);
 
 // Base stuff
  CONSTRUCT("Build Bulletin Board", 0, &construct::able_empty,
  		                                   &construct::done_nothing);
   STAGE(t_bulletin, 10)
-   TOOL(itm_saw, NULL);
-   TOOL(itm_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_2x4, 4, NULL);
-   COMP(itm_nail, 8, NULL);
+   TOOL("saw");
+   TOOL("hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   COMP("2x4", 4);
+   COMP("nail", 8);
 
 // Household stuff
  CONSTRUCT("Build Dresser", 1, &construct::able_indoors,
                                 &construct::done_nothing);
   STAGE(t_dresser, 20);
-   TOOL(itm_saw, NULL);
-   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_nail, 8, NULL);
-   COMP(itm_2x4, 6, NULL);
+   TOOL("saw");
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   COMP("nail", 8);
+   COMP("2x4", 6);
 
  CONSTRUCT("Build Bookcase", 1, &construct::able_indoors,
                                 &construct::done_nothing);
   STAGE(t_bookcase, 20);
-   TOOL(itm_saw, NULL);
-   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_nail, 16, NULL);
-   COMP(itm_2x4, 12, NULL);
+   TOOL("saw");
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   COMP("nail", 16);
+   COMP("2x4", 12);
 
  CONSTRUCT("Build Counter", 0, &construct::able_indoors,
                                 &construct::done_nothing);
   STAGE(t_counter, 20);
-   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_nail, 8, NULL);
-   COMP(itm_2x4, 6, NULL);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   COMP("nail", 8);
+   COMP("2x4", 6);
 
  CONSTRUCT("Build Makeshift Bed", 0, &construct::able_indoors,
                                 &construct::done_nothing);
   STAGE(t_makeshift_bed, 20);
-   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
-   COMP(itm_nail, 8, NULL);
-   COMP(itm_2x4, 10, NULL);
-   COMP(itm_sheet, 1, NULL);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   COMP("nail", 8);
+   COMP("2x4", 10);
+   COMP("sheet", 1);
 
  CONSTRUCT("Tape up window", 0, &construct::able_window,
                                 &construct::done_tape);
   STAGE(t_null, 2);
-  COMP(itm_duct_tape, 50, NULL);
+  COMP("duct_tape", 50);
 
  CONSTRUCT("Deconstruct Furniture", 0, &construct::able_deconstruct,
                                 &construct::done_deconstruct);
   STAGE(t_null, 20);
-   TOOL(itm_hammer, itm_primitive_hammer, itm_hatchet, itm_nailgun, NULL);
-   TOOL(itm_screwdriver, itm_toolset, NULL);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   TOOL("screwdriver");
+   TOOLCONT("toolset");
 
  CONSTRUCT("Start vehicle construction", 0, &construct::able_empty, &construct::done_vehicle);
   STAGE(t_null, 10);
-   COMP(itm_frame, 1, NULL);
+   COMP("frame", 1);
 
  CONSTRUCT("Fence Posts", 0, &construct::able_dig,
                              &construct::done_nothing);
   STAGE(t_fence_post, 5);
-  TOOL(itm_hammer, itm_primitive_hammer, itm_shovel, itm_primitive_shovel, itm_rock, itm_hatchet, itm_ax, itm_primitive_axe, NULL);
-  COMP(itm_spear_wood, 2, NULL);
-
+  TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("shovel");
+   TOOLCONT("primitive_shovel");
+   TOOLCONT("rock");
+   TOOLCONT("hatchet");
+   TOOLCONT("ax");
+   TOOLCONT("primitive_axe");
+  COMP("spear_wood", 2);
 }
 
 void game::construction_menu()
@@ -677,10 +759,13 @@ bool construct::able_furniture(game *g, point p)
  switch(g->m.ter(p.x, p.y)) {
   case t_fridge:
   case t_glass_fridge:
+  case t_oven:
+  case t_bathtub:
    required_str = 10;
    break;
   case t_bookcase:
   case t_locker:
+  case t_table:
    required_str = 9;
    break;
   case t_dresser:
@@ -688,6 +773,7 @@ bool construct::able_furniture(game *g, point p)
   case t_chair:
   case t_armchair:
   case t_bench:
+  case t_cupboard:
    required_str = 8;
    break;
   default:
@@ -786,7 +872,7 @@ bool construct::able_deconstruct(game *g, point p)
 
 void construct::done_window_pane(game *g, point p)
 {
- g->m.spawn_item(g->u.posx, g->u.posy, g->itypes[itm_glass_sheet], 0);
+ g->m.spawn_item(g->u.posx, g->u.posy, g->itypes["glass_sheet"], 0);
 }
 
 void construct::done_furniture(game *g, point p)
@@ -838,7 +924,7 @@ void construct::done_tree(game *g, point p)
 
 void construct::done_log(game *g, point p)
 {
- g->m.spawn_item(p.x, p.y, g->itypes[itm_log], int(g->turn), rng(5, 15));
+ g->m.spawn_item(p.x, p.y, g->itypes["log"], int(g->turn), rng(5, 15));
 }
 
 
@@ -880,34 +966,34 @@ void construct::done_deconstruct(game *g, point p)
     case t_makeshift_bed:
     case t_bed:
     case t_armchair:
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_2x4], 0, 9);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_rag], 0, 9);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 0, rng(6,8));
+      g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 9);
+      g->m.spawn_item(p.x, p.y, g->itypes["rag"], 0, 9);
+      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, rng(6,8));
       g->m.ter(p.x, p.y) = t_floor;
     break;
 
     case t_door_c:
     case t_door_o:
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_2x4], 0, 3);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 0, rng(6,12));
+      g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 3);
+      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, rng(6,12));
       g->m.ter(p.x, p.y) = t_door_frame;
     break;
     case t_window_domestic:
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_stick], 0);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_sheet], 0, 1);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_glass_sheet], 0);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 0, 3);
+      g->m.spawn_item(p.x, p.y, g->itypes["stick"], 0);
+      g->m.spawn_item(p.x, p.y, g->itypes["sheet"], 0, 1);
+      g->m.spawn_item(p.x, p.y, g->itypes["glass_sheet"], 0);
+      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 3);
       g->m.ter(p.x, p.y) = t_window_empty;
     break;
 
     case t_window:
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_glass_sheet], 0);
+      g->m.spawn_item(p.x, p.y, g->itypes["glass_sheet"], 0);
       g->m.ter(p.x, p.y) = t_window_empty;
     break;
 
     case t_backboard:
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_2x4], 0, 4);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 0, rng(6,10));
+      g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
+      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, rng(6,10));
       g->m.ter(p.x, p.y) = t_pavement;
     break;
 
@@ -915,55 +1001,55 @@ void construct::done_deconstruct(game *g, point p)
     case t_bench:
     case t_crate_o:
     case t_crate_c:
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_2x4], 0, 4);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 0, rng(6,10));
+      g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
+      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, rng(6,10));
       g->m.ter(p.x, p.y) = t_floor;
     break;
 
     case t_chair:
     case t_cupboard:
     case t_desk:
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_2x4], 0, 4);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 0, rng(6,10));
+      g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
+      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, rng(6,10));
       g->m.ter(p.x, p.y) = t_floor;
     break;
 
     case t_slide:
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_sheet_metal], 3);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_pipe], 0, rng(4,8));
+      g->m.spawn_item(p.x, p.y, g->itypes["steel_plate"], 0);
+      g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(4,8));
       g->m.ter(p.x, p.y) = t_grass;
     break;
 
     case t_rack:
     case t_monkey_bars:
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_pipe], 0, rng(6,12));
+      g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(6,12));
       g->m.ter(p.x, p.y) = t_grass;
     break;
 
     case t_fridge:
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_scrap], 0, rng(2,6));
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_steel_chunk], 0, rng(2,3));
+      g->m.spawn_item(p.x, p.y, g->itypes["scrap"], 0, rng(2,6));
+      g->m.spawn_item(p.x, p.y, g->itypes["steel_chunk"], 0, rng(2,3));
       g->m.ter(p.x, p.y) = t_floor;
     break;
 
     case t_counter:
     case t_dresser:
     case t_table:
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_2x4], 0, 6);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 0, rng(6,8));
+      g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 6);
+      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, rng(6,8));
       g->m.ter(p.x, p.y) = t_floor;
     break;
 
     case t_pool_table:
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_2x4], 0, 4);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_rag], 0, 4);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 0, rng(6,10));
+      g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
+      g->m.spawn_item(p.x, p.y, g->itypes["rag"], 0, 4);
+      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, rng(6,10));
       g->m.ter(p.x, p.y) = t_floor;
     break;
 
     case t_bookcase:
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_2x4], 0, 12);
-      g->m.spawn_item(p.x, p.y, g->itypes[itm_nail], 0, 0, rng(12,16));
+      g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 12);
+      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, rng(12,16));
       g->m.ter(p.x, p.y) = t_floor;
     break;
   }

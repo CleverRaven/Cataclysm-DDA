@@ -33,7 +33,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  if (p.weapon.has_flag(IF_CHARGE)) { // It's a charger gun, so make up a type
 // Charges maxes out at 8.
   int charges = p.weapon.num_charges();
-  it_ammo *tmpammo = dynamic_cast<it_ammo*>(itypes[itm_charge_shot]);
+  it_ammo *tmpammo = dynamic_cast<it_ammo*>(itypes["charge_shot"]);
 
   tmpammo->damage = charges * charges;
   tmpammo->pierce = (charges >= 4 ? (charges - 3) * 2.5 : 0);
@@ -116,7 +116,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  int trange = trig_dist(p.posx, p.posy, tarx, tary);
  if (trange < int(firing->volume / 3) && firing->ammo != AT_SHOT)
   trange = int(firing->volume / 3);
- else if (p.has_bionic(bio_targeting)) {
+ else if (p.has_bionic("bio_targeting")) {
   if (trange > LONG_RANGE)
    trange = int(trange * .65);
   else
@@ -170,24 +170,24 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   }
 
   // Drop a shell casing if appropriate.
-  itype_id casing_type = itm_null;
+  itype_id casing_type = "null";
   switch(curammo->type) {
-  case AT_SHOT: casing_type = itm_shot_hull; break;
-  case AT_9MM: casing_type = itm_9mm_casing; break;
-  case AT_38: casing_type = itm_38_casing; break;
-  case AT_40: casing_type = itm_40_casing; break;
-  case AT_44: casing_type = itm_44_casing; break;
-  case AT_45: casing_type = itm_45_casing; break;
-  case AT_57: casing_type = itm_57mm_casing; break;
-  case AT_46: casing_type = itm_46mm_casing; break;
-  case AT_762: casing_type = itm_762_casing; break;
-  case AT_223: casing_type = itm_223_casing; break;
-  case AT_3006: casing_type = itm_3006_casing; break;
-  case AT_308: casing_type = itm_308_casing; break;
-  case AT_40MM: casing_type = itm_40mm_casing; break;
+  case AT_SHOT: casing_type = "shot_hull"; break;
+  case AT_9MM: casing_type = "9mm_casing"; break;
+  case AT_38: casing_type = "38_casing"; break;
+  case AT_40: casing_type = "40_casing"; break;
+  case AT_44: casing_type = "44_casing"; break;
+  case AT_45: casing_type = "45_casing"; break;
+  case AT_57: casing_type = "57mm_casing"; break;
+  case AT_46: casing_type = "46mm_casing"; break;
+  case AT_762: casing_type = "762_casing"; break;
+  case AT_223: casing_type = "223_casing"; break;
+  case AT_3006: casing_type = "3006_casing"; break;
+  case AT_308: casing_type = "308_casing"; break;
+  case AT_40MM: casing_type = "40mm_casing"; break;
   default: /*No casing for other ammo types.*/ break;
   }
-  if (casing_type != itm_null) {
+  if (casing_type != "null") {
    int x = p.posx - 1 + rng(0, 2);
    int y = p.posy - 1 + rng(0, 2);
    std::vector<item>& items = m.i_at(x, y);
@@ -796,7 +796,7 @@ int calculate_range(player &p, int tarx, int tary)
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
  if (trange < int(firing->volume / 3) && firing->ammo != AT_SHOT)
   trange = int(firing->volume / 3);
- else if (p.has_bionic(bio_targeting)) {
+ else if (p.has_bionic("bio_targeting")) {
   if (trange > LONG_RANGE)
    trange = int(trange * .65);
   else

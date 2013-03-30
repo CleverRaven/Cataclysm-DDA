@@ -109,7 +109,7 @@ struct mission_type {
   {
    deadline_low = 0;
    deadline_high = 0;
-   item_id = itm_null;
+   item_id = "null";
    follow_up = MISSION_NULL;
   };
 
@@ -145,7 +145,7 @@ struct mission {
   value = 0;
   uid = -1;
   target = point(-1, -1);
-  item_id = itm_null;
+  item_id = "null";
   count = 0;
   deadline = 0;
   npc_id = -1;

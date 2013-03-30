@@ -27,7 +27,7 @@ struct component
 {
  itype_id type;
  int count;
- component() { type = itm_null; count = 0; }
+ component() { type = "null"; count = 0; }
  component(itype_id TYPE, int COUNT) : type (TYPE), count (COUNT) {}
 };
 
@@ -46,7 +46,7 @@ struct recipe {
 
   recipe() {
     id = 0;
-    result = itm_null;
+    result = "null";
     category = CC_NULL;
     sk_primary = NULL;
     sk_secondary = NULL;
