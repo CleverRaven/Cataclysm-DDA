@@ -877,6 +877,23 @@ point overmap::find_closest(point origin, oter_id type, int type_range,
  return point(-1, -1);
 }
 
+std::vector<point> overmap::find_all(tripoint origin, oter_id type, int type_range,
+                                     int &dist, bool must_be_seen)
+{
+ std::vector<point> res;
+ int max = (dist == 0 ? OMAPX / 2 : dist);
+ for (dist = 0; dist <= max; dist++) {
+  for (int x = origin.x - dist; x <= origin.x + dist; x++) {
+   for (int y = origin.y - dist; y <= origin.y + dist; y++) {
+     if (ter(x, y, origin.z) >= type && ter(x, y, origin.z) < type + type_range &&
+         (!must_be_seen || seen(x, y, origin.z)))
+     res.push_back(point(x, y));
+   }
+  }
+ }
+ return res;
+}
+
 std::vector<point> overmap::find_terrain(std::string term, int cursx, int cursy, int zlevel)
 {
  std::vector<point> found;

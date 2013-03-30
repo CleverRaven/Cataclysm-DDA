@@ -1291,17 +1291,19 @@ void iuse::roadmap_targets(game *g, player *p, item *it, bool t, int target, int
 {
  oter_t oter_target = oterlist[target];
  point place;
- std::vector<point> places = g->cur_om.find_all(g->om_location(), (oter_id)target, target_range, distance, false);
+ point origin = g->om_location();
+ std::vector<point> places = g->cur_om.find_all(tripoint(origin.x, origin.y, g->levz),
+                                                (oter_id)target, target_range, distance, false);
 
  for (std::vector<point>::iterator iter = places.begin(); iter != places.end(); ++iter) {
   place = *iter;
   if (place.x >= 0 && place.y >= 0) {
   if (reveal_distance == 0) {
-   g->cur_om.seen(place.x,place.y) = true;
+    g->cur_om.seen(place.x,place.y,g->levz) = true;
   } else {
    for (int x = place.x - reveal_distance; x <= place.x + reveal_distance; x++) {
     for (int y = place.y - reveal_distance; y <= place.y + reveal_distance; y++)
-     g->cur_om.seen(x, y) = true;
+      g->cur_om.seen(x, y,g->levz) = true;
    }
   }
   }
