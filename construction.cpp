@@ -53,7 +53,7 @@ void game::init_construction()
  CONSTRUCT("Spike Pit", 0, &construct::able_pit, &construct::done_nothing);
   STAGE(t_pit_spiked, 5);
    COMP("spear_wood", 4);
-   
+
  CONSTRUCT("Fill Pit", 0, &construct::able_pit, &construct::done_nothing);
   STAGE(t_pit_shallow, 5);
    TOOL("shovel");
@@ -102,7 +102,7 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("2x4", 3);
    COMP("nail", 12);
-   
+
  CONSTRUCT("Board Up Door", 0, &construct::able_door, &construct::done_nothing);
   STAGE(t_door_boarded, 8);
    TOOL("hammer");
@@ -112,7 +112,7 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("2x4", 4);
    COMP("nail", 8);
-   
+
  CONSTRUCT("Board Up Window", 0, &construct::able_window,
                                  &construct::done_nothing);
   STAGE(t_window_boarded, 5);
@@ -123,7 +123,7 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("2x4", 4);
    COMP("nail", 8);
-   
+
  CONSTRUCT("Build Wall", 2, &construct::able_empty, &construct::done_nothing);
   STAGE(t_wall_half, 10);
    TOOL("hammer");
@@ -139,7 +139,7 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("2x4", 10);
    COMP("nail", 20);
-   
+
  CONSTRUCT("Build Log Wall", 2, &construct::able_pit, &construct::done_nothing);
   STAGE(t_wall_log_half, 20);
    TOOL("shovel");
@@ -151,7 +151,7 @@ void game::init_construction()
    TOOLCONT("primitive_shovel");
    COMP("log", 2);
    COMP("stick", 3);
-   
+
  CONSTRUCT("Build Palisade Wall", 2, &construct::able_pit, &construct::done_nothing);
   STAGE(t_palisade, 20);
    TOOL("shovel");
@@ -159,13 +159,13 @@ void game::init_construction()
    COMP("log", 3);
    COMP("rope_30", 1);
    COMPCONT("rope_6", 5);
-   
+
  CONSTRUCT("Build Rope and Pulley System", 2, &construct::able_empty, &construct::done_nothing);
   STAGE(t_palisade_pulley, 0);
   COMP("rope_30", 1);
      COMP("stick", 8);
    COMPCONT("2x4", 8);
-   
+
  CONSTRUCT("Build Palisade Gate", 2, &construct::able_pit, &construct::done_nothing);
   STAGE(t_palisade_gate, 20);
    TOOL("shovel");
@@ -174,7 +174,7 @@ void game::init_construction()
    COMP("2x4", 3);
    COMP("rope_30", 1);
    COMPCONT("rope_6", 5);
-   
+
  CONSTRUCT("Build Window", 2, &construct::able_empty,
                               &construct::done_nothing);
   STAGE(t_window_empty, 10);
@@ -192,7 +192,6 @@ void game::init_construction()
    COMP("nail", 4);
    COMP("sheet", 2);
    COMP("stick", 1);
-   
 
  CONSTRUCT("Build Door", 2, &construct::able_empty,
                               &construct::done_nothing);
@@ -210,7 +209,7 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("2x4", 4);
    COMP("nail", 12);
-   
+
  CONSTRUCT("Build Wire Fence",3, &construct::able_dig,
                                  &construct::done_nothing);
   STAGE(t_chainfence_posts, 20);
@@ -222,7 +221,7 @@ void game::init_construction()
    COMP("scrap", 8);
      STAGE(t_chainfence_v, 20);
    COMP("wire", 15);
-   
+
  CONSTRUCT("Realign Fence",   0, &construct::able_chainlink,
                                  &construct::done_nothing);
   STAGE(t_chainfence_h, 0);
@@ -235,7 +234,7 @@ void game::init_construction()
    COMP("steel_chunk", 3);
    COMPCONT("scrap", 12);
       COMP("pipe", 6);
-   
+
 /*  Removed until we have some way of auto-aligning fences!
  CONSTRUCT("Build Fence", 1, 15, &construct::able_empty);
   STAGE(t_fence_h, 10);
@@ -255,7 +254,7 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("2x4", 8);
    COMP("nail", 40);
-   
+
 // Base stuff
  CONSTRUCT("Build Bulletin Board", 0, &construct::able_empty,
  		                                   &construct::done_nothing);
@@ -266,7 +265,7 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("2x4", 4);
    COMP("nail", 8);
-   
+
 // Household stuff
  CONSTRUCT("Build Dresser", 1, &construct::able_indoors,
                                 &construct::done_nothing);
@@ -278,7 +277,7 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("nail", 8);
    COMP("2x4", 6);
-   
+
  CONSTRUCT("Build Bookcase", 1, &construct::able_indoors,
                                 &construct::done_nothing);
   STAGE(t_bookcase, 20);
@@ -289,7 +288,7 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("nail", 16);
    COMP("2x4", 12);
-   
+
  CONSTRUCT("Build Counter", 0, &construct::able_indoors,
                                 &construct::done_nothing);
   STAGE(t_counter, 20);
@@ -299,7 +298,7 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("nail", 8);
    COMP("2x4", 6);
-   
+
  CONSTRUCT("Build Makeshift Bed", 0, &construct::able_indoors,
                                 &construct::done_nothing);
   STAGE(t_makeshift_bed, 20);
@@ -310,12 +309,12 @@ void game::init_construction()
    COMP("nail", 8);
    COMP("2x4", 10);
    COMP("sheet", 1);
-   
+
  CONSTRUCT("Tape up window", 0, &construct::able_window,
                                 &construct::done_tape);
   STAGE(t_null, 2);
   COMP("duct_tape", 50);
-   
+
  CONSTRUCT("Deconstruct Furniture", 0, &construct::able_deconstruct,
                                 &construct::done_deconstruct);
   STAGE(t_null, 20);
@@ -329,7 +328,7 @@ void game::init_construction()
  CONSTRUCT("Start vehicle construction", 0, &construct::able_empty, &construct::done_vehicle);
   STAGE(t_null, 10);
    COMP("frame", 1);
-   
+
  CONSTRUCT("Fence Posts", 0, &construct::able_dig,
                              &construct::done_nothing);
   STAGE(t_fence_post, 5);
@@ -342,7 +341,6 @@ void game::init_construction()
    TOOLCONT("ax");
    TOOLCONT("primitive_axe");
   COMP("spear_wood", 2);
-   
 }
 
 void game::construction_menu()
