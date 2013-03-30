@@ -1906,11 +1906,17 @@ void game::complete_craft()
  int iter = 0;
  item newit(itypes[making->result], turn, nextinv);
 
- // for food stacking
+ // for food items
  if (newit.is_food())
   {
-    int bday_tmp = turn % 3600;
+    int bday_tmp = turn % 3600;		// fuzzy birthday for stacking reasons
     newit.bday = int(turn) + 3600 - bday_tmp;
+
+		if (newit.has_flag(IF_EATEN_HOT)) {	// hot foods generated
+			newit.item_flags |= mfb(IF_HOT);
+			newit.active = true;
+			newit.item_counter = 600;
+		}
   }
  if (!newit.craft_has_charges())
   newit.charges = 0;
@@ -2114,9 +2120,11 @@ void game::consume_tools(std::vector<component> tools)
  }
 }
 
-void game::disassemble()
+void game::disassemble(char ch)
 {
-  char ch = inv("Disassemble item:");
+  if (!ch) {
+    ch = inv("Disassemble item:");
+  }
   if (ch == 27) {
     add_msg("Never mind.");
     return;
