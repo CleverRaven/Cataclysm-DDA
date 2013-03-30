@@ -4106,8 +4106,14 @@ bool player::eat(game *g, int index)
   return false;
 
  if (eaten->is_ammo()) { // For when bionics let you eat fuel
-  charge_power(eaten->charges / 20);
-  eaten->charges = 0;
+  const int factor = 20;
+  int max_change = max_power_level - power_level;
+  if (max_change == 0 && !is_npc()) {
+   g->add_msg("Your internal power storage is fully powered.");
+  }
+  charge_power(eaten->charges / factor);
+  eaten->charges -= max_change * factor; //negative charges seem to be okay
+  eaten->charges++; //there's a flat subtraction later
  } else if (!eaten->type->is_food() && !eaten->is_food_container(this)) {
 // For when bionics let you burn organic materials
   int charge = (eaten->volume() + eaten->weight()) / 2;
