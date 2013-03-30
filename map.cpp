@@ -3485,22 +3485,6 @@ void map::build_transparency_cache()
    }
   }
  }
-
- VehicleList vehs = get_vehicles();
- for(int v = 0; v < vehs.size(); ++v) {
-  for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
-       part != vehs[v].v->external_parts.end(); ++part) {
-   if (vehs[v].v->part_flag(*part, vpf_opaque) && vehs[v].v->parts[*part].hp > 0) {
-    int dpart = vehs[v].v->part_with_feature(*part , vpf_openable);
-    if (dpart < 0 || !vehs[v].v->parts[dpart].open) {
-     int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
-     int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
-     if(INBOUNDS(px, py))
-      transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
-    }
-   }
-  }
- }
 }
 
 void map::build_seen_cache(game *g)
@@ -3521,19 +3505,27 @@ void map::build_map_cache(game *g)
 
  build_transparency_cache();
 
+ // Cache all the vehicle stuff in one loop
  VehicleList vehs = get_vehicles();
  for(int v = 0; v < vehs.size(); ++v) {
-  for(int p = 0; p < vehs[v].v->parts.size(); ++p) {
-   int px = vehs[v].x + vehs[v].v->parts[p].precalc_dx[0];
-   int py = vehs[v].y + vehs[v].v->parts[p].precalc_dy[0];
-
-   if (INBOUNDS(px, py)) {
-    if (vehs[v].v->is_inside(p)) {
+  for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
+       part != vehs[v].v->external_parts.end(); ++part) {
+   int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
+   int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
+   if(INBOUNDS(px, py)) {
+    if (vehs[v].v->is_inside(*part)) {
      outside_cache[px][py] = true;
+    }
+    if (vehs[v].v->part_flag(*part, vpf_opaque) && vehs[v].v->parts[*part].hp > 0) {
+     int dpart = vehs[v].v->part_with_feature(*part , vpf_openable);
+     if (dpart < 0 || !vehs[v].v->parts[dpart].open) {
+      transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
+     }
     }
    }
   }
  }
+
  build_seen_cache(g);
  generate_lightmap(g);
 }
