@@ -4225,8 +4225,8 @@ TOOL("brazier",  50,900,';', c_ltred,  IRON,MNULL,
 // VOL WGT DAM CUT HIT   MAX DEF  USE SEC   FUEL    REVERT    FUNCTION
      6, 5,  11,  0, 1,    0,  0,  0,  0, AT_NULL, itm_null, &iuse::set_trap,
 0, "\
-A large stand, with a shallow bowl on top. Used for old school\n\
-fire sconces.");
+A large stand with slots in the side. (a)ctivate it and place it somewhere\n\
+then set fires in it with no risk of spreading.");
 
 TOOL("kinetic bullet puller",		5, 100, ';', c_blue,	STEEL,	PLASTIC,
     2,  4, 10,  0,  0,   0,  0, 0,  0, AT_NULL, itm_null, &iuse::bullet_puller, 0, "\
