@@ -1182,7 +1182,7 @@ for better grip.");
 TECH( mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
 
 MELEE("stone pot", 0, 0, ';', c_dkgray, STONE, MNULL,
-     8, 3,  4, 0, -1, 0, "\
+     9, 8,  4, 0, -1, 0, "\
 A large stone, roughly hollowed out into a pot.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
@@ -3571,7 +3571,7 @@ A 250 ml laboratory conical flask, with a rubber bung.");
 
 CONT("waterskin",   0,  0, c_brown, LEATHER, MNULL,
 // VOL WGT DAM HIT	VOL	FLAGS
-    2, 2,  -8, -5,   6, mfb(con_wtight)|mfb(con_seals), "\
+    4, 4,  -8, -5,   9, mfb(con_wtight)|mfb(con_seals), "\
 A watertight leather bag, can hold 1.5 liters of water.");
 
 CONT("steel jerrycan", 20, 5000, c_green, STEEL, MNULL,
@@ -4348,12 +4348,12 @@ A small shelter, made of sticks and skins. (a)ctivate it to place.\n\
 This shelter has been damaged, and needs repairs.");
 
 TOOL("heatpack",	20, 65, ';', c_blue,	PLASTIC,	MNULL,
-	 1,  1,  1,  1,  1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::heatpack, 
+	 1,  1,  1,  1,  1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::heatpack,
 0, "\
 A heatpack, used to treat sports injuries and heat food.  Usable only once.");
 
 TOOL("used heatpack",	2, 10, ';', c_blue,	PLASTIC,	MNULL,
-	 1,  1,  1,  1,  1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::none, 
+	 1,  1,  1,  1,  1, 0, 0, 0, 0, AT_NULL, itm_null, &iuse::none,
 0, "\
 A heatpack, used to treat sports injuries and heat food.  This one\n\
 has been used already and is now useless.");
