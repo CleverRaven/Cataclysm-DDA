@@ -1081,7 +1081,7 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
    p->rem_disease(DI_BLEED);
    p->rem_disease(DI_BITE);
    p->pain += 15;
-   g->add_msg_if_player(p,"You cauterize yourself. Ouch!");
+   g->add_msg_if_player(p,"You cauterize yourself. It hurts like hell!");
   }
  }
 }
