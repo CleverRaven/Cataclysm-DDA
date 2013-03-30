@@ -1430,6 +1430,7 @@ if (dirx == 0 && diry == 0) {
    //chance of breaking the glass if pry attempt fails
    if (dice(4, difficulty) > dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
     g->add_msg_if_player(p,"You break the glass.");
+    g->sound(dirx, diry, 16, "glass breaking!");
     g->m.ter(dirx, diry) = t_window_frame;
     return;
    }
