@@ -139,12 +139,11 @@ bool map::process_fields_in_submap(game *g, int gridn)
       }
 
      } else if (it->made_of(LIQUID)) {
-      if(it->type->id == "tequila"){
+      if(it->type->id == "tequila" || it->type->id == "whiskey" ||
+         it->type->id == "vodka" || it->type->id == "rum") {
        cur->age -= 300;
        smoke += 6;
-      }
-      if(it->type->id == "whiskey" || it->type->id == "vodka" || 
-         it->type->id == "rum" || it->type->id == "tequila"){
+      } else {
        cur->age += rng(80 * vol, 300 * vol);
        smoke++;
       }
