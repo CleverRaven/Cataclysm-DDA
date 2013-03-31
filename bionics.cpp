@@ -9,8 +9,8 @@
 
 #define BATTERY_AMOUNT 4 // How much batteries increase your power
 
-std::map<bionic_id, bionic_data*> bionics; 
-std::vector<bionic_id> faulty_bionics; 
+std::map<bionic_id, bionic_data*> bionics;
+std::vector<bionic_id> faulty_bionics;
 std::vector<bionic_id> power_source_bionics;
 std::vector<bionic_id> unpowered_bionics;
 

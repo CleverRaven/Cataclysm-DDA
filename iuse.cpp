@@ -1265,8 +1265,8 @@ void iuse::roadmap(game *g, player *p, item *it, bool t)
  roadmap_targets(g, p, it, t, (int)ot_police_north, 4, 0, 0);
   // Show pharmacies
  roadmap_targets(g, p, it, t, (int)ot_s_pharm_north, 4, 0, 0);
- 
- g->add_msg_if_player(p, "You add roads and points of interest to your map."); 
+
+ g->add_msg_if_player(p, "You add roads and points of interest to your map.");
 
  it->charges = 0;
 }
@@ -1319,7 +1319,7 @@ void iuse::roadmap_targets(game *g, player *p, item *it, bool t, int target, int
    }
   }
   }
- }  
+ }
 }
 
 void iuse::picklock(game *g, player *p, item *it, bool t)
@@ -3775,19 +3775,19 @@ void iuse::heatpack(game *g, player *p, item *it, bool t)
 		p->moves -= 300;
 		g->add_msg("You heat up the food.");	
 		heat->item_flags |= mfb(IF_HOT);
-		heat->active = true;  
+		heat->active = true;
 		heat->item_counter = 600;		// sets the hot food flag for 60 minutes		
-		it->make(g->itypes["heatpack_used"]); 
+		it->make(g->itypes["heatpack_used"]);
 		return;
   } else 	if (heat->is_food_container()) {
 		p->moves -= 300;
 		g->add_msg("You heat up the food.");	
 		heat->contents[0].item_flags |= mfb(IF_HOT);
-		heat->contents[0].active = true;  
+		heat->contents[0].active = true;
 		heat->contents[0].item_counter = 600;		// sets the hot food flag for 60 minutes		
-		it->make(g->itypes["heatpack_used"]); 
+		it->make(g->itypes["heatpack_used"]);
 		return;
-	} 
+	}
   { g->add_msg("You can't heat that up!");
  } return;
 }
