@@ -1048,7 +1048,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
    ter(x, y) = t_wall_wood_chipped;
    if(one_in(2))
     spawn_item(x, y, (*itypes)["2x4"], 0);
-   spawn_item(x, y, (*itypes)["nail"], 0, 2);
+   spawn_item(x, y, (*itypes)["nail"], 0, 0, 2);
    spawn_item(x, y, (*itypes)["splinter"], 0);
    return true;
   } else {
