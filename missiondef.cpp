@@ -29,7 +29,7 @@ mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
 	&mission_place::always, &mission_start::infect_npc,
 	&mission_end::heal_infection, &mission_fail::kill_npc);
   ORIGINS(ORIGIN_OPENER_NPC);
-  ITEM(itm_antibiotics);
+  ITEM("antibiotics");
   DEADLINE(24, 48); // 1 - 2 days
 
  MISSION("Retrieve Software", MGOAL_FIND_ANY_ITEM, 2, 800, false,
@@ -41,7 +41,7 @@ mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
 	&mission_place::always, &mission_start::reveal_hospital,
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
-  ITEM(itm_software_blood_data);
+  ITEM("software_blood_data");
 
  MISSION("Find Lost Dog", MGOAL_FIND_MONSTER, 3, 1000, false,
 	&mission_place::near_town, &mission_start::place_dog,

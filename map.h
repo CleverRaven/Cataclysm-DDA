@@ -44,7 +44,7 @@ class map
 
 // Constructors & Initialization
  map();
- map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
+ map(std::map<std::string, itype*>* itptr, std::vector<itype_id> (*miptr)[num_itloc],
      std::vector<trap*> *trptr);
  ~map();
 
@@ -199,7 +199,7 @@ class map
  float ambient_light_at(int dx, int dy); // Raw values for tilesets
  bool pl_sees(int fx, int fy, int tx, int ty, int max_range);
 
- std::vector <itype*> *itypes;
+ std::map<std::string, itype*>* itypes;
  std::set<vehicle*> vehicle_list;
  std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
@@ -256,7 +256,7 @@ class tinymap : public map
 {
 public:
  tinymap();
- tinymap(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
+ tinymap(std::map<std::string, itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
      std::vector<trap*> *trptr);
  ~tinymap();
 

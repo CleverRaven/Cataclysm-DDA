@@ -181,7 +181,8 @@ public:
  void rem_addiction(add_type type);
  bool has_addiction(add_type type);
  int  addiction_level(add_type type);
-
+ 
+ void cauterize(game *g);
  void suffer(game *g);
  void vomit(game *g);
 
@@ -261,7 +262,7 @@ public:
  int  charges_of(itype_id it);
 
  bool has_watertight_container();
- bool has_matching_liquid(int it);
+ bool has_matching_liquid(itype_id it);
  bool has_weapon_or_armor(char let);	// Has an item with invlet let
  bool has_item(char let);		// Has an item with invlet let
  bool has_item(item *it);		// Has a specific item

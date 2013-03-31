@@ -49,7 +49,7 @@ void save_template(player *u);
 
 bool player::create(game *g, character_type type, std::string tempname)
 {
- weapon = item(g->itypes[0], 0);
+ weapon = item(g->itypes["null"], 0);
 
  WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
 
@@ -179,16 +179,18 @@ bool player::create(game *g, character_type type, std::string tempname)
  if (has_trait(PF_SMELLY))
   scent = 800;
  if (has_trait(PF_ANDROID)) {
-  add_bionic(bionic_id(rng(bio_memory, max_bio_start - 1)));// Other
-  if (bionics[my_bionics[0].id].power_cost > 0) {
-   add_bionic(bionic_id(rng(1, bio_ethanol)));	// Power Source
+  std::map<std::string,bionic_data*>::iterator random_bionic = bionics.begin();
+  std::advance(random_bionic,rng(0,bionics.size()-1));
+  add_bionic(random_bionic->first);// Other
+  if (bionics[my_bionics[0].id]->power_cost > 0) {
+   add_bionic(bionic_id(power_source_bionics[rng(0,power_source_bionics.size())]));	// Power Source
    max_power_level = 10;
    power_level = 10;
   } else {
    bionic_id tmpbio;
    do
-    tmpbio = bionic_id(rng(bio_ethanol + 1, bio_armor_legs));
-   while (bionics[tmpbio].power_cost > 0);
+   tmpbio = bionic_id(unpowered_bionics[rng(0, unpowered_bionics.size())]);
+   while (bionics[tmpbio]->power_cost > 0);
    add_bionic(tmpbio);
    max_power_level = 0;
    power_level = 0;
@@ -196,9 +198,9 @@ bool player::create(game *g, character_type type, std::string tempname)
 
 /* CHEATER'S STUFF
 
-  add_bionic(bionic_id(rng(0, bio_ethanol)));	// Power Source
+  add_bionic(bionic_id(rng(0, "bio_ethanol")));	// Power Source
   for (int i = 0; i < 5; i++)
-   add_bionic(bionic_id(rng(bio_memory, max_bio_start - 1)));// Other
+   add_bionic(bionic_id(rng("bio_memory", max_"bio_start" - 1)));// Other
   max_power_level = 80;
   power_level = 80;
 
@@ -211,46 +213,46 @@ End of cheatery */
    int choice = menu("Pick your style:",
                      "Karate", "Judo", "Aikido", "Tai Chi", "Taekwondo", NULL);
    if (choice == 1)
-    ma_type = itm_style_karate;
+    ma_type = "style_karate";
    if (choice == 2)
-    ma_type = itm_style_judo;
+    ma_type = "style_judo";
    if (choice == 3)
-    ma_type = itm_style_aikido;
+    ma_type = "style_aikido";
    if (choice == 4)
-    ma_type = itm_style_tai_chi;
+    ma_type = "style_tai_chi";
    if (choice == 5)
-    ma_type = itm_style_taekwondo;
+    ma_type = "style_taekwondo";
    item tmpitem = item(g->itypes[ma_type], 0);
    full_screen_popup(tmpitem.info(true).c_str());
   } while (!query_yn("Use this style?"));
   styles.push_back(ma_type);
  }
- ret_null = item(g->itypes[0], 0);
+ ret_null = item(g->itypes["null"], 0);
  if (!styles.empty())
   weapon = item(g->itypes[ styles[0] ], 0, ':');
  else
-  weapon   = item(g->itypes[0], 0);
+  weapon   = item(g->itypes["null"], 0);
 // Nice to start out less than naked.
- item tmp(g->itypes[itm_jeans_fit], 0, 'a');
+ item tmp(g->itypes["jeans_fit"], 0, 'a');
  worn.push_back(tmp);
- tmp = item(g->itypes[itm_tshirt_fit], 0, 'b');
+ tmp = item(g->itypes["tshirt_fit"], 0, 'b');
  worn.push_back(tmp);
- tmp = item(g->itypes[itm_sneakers_fit], 0, 'c');
+ tmp = item(g->itypes["sneakers_fit"], 0, 'c');
  worn.push_back(tmp);
 // The near-sighted get to start with glasses.
  if (has_trait(PF_MYOPIC)) {
-  tmp = item(g->itypes[itm_glasses_eye], 0, 'd');
+  tmp = item(g->itypes["glasses_eye"], 0, 'd');
   worn.push_back(tmp);
  }
 // Likewise, the asthmatic start with their medication.
  if (has_trait(PF_ASTHMA)) {
-  tmp = item(g->itypes[itm_inhaler], 0, 'a' + worn.size());
+  tmp = item(g->itypes["inhaler"], 0, 'a' + worn.size());
   inv.push_back(tmp);
  }
  // Basic starter gear, added independently of profession.
- tmp = item(g->itypes[itm_pockknife], 0,'a' + worn.size());
+ tmp = item(g->itypes["pockknife"], 0,'a' + worn.size());
   inv.push_back(tmp);
- tmp = item(g->itypes[itm_matches], 0,'a' + worn.size());
+ tmp = item(g->itypes["matches"], 0,'a' + worn.size());
   inv.push_back(tmp);
 // make sure we have no mutations
  for (int i = 0; i < PF_MAX2; i++)

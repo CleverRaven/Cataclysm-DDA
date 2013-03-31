@@ -15,7 +15,7 @@ void mattack::antqueen(game *g, monster *z)
   for (int y = z->posy - 2; y <= z->posy + 2; y++) {
    for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
 // is_empty() because we can't hatch an ant under the player, a monster, etc.
-    if (g->m.i_at(x, y)[i].type->id == itm_ant_egg && g->is_empty(x, y)) {
+    if (g->m.i_at(x, y)[i].type->id == "ant_egg" && g->is_empty(x, y)) {
      egg_points.push_back(point(x, y));
      i = g->m.i_at(x, y).size();	// Done looking at this tile
     }
@@ -43,7 +43,7 @@ void mattack::antqueen(game *g, monster *z)
   int junk;
   if (g->u_see(z->posx, z->posy, junk))
    g->add_msg("The %s lays an egg!", z->name().c_str());
-  g->m.spawn_item(z->posx, z->posy, g->itypes[itm_ant_egg], g->turn);
+  g->m.spawn_item(z->posx, z->posy, g->itypes["ant_egg"], g->turn);
  } else { // There are eggs nearby.  Let's hatch some.
   z->moves -= 20 * egg_points.size(); // It takes a while
   int junk;
@@ -52,7 +52,7 @@ void mattack::antqueen(game *g, monster *z)
   for (int i = 0; i < egg_points.size(); i++) {
    int x = egg_points[i].x, y = egg_points[i].y;
    for (int j = 0; j < g->m.i_at(x, y).size(); j++) {
-    if (g->m.i_at(x, y)[j].type->id == itm_ant_egg) {
+    if (g->m.i_at(x, y)[j].type->id == "ant_egg") {
      g->m.i_rem(x, y, j);
      j = g->m.i_at(x, y).size();	// Max one hatch per tile.
      monster tmp(g->mtypes[mon_ant_larva], x, y);
@@ -200,7 +200,7 @@ void mattack::resurrect(game *g, monster *z)
   for (int y = z->posy - 4; y <= z->posy + 4; y++) {
    if (g->is_empty(x, y) && g->m.sees(z->posx, z->posy, x, y, -1, junk)) {
     for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
-     if (g->m.i_at(x, y)[i].type->id == itm_corpse &&
+     if (g->m.i_at(x, y)[i].type->id == "corpse" &&
          g->m.i_at(x, y)[i].corpse->species == species_zombie) {
       corpses.push_back(point(x, y));
       i = g->m.i_at(x, y).size();
@@ -221,7 +221,7 @@ void mattack::resurrect(game *g, monster *z)
  for (int i = 0; i < corpses.size(); i++) {
   int x = corpses[i].x, y = corpses[i].y;
   for (int n = 0; n < g->m.i_at(x, y).size(); n++) {
-   if (g->m.i_at(x, y)[n].type->id == itm_corpse && one_in(2)) {
+   if (g->m.i_at(x, y)[n].type->id == "corpse" && one_in(2)) {
     if (g->u_see(x, y, junk))
      raised++;
     int burnt_penalty = g->m.i_at(x, y)[n].burnt;
@@ -1172,8 +1172,8 @@ void mattack::smg(game *g, monster *z)
   tmp.str_cur = 16;
   tmp.dex_cur =  6;
   tmp.per_cur =  8;
-  tmp.weapon = item(g->itypes[itm_smg_9mm], 0);
-  tmp.weapon.curammo = dynamic_cast<it_ammo*>(g->itypes[itm_9mm]);
+  tmp.weapon = item(g->itypes["smg_9mm"], 0);
+  tmp.weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["9mm"]);
   tmp.weapon.charges = 10;
   std::vector<point> traj = line_to(z->posx, z->posy,
                                     target->posx, target->posy, fire_t);
@@ -1211,8 +1211,8 @@ void mattack::smg(game *g, monster *z)
  tmp.str_cur = 16;
  tmp.dex_cur =  6;
  tmp.per_cur =  8;
- tmp.weapon = item(g->itypes[itm_smg_9mm], 0);
- tmp.weapon.curammo = dynamic_cast<it_ammo*>(g->itypes[itm_9mm]);
+ tmp.weapon = item(g->itypes["smg_9mm"], 0);
+ tmp.weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["9mm"]);
  tmp.weapon.charges = 10;
  std::vector<point> traj = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
  g->fire(tmp, g->u.posx, g->u.posy, traj, true);

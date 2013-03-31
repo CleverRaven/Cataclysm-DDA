@@ -4,6 +4,7 @@
 #include "skill.h"
 #include "game.h"
 #include <sstream>
+#include <algorithm>
 #include "cursesdef.h"
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
@@ -76,7 +77,7 @@ item::item(itype* it, unsigned int turn)
    charges = -1;
   else
    charges = tool->def_charges;
- } else if (it->is_gunmod() && it->id == itm_spare_mag || it->item_flags & mfb(IF_MODE_AUX)) {
+ } else if (it->is_gunmod() && it->id == "spare_mag" || it->item_flags & mfb(IF_MODE_AUX)) {
   charges = 0;
  } else
   charges = -1;
@@ -118,7 +119,7 @@ item::item(itype *it, unsigned int turn, char let)
    charges = -1;
   else
    charges = tool->def_charges;
- } else if (it->is_gunmod() && it->id == itm_spare_mag) {
+ } else if (it->is_gunmod() && it->id == "spare_mag") {
   charges = 0;
  } else {
   charges = -1;
@@ -182,26 +183,26 @@ void item::make(itype* it)
 
 bool item::is_null()
 {
- return (type == NULL || type->id == 0);
+ return (type == NULL || type->id == "null");
 }
 
-item item::in_its_container(std::vector<itype*> *itypes)
+item item::in_its_container(std::map<std::string, itype*> *itypes)
 {
 
  if (is_software()) {
-  item ret( (*itypes)[itm_usb_drive], 0);
+  item ret( (*itypes)["usb_drive"], 0);
   ret.contents.push_back(*this);
   ret.invlet = invlet;
   return ret;
  }
 
-  if (!is_food() || (dynamic_cast<it_comest*>(type))->container == itm_null)
+  if (!is_food() || (dynamic_cast<it_comest*>(type))->container == "null")
   return *this;
 
     it_comest *food = dynamic_cast<it_comest*>(type);
     item ret((*itypes)[food->container], bday);
 
-  if (dynamic_cast<it_comest*>(type)->container == itm_can_food)
+  if (dynamic_cast<it_comest*>(type)->container == "can_food")
    food->spoils = 0;
 
     if (made_of(LIQUID))
@@ -257,19 +258,26 @@ void item::put_in(item payload)
 
 std::string item::save_info()
 {
- if (type == NULL)
+ if (type == NULL){
   debugmsg("Tried to save an item with NULL type!");
- int ammotmp = 0;
+ }
+ itype_id ammotmp = "null";
 /* TODO: This causes a segfault sometimes, even though we check to make sure
  * curammo isn't NULL.  The crashes seem to occur most frequently when saving an
  * NPC, or when saving map data containing an item an NPC has dropped.
  */
- if (curammo != NULL)
+ if (curammo != NULL){
   ammotmp = curammo->id;
- if (ammotmp < 0 || ammotmp > num_items)
-  ammotmp = 0; // Saves us from some bugs
+ }
+ if( std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(), 
+     ammotmp) != unreal_itype_ids.end()  &&
+     std::find(artifact_itype_ids.begin(), artifact_itype_ids.end(), 
+     ammotmp) != artifact_itype_ids.end()
+     ) {
+  ammotmp = "null"; //Saves us from some bugs, apparently?
+ }
  std::stringstream dump;// (std::stringstream::in | std::stringstream::out);
- dump << " " << int(invlet) << " " << int(typeId()) << " " <<  int(charges) <<
+ dump << " " << int(invlet) << " " << typeId() << " " <<  int(charges) <<
          " " << int(damage) << " " << int(item_flags) << " " << int(burnt) << 
          " " << poison << " " << ammotmp << " " << owned << " " << int(bday);
  if (active)
@@ -294,7 +302,8 @@ void item::load_info(std::string data, game *g)
 {
  std::stringstream dump;
  dump << data;
- int idtmp, ammotmp, lettmp, damtmp, burntmp, acttmp, corp, item_flagstmp;
+ std::string idtmp, ammotmp;
+ int lettmp, damtmp, burntmp, acttmp, corp, item_flagstmp;
  dump >> lettmp >> idtmp >> charges >> damtmp >> item_flagstmp >> 
 		 burntmp >> poison >> ammotmp >> owned >> bday >> acttmp >> 
 		 corp >> mission_id >> player_id;
@@ -322,7 +331,7 @@ void item::load_info(std::string data, game *g)
  mode = IF_NULL;
  if (acttmp == 1)
   active = true;
- if (ammotmp > 0)
+ if (ammotmp != "null")
   curammo = dynamic_cast<it_ammo*>(g->itypes[ammotmp]);
  else
   curammo = NULL;
@@ -780,12 +789,12 @@ std::string item::tname(game *g)
  else if (burnt > 0)
   ret << "burnt ";
 
- if (typeId() == itm_corpse) {
+ if (typeId() == "corpse") {
   ret << corpse->name << " corpse";
   if (name != "")
    ret << " of " << name;
   return ret.str();
- } else if (typeId() == itm_blood) {
+ } else if (typeId() == "blood") {
   if (corpse == NULL || corpse->id == mon_null)
    ret << "human blood";
   else
@@ -829,7 +838,7 @@ std::string item::tname(game *g)
 
 nc_color item::color()
 {
- if (typeId() == itm_corpse)
+ if (typeId() == "corpse")
   return corpse->color;
  if( is_null() )
   return c_black;
@@ -849,7 +858,7 @@ int item::price()
 
 int item::weight()
 {
- if (typeId() == itm_corpse) {
+ if (typeId() == "corpse") {
   int ret;
   switch (corpse->size) {
    case MS_TINY:   ret =    5;	break;
@@ -899,7 +908,7 @@ int item::weight()
 
 int item::volume()
 {
- if (typeId() == itm_corpse) {
+ if (typeId() == "corpse") {
   switch (corpse->size) {
    case MS_TINY:   return   2;
    case MS_SMALL:  return  40;
@@ -951,7 +960,7 @@ int item::damage_cut()
 {
  if (is_gun()) {
   for (int i = 0; i < contents.size(); i++) {
-   if (contents[i].typeId() == itm_bayonet)
+   if (contents[i].typeId() == "bayonet")
     return contents[i].type->melee_cut;
   }
  }
@@ -1006,7 +1015,7 @@ bool item::has_technique(technique_id tech, player *p)
  return (type->techniques & mfb(tech));
 }
 
-int item::has_gunmod(int type)
+int item::has_gunmod(itype_id type)
 {
  if (!is_gun())
   return -1;
@@ -1161,7 +1170,7 @@ bool item::made_of(material mat)
  if( is_null() )
   return false;
 
- if (typeId() == itm_corpse)
+ if (typeId() == "corpse")
   return (corpse->mat == mat);
 
  return (type->m1 == mat || type->m2 == mat);
@@ -1251,11 +1260,11 @@ bool item::is_food(player *u)
  if (type->is_food())
   return true;
 
- if (u->has_bionic(bio_batteries) && is_ammo() &&
+ if (u->has_bionic("bio_batteries") && is_ammo() &&
      (dynamic_cast<it_ammo*>(type))->type == AT_BATT)
   return true;
- if (u->has_bionic(bio_furnace) && is_flammable(type->m1) &&
-     is_flammable(type->m2) && typeId() != itm_corpse)
+ if (u->has_bionic("bio_furnace") && is_flammable(type->m1) &&
+     is_flammable(type->m2) && typeId() != "corpse")
   return true;
  return false;
 }
@@ -1408,7 +1417,7 @@ int item::reload_time(player &u)
   it_gun* reloading = dynamic_cast<it_gun*>(type);
   ret = reloading->reload_time;
   if (charges == 0) {
-   int spare_mag = has_gunmod(itm_spare_mag);
+   int spare_mag = has_gunmod("spare_mag");
    if (spare_mag != -1 && contents[spare_mag].charges > 0)
     ret -= double(ret) * 0.9;
   }
@@ -1671,7 +1680,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
   debugmsg("RELOADING NON-GUN NON-TOOL");
   return false;
  }
- int has_spare_mag = has_gunmod (itm_spare_mag);
+ int has_spare_mag = has_gunmod ("spare_mag");
 
  std::vector<int> am;	// List of indicies of valid ammo
 
@@ -1761,7 +1770,7 @@ bool item::reload(player &u, int index)
 
  if (is_gun()) {
   // Reload using a spare magazine
-  int spare_mag = has_gunmod(itm_spare_mag);
+  int spare_mag = has_gunmod("spare_mag");
   if (charges <= 0 && spare_mag != -1 &&
       u.weapon.contents[spare_mag].charges > 0) {
    charges = u.weapon.contents[spare_mag].charges;
@@ -1805,7 +1814,7 @@ bool item::reload(player &u, int index)
    return false;
 
   if (reload_target->is_gun() || reload_target->is_gunmod()) {
-   if (reload_target->is_gunmod() && reload_target->typeId() == itm_spare_mag) {
+   if (reload_target->is_gunmod() && reload_target->typeId() == "spare_mag") {
     // Use gun numbers instead of the mod if it's a spare magazine
     max_load = (dynamic_cast<it_gun*>(type))->clip;
     single_load = has_flag(IF_RELOAD_ONE);
@@ -1920,9 +1929,9 @@ std::ostream & operator<<(std::ostream & out, const item & it)
 }
 
 
-int item::typeId()
+itype_id item::typeId()
 {
     if (!type)
-        return itm_null;
+        return "null";
     return type->id;
 }
