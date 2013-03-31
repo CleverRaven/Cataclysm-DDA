@@ -1302,7 +1302,6 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   RECIPE("glasses_safety", CC_ARMOR, "tailor", NULL, 1, 8000, false);
   TOOL("scissors", -1);
   TG_KNIVES
-  TOOLCONT("toolset", -1);
   COMP("string_36", 1);
   COMPCONT("string_6", 2);
   COMP("bottle_plastic", 1);
@@ -1365,8 +1364,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMPCONT("plant_fibre", 40);
 
   RECIPE("needle_bone", CC_MISC, "survival", NULL, 3, 20000, false);
-  TOOL("toolset", -1);
-  TG_KNIVES_CONT
+  TG_KNIVES
   COMP("bone", 1);
 
   RECIPE("digging_stick", CC_MISC, "survival", NULL, 1, 20000, false);
