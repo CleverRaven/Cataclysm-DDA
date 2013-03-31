@@ -335,6 +335,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMPCONT("aspirin", 8);
   COMP("canister_empty", 1);
   COMPCONT("can_food", 1);
+  COMPCONT("can_drink",1);
   COMP("superglue", 1);
 
 
@@ -346,6 +347,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("ammonia", 2);
   COMP("canister_empty", 1);
   COMPCONT("can_food", 1);
+  COMPCONT("can_drink",1);
   COMP("superglue", 1);
 
   RECIPE("nx17", CC_WEAPON, "electronics", "mechanics", 8, 40000, true);
@@ -365,6 +367,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("can_food", 2);
   COMPCONT("steel_chunk", 2);
   COMPCONT("canister_empty", 1);
+  COMPCONT("can_drink", 2);
   COMP("plut_cell", 6);
   COMP("battery", 2);
   COMP("power_supply", 1);
@@ -712,7 +715,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
 
   RECIPE("veggy_wild_cooked", CC_FOOD, "cooking", NULL, 0, 4000, false);
   TOOL("hotplate", 5);
-  TOOLCONT("toolset", 3);
+  TOOLCONT("toolset", 1);
   TOOLCONT("fire", -1);
   TOOL("pan", -1);
   TOOLCONT("pot", -1);
@@ -816,6 +819,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("water", 1);
   COMPCONT("water_clean", 1);
   COMP("broccoli", 1);
+  COMPCONT("tomato",1);
   COMPCONT("zucchini", 1);
   COMPCONT("veggy", 1);
   COMPCONT("veggy_wild", 1);
@@ -876,7 +880,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOL("pan", -1);
   COMP("flour", 2);
   COMP("veggy", 1);
-  COMPCONT("veggy_wild", 1);
+  COMPCONT("veggy_wild", 2);
   COMPCONT("tomato", 2);
   COMPCONT("broccoli", 1);
   COMP("sauce_pesto", 1);
@@ -911,16 +915,16 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   RECIPE("poppy_sleep",  CC_CHEM, "cooking", "survival", 2, 5000, false);
   TOOL("pot", -1);
   TOOLCONT("rock_pot", -1);
-  TOOLCONT("rock", -1);
   TOOL("fire", -1);
+  TOOLCONT("hotplate", 2);
   COMP("poppy_bud", 2);
   COMP("poppy_flower", 1);
 
   RECIPE("poppy_pain",  CC_CHEM, "cooking", "survival", 2, 5000, false);
   TOOL("pot", -1);
   TOOLCONT("rock_pot", -1);
-  TOOLCONT("rock", -1);
   TOOL("fire", -1);
+  TOOLCONT("hotplate", 2);
   COMP("poppy_bud", 2);
   COMP("poppy_flower", 2);
 
@@ -1001,6 +1005,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("amplifier", 1);
   COMP("scrap", 4);
   COMPCONT("can_drink", 1);
+  COMPCONT("can_food", 1);
   COMPCONT("bottle_glass", 1);
   COMPCONT("bottle_plastic", 1);
   COMP("cable", 10);
@@ -1025,6 +1030,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMPCONT("scrap", 1);
   COMP("can_drink", 1);
   COMPCONT("can_food", 1);
+  COMPCONT("canister_empty",1);
 
   RECIPE("coilgun", CC_WEAPON, "electronics", NULL, 3, 25000, true);
   TOOL("screwdriver", -1);
@@ -1246,7 +1252,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOL("needle_bone", 24);
   TOOLCONT("sewing_kit", 24);
   COMP("rag", 11);
-  
+
   RECIPE("trenchcoat_leather_fit", CC_ARMOR, "tailor", NULL, 6, 200000, false);
   TOOL("needle_bone", 45);
   TOOLCONT("sewing_kit", 45);
@@ -1751,12 +1757,12 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
 
 bool game::crafting_allowed()
 {
-    if (u.morale_level() < MIN_MORALE_CRAFT) 
+    if (u.morale_level() < MIN_MORALE_CRAFT)
     {	// See morale.h
         add_msg("Your morale is too low to craft...");
         return false;
     }
-    
+
     return true;
 }
 
@@ -1779,21 +1785,21 @@ bool game::making_would_work(recipe *making)
     {
     	return false;
     }
-    
+
     if(can_make(making))
     {
         if (itypes[(making->result)]->m1 == LIQUID)
         {
-            if (u.has_watertight_container() || u.has_matching_liquid(itypes[making->result]->id)) 
+            if (u.has_watertight_container() || u.has_matching_liquid(itypes[making->result]->id))
             {
                 return true;
-            } 
-            else 
+            }
+            else
             {
                 popup("You don't have anything to store that liquid in!");
             }
         }
-        else 
+        else
         {
             return true;
         }
@@ -1802,7 +1808,7 @@ bool game::making_would_work(recipe *making)
     {
         popup("You can no longer make that craft!");
     }
-    
+
     return false;
 }
 bool game::can_make(recipe *r)
@@ -1892,7 +1898,7 @@ void game::long_craft()
     {
     	return;
     }
-    
+
     recipe *rec = select_crafting_recipe();
     if (rec)
     {
@@ -1917,7 +1923,7 @@ recipe* game::select_crafting_recipe()
     inventory crafting_inv = crafting_inventory();
     std::string filterstring = "";
     do {
-        if (redraw) 
+        if (redraw)
         { // When we switch tabs, redraw the header
             redraw = false;
             line = 0;
@@ -1939,10 +1945,10 @@ recipe* game::select_crafting_recipe()
             mvwprintz(w_data, 19, 5, c_white, "?: Describe, [F]ind");
         }
         mvwprintz(w_data, 20, 5, c_white, "Press <ENTER> to attempt to craft object.");
-        for (int i = 0; i < 80; i++) 
+        for (int i = 0; i < 80; i++)
         {
             mvwputch(w_data, 21, i, c_ltgray, LINE_OXOX);
-            if (i < 21) 
+            if (i < 21)
             {
                 mvwputch(w_data, i, 0, c_ltgray, LINE_XOXO);
                 mvwputch(w_data, i, 79, c_ltgray, LINE_XOXO);
@@ -1956,9 +1962,9 @@ recipe* game::select_crafting_recipe()
         int recmin = 0, recmax = current.size();
         if(recmax > MAX_DISPLAYED_RECIPES)
         {
-            if (line <= recmin + 9) 
+            if (line <= recmin + 9)
             {
-                for (int i = recmin; i < recmin + MAX_DISPLAYED_RECIPES; i++) 
+                for (int i = recmin; i < recmin + MAX_DISPLAYED_RECIPES; i++)
                 {
                     mvwprintz(w_data, i - recmin, 2, c_dkgray, "");	// Clear the line
                     if (i == line)
@@ -1972,10 +1978,10 @@ recipe* game::select_crafting_recipe()
                         itypes[current[i]->result]->name.c_str());
                     }
                 }
-            } 
-            else if (line >= recmax - 9) 
+            }
+            else if (line >= recmax - 9)
             {
-                for (int i = recmax - MAX_DISPLAYED_RECIPES; i < recmax; i++) 
+                for (int i = recmax - MAX_DISPLAYED_RECIPES; i < recmax; i++)
                 {
                     mvwprintz(w_data, 18 + i - recmax, 2, c_ltgray, "");	// Clear the line
                     if (i == line)
@@ -1989,10 +1995,10 @@ recipe* game::select_crafting_recipe()
                         itypes[current[i]->result]->name.c_str());
                     }
                 }
-            } 
-            else 
+            }
+            else
             {
-                for (int i = line - 9; i < line + 9; i++) 
+                for (int i = line - 9; i < line + 9; i++)
                 {
                     mvwprintz(w_data, 9 + i - line, 2, c_ltgray, "");	// Clear the line
                     if (i == line)
@@ -2007,10 +2013,10 @@ recipe* game::select_crafting_recipe()
                     }
                 }
             }
-        } 
+        }
         else
         {
-            for (int i = 0; i < current.size() && i < 23; i++) 
+            for (int i = 0; i < current.size() && i < 23; i++)
             {
                 if (i == line)
                 {
@@ -2024,7 +2030,7 @@ recipe* game::select_crafting_recipe()
                 }
             }
         }
-        if (current.size() > 0) 
+        if (current.size() > 0)
         {
             nc_color col = (available[line] ? c_white : c_dkgray);
             mvwprintz(w_data, 0, 30, col, "Primary skill: %s",
@@ -2055,22 +2061,22 @@ recipe* game::select_crafting_recipe()
                 int(current[line]->time / 100));
             }
             mvwprintz(w_data, 5, 30, col, "Tools required:");
-            if (current[line]->tools[0].size() == 0) 
+            if (current[line]->tools[0].size() == 0)
             {
                 mvwputch(w_data, 6, 30, col, '>');
                 mvwprintz(w_data, 6, 32, c_green, "NONE");
                 ypos = 6;
-            } 
-            else 
+            }
+            else
             {
                 ypos = 5;
                 // Loop to print the required tools
-                for (int i = 0; i < 5 && current[line]->tools[i].size() > 0; i++) 
+                for (int i = 0; i < 5 && current[line]->tools[i].size() > 0; i++)
                 {
                     ypos++;
                     xpos = 32;
                     mvwputch(w_data, ypos, 30, col, '>');
-                    for (int j = 0; j < current[line]->tools[i].size(); j++) 
+                    for (int j = 0; j < current[line]->tools[i].size(); j++)
                     {
                         itype_id type = current[line]->tools[i][j].type;
                         int charges = current[line]->tools[i][j].count;
@@ -2092,16 +2098,16 @@ recipe* game::select_crafting_recipe()
                             toolinfo << "(" << charges << " charges) ";
                         }
                         std::string toolname = toolinfo.str();
-                        if (xpos + toolname.length() >= 80) 
+                        if (xpos + toolname.length() >= 80)
                         {
                             xpos = 32;
                             ypos++;
                         }
                         mvwprintz(w_data, ypos, xpos, toolcol, toolname.c_str());
                         xpos += toolname.length();
-                        if (j < current[line]->tools[i].size() - 1) 
+                        if (j < current[line]->tools[i].size() - 1)
                         {
-                            if (xpos >= 77) 
+                            if (xpos >= 77)
                             {
                             xpos = 32;
                             ypos++;
@@ -2115,26 +2121,26 @@ recipe* game::select_crafting_recipe()
         // Loop to print the required components
             ypos++;
             mvwprintz(w_data, ypos, 30, col, "Components required:");
-            for (int i = 0; i < 5; i++) 
+            for (int i = 0; i < 5; i++)
             {
-                if (current[line]->components[i].size() > 0) 
+                if (current[line]->components[i].size() > 0)
                 {
                     ypos++;
                     mvwputch(w_data, ypos, 30, col, '>');
                 }
                 xpos = 32;
-                for (int j = 0; j < current[line]->components[i].size(); j++) 
+                for (int j = 0; j < current[line]->components[i].size(); j++)
                 {
                     int count = current[line]->components[i][j].count;
                     itype_id type = current[line]->components[i][j].type;
                     nc_color compcol = c_red;
-                    if (itypes[type]->count_by_charges() && count > 0)  
+                    if (itypes[type]->count_by_charges() && count > 0)
                     {
                         if (crafting_inv.has_charges(type, count))
                         {
                             compcol = c_green;
                         }
-                    } 
+                    }
                     else if (crafting_inv.has_amount(type, abs(count)))
                     {
                         compcol = c_green;
@@ -2142,16 +2148,16 @@ recipe* game::select_crafting_recipe()
                     std::stringstream dump;
                     dump << abs(count) << "x " << itypes[type]->name << " ";
                     std::string compname = dump.str();
-                    if (xpos + compname.length() >= 80) 
+                    if (xpos + compname.length() >= 80)
                     {
                         ypos++;
                         xpos = 32;
                     }
                     mvwprintz(w_data, ypos, xpos, compcol, compname.c_str());
                     xpos += compname.length();
-                    if (j < current[line]->components[i].size() - 1) 
+                    if (j < current[line]->components[i].size() - 1)
                     {
-                        if (xpos >= 77) 
+                        if (xpos >= 77)
                         {
                             ypos++;
                             xpos = 32;
@@ -2165,7 +2171,7 @@ recipe* game::select_crafting_recipe()
 
         wrefresh(w_data);
         input = get_input();
-        switch (input) 
+        switch (input)
         {
             case DirectionW:
             case DirectionUp:
@@ -2206,18 +2212,18 @@ recipe* game::select_crafting_recipe()
                 {// is player making a liquid? Then need to check for valid container
                     if (itypes[current[line]->result]->m1 == LIQUID)
                     {
-                        if (u.has_watertight_container() || u.has_matching_liquid(itypes[current[line]->result]->id)) 
+                        if (u.has_watertight_container() || u.has_matching_liquid(itypes[current[line]->result]->id))
                         {
                             chosen = current[line];
                             done = true;
                             break;
-                        } 
-                        else 
+                        }
+                        else
                         {
                             popup("You don't have anything to store that liquid in!");
                         }
                     }
-                    else 
+                    else
                     {
                         chosen = current[line];
                         done = true;
@@ -2254,7 +2260,7 @@ recipe* game::select_crafting_recipe()
     delwin(w_head);
     delwin(w_data);
     refresh_all();
-    
+
     return chosen;
 }
 
@@ -2309,7 +2315,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
 
     current.clear();
     available.clear();
-    for (int i = 0; i < recipes.size(); i++) 
+    for (int i = 0; i < recipes.size(); i++)
     {
         if(filter == "")
         {
@@ -2343,7 +2349,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
             available.push_back(false);
         }
     }
-    for (int i = 0; i < current.size() && i < 51; i++) 
+    for (int i = 0; i < current.size() && i < 51; i++)
     {
         //Check if we have the requisite tools and components
         if(can_make(current[i]))

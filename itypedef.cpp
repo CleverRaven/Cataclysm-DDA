@@ -3731,9 +3731,8 @@ adjacent solid terrain.");
 
 TOOL("jacqueshammer", "jacqueshammer",     2, 890,  ';', c_magenta, IRON,   MNULL,
    26, 54, 20,  6, -4, 120,  0,10,  0, AT_GAS,  "null", &iuse::jacqueshammer,0,"\
-Ce marteau-piqueur fonctionne a l'essence.\n\
-Utilisez-le (si charge) pour faire sauter un troudans\n\
-adjacente terrain solide.");
+Ce jacqueshammer marche a l'essence. Utilisez-le (si charge)\n\
+pour creuser un trou dans un terrain solide adjacent.");
 
 TOOL("bubblewrap", "bubblewrap",	50,  40,';', c_ltcyan,	PLASTIC,MNULL,
     2,  0, -8,  0,  0,  0,  0,  0,  0, AT_NULL,	"null", &iuse::set_trap,0,"\
