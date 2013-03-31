@@ -43,7 +43,7 @@ public:
  void make(itype* it);
 
 // returns the default container of this item, with this item in it
- item in_its_container(std::vector<itype*> *itypes);
+ item in_its_container(std::map<std::string, itype*> *itypes);
 
  nc_color color(player *u);
  nc_color color_in_inventory(player *u);
@@ -86,7 +86,7 @@ public:
  int damage_cut();
  bool has_flag(item_flag f);
  bool has_technique(technique_id t, player *p = NULL);
- int has_gunmod(int type);
+ int has_gunmod(itype_id type);
  item* active_gunmod();
  std::vector<technique_id> techniques();
  bool goes_bad();
@@ -132,9 +132,8 @@ public:
  bool is_var_veh_part();
  bool is_artifact();
 
- int typeId();
-
- itype*   type;
+ itype_id typeId();
+ itype* type;
  mtype*   corpse;
  it_ammo* curammo;
 
@@ -153,7 +152,8 @@ public:
    int bigness;         // engine power, wheel size
  };
  int mode;              // Mode of operation, can be changed by the player.
-
+ unsigned item_flags : NUM_ITEM_FLAGS;		// generic item specific flags
+ unsigned item_counter;	// generic counter to be used with item flags
  int mission_id;// Refers to a mission in game's master list
  int player_id;	// Only give a mission to the right player!
 
@@ -165,5 +165,13 @@ private:
 
 std::ostream & operator<<(std::ostream &, const item &);
 std::ostream & operator<<(std::ostream &, const item *);
+
+//the assigned numbers are a result of legacy stuff in compare_split_screen_popup(),
+//it would be better long-term to rewrite stuff so that we don't need that hack
+enum hint_rating {
+ HINT_CANT = 0, //meant to display as gray
+ HINT_IFFY = 1, //meant to display as red
+ HINT_GOOD = -999 // meant to display as green
+};
 
 #endif

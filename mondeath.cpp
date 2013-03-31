@@ -22,7 +22,7 @@ void mdeath::normal(game *g, monster *z)
  if ((z->hp >= -50 || z->hp >= 0 - 2 * z->type->hp) &&
      (z->made_of(FLESH) || z->made_of(VEGGY))) {
   item tmp;
-  tmp.make_corpse(g->itypes[itm_corpse], z->type, g->turn);
+  tmp.make_corpse(g->itypes["corpse"], z->type, g->turn);
   g->m.add_item(z->posx, z->posy, tmp);
  }
 }

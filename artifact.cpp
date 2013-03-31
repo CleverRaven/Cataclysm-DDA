@@ -141,7 +141,7 @@ It may have unknown powers; use 'a' to activate them.";
    art->charge_type = ARTC_NULL; // 1 in 8 chance that it can't recharge!
 
   art->id = itypes.size();
-  itypes.push_back(art);
+  itypes[art->name]=art;
   return art;
 
  } else { // Generate an armor artifact
@@ -245,7 +245,7 @@ It may have unknown powers; use 'a' to activate them.";
   }
 
   art->id = itypes.size();
-  itypes.push_back(art);
+  itypes[art->name]=art;
   return art;
  }
 }
@@ -359,7 +359,7 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
  }
 
  art->id = itypes.size();
- itypes.push_back(art);
+ itypes[art->name]=art;
  return art;
 }
 

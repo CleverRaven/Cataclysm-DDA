@@ -136,7 +136,7 @@ struct npc_favor
  npc_favor() {
   type = FAVOR_NULL;
   value = 0;
-  item_id = itm_null;
+  item_id = "null";
   skill = NULL;
  };
 
@@ -235,11 +235,12 @@ struct npc_opinion
   int tmpsize;
   info >> trust >> fear >> value >> anger >> owed >> tmpsize;
   for (int i = 0; i < tmpsize; i++) {
-   int tmptype, tmpitem, tmpskill;
+   int tmptype, tmpskill;
+   std::string tmpitem;
    npc_favor tmpfavor;
    info >> tmptype >> tmpfavor.value >> tmpitem >> tmpskill;
    tmpfavor.type = npc_favor_type(tmptype);
-   tmpfavor.item_id = itype_id(tmpitem);
+   tmpfavor.item_id = tmpitem;
    tmpfavor.skill = Skill::skill(tmpskill);
    favors.push_back(tmpfavor);
   }

@@ -665,7 +665,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    int score = p->op_of_u.trust + p->op_of_u.value * 3 +
                p->personality.altruism * 2;
    int missions_value = p->assigned_missions_value(g);
-   if (g->u.has_amount(itm_mininuke, 1)) {
+   if (g->u.has_amount("mininuke", 1)) {
    RESPONSE("Because I'm holding a thermal detonator!");
     SUCCESS(TALK_GIVE_EQUIPMENT);
      SUCCESS_ACTION(&talk_function::give_equipment);
@@ -735,7 +735,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    resume << "Yes, let's resume training " <<
              (g->u.backlog.index > 0 ?
               skill_name(g->u.backlog.index) :
-              g->itypes[ 0 - g->u.backlog.index ]->name);
+              g->itypes[ martial_arts_itype_ids[0-g->u.backlog.index] ]->name);
    SELECT_TEMP( resume.str(), g->u.backlog.index);
     SUCCESS(TALK_TRAIN_START);
   }
@@ -766,7 +766,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   for (int i = 0; i < styles.size() && printed < 9; i++) {
    printed++;
    SELECT_TEMP( g->itypes[styles[i]]->name + " (cost 800)",
-                0 - styles[i] );
+                0 - i );
     SUCCESS(TALK_TRAIN_START);
   }
   if (more) {
@@ -1481,10 +1481,12 @@ void talk_function::start_training(game *g, npc *p)
 {
  int cost = 0, time = 0;
  skill sk_used = sk_null;
- itype_id style = itm_null;
+ //There were some style references here that... didn't do anything. Created but never used.
+ //TODO: Remove these comments once I'm sure this is correct.
+ //itype_id style = "null";
  if (p->chatbin.tempvalue < 0) {
   cost = -800;
-  style = itype_id(0 - p->chatbin.tempvalue);
+  // style = itype_id(0 - p->chatbin.tempvalue);
   time = 30000;
  } else {
    sk_used = skill(p->chatbin.tempvalue);
@@ -1528,7 +1530,7 @@ void parse_tags(std::string &phrase, player *u, npc *me)
    if (tag == "<yrwp>")
     phrase.replace(fa, l, u->weapon.tname());
    else if (tag == "<mywp>") {
-    if (me->weapon.type->id == 0)
+    if (me->weapon.type->id == "null")
      phrase.replace(fa, l, "fists");
     else
      phrase.replace(fa, l, me->weapon.tname());

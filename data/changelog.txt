@@ -1,5 +1,23 @@
 Changelog will be a little light for the early entries due to me being really bad at documenting things.
 
+0.4
+Make the battery system bionic only consume as many batteries as necessary to fully power yourself
+Knives can also cauterize wounds now. Requires a lighter.
+Soldering irons (and hotplates, why not) can be used to cauterize wounds, causing pain and removing any bleeding or uninfected bite effects.
+Fixed crash bug in Windows when attacks hit something off-screen?
+Fixed precipitation animation with shifted viewport.
+Can now disassemble items from the examination screen.
+Added colored hinting to the item examination sidebar listing possible actions. e.g., "W" (for "wear") is grayed out if the item isn't wearable.
+Added ability to craft a recipe continuously (until out of materials, etc.).
+Reduce (maybe fully fix) wolf self-attacks.
+Power armor.
+More fitted gear, and a few more pieces made craftable.
+Vehicle-mountable water tanks and kitchen units, implied storage-battery-charging generators.
+Map tiles can now contain up to 64 items.
+Beer has been made weaker, and now appears in kegs in liquor stores and bars.
+Steel jerrycans.
+Any gun can now be used one-handed if you are strong enough.
+
 0.3
 Many menus stretch with an enlarged viewport.
 An action to repeat the last craft has been added, default keybinding of -

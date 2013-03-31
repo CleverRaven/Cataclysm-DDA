@@ -721,6 +721,10 @@ void full_screen_popup(const char* mes, ...)
  refresh();
 }
 
+//note that passing in iteminfo instances with sType == "MENU" or "DESCRIPTION" does special things
+//if sType == "MENU", sPre == "iOffsetY" or "iOffsetX" also do special things
+//otherwise if sType == "MENU", iValue can be used to control color
+//all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
 char compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare)
 {
  WINDOW* w = newwin(iHeight, iWidth, VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
@@ -737,7 +741,12 @@ char compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string 
    } else if (vItemDisplay[i].sPre == "iOffsetX") {
     iStartX = vItemDisplay[i].iValue;
    } else {
-    mvwprintz(w, line_num, iStartX, c_ltgreen, "%s", (vItemDisplay[i].sName).c_str());
+    nc_color nameColor = c_ltgreen; //pre-existing behavior, so make it the default
+    //patched to allow variable "name" coloring, e.g. for item examining
+    if (vItemDisplay[i].iValue >= 0) {
+     nameColor = vItemDisplay[i].iValue == 0 ? c_ltgray : c_ltred;
+    }
+    mvwprintz(w, line_num, iStartX, nameColor, "%s", (vItemDisplay[i].sName).c_str());
     wprintz(w, c_white, "%s", (vItemDisplay[i].sPre).c_str());
     line_num++;
    }

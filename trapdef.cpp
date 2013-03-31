@@ -1,172 +1,241 @@
+#include <vector>
 #include "game.h"
 
 void game::init_traps()
 {
- int id = -1;
-#define TRAP(name, sym, color, visibility, avoidance, difficulty, action, ...) \
-id++;\
-traps.push_back(new trap(id, sym, color, name, visibility, avoidance,\
-                    difficulty, action, __VA_ARGS__));
- TRAP("none", '?', c_white, 20, 0, 0, &trapfunc::none, &trapfuncm::none,
-      NULL);
+int id = -1;
+// Arguments for new trap (in order):
+// id, Trap_Key, Name, Symbol, Color, Visibility, Avoidance, 
+// Difficulty, Action on Player, Action on Monster, Keys for Items to be dropped
+id++;
+std::vector<std::string> keys;
+traps.push_back(new trap(id, "NONE", "none", c_white, '?',  20, 0, 
+    0, &trapfunc::none, &trapfuncm::none, keys));;
 
-//	Name			Symbol	Color		Vis Avd Diff
- TRAP("bubblewrap",		'_',	c_ltcyan,	 0,  8,  0,
-	&trapfunc::bubble,	&trapfuncm::bubble,
-	itm_bubblewrap, NULL);
-//      Name                    Symbol  Colour          Vis Avd Diff
- TRAP("cot",                    '#',    c_green,         0,  0,  0,
-        &trapfunc::none,         &trapfuncm::cot,
-        itm_cot, NULL);
+keys.clear();
+id++;
+keys.push_back("bubblewrap");
+traps.push_back(new trap(id, "BUBBLEWRAP", "bubblewrap", c_ltcyan, '_',  0, 8, 
+    0, &trapfunc::bubble, &trapfuncm::bubble, keys));;
 
-//      Name                    Symbol  Colour          Vis Avd Diff
- TRAP("brazier",                '#',    c_red,           0,  0,  0,
-        &trapfunc::none,         &trapfuncm::none,
-        itm_brazier, NULL);
+keys.clear();
+id++;
+keys.push_back("cot");
+traps.push_back(new trap(id, "COT", "cot", c_green, '#',  0, 0, 
+    0, &trapfunc::none, &trapfuncm::cot, keys));;
 
-//      Name                    Symbol  Colour          Vis Avd Diff
- TRAP("roll mat",               '#',    c_blue,          0,  0,  0,
-        &trapfunc::none,     &trapfuncm::none,
-        itm_rollmat, NULL);
-//	Name			Symbol	Color		Vis Avd Diff
- TRAP("bear trap",		'^',	c_blue,		 2,  7,  3,
-	&trapfunc::beartrap,	&trapfuncm::beartrap,
-	itm_beartrap, NULL);
+keys.clear();
+id++;
+keys.push_back("brazier");
+traps.push_back(new trap(id, "BRAZIER", "brazier", c_red, '#',  0, 0, 
+    0, &trapfunc::none, &trapfuncm::none, keys));;
 
-//	Name			Symbol	Color		Vis Avd Diff
- TRAP("buried bear trap",	'^',	c_blue,		 9,  8,  4,
-	&trapfunc::beartrap,	&trapfuncm::beartrap,
-	itm_beartrap, NULL);
+keys.clear();
+id++;
+keys.push_back("roll_mat");
+traps.push_back(new trap(id, "ROLLMAT", "roll mat", c_blue, '#',  0, 0, 
+    0, &trapfunc::none, &trapfuncm::none, keys));;
 
-//	Name			Symbol	Color		Vis Avd Diff
- TRAP("rabbit snare",		'\\',	c_brown,	 5, 10,  2,
-	&trapfunc::snare,	&trapfuncm::snare,
-	itm_stick, itm_string_36, NULL);
+keys.clear();
+id++;
+keys.push_back("beartrap");
+traps.push_back(new trap(id, "BEARTRAP", "bear trap", c_blue, '^',  2, 7, 
+    3, &trapfunc::beartrap, &trapfuncm::beartrap, keys));;
 
- TRAP("spiked board",		'_',	c_ltgray,	 1,  6,  0,
-	&trapfunc::board,	&trapfuncm::board,
-	itm_board_trap, NULL);
+keys.clear();
+id++;
+keys.push_back("beartrap");
+traps.push_back(new trap(id, "BEARTRAP_BURIED", "buried bear trap", c_blue, '^',  9, 8, 
+    4, &trapfunc::beartrap, &trapfuncm::beartrap, keys));;
 
- TRAP("tripwire",		'^',	c_ltred,	 6,  4,  3,
-	&trapfunc::tripwire,	&trapfuncm::tripwire,
-	itm_string_36, NULL);
+// Name Symbol Color Vis Avd Diff
 
- TRAP("crossbow trap",		'^',	c_green,	 5,  4,  5,
-	&trapfunc::crossbow,	&trapfuncm::crossbow,
-	itm_string_36, itm_crossbow, NULL);
+keys.clear();
+id++;
+keys.push_back("stick");
+keys.push_back("string_36");
+traps.push_back(new trap(id, "SNARE", "rabbit snare", c_brown, '\\', 5, 10, 
+    2, &trapfunc::snare, &trapfuncm::snare, keys));;
 
- TRAP("shotgun trap",		'^',	c_red,		 4,  5,  6,// 2 shots
-	&trapfunc::shotgun,	&trapfuncm::shotgun,
-	itm_string_36, itm_shotgun_sawn, NULL);
+keys.clear();
+id++;
+keys.push_back("board_trap");
+traps.push_back(new trap(id, "NAILBOARD", "spiked board", c_ltgray, '_',  1, 6, 
+    0, &trapfunc::board, &trapfuncm::board, keys));;
 
- TRAP("shotgun trap",		'^',	c_red,		 4,  5,  6,// 1 shot
-	&trapfunc::shotgun,	&trapfuncm::shotgun,
-	itm_string_36, itm_shotgun_sawn, NULL);
+keys.clear();
+id++;
+keys.push_back("string_36");
+traps.push_back(new trap(id, "TRIPWIRE", "tripwire", c_ltred, '^',  6, 4, 
+    3, &trapfunc::tripwire, &trapfuncm::tripwire, keys));;
 
- TRAP("spinning blade engine",	'_',	c_ltred,	 0,  0,  2,
-	&trapfunc::none,	&trapfuncm::none,
-	itm_motor, itm_machete, itm_machete, NULL);
+keys.clear();
+id++;
+keys.push_back("string_36");
+keys.push_back("crossbow");
+traps.push_back(new trap(id, "CROSSBOW_TRAP", "crossbow trap", c_green, '^',  5, 4, 
+    5, &trapfunc::crossbow, &trapfuncm::crossbow, keys));;
 
- TRAP("spinning blade",		'\\',	c_cyan,		 0,  4, 99,
-	&trapfunc::blade,	&trapfuncm::blade,
-	NULL);
+keys.clear();
+id++;
+keys.push_back("string_36");
+keys.push_back("shotgun_sawn");
+traps.push_back(new trap(id, "SHOTGUN_2", "shotgun trap", c_red, '^',  4, 5, 
+    6, &trapfunc::shotgun, &trapfuncm::shotgun, keys));;
 
- TRAP("light snare trap", '^', c_brown, 5, 10, 2,
- 	&trapfunc::snare_light, &trapfuncm::snare_light,
- 	itm_light_snare_kit, NULL);
+keys.clear();
+id++;
+keys.push_back("string_36");
+keys.push_back("shotgun_sawn");
+traps.push_back(new trap(id, "SHOTGUN_1", "shotgun trap", c_red, '^',  4, 5, 
+    6, &trapfunc::shotgun, &trapfuncm::shotgun, keys));;
 
- TRAP("heavy snare trap", '^', c_brown, 3, 10, 4,
- 	&trapfunc::snare_heavy, &trapfuncm::snare_heavy,
- 	itm_heavy_snare_kit, NULL);
+keys.clear();
+id++;
+keys.push_back("motor");
+keys.push_back("machete");
+keys.push_back("machete");
+traps.push_back(new trap(id, "ENGINE", "spinning blade engine", c_ltred, '_',  0, 0, 
+    2, &trapfunc::none, &trapfuncm::none, keys));;
 
-//	Name			    Symbol	Color		Vis Avd Diff
- TRAP("land mine",		'^',	c_red,	     1, 14, 10,
-	&trapfunc::landmine,	&trapfuncm::landmine,
-	itm_landmine, NULL);
+keys.clear();
+id++;
+keys.push_back("roll_mat");
+traps.push_back(new trap(id, "BLADE", "spinning blade", c_cyan, '\\', 0, 4, 
+    99, &trapfunc::blade, &trapfuncm::blade, keys));;
 
-//	Name			          Symbol	Color		Vis Avd Diff
- TRAP("buried land mine",		'_',	c_red,		10, 14, 10,
-	&trapfunc::landmine,	&trapfuncm::landmine,
-	itm_landmine, NULL);
+keys.clear();
+id++;
+keys.push_back("light_snare_kit");
+traps.push_back(new trap(id, "LIGHT_SNARE", "light snare trap", c_brown, '^', 5, 10,
+    2, &trapfunc::snare_light, &trapfuncm::snare_light, keys));
 
-//	Name			Symbol	Color		Vis Avd Diff
- TRAP("teleport pad",		'_',	c_magenta,	 0, 15, 20,
-	&trapfunc::telepad,	&trapfuncm::telepad,
-	itm_null, NULL);
 
-//	Name			Symbol	Color		Vis Avd Diff
- TRAP("goo pit",		'_',	c_dkgray,	 0, 15, 15,
-	&trapfunc::goo,		&trapfuncm::goo,
-	itm_null, NULL);
+keys.clear();
+id++;
+keys.push_back("heavy_snare_kit");
+traps.push_back(new trap(id, "HEAVY_SNARE", "heavy snare trap", c_brown, '^', 3, 10,
+    4, &trapfunc::snare_heavy, &trapfuncm::snare_heavy, keys));
 
-//	Name			Symbol	Color		Vis Avd Diff
- TRAP("dissector",		'7',	c_cyan,		 2, 20, 99,
-	&trapfunc::dissector,	&trapfuncm::dissector,
-	itm_null, NULL);
+keys.clear();
+id++;
+keys.push_back("landmine");
+traps.push_back(new trap(id, "LANDMINE", "land mine", c_red, '^',  1, 14, 
+    10, &trapfunc::landmine, &trapfuncm::landmine, keys));;
 
-//	Name			Symbol	Color		Vis Avd Diff
- TRAP("sinkhole",		'_',	c_brown,	10, 14, 99,
-	&trapfunc::sinkhole,	&trapfuncm::sinkhole,
-	itm_null, NULL);
+keys.clear();
+id++;
+keys.push_back("landmine");
+traps.push_back(new trap(id, "LANDMINE_BURIED", "buried land mine", c_red, '_',  10, 14, 
+    10, &trapfunc::landmine, &trapfuncm::landmine, keys));;
 
- TRAP("pit",			'0',	c_brown,	 0,  8, 99,
-	&trapfunc::pit,		&trapfuncm::pit,
-	itm_null, NULL);
+keys.clear();
+id++;
+keys.push_back("null"); //WHY????? Why does this drop a null? T_T
+traps.push_back(new trap(id, "TELEPAD", "teleport pad", c_magenta, '_',  0, 15, 
+    20, &trapfunc::telepad, &trapfuncm::telepad, keys));;
 
- TRAP("spiked pit",		'0',	c_blue,		 0,  8, 99,
-	&trapfunc::pit_spikes,	&trapfuncm::pit_spikes,
-	itm_null, NULL);
+keys.clear();
+id++;
+keys.push_back("null"); //Still why????
+traps.push_back(new trap(id, "GOO", "goo pit", c_dkgray, '_',  0, 15, 
+    15, &trapfunc::goo, &trapfuncm::goo, keys));;
 
- TRAP("lava",			'~',	c_red,		 0, 99, 99,
-	&trapfunc::lava,	&trapfuncm::lava,
-	itm_null, NULL);
+keys.clear();
+id++;
+keys.push_back("null"); //Whatever, I don't even care.
+traps.push_back(new trap(id, "DISSECTOR", "dissector", c_cyan, '7',  2, 20, 
+    99, &trapfunc::dissector, &trapfuncm::dissector, keys));;
 
+keys.clear();
+id++;
+keys.push_back("null"); //...
+traps.push_back(new trap(id, "SINKHOLE", "sinkhole", c_brown, '_',  10, 14, 
+    99, &trapfunc::sinkhole, &trapfuncm::sinkhole, keys));;
+
+keys.clear();
+id++;
+keys.push_back("null"); //T_T
+traps.push_back(new trap(id, "PIT", "pit", c_brown, '0',  0, 8, 
+    99, &trapfunc::pit, &trapfuncm::pit, keys));;
+
+keys.clear();
+id++;
+keys.push_back("null"); //o_o
+traps.push_back(new trap(id, "SPIKE_PIT", "spiked pit", c_blue, '0',  0, 8, 
+    99, &trapfunc::pit_spikes, &trapfuncm::pit_spikes, keys));;
+
+keys.clear();
+id++;
+keys.push_back("null");
+traps.push_back(new trap(id, "", "lava", c_red, '~',  0, 99, 
+    99, &trapfunc::lava, &trapfuncm::lava, keys));;
+
+keys.clear();
+id++;
+keys.push_back("null");
 // The '%' symbol makes the portal cycle through ~*0&
-//	Name			Symbol	Color		Vis Avd Diff
- TRAP("shimmering portal",	'%',	c_magenta,	 0, 30, 99,
-	&trapfunc::portal,	&trapfuncm::portal,
-	itm_null, NULL);
+traps.push_back(new trap(id, "", "shimmering portal", c_magenta, '%',  0, 30, 
+    99, &trapfunc::portal, &trapfuncm::portal, keys));;
 
- TRAP("ledge",			' ',	c_black,	 0, 99, 99,
-	&trapfunc::ledge,	&trapfuncm::ledge,
-	itm_null, NULL);
+keys.clear();
+id++;
+keys.push_back("null");
+traps.push_back(new trap(id, "", "ledge", c_black, ' ',  0, 99, 
+    99, &trapfunc::ledge, &trapfuncm::ledge, keys));;
 
- TRAP("boobytrap",		'^',	c_ltcyan,	 5,  4,  7,
- 	&trapfunc::boobytrap,	&trapfuncm::boobytrap,
- 	itm_null, NULL);
+keys.clear();
+id++;
+keys.push_back("null");
+traps.push_back(new trap(id, "", "boobytrap", c_ltcyan, '^',  5, 4, 
+    7, &trapfunc::boobytrap, &trapfuncm::boobytrap, keys));;
 
- TRAP("raised tile",		'^',	c_ltgray,	 9, 20, 99,
-	&trapfunc::temple_flood,&trapfuncm::none,
-	itm_null, NULL);
+keys.clear();
+id++;
+keys.push_back("null");
+traps.push_back(new trap(id, "", "raised tile", c_ltgray, '^',  9, 20, 
+    99, &trapfunc::temple_flood,&trapfuncm::none, keys));;
 
+keys.clear();
+id++;
+keys.push_back("null");
 // Toggles through states of RGB walls
- TRAP("",			'^',	c_white,	99, 99, 99,
-	&trapfunc::temple_toggle,	&trapfuncm::none,
-	itm_null, NULL);
+traps.push_back(new trap(id, "", "", c_white, '^',  99, 99, 
+    99, &trapfunc::temple_toggle, &trapfuncm::none, keys));;
 
+keys.clear();
+id++;
+keys.push_back("null");
 // Glow attack
- TRAP("",			'^',	c_white,	99, 99, 99,
-	&trapfunc::glow,	&trapfuncm::glow,
-	itm_null, NULL);
+traps.push_back(new trap(id, "", "", c_white, '^',  99, 99, 
+    99, &trapfunc::glow, &trapfuncm::glow, keys));;
 
+keys.clear();
+id++;
+keys.push_back("null");
 // Hum attack
- TRAP("",			'^',	c_white,	99, 99, 99,
-	&trapfunc::hum,		&trapfuncm::hum,
-	itm_null, NULL);
+traps.push_back(new trap(id, "", "", c_white, '^',  99, 99, 
+    99, &trapfunc::hum, &trapfuncm::hum, keys));;
 
+keys.clear();
+id++;
+keys.push_back("null");
 // Shadow spawn
- TRAP("",			'^',	c_white,	99, 99, 99,
-	&trapfunc::shadow,	&trapfuncm::none,
-	itm_null, NULL);
+traps.push_back(new trap(id, "", "", c_white, '^',  99, 99, 
+    99, &trapfunc::shadow, &trapfuncm::none, keys));;
 
+keys.clear();
+id++;
+keys.push_back("null");
 // Drain attack
- TRAP("",			'^',	c_white,	99, 99, 99,
-	&trapfunc::drain,	&trapfuncm::drain,
-	itm_null, NULL);
+traps.push_back(new trap(id, "", "", c_white, '^',  99, 99, 
+    99, &trapfunc::drain, &trapfuncm::drain, keys));;
 
+keys.clear();
+id++;
+keys.push_back("null");
 // Snake spawn / hisssss
- TRAP("",			'^',	c_white,	99, 99, 99,
-	&trapfunc::snake,	&trapfuncm::snake,
-	itm_null, NULL);
+traps.push_back(new trap(id, "", "", c_white, '^',  99, 99, 
+    99, &trapfunc::snake, &trapfuncm::snake, keys));;
 
 }

@@ -12,9 +12,9 @@
 #ifndef NUM_ESCAPE_ITEMS
 #define NUM_ESCAPE_ITEMS 11
 itype_id ESCAPE_ITEMS[NUM_ESCAPE_ITEMS] = {
- itm_cola, itm_caffeine, itm_energy_drink, itm_canister_goo, itm_smokebomb,
- itm_smokebomb_act, itm_adderall, itm_coke, itm_meth, itm_teleporter,
- itm_pheromone
+ "cola", "caffeine", "energy_drink", "canister_goo", "smokebomb",
+ "smokebomb_act", "adderall", "coke", "meth", "teleporter",
+ "pheromone"
 };
 #endif
 
@@ -22,10 +22,10 @@ itype_id ESCAPE_ITEMS[NUM_ESCAPE_ITEMS] = {
 #ifndef NUM_ALT_ATTACK_ITEMS
 #define NUM_ALT_ATTACK_ITEMS 16
 itype_id ALT_ATTACK_ITEMS[NUM_ALT_ATTACK_ITEMS] = {
- itm_knife_combat, itm_spear_wood, itm_molotov, itm_pipebomb, itm_grenade,
- itm_gasbomb, itm_bot_manhack, itm_tazer, itm_dynamite, itm_mininuke,
- itm_molotov_lit, itm_pipebomb_act, itm_grenade_act, itm_gasbomb_act,
- itm_dynamite_act, itm_mininuke_act
+ "knife_combat", "spear_wood", "molotov", "pipebomb", "grenade",
+ "gasbomb", "bot_manhack", "tazer", "dynamite", "mininuke",
+ "molotov_lit", "pipebomb_act", "grenade_act", "gasbomb_act",
+ "dynamite_act", "mininuke_act"
 };
 #endif
 
@@ -1471,7 +1471,7 @@ void npc::wield_best_melee(game *g)
 
 void npc::alt_attack(game *g, int target)
 {
- itype_id which = itm_null;
+ itype_id which = "null";
  int tarx, tary;
  if (target == TARGET_PLAYER) {
   tarx = g->u.posx;
@@ -1496,7 +1496,7 @@ void npc::alt_attack(game *g, int target)
    which = ALT_ATTACK_ITEMS[i];
  }
 
- if (which == itm_null) { // We ain't got shit!
+ if (which == "null") { // We ain't got shit!
 // Not sure if this should ever occur.  For now, let's warn with a debug msg
   debugmsg("npc::alt_attack() couldn't find an alt attack item!");
   if (dist == 1) {
@@ -1622,7 +1622,7 @@ bool thrown_item(item *used)
   return false;
  }
  itype_id type = itype_id(used->type->id);
- return (used->active || type == itm_knife_combat || type == itm_spear_wood);
+ return (used->active || type == "knife_combat" || type == "spear_wood");
 }
 
 void npc::heal_player(game *g, player &patient)
@@ -1666,20 +1666,20 @@ void npc::heal_player(game *g, player &patient)
    g->add_msg("Someone heals you.");
 
   int amount_healed;
-  if (has_amount(itm_1st_aid, 1)) {
+  if (has_amount("1st_aid", 1)) {
    switch (worst) {
     case hp_head:  amount_healed = 10 + 1.6 * sklevel[sk_firstaid]; break;
     case hp_torso: amount_healed = 20 + 3   * sklevel[sk_firstaid]; break;
     default:       amount_healed = 15 + 2   * sklevel[sk_firstaid];
    }
-   use_charges(itm_1st_aid, 1);
-  } else if (has_amount(itm_bandages, 1)) {
+   use_charges("1st_aid", 1);
+  } else if (has_amount("bandages", 1)) {
    switch (worst) {
     case hp_head:  amount_healed =  1 + 1.6 * sklevel[sk_firstaid]; break;
     case hp_torso: amount_healed =  4 + 3   * sklevel[sk_firstaid]; break;
     default:       amount_healed =  3 + 2   * sklevel[sk_firstaid];
    }
-   use_charges(itm_bandages, 1);
+   use_charges("bandages", 1);
   }
   patient.heal(worst, amount_healed);
   moves -= 250;
@@ -1716,20 +1716,20 @@ void npc::heal_self(game *g)
  }
 
  int amount_healed;
- if (has_amount(itm_1st_aid, 1)) {
+ if (has_amount("1st_aid", 1)) {
   switch (worst) {
    case hp_head:  amount_healed = 10 + 1.6 * sklevel[sk_firstaid]; break;
    case hp_torso: amount_healed = 20 + 3   * sklevel[sk_firstaid]; break;
    default:       amount_healed = 15 + 2   * sklevel[sk_firstaid];
   }
-  use_charges(itm_1st_aid, 1);
- } else if (has_amount(itm_bandages, 1)) {
+  use_charges("1st_aid", 1);
+ } else if (has_amount("bandages", 1)) {
   switch (worst) {
    case hp_head:  amount_healed =  1 + 1.6 * sklevel[sk_firstaid]; break;
    case hp_torso: amount_healed =  4 + 3   * sklevel[sk_firstaid]; break;
    default:       amount_healed =  3 + 2   * sklevel[sk_firstaid];
   }
-  use_charges(itm_bandages, 1);
+  use_charges("bandages", 1);
  } else {
   debugmsg("NPC tried to heal self, but has no bandages / first aid");
   move_pause();
@@ -1747,15 +1747,15 @@ void npc::use_painkiller(game *g)
  int difference = 9999, index = -1;
  for (int i = 0; i < inv.size(); i++) {
   int diff = 9999;
-  if (inv[i].type->id == itm_aspirin)
+  if (inv[i].type->id == "aspirin")
    diff = abs(pain - 15);
-  else if (inv[i].type->id == itm_codeine)
+  else if (inv[i].type->id == "codeine")
    diff = abs(pain - 30);
-  else if (inv[i].type->id == itm_oxycodone)
+  else if (inv[i].type->id == "oxycodone")
    diff = abs(pain - 60);
-  else if (inv[i].type->id == itm_heroin)
+  else if (inv[i].type->id == "heroin")
    diff = abs(pain - 100);
-  else if (inv[i].type->id == itm_tramadol)
+  else if (inv[i].type->id == "tramadol")
    diff = abs(pain - 40) / 2; // Bonus since it's long-acting
 
   if (diff < difference) {

@@ -141,6 +141,11 @@ void inventory::add_item(item newit, bool keep_invlet)
   return; // Styles never belong in our inventory.
  for (int i = 0; i < items.size(); i++) {
   if (items[i][0].stacks_with(newit)) {
+		if (items[i][0].is_food() && items[i][0].has_flag(IF_HOT)) {
+			int tmpcounter = (items[i][0].item_counter + newit.item_counter) / 2;
+			items[i][0].item_counter = tmpcounter;
+			newit.item_counter = tmpcounter;
+		}
     newit.invlet = items[i][0].invlet;
    items[i].push_back(newit);
    return;
@@ -197,13 +202,13 @@ void inventory::form_from_map(game *g, point origin, int range)
      add_item(g->m.i_at(x, y)[i]);
 // Kludges for now!
    if (g->m.field_at(x, y).type == fd_fire) {
-    item fire(g->itypes[itm_fire], 0);
+    item fire(g->itypes["fire"], 0);
     fire.charges = 1;
     add_item(fire);
    }
    ter_id terrain_id = g->m.ter(x, y);
    if (terrain_id == t_toilet || terrain_id == t_water_sh || terrain_id == t_water_dp){
-    item water(g->itypes[itm_water], 0);
+    item water(g->itypes["water"], 0);
     water.charges = 50;
     add_item(water);
    }
@@ -215,17 +220,17 @@ void inventory::form_from_map(game *g, point origin, int range)
      const int kpart = veh->part_with_feature(vpart, vpf_kitchen);
 
      if (kpart >= 0) {
-       item hotplate(g->itypes[itm_hotplate], 0);
+       item hotplate(g->itypes["hotplate"], 0);
        hotplate.charges = veh->fuel_left(AT_BATT, true);
        add_item(hotplate);
 
-       item water(g->itypes[itm_water_clean], 0);
+       item water(g->itypes["water_clean"], 0);
        water.charges = veh->fuel_left(AT_WATER);
        add_item(water);
 
-       item pot(g->itypes[itm_pot], 0);
+       item pot(g->itypes["pot"], 0);
        add_item(pot);
-       item pan(g->itypes[itm_pan], 0);
+       item pan(g->itypes["pan"], 0);
        add_item(pan);
      }
    }
