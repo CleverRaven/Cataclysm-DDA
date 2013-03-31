@@ -1610,6 +1610,10 @@ ARMOR("under_armor", "under armor", 20, 200,C_TORSO,	COTTON,		MNULL,
    2,  2, -5,  0, 0,  0,  0,  0,  20,  0,	mfb(bp_torso), "\
 Sports wear that clings to your chest to maintain body temperature.");
 
+ARMOR("under_armor_fit", "under armor", 20, 200,C_TORSO,	COTTON,		MNULL,
+   2,  2, -5,  0, -1,  0,  0,  0,  20,  0,	mfb(bp_torso), "\
+Sports wear that clings to your chest to maintain body temperature.");
+
 ARMOR("jacket_light", "light jacket",	50, 105,C_TORSO,	COTTON,		MNULL,
     6,  4, -5,  0,  1,  0,  2,  0,  20,  4,	mfb(bp_torso)|mfb(bp_arms), "\
 A thin cotton jacket. Good for brisk weather.");
