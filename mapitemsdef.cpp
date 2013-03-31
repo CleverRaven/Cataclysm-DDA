@@ -266,7 +266,7 @@ void game::init_mapitems()
 	"glass_sheet", "stick", "muffler", "pipe", "bag_plastic",
 	"bottle_plastic", "bottle_glass", "can_drink", "can_food",
 	"box_small", "bubblewrap", "lighter", "matches", "syringe", "rag",
-	"software_hacking", "jug_plastic", "spray_can", NULL);
+	"software_hacking", "jug_plastic", "spray_can", "keg", NULL);
 
  setvector(
    mapitems[mi_ammo],
@@ -940,7 +940,7 @@ void game::init_mapitems()
 	"stick", "bag_plastic", "flashlight_on", "radio_on",
 	"chainsaw_on", "pipebomb_act", "grenade_act", "flashbang_act",
 	"EMPbomb_act", "gasbomb_act", "smokebomb_act", "molotov_lit",
-	"dynamite_act", "firecracker_pack_act", "firecracker_act", 
-	"mininuke_act", "UPS_on", "mp3_on", "c4armed", "apparatus", 
+	"dynamite_act", "firecracker_pack_act", "firecracker_act",
+	"mininuke_act", "UPS_on", "mp3_on", "c4armed", "apparatus",
 	"brazier", "rag_bloody", NULL);
 }

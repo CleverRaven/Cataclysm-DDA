@@ -2639,7 +2639,7 @@ void map::draw(game *g, WINDOW* w, const point center)
      mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_ltgray, '#');
    } else if (dist <= u_clairvoyance || can_see) {
     if (bRainOutside && INBOUNDS(realx, realy) && !has_flag(supports_roof, realx, realy))
-     g->mapRain[realy + getmaxy(w)/2 - g->u.posy][realx + getmaxx(w)/2 - g->u.posx] = true;
+     g->mapRain[realy + getmaxy(w)/2 - center.y][realx + getmaxx(w)/2 - center.x] = true;
     drawsq(w, g->u, realx, realy, false, true, center.x, center.y,
            (dist > low_sight_range && LL_LIT > lit) ||
 	   (dist > sight_range && LL_LOW == lit),
@@ -2657,13 +2657,13 @@ void map::draw(game *g, WINDOW* w, const point center)
 }
 
 void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert_arg,
-                 const bool show_items_arg, const int cx_arg, const int cy_arg,
+                 const bool show_items_arg, const int view_center_x_arg, const int view_center_y_arg,
                  const bool low_light, const bool bright_light)
 {
  bool invert = invert_arg;
  bool show_items = show_items_arg;
- int cx = cx_arg;
- int cy = cy_arg;
+ int cx = view_center_x_arg;
+ int cy = view_center_y_arg;
  if (!INBOUNDS(x, y))
   return;	// Out of bounds
  if (cx == -1)
