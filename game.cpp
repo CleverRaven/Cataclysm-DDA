@@ -6180,7 +6180,7 @@ void game::complete_butcher(int index)
    add_msg("You discover a CBM in the %s!", corpse->name.c_str());
    //To see if it spawns a battery
    if(rng(0,1) == 1){ //The battery works
-    m.spawn_item(u.posx, u.posy, itypes["bionics_batteries"], age);
+    m.spawn_item(u.posx, u.posy, itypes["bio_batteries"], age);
    }else{//There is a burnt out CBM
     m.spawn_item(u.posx, u.posy, itypes["burnt_out_bionic"], age);
    }
