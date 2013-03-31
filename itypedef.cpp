@@ -4344,7 +4344,7 @@ TOOL("damaged_shelter_kit", "damaged shelter kit",	17, 65, ';', c_green,	WOOD,	L
 A small shelter, made of sticks and skins. (a)ctivate it to place.\n\
 This shelter has been damaged, and needs repairs.");
 
-TOOL("heatpack", "heatpack",	20, 65, ';', c_blue,	PLASTIC,	MNULL,
+TOOL("heatpack", "heatpack",	60, 65, ';', c_blue,	PLASTIC,	MNULL,
 	 1,  1,  1,  1,  1, 0, 0, 0, 0, AT_NULL, "null", &iuse::heatpack,
 0, "\
 A heatpack, used to treat sports injuries and heat food.  Usable only once.");

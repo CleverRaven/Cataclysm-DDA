@@ -149,7 +149,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_softdrugs],
 	"bandages", "1st_aid", "vitamins", "aspirin", "caffeine",
-	"pills_sleep", "iodine", "dayquil", "nyquil", NULL);
+   "pills_sleep", "iodine", "dayquil", "nyquil", "heatpack", NULL);
 
  setvector(
    mapitems[mi_harddrugs],
@@ -231,8 +231,9 @@ void game::init_mapitems()
 	"bb", "bolt_steel", "bbgun", "crossbow", "manual_knives","manual_survival",
 	"manual_first_aid", "manual_traps", "lighter", "matches", "sewing_kit", "thread",
 	"hammer", "flashlight", "water_purifier", "radio", "beartrap",
-        "UPS_off", "string_36", "longbow", "compbow", "arrow_wood",
-        "arrow_cf", "wire", "rollmat", "tent_kit", "canteen", "ax", NULL);
+ "UPS_off", "string_36", "longbow", "compbow", "arrow_wood",
+ "arrow_cf", "wire", "rollmat", "tent_kit", "canteen", "ax",
+ "heatpack", NULL);
 
 
  setvector(
@@ -249,7 +250,7 @@ void game::init_mapitems()
 	"sewing_kit", "thread", "hammer", "flashlight", "water_purifier",
 	"radio", "beartrap", "extinguisher", "string_36", "longbow",
 	"compbow", "arrow_wood", "arrow_cf", "rollmat", "tent_kit",
-	"tshirt_fit", "foot_crank", "mag_archery", NULL);
+ "tshirt_fit", "foot_crank", "mag_archery", "heatpack", NULL);
 
  setvector(
    mapitems[mi_alcohol],
@@ -483,7 +484,8 @@ void game::init_mapitems()
 	"mag_guns", "manual_brawl", "manual_knives", "cot",
 	"manual_mechanics", "manual_first_aid", "manual_traps",
 	"flashlight", "water_purifier", "two_way_radio", "radio",
-	"geiger_off", "usb_drive", "canteen", "jerrycan", "rucksack", NULL);
+ "geiger_off", "usb_drive", "canteen", "jerrycan", "rucksack",
+ "heatpack", NULL);
 
  setvector(
    mapitems[mi_shelter],
@@ -496,7 +498,7 @@ void game::init_mapitems()
 	"manual_first_aid", "manual_tailor", "manual_carpentry",
 	"lighter", "matches", "sewing_kit", "thread", "hammer", "extinguisher",
 	"flashlight", "hotplate", "water_purifier", "radio", "rollmat",
-        "tent_kit", "canteen", "spray_can", "ax", NULL);
+ "tent_kit", "canteen", "spray_can", "ax", "heatpack", NULL);
 
  setvector(
    mapitems[mi_mechanics],
@@ -624,7 +626,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_mil_food],
 	"chocolate", "can_beans", "mre_beef", "mre_veggy", "1st_aid",
-	"codeine", "antibiotics", "water_clean", "purifier", NULL);
+ "codeine", "antibiotics", "water_clean", "purifier", "heatpack", NULL);
 
  setvector(
    mapitems[mi_mil_food_nodrugs],
@@ -673,7 +675,7 @@ void game::init_mapitems()
 	"bottle_plastic", "lighter", "matches", "sewing_kit", "thread", "extinguisher",
 	"flashlight", "crowbar", "chainsaw_off", "beartrap",
 	"grenade", "EMPbomb", "hotplate", "UPS_off", "canteen", "spray_can",
-   "bio_tools", "bio_ethanol", NULL);
+ "bio_tools", "bio_ethanol", "heatpack", NULL);
 
  setvector(
    mapitems[mi_sewage_plant],
@@ -857,8 +859,8 @@ void game::init_mapitems()
 	"landmine", "grenade", "flashbang", "EMPbomb", "gasbomb",
 	"smokebomb", "UPS_off", "tazer", "c4", "hk_g80", "12mm",
 	"binoculars", "u_shotgun", "beltrig", "pants_army_fit",
-  "power_armor_basic", "power_armor_helmet_basic",
-        "spare_mag", "canteen", "jerrycan", "rucksack", NULL);
+ "power_armor_basic", "power_armor_helmet_basic",
+ "spare_mag", "canteen", "jerrycan", "rucksack", "heatpack", NULL);
 
 
  setvector(
