@@ -5129,13 +5129,13 @@ void game::pickup(int posx, int posy, int min)
    newit.invlet = nextinv;
    advance_nextinv();
   }
-  while (iter <= 52 && u.has_item(newit.invlet) &&
+  while (iter <= 999 && u.has_item(newit.invlet) &&
          !u.i_at(newit.invlet).stacks_with(newit)) {
    newit.invlet = nextinv;
    iter++;
    advance_nextinv();
   }
-  if (iter == 53) {
+  if (iter == 1000) {
    add_msg("You're carrying too many items!");
    return;
   } else if (u.weight_carried() + newit.weight() > u.weight_capacity()) {
@@ -5330,14 +5330,14 @@ void game::pickup(int posx, int posy, int min)
    got_water = true;
   else if (getitem[i]) {
    iter = 0;
-   while (iter < 52 && (here[i].invlet == 0 ||
+   while (iter < 999 && (here[i].invlet == 0 ||
                         (u.has_item(here[i].invlet) &&
                          !u.i_at(here[i].invlet).stacks_with(here[i]))) ) {
     here[i].invlet = nextinv;
     iter++;
     advance_nextinv();
    }
-   if (iter == 52) {
+   if (iter == 1000) {
     add_msg("You're carrying too many items!");
     werase(w_pickup);
     wrefresh(w_pickup);
