@@ -4318,7 +4318,7 @@ bool player::eat(game *g, int index)
               g->add_msg("%c - an empty %s", inv[which].invlet,
                                           inv[which].tname(g).c_str());
         }
-        if (inv[which].type->id == "wrapper") // hack because wrappers aren't containers
+        else if (inv[which].type->id == "wrapper") // hack because wrappers aren't containers
         {
             g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
             g->m.add_item(posx, posy, inv.remove_item(which));
