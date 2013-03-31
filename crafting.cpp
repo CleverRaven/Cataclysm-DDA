@@ -21,8 +21,8 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
                               time, reversible) )
  #define TOOL(item, amount)  ++tl; recipes[id]->tools[tl].push_back(component(item,amount))
  #define TOOLCONT(item, amount) recipes[id]->tools[tl].push_back(component(item,amount))
- #define COMP(item, amount)  ++cl; recipes[id]->components[tl].push_back(component(item,amount))
- #define COMPCONT(item, amount) recipes[id]->components[tl].push_back(component(item,amount))
+ #define COMP(item, amount)  ++cl; recipes[id]->components[cl].push_back(component(item,amount))
+ #define COMPCONT(item, amount) recipes[id]->components[cl].push_back(component(item,amount))
 
 /**
  * Macro Tool Groups
