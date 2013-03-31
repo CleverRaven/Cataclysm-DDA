@@ -2657,13 +2657,13 @@ void map::draw(game *g, WINDOW* w, const point center)
 }
 
 void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert_arg,
-                 const bool show_items_arg, const int cx_arg, const int cy_arg,
+                 const bool show_items_arg, const int view_center_x_arg, const int view_center_y_arg,
                  const bool low_light, const bool bright_light)
 {
  bool invert = invert_arg;
  bool show_items = show_items_arg;
- int cx = cx_arg;
- int cy = cy_arg;
+ int cx = view_center_x_arg;
+ int cy = view_center_y_arg;
  if (!INBOUNDS(x, y))
   return;	// Out of bounds
  if (cx == -1)
