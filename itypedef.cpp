@@ -1484,6 +1484,11 @@ ARMOR("long_underpants", "long underwear",	40, 200,C_PANTS,	COTTON,		MNULL,
     4,  2, -3,  0,  0,  0,  0,  0,  30,  0,	mfb(bp_legs), "\
 A pair of long underwear that help to maintain body temperature.");
 
+ARMOR("long_underpants_fit", "long underwear",	40, 200,C_PANTS,	COTTON,		MNULL,
+    4,  2, -3,  0,  -1,  0,  0,  0,  30,  0,	mfb(bp_legs), "\
+A pair of long underwear that help to maintain body temperature.\n\
+These are a perfect fit for you.");
+
 ARMOR("skirt", "skirt",		75, 120,C_PANTS,	COTTON,		MNULL,
     2,  2, -5,  0, -1,  0,  0,  0,  0,  1,	mfb(bp_legs), "\
 A short, breezy cotton skirt. Easy to move in, but only has a single small\n\
@@ -1511,11 +1516,6 @@ ARMOR("pants_army_fit", "army pants",	10, 315,C_PANTS,	COTTON,		MNULL,
 A tough pair of pants lined with pockets. Favored by the military.\n\
 These army pants are a perfect fit for you.");
 
-ARMOR("long_underpants", "long underwear",	40, 200,C_PANTS,	COTTON,		MNULL,
-    4,  2, -3,  0, -1,  0,  0,  0,  30,  0,	mfb(bp_legs), "\
-A pair of long underwear that help to maintain body temperature.\n\
-These are a perfect fit for you.");
-
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("jumpsuit", "jumpsuit",	20, 200,C_BODY,		COTTON,		PLASTIC,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
@@ -1527,17 +1527,18 @@ not very encumbering.");
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("jumpsuit_fit", "jumpsuit",	20, 200,C_BODY,		COTTON,		PLASTIC,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    6,  6, -3, -3,  0,  0,  1,  0,  10, 8,	mfb(bp_legs)|mfb(bp_torso), "\
+    6,  6, -3, -3,  -1,  0,  1,  0,  10, 8,	mfb(bp_legs)|mfb(bp_torso), "\
 A thin, short-sleeved jumpsuit; similar to those\n\
 worn my prisoners. Provides decent storage and is\n\
-not very encumbering.");
+not very encumbering.\n\
+This one is a perfect fit for you.");
 
 ARMOR("dress", "dress",		70, 180,C_BODY,		COTTON,		MNULL,
     8,  6, -5, -5,  3,  0,  1,  0,  20,  0,	mfb(bp_legs)|mfb(bp_torso), "\
 A long cotton dress. Difficult to move in and lacks any storage space.");
 
 ARMOR("dress_fit", "dress",		70, 180,C_BODY,		COTTON,		MNULL,
-    8,  6, -5, -5,  3,  0,  1,  0,  20,  0,	mfb(bp_legs)|mfb(bp_torso), "\
+    8,  6, -5, -5,  2,  0,  1,  0,  20,  0,	mfb(bp_legs)|mfb(bp_torso), "\
 A long cotton dress. Difficult to move in and lacks any storage space.");
 
 ARMOR("armor_chitin", "chitinous armor", 1,1200,C_BODY,		FLESH,		MNULL,
@@ -1549,10 +1550,11 @@ ARMOR("suit", "suit",		60, 180,C_BODY,		COTTON,		MNULL,
 A full-body cotton suit. Makes the apocalypse a truly gentlemanly\n\
 experience.");
 
-ARMOR("suit", "suit",		60, 180,C_BODY,		COTTON,		MNULL,
-   10,  7, -5, -5,  1,  0,  1,  0,  25,  10,	mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms), "\
+ARMOR("suit_fit", "suit",		60, 180,C_BODY,		COTTON,		MNULL,
+   10,  7, -5, -5,  0,  0,  1,  0,  25,  10,	mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms), "\
 A full-body cotton suit. Makes the apocalypse a truly gentlemanly\n\
-experience.");
+experience.\n\
+This one fits perfectly. Dapper indeed!");
 
 ARMOR("hazmat_suit", "hazmat suit",	10,1000,C_BODY,		PLASTIC,	MNULL,
    20, 8, -5,  -8,  4,  0,  0, 10,  20, 12,	mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms), "\
@@ -1577,12 +1579,8 @@ ARMOR("dress_shirt", "dress shirt",	60, 115,C_TORSO,	COTTON,		MNULL,
     3,  3, -5,  0,  1,  0,  1,  0,  10,  1,	mfb(bp_torso)|mfb(bp_arms), "\
 A white button-down shirt with long sleeves. Looks professional!");
 
-ARMOR("polo_shirt_fit", "polo shirt",	65,  95,C_TORSO,	COTTON,		MNULL,
-    3,  2, -5,  0,  1,  0,  1,  0,  20,  0,	mfb(bp_torso), "\
-A short-sleeved cotton shirt, slightly thicker than a t-shirt.");
-
 ARMOR("dress_shirt_fit", "dress shirt",	60, 115,C_TORSO,	COTTON,		MNULL,
-    3,  3, -5,  0,  1,  0,  1,  0,  10,  1,	mfb(bp_torso)|mfb(bp_arms), "\
+    3,  3, -5,  0,  0,  0,  1,  0,  10,  1,	mfb(bp_torso)|mfb(bp_arms), "\
 A white button-down shirt with long sleeves. Looks professional!");
 
 ARMOR("tank_top", "tank top",	50,  75,C_TORSO,	COTTON,		MNULL,
@@ -1590,8 +1588,9 @@ ARMOR("tank_top", "tank top",	50,  75,C_TORSO,	COTTON,		MNULL,
 A sleeveless cotton shirt. Very easy to move in.");
 
 ARMOR("tank_top_fit", "tank top",	50,  75,C_TORSO,	COTTON,		MNULL,
-    1,  1, -5,  0,  0,  0,  0,  0,  0,  0,	mfb(bp_torso), "\
-A sleeveless cotton shirt. Very easy to move in.");
+    1,  1, -5,  0,  -1,  0,  0,  0,  0,  0,	mfb(bp_torso), "\
+A sleeveless cotton shirt. Very easy to move in.\n\
+It fits perfectly.");
 
 ARMOR("sweatshirt", "sweatshirt",	75, 110,C_TORSO,	COTTON,		MNULL,
     9,  5, -5,  0,  1,  1,  2,  0,  30,  0,	mfb(bp_torso)|mfb(bp_arms), "\
@@ -1760,6 +1759,11 @@ ARMOR("gloves_liner", "glove liners",	25,  100,C_GLOVES,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
     0,  0, -5,  1,  0,  0,  0,  0,  10,  0,	mfb(bp_hands), "\
 A pair of thin cotton gloves. Often used as a liner beneath other gloves.");
+
+ARMOR("gloves_liner_fit", "glove liners",	25,  100,C_GLOVES,	COTTON,		MNULL,
+    0,  0, -5,  1,  -1,  0,  0,  0,  10,  0,	mfb(bp_hands), "\
+A pair of thin cotton gloves. Often used as a liner beneath other gloves.\n\
+Fits you perfectly.");
 
 ARMOR("gloves_light", "light gloves",	35,  65,C_GLOVES,	COTTON,		MNULL,
     1,  0, -5,  1,  1,  0,  0,  0,  30,  0,	mfb(bp_hands), "\

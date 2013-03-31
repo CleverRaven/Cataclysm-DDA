@@ -1246,6 +1246,11 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOL("needle_bone", 24);
   TOOLCONT("sewing_kit", 24);
   COMP("rag", 11);
+  
+  RECIPE("trenchcoat_leather_fit", CC_ARMOR, "tailor", NULL, 6, 200000, false);
+  TOOL("needle_bone", 45);
+  TOOLCONT("sewing_kit", 45);
+  COMP("leather", 22);
 
   RECIPE("coat_fur", CC_ARMOR, "tailor", NULL, 4, 100000, false);
   TOOL("needle_bone", 20);
@@ -1302,7 +1307,6 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   RECIPE("glasses_safety", CC_ARMOR, "tailor", NULL, 1, 8000, false);
   TOOL("scissors", -1);
   TG_KNIVES
-  TOOLCONT("toolset", -1);
   COMP("string_36", 1);
   COMPCONT("string_6", 2);
   COMP("bottle_plastic", 1);
@@ -1365,8 +1369,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMPCONT("plant_fibre", 40);
 
   RECIPE("needle_bone", CC_MISC, "survival", NULL, 3, 20000, false);
-  TOOL("toolset", -1);
-  TG_KNIVES_CONT
+  TG_KNIVES
   COMP("bone", 1);
 
   RECIPE("digging_stick", CC_MISC, "survival", NULL, 1, 20000, false);
