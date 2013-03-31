@@ -2058,8 +2058,8 @@ POWER_ARMOR("power_armor_helmet_basic", "basic power armor helmet", 6, 500, C_HA
    10, 6, 1, 1, 5, 32, 50, 10, 70, 0, mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth), "\
 A basic helmet, designed for use with power armor. Offers excellent protection from both attacks and environmental hazards.");
 
-POWER_ARMOR("power armor hauling frame", 4, 1000, C_STORE, STEEL, MNULL,
-    8, 12, 1, 1, 4, 0, 0, 0, 0, 200, 0, "\
+POWER_ARMOR("power_armor_frame", "power armor hauling frame", 4, 1000, C_STORE, STEEL, MNULL,
+    8, 12, 1, 1, 4, 0, 0, 0, 0, 120, 0, "\
 A heavy duty hauling frame designed to interface with power armor.");
 
 // AMMUNITION
