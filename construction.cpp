@@ -22,12 +22,12 @@ void game::init_construction()
   constructions.push_back( new constructable(id, name, difficulty, able, done))
 
  #define STAGE(...)\
-  tl = 0; cl = 0; sl++; \
+  tl = -1; cl = -1; sl++; \
   constructions[id]->stages.push_back(construction_stage(__VA_ARGS__));
  #define TOOL(item)  ++tl; recipes[id]->tools[tl].push_back(component(item, -1))
  #define TOOLCONT(item) recipes[id]->tools[tl].push_back(component(item, -1))
- #define COMP(item, amount)  ++cl; recipes[id]->components[tl].push_back(component(item,amount))
- #define COMPCONT(item, amount) recipes[id]->components[tl].push_back(component(item,amount))
+ #define COMP(item, amount)  ++cl; recipes[id]->components[cl].push_back(component(item,amount))
+ #define COMPCONT(item, amount) recipes[id]->components[cl].push_back(component(item,amount))
 
 
 /* CONSTRUCT( name, time, able, done )
