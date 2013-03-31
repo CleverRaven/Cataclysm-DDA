@@ -1069,7 +1069,7 @@ bool game::handle_action()
                 int iRandX = rng(iStartX, iEndX-1);
                 int iRandY = rng(iStartY, iEndY-1);
 
-                if (mapRain[iRandY + u.view_offset_y][iRandX + u.view_offset_x]) {
+                if (mapRain[iRandY][iRandX]) {
                     vDrops.push_back(std::make_pair(iRandX, iRandY));
                     mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
                 }
