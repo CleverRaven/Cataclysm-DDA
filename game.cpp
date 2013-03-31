@@ -1055,8 +1055,8 @@ bool game::handle_action()
         do {
             for(int i=0; i < vDrops.size(); i++) {
                 m.drawsq(w_terrain, u,
-                         vDrops[i].first - getmaxx(w_terrain)/2 + u.posx,
-                         vDrops[i].second - getmaxy(w_terrain)/2 + u.posy,
+                         vDrops[i].first - getmaxx(w_terrain)/2 + u.posx + u.view_offset_x,
+                         vDrops[i].second - getmaxy(w_terrain)/2 + u.posy + u.view_offset_y,
                          false,
                          true,
                          u.posx + u.view_offset_x,
@@ -1069,9 +1069,9 @@ bool game::handle_action()
                 int iRandX = rng(iStartX, iEndX-1);
                 int iRandY = rng(iStartY, iEndY-1);
 
-                if (mapRain[iRandY][iRandX]) {
+                if (mapRain[iRandY + u.view_offset_y][iRandX + u.view_offset_x]) {
                     vDrops.push_back(std::make_pair(iRandX, iRandY));
-                    mvwputch(w_terrain, iRandY - u.view_offset_y, iRandX - u.view_offset_x, colGlyph, cGlyph);
+                    mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
                 }
             }
 
