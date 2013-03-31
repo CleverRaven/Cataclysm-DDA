@@ -24,10 +24,10 @@ void game::init_construction()
  #define STAGE(...)\
   tl = -1; cl = -1; sl++; \
   constructions[id]->stages.push_back(construction_stage(__VA_ARGS__));
- #define TOOL(item)  ++tl; recipes[id]->tools[tl].push_back(component(item, -1))
- #define TOOLCONT(item) recipes[id]->tools[tl].push_back(component(item, -1))
- #define COMP(item, amount)  ++cl; recipes[id]->components[cl].push_back(component(item,amount))
- #define COMPCONT(item, amount) recipes[id]->components[cl].push_back(component(item,amount))
+ #define TOOL(item)  ++tl; constructions[id]->stages[sl].tools[tl].push_back(component(item, -1))
+ #define TOOLCONT(item) constructions[id]->stages[sl].tools[tl].push_back(component(item, -1))
+ #define COMP(item, amount)  ++cl; constructions[id]->stages[sl].components[cl].push_back(component(item,amount))
+ #define COMPCONT(item, amount) constructions[id]->stages[sl].components[cl].push_back(component(item,amount))
 
 
 /* CONSTRUCT( name, time, able, done )
@@ -429,7 +429,7 @@ void game::construction_menu()
      posy++;
      posx = 33;
      for (int j = 0; j < stage.tools[i].size(); j++) {
-      itype_id tool = stage.tools[i][j];
+      itype_id tool = stage.tools[i][j].type;
       nc_color col = c_red;
       if (total_inv.has_amount(tool, 1)) {
        has_tool[i] = true;
@@ -590,7 +590,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
     tools_required = true;
     has_tool = false;
     for (int k = 0; k < stage.tools[j].size() && !has_tool; k++) {
-     if (inv.has_amount(stage.tools[j][k], 1))
+     if (inv.has_amount(stage.tools[j][k].type, 1))
       has_tool = true;
     }
     if (!has_tool)  // missing one of the tools for this stage
