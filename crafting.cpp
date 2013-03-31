@@ -1246,6 +1246,11 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOL("needle_bone", 24);
   TOOLCONT("sewing_kit", 24);
   COMP("rag", 11);
+  
+  RECIPE("trenchcoat_leather_fit", CC_ARMOR, "tailor", NULL, 6, 200000, false);
+  TOOL("needle_bone", 45);
+  TOOLCONT("sewing_kit", 45);
+  COMP("leather", 22);
 
   RECIPE("coat_fur", CC_ARMOR, "tailor", NULL, 4, 100000, false);
   TOOL("needle_bone", 20);
