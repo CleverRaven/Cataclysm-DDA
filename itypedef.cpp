@@ -1999,8 +1999,8 @@ A huge military rucksack, provides a lot of storage.");
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
 ARMOR("purse", "purse",		40,  75,C_STORE,	LEATHER,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   10,  3,  2,  2,  0,  0,  0,  0,  0, 20,	mfb(bp_torso), "\
-A bit encumbersome to wear, but provides lots of storage.");
+   10,  3,  2,  2,  1,  0,  0,  0,  0, 20,	mfb(bp_torso), "\
+A bit encumbersome to wear, but provides some storage");
 
 ARMOR("mbag", "messenger bag",	20, 110,C_STORE,	PLASTIC,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
