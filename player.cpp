@@ -1216,8 +1216,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  wrefresh(w_stats);
 
 // Next, draw encumberment.
- std::string asText[] = {"Head", "Eyes", "Mouth", "Torso", "Arms", "Hands", "Legs", "Feet"};
- body_part aBodyPart[] = {bp_head, bp_eyes, bp_mouth, bp_torso, bp_arms, bp_hands, bp_legs, bp_feet};
+ std::string asText[] = {"Torso", "Head", "Eyes", "Mouth", "Arms", "Hands", "Legs", "Feet"};
+ body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
  int iEnc, iLayers, iArmorEnc, iWarmth;
 
  mvwprintz(w_encumb, 0, 7, c_ltgray, "ENCUMBERANCE");
@@ -1228,7 +1228,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   mvwprintz(w_encumb, i+1, 8, c_ltgray, "(%d)", iLayers);
   mvwprintz(w_encumb, i+1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2), " ", iArmorEnc, "+", iEnc-iArmorEnc);
   wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
-  wprintz(w_encumb, c_ltgray, "%*s(%d)", (iWarmth > 9 ? ((iWarmth > 99) ? 1: 2) : 3), " ", iWarmth);
+  wprintz(w_encumb, (temp_conv[i] < BODYTEMP_COLD || temp_conv[i] > BODYTEMP_HOT ? c_red : c_green), "%*s(%d)", (iWarmth > 9 ? ((iWarmth > 99) ? 1: 2) : 3), " ", iWarmth);
  }
  wrefresh(w_encumb);
 
