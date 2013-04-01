@@ -181,7 +181,7 @@ public:
  void rem_addiction(add_type type);
  bool has_addiction(add_type type);
  int  addiction_level(add_type type);
- 
+
  void cauterize(game *g);
  void suffer(game *g);
  void vomit(game *g);
@@ -199,7 +199,7 @@ public:
  void read(game *g, char let);	// Read a book
  void try_to_sleep(game *g);	// '$' command; adds DIS_LYING_DOWN
  bool can_sleep(game *g);	// Checked each turn during DIS_LYING_DOWN
- 
+
  // helper functions meant to tell inventory display code what kind of visual feedback to give to the user
  hint_rating rate_action_use(item *it); //rates usability lower for non-tools (books, etc.)
  hint_rating rate_action_wear(item *it);
