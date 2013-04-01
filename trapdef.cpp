@@ -32,8 +32,8 @@ traps.push_back(new trap(id, "BRAZIER", "brazier", c_red, '#',  0, 0,
 
 keys.clear();
 id++;
-keys.push_back("roll_mat");
-traps.push_back(new trap(id, "ROLLMAT", "roll mat", c_blue, '#',  0, 0,
+keys.push_back("rollmat");
+traps.push_back(new trap(id, "ROLLMAT", "rollmat", c_blue, '#',  0, 0,
     0, &trapfunc::none, &trapfuncm::none, keys));;
 
 keys.clear();
