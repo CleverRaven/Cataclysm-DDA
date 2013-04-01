@@ -8036,8 +8036,8 @@ void game::autosave()
 
 void game::load_npc_settings()
 {
- starting_npc = false; // We're not suppressing the starting NPC spawn
- random_npc = false; //We're not suppressing random NPC spawns
+ starting_npc = false; // We're suppressing the starting NPC spawn
+ random_npc = false; //We're suppressing random NPC spawns
 
  std::ifstream fin;
  fin.open("data/npc.txt");
