@@ -212,6 +212,8 @@ void player::normalize(game *g)
    hp_max[i] = int(hp_max[i] * 1.2);
   hp_cur[i] = hp_max[i];
  }
+ for (int i = 0 ; i < num_bp; i++)
+  temp_conv[i] = BODYTEMP_NORM;
 }
 
 void player::pick_name() {
@@ -460,13 +462,6 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   // BLISTERS : Skin gets blisters from intense heat exposure.
   if (blister_count - 10*resist(body_part(i)) > 20)
    add_disease(dis_type(blister_pen), 1, g);
-  // BLOOD LOSS : Loss of blood results in loss of body heat
-  int blood_loss = 0;
-  if      (i == bp_legs)  blood_loss = (1 - (hp_cur[hp_leg_l] + hp_cur[hp_leg_r]) / (hp_max[hp_leg_l] + hp_max[hp_leg_r]));
-  else if (i == bp_arms)  blood_loss = (1 - (hp_cur[hp_arm_l] + hp_cur[hp_arm_r]) / (hp_max[hp_arm_l] + hp_max[hp_arm_r]));
-  else if (i == bp_torso) blood_loss = (1 -  hp_cur[hp_torso] / hp_max[hp_torso]);
-  else if (i == bp_head)  blood_loss = (1 -  hp_cur[hp_head] / hp_max[hp_head]);
-  temp_conv[i] -= blood_loss*temp_conv[i]/2; // 1% bodyheat lost per 2% hp lost
   // EQUALIZATION
   switch (i){
   case bp_torso :
