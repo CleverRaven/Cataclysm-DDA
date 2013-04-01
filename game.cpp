@@ -1270,7 +1270,7 @@ bool game::handle_action()
     if (has) {
      item oThisItem = u.i_at(chItem);
      std::vector<iteminfo> vThisItem, vDummy, vMenu;
-     
+
      vMenu.push_back(iteminfo("MENU", "", "iOffsetX", 2));
      vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
      vMenu.push_back(iteminfo("MENU", "a", "ctivate", u.rate_action_use(&oThisItem)));
@@ -1284,7 +1284,7 @@ bool game::handle_action()
      vMenu.push_back(iteminfo("MENU", "U", "nload", u.rate_action_unload(&oThisItem)));
      vMenu.push_back(iteminfo("MENU", "r", "eload", u.rate_action_reload(&oThisItem)));
      vMenu.push_back(iteminfo("MENU", "D", "isassemble", u.rate_action_disassemble(&oThisItem, this)));
-     
+
      oThisItem.info(true, &vThisItem);
      compare_split_screen_popup(0, 50, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
      cMenu = compare_split_screen_popup(50, 14, 16, "", vMenu, vDummy);
@@ -1428,7 +1428,7 @@ bool game::handle_action()
   case ACTION_RECRAFT:
    recraft();
    break;
-  
+
   case ACTION_LONGCRAFT:
    long_craft();
    break;
@@ -1912,7 +1912,7 @@ void game::save()
 // Finally, save artifacts.
  if (artifact_itype_ids.size() > 0) {
     fout.open("save/artifacts.gsav");
-    for ( std::vector<std::string>::iterator it = artifact_itype_ids.begin(); 
+    for ( std::vector<std::string>::iterator it = artifact_itype_ids.begin();
           it != artifact_itype_ids.end(); ++it){
         fout << itypes[*it]->save_data() << "\n";
     }
@@ -2146,7 +2146,7 @@ z.size(), events.size());
    break;
 
   case 12:
-    for(std::vector<std::string>::iterator it = martial_arts_itype_ids.begin(); 
+    for(std::vector<std::string>::iterator it = martial_arts_itype_ids.begin();
           it != martial_arts_itype_ids.end(); ++it){
         u.styles.push_back(*it);
     }
@@ -5859,7 +5859,7 @@ void game::plthrow(char chInput)
   return;
  }
  item thrown = u.i_at(ch);
-  if( std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(), 
+  if( std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(),
     thrown.type->id) != unreal_itype_ids.end()) {
   add_msg("That's part of your body, you can't throw that!");
   return;
@@ -6906,7 +6906,7 @@ void game::plmove(int x, int y)
      u.add_disease(DI_ATTACK_BOOST, 2, this, 2, 8);
     else
      u.rem_disease(DI_ATTACK_BOOST);
-  } 
+  }
 
 // List items here
   if (!u.has_disease(DI_BLIND) && m.i_at(x, y).size() <= 3 &&

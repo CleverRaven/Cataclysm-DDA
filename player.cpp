@@ -3494,7 +3494,7 @@ void player::process_active_items(game *g)
 			}
 		}
 		return;
-	}	 
+	}	
   if (!weapon.is_tool()) {
    debugmsg("%s is active, but it is not a tool.", weapon.tname().c_str());
    return;
@@ -3524,7 +3524,7 @@ void player::process_active_items(game *g)
               tmp_it->item_flags ^= mfb(IF_HOT);
               tmp_it->active = false;
             }
-          }        
+          }
         } else if (tmp_it->is_food_container()) {
           if (tmp_it->contents[0].has_flag(IF_HOT)) {
             tmp_it->contents[0].item_counter--;
@@ -3532,8 +3532,8 @@ void player::process_active_items(game *g)
               tmp_it->contents[0].item_flags ^= mfb(IF_HOT);
               tmp_it->contents[0].active = false;
             }
-          }        
-        }         
+          }
+        }
         else {
           tmp = dynamic_cast<it_tool*>(tmp_it->type);
           (use.*tmp->use)(g, this, tmp_it, true);
@@ -4258,7 +4258,7 @@ bool player::eat(game *g, int index)
     hunger += int(comest->nutr * .75);
   }
 	if (eaten->has_flag(IF_HOT) && eaten->has_flag(IF_EATEN_HOT))
-		add_morale(MORALE_FOOD_HOT, 5, 10);  
+		add_morale(MORALE_FOOD_HOT, 5, 10);
   if (has_trait(PF_GOURMAND)) {
    if (comest->fun < -2)
     add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, comest);
@@ -4446,13 +4446,13 @@ void player::pick_style(game *g) // Style selection menu
 hint_rating player::rate_action_wear(item *it)
 {
  //TODO flag already-worn items as HINT_IFFY
- 
+
  if (!it->is_armor()) {
   return HINT_CANT;
  }
- 
+
  it_armor* armor = dynamic_cast<it_armor*>(it->type);
- 
+
  // are we trying to put on power armor? If so, make sure we don't have any other gear on.
  if (armor->is_power_armor() && worn.size()) {
   if (armor->covers & mfb(bp_torso)) {
@@ -4668,13 +4668,13 @@ hint_rating player::rate_action_takeoff(item *it) {
  if (!it->is_armor()) {
   return HINT_CANT;
  }
- 
+
  for (int i = 0; i < worn.size(); i++) {
   if (worn[i].invlet == it->invlet) { //surely there must be an easier way to do this?
    return HINT_GOOD;
   }
  }
- 
+
  return HINT_IFFY;
 }
 
@@ -4777,7 +4777,7 @@ hint_rating player::rate_action_unload(item *it) {
    return HINT_IFFY;
   }
  }
- 
+
  return HINT_GOOD;
 }
 
@@ -4828,7 +4828,7 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
    return HINT_GOOD;
   }
  }
- 
+
  return HINT_CANT;
 }
 
@@ -4852,7 +4852,7 @@ hint_rating player::rate_action_use(item *it)
  } else if (it->is_food() || it->is_food_container() || it->is_book() || it->is_armor()) {
   return HINT_IFFY; //the rating is subjective, could be argued as HINT_CANT or HINT_GOOD as well
  }
- 
+
  return HINT_CANT;
 }
 
@@ -5053,13 +5053,13 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
 
 hint_rating player::rate_action_read(item *it, game *g)
 {
- //note: there's a cryptic note about macguffins in player::read(). Do we have to account for those? 
+ //note: there's a cryptic note about macguffins in player::read(). Do we have to account for those?
  if (!it->is_book()) {
   return HINT_CANT;
  }
- 
+
  it_book *book = dynamic_cast<it_book*>(it->type);
- 
+
  if (g && g->light_level() < 8 && LL_LIT > g->m.light_at(posx, posy)) {
   return HINT_IFFY;
  } else if (morale_level() < MIN_MORALE_READ &&  book->fun <= 0) {
@@ -5067,7 +5067,7 @@ hint_rating player::rate_action_read(item *it, game *g)
  } else if (book->intel > 0 && has_trait(PF_ILLITERATE)) {
   return HINT_IFFY;
  }
- 
+
  return HINT_GOOD;
 }
 
@@ -5620,7 +5620,7 @@ std::string player::weapname(bool charges)
   } else if(weapon.typeId() == "style_dragon"){
    if (has_disease(DI_DAMAGE_BOOST))
     dump << " +Damage";
-  } else if(weapon.typeId() == "style_tiger"){ 
+  } else if(weapon.typeId() == "style_tiger"){
    dump << " [";
    int intensity = disease_intensity(DI_DAMAGE_BOOST);
    for (int i = 1; i <= 5; i++) {

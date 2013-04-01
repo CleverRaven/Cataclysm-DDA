@@ -528,7 +528,7 @@ void monster::hit_monster(game *g, int i)
 {
  int junk;
  monster* target = &(g->z[i]);
- 
+
  if (this == target) {
   debugmsg("stopped monster from hitting itself");
   return;
