@@ -1,6 +1,7 @@
 #include "game.h"
 #include "output.h"
 #include "keypress.h"
+#include "item_manager.h"
 #include <sstream>
 
 #define LESS(a, b) ((a)<(b)?(a):(b))
@@ -63,7 +64,7 @@ void game::wish()
 
    if (search) {
     for (int i = 0; i < standard_itype_ids.size(); i++) {
-     if (itypes[standard_itype_ids[i]]->name.find(pattern) != std::string::npos) {
+     if (item_controller->find_template(standard_itype_ids[i])->name.find(pattern) != std::string::npos) {
       shift = i;
       a = 0;
       result_selected = 0;
@@ -130,10 +131,10 @@ void game::wish()
    nc_color col = c_white;
    if (i == a + 1)
     col = h_white;
-   mvwprintz(w_list, i, 0, col, itypes[standard_itype_ids[i-1+shift]]->name.c_str());
-   wprintz(w_list, itypes[standard_itype_ids[i-1+shift]]->color, "%c%", itypes[standard_itype_ids[i-1+shift]]->sym);
+   mvwprintz(w_list, i, 0, col, item_controller->find_template(standard_itype_ids[i-1+shift])->name.c_str());
+   wprintz(w_list, item_controller->find_template(standard_itype_ids[i-1+shift])->color, "%c%", item_controller->find_template(standard_itype_ids[i-1+shift])->sym);
   }
-  tmp.make(itypes[standard_itype_ids[a + shift]]);
+  tmp.make(item_controller->find_template(standard_itype_ids[a + shift]));
   tmp.bday = turn;
   if (tmp.is_tool())
    tmp.charges = dynamic_cast<it_tool*>(tmp.type)->max_charges;
