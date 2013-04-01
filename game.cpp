@@ -269,14 +269,14 @@ void game::create_factions()
 
 void game::create_starting_npcs()
 {
+	point location;
  if(!starting_npc)
-    return; //Do not generate a starting npc.
+ 	return; //Do not generate a starting npc.
  npc tmp;
  tmp.normalize(this);
  tmp.randomize(this, (one_in(2) ? NC_DOCTOR : NC_NONE));
- tmp.spawn_at(&cur_om, levx, levy);
- tmp.posx = SEEX * int(MAPSIZE / 2) + SEEX;
- tmp.posy = SEEY * int(MAPSIZE / 2) + 6;
+ tmp.spawn_at(&cur_om, levx, levy); //spawn the npc in the overmap.
+ tmp.place_near(this, SEEX * int(MAPSIZE / 2) + SEEX, SEEY * int(MAPSIZE / 2) + 6);
  tmp.form_opinion(&u);
  tmp.attitude = NPCATT_NULL;
  tmp.mission = NPC_MISSION_SHELTER;
@@ -2074,8 +2074,7 @@ void game::debug()
    temp.randomize(this);
    temp.attitude = NPCATT_TALK;
    temp.spawn_at(&cur_om, levx + (1 * rng(-2, 2)), levy + (1 * rng(-2, 2)));
-   temp.posx = u.posx - 4;
-   temp.posy = u.posy - 4;
+   temp.place_near(this, u.posx - 4, u.posy - 4);
    temp.form_opinion(&u);
    temp.attitude = NPCATT_TALK;
    temp.mission = NPC_MISSION_NULL;
@@ -7619,8 +7618,7 @@ void game::spawn_mon(int shiftx, int shifty)
   tmp.randomize(this);
   //tmp.stock_missions(this);
   tmp.spawn_at(&cur_om, levx + (1 * rng(-5, 5)), levy + (1 * rng(-5, 5)));
-  tmp.posx = SEEX * 2 * (tmp.mapx - levx) + rng(0 - SEEX, SEEX);
-  tmp.posy = SEEY * 2 * (tmp.mapy - levy) + rng(0 - SEEY, SEEY);
+  tmp.place_near(this, SEEX * 2 * (tmp.mapx - levx) + rng(0 - SEEX, SEEX), SEEY * 2 * (tmp.mapy - levy) + rng(0 - SEEY, SEEY));
   tmp.form_opinion(&u);
   tmp.attitude = NPCATT_TALK;
   tmp.mission = NPC_MISSION_NULL;
