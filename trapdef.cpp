@@ -93,8 +93,8 @@ traps.push_back(new trap(id, "SHOTGUN_1", "shotgun trap", c_red, '^',  4, 5,
 keys.clear();
 id++;
 keys.push_back("motor");
-keys.push_back("machete");
-keys.push_back("machete");
+keys.push_back("blade");
+keys.push_back("blade");
 traps.push_back(new trap(id, "ENGINE", "spinning blade engine", c_ltred, '_',  0, 0,
     2, &trapfunc::none, &trapfuncm::none, keys));;
 
