@@ -106,6 +106,11 @@ int player::hit_roll()
    numdice += int(disease_level(DI_DRUNK) / 400);
  }
 
+// Farsightedness makes us hit worse
+ if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")) {
+  numdice -= 2;
+ }
+
  if (numdice < 1) {
   numdice = 1;
   sides = 8 - encumb(bp_torso);

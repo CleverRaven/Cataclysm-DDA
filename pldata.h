@@ -191,6 +191,7 @@ enum pl_flag {
  PF_SPLIT,	// Null trait, splits between bad & good
 
  PF_MYOPIC,	// Smaller sight radius UNLESS wearing glasses
+ PF_HYPEROPIC, // With no reading glasses, can't read and takes melee penalty
  PF_HEAVYSLEEPER, // Sleeps in, won't wake up to sounds as easily
  PF_ASTHMA,	// Occasionally needs medicine or suffers effects
  PF_BADBACK,	// Carries less
@@ -454,6 +455,10 @@ with your choice of karate, judo, aikido, tai chi, or taekwondo."},
 Without your glasses, your seeing radius is severely reduced!  However, while\n\
 wearing glasses this trait has no effect, and you are guaranteed to start\n\
 with a pair."},
+{"Far-Sighted", -2, 0, 0, "\
+Without reading glasses, you are unable to read anything, and your melee\n\
+accuracy is slightly reduced. However, you are guaranteed to start with\n\
+a pair of reading glasses."},
 {"Heavy Sleeper", -1, 0, 0, "\
 You're quite the heavy sleeper.  Noises are unlikely to wake you up."},
 {"Asthmatic", -4, 0, 0, "\
