@@ -139,21 +139,16 @@ bool map::process_fields_in_submap(game *g, int gridn)
       }
 
      } else if (it->made_of(LIQUID)) {
-      switch (it->type->id) { // TODO: Make this be not a hack.
-       case itm_whiskey:
-       case itm_vodka:
-       case itm_rum:
-       case itm_tequila:
-        cur->age -= 300;
-        smoke += 6;
-        break;
-       default:
-        cur->age += rng(80 * vol, 300 * vol);
-        smoke++;
+      if(it->type->id == "tequila" || it->type->id == "whiskey" ||
+         it->type->id == "vodka" || it->type->id == "rum") {
+       cur->age -= 300;
+       smoke += 6;
+      } else {
+       cur->age += rng(80 * vol, 300 * vol);
+       smoke++;
       }
       destroyed = true;
       consumed++;
-
      } else if (it->made_of(POWDER)) {
       cur->age -= vol;
       destroyed = true;
@@ -539,7 +534,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
    case fd_push_items: {
     std::vector<item> *it = &(i_at(x, y));
     for (int i = 0; i < it->size(); i++) {
-     if ((*it)[i].type->id != itm_rock || (*it)[i].bday >= int(g->turn) - 1)
+     if ((*it)[i].type->id != "rock" || (*it)[i].bday >= int(g->turn) - 1)
       i++;
      else {
       item tmp = (*it)[i];
@@ -716,7 +711,7 @@ void map::step_in_field(int x, int y, game *g)
        adjusted_intensity -= 2;
      else
        adjusted_intensity -= 1;
-   if (!g->u.has_active_bionic(bio_heatsink)) {
+   if (!g->u.has_active_bionic("bio_heatsink")) {
     if (adjusted_intensity == 1) {
      g->add_msg("You burn your legs and feet!");
      g->u.hit(g, bp_feet, 0, 0, rng(2, 6));
@@ -771,7 +766,7 @@ void map::step_in_field(int x, int y, game *g)
 
   case fd_flame_burst:
    if (inside) break;
-   if (!g->u.has_active_bionic(bio_heatsink)) {
+   if (!g->u.has_active_bionic("bio_heatsink")) {
     g->add_msg("You're torched by flames!");
     g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
     g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));

@@ -182,6 +182,7 @@ public:
  bool has_addiction(add_type type);
  int  addiction_level(add_type type);
 
+ void cauterize(game *g);
  void suffer(game *g);
  void vomit(game *g);
 
@@ -198,7 +199,7 @@ public:
  void read(game *g, char let);	// Read a book
  void try_to_sleep(game *g);	// '$' command; adds DIS_LYING_DOWN
  bool can_sleep(game *g);	// Checked each turn during DIS_LYING_DOWN
- 
+
  // helper functions meant to tell inventory display code what kind of visual feedback to give to the user
  hint_rating rate_action_use(item *it); //rates usability lower for non-tools (books, etc.)
  hint_rating rate_action_wear(item *it);
@@ -261,7 +262,7 @@ public:
  int  charges_of(itype_id it);
 
  bool has_watertight_container();
- bool has_matching_liquid(int it);
+ bool has_matching_liquid(itype_id it);
  bool has_weapon_or_armor(char let);	// Has an item with invlet let
  bool has_item(char let);		// Has an item with invlet let
  bool has_item(item *it);		// Has a specific item

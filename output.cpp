@@ -944,7 +944,7 @@ void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
     if (w_hit == NULL) {
         return; //we passed in negative values (semi-expected), so let's not segfault
     }
-    
+
     mvwputch(w_hit, 0, 0, cColor, cTile);
     wrefresh(w_hit);
 

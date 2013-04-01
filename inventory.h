@@ -8,6 +8,8 @@
 class game;
 class map;
 
+const extern std::string inv_chars;
+
 class inventory
 {
  public:

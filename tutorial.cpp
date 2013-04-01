@@ -30,7 +30,7 @@ bool tutorial_game::init(game *g)
  g->cur_om.make_tutorial();
  g->cur_om.save();
  g->u.toggle_trait(PF_QUICK);
- g->u.inv.push_back(item(g->itypes[itm_lighter], 0, 'e'));
+ g->u.inv.push_back(item(g->itypes["lighter"], 0, 'e'));
  g->u.skillLevel("gun").level(5);
  g->u.skillLevel("melee").level(5);
 // Init the starting map at g location.
@@ -62,7 +62,7 @@ void tutorial_game::per_turn(game *g)
   add_message(g, LESSON_INTRO);
 
  if (g->light_level() == 1) {
-  if (g->u.has_amount(itm_flashlight, 1))
+  if (g->u.has_amount("flashlight", 1))
    add_message(g, LESSON_DARK);
   else
    add_message(g, LESSON_DARK_NO_FLASH);
@@ -76,7 +76,7 @@ void tutorial_game::per_turn(game *g)
 
  if (!tutorials_seen[LESSON_BUTCHER]) {
   for (int i = 0; i < g->m.i_at(g->u.posx, g->u.posy).size(); i++) {
-   if (g->m.i_at(g->u.posx, g->u.posy)[i].type->id == itm_corpse) {
+   if (g->m.i_at(g->u.posx, g->u.posy)[i].type->id == "corpse") {
     add_message(g, LESSON_BUTCHER);
     i = g->m.i_at(g->u.posx, g->u.posy).size();
    }
@@ -140,7 +140,7 @@ void tutorial_game::post_action(game *g, action_id act)
   break;
 
  case ACTION_USE:
-  if (g->u.has_amount(itm_grenade_act, 1))
+  if (g->u.has_amount("grenade_act", 1))
    add_message(g, LESSON_ACT_GRENADE);
   for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
    for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
@@ -151,11 +151,11 @@ void tutorial_game::post_action(game *g, action_id act)
   break;
 
  case ACTION_EAT:
-  if (g->u.last_item == itm_codeine)
+  if (g->u.last_item == "codeine")
    add_message(g, LESSON_TOOK_PAINKILLER);
-  else if (g->u.last_item == itm_cig)
+  else if (g->u.last_item == "cig")
    add_message(g, LESSON_TOOK_CIG);
-  else if (g->u.last_item == itm_water)
+  else if (g->u.last_item == "water")
    add_message(g, LESSON_DRANK_WATER);
   break;
 

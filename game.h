@@ -84,7 +84,7 @@ struct game_message
  game_message() { turn = 0; count = 1; message = ""; };
  game_message(calendar T, std::string M) : turn (T), message (M) { count = 1; };
 };
- 
+
 struct mtype;
 struct mission_type;
 class map;
@@ -222,7 +222,7 @@ class game
   bool has_gametype() const { return gamemode && gamemode->id() != SGAME_NULL; }
   special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
 
-  std::vector <itype*> itypes;
+  std::map<std::string, itype*> itypes;
   std::vector <mtype*> mtypes;
   std::vector <vehicle*> vtypes;
   std::vector <trap*> traps;
@@ -267,11 +267,11 @@ class game
   WINDOW *w_status;
   WINDOW *w_void; //space unter status if viewport Y > 12
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
- 
+
  bool handle_liquid(item &liquid, bool from_ground, bool infinite);
 
  void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type );
- 
+
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
@@ -284,6 +284,7 @@ class game
 
 // Data Initialization
   void init_itypes();       // Initializes item types
+  void init_bionics();      // Initializes bionics... for now.
   void init_mapitems();     // Initializes item placement
   void init_mtypes();       // Initializes monster types
   void init_mongroups();    // Initualizes monster groups
@@ -343,7 +344,7 @@ class game
   void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
 // Pick where to put liquid; false if it's left where it was
-  
+
   void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items	'I'
   void drop(char chInput = '.');	  // Drop an item		'd'
   void drop_in_direction(); // Drop w/ direction 'D'

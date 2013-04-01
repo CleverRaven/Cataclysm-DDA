@@ -43,7 +43,7 @@ public:
  void make(itype* it);
 
 // returns the default container of this item, with this item in it
- item in_its_container(std::vector<itype*> *itypes);
+ item in_its_container(std::map<std::string, itype*> *itypes);
 
  nc_color color(player *u);
  nc_color color_in_inventory(player *u);
@@ -86,7 +86,7 @@ public:
  int damage_cut();
  bool has_flag(item_flag f);
  bool has_technique(technique_id t, player *p = NULL);
- int has_gunmod(int type);
+ int has_gunmod(itype_id type);
  item* active_gunmod();
  std::vector<technique_id> techniques();
  bool goes_bad();
@@ -132,9 +132,8 @@ public:
  bool is_var_veh_part();
  bool is_artifact();
 
- int typeId();
-
- itype*   type;
+ itype_id typeId();
+ itype* type;
  mtype*   corpse;
  it_ammo* curammo;
 

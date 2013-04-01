@@ -46,7 +46,7 @@ bool WinCreate()
     int WinBorderWidth;
     int WinTitleSize;
     unsigned int WindowStyle;
-    const WCHAR *szTitle=  (L"Cataclysm: Dark Days Ahead - 0.3 Prerelease");
+    const WCHAR *szTitle=  (L"Cataclysm: Dark Days Ahead - 0.4");
     WinTitleSize = GetSystemMetrics(SM_CYCAPTION);      //These lines ensure
     WinBorderWidth = GetSystemMetrics(SM_CXDLGFRAME) * 2;  //that our window will
     WinBorderHeight = GetSystemMetrics(SM_CYDLGFRAME) * 2; // be a perfect size
@@ -335,7 +335,7 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
     if (begin_y < 0 || begin_x < 0) {
         return NULL; //it's the caller's problem now (since they have logging functions declared)
     }
-    
+
     int i,j;
     WINDOW *newwindow = new WINDOW;
     //newwindow=&_windows[WindowCount];

@@ -58,7 +58,7 @@ void map::generate_lightmap(game* g)
     }
 
     if (items.size() == 1 &&
-        items[0].type->id == itm_flashlight_on)
+        items[0].type->id == "flashlight_on")
      apply_light_source(sx, sy, 20);
 
    if(terrain == t_lava)
@@ -68,7 +68,7 @@ void map::generate_lightmap(game* g)
     apply_light_source(sx, sy, 3);
 
    if (items.size() == 1 &&
-       items[0].type->id == itm_candle_lit)
+       items[0].type->id == "candle_lit")
     apply_light_source(sx, sy, 4);
 
    if(terrain == t_emergency_light)
