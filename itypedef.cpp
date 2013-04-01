@@ -2044,15 +2044,15 @@ encumber,dmg_resist,cut_resist,env,warmth,storage,covers,des)\
 
 POWER_ARMOR("basic power armor", 5, 1000, C_BODY, STEEL, MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   40, 24, 1, 1, 5, 32, 50, 10, 70, 0, mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
+   40, 80, 1, 1, 5, 32, 50, 10, 70, 0, mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
 A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.");
 
 POWER_ARMOR("basic power armor helmet", 6, 500, C_HAT, STEEL, MNULL,
-   10, 6, 1, 1, 5, 32, 50, 10, 70, 0, mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth), "\
+   10, 24, 1, 1, 5, 32, 50, 10, 70, 0, mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth), "\
 A basic helmet, designed for use with power armor. Offers excellent protection from both attacks and environmental hazards.");
 
 POWER_ARMOR("power armor hauling frame", 4, 1000, C_STORE, STEEL, MNULL,
-    8, 12, 1, 1, 4, 0, 0, 0, 0, 200, 0, "\
+    8, 12, 1, 1, 4, 0, 0, 0, 0, 120, 0, "\
 A heavy duty hauling frame designed to interface with power armor.");
 
 // AMMUNITION

@@ -4425,6 +4425,13 @@ bool player::wear_item(game *g, item *to_wear)
      g->add_msg("You can only wear power armor components with power armor!");
      return false;
    }
+
+   for (int i = 0; i < worn.size(); i++) {
+     if (((it_armor *)worn[i].type)->is_power_armor() && worn[i].type == armor) {
+       g->add_msg("You cannot wear more than one %s!", to_wear->tname().c_str());
+       return false;
+     }
+   }
  } else {
    // Only helmets can be worn with power armor, except other power armor components
    if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor() && !(armor->covers & mfb(bp_head))) {
