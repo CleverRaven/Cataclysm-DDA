@@ -23,6 +23,7 @@ Fixed body temperature equalization.
 Sunny and clear weather no longer warm the player underground.
 Standing in water or sewage will increase the rate of heat loss (but not make the player colder)
 The head and torso now lose heat faster than other body parts.
+Body temperature drops as you lose HP.
 
 0.3
 Many menus stretch with an enlarged viewport.
