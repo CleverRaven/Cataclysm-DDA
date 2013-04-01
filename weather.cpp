@@ -63,24 +63,9 @@ void weather_effect::thunder(game *g)
 
 void weather_effect::lightning(game *g)
 {
-/* thunder(g);
- if (one_in(LIGHTNING_CHANCE)) {
-  std::vector<point> strike;
-  for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
-   for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
-    if (g->m.move_cost(x, y) == 0 && g->m.is_outside(x, y))
-     strike.push_back(point(x, y));
-   }
-  }
-  point hit;
-  if (strike.size() > 0) {
-   hit = strike[rng(0, strike.size() - 1)];
-   g->add_msg("Lightning strikes nearby!");
-   g->explosion(hit.x, hit.y, 10, 0, one_in(4));
-  }
- }
-*/
+thunder(g);
 }
+
 void weather_effect::light_acid(game *g)
 {
  wet(g);
