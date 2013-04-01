@@ -67,7 +67,7 @@ game::game() :
  init_vehicles();     // Set up vehicles                  (SEE veh_typedef.cpp)
  init_autosave();     // Set up autosave
  load_keyboard_settings();
-
+ load_npc_settings();
 
  gamemode = new special_game;	// Nothing, basically.
 }
@@ -175,12 +175,6 @@ void game::setup()
  curmes = 0;		// We haven't read any messages yet
  uquit = QUIT_NO;	// We haven't quit the game
  debugmon = false;	// We're not printing debug messages
- no_npc = false;		// We're not suppressing NPC spawns
-
-// ... Unless data/no_npc.txt exists.
- std::ifstream ifile("data/no_npc.txt");
- if (ifile)
-  no_npc = true;
 
  weather = WEATHER_CLEAR; // Start with some nice weather...
  nextweather = MINUTES(STARTING_MINUTES + 30); // Weather shift in 30
@@ -275,7 +269,7 @@ void game::create_factions()
 
 void game::create_starting_npcs()
 {
- if(no_npc)
+ if(!starting_npc)
     return; //Do not generate a starting npc.
  npc tmp;
  tmp.normalize(this);
@@ -2108,7 +2102,7 @@ NPCs are %s spawn.\n\
 %d monsters exist.\n\
 %d events planned.", u.posx, u.posy, levx, levy,
 oterlist[cur_om.ter(levx / 2, levy / 2, levz)].name.c_str(),
-int(turn), int(nextspawn), (no_npc ? "NOT going to" : "going to"),
+int(turn), int(nextspawn), (!random_npc ? "NOT going to" : "going to"),
 z.size(), events.size());
 
    if (!active_npc.empty())
@@ -7623,7 +7617,7 @@ void game::spawn_mon(int shiftx, int shifty)
  int iter;
  int t;
  // Create a new NPC?
- if (!no_npc && one_in(100 + 15 * cur_om.npcs.size())) {
+ if (random_npc && one_in(100 + 15 * cur_om.npcs.size())) {
   npc tmp;
   tmp.normalize(this);
   tmp.randomize(this);
@@ -8038,6 +8032,83 @@ void game::autosave()
 
   moves_since_last_save = 0;
   item_exchanges_since_save = 0;
+}
+
+void game::load_npc_settings()
+{
+ starting_npc = false; // We're not suppressing the starting NPC spawn
+ random_npc = false; //We're not suppressing random NPC spawns
+
+ std::ifstream fin;
+ fin.open("data/npc.txt");
+ if (!fin) { // It doesn't exist
+  std::ofstream fout;
+  fout.open("data/npc.txt");
+  fout << game::default_npc_txt();
+  fout.close();
+  fin.open("data/npc.txt");
+ }
+ if (!fin) { // Still can't open it--probably bad permissions
+  debugmsg("Can't open data/npc.txt.  This may be a permissions issue.");
+  return;
+ }
+ while (!fin.eof()) {
+  std::string id;
+
+  fin >> id;
+  if (id == "")
+   getline(fin, id); // Empty line, chomp it
+  else if (id[0] != '#') {
+   if (strcmp (id.c_str(), "starting_npc") != 0 && strcmp (id.c_str(), "random_npc") != 0)
+    debugmsg("\
+Warning!  data/npc.txt contains an unknown option, \"%s\"\n\
+Fix data/npc.txt at your next chance!", id.c_str());
+   else {
+    while (fin.peek() != '\n' && !fin.eof()) {
+     char ch;
+     fin >> ch;
+     if (ch != 'n' && ch != 'N' && ch != 'y' && ch != 'Y')
+      debugmsg("\
+Warning!  Invalid value '%c' in the npc file\n\
+%s setting ignored.\n\
+Valid values 'n', 'N', 'y', 'Y'.\n\
+Fix data/npc.txt at your next chance!", ch, id.c_str());
+     else if (strcmp ("starting_npc", id.c_str()) == 0)
+      if(ch == 'Y' || ch == 'y')
+       starting_npc = true;
+      else //random_npc
+      if(ch == 'Y' || ch == 'y')
+       random_npc = true;
+    }
+   }
+  } else {
+   getline(fin, id); // Clear the whole line
+  }
+ }
+}
+
+std::string game::default_npc_txt()
+{
+ return "\
+# This is the npc file for Cataclysm.\n\
+# You can start a line with # to make it a comment--it will be ignored.\n\
+# Blank lines are ignored too.\n\
+# Extra whitespace, including tab, is ignored, so format things how you like.\n\
+# If you wish to restore defaults, simply remove this file.\n\
+\n\
+# This file currently has two options, disabling starting npcs and \n\
+# disabling randomly spawning npcs spawned by the dynamic spawn system\n\
+ \n\
+# Turning on the starting_npc setting only has effect on new character\n\
+# creation. None of these settings get rid of already spawned npcs. Use\n\
+# the debug menu for that.\n\
+	\n\
+# WARNING: NPC's are currently broken. When used expect bugs and crashes.\n\
+# You have been warned.\n\
+# None of these settings prevent you from spawning npcs using the debug menu.\n\
+starting_npc n\n\
+random_npc n\n\
+";
 }
 
 void intro()

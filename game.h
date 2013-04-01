@@ -84,7 +84,7 @@ struct game_message
  game_message() { turn = 0; count = 1; message = ""; };
  game_message(calendar T, std::string M) : turn (T), message (M) { count = 1; };
 };
- 
+
 struct mtype;
 struct mission_type;
 class map;
@@ -254,7 +254,8 @@ class game
   std::vector<item> items_dragged;
   int weight_dragged; // Computed once, when you start dragging
   bool debugmon;
-  bool no_npc;
+  bool starting_npc;
+  bool random_npc;
 
   std::map<int, std::map<int, bool> > mapRain;
 
@@ -267,11 +268,11 @@ class game
   WINDOW *w_status;
   WINDOW *w_void; //space unter status if viewport Y > 12
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
- 
+
  bool handle_liquid(item &liquid, bool from_ground, bool infinite);
 
  void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type );
- 
+
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
@@ -297,7 +298,10 @@ class game
   void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
 
+  std::string default_npc_txt(); //load the default settings for the npc.txt file
   void load_keyboard_settings(); // Load keybindings from disk
+  void load_npc_settings(); //load npc settings from disk
+
   void save_keymap();		// Save keybindings to disk
   std::vector<char> keys_bound_to(action_id act); // All keys bound to act
   void clear_bindings(action_id act); // Deletes all keys bound to act
@@ -344,7 +348,7 @@ class game
   void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
 // Pick where to put liquid; false if it's left where it was
-  
+
   void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items	'I'
   void drop(char chInput = '.');	  // Drop an item		'd'
   void drop_in_direction(); // Drop w/ direction 'D'
