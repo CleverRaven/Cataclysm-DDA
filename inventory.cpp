@@ -4,6 +4,8 @@
 #include "keypress.h"
 #include "mapdata.h"
 
+const std::string inv_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+-./:;<=>?@[\\]^_~";
+
 item& inventory::operator[] (int i)
 {
  if (i < 0 || i > items.size()) {
@@ -490,22 +492,14 @@ bool inventory::has_item(item *it)
 
 void inventory::assign_empty_invlet(item &it, player *p)
 {
- for (int ch = 'a'; ch <= 'z'; ch++) {
-  //debugmsg("Trying %c", ch);
-  if (index_by_letter(ch) == -1 && (!p || !p->has_weapon_or_armor(ch))) {
-   it.invlet = ch;
-   //debugmsg("Using %c", ch);
-   return;
+  for (std::string::const_iterator newinvlet = inv_chars.begin();
+       newinvlet != inv_chars.end();
+       newinvlet++) {
+   if (index_by_letter(*newinvlet) == -1 && (!p || !p->has_weapon_or_armor(*newinvlet))) {
+    it.invlet = *newinvlet;
+    return;
+   }
   }
- }
- for (int ch = 'A'; ch <= 'Z'; ch++) {
-  //debugmsg("Trying %c", ch);
-  if (index_by_letter(ch) == -1 && (!p || !p->has_weapon_or_armor(ch))) {
-   //debugmsg("Using %c", ch);
-   it.invlet = ch;
-   return;
-  }
- }
- it.invlet = '`';
- //debugmsg("Couldn't find empty invlet");
+  it.invlet = '`';
+  //debugmsg("Couldn't find empty invlet");
 }

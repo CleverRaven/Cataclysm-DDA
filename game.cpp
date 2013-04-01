@@ -1956,22 +1956,18 @@ void game::delete_save()
 
 void game::advance_nextinv()
 {
- if (nextinv == 'z')
-  nextinv = 'A';
- else if (nextinv == 'Z')
-  nextinv = 'a';
- else
-  nextinv++;
+  if (nextinv == *inv_chars.end())
+    nextinv = *inv_chars.begin();
+  else
+    nextinv = inv_chars[inv_chars.find(nextinv) + 1];
 }
 
 void game::decrease_nextinv()
 {
- if (nextinv == 'a')
-  nextinv = 'Z';
- else if (nextinv == 'A')
-  nextinv = 'z';
- else
-  nextinv--;
+  if (nextinv == *inv_chars.begin())
+    nextinv = *inv_chars.end();
+  else
+    nextinv = inv_chars[inv_chars.find(nextinv) - 1];
 }
 
 void game::vadd_msg(const char* msg, va_list ap)
@@ -5129,7 +5125,7 @@ void game::pickup(int posx, int posy, int min)
    newit.invlet = nextinv;
    advance_nextinv();
   }
-  while (iter <= 52 && u.has_item(newit.invlet) &&
+  while (iter <= inv_chars.size() && u.has_item(newit.invlet) &&
          !u.i_at(newit.invlet).stacks_with(newit)) {
    newit.invlet = nextinv;
    iter++;
@@ -5330,14 +5326,14 @@ void game::pickup(int posx, int posy, int min)
    got_water = true;
   else if (getitem[i]) {
    iter = 0;
-   while (iter < 52 && (here[i].invlet == 0 ||
+   while (iter < inv_chars.size() && (here[i].invlet == 0 ||
                         (u.has_item(here[i].invlet) &&
                          !u.i_at(here[i].invlet).stacks_with(here[i]))) ) {
     here[i].invlet = nextinv;
     iter++;
     advance_nextinv();
    }
-   if (iter == 52) {
+   if (iter == inv_chars.size()) {
     add_msg("You're carrying too many items!");
     werase(w_pickup);
     wrefresh(w_pickup);
@@ -5826,7 +5822,7 @@ void game::reassign_item()
  }
  char newch = popup_getkey("%c - %s; enter new letter.", ch,
                            u.i_at(ch).tname().c_str());
- if ((newch < 'A' || (newch > 'Z' && newch < 'a') || newch > 'z')) {
+ if (inv_chars.find(newch) == std::string::npos) {
   add_msg("%c is not a valid inventory letter.", newch);
   return;
  }
@@ -6447,7 +6443,7 @@ void game::unload()
    item content = u.weapon.contents[0];
    int iter = 0;
 // Pick an inventory item for the contents
-   while ((content.invlet == 0 || u.has_item(content.invlet)) && iter < 52) {
+   while ((content.invlet == 0 || u.has_item(content.invlet)) && iter < inv_chars.size()) {
     content.invlet = nextinv;
     advance_nextinv();
     iter++;
@@ -6458,7 +6454,7 @@ void game::unload()
    } else {
     if (u.volume_carried() + content.volume() <= u.volume_capacity() &&
         u.weight_carried() + content.weight() <= u.weight_capacity() &&
-        iter < 52) {
+        iter < inv_chars.size()) {
      add_msg("You put the %s in your inventory.", content.tname(this).c_str());
      u.i_add(content, this);
     } else {
@@ -6513,7 +6509,7 @@ void game::unload()
   newam = item(itypes[default_ammo(weapon->ammo_type())], turn);
  while (weapon->charges > 0) {
   int iter = 0;
-  while ((newam.invlet == 0 || u.has_item(newam.invlet)) && iter < 52) {
+  while ((newam.invlet == 0 || u.has_item(newam.invlet)) && iter < inv_chars.size()) {
    newam.invlet = nextinv;
    advance_nextinv();
    iter++;
@@ -6526,7 +6522,7 @@ void game::unload()
    weapon->charges = 0;
   }
   if (u.weight_carried() + newam.weight() < u.weight_capacity() &&
-      u.volume_carried() + newam.volume() < u.volume_capacity() && iter < 52) {
+      u.volume_carried() + newam.volume() < u.volume_capacity() && iter < inv_chars.size()) {
    if (newam.made_of(LIQUID)) {
     if (!handle_liquid(newam, false, false))
      weapon->charges += newam.charges;	// Put it back in

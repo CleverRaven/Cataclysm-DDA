@@ -27,7 +27,7 @@ static void add_or_drop_item(game *g, player *p, item *it)
     g->advance_nextinv();
     iter++;
   }
-  if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
     drop = true;
   if (drop)
     g->m.add_item(p->posx, p->posy, replacement);
@@ -906,12 +906,12 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
  bool drop = false;
  for (int i = 0; i < count; i++) {
   int iter = 0;
-  while (p->has_item(rag.invlet) && iter < 52) {
+  while (p->has_item(rag.invlet) && iter < inv_chars.size()) {
    rag.invlet = g->nextinv;
    g->advance_nextinv();
    iter++;
   }
-  if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
    drop = true;
   if (drop)
    g->m.add_item(p->posx, p->posy, rag);
@@ -943,12 +943,12 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
  bool drop = false;
  for (int i = 0; i < count; i++) {
   int iter = 0;
-  while (p->has_item(rag.invlet) && iter < 52) {
+  while (p->has_item(rag.invlet) && iter < inv_chars.size()) {
    rag.invlet = g->nextinv;
    g->advance_nextinv();
    iter++;
   }
-  if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
    drop = true;
   if (drop)
    g->m.add_item(p->posx, p->posy, rag);
@@ -2725,12 +2725,12 @@ if (cut->made_of(COTTON)) {
  bool drop = false;
  for (int i = 0; i < count; i++) {
   int iter = 0;
-  while (p->has_item(rag.invlet) && iter < 52) {
+  while (p->has_item(rag.invlet) && iter < inv_chars.size()) {
    rag.invlet = g->nextinv;
    g->advance_nextinv();
    iter++;
   }
-  if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
    drop = true;
   if (drop)
    g->m.add_item(p->posx, p->posy, rag);
@@ -2762,12 +2762,12 @@ if (cut->made_of(COTTON)) {
  bool drop = false;
  for (int i = 0; i < count; i++) {
   int iter = 0;
-  while (p->has_item(rag.invlet) && iter < 52) {
+  while (p->has_item(rag.invlet) && iter < inv_chars.size()) {
    rag.invlet = g->nextinv;
    g->advance_nextinv();
    iter++;
   }
-  if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
    drop = true;
   if (drop)
    g->m.add_item(p->posx, p->posy, rag);
@@ -2795,12 +2795,12 @@ char ch = g->inv("Chop up what?");
  bool drop = false;
  for (int i = 0; i < count; i++) {
   int iter = 0;
-  while (p->has_item(skewer.invlet) && iter < 52) {
+  while (p->has_item(skewer.invlet) && iter < inv_chars.size()) {
    skewer.invlet = g->nextinv;
    g->advance_nextinv();
    iter++;
   }
-  if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
    drop = true;
   if (drop)
    g->m.add_item(p->posx, p->posy, skewer);
@@ -2852,7 +2852,7 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
     g->advance_nextinv();
     iter++;
    }
-   if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+   if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
     drop = true;
    if (drop)
     g->m.add_item(p->posx, p->posy, plank);
@@ -2866,7 +2866,7 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
     g->advance_nextinv();
     iter++;
    }
-   if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+   if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
     drop = true;
    if (drop)
     g->m.add_item(p->posx, p->posy, scrap);
@@ -3241,44 +3241,44 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
  if (casing.type->id != "null"){
  casing.charges = multiply;
  int iter = 0;
-   while ((casing.invlet == 0 || p->has_item(casing.invlet)) && iter < 52) {
+   while ((casing.invlet == 0 || p->has_item(casing.invlet)) && iter < inv_chars.size()) {
     casing.invlet = g->nextinv;
     g->advance_nextinv();
     iter++;}
     if (p->weight_carried() + casing.weight() < p->weight_capacity() &&
-      p->volume_carried() + casing.volume() < p->volume_capacity() && iter < 52) {
+      p->volume_carried() + casing.volume() < p->volume_capacity() && iter < inv_chars.size()) {
     p->i_add(casing);}
     else
    g->m.add_item(p->posx, p->posy, casing);}
  if (primer.type->id != "null"){
  primer.charges = multiply;
  int iter = 0;
-   while ((primer.invlet == 0 || p->has_item(primer.invlet)) && iter < 52) {
+   while ((primer.invlet == 0 || p->has_item(primer.invlet)) && iter < inv_chars.size()) {
     primer.invlet = g->nextinv;
     g->advance_nextinv();
     iter++;}
     if (p->weight_carried() + primer.weight() < p->weight_capacity() &&
-      p->volume_carried() + primer.volume() < p->volume_capacity() && iter < 52) {
+      p->volume_carried() + primer.volume() < p->volume_capacity() && iter < inv_chars.size()) {
     p->i_add(primer);}
     else
    g->m.add_item(p->posx, p->posy, primer);}
  int iter = 0;
-   while ((gunpowder.invlet == 0 || p->has_item(gunpowder.invlet)) && iter < 52) {
+   while ((gunpowder.invlet == 0 || p->has_item(gunpowder.invlet)) && iter < inv_chars.size()) {
     gunpowder.invlet = g->nextinv;
     g->advance_nextinv();
     iter++;}
     if (p->weight_carried() + gunpowder.weight() < p->weight_capacity() &&
-      p->volume_carried() + gunpowder.volume() < p->volume_capacity() && iter < 52) {
+      p->volume_carried() + gunpowder.volume() < p->volume_capacity() && iter < inv_chars.size()) {
     p->i_add(gunpowder);}
     else
    g->m.add_item(p->posx, p->posy, gunpowder);
  iter = 0;
-   while ((lead.invlet == 0 || p->has_item(lead.invlet)) && iter < 52) {
+   while ((lead.invlet == 0 || p->has_item(lead.invlet)) && iter < inv_chars.size()) {
     lead.invlet = g->nextinv;
     g->advance_nextinv();
     iter++;}
     if (p->weight_carried() + lead.weight() < p->weight_capacity() &&
-      p->volume_carried() + lead.volume() < p->volume_capacity() && iter < 52) {
+      p->volume_carried() + lead.volume() < p->volume_capacity() && iter < inv_chars.size()) {
     p->i_add(lead);}
     else
    g->m.add_item(p->posx, p->posy, lead);

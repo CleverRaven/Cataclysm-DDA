@@ -997,7 +997,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing.");
    for (int j = 0; j < item_count[0][i]; j++) {
     if (g->u.volume_carried() + tmp.volume() <= g->u.volume_capacity() &&
         g->u.weight_carried() + tmp.weight() <= g->u.weight_capacity() &&
-        g->u.inv.size() < 52)
+        g->u.inv.size() < inv_chars.size())
      g->u.i_add(tmp);
     else { // Could fit it in the inventory!
      dropped_some = true;
