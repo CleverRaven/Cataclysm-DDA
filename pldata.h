@@ -456,9 +456,9 @@ Without your glasses, your seeing radius is severely reduced!  However, while\n\
 wearing glasses this trait has no effect, and you are guaranteed to start\n\
 with a pair."},
 {"Far-Sighted", -2, 0, 0, "\
-Without reading glasses, you are unable to read anything, and your melee\n\
-accuracy is slightly reduced. However, you are guaranteed to start with\n\
-a pair of reading glasses."},
+Without reading glasses, you are unable to read anything, and take penalities\n\
+on melee accuracy and electronics/tailoring crafting. However, you are\n\
+guaranteed to start with a pair of reading glasses."},
 {"Heavy Sleeper", -1, 0, 0, "\
 You're quite the heavy sleeper.  Noises are unlikely to wake you up."},
 {"Asthmatic", -4, 0, 0, "\
