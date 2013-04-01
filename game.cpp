@@ -2245,7 +2245,7 @@ void game::disp_kills()
   }
  }
 
- mvwprintz(w, 1, 35, c_red, "KILL COUNTS:");
+ mvwprintz(w, 1, 32, c_white, "KILL COUNT:");
 
  if (types.size() == 0) {
   mvwprintz(w, 2, 2, c_white, "You haven't killed any monsters yet!");
@@ -2257,30 +2257,34 @@ void game::disp_kills()
   refresh_all();
   return;
  }
-
+ int totalkills = 0;
+ int hori = 1;
+ int horimove = 0;
+ int vert = -2;
+ // display individual kill counts
  for (int i = 0; i < types.size(); i++) {
-  if (i < 24) {
-   mvwprintz(w, i + 2, 1, types[i]->color, "%c %s", types[i]->sym, types[i]->name.c_str());
-   int hori = 25;
-   if (count[i] >= 10)
-    hori = 24;
-   if (count[i] >= 100)
-    hori = 23;
-   if (count[i] >= 1000)
-    hori = 22;
-   mvwprintz(w, i + 2, hori, c_white, "%d", count[i]);
-  } else {
-   mvwprintz(w, i + 2, 40, types[i]->color, "%c %s", types[i]->sym, types[i]->name.c_str());
-   int hori = 65;
-   if (count[i] >= 10)
-    hori = 64;
-   if (count[i] >= 100)
-    hori = 63;
-   if (count[i] >= 1000)
-    hori = 62;
-   mvwprintz(w, i + 2, hori, c_white, "%d", count[i]);
+  hori = 1;
+  if (i > 21) {
+   hori = 28;
+   vert = 20;
   }
+  if( i > 43) {
+   hori = 56;
+   vert = 42;
+  }
+  mvwprintz(w, i - vert, hori, types[i]->color, "%c %s", types[i]->sym, types[i]->name.c_str());
+  if (count[i] >= 10)
+   horimove = -1;
+  if (count[i] >= 100)
+   horimove = -2;
+  if (count[i] >= 1000)
+   horimove = -3;
+  mvwprintz(w, i - vert, hori + 22 + horimove, c_white, "%d", count[i]);
+  totalkills += count[i];
+  horimove = 0;
  }
+ // Display total killcount at top of window
+ mvwprintz(w, 1, 44, c_white, "%d", totalkills);
 
  wrefresh(w);
  getch();
