@@ -84,7 +84,7 @@ struct game_message
  game_message() { turn = 0; count = 1; message = ""; };
  game_message(calendar T, std::string M) : turn (T), message (M) { count = 1; };
 };
- 
+
 struct mtype;
 struct mission_type;
 class map;
@@ -267,11 +267,11 @@ class game
   WINDOW *w_status;
   WINDOW *w_void; //space unter status if viewport Y > 12
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
- 
+
  bool handle_liquid(item &liquid, bool from_ground, bool infinite);
 
  void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type );
- 
+
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
@@ -344,7 +344,7 @@ class game
   void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
 // Pick where to put liquid; false if it's left where it was
-  
+
   void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items	'I'
   void drop(char chInput = '.');	  // Drop an item		'd'
   void drop_in_direction(); // Drop w/ direction 'D'

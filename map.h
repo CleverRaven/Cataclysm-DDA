@@ -52,7 +52,7 @@ class map
  void draw(game *g, WINDOW* w, const point center);
  void debug();
  void drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert, const bool show_items,
-             const int cx = -1, const int cy = -1,
+             const int view_center_x = -1, const int view_center_y = -1,
              const bool low_light = false, const bool bright_level = false);
  long determine_wall_corner(int x, int y, long);
 

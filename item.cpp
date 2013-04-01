@@ -51,7 +51,7 @@ item::item(itype* it, unsigned int turn)
  poison = 0;
  mode = IF_NULL;
  item_flags = 0;
- item_counter = 0;  
+ item_counter = 0;
  active = false;
  curammo = NULL;
  corpse = NULL;
@@ -100,7 +100,7 @@ item::item(itype *it, unsigned int turn, char let)
  poison = 0;
  mode = IF_NULL;
  item_flags = 0;
- item_counter = 0;  
+ item_counter = 0;
  active = false;
  if (it->is_gun()) {
   charges = 0;
@@ -146,7 +146,7 @@ void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
  poison = 0;
  mode = IF_NULL;
  item_flags = 0;
- item_counter = 0;  
+ item_counter = 0;
  curammo = NULL;
  active = false;
  if(!it)
@@ -269,16 +269,16 @@ std::string item::save_info()
  if (curammo != NULL){
   ammotmp = curammo->id;
  }
- if( std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(), 
+ if( std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(),
      ammotmp) != unreal_itype_ids.end()  &&
-     std::find(artifact_itype_ids.begin(), artifact_itype_ids.end(), 
+     std::find(artifact_itype_ids.begin(), artifact_itype_ids.end(),
      ammotmp) != artifact_itype_ids.end()
      ) {
   ammotmp = "null"; //Saves us from some bugs, apparently?
  }
  std::stringstream dump;// (std::stringstream::in | std::stringstream::out);
  dump << " " << int(invlet) << " " << typeId() << " " <<  int(charges) <<
-         " " << int(damage) << " " << int(item_flags) << " " << int(burnt) << 
+         " " << int(damage) << " " << int(item_flags) << " " << int(burnt) <<
          " " << poison << " " << ammotmp << " " << owned << " " << int(bday);
  if (active)
   dump << " 1";
@@ -304,8 +304,8 @@ void item::load_info(std::string data, game *g)
  dump << data;
  std::string idtmp, ammotmp;
  int lettmp, damtmp, burntmp, acttmp, corp, item_flagstmp;
- dump >> lettmp >> idtmp >> charges >> damtmp >> item_flagstmp >> 
-		 burntmp >> poison >> ammotmp >> owned >> bday >> acttmp >> 
+ dump >> lettmp >> idtmp >> charges >> damtmp >> item_flagstmp >>
+		 burntmp >> poison >> ammotmp >> owned >> bday >> acttmp >>
 		 corp >> mission_id >> player_id;
  if (corp != -1)
   corpse = g->mtypes[corp];
@@ -820,12 +820,12 @@ std::string item::tname(game *g)
   food = dynamic_cast<it_comest*>(contents[0].type);
  if (food != NULL && g != NULL && food->spoils != 0 &&
    int(g->turn) < (int)bday + 100)
-  ret << " (fresh)";  
+  ret << " (fresh)";
  if (food != NULL && g != NULL && has_flag(IF_HOT))
   ret << " (hot)";
  if (food != NULL && g != NULL && is_food_container()) {
-	if (contents[0].has_flag(IF_HOT)) 
-		ret << " (hot)";     
+	if (contents[0].has_flag(IF_HOT))
+		ret << " (hot)";
  }
  if (food != NULL && g != NULL && food->spoils != 0 &&
    int(g->turn) - (int)bday > food->spoils * 600)
@@ -972,7 +972,7 @@ int item::damage_cut()
 bool item::has_flag(item_flag f)
 {
  bool ret = false;
- 
+
 // first check for flags specific to item type
 // gun flags
  if (is_gun()) {

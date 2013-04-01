@@ -42,8 +42,8 @@ struct bionic {
  };
 };
 
-extern std::map<bionic_id, bionic_data*> bionics; 
-extern std::vector<bionic_id> faulty_bionics; 
+extern std::map<bionic_id, bionic_data*> bionics;
+extern std::vector<bionic_id> faulty_bionics;
 extern std::vector<bionic_id> power_source_bionics;
 extern std::vector<bionic_id> unpowered_bionics;
 
