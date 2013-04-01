@@ -304,7 +304,7 @@ public:
  int moves;
  int hp_cur[num_hp_parts], hp_max[num_hp_parts];
  signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];
- void temp_equalizer(body_part bp1, body_part bp2, game *g); // Equalizes heat between body parts
+ void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
 
  std::vector<morale_point> morale;
 
