@@ -167,7 +167,7 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 2 : p.dex_cur -= 3;
    case 1 :
-    if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
+    if (p.temp_cur[bp_hands] > BODYTEMP_COLD && p.pain < 40) p.pain++;
     if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your hands feel numb.");
   }
  break;
@@ -176,7 +176,7 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 2 : // -4 speed
    case 1 :
-    if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
+    if (p.temp_cur[bp_feet] > BODYTEMP_COLD && p.pain < 40) p.pain++;
 	if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your feet feel numb.");
   }
  break;
