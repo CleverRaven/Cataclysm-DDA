@@ -859,7 +859,7 @@ void game::init_mapitems()
 	"landmine", "grenade", "flashbang", "EMPbomb", "gasbomb",
 	"smokebomb", "UPS_off", "tazer", "c4", "hk_g80", "12mm",
 	"binoculars", "u_shotgun", "beltrig", "pants_army_fit",
-  "power_armor_basic", "power_armor_helmet_basic", "power_armor_frame",
+ "power_armor_basic", "power_armor_helmet_basic", "power_armor_frame",
  "spare_mag", "canteen", "jerrycan", "rucksack", "heatpack", NULL);
 
  setvector(
