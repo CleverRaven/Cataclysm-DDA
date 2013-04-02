@@ -4150,8 +4150,7 @@ void game::close()
   else if (closex == u.posx && closey == u.posy)
    add_msg("There's some buffoon in the way!");
   else if (m.ter(closex, closey) == t_window_domestic && m.is_outside(u.posx, u.posy))  {
-   add_msg("You phase through the glass, close the curtains, then phase back out");
-   add_msg("Wait, no you don't. Never mind.");
+   add_msg("You cannot close the curtains from outside. You must be inside the building.");
  } else
    didit = m.close_door(closex, closey, true);
  } else
@@ -6419,7 +6418,7 @@ void game::unload(char chInput)
 void game::unload()
 {
  if (!u.weapon.is_gun() && u.weapon.contents.size() == 0 &&
-     (!u.weapon.is_tool() || u.weapon.ammo_type() == AT_NULL)) {
+     (!u.weapon.is_tool() || u.weapon.ammo_type() == AT_NULL) || u.weapon.has_flag(IF_NO_UNLOAD)) {
   add_msg("You can't unload a %s!", u.weapon.tname(this).c_str());
   return;
  }

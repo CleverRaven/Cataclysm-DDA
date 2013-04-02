@@ -368,6 +368,9 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMPCONT("steel_chunk", 2);
   COMPCONT("canister_empty", 1);
   COMPCONT("can_drink", 2);
+  COMP("grenade", 1);
+  COMPCONT("40mm_frag", 2);
+  COMPCONT("40mm_concussive", 2);
   COMP("plut_cell", 6);
   COMP("battery", 2);
   COMP("power_supply", 1);
@@ -1494,7 +1497,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOL("hammer", -1);
   TOOLCONT("toolset", -1);
   COMP("pipe", 1);
-  COMP("scrap", 2);
+  COMP("steel_chunk", 2);
   COMP("chain", 1);
 
   RECIPE("muffler", CC_MISC, "mechanics", NULL, 1, 10000, true);
@@ -1512,7 +1515,8 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("toolset", 5);
   TOOL("sewing_kit", 50);
   TOOLCONT("needle_bone", 50);
-  COMP("pipe", 6);
+  COMP("pipe", 4);
+  COMP("spring", 2);
   COMP("leather", 12);
   COMPCONT("fur", 12);
   COMPCONT("rag", 20);
