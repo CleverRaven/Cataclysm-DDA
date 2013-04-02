@@ -8543,13 +8543,15 @@ map_extra random_map_extra(map_extras embellishments)
  int pick = 0;
 // Set pick to the total of all the chances for map extras
  for (int i = 0; i < num_map_extras; i++)
-  pick += embellishments.chances[i];
+  if (!OPTIONS[OPT_CLASSIC_ZOMBIES] || mfb(i) & classic_extras)
+   pick += embellishments.chances[i];
 // Set pick to a number between 0 and the total
  pick = rng(0, pick - 1);
  int choice = -1;
  while (pick >= 0) {
   choice++;
-  pick -= embellishments.chances[choice];
+  if(!OPTIONS[OPT_CLASSIC_ZOMBIES] || mfb(choice) & classic_extras)
+   pick -= embellishments.chances[choice];
  }
  return map_extra(choice);
 }
