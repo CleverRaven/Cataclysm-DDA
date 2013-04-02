@@ -1488,6 +1488,36 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("pot", 1);
   COMP("pan", 1);
 
+  RECIPE("foot_crank", CC_MISC, "mechanics", NULL, 1, 10000, true);
+  TOOL("wrench", -1);
+  TOOLCONT("toolset", -1);
+  TOOL("hammer", -1);
+  TOOLCONT("toolset", -1);
+  COMP("pipe", 1);
+  COMP("scrap", 2);
+  COMP("chain", 1);
+
+  RECIPE("muffler", CC_MISC, "mechanics", NULL, 1, 10000, true);
+  TOOL("hammer", -1);
+  TOOLCONT("toolset", -1);
+  TOOL("welder", 50);
+  TOOLCONT("toolset", 5);
+  TOOL("hacksaw", -1);
+  TOOLCONT("toolset", -1);
+  COMP("pipe", 2);
+  COMP("sheet_metal",1);
+
+  RECIPE("seat", CC_MISC, "mechanics", NULL, 1, 10000, true);
+  TOOL("welder", 50);
+  TOOLCONT("toolset", 5);
+  TOOL("sewing_kit", 50);
+  TOOLCONT("needle_bone", 50);
+  COMP("pipe", 6);
+  COMP("leather", 12);
+  COMPCONT("fur", 12);
+  COMPCONT("rag", 20);
+  COMPCONT("sheet", 1);
+
   RECIPE("rag", CC_MISC, NULL, NULL, 0, 3000, false);
   TOOL("fire", -1);
   TOOLCONT("hotplate", 3);
