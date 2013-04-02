@@ -7,8 +7,11 @@
 #include "game.h"
 #include "itype.h"
 
-typedef std::map<std::string, itype*> item_template_container;
-typedef std::vector<std::string> access_key_list;
+typedef itype item_template;
+typedef std::string item_tag;
+typedef std::map<item_tag, itype*> item_template_container;
+typedef std::set<item_tag> tag_list;
+
 
 class Item_manager
 {
@@ -18,11 +21,15 @@ public:
     void init(game* main_game);
 
     item_template_container* templates();
-    access_key_list* template_keys();
-    itype* find_template(std::string name);
+    item_template* find_template(item_tag id);
+    item_template* random_template();
+    item_template* random_template(item_tag group_tag);
+    item_tag random_id();
+    item_tag random_id(item_tag group_tag);
 private:
     item_template_container  m_templates;
     itype*  m_missing_item;
+    std::map<item_tag, tag_list> m_template_groups;
 };
 
 extern Item_manager* item_controller;
