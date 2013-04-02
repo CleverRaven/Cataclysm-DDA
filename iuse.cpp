@@ -1675,6 +1675,11 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You can't place a %s there.", it->tname().c_str());
   return;
  }
+  if (g->m.tr_at(posx, posy) != tr_null) {
+  g->add_msg_if_player(p, "You can't place a %s there. It contains a trap already.", it->tname().c_str());
+  return;
+ }
+
 
 
  trap_id type = tr_null;
@@ -1684,7 +1689,7 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
  std::stringstream message;
  int practice;
 
- if(it->type->id == "cot"){
+if(it->type->id == "cot"){
   message << "You unfold the cot and place it on the ground.";
   type = tr_cot;
   practice = 0;
