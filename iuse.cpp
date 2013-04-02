@@ -2578,6 +2578,8 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
 
   if (int(g->turn) % 10 == 0) {	// Every 10 turns, describe the music
    std::string sound = "";
+   if (one_in(50))
+     sound = "some bass-heavy post-glam speed polka";
    switch (rng(1, 10)) {
     case 1: sound = "a sweet guitar solo!";	p->stim++;	break;
     case 2: sound = "a funky bassline.";			break;
@@ -3773,18 +3775,18 @@ void iuse::heatpack(game *g, player *p, item *it, bool t)
 	}
 	if (heat->type->is_food()) {
 		p->moves -= 300;
-		g->add_msg("You heat up the food.");	
+		g->add_msg("You heat up the food.");
 		heat->item_flags |= mfb(IF_HOT);
 		heat->active = true;
-		heat->item_counter = 600;		// sets the hot food flag for 60 minutes		
+		heat->item_counter = 600;		// sets the hot food flag for 60 minutes
 		it->make(g->itypes["heatpack_used"]);
 		return;
   } else 	if (heat->is_food_container()) {
 		p->moves -= 300;
-		g->add_msg("You heat up the food.");	
+		g->add_msg("You heat up the food.");
 		heat->contents[0].item_flags |= mfb(IF_HOT);
 		heat->contents[0].active = true;
-		heat->contents[0].item_counter = 600;		// sets the hot food flag for 60 minutes		
+		heat->contents[0].item_counter = 600;		// sets the hot food flag for 60 minutes
 		it->make(g->itypes["heatpack_used"]);
 		return;
 	}
