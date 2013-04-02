@@ -3176,7 +3176,7 @@ of single-shot grenade launchers by allowing sustained heavy firepower.\n\
 However, it is still slow to reload and must be used with careful planning.",
 mfb(IF_RELOAD_ONE)|mfb(IF_MODE_BURST));
 
-GUN("LAW", "M72 Law.",	200,8500,c_ltred,STEEL,	MNULL,
+GUN("LAW", "M72 LAW",	200,8500,c_ltred,STEEL,	MNULL,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
 	"launcher",	AT_66MM, 12, 13,  6,  0,  0, 12,  5,  9,  0,  1, 150, "\
 A single use rocket launcher, developed during WW2 as a countermeasure\n\
