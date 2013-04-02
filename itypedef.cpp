@@ -3215,11 +3215,11 @@ A shotgun modified to use a revolver cylinder mechanism, it can hold\n\
 mfb(IF_RELOAD_ONE));
 
 //	NAME      	 RAR  PRC  COLOR     MAT1   MAT2     VOL WGT DAM CUT HIT
-GUNMOD("silencer", "silencer",	 15,  480, c_dkgray, STEEL, PLASTIC,  2,  1,  3,  0,  2,
+GUNMOD("silencer", "suppressor",	 15,  480, c_dkgray, STEEL, PLASTIC,  2,  1,  3,  0,  2,
 //	ACC DAM NOI CLP REC BST NEWTYPE,	PISTOL	SHOT	SMG	RIFLE
 	-1, -4,-25,  0,  0,  0,	AT_NULL,	true,	false,	true,	true,
 	0, "\
-Using a silencer is almost an imperative in zombie-infested regions. Gunfire\n\
+Using a suppressor is almost an imperative in zombie-infested regions. Gunfire\n\
 is very noisy, and will attract predators. Its only drawback is a reduced\n\
 muzzle velocity, resulting in less accuracy and damage.",
 0);
