@@ -155,7 +155,7 @@ tests: $(ODIR) $(DDIR) $(OBJS)
 check: tests
 	$(MAKE) -C tests check
 
-.PHONY: tests check
+.PHONY: tests check ctags etags
 
 -include $(SOURCES:%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}
