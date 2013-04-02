@@ -368,6 +368,9 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMPCONT("steel_chunk", 2);
   COMPCONT("canister_empty", 1);
   COMPCONT("can_drink", 2);
+  COMP("grenade", 1);
+  COMPCONT("40mm_frag", 2);
+  COMPCONT("40mm_concussive", 2);
   COMP("plut_cell", 6);
   COMP("battery", 2);
   COMP("power_supply", 1);
