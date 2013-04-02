@@ -418,7 +418,7 @@ bool game::do_turn()
  u.suffer(this);
 
  if (levz >= 0) {
-  m.build_map_cache(this);
+  m.build_outside_cache(this);
 
   weather_effect weffect;
   (weffect.*(weather_data[weather].effect))(this);
