@@ -3390,6 +3390,15 @@ void iuse::pda_flashlight(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::LAW(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p,"You pull the activating lever, readying the LAW to fire.");
+ it->make(g->itypes["LAW"]);
+ it->charges++;
+ // When converting a tool to a gun, you need to set the current ammo type, this is usually done when a gun is reloaded.
+ it->curammo = dynamic_cast<it_ammo*>(g->itypes["66mm_HEAT"]);
+}
+
 /* MACGUFFIN FUNCTIONS
  * These functions should refer to it->associated_mission for the particulars
  */

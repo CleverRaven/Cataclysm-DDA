@@ -599,7 +599,7 @@ void game::init_mapitems()
    mapitems[mi_launchers],
 	"40mm_concussive", "40mm_frag", "40mm_incendiary",
 	"40mm_teargas", "40mm_smoke", "40mm_flashbang", "m79",
-	"m320", "mgl", "m203", NULL);
+	"m320", "mgl", "m203", "LAW_Packed", NULL);
 
  setvector(
    mapitems[mi_mil_rifles],
@@ -839,7 +839,7 @@ void game::init_mapitems()
   "jumpsuit_fit",
 	"plut_cell", "m249", "v8_combustion", "extinguisher",
 	"two_way_radio", "radio", "UPS_off", "beltrig",
-        "pants_army_fit", "boots_fit", "rucksack", NULL);
+        "pants_army_fit", "boots_fit", "rucksack", "LAW_Packed", NULL);
 
 // TODO: Replace kevlar with the ceramic plate armor
  setvector(
@@ -860,7 +860,7 @@ void game::init_mapitems()
 	"smokebomb", "UPS_off", "tazer", "c4", "hk_g80", "12mm",
 	"binoculars", "u_shotgun", "beltrig", "pants_army_fit",
  "power_armor_basic", "power_armor_helmet_basic", "power_armor_frame",
- "spare_mag", "canteen", "jerrycan", "rucksack", "heatpack", NULL);
+ "spare_mag", "canteen", "jerrycan", "rucksack", "heatpack", "LAW_Packed", NULL);
 
  setvector(
    mapitems[mi_science],

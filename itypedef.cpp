@@ -2441,6 +2441,11 @@ A 40mm grenade with a flashbang load. It will detonate with a blast of light\n\
 and sound, designed to blind, deafen, and disorient anyone nearby.",
 mfb(AMMO_FLASHBANG));
 
+AMMO("66mm_HEAT", "66mm HEAT",0, 0, AT_66MM,        c_red,  STEEL,
+     1,  1,  5,  20,  40,  8, 15, 1, "\
+A 60mm High Explosive Anti Tank round. They can blow through up to two feet of concrete.",
+mfb(AMMO_EXPLOSIVE_BIG));
+
 AMMO("12mm", "H&K 12mm",	 2, 500,AT_12MM,		c_red,	STEEL,
 	 1,  10, 25, 12, 70,  9, 7,  20, "\
 The Heckler & Koch 12mm projectiles are used in H&K railguns. It's made of a\n\
@@ -3170,6 +3175,14 @@ The Milkor Multi-Grenade Launcher is designed to compensate for the drawback\n\
 of single-shot grenade launchers by allowing sustained heavy firepower.\n\
 However, it is still slow to reload and must be used with careful planning.",
 mfb(IF_RELOAD_ONE)|mfb(IF_MODE_BURST));
+
+GUN("LAW", "M72 Law.",	200,8500,c_ltred,STEEL,	MNULL,
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
+	"launcher",	AT_66MM, 12, 13,  6,  0,  0, 12,  5,  9,  0,  1, 150, "\
+A single use rocket launcher, developed during WW2 as a countermeasure\n\
+to the increasing prevalance of tanks. Once fired, it cannot be reloaded\n\
+and must be disposed of.",
+mfb(IF_NO_UNLOAD));
 
 //  NAME		    RAR PRC COLOR		MAT1	MAT2
 GUN("coilgun", "coilgun",		1, 200,c_ltblue,	IRON,	MNULL,
@@ -4362,6 +4375,13 @@ TOOL("heatpack_used", "used heatpack",	2, 10, ';', c_blue,	PLASTIC,	MNULL,
 A heatpack, used to treat sports injuries and heat food.  This one\n\
 has been used already and is now useless.");
 
+TOOL("LAW_Packed", "Packed M72 LAW", 30, 500, ')', c_red, STEEL, MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    6, 13,  6,  0,  0, 1,   1,  1,  0, AT_NULL, "null", &iuse::LAW,
+0, "\
+An M72 LAW, packed in its storage form. (a)ctivate it to pop it out\n\
+and make it ready to fire. Once activated, it cannot be repacked.");
+
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
 // very simple and straightforward; a difficulty, followed by a NULL-terminated
@@ -4935,6 +4955,7 @@ std::string ammo_name(ammotype t)
   case AT_3006:   return ".30-06";
   case AT_308:	  return ".308";
   case AT_40MM:   return "40mm grenade";
+  case AT_66MM:   return "High Explosive Anti Tank Warhead";
   case AT_GAS:	  return "gasoline";
   case AT_THREAD: return "thread";
   case AT_BATT:   return "batteries";
@@ -4970,6 +4991,7 @@ itype_id default_ammo(ammotype guntype)
  case AT_308:	return "308";
  case AT_3006:	return "270";
  case AT_40MM:  return "40mm_concussive";
+ case AT_66MM:  return "66mm_HEAT";
  case AT_BATT:	return "battery";
  case AT_FUSION:return "laser_pack";
  case AT_12MM:  return "12mm";
