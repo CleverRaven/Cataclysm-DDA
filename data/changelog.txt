@@ -19,6 +19,7 @@ Steel jerrycans.
 Any gun can now be used one-handed if you are strong enough.
 The ability to cauterize wounds to heal bites and stop bleeding. (a)ctivate a knife, requires a lighter.
 The ability to craft an item as many times as is possible. Defaults to the + key. (Linux and Mac users will need to assign a key)
+Added M72-LAW. Makes a large explosion and penetrates armour well. One shot only.
 
 0.3
 Many menus stretch with an enlarged viewport.
