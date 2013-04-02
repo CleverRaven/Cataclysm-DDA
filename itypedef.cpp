@@ -3126,7 +3126,7 @@ GUN("nx17", "NX-17 charge rifle",1,12000,c_magenta,STEEL, PLASTIC,
 A multi-purpose rifle, designed for use in conjunction with a unified power\n\
 supply, or UPS. It does not reload normally; instead, press fire once to\n\
 start charging it from your UPS, then again to unload the charge.",
-mfb(IF_CHARGE));
+mfb(IF_CHARGE)|mfb(IF_NO_UNLOAD));
 
 //  NAME		RAR PRC COLOR	 MAT1	MAT2
 GUN("flamethrower_simple", "simple flamethr.",1,1600,c_pink,	STEEL,	PLASTIC,
