@@ -217,8 +217,8 @@ protected:
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
 			// Useful for houses, shops, etc
  void build_transparency_cache();
- void build_outside_cache();
- void generate_lightmap(game* g);
+ void build_outside_cache(game *g);
+ void generate_lightmap(game *g);
  void build_seen_cache(game *g);
 
  bool inbounds(const int x, const int y);

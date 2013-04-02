@@ -3413,8 +3413,13 @@ const float map::light_transparency(const int x, const int y) const
   return transparency_cache[x][y];
 }
 
-void map::build_outside_cache()
+void map::build_outside_cache(game *g)
 {
+    if (g->levz < 0)
+    {
+        memset(outside_cache, false, sizeof(outside_cache));
+        return;
+    }
     memset(outside_cache, true, sizeof(outside_cache));
 
     for(int x = 0; x < SEEX * my_MAPSIZE; x++)
@@ -3501,7 +3506,7 @@ void map::build_seen_cache(game *g)
 
 void map::build_map_cache(game *g)
 {
- build_outside_cache();
+ build_outside_cache(g);
 
  build_transparency_cache();
 
