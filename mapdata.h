@@ -608,6 +608,10 @@ enum map_extra {
  num_map_extras
 };
 
+const int classic_extras =  mfb(mx_helicopter) | mfb(mx_military) |
+  mfb(mx_stash) | mfb(mx_drugdeal) | mfb(mx_supplydrop) | mfb(mx_minefield) |
+  mfb(mx_wolfpack) | mfb(mx_cougar) | mfb(mx_puddle) | mfb(mx_crater);
+
 // Chances are relative to eachother; e.g. a 200 chance is twice as likely
 // as a 100 chance to appear.
 const int map_extra_chance[num_map_extras + 1] = {

@@ -218,7 +218,7 @@ item item::in_its_container(std::map<std::string, itype*> *itypes)
 
 bool item::invlet_is_okay()
 {
- return ((invlet >= 'a' && invlet <= 'z') || (invlet >= 'A' && invlet <= 'Z'));
+ return (inv_chars.find(invlet) != std::string::npos);
 }
 
 bool item::stacks_with(item rhs)

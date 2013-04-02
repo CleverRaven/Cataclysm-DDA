@@ -244,6 +244,11 @@ End of cheatery */
   tmp = item(g->itypes["glasses_eye"], 0, 'd');
   worn.push_back(tmp);
  }
+// And the far-sighted get to start with reading glasses.
+ if (has_trait(PF_HYPEROPIC)) {
+  tmp = item(g->itypes["glasses_reading"], 0, 'a' + worn.size());
+  worn.push_back(tmp);
+ }
 // Likewise, the asthmatic start with their medication.
  if (has_trait(PF_ASTHMA)) {
   tmp = item(g->itypes["inhaler"], 0, 'a' + worn.size());
