@@ -377,6 +377,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   dump->push_back(iteminfo("FOOD", " Nutrition: ", "", int(food->nutr)));
   dump->push_back(iteminfo("FOOD", " Quench: ", "", int(food->quench)));
   dump->push_back(iteminfo("FOOD", " Enjoyability: ", "", int(food->fun)));
+// debugging  
+//  dump->push_back(iteminfo("FOOD", " flags: ", "", item_flags));
+//  dump->push_back(iteminfo("FOOD", " item counter: ", "", int(item_counter)));    
 
   /*
   dump << " Nutrition: " << int(food->nutr) << "\n Quench: " <<
@@ -391,6 +394,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   dump->push_back(iteminfo("FOOD", " Quench: ", "", int(food->quench)));
   dump->push_back(iteminfo("FOOD", " Enjoyability: ", "", int(food->fun)));
   dump->push_back(iteminfo("FOOD", " Portions: ", "", abs(int(contents[0].charges))));
+// debugging
+//  dump->push_back(iteminfo("FOOD", " flags: ", "", item_flags));
+//  dump->push_back(iteminfo("FOOD", " item counter: ", "", int(item_counter)));  
+//  dump->push_back(iteminfo("FOOD", " flags: ", "", contents[0].item_flags));
+//  dump->push_back(iteminfo("FOOD", " item counter: ", "", int(contents[0].item_counter)));    
+  
 
   /*
   dump << " Nutrition: " << int(food->nutr) << "\n Quench: " <<
