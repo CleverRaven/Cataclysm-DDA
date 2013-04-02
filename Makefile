@@ -56,6 +56,7 @@ DDIR = .deps
 
 OS  = $(shell uname -o)
 CXX = $(CROSS)g++
+LD  = $(CROSS)g++
 
 # enable optimizations. slow to build
 ifdef RELEASE
@@ -115,7 +116,7 @@ all: $(TARGET)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
-	$(CXX) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
+	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
           $(OBJS) $(LDFLAGS)
 
 $(ODIR):
