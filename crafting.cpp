@@ -1738,7 +1738,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMPCONT("gin", 7);
   COMPCONT("triple_sec", 7);
 
-  RECIPE("silencer", CC_MISC, "mechanics", NULL, 1, 650, false);
+  RECIPE("suppressor", CC_MISC, "mechanics", NULL, 1, 650, false);
   TOOL("hacksaw", -1);
   TOOLCONT("toolset", -1);
   COMP("muffler", 1);
