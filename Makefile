@@ -146,6 +146,9 @@ export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS
 ctags: $(SOURCES) $(HEADERS)
 	ctags $(SOURCES) $(HEADERS)
 
+etags: $(SOURCES) $(HEADERS)
+	etags $(SOURCES) $(HEADERS)
+
 tests: $(ODIR) $(DDIR) $(OBJS)
 	$(MAKE) -C tests
 
