@@ -2193,7 +2193,9 @@ void map::process_active_items_in_submap(game *g, const int nonant)
 		for (int j = 0; j < SEEY; j++) {
 			std::vector<item> *items = &(grid[nonant]->itm[i][j]);
 			for (int n = 0; n < items->size(); n++) {
-				if ((*items)[n].active) {
+				if ((*items)[n].active ||
+				((*items)[n].is_container() && (*items)[n].contents.size() > 0 && (*items)[n].contents[0].active))
+				{
 					if ((*items)[n].is_food()) {	// food items
 						if ((*items)[n].has_flag(IF_HOT)) {
 							(*items)[n].item_counter--;
