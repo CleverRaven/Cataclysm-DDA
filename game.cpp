@@ -3759,6 +3759,12 @@ void game::use_computer(int x, int y)
   add_msg("You can not read a computer screen!");
   return;
  }
+
+ if (u.has_trait(PF_HYPEROPIC) && !u.is_wearing("glasses_reading")) {
+  add_msg("You'll need to put on reading glasses before you can see the screen.");
+  return;
+ }
+
  computer* used = m.computer_at(x, y);
 
  if (used == NULL) {

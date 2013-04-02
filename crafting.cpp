@@ -2384,6 +2384,31 @@ void game::complete_craft()
    skill_dice += u.skillLevel(making->sk_primary);
  else
    skill_dice += u.skillLevel(making->sk_secondary);
+
+// farsightedness can impose a penalty on electronics and tailoring success
+// it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
+ if (u.has_trait(PF_HYPEROPIC) && !u.is_wearing("glasses_reading")) {
+  int main_rank_penalty = 0;
+  if (making->sk_primary == Skill::skill("electronics")) {
+   main_rank_penalty = 2;
+  } else if (making->sk_primary == Skill::skill("tailoring")) {
+   main_rank_penalty = 1;
+  }
+  skill_dice -= main_rank_penalty * 3;
+
+  if (making->sk_secondary == NULL) {
+   skill_dice -= main_rank_penalty;
+  } else {
+   int second_rank_penalty = 0;
+   if (making->sk_secondary == Skill::skill("electronics")) {
+    second_rank_penalty = 2;
+   } else if (making->sk_secondary == Skill::skill("tailoring")) {
+    second_rank_penalty = 1;
+   }
+   skill_dice -= second_rank_penalty;
+  }
+ }
+
 // Sides on dice is 16 plus your current intelligence
  int skill_sides = 16 + u.int_cur;
 

@@ -5071,6 +5071,8 @@ hint_rating player::rate_action_read(item *it, game *g)
   return HINT_IFFY; //won't read non-fun books when sad
  } else if (book->intel > 0 && has_trait(PF_ILLITERATE)) {
   return HINT_IFFY;
+ } else if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")) {
+  return HINT_IFFY;
  }
 
  return HINT_GOOD;
@@ -5086,6 +5088,11 @@ void player::read(game *g, char ch)
 // Check if reading is okay
  if (g->light_level() < 8 && LL_LIT > g->m.light_at(posx, posy)) {
   g->add_msg("It's too dark to read!");
+  return;
+ }
+
+ if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")) {
+  g->add_msg("Your eyes won't focus without reading glasses.");
   return;
  }
 
