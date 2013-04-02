@@ -3559,7 +3559,7 @@ void player::process_active_items(game *g)
       }
     }
   }
-// worn items	
+// worn items
   for (int i = 0; i < worn.size(); i++) {
     if (worn[i].is_artifact())
     g->process_artifact(&(worn[i]), this);
