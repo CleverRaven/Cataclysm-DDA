@@ -8540,20 +8540,27 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2)
 
 map_extra random_map_extra(map_extras embellishments)
 {
- int pick = 0;
-// Set pick to the total of all the chances for map extras
- for (int i = 0; i < num_map_extras; i++)
-  if (!OPTIONS[OPT_CLASSIC_ZOMBIES] || mfb(i) & classic_extras)
-   pick += embellishments.chances[i];
-// Set pick to a number between 0 and the total
- pick = rng(0, pick - 1);
- int choice = -1;
- while (pick >= 0) {
-  choice++;
-  if(!OPTIONS[OPT_CLASSIC_ZOMBIES] || mfb(choice) & classic_extras)
-   pick -= embellishments.chances[choice];
- }
- return map_extra(choice);
+    int pick = 0;
+    // Set pick to the total of all the chances for map extras
+    for (int i = 0; i < num_map_extras; i++)
+    {
+        if (!OPTIONS[OPT_CLASSIC_ZOMBIES] || mfb(i) & classic_extras)
+        {
+            pick += embellishments.chances[i];
+        }
+    }
+    // Set pick to a number between 0 and the total
+    pick = rng(0, pick - 1);
+    int choice = -1;
+    while (pick >= 0)
+    {
+        choice++;
+        if(!OPTIONS[OPT_CLASSIC_ZOMBIES] || mfb(choice) & classic_extras)
+        {
+            pick -= embellishments.chances[choice];
+        }
+    }
+    return map_extra(choice);
 }
 
 room_type pick_mansion_room(int x1, int y1, int x2, int y2)
