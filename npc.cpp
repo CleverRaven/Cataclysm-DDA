@@ -971,7 +971,7 @@ void npc::spawn_at(overmap *o, int x, int y)
  omy = o->pos().y;
  mapx = x;
  mapy = y;
- if (x == -1 || y == -1) {
+ if (x == -1 || y == -1) { //<soy> not sure what this is supposed to do. If you do, please update this comment.
   int city_index = rng(0, o->cities.size() - 1);
   int x = o->cities[city_index].x;
   int y = o->cities[city_index].y;

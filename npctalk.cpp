@@ -60,7 +60,7 @@ void npc::talk_to_u(game *g)
  if (attitude == NPCATT_TALK)
   attitude = NPCATT_NULL;
  else if (attitude == NPCATT_FLEE) {
-  g->add_msg("%s is fleeing you!", name.c_str());
+  g->add_msg("%s is fleeing from you!", name.c_str());
   return;
  } else if (attitude == NPCATT_KILL) {
   g->add_msg("%s is hostile!", name.c_str());
@@ -184,7 +184,7 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
     if (p->chatbin.missions_assigned.empty())
      return "I just have one job for you.  Want to hear about it?";
     else
-     return "I have other one job for you.  Want to hear about it?";
+     return "I have another job for you.  Want to hear about it?";
   } else if (p->chatbin.missions_assigned.empty())
     return "I have several jobs for you.  Which should I describe?";
   else

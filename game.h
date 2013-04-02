@@ -307,6 +307,7 @@ class game
   void clear_bindings(action_id act); // Deletes all keys bound to act
 
   void create_factions();   // Creates new factions (for a new game world)
+  void reset_npcs(); //Reset all the NPCs missions and attitudes for a new character.
   void create_starting_npcs(); // Creates NPCs that start near you
 
 // Player actions

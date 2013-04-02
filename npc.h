@@ -32,7 +32,7 @@ void parse_tags(std::string &phrase, player *u, npc *me);
 
 // Attitude is how we feel about the player, what we do around them
 enum npc_attitude {
- NPCATT_NULL = 0,	// Don't care/ignoring player
+ NPCATT_NULL = 0,	// Don't care/ignoring player The places this is assigned is on shelter NPC generation, and when you order a NPC to stay in a location, and after talking to a NPC that wanted to talk to you.
  NPCATT_TALK,		// Move to and talk to player
  NPCATT_TRADE,		// Move to and trade with player
  NPCATT_FOLLOW,		// Follow the player
@@ -63,7 +63,7 @@ enum npc_mission {
  NPC_MISSION_MISSING,	// Special; following player to finish mission
  NPC_MISSION_KIDNAPPED,	// Special; was kidnapped, to be rescued by player
 
- NPC_MISSION_BASE, // Base Mission: unassigned
+ NPC_MISSION_BASE, // Base Mission: unassigned (Might be used for assigning a npc to stay in a location).
 
  NUM_NPC_MISSIONS
 };
@@ -355,7 +355,7 @@ struct npc_chatbin
  std::vector<int> missions;
  std::vector<int> missions_assigned;
  int mission_selected;
- int tempvalue;
+ int tempvalue; //No clue what this value does, but it is used all over the place. So it is NOT temp.
  talk_topic first_topic;
 
  npc_chatbin()

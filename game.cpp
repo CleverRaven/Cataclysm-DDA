@@ -246,8 +246,11 @@ void game::start_game()
  nextspawn = int(turn);
  temperature = 65; // Springtime-appropriate?
 
-// Put some NPCs in there!
+ //Reset old NPCs.
+// reset_npcs();
+ //Put some NPCs in there!
  create_starting_npcs();
+
  MAPBUFFER.set_dirty();
 }
 
@@ -267,9 +270,31 @@ void game::create_factions()
  }
 }
 
+//Reset all the NPCs missions and attitudes for a new character.
+//This function should only be called at the start of a new game.
+//If there are any npcs left on the world map, their missions and
+//attitudes should be reset.
+void game::reset_npcs()
+{
+	npc tmp;
+	for (int i = 0; i < active_npc.size(); i++) //TODO, this is the wrong list. Need all map NPC's.
+	{
+  tmp = active_npc[i];
+  tmp.form_opinion(&u); //This is not ideal. All old NPC now form a new opinion, on new character creation.
+  if(tmp.mission == NPC_MISSION_SHELTER) {
+  	tmp.chatbin.first_topic = TALK_SHELTER;
+  	tmp.attitude = NPCATT_NULL;
+		} else {
+			tmp.chatbin.first_topic = TALK_NONE;
+			tmp.attitude = NPCATT_TALK;
+		}
+	 tmp.chatbin.mission_selected = -1;
+	 tmp.chatbin.tempvalue = -1;
+ }
+}
+
 void game::create_starting_npcs()
 {
-	point location;
  if(!starting_npc)
  	return; //Do not generate a starting npc.
  npc tmp;
@@ -279,10 +304,10 @@ void game::create_starting_npcs()
  tmp.place_near(this, SEEX * int(MAPSIZE / 2) + SEEX, SEEY * int(MAPSIZE / 2) + 6);
  tmp.form_opinion(&u);
  tmp.attitude = NPCATT_NULL;
- tmp.mission = NPC_MISSION_SHELTER;
+ tmp.mission = NPC_MISSION_SHELTER; //This sets the npc mission. This NPC remains in the shelter.
  tmp.chatbin.first_topic = TALK_SHELTER;
  tmp.chatbin.missions.push_back(
-     reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp.id) );
+     reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp.id) ); //one random shelter mission/
 
  active_npc.push_back(tmp);
 }
@@ -2072,11 +2097,11 @@ void game::debug()
    npc temp;
    temp.normalize(this);
    temp.randomize(this);
-   temp.attitude = NPCATT_TALK;
+   //temp.attitude = NPCATT_TALK; //not needed
    temp.spawn_at(&cur_om, levx + (1 * rng(-2, 2)), levy + (1 * rng(-2, 2)));
    temp.place_near(this, u.posx - 4, u.posy - 4);
    temp.form_opinion(&u);
-   temp.attitude = NPCATT_TALK;
+   //temp.attitude = NPCATT_TALK;//The newly spawned npc always wants to talk. Disabled as form opinion sets the attitude.
    temp.mission = NPC_MISSION_NULL;
    int mission_index = reserve_random_mission(ORIGIN_ANY_NPC,
                                               om_location(), temp.id);
@@ -2095,10 +2120,11 @@ Location %d:%d in %d:%d, %s\n\
 Current turn: %d; Next spawn %d.\n\
 NPCs are %s spawn.\n\
 %d monsters exist.\n\
+%d currently active NPC's.\n\
 %d events planned.", u.posx, u.posy, levx, levy,
 oterlist[cur_om.ter(levx / 2, levy / 2, levz)].name.c_str(),
 int(turn), int(nextspawn), (!random_npc ? "NOT going to" : "going to"),
-z.size(), events.size());
+z.size(), active_npc.size(), events.size());
 
    if (!active_npc.empty())
     popup_top("%s: %d:%d (you: %d:%d)", active_npc[0].name.c_str(),
@@ -7630,7 +7656,7 @@ void game::spawn_mon(int shiftx, int shifty)
   tmp.spawn_at(&cur_om, levx + (1 * rng(-5, 5)), levy + (1 * rng(-5, 5)));
   tmp.place_near(this, SEEX * 2 * (tmp.mapx - levx) + rng(0 - SEEX, SEEX), SEEY * 2 * (tmp.mapy - levy) + rng(0 - SEEY, SEEY));
   tmp.form_opinion(&u);
-  tmp.attitude = NPCATT_TALK;
+  //tmp.attitude = NPCATT_TALK; //Form opinion seems to set the attitude.
   tmp.mission = NPC_MISSION_NULL;
   int mission_index = reserve_random_mission(ORIGIN_ANY_NPC,
                                              om_location(), tmp.id);
