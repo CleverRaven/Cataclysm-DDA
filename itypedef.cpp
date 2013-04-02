@@ -2051,12 +2051,16 @@ itypes[id] = new it_armor(id,rarity,price,name,des,'[',\
 
 POWER_ARMOR("power_armor_basic", "basic power armor", 5, 1000, C_BODY, STEEL, MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   40, 24, 1, 1, 5, 32, 50, 10, 70, 0, mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
+   40, 80, 1, 1, 5, 32, 50, 10, 70, 0, mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
 A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.");
 
 POWER_ARMOR("power_armor_helmet_basic", "basic power armor helmet", 6, 500, C_HAT, STEEL, MNULL,
-   10, 6, 1, 1, 5, 32, 50, 10, 70, 0, mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth), "\
+   10, 24, 1, 1, 5, 32, 50, 10, 70, 0, mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth), "\
 A basic helmet, designed for use with power armor. Offers excellent protection from both attacks and environmental hazards.");
+
+POWER_ARMOR("power_armor_frame", "power armor hauling frame", 4, 1000, C_STORE, STEEL, MNULL,
+    8, 12, 1, 1, 4, 0, 0, 0, 0, 120, 0, "\
+A heavy duty hauling frame designed to interface with power armor.");
 
 // AMMUNITION
 // Material should be the wrapper--even though shot is made of iron, because
@@ -3122,7 +3126,7 @@ GUN("nx17", "NX-17 charge rifle",1,12000,c_magenta,STEEL, PLASTIC,
 A multi-purpose rifle, designed for use in conjunction with a unified power\n\
 supply, or UPS. It does not reload normally; instead, press fire once to\n\
 start charging it from your UPS, then again to unload the charge.",
-mfb(IF_CHARGE));
+mfb(IF_CHARGE)|mfb(IF_NO_UNLOAD));
 
 //  NAME		RAR PRC COLOR	 MAT1	MAT2
 GUN("flamethrower_simple", "simple flamethr.",1,1600,c_pink,	STEEL,	PLASTIC,

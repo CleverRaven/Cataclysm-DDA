@@ -1,0 +1,18 @@
+# This is the npc file for Cataclysm.
+# You can start a line with # to make it a comment--it will be ignored.
+# Blank lines are ignored too.
+# Extra whitespace, including tab, is ignored, so format things how you like.
+# If you wish to restore defaults, simply remove this file.
+
+# This file currently has two options, disabling starting npcs and 
+# disabling randomly spawning npcs spawned by the dynamic spawn system
+ 
+# Turning on the starting_npc setting only has effect on new character
+# creation. None of these settings get rid of already spawned npcs. Use
+# the debug menu for that.
+	
+# WARNING: NPC's are currently broken. When used expect bugs and crashes.
+# You have been warned.
+# None of these settings prevent you from spawning npcs using the debug menu.
+starting_npc n
+random_npc n

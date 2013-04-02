@@ -2638,7 +2638,7 @@ void map::draw(game *g, WINDOW* w, const point center)
     else
      mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_ltgray, '#');
    } else if (dist <= u_clairvoyance || can_see) {
-    if (bRainOutside && INBOUNDS(realx, realy) && !has_flag(supports_roof, realx, realy))
+    if (bRainOutside && INBOUNDS(realx, realy) && is_outside(realx, realy))
      g->mapRain[realy + getmaxy(w)/2 - center.y][realx + getmaxx(w)/2 - center.x] = true;
     drawsq(w, g->u, realx, realy, false, true, center.x, center.y,
            (dist > low_sight_range && LL_LIT > lit) ||
@@ -3339,18 +3339,19 @@ graffiti map::graffiti_at(int x, int y)
  return grid[nonant]->graf[x][y];
 }
 
-long map::determine_wall_corner(int x, int y, long sym)
+long map::determine_wall_corner(const int x, const int y, const long orig_sym)
 {
+    long sym = orig_sym;
     //LINE_NESW
-    long above = terlist[ter(x, y-1)].sym;
-    long below = terlist[ter(x, y+1)].sym;
-    long left  = terlist[ter(x-1, y)].sym;
-    long right = terlist[ter(x+1, y)].sym;
+    const long above = terlist[ter(x, y-1)].sym;
+    const long below = terlist[ter(x, y+1)].sym;
+    const long left  = terlist[ter(x-1, y)].sym;
+    const long right = terlist[ter(x+1, y)].sym;
 
-    bool above_connects = above == sym || (above == '"' || above == '+' || above == '\'');
-    bool below_connects = below == sym || (below == '"' || below == '+' || below == '\'');
-    bool left_connects  = left  == sym || (left  == '"' || left  == '+' || left  == '\'');
-    bool right_connects = right == sym || (right == '"' || right == '+' || right == '\'');
+    const bool above_connects = above == sym || (above == '"' || above == '+' || above == '\'');
+    const bool below_connects = below == sym || (below == '"' || below == '+' || below == '\'');
+    const bool left_connects  = left  == sym || (left  == '"' || left  == '+' || left  == '\'');
+    const bool right_connects = right == sym || (right == '"' || right == '+' || right == '\'');
 
     // -
     // |      this = - and above = | or a connectable
@@ -3413,8 +3414,13 @@ const float map::light_transparency(const int x, const int y) const
   return transparency_cache[x][y];
 }
 
-void map::build_outside_cache()
+void map::build_outside_cache(const game *g)
 {
+    if (g->levz < 0)
+    {
+        memset(outside_cache, false, sizeof(outside_cache));
+        return;
+    }
     memset(outside_cache, true, sizeof(outside_cache));
 
     for(int x = 0; x < SEEX * my_MAPSIZE; x++)
@@ -3501,7 +3507,7 @@ void map::build_seen_cache(game *g)
 
 void map::build_map_cache(game *g)
 {
- build_outside_cache();
+ build_outside_cache(g);
 
  build_transparency_cache();
 

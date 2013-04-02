@@ -4564,19 +4564,24 @@ bool player::wear_item(game *g, item *to_wear)
  }
 
  // are we trying to put on power armor? If so, make sure we don't have any other gear on.
- if (armor->is_power_armor() && worn.size()) {
-   if (armor->covers & mfb(bp_torso)) {
+ if (armor->is_power_armor()) {
+   if (worn.size() && armor->covers & mfb(bp_torso)) {
      g->add_msg("You can't wear power armor over other gear!");
      return false;
-   } else if (armor->covers & mfb(bp_head) && !((it_armor *)worn[0].type)->is_power_armor()) {
-     g->add_msg("You can only wear power armor helmets with power armor!");
+   } else if (!(armor->covers & mfb(bp_torso)) && (!worn.size() || !((it_armor *)worn[0].type)->is_power_armor())) {
+     g->add_msg("You can only wear power armor components with power armor!");
      return false;
    }
- }
 
- // are we trying to wear something over power armor? We can't have that, unless it's a backpack, or similar.
- if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor() && !(armor->covers & mfb(bp_head))) {
-   if (!(armor->covers & mfb(bp_torso) && armor->color == c_green)) {
+   for (int i = 0; i < worn.size(); i++) {
+     if (((it_armor *)worn[i].type)->is_power_armor() && worn[i].type == armor) {
+       g->add_msg("You cannot wear more than one %s!", to_wear->tname().c_str());
+       return false;
+     }
+   }
+ } else {
+   // Only helmets can be worn with power armor, except other power armor components
+   if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor() && !(armor->covers & mfb(bp_head))) {
      g->add_msg("You can't wear %s with power armor!", to_wear->tname().c_str());
      return false;
    }
@@ -5066,6 +5071,8 @@ hint_rating player::rate_action_read(item *it, game *g)
   return HINT_IFFY; //won't read non-fun books when sad
  } else if (book->intel > 0 && has_trait(PF_ILLITERATE)) {
   return HINT_IFFY;
+ } else if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")) {
+  return HINT_IFFY;
  }
 
  return HINT_GOOD;
@@ -5081,6 +5088,11 @@ void player::read(game *g, char ch)
 // Check if reading is okay
  if (g->light_level() < 8 && LL_LIT > g->m.light_at(posx, posy)) {
   g->add_msg("It's too dark to read!");
+  return;
+ }
+
+ if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")) {
+  g->add_msg("Your eyes won't focus without reading glasses.");
   return;
  }
 
