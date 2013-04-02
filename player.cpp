@@ -3516,9 +3516,10 @@ void player::process_active_items(game *g)
    item *tmp_it = &(inv.stack_at(i)[j]);
    if (tmp_it->is_artifact() && tmp_it->is_tool())
       g->process_artifact(tmp_it, this);
-      if (tmp_it->active) {
+      if (tmp_it->active || 
+      (tmp_it->is_container() && tmp_it->contents.size() > 0 && tmp_it->contents[0].active)) {
         if (tmp_it->is_food()) {
-          if (tmp_it->has_flag(IF_HOT)) {
+          if (tmp_it->has_flag(IF_HOT)) {	
             tmp_it->item_counter--;
             if (tmp_it->item_counter == 0) {
               tmp_it->item_flags ^= mfb(IF_HOT);
@@ -3527,6 +3528,7 @@ void player::process_active_items(game *g)
           }
         } else if (tmp_it->is_food_container()) {
           if (tmp_it->contents[0].has_flag(IF_HOT)) {
+
             tmp_it->contents[0].item_counter--;
             if (tmp_it->contents[0].item_counter == 0) {
               tmp_it->contents[0].item_flags ^= mfb(IF_HOT);
