@@ -117,6 +117,14 @@ void dis_effect(game *g, player &p, disease &dis)
   }
   break;
 
+  case DI_COLD_MOUTH:
+  switch (dis.intensity) {
+   case 3 : p.per_cur -= 3; if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your face is stiff from the cold.");
+   case 2 : p.per_cur--;
+   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Brr.\"");
+  }
+  break;
+
  case DI_COLD_TORSO:
   switch (dis.intensity) {
    case 3 : p.dex_cur -= 2; if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your torso is burning up. You should remove some layers.");
@@ -226,6 +234,15 @@ void dis_effect(game *g, player &p, disease &dis)
    case 1 :
     if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
     // Speed -2
+  }
+  break;
+
+ case DI_HOT_MOUTH:
+  switch (dis.intensity) {
+   case 3 : p.thirst--;
+    if (p.pain < 50) p.pain++;
+   case 2 : p.thirst--;
+   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
   }
   break;
 
@@ -1179,6 +1196,11 @@ std::string dis_name(disease dis)
    case 1: return "Cold head";
    case 2: return "Cold head!";
    case 3: return "Freezing head!!";}
+  case DI_COLD_MOUTH:
+  switch (dis.intensity) {
+   case 1: return "Cold face";
+   case 2: return "Cold face!";
+   case 3: return "Freezing face!!";}
  case DI_COLD_TORSO:
   switch (dis.intensity) {
    case 1: return "Cold torso";
@@ -1221,6 +1243,11 @@ std::string dis_name(disease dis)
    case 1: return "Hot head";
    case 2: return "Hot head!";
    case 3: return "Scorching head!!";}
+ case DI_HOT_MOUTH:
+  switch (dis.intensity) {
+   case 1: return "Hot face";
+   case 2: return "Hot face!";
+   case 3: return "Scorching face!!";}
  case DI_HOT_TORSO:
   switch (dis.intensity) {
    case 1: return "Hot torso";
@@ -1345,17 +1372,11 @@ std::string dis_description(disease dis)
    case 2: return "Your head is very exposed to the cold. It is hard to concentrate.";
    case 3: return "Your head is dangerously cold. Getting undressed sounds like a good idea.";}
 
- case DI_COLD_EYES:
-  switch (dis.intensity) {
-   case 1: return "Your eyes are exposed to the cold.";
-   case 2: return "Your eyes are very exposed to the cold.";
-   case 3: return "Your eyes are dangerously cold.";}
-
  case DI_COLD_MOUTH:
   switch (dis.intensity) {
-   case 1: return "Your mouth is exposed to the cold.";
-   case 2: return "Your mouth is very exposed to the cold.";
-   case 3: return "Your mouth is dangerously cold.";}
+   case 1: return "Your face is exposed to the cold.";
+   case 2: return "Your face is very exposed to the cold.";
+   case 3: return "Your face is dangerously cold.";}
 
  case DI_COLD_TORSO:
   switch (dis.intensity) {
@@ -1418,6 +1439,12 @@ std::string dis_description(disease dis)
    case 1: return "Your head feels warm.";
    case 2: return "Your head is sweating from the heat. You feel nauseated. You have a headache.";
    case 3: return "Your head is sweating profusely. You feel very nauseated. You have a headache.";}
+
+ case DI_HOT_MOUTH:
+  switch (dis.intensity) {
+   case 1: return "Your face feels warm.";
+   case 2: return "Your face is sweating from the heat, making it hard to see.";
+   case 3: return "Your face is sweating profusely, making it hard to see.";}
 
  case DI_HOT_TORSO:
   switch (dis.intensity) {
