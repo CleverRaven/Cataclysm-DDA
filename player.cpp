@@ -728,7 +728,13 @@ void player::load_info(game *g, std::string data)
          inveh >> scent >> moves >> underwater >> dodges_left >> blocks_left >>
          oxygen >> active_mission >> xp_pool >> male >> prof_ident >> health >>
          styletmp;
- prof = profession::prof(prof_ident);
+ 
+ if (profession::exists(prof_ident)) {
+  prof = profession::prof(prof_ident);
+ } else {
+  prof = profession::generic();
+  debugmsg("Tried to use non-existant profession '%s'", prof_ident.c_str());
+ }
 
  activity.load_info(dump);
  backlog.load_info(dump);
