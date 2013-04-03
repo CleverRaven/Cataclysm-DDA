@@ -671,12 +671,12 @@ MED("crack", "crack",		 8,420,	c_white,	"apparatus",
 	POWDER,  40, -2, 80,  4, 50,&iuse::crack,	ADD_CRACK, "\
 Refined cocaine, incredibly addictive.");
 
-MED("grack", "Grack Cocaine",      8,420, c_white,        "apparatus",
+/*MED("grack", "Grack Cocaine",      8,420, c_white,        "apparatus",
         POWDER,  200, -2, 80,  4, 50,&iuse::grack,       ADD_CRACK, "\
 Grack Cocaine, the strongest substance known to the multiverse\n\
 this potent substance is refined from the sweat of the legendary\n\
 gracken");
-
+*/
 
 // MELEE WEAPONS
 // Only use secondary material if it will have a major impact.
