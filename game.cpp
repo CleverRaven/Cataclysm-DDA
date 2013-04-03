@@ -315,6 +315,21 @@ void game::create_starting_npcs()
 void game::cleanup_at_end(){
  write_msg();
 
+ // Save the NPC's, missions and NPC's
+ //offload all the active npcs into omap npcs.
+ for(int i = 0; i < active_npc.size(); i++)
+	{
+			cur_om.npcs.push_back(active_npc[i]);
+   active_npc[i].dead = true;
+ }
+ save_factions_missions_npcs(); //missions need to be saved as they are global for all saves.
+
+ // save artifacts.
+ save_artifacts();
+
+ // and the overmap, and the local map.
+ save_maps(); //Omap also contains a few inactive npcs who need to be saved.
+
  // Save the monsters before we die!
  despawn_monsters();
  if (uquit == QUIT_DIED)
@@ -1879,37 +1894,14 @@ void game::load(std::string name)
  draw();
 }
 
-void game::save()
+//Saves all factions and missions and npcs.
+//Requires a valid std:stringstream masterfile to save the
+void game::save_factions_missions_npcs ()
 {
- std::stringstream playerfile, masterfile;
- std::ofstream fout;
- playerfile << "save/" << u.name << ".sav";
+	std::stringstream masterfile;
+	std::ofstream fout;
  masterfile << "save/master.gsav";
- fout.open(playerfile.str().c_str());
-// First, write out basic game state information.
- fout << int(turn) << " " << int(last_target) << " " << int(run_mode) << " " <<
-         mostseen << " " << nextinv << " " << next_npc_id << " " <<
-         next_faction_id << " " << next_mission_id << " " << int(nextspawn) <<
-         " " << int(nextweather) << " " << weather << " " << int(temperature) <<
-         " " << levx << " " << levy << " " << levz << " " << cur_om.pos().x <<
-         " " << cur_om.pos().y << " " << std::endl;
-// Next, the scent map.
- for (int i = 0; i < SEEX * MAPSIZE; i++) {
-  for (int j = 0; j < SEEY * MAPSIZE; j++)
-   fout << grscent[i][j] << " ";
- }
-// Now save all monsters.
- fout << std::endl << z.size() << std::endl;
- for (int i = 0; i < z.size(); i++)
-  fout << z[i].save_info() << std::endl;
- for (int i = 0; i < num_monsters; i++)	// Save the kill counts, too.
-  fout << kills[i] << " ";
-// And finally the player.
- fout << u.save_info() << std::endl;
- fout << std::endl;
- fout.close();
 
-// Now write things that aren't player-specific: factions and NPCs
  fout.open(masterfile.str().c_str());
 
  fout << next_mission_id << " " << next_faction_id << " " << next_npc_id <<
@@ -1929,20 +1921,67 @@ void game::save()
  }
 
  fout.close();
+}
 
-// Finally, save artifacts.
- if (artifact_itype_ids.size() > 0) {
-    fout.open("save/artifacts.gsav");
-    for ( std::vector<std::string>::iterator it = artifact_itype_ids.begin();
-          it != artifact_itype_ids.end(); ++it){
-        fout << itypes[*it]->save_data() << "\n";
-    }
-    fout.close();
+void game::save_artifacts()
+{
+	std::ofstream fout;
+	if (artifact_itype_ids.size() > 0) {
+  fout.open("save/artifacts.gsav");
+		for ( std::vector<std::string>::iterator it = artifact_itype_ids.begin();
+   it != artifact_itype_ids.end(); ++it){
+   fout << itypes[*it]->save_data() << "\n";
+  }
+  fout.close();
  }
-// aaaand the overmap, and the local map.
- cur_om.save();
+}
+
+void game::save_maps()
+{
+	cur_om.save();
  m.save(&cur_om, turn, levx, levy, levz);
  MAPBUFFER.save();
+}
+
+
+void game::save()
+{
+ std::stringstream playerfile;
+ std::ofstream fout;
+ playerfile << "save/" << u.name << ".sav";
+
+ fout.open(playerfile.str().c_str());
+ // First, write out basic game state information.
+ fout << int(turn) << " " << int(last_target) << " " << int(run_mode) << " " <<
+         mostseen << " " << nextinv << " " << next_npc_id << " " <<
+         next_faction_id << " " << next_mission_id << " " << int(nextspawn) <<
+         " " << int(nextweather) << " " << weather << " " << int(temperature) <<
+         " " << levx << " " << levy << " " << levz << " " << cur_om.pos().x <<
+         " " << cur_om.pos().y << " " << std::endl;
+ // Next, the scent map.
+ for (int i = 0; i < SEEX * MAPSIZE; i++) {
+  for (int j = 0; j < SEEY * MAPSIZE; j++)
+   fout << grscent[i][j] << " ";
+ }
+ // Now save all monsters.
+ fout << std::endl << z.size() << std::endl;
+ for (int i = 0; i < z.size(); i++)
+  fout << z[i].save_info() << std::endl;
+ for (int i = 0; i < num_monsters; i++)	// Save the kill counts, too.
+  fout << kills[i] << " ";
+ // And finally the player.
+ fout << u.save_info() << std::endl;
+ fout << std::endl;
+ fout.close();
+
+ // Now write things that aren't player-specific: factions and NPCs
+ save_factions_missions_npcs();
+
+ // Finally, save artifacts.
+ save_artifacts();
+
+ // and the overmap, and the local map.
+ save_maps();
 }
 
 void game::delete_save()
@@ -2046,7 +2085,7 @@ bool game::event_queued(event_type type)
 
 void game::debug()
 {
- int action = menu("Debug Functions - Using these is CHEATING!",
+ int action = menu("Debug Functions - Using any of these is CHEATING!",
                    "Wish for an item",       // 1
                    "Teleport - Short Range", // 2
                    "Teleport - Long Range",  // 3
@@ -2126,9 +2165,14 @@ oterlist[cur_om.ter(levx / 2, levy / 2, levz)].name.c_str(),
 int(turn), int(nextspawn), (!random_npc ? "NOT going to" : "going to"),
 z.size(), active_npc.size(), events.size());
 
-   if (!active_npc.empty())
-    popup_top("%s: %d:%d (you: %d:%d)", active_npc[0].name.c_str(),
-              active_npc[0].posx, active_npc[0].posy, u.posx, u.posy);
+		 if (!active_npc.empty())
+			{
+    for (int i = 0; i < active_npc.size(); i++) {
+						add_msg("%s: %d:%d", active_npc[i].name.c_str(),
+              active_npc[i].posx, active_npc[i].posy);
+    }
+			 add_msg("(you: %d:%d)", u.posx, u.posy);
+			}
    break;
 
   case 8:
@@ -7362,7 +7406,8 @@ void game::update_map(int &x, int &y)
    active_npc[i].posx %= SEEX;
    active_npc[i].posy %= SEEY;
    cur_om.npcs.push_back(active_npc[i]);
-   active_npc[i].dead = true;
+   active_npc[i].dead = true; //dead in this case doesn't mean really dead, but just moved to the overmap, not
+                              // active, and the active npc needs cleaning.
    //active_npc.erase(active_npc.begin() + i);
    i--;
   }

@@ -283,6 +283,11 @@ class game
   void start_game();	// Starts a new game
   void start_special_game(special_game_id gametype); // See gamemode.cpp
 
+  //private save functions.
+		void save_factions_missions_npcs();
+  void save_artifacts();
+	 void save_maps();
+
 // Data Initialization
   void init_itypes();       // Initializes item types
   void init_bionics();      // Initializes bionics... for now.

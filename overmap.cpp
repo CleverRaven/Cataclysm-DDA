@@ -2574,6 +2574,7 @@ void overmap::save()
           radios[i].strength << " " << std::endl << radios[i].message <<
           std::endl;
 
+ //saving the npcs
  for (int i = 0; i < npcs.size(); i++)
   fout << "n " << npcs[i].save_info() << std::endl;
 
