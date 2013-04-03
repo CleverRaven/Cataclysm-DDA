@@ -3411,7 +3411,7 @@ long map::determine_wall_corner(const int x, const int y, const long orig_sym)
     return sym;
 }
 
-const float map::light_transparency(const int x, const int y) const
+float map::light_transparency(const int x, const int y) const
 {
   return transparency_cache[x][y];
 }
