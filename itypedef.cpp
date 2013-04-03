@@ -4176,7 +4176,7 @@ A sharp knife. Makes a poor melee weapon, but is decent at butchering\n\
 corpses.");
 
 TOOL("knife_butcher", "butcher knife",	10,  80,';', c_cyan,	STEEL,	MNULL,
-	 3,  6,  4, 18, -3 ,0, 0, 0, 0, AT_NULL, "null", &iuse::none, 0, "\
+	 3,  6,  4, 18, -3 ,0, 0, 0, 0, AT_NULL, "null", &iuse::knife, 0, "\
 A sharp, heavy knife. Makes a good melee weapon, and is the best item for\n\
 butchering corpses.");
 

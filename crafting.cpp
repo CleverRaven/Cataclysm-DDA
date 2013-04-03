@@ -1193,7 +1193,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("fur", 2);
 
   RECIPE("boots_fit", CC_ARMOR, "tailor", NULL, 2, 35000, false);
-  TOOL("needle_bone", 5);
+  TOOL("needle_bone", 10);
   TOOLCONT("sewing_kit", 10);
   COMP("leather", 7);
 
