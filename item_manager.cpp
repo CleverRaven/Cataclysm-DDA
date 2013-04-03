@@ -43,17 +43,27 @@ void Item_manager::init(game* main_game){
       if(standard){
           m_template_groups["STANDARD"].insert(id);
       }
+      // This is temporary, and only for testing the tag access algorithms work.
+      // It replaces a similar list located in the mapgen file
+      // Once reading from files are implemented, this will just check for a "CAN" tag, obviously.
+      tag_list can_list;
+      can_list.insert("can_beans"); can_list.insert("can_corn"); can_list.insert("can_spam"); 
+      can_list.insert("can_pineapple"); can_list.insert("can_coconut"); can_list.insert("can_sardine");
+      can_list.insert("can_tuna");
+      if(can_list.find(id)!=can_list.end()){
+        m_template_groups["CAN"].insert(id);
+      }
     }
     init();
 }
 
 //Returns the full template container
-item_template_container* Item_manager::templates(){
+const item_template_container* Item_manager::templates(){
     return &m_templates;
 }
 
 //Returns the template with the given identification tag
-item_template* Item_manager::find_template(item_tag id){
+item_template* Item_manager::find_template(const item_tag id){
     item_template_container::iterator found = m_templates.find(id);
     if(found != m_templates.end()){
         return found->second;
@@ -69,17 +79,17 @@ item_template* Item_manager::random_template(){
 }
 
 //Returns a random template from those with the given group tag
-item_template* Item_manager::random_template(item_tag group_tag){ 
+item_template* Item_manager::random_template(const item_tag group_tag){ 
     return find_template( random_id(group_tag) );
 }
 
 //Returns a random template name from the list of all templates.
-item_tag Item_manager::random_id(){
+const item_tag Item_manager::random_id(){
     return random_id("ALL");
 }
 
 //Returns a random template name from the list of all templates.
-item_tag Item_manager::random_id(item_tag group_tag){
+const item_tag Item_manager::random_id(const item_tag group_tag){
     std::map<item_tag, tag_list>::iterator group_iter = m_template_groups.find(group_tag);
     if(group_iter != m_template_groups.end() && group_iter->second.begin() != group_iter->second.end()){
         tag_list group = group_iter->second;

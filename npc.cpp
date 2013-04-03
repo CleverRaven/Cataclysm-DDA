@@ -9,7 +9,6 @@
 #include "skill.h"
 #include "output.h"
 #include "line.h"
-#include "item_manager.h"
 
 std::vector<item> starting_clothes(npc_class type, bool male, game *g);
 std::vector<item> starting_inv(npc *me, npc_class type, game *g);
@@ -404,7 +403,7 @@ void npc::randomize(game *g, npc_class type)
   personality.bravery += rng(0, 3);
   personality.collector -= rng(1, 6);
   do
-   styles.push_back(item_controller->random_id("STYLE"));
+   styles.push_back( martial_arts_itype_ids[rng(0, martial_arts_itype_ids.size()-1)] );
   while (one_in(2));
   break;
 

@@ -20,12 +20,12 @@ public:
     void init();
     void init(game* main_game);
 
-    item_template_container* templates();
+    const item_template_container* templates();
     item_template* find_template(item_tag id);
     item_template* random_template();
     item_template* random_template(item_tag group_tag);
-    item_tag random_id();
-    item_tag random_id(item_tag group_tag);
+    const item_tag random_id();
+    const item_tag random_id(item_tag group_tag);
 private:
     item_template_container  m_templates;
     itype*  m_missing_item;

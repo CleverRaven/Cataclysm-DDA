@@ -7,6 +7,7 @@
 #include "line.h"
 #include "debug.h"
 #include "options.h"
+#include "item_manager.h"
 
 #ifndef sgn
 #define sgn(x) (((x) < 0) ? -1 : 1)
@@ -7126,10 +7127,7 @@ break;
    if (one_in(2))
     spawn_item(x, y, (*itypes)["hat_hard"], 0);
    while (!one_in(3)){
-    std::string can_list[]={"can_beans", "can_corn", "can_spam","can_pineapple",
-                            "can_coconut", "can_sardine", "can_tuna"};
-    std::string can_to_spawn = can_list[rng(0,6)];
-    spawn_item(x, y, (*itypes)[can_to_spawn], 0);
+    spawn_item(x, y, item_controller->random_template("CAN"), 0);
    }
   }
   break;
