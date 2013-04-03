@@ -11,6 +11,7 @@ typedef std::map<std::string, profession> profmap;
 
 class profession {
 private:
+ unsigned int _id; // used when we care about precise order, starts at 1
  std::string _ident;
  std::string _name;
  std::string _description;
@@ -21,7 +22,7 @@ private:
 public:
  //these three aren't meant for external use, but had to be made public regardless
  profession();
- profession(std::string ident, std::string name, std::string description, signed int points);
+ profession(unsigned int id, std::string ident, std::string name, std::string description, signed int points);
  static profmap _all_profs;
 
  static profmap load_professions();
@@ -32,9 +33,11 @@ public:
  static bool exists(std::string ident);
  static profmap::const_iterator begin();
  static profmap::const_iterator end();
+ static int count();
 
  static bool has_initialized();
 
+ unsigned int id() const;
  std::string ident() const;
  std::string name() const;
  std::string description() const;
