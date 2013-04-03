@@ -276,7 +276,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
         if (move_cost(fx, fy) > 0 &&
             (!one_in(smoke) || (nosmoke && one_in(40))) &&
             rng(3, 35) < cur->density * 10 && cur->age < 1000 &&
-            (has_flag(fire_container, x, y) != TRUE )) {
+            (has_flag(suppress_smoke, x, y) != TRUE )) {
          smoke--;
          add_field(g, fx, fy, fd_smoke, rng(1, cur->density));
         }
