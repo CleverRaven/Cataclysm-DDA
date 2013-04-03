@@ -1,4 +1,5 @@
 #include "player.h"
+#include "profession.h"
 #include "output.h"
 #include "rng.h"
 #include "keypress.h"
@@ -38,6 +39,7 @@ void draw_tabs(WINDOW* w, std::string sTab);
 
 int set_stats(WINDOW* w, game* g, player *u, int &points);
 int set_traits(WINDOW* w, game* g, player *u, int &points);
+int set_profession(WINDOW* w, game* g, player *u, int &points);
 int set_skills(WINDOW* w, game* g, player *u, int &points);
 int set_description(WINDOW* w, game* g, player *u, int &points);
 
@@ -50,6 +52,8 @@ void save_template(player *u);
 bool player::create(game *g, character_type type, std::string tempname)
 {
  weapon = item(g->itypes["null"], 0);
+ 
+ g->u.prof = profession::generic();
 
  WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
 
@@ -158,10 +162,11 @@ bool player::create(game *g, character_type type, std::string tempname)
   switch (tab) {
    case 0: tab += set_stats      (w, g, this, points); break;
    case 1: tab += set_traits     (w, g, this, points); break;
-   case 2: tab += set_skills     (w, g, this, points); break;
-   case 3: tab += set_description(w, g, this, points); break;
+   case 2: tab += set_profession (w, g, this, points); break;
+   case 3: tab += set_skills     (w, g, this, points); break;
+   case 4: tab += set_description(w, g, this, points); break;
   }
- } while (tab >= 0 && tab < 4);
+ } while (tab >= 0 && tab < 5);
  delwin(w);
 
  if (tab < 0)
@@ -256,7 +261,7 @@ End of cheatery */
 
 // The near-sighted get to start with glasses.
  if (has_trait(PF_MYOPIC)) {
-  tmp = item(g->itypes["glasses_eye"], 0, 'd');
+  tmp = item(g->itypes["glasses_eye"], 0, 'a' + worn.size());
   worn.push_back(tmp);
  }
 // And the far-sighted get to start with reading glasses.
@@ -269,11 +274,6 @@ End of cheatery */
   tmp = item(g->itypes["inhaler"], 0, 'a' + worn.size());
   inv.push_back(tmp);
  }
- // Basic starter gear, added independently of profession.
- tmp = item(g->itypes["pockknife"], 0,'a' + worn.size());
-  inv.push_back(tmp);
- tmp = item(g->itypes["matches"], 0,'a' + worn.size());
-  inv.push_back(tmp);
 // make sure we have no mutations
  for (int i = 0; i < PF_MAX2; i++)
   my_mutations[i] = false;
@@ -293,9 +293,10 @@ void draw_tabs(WINDOW* w, std::string sTab)
   }
  }
 
- draw_tab(w, 8, "STATS", (sTab == "STATS") ? true : false);
- draw_tab(w, 24, "TRAITS", (sTab == "TRAITS") ? true : false);
- draw_tab(w, 41, "SKILLS", (sTab == "SKILLS") ? true : false);
+ draw_tab(w, 7, "STATS", (sTab == "STATS") ? true : false);
+ draw_tab(w, 18, "TRAITS", (sTab == "TRAITS") ? true : false);
+ draw_tab(w, 30, "PROFESSION", (sTab == "PROFESSION") ? true : false);
+ draw_tab(w, 46, "SKILLS", (sTab == "SKILLS") ? true : false);
  draw_tab(w, 58, "DESCRIPTION", (sTab == "DESCRIPTION") ? true : false);
 
  mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
@@ -668,6 +669,71 @@ int set_traits(WINDOW* w, game* g, player *u, int &points)
      else
       num_bad -= traits[cur_trait].points;
     }
+    break;
+   case '<':
+    return -1;
+   case '>':
+    return 1;
+  }
+ } while (true);
+}
+
+int set_profession(WINDOW* w, game* g, player *u, int &points)
+{
+ draw_tabs(w, "PROFESSION");
+
+ WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
+
+ profmap::const_iterator cur_prof = profession::begin();
+
+ do {
+  int netPointCost = cur_prof->second.point_cost() - u->prof->point_cost();
+  mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
+// Clear the bottom of the screen.
+  mvwprintz(w_description, 0, 0, c_ltgray, "\
+                                                                             ");
+  mvwprintz(w_description, 1, 0, c_ltgray, "\
+                                                                             ");
+  mvwprintz(w_description, 2, 0, c_ltgray, "\
+                                                                             ");
+  mvwprintz(w,  3, 40, c_ltgray, "                                    ");
+  if (points >= netPointCost)
+   mvwprintz(w,  3, 20, c_green, "Profession %s costs %d points (net: %d)",
+             cur_prof->second.name().c_str(), cur_prof->second.point_cost(), netPointCost);
+  else
+   mvwprintz(w,  3, 20, c_ltred, "Profession %s costs %d points (net: %d)",
+             cur_prof->second.name().c_str(), cur_prof->second.point_cost(), netPointCost);
+  mvwprintz(w_description, 0, 0, c_green, cur_prof->second.description().c_str());
+
+  int line = 1;
+  for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
+   mvwprintz(w, 4 + line, 2, c_ltgray, "\
+                                             ");	// Clear the line
+   if (u->prof != &(iter->second)) {
+    mvwprintz(w, 4 + line, 2, (iter == cur_prof ? h_ltgray : c_ltgray),
+              iter->second.name().c_str());
+   } else {
+    mvwprintz(w, 4 + line, 2,
+              (iter == cur_prof ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
+              iter->second.name().c_str());
+   }
+   ++line;
+  }
+
+  wrefresh(w);
+  wrefresh(w_description);
+  switch (input()) {
+   case 'j':
+     if (cur_prof != profession::end())
+      cur_prof++;
+    break;
+   case 'k':
+    if (cur_prof != profession::begin())
+     cur_prof--;
+    break;
+   case '\n':
+     u->prof = profession::prof(cur_prof->second.ident());
+     points -= netPointCost;
     break;
    case '<':
     return -1;

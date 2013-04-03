@@ -3,9 +3,9 @@
   "ident": "unemployed",
   "name": "Unemployed",
   "description":
-"They say you don't have any 'useful skills', but at least your clothes fit\nwell.",
+"They say you don't have any 'useful skills', but at least your clothes fit\nwell, and you have a knife and source of fire.",
   "points": 0,
-  "items": ["jeans_fit", "tshirt_fit", "sneakers_fit"] 
+  "items": ["jeans_fit", "tshirt_fit", "sneakers_fit", "pockknife", "matches"] 
  },
 
  {
