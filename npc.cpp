@@ -984,6 +984,28 @@ void npc::spawn_at(overmap *o, int x, int y)
  }
 }
 
+void npc::place_near(game *g, int potentialX, int potentialY)
+{
+	//places the npc at the nearest empty spot near (potentialX, potentialY). Searches in a spiral pattern for a suitable location.
+ int x = 0;
+ int y = 0;
+ int dx = 0;
+ int dy = -1;
+ int temp;
+ while(!g->is_empty(potentialX + x, potentialY + y)) {
+	 if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1-y))) {//change direction
+			temp = dx;
+	  dx = -dy;
+		 dy = temp;
+	 }
+		x += dx;
+		y += dy;
+	}//end search, potentialX + x , potentialY + y contains a free spot.
+ //place the npc at the free spot.
+ posx = potentialX + x;
+ posy = potentialY + y;
+}
+
 skill npc::best_skill()
 {
  std::vector<int> best_skills;

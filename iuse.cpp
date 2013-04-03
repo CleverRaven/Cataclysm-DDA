@@ -27,7 +27,7 @@ static void add_or_drop_item(game *g, player *p, item *it)
     g->advance_nextinv();
     iter++;
   }
-  if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
     drop = true;
   if (drop)
     g->m.add_item(p->posx, p->posy, replacement);
@@ -906,12 +906,12 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
  bool drop = false;
  for (int i = 0; i < count; i++) {
   int iter = 0;
-  while (p->has_item(rag.invlet) && iter < 52) {
+  while (p->has_item(rag.invlet) && iter < inv_chars.size()) {
    rag.invlet = g->nextinv;
    g->advance_nextinv();
    iter++;
   }
-  if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
    drop = true;
   if (drop)
    g->m.add_item(p->posx, p->posy, rag);
@@ -943,12 +943,12 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
  bool drop = false;
  for (int i = 0; i < count; i++) {
   int iter = 0;
-  while (p->has_item(rag.invlet) && iter < 52) {
+  while (p->has_item(rag.invlet) && iter < inv_chars.size()) {
    rag.invlet = g->nextinv;
    g->advance_nextinv();
    iter++;
   }
-  if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
    drop = true;
   if (drop)
    g->m.add_item(p->posx, p->posy, rag);
@@ -1675,6 +1675,11 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You can't place a %s there.", it->tname().c_str());
   return;
  }
+  if (g->m.tr_at(posx, posy) != tr_null) {
+  g->add_msg_if_player(p, "You can't place a %s there. It contains a trap already.", it->tname().c_str());
+  return;
+ }
+
 
 
  trap_id type = tr_null;
@@ -1684,7 +1689,7 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
  std::stringstream message;
  int practice;
 
- if(it->type->id == "cot"){
+if(it->type->id == "cot"){
   message << "You unfold the cot and place it on the ground.";
   type = tr_cot;
   practice = 0;
@@ -2578,6 +2583,8 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
 
   if (int(g->turn) % 10 == 0) {	// Every 10 turns, describe the music
    std::string sound = "";
+   if (one_in(50))
+     sound = "some bass-heavy post-glam speed polka";
    switch (rng(1, 10)) {
     case 1: sound = "a sweet guitar solo!";	p->stim++;	break;
     case 2: sound = "a funky bassline.";			break;
@@ -2725,12 +2732,12 @@ if (cut->made_of(COTTON)) {
  bool drop = false;
  for (int i = 0; i < count; i++) {
   int iter = 0;
-  while (p->has_item(rag.invlet) && iter < 52) {
+  while (p->has_item(rag.invlet) && iter < inv_chars.size()) {
    rag.invlet = g->nextinv;
    g->advance_nextinv();
    iter++;
   }
-  if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
    drop = true;
   if (drop)
    g->m.add_item(p->posx, p->posy, rag);
@@ -2762,12 +2769,12 @@ if (cut->made_of(COTTON)) {
  bool drop = false;
  for (int i = 0; i < count; i++) {
   int iter = 0;
-  while (p->has_item(rag.invlet) && iter < 52) {
+  while (p->has_item(rag.invlet) && iter < inv_chars.size()) {
    rag.invlet = g->nextinv;
    g->advance_nextinv();
    iter++;
   }
-  if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
    drop = true;
   if (drop)
    g->m.add_item(p->posx, p->posy, rag);
@@ -2795,12 +2802,12 @@ char ch = g->inv("Chop up what?");
  bool drop = false;
  for (int i = 0; i < count; i++) {
   int iter = 0;
-  while (p->has_item(skewer.invlet) && iter < 52) {
+  while (p->has_item(skewer.invlet) && iter < inv_chars.size()) {
    skewer.invlet = g->nextinv;
    g->advance_nextinv();
    iter++;
   }
-  if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
    drop = true;
   if (drop)
    g->m.add_item(p->posx, p->posy, skewer);
@@ -2852,7 +2859,7 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
     g->advance_nextinv();
     iter++;
    }
-   if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+   if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
     drop = true;
    if (drop)
     g->m.add_item(p->posx, p->posy, plank);
@@ -2866,7 +2873,7 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
     g->advance_nextinv();
     iter++;
    }
-   if (!drop && (iter == 52 || p->volume_carried() >= p->volume_capacity()))
+   if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
     drop = true;
    if (drop)
     g->m.add_item(p->posx, p->posy, scrap);
@@ -3241,44 +3248,44 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
  if (casing.type->id != "null"){
  casing.charges = multiply;
  int iter = 0;
-   while ((casing.invlet == 0 || p->has_item(casing.invlet)) && iter < 52) {
+   while ((casing.invlet == 0 || p->has_item(casing.invlet)) && iter < inv_chars.size()) {
     casing.invlet = g->nextinv;
     g->advance_nextinv();
     iter++;}
     if (p->weight_carried() + casing.weight() < p->weight_capacity() &&
-      p->volume_carried() + casing.volume() < p->volume_capacity() && iter < 52) {
+      p->volume_carried() + casing.volume() < p->volume_capacity() && iter < inv_chars.size()) {
     p->i_add(casing);}
     else
    g->m.add_item(p->posx, p->posy, casing);}
  if (primer.type->id != "null"){
  primer.charges = multiply;
  int iter = 0;
-   while ((primer.invlet == 0 || p->has_item(primer.invlet)) && iter < 52) {
+   while ((primer.invlet == 0 || p->has_item(primer.invlet)) && iter < inv_chars.size()) {
     primer.invlet = g->nextinv;
     g->advance_nextinv();
     iter++;}
     if (p->weight_carried() + primer.weight() < p->weight_capacity() &&
-      p->volume_carried() + primer.volume() < p->volume_capacity() && iter < 52) {
+      p->volume_carried() + primer.volume() < p->volume_capacity() && iter < inv_chars.size()) {
     p->i_add(primer);}
     else
    g->m.add_item(p->posx, p->posy, primer);}
  int iter = 0;
-   while ((gunpowder.invlet == 0 || p->has_item(gunpowder.invlet)) && iter < 52) {
+   while ((gunpowder.invlet == 0 || p->has_item(gunpowder.invlet)) && iter < inv_chars.size()) {
     gunpowder.invlet = g->nextinv;
     g->advance_nextinv();
     iter++;}
     if (p->weight_carried() + gunpowder.weight() < p->weight_capacity() &&
-      p->volume_carried() + gunpowder.volume() < p->volume_capacity() && iter < 52) {
+      p->volume_carried() + gunpowder.volume() < p->volume_capacity() && iter < inv_chars.size()) {
     p->i_add(gunpowder);}
     else
    g->m.add_item(p->posx, p->posy, gunpowder);
  iter = 0;
-   while ((lead.invlet == 0 || p->has_item(lead.invlet)) && iter < 52) {
+   while ((lead.invlet == 0 || p->has_item(lead.invlet)) && iter < inv_chars.size()) {
     lead.invlet = g->nextinv;
     g->advance_nextinv();
     iter++;}
     if (p->weight_carried() + lead.weight() < p->weight_capacity() &&
-      p->volume_carried() + lead.volume() < p->volume_capacity() && iter < 52) {
+      p->volume_carried() + lead.volume() < p->volume_capacity() && iter < inv_chars.size()) {
     p->i_add(lead);}
     else
    g->m.add_item(p->posx, p->posy, lead);
@@ -3381,6 +3388,15 @@ void iuse::pda_flashlight(game *g, player *p, item *it, bool t)
   it->make(g->itypes["pda"]);
   it->active = false;
  }
+}
+
+void iuse::LAW(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p,"You pull the activating lever, readying the LAW to fire.");
+ it->make(g->itypes["LAW"]);
+ it->charges++;
+ // When converting a tool to a gun, you need to set the current ammo type, this is usually done when a gun is reloaded.
+ it->curammo = dynamic_cast<it_ammo*>(g->itypes["66mm_HEAT"]);
 }
 
 /* MACGUFFIN FUNCTIONS
@@ -3773,18 +3789,18 @@ void iuse::heatpack(game *g, player *p, item *it, bool t)
 	}
 	if (heat->type->is_food()) {
 		p->moves -= 300;
-		g->add_msg("You heat up the food.");	
+		g->add_msg("You heat up the food.");
 		heat->item_flags |= mfb(IF_HOT);
 		heat->active = true;
-		heat->item_counter = 600;		// sets the hot food flag for 60 minutes		
+		heat->item_counter = 600;		// sets the hot food flag for 60 minutes
 		it->make(g->itypes["heatpack_used"]);
 		return;
   } else 	if (heat->is_food_container()) {
 		p->moves -= 300;
-		g->add_msg("You heat up the food.");	
+		g->add_msg("You heat up the food.");
 		heat->contents[0].item_flags |= mfb(IF_HOT);
 		heat->contents[0].active = true;
-		heat->contents[0].item_counter = 600;		// sets the hot food flag for 60 minutes		
+		heat->contents[0].item_counter = 600;		// sets the hot food flag for 60 minutes
 		it->make(g->itypes["heatpack_used"]);
 		return;
 	}

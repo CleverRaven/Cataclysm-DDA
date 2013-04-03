@@ -69,7 +69,7 @@ game::game() :
  init_vehicles();     // Set up vehicles                  (SEE veh_typedef.cpp)
  init_autosave();     // Set up autosave
  load_keyboard_settings();
-
+ load_npc_settings();
 
  gamemode = new special_game;	// Nothing, basically.
 }
@@ -177,12 +177,6 @@ void game::setup()
  curmes = 0;		// We haven't read any messages yet
  uquit = QUIT_NO;	// We haven't quit the game
  debugmon = false;	// We're not printing debug messages
- no_npc = false;		// We're not suppressing NPC spawns
-
-// ... Unless data/no_npc.txt exists.
- std::ifstream ifile("data/no_npc.txt");
- if (ifile)
-  no_npc = true;
 
  weather = WEATHER_CLEAR; // Start with some nice weather...
  nextweather = MINUTES(STARTING_MINUTES + 30); // Weather shift in 30
@@ -277,12 +271,14 @@ void game::create_factions()
 
 void game::create_starting_npcs()
 {
+	point location;
+ if(!starting_npc)
+ 	return; //Do not generate a starting npc.
  npc tmp;
  tmp.normalize(this);
  tmp.randomize(this, (one_in(2) ? NC_DOCTOR : NC_NONE));
- tmp.spawn_at(&cur_om, levx, levy);
- tmp.posx = SEEX * int(MAPSIZE / 2) + SEEX;
- tmp.posy = SEEY * int(MAPSIZE / 2) + 6;
+ tmp.spawn_at(&cur_om, levx, levy); //spawn the npc in the overmap.
+ tmp.place_near(this, SEEX * int(MAPSIZE / 2) + SEEX, SEEY * int(MAPSIZE / 2) + 6);
  tmp.form_opinion(&u);
  tmp.attitude = NPCATT_NULL;
  tmp.mission = NPC_MISSION_SHELTER;
@@ -1041,7 +1037,7 @@ bool game::handle_action()
             break;
     }
 
-    if (bWeatherEffect) {
+    if (bWeatherEffect && OPTIONS[OPT_RAIN_ANIMATION]) {
         int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH-121)/2 : 0;
         int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT-121)/2: 0;
         int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH-(TERRAIN_WINDOW_WIDTH-121)/2: TERRAIN_WINDOW_WIDTH;
@@ -1958,22 +1954,18 @@ void game::delete_save()
 
 void game::advance_nextinv()
 {
- if (nextinv == 'z')
-  nextinv = 'A';
- else if (nextinv == 'Z')
-  nextinv = 'a';
- else
-  nextinv++;
+  if (nextinv == *inv_chars.end())
+    nextinv = *inv_chars.begin();
+  else
+    nextinv = inv_chars[inv_chars.find(nextinv) + 1];
 }
 
 void game::decrease_nextinv()
 {
- if (nextinv == 'a')
-  nextinv = 'Z';
- else if (nextinv == 'A')
-  nextinv = 'z';
- else
-  nextinv--;
+  if (nextinv == *inv_chars.begin())
+    nextinv = *inv_chars.end();
+  else
+    nextinv = inv_chars[inv_chars.find(nextinv) - 1];
 }
 
 void game::vadd_msg(const char* msg, va_list ap)
@@ -2084,8 +2076,7 @@ void game::debug()
    temp.randomize(this);
    temp.attitude = NPCATT_TALK;
    temp.spawn_at(&cur_om, levx + (1 * rng(-2, 2)), levy + (1 * rng(-2, 2)));
-   temp.posx = u.posx - 4;
-   temp.posy = u.posy - 4;
+   temp.place_near(this, u.posx - 4, u.posy - 4);
    temp.form_opinion(&u);
    temp.attitude = NPCATT_TALK;
    temp.mission = NPC_MISSION_NULL;
@@ -2108,7 +2099,7 @@ NPCs are %s spawn.\n\
 %d monsters exist.\n\
 %d events planned.", u.posx, u.posy, levx, levy,
 oterlist[cur_om.ter(levx / 2, levy / 2, levz)].name.c_str(),
-int(turn), int(nextspawn), (no_npc ? "NOT going to" : "going to"),
+int(turn), int(nextspawn), (!random_npc ? "NOT going to" : "going to"),
 z.size(), events.size());
 
    if (!active_npc.empty())
@@ -2251,7 +2242,7 @@ void game::disp_kills()
   }
  }
 
- mvwprintz(w, 1, 35, c_red, "KILL COUNTS:");
+ mvwprintz(w, 1, 32, c_white, "KILL COUNT:");
 
  if (types.size() == 0) {
   mvwprintz(w, 2, 2, c_white, "You haven't killed any monsters yet!");
@@ -2263,30 +2254,34 @@ void game::disp_kills()
   refresh_all();
   return;
  }
-
+ int totalkills = 0;
+ int hori = 1;
+ int horimove = 0;
+ int vert = -2;
+ // display individual kill counts
  for (int i = 0; i < types.size(); i++) {
-  if (i < 24) {
-   mvwprintz(w, i + 2, 1, types[i]->color, "%c %s", types[i]->sym, types[i]->name.c_str());
-   int hori = 25;
-   if (count[i] >= 10)
-    hori = 24;
-   if (count[i] >= 100)
-    hori = 23;
-   if (count[i] >= 1000)
-    hori = 22;
-   mvwprintz(w, i + 2, hori, c_white, "%d", count[i]);
-  } else {
-   mvwprintz(w, i + 2, 40, types[i]->color, "%c %s", types[i]->sym, types[i]->name.c_str());
-   int hori = 65;
-   if (count[i] >= 10)
-    hori = 64;
-   if (count[i] >= 100)
-    hori = 63;
-   if (count[i] >= 1000)
-    hori = 62;
-   mvwprintz(w, i + 2, hori, c_white, "%d", count[i]);
+  hori = 1;
+  if (i > 21) {
+   hori = 28;
+   vert = 20;
   }
+  if( i > 43) {
+   hori = 56;
+   vert = 42;
+  }
+  mvwprintz(w, i - vert, hori, types[i]->color, "%c %s", types[i]->sym, types[i]->name.c_str());
+  if (count[i] >= 10)
+   horimove = -1;
+  if (count[i] >= 100)
+   horimove = -2;
+  if (count[i] >= 1000)
+   horimove = -3;
+  mvwprintz(w, i - vert, hori + 22 + horimove, c_white, "%d", count[i]);
+  totalkills += count[i];
+  horimove = 0;
  }
+ // Display total killcount at top of window
+ mvwprintz(w, 1, 44, c_white, "%d", totalkills);
 
  wrefresh(w);
  getch();
@@ -3770,6 +3765,12 @@ void game::use_computer(int x, int y)
   add_msg("You can not read a computer screen!");
   return;
  }
+
+ if (u.has_trait(PF_HYPEROPIC) && !u.is_wearing("glasses_reading")) {
+  add_msg("You'll need to put on reading glasses before you can see the screen.");
+  return;
+ }
+
  computer* used = m.computer_at(x, y);
 
  if (used == NULL) {
@@ -4149,8 +4150,7 @@ void game::close()
   else if (closex == u.posx && closey == u.posy)
    add_msg("There's some buffoon in the way!");
   else if (m.ter(closex, closey) == t_window_domestic && m.is_outside(u.posx, u.posy))  {
-   add_msg("You phase through the glass, close the curtains, then phase back out");
-   add_msg("Wait, no you don't. Never mind.");
+   add_msg("You cannot close the curtains from outside. You must be inside the building.");
  } else
    didit = m.close_door(closex, closey, true);
  } else
@@ -5131,7 +5131,7 @@ void game::pickup(int posx, int posy, int min)
    newit.invlet = nextinv;
    advance_nextinv();
   }
-  while (iter <= 52 && u.has_item(newit.invlet) &&
+  while (iter <= inv_chars.size() && u.has_item(newit.invlet) &&
          !u.i_at(newit.invlet).stacks_with(newit)) {
    newit.invlet = nextinv;
    iter++;
@@ -5332,14 +5332,14 @@ void game::pickup(int posx, int posy, int min)
    got_water = true;
   else if (getitem[i]) {
    iter = 0;
-   while (iter < 52 && (here[i].invlet == 0 ||
+   while (iter < inv_chars.size() && (here[i].invlet == 0 ||
                         (u.has_item(here[i].invlet) &&
                          !u.i_at(here[i].invlet).stacks_with(here[i]))) ) {
     here[i].invlet = nextinv;
     iter++;
     advance_nextinv();
    }
-   if (iter == 52) {
+   if (iter == inv_chars.size()) {
     add_msg("You're carrying too many items!");
     werase(w_pickup);
     wrefresh(w_pickup);
@@ -5828,7 +5828,7 @@ void game::reassign_item()
  }
  char newch = popup_getkey("%c - %s; enter new letter.", ch,
                            u.i_at(ch).tname().c_str());
- if ((newch < 'A' || (newch > 'Z' && newch < 'a') || newch > 'z')) {
+ if (inv_chars.find(newch) == std::string::npos) {
   add_msg("%c is not a valid inventory letter.", newch);
   return;
  }
@@ -6418,7 +6418,7 @@ void game::unload(char chInput)
 void game::unload()
 {
  if (!u.weapon.is_gun() && u.weapon.contents.size() == 0 &&
-     (!u.weapon.is_tool() || u.weapon.ammo_type() == AT_NULL)) {
+     (!u.weapon.is_tool() || u.weapon.ammo_type() == AT_NULL) || u.weapon.has_flag(IF_NO_UNLOAD)) {
   add_msg("You can't unload a %s!", u.weapon.tname(this).c_str());
   return;
  }
@@ -6449,7 +6449,7 @@ void game::unload()
    item content = u.weapon.contents[0];
    int iter = 0;
 // Pick an inventory item for the contents
-   while ((content.invlet == 0 || u.has_item(content.invlet)) && iter < 52) {
+   while ((content.invlet == 0 || u.has_item(content.invlet)) && iter < inv_chars.size()) {
     content.invlet = nextinv;
     advance_nextinv();
     iter++;
@@ -6460,7 +6460,7 @@ void game::unload()
    } else {
     if (u.volume_carried() + content.volume() <= u.volume_capacity() &&
         u.weight_carried() + content.weight() <= u.weight_capacity() &&
-        iter < 52) {
+        iter < inv_chars.size()) {
      add_msg("You put the %s in your inventory.", content.tname(this).c_str());
      u.i_add(content, this);
     } else {
@@ -6515,7 +6515,7 @@ void game::unload()
   newam = item(itypes[default_ammo(weapon->ammo_type())], turn);
  while (weapon->charges > 0) {
   int iter = 0;
-  while ((newam.invlet == 0 || u.has_item(newam.invlet)) && iter < 52) {
+  while ((newam.invlet == 0 || u.has_item(newam.invlet)) && iter < inv_chars.size()) {
    newam.invlet = nextinv;
    advance_nextinv();
    iter++;
@@ -6528,7 +6528,7 @@ void game::unload()
    weapon->charges = 0;
   }
   if (u.weight_carried() + newam.weight() < u.weight_capacity() &&
-      u.volume_carried() + newam.volume() < u.volume_capacity() && iter < 52) {
+      u.volume_carried() + newam.volume() < u.volume_capacity() && iter < inv_chars.size()) {
    if (newam.made_of(LIQUID)) {
     if (!handle_liquid(newam, false, false))
      weapon->charges += newam.charges;	// Put it back in
@@ -7623,14 +7623,13 @@ void game::spawn_mon(int shiftx, int shifty)
  int iter;
  int t;
  // Create a new NPC?
- if (!no_npc && one_in(100 + 15 * cur_om.npcs.size())) {
+ if (random_npc && one_in(100 + 15 * cur_om.npcs.size())) {
   npc tmp;
   tmp.normalize(this);
   tmp.randomize(this);
   //tmp.stock_missions(this);
   tmp.spawn_at(&cur_om, levx + (1 * rng(-5, 5)), levy + (1 * rng(-5, 5)));
-  tmp.posx = SEEX * 2 * (tmp.mapx - levx) + rng(0 - SEEX, SEEX);
-  tmp.posy = SEEY * 2 * (tmp.mapy - levy) + rng(0 - SEEY, SEEY);
+  tmp.place_near(this, SEEX * 2 * (tmp.mapx - levx) + rng(0 - SEEX, SEEX), SEEY * 2 * (tmp.mapy - levy) + rng(0 - SEEY, SEEY));
   tmp.form_opinion(&u);
   tmp.attitude = NPCATT_TALK;
   tmp.mission = NPC_MISSION_NULL;
@@ -8038,6 +8037,83 @@ void game::autosave()
 
   moves_since_last_save = 0;
   item_exchanges_since_save = 0;
+}
+
+void game::load_npc_settings()
+{
+ starting_npc = false; // We're suppressing the starting NPC spawn
+ random_npc = false; //We're suppressing random NPC spawns
+
+ std::ifstream fin;
+ fin.open("data/npc.txt");
+ if (!fin) { // It doesn't exist
+  std::ofstream fout;
+  fout.open("data/npc.txt");
+  fout << game::default_npc_txt();
+  fout.close();
+  fin.open("data/npc.txt");
+ }
+ if (!fin) { // Still can't open it--probably bad permissions
+  debugmsg("Can't open data/npc.txt.  This may be a permissions issue.");
+  return;
+ }
+ while (!fin.eof()) {
+  std::string id;
+
+  fin >> id;
+  if (id == "")
+   getline(fin, id); // Empty line, chomp it
+  else if (id[0] != '#') {
+   if (strcmp (id.c_str(), "starting_npc") != 0 && strcmp (id.c_str(), "random_npc") != 0)
+    debugmsg("\
+Warning!  data/npc.txt contains an unknown option, \"%s\"\n\
+Fix data/npc.txt at your next chance!", id.c_str());
+   else {
+    while (fin.peek() != '\n' && !fin.eof()) {
+     char ch;
+     fin >> ch;
+     if (ch != 'n' && ch != 'N' && ch != 'y' && ch != 'Y')
+      debugmsg("\
+Warning!  Invalid value '%c' in the npc file\n\
+%s setting ignored.\n\
+Valid values 'n', 'N', 'y', 'Y'.\n\
+Fix data/npc.txt at your next chance!", ch, id.c_str());
+     else if (strcmp ("starting_npc", id.c_str()) == 0)
+      if(ch == 'Y' || ch == 'y')
+       starting_npc = true;
+      else //random_npc
+      if(ch == 'Y' || ch == 'y')
+       random_npc = true;
+    }
+   }
+  } else {
+   getline(fin, id); // Clear the whole line
+  }
+ }
+}
+
+std::string game::default_npc_txt()
+{
+ return "\
+# This is the npc file for Cataclysm.\n\
+# You can start a line with # to make it a comment--it will be ignored.\n\
+# Blank lines are ignored too.\n\
+# Extra whitespace, including tab, is ignored, so format things how you like.\n\
+# If you wish to restore defaults, simply remove this file.\n\
+\n\
+# This file currently has two options, disabling starting npcs and \n\
+# disabling randomly spawning npcs spawned by the dynamic spawn system\n\
+ \n\
+# Turning on the starting_npc setting only has effect on new character\n\
+# creation. None of these settings get rid of already spawned npcs. Use\n\
+# the debug menu for that.\n\
+	\n\
+# WARNING: NPC's are currently broken. When used expect bugs and crashes.\n\
+# You have been warned.\n\
+# None of these settings prevent you from spawning npcs using the debug menu.\n\
+starting_npc n\n\
+random_npc n\n\
+";
 }
 
 void intro()

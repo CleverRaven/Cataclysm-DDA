@@ -368,6 +368,9 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMPCONT("steel_chunk", 2);
   COMPCONT("canister_empty", 1);
   COMPCONT("can_drink", 2);
+  COMP("grenade", 1);
+  COMPCONT("40mm_frag", 2);
+  COMPCONT("40mm_concussive", 2);
   COMP("plut_cell", 6);
   COMP("battery", 2);
   COMP("power_supply", 1);
@@ -1488,6 +1491,37 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("pot", 1);
   COMP("pan", 1);
 
+  RECIPE("foot_crank", CC_MISC, "mechanics", NULL, 1, 10000, true);
+  TOOL("wrench", -1);
+  TOOLCONT("toolset", -1);
+  TOOL("hammer", -1);
+  TOOLCONT("toolset", -1);
+  COMP("pipe", 1);
+  COMP("steel_chunk", 2);
+  COMP("chain", 1);
+
+  RECIPE("muffler", CC_MISC, "mechanics", NULL, 1, 10000, true);
+  TOOL("hammer", -1);
+  TOOLCONT("toolset", -1);
+  TOOL("welder", 50);
+  TOOLCONT("toolset", 5);
+  TOOL("hacksaw", -1);
+  TOOLCONT("toolset", -1);
+  COMP("pipe", 2);
+  COMP("sheet_metal",1);
+
+  RECIPE("seat", CC_MISC, "mechanics", NULL, 1, 10000, true);
+  TOOL("welder", 50);
+  TOOLCONT("toolset", 5);
+  TOOL("sewing_kit", 50);
+  TOOLCONT("needle_bone", 50);
+  COMP("pipe", 4);
+  COMP("spring", 2);
+  COMP("leather", 12);
+  COMPCONT("fur", 12);
+  COMPCONT("rag", 20);
+  COMPCONT("sheet", 1);
+
   RECIPE("rag", CC_MISC, NULL, NULL, 0, 3000, false);
   TOOL("fire", -1);
   TOOLCONT("hotplate", 3);
@@ -1704,7 +1738,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMPCONT("gin", 7);
   COMPCONT("triple_sec", 7);
 
-  RECIPE("silencer", CC_MISC, "mechanics", NULL, 1, 650, false);
+  RECIPE("suppressor", CC_MISC, "mechanics", NULL, 1, 650, false);
   TOOL("hacksaw", -1);
   TOOLCONT("toolset", -1);
   COMP("muffler", 1);
@@ -2384,6 +2418,31 @@ void game::complete_craft()
    skill_dice += u.skillLevel(making->sk_primary);
  else
    skill_dice += u.skillLevel(making->sk_secondary);
+
+// farsightedness can impose a penalty on electronics and tailoring success
+// it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
+ if (u.has_trait(PF_HYPEROPIC) && !u.is_wearing("glasses_reading")) {
+  int main_rank_penalty = 0;
+  if (making->sk_primary == Skill::skill("electronics")) {
+   main_rank_penalty = 2;
+  } else if (making->sk_primary == Skill::skill("tailoring")) {
+   main_rank_penalty = 1;
+  }
+  skill_dice -= main_rank_penalty * 3;
+
+  if (making->sk_secondary == NULL) {
+   skill_dice -= main_rank_penalty;
+  } else {
+   int second_rank_penalty = 0;
+   if (making->sk_secondary == Skill::skill("electronics")) {
+    second_rank_penalty = 2;
+   } else if (making->sk_secondary == Skill::skill("tailoring")) {
+    second_rank_penalty = 1;
+   }
+   skill_dice -= second_rank_penalty;
+  }
+ }
+
 // Sides on dice is 16 plus your current intelligence
  int skill_sides = 16 + u.int_cur;
 
@@ -2454,13 +2513,13 @@ void game::complete_craft()
   newit.invlet = nextinv;
   advance_nextinv();
   iter++;
- } while (u.has_item(newit.invlet) && iter < 52);
+ } while (u.has_item(newit.invlet) && iter < inv_chars.size());
  //newit = newit.in_its_container(&itypes);
  if (newit.made_of(LIQUID))
   handle_liquid(newit, false, false);
  else {
 // We might not have space for the item
-  if (iter == 52 || u.volume_carried()+newit.volume() > u.volume_capacity()) {
+  if (iter == inv_chars.size() || u.volume_carried()+newit.volume() > u.volume_capacity()) {
    add_msg("There's no room in your inventory for the %s, so you drop it.",
              newit.tname().c_str());
    m.add_item(u.posx, u.posy, newit);

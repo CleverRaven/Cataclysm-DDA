@@ -351,8 +351,12 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
     return "Well, I was lost, but you found me...";
    case NPC_MISSION_KIDNAPPED:
     return "Well, I was kidnapped, but you saved me...";
+   case NPC_MISSION_BASE:
+    return "I'm guarding this location.";
    case NPC_MISSION_NULL:
     switch (p->myclass) {
+				 case NC_SHOPKEEP:
+					 return "I'm a local shopkeeper.";
      case NC_HACKER:
       return "I'm looking for some choice systems to hack.";
      case NC_DOCTOR:

@@ -114,11 +114,11 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
  }
 
  // Print items carried
- for(int ch='a'; ch <= 'z'; ++ch)
-   n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
- for(int ch='A'; ch <= 'Z'; ++ch)
-   n_items += ((g->u.inv.index_by_letter(ch) == -1) ? 0 : 1);
- mvwprintw(w_inv, 1, 62, "Items:  %d/52 ", n_items);
+ for (std::string::const_iterator invlet = inv_chars.begin();
+      invlet != inv_chars.end(); invlet++) {
+   n_items += ((g->u.inv.index_by_letter(*invlet) == -1) ? 0 : 1);
+ }
+ mvwprintw(w_inv, 1, 62, "Items:  %d/%d ", n_items, inv_chars.size());
 }
 
 // Display current inventory.

@@ -94,7 +94,7 @@ void game::init_mapitems()
 	"22_lr", "9mm", "crossbow", "sig_mosquito", "sw_22",
 	"glock_19", "usp_9mm", "sw_619", "taurus_38", "sig_40",
 	"sw_610", "ruger_redhawk", "deagle_44", "usp_45", "m1911",
-	"fn57", "mac_10", "shotgun_sawn", "silencer", "grip",
+	"fn57", "mac_10", "shotgun_sawn", "suppressor", "grip",
 	"clip", "spare_mag", "grenade", "EMPbomb", "gasbomb", "tazer",
 	"longbow", "compbow", "arrow_wood", "arrow_cf", "u_shotgun", "shot_hull",
         "9mm_casing", "38_casing", "40_casing", "44_casing", "45_casing",
@@ -318,7 +318,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_gunxtras],
 	"glasses_safety", "goggles_nv", "holster", "bootstrap",
-	"mag_guns", "mag_archery", "flashlight", "UPS_off", "silencer", "grip",
+	"mag_guns", "mag_archery", "flashlight", "UPS_off", "suppressor", "grip",
 	"barrel_big", "barrel_small", "barrel_rifled", "clip", "spare_mag",
 	"clip2", "stablizer", "blowback", "autofire", "retool_45",
 	"retool_9mm", "retool_22", "retool_57", "retool_46",
@@ -599,14 +599,14 @@ void game::init_mapitems()
    mapitems[mi_launchers],
 	"40mm_concussive", "40mm_frag", "40mm_incendiary",
 	"40mm_teargas", "40mm_smoke", "40mm_flashbang", "m79",
-	"m320", "mgl", "m203", NULL);
+	"m320", "mgl", "m203", "LAW_Packed", NULL);
 
  setvector(
    mapitems[mi_mil_rifles],
 	"556", "556_incendiary", "762_51", "762_51_incendiary",
 	"laser_pack", "12mm", "plasma", "m4a1", "scar_l", "scar_h",
 	"m249", "ftk93", "nx17", "hk_g80", "plasma_rifle",
-	"silencer", "clip", "spare_mag", "m203", "UPS_off", "u_shotgun",
+	"suppressor", "clip", "spare_mag", "m203", "UPS_off", "u_shotgun",
 	NULL);
 
  setvector(
@@ -620,7 +620,7 @@ void game::init_mapitems()
 	"helmet_army", "backpack", "UPS_off", "beltrig", "under_armor",
   "under_armor_fit",
         "boots", "boots_fit", "pants_army_fit", "armguard_hard",
-  "power_armor_basic",
+ "power_armor_basic", "power_armor_frame",
 	"helmet_army", "backpack", "UPS_off", "beltrig", NULL);
 
  setvector(
@@ -839,7 +839,7 @@ void game::init_mapitems()
   "jumpsuit_fit",
 	"plut_cell", "m249", "v8_combustion", "extinguisher",
 	"two_way_radio", "radio", "UPS_off", "beltrig",
-        "pants_army_fit", "boots_fit", "rucksack", NULL);
+        "pants_army_fit", "boots_fit", "rucksack", "LAW_Packed", NULL);
 
 // TODO: Replace kevlar with the ceramic plate armor
  setvector(
@@ -855,13 +855,12 @@ void game::init_mapitems()
 	"40mm_frag", "40mm_incendiary", "40mm_teargas", "40mm_smoke",
 	"40mm_flashbang", "usp_9mm", "usp_45", "m4a1", "scar_l",
 	"scar_h", "m249", "ftk93", "nx17", "m320", "mgl",
-	"silencer", "clip", "lighter", "flashlight", "two_way_radio",
+	"suppressor", "clip", "lighter", "flashlight", "two_way_radio",
 	"landmine", "grenade", "flashbang", "EMPbomb", "gasbomb",
 	"smokebomb", "UPS_off", "tazer", "c4", "hk_g80", "12mm",
 	"binoculars", "u_shotgun", "beltrig", "pants_army_fit",
- "power_armor_basic", "power_armor_helmet_basic",
- "spare_mag", "canteen", "jerrycan", "rucksack", "heatpack", NULL);
-
+ "power_armor_basic", "power_armor_helmet_basic", "power_armor_frame",
+ "spare_mag", "canteen", "jerrycan", "rucksack", "heatpack", "LAW_Packed", NULL);
 
  setvector(
    mapitems[mi_science],
@@ -884,7 +883,7 @@ void game::init_mapitems()
 	"plut_cell", "laser_pack", "m249", "v29", "ftk93", "nx17",
 	"conversion_battle", "conversion_sniper", "canister_goo",
 	"mininuke", "portal", "c4", "12mm", "hk_g80",
-  "power_armor_basic", "power_armor_helmet_basic",
+ "power_armor_basic", "power_armor_helmet_basic", "power_armor_frame",
 	"plasma", "plasma_rifle", NULL);
 
  setvector(
@@ -916,7 +915,7 @@ void game::init_mapitems()
 	"hoodie", "gloves_fingerless", "backpack", "holster",
 	"armguard_soft", "armguard_hard",
 	"shot_00", "9mm", "45_acp", "glock_19", "shotgun_sawn",
-	"uzi", "tec9", "mac_10", "silencer", "clip2", "autofire",
+	"uzi", "tec9", "mac_10", "suppressor", "clip2", "autofire",
 	"mag_porn", "lighter", "matches", "crowbar", "pipebomb", "grenade",
 	"mininuke", "crack", "crackpipe", "pants_cargo_fit", "spare_mag", "bio_blaster", NULL);
 
