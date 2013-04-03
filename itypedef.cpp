@@ -3612,7 +3612,7 @@ A 250 ml laboratory conical flask, with a rubber bung.");
 
 CONT("waterskin", "waterskin",   0,  0, c_brown, LEATHER, MNULL,
 // VOL WGT DAM HIT	VOL	FLAGS
-    4, 4,  -8, -5,   9, mfb(con_wtight)|mfb(con_seals), "\
+    6, 4,  -8, -5,   6, mfb(con_wtight)|mfb(con_seals), "\
 A watertight leather bag, can hold 1.5 liters of water.");
 
 CONT("jerrycan_big", "steel jerrycan", 20, 5000, c_green, STEEL, MNULL,
