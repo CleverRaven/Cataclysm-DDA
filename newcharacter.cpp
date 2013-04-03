@@ -823,7 +823,7 @@ To save this character as a template, press !.");
   }
   
   if (ch == '>') {
-   if (!query_yn("Remaining points will be discarded, are you sure you want to proceed?")) {
+   if (points > 0 && !query_yn("Remaining points will be discarded, are you sure you want to proceed?")) {
     continue;
    } else if (u->name.size() == 0) {
     mvwprintz(w, 6, 8, h_ltgray, "______NO NAME ENTERED!!!!_____");
