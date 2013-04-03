@@ -741,8 +741,10 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
      cur_id--;
     break;
    case '\n':
-     u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
-     points -= netPointCost;
+     if (netPointCost <= points) {
+      u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
+      points -= netPointCost;
+     }
     break;
    case '<':
     retval = -1;
