@@ -671,92 +671,116 @@ int set_traits(WINDOW* w, game* g, player *u, int &points)
 
 int set_profession(WINDOW* w, game* g, player *u, int &points)
 {
- draw_tabs(w, "PROFESSION");
+    draw_tabs(w, "PROFESSION");
 
- WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
+    WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
 
- int cur_id = 1;
+    int cur_id = 1;
+    int retval = 0;
 
- int retval = 0;
- profession const** sorted_profs = new profession const*[profession::count()+1]; //may as well stick that +1 on for convenience
- for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
-  profession const* prof = &(iter->second);
-  sorted_profs[prof->id()] = prof;
- }
+    //may as well stick that +1 on for convenience
+    profession const** sorted_profs = new profession const*[profession::count()+1];
+    for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter)
+    {
+        profession const* prof = &(iter->second);
+        sorted_profs[prof->id()] = prof;
+    }
 
- do {
-  int netPointCost = sorted_profs[cur_id]->point_cost() - u->prof->point_cost();
-  mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
-// Clear the bottom of the screen.
-  mvwprintz(w_description, 0, 0, c_ltgray, "\
+    do
+    {
+        int netPointCost = sorted_profs[cur_id]->point_cost() - u->prof->point_cost();
+        mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
+        // Clear the bottom of the screen.
+        mvwprintz(w_description, 0, 0, c_ltgray, "\
                                                                              ");
-  mvwprintz(w_description, 1, 0, c_ltgray, "\
+        mvwprintz(w_description, 1, 0, c_ltgray, "\
                                                                              ");
-  mvwprintz(w_description, 2, 0, c_ltgray, "\
+        mvwprintz(w_description, 2, 0, c_ltgray, "\
                                                                              ");
-  mvwprintz(w,  3, 40, c_ltgray, "                                    ");
-  if (points >= netPointCost)
-   mvwprintz(w,  3, 20, c_green, "Profession %s costs %d points (net: %d)",
-             sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(), netPointCost);
-  else
-   mvwprintz(w,  3, 20, c_ltred, "Profession %s costs %d points (net: %d)",
-             sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(), netPointCost);
-  mvwprintz(w_description, 0, 0, c_green, sorted_profs[cur_id]->description().c_str());
+        mvwprintz(w,  3, 40, c_ltgray, "                                    ");
+        if (points >= netPointCost)
+        {
+            mvwprintz(w,  3, 20, c_green, "Profession %s costs %d points (net: %d)",
+                      sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
+                      netPointCost);
+        }
+        else
+        {
+            mvwprintz(w,  3, 20, c_ltred, "Profession %s costs %d points (net: %d)",
+                      sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
+                      netPointCost);
+        }
+        mvwprintz(w_description, 0, 0, c_green, sorted_profs[cur_id]->description().c_str());
 
-  for (int i = 1; i < 17; ++i) {
-   mvwprintz(w, 4 + i, 2, c_ltgray, "\
+        for (int i = 1; i < 17; ++i)
+        {
+            mvwprintz(w, 4 + i, 2, c_ltgray, "\
                                              ");	// Clear the line
-   int id = i;
-   if (cur_id < 7) {
-    //do nothing
-   } else if (cur_id >= profession::count() - 9) {
-    id = profession::count() - 16 + i;
-   } else {
-    id += cur_id - 7;
-   }
-   
-   if (id > profession::count()) {
-    break;
-   }
-   
-   if (u->prof != sorted_profs[id]) {
-    mvwprintz(w, 4 + i, 2, (sorted_profs[id] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
-              sorted_profs[id]->name().c_str());
-   } else {
-    mvwprintz(w, 4 + i, 2,
-              (sorted_profs[id] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-              sorted_profs[id]->name().c_str());
-   }
-  }
+        }
+        int id = i;
+        if (cur_id < 7)
+        {
+            //do nothing
+        }
+        else if (cur_id >= profession::count() - 9)
+        {
+            id = profession::count() - 16 + i;
+        }
+        else
+        {
+            id += cur_id - 7;
+        }
 
-  wrefresh(w);
-  wrefresh(w_description);
-  switch (input()) {
-   case 'j':
-     if (cur_id < profession::count())
-      cur_id++;
-    break;
-   case 'k':
-    if (cur_id > 1)
-     cur_id--;
-    break;
-   case '\n':
-     if (netPointCost <= points) {
-      u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
-      points -= netPointCost;
-     }
-    break;
-   case '<':
-    retval = -1;
-    break;
-   case '>':
-    retval = 1;
-    break;
-  }
- } while (retval == 0);
+        if (id > profession::count())
+        {
+            break;
+        }
 
- delete[] sorted_profs;
- return retval;
+        if (u->prof != sorted_profs[id])
+        {
+            mvwprintz(w, 4 + i, 2, (sorted_profs[id] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
+                      sorted_profs[id]->name().c_str());
+        }
+        else
+        {
+            mvwprintz(w, 4 + i, 2,
+                      (sorted_profs[id] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
+                      sorted_profs[id]->name().c_str());
+        }
+
+        wrefresh(w);
+        wrefresh(w_description);
+        switch (input())
+        {
+            case 'j':
+                if (cur_id < profession::count())
+                cur_id++;
+            break;
+
+            case 'k':
+                if (cur_id > 1)
+                cur_id--;
+            break;
+
+            case '\n':
+                if (netPointCost <= points) {
+                    u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
+                    points -= netPointCost;
+                }
+            break;
+
+            case '<':
+                retval = -1;
+            break;
+
+            case '>':
+                retval = 1;
+            break;
+        }
+    } while (retval == 0);
+
+    delete[] sorted_profs;
+    return retval;
 }
 
 int set_skills(WINDOW* w, game* g, player *u, int &points)
