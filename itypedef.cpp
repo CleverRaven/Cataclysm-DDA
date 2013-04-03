@@ -2442,9 +2442,10 @@ and sound, designed to blind, deafen, and disorient anyone nearby.",
 mfb(AMMO_FLASHBANG));
 
 AMMO("66mm_HEAT", "66mm HEAT",0, 0, AT_66MM,        c_red,  STEEL,
-     1,  1,  5,  20,  40,  8, 15, 1, "\
+//	VOL WGT DMG  AP  RNG ACC REC COUNT
+     1,  1,  5,  20,  80,  8, 15, 1, "\
 A 60mm High Explosive Anti Tank round. They can blow through up to two feet of concrete.",
-mfb(AMMO_EXPLOSIVE_BIG));
+mfb(AMMO_EXPLOSIVE_BIG)|mfb(AMMO_TRAIL));
 
 AMMO("12mm", "H&K 12mm",	 2, 500,AT_12MM,		c_red,	STEEL,
 	 1,  10, 25, 12, 70,  9, 7,  20, "\
@@ -3182,7 +3183,7 @@ GUN("LAW", "M72 LAW",	200,8500,c_ltred,STEEL,	MNULL,
 A single use rocket launcher, developed during WW2 as a countermeasure\n\
 to the increasing prevalance of tanks. Once fired, it cannot be reloaded\n\
 and must be disposed of.",
-mfb(IF_NO_UNLOAD));
+mfb(IF_NO_UNLOAD)|mfb(IF_BACKBLAST));
 
 //  NAME		    RAR PRC COLOR		MAT1	MAT2
 GUN("coilgun", "coilgun",		1, 200,c_ltblue,	IRON,	MNULL,

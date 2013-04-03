@@ -94,7 +94,7 @@ IF_SHOCK,   // Stuns and damages enemies, powers up shockers.
 IF_UNARMED_WEAPON, // Counts as an unarmed weapon
 IF_NO_UNWIELD, // Impossible to unwield, e.g. bionic claws
 IF_NO_UNLOAD,  // Cannot be unloaded. For Fusion rifles and other ammo generating weapons.
-IF_SPAWNS_LOADED, // Spawns with ammo, used for non reloadable guns. Like the LAW.
+IF_BACKBLAST,  // Creates a backblast of smoke.
 
 // Weapon mode flags
 IF_MODE_AUX, // A gunmod with a firing mode
