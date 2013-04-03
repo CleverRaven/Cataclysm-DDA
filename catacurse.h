@@ -14,7 +14,7 @@ typedef unsigned int u_int32_t;
 #define __STANDOUT	0x00000100	/* Added characters are standout. */        //<---------not used
 #define __UNDERSCORE	0x00000200	/* Added characters are underscored. */ //<---------not used
 #define __REVERSE	0x00000400	/* Added characters are reverse             //<---------not used
-video. */
+					   video. */
 #define __BLINK		0x00000800	/* Added characters are blinking. */
 #define __DIM		0x00001000	/* Added characters are dim. */             //<---------not used
 #define __BOLD		0x00002000	/* Added characters are bold. */
@@ -40,28 +40,26 @@ typedef struct
 //} cursechar;
 
 //Individual lines, so that we can track changed lines
-typedef struct
-{
-    bool touched;
-    char *chars;
-    char *FG;
-    char *BG;
-    //cursechar chars [80];
+typedef struct{
+bool touched;
+char *chars;
+char *FG;
+char *BG;
+//cursechar chars [80];
 } curseline;
 //The curses window struct
-typedef struct
-{
-    int x;//left side of window
-    int y;//top side of window
-    int width;//width of the curses window
-    int height;//height of the curses window
-    int FG;//current foreground color from attron
-    int BG;//current background color from attron
-    bool inuse;// Does this window actually exist?
-    bool draw;//Tracks if the window text has been changed
-    int cursorx;//x location of the cursor
-    int cursory;//y location of the cursor
-    curseline *line;
+typedef struct {
+  int x;//left side of window
+  int y;//top side of window
+  int width;//width of the curses window
+  int height;//height of the curses window
+  int FG;//current foreground color from attron
+  int BG;//current background color from attron
+  bool inuse;// Does this window actually exist?
+  bool draw;//Tracks if the window text has been changed
+  int cursorx;//x location of the cursor
+  int cursory;//y location of the cursor
+  curseline *line;
 
 } WINDOW;
 

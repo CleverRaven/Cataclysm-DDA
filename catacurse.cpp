@@ -63,8 +63,7 @@ bool WinCreate()
     WindowClassType.hbrBackground = 0;//Thanks jday! Remove background brush
     WindowClassType.lpszClassName = szWindowClass;
     success = RegisterClassExW(&WindowClassType);
-    if ( success== 0)
-    {
+    if ( success== 0){
         return false;
     }
     WindowStyle = WS_OVERLAPPEDWINDOW & ~(WS_THICKFRAME) & ~(WS_MAXIMIZEBOX);
@@ -72,9 +71,8 @@ bool WinCreate()
                                    szWindowClass , szTitle,WindowStyle, WindowX,
                                    WindowY, WindowWidth + (WinBorderWidth) * 1,
                                    WindowHeight + (WinBorderHeight +
-                                           WinTitleSize) * 1, 0, 0, WindowINST, NULL);
-    if (WindowHandle == 0)
-    {
+                                   WinTitleSize) * 1, 0, 0, WindowINST, NULL);
+    if (WindowHandle == 0){
         return false;
     }
     ShowWindow(WindowHandle,5);
@@ -84,16 +82,13 @@ bool WinCreate()
 //Unregisters, releases the DC if needed, and destroys the window.
 void WinDestroy()
 {
-    if ((WindowDC > 0) && (ReleaseDC(WindowHandle, WindowDC) == 0))
-    {
+    if ((WindowDC > 0) && (ReleaseDC(WindowHandle, WindowDC) == 0)){
         WindowDC = 0;
     }
-    if ((!WindowHandle == 0) && (!(DestroyWindow(WindowHandle))))
-    {
+    if ((!WindowHandle == 0) && (!(DestroyWindow(WindowHandle)))){
         WindowHandle = 0;
     }
-    if (!(UnregisterClassW(szWindowClass, WindowINST)))
-    {
+    if (!(UnregisterClassW(szWindowClass, WindowINST))){
         WindowINST = 0;
     }
 };
@@ -102,48 +97,45 @@ void WinDestroy()
 LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
                                  WPARAM wParam, LPARAM lParam)
 {
-    switch (Msg)
-    {
-    case WM_CHAR:               //This handles most key presses
-        lastchar=(int)wParam;
-        switch (lastchar)
-        {
-        case 13:            //Reroute ENTER key for compatilbity purposes
-            lastchar=10;
+    switch (Msg){
+        case WM_CHAR:               //This handles most key presses
+            lastchar=(int)wParam;
+            switch (lastchar){
+                case 13:            //Reroute ENTER key for compatilbity purposes
+                    lastchar=10;
+                    break;
+                case 8:             //Reroute BACKSPACE key for compatilbity purposes
+                    lastchar=127;
+                    break;
+            };
             break;
-        case 8:             //Reroute BACKSPACE key for compatilbity purposes
-            lastchar=127;
+        case WM_KEYDOWN:                //Here we handle non-character input
+            switch (wParam){
+                case VK_LEFT:
+                    lastchar = KEY_LEFT;
+                    break;
+                case VK_RIGHT:
+                    lastchar = KEY_RIGHT;
+                    break;
+                case VK_UP:
+                    lastchar = KEY_UP;
+                    break;
+                case VK_DOWN:
+                    lastchar = KEY_DOWN;
+                    break;
+                default:
+                    break;
+            };
+        case WM_ERASEBKGND:
+            return 1;               //We don't want to erase our background
+        case WM_PAINT:              //Pull from our backbuffer, onto the screen
+            BitBlt(WindowDC, 0, 0, WindowWidth, WindowHeight, backbuffer, 0, 0,SRCCOPY);
+            ValidateRect(WindowHandle,NULL);
             break;
-        };
-        break;
-    case WM_KEYDOWN:                //Here we handle non-character input
-        switch (wParam)
-        {
-        case VK_LEFT:
-            lastchar = KEY_LEFT;
-            break;
-        case VK_RIGHT:
-            lastchar = KEY_RIGHT;
-            break;
-        case VK_UP:
-            lastchar = KEY_UP;
-            break;
-        case VK_DOWN:
-            lastchar = KEY_DOWN;
-            break;
-        default:
-            break;
-        };
-    case WM_ERASEBKGND:
-        return 1;               //We don't want to erase our background
-    case WM_PAINT:              //Pull from our backbuffer, onto the screen
-        BitBlt(WindowDC, 0, 0, WindowWidth, WindowHeight, backbuffer, 0, 0,SRCCOPY);
-        ValidateRect(WindowHandle,NULL);
-        break;
-    case WM_DESTROY:
-        exit(0);//A messy exit, but easy way to escape game loop
-    default://If we didnt process a message, return the default value for it
-        return DefWindowProcW(hWnd, Msg, wParam, lParam);
+        case WM_DESTROY:
+            exit(0);//A messy exit, but easy way to escape game loop
+        default://If we didnt process a message, return the default value for it
+            return DefWindowProcW(hWnd, Msg, wParam, lParam);
     };
     return 0;
 };
@@ -173,82 +165,75 @@ void DrawWindow(WINDOW *win)
 {
     int i,j,drawx,drawy;
     char tmp;
-    for (j=0; j<win->height; j++)
-    {
+    for (j=0; j<win->height; j++){
         if (win->line[j].touched)
-            for (i=0; i<win->width; i++)
-            {
+            for (i=0; i<win->width; i++){
                 win->line[j].touched=false;
                 drawx=((win->x+i)*fontwidth);
                 drawy=((win->y+j)*fontheight);//-j;
-                if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight))
-                {
-                    tmp = win->line[j].chars[i];
-                    int FG = win->line[j].FG[i];
-                    int BG = win->line[j].BG[i];
-                    FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
+                if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)){
+                tmp = win->line[j].chars[i];
+                int FG = win->line[j].FG[i];
+                int BG = win->line[j].BG[i];
+                FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
 
-                    if ( tmp > 0)
-                    {
-                        //if (tmp==95){//If your font doesnt draw underscores..uncomment
-                        //        HorzLineDIB(drawx,drawy+fontheight-2,drawx+fontwidth,1,FG);
-                        //    } else { // all the wa to here
-                        int color = RGB(windowsPalette[FG].rgbRed,windowsPalette[FG].rgbGreen,windowsPalette[FG].rgbBlue);
-                        SetTextColor(backbuffer,color);
-                        ExtTextOut(backbuffer,drawx,drawy,0,NULL,&tmp,1,NULL);
-                        //    }     //and this line too.
+                if ( tmp > 0){
+                //if (tmp==95){//If your font doesnt draw underscores..uncomment
+                //        HorzLineDIB(drawx,drawy+fontheight-2,drawx+fontwidth,1,FG);
+                //    } else { // all the wa to here
+                    int color = RGB(windowsPalette[FG].rgbRed,windowsPalette[FG].rgbGreen,windowsPalette[FG].rgbBlue);
+                    SetTextColor(backbuffer,color);
+                    ExtTextOut(backbuffer,drawx,drawy,0,NULL,&tmp,1,NULL);
+                //    }     //and this line too.
+                } else if (  tmp < 0 ) {
+                    switch (tmp) {
+                    case -60://box bottom/top side (horizontal line)
+                        HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
+                        break;
+                    case -77://box left/right side (vertical line)
+                        VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
+                        break;
+                    case -38://box top left
+                        HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
+                        VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
+                        break;
+                    case -65://box top right
+                        HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
+                        VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
+                        break;
+                    case -39://box bottom right
+                        HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
+                        VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
+                        break;
+                    case -64://box bottom left
+                        HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
+                        VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
+                        break;
+                    case -63://box bottom north T (left, right, up)
+                        HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
+                        VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight,2,FG);
+                        break;
+                    case -61://box bottom east T (up, right, down)
+                        VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
+                        HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
+                        break;
+                    case -62://box bottom south T (left, right, down)
+                        HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
+                        VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
+                        break;
+                    case -59://box X (left down up right)
+                        HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
+                        VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
+                        break;
+                    case -76://box bottom east T (left, down, up)
+                        VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
+                        HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
+                        break;
+                    default:
+                        // SetTextColor(DC,_windows[w].line[j].chars[i].color.FG);
+                        // TextOut(DC,drawx,drawy,&tmp,1);
+                        break;
                     }
-                    else if (  tmp < 0 )
-                    {
-                        switch (tmp)
-                        {
-                        case -60://box bottom/top side (horizontal line)
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                            break;
-                        case -77://box left/right side (vertical line)
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                            break;
-                        case -38://box top left
-                            HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
-                            break;
-                        case -65://box top right
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
-                            break;
-                        case -39://box bottom right
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
-                            break;
-                        case -64://box bottom left
-                            HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
-                            break;
-                        case -63://box bottom north T (left, right, up)
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight,2,FG);
-                            break;
-                        case -61://box bottom east T (up, right, down)
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                            HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
-                            break;
-                        case -62://box bottom south T (left, right, down)
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
-                            break;
-                        case -59://box X (left down up right)
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                            break;
-                        case -76://box bottom east T (left, down, up)
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
-                            break;
-                        default:
-                            // SetTextColor(DC,_windows[w].line[j].chars[i].color.FG);
-                            // TextOut(DC,drawx,drawy,&tmp,1);
-                            break;
-                        }
                     };//switch (tmp)
                 }//(tmp < 0)
             };//for (i=0;i<_windows[w].width;i++)
@@ -260,8 +245,7 @@ void DrawWindow(WINDOW *win)
 void CheckMessages()
 {
     MSG msg;
-    while (PeekMessage(&msg, 0 , 0, 0, PM_REMOVE))
-    {
+    while (PeekMessage(&msg, 0 , 0, 0, PM_REMOVE)){
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
@@ -274,36 +258,32 @@ void CheckMessages()
 //Basic Init, create the font, backbuffer, etc
 WINDOW *initscr(void)
 {
-    // _windows = new WINDOW[20];         //initialize all of our variables
+   // _windows = new WINDOW[20];         //initialize all of our variables
     BITMAPINFO bmi;
     lastchar=-1;
     inputdelay=-1;
     std::string typeface;
-    char * typeface_c;
-    std::ifstream fin;
-    fin.open("data\\FONTDATA");
-    if (!fin.is_open())
-    {
-        MessageBox(WindowHandle, "Failed to open FONTDATA, loading defaults.",
-                   NULL, NULL);
+char * typeface_c;
+std::ifstream fin;
+fin.open("data\\FONTDATA");
+ if (!fin.is_open()){
+     MessageBox(WindowHandle, "Failed to open FONTDATA, loading defaults.",
+                NULL, NULL);
+     fontheight=16;
+     fontwidth=8;
+ } else {
+     getline(fin, typeface);
+     typeface_c= new char [typeface.size()+1];
+     strcpy (typeface_c, typeface.c_str());
+     fin >> fontwidth;
+     fin >> fontheight;
+     if ((fontwidth <= 4) || (fontheight <=4)){
+         MessageBox(WindowHandle, "Invalid font size specified!",
+                    NULL, NULL);
         fontheight=16;
         fontwidth=8;
-    }
-    else
-    {
-        getline(fin, typeface);
-        typeface_c= new char [typeface.size()+1];
-        strcpy (typeface_c, typeface.c_str());
-        fin >> fontwidth;
-        fin >> fontheight;
-        if ((fontwidth <= 4) || (fontheight <=4))
-        {
-            MessageBox(WindowHandle, "Invalid font size specified!",
-                       NULL, NULL);
-            fontheight=16;
-            fontwidth=8;
-        }
-    }
+     }
+ }
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
     WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
@@ -327,26 +307,23 @@ WINDOW *initscr(void)
     backbit = CreateDIBSection(0, &bmi, DIB_RGB_COLORS, (void**)&dcbits, NULL, 0);
     DeleteObject(SelectObject(backbuffer, backbit));//load the buffer into DC
 
-    int nResults = AddFontResourceExA("data\\termfont",FR_PRIVATE,NULL);
-    if (nResults>0)
-    {
-        font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
-                          ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
-                          PROOF_QUALITY, FF_MODERN, typeface_c);   //Create our font
+ int nResults = AddFontResourceExA("data\\termfont",FR_PRIVATE,NULL);
+   if (nResults>0){
+    font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+                      ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
+                      PROOF_QUALITY, FF_MODERN, typeface_c);   //Create our font
 
-    }
-    else
-    {
-        MessageBox(WindowHandle, "Failed to load default font, using FixedSys.",
-                   NULL, NULL);
-        font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
-                          ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
-                          PROOF_QUALITY, FF_MODERN, "FixedSys");   //Create our font
-    }
+  } else {
+      MessageBox(WindowHandle, "Failed to load default font, using FixedSys.",
+                NULL, NULL);
+       font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+                      ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
+                      PROOF_QUALITY, FF_MODERN, "FixedSys");   //Create our font
+   }
     //FixedSys will be user-changable at some point in time??
     SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
     SelectObject(backbuffer, font);//Load our font into the DC
-    //    WindowCount=0;
+//    WindowCount=0;
 
     delete typeface_c;
     mainwin = newwin((OPTIONS[OPT_VIEWPORT_Y] * 2 + 1),(55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1)),0,0);
@@ -355,8 +332,7 @@ WINDOW *initscr(void)
 
 WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
 {
-    if (begin_y < 0 || begin_x < 0)
-    {
+    if (begin_y < 0 || begin_x < 0) {
         return NULL; //it's the caller's problem now (since they have logging functions declared)
     }
 
@@ -383,9 +359,9 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
         newwindow->line[j].touched=true;//Touch them all !?
         for (i=0; i<ncols; i++)
         {
-            newwindow->line[j].chars[i]=0;
-            newwindow->line[j].FG[i]=0;
-            newwindow->line[j].BG[i]=0;
+          newwindow->line[j].chars[i]=0;
+          newwindow->line[j].FG[i]=0;
+          newwindow->line[j].BG[i]=0;
         }
     }
     //WindowCount++;
@@ -399,30 +375,26 @@ int delwin(WINDOW *win)
     int j;
     win->inuse=false;
     win->draw=false;
-    for (j=0; j<win->height; j++)
-    {
+    for (j=0; j<win->height; j++){
         delete win->line[j].chars;
         delete win->line[j].FG;
         delete win->line[j].BG;
-    }
+        }
     delete win->line;
     delete win;
     return 1;
 };
 
-inline int newline(WINDOW *win)
-{
-    if (win->cursory < win->height - 1)
-    {
+inline int newline(WINDOW *win){
+    if (win->cursory < win->height - 1){
         win->cursory++;
         win->cursorx=0;
         return 1;
     }
-    return 0;
+return 0;
 };
 
-inline void addedchar(WINDOW *win)
-{
+inline void addedchar(WINDOW *win){
     win->cursorx++;
     win->line[win->cursory].touched=true;
     if (win->cursorx > win->width)
@@ -482,9 +454,9 @@ int refresh(void)
 //but jday helped to figure most of it out
 int getch(void)
 {
-    refresh();
-    InvalidateRect(WindowHandle,NULL,true);
-    lastchar=ERR;//ERR=-1
+ refresh();
+ InvalidateRect(WindowHandle,NULL,true);
+ lastchar=ERR;//ERR=-1
     if (inputdelay < 0)
     {
         do
@@ -519,31 +491,25 @@ int getch(void)
 //The core printing function, prints characters to the array, and sets colors
 inline int printstring(WINDOW *win, char *fmt)
 {
-    int size = strlen(fmt);
-    int j;
-    for (j=0; j<size; j++)
-    {
-        if (!(fmt[j]==10)) //check that this isnt a newline char
-        {
-            if (win->cursorx <= win->width - 1 && win->cursory <= win->height - 1)
-            {
-                win->line[win->cursory].chars[win->cursorx]=fmt[j];
-                win->line[win->cursory].FG[win->cursorx]=win->FG;
-                win->line[win->cursory].BG[win->cursorx]=win->BG;
-                win->line[win->cursory].touched=true;
-                addedchar(win);
-            }
-            else
-                return 0; //if we try and write anything outside the window, abort completely
-        }
-        else   // if the character is a newline, make sure to move down a line
-            if (newline(win)==0)
-            {
-                return 0;
-            }
-    }
-    win->draw=true;
-    return 1;
+ int size = strlen(fmt);
+ int j;
+ for (j=0; j<size; j++){
+  if (!(fmt[j]==10)){//check that this isnt a newline char
+   if (win->cursorx <= win->width - 1 && win->cursory <= win->height - 1) {
+    win->line[win->cursory].chars[win->cursorx]=fmt[j];
+    win->line[win->cursory].FG[win->cursorx]=win->FG;
+    win->line[win->cursory].BG[win->cursorx]=win->BG;
+    win->line[win->cursory].touched=true;
+    addedchar(win);
+   } else
+   return 0; //if we try and write anything outside the window, abort completely
+} else // if the character is a newline, make sure to move down a line
+  if (newline(win)==0){
+      return 0;
+      }
+ }
+ win->draw=true;
+ return 1;
 }
 
 //Prints a formatted string to a window at the current cursor, base function
@@ -598,12 +564,11 @@ int werase(WINDOW *win)
     int j,i;
     for (j=0; j<win->height; j++)
     {
-        for (i=0; i<win->width; i++)
-        {
-            win->line[j].chars[i]=0;
-            win->line[j].FG[i]=0;
-            win->line[j].BG[i]=0;
-        }
+     for (i=0; i<win->width; i++)   {
+     win->line[j].chars[i]=0;
+     win->line[j].FG[i]=0;
+     win->line[j].BG[i]=0;
+     }
         win->line[j].touched=true;
     }
     win->draw=true;
@@ -630,21 +595,13 @@ int init_pair(short pair, short f, short b)
 int wmove(WINDOW *win, int y, int x)
 {
     if (x>=win->width)
-    {
-        return 0;   //FIXES MAP CRASH -> >= vs > only
-    }
+     {return 0;}//FIXES MAP CRASH -> >= vs > only
     if (y>=win->height)
-    {
-        return 0;   // > crashes?
-    }
+     {return 0;}// > crashes?
     if (y<0)
-    {
-        return 0;
-    }
+     {return 0;}
     if (x<0)
-    {
-        return 0;
-    }
+     {return 0;}
     win->cursorx=x;
     win->cursory=y;
     return 1;
@@ -668,8 +625,8 @@ int endwin(void)
 //adds a character to the window
 int mvwaddch(WINDOW *win, int y, int x, const chtype ch)
 {
-    if (wmove(win,y,x)==0) return 0;
-    return waddch(win, ch);
+   if (wmove(win,y,x)==0) return 0;
+   return waddch(win, ch);
 };
 
 //clears a window
@@ -720,30 +677,30 @@ inline RGBQUAD BGR(int b, int g, int r)
 
 int start_color(void)
 {
-    colorpairs=new pairs[50];
-    windowsPalette=new RGBQUAD[16]; //Colors in the struct are BGR!! not RGB!!
-    windowsPalette[0]= BGR(0,0,0); // Black
-    windowsPalette[1]= BGR(0, 0, 255); // Red
-    windowsPalette[2]= BGR(0,100,0); // Green
-    windowsPalette[3]= BGR(23,51,92); // Brown???
-    windowsPalette[4]= BGR(150, 0, 0); // Blue
-    windowsPalette[5]= BGR(98, 58, 139); // Purple
-    windowsPalette[6]= BGR(180, 150, 0); // Cyan
-    windowsPalette[7]= BGR(196, 196, 196);// Gray
-    windowsPalette[8]= BGR(77, 77, 77);// Dark Gray
-    windowsPalette[9]= BGR(150, 150, 255); // Light Red/Salmon?
-    windowsPalette[10]= BGR(0, 255, 0); // Bright Green
-    windowsPalette[11]= BGR(0, 255, 255); // Yellow
-    windowsPalette[12]= BGR(255, 100, 100); // Light Blue
-    windowsPalette[13]= BGR(240, 0, 255); // Pink
-    windowsPalette[14]= BGR(255, 240, 0); // Light Cyan?
-    windowsPalette[15]= BGR(255, 255, 255);
-    return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
+ colorpairs=new pairs[50];
+ windowsPalette=new RGBQUAD[16]; //Colors in the struct are BGR!! not RGB!!
+ windowsPalette[0]= BGR(0,0,0); // Black
+ windowsPalette[1]= BGR(0, 0, 255); // Red
+ windowsPalette[2]= BGR(0,100,0); // Green
+ windowsPalette[3]= BGR(23,51,92); // Brown???
+ windowsPalette[4]= BGR(150, 0, 0); // Blue
+ windowsPalette[5]= BGR(98, 58, 139); // Purple
+ windowsPalette[6]= BGR(180, 150, 0); // Cyan
+ windowsPalette[7]= BGR(196, 196, 196);// Gray
+ windowsPalette[8]= BGR(77, 77, 77);// Dark Gray
+ windowsPalette[9]= BGR(150, 150, 255); // Light Red/Salmon?
+ windowsPalette[10]= BGR(0, 255, 0); // Bright Green
+ windowsPalette[11]= BGR(0, 255, 255); // Yellow
+ windowsPalette[12]= BGR(255, 100, 100); // Light Blue
+ windowsPalette[13]= BGR(240, 0, 255); // Pink
+ windowsPalette[14]= BGR(255, 240, 0); // Light Cyan?
+ windowsPalette[15]= BGR(255, 255, 255);
+ return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
 };
 
 int keypad(WINDOW *faux, bool bf)
 {
-    return 1;
+return 1;
 };
 
 int noecho(void)
@@ -781,8 +738,8 @@ int wattron(WINDOW *win, int attrs)
 };
 int wattroff(WINDOW *win, int attrs)
 {
-    win->FG=8;                                  //reset to white
-    win->BG=0;                                  //reset to black
+     win->FG=8;                                  //reset to white
+     win->BG=0;                                  //reset to black
     return 1;
 };
 int attron(int attrs)
@@ -798,61 +755,60 @@ int waddch(WINDOW *win, const chtype ch)
     char charcode;
     charcode=ch;
 
-    switch (ch)         //LINE_NESW  - X for on, O for off
-    {
-    case 4194424:   //#define LINE_XOXO 4194424
-        charcode=179;
-        break;
-    case 4194417:   //#define LINE_OXOX 4194417
-        charcode=196;
-        break;
-    case 4194413:   //#define LINE_XXOO 4194413
-        charcode=192;
-        break;
-    case 4194412:   //#define LINE_OXXO 4194412
-        charcode=218;
-        break;
-    case 4194411:   //#define LINE_OOXX 4194411
-        charcode=191;
-        break;
-    case 4194410:   //#define LINE_XOOX 4194410
-        charcode=217;
-        break;
-    case 4194422:   //#define LINE_XXOX 4194422
-        charcode=193;
-        break;
-    case 4194420:   //#define LINE_XXXO 4194420
-        charcode=195;
-        break;
-    case 4194421:   //#define LINE_XOXX 4194421
-        charcode=180;
-        break;
-    case 4194423:   //#define LINE_OXXX 4194423
-        charcode=194;
-        break;
-    case 4194414:   //#define LINE_XXXX 4194414
-        charcode=197;
-        break;
-    default:
-        charcode = (char)ch;
-        break;
-    }
+    switch (ch){        //LINE_NESW  - X for on, O for off
+        case 4194424:   //#define LINE_XOXO 4194424
+            charcode=179;
+            break;
+        case 4194417:   //#define LINE_OXOX 4194417
+            charcode=196;
+            break;
+        case 4194413:   //#define LINE_XXOO 4194413
+            charcode=192;
+            break;
+        case 4194412:   //#define LINE_OXXO 4194412
+            charcode=218;
+            break;
+        case 4194411:   //#define LINE_OOXX 4194411
+            charcode=191;
+            break;
+        case 4194410:   //#define LINE_XOOX 4194410
+            charcode=217;
+            break;
+        case 4194422:   //#define LINE_XXOX 4194422
+            charcode=193;
+            break;
+        case 4194420:   //#define LINE_XXXO 4194420
+            charcode=195;
+            break;
+        case 4194421:   //#define LINE_XOXX 4194421
+            charcode=180;
+            break;
+        case 4194423:   //#define LINE_OXXX 4194423
+            charcode=194;
+            break;
+        case 4194414:   //#define LINE_XXXX 4194414
+            charcode=197;
+            break;
+        default:
+            charcode = (char)ch;
+            break;
+        }
 
 
-    int curx=win->cursorx;
-    int cury=win->cursory;
+int curx=win->cursorx;
+int cury=win->cursory;
 
-    //if (win2 > -1){
-    win->line[cury].chars[curx]=charcode;
-    win->line[cury].FG[curx]=win->FG;
-    win->line[cury].BG[curx]=win->BG;
+//if (win2 > -1){
+   win->line[cury].chars[curx]=charcode;
+   win->line[cury].FG[curx]=win->FG;
+   win->line[cury].BG[curx]=win->BG;
 
 
     win->draw=true;
     addedchar(win);
     return 1;
-    //  else{
-    //  win2=win2+1;
+  //  else{
+  //  win2=win2+1;
 
 };
 

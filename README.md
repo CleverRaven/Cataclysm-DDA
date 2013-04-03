@@ -11,6 +11,3 @@ Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While
 Build the tools and defenses you will need to overcome the challenges you face, from a strongly fortified lair full of customized firearms and surrounded by pits and landmines, to a mobile, gasoline powered blade spinning fortress of death, tearing apart anything stupid enough to get in the way. And finally, improve! Learn skills to help you survive, acquire mind-bending mutations, and convert your own body into a cybernetic masterpiece.
 
 Make no mistake - there is no other game quite like Cataclysm. How long can you survive?
-
-For Developers:
-The team is using the Allman coding style (4-space indent), so please format any contributions accordingly. Have fun coding, and enjoy Cataclysm!
