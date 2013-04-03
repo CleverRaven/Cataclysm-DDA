@@ -1726,6 +1726,14 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("toolset", -1);
   COMP("sheet_metal",1);
 
+  RECIPE("metal_tank", CC_MISC, "mechanics", NULL, 1, 2000, false);
+  TOOL("hatchet", -1);
+  TOOLCONT("hammer", -1);
+  TOOLCONT("rock", -1);
+  TOOLCONT("toolset", -1);
+  TOOL("welder", 50);
+  TOOLCONT("toolset", 5);
+  COMP("sheet_metal",2);
 
   RECIPE("bandages", CC_MISC, "firstaid", NULL, 1, 500, false);
   COMP("rag", 3);
