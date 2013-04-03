@@ -31,7 +31,7 @@
   "name": "Wannabe Mechanic",
   "description":
 "Although you never got your driver's license, you've always loved cars.\nYou start with a wrench, a toolbelt, and some car-related reading material.",
-  "points": 1,
-  "items": ["tank_top", "jeans", "beltrig", "wrench"]
+  "points": 2,
+  "items": ["tank_top", "jeans", "beltrig", "wrench", "mag_cars", "manual_mechanics"]
  }
 ]
