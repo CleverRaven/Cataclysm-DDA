@@ -140,6 +140,8 @@
 		<Unit filename="pldata.h" />
 		<Unit filename="posix_time.cpp" />
 		<Unit filename="posix_time.h" />
+		<Unit filename="profession.cpp" />
+		<Unit filename="profession.h" />
 		<Unit filename="ranged.cpp" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />

@@ -20,6 +20,7 @@ class monster;
 class game;
 class trap;
 class mission;
+class profession;
 
 struct special_attack
 {
@@ -284,6 +285,7 @@ public:
 
  std::string name;
  bool male;
+ profession* prof;
  bool my_traits[PF_MAX2];
  bool my_mutations[PF_MAX2];
  int mutation_category_level[NUM_MUTATION_CATEGORIES];

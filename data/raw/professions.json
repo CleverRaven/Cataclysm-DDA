@@ -1,0 +1,37 @@
+[
+ {
+  "ident": "unemployed",
+  "name": "Unemployed",
+  "description":
+"They say you don't have any 'useful skills', but at least your clothes fit\nwell, and you have a knife and source of fire.",
+  "points": 0,
+  "items": ["jeans_fit", "tshirt_fit", "sneakers_fit", "pockknife", "matches"] 
+ },
+
+ {
+  "ident": "labtech",
+  "name": "Lab Technician",
+  "description":
+"It was your first day in the lab when the cataclysm hit. You were evacuated\nwith all the civilians, but at least you kept your lab gear.",
+  "points": 1,
+  "items": ["dress_shirt", "pants", "boots", "coat_lab", "gloves_rubber", "glasses_safety"]
+ },
+
+ {
+  "ident": "nudist",
+  "name": "Nudist",
+  "description":
+"When you were evacuated, you had literally nothing on you. Good luck!",
+  "points": -1,
+  "items": []
+ },
+
+ {
+  "ident": "mechanic",
+  "name": "Wannabe Mechanic",
+  "description":
+"Although you never got your driver's license, you've always loved cars.\nYou start with a wrench, a toolbelt, and some car-related reading material.",
+  "points": 1,
+  "items": ["tank_top", "jeans", "beltrig", "wrench"]
+ }
+]
