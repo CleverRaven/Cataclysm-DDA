@@ -341,6 +341,13 @@ void game::init_construction()
    TOOLCONT("ax");
    TOOLCONT("primitive_axe");
   COMP("spear_wood", 2);
+
+ CONSTRUCT("Build Wood Stove", 0, &construct::able_empty,
+ 		                                   &construct::done_nothing);
+  STAGE(t_woodstove, 10);
+   TOOL("hacksaw");
+  COMP("metal_tank", 1);
+  COMP("pipe", 1);
 }
 
 void game::construction_menu()

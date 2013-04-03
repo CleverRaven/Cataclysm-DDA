@@ -61,6 +61,7 @@ enum t_flag {
  flammable2,   // Burn to ash rather than rubble.
  deconstruct,  // Can be deconstructed
  reduce_scent, // Reduces the scent even more, only works if object is bashable as well
+ fire_container,// Contains fire like brazier or wood stove.
  num_t_flags   // MUST be last
 };
 
@@ -435,7 +436,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
         mfb(transparent)|mfb(bashable)|mfb(l_flammable)|mfb(collapses)|mfb(container)|mfb(place_item), &iexamine::none},
 
 {"wood stove",             '#', i_red,   4, tr_null,
-        mfb(transparent)|mfb(container)|mfb(place_item), &iexamine::none},
+        mfb(transparent)|mfb(container)|mfb(fire_container)|mfb(place_item), &iexamine::none},
 
 
 {"bathtub",          '~', c_white,   4, tr_null,

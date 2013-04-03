@@ -175,7 +175,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
     if (veh)
      veh->damage (part, cur->density * 10, false);
     // If the flames are in a brazier, they're fully contained, so skip consuming terrain
-    if(tr_brazier != tr_at(x, y)) {
+    if((tr_brazier != tr_at(x, y))&&(has_flag(fire_container, x, y) != TRUE )) {
      // Consume the terrain we're on
      if (has_flag(explodes, x, y)) {
       ter(x, y) = ter_id(int(ter(x, y)) + 1);
@@ -214,7 +214,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
 // If the flames are in a pit, it can't spread to non-pit
     bool in_pit = (ter(x, y) == t_pit);
 // If the flames are REALLY big, they contribute to adjacent flames
-    if (cur->density == 3 && cur->age < 0 && tr_brazier != tr_at(x, y)) {
+    if (cur->density == 3 && cur->age < 0 && tr_brazier != tr_at(x, y)
+        && (has_flag(fire_container, x, y) != TRUE  ) ){
 // Randomly offset our x/y shifts by 0-2, to randomly pick a square to spread to
      int starti = rng(0, 2);
      int startj = rng(0, 2);
@@ -242,11 +243,12 @@ bool map::process_fields_in_submap(game *g, int gridn)
        if (field_at(fx, fy).type == fd_web)
         spread_chance = 50 + spread_chance / 2;
        if (has_flag(explodes, fx, fy) && one_in(8 - cur->density) &&
-	   tr_brazier != tr_at(x, y)) {
+	   tr_brazier != tr_at(x, y) && (has_flag(fire_container, x, y) != TRUE ) ) {
         ter(fx, fy) = ter_id(int(ter(fx, fy)) + 1);
         g->explosion(fx, fy, 40, 0, true);
        } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
                   tr_brazier != tr_at(x, y) &&
+                  (has_flag(fire_container, x, y) != TRUE )&&
                   (in_pit == (ter(fx, fy) == t_pit)) &&
                   ((cur->density == 3 &&
                     (has_flag(flammable, fx, fy) || one_in(20))) ||
@@ -273,7 +275,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
 // If we're not spreading, maybe we'll stick out some smoke, huh?
         if (move_cost(fx, fy) > 0 &&
             (!one_in(smoke) || (nosmoke && one_in(40))) &&
-            rng(3, 35) < cur->density * 10 && cur->age < 1000) {
+            rng(3, 35) < cur->density * 10 && cur->age < 1000 &&
+            (has_flag(fire_container, x, y) != TRUE )) {
          smoke--;
          add_field(g, fx, fy, fd_smoke, rng(1, cur->density));
         }
