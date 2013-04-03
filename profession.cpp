@@ -8,13 +8,15 @@
 #include "picojson.h"
 
 profession::profession() {
+ _id = 0;
  _ident = "";
  _name = "null";
  _description = "null";
  _point_cost = 0;
 }
 
-profession::profession(std::string ident, std::string name, std::string description, signed int points) {
+profession::profession(unsigned int id, std::string ident, std::string name, std::string description, signed int points) {
+ _id = id;
  _ident = ident;
  _name = name;
  _description = description;
@@ -34,7 +36,9 @@ profmap profession::load_professions() {
 
  if (profsRaw.is<picojson::array>()) {
   const picojson::array& profs = profsRaw.get<picojson::array>();
+  unsigned int id = 0;
   for (picojson::array::const_iterator aProf = profs.begin(); aProf != profs.end(); ++aProf) {
+   ++id;
    const picojson::object& object = aProf->get<picojson::object>();
    std::string ident, name, description;
    signed int points;
@@ -44,7 +48,7 @@ profmap profession::load_professions() {
    description = object.at("description").get<std::string>();
    points = static_cast<int>(object.at("points").get<double>());
    
-   profession newProfession(ident, name, description, points);
+   profession newProfession(id, ident, name, description, points);
 
    const picojson::array& items = object.at("items").get<picojson::array>();
    for (picojson::array::const_iterator anItem = items.begin(); anItem != items.end(); ++anItem) {
@@ -86,12 +90,20 @@ profmap::const_iterator profession::end() {
  return _all_profs.end();
 }
 
+int profession::count() {
+ return _all_profs.size();
+}
+
 bool profession::has_initialized() {
  return exists("unemployed");
 }
 
 void profession::add_item(std::string item) {
  _starting_items.push_back(item);
+}
+
+unsigned int profession::id() const {
+ return _id;
 }
 
 std::string profession::ident() const {
