@@ -1235,7 +1235,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
  int iEnc, iLayers, iArmorEnc, iWarmth;
 
- mvwprintz(w_encumb, 0, 7, c_ltgray, "ENCUMBERANCE");
+ mvwprintz(w_encumb, 0, 1, c_ltgray, "ENCUMBERANCE AND WARMTH");
  for (int i=0; i < 8; i++) {
   iEnc = iLayers = iArmorEnc = iWarmth = 0;
   iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc, iWarmth);
@@ -1243,7 +1243,17 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   mvwprintz(w_encumb, i+1, 8, c_ltgray, "(%d)", iLayers);
   mvwprintz(w_encumb, i+1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2), " ", iArmorEnc, "+", iEnc-iArmorEnc);
   wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
-  wprintz(w_encumb, (temp_conv[i] < BODYTEMP_COLD || temp_conv[i] > BODYTEMP_HOT ? c_red : c_green), "%*s(%d)", (iWarmth > 9 ? ((iWarmth > 99) ? 1: 2) : 3), " ", iWarmth);
+  // Color the warmth value to let the player know what is sufficient
+  nc_color color = c_ltgray;
+  if (i == bp_eyes) continue; // Eyes don't count towards warmth
+  else if (temp_conv[i] >  BODYTEMP_SCORCHING) color = c_red;
+  else if (temp_conv[i] >  BODYTEMP_VERY_HOT)  color = c_ltred;
+  else if (temp_conv[i] >  BODYTEMP_HOT)       color = c_yellow;
+  else if (temp_conv[i] >  BODYTEMP_COLD)      color = c_green; // More than cold is comfortable
+  else if (temp_conv[i] >  BODYTEMP_VERY_COLD) color = c_ltblue;
+  else if (temp_conv[i] >  BODYTEMP_FREEZING)  color = c_cyan;
+  else if (temp_conv[i] <= BODYTEMP_FREEZING)  color = c_blue;
+  wprintz(w_encumb, color, "%*s(%d)", (iWarmth > 9 ? ((iWarmth > 99) ? 1: 2) : 3), " ", iWarmth);
  }
  wrefresh(w_encumb);
 
