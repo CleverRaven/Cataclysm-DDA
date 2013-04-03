@@ -2,11 +2,11 @@
 #define _CURSES_DEF_H_
 
 #if (defined _WIN32 || defined WINDOWS)
-	#include "catacurse.h"
+#include "catacurse.h"
 #elif (defined __CYGWIN__)
-       #include "ncurses/curses.h"
+#include "ncurses/curses.h"
 #else
-	#include <curses.h>
+#include <curses.h>
 #endif
 
 #endif // CURSES_DEF_H

@@ -13,23 +13,23 @@
 
 enum DebugLevel
 {
- D_INFO          = 1,
- D_WARNING       = 1<<2,
- D_ERROR         = 1<<3,
- D_PEDANTIC_INFO = 1<<4,
+    D_INFO          = 1,
+    D_WARNING       = 1<<2,
+    D_ERROR         = 1<<3,
+    D_PEDANTIC_INFO = 1<<4,
 
- DL_ALL = (1<<5)-1
+    DL_ALL = (1<<5)-1
 };
 
 enum DebugClass
 {
- D_MAIN    = 1,
- D_MAP     = 1<<2,
- D_MAP_GEN = 1<<3,
- D_GAME    = 1<<4,
- D_NPC     = 1<<5,
+    D_MAIN    = 1,
+    D_MAP     = 1<<2,
+    D_MAP_GEN = 1<<3,
+    D_GAME    = 1<<4,
+    D_NPC     = 1<<5,
 
- DC_ALL    = (1<<6)-1
+    DC_ALL    = (1<<6)-1
 };
 
 void setupDebug();
@@ -51,9 +51,11 @@ std::ostream & dout(DebugLevel=DL_ALL,DebugClass=DC_ALL);
 // ---------------------------------------------------------------------
 
 struct DebugVoid {};
- template<class T>
+template<class T>
 DebugVoid operator<< ( const DebugVoid & dv, const T & )
-{ return dv; }
+{
+    return dv;
+}
 DebugVoid dout(DebugLevel=DL_ALL,DebugClass=DC_ALL);
 
 #endif // END if NOT defined ENABLE_LOGGING
@@ -64,39 +66,42 @@ DebugVoid dout(DebugLevel=DL_ALL,DebugClass=DC_ALL);
 template<typename C, typename A>
 std::ostream & operator<<(std::ostream & out, const std::vector<C,A> & elm)
 {
- bool first = true;
- for( typename std::vector<C>::const_iterator
-        it = elm.begin(),
-        end = elm.end();
-        it != end; ++it )
- {
-  if( first )
-   first = false;
-  else
-   out << ",";
-  out << *it;
- }
+    bool first = true;
+    for( typename std::vector<C>::const_iterator
+            it = elm.begin(),
+            end = elm.end();
+            it != end; ++it )
+    {
+        if( first )
+            first = false;
+        else
+            out << ",";
+        out << *it;
+    }
 
- return out;
+    return out;
 }
 
 struct DebugLog
 {
-	DebugLog() {
-		fout.open("logg.txt", std::ios_base::app | std::ios_base::out);
-	}
-	~DebugLog() {
-		fout.close();
-	}
+    DebugLog()
+    {
+        fout.open("logg.txt", std::ios_base::app | std::ios_base::out);
+    }
+    ~DebugLog()
+    {
+        fout.close();
+    }
 
-	template <class T>
-	DebugLog& operator<<(T& t) {
-		fout << t;
-		return *this;
-	}
+    template <class T>
+    DebugLog& operator<<(T& t)
+    {
+        fout << t;
+        return *this;
+    }
 
 private:
-	std::ofstream fout;
+    std::ofstream fout;
 };
 
 

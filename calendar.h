@@ -28,56 +28,57 @@
 // How much light is provided in full daylight
 #define DAYLIGHT_LEVEL 60
 
-enum moon_phase {
-MOON_NEW = 0,
-MOON_HALF,
-MOON_FULL
+enum moon_phase
+{
+    MOON_NEW = 0,
+    MOON_HALF,
+    MOON_FULL
 };
 
 class calendar
 {
- public:
-// The basic data; note that "second" should always be a multiple of 6
-  int second;
-  int minute;
-  int hour;
-  int day;
-  season_type season;
-  int year;
-// End data
+public:
+    // The basic data; note that "second" should always be a multiple of 6
+    int second;
+    int minute;
+    int hour;
+    int day;
+    season_type season;
+    int year;
+    // End data
 
-  calendar();
-  calendar(const calendar &copy);
-  calendar(int Minute, int Hour, int Day, season_type Season, int Year);
-  calendar(int turn);
-  int get_turn();
-  operator int() const; // Returns get_turn() for backwards compatibility
-  calendar& operator = (calendar &rhs);
-  calendar& operator = (int rhs);
-  calendar& operator -=(calendar &rhs);
-  calendar& operator -=(int rhs);
-  calendar& operator +=(calendar &rhs);
-  calendar& operator +=(int rhs);
-  calendar  operator - (calendar &rhs);
-  calendar  operator - (int rhs);
-  calendar  operator + (calendar &rhs);
-  calendar  operator + (int rhs);
-  bool      operator ==(int rhs);
-  bool      operator ==(calendar &rhs);
+    calendar();
+    calendar(const calendar &copy);
+    calendar(int Minute, int Hour, int Day, season_type Season, int Year);
+    calendar(int turn);
+    int get_turn();
+    operator int() const; // Returns get_turn() for backwards compatibility
+    calendar& operator = (calendar &rhs);
+    calendar& operator = (int rhs);
+    calendar& operator -=(calendar &rhs);
+    calendar& operator -=(int rhs);
+    calendar& operator +=(calendar &rhs);
+    calendar& operator +=(int rhs);
+    calendar  operator - (calendar &rhs);
+    calendar  operator - (int rhs);
+    calendar  operator + (calendar &rhs);
+    calendar  operator + (int rhs);
+    bool      operator ==(int rhs);
+    bool      operator ==(calendar &rhs);
 
-  void increment();   // Add one turn / 6 seconds
+    void increment();   // Add one turn / 6 seconds
 
-  void standardize(); // Ensure minutes <= 59, hour <= 23, etc.
+    void standardize(); // Ensure minutes <= 59, hour <= 23, etc.
 
-// Sunlight and day/night calcuations
-  int minutes_past_midnight() const; // Useful for sunrise/set calculations
-  moon_phase moon() const;  // Find phase of moon
-  calendar sunrise() const; // Current time of sunrise
-  calendar sunset() const;  // Current time of sunset
-  bool is_night() const;    // After sunset + TWILIGHT_MINUTES, before sunrise
-  int sunlight() const;     // Current amount of sun/moonlight; uses preceding funcs
+    // Sunlight and day/night calcuations
+    int minutes_past_midnight() const; // Useful for sunrise/set calculations
+    moon_phase moon() const;  // Find phase of moon
+    calendar sunrise() const; // Current time of sunrise
+    calendar sunset() const;  // Current time of sunset
+    bool is_night() const;    // After sunset + TWILIGHT_MINUTES, before sunrise
+    int sunlight() const;     // Current amount of sun/moonlight; uses preceding funcs
 
-// Print-friendly stuff
-  std::string print_time(bool twentyfour = false);
-  std::string textify_period(); // "1 second" "2 hours" "two days"
+    // Print-friendly stuff
+    std::string print_time(bool twentyfour = false);
+    std::string textify_period(); // "1 second" "2 hours" "two days"
 };

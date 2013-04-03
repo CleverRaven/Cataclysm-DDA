@@ -6,7 +6,7 @@ static const int sx[4] = { 1, -1, -1, 1 };
 static const int sy[4] = { 1, 1, -1, -1 };
 
 tileray::tileray (): deltax(0), deltay(0), direction(0), leftover (0),
-                     last_dx(0), last_dy(0), infinite (false), steps(0)
+    last_dx(0), last_dy(0), infinite (false), steps(0)
 {
 }
 
@@ -29,7 +29,8 @@ void tileray::init (int adx, int ady)
     deltay = ady;
     if (!adx && !ady)
         direction = 0;
-    else{
+    else
+    {
         direction = (int) (atan2 (deltay, deltax) * 180.0 / M_PI);
         if (direction <0)
             direction += 360;
@@ -73,11 +74,9 @@ int tileray::dir4 ()
 {
     if (direction >= 45 && direction <= 135)
         return 1;
-    else
-    if (direction > 135 && direction < 225)
+    else if (direction > 135 && direction < 225)
         return 2;
-    else
-    if (direction >= 225 && direction <= 315)
+    else if (direction >= 225 && direction <= 315)
         return 3;
     else
         return 0;
@@ -91,138 +90,199 @@ long tileray::dir_symbol (long sym)
         switch (dir4())
         {
         default:
-        case 0: return 'h';
-        case 1: return 'j';
-        case 2: return 'h';
-        case 3: return 'j';
+        case 0:
+            return 'h';
+        case 1:
+            return 'j';
+        case 2:
+            return 'h';
+        case 3:
+            return 'j';
         }
     case 'h':
         switch (dir4())
         {
         default:
-        case 0: return 'j';
-        case 1: return 'h';
-        case 2: return 'j';
-        case 3: return 'h';
+        case 0:
+            return 'j';
+        case 1:
+            return 'h';
+        case 2:
+            return 'j';
+        case 3:
+            return 'h';
         }
     case 'y':
         switch (dir4())
         {
         default:
-        case 0: return 'u';
-        case 1: return 'n';
-        case 2: return 'b';
-        case 3: return 'y';
+        case 0:
+            return 'u';
+        case 1:
+            return 'n';
+        case 2:
+            return 'b';
+        case 3:
+            return 'y';
         }
     case 'u':
         switch (dir4())
         {
         default:
-        case 0: return 'n';
-        case 1: return 'b';
-        case 2: return 'y';
-        case 3: return 'u';
+        case 0:
+            return 'n';
+        case 1:
+            return 'b';
+        case 2:
+            return 'y';
+        case 3:
+            return 'u';
         }
     case 'n':
         switch (dir4())
         {
         default:
-        case 0: return 'b';
-        case 1: return 'y';
-        case 2: return 'u';
-        case 3: return 'n';
+        case 0:
+            return 'b';
+        case 1:
+            return 'y';
+        case 2:
+            return 'u';
+        case 3:
+            return 'n';
         }
     case 'b':
         switch (dir4())
         {
         default:
-        case 0: return 'y';
-        case 1: return 'u';
-        case 2: return 'n';
-        case 3: return 'b';
+        case 0:
+            return 'y';
+        case 1:
+            return 'u';
+        case 2:
+            return 'n';
+        case 3:
+            return 'b';
         }
     case '^':
         switch (dir4())
         {
         default:
-        case 0: return '>';
-        case 1: return 'v';
-        case 2: return '<';
-        case 3: return '^';
+        case 0:
+            return '>';
+        case 1:
+            return 'v';
+        case 2:
+            return '<';
+        case 3:
+            return '^';
         }
     case '[':
         switch (dir4())
         {
         default:
-        case 0: return '-';
-        case 1: return '[';
-        case 2: return '-';
-        case 3: return '[';
+        case 0:
+            return '-';
+        case 1:
+            return '[';
+        case 2:
+            return '-';
+        case 3:
+            return '[';
         }
     case ']':
         switch (dir4())
         {
         default:
-        case 0: return '-';
-        case 1: return ']';
-        case 2: return '-';
-        case 3: return ']';
+        case 0:
+            return '-';
+        case 1:
+            return ']';
+        case 2:
+            return '-';
+        case 3:
+            return ']';
         }
     case '|':
         switch (dir4())
         {
         default:
-        case 0: return '-';
-        case 1: return '|';
-        case 2: return '-';
-        case 3: return '|';
+        case 0:
+            return '-';
+        case 1:
+            return '|';
+        case 2:
+            return '-';
+        case 3:
+            return '|';
         }
     case '-':
         switch (dir4())
         {
         default:
-        case 0: return '|';
-        case 1: return '-';
-        case 2: return '|';
-        case 3: return '-';
+        case 0:
+            return '|';
+        case 1:
+            return '-';
+        case 2:
+            return '|';
+        case 3:
+            return '-';
         }
     case '=':
         switch (dir4())
         {
         default:
-        case 0: return 'H';
-        case 1: return '=';
-        case 2: return 'H';
-        case 3: return '=';
+        case 0:
+            return 'H';
+        case 1:
+            return '=';
+        case 2:
+            return 'H';
+        case 3:
+            return '=';
         }
     case 'H':
         switch (dir4())
         {
         default:
-        case 0: return '=';
-        case 1: return 'H';
-        case 2: return '=';
-        case 3: return 'H';
+        case 0:
+            return '=';
+        case 1:
+            return 'H';
+        case 2:
+            return '=';
+        case 3:
+            return 'H';
         }
     case '\\':
         switch (dir4())
         {
         default:
-        case 0: return '/';
-        case 1: return '\\';
-        case 2: return '/';
-        case 3: return '\\';
+        case 0:
+            return '/';
+        case 1:
+            return '\\';
+        case 2:
+            return '/';
+        case 3:
+            return '\\';
         }
     case '/':
         switch (dir4())
         {
         default:
-        case 0: return '\\';
-        case 1: return '/';
-        case 2: return '\\';
-        case 3: return '/';
+        case 0:
+            return '\\';
+        case 1:
+            return '/';
+        case 2:
+            return '\\';
+        case 3:
+            return '/';
         }
-    default:;
+    default:
+        ;
     }
     return sym;
 }
@@ -255,7 +315,8 @@ void tileray::advance (int num)
     for (int i = 0; i < anum; i++)
     {
         if (mostly_vertical ())
-        { // mostly vertical line
+        {
+            // mostly vertical line
             leftover += ax;
             if (leftover >= ay)
             {
@@ -265,7 +326,8 @@ void tileray::advance (int num)
             last_dy++;
         }
         else
-        { // mostly horizontal line
+        {
+            // mostly horizontal line
             leftover += ay;
             if (leftover >= ax)
             {
