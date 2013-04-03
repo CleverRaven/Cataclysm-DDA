@@ -244,6 +244,11 @@ End of cheatery */
   tmp = item(g->itypes["glasses_eye"], 0, 'd');
   worn.push_back(tmp);
  }
+// And the far-sighted get to start with reading glasses.
+ if (has_trait(PF_HYPEROPIC)) {
+  tmp = item(g->itypes["glasses_reading"], 0, 'a' + worn.size());
+  worn.push_back(tmp);
+ }
 // Likewise, the asthmatic start with their medication.
  if (has_trait(PF_ASTHMA)) {
   tmp = item(g->itypes["inhaler"], 0, 'a' + worn.size());
@@ -816,31 +821,25 @@ To save this character as a template, press !.");
    mvwprintz(w, 6, 8, c_ltgray, "______________________________");
    noname = false;
   }
-
-
+  
   if (ch == '>') {
-   if (points > 0 && query_yn("Remaining points will be discarded, are you sure you want to proceed?")) {
-    if (u->name.size() == 0) {
+   if (points > 0 && !query_yn("Remaining points will be discarded, are you sure you want to proceed?")) {
+    continue;
+   } else if (u->name.size() == 0) {
     mvwprintz(w, 6, 8, h_ltgray, "______NO NAME ENTERED!!!!_____");
     noname = true;
     wrefresh(w);
-    if (query_yn("Are you SURE you're finished? Your name will be randomly generated."))
-     u->pick_name();
-     return 1;
-     } else
-    return 1;
-  } else if (u->name.size() == 0) {
-    mvwprintz(w, 6, 8, h_ltgray, "______NO NAME ENTERED!!!!_____");
-    noname = true;
-    wrefresh(w);
-    if (query_yn("Are you SURE you're finished? Your name will be randomly generated.")){
+    if (!query_yn("Are you SURE you're finished? Your name will be randomly generated.")) {
+     continue;
+    } else {
      u->pick_name();
      return 1;
     }
-   } else if (query_yn("Are you SURE you're finished?"))
+   } else if (query_yn("Are you SURE you're finished?")) {
     return 1;
-   else
-    refresh();
+   } else {
+    continue;
+   }
   } else if (ch == '<') {
    return -1;
   } else if (ch == '!') {

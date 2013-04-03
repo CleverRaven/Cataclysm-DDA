@@ -1675,6 +1675,11 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You can't place a %s there.", it->tname().c_str());
   return;
  }
+  if (g->m.tr_at(posx, posy) != tr_null) {
+  g->add_msg_if_player(p, "You can't place a %s there. It contains a trap already.", it->tname().c_str());
+  return;
+ }
+
 
 
  trap_id type = tr_null;
@@ -1684,7 +1689,7 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
  std::stringstream message;
  int practice;
 
- if(it->type->id == "cot"){
+if(it->type->id == "cot"){
   message << "You unfold the cot and place it on the ground.";
   type = tr_cot;
   practice = 0;
@@ -2578,6 +2583,8 @@ void iuse::mp3_on(game *g, player *p, item *it, bool t)
 
   if (int(g->turn) % 10 == 0) {	// Every 10 turns, describe the music
    std::string sound = "";
+   if (one_in(50))
+     sound = "some bass-heavy post-glam speed polka";
    switch (rng(1, 10)) {
     case 1: sound = "a sweet guitar solo!";	p->stim++;	break;
     case 2: sound = "a funky bassline.";			break;
@@ -3383,6 +3390,15 @@ void iuse::pda_flashlight(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::LAW(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p,"You pull the activating lever, readying the LAW to fire.");
+ it->make(g->itypes["LAW"]);
+ it->charges++;
+ // When converting a tool to a gun, you need to set the current ammo type, this is usually done when a gun is reloaded.
+ it->curammo = dynamic_cast<it_ammo*>(g->itypes["66mm_HEAT"]);
+}
+
 /* MACGUFFIN FUNCTIONS
  * These functions should refer to it->associated_mission for the particulars
  */
@@ -3773,18 +3789,18 @@ void iuse::heatpack(game *g, player *p, item *it, bool t)
 	}
 	if (heat->type->is_food()) {
 		p->moves -= 300;
-		g->add_msg("You heat up the food.");	
+		g->add_msg("You heat up the food.");
 		heat->item_flags |= mfb(IF_HOT);
 		heat->active = true;
-		heat->item_counter = 600;		// sets the hot food flag for 60 minutes		
+		heat->item_counter = 600;		// sets the hot food flag for 60 minutes
 		it->make(g->itypes["heatpack_used"]);
 		return;
   } else 	if (heat->is_food_container()) {
 		p->moves -= 300;
-		g->add_msg("You heat up the food.");	
+		g->add_msg("You heat up the food.");
 		heat->contents[0].item_flags |= mfb(IF_HOT);
 		heat->contents[0].active = true;
-		heat->contents[0].item_counter = 600;		// sets the hot food flag for 60 minutes		
+		heat->contents[0].item_counter = 600;		// sets the hot food flag for 60 minutes
 		it->make(g->itypes["heatpack_used"]);
 		return;
 	}

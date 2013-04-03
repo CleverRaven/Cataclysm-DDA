@@ -254,7 +254,8 @@ class game
   std::vector<item> items_dragged;
   int weight_dragged; // Computed once, when you start dragging
   bool debugmon;
-  bool no_npc;
+  bool starting_npc;
+  bool random_npc;
 
   std::map<int, std::map<int, bool> > mapRain;
 
@@ -297,7 +298,10 @@ class game
   void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
 
+  std::string default_npc_txt(); //load the default settings for the npc.txt file
   void load_keyboard_settings(); // Load keybindings from disk
+  void load_npc_settings(); //load npc settings from disk
+
   void save_keymap();		// Save keybindings to disk
   std::vector<char> keys_bound_to(action_id act); // All keys bound to act
   void clear_bindings(action_id act); // Deletes all keys bound to act

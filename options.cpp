@@ -206,6 +206,8 @@ option_key lookup_option_key(std::string id)
   return OPT_AUTOSAVE;
  if (id == "gradual_night_light")
   return OPT_GRADUAL_NIGHT_LIGHT;
+ if (id == "rain_animation")
+  return OPT_RAIN_ANIMATION;
  if (id == "query_disassemble")
   return OPT_QUERY_DISASSEMBLE;
  if (id == "drop_empty")
@@ -244,6 +246,7 @@ std::string option_string(option_key key)
   case OPT_AUTOSAFEMODETURNS: return "autosafemodeturns";
   case OPT_AUTOSAVE:    	return "autosave";
   case OPT_GRADUAL_NIGHT_LIGHT: return "gradual_night_light";
+  case OPT_RAIN_ANIMATION: return "rain_animation";
   case OPT_QUERY_DISASSEMBLE: return "query_disassemble";
   case OPT_DROP_EMPTY: return "drop_empty";
   case OPT_SKILL_RUST: return "skill_rust";
@@ -274,6 +277,7 @@ std::string option_desc(option_key key)
   case OPT_AUTOSAFEMODETURNS: return "Number of turns after safemode\nis reenabled if no hostiles are\nin safemodeproximity distance";
   case OPT_AUTOSAVE:    	return "If true, game will periodically\nsave the map";
   case OPT_GRADUAL_NIGHT_LIGHT: return "If true will add nice gradual-lighting\n(should only make a difference @night)";
+  case OPT_RAIN_ANIMATION: return "If true, will display weather animations";
   case OPT_QUERY_DISASSEMBLE: return "If true, will query before disassembling\nitems";
   case OPT_DROP_EMPTY: return "Set to drop empty containers after use\n0 - don't drop any\n1 - all except watertight containers\n2 - all containers";
   case OPT_SKILL_RUST: return "Set the level of skill rust\n0 - vanilla Cataclysm\n1 - capped at skill levels\n2 - none at all";
@@ -304,6 +308,7 @@ std::string option_name(option_key key)
   case OPT_AUTOSAFEMODETURNS: return "Turns to reenable safemode";
   case OPT_AUTOSAVE:    	return "Periodically Autosave";
   case OPT_GRADUAL_NIGHT_LIGHT: return "Gradual night light";
+  case OPT_RAIN_ANIMATION: return "Rain animation";
   case OPT_QUERY_DISASSEMBLE: return "Query on disassembly";
   case OPT_DROP_EMPTY: return "Drop empty containers";
   case OPT_SKILL_RUST: return "Skill Rust";
@@ -411,6 +416,8 @@ autosafemodeturns 50\n\
 autosave F\n\
 # If true will add nice gradual-lighting (should only make a difference @night)\n\
 gradual_night_light F\n\
+# If true, will display weather animations\n\
+rain_animation T\n\
 # If true, will query beefore disassembling items\n\
 query_disassemble T\n\
 # Player will automatically drop empty containers after use\n\

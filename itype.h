@@ -49,6 +49,7 @@ AT_22, AT_9MM, AT_762x25, AT_38, AT_40, AT_44, AT_45,
 AT_57, AT_46,
 AT_762, AT_223, AT_3006, AT_308,
 AT_40MM,
+AT_66MM,
 AT_GAS,
 AT_FUSION,
 AT_MUSCLE,
@@ -92,6 +93,8 @@ IF_SHOCK,   // Stuns and damages enemies, powers up shockers.
 
 IF_UNARMED_WEAPON, // Counts as an unarmed weapon
 IF_NO_UNWIELD, // Impossible to unwield, e.g. bionic claws
+IF_NO_UNLOAD,  // Cannot be unloaded. For Fusion rifles and other ammo generating weapons.
+IF_BACKBLAST,  // Creates a backblast of smoke.
 
 // Weapon mode flags
 IF_MODE_AUX, // A gunmod with a firing mode

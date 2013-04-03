@@ -783,7 +783,7 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
   g->sound(p.posx, p.posy, 8, "Fzzt!");
  else if (weapon->curammo->type == AT_40MM)
   g->sound(p.posx, p.posy, 8, "Thunk!");
- else if (weapon->curammo->type == AT_GAS)
+ else if (weapon->curammo->type == AT_GAS || weapon->curammo->type == AT_66MM)
   g->sound(p.posx, p.posy, 4, "Fwoosh!");
  else if (weapon->curammo->type != AT_BOLT &&
           weapon->curammo->type != AT_ARROW)

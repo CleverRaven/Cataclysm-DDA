@@ -54,7 +54,6 @@ class map
  void drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert, const bool show_items,
              const int view_center_x = -1, const int view_center_y = -1,
              const bool low_light = false, const bool bright_level = false);
- long determine_wall_corner(int x, int y, long);
 
 // File I/O
  virtual void save(overmap *om, unsigned const int turn, const int x, const int y, const int z);
@@ -217,8 +216,8 @@ protected:
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
 			// Useful for houses, shops, etc
  void build_transparency_cache();
- void build_outside_cache();
- void generate_lightmap(game* g);
+ void build_outside_cache(const game *g);
+ void generate_lightmap(game *g);
  void build_seen_cache(game *g);
 
  bool inbounds(const int x, const int y);
@@ -238,6 +237,7 @@ protected:
  bool veh_in_active_range;
 
 private:
+ long determine_wall_corner(const int x, const int y, const long orig_sym);
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  void apply_light_source(int x, int y, float luminance);
  void apply_light_arc(int x, int y, int angle, float luminance);
