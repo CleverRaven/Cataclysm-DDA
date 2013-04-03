@@ -6,6 +6,8 @@
 #include <map>
 #include "game.h"
 #include "itype.h"
+#include "color.h"
+#include "picojson.h"
 
 typedef itype item_template;
 typedef std::string item_tag;
@@ -30,6 +32,13 @@ private:
     item_template_container  m_templates;
     itype*  m_missing_item;
     std::map<item_tag, tag_list> m_template_groups;
+
+    //json data handlers
+    void load_item_templates_from(const std::string file_name);
+    item_tag string_from_json(item_tag new_id, item_tag index, picojson::value::object value_map);
+    char char_from_json(item_tag new_id, item_tag index, picojson::value::object value_map);
+    int int_from_json(item_tag new_id, item_tag index, picojson::value::object value_map);
+    nc_color color_from_json(item_tag new_id, item_tag index, picojson::value::object value_map);
 };
 
 extern Item_manager* item_controller;

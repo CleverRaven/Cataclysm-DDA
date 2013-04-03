@@ -1,6 +1,10 @@
 #include "item_manager.h"
 #include "rng.h"
 #include <algorithm>
+#include <cstdlib>
+#include <iostream>
+#include <fstream>
+#include <stdio.h>
 
 Item_manager* item_controller = new Item_manager();
 
@@ -10,6 +14,7 @@ Item_manager::Item_manager(){
     m_missing_item->name = "Error: Item Missing";
     m_missing_item->description = "Error: No item template of this type.";
     m_templates["MISSING_ITEM"]=m_missing_item;
+    load_item_templates_from("data/raw/items/instruments.json");
 }
 
 void Item_manager::init(){
@@ -21,38 +26,38 @@ void Item_manager::init(game* main_game){
     m_templates.insert(main_game->itypes.begin(), main_game->itypes.end());
     //Load up the group lists with the default 'all' label
     for(item_template_container::iterator iter = m_templates.begin(); iter != m_templates.end(); ++iter){
-      item_tag id = iter->first;
-      bool standard=true;
-      m_template_groups["ALL"].insert(id);
-      if(std::find(unreal_itype_ids.begin(),unreal_itype_ids.end(), id) != unreal_itype_ids.end()){
-          m_template_groups["UNREAL"].insert(id);
-          standard=false;
-      }
-      if(std::find(martial_arts_itype_ids.begin(),martial_arts_itype_ids.end(),id) != martial_arts_itype_ids.end()){
-          m_template_groups["STYLE"].insert(id);
-          standard=false;
-      }
-      if(std::find(artifact_itype_ids.begin(),artifact_itype_ids.end(),id) != artifact_itype_ids.end()){
-          m_template_groups["ARTIFACT"].insert(id);
-          standard=false;
-      }
-      if(std::find(unreal_itype_ids.begin(),unreal_itype_ids.end(),id) != unreal_itype_ids.end()){
-          m_template_groups["PSEUDO"].insert(id);
-          standard=false;
-      }
-      if(standard){
-          m_template_groups["STANDARD"].insert(id);
-      }
-      // This is temporary, and only for testing the tag access algorithms work.
-      // It replaces a similar list located in the mapgen file
-      // Once reading from files are implemented, this will just check for a "CAN" tag, obviously.
-      tag_list can_list;
-      can_list.insert("can_beans"); can_list.insert("can_corn"); can_list.insert("can_spam"); 
-      can_list.insert("can_pineapple"); can_list.insert("can_coconut"); can_list.insert("can_sardine");
-      can_list.insert("can_tuna");
-      if(can_list.find(id)!=can_list.end()){
-        m_template_groups["CAN"].insert(id);
-      }
+        item_tag id = iter->first;
+        bool standard=true;
+        m_template_groups["ALL"].insert(id);
+        if(std::find(unreal_itype_ids.begin(),unreal_itype_ids.end(), id) != unreal_itype_ids.end()){
+            m_template_groups["UNREAL"].insert(id);
+            standard=false;
+        }
+        if(std::find(martial_arts_itype_ids.begin(),martial_arts_itype_ids.end(),id) != martial_arts_itype_ids.end()){
+            m_template_groups["STYLE"].insert(id);
+            standard=false;
+        }
+        if(std::find(artifact_itype_ids.begin(),artifact_itype_ids.end(),id) != artifact_itype_ids.end()){
+            m_template_groups["ARTIFACT"].insert(id);
+            standard=false;
+        }
+        if(std::find(unreal_itype_ids.begin(),unreal_itype_ids.end(),id) != unreal_itype_ids.end()){
+            m_template_groups["PSEUDO"].insert(id);
+            standard=false;
+        }
+        if(standard){
+            m_template_groups["STANDARD"].insert(id);
+        }
+        // This is temporary, and only for testing the tag access algorithms work.
+        // It replaces a similar list located in the mapgen file
+        // Once reading from files are implemented, this will just check for a "CAN" tag, obviously.
+        tag_list can_list;
+        can_list.insert("can_beans"); can_list.insert("can_corn"); can_list.insert("can_spam"); 
+        can_list.insert("can_pineapple"); can_list.insert("can_coconut"); can_list.insert("can_sardine");
+        can_list.insert("can_tuna");
+        if(can_list.find(id)!=can_list.end()){
+          m_template_groups["CAN"].insert(id);
+        }
     }
     init();
 }
@@ -99,5 +104,120 @@ const item_tag Item_manager::random_id(const item_tag group_tag){
         return item_id;
     } else {
         return "MISSING_ITEM";
+    }
+}
+
+///////////////////////
+// DATA FILE READING //
+///////////////////////
+
+// Load values from this data file into m_templates
+// TODO: Consider appropriate location for this code. Is this really where it belongs?
+//       At the very least, it seems the json blah_from methods could be used elsewhere
+void Item_manager::load_item_templates_from(const std::string file_name){
+    std::ifstream data_file;
+    picojson::value input_value;
+    
+    data_file.open(file_name.c_str());
+    data_file >> input_value;
+    data_file.close();
+
+    //Handle any obvious errors on file load
+    std::string err = picojson::get_last_error();
+    if (! err.empty()) {
+        std::cerr << "In JSON file \"" << file_name << "\"" << data_file << ":" << err << std::endl;
+        exit(1);
+    }
+    if (! input_value.is<picojson::array>()) {
+        std::cerr << file_name << " is not an array of item_templates" << std::endl;
+        exit(2);
+    }
+    
+    //Crawl through and extract the items
+    const picojson::array& all_items = input_value.get<picojson::array>();
+    for (picojson::array::const_iterator entry = all_items.begin(); entry != all_items.end(); ++entry) {
+        bool load_success=false;
+        if( !(entry->is<picojson::object>()) ){
+            std::cerr << "Invalid item definition, entry not a JSON object" << std::endl;
+        }
+        else{
+            const picojson::value::object& entry_body = entry->get<picojson::object>();
+
+            // The one element we absolutely require for an item definition is an id
+            picojson::value::object::const_iterator key_pair = entry_body.find("id");
+            if( key_pair == entry_body.end() || !(key_pair->second.is<std::string>()) ){
+                std::cerr << "Item definition skipped, no id found or id was malformed." << std::endl;
+            } else {
+                item_tag new_id = key_pair->second.get<std::string>();
+
+                // If everything works out, add the item to the template list... 
+                // unless a similar item is already there
+                if(m_templates.find(new_id) != m_templates.end()){
+                    std::cerr << "Item definition skipped, id " << new_id << " already exists." << std::endl;
+                } else {
+                    item_template* new_item_template =  new itype();
+                    new_item_template->id = new_id;
+                    m_templates[new_id] = new_item_template;
+
+                    // And then proceed to assign the correct field
+                    new_item_template->rarity = int_from_json(new_id, "rarity", entry_body); 
+                    new_item_template->name = string_from_json(new_id, "name", entry_body); 
+                    new_item_template->sym = char_from_json(new_id, "symbol", entry_body); 
+                    new_item_template->color = color_from_json(new_id, "color", entry_body); 
+                    new_item_template->description = string_from_json(new_id, "description", entry_body); 
+                    new_item_template->volume = int_from_json(new_id, "volume", entry_body); 
+                    new_item_template->weight = int_from_json(new_id, "weight", entry_body); 
+                    new_item_template->melee_dam = int_from_json(new_id, "damage", entry_body); 
+                    new_item_template->m_to_hit = int_from_json(new_id, "to_hit", entry_body); 
+                }
+            }
+        }
+    }
+}
+
+//Grab string, with appropriate error handling
+item_tag Item_manager::string_from_json(item_tag new_id, item_tag index, picojson::value::object value_map){
+    picojson::value::object::const_iterator value_pair = value_map.find(index);
+    if(value_pair != value_map.end()){
+        if(value_pair->second.is<std::string>()){
+            return value_pair->second.get<std::string>();
+        } else {
+            std::cerr << "Item "<< new_id << " attribute name was skipped, not a string." << std::endl;
+            return "Error: Unknown Value";
+        }
+    }
+}
+
+//Grab character, with appropriate error handling
+char Item_manager::char_from_json(item_tag new_id, item_tag index, picojson::value::object value_map){
+    //TODO: finish this
+    return 'X';
+}
+
+//Grab int, with appropriate error handling
+int Item_manager::int_from_json(item_tag new_id, item_tag index, picojson::value::object value_map){
+    picojson::value::object::const_iterator value_pair = value_map.find(index);
+    if(value_pair != value_map.end()){
+        if(value_pair->second.is<double>()){
+            return int(value_pair->second.get<double>());
+        } else {
+            std::cerr << "Item "<< new_id << " attribute name was skipped, not a number." << std::endl;
+            return 0;
+        }
+    }
+}
+
+//Grab color, with appropriate error handling
+nc_color Item_manager::color_from_json(item_tag new_id, item_tag index, picojson::value::object value_map){
+    std::string new_color = string_from_json(new_id, index, value_map);
+    if("red"==new_color){
+        return c_red;
+    } else if("blue"==new_color){
+        return c_blue;
+    } else if("green"==new_color){
+        return c_green;
+    } else {
+        std::cerr << "Item "<< new_id << " attribute name was skipped, not a number." << std::endl;
+        return c_white;
     }
 }
