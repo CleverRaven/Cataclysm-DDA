@@ -118,6 +118,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMPCONT("fur", 1);
   COMP("plant_fibre", 20);
   COMPCONT("sinew", 20);
+  COMPCONT("thread", 20);
 
   RECIPE("spear_knife", CC_WEAPON, "stabbing", NULL, 0, 600, true);
   COMP("stick", 1);
