@@ -139,15 +139,15 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_COLD_ARMS:
   switch (dis.intensity) {
    case 3 : p.dex_cur -= 2;
-   case 2 :	p.dex_cur--;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("Your arms are shivering.");
+   case 2 :	p.dex_cur--; if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your arms are shivering.");
+   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("Your arms have goosebumps.");
   }
   break;
 
  case DI_COLD_HANDS:
   switch (dis.intensity) {
    case 3 :	p.dex_cur -= 2;
-   case 2 :	p.dex_cur -= 2;
+   case 2 :	p.dex_cur -= 2; if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your hands are shivering.");
    case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Brr.\"");
   }
   break;
