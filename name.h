@@ -5,59 +5,69 @@
 #include <vector>
 #include <stdint.h>
 
-typedef enum {
-  nameIsMaleName = 1,
-  nameIsFemaleName = 2,
-  nameIsUnisexName = 3,
-  nameIsGivenName = 4,
-  nameIsFamilyName = 8
+typedef enum
+{
+    nameIsMaleName = 1,
+    nameIsFemaleName = 2,
+    nameIsUnisexName = 3,
+    nameIsGivenName = 4,
+    nameIsFamilyName = 8
 } nameFlags;
 
 class NameGenerator;
 
-class Name {
- public:
-  Name();
-  Name(std::string name, uint32_t flags);
+class Name
+{
+public:
+    Name();
+    Name(std::string name, uint32_t flags);
 
-  static NameGenerator& generator();
-  static std::string generate(bool male);
+    static NameGenerator& generator();
+    static std::string generate(bool male);
 
-  static std::string get(uint32_t searchFlags);
+    static std::string get(uint32_t searchFlags);
 
-  std::string value() const { return _value; }
-  uint32_t flags() const { return _flags; }
+    std::string value() const
+    {
+        return _value;
+    }
+    uint32_t flags() const
+    {
+        return _flags;
+    }
 
-  bool isFirstName();
-  bool isLastName();
+    bool isFirstName();
+    bool isLastName();
 
-  bool isMaleName();
-  bool isFemaleName();
- private:
-  std::string _value;
-  uint32_t _flags;
+    bool isMaleName();
+    bool isFemaleName();
+private:
+    std::string _value;
+    uint32_t _flags;
 };
 
-class NameGenerator {
- public:
-  static NameGenerator& generator() {
-    static NameGenerator generator;
+class NameGenerator
+{
+public:
+    static NameGenerator& generator()
+    {
+        static NameGenerator generator;
 
-    return generator;
-  }
+        return generator;
+    }
 
-  std::string generateName(bool male);
+    std::string generateName(bool male);
 
-  std::vector<std::string> filteredNames(uint32_t searchFlags);
-  std::string getName(uint32_t searchFlags);
+    std::vector<std::string> filteredNames(uint32_t searchFlags);
+    std::string getName(uint32_t searchFlags);
 
- private:
-  NameGenerator();
+private:
+    NameGenerator();
 
-  NameGenerator(NameGenerator const&);
-  void operator=(NameGenerator const&);
+    NameGenerator(NameGenerator const&);
+    void operator=(NameGenerator const&);
 
-  std::vector<Name> names;
+    std::vector<Name> names;
 };
 
 #endif

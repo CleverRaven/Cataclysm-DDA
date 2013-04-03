@@ -3,32 +3,33 @@
 
 #include <string>
 
-enum option_key {
-OPT_NULL = 0,
-OPT_FORCE_YN, // Y/N versus y/n
-OPT_USE_CELSIUS, // Display temp as C not F
-OPT_USE_METRIC_SYS, // Display speed as Km/h not mph
-OPT_NO_CBLINK, // No bright backgrounds
-OPT_24_HOUR, // 24 hour time
-OPT_SNAP_TO_TARGET, // game::firing snaps to target
-OPT_SAFEMODE, // Safemode on by default?
-OPT_SAFEMODEPROXIMITY, //Range after which safemode kicks in
-OPT_AUTOSAFEMODE, // Autosafemode on by default?
-OPT_AUTOSAFEMODETURNS, //Number of turns untill safemode kicks back in
-OPT_AUTOSAVE, // Automatically save the game on intervals.
-OPT_GRADUAL_NIGHT_LIGHT, // be so cool at night :)
-OPT_RAIN_ANIMATION, // Enable the rain and other weather animation
-OPT_QUERY_DISASSEMBLE, // Query before disassembling items
-OPT_DROP_EMPTY, // auto drop empty containers after use
-OPT_SKILL_RUST, // level of skill rust
-OPT_DELETE_WORLD, // Delete workd every time New Character is created
-OPT_INITIAL_POINTS, // Set the number of character points
-OPT_INITIAL_TIME, // Sets the starting hour (0-24)
-OPT_VIEWPORT_X, // Set the width of the terrain window, in characters
-OPT_VIEWPORT_Y, // Set the height of the terrain window, in characters
-OPT_STATIC_SPAWN, // Makes zombies spawn using the new static system
-OPT_CLASSIC_ZOMBIES, // Only spawn the more classic zombies
-NUM_OPTION_KEYS
+enum option_key
+{
+    OPT_NULL = 0,
+    OPT_FORCE_YN, // Y/N versus y/n
+    OPT_USE_CELSIUS, // Display temp as C not F
+    OPT_USE_METRIC_SYS, // Display speed as Km/h not mph
+    OPT_NO_CBLINK, // No bright backgrounds
+    OPT_24_HOUR, // 24 hour time
+    OPT_SNAP_TO_TARGET, // game::firing snaps to target
+    OPT_SAFEMODE, // Safemode on by default?
+    OPT_SAFEMODEPROXIMITY, //Range after which safemode kicks in
+    OPT_AUTOSAFEMODE, // Autosafemode on by default?
+    OPT_AUTOSAFEMODETURNS, //Number of turns untill safemode kicks back in
+    OPT_AUTOSAVE, // Automatically save the game on intervals.
+    OPT_GRADUAL_NIGHT_LIGHT, // be so cool at night :)
+    OPT_RAIN_ANIMATION, // Enable the rain and other weather animation
+    OPT_QUERY_DISASSEMBLE, // Query before disassembling items
+    OPT_DROP_EMPTY, // auto drop empty containers after use
+    OPT_SKILL_RUST, // level of skill rust
+    OPT_DELETE_WORLD, // Delete workd every time New Character is created
+    OPT_INITIAL_POINTS, // Set the number of character points
+    OPT_INITIAL_TIME, // Sets the starting hour (0-24)
+    OPT_VIEWPORT_X, // Set the width of the terrain window, in characters
+    OPT_VIEWPORT_Y, // Set the height of the terrain window, in characters
+    OPT_STATIC_SPAWN, // Makes zombies spawn using the new static system
+    OPT_CLASSIC_ZOMBIES, // Only spawn the more classic zombies
+    NUM_OPTION_KEYS
 };
 
 struct option_table
@@ -38,7 +39,8 @@ struct option_table
     option_table()
     {
         for (int i = 0; i < NUM_OPTION_KEYS; i++)
-        {   //setup default values where needed
+        {
+            //setup default values where needed
             switch(i)
             {
             case OPT_VIEWPORT_X:
@@ -54,8 +56,14 @@ struct option_table
         }
     };
 
-    double& operator[] (option_key i) { return options[i]; };
-    double& operator[] (int i) { return options[i]; };
+    double& operator[] (option_key i)
+    {
+        return options[i];
+    };
+    double& operator[] (int i)
+    {
+        return options[i];
+    };
 };
 
 extern option_table OPTIONS;

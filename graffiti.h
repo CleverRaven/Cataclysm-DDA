@@ -8,11 +8,11 @@
 class graffiti
 {
 public:
- graffiti();
- graffiti(std::string contents);
- ~graffiti();
- graffiti operator=(graffiti rhs);
- std::string *contents;
+    graffiti();
+    graffiti(std::string contents);
+    ~graffiti();
+    graffiti operator=(graffiti rhs);
+    std::string *contents;
 };
 
 #endif

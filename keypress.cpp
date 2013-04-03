@@ -4,128 +4,141 @@
 
 long input(long ch)
 {
- if (ch == -1) {
-  ch = getch();
- }
+    if (ch == -1)
+    {
+        ch = getch();
+    }
 
- // Needs a totally seperate implementation for windows
+    // Needs a totally seperate implementation for windows
 #if !(defined _WIN32 || defined WINDOWS)
- int newch;
+    int newch;
 
- // Clear the buffer of characters that match the one we're going to act on.
- timeout(0);
- do {
-  newch = getch();
- } while( newch != ERR && newch == ch );
- timeout(-1);
+    // Clear the buffer of characters that match the one we're going to act on.
+    timeout(0);
+    do
+    {
+        newch = getch();
+    }
+    while( newch != ERR && newch == ch );
+    timeout(-1);
 
- // If we read a different character than the one we're going to act on, re-queue it.
- if (newch != ERR && newch != ch) {
-  ungetch(newch);
- }
+    // If we read a different character than the one we're going to act on, re-queue it.
+    if (newch != ERR && newch != ch)
+    {
+        ungetch(newch);
+    }
 #endif
 
- switch (ch) {
-  case KEY_UP:    return 'k';
-  case KEY_LEFT:  return 'h';
-  case KEY_RIGHT: return 'l';
-  case KEY_DOWN:  return 'j';
-  case 459: return '\n';
-  default:  return ch;
- }
+    switch (ch)
+    {
+    case KEY_UP:
+        return 'k';
+    case KEY_LEFT:
+        return 'h';
+    case KEY_RIGHT:
+        return 'l';
+    case KEY_DOWN:
+        return 'j';
+    case 459:
+        return '\n';
+    default:
+        return ch;
+    }
 }
 
 bool input_wait(char & ret_ch, int delay_ms)
 {
- while(true)
- {
-  ret_ch = '\0';
-  timeout(delay_ms);
-  long ch = getch();
-  switch (ch) {
-   case KEY_UP:
-    ret_ch = 'k';
-    break;
-   case KEY_LEFT:
-    ret_ch = 'h';
-    break;
-   case KEY_RIGHT:
-    ret_ch = 'l';
-    break;
-   case KEY_DOWN:
-    ret_ch = 'j';
-    break;
-   case 459:
-    ret_ch = '\n';
-    break;
-   case ERR:
-    if(errno == EINTR)
-     return input_wait(ret_ch, delay_ms);
-    break;
-   default:
-    ret_ch = ch;
-    break;
-  }
-  timeout(-1);
-  if( ret_ch != '\0' )
-   return true;
-  return false;
- }
+    while(true)
+    {
+        ret_ch = '\0';
+        timeout(delay_ms);
+        long ch = getch();
+        switch (ch)
+        {
+        case KEY_UP:
+            ret_ch = 'k';
+            break;
+        case KEY_LEFT:
+            ret_ch = 'h';
+            break;
+        case KEY_RIGHT:
+            ret_ch = 'l';
+            break;
+        case KEY_DOWN:
+            ret_ch = 'j';
+            break;
+        case 459:
+            ret_ch = '\n';
+            break;
+        case ERR:
+            if(errno == EINTR)
+                return input_wait(ret_ch, delay_ms);
+            break;
+        default:
+            ret_ch = ch;
+            break;
+        }
+        timeout(-1);
+        if( ret_ch != '\0' )
+            return true;
+        return false;
+    }
 }
 
 void get_direction(game *g, int &x, int &y, char ch)
 {
- x = 0;
- y = 0;
- action_id act;
- if (g->keymap.find(ch) == g->keymap.end())
-  act = ACTION_NULL;
- else
-  act = g->keymap[ch];
+    x = 0;
+    y = 0;
+    action_id act;
+    if (g->keymap.find(ch) == g->keymap.end())
+        act = ACTION_NULL;
+    else
+        act = g->keymap[ch];
 
- switch (act) {
- case ACTION_MOVE_NW:
-  x = -1;
-  y = -1;
-  return;
- case ACTION_MOVE_NE:
-  x = 1;
-  y = -1;
-  return;
- case ACTION_MOVE_W:
-  x = -1;
-  return;
- case ACTION_MOVE_S:
-  y = 1;
-  return;
- case ACTION_MOVE_N:
-  y = -1;
-  return;
- case ACTION_MOVE_E:
-  x = 1;
-  return;
- case ACTION_MOVE_SW:
-  x = -1;
-  y = 1;
-  return;
- case ACTION_MOVE_SE:
-  x = 1;
-  y = 1;
-  return;
- case ACTION_PAUSE:
- case ACTION_PICKUP:
-  x = 0;
-  y = 0;
-  return;
- default:
-  x = -2;
-  y = -2;
- }
+    switch (act)
+    {
+    case ACTION_MOVE_NW:
+        x = -1;
+        y = -1;
+        return;
+    case ACTION_MOVE_NE:
+        x = 1;
+        y = -1;
+        return;
+    case ACTION_MOVE_W:
+        x = -1;
+        return;
+    case ACTION_MOVE_S:
+        y = 1;
+        return;
+    case ACTION_MOVE_N:
+        y = -1;
+        return;
+    case ACTION_MOVE_E:
+        x = 1;
+        return;
+    case ACTION_MOVE_SW:
+        x = -1;
+        y = 1;
+        return;
+    case ACTION_MOVE_SE:
+        x = 1;
+        y = 1;
+        return;
+    case ACTION_PAUSE:
+    case ACTION_PICKUP:
+        x = 0;
+        y = 0;
+        return;
+    default:
+        x = -2;
+        y = -2;
+    }
 }
 
 std::string default_keymap_txt()
 {
- return "\
+    return "\
 # This is the keymapping for Cataclysm.\n\
 # You can start a line with # to make it a comment--it will be ignored.\n\
 # Blank lines are ignored too.\n\
@@ -238,4 +251,4 @@ debug_mode ~\n\
 # debug Z\n\
 # debug_scent -\n\
 ";
-}
+       }
