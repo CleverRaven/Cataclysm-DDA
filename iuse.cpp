@@ -836,7 +836,6 @@ void iuse::sew(game *g, player *p, item *it, bool t)
    rn += rng(2, 6);
   if (p->dex_cur > 16)
    rn += rng(0, p->dex_cur - 16);
-
   if (rn <= 4) {
    g->add_msg_if_player(p,"You damage your %s further!", fix->tname().c_str());
    fix->damage++;

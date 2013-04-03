@@ -20,7 +20,7 @@ void game::wish()
  do {
   werase(w_info);
   werase(w_list);
-  mvwprintw(w_list, 0, 0, "Wish for a: ");
+  mvwprintw(w_list, 0, 0, "Wish for a (press '/' to search): ");
   if (search) {
    found = false;
    if (ch == '\n') {

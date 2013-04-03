@@ -314,21 +314,23 @@ void game::create_starting_npcs()
 
 void game::cleanup_at_end(){
  write_msg();
-
- // Save the NPC's, missions and NPC's
- //offload all the active npcs into omap npcs.
- for(int i = 0; i < active_npc.size(); i++)
+ if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) //|| QUIT_SAVED)
 	{
-			cur_om.npcs.push_back(active_npc[i]);
-   active_npc[i].dead = true;
- }
- save_factions_missions_npcs(); //missions need to be saved as they are global for all saves.
+		// Save the NPC's, missions and NPC's
+		//offload all the active npcs into omap npcs.
+		for(int i = 0; i < active_npc.size(); i++)
+		{
+				cur_om.npcs.push_back(active_npc[i]);
+				active_npc[i].dead = true;
+		}
+		save_factions_missions_npcs(); //missions need to be saved as they are global for all saves.
 
- // save artifacts.
- save_artifacts();
+		// save artifacts.
+		save_artifacts();
 
- // and the overmap, and the local map.
- save_maps(); //Omap also contains a few inactive npcs who need to be saved.
+		// and the overmap, and the local map.
+		save_maps(); //Omap also contains a few inactive npcs who need to be saved.
+	}
 
  // Save the monsters before we die!
  despawn_monsters();
@@ -1889,6 +1891,7 @@ void game::load(std::string name)
  fin.close();
 // Now load up the master game data; factions (and more?)
  load_master();
+ update_map(u.posx, u.posy);
  set_adjacent_overmaps(true);
  MAPBUFFER.set_dirty();
  draw();
