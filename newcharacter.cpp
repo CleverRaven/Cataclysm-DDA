@@ -716,36 +716,36 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
         {
             mvwprintz(w, 4 + i, 2, c_ltgray, "\
                                              ");	// Clear the line
-        }
-        int id = i;
-        if (cur_id < 7)
-        {
-            //do nothing
-        }
-        else if (cur_id >= profession::count() - 9)
-        {
-            id = profession::count() - 16 + i;
-        }
-        else
-        {
-            id += cur_id - 7;
-        }
+            int id = i;
+            if (cur_id < 7)
+            {
+                //do nothing
+            }
+            else if (cur_id >= profession::count() - 9)
+            {
+                id = profession::count() - 16 + i;
+            }
+            else
+            {
+                id += cur_id - 7;
+            }
 
-        if (id > profession::count())
-        {
-            break;
-        }
+            if (id > profession::count())
+            {
+                break;
+            }
 
-        if (u->prof != sorted_profs[id])
-        {
-            mvwprintz(w, 4 + i, 2, (sorted_profs[id] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
-                      sorted_profs[id]->name().c_str());
-        }
-        else
-        {
-            mvwprintz(w, 4 + i, 2,
-                      (sorted_profs[id] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-                      sorted_profs[id]->name().c_str());
+            if (u->prof != sorted_profs[id])
+            {
+                mvwprintz(w, 4 + i, 2, (sorted_profs[id] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
+                          sorted_profs[id]->name().c_str());
+            }
+            else
+            {
+                mvwprintz(w, 4 + i, 2,
+                          (sorted_profs[id] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
+                          sorted_profs[id]->name().c_str());
+            }
         }
 
         wrefresh(w);
