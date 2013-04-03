@@ -28,6 +28,7 @@ OPT_VIEWPORT_X, // Set the width of the terrain window, in characters
 OPT_VIEWPORT_Y, // Set the height of the terrain window, in characters
 OPT_STATIC_SPAWN, // Makes zombies spawn using the new static system
 OPT_CLASSIC_ZOMBIES, // Only spawn the more classic zombies
+OPT_SEASON_LENGTH, // Season length, in days
 NUM_OPTION_KEYS
 };
 
@@ -47,6 +48,9 @@ struct option_table
                 break;
             case OPT_INITIAL_TIME:
                 options[i] = 8;
+                break;
+            case OPT_SEASON_LENGTH:
+                options[i] = 14;
                 break;
             default:
                 options[i] = 0;
