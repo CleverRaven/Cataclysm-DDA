@@ -1024,43 +1024,55 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
 
 void iuse::hammer(game *g, player *p, item *it, bool t)
 {
- g->draw();
- mvprintz(0, 0, c_red, "Pick a direction in which to pry:");
- int dirx, diry;
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction!");
-  return;
- }
- if (dirx == 0 && diry == 0) {
-  g->add_msg_if_player(p, "You try to hit yourself with the hammer.");
-  g->add_msg_if_player(p, "But you can't touch this.");
-  return;
- }
- dirx += p->posx;
- diry += p->posy;
- int nails = 0, boards = 0;
- ter_id newter;
- switch (g->m.ter(dirx, diry)) {
- case t_window_boarded:
-  nails =  8;
-  boards = 3;
-  newter = t_window_empty;
-  break;
- case t_door_boarded:
-  nails = 12;
-  boards = 3;
-  newter = t_door_b;
-  break;
- default:
-  g->add_msg_if_player(p,"Hammers can only remove boards from windows and doors.");
-  g->add_msg_if_player(p,"To board up a window or door, press *");
-  return;
- }
- p->moves -= 500;
- g->m.spawn_item(p->posx, p->posy, g->itypes["nail"], 0, 0, nails);
- g->m.spawn_item(p->posx, p->posy, g->itypes["2x4"], 0, boards);
- g->m.ter(dirx, diry) = newter;
+    g->draw();
+    mvprintz(0, 0, c_red, "Pick a direction in which to pry:");
+    int dirx, diry;
+    get_direction(g, dirx, diry, input());
+    if (dirx == -2)
+    {
+        g->add_msg_if_player(p,"Invalid direction!");
+        return;
+    }
+    if (dirx == 0 && diry == 0)
+    {
+        g->add_msg_if_player(p, "You try to hit yourself with the hammer.");
+        g->add_msg_if_player(p, "But you can't touch this.");
+        return;
+    }
+    dirx += p->posx;
+    diry += p->posy;
+    int nails = 0, boards = 0;
+    ter_id newter;
+    switch (g->m.ter(dirx, diry))
+    {
+        case t_fence_h:
+        case t_fence_v:
+        nails = 6;
+        boards = 3;
+        mewter = t_fence_post;
+        break;
+
+        case t_window_boarded:
+        nails =  8;
+        boards = 3;
+        newter = t_window_empty;
+        break;
+
+        case t_door_boarded:
+        nails = 12;
+        boards = 3;
+        newter = t_door_b;
+        break;
+
+        default:
+        g->add_msg_if_player(p,"Hammers can only remove boards from windows, doors and fences.");
+        g->add_msg_if_player(p,"To board up a window or door, press *");
+        return;
+    }
+    p->moves -= 500;
+    g->m.spawn_item(p->posx, p->posy, g->itypes["nail"], 0, 0, nails);
+    g->m.spawn_item(p->posx, p->posy, g->itypes["2x4"], 0, boards);
+    g->m.ter(dirx, diry) = newter;
 }
 
 void iuse::light_off(game *g, player *p, item *it, bool t)
