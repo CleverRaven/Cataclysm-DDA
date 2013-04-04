@@ -361,8 +361,10 @@ point monster::scent_move(game *g)
  std::vector<point> smoves;
 
  int maxsmell = 2; // Squares with smell 0 are not eligable targets
- if (has_flag(MF_KEENNOSE)) {
- int maxsmell = 1; }
+ if (has_flag(MF_KEENNOSE))
+ {
+     maxsmell = 1;
+ }
  int minsmell = 9999;
  point pbuff, next(-1, -1);
  unsigned int smell;
@@ -628,12 +630,10 @@ void monster::move_to(game *g, int x, int y)
 void monster::stumble(game *g, bool moved)
 {
  // don't stumble every turn. every 3rd turn, or 8th when walking.
- if(moved)
-  if(!one_in(8))
-   return;
- else
-  if(!one_in(3))
-   return;
+ if((moved && !one_in(8)) || !one_in(3))
+ {
+     return;
+ }
 
  std::vector <point> valid_stumbles;
  for (int i = -1; i <= 1; i++) {
@@ -647,7 +647,9 @@ void monster::stumble(game *g, bool moved)
   }
  }
  if (valid_stumbles.size() == 0) //nowhere to stumble?
-  return;
+ {
+     return;
+ }
 
  int choice = rng(0, valid_stumbles.size() - 1);
  posx = valid_stumbles[choice].x;
