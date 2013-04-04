@@ -1089,16 +1089,20 @@ void dis_effect(game *g, player &p, disease &dis)
 
   } else if (dis.duration > 3600) {	//Infection Symptoms 18 hours into infection
    if (one_in(100)) {
-    if (!p.is_npc())
-     if (p.has_disease(DI_SLEEP)) {
-      p.rem_disease(DI_SLEEP);
-      g->add_msg("You wake up.");
-      g->add_msg("You feel terribly weak, standing up is nearly impossible.");
-     } else
-      g->add_msg("You can barely remain standing.");
-    p.vomit(g);
-    if(p.pain < 100)
-    	p.pain++;
+       if (!p.is_npc()) {
+           if (p.has_disease(DI_SLEEP)) {
+               p.rem_disease(DI_SLEEP);
+               g->add_msg("You wake up.");
+               g->add_msg("You feel terribly weak, standing up is nearly impossible.");
+           } else {
+               g->add_msg("You can barely remain standing.");
+           }
+       }
+       p.vomit(g);
+       if(p.pain < 100)
+       {
+           p.pain++;
+       }
    }
    p.str_cur-= 2;
    p.dex_cur-= 2;
