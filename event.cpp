@@ -113,7 +113,7 @@ void event::actualize(game *g)
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_root_wall && one_in(3))
-      g->m.ter(x, y) = t_underbrush;
+      g->m.ter_set(x, y, t_underbrush);
     }
    }
    break;
@@ -123,7 +123,7 @@ void event::actualize(game *g)
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_grate) {
-      g->m.ter(x, y) = t_stairs_down;
+      g->m.ter_set(x, y, t_stairs_down);
       int j;
       if (!saw_grate && g->u_see(x, y, j))
        saw_grate = true;
@@ -185,7 +185,7 @@ void event::actualize(game *g)
 // flood_buf is filled with correct tiles; now copy them back to g->m
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++)
-     g->m.ter(x, y) = flood_buf[x][y];
+       g->m.ter_set(x, y, flood_buf[x][y]);
    }
    g->add_event(EVENT_TEMPLE_FLOOD, int(g->turn) + rng(2, 3));
   } break;

@@ -1326,7 +1326,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
             switch (collision_type) // destroy obstacle
             {
             case veh_coll_thin_obstacle:
-                g->m.ter (x, y) = t_dirt;
+                g->m.ter_set(x, y, t_dirt);
                 break;
             case veh_coll_destructable:
                 g->m.destroy(g, x, y, false);

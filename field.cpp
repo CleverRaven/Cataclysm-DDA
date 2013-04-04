@@ -178,7 +178,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
     if((tr_brazier != tr_at(x, y))&&(has_flag(fire_container, x, y) != TRUE )) {
      // Consume the terrain we're on
      if (has_flag(explodes, x, y)) {
-      ter(x, y) = ter_id(int(ter(x, y)) + 1);
+      ter_set(x, y, ter_id(int(ter(x, y)) + 1));
       cur->age = 0;
       cur->density = 3;
       g->explosion(x, y, 40, 0, true);
@@ -193,7 +193,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
       cur->age -= cur->density * cur->density * 40;
       smoke += 15;
       if (cur->density == 3)
-       ter(x, y) = t_ash;
+       ter_set(x, y, t_ash);
 
      } else if (has_flag(l_flammable, x, y) && one_in(62 - cur->density * 10)) {
       cur->age -= cur->density * cur->density * 30;
@@ -244,7 +244,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
         spread_chance = 50 + spread_chance / 2;
        if (has_flag(explodes, fx, fy) && one_in(8 - cur->density) &&
 	   tr_brazier != tr_at(x, y) && (has_flag(fire_container, x, y) != TRUE ) ) {
-        ter(fx, fy) = ter_id(int(ter(fx, fy)) + 1);
+        ter_set(fx, fy, ter_id(int(ter(fx, fy)) + 1));
         g->explosion(fx, fy, 40, 0, true);
        } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
                   tr_brazier != tr_at(x, y) &&

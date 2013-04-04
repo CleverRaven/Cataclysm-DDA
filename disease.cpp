@@ -901,7 +901,7 @@ void dis_effect(game *g, player &p, disease &dis)
              tries < 10);
     if (tries < 10) {
      if (g->m.move_cost(x, y) == 0)
-      g->m.ter(x, y) = t_rubble;
+      g->m.ter_set(x, y, t_rubble);
      beast.spawn(x, y);
      g->z.push_back(beast);
      if (g->u_see(x, y, junk)) {
@@ -963,7 +963,7 @@ void dis_effect(game *g, player &p, disease &dis)
             tries < 10);
    if (tries < 10) {
     if (g->m.move_cost(x, y) == 0)
-     g->m.ter(x, y) = t_rubble;
+     g->m.ter_set(x, y, t_rubble);
     beast.spawn(x, y);
     g->z.push_back(beast);
     if (g->u_see(x, y, junk)) {
