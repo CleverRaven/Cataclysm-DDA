@@ -6441,8 +6441,8 @@ void game::unload(char chInput)
 
 void game::unload()
 {
-    if ((!u.weapon.is_gun() && u.weapon.contents.size() == 0 && !u.weapon.is_tool()) ||
-        u.weapon.ammo_type() == AT_NULL || u.weapon.has_flag(IF_NO_UNLOAD))
+    if (!u.weapon.is_gun() && u.weapon.contents.size() == 0 && 
+        (!u.weapon.is_tool() || u.weapon.ammo_type() == AT_NULL || u.weapon.has_flag(IF_NO_UNLOAD)))
     {
         add_msg("You can't unload a %s!", u.weapon.tname(this).c_str());
         return;
