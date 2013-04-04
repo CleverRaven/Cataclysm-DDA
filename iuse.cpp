@@ -1088,15 +1088,19 @@ void iuse::light_on(game *g, player *p, item *it, bool t)
 
 void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
 {
- if (it->charges == 0) {
-  g->add_msg_if_player(p,"You need batteries to cauterize wounds.");
- } else {
-  if (p->is_npc() || query_yn("Cauterize any open wounds?")) {
-   it->charges -= 1;
-   p->cauterize(g);
-  }
- }
+    if (it->charges == 0)
+    g->add_msg_if_player(p,"You need batteries to cauterize wounds.");
+
+    else if (!p->has_disease(DI_BITE) && !p->has_disease(DI_BLEED))
+    g->add_msg_if_player(p,"You are not bleeding or bitten, there is no need to cauterize yourself.");
+
+    else if (p->is_npc() || query_yn("Cauterize any open wounds?"))
+    {
+        it->charges -= 1;
+        p->cauterize(g);
+    }
 }
+
 
 void iuse::water_purifier(game *g, player *p, item *it, bool t)
 {
@@ -2856,6 +2860,9 @@ void iuse::knife(game *g, player *p, item *it, bool t)
         {
             if (!p->has_charges("lighter", 4))
             g->add_msg_if_player(p,"You need a lighter with 4 charges before you can cauterize yourself.");
+
+            if (!p->has_disease(DI_BITE) && !p->has_disease(DI_BLEED))
+            g->add_msg_if_player(p,"You are not bleeding or bitten, there is no need to cauterize yourself.");
             else
             {
                 p->use_charges("lighter", 4);
