@@ -1825,21 +1825,30 @@ void player::disp_status(WINDOW *w, game *g)
  else if (hunger < 0)
   mvwprintz(w, 2, 0, c_green,  "Full");
 
-
-if (temp_cur[bp_torso] > BODYTEMP_SCORCHING)
-  mvwprintz(w, 1, 9, c_red,    "Scorching!");
- else if (temp_cur[bp_torso] > BODYTEMP_VERY_HOT)
-  mvwprintz(w, 1, 9, c_ltred,  "Very Hot");
- else if (temp_cur[bp_torso] > BODYTEMP_HOT)
-  mvwprintz(w, 1, 9, c_yellow,  "Hot");
- else if (temp_cur[bp_torso] > BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
+ int min = 0, max = 0;
+ for (int i = 0; i < num_bp ; i++ ){
+  if      (temp_cur[i] > BODYTEMP_HOT  && temp_cur[i] > temp_cur[max]) max = i;
+  else if (temp_cur[i] < BODYTEMP_COLD && temp_cur[i] < temp_cur[min]) min = i;
+ }
+ // Compare which is most extreme
+ int print;
+ if (temp_cur[max] - BODYTEMP_NORM > BODYTEMP_NORM + temp_cur[min]) print = max;
+ else print = min;
+ // Print a bodypart that is cold or hot
+ if      (temp_cur[print] >  BODYTEMP_SCORCHING)
+  mvwprintz(w, 1, 9, c_red,   "Scorching!");
+ else if (temp_cur[print] >  BODYTEMP_VERY_HOT)
+  mvwprintz(w, 1, 9, c_ltred, "Very hot!");
+ else if (temp_cur[print] >  BODYTEMP_HOT)
+  mvwprintz(w, 1, 9, c_yellow,"Hot");
+ else if (temp_cur[print] >  BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
   mvwprintz(w, 1, 9, c_green, "Comfortable");
- else if (temp_cur[bp_torso] > BODYTEMP_VERY_COLD)
-  mvwprintz(w, 1, 9, c_ltblue, "Cold");
- else if (temp_cur[bp_torso] > BODYTEMP_FREEZING)
-  mvwprintz(w, 1, 9, c_cyan,  "Very Cold");
- else if (temp_cur[bp_torso] <= BODYTEMP_FREEZING)
-  mvwprintz(w, 1, 9, c_blue,  "Freezing");
+ else if (temp_cur[print] >  BODYTEMP_VERY_COLD)
+  mvwprintz(w, 1, 9, c_ltblue,"Cold");
+ else if (temp_cur[print] >  BODYTEMP_FREEZING)
+  mvwprintz(w, 1, 9, c_cyan,  "Very cold!");
+ else if (temp_cur[print] <= BODYTEMP_FREEZING)
+  mvwprintz(w, 1, 9, c_blue,  "Freezing!");
 
       if (thirst > 520)
   mvwprintz(w, 2, 15, c_ltred,  "Parched");
