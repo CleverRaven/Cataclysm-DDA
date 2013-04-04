@@ -31,7 +31,6 @@
 #include <tchar.h>
 #endif
 
-#define MAX_MONSTERS_MOVING 40 // Efficiency!
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 void intro();
@@ -2899,7 +2898,8 @@ unsigned char game::light_level()
   ret = 8;
  if (ret < 8 && event_queued(EVENT_ARTIFACT_LIGHT))
   ret = 8;
- if (ret < 6 && u.has_amount("torch_lit", 1) || ret < 6 && u.has_amount("pda_flashlight", 1))
+ if ((ret < 6 && u.has_amount("torch_lit", 1)) ||
+     (ret < 6 && u.has_amount("pda_flashlight", 1)))
   ret = 6;
  if (ret < 4 && u.has_artifact_with(AEP_GLOW))
   ret = 4;
@@ -4603,7 +4603,7 @@ void game::examine()
  if (veh) {
   int vpcargo = veh->part_with_feature(veh_part, vpf_cargo, false);
   int vpkitchen = veh->part_with_feature(veh_part, vpf_kitchen, true);
-  if (vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0 || vpkitchen >= 0)
+  if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0) || vpkitchen >= 0)
    pickup(examx, examy, 0);
   else if (u.in_vehicle)
    add_msg ("You can't do that while onboard.");
@@ -4726,35 +4726,58 @@ point game::look_around()
               traps[m.tr_at(lx, ly)]->name.c_str());
 
    int dex = mon_at(lx, ly);
-   if (dex != -1 && u_see(&(z[dex]), junk)) {
-    z[mon_at(lx, ly)].draw(w_terrain, lx, ly, true);
-    z[mon_at(lx, ly)].print_info(this, w_look);
-    if (!m.has_flag(container, lx, ly))
-     if (m.i_at(lx, ly).size() > 1)
-      mvwprintw(w_look, 3, 1, "There are several items there.");
-     else if (m.i_at(lx, ly).size() == 1)
-      mvwprintw(w_look, 3, 1, "There is an item there.");
-   } else if (npc_at(lx, ly) != -1) {
-    active_npc[npc_at(lx, ly)].draw(w_terrain, lx, ly, true);
-    active_npc[npc_at(lx, ly)].print_info(w_look);
-    if (!m.has_flag(container, lx, ly))
-     if (m.i_at(lx, ly).size() > 1)
-      mvwprintw(w_look, 3, 1, "There are several items there.");
-     else if (m.i_at(lx, ly).size() == 1)
-      mvwprintw(w_look, 3, 1, "There is an item there.");
-   } else if (veh) {
-     mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
-     veh->print_part_desc(w_look, 4, 48, veh_part);
-     m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-   } else if (!m.has_flag(container, lx, ly) && m.i_at(lx, ly).size() > 0) {
-    mvwprintw(w_look, 3, 1, "There is a %s there.",
-              m.i_at(lx, ly)[0].tname(this).c_str());
-    if (m.i_at(lx, ly).size() > 1)
-     mvwprintw(w_look, 4, 1, "There are other items there as well.");
-    m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-   } else
-    m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-
+   if (dex != -1 && u_see(&(z[dex]), junk))
+   {
+       z[mon_at(lx, ly)].draw(w_terrain, lx, ly, true);
+       z[mon_at(lx, ly)].print_info(this, w_look);
+       if (!m.has_flag(container, lx, ly))
+       {
+           if (m.i_at(lx, ly).size() > 1)
+           {
+               mvwprintw(w_look, 3, 1, "There are several items there.");
+           }
+           else if (m.i_at(lx, ly).size() == 1)
+           {
+               mvwprintw(w_look, 3, 1, "There is an item there.");
+           }
+       }
+   }
+   else if (npc_at(lx, ly) != -1)
+   {
+       active_npc[npc_at(lx, ly)].draw(w_terrain, lx, ly, true);
+       active_npc[npc_at(lx, ly)].print_info(w_look);
+       if (!m.has_flag(container, lx, ly))
+       {
+           if (m.i_at(lx, ly).size() > 1)
+           {
+               mvwprintw(w_look, 3, 1, "There are several items there.");
+           }
+           else if (m.i_at(lx, ly).size() == 1)
+           {
+               mvwprintw(w_look, 3, 1, "There is an item there.");
+           }
+       }
+   }
+   else if (veh)
+   {
+       mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
+       veh->print_part_desc(w_look, 4, 48, veh_part);
+       m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
+   }
+   else if (!m.has_flag(container, lx, ly) && m.i_at(lx, ly).size() > 0)
+   {
+       mvwprintw(w_look, 3, 1, "There is a %s there.",
+                 m.i_at(lx, ly)[0].tname(this).c_str());
+       if (m.i_at(lx, ly).size() > 1)
+       {
+           mvwprintw(w_look, 4, 1, "There are other items there as well.");
+       }
+       m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
+   }
+   else
+   {
+       m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
+   }
   } else if (lx == u.posx && ly == u.posy) {
    mvwputch_inv(w_terrain, VIEWX, VIEWY, u.color(), '@');
    mvwprintw(w_look, 1, 1, "You (%s)", u.name.c_str());
@@ -6340,19 +6363,22 @@ single action.", u.weapon.tname().c_str());
    return;
   }
   if (u.weapon.charges == u.weapon.clip_size()) {
-   int alternate_magazine = -1;
-   for (int i = 0; i < u.weapon.contents.size(); i++) {
-     if (u.weapon.contents[i].is_gunmod() &&
-         (u.weapon.contents[i].typeId() == "spare_mag" &&
-          u.weapon.contents[i].charges < (dynamic_cast<it_gun*>(u.weapon.type))->clip) ||
-         (u.weapon.contents[i].has_flag(IF_MODE_AUX) &&
-          u.weapon.contents[i].charges < u.weapon.contents[i].clip_size()))
-      alternate_magazine = i;
-   }
-   if(alternate_magazine == -1) {
-    add_msg("Your %s is fully loaded!", u.weapon.tname(this).c_str());
-    return;
-   }
+      int alternate_magazine = -1;
+      for (int i = 0; i < u.weapon.contents.size(); i++)
+      {
+          if ((u.weapon.contents[i].is_gunmod() &&
+               (u.weapon.contents[i].typeId() == "spare_mag" &&
+                u.weapon.contents[i].charges < (dynamic_cast<it_gun*>(u.weapon.type))->clip)) ||
+              ((u.weapon.contents[i].has_flag(IF_MODE_AUX) &&
+                u.weapon.contents[i].charges < u.weapon.contents[i].clip_size())))
+          {
+              alternate_magazine = i;
+          }
+      }
+      if(alternate_magazine == -1) {
+          add_msg("Your %s is fully loaded!", u.weapon.tname(this).c_str());
+          return;
+      }
   }
   int index = u.weapon.pick_reload_ammo(u, true);
   if (index == -1) {
@@ -6415,62 +6441,76 @@ void game::unload(char chInput)
 
 void game::unload()
 {
- if (!u.weapon.is_gun() && u.weapon.contents.size() == 0 &&
-     (!u.weapon.is_tool() || u.weapon.ammo_type() == AT_NULL) || u.weapon.has_flag(IF_NO_UNLOAD)) {
-  add_msg("You can't unload a %s!", u.weapon.tname(this).c_str());
-  return;
- }
- int spare_mag = -1;
- int has_m203 = -1;
- int has_shotgun = -1;
- if (u.weapon.is_gun()) {
-  spare_mag = u.weapon.has_gunmod ("spare_mag");
-  has_m203 = u.weapon.has_gunmod ("m203");
-  has_shotgun = u.weapon.has_gunmod ("u_shotgun");
- }
- if (u.weapon.is_container() || u.weapon.charges == 0 &&
-     (spare_mag == -1 || u.weapon.contents[spare_mag].charges <= 0) &&
-     (has_m203 == -1 || u.weapon.contents[has_m203].charges <= 0) &&
-     (has_shotgun == -1 || u.weapon.contents[has_shotgun].charges <= 0)) {
-  if (u.weapon.contents.size() == 0) {
-   if (u.weapon.is_gun())
-    add_msg("Your %s isn't loaded, and is not modified.",
-            u.weapon.tname(this).c_str());
-   else
-    add_msg("Your %s isn't charged." , u.weapon.tname(this).c_str());
-   return;
-  }
-// Unloading a container!
-  u.moves -= 40 * u.weapon.contents.size();
-  std::vector<item> new_contents;	// In case we put stuff back
-  while (u.weapon.contents.size() > 0) {
-   item content = u.weapon.contents[0];
-   int iter = 0;
-// Pick an inventory item for the contents
-   while ((content.invlet == 0 || u.has_item(content.invlet)) && iter < inv_chars.size()) {
-    content.invlet = nextinv;
-    advance_nextinv();
-    iter++;
-   }
-   if (content.made_of(LIQUID)) {
-    if (!handle_liquid(content, false, false))
-     new_contents.push_back(content);// Put it back in (we canceled)
-   } else {
-    if (u.volume_carried() + content.volume() <= u.volume_capacity() &&
-        u.weight_carried() + content.weight() <= u.weight_capacity() &&
-        iter < inv_chars.size()) {
-     add_msg("You put the %s in your inventory.", content.tname(this).c_str());
-     u.i_add(content, this);
-    } else {
-     add_msg("You drop the %s on the ground.", content.tname(this).c_str());
-     m.add_item(u.posx, u.posy, content);
+    if ((!u.weapon.is_gun() && u.weapon.contents.size() == 0 && !u.weapon.is_tool()) ||
+        u.weapon.ammo_type() == AT_NULL || u.weapon.has_flag(IF_NO_UNLOAD))
+    {
+        add_msg("You can't unload a %s!", u.weapon.tname(this).c_str());
+        return;
     }
-   }
-   u.weapon.contents.erase(u.weapon.contents.begin());
-  }
-  u.weapon.contents = new_contents;
-  return;
- }
+    int spare_mag = -1;
+    int has_m203 = -1;
+    int has_shotgun = -1;
+    if (u.weapon.is_gun()) {
+        spare_mag = u.weapon.has_gunmod ("spare_mag");
+        has_m203 = u.weapon.has_gunmod ("m203");
+        has_shotgun = u.weapon.has_gunmod ("u_shotgun");
+    }
+    if (u.weapon.is_container() ||
+        (u.weapon.charges == 0 &&
+         (spare_mag == -1 || u.weapon.contents[spare_mag].charges <= 0) &&
+         (has_m203 == -1 || u.weapon.contents[has_m203].charges <= 0) &&
+         (has_shotgun == -1 || u.weapon.contents[has_shotgun].charges <= 0)))
+    {
+        if (u.weapon.contents.size() == 0)
+        {
+            if (u.weapon.is_gun())
+            {
+                add_msg("Your %s isn't loaded, and is not modified.",
+                        u.weapon.tname(this).c_str());
+            }
+            else
+            {
+                add_msg("Your %s isn't charged." , u.weapon.tname(this).c_str());
+            }
+            return;
+        }
+        // Unloading a container!
+        u.moves -= 40 * u.weapon.contents.size();
+        std::vector<item> new_contents;	// In case we put stuff back
+        while (u.weapon.contents.size() > 0)
+        {
+            item content = u.weapon.contents[0];
+            int iter = 0;
+// Pick an inventory item for the contents
+            while ((content.invlet == 0 || u.has_item(content.invlet)) && iter < inv_chars.size())
+            {
+                content.invlet = nextinv;
+                advance_nextinv();
+                iter++;
+            }
+            if (content.made_of(LIQUID))
+            {
+                if (!handle_liquid(content, false, false))
+                {
+                    new_contents.push_back(content);// Put it back in (we canceled)
+                }
+            } else {
+                if (u.volume_carried() + content.volume() <= u.volume_capacity() &&
+                    u.weight_carried() + content.weight() <= u.weight_capacity() &&
+                    iter < inv_chars.size())
+                {
+                    add_msg("You put the %s in your inventory.", content.tname(this).c_str());
+                    u.i_add(content, this);
+                } else {
+                    add_msg("You drop the %s on the ground.", content.tname(this).c_str());
+                    m.add_item(u.posx, u.posy, content);
+                }
+            }
+            u.weapon.contents.erase(u.weapon.contents.begin());
+        }
+        u.weapon.contents = new_contents;
+        return;
+    }
 // Unloading a gun or tool!
  u.moves -= int(u.weapon.reload_time(u) / 2);
  // Default to unloading the gun, but then try other alternatives.
@@ -7101,21 +7141,30 @@ void game::fling_player_or_monster(player *p, monster *zz, int dir, int flvel)
             int dex_reduce = p->dex_cur < 4? 4 : p->dex_cur;
             dam1 = dam1 * 8 / dex_reduce;
             if (p->has_trait(PF_PARKOUR))
+            {
                 dam1 /= 2;
+            }
             if (dam1 > 0)
+            {
                 p->hitall (this, dam1, 40);
-        }
-        else
+            }
+        } else {
             zz->hurt (dam1);
+        }
         if (is_u)
+        {
             if (dam1 > 0)
+            {
                 add_msg ("You fall on the ground for %d damage.", dam1);
-            else
+            } else {
                 add_msg ("You fall on the ground.");
+            }
+        }
     }
-    else
-    if (is_u)
+    else if (is_u)
+    {
         add_msg ("You fall into water.");
+    }
 }
 
 void game::vertical_move(int movez, bool force)
@@ -7278,7 +7327,6 @@ void game::vertical_move(int movez, bool force)
 void game::update_map(int &x, int &y)
 {
  int shiftx = 0, shifty = 0;
- int group = 0;
  int olevx = 0, olevy = 0;
  while (x < SEEX * int(MAPSIZE / 2)) {
   x += SEEX;
@@ -8028,13 +8076,15 @@ int game::autosave_timeout()
 
 void game::autosave()
 {
-  if (u.in_vehicle || !moves_since_last_save && !item_exchanges_since_save)
-    return;
-  add_msg("Saving game, this may take a while");
-  save();
+    if (u.in_vehicle || (!moves_since_last_save && !item_exchanges_since_save))
+    {
+        return;
+    }
+    add_msg("Saving game, this may take a while");
+    save();
 
-  moves_since_last_save = 0;
-  item_exchanges_since_save = 0;
+    moves_since_last_save = 0;
+    item_exchanges_since_save = 0;
 }
 
 void game::load_npc_settings()
@@ -8077,11 +8127,19 @@ Warning!  Invalid value '%c' in the npc file\n\
 Valid values 'n', 'N', 'y', 'Y'.\n\
 Fix data/npc.txt at your next chance!", ch, id.c_str());
      else if (strcmp ("starting_npc", id.c_str()) == 0)
-      if(ch == 'Y' || ch == 'y')
-       starting_npc = true;
-      else //random_npc
-      if(ch == 'Y' || ch == 'y')
-       random_npc = true;
+     {
+         if(ch == 'Y' || ch == 'y')
+         {
+             starting_npc = true;
+         }
+     }
+     else //random_npc
+     {
+         if(ch == 'Y' || ch == 'y')
+         {
+             random_npc = true;
+         }
+     }
     }
    }
   } else {
