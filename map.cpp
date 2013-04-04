@@ -787,6 +787,19 @@ ter_id& map::ter(const int x, const int y)
  return grid[nonant]->ter[lx][ly];
 }
 
+void map::ter_set(const int x, const int y, const ter_id new_terrain)
+{
+ if (!INBOUNDS(x, y)) {
+  return;
+ }
+
+ const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+
+ const int lx = x % SEEX;
+ const int ly = y % SEEY;
+ grid[nonant]->ter[lx][ly] = new_terrain;
+}
+
 bool map::is_indoor(const int x, const int y)
 {
  if (!INBOUNDS(x, y))
