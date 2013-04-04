@@ -235,11 +235,17 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 //  integer that indicates on which turn the items were created.  This final
 //  integer should be 0, unless the items are "fresh-grown" like wild fruit.
 
- int rn, lw, rw, mw, tw, bw, cw, x, y;
+ int rn = 0;
+ int lw = 0;
+ int rw = 0;
+ int mw = 0;
+ int tw = 0;
+ int bw = 0;
+ int cw = 0;
+ int x = 0;
+ int y = 0;
  int n_fac = 0, e_fac = 0, s_fac = 0, w_fac = 0;
  computer *tmpcomp = NULL;
-       int SEEX_oth=SEEX;
-       int SEEY_oth=SEEY-5;
 
  switch (terrain_type) {
 
@@ -7720,7 +7726,8 @@ bool connects_to(oter_id there, int dir)
 
 void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
 {
-    int pos_x1=0; int pos_x2=0; int pos_y1=0; int pos_y2=0;
+ int pos_x1=0;
+ int pos_y1=0;
  for (int i = x1; i <= x2; i++) {
   for (int j = y1; j <= y2; j++) {
    if (m->ter(i, j) == t_grass || m->ter(i, j) == t_dirt ||
