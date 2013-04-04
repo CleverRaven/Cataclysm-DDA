@@ -112,6 +112,8 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOL("hatchet", -1);
   TG_KNIVES_CONT
   TOOL("fire", -1);
+  TOOLCONT("toolset", 1);
+  TOOLCONT("hotplate", 4);
   COMP("spear_wood", 1);
   COMP("rag", 1);
   COMPCONT("leather", 1);
