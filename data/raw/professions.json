@@ -18,15 +18,6 @@
  },
 
  {
-  "ident": "nudist",
-  "name": "Nudist",
-  "description":
-"When you were evacuated, you had literally nothing on you. Good luck!",
-  "points": -1,
-  "items": []
- },
-
- {
   "ident": "mechanic",
   "name": "Wannabe Mechanic",
   "description":
