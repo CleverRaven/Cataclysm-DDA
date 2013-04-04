@@ -710,10 +710,16 @@ void map::step_in_field(int x, int y, game *g)
   case fd_fire:
    adjusted_intensity = cur->density;
    if( g->u.in_vehicle )
-     if( inside )
-       adjusted_intensity -= 2;
-     else
-       adjusted_intensity -= 1;
+   {
+       if( inside )
+       {
+           adjusted_intensity -= 2;
+       }
+       else
+       {
+           adjusted_intensity -= 1;
+       }
+   }
    if (!g->u.has_active_bionic("bio_heatsink")) {
     if (adjusted_intensity == 1) {
      g->add_msg("You burn your legs and feet!");
@@ -741,23 +747,33 @@ void map::step_in_field(int x, int y, game *g)
    break;
 
   case fd_smoke:
-   if (cur->density == 3 && !inside)
-    g->u.infect(DI_SMOKE, bp_mouth, 4, 15, g);
-   break;
+      if (cur->density == 3 && !inside)
+      {
+          g->u.infect(DI_SMOKE, bp_mouth, 4, 15, g);
+      }
+      break;
 
   case fd_tear_gas:
-   if ((cur->density > 1 || !one_in(3)) && !inside || inside && one_in(3))
-    g->u.infect(DI_TEARGAS, bp_mouth, 5, 20, g);
-   if (cur->density > 1 && !inside || inside && one_in(3))
-    g->u.infect(DI_BLIND, bp_eyes, cur->density * 2, 10, g);
-   break;
+      if ((cur->density > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
+      {
+          g->u.infect(DI_TEARGAS, bp_mouth, 5, 20, g);
+      }
+      if (cur->density > 1 && (!inside || (inside && one_in(3))))
+      {
+          g->u.infect(DI_BLIND, bp_eyes, cur->density * 2, 10, g);
+      }
+      break;
 
   case fd_toxic_gas:
-   if (cur->density == 2 && !inside || cur->density == 3 && inside )
-    g->u.infect(DI_POISON, bp_mouth, 5, 30, g);
-   else if (cur->density == 3 && !inside)
-    g->u.infect(DI_BADPOISON, bp_mouth, 5, 30, g);
-   break;
+      if (cur->density == 2 && (!inside || (cur->density == 3 && inside)))
+      {
+          g->u.infect(DI_POISON, bp_mouth, 5, 30, g);
+      }
+      else if (cur->density == 3 && !inside)
+      {
+          g->u.infect(DI_BADPOISON, bp_mouth, 5, 30, g);
+      }
+      break;
 
   case fd_nuke_gas:
    g->u.radiation += rng(0, cur->density * (cur->density + 1));
