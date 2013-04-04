@@ -17,6 +17,7 @@ OPT_AUTOSAFEMODE, // Autosafemode on by default?
 OPT_AUTOSAFEMODETURNS, //Number of turns untill safemode kicks back in
 OPT_AUTOSAVE, // Automatically save the game on intervals.
 OPT_GRADUAL_NIGHT_LIGHT, // be so cool at night :)
+OPT_RAIN_ANIMATION, // Enable the rain and other weather animation
 OPT_QUERY_DISASSEMBLE, // Query before disassembling items
 OPT_DROP_EMPTY, // auto drop empty containers after use
 OPT_SKILL_RUST, // level of skill rust
