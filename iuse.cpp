@@ -2915,8 +2915,9 @@ if (dirx == 0 && diry == 0) {
   g->sound(dirx, diry, 15,"grnd grnd grnd");
   g->m.spawn_item(p->posx, p->posy, g->itypes["pipe"], 0, rng(1, 3));
   g->m.spawn_item(p->posx, p->posy, g->itypes["steel_chunk"], 0);
- } else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(dirx + 1, diry) == t_sewage ||
-                                              g->m.ter(dirx, diry + 1) == t_sewage) {
+ } else if (g->m.ter(dirx, diry) == t_bars &&
+            (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
+             g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage)) {
   g->m.ter(dirx, diry) = t_sewage;
   p->moves -= 1000;
   g->sound(dirx, diry, 15,"grnd grnd grnd");

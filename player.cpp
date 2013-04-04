@@ -3880,34 +3880,47 @@ bool player::has_artifact_with(art_effect_passive effect)
 
 bool player::has_amount(itype_id it, int quantity)
 {
- if (it == "toolset")
-  return has_bionic("bio_tools");
- return (amount_of(it) >= quantity);
+    if (it == "toolset")
+    {
+        return has_bionic("bio_tools");
+    }
+    return (amount_of(it) >= quantity);
 }
 
 int player::amount_of(itype_id it)
 {
- if (it == "toolset" && has_bionic("bio_tools"))
-  return 1;
- if (it == "apparatus") {
- if (has_amount("crackpipe", 1) && has_amount("lighter", 1) ||
-    (has_amount("can_drink", 1) && has_amount("lighter", 1)))
-  return 1;
-}
- int quantity = 0;
- if (weapon.type->id == it)
-  quantity++;
- for (int i = 0; i < weapon.contents.size(); i++) {
-  if (weapon.contents[i].type->id == it)
-   quantity++;
- }
- quantity += inv.amount_of(it);
- return quantity;
+    if (it == "toolset" && has_bionic("bio_tools"))
+    {
+        return 1;
+    }
+    if (it == "apparatus")
+    {
+        if ((has_amount("crackpipe", 1) && has_amount("lighter", 1)) ||
+            (has_amount("can_drink", 1) && has_amount("lighter", 1)))
+        {
+            return 1;
+        }
+    }
+    int quantity = 0;
+    if (weapon.type->id == it)
+    {
+        quantity++;
+    }
+
+    for (int i = 0; i < weapon.contents.size(); i++)
+    {
+        if (weapon.contents[i].type->id == it)
+        {
+            quantity++;
+        }
+    }
+    quantity += inv.amount_of(it);
+    return quantity;
 }
 
 bool player::has_charges(itype_id it, int quantity)
 {
- return (charges_of(it) >= quantity);
+    return (charges_of(it) >= quantity);
 }
 
 int player::charges_of(itype_id it)
@@ -4732,13 +4745,16 @@ hint_rating player::rate_action_reload(item *it) {
   }
   if (it->charges == it->clip_size()) {
    int alternate_magazine = -1;
-   for (int i = 0; i < it->contents.size(); i++) {
-     if (it->contents[i].is_gunmod() &&
-         (it->contents[i].typeId() == "spare_mag" &&
-          it->contents[i].charges < (dynamic_cast<it_gun*>(it->type))->clip) ||
-         (it->contents[i].has_flag(IF_MODE_AUX) &&
-          it->contents[i].charges < it->contents[i].clip_size()))
-      alternate_magazine = i;
+   for (int i = 0; i < it->contents.size(); i++)
+   {
+       if ((it->contents[i].is_gunmod() &&
+            (it->contents[i].typeId() == "spare_mag" &&
+             it->contents[i].charges < (dynamic_cast<it_gun*>(it->type))->clip)) ||
+           (it->contents[i].has_flag(IF_MODE_AUX) &&
+            it->contents[i].charges < it->contents[i].clip_size()))
+       {
+           alternate_magazine = i;
+       }
    }
    if(alternate_magazine == -1) {
     return HINT_IFFY;
@@ -4776,10 +4792,11 @@ hint_rating player::rate_action_unload(item *it) {
   has_m203 = it->has_gunmod ("m203");
   has_shotgun = it->has_gunmod ("u_shotgun");
  }
- if (it->is_container() || it->charges == 0 &&
-     (spare_mag == -1 || it->contents[spare_mag].charges <= 0) &&
-     (has_m203 == -1 || it->contents[has_m203].charges <= 0) &&
-     (has_shotgun == -1 || it->contents[has_shotgun].charges <= 0)) {
+ if (it->is_container() ||
+     (it->charges == 0 &&
+      (spare_mag == -1 || it->contents[spare_mag].charges <= 0) &&
+      (has_m203 == -1 || it->contents[has_m203].charges <= 0) &&
+      (has_shotgun == -1 || it->contents[has_shotgun].charges <= 0))) {
   if (it->contents.size() == 0) {
    return HINT_IFFY;
   }
@@ -5178,8 +5195,8 @@ void player::try_to_sleep(game *g)
  vehicle *veh = g->m.veh_at (posx, posy, vpart);
  if (g->m.ter(posx, posy) == t_bed || g->m.ter(posx, posy) == t_makeshift_bed ||
      g->m.tr_at(posx, posy) == tr_cot || g->m.tr_at(posx, posy) == tr_rollmat ||
-     veh && veh->part_with_feature (vpart, vpf_seat) >= 0 ||
-     veh && veh->part_with_feature (vpart, vpf_bed) >= 0)
+     (veh && veh->part_with_feature (vpart, vpf_seat) >= 0) ||
+      (veh && veh->part_with_feature (vpart, vpf_bed) >= 0))
   g->add_msg("This is a comfortable place to sleep.");
  else if (g->m.ter(posx, posy) != t_floor)
   g->add_msg("It's %shard to get to sleep on this %s.",
@@ -5198,7 +5215,7 @@ bool player::can_sleep(game *g)
 
  int vpart = -1;
  vehicle *veh = g->m.veh_at (posx, posy, vpart);
- if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0 ||
+ if ((veh && veh->part_with_feature (vpart, vpf_seat) >= 0) ||
      g->m.ter(posx, posy) == t_makeshift_bed || g->m.tr_at(posx, posy) == tr_cot)
   sleepy += 4;
  else if (g->m.tr_at(posx, posy) == tr_rollmat)

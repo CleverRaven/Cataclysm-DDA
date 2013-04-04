@@ -1648,7 +1648,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   ter(x, y) = t_rubble;
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
-     if (i == x && j == y || !has_flag(collapses, i, j))
+    if ((i == x && j == y) || !has_flag(collapses, i, j))
       continue;
      int num_supports = -1;
      for (int k = i - 1; k <= i + 1; k++)
@@ -1685,7 +1685,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   ter(x, y) = t_rubble;
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
-     if (i == x && j == y || !has_flag(supports_roof, i, j))
+    if ((i == x && j == y) || !has_flag(supports_roof, i, j))
       continue;
      int num_supports = 0;
      for (int k = i - 1; k <= i + 1; k++)
