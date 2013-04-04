@@ -38,11 +38,11 @@ calendar::calendar(int turn)
  int minutes = int(turn / 10);
  int hours = minutes / 60;
  int days = hours / 24;
- int seasons = days / DAYS_IN_SEASON;
+ int seasons = days / OPTIONS[OPT_SEASON_LENGTH];
  second = 6 * (turn % 10);
  minute = minutes % 60;
  hour = hours % 24;
- day = 1 + days % DAYS_IN_SEASON;
+ day = 1 + days % (int)OPTIONS[OPT_SEASON_LENGTH];
  season = season_type(seasons % 4);
  year = seasons / 4;
 }
@@ -53,8 +53,8 @@ int calendar::get_turn()
  ret += minute * 10;
  ret += hour * 600;
  ret += day * 14400;
- ret += int(season) * 14400 * DAYS_IN_SEASON;
- ret += year * 14400 * 4 * DAYS_IN_SEASON;
+ ret += int(season) * 14400 * (int)OPTIONS[OPT_SEASON_LENGTH];
+ ret += year * 14400 * 4 * (int)OPTIONS[OPT_SEASON_LENGTH];
  return ret;
 }
 
@@ -64,8 +64,8 @@ calendar::operator int() const
  ret += minute * 10;
  ret += hour * 600;
  ret += day * 14400;
- ret += int(season) * 14400 * DAYS_IN_SEASON;
- ret += year * 14400 * 4 * DAYS_IN_SEASON;
+ ret += int(season) * 14400 * (int)OPTIONS[OPT_SEASON_LENGTH];
+ ret += year * 14400 * 4 * (int)OPTIONS[OPT_SEASON_LENGTH];
  return ret;
 }
 
@@ -89,11 +89,11 @@ calendar& calendar::operator =(int rhs)
  int minutes = int(rhs / 10);
  int hours = minutes / 60;
  int days = hours / 24;
- int seasons = days / DAYS_IN_SEASON;
+ int seasons = days / OPTIONS[OPT_SEASON_LENGTH];
  second = 6 * (rhs % 10);
  minute = minutes % 60;
  hour = hours % 24;
- day = days % DAYS_IN_SEASON;
+ day = days % (int)OPTIONS[OPT_SEASON_LENGTH];
  season = season_type(seasons % 4);
  year = seasons / 4;
  return *this;
@@ -213,9 +213,9 @@ void calendar::standardize()
   hour %= 24;
  }
  int tmpseason = int(season);
- if (day >= DAYS_IN_SEASON) {
-  tmpseason += day / DAYS_IN_SEASON;
-  day %= DAYS_IN_SEASON;
+ if (day >= OPTIONS[OPT_SEASON_LENGTH]) {
+  tmpseason += day / OPTIONS[OPT_SEASON_LENGTH];
+  day %= (int)OPTIONS[OPT_SEASON_LENGTH];
  }
  if (tmpseason >= 4) {
   year += tmpseason / 4;
@@ -233,7 +233,7 @@ int calendar::minutes_past_midnight() const
 
 moon_phase calendar::moon() const
 {
- int phase = day / (DAYS_IN_SEASON / 4);
+ int phase = day / (OPTIONS[OPT_SEASON_LENGTH] / 4);
  //phase %= 4;   Redundant?
  if (phase == 3)
   return MOON_HALF;
@@ -263,7 +263,7 @@ calendar calendar::sunrise() const
    end_hour   = SUNRISE_SOLSTICE;
    break;
  }
- double percent = double(double(day) / DAYS_IN_SEASON);
+ double percent = double(double(day) / OPTIONS[OPT_SEASON_LENGTH]);
  double time = double(start_hour) * (1.- percent) + double(end_hour) * percent;
 
  ret.hour = int(time);
@@ -295,7 +295,7 @@ calendar calendar::sunset() const
    end_hour   = SUNSET_SOLSTICE;
    break;
  }
- double percent = double(double(day) / DAYS_IN_SEASON);
+ double percent = double(double(day) / OPTIONS[OPT_SEASON_LENGTH]);
  double time = double(start_hour) * (1.- percent) + double(end_hour) * percent;
 
  ret.hour = int(time);
