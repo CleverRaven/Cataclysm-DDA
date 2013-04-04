@@ -232,13 +232,28 @@ End of cheatery */
   weapon = item(g->itypes[ styles[0] ], 0, ':');
  else
   weapon   = item(g->itypes["null"], 0);
-// Nice to start out less than naked.
- item tmp(g->itypes["jeans_fit"], 0, 'a');
- worn.push_back(tmp);
- tmp = item(g->itypes["tshirt_fit"], 0, 'b');
- worn.push_back(tmp);
- tmp = item(g->itypes["sneakers_fit"], 0, 'c');
- worn.push_back(tmp);
+ 
+ item tmp; //gets used several times
+
+ std::vector<std::string> prof_items = g->u.prof->items();
+ for (std::vector<std::string>::const_iterator iter = prof_items.begin(); iter != prof_items.end(); ++iter) {
+  item tmp = item(g->itypes.at(*iter), 0, 'a' + worn.size());
+  if (tmp.is_armor()) {
+   worn.push_back(tmp);
+  } else {
+   inv.push_back(tmp);
+  }
+
+  // if we start with drugs, need to start strongly addicted, too
+  if (tmp.is_food()) {
+   it_comest *comest = dynamic_cast<it_comest*>(tmp.type);
+   if (comest->add != ADD_NULL) {
+    addiction add(comest->add, 10);
+    g->u.addictions.push_back(add);
+   }
+  }
+ }
+
 // The near-sighted get to start with glasses.
  if (has_trait(PF_MYOPIC)) {
   tmp = item(g->itypes["glasses_eye"], 0, 'd');
