@@ -78,7 +78,7 @@ Water, the stuff of life, the best thirst-quencher available.", 0);
 DRINK("water_clean","clean water",	90, 50,	c_ltcyan, "bottle_plastic",
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
 	25,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
-Fresh clean water, truly the best thing to quench your thirst.", 0);
+Fresh, clean water. Truly the best thing to quench your thirst.", 0);
 
 DRINK("sewage","sewage sample",	 5,  5, c_ltgreen, "bottle_plastic",
 	 5,  0,  0,  0,-10,  0,  1,-20,&iuse::sewage,	ADD_NULL, "\
@@ -90,7 +90,7 @@ Water with salt added. Not good for drinking.", 0);
 
 DRINK("oj","orange juice",	50, 38,	c_yellow, "bottle_plastic",
 	35,  4,120,  0,  2,  0,  1,  3,&iuse::none,	ADD_NULL, "\
-Fresh squeezed from real oranges! Tasty and nutritious.", 0);
+Freshly-squeezed from real oranges! Tasty and nutritious.", 0);
 
 DRINK("apple_cider","apple cider",	50, 38, c_brown,  "bottle_plastic",
 	35,  4,144,  0,  3,  0,  1,  2,&iuse::none,	ADD_NULL, "\
@@ -183,7 +183,7 @@ A rare substance of uncertain origins. Causes you to mutate.", 0);
 
 DRINK("purifier","purifier",	12, 6000,c_pink,  "flask_glass",
 	  0, 0,  0,  0,  1,  0,  1,  0,&iuse::purifier,	ADD_NULL, "\
-A rare stem-cell treatment, which causes mutations and other genetic defects\n\
+A rare stem-cell treatment that causes mutations and other genetic defects\n\
 to fade away.", 0);
 
 DRINK("tea","tea",		1, 50,	c_green, "bottle_plastic",
@@ -830,7 +830,7 @@ A large sheet of glass. Easily shattered. Useful for re-paning windows.");
 
 MELEE("manhole_cover", "manhole cover",	 1, 20, ']', c_dkgray,	IRON,	MNULL,
 	45,250, 20,  0,-10, 0, "\
-A heavy iron disc which generally covers a ladder into the sewers. Lifting\n\
+A heavy iron disc that typically covers a ladder into the sewers. Lifting\n\
 it from the manhole is impossible without a crowbar.");
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
@@ -1065,17 +1065,17 @@ certain illicit substances.");
 
 MELEE("torch_done", "burnt out torch",	95,  0, '/', c_brown,	WOOD,	MNULL,
 	 6, 10, 12,  0,  3, 0, "\
-A torch which has consumed all its fuel, can be recrafted\n\
+A torch that has consumed all its fuel; it can be recrafted\n\
 into another torch");
 
 MELEE("spring", "spring", 50, 10, ',', c_ltgray,  STEEL,  MNULL,
          3,  0, -1,  0,  0, 0, "\
-A large heavy duty spring. Expands with significant force\n\
+A large, heavy-duty spring. Expands with significant force\n\
 when compressed.");
 
 MELEE("lawnmower", "lawnmower", 25, 100, ';', c_red, STEEL,  IRON,
          25, 40, -3, 10, 0, 0, "\
-A motorized pushmower, it seems to be broken. You could\n\
+A motorized pushmower that seems to be broken. You could\n\
 take it apart if you had a wrench.");
 
 MELEE("sheet", "sheet",           0, 100, ';', c_dkgray, COTTON, MNULL,
@@ -1320,7 +1320,7 @@ A small portable plutonium reactor. Handle with great care!");
 MELEE("solar_panel", "solar panel",  3, 900, ']', c_yellow,  GLASS,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     12,  4,  1,  0,  -4, 0, "\
-Electronic device which can convert solar radiation into electric\n\
+Electronic device that can convert solar radiation into electric\n\
 power. Useful for crafting.");
 
 MELEE("sheet_metal", "sheet metal",  30, 60, ']', c_ltcyan,  STEEL,   MNULL,
@@ -1465,7 +1465,7 @@ A pair of khaki pants. Slightly warmer than jeans.");
 
 ARMOR("pants_leather", "leather pants",	60, 210,C_PANTS,	LEATHER,	MNULL,
     6,  8, -2,  1,  2,  1,  7,  0,  50,  2,	mfb(bp_legs), "\
-A pair of black leather pants. Very tough, but encumbersome and without much\n\
+A pair of black leather pants. Very tough, but cumbersome and without much\n\
 storage.");
 
 ARMOR("pants_cargo", "cargo pants",	70, 280,C_PANTS,	COTTON,		MNULL,
@@ -1521,7 +1521,7 @@ ARMOR("jumpsuit", "jumpsuit",	20, 200,C_BODY,		COTTON,		PLASTIC,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
     6,  6, -3, -3,  0,  0,  1,  0,  10, 8,	mfb(bp_legs)|mfb(bp_torso), "\
 A thin, short-sleeved jumpsuit; similar to those\n\
-worn my prisoners. Provides decent storage and is\n\
+worn by prisoners. Provides decent storage and is\n\
 not very encumbering.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
@@ -1529,7 +1529,7 @@ ARMOR("jumpsuit_fit", "jumpsuit",	20, 200,C_BODY,		COTTON,		PLASTIC,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
     6,  6, -3, -3,  -1,  0,  1,  0,  10, 8,	mfb(bp_legs)|mfb(bp_torso), "\
 A thin, short-sleeved jumpsuit; similar to those\n\
-worn my prisoners. Provides decent storage and is\n\
+worn by prisoners. Provides decent storage and is\n\
 not very encumbering.\n\
 This one is a perfect fit for you.");
 
@@ -1626,11 +1626,11 @@ A jacket made from denim. Provides decent protection from cuts.");
 ARMOR("blazer", "blazer",		35, 120,C_TORSO,	WOOL,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
    10,  6, -4,  0,  2,  0,  3,  0,  30,  2,	mfb(bp_torso)|mfb(bp_arms), "\
-A professional-looking wool blazer. Quite encumbersome.");
+A professional-looking wool blazer. Quite cumbersome.");
 
 ARMOR("jacket_leather", "leather jacket",	30, 150,C_TORSO,	LEATHER,	MNULL,
    14, 14, -2,  1,  2,  1,  9,  1,  40,  4,	mfb(bp_torso)|mfb(bp_arms), "\
-A jacket made from thick leather. Encumbersome, but offers excellent\n\
+A jacket made from thick leather. Cumbersome, but offers excellent\n\
 protection from cuts.");
 
 ARMOR("kevlar", "kevlar vest",	30, 800,C_TORSO,	KEVLAR,		MNULL,
@@ -1668,7 +1668,7 @@ A fur coat with a couple small pockets. Extremely warm.");
 
 ARMOR("peacoat", "peacoat",	30, 180,C_TORSO,	COTTON,		MNULL,
    16, 10, -4, -3,  2,  1,  2,  0,  70, 10,	mfb(bp_torso)|mfb(bp_arms), "\
-A heavy cotton coat. Encumbersome, but warm and with deep pockets.");
+A heavy cotton coat. Cumbersome, but warm and with deep pockets.");
 
 ARMOR("vest", "utility vest",	15, 200,C_TORSO,	COTTON,		MNULL,
     4,  3, -3,  0,  0,  0,  1,  0,  5, 14,	mfb(bp_torso), "\
@@ -1721,7 +1721,7 @@ This jacket is a perfect fit for you.");
 
 ARMOR("jacket_leather_fit", "leather jacket", 5, 150,C_TORSO,        LEATHER,        MNULL,
    14, 14, -2,  1,  1,  1,  9,  1,  50,  4,      mfb(bp_torso)|mfb(bp_arms), "\
-A jacket made from thick leather. Encumbersome, but offers excellent\n\
+A jacket made from thick leather. Cumbersome, but offers excellent\n\
 protection from cuts.\n\
 This jacket is a perfect fit for you.");
 
@@ -1775,15 +1775,15 @@ A pair of cotton gloves.");
 
 ARMOR("mittens", "mittens",	30,  40,C_GLOVES,	WOOL,		MNULL,
     2,  0, -5,  1,  8,  0,  1,  0,  90,  0,	mfb(bp_hands), "\
-A pair of warm mittens. They are extremely encumbersome.");
+A pair of warm mittens. They are extremely cumbersome.");
 
 ARMOR("gloves_wool", "wool gloves",	33,  50,C_GLOVES,	WOOL,		MNULL,
     1,  0, -5,  1,  3,  0,  1,  0,  60,  0,	mfb(bp_hands), "\
-A thick pair of wool gloves. Encumbersome but warm.");
+A thick pair of wool gloves. Cumbersome but warm.");
 
 ARMOR("gloves_winter", "winter gloves",	40,  65,C_GLOVES,	COTTON,		MNULL,
     2,  0, -5,  1,  5,  1,  1,  0,  70,  0,	mfb(bp_hands), "\
-A pair of padded gloves. Encumbersome but warm.");
+A pair of padded gloves. Cumbersome but warm.");
 
 ARMOR("gloves_leather", "leather gloves",	45,  85,C_GLOVES,	LEATHER,	MNULL,
     1,  1, -3,  2,  1,  0,  3,  0,  40,  0,	mfb(bp_hands), "\
@@ -1945,13 +1945,13 @@ TECH("helmet_skid", mfb(TEC_WBLOCK_1) );
 
 ARMOR("helmet_ball", "baseball helmet",45, 195,C_HAT,		PLASTIC,	IRON,
    14,  6,  7, -1,  2, 10, 10,  1,  15,  0,	mfb(bp_head), "\
-A hard plastic helmet which covers the head and ears. Designed to protect\n\
+A hard plastic helmet that covers the head and ears. Designed to protect\n\
 against a baseball to the head.");
 TECH("helmet_ball", mfb(TEC_WBLOCK_1) );
 
 ARMOR("helmet_army", "army helmet",	40, 480,C_HAT,		PLASTIC,	IRON,
    16,  8, 10, -1,  2, 12, 28,  0,  25,  0,	mfb(bp_head), "\
-A heavy helmet which provides excellent protection from all sorts of damage.");
+A heavy helmet that provides excellent protection from all sorts of damage.");
 TECH("helmet_army", mfb(TEC_WBLOCK_1) );
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
@@ -1964,8 +1964,8 @@ TECH("helmet_riot", mfb(TEC_WBLOCK_1) );
 
 ARMOR("helmet_motor", "motorcycle helmet",40,325,C_HAT,		PLASTIC,	IRON,
    24,  8,  7, -1,  3,  8, 20,  1,  30,  0,	mfb(bp_head)|mfb(bp_mouth), "\
-A helmet with covers your head and chin, leaving space in between for you to\n\
-wear goggles.");
+A helmet with covers for your head and chin, leaving space in-between for you\n\
+to wear goggles.");
 TECH("helmet_motor", mfb(TEC_WBLOCK_1) );
 
 ARMOR("helmet_chitin", "chitinous helmet", 1, 380,C_HAT,		FLESH,		MNULL,
@@ -1979,7 +1979,7 @@ ARMOR("helmet_plate", "great helm",	  1,400,C_HAT,		IRON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
     20, 15, 10,  0,  4, 10, 15,  1,  10,  0,	mfb(bp_head)|mfb(bp_eyes)|
 						mfb(bp_mouth), "\
-A medieval helmet which provides excellent protection to the entire head, at\n\
+A medieval helmet that provides excellent protection to the entire head, at\n\
 the cost of great encumbrance.");
 TECH("helmet_plate", mfb(TEC_WBLOCK_1) );
 
@@ -1990,7 +1990,7 @@ of danger!");
 
 ARMOR("backpack", "backpack",	38, 210,C_STORE,	PLASTIC,	MNULL,
    10,  2, -4,  0,  1,  0,  0,  0,  0, 40,	mfb(bp_torso), "\
-A small backpack, good storage for a little encumbrance .");
+A small backpack, good storage for a little encumbrance.");
 
 ARMOR("rucksack", "military rucksack",	20, 210,C_STORE,	PLASTIC,	MNULL,
    14,  3, -4,  0,  2,  0,  0,  0,  0, 80,	mfb(bp_torso), "\
@@ -2000,7 +2000,7 @@ A huge military rucksack, provides a lot of storage.");
 ARMOR("purse", "purse",		40,  75,C_STORE,	LEATHER,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
    10,  3,  2,  2,  1,  0,  0,  0,  0, 20,	mfb(bp_torso), "\
-A bit encumbersome to wear, but provides some storage");
+A bit cumbersome to wear, but provides some storage");
 
 ARMOR("mbag", "messenger bag",	20, 110,C_STORE,	PLASTIC,	MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
@@ -2220,7 +2220,7 @@ popular round in sub-machine guns.",
 
 AMMO("9mmP", "9mm +P",		 8, 380,AT_9MM,		c_ltblue,	STEEL,
 	 1,  7, 20,  4, 14, 15, 14,  25, "\
-Attempts to improve the ballistics of 9mm ammunition lead to high pressure\n\
+Attempts to improve the ballistics of 9mm ammunition lead to high-pressure\n\
 rounds. Increased velocity resullts in superior accuracy and damage.",
 0);
 
@@ -2228,8 +2228,8 @@ rounds. Increased velocity resullts in superior accuracy and damage.",
 AMMO("9mmP2", "9mm +P+",		 8, 440,AT_9MM,		c_ltblue,	STEEL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
 	 1,  7, 22, 12, 16, 14, 15,  10, "\
-A step beyond the high-pressure 9mm +P round, the +P+ is a very high pressure\n\
-loading which offers a degree of armor-penetrating ability.",
+A step beyond the high-pressure 9mm +P round, the +P+ has an even higher\n\
+internal pressure that offers a degree of armor-penetrating ability.",
 0);
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
@@ -2237,7 +2237,7 @@ AMMO("762_25", "7.62mm Type P",8, 300, AT_762x25,	c_ltblue,	STEEL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
 	 2,  7, 15,  4,  12, 14, 10,  200, "\
 This small caliber pistol round offers quite good armor penetration at the\n\
-cost of slightly less damage, it is rarely used outside of the Chinese army.",
+cost of slightly less damage. It is rarely used outside of the Chinese army.",
 0);
 
 AMMO("38_special", ".38 Special",	 7, 400,AT_38,		c_ltblue,	STEEL,
@@ -2896,7 +2896,7 @@ mfb(IF_MODE_BURST));
 
 GUN("american_180", "American-180",	 2,1600,c_cyan, STEEL,	MNULL,
 	"smg",		AT_22,  12, 23, 11,  0,  2, 20,  0,  6, 30,165, 500, "\
-The American-180 is a submachine gun developed in the 1960's which fires .22\n\
+The American-180 is a submachine gun developed in the 1960's that fires .22\n\
 LR, unusual for an SMG. Though the round is low-powered, the high rate of\n\
 fire and large magazine makes the 180 a formidable weapon.",
 mfb(IF_MODE_BURST));
@@ -2919,7 +2919,7 @@ mfb(IF_MODE_BURST));
 
 GUN("calico", "Calico M960",	 6,2400,c_cyan,	STEEL,	MNULL,
 	"smg",		AT_9MM,	 7, 19,  9,  1, -3, 28, -4,  6, 20, 50, 500, "\
-The Calico M960 is an automatic carbine with a unique circular magazine which\n\
+The Calico M960 is an automatic carbine with a unique circular magazine that\n\
 allows for high capacities and reduced recoil.",
 mfb(IF_MODE_BURST));
 
@@ -2951,7 +2951,7 @@ mfb(IF_MODE_BURST));
 GUN("TDI", "TDI Vector",	 4,4200,c_cyan,	STEEL,	PLASTIC,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP
 	"smg",		AT_45,	13, 20,  9,  0, -2, 15,-14,  7,  8, 30, 450, "\
-The TDI Vector is a submachine gun with a unique in-line design which makes\n\
+The TDI Vector is a submachine gun with a unique, in-line design that makes\n\
 recoil very managable, even in the powerful .45 caliber.",
 mfb(IF_MODE_BURST));
 
@@ -3158,7 +3158,7 @@ mechanism to activate the grenade.",
 GUN("m79", "M79 launcher",	 5,4000,c_ltred,STEEL,	WOOD,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
 	"launcher",	AT_40MM,14, 24, 16, -1,  3,  4, -5,  8, 0,  1, 250, "\
-A widely-used grenade launcher which first saw use by American forces in the\n\
+A widely-used grenade launcher that first saw use by American forces in the\n\
 Vietnam war. Though mostly replaced by more modern launchers, the M79 still\n\
 sees use with many units worldwide.",
 0);
@@ -3283,7 +3283,7 @@ A spare magazine you can keep on hand to make reloads faster, but must itself\n\
 GUNMOD("stablizer", "gyroscopic stablizer",4,680,c_blue,  STEEL, PLASTIC,  3,  2,  0,  0, -3,
 	 2, -2,  0,-10, -8,  0, AT_NULL,	false,	false,	true,	true,
 	0, "\
-An advanced unit which straps onto the side of your firearm and reduces\n\
+An advanced unit that straps onto the side of your firearm and reduces\n\
 vibration, greatly reducing recoil and increasing accuracy.  However, it also\n\
 takes up space in the magazine slot, reducing ammo capacity.",
 0);
@@ -3300,8 +3300,8 @@ GUNMOD("autofire", "auto-fire mechanism",2,650,c_red,    STEEL, PLASTIC,  1,  2,
 //	ACC DAM NOI CLP REC BST NEWTYPE,	PISTOL	SHOT	SMG	RIFLE
 	-2,  0,  2,  0,  2,  3, AT_NULL,	true,	false,	false,	false,
 	(mfb(AT_22)|mfb(AT_9MM)|mfb(AT_38)|mfb(AT_40)|mfb(AT_57)|mfb(AT_46)), "\
-A simple mechanism which converts a pistol to a fully-automatic weapon, with\n\
-a burst size of three rounds. However, it reduces accuracy, while increasing\n\
+A simple mechanism that converts a pistol to a fully-automatic weapon, with\n\
+a burst size of three rounds. However, it reduces accuracy, and increases\n\
 noise and recoil.",
 0);
 
@@ -3398,7 +3398,7 @@ GUNMOD("bayonet", "bayonet",	 6, 400, c_ltcyan, STEEL, MNULL,       2,  2,  0, 1
 //	ACC DAM NOI CLP REC BST NEWTYPE		PISTOL	SHOT	SMG	RIFLE
 	  0,  0,  0,  0,  3,  0, AT_NULL,	false,	true,	true,	true,
 	0, "\
-A bayonet is a stabbing weapon which can be attached to the front of a\n\
+A bayonet is a stabbing weapon that can be attached to the front of a\n\
 shotgun, sub-machinegun or rifle, allowing a melee attack to deal\n\
 piercing damage. The added length increases recoil slightly.",
 mfb(IF_STAB));
@@ -3876,13 +3876,13 @@ TOOL("EMPbomb", "EMP grenade",	 2, 600,'*', c_cyan,	STEEL,	PLASTIC,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
     1,  1,  8,  0, -1,  0,  0,  0,  0, AT_NULL,	"null", &iuse::EMPbomb,0,"\
 Use this item to pull the pin, turning it into an active EMP grenade. You\n\
-will then have three turns before it detonates, creating an EMP field which\n\
+will then have three turns before it detonates, creating an EMP field that\n\
 damages robots and drains bionic energy.");
 
 TOOL("EMPbomb_act", "active EMP grenade",0,  0,'*', c_cyan,	STEEL,	PLASTIC,
     1,  1,  8,  0, -1,  3,  3,  0,  1, AT_NULL,	"null", &iuse::EMPbomb_act,0,
 "This EMP grenade is active, and will shortly detonate, creating a large EMP\n\
-field which damages robots and drains bionic energy.");
+field that damages robots and drains bionic energy.");
 
 //	NAME		RAR VAL	SYM  COLOR	MAT1	MAT
 TOOL("scrambler", "scrambler grenade",	 2, 600,'*', c_cyan,	STEEL,	PLASTIC,
@@ -4006,7 +4006,7 @@ A rare and arcane device, covered in alien markings.");
 
 TOOL("bot_manhack", "inactive manhack",1,  600, ',', c_ltgreen, STEEL, PLASTIC,
     1,  3,  6,  6, -3,  0,  0,  0,  0, AT_NULL, "null", &iuse::manhack,0,"\
-An inactive manhack. Manhacks are fist-sized robots which fly through the\n\
+An inactive manhack. Manhacks are fist-sized robots that fly through the\n\
 air. They are covered with whirring blades and attack by throwing themselves\n\
 against their target. Use this item to activate the manhack.");
 
@@ -4077,8 +4077,8 @@ It's armed and ticking!");
 TOOL("dog_whistle", "dog whistle",	  0,  300,';',c_white,	STEEL,	MNULL,
      0,  0,  0,  0,  0,  0,  0,  0,  0, AT_NULL, "null", &iuse::dog_whistle,
 0, "\
-A small whistle. When used, it produces a high tone which causes nearby\n\
-friendly dogs to either follow you closely and stop attacking, or to start\n\
+A small whistle. When used, it produces a high tone that causes nearby\n\
+friendly dogs to either follow you closely and stop attacking, or start\n\
 attacking enemies if they are currently docile.");
 
 //	NAME		RAR PRC SYM  COLOR	MAT1	MAT
@@ -4106,14 +4106,13 @@ but much better than slumming it on the ground.");
 TOOL("rollmat", "rollmat",  40,400,';', c_blue, MNULL, MNULL,
      4, 3,  0, 0, -1, 0, 0, 0, 0, AT_NULL, "null", &iuse::set_trap,
 0, "\
-A sheet of foam which can be rolled tightly for storage\n\
+A sheet of foam, which can be rolled tightly for storage\n\
 Insulates you from the floor, making it easier to sleep");
 
 TOOL("xacto", "X-Acto knife",	10,  40,';', c_dkgray,	IRON,	PLASTIC,
 	 1,  0,  0, 14, -4,  0, 0, 0, 0, AT_NULL, "null", &iuse::knife, mfb(IF_SPEAR), "\
 A small, very sharp knife.  Causes decent damage but is difficult to hit\n\
-with. Its small tip allows for a precision strike in hands of the skill."
-);
+with. Its small tip allows for a precision strike in the hands of the skilled.");
 TECH("xacto", mfb(TEC_PRECISE));
 
 TOOL("scalpel", "scalpel",	48,  40,',', c_cyan,	STEEL,	MNULL,
@@ -4130,7 +4129,7 @@ TECH("machete",  mfb(TEC_WBLOCK_1) );
 TOOL("katana", "katana",		 2, 980,'/', c_ltblue,	STEEL,	MNULL,
 	16, 16,  4, 45,  1,  0, 0, 0, 0, AT_NULL, "null", &iuse::knife, mfb(IF_STAB), "\
 A rare sword from Japan. Deadly against unarmored targets, and still very\n\
-effective against the armored.");
+effective against armor.");
 TECH("katana",  mfb(TEC_RAPID)|mfb(TEC_WBLOCK_2) );
 
 TOOL("spear_knife", "knife spear",      5,  140,'/', c_ltred,   WOOD,   STEEL,
@@ -4160,7 +4159,7 @@ TOOL("makeshift_machete", "makeshift machete", 0, 100, '/', c_ltgray, IRON, MNUL
 // VOL WGT DAM CUT HIT MAX DEF USE SEC   FUEL    REVERT    FUNCTION
     7,  12,  4,  15, 1,  0,  0,  0,  0, AT_NULL, "null", &iuse::knife,
     mfb(IF_STAB), "\
-A large blade which has had a portion of the handle wrapped\n\
+A large blade that has had a portion of the handle wrapped\n\
 in duct tape, making it easier to wield as a rough machete.");
 
 TOOL("makeshift_halberd", "makeshift halberd", 0, 100, '/', c_ltgray, IRON, MNULL,
@@ -4397,7 +4396,7 @@ color, STEEL, PLASTIC, 10, 18, 8, 0, 0, 0, difficulty)
 
 //  Name                     RAR PRICE    COLOR   DIFFICULTY
 BIO("bio_battery", "CBM: Internal Battery",	24, 3800,	c_green,	 1, "\
-Compact Bionics Module which upgrades your power capacity by 4 units. Having\n\
+Compact Bionics Module that upgrades your power capacity by 4 units. Having\n\
 at least one of these is a prerequisite to using powered bionics. You will\n\
 also need a power supply, found in another CBM."); // This is a special case, which increases power capacity by 4
 
@@ -4581,7 +4580,7 @@ while using this technique is halved, but pain inflicted is doubled.",
 );
 
 STYLE("style_judo", "judo", 0, "\
-Judo is a martial art which focuses on grabs and throws, both defensive and\n\
+Judo is a martial art that focuses on grabs and throws, both defensive and\n\
 offensive. It also focuses on recovering from throws; while using judo, you\n\
 will not lose any turns to being thrown or knocked down.",
 
@@ -4630,7 +4629,7 @@ moves. Popular among police and armed forces everywhere.",
 
 STYLE("style_muay_thai", "muay thai", 4, "\
 Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting\n\
-technique from Thailand which uses powerful strikes. It does extra damage\n\
+technique from Thailand that uses powerful strikes. It does extra damage\n\
 against large or strong opponents.",
 
 "slap", TEC_RAPID, 2,
@@ -4734,9 +4733,9 @@ to deal piercing damage, and the 3rd uses both hands in a devastating strike.",
 );
 
 STYLE("style_scorpion", "scorpion style", 3, "\
-One of the Five Deadly Venoms. Scorpion Style is a mysterious art which uses\n\
-pincer-like fists and a stinger-like kick, which is used when you score a\n\
-critical hit, and does massive damage, knocking your target far back.",
+One of the Five Deadly Venoms. Scorpion Style is a mysterious art that focuses\n\
+on utilizing pincer-like fists and a stinger-like kick. Critical hits will do\n\
+massive damage, knocking your target far back.",
 
 "block", TEC_BLOCK, 3,
 "pincer fist", TEC_PRECISE, 4
