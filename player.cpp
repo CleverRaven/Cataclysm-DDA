@@ -1860,51 +1860,48 @@ void player::disp_status(WINDOW *w, game *g)
  else if (hunger < 0)
   mvwprintz(w, 2, 0, c_green,  "Full");
 
-// Print torso warmth
-int i = bp_torso;
+ // Print torso warmth
+ int i = bp_torso;
  if (temp_cur[i] > BODYTEMP_SCORCHING)
-  mvwprintz(w, 1, 9, c_red,   "%s: scorching!", body_part_name(body_part(i), -1).c_str());
+  mvwprintz(w, 1, 9, c_red,   "%s: scorching!", body_part_name_first_letter_uppercase(body_part(i), -1).c_str());
  else if (temp_cur[i] > BODYTEMP_VERY_HOT)
-  mvwprintz(w, 1, 9, c_ltred, "%s: hot!", body_part_name(body_part(i), -1).c_str());
+  mvwprintz(w, 1, 9, c_ltred, "%s: hot!", body_part_name_first_letter_uppercase(body_part(i), -1).c_str());
  else if (temp_cur[i] > BODYTEMP_HOT)
-  mvwprintz(w, 1, 9, c_yellow,"%s: hot", body_part_name(body_part(i), -1).c_str());
+  mvwprintz(w, 1, 9, c_yellow,"%s: hot", body_part_name_first_letter_uppercase(body_part(i), -1).c_str());
  else if (temp_cur[i] > BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
-  mvwprintz(w, 1, 9, c_green, "%s: comfortable", body_part_name(body_part(i), -1).c_str());
+  mvwprintz(w, 1, 9, c_green, "%s: comfortable", body_part_name_first_letter_uppercase(body_part(i), -1).c_str());
  else if (temp_cur[i] > BODYTEMP_VERY_COLD)
-  mvwprintz(w, 1, 9, c_ltblue,"%s: cold", body_part_name(body_part(i), -1).c_str());
+  mvwprintz(w, 1, 9, c_ltblue,"%s: cold", body_part_name_first_letter_uppercase(body_part(i), -1).c_str());
  else if (temp_cur[i] > BODYTEMP_FREEZING)
-  mvwprintz(w, 1, 9, c_cyan,  "%s: cold!", body_part_name(body_part(i), -1).c_str());
+  mvwprintz(w, 1, 9, c_cyan,  "%s: cold!", body_part_name_first_letter_uppercase(body_part(i), -1).c_str());
  else if (temp_cur[i] <= BODYTEMP_FREEZING)
-  mvwprintz(w, 1, 9, c_blue,  "%s: freezing!", body_part_name(body_part(i), -1).c_str());
-// Find an extremely hot/cold bodypart
-int min = 0, max = 0;
-for (int i = 0; i < num_bp ; i++ ){
- if      (temp_cur[i] > BODYTEMP_HOT  && temp_cur[i] > temp_cur[max]) max = i;
- else if (temp_cur[i] < BODYTEMP_COLD && temp_cur[i] < temp_cur[min]) min = i;
-}
-// Compare which is most extreme
-int print;
-if (temp_cur[max] - BODYTEMP_NORM > BODYTEMP_NORM + temp_cur[min]) print = max;
-else print = min;
-
-g->add_msg("print : %d", print);
-
-// Print a bodypart that is cold or hot
-if (print != 0) {// Don't reprint torso
- if (temp_cur[print] > BODYTEMP_SCORCHING)
-  mvwprintz(w, 1, 28, c_red,   "%s: scorching!", body_part_name(body_part(print), -1).c_str());
- else if (temp_cur[print] > BODYTEMP_VERY_HOT)
-  mvwprintz(w, 1, 28, c_ltred, "%s: hot!", body_part_name(body_part(print), -1).c_str());
- else if (temp_cur[print] > BODYTEMP_HOT)
-  mvwprintz(w, 1, 28, c_yellow,"%s: hot", body_part_name(body_part(print), -1).c_str());
- else if (temp_cur[print] > BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
-  mvwprintz(w, 1, 28, c_green, "%s: comfortable", body_part_name(body_part(print), -1).c_str());
- else if (temp_cur[print] > BODYTEMP_VERY_COLD)
-  mvwprintz(w, 1, 28, c_ltblue,"%s: cold", body_part_name(body_part(print), -1).c_str());
- else if (temp_cur[print] > BODYTEMP_FREEZING)
-  mvwprintz(w, 1, 28, c_cyan,  "%s: cold!", body_part_name(body_part(print), -1).c_str());
- else if (temp_cur[print] <= BODYTEMP_FREEZING)
-  mvwprintz(w, 1, 28, c_blue,  "%s: freezing!", body_part_name(body_part(print), -1).c_str());}
+  mvwprintz(w, 1, 9, c_blue,  "%s: freezing!", body_part_name_first_letter_uppercase(body_part(i), -1).c_str());
+ // Find an extremely hot/cold bodypart
+ int min = 0, max = 0;
+ for (int i = 0; i < num_bp ; i++ ){
+  if      (temp_cur[i] > BODYTEMP_HOT  && temp_cur[i] > temp_cur[max]) max = i;
+  else if (temp_cur[i] < BODYTEMP_COLD && temp_cur[i] < temp_cur[min]) min = i;
+ }
+ // Compare which is most extreme
+ int print;
+ if (temp_cur[max] - BODYTEMP_NORM > BODYTEMP_NORM + temp_cur[min]) print = max;
+ else print = min;
+ // Print a bodypart that is cold or hot
+ if (print != 0) {// Don't reprint torso
+  if (temp_cur[print] > BODYTEMP_SCORCHING)
+   mvwprintz(w, 1, 28, c_red,   "%s: scorching!", body_part_name_first_letter_uppercase(body_part(print), -1).c_str());
+  else if (temp_cur[print] > BODYTEMP_VERY_HOT)
+   mvwprintz(w, 1, 28, c_ltred, "%s: hot!", body_part_name_first_letter_uppercase(body_part(print), -1).c_str());
+  else if (temp_cur[print] > BODYTEMP_HOT)
+   mvwprintz(w, 1, 28, c_yellow,"%s: hot", body_part_name_first_letter_uppercase(body_part(print), -1).c_str());
+  else if (temp_cur[print] > BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
+   mvwprintz(w, 1, 28, c_green, "%s: comfortable", body_part_name_first_letter_uppercase(body_part(print), -1).c_str());
+  else if (temp_cur[print] > BODYTEMP_VERY_COLD)
+   mvwprintz(w, 1, 28, c_ltblue,"%s: cold", body_part_name_first_letter_uppercase(body_part(print), -1).c_str());
+  else if (temp_cur[print] > BODYTEMP_FREEZING)
+   mvwprintz(w, 1, 28, c_cyan,  "%s: cold!", body_part_name_first_letter_uppercase(body_part(print), -1).c_str());
+  else if (temp_cur[print] <= BODYTEMP_FREEZING)
+   mvwprintz(w, 1, 28, c_blue,  "%s: freezing!", body_part_name_first_letter_uppercase(body_part(print), -1).c_str());}
 
       if (thirst > 520)
   mvwprintz(w, 2, 15, c_ltred,  "Parched");

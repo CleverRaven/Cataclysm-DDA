@@ -41,6 +41,46 @@ std::string body_part_name (body_part bp, int side)
  }
 }
 
+std::string body_part_name_first_letter_uppercase(body_part bp, int side)
+{
+ switch (bp) {
+ case bp_head:
+  return "Head";
+ case bp_eyes:
+  return "Eyes";
+ case bp_mouth:
+  return "Mouth";
+ case bp_torso:
+  return "Torso";
+ case bp_arms:
+  if (side == 0)
+   return "Left arm";
+  if (side == 1)
+   return "Right arm";
+  return "Arms";
+ case bp_hands:
+  if (side == 0)
+   return "Left hand";
+  if (side == 1)
+   return "Right hand";
+  return "Hands";
+ case bp_legs:
+  if (side == 0)
+   return "Left leg";
+  if (side == 1)
+   return "Right leg";
+  return "Legs";
+ case bp_feet:
+  if (side == 0)
+   return "Left foot";
+  if (side == 1)
+   return "Right foot";
+  return "Feet";
+ default:
+  return "Appendix";
+ }
+}
+
 std::string encumb_text(body_part bp)
 {
  switch (bp) {
