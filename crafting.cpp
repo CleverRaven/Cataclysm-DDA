@@ -195,6 +195,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   RECIPE("revolver_shotgun", CC_WEAPON, "gun", "mechanics", 2, 6000, false);
   TOOL("hacksaw", -1);
   TOOLCONT("toolset", -1);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 30);
   TOOLCONT("toolset", 3);
   COMP("shotgun_s", 1);
@@ -1480,6 +1481,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("toolset", -1);
   TOOL("hammer", -1);
   TOOLCONT("toolset", -1);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 100);
   TOOLCONT("toolset", 10);
   TOOL("hacksaw", -1);
@@ -1503,6 +1505,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   RECIPE("muffler", CC_MISC, "mechanics", NULL, 1, 10000, true);
   TOOL("hammer", -1);
   TOOLCONT("toolset", -1);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 50);
   TOOLCONT("toolset", 5);
   TOOL("hacksaw", -1);
@@ -1511,6 +1514,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("sheet_metal",1);
 
   RECIPE("seat", CC_MISC, "mechanics", NULL, 1, 10000, true);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 50);
   TOOLCONT("toolset", 5);
   TOOL("sewing_kit", 50);
@@ -1539,6 +1543,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("toolset", -1);
   TOOL("hammer", -1);
   TOOLCONT("toolset", -1);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 50);
   TOOLCONT("toolset", 5);
   TOOL("hacksaw", -1);
@@ -1610,6 +1615,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMPCONT("ant_egg", 1);
 
   RECIPE("steel_lump", CC_MISC, "mechanics", NULL, 0, 5000, true);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 20);
   TOOLCONT("toolset", 1);
   COMP("steel_chunk", 4);
@@ -1619,21 +1625,25 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("stick", 1);
 
   RECIPE("frame", CC_MISC, "mechanics", NULL, 1, 8000, true);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 50);
   TOOLCONT("toolset", 2);
   COMP("steel_lump", 3);
 
   RECIPE("sheet_metal", CC_MISC, "mechanics", NULL, 2, 4000, true);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 20);
   TOOLCONT("toolset", 1);
   COMP("scrap", 4);
 
   RECIPE("steel_plate", CC_MISC, "mechanics", NULL,4, 12000, true);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 100);
   TOOLCONT("toolset", 4);
   COMP("steel_lump", 8);
 
   RECIPE("spiked_plate", CC_MISC, "mechanics", NULL, 4, 12000, true);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 120);
   TOOLCONT("toolset", 5);
   COMP("steel_lump", 8);
@@ -1641,6 +1651,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMPCONT("scrap", 8);
 
   RECIPE("hard_plate", CC_MISC, "mechanics", NULL, 4, 12000, true);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 300);
   TOOLCONT("toolset", 12);
   COMP("steel_lump", 24);
@@ -1731,6 +1742,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("hammer", -1);
   TOOLCONT("rock", -1);
   TOOLCONT("toolset", -1);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 50);
   TOOLCONT("toolset", 5);
   COMP("sheet_metal",2);
