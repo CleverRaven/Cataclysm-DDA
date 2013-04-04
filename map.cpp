@@ -770,11 +770,10 @@ bool map::displace_water (const int x, const int y)
     return false;
 }
 
-ter_id& map::ter(const int x, const int y)
+const ter_id& map::ter(const int x, const int y) const
 {
  if (!INBOUNDS(x, y)) {
-  nulter = t_null;
-  return nulter;	// Out-of-bounds - null terrain
+  return t_null;
  }
 /*
  int nonant;

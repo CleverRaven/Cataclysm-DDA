@@ -106,7 +106,7 @@ class map
  bool displace_water (const int x, const int y);
 
 // Terrain
- ter_id& ter(const int x, const int y); // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+ const ter_id& ter(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
  void ter_set(const int x, const int y, const ter_id new_terrain);
  bool is_indoor(const int x, const int y); // Check if current ter is indoors
  std::string tername(const int x, const int y); // Name of terrain at (x, y)
