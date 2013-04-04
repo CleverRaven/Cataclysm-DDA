@@ -1055,7 +1055,7 @@ MELEE("splinter", "splintered wood", 	60,  80,'/', c_ltred,	WOOD,	MNULL,
 A splintered piece of wood, useless as anything but kindling");
 
 MELEE("skewer", "skewer",                 10,  10,',', c_brown,   WOOD,   MNULL,
-         0,  1, 0,  0,  -10, 0, "\
+         0,  0, 0,  0,  -10, 0, "\
 A thin wooden skewer. Squirrel on a stick, anyone?");
 
 MELEE("crackpipe", "crack pipe",             37,  35, ',',c_ltcyan,  GLASS,  MNULL,

@@ -873,89 +873,104 @@ void iuse::sew(game *g, player *p, item *it, bool t)
 
 void iuse::scissors(game *g, player *p, item *it, bool t)
 {
- char ch = g->inv("Chop up what?");
- item* cut = &(p->i_at(ch));
- if (cut->type->id == "null") {
-  g->add_msg_if_player(p,"You do not have that item!");
-  return;
- }
- if (cut->type->id == "rag") {
-  g->add_msg_if_player(p,"There's no point in cutting a rag.");
-  return;
- }
- if (cut->made_of(COTTON)) {
- p->moves -= 25 * cut->volume();
- int count = cut->volume();
- if (p->skillLevel("tailor") == 0)
-  count = rng(0, count);
- else if (p->skillLevel("tailor") == 1 && count >= 2)
-  count -= rng(0, 2);
- if (dice(3, 3) > p->dex_cur)
-  count -= rng(1, 3);
+    char ch = g->inv("Chop up what?");
+    item* cut = &(p->i_at(ch));
+    if (cut->type->id == "null")
+    {
+        g->add_msg_if_player(p,"You do not have that item!");
+        return;
+    }
+    if (cut->type->id == "string_6" || cut->type->id == "string_36" || cut->type->id == "rope_30" || cut->type->id == "rope_6")
+    {
+        g->add_msg("You cannot cut that, you must disassemble it using the disassemble key");
+        return;
+    }
+    if (cut->type->id == "rag" || cut->type->id == "rag_bloody")
+    {
+        g->add_msg_if_player(p,"There's no point in cutting a rag.");
+        return;
+    }
+    if (cut->made_of(COTTON))
+    {
+        p->moves -= 25 * cut->volume();
+        int count = cut->volume();
+        if (p->skillLevel("tailor") == 0)
+        count = rng(0, count);
+        else if (p->skillLevel("tailor") == 1 && count >= 2)
+        count -= rng(0, 2);
+        if (dice(3, 3) > p->dex_cur)
+        count -= rng(1, 3);
 
- if (count <= 0) {
-  g->add_msg_if_player(p,"You clumsily cut the %s into useless ribbons.",
-             cut->tname().c_str());
-  p->i_rem(ch);
-  return;
- }
- g->add_msg_if_player(p,"You slice the %s into %d rag%s.", cut->tname().c_str(), count,
-            (count == 1 ? "" : "s"));
- item rag(g->itypes["rag"], int(g->turn), g->nextinv);
- p->i_rem(ch);
- bool drop = false;
- for (int i = 0; i < count; i++) {
-  int iter = 0;
-  while (p->has_item(rag.invlet) && iter < inv_chars.size()) {
-   rag.invlet = g->nextinv;
-   g->advance_nextinv();
-   iter++;
-  }
-  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-   drop = true;
-  if (drop)
-   g->m.add_item(p->posx, p->posy, rag);
-  else
-   p->i_add(rag, g);
-  }
-  return;
- }
- if (cut->made_of(LEATHER)) {
- p->moves -= 25 * cut->volume();
- int count = cut->volume();
- if (p->skillLevel("tailor") == 0)
-  count = rng(0, count);
- else if (p->skillLevel("tailor") == 1 && count >= 2)
-  count -= rng(0, 2);
- if (dice(3, 3) > p->dex_cur)
-  count -= rng(1, 3);
+        if (count <= 0)
+        {
+            g->add_msg_if_player(p,"You clumsily cut the %s into useless ribbons.",
+                                cut->tname().c_str());
+            p->i_rem(ch);
+            return;
+        }
+        g->add_msg_if_player(p,"You slice the %s into %d rag%s.", cut->tname().c_str(), count,
+                    (count == 1 ? "" : "s"));
+        item rag(g->itypes["rag"], int(g->turn), g->nextinv);
+        p->i_rem(ch);
+        bool drop = false;
+        for (int i = 0; i < count; i++)
+        {
+            int iter = 0;
+            while (p->has_item(rag.invlet) && iter < inv_chars.size())
+            {
+                rag.invlet = g->nextinv;
+                g->advance_nextinv();
+                iter++;
+            }
+            if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
+            drop = true;
+            if (drop)
+            g->m.add_item(p->posx, p->posy, rag);
+            else
+            p->i_add(rag, g);
+        }
+        return;
+    }
+    if (cut->made_of(LEATHER))
+    {
+        p->moves -= 25 * cut->volume();
+        int count = cut->volume();
+        if (p->skillLevel("tailor") == 0)
+        count = rng(0, count);
+        else if (p->skillLevel("tailor") == 1 && count >= 2)
+        count -= rng(0, 2);
+        if (dice(3, 3) > p->dex_cur)
+        count -= rng(1, 3);
 
- if (count <= 0) {
-  g->add_msg_if_player(p,"You clumsily cut the %s into useless scraps.",
-             cut->tname().c_str());
-  p->i_rem(ch);
-  return;
- }
- g->add_msg_if_player(p,"You slice the %s into %d piece%s of leather.", cut->tname().c_str(), count,
-            (count == 1 ? "" : "s"));
- item rag(g->itypes["leather"], int(g->turn), g->nextinv);
- p->i_rem(ch);
- bool drop = false;
- for (int i = 0; i < count; i++) {
-  int iter = 0;
-  while (p->has_item(rag.invlet) && iter < inv_chars.size()) {
-   rag.invlet = g->nextinv;
-   g->advance_nextinv();
-   iter++;
-  }
-  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-   drop = true;
-  if (drop)
-   g->m.add_item(p->posx, p->posy, rag);
-  else
-   p->i_add(rag, g);
-  }
- }
+        if (count <= 0)
+        {
+            g->add_msg_if_player(p,"You clumsily cut the %s into useless scraps.",
+                    cut->tname().c_str());
+            p->i_rem(ch);
+        return;
+        }
+        g->add_msg_if_player(p,"You slice the %s into %d piece%s of leather.", cut->tname().c_str(), count,
+                            (count == 1 ? "" : "s"));
+        item rag(g->itypes["leather"], int(g->turn), g->nextinv);
+        p->i_rem(ch);
+        bool drop = false;
+        for (int i = 0; i < count; i++)
+        {
+            int iter = 0;
+            while (p->has_item(rag.invlet) && iter < inv_chars.size())
+            {
+                rag.invlet = g->nextinv;
+                g->advance_nextinv();
+                iter++;
+            }
+            if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
+            drop = true;
+            if (drop)
+            g->m.add_item(p->posx, p->posy, rag);
+            else
+            p->i_add(rag, g);
+        }
+    }
 }
 
 void iuse::extinguisher(game *g, player *p, item *it, bool t)
@@ -2682,153 +2697,173 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
  it->put_in(blood);
 }
 
- void iuse::knife(game *g, player *p, item *it, bool t)
+void iuse::knife(game *g, player *p, item *it, bool t)
 {
- int ch = menu(
- "Using knife:", "Cut up fabric", "Carve wood", "Cauterize", "Cancel", NULL);
- switch (ch) {
-  if (ch == 4)
-  break;
+    int ch = menu(
+    "Using knife:", "Cut up fabric", "Carve wood", "Cauterize", "Cancel", NULL);
+    switch (ch)
+    {
+        if (ch == 4)
+        break;
+        case 1:
+        {
+            char ch = g->inv("Chop up what?");
+            item* cut = &(p->i_at(ch));
+            if (cut->type->id == "null")
+            {
+                g->add_msg("You do not have that item!");
+                return;
+            }
+            if (cut->type->id == "string_6" || cut->type->id == "string_36" || cut->type->id == "rope_30" || cut->type->id == "rope_6")
+            {
+                g->add_msg("You cannot cut that, you must disassemble it using the disassemble key");
+                return;
+            }
+            if (cut->type->id == "rag" || cut->type->id == "rag_bloody")
+            {
+                g->add_msg("There's no point in cutting a rag.");
+                return;
+            }
+            if (!cut->made_of(COTTON) && !cut->made_of(LEATHER))
+            {
+                g->add_msg("You can only slice items made of cotton or leather.");
+                return;
+            }
+            if (cut->made_of(COTTON))
+            {
+                p->moves -= 25 * cut->volume();
+                int count = cut->volume();
+                if (p->skillLevel("tailor") == 0)
+                count = rng(0, count);
+                else if (p->skillLevel("tailor") == 1 && count >= 2)
+                count -= rng(0, 2);
+                if (dice(3, 3) > p->dex_cur)
+                count -= rng(1, 3);
 
- case 1: {
- char ch = g->inv("Chop up what?");
- item* cut = &(p->i_at(ch));
- if (cut->type->id == "null") {
-  g->add_msg("You do not have that item!");
-  return;
- }
- if (cut->type->id == "string_6" || cut->type->id == "string_36" || cut->type->id == "rope_30" || cut->type->id == "rope_6") {
-    g->add_msg("You cannot cut that, you must disassemble it using the disassemble key");
-    return;
- }
- if (cut->type->id == "rag") {
-  g->add_msg("There's no point in cutting a rag.");
-  return;
- }
- if (!cut->made_of(COTTON) && !cut->made_of(LEATHER)) {
-  g->add_msg("You can only slice items made of cotton.");
-  return;
- }
-if (cut->made_of(COTTON)) {
- p->moves -= 25 * cut->volume();
- int count = cut->volume();
- if (p->skillLevel("tailor") == 0)
-  count = rng(0, count);
- else if (p->skillLevel("tailor") == 1 && count >= 2)
-  count -= rng(0, 2);
- if (dice(3, 3) > p->dex_cur)
-  count -= rng(1, 3);
+                if (count <= 0)
+                {
+                    g->add_msg("You clumsily cut the %s into useless ribbons.",
+                                cut->tname().c_str());
+                    p->i_rem(ch);
+                    return;
+                }
+                g->add_msg("You slice the %s into %d rag%s.", cut->tname().c_str(), count,
+                    (count == 1 ? "" : "s"));
+                item rag(g->itypes["rag"], int(g->turn), g->nextinv);
+                p->i_rem(ch);
+                bool drop = false;
+                for (int i = 0; i < count; i++)
+                {
+                    int iter = 0;
+                    while (p->has_item(rag.invlet) && iter < inv_chars.size())
+                    {
+                        rag.invlet = g->nextinv;
+                        g->advance_nextinv();
+                        iter++;
+                    }
+                    if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
+                    drop = true;
+                    if (drop)
+                    g->m.add_item(p->posx, p->posy, rag);
+                    else
+                    p->i_add(rag);
+                }
+                break;
+            }
+            if (cut->made_of(LEATHER))
+            {
+            p->moves -= 25 * cut->volume();
+            int count = cut->volume();
+            if (p->skillLevel("tailor") == 0)
+                count = rng(0, count);
+            else if (p->skillLevel("tailor") == 1 && count >= 2)
+                count -= rng(0, 2);
+            if (dice(3, 3) > p->dex_cur)
+                count -= rng(1, 3);
 
- if (count <= 0) {
-  g->add_msg("You clumsily cut the %s into useless ribbons.",
-             cut->tname().c_str());
-  p->i_rem(ch);
-  return;
- }
- g->add_msg("You slice the %s into %d rag%s.", cut->tname().c_str(), count,
-            (count == 1 ? "" : "s"));
- item rag(g->itypes["rag"], int(g->turn), g->nextinv);
- p->i_rem(ch);
- bool drop = false;
- for (int i = 0; i < count; i++) {
-  int iter = 0;
-  while (p->has_item(rag.invlet) && iter < inv_chars.size()) {
-   rag.invlet = g->nextinv;
-   g->advance_nextinv();
-   iter++;
-  }
-  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-   drop = true;
-  if (drop)
-   g->m.add_item(p->posx, p->posy, rag);
-  else
-   p->i_add(rag);
-  }
-  break;
- }
- if (cut->made_of(LEATHER)) {
- p->moves -= 25 * cut->volume();
- int count = cut->volume();
- if (p->skillLevel("tailor") == 0)
-  count = rng(0, count);
- else if (p->skillLevel("tailor") == 1 && count >= 2)
-  count -= rng(0, 2);
- if (dice(3, 3) > p->dex_cur)
-  count -= rng(1, 3);
-
- if (count <= 0) {
-  g->add_msg_if_player(p,"You clumsily cut the %s into useless scraps.",
-             cut->tname().c_str());
-  p->i_rem(ch);
-  return;
- }
- g->add_msg_if_player(p,"You slice the %s into %d piece%s of leather.", cut->tname().c_str(), count,
-            (count == 1 ? "" : "s"));
- item rag(g->itypes["leather"], int(g->turn), g->nextinv);
- p->i_rem(ch);
- bool drop = false;
- for (int i = 0; i < count; i++) {
-  int iter = 0;
-  while (p->has_item(rag.invlet) && iter < inv_chars.size()) {
-   rag.invlet = g->nextinv;
-   g->advance_nextinv();
-   iter++;
-  }
-  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-   drop = true;
-  if (drop)
-   g->m.add_item(p->posx, p->posy, rag);
-  else
-   p->i_add(rag, g);
-  }
-break;
- }
-}
-
-break;
-case 2:{
-char ch = g->inv("Chop up what?");
- item* cut = &(p->i_at(ch));
- if (cut->type->id == "null") {
-  g->add_msg("You do not have that item!");
-  return;
- }
- if (cut->type->id == "stick" || cut->type->id == "2x4") {
- g->add_msg("You carve several skewers from the wood.", cut->tname().c_str());
- int count = 8;
- g->m.spawn_item(p->posx, p->posy, g->itypes["splinter"], 0);
- item skewer(g->itypes["skewer"], int(g->turn), g->nextinv);
- p->i_rem(ch);
- bool drop = false;
- for (int i = 0; i < count; i++) {
-  int iter = 0;
-  while (p->has_item(skewer.invlet) && iter < inv_chars.size()) {
-   skewer.invlet = g->nextinv;
-   g->advance_nextinv();
-   iter++;
-  }
-  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-   drop = true;
-  if (drop)
-   g->m.add_item(p->posx, p->posy, skewer);
-  else
-   p->i_add(skewer);
-  }
-} else { g->add_msg("You can't carve that up!");
-  }
- }
-break;
-
-case 3:{
- if (!p->has_charges("lighter", 1))
-  g->add_msg_if_player(p,"You need a lighter before you can cauterize yourself.");
- else {
-  p->use_charges("lighter", 1);
-  p->cauterize(g);
- }
-break;
- }
- }
+            if (count <= 0)
+            {
+                g->add_msg_if_player(p,"You clumsily cut the %s into useless scraps.",
+                            cut->tname().c_str());
+                p->i_rem(ch);
+                return;
+            }
+            g->add_msg_if_player(p,"You slice the %s into %d piece%s of leather.", cut->tname().c_str(), count,
+                                (count == 1 ? "" : "s"));
+            item rag(g->itypes["leather"], int(g->turn), g->nextinv);
+            p->i_rem(ch);
+            bool drop = false;
+            for (int i = 0; i < count; i++)
+            {
+                int iter = 0;
+                while (p->has_item(rag.invlet) && iter < inv_chars.size())
+                {
+                    rag.invlet = g->nextinv;
+                    g->advance_nextinv();
+                    iter++;
+                }
+                if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
+                drop = true;
+                if (drop)
+                    g->m.add_item(p->posx, p->posy, rag);
+                else
+                    p->i_add(rag, g);
+                }
+                break;
+            }
+        }
+        break;
+        case 2:
+        {
+            char ch = g->inv("Chop up what?");
+            item* cut = &(p->i_at(ch));
+            if (cut->type->id == "null")
+            {
+                g->add_msg("You do not have that item!");
+                return;
+            }
+            if (cut->type->id == "stick" || cut->type->id == "2x4")
+            {
+                g->add_msg("You carve several skewers from the %s.", cut->tname().c_str());
+                int count = 12;
+                item skewer(g->itypes["skewer"], int(g->turn), g->nextinv);
+                p->i_rem(ch);
+                bool drop = false;
+                for (int i = 0; i < count; i++)
+                {
+                    int iter = 0;
+                    while (p->has_item(skewer.invlet) && iter < inv_chars.size())
+                    {
+                        skewer.invlet = g->nextinv;
+                        g->advance_nextinv();
+                        iter++;
+                    }
+                    if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
+                    drop = true;
+                    if (drop)
+                    g->m.add_item(p->posx, p->posy, skewer);
+                    else
+                    p->i_add(skewer);
+                }
+            }
+            else
+            {
+                g->add_msg("You can't carve that up!");
+            }
+        }
+        break;
+        case 3:
+        {
+            if (!p->has_charges("lighter", 4))
+            g->add_msg_if_player(p,"You need a lighter with 4 charges before you can cauterize yourself.");
+            else
+            {
+                p->use_charges("lighter", 4);
+                p->cauterize(g);
+            }
+            break;
+        }
+    }
 }
 
 void iuse::lumber(game *g, player *p, item *it, bool t)
