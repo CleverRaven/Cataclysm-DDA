@@ -16,7 +16,6 @@ enum body_part {
 };
 
 std::string body_part_name(body_part bp, int side);
-std::string body_part_name_first_letter_uppercase(body_part bp, int side);
 std::string encumb_text(body_part bp);
 
 body_part random_body_part();
