@@ -34,6 +34,7 @@ private:
     std::map<item_tag, tag_list> m_template_groups;
 
     //json data handlers
+    void load_item_templates();
     void load_item_templates_from(const std::string file_name);
     item_tag string_from_json(item_tag new_id, item_tag index, picojson::value::object value_map);
     char char_from_json(item_tag new_id, item_tag index, picojson::value::object value_map);

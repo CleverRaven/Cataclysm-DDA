@@ -14,7 +14,7 @@ Item_manager::Item_manager(){
     m_missing_item->name = "Error: Item Missing";
     m_missing_item->description = "Error: No item template of this type.";
     m_templates["MISSING_ITEM"]=m_missing_item;
-    load_item_templates_from("data/raw/items/instruments.json");
+    load_item_templates();
 }
 
 void Item_manager::init(){
@@ -111,6 +111,10 @@ const item_tag Item_manager::random_id(const item_tag group_tag){
 // DATA FILE READING //
 ///////////////////////
 
+void Item_manager::load_item_templates(){
+    load_item_templates_from("data/raw/items/instruments.json");
+}
+
 // Load values from this data file into m_templates
 // TODO: Consider appropriate location for this code. Is this really where it belongs?
 //       At the very least, it seems the json blah_from methods could be used elsewhere
@@ -182,7 +186,7 @@ item_tag Item_manager::string_from_json(item_tag new_id, item_tag index, picojso
         if(value_pair->second.is<std::string>()){
             return value_pair->second.get<std::string>();
         } else {
-            std::cerr << "Item "<< new_id << " attribute name was skipped, not a string." << std::endl;
+            std::cerr << "Item "<< new_id << " attribute " << index << "was skipped, not a string." << std::endl;
             return "Error: Unknown Value";
         }
     }
@@ -190,8 +194,12 @@ item_tag Item_manager::string_from_json(item_tag new_id, item_tag index, picojso
 
 //Grab character, with appropriate error handling
 char Item_manager::char_from_json(item_tag new_id, item_tag index, picojson::value::object value_map){
-    //TODO: finish this
-    return 'X';
+    std::string symbol = string_from_json(new_id, index, value_map);
+    if(symbol == ""){
+        std::cerr << "Item "<< new_id << " attribute  " << "was skipped, empty string not allowed." << std::endl;
+        return 'X';
+    }
+    return symbol[0];
 }
 
 //Grab int, with appropriate error handling
