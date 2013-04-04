@@ -248,6 +248,15 @@ End of cheatery */
   } else {
    inv.push_back(tmp);
   }
+
+  // if we start with drugs, need to start strongly addicted, too
+  if (tmp.is_food()) {
+   it_comest *comest = dynamic_cast<it_comest*>(tmp.type);
+   if (comest->add != ADD_NULL) {
+    addiction add(comest->add, 10);
+    g->u.addictions.push_back(add);
+   }
+  }
  }
 
 // The near-sighted get to start with glasses.
