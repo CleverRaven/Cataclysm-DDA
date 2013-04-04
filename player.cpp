@@ -4760,19 +4760,11 @@ hint_rating player::rate_action_reload(item *it) {
     return HINT_IFFY;
    }
   }
-  int index = it->pick_reload_ammo(*this, true);
-  if (index == -1) {
-   return HINT_IFFY;
-  }
   return HINT_GOOD;
  } else if (it->is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(it->type);
   if (tool->ammo == AT_NULL) {
    return HINT_CANT;
-  }
-  int index = it->pick_reload_ammo(*this, true);
-  if (index == -1) {
-   return HINT_IFFY;
   }
   return HINT_GOOD;
  }
