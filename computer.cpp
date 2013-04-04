@@ -467,7 +467,7 @@ void computer::activate_function(game *g, computer_action action)
    for (int i = 0; i < names.size(); i++)
     print_line(names[i].c_str());
    if (more > 0)
-    print_line("%d OTHERS FOUND...");
+    print_line("%d OTHERS FOUND...", more);
   } break;
 
   case COMPACT_ELEVATOR_ON:
