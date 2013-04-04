@@ -1049,7 +1049,7 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
         case t_fence_v:
         nails = 6;
         boards = 3;
-        mewter = t_fence_post;
+        newter = t_fence_post;
         break;
 
         case t_window_boarded:
