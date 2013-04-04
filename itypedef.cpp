@@ -1868,10 +1868,10 @@ A large pair of goggles that completely seal off your eyes. Excellent\n\
 protection from environmental dangers.");
 
 //     NAME		RAR PRC	COLOR		MAT1		MAT2
-ARMOR("goggles_welding", "welding goggles", 8, 240,C_EYES,		GLASS,  	STEEL,
+ARMOR("goggles_welding", "welding goggles", 40, 240,C_EYES,		GLASS,  	STEEL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
     2,  4, -1, -3,  6,  2,  5,  6,  10,  0,	mfb(bp_eyes), "\
-A dark pair of goggles. They make seeing very difficult, but protects you\n\
+A dark pair of goggles. They make seeing very difficult, but protect you\n\
 from bright flashes.");
 
 ARMOR("goggles_nv", "light amp goggles",1,920,C_EYES,		STEEL,		GLASS,
