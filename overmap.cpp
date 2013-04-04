@@ -1744,20 +1744,28 @@ void overmap::build_tunnel(int x, int y, int z, int s, int dir)
 
 bool overmap::build_slimepit(int x, int y, int z, int s)
 {
-	bool requires_sub = false;
- for (int n = 1; n <= s; n++) {
-  for (int i = x - n; i <= x + n; i++) {
-   for (int j = y - n; j <= y + n; j++) {
-    if (rng(1, s * 2) >= n)
-    	if (one_in(8)) {
-    		ter(i, j, z) = ot_slimepit_down;
-    		requires_sub = true;
-    	} else
-      ter(i, j, z) = ot_slimepit;
+    bool requires_sub = false;
+    for (int n = 1; n <= s; n++)
+    {
+        for (int i = x - n; i <= x + n; i++)
+        {
+            for (int j = y - n; j <= y + n; j++)
+            {
+                if (rng(1, s * 2) >= n)
+                {
+                    if (one_in(8))
+                    {
+                        ter(i, j, z) = ot_slimepit_down;
+                        requires_sub = true;
+                    } else {
+                        ter(i, j, z) = ot_slimepit;
+                    }
+                }
+            }
+        }
     }
-   }
- }
- return requires_sub;
+
+    return requires_sub;
 }
 
 void overmap::build_mine(int x, int y, int z, int s)

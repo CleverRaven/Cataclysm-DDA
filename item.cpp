@@ -1770,10 +1770,16 @@ bool item::reload(player &u, int index)
    }
   }
   if (ammo_to_use->charges == 0)
-   if (u.inv[index].is_container())
-     u.inv[index].contents.erase(u.inv[index].contents.begin());
-   else
-    u.i_remn(index);
+  {
+      if (u.inv[index].is_container())
+      {
+          u.inv[index].contents.erase(u.inv[index].contents.begin());
+      }
+      else
+      {
+          u.i_remn(index);
+      }
+  }
   return true;
  } else
   return false;
