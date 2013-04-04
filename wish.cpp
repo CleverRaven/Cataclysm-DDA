@@ -11,7 +11,7 @@ void game::wish()
  WINDOW* w_info = newwin(25, 50, 0, 30);
  int a = 0, shift = 0, result_selected = 0;
  int ch = '.';
- bool search = false, found = false;
+ bool search = false;
  std::string pattern;
  std::string info;
  std::vector<int> search_results;
@@ -22,10 +22,8 @@ void game::wish()
   werase(w_list);
   mvwprintw(w_list, 0, 0, "Wish for a: ");
   if (search) {
-   found = false;
    if (ch == '\n') {
     search = false;
-    found = true;
     ch = '.';
    } else if (ch == KEY_BACKSPACE || ch == 127) {
     if (pattern.length() > 0)
@@ -71,7 +69,6 @@ void game::wish()
        a = shift + 23 - standard_itype_ids.size();
        shift = standard_itype_ids.size() - 23;
       }
-      found = true;
       search_results.push_back(i);
      }
     }
@@ -87,7 +84,6 @@ void game::wish()
    if (ch == '/') {
     search = true;
     pattern =  "";
-    found = false;
     search_results.clear();
    }
    if (ch == '>' && !search_results.empty()) {
@@ -171,7 +167,7 @@ void game::monster_wish()
  WINDOW* w_info = newwin(25, 50, 0, 30);
  int a = 0, shift = 1, result_selected = 0;
  int ch = '.';
- bool search = false, found = false, friendly = false;
+ bool search = false, friendly = false;
  std::string pattern;
  std::string info;
  std::vector<int> search_results;
@@ -181,10 +177,8 @@ void game::monster_wish()
   werase(w_list);
   mvwprintw(w_list, 0, 0, "Spawn a: ");
   if (search) {
-   found = false;
    if (ch == '\n') {
     search = false;
-    found = true;
     ch = '.';
    } else if (ch == KEY_BACKSPACE || ch == 127) {
     if (pattern.length() > 0)
@@ -230,7 +224,6 @@ void game::monster_wish()
        a = shift + 23 - mtypes.size();
        shift = mtypes.size() - 23;
       }
-      found = true;
       search_results.push_back(i);
      }
     }
@@ -243,7 +236,6 @@ void game::monster_wish()
    if (ch == '/') {
     search = true;
     pattern =  "";
-    found = false;
     search_results.clear();
    }
    if (ch == '>' && !search_results.empty()) {
@@ -318,7 +310,7 @@ void game::mutation_wish()
  WINDOW* w_info = newwin(25, 50, 0, 30);
  int a = 0, shift = 0, result_selected = 0;
  int ch = '.';
- bool search = false, found = false;
+ bool search = false;
  std::string pattern;
  std::string info;
  std::vector<int> search_results;
@@ -327,10 +319,8 @@ void game::mutation_wish()
   werase(w_list);
   mvwprintw(w_list, 0, 0, "Mutate: ");
   if (search) {
-   found = false;
    if (ch == '\n') {
     search = false;
-    found = true;
     ch = '.';
    } else if (ch == KEY_BACKSPACE || ch == 127) {
     if (pattern.length() > 0)
@@ -376,7 +366,6 @@ void game::mutation_wish()
        a = shift + 23 - PF_MAX2;
        shift = PF_MAX2 - 23;
       }
-      found = true;
       search_results.push_back(i);
      }
     }
@@ -392,7 +381,6 @@ void game::mutation_wish()
    if (ch == '/') {
     search = true;
     pattern =  "";
-    found = false;
     search_results.clear();
    }
    if (ch == '>' && !search_results.empty()) {
