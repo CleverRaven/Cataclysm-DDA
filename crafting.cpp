@@ -2353,8 +2353,6 @@ void game::pick_recipes(std::vector<recipe*> &current,
 {
     inventory crafting_inv = crafting_inventory();
 
-    bool have_tool[5], have_comp[5];
-
     current.clear();
     available.clear();
     for (int i = 0; i < recipes.size(); i++)

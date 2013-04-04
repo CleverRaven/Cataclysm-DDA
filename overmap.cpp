@@ -2586,7 +2586,7 @@ void overmap::open(game *g)
  std::string const terfilename = terrain_filename(loc.x, loc.y);
  std::ifstream fin;
  char datatype;
- int ct, cx, cy, cz, cs, cp, cd;
+ int cx, cy, cz, cs, cp, cd;
  std::string cstr;
  city tmp;
  std::vector<item> npc_inventory;

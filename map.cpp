@@ -2490,8 +2490,6 @@ computer* map::computer_at(const int x, const int y)
 */
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
- const int lx = x % SEEX;
- const int ly = y % SEEY;
  if (grid[nonant]->comp.name == "")
   return NULL;
  return &(grid[nonant]->comp);
