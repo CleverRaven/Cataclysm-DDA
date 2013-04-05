@@ -489,7 +489,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
 
  } else if (is_armor()) {
   it_armor* armor = dynamic_cast<it_armor*>(type);
-
+  
   temp1.str("");
   temp1 << " Covers: ";
   if (armor->covers & mfb(bp_head))
@@ -511,7 +511,15 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
 
   dump->push_back(iteminfo("ARMOR", temp1.str()));
 
-  dump->push_back(iteminfo("ARMOR", " Encumberment: ", "", int(armor->encumber), "", true, true));
+    if (has_flag(IF_FIT))
+    {
+        dump->push_back(iteminfo("ARMOR", " Encumberment: ", "", int(armor->encumber) - 1, " (fits)", true, true));
+    }
+    else
+    {
+        dump->push_back(iteminfo("ARMOR", " Encumberment: ", "", int(armor->encumber), "", true, true));
+    }
+
   dump->push_back(iteminfo("ARMOR", " Bashing protection: ", "", int(armor->dmg_resist)));
   dump->push_back(iteminfo("ARMOR", " Cut protection: ", "", int(armor->cut_resist)));
   dump->push_back(iteminfo("ARMOR", " Environmental protection: ", "", int(armor->env_resist)));
@@ -555,6 +563,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
 
  if ( showtext && !is_null() ) {
   dump->push_back(iteminfo("DESCRIPTION", type->description));
+    if (is_armor() && has_flag(IF_FIT))
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", "This piece of clothing fits you perfectly."));
+    }  
   if (contents.size() > 0) {
    if (is_gun()) {
     for (int i = 0; i < contents.size(); i++)

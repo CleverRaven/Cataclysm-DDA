@@ -244,6 +244,8 @@ End of cheatery */
  for (std::vector<std::string>::const_iterator iter = prof_items.begin(); iter != prof_items.end(); ++iter) {
   item tmp = item(g->itypes.at(*iter), 0, 'a' + worn.size());
   if (tmp.is_armor()) {
+   if (tmp.has_flag(IF_VARSIZE))
+    tmp.item_flags |= mfb(IF_FIT);      
    worn.push_back(tmp);
   } else {
    inv.push_back(tmp);
