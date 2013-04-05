@@ -190,7 +190,7 @@ void mission_start::place_npc_software(game *g, mission *miss)
 
  std::stringstream compname;
  compname << dev->name << "'s Terminal";
- compmap.ter(comppoint.x, comppoint.y) = t_console;
+ compmap.ter_set(comppoint.x, comppoint.y, t_console);
  computer *tmpcomp = compmap.add_computer(comppoint.x, comppoint.y,
                                           compname.str(), 0);
  tmpcomp->mission_id = miss->uid;

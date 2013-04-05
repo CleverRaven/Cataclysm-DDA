@@ -612,7 +612,7 @@ void monster::move_to(game *g, int x, int y)
   }
 // Diggers turn the dirt into dirtmound
   if (has_flag(MF_DIGS))
-   g->m.ter(posx, posy) = t_dirtmound;
+   g->m.ter_set(posx, posy, t_dirtmound);
 // Acid trail monsters leave... a trail of acid
   if (has_flag(MF_ACIDTRAIL))
    g->m.add_field(g, posx, posy, fd_acid, 1);

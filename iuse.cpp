@@ -1072,7 +1072,7 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
     p->moves -= 500;
     g->m.spawn_item(p->posx, p->posy, g->itypes["nail"], 0, 0, nails);
     g->m.spawn_item(p->posx, p->posy, g->itypes["2x4"], 0, boards);
-    g->m.ter(dirx, diry) = newter;
+    g->m.ter_set(dirx, diry, newter);
 }
 
 void iuse::light_off(game *g, player *p, item *it, bool t)
@@ -1395,7 +1395,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  if (dice(4, 6) < dice(2, p->skillLevel("mechanics")) + dice(2, p->dex_cur) - it->damage / 2) {
   p->practice("mechanics", 1);
   g->add_msg_if_player(p,"With a satisfying click, the lock on the %s opens.", door_name);
-  g->m.ter(dirx, diry) = new_type;
+  g->m.ter_set(dirx, diry, new_type);
  } else if (dice(4, 4) < dice(2, p->skillLevel("mechanics")) +
                          dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
   it->damage++;
@@ -1500,7 +1500,7 @@ if (dirx == 0 && diry == 0) {
   p->moves -= 500;
   g->m.spawn_item(p->posx, p->posy, g->itypes["nail"], 0, 0, nails);
   g->m.spawn_item(p->posx, p->posy, g->itypes["2x4"], 0, boards);
-  g->m.ter(dirx, diry) = newter;
+  g->m.ter_set(dirx, diry, newter);
   return;
  }
 
@@ -1509,7 +1509,7 @@ if (dirx == 0 && diry == 0) {
  if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
   p->practice("mechanics", 1);
   g->add_msg_if_player(p,"You %s the %s.", action_name, door_name);
-  g->m.ter(dirx, diry) = new_type;
+  g->m.ter_set(dirx, diry, new_type);
   if (noisy)
    g->sound(dirx, diry, 8, "crunch!");
   if ( type == t_door_locked_alarm ) {
@@ -1524,7 +1524,7 @@ if (dirx == 0 && diry == 0) {
    if (dice(4, difficulty) > dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
     g->add_msg_if_player(p,"You break the glass.");
     g->sound(dirx, diry, 16, "glass breaking!");
-    g->m.ter(dirx, diry) = t_window_frame;
+    g->m.ter_set(dirx, diry, t_window_frame);
     return;
    }
   }
@@ -1537,7 +1537,7 @@ void iuse::makemound(game *g, player *p, item *it, bool t)
  if (g->m.has_flag(diggable, p->posx, p->posy)) {
   g->add_msg_if_player(p,"You churn up the earth here.");
   p->moves = -300;
-  g->m.ter(p->posx, p->posy) = t_dirtmound;
+  g->m.ter_set(p->posx, p->posy, t_dirtmound);
  } else
   g->add_msg_if_player(p,"You can't churn up this ground.");
 }
@@ -2959,25 +2959,25 @@ if (dirx == 0 && diry == 0) {
  diry += p->posy;
  if (g->m.ter(dirx, diry) == t_chainfence_v || g->m.ter(dirx, diry) == t_chainfence_h) {
   p->moves -= 500;
-  g->m.ter(dirx, diry) = t_pavement;
+  g->m.ter_set(dirx, diry, t_pavement);
   g->sound(dirx, diry, 15,"grnd grnd grnd");
   g->m.spawn_item(dirx, diry, g->itypes["pipe"], 0, 6);
   g->m.spawn_item(dirx, diry, g->itypes["wire"], 0, 20);
  } else if (g->m.ter(dirx, diry) == t_rack) {
   p->moves -= 500;
-  g->m.ter(dirx, diry) = t_floor;
+  g->m.ter_set(dirx, diry, t_floor);
   g->sound(dirx, diry, 15,"grnd grnd grnd");
   g->m.spawn_item(p->posx, p->posy, g->itypes["pipe"], 0, rng(1, 3));
   g->m.spawn_item(p->posx, p->posy, g->itypes["steel_chunk"], 0);
  } else if (g->m.ter(dirx, diry) == t_bars &&
             (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
              g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage)) {
-  g->m.ter(dirx, diry) = t_sewage;
+  g->m.ter_set(dirx, diry, t_sewage);
   p->moves -= 1000;
   g->sound(dirx, diry, 15,"grnd grnd grnd");
   g->m.spawn_item(p->posx, p->posy, g->itypes["pipe"], 0, 3);
  } else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(p->posx, p->posy)) {
-  g->m.ter(dirx, diry) = t_floor;
+  g->m.ter_set(dirx, diry, t_floor);
   p->moves -= 500;
   g->sound(dirx, diry, 15,"grnd grnd grnd");
   g->m.spawn_item(p->posx, p->posy, g->itypes["pipe"], 0, 3);
@@ -3008,9 +3008,9 @@ void iuse::tent(game *g, player *p, item *it, bool t)
    }
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-    g->m.ter(posx + i, posy + j) = t_canvas_wall;
- g->m.ter(posx, posy) = t_groundsheet;
- g->m.ter(posx - dirx, posy - diry) = t_canvas_door;
+    g->m.ter_set(posx + i, posy + j, t_canvas_wall);
+ g->m.ter_set(posx, posy, t_groundsheet);
+ g->m.ter_set(posx - dirx, posy - diry, t_canvas_door);
  it->invlet = 0;
 }
 
@@ -3036,9 +3036,9 @@ void iuse::shelter(game *g, player *p, item *it, bool t)
    }
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-    g->m.ter(posx + i, posy + j) = t_skin_wall;
- g->m.ter(posx, posy) = t_skin_groundsheet;
- g->m.ter(posx - dirx, posy - diry) = t_skin_door;
+    g->m.ter_set(posx + i, posy + j, t_skin_wall);
+ g->m.ter_set(posx, posy, t_skin_groundsheet);
+ g->m.ter_set(posx - dirx, posy - diry, t_skin_door);
  it->invlet = 0;
 }
 
@@ -3367,12 +3367,12 @@ if (dirx == 0 && diry == 0) {
 
  if (g->m.ter(dirx, diry) == t_chaingate_l) {
   p->moves -= 100;
-  g->m.ter(dirx, diry) = t_chaingate_c;
+  g->m.ter_set(dirx, diry, t_chaingate_c);
   g->sound(dirx, diry, 5, "Gachunk!");
   g->m.spawn_item(p->posx, p->posy, g->itypes["scrap"], 0, 3);
  } else if (g->m.ter(dirx, diry) == t_chainfence_v || g->m.ter(dirx, diry) == t_chainfence_h) {
   p->moves -= 500;
-  g->m.ter(dirx, diry) = t_chainfence_posts;
+  g->m.ter_set(dirx, diry, t_chainfence_posts);
   g->sound(dirx, diry, 5,"Snick, snick, gachunk!");
   g->m.spawn_item(dirx, diry, g->itypes["wire"], 0, 20);
  } else {
@@ -3632,7 +3632,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
      g->m.bash(x, y, 40, junk);  // Multibash effect, so that doors &c will fall
      g->m.bash(x, y, 40, junk);
      if (g->m.is_destructable(x, y) && rng(1, 10) >= 3)
-      g->m.ter(x, y) = t_rubble;
+      g->m.ter_set(x, y, t_rubble);
     }
    }
    break;

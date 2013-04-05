@@ -493,7 +493,7 @@ void game::process_activity()
      for(int j = -1; j <= 1; j++)
       if(m.ter(u.posx + i, u.posy + j) == t_gas_pump) {
        add_msg("With a clang and a shudder, the gas pump goes silent.");
-       m.ter(u.posx + i, u.posy + j) = t_gas_pump_empty;
+       m.ter_set(u.posx + i, u.posy + j, t_gas_pump_empty);
        u.activity.moves_left = 0;
        // Found it, break out of the loop.
        i = 2;
@@ -3867,7 +3867,7 @@ void game::emp_blast(int x, int y)
  int rn;
  if (m.has_flag(console, x, y)) {
   add_msg("The %s is rendered non-functional!", m.tername(x, y).c_str());
-  m.ter(x, y) = t_console_broken;
+  m.ter_set(x, y, t_console_broken);
   return;
  }
 // TODO: More terrain effects.
@@ -3877,14 +3877,14 @@ void game::emp_blast(int x, int y)
   rn = rng(1, 100);
   if (rn > 92 || rn < 40) {
    add_msg("The card reader is rendered non-functional.");
-   m.ter(x, y) = t_card_reader_broken;
+   m.ter_set(x, y, t_card_reader_broken);
   }
   if (rn > 80) {
    add_msg("The nearby doors slide open!");
    for (int i = -3; i <= 3; i++) {
     for (int j = -3; j <= 3; j++) {
      if (m.ter(x + i, y + j) == t_door_metal_locked)
-      m.ter(x + i, y + j) = t_floor;
+      m.ter_set(x + i, y + j, t_floor);
     }
    }
   }
@@ -4475,7 +4475,7 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
      if (g->m.ter(examx-1, examy+y_offst) == floor_type) x_incr = -1;
      int cur_x = examx+x_incr;
      while (g->m.ter(cur_x, examy+y_offst)== floor_type) {
-       g->m.ter(cur_x, examy+y_offst) = door_type;
+       g->m.ter_set(cur_x, examy+y_offst, door_type);
        cur_x = cur_x+x_incr;
      }
      //vertical orientation of the gate
@@ -4488,7 +4488,7 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
      if (g->m.ter(examx+x_offst, examy+1)== floor_type) y_incr = 1;
      int cur_y = examy+y_incr;
      while (g->m.ter(examx+x_offst, cur_y)==floor_type) {
-       g->m.ter(examx+x_offst, cur_y) = door_type;
+       g->m.ter_set(examx+x_offst, cur_y, door_type);
        cur_y = cur_y+y_incr;
      }
    }
@@ -4510,7 +4510,7 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
      if (g->m.ter(examx-1, examy+y_offst) == floor_type) x_incr = -1;
      int cur_x = examx+x_incr;
      while (g->m.ter(cur_x, examy+y_offst)== floor_type) {
-       g->m.ter(cur_x, examy+y_offst) = door_type;
+       g->m.ter_set(cur_x, examy+y_offst, door_type);
        cur_x = cur_x+x_incr;
      }
  //vertical orientation of the gate
@@ -4523,7 +4523,7 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
      if (g->m.ter(examx+x_offst, examy+1)== floor_type) y_incr = 1;
      int cur_y = examy+y_incr;
      while (g->m.ter(examx+x_offst, cur_y)==floor_type) {
-       g->m.ter(examx+x_offst, cur_y) = door_type;
+       g->m.ter_set(examx+x_offst, cur_y, door_type);
        cur_y = cur_y+y_incr;
      }
    }
@@ -4543,7 +4543,7 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
      if (g->m.ter(examx-1, examy+y_offst) == door_type) x_incr = -1;
      int cur_x = examx+x_incr;
      while (g->m.ter(cur_x, examy+y_offst)==door_type) {
-       g->m.ter(cur_x, examy+y_offst) = floor_type;
+       g->m.ter_set(cur_x, examy+y_offst, floor_type);
        cur_x = cur_x+x_incr;
      }
      //vertical orientation of the gate
@@ -4556,7 +4556,7 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
      if (g->m.ter(examx+x_offst, examy+1)== door_type) y_incr = 1;
      int cur_y = examy+y_incr;
      while (g->m.ter(examx+x_offst, cur_y)==door_type) {
-       g->m.ter(examx+x_offst, cur_y) = floor_type;
+       g->m.ter_set(examx+x_offst, cur_y, floor_type);
        cur_y = cur_y+y_incr;
      }
    }
@@ -6251,13 +6251,13 @@ void game::forage()
     add_msg("You found some wild veggies!");
     u.practice("survival", 10);
     m.spawn_item(u.activity.placement.x, u.activity.placement.y, this->itypes["veggy_wild"], turn, 0);
-    m.ter(u.activity.placement.x, u.activity.placement.y) = t_dirt;
+    m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
   }
   else
   {
     add_msg("You didn't find anything.");
     if (!one_in(u.skillLevel("survival")))
-    m.ter(u.activity.placement.x, u.activity.placement.y) = t_dirt;
+    m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
   }
 }
 
@@ -6268,7 +6268,7 @@ void game::eat(char chInput)
      query_yn("Eat underbrush?")) {
   u.moves -= 400;
   u.hunger -= 10;
-  m.ter(u.posx, u.posy) = t_grass;
+  m.ter_set(u.posx, u.posy, t_grass);
   add_msg("You eat the underbrush.");
   return;
  }
@@ -7284,11 +7284,11 @@ void game::vertical_move(int movez, bool force)
  u.posx = stairx;
  u.posy = stairy;
  if (rope_ladder)
-  m.ter(u.posx, u.posy) = t_rope_up;
+  m.ter_set(u.posx, u.posy, t_rope_up);
  if (m.ter(stairx, stairy) == t_manhole_cover) {
   m.spawn_item(stairx + rng(-1, 1), stairy + rng(-1, 1),
              itypes["manhole_cover"], 0);
-  m.ter(stairx, stairy) = t_manhole;
+  m.ter_set(stairx, stairy, t_manhole);
  }
 
  if (replace_monsters)
@@ -7992,7 +7992,7 @@ void game::nuke(int x, int y)
  for (int i = 0; i < SEEX * 2; i++) {
   for (int j = 0; j < SEEY * 2; j++) {
    if (!one_in(10))
-    tmpmap.ter(i, j) = t_rubble;
+    tmpmap.ter_set(i, j, t_rubble);
    if (one_in(3))
     tmpmap.add_field(NULL, i, j, fd_nuke_gas, 3);
    tmpmap.radiation(i, j) += rng(20, 80);

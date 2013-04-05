@@ -112,12 +112,15 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOL("hatchet", -1);
   TG_KNIVES_CONT
   TOOL("fire", -1);
+  TOOLCONT("toolset", 1);
+  TOOLCONT("hotplate", 4);
   COMP("spear_wood", 1);
   COMP("rag", 1);
   COMPCONT("leather", 1);
   COMPCONT("fur", 1);
   COMP("plant_fibre", 20);
   COMPCONT("sinew", 20);
+  COMPCONT("thread", 20);
 
   RECIPE("spear_knife", CC_WEAPON, "stabbing", NULL, 0, 600, true);
   COMP("stick", 1);
