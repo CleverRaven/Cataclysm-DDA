@@ -336,9 +336,9 @@ void mattack::growplants(game *g, monster *z)
    if (i == 0 && j == 0)
     j++;
    if (!g->m.has_flag(diggable, z->posx + i, z->posy + j) && one_in(4))
-    g->m.ter(z->posx + i, z->posy + j) = t_dirt;
+    g->m.ter_set(z->posx + i, z->posy + j, t_dirt);
    else if (one_in(3) && g->m.is_destructable(z->posx + i, z->posy + j))
-    g->m.ter(z->posx + i, z->posy + j) = t_dirtmound; // Destroy walls, &c
+    g->m.ter_set(z->posx + i, z->posy + j, t_dirtmound); // Destroy walls, &c
    else {
     if (one_in(4)) {	// 1 in 4 chance to grow a tree
      int mondex = g->mon_at(z->posx + i, z->posy + j);
@@ -379,9 +379,9 @@ void mattack::growplants(game *g, monster *z)
        g->active_npc[npcdex].hit(g, hit, side, 0, rng(10, 30));
       }
      }
-     g->m.ter(z->posx + i, z->posy + j) = t_tree_young;
+     g->m.ter_set(z->posx + i, z->posy + j, t_tree_young);
     } else if (one_in(3)) // If no tree, perhaps underbrush
-     g->m.ter(z->posx + i, z->posy + j) = t_underbrush;
+     g->m.ter_set(z->posx + i, z->posy + j, t_underbrush);
    }
   }
  }
@@ -391,7 +391,7 @@ void mattack::growplants(game *g, monster *z)
    for (int j = -5; j <= 5; j++) {
     if (i != 0 || j != 0) {
      if (g->m.ter(z->posx + i, z->posy + j) == t_tree_young)
-      g->m.ter(z->posx + i, z->posy + j) = t_tree; // Young tree => tree
+      g->m.ter_set(z->posx + i, z->posy + j, t_tree); // Young tree => tree
      else if (g->m.ter(z->posx + i, z->posy + j) == t_underbrush) {
 // Underbrush => young tree
       int mondex = g->mon_at(z->posx + i, z->posy + j);
@@ -569,9 +569,9 @@ void mattack::triffid_heartbeat(game *g, monster *z)
   for (int x = g->u.posx; x <= z->posx - 3; x++) {
    for (int y = g->u.posy; y <= z->posy - 3; y++) {
     if (g->is_empty(x, y) && one_in(4))
-     g->m.ter(x, y) = t_root_wall;
+     g->m.ter_set(x, y, t_root_wall);
     else if (g->m.ter(x, y) == t_root_wall && one_in(10))
-     g->m.ter(x, y) = t_dirt;
+     g->m.ter_set(x, y, t_dirt);
    }
   }
 // Open blank tiles as long as there's no possible route
@@ -580,7 +580,7 @@ void mattack::triffid_heartbeat(game *g, monster *z)
          tries < 20) {
    int x = rng(g->u.posx, z->posx - 3), y = rng(g->u.posy, z->posy - 3);
    tries++;
-   g->m.ter(x, y) = t_dirt;
+   g->m.ter_set(x, y, t_dirt);
    if (rl_dist(x, y, g->u.posx, g->u.posy > 3 && g->z.size() < 30 &&
        g->mon_at(x, y) == -1 && one_in(20))) { // Spawn an extra monster
     mon_id montype = mon_triffid;
@@ -1088,7 +1088,7 @@ void mattack::stare(game *g, monster *z)
        g->m.ter(sight[i].x, sight[i].y) == t_reinforced_glass_v)
     i = sight.size();
    else if (g->m.is_destructable(sight[i].x, sight[i].y))
-    g->m.ter(sight[i].x, sight[i].y) = t_rubble;
+    g->m.ter_set(sight[i].x, sight[i].y, t_rubble);
   }
  }
 }

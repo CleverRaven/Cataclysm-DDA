@@ -197,7 +197,7 @@ void player::activate_bionic(int b, game *g)
     g->m.bash(i, j, 40, junk);	// Multibash effect, so that doors &c will fall
     g->m.bash(i, j, 40, junk);
     if (g->m.is_destructable(i, j) && rng(1, 10) >= 4)
-     g->m.ter(i, j) = t_rubble;
+     g->m.ter_set(i, j, t_rubble);
    }
   }
  } else if (bio.id == "bio_time_freeze"){
@@ -449,7 +449,7 @@ void player::activate_bionic(int b, game *g)
   if (g->m.ter(dirx, diry) == t_door_locked) {
    moves -= 40;
    g->add_msg("You unlock the door.");
-   g->m.ter(dirx, diry) = t_door_c;
+   g->m.ter_set(dirx, diry, t_door_c);
   } else
    g->add_msg("You can't unlock that %s.", g->m.tername(dirx, diry).c_str());
  }
