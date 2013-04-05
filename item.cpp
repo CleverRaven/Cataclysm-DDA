@@ -563,6 +563,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
 
  if ( showtext && !is_null() ) {
   dump->push_back(iteminfo("DESCRIPTION", type->description));
+    if (is_armor() && has_flag(IF_FIT))
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", "This piece of clothing fits you perfectly."));
+    }  
   if (contents.size() > 0) {
    if (is_gun()) {
     for (int i = 0; i < contents.size(); i++)
