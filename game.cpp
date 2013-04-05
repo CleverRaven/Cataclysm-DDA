@@ -6048,10 +6048,9 @@ void game::plfire(bool burst)
  }
 
  if (u.weapon.has_flag(IF_USE_UPS)) {
-  if (u.has_charges("UPS_off", 5))
-   u.use_charges("UPS_off", 5);
-  else if (u.has_charges("UPS_on", 5))
-   u.use_charges("UPS_on", 5);
+   if (!u.use_charges_if_available("UPS_off", 5)) {
+     u.use_charges_if_available("UPS_on", 5);
+   }
  }
 
  if (u.weapon.mode == IF_MODE_BURST)
