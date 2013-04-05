@@ -866,11 +866,8 @@ int map::move_cost_ter_only(const int x, const int y)
  return terlist[ter(x, y)].movecost;
 }
 
-bool map::trans(const int x, const int y, char * trans_buf)
+bool map::trans(const int x, const int y)
 {
-  if(trans_buf && trans_buf[x + (y * my_MAPSIZE * SEEX)] != -1)
-   return trans_buf[x + (y + my_MAPSIZE * SEEX)];
-
  // Control statement is a problem. Normally returning false on an out-of-bounds
  // is how we stop rays from going on forever.  Instead we'll have to include
  // this check in the ray loop.
@@ -890,11 +887,9 @@ bool map::trans(const int x, const int y, char * trans_buf)
   // Fields may obscure the view, too
   field & f(field_at(x, y));
   if(f.type == 0 || fieldlist[f.type].transparent[f.density - 1]){
-   if(trans_buf) trans_buf[x + (y * my_MAPSIZE * SEEX)] = 1;
    return true;
   }
  }
- if(trans_buf) trans_buf[x + (y * my_MAPSIZE * SEEX)] = 0;
  return false;
 }
 
@@ -2592,8 +2587,6 @@ void map::draw(game *g, WINDOW* w, const point center)
  const bool u_sight_impaired = g->u.sight_impaired();
  const int  g_light_level = (int)g->light_level();
 
- char trans_buf[my_MAPSIZE*SEEX][my_MAPSIZE*SEEY];
- memset(trans_buf, -1, sizeof(trans_buf));
  for  (int realx = center.x - getmaxx(w)/2; realx <= center.x + getmaxx(w)/2; realx++) {
   for (int realy = center.y - getmaxy(w)/2; realy <= center.y + getmaxy(w)/2; realy++) {
    const int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
@@ -2787,7 +2780,7 @@ map::sees based off code by Steve Register [arns@arns.freeservers.com]
 http://roguebasin.roguelikedevelopment.org/index.php?title=Simple_Line_of_Sight
 */
 bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
-               const int range, int &tc, char * trans_buf)
+               const int range, int &tc)
 {
  const int dx = Tx - Fx;
  const int dy = Ty - Fy;
@@ -2822,7 +2815,7 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
      tc *= st;
      return true;
     }
-   } while ((trans(x, y, trans_buf)) && (INBOUNDS(x,y)));
+   } while ((trans(x, y)) && (INBOUNDS(x,y)));
   }
   return false;
  } else { // Same as above, for mostly-vertical lines
@@ -2842,7 +2835,7 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
      tc *= st;
      return true;
     }
-   } while ((trans(x, y, trans_buf)) && (INBOUNDS(x,y)));
+   } while ((trans(x, y)) && (INBOUNDS(x,y)));
   }
   return false;
  }
