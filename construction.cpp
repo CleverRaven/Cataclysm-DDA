@@ -175,7 +175,7 @@ void game::init_construction()
    COMP("rope_30", 1);
    COMPCONT("rope_6", 5);
 
- CONSTRUCT("Build Window", 2, &construct::able_empty,
+ CONSTRUCT("Build Window", 2, &construct::able_make_window,
                               &construct::done_nothing);
   STAGE(t_window_empty, 10);
    TOOL("hammer");
@@ -803,6 +803,10 @@ bool construct::able_window(game *g, point p)
          g->m.ter(p.x, p.y) == t_window);
 }
 
+bool construct::able_make_window(game *g, point p)
+{
+    return able_window(g, p) || able_empty(g, p);
+}
 bool construct::able_empty_window(game *g, point p)
 {
  return (g->m.ter(p.x, p.y) == t_window_empty);
