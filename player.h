@@ -255,6 +255,7 @@ public:
 // has_amount works ONLY for quantity.
 // has_charges works ONLY for charges.
  void use_amount(itype_id it, int quantity, bool use_container = false);
+ bool use_charges_if_available(itype_id it, int quantity);// Uses up charges
  void use_charges(itype_id it, int quantity);// Uses up charges
  bool has_amount(itype_id it, int quantity);
  bool has_charges(itype_id it, int quantity);
