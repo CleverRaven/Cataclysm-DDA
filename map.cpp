@@ -770,7 +770,7 @@ bool map::displace_water (const int x, const int y)
     return false;
 }
 
-const ter_id& map::ter(const int x, const int y) const
+ter_id map::ter(const int x, const int y) const
 {
  if (!INBOUNDS(x, y)) {
   return t_null;
