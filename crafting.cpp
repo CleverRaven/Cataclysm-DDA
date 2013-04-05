@@ -2513,6 +2513,10 @@ void game::complete_craft()
  int iter = 0;
  item newit(itypes[making->result], turn, nextinv);
 
+    if (newit.is_armor() && newit.has_flag(IF_VARSIZE))
+    {
+        newit.item_flags |= mfb(IF_FIT);
+    }
  // for food items
  if (newit.is_food())
   {
