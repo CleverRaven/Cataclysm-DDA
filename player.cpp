@@ -1472,28 +1472,28 @@ detecting traps and other things of interest.");
    wrefresh(w_stats);
    break;
   case 2:	// Encumberment tab
-   mvwprintz(w_encumb, 0, 0, h_ltgray, "       ENCUMBERANCE       ");
+   mvwprintz(w_encumb, 0, 0, h_ltgray, " ENCUMBERANCE AND WARMTH  ");
    if (line == 0) {
-    mvwprintz(w_encumb, 1, 1, h_ltgray, "Head");
-    mvwprintz(w_info, 0, 0, c_magenta, "\
-Head encumberance has no effect; it simply limits how much you can put on.");
-   } else if (line == 1) {
-    mvwprintz(w_encumb, 2, 1, h_ltgray, "Eyes");
-    mvwprintz(w_info, 0, 0, c_magenta, "\
-Perception -%d when checking traps or firing ranged weapons;\n\
-Perception -%.1f when throwing items", encumb(bp_eyes),
-double(double(encumb(bp_eyes)) / 2));
-   } else if (line == 2) {
-    mvwprintz(w_encumb, 3, 1, h_ltgray, "Mouth");
-    mvwprintz(w_info, 0, 0, c_magenta, "\
-Running costs +%d movement points", encumb(bp_mouth) * 5);
-   } else if (line == 3) {
-    mvwprintz(w_encumb, 4, 1, h_ltgray, "Torso");
+    mvwprintz(w_encumb, 1, 1, h_ltgray, "Torso");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Melee skill -%d;      Dodge skill -%d;\n\
 Swimming costs +%d movement points;\n\
 Melee attacks cost +%d movement points", encumb(bp_torso), encumb(bp_torso),
               encumb(bp_torso) * (80 - skillLevel("swimming") * 3), encumb(bp_torso) * 20);
+   } else if (line == 1) {
+    mvwprintz(w_encumb, 2, 1, h_ltgray, "Head");
+    mvwprintz(w_info, 0, 0, c_magenta, "\
+Head encumberance has no effect; it simply limits how much you can put on.");
+   } else if (line == 2) {
+    mvwprintz(w_encumb, 3, 1, h_ltgray, "Eyes");
+    mvwprintz(w_info, 0, 0, c_magenta, "\
+Perception -%d when checking traps or firing ranged weapons;\n\
+Perception -%.1f when throwing items", encumb(bp_eyes),
+double(double(encumb(bp_eyes)) / 2));
+   } else if (line == 3) {
+    mvwprintz(w_encumb, 4, 1, h_ltgray, "Mouth");
+    mvwprintz(w_info, 0, 0, c_magenta, "\
+Running costs +%d movement points", encumb(bp_mouth) * 5);
    } else if (line == 4)
   {
     mvwprintz(w_encumb, 5, 1, h_ltgray, "Arms");
@@ -1534,7 +1534,7 @@ encumb(bp_feet) * 5);
       line = 7;
      break;
     case '\t':
-     mvwprintz(w_encumb, 0, 0, c_ltgray, "       ENCUMBERANCE       ");
+     mvwprintz(w_encumb, 0, 0, c_ltgray, " ENCUMBERANCE AND WARMTH  ");
      wrefresh(w_encumb);
      line = 0;
      curtab++;
@@ -1543,10 +1543,10 @@ encumb(bp_feet) * 5);
     case KEY_ESCAPE:
      done = true;
    }
-   mvwprintz(w_encumb, 1, 1, c_ltgray, "Head");
-   mvwprintz(w_encumb, 2, 1, c_ltgray, "Eyes");
-   mvwprintz(w_encumb, 3, 1, c_ltgray, "Mouth");
-   mvwprintz(w_encumb, 4, 1, c_ltgray, "Torso");
+   mvwprintz(w_encumb, 1, 1, c_ltgray, "Torso");
+   mvwprintz(w_encumb, 2, 1, c_ltgray, "Head");
+   mvwprintz(w_encumb, 3, 1, c_ltgray, "Eyes");
+   mvwprintz(w_encumb, 4, 1, c_ltgray, "Mouth");
    mvwprintz(w_encumb, 5, 1, c_ltgray, "Arms");
    mvwprintz(w_encumb, 6, 1, c_ltgray, "Hands");
    mvwprintz(w_encumb, 7, 1, c_ltgray, "Legs");
