@@ -67,9 +67,6 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   RECIPE("tshirt", CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP("rag", 5);
 
-  RECIPE("tshirt_fit", CC_NONCRAFT, "tailor", NULL, 0, 500, true);
-  COMP("rag", 5);
-
   RECIPE("tank_top", CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP("rag", 5);
 
@@ -1196,7 +1193,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("sewing_kit",  5);
   COMP("fur", 2);
 
-  RECIPE("boots_fit", CC_ARMOR, "tailor", NULL, 2, 35000, false);
+  RECIPE("boots", CC_ARMOR, "tailor", NULL, 2, 35000, false);
   TOOL("needle_bone", 10);
   TOOLCONT("sewing_kit", 10);
   COMP("leather", 7);
@@ -1220,17 +1217,17 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("sewing_kit", 12);
   COMP("rag", 6);
 
-  RECIPE("jeans_fit", CC_ARMOR, "tailor", NULL, 2, 45000, false);
+  RECIPE("jeans", CC_ARMOR, "tailor", NULL, 2, 45000, false);
   TOOL("needle_bone", 10);
   TOOLCONT("sewing_kit", 10);
   COMP("rag", 6);
 
-  RECIPE("pants_cargo_fit", CC_ARMOR, "tailor", NULL, 3, 48000, false);
+  RECIPE("pants_cargo", CC_ARMOR, "tailor", NULL, 3, 48000, false);
   TOOL("needle_bone", 16);
   TOOLCONT("sewing_kit", 16);
   COMP("rag", 8);
 
-  RECIPE("long_underpants_fit", CC_ARMOR, "tailor", "survival", 3, 35000, false);
+  RECIPE("long_underpants", CC_ARMOR, "tailor", "survival", 3, 35000, false);
   TOOL("needle_bone", 15);
   TOOLCONT("sewing_kit", 15);
   COMP("rag", 10);
@@ -1240,27 +1237,27 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("sewing_kit", 10);
   COMP("leather", 10);
 
-  RECIPE("tank_top_fit", CC_ARMOR, "tailor", NULL, 2, 38000, true);
+  RECIPE("tank_top", CC_ARMOR, "tailor", NULL, 2, 38000, true);
   TOOL("needle_bone", 4);
   TOOLCONT("sewing_kit", 4);
   COMP("rag", 4);
 
-  RECIPE("tshirt_fit", CC_ARMOR, "tailor", NULL, 2, 38000, true);
+  RECIPE("tshirt", CC_ARMOR, "tailor", NULL, 2, 38000, true);
   TOOL("needle_bone", 4);
   TOOLCONT("sewing_kit", 4);
   COMP("rag", 5);
 
-  RECIPE("hoodie_fit", CC_ARMOR, "tailor", NULL, 3, 40000, false);
+  RECIPE("hoodie", CC_ARMOR, "tailor", NULL, 3, 40000, false);
   TOOL("needle_bone", 14);
   TOOLCONT("sewing_kit", 14);
   COMP("rag", 12);
 
-  RECIPE("trenchcoat_fit", CC_ARMOR, "tailor", NULL, 3, 42000, false);
+  RECIPE("trenchcoat", CC_ARMOR, "tailor", NULL, 3, 42000, false);
   TOOL("needle_bone", 24);
   TOOLCONT("sewing_kit", 24);
   COMP("rag", 11);
 
-  RECIPE("trenchcoat_leather_fit", CC_ARMOR, "tailor", NULL, 6, 200000, false);
+  RECIPE("trenchcoat_leather", CC_ARMOR, "tailor", NULL, 6, 200000, false);
   TOOL("needle_bone", 45);
   TOOLCONT("sewing_kit", 45);
   COMP("leather", 22);
@@ -1270,13 +1267,13 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("sewing_kit", 20);
   COMP("fur", 10);
 
-  RECIPE("jacket_leather_fit", CC_ARMOR, "tailor", NULL, 5, 150000, false);
+  RECIPE("jacket_leather", CC_ARMOR, "tailor", NULL, 5, 150000, false);
   TOOL("needle_bone", 30);
   TOOLCONT("sewing_kit", 30);
   COMP("leather", 16);
 
 
-  RECIPE("gloves_liner_fit", CC_ARMOR, "tailor", NULL, 1, 10000, false);
+  RECIPE("gloves_liner", CC_ARMOR, "tailor", NULL, 1, 10000, false);
   TOOL("needle_bone", 2);
   TOOLCONT("sewing_kit", 2);
   COMP("rag", 2);
@@ -2516,6 +2513,10 @@ void game::complete_craft()
  int iter = 0;
  item newit(itypes[making->result], turn, nextinv);
 
+    if (newit.is_armor() && newit.has_flag(IF_VARSIZE))
+    {
+        newit.item_flags |= mfb(IF_FIT);
+    }
  // for food items
  if (newit.is_food())
   {
