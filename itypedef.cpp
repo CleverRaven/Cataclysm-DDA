@@ -3554,6 +3554,17 @@ TOOL("radio_on", "radio (on)",	 0, 420,';', c_yellow,	PLASTIC, IRON,
 This radio is turned on, and continually draining its batteries. It is\n\
 playing the broadcast being sent from any nearby radio towers.");
 
+TOOL("noise_emitter", "noise emitter (off)", 0, 600, ';', c_yellow, PLASTIC, IRON,
+    4,  3,  6,  0, -1, 100,100, 0,  0, AT_BATT, "null", &iuse::noise_emitter_off, 0,"\
+This device was constructed by 'enhancing' a radio with some amplifier\n\
+circuits. It's completely lost its ability to pick up a station, but it's\n\
+nice and loud now. Could be useful to distract zombies.");
+
+TOOL("noise_emitter_on", "noise emitter (on)", 0, 600, ';', c_yellow, PLASTIC, IRON,
+    4,  3,  6,  0, -1, 100,100, 0,  1, AT_BATT, "noise_emitter",&iuse::noise_emitter_on, 0,"\
+This device has been turned on and is emitting horrible sounds of radio\n\
+static. Quick, get away from it before it draws zombies to you!");
+
 TOOL("roadmap", "road map", 40, 10, ';', c_yellow, MNULL, MNULL,
      1, 0, 0, 0, -1, 1, 1, 0, 0, AT_NULL, "null", &iuse::roadmap, 0, "\
 A road map. Use it to read points of interest, including, but not\n\

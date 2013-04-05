@@ -1047,6 +1047,24 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("scrap", 6);
   COMP("cable", 20);
 
+  RECIPE("noise_emitter", CC_ELECTRONIC, "electronics", NULL, 1, 15000, false);
+  TOOL("screwdriver", -1);
+  TOOLCONT("toolset", -1);
+  TOOL("soldering_iron", 5);
+  TOOLCONT("toolset", 5);
+  COMP("radio", 1);
+  COMP("amplifier", 2);
+  
+  RECIPE("noise_emitter", CC_ELECTRONIC, "electronics", NULL, 2, 30000, true);
+  TOOL("screwdriver", -1);
+  TOOLCONT("toolset", -1);
+  TOOL("soldering_iron", 10);
+  TOOLCONT("toolset", 10);
+  COMP("amplifier", 2);
+  COMP("antenna", 1);
+  COMP("scrap", 5);
+  COMP("cable", 7);
+
   RECIPE("radio", CC_ELECTRONIC, "electronics", NULL, 2, 25000, true);
   TOOL("screwdriver", -1);
   TOOLCONT("toolset", -1);

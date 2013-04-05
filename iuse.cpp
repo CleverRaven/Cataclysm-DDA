@@ -1318,6 +1318,36 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::noise_emitter_off(game *g, player *p, item *it, bool t)
+{
+    if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,"It's dead.");
+    }
+    else
+    {
+        g->add_msg_if_player(p,"You turn the noise emitter on.");
+        it->make(g->itypes["noise_emitter_on"]);
+        it->active = true;
+    }
+}
+
+void iuse::noise_emitter_on(game *g, player *p, item *it, bool t)
+{
+    if (t) // Normal use
+    {
+        point pos = g->find_item(it);
+        g->sound(pos.x, pos.y, 30, "KXSHHHHRRCRKLKKK!");
+    }
+    else // Turning it off
+    {
+        g->add_msg_if_player(p,"The infernal racket dies as you turn off the noise emitter.");
+        it->make(g->itypes["noise_emitter"]);
+        it->active = false;
+    }
+}
+
+
 void iuse::roadmap(game *g, player *p, item *it, bool t)
 {
  if (it->charges < 1) {
