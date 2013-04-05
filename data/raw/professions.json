@@ -5,7 +5,7 @@
   "description":
 "They say you don't have any 'useful skills', but at least your clothes fit\nwell.",
   "points": 0,
-  "items": ["jeans_fit", "tshirt_fit", "sneakers_fit"] 
+  "items": ["jeans", "tshirt", "sneakers"] 
  },
 
  {

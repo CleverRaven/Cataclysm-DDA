@@ -103,7 +103,11 @@ IF_MODE_BURST, // A burst of attacks
 // Food status flags
 IF_HOT,				// hot food
 IF_EATEN_HOT,	// food meant to be eaten hot
-IF_ROTTEN, 		// rotten foox
+IF_ROTTEN, 		// rotten food
+
+// Clothing flags
+IF_VARSIZE,     // comes in variable sizes (item type flag)
+IF_FIT,         // clothing fits player (item specific flag)
 
 NUM_ITEM_FLAGS
 };
