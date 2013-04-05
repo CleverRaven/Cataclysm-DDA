@@ -5303,57 +5303,81 @@ int player::encumb(body_part bp) {
 
 int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
 {
- int ret = 0;
- it_armor* armor;
- for (int i = 0; i < worn.size(); i++) {
-  if (!worn[i].is_armor())
-   debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
+    int ret = 0;
+    it_armor* armor;
+    for (int i = 0; i < worn.size(); i++) 
+    {
+        if (!worn[i].is_armor())
+            debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
             i, worn[i].tname().c_str());
-  armor = dynamic_cast<it_armor*>(worn[i].type);
+        armor = dynamic_cast<it_armor*>(worn[i].type);
 
-  if (armor->covers & mfb(bp)) {
-    if (armor->is_power_armor() && has_active_item("UPS_on")) {
-      armorenc += armor->encumber - 4;
-      warmth   += armor->warmth - 20;
-    } else {
-   armorenc += armor->encumber;
-   warmth += armor->warmth;
+        if (armor->covers & mfb(bp)) 
+        {
+            if (armor->is_power_armor() && has_active_item("UPS_on"))
+            {
+                armorenc += armor->encumber - 4;
+                warmth   += armor->warmth - 20;
+            } 
+            else 
+            {
+                armorenc += armor->encumber;
+                warmth += armor->warmth;
+                if (worn[i].has_flag(IF_FIT))
+                {
+                    armorenc--;
+                }
+            }
+            if (armor->encumber >= 0 || bp != bp_torso)
+            {
+                layers++;
+            }
+        }
     }
-   if (armor->encumber >= 0 || bp != bp_torso)
-    layers++;
-  }
- }
 
- ret += armorenc;
+    ret += armorenc;
 
- // Following items undo their layering. Once. Bodypart has to be taken into account, hence the switch.
- switch (bp){
-  case bp_feet  : if (!(is_wearing("socks") || is_wearing("socks_wool"))) break; else layers--;
-  case bp_legs  : if (!is_wearing("long_underpants")) break; else layers--;
-  case bp_hands : if (!is_wearing("gloves_liner")) break; else layers--;
-  case bp_torso : if (!is_wearing("under_armor")) break; else layers--;
- }
- if (layers > 1)
-  ret += (layers - 1) * (bp == bp_torso ? .5 : 2);// Easier to layer on torso
- if (volume_carried() > volume_capacity() - 2 && bp != bp_head)
-  ret += 3;
+    // Following items undo their layering. Once. Bodypart has to be taken into account, hence the switch.
+    switch (bp)
+    {
+        case bp_feet  : if (!(is_wearing("socks") || is_wearing("socks_wool"))) break; else layers--;
+        case bp_legs  : if (!is_wearing("long_underpants")) break; else layers--;
+        case bp_hands : if (!is_wearing("gloves_liner")) break; else layers--;
+        case bp_torso : if (!is_wearing("under_armor")) break; else layers--;
+    }
+    if (layers > 1)
+    {
+        ret += (layers - 1) * (bp == bp_torso ? .5 : 2);// Easier to layer on torso
+    }
+    if (volume_carried() > volume_capacity() - 2 && bp != bp_head)
+    {
+        ret += 3;
+    }
 
-// Bionics and mutation
- if ((bp == bp_head  && has_bionic("bio_armor_head"))  ||
+    // Bionics and mutation
+    if ((bp == bp_head  && has_bionic("bio_armor_head"))  ||
      (bp == bp_torso && has_bionic("bio_armor_torso")) ||
      (bp == bp_legs  && has_bionic("bio_armor_legs")))
-  ret += 2;
- if (has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth)
-  ret += 1;
- if (has_trait(PF_CHITIN3) && bp != bp_eyes && bp != bp_mouth)
-  ret += 1;
- if (has_trait(PF_SLIT_NOSTRILS) && bp == bp_mouth)
-  ret += 1;
- if (bp == bp_hands &&
+        ret += 2;
+    if (has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth)
+    {
+        ret += 1;
+    }
+    if (has_trait(PF_CHITIN3) && bp != bp_eyes && bp != bp_mouth)
+    {
+        ret += 1;
+    }
+    if (has_trait(PF_SLIT_NOSTRILS) && bp == bp_mouth)
+    {
+        ret += 1;
+    }
+    if (bp == bp_hands &&
      (has_trait(PF_ARM_TENTACLES) || has_trait(PF_ARM_TENTACLES_4) ||
-      has_trait(PF_ARM_TENTACLES_8)))
-  ret += 3;
- return ret;
+     has_trait(PF_ARM_TENTACLES_8)))
+    {
+        ret += 3;
+    }
+    return ret;
 }
 
 int player::armor_bash(body_part bp)
