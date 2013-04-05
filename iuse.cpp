@@ -862,8 +862,9 @@ void iuse::sew(game *g, player *p, item *it, bool t)
   if (rn <= 4) {
    g->add_msg_if_player(p,"You damage your %s!", fix->tname().c_str());
    fix->damage++;
-  } else if (rn >= 12) {
-   g->add_msg_if_player(p,"You make your %s extra-sturdy.", fix->tname().c_str());
+  } else if (rn >= 12 && p->i_at(ch).has_flag(IF_VARSIZE) && !p->i_at(ch).has_flag(IF_FIT)) {
+   g->add_msg_if_player(p,"You take your %s in, improving the fit.", fix->tname().c_str());
+   (p->i_at(ch).item_flags |= mfb(IF_FIT));
    fix->damage--;
   } else
    g->add_msg_if_player(p,"You practice your sewing.");
