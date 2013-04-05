@@ -79,7 +79,7 @@ player::player()
  }
 
  for (int i = 0; i < num_bp; i++) {
-  temp_cur[i] = BODYTEMP_NORM; ; frostbite_timer[i] = 0;
+  temp_cur[i] = BODYTEMP_NORM; frostbite_timer[i] = 0;
  }
 }
 
@@ -212,6 +212,8 @@ void player::normalize(game *g)
    hp_max[i] = int(hp_max[i] * 1.2);
   hp_cur[i] = hp_max[i];
  }
+ for (int i = 0 ; i < num_bp; i++)
+  temp_conv[i] = BODYTEMP_NORM;
 }
 
 void player::pick_name() {
@@ -398,23 +400,23 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   int blister_pen = dis_type(DI_BLISTERS) + 1 + i, hot_pen  = dis_type(DI_HOT) + 1 + i;
   int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;
   // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
-  signed int temp_conv = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement;
-  // Hunger
-  temp_conv -= 2*(hunger + 100);
-  // Fatigue
-  if (!has_disease(DI_SLEEP)) temp_conv -= 3*fatigue;
+  temp_conv[i] = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement;
+  // HUNGER
+  temp_conv[i] -= 2*(hunger + 100);
+  // FATIGUE
+  if (!has_disease(DI_SLEEP)) temp_conv[i] -= 2*fatigue;
   else {
    int vpart = -1;
    vehicle *veh = g->m.veh_at (posx, posy, vpart);
-   if      (g->m.ter(posx, posy) == t_bed)                       temp_conv += 1000;
-   else if (g->m.ter(posx, posy) == t_makeshift_bed)             temp_conv +=  500;
-   else if (g->m.tr_at(posx, posy) == tr_cot)                    temp_conv -=  500;
-   else if (g->m.tr_at(posx, posy) == tr_rollmat)                temp_conv -= 1000;
-   else if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0) temp_conv +=  200;
-   else if (veh && veh->part_with_feature (vpart, vpf_bed) >= 0)  temp_conv +=  300;
-   else	temp_conv -= 2000;
+   if      (g->m.ter(posx, posy) == t_bed)                        temp_conv[i] += 1000;
+   else if (g->m.ter(posx, posy) == t_makeshift_bed)              temp_conv[i] +=  500;
+   else if (g->m.tr_at(posx, posy) == tr_cot)                     temp_conv[i] -=  500;
+   else if (g->m.tr_at(posx, posy) == tr_rollmat)                 temp_conv[i] -= 1000;
+   else if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0) temp_conv[i] +=  200;
+   else if (veh && veh->part_with_feature (vpart, vpf_bed) >= 0)  temp_conv[i] +=  300;
+   else	temp_conv[i] -= 2000;
   }
-  // Convection heat sources : generates body heat, helps fight frostbite
+  // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
   int blister_count = 0; // If the counter is high, your skin starts to burn
   for (int j = -6 ; j <= 6 ; j++){
    for (int k = -6 ; k <= 6 ; k++){
@@ -429,54 +431,88 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
      // Ensure fire_dist >=1 to avoid divide-by-zero errors.
      int fire_dist = std::max(1, std::max(j, k));
      if (frostbite_timer[i] > 0) frostbite_timer[i] -= heat_intensity - fire_dist / 2;
-     temp_conv +=  200 * heat_intensity * heat_intensity / (fire_dist * fire_dist);
+     temp_conv[i] +=  200 * heat_intensity * heat_intensity / (fire_dist * fire_dist);
      blister_count += heat_intensity / (fire_dist * fire_dist);
     }
    }
   }
-  // Fire (it is very dangerous to be on fire for long, as it directly increases body temperature, not temp_conv)
+  // TILES (it is very dangerous to be on fire for long, as it directly increases body temperature, not temp_conv)
   if (has_disease(DI_ONFIRE)) temp_cur[i] += 250;
   if ((g->m.field_at(posx, posy).type == fd_fire && g->m.field_at(posx, posy).density > 2) || g->m.tr_at(posx, posy) == tr_lava) temp_cur[i] += 250;
-  // Weather
-  if (g->weather == WEATHER_SUNNY && !g->m.is_indoor(posx, posy)) temp_conv += 1000;
-  if (g->weather == WEATHER_CLEAR && !g->m.is_indoor(posx, posy)) temp_conv += 500;
-  // Other diseases
-  if (has_disease(DI_FLU) && i == bp_head) temp_conv += 1500;
+  // WEATHER
+  if (g->weather == WEATHER_SUNNY && g->is_in_sunlight(posx, posy)) temp_conv[i] += 1000;
+  if (g->weather == WEATHER_CLEAR && g->is_in_sunlight(posx, posy)) temp_conv[i] += 500;
+  // DISEASES
+  if (has_disease(DI_FLU) && i == bp_head) temp_conv[i] += 1500;
+  if (has_disease(DI_COMMON_COLD)) temp_conv[i] -= 750;
   // BIONICS
   // Bionic "Internal Climate Control" says it eases the effects of high and low ambient temps
-  // NOTE : This should be the last place temp_conv is changed, otherwise the bionic will not work as intended.
   const int variation = BODYTEMP_NORM*0.5;
-  if (has_bionic("bio_climate") && temp_conv < BODYTEMP_SCORCHING + variation && temp_conv > BODYTEMP_FREEZING - variation){
-   if      (temp_conv > BODYTEMP_SCORCHING) temp_conv = BODYTEMP_VERY_HOT;
-   else if (temp_conv > BODYTEMP_VERY_HOT)  temp_conv = BODYTEMP_HOT;
-   else if (temp_conv > BODYTEMP_HOT)       temp_conv = BODYTEMP_NORM;
-   else if (temp_conv < BODYTEMP_FREEZING)  temp_conv = BODYTEMP_VERY_COLD;
-   else if (temp_conv < BODYTEMP_VERY_COLD) temp_conv = BODYTEMP_COLD;
-   else if (temp_conv < BODYTEMP_COLD)      temp_conv = BODYTEMP_NORM;
+  if (has_bionic("bio_climate") && temp_conv[i] < BODYTEMP_SCORCHING + variation && temp_conv[i] > BODYTEMP_FREEZING - variation){
+   if      (temp_conv[i] > BODYTEMP_SCORCHING) temp_conv[i] = BODYTEMP_VERY_HOT;
+   else if (temp_conv[i] > BODYTEMP_VERY_HOT)  temp_conv[i] = BODYTEMP_HOT;
+   else if (temp_conv[i] > BODYTEMP_HOT)       temp_conv[i] = BODYTEMP_NORM;
+   else if (temp_conv[i] < BODYTEMP_FREEZING)  temp_conv[i] = BODYTEMP_VERY_COLD;
+   else if (temp_conv[i] < BODYTEMP_VERY_COLD) temp_conv[i] = BODYTEMP_COLD;
+   else if (temp_conv[i] < BODYTEMP_COLD)      temp_conv[i] = BODYTEMP_NORM;
    }
   // Bionic "Thermal Dissapation" says it prevents fire damage up to 2000F. 500 is picked at random...
   if (has_bionic("bio_heatsink") && blister_count < 500)
    blister_count = 0;
-  // Skin gets blisters from intense heat exposure.
-  if (blister_count - 10*resist(body_part(i)) > 20) add_disease(dis_type(blister_pen), 1, g);
-  // Increments current body temperature towards convergant.
-  int temp_difference = temp_cur[i] - temp_conv;
+  // BLISTERS : Skin gets blisters from intense heat exposure.
+  if (blister_count - 10*resist(body_part(i)) > 20)
+   add_disease(dis_type(blister_pen), 1, g);
+  // BLOOD LOSS : Loss of blood results in loss of body heat
+  int blood_loss = 0;
+  if      (i == bp_legs)  blood_loss = (100 - 100*(hp_cur[hp_leg_l] + hp_cur[hp_leg_r]) / (hp_max[hp_leg_l] + hp_max[hp_leg_r]));
+  else if (i == bp_arms)  blood_loss = (100 - 100*(hp_cur[hp_arm_l] + hp_cur[hp_arm_r]) / (hp_max[hp_arm_l] + hp_max[hp_arm_r]));
+  else if (i == bp_torso) blood_loss = (100 - 100* hp_cur[hp_torso] / hp_max[hp_torso]);
+  else if (i == bp_head)  blood_loss = (100 - 100* hp_cur[hp_head] / hp_max[hp_head]);
+  temp_conv[i] -= blood_loss*temp_conv[i]/200; // 1% bodyheat lost per 2% hp lost
+  // EQUALIZATION
+  switch (i){
+  case bp_torso :
+   temp_equalizer(bp_torso, bp_arms);
+   temp_equalizer(bp_torso, bp_legs);
+   temp_equalizer(bp_torso, bp_head);
+   break;
+  case bp_head :
+   temp_equalizer(bp_head, bp_torso);
+   temp_equalizer(bp_head, bp_mouth);
+   break;
+  case bp_arms :
+   temp_equalizer(bp_arms, bp_torso);
+   temp_equalizer(bp_arms, bp_hands);
+   break;
+  case bp_legs :
+   temp_equalizer(bp_legs, bp_torso);
+   temp_equalizer(bp_legs, bp_feet);
+   break;
+  case bp_mouth : temp_equalizer(bp_mouth, bp_head); break;
+  case bp_hands : temp_equalizer(bp_hands, bp_arms); break;
+  case bp_feet  : temp_equalizer(bp_feet, bp_legs); break;
+  }
+  // FINAL CALCULATION : Increments current body temperature towards convergant.
   int temp_before = temp_cur[i];
-  // Bodytemp equalization code
-  if      (i == bp_torso){temp_equalizer(bp_torso, bp_arms); temp_equalizer(bp_torso, bp_legs); temp_equalizer(bp_torso, bp_head);}
-  else if (i == bp_head) {temp_equalizer(bp_head, bp_eyes); temp_equalizer(bp_head, bp_mouth);}
-  else if (i == bp_arms)  temp_equalizer(bp_arms, bp_hands);
-  else if (i == bp_legs)  temp_equalizer(bp_legs, bp_feet);
-  if (temp_cur[i] != temp_conv) temp_cur[i] = temp_difference*exp(-0.002) + temp_conv; // It takes half an hour for bodytemp to converge half way to its convergeance point (think half-life)
+  int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
+  // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes, exp(-0.003) : half life of 20 minutes, exp(-0.004) : half life of 15 minutes
+  int rounding_error = 0;
+  if (temp_difference < 0 && temp_difference > -600 ) rounding_error = 1; // If temp_diff is small, the player cannot warm up due to rounding errors. This fixes that.
+  if (temp_cur[i] != temp_conv[i]) {
+   if      ((g->m.ter(posx, posy) == t_water_sh || g->m.ter(posx, posy) == t_sewage) 
+              && (i == bp_feet || i == bp_legs)) temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i] + rounding_error;
+   else if (g->m.ter(posx, posy) == t_water_dp)  temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i] + rounding_error;
+   else if (i == bp_torso || i == bp_head)       temp_cur[i] = temp_difference*exp(-0.003) + temp_conv[i] + rounding_error;
+   else                                          temp_cur[i] = temp_difference*exp(-0.002) + temp_conv[i] + rounding_error;}
   int temp_after = temp_cur[i];
-  // Penalties
+  // PENALTIES
   if      (temp_cur[i] < BODYTEMP_FREEZING)  {add_disease(dis_type(cold_pen), 1, g, 3, 3); frostbite_timer[i] += 3;}
   else if (temp_cur[i] < BODYTEMP_VERY_COLD) {add_disease(dis_type(cold_pen), 1, g, 2, 3); frostbite_timer[i] += 2;}
   else if (temp_cur[i] < BODYTEMP_COLD)      {add_disease(dis_type(cold_pen), 1, g, 1, 3); frostbite_timer[i] += 1;} // Frostbite timer does not go down if you are still cold.
   else if (temp_cur[i] > BODYTEMP_SCORCHING) {add_disease(dis_type(hot_pen),  1, g, 3, 3); } // If body temp rises over 15000, disease.cpp (DI_HOT_HEAD) acts weird and the player will die
   else if (temp_cur[i] > BODYTEMP_VERY_HOT)  {add_disease(dis_type(hot_pen),  1, g, 2, 3); }
   else if (temp_cur[i] > BODYTEMP_HOT)       {add_disease(dis_type(hot_pen),  1, g, 1, 3); }
-  // Morale penalties : a negative morale_pen means the player is cold
+  // MORALE : a negative morale_pen means the player is cold
   // Intensity multiplier is negative for cold, positive for hot
   int intensity_mult = -disease_intensity(dis_type(cold_pen)) + disease_intensity(dis_type(hot_pen));
   if (has_disease(dis_type(cold_pen)) > 0 || has_disease(dis_type(hot_pen)) > 0) {
@@ -490,7 +526,7 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
     case bp_feet : morale_pen += 1*intensity_mult;
    }
   }
-  // Frostbite (level 1 after 2 hours, level 2 after 4 hours)
+  // FROSTBITE (level 1 after 2 hours, level 2 after 4 hours)
   if      (frostbite_timer[i] >   0) frostbite_timer[i]--;
   if      (frostbite_timer[i] >= 240 && g->temperature < 32) {
    if      (disease_intensity(dis_type(frost_pen)) < 2 &&  i == bp_mouth)                  g->add_msg("Your %s hardens from the frostbite!", body_part_name(body_part(i), -1).c_str());
@@ -514,21 +550,10 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
 
 void player::temp_equalizer(body_part bp1, body_part bp2)
 {
- int temp_diff = temp_cur[bp1] - temp_cur[bp2];  // Positive if bp1 is warmer
- switch (bp1){
-  case bp_torso:
-   temp_cur[bp1] -= temp_diff*0.05/3;
-   temp_cur[bp2] += temp_diff*0.05;
-  case bp_head:
-   temp_cur[bp1] -= temp_diff*0.05/2;
-   temp_cur[bp2] += temp_diff*0.05;
-  case bp_arms:
-   temp_cur[bp1] -= temp_diff*0.05;
-   temp_cur[bp2] += temp_diff*0.05;
-  case bp_legs:
-   temp_cur[bp1] -= temp_diff*0.05;
-   temp_cur[bp2] += temp_diff*0.05;
- }
+ // Body heat is moved around.
+ // When bp1 gives 15%, bp2 will return 15% of the _new_ difference
+ int diff = (temp_conv[bp2] - temp_conv[bp1])*0.15; // If bp1 is warmer, it will lose heat
+ temp_conv[bp1] += diff;
 }
 
 int player::current_speed(game *g)
@@ -1193,11 +1218,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  wrefresh(w_stats);
 
 // Next, draw encumberment.
- std::string asText[] = {"Head", "Eyes", "Mouth", "Torso", "Arms", "Hands", "Legs", "Feet"};
- body_part aBodyPart[] = {bp_head, bp_eyes, bp_mouth, bp_torso, bp_arms, bp_hands, bp_legs, bp_feet};
+ std::string asText[] = {"Torso", "Head", "Eyes", "Mouth", "Arms", "Hands", "Legs", "Feet"};
+ body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
  int iEnc, iLayers, iArmorEnc, iWarmth;
 
- mvwprintz(w_encumb, 0, 7, c_ltgray, "ENCUMBERANCE");
+ mvwprintz(w_encumb, 0, 1, c_ltgray, "ENCUMBERANCE AND WARMTH");
  for (int i=0; i < 8; i++) {
   iEnc = iLayers = iArmorEnc = iWarmth = 0;
   iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc, iWarmth);
@@ -1205,7 +1230,17 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   mvwprintz(w_encumb, i+1, 8, c_ltgray, "(%d)", iLayers);
   mvwprintz(w_encumb, i+1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2), " ", iArmorEnc, "+", iEnc-iArmorEnc);
   wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
-  wprintz(w_encumb, c_ltgray, "%*s(%d)", (iWarmth > 9 ? ((iWarmth > 99) ? 1: 2) : 3), " ", iWarmth);
+  // Color the warmth value to let the player know what is sufficient
+  nc_color color = c_ltgray;
+  if (i == bp_eyes) continue; // Eyes don't count towards warmth
+  else if (temp_conv[i] >  BODYTEMP_SCORCHING) color = c_red;
+  else if (temp_conv[i] >  BODYTEMP_VERY_HOT)  color = c_ltred;
+  else if (temp_conv[i] >  BODYTEMP_HOT)       color = c_yellow;
+  else if (temp_conv[i] >  BODYTEMP_COLD)      color = c_green; // More than cold is comfortable
+  else if (temp_conv[i] >  BODYTEMP_VERY_COLD) color = c_ltblue;
+  else if (temp_conv[i] >  BODYTEMP_FREEZING)  color = c_cyan;
+  else if (temp_conv[i] <= BODYTEMP_FREEZING)  color = c_blue;
+  wprintz(w_encumb, color, "%*s(%d)", (iWarmth > 9 ? ((iWarmth > 99) ? 1: 2) : 3), " ", iWarmth);
  }
  wrefresh(w_encumb);
 
@@ -1825,21 +1860,30 @@ void player::disp_status(WINDOW *w, game *g)
  else if (hunger < 0)
   mvwprintz(w, 2, 0, c_green,  "Full");
 
-
-if (temp_cur[bp_torso] > BODYTEMP_SCORCHING)
-  mvwprintz(w, 1, 9, c_red,    "Scorching!");
- else if (temp_cur[bp_torso] > BODYTEMP_VERY_HOT)
-  mvwprintz(w, 1, 9, c_ltred,  "Very Hot");
- else if (temp_cur[bp_torso] > BODYTEMP_HOT)
-  mvwprintz(w, 1, 9, c_yellow,  "Hot");
- else if (temp_cur[bp_torso] > BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
+ int min = 0, max = 0;
+ for (int i = 0; i < num_bp ; i++ ){
+  if      (temp_cur[i] > BODYTEMP_HOT  && temp_cur[i] > temp_cur[max]) max = i;
+  else if (temp_cur[i] < BODYTEMP_COLD && temp_cur[i] < temp_cur[min]) min = i;
+ }
+ // Compare which is most extreme
+ int print;
+ if (temp_cur[max] - BODYTEMP_NORM > BODYTEMP_NORM + temp_cur[min]) print = max;
+ else print = min;
+ // Print a bodypart that is cold or hot
+ if      (temp_cur[print] >  BODYTEMP_SCORCHING)
+  mvwprintz(w, 1, 9, c_red,   "Scorching!");
+ else if (temp_cur[print] >  BODYTEMP_VERY_HOT)
+  mvwprintz(w, 1, 9, c_ltred, "Very hot!");
+ else if (temp_cur[print] >  BODYTEMP_HOT)
+  mvwprintz(w, 1, 9, c_yellow,"Hot");
+ else if (temp_cur[print] >  BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
   mvwprintz(w, 1, 9, c_green, "Comfortable");
- else if (temp_cur[bp_torso] > BODYTEMP_VERY_COLD)
-  mvwprintz(w, 1, 9, c_ltblue, "Cold");
- else if (temp_cur[bp_torso] > BODYTEMP_FREEZING)
-  mvwprintz(w, 1, 9, c_cyan,  "Very Cold");
- else if (temp_cur[bp_torso] <= BODYTEMP_FREEZING)
-  mvwprintz(w, 1, 9, c_blue,  "Freezing");
+ else if (temp_cur[print] >  BODYTEMP_VERY_COLD)
+  mvwprintz(w, 1, 9, c_ltblue,"Cold");
+ else if (temp_cur[print] >  BODYTEMP_FREEZING)
+  mvwprintz(w, 1, 9, c_cyan,  "Very cold!");
+ else if (temp_cur[print] <= BODYTEMP_FREEZING)
+  mvwprintz(w, 1, 9, c_blue,  "Freezing!");
 
       if (thirst > 520)
   mvwprintz(w, 2, 15, c_ltred,  "Parched");
