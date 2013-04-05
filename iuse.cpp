@@ -99,18 +99,39 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
             }
         }
     } else { // Player--present a menu
-        WINDOW* hp_window = newwin(10, 22, (TERMY-10)/2, (TERMX-22)/2);
+        WINDOW* hp_window = newwin(11, 22, (TERMY-10)/2, (TERMX-22)/2);
         wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
         mvwprintz(hp_window, 1, 1, c_ltred,  "Use Bandage:");
-        mvwprintz(hp_window, 2, 1, c_ltgray, "1: Head");
-        mvwprintz(hp_window, 3, 1, c_ltgray, "2: Torso");
-        mvwprintz(hp_window, 4, 1, c_ltgray, "3: Left Arm");
-        mvwprintz(hp_window, 5, 1, c_ltgray, "4: Right Arm");
-        mvwprintz(hp_window, 6, 1, c_ltgray, "5: Left Leg");
-        mvwprintz(hp_window, 7, 1, c_ltgray, "6: Right Leg");
-        mvwprintz(hp_window, 8, 1, c_ltgray, "7: Stop Bleeding");
+        if(p->hp_cur[hp_head] < p->hp_max[hp_head])
+        {
+            mvwprintz(hp_window, 2, 1, c_ltgray, "1: Head");
+        }
+        if(p->hp_cur[hp_torso] < p->hp_max[hp_torso])
+        {
+            mvwprintz(hp_window, 3, 1, c_ltgray, "2: Torso");
+        }
+        if(p->hp_cur[hp_arm_l] < p->hp_max[hp_arm_l])
+        {
+            mvwprintz(hp_window, 4, 1, c_ltgray, "3: Left Arm");
+        }
+        if(p->hp_cur[hp_arm_r] < p->hp_max[hp_arm_r])
+        {
+            mvwprintz(hp_window, 5, 1, c_ltgray, "4: Right Arm");
+        }
+        if(p->hp_cur[hp_leg_l] < p->hp_max[hp_leg_l])
+        {
+            mvwprintz(hp_window, 6, 1, c_ltgray, "5: Left Leg");
+        }
+        if(p->hp_cur[hp_leg_r] < p->hp_max[hp_leg_r])
+        {
+            mvwprintz(hp_window, 7, 1, c_ltgray, "6: Right Leg");
+        }
+        if(p->has_disease(DI_BLEED))
+        {
+            mvwprintz(hp_window, 8, 1, c_ltgray, "7: Stop Bleeding");
+        }
         mvwprintz(hp_window, 9, 1, c_ltgray, "8: Exit");
         nc_color color;
         std::string asterisks = "";
@@ -212,9 +233,9 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
                 add_or_drop_item(g, p, it);
                 return;
             } else if (ch == '7') {
-                g->add_msg_if_player(p,"You stopped the bleeding.");
-                p->rem_disease(DI_BLEED);
-                return;
+                    g->add_msg_if_player(p,"You stopped the bleeding.");
+                    p->rem_disease(DI_BLEED);
+                    return;
             }
         } while (ch < '1' || ch > '8');
         werase(hp_window);
@@ -254,17 +275,38 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
             }
         }
     } else { // Player--present a menu
-        WINDOW* hp_window = newwin(10, 22, (TERMY-10)/2, (TERMX-22)/2);
+        WINDOW* hp_window = newwin(11, 22, (TERMY-10)/2, (TERMX-22)/2);
         wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
         mvwprintz(hp_window, 1, 1, c_ltred,  "Use First Aid:");
-        mvwprintz(hp_window, 2, 1, c_ltgray, "1: Head");
-        mvwprintz(hp_window, 3, 1, c_ltgray, "2: Torso");
-        mvwprintz(hp_window, 4, 1, c_ltgray, "3: Left Arm");
-        mvwprintz(hp_window, 5, 1, c_ltgray, "4: Right Arm");
-        mvwprintz(hp_window, 6, 1, c_ltgray, "5: Left Leg");
-        mvwprintz(hp_window, 7, 1, c_ltgray, "6: Right Leg");
-        mvwprintz(hp_window, 8, 1, c_ltgray, "7: Clean Wound");
+        if(p->hp_cur[hp_head] < p->hp_max[hp_head])
+        {
+            mvwprintz(hp_window, 2, 1, c_ltgray, "1: Head");
+        }
+        if(p->hp_cur[hp_torso] < p->hp_max[hp_torso])
+        {
+            mvwprintz(hp_window, 3, 1, c_ltgray, "2: Torso");
+        }
+        if(p->hp_cur[hp_arm_l] < p->hp_max[hp_arm_l])
+        {
+            mvwprintz(hp_window, 4, 1, c_ltgray, "3: Left Arm");
+        }
+        if(p->hp_cur[hp_arm_r] < p->hp_max[hp_arm_r])
+        {
+            mvwprintz(hp_window, 5, 1, c_ltgray, "4: Right Arm");
+        }
+        if(p->hp_cur[hp_leg_l] < p->hp_max[hp_leg_l])
+        {
+            mvwprintz(hp_window, 6, 1, c_ltgray, "5: Left Leg");
+        }
+        if(p->hp_cur[hp_leg_r] < p->hp_max[hp_leg_r])
+        {
+            mvwprintz(hp_window, 7, 1, c_ltgray, "6: Right Leg");
+        }
+        if(p->has_disease(DI_BITE))
+        {
+            mvwprintz(hp_window, 8, 1, c_ltgray, "7: Clean Wound");
+        }
         mvwprintz(hp_window, 9, 1, c_ltgray, "8: Exit");
         nc_color color;
         std::string asterisks = "";
@@ -366,9 +408,9 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
                 add_or_drop_item(g, p, it);
                 return;
             } else if (ch == '7') {
-                g->add_msg_if_player(p,"You clean the bite wound.");
-                p->rem_disease(DI_BITE);
-                return;
+                    g->add_msg_if_player(p,"You clean the bite wound.");
+                    p->rem_disease(DI_BITE);
+                    return;
             }
         } while (ch < '1' || ch > '8');
         werase(hp_window);
