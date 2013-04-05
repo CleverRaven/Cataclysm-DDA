@@ -1,0 +1,37 @@
+[
+ {
+  "ident": "unemployed",
+  "name": "Unemployed",
+  "description":
+"They say you don't have any 'useful skills', but at least your clothes fit\nwell.",
+  "points": 0,
+  "items": ["jeans_fit", "tshirt_fit", "sneakers_fit"] 
+ },
+
+ {
+  "ident": "labtech",
+  "name": "Lab Technician",
+  "description":
+"It was your first day in the lab when the cataclysm hit. You were evacuated\nwith all the civilians, but at least you kept your lab gear.",
+  "points": 1,
+  "items": ["dress_shirt", "pants", "boots", "coat_lab", "gloves_rubber", "glasses_safety"]
+ },
+
+ {
+  "ident": "mechanic",
+  "name": "Wannabe Mechanic",
+  "description":
+"Although you never got your driver's license, you've always loved cars.\nYou start with a wrench, a toolbelt, and some car-related reading material.",
+  "points": 2,
+  "items": ["tank_top", "jeans", "beltrig", "wrench", "mag_cars", "manual_mechanics"]
+ },
+
+ {
+  "ident": "smoker",
+  "name": "Chain Smoker",
+  "description":
+"Everyone at work knew you as the person who always had a cigarette or two\nin hand. Now, you're down to a single pack, and you hope you find more soon.\nYou start out with a strong nicotine addiction, and 10 cigarettes.",
+  "points": -1,
+  "items": ["pants", "dress_shirt", "dress_shoes", "cig"]
+ }
+]

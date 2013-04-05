@@ -1,4 +1,5 @@
 #include "player.h"
+#include "profession.h"
 #include "bionics.h"
 #include "mission.h"
 #include "game.h"
@@ -52,6 +53,7 @@ player::player()
  health = 0;
  name = "";
  male = true;
+ prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
  inv_sorted = true;
  moves = 100;
  oxygen = 0;
@@ -111,6 +113,7 @@ player& player::operator= (const player & rhs)
 
  name = rhs.name;
  male = rhs.male;
+ prof = rhs.prof;
 
  for (int i = 0; i < PF_MAX2; i++)
   my_traits[i] = rhs.my_traits[i];
@@ -723,12 +726,22 @@ void player::load_info(game *g, std::string data)
  dump << data;
  int inveh;
  itype_id styletmp;
+ std::string prof_ident;
+
  dump >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
          int_cur >> int_max >> per_cur >> per_max >> power_level >>
          max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
          inveh >> scent >> moves >> underwater >> dodges_left >> blocks_left >>
-         oxygen >> active_mission >> xp_pool >> male >> health >> styletmp;
+         oxygen >> active_mission >> xp_pool >> male >> prof_ident >> health >>
+         styletmp;
+ 
+ if (profession::exists(prof_ident)) {
+  prof = profession::prof(prof_ident);
+ } else {
+  prof = profession::generic();
+  debugmsg("Tried to use non-existant profession '%s'", prof_ident.c_str());
+ }
 
  activity.load_info(dump);
  backlog.load_info(dump);
@@ -837,8 +850,8 @@ std::string player::save_info()
          (in_vehicle? 1 : 0) << " " << scent << " " << moves << " " <<
          underwater << " " << dodges_left << " " << blocks_left << " " <<
          oxygen << " " << active_mission << " " << xp_pool << " " << male <<
-         " " << health << " " << style_selected << " " << activity.save_info() <<
-     " " << backlog.save_info() << " ";
+         " " << prof->ident() << " " << health << " " << style_selected <<
+         " " << activity.save_info() << " " << backlog.save_info() << " ";
 
  for (int i = 0; i < PF_MAX2; i++)
   dump << my_traits[i] << " ";
